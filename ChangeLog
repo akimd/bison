@@ -4,6 +4,25 @@
 	space.
 	From Tim Van Holder.
 
+2002-11-17  Paul Eggert  <eggert@twinsun.com>
+
+	Pacify Sun ONE Studio 7 lint.  Also, rename "ParseError"
+	to "SyntaxError" for consistency with my 2002-11-15 change.
+
+	* data/glr.c (YYDPRINTF, YYDSYMPRINT, YYDSYMPRINTF) [!YYDEBUG]: Do
+	not define to {}, since this breaks the common use of `YYDPRINTF
+	((...));' if a single statement is desired (e.g. before `else').
+	Work around GCC warnings by surrounding corresponding calls with
+	{} if needed.
+	(yyhasResolvedValue): Remove unused function.
+	(yymergeOptionSets, yyresolvStack): Use `continue;' for empty
+	loop body.
+	(yyreportSyntaxError): Renamed from yyreportParseError.
+	(yyrecoverSyntaxError): Renamed from yyrecoverParseError.
+	All uses changed.
+	* tests/calc.at (_AT_DATA_CALC_Y): Make vars static instead of
+	extern when possible.  Remove unused initializations.
+
 2002-11-16  Akim Demaille  <akim@epita.fr>
 
 	Augment the similarity between GLR and LALR traces.
