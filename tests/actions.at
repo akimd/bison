@@ -37,16 +37,17 @@ static void yyerror (const char *msg);
 static int yylex (void);
 %}
 %%
-exp:     { printf ("0\n"); }
-     '1' { printf ("1\n"); }
-     '2' { printf ("2\n"); }
-     '3' { printf ("3\n"); }
-     '4' { printf ("4\n"); }
-     '5' { printf ("5\n"); }
-     '6' { printf ("6\n"); }
-     '7' { printf ("7\n"); }
-     '8' { printf ("8\n"); }
-     '9' { printf ("9\n"); }
+exp:     { putchar ('0'); }
+     '1' { putchar ('1'); }
+     '2' { putchar ('2'); }
+     '3' { putchar ('3'); }
+     '4' { putchar ('4'); }
+     '5' { putchar ('5'); }
+     '6' { putchar ('6'); }
+     '7' { putchar ('7'); }
+     '8' { putchar ('8'); }
+     '9' { putchar ('9'); }
+         { putchar ('\n'); }
    ;
 %%
 static int
@@ -72,16 +73,7 @@ main (void)
 AT_CHECK([bison input.y -d -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
 AT_CHECK([input], 0,
-[[0
-1
-2
-3
-4
-5
-6
-7
-8
-9
+[[0123456789
 ]])
 
 AT_CLEANUP

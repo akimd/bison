@@ -1,5 +1,11 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* tests/actions.at (Mid-rule actions): Output on a single line
+	instead of several.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo: Formatting changes.
 
 2001-12-29  Akim Demaille  <akim@epita.fr>
