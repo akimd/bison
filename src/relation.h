@@ -1,5 +1,5 @@
 /* Binary relations.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -27,7 +27,7 @@
    If GRAPH is a relation, then GRAPH[Node] is a list of adjacent
    nodes, ended with -1.  */
 
-typedef short relation_node;
+typedef short int relation_node;
 typedef relation_node *relation_nodes;
 typedef relation_nodes *relation;
 

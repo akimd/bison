@@ -1,6 +1,6 @@
 # Exercising Bison on actual grammars.                   -*- Autotest -*-
 
-# Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2003
+# Copyright (C) 1989, 1990, 1991, 1992, 2000, 2001, 2002, 2003, 2004
 # Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
@@ -372,9 +372,9 @@ AT_SETUP([GNU Cim Grammar])
 
 AT_DATA([[input.y]],
 [[%union {
-	long token;
-	long ival;
-        long arrdim;
+	long int token;
+	long int ival;
+	long int arrdim;
 	double rval;
 	char *ident;
 	char *tval;

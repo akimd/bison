@@ -1,3 +1,44 @@
+2004-03-30  Paul Eggert  <eggert@twinsun.com>
+
+	* src/getargs.c (version): Update copyright year to 2004.
+
+	* data/c.m4 (b4_int_type): Use 'short int' rather than
+	'short', and similarly for 'long', 'unsigned', etc.
+	* data/glr.c (YYTRANSLATE, yyconfl, yySymbol, yyItemNum,
+	yygetLRActions, yyprocessOneStack, yyrecoverSyntaxError,
+	yy_yypstack, yydumpstack): Likewise.
+	* data/lalr1.cc (user_token_number_max_, user_token_number_max_,
+	translate_, seq_, [], pop, Slice, range_, operator+, operator+=):
+	Likewise.
+	* data/yacc.c (b4_int_type, yyss, YYSTACK_BYTES, yysigned_char,
+	yy_stack_print, yyparse): Likewise.
+	* doc/bison.texinfo (Prologue, Multiple Types): Likewise.
+	* lib/bbitset.h (bitset_word, BITSET_WORD_BITS): Likewise.
+	* lib/bitset.c (bitset_print): Likewise.
+	* lib/bitset_stats.c (bitste_log_histogram_print): Likewise.
+	* lib/bitsetv-print.c (bitsetv_matrix_dump): Likewise.
+	* lib/bitsetv.c (bitsetv_dump): Likewise.
+	* lib/ebitset.c (EBITSET_ELT_BITS, ebitset_elt_alloc): Likewise.
+	* lib/lbitset.c (LBITSET_ELT_BITS, lbitset_elt_alloc, debug_lbitset):
+	Likewise.
+	* src/LR0.c (allocate_itemsets): Likewise.
+	* src/gram.h (rule_number, rule): Likewise.
+	* src/lalr.h (goto_number): Likewise.
+	* src/nullable.c (nullable_compute): Likewise.
+	* src/output.c (prepare_rules): Likewise.
+	* src/relation.c (relation_print, relation_digraph): Likewise.
+	* src/relation.h (relation_node): Likewise.
+	* src/state.h (state_number, transitions, errs, reductions,
+	struct state): Likewise.
+	* src/symtab.h (symbol_number, struct symbol): Likewise.
+	* src/tables.c (vector_number, tally, action_number,
+	default_goto, goto_actions): Likewise.
+	* tests/existing.at (GNU Cim Grammar): Likewise.
+	* tests/regression.at (Web2c Actions): Likewise.
+
+	* src/output.c (muscle_insert_short_int_table): Renamed from
+	muscle_insert_short_table.  All uses changed.
+
 2004-03-25  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* src/parse-gram.y: Define PERCENT_EXPECT_RR.

@@ -1,7 +1,7 @@
 m4_divert(-1)                                               -*- Autoconf -*-
 
 # C M4 Macros for Bison.
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -114,8 +114,8 @@ m4_define([b4_int_type],
 [m4_if(b4_ints_in($@,      [0],   [255]), [1], [unsigned char],
        b4_ints_in($@,   [-128],   [127]), [1], [signed char],
 
-       b4_ints_in($@,      [0], [65535]), [1], [unsigned short],
-       b4_ints_in($@, [-32768], [32767]), [1], [short],
+       b4_ints_in($@,      [0], [65535]), [1], [unsigned short int],
+       b4_ints_in($@, [-32768], [32767]), [1], [short int],
 
        m4_eval([0 <= $1]),                [1], [unsigned int],
 

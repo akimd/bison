@@ -1,5 +1,5 @@
 # Bison Regressions.                               -*- Autotest -*-
-# Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -535,7 +535,7 @@ AT_CLEANUP
 #
 # It used to be wrong on yydefact only:
 #
-# static const short yydefact[] =
+# static const short int yydefact[] =
 #  {
 # -       2,     0,     1,     0,     0,     2,     3,     2,     5,     4,
 # +       2,     0,     1,     0,     0,     0,     3,     2,     5,     4,
@@ -613,7 +613,7 @@ static const char *const yytname[] =
   "$end", "error", "$undefined", "\"if\"", "\"const\"", "\"then\"",
   "\"else\"", "$accept", "statement", "struct_stat", "if", "else", 0
 };
-static const unsigned short yytoknum[] =
+static const unsigned short int yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261
 };

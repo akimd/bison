@@ -2338,7 +2338,7 @@ can be done with two @var{Prologue} blocks, one before and one after the
 %@}
 
 %union @{
-  long n;
+  long int n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 
@@ -2755,7 +2755,7 @@ This macro definition must go in the prologue of the grammar file
 
 In most programs, you will need different data types for different kinds
 of tokens and groupings.  For example, a numeric constant may need type
-@code{int} or @code{long}, while a string constant needs type @code{char *},
+@code{int} or @code{long int}, while a string constant needs type @code{char *},
 and an identifier might need a pointer to an entry in the symbol table.
 
 To use more than one data type for semantic values in one parser, Bison

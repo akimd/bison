@@ -1,6 +1,6 @@
 m4_divert(-1)
 # C++ skeleton for Bison
-# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -128,7 +128,7 @@ m4_divert(0)dnl
 m4_if(b4_defines_flag, 0, [],
 [@output @output_header_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003])[
+             [2002, 2003, 2004])[
 /* FIXME: This is wrong, we want computed header guards.
    I don't know why the macros are missing now. :( */
 #ifndef PARSER_HEADER_H
@@ -291,7 +291,7 @@ namespace yy
     static const int terror_;
     static const int errcode_;
     static const int ntokens_;
-    static const unsigned user_token_number_max_;
+    static const unsigned int user_token_number_max_;
     static const TokenNumberType undef_token_;
 
     /* State.  */
@@ -334,7 +334,7 @@ namespace yy
 ])dnl
 @output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003])
+             [2002, 2003, 2004])
 
 m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 
@@ -885,7 +885,7 @@ yy::]b4_parser_class_name[::translate_ (int token)
   {
     ]b4_translate[
   };
-  if ((unsigned) token <= user_token_number_max_)
+  if ((unsigned int) token <= user_token_number_max_)
     return translate_table[token];
   else
     return undef_token_;
@@ -900,13 +900,13 @@ const int yy::]b4_parser_class_name[::terror_ = 1;
 const int yy::]b4_parser_class_name[::errcode_ = 256;
 const int yy::]b4_parser_class_name[::ntokens_ = ]b4_tokens_number[;
 
-const unsigned yy::]b4_parser_class_name[::user_token_number_max_ = ]b4_user_token_number_max[;
+const unsigned int yy::]b4_parser_class_name[::user_token_number_max_ = ]b4_user_token_number_max[;
 const yy::]b4_parser_class_name[::TokenNumberType yy::]b4_parser_class_name[::undef_token_ = ]b4_undef_token_number[;
 
 ]b4_epilogue
 dnl
 @output stack.hh
-b4_copyright([Stack handling for Bison C++ parsers], [2002, 2003])[
+b4_copyright([Stack handling for Bison C++ parsers], [2002, 2003, 2004])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
@@ -927,20 +927,20 @@ namespace yy
     {
     }
 
-    Stack (unsigned n) : seq_ (n)
+    Stack (unsigned int n) : seq_ (n)
     {
     }
 
     inline
     T&
-    operator [] (unsigned i)
+    operator [] (unsigned int i)
     {
       return seq_[i];
     }
 
     inline
     const T&
-    operator [] (unsigned i) const
+    operator [] (unsigned int i) const
     {
       return seq_[i];
     }
@@ -954,14 +954,14 @@ namespace yy
 
     inline
     void
-    pop (unsigned n = 1)
+    pop (unsigned int n = 1)
     {
       for (; n; --n)
 	seq_.pop_front ();
     }
 
     inline
-    unsigned
+    unsigned int
     height () const
     {
       return seq_.size ();
@@ -981,14 +981,14 @@ namespace yy
   public:
 
     Slice (const S& stack,
-	   unsigned range) : stack_ (stack),
-			     range_ (range)
+	   unsigned int range) : stack_ (stack),
+				 range_ (range)
     {
     }
 
     inline
     const T&
-    operator [] (unsigned i) const
+    operator [] (unsigned int i) const
     {
       return stack_[range_ - i];
     }
@@ -996,14 +996,14 @@ namespace yy
   private:
 
     const S& stack_;
-    unsigned range_;
+    unsigned int range_;
   };
 }
 
 #endif // not BISON_STACK_HH]
 dnl
 @output position.hh
-b4_copyright([Position class for Bison C++ parsers], [2002, 2003])[
+b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004])[
 
 /**
  ** \file position.hh
@@ -1116,7 +1116,7 @@ namespace yy
 }
 #endif // not BISON_POSITION_HH]
 @output location.hh
-b4_copyright([Location class for Bison C++ parsers], [2002, 2003])[
+b4_copyright([Location class for Bison C++ parsers], [2002, 2003, 2004])[
 
 /**
  ** \file location.hh
@@ -1187,7 +1187,7 @@ namespace yy
   }
 
   /** \brief Add two Location objects */
-  inline const Location operator+ (const Location& begin, unsigned width)
+  inline const Location operator+ (const Location& begin, unsigned int width)
   {
     Location res = begin;
     res.columns (width);
@@ -1195,7 +1195,7 @@ namespace yy
   }
 
   /** \brief Add and assign a Location */
-  inline Location &operator+= (Location& res, unsigned width)
+  inline Location &operator+= (Location& res, unsigned int width)
   {
     res.columns (width);
     return res;

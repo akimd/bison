@@ -1,6 +1,6 @@
 /* Data definitions for internal representation of Bison's input.
 
-   Copyright (C) 1984, 1986, 1989, 1992, 2001, 2002, 2003
+   Copyright (C) 1984, 1986, 1989, 1992, 2001, 2002, 2003, 2004
    Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -139,7 +139,7 @@ item_number_as_symbol_number (item_number i)
 }
 
 /* Rule numbers.  */
-typedef short rule_number;
+typedef short int rule_number;
 extern rule_number nrules;
 
 static inline item_number
@@ -175,8 +175,8 @@ typedef struct
   /* This symbol provides both the associativity, and the precedence. */
   symbol *prec;
 
-  short dprec;
-  short merger;
+  short int dprec;
+  short int merger;
 
   /* This symbol was attached to the rule via %prec. */
   symbol *precsym;
