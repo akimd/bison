@@ -1415,7 +1415,7 @@ here is the definition we will use:
 void
 yyerror (char const *s)
 @{
-  printf ("%s\n", s);
+  fprintf (stderr, "%s\n", s);
 @}
 @end group
 @end example
@@ -3082,8 +3082,6 @@ Though grammar rules and semantic actions are enough to write a fully
 functional parser, it can be useful to process some additional information,
 especially symbol locations.
 
-@c (terminal or not) ?
-
 The way locations are handled is defined by providing a data type, and
 actions to take when rules are matched.
 
@@ -3148,9 +3146,10 @@ exp:    @dots{}
               else
                 @{
                   $$ = 1;
-                  printf("Division by zero, l%d,c%d-l%d,c%d",
-                         @@3.first_line, @@3.first_column,
-                         @@3.last_line, @@3.last_column);
+                  fprintf (stderr,
+                           "Division by zero, l%d,c%d-l%d,c%d",
+                           @@3.first_line, @@3.first_column,
+                           @@3.last_line, @@3.last_column);
                 @}
             @}
 @end group
@@ -3174,9 +3173,10 @@ exp:    @dots{}
               else
                 @{
                   $$ = 1;
-                  printf("Division by zero, l%d,c%d-l%d,c%d",
-                         @@3.first_line, @@3.first_column,
-                         @@3.last_line, @@3.last_column);
+                  fprintf (stderr,
+                           "Division by zero, l%d,c%d-l%d,c%d",
+                           @@3.first_line, @@3.first_column,
+                           @@3.last_line, @@3.last_column);
                 @}
             @}
 @end group
