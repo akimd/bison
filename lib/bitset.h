@@ -51,13 +51,13 @@ typedef struct
 {
   bitset_bindex list[BITSET_LIST_SIZE];
   bitset_bindex next;
-  int num;
-  int i;
+  bitset_bindex num;
+  bitset_bindex i;
 } bitset_iterator;
 
 
 /* Return bytes required for bitset of desired type and size.  */
-extern int bitset_bytes PARAMS ((enum bitset_type, bitset_bindex));
+extern size_t bitset_bytes PARAMS ((enum bitset_type, bitset_bindex));
 
 /* Initialise a bitset with desired type and size.  */
 extern bitset bitset_init PARAMS ((bitset, bitset_bindex, enum bitset_type));
@@ -287,10 +287,10 @@ do   								\
 
 
 /* Find first set bit.  */
-extern int bitset_first PARAMS ((bitset));
+extern bitset_bindex bitset_first PARAMS ((bitset));
 
 /* Find last set bit.  */
-extern int bitset_last PARAMS ((bitset));
+extern bitset_bindex bitset_last PARAMS ((bitset));
 
 /* Dump bitset.  */
 extern void bitset_dump PARAMS ((FILE *, bitset));
