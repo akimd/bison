@@ -1,5 +1,10 @@
 2002-01-07  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (count_rr_conflicts): The previous RR conflicts
+	patch was improperly applied: fix it.
+
+2002-01-07  Akim Demaille  <akim@epita.fr>
+
 	* tests/torture.at (GNU Cim Grammar): Reintroduce their weird
 	'switch' without a following semicolon.
 	* tests/regression.at (braces parsing): New.

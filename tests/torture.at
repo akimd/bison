@@ -1294,15 +1294,15 @@ AT_CHECK([[bison --verbose --defines input.y]], 0, [],
 ]])
 
 AT_CHECK([[grep '^State.*contains' input.output]], 0,
-[[State 64 contains 14 shift/reduce conflicts.
-State 164 contains 1 shift/reduce conflict.
-State 201 contains 33 shift/reduce conflicts and 4 reduce/reduce conflicts.
-State 206 contains 1 shift/reduce conflict.
-State 240 contains 1 shift/reduce conflict.
-State 335 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
-State 356 contains 1 shift/reduce conflict.
-State 360 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
-State 427 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
+[[State 62 contains 14 shift/reduce conflicts.
+State 162 contains 1 shift/reduce conflict.
+State 199 contains 33 shift/reduce conflicts and 4 reduce/reduce conflicts.
+State 204 contains 1 shift/reduce conflict.
+State 238 contains 1 shift/reduce conflict.
+State 333 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
+State 354 contains 1 shift/reduce conflict.
+State 358 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
+State 425 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
 ]])
 
 AT_CLEANUP
