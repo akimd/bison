@@ -1,5 +1,10 @@
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (print_reductions): Formatting changes.
+
+	
+2001-12-17  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (flush_shift): Also adjust lookaheadset.
 	(flush_reduce): New.
 	(resolve_sr_conflict): Adjust.
