@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-08-15 10:39+0200\n"
+"POT-Creation-Date: 2001-08-15 10:51+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -381,6 +381,16 @@ msgstr " 左辺:"
 #: src/print.c:344
 msgid " on right:"
 msgstr " 右辺:"
+
+#: src/print_graph.c:174
+#, fuzzy, c-format
+msgid "%-4s\terror (nonassociative)"
+msgstr "    %-4s\tエラー (非結合)\n"
+
+#: src/print_graph.c:187
+#, fuzzy, c-format
+msgid "$default\treduce using rule %d (%s)"
+msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"

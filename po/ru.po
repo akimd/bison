@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28a\n"
-"POT-Creation-Date: 2001-08-15 10:39+0200\n"
+"POT-Creation-Date: 2001-08-15 10:51+0200\n"
 "PO-Revision-Date: 2000-04-12 13:16+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -401,6 +401,16 @@ msgstr " налево:"
 #: src/print.c:344
 msgid " on right:"
 msgstr " направо:"
+
+#: src/print_graph.c:174
+#, fuzzy, c-format
+msgid "%-4s\terror (nonassociative)"
+msgstr "    %-4s\tошибка (неассоциативная)\n"
+
+#: src/print_graph.c:187
+#, fuzzy, c-format
+msgid "$default\treduce using rule %d (%s)"
+msgstr "    $default\tвывод с использованием правила %d (%s)\n"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"

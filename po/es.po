@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:39+0200\n"
+"POT-Creation-Date: 2001-08-15 10:51+0200\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -453,6 +453,16 @@ msgstr " en la izquierda:"
 #: src/print.c:344
 msgid " on right:"
 msgstr " en la derecha:"
+
+#: src/print_graph.c:174
+#, fuzzy, c-format
+msgid "%-4s\terror (nonassociative)"
+msgstr "    %-4s\terror (no asociativo)\n"
+
+#: src/print_graph.c:187
+#, fuzzy, c-format
+msgid "$default\treduce using rule %d (%s)"
+msgstr "    $default\treduce usando la regla %d (%s)\n"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:39+0200\n"
+"POT-Creation-Date: 2001-08-15 10:51+0200\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -376,6 +376,16 @@ msgstr " auf der linken Seite:"
 #: src/print.c:344
 msgid " on right:"
 msgstr " auf der rechten Seite:"
+
+#: src/print_graph.c:174
+#, fuzzy, c-format
+msgid "%-4s\terror (nonassociative)"
+msgstr "    %-4s\tFehler (nicht assoziativ)\n"
+
+#: src/print_graph.c:187
+#, fuzzy, c-format
+msgid "$default\treduce using rule %d (%s)"
+msgstr "    $default\treduziere mit Regel %d (%s)\n"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"

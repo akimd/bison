@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:39+0200\n"
+"POT-Creation-Date: 2001-08-15 10:51+0200\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -381,6 +381,18 @@ msgstr " links:"
 #: src/print.c:344
 msgid " on right:"
 msgstr " rechts:"
+
+#: src/print_graph.c:174
+#, c-format
+msgid "%-4s\terror (nonassociative)"
+msgstr ""
+
+#: src/print_graph.c:187
+#, fuzzy, c-format
+msgid "$default\treduce using rule %d (%s)"
+msgstr ""
+"    $default\treduce using rule %d (%s)\n"
+"\n"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:39+0200\n"
+"POT-Creation-Date: 2001-08-15 10:51+0200\n"
 "PO-Revision-Date: 2000-04-11 22:19+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -399,6 +399,16 @@ msgstr " vasakul:"
 #: src/print.c:344
 msgid " on right:"
 msgstr " paremal:"
+
+#: src/print_graph.c:174
+#, fuzzy, c-format
+msgid "%-4s\terror (nonassociative)"
+msgstr "    %-4s\tviga (mitteassotsiatiivne)\n"
+
+#: src/print_graph.c:187
+#, fuzzy, c-format
+msgid "$default\treduce using rule %d (%s)"
+msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"

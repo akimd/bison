@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:39+0200\n"
+"POT-Creation-Date: 2001-08-15 10:51+0200\n"
 "PO-Revision-Date: 2001-08-06 11:28+0200\n"
 "Last-Translator: Dominique Boucher <boucherd@IRO.UMontreal.CA>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -381,6 +381,16 @@ msgstr " à gauche:"
 #: src/print.c:344
 msgid " on right:"
 msgstr " à droite:"
+
+#: src/print_graph.c:174
+#, fuzzy, c-format
+msgid "%-4s\terror (nonassociative)"
+msgstr "    %-4s\terreur (non-associatif)\n"
+
+#: src/print_graph.c:187
+#, fuzzy, c-format
+msgid "$default\treduce using rule %d (%s)"
+msgstr "    $défaut\tréduction par la règle %d (%s)\n"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"

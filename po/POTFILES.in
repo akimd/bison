@@ -4,17 +4,15 @@ src/conflicts.c
 src/derives.c
 src/files.c
 src/getargs.c
-# src/gram.c
 src/lalr.c
 src/lex.c
 src/main.c
 src/nullable.c
 src/output.c
 src/print.c
+src/print_graph.c
 src/reader.c
 src/reduce.c
-# src/symtab.c
-# src/warshall.c
 
 lib/error.c
 lib/getopt.c
