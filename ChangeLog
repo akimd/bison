@@ -1,5 +1,22 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	`user_toknums' is output as a `short[]' in `output.c', while it is
+	defined as a `int[]' in `reader.c'.  For consistency with the
+	other output tables, `user_toknums' is now defined as a table of
+	shorts.
+
+	* src/reader.c (user_toknums): Be a short table instead of an int
+	table.
+	Adjust dependencies.
+
+	Factor the short table outputs.
+
+	* src/output.c (output_short_table): New function.
+	* src/output.c (output_gram, output_stos, output_rule_data)
+	(output_base, output_table, output_check):  Use it.
+
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output): Topological sort of the functions, in
 	order to get rid of the `static' prototypes.
 	No longer use `register'.
