@@ -6,7 +6,13 @@ Regression tests.
 
 EOF
 
-AT_SETUP(Duplicate string)
+
+## ------------------ ##
+## Duplicate string.  ##
+## ------------------ ##
+
+
+AT_SETUP([Duplicate string])
 
 AT_DATA([duplicate.y],
 [[/* `Bison -v' used to dump core when two tokens are defined with the same
@@ -23,30 +29,27 @@ exp: '(' exp ')' | NUM ;
 
 AT_CHECK([bison -v duplicate.y -o duplicate.c], 0, ignore, ignore)
 
-AT_CLEANUP(duplicate.*)
-#                                                        -*- Autoconf -*-
+AT_CLEANUP([duplicate.*])
 
-cat <<EOF
 
-Regression tests.
 
-EOF
+## ---------------------- ##
+## %union and --defines.  ##
+## ---------------------- ##
 
-AT_SETUP(Duplicate string)
 
-AT_DATA([duplicate.y],
-[[/* `Bison -v' used to dump core when two tokens are defined with the same
-   string, as LE and GE below. */
+AT_SETUP([%union and --defines])
 
-%token NUM
-%token LE "<="
-%token GE "<="
-
+AT_DATA([union.y],
+[%union
+{
+  int   integer;
+  char *string ;
+}
 %%
-exp: '(' exp ')' | NUM ;
-%%
-]])
+exp: {};
+])
 
-AT_CHECK([bison -v duplicate.y -o duplicate.c], 0, ignore, ignore)
+AT_CHECK([bison --defines union.y])
 
-AT_CLEANUP(duplicate.*)
+AT_CLEANUP([union.*])

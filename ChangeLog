@@ -1,5 +1,10 @@
 2000-11-17  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.m4 (%union and --defines): New test,
+	demonstrating a current bug in the obstack implementation.
+
+2000-11-17  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.s1 (_YY_DECL_VARIABLES, YY_DECL_VARIABLES): New
 	macros.
 	Use them to declare the variables which are global or local to
