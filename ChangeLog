@@ -7,12 +7,12 @@
 
 	On syntax errors, report the token on which we choked.
 
-	* bison.s1 (yyparse): In the label yyerrlab, when YYERROR_VERBOSE,
-	add yychar in msg.
+	* src/bison.s1 (yyparse): In the label yyerrlab, when
+	YYERROR_VERBOSE, add yychar in msg.
 
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
-	* reader.c (copy_at): New function.
+	* src/reader.c (copy_at): New function.
 	(copy_guard): Use it.
 	(copy_action): Use it.
 
@@ -20,37 +20,38 @@
 
 	Be kind to translators, save some useless translations.
 
-	* main.c (banner): New function.
+	* src/main.c (banner): New function.
 	(fatal_banner): Use it.
 	(warn_banner): Use it.
 
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
-	* reader.c (copy_definition): Use copy_string and copy_comment.
-	Removed now unused `match', `ended', `cplus_comment'.
+	* src/reader.c (copy_definition): Use copy_string and
+	copy_comment.  Removed now unused `match', `ended',
+	`cplus_comment'.
 	(copy_comment, copy_string): Moved, to be visible from
 	copy_definition.
 
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
-	* reader.c (copy_string): Declared `static inline'.  No problems
-	with inline, since it is checked by configure.
+	* src/reader.c (copy_string): Declare `static inline'.  No
+	problems with inline, since it is checked by configure.
 	(copy_comment): Likewise.
 
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
-	* reader.c (packsymbols): Formatting changes.
+	* src/reader.c (packsymbols): Formatting changes.
 
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
-	* reader.c (copy_comment): New function, factored out from:
+	* src/reader.c (copy_comment): New function, factored out from:
 	(copy_action): Use it.  Removed now unused `match', `ended',
 	`cplus_comment'.
 	(copy_guard): Likewise.
 
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
-	* reader.c (copy_string): New function, factored out from:
+	* src/reader.c (copy_string): New function, factored out from:
 	(copy_action): Use it.
 	(copy_guard): Likewise.
 
@@ -76,14 +77,14 @@
 
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
-	* bison.s1: Formatting and cosmetics changes.
-	* reader.c: Likewise.
+	* src/bison.s1: Formatting and cosmetics changes.
+	* src/reader.c: Likewise.
 	Update the Copyright notice.
 
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
-	* bison.s1 (#line): All set to `#line' only, since the Makefile
-	now handles them.
+	* src/bison.s1 (#line): All set to `#line' only, since the
+	Makefile now handles them.
 
 2000-03-16  Akim Demaille  <akim@epita.fr>
 
