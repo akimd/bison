@@ -75,20 +75,20 @@ main (int argc, const char *argv[])
 AT_CHECK([bison input.y -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
 
-AT_CHECK([input '0<0'])
+AT_CHECK([./input '0<0'])
 # FIXME: This is an actual bug, but a new one, in the sense that
 # no one has ever spotted it!  The messages are *wrong*: there should
 # be nothing there, it should be expected eof.
-AT_CHECK([input '0<0<0'], [1], [],
+AT_CHECK([./input '0<0<0'], [1], [],
          [parse error, unexpected '<', expecting '<' or '>'
 ])
 
-AT_CHECK([input '0>0'])
-AT_CHECK([input '0>0>0'], [1], [],
+AT_CHECK([./input '0>0'])
+AT_CHECK([./input '0>0>0'], [1], [],
          [parse error, unexpected '>', expecting '<' or '>'
 ])
 
-AT_CHECK([input '0<0>0'], [1], [],
+AT_CHECK([./input '0<0>0'], [1], [],
          [parse error, unexpected '>', expecting '<' or '>'
 ])
 

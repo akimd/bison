@@ -272,7 +272,7 @@ m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
 [[$2
 ]])
-AT_CHECK([calc input], 0, [], [stderr])dnl
+AT_CHECK([./calc input], 0, [], [stderr])dnl
 AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
          [m4_bmatch([$1], [--debug],
                     [$3], [0])
@@ -299,7 +299,7 @@ m4_define([_AT_CHECK_CALC_ERROR],
 [[$2
 ]])
 
-AT_CHECK([calc input], 0, [], [stderr])
+AT_CHECK([./calc input], 0, [], [stderr])
 
 
 AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,

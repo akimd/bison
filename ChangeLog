@@ -1,3 +1,8 @@
+2002-02-07  Akim Demaille  <akim@epita.fr>
+
+	* tests/regression.at, tests/torture.at, tests/calc.at: Adjust to
+	newest Autotest, where `.' is not in the PATH.
+
 2002-02-07  Florian Krohm  <florian@edamail.fishkill.ibm.com>
 
 	* src/reader.c (copy_at): Detect invalid @N values.
