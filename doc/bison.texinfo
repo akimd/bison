@@ -4984,6 +4984,11 @@ bison -y $*
 Tuning the parser:
 
 @table @option
+@item -S @var{file}
+@itemx --skeleton=@var{file}
+Specify the skeleton to use.  You probably don't need this option unless
+you are developing Bison.
+
 @item -t
 @itemx --debug
 Output a definition of the macro @code{YYDEBUG} into the parser file, so

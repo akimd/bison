@@ -1,5 +1,13 @@
 2001-03-16  Akim Demaille  <akim@epita.fr>
 
+	* getargs.c (skeleton): New variable.
+	(longopts): --skeleton is a new option.
+	(shortopts, getargs): -S is a new option.
+	* getargs.h: Declare skeleton.
+	* output.c (output_parser): Use it.
+
+2001-03-16  Akim Demaille  <akim@epita.fr>
+
 	* m4/strerror_r.m4: New.
 	* m4/error.m4: Run AC_FUNC_STRERROR_R.
 	* lib/error.h, lib/error.c: Update.

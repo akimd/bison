@@ -846,6 +846,11 @@ Operations modes:
 
 Tuning the parser:
 
+`-S FILE'
+`--skeleton=FILE'
+     Specify the skeleton to use.  You probably don't need this option
+     unless you are developing Bison.
+
 `-t'
 `--debug'
      Output a definition of the macro `YYDEBUG' into the parser file, so

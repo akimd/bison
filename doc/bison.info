@@ -34,7 +34,7 @@ bison.info-1: 1306
 bison.info-2: 50276
 bison.info-3: 98079
 bison.info-4: 147596
-bison.info-5: 191991
+bison.info-5: 192129
 
 Tag Table:
 (Indirect)
@@ -124,11 +124,11 @@ Node: Tie-in Recovery172317
 Node: Debugging174489
 Node: Invocation177790
 Node: Bison Options178520
-Node: Environment Variables181893
-Node: Option Cross Key182741
-Node: VMS Invocation183631
-Node: Table of Symbols184415
-Node: Glossary191991
-Node: Index198281
+Node: Environment Variables182031
+Node: Option Cross Key182879
+Node: VMS Invocation183769
+Node: Table of Symbols184553
+Node: Glossary192129
+Node: Index198419
 
 End Tag Table

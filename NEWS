@@ -11,6 +11,11 @@ Changes in version 1.28a:
 
 * Added `--locations' and `%locations'.
 
+* Added `-S' and `--skeleton'.
+
+* Special characters are escaped when output.  This solves the problems
+  of the #line lines with path names including backslashes.
+
 * New directives.
   `%yacc', `%fixed_output_files', `%defines', `%no_parser', `%verbose', and
   `%debug'.
