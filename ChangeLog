@@ -1,3 +1,10 @@
+2003-10-01  Akim Demaille  <akim@epita.fr>
+
+	VCG no longer supports long_straight_phase.
+
+	* src/vcg.c, src/vcg.h: Remove the handling of long_straight_phase.
+	* src/print_graph.c (print_graph): Adjust.
+
 2003-09-30  Frank Heckenbach  <frank@g-n-u.de>
 	and Paul Eggert  <eggert@twinsun.com>
 
@@ -11,7 +18,7 @@
 	(packgram): Handle it.
 	* tests/conflicts.at (%default-prec without %prec,
 	%default-prec with %prec, %default-prec 1): New tests.
-	
+
 2003-09-30  Paul Eggert  <eggert@twinsun.com>
 
 	* tests/testsuite.at: Include local.at, not input.at, fixing

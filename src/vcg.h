@@ -578,20 +578,20 @@ struct graph
      Default is box, other: rhomb, ellipse, triangle. */
   enum shape shape;
 
-  /* Vertical order is the level position (rank) of the summary node of an 
-     inner subgraph, if this subgraph is folded. We can also specify 
-     level: int. The level is only recognized, if an automatical layout is 
+  /* Vertical order is the level position (rank) of the summary node of an
+     inner subgraph, if this subgraph is folded. We can also specify
+     level: int. The level is only recognized, if an automatical layout is
      calculated.  */
   int vertical_order;
 
-  /* Horizontal order is the horizontal position of the summary node within 
-     a level. The nodes which are specified with horizontal positions are 
-     ordered according to these positions within the levels. The nodes which 
-     do not have this attribute are inserted into this ordering by the 
-     crossing reduction mechanism. Note that connected components are 
-     handled separately, thus it is not possible to intermix such components 
-     by specifying a horizontal order. If the algorithm for downward laid 
-     out trees is used, the horizontal order influences only the order of 
+  /* Horizontal order is the horizontal position of the summary node within
+     a level. The nodes which are specified with horizontal positions are
+     ordered according to these positions within the levels. The nodes which
+     do not have this attribute are inserted into this ordering by the
+     crossing reduction mechanism. Note that connected components are
+     handled separately, thus it is not possible to intermix such components
+     by specifying a horizontal order. If the algorithm for downward laid
+     out trees is used, the horizontal order influences only the order of
      the child nodes at a node, but not the order of the whole level.  */
   int horizontal_order;
 
@@ -664,16 +664,16 @@ struct graph
      By default, no class names. */
   struct classname *classname;
 
-  /* Infoname allows to introduce names for the additional text labels. 
-     The names are used in the menus.  
-     Infoname is given by an integer and a string.  
+  /* Infoname allows to introduce names for the additional text labels.
+     The names are used in the menus.
+     Infoname is given by an integer and a string.
      The default value is NULL.  */
   struct infoname *infoname;
-  
-  /* Colorentry allows to fill the color map. A color is a triplet of integer 
-     values for the red/green/blue-part. Each integer is between 0 (off) and 
-     255 (on), e.g., 0 0 0 is black and 255 255 255 is white. For instance 
-     colorentry 75 : 70 130 180 sets the map entry 75 to steel blue. This 
+
+  /* Colorentry allows to fill the color map. A color is a triplet of integer
+     values for the red/green/blue-part. Each integer is between 0 (off) and
+     255 (on), e.g., 0 0 0 is black and 255 255 255 is white. For instance
+     colorentry 75 : 70 130 180 sets the map entry 75 to steel blue. This
      color can be used by specifying just the number 75.
      Default id NULL.  */
   struct colorentry *colorentry;
@@ -757,15 +757,6 @@ struct graph
      and are sometimes very ugly. Default is to show all nodes.
      Default is no. */
   enum decision ignore_singles;
-
-  /* Long straight phase yes initiates an additional phase that tries to avoid
-     bendings in long edges.
-     Long edges are laid out by long straight vertical lines with
-     gradient 90 degree. Thus, this phase is not very appropriate for
-     normal layout, but it is recommended, if an orthogonal layout is
-     selected (see manhattan.edges).
-     Default is no. */
-  enum decision long_straight_phase;
 
   /* priority phase yes replaces the normal pendulum method by a
      specialized method: It forces straight long edges with 90 degree,
@@ -1000,7 +991,7 @@ void new_edge (edge *e);
 void add_node (graph *g, node *n);
 void add_edge (graph *g, edge *e);
 
-void add_colorentry (graph *g, int color_idx, int red_cp, 
+void add_colorentry (graph *g, int color_idx, int red_cp,
 		     int green_cp, int blue_cp);
 void add_classname (graph *g, int val, const char *name);
 void add_infoname (graph *g, int val, const char *name);
