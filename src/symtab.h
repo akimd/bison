@@ -39,7 +39,10 @@ typedef struct bucket
 {
   struct bucket *link;
   struct bucket *next;
+
+  /* The key, name of the symbol. */
   char *tag;
+  /* Its type. */
   char *type_name;
   short value;
   short prec;

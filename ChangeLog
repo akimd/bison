@@ -1,5 +1,12 @@
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
+	* src/lex.c (read_typename): New function.
+	(lex): Use it.
+	* src/reader.c (copy_dollar): Likewise.
+
+	
+2000-10-16  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (copy_comment2): Expect the input stream to be on
 	the `/' which is suspected to open a comment, instead of being
 	called after `//' or `/*' was read.
