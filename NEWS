@@ -1,6 +1,14 @@
 Bison News
 ----------
 
+Changes in version 1.29:
+
+* Russian translation added.
+
+* NLS support updated; should hopefully be less troublesome.
+
+* Added the old Bison reference card.
+
 Changes in version 1.28:
 
 * Should compile better now with K&R compilers.
