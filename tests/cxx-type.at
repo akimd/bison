@@ -34,12 +34,11 @@ $1
 
 %{
   #include <stdio.h>
-  #define YYSTYPE const char*
+  #define YYSTYPE char const *
 ]m4_bmatch([$2], [stmtMerge],
 [ static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);])[
   #define YYINITDEPTH 10
-  static char* format (const char*,  ...);
-
+  static char *format (char const *, ...);
   struct YYLTYPE;
 #if YYPURE
 # if YYLSP_NEEDED
@@ -69,9 +68,9 @@ $1
 %%
 
 prog :
-     | prog stmt   { 
+     | prog stmt   {
 ]AT_LOCATION_IF([
-			printf ("%d.%d-%d.%d: ", 
+			printf ("%d.%d-%d.%d: ",
 			     @2.first_line, @2.first_column,
 			     @2.last_line, @2.last_column);])[
 			printf ("%s\n", ]$[2);
@@ -108,7 +107,7 @@ declarator : ID
 #include <stdarg.h>
 
 int
-main (int argc, char** argv)
+main (int argc, char **argv)
 {
   if (argc != 2)
     abort ();
@@ -145,7 +144,7 @@ yylex (LEX_PARAMETERS)
 	case ' ': case '\f':
 	  colNum += 1;
  	  break;
-	case '\n': 
+	case '\n':
 	  lineNum += 1;
 	  colNum = 1;
 	  break;
@@ -153,7 +152,7 @@ yylex (LEX_PARAMETERS)
 	  {
 	    int tok;
 #if YYLSP_NEEDED
-	    yylloc.first_line = yylloc.last_line = lineNum; 
+	    yylloc.first_line = yylloc.last_line = lineNum;
 	    yylloc.first_column = colNum;
 #endif
 	    if (isalpha (c))
@@ -175,7 +174,7 @@ yylex (LEX_PARAMETERS)
 		tok = isupper ((unsigned char) buffer[0]) ? TYPENAME : ID;
 		yylval = strcpy (malloc (i), buffer);
 	      }
-	    else 
+	    else
 	      {
 		colNum += 1;
 		tok = c;
@@ -203,7 +202,8 @@ yyerror (ERROR_PARAMETERS)
 }
 
 
-static char* format (const char* form, ...) 
+static char *
+format (char const *form, ...)
 {
    char buffer[1024];
    va_list args;
