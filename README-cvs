@@ -1,13 +1,22 @@
+-*- outline -*-
+
 These notes intend to help people working on the CVS versions of
-Bison.  Only the sources are installed in the CVS repository (to ease
-the maintenance, merges etc.), therefore you will have to the
-maintainer tools we depend upon:
+Bison.
+
+* Requirements
+
+Only the sources are installed in the CVS repository (to ease the
+maintenance, merges etc.), therefore you will have to the maintainer
+tools we depend upon:
 
 - Automake 1.6 or 1.6.1
+
 - Autoconf 2.53a or better
   ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.53a.tar.gz   (992 kB)
   ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.53a.tar.bz2  (756 kB)
-- Gettext 0.11.3
+
+- Gettext 0.11.3 pre 2 or better
+  http://www.lrde.epita.fr/~akim/download/gettext-0.11.3-pre2.tar.gz
 
 Only building the initial full source tree will be a bit painful,
 later, a plain `cvs update -P & make' should be sufficient.
@@ -44,13 +53,18 @@ needed tools so that the bootstrapping always perform successfully.
 
 If you experiment problems, I suggest the following:
 
-1. do a regular CVS checkout
-2. fetch http://www.lrde.epita.fr/~akim/download/bison-1.49b.tar.gz
-3. extract it
-4. override the content of your checkout with the content of this
+1. Do a regular CVS checkout
+
+2. Fetch a recent tarball.
+   http://www.lrde.epita.fr/~akim/download/bison-1.49b.tar.gz
+
+3. Extract it
+
+4. Override the content of your checkout with the content of this
    tarball, i.e.:
    cp -r bison-1.49b/* bison-cvs
-5. proceed on ./configure && make etc.
+
+5. Proceed on ./configure && make etc.
 
 -----
 

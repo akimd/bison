@@ -3,32 +3,6 @@
 * URGENT: Documenting C++ output
 Write a first documentation for C++ output.
 
-* Report and GLR
-How would Paul like to display the conflicted actions?  In particular,
-what when two reductions are possible on a given lookahead, but one is
-part of $default.  Should we make the two reductions explicit, or just
-keep $default?  See the following point.
-
-* Report and Disabled Reductions
-See `tests/conflicts.at (Defaulted Conflicted Reduction)', and decide
-what we want to do.
-
-* value_components_used
-Was defined but not used: where was it coming from?  It can't be to
-check if %union is used, since the user is free to $<foo>n on her
-union, doesn't she?
-
-* yyerror, yyprint interface
-It should be improved, in particular when using Bison features such as
-locations, and YYPARSE_PARAMS.  For the time being, it is recommended
-to #define yyerror and yyprint to steal internal variables...
-
-* documentation
-Explain $axiom (and maybe change its name: BTYacc names it `goal',
-byacc `$accept' probably based on AT&T Yacc, Meta `Start'...).
-Complete the glossary (item, axiom, ?).  Should we also rename `$'?
-BYacc uses `$end'.  `$eof' is attracting, but after all we may be
-parsing a string, a stream etc.
 
 * Error messages
 Some are really funky.  For instance
@@ -36,73 +10,6 @@ Some are really funky.  For instance
 	type clash (`%s' `%s') on default action
 
 is really weird.  Revisit them all.
-
-* Report documentation
-Extend with error productions.  The hard part will probably be finding
-the right rule so that a single state does not exhibit too many yet
-undocumented ``features''.  Maybe an empty action ought to be
-presented too.  Shall we try to make a single grammar with all these
-features, or should we have several very small grammars?
-
-* Documentation
-Some history of Bison and some bibliography would be most welcome.
-Are there any Texinfo standards for bibliography?
-
-* Several %unions
-I think this is a pleasant (but useless currently) feature, but in the
-future, I want a means to %include other bits of grammars, and _then_
-it will be important for the various bits to define their needs in
-%union.
-
-When implementing multiple-%union support, bare the following in mind:
-
-- when --yacc, this must be flagged as an error.  Don't make it fatal
-  though.
-
-- The #line must now appear *inside* the definition of yystype.
-  Something like
-
-	{
-	#line 12 "foo.y"
-	  int ival;
-	#line 23 "foo.y"
-	  char *sval;
-	}
-
-* --report=conflict-path
-Provide better assistance for understanding the conflicts by providing
-a sample text exhibiting the (LALR) ambiguity.  See the paper from
-DeRemer and Penello: they already provide the algorithm.
-
-* Coding system independence
-Paul notes:
-
-	Currently Bison assumes 8-bit bytes (i.e. that UCHAR_MAX is
-	255).  It also assumes that the 8-bit character encoding is
-	the same for the invocation of 'bison' as it is for the
-	invocation of 'cc', but this is not necessarily true when
-	people run bison on an ASCII host and then use cc on an EBCDIC
-	host.  I don't think these topics are worth our time
-	addressing (unless we find a gung-ho volunteer for EBCDIC or
-	PDP-10 ports :-) but they should probably be documented
-	somewhere.
-
-* Unit rules
-Maybe we could expand unit rules, i.e., transform
-
-	exp: arith | bool;
-	arith: exp '+' exp;
-	bool: exp '&' exp;
-
-into
-
-	exp: exp '+' exp | exp '&' exp;
-
-when there are no actions.  This can significantly speed up some
-grammars.  I can't find the papers.  In particular the book `LR
-parsing: Theory and Practice' is impossible to find, but according to
-`Parsing Techniques: a Practical Guide', it includes information about
-this issue.  Does anybody have it?
 
 * Stupid error messages
 An example shows it easily:
@@ -128,13 +35,120 @@ src/bison/tests % cd ./testsuite.dir/51
 tests/testsuite.dir/51 % echo "()" | ./calc
 1.2-1.3: parse error, unexpected ')', expecting error or "number" or '-' or '('
 
+
 * read_pipe.c
 This is not portable to DOS for instance.  Implement a more portable
 scheme.  Sources of inspiration include GNU diff, and Free Recode.
 
-* Memory leaks in the generator
-A round of memory leak clean ups would be most welcome.  Dmalloc,
-Checker GCC, Electric Fence, or Valgrind: you chose your tool.
+
+* value_components_used
+Was defined but not used: where was it coming from?  It can't be to
+check if %union is used, since the user is free to $<foo>n on her
+union, doesn't she?
+
+
+* Report
+
+**  GLR
+How would Paul like to display the conflicted actions?  In particular,
+what when two reductions are possible on a given lookahead, but one is
+part of $default.  Should we make the two reductions explicit, or just
+keep $default?  See the following point.
+
+** Disabled Reductions
+See `tests/conflicts.at (Defaulted Conflicted Reduction)', and decide
+what we want to do.
+
+** Documentation
+Extend with error productions.  The hard part will probably be finding
+the right rule so that a single state does not exhibit too many yet
+undocumented ``features''.  Maybe an empty action ought to be
+presented too.  Shall we try to make a single grammar with all these
+features, or should we have several very small grammars?
+
+** --report=conflict-path
+Provide better assistance for understanding the conflicts by providing
+a sample text exhibiting the (LALR) ambiguity.  See the paper from
+DeRemer and Penello: they already provide the algorithm.
+
+
+* Extentions
+
+** yyerror, yysymprint interface
+It should be improved, in particular when using Bison features such as
+locations, and YYPARSE_PARAMS.  For the time being, it is recommended
+to #define yyerror and yyprint to steal internal variables...
+
+** Several %unions
+I think this is a pleasant (but useless currently) feature, but in the
+future, I want a means to %include other bits of grammars, and _then_
+it will be important for the various bits to define their needs in
+%union.
+
+When implementing multiple-%union support, bare the following in mind:
+
+- when --yacc, this must be flagged as an error.  Don't make it fatal
+  though.
+
+- The #line must now appear *inside* the definition of yystype.
+  Something like
+
+	{
+	#line 12 "foo.y"
+	  int ival;
+	#line 23 "foo.y"
+	  char *sval;
+	}
+
+* Unit rules
+Maybe we could expand unit rules, i.e., transform
+
+	exp: arith | bool;
+	arith: exp '+' exp;
+	bool: exp '&' exp;
+
+into
+
+	exp: exp '+' exp | exp '&' exp;
+
+when there are no actions.  This can significantly speed up some
+grammars.  I can't find the papers.  In particular the book `LR
+parsing: Theory and Practice' is impossible to find, but according to
+`Parsing Techniques: a Practical Guide', it includes information about
+this issue.  Does anybody have it?
+
+
+
+* Documentation
+
+** Vocabulary
+Explain $axiom (and maybe change its name: BTYacc names it `goal',
+byacc `$accept' probably based on AT&T Yacc, Meta `Start'...).
+Complete the glossary (item, axiom, ?).  Should we also rename `$'?
+BYacc uses `$end'.  `$eof' is attracting, but after all we may be
+parsing a string, a stream etc.
+
+** History/Bibliography
+Some history of Bison and some bibliography would be most welcome.
+Are there any Texinfo standards for bibliography?
+
+
+
+
+* Coding system independence
+Paul notes:
+
+	Currently Bison assumes 8-bit bytes (i.e. that UCHAR_MAX is
+	255).  It also assumes that the 8-bit character encoding is
+	the same for the invocation of 'bison' as it is for the
+	invocation of 'cc', but this is not necessarily true when
+	people run bison on an ASCII host and then use cc on an EBCDIC
+	host.  I don't think these topics are worth our time
+	addressing (unless we find a gung-ho volunteer for EBCDIC or
+	PDP-10 ports :-) but they should probably be documented
+	somewhere.
+
+
 
 * --graph
 Show reductions.	[]
@@ -178,17 +192,46 @@ should recognize these, and preserve them.
 See if we can integrate backtracking in Bison.  Contact the BTYacc
 maintainers.
 
-* RR conflicts
-See if we can use precedence between rules to solve RR conflicts.  See
-what POSIX says.
+** Keeping the conflicted actions
+First, analyze the differences between byacc and btyacc (I'm referring
+to the executables).  Find where the conflicts are preserved.
+
+** Compare with the GLR tables
+See how isomorphic the way BTYacc and the way the GLR adjustements in
+Bison are compatible.  *As much as possible* one should try to use the
+same implementation in the Bison executables.  I insist: it should be
+very feasible to use the very same conflict tables.
+
+** Adjust the skeletons
+Import the skeletons for C and C++.
+
+** Improve the skeletons
+Have them support yysymprint, yydestruct and so forth.
+
 
 * Precedence
+
+** Partial order
 It is unfortunate that there is a total order for precedence.  It
 makes it impossible to have modular precedence information.  We should
-move to partial orders.
+move to partial orders (sounds like series/parallel orders to me).
 
 This will be possible with a Bison parser for the grammar, as it will
 make it much easier to extend the grammar.
+
+** Correlation b/w precedence and associativity
+Also, I fail to understand why we have to assign the same
+associativity to operators with the same precedence.  For instance,
+why can't I decide that the precedence of * and / is the same, but the
+latter is nonassoc?
+
+If there is really no profound motivation, we should find a new syntax
+to allow specifying this.
+
+** RR conflicts
+See if we can use precedence between rules to solve RR conflicts.  See
+what POSIX says.
+
 
 * $undefined
 From Hans:
@@ -197,6 +240,7 @@ character range, that character is written out in diagnostic messages, an
 addition to the $undefined value.
 
 Suggest: Change the name $undefined to undefined; looks better in outputs.
+
 
 * Default Action
 From Hans:
@@ -214,6 +258,7 @@ a Bison option where every typed default rule is explicitly written out
 
 Note: Robert Anisko handles this.  He knows how to do it.
 
+
 * Warnings
 It would be nice to have warning support.  See how Autoconf handles
 them, it is fairly well described there.  It would be very nice to
@@ -223,6 +268,7 @@ lib/warnings.[ch].
 Don't work on this without first announcing you do, as I already have
 thought about it, and know many of the components that can be used to
 implement it.
+
 
 * Pre and post actions.
 From: Florian Krohm <florian@edamail.fishkill.ibm.com>
