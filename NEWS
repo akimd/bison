@@ -1,6 +1,16 @@
 Bison News
 ----------
 
+Changes in version 1.28:
+
+* Should compile better now with K&R compilers.
+
+* Added NLS.
+
+* Fixed a problem with escaping the double quote character.
+
+* There is now a FAQ.
+
 Changes in version 1.27:
 
 * The make rule which prevented bison.simple from being created on
