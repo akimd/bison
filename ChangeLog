@@ -1,5 +1,20 @@
 2000-12-19  Akim Demaille  <akim@epita.fr>
 
+	Let the handling of the skeleton files be local to the procedures
+	that use it.
+
+	* src/files.c (xfopen, xfclose, skeleton_find, guardfile): No
+	longer static.
+	(fparser, open_extra_files): Remove.
+	(open_files, output_files): Don't take care of fparser.
+	* src/files.h: Adjust.
+	* src/output.c (output_parser): Open and close the file to the
+	skeleton.
+	* src/reader.c (read_declarations): When %semantic_parser, open
+	fguard.
+
+2000-12-19  Akim Demaille  <akim@epita.fr>
+
 	* src/file.h (BISON_SIMPLE, BISON_HAIRY): Move from here...
 	* src/system.h (BISON_SIMPLE, BISON_HAIRY): ... to here.
 

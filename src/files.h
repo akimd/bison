@@ -43,9 +43,6 @@ extern FILE *foutput;
 /* If semantic parser, output yyguard, containing all the guard code. */
 extern FILE *fguard;
 
-/* Read the parser to copy into TABLE_OBSTACK. */
-extern FILE *fparser;
-
 
 /* Output all the action code; precise form depends on which parser. */
 extern struct obstack action_obstack;
@@ -62,16 +59,15 @@ extern struct obstack defines_obstack;
 
 
 extern char *infile;
-extern int lineno;
-extern char *outfile;
-extern char *defsfile;
-extern char *tabfile;
 extern char *attrsfile;
 extern char *guardfile;
-extern char *actfile;
 
 void open_files PARAMS((void));
-void open_extra_files PARAMS((void));
 
 void output_files PARAMS((void));
+
+FILE *xfopen PARAMS ((const char *name, const char *mode));
+int xfclose PARAMS ((FILE *ptr));
+
+const char *skeleton_find PARAMS ((const char *envvar, const char *skeleton));
 #endif /* !FILES_H_ */
