@@ -3753,7 +3753,8 @@ Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 Generate an array of token names in the parser file.  The name of the
 array is @code{yytname}; @code{yytname[@var{i}]} is the name of the
 token whose internal Bison token code number is @var{i}.  The first
-three elements of @code{yytname} are always @code{"$end"},
+three elements of @code{yytname} correspond to the predefined tokens
+@code{"$end"},
 @code{"error"}, and @code{"$undefined"}; after these come the symbols
 defined in the grammar file.
 
