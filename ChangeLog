@@ -1,6 +1,7 @@
 2001-08-28  Marc Autret  <autret_m@epita.fr>
 
 	* src/output.c (output_actions): Clean up.
+	(output_gram): CPP-out useless code.
 	* src/reader.c (reader): Clean up, CPP-out useless code.
 
 2001-08-28  Pascal Bart  <pascal.bart@epita.fr>
