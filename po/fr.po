@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.33\n"
+"Project-Id-Version: GNU bison 1.33b\n"
 "POT-Creation-Date: 2002-03-04 19:13+0100\n"
-"PO-Revision-Date: 2002-02-11 08:00-0500\n"
+"PO-Revision-Date: 2002-03-10 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +128,7 @@ msgstr "    $défaut\tréduction par la règle %d (%s)\n"
 #: src/files.c:151
 #, c-format
 msgid "cannot open file `%s'"
-msgstr "ne peut ouvrir le fichier `%s'"
+msgstr "ne peut ouvrir le fichier «%s»"
 
 #: src/files.c:170
 msgid "cannot close file"
@@ -183,7 +183,7 @@ msgstr ""
 "                             de l'analyseur\n"
 "      --locations            permettre le calcul des localisations\n"
 "  -p, --name-prefix=PREFIXE  accoler le PREFIXE aux symboles externes\n"
-"  -l, --no-lines             ne pas générer les directives `#line'\n"
+"  -l, --no-lines             ne pas générer les directives «#line»\n"
 "  -n, --no-parser            générer les tables seulement\n"
 "  -r, --raw                  compter les jetons à partir de 3\n"
 "  -k, --token-table          inclure la table des noms de jetons\n"
@@ -237,12 +237,12 @@ msgstr ""
 #: src/getargs.c:230 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
-msgstr "`%s' n'est plus supporté"
+msgstr "«%s» n'est plus supporté"
 
 #: src/getargs.c:254
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr "Pour en savoir davantage, faites: `%s --help'.\n"
+msgstr "Pour en savoir davantage, faites: «%s --help'.\n"
 
 #: src/getargs.c:261
 #, c-format
@@ -252,16 +252,16 @@ msgstr "%s: grammaire manquante\n"
 #: src/getargs.c:265
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
-msgstr "%s: arguments supplémentaires ignorés après `%s'\n"
+msgstr "%s: arguments supplémentaires ignorés après «%s»\n"
 
 #: src/lalr.c:256
 #, c-format
 msgid "too many gotos (max %d)"
-msgstr "nombre trop grand de \"goto\" (Max %d)"
+msgstr "nombre trop grand de «goto» (Max %d)"
 
 #: src/lex.c:76
 msgid "unexpected `/' found and ignored"
-msgstr "`/' inattendu et ignoré"
+msgstr "«/» inattendu et ignoré"
 
 #: src/lex.c:105 src/reader.c:280
 msgid "unterminated comment"
@@ -288,7 +288,7 @@ msgstr "valeur hexadécimale supérieure à 255: \\x%x"
 #: src/lex.c:245
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
-msgstr "séquence d'échappement inconnue: `\\' suivie de `%s'"
+msgstr "séquence d'échappement inconnue: «\\» suivie de «%s»"
 
 #: src/lex.c:342
 msgid "unterminated type name at end of file"
@@ -300,17 +300,17 @@ msgstr "le nom de type ne se termine pas"
 
 #: src/lex.c:438
 msgid "use \"...\" for multi-character literal tokens"
-msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
+msgstr "utilisez «...» pour les terminaux litéraux de plusieurs caractères"
 
 #: src/lex.c:678
 #, c-format
 msgid "`%s' supports no argument: %s"
-msgstr "`%s' ne supporte aucun argument: %s"
+msgstr "«%s» ne supporte aucun argument: %s"
 
 #: src/lex.c:694
 #, c-format
 msgid "`%s' requires an argument"
-msgstr "`%s': requiert un argument"
+msgstr "«%s»: requiert un argument"
 
 #: src/output.c:951
 #, c-format
@@ -447,12 +447,12 @@ msgstr "%s n'est pas valide"
 #: src/reader.c:392
 #, c-format
 msgid "$$ of `%s' has no declared type"
-msgstr "$$ de `%s' n'a pas son type déclaré"
+msgstr "$$ de «%s» n'a pas son type déclaré"
 
 #: src/reader.c:409
 #, c-format
 msgid "$%d of `%s' has no declared type"
-msgstr "$%d de `%s' n'a pas de type déclaré"
+msgstr "$%d de «%s» n'a pas de type déclaré"
 
 #: src/reader.c:463
 msgid "unterminated `%{' definition"
@@ -466,12 +466,12 @@ msgstr "Fin de fichier prématutée après %s"
 #: src/reader.c:525
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
-msgstr "symbole `%s' utilisé plus d'une fois dans une chaîne litérale"
+msgstr "symbole «%s» utilisé plus d'une fois dans une chaîne litérale"
 
 #: src/reader.c:528
 #, c-format
 msgid "symbol `%s' given more than one literal string"
-msgstr "symbole `%s' présent dans plus d'une chaîne litérale"
+msgstr "symbole «%s» présent dans plus d'une chaîne litérale"
 
 #: src/reader.c:549 src/reader.c:692
 #, c-format
@@ -486,7 +486,7 @@ msgstr "redéclaration du type de %s"
 #: src/reader.c:568
 #, c-format
 msgid "`%s' is invalid in %s"
-msgstr "`%s' n'est pas valide dans %s"
+msgstr "«%s» n'est pas valide dans %s"
 
 #: src/reader.c:586 src/reader.c:751
 #, c-format
@@ -564,7 +564,7 @@ msgstr "clause %guard non terminée"
 
 #: src/reader.c:1379
 msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "règle mal formée: le symbole initial n'est pas suivi de `:'"
+msgstr "règle mal formée: le symbole initial n'est pas suivi de «:»"
 
 #: src/reader.c:1386
 msgid "grammar starts with vertical bar"
@@ -577,7 +577,7 @@ msgstr "la règle pour %s, qui est un terminal"
 
 #: src/reader.c:1444 src/reader.c:1556
 msgid "previous rule lacks an ending `;'"
-msgstr ""
+msgstr "règle précédente manque une terminaison «;»"
 
 #: src/reader.c:1517
 msgid "two @prec's in a row"
@@ -595,7 +595,7 @@ msgstr "deux actions à la fin d'une même règle"
 #: src/reader.c:1548
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
-msgstr "conflit de type (`%s' `%s') pour l'action par défaut"
+msgstr "conflit de type («%s» «%s») pour l'action par défaut"
 
 #: src/reader.c:1554
 msgid "empty rule for typed nonterminal, and no action"
@@ -741,12 +741,12 @@ msgstr "%s: l'option requiert un argument -- %c\n"
 #: lib/getopt.c:881
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
-msgstr "%s: l'option `-W %s' est ambiguë\n"
+msgstr "%s: l'option «-W %s» est ambiguë\n"
 
 #: lib/getopt.c:899
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
-msgstr "%s: l'option `-W %s' n'admet pas d'argument\n"
+msgstr "%s: l'option «-W %s« n»admet pas d'argument\n"
 
 #. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
 #. before exiting when memory is exhausted.  Goes through gettext.
@@ -973,4 +973,4 @@ msgstr "'"
 #~ msgstr "le commentaire ne se termine pas dans la section de définition (%{)"
 
 #~ msgid "invalid @-construct"
-#~ msgstr "la construction `@' n'est pas valide"
+#~ msgstr "la construction «@» n'est pas valide"

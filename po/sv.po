@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.33\n"
+"Project-Id-Version: bison 1.33b\n"
 "POT-Creation-Date: 2002-03-04 19:13+0100\n"
-"PO-Revision-Date: 2002-02-07 22:57+0100\n"
+"PO-Revision-Date: 2002-03-05 10:18+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -575,7 +575,7 @@ msgstr "regel given för %s, som är ett element"
 
 #: src/reader.c:1444 src/reader.c:1556
 msgid "previous rule lacks an ending `;'"
-msgstr ""
+msgstr "föregående regel saknar ett avslutande \";\""
 
 #: src/reader.c:1517
 msgid "two @prec's in a row"

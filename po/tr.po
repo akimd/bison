@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.33\n"
+"Project-Id-Version: bison 1.33b\n"
 "POT-Creation-Date: 2002-03-04 19:13+0100\n"
-"PO-Revision-Date: 2002-02-08 18:51+0200\n"
+"PO-Revision-Date: 2002-03-05 14:30GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "indirgeme"
 
 #: src/conflicts.c:101 src/conflicts.c:115
 msgid "shift"
-msgstr "öteleme"
+msgstr "shift"
 
 #: src/conflicts.c:123
 msgid "an error"
@@ -56,7 +56,7 @@ msgstr "bir hata"
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d öteleme/indirgeme çeliþkisi"
-msgstr[1] "%d öteleme/indirgeme çeliþkisi"
+msgstr[1] ""
 
 #: src/conflicts.c:309
 msgid "and"
@@ -67,7 +67,7 @@ msgstr "ve"
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d indirgeme/indirgeme çeliþkisi"
-msgstr[1] "%d indirgeme/indirgeme çeliþkisi"
+msgstr[1] ""
 
 #: src/conflicts.c:340
 #, c-format
@@ -199,10 +199,10 @@ msgid ""
 "automaton\n"
 msgstr ""
 "Çýktý:\n"
-"  -d, --defines              bir baþlýk dosyasý da üretir\n"
+"  -d, --defines              bir baþlýk dosyasýda üretir\n"
 "  -v, --verbose              otomatýn bir açýklamasýný da üretir\n"
-"  -b, --file-prefix=PREFIX   çýktý dosyalarý için bir ÖNEK belirtir\n"
-"  -o, --output=FILE          çýktýyý DOSYAYA býrakýr\n"
+"  -b, --file-prefix=ÖNEK      çýktý dosyalarý için bir önek belirtir\n"
+"  -o, --output=DOSYA        çýktýyý dosyaya býrakýr\n"
 "  -g, --graph                otomatýn bir VCG grafik açýklamasýný da üretir\n"
 
 #: src/getargs.c:127
@@ -577,7 +577,7 @@ msgstr "bir andaç olan %s için verilen kural"
 
 #: src/reader.c:1444 src/reader.c:1556
 msgid "previous rule lacks an ending `;'"
-msgstr ""
+msgstr "önceki kuralda bir bitiþ `;' eksik"
 
 #: src/reader.c:1517
 msgid "two @prec's in a row"
@@ -671,18 +671,18 @@ msgstr[1] "%d kural asla indirgenmedi\n"
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d yararsýz deðiþken simge"
-msgstr[1] "%d yararsýz deðiþken simge"
+msgstr[1] ""
 
 #: src/reduce.c:517
 msgid " and "
-msgstr " ve"
+msgstr " ve "
 
 #: src/reduce.c:520
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d yararsýz kural"
-msgstr[1] "%d yararsýz kural"
+msgstr[1] ""
 
 #: src/reduce.c:551
 #, c-format

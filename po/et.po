@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.33\n"
+"Project-Id-Version: bison 1.33b\n"
 "POT-Creation-Date: 2002-03-04 19:13+0100\n"
-"PO-Revision-Date: 2002-02-08 00:15+0200\n"
+"PO-Revision-Date: 2002-03-05 16:27+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -569,7 +569,7 @@ msgstr "%s jaoks on antud reegel, aga see on märk"
 
 #: src/reader.c:1444 src/reader.c:1556
 msgid "previous rule lacks an ending `;'"
-msgstr ""
+msgstr "eelmisel reeglil puudub lõpetav `;'"
 
 #: src/reader.c:1517
 msgid "two @prec's in a row"
