@@ -1,5 +1,11 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Web2c Report): Catch up: the rule 0 is now
+	visible, and some states have now a different number.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (readgram): Bind the initial rule's lineno to that
 	of the first rule.
 	* tests/regression.at (Rule Line Numbers, Unresolved SR Conflicts):
