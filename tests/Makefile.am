@@ -1,7 +1,7 @@
 ## Process this file with automake to create Makefile.in.
 
 ## Makefile for Bison testsuite.
-## Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+## Copyright (C) 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -65,13 +65,13 @@ clean-local:
 	test ! -f $(TESTSUITE) || $(SHELL) $(TESTSUITE) --clean
 
 check-local: atconfig atlocal $(TESTSUITE)
-	$(SHELL) $(TESTSUITE)
+	$(SHELL) $(TESTSUITE) $(TESTSUITEFLAGS)
 
 check_SCRIPTS = bison
 
 # Run the test suite on the *installed* tree.
 installcheck-local:
-	$(SHELL) $(TESTSUITE) AUTOTEST_PATH=$(exec_prefix)/bin
+	$(SHELL) $(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++

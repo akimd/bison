@@ -125,6 +125,12 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 /* Using locations.  */
 #define YYLSP_NEEDED ]b4_locations_flag[
 
+namespace yy
+{
+  class position;
+  class location;
+}
+
 ]b4_token_defines(b4_tokens)[
 
 /* Copy the first part of user declarations.  */
