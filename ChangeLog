@@ -1,3 +1,27 @@
+2002-07-03  Akim Demaille  <akim@epita.fr>
+
+	Fix some memory leaks, and fix a bug: state 0 was examined twice.
+
+	* src/LR0.c (new_state): Merge into...
+	(state_list_append): this.
+	(new_states): Merge into...
+	(generate_states): here.
+	(set_states): Don't ensure a proper `errs' state member here, do it...
+	* src/conflicts.c (conflicts_solve): here.
+	* src/state.h, src/state.c: Comment changes.
+	(state_t): Rename member `shifts' as `transitions'.
+	Adjust all dependencies.
+	(errs_new): For consistency, also take the values as argument.
+	(errs_dup): Remove.
+	(state_errs_set): New.
+	(state_reductions_set, state_transitions_set): Assert that no
+	previous value was assigned.
+	(state_free): New.
+	(states_free): Use it.
+	* src/conflicts.c (resolve_sr_conflict): Don't use an `errs_t' as
+	temporary storage: use `errs' and `nerrs' as elsewhere.
+	(set_conflicts): Allocate and free this `errs'.
+
 2002-07-02  Akim Demaille  <akim@epita.fr>
 
 	* lib/libiberty.h: New.

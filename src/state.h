@@ -44,21 +44,21 @@
    Each core contains a vector of NITEMS items which are the indices
    in the RITEMS vector of the items that are selected in this state.
 
-   The two types of transitions are shifts (push the lookahead token
-   and read another) and reductions (combine the last n things on the
-   stack via a rule, replace them with the symbol that the rule
-   derives, and leave the lookahead token alone).  When the states are
-   generated, these transitions are represented in two other lists.
+   The two types of actions are shifts/gotos (push the lookahead token
+   and read another/goto to the state designated by a nterm) and
+   reductions (combine the last n things on the stack via a rule,
+   replace them with the symbol that the rule derives, and leave the
+   lookahead token alone).  When the states are generated, these
+   actions are represented in two other lists.
 
-   Each shifts structure describes the possible shift transitions out
-   of one state, the state whose number is in the number field.  The
-   shifts structures are linked through next and first_shift points to
-   them.  Each contains a vector of numbers of the states that shift
-   transitions can go to.  The accessing_symbol fields of those
-   states' cores say what kind of input leads to them.
+   Each transition_t structure describes the possible transitions out
+   of one state, the state whose number is in the number field.  Each
+   contains a vector of numbers of the states that transitions can go
+   to.  The accessing_symbol fields of those states' cores say what
+   kind of input leads to them.
 
-   A shift to state zero should be ignored.  Conflict resolution
-   deletes shifts by changing them to zero.
+   A transition to state zero should be ignored: conflict resolution
+   deletes transitions by having them point to zero.
 
    Each reductions structure describes the possible reductions at the
    state whose number is in the number field.  The data is a list of
@@ -68,18 +68,16 @@
    Conflict resolution can decide that certain tokens in certain
    states should explicitly be errors (for implementing %nonassoc).
    For each state, the tokens that are errors for this reason are
-   recorded in an errs structure, which has the state number in its
-   number field.  The rest of the errs structure is full of token
-   numbers.
+   recorded in an errs structure, which holds the token numbers.
 
-   There is at least one shift transition present in state zero.  It
+   There is at least one goto transition present in state zero.  It
    leads to a next-to-final state whose accessing_symbol is the
    grammar's start symbol.  The next-to-final state has one shift to
    the final state, whose accessing_symbol is zero (end of input).
-   The final state has one shift, which goes to the termination state
-   (whose number is nstates-1).  The reason for the extra state at the
-   end is to placate the parser's strategy of making all decisions one
-   token ahead of its actions.  */
+   The final state has one shift, which goes to the termination state.
+   The reason for the extra state at the end is to placate the
+   parser's strategy of making all decisions one token ahead of its
+   actions.  */
 
 #ifndef STATE_H_
 # define STATE_H_
@@ -108,36 +106,36 @@ typedef struct transtion_s
 } transitions_t;
 
 
-/* What is the symbol which is shifted by TRANSITIONS->states[Shift]?  Can
-   be a token (amongst which the error token), or non terminals in
-   case of gotos.  */
+/* What is the symbol labelling the transition to
+   TRANSITIONS->states[Num]?  Can be a token (amongst which the error
+   token), or non terminals in case of gotos.  */
 
-#define TRANSITION_SYMBOL(Transitions, Shift) \
-  (states[Transitions->states[Shift]]->accessing_symbol)
+#define TRANSITION_SYMBOL(Transitions, Num) \
+  (states[Transitions->states[Num]]->accessing_symbol)
 
-/* Is the TRANSITIONS->states[Shift] a real shift? (as opposed to gotos.) */
+/* Is the TRANSITIONS->states[Num] a shift? (as opposed to gotos).  */
 
-#define TRANSITION_IS_SHIFT(Transitions, Shift) \
-  (ISTOKEN (TRANSITION_SYMBOL (Transitions, Shift)))
+#define TRANSITION_IS_SHIFT(Transitions, Num) \
+  (ISTOKEN (TRANSITION_SYMBOL (Transitions, Num)))
 
-/* Is the TRANSITIONS->states[Shift] a goto?. */
+/* Is the TRANSITIONS->states[Num] a goto?. */
 
-#define TRANSITION_IS_GOTO(Transitions, Shift) \
-  (!TRANSITION_IS_SHIFT (Transitions, Shift))
+#define TRANSITION_IS_GOTO(Transitions, Num) \
+  (!TRANSITION_IS_SHIFT (Transitions, Num))
 
-/* Is the TRANSITIONS->states[Shift] then handling of the error token?. */
+/* Is the TRANSITIONS->states[Num] labelled by the error token?  */
 
-#define TRANSITION_IS_ERROR(Transitions, Shift) \
-  (TRANSITION_SYMBOL (Transitions, Shift) == errtoken->number)
+#define TRANSITION_IS_ERROR(Transitions, Num) \
+  (TRANSITION_SYMBOL (Transitions, Num) == errtoken->number)
 
 /* When resolving a SR conflicts, if the reduction wins, the shift is
    disabled.  */
 
-#define TRANSITION_DISABLE(Transitions, Shift) \
-  (Transitions->states[Shift] = 0)
+#define TRANSITION_DISABLE(Transitions, Num) \
+  (Transitions->states[Num] = 0)
 
-#define TRANSITION_IS_DISABLED(Transitions, Shift) \
-  (Transitions->states[Shift] == 0)
+#define TRANSITION_IS_DISABLED(Transitions, Num) \
+  (Transitions->states[Num] == 0)
 
 /* Return the state such these TRANSITIONS contain a shift/goto to it on
    SYMBOL.  Aborts if none found.  */
@@ -156,8 +154,7 @@ typedef struct errs_s
   symbol_number_t symbols[1];
 } errs_t;
 
-errs_t *errs_new PARAMS ((int n));
-errs_t *errs_dup PARAMS ((errs_t *src));
+errs_t *errs_new PARAMS ((int num, symbol_number_t *tokens));
 
 
 /*-------------.
@@ -180,7 +177,7 @@ typedef struct state_s
 {
   state_number_t number;
   symbol_number_t accessing_symbol;
-  transitions_t     *shifts;
+  transitions_t     *transitions;
   reductions_t *reductions;
   errs_t       *errs;
 
@@ -215,13 +212,17 @@ extern state_t *final_state;
 state_t *state_new PARAMS ((symbol_number_t accessing_symbol,
 			    size_t core_size, item_number_t *core));
 
-/* Set the shifts of STATE.  */
+/* Set the transitions of STATE.  */
 void state_transitions_set PARAMS ((state_t *state,
-			       int nshifts, state_number_t *shifts));
+				    int num, state_number_t *transitions));
 
 /* Set the reductions of STATE.  */
 void state_reductions_set PARAMS ((state_t *state,
-				   int nreductions, short *reductions));
+				   int num, rule_number_t *reductions));
+
+/* Set the errs of STATE.  */
+void state_errs_set PARAMS ((state_t *state,
+			     int num, symbol_number_t *errs));
 
 /* Print on OUT all the lookaheads such that this STATE wants to
    reduce this RULE.  */
