@@ -50,7 +50,7 @@ static struct option longopts[] =
 
   /* Parser. */
   {"skeleton",		required_argument,	0, 'S'},
-  {"debug",		no_argument,		0, 'd'},
+  {"debug",		no_argument,		0, 't'},
   {"locations",		no_argument, 	&locations_flag, 1},
   /* was 'a';  apparently unused -wjh */
   {"name-prefix",	required_argument, 	0, 'p'},
@@ -183,7 +183,7 @@ getargs (int argc, char *argv[])
 	exit (0);
 
       case 'g':
-	/* Here, the -g and --graph=FILE options are differentiated.  */	
+	/* Here, the -g and --graph=FILE options are differentiated.  */
 	graph_flag = 1;
 	spec_graph_file = optarg;
 	break;

@@ -1,3 +1,7 @@
+2001-09-29  Akim Demaille  <akim@epita.fr>
+
+	* src/getargs.c (longopts): `--debug' is `-t', not `-d'.
+
 2001-09-28  Akim Demaille  <akim@epita.fr>
 
 	* tests/testsuite.at: Update to newer Autotest.
