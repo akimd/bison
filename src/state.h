@@ -82,7 +82,7 @@
 #ifndef STATE_H_
 # define STATE_H_
 
-# include "bitsetv.h"
+# include "bitset.h"
 
 
 /*-------------------.
@@ -178,6 +178,7 @@ errs_t *errs_new PARAMS ((int num, symbol_t **tokens));
 typedef struct reductions_s
 {
   short num;
+  bitset *lookaheads;
   rule_t *rules[1];
 } reductions_t;
 
@@ -197,17 +198,6 @@ struct state_s
 
   /* Nonzero if no lookahead is needed to decide what to do in state S.  */
   char consistent;
-
-  /* Used in LALR, not LR(0).
-
-     When a state is not consistent (there is an S/R or R/R conflict),
-     lookaheads are needed to enable the reductions.  NLOOKAHEADS is
-     the number of lookahead guarded reductions of the
-     LOOKAHEADS_RULE.  For each rule LOOKAHEADS_RULE[R], LOOKAHEADS[R]
-     is the bitset of the lookaheads enabling this reduction.  */
-  int nlookaheads;
-  bitsetv lookaheads;
-  rule_t **lookaheads_rule;
 
   /* If some conflicts were solved thanks to precedence/associativity,
      a human readable description of the resolution.  */
@@ -233,6 +223,8 @@ void state_transitions_set PARAMS ((state_t *state,
 /* Set the reductions of STATE.  */
 void state_reductions_set PARAMS ((state_t *state,
 				   int num, rule_t **reductions));
+
+int state_reduction_find PARAMS ((state_t *state, rule_t *rule));
 
 /* Set the errs of STATE.  */
 void state_errs_set PARAMS ((state_t *state,

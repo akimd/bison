@@ -1,5 +1,30 @@
 2002-08-01  Akim Demaille  <akim@epita.fr>
 
+	Instead of attaching lookaheads and duplicating the rules being
+	reduced by a state, attach the lookaheads to the reductions.
+
+	* src/state.h (state_t): Remove the `lookaheads',
+	`lookaheads_rule' member.
+	(reductions_t): Add a `lookaheads' member.
+	Use a regular array for the `rules'.
+	* src/state.c (reductions_new): Initialize the lookaheads member
+	to 0.
+	(state_rule_lookaheads_print): Adjust.
+	* src/state.h, src/state.c (state_reductions_find): New.
+	* src/conflicts.c (resolve_sr_conflict, set_conflicts)
+	(count_rr_conflicts): Adjust.
+	* src/lalr.c (LArule): Remove.
+	(add_lookback_edge): Adjust.
+	(state_lookaheads_count): New.
+	(states_lookaheads_initialize): Merge into...
+	(initialize_LA): this.
+	(lalr_free): Adjust.
+	* src/main.c (main): Don't free nullable and derives too early: it
+	is used by --verbose.
+	* src/print.c, src/print_graph.c, src/tables.c: Adjust.
+
+2002-08-01  Akim Demaille  <akim@epita.fr>
+
 	* src/derives.h, src/derives.c (derives): A `rule_t***' instead of
 	`rule_number_t**'.
 	(set_derives, free_derives): Rename as...
