@@ -1,3 +1,10 @@
+2001-11-30  Akim Demaille  <akim@epita.fr>
+
+	* src/reduce.c: Various comment/formatting changes.
+	(nonterminals_reduce): New, extracted from...
+	(reduce_grammar_tables): here.
+	(reduce_grammar): Call nonterminals_reduce.
+
 2001-11-29  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYSTACK_REALLOC): Remove.
