@@ -4734,7 +4734,7 @@ Don't put any @code{#line} preprocessor commands in the parser file.
 Ordinarily Bison puts them in the parser file so that the C compiler
 and debuggers will associate errors with your source file, the
 grammar file.  This option causes them to associate errors with the
-parser file, treating it an independent source file in its own right.
+parser file, treating it as an independent source file in its own right.
 
 @item -o @var{outfile}
 @itemx --output-file=@var{outfile}
