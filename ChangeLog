@@ -1,5 +1,10 @@
 2001-11-14  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c: Include reduce.h.
+	Reported by Hans Aberg.
+
+2001-11-14  Akim Demaille  <akim@epita.fr>
+
 	* src/lex.c, src/lex.h (token_buffer, unlexed_token_buffer):
 	Revert a previous patch:  these are really const.
 	* src/conflicts.c (conflict_report): Additional useless pair of
