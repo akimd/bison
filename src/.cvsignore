@@ -3,4 +3,4 @@
 Makefile
 bison
 *.log
-*.flc
+*.flcMakefile.in
