@@ -1,3 +1,7 @@
+2002-04-19  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo: Remove the uses of the obsolete @refill.
+
 2002-04-10  Akim Demaille  <akim@epita.fr>
 
 	* src/system.h: Rely on HAVE_LIMITS_H.

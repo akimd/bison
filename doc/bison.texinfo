@@ -433,7 +433,7 @@ smaller constructs according to grammatical rules are called
 @dfn{nonterminal symbols}; those which can't be subdivided are called
 @dfn{terminal symbols} or @dfn{token types}.  We call a piece of input
 corresponding to a single terminal symbol a @dfn{token}, and a piece
-corresponding to a single nonterminal symbol a @dfn{grouping}.@refill
+corresponding to a single nonterminal symbol a @dfn{grouping}.
 
 We can use the C language as an example of what symbols, terminal and
 nonterminal, mean.  The tokens of C are identifiers, constants (numeric and
@@ -565,7 +565,7 @@ if a rule mentions the terminal symbol `integer constant', it means that
 @emph{any} integer constant is grammatically valid in that position.  The
 precise value of the constant is irrelevant to how to parse the input: if
 @samp{x+4} is grammatical then @samp{x+1} or @samp{x+3989} is equally
-grammatical.@refill
+grammatical.
 
 But the precise value is very important for what the input means once it is
 parsed.  A compiler is useless if it fails to distinguish between 4, 1 and
@@ -577,7 +577,7 @@ The token type is a terminal symbol defined in the grammar, such as
 @code{INTEGER}, @code{IDENTIFIER} or @code{','}.  It tells everything
 you need to know to decide where the token may validly appear and how to
 group it with other tokens.  The grammar rules know nothing about tokens
-except their types.@refill
+except their types.
 
 The semantic value has all the rest of the information about the
 meaning of the token, such as the value of an integer, or the name of an
@@ -1382,7 +1382,7 @@ upon to print its message as well.)  The action executes the statement
 @code{yyerrok}, a macro defined automatically by Bison; its meaning is
 that error recovery is complete (@pxref{Error Recovery}).  Note the
 difference between @code{yyerrok} and @code{yyerror}; neither one is a
-misprint.@refill
+misprint.
 
 This form of error recovery deals with syntax errors.  There are other
 kinds of errors; for example, division by zero, which raises an exception
@@ -1881,7 +1881,7 @@ the name appears in the table, a pointer to its location and its type
 (@code{VAR} or @code{FNCT}) is returned to @code{yyparse}.  If it is not
 already in the table, then it is installed as a @code{VAR} using
 @code{putsym}.  Again, a pointer and its type (which must be @code{VAR}) is
-returned to @code{yyparse}.@refill
+returned to @code{yyparse}.
 
 No change is needed in the handling of numeric values and arithmetic
 operators in @code{yylex}.
@@ -2503,7 +2503,7 @@ which are the first and third symbols on the right hand side of the rule.
 The sum is stored into @code{$$} so that it becomes the semantic value of
 the addition-expression just recognized by the rule.  If there were a
 useful semantic value associated with the @samp{+} token, it could be
-referred to as @code{$2}.@refill
+referred to as @code{$2}.
 
 @cindex default action
 If you don't specify an action for a rule, Bison supplies a default:
@@ -2549,7 +2549,7 @@ If you have used @code{%union} to specify a variety of data types, then you
 must declare a choice among these types for each terminal or nonterminal
 symbol that can have a semantic value.  Then each time you use @code{$$} or
 @code{$@var{n}}, its data type is determined by which symbol it refers to
-in the rule.  In this example,@refill
+in the rule.  In this example,
 
 @example
 @group
@@ -2563,7 +2563,7 @@ exp:    @dots{}
 @code{$1} and @code{$3} refer to instances of @code{exp}, so they all
 have the data type declared for the nonterminal symbol @code{exp}.  If
 @code{$2} were used, it would have the data type declared for the
-terminal symbol @code{'+'}, whatever that might be.@refill
+terminal symbol @code{'+'}, whatever that might be.
 
 Alternatively, you can specify the data type when you refer to the value,
 by inserting @samp{<@var{type}>} after the @samp{$} at the beginning of the
@@ -3276,12 +3276,12 @@ type names defined in the grammar and the semantic value type
 @code{YYSTYPE}, as well as a few @code{extern} variable declarations.
 
 If the parser output file is named @file{@var{name}.c} then this file
-is named @file{@var{name}.h}.@refill
+is named @file{@var{name}.h}.
 
 This output file is essential if you wish to put the definition of
 @code{yylex} in a separate source file, because @code{yylex} needs to
 be able to refer to token type codes and the variable
-@code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.@refill
+@code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.
 
 @item %file-prefix="@var{prefix}"
 Specify a prefix to use for all Bison output file names.  The names are
@@ -3384,11 +3384,11 @@ This file also describes all the conflicts, both those resolved by
 operator precedence and the unresolved ones.
 
 The file's name is made by removing @samp{.tab.c} or @samp{.c} from
-the parser output file name, and adding @samp{.output} instead.@refill
+the parser output file name, and adding @samp{.output} instead.
 
 Therefore, if the input file is @file{foo.y}, then the parser file is
 called @file{foo.tab.c} by default.  As a consequence, the verbose
-output file is called @file{foo.output}.@refill
+output file is called @file{foo.output}.
 
 @item %yacc
 Pretend the option @option{--yacc} was given, i.e., imitate Yacc,
@@ -3494,7 +3494,7 @@ need to arrange for the token-type macro definitions to be available there.
 To do this, use the @samp{-d} option when you run Bison, so that it will
 write these macro definitions into a separate header file
 @file{@var{name}.tab.h} which you can include in the other source files
-that need it.  @xref{Invocation, ,Invoking Bison}.@refill
+that need it.  @xref{Invocation, ,Invoking Bison}.
 
 @menu
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
@@ -3844,7 +3844,7 @@ Types of Values in Actions}.
 @item $<@var{typealt}>@var{n}
 Like @code{$@var{n}} but specifies alternative @var{typealt} in the
 union specified by the @code{%union} declaration.
-@xref{Action Types, ,Data Types of Values in Actions}.@refill
+@xref{Action Types, ,Data Types of Values in Actions}.
 
 @item YYABORT;
 Return immediately from @code{yyparse}, indicating failure.
@@ -4302,7 +4302,7 @@ The Bison precedence declarations, @code{%left}, @code{%right} and
 @code{%nonassoc}, can only be used once for a given token; so a token has
 only one precedence declared in this way.  For context-dependent
 precedence, you need to use an additional mechanism: the @code{%prec}
-modifier for rules.@refill
+modifier for rules.
 
 The @code{%prec} modifier declares the precedence of a particular rule by
 specifying a terminal symbol whose precedence should be used for that rule.
@@ -5114,7 +5114,7 @@ Equivalent to @samp{-o y.tab.c}; the parser output file is called
 @file{y.tab.c}, and the other outputs are called @file{y.output} and
 @file{y.tab.h}.  The purpose of this option is to imitate Yacc's output
 file name conventions.  Thus, the following shell script can substitute
-for Yacc:@refill
+for Yacc:
 
 @example
 bison -y $*
