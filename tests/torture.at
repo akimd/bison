@@ -127,11 +127,9 @@ mv stdout $1
 ## Big triangle.  ##
 ## -------------- ##
 
-# Arg, the upper limit, currently, is 124.  Afterwards, the
-# executable dumps core...
 AT_SETUP([Big triangle])
 
-AT_DATA_TRIANGULAR_GRAMMAR([input.y], [124])
+AT_DATA_TRIANGULAR_GRAMMAR([input.y], [253])
 AT_CHECK([bison input.y -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
 AT_CHECK([./input])

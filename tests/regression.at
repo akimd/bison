@@ -433,7 +433,7 @@ AT_CHECK([bison -v input.y -o input.c])
 # Check only the tables.  We don't use --no-parser, because it is
 # still to be implemented in the experimental branch of Bison.
 AT_CHECK([[sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c]], 0,
-[[static const char yytranslate[] =
+[[static const yy_token_number_type yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,

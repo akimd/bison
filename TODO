@@ -16,9 +16,8 @@ grammars.
 
 * Huge Grammars
 Currently, not only is Bison unable to handle huge grammars because of
-internal limitations, but the test `big triangle' also demonstrates
-that it can produce SEGVing executables!  Push the limit beyond 124,
-and have a core dump.  Be my guest: fix this!
+internal limitations (see test `big triangle').  Push the limit beyond
+253.  Be my guest: fix this!
 
 * read_pipe.c
 This is not portable to DOS for instance.  Implement a more portable

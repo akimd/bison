@@ -1,5 +1,25 @@
 m4_divert(-1)
 
+# b4_sint_type(MAX)
+# -----------------
+# Return the smallest signed int type able to handle the number MAX.
+m4_define([b4_sint_type],
+[m4_if(m4_eval([$1 <= 127]),        [1], [signed char],
+       m4_eval([$1 <= 32767]),      [1], [signed short],
+       m4_eval([$1 <= 2147483647]), [1], [signed int],
+       [m4_fatal([no signed int type for $1])])])
+
+
+# b4_uint_type(MAX)
+# -----------------
+# Return the smallest unsigned int type able to handle the number MAX.
+m4_define([b4_uint_type],
+[m4_if(m4_eval([$1 <= 255]),        [1], [unsigned char],
+       m4_eval([$1 <= 65535]),      [1], [unsigned short],
+       m4_eval([$1 <= 4294967295]), [1], [unsigned int],
+       [m4_fatal([no unsigned int type for $1])])])
+
+
 m4_define_default([b4_input_suffix], [.y])
 
 m4_define_default([b4_output_parser_suffix],
@@ -248,10 +268,11 @@ b4_token_defines(b4_tokens)
 #define YYMAXUTOK  b4_maxtok
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
+typedef b4_uint_type(b4_token_number_max) yy_token_number_type;
 #define YYTRANSLATE(x) ((unsigned)(x) <= b4_maxtok ? yytranslate[[x]] : b4_nsym)
 
 /* YYTRANSLATE[[YYLEX]] -- Bison symbol number corresponding to YYLEX.  */
-static const char yytranslate[[]] =
+static const yy_token_number_type yytranslate[[]] =
 {
   b4_translate
 };

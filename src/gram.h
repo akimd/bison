@@ -148,11 +148,11 @@ extern struct rule_s *rules;
 /* Table of the symbols, indexed by the symbol number. */
 extern symbol_t **symbols;
 
-/* token translation table: indexed by a token number as returned by
-   the user's yylex routine, it yields the internal token number used
-   by the parser and throughout bison.  */
-
-extern short *token_translations;
+/* TOKEN_TRANSLATION -- a table indexed by a token number as returned
+   by the user's yylex routine, it yields the internal token number
+   used by the parser and throughout bison.  */
+typedef short token_number_t;
+extern token_number_t *token_translations;
 extern int max_user_token_number;
 
 /* SEMANTIC_PARSER is nonzero if the input file says to use the hairy

@@ -40,6 +40,13 @@ const char *muscle_find PARAMS ((const char *key));
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 }
 
+#define MUSCLE_INSERT_LONG_INT(Key, Value)			\
+{								\
+  obstack_fgrow1 (&muscle_obstack, "%ld", Value);	       	\
+  obstack_1grow (&muscle_obstack, 0);				\
+  muscle_insert (Key, obstack_finish (&muscle_obstack));	\
+}
+
 #define MUSCLE_INSERT_STRING(Key, Value)			\
 {								\
   obstack_sgrow (&muscle_obstack, Value);			\

@@ -1,5 +1,25 @@
 m4_divert(-1)
 
+# b4_sint_type(MAX)
+# -----------------
+# Return the smallest signed int type able to handle the number MAX.
+m4_define([b4_sint_type],
+[m4_if(m4_eval([$1 <= 127]),        [1], [signed char],
+       m4_eval([$1 <= 32767]),      [1], [signed short],
+       m4_eval([$1 <= 2147483647]), [1], [signed int],
+       [m4_fatal([no signed int type for $1])])])
+
+
+# b4_uint_type(MAX)
+# -----------------
+# Return the smallest unsigned int type able to handle the number MAX.
+m4_define([b4_uint_type],
+[m4_if(m4_eval([$1 <= 255]),        [1], [unsigned char],
+       m4_eval([$1 <= 65535]),      [1], [unsigned short],
+       m4_eval([$1 <= 4294967295]), [1], [unsigned int],
+       [m4_fatal([no unsigned int type for $1])])])
+
+
 # b4_token_defines(TOKEN-NAME, TOKEN-NUMBER)
 # ------------------------------------------
 # Output the definition of this token as #define.
@@ -147,6 +167,7 @@ namespace yy
   template < >
   struct Traits< b4_name >
   {
+    typedef typedef b4_uint_type(b4_token_number_max) TokenNumberType;
     typedef int      StateType;
     typedef yystype  SemanticType;
     typedef b4_ltype LocationType;
@@ -159,9 +180,10 @@ namespace yy
   {
   public:
 
-    typedef Traits< b4_name >::StateType    StateType;
-    typedef Traits< b4_name >::SemanticType SemanticType;
-    typedef Traits< b4_name >::LocationType LocationType;
+    typedef Traits< b4_name >::TokenNumberType TokenNumberType;
+    typedef Traits< b4_name >::StateType       StateType;
+    typedef Traits< b4_name >::SemanticType     SemanticType;
+    typedef Traits< b4_name >::LocationType    LocationType;
 
     typedef Stack< StateType >    StateStack;
     typedef Stack< SemanticType > SemanticStack;
@@ -218,7 +240,7 @@ namespace yy
 #endif
 
     /* Even more tables.  */
-    static inline char translate_ (int token);
+    static inline TokenNumberType translate_ (int token);
 
     /* Constants.  */
     static const int eof_;
@@ -685,16 +707,16 @@ yy::b4_name::rline_[[]] =
 #endif
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-char
+TokenNumberType
 yy::b4_name::translate_ (int token)
 {
   static
-  const char
+  const TokenNumberType
   translate_[[]] =
   {
     b4_translate
   };
-  return ((unsigned)(token) <= maxtok_ ? translate_[[token]] : nsym_);
+  return (unsigned)(token) <= maxtok_ ? translate_[[token]] : nsym_;
 }
 
 const int yy::b4_name::eof_ = 0;

@@ -1,5 +1,18 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/muscle_tab.h (MUSCLE_INSERT_LONG_INT): New.
+	* src/output.c (output_table_data): Return the longest number.
+	(prepare_tokens): Output `token_number_max').
+	* data/bison.simple, data/bison.c++ (b4_sint_type, b4_uint_type):
+	New.
+	Use them to define yy_token_number_type/TokenNumberType.
+	Use this type for yytranslate.
+	* tests/torture.at (Big triangle): Push the limit from 124 to
+	253.
+	* tests/regression.at (Web2c Actions): Adjust.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* tests/torture.at (Big triangle): New.
 	(GNU AWK Grammar, GNU Cim Grammar): Move to...
 	* tests/existing.at: here.
