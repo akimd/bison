@@ -1,5 +1,11 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (initialize_LA): Only initialize LA.  Let...
+	(set_state_table): handle the `lookaheads' members.
+
+	
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.h (lookaheads): Removed array, which contents is now
 	member of...
 	(state_t): this structure.
