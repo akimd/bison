@@ -42,20 +42,9 @@
 
 /* Produce verbose syntax errors.  */
 #define YYERROR_VERBOSE 1
-#define YYLLOC_DEFAULT(Current, Rhs, N)			\
-do {							\
-  if (N)						\
-  {							\
-    Current.first_column  = Rhs[1].first_column;	\
-    Current.first_line    = Rhs[1].first_line;		\
-    Current.last_column   = Rhs[N].last_column;		\
-    Current.last_line     = Rhs[N].last_line;		\
-  }							\
-  else							\
-  {							\
-    Current = Rhs[0];					\
-  }							\
-} while (0)
+
+#define YYLLOC_DEFAULT(Current, Rhs, N)  (Current) = lloc_default (Rhs, N)
+static YYLTYPE lloc_default (YYLTYPE const *, int);
 
 /* Request detailed syntax error messages, and pass them to GRAM_ERROR.
    FIXME: depends on the undocumented availability of YYLLOC.  */
@@ -143,9 +132,9 @@ braced_code_t current_braced_code = action_braced_code;
 %token TYPE            "type"
 %token EQUAL           "="
 %token SEMICOLON       ";"
-%token COLON           ":"
 %token PIPE            "|"
 %token ID              "identifier"
+%token ID_COLON        "identifier:"
 %token PERCENT_PERCENT "%%"
 %token PROLOGUE        "%{...%}"
 %token EPILOGUE        "epilogue"
@@ -157,7 +146,7 @@ braced_code_t current_braced_code = action_braced_code;
                PROLOGUE EPILOGUE
 %type <struniq> TYPE
 %type <integer> INT
-%type <symbol> ID symbol string_as_id
+%type <symbol> ID ID_COLON symbol string_as_id
 %type <assoc> precedence_declarator
 %type <list>  symbols.1
 %%
@@ -173,7 +162,7 @@ input:
 
 declarations:
   /* Nothing */
-| declarations declaration semi_colon.opt
+| declarations declaration
 ;
 
 declaration:
@@ -197,6 +186,7 @@ declaration:
 | "%token-table"                           { token_table_flag = 1; }
 | "%verbose"                               { report_flag = 1; }
 | "%yacc"                                  { yacc_flag = 1; }
+| ";"
 ;
 
 grammar_declaration:
@@ -209,7 +199,7 @@ grammar_declaration:
 | "%union" BRACED_CODE
     {
       typed = 1;
-      MUSCLE_INSERT_INT ("stype_line", @2.first_line);
+      MUSCLE_INSERT_INT ("stype_line", @2.start.line);
       muscle_insert ("stype", $2);
     }
 | "%destructor"
@@ -322,9 +312,7 @@ symbol_def:
 /* One or more symbol definitions. */
 symbol_defs.1:
   symbol_def
-    {;}
 | symbol_defs.1 symbol_def
-    {;}
 ;
 
 
@@ -338,11 +326,10 @@ grammar:
 ;
 
 /* As a Bison extension, one can use the grammar declarations in the
-   body of the grammar.  But to remain LALR(1), they must be ended
-   with a semi-colon.  */
+   body of the grammar.  */
 rules_or_grammar_declaration:
   rules
-| grammar_declaration ";"
+| grammar_declaration
     {
       if (yacc_flag)
 	complain_at (@$, _("POSIX forbids declarations in the grammar"));
@@ -351,11 +338,11 @@ rules_or_grammar_declaration:
     {
       yyerrok;
     }
+| ";"
 ;
 
 rules:
-  ID ":" { current_lhs = $1; current_lhs_location = @1; } rhses.1 ";"
-    {;}
+  ID_COLON { current_lhs = $1; current_lhs_location = @1; } rhses.1
 ;
 
 rhses.1:
@@ -424,11 +411,42 @@ epilogue.opt:
     }
 ;
 
-semi_colon.opt:
-  /* Nothing.  */
-| ";"
-;
 %%
+
+
+/* Return the location of the left-hand side of a rule whose
+   right-hand side is RHS[1] ... RHS[N].  Ignore empty nonterminals in
+   the right-hand side, and return an empty location equal to the end
+   boundary of RHS[0] if the right-hand side is empty.  */
+
+static YYLTYPE
+lloc_default (YYLTYPE const *rhs, int n)
+{
+  int i;
+  int j;
+  YYLTYPE r;
+  r.start = r.end = rhs[n].end;
+
+  for (i = 1; i <= n; i++)
+    if (! equal_boundaries (rhs[i].start, rhs[i].end))
+      {
+	r.start = rhs[i].start;
+
+	for (j = n; i < j; j--)
+	  if (! equal_boundaries (rhs[j].start, rhs[j].end))
+	    break;
+	r.end = rhs[j].end;
+
+	break;
+      }
+
+  return r;
+}
+
+
+/* Add a lex-param or a parse-param (depending on TYPE) with
+   declaration DECL and location LOC.  */
+
 static void
 add_param (char const *type, char const *decl, location_t loc)
 {
