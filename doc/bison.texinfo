@@ -4950,13 +4950,13 @@ Summary}).  We suggest that you always define @code{YYDEBUG} so that
 debugging is always possible.
 
 The trace facility outputs messages with macro calls of the form
-@code{YYFPRINTF (YYSTDERR, @var{format}, @var{args})} where
+@code{YYFPRINTF (stderr, @var{format}, @var{args})} where
 @var{format} and @var{args} are the usual @code{printf} format and
 arguments.  If you define @code{YYDEBUG} to a nonzero value but do not
 define @code{YYFPRINTF}, @code{<stdio.h>} is automatically included
-and the macros are defined to @code{fprintf} and @code{stderr}.  In
-the same situation, C++ parsers include @code{<cstdio.h>} instead, and
-use @code{std::fprintf} and @code{std::stderr}.
+and @code{YYPRINTF} is defined to @code{fprintf}.  In the same
+situation, C++ parsers include @code{<cstdio>} and use
+@code{std::fprintf} instead.
 
 Once you have compiled the program with trace facilities, the way to
 request a trace is to store a nonzero value in the variable @code{yydebug}.
