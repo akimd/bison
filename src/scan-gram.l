@@ -1003,7 +1003,7 @@ handle_syncline (char *args)
   const char *file = NULL;
   file = strchr (args, '"') + 1;
   *strchr (file, '"') = 0;
-  scanner_cursor.file = current_file = xstrdup (file);
+  scanner_cursor.file = current_file = uniqstr_new (file);
   scanner_cursor.line = lineno;
   scanner_cursor.column = 1;
 }

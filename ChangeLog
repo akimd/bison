@@ -1,3 +1,10 @@
+2004-08-07  Florian Krohm  <florian@edamail.fishkill.ibm.com>
+
+	* src/scan-gram.l (handle_syncline): Use uniqstr_new not xstrdup.
+
+	* src/location.h (struct): The file member is a uniqstr.
+	(equal_boundaries): Use UNIQSTR_EQ for comparison.
+
 2004-07-22  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix bug with non-%union parsers that have printers or destructors,
