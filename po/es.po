@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2002-03-14 19:33+0100\n"
+"POT-Creation-Date: 2002-03-19 09:29+0100\n"
 "PO-Revision-Date: 2002-03-14 19:34+0100\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr ""
 
-#: lib/error.c:128 lib/error.c:156 src/complain.c:99
+#: src/complain.c:99 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr ""
 
@@ -322,7 +322,7 @@ msgstr "%s: la opción `%s' requiere un argumento\n"
 # en inglés era así, pero quizás en español sea mejor como dices
 # ngp
 #
-#: src/output.c:793
+#: src/output.c:795
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "excedido el tamaño máximo de la tabla (%s)"
@@ -481,7 +481,7 @@ msgstr "$%s de `%s' no tiene tipo declarado"
 msgid "unterminated `%{' definition"
 msgstr "definición `%{' sin terminar"
 
-#: src/reader.c:518 src/reader.c:636 src/reader.c:686 src/reader.c:933
+#: src/reader.c:518 src/reader.c:636 src/reader.c:686 src/reader.c:934
 #, c-format
 msgid "Premature EOF after %s"
 msgstr ""
@@ -516,8 +516,8 @@ msgstr "`%s' no es válido en %s"
 msgid "multiple %s declarations"
 msgstr "múltiples declaraciones de %start"
 
-#: src/reader.c:601 src/reader.c:913 src/reader.c:928 src/reader.c:961
-#: src/reader.c:975 src/reader.c:1178
+#: src/reader.c:601 src/reader.c:914 src/reader.c:929 src/reader.c:962
+#: src/reader.c:976 src/reader.c:1179
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "declaración de %start no válida"
@@ -556,12 +556,12 @@ msgid "unexpected item: %s"
 msgstr "ítem inesperado: %s"
 
 # Cambio el orden y el sexo. Ahora está "en español". sv
-#: src/reader.c:790 src/reader.c:1149
+#: src/reader.c:791 src/reader.c:1150
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "`{' desemparejada"
 
-#: src/reader.c:819
+#: src/reader.c:820
 #, fuzzy, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "el argumento de %expect no es un entero"
@@ -572,121 +572,121 @@ msgstr "el argumento de %expect no es un entero"
 # - cll
 # ok - ngp
 #
-#: src/reader.c:865
+#: src/reader.c:866
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "no se reconoce el ítem %s, se esperaba un identificador"
 
-#: src/reader.c:887
+#: src/reader.c:888
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "se esperaba una cadena constante en lugar de %s"
 
-#: src/reader.c:1080
+#: src/reader.c:1081
 #, c-format
 msgid "unrecognized: %s"
 msgstr "no reconocido: %s"
 
-#: src/reader.c:1085
+#: src/reader.c:1086
 msgid "no input grammar"
 msgstr "no hay gramática de entrada"
 
-#: src/reader.c:1090
+#: src/reader.c:1091
 #, c-format
 msgid "unknown character: %s"
 msgstr "carácter desconocido: %s"
 
-#: src/reader.c:1265
+#: src/reader.c:1266
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "regla mal formada: el símbolo inicial no está seguido por :"
 
-#: src/reader.c:1272
+#: src/reader.c:1273
 msgid "grammar starts with vertical bar"
 msgstr "la gramática comienza con una barra vertical"
 
-#: src/reader.c:1300
+#: src/reader.c:1301
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "se ha dado una regla para %s, que es un terminal"
 
-#: src/reader.c:1330 src/reader.c:1449
+#: src/reader.c:1331 src/reader.c:1450
 msgid "previous rule lacks an ending `;'"
 msgstr ""
 
-#: src/reader.c:1408
+#: src/reader.c:1409
 msgid "two @prec's in a row"
 msgstr "dos @prec en una línea"
 
 # Insisto, el empleo de participios a secas me parece como hablar en
 # indio. Por favor, permíteme que añada un "está" :) - cll
 # ok - ngp
-#: src/reader.c:1417
+#: src/reader.c:1418
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard presente pero %%semantic_parser está sin especificar"
 
-#: src/reader.c:1427
+#: src/reader.c:1428
 msgid "two actions at end of one rule"
 msgstr "dos acciones al final de una regla"
 
-#: src/reader.c:1441
+#: src/reader.c:1442
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "los tipos (`%s' `%s') no concuerdan en la acción por defecto"
 
-#: src/reader.c:1447
+#: src/reader.c:1448
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regla vacía para un no terminal con tipo y no hay ninguna acción"
 
-#: src/reader.c:1455
+#: src/reader.c:1456
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrada no válida: %s"
 
-#: src/reader.c:1462
+#: src/reader.c:1463
 msgid "no rules in the input grammar"
 msgstr "no hay reglas en la gramática de entrada"
 
 # `token' se debe traducir como `literal' - cll
 # en terminología de compiladores token es más un terminal - ngp
 #
-#: src/reader.c:1470
+#: src/reader.c:1471
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "se usa el símbolo %s, pero no está definido como terminal y no tiene reglas"
 
-#: src/reader.c:1492
+#: src/reader.c:1493
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "demasiados símbolos (terminales y no terminales); máximo %s"
 
-#: src/reader.c:1556
+#: src/reader.c:1557
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "los terminales %s y %s tienen asignados ambos el número %s"
 
-#: src/reader.c:1606
+#: src/reader.c:1607
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "precedencias en conflicto entre %s y %s"
 
-#: src/reader.c:1618
+#: src/reader.c:1619
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "conflicto de valores assoc para %s y %s"
 
-#: src/reader.c:1655
+#: src/reader.c:1656
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "el símbolo de inicio (axioma) %s no está definido"
 
-#: src/reader.c:1657
+#: src/reader.c:1658
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "el símbolo de inicio (axioma) %s es un terminal"
 
-#: src/reader.c:1677
+#: src/reader.c:1678
 #, c-format
 msgid "too many items (max %d)"
 msgstr ""
