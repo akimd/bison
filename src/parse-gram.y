@@ -115,6 +115,7 @@ int current_prec = 0;
 
 %token
   PERCENT_DEBUG           "%debug"
+  PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
   PERCENT_ERROR_VERBOSE   "%error-verbose"
@@ -239,6 +240,13 @@ grammar_declaration:
       for (list = $2; list; list = list->next)
 	symbol_printer_set (list->sym, $1, list->location);
       symbol_list_free ($2);
+    }
+| "%default-prec" INT
+    {
+      if (0 <= $2 && $2 <= 1)
+	default_prec = $2;
+      else
+	complain_at (@1, _("invalid value for `%default-prec'"));
     }
 ;
 

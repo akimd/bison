@@ -182,6 +182,7 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "%binary"               return PERCENT_NONASSOC;
   "%debug"                return PERCENT_DEBUG;
+  "%default"[-_]"prec"    return PERCENT_DEFAULT_PREC;
   "%define"               return PERCENT_DEFINE;
   "%defines"              return PERCENT_DEFINES;
   "%destructor"		  token_type = PERCENT_DESTRUCTOR; BEGIN SC_PRE_CODE;

@@ -548,3 +548,77 @@ AT_CHECK([bison -o input.c input.y], 0, [],
 input.y: warning: expected 0 reduce/reduce conflicts
 ])
 AT_CLEANUP
+
+
+## ---------------------------- ##
+## %default-prec without %prec  ##
+## ---------------------------- ##
+
+AT_SETUP([%default-prec without %prec])
+
+AT_DATA([[input.y]],
+[[%left '+'
+%left '*'
+
+%%
+
+%default-prec 0;
+
+e:   e '+' e
+   | e '*' e
+   | '0'
+   ;
+]])
+
+AT_CHECK([bison -o input.c input.y], 0, [],
+[[input.y: conflicts: 4 shift/reduce
+]])
+AT_CLEANUP
+
+
+## ------------------------- ##
+## %default-prec with %prec  ##
+## ------------------------- ##
+
+AT_SETUP([%default-prec with %prec])
+
+AT_DATA([[input.y]],
+[[%left '+'
+%left '*'
+
+%%
+
+%default-prec 0;
+
+e:   e '+' e %prec '+'
+   | e '*' e %prec '*'
+   | '0'
+   ;
+]])
+
+AT_CHECK([bison -o input.c input.y])
+AT_CLEANUP
+
+
+## ---------------- ##
+## %default-prec 1  ##
+## ---------------- ##
+
+AT_SETUP([%default-prec 1])
+
+AT_DATA([[input.y]],
+[[%left '+'
+%left '*'
+
+%%
+
+%default-prec 1;
+
+e:   e '+' e
+   | e '*' e
+   | '0'
+   ;
+]])
+
+AT_CHECK([bison -o input.c input.y])
+AT_CLEANUP

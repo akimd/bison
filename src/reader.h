@@ -73,5 +73,6 @@ void free_merger_functions (void);
 extern merger_list *merge_functions;
 
 extern bool typed;
+extern bool default_prec;
 
 #endif /* !READER_H_ */

@@ -3679,9 +3679,15 @@ Declare a terminal symbol (token type name) that is left-associative
 
 @deffn {Directive} %nonassoc
 Declare a terminal symbol (token type name) that is nonassociative
-(using it in a way that would be associative is a syntax error)
-@end deffn
 (@pxref{Precedence Decl, ,Operator Precedence}).
+Using it in a way that would be associative is a syntax error.
+@end deffn
+
+@deffn {Directive} %default-prec
+Specify whether to assign a precedence to rules lacking an
+explicit @code{%prec} modifier
+(@pxref{Contextual Precedence, ,Context-Dependent Precedence}).
+@end deffn
 
 @deffn {Directive} %type
 Declare the type of semantic values for a nonterminal symbol
@@ -4850,6 +4856,26 @@ exp:    @dots{}
         | '-' exp %prec UMINUS
 @end group
 @end example
+
+If you forget to append @code{%prec UMINUS} to the rule for unary
+minus, Bison silently assumes that minus has its usual precedence.
+This kind of problem can be tricky to debug, since one typically
+discovers the mistake only by testing the code.
+
+The @code{%default-prec 0;} declaration makes it easier to discover
+this kind of problem systematically.  It causes rules that lack a
+@code{%prec} modifier to have no precedence, even if the last terminal
+symbol mentioned in their components has a declared precedence.
+
+If @code{%default-prec 0;} is in effect, you must specify @code{%prec}
+for all rules that participate in precedence conflict resolution.
+Then you will see any shift/reduce conflict until you tell Bison how
+to resolve it, either by changing your grammar or by adding an
+explicit precedence.  This will probably add declarations to the
+grammar, but it helps to protect against incorrect rule precedences.
+
+The effect of @code{%default-prec 0;} can be reversed by giving
+@code{%default-prec 1;}, which is the default.
 
 @node Parser States
 @section Parser States
@@ -6780,6 +6806,12 @@ parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
 
 @deffn {Directive} %debug
 Equip the parser for debugging.  @xref{Decl Summary}.
+@end deffn
+
+@deffn {Directive} %default-prec @var{state};
+Bison declaration to specify whether to assign a precedence to rules
+that lack an explicit @samp{%prec} modifier.  @xref{Contextual
+Precedence, ,Context-Dependent Precedence}.
 @end deffn
 
 @deffn {Directive} %defines
