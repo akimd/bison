@@ -1,3 +1,7 @@
+2002-03-20  Akim Demaille  <akim@epita.fr>
+
+	* src/conflicts.c (log_resolution): Argument `resolution' is const.
+
 2002-03-19  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYCOPY): New macro.
@@ -19,7 +23,7 @@
 	* src/reader.c (parse_union_decl): Define the muscle stype_line.
 	* data/bison.simple, data/bison.c++: Use it.
 
-	
+
 2002-03-19  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (%nonassoc and eof, Unresolved SR Conflicts)

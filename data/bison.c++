@@ -96,7 +96,7 @@ b4_copyright
 b4_prologue
 
 /* Tokens.  */
-b4_token_defines
+b4_token_defines(b4_tokens)
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
