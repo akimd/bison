@@ -1,3 +1,38 @@
+2002-11-12  Paul Eggert  <eggert@twinsun.com>
+
+	Version 1.75b.
+
+	* data/glr.c (yydoAction): Return YYRESULTTAG, not int.
+	(yyglrReduce): Return yyok, not 0.
+	This should avoid the enumerated-type warnings reported
+	by Nelson H.F. Beebe in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001872.html>.
+
+	* lib/bbitset.h (BITSET_INLINE): Remove.
+	* lib/bitset.h [! BITSET_INLINE]: Remove.
+	(bitset_set, bitset_reset, bitset_test): Rename local vars
+	to avoid shadowing warnings by GCC.
+
+	* data/glr.c (inline): Remove #define.  It's the user's
+	responsibility to #define it away, just like 'const'.
+	This fixes one of the bugs reported by Nelson H.F. Beebe in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001873.html>.
+	
+	* Makefile.maint (po-check): Scan .l and .y files instead of the
+	.c and the .h files that they generate.  This fixes the bug
+	reported by Tim Van Holder in:
+	<http://mail.gnu.org/pipermail/bison-patches/2002-November/001352.html>
+	Look for N_ as well as for _.  Try to avoid matching #define for
+	N_ and _.
+	* po/POTFILES.in: Remove src/parse-gram.c, src/scan-gram.c,
+	src/system.h.  Add src/parse-gram.y, src/scan-gram.l.
+	* src/scan-gram.l: Revamp regular expressions so that " and '
+	do not confuse xgettext.
+
+	* src/struniq.h (struniq_new): Do not declare the return type
+	to be 'const'; this violates the C standard.
+	* src/struniq.c (struniq_new): Likewise.
+
 2002-11-12  Albert Chin-A-Young <china@thewrittenword.com>
 
 	* src/Makefile.am (LDADD): Link $(LIBINTL) last to avoid the
