@@ -2,6 +2,12 @@
 
 	Memory leak.
 
+	* src/reader.c (reader): Free grammar.
+
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
+	Memory leak.
+
 	* src/LR0.c (new_itemsets): Don't allocate `shift_symbol' here,
 	since it allocates it for each state, although only one is needed.
 	(allocate_storage): Do it here.
