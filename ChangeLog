@@ -1,3 +1,26 @@
+2002-11-24  Paul Eggert  <eggert@twinsun.com>
+
+	Version 1.75c.
+
+	* tests/actions.at (Actions after errors): Use an output format
+	more similar to that of the Printers and Destructors test.
+	Test the position of the ';' token too.
+	(Printers and Destructors): Likewise.
+	(Printers and Destructors: %glr-parser): Remove for now, to avoid
+	unnecessarily alarming people when the test fails.
+
+	* data/yacc.c (yyerrlab1): Move this label down, so that the
+	parser does not discard the lookahead token if the user code
+	invokes YYERROR.  This change is required for POSIX conformance.
+
+	* lib/error.c: Sync with gnulib.
+
+2002-11-22  Paul Eggert  <eggert@twinsun.com>
+
+	* lib/quotearg.c, lib/quotearg.h: Sync with gnulib.
+	* lib/mbswidth.c, lib/mbswidth.h: Likewise.
+	* lib/xmalloc.c: Likewise.
+	
 2002-11-20  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/argmatch.c, lib/argmatch.h: Sync with gnulib.

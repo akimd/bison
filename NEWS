@@ -1,6 +1,7 @@
 Bison News
 ----------
-Changes in version 1.75c:
+
+Changes in version 1.75c, 2002-11-25:
 
 * "parse error" -> "syntax error"
   Bison now uniformly uses the term "syntax error"; formerly, the code
