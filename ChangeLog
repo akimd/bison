@@ -1,3 +1,11 @@
+2001-09-22  Akim Demaille  <akim@epita.fr>
+
+	* configure.in: Bump to 1.29b.
+	* tests/Makefile.am (DISTCLEANFILES): Add package.m4.
+	* tests/calc.at (_AT_DATA_CALC_Y): #undef malloc so that we don't
+	need xmalloc.c in calc.y.
+	From Pascal Bart.
+
 2001-09-21  Akim Demaille  <akim@epita.fr>
 
 	Version 1.29a.

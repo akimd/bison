@@ -42,6 +42,8 @@ AT_DATA([calc.y],
 
 %{
 #include <config.h>
+/* We don't need a perfect malloc for these tests. */
+#undef malloc
 #include <stdio.h>
 
 #if STDC_HEADERS
