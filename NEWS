@@ -16,7 +16,10 @@ Changes in version 1.29d:
 
 Changes in version 1.29:
 
-* Output file does not redefine const; that is now config.h's job.
+* The output file does not define const, as this caused problems when used
+  with common autoconfiguration schemes.  If you still use ancient compilers
+  that lack const, compile with the equivalent of the C compiler option
+  `-Dconst='.  autoconf's AC_C_CONST macro provides one way to do this.
 
 * Added `-g' and `--graph'.
 
