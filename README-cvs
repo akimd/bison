@@ -51,7 +51,7 @@ Enjoy!
 Unfortunately the current Gettext still does not include all the
 needed tools so that the bootstrapping always perform successfully.
 
-If you experiment problems, I suggest the following:
+If you experience problems, I suggest the following:
 
 1. Do a regular CVS checkout
 
