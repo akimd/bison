@@ -1,5 +1,38 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	Test also `--verbose', `--defines' and `--name-prefix'.  Testing
+	the latter demonstrates a flaw in the handling of non debugging
+	parsers introduced by myself on 2000-03-16: `#define yydebug 0'
+	was used in order to simplify:
+
+	#if YYDEBUG
+	if (yydebug)
+	{
+	...
+	}
+	#endif
+
+	into
+
+	if (yydebug)
+	{
+	...
+	}
+
+	unfortunately this leads to a CPP conflict when
+	`--name-prefix=foo' is used since it produces `#define yydebug
+	foodebug'.
+
+	* src/bison.s1 [!YYDEBUG]: Do not define yydebug.
+	(YYDPRINTF): New macro.
+	Spread its use.
+	* tests/calc.m4 (AT_CHECK_CALC): Do require a title, build it from
+	the bison options.
+	Also test `--verbose', `--defines' and `--name-prefix'.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	Improve the readability of the produced parsers.
 
 	* src/bison.s1: Formatting changes.

@@ -36,6 +36,7 @@ AT_DEFINE([_AT_DATA_CALC_Y],
 static int power (int base, int exponent);
 static int read_signed_integer (FILE *stream);
 static void yyerror (const char *s);
+static int yylex (void);
 extern void perror (const char *s);
 %}
 
@@ -105,8 +106,8 @@ read_signed_integer (FILE *stream)
 | blanks and tabs, returns 0 for EOF.                            |
 `---------------------------------------------------------------*/
 
-int
-yylex ()
+static int
+yylex (void)
 {
   int c;
 
@@ -176,36 +177,36 @@ AT_DEFINE([_AT_CHECK_CALC],
 [AT_CHECK([echo "$1" | calc], 0, [$2], [$3])])
 
 
-# AT_CHECK_CALC(TITLE, [BISON-OPTIONS], [PARSER-EXPECTED-STDERR])
-# ---------------------------------------------------------------
-# Start a testing chunk named TITLE which compiles `calc' grammar with
+# AT_CHECK_CALC([BISON-OPTIONS], [PARSER-EXPECTED-STDERR])
+# --------------------------------------------------------
+# Start a testing chunk which compiles `calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
 AT_DEFINE([AT_CHECK_CALC],
 [# We use integers to avoid dependencies upon the precision of doubles.
-AT_SETUP([$1])
+AT_SETUP([Calculator $1])
 
 AT_DATA_CALC_Y
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison calc.y -o calc.c $2], 0, [], [])
+AT_CHECK([bison calc.y -o calc.c $1], 0, [], [])
 AT_CHECK([$CC $CFLAGS calc.c -o calc], 0, [], [])
 
 # Test the priorities.
-_AT_CHECK_CALC([1 + 2 * 3],   [7], [$3])
-_AT_CHECK_CALC([1 + 2 * -3], [-5], [$3])
+_AT_CHECK_CALC([1 + 2 * 3],   [7], [$2])
+_AT_CHECK_CALC([1 + 2 * -3], [-5], [$2])
 
-_AT_CHECK_CALC([-1^2],  [-1], [$3])
-_AT_CHECK_CALC([(-1)^2], [1], [$3])
+_AT_CHECK_CALC([-1^2],  [-1], [$2])
+_AT_CHECK_CALC([(-1)^2], [1], [$2])
 
-_AT_CHECK_CALC([---1], [-1], [$3])
+_AT_CHECK_CALC([---1], [-1], [$2])
 
-_AT_CHECK_CALC([1 - 2 - 3],  [-4], [$3])
-_AT_CHECK_CALC([1 - (2 - 3)], [2], [$3])
+_AT_CHECK_CALC([1 - 2 - 3],  [-4], [$2])
+_AT_CHECK_CALC([1 - (2 - 3)], [2], [$2])
 
-_AT_CHECK_CALC([2^2^3],  [256], [$3])
-_AT_CHECK_CALC([(2^2)^3], [64], [$3])
+_AT_CHECK_CALC([2^2^3],  [256], [$2])
+_AT_CHECK_CALC([(2^2)^3], [64], [$2])
 
-AT_CLEANUP(calc calc.c)
+AT_CLEANUP(calc calc.c calc.h calc.output)
 ])# AT_CHECK_CALC
 
 
@@ -214,16 +215,16 @@ AT_CLEANUP(calc calc.c)
 # -------------- #
 
 
-AT_CHECK_CALC([Simple calculator])
+AT_CHECK_CALC()
+# This one is very suspicious.  The test fails, but it might be normal.
+AT_CHECK_CALC([--raw])
 
-AT_CHECK_CALC([Simple Yacc compatible calculator],
-              [--yacc])
+AT_CHECK_CALC([--defines])
+AT_CHECK_CALC([--name-prefix=calc])
+AT_CHECK_CALC([--verbose])
+AT_CHECK_CALC([--yacc])
+AT_CHECK_CALC([--defines --name-prefix=calc --verbose --yacc])
 
-AT_CHECK_CALC([Simple calculator whose tokens are numbered from 3],
-              [--raw])
-
-AT_CHECK_CALC([Simple debugging calculator],
-              [--debug], ignore)
-
-AT_CHECK_CALC([Simple Yacc compatible debugging calculator],
-              [--debug --yacc], ignore)
+# When --debug, a lot of data is sent to STDERR, we can't test it.
+AT_CHECK_CALC([--debug], ignore)
+AT_CHECK_CALC([--debug --defines --name-prefix=calc --verbose --yacc], ignore)

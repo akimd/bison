@@ -154,28 +154,29 @@ YYLTYPE yylloc;
 int yynerrs;
 #endif  /* !YYPURE */
 
-
+/* Enable debugging if requested.  */
 #if YYDEBUG
-int yydebug;			/*  nonzero means print parse trace	*/
+# define YYDPRINTF(Args)			\
+do {						\
+  if (yydebug)					\
+    fprintf Args;				\
+} while (0)
+/* Nonzero means print parse trace. [The following comment makes no
+   sense to me.  Could someone clarify it?  --akim] Since this is
+   uninitialized, it does not stop multiple parsers from coexisting.
+   */
+int yydebug;
+#else /* !YYDEBUG */
+# define YYDPRINTF(Args)
+#endif /* !YYDEBUG */
 
-  /* [The following comment makes no sense to me.  Could someone
-     clarify it?  --akim] Since this is uninitialized, it does not
-     stop multiple parsers from coexisting.  */
-#else
-  /* To avoid crippling this file with `#if YYDEBUG', define `yydebug'
-     as `0', so that the `if (yydebug)' be removed as dead code.  */
-# define yydebug 0
-#endif
-
-/*  YYINITDEPTH indicates the initial size of the parser's stacks	*/
-
+/* YYINITDEPTH -- initial size of the parser's stacks.  */
 #ifndef	YYINITDEPTH
 # define YYINITDEPTH 200
 #endif
 
-/*  YYMAXDEPTH is the maximum size the stacks can grow to
-    (effective only if the built-in stack extension method is used).  */
-
+/* YYMAXDEPTH -- maximum size the stacks can grow to (effective only
+   if the built-in stack extension method is used).  */
 #if YYMAXDEPTH == 0
 # undef YYMAXDEPTH
 #endif
@@ -190,7 +191,7 @@ int yydebug;			/*  nonzero means print parse trace	*/
    of type size_t, but it can handle unsigned int.  */
 
 #if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
-# define __yy_memcpy(To,From,Count)	__builtin_memcpy (To,From,Count)
+# define __yy_memcpy(To, From, Count)	__builtin_memcpy (To, From, Count)
 #else				/* not GNU C or C++ */
 # ifndef __cplusplus
 
@@ -324,8 +325,7 @@ yyparse (YYPARSE_PARAM_ARG)
      rule. */
   int yylen;
 
-  if (yydebug)
-    fprintf (stderr, "Starting parse\n");
+  YYDPRINTF ((stderr, "Starting parse\n"));
 
   yystate = 0;
   yyerrstatus = 0;
@@ -429,15 +429,13 @@ yynewstate:
       yylsp = yyls + size - 1;
 #endif
 
-      if (yydebug)
-	fprintf (stderr, "Stack size increased to %d\n", yystacksize);
+      YYDPRINTF ((stderr, "Stack size increased to %d\n", yystacksize));
 
       if (yyssp >= yyss + yystacksize - 1)
 	YYABORT;
     }
 
-  if (yydebug)
-    fprintf (stderr, "Entering state %d\n", yystate);
+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
   goto yybackup;
 
@@ -464,8 +462,7 @@ yybackup:
 
   if (yychar == YYEMPTY)
     {
-      if (yydebug)
-	fprintf (stderr, "Reading a token: ");
+      YYDPRINTF ((stderr, "Reading a token: "));
       yychar = YYLEX;
     }
 
@@ -476,8 +473,7 @@ yybackup:
       yychar1 = 0;
       yychar = YYEOF;		/* Don't call YYLEX any more */
 
-      if (yydebug)
-	fprintf (stderr, "Now at end of input.\n");
+      YYDPRINTF ((stderr, "Now at end of input.\n"));
     }
   else
     {
@@ -526,10 +522,7 @@ yybackup:
     YYACCEPT;
 
   /* Shift the lookahead token.  */
-#if YYDEBUG
-  if (yydebug)
-    fprintf (stderr, "Shifting token %d (%s), ", yychar, yytname[yychar1]);
-#endif
+  YYDPRINTF ((stderr, "Shifting token %d (%s), ", yychar, yytname[yychar1]));
 
   /* Discard the token being shifted unless it is eof.  */
   if (yychar != YYEOF)
@@ -612,6 +605,7 @@ $ /* The action file replaces this line marked with this dollarsign. */
   yylsp -= yylen;
 #endif
 
+#if YYDEBUG
   if (yydebug)
     {
       short *ssp1 = yyss - 1;
@@ -620,6 +614,7 @@ $ /* The action file replaces this line marked with this dollarsign. */
 	fprintf (stderr, " %d", *++ssp1);
       fprintf (stderr, "\n");
     }
+#endif
 
   *++yyvsp = yyval;
 #ifdef YYLSP_NEEDED
@@ -712,11 +707,8 @@ yyerrlab1:
       /* return failure if at end of input */
       if (yychar == YYEOF)
 	YYABORT;
-#if YYDEBUG
-      if (yydebug)
-	fprintf (stderr, "Discarding token %d (%s).\n",
-		 yychar, yytname[yychar1]);
-#endif
+      YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
+		  yychar, yytname[yychar1]));
       yychar = YYEMPTY;
     }
 
@@ -757,6 +749,7 @@ yyerrpop:
   yylsp--;
 #endif
 
+#if YYDEBUG
   if (yydebug)
     {
       short *ssp1 = yyss - 1;
@@ -765,7 +758,7 @@ yyerrpop:
 	fprintf (stderr, " %d", *++ssp1);
       fprintf (stderr, "\n");
     }
-
+#endif
 
 /*--------------.
 | yyerrhandle.  |
@@ -793,8 +786,7 @@ yyerrhandle:
   if (yyn == YYFINAL)
     YYACCEPT;
 
-  if (yydebug)
-    fprintf (stderr, "Shifting error token, ");
+  YYDPRINTF ((stderr, "Shifting error token, "));
 
   *++yyvsp = yylval;
 #ifdef YYLSP_NEEDED
