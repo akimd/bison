@@ -1,3 +1,8 @@
+2002-02-05  Akim Demaille  <akim@epita.fr>
+
+	* src/bison.simple, src/bison.hairy, src/bison.c++: Move to...
+	* data/: here.
+
 2002-01-29  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYSIZE_T): Do not define merely because

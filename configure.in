@@ -109,5 +109,6 @@ AC_SUBST(LIB@&t@OBJS)
 AC_OUTPUT([Makefile
            config/Makefile
            intl/Makefile po/Makefile.in
+           data/Makefile
            lib/Makefile src/Makefile doc/Makefile
            m4/Makefile])

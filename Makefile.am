@@ -1,3 +1,5 @@
+## Copyright 2001, 2002 Free Software Foundation, Inc.
+
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
 ## the Free Software Foundation; either version 2 of the License, or
@@ -18,7 +20,7 @@ AUTOMAKE_OPTIONS = 1.5 check-news readme-alpha dist-bzip2
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = config intl po lib src doc m4 tests
+SUBDIRS = config intl po lib data src doc m4 tests
 
 EXTRA_DIST = REFERENCES configure.bat OChangeLog Makefile.maint GNUmakefile
 

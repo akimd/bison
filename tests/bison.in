@@ -3,9 +3,9 @@
 # Wrapper around a non installed bison to make it work as an installed one.
 
 # We want to use the files shipped with Bison.
-BISON_SIMPLE='@abs_top_srcdir@/src/bison.simple'
+BISON_SIMPLE='@abs_top_srcdir@/data/bison.simple'
 export BISON_SIMPLE
-BISON_HAIRY='@abs_top_srcdir@/src/bison.hairy'
+BISON_HAIRY='@abs_top_srcdir@/data/bison.hairy'
 export BISON_HAIRY
 
 exec '@abs_top_builddir@/src/bison' ${1+"$@"}

@@ -57,6 +57,4 @@ noinst_HEADERS = LR0.h closure.h complain.h conflicts.h \
  print.h reader.h reduce.h symtab.h warshall.h system.h \
  types.h vcg.h vcg_defaults.h
 
-pkgdata_DATA = bison.simple bison.hairy bison.c++
-
-EXTRA_DIST = $(pkgdata_DATA) build.com bison.cld vmshlp.mar
+EXTRA_DIST = build.com bison.cld vmshlp.mar
