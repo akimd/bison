@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-09-27 16:21+0200\n"
+"POT-Creation-Date: 2001-10-02 18:30+0200\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -129,12 +129,12 @@ msgstr ""
 msgid "%s derives"
 msgstr "%s leitet ab"
 
-#: src/files.c:136
+#: src/files.c:133
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:155
+#: src/files.c:152
 msgid "cannot close file"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgid ""
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:214 src/lex.c:639
+#: src/getargs.c:214 src/lex.c:650
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr ""
@@ -278,7 +278,7 @@ msgstr "unerwarteter Typname"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "für Literal mit mehreren Zeichen bitte \"...\" verwenden"
 
-#: src/main.c:124
+#: src/main.c:125
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "interner Fehler, %s\n"

@@ -70,7 +70,12 @@ done
           }' <$as_myself >$as_me.lineno
     chmod +x $as_me.lineno
   fi
-  exec ${SHELL-/bin/sh} ./$as_me.lineno ${1+"$@"}
+
+  # Don't try to exec as it changes $[0], causing all sort of problems
+  # (the dirname of $[0] is not the place where we might find the
+  # original and so on.  Autoconf is especially sensible to this).
+  source ./$as_me.lineno
+  exit 0
 fi
 
 # Avoid depending upon Character Ranges.
@@ -2592,6 +2597,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_header_stdc=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -3782,6 +3788,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_header_stdc=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -4303,6 +4310,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_header_stdc=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -4724,6 +4732,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_c_stack_direction=-1
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -5171,6 +5180,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 jm_cv_func_working_malloc=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -5229,6 +5239,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 jm_cv_func_working_realloc=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -5610,6 +5621,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_header_stdc=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -5995,6 +6007,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_header_stdc=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -6321,6 +6334,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_header_stdc=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -6685,6 +6699,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_func_strerror_r_works=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -7236,6 +7251,7 @@ else
   echo "$as_me: program exited with status $ac_status" >&5
 echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
+( exit $ac_status )
 ac_cv_func_mmap_fixed_mapped=no
 fi
 rm -f core core.* *.core conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
@@ -8651,7 +8667,12 @@ echo "$as_me: error: cannot find myself; rerun with an absolute path" >&2;}
           }' <$as_myself >$as_me.lineno
     chmod +x $as_me.lineno
   fi
-  exec ${SHELL-/bin/sh} ./$as_me.lineno ${1+"$@"}
+
+  # Don't try to exec as it changes $[0], causing all sort of problems
+  # (the dirname of $[0] is not the place where we might find the
+  # original and so on.  Autoconf is especially sensible to this).
+  source ./$as_me.lineno
+  exit 0
 fi
 
 # Avoid depending upon Character Ranges.
@@ -9362,7 +9383,7 @@ s/[\\&,]/\\&/g
 s,[\\$`],\\&,g
 t clear
 : clear
-s,^[ 	]*#[ 	]*define[ 	][ 	]*\(\([^ 	(][^ 	(]*\)([^)]*)\)[ 	]*\(.*\)$,${ac_dA}\2${ac_dB}\1${ac_dC}\3${ac_dD},gp
+s,^[ 	]*#[ 	]*define[ 	][ 	]*\([^ 	(][^ 	(]*\)\(([^)]*)\)[ 	]*\(.*\)$,${ac_dA}\1${ac_dB}\1\2${ac_dC}\3${ac_dD},gp
 t end
 s,^[ 	]*#[ 	]*define[ 	][ 	]*\([^ 	][^ 	]*\)[ 	]*\(.*\)$,${ac_dA}\1${ac_dB}\1${ac_dC}\2${ac_dD},gp
 : end

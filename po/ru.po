@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-09-27 16:21+0200\n"
+"POT-Creation-Date: 2001-10-02 18:30+0200\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -129,12 +129,12 @@ msgstr "DERIVES"
 msgid "%s derives"
 msgstr "%s выводит"
 
-#: src/files.c:136
+#: src/files.c:133
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "не удается открыть файл `%s'"
 
-#: src/files.c:155
+#: src/files.c:152
 msgid "cannot close file"
 msgstr "не удается закрыть файл"
 
@@ -236,7 +236,7 @@ msgstr ""
 "ПРИГОДНОСТИ\n"
 "ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ.\n"
 
-#: src/getargs.c:214 src/lex.c:639
+#: src/getargs.c:214 src/lex.c:650
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' больше не поддерживается"
@@ -304,7 +304,7 @@ msgstr "незаконченное имя типа"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "используйте \"...\" для многосимвольных литеральных лексем"
 
-#: src/main.c:124
+#: src/main.c:125
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: внутренняя ошибка: %s\n"

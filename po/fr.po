@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28d\n"
-"POT-Creation-Date: 2001-09-27 16:21+0200\n"
+"POT-Creation-Date: 2001-10-02 18:30+0200\n"
 "PO-Revision-Date: 2001-08-29 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -130,12 +130,12 @@ msgstr "DÉRIVES"
 msgid "%s derives"
 msgstr "%s dérive"
 
-#: src/files.c:136
+#: src/files.c:133
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "ne peut ouvrir le fichier `%s'"
 
-#: src/files.c:155
+#: src/files.c:152
 msgid "cannot close file"
 msgstr "ne peut fermer le fichier"
 
@@ -237,7 +237,7 @@ msgstr ""
 "reproduction. AUCUNE garantie n'est donnée; tant pour des raisons\n"
 "COMMERCIALES que pour RÉPONDRE À UN BESOIN PARTICULIER.\n"
 
-#: src/getargs.c:214 src/lex.c:639
+#: src/getargs.c:214 src/lex.c:650
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' n'est plus supporté"
@@ -305,7 +305,7 @@ msgstr "le nom de type ne se termine pas"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
 
-#: src/main.c:124
+#: src/main.c:125
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: erreur interne: %s\n"
