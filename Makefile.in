@@ -146,12 +146,15 @@ check:
 bison: $(OBJECTS)
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
 
+# We don't use $(srcdir) in this rule
+# because it is normally used in the master source dir
+# in which configure has not been run.
 dist: bison.info
 	echo bison-`sed -e '/version_string/!d' -e 's/[^0-9.]*\([0-9.]*\).*/\1/' -e q version.c` > .fname
 	-rm -rf `cat .fname`
 	mkdir `cat .fname`
 	dst=`cat .fname`; for f in $(DISTFILES); do \
-	   ln $(srcdir)/$$f $$dst/$$f || { echo copying $$f; cp -p $(srcdir)/$$f $$dst/$$f ; } \
+	   ln $$f $$dst/$$f || { echo copying $$f; cp -p $$f $$dst/$$f ; } \
 	done
 	tar --gzip -chf `cat .fname`.tar.gz `cat .fname`
 	-rm -rf `cat .fname` .fname
