@@ -160,7 +160,7 @@ blanks   [ \t\f]+
   {eols}      YY_LINES; YY_STEP;
   {blanks}    YY_STEP;
   {id}        {
-    yylval->symbol = getsym (yytext, *yylloc);
+    yylval->symbol = symbol_get (yytext, *yylloc);
     return ID;
   }
 
@@ -292,7 +292,7 @@ blanks   [ \t\f]+
     assert (yy_top_state () == INITIAL);
     {
       YY_OBS_FINISH;
-      yylval->symbol = getsym (last_string, *yylloc);
+      yylval->symbol = symbol_get (last_string, *yylloc);
       symbol_class_set (yylval->symbol, token_sym, *yylloc);
       symbol_user_token_number_set (yylval->symbol, last_string[1], *yylloc);
       YY_OBS_FREE;

@@ -103,7 +103,11 @@ const char *symbol_tag_get_n PARAMS ((symbol_t *symbol, int n));
 void symbol_tag_print PARAMS ((symbol_t *symbol, FILE *out));
 
 /* Fetch (or create) the symbol associated to KEY.  */
-symbol_t *getsym PARAMS ((const char *key, location_t location));
+symbol_t *symbol_get PARAMS ((const char *key, location_t location));
+
+/* Generate a dummy nonterminal, whose name cannot conflict with the
+   user's names.  */
+symbol_t *dummy_symbol_get PARAMS ((location_t location));
 
 /* Declare the new SYMBOL.  Make it an alias of SYMVAL.  */
 void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval));
