@@ -1,9 +1,15 @@
 2001-08-06  Akim Demaille  <akim@epita.fr>, Marc Autret  <autret_@epita.fr>
 
-	* src/print_graph.c (print_actions): CPP out useless code.
 	* src/vcg.c (complain.h): Include it.
 	Unepitaize `return' invocations.
-	* src/vcg.c [NDEBUG] (main): Remove.
+	[NDEBUG] (main): Remove.
+	* src/vcg.h (node_t, edge_t, graph_t): Constify the char * memebers.
+	* src/files.c (open_files): Initialize graph_obstack.
+	* src/print_graph.c (print_actions): CPP out useless code.
+	(print_core): Don't output the last `\n' in labels.
+	Use `quote'.
+	* src/files.c (output_files): Output the VCG file.
+	* src/main.c (main): Invoke print_graph ();
 
 2001-08-06  Marc Autret   <autret_@epita.fr>
 
