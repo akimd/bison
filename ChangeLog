@@ -1,3 +1,7 @@
+2002-01-14  Akim Demaille  <akim@epita.fr>
+
+	* tests/regression.at (Invalid CPP headers): Remove.
+
 2002-01-12  Akim Demaille  <akim@epita.fr>
 
 	Version 1.30l.
