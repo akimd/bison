@@ -1,3 +1,8 @@
+2002-11-05  Akim Demaille  <akim@epita.fr>
+
+	* src/scan-gram.l: When it starts with `%', complain about the
+	whole directive, not just that `invalid character: %'.
+
 2002-11-04  Akim Demaille  <akim@epita.fr>
 
 	* Makefile.maint: Update from Autoconf.

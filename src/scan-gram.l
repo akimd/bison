@@ -186,9 +186,10 @@ static int convert_ucn_to_byte (char const *hex_text);
 %x SC_ESCAPED_STRING SC_ESCAPED_CHARACTER
 %x SC_BRACED_CODE SC_PROLOGUE SC_EPILOGUE
 
-letter	 [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id	 {letter}({letter}|[0-9])*
-int 	 [0-9]+
+letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+id	  {letter}({letter}|[0-9])*
+directive %{letter}({letter}|[0-9]|-)*
+int 	  [0-9]+
 
 /* POSIX says that a tag must be both an id and a C union member, but
    historically almost any character is allowed in a tag.  We disallow
@@ -246,6 +247,11 @@ splice	 (\\[ \f\t\v]*\n)*
   "%union"                return PERCENT_UNION;
   "%verbose"              return PERCENT_VERBOSE;
   "%yacc"                 return PERCENT_YACC;
+
+  {directive}             {
+    complain_at (*yylloc, _("invalid directive: %s"), quote (yytext));
+    YY_STEP;
+  }
 
   "="                     return EQUAL;
   ":"                     rule_length = 0; return COLON;
