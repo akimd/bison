@@ -1,5 +1,6 @@
 /* VCG description handler for Bison.
-   Copyright 2001 Free Software Foundation, Inc.
+
+   Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -42,7 +43,7 @@
 # define G_FOLDING		0
 
 # define G_SHRINK		1
-# define G_STRETCH		1
+# define G_EXPAND		1
 
 # define G_TEXTMODE		centered
 # define G_SHAPE		box
@@ -81,14 +82,14 @@
 # define G_DIRTY_EDGE_LABELS	no
 # define G_FINETUNING		yes
 # define G_IGNORE_SINGLES	no
-# define G_STRAIGHT_PHASE	no
+# define G_LONG_STRAIGHT_PHASE	no
 # define G_PRIORITY_PHASE	no
 # define G_MANHATTAN_EDGES	no
 # define G_SMANHATTAN_EDGES	no
 # define G_NEAR_EDGES		yes
 
 # define G_ORIENTATION		top_to_bottom
-# define G_NODE_ALIGNEMENT	center
+# define G_NODE_ALIGNMENT	center
 # define G_PORT_SHARING		yes
 # define G_ARROW_MODE		fixed
 # define G_TREEFACTOR		0.5
@@ -129,7 +130,7 @@
 # define N_HEIGHT		-1	/* also. */
 
 # define N_SHRINK		1
-# define N_STRETCH		1
+# define N_EXPAND		1
 
 # define N_FOLDING		-1	/* no explicit default value. */
 
