@@ -284,6 +284,7 @@ Invoking Bison
 Frequently Asked Questions
 
 * Parser Stack Overflow::      Breaking the Stack Limits
+* Strings are Destroyed::      @code{yylval} Loses Track of Strings
 
 Copying This Manual
 
@@ -6352,6 +6353,7 @@ are addressed.
 
 @menu
 * Parser Stack Overflow::      Breaking the Stack Limits
+* Strings are Destroyed::      @code{yylval} Loses Track of Strings
 @end menu
 
 @node Parser Stack Overflow
@@ -6364,6 +6366,65 @@ message.  What can I do?
 
 This question is already addressed elsewhere, @xref{Recursion,
 ,Recursive Rules}.
+
+@node Strings are Destroyed
+@section Strings are Destroyed
+
+@display
+My parser seems to destroy old strings, or maybe it losses track of
+them.  Instead of reporting @samp{"foo", "bar"}, it reports
+@samp{"bar", "bar"}, or even @samp{"foo\nbar", "bar"}.
+@end display
+
+This error is probably the single most frequent ``bug report'' sent to
+Bison lists, but is only concerned with a misunderstanding of the role
+of scanner.  Consider the following Lex code:
+
+@verbatim
+%{
+#include <stdio.h>
+char *yylval = NULL;
+%}
+%%
+.*    yylval = yytext; return 1;
+\n    /* IGNORE */
+%%
+int
+main ()
+{
+  /* Similar to using $1, $2 in a Bison action. */
+  char *fst = (yylex (), yylval);
+  char *snd = (yylex (), yylval);
+  printf ("\"%s\", \"%s\"\n", fst, snd);
+  return 0;
+}
+@end verbatim
+
+If you compile and run this code, you get:
+
+@example
+$ @kbd{flex -osplit-lines.c split-lines.l}
+$ @kbd{gcc  -osplit-lines   split-lines.c -ll}
+$ @kbd{printf 'one\ntwo\n' | ./split-lines}
+"one
+two", "two"
+@end example
+
+@noindent
+this is because @code{yytext} is a buffer provided for @emph{reading}
+in the action, but if you want to keep it, you have to duplicate it
+(e.g., using @code{strdup}).  Note that the output may depend on how
+your implementation of Lex handles @code{yytext}.  For instance, when
+given the Lex compatibility option @option{-l} (which triggers the
+option @samp{%array}) Flex generates a different behavior:
+
+@example
+$ @kbd{flex -l -osplit-lines.c split-lines.l}
+$ @kbd{gcc     -osplit-lines   split-lines.c -ll}
+$ @kbd{printf 'one\ntwo\n' | ./split-lines}
+"two", "two"
+@end example
+
 
 @c ================================================= Table of Symbols
 
