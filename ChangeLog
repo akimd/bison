@@ -1,5 +1,10 @@
 2001-12-17  Paul Eggert  <eggert@twinsun.com>
 
+	* src/bison.simple (YYSTD): New macro.
+	(YYSIZE_T, YYSTACK_ALLOC, YYSTACK_FREE, YYFPRINTF, YYSTDERR): Use
+	it to simplify macros, and fix some C++ porting problems reported
+	by Hans Aberg.
+
 	* src/output.c (output): Define YYDEBUG to 0 if it is not defined
 	and if we are not debugging.  POSIX requires this.
 	* NEWS, doc/bison.texinfo, doc/bison.1, doc/bison.rnh: Document this.
