@@ -1,4 +1,14 @@
-2002-12-21  Paul Eggert  <eggert@twinsun.com>
+2002-12-24  Paul Eggert  <eggert@twinsun.com>
+
+	Version 1.75e.
+
+	* Makefile.maint (cvs-update): Don't assume that the shell
+	supports $(...), as Solaris sh doesn't.
+
+	* src/parse-gram.y (lloc_default): Remove test for empty
+	nonterminals at the end, since it didn't change the result.
+
+2002-12-24  Paul Eggert  <eggert@twinsun.com>
 
 	If the user does not define YYSTYPE as a macro, Bison now declares it
 	using typedef instead of defining it as a macro.  POSIX requires this.

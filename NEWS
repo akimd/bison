@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.75e:
+Changes in version 1.75e, 2002-12-24:
 
 * If the user does not define YYSTYPE as a macro, Bison now declares it
   using typedef instead of defining it as a macro.  POSIX requires this.
