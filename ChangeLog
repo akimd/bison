@@ -1,5 +1,12 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* tests/calc.at (_AT_DATA_CALC_Y): Also use %union.
+	In addition, put a comment in there, to replace...
+	* tests/regression.at (%union and C comments): Remove.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (Web2c Actions): Blindly move the actual
 	output as expected output.  The contents *seem* right to me, but I
 	can't pretend reading perfectly parser tables...  Nonetheless, all

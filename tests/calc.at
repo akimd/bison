@@ -63,9 +63,16 @@ static void yyungetc (int c);
 extern void perror (const char *s);
 %}
 
+/* Also exercise %union. */
+%union
+{
+  int ival; /* A comment to exercise an old bug. */
+};
+
 /* Bison Declarations */
 %token CALC_EOF 0 "end of file"
-%token NUM "number"
+%token <ival> NUM "number"
+%type  <ival> exp
 
 %nonassoc '=' /* comparison	       */
 %left '-' '+'
@@ -84,7 +91,7 @@ input:
 
 line:
   '\n'
-| exp '\n'
+| exp '\n' {}
 ;
 
 exp:
@@ -205,7 +212,7 @@ yylex (void)
   if (c == '.' || isdigit (c))
     {
       yyungetc (c);
-      yylval = read_signed_integer ();
+      yylval.ival = read_signed_integer ();
       return NUM;
     }
 

@@ -500,29 +500,6 @@ AT_CHECK([bison --defines input.y])
 AT_CLEANUP
 
 
-## --------------------------------------- ##
-## Duplicate '/' in C comments in %union   ##
-## --------------------------------------- ##
-
-
-AT_SETUP([%union and C comments])
-
-AT_DATA([input.y],
-[%union
-{
-  /* The int.  */	int   integer;
-  /* The string.  */	char *string ;
-}
-%%
-exp: {};
-])
-
-AT_CHECK([bison input.y -o input.c])
-AT_CHECK([fgrep '//*' input.c], [1], [])
-
-AT_CLEANUP
-
-
 ## ----------------- ##
 ## Invalid input 1.  ##
 ## ----------------- ##
