@@ -1,5 +1,8 @@
 2002-10-16  Paul Eggert  <eggert@twinsun.com>
 
+	* src/muscle_tab.h (MUSCLE_TAB_H_): Was misspelled as
+	MUSCLE_TAB_H.
+
 	* NEWS: Officially drop support for building Bison with K&R C,
 	since it didn't work anyway and it's not worth worrying about.
 	* Makefile.maint (wget_files): Remove ansi2knr.c.
