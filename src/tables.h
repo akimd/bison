@@ -1,5 +1,5 @@
 /* Prepare the LALR and GLR parser tables.
-   Copyright (C) 2002  Free Software Foundation, Inc.
+   Copyright (C) 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -92,25 +92,25 @@
 
 extern int nvectors;
 
-typedef int base_t;
-extern base_t *base;
+typedef int base_number;
+extern base_number *base;
 /* A distinguished value of BASE, negative infinite.  During the
-   computation equals to BASE_MIN, later mapped to BASE_NINF to
+   computation equals to BASE_MINIMUM, later mapped to BASE_NINF to
    keep parser tables small.  */
-extern base_t base_ninf;
+extern base_number base_ninf;
 
 extern unsigned int *conflict_table;
 extern unsigned int *conflict_list;
 extern int conflict_list_cnt;
 
-extern base_t *table;
-extern base_t *check;
+extern base_number *table;
+extern base_number *check;
 /* The value used in TABLE to denote explicit syntax errors
    (%nonassoc), a negative infinite.  */
-extern base_t table_ninf;
+extern base_number table_ninf;
 
-extern state_number_t *yydefgoto;
-extern rule_number_t *yydefact;
+extern state_number *yydefgoto;
+extern rule_number *yydefact;
 extern int high;
 
 void tables_generate (void);
