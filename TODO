@@ -22,3 +22,11 @@ Find the best graph parameters.	[]
 Update informations about ERROR_VERBOSE.	[]
 Add explainations about skeleton muscles.	[]
 Add explainations about %skeleton.	[]
+
+* testsuite.
+** tests/calc.at
+Remove --yyerror-verbose.	[]
+** tests/torture.at
+Remove --yyerror-verbose.	[]
+** tests/calc.at
+Test --error-verbose.	[]

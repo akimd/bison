@@ -34,6 +34,7 @@ extern int no_lines_flag;    	/* for -l */
 extern int no_parser_flag;	/* for -n */
 extern int token_table_flag;   	/* for -k */
 extern int verbose_flag;	/* for -v */
+extern int error_verbose_flag;	/* for -e */
 extern int graph_flag;		/* for -g */
 extern int yacc_flag;  		/* for -y */
 extern int trace_flag;

@@ -1,3 +1,16 @@
+2001-11-26  Marc Autret  <autret_m@epita.fr>
+
+	* src/bison.simple: Remove YYERROR_VERBOSE using.
+	Use %%error_verbose.
+	(yyparse): Likewise.
+	* src/output.c (prepare): Give its final value.
+	* src/muscle_tab.c (muscle_init): Init new muscle 'error_verbose'.
+	* src/getargs.h: Add its extern declaration.
+	* src/getargs.c (error_verbose_flag): New int.
+	(getargs): Update to catch new case.
+	* src/options.c (option_table): 'error-verbose' is a new option.
+	(shortopts): Update.
+
 2001-11-27  Akim Demaille  <akim@epita.fr>
 
 	* src/system.h: Use intl/libgettext.h.
