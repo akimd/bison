@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.29c:
+Changes in version 1.29d:
 
 * `--defines' and `--graph' have now an optionnal argument which is the
   output file name. `-d' and `-g' do not change, they do not take any

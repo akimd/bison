@@ -1,4 +1,4 @@
 @set UPDATED 20 September 2001
 @set UPDATED-MONTH September 2001
-@set EDITION 1.29c
-@set VERSION 1.29c
+@set EDITION 1.29d
+@set VERSION 1.29d
