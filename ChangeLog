@@ -1,3 +1,145 @@
+2002-08-12  Paul Eggert  <eggert@twinsun.com>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+	(DISTCLEANFILES): Remove.
+	* NEWS: Mention that GNU M4 is now required.  Clarify what is
+	meant by "larger grammars".  Mention the pt_BR translation.
+	* configure.in (AC_CHECK_DECLS): Add getenv, getopt.
+	(AM_GNU_GETTEXT_VERSION): New macro, replacing GETTEXT_VERSION var.
+	Bump version from 0.11.2 to 0.11.5.
+	(BISON_PREREQ_STAGE): Remove.
+	(AM_GNU_GETTEXT): Use external gettext.
+	(AC_OUTPUT): Remove intl/Makefile.
+
+	* config/depcomp, config/install-sh: Sync with Automake 1.6.3.
+
+	* data/glr.c: Include string.h, for strlen.
+	(yyreportParseError): Use size_t for yysize.
+	(yy_yypstack): No longer nested inside yypstates, as nested
+	functions are not portable.  Do not assume size_t is the
+	same width as int.
+	(yypstates): Do not assume that ptrdiff_t is the same width
+	as int, and similarly for yyposn and YYINDEX.
+
+	* data/yacc.c: Fix comment about `$$ = $1': it can copy garbage.
+
+	* lib/Makefile.am (INCLUDES): Do not include from the intl
+	directory, which has been removed.
+	* src/Makefile.am (INCLUDES): Likewise.
+
+	* lib/Makefile.am (libbison_a_SOURCES): Add unlocked-io.h.
+	(bitsets_sources, additional_bitsets_sources, timevars_sources):
+	New vars.
+
+	* lib/Makefile.am (libbison_a_SOURCES): Avoid +=, a GNU make extension.
+	* tests/Makefile.am (EXTRA_DIST): Likewise.
+
+	* lib/abitset.c (abitset_reverse_list, ebitset_reverse_list):
+	Do not assume that bitset_windex is the same width as unsigned.
+
+	* lib/abitset.c (abitset_unused_clear): Do not assume that
+	bitset_word is the same width as int.
+	* lib/bbitset.h (BITSET_INDEX_MAX, BITSET_MSB): Likewise.
+	* lib/bitset.h (bitset_set, bitset_reset): Likewise.
+	* lib/bitset_stats.c (bitset_stats_set, bitset_stats_reset): Likewise.
+	* lib/ebitset.c (ebitset_set, ebitset_reset): Likewise.
+	* lib/lbitset.c (lbitset_set, lbitset_reset): Likewise.
+
+	* lib/abitset.c (abitset_op1): Use -1, not ~0, as memset arg (for
+	portability to one's complement hosts!).
+	* lib/ebitset.c (ebitset_op1): Likewise.
+	* lib/lbitset.c (lbitset_op1): Likewise.
+
+	* lib/argmatch.c, lib/quotearg.c, quotearg.h: Sync with GNU tar.
+	* lib/argmatch.h, lib/basename.c, lib/dirname.c, lib/dirname.h,
+	lib/hash.c, lib/hash.h, lib/strnlen.c, lib/xmalloc.c:
+	Sync with fileutils.
+	* lib/error.c, lib/getopt.c, lib/getopt.h, lib/getopt1.c,
+	lib/gettext.h: Sync with diffutils.
+
+	* lib/memrchr.c, lib/mkstemp.c, lib/strchr.c, lib/strnlen.c,
+	lib/strspn.c, lib/tempname.c: Use GPL, not LGPL.
+
+	* lib/obstack.c, lib/obstack.h: Sync with fileutils, except use
+	PROTOTYPES to check for prototypes, and "defined __STDC__" to
+	check for void *.
+
+	* lib/bbitset.h (BITSET_WORD_BITS): Now of type unsigned, not
+	size_t; the old version tried to do this but casted improperly.
+	(bitset_bindex, bitset_windex): Now size_t, not unsigned long.
+	(bitset_test): Now returns int, not unsigned long.
+
+	* lib/bitset_stats.c: Include "gettext.h".
+	(_): New macro.
+	(bitset_stats_set, bitset_stats_reset, bitset_stats_test): Don't
+	name locals "index", as it generates unnecessary warnings on some
+	hosts that have an "index" function.
+
+	* lib/bitset_stats.c (bitset_stats_print_1, bitset_stats_print,
+	bitset_stats_read, bitset_stats_write): Wrap strings in _() if
+	they need translation.
+	* src/LR0.c (state_list_append, new_itemsets, get_state,
+	append_states, generate_states): Likewise.
+	* src/assoc.c (assoc_to_string): Likewise.
+	* src/closure.c (print_closure, set_firsts, closure): Likewise.
+	* src/gram.c (grammar_dump): Likewise.
+	* src/injections.c (injections_compute): Likewise.
+	* src/lalr.c (lookaheads_print): Likewise.
+	* src/relation.c (relation_transpose): Likewise.
+	* src/scan-gram.l: Likewise.
+	* src/tables.c (table_grow, pack_vector): Likewise.
+
+	* m4/Makefile.am (EXTRA_DIST): Remove codeset.m4,
+	glibc21.m4, isc-posix.m4 lcmessage.m4, stage.m4.
+	* m4/malloc.m4, m4/realloc.m4: Sync with diffutils.
+	* m4/mbstate_t.m4: Sync with fileutils.
+	* m4/prereq.m4 (jm_PREREQ_QUOTEARG): AC_MBSTATE_T -> AC_TYPE_MBSTATE_T.
+
+	* po/LINGUAS: Add pt_BR.
+	* po/POTFILES.in: Add src/assoc.c, src/closure.c, src/gram.c,
+	src/main.c, src/relation.c, src/state.c, lib/bitset_stats.c,
+	lib/timevar.c.
+	Use src/parse-gram.y instead of src/parse-gram.c, as the gettext
+	manual recommends.
+	Similarly, use src/scan-gram.l instead of src/scan-gram.c.
+
+	* src/complain.c (strerror_r): Remove decl; not needed.
+	(strerror): Use same pattern as ../lib/error.c.
+
+	* src/files.c, src/files.h (compute_header_macro): Remove; unused.
+
+	* src/gram.c (grammar_dump): Do not assume ptrdiff_t fits in int.
+
+	* src/main.c (main): Cast result of bindtextdomain and textdomain
+	to void, to avoid a GCC warning when --disable-nls is in effect.
+
+	* src/scan-gram.l: Use strings rather than escapes when possible,
+	to minimize the number of warnings from xgettext.
+	(handle_action_dollar, handle_action_at): Don't use isdigit,
+	as it mishandles negative chars and it may not work as expected
+	outside the C locale.
+
+	* src/symtab.c (symbol_get): Don't cast LHS of an assignment;
+	this is a GCC extension and is not portable to other compilers.
+
+	* src/system.h (alloca): Use same pattern as ../lib/error.c.
+	Do not include <ctype.h>; no longer needed.
+	Do not include <malloc.h>; no longer needed (and generates
+	warnings on OpenBSD 3.0).
+
+	* tests/cxx-type.at (yylex): Do not pass signed char to isupper;
+	it's not portable.
+
+	* tests/regression.at: Do not use 'cc -c input.c -o input';
+	Sun C rejects this.  Instead, use 'cc -c input.c -o input.o'.
+
+	* tests/synclines.at (AC_SYNCLINES_COMPILE): Accept any nonzero
+	exit status as failure, not just exit status 1.  Sun C exits
+	with status 2 sometimes.
+
+	* tests/torture.at (AT_INCREASE_DATA_SIZE): New macro.
+	Use it for the two large tests.
+
 2002-08-02  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (conflicts_output): Don't output rules never
@@ -669,7 +811,7 @@
 
 	Accumulated changelog for new GLR parsing features.
 
-        * src/conflicts.c (count_total_conflicts): Change name to
+	* src/conflicts.c (count_total_conflicts): Change name to
 	conflicts_total_count.
 	* src/conflicts.h: Ditto.
 	* src/output.c (token_actions): Use the new name.
