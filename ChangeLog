@@ -1,3 +1,9 @@
+2005-03-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/tables.c (state_number_to_vector_number): Put it inside an
+	"#if 0", since it's not currently used.  Problem reported by
+	Roland McGrath.
+
 2005-03-06  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/output.c (escaped_output): Renamed from
