@@ -1,3 +1,10 @@
+2004-09-29  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc: Reinstall the former ctor, for sake of
+	compatibility, but warn it will be removed.
+	Move towards a more standard C++ coding style (i.e., type *var ->
+	type* var).
+
 2004-09-27  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/parse-gram.y (add_param): Rewrite to avoid strchr,
@@ -10,7 +17,7 @@
 2004-09-27  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (b4_parse_param_decl_1): New.
-	(b4_parse_param_decl): Use it to have different names bw attribute
+	(b4_parse_param_decl): Use it to have different names between attribute
 	and argument names.
 	(b4_cc_constructor_call): Likewise.
 

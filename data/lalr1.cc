@@ -205,8 +205,8 @@ namespace yy
   {
     typedef ]b4_int_type_for([b4_translate])[ TokenNumberType;
     typedef ]b4_int_type_for([b4_rhs])[       RhsNumberType;
-    typedef int      StateType;
-    typedef yystype  SemanticType;
+    typedef int StateType;
+    typedef yystype SemanticType;
     typedef ]b4_location_type[ LocationType;
   };
 }
@@ -233,6 +233,17 @@ namespace yy
     {
     }
 
+    ]b4_parser_class_name[ (bool debug,
+	    LocationType][]b4_param[]b4_parse_param_decl[) :
+      ]b4_constructor[][debug_ (debug),
+      cdebug_ (std::cerr)]b4_parse_param_cons[
+    {
+      cdebug_ << __FILE__ << ':' << __LINE__
+	      << ": this constructor is provided by backward compatibility"
+	      << ", but will be removed in the near future."
+	      << std::endl;
+    }
+
     virtual ~]b4_parser_class_name[ ()
     {
     }
@@ -247,8 +258,8 @@ namespace yy
     virtual void report_syntax_error_ ();
 #if YYDEBUG
     virtual void symprint_ (int yytype,
-			    const SemanticType *yyvaluep,
-			    const LocationType *yylocationp);
+			    const SemanticType* yyvaluep,
+			    const LocationType* yylocationp);
 #endif /* ! YYDEBUG */
 
 
@@ -286,9 +297,9 @@ namespace yy
 
     /* Even more tables.  */
     inline TokenNumberType translate_ (int token);
-    inline void destruct_ (const char *yymsg,
+    inline void destruct_ (const char* yymsg,
                            int yytype,
-                           SemanticType *yyvaluep, LocationType *yylocationp);
+                           SemanticType* yyvaluep, LocationType* yylocationp);
 
     /// Pop \a n symbols the three stacks.
     inline void pop (unsigned int n = 1);
@@ -317,7 +328,7 @@ namespace yy
 
     /* Debugging.  */
     int debug_;
-    std::ostream &cdebug_;
+    std::ostream& cdebug_;
 
     /* Look-ahead and look-ahead in internal form.  */
     int looka_;
@@ -398,7 +409,7 @@ do {					\
 
 void
 yy::]b4_parser_class_name[::symprint_ (int yytype,
-                         const SemanticType *yyvaluep, const LocationType *yylocationp)
+                         const SemanticType* yyvaluep, const LocationType* yylocationp)
 {
   /* Pacify ``unused variable'' warnings.  */
   (void) yyvaluep;
@@ -418,8 +429,8 @@ yy::]b4_parser_class_name[::symprint_ (int yytype,
 #endif /* ! YYDEBUG */
 
 void
-yy::]b4_parser_class_name[::destruct_ (const char *yymsg,
-                         int yytype, SemanticType *yyvaluep, LocationType *yylocationp)
+yy::]b4_parser_class_name[::destruct_ (const char* yymsg,
+                         int yytype, SemanticType* yyvaluep, LocationType* yylocationp)
 {
   /* Pacify ``unused variable'' warnings.  */
   (void) yyvaluep;
@@ -1245,7 +1256,7 @@ namespace yy
   }
 
   /** \brief Add and assign a Location */
-  inline Location &operator+= (Location& res, unsigned int width)
+  inline Location& operator+= (Location& res, unsigned int width)
   {
     res.columns (width);
     return res;
