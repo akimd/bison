@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30f\n"
-"POT-Creation-Date: 2002-01-06 22:01+0100\n"
+"POT-Creation-Date: 2002-01-08 18:44+0100\n"
 "PO-Revision-Date: 2001-12-06 22:33+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -125,12 +125,12 @@ msgstr "    %-4s\treducera med regel %d (%s)\n"
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $standard\treducera med regel %d (%s)\n"
 
-#: src/files.c:145
+#: src/files.c:150
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "kan inte öppna filen \"%s\""
 
-#: src/files.c:164
+#: src/files.c:169
 msgid "cannot close file"
 msgstr "kan inte stänga fil"
 
@@ -231,22 +231,22 @@ msgstr ""
 "finns INGEN garanti, inte ens för SÄLJBARHET eller LÄMPLIGHET FÖR ETT\n"
 "SPECIELLT ÄNDAMÅL.\n"
 
-#: src/getargs.c:215 src/lex.c:694
+#: src/getargs.c:223 src/lex.c:694
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "\"%s\" stöds inte längre"
 
-#: src/getargs.c:239
+#: src/getargs.c:247
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Försök med \"%s --help\" för mer information.\n"
 
-#: src/getargs.c:246
+#: src/getargs.c:254
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: ingen grammatikfil angiven\n"
 
-#: src/getargs.c:250
+#: src/getargs.c:258
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argument ignorerade efter \"%s\"\n"
@@ -471,7 +471,7 @@ msgstr "symbolen \"%s\" har fått mer än en bokstavlig sträng"
 msgid "symbol %s redefined"
 msgstr "symbolen %s omdefinierad"
 
-#: src/reader.c:543 src/reader.c:622 src/reader.c:683 src/reader.c:1295
+#: src/reader.c:543 src/reader.c:622 src/reader.c:683 src/reader.c:1298
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "typen omdeklarerad för %s"
@@ -486,7 +486,7 @@ msgstr "\"%s\" är felaktig i %s"
 msgid "multiple %s declarations"
 msgstr "flera %s-deklarationer"
 
-#: src/reader.c:572 src/reader.c:914 src/reader.c:939 src/reader.c:1273
+#: src/reader.c:572 src/reader.c:914 src/reader.c:939 src/reader.c:1276
 #, c-format
 msgid "invalid %s declaration"
 msgstr "felaktig %s-deklaration"
@@ -515,7 +515,7 @@ msgstr "felaktig text (%s) - tal skulle följa efter identifierare"
 msgid "unexpected item: %s"
 msgstr "oväntat objekt: %s"
 
-#: src/reader.c:778 src/reader.c:1110 src/reader.c:1184
+#: src/reader.c:778 src/reader.c:1110 src/reader.c:1187
 #, c-format
 msgid "unmatched %s"
 msgstr "ensam %s"
@@ -549,88 +549,88 @@ msgstr "ingen ingrammatik"
 msgid "unknown character: %s"
 msgstr "okänt tecken: %s"
 
-#: src/reader.c:1207
+#: src/reader.c:1210
 #, c-format
 msgid "unterminated %guard clause"
 msgstr "oavlutad %guard-sats"
 
-#: src/reader.c:1360
+#: src/reader.c:1363
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "felskriven regel: första symbolen följs inte av ett kolon"
 
-#: src/reader.c:1367
+#: src/reader.c:1370
 msgid "grammar starts with vertical bar"
 msgstr "grammatiken startar med ett vertikalt streck"
 
-#: src/reader.c:1395
+#: src/reader.c:1398
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel given för %s, som är ett element"
 
-#: src/reader.c:1495
+#: src/reader.c:1498
 msgid "two @prec's in a row"
 msgstr "två @prec i rad"
 
-#: src/reader.c:1503
+#: src/reader.c:1506
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard finns men %%semantic_parser är inte angiven"
 
-#: src/reader.c:1512
+#: src/reader.c:1515
 msgid "two actions at end of one rule"
 msgstr "två åtgärder vid slutet av en regel"
 
-#: src/reader.c:1526
+#: src/reader.c:1529
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "typkonflikt (\"%s\" \"%s\") för standardåtgärd"
 
-#: src/reader.c:1532
+#: src/reader.c:1535
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tom regel för typad icketerminal, och ingen åtgärd"
 
-#: src/reader.c:1576
+#: src/reader.c:1579
 #, c-format
 msgid "invalid input: %s"
 msgstr "felaktig indata: %s"
 
-#: src/reader.c:1584
+#: src/reader.c:1587
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
 
-#: src/reader.c:1587
+#: src/reader.c:1590
 msgid "no rules in the input grammar"
 msgstr "inga regler i ingrammatiken"
 
-#: src/reader.c:1611
+#: src/reader.c:1614
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "symbolen %s används, men är inte definierad som ett element och har inga "
 "regler"
 
-#: src/reader.c:1746
+#: src/reader.c:1749
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "elementen %s och %s har båda fått nummer %d"
 
-#: src/reader.c:1799
+#: src/reader.c:1802
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "motstridiga precedenser mellan %s och %s"
 
-#: src/reader.c:1811
+#: src/reader.c:1814
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "motstridiga assoc-värden mellan %s och %s"
 
-#: src/reader.c:1850
+#: src/reader.c:1853
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "startsymbolen %s är odefinierad"
 
-#: src/reader.c:1852
+#: src/reader.c:1855
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"
