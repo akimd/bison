@@ -56,7 +56,9 @@
 # include <libintl.h>
 # define _(Text) gettext (Text)
 #else
+# undef bindtextdomain
 # define bindtextdomain(Domain, Directory)
+# undef textdomain
 # define textdomain(Domain)
 # define _(Text) Text
 #endif
