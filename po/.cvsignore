@@ -5,3 +5,4 @@ POTFILES
 bison.pot
 stamp-cat-id
 *.gmo
+Makefile.in

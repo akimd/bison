@@ -17,3 +17,4 @@ calc
 *.output *.vcg
 autom4te.cache
 bison
+Makefile.in

@@ -11,3 +11,9 @@ patches
 releases
 *.flc
 autom4te.cache
+intl
+Makefile.in
+configure
+config.hin
+aclocal.m4
+ABOUT-NLS
