@@ -12,14 +12,12 @@
 	* src/bison.simple: Prefix yylloc if used.
 	* doc/bison.texinfo (Decl Summary): Document that.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo: Promote `%long-directive' over
 	`%long_directive'.
 	Remove all references to fixed-output-files, yacc is enough.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/bison.simple: Define YYDEBUG and YYERROR_VERBOSE *after* the
@@ -27,7 +25,6 @@
 	* tests/actions.at (Mid-rule actions): Make sure the user can
 	define YYDEBUG and YYERROR_VERBOSE.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (header_output): Don't forget to export YYLTYPE and
@@ -37,18 +34,15 @@
 	Move to...
 	* tests/headers.at: here.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h (rule_s): Member `assoc' is of type `associativity'.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* tests/actions.at (Mid-rule actions): Output on a single line
 	instead of several.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo: Formatting changes.
@@ -62,14 +56,12 @@
 	(output_parser, header_output): Use it.
 	* src/reader.c (symbols_save): Remove.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/bison.simple: Do not provide a default for YYSTYPE and
 	YYLTYPE before the user's prologue.  Otherwise it's hardly... a
 	default.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	Mid-rule actions are simply... ignored!
@@ -79,7 +71,6 @@
 	rule.
 	* tests/actions.at (Mid-rule actions): New.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	Memory leak.
@@ -94,7 +85,6 @@
 	since it allocates it for each state, although only one is needed.
 	(allocate_storage): Do it here.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/options.h, src/options.c (create_long_option_table): Rename
@@ -103,20 +93,17 @@
 	(percent_table): Remove, unused,
 	* src/getargs.c (getargs): Adjust.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c, src/conflicts.c, src/lalr.c, src/lalr.h, src/output.c
 	* src/print.c, src/print_graph.c, src/state.h: Rename state_table
 	as states.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.c (build_relations): Rename `states' as `states1'.
 	Sorry, I don't understand exactly what it is, no better name...
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c, src/conflicts.c, src/derives.c, src/gram.c
@@ -124,31 +111,26 @@
 	* src/print_graph.c, src/reader.c, src/reduce.c: Rename rule_table
 	as rules.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.c (rprec, rprecsym, rassoc): Remove, unused since long
 	ago.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c, src/reader.h (user_toknums): Remove.
 	Adjust all users to use symbols[i]->user_token_number.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.c, src/gram.h (sprec, sassoc): Remove.
 	Adjust all users to use symbols[i]->prec or ->assoc.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c, src/reader.h (tags): Remove.
 	Adjust all users to use symbols[i]->tag.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h, src/gram.c (symbols): New, similar to state_table
@@ -160,14 +142,12 @@
 	single table.
 	Use symbols[i]->tag instead of tags[i].
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* tests/calc.at (_AT_DATA_CALC_Y): Also use %union.
 	In addition, put a comment in there, to replace...
 	* tests/regression.at (%union and C comments): Remove.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (Web2c Actions): Blindly move the actual
@@ -177,7 +157,6 @@
 	presence of `$axiom' is to be noted: AFAICS it is useless (but
 	harmless).
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (readgram): Don't add the rule 0 if there were no
@@ -185,13 +164,11 @@
 	grammar sanity checks.
 	Fixes the `tests/regression.at (Invalid input: 1)' Failure.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (Web2c Report): Catch up: the rule 0 is now
 	visible, and some states have now a different number.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (readgram): Bind the initial rule's lineno to that
@@ -199,7 +176,6 @@
 	* tests/regression.at (Rule Line Numbers, Unresolved SR Conflicts):
 	(Solved SR Conflicts): Adjust rule 0's line number.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	Fix the `GAWK Grammar' failure.
@@ -213,7 +189,6 @@
 	* tests/regression.at (Rule Line Numbers): Adjust: state 0 does
 	have a reduction on $default.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.c (ritem_print): Be sure to subtract 1 when displaying
@@ -230,7 +205,6 @@
 	* tests/sets.at (Nullable): Adjust: when tracing, the lookaheads
 	are dumped.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/derives.c (print_derives): Be sure to use `>= 0', not `> 0',
@@ -243,7 +217,6 @@
 	* tests/sets.at (Nullable): Adjust.
 	Fortunately, now, the $axiom is no longer nullable.
 
-	
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (generate_states): Use nritems, not nitems, nor using
