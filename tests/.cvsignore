@@ -11,3 +11,4 @@ calc
 autom4te.cache
 bison
 Makefile.in
+atlocal

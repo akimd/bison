@@ -7,3 +7,5 @@ config.sub
 config.guess
 mdate-sh
 texinfo.tex
+config.rpath
+ylwrap
