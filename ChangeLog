@@ -1,5 +1,10 @@
 2001-11-05  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (AT_TEST_CPP_GUARD_H): Adjust the clean up
+	pattern.
+
+2001-11-05  Akim Demaille  <akim@epita.fr>
+
 	* src/options.h (struct option_table_struct): set_flags is void*.
 	* src/options.c (longopts): Support `--output' and `%output'.
 	(usage): Adjust.
