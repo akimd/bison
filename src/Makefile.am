@@ -10,7 +10,12 @@ bison_SOURCES = LR0.c allocate.c closure.c conflicts.c derives.c	\
 EXTRA_bison_SOURCES = vmsgetargs.c
 
 bison_LDADD = @INTLLIBS@ @ALLOCA@
-INCLUDES = -I../intl -I$(top_srcdir)/intl
+
+DEFS = @DEFS@ \
+  -DXPFILE=\"${datadir}/bison.simple\" \
+  -DXPFILE1=\"${datadir}/bison.hairy\" \
+  -DLOCALEDIR=\"${datadir}/locale\"
+INCLUDES = -I../intl -I$(top_srcdir)/intl -I..
 
 noinst_HEADERS = alloc.h files.h gram.h lex.h machine.h state.h	\
  symtab.h system.h types.h getopt.h
@@ -20,8 +25,10 @@ data_DATA = bison.simple bison.hairy
 EXTRA_DIST = bison.s1 bison.hairy build.com bison.cld vmshlp.mar
 
 bison.simple: bison.s1 Makefile
-	-rm -f $@
-	sed -e "/^#line/ s|bison|$(datadir)/bison|" -e "s/@bison_version@/$(VERSION)/" < $(srcdir)/bison.s1 > $@-tmp
-	mv $@-tmp $@
+	sed -e "s/@bison_version@/$(VERSION)/" $(srcdir)/bison.s1 | \
+	awk '\
+	/^#line/ { printf "\"#line %d $(datadir)/bison.simple\"\n", NR+1; next }\
+	{ print }' >$@t
+	mv $@t $@
 
 DISTCLEANFILES = bison.simple

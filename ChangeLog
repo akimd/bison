@@ -1,3 +1,34 @@
+2000-03-16  Akim Demaille  <akim@epita.fr>
+
+	Do not hard code values of directories in `configure.in'.
+	Update the `configure' tool chain.
+
+	* configure.in (XPFILE, XPFILE1, LOCALEDIR): Remove, handled by
+	src/makefile.am.
+	(VERSION_STRING): Use the third arg of AC_DEFINE_UNQUOTED.
+	(AC_OUTPUT): Add m4/Makefile.
+	Bump to bison 1.28a, 1.29 has never been released.
+	* acconfig.h (XPFILE, XPFILE1, LOCALEDIR): Remove, since they are
+	handled via src/Makefile.am.
+	(VERSION_STRING, PROTOTYPES, ENABLE_NLS, HAVE_CATGETS,
+	HAVE_GETTEXT, HAVE_LC_MESSAGES, HAVE_STPCPY): Remove, handled by
+	autoheader.
+	* Makefile.am (SUBDIRS): Add m4.
+	(ACLOCAL_AM_FLAGS): New variable.
+	(AUTOMAKE_OPTIONS): Add check-news.
+	* src/Makefile.am (bison.simple): Use awk to replace #line lines with
+	the proper line number and file name.
+	(DEFS): Propagate the location of bison library files and of the
+	locale files.
+	(INCLUDES): Added `-I ..' so that one can compile with srcdir !=
+	builddir.
+	* acinclude.m4: Remove, replaced by the directory m4.
+	* m4/Makefile.am (EXTRA_DIST): New variable.
+	* m4/gettext.m4: New file, from the fileutils.
+	* m4/lcmessage.m4: Likewise
+	* m4/progtest.m4: Likewise.
+	* m4/bison-decl.m4: New file, extracted from former acinclude.m4.
+
 2000-03-10  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c:
@@ -1045,4 +1076,3 @@
 1987-12-16  Richard Stallman  <rms@gnu.org>
 
 	* REFERENCES: entered into RCS
-

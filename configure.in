@@ -1,8 +1,10 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src/reduce.c)
-AM_INIT_AUTOMAKE(bison,1.29)
-AM_CONFIG_HEADER(config.h:config.hin)
 AC_PREREQ(2.13)
+AC_INIT(src/reduce.c)
+AM_INIT_AUTOMAKE(bison, 1.28a)
+AM_CONFIG_HEADER(config.h:config.hin)
+AC_DEFINE_UNQUOTED(VERSION_STRING, "GNU Bison version ${VERSION}",
+                   [The version string.])
 
 ALL_LINGUAS="de es fr nl ru"
 
@@ -39,12 +41,6 @@ AM_GNU_GETTEXT
 # the ANSI2KNR-filtering rules.
 LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
 
-AC_DEFINE_UNQUOTED(VERSION_STRING, "GNU Bison version ${VERSION}")
-XPFILE="${datadir}/bison.simple"
-BISON_DEFINE_FILE(XPFILE, XPFILE)
-XPFILE1="${datadir}/bison.hairy"
-BISON_DEFINE_FILE(XPFILE1, XPFILE1)
-LOCALEDIR="${datadir}/locale"
-BISON_DEFINE_FILE(LOCALEDIR, LOCALEDIR)
-
-AC_OUTPUT(Makefile intl/Makefile po/Makefile.in src/Makefile doc/Makefile)
+AC_OUTPUT([Makefile
+           intl/Makefile po/Makefile.in
+           src/Makefile doc/Makefile m4/Makefile])

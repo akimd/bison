@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.29:
+Changes in version 1.28a:
 
 * Russian translation added.
 
@@ -45,7 +45,7 @@ Changes in version 1.25:
 
 * Errors in the input grammar are not fatal; Bison keeps reading
 the grammar file, and reports all the errors found in it.
-		
+
 * Tokens can now be specified as multiple-character strings: for
 example, you could use "<=" for a token which looks like <=, instead
 of chosing a name like LESSEQ.
