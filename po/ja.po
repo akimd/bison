@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-08-15 10:15+0200\n"
+"POT-Creation-Date: 2001-08-15 10:39+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -135,12 +135,12 @@ msgstr ""
 msgid "%s derives"
 msgstr "%s は以下から派生"
 
-#: src/files.c:99
+#: src/files.c:130
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:118
+#: src/files.c:149
 msgid "cannot close file"
 msgstr ""
 

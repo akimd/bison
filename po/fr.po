@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:15+0200\n"
+"POT-Creation-Date: 2001-08-15 10:39+0200\n"
 "PO-Revision-Date: 2001-08-06 11:28+0200\n"
 "Last-Translator: Dominique Boucher <boucherd@IRO.UMontreal.CA>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -135,12 +135,12 @@ msgstr ""
 msgid "%s derives"
 msgstr "%s dérive"
 
-#: src/files.c:99
+#: src/files.c:130
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:118
+#: src/files.c:149
 msgid "cannot close file"
 msgstr ""
 

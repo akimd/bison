@@ -8,7 +8,7 @@ END-INFO-DIR-ENTRY
    This file documents the Bison parser generator.
 
    Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998, 1999,
-2000 Free Software Foundation, Inc.
+2000, 2001 Free Software Foundation, Inc.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -55,6 +55,7 @@ Reference sections:
 * Invocation::        How to run Bison (to produce the parser source file).
 * Table of Symbols::  All the keywords of the Bison language are explained.
 * Glossary::          Basic concepts are explained.
+* Copying This Manual::  License for copying this manual.
 * Index::             Cross-references to the text.
 
  --- The Detailed Node Listing ---
@@ -194,6 +195,10 @@ Invoking Bison
 			in alphabetical order by short options.
 * Option Cross Key::  Alphabetical list of long options.
 * VMS Invocation::    Bison command syntax on VMS.
+
+Copying This Manual
+
+* GNU Free Documentation License::  License for copying this manual.
 
 
 File: bison.info,  Node: Introduction,  Next: Conditions,  Prev: Top,  Up: Top

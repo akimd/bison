@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:15+0200\n"
+"POT-Creation-Date: 2001-08-15 10:39+0200\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -192,12 +192,12 @@ msgstr ""
 msgid "%s derives"
 msgstr "%s deriva"
 
-#: src/files.c:99
+#: src/files.c:130
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:118
+#: src/files.c:149
 msgid "cannot close file"
 msgstr ""
 

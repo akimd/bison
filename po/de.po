@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:15+0200\n"
+"POT-Creation-Date: 2001-08-15 10:39+0200\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -129,12 +129,12 @@ msgstr ""
 msgid "%s derives"
 msgstr "%s leitet ab"
 
-#: src/files.c:99
+#: src/files.c:130
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:118
+#: src/files.c:149
 msgid "cannot close file"
 msgstr ""
 
