@@ -24,6 +24,7 @@
 
 %{
 #include "system.h"
+#include "mbswidth.h"
 #include "complain.h"
 #include "quote.h"
 #include "getargs.h"
@@ -39,9 +40,95 @@ do {						\
   if (yycontrol) {;};				\
 } while (0)
 
-#define YY_USER_ACTION  LOCATION_COLUMNS (*yylloc, yyleng);
-#define YY_LINES        LOCATION_LINES (*yylloc, yyleng);
-#define YY_STEP         LOCATION_STEP (*yylloc);
+#define YY_USER_ACTION  extend_location (yylloc, yytext, yyleng);
+#define YY_STEP         LOCATION_STEP (*yylloc)
+
+#define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
+
+
+/* Read bytes from FP into buffer BUF of size SIZE.  Return the
+   number of bytes read.  Remove '\r' from input, treating \r\n
+   and isolated \r as \n.  */
+
+static size_t
+no_cr_read (FILE *fp, char *buf, size_t size)
+{
+  size_t s = fread (buf, 1, size, fp);
+  if (s)
+    {
+      char *w = memchr (buf, '\r', s);
+      if (w)
+	{
+	  char const *r = ++w;
+	  char const *lim = buf + s;
+
+	  for (;;)
+	    {
+	      /* Found an '\r'.  Treat it like '\n', but ignore any
+		 '\n' that immediately follows.  */
+	      w[-1] = '\n';
+	      if (r == lim)
+		{
+		  int ch = getc (fp);
+		  if (ch != '\n' && ungetc (ch, fp) != ch)
+		    break;
+		}
+	      else if (*r == '\n')
+		r++;
+
+	      /* Copy until the next '\r'.  */
+	      do
+		{
+		  if (r == lim)
+		    return w - buf;
+		}
+	      while ((*w++ = *r++) != '\r');
+	    }
+
+	  return w - buf;
+	}
+    }
+
+  return s;
+}
+
+
+/* Extend *LOC to account for token TOKEN of size SIZE.  */
+
+static void
+extend_location (location_t *loc, char const *token, int size)
+{
+  int line = loc->last_line;
+  int column = loc->last_column;
+  char const *p0 = token;
+  char const *p = token;
+  char const *lim = token + size;
+
+  for (p = token; p < lim; p++)
+    switch (*p)
+      {
+      case '\r':
+	/* \r shouldn't survive no_cr_read.  */
+	abort ();
+
+      case '\n':
+	line++;
+	column = 1;
+	p0 = p + 1;
+	break;
+
+      case '\t':
+	column += mbsnwidth (p0, p - p0, 0);
+	column += 8 - ((column - 1) & 7);
+	p0 = p + 1;
+	break;
+      }
+
+  loc->last_line = line;
+  loc->last_column = column + mbsnwidth (p0, p - p0, 0);
+}
+
+
 
 /* STRING_OBSTACK -- Used to store all the characters that we need to
    keep (to construct ID, STRINGS etc.).  Use the following macros to
@@ -91,17 +178,26 @@ static void handle_dollar (braced_code_t code_kind,
 			   char *cp, location_t location);
 static void handle_at (braced_code_t code_kind,
 		       char *cp, location_t location);
+static int convert_ucn_to_byte (char const *hex_text);
 
 %}
-%x SC_COMMENT
+%x SC_COMMENT SC_LINE_COMMENT SC_YACC_COMMENT
 %x SC_STRING SC_CHARACTER
 %x SC_ESCAPED_STRING SC_ESCAPED_CHARACTER
 %x SC_BRACED_CODE SC_PROLOGUE SC_EPILOGUE
 
-id	 [.a-zA-Z_][.a-zA-Z_0-9]*
+letter	 [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+id	 {letter}({letter}|[0-9])*
 int 	 [0-9]+
-eols     (\n|\r|\n\r|\r\n)+
-blanks   [ \t\f]+
+
+/* POSIX says that a tag must be both an id and a C union member, but
+   historically almost any character is allowed in a tag.  We disallow
+   NUL and newline, as this simplifies our implementation.  */
+tag	 [^\0\n>]+
+
+/* Zero or more instances of backslash-newline.  Following GCC, allow
+   white space between the backslash and the newline.  */
+splice	 (\\[ \f\t\v]*\n)*
 
 %%
 %{
@@ -136,7 +232,7 @@ blanks   [ \t\f]+
   "%nterm"                return PERCENT_NTERM;
   "%output"               return PERCENT_OUTPUT;
   "%parse-param"          return PERCENT_PARSE_PARAM;
-  "%prec"                 { rule_length--; return PERCENT_PREC; }
+  "%prec"                 rule_length--; return PERCENT_PREC;
   "%printer"              return PERCENT_PRINTER;
   "%pure"[-_]"parser"     return PERCENT_PURE_PARSER;
   "%right"                return PERCENT_RIGHT;
@@ -152,20 +248,31 @@ blanks   [ \t\f]+
   "%yacc"                 return PERCENT_YACC;
 
   "="                     return EQUAL;
-  ":"                     { rule_length = 0; return COLON; }
-  "|"                     { rule_length = 0; return PIPE; }
+  ":"                     rule_length = 0; return COLON;
+  "|"                     rule_length = 0; return PIPE;
   ","                     return COMMA;
   ";"                     return SEMICOLON;
 
-  {eols}      YY_LINES; YY_STEP;
-  {blanks}    YY_STEP;
+  [ \f\n\t\v]+  YY_STEP;
+
   {id}        {
     yylval->symbol = symbol_get (yytext, *yylloc);
     rule_length++;
     return ID;
   }
 
-  {int}       yylval->integer = strtol (yytext, 0, 10); return INT;
+  {int} {
+    unsigned long num;
+    errno = 0;
+    num = strtoul (yytext, 0, 10);
+    if (INT_MAX < num || errno)
+      {
+	complain_at (*yylloc, _("%s is invalid"), yytext);
+	num = INT_MAX;
+      }
+    yylval->integer = num;
+    return INT;
+  }
 
   /* Characters.  We don't check there is only one.  */
   "'"         YY_OBS_GROW; yy_push_state (SC_ESCAPED_CHARACTER);
@@ -174,7 +281,7 @@ blanks   [ \t\f]+
   "\""        YY_OBS_GROW; yy_push_state (SC_ESCAPED_STRING);
 
   /* Comments. */
-  "/*"        yy_push_state (SC_COMMENT);
+  "/*"        BEGIN SC_YACC_COMMENT;
   "//".*      YY_STEP;
 
   /* Prologue. */
@@ -184,7 +291,7 @@ blanks   [ \t\f]+
   "{"         YY_OBS_GROW; ++braces_level; yy_push_state (SC_BRACED_CODE);
 
   /* A type. */
-  "<"[^>]+">" {
+  "<"{tag}">" {
     obstack_grow (&string_obstack, yytext + 1, yyleng - 2);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -206,47 +313,66 @@ blanks   [ \t\f]+
 }
 
 
-  /*------------------------------------------------------------.
-  | Whatever the start condition (but those which correspond to |
-  | entity `swallowed' by Bison: SC_ESCAPED_STRING and          |
-  | SC_ESCAPED_CHARACTER), no M4 character must escape as is.   |
-  `------------------------------------------------------------*/
+  /*-------------------------------------------------------------------.
+  | Whatever the start condition (but those which correspond to        |
+  | entities `swallowed' by Bison: SC_YACC_COMMENT, SC_ESCAPED_STRING, |
+  | and SC_ESCAPED_CHARACTER), no M4 character must escape as is.      |
+  `-------------------------------------------------------------------*/
 
-<SC_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
+<SC_COMMENT,SC_LINE_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
-  \[          if (YY_START != SC_COMMENT) obstack_sgrow (&string_obstack, "@<:@");
-  \]          if (YY_START != SC_COMMENT) obstack_sgrow (&string_obstack, "@:>@");
+  \[	obstack_sgrow (&string_obstack, "@<:@");
+  \]	obstack_sgrow (&string_obstack, "@:>@");
 }
 
 
+  /*---------------------------------------------------------------.
+  | Scanning a Yacc comment.  The initial `/ *' is already eaten.  |
+  `---------------------------------------------------------------*/
 
-  /*-----------------------------------------------------------.
-  | Scanning a C comment. The initial `/ *' is already eaten.  |
-  `-----------------------------------------------------------*/
+<SC_YACC_COMMENT>
+{
+  "*/" {
+    YY_STEP;
+    BEGIN INITIAL;
+  }
+
+  [^*]+|"*"  ;
+
+  <<EOF>> {
+    LOCATION_PRINT (stderr, *yylloc);
+    fprintf (stderr, _(": unexpected end of file in a comment\n"));
+    BEGIN INITIAL;
+  }
+}
+
+
+  /*------------------------------------------------------------.
+  | Scanning a C comment.  The initial `/ *' is already eaten.  |
+  `------------------------------------------------------------*/
 
 <SC_COMMENT>
 {
-  "*/" { /* End of the comment. */
-    if (yy_top_state () == INITIAL)
-      {
-	YY_STEP;
-      }
-    else
-      {
-	YY_OBS_GROW;
-      }
-    yy_pop_state ();
-  }
-
-  [^\[\]*\n\r]+  	if (yy_top_state () != INITIAL) YY_OBS_GROW;
-  {eols}	if (yy_top_state () != INITIAL) YY_OBS_GROW; YY_LINES;
-  .             /* Stray `*'. */if (yy_top_state () != INITIAL) YY_OBS_GROW;
+  "*"{splice}"/"  YY_OBS_GROW; yy_pop_state ();
+  [^*\[\]]+|"*"   YY_OBS_GROW;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
     fprintf (stderr, _(": unexpected end of file in a comment\n"));
     yy_pop_state ();
   }
+}
+
+
+  /*--------------------------------------------------------------.
+  | Scanning a line comment.  The initial `//' is already eaten.  |
+  `--------------------------------------------------------------*/
+
+<SC_LINE_COMMENT>
+{
+  "\n"			 YY_OBS_GROW; yy_pop_state ();
+  ([^\n\[\]]|{splice})+  YY_OBS_GROW;
+  <<EOF>>		 yy_pop_state ();
 }
 
 
@@ -267,9 +393,7 @@ blanks   [ \t\f]+
     return STRING;
   }
 
-  [^\"\n\r\\]+      YY_OBS_GROW;
-
-  {eols}    obstack_1grow (&string_obstack, '\n'); YY_LINES;
+  [^\"\\]+  YY_OBS_GROW;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -305,9 +429,7 @@ blanks   [ \t\f]+
     }
   }
 
-  [^\n\r\\] YY_OBS_GROW;
-
-  {eols}    obstack_1grow (&string_obstack, '\n'); YY_LINES;
+  [^'\\]+  YY_OBS_GROW;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -327,9 +449,9 @@ blanks   [ \t\f]+
 
 <SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>
 {
-  \\[0-7]{3}		{
-    long c = strtol (yytext + 1, 0, 8);
-    if (c > 255)
+  \\[0-7]{1,3} {
+    unsigned long c = strtoul (yytext + 1, 0, 8);
+    if (UCHAR_MAX < c)
       {
 	LOCATION_PRINT (stderr, *yylloc);
 	fprintf (stderr, _(": invalid escape: %s\n"), quote (yytext));
@@ -339,8 +461,18 @@ blanks   [ \t\f]+
       obstack_1grow (&string_obstack, c);
   }
 
-  \\x[0-9a-fA-F]{2}	{
-    obstack_1grow (&string_obstack, strtol (yytext + 2, 0, 16));
+  \\x[0-9a-fA-F]+ {
+    unsigned long c;
+    errno = 0;
+    c = strtoul (yytext + 2, 0, 16);
+    if (UCHAR_MAX < c || errno)
+      {
+	LOCATION_PRINT (stderr, *yylloc);
+	fprintf (stderr, _(": invalid escape: %s\n"), quote (yytext));
+	YY_STEP;
+      }
+    else
+      obstack_1grow (&string_obstack, c);
   }
 
   \\a	obstack_1grow (&string_obstack, '\a');
@@ -350,7 +482,18 @@ blanks   [ \t\f]+
   \\r	obstack_1grow (&string_obstack, '\r');
   \\t	obstack_1grow (&string_obstack, '\t');
   \\v	obstack_1grow (&string_obstack, '\v');
-  \\[\\""'']   obstack_1grow (&string_obstack, yytext[1]);
+  \\[\"'?\\]  obstack_1grow (&string_obstack, yytext[1]);
+  \\(u|U[0-9a-fA-F]{4})[0-9a-fA-F]{4} {
+    int c = convert_ucn_to_byte (yytext);
+    if (c < 0)
+      {
+	LOCATION_PRINT (stderr, *yylloc);
+	fprintf (stderr, _(": invalid escape: %s\n"), quote (yytext));
+	YY_STEP;
+      }
+    else
+      obstack_1grow (&string_obstack, c);
+  }
   \\(.|\n)	{
     LOCATION_PRINT (stderr, *yylloc);
     fprintf (stderr, _(": unrecognized escape: %s\n"), quote (yytext));
@@ -374,12 +517,11 @@ blanks   [ \t\f]+
     yy_pop_state ();
   }
 
-  [^\[\]\'\n\r\\]+     YY_OBS_GROW;
-  \\(.|\n)             YY_OBS_GROW;
-  /* FLex wants this rule, in case of a `\<<EOF>>'. */
+  [^'\[\]\\]+	       YY_OBS_GROW;
+  \\{splice}[^\[\]]    YY_OBS_GROW;
+  {splice}	       YY_OBS_GROW;
+  /* Needed for `\<<EOF>>', `\\<<newline>>[', and `\\<<newline>>]'.  */
   \\                   YY_OBS_GROW;
-
-  {eols}               YY_OBS_GROW; YY_LINES;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -403,12 +545,11 @@ blanks   [ \t\f]+
     yy_pop_state ();
   }
 
-  [^\[\]\"\n\r\\]+      YY_OBS_GROW;
-  \\(.|\n)              YY_OBS_GROW;
-  /* FLex wants this rule, in case of a `\<<EOF>>'. */
+  [^\"\[\]\\]+	       YY_OBS_GROW;
+  \\{splice}[^\[\]]    YY_OBS_GROW;
+  {splice}	       YY_OBS_GROW;
+  /* Needed for `\<<EOF>>', `\\<<newline>>[', and `\\<<newline>>]'.  */
   \\                   YY_OBS_GROW;
-
-  {eols}                YY_OBS_GROW; YY_LINES;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -432,8 +573,8 @@ blanks   [ \t\f]+
   "\""        YY_OBS_GROW; yy_push_state (SC_STRING);
 
   /* Comments. */
-  "/*"        YY_OBS_GROW; yy_push_state (SC_COMMENT);
-  "//".*      YY_OBS_GROW;
+  "/"{splice}"*"  YY_OBS_GROW; yy_push_state (SC_COMMENT);
+  "/"{splice}"/"  YY_OBS_GROW; yy_push_state (SC_LINE_COMMENT);
 
   /* Not comments. */
   "/"         YY_OBS_GROW;
@@ -461,15 +602,14 @@ blanks   [ \t\f]+
 
   "{"  	        YY_OBS_GROW; braces_level++;
 
-  "$"("<"[^>]+">")?(-?[0-9]+|"$") { handle_dollar (current_braced_code,
+  "$"("<"{tag}">")?(-?[0-9]+|"$") { handle_dollar (current_braced_code,
 						   yytext, *yylloc); }
   "@"(-?[0-9]+|"$")               { handle_at (current_braced_code,
 					       yytext, *yylloc); }
 
-  [^$@\[\]/\'\"\{\}\n\r]+ YY_OBS_GROW;
-  {eols}	YY_OBS_GROW; YY_LINES;
+  [^$@\[\]/'\"\{\}]+	YY_OBS_GROW;
 
-  /* A lose $, or /, or etc. */
+  /* A stray $, or /, or etc. */
   .             YY_OBS_GROW;
 
   <<EOF>> {
@@ -497,9 +637,8 @@ blanks   [ \t\f]+
     return PROLOGUE;
   }
 
-  [^%\[\]/\'\"\n\r]+ YY_OBS_GROW;
+  [^%\[\]/'\"]+      YY_OBS_GROW;
   "%"                YY_OBS_GROW;
-  {eols}	     YY_OBS_GROW; YY_LINES;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -514,12 +653,12 @@ blanks   [ \t\f]+
 
   /*---------------------------------------------------------------.
   | Scanning the epilogue (everything after the second "%%", which |
-  | has already been eaten.                                        |
+  | has already been eaten).                                       |
   `---------------------------------------------------------------*/
 
 <SC_EPILOGUE>
 {
-  ([^\[\]]|{eols})+  YY_OBS_GROW;
+  [^\[\]]+  YY_OBS_GROW;
 
   <<EOF>> {
     yy_pop_state ();
@@ -568,14 +707,15 @@ handle_action_dollar (char *text, location_t location)
       obstack_fgrow1 (&string_obstack,
 		      "]b4_lhs_value([%s])[", type_name);
     }
-  else if (('0' <= *cp && *cp <= '9') || *cp == '-')
+  else
     {
-      int n = strtol (cp, &cp, 10);
+      long num;
+      errno = 0;
+      num = strtol (cp, 0, 10);
 
-      if (n > rule_length)
-	complain_at (location, _("invalid value: %s%d"), "$", n);
-      else
+      if (INT_MIN <= num && num <= rule_length && ! errno)
 	{
+	  int n = num;
 	  if (!type_name && n > 0)
 	    type_name = symbol_list_n_type_name_get (current_rule, location,
 						     n);
@@ -588,16 +728,14 @@ handle_action_dollar (char *text, location_t location)
 			  "]b4_rhs_value([%d], [%d], [%s])[",
 			  rule_length, n, type_name);
 	}
-    }
-  else
-    {
-      complain_at (location, _("%s is invalid"), quote (text));
+      else
+	complain_at (location, _("invalid value: %s"), text);
     }
 }
 
 
 /*---------------------------------------------------------------.
-| TEXT is expexted tp be $$ in some code associated to a symbol: |
+| TEXT is expected to be $$ in some code associated to a symbol: |
 | destructor or printer.                                         |
 `---------------------------------------------------------------*/
 
@@ -608,7 +746,7 @@ handle_symbol_code_dollar (char *text, location_t location)
   if (*cp == '$')
     obstack_sgrow (&string_obstack, "]b4_dollar_dollar[");
   else
-    complain_at (location, _("%s is invalid"), quote (text));
+    complain_at (location, _("%s is invalid"), quote_n (1, text));
 }
 
 
@@ -650,25 +788,26 @@ handle_action_at (char *text, location_t location)
     {
       obstack_sgrow (&string_obstack, "]b4_lhs_location[");
     }
-  else if (('0' <= *cp && *cp <= '9') || *cp == '-')
-    {
-      int n = strtol (cp, &cp, 10);
-
-      if (n > rule_length)
-	complain_at (location, _("invalid value: %s%d"), "@", n);
-      else
-	obstack_fgrow2 (&string_obstack, "]b4_rhs_location([%d], [%d])[",
-			rule_length, n);
-    }
   else
     {
-      complain_at (location, _("%s is invalid"), quote (text));
+      long num;
+      errno = 0;
+      num = strtol (cp, 0, 10);
+
+      if (INT_MIN <= num && num <= rule_length && ! errno)
+	{
+	  int n = num;
+	  obstack_fgrow2 (&string_obstack, "]b4_rhs_location([%d], [%d])[",
+			  rule_length, n);
+	}
+      else
+	complain_at (location, _("invalid value: %s"), text);
     }
 }
 
 
 /*---------------------------------------------------------------.
-| TEXT is expexted tp be @$ in some code associated to a symbol: |
+| TEXT is expected to be @$ in some code associated to a symbol: |
 | destructor or printer.                                         |
 `---------------------------------------------------------------*/
 
@@ -679,7 +818,7 @@ handle_symbol_code_at (char *text, location_t location)
   if (*cp == '$')
     obstack_sgrow (&string_obstack, "]b4_at_dollar[");
   else
-    complain_at (location, _("%s is invalid"), quote (text));
+    complain_at (location, _("%s is invalid"), quote_n (1, text));
 }
 
 
@@ -703,6 +842,62 @@ handle_at (braced_code_t braced_code_kind,
       handle_symbol_code_at (text, location);
       break;
     }
+}
+
+
+/*------------------------------------------------------------------.
+| Convert universal character name UCN to a single-byte character,  |
+| and return that character.  Return -1 if UCN does not correspond  |
+| to a single-byte character.					    |
+`------------------------------------------------------------------*/
+
+static int
+convert_ucn_to_byte (char const *ucn)
+{
+  unsigned long code = strtoul (ucn + 2, 0, 16);
+
+  /* FIXME: Currently we assume Unicode-compatible unibyte characters
+     on ASCII hosts (i.e., Latin-1 on hosts with 8-bit bytes).  On
+     non-ASCII hosts we support only the portable C character set.
+     These limitations should be removed once we add support for
+     multibyte characters.  */
+
+  if (UCHAR_MAX < code)
+    return -1;
+
+#if ! ('$' == 0x24 && '@' == 0x40 && '`' == 0x60 && '~' == 0x7e)
+  {
+    /* A non-ASCII host.  Use CODE to index into a table of the C
+       basic execution character set, which is guaranteed to exist on
+       all Standard C platforms.  This table also includes '$', '@',
+       and '`', which not in the basic execution character set but
+       which are unibyte characters on all the platforms that we know
+       about.  */
+    static signed char const table[] =
+      {
+	'\0',   -1,   -1,   -1,   -1,   -1,   -1, '\a',
+	'\b', '\t', '\n', '\v', '\f', '\r',   -1,   -1,
+	  -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+	  -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+	 ' ',  '!',  '"',  '#',  '$',  '%',  '&', '\'',
+	 '(',  ')',  '*',  '+',  ',',  '-',  '.',  '/',
+	 '0',  '1',  '2',  '3',  '4',  '5',  '6',  '7',
+	 '8',  '9',  ':',  ';',  '<',  '=',  '>',  '?',
+	 '@',  'A',  'B',  'C',  'D',  'E',  'F',  'G',
+	 'H',  'I',  'J',  'K',  'L',  'M',  'N',  'O',
+	 'P',  'Q',  'R',  'S',  'T',  'U',  'V',  'W',
+	 'X',  'Y',  'Z',  '[', '\\',  ']',  '^',  '_',
+	 '`',  'a',  'b',  'c',  'd',  'e',  'f',  'g',
+	 'h',  'i',  'j',  'k',  'l',  'm',  'n',  'o',
+	 'p',  'q',  'r',  's',  't',  'u',  'v',  'w',
+	 'x',  'y',  'z',  '{',  '|',  '}',  '~'
+      };
+
+    code = code < sizeof table ? table[code] : -1;
+  }
+#endif
+      
+  return code;
 }
 
 
