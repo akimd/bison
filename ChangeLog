@@ -1,5 +1,10 @@
 2001-08-28  Marc Autret  <autret_m@epita.fr>
 
+	* doc/bison.1 (mandoc): Adjust.
+	From Juan Manuel Guerrero.
+	
+2001-08-28  Marc Autret  <autret_m@epita.fr>
+
 	* src/print_graph.c (print_state): Fix.
 
 2001-08-27  Marc Autret  <autret_m@epita.fr>
