@@ -46,6 +46,7 @@ m4_define([b4_rhs_value],
 [(yysemantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3]))])
 
 m4_define_default([b4_location_type], [location])
+m4_define_default([b4_filename_type], [std::string])
 
 # b4_lhs_location()
 # -----------------
@@ -118,9 +119,6 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
-#include "stack.hh"
-#include "location.hh"
-
 #include <string>
 #include <iostream>
 
@@ -134,6 +132,9 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 
 ]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
+
+#include "stack.hh"
+#include "location.hh"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -1168,7 +1169,7 @@ namespace yy
   public:
     /// Construct a position.
     position () :
-      filename (),
+      filename (0),
       line (initial_line),
       column (initial_column)
     {
@@ -1200,7 +1201,7 @@ namespace yy
 
   public:
     /// File name to which this position refers.
-    std::string filename;
+    ]b4_filename_type[* filename;
     /// Current line number.
     unsigned int line;
     /// Current column number.
@@ -1244,8 +1245,8 @@ namespace yy
   inline std::ostream&
   operator<< (std::ostream& ostr, const position& pos)
   {
-    if (!pos.filename.empty ())
-      ostr << pos.filename << ':';
+    if (pos.filename)
+      ostr << *pos.filename << ':';
     return ostr << pos.line << '.' << pos.column;
   }
 
@@ -1347,7 +1348,9 @@ namespace yy
   {
     position last = loc.end - 1;
     ostr << loc.begin;
-    if (loc.begin.filename != last.filename)
+    if (last.filename
+	&& (!loc.begin.filename
+	    || *loc.begin.filename != *last.filename))
       ostr << '-' << last;
     else if (loc.begin.line != last.line)
       ostr << '-' << last.line  << '.' << last.column;

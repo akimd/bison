@@ -1,3 +1,13 @@
+2004-12-21  Akim Demaille  <akim@epita.fr>
+
+	Don't impose std::string for filenames.
+
+	* data/lalr1.cc (b4_filename_type): New.
+	(position::filename): Use it.
+	(parser.hh): Move the inclusion of stack.hh and location.hh below
+	the user code, so that needed headers for the filename type can be
+	included first.
+
 2004-12-20  Akim Demaille  <akim@epita.fr>
 
 	Use more STL like names: my_class instead of MyClass.
