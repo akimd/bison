@@ -1,3 +1,8 @@
+2005-03-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/local.at (AT_COMPILE, AT_COMPILE_CXX): Don't put options
+	after operands; POSIX says this isn't portable for the c99 command.
+
 2005-03-18  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/glr-regression.at (glr-regr2a.y): Try to dump core
