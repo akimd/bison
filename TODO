@@ -19,10 +19,10 @@
 * src/macrotab.[ch]
 ** Removing warnings when compiling. (gcc-warnings).	[ok]
 ** s/macro/muscle/.	[ok]
-*** Rename files.	[]
-*** Rename functions	[]
+*** Rename files.	[ok]
+*** Rename functions	[ok]
 *** Echo modifications src/Makefile src/output.c src/reader.c
-***		       src/main.c src/macrotab.c.	[]
+***		       src/main.c src/macrotab.c.	[ok]
 
 * src/print_graph.c
 ** Find the best graph parameters.	[]
