@@ -161,7 +161,9 @@ b4_syncline([@oline@], [@ofile@])[
 # define YYERROR_VERBOSE ]b4_error_verbose[
 #endif
 
-#ifndef YYSTYPE
+#ifdef YYSTYPE
+typedef YYSTYPE yystype;
+#else
 ]m4_ifdef([b4_stype],
 [b4_syncline([b4_stype_line], [b4_filename])
 typedef union b4_stype yystype;
