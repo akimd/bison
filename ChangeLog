@@ -1,3 +1,17 @@
+2002-11-29  Paul Eggert  <eggert@twinsun.com>
+
+	%parse-param and %lex-param now take just one argument, the
+	declaration; the argument name is deduced from the declaration.
+
+	* doc/bison.texinfo (Parser Function, Pure Calling, Error
+	Reporting, Table of Symbols): Document this.
+	* src/parse-gram.y (add_param): New function.
+	(COMMA): Remove.
+	(declaration): Implement new rule for %parse-param and %lex-param.
+	* src/scan-gram.l: "," now elicits a warning, rather than being
+	a token; this is more compatible with byacc.
+	* tests/calc.at (Simple LALR Calculator): Adopt new convention.
+
 2002-11-27  Paul Eggert  <eggert@twinsun.com>
 
 	Rename identifiers to avoid real and potential collisions.
