@@ -33,9 +33,18 @@ extern char *spec_name_prefix;
 /* File name pfx specified with -b, or 0 if no -b.  */
 extern char *spec_file_prefix;
 
+/* --verbose. */
+extern char *spec_verbose_file;
+
+/* File name specified for the output VCG graph.  */
+extern char *spec_graph_file;
+
+/* File name specified with --defines.  */
+extern char *spec_defines_file;
 
 /* Read grammar specifications. */
 extern FILE *finput;
+
 
 /* Output all the action code; precise form depends on which parser. */
 extern struct obstack action_obstack;
@@ -56,17 +65,13 @@ extern struct obstack guard_obstack;
 /* The verbose output. */
 extern struct obstack output_obstack;
 
-/* The VCG graph output. */
-extern struct obstack graph_obstack;
-
 extern char *infile;
 extern char *attrsfile;
 
-extern const char *src_extension;
-extern const char *header_extension;
-
 void open_files PARAMS((void));
+void close_files PARAMS((void));
 
+void compute_output_file_names PARAMS((void));
 void output_files PARAMS((void));
 
 FILE *xfopen PARAMS ((const char *name, const char *mode));

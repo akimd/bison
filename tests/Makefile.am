@@ -18,23 +18,34 @@
 ## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 ## 02111-1307, USA.
 
-# Distribute the testsuite since GNU M4 is needed to build it.
-noinst_SCRIPTS = testsuite
+EXTRA_DIST = atlocal.in $(TESTSUITE_AT) testsuite
 
-SUITE = calc.at regression.at
+DISTCLEANFILES       = atconfig atlocal bison package.m4
+MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
-EXTRA_DIST = atgeneral.m4 suite.at $(SUITE) $(noinst_SCRIPTS)
+TESTSUITE_AT = \
+	testsuite.at \
+	output.at calc.at regression.at
+TESTSUITE = $(srcdir)/testsuite
 
-check-local: atconfig $(srcdir)/testsuite
-	$(SHELL) $(srcdir)/testsuite
+AUTOM4TE = autom4te
+AUTOTEST = $(AUTOM4TE) --language=autotest
+$(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
+	$(AUTOTEST) -I $(srcdir) testsuite.at -o $@.tmp
+	mv $@.tmp $@
 
-testsuite: atgeneral.m4 suite.at $(SUITE)
-	$(M4) -I $(srcdir) atgeneral.m4 suite.at | \
-          sed -e 's/[ 	]*$$//' | \
-	  sed -e '/^$$/N;/\n$$/D' > $@-tmp
-	chmod +x $@-tmp
-	mv $@-tmp $@
+atconfig: $(top_builddir)/config.status
+	cd $(top_builddir) && ./config.status tests/$@
 
-CLEANFILES = debug-*.sh empty
-DISTCLEANFILES = atconfig
-MAINTAINERCLEANFILES = testsuite
+atlocal: $(srcdir)/atlocal.in $(top_builddir)/config.status
+	cd $(top_builddir) && ./config.status tests/$@
+
+clean-local:
+	$(SHELL) $(TESTSUITE) --clean
+
+check-local: atconfig atlocal $(TESTSUITE)
+	$(SHELL) $(TESTSUITE)
+
+# Run the test suite on the *installed* tree.
+installcheck-local:
+	$(SHELL) $(TESTSUITE) AUTOTEST_PATH=$(exec_prefix)/bin

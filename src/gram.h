@@ -107,13 +107,9 @@ typedef enum
 
 /* token translation table: indexed by a token number as returned by
    the user's yylex routine, it yields the internal token number used
-   by the parser and throughout bison.  If translations is zero, the
-   translation table is not used because the two kinds of token
-   numbers are the same.  (It is noted in reader.c that "Nowadays
-   translations is always set to 1...") */
+   by the parser and throughout bison.  */
 
 extern short *token_translations;
-extern int translations;
 extern int max_user_token_number;
 
 /* SEMANTIC_PARSER is nonzero if the input file says to use the hairy

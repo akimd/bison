@@ -75,12 +75,30 @@ enum shape_e
   triangle
 };
 
+/* Structure for colorentries.  */
+struct colorentry_s
+{
+  int color_index;
+  int red_cp;
+  int green_cp;
+  int blue_cp;
+  struct colorentry_s *next;
+};
+
 /* Structure to construct lists of classnames. */
 struct classname_s
 {
   int no; /* Class number */
-  char *name; /* Name associated to the class no. */
+  const char *name; /* Name associated to the class no. */
   struct classname_s *next; /* next name class association. */
+};
+
+/* Structure is in infoname.  */
+struct infoname_s
+{
+  int integer;
+  const char *string;
+  struct infoname_s *next;
 };
 
 /* Layout Algorithms which can be found in VCG.
@@ -161,13 +179,13 @@ struct node_s
 {
   /* Title the unique string identifying the node. This attribute is
      mandatory. */
-  char *title;
+  const char *title;
 
   /* Label the text displayed inside the node. If no label is specified
      then the title of the node will be used. Note that this text may
      contain control characters like NEWLINE that influences the size of
      the node. */
-  char *label;
+  const char *label;
 
   /* loc is the location as x, y position relatively to the system of
      coordinates of the graph. Locations are specified in the form
@@ -277,7 +295,7 @@ struct node_s
   /* info2, info3 can be selected from the menu. The corresponding text
      labels can be shown by mouse clicks on nodes.
      Default are null strings. */
-  char *infos[3];
+  const char *infos[3];
 
   /* Node border color.
      Default is textcolor. */
@@ -483,19 +501,19 @@ struct	graph_s
      index 2, green has index 3, etc.
      Default is white for background and white or transparent for summary
      nodes. */
-  unsigned char color;
+  enum color_e color;
 
   /* Textcolor.
      need explainations ???
      defalut is black for summary nodes. */
-  unsigned char textcolor;
+  enum color_e textcolor;
 
   /* Bordercolor is the color of the summary node's border. Default color
      is the textcolor. width, height are width and height of the
      displayed part of the window of the outermost graph in pixels, or
      width and height of the summary node of inner subgraphs.
      Default is the defalut of the textcolor. */
-  unsigned char bordercolor;
+  enum color_e bordercolor;
 
   /* Width, height are width and height of the displayed part of the
      window of the outermost graph in pixels, or width and height of the
@@ -559,7 +577,22 @@ struct	graph_s
      Defalut is box, other: rhomb, ellipse, triangle. */
   enum shape_e shape;
 
-  /* FIXME {vertival,horizontal}_order */
+  /* Vertical order is the level position (rank) of the summary node of an 
+     inner subgraph, if this subgraph is folded. We can also specify 
+     level: int. The level is only recognized, if an automatical layout is 
+     calculated.  */
+  int vertical_order;
+
+  /* Horizontal order is the horizontal position of the summary node within 
+     a level. The nodes which are specified with horizontal positions are 
+     ordered according to these positions within the levels. The nodes which 
+     do not have this attribute are inserted into this ordering by the 
+     crossing reduction mechanism. Note that connected components are 
+     handled separately, thus it is not possible to intermix such components 
+     by specifying a horizontal order. If the algorithm for downward laid 
+     out trees is used, the horizontal order influences only the order of 
+     the child nodes at a node, but not the order of the whole level.  */
+  int horizontal_order;
 
   /* xmax, ymax specify the maximal size of the virtual window that is
      used to display the graph. This is usually larger than the displayed
@@ -630,8 +663,19 @@ struct	graph_s
      By default, no class names. */
   struct classname_s *classname;
 
-  /* FIXME : infoname. */
-  /* FIXME : colorentry. */
+  /* Infoname allows to introduce names for the additional text labels. 
+     The names are used in the menus.  
+     Infoname is given by an integer and a string.  
+     The default value is NULL.  */
+  struct infoname_s *infoname;
+  
+  /* Colorentry allows to fill the color map. A color is a triplet of integer 
+     values for the red/green/blue-part. Each integer is between 0 (off) and 
+     255 (on), e.g., 0 0 0 is black and 255 255 255 is white. For instance 
+     colorentry 75 : 70 130 180 sets the map entry 75 to steel blue. This 
+     color can be used by specifying just the number 75.
+     Default id NULL.  */
+  struct colorentry_s *colorentry;
 
   /* layoutalgorithm chooses different graph layout algorithms
      Possibilities are maxdepth, mindepth, maxdepthslow, mindepthslow,
@@ -955,16 +999,21 @@ void new_edge PARAMS ((edge_t *edge));
 void add_node PARAMS ((graph_t *graph, node_t *node));
 void add_edge PARAMS ((graph_t *graph, edge_t *edge));
 
-void open_node PARAMS ((struct obstack *os));
-void output_node PARAMS ((node_t *node, struct obstack *os));
-void close_node PARAMS ((struct obstack *os));
+void add_colorentry PARAMS ((graph_t *g, int color_idx, int red_cp, 
+			     int green_cp, int blue_cp));
+void add_classname PARAMS ((graph_t *g, int val, const char *name));
+void add_infoname PARAMS ((graph_t *g, int val, const char *name));
 
-void open_edge PARAMS ((edge_t *edge, struct obstack *os));
-void output_edge PARAMS ((edge_t *edge, struct obstack *os));
-void close_edge PARAMS ((struct obstack *os));
+void open_node PARAMS ((FILE *fout));
+void output_node PARAMS ((node_t *node, FILE *fout));
+void close_node PARAMS ((FILE *fout));
 
-void open_graph PARAMS ((struct obstack *os));
-void output_graph PARAMS ((graph_t *graph, struct obstack *os));
-void close_graph PARAMS ((graph_t *graph, struct obstack *os));
+void open_edge PARAMS ((edge_t *edge, FILE *fout));
+void output_edge PARAMS ((edge_t *edge, FILE *fout));
+void close_edge PARAMS ((FILE *fout));
+
+void open_graph PARAMS ((FILE *fout));
+void output_graph PARAMS ((graph_t *graph, FILE *fout));
+void close_graph PARAMS ((graph_t *graph, FILE *fout));
 
 #endif /* VCG_H_ */

@@ -1,7 +1,27 @@
 Bison News
 ----------
 
-Changes in version 1.28c:
+Changes in version 1.29d:
+
+* `--defines' and `--graph' have now an optionnal argument which is the
+  output file name. `-d' and `-g' do not change, they do not take any
+  argument.
+
+* `%source_extension' and `%header_extension' are removed, failed
+  experiment.
+
+* The test suite is more portable.
+
+* Better portability.
+
+Changes in version 1.29:
+
+* The output file does not define const, as this caused problems when used
+  with common autoconfiguration schemes.  If you still use ancient compilers
+  that lack const, compile with the equivalent of the C compiler option
+  `-Dconst='.  autoconf's AC_C_CONST macro provides one way to do this.
+
+* Added `-g' and `--graph'.
 
 * The Bison manual is now distributed under the terms of the GNU FDL.
 

@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-#if defined (__STDC__) && __STDC__
+#ifdef __STDC__
 
 /* Informative messages, but we proceed. */
 

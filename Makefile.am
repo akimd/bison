@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-AUTOMAKE_OPTIONS = 1.5 check-news readme-alpha
+AUTOMAKE_OPTIONS = 1.5 check-news readme-alpha dist-bzip2
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -26,3 +26,5 @@ alpha_url_dir = gnu/bison
 # Files to update automatically.
 wget_files = $(srcdir)/config/config.guess $(srcdir)/config/config.sub \
 	     $(srcdir)/config/texinfo.tex
+
+cvs_files = $(srcdir)/config/missing

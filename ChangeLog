@@ -1,3 +1,451 @@
+2001-10-04  Akim Demaille  <akim@epita.fr>
+
+	Merge in the branch 1.29.
+
+	* src/reader.c (packsymbols): Use a temporary obstack for
+	`%%tokendef', since output_stack is already used elsewhere.
+
+	2001-10-02  Akim Demaille  <akim@epita.fr>
+
+	Bump 1.29d.
+
+	2001-10-02  Akim Demaille  <akim@epita.fr>
+
+	Version 1.29c.
+
+	2001-10-02  Akim Demaille  <akim@epita.fr>
+
+	* tests/regression.at (Invalid CPP headers): New.
+	From Alexander Belopolsky.
+	* src/files.c (compute_header_macro): Map non alnum chars to `_'.
+
+	2001-10-02  Akim Demaille  <akim@epita.fr>
+
+	* tests/regression.at (Invalid input): New.
+	* src/lex.c (lex): Be sure to set `token_buffer' in any case.
+	Reported by Shura.
+
+	2001-10-02  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at: Now that --debug works, the tests must be adjusted.
+
+	2001-10-02  Akim Demaille  <akim@epita.fr>
+
+	* src/output.c (output_parser): Assert `skeleton'.
+	* src/files.c (skeleton_find): Look harder for skeletons on DOSish
+	systems.
+	From Shura.
+
+	2001-10-01  Marc Autret  <autret_m@epita.fr>
+
+	* src/lex.h: Echo modifications.
+	* src/lex.c (unlex): Parameter is now token_t.
+	From Hans Aberg.
+
+	2001-10-01  Marc Autret  <autret_m@epita.fr>
+
+	* src/main.c: Include lex.h.
+	From Hans Aberg.
+
+	2001-09-29  Akim Demaille  <akim@epita.fr>
+
+	* src/getargs.c (longopts): `--debug' is `-t', not `-d'.
+
+	2001-09-28  Akim Demaille  <akim@epita.fr>
+
+	* tests/testsuite.at: Update to newer Autotest.
+	* tests/Makefile.am (EXTRA_DIST): bison is not to be shipped.
+
+	2001-09-27  Akim Demaille  <akim@epita.fr>
+
+	Position independent wrapper.
+
+	* tests/bison: Remove.
+	* tests/bison.in: New.
+	* configure.in: Adjust.
+
+	2001-09-27  Paul Eggert  <eggert@twinsun.com>
+
+	Port quotearg fixes from tar 1.13.24.
+
+	* lib/quotearg.c: BSD/OS 4.1 wchar.h requires FILE and struct
+	tm to be declared.
+	(HAVE_MBSINIT): Undef if !HAVE_MBRTOWC.
+	(mbsinit): Define to 1 if !defined mbsinit && !HAVE_MBSINIT.
+
+	* m4/Makefile.am (EXTRA_DIST): Add mbrtowc.m4.
+	* m4/mbrtowc.m4: New file.
+	* m4/prereq.m4 (jm_PREREQ_QUOTEARG): Check for mbsinit and stddef.h.
+	Use jm_FUNC_MBRTOWC instead of AC_CHECK_FUNCS(mbrtowc).
+
+	2001-09-27  Akim Demaille  <akim@epita.fr>
+
+	Bump to 1.29c.
+
+	2001-09-27  Akim Demaille  <akim@epita.fr>
+
+	Version 1.29b.
+
+	2001-09-25  Akim Demaille  <akim@epita.fr>
+
+	* src/system.h: Include `xalloc.h'.
+	Remove it from the C files.
+	* src/files.c (output_files): Free the obstacks.
+	* src/lex.c (init_lex): Rename as...
+	(lex_init): this.
+	(lex_free): New.
+	* src/main.c (main): Use it.
+
+	2001-09-24  Marc Autret  <autret_m@epita.fr>
+
+	* src/vcg.c (open_edge, close_edge, open_node, close_node): Change
+	to output informations in fout (FILE*).
+	(open_graph, close_graph): Likewise.
+	(output_graph, output_edge, output_node): Likewise.
+	* src/vcg.h: Update function prototypes.
+	* src/print_graph.c (print_graph): Open output graph file.
+	(print_actions): Adjust.
+	* src/files.h: Remove extern declaration.
+	* src/files.c: Remove graph_obstack declaration.
+	(open_files): Remove graph_obstack initialization.
+	(output_files): Remove graph_obstack saving.
+
+	2001-09-24  Marc Autret  <autret_m@epita.fr>
+
+	* src/files.c (compute_output_file_names): Fix.
+
+	2001-09-24  Marc Autret  <autret_m@epita.fr>,
+		    Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (reader): Remove call to free_symtab ().
+	* src/main.c (main): Call it here.
+	Include symtab.h.
+	* src/conflicts.c (initialize_conflicts): Rename as...
+	(solve_conflicts): this.
+	* src/print.c (print_core, print_actions, print_state)
+	(print_grammar): Dump to a file instead a `output_obstack'.
+	(print_results): Dump `output_obstack', and then proceed with the
+	FILE *.
+	* src/files.c (compute_output_file_names, close_files): New.
+	(output_files): Adjust.
+	* src/main.c (main): Adjust.
+
+	2001-09-23  Marc Autret  <autret_m@epita.fr>
+
+	* src/files.c (compute_header_macro): Computes header macro name
+	from spec_defines_file when given.
+
+	2001-09-23  Marc Autret  <autret_m@epita.fr>
+
+	* src/files.c (output_files): Add default extensions.
+
+	2001-09-22  Akim Demaille  <akim@epita.fr>
+
+	* src/conflicts.c (finalize_conflicts): Rename as...
+	(free_conflicts): this.
+
+	2001-09-22  Akim Demaille  <akim@epita.fr>
+
+	* src/gram.c (gram_free): Rename back as...
+	(dummy): this.
+	(output_token_translations): Free `token_translations'.
+	* src/symtab.c (free_symtab): Free the tag field.
+
+	2001-09-22  Akim Demaille  <akim@epita.fr>
+
+	Remove `translations' as it is always set to true.
+
+	* src/gram.h: Adjust.
+	* src/reader.c (packsymbols, parse_token_decl): Adjust
+	* src/print.c (print_grammar): Adjust.
+	* src/output.c (output_token_translations): Adjust.
+	* src/lex.c (lex): Adjust.
+	* src/gram.c: Be sure the set pointers to NULL.
+	(dummy): Rename as...
+	(gram_free): this.
+
+	2001-09-22  Akim Demaille  <akim@epita.fr>
+
+	* configure.in: Invoke AM_LIB_DMALLOC.
+	* src/system.h: Use dmalloc.
+	* src/LR0.c: Be sure to have pointers initialized to NULL.
+	(allocate_itemsets): Allocate kernel_items only if needed.
+
+	2001-09-22  Akim Demaille  <akim@epita.fr>
+
+	* configure.in: Bump to 1.29b.
+	* tests/Makefile.am (DISTCLEANFILES): Add package.m4.
+	* tests/calc.at (_AT_DATA_CALC_Y): #undef malloc so that we don't
+	need xmalloc.c in calc.y.
+	From Pascal Bart.
+
+	2001-09-21  Akim Demaille  <akim@epita.fr>
+
+	Version 1.29a.
+	* Makefile.maint, config/config.guess, config/config.sub,
+	* config/missing: Update from masters.
+	* tests/Makefile.am ($(srcdir)/$(TESTSUITE)): No longer depend
+	upon package.m4.
+	* configure.in (ALL_LINGUAS): Add `tr'.
+
+	2001-09-21  Akim Demaille  <akim@epita.fr>
+
+	* tests/Makefile.am (package.m4): Move to...
+	($(srcdir)/$(TESTSUITE)): here.
+
+	2001-09-20  Akim Demaille  <akim@epita.fr>
+
+	* src/complain.c: No longer try to be standalone: use system.h.
+	Don't assume __STDC__ is defined to 1. Just test if it is defined.
+	* src/complain.h: Likewise.
+	* src/reduce.c (useless_nonterminals, inaccessable_symbols):
+	Remove the unused variable `n'.
+	From Albert Chin-A-Young.
+
+	2001-09-18  Marc Autret  <autret_m@epita.fr>
+
+	* doc/bison.1: Update.
+	* doc/bison.texinfo (Bison Options): Update --defines and --graph
+	descriptions.
+	(Option Cross Key): Update.
+	Add --graph.
+
+	2001-09-18  Marc Autret  <autret_m@epita.fr>
+
+	* tests/regression.at: New test (comment in %union).
+
+	2001-09-18  Marc Autret  <autret_m@epita.fr>
+
+	* src/reader.c (parse_union_decl): Do not output '/'. Let copy_comment
+	do that.
+	Reported by Keith Browne.
+
+	2001-09-18  Marc Autret  <autret_m@epita.fr>
+
+	* tests/output.at: Add tests for --defines and --graph.
+
+	2001-09-18  Marc Autret  <autret_m@epita.fr>
+
+	* tests/output.at: Removes tests of %{header,src}_extension features.
+
+	2001-09-18  Akim Demaille  <akim@epita.fr>
+
+	* tests/Makefile.am (package.m4): New.
+	* tests/calc.at (_AT_CHECK_CALC): Just run `calc input'.
+	(_AT_CHECK_CALC_ERROR): Likewise.
+	Factor the `, ' part of verbose error messages.
+
+	2001-09-18  Marc Autret  <autret_m@epita.fr>
+
+	* src/getargs.c (longopts): Declare --defines and --graph as options
+	with optional arguments.
+	* src/files.h: Add extern declarations.
+	* src/files.c (spec_graph_file, spec_defines_file): New.
+	(output_files): Update.
+	Remove CPP-outed code.
+
+	2001-09-18  Marc Autret  <autret_m@epita.fr>
+
+	Turn off %{source,header}_extension feature.
+
+	* src/files.c (compute_exts_from_gf): Update.
+	(compute_exts_from_src): Update.
+	(output_files): CPP-out useless code.
+	* src/files.h: Remove {header,source}_extension extern declarations.
+	* src/reader.c (parse_dquoted_param): CPP-out.
+	(parse_header_extension_decl): Remove.
+	(parse_source_extension_decl): Remove.
+	(read_declarations): Remove cases tok_{hdrext,srcext}.
+	* src/lex.c (percent_table): Remove {header,source}_extension entries.
+	* src/lex.h (token_t): Remove tok_hdrext and tok_srcext.
+
+	2001-09-10  Akim Demaille  <akim@epita.fr>
+
+	* tests/output.at (AT_CHECK_BISON_FLAGS, AT_CHECK_BISON_PERCENT):
+	(AT_CHECK_BISON_PERCENT_FLAGS): Merge into...
+	(AT_CHECK_OUTPUT): this.
+	Merely check ls' exit status, its output is useless.
+
+	2001-09-10  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at: Use m4_match.
+	(_AT_DATA_CALC_Y): Check `yyin != NULL', not `stdin != NULL'.
+
+	2001-09-10  Marc Autret  <autret_m@epita.fr>,
+		    Akim Demaille  <akim@epita.fr>
+
+	* src/vcg.h (graph_s): color, textcolor, bordercolor are now
+	enum color_e.
+	* src/print_graph.c (print_graph): Initalize graph.layoutalgorithm
+	to `normal'.
+	* src/reader.c (parse_token_decl): Initialize token with tok_eof.
+	* src/lex.h: Adjust prototype.
+	(token_t): Add `tok_undef'.
+	* src/lex.c (struct percent_table_struct): Retval is now a token_t.
+	(parse_percent_token): Now returns token_t.
+	Add default statement in switch.
+	(lex): Separate `c' as an input variable, from the token_t result
+	part.
+	(unlexed): Is a token_t.
+
+	2001-09-10  Akim Demaille  <akim@epita.fr>
+
+	* configure.in: Bump to 1.29a.
+
+	2001-09-07  Akim Demaille  <akim@epita.fr>
+
+	Version 1.29.
+
+	2001-08-30  Akim Demaille  <akim@epita.fr>
+
+	* tests/atgeneral.m4, tests/atconfig.in, tests/suite.at: Remove.
+	* m4/atconfig.m4: Remove.
+	* tests/testsuite.at, tests/atlocal.in, tests/output.at,
+	* tests/bison: New.
+	* tests/regression.at, tests/calc.at: Use m4_define, AT_BANNER,
+	m4_if, m4_patsubst, and m4_regexp.
+	* tests/calc.at (_AT_CHECK_CALC, _AT_CHECK_CALC_ERROR): Use an
+	`input' file instead of echo.
+
+	2001-08-29  Akim Demaille  <akim@epita.fr>
+
+	Bump to 1.28e.
+
+	2001-08-29  Akim Demaille  <akim@epita.fr>
+
+	Version 1.28d.
+
+	2001-08-29  Paul Eggert  <eggert@twinsun.com>
+
+	* src/bison.simple (yyparse): Don't take the address of an
+	item before the start of an array, as that doesn't conform to
+	the C Standard.
+
+	2001-08-29  Robert Anisko  <anisko_r@epita.fr>
+
+	* doc/bison.texinfo (Location Tracking Calc): New node.
+
+	2001-08-29  Paul Eggert  <eggert@twinsun.com>
+
+	* src/output.c (output): Do not define const, as this now
+	causes more problems than it cures.
+
+	2001-08-29  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo: Modernize `@node' and `@top' use: just name
+	the nodes.
+	Be sure to tag the `detailmenu'.
+
+	2001-08-29  Akim Demaille  <akim@epita.fr>
+
+	* Makefile.maint (do-po-update): Wget refuses to overwrite files:
+	download in a tmp dir.
+
+	2001-08-28  Marc Autret  <autret_m@epita.fr>
+
+	* config/depcomp: New file.
+
+	2001-08-28  Marc Autret  <autret_m@epita.fr>
+
+	* doc/bison.1 (mandoc): Adjust.
+	From Juan Manuel Guerrero.
+
+	2001-08-28  Marc Autret  <autret_m@epita.fr>
+
+	* src/print_graph.c (print_state): Fix.
+
+	2001-08-27  Marc Autret  <autret_m@epita.fr>
+
+	* src/vcg.h (classname_s, infoname_s, node_s): Constify the
+	char * members.
+	Echo modifications to the functions prototypes.
+	* src/vcg.c (add_classname, add_infoname): Adjust arguments.
+
+	2001-08-27  Marc Autret  <autret_m@epita.fr>
+
+	* src/vcg.c: Include `xalloc.h'.
+	(add_colorentry): New.
+	(add_classname): New.
+	(add_infoname): New.
+	* src/vcg.h: Add new prototypes.
+
+	2001-08-27  Akim Demaille  <akim@epita.fr>
+
+	* Makefile.maint: Sync. again with CVS Autoconf.
+
+	2001-08-27  Akim Demaille  <akim@epita.fr>
+
+	* Makefile.maint: Formatting changes.
+	(po-update, cvs-update, update): New targets.
+	(AMTAR): Remove.
+
+	2001-08-27  Akim Demaille  <akim@epita.fr>
+
+	* Makefile.am (AUTOMAKE_OPTIONS): 1.5.
+	* Makefile.maint: Sync. with CVS Autoconf.
+
+	2001-08-27  Marc Autret  <autret_m@epita.fr>
+
+	* src/vcg.h (struct infoname_s): New.
+	(struct colorentry_s): New.
+	(graph_s): New fields {vertical,horizontal}_order in structure.
+	Add `infoname' field.
+	Add `colorentry' field;
+	* src/vcg_defaults.h (G_VERTICAL_ORDER): New.
+	(G_HORIZONTAL_ORDER): New.
+	(G_INFONAME): New.
+	(G_COLORENTRY): New.
+	* src/vcg.c (output_graph): Add output of {vertical,horizontal}_order.
+	Add output of `infoname'.
+	Add output of `colorentry'.
+
+	2001-08-27  Marc Autret  <autret_m@epita.fr>
+
+	* src/reader.c (parse_dquoted_param): Rename variable `index' to `i'.
+	This one shadowed a global parameter.
+
+	2001-08-24  Marc Autret  <autret_m@epita.fr>
+
+	* src/print_graph.c (node_output_size): Declared POSIX `size_t' type,
+	instead of `unsigned'.
+	(print_state): Do not call obstack_object_size () in obstack_grow ()
+	to avoid macro variables shadowing.
+
+	2001-08-23  Marc Autret  <autret_m@epita.fr>
+
+	* src/lex.c (percent_table): Typo: s/naem/name/.
+	Add graph option.
+	Normalize new options declarations.
+
+	2001-08-20  Pascal Bart  <pascal.bart@epita.fr>
+
+	* tests/suite.at: Exercise %header_extension and %source_extension.
+
+	2001-08-16  Marc Autret  <autret_m@epita.fr>
+
+	* src/reader.c (parse_dquoted_param): New.
+	(parse_header_extension_decl): Use it.
+	(parse_source_extension_decl): Likewise.
+
+	2001-08-16  Marc Autret  <autret_m@epita.fr>
+
+	* src/vcg.c: Remove includes of `complain.h' and `xalloc.h'.
+	(get_xxxx_str): Use assert () instead of complain ().
+	Remove return invokations in default cases.
+	(get_decision_str): Modify default behaviour. Remove second argument.
+	Echo modifications on calls.
+	(output_graph): Fix.
+
+	2001-08-16  Marc Autret  <autret_m@epita.fr>
+
+	* src/getargs.c (usage): Update with ``-g, --graph''.
+
+	2001-08-16  Marc Autret  <autret_m@epita.fr>
+
+	* doc/bison.texinfo (Bison Options): Add items `-g', `--graph'.
+	(Option Cross Key): Likewise.
+	* doc/bison.1: Update.
+
 2001-09-25  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/output.c (output_master_parser): Don't finish action_obstack.
@@ -46,7 +494,7 @@
 2001-09-20  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/options.c (symtab.h): Include it, need by lex.h.
-	
+
 2001-09-20  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/lex.c (parse_percent_token): Change type of variable `tx', which
@@ -92,7 +540,7 @@
 	* src/output.c (output): Delete call to reader_output_yylsp.
 	* src/reader.c (reader): Likewise.
 	* src/reader.h:	Delete declaration of reader_output_yylsp.
-	
+
 2001-09-02  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c: Include muscle_tab.h.
@@ -102,9 +550,9 @@
 	(read_declarations, copy_action, read_additionnal_code, : Updated
 	with correct variables and functions names.
 	(packsymbols, reader): Likewise.
-	
+
 	* src/reader.h (muscle_obstack): Extern declaration update.
-	
+
 	* src/output.c: Include muscle_tab.h
 	In all functions using macro_insert, change by using muscle_insert ().
 	(macro_obstack): Rename muscle_obstack.
@@ -116,7 +564,7 @@
 	* src/muscle_tab.h: Update double inclusion macros.
 	(macro_entry_s): Rename muscle_entry_s.
 	Update prototypes.
-	
+
 	* src/muscle_tab.c: Include muscle_tab.h.
 	Rename macro_tabble to muscle_table.
 	(mhash1, mhash2, mcmp): Use muscle_entry.
@@ -131,7 +579,7 @@
 2001-09-02  Marc Autret  <autret_m@epita.fr>
 
 	Now the files macro_tab.[ch] are named muscle_tab.[ch].
-	
+
 	* src/muscle_tab.c, src/muscle_tab.h: Add files.
 
 2001-09-02  Marc Autret  <autret_m@epita.fr>
@@ -140,7 +588,7 @@
 
 2001-09-01  Pascal Bart  <pascal.bart@epita.fr>
 
-	* src/reader.c (copy_guard): Use muscle to specify the `#line' 
+	* src/reader.c (copy_guard): Use muscle to specify the `#line'
 	filename.
 
 2001-09-01  Marc Autret  <autret_m@epita.fr>
@@ -166,10 +614,10 @@
 	and insert the `prefix' muscles.
 	* src/macrotab.c (macro_init): Likewise.
 	(macro_init): Initialization prefix directive by `yy'.
-	* src/bison.simple: Substitute all %%yylex, %%yychar, %%yylval, 
+	* src/bison.simple: Substitute all %%yylex, %%yychar, %%yylval,
 	%%yydebug, %%yyerror, %%yynerrs and %%yyparse by yylex, yychar,
 	yylval, yydebug, yyerror, yynerrs and yyparse.
-	New directive `#define' to substitute yydebug, ... with option 
+	New directive `#define' to substitute yydebug, ... with option
 	name_prefix.
 
 2001-08-31  Pascal Bart  <pascal.bart@epita.fr>
@@ -180,11 +628,11 @@
 
 2001-08-31  Pascal Bart  <pascal.bart@epita.fr>, Marc Autret  <autret_m@epita.fr>
 
-	* src/reader.c (read_additionnal_code): Rename %%user_code to 
+	* src/reader.c (read_additionnal_code): Rename %%user_code to
 	%%epilogue.
 	* src/output.c (output): Rename %%declarations to %%prologue.
 	* src/bison.simple: Echo modifications.
-	
+
 2001-08-31  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (readgram): CleanUp.
@@ -195,7 +643,7 @@
 
 2001-08-31  Pascal Bart  <pascal.bart@epita.fr>
 
-	* src/reader.c (reader): Delete obsolete call to function 
+	* src/reader.c (reader): Delete obsolete call to function
 	output_trailers and output_headers.
 	* src/output.h: Remove obsolete functions prototypes of output_headers
 	and output_trailers.
@@ -203,7 +651,7 @@
 2001-08-30  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/main.c: Include macrotab.h.
-	* src/macrotab.h (macro_entry_s): Constify fields. 
+	* src/macrotab.h (macro_entry_s): Constify fields.
 	Adjust functions prototypes.
 	* src/macrotab.c (macro_insert): Constify key and value.
 	(macro_find): Constify key.
@@ -216,7 +664,7 @@
 2001-08-30  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (parse_skel_decl): New.
-	(read_declarations): Add case `tok_skel', call parse_skel_decl (). 
+	(read_declarations): Add case `tok_skel', call parse_skel_decl ().
 	* src/lex.h (token_t): New token `tok_skel'.
 	* src/lex.c (percent_table): Add skeleton option entry.
 	Standardize.
@@ -237,7 +685,7 @@
 
 2001-08-28  Pascal Bart  <pascal.bart@epita.fr>
 
-	* src/output.c (output): Copy attrs_obstack in the '%%definitions' 
+	* src/output.c (output): Copy attrs_obstack in the '%%definitions'
 	directive.
 	* src/bison.simple: Add `%%definitions'.
 

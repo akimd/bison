@@ -4,3 +4,4 @@ Makefile.in
 POTFILES
 bison.pot
 stamp-cat-id
+*.gmo

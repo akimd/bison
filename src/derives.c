@@ -25,7 +25,6 @@
    */
 
 #include "system.h"
-#include "xalloc.h"
 #include "types.h"
 #include "gram.h"
 #include "derives.h"

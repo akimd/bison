@@ -24,6 +24,7 @@
 /* Token-type codes. */
 typedef enum token_e
   {
+    tok_undef,	/* Not defined.  Used to initial token_t vars. */
     tok_eof,
     tok_identifier,
     tok_comma,
@@ -47,8 +48,6 @@ typedef enum token_e
     tok_number,
     tok_expect,
     tok_thong,
-    tok_hdrext,
-    tok_srcext,
     tok_define,
     tok_skel,
     tok_noop,
@@ -61,9 +60,10 @@ extern const char *token_buffer;
 extern bucket *symval;
 extern int numval;
 
-void init_lex PARAMS ((void));
+void lex_init PARAMS ((void));
+void lex_free PARAMS ((void));
 int skip_white_space PARAMS ((void));
-void unlex PARAMS ((int));
+void unlex PARAMS ((token_t));
 void read_type_name PARAMS ((FILE *fin));
 
 /* Return one of the token-type codes.  When an identifier is seen,
@@ -73,6 +73,6 @@ void read_type_name PARAMS ((FILE *fin));
 
 token_t lex PARAMS ((void));
 
-int parse_percent_token PARAMS ((void));
+token_t parse_percent_token PARAMS ((void));
 
 #endif /* !LEX_H_ */

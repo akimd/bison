@@ -73,7 +73,7 @@ extern int errno;
 # define PARAMS(p) ()
 #endif
 
-
+# include "xalloc.h"
 
 /*---------------------.
 | Missing prototypes.  |
@@ -143,8 +143,6 @@ size_t strnlen PARAMS ((const char *s, size_t maxlen));
 # define LOCALEDIR "/usr/local/share/locale"
 #endif
 
-#endif  /* BISON_SYSTEM_H */
-
 
 /*-----------.
 | Booleans.  |
@@ -161,9 +159,9 @@ typedef int bool;
 | Obstacks.  |
 `-----------*/
 
-#define obstack_chunk_alloc xmalloc
-#define obstack_chunk_free  free
-#include "obstack.h"
+# define obstack_chunk_alloc xmalloc
+# define obstack_chunk_free  free
+# include "obstack.h"
 
 #define obstack_sgrow(Obs, Str) \
   obstack_grow (Obs, Str, strlen (Str))
@@ -264,3 +262,15 @@ do {								\
 #  define BISON_HAIRY "c:/usr/local/lib/bison.hairy"
 # endif
 #endif
+
+
+/*---------------------------------.
+| Debugging the memory allocator.  |
+`---------------------------------*/
+
+# if WITH_DMALLOC
+#  define DMALLOC_FUNC_CHECK
+#  include <dmalloc.h>
+# endif /* WITH_DMALLOC */
+
+#endif  /* BISON_SYSTEM_H */

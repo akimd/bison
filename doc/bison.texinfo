@@ -129,11 +129,13 @@ Cover art by Etienne Suvasa.
 
 @contents
 
-@node Top, Introduction, (dir), (dir)
+@ifnottex
+@node Top
+@top Bison
 
-@ifinfo
-This manual documents version @value{VERSION} of Bison.
-@end ifinfo
+This manual documents version @value{VERSION} of Bison, updated
+@value{UPDATED}.
+@end ifnottex
 
 @menu
 * Introduction::
@@ -159,7 +161,7 @@ Reference sections:
 * Copying This Manual::  License for copying this manual.
 * Index::             Cross-references to the text.
 
- --- The Detailed Node Listing ---
+@detailmenu --- The Detailed Node Listing ---
 
 The Concepts of Bison
 
@@ -182,6 +184,7 @@ Examples
 * Infix Calc::        Infix (algebraic) notation calculator.
                         Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
+* Location Tracking Calc:: Demonstrating the use of @@@var{n} and @@$.
 * Multi-function Calc::    Calculator with memory and trig functions.
                         It uses multiple data-types for semantic values.
 * Exercises::         Ideas for improving the multi-function calculator.
@@ -201,6 +204,12 @@ Grammar Rules for @code{rpcalc}
 * Rpcalc Input::
 * Rpcalc Line::
 * Rpcalc Expr::
+
+Location Tracking Calculator: @code{ltcalc}
+
+* Decls: Ltcalc Decls.  Bison and C declarations for ltcalc.
+* Rules: Ltcalc Rules.  Grammar rules for ltcalc, with explanations.
+* Lexer: Ltcalc Lexer.  The lexical analyzer.
 
 Multi-Function Calculator: @code{mfcalc}
 
@@ -301,9 +310,10 @@ Copying This Manual
 
 * GNU Free Documentation License::  License for copying this manual.
 
+@end detailmenu
 @end menu
 
-@node Introduction, Conditions, Top, Top
+@node Introduction
 @unnumbered Introduction
 @cindex introduction
 
@@ -329,7 +339,7 @@ multi-character string literals and other features.
 
 This edition corresponds to version @value{VERSION} of Bison.
 
-@node Conditions, Copying, Introduction, Top
+@node Conditions
 @unnumbered Conditions for Using Bison
 
 As of Bison version 1.24, we have changed the distribution terms for
@@ -359,7 +369,7 @@ using the other GNU tools.
 
 @include gpl.texi
 
-@node Concepts, Examples, Copying, Top
+@node Concepts
 @chapter The Concepts of Bison
 
 This chapter introduces many of the basic concepts without which the
@@ -381,7 +391,7 @@ use Bison or Yacc, we suggest you start by reading this chapter carefully.
 * Grammar Layout::    Overall structure of a Bison grammar file.
 @end menu
 
-@node Language and Grammar, Grammar in Bison,  , Concepts
+@node Language and Grammar
 @section Languages and Context-Free Grammars
 
 @cindex context-free grammar
@@ -490,7 +500,7 @@ the grammar's start symbol.  If we use a grammar for C, the entire input
 must be a `sequence of definitions and declarations'.  If not, the parser
 reports a syntax error.
 
-@node Grammar in Bison, Semantic Values, Language and Grammar, Concepts
+@node Grammar in Bison
 @section From Formal Rules to Bison Input
 @cindex Bison grammar
 @cindex grammar, Bison
@@ -535,7 +545,7 @@ stmt:   RETURN expr ';'
 @noindent
 @xref{Rules, ,Syntax of Grammar Rules}.
 
-@node Semantic Values, Semantic Actions, Grammar in Bison, Concepts
+@node Semantic Values
 @section Semantic Values
 @cindex semantic value
 @cindex value, semantic
@@ -577,7 +587,7 @@ semantic value that is a number.  In a compiler for a programming
 language, an expression typically has a semantic value that is a tree
 structure describing the meaning of the expression.
 
-@node Semantic Actions, Locations Overview, Semantic Values, Concepts
+@node Semantic Actions
 @section Semantic Actions
 @cindex semantic actions
 @cindex actions, semantic
@@ -608,7 +618,7 @@ expr: expr '+' expr   @{ $$ = $1 + $3; @}
 The action says how to produce the semantic value of the sum expression
 from the values of the two subexpressions.
 
-@node Locations Overview, Bison Parser, Semantic Actions, Concepts
+@node Locations Overview
 @section Locations
 @cindex location
 @cindex textual position
@@ -637,7 +647,7 @@ rule how @code{@@$} should be formed. When building a new location for a given
 grouping, the default behavior of the output parser is to take the beginning
 of the first symbol, and the end of the last symbol.
 
-@node Bison Parser, Stages, Locations Overview, Concepts
+@node Bison Parser
 @section Bison Output: the Parser File
 @cindex Bison parser
 @cindex Bison utility
@@ -682,7 +692,7 @@ Therefore, you should avoid using C identifiers starting with @samp{yy}
 or @samp{YY} in the Bison grammar file except for the ones defined in
 this manual.
 
-@node Stages, Grammar Layout, Bison Parser, Concepts
+@node Stages
 @section Stages in Using Bison
 @cindex stages in using Bison
 @cindex using Bison
@@ -724,7 +734,7 @@ Compile the code output by Bison, as well as any other source files.
 Link the object files to produce the finished product.
 @end enumerate
 
-@node Grammar Layout,  , Stages, Concepts
+@node Grammar Layout
 @section The Overall Layout of a Bison Grammar
 @cindex grammar file
 @cindex file format
@@ -751,8 +761,8 @@ general form of a Bison grammar file is as follows:
 The @samp{%%}, @samp{%@{} and @samp{%@}} are punctuation that appears
 in every Bison grammar file to separate the sections.
 
-The prologue may define types and variables used in the actions. You can 
-also use preprocessor commands to define macros used there, and use 
+The prologue may define types and variables used in the actions. You can
+also use preprocessor commands to define macros used there, and use
 @code{#include} to include header files that do any of these things.
 
 The Bison declarations declare the names of the terminal and nonterminal
@@ -762,12 +772,12 @@ semantic values of various symbols.
 The grammar rules define how to construct each nonterminal symbol from its
 parts.
 
-The epilogue can contain any code you want to use. Often the definition of 
-the lexical analyzer @code{yylex} goes here, plus subroutines called by the 
-actions in the grammar rules.  In a simple program, all the rest of the 
+The epilogue can contain any code you want to use. Often the definition of
+the lexical analyzer @code{yylex} goes here, plus subroutines called by the
+actions in the grammar rules.  In a simple program, all the rest of the
 program can go here.
 
-@node Examples, Grammar File, Concepts, Top
+@node Examples
 @chapter Examples
 @cindex simple examples
 @cindex examples, simple
@@ -791,12 +801,13 @@ to try them.
 * Infix Calc::        Infix (algebraic) notation calculator.
                         Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
+* Location Tracking Calc:: Demonstrating the use of @@@var{n} and @@$.
 * Multi-function Calc::  Calculator with memory and trig functions.
                            It uses multiple data-types for semantic values.
 * Exercises::         Ideas for improving the multi-function calculator.
 @end menu
 
-@node RPN Calc, Infix Calc,  , Examples
+@node RPN Calc
 @section Reverse Polish Notation Calculator
 @cindex reverse polish notation
 @cindex polish notation calculator
@@ -821,7 +832,7 @@ The source code for this calculator is named @file{rpcalc.y}.  The
 * Comp: Rpcalc Compile. Run the C compiler on the output code.
 @end menu
 
-@node Rpcalc Decls, Rpcalc Rules,  , RPN Calc
+@node Rpcalc Decls
 @subsection Declarations for @code{rpcalc}
 
 Here are the C and Bison declarations for the reverse polish notation
@@ -861,7 +872,7 @@ arithmetic operators are designated by single-character literals, so the
 only terminal symbol that needs to be declared is @code{NUM}, the token
 type for numeric constants.
 
-@node Rpcalc Rules, Rpcalc Lexer, Rpcalc Decls, RPN Calc
+@node Rpcalc Rules
 @subsection Grammar Rules for @code{rpcalc}
 
 Here are the grammar rules for the reverse polish notation calculator.
@@ -912,7 +923,7 @@ rule are referred to as @code{$1}, @code{$2}, and so on.
 * Rpcalc Expr::
 @end menu
 
-@node Rpcalc Input, Rpcalc Line,  , Rpcalc Rules
+@node Rpcalc Input
 @subsubsection Explanation of @code{input}
 
 Consider the definition of @code{input}:
@@ -946,7 +957,7 @@ The parser function @code{yyparse} continues to process input until a
 grammatical error is seen or the lexical analyzer says there are no more
 input tokens; we will arrange for the latter to happen at end of file.
 
-@node Rpcalc Line, Rpcalc Expr, Rpcalc Input, Rpcalc Rules
+@node Rpcalc Line
 @subsubsection Explanation of @code{line}
 
 Now consider the definition of @code{line}:
@@ -971,7 +982,7 @@ uninitialized (its value will be unpredictable).  This would be a bug if
 that value were ever used, but we don't use it: once rpcalc has printed the
 value of the user's input line, that value is no longer needed.
 
-@node Rpcalc Expr,  , Rpcalc Line, Rpcalc Rules
+@node Rpcalc Expr
 @subsubsection Explanation of @code{expr}
 
 The @code{exp} grouping has several rules, one for each kind of expression.
@@ -1030,7 +1041,7 @@ exp:      NUM
 @noindent
 The latter, however, is much more readable.
 
-@node Rpcalc Lexer, Rpcalc Main, Rpcalc Rules, RPN Calc
+@node Rpcalc Lexer
 @subsection The @code{rpcalc} Lexical Analyzer
 @cindex writing a lexical analyzer
 @cindex lexical analyzer, writing
@@ -1105,7 +1116,7 @@ yylex (void)
 @end group
 @end example
 
-@node Rpcalc Main, Rpcalc Error, Rpcalc Lexer, RPN Calc
+@node Rpcalc Main
 @subsection The Controlling Function
 @cindex controlling function
 @cindex main function in simple example
@@ -1124,7 +1135,7 @@ main (void)
 @end group
 @end example
 
-@node Rpcalc Error, Rpcalc Gen, Rpcalc Main, RPN Calc
+@node Rpcalc Error
 @subsection The Error Reporting Routine
 @cindex error reporting routine
 
@@ -1153,7 +1164,7 @@ have not written any error rules in this example, so any invalid input will
 cause the calculator program to exit.  This is not clean behavior for a
 real calculator, but it is adequate for the first example.
 
-@node Rpcalc Gen, Rpcalc Compile, Rpcalc Error, RPN Calc
+@node Rpcalc Gen
 @subsection Running Bison to Make the Parser
 @cindex running Bison (introduction)
 
@@ -1161,7 +1172,7 @@ Before running Bison to produce a parser, we need to decide how to
 arrange all the source code in one or more source files.  For such a
 simple example, the easiest thing is to put everything in one file.  The
 definitions of @code{yylex}, @code{yyerror} and @code{main} go at the
-end, in the epilogue of the file 
+end, in the epilogue of the file
 (@pxref{Grammar Layout, ,The Overall Layout of a Bison Grammar}).
 
 For a large project, you would probably have several source files, and use
@@ -1182,7 +1193,7 @@ Bison contains the source code for @code{yyparse}.  The additional
 functions in the input file (@code{yylex}, @code{yyerror} and @code{main})
 are copied verbatim to the output.
 
-@node Rpcalc Compile,  , Rpcalc Gen, RPN Calc
+@node Rpcalc Compile
 @subsection Compiling the Parser File
 @cindex compiling the parser
 
@@ -1227,7 +1238,7 @@ example session using @code{rpcalc}.
 %
 @end example
 
-@node Infix Calc, Simple Error Recovery, RPN Calc, Examples
+@node Infix Calc
 @section Infix Notation Calculator: @code{calc}
 @cindex infix notation calculator
 @cindex @code{calc}
@@ -1313,7 +1324,7 @@ Here is a sample run of @file{calc.y}:
 9
 @end example
 
-@node Simple Error Recovery, Multi-function Calc, Infix Calc, Examples
+@node Simple Error Recovery
 @section Simple Error Recovery
 @cindex error recovery, simple
 
@@ -1355,7 +1366,205 @@ input lines; it would also have to discard the rest of the current line of
 input.  We won't discuss this issue further because it is not specific to
 Bison programs.
 
-@node Multi-function Calc, Exercises, Simple Error Recovery, Examples
+@node Location Tracking Calc
+@section Location Tracking Calculator: @code{ltcalc}
+@cindex location tracking calculator
+@cindex @code{ltcalc}
+@cindex calculator, location tracking
+
+This example extends the infix notation calculator with location tracking.
+This feature will be used to improve error reporting, and provide better
+error messages.
+
+For the sake of clarity, we will switch for this example to an integer
+calculator, since most of the work needed to use locations will be done
+in the lexical analyser.
+
+@menu
+* Decls: Ltcalc Decls.  Bison and C declarations for ltcalc.
+* Rules: Ltcalc Rules.  Grammar rules for ltcalc, with explanations.
+* Lexer: Ltcalc Lexer.  The lexical analyzer.
+@end menu
+
+@node Ltcalc Decls
+@subsection Declarations for @code{ltcalc}
+
+The C and Bison declarations for the location tracking calculator are the same
+as the declarations for the infix notation calculator.
+
+@example
+/* Location tracking calculator.  */
+
+%@{
+#define YYSTYPE int
+#include <math.h>
+%@}
+
+/* Bison declarations.  */
+%token NUM
+
+%left '-' '+'
+%left '*' '/'
+%left NEG
+%right '^'
+
+%% /* Grammar follows */
+@end example
+
+In the code above, there are no declarations specific to locations.  Defining
+a data type for storing locations is not needed: we will use the type provided
+by default (@pxref{Location Type, ,Data Types of Locations}), which is a four
+member structure with the following integer fields: @code{first_line},
+@code{first_column}, @code{last_line} and @code{last_column}.
+
+@node Ltcalc Rules
+@subsection Grammar Rules for @code{ltcalc}
+
+Whether you choose to handle locations or not has no effect on the syntax of
+your language.  Therefore, grammar rules for this example will be very close to
+those of the previous example: we will only modify them to benefit from the new
+informations we will have.
+
+Here, we will use locations to report divisions by zero, and locate the wrong
+expressions or subexpressions.
+
+@example
+@group
+input   : /* empty */
+        | input line
+;
+@end group
+
+@group
+line    : '\n'
+        | exp '\n' @{ printf ("%d\n", $1); @}
+;
+@end group
+
+@group
+exp     : NUM           @{ $$ = $1; @}
+        | exp '+' exp   @{ $$ = $1 + $3; @}
+        | exp '-' exp   @{ $$ = $1 - $3; @}
+        | exp '*' exp   @{ $$ = $1 * $3; @}
+@end group
+        | exp '/' exp
+@group
+            @{
+              if ($3)
+                $$ = $1 / $3;
+              else
+                @{
+                  $$ = 1;
+                  printf("Division by zero, l%d,c%d-l%d,c%d",
+                         @@3.first_line, @@3.first_column,
+                         @@3.last_line, @@3.last_column);
+                @}
+            @}
+@end group
+@group
+        | '-' exp %preg NEG     @{ $$ = -$2; @}
+        | exp '^' exp           @{ $$ = pow ($1, $3); @}
+        | '(' exp ')'           @{ $$ = $2; @}
+@end group
+@end example
+
+This code shows how to reach locations inside of semantic actions, by
+using the pseudo-variables @code{@@@var{n}} for rule components, and the
+pseudo-variable @code{@@$} for groupings.
+
+In this example, we never assign a value to @code{@@$}, because the
+output parser can do this automatically.  By default, before executing
+the C code of each action, @code{@@$} is set to range from the beginning
+of @code{@@1} to the end of @code{@@@var{n}}, for a rule with @var{n}
+components.
+
+Of course, this behavior can be redefined (@pxref{Location Default
+Action, , Default Action for Locations}), and for very specific rules,
+@code{@@$} can be computed by hand.
+
+@node Ltcalc Lexer
+@subsection The @code{ltcalc} Lexical Analyzer.
+
+Until now, we relied on Bison's defaults to enable location tracking. The next
+step is to rewrite the lexical analyser, and make it able to feed the parser
+with locations of tokens, as he already does for semantic values.
+
+To do so, we must take into account every single character of the input text,
+to avoid the computed locations of being fuzzy or wrong:
+
+@example
+@group
+int
+yylex (void)
+@{
+  int c;
+
+  /* skip white space */
+  while ((c = getchar ()) == ' ' || c == '\t')
+    ++yylloc.last_column;
+
+  /* step */
+  yylloc.first_line = yylloc.last_line;
+  yylloc.first_column = yylloc.last_column;
+@end group
+
+@group
+  /* process numbers */
+  if (isdigit (c))
+    @{
+      yylval = c - '0';
+      ++yylloc.last_column;
+      while (isdigit (c = getchar ()))
+        @{
+          ++yylloc.last_column;
+          yylval = yylval * 10 + c - '0';
+        @}
+      ungetc (c, stdin);
+      return NUM;
+    @}
+@end group
+
+  /* return end-of-file */
+  if (c == EOF)
+    return 0;
+
+  /* return single chars and update location */
+  if (c == '\n')
+    @{
+      ++yylloc.last_line;
+      yylloc.last_column = 0;
+    @}
+  else
+    ++yylloc.last_column;
+  return c;
+@}
+@end example
+
+Basically, the lexical analyzer does the same processing as before: it skips
+blanks and tabs, and reads numbers or single-character tokens.  In addition
+to this, it updates the @code{yylloc} global variable (of type @code{YYLTYPE}),
+where the location of tokens is stored.
+
+Now, each time this function returns a token, the parser has it's number as
+well as it's semantic value, and it's position in the text. The last needed
+change is to initialize @code{yylloc}, for example in the controlling
+function:
+
+@example
+int
+main (void)
+@{
+  yylloc.first_line = yylloc.last_line = 1;
+  yylloc.first_column = yylloc.last_column = 0;
+  return yyparse ();
+@}
+@end example
+
+Remember that computing locations is not a matter of syntax.  Every character
+must be associated to a location update, whether it is in valid input, in
+comments, in literal strings, and so on...
+
+@node Multi-function Calc
 @section Multi-Function Calculator: @code{mfcalc}
 @cindex multi-function calculator
 @cindex @code{mfcalc}
@@ -1407,7 +1616,7 @@ Note that multiple assignment and nested function calls are permitted.
 * Symtab: Mfcalc Symtab.  Symbol table management subroutines.
 @end menu
 
-@node Mfcalc Decl, Mfcalc Rules,  , Multi-function Calc
+@node Mfcalc Decl
 @subsection Declarations for @code{mfcalc}
 
 Here are the C and Bison declarations for the multi-function calculator.
@@ -1458,7 +1667,7 @@ just as @code{%token} is used for declaring token types.  We have not used
 implicitly by the rules that define them.  But @code{exp} must be declared
 explicitly so we can specify its value type.  @xref{Type Decl, ,Nonterminal Symbols}.
 
-@node Mfcalc Rules, Mfcalc Symtab, Mfcalc Decl, Multi-function Calc
+@node Mfcalc Rules
 @subsection Grammar Rules for @code{mfcalc}
 
 Here are the grammar rules for the multi-function calculator.
@@ -1492,7 +1701,7 @@ exp:      NUM                @{ $$ = $1;                         @}
 %%
 @end smallexample
 
-@node Mfcalc Symtab,  , Mfcalc Rules, Multi-function Calc
+@node Mfcalc Symtab
 @subsection The @code{mfcalc} Symbol Table
 @cindex symbol table example
 
@@ -1733,7 +1942,7 @@ This program is both powerful and flexible. You may easily add new
 functions, and it is a simple job to modify this code to install predefined
 variables such as @code{pi} or @code{e} as well.
 
-@node Exercises,  , Multi-function Calc, Examples
+@node Exercises
 @section Exercises
 @cindex exercises
 
@@ -1751,7 +1960,7 @@ Make the program report an error if the user refers to an
 uninitialized variable in any way except to store a value in it.
 @end enumerate
 
-@node Grammar File, Interface, Examples, Top
+@node Grammar File
 @chapter Bison Grammar Files
 
 Bison takes as input a context-free grammar specification and produces a
@@ -1771,7 +1980,7 @@ The Bison grammar input file conventionally has a name ending in @samp{.y}.
 * Multiple Parsers::  Putting more than one Bison parser in one program.
 @end menu
 
-@node Grammar Outline, Symbols,  , Grammar File
+@node Grammar Outline
 @section Outline of a Bison Grammar
 
 A Bison grammar file has four main sections, shown here with the
@@ -1814,7 +2023,7 @@ that they precede the definition of @code{yyparse}.  You can use
 need any C declarations, you may omit the @samp{%@{} and @samp{%@}}
 delimiters that bracket this section.
 
-@node Bison Declarations, Grammar Rules, Prologue, Grammar Outline
+@node Bison Declarations
 @subsection The Bison Declarations Section
 @cindex Bison declarations (introduction)
 @cindex declarations, Bison (introduction)
@@ -1824,7 +2033,7 @@ terminal and nonterminal symbols, specify precedence, and so on.
 In some simple grammars you may not need any declarations.
 @xref{Declarations, ,Bison Declarations}.
 
-@node Grammar Rules, Epilogue, Bison Declarations, Grammar Outline
+@node Grammar Rules
 @subsection The Grammar Rules Section
 @cindex grammar rules section
 @cindex rules section for grammar
@@ -1842,11 +2051,11 @@ if it is the first thing in the file.
 @cindex epilogue
 @cindex C code, section for additional
 
-The @var{epilogue} is copied verbatim to the end of the parser file, just as 
-the @var{prologue} is copied to the beginning.  This is the most convenient 
-place to put anything that you want to have in the parser file but which need 
-not come before the definition of @code{yyparse}.  For example, the 
-definitions of @code{yylex} and @code{yyerror} often go here.  
+The @var{epilogue} is copied verbatim to the end of the parser file, just as
+the @var{prologue} is copied to the beginning.  This is the most convenient
+place to put anything that you want to have in the parser file but which need
+not come before the definition of @code{yyparse}.  For example, the
+definitions of @code{yylex} and @code{yyerror} often go here.
 @xref{Interface, ,Parser C-Language Interface}.
 
 If the last section is empty, you may omit the @samp{%%} that separates it
@@ -1857,7 +2066,7 @@ with @samp{yy} and many macros whose names start with @samp{YY}.  It is a
 good idea to avoid using any such names (except those documented in this
 manual) in the epilogue of the grammar file.
 
-@node Symbols, Rules, Grammar Outline, Grammar File
+@node Symbols
 @section Symbols, Terminal and Nonterminal
 @cindex nonterminal symbol
 @cindex terminal symbol
@@ -1969,7 +2178,7 @@ The symbol @code{error} is a terminal symbol reserved for error recovery
 (@pxref{Error Recovery}); you shouldn't use it for any other purpose.
 In particular, @code{yylex} should never return this value.
 
-@node Rules, Recursion, Symbols, Grammar File
+@node Rules
 @section Syntax of Grammar Rules
 @cindex rule syntax
 @cindex grammar rule syntax
@@ -2064,7 +2273,7 @@ expseq1:  exp
 It is customary to write a comment @samp{/* empty */} in each rule
 with no components.
 
-@node Recursion, Semantics, Rules, Grammar File
+@node Recursion
 @section Recursive Rules
 @cindex recursive rule
 
@@ -2133,7 +2342,7 @@ primary:  constant
 defines two mutually-recursive nonterminals, since each refers to the
 other.
 
-@node Semantics, Locations, Recursion, Grammar File
+@node Semantics
 @section Defining Language Semantics
 @cindex defining language semantics
 @cindex language semantics, defining
@@ -2157,7 +2366,7 @@ the numbers associated with @var{x} and @var{y}.
                         action in the middle of a rule.
 @end menu
 
-@node Value Type, Multiple Types,  , Semantics
+@node Value Type
 @subsection Data Types of Semantic Values
 @cindex semantic value type
 @cindex value type, semantic
@@ -2176,10 +2385,10 @@ specify some other type, define @code{YYSTYPE} as a macro, like this:
 @end example
 
 @noindent
-This macro definition must go in the prologue of the grammar file 
+This macro definition must go in the prologue of the grammar file
 (@pxref{Grammar Outline, ,Outline of a Bison Grammar}).
 
-@node Multiple Types, Actions, Value Type, Semantics
+@node Multiple Types
 @subsection More Than One Value Type
 
 In most programs, you will need different data types for different kinds
@@ -2203,7 +2412,7 @@ and for groupings with the @code{%type} Bison declaration (@pxref{Type
 Decl, ,Nonterminal Symbols}).
 @end itemize
 
-@node Actions, Action Types, Multiple Types, Semantics
+@node Actions
 @subsection Actions
 @cindex action
 @vindex $$
@@ -2279,7 +2488,7 @@ As long as @code{bar} is used only in the fashion shown here, @code{$0}
 always refers to the @code{expr} which precedes @code{bar} in the
 definition of @code{foo}.
 
-@node Action Types, Mid-Rule Actions, Actions, Semantics
+@node Action Types
 @subsection Data Types of Values in Actions
 @cindex action data types
 @cindex data types in actions
@@ -2324,7 +2533,7 @@ reference.  For example, if you have defined types as shown here:
 then you can write @code{$<itype>1} to refer to the first subunit of the
 rule as an integer, or @code{$<dtype>1} to refer to it as a double.
 
-@node Mid-Rule Actions,  , Action Types, Semantics
+@node Mid-Rule Actions
 @subsection Actions in Mid-Rule
 @cindex actions in mid-rule
 @cindex mid-rule actions
@@ -2486,7 +2695,7 @@ the action is now at the end of its rule.  Any mid-rule action can be
 converted to an end-of-rule action in this way, and this is what Bison
 actually does to implement mid-rule actions.
 
-@node Locations, Declarations, Semantics, Grammar File
+@node Locations
 @section Tracking Locations
 @cindex location
 @cindex textual position
@@ -2507,7 +2716,7 @@ to take when rules are matched.
 * Location Default Action::     Defining a general way to compute locations.
 @end menu
 
-@node Location Type, Actions and Locations,  , Locations
+@node Location Type
 @subsection Data Type of Locations
 @cindex data type of locations
 @cindex default location type
@@ -2529,7 +2738,7 @@ struct
 @}
 @end example
 
-@node Actions and Locations, Location Default Action, Location Type, Locations
+@node Actions and Locations
 @subsection Actions and Locations
 @cindex location actions
 @cindex actions, location
@@ -2596,7 +2805,7 @@ exp:    @dots{}
 @end group
 @end example
 
-@node Location Default Action,  , Actions and Locations, Locations
+@node Location Default Action
 @subsection Default Action for Locations
 @vindex YYLLOC_DEFAULT
 
@@ -2640,7 +2849,7 @@ For consistency with semantic actions, valid indexes for the location array
 range from 1 to @var{n}.
 @end itemize
 
-@node Declarations, Multiple Parsers, Locations, Grammar File
+@node Declarations
 @section Bison Declarations
 @cindex declarations, Bison
 @cindex Bison declarations
@@ -2669,7 +2878,7 @@ it explicitly (@pxref{Language and Grammar, ,Languages and Context-Free Grammars
 * Decl Summary::      Table of all Bison declarations.
 @end menu
 
-@node Token Decl, Precedence Decl,  , Declarations
+@node Token Decl
 @subsection Token Type Names
 @cindex declaring token type names
 @cindex token type names, declaring
@@ -2743,7 +2952,7 @@ interchangeably in further declarations or the grammar rules.  The
 @code{yylex} function can use the token name or the literal string to
 obtain the token type code number (@pxref{Calling Convention}).
 
-@node Precedence Decl, Union Decl, Token Decl, Declarations
+@node Precedence Decl
 @subsection Operator Precedence
 @cindex precedence declarations
 @cindex declaring operator precedence
@@ -2792,7 +3001,7 @@ When two tokens declared in different precedence declarations associate,
 the one declared later has the higher precedence and is grouped first.
 @end itemize
 
-@node Union Decl, Type Decl, Precedence Decl, Declarations
+@node Union Decl
 @subsection The Collection of Value Types
 @cindex declaring value types
 @cindex value types, declaring
@@ -2823,7 +3032,7 @@ for a terminal or nonterminal symbol (@pxref{Type Decl, ,Nonterminal Symbols}).
 Note that, unlike making a @code{union} declaration in C, you do not write
 a semicolon after the closing brace.
 
-@node Type Decl, Expect Decl, Union Decl, Declarations
+@node Type Decl
 @subsection Nonterminal Symbols
 @cindex declaring value types, nonterminals
 @cindex value types, nonterminals, declaring
@@ -2850,7 +3059,7 @@ use the same @code{<@var{type}>} construction in a declaration for the
 terminal symbol.  All kinds of token declarations allow
 @code{<@var{type}>}.
 
-@node Expect Decl, Start Decl, Type Decl, Declarations
+@node Expect Decl
 @subsection Suppressing Conflict Warnings
 @cindex suppressing conflict warnings
 @cindex preventing warnings about conflicts
@@ -2898,7 +3107,7 @@ Now Bison will stop annoying you about the conflicts you have checked, but
 it will warn you again if changes in the grammar result in additional
 conflicts.
 
-@node Start Decl, Pure Decl, Expect Decl, Declarations
+@node Start Decl
 @subsection The Start-Symbol
 @cindex declaring the start symbol
 @cindex start symbol, declaring
@@ -2913,7 +3122,7 @@ may override this restriction with the @code{%start} declaration as follows:
 %start @var{symbol}
 @end example
 
-@node Pure Decl, Decl Summary, Start Decl, Declarations
+@node Pure Decl
 @subsection A Pure (Reentrant) Parser
 @cindex reentrant parser
 @cindex pure parser
@@ -2953,7 +3162,7 @@ Whether the parser is pure has nothing to do with the grammar rules.
 You can generate either a pure parser or a nonreentrant parser from any
 valid grammar.
 
-@node Decl Summary,  , Pure Decl, Declarations
+@node Decl Summary
 @subsection Bison Declaration Summary
 @cindex Bison declaration summary
 @cindex declaration summary
@@ -3110,7 +3319,7 @@ The number of parser states (@pxref{Parser States}).
 @end table
 @end table
 
-@node Multiple Parsers,, Declarations, Grammar File
+@node Multiple Parsers
 @section Multiple Parsers in the Same Program
 
 Most programs that use Bison parse only one language and therefore contain
@@ -3140,7 +3349,7 @@ of the parser source file, defining @code{yyparse} as
 @code{@var{prefix}parse}, and so on.  This effectively substitutes one
 name for the other in the entire parser file.
 
-@node Interface, Algorithm, Grammar File, Top
+@node Interface
 @chapter Parser C-Language Interface
 @cindex C-language interface
 @cindex interface
@@ -3162,7 +3371,7 @@ in the grammar file, you are likely to run into trouble.
 * Action Features::   Special features for use in actions.
 @end menu
 
-@node Parser Function, Lexical,  , Interface
+@node Parser Function
 @section The Parser Function @code{yyparse}
 @findex yyparse
 
@@ -3190,7 +3399,7 @@ Return immediately with value 0 (to report success).
 Return immediately with value 1 (to report failure).
 @end table
 
-@node Lexical, Error Reporting, Parser Function, Interface
+@node Lexical
 @section The Lexical Analyzer Function @code{yylex}
 @findex yylex
 @cindex lexical analyzer
@@ -3219,7 +3428,7 @@ that need it.  @xref{Invocation, ,Invoking Bison}.@refill
                         in a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
 @end menu
 
-@node Calling Convention, Token Values,  , Lexical
+@node Calling Convention
 @subsection Calling Convention for @code{yylex}
 
 The value that @code{yylex} returns must be the numeric code for the type
@@ -3296,7 +3505,7 @@ The @code{yytname} table is generated only if you use the
 @code{%token_table} declaration.  @xref{Decl Summary}.
 @end itemize
 
-@node Token Values, Token Positions, Calling Convention, Lexical
+@node Token Values
 @subsection Semantic Values of Tokens
 
 @vindex yylval
@@ -3342,7 +3551,7 @@ then the code in @code{yylex} might look like this:
 @end group
 @end example
 
-@node Token Positions, Pure Calling, Token Values, Lexical
+@node Token Positions
 @subsection Textual Positions of Tokens
 
 @vindex yylloc
@@ -3363,7 +3572,7 @@ feature makes the parser noticeably slower.
 @tindex YYLTYPE
 The data type of @code{yylloc} has the name @code{YYLTYPE}.
 
-@node Pure Calling,  , Token Positions, Lexical
+@node Pure Calling
 @subsection Calling Conventions for Pure Parsers
 
 When you use the Bison declaration @code{%pure_parser} to request a
@@ -3470,7 +3679,7 @@ You can use @samp{%pure_parser} to request a reentrant parser without
 also using @code{YYPARSE_PARAM}.  Then you should call @code{yyparse}
 with no arguments, as usual.
 
-@node Error Reporting, Action Features, Lexical, Interface
+@node Error Reporting
 @section The Error Reporting Function @code{yyerror}
 @cindex error reporting function
 @findex yyerror
@@ -3530,7 +3739,7 @@ encountered so far.  Normally this variable is global; but if you
 request a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}) then it is a local variable
 which only the actions can access.
 
-@node Action Features,  , Error Reporting, Interface
+@node Action Features
 @section Special Features for Use in Actions
 @cindex summary, action features
 @cindex action features summary
@@ -3644,7 +3853,7 @@ Tracking Locations}.
 
 @end table
 
-@node Algorithm, Error Recovery, Interface, Top
+@node Algorithm
 @chapter The Bison Parser Algorithm
 @cindex Bison parser algorithm
 @cindex algorithm of parser
@@ -3711,7 +3920,7 @@ This kind of parser is known in the literature as a bottom-up parser.
 * Stack Overflow::    What happens when stack gets full.  How to avoid it.
 @end menu
 
-@node Look-Ahead, Shift/Reduce,  , Algorithm
+@node Look-Ahead
 @section Look-Ahead Tokens
 @cindex look-ahead token
 
@@ -3766,7 +3975,7 @@ doing so would produce on the stack the sequence of symbols @code{expr
 The current look-ahead token is stored in the variable @code{yychar}.
 @xref{Action Features, ,Special Features for Use in Actions}.
 
-@node Shift/Reduce, Precedence, Look-Ahead, Algorithm
+@node Shift/Reduce
 @section Shift/Reduce Conflicts
 @cindex conflicts
 @cindex shift/reduce conflicts
@@ -3862,7 +4071,7 @@ expr:     variable
         ;
 @end example
 
-@node Precedence, Contextual Precedence, Shift/Reduce, Algorithm
+@node Precedence
 @section Operator Precedence
 @cindex operator precedence
 @cindex precedence of operators
@@ -3879,7 +4088,7 @@ shift and when to reduce.
 * How Precedence::    How they work.
 @end menu
 
-@node Why Precedence, Using Precedence,  , Precedence
+@node Why Precedence
 @subsection When Precedence is Needed
 
 Consider the following ambiguous grammar fragment (ambiguous because the
@@ -3926,7 +4135,7 @@ matter of whether the parser chooses to shift or reduce when the stack
 contains @w{@samp{1 - 2}} and the look-ahead token is @samp{-}: shifting
 makes right-associativity.
 
-@node Using Precedence, Precedence Examples, Why Precedence, Precedence
+@node Using Precedence
 @subsection Specifying Operator Precedence
 @findex %left
 @findex %right
@@ -3947,7 +4156,7 @@ order in which they are declared.  The first @code{%left} or
 precedence is lowest, the next such declaration declares the operators
 whose precedence is a little higher, and so on.
 
-@node Precedence Examples, How Precedence, Using Precedence, Precedence
+@node Precedence Examples
 @subsection Precedence Examples
 
 In our example, we would want the following declarations:
@@ -3973,7 +4182,7 @@ declared with @code{'-'}:
 and so on.  We assume that these tokens are more than one character long
 and therefore are represented by names, not character literals.)
 
-@node How Precedence,  , Precedence Examples, Precedence
+@node How Precedence
 @subsection How Precedence Works
 
 The first effect of the precedence declarations is to assign precedence
@@ -3994,7 +4203,7 @@ how each conflict was resolved.
 Not all rules and not all tokens have precedence.  If either the rule or
 the look-ahead token has no precedence, then the default is to shift.
 
-@node Contextual Precedence, Parser States, Precedence, Algorithm
+@node Contextual Precedence
 @section Context-Dependent Precedence
 @cindex context-dependent precedence
 @cindex unary operator precedence
@@ -4052,7 +4261,7 @@ exp:    @dots{}
 @end group
 @end example
 
-@node Parser States, Reduce/Reduce, Contextual Precedence, Algorithm
+@node Parser States
 @section Parser States
 @cindex finite-state machine
 @cindex parser state
@@ -4078,7 +4287,7 @@ There is one other alternative: the table can say that the look-ahead token
 is erroneous in the current state.  This causes error processing to begin
 (@pxref{Error Recovery}).
 
-@node Reduce/Reduce, Mystery Conflicts, Parser States, Algorithm
+@node Reduce/Reduce
 @section Reduce/Reduce Conflicts
 @cindex reduce/reduce conflict
 @cindex conflicts, reduce/reduce
@@ -4193,7 +4402,7 @@ redirects:redirect
         ;
 @end example
 
-@node Mystery Conflicts, Stack Overflow, Reduce/Reduce, Algorithm
+@node Mystery Conflicts
 @section Mysterious Reduce/Reduce Conflicts
 
 Sometimes reduce/reduce conflicts can occur that don't look warranted.
@@ -4301,7 +4510,7 @@ return_spec:
         ;
 @end example
 
-@node Stack Overflow,  , Mystery Conflicts, Algorithm
+@node Stack Overflow
 @section Stack Overflow, and How to Avoid It
 @cindex stack overflow
 @cindex parser stack overflow
@@ -4335,7 +4544,7 @@ You can control how much stack is allocated initially by defining the
 macro @code{YYINITDEPTH}.  This value too must be a compile-time
 constant integer.  The default is 200.
 
-@node Error Recovery, Context Dependency, Algorithm, Top
+@node Error Recovery
 @chapter Error Recovery
 @cindex error recovery
 @cindex recovery from errors
@@ -4453,7 +4662,7 @@ value 1 when the parser is recovering from a syntax error, and 0 the
 rest of the time.  A value of 1 indicates that error messages are
 currently suppressed for new syntax errors.
 
-@node Context Dependency, Debugging, Error Recovery, Top
+@node Context Dependency
 @chapter Handling Context Dependencies
 
 The Bison paradigm is to parse tokens first, then group them into larger
@@ -4472,7 +4681,7 @@ languages.
 (Actually, ``kludge'' means any technique that gets its job done but is
 neither clean nor robust.)
 
-@node Semantic Tokens, Lexical Tie-ins,  , Context Dependency
+@node Semantic Tokens
 @section Semantic Info in Token Types
 
 The C language has a context dependency: the way an identifier is used
@@ -4547,7 +4756,7 @@ here the information is global, and is used for other purposes in the
 program.  A true lexical tie-in has a special-purpose flag controlled by
 the syntactic context.
 
-@node Lexical Tie-ins, Tie-in Recovery, Semantic Tokens, Context Dependency
+@node Lexical Tie-ins
 @section Lexical Tie-ins
 @cindex lexical tie-in
 
@@ -4596,11 +4805,11 @@ Here we assume that @code{yylex} looks at the value of @code{hexflag}; when
 it is nonzero, all integers are parsed in hexadecimal, and tokens starting
 with letters are parsed as integers if possible.
 
-The declaration of @code{hexflag} shown in the prologue of the parser file 
-is needed to make it accessible to the actions (@pxref{Prologue, ,The Prologue}).  
+The declaration of @code{hexflag} shown in the prologue of the parser file
+is needed to make it accessible to the actions (@pxref{Prologue, ,The Prologue}).
 You must also write the code in @code{yylex} to obey the flag.
 
-@node Tie-in Recovery,  , Lexical Tie-ins, Context Dependency
+@node Tie-in Recovery
 @section Lexical Tie-ins and Error Recovery
 
 Lexical tie-ins make strict demands on any error recovery rules you have.
@@ -4655,7 +4864,7 @@ make sure your error recovery rules are not of this kind.  Each rule must
 be such that you can be sure that it always will, or always won't, have to
 clear the flag.
 
-@node Debugging, Invocation, Context Dependency, Top
+@node Debugging
 @chapter Debugging Your Parser
 @findex YYDEBUG
 @findex yydebug
@@ -4666,13 +4875,13 @@ If a Bison grammar compiles properly but doesn't do what you want when it
 runs, the @code{yydebug} parser-trace feature can help you figure out why.
 
 To enable compilation of trace facilities, you must define the macro
-@code{YYDEBUG} when you compile the parser.  You could use @samp{-DYYDEBUG=1} 
-as a compiler option or you could put @samp{#define YYDEBUG 1} in the prologue 
-of the grammar file (@pxref{Prologue, , The Prologue}). Alternatively, use the 
-@samp{-t} option when you run Bison (@pxref{Invocation, ,Invoking Bison}).  
+@code{YYDEBUG} when you compile the parser.  You could use @samp{-DYYDEBUG=1}
+as a compiler option or you could put @samp{#define YYDEBUG 1} in the prologue
+of the grammar file (@pxref{Prologue, , The Prologue}). Alternatively, use the
+@samp{-t} option when you run Bison (@pxref{Invocation, ,Invoking Bison}).
 We always define @code{YYDEBUG} so that debugging is always possible.
 
-The trace facility uses @code{stderr}, so you must add 
+The trace facility uses @code{stderr}, so you must add
 @w{@code{#include <stdio.h>}} to the prologue unless it is already there.
 
 Once you have compiled the program with trace facilities, the way to
@@ -4736,7 +4945,7 @@ yyprint (FILE *file, int type, YYSTYPE value)
 @}
 @end smallexample
 
-@node Invocation, Table of Symbols, Debugging, Top
+@node Invocation
 @chapter Invoking Bison
 @cindex invoking Bison
 @cindex Bison invocation
@@ -4782,7 +4991,7 @@ will produce @file{output.c++} and @file{outfile.h++}.
 * VMS Invocation::    Bison command syntax on VMS.
 @end menu
 
-@node Bison Options, Environment Variables,  , Invocation
+@node Bison Options
 @section Bison Options
 
 Bison supports both traditional single-letter options and mnemonic long
@@ -4875,11 +5084,15 @@ Adjust the output:
 
 @table @option
 @item -d
-@itemx --defines
 Pretend that @code{%verbose} was specified, i.e., write an extra output
 file containing macro definitions for the token type names defined in
 the grammar and the semantic value type @code{YYSTYPE}, as well as a few
 @code{extern} variable declarations.  @xref{Decl Summary}.
+
+@item --defines=@var{defines-file}
+The behaviour of @var{--defines} is the same than @samp{-d}. The only
+difference is that it has an optionnal argument which is the name of
+the output filename.
 
 @item -b @var{file-prefix}
 @itemx --file-prefix=@var{prefix}
@@ -4898,9 +5111,19 @@ Specify the name @var{outfile} for the parser file.
 
 The other output files' names are constructed from @var{outfile}
 as described under the @samp{-v} and @samp{-d} options.
+
+@item -g
+Output a VCG definition of the LALR(1) grammar automaton computed by
+Bison. If the grammar file is @file{foo.y}, the VCG output file will
+be @file{foo.vcg}.
+
+@item --graph=@var{graph-file}
+The behaviour of @var{--graph} is the same than @samp{-g}. The only
+difference is that it has an optionnal argument which is the name of
+the output graph filename.
 @end table
 
-@node Environment Variables, Option Cross Key, Bison Options, Invocation
+@node Environment Variables
 @section Environment Variables
 @cindex environment variables
 @cindex BISON_HAIRY
@@ -4925,7 +5148,7 @@ also be specified or overridden in a similar fashion, with the
 
 @end table
 
-@node Option Cross Key, VMS Invocation, Environment Variables, Invocation
+@node Option Cross Key
 @section Option Cross Key
 
 Here is a list of options, alphabetized by long option, to help you find
@@ -4939,6 +5162,7 @@ the corresponding short option.
 \line{ --defines \leaderfill -d}
 \line{ --file-prefix \leaderfill -b}
 \line{ --fixed-output-files \leaderfill -y}
+\line{ --graph \leaderfill -g}
 \line{ --help \leaderfill -h}
 \line{ --name-prefix \leaderfill -p}
 \line{ --no-lines \leaderfill -l}
@@ -4954,9 +5178,10 @@ the corresponding short option.
 @ifinfo
 @example
 --debug                               -t
---defines                             -d
+--defines=@var{defines-file}          -d
 --file-prefix=@var{prefix}                  -b @var{file-prefix}
 --fixed-output-files --yacc           -y
+--graph=@var{graph-file}              -d
 --help                                -h
 --name-prefix=@var{prefix}                  -p @var{name-prefix}
 --no-lines                            -l
@@ -4968,7 +5193,7 @@ the corresponding short option.
 @end example
 @end ifinfo
 
-@node VMS Invocation,  , Option Cross Key, Invocation
+@node VMS Invocation
 @section Invoking Bison under VMS
 @cindex invoking Bison under VMS
 @cindex VMS
@@ -4996,7 +5221,7 @@ The VMS file system does not permit filenames such as
 @file{foo.tab.c}.  In the above example, the output file
 would instead be named @file{foo_tab.c}.
 
-@node Table of Symbols, Glossary, Invocation, Top
+@node Table of Symbols
 @appendix Bison Symbols
 @cindex Bison symbols, table of
 @cindex symbols in Bison, table of
@@ -5196,7 +5421,7 @@ Bison declarations section or the epilogue.
 
 @item %@{ %@}
 All code listed between @samp{%@{} and @samp{%@}} is copied directly to
-the output file uninterpreted.  Such code forms the prologue of the input 
+the output file uninterpreted.  Such code forms the prologue of the input
 file.  @xref{Grammar Outline, ,Outline of a Bison
 Grammar}.
 
@@ -5215,7 +5440,7 @@ Separates alternate rules for the same result nonterminal.
 @xref{Rules, ,Syntax of Grammar Rules}.
 @end table
 
-@node Glossary, Copying This Manual, Table of Symbols, Top
+@node Glossary
 @appendix Glossary
 @cindex glossary
 
@@ -5376,7 +5601,7 @@ grammatically indivisible.  The piece of text it represents is a token.
 @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
 @end table
 
-@node Copying This Manual, Index, Glossary, Top
+@node Copying This Manual
 @appendix Copying This Manual
 
 @menu
@@ -5385,7 +5610,7 @@ grammatically indivisible.  The piece of text it represents is a token.
 
 @include fdl.texi
 
-@node Index,  , Copying This Manual, Top
+@node Index
 @unnumbered Index
 
 @printindex cp

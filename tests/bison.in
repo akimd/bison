@@ -1,0 +1,11 @@
+#! /bin/sh
+# @configure_generated@
+# Wrapper around a non installed bison to make it work as an installed one.
+
+# We want to use the files shipped with Bison.
+BISON_SIMPLE='@top_srcpath@/src/bison.simple'
+export BISON_SIMPLE
+BISON_HAIRY='@top_srcpath@/src/bison.hairy'
+export BISON_HAIRY
+
+exec '@top_buildpath@/src/bison' ${1+"$@"}
