@@ -1,5 +1,15 @@
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (parse_union_decl): Instead of handling two obstack
+	simultaneously, use one to define the `stype' muscle, and use the
+	value of the latter to fill defines_obstack.
+	(copy_comment): Remove.
+	(copy_comment2): Work for a single obstack.
+	Rename as...
+	(copy_comment): this.
+
+2001-12-15  Akim Demaille  <akim@epita.fr>
+
 	* src/lex.c, src/lex.h (xgetc): No longer static.
 	* src/reader.c (parse_union_decl): Revamp.
 
