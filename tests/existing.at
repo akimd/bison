@@ -907,7 +907,7 @@ MBEE_LISTV      :       /*EMPT*/
 LISTV           :       HIDENTIFIER     { regDecl($1, type, KNOKD, CDEFLT);}
                 |	FPP_CATEG HDOTDOTDOT      { regDecl(varargsid, TVARARGS, KNOKD, categ);}
                 |       HIDENTIFIER     { regDecl($1, type, KNOKD, CDEFLT);}
-                        HPAREXPSEPARATOR LISTV
+                        HPAREXPSEPARATOR LISTV {}
                 |       FPP_SPEC
                 |       FPP_SPEC
                         HPAREXPSEPARATOR LISTV
@@ -947,7 +947,7 @@ FPP_PROC_DECL_IN_SPEC:	MBEE_TYPE HPROCEDURE
 IDENTIFIER_LISTV:       HIDENTIFIER     { regDecl($1, type, kind, categ);}
                 |	HDOTDOTDOT {	  regDecl(varargsid, TVARARGS, kind, categ);}
                 |       HIDENTIFIER     { regDecl($1, type, kind, categ);}
-                        HPAREXPSEPARATOR IDENTIFIER_LISTV
+                        HPAREXPSEPARATOR IDENTIFIER_LISTV {}
                 ;
 MBEE_MODE_PART  :       /*EMPT*/
                 |       MODE_PART
@@ -1153,7 +1153,7 @@ EXPRESSION_SIMP :	EXPRESSION_SIMP
                 |       HNONE                   { mout(MNONE);$$=NULL;}
                 |       HIDENTIFIER
                                 { $<ident>$=$1;}
-                        MBEE_ARG_R_PT
+                        MBEE_ARG_R_PT {}
                 |       HTHIS HIDENTIFIER       { mout(MTHIS);
                                                   moutId($2);$$=NULL;}
                 |       HNEW

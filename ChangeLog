@@ -1,5 +1,14 @@
 2002-06-11  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (grammar_current_rule_prec_set).
+	(grammar_current_rule_check): New, eved out from...
+	(readgram): here.
+	Remove `xaction', `first_rhs': useless.
+	* tests/input.at (Type clashes): New.
+	* tests/existing.at (GNU Cim Grammar): Adjust.
+
+2002-06-11  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (grammar_midrule_action): New, Eved out from
 	(readgram): here.
 

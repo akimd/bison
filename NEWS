@@ -96,6 +96,15 @@ Changes in version 1.49b:
     Bison used to systematically output this information on top of
     the report.  Solved conflicts are now attached to their states.
 
+* Type clashes
+  Previous versions don't complain when there is a type clash on
+  the default action if the rule has a mid-rule action, such as in:
+
+      %type <foo> bar
+      %%
+      bar: '0' {} '0';
+
+  This is fixed.
 
 Changes in version 1.35, 2002-03-25:
 

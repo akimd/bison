@@ -24,7 +24,6 @@ AT_BANNER([[Input Processing.]])
 ## Invalid $n.  ##
 ## ------------ ##
 
-
 AT_SETUP([Invalid $n])
 
 AT_DATA([input.y],
@@ -43,7 +42,6 @@ AT_CLEANUP
 ## Invalid @n.  ##
 ## ------------ ##
 
-
 AT_SETUP([Invalid @n])
 
 AT_DATA([input.y],
@@ -53,6 +51,31 @@ exp: { @$ = @1 ; };
 
 AT_CHECK([bison input.y], [1], [],
 [[input.y:2: invalid value: @1
+]])
+
+AT_CLEANUP
+
+
+## -------------- ##
+## Type clashes.  ##
+## -------------- ##
+
+AT_SETUP([Type clashes])
+
+AT_DATA([input.y],
+[[%token foo
+%type <bar> exp
+%%
+exp: foo {} foo
+   | foo
+   | /* Empty. */
+   ;
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:5: type clash (`bar' `') on default action
+input.y:6: type clash (`bar' `') on default action
+input.y:7: empty rule for typed nonterminal, and no action
 ]])
 
 AT_CLEANUP
