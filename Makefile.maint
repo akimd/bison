@@ -77,7 +77,7 @@ cvs-tag-check:
 	else :; fi
 
 cvs-diff-check:
-	if cvs diff >cvs-diffs; then			  	\
+	if cvs diff | grep -v '^?' >cvs-diffs; then	  	\
 	  rm cvs-diffs;					  	\
 	else						  	\
 	  echo "Some files are locally modified:" 1>&2;  	\
