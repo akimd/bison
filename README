@@ -10,6 +10,6 @@ On VMS, you will probably have to create Makefile from Makefile.in by
 hand.  Remember to do `SET COMMAND BISON' to install the data in
 `BISON.CLD'.
 
-Send bug reports to bug-gnu-utils@prep.ai.mit.edu.  Please include the
-version number from `bison --version', and a complete, self-contained
-test case in each bug report.
+Send bug reports to bug-bison@gnu.org.  Please include the version
+number from `bison --version', and a complete, self-contained test
+case in each bug report.
