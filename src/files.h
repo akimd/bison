@@ -21,7 +21,7 @@
 #ifndef FILES_H_
 # define FILES_H_
 
-# include "struniq.h"
+# include "uniqstr.h"
 
 /* File name specified with -o for the output file, or 0 if no -o.  */
 extern char *spec_outfile;
@@ -55,22 +55,15 @@ extern struct obstack post_prologue_obstack;
 /* The file name as given on the command line.
    Not named "input_file" because Flex uses this name for an argument,
    and therefore GCC warns about a name clash. */
-extern struniq_t grammar_file;
+extern uniqstr grammar_file;
 
 /* The current file name.  Might change with %include, or with #line.  */
-extern struniq_t current_file;
+extern uniqstr current_file;
 
 void compute_output_file_names (void);
 
 FILE *xfopen (const char *name, const char *mode);
 void xfclose (FILE *ptr);
-
-/* Is SUFFIX ending STRING?  */
-int strsuffix (const char* string, const char* suffix);
-
-/* Return a newly allocated string composed of the concatenation of
-   STRING1, and STRING2.  */
-char* stringappend (const char* string1, const char* string2);
 
 /* Prefix used to generate output file names.  */
 extern char *short_base_name;
