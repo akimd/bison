@@ -203,6 +203,8 @@ have:
 Where the first part defines struct expression, the second uses it to
 define YYSTYPE, and the last uses YYSTYPE.  Only this order is valid.
 
+Note that we have the same problem with GCC.
+
 * --graph
 Show reductions.	[]
 
