@@ -69,7 +69,7 @@ int skel_lex (void);
 "@{"	   fputc ('[', yyout);
 "@}"	   fputc (']', yyout);
 
-"@oline@"  fprintf (yyout, "%d", lineno);
+"@oline@"  fprintf (yyout, "%d", lineno + 1);
 "@ofile@"  QPUTS (outname);
 "@output_parser_name@"	QPUTS (parser_file_name);
 "@output_header_name@"  QPUTS (spec_defines_file);
