@@ -2302,8 +2302,8 @@ can be done with two @var{Prologue} blocks, one before and one after the
 @}
 
 %@{
-static void yyprint(FILE *, int, YYSTYPE);
-#define YYPRINT(F, N, L) yyprint(F, N, L)
+static void print_token_value (FILE *, int, YYSTYPE);
+#define YYPRINT(F, N, L) print_token_value (F, N, L)
 %@}
 
 @dots{}
@@ -5980,10 +5980,10 @@ Here is an example of @code{YYPRINT} suitable for the multi-function
 calculator (@pxref{Mfcalc Decl, ,Declarations for @code{mfcalc}}):
 
 @smallexample
-#define YYPRINT(file, type, value)   yyprint (file, type, value)
+#define YYPRINT(file, type, value) print_token_value (file, type, value)
 
 static void
-yyprint (FILE *file, int type, YYSTYPE value)
+print_token_value (FILE *file, int type, YYSTYPE value)
 @{
   if (type == VAR)
     fprintf (file, "%s", value.tptr->name);
