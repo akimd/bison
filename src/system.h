@@ -117,7 +117,11 @@ size_t strnlen PARAMS ((const char *s, size_t maxlen));
 #endif
 
 #if !HAVE_DECL_MEMCHR
-void *memchr(const void *s, int c, size_t n);
+void *memchr PARAMS ((const void *s, int c, size_t n));
+#endif
+
+#if !HAVE_DECL_MEMRCHR
+void *memrchr PARAMS ((const void *s, int c, size_t n));
 #endif
 
 

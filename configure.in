@@ -87,8 +87,8 @@ AC_FUNC_ALLOCA
 AC_FUNC_OBSTACK
 AC_FUNC_ERROR_AT_LINE
 AC_CHECK_FUNCS(mkstemp setlocale)
-AC_CHECK_DECLS([stpcpy, strchr, strspn, strnlen, memchr])
-AC_REPLACE_FUNCS(stpcpy strchr strnlen strspn memchr)
+AC_CHECK_DECLS([stpcpy, strchr, strspn, strnlen, memchr, memrchr])
+AC_REPLACE_FUNCS(stpcpy strchr strnlen strspn memchr memrchr)
 jm_FUNC_MALLOC
 jm_FUNC_REALLOC
 jm_PREREQ_QUOTEARG

@@ -1,3 +1,11 @@
+2002-01-08  Akim Demaille  <akim@epita.fr>
+
+	* lib/basename.c, lib/dirname.h, lib/dirname.c, lib/memrchr.c:
+	New, stolen from the Fileutils 4.1.
+	* lib/Makefile.am (libbison_a_SOURCES): Adjust.
+	* configure.in: Check for the presence of memrchr, and of its
+	prototype.
+
 2002-01-07  Tim Van Holder  <tim.van.holder@pandora.be>
 
 	* lib/hash.h (__P): Added definition for this macro.
