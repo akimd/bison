@@ -111,6 +111,7 @@ AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
 AC_CHECK_PROGS([VALGRIND], [valgrind])
 AC_PROG_CXX
+BISON_TEST_FOR_WORKING_CXX_COMPILER
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])

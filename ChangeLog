@@ -1,3 +1,15 @@
+2004-05-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Ensure that the C++ compiler used for testing actually works on a
+	simple test program; if not, skip the C++-related tests.  Problem
+	reported by Vin Shelton in:
+	http://mail.gnu.org/archive/html/bug-bison/2004-05/msg00026.html
+
+	* m4/cxx.m4: New file.
+	* configure.ac (BISON_TEST_FOR_WORKING_CXX_COMPILER): Add.
+	* tests/atlocal.in (BISON_CXX_WORKS): Add.
+	* tests/local.at (AT_COMPILE_CXX): Use it.
+
 2004-05-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (yylloc): Output this macro even if locations are not
