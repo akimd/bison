@@ -29,11 +29,7 @@ data_DATA = bison.simple bison.hairy
 
 EXTRA_DIST = bison.s1 bison.hairy build.com bison.cld vmshlp.mar
 
-bison.simple: bison.s1 Makefile
-	sed -e "s/@bison_version@/$(VERSION)/" $(srcdir)/bison.s1 | \
-	awk '\
-	/^#line/ { printf "#line %d \"$(datadir)/bison.simple\"\n", NR+1; next }\
-	{ print }' >$@t
-	mv $@t $@
+bison.simple: bison.s1
+	cp $(srcdir)/bison.s1 $@
 
 DISTCLEANFILES = bison.simple

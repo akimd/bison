@@ -1,7 +1,5 @@
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line
-/* This file comes from bison-@bison_version@.  */
-
 /* Skeleton output parser for bison,
    Copyright 1984, 1989, 1990, 2000 Free Software Foundation, Inc.
 

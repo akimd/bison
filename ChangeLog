@@ -1,5 +1,12 @@
 2000-12-19  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_parser): Compute the `#line' lines when
+	there are.
+	* src/Makefile.am (bison.simple): Be a simple copy of bison.s1.
+	Suggested by Hans Aberg.
+
+2000-12-19  Akim Demaille  <akim@epita.fr>
+
 	Let the handling of the skeleton files be local to the procedures
 	that use it.
 
