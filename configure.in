@@ -66,6 +66,7 @@ AC_FUNC_ALLOCA
 AC_CHECK_FUNCS(mkstemp setlocale)
 jm_FUNC_MALLOC
 jm_FUNC_REALLOC
+jm_PREREQ_QUOTEARG
 
 ALL_LINGUAS="de es et fr ja nl ru"
 AM_GNU_GETTEXT

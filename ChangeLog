@@ -1,3 +1,15 @@
+2000-10-16  Akim Demaille  <akim@epita.fr>
+
+	* lib/quote.h, lib/quote.c, lib/quotearg.h, lib/quotearg.c:
+	* m4/prereq.m4, m4/c-bs-a.m4, m4/mbstate.m4:
+	New files, from Fileutils 4.0.27.
+	* src/main.c (printable_version): Remove.
+	* src/lex.c, src/reader.c: Use `quote'.
+
+2000-10-04  Akim Demaille  <akim@epita.fr>
+
+	* lib/error.c, lib/error.h: New files, needed by xmalloc.c.
+
 2000-10-04  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo: Various typos spotted by Neil Booth.
