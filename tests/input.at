@@ -132,7 +132,7 @@ char apostrophe = '\'';
 
 %{
 /* Exercise pre-prologue dependency to %union.  */
-typedef int value_t;
+typedef int value;
 %}
 
 /* Exercise M4 quoting: '@:>@@:>@', 0.  */
@@ -140,13 +140,13 @@ typedef int value_t;
 /* Also exercise %union. */
 %union
 {
-  value_t ival; /* A comment to exercise an old bug. */
+  value ival; /* A comment to exercise an old bug. */
 };
 
 
 /* Exercise post-prologue dependency to %union.  */
 %{
-static YYSTYPE value_t_as_yystype (value_t val);
+static YYSTYPE value_as_yystype (value val);
 
 /* Exercise quotes in declarations.  */
 char quote[] = "@:>@@:>@,";
@@ -179,7 +179,7 @@ output: '#' 'o' 'u' 't' 'p' 'u' 't' ' ';
 /* Exercise M4 quoting: '@:>@@:>@', @<:@, 2.  */
 
 static YYSTYPE
-value_t_as_yystype (value_t val)
+value_as_yystype (value val)
 {
   YYSTYPE res;
   res.ival = val;
@@ -192,7 +192,7 @@ yylex (void)
   static const char *input = "@<:@\1\2$@{@oline@__@&t@oline__\
 #output "; /* "
   */
-  yylval = value_t_as_yystype (*input);
+  yylval = value_as_yystype (*input);
   return *input++;
 }
 
@@ -206,7 +206,7 @@ yyerror (const char *msg)
 # Pacify Emacs'font-lock-mode: "
 
 AT_DATA([main.c],
-[[typedef int value_t;
+[[typedef int value;
 #include "input.h"
 
 int yyparse (void);
