@@ -101,9 +101,9 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-EXTRA_DIST = atlocal.in $(TESTSUITE_AT) testsuite
+EXTRA_DIST = $(TESTSUITE_AT) testsuite
 
-DISTCLEANFILES = atconfig atlocal bison package.m4
+DISTCLEANFILES = atconfig bison package.m4
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 TESTSUITE_AT = \
@@ -116,9 +116,9 @@ AUTOTEST = $(AUTOM4TE) --language=autotest
 subdir = tests
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = bison
+CONFIG_CLEAN_FILES = bison atlocal
 DIST_SOURCES =
-DIST_COMMON = Makefile.am Makefile.in bison.in
+DIST_COMMON = Makefile.am Makefile.in atlocal.in bison.in
 all: all-am
 
 .SUFFIXES:
@@ -128,6 +128,8 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 bison: $(top_builddir)/config.status bison.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+atlocal: $(top_builddir)/config.status atlocal.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 uninstall-info-am:
 tags: TAGS
@@ -237,9 +239,6 @@ $(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
 	mv $@.tmp $@
 
 atconfig: $(top_builddir)/config.status
-	cd $(top_builddir) && ./config.status tests/$@
-
-atlocal: $(srcdir)/atlocal.in $(top_builddir)/config.status
 	cd $(top_builddir) && ./config.status tests/$@
 
 clean-local:

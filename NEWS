@@ -1,6 +1,8 @@
 Bison News
 ----------
 
+Changes in version 1.30a:
+
 Changes in version 1.30:
 
 * `--defines' and `--graph' have now an optionnal argument which is the

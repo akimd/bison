@@ -1,3 +1,8 @@
+2001-11-01  Akim Demaille  <akim@epita.fr>
+
+	* configure.in: Bump to 1.30a.
+	Adjust to newer Autotest.
+
 2001-10-26  Akim Demaille  <akim@epita.fr>
 
 	Version 1.30.
