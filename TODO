@@ -1,10 +1,12 @@
 -*- outline -*-
 
 * src/reader.c
-Check and cleanup for CPP-out code.	[]
+Check and cleanup for CPP-out code.	[ok]
 
 * src/output.c
-Check and cleanup for CPP-out code.	[]
+Check and cleanup for CPP-out code.	[ok]
+** %%input-line is not correct at this time.
+Rely with bison.simple.
 
 * Broken options ?.
 ** %no-lines		[]

@@ -1,5 +1,12 @@
 2001-12-10  Marc Autret  <autret_m@epita.fr>
 
+	* src/reader.c (copy_definition): Re-use CPP-outed code which 
+	replace precedent remove.
+	* src/bison.simple: Remove #line before %%prologue because
+	%%input-line is wrong at this time.
+
+2001-12-10  Marc Autret  <autret_m@epita.fr>
+
 	* src/reader.c (symbols_output): Clean up.
 	* src/output.c (output_gram, output): Clean up. 
 

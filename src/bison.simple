@@ -76,7 +76,6 @@ typedef struct yyltype
 #endif
 
 /* Copy the user declarations.  */
-#line %%input-line "%%filename"
 %%prologue
 
 #line %%line "%%skeleton"
