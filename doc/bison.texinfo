@@ -297,7 +297,7 @@ Frequently Asked Questions
 * How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 * C++ Parsers::                Compiling Parsers with C++ Compilers
-* Implementing Loops::         Control Flow in the Calculator
+* Implementing Gotos/Loops::   Control Flow in the Calculator
 
 Copying This Manual
 
@@ -6683,7 +6683,7 @@ are addressed.
 * How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 * C++ Parsers::                Compiling Parsers with C++ Compilers
-* Implementing Loops::         Control Flow in the Calculator
+* Implementing Gotos/Loops::   Control Flow in the Calculator
 @end menu
 
 @node Parser Stack Overflow
@@ -6869,12 +6869,12 @@ some simple C++ rules in mind, such as not including ``real classes''
 pointer type to the root of your lexical/syntactic hierarchy.
 
 
-@node Implementing Loops
-@section Implementing Loops
+@node Implementing Gotos/Loops
+@section Implementing Gotos/Loops
 
 @display
 My simple calculator supports variables, assignments, and functions,
-but how can I implement loops?
+but how can I implement gotos, or loops?
 @end display
 
 Although very pedagogical, the examples included in the document blur

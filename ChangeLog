@@ -1,3 +1,8 @@
+2004-08-26  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (Implementing Loops): Rename as...
+	(Implementing Gotos/Loops): this.
+
 2004-08-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Adjust to latest gnulib.
@@ -26,7 +31,7 @@
 	Fix bug with non-%union parsers that have printers or destructors,
 	which led to a Bison core dump.  Reported by Peter Fales in
 	<http://lists.gnu.org/archive/html/bug-bison/2004-07/msg00014.html>.
-	
+
 	* data/c.m4 (b4_symbol_actions): Don't assume %union was used.
 	* data/lalr1.cc (yystype) [defined YYSTYPE]: Define to YYSTYPE,
 	not to our own type.
@@ -46,7 +51,7 @@
 	GLR writeups.  E.g., avoid frenchspacing and the future tense,
 	change "lookahead" to "look-ahead", and change "wrt" to "with
 	respect to".
-	
+
 2004-06-21  Paul Hilfinger  <hilfingr@CS.Berkeley.EDU>
 
 	* doc/bison.texinfo (Merging GLR Parses, Compiler Requirements):
@@ -126,7 +131,7 @@
 	(AM_GNU_GETTEXT_VERSION): Increase from 0.11.5 to 0.12.
 	Add comments explaining why those particular versions are
 	currently needed.
-	
+
 	* src/parse-gram.y (lloc_default): Rewrite to avoid compiler bug
 	in SGI MIPSpro 7.4.1m.  Problem reported by Albert Chin-A-Young in
 	<http://mail.gnu.org/archive/html/bug-bison/2004-05/msg00037.html>.
