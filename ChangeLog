@@ -1,3 +1,12 @@
+2001-12-17  Paul Eggert  <eggert@twinsun.com>
+
+	* src/output.c (output): Define YYDEBUG to 0 if it is not defined
+	and if we are not debugging.  POSIX requires this.
+	* NEWS, doc/bison.texinfo, doc/bison.1, doc/bison.rnh: Document this.
+
+	* src/output.c (output_gram, output_rule_data): Do not assume that
+	the user defines YYDEBUG to a properly parenthesized expression.
+
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
 	* src/nullable.c (set_nullable): Useless rules must be skipped,
