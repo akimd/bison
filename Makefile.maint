@@ -281,7 +281,8 @@ move_if_change ?= move-if-change
 # --------------------- #
 
 .PHONY: update
-update: wget-update cvs-update po-update
+local_updates ?= wget-update cvs-update po-update
+update: $(local_updates)
 
 
 # ------------------- #
