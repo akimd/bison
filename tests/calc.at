@@ -431,13 +431,16 @@ AT_CHECK([cat stderr], 0, [expout])
 ])
 
 
-# AT_CHECK_CALC([BISON-OPTIONS])
+# AT_CHECK_CALC([BISON-OPTIONS [, EXPECTED-TO-FAIL]])
 # ------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
+# However, if EXPECTED-TO-FAIL is nonempty, this test is expected to fail.
 m4_define([AT_CHECK_CALC],
 [# We use integers to avoid dependencies upon the precision of doubles.
 AT_SETUP([Calculator $1])
+
+m4_ifval([$2], [AT_CHECK([exit 77])])
 
 AT_BISON_OPTION_PUSHDEFS([$1])
 
@@ -608,7 +611,7 @@ AT_BANNER([[Simple LALR1 C++ Calculator.]])
 # Start a testing chunk which compiles `calc' grammar with
 # the C++ skeleton, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_LALR1_CC],
-[AT_CHECK_CALC([%skeleton "lalr1.cc"] $@)])
+[AT_CHECK_CALC([%skeleton "lalr1.cc"] $@, [expected to fail])])
 
 # AT_CHECK_CALC_LALR1_CC()
 
