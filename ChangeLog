@@ -1,3 +1,11 @@
+2003-01-28  Paul Eggert  <eggert@twinsun.com>
+
+	* data/lalr1.cc: Do not use @output_header_name@ unless
+	b4_defines_flag is set.  This fixes two bugs reported by
+	Tim Van Holder in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-01/msg00071.html>
+	and <http://mail.gnu.org/archive/html/bug-bison/2003-01/msg00073.html>.
+
 2003-01-21  Paul Eggert  <eggert@twinsun.com>
 
 	* data/yacc.c (YYERROR): Move code from yyerrlab1 to here, so that
