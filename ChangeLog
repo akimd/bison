@@ -1,5 +1,10 @@
 2002-05-02  Akim Demaille  <akim@epita.fr>
 
+	* configure.in (ALL_LINGUAS): Remove.
+	* po/LINGUAS, hr.po: New.
+
+2002-05-02  Akim Demaille  <akim@epita.fr>
+
 	Remove the so called hairy (semantic) parsers.
 
 	* src/system.h (EXT_GUARD_C, EXT_STYPE_H): Remove.

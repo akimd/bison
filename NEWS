@@ -59,6 +59,9 @@ Changes in version 1.49b:
 * Semantic parser
   This old option, which has been broken for ages, is removed.
 
+* New tranlations
+  Croatian, thanks to Denis Lackovic.
+
 
 Changes in version 1.35, 2002-03-25:
 
