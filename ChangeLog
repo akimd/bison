@@ -1,5 +1,12 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.h, src/lalr.c (tokensetsize): Remove, unused.
+	* src/system.h (BITS_PER_WORD, WORDSIZE, SETBIT, RESETBIT, BITISSET):
+	Ditto.
+
+	
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (F): Now a bitset*.
 	Adjust all dependencies.
 

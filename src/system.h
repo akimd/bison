@@ -236,18 +236,10 @@ do {								\
 #endif
 
 #if defined (MSDOS) && !defined (__GO32__)
-# define	BITS_PER_WORD	16
 # define MAXTABLE	16383
 #else
-# define	BITS_PER_WORD	32
 # define MAXTABLE	32767
 #endif
-
-#define	WORDSIZE(n)	(((n) + BITS_PER_WORD - 1) / BITS_PER_WORD)
-#define	SETBIT(x, i)	((x)[(i)/BITS_PER_WORD] |= (1<<((i) % BITS_PER_WORD)))
-#define RESETBIT(x, i)	((x)[(i)/BITS_PER_WORD] &= ~(1<<((i) % BITS_PER_WORD)))
-#define BITISSET(x, i)	(((x)[(i)/BITS_PER_WORD] & (1<<((i) % BITS_PER_WORD))) != 0)
-
 
 /*-----------------------------------------.
 | Extensions to use for the output files.  |
