@@ -22,8 +22,8 @@
 # define CONFLICTS_H_
 # include "state.h"
 
-void initialize_conflicts PARAMS ((void));
-void print_conflicts PARAMS ((void));
+void solve_conflicts PARAMS ((void));
+void print_conflicts PARAMS ((FILE *out));
 void print_reductions PARAMS ((int));
 void free_conflicts PARAMS ((void));
 

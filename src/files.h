@@ -33,9 +33,12 @@ extern char *spec_name_prefix;
 /* File name pfx specified with -b, or 0 if no -b.  */
 extern char *spec_file_prefix;
 
+/* --verbose. */
+extern char *spec_verbose_file;
+
 /* File name specified for the output VCG graph.  */
 extern char *spec_graph_file;
- 
+
 /* File name specified with --defines.  */
 extern char *spec_defines_file;
 
@@ -69,7 +72,9 @@ extern char *infile;
 extern char *attrsfile;
 
 void open_files PARAMS((void));
+void close_files PARAMS((void));
 
+void compute_output_file_names PARAMS((void));
 void output_files PARAMS((void));
 
 FILE *xfopen PARAMS ((const char *name, const char *mode));

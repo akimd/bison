@@ -1959,9 +1959,6 @@ reader (void)
   packsymbols ();
   /* Convert the grammar into the format described in gram.h.  */
   packgram ();
-  /* Free the symbol table data structure since symbols are now all
-     referred to by symbol number.  */
-  free_symtab ();
 }
 
 

@@ -39,6 +39,7 @@ struct obstack graph_obstack;
 char *spec_outfile = NULL;	/* for -o. */
 char *spec_file_prefix = NULL;	/* for -b. */
 char *spec_name_prefix = NULL;	/* for -p. */
+char *spec_verbose_file = NULL;   /* for --verbose. */
 char *spec_graph_file = NULL;   /* for -g. */
 char *spec_defines_file = NULL; /* for --defines. */
 
@@ -97,7 +98,7 @@ compute_header_macro (void)
 {
   int ite;
   char *macro_name;
-  
+
   if (spec_defines_file)
     macro_name = xstrdup (spec_defines_file);
   else
@@ -105,7 +106,7 @@ compute_header_macro (void)
       macro_name = XMALLOC (char,
 			    strlen (base_name) +
 			    strlen (header_extension) + 1);
-      
+
       stpcpy (macro_name, base_name);
       strcat (macro_name, header_extension);
     }
@@ -392,6 +393,38 @@ compute_base_names (void)
   }
 }
 
+/*-------------------------------------------------------.
+| Close the open files, compute the output files names.  |
+`-------------------------------------------------------*/
+
+void
+compute_output_file_names (void)
+{
+  compute_base_names ();
+
+  /* If not yet done. */
+  if (!src_extension)
+    src_extension = ".c";
+  if (!header_extension)
+    header_extension = ".h";
+
+  /* It the defines filename if not given, we create it.  */
+  if (!spec_defines_file)
+    spec_defines_file = stringappend (base_name, header_extension);
+
+  /* It the graph filename if not given, we create it.  */
+  if (!spec_graph_file)
+    spec_graph_file = stringappend (short_base_name, ".vcg");
+
+  spec_verbose_file = stringappend (short_base_name, EXT_OUTPUT);
+
+  attrsfile = stringappend (short_base_name, EXT_STYPE_H);
+#ifndef MSDOS
+  stringappend (attrsfile, header_extension);
+#endif /* MSDOS */
+
+}
+
 /*-----------------------------------------------------------------.
 | Open the input file.  Look for the skeletons.  Find the names of |
 | the output files.  Prepare the obstacks.                         |
@@ -414,36 +447,23 @@ open_files (void)
 
 
 
-/*-----------------------------------------------------.
-| Close the open files, produce all the output files.  |
-`-----------------------------------------------------*/
+/*-----------------------.
+| Close the open file..  |
+`-----------------------*/
+
+void
+close_files (void)
+{
+  xfclose (finput);
+}
+
+/*---------------------------.
+| Produce the output files.  |
+`---------------------------*/
 
 void
 output_files (void)
 {
-  xfclose (finput);
-
-  compute_base_names ();
-
-  /* If not yet done. */
-  if (!src_extension)
-    src_extension = ".c";
-  if (!header_extension)
-    header_extension = ".h";
-
-  /* It the defines filename if not given, we create it.  */
-  if (!spec_defines_file)
-    spec_defines_file = stringappend (base_name, header_extension);
-  
-  /* It the graph filename if not given, we create it.  */
-  if (!spec_graph_file)
-    spec_graph_file = stringappend (short_base_name, ".vcg");
-  
-  attrsfile = stringappend (short_base_name, EXT_STYPE_H);
-#ifndef MSDOS
-  stringappend (attrsfile, header_extension);
-#endif /* MSDOS */
-
   /* Output the main file.  */
   if (spec_outfile)
     obstack_save (&table_obstack, spec_outfile);
@@ -471,12 +491,6 @@ output_files (void)
 #endif /* MSDOS */
       obstack_save (&guard_obstack, temp_name);
     }
-
-  if (verbose_flag)
-    /* We used to use just .out if spec_name_prefix (-p) was used, but
-       that conflicts with Posix.  */
-    obstack_save (&output_obstack,
-		  stringappend (short_base_name, EXT_OUTPUT));
 
   if (graph_flag)
     obstack_save (&graph_obstack, spec_graph_file);
