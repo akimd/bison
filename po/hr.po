@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-11-13 16:15+0100\n"
+"POT-Creation-Date: 2002-11-24 23:54-0800\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
 
-#: src/complain.c:78 lib/error.c:128 lib/error.c:156
+#: src/complain.c:78 lib/error.c:126 lib/error.c:154
 msgid "Unknown system error"
 msgstr "Nepoznata sistemska gre¹ka"
 
@@ -43,44 +43,44 @@ msgstr "Konflikt u stanju %d izmeðu pravila %d i znaka %s razrije¹en kao %s.\n"
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr "Konflikt u stanju %d izmeðu pravila %d i znaka %s razrije¹en kao %s.\n"
 
-#: src/conflicts.c:402
+#: src/conflicts.c:401
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d pomakni/reduciraj konflikat"
 msgstr[1] "%d pomakni/reduciraj konflikata"
 
-#: src/conflicts.c:409
+#: src/conflicts.c:408
 msgid "and"
 msgstr "i"
 
-#: src/conflicts.c:415
+#: src/conflicts.c:414
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d reduciraj/reduciraj konflikt"
 msgstr[1] "%d reduciraj/reduciraj konflikata"
 
-#: src/conflicts.c:435
+#: src/conflicts.c:434
 msgid "conflicts: "
 msgstr "konflikt:"
 
-#: src/conflicts.c:437
+#: src/conflicts.c:436
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d pomakni/reduciraj"
 
-#: src/conflicts.c:441
+#: src/conflicts.c:440
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reduviraj/reduciraj"
 
-#: src/conflicts.c:460
+#: src/conflicts.c:459
 #, c-format
 msgid "State %d contains "
 msgstr "Stanje %d sadr¾i"
 
-#: src/conflicts.c:537
+#: src/conflicts.c:536
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
@@ -101,21 +101,21 @@ msgstr "gre¹ka"
 msgid "cannot close file"
 msgstr "ne mogu zatvoriti datoteku"
 
-#: src/getargs.c:165
+#: src/getargs.c:167
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Poku¹aj `%s --help' za vi¹e informacija.\n"
 
-#: src/getargs.c:171
+#: src/getargs.c:173
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison generira parsere za LALR(1) gramatike.\n"
 
-#: src/getargs.c:175
+#: src/getargs.c:177
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Kori¹tenje: %s [OPCIJA]... DATOTEKA\n"
 
-#: src/getargs.c:179
+#: src/getargs.c:181
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -123,7 +123,7 @@ msgstr ""
 "Ako duga opcija ka¾e da je argument obavezan, tada je on obavezan\n"
 "i za ekvivalentnu kratku opciju. Slièno je i za opcionalne argumente.\n"
 
-#: src/getargs.c:185
+#: src/getargs.c:187
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -135,7 +135,7 @@ msgstr ""
 "  -V, --version   prika¾i verziju i izaði\n"
 "  -y, --yacc      emuliraj POSIX yacc\n"
 
-#: src/getargs.c:192
+#: src/getargs.c:194
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -155,7 +155,7 @@ msgstr ""
 "  -n, --no-parser            generiraj samo tablice\n"
 "  -k, --token-table          ukljuèi tablicu imena znakova\n"
 
-#: src/getargs.c:204
+#: src/getargs.c:206
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -174,7 +174,7 @@ msgstr ""
 "  -o, --output=DATOTEKA          ispi¹i izlaz u DATOTEKU\n"
 "  -g, --graph                takoðer proizvedi VCG opis automata\n"
 
-#: src/getargs.c:215
+#: src/getargs.c:217
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -185,27 +185,27 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:226
+#: src/getargs.c:228
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Izvjesti o bugovima na <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:243
+#: src/getargs.c:245
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:245
+#: src/getargs.c:247
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:249
+#: src/getargs.c:251
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:251
+#: src/getargs.c:253
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -214,12 +214,12 @@ msgstr ""
 "kopiranja.  NEMA\n"
 "garancije; èak ni tvrdnje o ISPLATIVOSTI ili POGODNOSTI ZA NEKU SVRHU.\n"
 
-#: src/getargs.c:405
+#: src/getargs.c:407
 #, c-format
 msgid "missing operand after `%s'"
 msgstr ""
 
-#: src/getargs.c:407
+#: src/getargs.c:409
 #, c-format
 msgid "extra operand `%s'"
 msgstr ""
@@ -241,7 +241,7 @@ msgstr "upozorenje:"
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: src/parse-gram.y:358
+#: src/parse-gram.y:364
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
@@ -343,7 +343,7 @@ msgstr ""
 msgid "%s must be followed by positive number"
 msgstr ""
 
-#: src/reader.c:511
+#: src/reader.c:512
 msgid "no rules in the input grammar"
 msgstr "nema pravila u ulaznoj gramatici"
 
@@ -471,62 +471,62 @@ msgstr "ponovno definiran prethodnik od %s"
 msgid "symbol %s redefined"
 msgstr "simbol %s ponovo definiran"
 
-#: src/symtab.c:182
+#: src/symtab.c:183
 #, fuzzy, c-format
 msgid "redefining user token number of %s"
 msgstr "ponovno definiran prethodnik od %s"
 
-#: src/symtab.c:221
+#: src/symtab.c:222
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr "simbol %s je kori¹ten, ali nije definiran kao znak i nema pravila"
 
-#: src/symtab.c:240
+#: src/symtab.c:241
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr "simbol `%s' kori¹ten vi¹e puta kao znakovni niz"
 
-#: src/symtab.c:243
+#: src/symtab.c:244
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr "simbolz `%s' dat vi¹e od jednog znakovnog niza"
 
-#: src/symtab.c:277
+#: src/symtab.c:279
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "konflikt u prethodnici za %s and %s"
 
-#: src/symtab.c:289
+#: src/symtab.c:291
 #, fuzzy, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
 msgstr "konfliktne asocijativne vrijednosti za %s i %s"
 
-#: src/symtab.c:359
+#: src/symtab.c:363
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "objema znakovima %s i %s je pridru¾en broj %d"
 
-#: src/symtab.c:566
+#: src/symtab.c:570
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "poèetni simbol  %s nije definiran"
 
-#: src/symtab.c:570
+#: src/symtab.c:574
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "poèetni simbol %s je znak"
 
-#: lib/argmatch.c:161
+#: lib/argmatch.c:129
 #, fuzzy, c-format
 msgid "invalid argument %s for %s"
 msgstr "nedozvoljeni ulaz: %s"
 
-#: lib/argmatch.c:162
+#: lib/argmatch.c:130
 #, c-format
 msgid "ambiguous argument %s for %s"
 msgstr ""
 
-#: lib/argmatch.c:181
+#: lib/argmatch.c:149
 msgid "Valid arguments are:"
 msgstr ""
 
@@ -649,15 +649,15 @@ msgstr "%s: opcija `-W %s' je nejednoznaèna\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: opcija `-W %s' ne dopu¹ta argument\n"
 
-#: lib/obstack.c:496 lib/obstack.c:499 lib/xmalloc.c:66
+#: lib/obstack.c:496 lib/obstack.c:499 lib/xmalloc.c:63
 msgid "memory exhausted"
 msgstr "iscrpljeni memorijski resursi"
 
-#: lib/quotearg.c:274
+#: lib/quotearg.c:236
 msgid "`"
 msgstr "`"
 
-#: lib/quotearg.c:275
+#: lib/quotearg.c:237
 msgid "'"
 msgstr "'"
 
