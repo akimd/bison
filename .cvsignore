@@ -3,9 +3,10 @@ config.cache
 config.h
 config.log
 config.status
-stamp-h
+stamp-h*
 bison-*
 patches
 *.patch *.log log patches applied
 *.prj
 releases
+autom4te.cache
