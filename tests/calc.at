@@ -354,7 +354,7 @@ AT_DATA([[expout]],
 [$4
 ])
 # 3. If locations are not used, remove them.
-m4_bmatch([$1], [--location], [],
+m4_bmatch([$1], [%locations], [],
 [[sed 's/^[-0-9.]*: //' expout >at-expout
 mv at-expout expout]])
 # 4. If error-verbose is not used, strip the`, unexpected....' part.
@@ -451,18 +451,18 @@ m4_define([AT_CHECK_CALC_LALR],
 AT_CHECK_CALC_LALR()
 
 AT_CHECK_CALC_LALR([--defines])
-AT_CHECK_CALC_LALR([--locations])
+AT_CHECK_CALC_LALR([%locations])
 AT_CHECK_CALC_LALR([--name-prefix=calc])
 AT_CHECK_CALC_LALR([--verbose])
 AT_CHECK_CALC_LALR([--yacc])
 AT_CHECK_CALC_LALR([%error-verbose])
 
-AT_CHECK_CALC_LALR([%error-verbose --locations])
+AT_CHECK_CALC_LALR([%error-verbose %locations])
 
-AT_CHECK_CALC_LALR([%error-verbose --defines --locations --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_LALR([%error-verbose --defines %locations --name-prefix=calc --verbose --yacc])
 
 AT_CHECK_CALC_LALR([%debug])
-AT_CHECK_CALC_LALR([%error-verbose %debug --defines --locations --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_LALR([%error-verbose %debug --defines %locations --name-prefix=calc --verbose --yacc])
 
 
 # ----------------------- #
@@ -476,21 +476,21 @@ AT_BANNER([[Simple GLR Calculator.]])
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-OPTIONS and %glr-parser, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_GLR],
-[AT_CHECK_CALC([%glr_parser] $@)])
+[AT_CHECK_CALC([%glr-parser] $@)])
 
 
 AT_CHECK_CALC_GLR()
 
 AT_CHECK_CALC_GLR([--defines])
-AT_CHECK_CALC_GLR([--locations])
+AT_CHECK_CALC_GLR([%locations])
 AT_CHECK_CALC_GLR([--name-prefix=calc])
 AT_CHECK_CALC_GLR([--verbose])
 AT_CHECK_CALC_GLR([--yacc])
 AT_CHECK_CALC_GLR([%error-verbose])
 
-AT_CHECK_CALC_GLR([%error-verbose --locations])
+AT_CHECK_CALC_GLR([%error-verbose %locations])
 
-AT_CHECK_CALC_GLR([%error-verbose --defines --locations --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_GLR([%error-verbose --defines %locations --name-prefix=calc --verbose --yacc])
 
 AT_CHECK_CALC_GLR([%debug])
-AT_CHECK_CALC_GLR([%error-verbose %debug --defines --locations --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_GLR([%error-verbose %debug --defines %locations --name-prefix=calc --verbose --yacc])

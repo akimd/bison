@@ -1,4 +1,4 @@
-/* A Bison parser, made from parse-gram.y, by GNU bison 1.49c.  */
+/* A Bison parser, made from parse-gram.y, by GNU bison 1.75a.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
@@ -28,7 +28,7 @@
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
-# if defined (__STDC__) || defined (__cplusplus)
+# define YYTOKENTYPE
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
@@ -45,41 +45,41 @@
      PERCENT_LEFT = 267,
      PERCENT_RIGHT = 268,
      PERCENT_NONASSOC = 269,
-     PERCENT_EXPECT = 270,
-     PERCENT_START = 271,
-     PERCENT_PREC = 272,
-     PERCENT_DPREC = 273,
-     PERCENT_MERGE = 274,
-     PERCENT_VERBOSE = 275,
+     PERCENT_PREC = 270,
+     PERCENT_DPREC = 271,
+     PERCENT_MERGE = 272,
+     PERCENT_DEBUG = 273,
+     PERCENT_DEFINE = 274,
+     PERCENT_DEFINES = 275,
      PERCENT_ERROR_VERBOSE = 276,
-     PERCENT_OUTPUT = 277,
+     PERCENT_EXPECT = 277,
      PERCENT_FILE_PREFIX = 278,
-     PERCENT_NAME_PREFIX = 279,
-     PERCENT_DEFINE = 280,
-     PERCENT_PURE_PARSER = 281,
-     PERCENT_GLR_PARSER = 282,
-     PERCENT_DEFINES = 283,
-     PERCENT_YACC = 284,
-     PERCENT_DEBUG = 285,
-     PERCENT_LOCATIONS = 286,
-     PERCENT_NO_LINES = 287,
-     PERCENT_SKELETON = 288,
+     PERCENT_GLR_PARSER = 279,
+     PERCENT_LEX_PARAM = 280,
+     PERCENT_LOCATIONS = 281,
+     PERCENT_NAME_PREFIX = 282,
+     PERCENT_NO_LINES = 283,
+     PERCENT_OUTPUT = 284,
+     PERCENT_PARSE_PARAM = 285,
+     PERCENT_PURE_PARSER = 286,
+     PERCENT_SKELETON = 287,
+     PERCENT_START = 288,
      PERCENT_TOKEN_TABLE = 289,
-     TYPE = 290,
-     EQUAL = 291,
-     SEMICOLON = 292,
-     COLON = 293,
-     PIPE = 294,
-     ID = 295,
-     PERCENT_PERCENT = 296,
-     PROLOGUE = 297,
-     EPILOGUE = 298,
-     BRACED_CODE = 299
+     PERCENT_VERBOSE = 290,
+     PERCENT_YACC = 291,
+     TYPE = 292,
+     EQUAL = 293,
+     SEMICOLON = 294,
+     COLON = 295,
+     COMMA = 296,
+     PIPE = 297,
+     ID = 298,
+     PERCENT_PERCENT = 299,
+     PROLOGUE = 300,
+     EPILOGUE = 301,
+     BRACED_CODE = 302
    };
-# endif
-  /* POSIX requires `int' for tokens in interfaces.  */
-# define YYTOKENTYPE int
-#endif /* !YYTOKENTYPE */
+#endif
 #define GRAM_EOF 0
 #define STRING 258
 #define CHARACTER 259
@@ -93,36 +93,39 @@
 #define PERCENT_LEFT 267
 #define PERCENT_RIGHT 268
 #define PERCENT_NONASSOC 269
-#define PERCENT_EXPECT 270
-#define PERCENT_START 271
-#define PERCENT_PREC 272
-#define PERCENT_DPREC 273
-#define PERCENT_MERGE 274
-#define PERCENT_VERBOSE 275
+#define PERCENT_PREC 270
+#define PERCENT_DPREC 271
+#define PERCENT_MERGE 272
+#define PERCENT_DEBUG 273
+#define PERCENT_DEFINE 274
+#define PERCENT_DEFINES 275
 #define PERCENT_ERROR_VERBOSE 276
-#define PERCENT_OUTPUT 277
+#define PERCENT_EXPECT 277
 #define PERCENT_FILE_PREFIX 278
-#define PERCENT_NAME_PREFIX 279
-#define PERCENT_DEFINE 280
-#define PERCENT_PURE_PARSER 281
-#define PERCENT_GLR_PARSER 282
-#define PERCENT_DEFINES 283
-#define PERCENT_YACC 284
-#define PERCENT_DEBUG 285
-#define PERCENT_LOCATIONS 286
-#define PERCENT_NO_LINES 287
-#define PERCENT_SKELETON 288
+#define PERCENT_GLR_PARSER 279
+#define PERCENT_LEX_PARAM 280
+#define PERCENT_LOCATIONS 281
+#define PERCENT_NAME_PREFIX 282
+#define PERCENT_NO_LINES 283
+#define PERCENT_OUTPUT 284
+#define PERCENT_PARSE_PARAM 285
+#define PERCENT_PURE_PARSER 286
+#define PERCENT_SKELETON 287
+#define PERCENT_START 288
 #define PERCENT_TOKEN_TABLE 289
-#define TYPE 290
-#define EQUAL 291
-#define SEMICOLON 292
-#define COLON 293
-#define PIPE 294
-#define ID 295
-#define PERCENT_PERCENT 296
-#define PROLOGUE 297
-#define EPILOGUE 298
-#define BRACED_CODE 299
+#define PERCENT_VERBOSE 290
+#define PERCENT_YACC 291
+#define TYPE 292
+#define EQUAL 293
+#define SEMICOLON 294
+#define COLON 295
+#define COMMA 296
+#define PIPE 297
+#define ID 298
+#define PERCENT_PERCENT 299
+#define PROLOGUE 300
+#define EPILOGUE 301
+#define BRACED_CODE 302
 
 
 
@@ -136,8 +139,8 @@ typedef union {
   char *string;
   assoc_t assoc;
 } yystype;
-/* Line 1294 of /usr/local/share/bison/yacc.c.  */
-#line 141 "y.tab.h"
+/* Line 1281 of /usr/local/share/bison/yacc.c.  */
+#line 144 "y.tab.h"
 # define YYSTYPE yystype
 #endif
 

@@ -126,7 +126,7 @@ blanks   [ \t\f]+
   "%expect"               return PERCENT_EXPECT;
   "%file-prefix"          return PERCENT_FILE_PREFIX;
   "%fixed"[-_]"output"[-_]"files"   return PERCENT_YACC;
-  "%glr"[-_]"parser"	  return PERCENT_GLR_PARSER;
+  "%glr-parser"           return PERCENT_GLR_PARSER;
   "%left"                 return PERCENT_LEFT;
   "%locations"            return PERCENT_LOCATIONS;
   "%merge"		  return PERCENT_MERGE;
@@ -135,10 +135,12 @@ blanks   [ \t\f]+
   "%nonassoc"             return PERCENT_NONASSOC;
   "%nterm"                return PERCENT_NTERM;
   "%output"               return PERCENT_OUTPUT;
+  "%parse-param"          return PERCENT_PARSE_PARAM;
   "%prec"                 { rule_length--; return PERCENT_PREC; }
   "%printer"              return PERCENT_PRINTER;
   "%pure"[-_]"parser"     return PERCENT_PURE_PARSER;
   "%right"                return PERCENT_RIGHT;
+  "%lex-param"            return PERCENT_LEX_PARAM;
   "%skeleton"             return PERCENT_SKELETON;
   "%start"                return PERCENT_START;
   "%term"                 return PERCENT_TOKEN;
@@ -152,6 +154,7 @@ blanks   [ \t\f]+
   "="                     return EQUAL;
   ":"                     { rule_length = 0; return COLON; }
   "|"                     { rule_length = 0; return PIPE; }
+  ","                     return COMMA;
   ";"                     return SEMICOLON;
 
   {eols}      YY_LINES; YY_STEP;

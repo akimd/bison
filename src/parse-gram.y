@@ -113,36 +113,42 @@ braced_code_t current_braced_code = action_braced_code;
 %token PERCENT_RIGHT       "%right"
 %token PERCENT_NONASSOC    "%nonassoc"
 
-%token PERCENT_EXPECT        "%expect"
-%token PERCENT_START         "%start"
 %token PERCENT_PREC          "%prec"
 %token PERCENT_DPREC         "%dprec"
 %token PERCENT_MERGE         "%merge"
-%token PERCENT_VERBOSE       "%verbose"
-%token PERCENT_ERROR_VERBOSE "%error-verbose"
 
-%token PERCENT_OUTPUT      "%output"
-%token PERCENT_FILE_PREFIX "%file-prefix"
-%token PERCENT_NAME_PREFIX "%name-prefix"
 
-%token PERCENT_DEFINE      "%define"
-%token PERCENT_PURE_PARSER "%pure-parser"
-%token PERCENT_GLR_PARSER  "%glr-parser"
+/*----------------------.
+| Global Declarations.  |
+`----------------------*/
 
-%token PERCENT_DEFINES "%defines"
-
-%token PERCENT_YACC "%yacc"
-
-%token PERCENT_DEBUG       "%debug"
-%token PERCENT_LOCATIONS   "%locations"
-%token PERCENT_NO_LINES    "%no-lines"
-%token PERCENT_SKELETON    "%skeleton"
-%token PERCENT_TOKEN_TABLE "%token-table"
+%token
+  PERCENT_DEBUG         "%debug"
+  PERCENT_DEFINE        "%define"
+  PERCENT_DEFINES       "%defines"
+  PERCENT_ERROR_VERBOSE "%error-verbose"
+  PERCENT_EXPECT        "%expect"
+  PERCENT_FILE_PREFIX   "%file-prefix"
+  PERCENT_GLR_PARSER    "%glr-parser"
+  PERCENT_LEX_PARAM     "%lex-param"
+  PERCENT_LOCATIONS     "%locations"
+  PERCENT_NAME_PREFIX   "%name-prefix"
+  PERCENT_NO_LINES      "%no-lines"
+  PERCENT_OUTPUT        "%output"
+  PERCENT_PARSE_PARAM   "%parse-param"
+  PERCENT_PURE_PARSER   "%pure-parser"
+  PERCENT_SKELETON      "%skeleton"
+  PERCENT_START         "%start"
+  PERCENT_TOKEN_TABLE   "%token-table"
+  PERCENT_VERBOSE       "%verbose"
+  PERCENT_YACC          "%yacc"
+;
 
 %token TYPE            "type"
 %token EQUAL           "="
 %token SEMICOLON       ";"
 %token COLON           ":"
+%token COMMA           ","
 %token PIPE            "|"
 %token ID              "identifier"
 %token PERCENT_PERCENT "%%"
@@ -186,12 +192,16 @@ declaration:
 | "%error-verbose"                         { error_verbose = 1; }
 | "%expect" INT                            { expected_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
+| "%glr-parser" 			   { glr_parser = 1; }
+| "%lex-param" string_content "," string_content
+                           { muscle_pair_list_grow ("lex_param", $2, $4); }
 | "%locations"                             { locations_flag = 1; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
 | "%no-lines"                              { no_lines_flag = 1; }
 | "%output" "=" string_content             { spec_outfile = $3; }
+| "%parse-param" string_content "," string_content
+                           { muscle_pair_list_grow ("parse_param", $2, $4); }
 | "%pure-parser"                           { pure_parser = 1; }
-| "%glr-parser" 			   { glr_parser = 1; }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = 1; }
 | "%verbose"                               { report_flag = 1; }

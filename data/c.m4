@@ -1,4 +1,4 @@
-m4_divert(-1)                                                     -*- C -*-
+m4_divert(-1)                                                *- Autoconf -*-
 
 # C M4 Macros for Bison.
 # Copyright (C) 2002 Free Software Foundation, Inc.
@@ -122,13 +122,36 @@ m4_map([b4_token_define], [$@])
 ])
 
 
+## --------------------- ##
+## Calling C functions.  ##
+## --------------------- ##
+
+
+# b4_c_function_call(NAME, RETURN-VALUE, [TYPE1, NAME1], ...)
+# -----------------------------------------------------------
+# Call the function NAME with arguments NAME1, NAME2 etc.
+m4_define([b4_c_function_call],
+[$1 (b4_c_args(m4_shiftn(2, $@)))[]dnl
+])
+
+
+# b4_c_args([TYPE1, NAME1], ...)
+# ------------------------------
+# Output the arguments NAME1, NAME2...
+m4_define([b4_c_args],
+[m4_map_sep([b4_c_arg], [, ], [$@])])
+
+m4_define([b4_c_arg],
+[$2])
+
+
 ## ---------------------------------------------- ##
 ## Declaring C functions in both K&R and ANSI-C.  ##
 ## ---------------------------------------------- ##
 
 
 # b4_c_function(NAME, RETURN-VALUE, [TYPE1, NAME1], ...)
-# ------------------------------------------------
+# ------------------------------------------------------
 # Declare the function NAME.
 m4_define([b4_c_function],
 [$2

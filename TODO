@@ -5,6 +5,18 @@
 From Franc,ois: should we keep the directory part in the CPP guard?
 
 
+* readpipe
+
+It should be replaced to avoid tmp files and to improve portability.
+Also, as it is it does not call error () when execve fails, and
+therefore, running M4='m4 --version' bison will silently fail instead
+of:
+
+	bison: cannot run m4 --version: No such file or directory
+
+BTW: I would really like to be able to pass arguments to m4...
+
+
 * URGENT: Documenting C++ output
 Write a first documentation for C++ output.
 

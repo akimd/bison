@@ -1,5 +1,29 @@
 2002-10-19  Akim Demaille  <akim@epita.fr>
 
+	Prototype support of %lex-param and %parse-param.
+
+	* src/parse-gram.y: Add the definition of the %lex-param and
+	%parse-param tokens, plus their rules.
+	Drop the `_' version of %glr-parser.
+	Add the "," token.
+	* src/scan-gram.l (INITIAL): Scan them.
+	* src/muscle_tab.c: Comment changes.
+	(muscle_insert, muscle_find): Rename `pair' as `probe'.
+	* src/muscle_tab.h (MUSCLE_INSERT_PREFIX): Remove unused.
+	(muscle_entry_s): The `value' member is no longer const.
+	Adjust all dependencies.
+	* src/muscle_tab.c (muscle_init): Adjust: use
+	MUSCLE_INSERT_STRING.
+	Initialize the obstack earlier.
+	* src/muscle_tab.h, src/muscle_tab.c (muscle_grow)
+	(muscle_pair_list_grow): New.
+	* data/c.m4 (b4_c_function_call, b4_c_args): New.
+	* data/yacc.c (YYLEX): Use b4_c_function_call to honor %lex-param.
+	* tests/calc.at: Use %locations, not --locations.
+	(AT_CHECK_CALC_GLR): Use %glr-parser, not %glr_parser.
+
+2002-10-19  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c (usage): Take status as argument and exit
 	accordingly.
 	Report the traditional `Try ... --help' message when status != 0.
