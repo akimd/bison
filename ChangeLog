@@ -1,5 +1,11 @@
 2000-09-18  Akim Demaille  <akim@epita.fr>
 
+	* configure.in: Append WARNING_CFLAGS to CFLAGS.
+	* src/Makefile.am (INCLUDES): Don't.
+	Be ready to fetch headers in lib/.
+
+2000-09-18  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo: Update the copyright.
 	ANSIfy and GNUify the examples.
 	Remove the old menu.

@@ -42,6 +42,7 @@ if test "${enableval}" = yes; then
   BISON_WARNING(-Wshadow)
   BISON_WARNING(-Wstrict-prototypes)
   BISON_WARNING(-Wwrite-strings)
+  CFLAGS="$CFLAGS $WARNING_CFLAGS"
 fi
 
 # Checks for libraries.
