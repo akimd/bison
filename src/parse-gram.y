@@ -443,7 +443,11 @@ lloc_default (YYLTYPE const *rhs, int n)
 {
   int i;
   YYLTYPE loc;
-  loc.start = loc.end = rhs[n].end;
+
+  /* SGI MIPSpro 7.4.1m miscompiles "loc.start = loc.end = rhs[n].end;".
+     The bug is fixed in 7.4.2m, but play it safe for now.  */
+  loc.start = rhs[n].end;
+  loc.end = rhs[n].end;
 
   /* Ignore empty nonterminals the start of the the right-hand side.
      Do not bother to ignore them at the end of the right-hand side,

@@ -17,8 +17,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 # 02111-1307  USA
 
-# We need a recent Autoconf to run a recent Autotest.
-AC_PREREQ(2.57)
+# We need a recent Autoconf to avoid the message
+# "autom4te: unknown language: Autoconf-without-aclocal-m4".
+AC_PREREQ(2.58)
 
 AC_INIT([GNU Bison], [1.875e], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR([config])

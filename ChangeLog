@@ -1,3 +1,12 @@
+2004-05-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/parse-gram.y (lloc_default): Rewrite to avoid compiler bug
+	in SGI MIPSpro 7.4.1m.  Problem reported by Albert Chin-A-Young in
+	<http://mail.gnu.org/archive/html/bug-bison/2004-05/msg00037.html>.
+
+	* configure.ac (AC_PREREQ): Bump to 2.58, since 2.57 doesn't work
+	(it fails with a Autoconf-without-aclocal-m4 diagnostic).
+
 2004-05-26  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* configure.ac (AM_GNU_GETTEXT_VERSION): Lower it from 0.14.1 to
