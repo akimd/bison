@@ -1,5 +1,11 @@
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
+	* reader.c (copy_at): New function.
+	(copy_guard): Use it.
+	(copy_action): Use it.
+
+2000-03-17  Akim Demaille  <akim@epita.fr>
+
 	Be kind to translators, save some useless translations.
 
 	* main.c (banner): New function.
