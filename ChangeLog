@@ -1,5 +1,9 @@
 2002-01-12  Akim Demaille  <akim@epita.fr>
 
+	Version 1.30l.
+
+2002-01-12  Akim Demaille  <akim@epita.fr>
+
 	* lib/Makefile.am (EXTRA_DIST): Add strnlen.c: Automake is still
 	not using Autoconf traces and does not see Autoconf's AC_LIBOBJ.
 
