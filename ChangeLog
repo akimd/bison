@@ -1,3 +1,11 @@
+2000-12-14  Akim Demaille  <akim@epita.fr>
+
+	* src/bison.s1 (YYLLOC_DEFAULT): New macro.
+	Provide a default definition.
+	Use it when executing the default @ action.
+	* src/reader.c (reader_output_yylsp): No longer include
+	`timestamp' and `text' in the default YYLTYPE.
+
 2000-12-12  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (copy_definition, parse_union_decl, copy_action)

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-11-17 16:54+0100\n"
+"POT-Creation-Date: 2000-12-12 18:19+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -207,7 +207,7 @@ msgstr ""
 msgid "unexpected `/' found and ignored"
 msgstr "»/« wird hier nicht erwartet und wird deshalb ignoriert"
 
-#: src/lex.c:112 src/reader.c:300
+#: src/lex.c:112 src/reader.c:301
 msgid "unterminated comment"
 msgstr "unbeendeter Kommentar"
 
@@ -257,7 +257,7 @@ msgstr "interner Fehler, %s\n"
 msgid "Entering set_nullable"
 msgstr "Führe »set_nullable« aus"
 
-#: src/output.c:1026
+#: src/output.c:1002
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "maximale Tabellengröße (%s) überschritten"
@@ -350,229 +350,229 @@ msgstr " auf der linken Seite:"
 msgid " on right:"
 msgstr " auf der rechten Seite:"
 
-#: src/reader.c:81
+#: src/reader.c:82
 msgid "   Skipping to next \\n"
 msgstr "   Überspringe Zeichen bis zum nächsten \\n"
 
-#: src/reader.c:83
+#: src/reader.c:84
 #, c-format
 msgid "   Skipping to next %c"
 msgstr "   Überspringe Zeichen bis zum nächten %c"
 
-#: src/reader.c:134 src/reader.c:146
+#: src/reader.c:135 src/reader.c:147
 msgid "invalid $ value"
 msgstr "unzulässiger $ Wert"
 
-#: src/reader.c:175 src/reader.c:193
+#: src/reader.c:176 src/reader.c:194
 msgid "unterminated string at end of file"
 msgstr "unbeendete Zeichenkette am Ende der Datei"
 
-#: src/reader.c:178
+#: src/reader.c:179
 msgid "unterminated string"
 msgstr "unbeendete Zeichenkette"
 
-#: src/reader.c:367 src/reader.c:447
+#: src/reader.c:368 src/reader.c:448
 #, fuzzy, c-format
 msgid "%s is invalid"
 msgstr "@%s ist unzulässig"
 
-#: src/reader.c:415
+#: src/reader.c:416
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ von »%s« hat keine deklarierten Wert"
 
-#: src/reader.c:440
+#: src/reader.c:441
 #, fuzzy, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "»%s« von »%s« hat keine deklarierten Wert"
 
-#: src/reader.c:493
+#: src/reader.c:495
 msgid "unterminated `%{' definition"
 msgstr "unbeendete »%{« Definition"
 
-#: src/reader.c:538 src/reader.c:654 src/reader.c:704
+#: src/reader.c:540 src/reader.c:656 src/reader.c:706
 #, c-format
 msgid "Premature EOF after %s"
 msgstr ""
 
-#: src/reader.c:555
+#: src/reader.c:557
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr ""
 
-#: src/reader.c:558
+#: src/reader.c:560
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr ""
 
-#: src/reader.c:580 src/reader.c:723
+#: src/reader.c:582 src/reader.c:725
 #, c-format
 msgid "symbol %s redefined"
 msgstr "Symbol %s noch einmal definiert"
 
-#: src/reader.c:590 src/reader.c:669 src/reader.c:730 src/reader.c:1291
+#: src/reader.c:592 src/reader.c:671 src/reader.c:732 src/reader.c:1296
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "erneute Deklaration des Typs für %s"
 
-#: src/reader.c:600
+#: src/reader.c:602
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "»%s« ist in %s nicht erlaubt"
 
-#: src/reader.c:617 src/reader.c:777
+#: src/reader.c:619 src/reader.c:779
 #, fuzzy, c-format
 msgid "multiple %s declarations"
 msgstr "mehr als eine %start Deklaration"
 
-#: src/reader.c:619 src/reader.c:1269
+#: src/reader.c:621 src/reader.c:1274
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "ungültige %start Deklaration"
 
-#: src/reader.c:639
+#: src/reader.c:641
 msgid "%type declaration has no <typename>"
 msgstr "%type Deklaration hat keinen <Typ-Namen>"
 
-#: src/reader.c:674
+#: src/reader.c:676
 #, fuzzy
 msgid "invalid %%type declaration due to item: %s"
 msgstr "ungültige %%type Deklaration wegen »%s«"
 
-#: src/reader.c:719
+#: src/reader.c:721
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "Stellenwertigkeit von %s wird erneut definiert"
 
-#: src/reader.c:743
+#: src/reader.c:745
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "unzulässiger Text (%s) - Nummer sollte nach Bezeichner kommen"
 
-#: src/reader.c:753
+#: src/reader.c:755
 #, c-format
 msgid "unexpected item: %s"
 msgstr "unerwartetes Symbol: %s"
 
-#: src/reader.c:814 src/reader.c:1100 src/reader.c:1171
+#: src/reader.c:817 src/reader.c:1104 src/reader.c:1176
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "»{« hat kein Gegenstück"
 
-#: src/reader.c:846
+#: src/reader.c:849
 #, fuzzy
 msgid "argument of %%expect is not an integer"
 msgstr "Argument von %expect ist keine ganze Zahl"
 
-#: src/reader.c:893
+#: src/reader.c:896
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "unerwartetes Symbol %s, hier wird ein Bezeichner erwartet"
 
-#: src/reader.c:917
+#: src/reader.c:920
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "hier wird eine Zeichenkette erwartet, nicht %s"
 
-#: src/reader.c:1017
+#: src/reader.c:1020
 #, c-format
 msgid "unrecognized: %s"
 msgstr "unbekannt: %s"
 
-#: src/reader.c:1022
+#: src/reader.c:1025
 msgid "no input grammar"
 msgstr "keine Eingabe-Grammatik"
 
-#: src/reader.c:1027
+#: src/reader.c:1030
 #, c-format
 msgid "unknown character: %s"
 msgstr "unbekanntes Zeichen: %s"
 
-#: src/reader.c:1194
+#: src/reader.c:1199
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "unbeendeter %%guard Fall"
 
-#: src/reader.c:1356
+#: src/reader.c:1361
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr ""
 "falsch geformte Regel: führendes Symbol wird nicht von einem Semikolon "
 "gefolgt"
 
-#: src/reader.c:1363
+#: src/reader.c:1368
 msgid "grammar starts with vertical bar"
 msgstr "Grammatik fängt mit einem vertikalen Strich (»|«) an"
 
-#: src/reader.c:1394
+#: src/reader.c:1399
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "Regel für %s vorhanden, welches aber ein Token ist"
 
-#: src/reader.c:1496
+#: src/reader.c:1501
 msgid "two @prec's in a row"
 msgstr "zwei @prec Anweisungen nacheinander"
 
-#: src/reader.c:1504
+#: src/reader.c:1509
 #, fuzzy
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr ""
 "%%guard Anweisung vorhanden, jedoch wird %%semantic_parser nicht angegeben"
 
-#: src/reader.c:1513
+#: src/reader.c:1518
 msgid "two actions at end of one rule"
 msgstr "Zwei Aktionen am Ende einer Regel"
 
-#: src/reader.c:1527
+#: src/reader.c:1532
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "Typkonflikt (»%s« »%s«) bei Default Aktion"
 
-#: src/reader.c:1533
+#: src/reader.c:1538
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "leere Regel für Nicht-Terminal vmit Typ und keine Aktion"
 
-#: src/reader.c:1577
+#: src/reader.c:1582
 #, c-format
 msgid "invalid input: %s"
 msgstr "ungültige Eingabe: %s"
 
-#: src/reader.c:1585
+#: src/reader.c:1590
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "zu viele Symbols (Token plus Nicht-Terminal); Maximum %s"
 
-#: src/reader.c:1588
+#: src/reader.c:1593
 msgid "no rules in the input grammar"
 msgstr "Eingabegrammatik enthält keine Regeln"
 
-#: src/reader.c:1612
+#: src/reader.c:1617
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "Symbol %s wird benutzt, ist aber nicht als Token definiert und hat keine "
 "Regel"
 
-#: src/reader.c:1718
+#: src/reader.c:1723
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "Vorrangwertigkeiten für %s und %s widersprechen sich"
 
-#: src/reader.c:1730
+#: src/reader.c:1735
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "assoc Werte für %s nd %s widersprechen sich"
 
-#: src/reader.c:1781
+#: src/reader.c:1786
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "Token %s und %s haben die selbe nummer %s"
 
-#: src/reader.c:1794
+#: src/reader.c:1799
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "das Startsymbol %s ist undefiniert"
 
-#: src/reader.c:1796
+#: src/reader.c:1801
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "das Startsymbol %s ist ein Token"

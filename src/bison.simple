@@ -117,7 +117,21 @@ while (0)
 #define YYERRCODE	256
 
 
-/* YYLEX -- calling `yylex' with the right arguments. */
+/* YYLLOC_DEFAULT -- Compute the default location (before the actions
+   are run).
+
+   When YYLLOC_DEFAULT is run, CURRENT is set the location of the
+   first token.  By default, to implement support for ranges, extend
+   its range to the last symbol.  */
+
+#ifndef YYLLOC_DEFAULT
+# define YYLLOC_DEFAULT(Current, Last)		\
+   Current.last_line   = Last.last_line;	\
+   Current.last_column = Last.last_column;
+#endif
+
+
+/* YYLEX -- calling `yylex' with the right arguments.  */
 
 #if YYPURE
 # if YYLSP_NEEDED
@@ -579,22 +593,12 @@ yyreduce:
      unconditionally makes the parser a bit smaller, and it avoids a
      GCC warning that YYVAL may be used uninitialized.  */
   yyval = yyvsp[1-yylen];
+
 #if YYLSP_NEEDED
-  /* Implement default location.  If the rhs is empty, extend YYLOC to
-     YYLLOC, which corresponds to the current token, otherwise
-     implement `@{dollar} = Starts at @1, ends at @YYLEN'.  */
-  if (yylen > 0)
-    {
-      yyloc = yylsp[1-yylen];
-      yyloc.last_line = yylsp[0].last_line;
-      yyloc.last_column = yylsp[0].last_column;
-    }
-  else
-    {
-      yyloc.last_line = yylsp[0].last_line;
-      yyloc.last_column = yylsp[0].last_column;
-      yyloc.text = 0;
-    }
+  /* Similarly for the default location.  Let the user run additional
+     commands if for instance locations are ranges.  */
+  yyloc = yylsp[1-yylen];
+  YYLLOC_DEFAULT (yyloc, yylsp[0]);
 #endif
 
 #if YYDEBUG
