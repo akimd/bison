@@ -171,7 +171,7 @@ typedef struct state_s
   struct state_s *link;
 
   short number;
-  short accessing_symbol;
+  token_number_t accessing_symbol;
   shifts     *shifts;
   reductions *reductions;
   errs       *errs;

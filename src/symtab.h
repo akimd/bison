@@ -43,8 +43,11 @@ typedef enum
 
 /* Internal token numbers. */
 typedef short token_number_t;
+
 #define SUNDEF  -1              /* For undefined user number. */
 #define SALIAS	-9991		/* for symbol generated with an alias */
+
+#define NUMBER_UNDEFINED ((token_number_t) -1)
 
 struct symbol_s
 {
@@ -52,6 +55,7 @@ struct symbol_s
   char *tag;
   /* Its type. */
   char *type_name;
+
   token_number_t number;
   short prec;
   associativity assoc;

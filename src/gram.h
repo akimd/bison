@@ -114,7 +114,16 @@ typedef int item_number_t;
 extern item_number_t *ritem;
 extern int nritems;
 
-extern int start_symbol;
+/* There is weird relationship between item_number_t and
+   token_number_t: we store token_number_t in item_number_t, but in
+   the latter we also store, as negative numbers, the rule numbers.
+
+   Therefore, an token_number_t must be a valid item_number_t, and we
+   sometimes have to perform the converse transformation.  */
+#define token_number_as_item_number(Tok) ((item_number_t) (Tok))
+#define item_number_as_token_number(Ite) ((token_number_t) (Ite))
+
+extern token_number_t start_symbol;
 
 
 typedef struct rule_s

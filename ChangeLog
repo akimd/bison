@@ -1,5 +1,20 @@
 2002-04-22  Akim Demaille  <akim@epita.fr>
 
+	Propagate more token_number_t.
+
+	* src/gram.h (token_number_as_item_number)
+	(item_number_as_token_number): New.
+	* src/output.c (GENERATE_OUTPUT_TABLE): New.
+	Use it to create output_item_number_table and
+	output_token_number_table.
+	* src/LR0.c, src/derives.c, src/gram.c, src/gram.h, src/lalr.c,
+	* src/lex.c, src/nullable.c, src/output.c, src/print.c,
+	* src/print_graph.c, src/reader.c, src/reduce.c, src/state.h,
+	* src/symtab.c, src/symtab.h: Use token_number_t instead of shorts.
+
+	
+2002-04-22  Akim Demaille  <akim@epita.fr>
+
 	* src/output.h, src/output.c (get_lines_number): Remove.
 
 2002-04-19  Akim Demaille  <akim@epita.fr>
