@@ -1,5 +1,15 @@
 2001-12-22  Akim Demaille  <akim@epita.fr>
 
+	Some actions of web2c.y are improperly triggered.
+	Reported by Mike Castle.
+
+	* src/lalr.c (traverse): s/F (i)[k] = F (j)[k]/F (j)[k] = F (i)[k]/.
+	* tests/regression.at (Web2c): Rename as...
+	(Web2c Report): this.
+	(Web2c Actions): New.
+
+2001-12-22  Akim Demaille  <akim@epita.fr>
+
 	Reductions in web2c.y are improperly reported.
 	Reported by Mike Castle.
 
