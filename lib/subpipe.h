@@ -1,5 +1,5 @@
 /* Subprocesses with pipes.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -20,6 +20,10 @@
 
 /* Written by Paul Eggert <eggert@twinsun.com>
    and Florian Krohm <florian@edamail.fishkill.ibm.com>.  */
+
+#if HAVE_SYS_TYPES_H
+# include <sys/types.h>
+#endif
 
 void init_subpipe (void);
 pid_t create_subpipe (char const * const *, int[2]);
