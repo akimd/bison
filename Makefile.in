@@ -71,7 +71,7 @@ DISTFILES = COPYING ChangeLog Makefile.in configure configure.in \
     warshall.c files.h gram.h lex.h machine.h new.h state.h \
     symtab.h system.h types.h bison.cld build.com vmsgetargs.c \
     vmshlp.mar README INSTALL bison.texinfo bison.info* texinfo.tex \
-    getopt.c getopt.h getopt1.c alloca.c mkinstalldirs
+    getopt.c getopt.h getopt1.c alloca.c mkinstalldirs install.sh
 
 
 SHELL = /bin/sh
@@ -124,13 +124,11 @@ realclean: distclean
 # Most of these deps are in case using RCS.
 install: all bison.1 $(srcdir)/$(PFILE) $(srcdir)/$(PFILE1) installdirs uninstall
 	$(INSTALL_PROGRAM) bison $(bindir)/bison
-	$(INSTALL_DATA) ./bison.s1 $(datadir)/$(PFILE)
+	$(INSTALL_DATA) bison.s1 $(datadir)/$(PFILE)
 	$(INSTALL_DATA) $(srcdir)/$(PFILE1) $(datadir)/$(PFILE1)
-	-chmod a+r $(datadir)/$(PFILE) $(datadir)/$(PFILE1) 
-	-$(INSTALL_DATA) $(srcdir)/bison.1 $(mandir)/bison.$(manext)
-	-chmod a+r $(mandir)/bison.$(manext)
 	cd $(srcdir); for f in bison.info*; \
 	do $(INSTALL_DATA) $$f $(infodir)/$$f; done
+	-$(INSTALL_DATA) $(srcdir)/bison.1 $(mandir)/bison.$(manext)
 
 # Make sure all installation directories, e.g. $(bindir) actually exist by
 # making them if necessary.
