@@ -491,6 +491,7 @@ yy::]b4_parser_class_name[::yydestruct_ (const char* yymsg,
                          int yytype, semantic_type* yyvaluep, location_type* yylocationp)
 {
   /* Pacify ``unused variable'' warnings.  */
+  (void) yymsg;
   (void) yyvaluep;
   (void) yylocationp;
 
