@@ -1,5 +1,12 @@
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
+	* src/nullable.c (set_nullable): Useless rules must be skipped,
+	otherwise, since we range over their symbols, we might look at a
+	nonterminal which no longer ``exists'', i.e., it is not counted in
+	`nvars', hence we overflow our arrays.
+
+2001-12-15  Akim Demaille  <akim@epita.fr>
+
 	The header can also be produced directly, without any obstack!
 	Yahoo!
 
