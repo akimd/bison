@@ -1,3 +1,8 @@
+2001-09-01  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/reader.c (copy_guard): Use muscle to specify the `#line' 
+	filename.
+
 2001-09-01  Marc Autret  <autret_m@epita.fr>
 
 	* tests/calc.at (exp): Now, YYERROR_VERBOSE need to be set
