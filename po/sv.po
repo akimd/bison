@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2001-11-23 15:13+0100\n"
+"POT-Creation-Date: 2001-11-28 15:58+0100\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -28,7 +28,7 @@ msgstr "Okänt systemfel"
 msgid "warning: "
 msgstr "varning: "
 
-#: src/complain.c:238 src/complain.c:279
+#: src/complain.c:238
 msgid "fatal error: "
 msgstr "ödesdigert fel: "
 
@@ -75,38 +75,38 @@ msgstr "Tillstånd %d innehåller "
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:460
+#: src/conflicts.c:470
 msgid "conflicts: "
 msgstr "konflikter: "
 
-#: src/conflicts.c:462
+#: src/conflicts.c:472
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d skifta/reducera"
 
-#: src/conflicts.c:466
+#: src/conflicts.c:476
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducera/reducera"
 
-#: src/conflicts.c:471 src/reduce.c:493
+#: src/conflicts.c:481 src/reduce.c:493
 #, c-format
 msgid "%s contains "
 msgstr "%s innehåller "
 
-#: src/conflicts.c:480
+#: src/conflicts.c:488
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "förväntade %d skifta/reducerakonflikt"
 msgstr[1] "förväntade %d skifta/reducerakonflikter"
 
-#: src/conflicts.c:567 src/conflicts.c:688
+#: src/conflicts.c:575 src/conflicts.c:696
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reducera med regel %d (%s)]\n"
 
-#: src/conflicts.c:579 src/print.c:156
+#: src/conflicts.c:587 src/print.c:156
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -115,37 +115,37 @@ msgstr ""
 "    $standard\treducera med regel %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:668 src/conflicts.c:682
+#: src/conflicts.c:676 src/conflicts.c:690
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treducera med regel %d (%s)\n"
 
-#: src/conflicts.c:708
+#: src/conflicts.c:716
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $standard\treducera med regel %d (%s)\n"
 
-#: src/files.c:143
+#: src/files.c:144
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "kan inte öppna filen \"%s\""
 
-#: src/files.c:162
+#: src/files.c:163
 msgid "cannot close file"
 msgstr "kan inte stänga fil"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:54
+#: src/getargs.c:56
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genererar parsrar för LALR(1)-grammatiker.\n"
 
-#: src/getargs.c:58
+#: src/getargs.c:60
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Användning: %s [FLAGGA]... FIL\n"
 
-#: src/getargs.c:62
+#: src/getargs.c:64
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -154,7 +154,7 @@ msgstr ""
 "obligatoriskt för den motsvarande korta flaggan också.  Motsvarande\n"
 "för valfria argument.\n"
 
-#: src/getargs.c:68
+#: src/getargs.c:70
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -166,7 +166,7 @@ msgstr ""
 "  -V, --version   visa versionsinformation och avsluta\n"
 "  -y, --yacc      emulera POSIX-yacc\n"
 
-#: src/getargs.c:75
+#: src/getargs.c:77
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -186,7 +186,7 @@ msgstr ""
 "  -n, --no-parser            generera endast tabellerna\n"
 "  -k, --token-table          inkludera en tabell över elementnamn\n"
 
-#: src/getargs.c:87
+#: src/getargs.c:89
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -203,7 +203,7 @@ msgstr ""
 "  -o, --output=FIL           lägg utdata i FIL\n"
 "  -g, --graph                skapa också en VCG-beskrivning av automaten\n"
 
-#: src/getargs.c:97
+#: src/getargs.c:99
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Rapportera fel till <bug-bison@gnu.org>.\n"
@@ -211,18 +211,18 @@ msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:111
+#: src/getargs.c:113
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:116
+#: src/getargs.c:118
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:120
+#: src/getargs.c:122
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -231,22 +231,22 @@ msgstr ""
 "finns INGEN garanti, inte ens för SÄLJBARHET eller LÄMPLIGHET FÖR ETT\n"
 "SPECIELLT ÄNDAMÅL.\n"
 
-#: src/getargs.c:186 src/lex.c:665
+#: src/getargs.c:196 src/lex.c:665
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "\"%s\" stöds inte längre"
 
-#: src/getargs.c:210
+#: src/getargs.c:220
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Försök med \"%s --help\" för mer information.\n"
 
-#: src/getargs.c:218
+#: src/getargs.c:228
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: ingen grammatikfil angiven\n"
 
-#: src/getargs.c:222
+#: src/getargs.c:232
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argument ignorerade efter \"%s\"\n"
@@ -309,7 +309,7 @@ msgstr "\"%s\" stödjer inga argument: %s"
 msgid "`%s' requires an argument"
 msgstr "\"%s\" behöver ett argument"
 
-#: src/main.c:130
+#: src/main.c:136
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: internt fel: %s\n"
@@ -476,7 +476,7 @@ msgstr "symbolen \"%s\" har fått mer än en bokstavlig sträng"
 msgid "symbol %s redefined"
 msgstr "symbolen %s omdefinierad"
 
-#: src/reader.c:572 src/reader.c:651 src/reader.c:712 src/reader.c:1328
+#: src/reader.c:572 src/reader.c:651 src/reader.c:712 src/reader.c:1342
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "typen omdeklarerad för %s"
@@ -491,7 +491,7 @@ msgstr "\"%s\" är felaktig i %s"
 msgid "multiple %s declarations"
 msgstr "flera %s-deklarationer"
 
-#: src/reader.c:601 src/reader.c:936 src/reader.c:951 src/reader.c:1306
+#: src/reader.c:601 src/reader.c:936 src/reader.c:951 src/reader.c:1320
 #, c-format
 msgid "invalid %s declaration"
 msgstr "felaktig %s-deklaration"
@@ -520,7 +520,7 @@ msgstr "felaktig text (%s) - tal skulle följa efter identifierare"
 msgid "unexpected item: %s"
 msgstr "oväntat objekt: %s"
 
-#: src/reader.c:809 src/reader.c:1145 src/reader.c:1217
+#: src/reader.c:809 src/reader.c:1159 src/reader.c:1231
 #, c-format
 msgid "unmatched %s"
 msgstr "ensam %s"
@@ -540,173 +540,142 @@ msgstr "oväntat objekt %s, förväntade en identifierare"
 msgid "expected string constant instead of %s"
 msgstr "förväntade strängkonstant istället för %s"
 
-#: src/reader.c:1062
+#: src/reader.c:1076
 #, c-format
 msgid "unrecognized: %s"
 msgstr "okänt: %s"
 
-#: src/reader.c:1067
+#: src/reader.c:1081
 msgid "no input grammar"
 msgstr "ingen ingrammatik"
 
-#: src/reader.c:1072
+#: src/reader.c:1086
 #, c-format
 msgid "unknown character: %s"
 msgstr "okänt tecken: %s"
 
-#: src/reader.c:1240
+#: src/reader.c:1254
 #, c-format
 msgid "unterminated %guard clause"
 msgstr "oavlutad %guard-sats"
 
-#: src/reader.c:1393
+#: src/reader.c:1407
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "felskriven regel: första symbolen följs inte av ett kolon"
 
-#: src/reader.c:1400
+#: src/reader.c:1414
 msgid "grammar starts with vertical bar"
 msgstr "grammatiken startar med ett vertikalt streck"
 
-#: src/reader.c:1428
+#: src/reader.c:1442
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel given för %s, som är ett element"
 
-#: src/reader.c:1526
+#: src/reader.c:1542
 msgid "two @prec's in a row"
 msgstr "två @prec i rad"
 
-#: src/reader.c:1534
+#: src/reader.c:1550
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard finns men %%semantic_parser är inte angiven"
 
-#: src/reader.c:1543
+#: src/reader.c:1559
 msgid "two actions at end of one rule"
 msgstr "två åtgärder vid slutet av en regel"
 
-#: src/reader.c:1557
+#: src/reader.c:1573
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "typkonflikt (\"%s\" \"%s\") för standardåtgärd"
 
-#: src/reader.c:1563
+#: src/reader.c:1579
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tom regel för typad icketerminal, och ingen åtgärd"
 
-#: src/reader.c:1607
+#: src/reader.c:1623
 #, c-format
 msgid "invalid input: %s"
 msgstr "felaktig indata: %s"
 
-#: src/reader.c:1615
+#: src/reader.c:1631
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
 
-#: src/reader.c:1618
+#: src/reader.c:1634
 msgid "no rules in the input grammar"
 msgstr "inga regler i ingrammatiken"
 
-#: src/reader.c:1626
+#: src/reader.c:1642
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "symbolen %s används, men är inte definierad som ett element och har inga "
 "regler"
 
-#: src/reader.c:1735
+#: src/reader.c:1751
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "elementen %s och %s har båda fått nummer %d"
 
-#: src/reader.c:1788
+#: src/reader.c:1804
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "motstridiga precedenser mellan %s och %s"
 
-#: src/reader.c:1800
+#: src/reader.c:1816
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "motstridiga assoc-värden mellan %s och %s"
 
-#: src/reader.c:1836
+#: src/reader.c:1852
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "startsymbolen %s är odefinierad"
 
-#: src/reader.c:1838
+#: src/reader.c:1854
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"
 
-#: src/reduce.c:400
+#: src/reduce.c:396
 msgid "Useless nonterminals:"
 msgstr "Oanvändbara icketerminaler:"
 
-#: src/reduce.c:414
+#: src/reduce.c:410
 msgid "Terminals which are not used:"
 msgstr "Terminaler som inte används:"
 
-#: src/reduce.c:425
+#: src/reduce.c:421
 msgid "Useless rules:"
 msgstr "Oanvändbara regler:"
 
-#: src/reduce.c:451
-msgid ""
-"Variables\n"
-"---------\n"
-"\n"
-msgstr ""
-"Variabler\n"
-"---------\n"
-"\n"
-
-#: src/reduce.c:452
-msgid "Value  Sprec    Sassoc    Tag\n"
-msgstr "Värde  Sprec    Sassoc    Tagg\n"
-
-#: src/reduce.c:456
-msgid ""
-"Rules\n"
-"-----\n"
-"\n"
-msgstr ""
-"Regler\n"
-"------\n"
-"\n"
-
-#: src/reduce.c:470
-msgid ""
-"Rules interpreted\n"
-"-----------------\n"
-"\n"
-msgstr ""
-"Tolkade regler\n"
-"--------------\n"
-"\n"
-
-#: src/reduce.c:491
-#, c-format
-msgid "%d rules never reduced\n"
-msgstr "%d regler reduceras aldrig\n"
+#: src/reduce.c:488
+#, fuzzy, c-format
+msgid "%d rule never reduced\n"
+msgid_plural "%d rules never reduced\n"
+msgstr[0] "%d regler reduceras aldrig\n"
 
 # Jag har anmält att det är fel att anta att "s" är en universell pluraländelse.
 # Jag föreslog också att de använder ngettext istället.
 # "Vad göras skall är redan gjort."
-#: src/reduce.c:497
-#, c-format
-msgid "%d useless nonterminal%s"
-msgstr "%d oanvändbara icketerminaler%.0s"
+#: src/reduce.c:496
+#, fuzzy, c-format
+msgid "%d useless nonterminal"
+msgid_plural "%d useless nonterminals"
+msgstr[0] "%d oanvändbara icketerminaler%.0s"
 
 #: src/reduce.c:502
 msgid " and "
 msgstr " och "
 
-#: src/reduce.c:506
-#, c-format
-msgid "%d useless rule%s"
-msgstr "%d oanvändbara regler%.0s"
+#: src/reduce.c:505
+#, fuzzy, c-format
+msgid "%d useless rule"
+msgid_plural "%d useless rules"
+msgstr[0] "%d oanvändbara regler%.0s"
 
 #: src/reduce.c:536
 #, c-format
@@ -802,6 +771,36 @@ msgstr "\""
 #: lib/quotearg.c:269
 msgid "'"
 msgstr "\""
+
+#~ msgid ""
+#~ "Variables\n"
+#~ "---------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Variabler\n"
+#~ "---------\n"
+#~ "\n"
+
+#~ msgid "Value  Sprec    Sassoc    Tag\n"
+#~ msgstr "Värde  Sprec    Sassoc    Tagg\n"
+
+#~ msgid ""
+#~ "Rules\n"
+#~ "-----\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Regler\n"
+#~ "------\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Rules interpreted\n"
+#~ "-----------------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Tolkade regler\n"
+#~ "--------------\n"
+#~ "\n"
 
 #~ msgid "DERIVES"
 #~ msgstr "HÄRLEDER"
