@@ -38,6 +38,10 @@
    */
 #undef HAVE_DECL_STPCPY
 
+/* Define to 1 if you have the declaration of `strerror', and to 0 if you
+   don't. */
+#undef HAVE_DECL_STRERROR
+
 /* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRERROR_R
@@ -218,9 +222,6 @@
 /* Define if you have the <wctype.h> header file. */
 #undef HAVE_WCTYPE_H
 
-/* Define to 1 if `strerror_r' returns a string. */
-#undef HAVE_WORKING_STRERROR_R
-
 /* Define if you have the `__argz_count' function. */
 #undef HAVE___ARGZ_COUNT
 
@@ -249,6 +250,9 @@
 
 /* Define if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Define to 1 if strerror_r returns char *. */
+#undef STRERROR_R_CHAR_P
 
 /* Version number of package */
 #undef VERSION
