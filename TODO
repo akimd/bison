@@ -6,12 +6,15 @@
 * src/output.c
 ** Output sub-skeleton files.
 ** Cleanup dirty CPP-out code.
+** s/definitions/prologue/  s/user_code/epilogue/
+** s/macro/muscle/
 
 * src/getargs.c src/lex.c
 ** Synchronize percent and command line options.
 
 * src/macrotab.[ch]
-** Removing warnings when compiling. (gcc-warnings)
+** Removing warnings when compiling. (gcc-warnings) [ok].
+** s/macro/muscle/
 
 * src/print_graph.c
 ** Find the best graph parameters.
