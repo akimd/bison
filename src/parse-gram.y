@@ -209,7 +209,7 @@ grammar_declaration:
     {
       symbol_list_t *list;
       for (list = $4; list; list = list->next)
-	symbol_destructor_set (list->sym, list->location, $3);
+	symbol_destructor_set (list->sym, $3, @3);
       symbol_list_free ($4);
       current_braced_code = action_braced_code;
     }
@@ -240,7 +240,7 @@ symbol_declaration:
     {
       symbol_list_t *list;
       for (list = $3; list; list = list->next)
-	symbol_type_set (list->sym, list->location, $2);
+	symbol_type_set (list->sym, $2, @2);
       symbol_list_free ($3);
     }
 ;
@@ -252,8 +252,8 @@ precedence_declaration:
       ++current_prec;
       for (list = $3; list; list = list->next)
 	{
-	  symbol_type_set (list->sym, list->location, current_type);
-	  symbol_precedence_set (list->sym, list->location, current_prec, $1);
+	  symbol_type_set (list->sym, current_type, @2);
+	  symbol_precedence_set (list->sym, current_prec, $1, @1);
 	}
       symbol_list_free ($3);
       current_type = NULL;
@@ -287,24 +287,24 @@ symbol_def:
 | ID
      {
        symbol_class_set ($1, current_class, @1);
-       symbol_type_set ($1, @1, current_type);
+       symbol_type_set ($1, current_type, @1);
      }
 | ID INT
     {
       symbol_class_set ($1, current_class, @1);
-      symbol_type_set ($1, @1, current_type);
+      symbol_type_set ($1, current_type, @1);
       symbol_user_token_number_set ($1, $2, @2);
     }
 | ID string_as_id
     {
       symbol_class_set ($1, current_class, @1);
-      symbol_type_set ($1, @1, current_type);
+      symbol_type_set ($1, current_type, @1);
       symbol_make_alias ($1, $2);
     }
 | ID INT string_as_id
     {
       symbol_class_set ($1, current_class, @1);
-      symbol_type_set ($1, @1, current_type);
+      symbol_type_set ($1, current_type, @1);
       symbol_user_token_number_set ($1, $2, @2);
       symbol_make_alias ($1, $3);
     }

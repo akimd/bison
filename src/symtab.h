@@ -110,12 +110,12 @@ void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval));
 
 /* Set the TYPE_NAME associated to SYMBOL. Does nothing if passed 0 as
    TYPE_NAME.  */
-void symbol_type_set PARAMS ((symbol_t *symbol, location_t location,
-			      char *type_name));
+void symbol_type_set PARAMS ((symbol_t *symbol,
+			      char *type_name, location_t location));
 
 /* Set the DESTRUCTOR associated to SYMBOL.  */
-void symbol_destructor_set PARAMS ((symbol_t *symbol, location_t location,
-				    char *destructor));
+void symbol_destructor_set PARAMS ((symbol_t *symbol,
+				    char *destructor, location_t location));
 
 /* Set the PRINTER associated to SYMBOL.  */
 void symbol_printer_set PARAMS ((symbol_t *symbol,
@@ -123,8 +123,9 @@ void symbol_printer_set PARAMS ((symbol_t *symbol,
 
 /* Set the PRECEDENCE associated to SYMBOL.  Ensures that SYMBOL is a
    terminal.  Does nothing if invoked with UNDEF_ASSOC as ASSOC.  */
-void symbol_precedence_set PARAMS ((symbol_t *symbol, location_t location,
-				    int prec, associativity assoc));
+void symbol_precedence_set PARAMS ((symbol_t *symbol,
+				    int prec, associativity assoc,
+				    location_t location));
 
 /* Set the CLASS associated to SYMBOL.  */
 void symbol_class_set PARAMS ((symbol_t *symbol,
