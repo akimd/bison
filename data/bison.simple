@@ -465,16 +465,14 @@ while (0)
 #define YYERRCODE	256
 
 /* YYLLOC_DEFAULT -- Compute the default location (before the actions
-   are run).
-
-   When YYLLOC_DEFAULT is run, CURRENT is set the location of the
-   first token.  By default, to implement support for ranges, extend
-   its range to the last symbol.  */
+   are run).  */
 
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)       	\
-   Current.last_line   = Rhs[[N]].last_line;	\
-   Current.last_column = Rhs[[N]].last_column;
+# define YYLLOC_DEFAULT(Current, Rhs, N)           \
+  Current.first_line   = Rhs[[1]].first_line;      \
+  Current.first_column = Rhs[[1]].first_column;    \
+  Current.last_line    = Rhs[[N]].last_line;       \
+  Current.last_column  = Rhs[[N]].last_column;
 #endif
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
@@ -956,9 +954,7 @@ yyreduce:
   yyval = yyvsp[1-yylen];
 
 #if YYLSP_NEEDED
-  /* Similarly for the default location.  Let the user run additional
-     commands if for instance locations are ranges.  */
-  yyloc = yylsp[1-yylen];
+  /* Default location. */
   YYLLOC_DEFAULT (yyloc, (yylsp - yylen), yylen);
 #endif
 

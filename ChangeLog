@@ -1,5 +1,11 @@
 2002-05-02  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.simple (yyparse): Do not implement @$ = @1.
+	(YYLLOC_DEFAULT): Adjust to do it.
+	* doc/bison.texinfo (Location Default Action): Fix.
+
+2002-05-02  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (parse_braces): Merge into...
 	(parse_action): this.
 

@@ -2886,9 +2886,11 @@ By default, it is defined this way:
 
 @example
 @group
-#define YYLLOC_DEFAULT(Current, Rhs, N)         \
-  Current.last_line   = Rhs[N].last_line;       \
-  Current.last_column = Rhs[N].last_column;
+#define YYLLOC_DEFAULT(Current, Rhs, N)          \
+  Current.first_line   = Rhs[1].first_line;      \
+  Current.first_column = Rhs[1].first_column;    \
+  Current.last_line    = Rhs[N].last_line;       \
+  Current.last_column  = Rhs[N].last_column;
 @end group
 @end example
 
@@ -2900,12 +2902,8 @@ All arguments are free of side-effects. However, only the first one (the
 result) should be modified by @code{YYLLOC_DEFAULT}.
 
 @item
-Before @code{YYLLOC_DEFAULT} is executed, the output parser sets @code{@@$}
-to @code{@@1}.
-
-@item
-For consistency with semantic actions, valid indexes for the location array
-range from 1 to @var{n}.
+For consistency with semantic actions, valid indexes for the location
+array range from 1 to @var{n}.
 @end itemize
 
 @node Declarations
