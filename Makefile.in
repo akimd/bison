@@ -60,6 +60,9 @@ infodir = $(prefix)/info
 mandir = $(prefix)/man/man$(manext)
 manext = 1
 
+# hope this works on non-gnu makes.
+bison_version = `sed -e '/version_string/!d' -e 's/[^0-9.]*\([0-9.]*\).*/\1/' -e q version.c`
+
 #### End of system configuration section. ####
 
 DISTFILES = COPYING ChangeLog Makefile.in configure configure.in \
@@ -108,7 +111,7 @@ configure: configure.in
 # Copy bison.simple, inserting directory name into the #line commands.
 bison.s1: bison.simple
 	-rm -f bison.s1
-	sed -e "/^#line/ s|bison|$(datadir)/bison|" < $(srcdir)/$(PFILE) > $@-tmp
+	sed -e "/^#line/ s|bison|$(datadir)/bison|" -e "s/@bison_version@/$(bison_version)/" < $(srcdir)/$(PFILE) >  $@-tmp
 	mv $@-tmp $@
 
 clean:
@@ -151,7 +154,7 @@ bison: $(OBJECTS)
 # because it is normally used in the master source dir
 # in which configure has not been run.
 dist: bison.info
-	echo bison-`sed -e '/version_string/!d' -e 's/[^0-9.]*\([0-9.]*\).*/\1/' -e q version.c` > .fname
+	echo bison-$(bison_version) > .fname
 	-rm -rf `cat .fname`
 	mkdir `cat .fname`
 	dst=`cat .fname`; for f in $(DISTFILES); do \
