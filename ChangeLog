@@ -1,5 +1,9 @@
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
 
+	* src/main.c (main): Initialize the macro table.
+
+2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
+
 	* src/lex.c (percent_table): Add tok_define.
 	* src/lex.h: Add tok_define.
 
