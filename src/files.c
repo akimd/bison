@@ -97,13 +97,18 @@ compute_header_macro (void)
 {
   int ite;
   char *macro_name;
-
-  macro_name = XMALLOC (char,
-			strlen (base_name) +
-			strlen (header_extension) + 1);
-
-  stpcpy (macro_name, base_name);
-  strcat (macro_name, header_extension);
+  
+  if (spec_defines_file)
+    macro_name = xstrdup (spec_defines_file);
+  else
+    {
+      macro_name = XMALLOC (char,
+			    strlen (base_name) +
+			    strlen (header_extension) + 1);
+      
+      stpcpy (macro_name, base_name);
+      strcat (macro_name, header_extension);
+    }
 
   for (ite = 0; macro_name[ite]; ite++)
     if (macro_name[ite] == '.')
