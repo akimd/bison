@@ -336,8 +336,8 @@ AT_DATA_GRAMMAR([[input.y]],
 %{
 ]AT_LALR1_CC_IF([typedef yy::Location YYLTYPE;])
 [static int yylex (]AT_LEX_FORMALS[);
-static void yyerror (const char *msg);
-%}
+]AT_LALR1_CC_IF([], [static void yyerror (const char *msg);])
+[%}
 
 %type <ival> 'x' ';' thing line input
 
