@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2003-03-02 15:28+0100\n"
+"POT-Creation-Date: 2003-04-29 10:05+0200\n"
 "PO-Revision-Date: 2002-10-17 14:37+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -396,56 +396,56 @@ msgstr[1] "%d regole inutili"
 msgid "start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
-#: src/scan-gram.l:159
+#: src/scan-gram.l:160
 msgid "stray `,' treated as white space"
 msgstr ""
 
-#: src/scan-gram.l:218
+#: src/scan-gram.l:219
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr ": escape non valido: %s\n"
 
-#: src/scan-gram.l:238 src/scan-gram.l:784 src/scan-gram.l:852
+#: src/scan-gram.l:239 src/scan-gram.l:795 src/scan-gram.l:863
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:280
+#: src/scan-gram.l:281
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr ": carattere non valido: `%c'\n"
 
-#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
+#: src/scan-gram.l:410 src/scan-gram.l:420 src/scan-gram.l:439
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr ": escape non valido: %s\n"
 
-#: src/scan-gram.l:438
+#: src/scan-gram.l:444
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr ": escape non riconosciuto: %s\n"
 
-#: src/scan-gram.l:523
+#: src/scan-gram.l:532
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr ""
 
-#: src/scan-gram.l:756
+#: src/scan-gram.l:767
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: src/scan-gram.l:775
+#: src/scan-gram.l:786
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: src/scan-gram.l:819 src/scan-gram.l:886
+#: src/scan-gram.l:830 src/scan-gram.l:897
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "valore non valido: %s%d"
 
-#: src/scan-gram.l:977
+#: src/scan-gram.l:985
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr ""
@@ -519,17 +519,17 @@ msgstr "simbolo iniziale %s non definito"
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"
 
-#: lib/argmatch.c:129
+#: lib/argmatch.c:135
 #, c-format
 msgid "invalid argument %s for %s"
 msgstr "argomento non valido %s per %s"
 
-#: lib/argmatch.c:130
+#: lib/argmatch.c:136
 #, c-format
 msgid "ambiguous argument %s for %s"
 msgstr "argomento ambiguo %s per %s"
 
-#: lib/argmatch.c:149
+#: lib/argmatch.c:155
 msgid "Valid arguments are:"
 msgstr "Gli argomenti validi sono:"
 

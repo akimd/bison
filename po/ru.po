@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875\n"
-"POT-Creation-Date: 2003-03-02 15:28+0100\n"
+"POT-Creation-Date: 2003-04-29 10:05+0200\n"
 "PO-Revision-Date: 2003-01-01 20:35+0300\n"
 "Last-Translator: Dmitry S. Sivachenko <mitya@cavia.pp.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -396,56 +396,56 @@ msgstr[2] "%d бесполезных правил"
 msgid "start symbol %s does not derive any sentence"
 msgstr "начальный символ %s не выводит ни одного предложения"
 
-#: src/scan-gram.l:159
+#: src/scan-gram.l:160
 msgid "stray `,' treated as white space"
 msgstr "лишняя `,', считается пробелом"
 
-#: src/scan-gram.l:218
+#: src/scan-gram.l:219
 #, c-format
 msgid "invalid directive: %s"
 msgstr "неверная директива: %s"
 
-#: src/scan-gram.l:238 src/scan-gram.l:784 src/scan-gram.l:852
+#: src/scan-gram.l:239 src/scan-gram.l:795 src/scan-gram.l:863
 #, c-format
 msgid "integer out of range: %s"
 msgstr "выход за границы диапазона целого: %s"
 
-#: src/scan-gram.l:280
+#: src/scan-gram.l:281
 #, c-format
 msgid "invalid character: %s"
 msgstr "недопустимый символ: %s"
 
-#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
+#: src/scan-gram.l:410 src/scan-gram.l:420 src/scan-gram.l:439
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "недопустимая экранирующая последовательность: %s"
 
-#: src/scan-gram.l:438
+#: src/scan-gram.l:444
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "нераспознанная экранирующая последовательность: %s"
 
-#: src/scan-gram.l:523
+#: src/scan-gram.l:532
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "в `%s' отсутствует `{'"
 
-#: src/scan-gram.l:756
+#: src/scan-gram.l:767
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ в `%s' не имеет описанного типа"
 
-#: src/scan-gram.l:775
+#: src/scan-gram.l:786
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d из `%s' не имеет описанного типа"
 
-#: src/scan-gram.l:819 src/scan-gram.l:886
+#: src/scan-gram.l:830 src/scan-gram.l:897
 #, c-format
 msgid "invalid value: %s"
 msgstr "недопустимое значение: %s"
 
-#: src/scan-gram.l:977
+#: src/scan-gram.l:985
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "отсутствует `%s' в конце файла"
@@ -519,17 +519,17 @@ msgstr "начальный символ %s неопределен"
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
 
-#: lib/argmatch.c:129
+#: lib/argmatch.c:135
 #, c-format
 msgid "invalid argument %s for %s"
 msgstr "недопустимый аргумент %s для %s"
 
-#: lib/argmatch.c:130
+#: lib/argmatch.c:136
 #, c-format
 msgid "ambiguous argument %s for %s"
 msgstr "неоднозначный аргумент %s для %s"
 
-#: lib/argmatch.c:149
+#: lib/argmatch.c:155
 msgid "Valid arguments are:"
 msgstr "Допустимые аргументы:"
 

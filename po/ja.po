@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2003-03-02 15:28+0100\n"
+"POT-Creation-Date: 2003-04-29 10:05+0200\n"
 "PO-Revision-Date: 2002-10-29 01:00-05:00\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -395,56 +395,56 @@ msgstr[0] "%d 個の無意味な規則"
 msgid "start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"
 
-#: src/scan-gram.l:159
+#: src/scan-gram.l:160
 msgid "stray `,' treated as white space"
 msgstr ""
 
-#: src/scan-gram.l:218
+#: src/scan-gram.l:219
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "不適切な入力: %s"
 
-#: src/scan-gram.l:238 src/scan-gram.l:784 src/scan-gram.l:852
+#: src/scan-gram.l:239 src/scan-gram.l:795 src/scan-gram.l:863
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:280
+#: src/scan-gram.l:281
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "未知の文字: %s"
 
-#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
+#: src/scan-gram.l:410 src/scan-gram.l:420 src/scan-gram.l:439
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "不適切な入力: %s"
 
-#: src/scan-gram.l:438
+#: src/scan-gram.l:444
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "認識できない: %s"
 
-#: src/scan-gram.l:523
+#: src/scan-gram.l:532
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr ""
 
-#: src/scan-gram.l:756
+#: src/scan-gram.l:767
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' の $$ に宣言のない型があります"
 
-#: src/scan-gram.l:775
+#: src/scan-gram.l:786
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d 個の `%s' が宣言された型を持っていません"
 
-#: src/scan-gram.l:819 src/scan-gram.l:886
+#: src/scan-gram.l:830 src/scan-gram.l:897
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "不適切な $ の値"
 
-#: src/scan-gram.l:977
+#: src/scan-gram.l:985
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "閉じられていない文字列がファイル末尾にあります"
@@ -520,17 +520,17 @@ msgstr "開始シンボル %s は定義されていません"
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"
 
-#: lib/argmatch.c:129
+#: lib/argmatch.c:135
 #, fuzzy, c-format
 msgid "invalid argument %s for %s"
 msgstr "不適切な入力: %s"
 
-#: lib/argmatch.c:130
+#: lib/argmatch.c:136
 #, c-format
 msgid "ambiguous argument %s for %s"
 msgstr ""
 
-#: lib/argmatch.c:149
+#: lib/argmatch.c:155
 msgid "Valid arguments are:"
 msgstr ""
 
