@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.75b\n"
-"POT-Creation-Date: 2002-11-24 23:54-0800\n"
+"POT-Creation-Date: 2002-12-13 03:47-0800\n"
 "PO-Revision-Date: 2002-11-22 12:24GMT+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -16,106 +16,106 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: KBabel 0.9.5\n"
 
-#: src/complain.c:78 lib/error.c:126 lib/error.c:154
+#: src/complain.c:56 lib/error.c:135 lib/error.c:163
 msgid "Unknown system error"
 msgstr "Kesalahan sistem tidak dikenal"
 
-#: src/complain.c:103 src/complain.c:120
+#: src/complain.c:80 src/complain.c:97
 msgid "warning: "
 msgstr "peringatan: "
 
-#: src/complain.c:182 src/complain.c:200
+#: src/complain.c:159 src/complain.c:177
 msgid "fatal error: "
 msgstr "kesalahan fatal: "
 
-#: src/conflicts.c:72
+#: src/conflicts.c:75
 #, c-format
 msgid "    Conflict between rule %d and token %s resolved as shift"
 msgstr "    Konflik antara aturan %d dan token %s diselesaikan sebagai shift"
 
-#: src/conflicts.c:80
+#: src/conflicts.c:83
 #, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
 msgstr "    Konflik antara aturan %d dan token %s diselesaikan sebagai reduce"
 
-#: src/conflicts.c:87
+#: src/conflicts.c:90
 #, c-format
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr ""
 "    Konflik antara aturan %d dan token %s diselesaikan sebagai kesalahan"
 
-#: src/conflicts.c:401
+#: src/conflicts.c:403
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d geser/kurangi konflik"
 msgstr[1] "%d geser/kurangi konflik"
 
-#: src/conflicts.c:408
+#: src/conflicts.c:410
 msgid "and"
 msgstr "dan"
 
-#: src/conflicts.c:414
+#: src/conflicts.c:416
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d geser/kurangi konflik"
 msgstr[1] "%d geser/kurangi konflik"
 
-#: src/conflicts.c:434
+#: src/conflicts.c:436
 msgid "conflicts: "
 msgstr "konflik: "
 
-#: src/conflicts.c:436
+#: src/conflicts.c:438
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d geser/kurangi"
 
-#: src/conflicts.c:440
+#: src/conflicts.c:442
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d kurangi/kurangi"
 
-#: src/conflicts.c:459
+#: src/conflicts.c:461
 #, c-format
 msgid "State %d contains "
 msgstr "State %d berisi "
 
-#: src/conflicts.c:536
+#: src/conflicts.c:538
 #, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] "mengharapkan %d shift/reduce konflik"
 msgstr[1] "mengharapkan %d shift/reduce konflik"
 
-#: src/files.c:111
+#: src/files.c:98
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "tidak dapat membuka file `%s'"
 
-#: src/files.c:127
+#: src/files.c:114
 msgid "I/O error"
 msgstr "Kesalahan I/O"
 
-#: src/files.c:130
+#: src/files.c:117
 msgid "cannot close file"
 msgstr "tidak dapat menutup file"
 
-#: src/getargs.c:167
+#: src/getargs.c:182
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Coba `%s --help' untuk informasi lebih lanjut.\n"
 
-#: src/getargs.c:173
+#: src/getargs.c:188
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison generates parsers for LALR(1) grammars.\n"
 
-#: src/getargs.c:177
+#: src/getargs.c:192
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Penggunaan: %s [OPTION]... FILE\n"
 
-#: src/getargs.c:181
+#: src/getargs.c:196
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -124,7 +124,7 @@ msgstr ""
 "juga\n"
 "untuk option pendek.  Hal yang sama untuk argumen opsional.\n"
 
-#: src/getargs.c:187
+#: src/getargs.c:202
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -136,7 +136,7 @@ msgstr ""
 "  -V, --version   tampilkan informasi versi dan keluar\n"
 "  -y, --yacc      emulasikan POSIX yacc\n"
 
-#: src/getargs.c:194
+#: src/getargs.c:209
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -156,7 +156,7 @@ msgstr ""
 "  -n, --no-parser            hasilkan hanya tabel\n"
 "  -k, --token-table          sertakan tabel nama token\n"
 
-#: src/getargs.c:206
+#: src/getargs.c:221
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -175,7 +175,7 @@ msgstr ""
 "  -o, --output=FILE          simpan output ke FILE\n"
 "  -g, --graph                juga hasilkan deskripsi VCG automaton\n"
 
-#: src/getargs.c:217
+#: src/getargs.c:232
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -193,25 +193,25 @@ msgstr ""
 "  `all'          sertakan semua informasi di atas\n"
 "  `none'         tiadakan laporan\n"
 
-#: src/getargs.c:228
+#: src/getargs.c:243
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Laporkan kesalahan ke <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:245
+#: src/getargs.c:260
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:247
+#: src/getargs.c:262
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr "Written by Robert Corbett and Richard Stallman.\n"
 
-#: src/getargs.c:251
+#: src/getargs.c:266
 #, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr "Copyright (C) %d Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:253
+#: src/getargs.c:268
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -219,56 +219,60 @@ msgstr ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 
-#: src/getargs.c:407
+#: src/getargs.c:423
 #, c-format
 msgid "missing operand after `%s'"
 msgstr "operand hilang setelah `%s'"
 
-#: src/getargs.c:409
+#: src/getargs.c:425
 #, c-format
 msgid "extra operand `%s'"
 msgstr "operand ekstra `%s'"
 
-#: src/gram.c:139
+#: src/gram.c:142
 msgid "empty"
 msgstr "kosong"
 
-#: src/gram.c:233
+#: src/gram.c:236
 msgid "Grammar"
 msgstr "Grammar"
 
-#: src/gram.c:321 src/reduce.c:302 src/reduce.c:392
+#: src/gram.c:324 src/reduce.c:393
 msgid "warning"
 msgstr "peringatan"
 
-#: src/main.c:120
+#: src/main.c:124
 msgid "rule never reduced because of conflicts"
 msgstr "aturan tidak pernah dikurangi karena konflik"
 
-#: src/parse-gram.y:364
+#: src/parse-gram.y:336
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX melarang deklarasi dalam grammar"
 
-#: src/print.c:46
+#: src/parse-gram.y:468
+msgid "missing identifier in parameter declaration"
+msgstr ""
+
+#: src/print.c:48
 #, c-format
 msgid " type %d is %s\n"
 msgstr " tipe %d adalah %s\n"
 
-#: src/print.c:162
+#: src/print.c:164
 #, c-format
 msgid "shift, and go to state %d\n"
 msgstr "geser, dan ke state %d\n"
 
-#: src/print.c:164
+#: src/print.c:166
 #, c-format
 msgid "go to state %d\n"
 msgstr "ke state %d\n"
 
-#: src/print.c:201
+#: src/print.c:203
 msgid "error (nonassociative)\n"
 msgstr "kesalahan(nonasosiatif)\n"
 
-#: src/print.c:290
+#: src/print.c:291
 #, c-format
 msgid "reduce using rule %d (%s)"
 msgstr "kurangi gunakan aturan %d (%s)"
@@ -286,56 +290,56 @@ msgstr "$default"
 msgid "state %d"
 msgstr "state %d"
 
-#: src/print.c:456
+#: src/print.c:455
 msgid "Terminals, with rules where they appear"
 msgstr "Terminal, dengan aturan tempat mereka muncul"
 
-#: src/print.c:483
+#: src/print.c:482
 msgid "Nonterminals, with rules where they appear"
 msgstr "Nonterminal, dengan aturan tempat mereka muncul"
 
-#: src/print.c:512
+#: src/print.c:511
 msgid " on left:"
 msgstr " di kiri:"
 
-#: src/print.c:527
+#: src/print.c:526
 msgid " on right:"
 msgstr " di kanan:"
 
-#: src/print.c:555
+#: src/print.c:554
 msgid "Rules never reduced"
 msgstr "Aturan tidak pernah dikurangi"
 
-#: src/reader.c:51
+#: src/reader.c:53
 #, c-format
 msgid "multiple %s declarations"
 msgstr "deklarasi ganda %s"
 
-#: src/reader.c:137
+#: src/reader.c:138
 #, c-format
 msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr "tipe hasil bentrok pada fungsi merge %s: <%s> != <%s>"
 
-#: src/reader.c:235
+#: src/reader.c:236
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "aturan diberikan untuk %s, yang merupakan sebuah token"
 
-#: src/reader.c:264
+#: src/reader.c:265
 #, c-format
 msgid "type clash on default action: <%s> != <%s>"
 msgstr "bentrokan tipe pada aksi baku: <%s> != <%s>"
 
-#: src/reader.c:270
+#: src/reader.c:271
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "aturan kosong untuk nonterminal typed, dan tidak ada aksi"
 
-#: src/reader.c:340 src/reader.c:355 src/reader.c:368
+#: src/reader.c:341 src/reader.c:355 src/reader.c:368
 #, c-format
 msgid "only one %s allowed per rule"
 msgstr "hanya satu %s yang dibolehkan per aturan"
 
-#: src/reader.c:350 src/reader.c:366
+#: src/reader.c:351 src/reader.c:366
 #, c-format
 msgid "%s affects only GLR parsers"
 msgstr "%s hanya mempengaruhi parser GLR"
@@ -345,172 +349,177 @@ msgstr "%s hanya mempengaruhi parser GLR"
 msgid "%s must be followed by positive number"
 msgstr "%s harus diikuti angka positif"
 
-#: src/reader.c:512
+#: src/reader.c:510
 msgid "no rules in the input grammar"
 msgstr "tidak ada aturan dalam grammar input"
 
-#: src/reduce.c:239
+#: src/reduce.c:241
 msgid "useless rule"
 msgstr "aturan tidak berguna"
 
 #: src/reduce.c:302
-msgid "useless nonterminal"
+#, fuzzy, c-format
+msgid "useless nonterminal: %s"
 msgstr "nonterminal tidak berguna"
 
-#: src/reduce.c:349
+#: src/reduce.c:350
 msgid "Useless nonterminals"
 msgstr "Nonterminal tidak berguna"
 
-#: src/reduce.c:362
+#: src/reduce.c:363
 msgid "Terminals which are not used"
 msgstr "Terminal yang tidak digunakan"
 
-#: src/reduce.c:371
+#: src/reduce.c:372
 msgid "Useless rules"
 msgstr "Useless rules"
 
-#: src/reduce.c:387
+#: src/reduce.c:388
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "Aturan %d tidak pernah dikurangi\n"
 msgstr[1] "Aturan %d tidak pernah dikurangi\n"
 
-#: src/reduce.c:395
+#: src/reduce.c:396
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "nonterminal tidak berguna %d"
 msgstr[1] "nonterminal tidak berguna %d"
 
-#: src/reduce.c:401
+#: src/reduce.c:402
 msgid " and "
 msgstr " dan "
 
-#: src/reduce.c:404
+#: src/reduce.c:405
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "aturan tidak berguna %d"
 msgstr[1] "aturan tidak berguna %d"
 
-#: src/reduce.c:435
+#: src/reduce.c:436
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "simbol awal %s tidak melahirkan kalimat"
 
-#: src/scan-gram.l:258
+#: src/scan-gram.l:208
 #, c-format
 msgid "invalid directive: %s"
 msgstr "direktif tidak valid: %s"
 
-#: src/scan-gram.l:287 src/scan-gram.l:661 src/scan-gram.l:733
+#: src/scan-gram.l:216
+msgid "stray `,' treated as white space"
+msgstr ""
+
+#: src/scan-gram.l:232 src/scan-gram.l:727 src/scan-gram.l:798
 #, c-format
 msgid "integer out of range: %s"
 msgstr "integer ke luar batas: %s"
 
-#: src/scan-gram.l:327
+#: src/scan-gram.l:276
 #, c-format
 msgid "invalid character: %s"
 msgstr "karakter tidak valid: %s"
 
-#: src/scan-gram.l:427 src/scan-gram.l:441 src/scan-gram.l:464
+#: src/scan-gram.l:400 src/scan-gram.l:410 src/scan-gram.l:429
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "urutan escape tidak valid: %s"
 
-#: src/scan-gram.l:472
+#: src/scan-gram.l:434
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "urutan escape tidak dikenal: %s"
 
-#: src/scan-gram.l:632
+#: src/scan-gram.l:699
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ dari `%s' tidak memiliki tipe yang terdeklarasi"
 
-#: src/scan-gram.l:652
+#: src/scan-gram.l:718
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d dari `%s' tidak memiliki tipe terdeklarasi"
 
-#: src/scan-gram.l:678 src/scan-gram.l:750
+#: src/scan-gram.l:744 src/scan-gram.l:815
 #, c-format
 msgid "invalid value: %s"
 msgstr "nilai tidak valid: %s"
 
-#: src/scan-gram.l:861
+#: src/scan-gram.l:928
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "`%s' hilang di akhir file"
 
-#: src/symlist.c:97 src/symlist.c:109
+#: src/symlist.c:97 src/symlist.c:108
 msgid "invalid $ value"
 msgstr "nilai $ tidak valid"
 
-#: src/symtab.c:82
+#: src/symtab.c:84
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "redeklarasi tipe untuk %s"
 
-#: src/symtab.c:100 src/symtab.c:119
+#: src/symtab.c:101 src/symtab.c:119
 #, c-format
 msgid "%s redeclaration for %s"
 msgstr "%s redeklarasi untuk %s"
 
-#: src/symtab.c:140
+#: src/symtab.c:138
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "mendefinisikan kembali presedens %s"
 
-#: src/symtab.c:159
+#: src/symtab.c:156
 #, c-format
 msgid "symbol %s redefined"
 msgstr "simbol %s didefinisikan ulang"
 
-#: src/symtab.c:183
+#: src/symtab.c:179
 #, c-format
 msgid "redefining user token number of %s"
 msgstr "mendefinisikan ulang nomor token user %s"
 
-#: src/symtab.c:222
+#: src/symtab.c:206
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "simbol %s digunakan, namun tidak didefinisikan sebagai token dan tidak "
 "memiliki aturan"
 
-#: src/symtab.c:241
+#: src/symtab.c:231
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr "simbol `%s' digunakan lebih dari satu kali sebagai string literal"
 
-#: src/symtab.c:244
+#: src/symtab.c:234
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr "simbol `%s' diberikan lebih dari satu string literal"
 
-#: src/symtab.c:279
+#: src/symtab.c:269
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "presenden konflik untuk %s dan %s"
 
-#: src/symtab.c:291
+#: src/symtab.c:281
 #, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
 msgstr "asosiatif konflik untuk %s (%s) dan %s (%s)"
 
-#: src/symtab.c:363
+#: src/symtab.c:366
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "token %s dan %s keduanya memiliki angka %d"
 
-#: src/symtab.c:570
+#: src/symtab.c:589
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "simbol awal %s tidak didefinisikan"
 
-#: src/symtab.c:574
+#: src/symtab.c:593
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "simbol awal %s adalah sebuah token"
@@ -595,62 +604,62 @@ msgstr "Tidak dapat menulis file stat."
 msgid "Could not open stats file for writing."
 msgstr "Tidak dapat membuka file stat untuk ditulisi."
 
-#: lib/getopt.c:662
+#: lib/getopt.c:688 lib/getopt.c:700
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: option `%s' ambigu\n"
 
-#: lib/getopt.c:687
+#: lib/getopt.c:733 lib/getopt.c:737
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: option `--%s' tidak membolehkan sebuah argumen\n"
 
-#: lib/getopt.c:692
+#: lib/getopt.c:746 lib/getopt.c:751
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: option `%c%s' tidak membolehkan sebuah argumen\n"
 
-#: lib/getopt.c:710 lib/getopt.c:883
+#: lib/getopt.c:787 lib/getopt.c:800 lib/getopt.c:1089 lib/getopt.c:1102
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: option `%s' membutuhkan sebuah argumen\n"
 
-#: lib/getopt.c:739
+#: lib/getopt.c:838 lib/getopt.c:841
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: option tidak dikenal `--%s'\n"
 
-#: lib/getopt.c:743
+#: lib/getopt.c:849 lib/getopt.c:852
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: option tidak dikenal `%c%s'\n"
 
-#: lib/getopt.c:769
+#: lib/getopt.c:899 lib/getopt.c:902
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: option ilegal -- %c\n"
 
-#: lib/getopt.c:772
+#: lib/getopt.c:908 lib/getopt.c:911
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: option tidak valid -- %c\n"
 
-#: lib/getopt.c:802 lib/getopt.c:932
+#: lib/getopt.c:958 lib/getopt.c:969 lib/getopt.c:1155 lib/getopt.c:1168
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: option membutuhkan sebuah argumen -- %c\n"
 
-#: lib/getopt.c:849
+#: lib/getopt.c:1021 lib/getopt.c:1032
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: option `-W %s' ambigu\n"
 
-#: lib/getopt.c:867
+#: lib/getopt.c:1056 lib/getopt.c:1068
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: option `-W %s' tidak membolehkan sebuah argumen\n"
 
-#: lib/obstack.c:496 lib/obstack.c:499 lib/xmalloc.c:63
+#: lib/obstack.c:487 lib/obstack.c:490 lib/xmalloc.c:63
 msgid "memory exhausted"
 msgstr "memori habis"
 

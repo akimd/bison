@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 1.75b.  */
+/* A Bison parser, made by GNU Bison 1.75d.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
@@ -66,14 +66,13 @@
      TYPE = 291,
      EQUAL = 292,
      SEMICOLON = 293,
-     COLON = 294,
-     COMMA = 295,
-     PIPE = 296,
-     ID = 297,
-     PERCENT_PERCENT = 298,
-     PROLOGUE = 299,
-     EPILOGUE = 300,
-     BRACED_CODE = 301
+     PIPE = 294,
+     ID = 295,
+     ID_COLON = 296,
+     PERCENT_PERCENT = 297,
+     PROLOGUE = 298,
+     EPILOGUE = 299,
+     BRACED_CODE = 300
    };
 #endif
 #define GRAM_EOF 0
@@ -113,30 +112,29 @@
 #define TYPE 291
 #define EQUAL 292
 #define SEMICOLON 293
-#define COLON 294
-#define COMMA 295
-#define PIPE 296
-#define ID 297
-#define PERCENT_PERCENT 298
-#define PROLOGUE 299
-#define EPILOGUE 300
-#define BRACED_CODE 301
+#define PIPE 294
+#define ID 295
+#define ID_COLON 296
+#define PERCENT_PERCENT 297
+#define PROLOGUE 298
+#define EPILOGUE 299
+#define BRACED_CODE 300
 
 
 
 
 #ifndef YYSTYPE
-#line 89 "parse-gram.y"
+#line 75 "parse-gram.y"
 typedef union {
-  symbol_t *symbol;
-  symbol_list_t *list;
+  symbol *symbol;
+  symbol_list *list;
   int integer;
-  char *string;
-  assoc_t assoc;
-  struniq_t struniq;
+  char *chars;
+  assoc assoc;
+  uniqstr uniqstr;
 } yystype;
-/* Line 1212 of /usr/local/share/bison/yacc.c.  */
-#line 139 "y.tab.h"
+/* Line 1225 of yacc.c.  */
+#line 137 "y.tab.h"
 # define YYSTYPE yystype
 # define YYSTYPE_IS_TRIVIAL 1
 #endif
