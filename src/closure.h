@@ -29,7 +29,7 @@
    data so that closure can be called.  n is the number of elements to
    allocate for itemset.  */
 
-void new_closure (int n);
+void new_closure (unsigned int n);
 
 
 /* Given the kernel (aka core) of a state (a vector of item numbers

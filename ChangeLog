@@ -1,3 +1,68 @@
+2004-12-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/system.h (CALLOC, MALLOC, REALLOC): Remove.  All callers
+	changed to use xcalloc, xnmalloc, xnrealloc, respectively,
+	unless otherwise specified below.
+
+	* src/LR0.c (allocate_itemsets): Use xnmalloc, not xcalloc,
+	to allocate kernel_base, kernel_items, kernel_size, since
+	they needn't be initialized to 0.
+	(allocate_storgae): Likewise, for shiftset, redset, shift_symbol.
+	* src/closure.c (new_closure): Likewise, for itemset.
+	* src/derives.c (derives_compute): Likewise, for delts, derives, q.
+	* src/lalr.c (set_goto_map): Likewise, for temp_map.
+	(initialize_F): Likewise, for reads, edge, reads[i], includes[i].
+	(build_relations): Likewise for edge, states1, includes.
+	* src/nullable.c (nullable_compute): Likewise, for squeue, relts.
+	* src/reader.c (packgram): Likewise, for ritem, rules.
+	* src/reduce.c (nonterminals_reduce): Likewise for nontermmap.
+	* src/relation.c (relation_digraph): Likewise for VERTICES.
+	(relation_transpose): Likewise for new_R, end_R.
+	* src/symtab.c (symbols_token_translations_init): Likewise for
+	token_translations.
+	* src/tables.c (save_row): Likewise for froms, tos, conflict_tos.
+	(token_actions): Likewise for yydefact, actrow, conflrow,
+	conflict_list.
+	(save_column): Likewise for froms[symno], tos[symno].
+	(goto_actions): Likewise for state_count.
+	(pack_table): Likewise for base, pos, check.
+	(tables_generate): Likewise for width.
+
+	* src/LR0.c (set_states): Don't reuse kernel_size and kernel_base
+	for initial core.  Just have a separate core, so we needn't worry
+	about whether kernel_size and kernel_base are initialized.
+
+	* src/LR0.c (shift_symbol, redset, shiftset, kernel_base,
+	kernel_size, kernel_items): Remove unnecessary initialization.
+	* src/conflicts.c (conflicts): Likewise.
+	* src/derives.c (derives): Likewise.
+	* src/muscle_tablc (muscle_insert): Likewise.
+	* src/relation.c (relation_digraph): Likewise.
+	* src/tables.c (froms, tos, conflict_tos, tally, width, actrow, order,
+	conflrow, conflict_table, conflict_list, table, check):
+	Likewise.
+
+	* src/closure.c (new_closure): Arg is of type unsigned int, not int.
+	This is because all callers pass unsigned int.
+	* src/closure.h (new_closure): Likewise.
+
+	* src/lalr.c (initialize_F): Initialize reads[i] in all cases.
+	(build_relations): Initialize includes[i] in all cases.
+	* src/reader.c (packgram): Always initialize rules[ruleno].prec
+	and rules[ruleno].precsym.  Initialize members in order.
+	* src/relation.c (relation_transpose): Always initialize new_R[i]
+	and end_R[i].
+	* src/table.c (conflict_row): Initialize 0 at end of conflict_list.
+
+	* src/output.c (prepare_actions): Pass 0 instead of conflict_list[0];
+	conflict_list[0] was always 0, but now it isn't initialized.
+
+	* src/table.c (table_grow): When conflict_table grew, the grown
+	area wasn't cleared.  Fix this.
+
+	* lib/.cvsignore: Add strdup.c, strdup.h.
+	* m4/.cvsignore: Add strdup.m4.
+
 2004-12-07  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/lalr.h (GOTO_NUMBER_MAXIMUM): New macro.
