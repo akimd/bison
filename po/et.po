@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28d\n"
-"POT-Creation-Date: 2002-03-04 15:04+0100\n"
+"POT-Creation-Date: 2002-03-04 17:33+0100\n"
 "PO-Revision-Date: 2001-08-29 17:06+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -541,7 +541,7 @@ msgstr "grammatika algab püstkriipsuga"
 msgid "rule given for %s, which is a token"
 msgstr "%s jaoks on antud reegel, aga see on märk"
 
-#: src/reader.c:1330
+#: src/reader.c:1330 src/reader.c:1449
 msgid "previous rule lacks an ending `;'"
 msgstr ""
 
@@ -567,53 +567,53 @@ msgstr "vaikimisi tegevuse tüübikonflikt (`%s' `%s')"
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tüübiga mitteterminalil on tühi reegel ja puudub tegevus"
 
-#: src/reader.c:1453
+#: src/reader.c:1455
 #, c-format
 msgid "invalid input: %s"
 msgstr "vigane sisend: %s"
 
-#: src/reader.c:1460
+#: src/reader.c:1462
 msgid "no rules in the input grammar"
 msgstr "sisendgrammatikas pole reegleid"
 
-#: src/reader.c:1468
+#: src/reader.c:1470
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "kasutatakse sümbolit %s, mis ei ole defineeritud märgina ja millel puuduvad "
 "reeglid"
 
-#: src/reader.c:1490
+#: src/reader.c:1492
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "liiga palju sümboleid (märgid ja mitteterminalid); maksimaalne on %d"
 
-#: src/reader.c:1554
+#: src/reader.c:1556
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "märkidele %s ja %s on mõlemale omistatud number %d"
 
-#: src/reader.c:1604
+#: src/reader.c:1606
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "%s ja %s omavad konfliktseid prioriteete"
 
-#: src/reader.c:1616
+#: src/reader.c:1618
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "%s ja %s omavad konfliktseid assotsiatiivseid väärtuseid"
 
-#: src/reader.c:1653
+#: src/reader.c:1655
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "stardisümbol %s ei ole defineeritud"
 
-#: src/reader.c:1655
+#: src/reader.c:1657
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "stardisümbol %s on märk"
 
-#: src/reader.c:1675
+#: src/reader.c:1677
 #, fuzzy, c-format
 msgid "too many items (max %d)"
 msgstr "liiga palju olekuid (maks %d)"

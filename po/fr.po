@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28d\n"
-"POT-Creation-Date: 2002-03-04 15:04+0100\n"
+"POT-Creation-Date: 2002-03-04 17:33+0100\n"
 "PO-Revision-Date: 2001-08-29 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -548,7 +548,7 @@ msgstr "la grammaire débute par une barre verticale"
 msgid "rule given for %s, which is a token"
 msgstr "la règle pour %s, qui est un terminal"
 
-#: src/reader.c:1330
+#: src/reader.c:1330 src/reader.c:1449
 msgid "previous rule lacks an ending `;'"
 msgstr ""
 
@@ -574,53 +574,53 @@ msgstr "conflit de type (`%s' `%s') pour l'action par défaut"
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "règle vide pour une catégorie typée et aucune action"
 
-#: src/reader.c:1453
+#: src/reader.c:1455
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrée non valide: %s"
 
-#: src/reader.c:1460
+#: src/reader.c:1462
 msgid "no rules in the input grammar"
 msgstr "la grammaire n'a pas de règles"
 
-#: src/reader.c:1468
+#: src/reader.c:1470
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "le symbole %s est utilisé mais ce n'est pas un terminal et il ne possède pas "
 "de règle"
 
-#: src/reader.c:1490
+#: src/reader.c:1492
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "trop de symboles (jeton plus non terminaux); maximum %d"
 
-#: src/reader.c:1554
+#: src/reader.c:1556
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "les jetons %s et %s se sont vus assigner le nombre %d"
 
-#: src/reader.c:1604
+#: src/reader.c:1606
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "les priorités pour %s et %s entrent en conflit"
 
-#: src/reader.c:1616
+#: src/reader.c:1618
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "les valeurs d'association de %s et %s entrent en conflit"
 
-#: src/reader.c:1653
+#: src/reader.c:1655
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "le symbole de départ %s n'est pas défini"
 
-#: src/reader.c:1655
+#: src/reader.c:1657
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "le symbole de départ %s est un terminal"
 
-#: src/reader.c:1675
+#: src/reader.c:1677
 #, fuzzy, c-format
 msgid "too many items (max %d)"
 msgstr "nombre trop grand d'états (max %d)"

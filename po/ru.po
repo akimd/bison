@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2002-03-04 15:04+0100\n"
+"POT-Creation-Date: 2002-03-04 17:33+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -546,7 +546,7 @@ msgstr "грамматика начинается с вертикальной черты"
 msgid "rule given for %s, which is a token"
 msgstr "правило задано для %s, который является лексемой"
 
-#: src/reader.c:1330
+#: src/reader.c:1330 src/reader.c:1449
 msgid "previous rule lacks an ending `;'"
 msgstr ""
 
@@ -573,51 +573,51 @@ msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "пустое правило для типизированного нетерминального символа, и нет действия"
 
-#: src/reader.c:1453
+#: src/reader.c:1455
 #, c-format
 msgid "invalid input: %s"
 msgstr "неверные входные данные: %s"
 
-#: src/reader.c:1460
+#: src/reader.c:1462
 msgid "no rules in the input grammar"
 msgstr "отсутствуют правила во входной грамматике"
 
-#: src/reader.c:1468
+#: src/reader.c:1470
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr "символ %s используется, но не определен как лексема и не имеет правил"
 
-#: src/reader.c:1490
+#: src/reader.c:1492
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"
 
-#: src/reader.c:1554
+#: src/reader.c:1556
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "обеим лексемам %s и %s присвоен номер %d"
 
-#: src/reader.c:1604
+#: src/reader.c:1606
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "противоречивые приоритеты для %s и %s"
 
-#: src/reader.c:1616
+#: src/reader.c:1618
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "противоречивые значения ассоциативности для %s и %s"
 
-#: src/reader.c:1653
+#: src/reader.c:1655
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "начальный символ %s неопределен"
 
-#: src/reader.c:1655
+#: src/reader.c:1657
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
 
-#: src/reader.c:1675
+#: src/reader.c:1677
 #, fuzzy, c-format
 msgid "too many items (max %d)"
 msgstr "слишком много состояний (максимально %d)"
