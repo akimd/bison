@@ -447,16 +447,26 @@ lexicography, not grammar.)
 
 Here is a simple C function subdivided into tokens:
 
+@ifinfo
 @example
 int             /* @r{keyword `int'} */
-square (x)      /* @r{identifier, open-paren,} */
-                /* @r{identifier, close-paren} */
-     int x;     /* @r{keyword `int', identifier, semicolon} */
+square (int x)  /* @r{identifier, open-paren, identifier,}
+                   @r{identifier, close-paren} */
 @{               /* @r{open-brace} */
-  return x * x; /* @r{keyword `return', identifier,} */
-                /* @r{asterisk, identifier, semicolon} */
+  return x * x; /* @r{keyword `return', identifier, asterisk,
+                   identifier, semicolon} */
 @}               /* @r{close-brace} */
 @end example
+@end ifinfo
+@ifnotinfo
+@example
+int             /* @r{keyword `int'} */
+square (int x)  /* @r{identifier, open-paren, identifier, identifier, close-paren} */
+@{               /* @r{open-brace} */
+  return x * x; /* @r{keyword `return', identifier, asterisk, identifier, semicolon} */
+@}               /* @r{close-brace} */
+@end example
+@end ifnotinfo
 
 The syntactic groupings of C include the expression, the statement, the
 declaration, and the function definition.  These are represented in the
@@ -1204,19 +1214,19 @@ Here is how to compile and run the parser file:
 @example
 @group
 # @r{List files in current directory.}
-% ls
+$ @kbd{ls}
 rpcalc.tab.c  rpcalc.y
 @end group
 
 @group
 # @r{Compile the Bison parser.}
 # @r{@samp{-lm} tells compiler to search math library for @code{pow}.}
-% cc rpcalc.tab.c -lm -o rpcalc
+$ @kbd{cc rpcalc.tab.c -lm -o rpcalc}
 @end group
 
 @group
 # @r{List files again.}
-% ls
+$ @kbd{ls}
 rpcalc  rpcalc.tab.c  rpcalc.y
 @end group
 @end example
@@ -1225,19 +1235,19 @@ The file @file{rpcalc} now contains the executable code.  Here is an
 example session using @code{rpcalc}.
 
 @example
-% rpcalc
-4 9 +
+$ @kbd{rpcalc}
+@kbd{4 9 +}
 13
-3 7 + 3 4 5 *+-
+@kbd{3 7 + 3 4 5 *+-}
 -13
-3 7 + 3 4 5 * + - n              @r{Note the unary minus, @samp{n}}
+@kbd{3 7 + 3 4 5 * + - n}              @r{Note the unary minus, @samp{n}}
 13
-5 6 / 4 n +
+@kbd{5 6 / 4 n +}
 -3.166666667
-3 4 ^                            @r{Exponentiation}
+@kbd{3 4 ^}                            @r{Exponentiation}
 81
-^D                               @r{End-of-file indicator}
-%
+@kbd{^D}                               @r{End-of-file indicator}
+$
 @end example
 
 @node Infix Calc
@@ -1317,12 +1327,12 @@ Here is a sample run of @file{calc.y}:
 
 @need 500
 @example
-% calc
-4 + 4.5 - (34/(8*3+-3))
+$ @kbd{calc}
+@kbd{4 + 4.5 - (34/(8*3+-3))}
 6.880952381
--56 + 2
+@kbd{-56 + 2}
 -54
-3 ^ 2
+@kbd{3 ^ 2}
 9
 @end example
 
@@ -1374,13 +1384,11 @@ Bison programs.
 @cindex @code{ltcalc}
 @cindex calculator, location tracking
 
-This example extends the infix notation calculator with location tracking.
-This feature will be used to improve error reporting, and provide better
-error messages.
-
-For the sake of clarity, we will switch for this example to an integer
-calculator, since most of the work needed to use locations will be done
-in the lexical analyser.
+This example extends the infix notation calculator with location
+tracking.  This feature will be used to improve the error messages.  For
+the sake of clarity, this example is a simple integer calculator, since
+most of the work needed to use locations will be done in the lexical
+analyser.
 
 @menu
 * Decls: Ltcalc Decls.  Bison and C declarations for ltcalc.
@@ -1391,8 +1399,8 @@ in the lexical analyser.
 @node Ltcalc Decls
 @subsection Declarations for @code{ltcalc}
 
-The C and Bison declarations for the location tracking calculator are the same
-as the declarations for the infix notation calculator.
+The C and Bison declarations for the location tracking calculator are
+the same as the declarations for the infix notation calculator.
 
 @example
 /* Location tracking calculator.  */
@@ -1413,22 +1421,24 @@ as the declarations for the infix notation calculator.
 %% /* Grammar follows */
 @end example
 
-In the code above, there are no declarations specific to locations.  Defining
-a data type for storing locations is not needed: we will use the type provided
-by default (@pxref{Location Type, ,Data Types of Locations}), which is a four
-member structure with the following integer fields: @code{first_line},
-@code{first_column}, @code{last_line} and @code{last_column}.
+@noindent
+Note there are no declarations specific to locations.  Defining a data
+type for storing locations is not needed: we will use the type provided
+by default (@pxref{Location Type, ,Data Types of Locations}), which is a
+four member structure with the following integer fields:
+@code{first_line}, @code{first_column}, @code{last_line} and
+@code{last_column}.
 
 @node Ltcalc Rules
 @subsection Grammar Rules for @code{ltcalc}
 
-Whether you choose to handle locations or not has no effect on the syntax of
-your language.  Therefore, grammar rules for this example will be very close to
-those of the previous example: we will only modify them to benefit from the new
-informations we will have.
+Whether handling locations or not has no effect on the syntax of your
+language.  Therefore, grammar rules for this example will be very close
+to those of the previous example: we will only modify them to benefit
+from the new information.
 
-Here, we will use locations to report divisions by zero, and locate the wrong
-expressions or subexpressions.
+Here, we will use locations to report divisions by zero, and locate the
+wrong expressions or subexpressions.
 
 @example
 @group
@@ -1449,17 +1459,17 @@ exp     : NUM           @{ $$ = $1; @}
         | exp '-' exp   @{ $$ = $1 - $3; @}
         | exp '*' exp   @{ $$ = $1 * $3; @}
 @end group
-        | exp '/' exp
 @group
+        | exp '/' exp
             @{
               if ($3)
                 $$ = $1 / $3;
               else
                 @{
                   $$ = 1;
-                  printf("Division by zero, l%d,c%d-l%d,c%d",
-                         @@3.first_line, @@3.first_column,
-                         @@3.last_line, @@3.last_column);
+                  fprintf (stderr, "%d.%d-%d.%d: division by zero",
+                           @@3.first_line, @@3.first_column,
+                           @@3.last_line, @@3.last_column);
                 @}
             @}
 @end group
@@ -1474,25 +1484,24 @@ This code shows how to reach locations inside of semantic actions, by
 using the pseudo-variables @code{@@@var{n}} for rule components, and the
 pseudo-variable @code{@@$} for groupings.
 
-In this example, we never assign a value to @code{@@$}, because the
-output parser can do this automatically.  By default, before executing
-the C code of each action, @code{@@$} is set to range from the beginning
-of @code{@@1} to the end of @code{@@@var{n}}, for a rule with @var{n}
-components.
-
-Of course, this behavior can be redefined (@pxref{Location Default
-Action, , Default Action for Locations}), and for very specific rules,
-@code{@@$} can be computed by hand.
+We don't need to assign a value to @code{@@$}: the output parser does it
+automatically.  By default, before executing the C code of each action,
+@code{@@$} is set to range from the beginning of @code{@@1} to the end
+of @code{@@@var{n}}, for a rule with @var{n} components.  This behavior
+can be redefined (@pxref{Location Default Action, , Default Action for
+Locations}), and for very specific rules, @code{@@$} can be computed by
+hand.
 
 @node Ltcalc Lexer
 @subsection The @code{ltcalc} Lexical Analyzer.
 
-Until now, we relied on Bison's defaults to enable location tracking. The next
-step is to rewrite the lexical analyser, and make it able to feed the parser
-with locations of tokens, as he already does for semantic values.
+Until now, we relied on Bison's defaults to enable location
+tracking. The next step is to rewrite the lexical analyser, and make it
+able to feed the parser with the token locations, as it already does for
+semantic values.
 
-To do so, we must take into account every single character of the input text,
-to avoid the computed locations of being fuzzy or wrong:
+To this end, we must take into account every single character of the
+input text, to avoid the computed locations of being fuzzy or wrong:
 
 @example
 @group
@@ -1542,17 +1551,18 @@ yylex (void)
 @}
 @end example
 
-Basically, the lexical analyzer does the same processing as before: it skips
-blanks and tabs, and reads numbers or single-character tokens.  In addition
-to this, it updates the @code{yylloc} global variable (of type @code{YYLTYPE}),
-where the location of tokens is stored.
+Basically, the lexical analyzer performs the same processing as before:
+it skips blanks and tabs, and reads numbers or single-character tokens.
+In addition, it updates @code{yylloc}, the global variable (of type
+@code{YYLTYPE}) containing the token's location.
 
-Now, each time this function returns a token, the parser has it's number as
-well as it's semantic value, and it's position in the text. The last needed
-change is to initialize @code{yylloc}, for example in the controlling
-function:
+Now, each time this function returns a token, the parser has its number
+as well as its semantic value, and its location in the text. The last
+needed change is to initialize @code{yylloc}, for example in the
+controlling function:
 
 @example
+@group
 int
 main (void)
 @{
@@ -1560,11 +1570,12 @@ main (void)
   yylloc.first_column = yylloc.last_column = 0;
   return yyparse ();
 @}
+@end group
 @end example
 
-Remember that computing locations is not a matter of syntax.  Every character
-must be associated to a location update, whether it is in valid input, in
-comments, in literal strings, and so on...
+Remember that computing locations is not a matter of syntax.  Every
+character must be associated to a location update, whether it is in
+valid input, in comments, in literal strings, and so on.
 
 @node Multi-function Calc
 @section Multi-Function Calculator: @code{mfcalc}
@@ -1594,20 +1605,20 @@ to create named variables, store values in them, and use them later.
 Here is a sample session with the multi-function calculator:
 
 @example
-% mfcalc
-pi = 3.141592653589
+$ @kbd{mfcalc}
+@kbd{pi = 3.141592653589}
 3.1415926536
-sin(pi)
+@kbd{sin(pi)}
 0.0000000000
-alpha = beta1 = 2.3
+@kbd{alpha = beta1 = 2.3}
 2.3000000000
-alpha
+@kbd{alpha}
 2.3000000000
-ln(alpha)
+@kbd{ln(alpha)}
 0.8329091229
-exp(ln(beta1))
+@kbd{exp(ln(beta1))}
 2.3000000000
-%
+$
 @end example
 
 Note that multiple assignment and nested function calls are permitted.

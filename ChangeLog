@@ -1,5 +1,16 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo: Use `$' as shell prompt, not `%'.
+	Use @kbd to denote user input.
+	(Language and Grammar): ANSIfy the example.
+	Adjust its layout for info/notinfo.
+	(Location Tracking Calc): Output error messages to stderr.
+	Output locations in a more GNUtically correct way.
+	Fix a couple of Englishos.
+	Adjust @group/@end group pairs.
+
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	%expext was not functioning at all.
 
 	* src/conflicts.c (expected_conflicts): Set to -1.
