@@ -1,3 +1,14 @@
+2001-11-26  Marc Autret  <autret_m@epita.fr>
+
+	* src/reader.c (parse_include_decl): New, Not yet implemented.
+	(read_declarations): Add case tok_include.
+	* src/getargs.h (include): Add its extern definition.
+	* src/getargs.c (include): New const char *.
+	(getargs): Add case '-I'.
+	* src/options.c (option_table): Add include as command line and
+	percent option.
+	* src/lex.h (token_t): Add tok_include.
+
 2001-11-26  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (readgram): Make sure rules for mid-rule actions

@@ -50,6 +50,7 @@ typedef enum token_e
     tok_thong,
     tok_define,
     tok_skel,
+    tok_include,
     tok_noop,
     tok_intopt,
     tok_stropt,

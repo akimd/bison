@@ -39,6 +39,7 @@ int graph_flag = 0;
 int trace_flag = 0;
 
 const char *skeleton = NULL;
+const char *include = NULL;
 
 extern char *program_name;
 
@@ -166,6 +167,10 @@ getargs (int argc, char *argv[])
 
       case 'S':
 	skeleton = optarg;
+	break;
+
+      case 'I':
+	include = optarg;
 	break;
 
       case 'd':
