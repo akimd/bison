@@ -25,7 +25,6 @@
 	Produce and prototype stmtMerge only when used.
 	yylex takes a location.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	We spend a lot of time in quotearg, in particular when --verbose.
@@ -34,14 +33,12 @@
 	(symbol_tag_get, symbol_tag_get_n, symbol_tag_print): Remove.
 	Adjust all callers.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (reductions_t): Rename member `nreds' as num.
 	(errs_t): Rename members `nerrs' and `errs' as `num' and `symbols'.
 	* src/state.c (ERRS_ALLOC, REDUCTIONS_ALLOC): Use the correct types.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h, src/state.c (shift_t, SHIFT_SYMBOL, SHIFT_IS_SHIFT)
@@ -51,7 +48,6 @@
 	(TRANSITION_IS_GOTO, TRANSITION_IS_ERROR, TRANSITION_DISABLE)
 	(TRANSITION_IS_DISABLED, transitions_to): these.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/print.c (print_shifts, print_gotos): Merge into...
@@ -91,7 +87,6 @@
 	* src/output.c (action_row): Let default_rule be always a rule
 	number.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c (print_firsts, print_fderives, closure):
@@ -103,12 +98,10 @@
 	* src/output.c (action_row): Likewise.
 	Use SHIFT_IS_DISABLED, SHIFT_IS_SHIFT and SHIFT_SYMBOL.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/print_graph.c: Use report_flag.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.c (traverse, digraph, matrix_print, transpose): Move
@@ -116,13 +109,11 @@
 	* src/relation.h, src/relation.c (traverse, relation_digraph)
 	(relation_print, relation_transpose): New.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h, src/state.c (shifts_to): New.
 	* src/lalr.c (build_relations): Use it.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h (rule_number_t, RULE_NUMBER_MAX, int_of_rule_number)
@@ -133,12 +124,10 @@
 	Propagate their use.
 	Much remains to be done, in particular wrt `shorts' from types.h.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/symtab.c (symbol_new): Initialize the `printer' member.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (save_reductions): Remove, replaced by...
@@ -147,7 +136,6 @@
 	(reductions_t, errs_t): these.
 	Adjust all dependencies.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (state_list_t, state_list_append): New.
@@ -163,13 +151,11 @@
 	Adjust all dependencies.
 	* src/state.h (state_t): Remove the `next' member.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/vcg.c (quote): Use slot 2, since we often pass symbol tag
 	escaped in slot 0.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	Use hash.h for the state hash table.
@@ -190,7 +176,6 @@
 	afterwards.  Do it...
 	* src/main.c (main): here: call states_free after `output'.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	Use hash.h for the state hash table.
@@ -211,7 +196,6 @@
 	afterwards.  Do it...
 	* src/main.c (main): here: call states_free after `output'.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h, src/state.c (state_new): New, extracted from...
@@ -221,7 +205,6 @@
 	* src/LR0.h, src/LR0.c (nstates, final_state): Move to...
 	* src/state.h, src/state.c: here.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (gensym): Rename as...
@@ -229,7 +212,6 @@
 	(getsym): Rename as...
 	(symbol_get): this.
 
-	
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (state_number_t, STATE_NUMBER_MAX): New.
@@ -246,10 +228,9 @@
 	* tests/calc.at: Don't exercise the scanner here, do it...
 	* tests/input.at (Torturing the Scanner): here.
 
-	
 2002-06-28  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
-	* data/glr.c: Correct typo in Emacs-mode directive.  Slightly 
+	* data/glr.c: Correct typo in Emacs-mode directive.  Slightly
 	reorganize first lines parallel to yacc.c.
 
 2002-06-28  Akim Demaille  <akim@epita.fr>

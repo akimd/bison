@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-06-28 19:09+0200\n"
+"POT-Creation-Date: 2002-06-30 19:37+0200\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -14,11 +14,6 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: src/LR0.c:197
-#, c-format
-msgid "too many states (max %d)"
-msgstr "teveel staten (maximum is %d)"
 
 #: src/complain.c:99 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
@@ -50,49 +45,49 @@ msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr ""
 "Conflict in staat %d tussen regel %d en token %s opgelost als \"%s\".\n"
 
-#: src/conflicts.c:378
+#: src/conflicts.c:379
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d shift/reductie conflict"
 msgstr[1] "%d shift/reductie conflicten"
 
-#: src/conflicts.c:385
+#: src/conflicts.c:386
 msgid "and"
 msgstr "en"
 
-#: src/conflicts.c:391
+#: src/conflicts.c:392
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d reductie/reductie conflict"
 msgstr[1] "%d reductie/reductie conflicten"
 
-#: src/conflicts.c:416
+#: src/conflicts.c:417
 #, c-format
 msgid "State %d contains "
 msgstr "Staat %d bevat"
 
-#: src/conflicts.c:487
+#: src/conflicts.c:490
 msgid "conflicts: "
 msgstr "conflicten: "
 
-#: src/conflicts.c:489
+#: src/conflicts.c:492
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d vershuif/reductie"
 
-#: src/conflicts.c:493
+#: src/conflicts.c:496
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reductie/reductie"
 
-#: src/conflicts.c:498
+#: src/conflicts.c:501
 #, c-format
 msgid "%s contains "
 msgstr "%s bevat"
 
-#: src/conflicts.c:505
+#: src/conflicts.c:508
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -239,7 +234,7 @@ msgstr "%s: geen grammaticabestand opgegeven\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argumenten na `%s' worden genegeerd\n"
 
-#: src/lalr.c:174
+#: src/lalr.c:102
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "teveel gotos (maximum is %d)"
@@ -249,77 +244,57 @@ msgstr "teveel gotos (maximum is %d)"
 msgid " type %d is %s\n"
 msgstr " type %d is %s\n"
 
-#: src/print.c:98
-#, c-format
-msgid "   (rule %d)"
-msgstr "   (regel %d)"
-
-#: src/print.c:119
-#, c-format
-msgid "    %-4s\tshift, and go to state %d\n"
+#: src/print.c:162
+#, fuzzy, c-format
+msgid "shift, and go to state %d\n"
 msgstr "    %-4s\tshift, en ga naar staat %d\n"
 
-#: src/print.c:136
-#, c-format
-msgid "    %-4s\terror (nonassociative)\n"
-msgstr "    %-4s\tfout (niet associatief)\n"
-
-#: src/print.c:160
-#, c-format
-msgid "    %-4s\tgo to state %d\n"
+#: src/print.c:164
+#, fuzzy, c-format
+msgid "go to state %d\n"
 msgstr "    %-4s\tga naar staat %d\n"
 
-#: src/print.c:184 src/print.c:218
-#, c-format
-msgid ""
-"    $default\treduce using rule %d (%s)\n"
-"\n"
+#: src/print.c:201
+#, fuzzy
+msgid "error (nonassociative)\n"
+msgstr "%-4s\tfout (niet associatief)"
+
+#: src/print.c:290
+#, fuzzy, c-format
+msgid "reduce using rule %d (%s)"
+msgstr "$standaard\treduceren via regel %d (%s)"
+
+#: src/print.c:323 src/print.c:386
+msgid "$default"
 msgstr ""
-"    $standaard\treductie via regel %d (%s)\n"
-"\n"
 
-#: src/print.c:213 src/print.c:288
-#, c-format
-msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-msgstr "    %-4s\t[reductie via regel %d (%s)]\n"
-
-#: src/print.c:269 src/print.c:282
-#, c-format
-msgid "    %-4s\treduce using rule %d (%s)\n"
-msgstr "    %-4s\treductie via regel %d (%s)\n"
-
-#: src/print.c:297
-#, c-format
-msgid "    $default\treduce using rule %d (%s)\n"
-msgstr "    $standaard\treductie via regel %d (%s)\n"
-
-#: src/print.c:313
+#: src/print.c:405
 msgid "    $default\taccept\n"
 msgstr "    $standaard\taccepteer\n"
 
-#: src/print.c:315
+#: src/print.c:407
 msgid "    NO ACTIONS\n"
 msgstr "    GEEN AKTIES\n"
 
-#: src/print.c:328
+#: src/print.c:428
 #, c-format
 msgid "state %d"
 msgstr "staat %d"
 
-#: src/print.c:364
+#: src/print.c:462
 msgid "Terminals, with rules where they appear"
 msgstr "Eindsymbolen, met de regels waarin ze voorkomen"
 
 # Betere vertaling voor non-terminals? 'tussensymbolen'?
-#: src/print.c:389
+#: src/print.c:489
 msgid "Nonterminals, with rules where they appear"
 msgstr "Niet-eindsymbolen, met de regels waarin ze voorkomen"
 
-#: src/print.c:417
+#: src/print.c:518
 msgid " on left:"
 msgstr " links:"
 
-#: src/print.c:432
+#: src/print.c:533
 msgid " on right:"
 msgstr " rechts:"
 
@@ -333,105 +308,105 @@ msgstr "meerdere %s declaraties"
 msgid "result type clash on merge function %s: `%s' vs. `%s'"
 msgstr ""
 
-#: src/reader.c:257
+#: src/reader.c:237
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel opgegeven voor token (%s)"
 
-#: src/reader.c:282
+#: src/reader.c:262
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "type-conflict (`%s' `%s') bij standaardaktie"
 
-#: src/reader.c:290
+#: src/reader.c:270
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "lege regel voor niet-eindsymbool met type, en geen actie"
 
-#: src/reader.c:361
+#: src/reader.c:341
 msgid "two @prec's in a row"
 msgstr "twee @prec's na elkaar"
 
-#: src/reader.c:371
+#: src/reader.c:351
 #, c-format
 msgid "%%dprec affects only GLR parsers"
 msgstr ""
 
-#: src/reader.c:373
+#: src/reader.c:353
 #, c-format
 msgid "%%dprec must be followed by positive number"
 msgstr ""
 
-#: src/reader.c:375
+#: src/reader.c:355
 #, c-format
 msgid "only one %%dprec allowed per rule"
 msgstr ""
 
-#: src/reader.c:386
+#: src/reader.c:366
 #, c-format
 msgid "%%merge affects only GLR parsers"
 msgstr ""
 
-#: src/reader.c:388
+#: src/reader.c:368
 #, c-format
 msgid "only one %%merge allowed per rule"
 msgstr ""
 
-#: src/reader.c:531
+#: src/reader.c:507
 msgid "no rules in the input grammar"
 msgstr "invoergrammatica bevat geen regels"
 
-#: src/reader.c:563
+#: src/reader.c:539
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "teveel symbolen (tokens plus niet-eindsymbolen); het maximum is %d"
 
-#: src/reduce.c:239 src/reduce.c:305 src/reduce.c:396
+#: src/reduce.c:243 src/reduce.c:309 src/reduce.c:400
 #, fuzzy
 msgid "warning"
 msgstr "let op: "
 
-#: src/reduce.c:239
+#: src/reduce.c:243
 #, fuzzy
 msgid "useless rule"
 msgstr "%d nutteloze regel"
 
-#: src/reduce.c:305
+#: src/reduce.c:309
 #, fuzzy
 msgid "useless nonterminal"
 msgstr "%d nutteloos niet-eindsymbool"
 
-#: src/reduce.c:352
+#: src/reduce.c:356
 msgid "Useless nonterminals:"
 msgstr "Nutteloze niet-eindsymbolen:"
 
-#: src/reduce.c:365
+#: src/reduce.c:369
 msgid "Terminals which are not used:"
 msgstr "Eindsymbolen die niet gebruikt worden:"
 
-#: src/reduce.c:374
+#: src/reduce.c:378
 #, fuzzy
 msgid "Useless rules"
 msgstr "Nutteloze regels:"
 
-#: src/reduce.c:391
+#: src/reduce.c:395
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regel wordt nooit gereduceerd\n"
 msgstr[1] "%d regels worden nooit gereduceerd\n"
 
-#: src/reduce.c:399
+#: src/reduce.c:403
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d nutteloos niet-eindsymbool"
 msgstr[1] "%d nutteloze niet-eindsymbolen"
 
-#: src/reduce.c:405
+#: src/reduce.c:409
 msgid " and "
 msgstr " en "
 
-#: src/reduce.c:408
+#: src/reduce.c:412
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
@@ -439,7 +414,7 @@ msgstr[0] "%d nutteloze regel"
 msgstr[1] "%d nutteloze regels"
 
 # Ik _denk_ dat dit correct weergeeft wat er bedoeld wordt (m.a.w. er is geen regel voor het startsymbool)
-#: src/reduce.c:438
+#: src/reduce.c:442
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Startsymbool %s wordt vanuit geen enkele zin bereikt"
@@ -530,6 +505,31 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "too many states (max %d)"
+#~ msgstr "teveel staten (maximum is %d)"
+
+#~ msgid "   (rule %d)"
+#~ msgstr "   (regel %d)"
+
+#~ msgid "    %-4s\terror (nonassociative)\n"
+#~ msgstr "    %-4s\tfout (niet associatief)\n"
+
+#~ msgid ""
+#~ "    $default\treduce using rule %d (%s)\n"
+#~ "\n"
+#~ msgstr ""
+#~ "    $standaard\treductie via regel %d (%s)\n"
+#~ "\n"
+
+#~ msgid "    %-4s\t[reduce using rule %d (%s)]\n"
+#~ msgstr "    %-4s\t[reductie via regel %d (%s)]\n"
+
+#~ msgid "    %-4s\treduce using rule %d (%s)\n"
+#~ msgstr "    %-4s\treductie via regel %d (%s)\n"
+
+#~ msgid "    $default\treduce using rule %d (%s)\n"
+#~ msgstr "    $standaard\treductie via regel %d (%s)\n"
 
 #~ msgid "invalid $ value"
 #~ msgstr "ongeldige $-waarde"
@@ -716,12 +716,6 @@ msgstr "'"
 
 #~ msgid "    $   \tgo to state %d\n"
 #~ msgstr "    $   \tga naar staat %d\n"
-
-#~ msgid "%-4s\terror (nonassociative)"
-#~ msgstr "%-4s\tfout (niet associatief)"
-
-#~ msgid "$default\treduce using rule %d (%s)"
-#~ msgstr "$standaard\treduceren via regel %d (%s)"
 
 #~ msgid "unterminated %guard clause"
 #~ msgstr "niet-beëindigde %guard-clausule"

@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.35\n"
-"POT-Creation-Date: 2002-06-28 19:09+0200\n"
+"POT-Creation-Date: 2002-06-30 19:37+0200\n"
 "PO-Revision-Date: 2002-04-03 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -37,11 +37,6 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: src/LR0.c:197
-#, c-format
-msgid "too many states (max %d)"
-msgstr "demasiados estados (máximo %d)"
 
 #: src/complain.c:99 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
@@ -83,30 +78,30 @@ msgstr ""
 "El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
-#: src/conflicts.c:378
+#: src/conflicts.c:379
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d conflicto desplazamiento/reducción"
 msgstr[1] "%d conflictos desplazamiento/reducción"
 
-#: src/conflicts.c:385
+#: src/conflicts.c:386
 msgid "and"
 msgstr "y"
 
-#: src/conflicts.c:391
+#: src/conflicts.c:392
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d conflicto reducción/reducción"
 msgstr[1] " %d conflictos reducción/reducción"
 
-#: src/conflicts.c:416
+#: src/conflicts.c:417
 #, c-format
 msgid "State %d contains "
 msgstr "El estado %d contiene"
 
-#: src/conflicts.c:487
+#: src/conflicts.c:490
 msgid "conflicts: "
 msgstr "conflictos: "
 
@@ -122,7 +117,7 @@ msgstr "conflictos: "
 # ok
 # ngp
 #
-#: src/conflicts.c:489
+#: src/conflicts.c:492
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d desplazamiento(s)/reducción(ones)"
@@ -139,17 +134,17 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 #
 # ok
 # ngp
-#: src/conflicts.c:493
+#: src/conflicts.c:496
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:498
+#: src/conflicts.c:501
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
 
-#: src/conflicts.c:505
+#: src/conflicts.c:508
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -296,7 +291,7 @@ msgstr "%s: no se ha especificado ningún fichero de gramática\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
 
-#: src/lalr.c:174
+#: src/lalr.c:102
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "demasiados gotos (máximo %d)"
@@ -306,76 +301,56 @@ msgstr "demasiados gotos (máximo %d)"
 msgid " type %d is %s\n"
 msgstr " el tipo %d es %s\n"
 
-#: src/print.c:98
-#, c-format
-msgid "   (rule %d)"
-msgstr "   (regla %d)"
-
-#: src/print.c:119
-#, c-format
-msgid "    %-4s\tshift, and go to state %d\n"
+#: src/print.c:162
+#, fuzzy, c-format
+msgid "shift, and go to state %d\n"
 msgstr "    %-4s\tdesplazar e ir al estado %d\n"
 
-#: src/print.c:136
-#, c-format
-msgid "    %-4s\terror (nonassociative)\n"
-msgstr "    %-4s\terror (no asociativo)\n"
-
-#: src/print.c:160
-#, c-format
-msgid "    %-4s\tgo to state %d\n"
+#: src/print.c:164
+#, fuzzy, c-format
+msgid "go to state %d\n"
 msgstr "    %-4s\tir al estado %d\n"
 
-#: src/print.c:184 src/print.c:218
-#, c-format
-msgid ""
-"    $default\treduce using rule %d (%s)\n"
-"\n"
+#: src/print.c:201
+#, fuzzy
+msgid "error (nonassociative)\n"
+msgstr "%-4s\terror (no asociativo)"
+
+#: src/print.c:290
+#, fuzzy, c-format
+msgid "reduce using rule %d (%s)"
+msgstr "$default\treduce usando la regla %d (%s)"
+
+#: src/print.c:323 src/print.c:386
+msgid "$default"
 msgstr ""
-"    $default\treduce usando la regla %d (%s)\n"
-"\n"
 
-#: src/print.c:213 src/print.c:288
-#, c-format
-msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-msgstr "    %-4s\t[reduce usando la regla  %d (%s)]\n"
-
-#: src/print.c:269 src/print.c:282
-#, c-format
-msgid "    %-4s\treduce using rule %d (%s)\n"
-msgstr "    %-4s\treduce usando la regla  %d (%s)\n"
-
-#: src/print.c:297
-#, c-format
-msgid "    $default\treduce using rule %d (%s)\n"
-msgstr "    $default\treduce usando la regla %d (%s)\n"
-
-#: src/print.c:313
+#: src/print.c:405
 msgid "    $default\taccept\n"
 msgstr "    $default\taceptar\n"
 
-#: src/print.c:315
+#: src/print.c:407
 msgid "    NO ACTIONS\n"
 msgstr "    SIN ACCIONES\n"
 
-#: src/print.c:328
+#: src/print.c:428
 #, c-format
 msgid "state %d"
 msgstr "estado %d"
 
-#: src/print.c:364
+#: src/print.c:462
 msgid "Terminals, with rules where they appear"
 msgstr "Terminales con las reglas donde aparecen"
 
-#: src/print.c:389
+#: src/print.c:489
 msgid "Nonterminals, with rules where they appear"
 msgstr "No terminales con las reglas donde aparecen"
 
-#: src/print.c:417
+#: src/print.c:518
 msgid " on left:"
 msgstr " en la izquierda:"
 
-#: src/print.c:432
+#: src/print.c:533
 msgid " on right:"
 msgstr " en la derecha:"
 
@@ -389,112 +364,112 @@ msgstr "múltiples declaraciones de %s"
 msgid "result type clash on merge function %s: `%s' vs. `%s'"
 msgstr ""
 
-#: src/reader.c:257
+#: src/reader.c:237
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "se ha dado una regla para %s, que es un terminal"
 
-#: src/reader.c:282
+#: src/reader.c:262
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "los tipos (`%s' `%s') no concuerdan en la acción por defecto"
 
-#: src/reader.c:290
+#: src/reader.c:270
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regla vacía para un no terminal con tipo y no hay ninguna acción"
 
-#: src/reader.c:361
+#: src/reader.c:341
 msgid "two @prec's in a row"
 msgstr "dos @prec en una línea"
 
-#: src/reader.c:371
+#: src/reader.c:351
 #, c-format
 msgid "%%dprec affects only GLR parsers"
 msgstr ""
 
-#: src/reader.c:373
+#: src/reader.c:353
 #, c-format
 msgid "%%dprec must be followed by positive number"
 msgstr ""
 
-#: src/reader.c:375
+#: src/reader.c:355
 #, c-format
 msgid "only one %%dprec allowed per rule"
 msgstr ""
 
-#: src/reader.c:386
+#: src/reader.c:366
 #, c-format
 msgid "%%merge affects only GLR parsers"
 msgstr ""
 
-#: src/reader.c:388
+#: src/reader.c:368
 #, c-format
 msgid "only one %%merge allowed per rule"
 msgstr ""
 
-#: src/reader.c:531
+#: src/reader.c:507
 msgid "no rules in the input grammar"
 msgstr "no hay reglas en la gramática de entrada"
 
-#: src/reader.c:563
+#: src/reader.c:539
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "demasiados símbolos (terminales y no terminales); máximo %d"
 
-#: src/reduce.c:239 src/reduce.c:305 src/reduce.c:396
+#: src/reduce.c:243 src/reduce.c:309 src/reduce.c:400
 #, fuzzy
 msgid "warning"
 msgstr "aviso: "
 
-#: src/reduce.c:239
+#: src/reduce.c:243
 #, fuzzy
 msgid "useless rule"
 msgstr "%d regla sin uso"
 
-#: src/reduce.c:305
+#: src/reduce.c:309
 #, fuzzy
 msgid "useless nonterminal"
 msgstr "%d no terminal sin uso"
 
-#: src/reduce.c:352
+#: src/reduce.c:356
 msgid "Useless nonterminals:"
 msgstr "No terminales sin uso:"
 
-#: src/reduce.c:365
+#: src/reduce.c:369
 msgid "Terminals which are not used:"
 msgstr "Terminales que no se usan:"
 
-#: src/reduce.c:374
+#: src/reduce.c:378
 #, fuzzy
 msgid "Useless rules"
 msgstr "Reglas sin uso:"
 
-#: src/reduce.c:391
+#: src/reduce.c:395
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regla que nunca se ha reducido\n"
 msgstr[1] "%d reglas que nunca se han reducido\n"
 
-#: src/reduce.c:399
+#: src/reduce.c:403
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d no terminal sin uso"
 msgstr[1] "%d no terminales sin uso"
 
-#: src/reduce.c:405
+#: src/reduce.c:409
 msgid " and "
 msgstr " y "
 
-#: src/reduce.c:408
+#: src/reduce.c:412
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d regla sin uso"
 msgstr[1] "%d reglas sin uso"
 
-#: src/reduce.c:438
+#: src/reduce.c:442
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
@@ -609,6 +584,31 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "too many states (max %d)"
+#~ msgstr "demasiados estados (máximo %d)"
+
+#~ msgid "   (rule %d)"
+#~ msgstr "   (regla %d)"
+
+#~ msgid "    %-4s\terror (nonassociative)\n"
+#~ msgstr "    %-4s\terror (no asociativo)\n"
+
+#~ msgid ""
+#~ "    $default\treduce using rule %d (%s)\n"
+#~ "\n"
+#~ msgstr ""
+#~ "    $default\treduce usando la regla %d (%s)\n"
+#~ "\n"
+
+#~ msgid "    %-4s\t[reduce using rule %d (%s)]\n"
+#~ msgstr "    %-4s\t[reduce usando la regla  %d (%s)]\n"
+
+#~ msgid "    %-4s\treduce using rule %d (%s)\n"
+#~ msgstr "    %-4s\treduce usando la regla  %d (%s)\n"
+
+#~ msgid "    $default\treduce using rule %d (%s)\n"
+#~ msgstr "    $default\treduce usando la regla %d (%s)\n"
 
 #~ msgid "invalid $ value"
 #~ msgstr "valor $ no válido"
@@ -818,12 +818,6 @@ msgstr "'"
 
 #~ msgid "    $   \tgo to state %d\n"
 #~ msgstr "    $   \tir al estado %d\n"
-
-#~ msgid "%-4s\terror (nonassociative)"
-#~ msgstr "%-4s\terror (no asociativo)"
-
-#~ msgid "$default\treduce using rule %d (%s)"
-#~ msgstr "$default\treduce usando la regla %d (%s)"
 
 # Tal vez pueda parecer pedante, pero `inconclusa' me suena muchísimo
 # mejor que `sin terminar' que me parece más "computerizado" - cll
