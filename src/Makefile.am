@@ -20,7 +20,7 @@ EXTRA_bison_SOURCES = vmsgetargs.c
 
 noinst_HEADERS = alloc.h closure.h complain.h \
  derives.h \
- files.h getargs.h gram.h lex.h \
+ files.h getargs.h gram.h lalr.h lex.h \
  output.h state.h	\
  symtab.h system.h types.h
 

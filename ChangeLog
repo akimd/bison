@@ -1,5 +1,12 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.h: New file.
+	Propagate its inclusion instead of prototypes and `extern'.
+	* src/lalr.c: Formatting changes, topological sorting etc.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (token_actions): Introduce a temporary array,
 	YYDEFACT, that makes it possible for this function to use
 	output_short_table.
