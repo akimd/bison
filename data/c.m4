@@ -107,7 +107,8 @@ m4_define([b4_token_enum],
 m4_define([b4_token_defines],
 [m4_if([$@], [[]], [],
 [/* Tokens.  */
-#if defined (__STDC__) || defined (__cplusplus)
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
