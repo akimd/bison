@@ -95,7 +95,6 @@
 
 typedef struct shifts
 {
-  short number;
   short nshifts;
   short shifts[1];
 } shifts;

@@ -1,5 +1,12 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (shifts): Remove the `number' member: shifts are
+	attached to state, hence no longer need to be labelled with a
+	state number.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	Now that states have a complete set of members, the linked list of
 	shifts is useless: just fill directly the state's shifts member.
 
