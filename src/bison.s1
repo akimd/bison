@@ -78,10 +78,6 @@
 # define YYSTACK_ALLOC malloc
 #endif
 
-/* Note: there must be only one dollar sign in this file.
-   It is replaced by the list of actions, each action
-   as one case of the switch.  */
-
 #define yyerrok		(yyerrstatus = 0)
 #define yyclearin	(yychar = YYEMPTY)
 #define YYEMPTY		-2
@@ -583,7 +579,7 @@ yyreduce:
   yylen = yyr2[yyn];
 
   /* If YYLEN is nonzero, implement the default value of the action:
-     `{dollar}{dollar} = {dollar}1'.
+     `$$ = $1'.
 
      Otherwise, the following line sets YYVAL to the semantic value of
      the lookahead token.  This behavior is undocumented and Bison
@@ -615,7 +611,7 @@ yyreduce:
       fprintf (stderr, " -> %s\n", yytname[yyr1[yyn]]);
     }
 #endif
-$ /* The action file replaces this line marked with this dollarsign. */
+%% actions /* The action file replaces this line. */
 #line
 
   yyvsp -= yylen;

@@ -145,7 +145,7 @@ typedef int bool;
 #define obstack_chunk_free  free
 #include "obstack.h"
 
-#define obstack_grow_literal_string(Obs, Str) \
+#define obstack_grow_string(Obs, Str) \
   obstack_grow (Obs, Str, sizeof (Str) - 1)
 
 #define obstack_fgrow1(Obs, Format, Arg1)	\

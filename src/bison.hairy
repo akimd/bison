@@ -1,4 +1,4 @@
-
+                                                          /* -*- C -*- */
 extern int timeclock;
 
 
@@ -261,7 +261,7 @@ yyresume:
 	  yylsp->last_line = (yylsp+yylen-1)->last_line;
 	  yylsp->last_column = (yylsp+yylen-1)->last_column;
 	}
-	  
+
       if (yyptr == yyrq + YYMAXRULES)
         yyptr = yyrq;
     }
@@ -331,4 +331,4 @@ yyerrlab:
   goto yyresume;
 }
 
-$
+%% actions
