@@ -5,6 +5,7 @@
 	* config/missing: Update from masters.
 	* tests/Makefile.am ($(srcdir)/$(TESTSUITE)): No longer depend
 	upon package.m4.
+	* configure.in (ALL_LINGUAS): Add `tr'.
 
 2001-09-21  Akim Demaille  <akim@epita.fr>
 

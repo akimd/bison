@@ -89,7 +89,7 @@ jm_FUNC_REALLOC
 jm_PREREQ_QUOTEARG
 jm_PREREQ_ERROR
 
-ALL_LINGUAS="de es et fr ja nl ru"
+ALL_LINGUAS="de es et fr ja nl tr ru"
 AM_GNU_GETTEXT
 
 # This is necessary so that .o files in LIBOBJS are also built via
