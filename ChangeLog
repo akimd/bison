@@ -1,5 +1,13 @@
 2003-05-24  Paul Eggert  <eggert@twinsun.com>
 
+	* data/glr.c (YYSTACKEXPANDABLE): Do not evaluate
+	YYSTYPE_IS_TRIVIAL or YYSTYPE_IS_TRIVIAL unless they are defined.
+	This fixes a problem reported by John Bowman when the Compaq/HP
+	Alpha cxx compiler happy (e.g. using cxx -D__USE_STD_IOSTREAM
+	-ansi -Wall -gall).
+	* data/yacc.c (union yyalloc): Likewise.
+	(YYCOPY): Do not evaluate __GNUC__ unless it is defined.
+	
 	Switch from 'int' to 'bool' where that makes sense.
 
 	* lib/abitset.c (abitset_test, abitset_empty_p, abitset_equal_p,
