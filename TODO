@@ -22,3 +22,6 @@
 
 * doc/bison.texinfo
 ** Echo modifications of prologue and epilogue.
+
+* tests/
+** Repair Bison to success tests.
