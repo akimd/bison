@@ -1,5 +1,5 @@
 # Bison Regressions.                               -*- Autotest -*-
-# Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -319,9 +319,9 @@ int yylex (void);
 %}
 [%token MYEOF 0 "end of file"
 %token 'a' "a"
-%token b "b"
-%token c 'c'
-%token 'd' d
+%token B_TOKEN "b"
+%token C_TOKEN 'c'
+%token 'd' D_TOKEN
 %%
 exp: "a";
 ]])
