@@ -213,7 +213,7 @@ __yy_memcpy (char *to, char *from, unsigned int count)
 #endif
 #endif
 
-#line 216 "bison.simple"
+#line 217 "bison.simple"
 
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
    into yyparse.  The argument should have type void *.
@@ -539,7 +539,7 @@ yyreduce:
 #endif
 
 $   /* the action file gets copied in in place of this dollarsign */
-#line 542 "bison.simple"
+#line 543 "bison.simple"
 
   yyvsp -= yylen;
   yyssp -= yylen;
