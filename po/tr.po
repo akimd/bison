@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28c\n"
-"POT-Creation-Date: 2002-01-07 09:45+0100\n"
+"POT-Creation-Date: 2002-01-09 19:09+0100\n"
 "PO-Revision-Date: 2001-09-10 10:54GMT\n"
 "Last-Translator: Altug Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -99,12 +99,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d öteleme/indirgeme çeliþkisi"
 
-#: src/files.c:152
+#: src/files.c:159
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "`%s' dosyasý açýlamadý"
 
-#: src/files.c:171
+#: src/files.c:178
 msgid "cannot close file"
 msgstr "dosya kapatýlamýyor"
 
@@ -206,22 +206,22 @@ msgstr ""
 "Hiçbir garantisi yoktur; hatta SATILABÝLÝRLÝÐÝ veya HERHANGÝ BÝR AMACA\n"
 "UYGUNLUÐU için bile garanti verilmez.\n"
 
-#: src/getargs.c:191 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:588
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' artýk desteklenmiyor"
 
-#: src/getargs.c:215
+#: src/getargs.c:224
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Daha fazla bilgi için `%s --help' yazýn.\n"
 
-#: src/getargs.c:224
+#: src/getargs.c:233
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: gramer dosyasý verilmemiþ\n"
 
-#: src/getargs.c:228
+#: src/getargs.c:237
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: '%s' den sonraki argümanlar yoksayýldý\n"

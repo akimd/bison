@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28d\n"
-"POT-Creation-Date: 2002-01-07 09:45+0100\n"
+"POT-Creation-Date: 2002-01-09 19:09+0100\n"
 "PO-Revision-Date: 2001-08-29 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -98,12 +98,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d conflits décalage/réduction"
 
-#: src/files.c:152
+#: src/files.c:159
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "ne peut ouvrir le fichier `%s'"
 
-#: src/files.c:171
+#: src/files.c:178
 msgid "cannot close file"
 msgstr "ne peut fermer le fichier"
 
@@ -206,22 +206,22 @@ msgstr ""
 "reproduction. AUCUNE garantie n'est donnée; tant pour des raisons\n"
 "COMMERCIALES que pour RÉPONDRE À UN BESOIN PARTICULIER.\n"
 
-#: src/getargs.c:191 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:588
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' n'est plus supporté"
 
-#: src/getargs.c:215
+#: src/getargs.c:224
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Pour en savoir davantage, faites: `%s --help'.\n"
 
-#: src/getargs.c:224
+#: src/getargs.c:233
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: grammaire manquante\n"
 
-#: src/getargs.c:228
+#: src/getargs.c:237
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: paramètres supplémentaires ignorés après `%s'\n"

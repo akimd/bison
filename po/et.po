@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28d\n"
-"POT-Creation-Date: 2002-01-07 09:45+0100\n"
+"POT-Creation-Date: 2002-01-09 19:09+0100\n"
 "PO-Revision-Date: 2001-08-29 17:06+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -96,12 +96,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d nihutamine/redutseerimine konflikti"
 
-#: src/files.c:152
+#: src/files.c:159
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "faili `%s' ei saa avada"
 
-#: src/files.c:171
+#: src/files.c:178
 msgid "cannot close file"
 msgstr "faili ei õnnestu sulgeda"
 
@@ -200,22 +200,22 @@ msgstr ""
 "See on vaba tarkvara; kopeerimistingimused leiate lähtetekstidest. Garantii\n"
 "PUUDUB; ka müügiks või mingil eesmärgil kasutamiseks.\n"
 
-#: src/getargs.c:191 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:588
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' ei ole enam toetatud"
 
-#: src/getargs.c:215
+#: src/getargs.c:224
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Lisainfo saamiseks proovige `%s --help'.\n"
 
-#: src/getargs.c:224
+#: src/getargs.c:233
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: puudub grammatikafail\n"
 
-#: src/getargs.c:228
+#: src/getargs.c:237
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: ignoreerin lisaargumente peale `%s'\n"

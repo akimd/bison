@@ -1,3 +1,7 @@
+2002-01-11  Akim Demaille  <akim@epita.fr>
+
+	* configure.in: Use AC_FUNC_STRNLEN.
+
 2002-01-09  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c, src/files.h (output_infix): New.

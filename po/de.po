@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2002-01-07 09:45+0100\n"
+"POT-Creation-Date: 2002-01-09 19:09+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -97,12 +97,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d Schiebe/Reduziere Konflikte"
 
-#: src/files.c:152
+#: src/files.c:159
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:171
+#: src/files.c:178
 msgid "cannot close file"
 msgstr ""
 
@@ -176,22 +176,22 @@ msgid ""
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:191 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:588
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr ""
 
-#: src/getargs.c:215
+#: src/getargs.c:224
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/getargs.c:224
+#: src/getargs.c:233
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: keine Grammatik-Datei angegeben\n"
 
-#: src/getargs.c:228
+#: src/getargs.c:237
 #, fuzzy, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: zusätzliche Argumente nach »%s« werden ignoriert\n"

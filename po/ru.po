@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2002-01-07 09:45+0100\n"
+"POT-Creation-Date: 2002-01-09 19:09+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -97,12 +97,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d конфликтов сдвига/вывода"
 
-#: src/files.c:152
+#: src/files.c:159
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "не удается открыть файл `%s'"
 
-#: src/files.c:171
+#: src/files.c:178
 msgid "cannot close file"
 msgstr "не удается закрыть файл"
 
@@ -205,22 +205,22 @@ msgstr ""
 "ПРИГОДНОСТИ\n"
 "ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ.\n"
 
-#: src/getargs.c:191 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:588
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' больше не поддерживается"
 
-#: src/getargs.c:215
+#: src/getargs.c:224
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Используйте `%s --help' для дополнительной информации.\n"
 
-#: src/getargs.c:224
+#: src/getargs.c:233
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: не задан файл с грамматикой\n"
 
-#: src/getargs.c:228
+#: src/getargs.c:237
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: лишние аргументы после `%s' игнорированы\n"
