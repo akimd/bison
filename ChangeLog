@@ -1,5 +1,9 @@
 2001-08-03  Akim Demaille  <akim@epita.fr>
 
+	* configure.in: Bump to 1.28b.
+
+2001-08-03  Akim Demaille  <akim@epita.fr>
+
 	* src/complain.c: Adjust strerror_r portability issues.
 
 2001-08-03  Akim Demaille  <akim@epita.fr>
