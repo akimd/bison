@@ -1,4 +1,4 @@
-/* A Bison parser, made from parse-gram.y, by GNU bison 1.75b.  */
+/* A Bison parser, made by GNU Bison 1.75b.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
@@ -22,9 +22,6 @@
    Bison output file, you may use that output file without restriction.
    This special exception was added by the Free Software Foundation
    in version 1.24 of Bison.  */
-
-#ifndef BISON_PARSE_GRAM_H
-# define BISON_PARSE_GRAM_H
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -138,9 +135,10 @@ typedef union {
   assoc_t assoc;
   struniq_t struniq;
 } yystype;
-/* Line 1321 of /usr/local/share/bison/yacc.c.  */
-#line 143 "y.tab.h"
+/* Line 1212 of /usr/local/share/bison/yacc.c.  */
+#line 139 "y.tab.h"
 # define YYSTYPE yystype
+# define YYSTYPE_IS_TRIVIAL 1
 #endif
 
 
@@ -158,5 +156,4 @@ typedef struct yyltype
 
 
 
-#endif /* not BISON_PARSE_GRAM_H */
 

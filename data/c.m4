@@ -395,7 +395,7 @@ b4_location_if([  (void) yylocationp;
     {
       YYFPRINTF (yyout, "token %s (", yytname[[yytype]]);
 # ifdef YYPRINT
-      YYPRINT (yyout, yytoknum[[yytype]], yyvalue);
+      YYPRINT (yyout, yytoknum[[yytype]], *yyvaluep);
 # endif
     }
   else
