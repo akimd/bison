@@ -142,6 +142,9 @@ uninstall:
 	-cd $(datadir); rm -f $(PFILE) $(PFILE1)
 	rm -f $(mandir)/bison.$(manext) $(infodir)/bison.info*
 
+check:
+	@echo "No checks implemented (yet)."
+
 bison: $(OBJECTS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS)
 
