@@ -228,7 +228,7 @@ static const short yyrline[] =
 };
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE
+#if (YYDEBUG) || YYERROR_VERBOSE
 /* YYTNME[TOKEN_NUM] -- String name of the token TOKEN_NUM.  */
 static const char *const yytname[] =
 {
