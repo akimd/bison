@@ -5609,8 +5609,8 @@ useless: STR;
 @example
 calc.y: warning: 1 useless nonterminal and 1 useless rule
 calc.y:11.1-7: warning: useless nonterminal: useless
-calc.y:11.8-12: warning: useless rule: useless: STR
-calc.y contains 7 shift/reduce conflicts.
+calc.y:11.10-12: warning: useless rule: useless: STR
+calc.y: conflicts: 7 shift/reduce
 @end example
 
 When given @option{--report=state}, in addition to @file{calc.tab.c}, it
@@ -5632,10 +5632,10 @@ Conflict in state 8 between rule 2 and token '*' resolved as shift.
 The next section lists states that still have conflicts.
 
 @example
-State 8 contains 1 shift/reduce conflict.
-State 9 contains 1 shift/reduce conflict.
-State 10 contains 1 shift/reduce conflict.
-State 11 contains 4 shift/reduce conflicts.
+State 8 conflicts: 1 shift/reduce
+State 9 conflicts: 1 shift/reduce
+State 10 conflicts: 1 shift/reduce
+State 11 conflicts: 4 shift/reduce
 @end example
 
 @noindent
@@ -5847,8 +5847,8 @@ state 7
     exp         go to state 11
 @end example
 
-As was announced in beginning of the report, @samp{State 8 contains 1
-shift/reduce conflict}:
+As was announced in beginning of the report, @samp{State 8 conflicts:
+1 shift/reduce}:
 
 @example
 state 8
