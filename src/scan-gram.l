@@ -41,93 +41,11 @@ do {						\
 /* Each time we match a string, move the end cursor to its end. */
 #define STEP  LOCATION_STEP (*loc)
 
+static void extend_location (location_t *, char const *, int);
 #define YY_USER_ACTION  extend_location (loc, yytext, yyleng);
 
+static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
-
-
-/* Read bytes from FP into buffer BUF of size SIZE.  Return the
-   number of bytes read.  Remove '\r' from input, treating \r\n
-   and isolated \r as \n.  */
-
-static size_t
-no_cr_read (FILE *fp, char *buf, size_t size)
-{
-  size_t s = fread (buf, 1, size, fp);
-  if (s)
-    {
-      char *w = memchr (buf, '\r', s);
-      if (w)
-	{
-	  char const *r = ++w;
-	  char const *lim = buf + s;
-
-	  for (;;)
-	    {
-	      /* Found an '\r'.  Treat it like '\n', but ignore any
-		 '\n' that immediately follows.  */
-	      w[-1] = '\n';
-	      if (r == lim)
-		{
-		  int ch = getc (fp);
-		  if (ch != '\n' && ungetc (ch, fp) != ch)
-		    break;
-		}
-	      else if (*r == '\n')
-		r++;
-
-	      /* Copy until the next '\r'.  */
-	      do
-		{
-		  if (r == lim)
-		    return w - buf;
-		}
-	      while ((*w++ = *r++) != '\r');
-	    }
-
-	  return w - buf;
-	}
-    }
-
-  return s;
-}
-
-
-/* Extend *LOC to account for token TOKEN of size SIZE.  */
-
-static void
-extend_location (location_t *loc, char const *token, int size)
-{
-  int line = loc->last_line;
-  int column = loc->last_column;
-  char const *p0 = token;
-  char const *p = token;
-  char const *lim = token + size;
-
-  for (p = token; p < lim; p++)
-    switch (*p)
-      {
-      case '\r':
-	/* \r shouldn't survive no_cr_read.  */
-	abort ();
-
-      case '\n':
-	line++;
-	column = 1;
-	p0 = p + 1;
-	break;
-
-      case '\t':
-	column += mbsnwidth (p0, p - p0, 0);
-	column += 8 - ((column - 1) & 7);
-	p0 = p + 1;
-	break;
-      }
-
-  loc->last_line = line;
-  loc->last_column = column + mbsnwidth (p0, p - p0, 0);
-}
-
 
 
 /* STRING_OBSTACK -- Used to store all the characters that we need to
@@ -602,6 +520,89 @@ splice	 (\\[ \f\t\v]*\n)*
 
 
 %%
+
+/* Extend *LOC to account for token TOKEN of size SIZE.  */
+
+static void
+extend_location (location_t *loc, char const *token, int size)
+{
+  int line = loc->last_line;
+  int column = loc->last_column;
+  char const *p0 = token;
+  char const *p = token;
+  char const *lim = token + size;
+
+  for (p = token; p < lim; p++)
+    switch (*p)
+      {
+      case '\r':
+	/* \r shouldn't survive no_cr_read.  */
+	abort ();
+
+      case '\n':
+	line++;
+	column = 1;
+	p0 = p + 1;
+	break;
+
+      case '\t':
+	column += mbsnwidth (p0, p - p0, 0);
+	column += 8 - ((column - 1) & 7);
+	p0 = p + 1;
+	break;
+      }
+
+  loc->last_line = line;
+  loc->last_column = column + mbsnwidth (p0, p - p0, 0);
+}
+
+
+/* Read bytes from FP into buffer BUF of size SIZE.  Return the
+   number of bytes read.  Remove '\r' from input, treating \r\n
+   and isolated \r as \n.  */
+
+static size_t
+no_cr_read (FILE *fp, char *buf, size_t size)
+{
+  size_t s = fread (buf, 1, size, fp);
+  if (s)
+    {
+      char *w = memchr (buf, '\r', s);
+      if (w)
+	{
+	  char const *r = ++w;
+	  char const *lim = buf + s;
+
+	  for (;;)
+	    {
+	      /* Found an '\r'.  Treat it like '\n', but ignore any
+		 '\n' that immediately follows.  */
+	      w[-1] = '\n';
+	      if (r == lim)
+		{
+		  int ch = getc (fp);
+		  if (ch != '\n' && ungetc (ch, fp) != ch)
+		    break;
+		}
+	      else if (*r == '\n')
+		r++;
+
+	      /* Copy until the next '\r'.  */
+	      do
+		{
+		  if (r == lim)
+		    return w - buf;
+		}
+	      while ((*w++ = *r++) != '\r');
+	    }
+
+	  return w - buf;
+	}
+    }
+
+  return s;
+}
+
 
 /*------------------------------------------------------------------.
 | TEXT is pointing to a wannabee semantic value (i.e., a `$').      |
