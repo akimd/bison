@@ -188,7 +188,7 @@ Examples
 
 Reverse Polish Notation Calculator
 
-* Decls: Rpcalc Decls.  Bison and C declarations for rpcalc.
+* Decls: Rpcalc Decls.  Prologue (declarations) for rpcalc.
 * Rules: Rpcalc Rules.  Grammar Rules for rpcalc, with explanation.
 * Lexer: Rpcalc Lexer.  The lexical analyzer.
 * Main: Rpcalc Main.    The controlling function.
@@ -220,10 +220,10 @@ Bison Grammar Files
 
 Outline of a Bison Grammar
 
-* C Declarations::    Syntax and usage of the C declarations section.
+* Prologue::          Syntax and usage of the prologue (declarations section).
 * Bison Declarations::  Syntax and usage of the Bison declarations section.
 * Grammar Rules::     Syntax and usage of the grammar rules section.
-* C Code::            Syntax and usage of the additional C code section.
+* Epilogue::          Syntax and usage of the epilogue (additional code section).
 
 Defining Language Semantics
 
@@ -736,7 +736,7 @@ general form of a Bison grammar file is as follows:
 
 @example
 %@{
-@var{C declarations}
+@var{Prologue (declarations)}
 %@}
 
 @var{Bison declarations}
@@ -744,15 +744,15 @@ general form of a Bison grammar file is as follows:
 %%
 @var{Grammar rules}
 %%
-@var{Additional C code}
+@var{Epilogue (additional code)}
 @end example
 
 @noindent
 The @samp{%%}, @samp{%@{} and @samp{%@}} are punctuation that appears
 in every Bison grammar file to separate the sections.
 
-The C declarations may define types and variables used in the actions.
-You can also use preprocessor commands to define macros used there, and use
+The prologue may define types and variables used in the actions. You can 
+also use preprocessor commands to define macros used there, and use 
 @code{#include} to include header files that do any of these things.
 
 The Bison declarations declare the names of the terminal and nonterminal
@@ -762,10 +762,10 @@ semantic values of various symbols.
 The grammar rules define how to construct each nonterminal symbol from its
 parts.
 
-The additional C code can contain any C code you want to use.  Often the
-definition of the lexical analyzer @code{yylex} goes here, plus subroutines
-called by the actions in the grammar rules.  In a simple program, all the
-rest of the program can go here.
+The epilogue can contain any code you want to use. Often the definition of 
+the lexical analyzer @code{yylex} goes here, plus subroutines called by the 
+actions in the grammar rules.  In a simple program, all the rest of the 
+program can go here.
 
 @node Examples, Grammar File, Concepts, Top
 @chapter Examples
@@ -812,7 +812,7 @@ The source code for this calculator is named @file{rpcalc.y}.  The
 @samp{.y} extension is a convention used for Bison input files.
 
 @menu
-* Decls: Rpcalc Decls.  Bison and C declarations for rpcalc.
+* Decls: Rpcalc Decls.  Prologue (declarations) for rpcalc.
 * Rules: Rpcalc Rules.  Grammar Rules for rpcalc, with explanation.
 * Lexer: Rpcalc Lexer.  The lexical analyzer.
 * Main: Rpcalc Main.    The controlling function.
@@ -840,7 +840,7 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 %% /* Grammar rules and actions follow */
 @end example
 
-The C declarations section (@pxref{C Declarations, ,The C Declarations Section}) contains two
+The declarations section (@pxref{Prologue, , The prologue}) contains two
 preprocessor directives.
 
 The @code{#define} directive defines the macro @code{YYSTYPE}, thus
@@ -1161,8 +1161,8 @@ Before running Bison to produce a parser, we need to decide how to
 arrange all the source code in one or more source files.  For such a
 simple example, the easiest thing is to put everything in one file.  The
 definitions of @code{yylex}, @code{yyerror} and @code{main} go at the
-end, in the ``additional C code'' section of the file (@pxref{Grammar
-Layout, ,The Overall Layout of a Bison Grammar}).
+end, in the epilogue of the file 
+(@pxref{Grammar Layout, ,The Overall Layout of a Bison Grammar}).
 
 For a large project, you would probably have several source files, and use
 @code{make} to arrange to recompile them.
@@ -1779,7 +1779,7 @@ appropriate delimiters:
 
 @example
 %@{
-@var{C declarations}
+@var{Prologue}
 %@}
 
 @var{Bison declarations}
@@ -1788,24 +1788,25 @@ appropriate delimiters:
 @var{Grammar rules}
 %%
 
-@var{Additional C code}
+@var{Epilogue}
 @end example
 
 Comments enclosed in @samp{/* @dots{} */} may appear in any of the sections.
 
 @menu
-* C Declarations::    Syntax and usage of the C declarations section.
+* Prologue::          Syntax and usage of the prologue.
 * Bison Declarations::  Syntax and usage of the Bison declarations section.
 * Grammar Rules::     Syntax and usage of the grammar rules section.
-* C Code::            Syntax and usage of the additional C code section.
+* Epilogue::          Syntax and usage of the epilogue.
 @end menu
 
-@node C Declarations, Bison Declarations,  , Grammar Outline
-@subsection The C Declarations Section
-@cindex C declarations section
-@cindex declarations, C
+@node Prologue, Bison Declarations,  , Grammar Outline
+@subsection The prologue
+@cindex declarations section
+@cindex Prologue
+@cindex declarations
 
-The @var{C declarations} section contains macro definitions and
+The @var{prologue} section contains macro definitions and
 declarations of functions and variables that are used in the actions in the
 grammar rules.  These are copied to the beginning of the parser file so
 that they precede the definition of @code{yyparse}.  You can use
@@ -1813,7 +1814,7 @@ that they precede the definition of @code{yyparse}.  You can use
 need any C declarations, you may omit the @samp{%@{} and @samp{%@}}
 delimiters that bracket this section.
 
-@node Bison Declarations, Grammar Rules, C Declarations, Grammar Outline
+@node Bison Declarations, Grammar Rules, Prologue, Grammar Outline
 @subsection The Bison Declarations Section
 @cindex Bison declarations (introduction)
 @cindex declarations, Bison (introduction)
@@ -1823,7 +1824,7 @@ terminal and nonterminal symbols, specify precedence, and so on.
 In some simple grammars you may not need any declarations.
 @xref{Declarations, ,Bison Declarations}.
 
-@node Grammar Rules, C Code, Bison Declarations, Grammar Outline
+@node Grammar Rules, Epilogue, Bison Declarations, Grammar Outline
 @subsection The Grammar Rules Section
 @cindex grammar rules section
 @cindex rules section for grammar
@@ -1835,18 +1836,18 @@ There must always be at least one grammar rule, and the first
 @samp{%%} (which precedes the grammar rules) may never be omitted even
 if it is the first thing in the file.
 
-@node C Code,  , Grammar Rules, Grammar Outline
-@subsection The Additional C Code Section
+@node Epilogue,  , Grammar Rules, Grammar Outline
+@subsection The epilogue
 @cindex additional C code section
+@cindex epilogue
 @cindex C code, section for additional
 
-The @var{additional C code} section is copied verbatim to the end of the
-parser file, just as the @var{C declarations} section is copied to the
-beginning.  This is the most convenient place to put anything that you
-want to have in the parser file but which need not come before the
-definition of @code{yyparse}.  For example, the definitions of
-@code{yylex} and @code{yyerror} often go here.  @xref{Interface, ,Parser
-C-Language Interface}.
+The @var{epilogue} is copied verbatim to the end of the parser file, just as 
+the @var{prologue} is copied to the beginning.  This is the most convenient 
+place to put anything that you want to have in the parser file but which need 
+not come before the definition of @code{yyparse}.  For example, the 
+definitions of @code{yylex} and @code{yyerror} often go here.  
+@xref{Interface, ,Parser C-Language Interface}.
 
 If the last section is empty, you may omit the @samp{%%} that separates it
 from the grammar rules.
@@ -1854,7 +1855,7 @@ from the grammar rules.
 The Bison parser itself contains many static variables whose names start
 with @samp{yy} and many macros whose names start with @samp{YY}.  It is a
 good idea to avoid using any such names (except those documented in this
-manual) in the additional C code section of the grammar file.
+manual) in the epilogue of the grammar file.
 
 @node Symbols, Rules, Grammar Outline, Grammar File
 @section Symbols, Terminal and Nonterminal
@@ -2175,8 +2176,8 @@ specify some other type, define @code{YYSTYPE} as a macro, like this:
 @end example
 
 @noindent
-This macro definition must go in the C declarations section of the grammar
-file (@pxref{Grammar Outline, ,Outline of a Bison Grammar}).
+This macro definition must go in the prologue of the grammar file 
+(@pxref{Grammar Outline, ,Outline of a Bison Grammar}).
 
 @node Multiple Types, Actions, Value Type, Semantics
 @subsection More Than One Value Type
@@ -3150,8 +3151,8 @@ functions that it needs to use.
 
 Keep in mind that the parser uses many C identifiers starting with
 @samp{yy} and @samp{YY} for internal purposes.  If you use such an
-identifier (aside from those in this manual) in an action or in additional
-C code in the grammar file, you are likely to run into trouble.
+identifier (aside from those in this manual) in an action or in epilogue
+in the grammar file, you are likely to run into trouble.
 
 @menu
 * Parser Function::   How to call @code{yyparse} and what it returns.
@@ -4595,10 +4596,9 @@ Here we assume that @code{yylex} looks at the value of @code{hexflag}; when
 it is nonzero, all integers are parsed in hexadecimal, and tokens starting
 with letters are parsed as integers if possible.
 
-The declaration of @code{hexflag} shown in the C declarations section of
-the parser file is needed to make it accessible to the actions
-(@pxref{C Declarations, ,The C Declarations Section}).  You must also write the code in @code{yylex}
-to obey the flag.
+The declaration of @code{hexflag} shown in the prologue of the parser file 
+is needed to make it accessible to the actions (@pxref{Prologue, ,The Prologue}).  
+You must also write the code in @code{yylex} to obey the flag.
 
 @node Tie-in Recovery,  , Lexical Tie-ins, Context Dependency
 @section Lexical Tie-ins and Error Recovery
@@ -4666,15 +4666,14 @@ If a Bison grammar compiles properly but doesn't do what you want when it
 runs, the @code{yydebug} parser-trace feature can help you figure out why.
 
 To enable compilation of trace facilities, you must define the macro
-@code{YYDEBUG} when you compile the parser.  You could use
-@samp{-DYYDEBUG=1} as a compiler option or you could put @samp{#define
-YYDEBUG 1} in the C declarations section of the grammar file
-(@pxref{C Declarations, ,The C Declarations Section}).  Alternatively, use the @samp{-t} option when
-you run Bison (@pxref{Invocation, ,Invoking Bison}).  We always define @code{YYDEBUG} so that
-debugging is always possible.
+@code{YYDEBUG} when you compile the parser.  You could use @samp{-DYYDEBUG=1} 
+as a compiler option or you could put @samp{#define YYDEBUG 1} in the prologue 
+of the grammar file (@pxref{Prologue, , The Prologue}). Alternatively, use the 
+@samp{-t} option when you run Bison (@pxref{Invocation, ,Invoking Bison}).  
+We always define @code{YYDEBUG} so that debugging is always possible.
 
-The trace facility uses @code{stderr}, so you must add @w{@code{#include
-<stdio.h>}} to the C declarations section unless it is already there.
+The trace facility uses @code{stderr}, so you must add 
+@w{@code{#include <stdio.h>}} to the prologue unless it is already there.
 
 Once you have compiled the program with trace facilities, the way to
 request a trace is to store a nonzero value in the variable @code{yydebug}.
@@ -5192,13 +5191,13 @@ These are the punctuation and delimiters used in Bison input:
 @table @samp
 @item %%
 Delimiter used to separate the grammar rule section from the
-Bison declarations section or the additional C code section.
+Bison declarations section or the epilogue.
 @xref{Grammar Layout, ,The Overall Layout of a Bison Grammar}.
 
 @item %@{ %@}
 All code listed between @samp{%@{} and @samp{%@}} is copied directly to
-the output file uninterpreted.  Such code forms the ``C declarations''
-section of the input file.  @xref{Grammar Outline, ,Outline of a Bison
+the output file uninterpreted.  Such code forms the prologue of the input 
+file.  @xref{Grammar Outline, ,Outline of a Bison
 Grammar}.
 
 @item /*@dots{}*/
