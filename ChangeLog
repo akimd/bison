@@ -1,3 +1,9 @@
+2002-12-17  Paul Eggert  <eggert@twinsun.com>
+
+	* NEWS, doc/bison.texinfo (Parser Function, Pure Calling, Error
+	Reporting, Table of Symbols): Omit mentions of %lex-param and
+	%parse-param from the documentation for now.
+
 2002-12-15  Paul Eggert  <eggert@twinsun.com>
 
 	Undo most of the 2002-11-12 yychar -> yytoken patch, as it broke
