@@ -1,5 +1,12 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/getargs.c (fixed_outfiles): Rename as...
+	(yaccflag): for consistency and accuracy.
+	Adjust dependencies.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	Use the more standard files `xalloc.h' and `xmalloc.c' instead of
 	Bison's `allocate.c' and `alloc.h'.  This patch was surprisingly
 	difficult and introduced a lot of core dump.  It turns out that

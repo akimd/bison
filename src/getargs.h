@@ -27,14 +27,13 @@ extern char *spec_name_prefix; 	/* for -p */
 
 extern int debugflag;  		/* for -t */
 extern int definesflag;    	/* for -d */
-extern int fixed_outfiles;  	/* for -y */
 extern int nolinesflag;    	/* for -l */
 extern int noparserflag;	/* for -n */
 extern int rawtoknumflag;	/* for -r */
+extern int statisticsflag;
 extern int toknumflag;   	/* for -k */
 extern int verboseflag;		/* for -v */
-extern int statisticsflag;
-extern int fixed_outfiles;	/* for -y */
+extern int yaccflag;  		/* for -y */
 
 void getargs PARAMS ((int argc, char *argv[]));
 
