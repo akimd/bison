@@ -1,3 +1,7 @@
+2003-06-25  Akim Demaille  <akim@epita.fr>
+
+	* config/depcomp, config/install-sh: Update from masters.
+
 2003-06-20  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (YYLLOC_DEFAULT): Parenthesize arguments as needed,
