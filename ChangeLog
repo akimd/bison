@@ -1,3 +1,8 @@
+2004-10-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (yyloc_default): Remove; not used.
+	Problem reported by Frank Heckenbach.
+
 2004-10-25  Akim Demaille  <akim@epita.fr>
 
 	* data/glr.c (YYRHSLOC): Move its definition next to its uses.
