@@ -1,5 +1,11 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/derives.c, src/print.c, src/reduce.c: To ease the
+	translation, move some `\n' out of the translated strings.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	The location tracking mechanism is precious for parse error
 	messages.  Nevertheless, it is enabled only when `@n' is used in
 	the grammar, which is a different issue (you can use it in error
