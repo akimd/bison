@@ -1,3 +1,10 @@
+2003-08-04  Paul Eggert  <eggert@twinsun.com>
+
+	Rework code slightly to avoid gcc -Wtraditional warnings.
+	* data/glr.c (yyuserMerge): Return void, not YYSTYPE.
+	The returned value is now stored in *YY0.  All callers changed.
+	* src/output.c (merge_output): Adjust to the above change.
+
 2003-07-26  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (YYASSERT): New macro.
