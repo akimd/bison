@@ -24,7 +24,7 @@
 %{
 #include "system.h"
 #include "files.h"
-int skel_lex PARAMS ((void));
+int skel_lex (void);
 static int yylineno = 1;
 %}
 

@@ -154,8 +154,7 @@ typedef struct transtion_s
 /* Return the state such these TRANSITIONS contain a shift/goto to it on
    SYMBOL.  Aborts if none found.  */
 struct state_s;
-struct state_s *transitions_to PARAMS ((transitions_t *state,
-					symbol_number_t s));
+struct state_s *transitions_to (transitions_t *state, symbol_number_t s);
 
 
 /*-------.
@@ -168,7 +167,7 @@ typedef struct errs_s
   symbol_t *symbols[1];
 } errs_t;
 
-errs_t *errs_new PARAMS ((int num, symbol_t **tokens));
+errs_t *errs_new (int num, symbol_t **tokens);
 
 
 /*-------------.
@@ -213,42 +212,38 @@ extern state_number_t nstates;
 extern state_t *final_state;
 
 /* Create a new state with ACCESSING_SYMBOL for those items.  */
-state_t *state_new PARAMS ((symbol_number_t accessing_symbol,
-			    size_t core_size, item_number_t *core));
+state_t *state_new (symbol_number_t accessing_symbol,
+		    size_t core_size, item_number_t *core);
 
 /* Set the transitions of STATE.  */
-void state_transitions_set PARAMS ((state_t *state,
-				    int num, state_t **transitions));
+void state_transitions_set (state_t *state, int num, state_t **transitions);
 
 /* Set the reductions of STATE.  */
-void state_reductions_set PARAMS ((state_t *state,
-				   int num, rule_t **reductions));
+void state_reductions_set (state_t *state, int num, rule_t **reductions);
 
-int state_reduction_find PARAMS ((state_t *state, rule_t *rule));
+int state_reduction_find (state_t *state, rule_t *rule);
 
 /* Set the errs of STATE.  */
-void state_errs_set PARAMS ((state_t *state,
-			     int num, symbol_t **errs));
+void state_errs_set (state_t *state, int num, symbol_t **errs);
 
 /* Print on OUT all the lookaheads such that this STATE wants to
    reduce this RULE.  */
-void state_rule_lookaheads_print PARAMS ((state_t *state, rule_t *rule,
-					  FILE *out));
+void state_rule_lookaheads_print (state_t *state, rule_t *rule, FILE *out);
 
 /* Create/destroy the states hash table.  */
-void state_hash_new PARAMS ((void));
-void state_hash_free PARAMS ((void));
+void state_hash_new (void);
+void state_hash_free (void);
 
 /* Find the state associated to the CORE, and return it.  If it does
    not exist yet, return NULL.  */
-state_t *state_hash_lookup PARAMS ((size_t core_size, item_number_t *core));
+state_t *state_hash_lookup (size_t core_size, item_number_t *core);
 
 /* Insert STATE in the state hash table.  */
-void state_hash_insert PARAMS ((state_t *state));
+void state_hash_insert (state_t *state);
 
 /* All the states, indexed by the state number.  */
 extern state_t **states;
 
 /* Free all the states.  */
-void states_free PARAMS ((void));
+void states_free (void);
 #endif /* !STATE_H_ */

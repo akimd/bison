@@ -27,10 +27,10 @@ typedef struct muscle_entry_s
   char *value;
 } muscle_entry_t;
 
-void muscle_init PARAMS ((void));
-void muscle_insert PARAMS ((const char *key, char *value));
-char *muscle_find PARAMS ((const char *key));
-void muscle_free PARAMS ((void));
+void muscle_init (void);
+void muscle_insert (const char *key, char *value);
+char *muscle_find (const char *key);
+void muscle_free (void);
 
 
 /* An obstack dedicated to receive muscle keys and values.  */
@@ -68,17 +68,16 @@ extern struct obstack muscle_obstack;
    previous value.  Uses MUSCLE_OBSTACK.  De-allocates the previously
    associated value.  VALUE and SEPARATOR are copied.  */
 
-void muscle_grow PARAMS ((const char *key,
-			  const char *value, const char *separator));
+void muscle_grow (const char *key, const char *value, const char *separator);
 
 /* MUSCLE is an M4 list of pairs.  Create or extend it with the pair
    (A1, A2).  Note that because the muscle values are output *double*
    quoted, one needs to strip the first level of quotes to reach the
    list itself.  */
 
-void muscle_pair_list_grow PARAMS ((const char *muscle,
-				    const char *a1, const char *a2));
+void muscle_pair_list_grow (const char *muscle,
+			    const char *a1, const char *a2);
 
-void muscles_m4_output PARAMS ((FILE *out));
+void muscles_m4_output (FILE *out);
 
 #endif /* not MUSCLE_TAB_H_ */

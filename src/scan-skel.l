@@ -26,7 +26,7 @@
 #include "error.h"
 #include "getargs.h"
 #include "files.h"
-int skel_lex PARAMS ((void));
+int skel_lex (void);
 static int yylineno = 1;
 static char *yyoutname = NULL;
 %}

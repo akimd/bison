@@ -176,31 +176,31 @@ typedef struct rule_s
 extern struct rule_s *rules;
 
 /* A function that selects a rule.  */
-typedef bool (*rule_filter_t) PARAMS ((rule_t *r));
+typedef bool (*rule_filter_t) (rule_t *r);
 
 /* Return true IFF the rule has a `number' smaller than NRULES.  */
-bool rule_useful_p PARAMS ((rule_t *r));
+bool rule_useful_p (rule_t *r);
 
 /* Return true IFF the rule has a `number' higher than NRULES.  */
-bool rule_useless_p PARAMS ((rule_t *r));
+bool rule_useless_p (rule_t *r);
 
 /* Return true IFF the rule is not flagged as useful *and* is useful.
    In other words, it was discarded because of conflicts.  */
-bool rule_never_reduced_p PARAMS ((rule_t *r));
+bool rule_never_reduced_p (rule_t *r);
 
 /* Print this RULE's number and lhs on OUT.  If a PREVIOUS_LHS was
    already displayed (by a previous call for another rule), avoid
    useless repetitions.  */
-void rule_lhs_print PARAMS ((rule_t *rule, symbol_t *previous_lhs, FILE *out));
+void rule_lhs_print (rule_t *rule, symbol_t *previous_lhs, FILE *out);
 
 /* Return the length of the RHS.  */
-int rule_rhs_length PARAMS ((rule_t *rule));
+int rule_rhs_length (rule_t *rule);
 
 /* Print this RULE's RHS on OUT.  */
-void rule_rhs_print PARAMS ((rule_t *rule, FILE *out));
+void rule_rhs_print (rule_t *rule, FILE *out);
 
 /* Print this RULE on OUT.  */
-void rule_print PARAMS ((rule_t *rule, FILE *out));
+void rule_print (rule_t *rule, FILE *out);
 
 
 
@@ -228,29 +228,29 @@ extern int glr_parser;
 extern int pure_parser;
 
 /* Dump RITEM for traces. */
-void ritem_print PARAMS ((FILE *out));
+void ritem_print (FILE *out);
 
 /* Return the size of the longest rule RHS.  */
-size_t ritem_longest_rhs PARAMS ((void));
+size_t ritem_longest_rhs (void);
 
 /* Print the grammar's rules numbers from BEGIN (inclusive) to END
    (exclusive) on OUT under TITLE.  */
-void grammar_rules_partial_print PARAMS ((FILE *out, const char *title,
-					  rule_filter_t filter));
+void grammar_rules_partial_print (FILE *out, const char *title,
+				  rule_filter_t filter);
 
 /* Print the grammar's rules on OUT.  */
-void grammar_rules_print PARAMS ((FILE *out));
+void grammar_rules_print (FILE *out);
 
 /* Dump the grammar. */
-void grammar_dump PARAMS ((FILE *out, const char *title));
+void grammar_dump (FILE *out, const char *title);
 
 /* Report on STDERR the rules that are not flagged USEFUL, using the
    MESSAGE (which can be `useless rule' when invoked after grammar
    reduction, or `never reduced' after conflicts were taken into
    account).  */
-void grammar_rules_never_reduced_report PARAMS ((const char *message));
+void grammar_rules_never_reduced_report (const char *message);
 
 /* Free the packed grammar. */
-void grammar_free PARAMS ((void));
+void grammar_free (void);
 
 #endif /* !GRAM_H_ */

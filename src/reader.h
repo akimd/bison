@@ -40,9 +40,9 @@ typedef struct gram_control_s
 /* From the scanner.  */
 extern FILE *gram_in;
 extern int gram__flex_debug;
-void scanner_last_string_free PARAMS ((void));
-void scanner_initialize PARAMS ((void));
-void scanner_free PARAMS ((void));
+void scanner_last_string_free (void);
+void scanner_initialize (void);
+void scanner_free (void);
 
 # define YY_DECL \
   int gram_lex (yystype *yylval, location_t *yylloc, \
@@ -68,27 +68,22 @@ extern braced_code_t current_braced_code;
 
 
 /* From reader.c. */
-void grammar_start_symbol_set PARAMS ((symbol_t *s, location_t l));
-void prologue_augment PARAMS ((const char *prologue, location_t location));
-void epilogue_set PARAMS ((const char *epilogue, location_t location));
-void grammar_symbol_append PARAMS ((symbol_t *s, location_t l));
-void grammar_rule_begin PARAMS ((symbol_t *lhs, location_t l));
-void grammar_rule_end PARAMS ((location_t l));
-void grammar_midrule_action PARAMS ((void));
-void grammar_current_rule_prec_set PARAMS ((symbol_t *precsym,
-					    location_t l));
-void grammar_current_rule_dprec_set PARAMS ((int dprec,
-					    location_t l));
-void grammar_current_rule_merge_set PARAMS ((const char* name,
-					    location_t l));
+void grammar_start_symbol_set (symbol_t *s, location_t l);
+void prologue_augment (const char *prologue, location_t location);
+void epilogue_set (const char *epilogue, location_t location);
+void grammar_symbol_append (symbol_t *s, location_t l);
+void grammar_rule_begin (symbol_t *lhs, location_t l);
+void grammar_rule_end (location_t l);
+void grammar_midrule_action (void);
+void grammar_current_rule_prec_set (symbol_t *precsym, location_t l);
+void grammar_current_rule_dprec_set (int dprec, location_t l);
+void grammar_current_rule_merge_set (const char* name, location_t l);
 
-void grammar_current_rule_symbol_append PARAMS ((symbol_t *symbol,
-						 location_t l));
-void grammar_current_rule_action_append PARAMS ((const char *action,
-						 location_t l));
+void grammar_current_rule_symbol_append (symbol_t *symbol, location_t l);
+void grammar_current_rule_action_append (const char *action, location_t l);
 extern symbol_list_t *current_rule;
-void reader PARAMS ((void));
-void free_merger_functions PARAMS ((void));
+void reader (void);
+void free_merger_functions (void);
 
 extern merger_list *merge_functions;
 

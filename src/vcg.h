@@ -992,28 +992,28 @@ struct	graph_s
 /* Graph typedefs. */
 typedef struct graph_s	graph_t;
 
-void new_graph PARAMS ((graph_t *g));
-void new_node PARAMS ((node_t *node));
-void new_edge PARAMS ((edge_t *edge));
+void new_graph (graph_t *g);
+void new_node (node_t *node);
+void new_edge (edge_t *edge);
 
-void add_node PARAMS ((graph_t *graph, node_t *node));
-void add_edge PARAMS ((graph_t *graph, edge_t *edge));
+void add_node (graph_t *graph, node_t *node);
+void add_edge (graph_t *graph, edge_t *edge);
 
-void add_colorentry PARAMS ((graph_t *g, int color_idx, int red_cp, 
-			     int green_cp, int blue_cp));
-void add_classname PARAMS ((graph_t *g, int val, const char *name));
-void add_infoname PARAMS ((graph_t *g, int val, const char *name));
+void add_colorentry (graph_t *g, int color_idx, int red_cp, 
+		     int green_cp, int blue_cp);
+void add_classname (graph_t *g, int val, const char *name);
+void add_infoname (graph_t *g, int val, const char *name);
 
-void open_node PARAMS ((FILE *fout));
-void output_node PARAMS ((node_t *node, FILE *fout));
-void close_node PARAMS ((FILE *fout));
+void open_node (FILE *fout);
+void output_node (node_t *node, FILE *fout);
+void close_node (FILE *fout);
 
-void open_edge PARAMS ((edge_t *edge, FILE *fout));
-void output_edge PARAMS ((edge_t *edge, FILE *fout));
-void close_edge PARAMS ((FILE *fout));
+void open_edge (edge_t *edge, FILE *fout);
+void output_edge (edge_t *edge, FILE *fout);
+void close_edge (FILE *fout);
 
-void open_graph PARAMS ((FILE *fout));
-void output_graph PARAMS ((graph_t *graph, FILE *fout));
-void close_graph PARAMS ((graph_t *graph, FILE *fout));
+void open_graph (FILE *fout);
+void output_graph (graph_t *graph, FILE *fout);
+void close_graph (graph_t *graph, FILE *fout);
 
 #endif /* VCG_H_ */

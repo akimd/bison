@@ -41,22 +41,22 @@ typedef struct symbol_list_s
 
 
 /* Create a list containing SYMBOL at LOCATION.  */
-symbol_list_t *symbol_list_new PARAMS ((symbol_t *sym, location_t location));
+symbol_list_t *symbol_list_new (symbol_t *sym, location_t location);
 
 /* Prepend SYMBOL at LOCATION to the LIST.  */
-symbol_list_t * symbol_list_prepend PARAMS ((symbol_list_t *list,
-					     symbol_t *symbol,
-					     location_t location));
+symbol_list_t * symbol_list_prepend (symbol_list_t *list,
+				     symbol_t *symbol,
+				     location_t location);
 
 /* Free the LIST, but not the symbols it contains.  */
-void symbol_list_free PARAMS ((symbol_list_t *list));
+void symbol_list_free (symbol_list_t *list);
 
 /* Return its length. */
-unsigned int symbol_list_length PARAMS ((symbol_list_t *list));
+unsigned int symbol_list_length (symbol_list_t *list);
 
 /* Get the data type (alternative in the union) of the value for
    symbol N in rule RULE.  */
-char *symbol_list_n_type_name_get PARAMS ((symbol_list_t *rule,
-					   location_t location, int n));
+char *symbol_list_n_type_name_get (symbol_list_t *rule,
+				   location_t location, int n);
 
 #endif /* !SYMLIST_H_ */

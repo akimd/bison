@@ -27,7 +27,7 @@ extern rule_t ***derives;
 
 /* Compute DERIVES.  */
 
-void derives_compute PARAMS((void));
-void derives_free PARAMS((void));
+void derives_compute (void);
+void derives_free (void);
 
 #endif /* !DERIVES_H_ */

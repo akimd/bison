@@ -64,6 +64,6 @@ enum report_e
   };
 extern int report_flag;
 
-void getargs PARAMS ((int argc, char *argv[]));
+void getargs (int argc, char *argv[]);
 
 #endif /* !GETARGS_H_ */

@@ -25,7 +25,7 @@
    data so that closure can be called.  n is the number of elements to
    allocate for itemset.  */
 
-void new_closure PARAMS ((int n));
+void new_closure (int n);
 
 
 /* Given the kernel (aka core) of a state (a vector of item numbers
@@ -42,12 +42,12 @@ void new_closure PARAMS ((int n));
    significant).  CLOSURE places there the indices of all items which
    represent units of input that could arrive next.  */
 
-void closure PARAMS ((item_number_t *items, int n));
+void closure (item_number_t *items, int n);
 
 
 /* Frees ITEMSET, RULESET and internal data.  */
 
-void free_closure PARAMS ((void));
+void free_closure (void);
 
 extern item_number_t *itemset;
 extern int nritemset;

@@ -23,6 +23,6 @@
 
 # include "state.h"
 
-void generate_states PARAMS ((void));
+void generate_states (void);
 
 #endif /* !LR0_H_ */

@@ -87,10 +87,10 @@ static int percent_percent_count = 0;
    Outside of well-formed rules, RULE_LENGTH has an undefined value.  */
 static int rule_length;
 
-static void handle_dollar PARAMS ((braced_code_t code_kind,
-				   char *cp, location_t location));
-static void handle_at PARAMS ((braced_code_t code_kind,
-			       char *cp, location_t location));
+static void handle_dollar (braced_code_t code_kind,
+			   char *cp, location_t location);
+static void handle_at (braced_code_t code_kind,
+		       char *cp, location_t location);
 
 %}
 %x SC_COMMENT

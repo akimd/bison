@@ -34,12 +34,12 @@
    which rules need lookahead in each state, and which lookahead
    tokens they accept.  */
 
-void lalr PARAMS ((void));
+void lalr (void);
 
 /* Release the information related to lookaheads.  Can be performed
    once the action tables are computed.  */
 
-void lalr_free PARAMS ((void));
+void lalr_free (void);
 
 
 /* lalr() builds these data structures. */

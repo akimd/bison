@@ -26,8 +26,8 @@
 extern bool *nullable;
 
 /* Set up NULLABLE. */
-extern void nullable_compute PARAMS((void));
+extern void nullable_compute (void);
 
 /* Free NULLABLE. */
-extern void nullable_free PARAMS((void));
+extern void nullable_free (void);
 #endif /* !NULLABLE_H_ */

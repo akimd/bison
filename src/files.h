@@ -52,10 +52,10 @@ extern struct obstack post_prologue_obstack;
 
 extern char *infile;
 
-void compute_output_file_names PARAMS((void));
+void compute_output_file_names (void);
 
-FILE *xfopen PARAMS ((const char *name, const char *mode));
-int xfclose PARAMS ((FILE *ptr));
+FILE *xfopen (const char *name, const char *mode);
+int xfclose (FILE *ptr);
 
 /* Is SUFFIX ending STRING?  */
 int strsuffix (const char* string, const char* suffix);

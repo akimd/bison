@@ -30,6 +30,6 @@ typedef enum
   non_assoc
 } assoc_t;
 
-const char *assoc_to_string PARAMS ((assoc_t assoc));
+const char *assoc_to_string (assoc_t assoc);
 
 #endif /* !ASSOC_H_ */

@@ -84,43 +84,41 @@ struct symbol_s
 
 
 /* Fetch (or create) the symbol associated to KEY.  */
-symbol_t *symbol_get PARAMS ((const char *key, location_t location));
+symbol_t *symbol_get (const char *key, location_t location);
 
 /* Generate a dummy nonterminal, whose name cannot conflict with the
    user's names.  */
-symbol_t *dummy_symbol_get PARAMS ((location_t location));
+symbol_t *dummy_symbol_get (location_t location);
 
 /* Declare the new SYMBOL.  Make it an alias of SYMVAL.  */
-void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval,
-				location_t location));
+void symbol_make_alias (symbol_t *symbol, symbol_t *symval,
+			location_t location);
 
 /* Set the TYPE_NAME associated to SYMBOL. Does nothing if passed 0 as
    TYPE_NAME.  */
-void symbol_type_set PARAMS ((symbol_t *symbol,
-			      char *type_name, location_t location));
+void symbol_type_set (symbol_t *symbol,
+		      char *type_name, location_t location);
 
 /* Set the DESTRUCTOR associated to SYMBOL.  */
-void symbol_destructor_set PARAMS ((symbol_t *symbol,
-				    char *destructor, location_t location));
+void symbol_destructor_set (symbol_t *symbol,
+			    char *destructor, location_t location);
 
 /* Set the PRINTER associated to SYMBOL.  */
-void symbol_printer_set PARAMS ((symbol_t *symbol,
-				 char *printer, location_t location));
+void symbol_printer_set (symbol_t *symbol,
+			 char *printer, location_t location);
 
 /* Set the PRECEDENCE associated to SYMBOL.  Ensures that SYMBOL is a
    terminal.  Does nothing if invoked with UNDEF_ASSOC as ASSOC.  */
-void symbol_precedence_set PARAMS ((symbol_t *symbol,
-				    int prec, assoc_t assoc,
-				    location_t location));
+void symbol_precedence_set (symbol_t *symbol,
+			    int prec, assoc_t assoc, location_t location);
 
 /* Set the CLASS associated to SYMBOL.  */
-void symbol_class_set PARAMS ((symbol_t *symbol,
-			       symbol_class class, location_t location));
+void symbol_class_set (symbol_t *symbol,
+		       symbol_class class, location_t location);
 
 /* Set the USER_TOKEN_NUMBER associated to SYMBOL.  */
-void symbol_user_token_number_set PARAMS ((symbol_t *symbol,
-					   int user_number,
-					   location_t location));
+void symbol_user_token_number_set (symbol_t *symbol,
+				   int user_number, location_t location);
 
 
 /* Distinguished symbols.  AXIOM is the real start symbol, that used
@@ -140,24 +138,24 @@ extern location_t startsymbol_location;
 
 
 /* Create the symbol table.  */
-void symbols_new PARAMS ((void));
+void symbols_new (void);
 
 /* A function to apply to each symbol. */
-typedef bool (*symbol_processor) PARAMS ((symbol_t *));
+typedef bool (*symbol_processor) (symbol_t *);
 
 /* Apply PROCESSOR to all the symbols.  PROCESSOR must return TRUE: on
    FALSE, the processing stops.  */
-void symbols_do PARAMS ((symbol_processor processor, void *processor_data));
+void symbols_do (symbol_processor processor, void *processor_data);
 
 /* Free all the memory allocated for symbols.  */
-void symbols_free PARAMS ((void));
+void symbols_free (void);
 
 /* Check that all the symbols are defined.  Report any undefined
    symbols and consider them nonterminals.  */
-void symbols_check_defined PARAMS ((void));
+void symbols_check_defined (void);
 
 /* Perform various sanity checks, assign symbol numbers, and set up
    TOKEN_TRANSLATIONS.  */
-void symbols_pack PARAMS ((void));
+void symbols_pack (void);
 
 #endif /* !SYMTAB_H_ */

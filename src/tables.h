@@ -113,7 +113,7 @@ extern state_number_t *yydefgoto;
 extern rule_number_t *yydefact;
 extern int high;
 
-void tables_generate PARAMS ((void));
-void tables_free PARAMS ((void));
+void tables_generate (void);
+void tables_free (void);
 
 #endif /* !TABLES_H_ */
