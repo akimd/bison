@@ -22,23 +22,7 @@
 # include <config.h>
 #endif
 
-/* AIX requires this to be the first thing in the file.  */
-#ifdef __GNUC__
-# define alloca(Size) __builtin_alloca (Size)
-#else
-# if HAVE_ALLOCA_H
-#  include <alloca.h>
-# else
-#  ifdef _AIX
- #pragma alloca
-#  else
-#   ifndef alloca /* predefined by HP cc +Olibcalls */
-char *alloca ();
-#   endif
-#  endif
-# endif
-#endif
-
+#include <stddef.h>
 #include <stdio.h>
 
 /* Verify a requirement at compile-time (unlike assert, which is runtime).  */
@@ -81,7 +65,24 @@ char *alloca ();
 
 #include <limits.h>
 
+#if HAVE_UINTPTR_T
+# if HAVE_INTTYPES_H
+#  include <inttypes.h>
+# else
+#  if HAVE_STDINT_H
+#   include <stdint.h>
+#  endif
+# endif
+#else
+/* This isn't perfect, but it's good enough for Bison, which needs
+   only to hash pointers.  */
+typedef size_t uintptr_t;
+#endif
+
 #include <xalloc.h>
+#define CALLOC(P, N) ((P) = xcalloc (N, sizeof *(P)))
+#define MALLOC(P, N) ((P) = xmalloc ((N) * sizeof *(P)))
+#define REALLOC(P, N) ((P) = xrealloc (P, (N) * sizeof *(P)))
 
 /* From xstrndup.c.  */
 char *xstrndup (const char *s, size_t n);
