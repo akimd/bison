@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.34a\n"
-"POT-Creation-Date: 2002-06-11 10:09+0200\n"
+"POT-Creation-Date: 2002-06-11 21:15+0200\n"
 "PO-Revision-Date: 2002-03-21 15:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -24,11 +24,11 @@ msgstr "nombre trop grand d'états (max %d)"
 msgid "Unknown system error"
 msgstr "Erreur système inconnue"
 
-#: src/complain.c:150
+#: src/complain.c:151 src/complain.c:200
 msgid "warning: "
 msgstr "AVERTISSEMENT: "
 
-#: src/complain.c:238
+#: src/complain.c:337 src/complain.c:370
 msgid "fatal error: "
 msgstr "erreur fatale: "
 
@@ -50,49 +50,49 @@ msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr ""
 "Conflit à l'état %d entre la règle %d et le terminal %s résolu par %s.\n"
 
-#: src/conflicts.c:362
+#: src/conflicts.c:366
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d conflit par décalage/réduction"
 msgstr[1] "%d conflits par décalage/réduction"
 
-#: src/conflicts.c:369
+#: src/conflicts.c:373
 msgid "and"
 msgstr "et"
 
-#: src/conflicts.c:375
+#: src/conflicts.c:379
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d conflit par réduction/réduction"
 msgstr[1] "%d conflits par réduction/réduction"
 
-#: src/conflicts.c:400
+#: src/conflicts.c:404
 #, c-format
 msgid "State %d contains "
 msgstr "L'état %d contient "
 
-#: src/conflicts.c:447
+#: src/conflicts.c:451
 msgid "conflicts: "
 msgstr "conflits: "
 
-#: src/conflicts.c:449
+#: src/conflicts.c:453
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d décalage/réduction"
 
-#: src/conflicts.c:453
+#: src/conflicts.c:457
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d réduction/réduction"
 
-#: src/conflicts.c:458 src/reduce.c:397
+#: src/conflicts.c:462 src/reduce.c:397
 #, c-format
 msgid "%s contains "
 msgstr "%s contient "
 
-#: src/conflicts.c:465
+#: src/conflicts.c:469
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -181,7 +181,6 @@ msgstr ""
 "l'automate\n"
 
 #: src/getargs.c:143
-#, fuzzy
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -191,13 +190,6 @@ msgid ""
 "  `all'          include all the above information\n"
 "  `none'         disable the report\n"
 msgstr ""
-"Sortie:\n"
-"  -d, --defines              produire un fichier d'en-tête\n"
-"  -v, --verbose              produire une explication de l'automate\n"
-"  -b, --file-prefix=PREFIXE  utiliser le PREFIXE pour le fichier de sortie\n"
-"  -o, --output=FICHIER       produire la sortie dans le FICHIER\n"
-"  -g, --graph                produire aussi la description du graphe VCG de "
-"l'automate\n"
 
 #: src/getargs.c:154
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -247,64 +239,6 @@ msgstr "%s: arguments supplémentaires ignorés après « %s »\n"
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "nombre trop grand de « goto » (Max %d)"
-
-#: src/lex.c:78
-msgid "unexpected `/' found and ignored"
-msgstr "« / » inattendu et ignoré"
-
-#: src/lex.c:107 src/reader.c:307
-msgid "unterminated comment"
-msgstr "le commentaire ne se termine pas"
-
-#: src/lex.c:139
-msgid "unexpected end of file"
-msgstr "Fin de fichier inattendue"
-
-#: src/lex.c:158
-msgid "unescaped newline in constant"
-msgstr "retour de chariot sans échappement dans une constante"
-
-#: src/lex.c:197
-#, c-format
-msgid "octal value outside range 0...255: `\\%o'"
-msgstr "valeur octale à l'extérieur de l'intervalle 0...255: « \\%o »"
-
-#: src/lex.c:222
-#, c-format
-msgid "hexadecimal value above 255: `\\x%x'"
-msgstr "valeur hexadécimale supérieure à 255: « \\x%x »"
-
-#: src/lex.c:234
-#, c-format
-msgid "unknown escape sequence: `\\' followed by `%s'"
-msgstr "séquence d'échappement inconnue: « \\ » suivie de « %s »"
-
-#: src/lex.c:265
-msgid "unterminated type name at end of file"
-msgstr "le nom de type ne se termine pas avant la fin de fichier"
-
-#: src/lex.c:268
-msgid "unterminated type name"
-msgstr "le nom de type ne se termine pas"
-
-#: src/lex.c:360
-msgid "use \"...\" for multi-character literal tokens"
-msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
-
-#: src/lex.c:566
-#, c-format
-msgid "`%s' supports no argument: %s"
-msgstr "« %s » ne supporte aucun argument: %s"
-
-#: src/lex.c:584
-#, c-format
-msgid "`%s' requires an argument"
-msgstr "« %s »: requiert un argument"
-
-#: src/lex.c:595
-#, c-format
-msgid "`%s' is no longer supported"
-msgstr "« %s » n'est plus supporté"
 
 #: src/print.c:46
 #, c-format
@@ -401,156 +335,38 @@ msgstr " à gauche:"
 msgid " on right:"
 msgstr " à droite:"
 
-#: src/reader.c:83
-msgid "   Skipping to next \\n"
-msgstr "   Saut jusqu'au prochain \\n"
-
-#: src/reader.c:85
-#, c-format
-msgid "   Skipping to next %c"
-msgstr "   Saut jusqu'au prochain %c"
-
-#: src/reader.c:136 src/reader.c:148
+#: src/reader.c:71 src/reader.c:83
 msgid "invalid $ value"
 msgstr "la valeur de symbole $ n'est pas valide"
 
-#: src/reader.c:197 src/reader.c:212
-msgid "unterminated string at end of file"
-msgstr "chaîne de caractères non terminée en fin de fichier"
-
-#: src/reader.c:200
-msgid "unterminated string"
-msgstr "chaîne de caractère non terminée"
-
-#: src/reader.c:341 src/reader.c:399
-#, fuzzy, c-format
-msgid "invalid value: %s%d"
-msgstr "valeur @ invalide"
-
-#: src/reader.c:350 src/reader.c:417
-#, c-format
-msgid "%s is invalid"
-msgstr "%s n'est pas valide"
-
-#: src/reader.c:385
-#, c-format
-msgid "$$ of `%s' has no declared type"
-msgstr "$$ de « %s » n'a pas son type déclaré"
-
-#: src/reader.c:405
-#, c-format
-msgid "$%d of `%s' has no declared type"
-msgstr "$%d de « %s » n'a pas de type déclaré"
-
-#: src/reader.c:467
-msgid "unterminated `%{' definition"
-msgstr "La section de définition « %{ » ne termine pas avant la fin du fichier"
-
-#: src/reader.c:510 src/reader.c:599 src/reader.c:645 src/reader.c:805
-#, c-format
-msgid "Premature EOF after %s"
-msgstr "Fin de fichier prématutée après %s"
-
-#: src/reader.c:544
-#, c-format
-msgid "`%s' is invalid in %s"
-msgstr "« %s » n'est pas valide dans %s"
-
-#: src/reader.c:562 src/reader.c:707
+#: src/reader.c:101
 #, c-format
 msgid "multiple %s declarations"
 msgstr "multiples déclarations %s"
 
-#: src/reader.c:564 src/reader.c:785 src/reader.c:800 src/reader.c:833
-#: src/reader.c:847
-#, c-format
-msgid "invalid %s declaration"
-msgstr "la déclaration %s n'est pas valide"
-
-#: src/reader.c:584
-msgid "%type declaration has no <typename>"
-msgstr "la déclaration %type n'a pas de <nom_de_type>"
-
-#: src/reader.c:614
-#, c-format
-msgid "invalid %%type declaration due to item: %s"
-msgstr "la déclaration %%type n'est pas valide en raison de l'item: %s"
-
-#: src/reader.c:673
-#, c-format
-msgid "invalid text (%s) - number should be after identifier"
-msgstr ""
-"le texte n'est pas valide (%s) - le nombre devrait suivre l'identificateur"
-
-#: src/reader.c:683
-#, c-format
-msgid "unexpected item: %s"
-msgstr "item inattendu: %s"
-
-#: src/reader.c:740 src/reader.c:1021
-#, c-format
-msgid "unmatched %s"
-msgstr "non appariement de %s"
-
-#: src/reader.c:769
-#, c-format
-msgid "argument of %%expect is not an integer"
-msgstr "l'argument de %%expect n'est pas un entier"
-
-#: src/reader.c:951
-#, c-format
-msgid "unrecognized: %s"
-msgstr "non reconnu: %s"
-
-#: src/reader.c:956
-msgid "no input grammar"
-msgstr "aucune grammaire en entrée"
-
-#: src/reader.c:961
-#, c-format
-msgid "unknown character: %s"
-msgstr "caractère inconnu: %s"
-
-#: src/reader.c:1129
+#: src/reader.c:247
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "la règle pour %s, qui est un terminal"
 
-#: src/reader.c:1181
-msgid "two @prec's in a row"
-msgstr "deux @prec de suite"
-
-#: src/reader.c:1206
+#: src/reader.c:271
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflit de type (« %s » « %s ») pour l'action par défaut"
 
-#: src/reader.c:1213
+#: src/reader.c:278
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "règle vide pour une catégorie typée et aucune action"
 
-#: src/reader.c:1263
-msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "règle mal formée: le symbole initial n'est pas suivi de « : »"
+#: src/reader.c:343
+msgid "two @prec's in a row"
+msgstr "deux @prec de suite"
 
-#: src/reader.c:1269
-msgid "grammar starts with vertical bar"
-msgstr "la grammaire débute par une barre verticale"
-
-#: src/reader.c:1302 src/reader.c:1342
-msgid "previous rule lacks an ending `;'"
-msgstr "règle précédente manque une terminaison « ; »"
-
-#: src/reader.c:1348
-#, c-format
-msgid "invalid input: %s"
-msgstr "entrée non valide: %s"
-
-#: src/reader.c:1355
+#: src/reader.c:488
 msgid "no rules in the input grammar"
 msgstr "la grammaire n'a pas de règles"
 
-#: src/reader.c:1377
+#: src/reader.c:520
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "trop de symboles (jeton plus non terminaux); maximum %d"
@@ -596,6 +412,26 @@ msgstr[1] "%d règles inutilisables"
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Aucune phrase ne peut être dérivée du symbole de départ %s"
+
+#: scan-gram.l:508
+#, c-format
+msgid "$$ of `%s' has no declared type"
+msgstr "$$ de « %s » n'a pas son type déclaré"
+
+#: scan-gram.l:520 scan-gram.l:571
+#, fuzzy, c-format
+msgid "invalid value: %s%d"
+msgstr "valeur @ invalide"
+
+#: scan-gram.l:526
+#, c-format
+msgid "$%d of `%s' has no declared type"
+msgstr "$%d de « %s » n'a pas de type déclaré"
+
+#: scan-gram.l:539 scan-gram.l:580
+#, c-format
+msgid "%s is invalid"
+msgstr "%s n'est pas valide"
 
 #: lib/getopt.c:694
 #, c-format
@@ -664,23 +500,115 @@ msgstr "`"
 msgid "'"
 msgstr "'"
 
+#~ msgid "unexpected `/' found and ignored"
+#~ msgstr "« / » inattendu et ignoré"
+
+#~ msgid "unterminated comment"
+#~ msgstr "le commentaire ne se termine pas"
+
+#~ msgid "unexpected end of file"
+#~ msgstr "Fin de fichier inattendue"
+
+#~ msgid "unescaped newline in constant"
+#~ msgstr "retour de chariot sans échappement dans une constante"
+
+#~ msgid "octal value outside range 0...255: `\\%o'"
+#~ msgstr "valeur octale à l'extérieur de l'intervalle 0...255: « \\%o »"
+
+#~ msgid "hexadecimal value above 255: `\\x%x'"
+#~ msgstr "valeur hexadécimale supérieure à 255: « \\x%x »"
+
+#~ msgid "unknown escape sequence: `\\' followed by `%s'"
+#~ msgstr "séquence d'échappement inconnue: « \\ » suivie de « %s »"
+
+#~ msgid "unterminated type name at end of file"
+#~ msgstr "le nom de type ne se termine pas avant la fin de fichier"
+
+#~ msgid "unterminated type name"
+#~ msgstr "le nom de type ne se termine pas"
+
+#~ msgid "use \"...\" for multi-character literal tokens"
+#~ msgstr ""
+#~ "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
+
+#~ msgid "`%s' supports no argument: %s"
+#~ msgstr "« %s » ne supporte aucun argument: %s"
+
+#~ msgid "`%s' requires an argument"
+#~ msgstr "« %s »: requiert un argument"
+
+#~ msgid "`%s' is no longer supported"
+#~ msgstr "« %s » n'est plus supporté"
+
+#~ msgid "   Skipping to next \\n"
+#~ msgstr "   Saut jusqu'au prochain \\n"
+
+#~ msgid "   Skipping to next %c"
+#~ msgstr "   Saut jusqu'au prochain %c"
+
+#~ msgid "unterminated string at end of file"
+#~ msgstr "chaîne de caractères non terminée en fin de fichier"
+
+#~ msgid "unterminated string"
+#~ msgstr "chaîne de caractère non terminée"
+
+#~ msgid "Premature EOF after %s"
+#~ msgstr "Fin de fichier prématutée après %s"
+
+#~ msgid "`%s' is invalid in %s"
+#~ msgstr "« %s » n'est pas valide dans %s"
+
+#~ msgid "%type declaration has no <typename>"
+#~ msgstr "la déclaration %type n'a pas de <nom_de_type>"
+
+#~ msgid "invalid %%type declaration due to item: %s"
+#~ msgstr "la déclaration %%type n'est pas valide en raison de l'item: %s"
+
+#~ msgid "invalid text (%s) - number should be after identifier"
+#~ msgstr ""
+#~ "le texte n'est pas valide (%s) - le nombre devrait suivre l'identificateur"
+
+#~ msgid "unexpected item: %s"
+#~ msgstr "item inattendu: %s"
+
+#~ msgid "unmatched %s"
+#~ msgstr "non appariement de %s"
+
+#~ msgid "invalid %s declaration"
+#~ msgstr "la déclaration %s n'est pas valide"
+
+#~ msgid "unrecognized: %s"
+#~ msgstr "non reconnu: %s"
+
+#~ msgid "no input grammar"
+#~ msgstr "aucune grammaire en entrée"
+
+#~ msgid "unknown character: %s"
+#~ msgstr "caractère inconnu: %s"
+
+#~ msgid "ill-formed rule: initial symbol not followed by colon"
+#~ msgstr "règle mal formée: le symbole initial n'est pas suivi de « : »"
+
+#~ msgid "grammar starts with vertical bar"
+#~ msgstr "la grammaire débute par une barre verticale"
+
+#~ msgid "previous rule lacks an ending `;'"
+#~ msgstr "règle précédente manque une terminaison « ; »"
+
+#~ msgid "invalid input: %s"
+#~ msgstr "entrée non valide: %s"
+
 #~ msgid "two actions at end of one rule"
 #~ msgstr "deux actions à la fin d'une même règle"
 
-#~ msgid "symbol %s redefined"
-#~ msgstr "symbole %s redéfini"
+#~ msgid "reduce"
+#~ msgstr "réduction"
 
-#~ msgid "type redeclaration for %s"
-#~ msgstr "redéclaration du type de %s"
+#~ msgid "shift"
+#~ msgstr "décalage"
 
-#~ msgid "redefining precedence of %s"
-#~ msgstr "redéfinition du niveau de priorité de %s"
-
-#~ msgid "unrecognized item %s, expected an identifier"
-#~ msgstr "item %s non reconnu, un identificateur est attendu"
-
-#~ msgid "expected string constant instead of %s"
-#~ msgstr "chaîne de caractères constante attendue plutôt que %s"
+#~ msgid "an error"
+#~ msgstr "une erreur"
 
 #~ msgid "symbol %s is used, but is not defined as a token and has no rules"
 #~ msgstr ""
@@ -702,20 +630,33 @@ msgstr "'"
 #~ msgid "tokens %s and %s both assigned number %d"
 #~ msgstr "les jetons %s et %s se sont vus assigner le nombre %d"
 
+#~ msgid "unterminated `%{' definition"
+#~ msgstr ""
+#~ "La section de définition « %{ » ne termine pas avant la fin du fichier"
+
+#~ msgid "symbol %s redefined"
+#~ msgstr "symbole %s redéfini"
+
+#~ msgid "type redeclaration for %s"
+#~ msgstr "redéclaration du type de %s"
+
+#~ msgid "redefining precedence of %s"
+#~ msgstr "redéfinition du niveau de priorité de %s"
+
+#~ msgid "argument of %%expect is not an integer"
+#~ msgstr "l'argument de %%expect n'est pas un entier"
+
+#~ msgid "unrecognized item %s, expected an identifier"
+#~ msgstr "item %s non reconnu, un identificateur est attendu"
+
+#~ msgid "expected string constant instead of %s"
+#~ msgstr "chaîne de caractères constante attendue plutôt que %s"
+
 #~ msgid "the start symbol %s is undefined"
 #~ msgstr "le symbole de départ %s n'est pas défini"
 
 #~ msgid "the start symbol %s is a token"
 #~ msgstr "le symbole de départ %s est un terminal"
-
-#~ msgid "reduce"
-#~ msgstr "réduction"
-
-#~ msgid "shift"
-#~ msgstr "décalage"
-
-#~ msgid "an error"
-#~ msgstr "une erreur"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard est présent mais %%semantic_parser n'est pas spécifié"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-06-11 10:09+0200\n"
+"POT-Creation-Date: 2002-06-11 21:15+0200\n"
 "PO-Revision-Date: 2001-12-10 15:59+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -23,11 +23,11 @@ msgstr "状態が多すぎます (最大 %d)"
 msgid "Unknown system error"
 msgstr "不明なシステムエラー"
 
-#: src/complain.c:150
+#: src/complain.c:151 src/complain.c:200
 msgid "warning: "
 msgstr "警告: "
 
-#: src/complain.c:238
+#: src/complain.c:337 src/complain.c:370
 msgid "fatal error: "
 msgstr "致命的エラー: "
 
@@ -46,47 +46,47 @@ msgstr "状態 %d の規則 %d とトークン %s の競合を%sとして解決。\n"
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr "状態 %d の規則 %d とトークン %s の競合を%sとして解決。\n"
 
-#: src/conflicts.c:362
+#: src/conflicts.c:366
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d シフト/還元衝突"
 
-#: src/conflicts.c:369
+#: src/conflicts.c:373
 msgid "and"
 msgstr "および"
 
-#: src/conflicts.c:375
+#: src/conflicts.c:379
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d 還元/還元衝突"
 
-#: src/conflicts.c:400
+#: src/conflicts.c:404
 #, c-format
 msgid "State %d contains "
 msgstr "状態 %d が含むのは "
 
-#: src/conflicts.c:447
+#: src/conflicts.c:451
 msgid "conflicts: "
 msgstr "衝突: "
 
-#: src/conflicts.c:449
+#: src/conflicts.c:453
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d シフト/還元"
 
-#: src/conflicts.c:453
+#: src/conflicts.c:457
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d 還元/還元"
 
-#: src/conflicts.c:458 src/reduce.c:397
+#: src/conflicts.c:462 src/reduce.c:397
 #, c-format
 msgid "%s contains "
 msgstr "%s の中身は"
 
-#: src/conflicts.c:465
+#: src/conflicts.c:469
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -170,7 +170,6 @@ msgstr ""
 "  -g, --graph                オートマトンの VCG 記述子も作成する\n"
 
 #: src/getargs.c:143
-#, fuzzy
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -180,12 +179,6 @@ msgid ""
 "  `all'          include all the above information\n"
 "  `none'         disable the report\n"
 msgstr ""
-"出力:\n"
-"  -d, --defines              ヘッダファイルも作成する\n"
-"  -v, --verbose              オートマトンの解説も作成する\n"
-"  -b, --file-prefix=PREFIX   出力ファイルの PREFIX(接頭辞) を指定する\n"
-"  -o, --output=FILE          出力先を FILE とする\n"
-"  -g, --graph                オートマトンの VCG 記述子も作成する\n"
 
 #: src/getargs.c:154
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -236,64 +229,6 @@ msgstr "%s: `%s' の後ろの余分な引数は無視されました\n"
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "goto の数が多すぎます (最大 %d)"
-
-#: src/lex.c:78
-msgid "unexpected `/' found and ignored"
-msgstr "予期しない `/' が見つかり、無視されました"
-
-#: src/lex.c:107 src/reader.c:307
-msgid "unterminated comment"
-msgstr "閉じていないコメントです"
-
-#: src/lex.c:139
-msgid "unexpected end of file"
-msgstr "予期しないファイルの終端です"
-
-#: src/lex.c:158
-msgid "unescaped newline in constant"
-msgstr "定数の中にエスケープされていない改行があります"
-
-#: src/lex.c:197
-#, c-format
-msgid "octal value outside range 0...255: `\\%o'"
-msgstr "8 進数の値が 0...255 の範囲外です: `\\%o'"
-
-#: src/lex.c:222
-#, c-format
-msgid "hexadecimal value above 255: `\\x%x'"
-msgstr "16 進数の値が 255 を越えています: `\\x%x'"
-
-#: src/lex.c:234
-#, c-format
-msgid "unknown escape sequence: `\\' followed by `%s'"
-msgstr "未知のエスケープシーケンス: `\\' の後に `%s'"
-
-#: src/lex.c:265
-msgid "unterminated type name at end of file"
-msgstr "閉じられていないタイプ名が、ファイル末尾にあります"
-
-#: src/lex.c:268
-msgid "unterminated type name"
-msgstr "閉じられていないタイプ名があります"
-
-#: src/lex.c:360
-msgid "use \"...\" for multi-character literal tokens"
-msgstr "複数文字のリテラルトークンには \"...\" を使いましょう"
-
-#: src/lex.c:566
-#, c-format
-msgid "`%s' supports no argument: %s"
-msgstr "`%s' は引数を受け付けません: %s"
-
-#: src/lex.c:584
-#, c-format
-msgid "`%s' requires an argument"
-msgstr "`%s' オプションは引数を要求します"
-
-#: src/lex.c:595
-#, c-format
-msgid "`%s' is no longer supported"
-msgstr "`%s' は最早サポートされません"
 
 #: src/print.c:46
 #, c-format
@@ -390,155 +325,38 @@ msgstr " 左辺:"
 msgid " on right:"
 msgstr " 右辺:"
 
-#: src/reader.c:83
-msgid "   Skipping to next \\n"
-msgstr "   次の \\n にスキップ"
-
-#: src/reader.c:85
-#, c-format
-msgid "   Skipping to next %c"
-msgstr "   次の %c にスキップ"
-
-#: src/reader.c:136 src/reader.c:148
+#: src/reader.c:71 src/reader.c:83
 msgid "invalid $ value"
 msgstr "不適切な $ の値"
 
-#: src/reader.c:197 src/reader.c:212
-msgid "unterminated string at end of file"
-msgstr "閉じられていない文字列がファイル末尾にあります"
-
-#: src/reader.c:200
-msgid "unterminated string"
-msgstr "閉じられていない文字列"
-
-#: src/reader.c:341 src/reader.c:399
-#, fuzzy, c-format
-msgid "invalid value: %s%d"
-msgstr "不適切な $ の値"
-
-#: src/reader.c:350 src/reader.c:417
-#, c-format
-msgid "%s is invalid"
-msgstr "%s は不適切です"
-
-#: src/reader.c:385
-#, c-format
-msgid "$$ of `%s' has no declared type"
-msgstr "`%s' の $$ に宣言のない型があります"
-
-#: src/reader.c:405
-#, c-format
-msgid "$%d of `%s' has no declared type"
-msgstr "$%d 個の `%s' が宣言された型を持っていません"
-
-#: src/reader.c:467
-msgid "unterminated `%{' definition"
-msgstr "`%{' 定義 が閉じられていません"
-
-#: src/reader.c:510 src/reader.c:599 src/reader.c:645 src/reader.c:805
-#, c-format
-msgid "Premature EOF after %s"
-msgstr "%s の後ろに早くも EOF があります"
-
-#: src/reader.c:544
-#, c-format
-msgid "`%s' is invalid in %s"
-msgstr "`%s' は %s 内では不適切です"
-
-#: src/reader.c:562 src/reader.c:707
+#: src/reader.c:101
 #, c-format
 msgid "multiple %s declarations"
 msgstr "%s が複数個宣言されました"
 
-#: src/reader.c:564 src/reader.c:785 src/reader.c:800 src/reader.c:833
-#: src/reader.c:847
-#, c-format
-msgid "invalid %s declaration"
-msgstr "%s の宣言が不適切です"
-
-#: src/reader.c:584
-msgid "%type declaration has no <typename>"
-msgstr "%type 宣言に <タイプ名> がありません"
-
-#: src/reader.c:614
-#, c-format
-msgid "invalid %%type declaration due to item: %s"
-msgstr "アイテムの為の %%type 宣言が不適切です: %s"
-
-#: src/reader.c:673
-#, c-format
-msgid "invalid text (%s) - number should be after identifier"
-msgstr "不適切なテキスト (%s) - 数値は識別子の後ろにあるべきです"
-
-#: src/reader.c:683
-#, c-format
-msgid "unexpected item: %s"
-msgstr "予期せぬアイテム: %s"
-
-#: src/reader.c:740 src/reader.c:1021
-#, c-format
-msgid "unmatched %s"
-msgstr "対応のない %s です"
-
-#: src/reader.c:769
-#, c-format
-msgid "argument of %%expect is not an integer"
-msgstr "%%expect の引数が整数値ではありません"
-
-#: src/reader.c:951
-#, c-format
-msgid "unrecognized: %s"
-msgstr "認識できない: %s"
-
-#: src/reader.c:956
-msgid "no input grammar"
-msgstr "文法の入力が無い"
-
-#: src/reader.c:961
-#, c-format
-msgid "unknown character: %s"
-msgstr "未知の文字: %s"
-
-#: src/reader.c:1129
+#: src/reader.c:247
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s に規則が与えられ、それはトークンとなります"
 
-#: src/reader.c:1181
-msgid "two @prec's in a row"
-msgstr "@prec のもの二つが同列になっています"
-
-#: src/reader.c:1206
+#: src/reader.c:271
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "初期状態の動作では型 (`%s' `%s') が衝突します"
 
-#: src/reader.c:1213
+#: src/reader.c:278
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "空の型付き非終端アイテム用規則であり、動作が起りません"
 
-#: src/reader.c:1263
-msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "邪悪な規則: 初期化シンボルにコロン (:) が続いていません"
+#: src/reader.c:343
+msgid "two @prec's in a row"
+msgstr "@prec のもの二つが同列になっています"
 
-#: src/reader.c:1269
-msgid "grammar starts with vertical bar"
-msgstr "文法は縦棒 (|) で始めます"
-
-#: src/reader.c:1302 src/reader.c:1342
-msgid "previous rule lacks an ending `;'"
-msgstr ""
-
-#: src/reader.c:1348
-#, c-format
-msgid "invalid input: %s"
-msgstr "不適切な入力: %s"
-
-#: src/reader.c:1355
+#: src/reader.c:488
 msgid "no rules in the input grammar"
 msgstr "入力した文法に規則が定義されていません"
 
-#: src/reader.c:1377
+#: src/reader.c:520
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークン + 非終端アイテム) -- 最大 %d"
@@ -581,6 +399,26 @@ msgstr[0] "%d 個の無意味な規則"
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"
+
+#: scan-gram.l:508
+#, c-format
+msgid "$$ of `%s' has no declared type"
+msgstr "`%s' の $$ に宣言のない型があります"
+
+#: scan-gram.l:520 scan-gram.l:571
+#, fuzzy, c-format
+msgid "invalid value: %s%d"
+msgstr "不適切な $ の値"
+
+#: scan-gram.l:526
+#, c-format
+msgid "$%d of `%s' has no declared type"
+msgstr "$%d 個の `%s' が宣言された型を持っていません"
+
+#: scan-gram.l:539 scan-gram.l:580
+#, c-format
+msgid "%s is invalid"
+msgstr "%s は不適切です"
 
 #: lib/getopt.c:694
 #, c-format
@@ -649,23 +487,110 @@ msgstr "`"
 msgid "'"
 msgstr "'"
 
+#~ msgid "unexpected `/' found and ignored"
+#~ msgstr "予期しない `/' が見つかり、無視されました"
+
+#~ msgid "unterminated comment"
+#~ msgstr "閉じていないコメントです"
+
+#~ msgid "unexpected end of file"
+#~ msgstr "予期しないファイルの終端です"
+
+#~ msgid "unescaped newline in constant"
+#~ msgstr "定数の中にエスケープされていない改行があります"
+
+#~ msgid "octal value outside range 0...255: `\\%o'"
+#~ msgstr "8 進数の値が 0...255 の範囲外です: `\\%o'"
+
+#~ msgid "hexadecimal value above 255: `\\x%x'"
+#~ msgstr "16 進数の値が 255 を越えています: `\\x%x'"
+
+#~ msgid "unknown escape sequence: `\\' followed by `%s'"
+#~ msgstr "未知のエスケープシーケンス: `\\' の後に `%s'"
+
+#~ msgid "unterminated type name at end of file"
+#~ msgstr "閉じられていないタイプ名が、ファイル末尾にあります"
+
+#~ msgid "unterminated type name"
+#~ msgstr "閉じられていないタイプ名があります"
+
+#~ msgid "use \"...\" for multi-character literal tokens"
+#~ msgstr "複数文字のリテラルトークンには \"...\" を使いましょう"
+
+#~ msgid "`%s' supports no argument: %s"
+#~ msgstr "`%s' は引数を受け付けません: %s"
+
+#~ msgid "`%s' requires an argument"
+#~ msgstr "`%s' オプションは引数を要求します"
+
+#~ msgid "`%s' is no longer supported"
+#~ msgstr "`%s' は最早サポートされません"
+
+#~ msgid "   Skipping to next \\n"
+#~ msgstr "   次の \\n にスキップ"
+
+#~ msgid "   Skipping to next %c"
+#~ msgstr "   次の %c にスキップ"
+
+#~ msgid "unterminated string at end of file"
+#~ msgstr "閉じられていない文字列がファイル末尾にあります"
+
+#~ msgid "unterminated string"
+#~ msgstr "閉じられていない文字列"
+
+#~ msgid "Premature EOF after %s"
+#~ msgstr "%s の後ろに早くも EOF があります"
+
+#~ msgid "`%s' is invalid in %s"
+#~ msgstr "`%s' は %s 内では不適切です"
+
+#~ msgid "%type declaration has no <typename>"
+#~ msgstr "%type 宣言に <タイプ名> がありません"
+
+#~ msgid "invalid %%type declaration due to item: %s"
+#~ msgstr "アイテムの為の %%type 宣言が不適切です: %s"
+
+#~ msgid "invalid text (%s) - number should be after identifier"
+#~ msgstr "不適切なテキスト (%s) - 数値は識別子の後ろにあるべきです"
+
+#~ msgid "unexpected item: %s"
+#~ msgstr "予期せぬアイテム: %s"
+
+#~ msgid "unmatched %s"
+#~ msgstr "対応のない %s です"
+
+#~ msgid "invalid %s declaration"
+#~ msgstr "%s の宣言が不適切です"
+
+#~ msgid "unrecognized: %s"
+#~ msgstr "認識できない: %s"
+
+#~ msgid "no input grammar"
+#~ msgstr "文法の入力が無い"
+
+#~ msgid "unknown character: %s"
+#~ msgstr "未知の文字: %s"
+
+#~ msgid "ill-formed rule: initial symbol not followed by colon"
+#~ msgstr "邪悪な規則: 初期化シンボルにコロン (:) が続いていません"
+
+#~ msgid "grammar starts with vertical bar"
+#~ msgstr "文法は縦棒 (|) で始めます"
+
+#~ msgid "invalid input: %s"
+#~ msgstr "不適切な入力: %s"
+
 #~ msgid "two actions at end of one rule"
 #~ msgstr "一つの規則の終りに二つの動作を指定しています"
 
-#~ msgid "symbol %s redefined"
-#~ msgstr "シンボル %s が再定義されました"
+#~ msgid "reduce"
+#~ msgstr "還元"
 
-#~ msgid "type redeclaration for %s"
-#~ msgstr "%s の型が再定義されました"
+#~ msgid "shift"
+#~ msgstr "シフト"
 
-#~ msgid "redefining precedence of %s"
-#~ msgstr "%s に先行した再定義です"
-
-#~ msgid "unrecognized item %s, expected an identifier"
-#~ msgstr "認識できないアイテム %s、ここでは識別子が期待されます"
-
-#~ msgid "expected string constant instead of %s"
-#~ msgstr "ここでは %s ではなく文字列定数が期待されます"
+#~ msgid "an error"
+#~ msgstr "エラー"
 
 #~ msgid "symbol %s is used, but is not defined as a token and has no rules"
 #~ msgstr ""
@@ -687,20 +612,32 @@ msgstr "'"
 #~ msgid "tokens %s and %s both assigned number %d"
 #~ msgstr "トークン %s と %s の双方が番号 %d に割り当てられました"
 
+#~ msgid "unterminated `%{' definition"
+#~ msgstr "`%{' 定義 が閉じられていません"
+
+#~ msgid "symbol %s redefined"
+#~ msgstr "シンボル %s が再定義されました"
+
+#~ msgid "type redeclaration for %s"
+#~ msgstr "%s の型が再定義されました"
+
+#~ msgid "redefining precedence of %s"
+#~ msgstr "%s に先行した再定義です"
+
+#~ msgid "argument of %%expect is not an integer"
+#~ msgstr "%%expect の引数が整数値ではありません"
+
+#~ msgid "unrecognized item %s, expected an identifier"
+#~ msgstr "認識できないアイテム %s、ここでは識別子が期待されます"
+
+#~ msgid "expected string constant instead of %s"
+#~ msgstr "ここでは %s ではなく文字列定数が期待されます"
+
 #~ msgid "the start symbol %s is undefined"
 #~ msgstr "開始シンボル %s は定義されていません"
 
 #~ msgid "the start symbol %s is a token"
 #~ msgstr "開始シンボル %s はトークンです"
-
-#~ msgid "reduce"
-#~ msgstr "還元"
-
-#~ msgid "shift"
-#~ msgstr "シフト"
-
-#~ msgid "an error"
-#~ msgstr "エラー"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard がありますが %%semantic_parser が指定されていません"

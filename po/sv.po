@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-06-11 10:09+0200\n"
+"POT-Creation-Date: 2002-06-11 21:15+0200\n"
 "PO-Revision-Date: 2002-03-05 10:18+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -23,11 +23,11 @@ msgstr "för många tillstånd (max %d)"
 msgid "Unknown system error"
 msgstr "Okänt systemfel"
 
-#: src/complain.c:150
+#: src/complain.c:151 src/complain.c:200
 msgid "warning: "
 msgstr "varning: "
 
-#: src/complain.c:238
+#: src/complain.c:337 src/complain.c:370
 msgid "fatal error: "
 msgstr "ödesdigert fel: "
 
@@ -49,49 +49,49 @@ msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr ""
 "Konflikt i tillstånd %d mellan regel %d och element %s, löstes med %s.\n"
 
-#: src/conflicts.c:362
+#: src/conflicts.c:366
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d skifta/reducerakonflikt"
 msgstr[1] "%d skifta/reducerakonflikter"
 
-#: src/conflicts.c:369
+#: src/conflicts.c:373
 msgid "and"
 msgstr "och"
 
-#: src/conflicts.c:375
+#: src/conflicts.c:379
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d reducera/reducerakonflikt"
 msgstr[1] "%d reducera/reducerakonflikter"
 
-#: src/conflicts.c:400
+#: src/conflicts.c:404
 #, c-format
 msgid "State %d contains "
 msgstr "Tillstånd %d innehåller "
 
-#: src/conflicts.c:447
+#: src/conflicts.c:451
 msgid "conflicts: "
 msgstr "konflikter: "
 
-#: src/conflicts.c:449
+#: src/conflicts.c:453
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d skifta/reducera"
 
-#: src/conflicts.c:453
+#: src/conflicts.c:457
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducera/reducera"
 
-#: src/conflicts.c:458 src/reduce.c:397
+#: src/conflicts.c:462 src/reduce.c:397
 #, c-format
 msgid "%s contains "
 msgstr "%s innehåller "
 
-#: src/conflicts.c:465
+#: src/conflicts.c:469
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -177,7 +177,6 @@ msgstr ""
 "  -g, --graph                skapa också en VCG-beskrivning av automaten\n"
 
 #: src/getargs.c:143
-#, fuzzy
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -187,12 +186,6 @@ msgid ""
 "  `all'          include all the above information\n"
 "  `none'         disable the report\n"
 msgstr ""
-"Utdata:\n"
-"  -d, --defines              skapa också en huvudfil\n"
-"  -v, --verbose              skapa också en förklaring av automaten\n"
-"  -b, --file-prefix=PREFIX   ange ett PREFIX för utdatafiler\n"
-"  -o, --output=FIL           lägg utdata i FIL\n"
-"  -g, --graph                skapa också en VCG-beskrivning av automaten\n"
 
 #: src/getargs.c:154
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -244,64 +237,6 @@ msgstr "%s: extra argument ignorerade efter \"%s\"\n"
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "för många goto (max %d)"
-
-#: src/lex.c:78
-msgid "unexpected `/' found and ignored"
-msgstr "oväntat \"/\" hittat och ignorerat"
-
-#: src/lex.c:107 src/reader.c:307
-msgid "unterminated comment"
-msgstr "oavslutad kommentar"
-
-#: src/lex.c:139
-msgid "unexpected end of file"
-msgstr "oväntat filslut"
-
-#: src/lex.c:158
-msgid "unescaped newline in constant"
-msgstr "oskyddat nyradstecken i konstant"
-
-#: src/lex.c:197
-#, c-format
-msgid "octal value outside range 0...255: `\\%o'"
-msgstr "oktalt värde utanför intervallet 0-255: \"\\%o\""
-
-#: src/lex.c:222
-#, c-format
-msgid "hexadecimal value above 255: `\\x%x'"
-msgstr "hexadecimalt värde över 255: \"\\x%x\""
-
-#: src/lex.c:234
-#, c-format
-msgid "unknown escape sequence: `\\' followed by `%s'"
-msgstr "okänd specialsekvens: \"\\\" följt av \"%s\""
-
-#: src/lex.c:265
-msgid "unterminated type name at end of file"
-msgstr "oavslutat typnamn vid filslut"
-
-#: src/lex.c:268
-msgid "unterminated type name"
-msgstr "oavslutat typnamn"
-
-#: src/lex.c:360
-msgid "use \"...\" for multi-character literal tokens"
-msgstr "använd \"...\" för bokstavliga element med mer än ett tecken"
-
-#: src/lex.c:566
-#, c-format
-msgid "`%s' supports no argument: %s"
-msgstr "\"%s\" stödjer inga argument: %s"
-
-#: src/lex.c:584
-#, c-format
-msgid "`%s' requires an argument"
-msgstr "\"%s\" behöver ett argument"
-
-#: src/lex.c:595
-#, c-format
-msgid "`%s' is no longer supported"
-msgstr "\"%s\" stöds inte längre"
 
 #: src/print.c:46
 #, c-format
@@ -398,155 +333,38 @@ msgstr " till vänster:"
 msgid " on right:"
 msgstr " till höger:"
 
-#: src/reader.c:83
-msgid "   Skipping to next \\n"
-msgstr "   Hoppar över till nästa \\n"
-
-#: src/reader.c:85
-#, c-format
-msgid "   Skipping to next %c"
-msgstr "   Hoppar över till nästa %c"
-
-#: src/reader.c:136 src/reader.c:148
+#: src/reader.c:71 src/reader.c:83
 msgid "invalid $ value"
 msgstr "felaktigt $-värde"
 
-#: src/reader.c:197 src/reader.c:212
-msgid "unterminated string at end of file"
-msgstr "oavslutad sträng vid filslut"
-
-#: src/reader.c:200
-msgid "unterminated string"
-msgstr "oavslutad sträng"
-
-#: src/reader.c:341 src/reader.c:399
-#, fuzzy, c-format
-msgid "invalid value: %s%d"
-msgstr "felaktigt @-värde"
-
-#: src/reader.c:350 src/reader.c:417
-#, c-format
-msgid "%s is invalid"
-msgstr "%s är felaktigt"
-
-#: src/reader.c:385
-#, c-format
-msgid "$$ of `%s' has no declared type"
-msgstr "$$ för \"%s\" har ingen deklarerad typ"
-
-#: src/reader.c:405
-#, c-format
-msgid "$%d of `%s' has no declared type"
-msgstr "$%d för \"%s\" har ingen deklarerad typ"
-
-#: src/reader.c:467
-msgid "unterminated `%{' definition"
-msgstr "oavslutad \"%{\"-definition"
-
-#: src/reader.c:510 src/reader.c:599 src/reader.c:645 src/reader.c:805
-#, c-format
-msgid "Premature EOF after %s"
-msgstr "Förtida filslut efter %s"
-
-#: src/reader.c:544
-#, c-format
-msgid "`%s' is invalid in %s"
-msgstr "\"%s\" är felaktig i %s"
-
-#: src/reader.c:562 src/reader.c:707
+#: src/reader.c:101
 #, c-format
 msgid "multiple %s declarations"
 msgstr "flera %s-deklarationer"
 
-#: src/reader.c:564 src/reader.c:785 src/reader.c:800 src/reader.c:833
-#: src/reader.c:847
-#, c-format
-msgid "invalid %s declaration"
-msgstr "felaktig %s-deklaration"
-
-#: src/reader.c:584
-msgid "%type declaration has no <typename>"
-msgstr "%type-deklaration har inget <typnamn>"
-
-#: src/reader.c:614
-#, c-format
-msgid "invalid %%type declaration due to item: %s"
-msgstr "felaktig %%type-deklaration på grund av objekt: %s"
-
-#: src/reader.c:673
-#, c-format
-msgid "invalid text (%s) - number should be after identifier"
-msgstr "felaktig text (%s) - tal skulle följa efter identifierare"
-
-#: src/reader.c:683
-#, c-format
-msgid "unexpected item: %s"
-msgstr "oväntat objekt: %s"
-
-#: src/reader.c:740 src/reader.c:1021
-#, c-format
-msgid "unmatched %s"
-msgstr "ensam %s"
-
-#: src/reader.c:769
-#, c-format
-msgid "argument of %%expect is not an integer"
-msgstr "argument till %%expect är inte ett heltal"
-
-#: src/reader.c:951
-#, c-format
-msgid "unrecognized: %s"
-msgstr "okänt: %s"
-
-#: src/reader.c:956
-msgid "no input grammar"
-msgstr "ingen ingrammatik"
-
-#: src/reader.c:961
-#, c-format
-msgid "unknown character: %s"
-msgstr "okänt tecken: %s"
-
-#: src/reader.c:1129
+#: src/reader.c:247
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel given för %s, som är ett element"
 
-#: src/reader.c:1181
-msgid "two @prec's in a row"
-msgstr "två @prec i rad"
-
-#: src/reader.c:1206
+#: src/reader.c:271
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "typkonflikt (\"%s\" \"%s\") för standardåtgärd"
 
-#: src/reader.c:1213
+#: src/reader.c:278
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tom regel för typad icketerminal, och ingen åtgärd"
 
-#: src/reader.c:1263
-msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "felskriven regel: första symbolen följs inte av ett kolon"
+#: src/reader.c:343
+msgid "two @prec's in a row"
+msgstr "två @prec i rad"
 
-#: src/reader.c:1269
-msgid "grammar starts with vertical bar"
-msgstr "grammatiken startar med ett vertikalt streck"
-
-#: src/reader.c:1302 src/reader.c:1342
-msgid "previous rule lacks an ending `;'"
-msgstr "föregående regel saknar ett avslutande \";\""
-
-#: src/reader.c:1348
-#, c-format
-msgid "invalid input: %s"
-msgstr "felaktig indata: %s"
-
-#: src/reader.c:1355
+#: src/reader.c:488
 msgid "no rules in the input grammar"
 msgstr "inga regler i ingrammatiken"
 
-#: src/reader.c:1377
+#: src/reader.c:520
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
@@ -592,6 +410,26 @@ msgstr[1] "%d oanvändbara regler"
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Startsymbolen %s genererar inga meningar"
+
+#: scan-gram.l:508
+#, c-format
+msgid "$$ of `%s' has no declared type"
+msgstr "$$ för \"%s\" har ingen deklarerad typ"
+
+#: scan-gram.l:520 scan-gram.l:571
+#, fuzzy, c-format
+msgid "invalid value: %s%d"
+msgstr "felaktigt @-värde"
+
+#: scan-gram.l:526
+#, c-format
+msgid "$%d of `%s' has no declared type"
+msgstr "$%d för \"%s\" har ingen deklarerad typ"
+
+#: scan-gram.l:539 scan-gram.l:580
+#, c-format
+msgid "%s is invalid"
+msgstr "%s är felaktigt"
 
 #: lib/getopt.c:694
 #, c-format
@@ -663,23 +501,113 @@ msgstr "\""
 msgid "'"
 msgstr "\""
 
+#~ msgid "unexpected `/' found and ignored"
+#~ msgstr "oväntat \"/\" hittat och ignorerat"
+
+#~ msgid "unterminated comment"
+#~ msgstr "oavslutad kommentar"
+
+#~ msgid "unexpected end of file"
+#~ msgstr "oväntat filslut"
+
+#~ msgid "unescaped newline in constant"
+#~ msgstr "oskyddat nyradstecken i konstant"
+
+#~ msgid "octal value outside range 0...255: `\\%o'"
+#~ msgstr "oktalt värde utanför intervallet 0-255: \"\\%o\""
+
+#~ msgid "hexadecimal value above 255: `\\x%x'"
+#~ msgstr "hexadecimalt värde över 255: \"\\x%x\""
+
+#~ msgid "unknown escape sequence: `\\' followed by `%s'"
+#~ msgstr "okänd specialsekvens: \"\\\" följt av \"%s\""
+
+#~ msgid "unterminated type name at end of file"
+#~ msgstr "oavslutat typnamn vid filslut"
+
+#~ msgid "unterminated type name"
+#~ msgstr "oavslutat typnamn"
+
+#~ msgid "use \"...\" for multi-character literal tokens"
+#~ msgstr "använd \"...\" för bokstavliga element med mer än ett tecken"
+
+#~ msgid "`%s' supports no argument: %s"
+#~ msgstr "\"%s\" stödjer inga argument: %s"
+
+#~ msgid "`%s' requires an argument"
+#~ msgstr "\"%s\" behöver ett argument"
+
+#~ msgid "`%s' is no longer supported"
+#~ msgstr "\"%s\" stöds inte längre"
+
+#~ msgid "   Skipping to next \\n"
+#~ msgstr "   Hoppar över till nästa \\n"
+
+#~ msgid "   Skipping to next %c"
+#~ msgstr "   Hoppar över till nästa %c"
+
+#~ msgid "unterminated string at end of file"
+#~ msgstr "oavslutad sträng vid filslut"
+
+#~ msgid "unterminated string"
+#~ msgstr "oavslutad sträng"
+
+#~ msgid "Premature EOF after %s"
+#~ msgstr "Förtida filslut efter %s"
+
+#~ msgid "`%s' is invalid in %s"
+#~ msgstr "\"%s\" är felaktig i %s"
+
+#~ msgid "%type declaration has no <typename>"
+#~ msgstr "%type-deklaration har inget <typnamn>"
+
+#~ msgid "invalid %%type declaration due to item: %s"
+#~ msgstr "felaktig %%type-deklaration på grund av objekt: %s"
+
+#~ msgid "invalid text (%s) - number should be after identifier"
+#~ msgstr "felaktig text (%s) - tal skulle följa efter identifierare"
+
+#~ msgid "unexpected item: %s"
+#~ msgstr "oväntat objekt: %s"
+
+#~ msgid "unmatched %s"
+#~ msgstr "ensam %s"
+
+#~ msgid "invalid %s declaration"
+#~ msgstr "felaktig %s-deklaration"
+
+#~ msgid "unrecognized: %s"
+#~ msgstr "okänt: %s"
+
+#~ msgid "no input grammar"
+#~ msgstr "ingen ingrammatik"
+
+#~ msgid "unknown character: %s"
+#~ msgstr "okänt tecken: %s"
+
+#~ msgid "ill-formed rule: initial symbol not followed by colon"
+#~ msgstr "felskriven regel: första symbolen följs inte av ett kolon"
+
+#~ msgid "grammar starts with vertical bar"
+#~ msgstr "grammatiken startar med ett vertikalt streck"
+
+#~ msgid "previous rule lacks an ending `;'"
+#~ msgstr "föregående regel saknar ett avslutande \";\""
+
+#~ msgid "invalid input: %s"
+#~ msgstr "felaktig indata: %s"
+
 #~ msgid "two actions at end of one rule"
 #~ msgstr "två åtgärder vid slutet av en regel"
 
-#~ msgid "symbol %s redefined"
-#~ msgstr "symbolen %s omdefinierad"
+#~ msgid "reduce"
+#~ msgstr "reducera"
 
-#~ msgid "type redeclaration for %s"
-#~ msgstr "typen omdeklarerad för %s"
+#~ msgid "shift"
+#~ msgstr "skifta"
 
-#~ msgid "redefining precedence of %s"
-#~ msgstr "omdefinition av precedens för %s"
-
-#~ msgid "unrecognized item %s, expected an identifier"
-#~ msgstr "oväntat objekt %s, förväntade en identifierare"
-
-#~ msgid "expected string constant instead of %s"
-#~ msgstr "förväntade strängkonstant istället för %s"
+#~ msgid "an error"
+#~ msgstr "ett fel"
 
 #~ msgid "symbol %s is used, but is not defined as a token and has no rules"
 #~ msgstr ""
@@ -701,20 +629,32 @@ msgstr "\""
 #~ msgid "tokens %s and %s both assigned number %d"
 #~ msgstr "elementen %s och %s har båda fått nummer %d"
 
+#~ msgid "unterminated `%{' definition"
+#~ msgstr "oavslutad \"%{\"-definition"
+
+#~ msgid "symbol %s redefined"
+#~ msgstr "symbolen %s omdefinierad"
+
+#~ msgid "type redeclaration for %s"
+#~ msgstr "typen omdeklarerad för %s"
+
+#~ msgid "redefining precedence of %s"
+#~ msgstr "omdefinition av precedens för %s"
+
+#~ msgid "argument of %%expect is not an integer"
+#~ msgstr "argument till %%expect är inte ett heltal"
+
+#~ msgid "unrecognized item %s, expected an identifier"
+#~ msgstr "oväntat objekt %s, förväntade en identifierare"
+
+#~ msgid "expected string constant instead of %s"
+#~ msgstr "förväntade strängkonstant istället för %s"
+
 #~ msgid "the start symbol %s is undefined"
 #~ msgstr "startsymbolen %s är odefinierad"
 
 #~ msgid "the start symbol %s is a token"
 #~ msgstr "startsymbolen %s är ett element"
-
-#~ msgid "reduce"
-#~ msgstr "reducera"
-
-#~ msgid "shift"
-#~ msgstr "skifta"
-
-#~ msgid "an error"
-#~ msgstr "ett fel"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard finns men %%semantic_parser är inte angiven"
