@@ -209,12 +209,12 @@ namespace yy
 
     /* Tables.  */
     static const ]b4_int_type_for([b4_pact])[ pact_[];
-    static const ]b4_int_type_for([b4_pact])[ pact_ninf_;
+    static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ pact_ninf_;
     static const ]b4_int_type_for([b4_defact])[ defact_[];
     static const ]b4_int_type_for([b4_pgoto])[ pgoto_[];
     static const ]b4_int_type_for([b4_defgoto])[ defgoto_[];
     static const ]b4_int_type_for([b4_table])[ table_[];
-    static const ]b4_int_type_for([b4_table])[ table_ninf_;
+    static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ table_ninf_;
     static const ]b4_int_type_for([b4_check])[ check_[];
     static const ]b4_int_type_for([b4_r1])[ r1_[];
     static const ]b4_int_type_for([b4_r2])[ r2_[];
@@ -639,7 +639,7 @@ yy::]b4_parser_class_name[::lex_ ()
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-const ]b4_int_type_for([b4_pact]) yy::b4_parser_class_name::pact_ninf_ = b4_pact_ninf[;
+const ]b4_int_type(b4_pact_ninf, b4_pact_ninf) yy::b4_parser_class_name::pact_ninf_ = b4_pact_ninf[;
 const ]b4_int_type_for([b4_pact])[
 yy::]b4_parser_class_name[::pact_[] =
 {
@@ -672,7 +672,7 @@ yy::]b4_parser_class_name[::defgoto_[] =
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-const ]b4_int_type_for([b4_table]) yy::b4_parser_class_name::table_ninf_ = b4_table_ninf[;
+const ]b4_int_type(b4_table_ninf, b4_table_ninf) yy::b4_parser_class_name::table_ninf_ = b4_table_ninf[;
 const ]b4_int_type_for([b4_table])[
 yy::]b4_parser_class_name[::table_[] =
 {
