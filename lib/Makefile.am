@@ -15,8 +15,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 ## 02111-1307  USA
 
-AUTOMAKE_OPTIONS = ansi2knr
-
 AM_CFLAGS = $(WARNING_CFLAGS)
 
 noinst_LIBRARIES = libbison.a
