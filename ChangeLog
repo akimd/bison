@@ -1,3 +1,13 @@
+2001-08-15  Marc Autret  <prog@epita.fr>
+
+	* src/reader.c (readgram): Indent output macro YYSTYPE.
+	(packsymbols): Likewise.
+	(output_token_defines): Likewise.
+	* src/files.c: Standardize.
+	(compute_header_macro): New.
+	(defines_obstack_save): New. Use compute_header_macro.
+	(output_files): Update. Use defines_obstack_save.
+
 2001-08-15  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (Table of Symbols): Document
