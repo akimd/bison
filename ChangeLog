@@ -1,5 +1,10 @@
 2001-12-16  Marc Autret  <autret_m@epita.fr>
 
+	* src/output.c (actions_output): Fix. When we use %no-lines,
+	there is one less line per action.
+
+2001-12-16  Marc Autret  <autret_m@epita.fr>
+
 	* src/bison.simple: Remove a useless #line directive.
 	s/#line %%line %%skeleton/#line %%line "%%parser-file-name"/'.
 	* src/output.c (get_lines_number): New.
