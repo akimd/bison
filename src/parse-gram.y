@@ -97,7 +97,6 @@ braced_code_t current_braced_code = action_braced_code;
 /* Define the tokens together with their human representation.  */
 %token GRAM_EOF 0 "end of file"
 %token STRING     "string"
-%token CHARACTER  "character"
 %token INT        "integer"
 
 %token PERCENT_TOKEN       "%token"
@@ -157,7 +156,7 @@ braced_code_t current_braced_code = action_braced_code;
 %token BRACED_CODE     "{...}"
 
 
-%type <string> CHARACTER TYPE STRING string_content
+%type <string> TYPE STRING string_content
                BRACED_CODE PROLOGUE EPILOGUE epilogue.opt action
 %type <integer> INT
 %type <symbol> ID symbol string_as_id
@@ -285,7 +284,7 @@ precedence_declarator:
 ;
 
 type.opt:
-  /* Nothing. */ { current_type = NULL;}
+  /* Nothing. */ { current_type = NULL; }
 | TYPE           { current_type = $1; }
 ;
 
@@ -390,7 +389,6 @@ rhs:
 symbol:
   ID              { $$ = $1; }
 | string_as_id    { $$ = $1; }
-| CHARACTER       { $$ = symbol_get ($1, @1); }
 ;
 
 action:
@@ -443,10 +441,6 @@ yyprint (FILE *file,
   fputc (' ', file);
   switch (type)
     {
-    case CHARACTER:
-      fprintf (file, " = '%s'", value->string);
-      break;
-
     case ID:
       fprintf (file, " = %s", value->symbol->tag);
       break;
