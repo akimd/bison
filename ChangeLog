@@ -1,3 +1,14 @@
+2005-01-01  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/getargs.c (version): Happy new year; update overall
+	program copyright date from 2004 to 2005.
+
+	* src/scan-skel.l ("@output ".*\n): Don't close standard output.
+	Problem reported by Hans Aberg.
+	* tests/output.at (AT_CHECK_OUTPUT): New arg SHELLIO.
+	(Output file names.): Add a test for the case when standard output
+	is closed.
+
 2004-12-26  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (@copying): Update FDL version number to 1.2,
