@@ -83,7 +83,14 @@ int skel_lex (void);
 \n	   lineno++; ECHO;
 [^@\n]+	   ECHO;
 
-<<EOF>>	   free (outname); xfclose (yyout); return EOF;
+<<EOF>> {
+  if (outname)
+    {
+      free (outname);
+      xfclose (yyout);
+    }
+  return EOF;
+}
 %%
 
 /*------------------------.
