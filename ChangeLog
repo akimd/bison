@@ -1,5 +1,11 @@
 2002-01-03  Akim Demaille  <akim@epita.fr>
 
+	* src/parse-skel.y (process_skeleton): Don't bind the parser's
+	tracing code to --trace, wait for a better --trace option, with
+	args.
+
+2002-01-03  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.simple (YYSTDERR): Remove, replace `stderr'.
 	The ISO C++ standard is extremely clear about it: stderr is
 	considered a macro, not a regular symbol (see table 94 `Header

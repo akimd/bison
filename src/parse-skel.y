@@ -247,8 +247,9 @@ process_skeleton (const char* skel)
 
   /* Output.  */
   skel_in = fopen (skel, "r");
-  skel__flex_debug = 0;
-  skel_debug = trace_flag ? 1 : 0;
+  /* FIXME: This is not acceptable for a release. */
+  skel__flex_debug = getenv ("BISON_TRACE_SCAN") ? 1 : 0;
+  skel_debug = getenv ("BISON_TRACE_PARSE") ? 1 : 0;
   skel_parse (NULL);
 
   /* Close the last parser.  */
