@@ -1,5 +1,22 @@
 2001-08-06  Marc Autret  <autret_m@epita.fr>
 
+	Add of %source_extension and %header_extension which specify
+	the source or/and the header output file extension.
+
+	* src/files.c (compute_base_names): Remove initialisation of
+	src_extension and header_extension.
+	(compute_exts_from_gf): Update.
+	(compute_exts_from_src): Update.
+	(output_files): Update.
+	* src/reader.c (parse_header_extension_decl): New.
+	(parse_source_extension_decl): New.
+	(read_declarations): New case statements for the new tokens.
+	* src/lex.c (percent_table): Add entries for %source_extension
+	and %header_extension.
+	* src/lex.h (token_e): New tokens tok_hdrext and tok_srcext.
+
+2001-08-06  Marc Autret  <autret_m@epita.fr>
+
 	* configure.in: Bump to 1.28c.
 	* doc/bison.texinfo: Texinfo thingies.
 

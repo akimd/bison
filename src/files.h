@@ -60,6 +60,9 @@ extern struct obstack output_obstack;
 extern char *infile;
 extern char *attrsfile;
 
+extern const char *src_extension;
+extern const char *header_extension;
+
 void open_files PARAMS((void));
 
 void output_files PARAMS((void));
