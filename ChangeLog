@@ -1,4 +1,14 @@
+2002-09-06  Paul Eggert  <eggert@twinsun.com>
+
+	* doc/bison.texinfo (Conditions): Make explicit that the GPL
+	exception applies only to yacc.c.  This is a modification of a
+	patch originally suggested by Akim Demaille.
+
 2002-09-06  Akim Demaille  <akim@epita.fr>
+
+	* data/c.m4 (b4_copyright): Move the GPL exception comment from
+	here to...
+	* data/yacc.c: here.
 
 	* data/lalr1.cc (struct yyltype): Don't define it, since we use
 	LocationType.
