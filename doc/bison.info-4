@@ -1152,11 +1152,15 @@ Tuning the parser:
 Adjust the output:
 
 `-d'
-`--defines'
      Pretend that `%verbose' was specified, i.e., write an extra output
      file containing macro definitions for the token type names defined
      in the grammar and the semantic value type `YYSTYPE', as well as a
      few `extern' variable declarations.  *Note Decl Summary::.
+
+`--defines=DEFINES-FILE'
+     The behaviour of -DEFINES is the same than `-d'. The only
+     difference is that it has an optionnal argument which is the name
+     of the output filename.
 
 `-b FILE-PREFIX'
 `--file-prefix=PREFIX'
@@ -1177,10 +1181,14 @@ Adjust the output:
      described under the `-v' and `-d' options.
 
 `-g'
-`--graph'
      Output a VCG definition of the LALR(1) grammar automaton computed
      by Bison. If the grammar file is `foo.y', the VCG output file will
      be `foo.vcg'.
+
+`--graph=GRAPH-FILE'
+     The behaviour of -GRAPH is the same than `-g'. The only difference
+     is that it has an optionnal argument which is the name of the
+     output graph filename.
 
 
 File: bison.info,  Node: Environment Variables,  Next: Option Cross Key,  Prev: Bison Options,  Up: Invocation
@@ -1214,9 +1222,10 @@ Option Cross Key
 find the corresponding short option.
 
      --debug                               -t
-     --defines                             -d
+     --defines=DEFINES-FILE          -d
      --file-prefix=PREFIX                  -b FILE-PREFIX
      --fixed-output-files --yacc           -y
+     --graph=GRAPH-FILE              -d
      --help                                -h
      --name-prefix=PREFIX                  -p NAME-PREFIX
      --no-lines                            -l

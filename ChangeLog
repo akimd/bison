@@ -1,3 +1,8 @@
+2001-09-21  Akim Demaille  <akim@epita.fr>
+
+	* tests/Makefile.am (package.m4): Move to...
+	($(srcdir)/$(TESTSUITE)): here.
+
 2001-09-20  Akim Demaille  <akim@epita.fr>
 
 	* src/complain.c: No longer try to be standalone: use system.h.
