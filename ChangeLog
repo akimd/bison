@@ -1,5 +1,10 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (print_reductions): Pessimize, but clarify.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (print_reductions): Improve variable locality.
 
 	
