@@ -1,14 +1,14 @@
 Bison News
 ----------
 
-Changes in version 1.75a:
+Changes in version 1.75a, 2002-10-24:
 
 * Bison can no longer be built by a K&R C compiler; it requires C89 or
   later to be built.  This change originally took place a few versions
   ago, but nobody noticed until we recently asked someone to try
   building Bison with a K&R C compiler.
 
-Changes in version 1.75:
+Changes in version 1.75, 2002-10-14:
 
 * Bison should now work on 64-bit hosts.
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-10-08 17:53+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -49,7 +49,7 @@ msgstr ""
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d geser/kurangi konflik"
-msgstr[1] ""
+msgstr[1] "%d geser/kurangi konflik"
 
 #: src/conflicts.c:409
 msgid "and"
@@ -60,7 +60,7 @@ msgstr "dan"
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d geser/kurangi konflik"
-msgstr[1] ""
+msgstr[1] "%d geser/kurangi konflik"
 
 #: src/conflicts.c:435
 msgid "conflicts: "
@@ -86,7 +86,7 @@ msgstr "State %d berisi "
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] "mengharapkan %d shift/reduce konflik"
-msgstr[1] ""
+msgstr[1] "mengharapkan %d shift/reduce konflik"
 
 #: src/files.c:114
 #, c-format
@@ -334,12 +334,12 @@ msgstr "aturan kosong untuk nonterminal typed, dan tidak ada aksi"
 #: src/reader.c:344 src/reader.c:359 src/reader.c:372
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
-msgstr "hanya satu %%merge yang dibolehkan tiap aturan"
+msgstr "hanya satu %%dprec yang dibolehkan untuk satu aturan"
 
 #: src/reader.c:354 src/reader.c:370
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
-msgstr "%%merge hanya mempengaruhi parser GLR"
+msgstr "%%dprec hanya mempengaruhi parser GLR"
 
 #: src/reader.c:357
 #, fuzzy, c-format
@@ -729,8 +729,8 @@ msgstr "waktu dalam %s: %ld.%06ld (%ld%%)\n"
 #~ msgid "two @prec's in a row"
 #~ msgstr "dua @prec dalam satu baris"
 
-#~ msgid "%%dprec affects only GLR parsers"
-#~ msgstr "%%dprec hanya mempengaruhi parser GLR"
+#~ msgid "%%merge affects only GLR parsers"
+#~ msgstr "%%merge hanya mempengaruhi parser GLR"
 
-#~ msgid "only one %%dprec allowed per rule"
-#~ msgstr "hanya satu %%dprec yang dibolehkan untuk satu aturan"
+#~ msgid "only one %%merge allowed per rule"
+#~ msgstr "hanya satu %%merge yang dibolehkan tiap aturan"

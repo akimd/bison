@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -455,7 +455,7 @@ msgstr "$$ od `%s' nema deklarirani tip"
 #: scan-gram.l:576 scan-gram.l:658
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
-msgstr "nedozvoljena  @ vrijednost"
+msgstr "nedozvoljena $ vrijednost"
 
 #: scan-gram.l:583
 #, c-format
@@ -721,15 +721,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#~ msgid "%s: no grammar file given\n"
-#~ msgstr "%s: nije data datoteka sa gramatikom\n"
-
-#~ msgid "%s: extra arguments ignored after `%s'\n"
-#~ msgstr "%s: dodatni argumenti se ignoriraju nakon `%s'\n"
-
-#~ msgid "two @prec's in a row"
-#~ msgstr "dva @prec's u retku"
-
 #~ msgid "reduce"
 #~ msgstr "reduciraj"
 
@@ -760,6 +751,12 @@ msgstr ""
 
 #~ msgid "`%s' is no longer supported"
 #~ msgstr "`%s' vi¹e nije podr¾ano"
+
+#~ msgid "%s: no grammar file given\n"
+#~ msgstr "%s: nije data datoteka sa gramatikom\n"
+
+#~ msgid "%s: extra arguments ignored after `%s'\n"
+#~ msgstr "%s: dodatni argumenti se ignoriraju nakon `%s'\n"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "neoèekivan  `/' naðen i zanemaren"
@@ -830,6 +827,9 @@ msgstr ""
 #~ msgid "unterminated string"
 #~ msgstr "nezavr¹eni znakovni niz"
 
+#~ msgid "invalid @ value"
+#~ msgstr "nedozvoljena  @ vrijednost"
+
 #~ msgid "unterminated `%{' definition"
 #~ msgstr "nezavr¹ena `%{' definicija"
 
@@ -883,6 +883,9 @@ msgstr ""
 
 #~ msgid "previous rule lacks an ending `;'"
 #~ msgstr "prethodnom pravilu nedostaje zavr¹etak `;'"
+
+#~ msgid "two @prec's in a row"
+#~ msgstr "dva @prec's u retku"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard prisutan ali %%semantic_parser nije specificiran"

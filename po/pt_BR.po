@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-10-07 00:30-0300\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -335,12 +335,12 @@ msgstr "regra vazia para um não-terminal com tipo, e não há ações"
 #: src/reader.c:344 src/reader.c:359 src/reader.c:372
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
-msgstr "apenas um %%merge é permitido por regra"
+msgstr "apenas um %%dprec é permitido por regra"
 
 #: src/reader.c:354 src/reader.c:370
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
-msgstr "%%merge afeta apenas analisadores GLR"
+msgstr "%%dprec afeta apenas analisadores GLR"
 
 #: src/reader.c:357
 #, fuzzy, c-format
@@ -728,8 +728,8 @@ msgstr "tempo em  %s: %ld.%06ld (%ld%%)\n"
 #~ msgid "two @prec's in a row"
 #~ msgstr "dois @prec em uma linha"
 
-#~ msgid "%%dprec affects only GLR parsers"
-#~ msgstr "%%dprec afeta apenas analisadores GLR"
+#~ msgid "%%merge affects only GLR parsers"
+#~ msgstr "%%merge afeta apenas analisadores GLR"
 
-#~ msgid "only one %%dprec allowed per rule"
-#~ msgstr "apenas um %%dprec é permitido por regra"
+#~ msgid "only one %%merge allowed per rule"
+#~ msgstr "apenas um %%merge é permitido por regra"

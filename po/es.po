@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.49a\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-05-02 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -811,18 +811,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-# Me parece menos "computadora" decir "ningún fichero de gramática" - cll
-#
-#~ msgid "%s: no grammar file given\n"
-#~ msgstr "%s: no se ha especificado ningún fichero de gramática\n"
-
-# Ignorar es no saber, to ignore es no hacer caso, que no es lo mismo. sv
-#~ msgid "%s: extra arguments ignored after `%s'\n"
-#~ msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
-
-#~ msgid "two @prec's in a row"
-#~ msgstr "dos @prec en una línea"
-
 #~ msgid "reduce"
 #~ msgstr "reduce"
 
@@ -837,6 +825,15 @@ msgstr ""
 
 #~ msgid "`%s' is no longer supported"
 #~ msgstr "`%s' ya no está soportado"
+
+# Me parece menos "computadora" decir "ningún fichero de gramática" - cll
+#
+#~ msgid "%s: no grammar file given\n"
+#~ msgstr "%s: no se ha especificado ningún fichero de gramática\n"
+
+# Ignorar es no saber, to ignore es no hacer caso, que no es lo mismo. sv
+#~ msgid "%s: extra arguments ignored after `%s'\n"
+#~ msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
 
 # to ignore no es ignorar. Pon otra cosa, please. sv
 #~ msgid "unexpected `/' found and ignored"
@@ -986,6 +983,9 @@ msgstr ""
 
 #~ msgid "previous rule lacks an ending `;'"
 #~ msgstr "a la regla previa le falta un `;' al final"
+
+#~ msgid "two @prec's in a row"
+#~ msgstr "dos @prec en una línea"
 
 # Insisto, el empleo de participios a secas me parece como hablar en
 # indio. Por favor, permíteme que añada un "está" :) - cll

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-06-25 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -730,15 +730,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#~ msgid "%s: no grammar file given\n"
-#~ msgstr "%s: gramer dosyasý verilmemiþ\n"
-
-#~ msgid "%s: extra arguments ignored after `%s'\n"
-#~ msgstr "%s: '%s' den sonraki argümanlar yoksayýldý\n"
-
-#~ msgid "two @prec's in a row"
-#~ msgstr "bir satýrda iki @prec"
-
 #~ msgid "reduce"
 #~ msgstr "indirgeme"
 
@@ -753,6 +744,12 @@ msgstr ""
 
 #~ msgid "`%s' is no longer supported"
 #~ msgstr "`%s' artýk desteklenmeyecek"
+
+#~ msgid "%s: no grammar file given\n"
+#~ msgstr "%s: gramer dosyasý verilmemiþ\n"
+
+#~ msgid "%s: extra arguments ignored after `%s'\n"
+#~ msgstr "%s: '%s' den sonraki argümanlar yoksayýldý\n"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "beklenmeyen `/' bulundu ve yoksayýldý"
@@ -883,6 +880,9 @@ msgstr ""
 
 #~ msgid "previous rule lacks an ending `;'"
 #~ msgstr "önceki kuralda bir bitiþ `;' eksik"
+
+#~ msgid "two @prec's in a row"
+#~ msgstr "bir satýrda iki @prec"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard sunulmuþ fakat %%semantic_parser belirlenmemiþ"

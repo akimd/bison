@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -467,7 +467,7 @@ msgstr "$$ van `%s' heeft geen gedeclareerd type"
 #: scan-gram.l:576 scan-gram.l:658
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
-msgstr "ongeldige @-waarde"
+msgstr "ongeldige $-waarde"
 
 #: scan-gram.l:583
 #, c-format
@@ -735,15 +735,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#~ msgid "%s: no grammar file given\n"
-#~ msgstr "%s: geen grammaticabestand opgegeven\n"
-
-#~ msgid "%s: extra arguments ignored after `%s'\n"
-#~ msgstr "%s: extra argumenten na `%s' worden genegeerd\n"
-
-#~ msgid "two @prec's in a row"
-#~ msgstr "twee @prec's na elkaar"
-
 #~ msgid "reduce"
 #~ msgstr "reductie"
 
@@ -774,6 +765,12 @@ msgstr ""
 
 #~ msgid "`%s' is no longer supported"
 #~ msgstr "`%s' wordt niet meer ondersteund"
+
+#~ msgid "%s: no grammar file given\n"
+#~ msgstr "%s: geen grammaticabestand opgegeven\n"
+
+#~ msgid "%s: extra arguments ignored after `%s'\n"
+#~ msgstr "%s: extra argumenten na `%s' worden genegeerd\n"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "onverwachte `/' gevonden en genegeerd"
@@ -847,6 +844,9 @@ msgstr ""
 #~ msgid "unterminated string"
 #~ msgstr "niet-beëindigde string"
 
+#~ msgid "invalid @ value"
+#~ msgstr "ongeldige @-waarde"
+
 #~ msgid "unterminated `%{' definition"
 #~ msgstr "niet-beëindigde `%{' definitie"
 
@@ -904,6 +904,9 @@ msgstr ""
 
 #~ msgid "previous rule lacks an ending `;'"
 #~ msgstr "`;' ontbreekt aan het einde van de voorgaande regel"
+
+#~ msgid "two @prec's in a row"
+#~ msgstr "twee @prec's na elkaar"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard aanwezig maar %%semantic_parser niet opgegeven"

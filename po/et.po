@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-10-07 09:28+03:00\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -330,12 +330,12 @@ msgstr "tüübiga mitteterminalil on tühi reegel ja puudub tegevus"
 #: src/reader.c:344 src/reader.c:359 src/reader.c:372
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
-msgstr "reeglis on lubatud ainult üks %%merge"
+msgstr "reeglis on lubatud ainult üks %%dprec"
 
 #: src/reader.c:354 src/reader.c:370
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
-msgstr "%%merge puudutab ainult GLR parsereid"
+msgstr "%%dprec puudutab ainult GLR parsereid"
 
 #: src/reader.c:357
 #, fuzzy, c-format
@@ -725,8 +725,8 @@ msgstr "aeg %s: %ld.%06ld (%ld%%)\n"
 #~ msgid "two @prec's in a row"
 #~ msgstr "kaks @prec ühel real"
 
-#~ msgid "%%dprec affects only GLR parsers"
-#~ msgstr "%%dprec puudutab ainult GLR parsereid"
+#~ msgid "%%merge affects only GLR parsers"
+#~ msgstr "%%merge puudutab ainult GLR parsereid"
 
-#~ msgid "only one %%dprec allowed per rule"
-#~ msgstr "reeglis on lubatud ainult üks %%dprec"
+#~ msgid "only one %%merge allowed per rule"
+#~ msgstr "reeglis on lubatud ainult üks %%merge"

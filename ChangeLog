@@ -1,5 +1,7 @@
 2002-10-24  Paul Eggert  <eggert@twinsun.com>
 
+	Version 1.75a.
+
 	* tests/calc.at (_AT_DATA_CALC_Y): Remove unused strcat declaration.
 	* tests/cxx-type.at (_AT_TEST_GLR_CALC): Include stdlib.h, since
 	we use malloc.  Don't assume 'A' through 'Z' are contiguous.

@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
-"PO-Revision-Date: 2002-05-03 11:03+0100\n"
+"Project-Id-Version: bison 1.50\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
+"PO-Revision-Date: 2002-10-17 14:37+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -27,22 +27,19 @@ msgid "fatal error: "
 msgstr "errore fatale: "
 
 #: src/conflicts.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as shift"
-msgstr ""
-"Conflitto nello stato %d tra la regola %d e il token %s risolto come %s.\n"
+msgstr "    Conflitto tra la regola %d e il token %s risolto come shift"
 
 #: src/conflicts.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
-msgstr ""
-"Conflitto nello stato %d tra la regola %d e il token %s risolto come %s.\n"
+msgstr "    Conflitto tra la regola %d e il token %s risolto come riduzione"
 
 #: src/conflicts.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as an error"
-msgstr ""
-"Conflitto nello stato %d tra la regola %d e il token %s risolto come %s.\n"
+msgstr "    Conflitto tra la regola %d e il token %s risolto come errore"
 
 #: src/conflicts.c:402
 #, c-format
@@ -82,11 +79,11 @@ msgid "State %d contains "
 msgstr "Lo stato %d contiene"
 
 #: src/conflicts.c:537
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
-msgstr[0] "atteso %d conflitto shift/riduzione\n"
-msgstr[1] "attesi %d conflitti shift/riduzione\n"
+msgstr[0] "atteso %d conflitto shift/riduzione"
+msgstr[1] "attesi %d conflitti shift/riduzione"
 
 #: src/files.c:114
 #, c-format
@@ -152,7 +149,6 @@ msgstr ""
 "  -k, --token-table          include una tabella di nomi dei token\n"
 
 #: src/getargs.c:203
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -165,6 +161,7 @@ msgid ""
 msgstr ""
 "Output:\n"
 "  -d, --defines              produce anche uno header\n"
+"  -r, --report=THINGS        produce anche dettagli sull'automa\n"
 "  -v, --verbose              produce anche una spiegazione dell'automa\n"
 "  -b, --file-prefix=PREFIX   specifica un prefisso per il file di output\n"
 "  -o, --output=FILE          lascia l'output in FILE\n"
@@ -180,6 +177,14 @@ msgid ""
 "  `all'          include all the above information\n"
 "  `none'         disable the report\n"
 msgstr ""
+"THINGS è un elenco di parole separate da virgola scelte tra:\n"
+"  `state'        descrive gli stati\n"
+"  `itemset'      completa gli insiemi dei simboli con la loro chiusura "
+"transitiva\n"
+"  `lookahead'    associa i token di prospezione ai simboli\n"
+"  `solved'       descrive la riduzione dei conflitti shift/riduzione\n"
+"  `all'          include tutte queste informazioni\n"
+"  `none'         disabilita la produzione del rapporto\n"
 
 #: src/getargs.c:225
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -227,9 +232,8 @@ msgid "Grammar"
 msgstr "Grammatica"
 
 #: src/gram.c:321 src/reduce.c:302 src/reduce.c:392
-#, fuzzy
 msgid "warning"
-msgstr "attenzione: "
+msgstr "attenzione"
 
 #: src/lalr.c:91
 #, c-format
@@ -238,11 +242,11 @@ msgstr "troppi goto (max %d)"
 
 #: src/main.c:117
 msgid "rule never reduced because of conflicts"
-msgstr ""
+msgstr "regola mai ridotta a causa dei conflitti"
 
 #: parse-gram.y:357
 msgid "POSIX forbids declarations in the grammar"
-msgstr ""
+msgstr "POSIX proibisce l'uso di dichiarazioni interne alla grammatica"
 
 #: src/print.c:46
 #, c-format
@@ -250,32 +254,31 @@ msgid " type %d is %s\n"
 msgstr " il tipo %d è %s\n"
 
 #: src/print.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "shift, and go to state %d\n"
-msgstr "    %-4s\tshift e prosecuzione allo stato %d\n"
+msgstr "shift e prosecuzione allo stato %d\n"
 
 #: src/print.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "go to state %d\n"
-msgstr "    %-4s\tprosecuzione allo stato %d\n"
+msgstr "prosecuzione allo stato %d\n"
 
 #: src/print.c:201
-#, fuzzy
 msgid "error (nonassociative)\n"
-msgstr "    %-4s\terrore (non associativo)\n"
+msgstr "errore (non associativo)\n"
 
 #: src/print.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "reduce using rule %d (%s)"
-msgstr "    %-4s\triduzione con la regola %d (%s)\n"
+msgstr "riduzione con la regola %d (%s)"
 
 #: src/print.c:293
 msgid "accept"
-msgstr ""
+msgstr "accetta"
 
 #: src/print.c:324 src/print.c:390
 msgid "$default"
-msgstr ""
+msgstr "$default"
 
 #: src/print.c:419
 #, c-format
@@ -299,9 +302,8 @@ msgid " on right:"
 msgstr " nel secondo membro:"
 
 #: src/print.c:555
-#, fuzzy
 msgid "Rules never reduced"
-msgstr "%d regola non applicata\n"
+msgstr "Regole mai ridotte"
 
 #: src/reader.c:52
 #, c-format
@@ -312,6 +314,7 @@ msgstr "dichiarazioni multiple per %s"
 #, c-format
 msgid "result type clash on merge function %s: `%s' vs. `%s'"
 msgstr ""
+"conflitto nei tipi del risultato della funzione di merge %s: `%s' e `%s'"
 
 #: src/reader.c:239
 #, c-format
@@ -328,19 +331,19 @@ msgid "empty rule for typed nonterminal, and no action"
 msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
 
 #: src/reader.c:344 src/reader.c:359 src/reader.c:372
-#, c-format
+#, fuzzy, c-format
 msgid "only one %s allowed per rule"
-msgstr ""
+msgstr "solo un %%dprec è permesso in una regola"
 
 #: src/reader.c:354 src/reader.c:370
-#, c-format
+#, fuzzy, c-format
 msgid "%s affects only GLR parsers"
-msgstr ""
+msgstr "%%dprec considerato solo nei parser GLR"
 
 #: src/reader.c:357
-#, c-format
+#, fuzzy, c-format
 msgid "%s must be followed by positive number"
-msgstr ""
+msgstr "%%dprec deve essere seguito da un intero positivo"
 
 #: src/reader.c:515
 msgid "no rules in the input grammar"
@@ -352,29 +355,24 @@ msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "troppi simboli (token e nonterminali); il massimo è %d"
 
 #: src/reduce.c:239
-#, fuzzy
 msgid "useless rule"
-msgstr "%d regola inutile"
+msgstr "regola inutile"
 
 #: src/reduce.c:302
-#, fuzzy
 msgid "useless nonterminal"
-msgstr "%d simbolo nonterminale inutilizzato"
+msgstr "simbolo nonterminale inutilizzato"
 
 #: src/reduce.c:349
-#, fuzzy
 msgid "Useless nonterminals"
-msgstr "Simboli nonterminali inutili:"
+msgstr "Simboli nonterminali inutili"
 
 #: src/reduce.c:362
-#, fuzzy
 msgid "Terminals which are not used"
-msgstr "Simboli terminali inutilizzati:"
+msgstr "Simboli terminali inutilizzati"
 
 #: src/reduce.c:371
-#, fuzzy
 msgid "Useless rules"
-msgstr "Regole inutili:"
+msgstr "Regole inutili"
 
 #: src/reduce.c:387
 #, c-format
@@ -402,49 +400,44 @@ msgstr[0] "%d regola inutile"
 msgstr[1] "%d regole inutili"
 
 #: src/reduce.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
 #: scan-gram.l:203
 #, c-format
 msgid ": invalid character: `%c'\n"
-msgstr ""
+msgstr ": carattere non valido: `%c'\n"
 
 #: scan-gram.l:247
-#, fuzzy
 msgid ": unexpected end of file in a comment\n"
-msgstr "fine del file inattesa"
+msgstr ": fine del file inattesa in un commento\n"
 
 #: scan-gram.l:276 scan-gram.l:415
-#, fuzzy
 msgid ": unexpected end of file in a string\n"
-msgstr "fine del file inattesa"
+msgstr ": fine del file inattesa in una stringa\n"
 
 #: scan-gram.l:314 scan-gram.l:386
-#, fuzzy
 msgid ": unexpected end of file in a character\n"
-msgstr "fine del file inattesa"
+msgstr ": fine del file inattesa in un carattere\n"
 
 #: scan-gram.l:335
-#, fuzzy, c-format
+#, c-format
 msgid ": invalid escape: %s\n"
-msgstr "valore non valido: %s%d"
+msgstr ": escape non valido: %s\n"
 
 #: scan-gram.l:356
-#, fuzzy, c-format
+#, c-format
 msgid ": unrecognized escape: %s\n"
-msgstr "non riconosciuto: %s"
+msgstr ": escape non riconosciuto: %s\n"
 
 #: scan-gram.l:477
-#, fuzzy
 msgid ": unexpected end of file in a braced code\n"
-msgstr "fine del file inattesa"
+msgstr ": fine del file inattesa in codice (tra parentesi graffe)\n"
 
 #: scan-gram.l:506
-#, fuzzy
 msgid ": unexpected end of file in a prologue\n"
-msgstr "fine del file inattesa"
+msgstr ": fine del file inattesa nel prologo\n"
 
 #: scan-gram.l:564
 #, c-format
@@ -481,9 +474,9 @@ msgid "type redeclaration for %s"
 msgstr "tipo dichiarato due volte per %s"
 
 #: src/symtab.c:98 src/symtab.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "%s redeclaration for %s"
-msgstr "tipo dichiarato due volte per %s"
+msgstr "dichiarazione due volte di %s per %s"
 
 #: src/symtab.c:138
 #, c-format
@@ -496,9 +489,9 @@ msgid "symbol %s redefined"
 msgstr "simbolo %s ridefinito"
 
 #: src/symtab.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "redefining user token number of %s"
-msgstr "precedenza di `%s' definita due volte"
+msgstr "numero di token definito dall'utente specificato due volte per %s"
 
 #: src/symtab.c:225
 #, c-format
@@ -521,9 +514,9 @@ msgid "conflicting precedences for %s and %s"
 msgstr "precedenze in conflitto per %s und %s"
 
 #: src/symtab.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
-msgstr "associatività in conflitto per %s e %s"
+msgstr "associatività in conflitto per %s (%s) e %s (%s)"
 
 #: src/symtab.c:363
 #, c-format
@@ -541,82 +534,84 @@ msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"
 
 #: lib/argmatch.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument %s for %s"
-msgstr "valore non valido: %s%d"
+msgstr "argomento non valido %s per %s"
 
 #: lib/argmatch.c:162
 #, c-format
 msgid "ambiguous argument %s for %s"
-msgstr ""
+msgstr "argomento ambiguo %s per %s"
 
 #: lib/argmatch.c:181
 msgid "Valid arguments are:"
-msgstr ""
+msgstr "Gli argomenti validi sono:"
 
 #: lib/bitset_stats.c:178
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
-msgstr ""
+msgstr "%u bitset_alloc, %u liberati (%.2f%%).\n"
 
 #: lib/bitset_stats.c:181
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
-msgstr ""
+msgstr "%u bitset_set, %u in cache (%.2f%%)\n"
 
 #: lib/bitset_stats.c:184
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
-msgstr ""
+msgstr "%u bitset_reset, %u in cache (%.2f%%)\n"
 
 #: lib/bitset_stats.c:187
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
-msgstr ""
+msgstr "%u bitset_test, %u in cache (%.2f%%)\n"
 
 #: lib/bitset_stats.c:191
 #, c-format
 msgid "%u bitset_lists\n"
-msgstr ""
+msgstr "%u bitset_list\n"
 
 #: lib/bitset_stats.c:193
 msgid "count log histogram\n"
-msgstr ""
+msgstr "istogramma dei conteggi\n"
 
 #: lib/bitset_stats.c:196
 msgid "size log histogram\n"
-msgstr ""
+msgstr "istogramma delle dimensioni\n"
 
 #: lib/bitset_stats.c:199
 msgid "density histogram\n"
-msgstr ""
+msgstr "istogranna delle densità\n"
 
 #: lib/bitset_stats.c:213
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
+"Statistiche dei bitset:\n"
+"\n"
 
 #: lib/bitset_stats.c:216
 #, c-format
 msgid "Accumulated runs = %u\n"
-msgstr ""
+msgstr "Esecuzioni accumulate = %u\n"
 
 #: lib/bitset_stats.c:260
 msgid "Could not read stats file."
-msgstr ""
+msgstr "Impossibile leggere il file delle statistiche."
 
 #: lib/bitset_stats.c:262
 msgid "Bad stats file size.\n"
-msgstr ""
+msgstr "Dimensione errata del file delle statistiche.\n"
 
 #: lib/bitset_stats.c:287
 msgid "Could not write stats file."
-msgstr ""
+msgstr "Impossibile scrivere il file delle statistiche."
 
 #: lib/bitset_stats.c:291
 msgid "Could not open stats file for writing."
-msgstr ""
+msgstr "Impossibile aprire in scrittura il file delle statistiche."
 
 #: lib/getopt.c:662
 #, c-format
@@ -710,15 +705,17 @@ msgid ""
 "\n"
 "Execution times (seconds)\n"
 msgstr ""
+"\n"
+"Tempo di esecuzione (in secondi)\n"
 
 #: lib/timevar.c:526
 msgid " TOTAL                 :"
-msgstr ""
+msgstr " TOTALE                :"
 
 #: lib/timevar.c:562
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
-msgstr ""
+msgstr "tempo in %s: %ld.%06ld (%ld%%)\n"
 
 #~ msgid "%s: no grammar file given\n"
 #~ msgstr "%s: nessun file grammatica specificato\n"
@@ -729,151 +726,8 @@ msgstr ""
 #~ msgid "two @prec's in a row"
 #~ msgstr "due @prec di seguito"
 
-#~ msgid "reduce"
-#~ msgstr "riduzione"
+#~ msgid "%%merge affects only GLR parsers"
+#~ msgstr "%%merge considerato solo nei parser GLR"
 
-#~ msgid "shift"
-#~ msgstr "shift"
-
-#~ msgid "an error"
-#~ msgstr "un errore"
-
-#~ msgid "%s contains "
-#~ msgstr "%s contiene "
-
-#~ msgid "`%s' is no longer supported"
-#~ msgstr "`%s' non è più supportato"
-
-#~ msgid "unexpected `/' found and ignored"
-#~ msgstr "`/' inatteso, trovato e ignorato"
-
-#~ msgid "unterminated comment"
-#~ msgstr "commento non terminato"
-
-# Oder soll man den Begriff "Escapezeichen" verwenden?
-#~ msgid "unescaped newline in constant"
-#~ msgstr "fine di linea non preceduta da `\\' in una costante"
-
-#~ msgid "octal value outside range 0...255: `\\%o'"
-#~ msgstr "valore ottale fuori dall'intervallo 0...255: `\\%o'"
-
-#~ msgid "hexadecimal value above 255: `\\x%x'"
-#~ msgstr "valore esadecimale superiore a 255: `\\x%x'"
-
-#~ msgid "unknown escape sequence: `\\' followed by `%s'"
-#~ msgstr "sequenza di escape sconosciuta: `\\' seguito da `%s'"
-
-#~ msgid "unterminated type name at end of file"
-#~ msgstr "nome di tipo non terminato a fine file"
-
-#~ msgid "unterminated type name"
-#~ msgstr "nome di tipo non terminato"
-
-#~ msgid "use \"...\" for multi-character literal tokens"
-#~ msgstr "usa \"...\" per token letterali di più caratteri"
-
-#~ msgid "`%s' supports no argument: %s"
-#~ msgstr "`%s' non supporta argomenti: %s"
-
-#~ msgid "`%s' requires an argument"
-#~ msgstr "`%s' richiede un argomento"
-
-#~ msgid "   (rule %d)"
-#~ msgstr "   (regola %d)"
-
-#~ msgid ""
-#~ "    $default\treduce using rule %d (%s)\n"
-#~ "\n"
-#~ msgstr ""
-#~ "    $default\triduzione con la regola %d (%s)\n"
-#~ "\n"
-
-#~ msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-#~ msgstr "    %-4s\t[riduzione con la regole %d (%s)]\n"
-
-#~ msgid "    $default\treduce using rule %d (%s)\n"
-#~ msgstr "    $default\triduzione con la regola %d (%s)\n"
-
-#~ msgid "    $default\taccept\n"
-#~ msgstr "    $default\taccetta\n"
-
-#~ msgid "    NO ACTIONS\n"
-#~ msgstr "    NESSUNA AZIONE\n"
-
-#~ msgid "Number, Line, Rule"
-#~ msgstr "Numero, Linea, Regola"
-
-#~ msgid "  %3d %3d %s ->"
-#~ msgstr "  %3d %3d %s ->"
-
-#~ msgid "   Skipping to next \\n"
-#~ msgstr "   Passo al successivo \\n"
-
-#~ msgid "   Skipping to next %c"
-#~ msgstr "   Passo al successivo %c"
-
-#~ msgid "unterminated string at end of file"
-#~ msgstr "stringa non terminata alla fine del file"
-
-#~ msgid "unterminated string"
-#~ msgstr "stringa non terminata"
-
-#~ msgid "unterminated `%{' definition"
-#~ msgstr "definizione `%{' non terminata"
-
-#~ msgid "Premature EOF after %s"
-#~ msgstr "Fine di file prematura dopo %s"
-
-#~ msgid "`%s' is invalid in %s"
-#~ msgstr "`%s' non è valido in %s"
-
-#~ msgid "invalid %s declaration"
-#~ msgstr "dichiarazione %s non valida"
-
-#~ msgid "%type declaration has no <typename>"
-#~ msgstr "dichiarazione %type senza <nome di tipo>"
-
-#~ msgid "invalid %%type declaration due to item: %s"
-#~ msgstr "dichiarazione %%type non valida per la presenza di `%s'"
-
-#~ msgid "invalid text (%s) - number should be after identifier"
-#~ msgstr "testo non valido (%s) - il numero dovrebbe seguire l'identificatore"
-
-#~ msgid "unexpected item: %s"
-#~ msgstr "elemento inatteso: %s"
-
-#~ msgid "unmatched %s"
-#~ msgstr "%s non bilanciato"
-
-#~ msgid "argument of %%expect is not an integer"
-#~ msgstr "L'argomento di %%expect non è un intero"
-
-#~ msgid "unrecognized item %s, expected an identifier"
-#~ msgstr "elemento %s non riconosciuto, atteso un identificatore"
-
-#~ msgid "expected string constant instead of %s"
-#~ msgstr "attesa una costante stringa invece di %s"
-
-#~ msgid "no input grammar"
-#~ msgstr "nessuna grammatica di input"
-
-#~ msgid "unknown character: %s"
-#~ msgstr "carattere sconosciuto: %s"
-
-#~ msgid "ill-formed rule: initial symbol not followed by colon"
-#~ msgstr "regola malformata: simbolo iniziale non seguito da `:'"
-
-#~ msgid "grammar starts with vertical bar"
-#~ msgstr "la grammatica comincia con un `|'"
-
-#~ msgid "previous rule lacks an ending `;'"
-#~ msgstr "manca un `;' alla fine della regola precedente"
-
-#~ msgid "%%guard present but %%semantic_parser not specified"
-#~ msgstr "trovato %%guard senza che sia specificato %%semantic_parser"
-
-#~ msgid "two actions at end of one rule"
-#~ msgstr "due azioni alla fine di una regola"
-
-#~ msgid "invalid input: %s"
-#~ msgstr "input non valido: %s"
+#~ msgid "only one %%merge allowed per rule"
+#~ msgstr "solo un %%merge è permesso in una regola"

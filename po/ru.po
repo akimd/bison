@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-07-20 13:23+0400\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -733,15 +733,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#~ msgid "%s: no grammar file given\n"
-#~ msgstr "%s: не задан файл с грамматикой\n"
-
-#~ msgid "%s: extra arguments ignored after `%s'\n"
-#~ msgstr "%s: лишние аргументы после `%s' игнорированы\n"
-
-#~ msgid "two @prec's in a row"
-#~ msgstr "два @prec подряд"
-
 #~ msgid "reduce"
 #~ msgstr "вывод"
 
@@ -756,6 +747,12 @@ msgstr ""
 
 #~ msgid "`%s' is no longer supported"
 #~ msgstr "`%s' больше не поддерживается"
+
+#~ msgid "%s: no grammar file given\n"
+#~ msgstr "%s: не задан файл с грамматикой\n"
+
+#~ msgid "%s: extra arguments ignored after `%s'\n"
+#~ msgstr "%s: лишние аргументы после `%s' игнорированы\n"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "встречен и проигнорирован неожиданный символ `/'"
@@ -886,6 +883,9 @@ msgstr ""
 
 #~ msgid "previous rule lacks an ending `;'"
 #~ msgstr "в предыдущем правиле отсутствует завершающая `;'"
+
+#~ msgid "two @prec's in a row"
+#~ msgstr "два @prec подряд"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard присутствует, а %%semantic_parser не задан"

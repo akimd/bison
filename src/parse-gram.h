@@ -139,7 +139,7 @@ typedef union {
   char *string;
   assoc_t assoc;
 } yystype;
-/* Line 1287 of /tmp/prefix/share/bison/yacc.c.  */
+/* Line 1310 of /tmp/prefix/share/bison/yacc.c.  */
 #line 144 "y.tab.h"
 # define YYSTYPE yystype
 #endif

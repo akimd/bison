@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2001-12-10 15:59+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -717,15 +717,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#~ msgid "%s: no grammar file given\n"
-#~ msgstr "%s: 文法ファイルが指定されていません\n"
-
-#~ msgid "%s: extra arguments ignored after `%s'\n"
-#~ msgstr "%s: `%s' の後ろの余分な引数は無視されました\n"
-
-#~ msgid "two @prec's in a row"
-#~ msgstr "@prec のもの二つが同列になっています"
-
 #~ msgid "reduce"
 #~ msgstr "還元"
 
@@ -756,6 +747,12 @@ msgstr ""
 
 #~ msgid "`%s' is no longer supported"
 #~ msgstr "`%s' は最早サポートされません"
+
+#~ msgid "%s: no grammar file given\n"
+#~ msgstr "%s: 文法ファイルが指定されていません\n"
+
+#~ msgid "%s: extra arguments ignored after `%s'\n"
+#~ msgstr "%s: `%s' の後ろの余分な引数は無視されました\n"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "予期しない `/' が見つかり、無視されました"
@@ -876,6 +873,9 @@ msgstr ""
 
 #~ msgid "grammar starts with vertical bar"
 #~ msgstr "文法は縦棒 (|) で始めます"
+
+#~ msgid "two @prec's in a row"
+#~ msgstr "@prec のもの二つが同列になっています"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard がありますが %%semantic_parser が指定されていません"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-24 11:20+0200\n"
+"POT-Creation-Date: 2002-10-24 22:53-0700\n"
 "PO-Revision-Date: 2002-10-08 19:02+0200\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -335,12 +335,12 @@ msgstr "tom regel för typad icketerminal, och ingen åtgärd"
 #: src/reader.c:344 src/reader.c:359 src/reader.c:372
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
-msgstr "endast en %%merge tillåts per regel"
+msgstr "endast en %%dprec tillåts per regel"
 
 #: src/reader.c:354 src/reader.c:370
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
-msgstr "%%merge påverkar endast GLR-parsrar"
+msgstr "%%dprec påverkar endast GLR-parsrar"
 
 #: src/reader.c:357
 #, fuzzy, c-format
@@ -733,11 +733,11 @@ msgstr "tid i %s: %ld.%06ld (%ld%%)\n"
 #~ msgid "two @prec's in a row"
 #~ msgstr "två @prec i rad"
 
-#~ msgid "%%dprec affects only GLR parsers"
-#~ msgstr "%%dprec påverkar endast GLR-parsrar"
+#~ msgid "%%merge affects only GLR parsers"
+#~ msgstr "%%merge påverkar endast GLR-parsrar"
 
-#~ msgid "only one %%dprec allowed per rule"
-#~ msgstr "endast en %%dprec tillåts per regel"
+#~ msgid "only one %%merge allowed per rule"
+#~ msgstr "endast en %%merge tillåts per regel"
 
 # RTC betyder "reflexive transitive closure"
 # Firsts är ett variabelnamn
