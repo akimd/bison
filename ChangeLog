@@ -1,3 +1,13 @@
+2000-11-01  Akim Demaille  <akim@epita.fr>
+
+	Introduce obstacks.
+	Change each use of `faction' into a use of `action_obstack'.
+
+	* lib/obstack.h, lib/obstack.c: New files.
+	* src/files.c (faction): Remove.
+	(action_obstack): New.
+	Adjust all dependencies.
+
 2000-10-20  Akim Demaille  <akim@epita.fr>
 
 	* lib/quote.h (PARAMS): New macro.  Use it.

@@ -9,6 +9,7 @@ INCLUDES = -I.. -I$(srcdir) -I../intl
 libbison_a_SOURCES = \
   error.c error.h \
   getopt.h getopt.c getopt1.c \
+  obstack.h obstack.c \
   quote.h quote.c quotearg.h quotearg.c \
   xalloc.h xmalloc.c xstrdup.c
 

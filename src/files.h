@@ -1,5 +1,7 @@
+#ifndef FILES_H_
+# define FILES_H_
 /* File names and variables for bison,
-   Copyright (C) 1984, 1989, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 2000 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -18,7 +20,6 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
-
 /* These two should be pathnames for opening the sample parser files.
    When bison is installed, they should be absolute pathnames.
    XPFILE1 and XPFILE2 normally come from config.h.  */
@@ -33,7 +34,6 @@ extern FILE *ftable;   /* output the tables and the parser */
 extern FILE *fattrs;   /* if semantic parser, output a .h file that defines YYSTYPE */
 		       /* and also contains all the %{ ... %} definitions.  */
 extern FILE *fguard;   /* if semantic parser, output yyguard, containing all the guard code */
-extern FILE *faction;  /* output all the action code; precise form depends on which parser */
 extern FILE *fparser;  /* read the parser to copy into ftable */
 
 /* File name specified with -o for the output file, or 0 if no -o.  */
@@ -43,6 +43,10 @@ extern char *spec_name_prefix; /* for -a, from getargs.c */
 
 /* File name pfx specified with -b, or 0 if no -b.  */
 extern char *spec_file_prefix;
+
+/* Output all the action code; precise form depends on which parser. */
+extern struct obstack action_obstack;
+
 
 extern char *infile;
 extern int lineno;
@@ -57,3 +61,4 @@ void open_files PARAMS((void));
 void open_extra_files PARAMS((void));
 
 void done PARAMS((void));
+#endif /* !FILES_H_ */

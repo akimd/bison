@@ -161,3 +161,22 @@ extern int errno;
 # define FALSE	(0)
 #endif
 typedef int bool;
+
+
+/*-----------.
+| Obstacks.  |
+`-----------*/
+
+#define obstack_chunk_alloc xmalloc
+#define obstack_chunk_free  free
+#include "obstack.h"
+
+#define obstack_grow_literal_string(Obs, Str) \
+  obstack_grow (Obs, Str, sizeof (Str) - 1)
+
+#define obstack_fgrow1(Obs, Format, Arg1)	\
+do {						\
+  char buf[4096];				\
+  sprintf (buf, Format, Arg1);			\
+  obstack_grow (Obs, buf, strlen (buf));	\
+} while (0)
