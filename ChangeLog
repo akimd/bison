@@ -1,5 +1,11 @@
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
 
+	* src/macrotab.c: New file.
+	* src/macrotab.h: New file.
+	* src/Makefile.am: Update.
+
+2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
+
 	* lib/hash.c: New file.
 	* lib/hash.h: New file.
 	* lib/Makefile.am: Update.
