@@ -68,7 +68,7 @@ dummy:;
 AT_CHECK([bison --defines=$1.h --output=y.tab.c $1.y])
 
 # CPP should be happy with it.
-AT_CHECK([$CC -E y.tab.c], 0, [ignore])
+AT_CHECK([$CC -E -I. y.tab.c], 0, [ignore])
 
 AT_CLEANUP
 ])
