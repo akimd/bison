@@ -1,5 +1,5 @@
 /* Declaration for error-reporting function for Bison.
-   Copyright 2000, 2001 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the
@@ -17,20 +17,22 @@
    USA.  */
 
 #ifndef COMPLAIN_H_
-#define COMPLAIN_H_ 1
+# define COMPLAIN_H_ 1
 
-#ifdef	__cplusplus
+# include "location.h"
+
+# ifdef	__cplusplus
 extern "C" {
-#endif
+# endif
 
-#ifdef __STDC__
+# ifdef __STDC__
 
 /* Informative messages, but we proceed. */
 
 void warn (const char *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
 
-void warn_at (int location, const char *format, ...)
+void warn_at (location_t location, const char *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
 /* Something bad happen, but let's continue and die later. */
@@ -38,7 +40,7 @@ void warn_at (int location, const char *format, ...)
 void complain (const char *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
 
-void complain_at (int location, const char *format, ...)
+void complain_at (location_t location, const char *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
 /* Something bad happen and we die now. */
@@ -46,17 +48,17 @@ void complain_at (int location, const char *format, ...)
 void fatal (const char *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
 
-void fatal_at (int location, const char *format, ...)
+void fatal_at (location_t location, const char *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
-#else
+# else
 void warn ();
 void warn_at ();
 void complain ();
 void complain_at ();
 void fatal ();
 void fatal_at ();
-#endif
+# endif
 
 /* Position in the current input file. */
 extern char *infile;
@@ -68,8 +70,8 @@ extern unsigned int warn_message_count;
 /* This variable is incremented each time `complain' is called.  */
 extern unsigned int complain_message_count;
 
-#ifdef	__cplusplus
+# ifdef	__cplusplus
 }
-#endif
+# endif
 
 #endif /* !COMPLAIN_H_ */

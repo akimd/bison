@@ -1,5 +1,18 @@
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
+	Let symbols have a location.
+
+	* src/symtab.h, src/symtab.c (symbol_t): Location is a new member.
+	(getsym): Adjust.
+	Adjust all callers.
+	* src/complain.h, src/complain.c (complain_at, fatal_at, warn_at):
+	Use location_t, not int.
+	* src/symtab.c (symbol_check_defined): Take advantage of the
+	location.
+	* tests/regression.at (Invalid inputs): Adjust.
+
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
 	* src/parse-gram.y (YYLLOC_DEFAULT, current_lhs_location): New.
 	(input): Don't try to initialize yylloc here, do it in the
 	scanner.

@@ -336,7 +336,7 @@ rhs:
 symbol:
   ID              { $$ = $1; }
 | string_as_id    { $$ = $1; }
-| CHARACTER       { $$ = getsym ($1); }
+| CHARACTER       { $$ = getsym ($1, @1); }
 ;
 
 action:
@@ -348,7 +348,7 @@ action:
 string_as_id:
   STRING
     {
-      $$ = getsym ($1);
+      $$ = getsym ($1, @1);
       symbol_class_set ($$, token_sym);
     }
 ;
