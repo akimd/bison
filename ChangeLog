@@ -1,3 +1,7 @@
+2002-01-19  Marc Autret  <marc@gnu.org>
+
+	* configure.in, doc/version.texi: Bump to 1.31a.
+
 2002-01-14  Akim Demaille  <akim@epita.fr>
 
 	Version 1.31.

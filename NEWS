@@ -1,6 +1,11 @@
 Bison News
 ----------
 
+Changes in version 1.31a, 2002-01-19:
+
+* Fix YACC option output file names.
+
+
 Changes in version 1.31, 2002-01-14:
 
 * Many Bug Fixes
