@@ -253,7 +253,6 @@ namespace yy
     static const int last_;
     static const int flag_;
     static const int nnts_;
-    static const int nsym_;
     static const int empty_;
     static const int final_;
     static const int terror_;
@@ -759,13 +758,12 @@ yy::b4_name::translate_ (int token)
 const int yy::b4_name::eof_ = 0;
 const int yy::b4_name::last_ = b4_last;
 const int yy::b4_name::flag_ = b4_flag;
-const int yy::b4_name::nnts_ = b4_nnts;
-const int yy::b4_name::nsym_ = b4_nsym;
+const int yy::b4_name::nnts_ = b4_nterms_number;
 const int yy::b4_name::empty_ = -2;
-const int yy::b4_name::final_ = b4_final;
+const int yy::b4_name::final_ = b4_final_state_number;
 const int yy::b4_name::terror_ = 1;
 const int yy::b4_name::errcode_ = 256;
-const int yy::b4_name::ntokens_ = b4_ntokens;
+const int yy::b4_name::ntokens_ = b4_tokens_number;
 const int yy::b4_name::initdepth_ = b4_initdepth;
 
 const unsigned yy::b4_name::user_token_number_max_ = b4_user_token_number_max;

@@ -1,5 +1,16 @@
 2002-07-03  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (froms, tos): Are state_number_t.
+	(save_column): sp, sp1, and sp2 are state_number_t.
+	(prepare): Rename `final' as `final_state_number', `nnts' as
+	`nterms_number', `nrules' as `rules_number', `nstates' as
+	`states_number', and `ntokens' as `tokens_number'.  Remove `nsym',
+	unused.
+	* data/yacc.c, data/glr.c, data/lalr1.cc: Adjust.
+	* data/lalr1.cc (nsym_): Remove, unused.
+
+2002-07-03  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.h, src/lalr.c (goto_number_t): New.
 	* src/lalr.c (goto_list_t): New.
 	Propagate them.
