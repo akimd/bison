@@ -1,5 +1,12 @@
+2001-09-18  Akim Demaille  <akim@epita.fr>
+
+	* tests/Makefile.am (package.m4): New.
+	* tests/calc.at (_AT_CHECK_CALC): Just run `calc input'.
+	(_AT_CHECK_CALC_ERROR): Likewise.
+	Factor the `, ' part of verbose error messages.
+
 2001-09-18  Marc Autret  <autret_m@epita.fr>
-	
+
 	* src/getargs.c (longopts): Declare --defines and --graph as options
 	with optional arguments.
 	* src/files.h: Add extern declarations.
@@ -10,7 +17,7 @@
 2001-09-18  Marc Autret  <autret_m@epita.fr>
 
 	Turn off %{source,header}_extension feature.
-	
+
 	* src/files.c (compute_exts_from_gf): Update.
 	(compute_exts_from_src): Update.
 	(output_files): CPP-out useless code.

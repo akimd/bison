@@ -262,35 +262,35 @@ m4_define([AT_DATA_CALC_Y],
 # _AT_CHECK_CALC(BISON-OPTIONS, INPUT)
 # ------------------------------------
 # Run `calc' on INPUT and expect no STDOUT nor STDERR.
-# If `--debug' is passed to bison, discard all the debugging traces
-# preserving only the `parse errors'.  Note that since there should be
-# none, the `grep' will fail with exit status 1.
 m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
 [[$2
 ]])
-m4_match([$1], [--debug],
-          [AT_CHECK([calc ./input 2>&1 >/dev/null | grep 'parse error' >&2],
-                    [1], [], [])],
-          [AT_CHECK([./calc <input],
-               [0], [], [])])dnl
+AT_CHECK([calc input])dnl
 ])
 
 
 # _AT_CHECK_CALC_ERROR(BISON-OPTIONS, INPUT,
 #                      [ERROR-LOCATION], [IF-YYERROR-VERBOSE])
 # ------------------------------------------------------------
-# Run `calc' on INPUT, and expect STDERR.
+# Run `calc' on INPUT, and expect a `parse error' message.
+#
+# If BISON-OPTIONS contains `--location', then make sure the ERROR-LOCATION
+# is correctly output on stderr.
+#
+# If BISON-OPTIONS contains `--yyerror-verbose', then make sure the
+# IF-YYERROR-VERBOSE message is properly output after `parse error, '
+# on STDERR.
 m4_define([_AT_CHECK_CALC_ERROR],
 [AT_DATA([[input]],
 [[$2
 ]])
 
-AT_CHECK([./calc <input 2>&1 >/dev/null | grep 'parse error' >&2], 0,
+AT_CHECK([calc input], 0,
          [],
 [m4_match([$1], [--location], [$3: ])[]dnl
 parse error[]dnl
-m4_match([$1], [--yyerror-verbose], [$4])[]dnl
+m4_match([$1], [--yyerror-verbose], [, $4])[]dnl
 
 ])])
 
@@ -329,21 +329,21 @@ _AT_CHECK_CALC([$1],
 # Some parse errors.
 _AT_CHECK_CALC_ERROR([$1], [+1],
                      [1.0:1.1],
-                     [, unexpected `'+''])
+                     [unexpected `'+''])
 _AT_CHECK_CALC_ERROR([$1], [1//2],
                      [1.2:1.3],
-                     [, unexpected `'/'', expecting `NUM' or `'-'' or `'(''])
+                     [unexpected `'/'', expecting `NUM' or `'-'' or `'(''])
 _AT_CHECK_CALC_ERROR([$1], [error],
                      [1.0:1.1],
-                     [, unexpected `$undefined.'])
+                     [unexpected `$undefined.'])
 _AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3],
                      [1.6:1.7],
-                     [, unexpected `'=''])
+                     [unexpected `'=''])
 _AT_CHECK_CALC_ERROR([$1],
                      [
 +1],
                      [2.0:2.1],
-                     [, unexpected `'+''])
+                     [unexpected `'+''])
 
 AT_CLEANUP(calc calc.c calc.h calc.output)
 ])# AT_CHECK_CALC
