@@ -253,7 +253,7 @@ print_state (int state)
     obstack_grow (&graph_obstack, 
 		  obstack_base (&node_obstack), 
 		  obs_size);
-    obstack_finish (&node_obstack);
+    obstack_free (&node_obstack, 0);
   }
 }
 
