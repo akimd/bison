@@ -1,5 +1,9 @@
 2004-05-21  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* configure.ac (AC_INIT): Update to 1.875e.
+
+2004-05-21  Paul Eggert  <eggert@cs.ucla.edu>
+
 	* NEWS: Version 1.875d.
 	* configure.ac (AC_INIT): Likewise.
 	* src/parse-gram.c, src/parse-gram.h: Regenerate with 1.875d.
