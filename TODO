@@ -274,7 +274,8 @@ make it much easier to extend the grammar.
 
 * Parsing grammars
 Rewrite the reader in Flex/Bison.  There will be delicate parts, in
-particular, expect the scanner to be hard to write.
+particular, expect the scanner to be hard to write.  Many interesting
+features cannot be implemented without such a new reader.
 
 * Problems with aliases
 From: "Baum, Nathan I" <s0009525@chelt.ac.uk>
@@ -354,6 +355,10 @@ It would be nice to have warning support.  See how Autoconf handles
 them, it is fairly well described there.  It would be very nice to
 implement this in such a way that other programs could use
 lib/warnings.[ch].
+
+Don't work on this without first announcing you do, as I already have
+thought about it, and know many of the components that can be used to
+implement it.
 
 * Pre and post actions.
 From: Florian Krohm <florian@edamail.fishkill.ibm.com>
