@@ -49,9 +49,6 @@ void fatal (const char *format, ...)
 void fatal_at (location_t location, const char *format, ...)
   __attribute__ ((__noreturn__, __format__ (__printf__, 2, 3)));
 
-/* Position in the current input file. */
-extern const char *current_file;
-
 /* This variable is set each time `warn' is called.  */
 extern bool warning_issued;
 
