@@ -80,4 +80,7 @@ int xfclose PARAMS ((FILE *ptr));
 
 const char *skeleton_find PARAMS ((const char *envvar,
 				   const char *skeleton_name));
+
+int strsuffix PARAMS ((const char *string, const char *suffix));
+
 #endif /* !FILES_H_ */

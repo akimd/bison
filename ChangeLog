@@ -1,5 +1,9 @@
 2002-01-03  Akim Demaille  <akim@epita.fr>
 
+	* src/files.h: Add it prototype.
+
+2002-01-03  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c, src/files.h (strsuffix): Not static.
 	* src/conflicts.c (conflicts_print): Don't consider it is an error
 	to have a %expectation violation on a file ending by `plural.y'.
