@@ -1,3 +1,9 @@
+2002-06-18  Matt Kraai  <kraai@alumni.cmu.edu>
+
+	* data/bison.simple (yyoverflowlab): #ifndef yyoverflow, so that
+	there are no `label `yyoverflowlab' defined but not used' warnings
+	when yyoverflow is defined.
+
 2002-06-18  Akim Demaille  <akim@epita.fr>
 
 	* src/symtab.h, src/symtab.c (symbol_t): destructor_location is a
