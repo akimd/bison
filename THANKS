@@ -1,3 +1,6 @@
+Bison was originally written by Robert Corbett.  It would not be what
+it is today without the invaluable help of these people:
+
 Daniel Hagerty  	hag@gnu.org
 David J. MacKenzie  	djm@gnu.org
 Hans Aberg		haberg@matematik.su.se
@@ -9,6 +12,7 @@ Noah Friedman  		friedman@gnu.org
 Paul Eggert  		eggert@twinsun.com
 Piotr Gackiewicz	gacek@intertel.com.pl
 Richard Stallman  	rms@gnu.org
+Robert Anisko           anisko_r@epita.fr
 
 Many people are not named here because we lost track of them.  We
 thank them!  Please, help us keeping this list up to date.

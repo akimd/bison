@@ -758,6 +758,7 @@ use Bison or Yacc, we suggest you start by reading this chapter carefully.
                         a semantic value (the value of an integer,
                         the name of an identifier, etc.).
 * Semantic Actions::  Each rule can have an action containing C code.
+* Locations Overview::    Tracking Locations.
 * Bison Parser::      What are Bison's input and output,
                         how is the output used?
 * Stages::            Stages in writing and running Bison grammars.
@@ -960,7 +961,7 @@ semantic value that is a number.  In a compiler for a programming
 language, an expression typically has a semantic value that is a tree
 structure describing the meaning of the expression.
 
-@node Semantic Actions, Bison Parser, Semantic Values, Concepts
+@node Semantic Actions, Locations Overview, Semantic Values, Concepts
 @section Semantic Actions
 @cindex semantic actions
 @cindex actions, semantic
@@ -991,7 +992,36 @@ expr: expr '+' expr   @{ $$ = $1 + $3; @}
 The action says how to produce the semantic value of the sum expression
 from the values of the two subexpressions.
 
-@node Bison Parser, Stages, Semantic Actions, Concepts
+@node Locations Overview, Bison Parser, Semantic Actions, Concepts
+@section Locations
+@cindex location
+@cindex textual position
+@cindex position, textual
+
+Many applications, like interpreters or compilers, have to produce verbose
+and useful error messages. To achieve this, one must be able to keep track of
+the @dfn{textual position}, or @dfn{location}, of each syntactic construct.
+Bison provides a mechanism for handling these locations.
+
+Each token has a semantic value. In a similar fashion, each token has an
+associated location, but the type of locations is the same for all tokens and
+groupings. Moreover, the output parser is equipped with a default data
+structure for storing locations (@pxref{Locations}, for more details).
+
+Like semantic values, locations can be reached in actions using a dedicated
+set of constructs. In the example above, the location of the whole grouping
+is @code{@@$}, while the locations of the subexpressions are @code{@@1} and
+@code{@@3}.
+
+When a rule is matched, a default action is used to compute the semantic value
+of its left hand side (@pxref{Actions}). In the same way, another default
+action is used for locations. However, the action for locations is general
+enough for most cases, meaning there is usually no need to describe for each
+rule how @code{@@$} should be formed. When building a new location for a given
+grouping, the default behavior of the output parser is to take the beginning
+of the first symbol, and the end of the last symbol.
+
+@node Bison Parser, Stages, Locations Overview, Concepts
 @section Bison Output: the Parser File
 @cindex Bison parser
 @cindex Bison utility
@@ -2119,6 +2149,7 @@ The Bison grammar input file conventionally has a name ending in @samp{.y}.
 * Rules::             How to write grammar rules.
 * Recursion::         Writing recursive rules.
 * Semantics::         Semantic values and actions.
+* Locations::         Locations and actions.
 * Declarations::      All kinds of Bison declarations are described here.
 * Multiple Parsers::  Putting more than one Bison parser in one program.
 @end menu
@@ -2484,7 +2515,7 @@ primary:  constant
 defines two mutually-recursive nonterminals, since each refers to the
 other.
 
-@node Semantics, Declarations, Recursion, Grammar File
+@node Semantics, Locations, Recursion, Grammar File
 @section Defining Language Semantics
 @cindex defining language semantics
 @cindex language semantics, defining
@@ -2837,7 +2868,119 @@ the action is now at the end of its rule.  Any mid-rule action can be
 converted to an end-of-rule action in this way, and this is what Bison
 actually does to implement mid-rule actions.
 
-@node Declarations, Multiple Parsers, Semantics, Grammar File
+@node Locations, Declarations, Semantics, Grammar File
+@section Tracking Locations
+@cindex location
+@cindex textual position
+@cindex position, textual
+
+Though grammar rules and semantic actions are enough to write a fully
+functional parser, it can be useful to process some additionnal informations,
+especially locations of tokens and groupings.
+
+The way locations are handled is defined by providing a data type, and actions
+to take when rules are matched.
+
+@menu
+* Location Type::               Specifying a data type for locations.
+* Actions and Locations::       Using locations in actions.
+* Location Default Action::     Defining a general way to compute locations.
+@end menu
+
+@node Location Type, Actions and Locations,  , Locations
+@subsection Data Type of Locations
+@cindex data type of locations
+@cindex default location type
+
+Defining a data type for locations is much simpler than for semantic values,
+since all tokens and groupings always use the same type.
+
+The type of locations is specified by defining a macro called @code{YYLTYPE}.
+When @code{YYLTYPE} is not defined, Bison uses a default structure type with
+four members:
+
+@example
+struct
+@{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+@}
+@end example
+
+@node Actions and Locations, Location Default Action, Location Type, Locations
+@subsection Actions and Locations
+@cindex location actions
+@cindex actions, location
+@vindex @@$
+@vindex @@@var{n}
+
+Actions are not only useful for defining language semantics, but also for
+describing the behavior of the output parser with locations.
+
+The most obvious way for building locations of syntactic groupings is very
+similar to the way semantic values are computed. In a given rule, several
+constructs can be used to access the locations of the elements being matched.
+The location of the @var{n}th component of the right hand side is
+@code{@@@var{n}}, while the location of the left hand side grouping is
+@code{@@$}.
+
+Here is a simple example using the default data type for locations:
+
+@example
+@group
+exp:    @dots{}
+        | exp '+' exp
+            @{
+              @@$.last_column = @@3.last_column;
+              @@$.last_line = @@3.last_line;
+              $$ = $1 + $3;
+            @}
+@end group
+@end example
+
+@noindent
+In the example above, there is no need to set the beginning of @code{@@$}. The
+output parser always sets @code{@@$} to @code{@@1} before executing the C
+code of a given action, whether you provide a processing for locations or not.
+
+@node Location Default Action,  , Actions and Locations, Locations
+@subsection Default Action for Locations
+@vindex YYLLOC_DEFAULT
+
+Actually, actions are not the best place to compute locations. Since locations
+are much more general than semantic values, there is room in the output parser
+to define a default action to take for each rule. The @code{YYLLOC_DEFAULT}
+macro is called each time a rule is matched, before the associated action is
+run.
+
+@c Documentation for the old (?) YYLLOC_DEFAULT
+
+This macro takes two parameters, the first one being the location of the
+grouping (the result of the computation), and the second one being the
+location of the last element matched. Of course, before @code{YYLLOC_DEFAULT}
+is run, the result is set to the location of the first component matched.
+
+By default, this macro computes a location that ranges from the beginning of
+the first element to the end of the last element. It is defined this way:
+
+@example
+@group
+#define YYLLOC_DEFAULT(Current, Last)           \
+  Current.last_line     = Last.last_line;       \
+  Current.last_column   = Last.last_column;
+@end group
+@end example
+
+@c not Documentation for the old (?) YYLLOC_DEFAULT
+
+@noindent
+
+Most of the time, the default action for locations is general enough to
+suppress location dedicated code from most actions.
+
+@node Declarations, Multiple Parsers, Locations, Grammar File
 @section Bison Declarations
 @cindex declarations, Bison
 @cindex Bison declarations
@@ -3528,13 +3671,15 @@ then the code in @code{yylex} might look like this:
 @subsection Textual Positions of Tokens
 
 @vindex yylloc
-If you are using the @samp{@@@var{n}}-feature (@pxref{Action Features,
-,Special Features for Use in Actions}) in actions to keep track of the
+If you are using the @samp{@@@var{n}}-feature (@pxref{Locations, ,
+Tracking Locations}) in actions to keep track of the
 textual locations of tokens and groupings, then you must provide this
 information in @code{yylex}.  The function @code{yyparse} expects to
 find the textual location of a token just parsed in the global variable
 @code{yylloc}.  So @code{yylex} must store the proper data in that
-variable.  The value of @code{yylloc} is a structure and you need only
+variable.
+
+By default, the value of @code{yylloc} is a structure and you need only
 initialize the members that are going to be used by the actions.  The
 four members are called @code{first_line}, @code{first_column},
 @code{last_line} and @code{last_column}.  Note that the use of this
@@ -3791,28 +3936,37 @@ Resume generating error messages immediately for subsequent syntax
 errors.  This is useful primarily in error rules.
 @xref{Error Recovery}.
 
+@item @@$
+@findex @@$
+Acts like a structure variable containing information on the textual position
+of the grouping made by the current rule.  @xref{Locations, ,
+Tracking Locations}.
+
+@c Check if those paragraphs are still useful or not.
+
+@c @example
+@c struct @{
+@c   int first_line, last_line;
+@c   int first_column, last_column;
+@c @};
+@c @end example
+
+@c Thus, to get the starting line number of the third component, you would
+@c use @samp{@@3.first_line}.
+
+@c In order for the members of this structure to contain valid information,
+@c you must make @code{yylex} supply this information about each token.
+@c If you need only certain members, then @code{yylex} need only fill in
+@c those members.
+
+@c The use of this feature makes the parser noticeably slower.
+
 @item @@@var{n}
 @findex @@@var{n}
-Acts like a structure variable containing information on the line
-numbers and column numbers of the @var{n}th component of the current
-rule.  The structure has four members, like this:
+Acts like a structure variable containing information on the textual position
+of the @var{n}th component of the current rule.  @xref{Locations, ,
+Tracking Locations}.
 
-@example
-struct @{
-  int first_line, last_line;
-  int first_column, last_column;
-@};
-@end example
-
-Thus, to get the starting line number of the third component, you would
-use @samp{@@3.first_line}.
-
-In order for the members of this structure to contain valid information,
-you must make @code{yylex} supply this information about each token.
-If you need only certain members, then @code{yylex} need only fill in
-those members.
-
-The use of this feature makes the parser noticeably slower.
 @end table
 
 @node Algorithm, Error Recovery, Interface, Top
@@ -5202,7 +5356,7 @@ Conventions for Pure Parsers}.
 
 @item YYLTYPE
 Macro for the data type of @code{yylloc}; a structure with four
-members.  @xref{Token Positions, ,Textual Positions of Tokens}.
+members.  @xref{Location Type, , Data Types of Locations}.
 
 @item yyltype
 Default value for YYLTYPE.

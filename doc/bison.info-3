@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0 à
-partir bison.texinfo.
+Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
+à partir bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -158,7 +158,106 @@ converted to an end-of-rule action in this way, and this is what Bison
 actually does to implement mid-rule actions.
 
 
-File: bison.info,  Node: Declarations,  Next: Multiple Parsers,  Prev: Semantics,  Up: Grammar File
+File: bison.info,  Node: Locations,  Next: Declarations,  Prev: Semantics,  Up: Grammar File
+
+Tracking Locations
+==================
+
+   Though grammar rules and semantic actions are enough to write a fully
+functional parser, it can be useful to process some additionnal
+informations, especially locations of tokens and groupings.
+
+   The way locations are handled is defined by providing a data type,
+and actions to take when rules are matched.
+
+* Menu:
+
+* Location Type::               Specifying a data type for locations.
+* Actions and Locations::       Using locations in actions.
+* Location Default Action::     Defining a general way to compute locations.
+
+
+File: bison.info,  Node: Location Type,  Next: Actions and Locations,  Up: Locations
+
+Data Type of Locations
+----------------------
+
+   Defining a data type for locations is much simpler than for semantic
+values, since all tokens and groupings always use the same type.
+
+   The type of locations is specified by defining a macro called
+`YYLTYPE'.  When `YYLTYPE' is not defined, Bison uses a default
+structure type with four members:
+
+     struct
+     {
+       int first_line;
+       int first_column;
+       int last_line;
+       int last_column;
+     }
+
+
+File: bison.info,  Node: Actions and Locations,  Next: Location Default Action,  Prev: Location Type,  Up: Locations
+
+Actions and Locations
+---------------------
+
+   Actions are not only useful for defining language semantics, but
+also for describing the behavior of the output parser with locations.
+
+   The most obvious way for building locations of syntactic groupings
+is very similar to the way semantic values are computed. In a given
+rule, several constructs can be used to access the locations of the
+elements being matched.  The location of the Nth component of the right
+hand side is `@N', while the location of the left hand side grouping is
+`@$'.
+
+   Here is a simple example using the default data type for locations:
+
+     exp:    ...
+             | exp '+' exp
+                 {
+                   @$.last_column = @3.last_column;
+                   @$.last_line = @3.last_line;
+                   $$ = $1 + $3;
+                 }
+
+In the example above, there is no need to set the beginning of `@$'. The
+output parser always sets `@$' to `@1' before executing the C code of a
+given action, whether you provide a processing for locations or not.
+
+
+File: bison.info,  Node: Location Default Action,  Prev: Actions and Locations,  Up: Locations
+
+Default Action for Locations
+----------------------------
+
+   Actually, actions are not the best place to compute locations. Since
+locations are much more general than semantic values, there is room in
+the output parser to define a default action to take for each rule. The
+`YYLLOC_DEFAULT' macro is called each time a rule is matched, before
+the associated action is run.
+
+   This macro takes two parameters, the first one being the location of
+the grouping (the result of the computation), and the second one being
+the location of the last element matched. Of course, before
+`YYLLOC_DEFAULT' is run, the result is set to the location of the first
+component matched.
+
+   By default, this macro computes a location that ranges from the
+beginning of the first element to the end of the last element. It is
+defined this way:
+
+     #define YYLLOC_DEFAULT(Current, Last)           \
+       Current.last_line     = Last.last_line;       \
+       Current.last_column   = Last.last_column;
+
+Most of the time, the default action for locations is general enough to
+suppress location dedicated code from most actions.
+
+
+File: bison.info,  Node: Declarations,  Next: Multiple Parsers,  Prev: Locations,  Up: Grammar File
 
 Bison Declarations
 ==================
@@ -790,16 +889,18 @@ File: bison.info,  Node: Token Positions,  Next: Pure Calling,  Prev: Token Valu
 Textual Positions of Tokens
 ---------------------------
 
-   If you are using the `@N'-feature (*note Special Features for Use in
-Actions: Action Features.) in actions to keep track of the textual
-locations of tokens and groupings, then you must provide this
-information in `yylex'.  The function `yyparse' expects to find the
-textual location of a token just parsed in the global variable
-`yylloc'.  So `yylex' must store the proper data in that variable.  The
-value of `yylloc' is a structure and you need only initialize the
-members that are going to be used by the actions.  The four members are
-called `first_line', `first_column', `last_line' and `last_column'.
-Note that the use of this feature makes the parser noticeably slower.
+   If you are using the `@N'-feature (*note Tracking Locations:
+Locations.) in actions to keep track of the textual locations of tokens
+and groupings, then you must provide this information in `yylex'.  The
+function `yyparse' expects to find the textual location of a token just
+parsed in the global variable `yylloc'.  So `yylex' must store the
+proper data in that variable.
+
+   By default, the value of `yylloc' is a structure and you need only
+initialize the members that are going to be used by the actions.  The
+four members are called `first_line', `first_column', `last_line' and
+`last_column'.  Note that the use of this feature makes the parser
+noticeably slower.
 
    The data type of `yylloc' has the name `YYLTYPE'.
 
@@ -1023,25 +1124,15 @@ useful in actions.
      errors.  This is useful primarily in error rules.  *Note Error
      Recovery::.
 
+`@$'
+     Acts like a structure variable containing information on the
+     textual position of the grouping made by the current rule.  *Note
+     Tracking Locations: Locations.
+
 `@N'
-     Acts like a structure variable containing information on the line
-     numbers and column numbers of the Nth component of the current
-     rule.  The structure has four members, like this:
-
-          struct {
-            int first_line, last_line;
-            int first_column, last_column;
-          };
-
-     Thus, to get the starting line number of the third component, you
-     would use `@3.first_line'.
-
-     In order for the members of this structure to contain valid
-     information, you must make `yylex' supply this information about
-     each token.  If you need only certain members, then `yylex' need
-     only fill in those members.
-
-     The use of this feature makes the parser noticeably slower.
+     Acts like a structure variable containing information on the
+     textual position of the Nth component of the current rule.  *Note
+     Tracking Locations: Locations.
 
 
 File: bison.info,  Node: Algorithm,  Next: Error Recovery,  Prev: Interface,  Up: Top
@@ -1228,63 +1319,4 @@ conflict:
      
      expr:     variable
              ;
-
-
-File: bison.info,  Node: Precedence,  Next: Contextual Precedence,  Prev: Shift/Reduce,  Up: Algorithm
-
-Operator Precedence
-===================
-
-   Another situation where shift/reduce conflicts appear is in
-arithmetic expressions.  Here shifting is not always the preferred
-resolution; the Bison declarations for operator precedence allow you to
-specify when to shift and when to reduce.
-
-* Menu:
-
-* Why Precedence::    An example showing why precedence is needed.
-* Using Precedence::  How to specify precedence in Bison grammars.
-* Precedence Examples::  How these features are used in the previous example.
-* How Precedence::    How they work.
-
-
-File: bison.info,  Node: Why Precedence,  Next: Using Precedence,  Up: Precedence
-
-When Precedence is Needed
--------------------------
-
-   Consider the following ambiguous grammar fragment (ambiguous because
-the input `1 - 2 * 3' can be parsed in two different ways):
-
-     expr:     expr '-' expr
-             | expr '*' expr
-             | expr '<' expr
-             | '(' expr ')'
-             ...
-             ;
-
-Suppose the parser has seen the tokens `1', `-' and `2'; should it
-reduce them via the rule for the subtraction operator?  It depends on
-the next token.  Of course, if the next token is `)', we must reduce;
-shifting is invalid because no single rule can reduce the token
-sequence `- 2 )' or anything starting with that.  But if the next token
-is `*' or `<', we have a choice: either shifting or reduction would
-allow the parse to complete, but with different results.
-
-   To decide which one Bison should do, we must consider the results.
-If the next operator token OP is shifted, then it must be reduced first
-in order to permit another opportunity to reduce the difference.  The
-result is (in effect) `1 - (2 OP 3)'.  On the other hand, if the
-subtraction is reduced before shifting OP, the result is
-`(1 - 2) OP 3'.  Clearly, then, the choice of shift or reduce should
-depend on the relative precedence of the operators `-' and OP: `*'
-should be shifted first, but not `<'.
-
-   What about input such as `1 - 2 - 5'; should this be `(1 - 2) - 5'
-or should it be `1 - (2 - 5)'?  For most operators we prefer the
-former, which is called "left association".  The latter alternative,
-"right association", is desirable for assignment operators.  The choice
-of left or right association is a matter of whether the parser chooses
-to shift or reduce when the stack contains `1 - 2' and the look-ahead
-token is `-': shifting makes right-associativity.
 

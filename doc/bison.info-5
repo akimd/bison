@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0 à
-partir bison.texinfo.
+Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
+à partir bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -214,11 +214,15 @@ Index
 * %token:                                Token Decl.
 * %type:                                 Type Decl.
 * %union:                                Union Decl.
-* @N:                                    Action Features.
+* @$ <1>:                                Action Features.
+* @$:                                    Actions and Locations.
+* @N <1>:                                Action Features.
+* @N:                                    Actions and Locations.
 * action:                                Actions.
 * action data types:                     Action Types.
 * action features summary:               Action Features.
 * actions in mid-rule:                   Mid-Rule Actions.
+* actions, location:                     Actions and Locations.
 * actions, semantic:                     Semantic Actions.
 * additional C code section:             C Code.
 * algorithm of parser:                   Algorithm.
@@ -252,6 +256,7 @@ Index
 * context-free grammar:                  Language and Grammar.
 * controlling function:                  Rpcalc Main.
 * dangling else:                         Shift/Reduce.
+* data type of locations:                Location Type.
 * data types in actions:                 Action Types.
 * data types of semantic values:         Value Type.
 * debugging:                             Debugging.
@@ -267,6 +272,7 @@ Index
 * declaring value types, nonterminals:   Type Decl.
 * default action:                        Actions.
 * default data type:                     Value Type.
+* default location type:                 Location Type.
 * default stack limit:                   Stack Overflow.
 * default start symbol:                  Start Decl.
 * defining language semantics:           Semantics.
@@ -305,6 +311,9 @@ Index
 * lexical tie-in:                        Lexical Tie-ins.
 * literal string token:                  Symbols.
 * literal token:                         Symbols.
+* location <1>:                          Locations.
+* location:                              Locations Overview.
+* location actions:                      Actions and Locations.
 * look-ahead token:                      Look-Ahead.
 * LR(1):                                 Mystery Conflicts.
 * main function in simple example:       Rpcalc Main.
@@ -324,6 +333,8 @@ Index
 * parser stack overflow:                 Stack Overflow.
 * parser state:                          Parser States.
 * polish notation calculator:            RPN Calc.
+* position, textual <1>:                 Locations.
+* position, textual:                     Locations Overview.
 * precedence declarations:               Precedence Decl.
 * precedence of operators:               Precedence.
 * precedence, context-dependent:         Contextual Precedence.
@@ -366,6 +377,8 @@ Index
 * syntax error:                          Error Reporting.
 * syntax of grammar rules:               Rules.
 * terminal symbol:                       Symbols.
+* textual position <1>:                  Locations.
+* textual position:                      Locations Overview.
 * token:                                 Language and Grammar.
 * token type:                            Symbols.
 * token type names, declaring:           Token Decl.
@@ -395,6 +408,7 @@ Index
 * yylex:                                 Lexical.
 * YYLEX_PARAM:                           Pure Calling.
 * yylloc:                                Token Positions.
+* YYLLOC_DEFAULT:                        Location Default Action.
 * YYLTYPE:                               Token Positions.
 * yylval:                                Token Values.
 * YYMAXDEPTH:                            Stack Overflow.

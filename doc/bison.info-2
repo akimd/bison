@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0 à
-partir bison.texinfo.
+Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
+à partir bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -27,6 +27,48 @@ versions, except that the sections entitled "GNU General Public
 License", "Conditions for Using Bison" and this permission notice may be
 included in translations approved by the Free Software Foundation
 instead of in the original English.
+
+
+File: bison.info,  Node: Rpcalc Decls,  Next: Rpcalc Rules,  Up: RPN Calc
+
+Declarations for `rpcalc'
+-------------------------
+
+   Here are the C and Bison declarations for the reverse polish notation
+calculator.  As in C, comments are placed between `/*...*/'.
+
+     /* Reverse polish notation calculator. */
+     
+     %{
+     #define YYSTYPE double
+     #include <math.h>
+     %}
+     
+     %token NUM
+     
+     %% /* Grammar rules and actions follow */
+
+   The C declarations section (*note The C Declarations Section: C
+Declarations.) contains two preprocessor directives.
+
+   The `#define' directive defines the macro `YYSTYPE', thus specifying
+the C data type for semantic values of both tokens and groupings (*note
+Data Types of Semantic Values: Value Type.).  The Bison parser will use
+whatever type `YYSTYPE' is defined as; if you don't define it, `int' is
+the default.  Because we specify `double', each token and each
+expression has an associated value, which is a floating point number.
+
+   The `#include' directive is used to declare the exponentiation
+function `pow'.
+
+   The second section, Bison declarations, provides information to
+Bison about the token types (*note The Bison Declarations Section:
+Bison Declarations.).  Each terminal symbol that is not a
+single-character literal must be declared here.  (Single-character
+literals normally don't need to be declared.)  In this example, all the
+arithmetic operators are designated by single-character literals, so the
+only terminal symbol that needs to be declared is `NUM', the token type
+for numeric constants.
 
 
 File: bison.info,  Node: Rpcalc Rules,  Next: Rpcalc Lexer,  Prev: Rpcalc Decls,  Up: RPN Calc
@@ -870,6 +912,7 @@ grammar.
 * Rules::             How to write grammar rules.
 * Recursion::         Writing recursive rules.
 * Semantics::         Semantic values and actions.
+* Locations::         Locations and actions.
 * Declarations::      All kinds of Bison declarations are described here.
 * Multiple Parsers::  Putting more than one Bison parser in one program.
 
@@ -1172,7 +1215,7 @@ defines two mutually-recursive nonterminals, since each refers to the
 other.
 
 
-File: bison.info,  Node: Semantics,  Next: Declarations,  Prev: Recursion,  Up: Grammar File
+File: bison.info,  Node: Semantics,  Next: Locations,  Prev: Recursion,  Up: Grammar File
 
 Defining Language Semantics
 ===========================

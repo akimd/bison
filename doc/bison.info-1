@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0 à
-partir bison.texinfo.
+Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
+à partir bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -263,7 +263,6 @@ GNU GENERAL PUBLIC LICENSE
 **************************
 
                          Version 2, June 1991
-
      Copyright (C) 1989, 1991 Free Software Foundation, Inc.
      59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
      
@@ -322,7 +321,6 @@ patent must be licensed for everyone's free use or not licensed at all.
 modification follow.
 
     TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
   0. This License applies to any program or other work which contains a
      notice placed by the copyright holder saying it may be distributed
      under the terms of this General Public License.  The "Program",
@@ -639,6 +637,7 @@ carefully.
                         a semantic value (the value of an integer,
                         the name of an identifier, etc.).
 * Semantic Actions::  Each rule can have an action containing C code.
+* Locations Overview::    Tracking Locations.
 * Bison Parser::      What are Bison's input and output,
                         how is the output used?
 * Stages::            Stages in writing and running Bison grammars.
@@ -830,7 +829,7 @@ programming language, an expression typically has a semantic value that
 is a tree structure describing the meaning of the expression.
 
 
-File: bison.info,  Node: Semantic Actions,  Next: Bison Parser,  Prev: Semantic Values,  Up: Concepts
+File: bison.info,  Node: Semantic Actions,  Next: Locations Overview,  Prev: Semantic Values,  Up: Concepts
 
 Semantic Actions
 ================
@@ -859,7 +858,38 @@ The action says how to produce the semantic value of the sum expression
 from the values of the two subexpressions.
 
 
-File: bison.info,  Node: Bison Parser,  Next: Stages,  Prev: Semantic Actions,  Up: Concepts
+File: bison.info,  Node: Locations Overview,  Next: Bison Parser,  Prev: Semantic Actions,  Up: Concepts
+
+Locations
+=========
+
+   Many applications, like interpreters or compilers, have to produce
+verbose and useful error messages. To achieve this, one must be able to
+keep track of the "textual position", or "location", of each syntactic
+construct.  Bison provides a mechanism for handling these locations.
+
+   Each token has a semantic value. In a similar fashion, each token
+has an associated location, but the type of locations is the same for
+all tokens and groupings. Moreover, the output parser is equipped with
+a default data structure for storing locations (*note Locations::, for
+more details).
+
+   Like semantic values, locations can be reached in actions using a
+dedicated set of constructs. In the example above, the location of the
+whole grouping is `@$', while the locations of the subexpressions are
+`@1' and `@3'.
+
+   When a rule is matched, a default action is used to compute the
+semantic value of its left hand side (*note Actions::). In the same
+way, another default action is used for locations. However, the action
+for locations is general enough for most cases, meaning there is
+usually no need to describe for each rule how `@$' should be formed.
+When building a new location for a given grouping, the default behavior
+of the output parser is to take the beginning of the first symbol, and
+the end of the last symbol.
+
+
+File: bison.info,  Node: Bison Parser,  Next: Stages,  Prev: Locations Overview,  Up: Concepts
 
 Bison Output: the Parser File
 =============================
@@ -1028,46 +1058,4 @@ extension is a convention used for Bison input files.
 * Error: Rpcalc Error.  The error reporting function.
 * Gen: Rpcalc Gen.      Running Bison on the grammar file.
 * Comp: Rpcalc Compile. Run the C compiler on the output code.
-
-
-File: bison.info,  Node: Rpcalc Decls,  Next: Rpcalc Rules,  Up: RPN Calc
-
-Declarations for `rpcalc'
--------------------------
-
-   Here are the C and Bison declarations for the reverse polish notation
-calculator.  As in C, comments are placed between `/*...*/'.
-
-     /* Reverse polish notation calculator. */
-     
-     %{
-     #define YYSTYPE double
-     #include <math.h>
-     %}
-     
-     %token NUM
-     
-     %% /* Grammar rules and actions follow */
-
-   The C declarations section (*note The C Declarations Section: C
-Declarations.) contains two preprocessor directives.
-
-   The `#define' directive defines the macro `YYSTYPE', thus specifying
-the C data type for semantic values of both tokens and groupings (*note
-Data Types of Semantic Values: Value Type.).  The Bison parser will use
-whatever type `YYSTYPE' is defined as; if you don't define it, `int' is
-the default.  Because we specify `double', each token and each
-expression has an associated value, which is a floating point number.
-
-   The `#include' directive is used to declare the exponentiation
-function `pow'.
-
-   The second section, Bison declarations, provides information to
-Bison about the token types (*note The Bison Declarations Section:
-Bison Declarations.).  Each terminal symbol that is not a
-single-character literal must be declared here.  (Single-character
-literals normally don't need to be declared.)  In this example, all the
-arithmetic operators are designated by single-character literals, so the
-only terminal symbol that needs to be declared is `NUM', the token type
-for numeric constants.
 

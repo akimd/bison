@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0 à
-partir bison.texinfo.
+Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
+à partir bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -27,6 +27,65 @@ versions, except that the sections entitled "GNU General Public
 License", "Conditions for Using Bison" and this permission notice may be
 included in translations approved by the Free Software Foundation
 instead of in the original English.
+
+
+File: bison.info,  Node: Precedence,  Next: Contextual Precedence,  Prev: Shift/Reduce,  Up: Algorithm
+
+Operator Precedence
+===================
+
+   Another situation where shift/reduce conflicts appear is in
+arithmetic expressions.  Here shifting is not always the preferred
+resolution; the Bison declarations for operator precedence allow you to
+specify when to shift and when to reduce.
+
+* Menu:
+
+* Why Precedence::    An example showing why precedence is needed.
+* Using Precedence::  How to specify precedence in Bison grammars.
+* Precedence Examples::  How these features are used in the previous example.
+* How Precedence::    How they work.
+
+
+File: bison.info,  Node: Why Precedence,  Next: Using Precedence,  Up: Precedence
+
+When Precedence is Needed
+-------------------------
+
+   Consider the following ambiguous grammar fragment (ambiguous because
+the input `1 - 2 * 3' can be parsed in two different ways):
+
+     expr:     expr '-' expr
+             | expr '*' expr
+             | expr '<' expr
+             | '(' expr ')'
+             ...
+             ;
+
+Suppose the parser has seen the tokens `1', `-' and `2'; should it
+reduce them via the rule for the subtraction operator?  It depends on
+the next token.  Of course, if the next token is `)', we must reduce;
+shifting is invalid because no single rule can reduce the token
+sequence `- 2 )' or anything starting with that.  But if the next token
+is `*' or `<', we have a choice: either shifting or reduction would
+allow the parse to complete, but with different results.
+
+   To decide which one Bison should do, we must consider the results.
+If the next operator token OP is shifted, then it must be reduced first
+in order to permit another opportunity to reduce the difference.  The
+result is (in effect) `1 - (2 OP 3)'.  On the other hand, if the
+subtraction is reduced before shifting OP, the result is
+`(1 - 2) OP 3'.  Clearly, then, the choice of shift or reduce should
+depend on the relative precedence of the operators `-' and OP: `*'
+should be shifted first, but not `<'.
+
+   What about input such as `1 - 2 - 5'; should this be `(1 - 2) - 5'
+or should it be `1 - (2 - 5)'?  For most operators we prefer the
+former, which is called "left association".  The latter alternative,
+"right association", is desirable for assignment operators.  The choice
+of left or right association is a matter of whether the parser chooses
+to shift or reduce when the stack contains `1 - 2' and the look-ahead
+token is `-': shifting makes right-associativity.
 
 
 File: bison.info,  Node: Using Precedence,  Next: Precedence Examples,  Prev: Why Precedence,  Up: Precedence
@@ -1038,7 +1097,7 @@ Bison Symbols
 
 `YYLTYPE'
      Macro for the data type of `yylloc'; a structure with four
-     members.  *Note Textual Positions of Tokens: Token Positions.
+     members.  *Note Data Types of Locations: Location Type.
 
 `yyltype'
      Default value for YYLTYPE.
