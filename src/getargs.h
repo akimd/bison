@@ -24,7 +24,7 @@
 /* flags set by % directives */
 extern char *spec_file_prefix;	/* for -b */
 extern char *spec_name_prefix; 	/* for -p */
-extern char *skeleton;
+extern const char *skeleton;
 
 extern int debug_flag; 		/* for -t */
 extern int defines_flag;    	/* for -d */

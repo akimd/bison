@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-07-20 14:12+0200\n"
+"POT-Creation-Date: 2001-08-03 10:49+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -124,22 +124,22 @@ msgstr "%s は以下から派生"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:79
+#: src/getargs.c:81
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr ""
 
-#: src/getargs.c:83
+#: src/getargs.c:85
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr ""
 
-#: src/getargs.c:87
+#: src/getargs.c:89
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
 msgstr ""
 
-#: src/getargs.c:93
+#: src/getargs.c:95
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -147,7 +147,7 @@ msgid ""
 "  -y, --yacc      emulate POSIX yacc\n"
 msgstr ""
 
-#: src/getargs.c:100
+#: src/getargs.c:102
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -159,7 +159,7 @@ msgid ""
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
 
-#: src/getargs.c:112
+#: src/getargs.c:114
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -168,44 +168,44 @@ msgid ""
 "  -o, --output-file=FILE     leave output to FILE\n"
 msgstr ""
 
-#: src/getargs.c:120
+#: src/getargs.c:122
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:134
+#: src/getargs.c:136
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr ""
 
-#: src/getargs.c:139
+#: src/getargs.c:141
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
 
-#: src/getargs.c:143
+#: src/getargs.c:145
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:200 src/lex.c:633
+#: src/getargs.c:202 src/lex.c:633
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr ""
 
-#: src/getargs.c:224
+#: src/getargs.c:226
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/getargs.c:231
+#: src/getargs.c:233
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: 文法ファイルが指定されていません\n"
 
-#: src/getargs.c:235
+#: src/getargs.c:237
 #, fuzzy, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: '%s' より後ろの余分な引数は無視されました\n"
@@ -381,205 +381,205 @@ msgstr "閉じられていない文字列がファイル末尾にあります"
 msgid "unterminated string"
 msgstr "閉じられていない文字列"
 
-#: src/reader.c:327 src/reader.c:391
+#: src/reader.c:326 src/reader.c:390
 #, fuzzy, c-format
 msgid "%s is invalid"
 msgstr "@%s は無効です"
 
-#: src/reader.c:367
+#: src/reader.c:366
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' の $$ に宣言のない型があります"
 
-#: src/reader.c:384
+#: src/reader.c:383
 #, fuzzy, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "`%s' の $%s に宣言のない型があります"
 
-#: src/reader.c:438
+#: src/reader.c:437
 msgid "unterminated `%{' definition"
 msgstr "`%{' 定義 が閉じられていません"
 
-#: src/reader.c:483 src/reader.c:599 src/reader.c:649
+#: src/reader.c:482 src/reader.c:598 src/reader.c:648
 #, c-format
 msgid "Premature EOF after %s"
 msgstr ""
 
-#: src/reader.c:500
+#: src/reader.c:499
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr ""
 
-#: src/reader.c:503
+#: src/reader.c:502
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr ""
 
-#: src/reader.c:525 src/reader.c:668
+#: src/reader.c:524 src/reader.c:667
 #, c-format
 msgid "symbol %s redefined"
 msgstr "シンボル %s が再定義されました"
 
-#: src/reader.c:535 src/reader.c:614 src/reader.c:675 src/reader.c:1232
+#: src/reader.c:534 src/reader.c:613 src/reader.c:674 src/reader.c:1231
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "%s の型が再定義されました"
 
-#: src/reader.c:545
+#: src/reader.c:544
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "%2$s 内の `%1$s' は無効です"
 
-#: src/reader.c:562 src/reader.c:722
+#: src/reader.c:561 src/reader.c:721
 #, fuzzy, c-format
 msgid "multiple %s declarations"
 msgstr "複数の %start が宣言されました"
 
-#: src/reader.c:564 src/reader.c:1210
+#: src/reader.c:563 src/reader.c:1209
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "無効な %start が宣言されました"
 
-#: src/reader.c:584
+#: src/reader.c:583
 msgid "%type declaration has no <typename>"
 msgstr "%type 宣言に <タイプ名> がありません"
 
-#: src/reader.c:619
+#: src/reader.c:618
 #, fuzzy, c-format
 msgid "invalid %%type declaration due to item: %s"
 msgstr "アイテムに与えられるべき %%type 宣言が無効です: `%s'"
 
-#: src/reader.c:664
+#: src/reader.c:663
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "%s に先行した再定義です"
 
-#: src/reader.c:688
+#: src/reader.c:687
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "無効なテキスト (%s) - 数値は識別子の後ろにあるべきです"
 
-#: src/reader.c:698
+#: src/reader.c:697
 #, c-format
 msgid "unexpected item: %s"
 msgstr "予期せぬアイテム: %s"
 
-#: src/reader.c:760 src/reader.c:1036 src/reader.c:1107
+#: src/reader.c:759 src/reader.c:1035 src/reader.c:1106
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "対応のない `{' です"
 
-#: src/reader.c:792
+#: src/reader.c:791
 #, fuzzy, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "%expect の引数が整数値ではありません"
 
-#: src/reader.c:839
+#: src/reader.c:838
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "認識できないアイテム %s、ここでは識別子が期待されます"
 
-#: src/reader.c:863
+#: src/reader.c:862
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "ここでは %s ではなく文字列定数が期待されます"
 
-#: src/reader.c:952
+#: src/reader.c:951
 #, c-format
 msgid "unrecognized: %s"
 msgstr "認識できない: %s"
 
-#: src/reader.c:957
+#: src/reader.c:956
 msgid "no input grammar"
 msgstr "文法の入力が無い"
 
-#: src/reader.c:962
+#: src/reader.c:961
 #, c-format
 msgid "unknown character: %s"
 msgstr "未知の文字: %s"
 
-#: src/reader.c:1130
+#: src/reader.c:1129
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "閉じられていない %%guard 節です"
 
-#: src/reader.c:1297
+#: src/reader.c:1296
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "邪悪な規則: 初期化シンボルにコロン (:) が続いていません"
 
-#: src/reader.c:1304
+#: src/reader.c:1303
 msgid "grammar starts with vertical bar"
 msgstr "文法は縦棒 (|) で始めます"
 
-#: src/reader.c:1335
+#: src/reader.c:1334
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s に規則が与えられ、それはトークンとなります"
 
-#: src/reader.c:1437
+#: src/reader.c:1436
 msgid "two @prec's in a row"
 msgstr "@prec のもの二つが同列になっています"
 
-#: src/reader.c:1445
+#: src/reader.c:1444
 #, fuzzy, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard がありますが %%semantic_parser が指定されていません"
 
-#: src/reader.c:1454
+#: src/reader.c:1453
 msgid "two actions at end of one rule"
 msgstr "一つの規則の終りに二つの動作を指定しています"
 
-#: src/reader.c:1468
+#: src/reader.c:1467
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "初期状態の動作では型 (`%s' `%s') が衝突します"
 
-#: src/reader.c:1474
+#: src/reader.c:1473
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "空の型付き非終端アイテム用規則であり、動作が起りません"
 
-#: src/reader.c:1518
+#: src/reader.c:1517
 #, c-format
 msgid "invalid input: %s"
 msgstr "無効な入力: %s"
 
-#: src/reader.c:1526
+#: src/reader.c:1525
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークンと非終端アイテム) -- 最大 %s"
 
-#: src/reader.c:1529
+#: src/reader.c:1528
 msgid "no rules in the input grammar"
 msgstr "入力した文法に規則が定義されていません"
 
-#: src/reader.c:1553
+#: src/reader.c:1552
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "シンボル %s が使われていますが、トークンとして定義されておらず、規則を持ちま"
 "せん"
 
-#: src/reader.c:1658
+#: src/reader.c:1657
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "先行している %s と %s で競合が生じています"
 
-#: src/reader.c:1670
+#: src/reader.c:1669
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "非結合値 %s と %s で競合が生じています"
 
-#: src/reader.c:1721
+#: src/reader.c:1720
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "トークン %s と %s の双方が番号 %s に割り当てられました"
 
-#: src/reader.c:1734
+#: src/reader.c:1733
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "開始シンボル %s は定義されていません"
 
-#: src/reader.c:1736
+#: src/reader.c:1735
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"
@@ -764,11 +764,11 @@ msgstr "%s: メモリを使い果たしました\n"
 #. MARK).  A British English Unicode locale should instead
 #. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
 #. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
-#: lib/quotearg.c:262
+#: lib/quotearg.c:259
 msgid "`"
 msgstr ""
 
-#: lib/quotearg.c:263
+#: lib/quotearg.c:260
 msgid "'"
 msgstr ""
 

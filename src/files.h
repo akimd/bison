@@ -67,5 +67,6 @@ void output_files PARAMS((void));
 FILE *xfopen PARAMS ((const char *name, const char *mode));
 int xfclose PARAMS ((FILE *ptr));
 
-const char *skeleton_find PARAMS ((const char *envvar, const char *skeleton));
+const char *skeleton_find PARAMS ((const char *envvar,
+				   const char *skeleton_name));
 #endif /* !FILES_H_ */
