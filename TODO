@@ -24,6 +24,8 @@
 * doc/bison.texinfo
 ** Echo modifications of prologue and epilogue.
 ** Add informations about YYERROR_VERBOSE.
+** Add explainations about skeleton muscles.
+** Add explainations about %skeleton.
 
 * tests/
 ** Repair Bison to success tests.
