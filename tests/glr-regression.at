@@ -173,7 +173,6 @@ FILE *yyin = NULL;
 int
 yylex (void)
 { 
-  int c;
   char buf[50];
   switch (fscanf (yyin, " %1[a-z,]", buf)) {
   case 1:
