@@ -120,6 +120,7 @@ int current_prec = 0;
   PERCENT_DEFINES         "%defines"
   PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
+  PERCENT_EXPECT_RR	  "%expect-rr"
   PERCENT_FILE_PREFIX     "%file-prefix"
   PERCENT_GLR_PARSER      "%glr-parser"
   PERCENT_INITIAL_ACTION  "%initial-action {...}"
@@ -189,7 +190,8 @@ declaration:
 | "%define" string_content string_content  { muscle_insert ($2, $3); }
 | "%defines"                               { defines_flag = true; }
 | "%error-verbose"                         { error_verbose = true; }
-| "%expect" INT                            { expected_conflicts = $2; }
+| "%expect" INT                            { expected_sr_conflicts = $2; }
+| "%expect-rr" INT 			   { expected_rr_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
 | "%glr-parser"
   {

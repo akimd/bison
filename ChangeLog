@@ -1,3 +1,25 @@
+2004-03-25  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* src/parse-gram.y: Define PERCENT_EXPECT_RR.
+	(declaration): Replace expected_conflicts with expected_sr_conflicts.
+	Add %expect-rr rule.
+	
+	* src/scan-gram.l: Recognize %expect-rr.
+
+	* src/conflicts.h (expected_sr_conflicts): Rename from 
+	expected_conflicts.
+	(expected_rr_conflicts): Declare.	
+
+	* src/conflicts.c (expected_sr_conflicts): Rename from
+	expected_conflicts.
+	(expected_rr_conflicts): Define.
+	(conflicts_print): Check r/r conflicts against expected_rr_conflicts
+	for GLR parsers.
+	Use expected_sr_conflicts in place of expected_conflicts.
+	Warn if expected_rr_conflicts used in non-GLR parser.
+	
+	* doc/bison.texinfo: Add documentation for %expect-rr.
+	
 2004-03-08  Paul Eggert  <eggert@gnu.org>
 
 	Add support for hex token numbers.  Suggested by Odd Arild Olsen in

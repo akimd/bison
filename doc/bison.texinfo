@@ -223,7 +223,7 @@ Bison Declarations
 * Union Decl::        Declaring the set of all semantic value types.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
 * Destructor Decl::   Declaring how symbols are freed.
-* Expect Decl::       Suppressing warnings about shift/reduce conflicts.
+* Expect Decl::       Suppressing warnings about parsing conflicts.
 * Start Decl::        Specifying the start symbol.
 * Pure Decl::         Requesting a reentrant parser.
 * Decl Summary::      Table of all Bison declarations.
@@ -3280,7 +3280,7 @@ Grammars}).
 * Union Decl::        Declaring the set of all semantic value types.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
 * Destructor Decl::   Declaring how symbols are freed.
-* Expect Decl::       Suppressing warnings about shift/reduce conflicts.
+* Expect Decl::       Suppressing warnings about parsing conflicts.
 * Start Decl::        Specifying the start symbol.
 * Pure Decl::         Requesting a reentrant parser.
 * Decl Summary::      Table of all Bison declarations.
@@ -3560,6 +3560,7 @@ typefull: string;  // $$ = $1 applies, $1 is not destroyed.
 @cindex warnings, preventing
 @cindex conflicts, suppressing warnings of
 @findex %expect
+@findex %expect-rr
 
 Bison normally warns if there are any conflicts in the grammar
 (@pxref{Shift/Reduce, ,Shift/Reduce Conflicts}), but most real grammars
@@ -3579,6 +3580,18 @@ no warning if there are @var{n} shift/reduce conflicts and no
 reduce/reduce conflicts.  The usual warning is
 given if there are either more or fewer conflicts, or if there are any
 reduce/reduce conflicts.
+
+For normal LALR(1) parsers, reduce/reduce conflicts are more serious,
+and should be eliminated entirely.  Bison will always report
+reduce/reduce conflicts for these parsers.  With GLR parsers, however,
+both shift/reduce and reduce/reduce are routine (otherwise, there
+would be no need to use GLR parsing).  Therefore, it is also possible
+to specify an expected number of reduce/reduce conflicts in GLR
+parsers, using the declaration:
+
+@example
+%expect-rr @var{n}
+@end example
 
 In general, using @code{%expect} involves these steps:
 

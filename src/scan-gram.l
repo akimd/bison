@@ -190,6 +190,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%dprec"		  return PERCENT_DPREC;
   "%error"[-_]"verbose"   return PERCENT_ERROR_VERBOSE;
   "%expect"               return PERCENT_EXPECT;
+  "%expect"[-_]"rr"	  return PERCENT_EXPECT_RR;
   "%file-prefix"          return PERCENT_FILE_PREFIX;
   "%fixed"[-_]"output"[-_]"files"   return PERCENT_YACC;
   "%initial-action"       token_type = PERCENT_INITIAL_ACTION; BEGIN SC_PRE_CODE;
