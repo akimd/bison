@@ -1,5 +1,12 @@
 2001-11-14  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.simple (yyparse): Let yyls1, yyss1 and yyvs1 be
+	defined only if yyoverflow is defined, to avoid `warning: unused
+	variable `yyvs1''.
+	Reported by The Test Suite.
+
+2001-11-14  Akim Demaille  <akim@epita.fr>
+
 	* src/print.c: Include reduce.h.
 	Reported by Hans Aberg.
 
