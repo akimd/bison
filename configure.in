@@ -6,6 +6,8 @@ AM_CONFIG_HEADER(config.h:config.hin)
 AC_DEFINE_UNQUOTED(VERSION_STRING, "GNU Bison version ${VERSION}",
                    [The version string.])
 
+AC_DEFINE([_GNU_SOURCE],1,[Define to 1 for GNU C library extensions.])
+
 ALL_LINGUAS="de es et fr ja nl ru"
 
 dnl Checks for programs.
