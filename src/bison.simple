@@ -82,20 +82,20 @@
 # define YYSTACK_REALLOC(Type, What, Array)				\
 do {									\
   Type *old = What;							\
+  What = (Type *) alloca (yystacksize * sizeof (Type));			\
+  __yy_memcpy ((char *) What, (char *) old,				\
+	       (size) * (unsigned int) sizeof (Type));			\
+} while (0)
+#else
+# define YYSTACK_REALLOC(Type, What, Array)				\
+do {									\
+  Type *old = What;							\
   What = (Type *) malloc (yystacksize * sizeof (Type));			\
   __yy_memcpy ((char *) What, (char *) old,				\
 	       (size) * (unsigned int) sizeof (Type));			\
   yyfree_stacks = 1;							\
   if (old != Array)							\
     free (old);								\
-} while (0)
-#else
-# define YYSTACK_REALLOC(Type, What, Array)				\
-do {									\
-  Type *old = What;							\
-  What = (Type *) alloca (yystacksize * sizeof (Type));			\
-  __yy_memcpy ((char *) What, (char *) old,				\
-	       (size) * (unsigned int) sizeof (Type));			\
 } while (0)
 #endif
 
