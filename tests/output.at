@@ -60,13 +60,3 @@ AT_CHECK_OUTPUT([foo.yy], [%defines %verbose], [],
 
 AT_CHECK_OUTPUT([foo.yy], [%defines %verbose ], [-o foo.c],
                 [foo.c foo.h foo.output])
-
-AT_CHECK_OUTPUT([foo.yy],
-                [%defines %verbose %source_extension ".cpp" %header_extension ".hhh"],
-                [],
-                [foo.output foo.tab.cpp foo.tab.hhh])
-
-AT_CHECK_OUTPUT([foo.yy],
-                [%defines %verbose %source_extension ".cc" %header_extension ".hh"],
-                [-o foo.c],
-                [foo.c foo.h foo.output])
