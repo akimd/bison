@@ -649,6 +649,11 @@ splice	 (\\[ \f\t\v]*\n)*
 
 %%
 
+/* Keeps track of the maximum number of semantic values to the left of 
+   a handle (those referenced by $0, $-1, etc.) are required by the 
+   semantic actions of this grammar. */
+int max_left_semantic_context = 0;
+
 /* Set *LOC and adjust scanner cursor to account for token TOKEN of
    size SIZE.  */
 
@@ -781,6 +786,8 @@ handle_action_dollar (char *text, location loc)
       if (INT_MIN <= num && num <= rule_length && ! get_errno ())
 	{
 	  int n = num;
+	  if (1-n > max_left_semantic_context)
+	    max_left_semantic_context = 1-n;
 	  if (!type_name && n > 0)
 	    type_name = symbol_list_n_type_name_get (current_rule, loc, n);
 	  if (!type_name && typed)

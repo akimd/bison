@@ -38,6 +38,7 @@ typedef struct merger_list
 extern FILE *gram_in;
 extern int gram__flex_debug;
 extern boundary scanner_cursor;
+extern int max_left_semantic_context;
 void scanner_initialize (void);
 void scanner_free (void);
 void scanner_last_string_free (void);
