@@ -25,8 +25,6 @@
 extern "C" {
 # endif
 
-# ifdef __STDC__
-
 /* Informative messages, but we proceed. */
 
 void warn (const char *format, ...)
@@ -50,15 +48,6 @@ void fatal (const char *format, ...)
 
 void fatal_at (location_t location, const char *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
-
-# else
-void warn ();
-void warn_at ();
-void complain ();
-void complain_at ();
-void fatal ();
-void fatal_at ();
-# endif
 
 /* Position in the current input file. */
 extern char *infile;
