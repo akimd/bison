@@ -89,7 +89,7 @@ yylex (void)
 ]])
 
 AT_CHECK([[bison -o glr-regr1.c glr-regr1.y]], 0, [],
-[glr-regr1.y: warning: 1 shift/reduce conflict
+[glr-regr1.y: conflicts: 1 shift/reduce
 ])
 AT_COMPILE([glr-regr1])
 AT_CHECK([[echo BPBPB | ./glr-regr1]], 0,
