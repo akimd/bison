@@ -1,5 +1,17 @@
 2002-06-20  Akim Demaille  <akim@epita.fr>
 
+	* src/parse-gram.y (YYPRINT, yyprint): Don't mess with the parser
+	internals.
+	* src/reader.h, src/reader.c (grammar_current_rule_prec_set):
+	Takes a location.
+	* src/symtab.h, src/symtab.c (symbol_class_set)
+	(symbol_user_token_number_set): Likewise.
+	Adjust all callers.
+	Promote complain_at.
+	* tests/input.at (Type Clashes): Adjust.
+
+2002-06-20  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple (YYLEX): Fix the declaration when
 	%pure-parser.
 

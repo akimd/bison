@@ -127,10 +127,13 @@ void symbol_precedence_set PARAMS ((symbol_t *symbol, location_t location,
 				    int prec, associativity assoc));
 
 /* Set the CLASS associated to SYMBOL.  */
-void symbol_class_set PARAMS ((symbol_t *symbol, symbol_class class));
+void symbol_class_set PARAMS ((symbol_t *symbol,
+			       symbol_class class, location_t location));
 
 /* Set the USER_TOKEN_NUMBER associated to SYMBOL.  */
-void symbol_user_token_number_set PARAMS ((symbol_t *symbol, int user_number));
+void symbol_user_token_number_set PARAMS ((symbol_t *symbol,
+					   int user_number,
+					   location_t location));
 
 
 /* Distinguished symbols.  AXIOM is the real start symbol, that used

@@ -68,7 +68,8 @@ void grammar_symbol_append PARAMS ((symbol_t *s, location_t l));
 void grammar_rule_begin PARAMS ((symbol_t *lhs, location_t l));
 void grammar_rule_end PARAMS ((location_t l));
 void grammar_midrule_action PARAMS ((void));
-void grammar_current_rule_prec_set PARAMS ((symbol_t *precsym));
+void grammar_current_rule_prec_set PARAMS ((symbol_t *precsym,
+					    location_t l));
 void grammar_current_rule_symbol_append PARAMS ((symbol_t *symbol,
 						 location_t l));
 void grammar_current_rule_action_append PARAMS ((const char *action,

@@ -82,10 +82,10 @@ AT_CLEANUP
 
 
 ## -------------- ##
-## Type clashes.  ##
+## Type Clashes.  ##
 ## -------------- ##
 
-AT_SETUP([Type clashes])
+AT_SETUP([Type Clashes])
 
 AT_DATA([input.y],
 [[%token foo
@@ -98,9 +98,9 @@ exp: foo {} foo
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:5: type clash (`bar' `') on default action
-input.y:6: type clash (`bar' `') on default action
-input.y:7: empty rule for typed nonterminal, and no action
+[[input.y:4.4-15: type clash (`bar' `') on default action
+input.y:5.4-8: type clash (`bar' `') on default action
+input.y:6.4: empty rule for typed nonterminal, and no action
 ]])
 
 AT_CLEANUP

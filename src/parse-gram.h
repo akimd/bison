@@ -97,7 +97,7 @@
 
 
 #ifndef YYSTYPE
-#line 91 "parse-gram.y"
+#line 88 "parse-gram.y"
 typedef union {
   symbol_t *symbol;
   symbol_list_t *list;
@@ -105,7 +105,7 @@ typedef union {
   char *string;
   associativity assoc;
 } yystype;
-/* Line 1313 of /usr/local/share/bison/bison.simple.  */
+/* Line 1331 of /usr/local/share/bison/bison.simple.  */
 #line 110 "y.tab.h"
 # define YYSTYPE yystype
 #endif

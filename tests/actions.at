@@ -153,11 +153,11 @@ AT_CLEANUP
 
 
 
-## ------------- ##
-## Destructors.  ##
-## ------------- ##
+## -------------------------- ##
+## Printers and Destructors.  ##
+## -------------------------- ##
 
-AT_SETUP([Destructors])
+AT_SETUP([Printers and Destructors])
 
 # Make sure complex $n work.
 

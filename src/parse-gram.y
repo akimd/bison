@@ -69,12 +69,9 @@ do {							\
 #define yyerror(Msg) \
         gram_error (yycontrol, &yylloc, Msg)
 
-/* When debugging our pure parser, we want to see values and locations
-   of the tokens.  */
 #define YYPRINT(File, Type, Value) \
-        yyprint (File, &yylloc, Type, &Value)
-static void yyprint (FILE *file, const location_t *loc,
-                     int type, const yystype *value);
+        yyprint (File, Type, &Value)
+static void yyprint (FILE *file, int type, const yystype *value);
 
 symbol_class current_class = unknown_sym;
 char *current_type = 0;
@@ -289,26 +286,26 @@ symbol_def:
      }
 | ID
      {
-       symbol_class_set ($1, current_class);
+       symbol_class_set ($1, current_class, @1);
        symbol_type_set ($1, @1, current_type);
      }
 | ID INT
     {
-      symbol_class_set ($1, current_class);
+      symbol_class_set ($1, current_class, @1);
       symbol_type_set ($1, @1, current_type);
-      symbol_user_token_number_set ($1, $2);
+      symbol_user_token_number_set ($1, $2, @2);
     }
 | ID string_as_id
     {
-      symbol_class_set ($1, current_class);
+      symbol_class_set ($1, current_class, @1);
       symbol_type_set ($1, @1, current_type);
       symbol_make_alias ($1, $2);
     }
 | ID INT string_as_id
     {
-      symbol_class_set ($1, current_class);
+      symbol_class_set ($1, current_class, @1);
       symbol_type_set ($1, @1, current_type);
-      symbol_user_token_number_set ($1, $2);
+      symbol_user_token_number_set ($1, $2, @2);
       symbol_make_alias ($1, $3);
     }
 ;
@@ -357,7 +354,7 @@ rhs:
 | rhs action
     { grammar_current_rule_action_append ($2, @2); }
 | rhs "%prec" symbol
-    { grammar_current_rule_prec_set ($3); }
+    { grammar_current_rule_prec_set ($3, @3); }
 ;
 
 symbol:
@@ -376,7 +373,7 @@ string_as_id:
   STRING
     {
       $$ = getsym ($1, @1);
-      symbol_class_set ($$, token_sym);
+      symbol_class_set ($$, token_sym, @1);
     }
 ;
 
@@ -411,11 +408,9 @@ semi_colon.opt:
 
 static void
 yyprint (FILE *file,
-         const location_t *loc, int type, const yystype *value)
+         int type, const yystype *value)
 {
-  fputs (" (", file);
-  LOCATION_PRINT (file, *loc);
-  fputs (")", file);
+  fputc (' ', file);
   switch (type)
     {
     case CHARACTER:
