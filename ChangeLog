@@ -1,5 +1,11 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (augment_automaton): Formatting changes.
+	Better variable locality.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (matrix_print): New.
 	(transpose): Use it.
 	Use arrays instead of pointers.
