@@ -116,9 +116,11 @@ namespace yy
     /* Even more tables.  */
     static inline char translate (int token);
 
-    /* Eof and empty.  */
+    /* Constants.  */
     static const int eof_;
     static const int empty_;
+    static const int terror_;
+    static const int errcode_;
     static const int ntokens_;
 
     /* State.  */
@@ -374,11 +376,86 @@ yy::b4_name::parse ()
 	message = "parse error";
     }
   error_ ();
-  return 1;
+  goto yyerrlab1;
   
+  /* Error raised explicitly by an action.  */
+ yyerrlab1:
+  if (errstatus == 3)
+    {
+      /* If just tried and failed to reuse lookahead token after an
+	 error, discard it.  */
+
+      /* Return failure if at end of input.  */
+      if (looka == eof_)
+	goto yyabortlab;
+      YYDPRINTF ((stderr, "Discarding token %d (%s).\n", looka, name_[[ilooka]]));
+      looka = empty_;
+    }
+
+  /* Else will try to reuse lookahead token after shifting the error
+     token.  */
+
+  errstatus = 3;
+  goto yyerrhandle;
+
+  /* Pop the current state because it cannot handle the error token.  */
+ yyerrdefault:
+ yyerrpop:
+  if (!state_stack.height ())
+    goto yyabortlab;
+  state = (state_stack.pop (), state_stack[[0]]);
+  semantic_stack.pop ();
+  location_stack.pop ();;
+
+#if YYDEBUG
+  if (debug_)
+    {
+      YYFPRINTF (stderr, "Error: state stack now");
+      for (StateStack::ConstIterator i = state_stack.begin (); 
+	   i != state_stack.end (); ++i)
+	YYFPRINTF (stderr, " %d", *i);
+      YYFPRINTF (stderr, "\n"); 
+    }
+#endif
+
+ yyerrhandle:
+  n = pact_[[state]];
+  if (n == b4_flag)
+    goto yyerrdefault;
+
+  n += terror_;
+  if (n < 0 || n > b4_last || check_[[n]] != terror_)
+    goto yyerrdefault;
+
+  n = table_[[n]];
+  if (n < 0)
+    {
+      if (n == b4_flag)
+	goto yyerrpop;
+      n = -n;
+      goto yyreduce;
+    }
+  else if (!n)
+    goto yyerrpop;
+
+  if (n == b4_final)
+    goto yyacceptlab;
+
+  YYDPRINTF ((stderr, "Shifting error token, "));
+
+  semantic_stack.push (value);
+  location_stack.push (location);
+
+  state = n;
+  goto yynewstate;
+
   /* Accept.  */
  yyacceptlab:
   return 0;
+
+  /* Abort.  */
+ yyabortlab:
+  return 1;
 }
 
 /* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
@@ -487,6 +564,8 @@ yy::b4_name::translate (int token)
 
 const int yy::b4_name::eof_ = 0;
 const int yy::b4_name::empty_ = -2;
+const int yy::b4_name::terror_ = 1;
+const int yy::b4_name::errcode_ = 256;
 const int yy::b4_name::ntokens_ = b4_ntokens;
 
 b4_epilogue
@@ -549,6 +628,13 @@ namespace yy
     reserve (unsigned n)
     {
       seq_.reserve (n);
+    }
+
+    inline
+    unsigned
+    height () const
+    {
+      return seq_.size ();
     }
 
     inline ConstIterator begin () const { return seq_.begin (); }
