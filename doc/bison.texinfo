@@ -5574,7 +5574,6 @@ By defining the macro @code{YYMAXDEPTH}, you can control how deep the
 parser stack can become before a stack overflow occurs.  Define the
 macro with a value that is an integer.  This value is the maximum number
 of tokens that can be shifted (and not reduced) before overflow.
-It must be a constant expression whose value is known at compile time.
 
 The stack space allowed is not necessarily allocated.  If you specify a
 large value for @code{YYMAXDEPTH}, the parser actually allocates a small
@@ -5583,14 +5582,26 @@ increasing allocation happens automatically and silently.  Therefore,
 you do not need to make @code{YYMAXDEPTH} painfully small merely to save
 space for ordinary inputs that do not need much stack.
 
+However, do not allow @code{YYMAXDEPTH} to be a value so large that
+arithmetic overflow could occur when calculating the size of the stack
+space.  Also, do not allow @code{YYMAXDEPTH} to be less than
+@code{YYINITDEPTH}.
+
 @cindex default stack limit
 The default value of @code{YYMAXDEPTH}, if you do not define it, is
 10000.
 
 @vindex YYINITDEPTH
 You can control how much stack is allocated initially by defining the
-macro @code{YYINITDEPTH}.  This value too must be a compile-time
-constant integer.  The default is 200.
+macro @code{YYINITDEPTH} to a positive integer.  For the C
+@acronym{LALR}(1) parser, this value must be a compile-time constant
+unless you are assuming C99 or some other target language or compiler
+that allows variable-length arrays.  The default is 200.
+
+Do not allow @code{YYINITDEPTH} to be a value so large that arithmetic
+overflow would occur when calculating the size of the stack space.
+Also, do not allow @code{YYINITDEPTH} to be greater than
+@code{YYMAXDEPTH}.
 
 @c FIXME: C++ output.
 Because of semantical differences between C and C++, the
@@ -7306,10 +7317,23 @@ syntax error.  @xref{Action Features, ,Special Features for Use in Actions}.
 @end deffn
 
 @deffn {Macro} YYSTACK_USE_ALLOCA
-Macro used to control the use of @code{alloca}.  If defined to @samp{0},
-the parser will not use @code{alloca} but @code{malloc} when trying to
-grow its internal stacks.  Do @emph{not} define @code{YYSTACK_USE_ALLOCA}
-to anything else.
+Macro used to control the use of @code{alloca} when the C
+@acronym{LALR}(1) parser needs to extend its stacks.  If defined to 0,
+the parser will use @code{malloc} to extend its stacks.  If defined to
+1, the parser will use @code{alloca}.  Values other than 0 and 1 are
+reserved for future Bison extensions.  If not defined,
+@code{YYSTACK_USE_ALLOCA} defaults to 0.
+
+If you define @code{YYSTACK_USE_ALLOCA} to 1, it is your
+responsibility to make sure that @code{alloca} is visible, e.g., by
+using @acronym{GCC} or by including @code{<stdlib.h>}.  Furthermore,
+in the all-too-common case where your code may run on a host with a
+limited stack and with unreliable stack-overflow checking, you should
+set @code{YYMAXDEPTH} to a value that cannot possibly result in
+unchecked stack overflow on any of your target hosts when
+@code{alloca} is called.  You can inspect the code that Bison
+generates in order to determine the proper numeric values.  This will
+require some expertise in low-level implementation details.
 @end deffn
 
 @deffn {Type} YYSTYPE

@@ -3,6 +3,12 @@ Bison News
 
 Changes in version 1.875f:
 
+* Bison-generated parsers no longer default to using the alloca function
+  (when available) to extend the parser stack, due to widespread
+  problems in unchecked stack-overflow detection.  You can "#define
+  YYSTACK_USE_ALLOCA 1" to use alloca anyway, but please read the
+  manual to determine safe values for YYMAXDEPTH in that case.
+
 Changes in version 1.875e, 2004-12-10:
 
 * New directive: %initial-action.

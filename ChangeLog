@@ -1,5 +1,20 @@
 2004-12-22  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Bison-generated parsers no longer default to using the
+	alloca function (when available) to extend the parser stack, due
+	to widespread problems in unchecked stack-overflow detection.
+	* data/glr.c (YYMAXDEPTH): Remove undef when zero.  It's the user's
+	responsibility to set it to a positive value.  This lets the user
+	specify a value that is not a preprocessor constant.
+	* data/yacc.c (YYMAXDEPTH): Likewise.
+	(YYSTACK_ALLOC): Define only if YYSTACK_USE_ALLOCA is nonzero.
+	* doc/bison.texinfo (Stack Overflow): YYMAXDEPTH no longer needs
+	to be a compile-time constant.  However, explain the constraints on it.
+	Also, explain the constraints on YYINITDEPTH.
+	(Table of Symbols): Explain that alloca is no longer the default.
+	Explain the user's responsibility if they define YYSTACK_USE_ALLOCA
+	to 1.
+
 	* doc/bison.texinfo (Location Default Action): Mention that n must
 	be zero when k is zero.  Suggested by Frank Heckenbach.
 
