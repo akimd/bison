@@ -1,5 +1,10 @@
 2001-11-30  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.simple (YYSTACK_FREE): Use `do {;} while (0)' as empty
+	if body instead of `;' to pacify GCC's warnings.
+
+2001-11-30  Akim Demaille  <akim@epita.fr>
+
 	Instead of mapping the LHS of unused rules to -1, keep the LHS
 	valid, but flag the rules as invalid.
 
