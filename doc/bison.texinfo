@@ -318,7 +318,7 @@ chapters follow which describe specific aspects of Bison in detail.
 
 Bison was written primarily by Robert Corbett; Richard Stallman made it
 Yacc-compatible.  Wilfred Hansen of Carnegie Mellon University added
-multicharacter string literals and other features.
+multi-character string literals and other features.
 
 This edition corresponds to version @value{VERSION} of Bison.
 
@@ -1987,7 +1987,7 @@ getsym (const char *sym_name)
 
 The function @code{yylex} must now recognize variables, numeric values, and
 the single-character arithmetic operators.  Strings of alphanumeric
-characters with a leading nondigit are recognized as either variables or
+characters with a leading non-digit are recognized as either variables or
 functions depending on what the symbol table says about them.
 
 The string is passed to @code{getsym} for look up in the symbol table.  If
@@ -2270,7 +2270,7 @@ for @code{yylex}}).
 A @dfn{literal string token} is written like a C string constant; for
 example, @code{"<="} is a literal string token.  A literal string token
 doesn't need to be declared unless you need to specify its semantic
-value data type (@pxref{Value Type}), associativity, precedence
+value data type (@pxref{Value Type}), associativity, or precedence
 (@pxref{Precedence}).
 
 You can associate the literal string token with a symbolic name as an
@@ -2544,10 +2544,11 @@ Specify the entire collection of possible data types, with the
 @code{%union} Bison declaration (@pxref{Union Decl, ,The Collection of Value Types}).
 
 @item
-Choose one of those types for each symbol (terminal or nonterminal)
-for which semantic values are used.  This is done for tokens with the
-@code{%token} Bison declaration (@pxref{Token Decl, ,Token Type Names}) and for groupings
-with the @code{%type} Bison declaration (@pxref{Type Decl, ,Nonterminal Symbols}).
+Choose one of those types for each symbol (terminal or nonterminal) for
+which semantic values are used.  This is done for tokens with the
+@code{%token} Bison declaration (@pxref{Token Decl, ,Token Type Names})
+and for groupings with the @code{%type} Bison declaration (@pxref{Type
+Decl, ,Nonterminal Symbols}).
 @end itemize
 
 @node Actions, Action Types, Multiple Types, Semantics
@@ -2879,9 +2880,10 @@ Bison will convert this into a @code{#define} directive in
 the parser, so that the function @code{yylex} (if it is in this file)
 can use the name @var{name} to stand for this token type's code.
 
-Alternatively, you can use @code{%left}, @code{%right}, or @code{%nonassoc}
-instead of @code{%token}, if you wish to specify associativity and precedence.
-@xref{Precedence Decl, ,Operator Precedence}.
+Alternatively, you can use @code{%left}, @code{%right}, or
+@code{%nonassoc} instead of @code{%token}, if you wish to specify
+associativity and precedence.  @xref{Precedence Decl, ,Operator
+Precedence}.
 
 You can explicitly specify the numeric code for a token type by appending
 an integer value in the field immediately following the token name:
@@ -3114,8 +3116,8 @@ may override this restriction with the @code{%start} declaration as follows:
 A @dfn{reentrant} program is one which does not alter in the course of
 execution; in other words, it consists entirely of @dfn{pure} (read-only)
 code.  Reentrancy is important whenever asynchronous execution is possible;
-for example, a nonreentrant program may not be safe to call from a signal
-handler.  In systems with multiple threads of control, a nonreentrant
+for example, a non-reentrant program may not be safe to call from a signal
+handler.  In systems with multiple threads of control, a non-reentrant
 program must be called only within interlocks.
 
 Normally, Bison generates a parser which is not reentrant.  This is
@@ -3306,8 +3308,8 @@ C code in the grammar file, you are likely to run into trouble.
 You call the function @code{yyparse} to cause parsing to occur.  This
 function reads tokens, executes actions, and ultimately returns when it
 encounters end-of-input or an unrecoverable syntax error.  You can also
-write an action which directs @code{yyparse} to return immediately without
-reading further.
+write an action which directs @code{yyparse} to return immediately
+without reading further.
 
 The value returned by @code{yyparse} is 0 if parsing was successful (return
 is due to end-of-input).
@@ -3437,7 +3439,7 @@ The @code{yytname} table is generated only if you use the
 @subsection Semantic Values of Tokens
 
 @vindex yylval
-In an ordinary (nonreentrant) parser, the semantic value of the token must
+In an ordinary (non-reentrant) parser, the semantic value of the token must
 be stored into the global variable @code{yylval}.  When you are using
 just one data type for semantic values, @code{yylval} has that type.
 Thus, if the type is @code{int} (the default), you might write this in
@@ -4024,33 +4026,33 @@ expr:     expr '-' expr
 
 @noindent
 Suppose the parser has seen the tokens @samp{1}, @samp{-} and @samp{2};
-should it reduce them via the rule for the subtraction operator?  It depends
-on the next token.  Of course, if the next token is @samp{)}, we must
-reduce; shifting is invalid because no single rule can reduce the token
-sequence @w{@samp{- 2 )}} or anything starting with that.  But if the next
-token is @samp{*} or @samp{<}, we have a choice: either shifting or
-reduction would allow the parse to complete, but with different
-results.
+should it reduce them via the rule for the subtraction operator?  It
+depends on the next token.  Of course, if the next token is @samp{)}, we
+must reduce; shifting is invalid because no single rule can reduce the
+token sequence @w{@samp{- 2 )}} or anything starting with that.  But if
+the next token is @samp{*} or @samp{<}, we have a choice: either
+shifting or reduction would allow the parse to complete, but with
+different results.
 
-To decide which one Bison should do, we must consider the
-results.  If the next operator token @var{op} is shifted, then it
-must be reduced first in order to permit another opportunity to
-reduce the difference.  The result is (in effect) @w{@samp{1 - (2
-@var{op} 3)}}.  On the other hand, if the subtraction is reduced
-before shifting @var{op}, the result is @w{@samp{(1 - 2) @var{op}
-3}}.  Clearly, then, the choice of shift or reduce should depend
-on the relative precedence of the operators @samp{-} and
-@var{op}: @samp{*} should be shifted first, but not @samp{<}.
+To decide which one Bison should do, we must consider the results.  If
+the next operator token @var{op} is shifted, then it must be reduced
+first in order to permit another opportunity to reduce the difference.
+The result is (in effect) @w{@samp{1 - (2 @var{op} 3)}}.  On the other
+hand, if the subtraction is reduced before shifting @var{op}, the result
+is @w{@samp{(1 - 2) @var{op} 3}}.  Clearly, then, the choice of shift or
+reduce should depend on the relative precedence of the operators
+@samp{-} and @var{op}: @samp{*} should be shifted first, but not
+@samp{<}.
 
 @cindex associativity
 What about input such as @w{@samp{1 - 2 - 5}}; should this be
-@w{@samp{(1 - 2) - 5}} or should it be @w{@samp{1 - (2 - 5)}}?  For
-most operators we prefer the former, which is called @dfn{left
-association}.  The latter alternative, @dfn{right association}, is
-desirable for assignment operators.  The choice of left or right
-association is a matter of whether the parser chooses to shift or
-reduce when the stack contains @w{@samp{1 - 2}} and the look-ahead
-token is @samp{-}: shifting makes right-associativity.
+@w{@samp{(1 - 2) - 5}} or should it be @w{@samp{1 - (2 - 5)}}?  For most
+operators we prefer the former, which is called @dfn{left association}.
+The latter alternative, @dfn{right association}, is desirable for
+assignment operators.  The choice of left or right association is a
+matter of whether the parser chooses to shift or reduce when the stack
+contains @w{@samp{1 - 2}} and the look-ahead token is @samp{-}: shifting
+makes right-associativity.
 
 @node Using Precedence, Precedence Examples, Why Precedence, Precedence
 @subsection Specifying Operator Precedence
@@ -4642,10 +4644,10 @@ Unfortunately, the name being declared is separated from the declaration
 construct itself by a complicated syntactic structure---the ``declarator''.
 
 As a result, part of the Bison parser for C needs to be duplicated, with
-all the nonterminal names changed: once for parsing a declaration in which
-a typedef name can be redefined, and once for parsing a declaration in
-which that can't be done.  Here is a part of the duplication, with actions
-omitted for brevity:
+all the nonterminal names changed: once for parsing a declaration in
+which a typedef name can be redefined, and once for parsing a
+declaration in which that can't be done.  Here is a part of the
+duplication, with actions omitted for brevity:
 
 @example
 initdcl:
@@ -5262,7 +5264,7 @@ Bison declaration to avoid generating @code{#line} directives in the
 parser file.  @xref{Decl Summary}.
 
 @item %nonassoc
-Bison declaration to assign nonassociativity to token(s).
+Bison declaration to assign non-associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 
 @item %prec
@@ -5403,8 +5405,7 @@ A flag, set by actions in the grammar rules, which alters the way
 tokens are parsed.  @xref{Lexical Tie-ins}.
 
 @item Literal string token
-A token which consists of two or more fixed characters.
-@xref{Symbols}.
+A token which consists of two or more fixed characters.  @xref{Symbols}.
 
 @item Look-ahead token
 A token already read but not yet shifted.  @xref{Look-Ahead, ,Look-Ahead

@@ -1,5 +1,9 @@
 2000-10-04  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo: Various typos spotted by Neil Booth.
+
+2000-10-04  Akim Demaille  <akim@epita.fr>
+
 	When a literal string is used to define two different tokens,
 	`bison -v' segfaults.
 	Reported by Piotr Gackiewicz, and fixed by Neil Booth.
