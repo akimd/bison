@@ -123,7 +123,7 @@ size_t strnlen PARAMS ((const char *s, size_t maxlen));
 #endif
 
 #ifdef ENABLE_NLS
-# include <libintl1.h>
+# include <libintl.h>
 # define _(Text) gettext (Text)
 #else
 # undef  bindtextdomain
