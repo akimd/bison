@@ -316,8 +316,8 @@ namespace yy
 
     /* Even more tables.  */
     static inline TokenNumberType translate_ (int token);
-    static inline void destruct_ (int yytype, SemanticType *yyvaluep,
-				  LocationType *yylocationp);
+    inline void destruct_ (int yytype, SemanticType *yyvaluep,
+			   LocationType *yylocationp);
 
     /* Constants.  */
     static const int eof_;
@@ -378,21 +378,40 @@ m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
-# define YYCDEBUG    if (debug_) cdebug_
+
+# define YYCDEBUG				\
+  if (debug_) 					\
+    cdebug_
+
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)	\
+do {							\
+  if (debug_)						\
+    {							\
+      cdebug_ << (Title) << ' ';			\
+      symprint_ ((Type), (Value), (Location));		\
+      cdebug_ << std::endl;				\
+    }							\
+} while (0)
+
 # define YY_REDUCE_PRINT(Rule)		\
 do {					\
   if (debug_)				\
     reduce_print_ (Rule);		\
 } while (0)
+
 # define YY_STACK_PRINT()		\
 do {					\
   if (debug_)				\
     stack_print_ ();			\
 } while (0)
+
 #else /* !YYDEBUG */
+
 # define YYCDEBUG    if (0) cdebug_
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
 # define YY_REDUCE_PRINT(Rule)
 # define YY_STACK_PRINT()
+
 #endif /* !YYDEBUG */
 
 #define YYACCEPT	goto yyacceptlab
@@ -448,23 +467,15 @@ yy::]b4_parser_class_name[::parse ()
     }
 
   /* Convert token to internal form.  */
-  if (looka_ <= 0)
+  if (looka_ <= eof_)
     {
-      looka_ = eof_;
-      ilooka_ = 0;
+      looka_ = ilooka_ = eof_;
       YYCDEBUG << "Now at end of input." << std::endl;
     }
   else
     {
       ilooka_ = translate_ (looka_);
-#if YYDEBUG
-      if (debug_)
-	{
-	  cdebug_ << "Next token is ";
-	  symprint_ (ilooka_, &value, &location);
-          cdebug_ << std::endl;
-	}
-#endif
+      YY_SYMBOL_PRINT ("Next token is", ilooka_, &value, &location);
     }
 
   /* If the proper action on seeing token ILOOKA_ is to reduce or to
@@ -579,7 +590,7 @@ b4_syncline([@oline@], [@ofile@])[
 /*------------------------------------.
 | yyerrlab -- here on detecting error |
 `------------------------------------*/
- yyerrlab:
+yyerrlab:
   /* If not already recovering from an error, report this error.  */
   report_syntax_error_ ();
 
@@ -603,31 +614,18 @@ b4_syncline([@oline@], [@ofile@])[
                  location_stack_.pop ();
 		 if (state_stack_.height () == 1)
 		   YYABORT;
-#if YYDEBUG
-                 if (debug_)
-                   {
-                     cdebug_ << "Error: popping ";
-                     symprint_ (stos_[state_stack_[0]],
-                                &semantic_stack_[0],
-		                &location_stack_[0]);
-                     cdebug_ << std::endl;
-                   }
-#endif // YYDEBUG
-                destruct_ (stos_[state_stack_[0]],
+                 YY_SYMBOL_PRINT ("Error: popping",
+                                  stos_[state_stack_[0]],
+                                  &semantic_stack_[0],
+		                  &location_stack_[0]);
+                 destruct_ (stos_[state_stack_[0]],
                             &semantic_stack_[0],
                             &location_stack_[0]);
 	       }
         }
       else
         {
-#if YYDEBUG
-          if (debug_)
-            {
-              cdebug_ << "Error: discarding ";
-              symprint_ (ilooka_, &value, &location);
-              cdebug_ << std::endl;
-            }
-#endif
+          YY_SYMBOL_PRINT ("Error: discarding", ilooka_, &value, &location);
           destruct_ (ilooka_, &value, &location);
           looka_ = empty_;
         }
@@ -681,14 +679,9 @@ yyerrlab1:
       if (state_stack_.height () == 1)
 	YYABORT;
 
-#if YYDEBUG
-      if (debug_)
-	{
-          cdebug_ << "Error: popping ";
-          symprint_ (stos_[state_], &semantic_stack_[0], &location_stack_[0]);
-          cdebug_ << std::endl;
-	}
-#endif
+      YY_SYMBOL_PRINT ("Error: popping",
+                       stos_[state_],
+                       &semantic_stack_[0], &location_stack_[0]);
       destruct_ (stos_[state_], &semantic_stack_[0], &location_stack_[0]);
       error_start_ = location_stack_[0].begin;
 
@@ -716,11 +709,11 @@ yyerrlab1:
   goto yynewstate;
 
   /* Accept.  */
- yyacceptlab:
+yyacceptlab:
   return 0;
 
   /* Abort.  */
- yyabortlab:
+yyabortlab:
   return 1;
 }
 

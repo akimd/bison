@@ -1,5 +1,16 @@
 2004-09-02  Akim Demaille  <akim@epita.fr>
 
+	* data/glr.c, yacc.c (YYDSYMPRINT): Remove, not used.
+	(YYDSYMPRINTF): Rename as...
+	(YY_SYMBOL_PRINT): this.
+	* data/lalr1.cc (YY_SYMBOL_PRINT): New, modeled after the previous
+	two.
+	Use it instead of direct symprint_ calls.
+	(yybackup): Tweak the "Now at end of input" case to match yacc.c's
+	one.
+
+2004-09-02  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc (b4_yysymprint_generate): New.
 	(symprint_): New member function, defined when YYDEBUG.
 	Use it consistently instead of token/nterm debugging output by
