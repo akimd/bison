@@ -1,5 +1,10 @@
 2001-08-13  Marc Autret  <autret_m@epita.fr>
 
+	* src/bison.simple (YYSTACK_USE_ALLOCA): Changed to allow users 
+	defining it (defined but null disables alloca).
+
+2001-08-13  Marc Autret  <autret_m@epita.fr>
+
 	* src/bison.simple (_yy_memcpy): CPP reformat.
 
 2001-08-13  Pascal Bart  <pascal.bart@epita.fr>
