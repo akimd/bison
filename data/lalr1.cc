@@ -234,6 +234,7 @@ namespace yy
     virtual void lex_ ();
     virtual void error_ ();
     virtual void print_ ();
+    virtual void report_syntax_error_ ();
 
     /* Stacks.  */
     StateStack    state_stack_;
@@ -287,6 +288,10 @@ namespace yy
     int n_;
     int len_;
     int state_;
+
+    /* Error handling. */
+    int nerrs_;
+    int errstatus_;
 
     /* Debugging.  */
     int debug_;
@@ -348,8 +353,8 @@ do {					\
 int
 yy::]b4_parser_class_name[::parse ()
 {
-  int nerrs = 0;
-  int errstatus = 0;
+  nerrs_ = 0;
+  errstatus_ = 0;
 
   /* Initialize the stacks.  The initial state will be pushed in
      yynewstate, since the latter expects the semantical and the
@@ -449,8 +454,8 @@ yy::]b4_parser_class_name[::parse ()
 
   /* Count tokens shifted since error; after three, turn off error
      status.  */
-  if (errstatus)
-    --errstatus;
+  if (errstatus_)
+    --errstatus_;
 
   state_ = n_;
   goto yynewstate;
@@ -523,46 +528,9 @@ b4_syncline([@oline@], [@ofile@])[
 `------------------------------------*/
  yyerrlab:
   /* If not already recovering from an error, report this error.  */
-  if (!errstatus)
-    {
-      ++nerrs;
+  report_syntax_error_ ();
 
-#if YYERROR_VERBOSE
-      n_ = pact_[state_];
-      if (pact_ninf_ < n_ && n_ < last_)
-	{
-	  message = "syntax error, unexpected ";
-	  message += name_[ilooka_];
-	  {
-	    int count = 0;
-            /* Start YYX at -YYN if negative to avoid negative indexes in
-               YYCHECK.  */
-	    int xbegin = n_ < 0 ? -n_ : 0;
- 	    /* Stay within bounds of both yycheck and yytname.  */
-	    int checklim = last_ - n_;
-	    int xend = checklim < ntokens_ ? checklim : ntokens_;
-	    for (int x = xbegin; x < xend; ++x)
-	      if (check_[x + n_] == x && x != terror_)
-		++count;
-	    if (count < 5)
-	      {
-		count = 0;
-		for (int x1 = xbegin; x1 < xend; ++x1)
-		  if (check_[x1 + n_] == x1 && x1 != terror_)
-		    {
-		      message += (!count++) ? ", expecting " : " or ";
-		      message += name_[x1];
-		    }
-	      }
-	  }
-	}
-      else
-#endif
-	message = "syntax error";
-      error_ ();
-    }
-
-  if (errstatus == 3)
+  if (errstatus_ == 3)
     {
       /* If just tried and failed to reuse lookahead token after an
 	 error, discard it.  */
@@ -615,7 +583,7 @@ yyerrorlab:
 | yyerrlab1 -- common code for both syntax error and YYERROR.  |
 `-------------------------------------------------------------*/
 yyerrlab1:
-  errstatus = 3;	/* Each real token shifted decrements this.  */
+  errstatus_ = 3;	/* Each real token shifted decrements this.  */
 
   for (;;)
     {
@@ -692,6 +660,45 @@ yy::]b4_parser_class_name[::lex_ ()
 #else
   looka_ = yylex (&value);
 #endif
+}
+
+/** Generate an error message, and invoke yyerror. */
+void
+yy::]b4_parser_class_name[::report_syntax_error_ ()
+{
+  /* If not already recovering from an error, report this error.  */
+  if (!errstatus_)
+    {
+      ++nerrs_;
+
+#if YYERROR_VERBOSE
+      n_ = pact_[state_];
+      if (pact_ninf_ < n_ && n_ < last_)
+	{
+	  message = "syntax error, unexpected ";
+	  message += name_[ilooka_];
+	  {
+	    int count = 0;
+	    for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
+	      if (check_[x + n_] == x && x != terror_)
+		++count;
+	    if (count < 5)
+	      {
+		count = 0;
+		for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
+		  if (check_[x + n_] == x && x != terror_)
+		    {
+		      message += (!count++) ? ", expecting " : " or ";
+		      message += name_[x];
+		    }
+	      }
+	  }
+	}
+      else
+#endif
+	message = "syntax error";
+      error_ ();
+    }
 }
 
 
