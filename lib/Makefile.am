@@ -21,12 +21,9 @@ CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
 
 noinst_LIBRARIES = libbison.a
 
-# libintl.h in is build/intl, libgettext.h in src/intl/,
-# config.h in build/., and system.h is in src/src/.
-INCLUDES = -I$(top_builddir)/intl \
-           -I$(top_builddir)      \
+# config.h is in build/., and system.h is in src/src/.
+INCLUDES = -I$(top_builddir)      \
            -I$(top_srcdir)/src \
-           -I$(top_srcdir)/intl \
            -I$(top_srcdir)/lib
 
 # Heck, we are still using an old version of Automake which does not
@@ -41,22 +38,23 @@ libbison_a_SOURCES = \
   getopt.h getopt.c getopt1.c \
   hash.h hash.c \
   quote.h quote.c quotearg.h quotearg.c \
+  readpipe.c unlocked-io.h \
   xalloc.h xmalloc.c xstrdup.c xstrndup.c \
-  readpipe.c
+  $(bitsets_sources) $(additional_bitsets_sources) $(timevars_sources)
 
 # Implementation of bitsets
-libbison_a_SOURCES += \
+bitsets_sources = \
 libiberty.h \
 abitset.c  bitset.c        bitset_stats.h  ebitset.c  lbitset.h \
 abitset.h  bitset.h        bitsetv.c       ebitset.h \
 bbitset.h  bitset_stats.c  bitsetv.h       lbitset.c
 
 # Additional bitset operations.
-libbison_a_SOURCES += \
+additional_bitsets_sources = \
 	bitsetv-print.h bitsetv-print.c
 
 # timevars, stolen from GCC.
-libbison_a_SOURCES += \
+timevars_sources = \
 	timevar.h timevar.c timevar.def
 
 libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
