@@ -679,6 +679,7 @@ yyreduce:
   switch (yyn_)
     {
       ]b4_actions[
+      default: break;
     }
 
 ]/* Line __line__ of lalr1.cc.  */

@@ -1033,6 +1033,7 @@ yyreduce:
   switch (yyn)
     ]{
       b4_actions
+      default: break;
     }
 
 /* Line __line__ of yacc.c.  */

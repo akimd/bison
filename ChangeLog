@@ -1,3 +1,10 @@
+2005-01-17  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (yyuserAction): Add "default: break;" case to pacify
+	gcc -Wswitch-default.
+	* data/lalr1.cc (yy::]b4_parser_class_name[::parse): Likewise.
+	* data/yacc.c (yyparse): Likewise.
+
 2005-01-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/system.h (OUTPUT_EXT, TAB_EXT): Define only if not defined
