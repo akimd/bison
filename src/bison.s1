@@ -116,11 +116,10 @@ while (0)
 #define YYTERROR	1
 #define YYERRCODE	256
 
-#ifndef YYPURE
-# define YYLEX		yylex ()
-#endif
 
-#ifdef YYPURE
+/* YYLEX -- calling `yylex' with the right arguments. */
+
+#if YYPURE
 # ifdef YYLSP_NEEDED
 #  ifdef YYLEX_PARAM
 #   define YYLEX		yylex (&yylval, &yylloc, YYLEX_PARAM)
@@ -134,11 +133,14 @@ while (0)
 #   define YYLEX		yylex (&yylval)
 #  endif
 # endif /* !YYLSP_NEEDED */
-#endif
+#else /* !YYPURE */
+# define YYLEX			yylex ()
+#endif /* !YYPURE */
+
 
 /* If nonreentrant, generate the variables here. */
 
-#ifndef YYPURE
+#if !YYPURE
 /* The lookahead symbol.  */
 int yychar;
 
@@ -153,6 +155,7 @@ YYLTYPE yylloc;
 /* Number of parse errors so far.  */
 int yynerrs;
 #endif  /* !YYPURE */
+
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
@@ -304,14 +307,14 @@ yyparse (YYPARSE_PARAM_ARG)
   int yystacksize = YYINITDEPTH;
   int yyfree_stacks = 0;
 
-#ifdef YYPURE
+#if YYPURE
   int yychar;
   YYSTYPE yylval;
   int yynerrs;
 # ifdef YYLSP_NEEDED
   YYLTYPE yylloc;
 # endif
-#endif
+#endif /* !YYPURE */
 
 
   /* The variables used to return semantic value and location from the

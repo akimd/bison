@@ -1,5 +1,10 @@
 2000-11-07  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.s1 (YYLEX): Use #if instead of #ifdef.
+	Merge in a single CPP if/else.
+
+2000-11-07  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output): Remove useless variables.
 	* lib/obstack.c (obstack_grow, obstack_grow0): Rename the second
 	argument `data' for consistency with the prototypes.
