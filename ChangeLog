@@ -1,5 +1,12 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/nullable.h: New file.
+	Propagate its inclusion.
+	* src/nullable.c: Formatting changes.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.h: New file.
 	Propagate its inclusion.
 	* src/reduce.c: Topological sort and other formatting changes.
