@@ -315,7 +315,7 @@ namespace yy
 #endif
 
     /* Even more tables.  */
-    static inline TokenNumberType translate_ (int token);
+    inline TokenNumberType translate_ (int token);
     inline void destruct_ (int yytype, SemanticType *yyvaluep,
 			   LocationType *yylocationp);
 

@@ -1,5 +1,9 @@
 2004-09-02  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (translate_, destruct_): No reason to be static.
+
+2004-09-02  Akim Demaille  <akim@epita.fr>
+
 	* data/glr.c, yacc.c (YYDSYMPRINT): Remove, not used.
 	(YYDSYMPRINTF): Rename as...
 	(YY_SYMBOL_PRINT): this.
