@@ -1,5 +1,12 @@
 2002-07-09  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo: Properly set the ``header'' part.
+	Use @dircategory ``GNU programming tools'' as per Texinfo's
+	documentation.
+	Use @copying.
+
+2002-07-09  Akim Demaille  <akim@epita.fr>
+
 	* lib/quotearg.h: Protect against multiple inclusions.
 	* src/location.h (location_t): Add a `file' member.
 	(LOCATION_RESET, LOCATION_PRINT): Adjust.

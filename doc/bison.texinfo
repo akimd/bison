@@ -34,46 +34,33 @@
 @end ifinfo
 @comment %**end of header
 
-@ifinfo
-@format
-START-INFO-DIR-ENTRY
-* bison: (bison).	GNU Project parser generator (yacc replacement).
-END-INFO-DIR-ENTRY
-@end format
-@end ifinfo
+@copying
 
-@ifinfo
-This file documents the Bison parser generator.
+This manual is for GNU Bison (version @value{VERSION}, @value{UPDATED}),
+the GNU parser generator.
 
-Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998, 1999,
-2000, 2001, 2002
-Free Software Foundation, Inc.
+Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
+1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 
-Permission is granted to make and distribute verbatim copies of
-this manual provided the copyright notice and this permission notice
-are preserved on all copies.
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with the Front-Cover texts being ``A GNU Manual,''
+and with the Back-Cover Texts as in (a) below.  A copy of the
+license is included in the section entitled ``GNU Free Documentation
+License.''
 
-@ignore
-Permission is granted to process this file through Tex and print the
-results, provided the printed document carries copying permission
-notice identical to this one except for the removal of this paragraph
-(this paragraph not being relevant to the printed manual).
+(a) The FSF's Back-Cover Text is: ``You have freedom to copy and modify
+this GNU Manual, like GNU software.  Copies published by the Free
+Software Foundation raise funds for GNU development.''
+@end quotation
+@end copying
 
-@end ignore
-Permission is granted to copy and distribute modified versions of this
-manual under the conditions for verbatim copying, provided also that the
-sections entitled ``GNU General Public License'' and ``Conditions for
-Using Bison'' are included exactly as in the original, and provided that
-the entire resulting derived work is distributed under the terms of a
-permission notice identical to this one.
-
-Permission is granted to copy and distribute translations of this manual
-into another language, under the above conditions for modified versions,
-except that the sections entitled ``GNU General Public License'',
-``Conditions for Using Bison'' and this permission notice may be
-included in translations approved by the Free Software Foundation
-instead of in the original English.
-@end ifinfo
+@dircategory GNU programming tools
+@direntry
+* bison: (bison).	GNU parser generator (yacc replacement).
+@end direntry
 
 @ifset shorttitlepage-enabled
 @shorttitlepage Bison
@@ -87,41 +74,13 @@ instead of in the original English.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
-1999, 2000, 2001, 2002
-Free Software Foundation, Inc.
-
+@insertcopying
 @sp 2
 Published by the Free Software Foundation @*
 59 Temple Place, Suite 330 @*
 Boston, MA  02111-1307  USA @*
 Printed copies are available from the Free Software Foundation.@*
 ISBN 1-882114-44-2
-
-Permission is granted to make and distribute verbatim copies of
-this manual provided the copyright notice and this permission notice
-are preserved on all copies.
-
-@ignore
-Permission is granted to process this file through TeX and print the
-results, provided the printed document carries copying permission
-notice identical to this one except for the removal of this paragraph
-(this paragraph not being relevant to the printed manual).
-
-@end ignore
-Permission is granted to copy and distribute modified versions of this
-manual under the conditions for verbatim copying, provided also that the
-sections entitled ``GNU General Public License'' and ``Conditions for
-Using Bison'' are included exactly as in the original, and provided that
-the entire resulting derived work is distributed under the terms of a
-permission notice identical to this one.
-
-Permission is granted to copy and distribute translations of this manual
-into another language, under the above conditions for modified versions,
-except that the sections entitled ``GNU General Public License'',
-``Conditions for Using Bison'' and this permission notice may be
-included in translations approved by the Free Software Foundation
-instead of in the original English.
 @sp 2
 Cover art by Etienne Suvasa.
 @end titlepage
@@ -131,9 +90,7 @@ Cover art by Etienne Suvasa.
 @ifnottex
 @node Top
 @top Bison
-
-This manual documents version @value{VERSION} of Bison, updated
-@value{UPDATED}.
+@insertcopying
 @end ifnottex
 
 @menu
@@ -438,18 +395,18 @@ Mysterious Reduce/Reduce Conflicts}, for more information on this.
 @cindex ambiguous grammars
 @cindex non-deterministic parsing
 Parsers for LALR(1) grammars are @dfn{deterministic}, meaning roughly that
-the next grammar rule to apply at any point in the input is uniquely 
+the next grammar rule to apply at any point in the input is uniquely
 determined by the preceding input and a fixed, finite portion (called
 a @dfn{look-ahead}) of the remaining input.
-A context-free grammar can be @dfn{ambiguous}, meaning that 
+A context-free grammar can be @dfn{ambiguous}, meaning that
 there are multiple ways to apply the grammar rules to get the some inputs.
 Even unambiguous grammars can be @dfn{non-deterministic}, meaning that no
 fixed look-ahead always suffices to determine the next grammar rule to apply.
-With the proper declarations, Bison is also able to parse these more general 
-context-free grammars, using a technique known as GLR parsing (for 
-Generalized LR).  Bison's GLR parsers are able to handle any context-free 
-grammar for which the number of possible parses of any given string 
-is finite.  
+With the proper declarations, Bison is also able to parse these more general
+context-free grammars, using a technique known as GLR parsing (for
+Generalized LR).  Bison's GLR parsers are able to handle any context-free
+grammar for which the number of possible parses of any given string
+is finite.
 
 @cindex symbols (abstract)
 @cindex token
@@ -702,7 +659,7 @@ involved, or by performing both actions, and then calling a designated
 user-defined function on the resulting values to produce an arbitrary
 merged result.
 
-Let's consider an example, vastly simplified from C++.  
+Let's consider an example, vastly simplified from C++.
 
 @example
 %@{
@@ -718,7 +675,7 @@ Let's consider an example, vastly simplified from C++.
 
 %%
 
-prog : 
+prog :
      | prog stmt   @{ printf ("\n"); @}
      ;
 
@@ -727,13 +684,13 @@ stmt : expr ';'  %dprec 1
      ;
 
 expr : ID 		@{ printf ("%s ", $$); @}
-     | TYPENAME '(' expr ')'  
+     | TYPENAME '(' expr ')'
 			@{ printf ("%s <cast> ", $1); @}
      | expr '+' expr	@{ printf ("+ "); @}
      | expr '=' expr	@{ printf ("= "); @}
      ;
 
-decl : TYPENAME declarator ';' 
+decl : TYPENAME declarator ';'
 			@{ printf ("%s <declare> ", $1); @}
      | TYPENAME declarator '=' expr ';'
 			@{ printf ("%s <init-declare> ", $1); @}
@@ -756,14 +713,14 @@ T (x) = y+z;
 parses as either an @code{expr} or a @code{stmt}
 (assuming that @samp{T} is recognized as a TYPENAME and @samp{x} as an ID).
 Bison detects this as a reduce/reduce conflict between the rules
-@code{expr : ID} and @code{declarator : ID}, which it cannot resolve at the 
-time it encounters @code{x} in the example above.  The two @code{%dprec} 
-declarations, however, give precedence to interpreting the example as a 
+@code{expr : ID} and @code{declarator : ID}, which it cannot resolve at the
+time it encounters @code{x} in the example above.  The two @code{%dprec}
+declarations, however, give precedence to interpreting the example as a
 @code{decl}, which implies that @code{x} is a declarator.
 The parser therefore prints
 
 @example
-"x" y z + T <init-declare> 
+"x" y z + T <init-declare>
 @end example
 
 Consider a different input string for this parser:
@@ -783,7 +740,7 @@ assuming @code{x} is a @code{declarator}.  The second of these parsers
 then vanishes when it sees @code{+}, and the parser prints
 
 @example
-x T <cast> y + 
+x T <cast> y +
 @end example
 
 Suppose that instead of resolving the ambiguity, you wanted to see all
@@ -826,7 +783,7 @@ With these declarations, the resulting parser will parse the first example
 as both an @code{expr} and a @code{decl}, and print
 
 @example
-"x" y z + T <init-declare> x T <cast> y z + = <OR> 
+"x" y z + T <init-declare> x T <cast> y z + = <OR>
 @end example
 
 
@@ -4837,24 +4794,24 @@ return_spec:
         ;
 @end example
 
-@node Generalized LR Parsing 
+@node Generalized LR Parsing
 @section Generalized LR (GLR) Parsing
 @cindex GLR parsing
 @cindex generalized LR (GLR) parsing
 @cindex ambiguous grammars
 @cindex non-deterministic parsing
 
-Bison produces @emph{deterministic} parsers that choose uniquely 
-when to reduce and which reduction to apply 
+Bison produces @emph{deterministic} parsers that choose uniquely
+when to reduce and which reduction to apply
 based on a summary of the preceding input and on one extra token of lookahead.
 As a result, normal Bison handles a proper subset of the family of
 context-free languages.
-Ambiguous grammars, since they have strings with more than one possible 
+Ambiguous grammars, since they have strings with more than one possible
 sequence of reductions cannot have deterministic parsers in this sense.
 The same is true of languages that require more than one symbol of
 lookahead, since the parser lacks the information necessary to make a
 decision at the point it must be made in a shift-reduce parser.
-Finally, as previously mentioned (@pxref{Mystery Conflicts}), 
+Finally, as previously mentioned (@pxref{Mystery Conflicts}),
 there are languages where Bison's particular choice of how to
 summarize the input seen so far loses necessary information.
 
@@ -4863,23 +4820,23 @@ Bison generates a parser that uses a different algorithm, called
 Generalized LR (or GLR).  A Bison GLR parser uses the same basic
 algorithm for parsing as an ordinary Bison parser, but behaves
 differently in cases where there is a shift-reduce conflict that has not
-been resolved by precedence rules (@pxref{Precedence}) or a 
+been resolved by precedence rules (@pxref{Precedence}) or a
 reduce-reduce conflict.  When a GLR parser encounters such a situation, it
-effectively @emph{splits} into a several parsers, one for each possible 
+effectively @emph{splits} into a several parsers, one for each possible
 shift or reduction.  These parsers then proceed as usual, consuming
 tokens in lock-step.  Some of the stacks may encounter other conflicts
-and split further, with the result that instead of a sequence of states, 
-a Bison GLR parsing stack is what is in effect a tree of states.  
+and split further, with the result that instead of a sequence of states,
+a Bison GLR parsing stack is what is in effect a tree of states.
 
 In effect, each stack represents a guess as to what the proper parse
 is.  Additional input may indicate that a guess was wrong, in which case
 the appropriate stack silently disappears.  Otherwise, the semantics
-actions generated in each stack are saved, rather than being executed 
+actions generated in each stack are saved, rather than being executed
 immediately.  When a stack disappears, its saved semantic actions never
-get executed.  When a reduction causes two stacks to become equivalent, 
+get executed.  When a reduction causes two stacks to become equivalent,
 their sets of semantic actions are both saved with the state that
 results from the reduction.  We say that two stacks are equivalent
-when they both represent the same sequence of states, 
+when they both represent the same sequence of states,
 and each pair of corresponding states represents a
 grammar symbol that produces the same segment of the input token
 stream.
@@ -4891,16 +4848,16 @@ At this transition, some of the states on the stack will have semantic
 values that are sets (actually multisets) of possible actions.  The
 parser tries to pick one of the actions by first finding one whose rule
 has the highest dynamic precedence, as set by the @samp{%dprec}
-declaration.  Otherwise, if the alternative actions are not ordered by 
+declaration.  Otherwise, if the alternative actions are not ordered by
 precedence, but there the same merging function is declared for both
-rules by the @samp{%merge} declaration, 
+rules by the @samp{%merge} declaration,
 Bison resolves and evaluates both and then calls the merge function on
 the result.  Otherwise, it reports an ambiguity.
 
 It is possible to use a data structure for the GLR parsing tree that
 permits the processing of any LALR(1) grammar in linear time (in the
 size of the input), any unambiguous (not necessarily LALR(1)) grammar in
-quadratic worst-case time, and any general (possibly ambiguous) 
+quadratic worst-case time, and any general (possibly ambiguous)
 context-free grammar in cubic worst-case time.  However, Bison currently
 uses a simpler data structure that requires time proportional to the
 length of the input times the maximum number of stacks required for any
@@ -6201,7 +6158,7 @@ Equip the parser for debugging.  @xref{Decl Summary}.
 Bison declaration to create a header file meant for the scanner.
 @xref{Decl Summary}.
 
-@item %dprec 
+@item %dprec
 Bison declaration to assign a precedence to a rule that is used at parse
 time to resolve reduce/reduce conflicts.  @xref{GLR Parsers}.
 
@@ -6226,7 +6183,7 @@ Bison declaration to assign left associativity to token(s).
 
 @item %merge
 Bison declaration to assign a merging function to a rule.  If there is a
-reduce/reduce conflict with a rule having the same merging function, the 
+reduce/reduce conflict with a rule having the same merging function, the
 function is applied to the two semantic values to get a single result.
 @xref{GLR Parsers}.
 
@@ -6344,7 +6301,7 @@ rules.  @xref{Algorithm, ,The Bison Parser Algorithm }.
 
 @item Generalized LR (GLR)
 A parsing algorithm that can handle all context-free grammars, including those
-that are not LALR(1).  It resolves situations that Bison's usual LALR(1) 
+that are not LALR(1).  It resolves situations that Bison's usual LALR(1)
 algorithm cannot by effectively splitting off multiple parsers, trying all
 possible parsers, and discarding those that fail in the light of additional
 right context.  @xref{Generalized LR Parsing, ,Generalized LR Parsing}.
