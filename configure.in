@@ -34,6 +34,7 @@ if test "${enableval}" = yes; then
   BISON_WARNING(-Wbad-function-cast)
   BISON_WARNING(-Wcast-align)
   BISON_WARNING(-Wcast-qual)
+  BISON_WARNING(-Wformat)
   BISON_WARNING(-Wmissing-declarations)
   BISON_WARNING(-Wmissing-prototypes)
   BISON_WARNING(-Wnested-externs)
