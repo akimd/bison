@@ -42,7 +42,7 @@ void scanner_initialize (void);
 void scanner_free (void);
 void scanner_last_string_free (void);
 
-# define YY_DECL int gram_lex (yystype *val, location *loc)
+# define YY_DECL int gram_lex (YYSTYPE *val, location *loc)
 YY_DECL;
 
 
