@@ -1,3 +1,8 @@
+2005-01-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/scan-skel.l (<<EOF>>): Don't close standard output.
+	Problem reported by Hans Aberg.
+
 2005-01-01  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/getargs.c (version): Happy new year; update overall
