@@ -855,11 +855,12 @@ The declarations section (@pxref{Prologue, , The prologue}) contains two
 preprocessor directives.
 
 The @code{#define} directive defines the macro @code{YYSTYPE}, thus
-specifying the C data type for semantic values of both tokens and groupings
-(@pxref{Value Type, ,Data Types of Semantic Values}).  The Bison parser will use whatever type
-@code{YYSTYPE} is defined as; if you don't define it, @code{int} is the
-default.  Because we specify @code{double}, each token and each expression
-has an associated value, which is a floating point number.
+specifying the C data type for semantic values of both tokens and
+groupings (@pxref{Value Type, ,Data Types of Semantic Values}).  The
+Bison parser will use whatever type @code{YYSTYPE} is defined as; if you
+don't define it, @code{int} is the default.  Because we specify
+@code{double}, each token and each expression has an associated value,
+which is a floating point number.
 
 The @code{#include} directive is used to declare the exponentiation
 function @code{pow}.
@@ -1066,10 +1067,11 @@ token type is an identifier, that identifier is defined by Bison as a C
 macro whose definition is the appropriate number.  In this example,
 therefore, @code{NUM} becomes a macro for @code{yylex} to use.
 
-The semantic value of the token (if it has one) is stored into the global
-variable @code{yylval}, which is where the Bison parser will look for it.
-(The C data type of @code{yylval} is @code{YYSTYPE}, which was defined
-at the beginning of the grammar; @pxref{Rpcalc Decls, ,Declarations for @code{rpcalc}}.)
+The semantic value of the token (if it has one) is stored into the
+global variable @code{yylval}, which is where the Bison parser will look
+for it.  (The C data type of @code{yylval} is @code{YYSTYPE}, which was
+defined at the beginning of the grammar; @pxref{Rpcalc Decls,
+,Declarations for @code{rpcalc}}.)
 
 A token type code of zero is returned if the end-of-file is encountered.
 (Bison recognizes any nonpositive value as indicating the end of the
@@ -2375,7 +2377,8 @@ the numbers associated with @var{x} and @var{y}.
 
 In a simple program it may be sufficient to use the same data type for
 the semantic values of all language constructs.  This was true in the
-RPN and infix calculator examples (@pxref{RPN Calc, ,Reverse Polish Notation Calculator}).
+RPN and infix calculator examples (@pxref{RPN Calc, ,Reverse Polish
+Notation Calculator}).
 
 Bison's default is to use type @code{int} for all semantic values.  To
 specify some other type, define @code{YYSTYPE} as a macro, like this:
