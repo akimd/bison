@@ -1,3 +1,7 @@
+2001-08-15  Akim Demaille  <akim@epita.fr>
+
+	Version 1.28c.
+
 2001-08-15  Marc Autret  <prog@epita.fr>
 
 	* src/reader.c (readgram): Indent output macro YYSTYPE.
