@@ -3,6 +3,11 @@ Bison News
 
 Changes in version 1.875a:
 
+* %expect-count violations are now just warnings, not errors, for
+  compatibility with Bison 1.75 and earlier (when there are
+  reduce/reduce conflicts) and with Bison 1.30 and earlier (when there
+  are too many or too few shift/reduce conflicts).
+
 * New configure option --disable-yacc, to disable installation of the
   yacc command and -ly library introduced in 1.875 for POSIX conformance.
 

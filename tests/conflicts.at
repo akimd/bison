@@ -1,5 +1,6 @@
 # Exercising Bison on conflicts.                         -*- Autotest -*-
-# Copyright (C) 2002 Free Software Foundation, Inc.
+
+# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -485,9 +486,9 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison -o input.c input.y], 1, [],
+AT_CHECK([bison -o input.c input.y], 0, [],
 [input.y: conflicts: 1 shift/reduce
-input.y: expected 0 shift/reduce conflicts
+input.y: warning: expected 0 shift/reduce conflicts
 ])
 AT_CLEANUP
 
@@ -522,9 +523,9 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison -o input.c input.y], 1, [],
+AT_CHECK([bison -o input.c input.y], 0, [],
 [input.y: conflicts: 1 shift/reduce
-input.y: expected 2 shift/reduce conflicts
+input.y: warning: expected 2 shift/reduce conflicts
 ])
 AT_CLEANUP
 
@@ -542,8 +543,8 @@ program: a 'a' | a a;
 a: 'a';
 ]])
 
-AT_CHECK([bison -o input.c input.y], 1, [],
+AT_CHECK([bison -o input.c input.y], 0, [],
 [input.y: conflicts: 1 reduce/reduce
-input.y: expected 0 reduce/reduce conflicts
+input.y: warning: expected 0 reduce/reduce conflicts
 ])
 AT_CLEANUP

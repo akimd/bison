@@ -3558,7 +3558,7 @@ The declaration looks like this:
 
 Here @var{n} is a decimal integer.  The declaration says there should be
 no warning if there are @var{n} shift/reduce conflicts and no
-reduce/reduce conflicts.  An error, instead of the usual warning, is
+reduce/reduce conflicts.  The usual warning is
 given if there are either more or fewer conflicts, or if there are any
 reduce/reduce conflicts.
 
@@ -3580,9 +3580,9 @@ Add an @code{%expect} declaration, copying the number @var{n} from the
 number which Bison printed.
 @end itemize
 
-Now Bison will stop annoying you about the conflicts you have checked, but
-it will warn you again if changes in the grammar result in additional
-conflicts.
+Now Bison will stop annoying you if you do not change the number of
+conflicts, but it will warn you again if changes in the grammar result
+in more or fewer conflicts.
 
 @node Start Decl
 @subsection The Start-Symbol
