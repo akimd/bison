@@ -10,7 +10,6 @@
 	attached to state, hence no longer need to be labelled with a
 	state number.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	Now that states have a complete set of members, the linked list of
@@ -24,7 +23,6 @@
 	since shifts are attached, it is no longer needed to looking
 	merely by its id: its number.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (augment_automaton): Better variable locality.
@@ -32,7 +30,6 @@
 	the start symbol being shifted, then there is shift for the start
 	symbol from the initial state.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (augment_automaton): Call `insert_eof_shifting_state'
@@ -40,13 +37,11 @@
 	invoked.
 	* tests/regression.at (Rule Line Numbers): Adjust.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (augment_automaton): Now that all states have shifts,
 	merge the two cases addition shifts to the initial state.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.c (set_state_table): Move to...
@@ -55,14 +50,12 @@
 	* src/LR0.c (generate_states): do it.
 	* src/LR0.h (first_state): Remove, only the table is used.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.h (first_shift, first_reduction): Remove.
 	* src/lalr.c: Don't use first_shift: find shifts through the
 	states.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c: Attach shifts to states as soon as they are
@@ -70,7 +63,6 @@
 	* src/lalr.c (set_state_table): Instead of assigning shifts to
 	state, just assert that the mapping was properly done.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (insert_start_shift): Rename as...
@@ -93,18 +85,15 @@
 	* src/reader.c (symbols_output): Likewise.
 	* src/vmsgetargs.c: Vaguely adjust, but who cares?
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/muscle_tab.c (muscle_init): NULL is a better default than
 	`"0"'.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (reader): Calling symbols_output once is enough.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	Now that states have a complete set of members, the linked list of
@@ -122,19 +111,16 @@
 	the reductions, then the states: free all the states and their
 	members.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/options.c (OPTN, DRTV, BOTH): New.
 	(option_table): Use them.
 
-	
 	* src/muscle_tab.c: Don't include xalloc.h and string.h: that's
 	the job of system.h.
 	* src/options.c: Don't include stdio.h and xalloc.h for the same
 	reasons.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output, prepare): Make sure the values of the
@@ -159,7 +145,6 @@
 	* m4/m4.m4: Remove.
 	* tests/Makefile.am: Adjust.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	One structure for states is enough, even though theoretically
@@ -176,7 +161,6 @@
 	* src/print_graph.c, src/LR0.c, src/LR0.h, src/conflicts.c
 	* src/lalr.c, src/lalr.h, src/output.c, src/print.c: Adjust.
 
-	
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
 	Bison dumps core on bash.y.
