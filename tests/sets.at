@@ -92,10 +92,10 @@ NULLABLE
 	e: yes
 FIRSTS
 	$axiom firsts
-		4 ($axiom)
-		5 (e)
+		$axiom
+		e
 	e firsts
-		5 (e)
+		e
 FDERIVES
 	$axiom derives
 		0: e $
@@ -164,8 +164,8 @@ h: 'h';
 
 AT_CHECK([[bison --trace input.y]], [], [], [stderr])
 
-AT_CHECK([[sed -n 's/[	 ]*$//;/^RTC: Output BEGIN/,/^RTC: Output END/p' stderr]], [],
-[[RTC: Output BEGIN
+AT_CHECK([[sed -n 's/[	 ]*$//;/^RTC: Firsts Output BEGIN/,/^RTC: Firsts Output END/p' stderr]], [],
+[[RTC: Firsts Output BEGIN
 
    012345678
   .---------.
@@ -179,7 +179,7 @@ AT_CHECK([[sed -n 's/[	 ]*$//;/^RTC: Output BEGIN/,/^RTC: Output END/p' stderr]]
  7|       11|
  8|        1|
   `---------'
-RTC: Output END
+RTC: Firsts Output END
 ]])
 
 AT_CLEANUP
@@ -227,10 +227,10 @@ NULLABLE
 	exp: no
 FIRSTS
 	$axiom firsts
-		10 ($axiom)
-		11 (exp)
+		$axiom
+		exp
 	exp firsts
-		11 (exp)
+		exp
 FDERIVES
 	$axiom derives
 		0: exp $

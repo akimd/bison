@@ -1,5 +1,13 @@
 2002-05-06  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (print_firsts): Display of the symbol tags.
+	(bitmatrix_print): Move to...
+	* lib/bitsetv-print.h, lib/bitsetv-print.c (bitsetv_matrix_dump):
+	here.
+	* tests/sets.at (Nullable, Broken Closure, Firsts): Adjust.
+
+2002-05-06  Akim Demaille  <akim@epita.fr>
+
 	* src/muscle_tab.c (muscle_m4_output): Must return TRUE for
 	hash_do_for_each.
 

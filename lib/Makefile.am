@@ -49,5 +49,9 @@ libbison_a_SOURCES += \
 	bitset-int.h bitset.h bitsetv.h ebitset.h lbitset.h sbitset.h \
 	bitset.c bitsetv.c ebitset.c lbitset.c sbitset.c
 
+# Additional bitset operations.
+libbison_a_SOURCES += \
+	bitsetv-print.h bitsetv-print.c
+
 libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)
