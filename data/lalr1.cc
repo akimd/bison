@@ -111,7 +111,7 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 /* Copy the first part of user declarations.  */
 ]b4_pre_prologue[
 
-]/* Line __line__ of __file__.  */
+]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
 
 /* Enabling traces.  */
@@ -128,7 +128,7 @@ b4_syncline([@oline@], [@ofile@])[
 ]m4_ifdef([b4_stype],
 [b4_syncline([b4_stype_line], [b4_filename])
 typedef union b4_stype yystype;
-/* Line __line__ of __file__.  */
+/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])],
 [typedef int yystype;])[
 # define YYSTYPE yystype
@@ -137,7 +137,7 @@ b4_syncline([@oline@], [@ofile@])],
 /* Copy the second part of user declarations.  */
 ]b4_post_prologue[
 
-]/* Line __line__ of __file__.  */
+]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
@@ -445,7 +445,7 @@ yy::]b4_parser_class_name[::parse ()
       ]b4_actions[
     }
 
-]/* Line __line__ of __file__.  */
+]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
 
   state_stack_.pop (len_);

@@ -1,3 +1,12 @@
+2002-12-08  Paul Eggert  <eggert@twinsun.com>
+
+	* data/glr.c, data/lalr1.cc, data/yacc.c: Do not use __file__,
+	since this causes problems when __file__ contains character
+	sequences like "@" that are treated specially by src/scan-skel.l.
+	Instead, just use the file's basename.  This fixes the bug
+	reported by Martin Mokrejs in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-December/001949.html>.
+
 2002-12-06  Paul Eggert  <eggert@twinsun.com>
 
 	Add support for rules that do not have trailing semicolons, as
