@@ -103,7 +103,7 @@ AT_CLEANUP
 
 AT_SETUP([Exploding the Stack Size with Malloc])
 
-AT_DATA_STACK_TORTURE([[#define YYSTACK_USE_ALLOCA_ALLOCA 0]])
+AT_DATA_STACK_TORTURE([[#define YYSTACK_USE_ALLOCA 0]])
 
 # Below the limit of 200.
 AT_CHECK([input 20], 0, [], [ignore])

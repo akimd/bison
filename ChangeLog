@@ -1,5 +1,10 @@
 2001-11-27  Akim Demaille  <akim@epita.fr>
 
+	* tests/torture.at (Exploding the Stack Size with Malloc):
+	s/YYSTACK_USE_ALLOCA_ALLOCA/YYSTACK_USE_ALLOCA/.
+
+2001-11-27  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c: Include error.h.
 	From Hans Aberg.
 
