@@ -1,4 +1,4 @@
-/* system-dependent definitions for Bison.
+/* System-dependent definitions for Bison.
    Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -41,7 +41,8 @@ char *alloca ();
 
 #include <stdio.h>
 
-#include <assert.h>
+/* Verify a requirement at compile-time (unlike assert, which is runtime).  */
+#define verify(name, assertion) struct name {char name[(assertion) ? 1 : -1];}
 
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>
