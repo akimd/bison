@@ -1,9 +1,10 @@
 ChangeLog
 Makefile
 Makefile.in
+Makevars.template
 POTFILES
 bison.pot
-stamp-cat-id
+stamp-po
 *.gmo
 Makefile.in
 Rules-quot
