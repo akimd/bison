@@ -1,5 +1,13 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (SHIFT_DISABLE, SHIFT_IS_DISABLED): New.
+	* src/conflicts.c: Use it.
+	Restore a few missing `if (!SHIFT_IS_DISABLED)' which were
+	incorrectly ``simplified''.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (flush_shift, resolve_sr_conflict): De-obfuscate
 	using the good o' techniques: arrays not pointers, variable
 	locality, BITISSET, RESETBIT etc.
