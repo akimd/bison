@@ -413,20 +413,16 @@ static YYLTYPE
 lloc_default (YYLTYPE const *rhs, int n)
 {
   int i;
-  int j;
   YYLTYPE r;
   r.start = r.end = rhs[n].end;
 
+  /* Ignore empty nonterminals the start of the the right-hand side.
+     Do not bother to ignore them at the end of the right-hand side,
+     since empty nonterminals have the same end as their predecessors.  */
   for (i = 1; i <= n; i++)
     if (! equal_boundaries (rhs[i].start, rhs[i].end))
       {
 	r.start = rhs[i].start;
-
-	for (j = n; i < j; j--)
-	  if (! equal_boundaries (rhs[j].start, rhs[j].end))
-	    break;
-	r.end = rhs[j].end;
-
 	break;
       }
 
