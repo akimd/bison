@@ -1,5 +1,10 @@
 2002-10-13  Akim Demaille  <akim@epita.fr>
 
+	* data/glr.c: Formatting changes.
+	Tweak some trace messages to match yacc.c's.
+
+2002-10-13  Akim Demaille  <akim@epita.fr>
+
 	GLR parsers sometimes raise parse errors instead of performing the
 	default reduction.
 	Reported by Charles-Henry de Boysson.
