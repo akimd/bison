@@ -46,7 +46,7 @@ typedef struct bucket
   char *tag;
   /* Its type. */
   char *type_name;
-  short value;
+  short number;
   short prec;
   associativity assoc;
   short user_token_number;
