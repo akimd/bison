@@ -33,7 +33,7 @@ exp: { $$ = $1 ; };
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:2.6-14: integer out of range: `$1'
+[[input.y:2.13-14: integer out of range: `$1'
 ]])
 
 AT_CLEANUP
@@ -51,7 +51,7 @@ exp: { @$ = @1 ; };
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:2.6-14: integer out of range: `@1'
+[[input.y:2.13-14: integer out of range: `@1'
 ]])
 
 AT_CLEANUP
@@ -74,9 +74,9 @@ exp: foo {} foo
 ]])
 
 AT_CHECK([bison input.y], [], [],
-[[input.y:4.4-15: warning: type clash on default action: <bar> != <>
-input.y:5.4-8: warning: type clash on default action: <bar> != <>
-input.y:6.4: warning: empty rule for typed nonterminal, and no action
+[[input.y:4.6-15: warning: type clash on default action: <bar> != <>
+input.y:5.6-8: warning: type clash on default action: <bar> != <>
+input.y:6.5: warning: empty rule for typed nonterminal, and no action
 ]])
 
 AT_CLEANUP
