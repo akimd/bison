@@ -114,6 +114,7 @@ Reference sections:
 * Invocation::        How to run Bison (to produce the parser source file).
 * Table of Symbols::  All the keywords of the Bison language are explained.
 * Glossary::          Basic concepts are explained.
+* FAQ::               Frequently Asked Questions
 * Copying This Manual::  License for copying this manual.
 * Index::             Cross-references to the text.
 
@@ -267,6 +268,10 @@ Invoking Bison
 			in alphabetical order by short options.
 * Option Cross Key::  Alphabetical list of long options.
 * VMS Invocation::    Bison command syntax on VMS.
+
+Frequently Asked Questions
+
+* Parser Stack Overflow::      Breaking the Stack Limits
 
 Copying This Manual
 
@@ -4888,6 +4893,10 @@ not reduced.  When this happens, the parser function @code{yyparse}
 returns a nonzero value, pausing only to call @code{yyerror} to report
 the overflow.
 
+Becaue Bison parsers have growing stacks, hitting the upper limit
+usually results from using a right recursion instead of a left
+recursion, @xref{Recursion, ,Recursive Rules}.
+
 @vindex YYMAXDEPTH
 By defining the macro @code{YYMAXDEPTH}, you can control how deep the
 parser stack can become before a stack overflow occurs.  Define the
@@ -4910,6 +4919,13 @@ The default value of @code{YYMAXDEPTH}, if you do not define it, is
 You can control how much stack is allocated initially by defining the
 macro @code{YYINITDEPTH}.  This value too must be a compile-time
 constant integer.  The default is 200.
+
+@c FIXME: C++ output.
+Because of semantical differences between C and C++, the LALR(1) parsers
+in C produced by Bison by compiled as C++ cannot grow.  In this precise
+case (compiling a C parser as C++) you are suggested to grow
+@code{YYINITDEPTH}.  In the near future, a C++ output output will be
+provided which addresses this issue.
 
 @node Error Recovery
 @chapter Error Recovery
@@ -5788,7 +5804,6 @@ bison -d @var{infile.y} -o @var{output.c++}
 @noindent
 will produce @file{output.c++} and @file{outfile.h++}.
 
-
 @menu
 * Bison Options::     All the options described in detail,
 			in alphabetical order by short options.
@@ -6011,6 +6026,33 @@ bison --debug --name-prefix=bar foo.y
 The VMS file system does not permit filenames such as
 @file{foo.tab.c}.  In the above example, the output file
 would instead be named @file{foo_tab.c}.
+
+@c ================================================= Invoking Bison
+
+@node FAQ
+@chapter Frequently Asked Questions
+@cindex frequently asked questions
+@cindex questions
+
+Several questions about Bison come up occasionally.  Here some of them
+are addressed.
+
+@menu
+* Parser Stack Overflow::      Breaking the Stack Limits
+@end menu
+
+@node Parser Stack Overflow
+@section Parser Stack Overflow
+
+@display
+My parser returns with error with a @samp{parser stack overflow}
+message.  What can I do?
+@end display
+
+This question is already addressed elsewhere, @xref{Recursion,
+,Recursive Rules}.
+
+@c ================================================= Table of Symbols
 
 @node Table of Symbols
 @appendix Bison Symbols

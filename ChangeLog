@@ -1,3 +1,8 @@
+2002-09-24  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (Stack Overflow): xref to Recursion.
+	(Frequently Asked Questions, Parser Stack Overflow): New.
+
 2002-09-13  Akim Demaille  <akim@epita.fr>
 
 	Playing with autoscan.
