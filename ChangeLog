@@ -1,5 +1,13 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* tests/output.at (AT_CHECK_OUTPUT): Another test, making sure
+	bison fails when trying to output a parser and a header under the
+	same name.
+	* src/files.c (compute_output_file_names): Refuse when parser and
+	header have the same name.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (readgram): A missing `;' is a warning, not an
 	error!
 

@@ -3,6 +3,10 @@ Bison News
 
 Changes in version 1.33b:
 
+* File name clashes are detected
+  $ bison foo.y -d -o foo.x
+  fatal error: header and parser would be both named `foo.x'
+
 * A missing `;' ending a rule triggers a warning
   In accordance with POSIX, and in agreement with other
   Yacc implementations, Bison will mandate this semicolon in a near

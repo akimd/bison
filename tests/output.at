@@ -29,7 +29,7 @@ AT_DATA([$1],
 foo: {};
 ]])
 
-AT_CHECK([bison $3 $1], 0)
+AT_CHECK([bison $3 $1])
 AT_CHECK([ls $4], [], [ignore])
 AT_CLEANUP
 ])
@@ -81,3 +81,15 @@ AT_CHECK_OUTPUT([foo.yy], [],
 AT_CHECK_OUTPUT([foo.yy], [],
                 [-o foo.c++ --graph=foo.gph],
                 [foo.c++ foo.gph])
+
+# Be sure to reject cases where the parser and the header would have
+# the same name.
+AT_SETUP([Clashing Output Files.])
+AT_DATA([foo.y],
+[[%% foo: {};
+]])
+
+AT_CHECK([bison -do foo.x foo.y], [1], [],
+         [foo.y:2: fatal error: header and parser would be both named `foo.x'
+])
+AT_CLEANUP

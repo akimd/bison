@@ -22,6 +22,7 @@
 
 #include "system.h"
 #include "getargs.h"
+#include "quote.h"
 #include "files.h"
 #include "gram.h"
 #include "error.h"
@@ -419,7 +420,7 @@ compute_base_names (void)
 
       /* Computes the extensions from the grammar file name.  */
       filename_split (infile, &base, &tab, &ext);
-      
+
       if (ext && !yacc_flag)
 	compute_exts_from_gf (ext);
     }
@@ -444,6 +445,20 @@ compute_output_file_names (void)
   /* It the defines filename if not given, we create it.  */
   if (!spec_defines_file)
     spec_defines_file = stringappend (full_base_name, header_extension);
+
+  if (defines_flag)
+    {
+      /* This is really Q&D, but I don't want to spend time on issues
+	 which will be different with 1.50.  */
+      const char *parser_filename = NULL;
+      if (spec_outfile)
+	parser_filename = spec_outfile;
+      else
+	parser_filename = stringappend (full_base_name, src_extension);
+      if (!strcmp (spec_defines_file, parser_filename))
+	fatal ("header and parser would be both named %s",
+	       quote (parser_filename));
+    }
 
   /* It the graph filename if not given, we create it.  */
   if (!spec_graph_file)
