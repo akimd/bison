@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-12-12 12:52+0100\n"
+"POT-Creation-Date: 2001-12-12 12:59+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Unknown system error"
 msgstr ""
 
-#: src/complain.c:150
+#: src/complain.c:147
 msgid "warning: "
 msgstr ""
 
-#: src/complain.c:238
+#: src/complain.c:235
 #, fuzzy
 msgid "fatal error: "
 msgstr "fataler Fehler: %s\n"

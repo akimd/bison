@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30e\n"
-"POT-Creation-Date: 2001-12-12 12:52+0100\n"
+"POT-Creation-Date: 2001-12-12 12:59+0100\n"
 "PO-Revision-Date: 2001-11-27 11:37GMT+2\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -23,11 +23,11 @@ msgstr "çok fazla durum (en fazla %d)"
 msgid "Unknown system error"
 msgstr "Bilinmeyen sistem hatasý"
 
-#: src/complain.c:150
+#: src/complain.c:147
 msgid "warning: "
 msgstr "uyarý: "
 
-#: src/complain.c:238
+#: src/complain.c:235
 msgid "fatal error: "
 msgstr "ölümcül hata:"
 

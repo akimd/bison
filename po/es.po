@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-12-12 12:52+0100\n"
+"POT-Creation-Date: 2001-12-12 12:59+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -47,7 +47,7 @@ msgstr ""
 msgid "Unknown system error"
 msgstr ""
 
-#: src/complain.c:150
+#: src/complain.c:147
 msgid "warning: "
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 # La verdad es que a mi lo de error fatal me suena fatal
 # ngp
 #
-#: src/complain.c:238
+#: src/complain.c:235
 #, fuzzy
 msgid "fatal error: "
 msgstr "error grave: %s\n"

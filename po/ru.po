@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-12-12 12:52+0100\n"
+"POT-Creation-Date: 2001-12-12 12:59+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -22,11 +22,11 @@ msgstr "слишком много состояний (максимально %d)"
 msgid "Unknown system error"
 msgstr "Неизвестная системная ошибка"
 
-#: src/complain.c:150
+#: src/complain.c:147
 msgid "warning: "
 msgstr "предупреждение: "
 
-#: src/complain.c:238
+#: src/complain.c:235
 msgid "fatal error: "
 msgstr "фатальная ошибка: "
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30e\n"
-"POT-Creation-Date: 2001-12-12 12:52+0100\n"
+"POT-Creation-Date: 2001-12-12 12:59+0100\n"
 "PO-Revision-Date: 2001-11-27 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -23,11 +23,11 @@ msgstr "nombre trop grand d'états (max %d)"
 msgid "Unknown system error"
 msgstr "Erreur système inconnue"
 
-#: src/complain.c:150
+#: src/complain.c:147
 msgid "warning: "
 msgstr "AVERTISSEMENT: "
 
-#: src/complain.c:238
+#: src/complain.c:235
 msgid "fatal error: "
 msgstr "erreur fatale: "
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-12-12 12:52+0100\n"
+"POT-Creation-Date: 2001-12-12 12:59+0100\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -22,11 +22,11 @@ msgstr "%s の数が多すぎます (最大 %d)"
 msgid "Unknown system error"
 msgstr ""
 
-#: src/complain.c:150
+#: src/complain.c:147
 msgid "warning: "
 msgstr ""
 
-#: src/complain.c:238
+#: src/complain.c:235
 #, fuzzy
 msgid "fatal error: "
 msgstr "%s: 致命的エラー: "
