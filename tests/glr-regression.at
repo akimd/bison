@@ -1,5 +1,5 @@
 # Checking GLR Parsing: Regression Tests           -*- Autotest -*-
-# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2005 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -114,7 +114,7 @@ AT_CLEANUP
 ## Improper handling of embedded actions and $-N in GLR parsers ##
 ## ------------------------------------------------------------ ##
 
-AT_SETUP([Improper handling of embedded actions and $-N in GLR parsers])
+AT_SETUP([Improper handling of embedded actions and dollar(-N) in GLR parsers])
 
 AT_DATA_GRAMMAR([glr-regr2a.y],
 [[/* Regression Test: Improper handling of embedded actions and $-N  */
@@ -138,7 +138,7 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
 
 command:
     's' var 't'
-       { printf ("Variable: '%s'\n", $2); } 
+       { printf ("Variable: '%s'\n", $2); }
     'v' 'x' 'q'
   | 's' var_list 't' 'e'
        { printf ("Varlist: '%s'\n", $2); }
@@ -156,11 +156,11 @@ var_list:
   | var ',' var_list
     {
       char buffer[50];
-      strcpy (buffer, $1); 
+      strcpy (buffer, $1);
       strcat (buffer, ",");
       strcat (buffer, $3);
       $$ = strdup (buffer);
-    }	
+    }
   ;
 
 var_printer: 'v'
@@ -172,7 +172,7 @@ FILE *yyin = NULL;
 
 int
 yylex (void)
-{ 
+{
   char buf[50];
   switch (fscanf (yyin, " %1[a-z,]", buf)) {
   case 1:
@@ -194,7 +194,7 @@ yyerror (char const *s)
 
 int
 main (int argc, char **argv)
-{ 
+{
   yyin = stdin;
   if (argc == 2 && !(yyin = fopen (argv[1], "r"))) return 1;
   return yyparse ();
