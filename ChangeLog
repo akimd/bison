@@ -1,3 +1,14 @@
+2004-08-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Adjust to latest gnulib.
+	* bootstrap (gnulib_modules): Add xalloc-die.
+	Set LC_ALL=C so that file names sort consistently.
+	Prefer the gnulib copies of gettext.m4, glibc21.m4,
+	inttypes_h.m4, lib-ld.m4, lib-prefix.m4, po.m4, stdint_h.m4,
+	uintmax_t.m4, ulonglong.m4.
+	(intl_files_to_remove): Add gettext.m4, lib-ld.m4, lib-prefix.m4,
+	po.m4 since we are now using _gl.m4 instead.
+
 2004-08-10  Florian Krohm  <florian@edamail.fishkill.ibm.com>
 
 	* src/scan-action.l: Remove. Scanning of semantic actions is
