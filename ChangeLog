@@ -1,3 +1,8 @@
+2002-02-28  Robert Anisko  <robert@lrde.epita.fr>
+
+	* data/bison.c++: Merge the two generated headers.  Insert a copyright
+	notice in each output file.
+
 2002-02-28  Akim Demaille  <akim@epita.fr>
 
 	* data/bison.c++: Copy the prologue of bison.simple to fetch

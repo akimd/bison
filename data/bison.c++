@@ -25,15 +25,13 @@ m4_define_default([b4_header_guard],
                   [m4_bpatsubst(m4_toupper([BISON_]b4_output_header_name),
                                 [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
 
-m4_divert(0)dnl
-#output "b4_output_prefix[]b4_output_infix[]-class.hh"
-/* -*- C++ -*- */
-
+m4_define([b4_copyright],
+          [/* -*- C++ -*- */
 /* A Bison parser, made from b4_filename,
    by GNU bison b4_version.  */
 
 /* Skeleton output parser for bison,
-   Copyright 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright 2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -53,7 +51,13 @@ m4_divert(0)dnl
 /* As a special exception, when this file is copied by Bison into a
    Bison output file, you may use that output file without restriction.
    This special exception was added by the Free Software Foundation
-   in version 1.24 of Bison.  */
+   in version 1.24 of Bison.  */])
+
+m4_divert(0)dnl
+#output "b4_output_header_name"
+b4_copyright
+#ifndef b4_header_guard
+# define b4_header_guard
 
 #include "stack.hh"
 #include "location.hh"
@@ -65,6 +69,9 @@ m4_divert(0)dnl
 
 b4_prologue
 
+/* Tokens.  */
+b4_tokendef
+
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG b4_debug
@@ -75,8 +82,23 @@ b4_prologue
 # define YYERROR_VERBOSE b4_error_verbose
 #endif
 
-// FIXME: This should be defined in traits, not here.
-typedef b4_stype yystype;
+#ifndef YYSTYPE
+typedef b4_stype
+yystype;
+# define YYSTYPE yystype
+#endif
+
+m4_if(b4_locations_flag, [0], [],
+[#ifndef YYLTYPE
+typedef struct yyltype
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} yyltype;
+# define YYLTYPE yyltype
+#endif])
 
 namespace yy
 {
@@ -197,8 +219,12 @@ namespace yy
   };
 }
 
+#endif /* not b4_header_guard */
+
 #output "b4_output_prefix[]b4_output_infix[].cc"
-#include "b4_output_prefix[]b4_output_infix-class.hh"
+b4_copyright
+
+#include "b4_output_header_name"
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
@@ -212,9 +238,6 @@ do {						\
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
 #endif /* !YYDEBUG */
-
-/* Tokens.  */
-b4_tokendef
 
 int
 yy::b4_name::parse ()
@@ -646,6 +669,8 @@ const unsigned yy::b4_name::maxtok_ = b4_maxtok;
 b4_epilogue
 
 #output "stack.hh"
+b4_copyright
+
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
 
@@ -724,6 +749,8 @@ namespace yy
 #endif // not BISON_STACK_HH
 
 #output "location.hh"
+b4_copyright
+
 #ifndef BISON_LOCATION_HH
 # define BISON_LOCATION_HH
 
@@ -743,37 +770,3 @@ namespace yy
 }
 
 #endif // not BISON_LOCATION_HH
-
-m4_if(b4_defines_flag, 0, [],
-[#output "b4_output_header_name"
-#ifndef b4_header_guard
-# define b4_header_guard
-
-b4_tokendef
-
-#ifndef YYSTYPE
-typedef b4_stype
-yystype;
-# define YYSTYPE yystype
-#endif
-
-m4_if(b4_pure, [0],
-[extern YYSTYPE b4_prefix[]lval;])
-
-m4_if(b4_locations_flag, [0], [],
-[#ifndef YYLTYPE
-typedef struct yyltype
-{
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-} yyltype;
-# define YYLTYPE yyltype
-#endif
-
-m4_if(b4_pure, [0],
-[extern YYLTYPE b4_prefix[]lloc;])
-])
-#endif /* not b4_header_guard */
-])
