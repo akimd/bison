@@ -103,6 +103,7 @@ BISON_PREREQ_TIMEVAR
 
 # gnulib and gettext.
 GNULIB_AUTOCONF_SNIPPET
+AM_GNU_GETTEXT_VERSION([0.14.1])
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)

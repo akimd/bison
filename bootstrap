@@ -43,6 +43,19 @@ do
   esac
 done
 
+# Check that gettext version matches what's in configure.ac.
+# FIXME: We shouldn't have to modify configure.ac every time
+# a new gettext version comes out.
+gettext_have=$(LC_ALL=C gettext --version | sed 's/.* //; 1q')
+gettext_need=$(
+  sed -n '/^AM_GNU_GETTEXT_VERSION/{ s/.*\[//; s/].*//; p; q; }' configure.ac
+)
+test "$gettext_have" = "$gettext_need" || {
+  echo >&2 "$0: Your gettext version is $gettext_have."
+  echo >&2 "$0: Please install and use gettext-$gettext_need instead."
+  exit 1
+}
+
 echo "$0: Bootstrapping CVS $package..."
 
 build_cvs_prefix() {
@@ -141,7 +154,7 @@ done
 
 case $SKIP_PO in
 '')
-  echo "$0: getting translations into po..."
+  echo "$0: getting translations into po (please ignore the robots.txt ERROR 404)..."
   (cd po &&
    rm -f dummy `ls | sed -n '/\.gmo$/p; /\.po/p'` &&
    wget -nv -nd -r -l 1 -A .po -C off \
@@ -166,7 +179,6 @@ esac
 
 # Reconfigure, getting other files.
 
-echo "$0: Expect an 'AM_GNU_GETTEXT is used, but not AM_GNU_GETTEXT_VERSION' warning"
 echo "$0: autoreconf --verbose --install --force ..."
 autoreconf --verbose --install --force || exit
 

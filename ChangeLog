@@ -1,5 +1,14 @@
 2004-05-24  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Undo change made earlier today: it caused autopoint to not bring
+	in ABOUT-NLS.  Ouch.  Instead, substitute our own diagnostic for
+	autopoint's.
+
+	* bootstrap: Check that gettext version matches what's in
+	configure.ac.  Warn users to ignore robots.txt ERROR 404.
+	* bootstrap: Undo today's earlier change (logged below).
+	* configure.ac (AM_GNU_GETTEXT_VERSION): Likewise.
+	
 	The gettext version checking is causing more trouble than it's
 	curing; remove it.  Problem reported by Paul Hilfinger.
 
