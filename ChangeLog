@@ -1,5 +1,11 @@
 2002-02-07  Robert Anisko  <robert@lrde.epita.fr>
 
+	* data/bison.c++: Replace some direct m4 expansions by constants.  Be
+	more consistent when naming methods and variables.  Put preprocessor	
+	directives around tables only needed for debugging.
+
+2002-02-07  Robert Anisko  <robert@lrde.epita.fr>
+
 	* data/bison.c++ (yy::b4_name::print_): New method, replaces yyprint in
 	C++ parsers.
 	(yy::b4_name::parse): Use print_.

@@ -1,8 +1,8 @@
 #output "b4_output_prefix[]b4_output_infix[]-class.hh"
 /* -*- C++ -*- */
 
-/* A Bison parser, made from %%filename,
-   by GNU bison %%version.  */
+/* A Bison parser, made from b4_filename,
+   by GNU bison b4_version.  */
 
 /* Skeleton output parser for bison,
    Copyright 1984, 1989, 1990, 2000, 2001 Free Software Foundation, Inc.
@@ -31,6 +31,19 @@
 #include "location.hh"
 
 b4_prologue
+
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG b4_debug
+#endif
+
+/* Enabling verbose error message.  */
+#ifndef YYERROR_VERBOSE
+# define YYERROR_VERBOSE b4_error_verbose
+#endif
+
+/* Using locations.  */
+#define YYLSP_NEEDED b4_locations_flag
 
 // FIXME: This should be defined in traits, not here.
 typedef b4_stype yystype;
@@ -69,7 +82,6 @@ namespace yy
 
     b4_name (bool debug) : debug_ (debug)
     {
-      looka = empty_;
     }
 
     virtual ~b4_name ()
@@ -80,21 +92,14 @@ namespace yy
 
   private:
 
+    virtual void lex_ ();
     virtual void error_ ();
     virtual void print_ ();
 
-    /* Call to lexical analyser.  */
-    virtual
-    void
-    lex ()
-    {
-      looka = yylex (&value, &location);
-    }
-
     /* Stacks.  */
-    StateStack    state_stack;
-    SemanticStack semantic_stack;
-    LocationStack location_stack;
+    StateStack    state_stack_;
+    SemanticStack semantic_stack_;
+    LocationStack location_stack_;
 
     /* Tables.  */
     static const short pact_[[]];
@@ -105,34 +110,44 @@ namespace yy
     static const short check_[[]];
     static const short r1_[[]];
     static const short r2_[[]];
+
+#if YYDEBUG || YYERROR_VERBOSE
     static const char* const name_[[]];
+#endif
 
     /* More tables, for debugging.  */
-    /* FIXME: These tables should not be printed when not in debug 
-       mode.  %%ifdef?  */
+#if YYDEBUG
     static const short rhs_[[]];
     static const short prhs_[[]];
     static const short rline_[[]];
+#endif
 
     /* Even more tables.  */
-    static inline char translate (int token);
+    static inline char translate_ (int token);
 
     /* Constants.  */
     static const int eof_;
+    static const int last_;
+    static const int flag_;
+    static const int nnts_;
+    static const int nsym_;
     static const int empty_;
+    static const int final_;
     static const int terror_;
     static const int errcode_;
     static const int ntokens_;
+    static const int initdepth_;
+    static const unsigned maxtok_;
 
     /* State.  */
-    int n;
-    int len;
+    int n_;
+    int len_;
     int debug_;
-    int state;
+    int state_;
 
-    /* Lookahead.  */
-    int looka;
-    int ilooka;
+    /* Lookahead and lookahead in internal form.  */
+    int looka_;
+    int ilooka_;
 
     /* Message.  */
     std::string message;
@@ -146,27 +161,15 @@ namespace yy
 #output "b4_output_prefix[]b4_output_infix[].cc"
 #include "b4_output_prefix[]b4_output_infix-class.hh"
 
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG b4_debug
-#endif
-
 /* Enable debugging if requested.  */
 #if YYDEBUG
-
 # include <cstdio>
 # define YYFPRINTF std::fprintf
-
 # define YYDPRINTF(Args)			\
 do {						\
   if (debug_)					\
     YYFPRINTF Args;				\
 } while (0)
-/* Nonzero means print parse trace. [The following comment makes no
-   sense to me.  Could someone clarify it?  --akim] Since this is
-   uninitialized, it does not stop multiple parsers from coexisting.
-   */
-int yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
 #endif /* !YYDEBUG */
@@ -181,166 +184,166 @@ yy::b4_name::parse ()
   int errstatus = 0;
 
   /* Initialize stack.  */
-  state_stack = StateStack (0);
-  semantic_stack = SemanticStack (1);
-  location_stack = LocationStack (1);
+  state_stack_ = StateStack (0);
+  semantic_stack_ = SemanticStack (1);
+  location_stack_ = LocationStack (1);
 
   /* Reserve initial space.  The C parser needed that, but is it really
      useful here?  */
-  state_stack.reserve (b4_initdepth);
-  semantic_stack.reserve (b4_initdepth);
-  location_stack.reserve (b4_initdepth);
+  state_stack_.reserve (initdepth_);
+  semantic_stack_.reserve (initdepth_);
+  location_stack_.reserve (initdepth_);
 
   /* Start.  */
-  state = 0;
+  state_ = 0;
+  looka_ = empty_;
   YYDPRINTF ((stderr, "Starting parse\n"));
 
   /* New state.  */
  yynewstate:
-  state_stack.push (state);
-  YYDPRINTF ((stderr, "Entering state %d\n", state));
+  state_stack_.push (state_);
+  YYDPRINTF ((stderr, "Entering state %d\n", state_));
   goto yybackup;
 
   /* Backup.  */
  yybackup:
 
   /* Try to take a decision without lookahead.  */
-  n = pact_[[state]];
-  if (n == b4_flag)
+  n_ = pact_[[state_]];
+  if (n_ == flag_)
     goto yydefault;
 
   /* Read a lookahead token.  */
-  if (looka == empty_)
+  if (looka_ == empty_)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
-      lex ();
+      lex_ ();
     }
 
   /* Convert token to internal form.  */
-  if (looka <= 0)
+  if (looka_ <= 0)
     {
-      looka = eof_;
-      ilooka = 0;
+      looka_ = eof_;
+      ilooka_ = 0;
       YYDPRINTF ((stderr, "Now at end of input.\n"));
     }
   else
     {
-      ilooka = translate (looka);
+      ilooka_ = translate_ (looka_);
 #if YYDEBUG
       if (debug_)
 	{
-	  YYFPRINTF (stderr, "Next token is %d (%s", looka, name_[[ilooka]]);
+	  YYFPRINTF (stderr, "Next token is %d (%s", looka_, name_[[ilooka_]]);
 	  print_ ();
 	  YYFPRINTF (stderr, ")\n");
 	}
 #endif
     }
 
-  n += ilooka;
-  if (n < 0 || n > b4_last || check_[[n]] != ilooka)
+  n_ += ilooka_;
+  if (n_ < 0 || n_ > last_ || check_[[n_]] != ilooka_)
     goto yydefault;
 
   /* Reduce or error.  */
-  n = table_[[n]];
-  if (n < 0)
+  n_ = table_[[n_]];
+  if (n_ < 0)
     {
-      if (n == b4_flag)
+      if (n_ == flag_)
 	goto yyerrlab;
       else
 	{
-	  n = -n;
+	  n_ = -n_;
 	  goto yyreduce;
 	}
     }
-  else if (n == 0)
+  else if (n_ == 0)
     goto yyerrlab;
   
   /* Accept?  */
-  if (n == b4_final)
+  if (n_ == final_)
     goto yyacceptlab;
 
   /* Shift the lookahead token.  */
-  YYDPRINTF ((stderr, "Shifting token %d (%s), ", looka, name_[[ilooka]]));
+  YYDPRINTF ((stderr, "Shifting token %d (%s), ", looka_, name_[[ilooka_]]));
 
   /* Discard the token being shifted unless it is eof.  */
-  if (looka != eof_)
-    looka = empty_;
+  if (looka_ != eof_)
+    looka_ = empty_;
 
-  semantic_stack.push (value);
-  location_stack.push (location);
-  state = n;
+  semantic_stack_.push (value);
+  location_stack_.push (location);
+  state_ = n_;
   goto yynewstate;
 
   /* Default action.  */
  yydefault:
-  n = defact_[[state]];
-  if (n == 0)
+  n_ = defact_[[state_]];
+  if (n_ == 0)
     goto yyerrlab;
   goto yyreduce;
 
   /* Reduce.  */
  yyreduce:
-  len = r2_[[n]];
-  if (len)
+  len_ = r2_[[n_]];
+  if (len_)
     {
-      value = semantic_stack[[1 - len]];
-      location = location_stack[[1 - len]];
+      value = semantic_stack_[[1 - len_]];
+      location = location_stack_[[1 - len_]];
     }
   else
-    { 
-      // FIXME: This is truly ugly.
-      value = semantic_stack[[0]];
-      location = location_stack[[0]];
+    {
+      value = semantic_stack_[[0]];
+      location = location_stack_[[0]];
     }
 
 #if YYDEBUG
   if (debug_)
     {
-      YYFPRINTF (stderr, "Reducing via rule %d (line %d), ", n - 1, rline_[[n]]);
-      for (unsigned i = prhs_[[n]];
+      YYFPRINTF (stderr, "Reducing via rule %d (line %d), ", n_ - 1, rline_[[n_]]);
+      for (unsigned i = prhs_[[n_]];
 	   rhs_[[i]] >= 0; ++i)
 	YYFPRINTF (stderr, "%s ", name_[[rhs_[i]]]);
-      YYFPRINTF (stderr, "-> %s\n", name_[[r1_[n]]]);
+      YYFPRINTF (stderr, "-> %s\n", name_[[r1_[n_]]]);
     }
 #endif
   
   {
     SemanticType& yyval (value);
     LocationType& yyloc (location);
-    SemanticStack& yyvsp (semantic_stack);
-    LocationStack& yylsp (location_stack);
+    SemanticStack& yyvsp (semantic_stack_);
+    LocationStack& yylsp (location_stack_);
 
-    switch (n)
+    switch (n_)
       {
 	b4_actions
       }
   }
   
-  state_stack.pop (len);
-  semantic_stack.pop (len);
-  location_stack.pop (len);
+  state_stack_.pop (len_);
+  semantic_stack_.pop (len_);
+  location_stack_.pop (len_);
 
 #if YYDEBUG
   if (debug_)
     {
       YYFPRINTF (stderr, "state stack now");
-      for (StateStack::ConstIterator i = state_stack.begin (); 
-	   i != state_stack.end (); ++i)
+      for (StateStack::ConstIterator i = state_stack_.begin (); 
+	   i != state_stack_.end (); ++i)
 	YYFPRINTF (stderr, " %d", *i);
       YYFPRINTF (stderr, "\n");
     }
 #endif
   
-  semantic_stack.push (value);
-  location_stack.push (location);
+  semantic_stack_.push (value);
+  location_stack_.push (location);
 
   /* Shift the result of the reduction.  */
-  n = r1_[[n]];
-  state = pgoto_[[n - ntokens_]] + state_stack[[0]];
-  if (state >= 0 && state <= b4_last && check_[[state]] == state_stack[[0]])
-    state = table_[[state]];
+  n_ = r1_[[n_]];
+  state_ = pgoto_[[n_ - ntokens_]] + state_stack_[[0]];
+  if (state_ >= 0 && state_ <= last_ && check_[[state_]] == state_stack_[[0]])
+    state_ = table_[[state_]];
   else
-    state = defgoto_[[n - ntokens_]];
+    state_ = defgoto_[[n_ - ntokens_]];
   goto yynewstate;
 
   /* Report and recover from errors.  This is very incomplete.  */
@@ -350,22 +353,22 @@ yy::b4_name::parse ()
     {
       ++nerrs;
       
-      // FIXME: Should be #if YYERROR_VERBOSE from here...
-      n = pact_[[state]];
-      if (n > b4_flag && n < b4_last)
+#if YYERROR_VERBOSE
+      n_ = pact_[[state_]];
+      if (n_ > flag_ && n_ < last_)
 	{
 	  message = "parse error, unexpected ";
-	  message += name_[[ilooka]];
+	  message += name_[[ilooka_]];
 	  {
 	    int count = 0;
-	    for (int x = (n < 0 ? -n : 0); x < b4_ntokens + b4_nnts; ++x)
-	      if (check_[[x + n]] == x)
+	    for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
+	      if (check_[[x + n_]] == x)
 		++count;
 	    if (count < 5)
 	      {
 		count = 0;
-		for (int x = (n < 0 ? -n : 0); x < b4_ntokens + b4_nnts; ++x)
-		  if (check_[[x + n]] == x)
+		for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
+		  if (check_[[x + n_]] == x)
 		    {
 		      message += (!count++) ? ", expecting " : " or "; 
 		      message += name_[[x]];
@@ -374,7 +377,7 @@ yy::b4_name::parse ()
 	  }
 	}
       else
-      // FIXME: to there...
+#endif
 	message = "parse error";
     }
   error_ ();
@@ -388,10 +391,10 @@ yy::b4_name::parse ()
 	 error, discard it.  */
 
       /* Return failure if at end of input.  */
-      if (looka == eof_)
+      if (looka_ == eof_)
 	goto yyabortlab;
-      YYDPRINTF ((stderr, "Discarding token %d (%s).\n", looka, name_[[ilooka]]));
-      looka = empty_;
+      YYDPRINTF ((stderr, "Discarding token %d (%s).\n", looka_, name_[[ilooka_]]));
+      looka_ = empty_;
     }
 
   /* Else will try to reuse lookahead token after shifting the error
@@ -403,52 +406,52 @@ yy::b4_name::parse ()
   /* Pop the current state because it cannot handle the error token.  */
  yyerrdefault:
  yyerrpop:
-  if (!state_stack.height ())
+  if (!state_stack_.height ())
     goto yyabortlab;
-  state = (state_stack.pop (), state_stack[[0]]);
-  semantic_stack.pop ();
-  location_stack.pop ();;
+  state_ = (state_stack_.pop (), state_stack_[[0]]);
+  semantic_stack_.pop ();
+  location_stack_.pop ();;
 
 #if YYDEBUG
   if (debug_)
     {
       YYFPRINTF (stderr, "Error: state stack now");
-      for (StateStack::ConstIterator i = state_stack.begin (); 
-	   i != state_stack.end (); ++i)
+      for (StateStack::ConstIterator i = state_stack_.begin (); 
+	   i != state_stack_.end (); ++i)
 	YYFPRINTF (stderr, " %d", *i);
       YYFPRINTF (stderr, "\n"); 
     }
 #endif
 
  yyerrhandle:
-  n = pact_[[state]];
-  if (n == b4_flag)
+  n_ = pact_[[state_]];
+  if (n_ == flag_)
     goto yyerrdefault;
 
-  n += terror_;
-  if (n < 0 || n > b4_last || check_[[n]] != terror_)
+  n_ += terror_;
+  if (n_ < 0 || n_ > last_ || check_[[n_]] != terror_)
     goto yyerrdefault;
 
-  n = table_[[n]];
-  if (n < 0)
+  n_ = table_[[n_]];
+  if (n_ < 0)
     {
-      if (n == b4_flag)
+      if (n_ == flag_)
 	goto yyerrpop;
-      n = -n;
+      n_ = -n_;
       goto yyreduce;
     }
-  else if (!n)
+  else if (!n_)
     goto yyerrpop;
 
-  if (n == b4_final)
+  if (n_ == final_)
     goto yyacceptlab;
 
   YYDPRINTF ((stderr, "Shifting error token, "));
 
-  semantic_stack.push (value);
-  location_stack.push (location);
+  semantic_stack_.push (value);
+  location_stack_.push (location);
 
-  state = n;
+  state_ = n_;
   goto yynewstate;
 
   /* Accept.  */
@@ -460,9 +463,19 @@ yy::b4_name::parse ()
   return 1;
 }
 
+void
+yy::b4_name::lex_ ()
+{
+#if YYLSP_NEEDED
+  looka_ = yylex (&value, &location);
+#else
+  looka_ = yylex (&value);
+#endif
+}
+
 /* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-const short 
+const short
 yy::b4_name::pact_[[]] =
 {
   b4_pact
@@ -471,21 +484,21 @@ yy::b4_name::pact_[[]] =
 /* YYDEFACT[[S]] -- default rule to reduce with in state S when YYTABLE
    doesn't specify something else to do.  Zero means the default is an
    error.  */
-const short 
+const short
 yy::b4_name::defact_[[]] =
 {
   b4_defact
 };
 
 /* YYPGOTO[[NTERM-NUM]].  */
-const short 
+const short
 yy::b4_name::pgoto_[[]] =
 {
   b4_pgoto
 };
 
 /* YYDEFGOTO[[NTERM-NUM]].  */
-const short 
+const short
 yy::b4_name::defgoto_[[]] =
 {
   b4_defgoto
@@ -494,24 +507,17 @@ yy::b4_name::defgoto_[[]] =
 /* YYTABLE[[YYPACT[STATE-NUM]]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-const short 
+const short
 yy::b4_name::table_[[]] =
 {
   b4_table
 };
 
 /* YYCHECK.  */
-const short 
+const short
 yy::b4_name::check_[[]] =
 {
   b4_check
-};
-
-/* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
-const short
-yy::b4_name::rline_[[]] =
-{
-  b4_rline
 };
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
@@ -528,6 +534,7 @@ yy::b4_name::r2_[[]] =
   b4_r2
 };
 
+#if YYDEBUG || YYERROR_VERBOSE
 /* YYTNAME[[SYMBOL-NUM]] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 const char*
@@ -535,7 +542,9 @@ const yy::b4_name::name_[[]] =
 {
   b4_tname
 };
+#endif
 
+#if YYDEBUG
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
 const short 
 yy::b4_name::rhs_[[]] =
@@ -545,15 +554,23 @@ yy::b4_name::rhs_[[]] =
 
 /* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-const short 
+const short
 yy::b4_name::prhs_[[]] =
 {
   b4_prhs
 };
 
+/* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
+const short
+yy::b4_name::rline_[[]] =
+{
+  b4_rline
+};
+#endif
+
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 char
-yy::b4_name::translate (int token)
+yy::b4_name::translate_ (int token)
 {
   static 
   const char 
@@ -561,14 +578,22 @@ yy::b4_name::translate (int token)
   {
     b4_translate
   };
-  return ((unsigned)(token) <= b4_maxtok ? translate_[[token]] : b4_nsym);
+  return ((unsigned)(token) <= maxtok_ ? translate_[[token]] : nsym_);
 }
 
 const int yy::b4_name::eof_ = 0;
+const int yy::b4_name::last_ = b4_last;
+const int yy::b4_name::flag_ = b4_flag;
+const int yy::b4_name::nnts_ = b4_nnts;
+const int yy::b4_name::nsym_ = b4_nsym;
 const int yy::b4_name::empty_ = -2;
+const int yy::b4_name::final_ = b4_final;
 const int yy::b4_name::terror_ = 1;
 const int yy::b4_name::errcode_ = 256;
 const int yy::b4_name::ntokens_ = b4_ntokens;
+const int yy::b4_name::initdepth_ = b4_initdepth;
+
+const unsigned yy::b4_name::maxtok_ = b4_maxtok;
 
 b4_epilogue
 
