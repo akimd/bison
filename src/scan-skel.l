@@ -1,6 +1,6 @@
 /* Scan Bison Skeletons.                                       -*- C -*-
 
-   Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -34,7 +34,7 @@
 int skel_lex (void);
 
 #define QPUTS(String) \
-   fputs (quotearg_style (c_quoting_style, (String)), yyout);
+   fputs (quotearg_style (c_quoting_style, (String)), yyout)
 
 %}
 %%
