@@ -32,14 +32,24 @@ AT_DATA([calc.y],
 [[/* Infix notation calculator--calc */
 
 %{
+#include <config.h>
 #include <stdio.h>
-#include <stdlib.h>
+
+#if STDC_HEADERS
+# include <stdlib.h>
+# include <string.h>
+#else
+char *strcat(char *dest, const char *src);
+#endif
 #include <ctype.h>
 ]$4[
 
 static int power (int base, int exponent);
 static void yyerror (const char *s);
 static int yylex (void);
+static int yygetc (void);
+static void yyungetc (int c);
+
 extern void perror (const char *s);
 %}
 
@@ -96,7 +106,7 @@ yyerror (const char *s)
 }
 
 static int
-yygetc ()
+yygetc (void)
 {
   int res = getc (yyin);
 #if YYLSP_NEEDED

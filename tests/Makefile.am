@@ -1,7 +1,7 @@
 ## Process this file with automake to create Makefile.in.
 
 ## Makefile for Bison testsuite.
-## Copyright 2000 Free Software Foundation, Inc.
+## Copyright 2000, 2001 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@ noinst_SCRIPTS = testsuite
 
 SUITE = calc.at regression.at
 
-EXTRA_DIST = atgeneral.m4 suite.at $(SUITE)
+EXTRA_DIST = atgeneral.m4 suite.at $(SUITE) $(noinst_SCRIPTS)
 
-check-local: atconfig testsuite
-	$(SHELL) testsuite
+check-local: atconfig $(srcdir)/testsuite
+	$(SHELL) $(srcdir)/testsuite
 
 testsuite: atgeneral.m4 suite.at $(SUITE)
 	$(M4) -I $(srcdir) atgeneral.m4 suite.at | \
@@ -35,6 +35,6 @@ testsuite: atgeneral.m4 suite.at $(SUITE)
 	chmod +x $@-tmp
 	mv $@-tmp $@
 
-CLEANFILES = debug-*.sh
+CLEANFILES = debug-*.sh empty
 DISTCLEANFILES = atconfig
 MAINTAINERCLEANFILES = testsuite

@@ -100,9 +100,9 @@ noinst_SCRIPTS = testsuite
 
 SUITE = calc.at regression.at
 
-EXTRA_DIST = atgeneral.m4 suite.at $(SUITE)
+EXTRA_DIST = atgeneral.m4 suite.at $(SUITE) $(noinst_SCRIPTS)
 
-CLEANFILES = debug-*.sh
+CLEANFILES = debug-*.sh empty
 DISTCLEANFILES = atconfig
 MAINTAINERCLEANFILES = testsuite
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
@@ -217,8 +217,8 @@ distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
 
-check-local: atconfig testsuite
-	$(SHELL) testsuite
+check-local: atconfig $(srcdir)/testsuite
+	$(SHELL) $(srcdir)/testsuite
 
 testsuite: atgeneral.m4 suite.at $(SUITE)
 	$(M4) -I $(srcdir) atgeneral.m4 suite.at | \
