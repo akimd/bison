@@ -1,4 +1,5 @@
 *.gmo
+ChangeLog
 Makefile
 Makefile.in
 POTFILES
