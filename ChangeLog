@@ -1,5 +1,26 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/main.c (main): If there are complains after grammar
+	reductions, then output the report anyway if requested, then die.
+	* src/symtab.c (bucket_new): Initialize `value' to -1, not 0.
+	* src/reader.c (eoftoken): New.
+	(parse_token_decl): If the token being defined has value `0', it
+	is the eoftoken.
+	(packsymbols): No longer hack `tags' to insert `$' by hand.
+	Be sure to preserve the value of the eoftoken.
+	(reader): Make sure eoftoken is defined.
+	Initialize nsyms to 0: now eoftoken is created just like the others.
+	* src/print.c (print_grammar): Don't special case the eof token.
+	* src/regression.at: Adjust: `$' has value 0, not -1, which was a
+	lie anyway, albeit pleasant.
+	* tests/calc.at: Exercise error messages with eoftoken.
+	Change the grammar so that empty input is invalid.
+	Adjust expectations.
+	When yyungeting, be sure to use a valid yylloc: use last_yylloc.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* configure.in: Check the protos of strchr ans strspn.
 	Replace strchr if needed.
 	* src/system.h: Provide the protos of strchr, strspn and memchr if

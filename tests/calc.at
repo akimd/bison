@@ -64,8 +64,8 @@ extern void perror (const char *s);
 %}
 
 /* Bison Declarations */
-%token CALC_EOF 0
-%token NUM
+%token CALC_EOF 0 "end of file"
+%token NUM "number"
 
 %nonassoc '=' /* comparison	       */
 %left '-' '+'
@@ -78,7 +78,7 @@ extern void perror (const char *s);
 /* Grammar follows */
 %%
 input:
-  /* empty string */
+  line
 | input line
 ;
 
@@ -118,11 +118,16 @@ yyerror (const char *s)
   fprintf (stderr, "%s\n", s);
 }
 
+
+#if YYLSP_NEEDED
+static YYLTYPE last_yylloc;
+#endif
 static int
 yygetc (void)
 {
   int res = getc (yyin);
 #if YYLSP_NEEDED
+  last_yylloc = yylloc;
   if (res == '\n')
     {
       yylloc.last_line++;
@@ -140,7 +145,7 @@ yyungetc (int c)
 {
 #if YYLSP_NEEDED
   /* Wrong when C == `\n'. */
-  yylloc.last_column--;
+  yylloc = last_yylloc;
 #endif
   ungetc (c, yyin);
 }
@@ -286,6 +291,9 @@ AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
 # ------------------------------------------------------------
 # Run `calc' on INPUT, and expect a `parse error' message.
 #
+# If INPUT starts with a slash, it is used as absolute input file name,
+# otherwise as contents.
+#
 # If BISON-OPTIONS contains `--location', then make sure the ERROR-LOCATION
 # is correctly output on stderr.
 #
@@ -296,11 +304,12 @@ AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
 # If BISON-OPTIONS contains `--debug', then NUM-STDERR-LINES is the number
 # of expected lines on stderr.
 m4_define([_AT_CHECK_CALC_ERROR],
-[AT_DATA([[input]],
+[m4_bmatch([$2], [^/],
+           [AT_CHECK([calc $2], 0, [], [stderr])],
+           [AT_DATA([[input]],
 [[$2
 ]])
-
-AT_CHECK([calc input], 0, [], [stderr])
+AT_CHECK([calc input], 0, [], [stderr])])
 
 
 AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
@@ -362,27 +371,33 @@ _AT_CHECK_CALC([$1],
 1 - (2 - 3) = 2
 
 2^2^3 = 256
-(2^2)^3 = 64], [491])
+(2^2)^3 = 64], [488])
 
 # Some parse errors.
-_AT_CHECK_CALC_ERROR([$1], [+1], [8],
-                     [1.0:1.1],
-                     [unexpected '+'])
-_AT_CHECK_CALC_ERROR([$1], [1//2], [17],
+_AT_CHECK_CALC_ERROR([$1], [0 0], [10],
                      [1.2:1.3],
-                     [unexpected '/', expecting NUM or '-' or '('])
-_AT_CHECK_CALC_ERROR([$1], [error], [8],
+                     [unexpected "number"])
+_AT_CHECK_CALC_ERROR([$1], [1//2], [13],
+                     [1.2:1.3],
+                     [unexpected '/', expecting "number" or '-' or '('])
+_AT_CHECK_CALC_ERROR([$1], [error], [4],
                      [1.0:1.1],
-                     [unexpected $undefined.])
-_AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3], [23],
+                     [unexpected $undefined., expecting "number" or '-' or '\n' or '('])
+_AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3], [19],
                      [1.6:1.7],
                      [unexpected '='])
 _AT_CHECK_CALC_ERROR([$1],
                      [
 +1],
-                     [16],
+                     [13],
                      [2.0:2.1],
                      [unexpected '+'])
+# Exercise error messages with EOF: work on an empty file.
+_AT_CHECK_CALC_ERROR([$1],
+                     [/dev/null],
+                     [4],
+                     [1.0:1.1],
+                     [unexpected "end of file", expecting "number" or '-' or '\n' or '('])
 
 AT_CLEANUP
 ])# AT_CHECK_CALC

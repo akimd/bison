@@ -73,7 +73,7 @@ Grammar
 
 Terminals, with rules where they appear
 
-$ (-1)
+$ (0)
 error (256)
 NUM (257) 2
 OP (258) 1
@@ -177,7 +177,7 @@ Grammar
 
 Terminals, with rules where they appear
 
-$ (-1)
+$ (0)
 error (256)
 NUM (257) 2
 OP (258) 1
@@ -304,7 +304,7 @@ AT_CHECK([cat input.output], [],
 
 Terminals, with rules where they appear
 
-$ (-1)
+$ (0)
 'a' (97) 2
 'b' (98) 2
 'c' (99) 4
@@ -652,7 +652,7 @@ AT_CHECK([sed -n 's/  *$//;/^$/!p' input.output], 0,
     4  15 @1 -> /* empty */
     5  15 CONST_DEC -> @1 undef_id_tok '=' const_id_tok ';'
 Terminals, with rules where they appear
-$ (-1)
+$ (0)
 ';' (59) 5
 '=' (61) 5
 error (256)

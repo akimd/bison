@@ -3,10 +3,18 @@ Bison News
 
 Changes in version 1.49a:
 
-* items overflow
+* Items overflow
   Bison no longer dumps core when there are too many items, it just
   dies.
 
+* Token end-of-file
+  The token end of file may be specified by the user, in which case,
+  the user symbol is used in the reports, the graphs, and the verbose
+  error messages instead of `$', which remains being the defaults.
+  For instance
+     %token YYEOF 0
+  or
+     %token YYEOF 0 "end of file"
 
 Changes in version 1.30:
 
