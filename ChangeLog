@@ -1,5 +1,14 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (set_state_table): Move to...
+	* src/LR0.c: here.
+	* src/lalr.c (lalr): Don't call it...
+	* src/LR0.c (generate_states): do it.
+	* src/LR0.h (first_state): Remove, only the table is used.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.h (first_shift, first_reduction): Remove.
 	* src/lalr.c: Don't use first_shift: find shifts through the
 	states.
