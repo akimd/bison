@@ -9,9 +9,9 @@
 @finalout
 @end iftex
 
-@c SMALL BOOK version   
+@c SMALL BOOK version
 @c This edition has been formatted so that you can format and print it in
-@c the smallbook format. 
+@c the smallbook format.
 @c @smallbook
 
 @c Set following if you have the new `shorttitlepage' command
@@ -46,7 +46,8 @@ END-INFO-DIR-ENTRY
 @ifinfo
 This file documents the Bison parser generator.
 
-Copyright (C) 1988, 89, 90, 91, 92, 93, 95, 98, 1999 Free Software Foundation, Inc.
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998, 1999, 2000
+Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -86,8 +87,9 @@ instead of in the original English.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1988, 89, 90, 91, 92, 93, 95, 98, 1999 Free Software
-Foundation 
+Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
+1999, 2000
+Free Software Foundation, Inc.
 
 @sp 2
 Published by the Free Software Foundation @*
@@ -132,8 +134,8 @@ This manual documents version @value{VERSION} of Bison.
 @end ifinfo
 
 @menu
-* Introduction::      
-* Conditions::        
+* Introduction::
+* Conditions::
 * Copying::           The GNU General Public License says
                         how you can copy and share Bison
 
@@ -193,9 +195,9 @@ Reverse Polish Notation Calculator
 
 Grammar Rules for @code{rpcalc}
 
-* Rpcalc Input::      
-* Rpcalc Line::       
-* Rpcalc Expr::       
+* Rpcalc Input::
+* Rpcalc Line::
+* Rpcalc Expr::
 
 Multi-Function Calculator: @code{mfcalc}
 
@@ -244,7 +246,7 @@ Bison Declarations
 Parser C-Language Interface
 
 * Parser Function::   How to call @code{yyparse} and what it returns.
-* Lexical::           You must supply a function @code{yylex} 
+* Lexical::           You must supply a function @code{yylex}
                         which reads tokens.
 * Error Reporting::   You must supply a function @code{yyerror}.
 * Action Features::   Special features for use in actions.
@@ -260,7 +262,7 @@ The Lexical Analyzer Function @code{yylex}
 * Pure Calling::      How the calling convention differs
                         in a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
 
-The Bison Parser Algorithm 
+The Bison Parser Algorithm
 
 * Look-Ahead::        Parser looks one token ahead when deciding what to do.
 * Shift/Reduce::      Conflicts: when either shifting or reduction is valid.
@@ -287,7 +289,7 @@ Handling Context Dependencies
 
 Invoking Bison
 
-* Bison Options::     All the options described in detail, 
+* Bison Options::     All the options described in detail,
 			in alphabetical order by short options.
 * Option Cross Key::  Alphabetical list of long options.
 * VMS Invocation::    Bison command syntax on VMS.
@@ -710,7 +712,7 @@ when it starts in an interactive mode:
 
 @smallexample
 Gnomovision version 69, Copyright (C) 19@var{yy} @var{name of author}
-Gnomovision comes with ABSOLUTELY NO WARRANTY; for details 
+Gnomovision comes with ABSOLUTELY NO WARRANTY; for details
 type `show w'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `show c' for details.
@@ -967,7 +969,7 @@ also produce some output based on the input.  In a Bison grammar, a grammar
 rule can have an @dfn{action} made up of C statements.  Each time the
 parser recognizes a match for that rule, the action is executed.
 @xref{Actions}.
-        
+
 Most of the time, the purpose of an action is to compute the semantic value
 of the whole construct from the semantic values of its parts.  For example,
 suppose we have a rule which says an expression can be the sum of two
@@ -1258,9 +1260,9 @@ main job of most actions.  The semantic values of the components of the
 rule are referred to as @code{$1}, @code{$2}, and so on.
 
 @menu
-* Rpcalc Input::      
-* Rpcalc Line::       
-* Rpcalc Expr::       
+* Rpcalc Input::
+* Rpcalc Line::
+* Rpcalc Expr::
 @end menu
 
 @node Rpcalc Input, Rpcalc Line,  , Rpcalc Rules
@@ -1419,7 +1421,7 @@ Here is the code for the lexical analyzer:
 
 @example
 @group
-/* Lexical analyzer returns a double floating point 
+/* Lexical analyzer returns a double floating point
    number on the stack and the token NUM, or the ASCII
    character read if not a number.  Skips all blanks
    and tabs, returns 0 for EOF. */
@@ -1428,17 +1430,18 @@ Here is the code for the lexical analyzer:
 @end group
 
 @group
-yylex ()
+int
+yylex (void)
 @{
   int c;
 
   /* skip white space  */
-  while ((c = getchar ()) == ' ' || c == '\t')  
+  while ((c = getchar ()) == ' ' || c == '\t')
     ;
 @end group
 @group
   /* process numbers   */
-  if (c == '.' || isdigit (c))                
+  if (c == '.' || isdigit (c))
     @{
       ungetc (c, stdin);
       scanf ("%lf", &yylval);
@@ -1447,10 +1450,10 @@ yylex ()
 @end group
 @group
   /* return end-of-file  */
-  if (c == EOF)                            
+  if (c == EOF)
     return 0;
   /* return single chars */
-  return c;                                
+  return c;
 @}
 @end group
 @end example
@@ -1466,9 +1469,10 @@ kept to the bare minimum.  The only requirement is that it call
 
 @example
 @group
-main ()
+int
+main (void)
 @{
-  yyparse ();
+  return yyparse ();
 @}
 @end group
 @end example
@@ -1478,16 +1482,17 @@ main ()
 @cindex error reporting routine
 
 When @code{yyparse} detects a syntax error, it calls the error reporting
-function @code{yyerror} to print an error message (usually but not always
-@code{"parse error"}).  It is up to the programmer to supply @code{yyerror}
-(@pxref{Interface, ,Parser C-Language Interface}), so here is the definition we will use:
+function @code{yyerror} to print an error message (usually but not
+always @code{"parse error"}).  It is up to the programmer to supply
+@code{yyerror} (@pxref{Interface, ,Parser C-Language Interface}), so
+here is the definition we will use:
 
 @example
 @group
 #include <stdio.h>
 
-yyerror (s)  /* Called by yyparse on error */
-     char *s;
+void
+yyerror (const char *s)  /* Called by yyparse on error */
 @{
   printf ("%s\n", s);
 @}
@@ -1851,6 +1856,7 @@ The symbol table itself consists of a linked list of records.  Its
 definition, which is kept in the header @file{calc.h}, is as follows.  It
 provides for either functions or variables to be placed in the table.
 
+@c FIXME: ANSIfy the prototypes for FNCTPTR etc.
 @smallexample
 @group
 /* Data type for links in the chain of symbols.      */
@@ -1885,16 +1891,17 @@ function that initializes the symbol table.  Here it is, and
 @group
 #include <stdio.h>
 
-main ()
+int
+main (void)
 @{
   init_table ();
-  yyparse ();
+  return yyparse ();
 @}
 @end group
 
 @group
-yyerror (s)  /* Called by yyparse on error */
-     char *s;
+void
+yyerror (const char *s)  /* Called by yyparse on error */
 @{
   printf ("%s\n", s);
 @}
@@ -1907,23 +1914,25 @@ struct init
 @end group
 
 @group
-struct init arith_fncts[]
-  = @{
-      "sin", sin,
-      "cos", cos,
-      "atan", atan,
-      "ln", log,
-      "exp", exp,
-      "sqrt", sqrt,
-      0, 0
-    @};
+struct init arith_fncts[] =
+@{
+  "sin", sin,
+  "cos", cos,
+  "atan", atan,
+  "ln", log,
+  "exp", exp,
+  "sqrt", sqrt,
+  0, 0
+@};
 
 /* The symbol table: a chain of `struct symrec'.  */
 symrec *sym_table = (symrec *)0;
 @end group
 
 @group
-init_table ()  /* puts arithmetic functions in table. */
+/* Put arithmetic functions in table. */
+void
+init_table (void)
 @{
   int i;
   symrec *ptr;
@@ -1948,9 +1957,7 @@ found, a pointer to that symbol is returned; otherwise zero is returned.
 
 @smallexample
 symrec *
-putsym (sym_name,sym_type)
-     char *sym_name;
-     int sym_type;
+putsym (char *sym_name, int sym_type)
 @{
   symrec *ptr;
   ptr = (symrec *) malloc (sizeof (symrec));
@@ -1964,8 +1971,7 @@ putsym (sym_name,sym_type)
 @}
 
 symrec *
-getsym (sym_name)
-     char *sym_name;
+getsym (const char *sym_name)
 @{
   symrec *ptr;
   for (ptr = sym_table; ptr != (symrec *) 0;
@@ -1994,7 +2000,9 @@ operators in @code{yylex}.
 @smallexample
 @group
 #include <ctype.h>
-yylex ()
+
+int
+yylex (void)
 @{
   int c;
 
@@ -2292,7 +2300,7 @@ The numeric code for a character token type is simply the ASCII code for
 the character, so @code{yylex} can use the identical character constant to
 generate the requisite code.  Each named token type becomes a C macro in
 the parser file, so @code{yylex} can use the name to stand for the code.
-(This is why periods don't make sense in terminal symbols.)  
+(This is why periods don't make sense in terminal symbols.)
 @xref{Calling Convention, ,Calling Convention for @code{yylex}}.
 
 If @code{yylex} is defined in a separate file, you need to arrange for the
@@ -2323,7 +2331,7 @@ A Bison grammar rule has the following general form:
 @noindent
 where @var{result} is the nonterminal symbol that this rule describes,
 and @var{components} are various terminal and nonterminal symbols that
-are put together by this rule (@pxref{Symbols}).  
+are put together by this rule (@pxref{Symbols}).
 
 For example,
 
@@ -2447,7 +2455,7 @@ further explanation of this.
 @dfn{Indirect} or @dfn{mutual} recursion occurs when the result of the
 rule does not appear directly on its right hand side, but does appear
 in rules for other nonterminals which do appear on its right hand
-side.  
+side.
 
 For example:
 
@@ -2472,7 +2480,7 @@ other.
 @node Semantics, Declarations, Recursion, Grammar File
 @section Defining Language Semantics
 @cindex defining language semantics
-@cindex language semantics, defining 
+@cindex language semantics, defining
 
 The grammar rules for a language determine only the syntax.  The semantics
 are determined by the semantic values associated with various tokens and
@@ -2885,7 +2893,7 @@ with each other or with ASCII characters.
 
 In the event that the stack type is a union, you must augment the
 @code{%token} or other token declaration to include the data type
-alternative delimited by angle-brackets (@pxref{Multiple Types, ,More Than One Value Type}).  
+alternative delimited by angle-brackets (@pxref{Multiple Types, ,More Than One Value Type}).
 
 For example:
 
@@ -2981,7 +2989,7 @@ the one declared later has the higher precedence and is grouped first.
 The @code{%union} declaration specifies the entire collection of possible
 data types for semantic values.  The keyword @code{%union} is followed by a
 pair of braces containing the same thing that goes inside a @code{union} in
-C.  
+C.
 
 For example:
 
@@ -3272,7 +3280,7 @@ C code in the grammar file, you are likely to run into trouble.
 
 @menu
 * Parser Function::   How to call @code{yyparse} and what it returns.
-* Lexical::           You must supply a function @code{yylex} 
+* Lexical::           You must supply a function @code{yylex}
                         which reads tokens.
 * Error Reporting::   You must supply a function @code{yyerror}.
 * Action Features::   Special features for use in actions.
@@ -3355,7 +3363,8 @@ signifies end-of-input.
 Here is an example showing these things:
 
 @example
-yylex ()
+int
+yylex (void)
 @{
   @dots{}
   if (c == EOF)     /* Detect end of file. */
@@ -3487,9 +3496,8 @@ shown here, and pass the information back by storing it through those
 pointers.
 
 @example
-yylex (lvalp, llocp)
-     YYSTYPE *lvalp;
-     YYLTYPE *llocp;
+int
+yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 @{
   @dots{}
   *lvalp = value;  /* Put value onto Bison stack.  */
@@ -3620,8 +3628,8 @@ The following definition suffices in simple programs:
 
 @example
 @group
-yyerror (s)
-     char *s;
+void
+yyerror (char *s)
 @{
 @end group
 @group
@@ -3664,7 +3672,7 @@ specified by the @code{%union} declaration.  @xref{Action Types, ,Data Types of 
 
 @item $<@var{typealt}>@var{n}
 Like @code{$@var{n}} but specifies alternative @var{typealt} in the
-union specified by the @code{%union} declaration.  
+union specified by the @code{%union} declaration.
 @xref{Action Types, ,Data Types of Values in Actions}.@refill
 
 @item YYABORT;
@@ -3719,7 +3727,7 @@ error rules.  @xref{Error Recovery}.
 
 @item yyerrok;
 Resume generating error messages immediately for subsequent syntax
-errors.  This is useful primarily in error rules.  
+errors.  This is useful primarily in error rules.
 @xref{Error Recovery}.
 
 @item @@@var{n}
@@ -3747,8 +3755,8 @@ The use of this feature makes the parser noticeably slower.
 @end table
 
 @node Algorithm, Error Recovery, Interface, Top
-@chapter The Bison Parser Algorithm 
-@cindex Bison parser algorithm 
+@chapter The Bison Parser Algorithm
+@cindex Bison parser algorithm
 @cindex algorithm of parser
 @cindex shifting
 @cindex reduction
@@ -4334,7 +4342,7 @@ name_list:
 @end example
 
 It would seem that this grammar can be parsed with only a single token
-of look-ahead: when a @code{param_spec} is being read, an @code{ID} is 
+of look-ahead: when a @code{param_spec} is being read, an @code{ID} is
 a @code{name} if a comma or colon follows, or a @code{type} if another
 @code{ID} follows.  In other words, this grammar is LR(1).
 
@@ -4461,7 +4469,7 @@ recognize the special token @code{error}.  This is a terminal symbol that
 is always defined (you need not declare it) and reserved for error
 handling.  The Bison parser generates an @code{error} token whenever a
 syntax error happens; if you have provided a rule to recognize this token
-in the current context, the parse can continue.  
+in the current context, the parse can continue.
 
 For example:
 
@@ -4699,7 +4707,7 @@ it is nonzero, all integers are parsed in hexadecimal, and tokens starting
 with letters are parsed as integers if possible.
 
 The declaration of @code{hexflag} shown in the C declarations section of
-the parser file is needed to make it accessible to the actions 
+the parser file is needed to make it accessible to the actions
 (@pxref{C Declarations, ,The C Declarations Section}).  You must also write the code in @code{yylex}
 to obey the flag.
 
@@ -4771,7 +4779,7 @@ runs, the @code{yydebug} parser-trace feature can help you figure out why.
 To enable compilation of trace facilities, you must define the macro
 @code{YYDEBUG} when you compile the parser.  You could use
 @samp{-DYYDEBUG=1} as a compiler option or you could put @samp{#define
-YYDEBUG 1} in the C declarations section of the grammar file 
+YYDEBUG 1} in the C declarations section of the grammar file
 (@pxref{C Declarations, ,The C Declarations Section}).  Alternatively, use the @samp{-t} option when
 you run Bison (@pxref{Invocation, ,Invoking Bison}).  We always define @code{YYDEBUG} so that
 debugging is always possible.
@@ -4831,10 +4839,7 @@ calculator (@pxref{Mfcalc Decl, ,Declarations for @code{mfcalc}}):
 #define YYPRINT(file, type, value)   yyprint (file, type, value)
 
 static void
-yyprint (file, type, value)
-     FILE *file;
-     int type;
-     YYSTYPE value;
+yyprint (FILE *file, int type, YYSTYPE value)
 @{
   if (type == VAR)
     fprintf (file, " %s", value.tptr->name);
@@ -4862,7 +4867,7 @@ with @samp{.tab.c}.  Thus, the @samp{bison foo.y} filename yields
 @file{hack/foo.tab.c}.@refill
 
 @menu
-* Bison Options::     All the options described in detail, 
+* Bison Options::     All the options described in detail,
 			in alphabetical order by short options.
 * Environment Variables::  Variables which affect Bison execution.
 * Option Cross Key::  Alphabetical list of long options.
@@ -5006,7 +5011,7 @@ would like to direct Bison to use a different copy, setting the
 environment variable @code{BISON_SIMPLE} to the path of the file will
 cause Bison to use that copy instead.
 
-When the @samp{%semantic_parser} delcaration is used, Bison copies from
+When the @samp{%semantic_parser} declaration is used, Bison copies from
 a file called @file{bison.hairy} instead.  The location of this file can
 also be specified or overridden in a similar fashion, with the
 @code{BISON_HAIRY} environment variable.
@@ -5051,7 +5056,7 @@ the corresponding short option.
 --no-lines                            -l
 --no-parser                           -n
 --output-file=@var{outfile}                 -o @var{outfile}
---raw                                 -r			
+--raw                                 -r
 --token-table                         -k
 --verbose                             -v
 --version                             -V
@@ -5109,7 +5114,7 @@ function @code{yyerror} is not called.  @xref{Parser Function, ,The Parser Funct
 
 @item YYACCEPT
 Macro to pretend that a complete utterance of the language has been
-read, by making @code{yyparse} return 0 immediately.  
+read, by making @code{yyparse} return 0 immediately.
 @xref{Parser Function, ,The Parser Function @code{yyparse}}.
 
 @item YYBACKUP
@@ -5160,10 +5165,10 @@ Macro for the data type of semantic values; @code{int} by default.
 @xref{Value Type, ,Data Types of Semantic Values}.
 
 @item yychar
-External integer variable that contains the integer value of the
-current look-ahead token.  (In a pure parser, it is a local variable
-within @code{yyparse}.)  Error-recovery rule actions may examine this
-variable.  @xref{Action Features, ,Special Features for Use in Actions}.
+External integer variable that contains the integer value of the current
+look-ahead token.  (In a pure parser, it is a local variable within
+@code{yyparse}.)  Error-recovery rule actions may examine this variable.
+@xref{Action Features, ,Special Features for Use in Actions}.
 
 @item yyclearin
 Macro used in error-recovery rule actions.  It clears the previous
@@ -5181,7 +5186,8 @@ after a parse error.  @xref{Error Recovery}.
 @item yyerror
 User-supplied function to be called by @code{yyparse} on error.  The
 function receives one argument, a pointer to a character string
-containing an error message.  @xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
+containing an error message.  @xref{Error Reporting, ,The Error
+Reporting Function @code{yyerror}}.
 
 @item yylex
 User-supplied lexical analyzer function, called with no arguments
@@ -5194,16 +5200,17 @@ variable within @code{yyparse}, and its address is passed to
 @code{yylex}.)  @xref{Token Values, ,Semantic Values of Tokens}.
 
 @item yylloc
-External variable in which @code{yylex} should place the line and
-column numbers associated with a token.  (In a pure parser, it is a
-local variable within @code{yyparse}, and its address is passed to
+External variable in which @code{yylex} should place the line and column
+numbers associated with a token.  (In a pure parser, it is a local
+variable within @code{yyparse}, and its address is passed to
 @code{yylex}.)  You can ignore this variable if you don't use the
-@samp{@@} feature in the grammar actions.  @xref{Token Positions, ,Textual Positions of Tokens}.
+@samp{@@} feature in the grammar actions.  @xref{Token Positions,
+,Textual Positions of Tokens}.
 
 @item yynerrs
-Global variable which Bison increments each time there is a parse
-error.  (In a pure parser, it is a local variable within
-@code{yyparse}.)  @xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
+Global variable which Bison increments each time there is a parse error.
+(In a pure parser, it is a local variable within @code{yyparse}.)
+@xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
 
 @item yyparse
 The parser function produced by Bison; call this function to start
@@ -5317,7 +5324,7 @@ rules.  @xref{Algorithm, ,The Bison Parser Algorithm }.
 
 @item Grouping
 A language construct that is (in general) grammatically divisible;
-for example, `expression' or `declaration' in C.  
+for example, `expression' or `declaration' in C.
 @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
 
 @item Infix operator
@@ -5420,7 +5427,7 @@ A single character that is recognized and interpreted as is.
 @item Start symbol
 The nonterminal symbol that stands for a complete valid utterance in
 the language being parsed.  The start symbol is usually listed as the
-first nonterminal symbol in a language specification.  
+first nonterminal symbol in a language specification.
 @xref{Start Decl, ,The Start-Symbol}.
 
 @item Symbol table
@@ -5448,31 +5455,3 @@ is a token.  @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
 @contents
 
 @bye
-
-
-
-
-@c old menu
-
-* Introduction::
-* Conditions::
-* Copying::           The GNU General Public License says
-                        how you can copy and share Bison
-
-Tutorial sections:
-* Concepts::          Basic concepts for understanding Bison.
-* Examples::          Three simple explained examples of using Bison.
-
-Reference sections:
-* Grammar File::      Writing Bison declarations and rules.
-* Interface::         C-language interface to the parser function @code{yyparse}.
-* Algorithm::         How the Bison parser works at run-time.
-* Error Recovery::    Writing rules for error recovery.
-* Context Dependency::What to do if your language syntax is too
-                        messy for Bison to handle straightforwardly.
-* Debugging::         Debugging Bison parsers that parse wrong.
-* Invocation::        How to run Bison (to produce the parser source file).
-* Table of Symbols::  All the keywords of the Bison language are explained.
-* Glossary::          Basic concepts are explained.
-* Index::             Cross-references to the text.
-

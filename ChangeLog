@@ -1,5 +1,11 @@
 2000-09-18  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo: Update the copyright.
+	ANSIfy and GNUify the examples.
+	Remove the old menu.
+
+2000-09-18  Akim Demaille  <akim@epita.fr>
+
 	First set of tests: use the `calc' example from the documentation.
 
 	* src/bison.s1 (yyparse): Condition the code using `yytname' which
