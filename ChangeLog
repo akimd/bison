@@ -1,3 +1,8 @@
+2000-03-17  Akim Demaille  <akim@epita.fr>
+
+	* bison.s1 (#line): All set to `#line' only, since the Makefile
+	now handles them.
+
 2000-03-16  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_rule_data): Output the documentation of
