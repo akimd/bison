@@ -1,5 +1,10 @@
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
+	* src/lex.c, src/lex.h (xgetc): No longer static.
+	* src/reader.c (parse_union_decl): Revamp.
+
+2001-12-15  Akim Demaille  <akim@epita.fr>
+
 	Still making progress in separating Bison into (i) input, (ii)
 	process, (iii) output: now we can directly output the parser file
 	without using table_obstack at all.

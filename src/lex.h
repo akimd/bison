@@ -66,6 +66,7 @@ void lex_free PARAMS ((void));
 int skip_white_space PARAMS ((void));
 void unlex PARAMS ((token_t));
 void read_type_name PARAMS ((FILE *fin));
+int xgetc PARAMS ((FILE *fin));
 
 /* Return one of the token-type codes.  When an identifier is seen,
    the code IDENTIFIER is returned and the name is looked up in the
