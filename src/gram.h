@@ -1,4 +1,5 @@
-/* Data definitions for internal representation of bison's input,
+/* Data definitions for internal representation of Bison's input.
+
    Copyright (C) 1984, 1986, 1989, 1992, 2001, 2002
    Free Software Foundation, Inc.
 
@@ -124,17 +125,36 @@ extern unsigned int nritems;
 
    Therefore, a symbol_number must be a valid item_number, and we
    sometimes have to perform the converse transformation.  */
-# define symbol_number_as_item_number(Tok) ((item_number) (Tok))
-# define item_number_as_symbol_number(Ite) ((symbol_number) (Ite))
+
+static inline item_number
+symbol_number_as_item_number (symbol_number s)
+{
+  return s;
+}
+
+static inline symbol_number
+item_number_as_symbol_number (item_number i)
+{
+  return i;
+}
 
 extern symbol_number start_symbol;
 
 /* Rule numbers.  */
 typedef short rule_number;
 extern rule_number nrules;
-# define int_of_rule_number(RNum) ((int) (RNum))
-# define rule_number_as_item_number(RNum) ((item_number) (- RNum - 1))
-# define item_number_as_rule_number(INum) ((rule_number) (- INum - 1))
+
+static inline item_number
+rule_number_as_item_number (rule_number r)
+{
+  return -1 - r;
+}
+
+static inline rule_number
+item_number_as_rule_number (item_number i)
+{
+  return -1 - i;
+}
 
 
 /*--------.
