@@ -26,7 +26,7 @@ AM_YFLAGS = "-dv"
 INCLUDES = -I$(top_builddir)      \
            -I$(top_srcdir)/lib
 
-LDADD = $(INTLLIBS) ../lib/libbison.a
+LDADD = ../lib/libbison.a $(LIBINTL)
 
 bin_PROGRAMS = bison
 

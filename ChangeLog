@@ -1,3 +1,9 @@
+2002-11-12  Albert Chin-A-Young <china@thewrittenword.com>
+
+	* src/Makefile.am (LDADD): Link $(LIBINTL) last to avoid the
+	duplicate definition of optind on Tru64 UNIX 4.0D with the Compaq
+	linker.
+
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
 	* Makefile.maint: Sync with Autoconf:
