@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-27 11:51+0200\n"
+"POT-Creation-Date: 2001-08-29 12:07+0200\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -562,7 +562,7 @@ msgid "two @prec's in a row"
 msgstr "zwei @prec Anweisungen nacheinander"
 
 #: src/reader.c:1519
-#, fuzzy, c-format
+#, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr ""
 "%%guard Anweisung vorhanden, jedoch wird %%semantic_parser nicht angegeben"
@@ -810,29 +810,6 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Memory exhausted"
-#~ msgstr "%s: Hauptspeicher erschöpft\n"
-
-#~ msgid "$%s is invalid"
-#~ msgstr "$%s ist unzulässig"
-
-#~ msgid "unmatched close-brace (`}')"
-#~ msgstr "schließende geschweifte Klammer (»}«) hat kein Gegenstück"
-
-#~ msgid "unmatched right brace (`}')"
-#~ msgstr "schließende geschweifte Klammer (»}«) hat kein Gegenstück"
-
-#~ msgid "unterminated comment at end of file"
-#~ msgstr "unbeendeter Kommentar am Dateiende"
-
-#~ msgid "ill-formed %type declaration"
-#~ msgstr "falsch geformte %type Deklaration"
-
-#~ msgid "gotos"
-#~ msgstr "»goto« Anweisungen"
-
-#, fuzzy
 #~ msgid ""
 #~ "Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
 #~ "       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
@@ -840,8 +817,6 @@ msgstr ""
 #~ "       [--no-parser] [--token-table]\n"
 #~ "       [--file-prefix=prefix] [--name-prefix=prefix]\n"
 #~ "       [--output=outfile] grammar-file\n"
-#~ "\n"
-#~ "Report bugs to bug-bison@gnu.org\n"
 #~ msgstr ""
 #~ "Benutzung: %s [-dhklntvyV] [-b Datei-Präfix] [-o Ausgabe-Datei]\n"
 #~ "           [-p Namen-Präfix] [--debug] [--defines] [--fixed-output-"
@@ -851,15 +826,8 @@ msgstr ""
 #~ "           [--file-prefix=Präfix] [--name-prefix=Präfix]\n"
 #~ "           [--output=Ausgabe-Datei] Grammatik-Datei\n"
 
-#, fuzzy
-#~ msgid "%s:%d: fatal error: "
-#~ msgstr "fataler Fehler: %s\n"
-
-#~ msgid "unterminated comment in `%{' definition"
-#~ msgstr "unbeendeter Kommentar in »%{« Definition"
-
-#~ msgid "invalid @-construct"
-#~ msgstr "unzulässig @-Konstruktion"
+#~ msgid "gotos"
+#~ msgstr "»goto« Anweisungen"
 
 #~ msgid "\"%s\", line %d: %s\n"
 #~ msgstr "»%s«, Zeile %d: %s\n"
@@ -872,3 +840,24 @@ msgstr ""
 
 #~ msgid "limit of %d exceeded, too many %s"
 #~ msgstr "Grenze von %d erreicht, zu viele %s"
+
+#~ msgid "unterminated comment in `%{' definition"
+#~ msgstr "unbeendeter Kommentar in »%{« Definition"
+
+#~ msgid "unterminated comment at end of file"
+#~ msgstr "unbeendeter Kommentar am Dateiende"
+
+#~ msgid "unmatched close-brace (`}')"
+#~ msgstr "schließende geschweifte Klammer (»}«) hat kein Gegenstück"
+
+#~ msgid "unmatched right brace (`}')"
+#~ msgstr "schließende geschweifte Klammer (»}«) hat kein Gegenstück"
+
+#~ msgid "$%s is invalid"
+#~ msgstr "$%s ist unzulässig"
+
+#~ msgid "invalid @-construct"
+#~ msgstr "unzulässig @-Konstruktion"
+
+#~ msgid "ill-formed %type declaration"
+#~ msgstr "falsch geformte %type Deklaration"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-08-27 11:51+0200\n"
+"POT-Creation-Date: 2001-08-29 12:07+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -565,7 +565,7 @@ msgid "two @prec's in a row"
 msgstr "@prec のもの二つが同列になっています"
 
 #: src/reader.c:1519
-#, fuzzy, c-format
+#, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard がありますが %%semantic_parser が指定されていません"
 
@@ -812,13 +812,6 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Memory exhausted"
-#~ msgstr "%s: メモリを使い果たしました\n"
-
-#~ msgid "$%s is invalid"
-#~ msgstr "$%s は無効です"
-
 #~ msgid ""
 #~ "\n"
 #~ "\n"
@@ -907,6 +900,9 @@ msgstr ""
 
 #~ msgid "unmatched right brace (`}')"
 #~ msgstr "対応のない右ブレース (`}') です"
+
+#~ msgid "$%s is invalid"
+#~ msgstr "$%s は無効です"
 
 #~ msgid "invalid @-construct"
 #~ msgstr "無効な @-コンストラクトです"

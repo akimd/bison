@@ -1,12 +1,12 @@
 # Estonian translations for bison.
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Toomas Soome <tsoome@ut.ee>, 2000.
+# Copyright (C) 2001 Free Software Foundation, Inc.
+# Toomas Soome <tsoome@ut.ee>, 2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-27 11:51+0200\n"
-"PO-Revision-Date: 2000-04-11 22:19+02:00\n"
+"Project-Id-Version: bison 1.28c\n"
+"POT-Creation-Date: 2001-08-29 12:07+0200\n"
+"PO-Revision-Date: 2001-08-21 21:53+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,16 +20,15 @@ msgstr "liiga palju olekuid (maks %d)"
 
 #: lib/error.c:117 src/complain.c:100
 msgid "Unknown system error"
-msgstr ""
+msgstr "Tundmatu süsteemi viga"
 
 #: src/complain.c:154
 msgid "warning: "
-msgstr ""
+msgstr "hoiatus: "
 
 #: src/complain.c:242 src/complain.c:283
-#, fuzzy
 msgid "fatal error: "
-msgstr "fataalne viga: %s\n"
+msgstr "fataalne viga: "
 
 #: src/conflicts.c:49
 #, c-format
@@ -121,14 +120,8 @@ msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 
 #: src/derives.c:44
-#, fuzzy
 msgid "DERIVES"
-msgstr ""
-"\n"
-"\n"
-"\n"
-"DERIVES\n"
-"\n"
+msgstr "DERIVES"
 
 #: src/derives.c:49
 #, c-format
@@ -138,11 +131,11 @@ msgstr "%s derives"
 #: src/files.c:130
 #, c-format
 msgid "cannot open file `%s'"
-msgstr ""
+msgstr "faili `%s' ei saa avada"
 
 #: src/files.c:149
 msgid "cannot close file"
-msgstr ""
+msgstr "faili ei õnnestu sulgeda"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
@@ -176,7 +169,6 @@ msgstr ""
 "  -y, --yacc      emuleeri POSIX yacc\n"
 
 #: src/getargs.c:104
-#, fuzzy
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -188,11 +180,12 @@ msgid ""
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
 "Parser:\n"
+"  -S, --skeleton=FAIL        kasutatava skeleti kirjeldus\n"
 "  -t, --debug                varusta parser silumisinfoga\n"
+"      --locations            luba asukohtade arvestamine\n"
 "  -p, --name-prefix=PREFIKS  lisa välissümbolite nimedele PREFIKS\n"
 "  -l, --no-lines             ära genereeri `#line' direktiive\n"
 "  -n, --no-parser            genereeri ainult tabelid\n"
-"  -r, --raw                  sümbolite number alates 3\n"
 "  -k, --token-table          lisa ka sümbolite nimede tabel\n"
 
 #: src/getargs.c:116
@@ -221,28 +214,32 @@ msgstr "Teatage palun vigadest aadressil <bug-bison@gnu.org>.\n"
 #: src/getargs.c:140
 #, c-format
 msgid "bison (GNU Bison) %s"
-msgstr ""
+msgstr "bison (GNU Bison) %s"
 
 #: src/getargs.c:145
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
+"Autoriõigus 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, "
+"Inc.\n"
 
 #: src/getargs.c:149
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
+"See on vaba tarkvara; kopeerimistingimused leiate lähtetekstidest. Garantii\n"
+"PUUDUB; ka müügiks või mingil eesmärgil kasutamiseks.\n"
 
 #: src/getargs.c:210 src/lex.c:636
 #, c-format
 msgid "`%s' is no longer supported"
-msgstr ""
+msgstr "`%s' ei ole enam toetatud"
 
 #: src/getargs.c:234
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr ""
+msgstr "Lisainfo saamiseks proovige `%s --help'.\n"
 
 #: src/getargs.c:241
 #, c-format
@@ -355,20 +352,13 @@ msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tliigu olekule %d\n"
 
 #: src/print.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "state %d"
-msgstr ""
-"\n"
-"\n"
-"olek %d\n"
-"\n"
+msgstr "olek %d"
 
 #: src/print.c:233
-#, fuzzy
 msgid "Grammar"
-msgstr ""
-"\n"
-"Grammatika\n"
+msgstr "Grammatika"
 
 #: src/print.c:240
 #, c-format
@@ -380,20 +370,12 @@ msgid "\t\t/* empty */"
 msgstr "\t\t/* tühi */"
 
 #: src/print.c:253
-#, fuzzy
 msgid "Terminals, with rules where they appear"
-msgstr ""
-"\n"
-"Terminalid, koos reeglitega, kus nad ilmuvad\n"
-"\n"
+msgstr "Terminalid, koos reeglitega, kus nad ilmuvad"
 
 #: src/print.c:302
-#, fuzzy
 msgid "Nonterminals, with rules where they appear"
-msgstr ""
-"\n"
-"Mitteterminalid, koos reeglitega, kus nad ilmuvad\n"
-"\n"
+msgstr "Mitteterminalid, koos reeglitega, kus nad ilmuvad"
 
 #: src/print.c:329
 msgid " on left:"
@@ -404,14 +386,14 @@ msgid " on right:"
 msgstr " paremal:"
 
 #: src/print_graph.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%-4s\terror (nonassociative)"
-msgstr "    %-4s\tviga (mitteassotsiatiivne)\n"
+msgstr "%-4s\tviga (mitteassotsiatiivne)"
 
 #: src/print_graph.c:187
-#, fuzzy, c-format
+#, c-format
 msgid "$default\treduce using rule %d (%s)"
-msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
+msgstr "$default\tredutseerin kasutades reeglit %d (%s)"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"
@@ -435,9 +417,9 @@ msgid "unterminated string"
 msgstr "lõpetamata sõne"
 
 #: src/reader.c:326 src/reader.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "%s is invalid"
-msgstr "@%s on vigane"
+msgstr "%s on vigane"
 
 #: src/reader.c:366
 #, c-format
@@ -461,12 +443,12 @@ msgstr "Enneaegne EOF peale %s"
 #: src/reader.c:499
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
-msgstr ""
+msgstr "sümbolit `%s' on kasutatud enam kui kord literaal sõnena"
 
 #: src/reader.c:502
 #, c-format
 msgid "symbol `%s' given more than one literal string"
-msgstr ""
+msgstr "sümbolile `%s' on antud enam kui üks literaal sõne"
 
 #: src/reader.c:524 src/reader.c:667
 #, c-format
@@ -484,14 +466,14 @@ msgid "`%s' is invalid in %s"
 msgstr "`%s' ei ole %s sees lubatud"
 
 #: src/reader.c:561 src/reader.c:721
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %s declarations"
-msgstr "korduvad %start deklaratsioonid"
+msgstr "korduvad %s deklaratsioonid"
 
 #: src/reader.c:563 src/reader.c:893 src/reader.c:918 src/reader.c:1284
-#, fuzzy, c-format
+#, c-format
 msgid "invalid %s declaration"
-msgstr "vigane %start deklaratsioon"
+msgstr "vigane %s deklaratsioon"
 
 #: src/reader.c:583
 msgid "%type declaration has no <typename>"
@@ -518,14 +500,14 @@ msgid "unexpected item: %s"
 msgstr "ootamatu element: %s"
 
 #: src/reader.c:759 src/reader.c:1110 src/reader.c:1181
-#, fuzzy, c-format
+#, c-format
 msgid "unmatched %s"
-msgstr "puudub `{'"
+msgstr "puudub %s"
 
 #: src/reader.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "argument of %%expect is not an integer"
-msgstr "%expect argument ei ole täisarv"
+msgstr "%%expect argument ei ole täisarv"
 
 #: src/reader.c:838
 #, c-format
@@ -538,14 +520,14 @@ msgid "expected string constant instead of %s"
 msgstr "eeldasin %s asemel sõnekonstanti"
 
 #: src/reader.c:930
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %%header_extension declarations"
-msgstr "korduvad %union deklaratsioonid"
+msgstr "korduvad %%header_extension eklaratsioonid"
 
 #: src/reader.c:940
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %%source_extension declarations"
-msgstr "korduvad %union deklaratsioonid"
+msgstr "korduvad %%source_extension deklaratsioonid"
 
 #: src/reader.c:1026
 #, c-format
@@ -584,9 +566,9 @@ msgid "two @prec's in a row"
 msgstr "kaks @prec ühel real"
 
 #: src/reader.c:1519
-#, fuzzy, c-format
+#, c-format
 msgid "%%guard present but %%semantic_parser not specified"
-msgstr "%guard on määratud, aga %semantic_parser ei ole"
+msgstr "%%guard on määratud, aga %%semantic_parser ei ole"
 
 #: src/reader.c:1528
 msgid "two actions at end of one rule"
@@ -648,29 +630,16 @@ msgid "the start symbol %s is a token"
 msgstr "stardisümbol %s on märk"
 
 #: src/reduce.c:404
-#, fuzzy
 msgid "Useless nonterminals:"
-msgstr ""
-"Kasutamata mitteterminalid:\n"
-"\n"
+msgstr "Kasutamata mitteterminalid:"
 
 #: src/reduce.c:419
-#, fuzzy
 msgid "Terminals which are not used:"
-msgstr ""
-"\n"
-"\n"
-"Terminalid, mida ei kasutatud:\n"
-"\n"
+msgstr "Terminalid, mida ei kasutatud:"
 
 #: src/reduce.c:430
-#, fuzzy
 msgid "Useless rules:"
-msgstr ""
-"\n"
-"\n"
-"Kasutamata reeglid:\n"
-"\n"
+msgstr "Kasutamata reeglid:"
 
 #: src/reduce.c:459
 msgid ""
@@ -805,9 +774,8 @@ msgstr "%s: võti `-W %s' ei luba argumenti\n"
 #. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
 #. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/obstack.c:477 lib/xmalloc.c:66
-#, fuzzy
 msgid "memory exhausted"
-msgstr "%s: mälu on otsas\n"
+msgstr "mälu on otsas"
 
 #. Get translations for open and closing quotation marks.
 #.
@@ -825,110 +793,41 @@ msgstr "%s: mälu on otsas\n"
 #. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #: lib/quotearg.c:259
 msgid "`"
-msgstr ""
+msgstr "`"
 
 #: lib/quotearg.c:260
 msgid "'"
-msgstr ""
+msgstr "'"
 
-#, fuzzy
-#~ msgid "Memory exhausted"
-#~ msgstr "%s: mälu on otsas\n"
+#~ msgid "vcg graph: no such color."
+#~ msgstr "vcg graph: sellist värvi pole."
 
-#~ msgid "$%s is invalid"
-#~ msgstr "$%s on vigane"
+#~ msgid "vcg graph: no such text mode"
+#~ msgstr "vcg graph: sellist teksti moodi pole"
 
-#~ msgid "unterminated comment at end of file"
-#~ msgstr "lõpetamata kommentaar faili lõpus"
+#~ msgid "vcg graph: no such shape"
+#~ msgstr "vcg graph: sellist vormi pole"
 
-#~ msgid "unmatched close-brace (`}')"
-#~ msgstr "puudub sulgev loogeline sulg (`}')"
+#~ msgid "vcg graph: no such decision"
+#~ msgstr "vcg graph: sellist otsust pole"
 
-#~ msgid "unmatched right brace (`}')"
-#~ msgstr "puudub sulgev loogeline sulg (`}')"
+#~ msgid "vcg graph: no such an orientation"
+#~ msgstr "vcg graph: sellist orientatsiooni pole"
 
-#~ msgid "ill-formed %type declaration"
-#~ msgstr "vigaselt formeeritud %type deklaratsioon"
+#~ msgid "vcg graph: no such an alignement"
+#~ msgstr "vcg graph: sellist joondamist pole"
 
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "FIRSTS\n"
-#~ "\n"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "FIRSTS\n"
-#~ "\n"
+#~ msgid "vcg graph: no such an arrow mode"
+#~ msgstr "vcg graph: sellist noole moodi pole"
 
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "%s firsts\n"
-#~ "\n"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "%s firsts\n"
-#~ "\n"
+#~ msgid "vcg graph: no such crossing_type"
+#~ msgstr "vcg graph: sellist ristumise tüüpi pole"
 
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "FDERIVES\n"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "FDERIVES\n"
+#~ msgid "vcg graph: no such view"
+#~ msgstr "vcg graph: sellist vaadet pole"
 
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "%s derives\n"
-#~ "\n"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "%s derives\n"
-#~ "\n"
+#~ msgid "vcg graph: no such linestyle"
+#~ msgstr "vcg graph: sellist joone stiili pole"
 
-#~ msgid ""
-#~ "Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
-#~ "       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
-#~ "       [--verbose] [--version] [--help] [--yacc]\n"
-#~ "       [--no-parser] [--token-table]\n"
-#~ "       [--file-prefix=prefix] [--name-prefix=prefix]\n"
-#~ "       [--output=outfile] grammar-file\n"
-#~ msgstr ""
-#~ "Kasuta: %s [-dhklntvyV] [-b faili-prefiks] [-o väljundfail] [-p nime-"
-#~ "prefiks]\n"
-#~ "        [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
-#~ "        [--verbose] [--version] [--help] [--yacc]\n"
-#~ "        [--no-parser] [--token-table]\n"
-#~ "        [--file-prefix=prefiks] [--name-prefix=prefiks]\n"
-#~ "        [--output=väljundfail] grammatika-fail\n"
-
-#~ msgid "gotos"
-#~ msgstr "gotod"
-
-#~ msgid "\"%s\", line %d: %s\n"
-#~ msgstr "\"%s\", rida %d: %s\n"
-
-#~ msgid "error: %s\n"
-#~ msgstr "viga: %s\n"
-
-#~ msgid "(\"%s\", line %d) error: %s\n"
-#~ msgstr "(\"%s\", rida %d) viga: %s\n"
-
-#~ msgid "limit of %d exceeded, too many %s"
-#~ msgstr "limiit %d ületatud, liiga palju %s"
-
-#~ msgid "unterminated comment in `%{' definition"
-#~ msgstr "lõpetamata kommentaar `%{' definitsioonis"
-
-#~ msgid "invalid @-construct"
-#~ msgstr "vigane @-konstruktsioon"
+#~ msgid "vcg graph: no such an arrowstyle"
+#~ msgstr "vcg graph: sellist noole stiili pole"

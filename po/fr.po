@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.28a\n"
-"POT-Creation-Date: 2001-08-27 11:51+0200\n"
-"PO-Revision-Date: 2000-06-01 08:00-0500\n"
+"Project-Id-Version: GNU bison 1.28c\n"
+"POT-Creation-Date: 2001-08-29 12:07+0200\n"
+"PO-Revision-Date: 2001-08-28 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,16 +21,15 @@ msgstr "nombre trop grand d'états (max %d)"
 
 #: lib/error.c:117 src/complain.c:100
 msgid "Unknown system error"
-msgstr ""
+msgstr "Erreur système inconnue"
 
 #: src/complain.c:154
 msgid "warning: "
-msgstr ""
+msgstr "AVERTISSEMENT: "
 
 #: src/complain.c:242 src/complain.c:283
-#, fuzzy
 msgid "fatal error: "
-msgstr "erreur fatale: %s\n"
+msgstr "erreur fatale: "
 
 #: src/conflicts.c:49
 #, c-format
@@ -123,13 +122,8 @@ msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $défaut\tréduction par la règle %d (%s)\n"
 
 #: src/derives.c:44
-#, fuzzy
 msgid "DERIVES"
-msgstr ""
-"\n"
-"\n"
-"\n"
-"FDERIVES\n"
+msgstr "DÉRIVES"
 
 #: src/derives.c:49
 #, c-format
@@ -139,11 +133,11 @@ msgstr "%s dérive"
 #: src/files.c:130
 #, c-format
 msgid "cannot open file `%s'"
-msgstr ""
+msgstr "ne peut ouvrir le fichier `%s'"
 
 #: src/files.c:149
 msgid "cannot close file"
-msgstr ""
+msgstr "ne peut fermer le fichier"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
@@ -178,7 +172,6 @@ msgstr ""
 "  -y, --yacc      émuler yacc en mode POSIX\n"
 
 #: src/getargs.c:104
-#, fuzzy
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -190,8 +183,10 @@ msgid ""
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
 "Analyseur:\n"
+"  -S, --skeleton=FICHIER     utiliser le FICHIER squelette\n"
 "  -t, --debug                activer le mode de mise au point\n"
 "                             de l'analyseur\n"
+"      --locations            permettre le calcul des localisations\n"
 "  -p, --name-prefix=PREFIXE  accoler le PREFIXE aux symboles externes\n"
 "  -l, --no-lines             ne pas générer les directives `#line'\n"
 "  -n, --no-parser            générer les tables seulement\n"
@@ -224,28 +219,32 @@ msgstr "Rapporter toutes anomalies à <bug-bison@gnu.org>.\n"
 #: src/getargs.c:140
 #, c-format
 msgid "bison (GNU Bison) %s"
-msgstr ""
+msgstr "bison (GNU Bison) %s"
 
 #: src/getargs.c:145
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 
 #: src/getargs.c:149
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
+"Ce logiciel est libre; voir les sources pour les conditions de\n"
+"reproduction. AUCUNE garantie n'est donnée; tant pour des raisons\n"
+"COMMERCIALES que pour RÉPONDRE À UN BESOIN PARTICULIER.\n"
 
 #: src/getargs.c:210 src/lex.c:636
 #, c-format
 msgid "`%s' is no longer supported"
-msgstr ""
+msgstr "`%s' n'est plus supporté"
 
 #: src/getargs.c:234
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr ""
+msgstr "Pour en savoir davantage, faites: `%s --help'.\n"
 
 #: src/getargs.c:241
 #, c-format
@@ -358,20 +357,13 @@ msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\taller à l'état %d\n"
 
 #: src/print.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "state %d"
-msgstr ""
-"\n"
-"\n"
-"état %d\n"
-"\n"
+msgstr "état %d"
 
 #: src/print.c:233
-#, fuzzy
 msgid "Grammar"
-msgstr ""
-"\n"
-"Grammaire\n"
+msgstr "Grammaire"
 
 #: src/print.c:240
 #, c-format
@@ -383,20 +375,12 @@ msgid "\t\t/* empty */"
 msgstr "\t\t/* epsilon */"
 
 #: src/print.c:253
-#, fuzzy
 msgid "Terminals, with rules where they appear"
-msgstr ""
-"\n"
-"Terminaux, suivis des règles où ils apparaissent\n"
-"\n"
+msgstr "Terminaux, suivis des règles où ils apparaissent"
 
 #: src/print.c:302
-#, fuzzy
 msgid "Nonterminals, with rules where they appear"
-msgstr ""
-"\n"
-"Catégories, suivis des règles où elles apparaissent\n"
-"\n"
+msgstr "Non-terminaux, suivis des règles où ils apparaissent"
 
 #: src/print.c:329
 msgid " on left:"
@@ -407,14 +391,14 @@ msgid " on right:"
 msgstr " à droite:"
 
 #: src/print_graph.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%-4s\terror (nonassociative)"
-msgstr "    %-4s\terreur (non-associatif)\n"
+msgstr "%-4s\terreur (non-associatif)"
 
 #: src/print_graph.c:187
-#, fuzzy, c-format
+#, c-format
 msgid "$default\treduce using rule %d (%s)"
-msgstr "    $défaut\tréduction par la règle %d (%s)\n"
+msgstr "$défaut\tréduction par la règle %d (%s)"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"
@@ -438,9 +422,9 @@ msgid "unterminated string"
 msgstr "chaîne de caractère non terminée"
 
 #: src/reader.c:326 src/reader.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "%s is invalid"
-msgstr "$%s n'est pas valide"
+msgstr "%s n'est pas valide"
 
 #: src/reader.c:366
 #, c-format
@@ -464,12 +448,12 @@ msgstr "Fin de fichier prématutée après %s"
 #: src/reader.c:499
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
-msgstr ""
+msgstr "symbole `%s' utilisé plus d'une fois dans une chaîne litérale"
 
 #: src/reader.c:502
 #, c-format
 msgid "symbol `%s' given more than one literal string"
-msgstr ""
+msgstr "symbole `%s' présent dans plus d'une chaîne litérale"
 
 #: src/reader.c:524 src/reader.c:667
 #, c-format
@@ -487,14 +471,14 @@ msgid "`%s' is invalid in %s"
 msgstr "`%s' n'est pas valide dans %s"
 
 #: src/reader.c:561 src/reader.c:721
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %s declarations"
-msgstr "multiples déclarations %start"
+msgstr "multiples déclarations %s"
 
 #: src/reader.c:563 src/reader.c:893 src/reader.c:918 src/reader.c:1284
-#, fuzzy, c-format
+#, c-format
 msgid "invalid %s declaration"
-msgstr "la déclaration %start n'est pas valide"
+msgstr "la déclaration %s n'est pas valide"
 
 #: src/reader.c:583
 msgid "%type declaration has no <typename>"
@@ -522,14 +506,14 @@ msgid "unexpected item: %s"
 msgstr "item inattendu: %s"
 
 #: src/reader.c:759 src/reader.c:1110 src/reader.c:1181
-#, fuzzy, c-format
+#, c-format
 msgid "unmatched %s"
-msgstr "accolade ouvrante `{' non appariée"
+msgstr "non appariement de %s"
 
 #: src/reader.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "argument of %%expect is not an integer"
-msgstr "le paramètre de %expect n'est pas un entier"
+msgstr "le paramètre de %%expect n'est pas un entier"
 
 #: src/reader.c:838
 #, c-format
@@ -542,14 +526,14 @@ msgid "expected string constant instead of %s"
 msgstr "chaîne de caractères constante attendue plutôt que %s"
 
 #: src/reader.c:930
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %%header_extension declarations"
-msgstr "multiples déclarations %union"
+msgstr "multiples déclarations %%header_extension"
 
 #: src/reader.c:940
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %%source_extension declarations"
-msgstr "multiples déclarations %union"
+msgstr "multiples déclarations %%source_extension"
 
 #: src/reader.c:1026
 #, c-format
@@ -588,9 +572,9 @@ msgid "two @prec's in a row"
 msgstr "deux @prec de suite"
 
 #: src/reader.c:1519
-#, fuzzy, c-format
+#, c-format
 msgid "%%guard present but %%semantic_parser not specified"
-msgstr "%guard est présent mais %semantic_parser n'est pas spécifié"
+msgstr "%guard est présent mais %%semantic_parser n'est pas spécifié"
 
 #: src/reader.c:1528
 msgid "two actions at end of one rule"
@@ -652,29 +636,16 @@ msgid "the start symbol %s is a token"
 msgstr "le symbole de départ %s est un terminal"
 
 #: src/reduce.c:404
-#, fuzzy
 msgid "Useless nonterminals:"
-msgstr ""
-"Catégories non productives:\n"
-"\n"
+msgstr "Non-terminaux inutiles:"
 
 #: src/reduce.c:419
-#, fuzzy
 msgid "Terminals which are not used:"
-msgstr ""
-"\n"
-"\n"
-"Terminaux non utilisés:\n"
-"\n"
+msgstr "Terminaux non utilisés:"
 
 #: src/reduce.c:430
-#, fuzzy
 msgid "Useless rules:"
-msgstr ""
-"\n"
-"\n"
-"Règles non productives:\n"
-"\n"
+msgstr "Règles inutiles:"
 
 #: src/reduce.c:459
 msgid ""
@@ -809,9 +780,8 @@ msgstr "%s: l'option `-W %s' n'admet pas de paramètre\n"
 #. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
 #. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/obstack.c:477 lib/xmalloc.c:66
-#, fuzzy
 msgid "memory exhausted"
-msgstr "%s: mémoire épuisée\n"
+msgstr "mémoire épuisée"
 
 #. Get translations for open and closing quotation marks.
 #.
@@ -829,11 +799,44 @@ msgstr "%s: mémoire épuisée\n"
 #. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #: lib/quotearg.c:259
 msgid "`"
-msgstr ""
+msgstr "`"
 
 #: lib/quotearg.c:260
 msgid "'"
-msgstr ""
+msgstr "'"
+
+#~ msgid "vcg graph: no such color."
+#~ msgstr "graphe vcg: pas de telle couleur"
+
+#~ msgid "vcg graph: no such text mode"
+#~ msgstr "graphe vcg: pas de tel mode texte"
+
+#~ msgid "vcg graph: no such shape"
+#~ msgstr "graphe vcg: pas de telle forme"
+
+#~ msgid "vcg graph: no such decision"
+#~ msgstr "graphe vcg: pas de telle décision"
+
+#~ msgid "vcg graph: no such an orientation"
+#~ msgstr "graphe vcg: pas de telle orientation"
+
+#~ msgid "vcg graph: no such an alignement"
+#~ msgstr "graphe vcg: pas de tel alignement"
+
+#~ msgid "vcg graph: no such an arrow mode"
+#~ msgstr "graphe vcg: pas de tel mode de flèche"
+
+#~ msgid "vcg graph: no such crossing_type"
+#~ msgstr "graphe vcg: pas de tel type de croisement (crossing_type)"
+
+#~ msgid "vcg graph: no such view"
+#~ msgstr "graphe vcg: pas de tel vue"
+
+#~ msgid "vcg graph: no such linestyle"
+#~ msgstr "graphe vcg: pas de tel style de ligne"
+
+#~ msgid "vcg graph: no such an arrowstyle"
+#~ msgstr "graphe vcg: pas de tel style de flèche"
 
 #~ msgid ""
 #~ "\n"
