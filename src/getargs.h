@@ -1,5 +1,5 @@
 /* Parse command line arguments for bison.
-   Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002
+   Copyright (C) 1984, 1986, 1989, 1992, 2000, 2001, 2002
    Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -36,7 +36,7 @@ extern int graph_flag;		/* for -g */
 extern int yacc_flag;  		/* for -y */
 
 /* --trace.  */
-enum trace_e
+enum trace
   {
     trace_none      = 0,
     trace_scan      = 1 << 0,
@@ -54,7 +54,7 @@ enum trace_e
 extern int trace_flag;
 
 /* --report.  */
-enum report_e
+enum report
   {
     report_none             = 0,
     report_states           = 1 << 0,
