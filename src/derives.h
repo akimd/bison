@@ -1,5 +1,5 @@
 /* Match rules with nonterminals for bison,
-   Copyright 1984, 1989, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 2000, 2001 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -21,12 +21,11 @@
 #ifndef DERIVES_H_
 # define DERIVES_H_
 
+/* DERIVES[SYMBOL - NTOKENS] points to a vector of the number of the
+   rules that SYMBOL derives, terminated with -1.  */
 extern short **derives;
 
-/* set_derives finds, for each variable (nonterminal), which rules can
-   derive it.  It sets up the value of derives so that derives[i -
-   ntokens] points to a vector of rule numbers, terminated with -1.
-   */
+/* Compute DERIVES.  */
 
 void set_derives PARAMS((void));
 void free_derives PARAMS((void));
