@@ -1,3 +1,7 @@
+2001-09-18  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/output.c (output_parser): Delete unused variable actions_dumped.
+
 2001-09-07  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/output.c (output): Delete call to reader_output_yylsp.
