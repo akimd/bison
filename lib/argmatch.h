@@ -1,5 +1,5 @@
 /* argmatch.h -- definitions and prototypes for argmatch.c
-   Copyright (C) 1990, 1998, 1999, 2001 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1998, 1999, 2001, 2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,11 +40,12 @@
    cost, since it will be statically evalauted to `assert (0)' or
    `assert (1)'.  Unfortunately there is no -Wassert-0. */
 
-# undef ARRAY_CARDINALITY
 # define ARRAY_CARDINALITY(Array) (sizeof ((Array)) / sizeof (*(Array)))
 
-# define ARGMATCH_ASSERT(Arglist, Vallist)      \
-  assert (ARRAY_CARDINALITY ((Arglist)) == ARRAY_CARDINALITY ((Vallist)) + 1)
+# define ARGMATCH_CONSTRAINT(Arglist, Vallist) \
+  (ARRAY_CARDINALITY ((Arglist)) == ARRAY_CARDINALITY ((Vallist)) + 1)
+# define ARGMATCH_ASSERT(Arglist, Vallist) \
+  assert (ARGMATCH_CONSTRAINT (Arglist, Vallist))
 
 /* Return the index of the element of ARGLIST (NULL terminated) that
    matches with ARG.  If VALLIST is not NULL, then use it to resolve
