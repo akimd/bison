@@ -1,8 +1,8 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
-AC_INIT(bison, 1.28d, bug-bison@gnu.org)
+AC_INIT(bison, 1.28e, bug-bison@gnu.org)
 AC_CONFIG_AUX_DIR(config)
-AM_INIT_AUTOMAKE(bison, 1.28d)
+AM_INIT_AUTOMAKE(bison, 1.28e)
 AM_CONFIG_HEADER(config.h:config.hin)
 
 # Initialize the test suite.
