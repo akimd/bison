@@ -1,5 +1,18 @@
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (log_resolution): Accept the rule involved in
+	the sr conflicts instead of the lookahead number that points to
+	that rule.
+	(flush_reduce): Accept the current lookahead vector as argument,
+	instead of the index in LA.
+	(resolve_sr_conflict): Accept the current number of lookahead
+	bitset to consider for the STATE, instead of the index in LA.
+	(set_conflicts): Adjust.
+	* src/lalr.c, src/lalr.h, src/state.h: Comment changes.
+
+	
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h (state_t): Replace the `lookaheadsp' member, a
 	short, with `lookaheads' (bitsetv), `lookaheads_rule' (rule_t**).
 	Adjust all dependencies.

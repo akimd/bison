@@ -30,19 +30,19 @@
    state.  These symbols at these items are the allowable inputs that
    can follow now.
 
-   A core represents one state.  States are numbered in the number
+   A core represents one state.  States are numbered in the NUMBER
    field.  When generate_states is finished, the starting state is
-   state 0 and nstates is the number of states.  (A transition to a
-   state whose state number is nstates indicates termination.)  All
-   the cores are chained together and first_state points to the first
-   one (state 0).
+   state 0 and NSTATES is the number of states.  (FIXME: This sentence
+   is no longer true: A transition to a state whose state number is
+   NSTATES indicates termination.)  All the cores are chained together
+   and FIRST_STATE points to the first one (state 0).
 
    For each state there is a particular symbol which must have been
    the last thing accepted to reach that state.  It is the
-   accessing_symbol of the core.
+   ACCESSING_SYMBOL of the core.
 
    Each core contains a vector of NITEMS items which are the indices
-   in the ritems vector of the items that are selected in this state.
+   in the RITEMS vector of the items that are selected in this state.
 
    The link field is used for chaining symbols that hash states by
    their itemsets.  This is for recognizing equivalent states and
