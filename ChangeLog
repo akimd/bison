@@ -1,4 +1,15 @@
+2002-12-02  Paul Eggert  <eggert@twinsun.com>
+
+	* configure.ac (AC_REPLACE_FUNCS): Add strtoul.
+	* lib/strtoul.c: New file, from gnulib.
+	This fixes a porting bug reported by Peter Klein in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-December/001944.html>.
+
 2002-11-30  Paul Eggert  <eggert@twinsun.com>
+
+	* src/scan-gram.l (no_cr_read, extend_location): Move to epilogue,
+	and put only a forward declaration in the prologue.  This is for
+	consistency with the other scanner helper functions.
 
 	Type clashes now generate warnings, not errors, since it
 	appears that POSIX may allow some grammars with type clashes.
