@@ -1590,7 +1590,7 @@ readgram (void)
 	}
       else if (t == tok_start)
 	{
-	  parse_start_decl (;)
+	  parse_start_decl ();
 	  t = lex ();
 	}
 #endif

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-02-28 16:14+0100\n"
+"POT-Creation-Date: 2002-03-04 17:25+0100\n"
 "PO-Revision-Date: 2002-01-23 14:16+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -571,68 +571,72 @@ msgstr "la grammatica comincia con un `|'"
 msgid "rule given for %s, which is a token"
 msgstr "fornita una regola per il token %s"
 
-#: src/reader.c:1514
+#: src/reader.c:1444 src/reader.c:1556
+msgid "previous rule lacks an ending `;'"
+msgstr ""
+
+#: src/reader.c:1517
 msgid "two @prec's in a row"
 msgstr "due @prec di seguito"
 
-#: src/reader.c:1522
+#: src/reader.c:1525
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "trovato %%guard senza che sia specificato %%semantic_parser"
 
-#: src/reader.c:1531
+#: src/reader.c:1534
 msgid "two actions at end of one rule"
 msgstr "due azioni alla fine di una regola"
 
-#: src/reader.c:1545
+#: src/reader.c:1548
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflitto di tipo (`%s' e `%s') nell'azione di default"
 
-#: src/reader.c:1551
+#: src/reader.c:1554
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
 
-#: src/reader.c:1595
+#: src/reader.c:1600
 #, c-format
 msgid "invalid input: %s"
 msgstr "input non valido: %s"
 
-#: src/reader.c:1603
+#: src/reader.c:1608
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "troppi simboli (token e nonterminali); il massimo è %d"
 
-#: src/reader.c:1606
+#: src/reader.c:1611
 msgid "no rules in the input grammar"
 msgstr "nessuna regola nella grammatica di input"
 
-#: src/reader.c:1630
+#: src/reader.c:1635
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr "usato il simbolo %s, ma non è un token e non ha regole"
 
-#: src/reader.c:1765
+#: src/reader.c:1770
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "i token %s e %s hanno lo stesso numero %d"
 
-#: src/reader.c:1818
+#: src/reader.c:1823
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "precedenze in conflitto per %s und %s"
 
-#: src/reader.c:1830
+#: src/reader.c:1835
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "associatività in conflitto per %s e %s"
 
-#: src/reader.c:1869
+#: src/reader.c:1874
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "simbolo iniziale %s non definito"
 
-#: src/reader.c:1871
+#: src/reader.c:1876
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"
