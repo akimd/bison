@@ -766,7 +766,7 @@ general form of a Bison grammar file is as follows:
 
 @example
 %@{
-@var{Prologue (declarations)}
+@var{Prologue}
 %@}
 
 @var{Bison declarations}
@@ -774,7 +774,7 @@ general form of a Bison grammar file is as follows:
 %%
 @var{Grammar rules}
 %%
-@var{Epilogue (additional code)}
+@var{Epilogue}
 @end example
 
 @noindent
@@ -2043,7 +2043,7 @@ Comments enclosed in @samp{/* @dots{} */} may appear in any of the sections.
 @cindex Prologue
 @cindex declarations
 
-The @var{prologue} section contains macro definitions and
+The @var{Prologue} section contains macro definitions and
 declarations of functions and variables that are used in the actions in the
 grammar rules.  These are copied to the beginning of the parser file so
 that they precede the definition of @code{yyparse}.  You can use
@@ -2079,8 +2079,8 @@ if it is the first thing in the file.
 @cindex epilogue
 @cindex C code, section for additional
 
-The @var{epilogue} is copied verbatim to the end of the parser file, just as
-the @var{prologue} is copied to the beginning.  This is the most convenient
+The @var{Epilogue} is copied verbatim to the end of the parser file, just as
+the @var{Prologue} is copied to the beginning.  This is the most convenient
 place to put anything that you want to have in the parser file but which need
 not come before the definition of @code{yyparse}.  For example, the
 definitions of @code{yylex} and @code{yyerror} often go here.
