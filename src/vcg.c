@@ -21,8 +21,6 @@
 #include "system.h"
 #include "vcg.h"
 #include "vcg_defaults.h"
-#include "xalloc.h"
-#include "complain.h"
 
 /* Initialize a graph with the default values. */
 void
@@ -231,8 +229,7 @@ get_color_str (enum color_e c)
     case orchid:	return "orchid";
     case black:		return "black";
     default:
-      complain (_("vcg graph: no such color."));
-      return get_color_str(G_COLOR);
+      assert (!"Not a default color.");
     }
   return NULL;
 }
@@ -246,8 +243,7 @@ get_textmode_str (enum textmode_e t)
     case left_justify:	return "left_justify";
     case right_justify:	return "right_justify";
     default:
-      complain (_("vcg graph: no such text mode"));
-      return get_textmode_str(G_TEXTMODE);
+      assert (!"Not a text mode.");
     }
   return NULL;
 }
@@ -262,8 +258,7 @@ get_shape_str (enum shape_e s)
     case ellipse:	return "ellipse";
     case triangle:	return "triangle";
     default:
-      complain (_("vcg graph: no such shape"));
-      return get_shape_str(G_SHAPE);
+      assert (!"Not a shape.");
     }
   return NULL;
 }
@@ -288,21 +283,20 @@ get_layoutalgorithm_str (enum layoutalgorithm_e l)
     case dfs:		return "dfs";
     case tree:		return "tree";
     default:
-      return "normal";
+      assert (!"Not a layout algorithm.");
     }
   return NULL;
 }
 
 static const char *
-get_decision_str (enum decision_e d, enum decision_e defaults)
+get_decision_str (enum decision_e d)
 {
   switch (d)
     {
     case no:	return "no";
     case yes:	return "yes";
     default:
-      complain (_("vcg graph: no such decision"));
-      return get_decision_str(defaults, 0);
+      assert (!"Either yes nor no.");
     }
   return NULL;
 }
@@ -317,8 +311,7 @@ get_orientation_str (enum orientation_e o)
     case left_to_right: return "left_to_right";
     case right_to_left: return "right_to_left";
     default:
-      complain (_("vcg graph: no such an orientation"));
-      return get_orientation_str(G_ORIENTATION);
+      assert (!"Not an orientation.");
     }
   return NULL;
 }
@@ -332,8 +325,7 @@ get_node_alignement_str (enum alignement_e a)
     case top:		return "top";
     case bottom:	return "bottom";
     default:
-      complain (_("vcg graph: no such an alignement"));
-      return get_node_alignement_str(G_NODE_ALIGNEMENT);
+      assert (!"Not an alignement.");
     }
   return NULL;
 }
@@ -346,8 +338,7 @@ get_arrow_mode_str (enum arrow_mode_e a)
     case fixed:		return "fixed";
     case free_a:	return "free";
     default:
-      complain (_("vcg graph: no such an arrow mode"));
-      return get_arrow_mode_str(G_ARROW_MODE);
+      assert (!"Not an arrow mode.");
     }
   return NULL;
 }
@@ -362,8 +353,7 @@ get_crossing_type_str (enum crossing_type_e c)
     case barymedian:	return "barymedian";
     case medianbary:	return "medianbary";
     default:
-      complain (_("vcg graph: no such crossing_type"));
-      return get_crossing_type_str(G_CROSSING_WEIGHT);
+      assert (!"Not a crossing type.");
     }
   return NULL;
 }
@@ -379,8 +369,7 @@ get_view_str (enum view_e v)
     case fcfish:	return "fcfish";
     case fpfish:	return "fpfish";
     default:
-      complain (_("vcg graph: no such view"));
-      return get_view_str(G_VIEW);
+      assert (!"Not a view.");
     }
   return NULL;
 }
@@ -395,8 +384,7 @@ get_linestyle_str (enum linestyle_e l)
     case dotted:	return "dotted";
     case invisible:	return "invisible";
     default:
-      complain (_("vcg graph: no such linestyle"));
-      return get_linestyle_str(E_LINESTYLE);
+      assert (!"Not a line style.");
     }
   return NULL;
 }
@@ -410,8 +398,7 @@ get_arrowstyle_str (enum arrowstyle_e a)
     case line:	return "line";
     case none:	return "none";
     default:
-      complain (_("vcg graph: no such an arrowstyle"));
-      return get_arrowstyle_str(E_ARROWSTYLE);
+      assert (!"Not an arrow style.");
     }
   return NULL;
 }
@@ -732,54 +719,48 @@ output_graph (graph_t *graph, struct obstack *os)
 
   if (graph->late_edge_labels != G_LATE_EDGE_LABELS)
     obstack_fgrow1 (os, "\tlate_edge_labels:\t%s\n",
-		    get_decision_str(graph->late_edge_labels,
-				     G_LATE_EDGE_LABELS));
+		    get_decision_str(graph->late_edge_labels));
   if (graph->display_edge_labels != G_DISPLAY_EDGE_LABELS)
     obstack_fgrow1 (os, "\tdisplay_edge_labels:\t%s\n",
-		    get_decision_str(graph->display_edge_labels,
-				     G_DISPLAY_EDGE_LABELS));
+		    get_decision_str(graph->display_edge_labels));
   if (graph->dirty_edge_labels != G_DIRTY_EDGE_LABELS)
     obstack_fgrow1 (os, "\tdirty_edge_labels:\t%s\n",
-		    get_decision_str(graph->dirty_edge_labels,
-				     G_DIRTY_EDGE_LABELS));
+		    get_decision_str(graph->dirty_edge_labels));
   if (graph->finetuning != G_FINETUNING)
     obstack_fgrow1 (os, "\tfinetuning:\t%s\n",
-		    get_decision_str(graph->finetuning, G_FINETUNING));
+		    get_decision_str(graph->finetuning));
   if (graph->ignore_singles != G_IGNORE_SINGLES)
     obstack_fgrow1 (os, "\tignore_singles:\t%s\n",
-		    get_decision_str(graph->ignore_singles, G_IGNORE_SINGLES));
+		    get_decision_str(graph->ignore_singles));
   if (graph->straight_phase != G_STRAIGHT_PHASE)
     obstack_fgrow1 (os, "\tstraight_phase:\t%s\n",
-		    get_decision_str(graph->straight_phase, G_STRAIGHT_PHASE));
+		    get_decision_str(graph->straight_phase));
   if (graph->priority_phase != G_PRIORITY_PHASE)
     obstack_fgrow1 (os, "\tpriority_phase:\t%s\n",
-		    get_decision_str(graph->priority_phase, G_PRIORITY_PHASE));
+		    get_decision_str(graph->priority_phase));
   if (graph->manhattan_edges != G_MANHATTAN_EDGES)
     obstack_fgrow1 (os,
 		    "\tmanhattan_edges:\t%s\n",
-		    get_decision_str(graph->manhattan_edges,
-				     G_MANHATTAN_EDGES));
+		    get_decision_str(graph->manhattan_edges));
   if (graph->smanhattan_edges != G_SMANHATTAN_EDGES)
     obstack_fgrow1 (os,
 		    "\tsmanhattan_edges:\t%s\n",
-		    get_decision_str(graph->smanhattan_edges,
-				     G_SMANHATTAN_EDGES));
+		    get_decision_str(graph->smanhattan_edges));
   if (graph->near_edges != G_NEAR_EDGES)
     obstack_fgrow1 (os, "\tnear_edges:\t%s\n",
-		    get_decision_str(graph->near_edges, G_NEAR_EDGES));
+		    get_decision_str(graph->near_edges));
 
   if (graph->orientation != G_ORIENTATION)
     obstack_fgrow1 (os, "\torientation:\t%s\n",
-		    get_decision_str(graph->orientation, G_ORIENTATION));
+		    get_orientation_str(graph->orientation));
 
   if (graph->node_alignement != G_NODE_ALIGNEMENT)
     obstack_fgrow1 (os, "\tnode_alignement:\t%s\n",
-		    get_decision_str(graph->node_alignement,
-				     G_NODE_ALIGNEMENT));
+		    get_node_alignement_str(graph->node_alignement));
 
   if (graph->port_sharing != G_PORT_SHARING)
     obstack_fgrow1 (os, "\tport_sharing:\t%s\n",
-		    get_decision_str(graph->port_sharing, G_PORT_SHARING));
+		    get_decision_str(graph->port_sharing));
 
   if (graph->arrow_mode != G_ARROW_MODE)
     obstack_fgrow1 (os, "\tarrow_mode:\t%s\n",
@@ -795,27 +776,22 @@ output_graph (graph_t *graph, struct obstack *os)
 		    get_crossing_type_str(graph->crossing_weight));
   if (graph->crossing_phase2 != G_CROSSING_PHASE2)
     obstack_fgrow1 (os, "\tcrossing_phase2:\t%s\n",
-		    get_decision_str(graph->crossing_phase2,
-				     G_CROSSING_PHASE2));
+		    get_decision_str(graph->crossing_phase2));
   if (graph->crossing_optimization != G_CROSSING_OPTIMIZATION)
     obstack_fgrow1 (os, "\tcrossing_optimization:\t%s\n",
-		    get_decision_str(graph->crossing_optimization,
-				     G_CROSSING_OPTIMIZATION));
+		    get_decision_str(graph->crossing_optimization));
 
   if (graph->view != G_VIEW)
     obstack_fgrow1 (os, "\tview:\t%s\n", get_view_str(graph->view));
 
   if (graph->edges != G_EDGES)
-    obstack_fgrow1 (os, "\tedges:\t%s\n", get_decision_str(graph->edges,
-							   G_EDGES));
+    obstack_fgrow1 (os, "\tedges:\t%s\n", get_decision_str(graph->edges));
 
   if (graph->nodes != G_NODES)
-    obstack_fgrow1 (os,"\tnodes:\t%s\n",
-		    get_decision_str(graph->nodes, G_NODES));
+    obstack_fgrow1 (os,"\tnodes:\t%s\n", get_decision_str(graph->nodes));
 
   if (graph->splines != G_SPLINES)
-    obstack_fgrow1 (os, "\tsplines:\t%s\n",
-		    get_decision_str(graph->splines, G_SPLINES));
+    obstack_fgrow1 (os, "\tsplines:\t%s\n", get_decision_str(graph->splines));
 
   if (graph->bmax != G_BMAX)
     obstack_fgrow1 (os, "\tbmax:\t%d\n", graph->bmax);
