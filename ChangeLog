@@ -42,9 +42,10 @@
 	* m4/Makefile.am (EXTRA_DIST): Add the following files, which
 	shouldn't be needed according to the gettext 0.12.1 documentation
 	but which seem to be needed anyway: codeset.m4 glibc21.m4
-	intdiv0.m4 inttypes-pri.m4 inttypes.m4 inttypes_h.m4
+	intdiv0.m4 inttypes-pri.m4 inttypes.m4 inttypes_h.m4 isc-posix.m4
 	lcmessage.m4 nls.m4 po.m4 stdint_h.m4 uintmax_t.m4 ulonglong.m4.
-
+	* po/Makefile.in.in: Upgrade to gettext 0.12.1 version.
+	
 	* lib/.cvsignore: Add stdbool.h.
 	* m4/.cvsignore: Add nls.m4, po.m4.
 
