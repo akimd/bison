@@ -1,5 +1,11 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c, src/reader.h (user_toknums): Remove.
+	Adjust all users to use symbols[i]->user_token_number.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.c, src/gram.h (sprec, sassoc): Remove.
 	Adjust all users to use symbols[i]->prec or ->assoc.
 
