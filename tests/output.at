@@ -31,7 +31,7 @@ foo: {}
 
 AT_CHECK([bison $3 $1], 0)
 AT_CHECK([ls $4], [], [ignore])
-AT_CLEANUP($4)
+AT_CLEANUP
 ])
 
 AT_CHECK_OUTPUT([foo.y], [], [-dv],

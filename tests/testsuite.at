@@ -19,7 +19,7 @@
 # 02111-1307, USA.
 
 # We need a recent Autotest.
-m4_version_prereq([2.52e])
+m4_version_prereq([2.52g])
 
 AT_INIT
 

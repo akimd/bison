@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-11-12 10:34+0100\n"
+"POT-Creation-Date: 2001-11-14 15:59+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -106,7 +106,7 @@ msgstr "El estado %d contiene"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:481
+#: src/conflicts.c:482
 msgid "conflicts: "
 msgstr "conflictos: "
 
@@ -122,7 +122,7 @@ msgstr "conflictos: "
 # ok
 # ngp
 #
-#: src/conflicts.c:483
+#: src/conflicts.c:484
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d desplazamiento(s)/reducción(ones)"
@@ -139,28 +139,28 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 #
 # ok
 # ngp
-#: src/conflicts.c:487
+#: src/conflicts.c:488
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:492 src/reduce.c:497
+#: src/conflicts.c:493 src/reduce.c:497
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
 
-#: src/conflicts.c:500
+#: src/conflicts.c:502
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] " %d conflictos desplazamiento/reducción"
 
-#: src/conflicts.c:587 src/conflicts.c:707
+#: src/conflicts.c:589 src/conflicts.c:709
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduce usando la regla  %d (%s)]\n"
 
-#: src/conflicts.c:598 src/print.c:171
+#: src/conflicts.c:600 src/print.c:172
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -169,12 +169,12 @@ msgstr ""
 "    $default\treduce usando la regla %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:687 src/conflicts.c:701
+#: src/conflicts.c:689 src/conflicts.c:703
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduce usando la regla  %d (%s)\n"
 
-#: src/conflicts.c:727
+#: src/conflicts.c:729
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduce usando la regla %d (%s)\n"
@@ -272,7 +272,7 @@ msgid ""
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:215 src/lex.c:693
+#: src/getargs.c:215 src/lex.c:694
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr ""
@@ -347,12 +347,12 @@ msgstr "nombre de tipo sin terminar"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "use \"...\" para terminales literales multicarácter"
 
-#: src/lex.c:666
+#: src/lex.c:667
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr ""
 
-#: src/lex.c:682
+#: src/lex.c:683
 #, fuzzy, c-format
 msgid "`%s' requires an argument"
 msgstr "%s: la opción `%s' requiere un argumento\n"
@@ -376,45 +376,45 @@ msgstr "Entrando set_nullable"
 msgid "maximum table size (%d) exceeded"
 msgstr "excedido el tamaño máximo de la tabla (%s)"
 
-#: src/print.c:37
+#: src/print.c:38
 #, c-format
 msgid " type %d is %s\n"
 msgstr " el tipo %d es %s\n"
 
-#: src/print.c:85
+#: src/print.c:86
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regla %d)"
 
-#: src/print.c:111
+#: src/print.c:112
 msgid "    $default\taccept\n"
 msgstr "    $default\taceptar\n"
 
-#: src/print.c:113
+#: src/print.c:114
 msgid "    NO ACTIONS\n"
 msgstr "    SIN ACCIONES\n"
 
-#: src/print.c:132
+#: src/print.c:133
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \tir al estado %d\n"
 
-#: src/print.c:135
+#: src/print.c:136
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tdesplazar e ir al estado %d\n"
 
-#: src/print.c:159
+#: src/print.c:160
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\terror (no asociativo)\n"
 
-#: src/print.c:187
+#: src/print.c:188
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tir al estado %d\n"
 
-#: src/print.c:199
+#: src/print.c:200
 #, fuzzy, c-format
 msgid "state %d"
 msgstr ""
@@ -424,24 +424,24 @@ msgstr ""
 "\n"
 
 #. rule # : LHS -> RHS
-#: src/print.c:229
+#: src/print.c:230
 #, fuzzy
 msgid "Grammar"
 msgstr ""
 "\n"
 "Gramática\n"
 
-#: src/print.c:234
+#: src/print.c:235
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "regla %-4d %s ->"
 
-#: src/print.c:240
+#: src/print.c:241
 msgid "empty"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:245
+#: src/print.c:246
 #, fuzzy
 msgid "Terminals, with rules where they appear"
 msgstr ""
@@ -449,18 +449,18 @@ msgstr ""
 "Terminales con las reglas donde aparecen\n"
 "\n"
 
-#: src/print.c:269
+#: src/print.c:270
 #, fuzzy
 msgid "Nonterminals, with rules where they appear"
 msgstr ""
 "\n"
 "No terminales con las reglas donde aparecen\n"
 
-#: src/print.c:295
+#: src/print.c:296
 msgid " on left:"
 msgstr " en la izquierda:"
 
-#: src/print.c:310
+#: src/print.c:311
 msgid " on right:"
 msgstr " en la derecha:"
 

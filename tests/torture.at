@@ -73,7 +73,6 @@ main (int argc, const char **argv)
 ]])
 AT_CHECK([bison input.y -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
-AT_CLEANUP_FILES(input input.c)
 ])
 
 

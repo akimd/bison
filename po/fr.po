@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.29f\n"
-"POT-Creation-Date: 2001-11-12 10:34+0100\n"
+"POT-Creation-Date: 2001-11-14 15:59+0100\n"
 "PO-Revision-Date: 2001-10-19 15:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -73,37 +73,37 @@ msgstr "L'état %d contient"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:481
+#: src/conflicts.c:482
 msgid "conflicts: "
 msgstr "conflits: "
 
-#: src/conflicts.c:483
+#: src/conflicts.c:484
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d décalage/réduction"
 
-#: src/conflicts.c:487
+#: src/conflicts.c:488
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d réduction/réduction"
 
-#: src/conflicts.c:492 src/reduce.c:497
+#: src/conflicts.c:493 src/reduce.c:497
 #, c-format
 msgid "%s contains "
 msgstr "%s contient "
 
-#: src/conflicts.c:500
+#: src/conflicts.c:502
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] " %d conflits décalage/réduction"
 
-#: src/conflicts.c:587 src/conflicts.c:707
+#: src/conflicts.c:589 src/conflicts.c:709
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[réduction par la règle %d (%s)\n"
 
-#: src/conflicts.c:598 src/print.c:171
+#: src/conflicts.c:600 src/print.c:172
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -112,12 +112,12 @@ msgstr ""
 "    $défaut\tréduction par la règle %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:687 src/conflicts.c:701
+#: src/conflicts.c:689 src/conflicts.c:703
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tréduction par la règle %d (%s)\n"
 
-#: src/conflicts.c:727
+#: src/conflicts.c:729
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $défaut\tréduction par la règle %d (%s)\n"
@@ -239,7 +239,7 @@ msgstr ""
 "reproduction. AUCUNE garantie n'est donnée; tant pour des raisons\n"
 "COMMERCIALES que pour RÉPONDRE À UN BESOIN PARTICULIER.\n"
 
-#: src/getargs.c:215 src/lex.c:693
+#: src/getargs.c:215 src/lex.c:694
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' n'est plus supporté"
@@ -307,12 +307,12 @@ msgstr "le nom de type ne se termine pas"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
 
-#: src/lex.c:666
+#: src/lex.c:667
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr ""
 
-#: src/lex.c:682
+#: src/lex.c:683
 #, fuzzy, c-format
 msgid "`%s' requires an argument"
 msgstr "%s: l'option %s requiert un paramètre\n"
@@ -331,77 +331,77 @@ msgstr "Entré dans set_nullable"
 msgid "maximum table size (%d) exceeded"
 msgstr "taille maximale de la table (%d) dépassée"
 
-#: src/print.c:37
+#: src/print.c:38
 #, c-format
 msgid " type %d is %s\n"
 msgstr " le type %d est %s\n"
 
-#: src/print.c:85
+#: src/print.c:86
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (règle %d)"
 
-#: src/print.c:111
+#: src/print.c:112
 msgid "    $default\taccept\n"
 msgstr "    $défaut\taccepter\n"
 
-#: src/print.c:113
+#: src/print.c:114
 msgid "    NO ACTIONS\n"
 msgstr "    PAS D'ACTION\n"
 
-#: src/print.c:132
+#: src/print.c:133
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \taller à l'état %d\n"
 
-#: src/print.c:135
+#: src/print.c:136
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tdécalage et aller à l'état %d\n"
 
-#: src/print.c:159
+#: src/print.c:160
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\terreur (non-associatif)\n"
 
-#: src/print.c:187
+#: src/print.c:188
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\taller à l'état %d\n"
 
-#: src/print.c:199
+#: src/print.c:200
 #, c-format
 msgid "state %d"
 msgstr "état %d"
 
 #. rule # : LHS -> RHS
-#: src/print.c:229
+#: src/print.c:230
 msgid "Grammar"
 msgstr "Grammaire"
 
-#: src/print.c:234
+#: src/print.c:235
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "règle %-4d %s ->"
 
-#: src/print.c:240
+#: src/print.c:241
 msgid "empty"
 msgstr "vide"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:245
+#: src/print.c:246
 msgid "Terminals, with rules where they appear"
 msgstr "Terminaux, suivis des règles où ils apparaissent"
 
-#: src/print.c:269
+#: src/print.c:270
 msgid "Nonterminals, with rules where they appear"
 msgstr "Non-terminaux, suivis des règles où ils apparaissent"
 
-#: src/print.c:295
+#: src/print.c:296
 msgid " on left:"
 msgstr " à gauche:"
 
-#: src/print.c:310
+#: src/print.c:311
 msgid " on right:"
 msgstr " à droite:"
 

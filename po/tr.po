@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30\n"
-"POT-Creation-Date: 2001-11-12 10:34+0100\n"
+"POT-Creation-Date: 2001-11-14 15:59+0100\n"
 "PO-Revision-Date: 2001-11-02 14:49GMT\n"
 "Last-Translator: Altug Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -74,37 +74,37 @@ msgstr "%d durumu içerir"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:481
+#: src/conflicts.c:482
 msgid "conflicts: "
 msgstr "çeliþkiler: "
 
-#: src/conflicts.c:483
+#: src/conflicts.c:484
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d öteleme/indirgeme"
 
-#: src/conflicts.c:487
+#: src/conflicts.c:488
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d indirgeme/indirgeme"
 
-#: src/conflicts.c:492 src/reduce.c:497
+#: src/conflicts.c:493 src/reduce.c:497
 #, c-format
 msgid "%s contains "
 msgstr "%s içerir "
 
-#: src/conflicts.c:500
+#: src/conflicts.c:502
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] " %d öteleme/indirgeme çeliþkisi"
 
-#: src/conflicts.c:587 src/conflicts.c:707
+#: src/conflicts.c:589 src/conflicts.c:709
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[indirgeme kural %d (%s)'i kullanýyor]\n"
 
-#: src/conflicts.c:598 src/print.c:171
+#: src/conflicts.c:600 src/print.c:172
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -113,12 +113,12 @@ msgstr ""
 "    $default\tindirgeme kural %d (%s)'i kullanýyor\n"
 "\n"
 
-#: src/conflicts.c:687 src/conflicts.c:701
+#: src/conflicts.c:689 src/conflicts.c:703
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tindirgeme kural %d (%s)'i kullanýyor\n"
 
-#: src/conflicts.c:727
+#: src/conflicts.c:729
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tindirgeme kural %d (%s)'i kullanýyor\n"
@@ -238,7 +238,7 @@ msgstr ""
 "Hiçbir garantisi yoktur; hatta SATILABÝLÝRLÝÐÝ veya ÞAHSÝ KULLANIMINIZA\n"
 "UYGUNLUÐU için bile garanti verilmez.\n"
 
-#: src/getargs.c:215 src/lex.c:693
+#: src/getargs.c:215 src/lex.c:694
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' artýk desteklenmeyecek"
@@ -306,12 +306,12 @@ msgstr "sonlandýrýlmamýþ tip ismi"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "cok-karakterli yazýn andaçlarý için \"...\" kullan"
 
-#: src/lex.c:666
+#: src/lex.c:667
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr ""
 
-#: src/lex.c:682
+#: src/lex.c:683
 #, fuzzy, c-format
 msgid "`%s' requires an argument"
 msgstr "%s: `%s' seçeneði bir argümanla kullanýlýr\n"
@@ -330,77 +330,77 @@ msgstr "set_nullable'a girildi"
 msgid "maximum table size (%d) exceeded"
 msgstr "en büyük tablo uzunluðu (%d) aþýldý"
 
-#: src/print.c:37
+#: src/print.c:38
 #, c-format
 msgid " type %d is %s\n"
 msgstr " tip %d %s'dir\n"
 
-#: src/print.c:85
+#: src/print.c:86
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (kural %d)"
 
-#: src/print.c:111
+#: src/print.c:112
 msgid "    $default\taccept\n"
 msgstr "    $default\tonayla\n"
 
-#: src/print.c:113
+#: src/print.c:114
 msgid "    NO ACTIONS\n"
 msgstr "    EYLEMLER YOK\n"
 
-#: src/print.c:132
+#: src/print.c:133
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \tdurum %d'ye git\n"
 
-#: src/print.c:135
+#: src/print.c:136
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tötele, ve durum %d'ye git\n"
 
-#: src/print.c:159
+#: src/print.c:160
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\thata (birleþmeli deðil)\n"
 
-#: src/print.c:187
+#: src/print.c:188
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tdurum %d'ye git\n"
 
-#: src/print.c:199
+#: src/print.c:200
 #, c-format
 msgid "state %d"
 msgstr "durum %d"
 
 #. rule # : LHS -> RHS
-#: src/print.c:229
+#: src/print.c:230
 msgid "Grammar"
 msgstr "Gramer"
 
-#: src/print.c:234
+#: src/print.c:235
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "kural %-4d %s ->"
 
-#: src/print.c:240
+#: src/print.c:241
 msgid "empty"
 msgstr "boþ"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:245
+#: src/print.c:246
 msgid "Terminals, with rules where they appear"
 msgstr "Sabit simgeler, kurallarýnýn bulunduklarý yerde"
 
-#: src/print.c:269
+#: src/print.c:270
 msgid "Nonterminals, with rules where they appear"
 msgstr "Deðiþken simgeler, kurallarýnýn bulunduklarý yerde"
 
-#: src/print.c:295
+#: src/print.c:296
 msgid " on left:"
 msgstr " solda:"
 
-#: src/print.c:310
+#: src/print.c:311
 msgid " on right:"
 msgstr " saðda:"
 

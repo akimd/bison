@@ -1,6 +1,12 @@
 Bison News
 ----------
 
+Changes in version 1.30c:
+
+* Fixed a few warnings.
+
+* Some portability issues.
+
 Changes in version 1.30b:
 
 * Fixed parser memory leaks.
