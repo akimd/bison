@@ -1,3 +1,9 @@
 Makefile
 *.t
 Makefile.in
+mkinstalldirs
+missing
+config.sub
+config.guess
+mdate-sh
+texinfo.tex

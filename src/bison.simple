@@ -98,6 +98,10 @@
 # endif /* alloca not defined */
 #endif /* YYSTACK_USE_ALLOCA not defined */
 
+#ifndef YYSTACK_USE_ALLOCA
+# define YYSTACK_USE_ALLOCA 0
+#endif
+
 #if YYSTACK_USE_ALLOCA
 # define YYSTACK_ALLOC alloca
 #else
