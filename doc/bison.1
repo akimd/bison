@@ -59,6 +59,11 @@ bison \- GNU Project parser generator (yacc replacement)
 .B \-\-fixed-output-files
 ]
 file
+.br
+.B yacc
+[
+.I "similar options and operands"
+]
 .SH DESCRIPTION
 .I Bison
 is a parser generator in the style of
@@ -340,29 +345,16 @@ The purpose of this switch is to imitate
 .IR yacc 's
 output file name conventions.
 Thus, the following shell script can substitute for
+.I yacc
+and is often installed as
 .IR yacc :
 .sp
 .RS
 .ft B
-bison \-y $*
+bison \-y "$@"
 .ft R
 .sp
 .RE
-.SH FILES
-/usr/local/share/bison/bison.simple	simple parser
-.br
-/usr/local/share/bison/bison.hairy	complicated parser
-.SH "ENVIRONMENT VARIABLES"
-.TP
-.SM BISON_SIMPLE
-If this is set, it specifies the location in which the
-.B bison.simple
-parser can be found.
-.TP
-.SM BISON_HAIRY
-If this is set, it specifies the location in which the
-.B bison.hairy
-parser can be found.
 .SH SEE ALSO
 .IR yacc (1)
 .br
