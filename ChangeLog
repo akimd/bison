@@ -117,7 +117,8 @@
 	* src/scan-gram.l: Add %dprec, %glr-parser, %merge.
 
 	* src/parse-gram.y: Grammar for %dprec, %merge, %glr-parser.
-	2002-06-27  Akim Demaille  <akim@epita.fr>
+	
+2002-06-27  Akim Demaille  <akim@epita.fr>
 
 	* src/options.h, src/options.c: Remove.
 	* src/getargs.c (short_options, long_options): New.
