@@ -1,3 +1,13 @@
+2004-12-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (b4_lhs_value, b4_rhs_value, b4_rhs-location):
+	Parenthesize rhs to avoid obscure problems with mistakes like
+	"foo$$bar = foo$1bar;".  Problem reported by twlevo at xs4all.
+	* data/lalr1.cc (b4_lhs_value, b4_rhs_value, b4_lhs_location,
+	b4_rhs_location): Likewise.
+	* data/yacc.c (b4_lhs_value, b4_rhs_value, b4_lhs_location,
+	b4_rhs_location): Likewise.
+
 2004-12-16  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (yyreport_syntax_error_): Catch up with glr.c and

@@ -35,7 +35,7 @@ m4_define_default([b4_parser_class_name], [Parser])
 # --------------------
 # Expansion of $<TYPE>$.
 m4_define([b4_lhs_value],
-[yyval[]m4_ifval([$1], [.$1])])
+[(yyval[]m4_ifval([$1], [.$1]))])
 
 
 # b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
@@ -43,7 +43,7 @@ m4_define([b4_lhs_value],
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
 m4_define([b4_rhs_value],
-[yysemantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3])])
+[(yysemantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3]))])
 
 m4_define_default([b4_location_type], [Location])
 
@@ -51,7 +51,7 @@ m4_define_default([b4_location_type], [Location])
 # -----------------
 # Expansion of @$.
 m4_define([b4_lhs_location],
-[yyloc])
+[(yyloc)])
 
 
 # b4_rhs_location(RULE-LENGTH, NUM)
@@ -59,7 +59,7 @@ m4_define([b4_lhs_location],
 # Expansion of @NUM, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[yylocation_stack_@{m4_eval([$1 - $2])@}])
+[(yylocation_stack_@{m4_eval([$1 - $2])@})])
 
 
 # b4_parse_param_decl
