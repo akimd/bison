@@ -439,7 +439,11 @@ AT_COMPILE([input])
 
 AT_SETUP([Exploding the Stack Size with Alloca])
 
-AT_DATA_STACK_TORTURE
+AT_DATA_STACK_TORTURE([[
+#if defined __GNUC__ || defined alloca
+# define YYSTACK_USE_ALLOCA 1
+#endif
+]])
 
 # Below the limit of 200.
 AT_PARSER_CHECK([./input 20], 0, [], [ignore])
