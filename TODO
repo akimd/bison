@@ -1,0 +1,11 @@
+-*- outline -*-
+
+* src/reader.c
+** Complete parse_skel_decl () with parse_dquoted_param ().
+
+* src/output.c
+** Output sub-skeleton files.
+** cleanup dirty CPP-out code.
+
+* Options
+** Synchronize percent options and command line options.
