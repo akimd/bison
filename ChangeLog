@@ -1,5 +1,12 @@
 2003-01-04  Paul Eggert  <eggert@twinsun.com>
 
+	* configure.ac (AC_ARG_ENABLE): Add --disable-yacc.
+	(YACC_SCRIPT, YACC_LIBRARY): New vars to AC_SUBST.
+	* lib/Makefile.am (lib_LIBRARIES): liby.a -> @YACC_LIBRARY@.
+	(EXTRA_LIBRARIES): New var, for liby.a.
+	* src/Makefile.am (bin_SCRIPTS): yacc -> @YACC_SCRIPT@.
+	(EXTRA_SCRIPTS): New var, for yacc.
+
 	* data/yacc.c (yyerrlab1): Omit attribute if __cplusplus is defined,
 	since GNU C++ (as of 3.2.1) does not allow attributes on labels.
 	Problem reported by Nelson H. F. Beebe.
@@ -14,20 +21,20 @@
 	* src/scan-skel.l (QPUTS): Omit redundant `;' from macro definition.
 	([^@\n]): Renamed from [^@\n]+ so that the token buffer does not
 	grow to a huge size with typical invocation.
-	
+
 	* lib/hash.c (_Bool, bool, false, true, __bool_true_false_are_defined):
 	Use the pattern recommended by Autoconf 2.57, except also protect
 	against double-definition.
 	* src/system.h: Likewise.
 	Portability issues reported by Nelson H. F. Beebe.
-	
+
 	* data/glr.c (yybool): Renamed from bool, to avoid collisions in C.
 	All uses changed.  Provide a definition in both C and C++.
 	(yytrue, yyfalse): Define even if defined (__cplusplus).
 
 	* lib/bitset_stats.c (bitset_stats_list): Remove unused var.
 	Reported by Nelson H. F. Beebe.
-	
+
 	* src/scan-skel.l ("@oline@"): Output lineno+1, not lineno.
 
 2003-01-02  Paul Eggert  <eggert@twinsun.com>
@@ -60,7 +67,7 @@
 	* src/symtab.c (symbol_make_alias): Set type of SYMVAL to be
 	that of SYM's type.  This fixes Debian bug 168069, reported by
 	Thomas Olsson.
-	
+
 2002-12-28  Paul Eggert  <eggert@twinsun.com>
 
 	Version 1.75f.
@@ -111,7 +118,7 @@
 	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR):
 	Error locations include the locations of all the tokens that were
 	discarded, not just the last token.
-	
+
 2002-12-26  Paul Eggert  <eggert@twinsun.com>
 
 	* src/files.c: Include quote.h.
@@ -127,7 +134,7 @@
 
 	Don't use m4_include on relative file names, as it doesn't work as
 	desired if there happens to be a file with that name under ".".
-	
+
 	* m4sugar/version.m4: Remove; it was included but it wasn't used.
 	* data/Makefile.am (dist_m4sugar_DATA): Remove m4sugar/version.m4.
 	* data/m4sugar/m4sugar.m4: Don't include m4sugar/version.m4.
@@ -136,7 +143,7 @@
 	specifying a file to include; don't rely on include path, as
 	it's unreliable when the working file contains a file with
 	that name.
-	
+
 2002-12-25  Paul Eggert  <eggert@twinsun.com>
 
 	Remove obsolete references to bison.simple and bison.hairy.
@@ -243,7 +250,7 @@
 	lookahead symbol, and which sets yychar in parser actions) and it
 	disagreed with the Bison documentation.  Bug
 	reported by Andrew Walrond.
-	
+
 	* data/yacc.c (YYTRANSLATE): Don't check for negative argument,
 	as the caller now does that.
 	(yyclearin, YYBACKUP, yyparse): Use yychar, not yytoken.
@@ -263,7 +270,7 @@
 	as an alias for bison y.
 
 	* po/LINGUAS: Add da.
-	
+
 	* src/getargs.c (__GNU_LIBRARY__) [lint]: Define to work around
 	problem with latest <getopt.h>.
 	(HACK_FOR___GNU_LIBRARY___PROTOTYPE): New macro.

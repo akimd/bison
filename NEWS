@@ -1,6 +1,11 @@
 Bison News
 ----------
 
+Changes in version 1.875a:
+
+* New configure option --disable-yacc, to disable installation of the
+  yacc command and -ly library introduced in 1.875 for POSIX conformance.
+
 Changes in version 1.875, 2003-01-01:
 
 * The documentation license has been upgraded to version 1.2
@@ -93,7 +98,7 @@ Changes in version 1.875, 2003-01-01:
   later to be built.  This change originally took place a few versions
   ago, but nobody noticed until we recently asked someone to try
   building Bison with a K&R C compiler.
-
+
 Changes in version 1.75, 2002-10-14:
 
 * Bison should now work on 64-bit hosts.
@@ -124,7 +129,7 @@ Changes in version 1.75, 2002-10-14:
 
   was incorrectly rejected: $1 is defined in the second mid-rule
   action, and is equal to the $$ of the first mid-rule action.
-
+
 Changes in version 1.50, 2002-10-04:
 
 * GLR parsing
