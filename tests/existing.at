@@ -1191,19 +1191,19 @@ ARGUMENT_LIST   :       EXPRESSION              { mout(MENDSEP);
 # don't actually check the output.  But SEGV is watching us, and
 # so might do dmalloc.
 AT_CHECK([[bison --verbose --defines input.y]], 0, [],
-[[input.y: warning: 78 shift/reduce conflicts and 10 reduce/reduce conflicts
+[[input.y: conflicts: 78 shift/reduce, 10 reduce/reduce
 ]])
 
-AT_CHECK([[grep '^State.*contains' input.output]], 0,
-[[State 64 contains 14 shift/reduce conflicts.
-State 164 contains 1 shift/reduce conflict.
-State 201 contains 33 shift/reduce conflicts and 4 reduce/reduce conflicts.
-State 206 contains 1 shift/reduce conflict.
-State 240 contains 1 shift/reduce conflict.
-State 335 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
-State 356 contains 1 shift/reduce conflict.
-State 360 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
-State 427 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
+AT_CHECK([[grep '^State.*conflicts:' input.output]], 0,
+[[State 64 conflicts: 14 shift/reduce
+State 164 conflicts: 1 shift/reduce
+State 201 conflicts: 33 shift/reduce, 4 reduce/reduce
+State 206 conflicts: 1 shift/reduce
+State 240 conflicts: 1 shift/reduce
+State 335 conflicts: 9 shift/reduce, 2 reduce/reduce
+State 356 conflicts: 1 shift/reduce
+State 360 conflicts: 9 shift/reduce, 2 reduce/reduce
+State 427 conflicts: 9 shift/reduce, 2 reduce/reduce
 ]])
 
 AT_CLEANUP
