@@ -1,3 +1,18 @@
+2004-10-22  Akim Demaille  <akim@epita.fr>
+       and  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Remove some arbitrary limits on goto numbers and relations.
+	* src/lalr.c (goto_map, ngotos, from_state, to_state): Omit
+	initial values, since they're never used.
+	(set_goto_map): ngotos is now unsigned, so test for overflow
+	by seeing whether it wraps around to zero.
+	* src/lalr.h (goto_number): Now size_t, not short int.
+	(GOTO_NUMBER_MAXIMUM): Remove.
+	* src/relation.c (relation_print, traverse, relation_transpose):
+	Check for END_NODE rather than looking at sign.
+	* src/relation.h (END_NODE): New macro.
+	(relation_node): Now size_t, not short int.
+
 2004-10-22  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Language and Grammar): In example, "int" is a
