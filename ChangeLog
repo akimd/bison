@@ -1,3 +1,17 @@
+2002-04-25  Robert Anisko  <robert@lrde.epita.fr>
+
+	* src/scan-skel.l: Postprocess quadrigraphs.
+
+	* src/reader.c (copy_character): New function, used to output
+	single characters while replacing `[' and `]' with quadrigraphs, to
+	avoid troubles with M4 quotes.
+	(copy_comment): Output characters with copy_character.
+	(read_additionnal_code): Likewise.
+	(copy_string2): Likewise.
+	(copy_definition): Likewise.
+
+	* tests/calc.at: Exercise M4 quoting.
+
 2002-04-25  Akim Demaille  <akim@epita.fr>
 
 	* tests/sets.at (AT_EXTRACT_SETS): Sed portability issue: no space

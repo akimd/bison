@@ -38,9 +38,12 @@ static char *yyoutname = NULL;
      yylineno = 1;
    }
 
+"@<:@" fputc ('[', yyout);
+"@:>@" fputc (']', yyout);
+
 "__oline__"      fprintf (yyout, "%d", yylineno);
 "__ofile__"      fprintf (yyout, "%s", yyoutname);
-[^_\n]+          ECHO;
+[^@_\n]+         ECHO;
 \n+              yylineno += yyleng; ECHO;
 .                ECHO;
 
