@@ -1,3 +1,16 @@
+2004-05-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Version 1.875d.
+	* configure.ac (AC_INIT): Likewise.
+	* src/parse-gram.c, src/parse-gram.h: Regenerate with 1.875d.
+
+	* configure.ac (--enable-gcc-warnings): Do not enable -Wshadow,
+	-Wmissing-prototypes, or -Wstrict-prototypes for C++.  The current
+	lalr1.cc runs afoul of the first, and the last two are no longer
+	supported by GCC 3.4.0.
+	* README: Mention GNU m4 1.4 or later; mention m4 patches.
+	* HACKING: Use ./bootstrap, not "make update" to import foreign files.
+
 2004-05-06  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/muscle_tab.c (hash_muscle): Accept and return size_t, not
@@ -5,7 +18,7 @@
 	* src/state.c (state_hash, state_hasher): Likewise.
 	* src/symtab.c (hash_symbol, hash_symbol_hasher): Likewise.
 	* src/uniqstr.c (hash_uniqstr): Likewise.
-	
+
 2004-05-03  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Unescaped newlines are no longer allowed in char & strings.
@@ -18,7 +31,7 @@
 	(unexpected_newline): New function.
 	(<INITIAL,SC_AFTER_IDENTIFIER,SC_PRE_CODE>): Coalesce duplicate
 	actions.
-	
+
 	* NEWS: Document %expect-rr.
 
 	* bootstrap (--gnulib-srcdir=*, --cvs-user=*):
@@ -38,7 +51,7 @@
 
 	* src/parse-gram.y: Put copyright notice inside %{ %} so it
 	gets copied to the output file.
-	
+
 2004-04-28  Paul Eggert  <eggert@twinsun.com>
 
 	Get files from the gnulib and po repositories, instead of relying

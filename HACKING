@@ -70,14 +70,10 @@ release:
 See above.
 
 ** Update the foreign files
-Running `make update' in the top level should make it all for you.
-This covers PO files too.  Beware that it happens that some PO files
-contain serious problems and are rejected by recent Gettext releases:
-fix them all, and complain to the Translation Project!
-
-Note that there might be *new* PO files.  Don't forget to update the
-whole machinery, which not only includes LINGUAS, but `cvs add'ing the
-PO files too.
+Running `./bootstrap' in the top level should update them all for you.
+This covers PO files too.  Sometimes a PO file contains problems that
+causes it to be rejected by recent Gettext releases; please report
+these to the Translation Project.
 
 ** Update NEWS
 The version number, *and* the date of the release (including for
@@ -117,7 +113,7 @@ Cc'ed.  It really needs to be a separate message.
 
 -----
 
-Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 

@@ -1,7 +1,13 @@
 This directory contains the Bison parser generator.
 
-See the file INSTALL for compilation and installation instructions.
+See the file INSTALL for generic compilation and installation instructions.
 See the file doc/FAQ for frequently asked questions.
+
+Bison requires GNU m4 1.4 (or later, if a later version of GNU m4
+becomes available).  The following m4 patches are recommended:
+
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=92629
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=211477
 
 Older versions of Sun Forte Developer 6 update 2 have a compiler bug
 that cause "make check" to fail with a "Encounter BINCL entry"
@@ -23,7 +29,7 @@ not answer, send mail to <help-bison@gnu.org>.
 
 -----
 
-Copyright (C) 1992, 1998, 1999, 2003 Free Software Foundation, Inc.
+Copyright (C) 1992, 1998, 1999, 2003, 2004 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 
