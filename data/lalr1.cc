@@ -223,11 +223,13 @@ namespace yy
     LocationStack location_stack_;
 
     /* Tables.  */
-    static const short pact_[[]];
+    static const b4_sint_type(b4_pact_max) pact_[[]];
+    static const b4_sint_type(b4_pact_max) pact_ninf_;
     static const short defact_[[]];
     static const short pgoto_[[]];
     static const short defgoto_[[]];
-    static const short table_[[]];
+    static const b4_sint_type(b4_table_max) table_[[]];
+    static const b4_sint_type(b4_table_max) table_ninf_;
     static const short check_[[]];
     static const b4_uint_type(b4_r1_max) r1_[[]];
     static const b4_uint_type(b4_r2_max) r2_[[]];
@@ -251,7 +253,6 @@ namespace yy
     /* Constants.  */
     static const int eof_;
     static const int last_;
-    static const int flag_;
     static const int nnts_;
     static const int empty_;
     static const int final_;
@@ -336,7 +337,7 @@ yy::b4_name::parse ()
 
   /* Try to take a decision without lookahead.  */
   n_ = pact_[[state_]];
-  if (n_ == flag_)
+  if (n_ == pact_ninf_)
     goto yydefault;
 
   /* Read a lookahead token.  */
@@ -375,7 +376,7 @@ yy::b4_name::parse ()
   n_ = table_[[n_]];
   if (n_ < 0)
     {
-      if (n_ == flag_)
+      if (n_ == table_ninf_)
 	goto yyerrlab;
       else
 	{
@@ -492,7 +493,7 @@ yy::b4_name::parse ()
 
 #if YYERROR_VERBOSE
       n_ = pact_[[state_]];
-      if (n_ > flag_ && n_ < last_)
+      if (pact_ninf_ < n_ && n_ < last_)
 	{
 	  message = "parse error, unexpected ";
 	  message += name_[[ilooka_]];
@@ -543,7 +544,7 @@ yy::b4_name::parse ()
   for (;;)
     {
       n_ = pact_[[state_]];
-      if (n_ != flag_)
+      if (n_ != pact_ninf_)
 	{
 	  n_ += terror_;
 	  if (0 <= n_ && n_ <= last_ && check_[[n_]] == terror_)
@@ -628,7 +629,8 @@ yy::b4_name::lex_ ()
 
 /* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-const short
+const b4_sint_type(b4_pact_max) yy::b4_name::pact_ninf_ = b4_pact_ninf;
+const b4_sint_type(b4_pact_max)
 yy::b4_name::pact_[[]] =
 {
   b4_pact
@@ -660,7 +662,8 @@ yy::b4_name::defgoto_[[]] =
 /* YYTABLE[[YYPACT[STATE-NUM]]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-const short
+const b4_sint_type(b4_table_max) yy::b4_name::table_ninf_ = b4_table_ninf;
+const b4_sint_type(b4_table_max)
 yy::b4_name::table_[[]] =
 {
   b4_table
@@ -757,7 +760,6 @@ yy::b4_name::translate_ (int token)
 
 const int yy::b4_name::eof_ = 0;
 const int yy::b4_name::last_ = b4_last;
-const int yy::b4_name::flag_ = b4_flag;
 const int yy::b4_name::nnts_ = b4_nterms_number;
 const int yy::b4_name::empty_ = -2;
 const int yy::b4_name::final_ = b4_final_state_number;

@@ -113,6 +113,7 @@ extern int nvars;
 
 typedef int item_number_t;
 # define ITEM_NUMBER_MAX ((item_number_t) INT_MAX)
+# define ITEM_NUMBER_MIN ((item_number_t) MIN_MAX)
 extern item_number_t *ritem;
 extern unsigned int nritems;
 
@@ -133,8 +134,8 @@ typedef short rule_number_t;
 # define RULE_NUMBER_MAX ((rule_number_t) SHRT_MAX)
 extern rule_number_t nrules;
 # define int_of_rule_number(RNum) ((int) (RNum))
-# define item_number_of_rule_number(RNum) ((item_number_t) (- RNum))
-# define rule_number_of_item_number(INum) ((rule_number_t) (- INum))
+# define rule_number_as_item_number(RNum) ((item_number_t) (- RNum))
+# define item_number_as_rule_number(INum) ((rule_number_t) (- INum))
 
 
 /*--------.

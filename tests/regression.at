@@ -608,16 +608,16 @@ static const short yydefgoto[] =
 {
       -1,     2,     3,     4,     8
 };
-static const short yypact[] =
+static const signed char yypact[] =
 {
-      -2,    -1,     4,-32768,     0,     2,-32768,    -2,-32768,    -2,
-  -32768,-32768
+      -2,    -1,     4,    -8,     0,     2,    -8,    -2,    -8,    -2,
+      -8,    -8
 };
 static const short yypgoto[] =
 {
-  -32768,    -7,-32768,-32768,-32768
+      -8,    -7,    -8,    -8,    -8
 };
-static const short yytable[] =
+static const signed char yytable[] =
 {
       10,     1,    11,     5,     6,     0,     7,     9
 };

@@ -1,3 +1,36 @@
+2002-07-25  Akim Demaille  <akim@epita.fr>
+
+	* src/gram.h (TIEM_NUMBER_MAX): New.
+	(item_number_of_rule_number, rule_number_of_item_number): Rename
+	as...
+	(rule_number_as_item_number, item_number_as_rule_number): these.
+	Adjust dependencies.
+	* src/output.c (vector_number_t, VECTOR_NUMBER_MAX)
+	(VECTOR_NUMBER_MIN, state_number_to_vector_number)
+	(symbol_number_to_vector_number): New.
+	(order): Of vector_number_t* type.
+	(base_t, BASE_MAX, BASE_MIN): New.
+	(froms, tos, width, pos, check): Of base_t type.
+	(action_number_t, ACTION_MIN, ACTION_MAX): New.
+	(actrow): Of action_number_t type.
+	(conflrow): Of unsigned int type.
+	(table_ninf, base_ninf): New.
+	(GENERATE_MUSCLE_INSERT_TABLE): Also output the `*_min' value.
+	(muscle_insert_int_table, muscle_insert_base_table)
+	(muscle_insert_rule_number_table): New.
+	(prepare_tokens): Output `toknum' as int_table.
+	(action_row): Returns a rule_number_t.
+	Use ACTION_MIN, not SHRT_MIN.
+	(token_actions): yydefact is rule_number_t*.
+	(table_ninf_remap): New.
+	(pack_table): Use it for `base' and `table'.
+	* data/yacc.c, data/glr.c, data/lalr1.cc (YYFLAG): Remove,
+	replaced with...
+	(YYPACT_NINF, YYTABLE_NINF): these.
+	(yypact, yytable): Compute their types instead of hard-coded
+	`short'.
+	* tests/regression.at (Web2c Actions): Adjust.
+
 2002-07-19  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-gram.l (id): Can start with an underscore.
