@@ -1,5 +1,13 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.simple: Define YYDEBUG and YYERROR_VERBOSE *after* the
+	user prologue.  These are defaults.
+	* tests/actions.at (Mid-rule actions): Make sure the user can
+	define YYDEBUG and YYERROR_VERBOSE.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (header_output): Don't forget to export YYLTYPE and
 	yylloc.
 	* tests/headers.at (export YYLTYPE): New, make sure it does.

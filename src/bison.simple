@@ -40,19 +40,6 @@
 /* Using locations.  */
 #define YYLSP_NEEDED %%locations-flag
 
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG %%debug
-#endif
-
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE %%error-verbose
-#endif
-
 /* If name_prefix is specify substitute the variables and functions
    names.  */
 #define yyparse %%prefix##parse
@@ -65,6 +52,19 @@
 
 /* Copy the user declarations.  */
 %%prologue
+
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG %%debug
+#endif
+
+/* Enabling verbose error messages.  */
+#ifdef YYERROR_VERBOSE
+# undef YYERROR_VERBOSE
+# define YYERROR_VERBOSE 1
+#else
+# define YYERROR_VERBOSE %%error-verbose
+#endif
 
 #ifndef YYSTYPE
 typedef %%stype yystype;

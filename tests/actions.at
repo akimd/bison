@@ -31,10 +31,12 @@ AT_SETUP([Mid-rule actions])
 
 AT_DATA([[input.y]],
 [[%{
-#include <stdio.h>
-#include <stdlib.h>
-static void yyerror (const char *msg);
-static int yylex (void);
+# include <stdio.h>
+# include <stdlib.h>
+  static void yyerror (const char *msg);
+  static int yylex (void);
+# define YYDEBUG         1
+# define YYERROR_VERBOSE 1
 %}
 %%
 exp:     { putchar ('0'); }
