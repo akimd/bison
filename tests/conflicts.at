@@ -38,7 +38,7 @@ e: 'e' | /* Nothing. */;
 ]])
 
 AT_CHECK([bison -o input.c input.y], 0, [],
-[[input.y:4.8: warning: rule never reduced because of conflicts: e: /* empty */
+[[input.y:4.9: warning: rule never reduced because of conflicts: e: /* empty */
 ]])
 
 AT_CLEANUP
@@ -370,7 +370,7 @@ id : '0';
 
 AT_CHECK([bison -o input.c --report=all input.y], 0, [],
 [[input.y: warning: 1 reduce/reduce conflict
-input.y:4.4-8: warning: rule never reduced because of conflicts: id: '0'
+input.y:4.6-8: warning: rule never reduced because of conflicts: id: '0'
 ]])
 
 # Check the contents of the report.
