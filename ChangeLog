@@ -1,3 +1,25 @@
+2001-12-13  Akim Demaille  <akim@epita.fr>
+
+	The computation of nullable is broken: it doesn't handle empty
+	RHS's properly.
+
+	* tests/torture.at (GNU AWK Grammar): New.
+	* tests/sets.at (Nullable): New.
+	* src/nullable.c (set_nullable): Instead of blindly looping over
+	`ritems', loop over the rules, and then over their rhs's.
+
+	Work around Autotest bugs.
+
+	* src/warshall.c (bitmatrix_print): Don't use `+--+' as table
+	frame, because Autotest understand lines starting with a `+' as
+	traces from the shell.  Then, they are not processed properly.
+	Admittedly an Autotest bug, but we don't have time to wait for
+	Autotest to catch up.
+	* tests/regression.at (Broken Closure): Adjust to the new table
+	frames.
+	Move to...
+	* tests/sets.at: here.
+
 2001-12-12  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYSIZE_T, YYSTACK_ALLOC, YYSTACK_FREE):
