@@ -46,7 +46,7 @@ END-INFO-DIR-ENTRY
 @ifinfo
 This file documents the Bison parser generator.
 
-Copyright (C) 1988, 89, 90, 91, 92, 93, 95, 1998 Free Software Foundation, Inc.
+Copyright (C) 1988, 89, 90, 91, 92, 93, 95, 98, 1999 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -86,7 +86,7 @@ instead of in the original English.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1988, 89, 90, 91, 92, 93, 95, 1998 Free Software
+Copyright @copyright{} 1988, 89, 90, 91, 92, 93, 95, 98, 1999 Free Software
 Foundation 
 
 @sp 2
@@ -699,7 +699,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.
 @end smallexample
 
 Also add information on how to contact you by electronic and paper mail.
