@@ -74,7 +74,7 @@ exp: { tests = {{{{{{{{{{}}}}}}}}}}; };
 
 AT_CHECK([bison -v input.y -o input.c])
 
-AT_CHECK([fgrep 'tests = {{{{{{{{{{}}}}}}}}}};' input.c], 0, [ignore])
+AT_CHECK([grep 'tests = {{{{{{{{{{}}}}}}}}}};' input.c], 0, [ignore])
 
 AT_CLEANUP
 
