@@ -21,39 +21,49 @@
 #ifndef GRAM_H_
 # define GRAM_H_
 
-/* representation of the grammar rules:
+/* Representation of the grammar rules:
 
-   ntokens is the number of tokens, and nvars is the number of
-   variables (nonterminals).  nsyms is the total number, ntokens +
+   NTOKENS is the number of tokens, and NVARS is the number of
+   variables (nonterminals).  NSYMS is the total number, ntokens +
    nvars.
 
-   (the true number of token values assigned is ntokens reduced by one
-   for each alias declaration)
-
    Each symbol (either token or variable) receives a symbol number.
-   Numbers 0 to ntokens-1 are for tokens, and ntokens to nsyms-1 are
-   for variables.  Symbol number zero is the end-of-input token.  This
-   token is counted in ntokens.
+   Numbers 0 to NTOKENS - 1 are for tokens, and NTOKENS to NSYMS - 1
+   are for variables.  Symbol number zero is the end-of-input token.
+   This token is counted in ntokens.  The true number of token values
+   assigned is NTOKENS reduced by one for each alias declaration.
 
-   The rules receive rule numbers 1 to nrules in the order they are
-   written.  Actions and guards are accessed via the rule number.
+   The rules receive rule numbers 1 to NRULES in the order they are
+   written.  More precisely Bison augments the grammar with the
+   initial rule, `$axiom: START-SYMBOL EOF', which is numbered 1, all
+   the user rules are 2, 3 etc.  Each time a rule number is presented
+   to the user, we subtract 1, so *displayed* rule numbers are 0, 1,
+   2...
+
+   Internally, we cannot use the number 0 for a rule because for
+   instance RITEM stores both symbol (the RHS) and rule numbers: the
+   symbols are shorts >= 0, and rule number are stored negative.
+   Therefore 0 cannot be used, since it would be both the rule number
+   0, and the token EOF).
+
+   Actions and guards are accessed via the rule number.
 
    The rules themselves are described by several arrays: amongst which
    RITEM, and RULES.
 
    RULES is an array of struct rule_s, which members are:
 
-   RULES[R].lhs -- the symbol number of the left hand side of
-   rule R.  If -1, the rule has been thrown out by reduce.c and should
-   be ignored.
+   RULES[R].lhs -- the symbol number of the left hand side of rule R.
+   If -1, the rule has been thrown out by reduce.c and should be
+   ignored.
 
-   RULES[R].rhs -- the index in RITEM of the beginning of the
-   portion for rule R.
+   RULES[R].rhs -- the index in RITEM of the beginning of the portion
+   for rule R.
 
    RULES[R].prec -- the precedence level of R.
 
-   RULES[R].precsym -- the symbol-number of the symbol in %prec
-   for R (if any).
+   RULES[R].precsym -- the symbol-number of the symbol in %prec for R
+   (if any).
 
    RULES[R].assoc -- the associativity of R.
 
@@ -72,20 +82,20 @@
    The portions of RITEM come in order of increasing rule number and
    are followed by an element which is zero to mark the end.  nitems
    is the total length of ritem, not counting the final zero.  Each
-   element of ritem is called an "item" and its index in ritem is an
+   element of RITEM is called an "item" and its index in RITEM is an
    item number.
 
    Item numbers are used in the finite state machine to represent
    places that parsing can get to.
 
-   SYMBOLS[I]->PREC records the precedence level of each symbol.
+   SYMBOLS[I]->prec records the precedence level of each symbol.
 
    Precedence levels are assigned in increasing order starting with 1
    so that numerically higher precedence values mean tighter binding
    as they ought to.  Zero as a symbol or rule's precedence means none
    is assigned.
 
-   Associativities are recorded similarly in rassoc and sassoc.  */
+   Associativities are recorded similarly in SYMBOLS[I]->assoc.  */
 
 
 #define	ISTOKEN(s)	((s) < ntokens)
@@ -102,7 +112,7 @@ extern int nritems;
 
 extern int start_symbol;
 
-/* associativity values in elements of rassoc, sassoc.  */
+/* Associativity values for tokens and rules.  */
 typedef enum
 {
   right_assoc,
@@ -117,7 +127,7 @@ typedef struct rule_s
   short rhs;
   short prec;
   short precsym;
-  short assoc;
+  associativity assoc;
   short line;
   bool useful;
 

@@ -1,5 +1,10 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (rule_s): Member `assoc' is of type `associativity'.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* tests/actions.at (Mid-rule actions): Output on a single line
 	instead of several.
 
