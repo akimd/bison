@@ -17,6 +17,8 @@ Changes in version 1.875e:
   the shifted symbols thrown away during the first part of the error
   recovery, and the lookahead rejected during the second part.
 
+* Goto numbers are no longer arbitrarily limited to 16-bit counts.
+
 Changes in version 1.875d, 2004-05-21:
 
 * Unescaped newlines are no longer allowed in character constants or
