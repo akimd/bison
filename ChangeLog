@@ -1,3 +1,16 @@
+2002-04-23  Paul Eggert  <eggert@twinsun.com>
+
+	* data/bison.simple: Remove unnecessary commentary and white
+	space differences from 1_29-branch.
+	Depend on YYERROR_VERBOSE, not defined (YYERROR_VERBOSE).
+
+	(union yyalloc, YYSTACK_GAP_MAX, YYSTACK_BYTES, YYCOPY,
+	YYSTACK_RELOCATE): Do not define if yyoverflow is defined, or
+	if this is a C++ parser and YYSTYPE or YYLTYPE has nontrivial
+	constructors or destructors.
+
+	(yyparse) [! defined YYSTACK_RELOCATE]: Do not relocate the stack.
+
 2002-04-23  Akim Demaille  <akim@epita.fr>
 
 	* tests/sets.at (AT_EXTRACT_SETS): Don't use 8 char long sed labels.
