@@ -1,8 +1,5 @@
-/* -*- C -*- */
-
-/* A Bison parser, made from %%filename
-   by GNU bison %%version.  */
-
+/* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
+#line
 /* Skeleton output parser for bison,
    Copyright 1984, 1989, 1990, 2000, 2001 Free Software Foundation, Inc.
 
@@ -31,14 +28,6 @@
    It was written by Richard Stallman by simplifying the hairy parser
    used when %semantic_parser is specified.  */
 
-#include <stdio.h>
-
-#ifndef __cplusplus
-# ifndef __STDC__
-#  define const
-# endif
-#endif
-
 #ifndef YYSTACK_USE_ALLOCA
 # ifdef alloca
 #  define YYSTACK_USE_ALLOCA 1
@@ -65,7 +54,7 @@
        /* I don't know what this was needed for, but it pollutes the
 	  namespace.  So I turned it off.  rms, 2 May 1997.  */
        /* #include <malloc.h>  */
-#      pragma alloca
+ #pragma alloca
 #      define YYSTACK_USE_ALLOCA 1
 #     else /* not MSDOS, or __TURBOC__, or _AIX */
 #      if 0
@@ -89,168 +78,38 @@
 # define YYSTACK_ALLOC malloc
 #endif
 
-#define YYBISON	1	/* Identify Bison output.  */
-#define YYPURE	%%pure	/* Identify pure parsers.  */
-
-#ifndef YYDEBUG
-# define YYDEBUG %%debug
-#endif
-
-#ifndef YYSTYPE
-# define YYSTYPE %%stype
-#endif
-
-#ifndef YYLTYPE
-typedef struct yyltype
-{
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-} yyltype;
-# define YYLTYPE %%ltype
-#endif
-
-#ifndef YYERROR_VERBOSE
-# define YYERROR_VERBOSE %%verbose
-#endif
-
-/* Tokens. */
-%%tokendef
-
-#define YYFINAL		%%final
-#define YYFLAG		%%flag
-#define YYNTBASE	%%ntbase
-#define YYLAST		%%last
-
-#define YYNTOKENS	%%ntokens
-#define YYNNTS		%%nnts
-#define YYNRULES	%%nrules
-#define YYNSTATES	%%nstates
-#define YYMAXUTOK	%%maxtok
-
-/* YYTRANSLATE(YYLEX) -- Bison token number corresponding to YYLEX.  */
-#define YYTRANSLATE(x) ((unsigned)(x) <= %%maxtok ? yytranslate[x] : %%nsym)
-
-/* YYTRANSLATE[YYLEX] -- Bison token number corresponding to YYLEX.  */
-static const char yytranslate[] =
-{
-  %%translate
-};
-
-#if YYDEBUG
-static const short yyprhs[] =
-{
-  %%prhs
-};
-
-static const short yyrhs[] =
-{
-  %%rhs
-};
-
-/* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const short yyrline[] =
-{
-  %%rline
-};
-#endif
-
-#if YYDEBUG || YYERROR_VERBOSE
-/* YYTNAME[TOKEN_NUM] -- String name of the token TOKEN_NUM. */
-static const char* const yytname[] =
-{
-  %%tname
-};
-#endif
-
-/* YYTOKNUM[YYN] -- Index in YYTNAME corresponding to YYLEX.  */
-static const short yytoknum[] =
-{
-  %%toknum
-};
-
-/* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const short yyr1[] =
-{
-  %%r1
-};
-
-/* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-static const short yyr2[] =
-{
-  %%r2
-};
-
-/* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
-   doesn't specify something else to do.  Zero means the default is an
-   error.  */
-static const short yydefact[] =
-{
-  %%defact
-};
-
-static const short yydefgoto[] =
-{
-  %%defgoto
-};
-
-static const short yypact[] =
-{
-  %%pact
-};
-
-static const short yypgoto[] =
-{
-  %%pgoto
-};
-
-static const short yytable[] =
-{
-  %%table
-};
-
-static const short yycheck[] =
-{
-  %%check
-};
-
 #define yyerrok		(yyerrstatus = 0)
-#define yyclearin	(%%yychar = YYEMPTY)
+#define yyclearin	(yychar = YYEMPTY)
 #define YYEMPTY		-2
 #define YYEOF		0
-
 #define YYACCEPT	goto yyacceptlab
-#define YYABORT		goto yyabortlab
+#define YYABORT 	goto yyabortlab
 #define YYERROR		goto yyerrlab1
-
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
    Once GCC version 2 has supplanted version 1, this can go.  */
-
 #define YYFAIL		goto yyerrlab
-
 #define YYRECOVERING()  (!!yyerrstatus)
-
 #define YYBACKUP(Token, Value)					\
 do								\
-  if (%%yychar == YYEMPTY && yylen == 1)			\
+  if (yychar == YYEMPTY && yylen == 1)				\
     {								\
-      %%yychar = (Token);					\
-      %%yylval = (Value);					\
-      yychar1 = YYTRANSLATE (%%yychar);				\
+      yychar = (Token);						\
+      yylval = (Value);						\
+      yychar1 = YYTRANSLATE (yychar);				\
       YYPOPSTACK;						\
       goto yybackup;						\
     }								\
   else								\
     { 								\
-      %%yyerror ("syntax error: cannot back up");		\
+      yyerror ("syntax error: cannot back up");			\
       YYERROR;							\
     }								\
 while (0)
 
 #define YYTERROR	1
 #define YYERRCODE	256
+
 
 /* YYLLOC_DEFAULT -- Compute the default location (before the actions
    are run).
@@ -265,45 +124,47 @@ while (0)
    Current.last_column = Rhs[N].last_column;
 #endif
 
+
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
 #if YYPURE
 # if YYLSP_NEEDED
 #  ifdef YYLEX_PARAM
-#   define YYLEX		%%yylex (&%%yylval, &yylloc, YYLEX_PARAM)
+#   define YYLEX		yylex (&yylval, &yylloc, YYLEX_PARAM)
 #  else
-#   define YYLEX		%%yylex (&%%yylval, &yylloc)
+#   define YYLEX		yylex (&yylval, &yylloc)
 #  endif
 # else /* !YYLSP_NEEDED */
 #  ifdef YYLEX_PARAM
-#   define YYLEX		%%yylex (&%%yylval, YYLEX_PARAM)
+#   define YYLEX		yylex (&yylval, YYLEX_PARAM)
 #  else
-#   define YYLEX		%%yylex (&%%yylval)
+#   define YYLEX		yylex (&yylval)
 #  endif
 # endif /* !YYLSP_NEEDED */
 #else /* !YYPURE */
-# define YYLEX			%%yylex ()
+# define YYLEX			yylex ()
 #endif /* !YYPURE */
+
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
 # define YYDPRINTF(Args)			\
 do {						\
-  if (%%yydebug)				\
+  if (yydebug)					\
     fprintf Args;				\
 } while (0)
 /* Nonzero means print parse trace. [The following comment makes no
    sense to me.  Could someone clarify it?  --akim] Since this is
    uninitialized, it does not stop multiple parsers from coexisting.
    */
-int %%yydebug;
+int yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
 #endif /* !YYDEBUG */
 
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
 #ifndef	YYINITDEPTH
-# define YYINITDEPTH %%initdepth
+# define YYINITDEPTH 200
 #endif
 
 /* YYMAXDEPTH -- maximum size the stacks can grow to (effective only
@@ -313,11 +174,9 @@ int %%yydebug;
 #endif
 
 #ifndef YYMAXDEPTH
-# define YYMAXDEPTH %%maxdepth
+# define YYMAXDEPTH 10000
 #endif
-
 
-
 /* Define __yy_memcpy.  Note that the size argument
    should be passed with type unsigned int, because that is what the non-GCC
    definitions require.  With GCC, __builtin_memcpy takes an arg
@@ -346,11 +205,10 @@ __yy_memcpy (char *to, const char *from, unsigned int count)
   while (i-- > 0)
     *t++ = *f++;
 }
+
 #endif
-
 
-
-#line %%line "%%filename"
+#line
 
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
    into yyparse.  The argument should have type void *.
@@ -374,9 +232,9 @@ __yy_memcpy (char *to, const char *from, unsigned int count)
 /* Prevent warning if -Wstrict-prototypes.  */
 #ifdef __GNUC__
 # ifdef YYPARSE_PARAM
-int %%yyparse (void *);
+int yyparse (void *);
 # else
-int %%yyparse (void);
+int yyparse (void);
 # endif
 #endif
 
@@ -385,13 +243,13 @@ int %%yyparse (void);
 
 #define _YY_DECL_VARIABLES				\
 /* The lookahead symbol.  */				\
-int %%yychar;						\
+int yychar;						\
 							\
 /* The semantic value of the lookahead symbol. */	\
-YYSTYPE %%yylval;					\
+YYSTYPE yylval;						\
 							\
 /* Number of parse errors so far.  */			\
-int %%yynerrs;
+int yynerrs;
 
 #if YYLSP_NEEDED
 # define YY_DECL_VARIABLES			\
@@ -404,6 +262,7 @@ YYLTYPE yylloc;
 _YY_DECL_VARIABLES
 #endif
 
+
 /* If nonreentrant, generate the variables here. */
 
 #if !YYPURE
@@ -411,7 +270,7 @@ YY_DECL_VARIABLES
 #endif  /* !YYPURE */
 
 int
-%%yyparse (YYPARSE_PARAM_ARG)
+yyparse (YYPARSE_PARAM_ARG)
      YYPARSE_PARAM_DECL
 {
   /* If reentrant, generate the variables here. */
@@ -460,6 +319,7 @@ int
   int yystacksize = YYINITDEPTH;
   int yyfree_stacks = 0;
 
+
   /* The variables used to return semantic value and location from the
      action routines.  */
   YYSTYPE yyval;
@@ -475,8 +335,8 @@ int
 
   yystate = 0;
   yyerrstatus = 0;
-  %%yynerrs = 0;
-  %%yychar = YYEMPTY;		/* Cause a token to be read.  */
+  yynerrs = 0;
+  yychar = YYEMPTY;		/* Cause a token to be read.  */
 
   /* Initialize stack pointers.
      Waste one element of value and location stack
@@ -488,6 +348,7 @@ int
 #if YYLSP_NEEDED
   yylsp = yyls;
 #endif
+
 
 /*------------------------------------------------------------.
 | yynewstate -- Push a new state, which is found in yystate.  |
@@ -538,7 +399,7 @@ yynewstate:
       /* Extend the stack our own way.  */
       if (yystacksize >= YYMAXDEPTH)
 	{
-	  %%yyerror ("parser stack overflow");
+	  yyerror ("parser stack overflow");
 	  if (yyfree_stacks)
 	    {
 	      free (yyss);
@@ -552,7 +413,7 @@ yynewstate:
       yystacksize *= 2;
       if (yystacksize > YYMAXDEPTH)
 	yystacksize = YYMAXDEPTH;
-# if !YYSTACK_USE_ALLOCA
+# ifndef YYSTACK_USE_ALLOCA
       yyfree_stacks = 1;
 # endif
       yyss = (short *) YYSTACK_ALLOC (yystacksize * sizeof (*yyssp));
@@ -584,6 +445,7 @@ yynewstate:
 
   goto yybackup;
 
+
 /*-----------.
 | yybackup.  |
 `-----------*/
@@ -604,35 +466,35 @@ yybackup:
   /* yychar is either YYEMPTY or YYEOF
      or a valid token in external form.  */
 
-  if (%%yychar == YYEMPTY)
+  if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
-      %%yychar = YYLEX;
+      yychar = YYLEX;
     }
 
   /* Convert token to internal form (in yychar1) for indexing tables with */
 
-  if (%%yychar <= 0)		/* This means end of input. */
+  if (yychar <= 0)		/* This means end of input. */
     {
       yychar1 = 0;
-      %%yychar = YYEOF;		/* Don't call YYLEX any more */
+      yychar = YYEOF;		/* Don't call YYLEX any more */
 
       YYDPRINTF ((stderr, "Now at end of input.\n"));
     }
   else
     {
-      yychar1 = YYTRANSLATE (%%yychar);
+      yychar1 = YYTRANSLATE (yychar);
 
 #if YYDEBUG
      /* We have to keep this `#if YYDEBUG', since we use variables
 	which are defined only if `YYDEBUG' is set.  */
-      if (%%yydebug)
+      if (yydebug)
 	{
-	  fprintf (stderr, "Next token is %d (%s", %%yychar, yytname[yychar1]);
+	  fprintf (stderr, "Next token is %d (%s", yychar, yytname[yychar1]);
 	  /* Give the individual parser a way to print the precise
 	     meaning of a token, for further debugging info.  */
 # ifdef YYPRINT
-	  YYPRINT (stderr, %%yychar, %%yylval);
+	  YYPRINT (stderr, yychar, yylval);
 # endif
 	  fprintf (stderr, ")\n");
 	}
@@ -666,13 +528,13 @@ yybackup:
     YYACCEPT;
 
   /* Shift the lookahead token.  */
-  YYDPRINTF ((stderr, "Shifting token %d (%s), ", %%yychar, yytname[yychar1]));
+  YYDPRINTF ((stderr, "Shifting token %d (%s), ", yychar, yytname[yychar1]));
 
   /* Discard the token being shifted unless it is eof.  */
-  if (%%yychar != YYEOF)
-    %%yychar = YYEMPTY;
+  if (yychar != YYEOF)
+    yychar = YYEMPTY;
 
-  *++yyvsp = %%yylval;
+  *++yyvsp = yylval;
 #if YYLSP_NEEDED
   *++yylsp = yylloc;
 #endif
@@ -723,7 +585,7 @@ yyreduce:
 #if YYDEBUG
   /* We have to keep this `#if YYDEBUG', since we use variables which
      are defined only if `YYDEBUG' is set.  */
-  if (%%yydebug)
+  if (yydebug)
     {
       int i;
 
@@ -736,11 +598,8 @@ yyreduce:
       fprintf (stderr, " -> %s\n", yytname[yyr1[yyn]]);
     }
 #endif
-  switch (yyn)
-    {
-      %%action /* The action file replaces this line. */
-    }
-#line %%line "%%filename"
+%% actions /* The action file replaces this line. */
+#line
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -749,7 +608,7 @@ yyreduce:
 #endif
 
 #if YYDEBUG
-  if (%%yydebug)
+  if (yydebug)
     {
       short *ssp1 = yyss - 1;
       fprintf (stderr, "state stack now");
@@ -786,9 +645,9 @@ yyerrlab:
   /* If not already recovering from an error, report this error.  */
   if (!yyerrstatus)
     {
-      ++%%yynerrs;
+      ++yynerrs;
 
-#if YYERROR_VERBOSE
+#ifdef YYERROR_VERBOSE
       yyn = yypact[yystate];
 
       if (yyn > YYFLAG && yyn < YYLAST)
@@ -804,36 +663,36 @@ yyerrlab:
 	    if (yycheck[x + yyn] == x)
 	      size += strlen (yytname[x]) + 15, count++;
 	  size += strlen ("parse error, unexpected `") + 1;
-	  size += strlen (yytname[YYTRANSLATE (%%yychar)]);
+	  size += strlen (yytname[YYTRANSLATE (yychar)]);
 	  msg = (char *) malloc (size);
 	  if (msg != 0)
 	    {
 	      strcpy (msg, "parse error, unexpected `");
-	      strcat (msg, yytname[YYTRANSLATE (%%yychar)]);
+	      strcat (msg, yytname[YYTRANSLATE (yychar)]);
 	      strcat (msg, "'");
 
 	      if (count < 5)
 		{
 		  count = 0;
 		  for (x = (yyn < 0 ? -yyn : 0);
-			 x < (int) (sizeof (yytname) / sizeof (char *)); x++)
+		       x < (int) (sizeof (yytname) / sizeof (char *)); x++)
 		    if (yycheck[x + yyn] == x)
 		      {
-		        strcat (msg, count == 0 ? ", expecting `" : " or `");
-		        strcat (msg, yytname[x]);
+			strcat (msg, count == 0 ? ", expecting `" : " or `");
+			strcat (msg, yytname[x]);
 			strcat (msg, "'");
 			count++;
 		      }
 		}
-	      %%yyerror (msg);
+	      yyerror (msg);
 	      free (msg);
 	    }
-          else
-	    %%yyerror ("parse error; also virtual memory exceeded");
-        }
+	  else
+	    yyerror ("parse error; also virtual memory exceeded");
+	}
       else
 #endif /* YYERROR_VERBOSE */
-        %%yyerror ("parse error");
+	yyerror ("parse error");
     }
   goto yyerrlab1;
 
@@ -848,11 +707,11 @@ yyerrlab1:
 	 error, discard it.  */
 
       /* return failure if at end of input */
-      if (%%yychar == YYEOF)
+      if (yychar == YYEOF)
 	YYABORT;
       YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
-		  %%yychar, yytname[yychar1]));
-      %%yychar = YYEMPTY;
+		  yychar, yytname[yychar1]));
+      yychar = YYEMPTY;
     }
 
   /* Else will try to reuse lookahead token after shifting the error
@@ -893,7 +752,7 @@ yyerrpop:
 #endif
 
 #if YYDEBUG
-  if (%%yydebug)
+  if (yydebug)
     {
       short *ssp1 = yyss - 1;
       fprintf (stderr, "Error: state stack now");
@@ -931,7 +790,7 @@ yyerrhandle:
 
   YYDPRINTF ((stderr, "Shifting error token, "));
 
-  *++yyvsp = %%yylval;
+  *++yyvsp = yylval;
 #if YYLSP_NEEDED
   *++yylsp = yylloc;
 #endif

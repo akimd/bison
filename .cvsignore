@@ -9,4 +9,3 @@ patches
 *.patch *.log log patches applied
 *.prj
 releases
-*.flc

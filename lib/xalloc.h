@@ -83,9 +83,5 @@ char *xstrdup PARAMS ((const char *str));
 /* Return a malloc'ed copy of SRC. */
 # define CLONE(Src) CCLONE (Src, 1)
 
-/* Wrappers for standard functions. */
-#define	CALLOC(t, n) ((t *) calloc (sizeof (t), (n)))
-#define MALLOC(t, n) ((t *) xmalloc (sizeof (t) * (n)))
-#define REALLOC(o, t, n) ((t *) xrealloc ((o), sizeof (t) * (n)))
 
 #endif /* !XALLOC_H_ */
