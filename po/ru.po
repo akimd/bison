@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-12-29 15:41+0100\n"
+"POT-Creation-Date: 2001-12-30 16:18+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -97,12 +97,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d конфликтов сдвига/вывода"
 
-#: src/files.c:149
+#: src/files.c:152
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "не удается открыть файл `%s'"
 
-#: src/files.c:168
+#: src/files.c:171
 msgid "cannot close file"
 msgstr "не удается закрыть файл"
 

@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-12-29 15:41+0100\n"
+"POT-Creation-Date: 2001-12-30 16:18+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -155,12 +155,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d conflictos desplazamiento/reducción"
 
-#: src/files.c:149
+#: src/files.c:152
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:168
+#: src/files.c:171
 msgid "cannot close file"
 msgstr ""
 

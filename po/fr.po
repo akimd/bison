@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28d\n"
-"POT-Creation-Date: 2001-12-29 15:41+0100\n"
+"POT-Creation-Date: 2001-12-30 16:18+0100\n"
 "PO-Revision-Date: 2001-08-29 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -98,12 +98,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d conflits décalage/réduction"
 
-#: src/files.c:149
+#: src/files.c:152
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "ne peut ouvrir le fichier `%s'"
 
-#: src/files.c:168
+#: src/files.c:171
 msgid "cannot close file"
 msgstr "ne peut fermer le fichier"
 

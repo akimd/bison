@@ -1,13 +1,35 @@
-%{
+                                                             /* -*- C -*- */
+/* Parse Bison Skeletons.
+   Copyright (C) 2001  Free Software Foundation, Inc.
 
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   Bison is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   Bison is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Bison; see the file COPYING.  If not, write to the Free
+   Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+   02111-1307, USA.  */
+
+%debug
+%defines
+%error-verbose
+
+%{
 #include "system.h"
 #include "obstack.h"
 #include "files.h"
-
+#include "output.h"
+#include "skeleton.h"
 #include "muscle_tab.h"
-
-#define YYDEBUG 1
-#define YYERROR_VERBOSE 1
 
 extern FILE* yyin;
 extern int   yylineno;
@@ -18,7 +40,8 @@ FILE* parser = NULL;
 size_t output_line;
 size_t skeleton_line;
 
-extern struct obstack muscle_obstack;
+static int merror PARAMS ((const char* error));
+static int yyerror PARAMS ((const char* error));
 
 %}
 
@@ -30,9 +53,9 @@ extern struct obstack muscle_obstack;
   int yacc;
 }
 
-%token< muscle > MUSCLE
-%token< string > STRING
-%token< character > CHARACTER
+%token <muscle> MUSCLE
+%token <string> STRING
+%token <character> CHARACTER
 
 %token LINE
 %token SLINE
@@ -44,7 +67,7 @@ extern struct obstack muscle_obstack;
 %token TOKENS
 %token ACTIONS
 
-%type< yacc > section.yacc
+%type <yacc> section.yacc
 
 %start skeleton
 
@@ -59,9 +82,9 @@ section : section.header section.body { }
 
 section.header : SECTION gb MUSCLE gb STRING gb section.yacc gb '\n'
 {
-  char* name = 0;
-  char* limit = 0;
-  char* suffix = $5;
+  char *name = 0;
+  char *limit = 0;
+  char *suffix = $5;
 
   /* Close the previous parser.  */
   if (parser)
@@ -70,7 +93,7 @@ section.header : SECTION gb MUSCLE gb STRING gb section.yacc gb '\n'
   /* If the following section should be named with the yacc-style, and it's
      suffix is of the form 'something.h' or 'something.c', then add '.tab' in
      the middle of the suffix.  */
-  if (tab_extension && $7 && (strsuffix (suffix, ".h") || 
+  if (tab_extension && $7 && (strsuffix (suffix, ".h") ||
 			      strsuffix (suffix, ".c")))
     {
       size_t prefix_len = strlen (prefix);
@@ -93,7 +116,7 @@ section.header : SECTION gb MUSCLE gb STRING gb section.yacc gb '\n'
     }
   else
     name = stringappend (prefix, suffix);
-  
+
   /* Prepare the next parser to be output.  */
   parser = xfopen (name, "w");
   MUSCLE_INSERT_STRING ("parser-file-name", name);
@@ -107,7 +130,7 @@ section.yacc : /* Empty.  */ { $$ = 0; }
              | YACC          { $$ = 1; }
 ;
 
-section.body 
+section.body
 : /* Empty.  */ { }
 | section.body '\n' { fputc ('\n', parser); ++output_line; ++skeleton_line; }
 | section.body LINE  { fprintf (parser, "%d", output_line); }
@@ -116,7 +139,7 @@ section.body
 | section.body TOKENS { token_definitions_output (parser, &output_line); }
 | section.body ACTIONS { actions_output (parser, &output_line); }
 | section.body CHARACTER { fputc ($2, parser); }
-| section.body MUSCLE { 
+| section.body MUSCLE {
   const char* value = muscle_find ($2);
   if (value)
     {
@@ -137,26 +160,23 @@ gb : /* Empty.  */ { }
 
 %%
 
-int
+static int
 merror (const char* error)
 {
   printf ("line %d: %%{%s} undeclared.\n", skeleton_line, error);
   return 0;
 }
 
-int
+static int
 yyerror (const char* error)
 {
-  printf ("line %d: %s.\n", yylineno, error);
+  fprintf (stderr, "%s\n", error);
   return 0;
 }
 
-int
-process_skeleton (const char* grammar,
-		  const char* skeleton)
+void
+process_skeleton (const char* skel)
 {
-  const char* limit = 0;
-
   /* Compute prefix.  Actually, it seems that the processing I need here is
      done in compute_base_names, and the result stored in short_base_name.  */
   prefix = short_base_name;
@@ -166,7 +186,7 @@ process_skeleton (const char* grammar,
   skeleton_line = 1;
 
   /* Output.  */
-  yyin = fopen (skeleton, "r");
+  yyin = fopen (skel, "r");
   yydebug = 0;
   yyparse ();
 

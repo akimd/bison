@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-12-29 15:41+0100\n"
+"POT-Creation-Date: 2001-12-30 16:18+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -97,12 +97,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d Schiebe/Reduziere Konflikte"
 
-#: src/files.c:149
+#: src/files.c:152
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:168
+#: src/files.c:171
 msgid "cannot close file"
 msgstr ""
 

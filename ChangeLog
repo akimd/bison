@@ -1,3 +1,23 @@
+2001-12-30  Akim Demaille  <akim@epita.fr>
+
+	* src/skeleton.h: New.
+	* src/output.c (output_parser, output_master_parser): Remove, dead
+	code.
+	* src/output.h (get_lines_number, actions_output, guards_output)
+	(token_definitions_output): Prototype them.
+	* src/parse-skel.y: Add the license notice.
+	Include output.h and skeleton.h.
+	(process_skeleton): Returns void, and takes a single parameter.
+	* src/scan-skel.l: Add the license notice.
+	Include skeleton.h.
+	Don't use %option yylineno: it seems that then Flex imagines
+	REJECT has been used, and therefore it won't reallocate its
+	buffers (which makes no other sense to me than a bug).  It results
+	in warnings for `unused: yy_flex_realloc'.
+
+	to guess if the generated parsers should have '.tab' in their
+	* src/Makefile.am (bison_SOURCES): Add scan-skel.l and
+
 2001-12-30  Robert Anisko  <robert.anisko@epita.fr>
 
 	* src/muscle_tab.h (MUSCLE_INSERT_INT, MUSCLE_INSERT_STRING)

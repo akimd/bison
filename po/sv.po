@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2001-12-29 15:41+0100\n"
+"POT-Creation-Date: 2001-12-30 16:18+0100\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -101,12 +101,12 @@ msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "förväntade %d skifta/reducerakonflikt"
 msgstr[1] "förväntade %d skifta/reducerakonflikter"
 
-#: src/files.c:149
+#: src/files.c:152
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "kan inte öppna filen \"%s\""
 
-#: src/files.c:168
+#: src/files.c:171
 msgid "cannot close file"
 msgstr "kan inte stänga fil"
 

@@ -1,5 +1,5 @@
-/* Output the generated parsing program for bison,
-   Copyright 2000, 2001  Free Software Foundation, Inc.
+/* Parse Bison Skeletons.
+   Copyright (C) 2001  Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -18,20 +18,15 @@
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
    02111-1307, USA.  */
 
-#ifndef OUTPUT_H_
-# define OUTPUT_H_
+#ifndef SKELETON_H_
+# define SKELETON_H_
 
-extern int error_verbose;
+/* From parse-skel.y.  */
+void process_skeleton PARAMS ((const char* skel));
 
-/* Output the parsing tables and the parser code to FTABLE.  */
-void output PARAMS ((void));
+/* From scan-skel.l. */
+# define YY_DECL \
+  int yylex PARAMS ((void))
+YY_DECL;
 
-size_t get_lines_number PARAMS ((const char *s));
-
-void actions_output PARAMS ((FILE *out, size_t *line));
-void guards_output PARAMS ((FILE *out, size_t *line));
-void token_definitions_output PARAMS ((FILE *out, size_t *line));
-
-extern struct obstack muscle_obstack;
-
-#endif /* !OUTPUT_H_ */
+#endif SKELETON_H_
