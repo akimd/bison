@@ -68,7 +68,7 @@ DISTFILES = COPYING ChangeLog Makefile.in configure configure.in \
     LR0.c allocate.c closure.c conflicts.c derives.c \
     files.c getargs.c gram.c lalr.c lex.c main.c nullable.c \
     output.c print.c reader.c reduce.c symtab.c version.c \
-    warshall.c files.h gram.h lex.h machine.h new.h state.h \
+    warshall.c files.h gram.h lex.h machine.h alloc.h state.h \
     symtab.h system.h types.h bison.cld build.com vmsgetargs.c \
     vmshlp.mar README INSTALL NEWS bison.texinfo bison.info* texinfo.tex \
     getopt.c getopt.h getopt1.c alloca.c mkinstalldirs install-sh
@@ -175,22 +175,22 @@ files.o: files.c
 	$(CC) -c $(PFILES) $(DEFS) $(CPPFLAGS) $(CFLAGS) \
 	   $(srcdir)/files.c $(OUTPUT_OPTION)
 
-LR0.o: system.h machine.h new.h gram.h state.h
+LR0.o: system.h machine.h alloc.h gram.h state.h
 allocate.o: system.h
-closure.o: system.h machine.h new.h gram.h
-conflicts.o: system.h machine.h new.h files.h gram.h state.h
-derives.o: system.h new.h types.h gram.h
-files.o: system.h files.h new.h gram.h
+closure.o: system.h machine.h alloc.h gram.h
+conflicts.o: system.h machine.h alloc.h files.h gram.h state.h
+derives.o: system.h alloc.h types.h gram.h
+files.o: system.h files.h alloc.h gram.h
 getargs.o: system.h files.h
-lalr.o: system.h machine.h types.h state.h new.h gram.h
+lalr.o: system.h machine.h types.h state.h alloc.h gram.h
 lex.o: system.h files.h symtab.h lex.h
 main.o: system.h machine.h
-nullable.o: system.h types.h gram.h new.h
-output.o: system.h machine.h new.h files.h gram.h state.h
-print.o: system.h machine.h new.h files.h gram.h state.h
-reader.o: system.h files.h new.h symtab.h lex.h gram.h
-reduce.o: system.h machine.h files.h new.h gram.h
-symtab.o: system.h new.h symtab.h gram.h
+nullable.o: system.h types.h gram.h alloc.h
+output.o: system.h machine.h alloc.h files.h gram.h state.h
+print.o: system.h machine.h alloc.h files.h gram.h state.h
+reader.o: system.h files.h alloc.h symtab.h lex.h gram.h
+reduce.o: system.h machine.h files.h alloc.h gram.h
+symtab.o: system.h alloc.h symtab.h gram.h
 warshall.o: system.h machine.h
 
 # Prevent GNU make v3 from overflowing arg limit on SysV.
