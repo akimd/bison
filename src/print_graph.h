@@ -18,9 +18,9 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
-#ifndef PRINT_H_
-# define PRINT_H_
+#ifndef PRINT_GRAPH_H_
+# define PRINT_GRAPH_H_
 
 void print_graph PARAMS ((void));
 
-#endif /* !PRINT_H_ */
+#endif /* !PRINT_GRAPH_H_ */
