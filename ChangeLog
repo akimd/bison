@@ -2,6 +2,7 @@
 
 	* tests/synclines.at (AT_SYNCLINES_COMPILE): Ignore the exit
 	status of the compiler.
+	Calling `exit 1' is no longer needed.
 	Reported by Nelson H. F. Beebe.
 
 2002-11-14  Akim Demaille  <akim@epita.fr>
