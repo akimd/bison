@@ -82,7 +82,7 @@
 
 	* src/bison.simple (YYSTACK_REALLOC): New.
 	(yyparse) [!yyoverflow]: Use it and free the old stack.
-	Reported by FIXME: Who.
+	Reported by Per Allansson.
 
 2001-11-05  Akim Demaille  <akim@epita.fr>
 
