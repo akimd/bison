@@ -1,3 +1,13 @@
+2002-10-16  Paul Eggert  <eggert@twinsun.com>
+
+	* NEWS: Officially drop support for building Bison with K&R C,
+	since it didn't work anyway and it's not worth worrying about.
+	* Makefile.maint (wget_files): Remove ansi2knr.c.
+	(ansi2knr.c-url_prefix): Remove.
+	* lib/.cvsignore: Remove ansi2knr, ansi2knr.*.
+	* lib/Makefile.am (AUTOMAKE_OPTIONS): Remove.
+	* src/Makefile.am (AUTOMAKE_OPTIONS): Remove.
+
 2002-10-15  Paul Eggert  <eggert@twinsun.com>
 
 	Stop using the "enum_" trick for K&R-style function definitions;
@@ -9,7 +19,7 @@
 	All uses of "enum_" changed to "enum ".
 	* lib/ebitset.c (enum_ebitset_find_mode): Likewise.
 	* lib/lbitset.c (enum_lbitset_find_mode): Likewise.
-	
+
 	* lib/abitset.c (abitset_and, abitset_and_cmp, abitset_and_or,
 	abitset_and_or_cmp, abitset_andn, abitset_andn_cmp,
 	abitset_andn_or, abitset_andn_or_cmp, abitset_bytes, abitset_copy,
@@ -73,7 +83,7 @@
 	lbitset_release_memory, lbitset_reset, lbitset_set, lbitset_size,
 	lbitset_subset_p, lbitset_test, lbitset_weed, lbitset_xor,
 	lbitset_xor_cmp, lbitset_zero): Likewise.
-	
+
 2002-10-14  Akim Demaille  <akim@epita.fr>
 
 	Version 1.75.
