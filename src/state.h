@@ -162,8 +162,6 @@ typedef struct errs
 
 typedef struct reductions
 {
-  struct reductions *next;
-  short number;
   short nreds;
   short rules[1];
 } reductions;

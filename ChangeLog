@@ -1,5 +1,23 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	Now that states have a complete set of members, the linked list of
+	reductions is useless: just fill directly the state's reductions
+	member.
+
+	* src/state.h (struct reductions): Remove member `number' and
+	`next'.
+	* src/LR0.c (first_reduction, last_reduction): Remove.
+	(save_reductions): Don't link the new reductions, store them in
+	this_state.
+	* src/lalr.c (set_state_table): No need to attach reductions to
+	states, it's already done.
+	* src/output.c (output_actions): No longer free the shifts, then
+	the reductions, then the states: free all the states and their
+	members.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/options.c (OPTN, DRTV, BOTH): New.
 	(option_table): Use them.
 
