@@ -1,4 +1,12 @@
-2003-05-05  Paul Eggert  <eggert@cs.ucla.edu>
+2003-05-12  Paul Eggert  <eggert@twinsun.com>
+
+	* doc/bison.texinfo (How Can I Reset @code{yyparse}): Reword the
+	English a bit.  Fix fclose typo.  Change "const char" to "char
+	const", and use ANSI C rather than K&R for "main".  Suggest
+	YY_FLUSH_BUFFER over yyrestart (as that is what Flex recommends)
+	and suggest yy_switch_to_buffer.
+
+2003-05-05  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/bitset.h (__INT_TO_PTR): Define to a value that presumes
 	C89.  This avoids a diagnostic on compilers that define __STDC__
