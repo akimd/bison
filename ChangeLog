@@ -1,5 +1,11 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* tests/sets.at (Broken Closure): Add the ending `;'.
+	* src/reader.at (readgram): Complain if a rule is not ended with a
+	semi-colon.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (set_conflicts): Use bitset_disjoint_p.
 	(count_sr_conflicts): Use bitset_count.
 	* src/reduce.c (inaccessable_symbols): Ditto.
