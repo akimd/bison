@@ -96,25 +96,33 @@ AC_C_INLINE
 AC_CHECK_TYPES([uintptr_t])
 
 # Checks for library functions.
-AC_FUNC_ALLOCA
-AC_FUNC_OBSTACK
-AC_FUNC_ERROR_AT_LINE
-AC_FUNC_STRNLEN
 AC_CHECK_FUNCS(setlocale)
 AC_CHECK_DECLS([free, getenv, getopt,
                 stpcpy, strchr, strspn, strnlen,
                 malloc, memchr, memrchr])
-AC_REPLACE_FUNCS(memchr memrchr \
-                 strchr stpcpy strrchr strspn strtol strtoul)
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
-jm_PREREQ_MBSWIDTH
-jm_PREREQ_QUOTEARG
-jm_FUNC_ARGMATCH
-jm_PREREQ_ERROR
+AC_REPLACE_FUNCS(strchr strrchr strspn)
+AC_FUNC_ERROR_AT_LINE
 AM_WITH_DMALLOC
 BISON_PREREQ_SUBPIPE
 BISON_PREREQ_TIMEVAR
+gl_DIRNAME
+gl_ERROR
+gl_FUNC_ALLOCA
+gl_FUNC_MEMCHR
+gl_FUNC_MEMRCHR
+gl_FUNC_STPCPY
+gl_FUNC_STRNLEN
+gl_FUNC_STRTOL
+gl_GETOPT
+gl_HASH
+gl_MBSWIDTH
+gl_OBSTACK
+gl_QUOTE
+gl_QUOTEARG
+gl_XALLOC
+jm_FUNC_GLIBC_UNLOCKED_IO
+jm_FUNC_MALLOC
+jm_FUNC_REALLOC
 
 # Gettext.
 AM_GNU_GETTEXT(external, need-ngettext)

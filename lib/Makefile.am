@@ -35,6 +35,7 @@ EXTRA_DIST = malloc.c realloc.c strnlen.c
 
 libbison_a_SOURCES = \
   gettext.h \
+  argmatch.c argmatch.h \
   basename.c dirname.h dirname.c \
   get-errno.h get-errno.c \
   getopt.h getopt.c getopt1.c \

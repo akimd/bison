@@ -1,3 +1,50 @@
+2003-03-12  Paul Eggert  <eggert@twinsun.com>
+
+	Merge changes from gnulib.  This was prompted because the CVS
+	snapshot didn't build on Solaris 7 due to strnlen problems.
+
+	These changes need to be merged back into gnulib:
+	* lib/hash.c: Include <stdbool.h> unconditionally.
+	* m4/onceonly.m4 (m4_quote): New macro.
+	(AC_CHECK_HEADERS_ONCE, AC_CHECK_FUNCS_ONCE, AC_CHECK_DECLS_ONCE):
+	Quote AC_FOREACH variable-expansions properly.
+	The 2003-01-03 obstack.h change also needs merging.
+	{end of changes requiring merging}
+	
+	* lib/stdbool.h.in, m4/alloca.m4, m4/dirname.m4, m4/dos.m4,
+	m4/getopt.m4, m4/hash.m4, m4/malloc.m4, m4/memchr.m4,
+	m4/memrchr.m4, m4/obstack.m4, m4/onceonly.m4, m4/quote.m4,
+	m4/quotearg.m4, m4/realloc.m4, m4/stpcpy.m4, m4/strnlen.m4,
+	m4/strtol.m4, m4/strtoul.m4, m4/unlocked-io.m4, m4/xalloc.m4:
+	New files, imported from gnulib.
+	* m4/Makefile.am (EXTRA_DIST): Add the new m4/*.m4 files mentioned
+	above.
+
+	* lib/mbswidth.c, m4/error.m4, m4/mbrtowc.m4, m4/mbswidth.m4,
+	m4/memcmp.m4, m4/prereq.m4, m4/stdbool.m4: Update to current
+	gnulib sources.
+
+	* configure.ac (gl_DIRNAME, gl_GETOPT, gl_HASH, gl_QUOTE, gl_XALLOC):
+	Add.
+	(gl_ERROR): New, replacing jm_PREREQ_ERROR.
+	(gl_FUNC_ALLOCA): New, replacing AC_FUNC_ALLOCA.
+	(gl_FUNC_STPCPY): New, replacing AC_REPLACE_FUNCS(stpcpy).
+	(gl_FUNC_STRNLEN): New, replacing AC_FUNC_STRNLEN.
+	(gl_MBSWIDTH): New, replacing jm_PREREQ_MBSWIDTH.
+	(gl_OBSTACK): New, replacing AC_FUNC_OBSTACK.
+	(gl_QUOTEARG): New, replacing jm_PREREQ_QUOTEARG.
+	(jm_FUNC_GLIBC_UNLOCKED_IO, gl_FUNC_STPCPY, gl_FUNC_STRTOL): New.
+	(jm_FUNC_MALLOC): New, replacing AC_FUNC_MALLOC.
+	(jm_FUNC_REALLOC): New, replacing AC_FUNC_REALLOC.
+	(jm_PREREQ_ARGMATCH): Remove.
+	(AC_REPLACE_FUNCS): Remove memchr, memrchr, stpcpy, strtol, strtoul.
+	* lib/Makefile.am (libbison_a_SOURCES): Add argmatch.c, argmatch.h.
+
+	* src/system.h: Include <stdbool.h> unconditionally.
+
+	* lib/bbitset.h: Include <limits.h> unconditionally.  We have been
+	assuming at least C89 in the bitset code for some time now.
+
 2003-03-03  Akim Demaille  <akim@epita.fr>
 
 	* ro.po: New.

@@ -1,12 +1,13 @@
-#serial 8
+#serial 9
 
 dnl autoconf tests required for use of mbswidth.c
 dnl From Bruno Haible.
 
-AC_DEFUN([jm_PREREQ_MBSWIDTH],
+AC_DEFUN([gl_MBSWIDTH],
 [
-  AC_CHECK_HEADERS(wchar.h wctype.h)
-  AC_CHECK_FUNCS(isascii iswcntrl iswprint mbsinit wcwidth)
+  AC_CHECK_HEADERS_ONCE(wchar.h wctype.h)
+  AC_CHECK_FUNCS_ONCE(isascii iswprint mbsinit)
+  AC_CHECK_FUNCS(iswcntrl wcwidth)
   jm_FUNC_MBRTOWC
 
   AC_CACHE_CHECK([whether wcwidth is declared], ac_cv_have_decl_wcwidth,
