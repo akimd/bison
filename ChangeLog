@@ -1,3 +1,9 @@
+2001-12-17  Marc Autret  <autret_m@epita.fr>
+
+	* src/bison.simple: Don't hard code the skeleton line and filename.
+	* src/output.c (output_parser): Rename 'line' as 'output_line'.
+	New line counter 'skeleton_line' (skeleton-line muscle).
+
 2001-12-17  Paul Eggert  <eggert@twinsun.com>
 
 	* NEWS, doc/bison.texinfo, doc/bison.1, doc/bison.rnh: Document that
@@ -14,7 +20,6 @@
 	* src/lalr.h (nlookaheads): Remove this orphan declaration.
 	* src/lalr.c (initialize_lookaheads): Set nlookaheads for each
 	state.
-
 	
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
@@ -22,19 +27,16 @@
 	* src/main.c (main): Don't open/close files, nor invoke lex_free,
 	let...
 	* src/reader.c (reader): Do it.
-
 	
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (print_reductions): Formatting changes.
-
 	
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (flush_shift): Also adjust lookaheadset.
 	(flush_reduce): New.
 	(resolve_sr_conflict): Adjust.
-
 	
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
@@ -44,18 +46,15 @@
 	* src/reader.h (muscle_obstack): Move to...
 	* src/output.h: here, since it's defined in output.c.
 
-	
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (action_row, save_column, default_goto)
 	(sort_actions, matching_state, pack_vector): Better variable
 	locality.
 
-	
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c: Various formatting changes.
-
 	
 2001-12-17  Akim Demaille  <akim@epita.fr>
 

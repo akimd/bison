@@ -82,7 +82,7 @@ typedef struct yyltype
 /* Copy the user declarations.  */
 %%prologue
 
-/* Line 85 of bison.simple.  */
+/* Line %%skeleton-line of %%skeleton.  */
 #line %%line "%%parser-file-name"
 
 #include <stdio.h>
@@ -896,7 +896,8 @@ yyreduce:
     {
 %%actions
     }
-  /* Line 902 of bison.simple.  */
+
+/* Line %%skeleton-line of %%skeleton.  */
 #line %%line "%%parser-file-name"
 
   yyvsp -= yylen;
