@@ -1,5 +1,12 @@
 2003-07-25  Paul Eggert  <eggert@twinsun.com>
 
+	* data/glr.c (yyglrReduce): Don't use C89 string concatenation,
+	for portability to K&R C (after ansi2knr, presumably).  See
+	<http://mail.gnu.org/archive/html/bison-patches/2003-06/msg00041.html>
+	by Frank Heckenbach, though I have omitted the structure-initialization
+	part of his glr-knr.diff patch since I recall that the Portable
+	C Compiler didn't require that change.
+
 	Let the user specify how to allocate and free memory.
 	Derived from a suggestion by Frank Heckenbach in
 	<http://mail.gnu.org/archive/html/bison-patches/2003-06/msg00041.html>.
