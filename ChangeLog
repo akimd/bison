@@ -1,5 +1,15 @@
 2000-11-01  Akim Demaille  <akim@epita.fr>
 
+	Change each use of `fattrs' into a use of `attrs_obstack'.
+
+	* src/reader.c (copy_at): Typo: s/yylloc/yyloc/.
+	* src/files.c (fattrs): Remove.
+	(attrs_obstack): New.
+	Adjust all dependencies.
+	(done): If SEMANTIC_PARSER, dump attrs_obstack into attrsfile.
+
+2000-11-01  Akim Demaille  <akim@epita.fr>
+
 	Introduce obstacks.
 	Change each use of `faction' into a use of `action_obstack'.
 
