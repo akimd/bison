@@ -8,19 +8,16 @@
 	(grammar_declaration): `"%union"'.
 	(grammar): Branch to rules_or_grammar_declaration.
 
-	
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
 	* src/main.c (main): Invoke scanner_free.
 
-	
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (m4_invoke): Extracted from...
 	(output_skeleton): here.
 	Free tempfile.
 
-	
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
 	* src/parse-gram.y (directives, directive, gram)
@@ -30,7 +27,6 @@
 	(precedence_declaration, precedence_declarator): these.
 	(symbol_declaration): New.
 
-	
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c (action_obstack): Remove, unused.
@@ -44,7 +40,6 @@
 	(muscle_free): New.
 	* src/main.c (main): Call it.
 
-	
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
 	* src/location.h: New, extracted from...
@@ -56,7 +51,6 @@
 	* src/reader.h, src/reader.c (prologue_augment, epilogue_set):
 	Use location_t instead of ints.
 
-	
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
 	* data/bison.simple, data/bison.c++: Be sure to restore the
