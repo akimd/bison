@@ -1,3 +1,7 @@
+2001-09-23  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/bison.simple: Add new `#line' directive.
+
 2001-09-22  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/bison.simple: New `#line' directive.

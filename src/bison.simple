@@ -44,8 +44,10 @@
 #define yynerrs %%prefix##nerrs
 
 /* Copy the user declarations.  */
+#line %%input_line "%%filename"
 %%prologue
 
+#line %%line "%%skeleton"
 #ifndef __cplusplus
 # ifndef __STDC__
 #  define const
