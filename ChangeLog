@@ -1,5 +1,11 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.h: New file.
+	Propagate its use.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/print.h: New file.
 	Propagate its use.
 	* src/print.c: Formatting and ordering changes.
