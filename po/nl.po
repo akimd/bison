@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-11-01 19:27+0100\n"
+"POT-Creation-Date: 2001-11-02 18:54+0100\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -458,7 +458,7 @@ msgstr ""
 msgid "symbol %s redefined"
 msgstr "symbool %s opnieuw gedefinieerd"
 
-#: src/reader.c:532 src/reader.c:610 src/reader.c:671 src/reader.c:1285
+#: src/reader.c:532 src/reader.c:610 src/reader.c:671 src/reader.c:1283
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "type herdeclaratie voor %s"
@@ -468,12 +468,12 @@ msgstr "type herdeclaratie voor %s"
 msgid "`%s' is invalid in %s"
 msgstr "`%s' is onjuist in %s"
 
-#: src/reader.c:558 src/reader.c:717
+#: src/reader.c:558 src/reader.c:716
 #, fuzzy, c-format
 msgid "multiple %s declarations"
 msgstr "meerdere %start declaraties"
 
-#: src/reader.c:560 src/reader.c:897 src/reader.c:922 src/reader.c:1263
+#: src/reader.c:560 src/reader.c:895 src/reader.c:920 src/reader.c:1261
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "onjuiste %start declaratie"
@@ -502,123 +502,123 @@ msgstr "onjuiste tekst (%s) - nummer hoort na de identifier"
 msgid "unexpected item: %s"
 msgstr "onbekend item: %s"
 
-#: src/reader.c:760 src/reader.c:1089 src/reader.c:1160
+#: src/reader.c:759 src/reader.c:1087 src/reader.c:1158
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "niet overeenkomstige `{'"
 
-#: src/reader.c:792
+#: src/reader.c:791
 #, fuzzy, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "argument van %expect is niet een integer"
 
-#: src/reader.c:838
+#: src/reader.c:837
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "onbekend item %s, verwacht een identifier"
 
-#: src/reader.c:862
+#: src/reader.c:859
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "verwacht string constante in plaats van %s"
 
-#: src/reader.c:1005
+#: src/reader.c:1003
 #, c-format
 msgid "unrecognized: %s"
 msgstr "onbekend: %s"
 
-#: src/reader.c:1010
+#: src/reader.c:1008
 msgid "no input grammar"
 msgstr "geen invoer grammatica"
 
-#: src/reader.c:1015
+#: src/reader.c:1013
 #, c-format
 msgid "unknown character: %s"
 msgstr "onbekend karakter: %s"
 
-#: src/reader.c:1183
+#: src/reader.c:1181
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "niet getermineerde %%guard voorwaarde"
 
-#: src/reader.c:1350
+#: src/reader.c:1348
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr ""
 "slecht geformuleerde regel: initieel symbool niet gevolgd door dubbele punt"
 
-#: src/reader.c:1357
+#: src/reader.c:1355
 msgid "grammar starts with vertical bar"
 msgstr "grammatica start met een verticale bar"
 
-#: src/reader.c:1388
+#: src/reader.c:1386
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel geven voor %s, welke een teken is"
 
-#: src/reader.c:1490
+#: src/reader.c:1488
 msgid "two @prec's in a row"
 msgstr "twee @prec's in een regel"
 
-#: src/reader.c:1498
+#: src/reader.c:1496
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard aanwezig maar %%semantic_parser niet gespecificeerd"
 
-#: src/reader.c:1507
+#: src/reader.c:1505
 msgid "two actions at end of one rule"
 msgstr "twee akties aan het einde van een regel"
 
-#: src/reader.c:1521
+#: src/reader.c:1519
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "type clash (`%s' `%s') bij standaard aktie"
 
-#: src/reader.c:1527
+#: src/reader.c:1525
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "lege regel voor getypte niet terminal, en geen aktie"
 
-#: src/reader.c:1571
+#: src/reader.c:1569
 #, c-format
 msgid "invalid input: %s"
 msgstr "ongeldige invoer: %s"
 
-#: src/reader.c:1579
+#: src/reader.c:1577
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "te veel symbolen (tekens plus nietterminals); maximum %s"
 
-#: src/reader.c:1582
+#: src/reader.c:1580
 msgid "no rules in the input grammar"
 msgstr "geen regels voor invoer grammatica"
 
-#: src/reader.c:1606
+#: src/reader.c:1604
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "symbool %s is gebruikt, maar is niet gedefinieerd als een teken en\n"
 "heeft geen regels"
 
-#: src/reader.c:1712
-#, c-format
-msgid "conflicting precedences for %s and %s"
-msgstr "conflictuerende precedentein voor %s en %s"
-
-#: src/reader.c:1724
-#, c-format
-msgid "conflicting assoc values for %s and %s"
-msgstr "conflictuerende associatieve waarden voor %s en %s"
-
-#: src/reader.c:1770
+#: src/reader.c:1696
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr ""
 
-#: src/reader.c:1782
+#: src/reader.c:1749
+#, c-format
+msgid "conflicting precedences for %s and %s"
+msgstr "conflictuerende precedentein voor %s en %s"
+
+#: src/reader.c:1761
+#, c-format
+msgid "conflicting assoc values for %s and %s"
+msgstr "conflictuerende associatieve waarden voor %s en %s"
+
+#: src/reader.c:1800
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr ""
 
-#: src/reader.c:1784
+#: src/reader.c:1802
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "het start symbool %s is een token"

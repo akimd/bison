@@ -29,6 +29,95 @@ included in translations approved by the Free Software Foundation
 instead of in the original English.
 
 
+File: bison.info,  Node: Action Features,  Prev: Error Reporting,  Up: Interface
+
+Special Features for Use in Actions
+===================================
+
+   Here is a table of Bison constructs, variables and macros that are
+useful in actions.
+
+`$$'
+     Acts like a variable that contains the semantic value for the
+     grouping made by the current rule.  *Note Actions::.
+
+`$N'
+     Acts like a variable that contains the semantic value for the Nth
+     component of the current rule.  *Note Actions::.
+
+`$<TYPEALT>$'
+     Like `$$' but specifies alternative TYPEALT in the union specified
+     by the `%union' declaration.  *Note Data Types of Values in
+     Actions: Action Types.
+
+`$<TYPEALT>N'
+     Like `$N' but specifies alternative TYPEALT in the union specified
+     by the `%union' declaration.  *Note Data Types of Values in
+     Actions: Action Types.
+
+`YYABORT;'
+     Return immediately from `yyparse', indicating failure.  *Note The
+     Parser Function `yyparse': Parser Function.
+
+`YYACCEPT;'
+     Return immediately from `yyparse', indicating success.  *Note The
+     Parser Function `yyparse': Parser Function.
+
+`YYBACKUP (TOKEN, VALUE);'
+     Unshift a token.  This macro is allowed only for rules that reduce
+     a single value, and only when there is no look-ahead token.  It
+     installs a look-ahead token with token type TOKEN and semantic
+     value VALUE; then it discards the value that was going to be
+     reduced by this rule.
+
+     If the macro is used when it is not valid, such as when there is a
+     look-ahead token already, then it reports a syntax error with a
+     message `cannot back up' and performs ordinary error recovery.
+
+     In either case, the rest of the action is not executed.
+
+`YYEMPTY'
+     Value stored in `yychar' when there is no look-ahead token.
+
+`YYERROR;'
+     Cause an immediate syntax error.  This statement initiates error
+     recovery just as if the parser itself had detected an error;
+     however, it does not call `yyerror', and does not print any
+     message.  If you want to print an error message, call `yyerror'
+     explicitly before the `YYERROR;' statement.  *Note Error
+     Recovery::.
+
+`YYRECOVERING'
+     This macro stands for an expression that has the value 1 when the
+     parser is recovering from a syntax error, and 0 the rest of the
+     time.  *Note Error Recovery::.
+
+`yychar'
+     Variable containing the current look-ahead token.  (In a pure
+     parser, this is actually a local variable within `yyparse'.)  When
+     there is no look-ahead token, the value `YYEMPTY' is stored in the
+     variable.  *Note Look-Ahead Tokens: Look-Ahead.
+
+`yyclearin;'
+     Discard the current look-ahead token.  This is useful primarily in
+     error rules.  *Note Error Recovery::.
+
+`yyerrok;'
+     Resume generating error messages immediately for subsequent syntax
+     errors.  This is useful primarily in error rules.  *Note Error
+     Recovery::.
+
+`@$'
+     Acts like a structure variable containing information on the
+     textual position of the grouping made by the current rule.  *Note
+     Tracking Locations: Locations.
+
+`@N'
+     Acts like a structure variable containing information on the
+     textual position of the Nth component of the current rule.  *Note
+     Tracking Locations: Locations.
+
+
 File: bison.info,  Node: Algorithm,  Next: Error Recovery,  Prev: Interface,  Up: Top
 
 The Bison Parser Algorithm
@@ -1118,19 +1207,12 @@ Tuning the parser:
      Parser: Debugging.
 
 `--locations'
-     Pretend that `%locactions' was specified.  *Note Decl Summary::.
+     Pretend that `%locations' was specified.  *Note Decl Summary::.
 
 `-p PREFIX'
 `--name-prefix=PREFIX'
-     Rename the external symbols used in the parser so that they start
-     with PREFIX instead of `yy'.  The precise list of symbols renamed
-     is `yyparse', `yylex', `yyerror', `yynerrs', `yylval', `yychar'
-     and `yydebug'.
-
-     For example, if you use `-p c', the names become `cparse', `clex',
-     and so on.
-
-     *Note Multiple Parsers in the Same Program: Multiple Parsers.
+     Pretend that `%name-prefix="PREFIX"' was specified.  *Note Decl
+     Summary::.
 
 `-l'
 `--no-lines'
@@ -1143,41 +1225,40 @@ Tuning the parser:
 
 `-n'
 `--no-parser'
-     Pretend that `%no_parser' was specified.  *Note Decl Summary::.
+     Pretend that `%no-parser' was specified.  *Note Decl Summary::.
 
 `-k'
 `--token-table'
-     Pretend that `%token_table' was specified.  *Note Decl Summary::.
+     Pretend that `%token-table' was specified.  *Note Decl Summary::.
 
 Adjust the output:
 
 `-d'
-     Pretend that `%verbose' was specified, i.e., write an extra output
+`--defines'
+     Pretend that `%defines' was specified, i.e., write an extra output
      file containing macro definitions for the token type names defined
      in the grammar and the semantic value type `YYSTYPE', as well as a
      few `extern' variable declarations.  *Note Decl Summary::.
 
 `--defines=DEFINES-FILE'
-     The behaviour of -DEFINES is the same than `-d'. The only
-     difference is that it has an optionnal argument which is the name
-     of the output filename.
+     Same as above, but save in the file DEFINES-FILE.
 
 `-b FILE-PREFIX'
 `--file-prefix=PREFIX'
-     Specify a prefix to use for all Bison output file names.  The
-     names are chosen as if the input file were named `PREFIX.c'.
+     Pretend that `%verbose' was specified, i.e, specify prefix to use
+     for all Bison output file names. *Note Decl Summary::.
 
 `-v'
 `--verbose'
      Pretend that `%verbose' was specified, i.e, write an extra output
      file containing verbose descriptions of the grammar and parser.
-     *Note Decl Summary::, for more.
+     *Note Decl Summary::.
 
-`-o OUTFILE'
-`--output-file=OUTFILE'
-     Specify the name OUTFILE for the parser file.
+`-o FILENAME'
+`--output=FILENAME'
+     Specify the FILENAME for the parser file.
 
-     The other output files' names are constructed from OUTFILE as
+     The other output files' names are constructed from FILENAME as
      described under the `-v' and `-d' options.
 
 `-g'
@@ -1230,32 +1311,8 @@ find the corresponding short option.
      --name-prefix=PREFIX                  -p NAME-PREFIX
      --no-lines                            -l
      --no-parser                           -n
-     --output-file=OUTFILE                 -o OUTFILE
+     --output=OUTFILE                      -o OUTFILE
      --token-table                         -k
      --verbose                             -v
      --version                             -V
-
-
-File: bison.info,  Node: VMS Invocation,  Prev: Option Cross Key,  Up: Invocation
-
-Invoking Bison under VMS
-========================
-
-   The command line syntax for Bison on VMS is a variant of the usual
-Bison command syntax--adapted to fit VMS conventions.
-
-   To find the VMS equivalent for any Bison option, start with the long
-option, and substitute a `/' for the leading `--', and substitute a `_'
-for each `-' in the name of the long option.  For example, the
-following invocation under VMS:
-
-     bison /debug/name_prefix=bar foo.y
-
-is equivalent to the following command under POSIX.
-
-     bison --debug --name-prefix=bar foo.y
-
-   The VMS file system does not permit filenames such as `foo.tab.c'.
-In the above example, the output file would instead be named
-`foo_tab.c'.
 

@@ -1,3 +1,29 @@
+2001-11-04  Akim Demaille  <akim@epita.fr>
+
+	* src/getargs.c (longopts): Support `--output'.  getopt is now
+	able to understand that `--out' is OK: the two racing long options
+	are aliases.
+	(usage): Adjust.
+	* src/lex.h (tok_setopt): Remove, replaced with...
+	(tok_intopt, tok_stropt): these new guys.
+	* src/lex.c (getopt.h): Not needed.
+	(token_buffer, unlexed_token_buffer): Not const.
+	(percent_table): Promote `-' over `_' in directive names.
+	Active `%name-prefix', `file-prefix', and `output'.
+	(parse_percent_token): Accept possible arguments to directives.
+	Promote `-' over `_' in directive names.
+	* doc/bison.texinfo (Decl Summary): Split the list into
+	`directives for grammars' and `directives for bison'.
+	Sort'em.
+	Add description of `%name-prefix', `file-prefix', and `output'.
+	Promote `-' over `_' in directive names.
+	(Bison Options): s/%locactions/%locations/.  Nice Freudian slip.
+	Simplify the description of `--name-prefix'.
+	Promote `-' over `_' in directive names.
+	Promote `--output' over `--output-file'.
+	Fix the description of `--defines'.
+	* tests/output.at: Exercise %file-prefix and %output.
+
 2001-11-02  Akim Demaille  <akim@epita.fr>
 
 	* doc/refcard.tex: Update.

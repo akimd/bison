@@ -63,6 +63,7 @@ static struct option longopts[] =
   {"defines",		optional_argument,     	0, 'd'},
   {"verbose",		no_argument,		0, 'v'},
   {"file-prefix",	required_argument, 	0, 'b'},
+  {"output",		required_argument, 	0, 'o'},
   {"output-file",	required_argument, 	0, 'o'},
   {"graph",		optional_argument,     	0, 'g'},
 
@@ -118,9 +119,9 @@ Output:\n\
   -d, --defines              also produce a header file\n\
   -v, --verbose              also produce an explanation of the automaton\n\
   -b, --file-prefix=PREFIX   specify a PREFIX for output files\n\
-  -o, --output-file=FILE     leave output to FILE\n\
-  -g, --graph                also produce a VCG graph description of the \
-automaton\n"), stream);
+  -o, --output=FILE          leave output to FILE\n\
+  -g, --graph                also produce a VCG description of the automaton\n\
+"), stream);
   putc ('\n', stream);
 
   fputs (_("\

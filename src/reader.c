@@ -936,16 +936,13 @@ parse_dquoted_param (const char *from)
 static void
 read_declarations (void)
 {
-  int c;
-  int tok;
-
   for (;;)
     {
-      c = skip_white_space ();
+      int c = skip_white_space ();
 
       if (c == '%')
 	{
-	  tok = parse_percent_token ();
+	  token_t tok = parse_percent_token ();
 
 	  switch (tok)
 	    {
@@ -997,6 +994,13 @@ read_declarations (void)
 	      break;
 
 	    case tok_noop:
+	      break;
+
+	    case tok_stropt:
+	    case tok_intopt:
+	    case tok_obsolete:
+	    case tok_illegal:
+	      abort ();
 	      break;
 
 	    default:

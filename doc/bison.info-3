@@ -710,7 +710,7 @@ File: bison.info,  Node: Decl Summary,  Prev: Pure Decl,  Up: Declarations
 Bison Declaration Summary
 -------------------------
 
-   Here is a summary of all Bison declarations:
+   Here is a summary of the declarations used to define a grammar:
 
 `%union'
      Declare the collection of data types that semantic values may have
@@ -745,38 +745,9 @@ Bison Declaration Summary
      Declare the expected number of shift-reduce conflicts (*note
      Suppressing Conflict Warnings: Expect Decl.).
 
-`%yacc'
-`%fixed_output_files'
-     Pretend the option `--yacc' was given, i.e., imitate Yacc,
-     including its naming conventions.  *Note Bison Options::, for more.
 
-`%locations'
-     Generate the code processing the locations (*note Special Features
-     for Use in Actions: Action Features.).  This mode is enabled as
-     soon as the grammar uses the special `@N' tokens, but if your
-     grammar does not use it, using `%locations' allows for more
-     accurate parse error messages.
-
-`%pure_parser'
-     Request a pure (reentrant) parser program (*note A Pure
-     (Reentrant) Parser: Pure Decl.).
-
-`%no_parser'
-     Do not include any C code in the parser file; generate tables
-     only.  The parser file contains just `#define' directives and
-     static variable declarations.
-
-     This option also tells Bison to write the C code for the grammar
-     actions into a file named `FILENAME.act', in the form of a
-     brace-surrounded body fit for a `switch' statement.
-
-`%no_lines'
-     Don't generate any `#line' preprocessor commands in the parser
-     file.  Ordinarily Bison writes these commands in the parser file
-     so that the C compiler and debuggers will associate errors and
-     object code with your source file (the grammar file).  This
-     directive causes them to associate errors with the parser file,
-     treating it an independent source file in its own right.
+In order to change the behavior of `bison', use the following
+directives:
 
 `%debug'
      Output a definition of the macro `YYDEBUG' into the parser file, so
@@ -796,20 +767,48 @@ Bison Declaration Summary
      able to refer to token type codes and the variable `yylval'.
      *Note Semantic Values of Tokens: Token Values.
 
-`%verbose'
-     Write an extra output file containing verbose descriptions of the
-     parser states and what is done for each type of look-ahead token in
-     that state.
+`%file-prefix="PREFIX"'
+     Specify a prefix to use for all Bison output file names.  The
+     names are chosen as if the input file were named `PREFIX.y'.
 
-     This file also describes all the conflicts, both those resolved by
-     operator precedence and the unresolved ones.
+`%locations'
+     Generate the code processing the locations (*note Special Features
+     for Use in Actions: Action Features.).  This mode is enabled as
+     soon as the grammar uses the special `@N' tokens, but if your
+     grammar does not use it, using `%locations' allows for more
+     accurate parse error messages.
 
-     The file's name is made by removing `.tab.c' or `.c' from the
-     parser output file name, and adding `.output' instead.
+`%name-prefix="PREFIX"'
+     Rename the external symbols used in the parser so that they start
+     with PREFIX instead of `yy'.  The precise list of symbols renamed
+     is `yyparse', `yylex', `yyerror', `yynerrs', `yylval', `yychar'
+     and `yydebug'.  For example, if you use `%name-prefix="c_"', the
+     names become `c_parse', `c_lex', and so on.  *Note Multiple
+     Parsers in the Same Program: Multiple Parsers.
 
-     Therefore, if the input file is `foo.y', then the parser file is
-     called `foo.tab.c' by default.  As a consequence, the verbose
-     output file is called `foo.output'.
+`%no-parser'
+     Do not include any C code in the parser file; generate tables
+     only.  The parser file contains just `#define' directives and
+     static variable declarations.
+
+     This option also tells Bison to write the C code for the grammar
+     actions into a file named `FILENAME.act', in the form of a
+     brace-surrounded body fit for a `switch' statement.
+
+`%no-lines'
+     Don't generate any `#line' preprocessor commands in the parser
+     file.  Ordinarily Bison writes these commands in the parser file
+     so that the C compiler and debuggers will associate errors and
+     object code with your source file (the grammar file).  This
+     directive causes them to associate errors with the parser file,
+     treating it an independent source file in its own right.
+
+`%output="FILENAME"'
+     Specify the FILENAME for the parser file.
+
+`%pure-parser'
+     Request a pure (reentrant) parser program (*note A Pure
+     (Reentrant) Parser: Pure Decl.).
 
 `%token_table'
      Generate an array of token names in the parser file.  The name of
@@ -844,6 +843,26 @@ Bison Declaration Summary
 
     `YYNSTATES'
           The number of parser states (*note Parser States::).
+
+`%verbose'
+     Write an extra output file containing verbose descriptions of the
+     parser states and what is done for each type of look-ahead token in
+     that state.
+
+     This file also describes all the conflicts, both those resolved by
+     operator precedence and the unresolved ones.
+
+     The file's name is made by removing `.tab.c' or `.c' from the
+     parser output file name, and adding `.output' instead.
+
+     Therefore, if the input file is `foo.y', then the parser file is
+     called `foo.tab.c' by default.  As a consequence, the verbose
+     output file is called `foo.output'.
+
+`%yacc'
+`%fixed-output-files'
+     Pretend the option `--yacc' was given, i.e., imitate Yacc,
+     including its naming conventions.  *Note Bison Options::, for more.
 
 
 File: bison.info,  Node: Multiple Parsers,  Prev: Declarations,  Up: Grammar File
@@ -1225,93 +1244,4 @@ immediately return 1.
 encountered so far.  Normally this variable is global; but if you
 request a pure parser (*note A Pure (Reentrant) Parser: Pure Decl.)
 then it is a local variable which only the actions can access.
-
-
-File: bison.info,  Node: Action Features,  Prev: Error Reporting,  Up: Interface
-
-Special Features for Use in Actions
-===================================
-
-   Here is a table of Bison constructs, variables and macros that are
-useful in actions.
-
-`$$'
-     Acts like a variable that contains the semantic value for the
-     grouping made by the current rule.  *Note Actions::.
-
-`$N'
-     Acts like a variable that contains the semantic value for the Nth
-     component of the current rule.  *Note Actions::.
-
-`$<TYPEALT>$'
-     Like `$$' but specifies alternative TYPEALT in the union specified
-     by the `%union' declaration.  *Note Data Types of Values in
-     Actions: Action Types.
-
-`$<TYPEALT>N'
-     Like `$N' but specifies alternative TYPEALT in the union specified
-     by the `%union' declaration.  *Note Data Types of Values in
-     Actions: Action Types.
-
-`YYABORT;'
-     Return immediately from `yyparse', indicating failure.  *Note The
-     Parser Function `yyparse': Parser Function.
-
-`YYACCEPT;'
-     Return immediately from `yyparse', indicating success.  *Note The
-     Parser Function `yyparse': Parser Function.
-
-`YYBACKUP (TOKEN, VALUE);'
-     Unshift a token.  This macro is allowed only for rules that reduce
-     a single value, and only when there is no look-ahead token.  It
-     installs a look-ahead token with token type TOKEN and semantic
-     value VALUE; then it discards the value that was going to be
-     reduced by this rule.
-
-     If the macro is used when it is not valid, such as when there is a
-     look-ahead token already, then it reports a syntax error with a
-     message `cannot back up' and performs ordinary error recovery.
-
-     In either case, the rest of the action is not executed.
-
-`YYEMPTY'
-     Value stored in `yychar' when there is no look-ahead token.
-
-`YYERROR;'
-     Cause an immediate syntax error.  This statement initiates error
-     recovery just as if the parser itself had detected an error;
-     however, it does not call `yyerror', and does not print any
-     message.  If you want to print an error message, call `yyerror'
-     explicitly before the `YYERROR;' statement.  *Note Error
-     Recovery::.
-
-`YYRECOVERING'
-     This macro stands for an expression that has the value 1 when the
-     parser is recovering from a syntax error, and 0 the rest of the
-     time.  *Note Error Recovery::.
-
-`yychar'
-     Variable containing the current look-ahead token.  (In a pure
-     parser, this is actually a local variable within `yyparse'.)  When
-     there is no look-ahead token, the value `YYEMPTY' is stored in the
-     variable.  *Note Look-Ahead Tokens: Look-Ahead.
-
-`yyclearin;'
-     Discard the current look-ahead token.  This is useful primarily in
-     error rules.  *Note Error Recovery::.
-
-`yyerrok;'
-     Resume generating error messages immediately for subsequent syntax
-     errors.  This is useful primarily in error rules.  *Note Error
-     Recovery::.
-
-`@$'
-     Acts like a structure variable containing information on the
-     textual position of the grouping made by the current rule.  *Note
-     Tracking Locations: Locations.
-
-`@N'
-     Acts like a structure variable containing information on the
-     textual position of the Nth component of the current rule.  *Note
-     Tracking Locations: Locations.
 

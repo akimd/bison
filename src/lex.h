@@ -49,12 +49,13 @@ typedef enum token_e
     tok_expect,
     tok_thong,
     tok_noop,
-    tok_setopt,
+    tok_intopt,
+    tok_stropt,
     tok_illegal,
     tok_obsolete
   } token_t;
 
-extern const char *token_buffer;
+extern char *token_buffer;
 extern bucket *symval;
 extern int numval;
 

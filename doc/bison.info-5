@@ -29,6 +29,30 @@ included in translations approved by the Free Software Foundation
 instead of in the original English.
 
 
+File: bison.info,  Node: VMS Invocation,  Prev: Option Cross Key,  Up: Invocation
+
+Invoking Bison under VMS
+========================
+
+   The command line syntax for Bison on VMS is a variant of the usual
+Bison command syntax--adapted to fit VMS conventions.
+
+   To find the VMS equivalent for any Bison option, start with the long
+option, and substitute a `/' for the leading `--', and substitute a `_'
+for each `-' in the name of the long option.  For example, the
+following invocation under VMS:
+
+     bison /debug/name_prefix=bar foo.y
+
+is equivalent to the following command under POSIX.
+
+     bison --debug --name-prefix=bar foo.y
+
+   The VMS file system does not permit filenames such as `foo.tab.c'.
+In the above example, the output file would instead be named
+`foo_tab.c'.
+
+
 File: bison.info,  Node: Table of Symbols,  Next: Glossary,  Prev: Invocation,  Up: Top
 
 Bison Symbols
@@ -172,11 +196,19 @@ Bison Symbols
      Bison declaration to create a header file meant for the scanner.
      *Note Decl Summary::.
 
+`%file-prefix="PREFIX"'
+     Bison declaration to set tge prefix of the output files. *Note
+     Decl Summary::.
+
 `%left'
      Bison declaration to assign left associativity to token(s).  *Note
      Operator Precedence: Precedence Decl.
 
-`%no_lines'
+`%name-prefix="PREFIX"'
+     Bison declaration to rename the external symbols. *Note Decl
+     Summary::.
+
+`%no-lines'
      Bison declaration to avoid generating `#line' directives in the
      parser file.  *Note Decl Summary::.
 
@@ -184,11 +216,15 @@ Bison Symbols
      Bison declaration to assign non-associativity to token(s).  *Note
      Operator Precedence: Precedence Decl.
 
+`%output="FILENAME"'
+     Bison declaration to set the name of the parser file. *Note Decl
+     Summary::.
+
 `%prec'
      Bison declaration to assign a precedence to a specific rule.
      *Note Context-Dependent Precedence: Contextual Precedence.
 
-`%pure_parser'
+`%pure-parser'
      Bison declaration to request a pure (reentrant) parser.  *Note A
      Pure (Reentrant) Parser: Pure Decl.
 
@@ -204,7 +240,7 @@ Bison Symbols
      Bison declaration to declare token(s) without specifying
      precedence.  *Note Token Type Names: Token Decl.
 
-`%token_table'
+`%token-table'
      Bison declaration to include a token name table in the parser file.
      *Note Decl Summary::.
 
