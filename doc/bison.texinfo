@@ -136,12 +136,17 @@ The Concepts of Bison
                         the name of an identifier, etc.).
 * Semantic Actions::  Each rule can have an action containing C code.
 * GLR Parsers::       Writing parsers for general context-free languages.
-* Simple GLR Parsers::    Using GLR in its simplest form.
 * Locations Overview::    Tracking Locations.
 * Bison Parser::      What are Bison's input and output,
                         how is the output used?
 * Stages::            Stages in writing and running Bison grammars.
 * Grammar Layout::    Overall structure of a Bison grammar file.
+
+Writing @acronym{GLR} Parsers
+
+* Simple GLR Parsers::          Using @acronym{GLR} parsers on unambiguous grammars
+* Merging GLR Parses::          Using @acronym{GLR} parsers to resolve ambiguities
+* Compiler Requirements::       @acronym{GLR} parsers require a modern C compiler
 
 Examples
 
@@ -383,7 +388,6 @@ use Bison or Yacc, we suggest you start by reading this chapter carefully.
                         the name of an identifier, etc.).
 * Semantic Actions::  Each rule can have an action containing C code.
 * GLR Parsers::       Writing parsers for general context-free languages.
-* Simple GLR Parsers::    Using GLR in its simplest form.
 * Locations Overview::    Tracking Locations.
 * Bison Parser::      What are Bison's input and output,
                         how is the output used?
@@ -661,8 +665,9 @@ from the values of the two subexpressions.
 @findex %glr-parser
 @cindex conflicts
 @cindex shift/reduce conflicts
+@cindex reduce/reduce conflicts
 
-In some grammars, there will be cases where Bison's standard
+In some grammars, Bison's standard
 @acronym{LALR}(1) parsing algorithm cannot decide whether to apply a
 certain grammar rule at a given point.  That is, it may not be able to
 decide (on the basis of the input read so far) which of two possible
@@ -675,7 +680,7 @@ input.  These are known respectively as @dfn{reduce/reduce} conflicts
 To use a grammar that is not easily modified to be @acronym{LALR}(1), a
 more general parsing algorithm is sometimes necessary.  If you include
 @code{%glr-parser} among the Bison declarations in your file
-(@pxref{Grammar Outline}), the result will be a Generalized @acronym{LR}
+(@pxref{Grammar Outline}), the result is a Generalized @acronym{LR}
 (@acronym{GLR}) parser.  These parsers handle Bison grammars that
 contain no unresolved conflicts (i.e., after applying precedence
 declarations) identically to @acronym{LALR}(1) parsers.  However, when
@@ -701,6 +706,217 @@ outstanding actions either by precedences given to the grammar rules
 involved, or by performing both actions, and then calling a designated
 user-defined function on the resulting values to produce an arbitrary
 merged result.
+
+@menu
+* Simple GLR Parsers::          Using @acronym{GLR} parsers on unambiguous grammars
+* Merging GLR Parses::          Using @acronym{GLR} parsers to resolve ambiguities
+* Compiler Requirements::       @acronym{GLR} parsers require a modern C compiler
+@end menu
+
+@node Simple GLR Parsers
+@subsection Using @acronym{GLR} on Unambiguous Grammars
+@cindex @acronym{GLR} parsing, unambiguous grammars
+@cindex generalized @acronym{LR} (@acronym{GLR}) parsing, unambiguous grammars
+@findex %glr-parser
+@findex %expect-rr
+@cindex conflicts
+@cindex reduce/reduce conflicts
+@cindex shift/reduce conflicts
+
+In the simplest cases, you can use the @acronym{GLR} algorithm
+to parse grammars that are unambiguous, but fail to be @acronym{LALR}(1).
+Such grammars typically require more than one symbol of look-ahead,
+or (in rare cases) fall into the category of grammars in which the
+@acronym{LALR}(1) algorithm throws away too much information (they are in
+@acronym{LR}(1), but not @acronym{LALR}(1), @ref{Mystery Conflicts}).
+
+Consider a problem that
+arises in the declaration of enumerated and subrange types in the
+programming language Pascal.  Here are some examples:
+
+@example
+type subrange = lo .. hi;
+type enum = (a, b, c);
+@end example
+
+@noindent
+The original language standard allows only numeric
+literals and constant identifiers for the subrange bounds (@samp{lo}
+and @samp{hi}), but Extended Pascal (@acronym{ISO}/@acronym{IEC}
+10206) and many other
+Pascal implementations allow arbitrary expressions there.  This gives
+rise to the following situation, containing a superfluous pair of
+parentheses:
+
+@example
+type subrange = (a) .. b;
+@end example
+
+@noindent
+Compare this to the following declaration of an enumerated
+type with only one value:
+
+@example
+type enum = (a);
+@end example
+
+@noindent
+(These declarations are contrived, but they are syntactically
+valid, and more-complicated cases can come up in practical programs.)
+
+These two declarations look identical until the @samp{..} token.
+With normal @acronym{LALR}(1) one-token look-ahead it is not
+possible to decide between the two forms when the identifier
+@samp{a} is parsed.  It is, however, desirable
+for a parser to decide this, since in the latter case
+@samp{a} must become a new identifier to represent the enumeration
+value, while in the former case @samp{a} must be evaluated with its
+current meaning, which may be a constant or even a function call.
+
+You could parse @samp{(a)} as an ``unspecified identifier in parentheses'',
+to be resolved later, but this typically requires substantial
+contortions in both semantic actions and large parts of the
+grammar, where the parentheses are nested in the recursive rules for
+expressions.
+
+You might think of using the lexer to distinguish between the two
+forms by returning different tokens for currently defined and
+undefined identifiers.  But if these declarations occur in a local
+scope, and @samp{a} is defined in an outer scope, then both forms
+are possible---either locally redefining @samp{a}, or using the
+value of @samp{a} from the outer scope.  So this approach cannot
+work.
+
+A simple solution to this problem is to declare the parser to 
+use the @acronym{GLR} algorithm.
+When the @acronym{GLR} parser reaches the critical state, it
+merely splits into two branches and pursues both syntax rules
+simultaneously.  Sooner or later, one of them runs into a parsing
+error.  If there is a @samp{..} token before the next
+@samp{;}, the rule for enumerated types fails since it cannot
+accept @samp{..} anywhere; otherwise, the subrange type rule
+fails since it requires a @samp{..} token.  So one of the branches
+fails silently, and the other one continues normally, performing
+all the intermediate actions that were postponed during the split.
+
+If the input is syntactically incorrect, both branches fail and the parser
+reports a syntax error as usual.
+
+The effect of all this is that the parser seems to ``guess'' the
+correct branch to take, or in other words, it seems to use more
+look-ahead than the underlying @acronym{LALR}(1) algorithm actually allows
+for.  In this example, @acronym{LALR}(2) would suffice, but also some cases
+that are not @acronym{LALR}(@math{k}) for any @math{k} can be handled this way.
+
+In general, a @acronym{GLR} parser can take quadratic or cubic worst-case time,
+and the current Bison parser even takes exponential time and space
+for some grammars.  In practice, this rarely happens, and for many
+grammars it is possible to prove that it cannot happen.
+The present example contains only one conflict between two
+rules, and the type-declaration context containing the conflict
+cannot be nested.  So the number of
+branches that can exist at any time is limited by the constant 2,
+and the parsing time is still linear.
+
+Here is a Bison grammar corresponding to the example above.  It
+parses a vastly simplified form of Pascal type declarations.
+
+@example
+%token TYPE DOTDOT ID
+
+@group
+%left '+' '-'
+%left '*' '/'
+@end group
+
+%%
+
+@group
+type_decl : TYPE ID '=' type ';'
+     ;
+@end group
+
+@group
+type : '(' id_list ')'
+     | expr DOTDOT expr
+     ;
+@end group
+
+@group
+id_list : ID
+     | id_list ',' ID
+     ;
+@end group
+
+@group
+expr : '(' expr ')'
+     | expr '+' expr
+     | expr '-' expr
+     | expr '*' expr
+     | expr '/' expr
+     | ID
+     ;
+@end group
+@end example
+
+When used as a normal @acronym{LALR}(1) grammar, Bison correctly complains
+about one reduce/reduce conflict.  In the conflicting situation the
+parser chooses one of the alternatives, arbitrarily the one
+declared first.  Therefore the following correct input is not
+recognized:
+
+@example
+type t = (a) .. b;
+@end example
+
+The parser can be turned into a @acronym{GLR} parser, while also telling Bison
+to be silent about the one known reduce/reduce conflict, by
+adding these two declarations to the Bison input file (before the first 
+@samp{%%}):
+
+@example
+%glr-parser
+%expect-rr 1
+@end example
+
+@noindent
+No change in the grammar itself is required.  Now the
+parser recognizes all valid declarations, according to the
+limited syntax above, transparently.  In fact, the user does not even
+notice when the parser splits.
+
+So here we have a case where we can use the benefits of @acronym{GLR}, almost
+without disadvantages.  Even in simple cases like this, however, there
+are at least two potential problems to beware.
+First, always analyze the conflicts reported by
+Bison to make sure that @acronym{GLR} splitting is only done where it is
+intended.  A @acronym{GLR} parser splitting inadvertently may cause
+problems less obvious than an @acronym{LALR} parser statically choosing the
+wrong alternative in a conflict.
+Second, consider interactions with the lexer (@pxref{Semantic Tokens}) 
+with great care.  Since a split parser consumes tokens
+without performing any actions during the split, the lexer cannot
+obtain information via parser actions.  Some cases of
+lexer interactions can be eliminated by using @acronym{GLR} to
+shift the complications from the lexer to the parser.  You must check
+the remaining cases for correctness.
+
+In our example, it would be safe for the lexer to return tokens
+based on their current meanings in some symbol table, because no new
+symbols are defined in the middle of a type declaration.  Though it
+is possible for a parser to define the enumeration
+constants as they are parsed, before the type declaration is
+completed, it actually makes no difference since they cannot be used
+within the same enumerated type declaration.
+
+@node Merging GLR Parses
+@subsection Using @acronym{GLR} to Resolve Ambiguities
+@cindex @acronym{GLR} parsing, ambiguous grammars
+@cindex generalized @acronym{LR} (@acronym{GLR}) parsing, ambiguous grammars
+@findex %dprec
+@findex %merge
+@cindex conflicts
+@cindex reduce/reduce conflicts
 
 Let's consider an example, vastly simplified from a C++ grammar.
 
@@ -761,8 +977,21 @@ parses as either an @code{expr} or a @code{stmt}
 @samp{x} as an @code{ID}).
 Bison detects this as a reduce/reduce conflict between the rules
 @code{expr : ID} and @code{declarator : ID}, which it cannot resolve at the
-time it encounters @code{x} in the example above.  The two @code{%dprec}
-declarations, however, give precedence to interpreting the example as a
+time it encounters @code{x} in the example above.  Since this is a 
+@acronym{GLR} parser, it therefore splits the problem into two parses, one for 
+each choice of resolving the reduce/reduce conflict.
+Unlike the example from the previous section (@pxref{Simple GLR Parsers}),
+however, neither of these parses ``dies,'' because the grammar as it stands is
+ambiguous.  One of the parsers eventually reduces @code{stmt : expr ';'} and 
+the other reduces @code{stmt : decl}, after which both parsers are in an 
+identical state: they've seen @samp{prog stmt} and have the same unprocessed 
+input remaining.  We say that these parses have @dfn{merged.}  
+
+At this point, the @acronym{GLR} parser requires a specification in the
+grammar of how to choose between the competing parses.
+In the example above, the two @code{%dprec}
+declarations specify that Bison is to give precedence 
+to the parse that interprets the example as a
 @code{decl}, which implies that @code{x} is a declarator.
 The parser therefore prints
 
@@ -770,18 +999,21 @@ The parser therefore prints
 "x" y z + T <init-declare>
 @end example
 
-Consider a different input string for this parser:
+The @code{%dprec} declarations only come into play when more than one
+parse survives.  Consider a different input string for this parser:
 
 @example
 T (x) + y;
 @end example
 
 @noindent
+This is another example of using @acronym{GLR} to parse an unambiguous 
+construct, as shown in the previous section (@pxref{Simple GLR Parsers}).
 Here, there is no ambiguity (this cannot be parsed as a declaration).
 However, at the time the Bison parser encounters @code{x}, it does not
 have enough information to resolve the reduce/reduce conflict (again,
 between @code{x} as an @code{expr} or a @code{declarator}).  In this
-case, no precedence declaration is used.  Instead, the parser splits
+case, no precedence declaration is used.  Again, the parser splits
 into two, one assuming that @code{x} is an @code{expr}, and the other
 assuming @code{x} is a @code{declarator}.  The second of these parsers
 then vanishes when it sees @code{+}, and the parser prints
@@ -791,7 +1023,7 @@ x T <cast> y +
 @end example
 
 Suppose that instead of resolving the ambiguity, you wanted to see all
-the possibilities.  For this purpose, we must @dfn{merge} the semantic
+the possibilities.  For this purpose, you must merge the semantic
 actions of the two possible parsers, rather than choosing one over the
 other.  To do so, you could change the declaration of @code{stmt} as
 follows:
@@ -803,7 +1035,6 @@ stmt : expr ';'  %merge <stmtMerge>
 @end example
 
 @noindent
-
 and define the @code{stmtMerge} function as:
 
 @example
@@ -827,17 +1058,24 @@ in the C declarations at the beginning of the file:
 @end example
 
 @noindent
-With these declarations, the resulting parser will parse the first example
-as both an @code{expr} and a @code{decl}, and print
+With these declarations, the resulting parser parses the first example
+as both an @code{expr} and a @code{decl}, and prints
 
 @example
 "x" y z + T <init-declare> x T <cast> y z + = <OR>
 @end example
 
-@sp 1
+Bison requires that all of the
+productions that participate in any particular merge have identical 
+@samp{%merge} clauses.  Otherwise, the ambiguity would be unresolvable,
+and the parser will report an error during any parse that results in
+the offending merge.
 
-@cindex @code{incline}
+@node Compiler Requirements
+@subsection Considerations when Compiling @acronym{GLR} Parsers
+@cindex @code{inline}
 @cindex @acronym{GLR} parsers and @code{inline}
+
 The @acronym{GLR} parsers require a compiler for @acronym{ISO} C89 or
 later.  In addition, they use the @code{inline} keyword, which is not
 C89, but is C99 and is a common extension in pre-C99 compilers.  It is
@@ -861,208 +1099,6 @@ will suffice.  Otherwise, we suggest
   #endif
 %@}
 @end example
-
-@node Simple GLR Parsers
-@section Using @acronym{GLR} in its Simplest Form
-@cindex @acronym{GLR} parsing, unambiguous grammars
-@cindex generalized @acronym{LR} (@acronym{GLR}) parsing, unambiguous grammars
-@findex %glr-parser
-@findex %expect-rr
-@cindex conflicts
-@cindex reduce/reduce conflicts
-
-The C++ example for @acronym{GLR} (@pxref{GLR Parsers}) explains how to use
-the @acronym{GLR} parsing algorithm with some advanced features such as
-@samp{%dprec} and @samp{%merge} to handle syntactically ambiguous
-grammars.  However, the @acronym{GLR} algorithm can also be used in a simpler
-way to parse grammars that are unambiguous, but fail to be @acronym{LALR}(1).
-Such grammars typically require more than one symbol of look-ahead,
-or (in rare cases) fall into the category of grammars in which the
-@acronym{LALR}(1) algorithm throws away too much information (they are in
-@acronym{LR}(1), but not @acronym{LALR}(1), @ref{Mystery Conflicts}).
-
-Here is an example of this situation, using a problem that
-arises in the declaration of enumerated and subrange types in the
-programming language Pascal.  These declarations look like this:
-
-@example
-type subrange = lo .. hi;
-type enum = (a, b, c);
-@end example
-
-@noindent
-The original language standard allows only numeric
-literals and constant identifiers for the subrange bounds (@samp{lo}
-and @samp{hi}), but Extended Pascal (ISO/IEC 10206:1990) and many other
-Pascal implementations allow arbitrary expressions there.  This gives
-rise to the following situation, containing a superfluous pair of
-parentheses:
-
-@example
-type subrange = (a) .. b;
-@end example
-
-@noindent
-Compare this to the following declaration of an enumerated
-type with only one value:
-
-@example
-type enum = (a);
-@end example
-
-@noindent
-(These declarations are contrived, but they are syntactically
-valid, and more-complicated cases can come up in practical programs.)
-
-These two declarations look identical until the @samp{..} token.
-With normal @acronym{LALR}(1) one-token look-ahead it is not
-possible to decide between the two forms when the identifier
-@samp{a} is parsed.  It is, however, desirable
-for a parser to decide this, since in the latter case
-@samp{a} must become a new identifier to represent the enumeration
-value, while in the former case @samp{a} must be evaluated with its
-current meaning, which may be a constant or even a function call.
-
-You could parse @samp{(a)} as an ``unspecified identifier in parentheses'',
-to be resolved later, but this typically requires substantial
-contortions in both semantic actions and large parts of the
-grammar, where the parentheses are nested in the recursive rules for
-expressions.
-
-You might think of using the lexer to distinguish between the two
-forms by returning different tokens for currently defined and
-undefined identifiers.  But if these declarations occur in a local
-scope, and @samp{a} is defined in an outer scope, then both forms
-are possible---either locally redefining @samp{a}, or using the
-value of @samp{a} from the outer scope.  So this approach cannot
-work.
-
-A solution to this problem is to use a @acronym{GLR} parser in its simplest
-form, i.e., without using special features such as @samp{%dprec} and
-@samp{%merge}.  When the @acronym{GLR} parser reaches the critical state, it
-simply splits into two branches and pursues both syntax rules
-simultaneously.  Sooner or later, one of them runs into a parsing
-error.  If there is a @samp{..} token before the next
-@samp{;}, the rule for enumerated types fails since it cannot
-accept @samp{..} anywhere; otherwise, the subrange type rule
-fails since it requires a @samp{..} token.  So one of the branches
-fails silently, and the other one continues normally, performing
-all the intermediate actions that were postponed during the split.
-
-If the input is syntactically incorrect, both branches fail and the parser
-reports a syntax error as usual.
-
-The effect of all this is that the parser seems to ``guess'' the
-correct branch to take, or in other words, it seems to use more
-look-ahead than the underlying @acronym{LALR}(1) algorithm actually allows
-for.  In this example, @acronym{LALR}(2) would suffice, but also some cases
-that are not @acronym{LALR}(@math{k}) for any @math{k} can be handled this way.
-
-Since there can be only two branches and at least one of them
-must fail, you need not worry about merging the branches by
-using dynamic precedence or @samp{%merge}.
-
-Another potential problem of @acronym{GLR} does not arise here, either.  In
-general, a @acronym{GLR} parser can take quadratic or cubic worst-case time,
-and the current Bison parser even takes exponential time and space
-for some grammars.  In practice, this rarely happens, and for many
-grammars it is possible to prove that it cannot happen.  In
-in the present example, there is only one conflict between two
-rules, and the type-declaration context where the conflict
-arises cannot be nested.  So the number of
-branches that can exist at any time is limited by the constant 2,
-and the parsing time is still linear.
-
-So here we have a case where we can use the benefits of @acronym{GLR}, almost
-without disadvantages.  There are two things to note, though.
-First, one should carefully analyze the conflicts reported by
-Bison to make sure that @acronym{GLR} splitting is done only where it is
-intended to be.  A @acronym{GLR} parser splitting inadvertently may cause
-problems less obvious than an @acronym{LALR} parser statically choosing the
-wrong alternative in a conflict.
-
-Second, interactions with the lexer (@pxref{Semantic Tokens}) must
-be considered with great care.  Since a split parser consumes tokens
-without performing any actions during the split, the lexer cannot
-obtain information via parser actions.  Some cases of
-lexer interactions can simply be eliminated by using @acronym{GLR}, i.e.,
-shifting the complications from the lexer to the parser.  Remaining
-cases have to be checked for safety.
-
-In our example, it would be safe for the lexer to return tokens
-based on their current meanings in some symbol table, because no new
-symbols are defined in the middle of a type declaration.  Though it
-is possible for a parser to define the enumeration
-constants as they are parsed, before the type declaration is
-completed, it actually makes no difference since they cannot be used
-within the same enumerated type declaration.
-
-Here is a Bison grammar corresponding to the example above.  It
-parses a vastly simplified form of Pascal type declarations.
-
-@example
-%token TYPE DOTDOT ID
-
-@group
-%left '+' '-'
-%left '*' '/'
-@end group
-
-%%
-
-@group
-type_decl:
-          TYPE ID '=' type ';'
-;
-@end group
-
-@group
-type:     '(' id_list ')'
-        | expr DOTDOT expr
-;
-@end group
-
-@group
-id_list:  ID
-        | id_list ',' ID
-;
-@end group
-
-@group
-expr:     '(' expr ')'
-        | expr '+' expr
-        | expr '-' expr
-        | expr '*' expr
-        | expr '/' expr
-        | ID
-;
-@end group
-@end example
-
-When used as a normal @acronym{LALR}(1) grammar, Bison correctly complains
-about one reduce/reduce conflict.  In the conflicting situation the
-parser chooses one of the alternatives, arbitrarily the one
-declared first.  Therefore the following correct input is not
-recognized:
-
-@example
-type t = (a) .. b;
-@end example
-
-The parser can be turned into a @acronym{GLR} parser, while also telling Bison
-to be silent about the one known reduce/reduce conflict, simply by
-adding these two declarations to the Bison input file:
-
-@example
-%glr-parser
-%expect-rr 1
-@end example
-
-@noindent
-No change in the grammar itself is required.  Now the
-parser recognizes all valid declarations, according to the
-limited syntax above, transparently.  In fact, the user does not even
-notice when the parser splits.
 
 @node Locations Overview
 @section Locations
@@ -3786,12 +3822,12 @@ reduce/reduce conflicts.  The usual warning is
 given if there are either more or fewer conflicts, or if there are any
 reduce/reduce conflicts.
 
-For normal LALR(1) parsers, reduce/reduce conflicts are more serious,
+For normal @acronym{LALR}(1) parsers, reduce/reduce conflicts are more serious,
 and should be eliminated entirely.  Bison will always report
-reduce/reduce conflicts for these parsers.  With GLR parsers, however,
+reduce/reduce conflicts for these parsers.  With @acronym{GLR} parsers, however,
 both shift/reduce and reduce/reduce are routine (otherwise, there
-would be no need to use GLR parsing).  Therefore, it is also possible
-to specify an expected number of reduce/reduce conflicts in GLR
+would be no need to use @acronym{GLR} parsing).  Therefore, it is also possible
+to specify an expected number of reduce/reduce conflicts in @acronym{GLR}
 parsers, using the declaration:
 
 @example
@@ -3977,7 +4013,7 @@ above-mentioned declarations and to the token type codes.
 
 @deffn {Directive} %destructor
 Specifying how the parser should reclaim the memory associated to
-discarded symbols. @xref{Destructor Decl, , Freeing Discarded Symbols}.
+discarded symbols.  @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
 @deffn {Directive} %file-prefix="@var{prefix}"
@@ -4509,7 +4545,8 @@ error recovery if you have written suitable error recovery grammar rules
 immediately return 1.
 
 Obviously, in location tracking pure parsers, @code{yyerror} should have
-an access to the current location.  This is indeed the case for the GLR
+an access to the current location.
+This is indeed the case for the @acronym{GLR}
 parsers, but not for the Yacc parser, for historical reasons.  I.e., if
 @samp{%locations %pure-parser} is passed then the prototypes for
 @code{yyerror} are:
@@ -4526,7 +4563,7 @@ void yyerror (int *nastiness, char const *msg);  /* Yacc parsers.  */
 void yyerror (int *nastiness, char const *msg);  /* GLR parsers.   */
 @end example
 
-Finally, GLR and Yacc parsers share the same @code{yyerror} calling
+Finally, @acronym{GLR} and Yacc parsers share the same @code{yyerror} calling
 convention for absolutely pure parsers, i.e., when the calling
 convention of @code{yylex} @emph{and} the calling convention of
 @code{%pure-parser} are pure.  I.e.:
@@ -5462,7 +5499,7 @@ structure should generally be adequate.  On @acronym{LALR}(1) portions of a
 grammar, in particular, it is only slightly slower than with the default
 Bison parser.
 
-For a more detailed exposition of GLR parsers, please see: Elizabeth
+For a more detailed exposition of @acronym{GLR} parsers, please see: Elizabeth
 Scott, Adrian Johnstone and Shamsa Sadaf Hussain, Tomita-Style
 Generalised @acronym{LR} Parsers, Royal Holloway, University of
 London, Department of Computer Science, TR-00-12,
@@ -6247,8 +6284,9 @@ state 11
 @end example
 
 @noindent
-Observe that state 11 contains conflicts due to the lack of precedence
-of @samp{/} wrt @samp{+}, @samp{-}, and @samp{*}, but also because the
+Observe that state 11 contains conflicts not only due to the lack of
+precedence of @samp{/} with respect to @samp{+}, @samp{-}, and
+@samp{*}, but also because the
 associativity of @samp{/} is not specified.
 
 
@@ -6700,7 +6738,7 @@ yyparse (char const *file)
   yyin = fopen (file, "r");
   if (!yyin)
     exit (2);
-  /* One token only. */
+  /* One token only.  */
   yylex ();
   if (fclose (yyin) != 0)
     exit (3);
@@ -6775,7 +6813,7 @@ char *yylval = NULL;
 int
 main ()
 {
-  /* Similar to using $1, $2 in a Bison action. */
+  /* Similar to using $1, $2 in a Bison action.  */
   char *fst = (yylex (), yylval);
   char *snd = (yylex (), yylval);
   printf ("\"%s\", \"%s\"\n", fst, snd);
@@ -7082,7 +7120,7 @@ Bison declaration to create a header file meant for the scanner.
 
 @deffn {Directive} %destructor
 Specifying how the parser should reclaim the memory associated to
-discarded symbols. @xref{Destructor Decl, , Freeing Discarded Symbols}.
+discarded symbols.  @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
 @deffn {Directive} %dprec

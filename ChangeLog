@@ -1,3 +1,17 @@
+2004-06-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo: Minor editorial changes, mostly to the new
+	GLR writeups.  E.g., avoid frenchspacing and the future tense,
+	change "lookahead" to "look-ahead", and change "wrt" to "with
+	respect to".
+	
+2004-06-21  Paul Hilfinger  <hilfingr@CS.Berkeley.EDU>
+
+	* doc/bison.texinfo (Merging GLR Parses, Compiler Requirements):
+	New sections, split off from the GLR Parsers section.  Put the new
+	Simple GLR Parser near the start of the GLR section, for clarity.
+	Rewrite connective text.
+
 2004-06-21  Frank Heckenbach  <frank@g-n-u.de>
 
 	* doc/bison.texinfo (Simple GLR Parsers): New section.
