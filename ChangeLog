@@ -1,5 +1,10 @@
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
+	* tests/actions.at (AT_CHECK_PRINTER_AND_DESTRUCTOR): New.
+	Use it to test the GLR parser.
+
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (input.y): s/YYEOF/MYEOF/, as the skeleton
 	defines it.
 	* data/glr.c (yystos): New.

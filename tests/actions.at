@@ -157,12 +157,19 @@ AT_CLEANUP
 ## Printers and Destructors.  ##
 ## -------------------------- ##
 
-AT_SETUP([Printers and Destructors])
+# _AT_CHECK_PRINTER_AND_DESTRUCTOR($1, $2, $3, BISON-DIRECTIVE)
+# -------------------------------------------------------------
+m4_define([_AT_CHECK_PRINTER_AND_DESTRUCTOR],
+[m4_if([$1$2$3], $[1]$[2]$[3], [],
+       [m4_fatal([$0: Invalid arguments: $@])])dnl
+
+AT_SETUP([Printers and Destructors: $4])
 
 # Make sure complex $n work.
 
 AT_DATA([[input.y]],
-[[%{
+[[$4
+%{
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -339,3 +346,16 @@ Parsing FAILED.
 ]])
 
 AT_CLEANUP
+])
+
+
+# AT_CHECK_PRINTER_AND_DESTRUCTOR([BISON-OPTIONS])
+# ------------------------------------------------
+# Produce `calc.y'.
+m4_define([AT_CHECK_PRINTER_AND_DESTRUCTOR],
+[_AT_CHECK_PRINTER_AND_DESTRUCTOR($[1], $[2], $[3], [$1])
+])
+
+
+AT_CHECK_PRINTER_AND_DESTRUCTOR()
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser])

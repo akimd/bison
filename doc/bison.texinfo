@@ -3395,8 +3395,7 @@ should use @code{$$} to designate the semantic value associated to the
 
 @strong{Warning:} as of Bison 1.875, this feature is still considered as
 experimental, as there was not enough users feedback.  In particular,
-the syntax might still change, and for the time being, only the default
-@acronym{LALR}(1) skeleton supports this feature.
+the syntax might still change.
 @end deffn
 
 For instance:
