@@ -1,5 +1,5 @@
 # -*-Autoconf-*-
-# Checks required to run `stage', a nonportable memory/time tracker.
+# Checks required to run `timevar', a nonportable memory/time tracker.
 #
 # Copyright (C) 2002 Free Software Foundation, Inc.
 #
@@ -21,27 +21,33 @@
 # serial 1
 
 AC_DEFUN([BISON_PREREQ_TIMEVAR],
-[AC_CHECK_HEADERS([sys/resource.h sys/times.h])
+[AC_CHECK_HEADERS([sys/resource.h sys/time.h sys/times.h])
 
 AC_CHECK_FUNCS([times])
 
 AC_CHECK_DECLS([getrusage, times, clock, sysconf], [], [],
 [$ac_includes_default
-#if HAVE_SYS_RESOURCE_H
-# include <sys/resource.h>
+#if HAVE_SYS_TIME_H
+# include <sys/time.h>
 #endif
 #if HAVE_SYS_TIMES_H
 # include <sys/times.h>
+#endif
+#if HAVE_SYS_RESOURCE_H
+# include <sys/resource.h>
 #endif
 ])
 
 AC_CHECK_TYPES([clock_t, struct tms], [], [],
 [$ac_includes_default
-#if HAVE_SYS_RESOURCE_H
-# include <sys/resource.h>
+#if HAVE_SYS_TIME_H
+# include <sys/time.h>
 #endif
 #if HAVE_SYS_TIMES_H
 # include <sys/times.h>
+#endif
+#if HAVE_SYS_RESOURCE_H
+# include <sys/resource.h>
 #endif
 ])
 ])
