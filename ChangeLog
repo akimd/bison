@@ -1,3 +1,8 @@
+2002-04-26  Paul Eggert  <eggert@twinsun.com>
+
+	* data/bison.simple (YYSTYPE_IS_TRIVIAL, YYLTYPE_IS_TRIVIAL):
+	Define if we define YYSTYPE and YYLTYPE, respectively.
+
 2002-04-25  Robert Anisko  <robert@lrde.epita.fr>
 
 	* src/scan-skel.l: Postprocess quadrigraphs.
