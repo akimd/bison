@@ -1,4 +1,10 @@
 2001-08-16  Marc Autret  <autret_m@epita.fr>
+	
+	* src/reader.c (parse_dquoted_param): New.
+	(parse_header_extension_decl): Use it.
+	(parse_source_extension_decl): Likewise.
+
+2001-08-16  Marc Autret  <autret_m@epita.fr>
 
 	* src/vcg.c: Remove includes of `complain.h' and `xalloc.h'.
 	(get_xxxx_str): Use assert () instead of complain ().

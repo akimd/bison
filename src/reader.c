@@ -874,34 +874,72 @@ parse_thong_decl (void)
   nsyms--;
 }
 
-/*------------------------------------------.
-| Parse what comes after %header_extension. |
-`------------------------------------------*/
+/*--------------------------------------------------------------.
+| Parse what comes after %header_extension and %source_etension |
+`--------------------------------------------------------------*/
 
+static const char *
+parse_dquoted_param (const char *from)
+{
+  char buff[32];
+  int c;
+  int index;
+  
+  c = skip_white_space ();
+
+  if (c != '"')
+    {
+      ungetc (c, finput);
+      complain (_("invalid %s declaration"), from);
+      return NULL;
+    }
+  
+  c = getc (finput);
+  for (index = 0; (c >= '!') && (c <= '~'); index++)
+    {
+      if (c == '"')
+	break;
+
+      if (c == '\\')
+	{
+	  c = getc (finput);
+	  if ((c < '!') && (c > '~'))
+	    break;
+	}
+      
+      buff[index] = c;
+      c = getc (finput);
+    }
+  buff[index] = '\0';
+  
+  if (c != '"')
+    {
+      ungetc (c, finput);
+      complain (_("invalid %s declaration"), from);
+      return NULL;
+    }
+
+  return xstrdup (buff);
+}
+
+/* %header_extension case.  */
 static void
 parse_header_extension_decl (void)
 {
-  char buff[32];
-
   if (header_extension)
     complain (_("multiple %%header_extension declarations"));
-  fscanf (finput, "%s", buff);
-  header_extension = xstrdup (buff);
+
+  header_extension = parse_dquoted_param ("%header_extension");
 }
 
-/*------------------------------------------.
-| Parse what comes after %source_extension. |
-`------------------------------------------*/
-
+/* %source_extension case.  */
 static void
 parse_source_extension_decl (void)
 {
-  char buff[32];
-
   if (src_extension)
     complain (_("multiple %%source_extension declarations"));
-  fscanf (finput, "%s", buff);
-  src_extension = xstrdup (buff);
+  
+  src_extension = parse_dquoted_param ("%source_extension");
 }
 
 /*----------------------------------------------------------------.
