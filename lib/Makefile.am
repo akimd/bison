@@ -17,12 +17,15 @@
 
 AM_CFLAGS = $(WARNING_CFLAGS)
 
+lib_LIBRARIES = liby.a
 noinst_LIBRARIES = libbison.a
 
 # config.h is in build/., and system.h is in src/src/.
 INCLUDES = -I$(top_builddir)      \
            -I$(top_srcdir)/src \
            -I$(top_srcdir)/lib
+
+liby_a_SOURCES = main.c yyerror.c
 
 # Heck, we are still using an old version of Automake which does not
 # understand inner AC_LIBOBJ (i.e., from Autoconf itself, not from
