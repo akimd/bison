@@ -157,7 +157,7 @@ yylex (void)
 {
   static char const input[] =
     {
-      /* Exericise the discarding of stack top and input until `error'
+      /* Exercise the discarding of stack top and input until `error'
          can be reduced.  */
       'x', 'x', 'x', 'x', 'x', 'x', ';',
 
@@ -479,7 +479,7 @@ Freeing token 'x' (4@40-49)
 sending: 'x' (5@50-59)
 Freeing token 'x' (5@50-59)
 sending: ';' (6@60-69)
-line (-1@50-69): error (@50-59) ';' (6@60-69)
+line (-1@0-69): error (@0-59) ';' (6@60-69)
 sending: 'x' (7@70-79)
 thing (7@70-79): 'x' (7@70-79)
 sending: 'x' (8@80-89)
@@ -495,7 +495,7 @@ sending: 'y' (12@120-129)
 sending: EOF
 Freeing nterm line (10@100-119)
 Freeing nterm line (7@70-99)
-Freeing nterm line (-1@50-69)
+Freeing nterm line (-1@0-69)
 Parsing FAILED.
 ]])
 
@@ -513,5 +513,5 @@ m4_define([AT_CHECK_PRINTER_AND_DESTRUCTOR],
 
 AT_CHECK_PRINTER_AND_DESTRUCTOR()
 
-# This test fails, but the test case is questionable.
+# FIXME.  This test case fails.
 #AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser])
