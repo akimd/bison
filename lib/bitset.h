@@ -23,7 +23,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
    Only use the functions and macros defined in this file.  */
 
 #include "bbitset.h"
+
+/* obstack.h tries to be portable to K&R compilers, but its
+   __INT_TO_PTR macro generates diagnostics on compilers like Tru64 cc
+   that define __STDC__ to 0 when not in strict ANSI mode.  The bitset
+   code assumes C89 or later, so it can avoid these glitches by
+   defining __INT_TO_PTR appropriately for C89 or later.  */
+#ifndef __INT_TO_PTR
+# define __INT_TO_PTR(P) ((void *) ((P) + (char *) 0))
+#endif
 #include "obstack.h"
+
 #include <stdio.h>
 
 /* Attributes used to select a bitset implementation.  */
