@@ -1,3 +1,10 @@
+2001-08-31  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/output.c (prepare): Delete the `filename' muscule insertion.
+	* src/reader.c (copy_action): Use `filename' muscule with `#line'.
+	(parse_union_decl): Likewise.
+	* src/macrotab.c (macro_init): Initialize filename by infile.
+
 2001-08-31  Marc Autret  <autret_m@epita.fr>
 
 	* src/bison.simple (YYLSP_NEEDED): New definition.
