@@ -1,5 +1,5 @@
 /* system-dependent definitions for Bison.
-   Copyright 2000, 2001, 2002  Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,6 +20,23 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
+#endif
+
+/* AIX requires this to be the first thing in the file.  */
+#ifdef __GNUC__
+# define alloca(Size) __builtin_alloca (Size)
+#else
+# if HAVE_ALLOCA_H
+#  include <alloca.h>
+# else
+#  ifdef _AIX
+ #pragma alloca
+#  else
+#   ifndef alloca /* predefined by HP cc +Olibcalls */
+char *alloca ();
+#   endif
+#  endif
+# endif
 #endif
 
 #include <stdio.h>
@@ -57,28 +74,9 @@
 /* memory.h and strings.h conflict on some systems.  */
 #endif /* not STDC_HEADERS and not HAVE_STRING_H */
 
-#if defined(STDC_HEADERS) || defined(HAVE_CTYPE_H)
-# include <ctype.h>
-#endif
-
 #include <errno.h>
 #ifndef errno
 extern int errno;
-#endif
-
-/* AIX requires this to be the first thing in the file.  */
-#ifndef __GNUC__
-# if HAVE_ALLOCA_H
-#  include <alloca.h>
-# else
-#  ifdef _AIX
- #pragma alloca
-#  else
-#   ifndef alloca /* predefined by HP cc +Olibcalls */
-char *alloca ();
-#   endif
-#  endif
-# endif
 #endif
 
 #ifndef PARAMS
@@ -103,11 +101,6 @@ char *alloca ();
 
 /* From xstrndup.c.  */
 char *xstrndup PARAMS ((const char *s, size_t n));
-
-/* Finding `mallinfo' where available.  */
-#if HAVE_MALLOC_H
-# include <malloc.h>
-#endif
 
 
 /*----------------.
