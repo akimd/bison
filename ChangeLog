@@ -1,5 +1,11 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (itemsetend): Remove, replaced with...
+	(itemsetsize): new.
+
+	
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (kernel_end): Remove, replaced with...
 	(kernel_size): new.
 
