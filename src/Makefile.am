@@ -18,7 +18,7 @@ bison_SOURCES = LR0.c allocate.c closure.c complain.c conflicts.c	\
 
 EXTRA_bison_SOURCES = vmsgetargs.c
 
-noinst_HEADERS = alloc.h closure.h complain.h \
+noinst_HEADERS = alloc.h closure.h complain.h conflicts.h \
  derives.h \
  files.h getargs.h gram.h lalr.h lex.h nullable.h \
  output.h state.h	\

@@ -1,5 +1,15 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (conflict_report): New function.
+	(conflict_log, verbose_conflict_log): Replace with...
+	(print_conflicts): this function.
+	Adjust dependencies.
+	* src/conflicts.h: New file.
+	Propagate its inclusion.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/nullable.h: New file.
 	Propagate its inclusion.
 	* src/nullable.c: Formatting changes.
