@@ -708,8 +708,8 @@ headers.  On some non-@sc{gnu} hosts, @code{<alloca.h>},
 @code{<stddef.h>}, and @code{<stdlib.h>} are included as needed to
 declare memory allocators and related types.  In the same situation,
 C++ parsers may include @code{<cstddef>} and @code{<cstdlib>} instead.
-Other system headers may be included if you define @code{YYDEBUG}
-(@pxref{Debugging, ,Debugging Your Parser}).
+Other system headers may be included if you define @code{YYDEBUG} to a
+nonzero value (@pxref{Debugging, ,Debugging Your Parser}).
 
 @node Stages
 @section Stages in Using Bison
@@ -3236,9 +3236,9 @@ directives:
 
 @table @code
 @item %debug
-Output a definition of the macro @code{YYDEBUG} into the parser file, so
-that the debugging facilities are compiled.  @xref{Debugging, ,Debugging
-Your Parser}.
+In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
+already defined, so that the debugging facilities are compiled.
+@xref{Debugging, ,Debugging Your Parser}.
 
 @item %defines
 Write an extra output file containing macro definitions for the token
@@ -4925,20 +4925,23 @@ If a Bison grammar compiles properly but doesn't do what you want when it
 runs, the @code{yydebug} parser-trace feature can help you figure out why.
 
 To enable compilation of trace facilities, you must define the macro
-@code{YYDEBUG} when you compile the parser.  You could use @samp{-DYYDEBUG=1}
-as a compiler option or you could put @samp{#define YYDEBUG 1} in the prologue
-of the grammar file (@pxref{Prologue, , The Prologue}). Alternatively, use the
-@samp{-t} option when you run Bison (@pxref{Invocation, ,Invoking Bison}).
-We always define @code{YYDEBUG} so that debugging is always possible.
+@code{YYDEBUG} to a nonzero value when you compile the parser.  You
+could use @samp{-DYYDEBUG=1} as a compiler option or you could put
+@samp{#define YYDEBUG 1} in the prologue of the grammar file
+(@pxref{Prologue, , The Prologue}).  Alternatively, use the @samp{-t}
+option when you run Bison (@pxref{Invocation, ,Invoking Bison}) or the
+@code{%debug} declaration (@pxref{Decl Summary, ,Bison Declaration
+Summary}).  We suggest that you always define @code{YYDEBUG} so that
+debugging is always possible.
 
 The trace facility outputs messages with macro calls of the form
 @code{YYFPRINTF (YYSTDERR, @var{format}, @var{args})} where
 @var{format} and @var{args} are the usual @code{printf} format and
-arguments.  If you define @code{YYDEBUG} but do not define
-@code{YYFPRINTF}, @code{<stdio.h>} is automatically included and the
-macros are defined to @code{fprintf} and @code{stderr}.  In the same
-situation, C++ parsers include @code{<cstdio.h>} instead, and use
-@code{std::fprintf} and @code{std::stderr}.
+arguments.  If you define @code{YYDEBUG} to a nonzero value but do not
+define @code{YYFPRINTF}, @code{<stdio.h>} is automatically included
+and the macros are defined to @code{fprintf} and @code{stderr}.  In
+the same situation, C++ parsers include @code{<cstdio.h>} instead, and
+use @code{std::fprintf} and @code{std::stderr}.
 
 Once you have compiled the program with trace facilities, the way to
 request a trace is to store a nonzero value in the variable @code{yydebug}.
@@ -5099,9 +5102,9 @@ you are developing Bison.
 
 @item -t
 @itemx --debug
-Output a definition of the macro @code{YYDEBUG} into the parser file, so
-that the debugging facilities are compiled.  @xref{Debugging, ,Debugging
-Your Parser}.
+In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
+already defined, so that the debugging facilities are compiled.
+@xref{Debugging, ,Debugging Your Parser}.
 
 @item --locations
 Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
