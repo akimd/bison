@@ -1,5 +1,11 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (copy_dollar, copy_at): Better checking of `n' in
+	`$n' and `@n'.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (add_lookback_edge): Use state_t instead of ints.
 	(build_relations): Adjust.
 
