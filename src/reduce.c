@@ -407,7 +407,6 @@ reduce_print (void)
 			       nuseless_productions),
 	     nuseless_productions);
   fprintf (stderr, "\n");
-  fflush (stderr);
 }
 
 void
