@@ -1,3 +1,23 @@
+2005-03-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/output.c (escaped_output): Renamed from
+	escaped_file_name_output, since we now use it for symbol tags as
+	well.  All uses changed.
+	(symbol_destructors_output, symbol_printers_output):
+	Escape symbol tags too.
+	Problem reported by Matyas Forstner in
+	<http://lists.gnu.org/archive/html/bug-bison/2005-03/msg00009.html>.
+
+	* src/muscle_tab.c (muscle_code_grow): Don't quote numbers; it's
+	not needed.
+	* src/output.c (user_actions_output, token_definitions_output,
+	symbol_destructors_output, symbol_printers_output): Likewise.
+	* src/reader.c (prologue_augment): Likewise.
+	* src/scan-gram.l (handle_action_dollar, handle_action_at): Likewise.
+
+	* src/vcg.c (output_edge): Don't quote linestyle arg.
+	Problem reported by twlevo@xs4all.nl.
+
 2005-02-28  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Semantic Tokens): Fix scoping problem in
@@ -13160,7 +13180,7 @@
 -----
 
 Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
-1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 

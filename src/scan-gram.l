@@ -1,6 +1,6 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -413,7 +413,7 @@ splice	 (\\[ \f\t\v]*\n)*
     unsigned long int c = strtoul (yytext + 1, 0, 8);
     if (UCHAR_MAX < c)
       complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
-    else if (! c) 
+    else if (! c)
       complain_at (*loc, _("invalid null character: %s"), quote (yytext));
     else
       obstack_1grow (&obstack_for_string, c);
@@ -805,7 +805,7 @@ handle_action_dollar (char *text, location loc)
 	  if (!type_name)
 	    type_name = "";
 	  obstack_fgrow3 (&obstack_for_string,
-			  "]b4_rhs_value([%d], [%d], [%s])[",
+			  "]b4_rhs_value(%d, %d, [%s])[",
 			  rule_length, n, type_name);
 	}
       else
@@ -874,7 +874,7 @@ handle_action_at (char *text, location loc)
       if (INT_MIN <= num && num <= rule_length && ! get_errno ())
 	{
 	  int n = num;
-	  obstack_fgrow2 (&obstack_for_string, "]b4_rhs_location([%d], [%d])[",
+	  obstack_fgrow2 (&obstack_for_string, "]b4_rhs_location(%d, %d)[",
 			  rule_length, n);
 	}
       else
