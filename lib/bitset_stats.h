@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #ifndef _BITSET_STATS_H
-#define _BITSET_STATS_H 
+#define _BITSET_STATS_H
 
 #include "bbitset.h"
 
@@ -27,7 +27,7 @@ extern enum bitset_type bitset_stats_type_get PARAMS ((bitset));
 
 extern size_t bitset_stats_bytes PARAMS ((void));
 
-extern bitset bitset_stats_init PARAMS ((bitset, bitset_bindex, 
-					 enum_bitset_type));
+extern bitset bitset_stats_init PARAMS ((bitset, bitset_bindex,
+					 enum bitset_type));
 
 #endif
