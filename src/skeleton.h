@@ -73,4 +73,4 @@ extern FILE* skel_in;
   int skel_lex PARAMS ((yystype *yylval, yyltype *yylloc))
 YY_DECL;
 
-#endif SKELETON_H_
+#endif /* ! SKELETON_H_ */

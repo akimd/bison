@@ -1,9 +1,14 @@
+2002-05-01  Akim Demaille  <akim@epita.fr>
+
+	* src/skeleton.h: Fix the #endif.
+	Reported by Magnus Fromreide.
+
 2002-04-26  Paul Eggert  <eggert@twinsun.com>
 
 	* data/bison.simple (YYSTYPE_IS_TRIVIAL, YYLTYPE_IS_TRIVIAL):
 	Define if we define YYSTYPE and YYLTYPE, respectively.
 	(YYCOPY): Fix [] quoting problem in the non-GCC case.
-	
+
 2002-04-25  Robert Anisko  <robert@lrde.epita.fr>
 
 	* src/scan-skel.l: Postprocess quadrigraphs.
