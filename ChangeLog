@@ -1,3 +1,9 @@
+2000-10-04  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (parse_expect_decl): Keep `count' within the size
+	of `buffer'.
+	From Neil Booth.
+
 2000-10-02  Paul Eggert  <eggert@twinsun.com>
 
 	* bison.s1 (yyparse): Assign the default value

@@ -5,6 +5,6 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = intl po lib src doc m4 tests
 
-EXTRA_DIST = REFERENCES configure.bat OChangeLog
+EXTRA_DIST = REFERENCES configure.bat OChangeLog THANKS
 
 DISTCLEANFILES = intl/libintl.h
