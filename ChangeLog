@@ -1,5 +1,11 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (matrix_print): New.
+	(transpose): Use it.
+	Use arrays instead of pointers.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (maxrhs): Move to...
 	* src/gram.c, src/gram.h (ritem_longest_rhs): here.
 	* src/lalr.c (build_relations): Adjust.
