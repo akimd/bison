@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-06-10 10:30+0200\n"
+"POT-Creation-Date: 2002-06-10 10:38+0200\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -252,61 +252,61 @@ msgstr "%s: extra argumenten na `%s' worden genegeerd\n"
 msgid "too many gotos (max %d)"
 msgstr "teveel gotos (maximum is %d)"
 
-#: src/lex.c:77
+#: src/lex.c:78
 msgid "unexpected `/' found and ignored"
 msgstr "onverwachte `/' gevonden en genegeerd"
 
-#: src/lex.c:106 src/reader.c:311
+#: src/lex.c:107 src/reader.c:307
 msgid "unterminated comment"
 msgstr "niet-beëindigde commentaar"
 
-#: src/lex.c:138
+#: src/lex.c:139
 msgid "unexpected end of file"
 msgstr "onverwacht einde van bestand"
 
 # geen letterlijke vertaling, maar zegt wel waar het om gaat
-#: src/lex.c:157
+#: src/lex.c:158
 msgid "unescaped newline in constant"
 msgstr "newline-teken zonder voorafgaande `\\' in constante"
 
-#: src/lex.c:196
+#: src/lex.c:197
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "octale waarde buiten bereik 0...255: `\\%o'"
 
-#: src/lex.c:221
+#: src/lex.c:222
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "hexadecimale waarde boven 255: `\\x%x'"
 
-#: src/lex.c:233
+#: src/lex.c:234
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "onbekende escape-reeks: `\\' gevolgd door `%s'"
 
-#: src/lex.c:264
+#: src/lex.c:265
 msgid "unterminated type name at end of file"
 msgstr "niet-beëindigde typenaam aan einde van bestand"
 
-#: src/lex.c:267
+#: src/lex.c:268
 msgid "unterminated type name"
 msgstr "niet-beëindigde typenaam"
 
-#: src/lex.c:359
+#: src/lex.c:360
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "gebruik \"...\" voor letterlijke tokens die meerder karakters bevatten"
 
-#: src/lex.c:575
+#: src/lex.c:566
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr "`%s' ondersteunt geen argument: %s"
 
-#: src/lex.c:593
+#: src/lex.c:584
 #, c-format
 msgid "`%s' requires an argument"
 msgstr "`%s' heeft een argument nodig"
 
-#: src/lex.c:604
+#: src/lex.c:595
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' wordt niet meer ondersteund"
@@ -408,187 +408,162 @@ msgstr " links:"
 msgid " on right:"
 msgstr " rechts:"
 
-#: src/reader.c:87
+#: src/reader.c:83
 msgid "   Skipping to next \\n"
 msgstr "   Verder naar volgende \\n"
 
-#: src/reader.c:89
+#: src/reader.c:85
 #, c-format
 msgid "   Skipping to next %c"
 msgstr "   Verder naar volgende %c"
 
-#: src/reader.c:140 src/reader.c:152
+#: src/reader.c:136 src/reader.c:148
 msgid "invalid $ value"
 msgstr "ongeldige $-waarde"
 
-#: src/reader.c:201 src/reader.c:216
+#: src/reader.c:197 src/reader.c:212
 msgid "unterminated string at end of file"
 msgstr "niet-beëindigde string aan einde van bestand"
 
-#: src/reader.c:204
+#: src/reader.c:200
 msgid "unterminated string"
 msgstr "niet-beëindigde string"
 
-#: src/reader.c:345 src/reader.c:404
+#: src/reader.c:341 src/reader.c:399
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "ongeldige @-waarde"
 
-#: src/reader.c:354 src/reader.c:422
+#: src/reader.c:350 src/reader.c:417
 #, c-format
 msgid "%s is invalid"
 msgstr "%s is ongeldig"
 
-#: src/reader.c:390
+#: src/reader.c:385
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ van `%s' heeft geen gedeclareerd type"
 
-#: src/reader.c:410
+#: src/reader.c:405
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d van `%s' heeft geen gedeclareerd type"
 
-#: src/reader.c:472
+#: src/reader.c:467
 msgid "unterminated `%{' definition"
 msgstr "niet-beëindigde `%{' definitie"
 
-#: src/reader.c:517 src/reader.c:627 src/reader.c:678 src/reader.c:930
+#: src/reader.c:510 src/reader.c:599 src/reader.c:645 src/reader.c:805
 #, c-format
 msgid "Premature EOF after %s"
 msgstr "Voortijdig bestandseinde na %s"
 
-#: src/reader.c:542 src/reader.c:697
-#, c-format
-msgid "symbol %s redefined"
-msgstr "symbool %s opnieuw gedefinieerd"
-
-#: src/reader.c:554 src/reader.c:642 src/reader.c:708
-#, c-format
-msgid "type redeclaration for %s"
-msgstr "type herdeclaratie voor %s"
-
-#: src/reader.c:572
+#: src/reader.c:544
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "`%s' is ongeldig in %s"
 
-#: src/reader.c:590 src/reader.c:754
+#: src/reader.c:562 src/reader.c:707
 #, c-format
 msgid "multiple %s declarations"
 msgstr "meerdere %s declaraties"
 
-#: src/reader.c:592 src/reader.c:910 src/reader.c:925 src/reader.c:958
-#: src/reader.c:972
+#: src/reader.c:564 src/reader.c:785 src/reader.c:800 src/reader.c:833
+#: src/reader.c:847
 #, c-format
 msgid "invalid %s declaration"
 msgstr "ongeldige %s declaratie"
 
-#: src/reader.c:612
+#: src/reader.c:584
 msgid "%type declaration has no <typename>"
 msgstr "%type declaratie heeft geen <typenaam>"
 
 # Vertaling voor item?
-#: src/reader.c:647
+#: src/reader.c:614
 #, c-format
 msgid "invalid %%type declaration due to item: %s"
 msgstr "ongeldige %%type declaratie door element: %s"
 
-#: src/reader.c:693
-#, c-format
-msgid "redefining precedence of %s"
-msgstr "herdefinitie van de voorrang van %s"
-
-#: src/reader.c:720
+#: src/reader.c:673
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "ongeldige tekst (%s) - nummer moet achter de naam staan"
 
-#: src/reader.c:730
+#: src/reader.c:683
 #, c-format
 msgid "unexpected item: %s"
 msgstr "onverwacht element: %s"
 
 # Lichtjes vrij vertaald; maar klinkt wel beter dan 'niet overeenkomstige x'
-#: src/reader.c:787 src/reader.c:1147
+#: src/reader.c:740 src/reader.c:1018
 #, c-format
 msgid "unmatched %s"
 msgstr "%s zonder tegenhanger"
 
-#: src/reader.c:816
+#: src/reader.c:769
 #, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "argument van %%expect is geen geheel getal"
 
-#: src/reader.c:862
-#, c-format
-msgid "unrecognized item %s, expected an identifier"
-msgstr "onbekend element %s; een naam werd verwacht"
-
-#: src/reader.c:884
-#, c-format
-msgid "expected string constant instead of %s"
-msgstr "in plaats van %s werd een stringconstante verwacht"
-
-#: src/reader.c:1080
+#: src/reader.c:951
 #, c-format
 msgid "unrecognized: %s"
 msgstr "onbekend: %s"
 
-#: src/reader.c:1085
+#: src/reader.c:956
 msgid "no input grammar"
 msgstr "geen invoergrammatica"
 
-#: src/reader.c:1090
+#: src/reader.c:961
 #, c-format
 msgid "unknown character: %s"
 msgstr "onbekend karakter: %s"
 
-#: src/reader.c:1242
+#: src/reader.c:1113
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr ""
 "slecht geformuleerde regel: beginsymbool wordt niet gevolgd door dubbele punt"
 
-#: src/reader.c:1249
+#: src/reader.c:1120
 msgid "grammar starts with vertical bar"
 msgstr "grammatica start met een verticale streep"
 
-#: src/reader.c:1277
+#: src/reader.c:1148
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel opgegeven voor token (%s)"
 
-#: src/reader.c:1307 src/reader.c:1417
+#: src/reader.c:1178 src/reader.c:1288
 msgid "previous rule lacks an ending `;'"
 msgstr "`;' ontbreekt aan het einde van de voorgaande regel"
 
-#: src/reader.c:1385
+#: src/reader.c:1256
 msgid "two @prec's in a row"
 msgstr "twee @prec's na elkaar"
 
-#: src/reader.c:1395
+#: src/reader.c:1266
 msgid "two actions at end of one rule"
 msgstr "twee akties aan het einde van één regel"
 
-#: src/reader.c:1409
+#: src/reader.c:1280
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "type-conflict (`%s' `%s') bij standaardaktie"
 
-#: src/reader.c:1415
+#: src/reader.c:1286
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "lege regel voor niet-eindsymbool met type, en geen actie"
 
-#: src/reader.c:1423
+#: src/reader.c:1294
 #, c-format
 msgid "invalid input: %s"
 msgstr "ongeldige invoer: %s"
 
-#: src/reader.c:1430
+#: src/reader.c:1301
 msgid "no rules in the input grammar"
 msgstr "invoergrammatica bevat geen regels"
 
-#: src/reader.c:1450
+#: src/reader.c:1321
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "teveel symbolen (tokens plus niet-eindsymbolen); het maximum is %d"
@@ -702,6 +677,21 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "symbol %s redefined"
+#~ msgstr "symbool %s opnieuw gedefinieerd"
+
+#~ msgid "type redeclaration for %s"
+#~ msgstr "type herdeclaratie voor %s"
+
+#~ msgid "redefining precedence of %s"
+#~ msgstr "herdefinitie van de voorrang van %s"
+
+#~ msgid "unrecognized item %s, expected an identifier"
+#~ msgstr "onbekend element %s; een naam werd verwacht"
+
+#~ msgid "expected string constant instead of %s"
+#~ msgstr "in plaats van %s werd een stringconstante verwacht"
 
 #~ msgid "symbol %s is used, but is not defined as a token and has no rules"
 #~ msgstr ""
