@@ -44,12 +44,10 @@ AT_DATA([[input.y]],
 exp: useful;
 ]])
 
-AT_CHECK([[bison input.y]], 0, [],
-[[input.y contains 9 useless nonterminals
-]])
+AT_CHECK([[bison input.y]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
-[[Useless nonterminals:
+[[Terminals which are not used:
    useless1
    useless2
    useless3
