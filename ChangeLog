@@ -1,5 +1,15 @@
 2002-11-06  Akim Demaille  <akim@epita.fr>
 
+	#line should have quoted strings.
+	Ideally, this should be done by m4_quotearg.
+
+	* src/scan-skel.l: Include quotearg.h.
+	Quote __ofile__.
+	* src/output.c (symbol_printers_output)
+	(symbol_destructors_output): Quote the file name.
+
+2002-11-06  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (Invalid inputs): Adjust to the recent
 	messages.
 

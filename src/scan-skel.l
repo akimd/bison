@@ -23,12 +23,16 @@
 
 %{
 #include "system.h"
+#include "quotearg.h"
 #include "error.h"
 #include "getargs.h"
 #include "files.h"
+
 int skel_lex (void);
+
 static int yylineno = 1;
 static char *yyoutname = NULL;
+
 %}
 %%
   /* This is an approximation, but we don't need more. */
@@ -44,7 +48,7 @@ static char *yyoutname = NULL;
 "@:>@"           fputc (']', yyout);
 
 "__oline__"      fprintf (yyout, "%d", yylineno+1);
-"__ofile__"      fprintf (yyout, "%s", yyoutname);
+"__ofile__"      fprintf (yyout, "%s", quotearg_style (escape_quoting_style, yyoutname));
 [^@_\n]+         ECHO;
 \n+              yylineno += yyleng; ECHO;
 .                ECHO;

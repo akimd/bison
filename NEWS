@@ -8,13 +8,6 @@ Changes in version 1.75b:
 
 * --no-line works properly.
 
-Changes in version 1.75a, 2002-10-24:
-
-* Bison can no longer be built by a K&R C compiler; it requires C89 or
-  later to be built.  This change originally took place a few versions
-  ago, but nobody noticed until we recently asked someone to try
-  building Bison with a K&R C compiler.
-
 * %error-verbose
   This new directive is preferred over YYERROR_VERBOSE.
 
@@ -25,6 +18,16 @@ Changes in version 1.75a, 2002-10-24:
 
 * #line
   Bison now recognizes #line in its input, and forwards them.
+
+* #line
+  File names are properly escaped. E.g. foo\bar.y give #line 123 "foo\\bar.y".
+
+Changes in version 1.75a, 2002-10-24:
+
+* Bison can no longer be built by a K&R C compiler; it requires C89 or
+  later to be built.  This change originally took place a few versions
+  ago, but nobody noticed until we recently asked someone to try
+  building Bison with a K&R C compiler.
 
 Changes in version 1.75, 2002-10-14:
 
