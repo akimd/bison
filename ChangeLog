@@ -1,5 +1,12 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (action_row, token_actions): Use a state_t instead
+	of a integer, and nlookaheads instead of the following state's
+	lookaheadsp.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (log_resolution, flush_shift)
 	(resolve_sr_conflict, set_conflicts, solve_conflicts)
 	(count_sr_conflicts, count_rr_conflicts, conflicts_output)
