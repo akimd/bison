@@ -21,8 +21,8 @@ m4_divert(-1)
 ## Default values.  ##
 ## ---------------- ##
 
-# Default Parser class name.
-m4_define_default([b4_parser_class_name], [Parser])
+# Default parser class name.
+m4_define_default([b4_parser_class_name], [parser])
 
 
 
@@ -45,7 +45,7 @@ m4_define([b4_lhs_value],
 m4_define([b4_rhs_value],
 [(yysemantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3]))])
 
-m4_define_default([b4_location_type], [Location])
+m4_define_default([b4_location_type], [location])
 
 # b4_lhs_location()
 # -----------------
@@ -186,18 +186,18 @@ namespace yy
   class ]b4_parser_class_name[;
 
   template <typename P>
-  struct Traits
+  struct traits
   {
   };
 
   template <>
-  struct Traits<]b4_parser_class_name[>
+  struct traits<]b4_parser_class_name[>
   {
-    typedef ]b4_int_type_for([b4_translate])[ TokenNumberType;
-    typedef ]b4_int_type_for([b4_rhs])[       RhsNumberType;
-    typedef int StateType;
-    typedef YYSTYPE SemanticType;
-    typedef ]b4_location_type[ LocationType;
+    typedef ]b4_int_type_for([b4_translate])[ token_number_type;
+    typedef ]b4_int_type_for([b4_rhs])[       rhs_number_type;
+    typedef int state_type;
+    typedef YYSTYPE semantic_type;
+    typedef ]b4_location_type[ location_type;
   };
 }
 
@@ -208,22 +208,22 @@ namespace yy
   {
   public:
     /// Internal symbol numbers.
-    typedef Traits<]b4_parser_class_name[>::TokenNumberType TokenNumberType;
+    typedef traits<]b4_parser_class_name[>::token_number_type token_number_type;
     /// A type to store symbol numbers and -1.
-    typedef Traits<]b4_parser_class_name[>::RhsNumberType   RhsNumberType;
+    typedef traits<]b4_parser_class_name[>::rhs_number_type   rhs_number_type;
     /// State numbers.
-    typedef Traits<]b4_parser_class_name[>::StateType       StateType;
+    typedef traits<]b4_parser_class_name[>::state_type       state_type;
     /// Symbol semantic values.
-    typedef Traits<]b4_parser_class_name[>::SemanticType    SemanticType;
+    typedef traits<]b4_parser_class_name[>::semantic_type    semantic_type;
     /// Symbol locations.
-    typedef Traits<]b4_parser_class_name[>::LocationType    LocationType;
+    typedef traits<]b4_parser_class_name[>::location_type    location_type;
 
     /// State stack type.
-    typedef Stack<StateType>    StateStack;
+    typedef stack<state_type>    state_stack;
     /// Semantic value stack type.
-    typedef Stack<SemanticType> SemanticStack;
-    /// Location stack type.
-    typedef Stack<LocationType> LocationStack;
+    typedef stack<semantic_type> semantic_stack;
+    /// location stack type.
+    typedef stack<location_type> location_stack;
 
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[) :
@@ -260,7 +260,7 @@ namespace yy
     /// Report a syntax error.
     /// \param loc    where the syntax error is found.
     /// \param msg    a description of the syntax error.
-    virtual void error (const LocationType& loc, const std::string& msg);
+    virtual void error (const location_type& loc, const std::string& msg);
 
     /// Generate an error message, and invoke error.
     virtual void yyreport_syntax_error_ ();
@@ -271,17 +271,17 @@ namespace yy
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     virtual void yysymprint_ (int yytype,
-			      const SemanticType* yyvaluep,
-			      const LocationType* yylocationp);
+			      const semantic_type* yyvaluep,
+			      const location_type* yylocationp);
 #endif /* ! YYDEBUG */
 
 
     /// The state stack.
-    StateStack    yystate_stack_;
+    state_stack    yystate_stack_;
     /// The semantic value stack.
-    SemanticStack yysemantic_stack_;
+    semantic_stack yysemantic_stack_;
     /// The location stack.
-    LocationStack yylocation_stack_;
+    location_stack yylocation_stack_;
 
     /* Tables.  */
     /// For a state, the index in \a yytable_ of its portion.
@@ -321,7 +321,7 @@ namespace yy
 
 #if YYDEBUG
     /// A `-1'-separated list of the rules' RHS.
-    static const RhsNumberType yyrhs_[];
+    static const rhs_number_type yyrhs_[];
     /// For each rule, the index of the first RHS symbol in \a yyrhs_.
     static const ]b4_int_type_for([b4_prhs])[ yyprhs_[];
     /// For each rule, its source line number.
@@ -335,7 +335,7 @@ namespace yy
 #endif
 
     /// Convert a scanner token number to a symbol number.
-    inline TokenNumberType yytranslate_ (int token);
+    inline token_number_type yytranslate_ (int token);
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
@@ -344,8 +344,8 @@ namespace yy
     /// \param yylocationp  Its location.
     inline void yydestruct_ (const char* yymsg,
                              int yytype,
-                             SemanticType* yyvaluep,
-                             LocationType* yylocationp);
+                             semantic_type* yyvaluep,
+                             location_type* yylocationp);
 
     /// Pop \a n symbols the three stacks.
     inline void yypop_ (unsigned int n = 1);
@@ -361,7 +361,7 @@ namespace yy
     static const int yyerrcode_;
     static const int yyntokens_;
     static const unsigned int yyuser_token_number_max_;
-    static const TokenNumberType yyundef_token_;
+    static const token_number_type yyundef_token_;
 
     /* State.  */
     int yyn_;
@@ -381,16 +381,16 @@ namespace yy
     int yyilooka_;
 
     /// Semantic value of the look-ahead.
-    SemanticType value;
+    semantic_type yylval;
     /// Location of the look-ahead.
-    LocationType location;
+    location_type yylloc;
     /// The locations where the error started and ended.
-    Location yyerror_range_[2];
+    location yyerror_range_[2];
 
     /// $$.
-    SemanticType yyval;
+    semantic_type yyval;
     /// @@$.
-    LocationType yyloc;
+    location_type yyloc;
 ]b4_parse_param_vars[
   };
 }
@@ -457,7 +457,7 @@ do {					\
 
 void
 yy::]b4_parser_class_name[::yysymprint_ (int yytype,
-                         const SemanticType* yyvaluep, const LocationType* yylocationp)
+                         const semantic_type* yyvaluep, const location_type* yylocationp)
 {
   /* Pacify ``unused variable'' warnings.  */
   (void) yyvaluep;
@@ -481,7 +481,7 @@ yy::]b4_parser_class_name[::yysymprint_ (int yytype,
 
 void
 yy::]b4_parser_class_name[::yydestruct_ (const char* yymsg,
-                         int yytype, SemanticType* yyvaluep, LocationType* yylocationp)
+                         int yytype, semantic_type* yyvaluep, location_type* yylocationp)
 {
   /* Pacify ``unused variable'' warnings.  */
   (void) yyvaluep;
@@ -544,8 +544,8 @@ yy::]b4_parser_class_name[::parse ()
   yylooka_ = yyempty_;
 
 ]m4_ifdef([b4_initial_action], [
-m4_pushdef([b4_at_dollar],     [location])dnl
-m4_pushdef([b4_dollar_dollar], [value])dnl
+m4_pushdef([b4_at_dollar],     [yylloc])dnl
+m4_pushdef([b4_dollar_dollar], [yylval])dnl
   /* User initialization code. */
   b4_initial_action
 m4_popdef([b4_dollar_dollar])dnl
@@ -557,11 +557,11 @@ b4_syncline([@oline@], [@ofile@])])dnl
      yynewstate, since the latter expects the semantical and the
      location values to have been already stored, initialize these
      stacks with a primary value.  */
-  yystate_stack_ = StateStack (0);
-  yysemantic_stack_ = SemanticStack (0);
-  yylocation_stack_ = LocationStack (0);
-  yysemantic_stack_.push (value);
-  yylocation_stack_.push (location);
+  yystate_stack_ = state_stack (0);
+  yysemantic_stack_ = semantic_stack (0);
+  yylocation_stack_ = location_stack (0);
+  yysemantic_stack_.push (yylval);
+  yylocation_stack_.push (yylloc);
 
   /* New state.  */
 yynewstate:
@@ -590,7 +590,7 @@ yybackup:
   else
     {
       yyilooka_ = yytranslate_ (yylooka_);
-      YY_SYMBOL_PRINT ("Next token is", yyilooka_, &value, &location);
+      YY_SYMBOL_PRINT ("Next token is", yyilooka_, &yylval, &yylloc);
     }
 
   /* If the proper action on seeing token ILOOKA_ is to reduce or to
@@ -619,14 +619,14 @@ yybackup:
     goto yyacceptlab;
 
   /* Shift the look-ahead token.  */
-  YY_SYMBOL_PRINT ("Shifting", yyilooka_, &value, &location);
+  YY_SYMBOL_PRINT ("Shifting", yyilooka_, &yylval, &yylloc);
 
   /* Discard the token being shifted unless it is eof.  */
   if (yylooka_ != yyeof_)
     yylooka_ = yyempty_;
 
-  yysemantic_stack_.push (value);
-  yylocation_stack_.push (location);
+  yysemantic_stack_.push (yylval);
+  yylocation_stack_.push (yylloc);
 
   /* Count tokens shifted since error; after three, turn off error
      status.  */
@@ -662,7 +662,7 @@ yyreduce:
     yyval = yysemantic_stack_[0];
 
   {
-    Slice<LocationType, LocationStack> slice (yylocation_stack_, yylen_);
+    slice<location_type, location_stack> slice (yylocation_stack_, yylen_);
     YYLLOC_DEFAULT (yyloc, slice, yylen_);
   }
   YY_REDUCE_PRINT (yyn_);
@@ -698,7 +698,7 @@ yyerrlab:
   /* If not already recovering from an error, report this error.  */
   yyreport_syntax_error_ ();
 
-  yyerror_range_[0] = location;
+  yyerror_range_[0] = yylloc;
   if (yyerrstatus_ == 3)
     {
       /* If just tried and failed to reuse look-ahead token after an
@@ -724,7 +724,7 @@ yyerrlab:
         }
       else
         {
-          yydestruct_ ("Error: discarding", yyilooka_, &value, &location);
+          yydestruct_ ("Error: discarding", yyilooka_, &yylval, &yylloc);
           yylooka_ = yyempty_;
         }
     }
@@ -787,11 +787,11 @@ yyerrlab1:
   if (yyn_ == yyfinal_)
     goto yyacceptlab;
 
-  yyerror_range_[1] = location;
-  // Using LOCATION is tempting, but would change the location of
+  yyerror_range_[1] = yylloc;
+  // Using YYLLOC is tempting, but would change the location of
   // the look-ahead.  YYLOC is available though.
   YYLLOC_DEFAULT (yyloc, yyerror_range_ - 1, 2);
-  yysemantic_stack_.push (value);
+  yysemantic_stack_.push (yylval);
   yylocation_stack_.push (yyloc);
 
   /* Shift the error token. */
@@ -808,7 +808,7 @@ yyacceptlab:
   /* Abort.  */
 yyabortlab:
   /* Free the lookahead. */
-  yydestruct_ ("Error: discarding lookahead", yyilooka_, &value, &location);
+  yydestruct_ ("Error: discarding lookahead", yyilooka_, &yylval, &yylloc);
   yylooka_ = yyempty_;
   return 1;
 }
@@ -818,9 +818,9 @@ yy::]b4_parser_class_name[::yylex_ ()
 {
   YYCDEBUG << "Reading a token: ";
 #if YYLSP_NEEDED
-  yylooka_ = yylex (&value, &location);
+  yylooka_ = yylex (&yylval, &yylloc);
 #else
-  yylooka_ = yylex (&value);
+  yylooka_ = yylex (&yylval);
 #endif
 }
 
@@ -865,7 +865,7 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
       else
 #endif
 	message = "syntax error";
-      error (location, message);
+      error (yylloc, message);
     }
 }
 
@@ -963,7 +963,7 @@ const yy::]b4_parser_class_name[::yyname_[] =
 
 #if YYDEBUG
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-const yy::]b4_parser_class_name[::RhsNumberType
+const yy::]b4_parser_class_name[::rhs_number_type
 yy::]b4_parser_class_name[::yyrhs_[] =
 {
   ]b4_rhs[
@@ -989,7 +989,7 @@ void
 yy::]b4_parser_class_name[::yystack_print_ ()
 {
   *yycdebug_ << "Stack now";
-  for (StateStack::const_iterator i = yystate_stack_.begin ();
+  for (state_stack::const_iterator i = yystate_stack_.begin ();
        i != yystate_stack_.end (); ++i)
     *yycdebug_ << ' ' << *i;
   *yycdebug_ << std::endl;
@@ -1011,11 +1011,11 @@ yy::]b4_parser_class_name[::yyreduce_print_ (int yyrule)
 #endif // YYDEBUG
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-yy::]b4_parser_class_name[::TokenNumberType
+yy::]b4_parser_class_name[::token_number_type
 yy::]b4_parser_class_name[::yytranslate_ (int token)
 {
   static
-  const TokenNumberType
+  const token_number_type
   translate_table[] =
   {
     ]b4_translate[
@@ -1036,12 +1036,12 @@ const int yy::]b4_parser_class_name[::yyerrcode_ = 256;
 const int yy::]b4_parser_class_name[::yyntokens_ = ]b4_tokens_number[;
 
 const unsigned int yy::]b4_parser_class_name[::yyuser_token_number_max_ = ]b4_user_token_number_max[;
-const yy::]b4_parser_class_name[::TokenNumberType yy::]b4_parser_class_name[::yyundef_token_ = ]b4_undef_token_number[;
+const yy::]b4_parser_class_name[::token_number_type yy::]b4_parser_class_name[::yyundef_token_ = ]b4_undef_token_number[;
 
 ]b4_epilogue
 dnl
 @output stack.hh
-b4_copyright([Stack handling for Bison C++ parsers], [2002, 2003, 2004])[
+b4_copyright([stack handling for Bison C++ parsers], [2002, 2003, 2004])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
@@ -1051,7 +1051,7 @@ b4_copyright([Stack handling for Bison C++ parsers], [2002, 2003, 2004])[
 namespace yy
 {
   template <class T, class S = std::deque<T> >
-  class Stack
+  class stack
   {
   public:
 
@@ -1059,11 +1059,11 @@ namespace yy
     typedef typename S::reverse_iterator iterator;
     typedef typename S::const_reverse_iterator const_iterator;
 
-    Stack () : seq_ ()
+    stack () : seq_ ()
     {
     }
 
-    Stack (unsigned int n) : seq_ (n)
+    stack (unsigned int n) : seq_ (n)
     {
     }
 
@@ -1111,12 +1111,12 @@ namespace yy
     S seq_;
   };
 
-  template <class T, class S = Stack<T> >
-  class Slice
+  template <class T, class S = stack<T> >
+  class slice
   {
   public:
 
-    Slice (const S& stack,
+    slice (const S& stack,
 	   unsigned int range) : stack_ (stack),
 				 range_ (range)
     {
@@ -1143,7 +1143,7 @@ b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004])[
 
 /**
  ** \file position.hh
- ** Define the Location class.
+ ** Define the position class.
  */
 
 #ifndef BISON_POSITION_HH
@@ -1154,8 +1154,8 @@ b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004])[
 
 namespace yy
 {
-  /// Abstract a Position.
-  class Position
+  /// Abstract a position.
+  class position
   {
   public:
     /// Initial column number.
@@ -1166,8 +1166,8 @@ namespace yy
     /** \name Ctor & dtor.
      ** \{ */
   public:
-    /// Construct a Position.
-    Position () :
+    /// Construct a position.
+    position () :
       filename (),
       line (initial_line),
       column (initial_column)
@@ -1207,42 +1207,42 @@ namespace yy
     unsigned int column;
   };
 
-  /// Add and assign a Position.
-  inline const Position&
-  operator+= (Position& res, const int width)
+  /// Add and assign a position.
+  inline const position&
+  operator+= (position& res, const int width)
   {
     res.columns (width);
     return res;
   }
 
-  /// Add two Position objects.
-  inline const Position
-  operator+ (const Position& begin, const int width)
+  /// Add two position objects.
+  inline const position
+  operator+ (const position& begin, const int width)
   {
-    Position res = begin;
+    position res = begin;
     return res += width;
   }
 
-  /// Add and assign a Position.
-  inline const Position&
-  operator-= (Position& res, const int width)
+  /// Add and assign a position.
+  inline const position&
+  operator-= (position& res, const int width)
   {
     return res += -width;
   }
 
-  /// Add two Position objects.
-  inline const Position
-  operator- (const Position& begin, const int width)
+  /// Add two position objects.
+  inline const position
+  operator- (const position& begin, const int width)
   {
     return begin + -width;
   }
 
   /** \brief Intercept output stream redirection.
    ** \param ostr the destination output stream
-   ** \param pos a reference to the Position to redirect
+   ** \param pos a reference to the position to redirect
    */
   inline std::ostream&
-  operator<< (std::ostream& ostr, const Position& pos)
+  operator<< (std::ostream& ostr, const position& pos)
   {
     if (!pos.filename.empty ())
       ostr << pos.filename << ':';
@@ -1256,7 +1256,7 @@ b4_copyright([Location class for Bison C++ parsers], [2002, 2003, 2004])[
 
 /**
  ** \file location.hh
- ** Define the Location class.
+ ** Define the location class.
  */
 
 #ifndef BISON_LOCATION_HH
@@ -1269,14 +1269,14 @@ b4_copyright([Location class for Bison C++ parsers], [2002, 2003, 2004])[
 namespace yy
 {
 
-  /// Abstract a Location.
-  class Location
+  /// Abstract a location.
+  class location
   {
     /** \name Ctor & dtor.
      ** \{ */
   public:
-    /// Construct a Location.
-    Location (void) :
+    /// Construct a location.
+    location (void) :
       begin (),
       end ()
     {
@@ -1309,29 +1309,29 @@ namespace yy
 
   public:
     /// Beginning of the located region.
-    Position begin;
+    position begin;
     /// End of the located region.
-    Position end;
+    position end;
   };
 
-  /// Join two Location objects to create a Location.
-  inline const Location operator+ (const Location& begin, const Location& end)
+  /// Join two location objects to create a location.
+  inline const location operator+ (const location& begin, const location& end)
   {
-    Location res = begin;
+    location res = begin;
     res.end = end.end;
     return res;
   }
 
-  /// Add two Location objects.
-  inline const Location operator+ (const Location& begin, unsigned int width)
+  /// Add two location objects.
+  inline const location operator+ (const location& begin, unsigned int width)
   {
-    Location res = begin;
+    location res = begin;
     res.columns (width);
     return res;
   }
 
-  /// Add and assign a Location.
-  inline Location& operator+= (Location& res, unsigned int width)
+  /// Add and assign a location.
+  inline location& operator+= (location& res, unsigned int width)
   {
     res.columns (width);
     return res;
@@ -1339,13 +1339,13 @@ namespace yy
 
   /** \brief Intercept output stream redirection.
    ** \param ostr the destination output stream
-   ** \param loc a reference to the Location to redirect
+   ** \param loc a reference to the location to redirect
    **
    ** Avoid duplicate information.
    */
-  inline std::ostream& operator<< (std::ostream& ostr, const Location& loc)
+  inline std::ostream& operator<< (std::ostream& ostr, const location& loc)
   {
-    Position last = loc.end - 1;
+    position last = loc.end - 1;
     ostr << loc.begin;
     if (loc.begin.filename != last.filename)
       ostr << '-' << last;

@@ -1,3 +1,17 @@
+2004-12-20  Akim Demaille  <akim@epita.fr>
+
+	Use more STL like names: my_class instead of MyClass.
+
+	* data/lalr1.cc (LocationStack, LocationType, RhsNumberType)
+	(SemanticStack, SemanticType, StateStack, StateType)
+	(TokenNumberType, Stack, Slice, Traits, Parser::location)
+	(Parser::value): Rename as...
+	(location_stack, location_type, rhs_number_type, semantic_stack)
+	(semantic_type, state_stack, state_type, token_number_type, stack)
+	(slice, traits, parser::yylloc, parser::yylval): these.
+
+	* tests/calc.at, tests/regression.at, tests/actions.at: Adjust.
+
 2004-12-19  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (YYLLOC_DEFAULT): Use GNU spacing conventions.

@@ -186,7 +186,7 @@ m4_ifval([$6], [%union
 }])
 [
 %{
-]AT_LALR1_CC_IF([typedef yy::Location YYLTYPE;
+]AT_LALR1_CC_IF([typedef yy::location YYLTYPE;
                 m4_ifval([$6], , [#define YYSTYPE int])])
 [static int yylex (]AT_LEX_FORMALS[);
 ]AT_LALR1_CC_IF([], [static void yyerror (const char *msg);])
@@ -311,7 +311,7 @@ yylex (]AT_LEX_FORMALS[)
 ]AT_LALR1_CC_IF(
 [/* A C++ error reporting function. */
 void
-yy::Parser::error (const Location& l, const std::string& m)
+yy::parser::error (const location& l, const std::string& m)
 {
   printf ("%d-%d: %s\n", RANGE (l), m.c_str());
 }
@@ -320,7 +320,7 @@ static bool yydebug;
 int
 yyparse ()
 {
-  yy::Parser parser;
+  yy::parser parser;
   parser.set_debug_level (yydebug);
   return parser.parse ();
 }

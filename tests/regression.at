@@ -727,15 +727,15 @@ member: STRING
 AT_LALR1_CC_IF(
 [/* A C++ error reporting function. */
 void
-yy::Parser::error (const Location&, const std::string& m)
+yy::parser::error (const location&, const std::string& m)
 {
   std::cerr << m << std::endl;
 }
 
 int
-yyparse (void)
+yyparse ()
 {
-  yy::Parser parser;
+  yy::parser parser;
   parser.set_debug_level (!!YYDEBUG);
   return parser.parse ();
 }
