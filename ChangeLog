@@ -1,3 +1,10 @@
+2002-10-11  Paul Eggert  <eggert@twinsun.com>
+
+	* data/yacc.c (yyreport_parse_error): Remove, putting its body into...
+	(yyparse): here.  This undoes some of the 2002-07-25 change.
+	Compatibility problem reported by Ralf S. Engelschall with
+	OSSP cfg <http://www.ossp.org/pkg/lib/cfg/>.
+
 2002-10-11  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at Characters Escapes): New.
