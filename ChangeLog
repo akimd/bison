@@ -1,5 +1,10 @@
 2004-09-29  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc: Move towards a more standard C++ coding style
+	for templates: Class < T > -> Class<T>.
+
+2004-09-29  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc: Reinstall the former ctor, for sake of
 	compatibility, but warn it will be removed.
 	Move towards a more standard C++ coding style (i.e., type *var ->

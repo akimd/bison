@@ -195,13 +195,13 @@ namespace yy
 {
   class ]b4_parser_class_name[;
 
-  template < typename P >
+  template <typename P>
   struct Traits
   {
   };
 
-  template < >
-  struct Traits< ]b4_parser_class_name[ >
+  template <>
+  struct Traits<]b4_parser_class_name[>
   {
     typedef ]b4_int_type_for([b4_translate])[ TokenNumberType;
     typedef ]b4_int_type_for([b4_rhs])[       RhsNumberType;
@@ -217,15 +217,15 @@ namespace yy
   {
   public:
 
-    typedef Traits< ]b4_parser_class_name[ >::TokenNumberType TokenNumberType;
-    typedef Traits< ]b4_parser_class_name[ >::RhsNumberType   RhsNumberType;
-    typedef Traits< ]b4_parser_class_name[ >::StateType       StateType;
-    typedef Traits< ]b4_parser_class_name[ >::SemanticType    SemanticType;
-    typedef Traits< ]b4_parser_class_name[ >::LocationType    LocationType;
+    typedef Traits<]b4_parser_class_name[>::TokenNumberType TokenNumberType;
+    typedef Traits<]b4_parser_class_name[>::RhsNumberType   RhsNumberType;
+    typedef Traits<]b4_parser_class_name[>::StateType       StateType;
+    typedef Traits<]b4_parser_class_name[>::SemanticType    SemanticType;
+    typedef Traits<]b4_parser_class_name[>::LocationType    LocationType;
 
-    typedef Stack< StateType >    StateStack;
-    typedef Stack< SemanticType > SemanticStack;
-    typedef Stack< LocationType > LocationStack;
+    typedef Stack<StateType>    StateStack;
+    typedef Stack<SemanticType> SemanticStack;
+    typedef Stack<LocationType> LocationStack;
 
     ]b4_parser_class_name[ (bool debug][]b4_param[]b4_parse_param_decl[) :
       ]b4_constructor[][debug_ (debug),
@@ -595,7 +595,7 @@ yyreduce:
 
   if (len_)
     {
-      Slice< LocationType, LocationStack > slice (location_stack_, len_);
+      Slice<LocationType, LocationStack> slice (location_stack_, len_);
       YYLLOC_DEFAULT (yyloc, slice, len_);
     }
   YY_REDUCE_PRINT (n_);
@@ -927,7 +927,8 @@ yy::]b4_parser_class_name[::reduce_print_ (int yyrule)
 {
   unsigned int yylno = rline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
-  cdebug_ << "Reducing stack by rule " << n_ - 1 << " (line " << yylno << "), ";
+  cdebug_ << "Reducing stack by rule " << n_ - 1
+          << " (line " << yylno << "), ";
   for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
        0 <= rhs_[i]; ++i)
     cdebug_ << name_[rhs_[i]] << ' ';
@@ -975,7 +976,7 @@ b4_copyright([Stack handling for Bison C++ parsers], [2002, 2003, 2004])[
 
 namespace yy
 {
-  template < class T, class S = std::deque< T > >
+  template <class T, class S = std::deque<T> >
   class Stack
   {
   public:
@@ -1036,7 +1037,7 @@ namespace yy
     S seq_;
   };
 
-  template < class T, class S = Stack< T > >
+  template <class T, class S = Stack<T> >
   class Slice
   {
   public:
