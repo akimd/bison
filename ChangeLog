@@ -1,5 +1,9 @@
 2001-12-18  Akim Demaille  <akim@epita.fr>
 
+	Version 1.30h.
+
+2001-12-18  Akim Demaille  <akim@epita.fr>
+
 	Some host fail on `assert (!"foo")', which expands to
 	((!"foo") ? (void)0 : __assert("!"foo."", __FILE__, __LINE__))
 	Reported by Nelson Beebee.
