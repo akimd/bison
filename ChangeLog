@@ -1,5 +1,9 @@
 2001-10-18  Akim Demaille  <akim@epita.fr>
 
+	Version 1.29e.
+
+2001-10-18  Akim Demaille  <akim@epita.fr>
+
 	* tests/atlocal.in (GCC): Add.
 	* tests/calc.at: s/m4_match/m4_bmatch/.
 	s/m4_patsubst/m4_bpatsubst/.
