@@ -97,18 +97,33 @@ AT_DATA_GRAMMAR([input.y],
 /* This is seen in GCC: a %{ and %} in middle of a comment. */
 const char *foo = "So %{ and %} can be here too.";
 
-#ifdef __STDC__
+#if 0
+/* These examples test Bison while not stressing C compilers too much.
+   Many C compilers mishandle backslash-newlines, so this part of the
+   test is inside "#if 0".  The comment and string are written so that
+   the "#endif" will be seen regardless of the C compiler bugs that we
+   know about, namely:
+
+     HP C (as of late 2002) mishandles *\[newline]\[newline]/ within a
+     comment.
+
+     The Apple Darwin compiler (as of late 2002) mishandles
+     \\[newline]' within a character constant.
+
+   */
+
 /\
-* A comment with backslash-newlines in it. %{ %} *\
+* A comment with backslash-newlines in it. %} *\
+\
 /
+/* { Close the above comment, if the C compiler mishandled it.  */
 
 char str[] = "\\
 " A string with backslash-newlines in it %{ %} \\
+\
 "";
 
-char apostrophe = '\\
-'\
-';
+char apostrophe = '\'';
 #endif
 
 #include <stdio.h>
