@@ -1,3 +1,11 @@
+2001-12-22  Akim Demaille  <akim@epita.fr>
+
+	Reductions in web2c.y are improperly reported.
+	Reported by Mike Castle.
+
+	* src/conflicts.c (print_reductions): Fix.
+	* tests/regression.at (Web2c): New.
+
 2001-12-18  Akim Demaille  <akim@epita.fr>
 
 	Version 1.30h.
