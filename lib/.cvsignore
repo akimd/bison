@@ -17,6 +17,7 @@ exitfail.h
 getopt.c
 getopt.h
 getopt1.c
+getopt_.h
 getopt_int.h
 gettext.h
 gnulib.mk
@@ -44,6 +45,7 @@ strndup.c
 strndup.h
 strnlen.c
 unlocked-io.h
+xalloc-die.c
 xalloc.h
 xmalloc.c
 xstrdup.c
