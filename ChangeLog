@@ -1,3 +1,7 @@
+2002-10-22  Akim Demaille  <akim@epita.fr>
+
+	* data/README: New.
+
 2002-10-20  Paul Eggert  <eggert@twinsun.com>
 
 	Remove K&R vestiges.
@@ -12,7 +16,7 @@
 	for a freestanding C89 compiler.
 	(SHRT_MIN, SHRT_MAX): Remove, since C89 guarantees them.
 	* src/vmsgetargs.c (getargs, cli_present, cli_get_value): Prototype.
-	
+
 2002-10-20  Akim Demaille  <akim@epita.fr>
 
 	* src/muscle_tab.c (muscle_grow): Remove trailing debugging code.
