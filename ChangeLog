@@ -1,5 +1,24 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	Be sure never to walk through RITEMS, but use only data related to
+	the rules themselves. RITEMS should be banished.
+
+	* src/output.c (output_token_translations): Rename as...
+	(prepare_tokens): this.
+	In addition to `translate', prepare the muscles `tname' and
+	`toknum', which were handled by...
+	(output_rule_data): this.
+	Remove, and move the remainder of its outputs into...
+	(prepare_rules): this new routines, which also merges content from
+	(output_gram): this.
+	(prepare_rules): Be sure never to walk through RITEMS.
+	(output_stos): Rename as...
+	(prepare_stos): this.
+	(output): Always invoke prepare_states, after all, just don't use it
+	in the output if you don't need it.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (new_state): Display `nstates' as the name of the
 	newly created state.
 	Adjust to initialize first_state and last_state if needed.
