@@ -1,6 +1,8 @@
 Bison News
 ----------
 
+Changes in version 1.875c, 2003-06-17:
+
 Changes in version 1.875b, 2003-06-17:
 
 * GLR grammars now support locations.
