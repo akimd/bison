@@ -2,6 +2,11 @@ Bison News
 ----------
 
 Changes in version 1.49a:
+
+* items overflow
+  Bison no longer dumps core when there are too many items, it just
+  dies.
+
 
 Changes in version 1.30:
 

@@ -1,5 +1,10 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (packgram): Catch nitems overflows.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c, src/files.h (guard_obstack): Remove.
 	* src/output.c (output): Adjust.
 	* src/reader.c (parse_braces): New, factoring...
