@@ -202,8 +202,8 @@ namespace yy
   template < >
   struct Traits< b4_name >
   {
-    typedef b4_uint_type(b4_token_number_max) TokenNumberType;
-    typedef b4_sint_type(b4_rhs_max)          RhsNumberType;
+    typedef b4_uint_type(b4_translate_max) TokenNumberType;
+    typedef b4_sint_type(b4_rhs_max)       RhsNumberType;
     typedef int      StateType;
     typedef yystype  SemanticType;
     typedef b4_ltype LocationType;

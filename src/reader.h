@@ -28,9 +28,6 @@
 
 void reader PARAMS ((void));
 
-/* Free the packed grammar. */
-void grammar_free PARAMS ((void));
-
 extern int lineno;
 
 extern symbol_t *errtoken;

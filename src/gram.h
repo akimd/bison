@@ -181,4 +181,7 @@ size_t ritem_longest_rhs PARAMS ((void));
 /* Dump the grammar. */
 void grammar_dump PARAMS ((FILE *out, const char *title));
 
+/* Free the packed grammar. */
+void grammar_free PARAMS ((void));
+
 #endif /* !GRAM_H_ */

@@ -1,5 +1,23 @@
 2002-05-05  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (GENERATE_OUTPUT_TABLE): Replace with...
+	(GENERATE_MUSCLE_INSERT_TABLE): this.
+	(output_int_table, output_unsigned_int_table, output_short_table)
+	(output_token_number_table, output_item_number_table): Replace with...
+	(muscle_insert_int_table, muscle_insert_unsigned_int_table)
+	(muscle_insert_short_table, muscle_insert_token_number_table)
+	(muscle_insert_item_number_table): these.
+	Adjust all callers.
+	(prepare_tokens): Don't free `translations', since...
+	* src/reader.h, src/reader.c (grammar_free): do it.
+	Move to...
+	* src/gram.h, src/gram.c (grammar_free): here.
+	* data/bison.simple, data/bison.c++: b4_token_number_max is now
+	b4_translate_max.
+
+	
+2002-05-05  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output_unsigned_int_table): New.
 	(prepare_rules): `i' is unsigned.
 	`prhs', `rline', `r2' are unsigned int.
