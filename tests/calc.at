@@ -366,22 +366,22 @@ _AT_CHECK_CALC([$1],
 # Some parse errors.
 _AT_CHECK_CALC_ERROR([$1], [+1], [8],
                      [1.0:1.1],
-                     [unexpected `'+''])
+                     [unexpected '+'])
 _AT_CHECK_CALC_ERROR([$1], [1//2], [17],
                      [1.2:1.3],
-                     [unexpected `'/'', expecting `NUM' or `'-'' or `'(''])
+                     [unexpected '/', expecting NUM or '-' or '('])
 _AT_CHECK_CALC_ERROR([$1], [error], [8],
                      [1.0:1.1],
-                     [unexpected `$undefined.'])
+                     [unexpected $undefined.])
 _AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3], [23],
                      [1.6:1.7],
-                     [unexpected `'=''])
+                     [unexpected '='])
 _AT_CHECK_CALC_ERROR([$1],
                      [
 +1],
                      [16],
                      [2.0:2.1],
-                     [unexpected `'+''])
+                     [unexpected '+'])
 
 AT_CLEANUP
 ])# AT_CHECK_CALC
