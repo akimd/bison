@@ -1,3 +1,12 @@
+2002-10-24  Akim Demaille  <akim@epita.fr>
+
+	* data/yacc.c (m4_int_type): New.
+	* data/c.m4 (m4_int_type): Don't use yysigned_char, but `signed
+	char' as only yacc.c wants K&R portability.
+	* data/glr.c (yysigned_char): Remove.
+	* data/lalr1.cc: Rename the trailing b4_name as b4_parser_class_name.
+	Reported by Quoc Peyrot.
+
 2002-10-23  Paul Eggert  <eggert@twinsun.com>
 
 	* src/main.c (main): With --trace=time, report times even if a
