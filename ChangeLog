@@ -1,5 +1,11 @@
 2003-06-19  Paul Eggert  <eggert@twinsun.com>
 
+	* data/glr.c (yyremoveDeletes, yy_reduce_print, yyglrReduce,
+	yyreportTree): Do not assume that size_t is the same width as int,
+	when printing sizes.  Print sizes using an unsigned format.
+	Problem reported by Frank Heckenbach in
+	<http://mail.gnu.org/archive/html/bison-patches/2003-06/msg00035.html>.
+	
 	Port to Forte Developer 7 C compiler.
 	* data/glr.c (struct YYLTYPE): If locations are not being used,
 	declare a single dummy member, as empty structs do not conform
