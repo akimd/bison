@@ -1,3 +1,12 @@
+2005-02-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/glr-regression.at (Improper handling of embedded actions
+	and dollar(-N) in GLR parsers): Renamed from "Improper handling of
+	embedded actions and $-N in GLR parsers", work around an Autoconf bug
+	with dollar signs in test names.
+	* tests/input.at (Invalid dollar-n): Renamed from "Invalid \$n",
+	for a similar reason.
+
 2005-01-28  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/vcg.c (output_graph): G_VIEW -> normal_view in case someone
