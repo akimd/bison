@@ -1,3 +1,10 @@
+2001-11-02  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (parse_thong_decl): Formatting changes.
+	(token_translations_init): New, extracted from...
+	(packsymbols): Here.
+	Adjust.
+
 2001-11-01  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (AT_TEST_CPP_GUARD_H): New.
