@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -120,9 +120,9 @@ BISON_TEST_FOR_WORKING_CXX_COMPILER
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
-O0CFLAGS=`echo $CFLAGS | sed 's/-O[0-9] *//'`
+O0CFLAGS=`echo $CFLAGS | sed 's/-O[[0-9]] *//'`
 AC_SUBST([O0CFLAGS])
-O0CXXFLAGS=`echo $CXXFLAGS | sed 's/-O[0-9] *//'`
+O0CXXFLAGS=`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`
 AC_SUBST([O0CXXFLAGS])
 
 AC_CONFIG_FILES([Makefile
