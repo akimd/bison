@@ -3745,10 +3745,12 @@ If the parser output file is named @file{@var{name}.c} then this file
 is named @file{@var{name}.h}.
 
 Unless @code{YYSTYPE} is already defined as a macro, the output header
-declares @code{YYSTYPE}.  Therefore, if you have defined a
+declares @code{YYSTYPE}.  Therefore, if you are using a @code{%union}
+(@pxref{Multiple Types, ,More Than One Value Type}) with components
+that require other definitions, or if you have defined a
 @code{YYSTYPE} macro (@pxref{Value Type, ,Data Types of Semantic
-Values}) you need to arrange for this definition to be propagated to
-all modules, e.g., by putting the macro definition in another,
+Values}), you need to arrange for these definitions to be propagated to
+all modules, e.g., by putting them in a
 prerequisite header that is included both by your parser and by any
 other module that needs @code{YYSTYPE}.
 
