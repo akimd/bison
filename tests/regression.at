@@ -816,7 +816,7 @@ static const short yyrline[] =
 static const char *const yytname[] =
 {
   "$", "error", "$undefined.", "\"if\"", "\"const\"", "\"then\"",
-  "\"else\"", "$axiom", "statement", "struct_stat", "if", "else", NULL
+  "\"else\"", "$axiom", "statement", "struct_stat", "if", "else", 0
 };
 static const short yytoknum[] =
 {

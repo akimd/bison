@@ -1,5 +1,9 @@
 2002-02-14  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (else): Adjust to Andreas' change.
+
+2002-02-14  Akim Demaille  <akim@epita.fr>
+
 	* lib/Makefile.am (EXTRA_DIST): Ship strnlen.c.
 
 2002-02-13  Andreas Schwab  <schwab@suse.de>
