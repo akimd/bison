@@ -222,7 +222,7 @@ static const short yyprhs[] =
   %%prhs
 };
 
-/* YYRHS -- A `0'-separated list of the rules' RHS. */
+/* YYRHS -- A `-1'-separated list of the rules' RHS. */
 static const short yyrhs[] =
 {
   %%rhs
@@ -899,10 +899,10 @@ yyreduce:
       int yyi;
 
       YYFPRINTF (YYSTDERR, "Reducing via rule %d (line %d), ",
-		 yyn, yyrline[yyn]);
+		 yyn - 1, yyrline[yyn]);
 
       /* Print the symbols being reduced, and their result.  */
-      for (yyi = yyprhs[yyn]; yyrhs[yyi] > 0; yyi++)
+      for (yyi = yyprhs[yyn]; yyrhs[yyi] >= 0; yyi++)
 	YYFPRINTF (YYSTDERR, "%s ", yytname[yyrhs[yyi]]);
       YYFPRINTF (YYSTDERR, " -> %s\n", yytname[yyr1[yyn]]);
     }

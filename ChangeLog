@@ -1,5 +1,17 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_gram): Rely on nritems, not the
+	0-sentinel.  See below.
+	Use -1 as separator, not 0.
+	* src/bison.simple (yyparse): Subtract 1 to the rule numbers.
+	Rely on -1 as separator in yyrhs, instead of 0.
+	* tests/calc.at (AT_CHECK_CALC): Now, the parsers no longer issue
+	twice `Now at end of input', therefore there are two lines less to
+	expect.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (Unresolved SR Conflicts):
 	(Solved SR Conflicts, Rule Line Numbers): Adjust to the changes
 	below.
