@@ -1,3 +1,13 @@
+2003-06-19  Paul Eggert  <eggert@twinsun.com>
+
+	Port to Forte Developer 7 C compiler.
+	* data/glr.c (struct YYLTYPE): If locations are not being used,
+	declare a single dummy member, as empty structs do not conform
+	to the C standard.
+	(YYERROR, YYBACKUP): Do not use "do { ...; return foo; } while (0)";
+	the Forte Developer 7 C compiler complains that end-of-loop
+	code is not reached.
+
 2003-06-17  Paul Eggert  <eggert@twinsun.com>
 
 	Version 1.875b.
@@ -45,7 +55,7 @@
 	intdiv0.m4 inttypes-pri.m4 inttypes.m4 inttypes_h.m4 isc-posix.m4
 	lcmessage.m4 nls.m4 po.m4 stdint_h.m4 uintmax_t.m4 ulonglong.m4.
 	* po/Makefile.in.in: Upgrade to gettext 0.12.1 version.
-	
+
 	* lib/.cvsignore: Add stdbool.h.
 	* m4/.cvsignore: Add nls.m4, po.m4.
 
@@ -4771,7 +4781,7 @@
 
 2002-06-11  Akim Demaille  <akim@epita.fr>
 
-	* src/reader.c 	(parse_action): Don't store directly into the
+	* src/reader.c (parse_action): Don't store directly into the
 	rule's action member: return the action as a string.
 	Don't require `rule_length' as an argument: compute it.
 	(grammar_current_rule_symbol_append)
