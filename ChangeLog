@@ -1,3 +1,8 @@
+2003-08-27  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc (yyparse) [__GNUC__]: "Use" yyerrorlab to pacify
+	GCC warnings.
+
 2003-08-26  Akim Demaille  <akim@epita.fr>
 
 	* config/announce-gen (print_changelog_deltas): Neutralize "<#" as

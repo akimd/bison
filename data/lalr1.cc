@@ -573,6 +573,13 @@ b4_syncline([@oline@], [@ofile@])[
 `---------------------------------------------------*/
 yyerrorlab:
 
+#ifdef __GNUC__
+  /* Pacify GCC when the user code never invokes YYERROR and the label
+     yyerrorlab therefore never appears in user code.  */
+  if (0)
+     goto yyerrorlab;
+#endif
+
   state_stack_.pop (len_);
   semantic_stack_.pop (len_);
   location_stack_.pop (len_);
