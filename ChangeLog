@@ -1,3 +1,35 @@
+2004-05-03  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Unescaped newlines are no longer allowed in char & strings.
+
+	* src/scan-gram.l (<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER,
+	SC_CHARACTER,SC_STRING>): Reject unescaped newlines in
+	character and string literals.
+	(unexpected_end): New function.
+	(unexpected_eof): Use it.
+	(unexpected_newline): New function.
+	(<INITIAL,SC_AFTER_IDENTIFIER,SC_PRE_CODE>): Coalesce duplicate
+	actions.
+	
+	* NEWS: Document %expect-rr.
+
+	* bootstrap (--gnulib-srcdir=*, --cvs-user=*):
+	Fix typo by replacing $1 with $option.
+	Remove more 'intl'-related files.
+
+	* lib/.cvsignore: Add strndup.h.  Remove memchr.c, memcmp.c,
+	memrchr.c, strcasecmp.c, strchr.c, strrchr.c, strspn.c, strtol.c,
+	strtoul.c.
+	* m4/.cvsignore: Add exitfail.m4, extensions.m4, gnulib.m4,
+	hard-locale.m4, mbstate_t.m4, strerror_r.m4, strndup.m4,
+	xstrndup.m4.  Remove glibc21.m4, intdiv0.m4, inttypes-pri.m4,
+	inttypes.m4, inttypes_h.m4, isc-posix.m4, lcmessage.m4,
+	stdint_h.m4, uintmax_t.m4, ulonglong.m4.
+	* src/.cvsignore: Add *.output.
+
+	* src/parse-gram.y: Put copyright notice inside %{ %} so it
+	gets copied to the output file.
+	
 2004-04-28  Paul Eggert  <eggert@twinsun.com>
 
 	Get files from the gnulib and po repositories, instead of relying
@@ -12,10 +44,11 @@
 
 	* configure.ac (AC_CONFIG_MACRO_DIR): Add, with m4 as arg.
 	(gl_USE_SYSTEM_EXTENSIONS): Add.
-	(AC_GNU_SOURCE): Remove; no longer needed, as gl_USE_SYSTEM_EXTENSIONS
+	(AC_GNU_SOURCE, AC_AIX, AC_MINIX):
+	Remove; no longer needed, as gl_USE_SYSTEM_EXTENSIONS
 	does this for us.
-	(AC_ISC_POSIX, AC_MINIX): Remove; we no longer support these
-	ancient OSes, as they get in the way of latest Autoconf & gnulib.
+	(AC_ISC_POSIX): Remove; we no longer support this
+	ancient OS, as it gets in the way of latest Autoconf & gnulib.
 	(AC_HEADER_STDC): Remove: we now assume C89 or better.
 	(AC_CHECK_HEADERS_ONCE): Use instead of AC_CHECK_HEADERS.
 	Do not check for C89 headers, except for locale.h which is used

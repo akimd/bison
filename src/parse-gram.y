@@ -1,4 +1,4 @@
-/* Bison Grammar Parser                             -*- C -*-
+%{/* Bison Grammar Parser                             -*- C -*-
 
    Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 
@@ -20,16 +20,6 @@
    02111-1307  USA
 */
 
-
-%debug
-%defines
-%locations
-%pure-parser
-%error-verbose
-%defines
-%name-prefix="gram_"
-
-%{
 #include "system.h"
 
 #include "complain.h"
@@ -65,6 +55,14 @@ location current_lhs_location;
 assoc current_assoc;
 int current_prec = 0;
 %}
+
+%debug
+%defines
+%locations
+%pure-parser
+%error-verbose
+%defines
+%name-prefix="gram_"
 
 %initial-action
 {
