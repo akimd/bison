@@ -1,3 +1,8 @@
+2005-01-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/system.h (OUTPUT_EXT, TAB_EXT): Define only if not defined
+	already.  Let config.h define any nonstandard values.
+
 2005-01-10  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/calc.at (_AT_DATA_CALC_Y): Use alarm (100), not alarm (10),
