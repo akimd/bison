@@ -706,8 +706,9 @@ In some cases the Bison parser file includes system headers, and in
 those cases your code should respect the identifiers reserved by those
 headers.  On some non-@sc{gnu} hosts, @code{<alloca.h>},
 @code{<stddef.h>}, and @code{<stdlib.h>} are included as needed to
-declare memory allocators and related types.  On all hosts,
-@code{<stdio.h>} is included if you define @code{YYDEBUG}
+declare memory allocators and related types.  In the same situation,
+C++ parsers may include @code{<cstddef>} and @code{<cstdlib>} instead.
+Other system headers may be included if you define @code{YYDEBUG}
 (@pxref{Debugging, ,Debugging Your Parser}).
 
 @node Stages
@@ -4931,8 +4932,14 @@ YYDEBUG 1} in the C declarations section of the grammar file
 you run Bison (@pxref{Invocation, ,Invoking Bison}).  We always define @code{YYDEBUG} so that
 debugging is always possible.
 
-The trace facility uses @code{stderr}, so you must add @w{@code{#include
-<stdio.h>}} to the C declarations section unless it is already there.
+The trace facility outputs messages with macro calls of the form
+@code{YYFPRINTF (YYSTDERR, @var{format}, @var{args})} where
+@var{format} and @var{args} are the usual @code{printf} format and
+arguments.  If you define @code{YYDEBUG} but do not define
+@code{YYFPRINTF}, @code{<stdio.h>} is automatically included and the
+macros are defined to @code{fprintf} and @code{stderr}.  In the same
+situation, C++ parsers include @code{<cstdio.h>} instead, and use
+@code{std::fprintf} and @code{std::stderr}.
 
 Once you have compiled the program with trace facilities, the way to
 request a trace is to store a nonzero value in the variable @code{yydebug}.
@@ -5011,7 +5018,7 @@ Here @var{infile} is the grammar file name, which usually ends in
 @samp{.y}.  The parser file's name is made by replacing the @samp{.y}
 with @samp{.tab.c}.  Thus, the @samp{bison foo.y} filename yields
 @file{foo.tab.c}, and the @samp{bison hack/foo.y} filename yields
-@file{hack/foo.tab.c}. It's is also possible, in case you are writting
+@file{hack/foo.tab.c}. It's is also possible, in case you are writing
 C++ code instead of C in your grammar file, to name it @file{foo.ypp}
 or @file{foo.y++}. Then, the output files will take an extention like
 the given one as input (repectively @file{foo.tab.cpp} and @file{foo.tab.c++}).
