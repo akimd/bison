@@ -114,6 +114,35 @@ m4_define([b4_cc_var_decls],
 m4_define([b4_cc_var_decl],
 	  [    $1;])
 
+
+# b4_yysymprint_generate(FUNCTION-DECLARATOR)
+# -------------------------------------------
+# Generate the "symprint_" member function.
+m4_define([b4_yysymprint_generate],
+[[/*--------------------------------.
+| Print this symbol on YYOUTPUT.  |
+`--------------------------------*/
+
+]void
+yy::b4_parser_class_name::symprint_ (int yytype, const SemanticType *yyvaluep, const LocationType *yylocationp)[
+{
+  /* Pacify ``unused variable'' warnings.  */
+  (void) yyvaluep;
+  (void) yylocationp;
+
+  cdebug_ << (yytype < ntokens_ ? "token" : "nterm")
+	  << ' ' << name_[yytype] << " (";
+  switch (yytype)
+    {
+]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
+[      default:
+        break;
+    }
+  cdebug_ << ')';
+}
+]])
+
+
 # b4_cxx_destruct_def(IGNORED-ARGUMENTS)
 # --------------------------------------
 # Declare the destruct_ method.
@@ -121,6 +150,7 @@ m4_define([b4_cxx_destruct_def],
 [void
 yy::b4_parser_class_name::destruct_ (int yytype, SemanticType *yyvaluep, LocationType *yylocationp)[]dnl
 ])
+
 
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
@@ -245,6 +275,12 @@ namespace yy
     virtual void error_ ();
     virtual void print_ ();
     virtual void report_syntax_error_ ();
+#if YYDEBUG
+    virtual void symprint_ (int yytype,
+			    const SemanticType *yyvaluep,
+			    const LocationType *yylocationp);
+#endif /* ! YYDEBUG */
+
 
     /* Stacks.  */
     StateStack    state_stack_;
@@ -363,6 +399,9 @@ do {					\
 #define YYABORT		goto yyabortlab
 #define YYERROR		goto yyerrorlab
 
+#if YYDEBUG
+]b4_yysymprint_generate([b4_cxx_symprint_def])[
+#endif /* ! YYDEBUG */
 ]b4_yydestruct_generate([b4_cxx_destruct_def])[
 
 int
@@ -421,15 +460,14 @@ yy::]b4_parser_class_name[::parse ()
 #if YYDEBUG
       if (debug_)
 	{
-	  YYCDEBUG << "Next token is " << looka_
-		 << " (" << name_[ilooka_];
-	  print_ ();
-	  YYCDEBUG << ')' << std::endl;
+	  cdebug_ << "Next token is ";
+	  symprint_ (ilooka_, &value, &location);
+          cdebug_ << std::endl;
 	}
 #endif
     }
 
-  /* If the proper action on seeing token YYTOKEN is to reduce or to
+  /* If the proper action on seeing token ILOOKA_ is to reduce or to
      detect an error, take that action.  */
   n_ += ilooka_;
   if (n_ < 0 || last_ < n_ || check_[n_] != ilooka_)
@@ -565,8 +603,17 @@ b4_syncline([@oline@], [@ofile@])[
                  location_stack_.pop ();
 		 if (state_stack_.height () == 1)
 		   YYABORT;
-//		 YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
-                 destruct_ (stos_[state_stack_[0]],
+#if YYDEBUG
+                 if (debug_)
+                   {
+                     cdebug_ << "Error: popping ";
+                     symprint_ (stos_[state_stack_[0]],
+                                &semantic_stack_[0],
+		                &location_stack_[0]);
+                     cdebug_ << std::endl;
+                   }
+#endif // YYDEBUG
+                destruct_ (stos_[state_stack_[0]],
                             &semantic_stack_[0],
                             &location_stack_[0]);
 	       }
@@ -574,8 +621,12 @@ b4_syncline([@oline@], [@ofile@])[
       else
         {
 #if YYDEBUG
-          YYCDEBUG << "Discarding token " << looka_
-  	           << " (" << name_[ilooka_] << ")." << std::endl;
+          if (debug_)
+            {
+              cdebug_ << "Error: discarding ";
+              symprint_ (ilooka_, &value, &location);
+              cdebug_ << std::endl;
+            }
 #endif
           destruct_ (ilooka_, &value, &location);
           looka_ = empty_;
@@ -633,22 +684,9 @@ yyerrlab1:
 #if YYDEBUG
       if (debug_)
 	{
-	  if (stos_[state_] < ntokens_)
-	    {
-	      YYCDEBUG << "Error: popping token "
-		     << token_number_[stos_[state_]]
-		     << " (" << name_[stos_[state_]];
-# ifdef YYPRINT
-	      YYPRINT (stderr, token_number_[stos_[state_]],
-		       semantic_stack_.top ());
-# endif
-	      YYCDEBUG << ')' << std::endl;
-	    }
-	  else
-	    {
-	      YYCDEBUG << "Error: popping nonterminal ("
-		     << name_[stos_[state_]] << ')' << std::endl;
-	    }
+          cdebug_ << "Error: popping ";
+          symprint_ (stos_[state_], &semantic_stack_[0], &location_stack_[0]);
+          cdebug_ << std::endl;
 	}
 #endif
       destruct_ (stos_[state_], &semantic_stack_[0], &location_stack_[0]);
@@ -819,7 +857,7 @@ yy::]b4_parser_class_name[::r2_[] =
 
 #if YYDEBUG || YYERROR_VERBOSE
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-   First, the terminals, then, starting at YYNTOKENS, nonterminals. */
+   First, the terminals, then, starting at NTOKENS_, nonterminals. */
 const char*
 const yy::]b4_parser_class_name[::name_[] =
 {

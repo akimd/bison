@@ -342,8 +342,12 @@ m4_ifval([$6], , [#define YYSTYPE int])])
 
 ]m4_ifval([$6], [%type <ival> 'x' ';' thing line input])[
 
-%printer { fprintf (yyoutput, "%d@%d-%d", $$, RANGE (@$)); }
-   input line thing 'x'
+%printer
+  {
+    ]AT_LALR1_CC_IF([cdebug_ << @$ << ": " << $$;],
+                    [fprintf (yyoutput, "%d@%d-%d", $$, RANGE (@$))])[;
+  }
+  input line thing 'x'
 
 %destructor
   { printf ("Freeing nterm input (%d@%d-%d)\n", $$, RANGE (@$)); }
