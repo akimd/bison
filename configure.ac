@@ -89,6 +89,7 @@ AC_REPLACE_FUNCS(memchr memrchr \
                  strchr stpcpy strrchr strspn strtol)
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
+jm_PREREQ_MBSWIDTH
 jm_PREREQ_QUOTEARG
 jm_FUNC_ARGMATCH
 jm_PREREQ_ERROR
