@@ -218,17 +218,9 @@ namespace yy
     typedef Stack< SemanticType > SemanticStack;
     typedef Stack< LocationType > LocationStack;
 
-#if YYLSP_NEEDED
-    ]b4_parser_class_name[ (bool debug,
-	    LocationType initlocation][]b4_param[]b4_parse_param_decl[) :
-      ]b4_constructor[][debug_ (debug),
-      cdebug_ (std::cerr),
-      initlocation_ (initlocation)]b4_parse_param_cons[
-#else
     ]b4_parser_class_name[ (bool debug][]b4_param[]b4_parse_param_decl[) :
       ]b4_constructor[][debug_ (debug),
       cdebug_ (std::cerr)]b4_parse_param_cons[
-#endif
     {
     }
 
@@ -325,18 +317,17 @@ namespace yy
     /* Message.  */
     std::string message;
 
-    /* Semantic value and location of look-ahead token.  */
+    /// Semantic value of the look-ahead.
     SemanticType value;
+    /// Location of the look-ahead.
     LocationType location;
     /// The locations where the error started and ended.
     Location error_range_[2];
 
-    /* @@$ and $$.  */
+    /// $$.
     SemanticType yyval;
+    /// @@$.
     LocationType yyloc;
-
-    /* Initial location.  */
-    LocationType initlocation_;
 ]b4_parse_param_vars[
   };
 }
@@ -446,24 +437,34 @@ yy::]b4_parser_class_name[::pop (unsigned int n)
 int
 yy::]b4_parser_class_name[::parse ()
 {
+  YYCDEBUG << "Starting parse" << std::endl;
+
   nerrs_ = 0;
   errstatus_ = 0;
-
-  /* Initialize the stacks.  The initial state will be pushed in
-     yynewstate, since the latter expects the semantical and the
-     location values to have been already stored, initialize these
-     stacks with a primary value.  */
-  state_stack_ = StateStack (0);
-  semantic_stack_ = SemanticStack (1);
-  location_stack_ = LocationStack (1);
 
   /* Start.  */
   state_ = 0;
   looka_ = empty_;
-#if YYLSP_NEEDED
-  location = initlocation_;
-#endif
-  YYCDEBUG << "Starting parse" << std::endl;
+
+]m4_ifdef([b4_initial_action], [
+m4_pushdef([b4_at_dollar],     [location])dnl
+m4_pushdef([b4_dollar_dollar], [value])dnl
+  /* User initialization code. */
+  b4_initial_action
+m4_popdef([b4_dollar_dollar])dnl
+m4_popdef([b4_at_dollar])dnl
+/* Line __line__ of yacc.c.  */
+b4_syncline([@oline@], [@ofile@])])dnl
+
+[  /* Initialize the stacks.  The initial state will be pushed in
+     yynewstate, since the latter expects the semantical and the
+     location values to have been already stored, initialize these
+     stacks with a primary value.  */
+  state_stack_ = StateStack (0);
+  semantic_stack_ = SemanticStack (0);
+  location_stack_ = LocationStack (0);
+  semantic_stack_.push (value);
+  location_stack_.push (location);
 
   /* New state.  */
 yynewstate:

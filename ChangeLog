@@ -1,5 +1,24 @@
 2004-09-20  Akim Demaille  <akim@epita.fr>
 
+	Let the initial-action act on the look-ahead, and use it for the
+	"initial push" (corresponding to an hypothetical beginning-of-file).
+	And let lalr1.cc honor %initial-action.
+
+	* doc/bison.texinfo (Initial Action Decl): Clarify, and add an
+	example.
+	* data/lalr1.cc (Parser::initlocation_): Remove, bad experiment.
+	(Parser::Parser): Remove the ctor that used to initialize it.
+	(Parser::parse): Like in the other skeletons, issue the "starting
+	parse" message before any action.
+	Honor %initial-action.
+	Initialize the stacks with the lookahead.
+	* data/yacc.c: Let $$ and @$ in %initial-action designate the
+	look-ahead.
+	Push them in the stacks.
+	* tests/actions.at, tests/calc.at: Adjust the C++ ctor invocations.
+
+2004-09-20  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo (Initial Action Decl): New.
 
 2004-09-20  Akim Demaille  <akim@epita.fr>

@@ -3742,9 +3742,20 @@ code.
 @deffn {Directive} %initial-action @{ @var{code} @}
 @findex %initial-action
 Declare that the @var{code} must be invoked before parsing each time
-@code{yyparse} is called.  The @var{code} may use @code{@@$} to
-designate the initial location, and the @code{%parse-param}.
+@code{yyparse} is called.  The @var{code} may use @code{$$} and
+@code{@@$} --- initial value and location of the look-ahead --- and the
+@code{%parse-param}.
 @end deffn
+
+For instance, if your locations use a file name, you may use
+
+@example
+%parse-param @{ const char *filename @};
+%initial-action
+@{
+  @@$.begin.filename = @@$.end.filename = filename;
+@};
+@end example
 
 
 @node Destructor Decl
@@ -3822,7 +3833,7 @@ stacked symbols popped during the first phase of error recovery,
 @item
 incoming terminals during the second phase of error recovery,
 @item
-the current lookahead when the parser aborts (either via an explicit
+the current look-ahead when the parser aborts (either via an explicit
 call to @code{YYABORT}, or as a consequence of a failed error recovery).
 @end itemize
 
@@ -5579,11 +5590,10 @@ constant integer.  The default is 200.
 
 @c FIXME: C++ output.
 Because of semantical differences between C and C++, the
-@acronym{LALR}(1) parsers
-in C produced by Bison by compiled as C++ cannot grow.  In this precise
-case (compiling a C parser as C++) you are suggested to grow
-@code{YYINITDEPTH}.  In the near future, a C++ output output will be
-provided which addresses this issue.
+@acronym{LALR}(1) parsers in C produced by Bison by compiled as C++
+cannot grow.  In this precise case (compiling a C parser as C++) you are
+suggested to grow @code{YYINITDEPTH}.  In the near future, a C++ output
+output will be provided which addresses this issue.
 
 @node Error Recovery
 @chapter Error Recovery
@@ -6887,19 +6897,18 @@ $ @kbd{printf 'one\ntwo\n' | ./split-lines}
 How can I generate parsers in C++?
 @end display
 
-We are working on a C++ output for Bison, but unfortunately, for lack
-of time, the skeleton is not finished.  It is functional, but in
-numerous respects, it will require additional work which @emph{might}
-break backward compatibility.  Since the skeleton for C++ is not
-documented, we do not consider ourselves bound to this interface,
-nevertheless, as much as possible we will try to keep compatibility.
+We are working on a C++ output for Bison, but unfortunately, for lack of
+time, the skeleton is not finished.  It is functional, but in numerous
+respects, it will require additional work which @emph{might} break
+backward compatibility.  Since the skeleton for C++ is not documented,
+we do not consider ourselves bound to this interface, nevertheless, as
+much as possible we will try to keep compatibility.
 
-Another possibility is to use the regular C parsers, and to compile
-them with a C++ compiler.  This works properly, provided that you bear
-some simple C++ rules in mind, such as not including ``real classes''
-(i.e., structure with constructors) in unions.  Therefore, in the
-@code{%union}, use pointers to classes, or better yet, a single
-pointer type to the root of your lexical/syntactic hierarchy.
+Another possibility is to use the regular C parsers, and to compile them
+with a C++ compiler.  This works properly, provided that you bear some
+simple C++ rules in mind, such as not including ``real classes'' (i.e.,
+structure with constructors) in unions.  Therefore, in the
+@code{%union}, use pointers to classes.
 
 
 @node Implementing Gotos/Loops

@@ -327,7 +327,7 @@ static bool yydebug;
 int
 yyparse ()
 {
-  yy::Parser parser (yydebug, yy::Location ());
+  yy::Parser parser (yydebug);
   return parser.parse ();
 }
 ],
