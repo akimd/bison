@@ -1,5 +1,9 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c: Normalize increments to prefix form.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c, symtab.c: Remove debugging code.
 
 2002-04-07  Akim Demaille  <akim@epita.fr>
