@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-12-15 18:58+0100\n"
+"POT-Creation-Date: 2001-12-17 18:27+0100\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -31,78 +31,78 @@ msgstr ""
 msgid "fatal error: "
 msgstr "%s: 致命的エラー: "
 
-#: src/conflicts.c:44
+#: src/conflicts.c:45
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr "状態 %d の規則 %d とトークン %s の競合を%sとして解決。\n"
 
-#: src/conflicts.c:94 src/conflicts.c:119
+#: src/conflicts.c:109 src/conflicts.c:131
 msgid "reduce"
 msgstr "還元"
 
-#: src/conflicts.c:101 src/conflicts.c:115
+#: src/conflicts.c:114 src/conflicts.c:126
 msgid "shift"
 msgstr "シフト"
 
-#: src/conflicts.c:123
+#: src/conflicts.c:136
 msgid "an error"
 msgstr "エラー"
 
-#: src/conflicts.c:302
+#: src/conflicts.c:301
 #, fuzzy, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] " %d シフト/還元衝突"
 
-#: src/conflicts.c:309
+#: src/conflicts.c:308
 #, fuzzy
 msgid "and"
 msgstr " および"
 
-#: src/conflicts.c:315
+#: src/conflicts.c:314
 #, fuzzy, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d 還元/還元衝突"
 
-#: src/conflicts.c:340
+#: src/conflicts.c:339
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "状態 %d が含むのは"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:387
+#: src/conflicts.c:386
 msgid "conflicts: "
 msgstr "衝突: "
 
-#: src/conflicts.c:389
+#: src/conflicts.c:388
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d シフト/還元"
 
-#: src/conflicts.c:393
+#: src/conflicts.c:392
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d 還元/還元"
 
-#: src/conflicts.c:398 src/reduce.c:508
+#: src/conflicts.c:397 src/reduce.c:508
 #, c-format
 msgid "%s contains "
 msgstr "%s には"
 
-#: src/conflicts.c:405
+#: src/conflicts.c:404
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d シフト/還元衝突"
 
-#: src/conflicts.c:457 src/conflicts.c:534
+#: src/conflicts.c:451 src/conflicts.c:528
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[規則 %d を利用して還元 (%s)]\n"
 
-#: src/conflicts.c:461 src/print.c:147
+#: src/conflicts.c:455 src/print.c:147
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,12 +111,12 @@ msgstr ""
 "    $default\t規則 %d を利用して還元 (%s)\n"
 "\n"
 
-#: src/conflicts.c:515 src/conflicts.c:528
+#: src/conflicts.c:509 src/conflicts.c:522
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\t規則 %d を利用して還元 (%s)\n"
 
-#: src/conflicts.c:544
+#: src/conflicts.c:538
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
@@ -279,7 +279,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: オプション `%s' は引数を要求します\n"
 
-#: src/output.c:761
+#: src/output.c:730
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "最大テーブルサイズ (%s) を超えました"

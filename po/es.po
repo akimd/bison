@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-12-15 18:58+0100\n"
+"POT-Creation-Date: 2001-12-17 18:27+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -63,50 +63,50 @@ msgstr ""
 msgid "fatal error: "
 msgstr "error grave: %s\n"
 
-#: src/conflicts.c:44
+#: src/conflicts.c:45
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "El conflicto en el estado %s entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
-#: src/conflicts.c:94 src/conflicts.c:119
+#: src/conflicts.c:109 src/conflicts.c:131
 msgid "reduce"
 msgstr "reduce"
 
-#: src/conflicts.c:101 src/conflicts.c:115
+#: src/conflicts.c:114 src/conflicts.c:126
 msgid "shift"
 msgstr "desplaza"
 
-#: src/conflicts.c:123
+#: src/conflicts.c:136
 msgid "an error"
 msgstr "un error"
 
-#: src/conflicts.c:302
+#: src/conflicts.c:301
 #, fuzzy, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] " %d conflictos desplazamiento/reducción"
 
-#: src/conflicts.c:309
+#: src/conflicts.c:308
 #, fuzzy
 msgid "and"
 msgstr " y"
 
-#: src/conflicts.c:315
+#: src/conflicts.c:314
 #, fuzzy, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d conflictos reducción/reducción"
 
-#: src/conflicts.c:340
+#: src/conflicts.c:339
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "El estado %d contiene"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:387
+#: src/conflicts.c:386
 msgid "conflicts: "
 msgstr "conflictos: "
 
@@ -122,7 +122,7 @@ msgstr "conflictos: "
 # ok
 # ngp
 #
-#: src/conflicts.c:389
+#: src/conflicts.c:388
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d desplazamiento(s)/reducción(ones)"
@@ -139,28 +139,28 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 #
 # ok
 # ngp
-#: src/conflicts.c:393
+#: src/conflicts.c:392
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:398 src/reduce.c:508
+#: src/conflicts.c:397 src/reduce.c:508
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
 
-#: src/conflicts.c:405
+#: src/conflicts.c:404
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d conflictos desplazamiento/reducción"
 
-#: src/conflicts.c:457 src/conflicts.c:534
+#: src/conflicts.c:451 src/conflicts.c:528
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduce usando la regla  %d (%s)]\n"
 
-#: src/conflicts.c:461 src/print.c:147
+#: src/conflicts.c:455 src/print.c:147
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -169,12 +169,12 @@ msgstr ""
 "    $default\treduce usando la regla %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:515 src/conflicts.c:528
+#: src/conflicts.c:509 src/conflicts.c:522
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduce usando la regla  %d (%s)\n"
 
-#: src/conflicts.c:544
+#: src/conflicts.c:538
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduce usando la regla %d (%s)\n"
@@ -348,7 +348,7 @@ msgstr "%s: la opción `%s' requiere un argumento\n"
 # en inglés era así, pero quizás en español sea mejor como dices
 # ngp
 #
-#: src/output.c:761
+#: src/output.c:730
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "excedido el tamaño máximo de la tabla (%s)"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-12-15 18:58+0100\n"
+"POT-Creation-Date: 2001-12-17 18:27+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -30,79 +30,79 @@ msgstr "предупреждение: "
 msgid "fatal error: "
 msgstr "фатальная ошибка: "
 
-#: src/conflicts.c:44
+#: src/conflicts.c:45
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
 
-#: src/conflicts.c:94 src/conflicts.c:119
+#: src/conflicts.c:109 src/conflicts.c:131
 msgid "reduce"
 msgstr "вывод"
 
-#: src/conflicts.c:101 src/conflicts.c:115
+#: src/conflicts.c:114 src/conflicts.c:126
 msgid "shift"
 msgstr "сдвиг"
 
-#: src/conflicts.c:123
+#: src/conflicts.c:136
 msgid "an error"
 msgstr "ошибка"
 
-#: src/conflicts.c:302
+#: src/conflicts.c:301
 #, fuzzy, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] " %d конфликтов сдвига/вывода"
 
-#: src/conflicts.c:309
+#: src/conflicts.c:308
 #, fuzzy
 msgid "and"
 msgstr " и"
 
-#: src/conflicts.c:315
+#: src/conflicts.c:314
 #, fuzzy, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d конфликтов вывода/вывода"
 
-#: src/conflicts.c:340
+#: src/conflicts.c:339
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "Состояние %d содержит"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:387
+#: src/conflicts.c:386
 msgid "conflicts: "
 msgstr "конфликты: "
 
-#: src/conflicts.c:389
+#: src/conflicts.c:388
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d сдвиг/вывод"
 
-#: src/conflicts.c:393
+#: src/conflicts.c:392
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d вывод/вывод"
 
-#: src/conflicts.c:398 src/reduce.c:508
+#: src/conflicts.c:397 src/reduce.c:508
 #, c-format
 msgid "%s contains "
 msgstr "%s содержит "
 
-#: src/conflicts.c:405
+#: src/conflicts.c:404
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d конфликтов сдвига/вывода"
 
-#: src/conflicts.c:457 src/conflicts.c:534
+#: src/conflicts.c:451 src/conflicts.c:528
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[вывод с использованием правила %d (%s)]\n"
 
-#: src/conflicts.c:461 src/print.c:147
+#: src/conflicts.c:455 src/print.c:147
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,12 +111,12 @@ msgstr ""
 "    $default\tвывод с использованием правила %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:515 src/conflicts.c:528
+#: src/conflicts.c:509 src/conflicts.c:522
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tвывод с использованием правила %d (%s)\n"
 
-#: src/conflicts.c:544
+#: src/conflicts.c:538
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tвывод с использованием правила %d (%s)\n"
@@ -307,7 +307,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: ключ `%s' должен использоваться с аргументом\n"
 
-#: src/output.c:761
+#: src/output.c:730
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "превышен максимальный размер таблицы (%d)"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2001-12-15 18:58+0100\n"
+"POT-Creation-Date: 2001-12-17 18:27+0100\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -32,81 +32,81 @@ msgstr "varning: "
 msgid "fatal error: "
 msgstr "ödesdigert fel: "
 
-#: src/conflicts.c:44
+#: src/conflicts.c:45
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "Konflikt i tillstånd %d mellan regel %d och element %s, löstes med %s.\n"
 
-#: src/conflicts.c:94 src/conflicts.c:119
+#: src/conflicts.c:109 src/conflicts.c:131
 msgid "reduce"
 msgstr "reducera"
 
-#: src/conflicts.c:101 src/conflicts.c:115
+#: src/conflicts.c:114 src/conflicts.c:126
 msgid "shift"
 msgstr "skifta"
 
-#: src/conflicts.c:123
+#: src/conflicts.c:136
 msgid "an error"
 msgstr "ett fel"
 
-#: src/conflicts.c:302
+#: src/conflicts.c:301
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d skifta/reducerakonflikt"
 msgstr[1] "%d skifta/reducerakonflikter"
 
-#: src/conflicts.c:309
+#: src/conflicts.c:308
 msgid "and"
 msgstr "och"
 
-#: src/conflicts.c:315
+#: src/conflicts.c:314
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d reducera/reducerakonflikt"
 msgstr[1] "%d reducera/reducerakonflikter"
 
-#: src/conflicts.c:340
+#: src/conflicts.c:339
 #, c-format
 msgid "State %d contains "
 msgstr "Tillstånd %d innehåller "
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:387
+#: src/conflicts.c:386
 msgid "conflicts: "
 msgstr "konflikter: "
 
-#: src/conflicts.c:389
+#: src/conflicts.c:388
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d skifta/reducera"
 
-#: src/conflicts.c:393
+#: src/conflicts.c:392
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducera/reducera"
 
-#: src/conflicts.c:398 src/reduce.c:508
+#: src/conflicts.c:397 src/reduce.c:508
 #, c-format
 msgid "%s contains "
 msgstr "%s innehåller "
 
-#: src/conflicts.c:405
+#: src/conflicts.c:404
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "förväntade %d skifta/reducerakonflikt"
 msgstr[1] "förväntade %d skifta/reducerakonflikter"
 
-#: src/conflicts.c:457 src/conflicts.c:534
+#: src/conflicts.c:451 src/conflicts.c:528
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reducera med regel %d (%s)]\n"
 
-#: src/conflicts.c:461 src/print.c:147
+#: src/conflicts.c:455 src/print.c:147
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -115,12 +115,12 @@ msgstr ""
 "    $standard\treducera med regel %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:515 src/conflicts.c:528
+#: src/conflicts.c:509 src/conflicts.c:522
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treducera med regel %d (%s)\n"
 
-#: src/conflicts.c:544
+#: src/conflicts.c:538
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $standard\treducera med regel %d (%s)\n"
@@ -309,7 +309,7 @@ msgstr "\"%s\" stödjer inga argument: %s"
 msgid "`%s' requires an argument"
 msgstr "\"%s\" behöver ett argument"
 
-#: src/output.c:761
+#: src/output.c:730
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "maximal tabellstorlek (%d) överskriden"
