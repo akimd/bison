@@ -1,5 +1,12 @@
 2002-03-19  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (%nonassoc and eof, Unresolved SR Conflicts)
+	(Solved SR Conflicts, %expect not enough, %expect right)
+	(%expect too much): Move to...
+	* tests/conflicts.at: this new file.
+
+2002-03-19  Akim Demaille  <akim@epita.fr>
+
 	* data/m4sugar/m4sugar.m4: Update from CVS Autoconf.
 	* data/bison.simple, data/bison.c++: Handle the `#define' part, so
 	that we can move to enums for instance.

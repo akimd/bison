@@ -1,0 +1,363 @@
+# Exercising Bison on conflicts.                         -*- Autotest -*-
+# Copyright 2002 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+AT_BANNER([[Conflicts.]])
+
+
+## ------------------- ##
+## %nonassoc and eof.  ##
+## ------------------- ##
+
+AT_SETUP([%nonassoc and eof])
+
+AT_DATA([input.y],
+[[
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <error.h>
+#define YYERROR_VERBOSE 1
+#define yyerror(Msg) \
+do { \
+  fprintf (stderr, "%s\n", Msg); \
+  exit (1); \
+} while (0)
+
+/* The current argument. */
+static const char *input = NULL;
+
+static int
+yylex (void)
+{
+  /* No token stands for end of file. */
+  if (input && *input)
+    return *input++;
+  else
+    return 0;
+}
+
+%}
+
+%nonassoc '<' '>'
+
+%%
+expr: expr '<' expr
+    | expr '>' expr
+    | '0'
+    ;
+%%
+int
+main (int argc, const char *argv[])
+{
+  if (argc > 1)
+    input = argv[1];
+  return yyparse ();
+}
+]])
+
+# Specify the output files to avoid problems on different file systems.
+AT_CHECK([bison input.y -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
+
+AT_CHECK([./input '0<0'])
+# FIXME: This is an actual bug, but a new one, in the sense that
+# no one has ever spotted it!  The messages are *wrong*: there should
+# be nothing there, it should be expected eof.
+AT_CHECK([./input '0<0<0'], [1], [],
+         [parse error, unexpected '<', expecting '<' or '>'
+])
+
+AT_CHECK([./input '0>0'])
+AT_CHECK([./input '0>0>0'], [1], [],
+         [parse error, unexpected '>', expecting '<' or '>'
+])
+
+AT_CHECK([./input '0<0>0'], [1], [],
+         [parse error, unexpected '>', expecting '<' or '>'
+])
+
+AT_CLEANUP
+
+
+
+## ------------------------- ##
+## Unresolved SR Conflicts.  ##
+## ------------------------- ##
+
+AT_SETUP([Unresolved SR Conflicts])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c -v], 0, [],
+[input.y contains 1 shift/reduce conflict.
+])
+
+# Check the contents of the report.
+AT_CHECK([cat input.output], [],
+[[State 5 contains 1 shift/reduce conflict.
+
+
+Grammar
+
+  Number, Line, Rule
+    0   3 $axiom -> exp $
+    1   3 exp -> exp OP exp
+    2   3 exp -> NUM
+
+
+Terminals, with rules where they appear
+
+$ (0) 0
+error (256)
+NUM (257) 2
+OP (258) 1
+
+
+Nonterminals, with rules where they appear
+
+$axiom (5)
+    on left: 0
+exp (6)
+    on left: 1 2, on right: 0 1
+
+
+state 0
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 2
+
+
+
+state 1
+
+    exp  ->  NUM .   (rule 2)
+
+    $default	reduce using rule 2 (exp)
+
+
+
+state 2
+
+    $axiom  ->  exp . $   (rule 0)
+    exp  ->  exp . OP exp   (rule 1)
+
+    $   	shift, and go to state 3
+    OP  	shift, and go to state 4
+
+
+
+state 3
+
+    $axiom  ->  exp $ .   (rule 0)
+
+    $default	accept
+
+
+state 4
+
+    exp  ->  exp OP . exp   (rule 1)
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 5
+
+
+
+state 5
+
+    exp  ->  exp . OP exp   (rule 1)
+    exp  ->  exp OP exp .   (rule 1)
+
+    OP  	shift, and go to state 4
+
+    OP  	[reduce using rule 1 (exp)]
+    $default	reduce using rule 1 (exp)
+
+
+
+]])
+
+AT_CLEANUP
+
+
+## --------------------- ##
+## Solved SR Conflicts.  ##
+## --------------------- ##
+
+AT_SETUP([Solved SR Conflicts])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%right OP
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c -v], 0, [], [])
+
+# Check the contents of the report.
+AT_CHECK([cat input.output], [],
+[[Conflict in state 5 between rule 2 and token OP resolved as shift.
+
+
+Grammar
+
+  Number, Line, Rule
+    0   4 $axiom -> exp $
+    1   4 exp -> exp OP exp
+    2   4 exp -> NUM
+
+
+Terminals, with rules where they appear
+
+$ (0) 0
+error (256)
+NUM (257) 2
+OP (258) 1
+
+
+Nonterminals, with rules where they appear
+
+$axiom (5)
+    on left: 0
+exp (6)
+    on left: 1 2, on right: 0 1
+
+
+state 0
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 2
+
+
+
+state 1
+
+    exp  ->  NUM .   (rule 2)
+
+    $default	reduce using rule 2 (exp)
+
+
+
+state 2
+
+    $axiom  ->  exp . $   (rule 0)
+    exp  ->  exp . OP exp   (rule 1)
+
+    $   	shift, and go to state 3
+    OP  	shift, and go to state 4
+
+
+
+state 3
+
+    $axiom  ->  exp $ .   (rule 0)
+
+    $default	accept
+
+
+state 4
+
+    exp  ->  exp OP . exp   (rule 1)
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 5
+
+
+
+state 5
+
+    exp  ->  exp . OP exp   (rule 1)
+    exp  ->  exp OP exp .   (rule 1)
+
+    OP  	shift, and go to state 4
+
+    $default	reduce using rule 1 (exp)
+
+
+
+]])
+
+AT_CLEANUP
+
+
+
+
+## -------------------- ##
+## %expect not enough.  ##
+## -------------------- ##
+
+AT_SETUP([%expect not enough])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 0
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c], 1, [],
+[input.y contains 1 shift/reduce conflict.
+expected 0 shift/reduce conflicts
+])
+AT_CLEANUP
+
+
+## --------------- ##
+## %expect right.  ##
+## --------------- ##
+
+AT_SETUP([%expect right])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 1
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c], 0)
+AT_CLEANUP
+
+
+## ------------------ ##
+## %expect too much.  ##
+## ------------------ ##
+
+AT_SETUP([%expect too much])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 2
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c], 1, [],
+[input.y contains 1 shift/reduce conflict.
+expected 2 shift/reduce conflicts
+])
+AT_CLEANUP
