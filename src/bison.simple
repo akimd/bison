@@ -98,19 +98,36 @@ union yyalloc
       + YYSTACK_GAP_MAX)
 # endif
 
-/* Relocate the TYPE STACK from its old location to the new one.  The
+/* Copy COUNT objects from FROM to TO.  The source and destination do
+   not overlap.  */
+# ifndef YYCOPY
+#  if 1 < __GNUC__
+#   define YYCOPY(To, From, Count) \
+      __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
+#  else
+#   define YYCOPY(To, From, Count)		\
+      do					\
+	{					\
+	  register YYSIZE_T yyi;		\
+	  for (yyi = 0; yyi < (Count); yyi++)	\
+	    (To)[yyi] = (From)[yyi];		\
+	}					\
+      while (0)
+#  endif
+# endif
+
+/* Relocate STACK from its old location to the new one.  The
    local variables YYSIZE and YYSTACKSIZE give the old and new number of
    elements in the stack, and YYPTR gives the new location of the
    stack.  Advance YYPTR to a properly aligned location for the next
    stack.  */
-# define YYSTACK_RELOCATE(Type, Stack)					\
+# define YYSTACK_RELOCATE(Stack)					\
     do									\
       {									\
 	YYSIZE_T yynewbytes;						\
-	yymemcpy ((char *) yyptr, (char *) (Stack),			\
-		  yysize * (YYSIZE_T) sizeof (Type));			\
+	YYCOPY (&yyptr->Stack, Stack, yysize);				\
 	Stack = &yyptr->Stack;						\
-	yynewbytes = yystacksize * sizeof (Type) + YYSTACK_GAP_MAX;	\
+	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAX;	\
 	yyptr += yynewbytes / sizeof (*yyptr);				\
       }									\
     while (0)
@@ -242,33 +259,6 @@ int yydebug;
 # define YYMAXDEPTH 10000
 #endif
 
-#if defined (YYSTACK_RELOCATE) && ! defined (yymemcpy)
-# if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
-#  define yymemcpy __builtin_memcpy
-# else				/* not GNU C or C++ */
-
-/* This is the most reliable way to avoid incompatibilities
-   in available built-in functions on various systems.  */
-static void
-#  if defined (__STDC__) || defined (__cplusplus)
-yymemcpy (char *yyto, const char *yyfrom, YYSIZE_T yycount)
-#  else
-yymemcpy (yyto, yyfrom, yycount)
-     char *yyto;
-     const char *yyfrom;
-     YYSIZE_T yycount;
-#  endif
-{
-  register const char *yyf = yyfrom;
-  register char *yyt = yyto;
-  register YYSIZE_T yyi = yycount;
-
-  while (yyi-- != 0)
-    *yyt++ = *yyf++;
-}
-# endif
-#endif
-
 #ifdef YYERROR_VERBOSE
 
 # ifndef yystrlen
@@ -526,10 +516,10 @@ yyparse (YYPARSE_PARAM_ARG)
 	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
 	if (! yyptr)
 	  goto yyoverflowlab;
-	YYSTACK_RELOCATE (short, yyss);
-	YYSTACK_RELOCATE (YYSTYPE, yyvs);
+	YYSTACK_RELOCATE (yyss);
+	YYSTACK_RELOCATE (yyvs);
 # if YYLSP_NEEDED
-	YYSTACK_RELOCATE (YYLTYPE, yyls);
+	YYSTACK_RELOCATE (yyls);
 # endif
 # undef YYSTACK_RELOCATE
 	if (yyss1 != yyssa)
