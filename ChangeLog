@@ -1,3 +1,16 @@
+2002-11-07  Akim Demaille  <akim@epita.fr>
+
+	Let yyerror always receive the msg as last argument, so that
+	yyerror can be variadic.
+
+	* data/yacc.c (b4_yyerror_args): New.
+	Use it when calling yyerror.
+	* data/glr.c (b4_yyerror_args, b4_lyyerror_args): New.
+	Use it when calling yyerror.
+	* doc/bison.texinfo (Error Reporting): Adjust.
+	* tests/calc.at (_AT_DATA_CALC_Y): Adjust.
+	* tests/cxx-type.at (_AT_TEST_GLR_CALC): Adjust.
+
 2002-11-07  Paul Eggert  <eggert@twinsun.com>
 
 	* src/scan-gram.l (unexpected_end_of_file): New function.

@@ -36,10 +36,11 @@ $1
 ]m4_bmatch([$2], [stmtMerge],
 [ static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);])[
   #define YYINITDEPTH 10
-  int yyerror (const char *s
+  int yyerror (
 #if YYPURE && YYLSP_NEEDED
-               , YYLTYPE *yylocation
+               YYLTYPE *yylocation,
 #endif
+               const char *s
               );
 
   #if YYPURE
@@ -157,10 +158,11 @@ yylex ()
 }
 
 int
-yyerror (const char *s
+yyerror (
 #if YYPURE && YYLSP_NEEDED
-        , YYLTYPE *yylocation
+         YYLTYPE *yylocation,
 #endif
+         const char *s
         )
 {
 #if YYPURE && YYLSP_NEEDED

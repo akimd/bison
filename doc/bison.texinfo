@@ -1357,7 +1357,7 @@ here is the definition we will use:
 #include <stdio.h>
 
 void
-yyerror (const char *s)  /* called by yyparse on error */
+yyerror (const char *s)  /* Called by yyparse on error.  */
 @{
   printf ("%s\n", s);
 @}
@@ -1973,7 +1973,7 @@ main (void)
 
 @group
 void
-yyerror (const char *s)  /* Called by yyparse on error */
+yyerror (const char *s)  /* Called by yyparse on error.  */
 @{
   printf ("%s\n", s);
 @}
@@ -4050,7 +4050,7 @@ The following definition suffices in simple programs:
 @example
 @group
 void
-yyerror (char *s)
+yyerror (const char *s)
 @{
 @end group
 @group
@@ -4064,7 +4064,7 @@ error recovery if you have written suitable error recovery grammar rules
 (@pxref{Error Recovery}).  If recovery is impossible, @code{yyparse} will
 immediately return 1.
 
-Oviously, in location tracking pure parsers, @code{yyerror} should have
+Obviously, in location tracking pure parsers, @code{yyerror} should have
 an access to the current location.  This is indeed the case for the GLR
 parsers, but not for the Yacc parser, for historical reasons.  I.e., if
 @samp{%locations %pure-parser} is passed then the prototypes for
@@ -4072,14 +4072,14 @@ parsers, but not for the Yacc parser, for historical reasons.  I.e., if
 
 @example
 void yyerror (const char *msg);                 /* Yacc parsers.  */
-void yyerror (const char *msg, YYLTYPE *locp);  /* GLR parsers.   */
+void yyerror (YYLTYPE *locp, const char *msg);  /* GLR parsers.   */
 @end example
 
 If @samp{%parse-param "int *nastiness"  "nastiness"} is used, then:
 
 @example
-void yyerror (int *randomness);  /* Yacc parsers.  */
-void yyerror (int *randomness);  /* GLR parsers.   */
+void yyerror (int *randomness, const char *msg);  /* Yacc parsers.  */
+void yyerror (int *randomness, const char *msg);  /* GLR parsers.   */
 @end example
 
 Finally, GLR and Yacc parsers share the same @code{yyerror} calling
@@ -4104,9 +4104,17 @@ results in the following signatures for all the parser kinds:
 @example
 int yylex (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
 int yyparse (int *nastiness, int *randomness);
-void yyerror (const char *msg, YYLTYPE *locp,
-              int *nastiness, int *randomness);
+void yyerror (YYLTYPE *locp,
+              int *nastiness, int *randomness,
+              const char *msg);
 @end example
+
+@noident
+Please, note that the prototypes are only indications of how the code
+produced by Bison will use @code{yyerror}, but you still have freedom
+and the exit value, and even on making @code{yyerror} a variadic
+function.  It is precisely to enable this that the message is passed
+last.
 
 @vindex yynerrs
 The variable @code{yynerrs} contains the number of syntax errors

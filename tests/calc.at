@@ -100,9 +100,9 @@ static int power (int base, int exponent);
 /* yyerror receives the location if:
    - %location & %pure & %glr
    - %location & %pure & %yacc & %parse-param. */
-static void yyerror (const char *s
-                     ]AT_YYERROR_ARG_LOC_IF([, YYLTYPE *yylloc])[
-                     ]AT_PARAM_IF([, value_t *result, int *count])[
+static void yyerror (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])[
+                     ]AT_PARAM_IF([value_t *result, int *count, ])[
+                     const char *s
                      );
 static int yylex (LEX_FORMALS);
 static int yygetc (LEX_FORMALS);
@@ -154,9 +154,10 @@ exp:
 FILE *yyin;
 
 static void
-yyerror (const char *s
-         ]AT_YYERROR_ARG_LOC_IF([, YYLTYPE *yylloc])[
-         ]AT_PARAM_IF([, value_t *result, int *count])[)
+yyerror (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])[
+         ]AT_PARAM_IF([value_t *result, int *count, ])[
+         const char *s
+         )
 {
 ]AT_PARAM_IF([(void) result; (void) count; ])[
 ]AT_YYERROR_SEES_LOC_IF([
