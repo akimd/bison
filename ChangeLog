@@ -1,5 +1,10 @@
 2002-05-07  Akim Demaille  <akim@epita.fr>
 
+	* tests/synclines.at: Be sure to prototype yylex and yyerror to
+	avoid GCC warnings.
+
+2002-05-07  Akim Demaille  <akim@epita.fr>
+
 	Kill GCC warnings.
 
 	* src/reduce.c (nonterminals_reduce): Don't loop over RITEM: loop

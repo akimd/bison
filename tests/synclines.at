@@ -54,6 +54,8 @@ AT_CLEANUP
 AT_TEST_SYNCLINE([Prologue synch line],
 [[%{
 #error "2"
+void yyerror (const char *s);
+int yylex (void);
 %}
 %%
 exp: '0';
@@ -70,6 +72,10 @@ AT_TEST_SYNCLINE([%union synch line],
 [[%union {
 #error "2"
 }
+%{
+void yyerror (const char *s);
+int yylex (void);
+%}
 %%
 exp: '0';
 ]],
@@ -83,19 +89,20 @@ exp: '0';
 
 AT_TEST_SYNCLINE([Postprologue synch line],
 [[%{
-/* Nothing here. */
+void yyerror (const char *s);
+int yylex (void);
 %}
 %union
 {
   int ival;
 }
 %{
-#error "9"
+#error "10"
 %}
 %%
 exp: '0';
 ]],
-[input.y:9: #error "9"
+[input.y:10: #error "10"
 ])
 
 
@@ -104,13 +111,17 @@ exp: '0';
 ## ------------------- ##
 
 AT_TEST_SYNCLINE([Action synch line],
-[[%%
+[[%{
+void yyerror (const char *s);
+int yylex (void);
+%}
+%%
 exp:
 {
-#error "4"
+#error "8"
 };
 ]],
-[input.y:4: #error "4"
+[input.y:8: #error "8"
 ])
 
 
@@ -119,10 +130,14 @@ exp:
 ## --------------------- ##
 
 AT_TEST_SYNCLINE([Epilogue synch line],
-[[%%
+[[%{
+void yyerror (const char *s);
+int yylex (void);
+%}
+%%
 exp: '0';
 %%
-#error "4"
+#error "8"
 ]],
-[input.y:4: #error "4"
+[input.y:8: #error "8"
 ])
