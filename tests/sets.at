@@ -157,6 +157,12 @@ transpose: input
 transpose: output
   0:
 
+Lookaheads: BEGIN
+State 0: 0 lookaheads
+State 1: 0 lookaheads
+State 2: 0 lookaheads
+State 3: 0 lookaheads
+Lookaheads: END
 ]])
 
 AT_CLEANUP

@@ -1,5 +1,13 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (lookaheads_print): New.
+	(lalr): Call it when --trace-flag.
+	* tests/sets.at (Nullable): Adjust: when tracing, the lookaheads
+	are dumped.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/derives.c (print_derives): Be sure to use `>= 0', not `> 0',
 	when walking through ritem, even via rule->rhs.
 	* src/reduce.c (dump_grammar, useful_production, reduce_output)
