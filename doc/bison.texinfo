@@ -4707,7 +4707,11 @@ output file is called @file{foo.output}.@refill
 
 @item -V
 @itemx --version
-Print the version number of Bison.
+Print the version number of Bison and exit.
+
+@item -h
+@itemx --help
+Print a summary of the command-line options to Bison and exit.
 
 @need 1750
 @item -y
@@ -4738,6 +4742,7 @@ the corresponding short option.
 \line{ --defines \leaderfill -d}
 \line{ --file-prefix \leaderfill -b}
 \line{ --fixed-output-files \leaderfill -y}
+\line{ --help \leaderfill -h}
 \line{ --name-prefix \leaderfill -p}
 \line{ --no-lines \leaderfill -l}
 \line{ --output-file \leaderfill -o}
@@ -4753,6 +4758,7 @@ the corresponding short option.
 --defines                             -d
 --file-prefix=@var{prefix}                  -b @var{file-prefix}
 --fixed-output-files --yacc           -y
+--help                                -h
 --name-prefix                         -p
 --no-lines                            -l
 --output-file=@var{outfile}                 -o @var{outfile}
