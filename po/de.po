@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.35\n"
-"POT-Creation-Date: 2002-06-17 10:43+0200\n"
+"POT-Creation-Date: 2002-06-19 10:51+0200\n"
 "PO-Revision-Date: 2002-04-26 11:58:57+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -407,22 +407,22 @@ msgstr[1] "%d nutzlose Regeln"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
 
-#: scan-gram.l:557
+#: scan-gram.l:548
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:574 scan-gram.l:648
+#: scan-gram.l:565 scan-gram.l:658
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "unzulässiger @-Wert"
 
-#: scan-gram.l:581
+#: scan-gram.l:572
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:594 scan-gram.l:619 scan-gram.l:657
+#: scan-gram.l:585 scan-gram.l:606 scan-gram.l:667 scan-gram.l:688
 #, c-format
 msgid "%s is invalid"
 msgstr "%s ist unzulässig"
