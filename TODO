@@ -1,9 +1,19 @@
 -*- outline -*-
 
+* Prologue
+The %union is declared after the user C declarations. It can be
+a problem if YYSTYPE is decalred after the user part.	[]
+
+* --verbose
+Tell the truth about EOF.	[]
+
+* --graph
+Show reductions.	[]
+
 * tokendefs
 This muscle should not exist: the information it contains should be
 available from the rest of bison.  Once the information public, get
-rid of it.
+rid of it.	[]
 
 * Broken options ?.
 ** %no-lines		[ok]
