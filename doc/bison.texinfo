@@ -1,7 +1,7 @@
 \input texinfo @c -*-texinfo-*-
 @comment %**start of header
 @setfilename bison.info
-@settitle Bison 1.24
+@settitle Bison 1.25
 @setchapternewpage odd
 
 @iftex
@@ -73,7 +73,7 @@ instead of in the original English.
 @titlepage
 @title Bison
 @subtitle The YACC-compatible Parser Generator
-@subtitle May 1995, Bison Version 1.24
+@subtitle August 1995, Bison Version 1.25
 
 @author by Charles Donnelly and Richard Stallman
 
@@ -84,10 +84,10 @@ Foundation
 
 @sp 2
 Published by the Free Software Foundation @*
-675 Massachusetts Avenue @*
-Cambridge, MA 02139 USA @*
+59 Temple Place, Suite 330 @*
+Boston, MA  02111-1307  USA @*
 Printed copies are available for $15 each.@*
-ISBN-1-882114-30-2
+ISBN 1-882114-45-0
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -121,7 +121,7 @@ Cover art by Etienne Suvasa.
 @node Top, Introduction, (dir), (dir)
 
 @ifinfo
-This manual documents version 1.24 of Bison.
+This manual documents version 1.25 of Bison.
 @end ifinfo
 
 @menu
@@ -306,8 +306,11 @@ Bison and show three explained examples, each building on the last.  If you
 don't know Bison or Yacc, start by reading these chapters.  Reference
 chapters follow which describe specific aspects of Bison in detail.
 
-Bison was written primarily by Robert Corbett; Richard Stallman made
-it Yacc-compatible.  This edition corresponds to version 1.24 of Bison.
+Bison was written primarily by Robert Corbett; Richard Stallman made it
+Yacc-compatible.  Wilfred Hansen of Carnegie Mellon University added
+multicharacter string literals and other features.
+
+This edition corresponds to version 1.25 of Bison.
 
 @node Conditions, Copying, Introduction, Top
 @unnumbered Conditions for Using Bison
@@ -880,12 +883,15 @@ nonterminals: for example, @code{INTEGER}, @code{IDENTIFIER}, @code{IF} or
 @code{RETURN}.  A terminal symbol that stands for a particular keyword in
 the language should be named after that keyword converted to upper case.
 The terminal symbol @code{error} is reserved for error recovery.
-@xref{Symbols}.@refill
+@xref{Symbols}.
 
 A terminal symbol can also be represented as a character literal, just like
 a C character constant.  You should do this whenever a token is just a
 single character (parenthesis, plus-sign, etc.): use that same character in
 a literal as the terminal symbol for that token.
+
+A third way to represent a terminal symbol is with a C string constant
+containing several characters.  @xref{Symbols}, for more information.
 
 The grammar rules also have an expression in Bison syntax.  For example,
 here is the Bison rule for a C @code{return} statement.  The semicolon in
@@ -2204,7 +2210,7 @@ it should be all lower case.
 Symbol names can contain letters, digits (not at the beginning),
 underscores and periods.  Periods make sense only in nonterminals.
 
-There are two ways of writing terminal symbols in the grammar:
+There are three ways of writing terminal symbols in the grammar:
 
 @itemize @bullet
 @item
@@ -2217,12 +2223,13 @@ such name must be defined with a Bison declaration such as
 @cindex character token
 @cindex literal token
 @cindex single-character literal
-A @dfn{character token type} (or @dfn{literal token}) is written in
-the grammar using the same syntax used in C for character constants;
-for example, @code{'+'} is a character token type.  A character token
-type doesn't need to be declared unless you need to specify its
-semantic value data type (@pxref{Value Type, ,Data Types of Semantic Values}), associativity, or
-precedence (@pxref{Precedence, ,Operator Precedence}).
+A @dfn{character token type} (or @dfn{literal character token}) is
+written in the grammar using the same syntax used in C for character
+constants; for example, @code{'+'} is a character token type.  A
+character token type doesn't need to be declared unless you need to
+specify its semantic value data type (@pxref{Value Type, ,Data Types of
+Semantic Values}), associativity, or precedence (@pxref{Precedence,
+,Operator Precedence}).
 
 By convention, a character token type is used only to represent a
 token that consists of that particular character.  Thus, the token
@@ -2232,8 +2239,38 @@ your program will confuse other readers.
 
 All the usual escape sequences used in character literals in C can be
 used in Bison as well, but you must not use the null character as a
-character literal because its ASCII code, zero, is the code
-@code{yylex} returns for end-of-input (@pxref{Calling Convention, ,Calling Convention for @code{yylex}}).
+character literal because its ASCII code, zero, is the code @code{yylex}
+returns for end-of-input (@pxref{Calling Convention, ,Calling Convention
+for @code{yylex}}).
+
+@item
+@cindex string token
+@cindex literal string token
+@cindex multi-character literal
+A @dfn{literal string token} is written like a C string constant; for
+example, @code{"<="} is a literal string token.  A literal string token
+doesn't need to be declared unless you need to specify its semantic
+value data type (@pxref{Value Type}), associativity, precedence
+(@pxref{Precedence}).
+
+You can associate the literal string token with a symbolic name as an
+alias, using the @code{%token} declaration (@pxref{Token Decl, ,Token
+Declarations}).  If you don't do that, the lexical analyzer has to
+retrieve the token number for the literal string token from the
+@code{yytname} table (@pxref{Calling Convention}).
+
+@strong{WARNING}: literal string tokens do not work in Yacc.
+
+By convention, a literal string token is used only to represent a token
+that consists of that particular string.  Thus, you should use the token
+type @code{"<="} to represent the string @samp{<=} as a token.  Bison
+does not enforces this convention, but if you depart from it, people who
+read your program will be confused.
+
+All the escape sequences used in string literals in C can be used in
+Bison as well.  A literal string token must contain two or more
+characters; for a token containing just one character, use a character
+token (see above).
 @end itemize
 
 How you choose to write a terminal symbol has no effect on its
@@ -2809,6 +2846,7 @@ it explicitly (@pxref{Language and Grammar, ,Languages and Context-Free Grammars
 @subsection Token Type Names
 @cindex declaring token type names
 @cindex token type names, declaring
+@cindex declaring literal string tokens
 @findex %token
 
 The basic way to declare a token type name (terminal symbol) is as follows:
@@ -2852,6 +2890,30 @@ For example:
 %token <val> NUM      /* define token NUM and its type */
 @end group
 @end example
+
+You can associate a literal string token with a token type name by
+writing the literal string at the end of a @code{%token}
+declaration which declares the name.  For example:
+
+@example
+%token arrow "=>"
+@end example
+
+@noindent
+For example, a grammar for the C language might specify these names with
+equivalent literal string tokens:
+
+@example
+%token  <operator>  OR      "||"
+%token  <operator>  LE 134  "<="
+%left  OR  "<="
+@end example
+
+@noindent
+Once you equate the literal string and the token name, you can use them
+interchangeably in further declarations or the grammar rules.  The
+@code{yylex} function can use the token name or the literal string to
+obtain the token type code number (@pxref{Calling Convention}).
 
 @node Precedence Decl, Union Decl, Token Decl, Declarations
 @subsection Operator Precedence
@@ -2954,6 +3016,11 @@ is the name given in the @code{%union} to the alternative that you want
 (@pxref{Union Decl, ,The Collection of Value Types}).  You can give any number of nonterminal symbols in
 the same @code{%type} declaration, if they have the same value type.  Use
 spaces to separate the symbol names.
+
+You can also declare the value type of a terminal symbol.  To do this,
+use the same @code{<@var{type}>} construction in a declaration for the
+terminal symbol.  All kinds of token declarations allow
+@code{<@var{type}>}.
 
 @node Expect Decl, Start Decl, Type Decl, Declarations
 @subsection Suppressing Conflict Warnings
@@ -3093,9 +3160,57 @@ Declare the expected number of shift-reduce conflicts
 
 @item %pure_parser
 Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
+
+@item %no_lines
+Don't generate any @code{#line} preprocessor commands in the parser
+file.  Ordinarily Bison writes these commands in the parser file so that
+the C compiler and debuggers will associate errors and object code with
+your source file (the grammar file).  This directive causes them to
+associate errors with the parser file, treating it an independent source
+file in its own right.
+
+@item %raw
+The output file @file{@var{name}.h} normally defines the tokens with
+Yacc-compatible token numbers.  If this option is specified, the
+internal Bison numbers are used instead.  (Yacc-compatible numbers start
+at 257 except for single character tokens; Bison assigns token numbers
+sequentially for all tokens starting at 3.)
+
+@item %token_table
+Generate an array of token names in the parser file.  The name of the
+array is @code{yytname}; @code{yytname[@var{i}]} is the name of the
+token whose internal Bison token code number is @var{i}.  The first three
+elements of @code{yytname} are always @code{"$"}, @code{"error"}, and
+@code{"$illegal"}; after these come the symbols defined in the grammar
+file.
+
+For single-character literal tokens and literal string tokens, the name
+in the table includes the single-quote or double-quote characters: for
+example, @code{"'+'"} is a single-character literal and @code{"\"<=\""}
+is a literal string token.  All the characters of the literal string
+token appear verbatim in the string found in the table; even
+double-quote characters are not escaped.  For example, if the token
+consists of three characters @samp{*"*}, its string in @code{yytname}
+contains @samp{"*"*"}.  (In C, that would be written as
+@code{"\"*\"*\""}).
+
+When you specify @code{%token_table}, Bison also generates macro
+definitions for macros @code{YYNTOKENS}, @code{YYNNTS}, and
+@code{YYNRULES}, and @code{YYNSTATES}:
+
+@table @code
+@item YYNTOKENS
+The highest token number, plus one.
+@item YYNNTS
+The number of non-terminal symbols.
+@item YYNRULES
+The number of grammar rules,
+@item YYNSTATES
+The number of parser states (@pxref{Parser States}).
+@end table
 @end table
 
-@node Multiple Parsers,  , Declarations, Grammar File
+@node Multiple Parsers,, Declarations, Grammar File
 @section Multiple Parsers in the Same Program
 
 Most programs that use Bison parse only one language and therefore contain
@@ -3242,6 +3357,43 @@ yylex ()
 This interface has been designed so that the output from the @code{lex}
 utility can be used without change as the definition of @code{yylex}.
 
+If the grammar uses literal string tokens, there are two ways that
+@code{yylex} can determine the token type codes for them:
+
+@itemize @bullet
+@item
+If the grammar defines symbolic token names as aliases for the
+literal string tokens, @code{yylex} can use these symbolic names like
+all others.  In this case, the use of the literal string tokens in
+the grammar file has no effect on @code{yylex}.
+
+@item
+@code{yylex} can find the multi-character token in the @code{yytname}
+table.  The index of the token in the table is the token type's code.
+The name of a multi-character token is recorded in @code{yytname} with a
+double-quote, the token's characters, and another double-quote.  The
+token's characters are not escaped in any way; they appear verbatim in
+the contents of the string in the table.
+
+Here's code for looking up a token in @code{yytname}, assuming that the
+characters of the token are stored in @code{token_buffer}.
+
+@smallexample
+for (i = 0; i < YYNTOKENS; i++)
+  @{
+    if (yytname[i] != 0
+        && yytname[i][0] == '"'
+        && strncmp (yytname[i] + 1, token_buffer, strlen (token_buffer))
+        && yytname[i][strlen (token_buffer) + 1] == '"'
+        && yytname[i][strlen (token_buffer) + 2] == 0)
+      break;
+  @}
+@end smallexample
+
+The @code{yytname} table is generated only if you use the
+@code{%token_table} declaration.  @xref{Decl Summary}.
+@end itemize
+
 @node Token Values, Token Positions, Calling Convention, Lexical
 @subsection Semantic Values of Tokens
 
@@ -3335,10 +3487,11 @@ this case, omit the second argument; @code{yylex} will be called with
 only one argument.
 
 @vindex YYPARSE_PARAM
-You can pass parameter information to a reentrant parser in a reentrant
-way.  Define the macro @code{YYPARSE_PARAM} as a variable name.  The
-resulting @code{yyparse} function then accepts one argument, of type
-@code{void *}, with that name.
+If you use a reentrant parser, you can optionally pass additional
+parameter information to it in a reentrant way.  To do so, define the
+macro @code{YYPARSE_PARAM} as a variable name.  This modifies the
+@code{yyparse} function to accept one argument, of type @code{void *},
+with that name.
 
 When you call @code{yyparse}, pass the address of an object, casting the
 address to @code{void *}.  The grammar actions can refer to the contents
@@ -3408,6 +3561,10 @@ arguments in total, depending on whether an argument of type
 @code{YYLTYPE} is passed.)  You can declare the argument as a pointer to
 the proper object type, or you can declare it as @code{void *} and
 access the contents as shown above.
+
+You can use @samp{%pure_parser} to request a reentrant parser without
+also using @code{YYPARSE_PARAM}.  Then you should call @code{yyparse}
+with no arguments, as usual.
 
 @node Error Reporting, Action Features, Lexical, Interface
 @section The Error Reporting Function @code{yyerror}
@@ -4736,12 +4893,22 @@ and debuggers will associate errors with your source file, the
 grammar file.  This option causes them to associate errors with the
 parser file, treating it as an independent source file in its own right.
 
+@item -n
+@itemx --no-parser
+Do not include any C code in the parser file; generate tables only.  The
+parser file contains just @code{#define} directives and static variable
+declarations.
+
+This option also tells Bison to write the C code for the grammar actions
+into a file named @file{@var{filename}.act}, in the form of a
+brace-surrounded body fit for a @code{switch} statement.
+
 @item -o @var{outfile}
 @itemx --output-file=@var{outfile}
 Specify the name @var{outfile} for the parser file.
 
 The other output files' names are constructed from @var{outfile}
-as described under the @samp{-v} and @samp{-d} switches.
+as described under the @samp{-v} and @samp{-d} options.
 
 @item -p @var{prefix}
 @itemx --name-prefix=@var{prefix}
@@ -4754,6 +4921,10 @@ For example, if you use @samp{-p c}, the names become @code{cparse},
 @code{clex}, and so on.
 
 @xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
+
+@item -r
+@itemx --raw
+Pretend that @code{%raw} was specified.  @xref{Decl Summary}.
 
 @item -t
 @itemx --debug
@@ -4790,7 +4961,7 @@ Print a summary of the command-line options to Bison and exit.
 @itemx --fixed-output-files
 Equivalent to @samp{-o y.tab.c}; the parser output file is called
 @file{y.tab.c}, and the other outputs are called @file{y.output} and
-@file{y.tab.h}.  The purpose of this switch is to imitate Yacc's output
+@file{y.tab.h}.  The purpose of this option is to imitate Yacc's output
 file name conventions.  Thus, the following shell script can substitute
 for Yacc:@refill
 
@@ -4816,7 +4987,10 @@ the corresponding short option.
 \line{ --help \leaderfill -h}
 \line{ --name-prefix \leaderfill -p}
 \line{ --no-lines \leaderfill -l}
+\line{ --no-parser \leaderfill -n}
 \line{ --output-file \leaderfill -o}
+\line{ --raw \leaderfill -r}
+\line{ --token-table \leaderfill -k}
 \line{ --verbose \leaderfill -v}
 \line{ --version \leaderfill -V}
 \line{ --yacc \leaderfill -y}
@@ -4830,9 +5004,12 @@ the corresponding short option.
 --file-prefix=@var{prefix}                  -b @var{file-prefix}
 --fixed-output-files --yacc           -y
 --help                                -h
---name-prefix                         -p
+--name-prefix=@var{prefix}                  -p @var{name-prefix}
 --no-lines                            -l
+--no-parser                           -n
 --output-file=@var{outfile}                 -o @var{outfile}
+--raw                                 -r			
+--token-table                         -k
 --verbose                             -v
 --version                             -V
 @end example
@@ -4920,6 +5097,9 @@ Conventions for Pure Parsers}.
 Macro for the data type of @code{yylloc}; a structure with four
 members.  @xref{Token Positions, ,Textual Positions of Tokens}.
 
+@item yyltype
+Default value for YYLTYPE.
+
 @item YYMAXDEPTH
 Macro for specifying the maximum size of the parser stack.
 @xref{Stack Overflow}.
@@ -4990,6 +5170,10 @@ parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
 Bison declaration to assign left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 
+@item %no_lines
+Bison declaration to avoid generating @code{#line} directives in the
+parser file.  @xref{Decl Summary}.
+
 @item %nonassoc
 Bison declaration to assign nonassociativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
@@ -5002,6 +5186,11 @@ Bison declaration to assign a precedence to a specific rule.
 Bison declaration to request a pure (reentrant) parser.
 @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
 
+@item %raw
+Bison declaration to use Bison internal token code numbers in token
+tables instead of the usual Yacc-compatible token code numbers.
+@xref{Decl Summary}.
+
 @item %right
 Bison declaration to assign right associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
@@ -5012,6 +5201,10 @@ Bison declaration to specify the start symbol.  @xref{Start Decl, ,The Start-Sym
 @item %token
 Bison declaration to declare token(s) without specifying precedence.
 @xref{Token Decl, ,Token Type Names}.
+
+@item %token_table
+Bison declaration to include a token name table in the parser file.
+@xref{Decl Summary}.
 
 @item %type
 Bison declaration to declare nonterminals.  @xref{Type Decl, ,Nonterminal Symbols}.
@@ -5116,6 +5309,10 @@ A function that reads an input stream and returns tokens one by one.
 @item Lexical tie-in
 A flag, set by actions in the grammar rules, which alters the way
 tokens are parsed.  @xref{Lexical Tie-ins}.
+
+@item Literal string token
+A token which constists of two or more fixed characters.
+@xref{Symbols}.
 
 @item Look-ahead token
 A token already read but not yet shifted.  @xref{Look-Ahead, ,Look-Ahead Tokens}.
