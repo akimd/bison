@@ -1,12 +1,16 @@
 2001-11-23  Akim Demaille  <akim@epita.fr>
 
+	* src/system.h: Include alloca.h.
+	* src/main.c (main) [C_ALLOCA]: Call alloca (0).
+
+2001-11-23  Akim Demaille  <akim@epita.fr>
+
 	* src/print_graph.c (print_actions): Remove `rule', unused.
 	* src/LR0.c (kernel_size): Contain `int' instead of `size_t' to
 	pacify GCC's signed < unsigned warnings.
 	* src/closure.c (itemsetsize): Likewise.
 	* src/reader.c (symbol_list_new): Static.
 
-	
 2001-11-23  Akim Demaille  <akim@epita.fr>
 
 	Attaching lineno to buckets is stupid, since only one copy of each
