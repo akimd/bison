@@ -419,8 +419,9 @@ compute_base_names (void)
 
       /* Computes the extensions from the grammar file name.  */
       filename_split (infile, &base, &tab, &ext);
-      if (ext)
- 	compute_exts_from_gf (ext);
+      
+      if (ext && !yacc_flag)
+	compute_exts_from_gf (ext);
     }
 }
 

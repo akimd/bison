@@ -1,5 +1,12 @@
 2002-01-19  Marc Autret  <marc@gnu.org>
 
+	* tests/output.at: New test.
+	* src/files.c (compute_base_names): Don't map extensions when
+	the YACC flag is set, use defaults.
+	Reported by Evgeny Stambulchik.
+
+2002-01-19  Marc Autret  <marc@gnu.org>
+
 	* configure.in, doc/version.texi: Bump to 1.31a.
 
 2002-01-14  Akim Demaille  <akim@epita.fr>

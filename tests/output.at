@@ -53,6 +53,9 @@ AT_CHECK_OUTPUT([foo.y], [%defines %verbose],      [],
 AT_CHECK_OUTPUT([foo.y], [%defines %verbose %yacc],[],
                 [y.output y.tab.c y.tab.h])
 
+AT_CHECK_OUTPUT([foo.yy], [%defines %verbose %yacc],[],
+                [y.output y.tab.c y.tab.h])
+
 # Exercise %output and %file-prefix
 AT_CHECK_OUTPUT([foo.y], [%file-prefix="bar" %defines %verbose],      [],
                 [bar.output bar.tab.c bar.tab.h])
