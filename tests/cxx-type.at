@@ -88,6 +88,7 @@ declarator : ID		{ printf ("\"%s\" ", ]$[1); }
 
 #include <assert.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 
 int
@@ -111,29 +112,44 @@ yylex ()
 {
   char buffer[256];
   int c;
+  unsigned int i;
 
 #if YYPURE
 # define yylval (*lvalp)
 ]m4_bmatch([$1], [location],[  (void) llocp;])[
 #endif
 
-  while (1) {
-    c = getchar ();
-    switch (c) {
-    case EOF:
-      return 0;
-    case ' ': case '\t': case '\n': case '\f':
-      break;
-    default:
-      if (isalpha (c)) {
-	ungetc (c, stdin);
-	scanf ("%[A-Za-z0-9_]", buffer);
-	yylval = strdup (buffer);
-	return isupper ((unsigned char) buffer[0]) ? TYPENAME : ID;
-      }
-      return c;
+  while (1)
+    {
+      c = getchar ();
+      switch (c)
+	{
+	case EOF:
+	  return 0;
+	case ' ': case '\t': case '\n': case '\f':
+	  break;
+	default:
+	  if (isalpha (c))
+	    { 
+	      i = 0;
+
+	      do
+		{
+		  buffer[i++] = c;
+		  if (i == sizeof buffer - 1)
+		    abort ();
+		  c = getchar ();
+		}
+	      while (isalnum (c) || c == '_');
+
+	      ungetc (c, stdin);
+	      buffer[i++] = 0;
+	      yylval = strcpy (malloc (i), buffer);
+	      return isupper ((unsigned char) buffer[0]) ? TYPENAME : ID;
+	    }
+	  return c;
+	}
     }
-  }
 }
 
 int
