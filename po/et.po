@@ -1,112 +1,112 @@
-# Перевод сообщений bison.
-# Copyright (C) 1999 Free Software Foundation, Inc.
-# Dmitry S. Sivachenko <dima@Chg.RU>, 1999,2000.
+# Estonian translations for bison.
+# Copyright (C) 2000 Free Software Foundation, Inc.
+# Toomas Soome <tsoome@ut.ee>, 2000.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.28a\n"
+"Project-Id-Version: bison 1.25\n"
 "POT-Creation-Date: 2000-03-31 16:53+0200\n"
-"PO-Revision-Date: 2000-04-12 13:16+04:00\n"
-"Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"PO-Revision-Date: 2000-04-11 22:19+02:00\n"
+"Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
+"Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=koi8-r\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: src/LR0.c:377
 #, c-format
 msgid "too many states (max %d)"
-msgstr "слишком много состояний (максимально %d)"
+msgstr "liiga palju olekuid (maks %d)"
 
 #: src/allocate.c:59 src/allocate.c:75
 #, c-format
 msgid "%s: memory exhausted\n"
-msgstr "%s: память исчерпана\n"
+msgstr "%s: mДlu on otsas\n"
 
 #: src/conflicts.c:199 src/conflicts.c:223
 msgid "reduce"
-msgstr "вывод"
+msgstr "redutseerimine"
 
 #: src/conflicts.c:205 src/conflicts.c:219
 msgid "shift"
-msgstr "сдвиг"
+msgstr "nihutamine"
 
 #: src/conflicts.c:227
 msgid "an error"
-msgstr "ошибка"
+msgstr "viga"
 
 #: src/conflicts.c:299
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
-msgstr "Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
+msgstr "Konflikt olekus %d reegli %d ja mДrgi %s vahel lahendatud, kui %s.\n"
 
 #: src/conflicts.c:344
 #, c-format
 msgid "State %d contains"
-msgstr "Состояние %d содержит"
+msgstr "Olek %d sisaldab"
 
 #: src/conflicts.c:347 src/conflicts.c:392
 msgid " 1 shift/reduce conflict"
-msgstr " 1 конфликт сдвига/вывода"
+msgstr " 1 nihutamine/redutseerimine konflikt"
 
 #: src/conflicts.c:349 src/conflicts.c:394
 #, c-format
 msgid " %d shift/reduce conflicts"
-msgstr " %d конфликтов сдвига/вывода"
+msgstr " %d nihutamine/redutseerimine konflikti"
 
 #: src/conflicts.c:352 src/conflicts.c:397
 msgid " and"
-msgstr " и"
+msgstr " ja"
 
 #: src/conflicts.c:355 src/conflicts.c:400
 msgid " 1 reduce/reduce conflict"
-msgstr " 1 конфликт вывода/вывода"
+msgstr " 1 redutseerimine/redutseerimine konflikt"
 
 #: src/conflicts.c:357 src/conflicts.c:402
 #, c-format
 msgid " %d reduce/reduce conflicts"
-msgstr " %d конфликтов вывода/вывода"
+msgstr " %d redutseerimine/redutseerimine konflikti"
 
 #. If invoked under the name `yacc', use the output format
 #. specified by POSIX.
 #: src/conflicts.c:378
 msgid "conflicts: "
-msgstr "конфликты: "
+msgstr "konfliktid: "
 
 #: src/conflicts.c:380
 #, c-format
 msgid " %d shift/reduce"
-msgstr " %d сдвиг/вывод"
+msgstr " %d nihutamine/redutseerimine"
 
 #: src/conflicts.c:384
 #, c-format
 msgid " %d reduce/reduce"
-msgstr " %d вывод/вывод"
+msgstr " %d redutseerimine/redutseerimine"
 
 #: src/conflicts.c:389
 #, c-format
 msgid "%s contains"
-msgstr "%s содержит"
+msgstr "%s sisaldab"
 
 #: src/conflicts.c:598 src/conflicts.c:712
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-msgstr "    %-4s\t[вывод с использованием правила %d (%s)]\n"
+msgstr "    %-4s\t[redutseerin, kasutades reeglit %d (%s)]\n"
 
 #: src/conflicts.c:609 src/print.c:217
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n\n"
-msgstr "    $default\tвывод с использованием правила %d (%s)\n\n"
+msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n\n"
 
 #: src/conflicts.c:695 src/conflicts.c:707
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
-msgstr "    %-4s\tвывод с использованием правила %d (%s)\n"
+msgstr "    %-4s\tredutseerin kasutades reeglit %d (%s)\n"
 
 #: src/conflicts.c:733
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
-msgstr "    $default\tвывод с использованием правила %d (%s)\n"
+msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 
 #: src/derives.c:106
 msgid "\n\n\nDERIVES\n\n"
@@ -115,27 +115,26 @@ msgstr "\n\n\nDERIVES\n\n"
 #: src/derives.c:110
 #, c-format
 msgid "%s derives"
-msgstr "%s выводит"
+msgstr "%s derives"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
 #: src/getargs.c:69
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
-msgstr "GNU bison генерирует анализаторы для грамматик LALR(1).\n"
+msgstr "GNU bison genereerib parsereid LALR(1) grammatikatele.\n"
 
 #: src/getargs.c:73
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
-msgstr "Использование: %s [КЛЮЧИ]... ФАЙЛ\n"
+msgstr "Kasuta: %s [VуTI]...FAIL\n"
 
 #: src/getargs.c:77
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
 msgstr ""
-"Если длинная форма ключа определяет аргумент как обязательный, то он также\n"
-"является обязательным для короткой формы.  То же касается необязательных\n"
-"аргументов.\n"
+"Kui pikk vУti nДitab, et argument on kohustuslik, siis on see kohustuslik \n"
+"ka lЭhikese vУtme korral. Sama ka vabalt valitavate vУtmete korral.\n"
 
 #: src/getargs.c:83
 msgid ""
@@ -144,10 +143,10 @@ msgid ""
 "  -V, --version   output version information and exit\n"
 "  -y, --yacc      emulate POSIX yacc\n"
 msgstr ""
-"Режимы функционирования:\n"
-"  -h, --help      вывести эту справку и выйти\n"
-"  -V, --version   вывести информацию о версии и выйти\n"
-"  -y, --yacc      эмулировать POSIX yacc\n"
+"TЖЖmoodid:\n"
+"  -h, --help      esita see abiinfo ja lУpeta tЖЖ\n"
+"  -V, --version   esita versiooniinfo ja lУpeta tЖЖ\n"
+"  -y, --yacc      emuleeri POSIX yacc\n"
 
 #: src/getargs.c:90
 msgid ""
@@ -159,13 +158,13 @@ msgid ""
 "  -r, --raw                  number the tokens from 3\n"
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
-"Анализатор:\n"
-"  -t, --debug                настроить анализатор для отладки\n"
-"  -p, --name-prefix=ПРЕФИКС  подставить ПРЕФИКС для внешних символов\n"
-"  -l, --no-lines             не генерировать директивы `#line'\n"
-"  -n, --no-parser            генерировать только таблицы\n"
-"  -r, --raw                  нумеровать лексемы, начиная с 3\n"
-"  -k, --token-table          включить таблицу имен лексем\n"
+"Parser:\n"
+"  -t, --debug                varusta parser silumisinfoga\n"
+"  -p, --name-prefix=PREFIKS  lisa vДlissЭmbolite nimedele PREFIKS\n"
+"  -l, --no-lines             Дra genereeri `#line' direktiive\n"
+"  -n, --no-parser            genereeri ainult tabelid\n"
+"  -r, --raw                  sЭmbolite number alates 3\n"
+"  -k, --token-table          lisa ka sЭmbolite nimede tabel\n"
 
 #: src/getargs.c:101
 msgid ""
@@ -175,420 +174,420 @@ msgid ""
 "  -b, --file-prefix=PREFIX   specify a PREFIX for output files\n"
 "  -o, --output-file=FILE     leave output to FILE\n"
 msgstr ""
-"Вывод:\n"
-"  -d, --defines              создать также файл заголовков\n"
-"  -v, --verbose              создать также пояснения в автомату\n"
-"  -b, --file-prefix=ПРЕФИКС  указать ПРЕФИКС для выходных файлов\n"
-"  -o, --output-file=ФАЙЛ     поместить результат в ФАЙЛ\n"
+"VДljund:\n"
+"  -d, --defines              loo ka pДisfail\n"
+"  -v, --verbose              vДljasta automaadi kohta selgitusi\n"
+"  -b, --file-prefix=PREFIKS  kasuta vДljundfailide nimedes PREFIKSit\n"
+"  -o, --output-file=FAIL     jДta vДljund FAILi\n"
 
 #: src/getargs.c:109
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
-msgstr "Ошибки сообщайте по адресу <bug-bison@gnu.org>.\n"
+msgstr "Teatage palun vigadest aadressil <bug-bison@gnu.org>.\n"
 
 #: src/getargs.c:195
 #, c-format
 msgid "%s: no grammar file given\n"
-msgstr "%s: не задан файл с грамматикой\n"
+msgstr "%s: puudub grammatikafail\n"
 
 #: src/getargs.c:199
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
-msgstr "%s: лишние аргументы после `%s' игнорированы\n"
+msgstr "%s: ignoreerin lisaargumente peale `%s'\n"
 
 #: src/lalr.c:293
 #, c-format
 msgid "too many gotos (max %d)"
-msgstr "слишком много goto (максимально %d)"
+msgstr "liiga palju gotosid (maks %d)"
 
 #: src/lex.c:115
 msgid "unexpected `/' found and ignored"
-msgstr "встречен и проигнорирован неожиданный символ `/'"
+msgstr "leidsin ja ignoreerin ootamatu `/'"
 
 #: src/lex.c:144 src/reader.c:248
 msgid "unterminated comment"
-msgstr "незаконченный комментарий"
+msgstr "lУpetamata kommentaar"
 
 #: src/lex.c:172
 msgid "unexpected end of file"
-msgstr "неожиданный конец файла"
+msgstr "ootamatu faililУpp"
 
 #: src/lex.c:193
 msgid "unescaped newline in constant"
-msgstr "неэкранированный перевод строки в константе"
+msgstr "paojadata reavahetus konstandis"
 
 #: src/lex.c:225
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
-msgstr "восьмеричная величина за пределами диапазона 0...255: `\\%o'"
+msgstr "kaheksandvДДrtus vДljaspool piire 0...255: `\\%o'"
 
 #: src/lex.c:250
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
-msgstr "шестнадцатеричная величина превышает 255: `\\x%x'"
+msgstr "kuueteistkЭmnendvДДrtus  suurem, kui above 255: `\\x%x'"
 
 #: src/lex.c:261
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
-msgstr "неизвестная escape-последовательность: `%s' после `\\'"
+msgstr "tundmatu paojada: `\\' jДrgneb `%s'"
 
 #: src/lex.c:394
 msgid "use \"...\" for multi-character literal tokens"
-msgstr "используйте \"...\" для многосимвольных литеральных лексем"
+msgstr "kasuta mitmesЭmboliliste literaalidega \"...\" konstruktsiooni"
 
 #: src/lex.c:473
 msgid "unterminated type name at end of file"
-msgstr "незаконченное имя типа в конце файла"
+msgstr "lУpetamata tЭЭbinimi faili lУpus"
 
 #: src/lex.c:476
 msgid "unterminated type name"
-msgstr "незаконченное имя типа"
+msgstr "lУpetamata tЭЭbinimi"
 
 #: src/main.c:136
 #, c-format
 msgid "%s: internal error: %s\n"
-msgstr "%s: внутренняя ошибка: %s\n"
+msgstr "%s: sisemine viga: %s\n"
 
 #: src/nullable.c:55
 msgid "Entering set_nullable"
-msgstr "Вход в set_nullable"
+msgstr "Entering set_nullable"
 
 #: src/output.c:1207
 #, c-format
 msgid "maximum table size (%d) exceeded"
-msgstr "превышен максимальный размер таблицы (%d)"
+msgstr "Эletati maksimaalset tabelisuurust (%d)"
 
 #: src/print.c:85
 #, c-format
 msgid " type %d is %s\n"
-msgstr " тип %d является %s\n"
+msgstr " tЭЭp %d on %s\n"
 
 #: src/print.c:92
 #, c-format
 msgid "\n\nstate %d\n\n"
-msgstr "\n\nсостояние %d\n\n"
+msgstr "\n\nolek %d\n\n"
 
 #: src/print.c:136
 #, c-format
 msgid "   (rule %d)"
-msgstr "   (правило %d)"
+msgstr "   (reegel %d)"
 
 #: src/print.c:163
 msgid "    $default\taccept\n"
-msgstr "    $default\tпринятие\n"
+msgstr "    $default\taktsepteerin\n"
 
 #: src/print.c:165
 msgid "    NO ACTIONS\n"
-msgstr "    НЕТ ДЕЙСТВИЙ\n"
+msgstr "    TEGEVUSI POLE\n"
 
 #. I.e. strcmp(tags[symbol],"$")==0
 #: src/print.c:181
 #, c-format
 msgid "    $   \tgo to state %d\n"
-msgstr "    $   \tпереход в состояние %d\n"
+msgstr "    $   \tliigu olekule %d\n"
 
 #: src/print.c:183
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
-msgstr "    %-4s\tсдвиг, и переход в состояние %d\n"
+msgstr "    %-4s\tnihuta ja liigu olekule %d\n"
 
 #: src/print.c:206
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
-msgstr "    %-4s\tошибка (неассоциативная)\n"
+msgstr "    %-4s\tviga (mitteassotsiatiivne)\n"
 
 #: src/print.c:232
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
-msgstr "    %-4s\tпереход в состояние %d\n"
+msgstr "    %-4s\tliigu olekule %d\n"
 
 #. rule # : LHS -> RHS
 #: src/print.c:253
 msgid "\nGrammar\n"
-msgstr "\nГрамматика\n"
+msgstr "\nGrammatika\n"
 
 #: src/print.c:258
 #, c-format
 msgid "rule %-4d %s ->"
-msgstr "правило %-4d %s ->"
+msgstr "reegel %-4d %s ->"
 
 #: src/print.c:264
 msgid "\t\t/* empty */"
-msgstr "\t\t/* пусто */"
+msgstr "\t\t/* tЭhi */"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:269
 msgid "\nTerminals, with rules where they appear\n\n"
-msgstr "\nТерминальные символы с правилами, в которых они появляются\n\n"
+msgstr "\nTerminalid, koos reeglitega, kus nad ilmuvad\n\n"
 
 #: src/print.c:317
 msgid "\nNonterminals, with rules where they appear\n\n"
-msgstr "\nНетерминальные символы с правилами, в которых они появляются\n\n"
+msgstr "\nMitteterminalid, koos reeglitega, kus nad ilmuvad\n\n"
 
 #: src/print.c:343
 msgid " on left:"
-msgstr " налево:"
+msgstr " vasakul:"
 
 #: src/print.c:358
 msgid " on right:"
-msgstr " направо:"
+msgstr " paremal:"
 
 #: src/reader.c:154
 msgid "   Skipping to next \\n"
-msgstr "   Пропуск до следующего \\n"
+msgstr "   Liigun jДrgmisele \\n"
 
 #: src/reader.c:156
 #, c-format
 msgid "   Skipping to next %c"
-msgstr "   Пропуск до следующего %c"
+msgstr "   Liigun jДrgmisele %c"
 
 #: src/reader.c:180 src/reader.c:195
 msgid "unterminated string at end of file"
-msgstr "незаконченная строка в конце файла"
+msgstr "lУpetamata sУne faili lУpus"
 
 #: src/reader.c:183
 msgid "unterminated string"
-msgstr "незаконченная строка"
+msgstr "lУpetamata sУne"
 
 #: src/reader.c:424
 #, c-format
 msgid "unrecognized: %s"
-msgstr "нераспознано: %s"
+msgstr "tundmatu: %s"
 
 #: src/reader.c:429
 msgid "no input grammar"
-msgstr "нет входной грамматики"
+msgstr "sisendgrammatikat pole"
 
 #: src/reader.c:432
 #, c-format
 msgid "unknown character: %s"
-msgstr "неизвестный символ: %s"
+msgstr "tundmatu sЭmbol: %s"
 
 #: src/reader.c:484
 msgid "unterminated `%{' definition"
-msgstr "незаконченное определение `%{'"
+msgstr "lУpetamata `%{' definitsioon"
 
 #: src/reader.c:525 src/reader.c:713 src/reader.c:762
 #, c-format
 msgid "Premature EOF after %s"
-msgstr "Преждевременный конец файла после %s"
+msgstr "Enneaegne EOF peale %s"
 
 #: src/reader.c:562 src/reader.c:784
 #, c-format
 msgid "symbol %s redefined"
-msgstr "повторное определение символа %s"
+msgstr "sЭmbol %s on uuesti defineeritud"
 
 #: src/reader.c:572 src/reader.c:728 src/reader.c:791 src/reader.c:1697
 #, c-format
 msgid "type redeclaration for %s"
-msgstr "повторное описание типа для %s"
+msgstr "%s tЭЭbi uuesti deklareerimine"
 
 #: src/reader.c:582
 #, c-format
 msgid "`%s' is invalid in %s"
-msgstr "`%s' неверно в %s"
+msgstr "`%s' ei ole %s sees lubatud"
 
 #: src/reader.c:630
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
-msgstr "нераспознанный элемент %s, ожидался идентификатор"
+msgstr "tundmatu element %s, eeldasin identifikaatorit"
 
 #: src/reader.c:652
 #, c-format
 msgid "expected string constant instead of %s"
-msgstr "вместо %s ожидалась строковая постоянная"
+msgstr "eeldasin %s asemel sУnekonstanti"
 
 #: src/reader.c:674
 #, c-format
 msgid "multiple %start declarations"
-msgstr "множественное описание %start"
+msgstr "korduvad %start deklaratsioonid"
 
 #: src/reader.c:676
 #, c-format
 msgid "invalid %start declaration"
-msgstr "неверное описание %start"
+msgstr "vigane %start deklaratsioon"
 
 #: src/reader.c:696
 msgid "%type declaration has no <typename>"
-msgstr "описание %type не имеет <имя_типа>"
+msgstr "%type deklaratsioonis puudub <tЭЭbinimi>"
 
 #: src/reader.c:733
 msgid "invalid %%type declaration due to item: %s"
-msgstr "неверное описание %%type из-за элемента: %s"
+msgstr "vigane %%type deklaratsioon, element: %s"
 
 #: src/reader.c:780
 #, c-format
 msgid "redefining precedence of %s"
-msgstr "переопределение приоритета для %s"
+msgstr "%s prioriteedi uus definitsioon"
 
 #: src/reader.c:803
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
-msgstr "неверный текст (%s) - число должно следовать за идентификатором"
+msgstr "vigane tekst (%s) - number peab olema peale identifikaatorit"
 
 #: src/reader.c:813
 #, c-format
 msgid "unexpected item: %s"
-msgstr "неожиданный элемент: %s"
+msgstr "ootamatu element: %s"
 
 #: src/reader.c:837
 #, c-format
 msgid "multiple %union declarations"
-msgstr "множественное описание %union"
+msgstr "korduvad %union deklaratsioonid"
 
 #: src/reader.c:895
 msgid "unterminated comment at end of file"
-msgstr "незаконченный комментарий в конце файла"
+msgstr "lУpetamata kommentaar faili lУpus"
 
 #: src/reader.c:921
 msgid "unmatched close-brace (`}')"
-msgstr "непарная закрывающая фигурная скобка (`}')"
+msgstr "puudub sulgev loogeline sulg (`}')"
 
 #: src/reader.c:965
 #, c-format
 msgid "argument of %expect is not an integer"
-msgstr "аргумент %expect не является целым числом"
+msgstr "%expect argument ei ole tДisarv"
 
 #: src/reader.c:997
 #, c-format
 msgid "@%s is invalid"
-msgstr "неверный знак @%s"
+msgstr "@%s on vigane"
 
 #: src/reader.c:1012 src/reader.c:1024
 msgid "invalid $ value"
-msgstr "неверное $ значение"
+msgstr "vigane $ vДДrtus"
 
 #: src/reader.c:1083
 msgid "unmatched right brace (`}')"
-msgstr "непарная правая фигурная скобка (`}')"
+msgstr "puudub sulgev loogeline sulg (`}')"
 
 #: src/reader.c:1130 src/reader.c:1270
 #, c-format
 msgid "$$ of `%s' has no declared type"
-msgstr "$$ в `%s' не имеет описанного типа"
+msgstr "`%s' $$ ei oma deklareeritud tЭЭpi"
 
 #: src/reader.c:1146 src/reader.c:1286
 #, c-format
 msgid "$%d of `%s' has no declared type"
-msgstr "$%d из `%s' не имеет описанного типа"
+msgstr "$%d `%s' ei oma deklareeritud tЭЭpi"
 
 #: src/reader.c:1151 src/reader.c:1291
 #, c-format
 msgid "$%s is invalid"
-msgstr "неверный знак $%s"
+msgstr "$%s on vigane"
 
 #: src/reader.c:1160
 #, c-format
 msgid "unterminated %guard clause"
-msgstr "незаконченный оператор %guard"
+msgstr "lУpetamata %guard klausel"
 
 #: src/reader.c:1300
 msgid "unmatched `{'"
-msgstr "непарная `{'"
+msgstr "puudub `{'"
 
 #: src/reader.c:1386
 msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "неверное правило: двоеточие не следует за начальным символом"
+msgstr "vigaselt formeeritud reegel: algsЭmbolile ei jДrgne koolonit"
 
 #: src/reader.c:1393
 msgid "grammar starts with vertical bar"
-msgstr "грамматика начинается с вертикальной черты"
+msgstr "grammatika algab pЭstkriipsuga"
 
 #: src/reader.c:1424
 #, c-format
 msgid "rule given for %s, which is a token"
-msgstr "правило задано для %s, который является лексемой"
+msgstr "%s jaoks on antud reegel, aga see on mДrk"
 
 #: src/reader.c:1522
 msgid "two @prec's in a row"
-msgstr "два @prec подряд"
+msgstr "kaks @prec Эhel real"
 
 #: src/reader.c:1531
 #, c-format
 msgid "%guard present but %semantic_parser not specified"
-msgstr "%guard присутствует, а %semantic_parser не задан"
+msgstr "%guard on mДДratud, aga %semantic_parser ei ole"
 
 #: src/reader.c:1540
 msgid "two actions at end of one rule"
-msgstr "два действия в конце одного правила"
+msgstr "kaks tegevust Эhe reegli lУpus"
 
 #: src/reader.c:1555
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
-msgstr "конфликт типов (`%s' `%s') на действии по умолчанию"
+msgstr "vaikimisi tegevuse tЭЭbikonflikt (`%s' `%s')"
 
 #: src/reader.c:1561
 msgid "empty rule for typed nonterminal, and no action"
-msgstr "пустое правило для типизированного нетерминального символа, и нет действия"
+msgstr "tЭЭbiga mitteterminalil on tЭhi reegel ja puudub tegevus"
 
 #: src/reader.c:1605
 #, c-format
 msgid "invalid input: %s"
-msgstr "неверные входные данные: %s"
+msgstr "vigane sisend: %s"
 
 #: src/reader.c:1613
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
-msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"
+msgstr "liiga palju sЭmboleid (mДrgid ja mitteterminalid); maksimaalne on %d"
 
 #: src/reader.c:1616
 msgid "no rules in the input grammar"
-msgstr "отсутствуют правила во входной грамматике"
+msgstr "sisendgrammatikas pole reegleid"
 
 #: src/reader.c:1634
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
-msgstr "символ %s используется, но не определен как лексема и не имеет правил"
+msgstr "kasutatakse sЭmbolit %s, mis ei ole defineeritud mДrgina ja millel puuduvad reeglid"
 
 #: src/reader.c:1673
 msgid "ill-formed %type declaration"
-msgstr "неверное описание %type"
+msgstr "vigaselt formeeritud %type deklaratsioon"
 
 #: src/reader.c:1752
 #, c-format
 msgid "conflicting precedences for %s and %s"
-msgstr "противоречивые приоритеты для %s и %s"
+msgstr "%s ja %s omavad konfliktseid prioriteete"
 
 #: src/reader.c:1764
 #, c-format
 msgid "conflicting assoc values for %s and %s"
-msgstr "противоречивые значения ассоциативности для %s и %s"
+msgstr "%s ja %s omavad konfliktseid assotsiatiivseid vДДrtuseid"
 
 #: src/reader.c:1815
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
-msgstr "обеим лексемам %s и %s присвоен номер %d"
+msgstr "mДrkidele %s ja %s on mУlemale omistatud number %d"
 
 #: src/reader.c:1829
 #, c-format
 msgid "the start symbol %s is undefined"
-msgstr "начальный символ %s неопределен"
+msgstr "stardisЭmbol %s ei ole defineeritud"
 
 #: src/reader.c:1831
 #, c-format
 msgid "the start symbol %s is a token"
-msgstr "начальный символ %s является лексемой"
+msgstr "stardisЭmbol %s on mДrk"
 
 #: src/reduce.c:141
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
-msgstr "Начальный символ %s не выводит ни одного предложения"
+msgstr "StardisЭmbolist %s ei tuletata Эhtegi lauset"
 
 #: src/reduce.c:155
 #, c-format
 msgid "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
-msgstr "выведенный %s определяет %d терминалов%s, %d нетерминалов%s, и %d правил вывода%s.\n"
+msgstr "redutseeritud %s defineerib %d terminali%s, %d mitteterminali%s ja %d reeglit%s.\n"
 
 #: src/reduce.c:493
 msgid "Useless nonterminals:\n\n"
-msgstr "Бесполезные нетерминалы:\n\n"
+msgstr "Kasutamata mitteterminalid:\n\n"
 
 #: src/reduce.c:505
 msgid "\n\nTerminals which are not used:\n\n"
-msgstr "\n\nНеиспользованные терминалы:\n\n"
+msgstr "\n\nTerminalid, mida ei kasutatud:\n\n"
 
 #: src/reduce.c:514
 msgid "\n\nUseless rules:\n\n"
-msgstr "\n\nБесполезные правила:\n\n"
+msgstr "\n\nKasutamata reeglid:\n\n"
 
 #: src/reduce.c:542
 msgid ""
@@ -596,13 +595,13 @@ msgid ""
 "---------\n"
 "\n"
 msgstr ""
-"Переменные\n"
-"----------\n"
+"Muutujad\n"
+"--------\n"
 "\n"
 
 #: src/reduce.c:543
 msgid "Value  Sprec    Sassoc    Tag\n"
-msgstr "Знач   Приор    Ассоц     Тег\n"
+msgstr "Value  Sprec    Sassoc    Tag\n"
 
 #: src/reduce.c:548
 msgid ""
@@ -610,7 +609,7 @@ msgid ""
 "-----\n"
 "\n"
 msgstr ""
-"Правила\n"
+"Reeglid\n"
 "-------\n"
 "\n"
 
@@ -620,89 +619,140 @@ msgid ""
 "-----------------\n"
 "\n"
 msgstr ""
-"Интерпретированные правила\n"
-"--------------------------\n"
+"Interpreteeritud reeglid\n"
+"------------------------\n"
 "\n"
 
 #: src/reduce.c:574
 #, c-format
 msgid "%d rules never reduced\n"
-msgstr "%d правил не сведено\n"
+msgstr "%d reeglit ei redutseeritud\n"
 
 #: src/reduce.c:576
 #, c-format
 msgid "%s contains "
-msgstr "%s содержит "
+msgstr "%s sisaldab "
 
 #: src/reduce.c:580
 #, c-format
 msgid "%d useless nonterminal%s"
-msgstr "%d бесполезных нетерминалов%s"
+msgstr "%d kasutamata mitteterminali%s"
 
 #: src/reduce.c:585
 msgid " and "
-msgstr " и "
+msgstr " ja "
 
 #: src/reduce.c:589
 #, c-format
 msgid "%d useless rule%s"
-msgstr "%d бесполезных правил%s"
+msgstr "%d kasutamata reeglit%s"
 
 #: lib/getopt.c:675
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
-msgstr "%s: неоднозначный ключ `%s'\n"
+msgstr "%s: vУti `%s' on segane\n"
 
 #: lib/getopt.c:700
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
-msgstr "%s: ключ `--%s' должен использоваться без аргумента\n"
+msgstr "%s: vУti `--%s' ei luba argumenti\n"
 
 #: lib/getopt.c:705
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
-msgstr "%s: ключ `%c%s' должен использоваться без аргумента\n"
+msgstr "%s: vУti `%c%s' ei luba argumenti\n"
 
 #: lib/getopt.c:723 lib/getopt.c:896
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
-msgstr "%s: ключ `%s' должен использоваться с аргументом\n"
+msgstr "%s: vУti `%s' nУuab argumenti\n"
 
 #. --option
 #: lib/getopt.c:752
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
-msgstr "%s: неизвестный ключ `--%s'\n"
+msgstr "%s: tundmatu vУti `--%s'\n"
 
 #. +option or -option
 #: lib/getopt.c:756
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
-msgstr "%s: неизвестный ключ `%c%s'\n"
+msgstr "%s: tundmatu vУti `%c%s'\n"
 
 #. 1003.2 specifies the format of this message.
 #: lib/getopt.c:782
 #, c-format
 msgid "%s: illegal option -- %c\n"
-msgstr "%s: недопустимый ключ -- %c\n"
+msgstr "%s: lubamatu vУti -- %c\n"
 
 #: lib/getopt.c:785
 #, c-format
 msgid "%s: invalid option -- %c\n"
-msgstr "%s: неверный ключ -- %c\n"
+msgstr "%s: vigane vУti -- %c\n"
 
 #. 1003.2 specifies the format of this message.
 #: lib/getopt.c:815 lib/getopt.c:945
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
-msgstr "%s: ключ должен использоваться с аргументом -- %c\n"
+msgstr "%s: vУti nУuab argumenti -- %c\n"
 
 #: lib/getopt.c:862
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
-msgstr "%s: неоднозначный ключ `-W %s'\n"
+msgstr "%s: vУti `-W %s' on segane\n"
 
 #: lib/getopt.c:880
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
-msgstr "%s: ключ `-W %s' должен использоваться без аргумента\n"
+msgstr "%s: vУti `-W %s' ei luba argumenti\n"
+
+#~ msgid "\n\n\nFIRSTS\n\n"
+#~ msgstr "\n\n\nFIRSTS\n\n"
+
+#~ msgid "\n\n%s firsts\n\n"
+#~ msgstr "\n\n%s firsts\n\n"
+
+#~ msgid "\n\n\nFDERIVES\n"
+#~ msgstr "\n\n\nFDERIVES\n"
+
+#~ msgid "\n\n%s derives\n\n"
+#~ msgstr "\n\n%s derives\n\n"
+
+#~ msgid ""
+#~ "Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
+#~ "       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
+#~ "       [--verbose] [--version] [--help] [--yacc]\n"
+#~ "       [--no-parser] [--token-table]\n"
+#~ "       [--file-prefix=prefix] [--name-prefix=prefix]\n"
+#~ "       [--output=outfile] grammar-file\n"
+#~ msgstr ""
+#~ "Kasuta: %s [-dhklntvyV] [-b faili-prefiks] [-o vДljundfail] [-p nime-prefiks]\n"
+#~ "        [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
+#~ "        [--verbose] [--version] [--help] [--yacc]\n"
+#~ "        [--no-parser] [--token-table]\n"
+#~ "        [--file-prefix=prefiks] [--name-prefix=prefiks]\n"
+#~ "        [--output=vДljundfail] grammatika-fail\n"
+
+#~ msgid "gotos"
+#~ msgstr "gotod"
+
+#~ msgid "fatal error: %s\n"
+#~ msgstr "fataalne viga: %s\n"
+
+#~ msgid "\"%s\", line %d: %s\n"
+#~ msgstr "\"%s\", rida %d: %s\n"
+
+#~ msgid "error: %s\n"
+#~ msgstr "viga: %s\n"
+
+#~ msgid "(\"%s\", line %d) error: %s\n"
+#~ msgstr "(\"%s\", rida %d) viga: %s\n"
+
+#~ msgid "limit of %d exceeded, too many %s"
+#~ msgstr "limiit %d Эletatud, liiga palju %s"
+
+#~ msgid "unterminated comment in `%{' definition"
+#~ msgstr "lУpetamata kommentaar `%{' definitsioonis"
+
+#~ msgid "invalid @-construct"
+#~ msgstr "vigane @-konstruktsioon"
