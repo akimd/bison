@@ -96,6 +96,13 @@ void symbol_type_set PARAMS ((symbol_t *symbol, char *type_name));
 void symbol_precedence_set PARAMS ((symbol_t *symbol,
 				    int prec, associativity assoc));
 
+/* Set the CLASS associated to SYMBOL.  */
+void symbol_class_set PARAMS ((symbol_t *symbol, symbol_class class));
+
+/* Set the USER_TOKEN_NUMBER associated to SYMBOL.  */
+void symbol_user_token_number_set PARAMS ((symbol_t *symbol, int user_number));
+
+
 /* Distinguished symbols.  AXIOM is the real start symbol, that used
    by the automaton.  STARTSYMBOL is the one specified by the user.
    */

@@ -1,5 +1,13 @@
 2002-06-10  Akim Demaille  <akim@epita.fr>
 
+	* src/symtab.c, src/symtab.c (symbol_class_set)
+	(symbol_user_token_number_set): New.
+	* src/reader.c (parse_token_decl): Use them.
+	Use a switch instead of ifs.
+	Use a single argument.
+
+2002-06-10  Akim Demaille  <akim@epita.fr>
+
 	Remove `%thong' support as it is undocumented, unused, duplicates
 	`%token's job, and creates useless e-mail traffic with people who
 	want to know what it is, why it is undocumented, unused, and
