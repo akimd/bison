@@ -1,5 +1,11 @@
 2001-08-27  Akim Demaille  <akim@epita.fr>
 
+	* Makefile.maint: Formatting changes.
+	(po-update, cvs-update, update): New targets.
+	(AMTAR): Remove.
+
+2001-08-27  Akim Demaille  <akim@epita.fr>
+
 	* Makefile.am (AUTOMAKE_OPTIONS): 1.5.
 	* Makefile.maint: Sync. with CVS Autoconf.
 

@@ -209,7 +209,7 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     ;;
 
   makeinfo)
-    if test -z "$run" && (makeinfo --version > /dev/null 2>&1); then
+    if test -z "$run" && (makeinfo --version) > /dev/null 2>&1; then
        # We have makeinfo, but it failed.
        exit 1
     fi

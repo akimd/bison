@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:53+0200\n"
+"POT-Creation-Date: 2001-08-27 11:51+0200\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -188,46 +188,48 @@ msgid ""
 "  -v, --verbose              also produce an explanation of the automaton\n"
 "  -b, --file-prefix=PREFIX   specify a PREFIX for output files\n"
 "  -o, --output-file=FILE     leave output to FILE\n"
+"  -g, --graph                also produce a VCG graph description of the "
+"automaton\n"
 msgstr ""
 
-#: src/getargs.c:124
+#: src/getargs.c:126
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:138
+#: src/getargs.c:140
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr ""
 
-#: src/getargs.c:143
+#: src/getargs.c:145
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
 
-#: src/getargs.c:147
+#: src/getargs.c:149
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:208 src/lex.c:635
+#: src/getargs.c:210 src/lex.c:636
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr ""
 
-#: src/getargs.c:232
+#: src/getargs.c:234
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/getargs.c:239
+#: src/getargs.c:241
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: geen grammatica bestand gegeven\n"
 
-#: src/getargs.c:243
+#: src/getargs.c:245
 #, fuzzy, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argumenten genegeerd na '%s'\n"
@@ -454,7 +456,7 @@ msgstr ""
 msgid "symbol %s redefined"
 msgstr "symbool %s opnieuw gedefinieerd"
 
-#: src/reader.c:534 src/reader.c:613 src/reader.c:674 src/reader.c:1268
+#: src/reader.c:534 src/reader.c:613 src/reader.c:674 src/reader.c:1306
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "type herdeclaratie voor %s"
@@ -469,7 +471,7 @@ msgstr "`%s' is onjuist in %s"
 msgid "multiple %s declarations"
 msgstr "meerdere %start declaraties"
 
-#: src/reader.c:563 src/reader.c:1246
+#: src/reader.c:563 src/reader.c:893 src/reader.c:918 src/reader.c:1284
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "onjuiste %start declaratie"
@@ -498,7 +500,7 @@ msgstr "onjuiste tekst (%s) - nummer hoort na de identifier"
 msgid "unexpected item: %s"
 msgstr "onbekend item: %s"
 
-#: src/reader.c:759 src/reader.c:1072 src/reader.c:1143
+#: src/reader.c:759 src/reader.c:1110 src/reader.c:1181
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "niet overeenkomstige `{'"
@@ -518,113 +520,113 @@ msgstr "onbekend item %s, verwacht een identifier"
 msgid "expected string constant instead of %s"
 msgstr "verwacht string constante in plaats van %s"
 
-#: src/reader.c:887
+#: src/reader.c:930
 #, fuzzy, c-format
 msgid "multiple %%header_extension declarations"
 msgstr "meerdere %union declaraties"
 
-#: src/reader.c:902
+#: src/reader.c:940
 #, fuzzy, c-format
 msgid "multiple %%source_extension declarations"
 msgstr "meerdere %union declaraties"
 
-#: src/reader.c:988
+#: src/reader.c:1026
 #, c-format
 msgid "unrecognized: %s"
 msgstr "onbekend: %s"
 
-#: src/reader.c:993
+#: src/reader.c:1031
 msgid "no input grammar"
 msgstr "geen invoer grammatica"
 
-#: src/reader.c:998
+#: src/reader.c:1036
 #, c-format
 msgid "unknown character: %s"
 msgstr "onbekend karakter: %s"
 
-#: src/reader.c:1166
+#: src/reader.c:1204
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "niet getermineerde %%guard voorwaarde"
 
-#: src/reader.c:1333
+#: src/reader.c:1371
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr ""
 "slecht geformuleerde regel: initieel symbool niet gevolgd door dubbele punt"
 
-#: src/reader.c:1340
+#: src/reader.c:1378
 msgid "grammar starts with vertical bar"
 msgstr "grammatica start met een verticale bar"
 
-#: src/reader.c:1371
+#: src/reader.c:1409
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel geven voor %s, welke een teken is"
 
-#: src/reader.c:1473
+#: src/reader.c:1511
 msgid "two @prec's in a row"
 msgstr "twee @prec's in een regel"
 
-#: src/reader.c:1481
+#: src/reader.c:1519
 #, fuzzy, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard aanwezig maar %%semantic_parser niet gespecificeerd"
 
-#: src/reader.c:1490
+#: src/reader.c:1528
 msgid "two actions at end of one rule"
 msgstr "twee akties aan het einde van een regel"
 
-#: src/reader.c:1504
+#: src/reader.c:1542
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "type clash (`%s' `%s') bij standaard aktie"
 
-#: src/reader.c:1510
+#: src/reader.c:1548
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "lege regel voor getypte niet terminal, en geen aktie"
 
-#: src/reader.c:1554
+#: src/reader.c:1592
 #, c-format
 msgid "invalid input: %s"
 msgstr "ongeldige invoer: %s"
 
-#: src/reader.c:1562
+#: src/reader.c:1600
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "te veel symbolen (tekens plus nietterminals); maximum %s"
 
-#: src/reader.c:1565
+#: src/reader.c:1603
 msgid "no rules in the input grammar"
 msgstr "geen regels voor invoer grammatica"
 
-#: src/reader.c:1589
+#: src/reader.c:1627
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "symbool %s is gebruikt, maar is niet gedefinieerd als een teken en\n"
 "heeft geen regels"
 
-#: src/reader.c:1694
+#: src/reader.c:1732
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "conflictuerende precedentein voor %s en %s"
 
-#: src/reader.c:1706
+#: src/reader.c:1744
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "conflictuerende associatieve waarden voor %s en %s"
 
-#: src/reader.c:1757
+#: src/reader.c:1795
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr ""
 
-#: src/reader.c:1770
+#: src/reader.c:1808
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr ""
 
-#: src/reader.c:1772
+#: src/reader.c:1810
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "het start symbool %s is een token"
@@ -724,50 +726,6 @@ msgid ""
 msgstr ""
 "gereduceerd %s gedefinieerd %d terminal%s, %d nietterminal%s, en %d productie"
 "%s.\n"
-
-#: src/vcg.c:234
-msgid "vcg graph: no such color."
-msgstr ""
-
-#: src/vcg.c:249
-msgid "vcg graph: no such text mode"
-msgstr ""
-
-#: src/vcg.c:265
-msgid "vcg graph: no such shape"
-msgstr ""
-
-#: src/vcg.c:304
-msgid "vcg graph: no such decision"
-msgstr ""
-
-#: src/vcg.c:320
-msgid "vcg graph: no such an orientation"
-msgstr ""
-
-#: src/vcg.c:335
-msgid "vcg graph: no such an alignement"
-msgstr ""
-
-#: src/vcg.c:349
-msgid "vcg graph: no such an arrow mode"
-msgstr ""
-
-#: src/vcg.c:365
-msgid "vcg graph: no such crossing_type"
-msgstr ""
-
-#: src/vcg.c:382
-msgid "vcg graph: no such view"
-msgstr ""
-
-#: src/vcg.c:398
-msgid "vcg graph: no such linestyle"
-msgstr ""
-
-#: src/vcg.c:413
-msgid "vcg graph: no such an arrowstyle"
-msgstr ""
 
 #: lib/getopt.c:675
 #, c-format

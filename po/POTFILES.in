@@ -13,7 +13,6 @@ src/print.c
 src/print_graph.c
 src/reader.c
 src/reduce.c
-src/vcg.c
 
 lib/error.c
 lib/getopt.c
