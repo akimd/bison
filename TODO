@@ -1,16 +1,15 @@
 -*- outline -*-
 
 * src/reader.c
-Complete parse_skel_decl () with parse_dquoted_param ().	[ok]
 Check and cleanup for CPP-out code.	[]
 
 * src/output.c
-Remove %%verbose which is useless.	[ok]
+Check and cleanup for CPP-out code.	[]
 
-* Broken options.
+* Broken options ?.
 ** %no-lines		[]
 ** %no-parser		[]
-** %pure-parser ?	[]
+** %pure-parser		[]
 ** %semantic-parser	[]
 ** %token-table		[]
 ** Options which could use parse_dquoted_param ().
@@ -20,10 +19,9 @@ Maybe transfered in lex.c.
 *** %file-prefix	[]
 *** %name-prefix	[]
 
-Cleanup dirty CPP-out code.	[]
-** Output sub-skeleton files.	[]
+** Skeleton strategy.	[]
 Useful for %no_parser.	[]
-*** New skeleton.	[]
+*** New skeletons.	[]
 
 * src/macrotab.[ch]
 Removing warnings when compiling. (gcc-warnings).	[ok]
@@ -37,10 +35,4 @@ Add explainations about skeleton muscles.	[]
 Add explainations about %skeleton.	[]
 
 * testsuite.
-** tests/reduce.at	[]
-** tests/calc.at
-Remove --yyerror-verbose.	[ok]
-** tests/torture.at
-Remove --yyerror-verbose.	[ok]
-** tests/calc.at
-Test --error-verbose.	[ok]
+** tests/reduce.at	[ok]
