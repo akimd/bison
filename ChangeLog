@@ -1,5 +1,9 @@
 2002-05-05  Akim Demaille  <akim@epita.fr>
 
+	* tests/torture.at (Many lookaheads): New test.
+
+2002-05-05  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (GENERATE_OUTPUT_TABLE): Replace with...
 	(GENERATE_MUSCLE_INSERT_TABLE): this.
 	(output_int_table, output_unsigned_int_table, output_short_table)
