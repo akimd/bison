@@ -8,4 +8,5 @@ config.hin
 config.log
 config.status
 configure
+intl
 stamp-h
