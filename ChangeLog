@@ -1,0 +1,1048 @@
+2000-03-10  Akim Demaille  <akim@epita.fr>
+
+	* src/closure.c:
+	Formatting changes of various comments.
+	Respect the GNU coding standards at various places.
+	Don't use `_()' when no translation is needed.
+
+1999-12-13  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/files.c:
+	OS/2 honors TMPDIR environment variable.
+
+1999-12-13  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/bison.texinfo: Tweaked spelling and grammar.
+	Updated ISBN.
+	Removed reference to price of printed copy.
+	Mention BISON_SIMPLE and BISON_HAIRY.
+
+1999-12-13  Jesse Thilo  <jthilo@gnu.org>
+
+	* configure.in, NEWS:
+	Bison 1.29 released.
+
+1999-10-27  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/.cvsignore, doc/Makefile.am, doc/refcard.tex:
+	Added reference card.
+
+1999-07-26  Jesse Thilo  <jthilo@gnu.org>
+
+	* po/ru.po: Added Russian translation.
+
+1999-07-26  Jesse Thilo  <jthilo@gnu.org>
+
+	* configure.in: Added Russian translation.
+
+1999-07-06  Jesse Thilo  <jthilo@gnu.org>
+
+	* configure.in, NEWS, README:
+	Released version 1.28.
+
+1999-06-14  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/system.h:
+	Squashed redefinition warning on some systems.
+
+	* src/getargs.c, src/Makefile.am, src/reader.c, src/version.c:
+	Have configure build version string instead of relying on ANSI string
+	concatentation.
+
+1999-06-14  Jesse Thilo  <jthilo@gnu.org>
+
+	* po/POTFILES.in: Got rid of version.c.
+
+1999-06-14  Jesse Thilo  <jthilo@gnu.org>
+
+	* acconfig.h, configure.in:
+	Have configure build version string instead of relying on ANSI string
+	concatentation.
+
+1999-06-08  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/bison.1:
+	Dropped mention of `+' for long-named options.
+
+1999-05-30  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/files.c: Added <unistd.h> for unlink().
+
+	* src/Makefile.am, src/system.h:
+	I18n fixes.
+
+1999-05-30  Jesse Thilo  <jthilo@gnu.org>
+
+	* README: Added a FAQ list.
+
+	* configure.in, acconfig.h:
+	I18n fixes.
+
+1999-05-30  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/FAQ, doc/Makefile.am:
+	Added a FAQ list.
+
+1999-05-19  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/alloc.h, src/symtab.h, src/version.c:
+	Protected inclusion of "config.h" with HAVE_CONFIG_H.
+
+1999-04-18  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/.cvsignore, src/Makefile.am:
+	Reorganized: sources in `src', documentation in `doc'.
+
+	* src/lex.c (literalchar):
+	fixed the code for escaping double quotes (thanks
+	Jonathan Czisny.)
+
+1999-04-18  Jesse Thilo  <jthilo@gnu.org>
+
+	* po/de.po, po/es.po, po/fr.po, po/nl.po, po/POTFILES.in:
+	Adjusted paths to reflect directory reorganization.
+
+1999-04-18  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/.cvsignore, doc/Makefile.am:
+	Reorganized: sources in `src', documentation in `doc'.
+
+1999-04-18  Jesse Thilo  <jthilo@gnu.org>
+
+	* configure.in:
+	Updated AC_INIT file to reflect directory reorganization.
+
+	* configure.in, .cvsignore, Makefile.am, POTFILES.in:
+	Reorganized: sources in `src', documentation in `doc'.
+
+1999-04-13  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/allocate.c:
+	Don't declare calloc() and realloc() if not necessary.
+
+1999-04-13  Jesse Thilo  <jthilo@gnu.org>
+
+	* configure.in, acconfig.h, acinclude.m4:
+	Don't declare calloc() and realloc() if not necessary.
+
+1999-03-23  Jesse Thilo  <jthilo@gnu.org>
+
+	* po/.cvsignore: Added i18n support.
+
+1999-03-23  Jesse Thilo  <jthilo@gnu.org>
+
+	* acconfig.h, configure.in, Makefile.am:
+	Added i18n support.
+
+1999-03-22  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/bison.s1: Fixed #line numbers.
+
+1999-03-15  Jesse Thilo  <jthilo@gnu.org>
+
+	* po/es.po, po/fr.po, po/nl.po, po/de.po:
+	Added PO files from Translation Project.
+
+1999-03-03  Jesse Thilo  <jthilo@gnu.org>
+
+	* Makefile.am:
+	Added support for non-ANSI compilers (ansi2knr).
+
+1999-02-16  Jesse Thilo  <jthilo@gnu.org>
+
+	* configure.in: Bumped version number to 1.27.
+
+	* Makefile.am:
+	Added `bison.simple' to list of files removed by `make distclean'.
+
+1999-02-12  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/files.c, src/files.h:
+	Defined locations of parser files in config.h instead of Makefile.
+
+1999-02-12  Jesse Thilo  <jthilo@gnu.org>
+
+	* acconfig.h, acinclude.m4, configure.in, Makefile.am:
+	Defined locations of parser files in config.h instead of Makefile.
+
+1999-02-09  Jesse Thilo  <jthilo@gnu.org>
+
+	* Makefile.am:
+	Removed inappropriate use of $< macro.
+
+1999-02-05  Jesse Thilo  <jthilo@gnu.org>
+
+	* po/Makefile.in.in, po/POTFILES.in:
+	Add `po' directory skeleton.
+
+1999-01-27  Jesse Thilo  <jthilo@gnu.org>
+
+	* README: Document help-bison list.
+
+	* configure.in: Add check for mkstemp().
+
+1999-01-20  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/conflicts.c, src/LR0.c, src/output.c, src/reader.c:
+	Hush a few compiler warnings.
+
+	* src/files.c:
+	Add tryclose(), which verifies that fclose was successful.
+	Hush a couple of compiler warnings.
+
+1999-01-20  Jesse Thilo  <jthilo@gnu.org>
+
+	* Makefile.am, OChangeLog:
+	ChangeLog is now automatically generated.  Include the old version as
+	OChangeLog.
+
+1999-01-14  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/gram.h, src/lalr.c, src/lex.c, src/lex.h, src/machine.h, src/main.c, src/nullable.c, src/output.c, src/print.c, src/reader.c, src/reduce.c, src/state.h, src/symtab.c, src/symtab.h, src/types.h, src/vmsgetargs.c, src/warshall.c, src/allocate.c, src/alloc.h, src/bison.s1, src/closure.c, src/conflicts.c, src/derives.c, src/files.c, src/files.h, src/getargs.c, src/gram.c, src/LR0.c:
+	Update FSF address.
+
+1999-01-14  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/bison.texinfo: Fix formatting glitch.
+
+	* doc/bison.texinfo: Update FSF address.
+
+1999-01-14  Jesse Thilo  <jthilo@gnu.org>
+
+	* acconfig.h: Update FSF address.
+
+1999-01-08  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/system.h:
+	Don't define PACKAGE here, since config.h defines it.
+
+1998-12-30  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/reader.c: Update copyright date.
+
+	* src/main.c:
+	Ditch sprintf to statically-sized buffers in fatal/warn functions in
+	favor of output directly to stderr (avoids buffer overruns).
+
+	* src/reader.c: Some checks for premature EOF.
+
+	* src/allocate.c, src/alloc.h, src/closure.c, src/conflicts.c, src/derives.c, src/getargs.c, src/gram.c, src/lalr.c, src/lex.c, src/LR0.c, src/main.c, src/nullable.c, src/output.c, src/print.c, src/reduce.c, src/symtab.c, src/symtab.h, src/warshall.c:
+	Use prototypes if the compiler understands them.
+
+	* src/files.c: Honor TMPDIR on Unix hosts.
+	Use prototypes if the compiler understands them.
+
+	* src/reader.c:
+	Fix a couple of buffer overrun bugs.
+	Use prototypes if the compiler understands them.
+
+	* src/system.h: Include unistd.h and ctype.h.
+	Use #ifdef instead of #if for NLS symbols.
+
+1998-12-30  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/bison.texinfo:
+	Delete comment "consider using @set for edition number, etc..." since
+	we now are doing so.
+
+1998-12-30  Jesse Thilo  <jthilo@gnu.org>
+
+	* configure.in:
+	Use prototypes if the compiler understands them.
+
+	* NEWS: Document 1.26 highlights.
+
+	* Makefile.am: Require Automake 1.3 or later.
+
+	* acconfig.h:
+	Use prototypes if the compiler understands them.
+
+1998-12-29  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/version.c:
+	Use VERSION symbol from automake for version number.
+
+1998-12-29  Jesse Thilo  <jthilo@gnu.org>
+
+	* acconfig.h, configure.in, version.cin:
+	Use VERSION symbol from automake for version number.
+
+1998-11-28  Jesse Thilo  <jthilo@gnu.org>
+
+	* Makefile.am:
+	Distribute original version of simple parser (bison.s1), not built
+	version (bison.simple).
+
+1998-11-28  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/bison.texinfo: Add info dir entry.
+
+	* doc/bison.texinfo:
+	Let automake put version number into documentation.
+
+1998-11-26  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/bison.cld, src/build.com, src/vmshlp.mar:
+	Add non-RCS files from /gd/gnu/bison.
+
+1998-11-26  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/bison.1:
+	Document the BISON_HAIRY and BISON_SIMPLE variables.
+
+1998-11-25  Jesse Thilo  <jthilo@gnu.org>
+
+	* src/version.c: Build version.c automatically.
+
+	* src/reader.c:
+	Fix token numbering (used to start at 258, not 257).
+
+	* src/system.h: Include config.h.
+
+	* src/getargs.c: Update bug report address.
+
+	* src/alloca.c, src/getopt1.c, src/getopt.c, src/getopt.h:
+	Get latest copies of alloca.c, getopt.c, getopt.h, getopt1.c from gnu.org.
+
+1998-11-25  Jesse Thilo  <jthilo@gnu.org>
+
+	* Makefile.am:
+	Rename bison.simple to bison.s1 (bison.simple is then built from bison.s1).
+
+	* configure.in, version.cin:
+	Build version.c automatically.
+
+	* AUTHORS: Add AUTHORS file.
+
+	* README: Update bug report address.
+
+	* bison.simple:
+	Rename bison.simple to bison.s1 (bison.simple is then built from bison.s1).
+
+	* configure.in, Makefile.am, Makefile.in, stamp-h.in:
+	Add automake stuff.
+
+1998-11-25  Jesse Thilo  <jthilo@gnu.org>
+
+	* doc/bison.texinfo: Clean up some formatting.
+
+1998-05-05  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.texinfo:
+	Explain better why to make a pure parser.
+
+1998-01-05  Richard Stallman  <rms@gnu.org>
+
+	* src/files.c (openfiles):
+	[_WIN32 && !__CYGWIN32__] Use TEMP or Temp to
+	find a temporary directory, if possible.  Do not unlink files while
+	they are open.
+
+1997-08-25  Richard Stallman  <rms@gnu.org>
+
+	* src/reader.c (stack_offset;):
+	Change some warni to warns.
+
+	* src/lex.c (literalchar): Use warns, not warni.
+
+1997-06-28  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: Add a Bison version comment.
+
+	* src/main.c (fatal, warn, berror):
+	Use program_name.
+
+1997-06-28  Richard Stallman  <rms@gnu.org>
+
+	* Makefile.in (bison_version): New variable.
+	(dist): Use that variable.
+	(bison.s1): Substitute the Bison version into bison.simple.
+
+	* bison.simple: Add a Bison version comment.
+
+1997-06-18  Richard Stallman  <rms@gnu.org>
+
+	* src/main.c (fatal, warn, berror):
+	Make error messages standard.
+	(toomany): Improve error message text.
+
+	* src/LR0.c, src/closure.c, src/conflicts.c, src/derives.c, src/files.c, src/lalr.c, src/lex.c, src/nullable.c, src/output.c, src/print.c, src/reader.c, src/reduce.c, src/symtab.c:
+	new.h renamed to alloc.h.
+
+1997-06-18  Richard Stallman  <rms@gnu.org>
+
+	* Makefile.in: new.h renamed to alloc.h.
+
+1997-05-24  Richard Stallman  <rms@gnu.org>
+
+	* src/lex.c (literalchar):
+	Fix the code for escaping \, " and '.
+
+	(lex): Avoid trouble when there are many chars
+	to discard in a char literal with just several chars in it.
+
+1997-05-17  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1:
+	Use malloc, if using alloca is troublesome.
+	(YYSTACK_USE_ALLOCA): New flag macro.
+	Define it for some systems and compilers.
+	(YYSTACK_ALLOC): New macro.
+	(yyparse): Use YYSTACK_ALLOC to allocate stack.
+	If it was malloc'd, free it.
+
+1997-05-17  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple:
+	Use malloc, if using alloca is troublesome.
+	(YYSTACK_USE_ALLOCA): New flag macro.
+	Define it for some systems and compilers.
+	(YYSTACK_ALLOC): New macro.
+	(yyparse): Use YYSTACK_ALLOC to allocate stack.
+	If it was malloc'd, free it.
+
+1997-04-23  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1:
+	(alloca) [__hpux]: Always define as __builtin_alloca.
+
+1997-04-23  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple:
+	(alloca) [__hpux]: Always define as __builtin_alloca.
+
+1997-04-22  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1:
+	[__hpux]: Include alloca.h (right for HPUX 10)
+	instead of declaring alloca (right for HPUX 9).
+
+	* src/bison.s1 (__yy_memcpy):
+	Declare arg `count' as unsigned int.
+	(yyparse): Cast third arg to __yy_memcpy to unsigned int.
+
+1997-04-22  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple:
+	[__hpux]: Include alloca.h (right for HPUX 10)
+	instead of declaring alloca (right for HPUX 9).
+
+	* bison.simple (__yy_memcpy):
+	Declare arg `count' as unsigned int.
+	(yyparse): Cast third arg to __yy_memcpy to unsigned int.
+
+1997-01-03  Richard Stallman  <rms@gnu.org>
+
+	* src/allocate.c: [__STDC__ or _MSC_VER]:
+	Declare calloc and realloc to return void *.
+
+1997-01-02  Richard Stallman  <rms@gnu.org>
+
+	* src/system.h:
+	[_MSC_VER]: Include stdlib.h and process.h.
+	[_MSC_VER] (getpid): Define as macro--translate it to _getpid.
+
+	* src/main.c (main): Return FAILURE as a value.
+	(printable_version): Declare arg as int, not char.
+
+1997-01-02  Richard Stallman  <rms@gnu.org>
+
+	* Makefile.in (dist):
+	Explicitly check for symlinks, and copy them.
+
+1996-12-19  Richard Stallman  <rms@gnu.org>
+
+	* src/files.c:
+	[_MSC_VER] (XPFILE, XPFILE1): Define, if not already defined.
+
+1996-12-18  Paul Eggert  <eggert@gnu.org>
+
+	* src/bison.s1 (yyparse):
+	If __GNUC__ and YYPARSE_PARAM are both defined,
+	declare yyparse to have a void * argument.
+
+1996-12-18  Paul Eggert  <eggert@gnu.org>
+
+	* bison.simple (yyparse):
+	If __GNUC__ and YYPARSE_PARAM are both defined,
+	declare yyparse to have a void * argument.
+
+1996-12-17  Richard Stallman  <rms@gnu.org>
+
+	* src/reduce.c (nbits): Add some casts.
+
+1996-08-12  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: Test _MSDOS as well as _MSDOS_.
+
+1996-08-12  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: Test _MSDOS as well as _MSDOS_.
+
+1996-07-31  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1:
+	[__sun && __i386]: Include alloca.h.
+
+1996-07-31  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple:
+	[__sun && __i386]: Include alloca.h.
+
+1996-07-30  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: Comment change.
+
+	* src/bison.s1: Test _MSDOS_, not MSDOS.
+
+1996-07-30  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: Comment change.
+
+	* bison.simple: Test _MSDOS_, not MSDOS.
+
+1996-06-01  Richard Stallman  <rms@gnu.org>
+
+	* src/reduce.c, src/reader.c, src/print.c, src/output.c, src/nullable.c, src/lex.c, src/lalr.c, src/getargs.c, src/derives.c, src/conflicts.c, src/closure.c, src/allocate.c:
+	Insert `_' macro around many string constants.
+
+	* src/main.c:
+	Insert `_' macro around many string constants.
+
+	(main): Call setlocale, bindtextdomain and textdomain.
+
+	* src/system.h: [HAVE_LOCALE_H]: Include locale.h.
+	[! HAVE_LOCALE_H] (setlocale): Define as no-op.
+	[ENABLE_NLS]: Include libintl.h.
+	[ENABLE_NLS] (gettext): Define.
+	[! ENABLE_NLS] (bintextdomain, textdomain, _): Consolation definitions.
+	(N_, PACKAGE, LOCALEDIR): New macros.
+
+1996-06-01  Richard Stallman  <rms@gnu.org>
+
+	* POTFILES.in: New file.
+
+	* Makefile.in (allocate.o):
+	Define target explicitly.
+
+	* Makefile.in (CFLAGS): Set to @CFLAGS@.
+	(LDFLAGS): Set to @LDFLAGS@.
+	(configure): Run autoconf only if preceding `cd' succeeds.
+	(bison.s1): Redirect output to temporary file then move the
+	temporary to the target, rather than redirecting directly to bison.s1.
+	(clean): Remove config.status and config.log.
+	(distclean): Don't remove config.status here.
+
+1996-05-12  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1:
+	(__yy_memcpy) [__cplusplus]: Reorder declarations of variables f and t.
+
+1996-05-12  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple:
+	(__yy_memcpy) [__cplusplus]: Reorder declarations of variables f and t.
+
+1996-05-11  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1 (__yy_memcpy):
+	Really reorder the args, as was supposedly done on Feb 14 1995.
+	(yyparse): Calls changed accordingly.
+
+1996-05-11  Richard Stallman  <rms@gnu.org>
+
+	* Makefile.in (dist): Don't use $(srcdir).
+
+	* bison.simple (__yy_memcpy):
+	Really reorder the args, as was supposedly done on Feb 14 1995.
+	(yyparse): Calls changed accordingly.
+
+1996-01-27  Richard Stallman  <rms@gnu.org>
+
+	* src/output.c (output_rule_data):
+	Test YYERROR_VERBOSE in the conditional
+	around the definition of ttyname.
+
+1995-12-29  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1:
+	Fix line numbers in #line commands.
+
+1995-12-29  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple:
+	Fix line numbers in #line commands.
+
+1995-12-27  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1 (YYPARSE_PARAM_DECL):
+	In C++, make it always null.
+	(YYPARSE_PARAM_ARG): New macro.
+	(yyparse): Use YYPARSE_PARAM_ARG.
+
+1995-12-27  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple (YYPARSE_PARAM_DECL):
+	In C++, make it always null.
+	(YYPARSE_PARAM_ARG): New macro.
+	(yyparse): Use YYPARSE_PARAM_ARG.
+
+1995-11-29  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.texinfo:
+	Describe literal string tokens, %raw, %no_lines, %token_table.
+
+1995-11-29  Daniel Hagerty  <hag@gnu.org>
+
+	* doc/bison.texinfo: Fixed update date
+
+1995-10-16  Richard Stallman  <rms@gnu.org>
+
+	* src/version.c: Version 1.25.
+
+1995-10-16  Richard Stallman  <rms@gnu.org>
+
+	* NEWS: *** empty log message ***
+
+1995-10-16  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.1, doc/bison.rnh:
+	Add new options.
+
+1995-10-15  Richard Stallman  <rms@gnu.org>
+
+	* src/vmsgetargs.c, src/getargs.c:
+	Added -n, -k, and -raw switches.
+	(noparserflag, toknumflag, rawtoknumflag): New variables.
+
+	* src/symtab.h (SALIAS):
+	New #define for adding aliases to %token.
+	(struct bucket): Added `alias' field.
+
+	* src/reduce.c (reduce_grammar):
+	Revise error message.
+	(print_notices): Remove final `.' from error message.
+
+	* src/reader.c (reader_output_yylsp):
+	New function.
+	(readgram): Use `#if 0' around code that accepted %command
+	inside grammar rules:  The documentation doesn't allow it,
+	and it will fail since the %command processors scan for the next %.
+	(parse_token_decl):  Extended the %token
+	declaration to allow a multi-character symbol as an alias.
+	(parse_thong_decl): New function.
+	(read_declarations): Added %thong declarations.
+	(read_declarations): Handle NOOP to deal with allowing
+	% declarations as another means to specify the flags.
+	(readgram): Allow %prec prior to semantics embedded in a rule.
+	(skip_to_char, read_declarations, copy_definition)
+	(parse_token_decl, parse_start_decl, parse_type_decl)
+	(parse_assoc_decl, parse_union_decl, parse_expect_decl)
+	(get_type_name, copy_guard, copy_action, readgram)
+	(get_type, packsymbols):  Revised most error messages.
+	Changed `fatal' to `warnxxx' to avoid aborting for error.
+	Revised and use multiple warnxxx functions to avoid using VARARGS1.
+	(read_declarations): Improve the error message for
+	an invalid character.  Do not abort.
+	(read_declarations, copy_guard, copy_action): Use
+	printable_version to avoid unprintable characters in printed output.
+	(parse_expect_decl): Error if argument to %expect exceeds 10 digits.
+	(parse_token_decl, parse_assoc_decl, parse_type_decl, get_type):
+	Allow the type of a non-terminal can be given
+	more than once, as long as all specifications give the same type.
+
+	* src/output.c:
+	(output_headers, output_trailers, output, output_gram)
+	(output_rule_data): Implement noparserflag variable.
+	Implement toknumflag variable.
+	(output): Call reader_output_yylsp to output LTYPESTR.
+
+	* src/main.c (main):
+	 If reader sees an error, don't process the grammar.
+	(fatals): Updated to not use VARARGS1.
+	(printable_version, int_to_string, warn, warni, warns, warnss)
+	(warnsss): New error reporting functions.  Avoid abort for error.
+
+	* src/lex.h:
+	Added THONG and NOOP for alias processing.
+	Added SETOPT for the new code that allows setting options with %flags.
+
+	* src/lex.c:
+	Include getopt.h.  Add some extern decls.
+	(safegetc): New function to deal with EOF gracefully.
+	(literalchar); new function to deal with reading \ escapes.
+	(lex): Use literalchar.
+	(lex): Implemented "..." tokens.
+	(literalchar, lex, parse_percent_token): Made tokenbuffer
+	always contain the token.  This includes growing the token
+	buffer while reading an integer.
+	(parse_percent_token): Replaced if-else statement with percent_table.
+	(parse_percent_token): Added % declarations as another
+	way to specify the flags -n, -l, and -r.  Also added hooks for
+	-d, -k, -y, -v, -t, -p, -b, -o, but implementation requires
+	major changes to files.c.
+	(lex) Retain in the incoming stream a character following
+	an incorrect '/'.
+	(skip_white_space, lex):  Revised most error messages
+	and changed fatal to warn to avoid aborting.
+	(percent_table):  Added %thong declarations.
+
+	* src/gram.h: Comment changes.
+
+	* src/files.c (openfiles, open_extra_files, done):
+	 Add faction flag
+	and actfile file.  Handle noparserflag.  Both for -n switch.
+
+	* src/conflicts.c (resolve_sr_conflict):
+	Remove use of alloca.
+
+1995-06-01  Jim Meyering  <meyering@gnu.org>
+
+	* doc/bison.texinfo: *** empty log message ***
+
+1995-05-06  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: Comment change.
+
+1995-05-06  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: Comment change.
+
+1995-05-03  Richard Stallman  <rms@gnu.org>
+
+	* src/version.c: Version now 1.24.
+
+	* src/bison.s1: Change distribution terms.
+
+	* src/version.c: Version now 1.23.
+
+1995-05-03  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.texinfo:
+	Rewrite "Conditions for Using Bison".
+	Update version to 1.24.
+
+1995-05-03  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: Change distribution terms.
+
+1995-02-23  Richard Stallman  <rms@gnu.org>
+
+	* src/files.c: Test __VMS_POSIX as well as VMS.
+
+1995-02-14  Jim Meyering  <meyering@gnu.org>
+
+	* src/bison.s1 (__yy_memcpy):
+	Renamed from __yy_bcopy to avoid
+	confusion.  Reverse FROM and TO arguments to be consistent with
+	those of memcpy.
+
+1995-02-14  Jim Meyering  <meyering@gnu.org>
+
+	* bison.simple (__yy_memcpy):
+	Renamed from __yy_bcopy to avoid
+	confusion.  Reverse FROM and TO arguments to be consistent with
+	those of memcpy.
+
+1994-11-10  David J. MacKenzie  <djm@gnu.org>
+
+	* NEWS: reformat
+
+	* NEWS: New file.
+
+	* Makefile.in (DISTFILES): Include NEWS.
+
+	* Makefile.in (DISTFILES):
+	Include install-sh, not install.sh.
+
+	* configure.in: Update to Autoconf v2 macro names.
+
+1994-10-05  David J. MacKenzie  <djm@gnu.org>
+
+	* Makefile.in: fix typo
+
+	* Makefile.in (prefix, exec_prefix):
+	Let configure set them.
+
+1994-09-28  David J. MacKenzie  <djm@gnu.org>
+
+	* Makefile.in: Set datadir to $(prefix)/share.
+
+1994-09-15  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1:
+	Update copyright notice and GPL version.
+
+1994-09-15  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple:
+	Update copyright notice and GPL version.
+
+1994-07-12  Richard Stallman  <rms@gnu.org>
+
+	* src/reduce.c, src/reader.c:
+	entered into RCS
+
+1994-05-05  David J. MacKenzie  <djm@gnu.org>
+
+	* Makefile.in: entered into RCS
+
+1994-03-26  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: entered into RCS
+
+1994-03-26  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: entered into RCS
+
+1994-03-25  Richard Stallman  <rms@gnu.org>
+
+	* src/main.c: entered into RCS
+
+1994-03-24  Richard Stallman  <rms@gnu.org>
+
+	* src/conflicts.c: entered into RCS
+
+1994-01-02  Richard Stallman  <rms@gnu.org>
+
+	* Makefile.in: *** empty log message ***
+
+1993-11-21  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: *** empty log message ***
+
+1993-11-21  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.texinfo: entered into RCS
+
+	* doc/bison.texinfo: *** empty log message ***
+
+1993-11-21  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: *** empty log message ***
+
+1993-10-25  David J. MacKenzie  <djm@gnu.org>
+
+	* doc/bison.texinfo: *** empty log message ***
+
+1993-10-19  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: *** empty log message ***
+
+1993-10-19  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: *** empty log message ***
+
+1993-10-14  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: *** empty log message ***
+
+1993-10-14  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: *** empty log message ***
+
+1993-09-14  David J. MacKenzie  <djm@gnu.org>
+
+	* doc/bison.texinfo: *** empty log message ***
+
+1993-09-13  Noah Friedman  <friedman@gnu.org>
+
+	* Makefile.in: *** empty log message ***
+
+1993-09-10  Richard Stallman  <rms@gnu.org>
+
+	* src/conflicts.c: *** empty log message ***
+
+	* src/system.h: entered into RCS
+
+1993-09-10  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.1: entered into RCS
+
+1993-09-06  Noah Friedman  <friedman@gnu.org>
+
+	* src/version.c: entered into RCS
+
+1993-09-06  Noah Friedman  <friedman@gnu.org>
+
+	* Makefile.in: *** empty log message ***
+
+1993-07-30  David J. MacKenzie  <djm@gnu.org>
+
+	* Makefile.in: *** empty log message ***
+
+1993-07-24  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: *** empty log message ***
+
+1993-07-24  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: *** empty log message ***
+
+1993-07-08  David J. MacKenzie  <djm@gnu.org>
+
+	* Makefile.in: *** empty log message ***
+
+1993-07-04  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: *** empty log message ***
+
+1993-07-04  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: *** empty log message ***
+
+1993-06-26  David J. MacKenzie  <djm@gnu.org>
+
+	* src/getargs.c: entered into RCS
+
+1993-06-26  David J. MacKenzie  <djm@gnu.org>
+
+	* doc/bison.texinfo: *** empty log message ***
+
+	* doc/bison.1: New file.
+
+1993-06-25  Richard Stallman  <rms@gnu.org>
+
+	* src/getargs.c: New file.
+
+1993-06-16  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: *** empty log message ***
+
+1993-06-16  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: *** empty log message ***
+
+1993-06-03  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.s1: New file.
+
+1993-06-03  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.texinfo: *** empty log message ***
+
+1993-06-03  Richard Stallman  <rms@gnu.org>
+
+	* bison.simple: New file.
+
+1993-05-19  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.texinfo: New file.
+
+1993-05-07  Noah Friedman  <friedman@gnu.org>
+
+	* Makefile.in: *** empty log message ***
+
+1993-04-28  Noah Friedman  <friedman@gnu.org>
+
+	* src/reader.c: *** empty log message ***
+
+1993-04-23  Noah Friedman  <friedman@gnu.org>
+
+	* src/alloc.h: entered into RCS
+
+1993-04-20  David J. MacKenzie  <djm@gnu.org>
+
+	* src/version.c: *** empty log message ***
+
+	* src/files.c, src/allocate.c:
+	entered into RCS
+
+	* src/reader.c: *** empty log message ***
+
+	* src/lex.c: entered into RCS
+
+	* src/conflicts.c: New file.
+
+	* src/symtab.c: entered into RCS
+
+	* src/alloc.h: New file.
+
+	* src/LR0.c: entered into RCS
+
+1993-04-18  Noah Friedman  <friedman@gnu.org>
+
+	* src/reader.c: New file.
+
+	* src/version.c: *** empty log message ***
+
+1993-04-18  Noah Friedman  <friedman@gnu.org>
+
+	* Makefile.in: *** empty log message ***
+
+1993-04-17  Noah Friedman  <friedman@gnu.org>
+
+	* Makefile.in: *** empty log message ***
+
+1993-04-15  Richard Stallman  <rms@gnu.org>
+
+	* src/main.c, src/files.c:
+	New file.
+
+1993-04-15  Noah Friedman  <friedman@gnu.org>
+
+	* configure.in: entered into RCS
+
+	* configure.in: *** empty log message ***
+
+	* configure.in: New file.
+
+1993-04-14  Richard Stallman  <rms@gnu.org>
+
+	* Makefile.in: New file.
+
+1993-04-13  Richard Stallman  <rms@gnu.org>
+
+	* src/version.c: New file.
+
+1993-03-25  Richard Stallman  <rms@gnu.org>
+
+	* src/output.c: entered into RCS
+
+1992-09-25  Richard Stallman  <rms@gnu.org>
+
+	* configure.bat: entered into RCS
+
+1992-06-22  Richard Stallman  <rms@gnu.org>
+
+	* src/vmsgetargs.c: entered into RCS
+
+1992-06-22  Richard Stallman  <rms@gnu.org>
+
+	* doc/bison.rnh: entered into RCS
+
+1992-04-20  David J. MacKenzie  <djm@gnu.org>
+
+	* README: entered into RCS
+
+1992-01-22  Richard Stallman  <rms@gnu.org>
+
+	* src/machine.h: entered into RCS
+
+1991-12-21  Richard Stallman  <rms@gnu.org>
+
+	* src/lalr.c, src/closure.c:
+	entered into RCS
+
+1991-12-20  Richard Stallman  <rms@gnu.org>
+
+	* src/state.h: entered into RCS
+
+1991-12-18  Richard Stallman  <rms@gnu.org>
+
+	* src/print.c, src/nullable.c, src/derives.c:
+	entered into RCS
+
+1991-11-03  David J. MacKenzie  <djm@gnu.org>
+
+	* src/warshall.c, src/types.h, src/symtab.h, src/lex.h, src/gram.c, src/gram.h, src/files.h:
+	entered into RCS
+
+1988-09-09  Richard Stallman  <rms@gnu.org>
+
+	* src/bison.hairy: entered into RCS
+
+1987-12-16  Richard Stallman  <rms@gnu.org>
+
+	* REFERENCES: entered into RCS
+

@@ -11,6 +11,6 @@ for dir in . po src doc; do
   -u 'jthilo	Jesse Thilo	jthilo@gnu.org' \
   -u 'meyering	Jim Meyering	meyering@gnu.org' \
   -u 'rms	Richard Stallman	rms@gnu.org' \
-  > ChangeLog
+  | sed -e 's,/opt/cvs/bison/bison/,,g' > ChangeLog
   )
 done
