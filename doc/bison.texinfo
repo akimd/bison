@@ -93,8 +93,8 @@ Foundation
 Published by the Free Software Foundation @*
 59 Temple Place, Suite 330 @*
 Boston, MA  02111-1307  USA @*
-Printed copies are available for $15 each.@*
-ISBN 1-882114-45-0
+Printed copies are available from the Free Software Foundation.@*
+ISBN 1-882114-44-2
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -323,12 +323,12 @@ This edition corresponds to version @value{VERSION} of Bison.
 @unnumbered Conditions for Using Bison
 
 As of Bison version 1.24, we have changed the distribution terms for
-@code{yyparse} to permit using Bison's output in non-free programs.
+@code{yyparse} to permit using Bison's output in nonfree programs.
 Formerly, Bison parsers could be used only in programs that were free
 software.
 
 The other GNU programming tools, such as the GNU C compiler, have never
-had such a requirement.  They could always be used for non-free
+had such a requirement.  They could always be used for nonfree
 software.  The reason Bison was different was not due to a special
 policy decision; it resulted from applying the usual General Public
 License to all of the Bison source code.
@@ -1499,7 +1499,7 @@ and continue parsing if the grammar contains a suitable error rule
 (@pxref{Error Recovery}).  Otherwise, @code{yyparse} returns nonzero.  We
 have not written any error rules in this example, so any invalid input will
 cause the calculator program to exit.  This is not clean behavior for a
-real calculator, but it is adequate in the first example.
+real calculator, but it is adequate for the first example.
 
 @node Rpcalc Gen, Rpcalc Compile, Rpcalc Error, RPN Calc
 @subsection Running Bison to Make the Parser
@@ -1715,7 +1715,7 @@ as @code{sin}, @code{cos}, etc.
 
 It is easy to add new operators to the infix calculator as long as they are
 only single-character literals.  The lexical analyzer @code{yylex} passes
-back all non-number characters as tokens, so new grammar rules suffice for
+back all nonnumber characters as tokens, so new grammar rules suffice for
 adding a new operator.  But we want something more flexible: built-in
 functions whose syntax has this form:
 
@@ -2254,7 +2254,7 @@ for @code{yylex}}).
 @item
 @cindex string token
 @cindex literal string token
-@cindex multi-character literal
+@cindex multicharacter literal
 A @dfn{literal string token} is written like a C string constant; for
 example, @code{"<="} is a literal string token.  A literal string token
 doesn't need to be declared unless you need to specify its semantic
@@ -2272,7 +2272,7 @@ retrieve the token number for the literal string token from the
 By convention, a literal string token is used only to represent a token
 that consists of that particular string.  Thus, you should use the token
 type @code{"<="} to represent the string @samp{<=} as a token.  Bison
-does not enforces this convention, but if you depart from it, people who
+does not enforce this convention, but if you depart from it, people who
 read your program will be confused.
 
 All the escape sequences used in string literals in C can be used in
@@ -2321,7 +2321,7 @@ A Bison grammar rule has the following general form:
 @end example
 
 @noindent
-where @var{result} is the nonterminal symbol that this rule describes
+where @var{result} is the nonterminal symbol that this rule describes,
 and @var{components} are various terminal and nonterminal symbols that
 are put together by this rule (@pxref{Symbols}).  
 
@@ -2407,8 +2407,8 @@ with no components.
 A rule is called @dfn{recursive} when its @var{result} nonterminal appears
 also on its right hand side.  Nearly all Bison grammars need to use
 recursion, because that is the only way to define a sequence of any number
-of somethings.  Consider this recursive definition of a comma-separated
-sequence of one or more expressions:
+of a particular thing.  Consider this recursive definition of a
+comma-separated sequence of one or more expressions:
 
 @example
 @group
@@ -2868,7 +2868,7 @@ the parser, so that the function @code{yylex} (if it is in this file)
 can use the name @var{name} to stand for this token type's code.
 
 Alternatively, you can use @code{%left}, @code{%right}, or @code{%nonassoc}
-instead of @code{%token}, if you wish to specify precedence.
+instead of @code{%token}, if you wish to specify associativity and precedence.
 @xref{Precedence Decl, ,Operator Precedence}.
 
 You can explicitly specify the numeric code for a token type by appending
@@ -3189,7 +3189,7 @@ file in its own right.
 The output file @file{@var{name}.h} normally defines the tokens with
 Yacc-compatible token numbers.  If this option is specified, the
 internal Bison numbers are used instead.  (Yacc-compatible numbers start
-at 257 except for single character tokens; Bison assigns token numbers
+at 257 except for single-character tokens; Bison assigns token numbers
 sequentially for all tokens starting at 3.)
 
 @item %token_table
@@ -3218,7 +3218,7 @@ definitions for macros @code{YYNTOKENS}, @code{YYNNTS}, and
 @item YYNTOKENS
 The highest token number, plus one.
 @item YYNNTS
-The number of non-terminal symbols.
+The number of nonterminal symbols.
 @item YYNRULES
 The number of grammar rules,
 @item YYNSTATES
@@ -3384,9 +3384,9 @@ all others.  In this case, the use of the literal string tokens in
 the grammar file has no effect on @code{yylex}.
 
 @item
-@code{yylex} can find the multi-character token in the @code{yytname}
+@code{yylex} can find the multicharacter token in the @code{yytname}
 table.  The index of the token in the table is the token type's code.
-The name of a multi-character token is recorded in @code{yytname} with a
+The name of a multicharacter token is recorded in @code{yytname} with a
 double-quote, the token's characters, and another double-quote.  The
 token's characters are not escaped in any way; they appear verbatim in
 the contents of the string in the table.
@@ -3591,7 +3591,7 @@ with no arguments, as usual.
 @cindex syntax error
 
 The Bison parser detects a @dfn{parse error} or @dfn{syntax error}
-whenever it reads a token which cannot satisfy any syntax rule.  A
+whenever it reads a token which cannot satisfy any syntax rule.  An
 action in the grammar can also explicitly proclaim an error, using the
 macro @code{YYERROR} (@pxref{Action Features, ,Special Features for Use in Actions}).
 
@@ -4000,7 +4000,7 @@ expr:     expr '-' expr
 
 @noindent
 Suppose the parser has seen the tokens @samp{1}, @samp{-} and @samp{2};
-should it reduce them via the rule for the addition operator?  It depends
+should it reduce them via the rule for the subtraction operator?  It depends
 on the next token.  Of course, if the next token is @samp{)}, we must
 reduce; shifting is invalid because no single rule can reduce the token
 sequence @w{@samp{- 2 )}} or anything starting with that.  But if the next
@@ -4011,7 +4011,7 @@ results.
 To decide which one Bison should do, we must consider the
 results.  If the next operator token @var{op} is shifted, then it
 must be reduced first in order to permit another opportunity to
-reduce the sum.  The result is (in effect) @w{@samp{1 - (2
+reduce the difference.  The result is (in effect) @w{@samp{1 - (2
 @var{op} 3)}}.  On the other hand, if the subtraction is reduced
 before shifting @var{op}, the result is @w{@samp{(1 - 2) @var{op}
 3}}.  Clearly, then, the choice of shift or reduce should depend
@@ -4617,7 +4617,7 @@ static int foo (lose);   /* @r{redeclare @code{foo} as function} */
 Unfortunately, the name being declared is separated from the declaration
 construct itself by a complicated syntactic structure---the ``declarator''.
 
-As a result, the part of Bison parser for C needs to be duplicated, with
+As a result, part of the Bison parser for C needs to be duplicated, with
 all the nonterminal names changed: once for parsing a declaration in which
 a typedef name can be redefined, and once for parsing a declaration in
 which that can't be done.  Here is a part of the duplication, with actions
@@ -4864,11 +4864,12 @@ with @samp{.tab.c}.  Thus, the @samp{bison foo.y} filename yields
 @menu
 * Bison Options::     All the options described in detail, 
 			in alphabetical order by short options.
+* Environment Variables::  Variables which affect Bison execution.
 * Option Cross Key::  Alphabetical list of long options.
 * VMS Invocation::    Bison command syntax on VMS.
 @end menu
 
-@node Bison Options, Option Cross Key,  , Invocation
+@node Bison Options, Environment Variables,  , Invocation
 @section Bison Options
 
 Bison supports both traditional single-letter options and mnemonic long
@@ -4987,7 +4988,32 @@ bison -y $*
 @end example
 @end table
 
-@node Option Cross Key, VMS Invocation, Bison Options, Invocation
+@node Environment Variables, Option Cross Key, Bison Options, Invocation
+@section Environment Variables
+@cindex environment variables
+@cindex BISON_HAIRY
+@cindex BISON_SIMPLE
+
+Here is a list of environment variables which affect the way Bison
+runs.
+
+@table @samp
+@item BISON_SIMPLE
+@itemx BISON_HAIRY
+Much of the parser generated by Bison is copied verbatim from a file
+called @file{bison.simple}.  If Bison cannot find that file, or if you
+would like to direct Bison to use a different copy, setting the
+environment variable @code{BISON_SIMPLE} to the path of the file will
+cause Bison to use that copy instead.
+
+When the @samp{%semantic_parser} delcaration is used, Bison copies from
+a file called @file{bison.hairy} instead.  The location of this file can
+also be specified or overridden in a similar fashion, with the
+@code{BISON_HAIRY} environment variable.
+
+@end table
+
+@node Option Cross Key, VMS Invocation, Environment Variables, Invocation
 @section Option Cross Key
 
 Here is a list of options, alphabetized by long option, to help you find
@@ -5328,7 +5354,7 @@ A flag, set by actions in the grammar rules, which alters the way
 tokens are parsed.  @xref{Lexical Tie-ins}.
 
 @item Literal string token
-A token which constists of two or more fixed characters.
+A token which consists of two or more fixed characters.
 @xref{Symbols}.
 
 @item Look-ahead token
