@@ -214,7 +214,7 @@ skeleton_find (const char *envvar, const char *skeleton_name)
 {
   const char *res = getenv (envvar);
 
-#if defined (MSDOS) || defined (_WIN32)
+#if (defined (MSDOS) && !defined(__DJGPP__)) || defined (_WIN32)
   const char *cp = getenv ("INIT");
   if (!res)
     {
@@ -249,7 +249,7 @@ skeleton_find (const char *envvar, const char *skeleton_name)
 	  strcpy (res + (cp - program_name), skel_name);
 	}
     }
-#endif /* defined (MSDOS) || defined (_WIN32) */
+#endif /* (defined (MSDOS) && !defined (__DJGPP__)) || defined (_WIN32) */
   if (!res)
     res = skeleton_name;
 
@@ -452,9 +452,7 @@ compute_output_file_names (void)
   spec_verbose_file = stringappend (short_base_name, EXT_OUTPUT);
 
   attrsfile = stringappend (short_base_name, EXT_STYPE_H);
-#ifndef MSDOS
-  attrsfile = stringappend (attrsfile, header_extension);
-#endif /* MSDOS */
+  attrsfile = stringappend (attrsfile, EXT_TYPE (header_extension));
 
 }
 
@@ -523,9 +521,7 @@ output_files (void)
       obstack_save (&attrs_obstack, attrsfile);
       obstack_free (&attrs_obstack, NULL);
       temp_name = stringappend (short_base_name, EXT_GUARD_C);
-#ifndef MSDOS
-      temp_name = stringappend (temp_name, src_extension);
-#endif /* MSDOS */
+      temp_name = stringappend (temp_name, EXT_TYPE (src_extension));
       obstack_save (&guard_obstack, temp_name);
       obstack_free (&guard_obstack, NULL);
     }

@@ -239,7 +239,7 @@ do {								\
 # define	MINSHORT	-32768
 #endif
 
-#if defined (MSDOS) && !defined (__GO32__)
+#if defined (MSDOS) && !defined (__GO32__) && !defined (__DJGPP__)
 # define	BITS_PER_WORD	16
 # define MAXTABLE	16383
 #else
@@ -261,19 +261,31 @@ do {								\
 # define EXT_OUTPUT	".output"
 # define EXT_STYPE_H	"_stype"
 # define EXT_GUARD_C	"_guard"
+# define EXT_TYPE(ext)	(ext)
 #else /* ! VMS */
 # ifdef MSDOS
-   /* MS DOS. */
-#  define EXT_TAB	"_tab"
-#  define EXT_OUTPUT	".out"
-#  define EXT_STYPE_H	".sth"
-#  define EXT_GUARD_C	".guc"
+#  if defined (__DJGPP__)
+    /* DJGPP */
+#   define EXT_TAB         	((pathconf (NULL, _PC_NAME_MAX) > 12) ? ".tab"    : "_tab")
+#   define EXT_OUTPUT      	((pathconf (NULL, _PC_NAME_MAX) > 12) ? ".output" : ".out")
+#   define EXT_STYPE_H     	((pathconf (NULL, _PC_NAME_MAX) > 12) ? ".stype"  : ".sth")
+#   define EXT_GUARD_C     	((pathconf (NULL, _PC_NAME_MAX) > 12) ? ".guard"  : ".guc")
+#   define EXT_TYPE(ext)	((pathconf (NULL, _PC_NAME_MAX) > 12) ? (ext)     : "")
+#  else /* ! __DJGPP__ */
+    /* MS DOS. */
+#   define EXT_TAB		"_tab"
+#   define EXT_OUTPUT		".out"
+#   define EXT_STYPE_H		".sth"
+#   define EXT_GUARD_C		".guc"
+#   define EXT_TYPE(ext)	""
+#  endif
 # else /* ! MSDOS */
   /* Standard. */
 #  define EXT_TAB	".tab"
 #  define EXT_OUTPUT	".output"
 #  define EXT_STYPE_H	".stype"
 #  define EXT_GUARD_C	".guard"
+#  define EXT_TYPE(ext)	(ext)
 # endif /* ! MSDOS */
 #endif /* ! VMS */
 

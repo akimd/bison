@@ -160,10 +160,15 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\
 | Process the options.  |
 `----------------------*/
 
-/* Under DOS, there is no difference on the case.  This can be
+/* Under plain DOS, there is no difference on the case.  This can be
    troublesome when looking for `.tab' etc.  */
 #ifdef MSDOS
-# define AS_FILE_NAME(File) (strlwr (File), (File))
+# if defined (__DJGPP__)
+/* Windows 9X and successors are case sensitive. */
+#  define AS_FILE_NAME(File) ((pathconf ((File), _PC_NAME_MAX) > 12) ? (File) : (strlwr (File), (File)))
+# else
+#  define AS_FILE_NAME(File) (strlwr (File), (File))
+# endif
 #else
 # define AS_FILE_NAME(File) (File)
 #endif

@@ -1,3 +1,31 @@
+2002-02-13  Guerrero, Juan Manuel  <st001906@hrz1.hrz.tu-darmstadt.de>
+
+	* doc/bison.texinfo:  Add DJGPP specific information about
+	file name extensions used on different file systems.
+
+	* src/files.c (output_files): MSDOS conditional removed.
+	New macro EXT_TYPE will provide at runtime the appropiate
+	output file extension.
+	(skeleton_find) [MSDOS]: __DJGPP__ conditional added to
+	inhibit the use of DOSish code.  POSIX like behaviour.
+
+	* src/getargs.c [AS_FILE_NAME]: __DJGPP__ conditional added.
+	Check at runtime if LFN-API (case preserving) is available or not.
+	Do not unconditionly convert upper case strings in lower case strings.
+
+	* src/system.h [MSDOS] [__GO32__]: __DJGPP__ conditional added.
+	__GO32__ is obsolete and its use is deprecated.
+	[MSDOS]: __DJGPP__ conditional added.  Use pathconf
+	to choose POSIX or DOS file extensions at run time.
+	[MSDOS] [__DJGPP__]: New macro EXT_TYPE.  If LFN-API is
+	available, the src or header file extension (.c or .h) will be
+	added to the output file name. If no LFN-API is available no src
+	or header file extension will be added to the output file name.
+	[MSDOS] [!__DJGPP__]: New macro EXT_TYPE. Src file and header
+        file extension will never be added to the output file name.
+	[!MSDOS]: New macro EXT_TYPE. Src file and header file
+	extensions will always be added to the output file name.
+
 2002-02-11  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (%nonassoc and eof): Don't include non
