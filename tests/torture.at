@@ -19,6 +19,19 @@
 AT_BANNER([[Torture Tests.]])
 
 
+# AT_INCREASE_DATA_SIZE(SIZE)
+# -------------------------------------------
+# Try to increase the data size to SIZE KiB if possible.
+m4_define([AT_INCREASE_DATA_SIZE],
+[data_limit=`(ulimit -S -d) 2>/dev/null`
+case $data_limit in
+[[0-9]]*)
+  if test "$data_limit" -lt $1; then
+    ulimit -S -d $1
+  fi
+esac])
+
+
 ## ------------------------------------- ##
 ## Creating a large artificial grammar.  ##
 ## ------------------------------------- ##
@@ -230,6 +243,11 @@ AT_SETUP([Big horizontal])
 # ./input                          0.00s user 0.01s sys 108% cpu     0.01 total
 #
 AT_DATA_HORIZONTAL_GRAMMAR([input.y], [1000])
+
+# GNU m4 requires about 70 MiB for this test on a 32-bit host.
+# Ask for 200 MiB, which should be plenty even on a 64-bit host.
+AT_INCREASE_DATA_SIZE(204000)
+
 AT_CHECK([bison input.y -v -o input.c])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input])
@@ -349,6 +367,11 @@ mv stdout $1
 AT_SETUP([Many lookaheads])
 
 AT_DATA_LOOKAHEADS_GRAMMAR([input.y], [1000])
+
+# GNU m4 requires about 70 MiB for this test on a 32-bit host.
+# Ask for 200 MiB, which should be plenty even on a 64-bit host.
+AT_INCREASE_DATA_SIZE(204000)
+
 AT_CHECK([bison input.y -v -o input.c])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input])
