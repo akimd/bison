@@ -1,16 +1,11 @@
-Makefile
-bison.aux
+Makefile Makefile.in
+*.aux *.dvi *.log *.info* *.pdf *.ps
+stamp-*
 bison.cp
 bison.cps
-bison.dvi
 bison.fn
 bison.ky
-bison.log
 bison.pg
-bison.ps
 bison.toc
 bison.tp
 bison.vr
-refcard.dvi
-refcard.log
-refcard.ps
