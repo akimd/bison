@@ -17,3 +17,5 @@ configure
 config.hin
 aclocal.m4
 ABOUT-NLS
+INSTALL
+COPYING
