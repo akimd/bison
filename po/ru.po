@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.49a\n"
+"Project-Id-Version: bison 1.875\n"
 "POT-Creation-Date: 2003-01-09 10:29+0100\n"
-"PO-Revision-Date: 2002-07-20 13:23+0400\n"
-"Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
+"PO-Revision-Date: 2003-01-01 20:35+0300\n"
+"Last-Translator: Dmitry S. Sivachenko <mitya@cavia.pp.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
@@ -28,55 +28,51 @@ msgid "fatal error: "
 msgstr "фатальная ошибка: "
 
 #: src/conflicts.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as shift"
-msgstr ""
-"Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
+msgstr "    Конфликт между правилом %d и лексемой %s разрешен сдвигом"
 
 #: src/conflicts.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
-msgstr ""
-"Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
+msgstr "    Конфликт между правилом %d и лексемой %s разрешен выводом"
 
 #: src/conflicts.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as an error"
-msgstr ""
-"Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
+msgstr "    Конфликт между правилом %d и лексемой %s разрешен как ошибка"
 
 #: src/conflicts.c:398
 #, c-format
 msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
-msgstr ""
+msgstr "конфликты: %d сдвига/вывода, %d вывода/вывода\n"
 
 #: src/conflicts.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d shift/reduce\n"
-msgstr " %d сдвиг/вывод"
+msgstr "конфликты: %d сдвига/вывода\n"
 
 #: src/conflicts.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d reduce/reduce\n"
-msgstr " %d вывод/вывод"
+msgstr "конфликты: %d вывода/вывода\n"
 
 #: src/conflicts.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "State %d "
-msgstr "состояние %d"
+msgstr "Состояние %d "
 
 #: src/conflicts.c:498
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
-msgstr[0] "ожидался %d конфликт сдвига/вывода\n"
-msgstr[1] "ожидалось %d конфликта сдвига/вывода\n"
-msgstr[2] "ожидалось %d конфликтов сдвига/вывода\n"
+msgstr[0] "ожидался %d конфликт сдвига/вывода"
+msgstr[1] "ожидалось %d конфликта сдвига/вывода"
+msgstr[2] "ожидалось %d конфликтов сдвига/вывода"
 
 #: src/conflicts.c:503
-#, fuzzy
 msgid "expected 0 reduce/reduce conflicts"
-msgstr "%d конфликт вывода/вывода"
+msgstr "ожидалось 0 конфликтов вывода/вывода"
 
 #: src/files.c:99
 #, c-format
@@ -84,9 +80,8 @@ msgid "cannot open file `%s'"
 msgstr "не удается открыть файл `%s'"
 
 #: src/files.c:115
-#, fuzzy
 msgid "I/O error"
-msgstr "ошибка"
+msgstr "ошибка ввода-вывода"
 
 #: src/files.c:118
 msgid "cannot close file"
@@ -153,7 +148,6 @@ msgstr ""
 "  -k, --token-table          включить таблицу имен лексем\n"
 
 #: src/getargs.c:221
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -166,11 +160,12 @@ msgid ""
 msgstr ""
 "Вывод:\n"
 "  -d, --defines              создать также файл заголовков\n"
-"  -v, --verbose              создать также пояснения в автомату\n"
+"  -r, --report=THINGS        создать также пояснения в автомату\n"
+"  -v, --verbose              то же, что и `--report=state'\n"
 "  -b, --file-prefix=ПРЕФИКС  указать ПРЕФИКС для выходных файлов\n"
 "  -o, --output=ФАЙЛ          поместить результат в ФАЙЛ\n"
 "  -g, --graph                создать также пояснения к автомату в виде \n"
-"VCG-графа\n"
+"                             VCG-графа\n"
 
 #: src/getargs.c:232
 msgid ""
@@ -215,12 +210,12 @@ msgstr ""
 #: src/getargs.c:424
 #, c-format
 msgid "missing operand after `%s'"
-msgstr ""
+msgstr "после `%s' пропущен операнд"
 
 #: src/getargs.c:426
 #, c-format
 msgid "extra operand `%s'"
-msgstr ""
+msgstr "лишний операнд `%s'"
 
 #: src/gram.c:142
 msgid "empty"
@@ -231,22 +226,20 @@ msgid "Grammar"
 msgstr "Грамматика"
 
 #: src/gram.c:324 src/reduce.c:393
-#, fuzzy
 msgid "warning"
-msgstr "предупреждение: "
+msgstr "предупреждение"
 
 #: src/main.c:124
-#, fuzzy
 msgid "rule never reduced because of conflicts"
-msgstr " 1 конфликт вывода/вывода"
+msgstr "правило не сведено из-за конфликтов"
 
 #: src/parse-gram.y:334
 msgid "POSIX forbids declarations in the grammar"
-msgstr ""
+msgstr "POSIX запрещает помещать описания в грамматике"
 
 #: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
-msgstr ""
+msgstr "в описании параметра отсутствует идентификатор"
 
 #: src/print.c:48
 #, c-format
@@ -254,24 +247,23 @@ msgid " type %d is %s\n"
 msgstr " тип %d является %s\n"
 
 #: src/print.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "shift, and go to state %d\n"
-msgstr "    %-4s\tсдвиг, и переход в состояние %d\n"
+msgstr "сдвиг, и переход в состояние %d\n"
 
 #: src/print.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "go to state %d\n"
-msgstr "    %-4s\tпереход в состояние %d\n"
+msgstr "переход в состояние %d\n"
 
 #: src/print.c:203
-#, fuzzy
 msgid "error (nonassociative)\n"
-msgstr "%-4s\tошибка (неассоциативная)"
+msgstr "ошибка (неассоциативная)\n"
 
 #: src/print.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "reduce using rule %d (%s)"
-msgstr "$default\tвывод с использованием правила %d (%s)"
+msgstr "вывод с использованием правила %d (%s)"
 
 #: src/print.c:293
 msgid "accept"
@@ -279,7 +271,7 @@ msgstr ""
 
 #: src/print.c:324 src/print.c:390
 msgid "$default"
-msgstr ""
+msgstr "$default"
 
 #: src/print.c:419
 #, c-format
@@ -303,9 +295,8 @@ msgid " on right:"
 msgstr " направо:"
 
 #: src/print.c:554
-#, fuzzy
 msgid "Rules never reduced"
-msgstr "%d правило не сведено\n"
+msgstr "Правила не сведены"
 
 #: src/reader.c:53
 #, c-format
@@ -323,9 +314,9 @@ msgid "rule given for %s, which is a token"
 msgstr "правило задано для %s, который является лексемой"
 
 #: src/reader.c:265
-#, fuzzy, c-format
+#, c-format
 msgid "type clash on default action: <%s> != <%s>"
-msgstr "конфликт типов (`%s' `%s') на действии по умолчанию"
+msgstr "конфликт типов на действии по умолчанию: <%s> != <%s>"
 
 #: src/reader.c:271
 msgid "empty rule for typed nonterminal, and no action"
@@ -345,36 +336,32 @@ msgstr ""
 #: src/reader.c:353
 #, c-format
 msgid "%s must be followed by positive number"
-msgstr ""
+msgstr "за %s должно следовать положительное число"
 
 #: src/reader.c:510
 msgid "no rules in the input grammar"
 msgstr "отсутствуют правила во входной грамматике"
 
 #: src/reduce.c:241
-#, fuzzy
 msgid "useless rule"
-msgstr "%d бесполезное правило"
+msgstr "бесполезное правило"
 
 #: src/reduce.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "useless nonterminal: %s"
-msgstr "Бесполезные нетерминалы:"
+msgstr "бесполезные нетерминал: %s"
 
 #: src/reduce.c:350
-#, fuzzy
 msgid "Useless nonterminals"
-msgstr "Бесполезные нетерминалы:"
+msgstr "Бесполезные нетерминалы"
 
 #: src/reduce.c:363
-#, fuzzy
 msgid "Terminals which are not used"
-msgstr "Неиспользованные терминалы:"
+msgstr "Неиспользованные терминалы"
 
 #: src/reduce.c:372
-#, fuzzy
 msgid "Useless rules"
-msgstr "Бесполезные правила:"
+msgstr "Бесполезные правила"
 
 #: src/reduce.c:388
 #, c-format
@@ -405,43 +392,43 @@ msgstr[1] "%d бесполезных правила"
 msgstr[2] "%d бесполезных правил"
 
 #: src/reduce.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "start symbol %s does not derive any sentence"
-msgstr "Начальный символ %s не выводит ни одного предложения"
+msgstr "начальный символ %s не выводит ни одного предложения"
 
 #: src/scan-gram.l:157
 msgid "stray `,' treated as white space"
-msgstr ""
+msgstr "лишняя `,', считается пробелом"
 
 #: src/scan-gram.l:216
-#, fuzzy, c-format
+#, c-format
 msgid "invalid directive: %s"
-msgstr "неверные входные данные: %s"
+msgstr "неверная директива: %s"
 
 #: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
 #, c-format
 msgid "integer out of range: %s"
-msgstr ""
+msgstr "выход за границы диапазона целого: %s"
 
 #: src/scan-gram.l:281
-#, fuzzy, c-format
+#, c-format
 msgid "invalid character: %s"
-msgstr "неизвестный символ: %s"
+msgstr "недопустимый символ: %s"
 
 #: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
-#, fuzzy, c-format
+#, c-format
 msgid "invalid escape sequence: %s"
-msgstr "неверное значение: %s%d"
+msgstr "недопустимая экранирующая последовательность: %s"
 
 #: src/scan-gram.l:439
-#, fuzzy, c-format
+#, c-format
 msgid "unrecognized escape sequence: %s"
-msgstr "нераспознано: %s"
+msgstr "нераспознанная экранирующая последовательность: %s"
 
 #: src/scan-gram.l:524
 #, c-format
 msgid "missing `{' in `%s'"
-msgstr ""
+msgstr "в `%s' отсутствует `{'"
 
 #: src/scan-gram.l:757
 #, c-format
@@ -454,14 +441,14 @@ msgid "$%d of `%s' has no declared type"
 msgstr "$%d из `%s' не имеет описанного типа"
 
 #: src/scan-gram.l:820 src/scan-gram.l:887
-#, fuzzy, c-format
+#, c-format
 msgid "invalid value: %s"
-msgstr "неверное значение: %s%d"
+msgstr "недопустимое значение: %s"
 
 #: src/scan-gram.l:978
-#, fuzzy, c-format
+#, c-format
 msgid "missing `%s' at end of file"
-msgstr "незаконченная строка в конце файла"
+msgstr "отсутствует `%s' в конце файла"
 
 #: src/symlist.c:97 src/symlist.c:108
 msgid "invalid $ value"
@@ -473,9 +460,9 @@ msgid "type redeclaration for %s"
 msgstr "повторное описание типа для %s"
 
 #: src/symtab.c:101 src/symtab.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "%s redeclaration for %s"
-msgstr "повторное описание типа для %s"
+msgstr "повторное описание %s для %s"
 
 #: src/symtab.c:138
 #, c-format
@@ -488,9 +475,9 @@ msgid "symbol %s redefined"
 msgstr "повторное определение символа %s"
 
 #: src/symtab.c:179
-#, fuzzy, c-format
+#, c-format
 msgid "redefining user token number of %s"
-msgstr "переопределение приоритета для %s"
+msgstr "переопределение номера лексемы пользователя для %s"
 
 #: src/symtab.c:206
 #, c-format
@@ -513,9 +500,9 @@ msgid "conflicting precedences for %s and %s"
 msgstr "противоречивые приоритеты для %s и %s"
 
 #: src/symtab.c:282
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
-msgstr "противоречивые значения ассоциативности для %s и %s"
+msgstr "противоречивые значения ассоциативности для %s (%s) и %s (%s)"
 
 #: src/symtab.c:367
 #, c-format
@@ -533,18 +520,18 @@ msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
 
 #: lib/argmatch.c:129
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument %s for %s"
-msgstr "неверное значение: %s%d"
+msgstr "недопустимый аргумент %s для %s"
 
 #: lib/argmatch.c:130
 #, c-format
 msgid "ambiguous argument %s for %s"
-msgstr ""
+msgstr "неоднозначный аргумент %s для %s"
 
 #: lib/argmatch.c:149
 msgid "Valid arguments are:"
-msgstr ""
+msgstr "Допустимые аргументы:"
 
 #: lib/bitset_stats.c:178
 #, c-format
@@ -596,7 +583,7 @@ msgstr ""
 
 #: lib/bitset_stats.c:260 lib/bitset_stats.c:265
 msgid "Could not read stats file."
-msgstr ""
+msgstr "Не удается прочитать файл статистики."
 
 #: lib/bitset_stats.c:262
 msgid "Bad stats file size.\n"
@@ -604,11 +591,11 @@ msgstr ""
 
 #: lib/bitset_stats.c:288 lib/bitset_stats.c:290
 msgid "Could not write stats file."
-msgstr ""
+msgstr "Не удается записать в файл статистики."
 
 #: lib/bitset_stats.c:293
 msgid "Could not open stats file for writing."
-msgstr ""
+msgstr "Не удается открыть файл статистики для записи."
 
 #: lib/getopt.c:688 lib/getopt.c:700
 #, c-format
@@ -680,22 +667,23 @@ msgstr "'"
 #: lib/subpipe.c:187
 #, c-format
 msgid "subsidiary program `%s' could not be invoked"
-msgstr ""
+msgstr "не удается выполнить вспомогательную программу `%s'"
 
 #: lib/subpipe.c:189
 #, c-format
 msgid "subsidiary program `%s' not found"
-msgstr ""
+msgstr "вспомогательная программа `%s' не найдена"
 
 #: lib/subpipe.c:191
 #, c-format
 msgid "subsidiary program `%s' failed"
-msgstr ""
+msgstr "вспомогательная программа `%s' завершилась неудачно"
 
 #: lib/subpipe.c:192
 #, c-format
 msgid "subsidiary program `%s' failed (exit status %d)"
 msgstr ""
+"вспомогательная программа `%s' завершилась неудачно (код завершения %d)"
 
 #: lib/timevar.c:476
 msgid ""

@@ -1,12 +1,12 @@
 # bison: translation to Brazilian Portuguese (pt_BR)
 # Copyright (C) 2002 Free Software Foundation, Inc.
-# Alexandre Folle de Menezes <afmenez@terra.com.br>, 2002.
+# Alexandre Folle de Menezes <afmenez@terra.com.br>, 2002, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.75b\n"
+"Project-Id-Version: bison 1.875\n"
 "POT-Creation-Date: 2003-01-09 10:29+0100\n"
-"PO-Revision-Date: 2002-12-14 02:10-0300\n"
+"PO-Revision-Date: 2003-01-06 02:30-0300\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -44,22 +44,22 @@ msgstr "    Conflito entre a regra %d e a token %s resolvido como um erro."
 #: src/conflicts.c:398
 #, c-format
 msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
-msgstr ""
+msgstr "conflitos: %d de deslocamento/redução, %d de redução/redução\n"
 
 #: src/conflicts.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d shift/reduce\n"
-msgstr " %d deslocamento/redução"
+msgstr "conflitos: %d de deslocamento/redução\n"
 
 #: src/conflicts.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d reduce/reduce\n"
-msgstr " %d redução/redução"
+msgstr "conflitos: %d de redução/redução\n"
 
 #: src/conflicts.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "State %d "
-msgstr "estado %d"
+msgstr "Estado %d"
 
 #: src/conflicts.c:498
 #, c-format
@@ -69,9 +69,8 @@ msgstr[0] "esperado: %d conflito de deslocamento/redução"
 msgstr[1] "esperados: %d conflitos de deslocamento/redução"
 
 #: src/conflicts.c:503
-#, fuzzy
 msgid "expected 0 reduce/reduce conflicts"
-msgstr "%d conflito de redução/redução"
+msgstr "esperados 0 conflitos de redução/redução"
 
 #: src/files.c:99
 #, c-format
@@ -89,7 +88,7 @@ msgstr "impossível fechar o arquivo"
 #: src/files.c:336
 #, c-format
 msgid "conflicting outputs to file %s"
-msgstr ""
+msgstr "saídas conflitantes para o arquivo %s"
 
 #: src/getargs.c:182
 #, c-format
@@ -245,7 +244,7 @@ msgstr "o POSIX proíbe declarações na gramática"
 
 #: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
-msgstr ""
+msgstr "identificador faltando na declaração do parâmetro"
 
 #: src/print.c:48
 #, c-format
@@ -352,9 +351,9 @@ msgid "useless rule"
 msgstr "regra inútil"
 
 #: src/reduce.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "useless nonterminal: %s"
-msgstr "não-terminal inútil"
+msgstr "não-terminal inútil: %s"
 
 #: src/reduce.c:350
 msgid "Useless nonterminals"
@@ -400,7 +399,7 @@ msgstr "símbolo de início %s não deriva nenhuma sentença"
 
 #: src/scan-gram.l:157
 msgid "stray `,' treated as white space"
-msgstr ""
+msgstr "`,' perdida tratada como branco"
 
 #: src/scan-gram.l:216
 #, c-format
@@ -428,9 +427,9 @@ msgid "unrecognized escape sequence: %s"
 msgstr "seqüência de escape não reconhecida: %s"
 
 #: src/scan-gram.l:524
-#, fuzzy, c-format
+#, c-format
 msgid "missing `{' in `%s'"
-msgstr "falta operando depois de `%s'"
+msgstr "falta `{' em `%s'"
 
 #: src/scan-gram.l:757
 #, c-format
@@ -704,17 +703,3 @@ msgstr " TOTAL                 :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "tempo em  %s: %ld.%06ld (%ld%%)\n"
-
-#~ msgid "%d shift/reduce conflict"
-#~ msgid_plural "%d shift/reduce conflicts"
-#~ msgstr[0] "%d conflito de deslocamento/redução"
-#~ msgstr[1] "%d conflitos de deslocamento/redução"
-
-#~ msgid "and"
-#~ msgstr "e"
-
-#~ msgid "conflicts: "
-#~ msgstr "conflitos: "
-
-#~ msgid "State %d contains "
-#~ msgstr "O estado %d contém "

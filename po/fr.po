@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.75b\n"
+"Project-Id-Version: GNU bison 1.875\n"
 "POT-Creation-Date: 2003-01-09 10:29+0100\n"
-"PO-Revision-Date: 2002-11-13 08:00-0500\n"
+"PO-Revision-Date: 2003-01-01 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -45,22 +45,22 @@ msgstr "Conflit entre la règle %d et le jeton %s résolu comme étant une erreur"
 #: src/conflicts.c:398
 #, c-format
 msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
-msgstr ""
+msgstr "conflits: %d décalage/réduction, %d réduction/réduction\n"
 
 #: src/conflicts.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d shift/reduce\n"
-msgstr " %d décalage/réduction"
+msgstr "conflits: %d décalage/réduction\n"
 
 #: src/conflicts.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d reduce/reduce\n"
-msgstr " %d réduction/réduction"
+msgstr "conflits: %d réduction/réduction\n"
 
 #: src/conflicts.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "State %d "
-msgstr "état %d"
+msgstr "État %d"
 
 #: src/conflicts.c:498
 #, c-format
@@ -70,9 +70,8 @@ msgstr[0] "attendait %d conflit par décalage/réduction"
 msgstr[1] "attendait %d conflits par décalage/réduction"
 
 #: src/conflicts.c:503
-#, fuzzy
 msgid "expected 0 reduce/reduce conflicts"
-msgstr "%d conflit par réduction/réduction"
+msgstr "attendait 0 conflit par réduction/réduction"
 
 #: src/files.c:99
 #, c-format
@@ -90,7 +89,7 @@ msgstr "ne peut fermer le fichier"
 #: src/files.c:336
 #, c-format
 msgid "conflicting outputs to file %s"
-msgstr ""
+msgstr "sorties en conflit vers le fichier %s"
 
 #: src/getargs.c:182
 #, c-format
@@ -246,7 +245,7 @@ msgstr "POSIX interdit les déclaration dans la grammaire"
 
 #: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
-msgstr ""
+msgstr "identificateur manquant dans la déclaration de paramètres"
 
 #: src/print.c:48
 #, c-format
@@ -354,9 +353,9 @@ msgid "useless rule"
 msgstr "règle inutilisable"
 
 #: src/reduce.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "useless nonterminal: %s"
-msgstr "non-terminal inutilisable"
+msgstr "non-terminal inutilisable: %s"
 
 #: src/reduce.c:350
 msgid "Useless nonterminals"
@@ -403,7 +402,7 @@ msgstr ""
 
 #: src/scan-gram.l:157
 msgid "stray `,' treated as white space"
-msgstr ""
+msgstr "« , » errante traitée comme un blanc"
 
 #: src/scan-gram.l:216
 #, c-format
@@ -431,9 +430,9 @@ msgid "unrecognized escape sequence: %s"
 msgstr "séquence d'échappement non reconnue: %s"
 
 #: src/scan-gram.l:524
-#, fuzzy, c-format
+#, c-format
 msgid "missing `{' in `%s'"
-msgstr "opérande manquante après « %s »"
+msgstr "« { » manquante dans « %s »"
 
 #: src/scan-gram.l:757
 #, c-format

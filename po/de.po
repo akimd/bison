@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.75e\n"
+"Project-Id-Version: bison 1.875\n"
 "POT-Creation-Date: 2003-01-09 10:29+0100\n"
-"PO-Revision-Date: 2002-12-27 12:17:36+0100\n"
+"PO-Revision-Date: 2003-01-02 12:38:45+0100\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -48,22 +48,22 @@ msgstr ""
 #: src/conflicts.c:398
 #, c-format
 msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
-msgstr ""
+msgstr "Konflikte: %d Schiebe/Reduziere, %d Reduziere/Reduziere\n"
 
 #: src/conflicts.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d shift/reduce\n"
-msgstr " %d Schiebe/Reduziere"
+msgstr "Konflikte: %d Schiebe/Reduziere\n"
 
 #: src/conflicts.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d reduce/reduce\n"
-msgstr " %d Reduziere/Reduziere"
+msgstr "Konflikte: %d Reduziere/Reduziere\n"
 
 #: src/conflicts.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "State %d "
-msgstr "Zustand %d"
+msgstr "Zustand %d "
 
 #: src/conflicts.c:498
 #, c-format
@@ -73,9 +73,8 @@ msgstr[0] "erwartete %d Schiebe/Reduziere-Konflikt"
 msgstr[1] "erwartete %d Schiebe/Reduziere-Konflikte"
 
 #: src/conflicts.c:503
-#, fuzzy
 msgid "expected 0 reduce/reduce conflicts"
-msgstr "%d Reduziere/Reduziere-Konflikt"
+msgstr "erwartete 0 Reduziere/Reduziere-Konflikte"
 
 #: src/files.c:99
 #, c-format
@@ -93,7 +92,7 @@ msgstr "kann Datei nicht schließen"
 #: src/files.c:336
 #, c-format
 msgid "conflicting outputs to file %s"
-msgstr ""
+msgstr "widersprüchliche Ausgaben in Datei %s"
 
 #: src/getargs.c:182
 #, c-format
