@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #ifndef _ABITSET_H
 #define _ABITSET_H 
 
-#include "bbitset.h"
+#include "bitset.h"
 
 extern size_t abitset_bytes PARAMS ((bitset_bindex));
 
