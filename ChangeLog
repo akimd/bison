@@ -1,5 +1,10 @@
 2002-11-04  Akim Demaille  <akim@epita.fr>
 
+	* Makefile.maint: Update from Autoconf.
+	(update, cvs-update, po-update, do-po-update): New.
+
+2002-11-04  Akim Demaille  <akim@epita.fr>
+
 	* tests/glr-regr1.at (Badly Collapsed GLR States): Prototype yylex
 	and yyerror.
 	Have yyerror `use' its arguments.
