@@ -48,7 +48,7 @@ m4_define([b4_lhs_value],
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
 m4_define([b4_rhs_value],
-[semantic_stack_@<:@m4_eval([$1 - $2])@:>@m4_ifval([$3], [.$3])])
+[semantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3])])
 
 m4_define_default([b4_location_type], [Location])
 
@@ -64,27 +64,8 @@ m4_define([b4_lhs_location],
 # Expansion of @NUM, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[location_stack_@<:@m4_eval([$1 - $2])@:>@])
+[location_stack_@{m4_eval([$1 - $2])@}])
 
-
-m4_define_default([b4_input_suffix], [.y])
-
-m4_define_default([b4_output_parser_suffix],
-[m4_translit(b4_input_suffix, [yY], [cC])])
-
-m4_define_default([b4_output_parser_name],
-[b4_output_prefix[]b4_output_infix[]b4_output_parser_suffix[]])
-
-
-m4_define_default([b4_output_header_suffix],
-[m4_translit(b4_input_suffix, [yY], [hH])])
-
-m4_define_default([b4_output_header_name],
-[b4_output_prefix[]b4_output_infix[]b4_output_header_suffix[]])
-
-m4_define_default([b4_header_guard],
-                  [m4_bpatsubst(m4_toupper([BISON_]b4_output_header_name),
-                                [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
 
 m4_define([b4_inherit],
           [m4_ifdef([b4_root],
@@ -108,11 +89,11 @@ m4_define([b4_constructor],
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
 m4_divert(0)dnl
-#output "b4_output_header_name"
+@output @output_header_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
              [2002])
-#ifndef b4_header_guard
-# define b4_header_guard
+#ifndef YYLSP_NEEDED
+# define YYLSP_NEEDED
 
 #include "stack.hh"
 #include "location.hh"
@@ -129,7 +110,7 @@ b4_token_defines(b4_tokens)
 b4_pre_prologue
 
 /* Line __line__ of __file__.  */
-b4_syncline([__oline__], [__ofile__])
+b4_syncline([@oline@], [@ofile@])
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -146,7 +127,7 @@ m4_ifdef([b4_stype],
 [b4_syncline([b4_stype_line], [b4_filename])
 typedef union b4_stype yystype;
 /* Line __line__ of __file__.  */
-b4_syncline([__oline__], [__ofile__])],
+b4_syncline([@oline@], [@ofile@])],
 [typedef int yystype;])
 # define YYSTYPE yystype
 #endif
@@ -155,7 +136,7 @@ b4_syncline([__oline__], [__ofile__])],
 b4_post_prologue
 
 /* Line __line__ of __file__.  */
-b4_syncline([__oline__], [__ofile__])
+b4_syncline([@oline@], [@ofile@])
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
    Current.last_line = Rhs[[N]].last_line; \
@@ -291,7 +272,7 @@ namespace yy
     SemanticType value;
     LocationType location;
 
-    /* @$ and $$.  */
+    /* @@$ and $$.  */
     SemanticType yyval;
     LocationType yyloc;
 
@@ -300,13 +281,13 @@ namespace yy
   };
 }
 
-#endif /* not b4_header_guard */
+#endif /* ! defined YYLSP_NEEDED */
 dnl
-#output "b4_output_prefix[]b4_output_infix[].cc"
+@output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
              [2002])
 
-#include "b4_output_header_name"
+#include @output_header_name@
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
@@ -463,7 +444,7 @@ yy::b4_parser_class_name::parse ()
     }
 
 /* Line __line__ of __file__.  */
-b4_syncline([__oline__], [__ofile__])
+b4_syncline([@oline@], [@ofile@])
 
   state_stack_.pop (len_);
   semantic_stack_.pop (len_);
@@ -781,7 +762,7 @@ const yy::b4_parser_class_name::TokenNumberType yy::b4_parser_class_name::undef_
 
 b4_epilogue
 dnl
-#output "stack.hh"
+@output stack.hh
 b4_copyright([2002])
 
 #ifndef BISON_STACK_HH
@@ -878,7 +859,7 @@ namespace yy
 
 #endif // not BISON_STACK_HH
 dnl
-#output "location.hh"
+@output location.hh
 b4_copyright([2002])
 
 #ifndef BISON_LOCATION_HH
