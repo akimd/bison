@@ -35,15 +35,42 @@
 #define YY_LINES        LOCATION_LINES (*yylloc, yyleng); lineno += yyleng;
 #define YY_STEP         LOCATION_STEP (*yylloc)
 
-/* Appending to the STRING_OBSTACK. */
-#define YY_INIT         obstack_init (&string_obstack)
-#define YY_GROW         obstack_grow (&string_obstack, yytext, yyleng)
-#define YY_FINISH       obstack_1grow (&string_obstack, '\0'); yylval->string = obstack_finish (&string_obstack);
+
+/* STRING_OBSTACK -- Used to store all the characters that we need to
+   keep (to construct ID, STRINGS etc.).  Use the following macros to
+   use it.
+
+   Use YY_OBS_INIT to initialize a new growing string, YY_OBS_GROW to
+   append what has just been matched, and YY_OBS_FINISH to end the
+   string (it puts the ending 0).  YY_OBS_FINISH also stores this
+   string in LAST_STRING, which can be used, and which is used by
+   YY_OBS_FREE to free the last string.  */
+
+static struct obstack string_obstack;
+char *last_string;
+
+#define YY_OBS_INIT   \
+  obstack_init (&string_obstack)
+
+#define YY_OBS_GROW   \
+  obstack_grow (&string_obstack, yytext, yyleng)
+
+#define YY_OBS_FINISH					\
+  do {							\
+    obstack_1grow (&string_obstack, '\0');		\
+    last_string = obstack_finish (&string_obstack);	\
+    yylval->string = last_string;			\
+  } while (0)
+
+#define YY_OBS_FREE						\
+  do {								\
+    obstack_free (&string_obstack, last_string);		\
+  } while (0)
 
 /* This is only to avoid GCC warnings. */
 #define YY_USER_INIT    if (yycontrol) {;};
 
-static struct obstack string_obstack;
+
 static int braces_level = 0;
 static int percent_percent_count = 0;
 
@@ -121,31 +148,32 @@ blanks   [ \t\f]+
   {eols}      YY_LINES; YY_STEP;
   {blanks}    YY_STEP;
   {id}        {
-    YY_INIT; YY_GROW; YY_FINISH;
-    yylval->symbol = getsym (yylval->string);
+    YY_OBS_INIT; YY_OBS_GROW; YY_OBS_FINISH;
+    yylval->symbol = getsym (last_string);
+    YY_OBS_FREE;
     return ID;
   }
 
   {int}       yylval->integer = strtol (yytext, 0, 10); return INT;
 
   /* Characters.  We don't check there is only one.  */
-  \'          YY_INIT; YY_GROW; yy_push_state (SC_ESCAPED_CHARACTER);
+  \'          YY_OBS_INIT; YY_OBS_GROW; yy_push_state (SC_ESCAPED_CHARACTER);
 
   /* Strings. */
-  \"          YY_INIT; YY_GROW; yy_push_state (SC_ESCAPED_STRING);
+  \"          YY_OBS_INIT; YY_OBS_GROW; yy_push_state (SC_ESCAPED_STRING);
 
   /* Comments. */
   "/*"        yy_push_state (SC_COMMENT);
   "//".*      YY_STEP;
 
   /* Prologue. */
-  "%{"        YY_INIT; yy_push_state (SC_PROLOGUE);
+  "%{"        YY_OBS_INIT; yy_push_state (SC_PROLOGUE);
 
   /* Code in between braces.  */
-  "{"         YY_INIT; YY_GROW; ++braces_level; yy_push_state (SC_BRACED_CODE);
+  "{"         YY_OBS_INIT; YY_OBS_GROW; ++braces_level; yy_push_state (SC_BRACED_CODE);
 
   /* A type. */
-  "<"[^>]+">" YY_INIT; obstack_grow (&string_obstack, yytext + 1, yyleng - 2); YY_FINISH; return TYPE;
+  "<"[^>]+">" YY_OBS_INIT; obstack_grow (&string_obstack, yytext + 1, yyleng - 2); YY_OBS_FINISH; return TYPE;
 
   "%%"   {
     if (++percent_percent_count == 2)
@@ -188,14 +216,14 @@ blanks   [ \t\f]+
       }
     else
       {
-	YY_GROW;
+	YY_OBS_GROW;
       }
     yy_pop_state ();
   }
 
-  [^\[\]*\n\r]+  	if (yy_top_state () != INITIAL) YY_GROW;
-  {eols}	if (yy_top_state () != INITIAL) YY_GROW; YY_LINES;
-  .             /* Stray `*'. */if (yy_top_state () != INITIAL) YY_GROW;
+  [^\[\]*\n\r]+  	if (yy_top_state () != INITIAL) YY_OBS_GROW;
+  {eols}	if (yy_top_state () != INITIAL) YY_OBS_GROW; YY_LINES;
+  .             /* Stray `*'. */if (yy_top_state () != INITIAL) YY_OBS_GROW;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -214,13 +242,13 @@ blanks   [ \t\f]+
 {
   \" {
     assert (yy_top_state () == INITIAL);
-    YY_GROW;
-    YY_FINISH;
+    YY_OBS_GROW;
+    YY_OBS_FINISH;
     yy_pop_state ();
     return STRING;
   }
 
-  [^\"\n\r\\]+      YY_GROW;
+  [^\"\n\r\\]+      YY_OBS_GROW;
 
   {eols}    obstack_1grow (&string_obstack, '\n'); YY_LINES;
 
@@ -228,7 +256,7 @@ blanks   [ \t\f]+
     LOCATION_PRINT (stderr, *yylloc);
     fprintf (stderr, ": unexpected end of file in a string\n");
     assert (yy_top_state () == INITIAL);
-    YY_FINISH;
+    YY_OBS_FINISH;
     yy_pop_state ();
     return STRING;
   }
@@ -242,21 +270,20 @@ blanks   [ \t\f]+
 <SC_ESCAPED_CHARACTER>
 {
   \' {
-    YY_GROW;
+    YY_OBS_GROW;
     assert (yy_top_state () == INITIAL);
     {
-      char c;
-      YY_FINISH;
-      c = yylval->string[1];
-      yylval->symbol = getsym (yylval->string);
+      YY_OBS_FINISH;
+      yylval->symbol = getsym (last_string);
       symbol_class_set (yylval->symbol, token_sym);
-      symbol_user_token_number_set (yylval->symbol, (unsigned int) c);
+      symbol_user_token_number_set (yylval->symbol, last_string[1]);
+      YY_OBS_FREE;
       yy_pop_state ();
       return ID;
     }
   }
 
-  [^\'\n\r\\]      YY_GROW;
+  [^\'\n\r\\]      YY_OBS_GROW;
 
   {eols}    obstack_1grow (&string_obstack, '\n'); YY_LINES;
 
@@ -264,7 +291,7 @@ blanks   [ \t\f]+
     LOCATION_PRINT (stderr, *yylloc);
     fprintf (stderr, ": unexpected end of file in a character\n");
     assert (yy_top_state () == INITIAL);
-    YY_FINISH;
+    YY_OBS_FINISH;
     yy_pop_state ();
     return CHARACTER;
   }
@@ -304,7 +331,7 @@ blanks   [ \t\f]+
   \\.	{
     LOCATION_PRINT (stderr, *yylloc);
     fprintf (stderr, ": unrecognized escape: %s\n", yytext);
-    YY_GROW;
+    YY_OBS_GROW;
   }
 }
 
@@ -317,15 +344,15 @@ blanks   [ \t\f]+
 <SC_CHARACTER>
 {
   \' {
-    YY_GROW;
+    YY_OBS_GROW;
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
   }
 
-  [^\[\]\'\n\r\\]      YY_GROW;
-  \\.                  YY_GROW;
+  [^\[\]\'\n\r\\]      YY_OBS_GROW;
+  \\.                  YY_OBS_GROW;
 
-  {eols}               YY_GROW; YY_LINES;
+  {eols}               YY_OBS_GROW; YY_LINES;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -345,14 +372,14 @@ blanks   [ \t\f]+
 {
   \" {
     assert (yy_top_state () != INITIAL);
-    YY_GROW;
+    YY_OBS_GROW;
     yy_pop_state ();
   }
 
-  [^\[\]\"\n\r\\]+      YY_GROW;
-  \\.                   YY_GROW;
+  [^\[\]\"\n\r\\]+      YY_OBS_GROW;
+  \\.                   YY_OBS_GROW;
 
-  {eols}                YY_GROW; YY_LINES;
+  {eols}                YY_OBS_GROW; YY_LINES;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -370,14 +397,14 @@ blanks   [ \t\f]+
 <SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
   /* Characters.  We don't check there is only one.  */
-  \'          YY_GROW; yy_push_state (SC_CHARACTER);
+  \'          YY_OBS_GROW; yy_push_state (SC_CHARACTER);
 
   /* Strings. */
-  \"          YY_GROW; yy_push_state (SC_STRING);
+  \"          YY_OBS_GROW; yy_push_state (SC_STRING);
 
   /* Comments. */
-  "/*"        YY_GROW; yy_push_state (SC_COMMENT);
-  "//".*      YY_GROW;
+  "/*"        YY_OBS_GROW; yy_push_state (SC_COMMENT);
+  "//".*      YY_OBS_GROW;
 }
 
 
@@ -389,31 +416,31 @@ blanks   [ \t\f]+
 <SC_BRACED_CODE>
 {
   "}" {
-    YY_GROW;
+    YY_OBS_GROW;
     if (--braces_level == 0)
       {
 	yy_pop_state ();
-	YY_FINISH;
+	YY_OBS_FINISH;
 	return BRACED_CODE;
       }
   }
 
-  "{"  	        YY_GROW; braces_level++;
+  "{"  	        YY_OBS_GROW; braces_level++;
 
   "$"("<".*">")?(-?[0-9]+|"$") { handle_dollar (yytext); }
   "@"(-?[0-9]+|"$")            { handle_at (yytext); }
 
-  [^\[\]$/\'\"@\{\}\n\r]+ YY_GROW;
-  {eols}	YY_GROW; YY_LINES;
+  [^\[\]$/\'\"@\{\}\n\r]+ YY_OBS_GROW;
+  {eols}	YY_OBS_GROW; YY_LINES;
 
   /* A lose $, or /, or etc. */
-  .             YY_GROW;
+  .             YY_OBS_GROW;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
     fprintf (stderr, ": unexpected end of file in a braced code\n");
     yy_pop_state ();
-    YY_FINISH;
+    YY_OBS_FINISH;
     return PROLOGUE;
   }
 
@@ -428,19 +455,19 @@ blanks   [ \t\f]+
 {
   "%}" {
     yy_pop_state ();
-    YY_FINISH;
+    YY_OBS_FINISH;
     return PROLOGUE;
   }
 
-  [^\[\]%\n\r]+	  YY_GROW;
-  "%"+[^%\}\n\r]+ YY_GROW;
-  {eols}	  YY_GROW; YY_LINES;
+  [^\[\]%\n\r]+	  YY_OBS_GROW;
+  "%"+[^%\}\n\r]+ YY_OBS_GROW;
+  {eols}	  YY_OBS_GROW; YY_LINES;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
     fprintf (stderr, ": unexpected end of file in a prologue\n");
     yy_pop_state ();
-    YY_FINISH;
+    YY_OBS_FINISH;
     return PROLOGUE;
   }
 
@@ -454,11 +481,11 @@ blanks   [ \t\f]+
 
 <SC_EPILOGUE>
 {
-  ([^\[\]]|{eols})+  YY_GROW;
+  ([^\[\]]|{eols})+  YY_OBS_GROW;
 
   <<EOF>> {
     yy_pop_state ();
-    YY_FINISH;
+    YY_OBS_FINISH;
     return EPILOGUE;
   }
 }

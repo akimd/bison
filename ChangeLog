@@ -1,5 +1,12 @@
 2002-06-11  Akim Demaille  <akim@epita.fr>
 
+	* src/scan-gram.l (YY_INIT, YY_GROW, YY_FINISH): Rename as...
+	(YY_OBS_INIT, YY_OBS_GROW, YY_OBS_FINISH): these.
+	(last_string, YY_OBS_FREE): New.
+	Use them when returning an ID.
+
+2002-06-11  Akim Demaille  <akim@epita.fr>
+
 	Have Bison grammars parsed by a Bison grammar.
 
 	* src/reader.c, src/reader.h (prologue_augment): New.
