@@ -244,7 +244,7 @@ msgstr "%s: puudub grammatikafail\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: ignoreerin lisaargumente peale `%s'\n"
 
-#: src/lalr.c:255
+#: src/lalr.c:256
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "liiga palju gotosid (maks %d)"

@@ -220,7 +220,7 @@ msgstr "%s: geen grammatica bestand gegeven\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argumenten genegeerd na '%s'\n"
 
-#: src/lalr.c:255
+#: src/lalr.c:256
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr ""

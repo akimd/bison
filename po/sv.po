@@ -251,7 +251,7 @@ msgstr "%s: ingen grammatikfil angiven\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argument ignorerade efter \"%s\"\n"
 
-#: src/lalr.c:255
+#: src/lalr.c:256
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "för många goto (max %d)"

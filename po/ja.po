@@ -220,7 +220,7 @@ msgstr "%s: 文法ファイルが指定されていません\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: '%s' より後ろの余分な引数は無視されました\n"
 
-#: src/lalr.c:255
+#: src/lalr.c:256
 #, fuzzy, c-format
 msgid "too many gotos (max %d)"
 msgstr "%s の数が多すぎます (最大 %d)"

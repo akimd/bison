@@ -281,7 +281,7 @@ msgstr "%s: no se ha especificado ningún fichero de gramática\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
 
-#: src/lalr.c:255
+#: src/lalr.c:256
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr ""
