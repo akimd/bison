@@ -1,5 +1,15 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	Mid-rule actions are simply... ignored!
+
+	* src/reader.c (readgram): Be sure to attach mid-rule actions to
+	the empty-rule associated to the dummy symbol, not to the host
+	rule.
+	* tests/actions.at (Mid-rule actions): New.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	Memory leak.
 
 	* src/reader.c (reader): Free grammar.

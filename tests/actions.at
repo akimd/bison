@@ -1,0 +1,87 @@
+# Executing Actions.                               -*- Autotest -*-
+# Copyright 2001 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+AT_BANNER([[User Actions.]])
+
+## ------------------ ##
+## Mid-rule actions.  ##
+## ------------------ ##
+
+AT_SETUP([Mid-rule actions])
+
+# Bison once forgot the mid-rule actions.  It was because the action
+# was attached to the host rule (the one with the mid-rule action),
+# instead of being attached to the empty rule dedicated to this
+# action.
+
+AT_DATA([[input.y]],
+[[%{
+#include <stdio.h>
+#include <stdlib.h>
+static void yyerror (const char *msg);
+static int yylex (void);
+%}
+%%
+exp:     { printf ("0\n"); }
+     '1' { printf ("1\n"); }
+     '2' { printf ("2\n"); }
+     '3' { printf ("3\n"); }
+     '4' { printf ("4\n"); }
+     '5' { printf ("5\n"); }
+     '6' { printf ("6\n"); }
+     '7' { printf ("7\n"); }
+     '8' { printf ("8\n"); }
+     '9' { printf ("9\n"); }
+   ;
+%%
+static int
+yylex (void)
+{
+  static const char *input = "123456789";
+  return *input++;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_CHECK([bison input.y -d -v -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
+AT_CHECK([input], 0,
+[[0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+]])
+
+AT_CLEANUP

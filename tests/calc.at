@@ -351,17 +351,6 @@ AT_DATA_CALC_Y([$1])
 AT_CHECK([bison calc.y -o calc.c m4_bpatsubst([$1], [--yyerror-verbose])],
          [0], [], [])
 
-# Some compilers issue warnings we don't want to hear about.
-# Maybe some day we will have proper Autoconf macros to disable these
-# warnings, but this place is not the right one for that.
-# So let's keep only GCC warnings, which we know are sane.
-# Well, that's only part of the story: some assemblers issue warnings
-# which can be totally useless, and actually polluting.  It seems that
-# the best bet be to completely ignore stderr, but to pass -Werror
-# to GCC.
-if test "$GCC" = yes; then
-  CFLAGS="$CFLAGS -Werror"
-fi
 AT_CHECK([$CC $CFLAGS $CPPFLAGS calc.c -o calc], 0, [], [ignore])
 
 # Test the priorities.
