@@ -31,7 +31,16 @@ if test -z "$depmode" || test -z "$source" || test -z "$object"; then
 fi
 # `libtool' can also be set to `yes' or `no'.
 
-depfile=${depfile-`echo "$object" | sed 's,\([^/]*\)$,.deps/\1,;s/\.\([^.]*\)$/.P\1/'`}
+if test -z "$depfile"; then
+   base=`echo "$object" | sed -e 's,^.*/,,' -e 's,\.\([^.]*\)$,.P\1,'`
+   dir=`echo "$object" | sed 's,/.*$,/,'`
+   if test "$dir" = "$object"; then
+      dir=
+   fi
+   # FIXME: should be _deps on DOS.
+   depfile="$dir.deps/$base"
+fi
+
 tmpdepfile=${tmpdepfile-`echo "$depfile" | sed 's/\.\([^.]*\)$/.T\1/'`}
 
 rm -f "$tmpdepfile"
@@ -204,8 +213,9 @@ tru64)
    # dependencies in `foo.d' instead, so we check for that too.
    # Subdirectories are respected.
 
-   tmpdepfile1="$object.d"
-   tmpdepfile2=`echo "$object" | sed -e 's/.o$/.d/'` 
+   base=`echo "$object" | sed -e 's/\.o$/.d/' -e 's/\.lo$/.d/'`
+   tmpdepfile1="$base.o.d"
+   tmpdepfile2="$base.d"
    if test "$libtool" = yes; then
       "$@" -Wc,-MD
    else
@@ -382,6 +392,21 @@ msvisualcpp)
       done
       ;;
     esac
+    for arg
+    do
+      case "$arg" in
+      "-Gm"|"/Gm"|"-Gi"|"/Gi"|"-ZI"|"/ZI")
+	set fnord "$@"
+	shift
+	shift
+	;;
+      *)
+	set fnord "$@" "$arg"
+	shift
+	shift
+	;;
+      esac
+    done
     "$@" -E |
     sed -n '/^#line [0-9][0-9]* "\([^"]*\)"/ s::echo "`cygpath -u \\"\1\\"`":p' | sort | uniq > "$tmpdepfile"
   ) &
