@@ -1,5 +1,10 @@
 2001-11-28  Akim Demaille  <akim@epita.fr>
 
+	* src/reduce.c (reduce_print): Use ngettext.
+	(dump_grammar): Improve the trace accuracy.
+
+2001-11-28  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c (dump_grammar): Don't translate trace messages.
 
 2001-11-28  Akim Demaille  <akim@epita.fr>
