@@ -98,12 +98,12 @@ FIRSTS
 		e
 FDERIVES
 	$axiom derives
-		  1  e $
-		  2  'e'
-		  3  /* empty */
+		  0  e $
+		  1  'e'
+		  2  /* empty */
 	e derives
-		  2  'e'
-		  3  /* empty */
+		  1  'e'
+		  2  /* empty */
 ]])
 
 AT_CLEANUP
@@ -233,22 +233,22 @@ FIRSTS
 		exp
 FDERIVES
 	$axiom derives
-		  1  exp $
-		  2  exp '<' exp
-		  3  exp '>' exp
-		  4  exp '+' exp
-		  5  exp '-' exp
-		  6  exp '^' exp
-		  7  exp '=' exp
-		  8  "exp"
+		  0  exp $
+		  1  exp '<' exp
+		  2  exp '>' exp
+		  3  exp '+' exp
+		  4  exp '-' exp
+		  5  exp '^' exp
+		  6  exp '=' exp
+		  7  "exp"
 	exp derives
-		  2  exp '<' exp
-		  3  exp '>' exp
-		  4  exp '+' exp
-		  5  exp '-' exp
-		  6  exp '^' exp
-		  7  exp '=' exp
-		  8  "exp"
+		  1  exp '<' exp
+		  2  exp '>' exp
+		  3  exp '+' exp
+		  4  exp '-' exp
+		  5  exp '^' exp
+		  6  exp '=' exp
+		  7  "exp"
 ]])
 
 AT_CLEANUP

@@ -1,5 +1,25 @@
 2002-07-25  Akim Demaille  <akim@epita.fr>
 
+	Stop storing rules from 1 to nrules + 1.
+
+	* src/LR0.c, src/closure.c, src/derives.c, src/gram.c, src/lalr.c
+	* src/nullable.c, src/output.c, src/print.c, src/reader.c
+	* src/reduce.c: Allocate and free from &rules[0], not &rules[1].
+	Iterate from 0 to nrules.
+	Use rule_number_as_item_number and item_number_as_rule_number.
+	Adjust to `derive' now containing possibly 0.
+	* src/gram.h (rule_number_as_item_number, item_number_as_rule_number):
+	Handle the `- 1' part in rule numbers from/to item numbers.
+	* src/conflicts.c (log_resolution): Fix the message which reversed
+	shift and reduce.
+	* src/output.c (action_row): Initialize default_rule to -1.
+	(token_actions): Adjust.
+	* tests/sets.at (Nullable, Firsts): Fix the previously bogus
+	expected output.
+	* tests/conflicts.at (Resolved SR Conflicts): Likewise.
+
+2002-07-25  Akim Demaille  <akim@epita.fr>
+
 	* data/c.m4 (b4_c_function, b4_c_ansi_args, b4_c_ansi_arg)
 	(b4_c_knr_arg_names, b4_c_knr_arg_name, b4_c_knr_arg_decls)
 	(b4_c_knr_arg_decl): New.

@@ -326,7 +326,7 @@ state 5
     1    | exp OP exp .  [$, OP]
 
     $default  reduce using rule 1 (exp)
-    Conflict between rule 2 and token OP resolved as shift (%left OP).
+    Conflict between rule 1 and token OP resolved as reduce (%left OP).
 ]])
 
 AT_CLEANUP

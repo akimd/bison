@@ -120,7 +120,7 @@ extern unsigned int nritems;
 /* There is weird relationship between OT1H item_number_t and OTOH
    symbol_number_t and rule_number_t: we store the latter in
    item_number_t.  symbol_number_t are stored as are, while
-   the negation of rule_number_t are stored.
+   the negation of (rule_number_t + 1) are stored.
 
    Therefore, an symbol_number_t must be a valid item_number_t, and we
    sometimes have to perform the converse transformation.  */
@@ -134,8 +134,8 @@ typedef short rule_number_t;
 # define RULE_NUMBER_MAX ((rule_number_t) SHRT_MAX)
 extern rule_number_t nrules;
 # define int_of_rule_number(RNum) ((int) (RNum))
-# define rule_number_as_item_number(RNum) ((item_number_t) (- RNum))
-# define item_number_as_rule_number(INum) ((rule_number_t) (- INum))
+# define rule_number_as_item_number(RNum) ((item_number_t) (- RNum - 1))
+# define item_number_as_rule_number(INum) ((rule_number_t) (- INum - 1))
 
 
 /*--------.
