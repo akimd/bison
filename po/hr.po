@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2003-04-29 10:05+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-06-17 00:56-0700\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -94,21 +95,21 @@ msgstr "ne mogu zatvoriti datoteku"
 msgid "conflicting outputs to file %s"
 msgstr "konfliktne asocijativne vrijednosti za %s i %s"
 
-#: src/getargs.c:182
+#: src/getargs.c:186
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Poku¹aj `%s --help' za vi¹e informacija.\n"
 
-#: src/getargs.c:188
+#: src/getargs.c:192
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison generira parsere za LALR(1) gramatike.\n"
 
-#: src/getargs.c:192
+#: src/getargs.c:196
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Kori¹tenje: %s [OPCIJA]... DATOTEKA\n"
 
-#: src/getargs.c:196
+#: src/getargs.c:200
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -116,7 +117,7 @@ msgstr ""
 "Ako duga opcija ka¾e da je argument obavezan, tada je on obavezan\n"
 "i za ekvivalentnu kratku opciju. Slièno je i za opcionalne argumente.\n"
 
-#: src/getargs.c:202
+#: src/getargs.c:206
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -128,7 +129,7 @@ msgstr ""
 "  -V, --version   prika¾i verziju i izaði\n"
 "  -y, --yacc      emuliraj POSIX yacc\n"
 
-#: src/getargs.c:209
+#: src/getargs.c:213
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -148,7 +149,7 @@ msgstr ""
 "  -n, --no-parser            generiraj samo tablice\n"
 "  -k, --token-table          ukljuèi tablicu imena znakova\n"
 
-#: src/getargs.c:221
+#: src/getargs.c:225
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -167,7 +168,7 @@ msgstr ""
 "  -o, --output=DATOTEKA          ispi¹i izlaz u DATOTEKU\n"
 "  -g, --graph                takoðer proizvedi VCG opis automata\n"
 
-#: src/getargs.c:232
+#: src/getargs.c:236
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -178,27 +179,27 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:243
+#: src/getargs.c:247
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Izvjesti o bugovima na <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:260
+#: src/getargs.c:264
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:262
+#: src/getargs.c:266
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:266
+#: src/getargs.c:270
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:268
+#: src/getargs.c:272
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -207,25 +208,25 @@ msgstr ""
 "kopiranja.  NEMA\n"
 "garancije; èak ni tvrdnje o ISPLATIVOSTI ili POGODNOSTI ZA NEKU SVRHU.\n"
 
-#: src/getargs.c:424
+#: src/getargs.c:438
 #, c-format
 msgid "missing operand after `%s'"
 msgstr ""
 
-#: src/getargs.c:426
+#: src/getargs.c:440
 #, c-format
 msgid "extra operand `%s'"
 msgstr ""
 
-#: src/gram.c:143
+#: src/gram.c:139
 msgid "empty"
 msgstr "prazno"
 
-#: src/gram.c:237
+#: src/gram.c:233
 msgid "Grammar"
 msgstr "Gramatika"
 
-#: src/gram.c:325 src/reduce.c:394
+#: src/gram.c:321 src/reduce.c:394
 #, fuzzy
 msgid "warning"
 msgstr "upozorenje:"
@@ -234,11 +235,11 @@ msgstr "upozorenje:"
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: src/parse-gram.y:335
+#: src/parse-gram.y:338
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
-#: src/parse-gram.y:458
+#: src/parse-gram.y:461
 msgid "missing identifier in parameter declaration"
 msgstr ""
 
@@ -403,52 +404,52 @@ msgstr "Poèetni simbol %s ne daje niti jednu reèenicu"
 msgid "stray `,' treated as white space"
 msgstr ""
 
-#: src/scan-gram.l:219
+#: src/scan-gram.l:220
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "nedozvoljeni ulaz: %s"
 
-#: src/scan-gram.l:239 src/scan-gram.l:795 src/scan-gram.l:863
+#: src/scan-gram.l:240 src/scan-gram.l:803 src/scan-gram.l:871
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:281
+#: src/scan-gram.l:282
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "nepoznati znak: %s"
 
-#: src/scan-gram.l:410 src/scan-gram.l:420 src/scan-gram.l:439
+#: src/scan-gram.l:411 src/scan-gram.l:421 src/scan-gram.l:440
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "nedozvoljeni ulaz: %s"
 
-#: src/scan-gram.l:444
+#: src/scan-gram.l:445
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "neprepoznati: %s"
 
-#: src/scan-gram.l:532
+#: src/scan-gram.l:533
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr ""
 
-#: src/scan-gram.l:767
+#: src/scan-gram.l:773
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ od `%s' nema deklarirani tip"
 
-#: src/scan-gram.l:786
+#: src/scan-gram.l:794
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d od `%s' nema deklarirani tip"
 
-#: src/scan-gram.l:830 src/scan-gram.l:897
+#: src/scan-gram.l:838 src/scan-gram.l:905
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "nedozvoljena $ vrijednost"
 
-#: src/scan-gram.l:985
+#: src/scan-gram.l:993
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "nezavr¹eni znakovni niz na kraju datoteke"
@@ -536,67 +537,67 @@ msgstr ""
 msgid "Valid arguments are:"
 msgstr ""
 
-#: lib/bitset_stats.c:178
+#: lib/bitset_stats.c:179
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr ""
 
-#: lib/bitset_stats.c:181
+#: lib/bitset_stats.c:182
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:184
+#: lib/bitset_stats.c:185
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:187
+#: lib/bitset_stats.c:188
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:191
+#: lib/bitset_stats.c:192
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr ""
 
-#: lib/bitset_stats.c:193
+#: lib/bitset_stats.c:194
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:196
+#: lib/bitset_stats.c:197
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:199
+#: lib/bitset_stats.c:200
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:213
+#: lib/bitset_stats.c:214
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset_stats.c:216
+#: lib/bitset_stats.c:217
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset_stats.c:260 lib/bitset_stats.c:265
+#: lib/bitset_stats.c:261 lib/bitset_stats.c:266
 msgid "Could not read stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:262
+#: lib/bitset_stats.c:263
 msgid "Bad stats file size.\n"
 msgstr ""
 
-#: lib/bitset_stats.c:288 lib/bitset_stats.c:290
+#: lib/bitset_stats.c:289 lib/bitset_stats.c:291
 msgid "Could not write stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:293
+#: lib/bitset_stats.c:294
 msgid "Could not open stats file for writing."
 msgstr ""
 

@@ -5,7 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875\n"
-"POT-Creation-Date: 2003-04-29 10:05+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-06-17 00:56-0700\n"
 "PO-Revision-Date: 2003-01-06 02:30-0300\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -90,21 +91,21 @@ msgstr "impossível fechar o arquivo"
 msgid "conflicting outputs to file %s"
 msgstr "saídas conflitantes para o arquivo %s"
 
-#: src/getargs.c:182
+#: src/getargs.c:186
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "tente `%s --help' para mais informações.\n"
 
-#: src/getargs.c:188
+#: src/getargs.c:192
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison gera analisadores para gramáticas LALR(1).\n"
 
-#: src/getargs.c:192
+#: src/getargs.c:196
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Uso: %s [OPCAO]... ARQUIVO\n"
 
-#: src/getargs.c:196
+#: src/getargs.c:200
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -113,7 +114,7 @@ msgstr ""
 "obrigatório para a opção curta equivalente também.  Igualmente para os\n"
 "argumentos opcionais.\n"
 
-#: src/getargs.c:202
+#: src/getargs.c:206
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -125,7 +126,7 @@ msgstr ""
 "  -V, --version   mostra informações de versão e sai\n"
 "  -y, --yacc      emula o yacc POSIX\n"
 
-#: src/getargs.c:209
+#: src/getargs.c:213
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -145,7 +146,7 @@ msgstr ""
 "  -n, --no-parser            apenas gera as tabelas\n"
 " --k, --token-table          inclui uma tabela de nomes de tokens\n"
 
-#: src/getargs.c:221
+#: src/getargs.c:225
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -164,7 +165,7 @@ msgstr ""
 "  -o, --output=ARQUIVO       armazena a saída em ARQUIVO\n"
 "  -g, --graph                também produz uma descrição em VCG do autômato\n"
 
-#: src/getargs.c:232
+#: src/getargs.c:236
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -183,25 +184,25 @@ msgstr ""
 "  `all'          inclui todas as informações acima\n"
 "  `none'         desabilita o relatório\n"
 
-#: src/getargs.c:243
+#: src/getargs.c:247
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Informe os erros para <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:260
+#: src/getargs.c:264
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU bison) %s"
 
-#: src/getargs.c:262
+#: src/getargs.c:266
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr "Escrito por Robert Corbett e Richard Stallman.\n"
 
-#: src/getargs.c:266
+#: src/getargs.c:270
 #, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr "Copyright © %d Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:268
+#: src/getargs.c:272
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -212,25 +213,25 @@ msgstr ""
 "ou\n"
 "ADEQUAÇÃO À QUALQUER FINALIDADE PARTICULAR.\n"
 
-#: src/getargs.c:424
+#: src/getargs.c:438
 #, c-format
 msgid "missing operand after `%s'"
 msgstr "falta operando depois de `%s'"
 
-#: src/getargs.c:426
+#: src/getargs.c:440
 #, c-format
 msgid "extra operand `%s'"
 msgstr "operando `%s' sobrando"
 
-#: src/gram.c:143
+#: src/gram.c:139
 msgid "empty"
 msgstr "vazio"
 
-#: src/gram.c:237
+#: src/gram.c:233
 msgid "Grammar"
 msgstr "Gramática"
 
-#: src/gram.c:325 src/reduce.c:394
+#: src/gram.c:321 src/reduce.c:394
 msgid "warning"
 msgstr "aviso"
 
@@ -238,11 +239,11 @@ msgstr "aviso"
 msgid "rule never reduced because of conflicts"
 msgstr "regra não reduzida por causa de conflitos"
 
-#: src/parse-gram.y:335
+#: src/parse-gram.y:338
 msgid "POSIX forbids declarations in the grammar"
 msgstr "o POSIX proíbe declarações na gramática"
 
-#: src/parse-gram.y:458
+#: src/parse-gram.y:461
 msgid "missing identifier in parameter declaration"
 msgstr "identificador faltando na declaração do parâmetro"
 
@@ -401,52 +402,52 @@ msgstr "símbolo de início %s não deriva nenhuma sentença"
 msgid "stray `,' treated as white space"
 msgstr "`,' perdida tratada como branco"
 
-#: src/scan-gram.l:219
+#: src/scan-gram.l:220
 #, c-format
 msgid "invalid directive: %s"
 msgstr "diretiva inválida: %s"
 
-#: src/scan-gram.l:239 src/scan-gram.l:795 src/scan-gram.l:863
+#: src/scan-gram.l:240 src/scan-gram.l:803 src/scan-gram.l:871
 #, c-format
 msgid "integer out of range: %s"
 msgstr "inteiro fora de faixa: %s"
 
-#: src/scan-gram.l:281
+#: src/scan-gram.l:282
 #, c-format
 msgid "invalid character: %s"
 msgstr "caractere inválido: %s"
 
-#: src/scan-gram.l:410 src/scan-gram.l:420 src/scan-gram.l:439
+#: src/scan-gram.l:411 src/scan-gram.l:421 src/scan-gram.l:440
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "seqüência de escape inválida: %s"
 
-#: src/scan-gram.l:444
+#: src/scan-gram.l:445
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "seqüência de escape não reconhecida: %s"
 
-#: src/scan-gram.l:532
+#: src/scan-gram.l:533
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "falta `{' em `%s'"
 
-#: src/scan-gram.l:767
+#: src/scan-gram.l:773
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' não tem tipo declarado"
 
-#: src/scan-gram.l:786
+#: src/scan-gram.l:794
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d de `%s' não tem tipo declarado"
 
-#: src/scan-gram.l:830 src/scan-gram.l:897
+#: src/scan-gram.l:838 src/scan-gram.l:905
 #, c-format
 msgid "invalid value: %s"
 msgstr "valor inválido: %s"
 
-#: src/scan-gram.l:985
+#: src/scan-gram.l:993
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "`%s' faltando no final do arquivo"
@@ -534,44 +535,44 @@ msgstr "argumento %s ambíguo para %s"
 msgid "Valid arguments are:"
 msgstr "Argumentos válidos são:"
 
-#: lib/bitset_stats.c:178
+#: lib/bitset_stats.c:179
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%u bitset_allocs, %u liberados (%.2f%%).\n"
 
-#: lib/bitset_stats.c:181
+#: lib/bitset_stats.c:182
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_sets, %u em cache (%.2f%%)\n"
 
-#: lib/bitset_stats.c:184
+#: lib/bitset_stats.c:185
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_resets, %u em cache (%.2f%%)\n"
 
-#: lib/bitset_stats.c:187
+#: lib/bitset_stats.c:188
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%u bitset_tests, %u em cache (%.2f%%)\n"
 
-#: lib/bitset_stats.c:191
+#: lib/bitset_stats.c:192
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u bitset_lists\n"
 
-#: lib/bitset_stats.c:193
+#: lib/bitset_stats.c:194
 msgid "count log histogram\n"
 msgstr "histograma de log de contagens\n"
 
-#: lib/bitset_stats.c:196
+#: lib/bitset_stats.c:197
 msgid "size log histogram\n"
 msgstr "histograma de log de tamanhos\n"
 
-#: lib/bitset_stats.c:199
+#: lib/bitset_stats.c:200
 msgid "density histogram\n"
 msgstr "histograma de densidades\n"
 
-#: lib/bitset_stats.c:213
+#: lib/bitset_stats.c:214
 msgid ""
 "Bitset statistics:\n"
 "\n"
@@ -579,24 +580,24 @@ msgstr ""
 "Estatísticas de bitset:\n"
 "\n"
 
-#: lib/bitset_stats.c:216
+#: lib/bitset_stats.c:217
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "Execuções acumuladas = %u\n"
 
-#: lib/bitset_stats.c:260 lib/bitset_stats.c:265
+#: lib/bitset_stats.c:261 lib/bitset_stats.c:266
 msgid "Could not read stats file."
 msgstr "Impossível ler o arquivo de estatísticas."
 
-#: lib/bitset_stats.c:262
+#: lib/bitset_stats.c:263
 msgid "Bad stats file size.\n"
 msgstr "Tamanho do arquivo de estatísticas com erro.\n"
 
-#: lib/bitset_stats.c:288 lib/bitset_stats.c:290
+#: lib/bitset_stats.c:289 lib/bitset_stats.c:291
 msgid "Could not write stats file."
 msgstr "Impossível de escrever no arquivo de estatísticas."
 
-#: lib/bitset_stats.c:293
+#: lib/bitset_stats.c:294
 msgid "Could not open stats file for writing."
 msgstr "Impossível abrir arquivo de estatísticas para escrita."
 

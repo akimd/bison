@@ -6,7 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875a\n"
-"POT-Creation-Date: 2003-04-29 10:05+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-06-17 00:56-0700\n"
 "PO-Revision-Date: 2003-02-02 02:19+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -91,22 +92,22 @@ msgstr "kan bestand niet sluiten"
 msgid "conflicting outputs to file %s"
 msgstr "conflicterende uitvoer naar bestand %s"
 
-#: src/getargs.c:182
+#: src/getargs.c:186
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Probeer `%s --help' voor meer informatie.\n"
 
 # Dank U, Akim :-)
-#: src/getargs.c:188
+#: src/getargs.c:192
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genereert parsers voor LALR(1) grammatica's.\n"
 
-#: src/getargs.c:192
+#: src/getargs.c:196
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Gebruik: %s [OPTIE]... BESTAND\n"
 
-#: src/getargs.c:196
+#: src/getargs.c:200
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -116,7 +117,7 @@ msgstr ""
 "optionele argumenten geldt dezelfde regel.\n"
 
 # Misschien beter 'een POSIX-compatibele yacc'?
-#: src/getargs.c:202
+#: src/getargs.c:206
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -130,7 +131,7 @@ msgstr ""
 
 # Correcte vervoeging van 'voorvoegen'?
 # Betere vertaling voor 'directives'?
-#: src/getargs.c:209
+#: src/getargs.c:213
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -150,7 +151,7 @@ msgstr ""
 "  -n, --no-parser            genereer alleen de tabellen\n"
 "  -k, --token-table          genereer ook een tabel van tokennamen\n"
 
-#: src/getargs.c:221
+#: src/getargs.c:225
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -171,7 +172,7 @@ msgstr ""
 "automaat\n"
 
 # Verschillende dingen die beter zouden moeten kunnen - zeker de 'itemset' tekst
-#: src/getargs.c:232
+#: src/getargs.c:236
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -191,27 +192,27 @@ msgstr ""
 "  `all'          bevat al de bovenstaande keuzes\n"
 "  `none'         schakel de rapportering uit\n"
 
-#: src/getargs.c:243
+#: src/getargs.c:247
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Meld bugs aan <bug-bison@gnu.org>.\n"
 "Meld fouten in de vertaling aan <vertaling@nl.linux.org>.\n"
 
-#: src/getargs.c:260
+#: src/getargs.c:264
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:262
+#: src/getargs.c:266
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr "Geschreven door Robert Corbett en Richard Stallman.\n"
 
-#: src/getargs.c:266
+#: src/getargs.c:270
 #, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr "Copyright (C) %d Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:268
+#: src/getargs.c:272
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -220,25 +221,25 @@ msgstr ""
 "garantie; zelfs niet voor VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD\n"
 "DOEL.\n"
 
-#: src/getargs.c:424
+#: src/getargs.c:438
 #, c-format
 msgid "missing operand after `%s'"
 msgstr "operand ontbreekt na `%s'"
 
-#: src/getargs.c:426
+#: src/getargs.c:440
 #, c-format
 msgid "extra operand `%s'"
 msgstr "overtollige operand `%s'"
 
-#: src/gram.c:143
+#: src/gram.c:139
 msgid "empty"
 msgstr "leeg"
 
-#: src/gram.c:237
+#: src/gram.c:233
 msgid "Grammar"
 msgstr "Grammatica"
 
-#: src/gram.c:325 src/reduce.c:394
+#: src/gram.c:321 src/reduce.c:394
 msgid "warning"
 msgstr "let op"
 
@@ -246,11 +247,11 @@ msgstr "let op"
 msgid "rule never reduced because of conflicts"
 msgstr "regel wordt nooit gereduceerd omwille van conflicten"
 
-#: src/parse-gram.y:335
+#: src/parse-gram.y:338
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX verbiedt declaraties binnen de grammatica"
 
-#: src/parse-gram.y:458
+#: src/parse-gram.y:461
 msgid "missing identifier in parameter declaration"
 msgstr "naam ontbreekt in parameterdeclaratie"
 
@@ -411,53 +412,53 @@ msgstr "uit startsymbool %s kan geen enkele zin afgeleid worden"
 msgid "stray `,' treated as white space"
 msgstr "losse `,' behandeld als witruimte"
 
-#: src/scan-gram.l:219
+#: src/scan-gram.l:220
 #, c-format
 msgid "invalid directive: %s"
 msgstr "ongeldig commando: %s"
 
 # Hier zou wel het bereik bij vermeld mogen worden...
-#: src/scan-gram.l:239 src/scan-gram.l:795 src/scan-gram.l:863
+#: src/scan-gram.l:240 src/scan-gram.l:803 src/scan-gram.l:871
 #, c-format
 msgid "integer out of range: %s"
 msgstr "integer buiten bereik: %s"
 
-#: src/scan-gram.l:281
+#: src/scan-gram.l:282
 #, c-format
 msgid "invalid character: %s"
 msgstr "ongeldig teken: %s"
 
-#: src/scan-gram.l:410 src/scan-gram.l:420 src/scan-gram.l:439
+#: src/scan-gram.l:411 src/scan-gram.l:421 src/scan-gram.l:440
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "ongeldige escape: %s"
 
-#: src/scan-gram.l:444
+#: src/scan-gram.l:445
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "onbekende escape: %s"
 
-#: src/scan-gram.l:532
+#: src/scan-gram.l:533
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "`{' ontbreekt in `%s'"
 
-#: src/scan-gram.l:767
+#: src/scan-gram.l:773
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ van `%s' heeft geen gedeclareerd type"
 
-#: src/scan-gram.l:786
+#: src/scan-gram.l:794
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d van `%s' heeft geen gedeclareerd type"
 
-#: src/scan-gram.l:830 src/scan-gram.l:897
+#: src/scan-gram.l:838 src/scan-gram.l:905
 #, c-format
 msgid "invalid value: %s"
 msgstr "ongeldige waarde: %s"
 
-#: src/scan-gram.l:985
+#: src/scan-gram.l:993
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "`%s' ontbreekt aan einde van bestand"
@@ -548,44 +549,44 @@ msgstr "argument %s voor %s is niet eenduidig"
 msgid "Valid arguments are:"
 msgstr "Geldige argumenten zijn:"
 
-#: lib/bitset_stats.c:178
+#: lib/bitset_stats.c:179
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%u bitset_allocs, %u vrijgegeven (%.2f%%).\n"
 
-#: lib/bitset_stats.c:181
+#: lib/bitset_stats.c:182
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_sets, %u gecached (%.2f%%)\n"
 
-#: lib/bitset_stats.c:184
+#: lib/bitset_stats.c:185
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_resets, %u gecached (%.2f%%)\n"
 
-#: lib/bitset_stats.c:187
+#: lib/bitset_stats.c:188
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%u bitset_tests, %u gecached (%.2f%%)\n"
 
-#: lib/bitset_stats.c:191
+#: lib/bitset_stats.c:192
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u bitset_lists\n"
 
-#: lib/bitset_stats.c:193
+#: lib/bitset_stats.c:194
 msgid "count log histogram\n"
 msgstr "count log histogram\n"
 
-#: lib/bitset_stats.c:196
+#: lib/bitset_stats.c:197
 msgid "size log histogram\n"
 msgstr "size log histogram\n"
 
-#: lib/bitset_stats.c:199
+#: lib/bitset_stats.c:200
 msgid "density histogram\n"
 msgstr "density histogram\n"
 
-#: lib/bitset_stats.c:213
+#: lib/bitset_stats.c:214
 msgid ""
 "Bitset statistics:\n"
 "\n"
@@ -593,24 +594,24 @@ msgstr ""
 "Bitset statistieken:\n"
 "\n"
 
-#: lib/bitset_stats.c:216
+#: lib/bitset_stats.c:217
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "Accumulated runs = %u\n"
 
-#: lib/bitset_stats.c:260 lib/bitset_stats.c:265
+#: lib/bitset_stats.c:261 lib/bitset_stats.c:266
 msgid "Could not read stats file."
 msgstr "Kon het statistiekenbestand niet lezen."
 
-#: lib/bitset_stats.c:262
+#: lib/bitset_stats.c:263
 msgid "Bad stats file size.\n"
 msgstr "Het statistiekenbestand heeft een verkeerde grootte.\n"
 
-#: lib/bitset_stats.c:288 lib/bitset_stats.c:290
+#: lib/bitset_stats.c:289 lib/bitset_stats.c:291
 msgid "Could not write stats file."
 msgstr "Kon niet schrijven naar het statistiekenbestand."
 
-#: lib/bitset_stats.c:293
+#: lib/bitset_stats.c:294
 msgid "Could not open stats file for writing."
 msgstr "Kon het statistiekenbestand niet openen voor schrijven."
 

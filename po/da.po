@@ -1,13 +1,14 @@
 # Danish messages for bison.
 # Copyright © 2001, 2002 Free Software Foundation, Inc.
 # Keld Simonsen <keld@dkuug.dk>, 2002.
-# Byrial Ole Jensen <byrial@image.dk>, 2002.
+# Byrial Ole Jensen <byrial@image.dk>, 2002-2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.75b\n"
-"POT-Creation-Date: 2003-04-29 10:05+0200\n"
-"PO-Revision-Date: 2002-11-28 22:16+0100\n"
+"Project-Id-Version: bison 1.875a\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-06-17 00:56-0700\n"
+"PO-Revision-Date: 2003-04-12 22:57+0200\n"
 "Last-Translator: Byrial Ole Jensen <byrial@image.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -45,22 +46,22 @@ msgstr "    Konflikt mellem regel %d og element %s løstes som en fejl"
 #: src/conflicts.c:398
 #, c-format
 msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
-msgstr ""
+msgstr "konflikter: %d skift/reducér, %d reducér/reducér\n"
 
 #: src/conflicts.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d shift/reduce\n"
-msgstr " %d skift/reducér"
+msgstr "konflikter:  %d skift/reducér\n"
 
 #: src/conflicts.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "conflicts: %d reduce/reduce\n"
-msgstr " %d reducér/reducér"
+msgstr "konflikter:  %d reducér/reducér\n"
 
 #: src/conflicts.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "State %d "
-msgstr "tilstand %d"
+msgstr "Tilstand %d "
 
 #: src/conflicts.c:498
 #, c-format
@@ -70,9 +71,8 @@ msgstr[0] "forventede %d skift/reducér-konflikt"
 msgstr[1] "forventede %d skift/reducér-konflikter"
 
 #: src/conflicts.c:503
-#, fuzzy
 msgid "expected 0 reduce/reduce conflicts"
-msgstr "%d reducér/reducér-konflikt"
+msgstr "forventede 0 reducér/reducér-konflikter"
 
 #: src/files.c:99
 #, c-format
@@ -90,23 +90,23 @@ msgstr "kan ikke lukke fil"
 #: src/files.c:336
 #, c-format
 msgid "conflicting outputs to file %s"
-msgstr ""
+msgstr "konfliktende uddata til filen %s"
 
-#: src/getargs.c:182
+#: src/getargs.c:186
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Prøv med \"%s --help\" for mere information.\n"
 
-#: src/getargs.c:188
+#: src/getargs.c:192
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genererer fortolkere til LALR(1)-grammatiker.\n"
 
-#: src/getargs.c:192
+#: src/getargs.c:196
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Brug: %s [FLAG]... FIL\n"
 
-#: src/getargs.c:196
+#: src/getargs.c:200
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -115,7 +115,7 @@ msgstr ""
 "obligatorisk for det tilsvarende korte flag. Tilsvarende\n"
 "for valgfrie argumenter.\n"
 
-#: src/getargs.c:202
+#: src/getargs.c:206
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -127,7 +127,7 @@ msgstr ""
 "  -V, --version   vis versionsinformation og afslut\n"
 "  -y, --yacc      emulér POSIX-yacc\n"
 
-#: src/getargs.c:209
+#: src/getargs.c:213
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -147,7 +147,7 @@ msgstr ""
 "  -n, --no-parser            generér kun tabellerne\n"
 "  -k, --token-table          inkludér en tabel over elementnavne\n"
 
-#: src/getargs.c:221
+#: src/getargs.c:225
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -166,7 +166,7 @@ msgstr ""
 "  -o, --output=FIL           læg uddata i FIL\n"
 "  -g, --graph                lav også en VCG-beskrivelse af automaten\n"
 
-#: src/getargs.c:232
+#: src/getargs.c:236
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -184,27 +184,27 @@ msgstr ""
 "  \"all\"          inkludér al ovenstående information\n"
 "  \"none\"         deaktivér rapporten\n"
 
-#: src/getargs.c:243
+#: src/getargs.c:247
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Rapportér fejl til <bug-bison@gnu.org>.\n"
 "Rapportér synpunkter om oversættelsen til <dansk@klid.dk>.\n"
 
-#: src/getargs.c:260
+#: src/getargs.c:264
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:262
+#: src/getargs.c:266
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr "Skrevet af Robert Corbett og Richard Stallman.\n"
 
-#: src/getargs.c:266
+#: src/getargs.c:270
 #, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr "Copyright © %d Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:268
+#: src/getargs.c:272
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -213,25 +213,25 @@ msgstr ""
 "gives INGEN garanti, endog ikke for SALGBARHED eller EGNETHED FOR NOGET\n"
 "BESTEMT FORMÅL.\n"
 
-#: src/getargs.c:424
+#: src/getargs.c:438
 #, c-format
 msgid "missing operand after `%s'"
 msgstr "manglende operand efter \"%s\""
 
-#: src/getargs.c:426
+#: src/getargs.c:440
 #, c-format
 msgid "extra operand `%s'"
 msgstr "overtallig operand \"%s\""
 
-#: src/gram.c:143
+#: src/gram.c:139
 msgid "empty"
 msgstr "tom"
 
-#: src/gram.c:237
+#: src/gram.c:233
 msgid "Grammar"
 msgstr "Grammatik"
 
-#: src/gram.c:325 src/reduce.c:394
+#: src/gram.c:321 src/reduce.c:394
 msgid "warning"
 msgstr "advarsel"
 
@@ -239,13 +239,13 @@ msgstr "advarsel"
 msgid "rule never reduced because of conflicts"
 msgstr "regel aldrig reduceret på grund af konflikter"
 
-#: src/parse-gram.y:335
+#: src/parse-gram.y:338
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX forbyder deklarationer i grammatikken"
 
-#: src/parse-gram.y:458
+#: src/parse-gram.y:461
 msgid "missing identifier in parameter declaration"
-msgstr ""
+msgstr "manglende identifikator i parameterdeklaration"
 
 #: src/print.c:49
 #, c-format
@@ -352,9 +352,9 @@ msgid "useless rule"
 msgstr "ubrugelig regel"
 
 #: src/reduce.c:303
-#, fuzzy, c-format
+#, c-format
 msgid "useless nonterminal: %s"
-msgstr "ubrugelig ikke-terminal"
+msgstr "ubrugelig ikke-terminal: %s"
 
 #: src/reduce.c:351
 msgid "Useless nonterminals"
@@ -400,54 +400,54 @@ msgstr "startsymbolet %s genererer ingen sætninger"
 
 #: src/scan-gram.l:160
 msgid "stray `,' treated as white space"
-msgstr ""
+msgstr "Malplaceret \",\" behandlet som blanktegn"
 
-#: src/scan-gram.l:219
+#: src/scan-gram.l:220
 #, c-format
 msgid "invalid directive: %s"
 msgstr "ugyldigt direktiv: %s"
 
-#: src/scan-gram.l:239 src/scan-gram.l:795 src/scan-gram.l:863
+#: src/scan-gram.l:240 src/scan-gram.l:803 src/scan-gram.l:871
 #, c-format
 msgid "integer out of range: %s"
 msgstr "heltal uden for gyldigshedsområdet: %s"
 
-#: src/scan-gram.l:281
+#: src/scan-gram.l:282
 #, c-format
 msgid "invalid character: %s"
 msgstr "ugyldigt tegn: %s"
 
-#: src/scan-gram.l:410 src/scan-gram.l:420 src/scan-gram.l:439
+#: src/scan-gram.l:411 src/scan-gram.l:421 src/scan-gram.l:440
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "ugyldig undvigesekvens: %s"
 
-#: src/scan-gram.l:444
+#: src/scan-gram.l:445
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "ukendt undvigesekvens: %s"
 
-#: src/scan-gram.l:532
-#, fuzzy, c-format
+#: src/scan-gram.l:533
+#, c-format
 msgid "missing `{' in `%s'"
-msgstr "manglende operand efter \"%s\""
+msgstr "manglende \"{\" i \"%s\""
 
-#: src/scan-gram.l:767
+#: src/scan-gram.l:773
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ for \"%s\" har ingen erklæret type"
 
-#: src/scan-gram.l:786
+#: src/scan-gram.l:794
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d for \"%s\" har ingen erklæret type"
 
-#: src/scan-gram.l:830 src/scan-gram.l:897
+#: src/scan-gram.l:838 src/scan-gram.l:905
 #, c-format
 msgid "invalid value: %s"
 msgstr "fejlagtig værdi: %s"
 
-#: src/scan-gram.l:985
+#: src/scan-gram.l:993
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "manglende \"%s\" ved slutningen af filen"
@@ -536,44 +536,44 @@ msgstr "flertydigt argument %s til %s"
 msgid "Valid arguments are:"
 msgstr "Gyldige argumenter er:"
 
-#: lib/bitset_stats.c:178
+#: lib/bitset_stats.c:179
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%u bitmængdeallokeringer, %u frigjort (%.2f%%).\n"
 
-#: lib/bitset_stats.c:181
+#: lib/bitset_stats.c:182
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%u bitmængdeindstillinger, %u cachede (%.2f%%)\n"
 
-#: lib/bitset_stats.c:184
+#: lib/bitset_stats.c:185
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%u bitmængdenulstillinger, %u cachede (%.2f%%)\n"
 
-#: lib/bitset_stats.c:187
+#: lib/bitset_stats.c:188
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%u bitmængdetest, %u cachede (%.2f%%)\n"
 
-#: lib/bitset_stats.c:191
+#: lib/bitset_stats.c:192
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u bitmængdelister\n"
 
-#: lib/bitset_stats.c:193
+#: lib/bitset_stats.c:194
 msgid "count log histogram\n"
 msgstr "kaldsloghistogram\n"
 
-#: lib/bitset_stats.c:196
+#: lib/bitset_stats.c:197
 msgid "size log histogram\n"
 msgstr "størrelsesloghistogram\n"
 
-#: lib/bitset_stats.c:199
+#: lib/bitset_stats.c:200
 msgid "density histogram\n"
 msgstr "densitetshistogram\n"
 
-#: lib/bitset_stats.c:213
+#: lib/bitset_stats.c:214
 msgid ""
 "Bitset statistics:\n"
 "\n"
@@ -581,24 +581,24 @@ msgstr ""
 "Bitmængdestatistik:\n"
 "\n"
 
-#: lib/bitset_stats.c:216
+#: lib/bitset_stats.c:217
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "Akkumulerede kørsler = %u\n"
 
-#: lib/bitset_stats.c:260 lib/bitset_stats.c:265
+#: lib/bitset_stats.c:261 lib/bitset_stats.c:266
 msgid "Could not read stats file."
 msgstr "Kunne ikke læse statistikfil."
 
-#: lib/bitset_stats.c:262
+#: lib/bitset_stats.c:263
 msgid "Bad stats file size.\n"
 msgstr "Dårlig statistikfilstørrelse.\n"
 
-#: lib/bitset_stats.c:288 lib/bitset_stats.c:290
+#: lib/bitset_stats.c:289 lib/bitset_stats.c:291
 msgid "Could not write stats file."
 msgstr "Kunne ikke skrive statistikfil."
 
-#: lib/bitset_stats.c:293
+#: lib/bitset_stats.c:294
 msgid "Could not open stats file for writing."
 msgstr "Kunne ikke åbne statistikfil for skrivning."
 
@@ -708,17 +708,3 @@ msgstr " TOTALT                :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "tid i %s: %ld.%06ld (%ld%%)\n"
-
-#~ msgid "%d shift/reduce conflict"
-#~ msgid_plural "%d shift/reduce conflicts"
-#~ msgstr[0] "%d skift/reducér-konflikt"
-#~ msgstr[1] "%d skift/reducér-konflikter"
-
-#~ msgid "and"
-#~ msgstr "og"
-
-#~ msgid "conflicts: "
-#~ msgstr "konflikter: "
-
-#~ msgid "State %d contains "
-#~ msgstr "Tilstand %d indeholder "
