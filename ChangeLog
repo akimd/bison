@@ -1,5 +1,14 @@
 2004-12-16  Akim Demaille  <akim@epita.fr>
 
+	Use #define to handle the %name-prefix.
+
+	* data/glr.c, data/yacc.c: Comment changes.
+	* data/lalr1.cc (yylex): Use #define to select the name of yylex,
+	so that one can refer to yylex in the parser file, and have it
+	renamed, as is the case with other skeletons.
+
+2004-12-16  Akim Demaille  <akim@epita.fr>
+
 	Move lalr1.cc internals into yy*.
 
 	* data/lalr1.cc (semantic_stack_, location_stack_, state_stack_)

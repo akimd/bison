@@ -373,8 +373,13 @@ namespace yy
 @output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
              [2002, 2003, 2004])
-
-m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
+m4_if(b4_prefix[], [yy], [],
+[
+// Take the name prefix into account.
+#define yylex   b4_prefix[]lex])
+m4_if(b4_defines_flag, 0, [],
+[
+#include @output_header_name@])[
 
 /* A pseudo ostream that takes yydebug_ into account. */
 # define YYCDEBUG							\
@@ -786,9 +791,9 @@ yy::]b4_parser_class_name[::yylex_ ()
 {
   YYCDEBUG << "Reading a token: ";
 #if YYLSP_NEEDED
-  yylooka_ = ]m4_default(b4_prefix, [yy])[lex (&value, &location);
+  yylooka_ = yylex (&value, &location);
 #else
-  yylooka_ = ]m4_default(b4_prefix, [yy])[lex (&value);
+  yylooka_ = yylex (&value);
 #endif
 }
 
