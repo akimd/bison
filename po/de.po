@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-11-26 16:23+0100\n"
+"POT-Creation-Date: 2001-11-27 19:40+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -121,12 +121,12 @@ msgstr "    %-4s\treduziere mit Tegel %d (%s)\n"
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
 
-#: src/files.c:143
+#: src/files.c:144
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:162
+#: src/files.c:163
 msgid "cannot close file"
 msgstr ""
 
