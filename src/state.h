@@ -158,10 +158,7 @@ typedef struct reductions
   short rules[1];
 } reductions;
 
-#define REDUCTIONS_ALLOC(Nreductions)					\
-  (reductions *) xcalloc ((unsigned) (sizeof (reductions)		\
-                                  + (Nreductions - 1) * sizeof (short)), 1)
-
+reductions *reductions_new PARAMS ((int n));
 
 
 /*----------.
