@@ -29,6 +29,7 @@ INCLUDES = -I$(top_builddir)      \
 LDADD = ../lib/libbison.a $(LIBINTL)
 
 bin_PROGRAMS = bison
+bin_SCRIPTS = yacc
 
 bison_SOURCES = 				  \
 	LR0.c LR0.h				  \
@@ -64,6 +65,13 @@ bison_SOURCES = 				  \
 	vcg_defaults.h
 
 BUILT_SOURCES = scan-skel.c scan-gram.c parse-gram.c parse-gram.h
+
+MOSTLYCLEANFILES = yacc
+
+yacc:
+	echo '#! /bin/sh' >$@
+	echo 'exec $(bindir)/bison -y "$$@"' >>$@
+	chmod a+x $@
 
 echo:
 	echo $(bison_SOURCES) $(noinst_HEADERS)
