@@ -1,5 +1,11 @@
 2001-12-14  Akim Demaille  <akim@epita.fr>
 
+	* src/lex.c (literalchar): Simply return the char you decoded, non
+	longer mess around with obstacks and int pointers.
+	Adjust all callers.
+
+2001-12-14  Akim Demaille  <akim@epita.fr>
+
 	* src/lex.c (literalchar): Don't escape the special characters,
 	just decode them, and keep them as char (before, eol was output as
 	the 2 char string `\n' etc.).
