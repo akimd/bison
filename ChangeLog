@@ -1,5 +1,10 @@
 2002-03-19  Paul Eggert  <eggert@twinsun.com>
 
+	* src/bison.simple (YYCOPY): New macro.
+	(YYSTACK_RELOCATE): Use it.
+	Remove Type arg; no longer needed.  All callers changed.
+	(yymemcpy): Remove; no longer needed.
+
 	* Makefile.am (AUTOMAKE_OPTIONS): 1.6.
 	* doc/Makefile.am (AUTOMAKE_OPTIONS): Remove.
 	* Makefile.in, aclocal.m4, config.hin, configure,
