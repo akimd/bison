@@ -35,9 +35,8 @@ prev_version_file = $(srcdir)/config/prev-version.txt
 release_archive_dir = releases
 
 # Uploading betas.
-hosts = alpha
-alpha_host = alpha.gnu.org
-alpha_url_dir = gnu/bison
+url_dir_list = \
+  ftp://alpha.gnu.org/gnu/bison
 
 # Files to update automatically.
 wget_files = $(srcdir)/config/config.guess $(srcdir)/config/config.sub \
