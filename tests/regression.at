@@ -328,6 +328,8 @@ state 0
 
     'a' 	shift, and go to state 1
 
+    $default	reduce using rule 3 (@2)
+
     expr	go to state 2
     @2  	go to state 3
 

@@ -158,7 +158,11 @@ transpose: output
   0:
 
 Lookaheads: BEGIN
-State 0: 0 lookaheads
+State 0: 1 lookaheads
+   on 0 ($) -> rule -4
+   on 1 (error) -> rule -4
+   on 2 ($undefined.) -> rule -4
+   on 3 ('e') -> rule -4
 State 1: 0 lookaheads
 State 2: 0 lookaheads
 State 3: 0 lookaheads

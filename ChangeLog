@@ -1,5 +1,19 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	Fix the `GAWK Grammar' failure.
+
+	* src/LR0.c (final_state): Initialize to -1 so that we do compute
+	the reductions of the first state which was mistakenly confused
+	with the final state because precisely final_state was initialized
+	to 0.
+	* tests/sets.at (Nullable): Adjust: state 0 does have lookaheads,
+	now noticed by Bison.
+	* tests/regression.at (Rule Line Numbers): Adjust: state 0 does
+	have a reduction on $default.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.c (ritem_print): Be sure to subtract 1 when displaying
 	rule line numbers.
 	* src/closure.c (print_closure): Likewise.
