@@ -1,5 +1,11 @@
 2000-12-20  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.s1: Remove, we now use directly...
+	* src/bison.simple: this.
+	* src/Makefile.am: Use pkgdata instead of data.
+
+2000-12-20  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c (guard_obstack): New.
 	(open_files): Initialize it.
 	(output_files): Dump it...

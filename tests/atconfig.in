@@ -87,8 +87,8 @@ CC='@CC@'
 CFLAGS='@CFLAGS@'
 
 # We want to use the files shipped with Bison.
-BISON_SIMPLE=$at_top_builddir/src/bison.simple
+BISON_SIMPLE=$at_top_srcdir/src/bison.simple
 export BISON_SIMPLE
-BISON_HAIRY=$at_top_builddir/src/bison.hairy
+BISON_HAIRY=$at_top_srcdir/src/bison.hairy
 export BISON_HAIRY
 # Snippet )2

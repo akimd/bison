@@ -1,10 +1,9 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
 AUTOMAKE_OPTIONS = 1.4 ../lib/ansi2knr
-
 DEFS = @DEFS@ \
-  -DBISON_SIMPLE=\"${datadir}/bison.simple\" \
-  -DBISON_HAIRY=\"${datadir}/bison.hairy\" \
-  -DLOCALEDIR=\"${datadir}/locale\"
+  -DBISON_SIMPLE=\"$(pkgdatadir)/bison.simple\" \
+  -DBISON_HAIRY=\"$(pkgdatadir)/bison.hairy\" \
+  -DLOCALEDIR=\"$(datadir)/locale\"
 
 INCLUDES = -I../intl -I$(top_srcdir)/lib -I..
 LDADD = @INTLLIBS@ ../lib/libbison.a
@@ -25,11 +24,6 @@ noinst_HEADERS = LR0.h closure.h complain.h conflicts.h \
  output.h state.h	\
  print.h reader.h reduce.h symtab.h warshall.h system.h types.h
 
-data_DATA = bison.simple bison.hairy
+pkgdata_DATA = bison.simple bison.hairy
 
-EXTRA_DIST = bison.s1 bison.hairy build.com bison.cld vmshlp.mar
-
-bison.simple: bison.s1
-	cp $(srcdir)/bison.s1 $@
-
-DISTCLEANFILES = bison.simple
+EXTRA_DIST = $(pkgdata_DATA) build.com bison.cld vmshlp.mar
