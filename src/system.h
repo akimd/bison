@@ -89,8 +89,15 @@ char *alloca ();
 # endif
 #endif
 
-/* FIXME: Autoconfiscate. */
-#include <limits.h>
+#if HAVE_LIMITS_H
+# include <limits.h>
+#endif
+#ifndef SHRT_MIN
+# define SHRT_MIN (-32768)
+#endif
+#ifndef SHRT_MAX
+# define SHRT_MAX 32767
+#endif
 
 # include "xalloc.h"
 

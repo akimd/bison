@@ -1,3 +1,8 @@
+2002-04-10  Akim Demaille  <akim@epita.fr>
+
+	* src/system.h: Rely on HAVE_LIMITS_H.
+	Suggested by Paul Eggert.
+
 2002-04-09  Akim Demaille  <akim@epita.fr>
 
 	* tests/calc.at (_AT_CHECK_CALC_ERROR): Receive as argument the
