@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2003-01-09 10:29+0100\n"
+"POT-Creation-Date: 2003-02-01 00:13-0800\n"
 "PO-Revision-Date: 2002-10-17 14:37+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -329,12 +329,12 @@ msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
 #: src/reader.c:341 src/reader.c:355 src/reader.c:368
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
-msgstr "solo un %%merge è permesso in una regola"
+msgstr "solo un %%dprec è permesso in una regola"
 
 #: src/reader.c:351 src/reader.c:366
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
-msgstr "%%merge considerato solo nei parser GLR"
+msgstr "%%dprec considerato solo nei parser GLR"
 
 #: src/reader.c:353
 #, fuzzy, c-format
@@ -729,11 +729,11 @@ msgstr "tempo in %s: %ld.%06ld (%ld%%)\n"
 #~ msgid "two @prec's in a row"
 #~ msgstr "due @prec di seguito"
 
-#~ msgid "%%dprec affects only GLR parsers"
-#~ msgstr "%%dprec considerato solo nei parser GLR"
+#~ msgid "%%merge affects only GLR parsers"
+#~ msgstr "%%merge considerato solo nei parser GLR"
 
-#~ msgid "only one %%dprec allowed per rule"
-#~ msgstr "solo un %%dprec è permesso in una regola"
+#~ msgid "only one %%merge allowed per rule"
+#~ msgstr "solo un %%merge è permesso in una regola"
 
 #~ msgid "too many symbols (tokens plus nonterminals); maximum %d"
 #~ msgstr "troppi simboli (token e nonterminali); il massimo è %d"
