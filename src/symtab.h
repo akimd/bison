@@ -1,4 +1,5 @@
-/* Definitions for symtab.c and callers, part of bison,
+/* Definitions for symtab.c and callers, part of Bison.
+
    Copyright (C) 1984, 1989, 1992, 2000, 2001, 2002
    Free Software Foundation, Inc.
 
@@ -81,7 +82,7 @@ struct symbol
 #define USER_NUMBER_ALIAS -9991
 
 /* Undefined internal token number.  */
-#define NUMBER_UNDEFINED ((symbol_number) -1)
+#define NUMBER_UNDEFINED (-1)
 
 
 /* Fetch (or create) the symbol associated to KEY.  */
@@ -133,13 +134,6 @@ extern location startsymbol_location;
 
 /* Create the symbol table.  */
 void symbols_new (void);
-
-/* A function to apply to each symbol. */
-typedef bool (*symbol_processor) (symbol *);
-
-/* Apply PROCESSOR to all the symbols.  PROCESSOR must return true: on
-   false, the processing stops.  */
-void symbols_do (symbol_processor processor, void *processor_data);
 
 /* Free all the memory allocated for symbols.  */
 void symbols_free (void);
