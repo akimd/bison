@@ -52,7 +52,7 @@ N to use in `$N'.
 set its value with an assignment to `$$', and actions later in the rule
 can refer to the value using `$N'.  Since there is no symbol to name
 the action, there is no way to declare a data type for the value in
-advance, so you must use the `$<...>' construct to specify a data type
+advance, so you must use the `$<...>N' construct to specify a data type
 each time you refer to this value.
 
    There is no way to set the value of the entire rule with a mid-rule

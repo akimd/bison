@@ -8,3 +8,4 @@ bison-*
 patches
 *.patch *.log
 *.prj
+releases
