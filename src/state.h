@@ -146,6 +146,15 @@ typedef struct shifts
 #define SHIFT_IS_ERROR(Shifts, Shift) \
   (SHIFT_SYMBOL (Shifts, Shift) == error_token_number)
 
+/* When resolving a SR conflicts, if the reduction wins, the shift is
+   disabled.  */
+
+#define SHIFT_DISABLE(Shifts, Shift) \
+  (Shifts->shifts[Shift] = 0)
+
+#define SHIFT_IS_DISABLED(Shifts, Shift) \
+  (Shifts->shifts[Shift] == 0)
+
 
 /*-------.
 | Errs.  |
