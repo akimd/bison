@@ -1,3 +1,10 @@
+2003-05-05  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* lib/bitset.h (__INT_TO_PTR): Define to a value that presumes
+	C89.  This avoids a diagnostic on compilers that define __STDC__
+	to 0, fixing a problem with Tru64 cc reported by Martin Mokrejs in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-04/msg00041.html>.
+
 2003-05-03  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/bitset.h (BITSET_FOR_EACH, BITSET_FOR_EACH_REVERSE):
