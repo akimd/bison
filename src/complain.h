@@ -33,7 +33,7 @@ void warn (char const *format, ...)
 void warn_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
-/* Something bad happen, but let's continue and die later.  */
+/* Something bad happened, but let's continue and die later.  */
 
 void complain (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
@@ -41,7 +41,7 @@ void complain (char const *format, ...)
 void complain_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
-/* Something bad happen and we die now.  */
+/* Something bad happened, and let's die now.  */
 
 void fatal (char const *format, ...)
   __attribute__ ((__noreturn__, __format__ (__printf__, 1, 2)));
