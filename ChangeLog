@@ -1,3 +1,9 @@
+2002-10-13  Paul Eggert  <eggert@twinsun.com>
+
+	* data/c.m4 (b4_token_defines): Protect against double-inclusion
+	by wrapping enum yytokentype's definition inside #ifndef
+	YYTOKENTYPE.  This undoes a bug I introduced on 2002-10-12.
+
 2002-10-13  Akim Demaille  <akim@epita.fr>
 
 	* data/glr.c (yyglrShiftDefer, yyaddDeferredAction, yydoAction):
