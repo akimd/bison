@@ -58,7 +58,7 @@ static void gram_error (location const *, char const *);
 	print_token_value (File, Type, &Value)
 static void print_token_value (FILE *, int, YYSTYPE const *);
 
-static void add_param (char const *, char const *, location);
+static void add_param (char const *, char *, location);
 
 symbol_class current_class = unknown_sym;
 uniqstr current_type = 0;
@@ -66,7 +66,6 @@ symbol *current_lhs;
 location current_lhs_location;
 assoc current_assoc;
 int current_prec = 0;
-braced_code current_braced_code = action_braced_code;
 %}
 
 
@@ -90,10 +89,10 @@ braced_code current_braced_code = action_braced_code;
 %token PERCENT_NTERM       "%nterm"
 
 %token PERCENT_TYPE        "%type"
-%token PERCENT_DESTRUCTOR  "%destructor"
-%token PERCENT_PRINTER     "%printer"
+%token PERCENT_DESTRUCTOR  "%destructor {...}"
+%token PERCENT_PRINTER     "%printer {...}"
 
-%token PERCENT_UNION       "%union"
+%token PERCENT_UNION       "%union {...}"
 
 %token PERCENT_LEFT        "%left"
 %token PERCENT_RIGHT       "%right"
@@ -116,12 +115,12 @@ braced_code current_braced_code = action_braced_code;
   PERCENT_EXPECT        "%expect"
   PERCENT_FILE_PREFIX   "%file-prefix"
   PERCENT_GLR_PARSER    "%glr-parser"
-  PERCENT_LEX_PARAM     "%lex-param"
+  PERCENT_LEX_PARAM     "%lex-param {...}"
   PERCENT_LOCATIONS     "%locations"
   PERCENT_NAME_PREFIX   "%name-prefix"
   PERCENT_NO_LINES      "%no-lines"
   PERCENT_OUTPUT        "%output"
-  PERCENT_PARSE_PARAM   "%parse-param"
+  PERCENT_PARSE_PARAM   "%parse-param {...}"
   PERCENT_PURE_PARSER   "%pure-parser"
   PERCENT_SKELETON      "%skeleton"
   PERCENT_START         "%start"
@@ -143,7 +142,12 @@ braced_code current_braced_code = action_braced_code;
 
 
 %type <chars> STRING string_content
-	      BRACED_CODE code_content action
+	      "%destructor {...}"
+	      "%lex-param {...}"
+	      "%parse-param {...}"
+	      "%printer {...}"
+	      "%union {...}"
+	      BRACED_CODE action
 	      PROLOGUE EPILOGUE
 %type <uniqstr> TYPE
 %type <integer> INT
@@ -176,12 +180,12 @@ declaration:
 | "%expect" INT                            { expected_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
 | "%glr-parser" 			   { glr_parser = 1; }
-| "%lex-param" code_content		   { add_param ("lex_param", $2, @2); }
+| "%lex-param {...}"			   { add_param ("lex_param", $1, @1); }
 | "%locations"                             { locations_flag = 1; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
 | "%no-lines"                              { no_lines_flag = 1; }
 | "%output" "=" string_content             { spec_outfile = $3; }
-| "%parse-param" code_content		{ add_param ("parse_param", $2, @2); }
+| "%parse-param {...}"			 { add_param ("parse_param", $1, @1); }
 | "%pure-parser"                           { pure_parser = 1; }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = 1; }
@@ -197,31 +201,25 @@ grammar_declaration:
     {
       grammar_start_symbol_set ($2, @2);
     }
-| "%union" BRACED_CODE
+| "%union {...}"
     {
       typed = 1;
-      MUSCLE_INSERT_INT ("stype_line", @2.start.line);
-      muscle_insert ("stype", $2);
+      MUSCLE_INSERT_INT ("stype_line", @1.start.line);
+      muscle_insert ("stype", $1);
     }
-| "%destructor"
-    { current_braced_code = destructor_braced_code; }
-  BRACED_CODE symbols.1
+| "%destructor {...}" symbols.1
     {
       symbol_list *list;
-      for (list = $4; list; list = list->next)
-	symbol_destructor_set (list->sym, $3, @3);
-      symbol_list_free ($4);
-      current_braced_code = action_braced_code;
+      for (list = $2; list; list = list->next)
+	symbol_destructor_set (list->sym, $1, @1);
+      symbol_list_free ($2);
     }
-| "%printer"
-    { current_braced_code = printer_braced_code; }
-  BRACED_CODE symbols.1
+| "%printer {...}" symbols.1
     {
       symbol_list *list;
-      for (list = $4; list; list = list->next)
-	symbol_printer_set (list->sym, $3, list->location);
-      symbol_list_free ($4);
-      current_braced_code = action_braced_code;
+      for (list = $2; list; list = list->next)
+	symbol_printer_set (list->sym, $1, list->location);
+      symbol_list_free ($2);
     }
 ;
 
@@ -394,15 +392,6 @@ string_content:
     };
 
 
-/* A BRACED_CODE used for its contents.  Strip the braces. */
-code_content:
-  BRACED_CODE
-    {
-      $$ = $1 + 1;
-      $$[strlen ($$) - 1] = '\0';
-    };
-
-
 epilogue.opt:
   /* Nothing.  */
 | "%%" EPILOGUE
@@ -449,7 +438,7 @@ lloc_default (YYLTYPE const *rhs, int n)
    declaration DECL and location LOC.  */
 
 static void
-add_param (char const *type, char const *decl, location loc)
+add_param (char const *type, char *decl, location loc)
 {
   static char const alphanum[] =
     "0123456789"
@@ -458,11 +447,15 @@ add_param (char const *type, char const *decl, location loc)
     "_";
   char const *alpha = alphanum + 10;
   char const *name_start = NULL;
-  char const *p;
+  char *p;
 
   for (p = decl; *p; p++)
     if ((p == decl || ! strchr (alphanum, p[-1])) && strchr (alpha, p[0]))
       name_start = p;
+
+  /* Strip the surrounding '{' and '}'.  */
+  decl++;
+  p[-1] = '\0';
 
   if (! name_start)
     complain_at (loc, _("missing identifier in parameter declaration"));
@@ -486,9 +479,9 @@ add_param (char const *type, char const *decl, location loc)
   scanner_last_string_free ();
 }
 
-/*------------------------------------------------------------------.
-| When debugging the parser, display tokens' locations and values.  |
-`------------------------------------------------------------------*/
+/*----------------------------------------------------.
+| When debugging the parser, display tokens' values.  |
+`----------------------------------------------------*/
 
 static void
 print_token_value (FILE *file, int type, YYSTYPE const *value)
@@ -513,6 +506,11 @@ print_token_value (FILE *file, int type, YYSTYPE const *value)
       break;
 
     case BRACED_CODE:
+    case PERCENT_DESTRUCTOR:
+    case PERCENT_LEX_PARAM:
+    case PERCENT_PARSE_PARAM:
+    case PERCENT_PRINTER:
+    case PERCENT_UNION:
     case PROLOGUE:
     case EPILOGUE:
       fprintf (file, " = {{ %s }}", value->chars);
@@ -528,4 +526,10 @@ static void
 gram_error (location const *loc, char const *msg)
 {
   complain_at (*loc, "%s", msg);
+}
+
+char const *
+token_name (int type)
+{
+  return yytname[type];
 }
