@@ -50,6 +50,7 @@ typedef enum token_e
     tok_hdrext,
     tok_srcext,
     tok_define,
+    tok_skel,
     tok_noop,
     tok_setopt,
     tok_illegal,

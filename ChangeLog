@@ -1,5 +1,13 @@
 2001-08-29  Marc Autret  <autret_m@epita.fr>
 
+	* src/reader.c (parse_skel_decl): New.
+	(read_declarations): Add case `tok_skel', call parse_skel_decl (). 
+	* src/lex.h (token_t): New token `tok_skel'.
+	* src/lex.c (percent_table): Add skeleton option entry.
+	Standardize.
+
+2001-08-29  Marc Autret  <autret_m@epita.fr>
+
 	* src/bison.simple: Add %%user_code directive at the end.
 	* src/reader.c (read_additionnal_code): New.
 	(reader): Use it.
