@@ -1,5 +1,12 @@
 2003-04-26  Paul Eggert  <eggert@twinsun.com>
 
+	* data/lalr1.cc (yy::Parser::pact_ninf_, yy::Parser::table_ninf_):
+	Declare to be of type suitable for the ninf value itself, not of
+	type suitable for the corresponding table, since the latter might
+	be unsigned but the ninf value might be negative.  This fixes a
+	bug reported by Alexandre Duret-Lutz in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-04/msg00017.html>.
+
 	* configure.ac (AC_FUNC_ERROR_AT_LINE): Remove, since gl_ERROR
 	invokes it.  We shouldn't invoke it twice because it will attempt
 	to put error.o in the archive twice.  This fixes a glitch reported
