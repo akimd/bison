@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.28c\n"
+"Project-Id-Version: bison 1.28d\n"
 "POT-Creation-Date: 2001-08-29 14:32+0200\n"
-"PO-Revision-Date: 2001-08-21 21:53+02:00\n"
+"PO-Revision-Date: 2001-08-29 17:06+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -189,7 +189,6 @@ msgstr ""
 "  -k, --token-table          lisa ka sümbolite nimede tabel\n"
 
 #: src/getargs.c:116
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -204,6 +203,7 @@ msgstr ""
 "  -v, --verbose              väljasta automaadi kohta selgitusi\n"
 "  -b, --file-prefix=PREFIKS  kasuta väljundfailide nimedes PREFIKSit\n"
 "  -o, --output-file=FAIL     jäta väljund FAILi\n"
+"  -g, --graph                loo automaadi kirjeldus VCG graafina\n"
 
 #: src/getargs.c:126
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -798,36 +798,3 @@ msgstr "`"
 #: lib/quotearg.c:260
 msgid "'"
 msgstr "'"
-
-#~ msgid "vcg graph: no such color."
-#~ msgstr "vcg graph: sellist värvi pole."
-
-#~ msgid "vcg graph: no such text mode"
-#~ msgstr "vcg graph: sellist teksti moodi pole"
-
-#~ msgid "vcg graph: no such shape"
-#~ msgstr "vcg graph: sellist vormi pole"
-
-#~ msgid "vcg graph: no such decision"
-#~ msgstr "vcg graph: sellist otsust pole"
-
-#~ msgid "vcg graph: no such an orientation"
-#~ msgstr "vcg graph: sellist orientatsiooni pole"
-
-#~ msgid "vcg graph: no such an alignement"
-#~ msgstr "vcg graph: sellist joondamist pole"
-
-#~ msgid "vcg graph: no such an arrow mode"
-#~ msgstr "vcg graph: sellist noole moodi pole"
-
-#~ msgid "vcg graph: no such crossing_type"
-#~ msgstr "vcg graph: sellist ristumise tüüpi pole"
-
-#~ msgid "vcg graph: no such view"
-#~ msgstr "vcg graph: sellist vaadet pole"
-
-#~ msgid "vcg graph: no such linestyle"
-#~ msgstr "vcg graph: sellist joone stiili pole"
-
-#~ msgid "vcg graph: no such an arrowstyle"
-#~ msgstr "vcg graph: sellist noole stiili pole"

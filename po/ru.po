@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.28a\n"
+"Project-Id-Version: bison 1.28c\n"
 "POT-Creation-Date: 2001-08-29 14:32+0200\n"
-"PO-Revision-Date: 2000-04-12 13:16+04:00\n"
+"PO-Revision-Date: 2001-08-23 11:40+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,16 +20,15 @@ msgstr "слишком много состояний (максимально %d)"
 
 #: lib/error.c:117 src/complain.c:100
 msgid "Unknown system error"
-msgstr ""
+msgstr "Неизвестная системная ошибка"
 
 #: src/complain.c:154
 msgid "warning: "
-msgstr ""
+msgstr "предупреждение: "
 
 #: src/complain.c:242 src/complain.c:283
-#, fuzzy
 msgid "fatal error: "
-msgstr "ошибка"
+msgstr "фатальная ошибка: "
 
 #: src/conflicts.c:49
 #, c-format
@@ -122,14 +121,8 @@ msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tвывод с использованием правила %d (%s)\n"
 
 #: src/derives.c:44
-#, fuzzy
 msgid "DERIVES"
-msgstr ""
-"\n"
-"\n"
-"\n"
-"DERIVES\n"
-"\n"
+msgstr "DERIVES"
 
 #: src/derives.c:49
 #, c-format
@@ -139,11 +132,11 @@ msgstr "%s выводит"
 #: src/files.c:130
 #, c-format
 msgid "cannot open file `%s'"
-msgstr ""
+msgstr "не удается открыть файл `%s'"
 
 #: src/files.c:149
 msgid "cannot close file"
-msgstr ""
+msgstr "не удается закрыть файл"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
@@ -178,7 +171,6 @@ msgstr ""
 "  -y, --yacc      эмулировать POSIX yacc\n"
 
 #: src/getargs.c:104
-#, fuzzy
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -190,11 +182,12 @@ msgid ""
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
 "Анализатор:\n"
+"  -S, --skeleton=ФАЙЛ        указать файл шаблона\n"
 "  -t, --debug                настроить анализатор для отладки\n"
+"      --locations            включить вычисление местоположений\n"
 "  -p, --name-prefix=ПРЕФИКС  подставить ПРЕФИКС для внешних символов\n"
 "  -l, --no-lines             не генерировать директивы `#line'\n"
 "  -n, --no-parser            генерировать только таблицы\n"
-"  -r, --raw                  нумеровать лексемы, начиная с 3\n"
 "  -k, --token-table          включить таблицу имен лексем\n"
 
 #: src/getargs.c:116
@@ -223,28 +216,34 @@ msgstr "Ошибки сообщайте по адресу <bug-bison@gnu.org>.\n"
 #: src/getargs.c:140
 #, c-format
 msgid "bison (GNU Bison) %s"
-msgstr ""
+msgstr "bison (GNU Bison) %s"
 
 #: src/getargs.c:145
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 
 #: src/getargs.c:149
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
+"Это свободная программа; условия распространения смотрите в исходных "
+"текстах.\n"
+"НИКАКИХ гарантий не предоставляется, даже гарантии ПОЛЕЗНОСТИ или "
+"ПРИГОДНОСТИ\n"
+"ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ.\n"
 
 #: src/getargs.c:210 src/lex.c:636
 #, c-format
 msgid "`%s' is no longer supported"
-msgstr ""
+msgstr "`%s' больше не поддерживается"
 
 #: src/getargs.c:234
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr ""
+msgstr "Используйте `%s --help' для дополнительной информации.\n"
 
 #: src/getargs.c:241
 #, c-format
@@ -357,20 +356,13 @@ msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tпереход в состояние %d\n"
 
 #: src/print.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "state %d"
-msgstr ""
-"\n"
-"\n"
-"состояние %d\n"
-"\n"
+msgstr "состояние %d"
 
 #: src/print.c:233
-#, fuzzy
 msgid "Grammar"
-msgstr ""
-"\n"
-"Грамматика\n"
+msgstr "Грамматика"
 
 #: src/print.c:240
 #, c-format
@@ -382,20 +374,12 @@ msgid "\t\t/* empty */"
 msgstr "\t\t/* пусто */"
 
 #: src/print.c:253
-#, fuzzy
 msgid "Terminals, with rules where they appear"
-msgstr ""
-"\n"
-"Терминальные символы с правилами, в которых они появляются\n"
-"\n"
+msgstr "Терминальные символы с правилами, в которых они появляются"
 
 #: src/print.c:302
-#, fuzzy
 msgid "Nonterminals, with rules where they appear"
-msgstr ""
-"\n"
-"Нетерминальные символы с правилами, в которых они появляются\n"
-"\n"
+msgstr "Нетерминальные символы с правилами, в которых они появляются"
 
 #: src/print.c:329
 msgid " on left:"
@@ -406,14 +390,14 @@ msgid " on right:"
 msgstr " направо:"
 
 #: src/print_graph.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%-4s\terror (nonassociative)"
-msgstr "    %-4s\tошибка (неассоциативная)\n"
+msgstr "%-4s\tошибка (неассоциативная)"
 
 #: src/print_graph.c:187
-#, fuzzy, c-format
+#, c-format
 msgid "$default\treduce using rule %d (%s)"
-msgstr "    $default\tвывод с использованием правила %d (%s)\n"
+msgstr "$default\tвывод с использованием правила %d (%s)"
 
 #: src/reader.c:79
 msgid "   Skipping to next \\n"
@@ -437,9 +421,9 @@ msgid "unterminated string"
 msgstr "незаконченная строка"
 
 #: src/reader.c:326 src/reader.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "%s is invalid"
-msgstr "неверный знак $%s"
+msgstr "неверный знак %s"
 
 #: src/reader.c:366
 #, c-format
@@ -486,14 +470,14 @@ msgid "`%s' is invalid in %s"
 msgstr "`%s' неверно в %s"
 
 #: src/reader.c:561 src/reader.c:721
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %s declarations"
-msgstr "множественное описание %start"
+msgstr "множественное описание %s"
 
 #: src/reader.c:563 src/reader.c:893 src/reader.c:918 src/reader.c:1284
-#, fuzzy, c-format
+#, c-format
 msgid "invalid %s declaration"
-msgstr "неверное описание %start"
+msgstr "неверное описание %s"
 
 #: src/reader.c:583
 msgid "%type declaration has no <typename>"
@@ -520,14 +504,14 @@ msgid "unexpected item: %s"
 msgstr "неожиданный элемент: %s"
 
 #: src/reader.c:759 src/reader.c:1110 src/reader.c:1181
-#, fuzzy, c-format
+#, c-format
 msgid "unmatched %s"
-msgstr "непарная `{'"
+msgstr "непарная %s"
 
 #: src/reader.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "argument of %%expect is not an integer"
-msgstr "аргумент %expect не является целым числом"
+msgstr "аргумент %%expect не является целым числом"
 
 #: src/reader.c:838
 #, c-format
@@ -540,14 +524,14 @@ msgid "expected string constant instead of %s"
 msgstr "вместо %s ожидалась строковая постоянная"
 
 #: src/reader.c:930
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %%header_extension declarations"
-msgstr "множественное описание %union"
+msgstr "множественные описания %%header_extension"
 
 #: src/reader.c:940
-#, fuzzy, c-format
+#, c-format
 msgid "multiple %%source_extension declarations"
-msgstr "множественное описание %union"
+msgstr "множественные описания %%source_extension"
 
 #: src/reader.c:1026
 #, c-format
@@ -586,9 +570,9 @@ msgid "two @prec's in a row"
 msgstr "два @prec подряд"
 
 #: src/reader.c:1519
-#, fuzzy, c-format
+#, c-format
 msgid "%%guard present but %%semantic_parser not specified"
-msgstr "%guard присутствует, а %semantic_parser не задан"
+msgstr "%%guard присутствует, а %%semantic_parser не задан"
 
 #: src/reader.c:1528
 msgid "two actions at end of one rule"
@@ -649,29 +633,16 @@ msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
 
 #: src/reduce.c:404
-#, fuzzy
 msgid "Useless nonterminals:"
-msgstr ""
-"Бесполезные нетерминалы:\n"
-"\n"
+msgstr "Бесполезные нетерминалы:"
 
 #: src/reduce.c:419
-#, fuzzy
 msgid "Terminals which are not used:"
-msgstr ""
-"\n"
-"\n"
-"Неиспользованные терминалы:\n"
-"\n"
+msgstr "Неиспользованные терминалы:"
 
 #: src/reduce.c:430
-#, fuzzy
 msgid "Useless rules:"
-msgstr ""
-"\n"
-"\n"
-"Бесполезные правила:\n"
-"\n"
+msgstr "Бесполезные правила:"
 
 #: src/reduce.c:459
 msgid ""
@@ -806,9 +777,8 @@ msgstr "%s: ключ `-W %s' должен использоваться без аргумента\n"
 #. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
 #. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/obstack.c:477 lib/xmalloc.c:66
-#, fuzzy
 msgid "memory exhausted"
-msgstr "%s: память исчерпана\n"
+msgstr "память исчерпана"
 
 #. Get translations for open and closing quotation marks.
 #.
@@ -826,11 +796,35 @@ msgstr "%s: память исчерпана\n"
 #. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #: lib/quotearg.c:259
 msgid "`"
-msgstr ""
+msgstr "`"
 
 #: lib/quotearg.c:260
 msgid "'"
-msgstr ""
+msgstr "'"
+
+#~ msgid "vcg graph: no such color."
+#~ msgstr "vcg graph: такого цвета нет."
+
+#~ msgid "vcg graph: no such text mode"
+#~ msgstr "vcg graph: такого текстового режима нет"
+
+#~ msgid "vcg graph: no such shape"
+#~ msgstr "vcg graph: такой формы нет"
+
+#~ msgid "vcg graph: no such decision"
+#~ msgstr "vcg graph: такого решения нет"
+
+#~ msgid "vcg graph: no such an orientation"
+#~ msgstr "vcg graph: такой ориентации нет"
+
+#~ msgid "vcg graph: no such an alignement"
+#~ msgstr "vcg graph: такого выравнивания нет"
+
+#~ msgid "vcg graph: no such crossing_type"
+#~ msgstr "vcg graph: такого crossing_type нет"
+
+#~ msgid "vcg graph: no such view"
+#~ msgstr "vcg graph: такого представления нет"
 
 #~ msgid "unterminated comment at end of file"
 #~ msgstr "незаконченный комментарий в конце файла"

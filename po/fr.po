@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.28c\n"
+"Project-Id-Version: GNU bison 1.28d\n"
 "POT-Creation-Date: 2001-08-29 14:32+0200\n"
-"PO-Revision-Date: 2001-08-28 08:00-0500\n"
+"PO-Revision-Date: 2001-08-29 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -194,7 +194,6 @@ msgstr ""
 "  -k, --token-table          inclure la table des noms de jetons\n"
 
 #: src/getargs.c:116
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -209,6 +208,8 @@ msgstr ""
 "  -v, --verbose              produire une explication de l'automate\n"
 "  -b, --file-prefix=PREFIXE  utiliser le PREFIXE pour le fichier de sortie\n"
 "  -o, --output-file=FICHIER  produire la sortie dans le FICHIER\n"
+"  -g, --graph                produire aussi la description du graphe VCG de "
+"l'automate\n"
 
 #: src/getargs.c:126
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -574,7 +575,7 @@ msgstr "deux @prec de suite"
 #: src/reader.c:1519
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
-msgstr "%guard est présent mais %%semantic_parser n'est pas spécifié"
+msgstr "%%guard est présent mais %%semantic_parser n'est pas spécifié"
 
 #: src/reader.c:1528
 msgid "two actions at end of one rule"
