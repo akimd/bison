@@ -1,5 +1,18 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h, src/gram.c (rules_rhs_length): New.
+	(ritem_longest_rhs): Use it.
+	* src/gram.h (rule_t): `number' is a new member.
+	* src/reader.c (packgram): Set it.
+	* src/reduce.c (reduce_grammar_tables): Move the useless rules at
+	the end of `rules', and count them out of `nrules'.
+	(reduce_output, dump_grammar): Adjust.
+	* src/print.c (print_grammar): It is no longer needed to check for
+	the usefulness of a rule, as useless rules are beyond `nrules + 1'.
+	* tests/reduce.at (Reduced Automaton): New test.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c (inaccessable_symbols): Fix a buglet: because of a
 	lacking `+ 1' to nrules, Bison reported as useless a token if it
 	was used solely to set the precedence of the last rule...

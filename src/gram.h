@@ -124,6 +124,10 @@ typedef enum
 
 typedef struct rule_s
 {
+  /* The number of the rule in the source.  It is usually the index in
+     RULES too, except if there are useless rules.  */
+  short number;
+
   short lhs;
   short *rhs;
   short prec;
@@ -166,6 +170,8 @@ extern int pure_parser;
 
 extern int error_token_number;
 
+/* Report the length of the RHS. */
+int rule_rhs_length PARAMS ((rule_t *rule));
 
 /* Dump RITEM for traces. */
 void ritem_print PARAMS ((FILE *out));
