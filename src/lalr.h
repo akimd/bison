@@ -24,7 +24,7 @@
 #include "bitset.h"
 #include "bitsetv.h"
 
-/* Import the definition of CORE, SHIFTS and REDUCTIONS. */
+/* Import the definition of CORE, TRANSITIONS and REDUCTIONS. */
 # include "state.h"
 
 /* Import the definition of RULE_T. */

@@ -97,52 +97,54 @@ typedef short state_number_t;
 /* Be ready to map a state_number_t to an int.  */
 # define state_number_as_int(Tok) ((int) (Tok))
 
-/*---------.
-| Shifts.  |
-`---------*/
+/*--------------.
+| Transitions.  |
+`--------------*/
 
-typedef struct shifts_s
+typedef struct transtion_s
 {
-  short nshifts;
-  state_number_t shifts[1];
-} shifts_t;
+  short num;
+  state_number_t states[1];
+} transitions_t;
 
 
-/* What is the symbol which is shifted by SHIFTS->shifts[Shift]?  Can
+/* What is the symbol which is shifted by TRANSITIONS->states[Shift]?  Can
    be a token (amongst which the error token), or non terminals in
    case of gotos.  */
 
-#define SHIFT_SYMBOL(Shifts, Shift) \
-  (states[Shifts->shifts[Shift]]->accessing_symbol)
+#define TRANSITION_SYMBOL(Transitions, Shift) \
+  (states[Transitions->states[Shift]]->accessing_symbol)
 
-/* Is the SHIFTS->shifts[Shift] a real shift? (as opposed to gotos.) */
+/* Is the TRANSITIONS->states[Shift] a real shift? (as opposed to gotos.) */
 
-#define SHIFT_IS_SHIFT(Shifts, Shift) \
-  (ISTOKEN (SHIFT_SYMBOL (Shifts, Shift)))
+#define TRANSITION_IS_SHIFT(Transitions, Shift) \
+  (ISTOKEN (TRANSITION_SYMBOL (Transitions, Shift)))
 
-/* Is the SHIFTS->shifts[Shift] a goto?. */
+/* Is the TRANSITIONS->states[Shift] a goto?. */
 
-#define SHIFT_IS_GOTO(Shifts, Shift) \
-  (!SHIFT_IS_SHIFT (Shifts, Shift))
+#define TRANSITION_IS_GOTO(Transitions, Shift) \
+  (!TRANSITION_IS_SHIFT (Transitions, Shift))
 
-/* Is the SHIFTS->shifts[Shift] then handling of the error token?. */
+/* Is the TRANSITIONS->states[Shift] then handling of the error token?. */
 
-#define SHIFT_IS_ERROR(Shifts, Shift) \
-  (SHIFT_SYMBOL (Shifts, Shift) == errtoken->number)
+#define TRANSITION_IS_ERROR(Transitions, Shift) \
+  (TRANSITION_SYMBOL (Transitions, Shift) == errtoken->number)
 
 /* When resolving a SR conflicts, if the reduction wins, the shift is
    disabled.  */
 
-#define SHIFT_DISABLE(Shifts, Shift) \
-  (Shifts->shifts[Shift] = 0)
+#define TRANSITION_DISABLE(Transitions, Shift) \
+  (Transitions->states[Shift] = 0)
 
-#define SHIFT_IS_DISABLED(Shifts, Shift) \
-  (Shifts->shifts[Shift] == 0)
+#define TRANSITION_IS_DISABLED(Transitions, Shift) \
+  (Transitions->states[Shift] == 0)
 
-/* Return the state such these SHIFTS contain a shift/goto to it on
+/* Return the state such these TRANSITIONS contain a shift/goto to it on
    SYMBOL.  Aborts if none found.  */
 struct state_s;
-struct state_s *shifts_to PARAMS ((shifts_t *shifts, symbol_number_t s));
+struct state_s *transitions_to PARAMS ((transitions_t *state,
+					symbol_number_t s));
+
 
 /*-------.
 | Errs.  |
@@ -178,7 +180,7 @@ typedef struct state_s
 {
   state_number_t number;
   symbol_number_t accessing_symbol;
-  shifts_t     *shifts;
+  transitions_t     *shifts;
   reductions_t *reductions;
   errs_t       *errs;
 
@@ -214,7 +216,7 @@ state_t *state_new PARAMS ((symbol_number_t accessing_symbol,
 			    size_t core_size, item_number_t *core));
 
 /* Set the shifts of STATE.  */
-void state_shifts_set PARAMS ((state_t *state,
+void state_transitions_set PARAMS ((state_t *state,
 			       int nshifts, state_number_t *shifts));
 
 /* Set the reductions of STATE.  */

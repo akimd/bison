@@ -1,5 +1,15 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h, src/state.c (shift_t, SHIFT_SYMBOL, SHIFT_IS_SHIFT)
+	(SHIFT_IS_GOTO, SHIFT_IS_ERROR, SHIFT_DISABLE, SHIFT_IS_DISABLED)
+	(shifts_to): Rename as...
+	(transition_t, TRANSITION_SYMBOL, TRANSITION_IS_TRANSITION)
+	(TRANSITION_IS_GOTO, TRANSITION_IS_ERROR, TRANSITION_DISABLE)
+	(TRANSITION_IS_DISABLED, transitions_to): these.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/print.c (print_shifts, print_gotos): Merge into...
 	(print_transitions): this.
 	(print_transitions, print_errs, print_reductions): Align the
