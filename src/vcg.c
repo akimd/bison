@@ -19,6 +19,7 @@
    Boston, MA 02111-1307, USA.  */
 
 #include "system.h"
+#include "xalloc.h"
 #include "vcg.h"
 #include "vcg_defaults.h"
 
@@ -425,6 +426,46 @@ add_edge (graph_t *graph, edge_t *edge)
   graph->edge_list = edge;
 }
 
+void
+add_classname (graph_t *g, int val, char *name)
+{
+  struct classname_s *classname;
+  
+  classname = XMALLOC (struct classname_s, 1);
+  classname->no = val;
+  classname->name = name;
+  classname->next = g->classname;
+  g->classname = classname;
+}
+
+void
+add_infoname (graph_t *g, int integer, char *string)
+{
+  struct infoname_s *infoname;
+  
+  infoname = XMALLOC (struct infoname_s, 1);
+  infoname->integer = integer;
+  infoname->string = string;
+  infoname->next = g->infoname;
+  g->infoname = infoname;
+}
+
+/* Build a colorentry struct and add it to the list.  */
+void
+add_colorentry (graph_t *g, int color_idx, int red_cp, 
+		int green_cp, int blue_cp)
+{
+  struct colorentry_s *ce;
+  
+  ce = XMALLOC (struct colorentry_s, 1);
+  ce->color_index = color_idx;
+  ce->red_cp = red_cp;
+  ce->green_cp = green_cp;
+  ce->blue_cp = blue_cp;
+  ce->next = g->colorentry;
+  g->colorentry = ce;
+}
+
 /*-------------------------------------.
 | Open and close functions (formatted) |
 `-------------------------------------*/
@@ -480,6 +521,7 @@ close_graph(graph_t *graph, struct obstack *os)
 {
   obstack_1grow (os, '\n');
 
+  /* FIXME: Unallocate nodes and edges if required.  */
   {
     node_t *node;
 
@@ -702,7 +744,9 @@ output_graph (graph_t *graph, struct obstack *os)
 
   if (graph->hidden != G_HIDDEN)
     obstack_fgrow1 (os, "\thidden:\t%d\n", graph->hidden);
-
+  
+  /* FIXME: Unallocate struct list if required.  
+     Maybe with a little function.  */
   if (graph->classname != G_CLASSNAME)
     {
       struct classname_s *ite;

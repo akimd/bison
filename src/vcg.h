@@ -999,6 +999,11 @@ void new_edge PARAMS ((edge_t *edge));
 void add_node PARAMS ((graph_t *graph, node_t *node));
 void add_edge PARAMS ((graph_t *graph, edge_t *edge));
 
+void add_colorentry PARAMS ((graph_t *g, int color_idx, int red_cp, 
+			     int green_cp, int blue_cp));
+void add_classname PARAMS ((graph_t *g, int val, char *name));
+void add_infoname PARAMS ((graph_t *g, int val, char *name));
+
 void open_node PARAMS ((struct obstack *os));
 void output_node PARAMS ((node_t *node, struct obstack *os));
 void close_node PARAMS ((struct obstack *os));

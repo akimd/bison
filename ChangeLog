@@ -1,3 +1,11 @@
+2001-08-27  Marc Autret  <autret_m@epita.fr>
+
+	* src/vcg.c: Include `xalloc.h'.
+	(add_colorentry): New.
+	(add_classname): New.
+	(add_infoname): New.
+	* src/vcg.h: Add new prototypes.
+
 2001-08-27  Akim Demaille  <akim@epita.fr>
 
 	* Makefile.maint: Sync. again with CVS Autoconf.
