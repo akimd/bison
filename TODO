@@ -6,6 +6,8 @@
 
 * src/output.c
 ** Output sub-skeleton files.
+*** Useful for %no_parser.
+**** New skeleton.
 ** Cleanup dirty CPP-out code.
 ** s/definitions/prologue/  s/user_code/epilogue/ [ok].
 ** s/macro/muscle/
@@ -28,4 +30,5 @@
 ** Add explainations about %skeleton.
 
 * tests/
-** Repair Bison to success tests.
+** Repair Bison to success tests. [ok]
+
