@@ -1,5 +1,11 @@
 2002-07-25  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (prepare_tokens): Go up to ntokens, not ntokens + 1.
+	* doc/bison.texinfo (Decl Summary): s/$illegal/$undefined./.
+	* tests/regression.at (Web2c Actions): Adjust.
+
+2002-07-25  Akim Demaille  <akim@epita.fr>
+
 	Stop storing rules from 1 to nrules + 1.
 
 	* src/LR0.c, src/closure.c, src/derives.c, src/gram.c, src/lalr.c

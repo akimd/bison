@@ -587,9 +587,9 @@ static const char *const yytname[] =
   "$", "error", "$undefined.", "\"if\"", "\"const\"", "\"then\"",
   "\"else\"", "$axiom", "statement", "struct_stat", "if", "else", 0
 };
-static const short yytoknum[] =
+static const unsigned short yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,    -1
+       0,   256,   257,   258,   259,   260,   261
 };
 static const unsigned char yyr1[] =
 {

@@ -3552,10 +3552,10 @@ Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 @item %token-table
 Generate an array of token names in the parser file.  The name of the
 array is @code{yytname}; @code{yytname[@var{i}]} is the name of the
-token whose internal Bison token code number is @var{i}.  The first three
-elements of @code{yytname} are always @code{"$"}, @code{"error"}, and
-@code{"$illegal"}; after these come the symbols defined in the grammar
-file.
+token whose internal Bison token code number is @var{i}.  The first
+three elements of @code{yytname} are always @code{"$"}, @code{"error"},
+and @code{"$undefined."}; after these come the symbols defined in the
+grammar file.
 
 For single-character literal tokens and literal string tokens, the name
 in the table includes the single-quote or double-quote characters: for
