@@ -14,8 +14,6 @@
 @c the smallbook format. 
 @c @smallbook
 
-@c next time, consider using @set for edition number, etc...
-
 @c Set following if you have the new `shorttitlepage' command
 @c @clear shorttitlepage-enabled
 @c @set shorttitlepage-enabled
