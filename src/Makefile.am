@@ -5,7 +5,7 @@ DEFS = @DEFS@ \
   -DXPFILE=\"${datadir}/bison.simple\" \
   -DXPFILE1=\"${datadir}/bison.hairy\" \
   -DLOCALEDIR=\"${datadir}/locale\"
-INCLUDES = -I../intl -I$(top_srcdir)/intl -I..
+INCLUDES = -I../intl -I$(top_srcdir)/intl -I.. $(WARNING_CFLAGS)
 LDADD = @INTLLIBS@ ../lib/libbison.a
 
 bin_PROGRAMS = bison
