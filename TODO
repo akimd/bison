@@ -5,7 +5,7 @@ Complete parse_skel_decl () with parse_dquoted_param ().	[]
 Check and cleanup for CPP-out code.	[]
 
 * src/output.c
-Remove %%verbose which is useless.
+Remove %%verbose which is useless.	[ok]
 
 Cleanup dirty CPP-out code.	[]
 ** Output sub-skeleton files.	[]
@@ -27,6 +27,6 @@ Add explainations about %skeleton.	[]
 ** tests/calc.at
 Remove --yyerror-verbose.	[]
 ** tests/torture.at
-Remove --yyerror-verbose.	[]
+Remove --yyerror-verbose.	[ok]
 ** tests/calc.at
 Test --error-verbose.	[]
