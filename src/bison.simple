@@ -190,32 +190,39 @@ union yyalloc
 /* Tokens.  */
 %%tokendef
 
-#define YYFINAL		%%final
-#define YYFLAG		%%flag
-#define YYNTBASE	%%ntbase
-#define YYLAST		%%last
+/* YYFINAL -- State number of the termination state. */
+#define YYFINAL  %%final
+#define YYFLAG	 %%flag
+#define YYLAST   %%last
 
-#define YYNTOKENS	%%ntokens
-#define YYNNTS		%%nnts
-#define YYNRULES	%%nrules
-#define YYNSTATES	%%nstates
-#define YYMAXUTOK	%%maxtok
+/* YYNTOKENS -- Number of terminals. */
+#define YYNTOKENS  %%ntokens
+/* YYNNTS -- Number of nonterminals. */
+#define YYNNTS  %%nnts
+/* YYNRULES -- Number of rules. */
+#define YYNRULES  %%nrules
+/* YYNRULES -- Number of states. */
+#define YYNSTATES  %%nstates
+#define YYMAXUTOK  %%maxtok
 
-/* YYTRANSLATE(YYLEX) -- Bison token number corresponding to YYLEX.  */
+/* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYTRANSLATE(x) ((unsigned)(x) <= %%maxtok ? yytranslate[x] : %%nsym)
 
-/* YYTRANSLATE[YYLEX] -- Bison token number corresponding to YYLEX.  */
+/* YYTRANSLATE[YYLEX] -- Bison symbol number corresponding to YYLEX.  */
 static const char yytranslate[] =
 {
   %%translate
 };
 
 #if YYDEBUG
+/* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
+   YYRHS.  */
 static const short yyprhs[] =
 {
   %%prhs
 };
 
+/* YYRHS -- A `0'-separated list of the rules' RHS. */
 static const short yyrhs[] =
 {
   %%rhs
@@ -229,7 +236,8 @@ static const short yyrline[] =
 #endif
 
 #if (YYDEBUG) || YYERROR_VERBOSE
-/* YYTNME[TOKEN_NUM] -- String name of the token TOKEN_NUM.  */
+/* YYTNME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+   First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 static const char *const yytname[] =
 {
   %%tname
@@ -262,21 +270,28 @@ static const short yydefact[] =
   %%defact
 };
 
+/* YYPGOTO[NTERM-NUM]. */
 static const short yydefgoto[] =
 {
   %%defgoto
 };
 
+/* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
+   STATE-NUM.  */
 static const short yypact[] =
 {
   %%pact
 };
 
+/* YYPGOTO[NTERM-NUM].  */
 static const short yypgoto[] =
 {
   %%pgoto
 };
 
+/* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
+   positive, shift that token.  If negative, reduce the rule which
+   number is the opposite.  If zero, do what YYDEFACT says.  */
 static const short yytable[] =
 {
   %%table
@@ -331,14 +346,14 @@ do								\
   if (yychar == YYEMPTY && yylen == 1)				\
     {								\
       yychar = (Token);						\
-      yylval = (Value);					\
+      yylval = (Value);						\
       yychar1 = YYTRANSLATE (yychar);				\
       YYPOPSTACK;						\
       goto yybackup;						\
     }								\
   else								\
     { 								\
-      yyerror ("syntax error: cannot back up");		\
+      yyerror ("syntax error: cannot back up");			\
       YYERROR;							\
     }								\
 while (0)
@@ -928,11 +943,11 @@ yyreduce:
 
   yyn = yyr1[yyn];
 
-  yystate = yypgoto[yyn - YYNTBASE] + *yyssp;
+  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
   if (yystate >= 0 && yystate <= YYLAST && yycheck[yystate] == *yyssp)
     yystate = yytable[yystate];
   else
-    yystate = yydefgoto[yyn - YYNTBASE];
+    yystate = yydefgoto[yyn - YYNTOKENS];
 
   goto yynewstate;
 

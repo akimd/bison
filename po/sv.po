@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2001-12-17 18:27+0100\n"
+"POT-Creation-Date: 2001-12-22 17:25+0100\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -101,12 +101,12 @@ msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "förväntade %d skifta/reducerakonflikt"
 msgstr[1] "förväntade %d skifta/reducerakonflikter"
 
-#: src/conflicts.c:451 src/conflicts.c:528
+#: src/conflicts.c:450 src/conflicts.c:527
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reducera med regel %d (%s)]\n"
 
-#: src/conflicts.c:455 src/print.c:147
+#: src/conflicts.c:454 src/print.c:147
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -115,12 +115,12 @@ msgstr ""
 "    $standard\treducera med regel %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:509 src/conflicts.c:522
+#: src/conflicts.c:508 src/conflicts.c:521
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treducera med regel %d (%s)\n"
 
-#: src/conflicts.c:538
+#: src/conflicts.c:537
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $standard\treducera med regel %d (%s)\n"

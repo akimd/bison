@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-12-17 18:27+0100\n"
+"POT-Creation-Date: 2001-12-22 17:25+0100\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -97,12 +97,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d verschuif/reduceer conflicten"
 
-#: src/conflicts.c:451 src/conflicts.c:528
+#: src/conflicts.c:450 src/conflicts.c:527
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduceer gebruikt regel %d (%s)]\n"
 
-#: src/conflicts.c:455 src/print.c:147
+#: src/conflicts.c:454 src/print.c:147
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,12 +111,12 @@ msgstr ""
 "    $default\treduce using rule %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:509 src/conflicts.c:522
+#: src/conflicts.c:508 src/conflicts.c:521
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr ""
 
-#: src/conflicts.c:538
+#: src/conflicts.c:537
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr ""

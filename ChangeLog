@@ -1,3 +1,12 @@
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
+	* src/output.c (prepare): Drop the muscle `ntbase' which
+	duplicates ntokens.
+	* src/bison.simple: Formatting/comment changes.
+	Use YYNTOKENS only, which is documented, but not YYNTBASE, which
+	is an undocumented synonym.
+
+	
 2001-12-22  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_table_data): Change the prototype to use
