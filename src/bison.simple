@@ -268,13 +268,20 @@ yynewstate:
 #ifdef yyoverflow
       /* Each stack pointer address is followed by the size of
 	 the data in use in that stack, in bytes.  */
+#ifdef YYLSP_NEEDED
+      /* This used to be a conditional around just the two extra args,
+	 but that might be undefined if yyoverflow is a macro.  */
       yyoverflow("parser stack overflow",
 		 &yyss1, size * sizeof (*yyssp),
 		 &yyvs1, size * sizeof (*yyvsp),
-#ifdef YYLSP_NEEDED
 		 &yyls1, size * sizeof (*yylsp),
-#endif
 		 &yystacksize);
+#else
+      yyoverflow("parser stack overflow",
+		 &yyss1, size * sizeof (*yyssp),
+		 &yyvs1, size * sizeof (*yyvsp),
+		 &yystacksize);
+#endif
 
       yyss = yyss1; yyvs = yyvs1;
 #ifdef YYLSP_NEEDED
@@ -453,7 +460,7 @@ yyreduce:
 #endif
 
 $   /* the action file gets copied in in place of this dollarsign */
-#line 457 "bison.simple"
+#line 464 "bison.simple"
 
   yyvsp -= yylen;
   yyssp -= yylen;
