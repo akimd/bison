@@ -1,3 +1,12 @@
+2001-09-20  Akim Demaille  <akim@epita.fr>
+
+	* src/complain.c: No longer try to be standalone: use system.h.
+	Don't assume __STDC__ is defined to 1. Just test if it is defined.
+	* src/complain.h: Likewise.
+	* src/reduce.c (useless_nonterminals, inaccessable_symbols):
+	Remove the unused variable `n'.
+	From Albert Chin-A-Young.
+
 2001-09-18  Marc Autret  <autret_m@epita.fr>
 
 	* doc/bison.1: Update.
@@ -15,9 +24,9 @@
 	* src/reader.c (parse_union_decl): Do not output '/'. Let copy_comment
 	do that.
 	Reported by Keith Browne.
-	
+
 2001-09-18  Marc Autret  <autret_m@epita.fr>
-	
+
 	* tests/output.at: Add tests for --defines and --graph.
 
 2001-09-18  Marc Autret  <autret_m@epita.fr>
