@@ -1,3 +1,10 @@
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
+	* lib/bitset-int.h, lib/bitset.c, lib/bitset.h, lib/bitsetv.c,
+	* lib/bitsetv.h, lib/ebitset.c, lib/ebitset.h, lib/lbitset.c,
+	* lib/lbitset.h, lib/sbitset.c, lib/sbitset.h: New.
+	* src/closure.c (fderives): Be an array of bitsets.
+
 2002-02-28  Robert Anisko  <robert@lrde.epita.fr>
 
 	* data/bison.c++: Merge the two generated headers.  Insert a copyright

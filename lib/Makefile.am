@@ -42,5 +42,10 @@ libbison_a_SOURCES = \
   xalloc.h xmalloc.c xstrdup.c xstrndup.c \
   readpipe.c
 
+# Implementation of bitsets
+libbison_a_SOURCES += \
+	bitset-int.h bitset.h bitsetv.h ebitset.h lbitset.h sbitset.h \
+	bitset.c bitsetv.c ebitset.c lbitset.c sbitset.c
+
 libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)
