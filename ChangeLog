@@ -1,5 +1,12 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo: Promote `%long-directive' over
+	`%long_directive'.
+	Remove all references to fixed-output-files, yacc is enough.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.simple: Define YYDEBUG and YYERROR_VERBOSE *after* the
 	user prologue.  These are defaults.
 	* tests/actions.at (Mid-rule actions): Make sure the user can

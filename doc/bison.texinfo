@@ -3163,7 +3163,7 @@ may override this restriction with the @code{%start} declaration as follows:
 @subsection A Pure (Reentrant) Parser
 @cindex reentrant parser
 @cindex pure parser
-@findex %pure_parser
+@findex %pure-parser
 
 A @dfn{reentrant} program is one which does not alter in the course of
 execution; in other words, it consists entirely of @dfn{pure} (read-only)
@@ -3179,11 +3179,11 @@ statically allocated variables for communication with @code{yylex},
 including @code{yylval} and @code{yylloc}.)
 
 Alternatively, you can generate a pure, reentrant parser.  The Bison
-declaration @code{%pure_parser} says that you want the parser to be
+declaration @code{%pure-parser} says that you want the parser to be
 reentrant.  It looks like this:
 
 @example
-%pure_parser
+%pure-parser
 @end example
 
 The result is that the communication variables @code{yylval} and
@@ -3270,12 +3270,12 @@ be able to refer to token type codes and the variable
 Specify a prefix to use for all Bison output file names.  The names are
 chosen as if the input file were named @file{@var{prefix}.y}.
 
-@c @item %header_extension
+@c @item %header-extension
 @c Specify the extension of the parser header file generated when
 @c @code{%define} or @samp{-d} are used.
 @c
 @c For example, a grammar file named @file{foo.ypp} and containing a
-@c @code{%header_extension .hh} directive will produce a header file
+@c @code{%header-extension .hh} directive will produce a header file
 @c named @file{foo.tab.hh}
 
 @item %locations
@@ -3318,14 +3318,14 @@ Specify the @var{filename} for the parser file.
 Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 (Reentrant) Parser}).
 
-@c @item %source_extension
+@c @item %source-extension
 @c Specify the extension of the parser output file.
 @c
 @c For example, a grammar file named @file{foo.yy} and containing a
-@c @code{%source_extension .cpp} directive will produce a parser file
+@c @code{%source-extension .cpp} directive will produce a parser file
 @c named @file{foo.tab.cpp}
 
-@item %token_table
+@item %token-table
 Generate an array of token names in the parser file.  The name of the
 array is @code{yytname}; @code{yytname[@var{i}]} is the name of the
 token whose internal Bison token code number is @var{i}.  The first three
@@ -3343,7 +3343,7 @@ consists of three characters @samp{*"*}, its string in @code{yytname}
 contains @samp{"*"*"}.  (In C, that would be written as
 @code{"\"*\"*\""}).
 
-When you specify @code{%token_table}, Bison also generates macro
+When you specify @code{%token-table}, Bison also generates macro
 definitions for macros @code{YYNTOKENS}, @code{YYNNTS}, and
 @code{YYNRULES}, and @code{YYNSTATES}:
 
@@ -3374,7 +3374,6 @@ called @file{foo.tab.c} by default.  As a consequence, the verbose
 output file is called @file{foo.output}.@refill
 
 @item %yacc
-@itemx %fixed-output-files
 Pretend the option @option{--yacc} was given, i.e., imitate Yacc,
 including its naming conventions.  @xref{Bison Options}, for more.
 @end table
@@ -3565,7 +3564,7 @@ for (i = 0; i < YYNTOKENS; i++)
 @end smallexample
 
 The @code{yytname} table is generated only if you use the
-@code{%token_table} declaration.  @xref{Decl Summary}.
+@code{%token-table} declaration.  @xref{Decl Summary}.
 @end itemize
 
 @node Token Values
@@ -3639,7 +3638,7 @@ The data type of @code{yylloc} has the name @code{YYLTYPE}.
 @node Pure Calling
 @subsection Calling Conventions for Pure Parsers
 
-When you use the Bison declaration @code{%pure_parser} to request a
+When you use the Bison declaration @code{%pure-parser} to request a
 pure, reentrant parser, the global communication variables @code{yylval}
 and @code{yylloc} cannot be used.  (@xref{Pure Decl, ,A Pure (Reentrant)
 Parser}.)  In such parsers the two global variables are replaced by
@@ -3739,7 +3738,7 @@ arguments in total, depending on whether an argument of type
 the proper object type, or you can declare it as @code{void *} and
 access the contents as shown above.
 
-You can use @samp{%pure_parser} to request a reentrant parser without
+You can use @samp{%pure-parser} to request a reentrant parser without
 also using @code{YYPARSE_PARAM}.  Then you should call @code{yyparse}
 with no arguments, as usual.
 
@@ -5096,7 +5095,6 @@ Print the version number of Bison and exit.
 @need 1750
 @item -y
 @itemx --yacc
-@itemx --fixed-output-files
 Equivalent to @samp{-o y.tab.c}; the parser output file is called
 @file{y.tab.c}, and the other outputs are called @file{y.output} and
 @file{y.tab.h}.  The purpose of this option is to imitate Yacc's output
@@ -5209,7 +5207,7 @@ would like to direct Bison to use a different copy, setting the
 environment variable @code{BISON_SIMPLE} to the path of the file will
 cause Bison to use that copy instead.
 
-When the @samp{%semantic_parser} declaration is used, Bison copies from
+When the @samp{%semantic-parser} declaration is used, Bison copies from
 a file called @file{bison.hairy} instead.  The location of this file can
 also be specified or overridden in a similar fashion, with the
 @code{BISON_HAIRY} environment variable.
@@ -5229,7 +5227,6 @@ the corresponding short option.
 \line{ --debug \leaderfill -t}
 \line{ --defines \leaderfill -d}
 \line{ --file-prefix \leaderfill -b}
-\line{ --fixed-output-files \leaderfill -y}
 \line{ --graph \leaderfill -g}
 \line{ --help \leaderfill -h}
 \line{ --name-prefix \leaderfill -p}
@@ -5248,7 +5245,6 @@ the corresponding short option.
 --debug                               -t
 --defines=@var{defines-file}          -d
 --file-prefix=@var{prefix}                  -b @var{file-prefix}
---fixed-output-files --yacc           -y
 --graph=@var{graph-file}              -d
 --help                                -h
 --name-prefix=@var{prefix}                  -p @var{name-prefix}
@@ -5258,6 +5254,7 @@ the corresponding short option.
 --token-table                         -k
 --verbose                             -v
 --version                             -V
+--yacc                                -y
 @end example
 @end ifinfo
 
@@ -5433,11 +5430,11 @@ Bison declaration to create a header file meant for the scanner.
 Bison declaration to set tge prefix of the output files. @xref{Decl
 Summary}.
 
-@c @item %source_extension
+@c @item %source-extension
 @c Bison declaration to specify the generated parser output file extension.
 @c @xref{Decl Summary}.
 @c
-@c @item %header_extension
+@c @item %header-extension
 @c Bison declaration to specify the generated parser header file extension
 @c if required. @xref{Decl Summary}.
 
