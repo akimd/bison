@@ -18,7 +18,6 @@
 	* src/reduce.c: Remove the `bitset_zero's following the
 	`bitset_create's, as now it is performed by the latter.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* lib/bitset.c, lib/bitset.h, lib/bitsetv.c, lib/bitsetv.h,
@@ -26,7 +25,6 @@
 	* lib/sbitset.c, lib/sbitset.h, lib/bbitset.h: Update from the
 	latest sources from Michael.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output): Don't free the grammar.
@@ -49,26 +47,22 @@
 	* src/reduce.c (useless_nonterminals): Formatting changes.
 	* src/warshall.c (TC): Use bitset_or.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.h, src/lalr.c (tokensetsize): Remove, unused.
 	* src/system.h (BITS_PER_WORD, WORDSIZE, SETBIT, RESETBIT, BITISSET):
 	Ditto.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.c (F): Now a bitset*.
 	Adjust all dependencies.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (shiftset, lookaheadset): Now bitset.
 	Adjust all dependencies.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* src/L0.c, src/LR0.h (nstates): Be size_t.
@@ -77,7 +71,6 @@
 	bitset*.
 	Adjust all dependencies.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c (firsts): Now, also a bitset.
@@ -90,7 +83,6 @@
 	* src/print.c: Convert to use bitset.h, not hand coded iterations
 	over ints.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* src/reduce.c: Convert to use bitset.h, not hand coded BSet.
@@ -100,7 +92,6 @@
 	* src/closure.c (ruleset): Be a bitset.
 	(rulesetsize): Remove.
 
-	
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
 	* lib/bitset-int.h, lib/bitset.c, lib/bitset.h, lib/bitsetv.c,
