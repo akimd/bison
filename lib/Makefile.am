@@ -56,10 +56,9 @@ libbison_a_SOURCES = \
 
 # Implementation of bitsets
 bitsets_sources = \
-libiberty.h \
-abitset.c  bitset.c        bitset_stats.h  ebitset.c  lbitset.h \
-abitset.h  bitset.h        bitsetv.c       ebitset.h \
-bbitset.h  bitset_stats.c  bitsetv.h       lbitset.c
+  abitset.c abitset.h bbitset.h bitset.c bitset.h bitset_stats.c	\
+  bitset_stats.h bitsetv.c bitsetv.h ebitset.c ebitset.h lbitset.c	\
+  lbitset.h libiberty.h vbitset.c vbitset.h
 
 # Additional bitset operations.
 additional_bitsets_sources = \
