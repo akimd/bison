@@ -286,8 +286,7 @@ extern void bitset_resize PARAMS ((bitset, bitset_bindex));
  BITSET_LIST_REVERSE_ (BSET, LIST, NUM, NEXT)
 
 /* Return true if both bitsets are of the same type and size.  */
-extern bool
-bitset_compatible_p (bitset bset1, bitset bset2);
+extern bool bitset_compatible_p (bitset bset1, bitset bset2);
 
 /* Find next set bit from the given bit index.  */
 extern bitset_bindex bitset_next PARAMS ((bitset, bitset_bindex));
@@ -311,12 +310,12 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
    to the index of each set bit.  For example, the following will print
    the bits set in a bitset:
 
-   bitset_bindex index;
+   bitset_bindex i;
    bitset_iterator iter;
 
-   BITSET_FOR_EACH (iter, src, index, 0)
+   BITSET_FOR_EACH (iter, src, i, 0)
    {
-      printf ("%ld ", index);
+      printf ("%lu ", (unsigned long int) i);
    };
 */
 #define BITSET_FOR_EACH(ITER, BSET, INDEX, MIN)				      \
@@ -330,15 +329,15 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
 
 
 /* Loop over all elements of BSET, in reverse order starting with
-   MIN,  setting INDEX to the index of each set bit. For example, the
+   MIN, setting INDEX to the index of each set bit.  For example, the
    following will print the bits set in a bitset in reverse order:
 
-   bitset_bindex index;
+   bitset_bindex i;
    bitset_iterator iter;
 
-   BITSET_FOR_EACH_REVERSE (iter, src, index, 0)
+   BITSET_FOR_EACH_REVERSE (iter, src, i, 0)
    {
-      printf ("%ld ", index);
+      printf ("%lu ", (unsigned long int) i);
    };
 */
 #define BITSET_FOR_EACH_REVERSE(ITER, BSET, INDEX, MIN)			      \
