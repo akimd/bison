@@ -2,6 +2,15 @@
 
 	Playing with Autoscan.
 
+	* configure.ac: Remove the old LIBOBJ tweaks.
+	(AC_REPLACE_FUNCS): Add strrchr and strtol.
+	* lib/strrchr.c: New.
+	* lib/strtol.c: New, from the Coreutils 4.5.1.
+
+2002-09-27  Akim Demaille  <akim@epita.fr>
+
+	Playing with Autoscan.
+
 	* m4/prereq.m4 (jm_PREREQ_ARGMATCH, jm_FUNC_ARGMATCH): New.
 	* lib/Makefile.am (libbison_a_SOURCES): No longer include
 	argmatch.c and argmatch.h, since they are AC_LIBSOURCE'd.

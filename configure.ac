@@ -92,9 +92,11 @@ AC_FUNC_ERROR_AT_LINE
 AC_FUNC_STRNLEN
 UTILS_FUNC_MKSTEMP
 AC_CHECK_FUNCS(setlocale)
-AC_CHECK_DECLS([getenv, getopt, free, stpcpy, strchr, strspn, strnlen,
+AC_CHECK_DECLS([free, getenv, getopt,
+                stpcpy, strchr, strspn, strnlen,
                 malloc, memchr, memrchr])
-AC_REPLACE_FUNCS(stpcpy strchr strspn memchr memrchr)
+AC_REPLACE_FUNCS(memchr memrchr \
+                 strchr stpcpy strrchr strspn strtol)
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 jm_PREREQ_QUOTEARG
@@ -107,11 +109,6 @@ BISON_PREREQ_TIMEVAR
 # Gettext.
 AM_GNU_GETTEXT(external, need-ngettext)
 AM_GNU_GETTEXT_VERSION(0.11.5)
-
-# This is necessary so that .o files in LIBOBJS are also built via
-# the ANSI2KNR-filtering rules.
-LIB@&t@OBJS=`echo $LIB@&t@OBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
-AC_SUBST(LIB@&t@OBJS)
 
 AC_OUTPUT([Makefile
            config/Makefile
