@@ -23,6 +23,7 @@
 
 * doc/bison.texinfo
 ** Echo modifications of prologue and epilogue.
+** Add informations about YYERROR_VERBOSE.
 
 * tests/
 ** Repair Bison to success tests.
