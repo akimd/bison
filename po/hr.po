@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-05-02 18:42+0200\n"
+"POT-Creation-Date: 2002-05-06 09:40+0200\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -286,27 +286,27 @@ msgstr "`%s' zahtijeva argument"
 msgid " type %d is %s\n"
 msgstr " tip %d je %s\n"
 
-#: src/print.c:108
+#: src/print.c:134
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (pravilo %d)"
 
-#: src/print.c:129
+#: src/print.c:155
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tpomakni i idi u stanje %d\n"
 
-#: src/print.c:146
+#: src/print.c:172
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tgre¹ka (nonassociative)\n"
 
-#: src/print.c:170
+#: src/print.c:196
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tidu u stanje %d\n"
 
-#: src/print.c:194 src/print.c:228
+#: src/print.c:220 src/print.c:254
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -315,64 +315,64 @@ msgstr ""
 "    $default\treduciraj koristeæi pravilo %d (%s)\n"
 "\n"
 
-#: src/print.c:223 src/print.c:298
+#: src/print.c:249 src/print.c:324
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduciraj koristeæi pravilo %d (%s)]\n"
 
-#: src/print.c:279 src/print.c:292
+#: src/print.c:305 src/print.c:318
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduciraj koristeæi pravilo %d (%s)\n"
 
-#: src/print.c:307
+#: src/print.c:333
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduciraj koristeæi pravilo %d (%s)\n"
 
-#: src/print.c:323
+#: src/print.c:349
 msgid "    $default\taccept\n"
 msgstr "    $default\tprihvati\n"
 
-#: src/print.c:325
+#: src/print.c:351
 msgid "    NO ACTIONS\n"
 msgstr "    NEMA AKCIJA\n"
 
-#: src/print.c:338
+#: src/print.c:364
 #, c-format
 msgid "state %d"
 msgstr "stanje %d"
 
-#: src/print.c:370
+#: src/print.c:396
 msgid "Grammar"
 msgstr "Gramatika"
 
-#: src/print.c:371
+#: src/print.c:397
 msgid "Number, Line, Rule"
 msgstr "Broj, Linija, Pravilo"
 
-#: src/print.c:374
+#: src/print.c:400
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:381
+#: src/print.c:407
 msgid "empty"
 msgstr "prazno"
 
-#: src/print.c:388
+#: src/print.c:414
 msgid "Terminals, with rules where they appear"
 msgstr "Zavr¹ni znakovi, sa pravilima gdje se pojavljuju"
 
-#: src/print.c:411
+#: src/print.c:437
 msgid "Nonterminals, with rules where they appear"
 msgstr "Nezavr¹ni znakovi, sa pravilima gdje se pojavljuju"
 
-#: src/print.c:437
+#: src/print.c:463
 msgid " on left:"
 msgstr "s lijeva:"
 
-#: src/print.c:452
+#: src/print.c:478
 msgid " on right:"
 msgstr "s desna:"
 
@@ -588,12 +588,12 @@ msgstr "nema pravila u ulaznoj gramatici"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "previ¹e simbola (znakovi plus nezavr¹ni znakovi); maksimalno %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1723
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "poèetni simbol  %s nije definiran"
 
-#: src/reader.c:1724
+#: src/reader.c:1725
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "poèetni simbol %s je znak"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-05-02 18:42+0200\n"
+"POT-Creation-Date: 2002-05-06 09:40+0200\n"
 "PO-Revision-Date: 2002-03-05 10:18+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -288,27 +288,27 @@ msgstr "\"%s\" behöver ett argument"
 msgid " type %d is %s\n"
 msgstr " typ %d är %s\n"
 
-#: src/print.c:108
+#: src/print.c:134
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regel %d)"
 
-#: src/print.c:129
+#: src/print.c:155
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tskifta, och gå till tillstånd %d\n"
 
-#: src/print.c:146
+#: src/print.c:172
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tfel (ickeassociativ)\n"
 
-#: src/print.c:170
+#: src/print.c:196
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tgå till tillstånd %d\n"
 
-#: src/print.c:194 src/print.c:228
+#: src/print.c:220 src/print.c:254
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -317,64 +317,64 @@ msgstr ""
 "    $standard\treducera med regel %d (%s)\n"
 "\n"
 
-#: src/print.c:223 src/print.c:298
+#: src/print.c:249 src/print.c:324
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reducera med regel %d (%s)]\n"
 
-#: src/print.c:279 src/print.c:292
+#: src/print.c:305 src/print.c:318
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treducera med regel %d (%s)\n"
 
-#: src/print.c:307
+#: src/print.c:333
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $standard\treducera med regel %d (%s)\n"
 
-#: src/print.c:323
+#: src/print.c:349
 msgid "    $default\taccept\n"
 msgstr "    $standard\tacceptera\n"
 
-#: src/print.c:325
+#: src/print.c:351
 msgid "    NO ACTIONS\n"
 msgstr "    INGA ÅTGÄRDER\n"
 
-#: src/print.c:338
+#: src/print.c:364
 #, c-format
 msgid "state %d"
 msgstr "tillstånd %d"
 
-#: src/print.c:370
+#: src/print.c:396
 msgid "Grammar"
 msgstr "Grammatik"
 
-#: src/print.c:371
+#: src/print.c:397
 msgid "Number, Line, Rule"
 msgstr "Nummer, Rad, Regel"
 
-#: src/print.c:374
+#: src/print.c:400
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:381
+#: src/print.c:407
 msgid "empty"
 msgstr "tom"
 
-#: src/print.c:388
+#: src/print.c:414
 msgid "Terminals, with rules where they appear"
 msgstr "Terminaler, med regler där de förekommer"
 
-#: src/print.c:411
+#: src/print.c:437
 msgid "Nonterminals, with rules where they appear"
 msgstr "Icketerminaler, med regler där de förekommer"
 
-#: src/print.c:437
+#: src/print.c:463
 msgid " on left:"
 msgstr " till vänster:"
 
-#: src/print.c:452
+#: src/print.c:478
 msgid " on right:"
 msgstr " till höger:"
 
@@ -592,12 +592,12 @@ msgstr "inga regler i ingrammatiken"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1723
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "startsymbolen %s är odefinierad"
 
-#: src/reader.c:1724
+#: src/reader.c:1725
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"

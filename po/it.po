@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-05-02 18:42+0200\n"
+"POT-Creation-Date: 2002-05-06 09:40+0200\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -285,27 +285,27 @@ msgstr "`%s' richiede un argomento"
 msgid " type %d is %s\n"
 msgstr " il tipo %d è %s\n"
 
-#: src/print.c:108
+#: src/print.c:134
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regola %d)"
 
-#: src/print.c:129
+#: src/print.c:155
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tshift e prosecuzione allo stato %d\n"
 
-#: src/print.c:146
+#: src/print.c:172
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\terrore (non associativo)\n"
 
-#: src/print.c:170
+#: src/print.c:196
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tprosecuzione allo stato %d\n"
 
-#: src/print.c:194 src/print.c:228
+#: src/print.c:220 src/print.c:254
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -314,64 +314,64 @@ msgstr ""
 "    $default\triduzione con la regola %d (%s)\n"
 "\n"
 
-#: src/print.c:223 src/print.c:298
+#: src/print.c:249 src/print.c:324
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[riduzione con la regole %d (%s)]\n"
 
-#: src/print.c:279 src/print.c:292
+#: src/print.c:305 src/print.c:318
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\triduzione con la regola %d (%s)\n"
 
-#: src/print.c:307
+#: src/print.c:333
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\triduzione con la regola %d (%s)\n"
 
-#: src/print.c:323
+#: src/print.c:349
 msgid "    $default\taccept\n"
 msgstr "    $default\taccetta\n"
 
-#: src/print.c:325
+#: src/print.c:351
 msgid "    NO ACTIONS\n"
 msgstr "    NESSUNA AZIONE\n"
 
-#: src/print.c:338
+#: src/print.c:364
 #, c-format
 msgid "state %d"
 msgstr "stato %d"
 
-#: src/print.c:370
+#: src/print.c:396
 msgid "Grammar"
 msgstr "Grammatica"
 
-#: src/print.c:371
+#: src/print.c:397
 msgid "Number, Line, Rule"
 msgstr "Numero, Linea, Regola"
 
-#: src/print.c:374
+#: src/print.c:400
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:381
+#: src/print.c:407
 msgid "empty"
 msgstr "vuoto"
 
-#: src/print.c:388
+#: src/print.c:414
 msgid "Terminals, with rules where they appear"
 msgstr "Simboli terminali e regole in cui appaiono"
 
-#: src/print.c:411
+#: src/print.c:437
 msgid "Nonterminals, with rules where they appear"
 msgstr "Simboli nonterminali e regole in cui appaiono"
 
-#: src/print.c:437
+#: src/print.c:463
 msgid " on left:"
 msgstr " nel primo membro:"
 
-#: src/print.c:452
+#: src/print.c:478
 msgid " on right:"
 msgstr " nel secondo membro:"
 
@@ -587,12 +587,12 @@ msgstr "nessuna regola nella grammatica di input"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "troppi simboli (token e nonterminali); il massimo è %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1723
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "simbolo iniziale %s non definito"
 
-#: src/reader.c:1724
+#: src/reader.c:1725
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"

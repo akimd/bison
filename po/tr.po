@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34\n"
-"POT-Creation-Date: 2002-05-02 18:42+0200\n"
+"POT-Creation-Date: 2002-05-06 09:40+0200\n"
 "PO-Revision-Date: 2002-03-14 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -291,27 +291,27 @@ msgstr "`%s' bir argüman gerektirir"
 msgid " type %d is %s\n"
 msgstr " tip %d %s'dir\n"
 
-#: src/print.c:108
+#: src/print.c:134
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (kural %d)"
 
-#: src/print.c:129
+#: src/print.c:155
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tötele, ve durum %d'ye git\n"
 
-#: src/print.c:146
+#: src/print.c:172
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\thata (birleþmeli deðil)\n"
 
-#: src/print.c:170
+#: src/print.c:196
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tdurum %d'ye git\n"
 
-#: src/print.c:194 src/print.c:228
+#: src/print.c:220 src/print.c:254
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -320,64 +320,64 @@ msgstr ""
 "    $default\tindirgeme kural %d (%s)'i kullanýyor\n"
 "\n"
 
-#: src/print.c:223 src/print.c:298
+#: src/print.c:249 src/print.c:324
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[indirgeme kural %d (%s)'i kullanýyor]\n"
 
-#: src/print.c:279 src/print.c:292
+#: src/print.c:305 src/print.c:318
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tindirgeme kural %d (%s)'i kullanýyor\n"
 
-#: src/print.c:307
+#: src/print.c:333
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tindirgeme kural %d (%s)'i kullanýyor\n"
 
-#: src/print.c:323
+#: src/print.c:349
 msgid "    $default\taccept\n"
 msgstr "    $default\tonayla\n"
 
-#: src/print.c:325
+#: src/print.c:351
 msgid "    NO ACTIONS\n"
 msgstr "    EYLEM YOK\n"
 
-#: src/print.c:338
+#: src/print.c:364
 #, c-format
 msgid "state %d"
 msgstr "durum %d"
 
-#: src/print.c:370
+#: src/print.c:396
 msgid "Grammar"
 msgstr "Gramer"
 
-#: src/print.c:371
+#: src/print.c:397
 msgid "Number, Line, Rule"
 msgstr "Sayý, Satýr, Kural"
 
-#: src/print.c:374
+#: src/print.c:400
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:381
+#: src/print.c:407
 msgid "empty"
 msgstr "boþ"
 
-#: src/print.c:388
+#: src/print.c:414
 msgid "Terminals, with rules where they appear"
 msgstr "Sabit simgeler, kurallarýnýn bulunduklarý yerde"
 
-#: src/print.c:411
+#: src/print.c:437
 msgid "Nonterminals, with rules where they appear"
 msgstr "Deðiþken simgeler, kurallarýnýn bulunduklarý yerde"
 
-#: src/print.c:437
+#: src/print.c:463
 msgid " on left:"
 msgstr " solda:"
 
-#: src/print.c:452
+#: src/print.c:478
 msgid " on right:"
 msgstr " saðda:"
 
@@ -595,12 +595,12 @@ msgstr "girdi grameri içinde kurallar yok"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "çok fazla simge var (andaçlar ve deðiþken simgeler); en fazla %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1723
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "baþlangýç simgesi %s tanýmlanmadý"
 
-#: src/reader.c:1724
+#: src/reader.c:1725
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "baþlangýç simgesi %s bir andaçtýr"

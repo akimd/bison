@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-05-02 18:42+0200\n"
+"POT-Creation-Date: 2002-05-06 09:40+0200\n"
 "PO-Revision-Date: 2001-12-10 15:59+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -282,27 +282,27 @@ msgstr "`%s' オプションは引数を要求します"
 msgid " type %d is %s\n"
 msgstr " タイプ %d は %s です\n"
 
-#: src/print.c:108
+#: src/print.c:134
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (規則 %d)"
 
-#: src/print.c:129
+#: src/print.c:155
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tシフト、および状態 %d へ\n"
 
-#: src/print.c:146
+#: src/print.c:172
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tエラー (非結合)\n"
 
-#: src/print.c:170
+#: src/print.c:196
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\t状態 %d へ\n"
 
-#: src/print.c:194 src/print.c:228
+#: src/print.c:220 src/print.c:254
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -311,64 +311,64 @@ msgstr ""
 "    $default\t規則 %d を利用して還元 (%s)\n"
 "\n"
 
-#: src/print.c:223 src/print.c:298
+#: src/print.c:249 src/print.c:324
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[規則 %d を利用して還元 (%s)]\n"
 
-#: src/print.c:279 src/print.c:292
+#: src/print.c:305 src/print.c:318
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\t規則 %d を利用して還元 (%s)\n"
 
-#: src/print.c:307
+#: src/print.c:333
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
 
-#: src/print.c:323
+#: src/print.c:349
 msgid "    $default\taccept\n"
 msgstr "    $default\taccept\n"
 
-#: src/print.c:325
+#: src/print.c:351
 msgid "    NO ACTIONS\n"
 msgstr "    動作無し\n"
 
-#: src/print.c:338
+#: src/print.c:364
 #, c-format
 msgid "state %d"
 msgstr "状態 %d"
 
-#: src/print.c:370
+#: src/print.c:396
 msgid "Grammar"
 msgstr "文法"
 
-#: src/print.c:371
+#: src/print.c:397
 msgid "Number, Line, Rule"
 msgstr "番号,   行, 規則"
 
-#: src/print.c:374
+#: src/print.c:400
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:381
+#: src/print.c:407
 msgid "empty"
 msgstr "空"
 
-#: src/print.c:388
+#: src/print.c:414
 msgid "Terminals, with rules where they appear"
 msgstr "出現位置の規則による終端"
 
-#: src/print.c:411
+#: src/print.c:437
 msgid "Nonterminals, with rules where they appear"
 msgstr "出現位置の規則による非終端"
 
-#: src/print.c:437
+#: src/print.c:463
 msgid " on left:"
 msgstr " 左辺:"
 
-#: src/print.c:452
+#: src/print.c:478
 msgid " on right:"
 msgstr " 右辺:"
 
@@ -586,12 +586,12 @@ msgstr "入力した文法に規則が定義されていません"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークン + 非終端アイテム) -- 最大 %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1723
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "開始シンボル %s は定義されていません"
 
-#: src/reader.c:1724
+#: src/reader.c:1725
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"
