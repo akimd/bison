@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-03 11:05+0200\n"
+"POT-Creation-Date: 2001-08-03 11:38+0200\n"
 "PO-Revision-Date: 1996-03-19 20:05 EST\n"
 "Last-Translator: Dominique Boucher <boucherd@IRO.UMontreal.CA>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -18,11 +18,15 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr ""
 
-#: src/complain.c:110
+#: lib/error.c:117 src/complain.c:100
+msgid "Unknown system error"
+msgstr ""
+
+#: src/complain.c:154
 msgid "warning: "
 msgstr ""
 
-#: src/complain.c:198 src/complain.c:239
+#: src/complain.c:242 src/complain.c:283
 #, fuzzy
 msgid "fatal error: "
 msgstr "erreur fatale: %s\n"
@@ -699,10 +703,6 @@ msgid ""
 msgstr ""
 "la réduction de %s définit %d terminal%s, %d catégorie%s et %d production%"
 "s.\n"
-
-#: lib/error.c:117
-msgid "Unknown system error"
-msgstr ""
 
 #: lib/getopt.c:675
 #, c-format

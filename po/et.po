@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-03 11:05+0200\n"
+"POT-Creation-Date: 2001-08-03 11:38+0200\n"
 "PO-Revision-Date: 2000-04-11 22:19+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -18,11 +18,15 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "liiga palju olekuid (maks %d)"
 
-#: src/complain.c:110
+#: lib/error.c:117 src/complain.c:100
+msgid "Unknown system error"
+msgstr ""
+
+#: src/complain.c:154
 msgid "warning: "
 msgstr ""
 
-#: src/complain.c:198 src/complain.c:239
+#: src/complain.c:242 src/complain.c:283
 #, fuzzy
 msgid "fatal error: "
 msgstr "fataalne viga: %s\n"
@@ -715,10 +719,6 @@ msgid ""
 msgstr ""
 "redutseeritud %s defineerib %d terminali%s, %d mitteterminali%s ja %d reeglit"
 "%s.\n"
-
-#: lib/error.c:117
-msgid "Unknown system error"
-msgstr ""
 
 #: lib/getopt.c:675
 #, c-format

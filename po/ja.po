@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-08-03 11:05+0200\n"
+"POT-Creation-Date: 2001-08-03 11:38+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -18,11 +18,15 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "%s の数が多すぎます (最大 %d)"
 
-#: src/complain.c:110
+#: lib/error.c:117 src/complain.c:100
+msgid "Unknown system error"
+msgstr ""
+
+#: src/complain.c:154
 msgid "warning: "
 msgstr ""
 
-#: src/complain.c:198 src/complain.c:239
+#: src/complain.c:242 src/complain.c:283
 #, fuzzy
 msgid "fatal error: "
 msgstr "%s: 致命的エラー: "
@@ -697,10 +701,6 @@ msgid ""
 msgstr ""
 "還元ファイル %s で %d 個の終端子%.0s, %d 個の非終端子%.0s, %d 個の規則%.0sが"
 "定義されました\n"
-
-#: lib/error.c:117
-msgid "Unknown system error"
-msgstr ""
 
 #: lib/getopt.c:675
 #, c-format
