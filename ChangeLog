@@ -1,5 +1,12 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.c++, data/bison.simple: Don't output the current file
+	name in #line, to avoid useless diffs between two identical
+	outputs under different names.
+
+	
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c, src/print.c, src/reader.c, src/reduce.c:
 	Normalize loops to using `< nrules + 1', not `<= nrules'.
 

@@ -129,7 +129,7 @@ typedef struct yyltype
 #endif
 
 /* Line __line__ of __file__.  */
-#line __oline__ "b4_output_parser_name"
+#line __oline__
 
 /* All symbols defined below should begin with yy or YY, to avoid
    infringing on user name space.  This should be done even for local
@@ -914,7 +914,7 @@ yyreduce:
     }
 
 /* Line __line__ of __file__.  */
-#line __oline__ "b4_output_parser_name"
+#line __oline__
 
 [  yyvsp -= yylen;
   yyssp -= yylen;
