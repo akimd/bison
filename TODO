@@ -60,6 +60,31 @@ When implementing multiple-%union support, bare the following in mind:
 	  char *sval;
 	}
 
+* Language independent actions
+
+Currently bison, the generator, transforms $1, $$ and so forth into
+direct C code, manipulating the stacks.  This is problematic, because
+(i) it means that if we want more languages, we need to update the
+generator, and (ii), it forces names everywhere (e.g., the C++
+skeleton would be happy to use other naming schemes, and actually,
+even other accessing schemes).
+
+Therefore we want
+
+1. the generator to replace $1, etc. by M4 macro invocations
+   (b4_dollar(1), b4_at(3), b4_dollar_dollar) etc.
+
+2. the skeletons to define these macros.
+
+But currently the actions are double-quoted, to protect them from M4
+evaluation.  So we need to:
+
+3. stop quoting them
+
+4. change the [ and ] in the actions into @<:@ and @:>@
+
+5. extend the postprocessor to maps these back onto [ and ].
+
 * Coding system independence
 Paul notes:
 
