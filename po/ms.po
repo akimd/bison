@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875\n"
 "Report-Msgid-Bugs-To: bug-bison@gnu.org\n"
-"POT-Creation-Date: 2003-06-25 16:03+0200\n"
+"POT-Creation-Date: 2003-08-25 17:14+0200\n"
 "PO-Revision-Date: 2003-01-26 22:43GMT+8\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -240,11 +240,11 @@ msgstr "amaran"
 msgid "rule never reduced because of conflicts"
 msgstr "hukum tidak dikurangkan kerana konflik"
 
-#: src/parse-gram.y:338
+#: src/parse-gram.y:353
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX melarang pengisytiharan didalam tatabahasa"
 
-#: src/parse-gram.y:461
+#: src/parse-gram.y:476
 msgid "missing identifier in parameter declaration"
 msgstr "pengecam hilang dalam parameter pengisytiharan"
 
@@ -310,41 +310,41 @@ msgstr "Hukum tidak dikurangkan"
 msgid "multiple %s declarations"
 msgstr "pelbagai pengisytiharan %s"
 
-#: src/reader.c:138
+#: src/reader.c:115
 #, c-format
 msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr "jenis hasil bertelingkah pada fungsi gabung %s: <%s> != <%s>"
 
-#: src/reader.c:236
+#: src/reader.c:213
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "hukum diberi untuk %s, dimana ia adalah token"
 
-#: src/reader.c:265
+#: src/reader.c:242
 #, c-format
 msgid "type clash on default action: <%s> != <%s>"
 msgstr "pertelingkahan jenis pada tindakan default: <%s> != <%s>"
 
-#: src/reader.c:271
+#: src/reader.c:248
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "hukum kosong untuk bukan terminal ditaip, dan tiada tindakan"
 
-#: src/reader.c:341 src/reader.c:355 src/reader.c:368
+#: src/reader.c:318 src/reader.c:332 src/reader.c:345
 #, c-format
 msgid "only one %s allowed per rule"
 msgstr "hanya satu %s dibenarkan setiap hukum"
 
-#: src/reader.c:351 src/reader.c:366
+#: src/reader.c:328 src/reader.c:343
 #, c-format
 msgid "%s affects only GLR parsers"
 msgstr "%s hanya berkesan kepada parser GLR"
 
-#: src/reader.c:353
+#: src/reader.c:330
 #, c-format
 msgid "%s must be followed by positive number"
 msgstr "%s mesti diikuti dengan nombor positif"
 
-#: src/reader.c:510
+#: src/reader.c:487
 msgid "no rules in the input grammar"
 msgstr "tiada hukum dalam masukan tatabahasa"
 
@@ -403,52 +403,52 @@ msgstr "simbol permulaan %s tidak menghasilkan sebarang perkataan"
 msgid "stray `,' treated as white space"
 msgstr "`,' sesat dianggap sebagai ruang"
 
-#: src/scan-gram.l:220
+#: src/scan-gram.l:221
 #, c-format
 msgid "invalid directive: %s"
 msgstr "arahan tidak sah: %s"
 
-#: src/scan-gram.l:240 src/scan-gram.l:803 src/scan-gram.l:871
+#: src/scan-gram.l:241 src/scan-gram.l:804 src/scan-gram.l:873
 #, c-format
 msgid "integer out of range: %s"
 msgstr "integer diluar julat: %s"
 
-#: src/scan-gram.l:282
+#: src/scan-gram.l:283
 #, c-format
 msgid "invalid character: %s"
 msgstr "aksara tidak sah: %s"
 
-#: src/scan-gram.l:411 src/scan-gram.l:421 src/scan-gram.l:440
+#: src/scan-gram.l:412 src/scan-gram.l:422 src/scan-gram.l:441
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "turutan escape tidak sah: %s"
 
-#: src/scan-gram.l:445
+#: src/scan-gram.l:446
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "turutan escape tidak dikenali: %s"
 
-#: src/scan-gram.l:533
+#: src/scan-gram.l:534
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "`(' hilang dalam `%s'"
 
-#: src/scan-gram.l:773
+#: src/scan-gram.l:774
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ dari `%s' tiada jenis diisytiharkan"
 
-#: src/scan-gram.l:794
+#: src/scan-gram.l:795
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d dari `%s' tiada jenis diisytiharkan"
 
-#: src/scan-gram.l:838 src/scan-gram.l:905
+#: src/scan-gram.l:840 src/scan-gram.l:908
 #, c-format
 msgid "invalid value: %s"
 msgstr "nilai tidak sah: %s"
 
-#: src/scan-gram.l:993
+#: src/scan-gram.l:996
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "`%s' hilang pada penghujung fail"

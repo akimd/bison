@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875\n"
 "Report-Msgid-Bugs-To: bug-bison@gnu.org\n"
-"POT-Creation-Date: 2003-06-25 16:03+0200\n"
+"POT-Creation-Date: 2003-08-25 17:14+0200\n"
 "PO-Revision-Date: 2003-01-01 23:03+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -239,11 +239,11 @@ msgstr "varning"
 msgid "rule never reduced because of conflicts"
 msgstr "regel aldrig reducerad på grund av konflikter"
 
-#: src/parse-gram.y:338
+#: src/parse-gram.y:353
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX förbjuder deklarationer i grammatiken"
 
-#: src/parse-gram.y:461
+#: src/parse-gram.y:476
 msgid "missing identifier in parameter declaration"
 msgstr "identiferare saknas i parameterdeklaration"
 
@@ -309,41 +309,41 @@ msgstr "Aldrig reducerade regler"
 msgid "multiple %s declarations"
 msgstr "flera %s-deklarationer"
 
-#: src/reader.c:138
+#: src/reader.c:115
 #, c-format
 msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr "resultattypskonflikt vid sammanslagningsfunktion %s: <%s> != <%s>"
 
-#: src/reader.c:236
+#: src/reader.c:213
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel given för %s, som är ett element"
 
-#: src/reader.c:265
+#: src/reader.c:242
 #, c-format
 msgid "type clash on default action: <%s> != <%s>"
 msgstr "typkonflikt för standardåtgärd: <%s> <%s>"
 
-#: src/reader.c:271
+#: src/reader.c:248
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tom regel för typad icketerminal, och ingen åtgärd"
 
-#: src/reader.c:341 src/reader.c:355 src/reader.c:368
+#: src/reader.c:318 src/reader.c:332 src/reader.c:345
 #, c-format
 msgid "only one %s allowed per rule"
 msgstr "endast en %s tillåts per regel"
 
-#: src/reader.c:351 src/reader.c:366
+#: src/reader.c:328 src/reader.c:343
 #, c-format
 msgid "%s affects only GLR parsers"
 msgstr "%s påverkar endast GLR-parsrar"
 
-#: src/reader.c:353
+#: src/reader.c:330
 #, c-format
 msgid "%s must be followed by positive number"
 msgstr "%s måste följas av ett positivt tal"
 
-#: src/reader.c:510
+#: src/reader.c:487
 msgid "no rules in the input grammar"
 msgstr "inga regler i ingrammatiken"
 
@@ -402,52 +402,52 @@ msgstr "startsymbolen %s genererar inga meningar"
 msgid "stray `,' treated as white space"
 msgstr "vilsekommet \",\" hanterat som blank"
 
-#: src/scan-gram.l:220
+#: src/scan-gram.l:221
 #, c-format
 msgid "invalid directive: %s"
 msgstr "ogiltigt direktiv: %s"
 
-#: src/scan-gram.l:240 src/scan-gram.l:803 src/scan-gram.l:871
+#: src/scan-gram.l:241 src/scan-gram.l:804 src/scan-gram.l:873
 #, c-format
 msgid "integer out of range: %s"
 msgstr "heltal utanför intervall: %s"
 
-#: src/scan-gram.l:282
+#: src/scan-gram.l:283
 #, c-format
 msgid "invalid character: %s"
 msgstr "ogiltigt tecken: %s"
 
-#: src/scan-gram.l:411 src/scan-gram.l:421 src/scan-gram.l:440
+#: src/scan-gram.l:412 src/scan-gram.l:422 src/scan-gram.l:441
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "ogiltig specialsekvens: %s"
 
-#: src/scan-gram.l:445
+#: src/scan-gram.l:446
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "okänd specialsekvens: %s"
 
-#: src/scan-gram.l:533
+#: src/scan-gram.l:534
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "saknad \"{\" i \"%s\""
 
-#: src/scan-gram.l:773
+#: src/scan-gram.l:774
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ för \"%s\" har ingen deklarerad typ"
 
-#: src/scan-gram.l:794
+#: src/scan-gram.l:795
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d för \"%s\" har ingen deklarerad typ"
 
-#: src/scan-gram.l:838 src/scan-gram.l:905
+#: src/scan-gram.l:840 src/scan-gram.l:908
 #, c-format
 msgid "invalid value: %s"
 msgstr "felaktigt värde: %s"
 
-#: src/scan-gram.l:993
+#: src/scan-gram.l:996
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "saknat \"%s\" vid filslut"
