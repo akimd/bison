@@ -40,7 +40,7 @@ exp: '(' exp ')' | NUM ;
 
 AT_CHECK([bison -v duplicate.y -o duplicate.c], 0, ignore, ignore)
 
-AT_CLEANUP([duplicate.*])
+AT_CLEANUP
 
 
 ## ------------------------- ##
@@ -139,7 +139,7 @@ state 6
     $default	accept
 ]])
 
-AT_CLEANUP(input.c input.output)
+AT_CLEANUP
 
 
 ## --------------------- ##
@@ -236,7 +236,7 @@ state 6
     $default	accept
 ]])
 
-AT_CLEANUP(input.c input.output)
+AT_CLEANUP
 
 
 
@@ -257,7 +257,7 @@ AT_CHECK([bison input.y -o input.c], 1, [],
 [input.y contains 1 shift/reduce conflict.
 expected 0 shift/reduce conflicts
 ])
-AT_CLEANUP(input.c)
+AT_CLEANUP
 
 
 ## --------------- ##
@@ -276,7 +276,7 @@ exp: exp OP exp | NUM;
 AT_CHECK([bison input.y -o input.c], 0, [],
 [input.y contains 1 shift/reduce conflict.
 ])
-AT_CLEANUP(input.c)
+AT_CLEANUP
 
 
 ## ------------------ ##
@@ -296,7 +296,7 @@ AT_CHECK([bison input.y -o input.c], 1, [],
 [input.y contains 1 shift/reduce conflict.
 expected 2 shift/reduce conflicts
 ])
-AT_CLEANUP(input.c)
+AT_CLEANUP
 
 
 ## ---------------------- ##
@@ -318,7 +318,7 @@ exp: ;
 
 AT_CHECK([bison -v input.y -o input.c], 0, ignore, ignore)
 
-AT_CLEANUP([input.*])
+AT_CLEANUP
 
 
 
@@ -341,7 +341,7 @@ exp: {};
 
 AT_CHECK([bison --defines union.y])
 
-AT_CLEANUP([union.*])
+AT_CLEANUP
 
 
 ## --------------------------------------- ##
@@ -364,7 +364,7 @@ exp: {};
 AT_CHECK([bison union-comment.y])
 AT_CHECK([fgrep '//*' union-comment.tab.c], [1], [])
 
-AT_CLEANUP([union-comment.*])
+AT_CLEANUP
 
 
 ## ----------------- ##
@@ -416,11 +416,9 @@ AT_CLEANUP
 m4_define([AT_TEST_CPP_GUARD_H],
 [AT_SETUP([Invalid CPP guards: $1])
 
-# possibly create and nuke inner directories.
-m4_bmatch([$1], [[/]],
-[dirname=`AS_DIRNAME([$1])`
+# Possibly create inner directories.
+dirname=`AS_DIRNAME([$1])`
 AS_MKDIR_P([$dirname])
-AT_CLEANUP_FILES([$dirname])])
 
 AT_DATA([$1.y],
 [%%
@@ -432,7 +430,7 @@ AT_CHECK([bison --defines=$1.h $1.y])
 # CPP should be happy with it.
 AT_CHECK([$CC -E $1.h], 0, [ignore])
 
-AT_CLEANUP($1.*)
+AT_CLEANUP
 ])
 
 AT_TEST_CPP_GUARD_H([input/input])
