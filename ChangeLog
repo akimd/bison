@@ -1,5 +1,12 @@
 2001-09-22  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.c (gram_free): Rename back as...
+	(dummy): this.
+	(output_token_translations): Free `token_translations'.
+	* src/symtab.c (free_symtab): Free the tag field.
+
+2001-09-22  Akim Demaille  <akim@epita.fr>
+
 	Remove `translations' as it is always set to true.
 
 	* src/gram.h: Adjust.

@@ -110,17 +110,17 @@ extern void berror PARAMS((const char *));
 
 static int nvectors;
 static int nentries;
-static short **froms;
-static short **tos;
-static short *tally;
-static short *width;
-static short *actrow;
-static short *state_count;
-static short *order;
-static short *base;
-static short *pos;
-static short *table;
-static short *check;
+static short **froms = NULL;
+static short **tos = NULL;
+static short *tally = NULL;
+static short *width = NULL;
+static short *actrow = NULL;
+static short *state_count = NULL;
+static short *order = NULL;
+static short *base = NULL;
+static short *pos = NULL;
+static short *table = NULL;
+static short *check = NULL;
 static int lowzero;
 static int high;
 
@@ -306,6 +306,8 @@ output_token_translations (void)
 			      ntokens < 127 ? "char" : "short",
 			      "yytranslate", token_translations,
 			      0, 1, max_user_token_number + 1);
+
+  XFREE (token_translations);
 }
 
 

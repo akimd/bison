@@ -52,10 +52,10 @@ int pure_parser;
 
 int error_token_number;
 
-/* Free all the memory associated to these pointers. */
+/* This is to avoid linker problems which occur on VMS when using GCC,
+   when the file in question contains data definitions only.  */
 
 void
-gram_free (void)
+dummy (void)
 {
-
 }

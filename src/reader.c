@@ -1751,7 +1751,6 @@ packsymbols (void)
       user_toknums[bp->value] = bp->user_token_number;
       sprec[bp->value] = bp->prec;
       sassoc[bp->value] = bp->assoc;
-
     }
 
   token_translations = XCALLOC (short, max_user_token_number + 1);

@@ -143,6 +143,7 @@ free_symtab (void)
 	  if (bp->type_name)
 	    XFREE (bp->type_name);
 #endif
+	  XFREE (bp->tag);
 	  XFREE (bp);
 	  bp = bptmp;
 	}
