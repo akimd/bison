@@ -9,7 +9,7 @@ Only the sources are installed in the CVS repository (to ease the
 maintenance, merges etc.), therefore you will have to the maintainer
 tools we depend upon:
 
-- Automake 1.6.3
+- Automake 1.7
 
 - Autoconf 2.54
 

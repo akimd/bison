@@ -1,5 +1,10 @@
 2002-09-27  Akim Demaille  <akim@epita.fr>
 
+	* configure.ac (AM_INIT_AUTOMAKE): We _need_ 1.7.
+	(Because of AC_LIBSOURCE).
+
+2002-09-27  Akim Demaille  <akim@epita.fr>
+
 	Playing with Autoscan.
 
 	* configure.ac: Remove the old LIBOBJ tweaks.
