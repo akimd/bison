@@ -89,7 +89,7 @@ AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([ctype.h locale.h memory.h stdlib.h string.h unistd.h])
-AC_HEADER_STDBOOL
+AM_STDBOOL_H
 
 # Checks for compiler characteristics.
 AC_C_INLINE
@@ -126,8 +126,8 @@ jm_FUNC_MALLOC
 jm_FUNC_REALLOC
 
 # Gettext.
-AM_GNU_GETTEXT(external, need-ngettext)
-AM_GNU_GETTEXT_VERSION(0.11.5)
+AM_GNU_GETTEXT([external], [need-ngettext])
+AM_GNU_GETTEXT_VERSION(0.12.1)
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
