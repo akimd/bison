@@ -1,0 +1,6 @@
+Makefile
+Makefile.in
+POTFILES
+bison.pot
+cat-id-tbl.c
+stamp-cat-id
