@@ -1,5 +1,10 @@
 2002-05-28  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.c++: Use C++ ostreams.
+	(cdebug_): New member.
+
+2002-05-28  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output_skeleton): Be sure to allocate enough room
 	for `/' _and_ for `\0' in full_skeleton.
 

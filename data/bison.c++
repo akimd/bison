@@ -137,6 +137,7 @@ b4_copyright
 #include "location.hh"
 
 #include <string>
+#include <iostream>
 
 /* Using locations.  */
 #define YYLSP_NEEDED b4_locations_flag
@@ -228,10 +229,12 @@ namespace yy
     b4_name (bool debug,
 	    LocationType initlocation[]b4_param) :
       b4_constructor[]debug_ (debug),
+      cdebug_ (std::cerr),
       initlocation_ (initlocation)
 #else
     b4_name (bool debug[]b4_param) :
-      b4_constructor[]debug_ (debug)
+      b4_constructor[]debug_ (debug),
+      cdebug_ (std::cerr)
 #endif
     {
     }
@@ -297,8 +300,11 @@ namespace yy
     /* State.  */
     int n_;
     int len_;
-    int debug_;
     int state_;
+
+    /* Debugging.  */
+    int debug_;
+    std::ostream &cdebug_;
 
     /* Lookahead and lookahead in internal form.  */
     int looka_;
@@ -329,15 +335,9 @@ b4_copyright
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
-# include <cstdio>
-# define YYFPRINTF std::fprintf
-# define YYDPRINTF(Args)			\
-do {						\
-  if (debug_)					\
-    YYFPRINTF Args;				\
-} while (0)
+# define YYCDEBUG    if (debug_) cdebug_
 #else /* !YYDEBUG */
-# define YYDPRINTF(Args)
+# define YYCDEBUG    if (0) cdebug_
 #endif /* !YYDEBUG */
 
 int
@@ -357,12 +357,12 @@ yy::b4_name::parse ()
 #if YYLSP_NEEDED
   location = initlocation_;
 #endif
-  YYDPRINTF ((stderr, "Starting parse\n"));
+  YYCDEBUG << "Starting parse" << std::endl;
 
   /* New state.  */
  yynewstate:
   state_stack_.push (state_);
-  YYDPRINTF ((stderr, "Entering state %d\n", state_));
+  YYCDEBUG << "Entering state " << state_ << std::endl;
   goto yybackup;
 
   /* Backup.  */
@@ -376,7 +376,7 @@ yy::b4_name::parse ()
   /* Read a lookahead token.  */
   if (looka_ == empty_)
     {
-      YYDPRINTF ((stderr, "Reading a token: "));
+      YYCDEBUG << "Reading a token: ";
       lex_ ();
     }
 
@@ -385,7 +385,7 @@ yy::b4_name::parse ()
     {
       looka_ = eof_;
       ilooka_ = 0;
-      YYDPRINTF ((stderr, "Now at end of input.\n"));
+      YYCDEBUG << "Now at end of input." << std::endl;
     }
   else
     {
@@ -393,9 +393,10 @@ yy::b4_name::parse ()
 #if YYDEBUG
       if (debug_)
 	{
-	  YYFPRINTF (stderr, "Next token is %d (%s", looka_, name_[[ilooka_]]);
+	  YYCDEBUG << "Next token is " << looka_
+		 << " (" << name_[[ilooka_]];
 	  print_ ();
-	  YYFPRINTF (stderr, ")\n");
+	  YYCDEBUG << ')' << std::endl;
 	}
 #endif
     }
@@ -424,7 +425,8 @@ yy::b4_name::parse ()
     goto yyacceptlab;
 
   /* Shift the lookahead token.  */
-  YYDPRINTF ((stderr, "Shifting token %d (%s), ", looka_, name_[[ilooka_]]));
+  YYCDEBUG << "Shifting token " << looka_
+	 << " (" << name_[[ilooka_]] << "), ";
 
   /* Discard the token being shifted unless it is eof.  */
   if (looka_ != eof_)
@@ -465,11 +467,12 @@ yy::b4_name::parse ()
 #if YYDEBUG
   if (debug_)
     {
-      YYFPRINTF (stderr, "Reducing via rule %d (line %d), ", n_ - 1, rline_[[n_]]);
+      YYCDEBUG << "Reducing via rule " << n_ - 1
+	     << " (line " << rline_[[n_]] << "), ";
       for (b4_uint_type(b4_prhs_max) i = prhs_[[n_]];
 	   rhs_[[i]] >= 0; ++i)
-	YYFPRINTF (stderr, "%s ", name_[[rhs_[i]]]);
-      YYFPRINTF (stderr, "-> %s\n", name_[[r1_[n_]]]);
+	YYCDEBUG << name_[[rhs_[i]]] << ' ';
+      YYCDEBUG << "-> " << name_[[r1_[n_]]] << std::endl;
     }
 #endif
 
@@ -494,11 +497,11 @@ yy::b4_name::parse ()
 #if YYDEBUG
   if (debug_)
     {
-      YYFPRINTF (stderr, "state stack now");
+      YYCDEBUG << "state stack now";
       for (StateStack::ConstIterator i = state_stack_.begin ();
 	   i != state_stack_.end (); ++i)
-	YYFPRINTF (stderr, " %d", *i);
-      YYFPRINTF (stderr, "\n");
+	YYCDEBUG << ' ' << *i;
+      YYCDEBUG << std::endl;
     }
 #endif
 
@@ -561,7 +564,8 @@ yy::b4_name::parse ()
       /* Return failure if at end of input.  */
       if (looka_ == eof_)
 	goto yyabortlab;
-      YYDPRINTF ((stderr, "Discarding token %d (%s).\n", looka_, name_[[ilooka_]]));
+      YYCDEBUG << "Discarding token " << looka_
+	     << " (" << name_[[ilooka_]] << ")." << std::endl;
       looka_ = empty_;
     }
 
@@ -593,19 +597,19 @@ yy::b4_name::parse ()
 	{
 	  if (stos_[[state_]] < ntokens_)
 	    {
-	      YYFPRINTF (stderr, "Error: popping token %d (%s",
-			 token_number_[[stos_[state_]]],
-			 name_[[stos_[state_]]]);
+	      YYCDEBUG << "Error: popping token "
+		     << token_number_[[stos_[state_]]]
+		     << " (" << name_[[stos_[state_]]];
 # ifdef YYPRINT
 	      YYPRINT (stderr, token_number_[[stos_[state_]]],
 		       semantic_stack_.top ());
 # endif
-	      YYFPRINTF (stderr, ")\n");
+	      YYCDEBUG << ')' << std::endl;
 	    }
 	  else
 	    {
-	      YYFPRINTF (stderr, "Error: popping nonterminal (%s)\n",
-			 name_[[stos_[state_]]]);
+	      YYCDEBUG << "Error: popping nonterminal ("
+		     << name_[[stos_[state_]]] << ')' << std::endl;
 	    }
 	}
 #endif
@@ -617,11 +621,11 @@ yy::b4_name::parse ()
 #if YYDEBUG
       if (debug_)
 	{
-	  YYFPRINTF (stderr, "Error: state stack now");
+	  YYCDEBUG << "Error: state stack now";
 	  for (StateStack::ConstIterator i = state_stack_.begin ();
 	       i != state_stack_.end (); ++i)
-	    YYFPRINTF (stderr, " %d", *i);
-	  YYFPRINTF (stderr, "\n");
+	    YYCDEBUG << ' ' << *i;
+	  YYCDEBUG << std::endl;
 	}
 #endif
     }
@@ -629,7 +633,7 @@ yy::b4_name::parse ()
   if (n_ == final_)
     goto yyacceptlab;
 
-  YYDPRINTF ((stderr, "Shifting error token, "));
+  YYCDEBUG << "Shifting error token, ";
 
   semantic_stack_.push (value);
   location_stack_.push (location);
