@@ -1,4 +1,4 @@
-/* Type definitions for nondeterministic finite state machine for bison,
+/* Type definitions for nondeterministic finite state machine for Bison.
 
    Copyright (C) 1984, 1989, 2000, 2001, 2002 Free Software
    Foundation, Inc.
@@ -98,7 +98,11 @@ typedef short state_number;
 # define STATE_NUMBER_MAXIMUM SHRT_MAX
 
 /* Be ready to map a state_number to an int.  */
-# define state_number_as_int(Tok) ((int) (Tok))
+static inline int
+state_number_as_int (state_number s)
+{
+  return s;
+}
 
 
 typedef struct state state;
