@@ -1,5 +1,11 @@
 2001-09-21  Akim Demaille  <akim@epita.fr>
 
+	Version 1.29a.
+	* Makefile.maint, config/config.guess, config/config.sub,
+	* config/missing: Update from masters.
+
+2001-09-21  Akim Demaille  <akim@epita.fr>
+
 	* tests/Makefile.am (package.m4): Move to...
 	($(srcdir)/$(TESTSUITE)): here.
 

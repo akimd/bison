@@ -935,14 +935,6 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#, fuzzy
-#~ msgid "multiple %%header_extension declarations"
-#~ msgstr "declaraciones múltiples de %union"
-
-#, fuzzy
-#~ msgid "multiple %%source_extension declarations"
-#~ msgstr "declaraciones múltiples de %union"
-
 # ¿Por qué no lo pones en mayúsculas? Al fin y al cabo, eso es lo que
 # haces luego con "FDERIVES" que traduces como "FDERIVACIONES", ... -
 # cll
@@ -1038,6 +1030,9 @@ msgstr ""
 
 #~ msgid "unterminated comment in `%{' definition"
 #~ msgstr "comentario sin terminar en la definición `%{'"
+
+#~ msgid "multiple %union declarations"
+#~ msgstr "declaraciones múltiples de %union"
 
 #~ msgid "unterminated comment at end of file"
 #~ msgstr "comentario sin terminar al final del fichero"

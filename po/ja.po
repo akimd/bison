@@ -802,14 +802,6 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#, fuzzy
-#~ msgid "multiple %%header_extension declarations"
-#~ msgstr "複数の %union 宣言です"
-
-#, fuzzy
-#~ msgid "multiple %%source_extension declarations"
-#~ msgstr "複数の %union 宣言です"
-
 #~ msgid ""
 #~ "\n"
 #~ "\n"
@@ -889,6 +881,9 @@ msgstr ""
 
 #~ msgid "unterminated comment in `%{' definition"
 #~ msgstr "`%{' 定義 に閉じられていないコメントがあります"
+
+#~ msgid "multiple %union declarations"
+#~ msgstr "複数の %union 宣言です"
 
 #~ msgid "unterminated comment at end of file"
 #~ msgstr "ファイル末尾に閉じられていないコメントがあります"

@@ -135,9 +135,8 @@ update: wget-update cvs-update po-update
 ## Sanity checks.  ##
 ## --------------- ##
 
-# Checks that don't require cvs.
-# Run `changelog-check' as previous test may reveal problems requiring
-# new ChangeLog entries.
+# Checks that don't require cvs.  Run `changelog-check' last as
+# previous test may reveal problems requiring new ChangeLog entries.
 local-check: po-check copyright-check writable-files changelog-check
 
 changelog-check:
@@ -223,6 +222,7 @@ cvs-dist: local-check cvs-check maintainer-distcheck
 null_AM_MAKEFLAGS = \
   ACLOCAL=false \
   AUTOCONF=false \
+  AUTOM4TE=false \
   AUTOMAKE=false \
   AUTOHEADER=false \
   MAKEINFO=false

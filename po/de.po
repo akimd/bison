@@ -800,14 +800,6 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#, fuzzy
-#~ msgid "multiple %%header_extension declarations"
-#~ msgstr "erneute %union Definition"
-
-#, fuzzy
-#~ msgid "multiple %%source_extension declarations"
-#~ msgstr "erneute %union Definition"
-
 #~ msgid ""
 #~ "Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
 #~ "       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
@@ -841,6 +833,9 @@ msgstr ""
 
 #~ msgid "unterminated comment in `%{' definition"
 #~ msgstr "unbeendeter Kommentar in »%{« Definition"
+
+#~ msgid "multiple %union declarations"
+#~ msgstr "erneute %union Definition"
 
 #~ msgid "unterminated comment at end of file"
 #~ msgstr "unbeendeter Kommentar am Dateiende"

@@ -1,12 +1,12 @@
 # Перевод сообщений bison.
 # Copyright (C) 1999 Free Software Foundation, Inc.
-# Dmitry S. Sivachenko <dima@Chg.RU>, 1999,2000.
+# Dmitry S. Sivachenko <dima@Chg.RU>, 1999,2000,2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.28d\n"
+"Project-Id-Version: bison 1.29\n"
 "POT-Creation-Date: 2001-09-19 09:44+0200\n"
-"PO-Revision-Date: 2001-08-31 18:28+04:00\n"
+"PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -799,17 +799,5 @@ msgstr "'"
 #~ msgid "multiple %%source_extension declarations"
 #~ msgstr "множественные описания %%source_extension"
 
-#~ msgid "unterminated comment at end of file"
-#~ msgstr "незаконченный комментарий в конце файла"
-
-#~ msgid "unmatched close-brace (`}')"
-#~ msgstr "непарная закрывающая фигурная скобка (`}')"
-
 #~ msgid "@%s is invalid"
 #~ msgstr "неверный знак @%s"
-
-#~ msgid "unmatched right brace (`}')"
-#~ msgstr "непарная правая фигурная скобка (`}')"
-
-#~ msgid "ill-formed %type declaration"
-#~ msgstr "неверное описание %type"
