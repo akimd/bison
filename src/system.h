@@ -1,3 +1,10 @@
+#ifndef BISON_SYSTEM_H
+#define BISON_SYSTEM_H
+
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
 #ifdef MSDOS
 #include <io.h>
 #endif
@@ -50,3 +57,5 @@
 /* In the meantime, waiting for Automake.  */
 #define PACKAGE "bison"
 #define LOCALEDIR "/usr/local/share/locale"
+
+#endif  /* BISON_SYSTEM_H */
