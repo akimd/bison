@@ -20,7 +20,7 @@ m4_divert(-1)                                               -*- Autoconf -*-
 
 
 ## ----------- ##
-## Copuright.  ##
+## Copyright.  ##
 ## ----------- ##
 
 # b4_copyright(TITLE, YEARS)
@@ -195,3 +195,27 @@ m4_define([b4_c_knr_arg_decls],
 
 m4_define([b4_c_knr_arg_decl],
 [    $1 $2;])
+
+
+
+## ------------------ ##
+## Decoding options.  ##
+## ------------------ ##
+
+
+# b4_location_if(IF-TRUE, IF-FALSE)
+# ---------------------------------
+# Expand IF-TRUE, if locations are used, IF-FALSE otherwise.
+m4_define([b4_location_if],
+[m4_if(b4_locations_flag, [1],
+       [$1],
+       [$2])])
+
+
+# b4_pure_if(IF-TRUE, IF-FALSE)
+# -----------------------------
+# Expand IF-TRUE, if %pure-parser, IF-FALSE otherwise.
+m4_define([b4_pure_if],
+[m4_if(b4_pure, [1],
+       [$1],
+       [$2])])

@@ -237,8 +237,8 @@ yylex (LEX_FORMALS)
     {
       init = 0;
 #if YYLSP_NEEDED
-      yylloc.last_column = 1;
-      yylloc.last_line = 1;
+      LOC.last_column = 1;
+      LOC.last_line = 1;
 #endif
     }
 
@@ -536,3 +536,5 @@ AT_CHECK_CALC_GLR([%error-verbose %locations --defines --name-prefix=calc --verb
 
 AT_CHECK_CALC_GLR([%debug])
 AT_CHECK_CALC_GLR([%error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])
+
+# AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])
