@@ -339,8 +339,8 @@ Changes in version 1.31, 2002-01-14:
 
 Changes in version 1.30, 2001-10-26:
 
-* `--defines' and `--graph' have now an optionnal argument which is the
-  output file name. `-d' and `-g' do not change, they do not take any
+* `--defines' and `--graph' have now an optional argument which is the
+  output file name. `-d' and `-g' do not change; they do not take any
   argument.
 
 * `%source_extension' and `%header_extension' are removed, failed
