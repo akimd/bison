@@ -79,6 +79,7 @@ typedef struct gram_control_s
 extern FILE *gram_in;
 extern int gram__flex_debug;
 void scanner_last_string_free PARAMS ((void));
+void scanner_initialize PARAMS ((void));
 void scanner_free PARAMS ((void));
 
 # define YY_DECL \

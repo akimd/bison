@@ -40,17 +40,13 @@
    keep (to construct ID, STRINGS etc.).  Use the following macros to
    use it.
 
-   Use YY_OBS_INIT to initialize a new growing string, YY_OBS_GROW to
-   append what has just been matched, and YY_OBS_FINISH to end the
-   string (it puts the ending 0).  YY_OBS_FINISH also stores this
-   string in LAST_STRING, which can be used, and which is used by
-   YY_OBS_FREE to free the last string.  */
+   Use YY_OBS_GROW to append what has just been matched, and
+   YY_OBS_FINISH to end the string (it puts the ending 0).
+   YY_OBS_FINISH also stores this string in LAST_STRING, which can be
+   used, and which is used by YY_OBS_FREE to free the last string.  */
 
 static struct obstack string_obstack;
 char *last_string;
-
-#define YY_OBS_INIT   \
-  obstack_init (&string_obstack)
 
 #define YY_OBS_GROW   \
   obstack_grow (&string_obstack, yytext, yyleng)
@@ -161,24 +157,23 @@ blanks   [ \t\f]+
   {int}       yylval->integer = strtol (yytext, 0, 10); return INT;
 
   /* Characters.  We don't check there is only one.  */
-  \'          YY_OBS_INIT; YY_OBS_GROW; yy_push_state (SC_ESCAPED_CHARACTER);
+  \'          YY_OBS_GROW; yy_push_state (SC_ESCAPED_CHARACTER);
 
   /* Strings. */
-  \"          YY_OBS_INIT; YY_OBS_GROW; yy_push_state (SC_ESCAPED_STRING);
+  \"          YY_OBS_GROW; yy_push_state (SC_ESCAPED_STRING);
 
   /* Comments. */
   "/*"        yy_push_state (SC_COMMENT);
   "//".*      YY_STEP;
 
   /* Prologue. */
-  "%{"        YY_OBS_INIT; yy_push_state (SC_PROLOGUE);
+  "%{"        yy_push_state (SC_PROLOGUE);
 
   /* Code in between braces.  */
-  "{"         YY_OBS_INIT; YY_OBS_GROW; ++braces_level; yy_push_state (SC_BRACED_CODE);
+  "{"         YY_OBS_GROW; ++braces_level; yy_push_state (SC_BRACED_CODE);
 
   /* A type. */
   "<"[^>]+">" {
-    YY_OBS_INIT;
     obstack_grow (&string_obstack, yytext + 1, yyleng - 2);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -208,8 +203,8 @@ blanks   [ \t\f]+
 
 <SC_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
-  \[          obstack_sgrow (&string_obstack, "@<:@");
-  \]          obstack_sgrow (&string_obstack, "@:>@");
+  \[          if (YY_START != SC_COMMENT) obstack_sgrow (&string_obstack, "@<:@");
+  \]          if (YY_START != SC_COMMENT) obstack_sgrow (&string_obstack, "@:>@");
 }
 
 
@@ -626,6 +621,13 @@ handle_at (char *cp)
       complain (_("%s is invalid"), quote (buf));
     }
 }
+
+void
+scanner_initialize (void)
+{
+  obstack_init (&string_obstack);
+}
+
 
 void
 scanner_free (void)

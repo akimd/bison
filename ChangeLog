@@ -1,5 +1,14 @@
 2002-06-11  Akim Demaille  <akim@epita.fr>
 
+	* src/scan-gram.l (YY_OBS_INIT): Remove, replace with...
+	[SC_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE]
+	[SC_EPILOGUE]: Output the quadrigraphs only when not in a comment.
+	* src/reader.h, src/scan-gram.l (scanner_initialize): this.
+	* src/reader.c (reader): Use it.
+
+	
+2002-06-11  Akim Demaille  <akim@epita.fr>
+
 	* src/scan-gram.l (YY_OBS_FINISH): Don't set yylval.
 	Adjust all callers.
 	(scanner_last_string_free): New.
