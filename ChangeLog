@@ -1,3 +1,11 @@
+2004-10-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	.cvsignore fixes to accommodate gnulib changes,
+	and the practice of naming build directories "_build".
+	* .cvsignore: Add "_*".  Sort.
+	* lib/.cvsignore: Add getopt_.h, xalloc-die.c.
+	* m4/.cvsignore: Add "*_gl.m4".
+
 2004-10-06  Akim Demaille  <akim@epita.fr>
 
 	* src/parse-gram.y (add_param): Fix the truncation of trailing
