@@ -62,6 +62,18 @@ manext = 1
 
 #### End of system configuration section. ####
 
+DISTFILES = COPYING ChangeLog Makefile.in configure configure.in \
+    REFERENCES bison.1 bison.rnh configure.bat \
+    bison.simple bison.hairy \
+    LR0.c allocate.c closure.c conflicts.c derives.c \
+    files.c getargs.c gram.c lalr.c lex.c main.c nullable.c \
+    output.c print.c reader.c reduce.c symtab.c version.c \
+    warshall.c files.h gram.h lex.h machine.h new.h state.h \
+    symtab.h system.h types.h bison.cld build.com vmsgetargs.c \
+    vmshlp.mar README INSTALL bison.texinfo bison.info* texinfo.tex \
+    getopt.c getopt.h getopt1.c alloca.c
+
+
 SHELL = /bin/sh
 
 # This rule allows us to supply the necessary -D options
@@ -147,17 +159,9 @@ dist: bison.info
 	echo bison-`sed -e '/version_string/!d' -e 's/[^0-9.]*\([0-9.]*\).*/\1/' -e q version.c` > .fname
 	-rm -rf `cat .fname`
 	mkdir `cat .fname`
-	ln  COPYING ChangeLog Makefile.in configure configure.in \
-	    REFERENCES bison.1 bison.rnh configure.bat \
-	    bison.simple bison.hairy \
-	    LR0.c allocate.c closure.c conflicts.c derives.c \
-	    files.c getargs.c gram.c lalr.c lex.c main.c nullable.c \
-	    output.c print.c reader.c reduce.c symtab.c version.c \
-	    warshall.c files.h gram.h lex.h machine.h new.h state.h \
-	    symtab.h system.h types.h bison.cld build.com vmsgetargs.c \
-	    vmshlp.mar README INSTALL bison.texinfo bison.info* texinfo.tex \
-	  `cat .fname`
-	cp -p getopt.[ch] getopt1.c alloca.c `cat .fname`
+	dst=`cat .fname`; for f in $(DISTFILES); do \
+	   ln $(srcdir)/$$f $$dst/$$f || { echo copying $$f; cp -p $(srcdir)/$$f $$dst/$$f ; } \
+	done
 	tar --gzip -chf `cat .fname`.tar.gz `cat .fname`
 	-rm -rf `cat .fname` .fname
 
