@@ -32,7 +32,7 @@ enum bitset_attr {BITSET_FIXED = 1,    /* Bitset size fixed.  */
 		  BITSET_DENSE = 4,    /* Bitset dense.  */
 		  BITSET_SPARSE = 8,   /* Bitset sparse.  */
 		  BITSET_FRUGAL = 16,  /* Prefer most compact.  */
-		  BITSET_GREEDY = 32}; /* Prefer fastest.  */
+		  BITSET_GREEDY = 32}; /* Prefer fastest at memory expense.  */
 
 typedef unsigned int bitset_attrs;
 
@@ -84,14 +84,11 @@ extern void bitset_obstack_free PARAMS ((bitset));
 /* Create a bitset of desired size and attributes.  The bitset is zeroed.  */
 extern bitset bitset_create PARAMS ((bitset_bindex, bitset_attrs));
 
-/* Return size in bits of bitset SRC.  */
-extern int bitset_size PARAMS ((bitset));
-
-/* Return number of bits set in bitset SRC.  */
-extern int bitset_count PARAMS ((bitset));
-
 /* Return bitset type.  */
 extern enum bitset_type bitset_type_get PARAMS ((bitset));
+
+/* Return bitset type name.  */
+extern const char *bitset_type_name_get PARAMS ((bitset));
 
 #if BITSET_INLINE
 static inline void bitset_set PARAMS ((bitset, bitset_bindex));
@@ -169,9 +166,8 @@ do   								\
   bitset_windex _index = _bitno / BITSET_WORD_BITS; 		\
   bitset_windex _offset = _index - (bset)->b.cindex;		\
   								\
-  if (_offset < (bset)->b.csize)					\
-    (bset)->b.cdata[_offset] &=					\
-      ~((bitset_word) 1 << (_bitno % BITSET_WORD_BITS)); 	\
+  if (_offset < (bset)->b.csize)				\
+    (bset)->b.cdata[_offset] &= ~(1 << (_bitno % BITSET_WORD_BITS)); 	\
   else  							\
     BITSET_RESET_ ((bset), _bitno);				\
 } while (0)
@@ -179,86 +175,116 @@ do   								\
 
 /* Test bit BITNO in bitset BSET.  */
 #define bitset_test(bset, bitno) \
-(((((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex) < (bset)->b.csize) \
-  ? (((int)							\
-      ((bset)->b.cdata[(((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex)] \
-       >> ((bitno) % BITSET_WORD_BITS)))			\
-     & 1)							\
-  : BITSET_TEST_ ((bset), (bitno)))
+(((((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex) < (bset)->b.csize)  \
+  ? ((bset)->b.cdata[(((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex)] \
+     >> ((bitno) % BITSET_WORD_BITS)) & 1 \
+  : (unsigned int) BITSET_TEST_ ((bset), (bitno)))
 #endif
 
 
 /* Toggle bit BITNO in bitset BSET and return non-zero if now set.  */
-extern int bitset_toggle PARAMS ((bitset, bitset_bindex));
+#define bitset_toggle(bset, bitno) BITSET_TOGGLE_ (bset, bitno)
 
-/* DST = 0.  */
-extern int bitset_zero PARAMS ((bitset));
+/* Return size in bits of bitset SRC.  */
+#define bitset_size(SRC) BITSET_SIZE_ (SRC)
+
+/* Return number of bits set in bitset SRC.  */
+#define bitset_count(SRC) BITSET_COUNT_ (SRC)
+
+
+/* Return SRC == 0.  */
+#define bitset_empty_p(SRC) BITSET_EMPTY_P_ (SRC)
 
 /* DST = ~0.  */
-extern int bitset_ones PARAMS ((bitset));
+#define bitset_ones(DST) BITSET_ONES_ (DST)
 
-/* Return non-zero if all bits in bitset SRC are reset.  */
-extern int bitset_empty_p PARAMS ((bitset));
+/* DST = 0.  */
+#define bitset_zero(DST) BITSET_ZERO_ (DST)
 
-/* Return DST == DST | SRC.  */
-extern int bitset_subset_p PARAMS ((bitset, bitset));
 
-/* Return DST == SRC.  */
-extern int bitset_equal_p PARAMS ((bitset, bitset));
+
+/* DST = SRC.  */
+#define bitset_copy(DST, SRC) BITSET_COPY_ (DST, SRC)
 
 /* Return DST & SRC == 0.  */
-extern int bitset_disjoint_p PARAMS ((bitset, bitset));
+#define bitset_disjoint_p(DST, SRC) BITSET_DISJOINT_P_ (DST, SRC)
 
-/* DST == SRC.  */
-extern int bitset_copy PARAMS ((bitset, bitset));
+/* Return DST == SRC.  */
+#define bitset_equal_p(DST, SRC) BITSET_EQUAL_P_ (DST, SRC)
 
 /* DST = ~SRC.  */
-extern int bitset_not PARAMS ((bitset, bitset));
+#define bitset_not(DST, SRC) BITSET_NOT_ (DST, SRC)
 
-/* DST = SRC1 | SRC2.  Return non-zero if DST != SRC1 | SRC2.  */
-extern int bitset_or PARAMS ((bitset, bitset, bitset));
+/* Return DST == DST | SRC.  */
+#define bitset_subset_p(DST, SRC) BITSET_SUBSET_P_ (DST, SRC)
+
+
+
+/* DST = SRC1 & SRC2.  */
+#define bitset_and(DST, SRC1, SRC2) BITSET_AND_ (DST, SRC1, SRC2)
 
 /* DST = SRC1 & SRC2.  Return non-zero if DST != SRC1 & SRC2.  */
-extern int bitset_and PARAMS ((bitset, bitset, bitset));
+#define bitset_and_cmp(DST, SRC1, SRC2) BITSET_AND_CMP_ (DST, SRC1, SRC2)
 
-/* DST = SRC1 ^ SRC2.  Return non-zero if DST != SRC1 ^ SRC2.  */
-extern int bitset_xor PARAMS ((bitset, bitset, bitset));
+/* DST = SRC1 & ~SRC2.  */
+#define bitset_andn(DST, SRC1, SRC2) BITSET_ANDN_ (DST, SRC1, SRC2)
 
 /* DST = SRC1 & ~SRC2.  Return non-zero if DST != SRC1 & ~SRC2.  */
-extern int bitset_andn PARAMS ((bitset, bitset, bitset));
+#define bitset_andn_cmp(DST, SRC1, SRC2) BITSET_ANDN_CMP_ (DST, SRC1, SRC2)
 
-/* DST = (SRC1 | SRC2) & SRC3.  Return non-zero if
-   DST != (SRC1 | SRC2) & SRC3.  */
-extern int bitset_or_and PARAMS ((bitset, bitset, bitset, bitset));
+/* DST = SRC1 | SRC2.  */
+#define bitset_or(DST, SRC1, SRC2) BITSET_OR_ (DST, SRC1, SRC2)
+
+/* DST = SRC1 | SRC2.  Return non-zero if DST != SRC1 | SRC2.  */
+#define bitset_or_cmp(DST, SRC1, SRC2) BITSET_OR_CMP_ (DST, SRC1, SRC2)
+
+/* DST = SRC1 ^ SRC2.  */
+#define bitset_xor(DST, SRC1, SRC2) BITSET_XOR_ (DST, SRC1, SRC2)
+
+/* DST = SRC1 ^ SRC2.  Return non-zero if DST != SRC1 ^ SRC2.  */
+#define bitset_xor_cmp(DST, SRC1, SRC2) BITSET_XOR_CMP_ (DST, SRC1, SRC2)
+
+
+
+/* DST = (SRC1 & SRC2) | SRC3.  */
+#define bitset_and_or(DST, SRC1, SRC2, SRC3) \
+ BITSET_AND_OR_ (DST, SRC1, SRC2, SRC3)
 
 /* DST = (SRC1 & SRC2) | SRC3.  Return non-zero if
    DST != (SRC1 & SRC2) | SRC3.  */
-extern int bitset_and_or PARAMS ((bitset, bitset, bitset, bitset));
+#define bitset_and_or_cmp(DST, SRC1, SRC2, SRC3) \
+ BITSET_AND_OR_CMP_ (DST, SRC1, SRC2, SRC3)
+
+/* DST = (SRC1 & ~SRC2) | SRC3.  */
+#define bitset_andn_or(DST, SRC1, SRC2, SRC3) \
+ BITSET_ANDN_OR_ (DST, SRC1, SRC2, SRC3)
 
 /* DST = (SRC1 & ~SRC2) | SRC3.  Return non-zero if
    DST != (SRC1 & ~SRC2) | SRC3.  */
-extern int bitset_andn_or PARAMS ((bitset, bitset, bitset, bitset));
+#define bitset_andn_or_cmp(DST, SRC1, SRC2, SRC3) \
+ BITSET_ANDN_OR_CMP_ (DST, SRC1, SRC2, SRC3)
 
-/* Find next bit set in BSET starting from and including BITNO.  */
-extern int bitset_next PARAMS ((bitset, bitset_bindex));
+/* DST = (SRC1 | SRC2) & SRC3.  */
+#define bitset_or_and(DST, SRC1, SRC2, SRC3)\
+ BITSET_OR_AND_ (DST, SRC1, SRC2, SRC3)
 
-/* Find previous bit set in BSET starting from and including BITNO.  */
-extern int bitset_prev PARAMS ((bitset, bitset_bindex));
-
-/* Return non-zero if BITNO in SRC is the only set bit.  */
-extern int bitset_only_set_p PARAMS ((bitset, bitset_bindex));
+/* DST = (SRC1 | SRC2) & SRC3.  Return non-zero if
+   DST != (SRC1 | SRC2) & SRC3.  */
+#define bitset_or_and_cmp(DST, SRC1, SRC2, SRC3)\
+ BITSET_OR_AND_CMP_ (DST, SRC1, SRC2, SRC3)
 
 /* Find list of up to NUM bits set in BSET starting from and including 
    *NEXT.  Return with actual number of bits found and with *NEXT
    indicating where search stopped.  */
 #define bitset_list(BSET, LIST, NUM, NEXT) \
-BITSET_LIST_ (BSET, LIST, NUM, NEXT) 
+ BITSET_LIST_ (BSET, LIST, NUM, NEXT) 
 
 /* Find reverse list of up to NUM bits set in BSET starting from and
    including NEXT.  Return with actual number of bits found and with
    *NEXT indicating where search stopped.  */
-#define bitset_reverse_list(BSET, LIST, NUM, NEXT) \
-BITSET_REVERSE_LIST_ (BSET, LIST, NUM, NEXT) 
+#define bitset_list_reverse(BSET, LIST, NUM, NEXT) \
+ BITSET_LIST_REVERSE_ (BSET, LIST, NUM, NEXT) 
+
 
 /* Find first set bit.  */
 extern int bitset_first PARAMS ((bitset));
@@ -270,7 +296,18 @@ extern int bitset_last PARAMS ((bitset));
 extern void bitset_dump PARAMS ((FILE *, bitset));
 
 /* Loop over all elements of BSET, starting with MIN, setting BIT
-   to the index of each set bit.  */
+   to the index of each set bit.  For example, the following will print
+   the bits set in a bitset:
+
+   bitset_bindex i;
+   bitset_iterator iter;
+
+   bitset_zero (dst);
+   BITSET_FOR_EACH (iter, src, i, 0)
+   {
+      printf ("%ld ", i);
+   };
+*/
 #define BITSET_FOR_EACH(ITER, BSET, BIT, MIN)				      \
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;			      \
        (ITER.num == BITSET_LIST_SIZE) 					      \
@@ -280,7 +317,18 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
 
 
 /* Loop over all elements of BSET, in reverse order starting with
-   MIN,  setting BIT to the index of each set bit.  */
+   MIN,  setting BIT to the index of each set bit. For example, the 
+   following will print the bits set in a bitset in reverse order:
+
+   bitset_bindex i;
+   bitset_iterator iter;
+
+   bitset_zero (dst);
+   BITSET_FOR_EACH_REVERSE (iter, src, i, 0)
+   {
+      printf ("%ld ", i);
+   };
+*/
 #define BITSET_FOR_EACH_REVERSE(ITER, BSET, BIT, MIN)			      \
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;			      \
        (ITER.num == BITSET_LIST_SIZE) 					      \
@@ -291,14 +339,25 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
 
 /* Define set operations in terms of logical operations.  */
 
-#define bitset_diff(DST, SRC1, SRC2)  bitset_andn (DST, SRC1, SRC2) 
+#define bitset_diff(DST, SRC1, SRC2) bitset_andn (DST, SRC1, SRC2) 
+#define bitset_diff_cmp(DST, SRC1, SRC2) bitset_andn_cmp (DST, SRC1, SRC2) 
 
-#define bitset_intersection(DST, SRC1, SRC2)  bitset_and (DST, SRC1, SRC2) 
+#define bitset_intersection(DST, SRC1, SRC2) bitset_and (DST, SRC1, SRC2) 
+#define bitset_intersection_cmp(DST, SRC1, SRC2) bitset_and_cmp (DST, SRC1, SRC2) 
 
-#define bitset_union(DST, SRC1, SRC2)  bitset_or (DST, SRC1, SRC2) 
+#define bitset_union(DST, SRC1, SRC2) bitset_or (DST, SRC1, SRC2) 
+#define bitset_union_cmp(DST, SRC1, SRC2) bitset_or_cmp (DST, SRC1, SRC2) 
 
+/* Symmetrical difference.  */
+#define bitset_symdiff(DST, SRC1, SRC2) bitset_xor (DST, SRC1, SRC2) 
+#define bitset_symdiff_cmp(DST, SRC1, SRC2) bitset_xor_cmp (DST, SRC1, SRC2) 
+
+/* Union of difference.  */
 #define bitset_diff_union(DST, SRC1, SRC2, SRC3) \
   bitset_andn_or (DST, SRC1, SRC2, SRC3) 
+#define bitset_diff_union_cmp(DST, SRC1, SRC2, SRC3) \
+  bitset_andn_or_cmp (DST, SRC1, SRC2, SRC3) 
+
 
 
 /* Release any memory tied up with bitsets.  */
