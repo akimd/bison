@@ -1,3 +1,8 @@
+2002-10-14  Akim Demaille  <akim@epita.fr>
+
+	* src/tables.c (table_ninf_remap): base -> tab.
+	Reported by Matt Rosing.
+
 2002-10-14  Paul Eggert  <eggert@twinsun.com>
 
 	* tests/action.at, tests/calc.at, tests/conflicts.at,
@@ -6,7 +11,7 @@
 	Say "bison -o foo.c foo.y", not "bison foo.y -o foo.c",
 	so that the tests still work even if POSIXLY_CORRECT is set.
 	* doc/bison.texinfo (Rpcalc Compile, Invocation): Likewise.
-	
+
 	* data/c.m4 (b4_int_type): Use yysigned_char instead of signed char,
 	for portability to K&R hosts.  Fix typo: signed char is guaranteed
 	only to 127, not to 128.
@@ -112,7 +117,7 @@
 	we can't expect the parser to be in lock-step sync with the scanner.
 	(handle_action_dollar, handle_action_at): Use this var.
 	* tests/actions.at (Exotic Dollars): Test for the problem.
-	
+
 2002-10-12  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/timevar.c [! IN_GCC && HAVE_SYS_TIME_H]: Include <sys/time.h>.
@@ -121,10 +126,10 @@
 	Use same include order as source.
 	This is for the SunOS 4.1.4 porting bug reported by Peter Klein in
 	<http://mail.gnu.org/pipermail/bug-bison/2002-October/001674.html>.
-	
+
 	* lib/timevar.c: Update copyright date and clarify comments.
 	(get_time) [IN_GCC]: Keep the GCC version for reference.
-	
+
 	* lib/timevar.c, lib/timevar.h, lib/timevar.def: Import
 	GCC version as of today, then merge Bison's changes.
 	Change "GCC" to "Bison" in copyright notice.  timevar.def's
