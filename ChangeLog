@@ -1,3 +1,11 @@
+2003-04-26  Paul Eggert  <eggert@twinsun.com>
+
+	* configure.ac (AC_FUNC_ERROR_AT_LINE): Remove, since gl_ERROR
+	invokes it.  We shouldn't invoke it twice because it will attempt
+	to put error.o in the archive twice.  This fixes a glitch reported
+	by Martin Mokrejs in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-04/msg00041.html>.
+
 2003-04-21  Paul Eggert  <eggert@twinsun.com>
 
 	* m4/error.m4: Update from Bruno Haible's 2003-04-14 patch
