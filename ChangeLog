@@ -1,5 +1,9 @@
 2001-08-03  Akim Demaille  <akim@epita.fr>
 
+	Update to gettext 0.10.39.
+
+2001-08-03  Akim Demaille  <akim@epita.fr>
+
 	* lib/strspn.c: New.
 
 2001-08-01  Marc Autret  <autret_m@epita.fr>

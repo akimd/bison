@@ -94,7 +94,7 @@ USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WARNING_CFLAGS = @WARNING_CFLAGS@
 
-EXTRA_DIST =  atconfig.m4					error.m4					iconv.m4					m4.m4						prereq.m4					strerror_r.m4					c-bs-a.m4					gettext.m4					isc-posix.m4					malloc.m4					progtest.m4					warning.m4					codeset.m4					glibc21.m4					lcmessage.m4					mbstate_t.m4					realloc.m4
+EXTRA_DIST =  atconfig.m4					c-bs-a.m4					codeset.m4					error.m4					gettext.m4					glibc21.m4					iconv.m4					isc-posix.m4					lcmessage.m4					m4.m4						malloc.m4					mbstate_t.m4					prereq.m4					progtest.m4					realloc.m4					strerror_r.m4					warning.m4
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../config.h
