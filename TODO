@@ -33,6 +33,10 @@ check if %union is used, since the user is free to $<foo>n on her
 union, doesn't she?
 
 
+* GLR & C++
+Currently, the GLR parser cannot compile with a C++ compiler.
+
+
 * Report
 
 **  GLR

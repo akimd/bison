@@ -73,6 +73,18 @@ installcheck-local:
 	$(SHELL) $(TESTSUITE) AUTOTEST_PATH=$(exec_prefix)/bin
 
 # Be real mean with it.
+.PHONY: maintainer-check-g++
+maintainer-check-g++: $(TESTSUITE)
+	if test -n "$(VALGRIND)"; then		\
+	   $(TESTSUITE) CC='$(GXX)';		\
+	else					\
+	  true;					\
+	fi
+
+.PHONY: maintainer-check-posix
+maintainer-check-posix: $(TESTSUITE)
+	$(TESTSUITE) POSIXLY_CORRECT=1
+
 .PHONY: maintainer-check-valgrind
 maintainer-check-valgrind: $(TESTSUITE)
 	if test -n "$(VALGRIND)"; then					    \
@@ -81,13 +93,5 @@ maintainer-check-valgrind: $(TESTSUITE)
 	  true;								    \
 	fi
 
-.PHONY: maintainer-check-g++
-maintainer-check-g++: $(TESTSUITE)
-	if test -n "$(VALGRIND)"; then		\
-	   $(TESTSUITE) CC='$(GXX)'		\
-	else					\
-	  true;					\
-	fi
-
 .PHONY: maintainer-check
-maintainer-check: maintainer-check-valgrind maintainer-check-g++
+maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++
