@@ -1,3 +1,9 @@
+2005-01-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo: Change @dircategory from "GNU programming
+	tools" to "Software development".  Requested by Richard Stallman
+	via Karl Berry.
+
 2005-01-23  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/c++.at (AT_CHECK_DOXYGEN): Don't use options after operands.
