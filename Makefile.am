@@ -27,7 +27,7 @@ info_TEXINFOS = bison.texinfo
 man_MANS = bison.1
 
 EXTRA_DIST = bison.1 bison.s1 bison.hairy REFERENCES configure.bat	\
- build.com bison.cld bison.rnh vmshlp.mar
+ build.com bison.cld bison.rnh vmshlp.mar OChangeLog
 
 bison.simple: bison.s1 Makefile
 	-rm -f $@
