@@ -6,6 +6,9 @@ Changes in version 1.30a:
 * Fixed incorrect processing of some invalid input.
 
 * Fixed CPP guards: 9foo.h uses BISON_9FOO_H instead of 9FOO_H.
+
+* %token MY_EOF 0 is supported.
+  Before, MY_EOF was silently renumbered as 257.
 
 Changes in version 1.30:
 
