@@ -196,7 +196,7 @@ m4_ifval([$6], [%union
 
 %printer
   {
-    ]AT_LALR1_CC_IF([cdebug_ << $$;],
+    ]AT_LALR1_CC_IF([debug_stream () << $$;],
                     [fprintf (yyoutput, "%d", $$)])[;
   }
   input line thing 'x' 'y'

@@ -238,19 +238,19 @@ namespace yy
 
     ]b4_parser_class_name[ (bool debug][]b4_param[]b4_parse_param_decl[) :
       ]b4_constructor[][debug_ (debug),
-      cdebug_ (std::cerr)]b4_parse_param_cons[
+      yycdebug_ (&std::cerr)]b4_parse_param_cons[
     {
     }
 
     ]b4_parser_class_name[ (bool debug,
 	    LocationType][]b4_param[]b4_parse_param_decl[) :
       ]b4_constructor[][debug_ (debug),
-      cdebug_ (std::cerr)]b4_parse_param_cons[
+      yycdebug_ (&std::cerr)]b4_parse_param_cons[
     {
-      cdebug_ << __FILE__ << ':' << __LINE__
-	      << ": this constructor is provided by backward compatibility"
-	      << ", but will be removed in the near future."
-	      << std::endl;
+      *yycdebug_ << __FILE__ << ':' << __LINE__
+	         << ": this constructor is provided by backward compatibility"
+	         << ", but will be removed in the near future."
+	         << std::endl;
     }
 
     virtual ~]b4_parser_class_name[ ()
@@ -258,6 +258,11 @@ namespace yy
     }
 
     virtual int parse ();
+
+    /// Return the current debugging stream.
+    std::ostream& debug_stream () const;
+    /// Set the current debugging stream.
+    void set_debug_stream (std::ostream &);
 
   private:
 
@@ -336,7 +341,7 @@ namespace yy
 
     /* Debugging.  */
     int debug_;
-    std::ostream& cdebug_;
+    std::ostream* yycdebug_;
 
     /* Look-ahead and look-ahead in internal form.  */
     int looka_;
@@ -368,20 +373,21 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 
 m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 
+/* A pseudo ostream that takes debug_ into account. */
+# define YYCDEBUG							\
+  for (bool yydebugcond_ = debug_; yydebugcond_; yydebugcond_ = false)	\
+    (*yycdebug_)
+
 /* Enable debugging if requested.  */
 #if YYDEBUG
-
-# define YYCDEBUG				\
-  if (debug_) 					\
-    cdebug_
 
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)	\
 do {							\
   if (debug_)						\
     {							\
-      cdebug_ << (Title) << ' ';			\
+      *yycdebug_ << (Title) << ' ';			\
       symprint_ ((Type), (Value), (Location));		\
-      cdebug_ << std::endl;				\
+      *yycdebug_ << std::endl;				\
     }							\
 } while (0)
 
@@ -399,7 +405,6 @@ do {					\
 
 #else /* !YYDEBUG */
 
-# define YYCDEBUG    if (0) cdebug_
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)
 # define YY_REDUCE_PRINT(Rule)
 # define YY_STACK_PRINT()
@@ -422,17 +427,19 @@ yy::]b4_parser_class_name[::symprint_ (int yytype,
   /* Pacify ``unused variable'' warnings.  */
   (void) yyvaluep;
   (void) yylocationp;
+  /* Backward compatibility, but should be removed eventually. */
+  std::ostream& cdebug_ = *yycdebug_;
 
-  cdebug_ << (yytype < ntokens_ ? "token" : "nterm")
-	  << ' ' << name_[yytype] << " ("
-          << *yylocationp << ": ";
+  *yycdebug_ << (yytype < ntokens_ ? "token" : "nterm")
+	     << ' ' << name_[yytype] << " ("
+             << *yylocationp << ": ";
   switch (yytype)
     {
 ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [      default:
         break;
     }
-  cdebug_ << ')';
+  *yycdebug_ << ')';
 }
 #endif /* ! YYDEBUG */
 
@@ -461,6 +468,19 @@ yy::]b4_parser_class_name[::pop (unsigned int n)
   semantic_stack_.pop (n);
   location_stack_.pop (n);
 }
+
+std::ostream&
+yy::]b4_parser_class_name[::debug_stream () const
+{
+  return *yycdebug_;
+}
+
+void
+yy::]b4_parser_class_name[::set_debug_stream (std::ostream& o)
+{
+  yycdebug_ = &o;
+}
+
 
 int
 yy::]b4_parser_class_name[::parse ()
@@ -914,11 +934,11 @@ yy::]b4_parser_class_name[::rline_[] =
 void
 yy::]b4_parser_class_name[::stack_print_ ()
 {
-  cdebug_ << "Stack now";
+  *yycdebug_ << "Stack now";
   for (StateStack::const_iterator i = state_stack_.begin ();
        i != state_stack_.end (); ++i)
-    cdebug_ << ' ' << *i;
-  cdebug_ << std::endl;
+    *yycdebug_ << ' ' << *i;
+  *yycdebug_ << std::endl;
 }
 
 /** Report that the YYRULE is going to be reduced.  */
@@ -928,12 +948,12 @@ yy::]b4_parser_class_name[::reduce_print_ (int yyrule)
 {
   unsigned int yylno = rline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
-  cdebug_ << "Reducing stack by rule " << n_ - 1
-          << " (line " << yylno << "), ";
+    *yycdebug_ << "Reducing stack by rule " << n_ - 1
+               << " (line " << yylno << "), ";
   for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
        0 <= rhs_[i]; ++i)
-    cdebug_ << name_[rhs_[i]] << ' ';
-  cdebug_ << "-> " << name_[r1_[n_]] << std::endl;
+    *yycdebug_ << name_[rhs_[i]] << ' ';
+  *yycdebug_ << "-> " << name_[r1_[n_]] << std::endl;
 }
 #endif // YYDEBUG
 
