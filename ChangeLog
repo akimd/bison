@@ -1,3 +1,9 @@
+2002-03-05  Robert Anisko  <robert@lrde.epita.fr>
+
+	* src/reader.c (read_additionnal_code): `c' should be an integer, not
+	a character.
+	Reported by Nicolas Tisserand and Nicolas Burrus.
+
 2002-03-04  Robert Anisko  <robert@lrde.epita.fr>
 
 	* src/reader.c: Warn about lacking semi-colons, do not complain.
