@@ -1,0 +1,642 @@
+# German translation for message of GNU bison.
+# Copyright (C) 1996 Free Software Foundation, Inc.
+# Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1996.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bison 1.25\n"
+"PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
+"Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: allocate.c:41 allocate.c:59
+msgid "%s: memory exhausted\n"
+msgstr "%s: Hauptspeicher erschöpft\n"
+
+#: closure.c:314
+msgid ""
+"\n"
+"\n"
+"\n"
+"FIRSTS\n"
+"\n"
+msgstr ""
+
+#: closure.c:318
+msgid ""
+"\n"
+"\n"
+"%s firsts\n"
+"\n"
+msgstr ""
+
+#: closure.c:336
+msgid ""
+"\n"
+"\n"
+"\n"
+"FDERIVES\n"
+msgstr ""
+
+#: closure.c:340
+msgid ""
+"\n"
+"\n"
+"%s derives\n"
+"\n"
+msgstr ""
+
+#: conflicts.c:195 conflicts.c:219
+msgid "reduce"
+msgstr "durch Reduzierung gelöst"
+
+#: conflicts.c:201 conflicts.c:215
+msgid "shift"
+msgstr "durch Schieben gelöst"
+
+#: conflicts.c:223
+msgid "an error"
+msgstr "als Fehler betrachtet"
+
+#: conflicts.c:299
+msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
+msgstr "Konflikt in Zustand %d zwischen Regel %d and Token %s wurde %s.\n"
+
+#: conflicts.c:344
+msgid "State %d contains"
+msgstr "Zustand %d enthält"
+
+#: conflicts.c:347 conflicts.c:394
+msgid " 1 shift/reduce conflict"
+msgstr " 1 Schiebe/Reduziere Konflikt"
+
+#: conflicts.c:349 conflicts.c:396
+msgid " %d shift/reduce conflicts"
+msgstr " %d Schiebe/Reduziere Konflikte"
+
+#: conflicts.c:352 conflicts.c:399
+msgid " and"
+msgstr " und"
+
+#: conflicts.c:355 conflicts.c:402
+msgid " 1 reduce/reduce conflict"
+msgstr " 1 Reduziere/Reduziere Konflikt"
+
+#: conflicts.c:357 conflicts.c:404
+msgid " %d reduce/reduce conflicts"
+msgstr " %d Reduziere/Reduziere Konflikte"
+
+#: conflicts.c:380
+msgid "conflicts: "
+msgstr "Konflikte: "
+
+#: conflicts.c:382
+msgid " %d shift/reduce"
+msgstr " %d Schiebe/Reduziere"
+
+#: conflicts.c:386
+msgid " %d reduce/reduce"
+msgstr " %d Reduziere/Reduziere"
+
+#: conflicts.c:391
+msgid "%s contains"
+msgstr "%s enthält"
+
+#: conflicts.c:603 conflicts.c:717
+msgid "    %-4s\t[reduce using rule %d (%s)]\n"
+msgstr "    %-4s\t[reduziere mit Regel %d (%s)]\n"
+
+#: conflicts.c:614 print.c:218
+msgid ""
+"    $default\treduce using rule %d (%s)\n"
+"\n"
+msgstr "    $default\treduziere mit Regel %d (%s)\n\n"
+
+#: conflicts.c:700 conflicts.c:712
+msgid "    %-4s\treduce using rule %d (%s)\n"
+msgstr "    %-4s\treduziere mit Tegel %d (%s)\n"
+
+#: conflicts.c:738
+msgid "    $default\treduce using rule %d (%s)\n"
+msgstr "    $default\treduziere mit Regel %d (%s)\n"
+
+#: derives.c:102
+msgid ""
+"\n"
+"\n"
+"\n"
+"DERIVES\n"
+"\n"
+msgstr ""
+
+#: derives.c:106
+msgid "%s derives"
+msgstr "%s leitet ab"
+
+#: getargs.c:66
+msgid ""
+"Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
+"       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
+"       [--verbose] [--version] [--help] [--yacc]\n"
+"       [--no-parser] [--token-table]\n"
+"       [--file-prefix=prefix] [--name-prefix=prefix]\n"
+"       [--output=outfile] grammar-file\n"
+msgstr ""
+"Benutzung: %s [-dhklntvyV] [-b Datei-Präfix] [-o Ausgabe-Datei]\n"
+"           [-p Namen-Präfix] [--debug] [--defines] [--fixed-output-files]\n"
+"           [--no-lines] [--verbose] [--version] [--help] [--yacc]\n"
+"           [--no-parser] [--token-table]\n"
+"           [--file-prefix=Präfix] [--name-prefix=Präfix]\n"
+"           [--output=Ausgabe-Datei] Grammatik-Datei\n"
+
+#: getargs.c:160
+msgid "%s: no grammar file given\n"
+msgstr "%s: keine Grammatik-Datei angegeben\n"
+
+#: getargs.c:164
+msgid "%s: extra arguments ignored after '%s'\n"
+msgstr "%s: zusätzliche Argumente nach »%s« werden ignoriert\n"
+
+#: getopt.c:565
+msgid "%s: option `%s' is ambiguous\n"
+msgstr "%s: die Option »%s« ist nicht eindeutig\n"
+
+#: getopt.c:588
+msgid "%s: option `--%s' doesn't allow an argument\n"
+msgstr "%s: die Option »--%s« erlaubt kein Argument\n"
+
+#: getopt.c:593
+msgid "%s: option `%c%s' doesn't allow an argument\n"
+msgstr "%s: die Option »%c%s« erlaubt kein Argument\n"
+
+#: getopt.c:608
+msgid "%s: option `%s' requires an argument\n"
+msgstr "%s: die Option »%s« erfordert ein Argument\n"
+
+#: getopt.c:636
+msgid "%s: unrecognized option `--%s'\n"
+msgstr "%s: unbekannte Option »--%s«\n"
+
+#: getopt.c:640
+msgid "%s: unrecognized option `%c%s'\n"
+msgstr "%s: unbekannte Option »%c%s«\n"
+
+#: getopt.c:665
+msgid "%s: illegal option -- %c\n"
+msgstr "%s: die Option ist nicht erlaubt -- %c\n"
+
+#: getopt.c:668
+msgid "%s: invalid option -- %c\n"
+msgstr "%s: ungültige Option -- %c\n"
+
+#: getopt.c:704
+msgid "%s: option requires an argument -- %c\n"
+msgstr "%s: die Option benötigt ein Argument -- %c\n"
+
+#: lalr.c:291
+msgid "gotos"
+msgstr "»goto« Anweisungen"
+
+#: lex.c:112
+msgid "unexpected `/' found and ignored"
+msgstr "»/« wird hier nicht erwartet und wird deshalb ignoriert"
+
+#: lex.c:141 reader.c:1092 reader.c:1314
+msgid "unterminated comment"
+msgstr "unbeendeter Kommentar"
+
+#: lex.c:170
+msgid "Unexpected end of file"
+msgstr "Datei endet unerwartet"
+
+# Oder soll man den Begriff "Escapezeichen" verwenden?
+#: lex.c:194
+msgid "unescaped newline in constant"
+msgstr "nicht maskiertes Zeilenendezeichen in Konstante"
+
+#: lex.c:226
+msgid "octal value outside range 0...255: `\\%o'"
+msgstr "oktaler Zahlenwert außerhalb des Bereichs 0...255: »\\%o«"
+
+#: lex.c:250
+msgid "hexadecimal value above 255: `\\x%x'"
+msgstr "hexadezimaler Zahlenwert größer als 255: »\\x%x«"
+
+#: lex.c:260
+msgid "unknown escape sequence: `\\' followed by `%s'"
+msgstr "unbekanntes Fluchtzeichen: »\\« gefolgt von »%s«"
+
+#: lex.c:391
+msgid "use \"...\" for multi-character literal tokens"
+msgstr "für Literal mit mehreren Zeichen bitte \"...\" verwenden"
+
+#: lex.c:466
+msgid "unterminated type name at end of file"
+msgstr "unerwarteter Typname am Ende der Datei"
+
+#: lex.c:469
+msgid "unterminated type name"
+msgstr "unerwarteter Typname"
+
+#: main.c:133
+msgid "fatal error: %s\n"
+msgstr "fataler Fehler: %s\n"
+
+#: main.c:135
+msgid "\"%s\", line %d: %s\n"
+msgstr "»%s«, Zeile %d: %s\n"
+
+#: main.c:161
+msgid "error: %s\n"
+msgstr "Fehler: %s\n"
+
+#: main.c:163
+msgid "(\"%s\", line %d) error: %s\n"
+msgstr "(»%s«, Zeile %d) Fehler: %s\n"
+
+#: main.c:226
+msgid "limit of %d exceeded, too many %s"
+msgstr "Grenze von %d erreicht, zu viele %s"
+
+#: main.c:236
+msgid "internal error, %s\n"
+msgstr "interner Fehler, %s\n"
+
+#: nullable.c:52
+msgid "Entering set_nullable"
+msgstr "Führe »set_nullable« aus"
+
+#: output.c:1193
+msgid "maximum table size (%s) exceeded"
+msgstr "maximale Tabellengröße (%s) überschritten"
+
+#: print.c:83
+msgid " type %d is %s\n"
+msgstr " Typ %d ist %s\n"
+
+#: print.c:91
+msgid ""
+"\n"
+"\n"
+"state %d\n"
+"\n"
+msgstr "\n\nZustand %d\n\n"
+
+#: print.c:136
+msgid "   (rule %d)"
+msgstr "   (Regel %d)"
+
+#: print.c:164
+msgid "    $default\taccept\n"
+msgstr "    $default\takzeptiere\n"
+
+#: print.c:166
+msgid "    NO ACTIONS\n"
+msgstr "    KEINE AKTIONEN\n"
+
+#: print.c:182
+msgid "    $   \tgo to state %d\n"
+msgstr "    $   \tgehe zu Zustand %d über\n"
+
+#: print.c:184
+msgid "    %-4s\tshift, and go to state %d\n"
+msgstr "    %-4s\tSchiebe und gehe zu Zustand %d über\n"
+
+#: print.c:207
+msgid "    %-4s\terror (nonassociative)\n"
+msgstr "    %-4s\tFehler (nicht assoziativ)\n"
+
+#: print.c:233
+msgid "    %-4s\tgo to state %d\n"
+msgstr "    %-4s\tgehe zu Zustand %d über\n"
+
+#: print.c:254
+msgid ""
+"\n"
+"Grammar\n"
+msgstr "\nGrammatik\n"
+
+#: print.c:259
+msgid "rule %-4d %s ->"
+msgstr "Regel %-4d %s ->"
+
+#: print.c:265
+msgid "\t\t/* empty */"
+msgstr "\t\t/* leer */"
+
+#: print.c:270
+msgid ""
+"\n"
+"Terminals, with rules where they appear\n"
+"\n"
+msgstr "\nTerminale und die Regeln un denen sie verwendet werden\n\n"
+
+#: print.c:318
+msgid ""
+"\n"
+"Nonterminals, with rules where they appear\n"
+"\n"
+msgstr "\nNicht-Terminal und die Regeln in denen sie verwendet werden\n\n"
+
+#: print.c:344
+msgid " on left:"
+msgstr " auf der linken Seite:"
+
+#: print.c:359
+msgid " on right:"
+msgstr " auf der rechten Seite:"
+
+#: reader.c:138
+msgid "   Skipping to next \\n"
+msgstr "   Überspringe Zeichen bis zum nächsten \\n"
+
+#: reader.c:140
+msgid "   Skipping to next %c"
+msgstr "   Überspringe Zeichen bis zum nächten %c"
+
+#: reader.c:315
+msgid "unrecognized: %s"
+msgstr "unbekannt: %s"
+
+#: reader.c:320
+msgid "no input grammar"
+msgstr "keine Eingabe-Grammatik"
+
+#: reader.c:324
+msgid "unknown character: %s"
+msgstr "unbekanntes Zeichen: %s"
+
+#: reader.c:373 reader.c:388 reader.c:1028 reader.c:1257
+msgid "unterminated string at end of file"
+msgstr "unbeendete Zeichenkette am Ende der Datei"
+
+#: reader.c:376 reader.c:1031 reader.c:1043 reader.c:1251 reader.c:1265
+msgid "unterminated string"
+msgstr "unbeendete Zeichenkette"
+
+#: reader.c:437
+msgid "unterminated comment in `%{' definition"
+msgstr "unbeendeter Kommentar in »%{« Definition"
+
+#: reader.c:448
+msgid "unterminated `%{' definition"
+msgstr "unbeendete »%{« Definition"
+
+#: reader.c:522 reader.c:738
+msgid "symbol %s redefined"
+msgstr "Symbol %s noch einmal definiert"
+
+#: reader.c:532 reader.c:685 reader.c:745 reader.c:1782
+msgid "type redeclaration for %s"
+msgstr "erneute Deklaration des Typs für %s"
+
+#: reader.c:542
+msgid "`%s' is invalid in %s"
+msgstr "»%s« ist in %s nicht erlaubt"
+
+#: reader.c:590
+msgid "unrecognized item %s, expected an identifier"
+msgstr "unerwartetes Symbol %s, hier wird ein Bezeichner erwartet"
+
+#: reader.c:612
+msgid "expected string constant instead of %s"
+msgstr "hier wird eine Zeichenkette erwartet, nicht %s"
+
+#: reader.c:634
+msgid "multiple %start declarations"
+msgstr "mehr als eine %start Deklaration"
+
+#: reader.c:636
+msgid "invalid %start declaration"
+msgstr "ungültige %start Deklaration"
+
+#: reader.c:656
+msgid "%type declaration has no <typename>"
+msgstr "%type Deklaration hat keinen <Typ-Namen>"
+
+#: reader.c:690
+msgid "invalid %%type declaration due to item: `%s'"
+msgstr "ungültige %%type Deklaration wegen »%s«"
+
+#: reader.c:734
+msgid "redefining precedence of %s"
+msgstr "Stellenwertigkeit von %s wird erneut definiert"
+
+#: reader.c:757
+msgid "invalid text (%s) - number should be after identifier"
+msgstr "unzulässiger Text (%s) - Nummer sollte nach Bezeichner kommen"
+
+#: reader.c:767
+msgid "unexpected item: %s"
+msgstr "unerwartetes Symbol: %s"
+
+#: reader.c:791
+msgid "multiple %union declarations"
+msgstr "erneute %union Definition"
+
+#: reader.c:849
+msgid "unterminated comment at end of file"
+msgstr "unbeendeter Kommentar am Dateiende"
+
+#: reader.c:875
+msgid "unmatched close-brace (`}')"
+msgstr "schließende geschweifte Klammer (»}«) hat kein Gegenstück"
+
+#: reader.c:919
+msgid "argument of %expect is not an integer"
+msgstr "Argument von %expect ist keine ganze Zahl"
+
+#: reader.c:932
+msgid "invalid $ value"
+msgstr "unzulässiger $ Wert"
+
+#: reader.c:1014
+msgid "unmatched right brace (`}')"
+msgstr "schließende geschweifte Klammer (»}«) hat kein Gegenstück"
+
+#: reader.c:1125 reader.c:1347
+msgid "$$ of `%s' has no declared type"
+msgstr "$$ von »%s« hat keine deklarierten Wert"
+
+#: reader.c:1141 reader.c:1362
+msgid "$%s of `%s' has no declared type"
+msgstr "»%s« von »%s« hat keine deklarierten Wert"
+
+#: reader.c:1145 reader.c:1367
+msgid "$%s is invalid"
+msgstr "$%s ist unzulässig"
+
+#: reader.c:1159
+msgid "@%s is invalid"
+msgstr "@%s ist unzulässig"
+
+#: reader.c:1169
+msgid "unterminated %%guard clause"
+msgstr "unbeendeter %%guard Fall"
+
+#: reader.c:1381
+msgid "invalid @-construct"
+msgstr "unzulässig @-Konstruktion"
+
+#: reader.c:1391
+msgid "unmatched `{'"
+msgstr "»{« hat kein Gegenstück"
+
+#: reader.c:1477
+msgid "ill-formed rule: initial symbol not followed by colon"
+msgstr "falsch geformte Regel: führendes Symbol wird nicht von einem Semikolon gefolgt"
+
+#: reader.c:1484
+msgid "grammar starts with vertical bar"
+msgstr "Grammatik fängt mit einem vertikalen Strich (»|«) an"
+
+#: reader.c:1515
+msgid "rule given for %s, which is a token"
+msgstr "Regel für %s vorhanden, welches aber ein Token ist"
+
+#: reader.c:1613
+msgid "two @prec's in a row"
+msgstr "zwei @prec Anweisungen nacheinander"
+
+#: reader.c:1621
+msgid "%%guard present but %%semantic_parser not specified"
+msgstr "%%guard Anweisung vorhanden, jedoch wird %%semantic_parser nicht angegeben"
+
+#: reader.c:1629
+msgid "two actions at end of one rule"
+msgstr "Zwei Aktionen am Ende einer Regel"
+
+#: reader.c:1641
+msgid "type clash (`%s' `%s') on default action"
+msgstr "Typkonflikt (»%s« »%s«) bei Default Aktion"
+
+#: reader.c:1647
+msgid "empty rule for typed nonterminal, and no action"
+msgstr "leere Regel für Nicht-Terminal vmit Typ und keine Aktion"
+
+#: reader.c:1691
+msgid "invalid input: %s"
+msgstr "ungültige Eingabe: %s"
+
+#: reader.c:1699
+msgid "too many symbols (tokens plus nonterminals); maximum %s"
+msgstr "zu viele Symbols (Token plus Nicht-Terminal); Maximum %s"
+
+#: reader.c:1702
+msgid "no rules in the input grammar"
+msgstr "Eingabegrammatik enthält keine Regeln"
+
+#: reader.c:1720
+msgid "symbol %s is used, but is not defined as a token and has no rules"
+msgstr "Symbol %s wird benutzt, ist aber nicht als Token definiert und hat keine Regel"
+
+#: reader.c:1758
+msgid "ill-formed %type declaration"
+msgstr "falsch geformte %type Deklaration"
+
+#: reader.c:1837
+msgid "conflicting precedences for %s and %s"
+msgstr "Vorrangwertigkeiten für %s und %s widersprechen sich"
+
+#: reader.c:1846
+msgid "conflicting assoc values for %s and %s"
+msgstr "assoc Werte für %s nd %s widersprechen sich"
+
+#: reader.c:1893
+msgid "tokens %s and %s both assigned number %s"
+msgstr "Token %s und %s haben die selbe nummer %s"
+
+#: reader.c:1907
+msgid "the start symbol %s is undefined"
+msgstr "das Startsymbol %s ist undefiniert"
+
+#: reader.c:1909
+msgid "the start symbol %s is a token"
+msgstr "das Startsymbol %s ist ein Token"
+
+#: reduce.c:141
+msgid "Start symbol %s does not derive any sentence"
+msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
+
+#: reduce.c:154
+msgid "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
+msgstr "Reduzierung von %s definiert %d Terminal, %d Nicht-Terminal und %d Produktionen.\n"
+
+#: reduce.c:494
+msgid ""
+"Useless nonterminals:\n"
+"\n"
+msgstr "Nutzlose Nicht-Terminale:\n\n"
+
+#: reduce.c:506
+msgid ""
+"\n"
+"\n"
+"Terminals which are not used:\n"
+"\n"
+msgstr "\n\nNicht genutzte Terminale:\n\n"
+
+#: reduce.c:515
+msgid ""
+"\n"
+"\n"
+"Useless rules:\n"
+"\n"
+msgstr "\n\nUngenutzte Regeln:\n\n"
+
+#: reduce.c:543
+msgid ""
+"Variables\n"
+"---------\n"
+"\n"
+msgstr ""
+"Variablen\n"
+"---------\n"
+"\n"
+
+#: reduce.c:544
+msgid "Value  Sprec    Sassoc    Tag\n"
+msgstr "Wert   Sprec    Sassoc    Tag\n"
+
+#: reduce.c:549
+msgid ""
+"Rules\n"
+"-----\n"
+"\n"
+msgstr ""
+"Regeln\n"
+"------\n"
+"\n"
+
+#: reduce.c:559
+msgid ""
+"Rules interpreted\n"
+"-----------------\n"
+"\n"
+msgstr ""
+"interpretierete Regeln\n"
+"----------------------\n"
+"\n"
+
+#: reduce.c:577
+msgid "%d rules never reduced\n"
+msgstr "%d wurde niemals reduziert\n"
+
+#: reduce.c:579
+msgid "%s contains "
+msgstr "%s enthält "
+
+#: reduce.c:583
+msgid "%d useless nonterminal%s"
+msgstr "%d ungenutzte Nicht-Terminal"
+
+#: reduce.c:588
+msgid " and "
+msgstr " und "
+
+#: reduce.c:592
+msgid "%d useless rule%s"
+msgstr "%d ungenutzte Regel"

@@ -1,0 +1,749 @@
+# Mensajes en español para GNU Bison.
+# Copyright (C) 1998 Free Software Foundation, Inc.
+# Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>, 1998.
+#
+# Corregido por:
+#
+# cll - Carlos Linares López        clinares@acm.org
+#                                   clinares@delicias.dia.fi.upm.es
+#
+# Notas:
+#
+# 1. Nicolás, en algunas ocasiones notarás que algunos `msgstr' no están
+# indentados como los `msgid'. No te preocupes, eso es porque yo utilizo
+# el `po-mode' de Emacs, ... Él es el responsable de esas indentaciones
+# del `msgstr' :)
+#
+# 2. Todos los comentarios que contengan "Duda:" debieran revisarse.
+#
+# --------------------------------------------------------------------
+# En mi opinión has hecho un excelente trabajo y te animo a que sigas
+# manteniendo esta traducción y a que lo intentes con otras.
+#
+# (¡te lo dice el tío que ha traducido el paquete más grande: 1406
+# mensajes en el clisp!)
+#
+# 						      Carlos Linares
+# --------------------------------------------------------------------
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GNU bison 1.25\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"PO-Revision-Date: 1998-09-21 10:19+0200\n"
+"Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: allocate.c:41 allocate.c:59
+msgid "%s: memory exhausted\n"
+msgstr "%s: memoria agotada\n"
+
+# ¿Por qué no lo pones en mayúsculas? Al fin y al cabo, eso es lo que
+# haces luego con "FDERIVES" que traduces como "FDERIVACIONES", ... -
+# cll
+# ok
+# ngp
+#
+#: closure.c:314
+msgid "\n\n\nFIRSTS\n\n"
+msgstr "\n\n\nPRIMEROS\n\n"
+
+#: closure.c:318
+msgid "\n\n%s firsts\n\n"
+msgstr "\n\n%s primeros\n\n"
+
+#: closure.c:336
+msgid "\n\n\nFDERIVES\n"
+msgstr "\n\n\nFDERIVACIONES\n"
+
+#: closure.c:340
+msgid "\n\n%s derives\n\n"
+msgstr "\n\n%s deriva\n"
+
+#: conflicts.c:195 conflicts.c:219
+msgid "reduce"
+msgstr "reduce"
+
+#: conflicts.c:201 conflicts.c:215
+msgid "shift"
+msgstr "desplaza"
+
+#: conflicts.c:223
+msgid "an error"
+msgstr "un error"
+
+#: conflicts.c:299
+msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
+msgstr "El conflicto en el estado %s entre la regla %d y el terminal %s se resuelve como %s.\n"
+
+#: conflicts.c:344
+msgid "State %d contains"
+msgstr "El estado %d contiene"
+
+#: conflicts.c:347 conflicts.c:394
+msgid " 1 shift/reduce conflict"
+msgstr " 1 conflicto desplazamiento/reducción"
+
+#: conflicts.c:349 conflicts.c:396
+msgid " %d shift/reduce conflicts"
+msgstr " %d conflictos desplazamiento/reducción"
+
+#: conflicts.c:352 conflicts.c:399
+msgid " and"
+msgstr " y"
+
+#: conflicts.c:355 conflicts.c:402
+msgid " 1 reduce/reduce conflict"
+msgstr " 1 conflicto reducción/reducción"
+
+#: conflicts.c:357 conflicts.c:404
+msgid " %d reduce/reduce conflicts"
+msgstr " %d conflictos reducción/reducción"
+
+#: conflicts.c:380
+msgid "conflicts: "
+msgstr "conflictos: "
+
+# Date cuenta de que `%d' puede ser cualquier número decimal. Podría
+# ocurrir, por lo tanto, que tu mensaje en ejecución se vea luego como:
+#
+# 23845789243789 desplazamiento/reducción
+#
+# (¡estoy exagerando!, por supuesto :)
+#
+# Te sugiero por lo tanto que añadas el caso (s) tal y como se hace en
+# español habitualmente.
+# ok
+# ngp
+#
+#: conflicts.c:382
+msgid " %d shift/reduce"
+msgstr " %d desplazamiento(s)/reducción(ones)"
+
+# Date cuenta de que `%d' puede ser cualquier número decimal. Podría
+# ocurrir, por lo tanto, que tu mensaje en ejecución se vea luego como:
+#
+# 23845789243789 reducción/reducción
+#
+# (¡estoy exagerando!, por supuesto :)
+#
+# Te sugiero por lo tanto que añadas el caso (s) tal y como se hace en
+# español habitualmente.
+#
+# ok
+# ngp
+#: conflicts.c:386
+msgid " %d reduce/reduce"
+msgstr " %d reducción(ones)/reducción(ones)"
+
+#: conflicts.c:391
+msgid "%s contains"
+msgstr "%s contiene"
+
+#: conflicts.c:603 conflicts.c:717
+msgid "    %-4s\t[reduce using rule %d (%s)]\n"
+msgstr "    %-4s\t[reduce usando la regla  %d (%s)]\n"
+
+#: conflicts.c:614 print.c:218
+msgid "    $default\treduce using rule %d (%s)\n\n"
+msgstr "    $default\treduce usando la regla %d (%s)\n\n"
+
+#: conflicts.c:700 conflicts.c:712
+msgid "    %-4s\treduce using rule %d (%s)\n"
+msgstr "    %-4s\treduce usando la regla  %d (%s)\n"
+
+#: conflicts.c:738
+msgid "    $default\treduce using rule %d (%s)\n"
+msgstr "    $default\treduce usando la regla %d (%s)\n"
+
+#: derives.c:102
+msgid "\n\n\nDERIVES\n\n"
+msgstr "\n\n\nDERIVACIONES\n"
+
+#: derives.c:106
+msgid "%s derives"
+msgstr "%s deriva"
+
+#: getargs.c:66
+msgid ""
+"Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
+"       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
+"       [--verbose] [--version] [--help] [--yacc]\n"
+"       [--no-parser] [--token-table]\n"
+"       [--file-prefix=prefix] [--name-prefix=prefix]\n"
+"       [--output=outfile] grammar-file\n"
+msgstr ""
+"Uso: %s [-dhklntvyV] [-b prefijo-ficheros] [-o fichero-salida] [-p prefijo-nombres]\n"
+"     [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
+"     [--verbose] [--version] [--help] [--yacc]\n"
+"     [--no-parser] [--token-table]\n"
+"     [--file-prefix=prefijo] [--name-prefix=prefijo]\n"
+"     [--output=fichero-salida ] fichero-de-gramática\n"
+
+# Me parece menos "computadora" decir "ningún fichero de gramática" - cll
+#
+#: getargs.c:160
+msgid "%s: no grammar file given\n"
+msgstr "%s: no se ha especificado ningún fichero de gramática\n"
+
+# Ignorar es no saber, to ignore es no hacer caso, que no es lo mismo. sv
+#: getargs.c:164
+msgid "%s: extra arguments ignored after '%s'\n"
+msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
+
+#: getopt.c:565
+msgid "%s: option `%s' is ambiguous\n"
+msgstr "%s: la opción `%s' es ambigua\n"
+
+# Pongo esto como en otros .po. sv
+#: getopt.c:588
+msgid "%s: option `--%s' doesn't allow an argument\n"
+msgstr "%s: la opción `--%s' no admite ningún argumento\n"
+
+#: getopt.c:593
+msgid "%s: option `%c%s' doesn't allow an argument\n"
+msgstr "%s: la opción `%c%s' no admite ningún argumento\n"
+
+#: getopt.c:608
+msgid "%s: option `%s' requires an argument\n"
+msgstr "%s: la opción `%s' requiere un argumento\n"
+
+#: getopt.c:636
+msgid "%s: unrecognized option `--%s'\n"
+msgstr "%s: opción `--%s' no reconocida\n"
+
+#: getopt.c:640
+msgid "%s: unrecognized option `%c%s'\n"
+msgstr "%s: opción `%c%s' no reconocida\n"
+
+# ¿Qué encuentras de malo en traducir `illegal' como `ilegal'? Date
+# cuenta de que el mensaje "opción no válida" parece ambigua y hará
+# pensar al usuario de que tal vez la ha usado incorrectamente, sin
+# reparar, por lo tanto, en que la opción misma es ilegal. Esto es, ¡¡no
+# existe!! (porque imagino que es en este sentido como se ha programado)
+# - cll
+# Sobre esto hubo una discusión en la lista hace tiempo,
+# quizás ilegal queda un poco fuerte, alguien decía que parecía que
+# ibas a ir a la carcel por usar la opción.
+# ngp
+#
+# Sí, era Enrique a quien no le gustaba la palabra.
+# No creo que debamos dejar de decir algo por la "corrección política"
+# Yo creo que si el 386 tiene instrucciones *ilegales*, también puede
+# haber opciones ilegales, digo yo, y no por eso las CPUs van
+# a la cárcel (como mucho se cuelgan, je, je, 0ff0 :-). sv
+#
+#: getopt.c:665
+msgid "%s: illegal option -- %c\n"
+msgstr "%s: opción -- %c ilegal\n"
+
+# ¡Muy bien traducido! En el grupo de traducción ha habido auténticas
+# batallas con el tema "invalid - inválido/a" :) - cll
+# Porque Enrique decía que le recordaba a disminuidos físicos.
+# Francamente, no creo que haya que andar con estas "fobias".
+# Pongo inválida. sv
+#: getopt.c:668
+msgid "%s: invalid option -- %c\n"
+msgstr "%s: opción -- %c inválida\n"
+
+#: getopt.c:704
+msgid "%s: option requires an argument -- %c\n"
+msgstr "%s: la opción -- %c requiere un argumento\n"
+
+# Duda: desconozco en qué caso se emplea esto. Estúdialo bien y
+# comprueba que realmente es necesario emplear una palabra no
+# española. Recuerda que el acuerdo que existe en la lista de correo en
+# español es, en el peor de los casos, poner algo en español y luego en
+# inglés a modo de recordatorio. Por ejemplo: "tubería (pipe)" - cll
+#
+# miré el código, lo que indica es el número de gotos del código
+# ngp
+#
+#: lalr.c:291
+msgid "gotos"
+msgstr "saltos (gotos)"
+
+# to ignore no es ignorar. Pon otra cosa, please. sv
+#: lex.c:112
+msgid "unexpected `/' found and ignored"
+msgstr "se ha encontrado `/' cuando no se esperaba, no se tendrán en cuenta"
+
+#: lex.c:141 reader.c:1092 reader.c:1314
+msgid "unterminated comment"
+msgstr "comentario sin terminar"
+
+#: lex.c:170
+msgid "Unexpected end of file"
+msgstr "Fin de fichero inesperado"
+
+# ¿unescaped?
+#: lex.c:194
+msgid "unescaped newline in constant"
+msgstr "salto de línea en constante sin secuencia de escape"
+
+#: lex.c:226
+msgid "octal value outside range 0...255: `\\%o'"
+msgstr "valor octal fuera del rango 0...255: `\\%o'"
+
+#: lex.c:250
+msgid "hexadecimal value above 255: `\\x%x'"
+msgstr "valor hexadecimal mayor que 255: `\\x%x'"
+
+#: lex.c:260
+msgid "unknown escape sequence: `\\' followed by `%s'"
+msgstr "secuencia de escape desconocida: `\\' seguido de `%s'"
+
+# ¿multicarácter o multicaracteres? sv
+#: lex.c:391
+msgid "use \"...\" for multi-character literal tokens"
+msgstr "use \"...\" para terminales literales multicarácter"
+
+#: lex.c:466
+msgid "unterminated type name at end of file"
+msgstr "nombre de tipo sin terminar al final del fichero"
+
+#: lex.c:469
+msgid "unterminated type name"
+msgstr "nombre de tipo sin terminar"
+
+# Duda: desconozco cuál será el convenio en la lista de correo a
+# propósito de "fatal". Por favor, comprueba que "error grave" es
+# preferido por todos los miembros a "error fatal" - cll
+# veremos que dice la mayoría, como hay otros 2 revisores
+# La verdad es que a mi lo de error fatal me suena fatal
+# ngp
+#
+#: main.c:133
+msgid "fatal error: %s\n"
+msgstr "error grave: %s\n"
+
+#: main.c:135
+msgid "\"%s\", line %d: %s\n"
+msgstr "\"%s\", línea %d: %s\n"
+
+#: main.c:161
+msgid "error: %s\n"
+msgstr "error: %s\n"
+
+#: main.c:163
+msgid "(\"%s\", line %d) error: %s\n"
+msgstr "(\"%s\", línea %d) error: %s\n"
+
+# OJO: Si quieres cambiar el orden, puedes hacerlo, pero el manual
+# de gettext dice cómo ha de hacerse, no de cualquier manera. sv
+#: main.c:226
+msgid "limit of %d exceeded, too many %s"
+msgstr "excedido el límite de %d, demasiados %s"
+
+#: main.c:236
+msgid "internal error, %s\n"
+msgstr "error interno, %s\n"
+
+#: nullable.c:52
+msgid "Entering set_nullable"
+msgstr "Entrando set_nullable"
+
+# Únicamente cambio la posición del adjetivo `máximo'. En vez de después
+# de `tabla', después de `tamaño' - cll
+# en inglés era así, pero quizás en español sea mejor como dices
+# ngp
+#
+#: output.c:1193
+msgid "maximum table size (%s) exceeded"
+msgstr "excedido el tamaño máximo de la tabla (%s)"
+
+#: print.c:83
+msgid " type %d is %s\n"
+msgstr " el tipo %d es %s\n"
+
+#: print.c:91
+msgid "\n\nstate %d\n\n"
+msgstr "\n\nestado %d\n\n"
+
+#: print.c:136
+msgid "   (rule %d)"
+msgstr "   (regla %d)"
+
+#: print.c:164
+msgid "    $default\taccept\n"
+msgstr "    $default\taceptar\n"
+
+#: print.c:166
+msgid "    NO ACTIONS\n"
+msgstr "    SIN ACCIONES\n"
+
+#: print.c:182
+msgid "    $   \tgo to state %d\n"
+msgstr "    $   \tir al estado %d\n"
+
+#: print.c:184
+msgid "    %-4s\tshift, and go to state %d\n"
+msgstr "    %-4s\tdesplazar e ir al estado %d\n"
+
+#: print.c:207
+msgid "    %-4s\terror (nonassociative)\n"
+msgstr "    %-4s\terror (no asociativo)\n"
+
+#: print.c:233
+msgid "    %-4s\tgo to state %d\n"
+msgstr "    %-4s\tir al estado %d\n"
+
+#: print.c:254
+msgid "\nGrammar\n"
+msgstr "\nGramática\n"
+
+#: print.c:259
+msgid "rule %-4d %s ->"
+msgstr "regla %-4d %s ->"
+
+# Duda: ¿Estás seguro de que no será `vacío'? Si no lo estás o, si por
+# el contrario, pudiera cualquiera de los casos, debieras traducirlo
+# como `vacía/o' - cll
+# según el código indica reglas vacías por eso lo puse así
+# ngp
+#: print.c:265
+msgid "\t\t/* empty */"
+msgstr "\t\t/* vacía */"
+
+#: print.c:270
+msgid "\nTerminals, with rules where they appear\n\n"
+msgstr "\nTerminales con las reglas donde aparecen\n\n"
+
+#: print.c:318
+msgid "\nNonterminals, with rules where they appear\n\n"
+msgstr "\nNo terminales con las reglas donde aparecen\n"
+
+#: print.c:344
+msgid " on left:"
+msgstr " en la izquierda:"
+
+#: print.c:359
+msgid " on right:"
+msgstr " en la derecha:"
+
+#: reader.c:138
+msgid "   Skipping to next \\n"
+msgstr "   Saltando al siguiente \\n"
+
+#: reader.c:140
+msgid "   Skipping to next %c"
+msgstr "   Saltando al siguiente %c"
+
+#: reader.c:315
+msgid "unrecognized: %s"
+msgstr "no reconocido: %s"
+
+#: reader.c:320
+msgid "no input grammar"
+msgstr "no hay gramática de entrada"
+
+#: reader.c:324
+msgid "unknown character: %s"
+msgstr "carácter desconocido: %s"
+
+#: reader.c:373 reader.c:388 reader.c:1028 reader.c:1257
+msgid "unterminated string at end of file"
+msgstr "cadena sin terminar al final del fichero"
+
+#: reader.c:376 reader.c:1031 reader.c:1043 reader.c:1251 reader.c:1265
+msgid "unterminated string"
+msgstr "cadena sin terminar"
+
+#: reader.c:437
+msgid "unterminated comment in `%{' definition"
+msgstr "comentario sin terminar en la definición `%{'"
+
+#: reader.c:448
+msgid "unterminated `%{' definition"
+msgstr "definición `%{' sin terminar"
+
+#: reader.c:522 reader.c:738
+msgid "symbol %s redefined"
+msgstr "redefinido el símbolo %s"
+
+#: reader.c:532 reader.c:685 reader.c:745 reader.c:1782
+msgid "type redeclaration for %s"
+msgstr "redeclaración del tipo de %s"
+
+#: reader.c:542
+msgid "`%s' is invalid in %s"
+msgstr "`%s' no es válido en %s"
+
+# No te recomiendo que emplees participios para expresar acciones (¡si
+# me oyera mi antigua profesora de lengua, lloraría de emoción! :). En
+# vez de eso, emplea las conjugaciones habituales, que para eso están :)
+# - cll
+# ok - ngp
+#
+#: reader.c:590
+msgid "unrecognized item %s, expected an identifier"
+msgstr "no se reconoce el ítem %s, se esperaba un identificador"
+
+#: reader.c:612
+msgid "expected string constant instead of %s"
+msgstr "se esperaba una cadena constante en lugar de %s"
+
+#: reader.c:634
+msgid "multiple %start declarations"
+msgstr "múltiples declaraciones de %start"
+
+#: reader.c:636
+msgid "invalid %start declaration"
+msgstr "declaración de %start no válida"
+
+#: reader.c:656
+msgid "%type declaration has no <typename>"
+msgstr "la declaración %type no tiene <nombre-tipo>"
+
+#: reader.c:690
+msgid "invalid %%type declaration due to item: `%s'"
+msgstr "declaración de %%type no válida debido al ítem: `%s'"
+
+#: reader.c:734
+msgid "redefining precedence of %s"
+msgstr "redefinición de la precedencia de %s"
+
+# Una corrección menor: en realidad, `should' es el pasado y condicional
+# de "to must" y aquí se emplea en su forma condicional. Por eso, he
+# cambiado `debe' por `debería' - cll
+# ahí me has pillado en un olvido del inglés - ngp
+#: reader.c:757
+msgid "invalid text (%s) - number should be after identifier"
+msgstr "texto no válido (%s) - el número debería estar después del identificador"
+
+# En unas ocasiones, has traducido `unexpected' como `no esperado' y, en
+# otras, como `inesperado'. Cualquiera es correcta, por supuesto y, en
+# este caso, la segunda me parece más apropiada - cll
+# ok - ngp
+#: reader.c:767
+msgid "unexpected item: %s"
+msgstr "ítem inesperado: %s"
+
+#: reader.c:791
+msgid "multiple %union declarations"
+msgstr "declaraciones múltiples de %union"
+
+#: reader.c:849
+msgid "unterminated comment at end of file"
+msgstr "comentario sin terminar al final del fichero"
+
+#: reader.c:875
+msgid "unmatched close-brace (`}')"
+msgstr "llave de cierre (`}') desemparejada"
+
+#: reader.c:919
+msgid "argument of %expect is not an integer"
+msgstr "el argumento de %expect no es un entero"
+
+#: reader.c:932
+msgid "invalid $ value"
+msgstr "valor $ no válido"
+
+#: reader.c:1014
+msgid "unmatched right brace (`}')"
+msgstr "llave derecha (`}') desemparejada"
+
+#: reader.c:1125 reader.c:1347
+msgid "$$ of `%s' has no declared type"
+msgstr "$$ de `%s' no tiene tipo declarado"
+
+#: reader.c:1141 reader.c:1362
+msgid "$%s of `%s' has no declared type"
+msgstr "$%s de `%s' no tiene tipo declarado"
+
+#: reader.c:1145 reader.c:1367
+msgid "$%s is invalid"
+msgstr "$%s no es válida"
+
+#: reader.c:1159
+msgid "@%s is invalid"
+msgstr "@%s no es válido"
+
+# Tal vez pueda parecer pedante, pero `inconclusa' me suena muchísimo
+# mejor que `sin terminar' que me parece más "computerizado" - cll
+# quizás un poco cacofónico lo de claúsula inconclusa - ngp
+#
+#: reader.c:1169
+msgid "unterminated %%guard clause"
+msgstr "cláusula %%guard sin terminar"
+
+# Duda: ¿`construct' no se refiere a `construcción'? Si es así, el
+# mensaje debiera ser "@-construcción no válida" - cll
+# O incluso "construcción @" sv
+# en ese caso supongo que sería @-construction ngp
+#: reader.c:1381
+msgid "invalid @-construct"
+msgstr "@-constructo no válido"
+
+# Cambio el orden y el sexo. Ahora está "en español". sv
+#: reader.c:1391
+msgid "unmatched `{'"
+msgstr "`{' desemparejada"
+
+#: reader.c:1477
+msgid "ill-formed rule: initial symbol not followed by colon"
+msgstr "regla mal formada: el símbolo inicial no está seguido por :"
+
+#: reader.c:1484
+msgid "grammar starts with vertical bar"
+msgstr "la gramática comienza con una barra vertical"
+
+#: reader.c:1515
+msgid "rule given for %s, which is a token"
+msgstr "se ha dado una regla para %s, que es un terminal"
+
+#: reader.c:1613
+msgid "two @prec's in a row"
+msgstr "dos @prec en una línea"
+
+# Insisto, el empleo de participios a secas me parece como hablar en
+# indio. Por favor, permíteme que añada un "está" :) - cll
+# ok - ngp
+#: reader.c:1621
+msgid "%%guard present but %%semantic_parser not specified"
+msgstr "%%guard presente pero %%semantic_parser está sin especificar"
+
+#: reader.c:1629
+msgid "two actions at end of one rule"
+msgstr "dos acciones al final de una regla"
+
+#: reader.c:1641
+msgid "type clash (`%s' `%s') on default action"
+msgstr "los tipos (`%s' `%s') no concuerdan en la acción por defecto"
+
+#: reader.c:1647
+msgid "empty rule for typed nonterminal, and no action"
+msgstr "regla vacía para un no terminal con tipo y no hay ninguna acción"
+
+#: reader.c:1691
+msgid "invalid input: %s"
+msgstr "entrada no válida: %s"
+
+#: reader.c:1699
+msgid "too many symbols (tokens plus nonterminals); maximum %s"
+msgstr "demasiados símbolos (terminales y no terminales); máximo %s"
+
+#: reader.c:1702
+msgid "no rules in the input grammar"
+msgstr "no hay reglas en la gramática de entrada"
+
+# `token' se debe traducir como `literal' - cll
+# en terminología de compiladores token es más un terminal - ngp
+#
+#: reader.c:1720
+msgid "symbol %s is used, but is not defined as a token and has no rules"
+msgstr "se usa el símbolo %s, pero no está definido como terminal y no tiene reglas"
+
+#: reader.c:1758
+msgid "ill-formed %type declaration"
+msgstr "declaración %type incorrectamente formada"
+
+#: reader.c:1837
+msgid "conflicting precedences for %s and %s"
+msgstr "precedencias en conflicto entre %s y %s"
+
+#: reader.c:1846
+msgid "conflicting assoc values for %s and %s"
+msgstr "conflicto de valores assoc para %s y %s"
+
+#: reader.c:1893
+msgid "tokens %s and %s both assigned number %s"
+msgstr "los terminales %s y %s tienen asignados ambos el número %s"
+
+#: reader.c:1907
+msgid "the start symbol %s is undefined"
+msgstr "el símbolo de inicio (axioma) %s no está definido"
+
+#: reader.c:1909
+msgid "the start symbol %s is a token"
+msgstr "el símbolo de inicio (axioma) %s es un terminal"
+
+#: reduce.c:141
+msgid "Start symbol %s does not derive any sentence"
+msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
+
+# ¡¡No sé cómo resolver el problema!!
+#
+# Como corrector, me veo obligado a hacer una corrección ¡¡a tu comentario!!:
+#
+# ¡¡No sé cómo resolver el problema!!
+#
+# Esto es: `cómo' va acentuado y, además, `problema' podría ser hebreo,
+# pero no español - cll
+#
+# Te recomiendo `la reducción de %s' en vez de seguir el estilo inglés y
+# usar participios - cll
+# un error lo tiene cualquiera - ngp
+#: reduce.c:154
+msgid "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
+msgstr "la reducción de %s define %d terminal%s, %d no terminal%s, y %d produccion%s.\n"
+
+#: reduce.c:494
+msgid "Useless nonterminals:\n\n"
+msgstr "No terminales sin uso:\n\n"
+
+#: reduce.c:506
+msgid "\n\nTerminals which are not used:\n\n"
+msgstr "\n\nTerminales que no se usan:\n\n"
+
+#: reduce.c:515
+msgid "\n\nUseless rules:\n\n"
+msgstr "\n\nReglas sin uso:\n\n"
+
+#: reduce.c:543
+msgid ""
+"Variables\n"
+"---------\n"
+"\n"
+msgstr ""
+"Variables\n"
+"---------\n"
+"\n"
+
+#: reduce.c:544
+msgid "Value  Sprec    Sassoc    Tag\n"
+msgstr "Valor  Sprec    Sasoc     Tag\n"
+
+#: reduce.c:549
+msgid ""
+"Rules\n"
+"-----\n"
+"\n"
+msgstr ""
+"Reglas\n"
+"------\n"
+"\n"
+
+#: reduce.c:559
+msgid ""
+"Rules interpreted\n"
+"-----------------\n"
+"\n"
+msgstr ""
+"Reglas interpretadas\n"
+"--------------------\n"
+"\n"
+
+#: reduce.c:577
+msgid "%d rules never reduced\n"
+msgstr "%d reglas que nunca se han reducido\n"
+
+#: reduce.c:579
+msgid "%s contains "
+msgstr "%s contiene "
+
+#: reduce.c:583
+msgid "%d useless nonterminal%s"
+msgstr "%d no terminales %s sin uso"
+
+#: reduce.c:588
+msgid " and "
+msgstr " y "
+
+#: reduce.c:592
+msgid "%d useless rule%s"
+msgstr "%d regla%s sin uso"
