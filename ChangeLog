@@ -3,13 +3,11 @@
 	* src/getargs.c (getargs): Don't dump `--help' on unrecognized
 	options.
 
-	
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/derives.c, src/print.c, src/reduce.c: To ease the
 	translation, move some `\n' out of the translated strings.
 
-	
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	The location tracking mechanism is precious for parse error
@@ -33,7 +31,6 @@
 	(no_lineflag, token_tableflag, rawflag, no_parserflag): this.
 	In addition replace each `flag' with `_flag'.
 
-	
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	Also test parse error messages, including with YYERROR_VERBOSE.
@@ -47,7 +44,6 @@
 	(_AT_CHECK_CALC): Adjust to this option.
 	(_AT_CHECK_CALC_ERROR): New macro to check parse error messages.
 
-	
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	Test also `--verbose', `--defines' and `--name-prefix'.  Testing
@@ -80,7 +76,6 @@
 	the bison options.
 	Also test `--verbose', `--defines' and `--name-prefix'.
 
-	
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	Improve the readability of the produced parsers.
@@ -93,7 +88,6 @@
 	New variable, `number_of_dollar_signs', to check there's exactly
 	one `$' in the parser skeleton.
 
-	
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* lib/xstrdup.c: New file, from the fileutils.
@@ -102,7 +96,6 @@
 	instead of strlen + xmalloc + strcpy.
 	* src/symtab.c (copys): Remove, use xstrdup instead.
 
-	
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h (associativity): New enum type which replaces the
@@ -122,7 +115,6 @@
 	(yaccflag): for consistency and accuracy.
 	Adjust dependencies.
 
-	
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	Use the more standard files `xalloc.h' and `xmalloc.c' instead of
@@ -147,7 +139,6 @@
 
 	* src/system.h: Include `assert.h'.
 
-
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (nstates, final_state, first_state, first_shift)
@@ -160,12 +151,10 @@
 
 	Remove a lot of now useless `extern' statements in most files.
 
-
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.h: New file.
 	Propagate its use.
-
 
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
@@ -176,7 +165,6 @@
 	(print_results): this new function.
 	Adjust dependencies.
 
-
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (conflict_report): New function.
@@ -186,13 +174,11 @@
 	* src/conflicts.h: New file.
 	Propagate its inclusion.
 
-
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/nullable.h: New file.
 	Propagate its inclusion.
 	* src/nullable.c: Formatting changes.
-
 
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
@@ -201,7 +187,6 @@
 	* src/reduce.c: Topological sort and other formatting changes.
 	(bool, TRUE, FALSE): Move their definition to...
 	* src/system.h: here.
-
 
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
@@ -212,7 +197,6 @@
 	* src/files.h: Complete the list of exported symbols.
 	Propagate its use.
 
-
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.h: New file.
@@ -220,7 +204,6 @@
 	prototypes.
 	* src/reader.c: Formatting changes, topological sort,
 	s/register//.
-
 
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
@@ -230,20 +213,17 @@
 	(safegetc): Rename as...
 	(xgetc): this.
 
-
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.h: New file.
 	Propagate its inclusion instead of prototypes and `extern'.
 	* src/lalr.c: Formatting changes, topological sorting etc.
 
-
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (token_actions): Introduce a temporary array,
 	YYDEFACT, that makes it possible for this function to use
 	output_short_table.
-
 
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
