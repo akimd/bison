@@ -1,3 +1,7 @@
+2001-03-16  Akim Demaille  <akim@epita.fr>
+
+	* src/getargs.c (longopts): Clean up.
+
 2001-02-21  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (gensym): `gensym_count' is your own.
