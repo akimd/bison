@@ -6214,7 +6214,7 @@ compatibility with @acronym{POSIX}:
 
 @example
 #! /bin/sh
-bison -y "$@"
+bison -y "$@@"
 @end example
 @end table
 

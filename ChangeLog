@@ -1,3 +1,7 @@
+2003-11-18  Alexandre Duret-Lutz  <adl@gnu.org>
+
+	* doc/bison.texinfo (Bison Options): Escape `@' in `$@'.
+
 2003-10-07  Paul Eggert  <eggert@twinsun.com>
 
 	* tests/Makefile.am (clean-local): Don't run 'testsuite --clean'
