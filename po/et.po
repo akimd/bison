@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28d\n"
-"POT-Creation-Date: 2002-01-29 17:17+0100\n"
+"POT-Creation-Date: 2002-02-05 11:17+0100\n"
 "PO-Revision-Date: 2001-08-29 17:06+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -278,7 +278,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: võti `%s' nõuab argumenti\n"
 
-#: src/output.c:804
+#: src/output.c:791
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "ületati maksimaalset tabelisuurust (%d)"
