@@ -1,3 +1,6 @@
+## Process this file with automake to produce Makefile.in -*-Makefile-*-
+AUTOMAKE_OPTIONS = 1.3
+
 #names of parser files
 PFILE = bison.simple
 PFILE1 = bison.hairy
