@@ -151,13 +151,17 @@ static int yylex (void);
 
 %%
 /* Exercise M4 quoting: '@:>@@:>@', @<:@, 1.  */
-exp: '@<:@' '\1' '\x000000000000000000000000000000000000000000000000002'
+exp: '@<:@' '\1' two '$' '@' '{' oline output
   {
     /* Exercise quotes in braces.  */
     char tmp[] = "@<:@%c@:>@,\n";
     printf (tmp, $1);
   }
 ;
+
+two: '\x000000000000000000000000000000000000000000000000000000000000000000002';
+oline: '@' 'o' 'l' 'i' 'n' 'e' '@' '_' '_' 'o' 'l' 'i' 'n' 'e' '_' '_';
+output: '#' 'o' 'u' 't' 'p' 'u' 't' ' ';
 %%
 /* Exercise M4 quoting: '@:>@@:>@', @<:@, 2.  */
 
@@ -172,7 +176,9 @@ value_t_as_yystype (value_t val)
 static int
 yylex (void)
 {
-  static const char *input = "@<:@\1\2";
+  static const char *input = "@<:@\1\2$@{@oline@__@&t@oline__\
+#output "; /* "
+  */
   yylval = value_t_as_yystype (*input);
   return *input++;
 }
