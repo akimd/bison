@@ -1,5 +1,9 @@
 2000-03-16  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.s1: Properly indent the `alloca' CPP section.
+
+2000-03-16  Akim Demaille  <akim@epita.fr>
+
 	Do not hard code values of directories in `configure.in'.
 	Update the `configure' tool chain.
 
