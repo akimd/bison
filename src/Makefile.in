@@ -115,8 +115,8 @@ CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
 # config.h in build/.
 INCLUDES = -I$(top_builddir)/intl \
            -I$(top_builddir)      \
-           -I$(top_srcdir)/lib    \
-           -I$(top_srcdir)
+           -I$(top_srcdir)/intl \
+           -I$(top_srcdir)/lib
 
 
 LDADD = $(INTLLIBS) ../lib/libbison.a
