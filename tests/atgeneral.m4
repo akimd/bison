@@ -114,7 +114,7 @@ AT_DEFINE([AT_INIT],
 at_stop_on_error=false;
 # Shall we save and check stdout and stderr?
 # -n sets to false
-at_check_stds=true;
+at_check_stds=:;
 # Shall we
 # -s sets to false, and -v to true
 at_verbose=false
@@ -171,7 +171,7 @@ fi
 # over files, the full test suite cleans up both before and after test groups.
 # Snippet )4
 
-if test -n "`$1 --version | sed -n s/$at_package.*$at_version/OK/p`"; then
+if $1 --version | grep "$at_package.*$at_version" >/dev/null; then
   at_banner="Testing suite for $at_package, version $at_version"
   at_dashes=`echo $at_banner | sed s/./=/g`
   echo "$at_dashes"
@@ -193,7 +193,7 @@ divert(2)[]dnl
 
 # Wrap up the testing suite with summary statistics.
 
-rm -f at-check-line
+rm -f at-check-line at-setup-line
 at_fail_count=0
 if test -z "$at_failed_list"; then
   if test "$at_ignore_count" = 0; then
@@ -213,9 +213,9 @@ else
       test -z "$at_silent" && echo 'at_verbose=:'
       sed -n "/^[#] Snippet (4/,/^[#] Snippet )4/p" $[0]
       sed -n "/^[#] Snippet (c$at_group(/,/^[#] Snippet )c$at_group)/p" $[0]
-      at_desc="`sed -n \
+      at_desc=`sed -n \
         '/^[#] Snippet (d'$at_group'(/,/^[#] Snippet )d'$at_group')/p' $[0] \
-        | sed -n '2s/^[#] //p'`"
+        | sed -n '2s/^[#] //p'`
       echo 'if $at_verbose; then'
       echo '  at_banner="$[0]: '$at_desc'"'
       echo '  at_dashes=`echo $at_banner | sed s/./=/g`'
@@ -281,11 +281,16 @@ pushdef([AT_data_experr], )
 if $at_stop_on_error && test -n "$at_failed_list"; then :; else
 divert(1)[]dnl
   echo AT_LINE > at-check-line
+  echo AT_LINE > at-setup-line
   if $at_verbose; then
     echo 'testing AT_group_description'
     echo $at_n "     $at_c"
   fi
-  echo $at_n "substr(AT_ordinal. $srcdir/AT_LINE                            , 0, 30)[]$at_c"
+  if $at_verbose; then
+    echo "AT_ordinal. $srcdir/AT_LINE..."
+  else
+    echo $at_n "substr(AT_ordinal. $srcdir/AT_LINE                            , 0, 30)[]$at_c"
+  fi
   if test -z "$at_skip_mode"; then
     (
 [#] Snippet (d[]AT_ordinal[](
@@ -306,15 +311,18 @@ AT_DEFINE([AT_CLEANUP],
 $at_traceoff
 [[#] Snippet )s[]AT_ordinal[])
     )
-    case $? in
+    at_status=$?
+    $at_verbose &&
+      echo $at_n "     AT_ordinal. $srcdir/`cat at-setup-line`: $at_c"
+    case $at_status in
       0) echo ok
-	 ;;
+         ;;
       77) echo "ignored near \``cat at-check-line`'"
-	  at_ignore_count=`expr $at_ignore_count + 1`
-	  ;;
+          at_ignore_count=`expr $at_ignore_count + 1`
+          ;;
       *) echo "FAILED near \``cat at-check-line`'"
-	 at_failed_list="$at_failed_list AT_ordinal"
-	 ;;
+         at_failed_list="$at_failed_list AT_ordinal"
+         ;;
     esac
   else
      echo 'ignored (skipped)'
@@ -364,7 +372,7 @@ $2[]_ATEOF
 # their content is not checked.
 AT_DEFINE([AT_CHECK],
 [$at_traceoff
-$at_verbose && echo "$srcdir/AT_LINE: testing..."
+$at_verbose && echo "$srcdir/AT_LINE: patsubst([$1], [\([\"`$]\)], \\\1)"
 echo AT_LINE > at-check-line
 $at_check_stds && exec 5>&1 6>&2 1>stdout 2>stderr
 $at_traceon
@@ -372,10 +380,12 @@ $1
 ifelse([$2], [], [],
 [at_status=$?
 if test $at_status != $2; then
+  $at_verbose && echo "Exit code was $at_status, expected $2" >&6
 dnl Maybe there was an important message to read before it died.
   $at_verbose && $at_check_stds && cat stderr >&6
-dnl Exit with the same code, at least to preserve 77.
-  exit $at_status
+dnl Preserve exit code 77.
+  test $at_status = 77 && exit 77
+  exit 1
 fi
 ])dnl
 $at_traceoff
@@ -385,19 +395,23 @@ dnl Restore stdout to fd1 and stderr to fd2.
 dnl If not verbose, neutralize the output of diff.
   $at_verbose || exec 1>/dev/null 2>/dev/null
   at_failed=false;
-  AT_CASE([$3],
-          ignore, [$at_verbose && cat stdout;:],
-          expout, [AT_DEFINE([AT_data_expout], [ expout])dnl
-$at_diff expout stdout || at_failed=:],
-          [], [$at_diff empty stdout || at_failed=:],
-          [echo $at_n "patsubst([$3], [\([\"`$]\)], \\\1)$at_c" | $at_diff - stdout || at_failed=:])
   AT_CASE([$4],
           ignore, [$at_verbose && cat stderr;:],
           experr, [AT_DEFINE([AT_data_experr], [ experr])dnl
 $at_diff experr stderr || at_failed=:],
           [], [$at_diff empty stderr || at_failed=:],
           [echo $at_n "patsubst([$4], [\([\"`$]\)], \\\1)$at_c" | $at_diff - stderr || at_failed=:])
-  $at_failed && exit 1
+  AT_CASE([$3],
+          ignore, [$at_verbose && cat stdout;:],
+          expout, [AT_DEFINE([AT_data_expout], [ expout])dnl
+$at_diff expout stdout || at_failed=:],
+          [], [$at_diff empty stdout || at_failed=:],
+          [echo $at_n "patsubst([$3], [\([\"`$]\)], \\\1)$at_c" | $at_diff - stdout || at_failed=:])
+  if $at_failed; then
+    exit 1
+  else
+    :
+  fi
 fi
 $at_traceon
 ])# AT_CHECK

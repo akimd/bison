@@ -1,5 +1,12 @@
 2000-11-17  Akim Demaille  <akim@epita.fr>
 
+	* tests/Makefile.am (suite.m4, regression.m4, calc.m4): Rename
+	as...
+	(suite.m4, regression.m4, calc.m4): these.
+	* tests/atgeneral.m4: Update from CVS Autoconf.
+
+2000-11-17  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.m4 (%union and --defines): New test,
 	demonstrating a current bug in the obstack implementation.
 
