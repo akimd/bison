@@ -3479,7 +3479,7 @@ By default, @code{YYLLOC_DEFAULT} is defined this way:
 
 where @code{YYRHSLOC (rhs, k)} is the location of the @var{k}th symbol
 in @var{rhs} when @var{k} is positive, and the location of the symbol
-just before the reduction when @var{k} is zero.
+just before the reduction when @var{k} and @var{n} are both zero.
 
 When defining @code{YYLLOC_DEFAULT}, you should consider that:
 
