@@ -1,3 +1,8 @@
+2002-02-13  Andreas Schwab  <schwab@suse.de>
+
+	* src/output.c (output_rule_data): Don't output NULL, it might
+	not be defined yet.
+
 2002-02-11  Robert Anisko  <robert@lrde.epita.fr>
 
 	* data/bison.c++ (YYDEBUG, YYERROR_VERBOSE): After the prologue.
