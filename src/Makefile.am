@@ -55,11 +55,11 @@ bison_SOURCES = 				  \
 	scan-gram.l				  \
 	scan-skel.l				  \
 	state.c state.h				  \
-	struniq.c struniq.h			  \
 	symlist.c symlist.h			  \
 	symtab.c symtab.h			  \
 	system.h				  \
 	tables.h tables.c			  \
+	uniqstr.c uniqstr.h			  \
 	vcg.c vcg.h				  \
 	vcg_defaults.h
 
