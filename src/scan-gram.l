@@ -198,6 +198,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%locations"            return PERCENT_LOCATIONS;
   "%merge"		  return PERCENT_MERGE;
   "%name"[-_]"prefix"     return PERCENT_NAME_PREFIX;
+  "%no"[-_]"default"[-_]"prec"	return PERCENT_NO_DEFAULT_PREC;
   "%no"[-_]"lines"        return PERCENT_NO_LINES;
   "%nonassoc"             return PERCENT_NONASSOC;
   "%nondeterministic-parser"   return PERCENT_NONDETERMINISTIC_PARSER;

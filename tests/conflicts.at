@@ -550,11 +550,11 @@ input.y: warning: expected 0 reduce/reduce conflicts
 AT_CLEANUP
 
 
-## ---------------------------- ##
-## %default-prec without %prec  ##
-## ---------------------------- ##
+## ------------------------------- ##
+## %no-default-prec without %prec  ##
+## ------------------------------- ##
 
-AT_SETUP([%default-prec without %prec])
+AT_SETUP([%no-default-prec without %prec])
 
 AT_DATA([[input.y]],
 [[%left '+'
@@ -562,7 +562,7 @@ AT_DATA([[input.y]],
 
 %%
 
-%default-prec 0;
+%no-default-prec;
 
 e:   e '+' e
    | e '*' e
@@ -576,11 +576,11 @@ AT_CHECK([bison -o input.c input.y], 0, [],
 AT_CLEANUP
 
 
-## ------------------------- ##
-## %default-prec with %prec  ##
-## ------------------------- ##
+## ---------------------------- ##
+## %no-default-prec with %prec  ##
+## ---------------------------- ##
 
-AT_SETUP([%default-prec with %prec])
+AT_SETUP([%no-default-prec with %prec])
 
 AT_DATA([[input.y]],
 [[%left '+'
@@ -588,7 +588,7 @@ AT_DATA([[input.y]],
 
 %%
 
-%default-prec 0;
+%no-default-prec;
 
 e:   e '+' e %prec '+'
    | e '*' e %prec '*'
@@ -601,10 +601,10 @@ AT_CLEANUP
 
 
 ## ---------------- ##
-## %default-prec 1  ##
+## %default-prec    ##
 ## ---------------- ##
 
-AT_SETUP([%default-prec 1])
+AT_SETUP([%default-prec])
 
 AT_DATA([[input.y]],
 [[%left '+'
@@ -612,7 +612,7 @@ AT_DATA([[input.y]],
 
 %%
 
-%default-prec 1;
+%default-prec;
 
 e:   e '+' e
    | e '*' e

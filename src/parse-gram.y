@@ -126,6 +126,7 @@ int current_prec = 0;
   PERCENT_LEX_PARAM       "%lex-param {...}"
   PERCENT_LOCATIONS       "%locations"
   PERCENT_NAME_PREFIX     "%name-prefix"
+  PERCENT_NO_DEFAULT_PREC "%no-default-prec"
   PERCENT_NO_LINES        "%no-lines"
   PERCENT_NONDETERMINISTIC_PARSER
                           "%nondeterministic-parser"
@@ -241,12 +242,13 @@ grammar_declaration:
 	symbol_printer_set (list->sym, $1, list->location);
       symbol_list_free ($2);
     }
-| "%default-prec" INT
+| "%default-prec"
     {
-      if (0 <= $2 && $2 <= 1)
-	default_prec = $2;
-      else
-	complain_at (@1, _("invalid value for `%default-prec'"));
+      default_prec = true;
+    }
+| "%no-default-prec"
+    {
+      default_prec = false;
     }
 ;
 

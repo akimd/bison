@@ -1,3 +1,11 @@
+2003-10-01  Paul Eggert  <eggert@twinsun.com>
+
+	* src/parse-gram.h (PERCENT_NO_DEFAULT_PREC): New token.
+	(grammar_declaration): Use it.
+	* src/scan-gram.l: New token %no-default-prec.
+	* tests/conflicts.at: Revamp tests to use %no-default-prec.
+	* NEWS, doc/bison.texinfo: Document the above.
+
 2003-10-01  Akim Demaille  <akim@epita.fr>
 
 	VCG no longer supports long_straight_phase.
