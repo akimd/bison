@@ -1,3 +1,8 @@
+2002-05-13  Florian Krohm  <florian@edamail.fishkill.ibm.com>
+
+	* src/reader.c (parse_action): Use copy_character instead of
+	obstack_1grow.
+
 2002-05-13  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (Token definitions): Prototype yylex and
