@@ -54,12 +54,6 @@ char *strcat(char *dest, const char *src);
 #endif
 #include <ctype.h>
 
-static int power (int base, int exponent);
-static void yyerror (const char *s);
-static int yylex (void);
-static int yygetc (void);
-static void yyungetc (int c);
-
 extern void perror (const char *s);
 
 /* Exercise pre-prologue dependency to %union.  */
@@ -73,8 +67,44 @@ typedef int value_t;
   value_t ival;
 };
 
+%{
+#if YYPURE
+#  define LOC     (*yylloc)
+#  define VAL     (*yylval)
+#else
+#  define LOC     (yylloc)
+#  define VAL     (yylval)
+#endif
+
+#if YYPURE
+#  if YYLSP_NEEDED
+#    define LEX_FORMALS     YYSTYPE *yylval, YYLTYPE *yylloc
+#    define LEX_ARGS        yylval, yylloc
+#    define USE_LEX_ARGS    (void) yylval; (void) yylloc;
+#  else
+#    define LEX_FORMALS     YYSTYPE *yylval
+#    define LEX_ARGS        yylval
+#    define USE_LEX_ARGS    (void) yylval
+#  endif
+#  define LEX_PRE_FORMALS   LEX_FORMALS,
+#  define LEX_PRE_ARGS      LEX_ARGS,
+#else
+#  define LEX_FORMALS       void
+#  define LEX_PRE_FORMALS
+#  define LEX_ARGS
+#  define LEX_PRE_ARGS
+#  define USE_LEX_ARGS
+#endif
+
+static int power (int base, int exponent);
+static void yyerror (const char *s);
+static int yylex (LEX_FORMALS);
+static int yygetc (LEX_FORMALS);
+static void yyungetc (LEX_PRE_FORMALS int c);
+%}
+
 /* Bison Declarations */
-%token CALC_EOF 0 "end of file"
+%token CALC_EOF 0 "end of input"
 %token <ival> NUM "number"
 %type  <ival> exp
 
@@ -94,8 +124,8 @@ input:
 ;
 
 line:
-  '\n'      {}
-| exp '\n'  {}
+  '\n'
+| exp '\n'
 ;
 
 exp:
@@ -124,8 +154,8 @@ yyerror (const char *s)
 {
 #if YYLSP_NEEDED
   fprintf (stderr, "%d.%d-%d.%d: ",
-	   yylloc.first_line, yylloc.first_column,
-	   yylloc.last_line, yylloc.last_column);
+	   LOC.first_line, LOC.first_column,
+	   LOC.last_line, LOC.last_column);
 #endif
   fprintf (stderr, "%s\n", s);
 }
@@ -135,53 +165,56 @@ yyerror (const char *s)
 static YYLTYPE last_yylloc;
 #endif
 static int
-yygetc (void)
+yygetc (LEX_FORMALS)
 {
   int res = getc (yyin);
+  USE_LEX_ARGS;
 #if YYLSP_NEEDED
-  last_yylloc = yylloc;
+  last_yylloc = LOC;
   if (res == '\n')
     {
-      yylloc.last_line++;
-      yylloc.last_column = 1;
+      LOC.last_line++;
+      LOC.last_column = 1;
     }
   else
-    yylloc.last_column++;
+    LOC.last_column++;
 #endif
   return res;
 }
 
 
 static void
-yyungetc (int c)
+yyungetc (LEX_PRE_FORMALS int c)
 {
+  USE_LEX_ARGS;
 #if YYLSP_NEEDED
   /* Wrong when C == `\n'. */
-  yylloc = last_yylloc;
+  LOC = last_yylloc;
 #endif
   ungetc (c, yyin);
 }
 
 static int
-read_signed_integer (void)
+read_signed_integer (LEX_FORMALS)
 {
-  int c = yygetc ();
+  int c = yygetc (LEX_ARGS);
   int sign = 1;
   int n = 0;
 
+  USE_LEX_ARGS;
   if (c == '-')
     {
-      c = yygetc ();
+      c = yygetc (LEX_ARGS);
       sign = -1;
     }
 
   while (isdigit (c))
     {
       n = 10 * n + (c - '0');
-      c = yygetc ();
+      c = yygetc (LEX_ARGS);
     }
 
-  yyungetc (c);
+  yyungetc (LEX_PRE_ARGS c);
 
   return sign * n;
 }
@@ -195,29 +228,39 @@ read_signed_integer (void)
 `---------------------------------------------------------------*/
 
 static int
-yylex (void)
+yylex (LEX_FORMALS)
 {
+  static int init = 1;
   int c;
 
+  if (init)
+    {
+      init = 0;
 #if YYLSP_NEEDED
-  yylloc.first_column = yylloc.last_column;
-  yylloc.first_line = yylloc.last_line;
+      yylloc.last_column = 1;
+      yylloc.last_line = 1;
+#endif
+    }
+
+#if YYLSP_NEEDED
+  LOC.first_column = LOC.last_column;
+  LOC.first_line = LOC.last_line;
 #endif
 
   /* Skip white space.  */
-  while ((c = yygetc ()) == ' ' || c == '\t')
+  while ((c = yygetc (LEX_ARGS)) == ' ' || c == '\t')
     {
 #if YYLSP_NEEDED
-      yylloc.first_column = yylloc.last_column;
-      yylloc.first_line = yylloc.last_line;
+      LOC.first_column = LOC.last_column;
+      LOC.first_line = LOC.last_line;
 #endif
     }
 
   /* process numbers   */
   if (c == '.' || isdigit (c))
     {
-      yyungetc (c);
-      yylval.ival = read_signed_integer ();
+      yyungetc (LEX_PRE_ARGS c);
+      VAL.ival = read_signed_integer (LEX_ARGS);
       return NUM;
     }
 
@@ -258,10 +301,6 @@ main (int argc, const char **argv)
 
 #if YYDEBUG
   yydebug = 1;
-#endif
-#if YYLSP_NEEDED
-  yylloc.last_column = 1;
-  yylloc.last_line = 1;
 #endif
   yyparse ();
   return 0;
@@ -414,7 +453,7 @@ _AT_CHECK_CALC_ERROR([$1],
                      [2.1-2.2: parse error, unexpected '+'])
 # Exercise error messages with EOF: work on an empty file.
 _AT_CHECK_CALC_ERROR([$1], [/dev/null], [4],
-                     [1.1-1.2: parse error, unexpected "end of file", expecting "number" or '-' or '\n' or '('])
+                     [1.1-1.2: parse error, unexpected "end of input", expecting "number" or '-' or '\n' or '('])
 
 # Exercise the error token: without it, we die at the first error,
 # hence be sure i. to have several errors, ii. to test the action
@@ -459,10 +498,13 @@ AT_CHECK_CALC_LALR([%error-verbose])
 
 AT_CHECK_CALC_LALR([%error-verbose %locations])
 
-AT_CHECK_CALC_LALR([%error-verbose --defines %locations --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_LALR([%error-verbose %locations --defines --name-prefix=calc --verbose --yacc])
 
 AT_CHECK_CALC_LALR([%debug])
-AT_CHECK_CALC_LALR([%error-verbose %debug --defines %locations --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_LALR([%error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])
+
+# FIXME: Not ready yet.
+# AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])
 
 
 # ----------------------- #
@@ -490,7 +532,7 @@ AT_CHECK_CALC_GLR([%error-verbose])
 
 AT_CHECK_CALC_GLR([%error-verbose %locations])
 
-AT_CHECK_CALC_GLR([%error-verbose --defines %locations --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_GLR([%error-verbose %locations --defines --name-prefix=calc --verbose --yacc])
 
 AT_CHECK_CALC_GLR([%debug])
-AT_CHECK_CALC_GLR([%error-verbose %debug --defines %locations --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_GLR([%error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])

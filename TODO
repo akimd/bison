@@ -5,6 +5,13 @@
 From Franc,ois: should we keep the directory part in the CPP guard?
 
 
+* Yacc.c: CPP Macros
+
+Do some people use YYPURE, YYLSP_NEEDED like we do in the test suite?
+They should not: it is not documented.  But if they need to, let's
+find something clean (not like YYLSP_NEEDED...).
+
+
 * readpipe
 
 It should be replaced to avoid tmp files and to improve portability.
