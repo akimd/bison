@@ -25,7 +25,7 @@ extern int bitset_stats_enabled;
 
 extern enum bitset_type bitset_stats_type_get PARAMS ((bitset));
 
-extern int bitset_stats_bytes PARAMS ((void));
+extern size_t bitset_stats_bytes PARAMS ((void));
 
 extern bitset bitset_stats_init PARAMS ((bitset, bitset_bindex, 
 					 enum bitset_type));
