@@ -44,7 +44,7 @@ This manual is for @acronym{GNU} Bison (version @value{VERSION},
 @value{UPDATED}), the @acronym{GNU} parser generator.
 
 Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
-1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -3309,10 +3309,12 @@ associativity and precedence.  @xref{Precedence Decl, ,Operator
 Precedence}.
 
 You can explicitly specify the numeric code for a token type by appending
-an integer value in the field immediately following the token name:
+a decimal or hexadecimal integer value in the field immediately
+following the token name:
 
 @example
 %token NUM 300
+%token XNUM 0x12d // a GNU extension
 @end example
 
 @noindent

@@ -1,6 +1,6 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -101,6 +101,7 @@ static int rule_length;
 static void handle_dollar (int token_type, char *cp, location loc);
 static void handle_at (int token_type, char *cp, location loc);
 static void handle_syncline (char *args);
+static unsigned long int scan_integer (char const *p, int base, location loc);
 static int convert_ucn_to_byte (char const *hex_text);
 static void unexpected_eof (boundary, char const *);
 
@@ -235,15 +236,11 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   {int} {
-    unsigned long num;
-    set_errno (0);
-    num = strtoul (yytext, 0, 10);
-    if (INT_MAX < num || get_errno ())
-      {
-	complain_at (*loc, _("integer out of range: %s"), quote (yytext));
-	num = INT_MAX;
-      }
-    val->integer = num;
+    val->integer = scan_integer (yytext, 10, *loc);
+    return INT;
+  }
+  0[xX][0-9abcdefABCDEF]+ {
+    val->integer = scan_integer (yytext, 16, *loc);
     return INT;
   }
 
@@ -411,7 +408,7 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>
 {
   \\[0-7]{1,3} {
-    unsigned long c = strtoul (yytext + 1, 0, 8);
+    unsigned long int c = strtoul (yytext + 1, 0, 8);
     if (UCHAR_MAX < c)
       complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
     else if (! c) 
@@ -421,7 +418,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   \\x[0-9abcdefABCDEF]+ {
-    unsigned long c;
+    unsigned long int c;
     set_errno (0);
     c = strtoul (yytext + 2, 0, 16);
     if (UCHAR_MAX < c || get_errno ())
@@ -790,7 +787,7 @@ handle_action_dollar (char *text, location loc)
     }
   else
     {
-      long num;
+      long int num;
       set_errno (0);
       num = strtol (cp, 0, 10);
 
@@ -869,7 +866,7 @@ handle_action_at (char *text, location loc)
     obstack_sgrow (&obstack_for_string, "]b4_lhs_location[");
   else
     {
-      long num;
+      long int num;
       set_errno (0);
       num = strtol (cp, 0, 10);
 
@@ -919,6 +916,25 @@ handle_at (int token_type, char *text, location loc)
 }
 
 
+/*------------------------------------------------------.
+| Scan NUMBER for a base-BASE integer at location LOC.  |
+`------------------------------------------------------*/
+
+static unsigned long int
+scan_integer (char const *number, int base, location loc)
+{
+  unsigned long int num;
+  set_errno (0);
+  num = strtoul (number, 0, base);
+  if (INT_MAX < num || get_errno ())
+    {
+      complain_at (loc, _("integer out of range: %s"), quote (number));
+      num = INT_MAX;
+    }
+  return num;
+}
+
+
 /*------------------------------------------------------------------.
 | Convert universal character name UCN to a single-byte character,  |
 | and return that character.  Return -1 if UCN does not correspond  |
@@ -928,7 +944,7 @@ handle_at (int token_type, char *text, location loc)
 static int
 convert_ucn_to_byte (char const *ucn)
 {
-  unsigned long code = strtoul (ucn + 2, 0, 16);
+  unsigned long int code = strtoul (ucn + 2, 0, 16);
 
   /* FIXME: Currently we assume Unicode-compatible unibyte characters
      on ASCII hosts (i.e., Latin-1 on hosts with 8-bit bytes).  On

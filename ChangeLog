@@ -1,3 +1,18 @@
+2004-03-08  Paul Eggert  <eggert@gnu.org>
+
+	Add support for hex token numbers.  Suggested by Odd Arild Olsen in
+	<http://mail.gnu.org/archive/html/bison-patches/2004-03/msg00000.html>.
+
+	* NEWS: Document hexadecimal tokens, no NUL bytes, %destructor
+	in lalr1.cc.
+	* doc/bison.texinfo (Token Decl): Add hexadecimal token numbers.
+	* src/scan-gram.l (scan_integer): New function.
+	({int}): Use it.
+	(0[xX][0-9abcdefABCDEF]+): New pattern, to support hex numbers.
+	(<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>, \\x[0-9abcdefABCDEF]+,
+	handle_action_dollar, handle_action_at, convert_ucn_to_byte):
+	Say "long int", not "long", for uniformity with GNU style.
+
 2004-02-25  Paul Eggert  <eggert@twinsun.com>
 
 	* tests/local.at (AT_COMPILE, AT_COMPILE_CXX): Ignore stdout from

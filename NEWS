@@ -1,7 +1,18 @@
 Bison News
 ----------
 
-Changes in version 1.875c:
+Changes in version 1.875d:
+
+* NUL bytes are no longer allowed in Bison string literals, unfortunately.
+
+* %token numbers can now be hexadecimal integers, e.g., `%token FOO 0x12d'.
+  This is a GNU extension.
+
+* Experimental %destructor support has been added to lalr1.cc.
+
+Changes in version 1.875c, 2003-08-25:
+
+  (Just bug fixes.)
 
 Changes in version 1.875b, 2003-06-17:
 
@@ -551,7 +562,7 @@ End:
 
 -----
 
-Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
+Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
