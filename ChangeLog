@@ -1,3 +1,9 @@
+2001-12-13  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (readgram): Remove dead code, an strip useless
+	braces.
+	(get_type): Remove, unused.
+
 2001-12-12  Akim Demaille  <akim@epita.fr>
 
 	* src/complain.h, src/complain.c: Remove error_one_per_line, rely
