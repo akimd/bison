@@ -59,7 +59,7 @@ if test "${enableval}" = yes; then
 fi
 
 # Checks for programs.
-AM_PROG_LEX
+AC_PROG_LEX
 AC_PROG_YACC
 AC_PROG_RANLIB
 BISON_PROG_GNU_M4
