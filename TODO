@@ -21,14 +21,6 @@ Before releasing, make sure the documentation refers to the current
 `output' format.
 
 
-* Error messages
-Some are really funky.  For instance
-
-	type clash (`%s' `%s') on default action
-
-is really weird.  Revisit them all.
-
-
 * GLR & C++
 Currently, the GLR parser cannot compile with a C++ compiler.
 
