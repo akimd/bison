@@ -1,3 +1,11 @@
+2003-07-26  Paul Eggert  <eggert@twinsun.com>
+
+	* data/glr.c (YYASSERT): New macro.
+	(yyfillin, yydoAction, yyglrReduce, yysplitStack,
+	yyresolveStates, yyprocessOneStack):
+	Use `YYASSERT (FOO);' rather than `if (! (FOO)) abort ();'.
+	Derived from a suggestion by Frank Heckenbach.
+	
 2003-07-25  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (yyglrReduce): Don't use C89 string concatenation,
