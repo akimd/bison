@@ -1,3 +1,22 @@
+2001-11-29  Paul Eggert  <eggert@twinsun.com>
+
+	* src/bison.simple (YYSTACK_REALLOC): Remove.
+	(YYSTACK_ALLOC): Resurrect this macro, with its old meaning.
+	(YYSTACK_FREE, YYSTACK_GAP_MAX, YYSTACK_BYTES, YYSTACK_RELOCATE):
+	New macros.
+	(union yyalloc): New type.
+	(__yy_memcpy): Last arg is size_t, not unsigned int, to remove
+	an arbitrary restriction on hosts where size_t is wider than int.
+
+	(yyparse): Don't dump core if alloca or malloc fails; instead, report
+	a parser stack overflow.  Allocate just one block of memory for all
+	three stacks, instead of allocating three blocks; this typically is
+	faster and reduces fragmentation.
+
+	Do not limit the number of items in the stack to a value that fits
+	in 'int', as this is an arbitrary limit on hosts with 64-bit
+	size_t and 32-bit int.
+
 2001-11-29  Marc Autret  <autret_m@epita.fr>
 
 	* tests/calc.at [AT_DATA_CALC_Y]: Use %error-verbose instead
