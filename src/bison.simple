@@ -3,7 +3,7 @@
 /* This file comes from bison-@bison_version@.  */
 
 /* Skeleton output parser for bison,
-   Copyright 1984, 1989, 1990 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 1990, 2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -138,25 +138,6 @@ while (0)
 #endif /* !YYPURE */
 
 
-/* If nonreentrant, generate the variables here. */
-
-#if !YYPURE
-/* The lookahead symbol.  */
-int yychar;
-
-/* The semantic value of the lookahead symbol. */
-YYSTYPE yylval;
-
-# if YYLSP_NEEDED
-/* Location data for the lookahead symbol.  */
-YYLTYPE yylloc;
-# endif
-
-/* Number of parse errors so far.  */
-int yynerrs;
-#endif  /* !YYPURE */
-
-
 /* Enable debugging if requested.  */
 #if YYDEBUG
 # define YYDPRINTF(Args)			\
@@ -262,10 +243,46 @@ int yyparse (void);
 # endif
 #endif
 
+/* YY_DECL_VARIABLES -- depending whether we use a pure parser,
+   variables are global, or local to YYPARSE.  */
+
+#define _YY_DECL_VARIABLES				\
+/* The lookahead symbol.  */				\
+int yychar;						\
+							\
+/* The semantic value of the lookahead symbol. */	\
+YYSTYPE yylval;						\
+							\
+/* Number of parse errors so far.  */			\
+int yynerrs;
+
+#if YYLSP_NEEDED
+# define YY_DECL_VARIABLES			\
+_YY_DECL_VARIABLES				\
+						\
+/* Location data for the lookahead symbol.  */	\
+YYLTYPE yylloc;
+#else
+# define YY_DECL_VARIABLES			\
+_YY_DECL_VARIABLES
+#endif
+
+
+/* If nonreentrant, generate the variables here. */
+
+#if !YYPURE
+YY_DECL_VARIABLES
+#endif  /* !YYPURE */
+
 int
 yyparse (YYPARSE_PARAM_ARG)
      YYPARSE_PARAM_DECL
 {
+  /* If reentrant, generate the variables here. */
+#if YYPURE
+  YY_DECL_VARIABLES
+#endif  /* !YYPURE */
+
   register int yystate;
   register int yyn;
   /* Number of tokens to shift before error messages enabled.  */
@@ -306,15 +323,6 @@ yyparse (YYPARSE_PARAM_ARG)
 
   int yystacksize = YYINITDEPTH;
   int yyfree_stacks = 0;
-
-#if YYPURE
-  int yychar;
-  YYSTYPE yylval;
-  int yynerrs;
-# if YYLSP_NEEDED
-  YYLTYPE yylloc;
-# endif
-#endif /* !YYPURE */
 
 
   /* The variables used to return semantic value and location from the
