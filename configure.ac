@@ -59,6 +59,21 @@ if test "${enableval}" = yes; then
   AC_DEFINE([lint], 1, [Define to 1 if the compiler is checking for lint.])
 fi
 
+AC_ARG_ENABLE([yacc],
+  [AC_HELP_STRING([--disable-yacc],
+     [do not build a yacc command or an -ly library])],
+  , [enable_yacc=yes])
+case $enable_yacc in
+yes)
+  YACC_SCRIPT=yacc
+  YACC_LIBRARY=liby.a;;
+*)
+  YACC_SCRIPT=
+  YACC_LIBRARY=;;
+esac
+AC_SUBST([YACC_SCRIPT])
+AC_SUBST([YACC_LIBRARY])
+
 # Checks for programs.
 AC_PROG_LEX
 AC_PROG_YACC
