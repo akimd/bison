@@ -1,5 +1,17 @@
 2001-08-31  Pascal Bart  <pascal.bart@epita.fr>
 
+	* src/output.c (prepare): Delete insertion of previous muscles,
+	and insert the `prefix' muscles.
+	* src/macrotab.c (macro_init): Likewise.
+	(macro_init): Initialization prefix directive by `yy'.
+	* src/bison.simple: Substitute all %%yylex, %%yychar, %%yylval, 
+	%%yydebug, %%yyerror, %%yynerrs and %%yyparse by yylex, yychar,
+	yylval, yydebug, yyerror, yynerrs and yyparse.
+	New directive `#define' to substitute yydebug, ... with option 
+	name_prefix.
+
+2001-08-31  Pascal Bart  <pascal.bart@epita.fr>
+
 	* src/main.c (main): Standardize.
 	* src/output.c (output_table_data, output_parser): Likewise.
 	* src/macrotab.h, src/macrotab.c, src/bison.simple: Likewise.
