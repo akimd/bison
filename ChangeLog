@@ -1,3 +1,18 @@
+2002-08-01  Akim Demaille  <akim@epita.fr>
+
+	* lib/timevar.c (get_time): Include children time.
+	* src/lalr.h (LA, LArule): Don't export them: used with the
+	state_t.
+	* src/lalr.c (LA, LArule): Static.
+	* src/lalr.h, src/lalr.c (lalr_free): New.
+	* src/main.c (main): Call it.
+	* src/tables.c (pack_vector): Check whether loc is >= to the
+	table_size, not >.
+	(pack_tables): Don't free froms, tos, conflict_tos, and pos...
+	(tables_generate): do it, since that's also it which allocates
+	them.
+	Don't free LA and LArule, main does.
+
 2002-07-31  Akim Demaille  <akim@epita.fr>
 
 	Separate parser tables computation and output.

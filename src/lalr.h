@@ -21,8 +21,8 @@
 #ifndef LALR_H_
 # define LALR_H_
 
-#include "bitset.h"
-#include "bitsetv.h"
+# include "bitset.h"
+# include "bitsetv.h"
 
 /* Import the definition of CORE, TRANSITIONS and REDUCTIONS. */
 # include "state.h"
@@ -35,6 +35,11 @@
    tokens they accept.  */
 
 void lalr PARAMS ((void));
+
+/* Release the information related to lookaheads.  Can be performed
+   once the action tables are computed.  */
+
+void lalr_free PARAMS ((void));
 
 
 /* lalr() builds these data structures. */
@@ -55,23 +60,6 @@ typedef short goto_number_t;
 extern goto_number_t *goto_map;
 extern state_number_t *from_state;
 extern state_number_t *to_state;
-
-/* LARULE is a vector which records the rules that need lookahead in
-   various states.  The elements of LARULE that apply to state S are
-   those from LOOKAHEADS[S] through LOOKAHEADS[S+1]-1.
-
-   If LR is the length of LArule, then a number from 0 to LR-1 can
-   specify both a rule and a state where the rule might be applied.
-   */
-
-extern rule_t **LArule;
-
-/* LA is a LR by NTOKENS matrix of bits.  LA[l, i] is 1 if the rule
-   LAruleno[l] is applicable in the appropriate state when the next
-   token is symbol i.  If LA[l, i] and LA[l, j] are both 1 for i != j,
-   it is a conflict.  */
-
-extern bitsetv LA;
 
 
 #endif /* !LALR_H_ */
