@@ -55,7 +55,7 @@ void lalr_free PARAMS ((void));
    TO_STATE of the first of them.  */
 
 typedef short goto_number_t;
-# define GOTO_NUMBER_MAX ((goto_number_t) INT_MAX)
+# define GOTO_NUMBER_MAX ((goto_number_t) SHRT_MAX)
 
 extern goto_number_t *goto_map;
 extern state_number_t *from_state;
