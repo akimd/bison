@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-11-28 15:58+0100\n"
+"POT-Creation-Date: 2001-12-05 10:46+0100\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -31,78 +31,78 @@ msgstr ""
 msgid "fatal error: "
 msgstr "fatale fout: %s\n"
 
-#: src/conflicts.c:45
+#: src/conflicts.c:44
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr "Conflict in stadium %d tussen regel %d en teken %s opgelost als %s.\n"
 
-#: src/conflicts.c:111 src/conflicts.c:134
+#: src/conflicts.c:94 src/conflicts.c:119
 msgid "reduce"
 msgstr "reduceer"
 
-#: src/conflicts.c:117 src/conflicts.c:130
+#: src/conflicts.c:101 src/conflicts.c:115
 msgid "shift"
 msgstr "verschuif"
 
-#: src/conflicts.c:138
+#: src/conflicts.c:123
 msgid "an error"
 msgstr "een fout"
 
-#: src/conflicts.c:389
+#: src/conflicts.c:302
 #, fuzzy, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] " %d verschuif/reduceer conflicten"
 
-#: src/conflicts.c:396
+#: src/conflicts.c:309
 #, fuzzy
 msgid "and"
 msgstr " en"
 
-#: src/conflicts.c:402
+#: src/conflicts.c:315
 #, fuzzy, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d reduceer/reduceer conflicten"
 
-#: src/conflicts.c:426
+#: src/conflicts.c:340
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "Stadium %d bevat"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:470
+#: src/conflicts.c:387
 msgid "conflicts: "
 msgstr "conflictueerd: "
 
-#: src/conflicts.c:472
+#: src/conflicts.c:389
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d vershuif/reduceer"
 
-#: src/conflicts.c:476
+#: src/conflicts.c:393
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reduceer/reduceer"
 
-#: src/conflicts.c:481 src/reduce.c:493
+#: src/conflicts.c:398 src/reduce.c:508
 #, c-format
 msgid "%s contains "
 msgstr "%s bevat"
 
-#: src/conflicts.c:488
+#: src/conflicts.c:405
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d verschuif/reduceer conflicten"
 
-#: src/conflicts.c:575 src/conflicts.c:696
+#: src/conflicts.c:457 src/conflicts.c:534
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduceer gebruikt regel %d (%s)]\n"
 
-#: src/conflicts.c:587 src/print.c:156
+#: src/conflicts.c:461 src/print.c:154
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,12 +111,12 @@ msgstr ""
 "    $default\treduce using rule %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:676 src/conflicts.c:690
+#: src/conflicts.c:515 src/conflicts.c:528
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr ""
 
-#: src/conflicts.c:716
+#: src/conflicts.c:544
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr ""
@@ -132,22 +132,22 @@ msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:56
+#: src/getargs.c:55
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr ""
 
-#: src/getargs.c:60
+#: src/getargs.c:59
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr ""
 
-#: src/getargs.c:64
+#: src/getargs.c:63
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
 msgstr ""
 
-#: src/getargs.c:70
+#: src/getargs.c:69
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -155,7 +155,7 @@ msgid ""
 "  -y, --yacc      emulate POSIX yacc\n"
 msgstr ""
 
-#: src/getargs.c:77
+#: src/getargs.c:76
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -167,7 +167,7 @@ msgid ""
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
 
-#: src/getargs.c:89
+#: src/getargs.c:88
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -178,49 +178,49 @@ msgid ""
 "automaton\n"
 msgstr ""
 
-#: src/getargs.c:99
+#: src/getargs.c:98
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:113
+#: src/getargs.c:112
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr ""
 
-#: src/getargs.c:118
+#: src/getargs.c:117
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
 
-#: src/getargs.c:122
+#: src/getargs.c:121
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:196 src/lex.c:665
+#: src/getargs.c:191 src/lex.c:665
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr ""
 
-#: src/getargs.c:220
+#: src/getargs.c:215
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/getargs.c:228
+#: src/getargs.c:223
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: geen grammatica bestand gegeven\n"
 
-#: src/getargs.c:232
+#: src/getargs.c:227
 #, fuzzy, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argumenten genegeerd na '%s'\n"
 
-#: src/lalr.c:293
+#: src/lalr.c:255
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr ""
@@ -279,55 +279,50 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: optie `%s' vereist een argument\n"
 
-#: src/main.c:136
-#, fuzzy, c-format
-msgid "%s: internal error: %s\n"
-msgstr "interne fout, %s\n"
-
-#: src/output.c:786
+#: src/output.c:760
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "maximale tabel grootte (%s) overschreden"
 
-#: src/print.c:38
+#: src/print.c:39
 #, c-format
 msgid " type %d is %s\n"
 msgstr ""
 
-#: src/print.c:78
+#: src/print.c:88
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regel %d)"
 
-#: src/print.c:98
+#: src/print.c:108
 msgid "    $default\taccept\n"
 msgstr ""
 
-#: src/print.c:100
+#: src/print.c:110
 msgid "    NO ACTIONS\n"
 msgstr "    GEEN AKTIES\n"
 
-#: src/print.c:120
+#: src/print.c:124
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr ""
 
-#: src/print.c:123
+#: src/print.c:127
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr ""
 
-#: src/print.c:144
+#: src/print.c:142
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr ""
 
-#: src/print.c:173
+#: src/print.c:169
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr ""
 
-#: src/print.c:185
+#: src/print.c:180
 #, fuzzy, c-format
 msgid "state %d"
 msgstr ""
@@ -337,28 +332,28 @@ msgstr ""
 "\n"
 
 #. rule # : LHS -> RHS
-#: src/print.c:215
+#: src/print.c:211
 #, fuzzy
 msgid "Grammar"
 msgstr ""
 "\n"
 "Grammatica\n"
 
-#: src/print.c:216
+#: src/print.c:212
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:221
+#: src/print.c:217
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "regel %-4d %s ->"
 
-#: src/print.c:228
+#: src/print.c:224
 msgid "empty"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:233
+#: src/print.c:231
 #, fuzzy
 msgid "Terminals, with rules where they appear"
 msgstr ""
@@ -366,7 +361,7 @@ msgstr ""
 "Terminals, met regels waar ze voorkomen\n"
 "\n"
 
-#: src/print.c:257
+#: src/print.c:256
 #, fuzzy
 msgid "Nonterminals, with rules where they appear"
 msgstr ""
@@ -374,11 +369,11 @@ msgstr ""
 "Geen terminals, met regels waar ze voorkomen\n"
 "\n"
 
-#: src/print.c:283
+#: src/print.c:282
 msgid " on left:"
 msgstr " links:"
 
-#: src/print.c:298
+#: src/print.c:297
 msgid " on right:"
 msgstr " rechts:"
 
@@ -387,7 +382,7 @@ msgstr " rechts:"
 #. if (obstack_object_size (node_obstack) > node_output_size)
 #. obstack_sgrow (node_obstack, "\n");
 #.
-#: src/print_graph.c:165
+#: src/print_graph.c:146
 #, c-format
 msgid "%-4s\terror (nonassociative)"
 msgstr ""
@@ -396,7 +391,7 @@ msgstr ""
 #. if (obstack_object_size (node_obstack) > node_output_size)
 #. obstack_sgrow (node_obstack, "\n");
 #.
-#: src/print_graph.c:180
+#: src/print_graph.c:161
 #, fuzzy, c-format
 msgid "$default\treduce using rule %d (%s)"
 msgstr ""
@@ -463,7 +458,7 @@ msgstr ""
 msgid "symbol %s redefined"
 msgstr "symbool %s opnieuw gedefinieerd"
 
-#: src/reader.c:572 src/reader.c:651 src/reader.c:712 src/reader.c:1342
+#: src/reader.c:572 src/reader.c:651 src/reader.c:712 src/reader.c:1374
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "type herdeclaratie voor %s"
@@ -478,7 +473,8 @@ msgstr "`%s' is onjuist in %s"
 msgid "multiple %s declarations"
 msgstr "meerdere %start declaraties"
 
-#: src/reader.c:601 src/reader.c:936 src/reader.c:951 src/reader.c:1320
+#: src/reader.c:601 src/reader.c:936 src/reader.c:951 src/reader.c:984
+#: src/reader.c:1003 src/reader.c:1352
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "onjuiste %start declaratie"
@@ -507,7 +503,7 @@ msgstr "onjuiste tekst (%s) - nummer hoort na de identifier"
 msgid "unexpected item: %s"
 msgstr "onbekend item: %s"
 
-#: src/reader.c:809 src/reader.c:1159 src/reader.c:1231
+#: src/reader.c:809 src/reader.c:1191 src/reader.c:1263
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "niet overeenkomstige `{'"
@@ -527,115 +523,115 @@ msgstr "onbekend item %s, verwacht een identifier"
 msgid "expected string constant instead of %s"
 msgstr "verwacht string constante in plaats van %s"
 
-#: src/reader.c:1076
+#: src/reader.c:1108
 #, c-format
 msgid "unrecognized: %s"
 msgstr "onbekend: %s"
 
-#: src/reader.c:1081
+#: src/reader.c:1113
 msgid "no input grammar"
 msgstr "geen invoer grammatica"
 
-#: src/reader.c:1086
+#: src/reader.c:1118
 #, c-format
 msgid "unknown character: %s"
 msgstr "onbekend karakter: %s"
 
-#: src/reader.c:1254
+#: src/reader.c:1286
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "niet getermineerde %%guard voorwaarde"
 
-#: src/reader.c:1407
+#: src/reader.c:1439
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr ""
 "slecht geformuleerde regel: initieel symbool niet gevolgd door dubbele punt"
 
-#: src/reader.c:1414
+#: src/reader.c:1446
 msgid "grammar starts with vertical bar"
 msgstr "grammatica start met een verticale bar"
 
-#: src/reader.c:1442
+#: src/reader.c:1474
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel geven voor %s, welke een teken is"
 
-#: src/reader.c:1542
+#: src/reader.c:1574
 msgid "two @prec's in a row"
 msgstr "twee @prec's in een regel"
 
-#: src/reader.c:1550
+#: src/reader.c:1582
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard aanwezig maar %%semantic_parser niet gespecificeerd"
 
-#: src/reader.c:1559
+#: src/reader.c:1591
 msgid "two actions at end of one rule"
 msgstr "twee akties aan het einde van een regel"
 
-#: src/reader.c:1573
+#: src/reader.c:1605
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "type clash (`%s' `%s') bij standaard aktie"
 
-#: src/reader.c:1579
+#: src/reader.c:1611
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "lege regel voor getypte niet terminal, en geen aktie"
 
-#: src/reader.c:1623
+#: src/reader.c:1655
 #, c-format
 msgid "invalid input: %s"
 msgstr "ongeldige invoer: %s"
 
-#: src/reader.c:1631
+#: src/reader.c:1663
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "te veel symbolen (tekens plus nietterminals); maximum %s"
 
-#: src/reader.c:1634
+#: src/reader.c:1666
 msgid "no rules in the input grammar"
 msgstr "geen regels voor invoer grammatica"
 
-#: src/reader.c:1642
+#: src/reader.c:1674
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "symbool %s is gebruikt, maar is niet gedefinieerd als een teken en\n"
 "heeft geen regels"
 
-#: src/reader.c:1751
+#: src/reader.c:1783
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr ""
 
-#: src/reader.c:1804
+#: src/reader.c:1836
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "conflictuerende precedentein voor %s en %s"
 
-#: src/reader.c:1816
+#: src/reader.c:1848
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "conflictuerende associatieve waarden voor %s en %s"
 
-#: src/reader.c:1852
+#: src/reader.c:1884
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr ""
 
-#: src/reader.c:1854
+#: src/reader.c:1886
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "het start symbool %s is een token"
 
-#: src/reduce.c:396
+#: src/reduce.c:409
 #, fuzzy
 msgid "Useless nonterminals:"
 msgstr ""
 "Onbruikbare niet terminals:\n"
 "\n"
 
-#: src/reduce.c:410
+#: src/reduce.c:422
 #, fuzzy
 msgid "Terminals which are not used:"
 msgstr ""
@@ -644,7 +640,7 @@ msgstr ""
 "Terminals welke niet worden gebruikt:\n"
 "\n"
 
-#: src/reduce.c:421
+#: src/reduce.c:433
 #, fuzzy
 msgid "Useless rules:"
 msgstr ""
@@ -653,29 +649,29 @@ msgstr ""
 "Onbruikbare regels:\n"
 "\n"
 
-#: src/reduce.c:488
+#: src/reduce.c:503
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regels nooit gereduceerd\n"
 
-#: src/reduce.c:496
+#: src/reduce.c:511
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d onbruikbare niet terminal%s"
 
-#: src/reduce.c:502
+#: src/reduce.c:517
 msgid " and "
 msgstr " en "
 
-#: src/reduce.c:505
+#: src/reduce.c:520
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d onbruikbare regels%s"
 
-#: src/reduce.c:536
+#: src/reduce.c:551
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Start symbool %s is niet afkomstig uit een zin"
@@ -760,13 +756,17 @@ msgstr "%s: geen geheugen meer beschikbaar\n"
 #. MARK).  A British English Unicode locale should instead
 #. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
 #. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
-#: lib/quotearg.c:268
+#: lib/quotearg.c:274
 msgid "`"
 msgstr ""
 
-#: lib/quotearg.c:269
+#: lib/quotearg.c:275
 msgid "'"
 msgstr ""
+
+#, fuzzy
+#~ msgid "%s: internal error: %s\n"
+#~ msgstr "interne fout, %s\n"
 
 #~ msgid ""
 #~ "Variables\n"
