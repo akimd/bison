@@ -1,3 +1,11 @@
+2001-12-14  Akim Demaille  <akim@epita.fr>
+
+	* src/lex.c (literalchar): Don't escape the special characters,
+	just decode them, and keep them as char (before, eol was output as
+	the 2 char string `\n' etc.).
+	* src/output.c (output_rule_data): Use quotearg to output the
+	token strings.
+
 2001-12-13  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYSIZE_T, YYSTACK_ALLOC, YYSTACK_FREE):
