@@ -872,59 +872,207 @@ namespace yy
 
 #endif // not BISON_STACK_HH]
 dnl
-@output location.hh
-b4_copyright([Location class for Bison C++ parsers], [2002, 2003])[
+@output position.hh
+b4_copyright([Position class for Bison C++ parsers], [2002, 2003])[
 
-#ifndef BISON_LOCATION_HH
-# define BISON_LOCATION_HH
+/**
+ ** \file position.hh
+ ** Define the Location class.
+ */
+
+#ifndef BISON_POSITION_HH
+# define BISON_POSITION_HH
 
 # include <iostream>
 # include <string>
 
 namespace yy
 {
+  /** \brief Abstract a Position. */
   class Position
   {
   public:
-    Position ()
-      : filename (), line (1), column (0)
-    {}
+    /** \brief Initial column number. */
+    static const unsigned int initial_column = 0;
+    /** \brief Initial line number. */
+    static const unsigned int initial_line = 1;
 
+    /** \name Ctor & dtor.
+     ** \{ */
+  public:
+    /** \brief Construct a Position. */
+    Position () :
+      filename (),
+      line (initial_line),
+      column (initial_column)
+    {
+    }
+    /** \} */
+
+
+    /** \name Line and Column related manipulators
+     ** \{ */
+  public:
+    /** \brief (line related) Advance to the LINES next lines. */
+    inline void lines (int lines = 1)
+    {
+      column = initial_column;
+      line += lines;
+    }
+
+    /** \brief (column related) Advance to the COLUMNS next columns. */
+    inline void columns (int columns = 1)
+    {
+      column += columns;
+    }
+    /** \} */
+
+  public:
+    /** \brief File name to which this position refers. */
     std::string filename;
-    int line;
-    int column;
+    /** \brief Current line number. */
+    unsigned int line;
+    /** \brief Current column number. */
+    unsigned int column;
   };
 
+  /** \brief Add and assign a Position. */
+  inline const Position&
+  operator+= (Position& res, const int width)
+  {
+    res.columns (width);
+    return res;
+  }
+
+  /** \brief Add two Position objects. */
+  inline const Position
+  operator+ (const Position& begin, const int width)
+  {
+    Position res = begin;
+    return res += width;
+  }
+
+  /** \brief Add and assign a Position. */
+  inline const Position&
+  operator-= (Position& res, const int width)
+  {
+    return res += -width;
+  }
+
+  /** \brief Add two Position objects. */
+  inline const Position
+  operator- (const Position& begin, const int width)
+  {
+    return begin + -width;
+  }
+
+  /** \brief Intercept output stream redirection.
+   ** \param ostr the destination output stream
+   ** \param pos a reference to the Position to redirect
+   */
   inline std::ostream&
   operator<< (std::ostream& ostr, const Position& pos)
   {
     if (pos.filename != "")
       ostr << pos.filename << ':';
-    ostr << pos.line << '.' << pos.column;
-    return ostr;
+    return ostr << pos.line << '.' << pos.column;
   }
 
-  inline Position
-  operator- (const Position& pos, int col)
-  {
-    Position res (pos);
-    res.column -= col;
-    return res;
-  }
+}
+#endif // not BISON_POSITION_HH]
+@output location.hh
+b4_copyright([Location class for Bison C++ parsers], [2002, 2003])[
 
+/**
+ ** \file location.hh
+ ** Define the Location class.
+ */
 
+#ifndef BISON_LOCATION_HH
+# define BISON_LOCATION_HH
+
+# include <iostream>
+# include <string>
+# include "position.hh"
+
+namespace yy
+{
+
+  /** \brief Abstract a Location. */
   class Location
   {
+    /** \name Ctor & dtor.
+     ** \{ */
   public:
+    /** \brief Construct a Location. */
+    Location (void) :
+      begin (),
+      end ()
+    {
+    }
+    /** \} */
+
+
+    /** \name Line and Column related manipulators
+     ** \{ */
+  public:
+    /** \brief Reset initial location to final location. */
+    inline void step (void)
+    {
+      begin = end;
+    }
+
+    /** \brief Extend the current location to the COLUMNS next columns. */
+    inline void columns (unsigned columns = 1)
+    {
+      end += columns;
+    }
+
+    /** \brief Extend the current location to the LINES next lines. */
+    inline void lines (unsigned lines = 1)
+    {
+      end.lines (lines);
+    }
+    /** \} */
+
+
+  public:
+    /** \brief Beginning of the located region. */
     Position begin;
+    /** \brief End of the located region. */
     Position end;
   };
 
-  /* Don't issue twice the line number when the location is on a single
-     line.  */
+  /** \brief Join two Location objects to create a Location. */
+  inline const Location operator+ (const Location& begin, const Location& end)
+  {
+    Location res = begin;
+    res.end = end.end;
+    return res;
+  }
 
-  inline std::ostream&
-  operator<< (std::ostream& ostr, const Location& pos)
+  /** \brief Add two Location objects */
+  inline const Location operator+ (const Location& begin, unsigned width)
+  {
+    Location res = begin;
+    res.columns (width);
+    return res;
+  }
+
+  /** \brief Add and assign a Location */
+  inline Location &operator+= (Location& res, unsigned width)
+  {
+    res.columns (width);
+    return res;
+  }
+
+  /** \brief Intercept output stream redirection.
+   ** \param ostr the destination output stream
+   ** \param pos a reference to the Position to redirect
+   **
+   ** Don't issue twice the line number when the location is on a single line.
+   */
+  inline std::ostream& operator<< (std::ostream& ostr, const Location& pos)
   {
     ostr << pos.begin;
     if (pos.begin.filename != pos.end.filename)

@@ -1,5 +1,13 @@
 2003-02-20  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (position.hh): New subfile, including the extended
+	and Doxygen'ed documentation of class Position.
+	(location.hh): Use it.
+	Document a` la Doxygen.
+	With the help of Benoît Perrot.
+
+2003-02-20  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at (AT_CHECK_PUSHDEFS, AT_CHECK_POPDEFS): Define
 	AT_YACC_IF.
 	Redefine AT_YYERROR_SEES_LOC_IF using it.
