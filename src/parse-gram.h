@@ -133,7 +133,7 @@ typedef union YYSTYPE {
   assoc assoc;
   uniqstr uniqstr;
 } YYSTYPE;
-/* Line 1255 of yacc.c.  */
+/* Line 1252 of yacc.c.  */
 #line 138 "y.tab.h"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
