@@ -30,9 +30,4 @@ void reader PARAMS ((void));
 
 extern int lineno;
 
-extern symbol_t *errtoken;
-extern symbol_t *undeftoken;
-extern symbol_t *eoftoken;
-extern symbol_t *axiom;
-
 #endif /* !READER_H_ */

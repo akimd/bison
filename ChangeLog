@@ -1,3 +1,26 @@
+2002-06-09  Akim Demaille  <akim@epita.fr>
+
+	Move symbols handling code out of the reader.
+
+	* src/reader.h, src/reader.c (errtoken, undeftoken, eoftoken)
+	(axiom): Move to...
+	* src/symtab.h, src/symtab.c: here.
+
+	* src/gram.c (start_symbol): Remove: use startsymbol->number.
+	* src/reader.c (startval): Rename as...
+	* src/symtab.h, src/symtab.c (startsymbol): this.
+	* src/reader.c: Adjust.
+
+	* src/reader.c (symbol_check_defined, symbol_make_alias)
+	(symbol_check_alias_consistence, symbol_pack, symbol_translation)
+	(token_translations_init)
+	Move to...
+	* src/symtab.c: here.
+	* src/reader.c (packsymbols): Move to...
+	* src/symtab.h, src/symtab.c (symbols_pack): here.
+	* src/symtab.h, src/symtab.c (symbol_make_alias): Takes SYMVAL as
+	argument.
+
 2002-06-03  Akim Demaille  <akim@epita.fr>
 
 	* src/muscle_tab.c (muscle_insert, muscle_find): Declarations,

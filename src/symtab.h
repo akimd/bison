@@ -22,7 +22,9 @@
 #ifndef SYMTAB_H_
 # define SYMTAB_H_
 
-#define	TABSIZE	1009
+/*----------.
+| Symbols.  |
+`----------*/
 
 /* Associativity values for tokens and rules.  */
 typedef enum
@@ -79,13 +81,48 @@ struct symbol_s
 #define NUMBER_UNDEFINED ((symbol_number_t) -1)
 
 
+/* Fetch (or create) the symbol associated to KEY.  */
+symbol_t *getsym PARAMS ((const char *key));
+
+/* Declare the new SYMBOL.  Make it an alias of SYMVAL, and type */
+/* them with TYPENAME.                                           */
+void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval,
+				char *typename));
+
+/* Distinguished symbols.  AXIOM is the real start symbol, that used
+   by the automaton.  STARTSYMBOL is the one specified by the user.
+   */
+extern symbol_t *errtoken;
+extern symbol_t *undeftoken;
+extern symbol_t *eoftoken;
+extern symbol_t *axiom;
+extern symbol_t *startsymbol;
+
+
+/*---------------.
+| Symbol table.  |
+`---------------*/
+
+
+/* Create the symbol table.  */
+void symbols_new PARAMS ((void));
+
 /* A function to apply to each symbol. */
 typedef bool (*symbol_processor) PARAMS ((symbol_t *));
 
-symbol_t *getsym PARAMS ((const char *));
-
-void symbols_new PARAMS ((void));
+/* Apply PROCESSOR to all the symbols.  PROCESSOR must return TRUE: on
+   FALSE, the processing stops.  */
 void symbols_do PARAMS ((symbol_processor processor, void *processor_data));
+
+/* Free all the memory allocated for symbols.  */
 void symbols_free PARAMS ((void));
+
+/* Check that all the symbols are defined.  Report any undefined */
+/* symbols and consider them nonterminals.                       */
+void symbols_check_defined PARAMS ((void));
+
+/* Perform various sanity checks, assign symbol numbers, and set up
+   TOKEN_TRANSLATIONS.  */
+void symbols_pack PARAMS ((void));
 
 #endif /* !SYMTAB_H_ */
