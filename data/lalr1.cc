@@ -170,7 +170,7 @@ b4_syncline([@oline@], [@ofile@])],
 b4_syncline([@oline@], [@ofile@])[
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
-   Current.end = Rhs[N].end;
+   ((Current).end = Rhs[N].end)
 #endif
 
 namespace yy

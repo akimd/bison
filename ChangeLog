@@ -1,3 +1,13 @@
+2003-06-20  Paul Eggert  <eggert@twinsun.com>
+
+	* data/glr.c (YYLLOC_DEFAULT): Parenthesize arguments as needed,
+	and return properly parenthesized result.
+	* data/lalar1.cc (YYLLOC_DEFAULT): Likewise.
+	* data/yacc.c (YYLLOC_DEFAULT): Likewise.
+	Remove unnecessary parentheses from uses.
+	* doc/bison.texinfo (Location Default Action): Describe the
+	conventions for parentheses.
+
 2003-06-19  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (yyremoveDeletes, yy_reduce_print, yyglrReduce,

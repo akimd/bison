@@ -3210,11 +3210,11 @@ By default, @code{YYLLOC_DEFAULT} is defined this way for simple
 
 @example
 @group
-#define YYLLOC_DEFAULT(Current, Rhs, N)          \
-  Current.first_line   = Rhs[1].first_line;      \
-  Current.first_column = Rhs[1].first_column;    \
-  Current.last_line    = Rhs[N].last_line;       \
-  Current.last_column  = Rhs[N].last_column;
+# define YYLLOC_DEFAULT(Current, Rhs, N)		\
+   ((Current).first_line   = (Rhs)[1].first_line,	\
+    (Current).first_column = (Rhs)[1].first_column,	\
+    (Current).last_line    = (Rhs)[N].last_line,	\
+    (Current).last_column  = (Rhs)[N].last_column)
 @end group
 @end example
 
@@ -3223,11 +3223,11 @@ and like this for @acronym{GLR} parsers:
 
 @example
 @group
-#define YYLLOC_DEFAULT(Current, Rhs, N)          \
-  Current.first_line   = YYRHSLOC(Rhs,1).first_line;      \
-  Current.first_column = YYRHSLOC(Rhs,1).first_column;    \
-  Current.last_line    = YYRHSLOC(Rhs,N).last_line;       \
-  Current.last_column  = YYRHSLOC(Rhs,N).last_column;
+# define YYLLOC_DEFAULT(yyCurrent, yyRhs, YYN)			\
+   ((yyCurrent).first_line = YYRHSLOC(yyRhs, 1).first_line,	\
+    (yyCurrent).first_column = YYRHSLOC(yyRhs, 1).first_column,	\
+    (yyCurrent).last_line = YYRHSLOC(yyRhs, YYN).last_line,	\
+    (yyCurrent).last_column  = YYRHSLOC(yyRhs, YYN).last_column)
 @end group
 @end example
 
@@ -3241,6 +3241,12 @@ result) should be modified by @code{YYLLOC_DEFAULT}.
 @item
 For consistency with semantic actions, valid indexes for the location
 array range from 1 to @var{n}.
+
+@item
+Your macro should parenthesize its arguments, if need be, since the
+actual arguments may not be surrounded by parentheses.  Also, your
+macro should expand to something that can be used as a single
+statement when it is followed by a semicolon.
 @end itemize
 
 @node Declarations
