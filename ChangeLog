@@ -1,3 +1,10 @@
+2002-11-18  Paul Eggert  <eggert@twinsun.com>
+
+	* data/glr.c (yygetLRActions): Replace `yyindex' with
+	`yytable[yyindex]' to fix typo introduced in my 2002-11-09 patch.
+	This fixes the regression with Sun ONE Studio 7 cc that I reported in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001892.html>.
+
 2002-11-18  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (Tracing): `yyprint' shouldn't prepend a
