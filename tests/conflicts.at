@@ -174,9 +174,9 @@ exp (6)
 
 state 0
 
-    $axiom  ->  . exp $   (rule 0)
-    exp  ->  . exp OP exp   (rule 1)
-    exp  ->  . NUM   (rule 2)
+    0 $axiom: . exp $
+    1 exp: . exp OP exp
+    2    | . NUM
 
     NUM 	shift, and go to state 1
 
@@ -186,7 +186,7 @@ state 0
 
 state 1
 
-    exp  ->  NUM .   (rule 2)
+    2 exp: NUM .
 
     $default	reduce using rule 2 (exp)
 
@@ -194,8 +194,8 @@ state 1
 
 state 2
 
-    $axiom  ->  exp . $   (rule 0)
-    exp  ->  exp . OP exp   (rule 1)
+    0 $axiom: exp . $
+    1 exp: exp . OP exp
 
     $   	shift, and go to state 3
     OP  	shift, and go to state 4
@@ -204,16 +204,16 @@ state 2
 
 state 3
 
-    $axiom  ->  exp $ .   (rule 0)
+    0 $axiom: exp $ .
 
     $default	accept
 
 
 state 4
 
-    exp  ->  . exp OP exp   (rule 1)
-    exp  ->  exp OP . exp   (rule 1)
-    exp  ->  . NUM   (rule 2)
+    1 exp: . exp OP exp
+    1    | exp OP . exp
+    2    | . NUM
 
     NUM 	shift, and go to state 1
 
@@ -223,8 +223,8 @@ state 4
 
 state 5
 
-    exp  ->  exp . OP exp  [$, OP]   (rule 1)
-    exp  ->  exp OP exp .  [$, OP]   (rule 1)
+    1 exp: exp . OP exp  [$, OP]
+    1    | exp OP exp .  [$, OP]
 
     OP  	shift, and go to state 4
 
@@ -238,30 +238,27 @@ state 5
 AT_CLEANUP
 
 
-## ------------------------- ##
-## Unresolved SR Conflicts.  ##
-## ------------------------- ##
 
-AT_SETUP([Unresolved SR Conflicts])
+## ----------------------- ##
+## Resolved SR Conflicts.  ##
+## ----------------------- ##
+
+AT_SETUP([Resolved SR Conflicts])
 
 AT_KEYWORDS([report])
 
 AT_DATA([input.y],
 [[%token NUM OP
+%left OP
 %%
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison input.y -o input.c --report=all], 0, [],
-[input.y contains 1 shift/reduce conflict.
-])
+AT_CHECK([bison input.y -o input.c --report=all])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
-[[State 5 contains 1 shift/reduce conflict.
-
-
-Grammar
+[[Grammar
 
     0 $axiom: exp $
 
@@ -287,9 +284,9 @@ exp (6)
 
 state 0
 
-    $axiom  ->  . exp $   (rule 0)
-    exp  ->  . exp OP exp   (rule 1)
-    exp  ->  . NUM   (rule 2)
+    0 $axiom: . exp $
+    1 exp: . exp OP exp
+    2    | . NUM
 
     NUM 	shift, and go to state 1
 
@@ -299,7 +296,7 @@ state 0
 
 state 1
 
-    exp  ->  NUM .   (rule 2)
+    2 exp: NUM .
 
     $default	reduce using rule 2 (exp)
 
@@ -307,8 +304,8 @@ state 1
 
 state 2
 
-    $axiom  ->  exp . $   (rule 0)
-    exp  ->  exp . OP exp   (rule 1)
+    0 $axiom: exp . $
+    1 exp: exp . OP exp
 
     $   	shift, and go to state 3
     OP  	shift, and go to state 4
@@ -317,16 +314,16 @@ state 2
 
 state 3
 
-    $axiom  ->  exp $ .   (rule 0)
+    0 $axiom: exp $ .
 
     $default	accept
 
 
 state 4
 
-    exp  ->  . exp OP exp   (rule 1)
-    exp  ->  exp OP . exp   (rule 1)
-    exp  ->  . NUM   (rule 2)
+    1 exp: . exp OP exp
+    1    | exp OP . exp
+    2    | . NUM
 
     NUM 	shift, and go to state 1
 
@@ -336,20 +333,18 @@ state 4
 
 state 5
 
-    exp  ->  exp . OP exp  [$, OP]   (rule 1)
-    exp  ->  exp OP exp .  [$, OP]   (rule 1)
+    1 exp: exp . OP exp  [$, OP]
+    1    | exp OP exp .  [$, OP]
 
-    OP  	shift, and go to state 4
 
-    OP  	[reduce using rule 1 (exp)]
     $default	reduce using rule 1 (exp)
 
+    Conflict between rule 2 and token OP resolved as shift (%left OP).
 
 
 ]])
 
 AT_CLEANUP
-
 
 
 ## -------------------------------- ##
@@ -430,11 +425,11 @@ id (7)
 
 state 0
 
-    $axiom  ->  . exp $   (rule 0)
-    exp  ->  . num   (rule 1)
-    exp  ->  . id   (rule 2)
-    num  ->  . '0'   (rule 3)
-    id  ->  . '0'   (rule 4)
+    0 $axiom: . exp $
+    1 exp: . num
+    2    | . id
+    3 num: . '0'
+    4 id: . '0'
 
     '0' 	shift, and go to state 1
 
@@ -446,8 +441,8 @@ state 0
 
 state 1
 
-    num  ->  '0' .  [$]   (rule 3)
-    id  ->  '0' .  [$]   (rule 4)
+    3 num: '0' .  [$]
+    4 id: '0' .  [$]
 
     $   	reduce using rule 3 (num)
     $   	[reduce using rule 4 (id)]
@@ -457,7 +452,7 @@ state 1
 
 state 2
 
-    $axiom  ->  exp . $   (rule 0)
+    0 $axiom: exp . $
 
     $   	shift, and go to state 5
 
@@ -465,7 +460,7 @@ state 2
 
 state 3
 
-    exp  ->  num .   (rule 1)
+    1 exp: num .
 
     $default	reduce using rule 1 (exp)
 
@@ -473,7 +468,7 @@ state 3
 
 state 4
 
-    exp  ->  id .   (rule 2)
+    2 exp: id .
 
     $default	reduce using rule 2 (exp)
 
@@ -481,7 +476,7 @@ state 4
 
 state 5
 
-    $axiom  ->  exp $ .   (rule 0)
+    0 $axiom: exp $ .
 
     $default	accept
 

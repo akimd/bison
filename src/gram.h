@@ -193,6 +193,11 @@ extern int glr_parser;
 
 extern int pure_parser;
 
+/* Print this RULE's number and lhs on OUT.  If a PREVIOUS_LHS was
+   already displayed (by a previous call for another rule), avoid
+   useless repetitions.  */
+void rule_lhs_print PARAMS ((rule_t *rule, symbol_t *previous_lhs, FILE *out));
+
 /* Return the length of the RHS.  */
 int rule_rhs_length PARAMS ((rule_t *rule));
 

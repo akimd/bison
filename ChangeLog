@@ -1,5 +1,18 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	Display items as we display rules.
+
+	* src/gram.h, src/gram.c (rule_lhs_print): New.
+	* src/gram.c (grammar_rules_partial_print): Use it.
+	* src/print.c (print_core): Likewise.
+	* tests/conflicts.at (Defaulted Conflicted Reduction),
+	(Unresolved SR Conflicts): Adjust.
+	(Unresolved SR Conflicts): Adjust and rename as...
+	(Resolved SR Conflicts): this, as was meant.
+	* tests/regression.at (Web2c Report): Adjust.
+
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/print.c (state_default_rule_compute): New, extracted from...
 	(print_reductions): here.
 	Pessimize, but clarify the code.

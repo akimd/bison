@@ -184,7 +184,7 @@ expr (7)
 
 state 0
 
-    $axiom  ->  . expr $   (rule 0)
+    0 $axiom: . expr $
 
     'a' 	shift, and go to state 1
 
@@ -197,7 +197,7 @@ state 0
 
 state 1
 
-    expr  ->  'a' . @1 'b'   (rule 2)
+    2 expr: 'a' . @1 'b'
 
     $default	reduce using rule 1 (@1)
 
@@ -207,7 +207,7 @@ state 1
 
 state 2
 
-    $axiom  ->  expr . $   (rule 0)
+    0 $axiom: expr . $
 
     $   	shift, and go to state 5
 
@@ -215,7 +215,7 @@ state 2
 
 state 3
 
-    expr  ->  @2 . 'c'   (rule 4)
+    4 expr: @2 . 'c'
 
     'c' 	shift, and go to state 6
 
@@ -223,7 +223,7 @@ state 3
 
 state 4
 
-    expr  ->  'a' @1 . 'b'   (rule 2)
+    2 expr: 'a' @1 . 'b'
 
     'b' 	shift, and go to state 7
 
@@ -231,14 +231,14 @@ state 4
 
 state 5
 
-    $axiom  ->  expr $ .   (rule 0)
+    0 $axiom: expr $ .
 
     $default	accept
 
 
 state 6
 
-    expr  ->  @2 'c' .   (rule 4)
+    4 expr: @2 'c' .
 
     $default	reduce using rule 4 (expr)
 
@@ -246,7 +246,7 @@ state 6
 
 state 7
 
-    expr  ->  'a' @1 'b' .   (rule 2)
+    2 expr: 'a' @1 'b' .
 
     $default	reduce using rule 2 (expr)
 
@@ -375,12 +375,11 @@ CONST_DEC:
 	  { } undef_id_tok '=' const_id_tok ';'
         ;
 %%
-
 ]])
 
 AT_CHECK([bison -v input.y])
-
-AT_CHECK([sed -n 's/  *$//;/^$/!p' input.output], 0,
+sed -n 's/  *$//;/^$/!p' input.output >input.report
+AT_CHECK([cat input.report], 0,
 [[Grammar
     0 $axiom: CONST_DEC_PART $
     1 CONST_DEC_PART: CONST_DEC_LIST
@@ -407,45 +406,45 @@ CONST_DEC (10)
 @1 (11)
     on left: 4, on right: 5
 state 0
-    $axiom  ->  . CONST_DEC_PART $   (rule 0)
+    0 $axiom: . CONST_DEC_PART $
     $default	reduce using rule 4 (@1)
     CONST_DEC_PART	go to state 1
     CONST_DEC_LIST	go to state 2
     CONST_DEC	go to state 3
     @1  	go to state 4
 state 1
-    $axiom  ->  CONST_DEC_PART . $   (rule 0)
+    0 $axiom: CONST_DEC_PART . $
     $   	shift, and go to state 5
 state 2
-    CONST_DEC_PART  ->  CONST_DEC_LIST .   (rule 1)
-    CONST_DEC_LIST  ->  CONST_DEC_LIST . CONST_DEC   (rule 3)
+    1 CONST_DEC_PART: CONST_DEC_LIST .
+    3 CONST_DEC_LIST: CONST_DEC_LIST . CONST_DEC
     undef_id_tok	reduce using rule 4 (@1)
     $default	reduce using rule 1 (CONST_DEC_PART)
     CONST_DEC	go to state 6
     @1  	go to state 4
 state 3
-    CONST_DEC_LIST  ->  CONST_DEC .   (rule 2)
+    2 CONST_DEC_LIST: CONST_DEC .
     $default	reduce using rule 2 (CONST_DEC_LIST)
 state 4
-    CONST_DEC  ->  @1 . undef_id_tok '=' const_id_tok ';'   (rule 5)
+    5 CONST_DEC: @1 . undef_id_tok '=' const_id_tok ';'
     undef_id_tok	shift, and go to state 7
 state 5
-    $axiom  ->  CONST_DEC_PART $ .   (rule 0)
+    0 $axiom: CONST_DEC_PART $ .
     $default	accept
 state 6
-    CONST_DEC_LIST  ->  CONST_DEC_LIST CONST_DEC .   (rule 3)
+    3 CONST_DEC_LIST: CONST_DEC_LIST CONST_DEC .
     $default	reduce using rule 3 (CONST_DEC_LIST)
 state 7
-    CONST_DEC  ->  @1 undef_id_tok . '=' const_id_tok ';'   (rule 5)
+    5 CONST_DEC: @1 undef_id_tok . '=' const_id_tok ';'
     '=' 	shift, and go to state 8
 state 8
-    CONST_DEC  ->  @1 undef_id_tok '=' . const_id_tok ';'   (rule 5)
+    5 CONST_DEC: @1 undef_id_tok '=' . const_id_tok ';'
     const_id_tok	shift, and go to state 9
 state 9
-    CONST_DEC  ->  @1 undef_id_tok '=' const_id_tok . ';'   (rule 5)
+    5 CONST_DEC: @1 undef_id_tok '=' const_id_tok . ';'
     ';' 	shift, and go to state 10
 state 10
-    CONST_DEC  ->  @1 undef_id_tok '=' const_id_tok ';' .   (rule 5)
+    5 CONST_DEC: @1 undef_id_tok '=' const_id_tok ';' .
     $default	reduce using rule 5 (CONST_DEC)
 ]])
 
@@ -491,7 +490,9 @@ AT_CHECK([bison -v input.y -o input.c])
 
 # Check only the tables.  We don't use --no-parser, because it is
 # still to be implemented in the experimental branch of Bison.
-AT_CHECK([[sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c]], 0,
+[sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c >tables.c]
+
+AT_CHECK([[cat tables.c]], 0,
 [[static const unsigned char yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
