@@ -107,8 +107,7 @@ m4_define([b4_token_enum],
 m4_define([b4_token_defines],
 [m4_if([$@], [[]], [],
 [/* Tokens.  */
-#ifndef YYTOKENTYPE
-# if defined (__STDC__) || defined (__cplusplus)
+#if defined (__STDC__) || defined (__cplusplus)
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
@@ -116,10 +115,7 @@ m4_map_sep([     b4_token_enum], [,
 ],
            [$@])
    };
-# endif
-  /* POSIX requires `int' for tokens in interfaces.  */
-# define YYTOKENTYPE int
-#endif /* !YYTOKENTYPE */
+#endif
 m4_map([b4_token_define], [$@])
 ])
 ])
