@@ -1,3 +1,24 @@
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
+	* src/parse-gram.y (YYLLOC_DEFAULT, current_lhs_location): New.
+	(input): Don't try to initialize yylloc here, do it in the
+	scanner.
+	* src/scan-gram.l (YY_USER_INIT): Initialize yylloc.
+	* src/gram.h (rule_t): Change line and action_line into location
+	and action_location, of location_t type.
+	Adjust all dependencies.
+	* src/location.h, src/location.c (empty_location): New.
+	* src/reader.h, src/reader.c (grammar_start_symbol_set)
+	(grammar_symbol_append, grammar_rule_begin, grammar_rule_end)
+	(grammar_current_rule_symbol_append)
+	(grammar_current_rule_action_append): Expect a location as argument.
+	* src/reader.c (grammar_midrule_action): Adjust to attach an
+	action's location as dummy symbol location.
+	* src/symtab.h, src/symtab.c (startsymbol_location): New.
+	* tests/regression.at (Web2c Report, Rule Line Numbers): Adjust
+	the line numbers.
+
+	
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
 	Grammar declarations may be found in the grammar section.

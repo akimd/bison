@@ -27,11 +27,11 @@ typedef struct symbol_list
 {
   struct symbol_list *next;
   symbol_t *sym;
-  int line;
+  location_t location;
 
   /* The action is attached to the LHS of a rule. */
   const char *action;
-  int action_line;
+  location_t action_location;
 
   symbol_t *ruleprec;
 } symbol_list;
@@ -66,17 +66,18 @@ char *get_type_name PARAMS ((int n, symbol_list *rule));
 extern int typed;
 
 /* From reader.c. */
-void grammar_start_symbol_set PARAMS ((symbol_t *s));
+void grammar_start_symbol_set PARAMS ((symbol_t *s, location_t l));
 void prologue_augment PARAMS ((const char *prologue, location_t location));
 void epilogue_set PARAMS ((const char *epilogue, location_t location));
-void grammar_symbol_append PARAMS ((symbol_t *s));
-void grammar_rule_begin PARAMS ((symbol_t *lhs));
-void grammar_rule_end PARAMS ((void));
+void grammar_symbol_append PARAMS ((symbol_t *s, location_t l));
+void grammar_rule_begin PARAMS ((symbol_t *lhs, location_t l));
+void grammar_rule_end PARAMS ((location_t l));
 void grammar_midrule_action PARAMS ((void));
 void grammar_current_rule_prec_set PARAMS ((symbol_t *precsym));
-void grammar_current_rule_symbol_append PARAMS ((symbol_t *symbol));
+void grammar_current_rule_symbol_append PARAMS ((symbol_t *symbol,
+						 location_t l));
 void grammar_current_rule_action_append PARAMS ((const char *action,
-						 int line));
+						 location_t l));
 extern symbol_list *current_rule;
 void reader PARAMS ((void));
 

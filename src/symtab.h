@@ -22,6 +22,8 @@
 #ifndef SYMTAB_H_
 # define SYMTAB_H_
 
+# include "location.h"
+
 /*----------.
 | Symbols.  |
 `----------*/
@@ -112,6 +114,7 @@ extern symbol_t *undeftoken;
 extern symbol_t *eoftoken;
 extern symbol_t *axiom;
 extern symbol_t *startsymbol;
+extern location_t startsymbol_location;
 
 
 /*---------------.

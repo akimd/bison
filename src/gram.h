@@ -97,17 +97,18 @@
 
    Associativities are recorded similarly in SYMBOLS[I]->assoc.  */
 
-#include "symtab.h"
+# include "location.h"
+# include "symtab.h"
 
-#define	ISTOKEN(s)	((s) < ntokens)
-#define	ISVAR(s)	((s) >= ntokens)
+# define ISTOKEN(s)	((s) < ntokens)
+# define ISVAR(s)	((s) >= ntokens)
 
 extern int nrules;
 extern int nsyms;
 extern int ntokens;
 extern int nvars;
 
-#define ITEM_NUMBER_MAX INT_MAX
+# define ITEM_NUMBER_MAX INT_MAX
 typedef int item_number_t;
 extern item_number_t *ritem;
 extern unsigned int nritems;
@@ -118,8 +119,8 @@ extern unsigned int nritems;
 
    Therefore, an symbol_number_t must be a valid item_number_t, and we
    sometimes have to perform the converse transformation.  */
-#define symbol_number_as_item_number(Tok) ((item_number_t) (Tok))
-#define item_number_as_symbol_number(Ite) ((symbol_number_t) (Ite))
+# define symbol_number_as_item_number(Tok) ((item_number_t) (Tok))
+# define item_number_as_symbol_number(Ite) ((symbol_number_t) (Ite))
 
 extern symbol_number_t start_symbol;
 
@@ -143,11 +144,11 @@ typedef struct rule_s
   /* This symbol was attached to the rule via %prec. */
   symbol_t *precsym;
 
-  int line;
+  location_t location;
   bool useful;
 
   const char *action;
-  int action_line;
+  location_t action_location;
 } rule_t;
 
 extern struct rule_s *rules;

@@ -45,7 +45,7 @@ bison_SOURCES = 				  \
 	getargs.c getargs.h			  \
 	gram.c gram.h				  \
 	lalr.h lalr.c				  \
-	location.h				  \
+	location.c location.h			  \
 	main.c					  \
 	muscle_tab.c muscle_tab.h		  \
 	nullable.c nullable.h			  \

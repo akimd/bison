@@ -62,4 +62,6 @@ typedef struct location_s
   else                                                          \
     fprintf (Out, "%d.%d", (Loc).first_line, (Loc).first_column)
 
+
+extern location_t empty_location;
 #endif /* !LOCATION_H_ */

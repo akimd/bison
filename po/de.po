@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.35\n"
-"POT-Creation-Date: 2002-06-11 21:15+0200\n"
+"POT-Creation-Date: 2002-06-15 20:06+0200\n"
 "PO-Revision-Date: 2002-04-26 11:58:57+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -96,12 +96,12 @@ msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "erwartete %d Schiebe/Reduziere-Konflikt\n"
 msgstr[1] "erwartete %d Schiebe/Reduziere-Konflikte\n"
 
-#: src/files.c:159
+#: src/files.c:157
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "kann Datei »%s« nicht öffnen"
 
-#: src/files.c:178
+#: src/files.c:176
 msgid "cannot close file"
 msgstr "kann Datei nicht schließen"
 
@@ -343,29 +343,29 @@ msgstr "unzulässiger $-Wert"
 msgid "multiple %s declarations"
 msgstr "mehr als eine %s-Deklaration"
 
-#: src/reader.c:247
+#: src/reader.c:246
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "Regel für %s vorhanden, welches aber ein Token ist"
 
-#: src/reader.c:271
+#: src/reader.c:270
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "Typkonflikt (»%s« »%s«) bei Default-Aktion"
 
-#: src/reader.c:278
+#: src/reader.c:277
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "leere Regel für Nicht-Terminal mit Typ und keine Aktion"
 
-#: src/reader.c:343
+#: src/reader.c:342
 msgid "two @prec's in a row"
 msgstr "zwei @prec-Anweisungen nacheinander"
 
-#: src/reader.c:488
+#: src/reader.c:483
 msgid "no rules in the input grammar"
 msgstr "Eingabegrammatik enthält keine Regeln"
 
-#: src/reader.c:520
+#: src/reader.c:515
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "zu viele Symbole (Token plus Nicht-Terminale); Maximum %d"
@@ -412,22 +412,22 @@ msgstr[1] "%d nutzlose Regeln"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
 
-#: scan-gram.l:508
+#: scan-gram.l:549
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:520 scan-gram.l:571
+#: scan-gram.l:561 scan-gram.l:612
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "unzulässiger @-Wert"
 
-#: scan-gram.l:526
+#: scan-gram.l:567
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:539 scan-gram.l:580
+#: scan-gram.l:580 scan-gram.l:621
 #, c-format
 msgid "%s is invalid"
 msgstr "%s ist unzulässig"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-06-11 21:15+0200\n"
+"POT-Creation-Date: 2002-06-15 20:06+0200\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -98,12 +98,12 @@ msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "atteso %d conflitto shift/riduzione\n"
 msgstr[1] "attesi %d conflitti shift/riduzione\n"
 
-#: src/files.c:159
+#: src/files.c:157
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "impossibile aprire il file `%s'"
 
-#: src/files.c:178
+#: src/files.c:176
 msgid "cannot close file"
 msgstr "impossibile chiudere il file `%s'"
 
@@ -338,29 +338,29 @@ msgstr "valore $ non valido"
 msgid "multiple %s declarations"
 msgstr "dichiarazioni multiple per %s"
 
-#: src/reader.c:247
+#: src/reader.c:246
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "fornita una regola per il token %s"
 
-#: src/reader.c:271
+#: src/reader.c:270
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflitto di tipo (`%s' e `%s') nell'azione di default"
 
-#: src/reader.c:278
+#: src/reader.c:277
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
 
-#: src/reader.c:343
+#: src/reader.c:342
 msgid "two @prec's in a row"
 msgstr "due @prec di seguito"
 
-#: src/reader.c:488
+#: src/reader.c:483
 msgid "no rules in the input grammar"
 msgstr "nessuna regola nella grammatica di input"
 
-#: src/reader.c:520
+#: src/reader.c:515
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "troppi simboli (token e nonterminali); il massimo è %d"
@@ -407,22 +407,22 @@ msgstr[1] "%d regole inutili"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
-#: scan-gram.l:508
+#: scan-gram.l:549
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: scan-gram.l:520 scan-gram.l:571
+#: scan-gram.l:561 scan-gram.l:612
 #, c-format
 msgid "invalid value: %s%d"
 msgstr "valore non valido: %s%d"
 
-#: scan-gram.l:526
+#: scan-gram.l:567
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: scan-gram.l:539 scan-gram.l:580
+#: scan-gram.l:580 scan-gram.l:621
 #, c-format
 msgid "%s is invalid"
 msgstr "%s non è valido"

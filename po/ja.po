@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-06-11 21:15+0200\n"
+"POT-Creation-Date: 2002-06-15 20:06+0200\n"
 "PO-Revision-Date: 2001-12-10 15:59+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -92,12 +92,12 @@ msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "本来 %d 個のシフト/還元衝突であるはずです\n"
 
-#: src/files.c:159
+#: src/files.c:157
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "ファイル `%s' を開けません"
 
-#: src/files.c:178
+#: src/files.c:176
 msgid "cannot close file"
 msgstr "ファイルを閉じることができません"
 
@@ -334,29 +334,29 @@ msgstr "不適切な $ の値"
 msgid "multiple %s declarations"
 msgstr "%s が複数個宣言されました"
 
-#: src/reader.c:247
+#: src/reader.c:246
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s に規則が与えられ、それはトークンとなります"
 
-#: src/reader.c:271
+#: src/reader.c:270
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "初期状態の動作では型 (`%s' `%s') が衝突します"
 
-#: src/reader.c:278
+#: src/reader.c:277
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "空の型付き非終端アイテム用規則であり、動作が起りません"
 
-#: src/reader.c:343
+#: src/reader.c:342
 msgid "two @prec's in a row"
 msgstr "@prec のもの二つが同列になっています"
 
-#: src/reader.c:488
+#: src/reader.c:483
 msgid "no rules in the input grammar"
 msgstr "入力した文法に規則が定義されていません"
 
-#: src/reader.c:520
+#: src/reader.c:515
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークン + 非終端アイテム) -- 最大 %d"
@@ -400,22 +400,22 @@ msgstr[0] "%d 個の無意味な規則"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"
 
-#: scan-gram.l:508
+#: scan-gram.l:549
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' の $$ に宣言のない型があります"
 
-#: scan-gram.l:520 scan-gram.l:571
+#: scan-gram.l:561 scan-gram.l:612
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "不適切な $ の値"
 
-#: scan-gram.l:526
+#: scan-gram.l:567
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d 個の `%s' が宣言された型を持っていません"
 
-#: scan-gram.l:539 scan-gram.l:580
+#: scan-gram.l:580 scan-gram.l:621
 #, c-format
 msgid "%s is invalid"
 msgstr "%s は不適切です"

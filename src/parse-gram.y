@@ -40,6 +40,20 @@
 
 /* Produce verbose parse errors.  */
 #define YYERROR_VERBOSE 1
+#define YYLLOC_DEFAULT(Current, Rhs, N)			\
+do {							\
+  if (N)						\
+  {							\
+    Current.first_column  = Rhs[1].first_column;	\
+    Current.first_line    = Rhs[1].first_line;		\
+    Current.last_column   = Rhs[N].last_column;		\
+    Current.last_line     = Rhs[N].last_line;		\
+  }							\
+  else							\
+  {							\
+    Current = Rhs[0];					\
+  }							\
+} while (0)
 
 /* Pass the control structure to YYPARSE and YYLEX. */
 #define YYPARSE_PARAM gram_control
@@ -64,6 +78,7 @@ static void yyprint (FILE *file, const location_t *loc,
 symbol_class current_class = unknown_sym;
 char *current_type = 0;
 symbol_t *current_lhs;
+location_t current_lhs_location;
 associativity current_assoc;
 int current_prec = 0;
 %}
@@ -128,11 +143,11 @@ int current_prec = 0;
 
 %%
 
-input: { LOCATION_RESET (yylloc); }
+input:
   declarations "%%" grammar epilogue.opt
     {
       yycontrol->errcode = 0;
-      epilogue_set ($5, @5);
+      epilogue_set ($4, @4);
     }
 ;
 
@@ -171,7 +186,7 @@ grammar_declaration:
 | symbol_declaration
 | "%start" symbol
     {
-      grammar_start_symbol_set ($2);
+      grammar_start_symbol_set ($2, @2);
     }
 | "%union" BRACED_CODE
     {
@@ -298,22 +313,22 @@ rules_or_grammar_declaration:
 ;
 
 rules:
-  ID ":" { current_lhs = $1; } rhses.1 ";"
+  ID ":" { current_lhs = $1; current_lhs_location = @1; } rhses.1 ";"
     {;}
 ;
 
 rhses.1:
-  rhs                { grammar_rule_end (); }
-| rhses.1 "|" rhs    { grammar_rule_end (); }
+  rhs                { grammar_rule_end (@1); }
+| rhses.1 "|" rhs    { grammar_rule_end (@3); }
 ;
 
 rhs:
   /* Nothing.  */
-    { grammar_rule_begin (current_lhs); }
+    { grammar_rule_begin (current_lhs, current_lhs_location); }
 | rhs symbol
-    { grammar_current_rule_symbol_append ($2); }
+    { grammar_current_rule_symbol_append ($2, @2); }
 | rhs action
-    { grammar_current_rule_action_append ($2, @2.first_line); }
+    { grammar_current_rule_action_append ($2, @2); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3); }
 ;

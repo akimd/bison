@@ -31,6 +31,13 @@
 #include "reader.h"
 
 /* Each time we match a string, move the end cursor to its end. */
+#define YY_USER_INIT				\
+do {						\
+  LOCATION_RESET (*yylloc);			\
+   /* This is only to avoid GCC warnings. */	\
+  if (yycontrol) {;};				\
+} while (0)
+
 #define YY_USER_ACTION  LOCATION_COLUMNS (*yylloc, yyleng)
 #define YY_LINES        LOCATION_LINES (*yylloc, yyleng); lineno += yyleng;
 #define YY_STEP         LOCATION_STEP (*yylloc)
@@ -69,9 +76,6 @@ scanner_last_string_free (void)
 }
 
 
-/* This is only to avoid GCC warnings. */
-#define YY_USER_INIT    if (yycontrol) {;};
-
 
 static int braces_level = 0;
 static int percent_percent_count = 0;
@@ -96,7 +100,7 @@ blanks   [ \t\f]+
      start of the next token.  */
 #define TR_POS 0
 #if TR_POS
-  fprintf (stderr, "FOO1: ");
+  fprintf (stderr, "FOO1: %p: ", yylloc);
   LOCATION_PRINT (stderr, *yylloc);
   fprintf (stderr, "\n");
 #endif
