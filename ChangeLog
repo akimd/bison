@@ -1,3 +1,14 @@
+2003-02-24  Paul Eggert  <eggert@twinsun.com>
+
+	* data/glr.c (yy_reduce_print): yylineno -> yylno,
+	to avoid collision with flex use of yylineno.
+	Problem reported by Bruce Lilly in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-02/msg00016.html>.
+	* data/lalr1.cc (yy::]b4_parser_class_name[::parse): Likewise.
+	* data/yacc.c (yy_reduce_print): Likewise.
+
+	* config/depcomp: Sync with Automake 1.7.3.
+
 2003-02-21  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc: Use temporary variables instead of casts to
