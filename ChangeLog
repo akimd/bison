@@ -1,3 +1,18 @@
+2003-12-23  Paul Eggert  <eggert@twinsun.com>
+
+	* config/depcomp, config/install-sh: Sync with Automake 1.8.
+	* src/output.c (output_skeleton): Rename local var.
+	* tests/input.at (Torturing the Scanner): Don't use \x0 or \0 in
+	Bison tokens, as this runs afoul of the 2003-10-07 change that
+	disallowed NUL bytes in character constants or string literals.
+
+	* tests/local.at: Require Autoconf 2.59's Autotest.
+	* tests/testsuite.at: Don't include local.at, since we now assume
+	Autoconf 2.59 or later.  Autoconf 2.59 had some problems with
+	including it.
+	* tests/Makefile.am ($(TESTSUITE)): Remove warning about ignoring
+	multiple inclusion warnings.
+	
 2003-12-02  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (How Can I Reset the Parser): More about start
