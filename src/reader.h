@@ -27,8 +27,8 @@
 typedef struct merger_list
 {
   struct merger_list* next;
-  const char* name;
-  const char* type;
+  struniq_t name;
+  struniq_t type;
 }
 merger_list;
 
@@ -76,7 +76,7 @@ void grammar_rule_end (location_t l);
 void grammar_midrule_action (void);
 void grammar_current_rule_prec_set (symbol_t *precsym, location_t l);
 void grammar_current_rule_dprec_set (int dprec, location_t l);
-void grammar_current_rule_merge_set (const char* name, location_t l);
+void grammar_current_rule_merge_set (struniq_t name, location_t l);
 
 void grammar_current_rule_symbol_append (symbol_t *symbol, location_t l);
 void grammar_current_rule_action_append (const char *action, location_t l);

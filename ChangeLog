@@ -1,5 +1,40 @@
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
+	* src/struniq.h, src/struniq.c (struniq_t): Is const.
+	(STRUNIQ_EQ, struniq_assert, struniq_assert_p): New.
+
+	Use struniq for symbols.
+
+	* src/symtab.h (symbol_t): The tag member is a struniq.
+	(symbol_type_set): Adjust.
+	* src/symtab.c (symbol_new): Takes a struniq.
+	(symbol_free): Don't free the tag member.
+	(hash_compare_symbol_t, hash_symbol_t): Rename as...
+	(hash_compare_symbol, hash_symbol): these.
+	Use the fact that tags as struniqs.
+	(symbol_get): Use struniq_new.
+	* src/symlist.h, src/symlist.c (symbol_list_n_type_name_get):
+	Returns a strniq.
+	* src/reader.h (merger_list, grammar_currentmerge_set): The name
+	and type members are struniqs.
+	* src/reader.c (get_merge_function)
+	(grammar_current_rule_merge_set): Adjust.
+	(TYPE, current_type): Are struniq.
+
+	Use struniq for file names.
+
+	* src/files.h, src/files.c (infile): Split into...
+	(grammar_file, current_file): these.
+	* src/scan-gram.c (YY_USER_INIT, handle_syncline): Adjust.
+	* src/reduce.c (reduce_print): Likewise.
+	* src/getargs.c (getargs): Likewise.
+	* src/complain.h, src/complain.c: Likewise.
+	* src/main.c (main): Call struniqs_new early enough to use it for
+	file names.
+	Don't free the input file name.
+
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.c (symbol_free): Remove dead deactivated code:
 	type_name are properly removed.
 	Don't use XFREE to free items that cannot be NULL.

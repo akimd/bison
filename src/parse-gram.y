@@ -75,7 +75,7 @@ do {							\
 static void yyprint (FILE *file, int type, const yystype *value);
 
 symbol_class current_class = unknown_sym;
-char *current_type = 0;
+struniq_t current_type = 0;
 symbol_t *current_lhs;
 location_t current_lhs_location;
 assoc_t current_assoc;
@@ -157,8 +157,9 @@ braced_code_t current_braced_code = action_braced_code;
 %token BRACED_CODE     "{...}"
 
 
-%type <string> TYPE STRING string_content
+%type <string> STRING string_content
                BRACED_CODE PROLOGUE EPILOGUE epilogue.opt action
+%type <struniq> TYPE
 %type <integer> INT
 %type <symbol> ID symbol string_as_id
 %type <assoc> precedence_declarator

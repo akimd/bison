@@ -36,7 +36,7 @@
 #define YY_USER_INIT				\
 do {						\
   LOCATION_RESET (*yylloc);			\
-  yylloc->file = infile;			\
+  yylloc->file = current_file;			\
    /* This is only to avoid GCC warnings. */	\
   if (yycontrol) {;};				\
 } while (0)
@@ -829,10 +829,8 @@ handle_syncline (char *args, location_t *location)
   const char *file = NULL;
   file = strchr (args, '"') + 1;
   *strchr (file, '"') = 0;
-  /* FIXME: Leaking...  Can't free, as some locations are still
-     pointing to the old file name.  */
-  infile = xstrdup (file);
-  location->file = infile;
+  current_file = xstrdup (file);
+  location->file = current_file;
   location->last_line = lineno;
 }
 

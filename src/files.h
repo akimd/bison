@@ -21,6 +21,8 @@
 #ifndef FILES_H_
 # define FILES_H_
 
+# include "struniq.h"
+
 /* File name specified with -o for the output file, or 0 if no -o.  */
 extern char *spec_outfile;
 
@@ -50,7 +52,13 @@ extern FILE *finput;
 extern struct obstack pre_prologue_obstack;
 extern struct obstack post_prologue_obstack;
 
-extern char *infile;
+/* The file name as given on the command line.
+   Not named "input_file" because Flex uses this name for an argument,
+   and therefore GCC warns about a name clash. */
+extern struniq_t grammar_file;
+
+/* The current file name.  Might change with %include, or with #line.  */
+extern struniq_t current_file;
 
 void compute_output_file_names (void);
 

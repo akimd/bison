@@ -48,7 +48,7 @@ typedef struct symbol_s symbol_t;
 struct symbol_s
 {
   /* The key, name of the symbol.  */
-  char *tag;
+  struniq_t tag;
   /* The location of its first occurence.  */
   location_t location;
 
@@ -98,7 +98,7 @@ void symbol_make_alias (symbol_t *symbol, symbol_t *symval,
 /* Set the TYPE_NAME associated to SYMBOL. Does nothing if passed 0 as
    TYPE_NAME.  */
 void symbol_type_set (symbol_t *symbol,
-		      char *type_name, location_t location);
+		      struniq_t type_name, location_t location);
 
 /* Set the DESTRUCTOR associated to SYMBOL.  */
 void symbol_destructor_set (symbol_t *symbol,
