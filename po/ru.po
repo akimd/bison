@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-09-24 10:22+0200\n"
+"POT-Creation-Date: 2001-09-27 10:55+0200\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: src/LR0.c:208
+#: src/LR0.c:207
 #, c-format
 msgid "too many states (max %d)"
 msgstr "слишком много состояний (максимально %d)"
@@ -30,78 +30,78 @@ msgstr "предупреждение: "
 msgid "fatal error: "
 msgstr "фатальная ошибка: "
 
-#: src/conflicts.c:49
+#: src/conflicts.c:48
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
 
-#: src/conflicts.c:115 src/conflicts.c:138
+#: src/conflicts.c:114 src/conflicts.c:137
 msgid "reduce"
 msgstr "вывод"
 
-#: src/conflicts.c:121 src/conflicts.c:134
+#: src/conflicts.c:120 src/conflicts.c:133
 msgid "shift"
 msgstr "сдвиг"
 
-#: src/conflicts.c:142
+#: src/conflicts.c:141
 msgid "an error"
 msgstr "ошибка"
 
-#: src/conflicts.c:422
+#: src/conflicts.c:421
 msgid " 1 shift/reduce conflict"
 msgstr " 1 конфликт сдвига/вывода"
 
-#: src/conflicts.c:427
+#: src/conflicts.c:426
 #, c-format
 msgid " %d shift/reduce conflicts"
 msgstr " %d конфликтов сдвига/вывода"
 
-#: src/conflicts.c:433
+#: src/conflicts.c:432
 msgid " and"
 msgstr " и"
 
-#: src/conflicts.c:439
+#: src/conflicts.c:438
 msgid " 1 reduce/reduce conflict"
 msgstr " 1 конфликт вывода/вывода"
 
-#: src/conflicts.c:444
+#: src/conflicts.c:443
 #, c-format
 msgid " %d reduce/reduce conflicts"
 msgstr " %d конфликтов вывода/вывода"
 
-#: src/conflicts.c:481
+#: src/conflicts.c:480
 #, c-format
 msgid "State %d contains"
 msgstr "Состояние %d содержит"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:492
+#: src/conflicts.c:491
 msgid "conflicts: "
 msgstr "конфликты: "
 
-#: src/conflicts.c:494
+#: src/conflicts.c:493
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d сдвиг/вывод"
 
-#: src/conflicts.c:498
+#: src/conflicts.c:497
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d вывод/вывод"
 
-#: src/conflicts.c:503
+#: src/conflicts.c:502
 #, c-format
 msgid "%s contains"
 msgstr "%s содержит"
 
-#: src/conflicts.c:589 src/conflicts.c:710
+#: src/conflicts.c:588 src/conflicts.c:709
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[вывод с использованием правила %d (%s)]\n"
 
-#: src/conflicts.c:601 src/print.c:172
+#: src/conflicts.c:600 src/print.c:171
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -110,31 +110,31 @@ msgstr ""
 "    $default\tвывод с использованием правила %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:690 src/conflicts.c:704
+#: src/conflicts.c:689 src/conflicts.c:703
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tвывод с использованием правила %d (%s)\n"
 
-#: src/conflicts.c:731
+#: src/conflicts.c:730
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tвывод с использованием правила %d (%s)\n"
 
-#: src/derives.c:44
+#: src/derives.c:43
 msgid "DERIVES"
 msgstr "DERIVES"
 
-#: src/derives.c:49
+#: src/derives.c:48
 #, c-format
 msgid "%s derives"
 msgstr "%s выводит"
 
-#: src/files.c:138
+#: src/files.c:136
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "не удается открыть файл `%s'"
 
-#: src/files.c:157
+#: src/files.c:155
 msgid "cannot close file"
 msgstr "не удается закрыть файл"
 
@@ -236,7 +236,7 @@ msgstr ""
 "ПРИГОДНОСТИ\n"
 "ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ.\n"
 
-#: src/getargs.c:214 src/lex.c:633
+#: src/getargs.c:214 src/lex.c:639
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' больше не поддерживается"
@@ -256,139 +256,139 @@ msgstr "%s: не задан файл с грамматикой\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: лишние аргументы после `%s' игнорированы\n"
 
-#: src/lalr.c:312
+#: src/lalr.c:311
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "слишком много goto (максимально %d)"
 
-#: src/lex.c:72
+#: src/lex.c:78
 msgid "unexpected `/' found and ignored"
 msgstr "встречен и проигнорирован неожиданный символ `/'"
 
-#: src/lex.c:101 src/reader.c:270
+#: src/lex.c:107 src/reader.c:269
 msgid "unterminated comment"
 msgstr "незаконченный комментарий"
 
-#: src/lex.c:133
+#: src/lex.c:139
 msgid "unexpected end of file"
 msgstr "неожиданный конец файла"
 
-#: src/lex.c:162
+#: src/lex.c:168
 msgid "unescaped newline in constant"
 msgstr "неэкранированный перевод строки в константе"
 
-#: src/lex.c:204
+#: src/lex.c:210
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "восьмеричная величина за пределами диапазона 0...255: `\\%o'"
 
-#: src/lex.c:229
+#: src/lex.c:235
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "шестнадцатеричная величина превышает 255: `\\x%x'"
 
-#: src/lex.c:241
+#: src/lex.c:247
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "неизвестная escape-последовательность: `%s' после `\\'"
 
-#: src/lex.c:337
+#: src/lex.c:343
 msgid "unterminated type name at end of file"
 msgstr "незаконченное имя типа в конце файла"
 
-#: src/lex.c:340
+#: src/lex.c:346
 msgid "unterminated type name"
 msgstr "незаконченное имя типа"
 
-#: src/lex.c:431
+#: src/lex.c:437
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "используйте \"...\" для многосимвольных литеральных лексем"
 
-#: src/main.c:122
+#: src/main.c:124
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: внутренняя ошибка: %s\n"
 
-#: src/nullable.c:52
+#: src/nullable.c:51
 msgid "Entering set_nullable"
 msgstr "Вход в set_nullable"
 
-#: src/output.c:987
+#: src/output.c:986
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "превышен максимальный размер таблицы (%d)"
 
-#: src/print.c:38
+#: src/print.c:37
 #, c-format
 msgid " type %d is %s\n"
 msgstr " тип %d является %s\n"
 
-#: src/print.c:86
+#: src/print.c:85
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (правило %d)"
 
-#: src/print.c:112
+#: src/print.c:111
 msgid "    $default\taccept\n"
 msgstr "    $default\tпринятие\n"
 
-#: src/print.c:114
+#: src/print.c:113
 msgid "    NO ACTIONS\n"
 msgstr "    НЕТ ДЕЙСТВИЙ\n"
 
-#: src/print.c:133
+#: src/print.c:132
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \tпереход в состояние %d\n"
 
-#: src/print.c:136
+#: src/print.c:135
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tсдвиг, и переход в состояние %d\n"
 
-#: src/print.c:160
+#: src/print.c:159
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tошибка (неассоциативная)\n"
 
-#: src/print.c:188
+#: src/print.c:187
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tпереход в состояние %d\n"
 
-#: src/print.c:200
+#: src/print.c:199
 #, c-format
 msgid "state %d"
 msgstr "состояние %d"
 
 #. rule # : LHS -> RHS
-#: src/print.c:230
+#: src/print.c:229
 msgid "Grammar"
 msgstr "Грамматика"
 
-#: src/print.c:235
+#: src/print.c:234
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "правило %-4d %s ->"
 
-#: src/print.c:241
+#: src/print.c:240
 msgid "empty"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:245
+#: src/print.c:244
 msgid "Terminals, with rules where they appear"
 msgstr "Терминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:269
+#: src/print.c:268
 msgid "Nonterminals, with rules where they appear"
 msgstr "Нетерминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:295
+#: src/print.c:294
 msgid " on left:"
 msgstr " налево:"
 
-#: src/print.c:310
+#: src/print.c:309
 msgid " on right:"
 msgstr " направо:"
 
@@ -402,242 +402,242 @@ msgstr "%-4s\tошибка (неассоциативная)"
 msgid "$default\treduce using rule %d (%s)"
 msgstr "$default\tвывод с использованием правила %d (%s)"
 
-#: src/reader.c:79
+#: src/reader.c:78
 msgid "   Skipping to next \\n"
 msgstr "   Пропуск до следующего \\n"
 
-#: src/reader.c:81
+#: src/reader.c:80
 #, c-format
 msgid "   Skipping to next %c"
 msgstr "   Пропуск до следующего %c"
 
-#: src/reader.c:132 src/reader.c:144
+#: src/reader.c:131 src/reader.c:143
 msgid "invalid $ value"
 msgstr "неверное $ значение"
 
-#: src/reader.c:170 src/reader.c:185
+#: src/reader.c:169 src/reader.c:184
 msgid "unterminated string at end of file"
 msgstr "незаконченная строка в конце файла"
 
-#: src/reader.c:173
+#: src/reader.c:172
 msgid "unterminated string"
 msgstr "незаконченная строка"
 
-#: src/reader.c:326 src/reader.c:390
+#: src/reader.c:325 src/reader.c:389
 #, c-format
 msgid "%s is invalid"
 msgstr "неверный знак %s"
 
-#: src/reader.c:366
+#: src/reader.c:365
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ в `%s' не имеет описанного типа"
 
-#: src/reader.c:383
+#: src/reader.c:382
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d из `%s' не имеет описанного типа"
 
-#: src/reader.c:437
+#: src/reader.c:436
 msgid "unterminated `%{' definition"
 msgstr "незаконченное определение `%{'"
 
-#: src/reader.c:482 src/reader.c:596 src/reader.c:646
+#: src/reader.c:481 src/reader.c:595 src/reader.c:645
 #, c-format
 msgid "Premature EOF after %s"
 msgstr "Преждевременный конец файла после %s"
 
-#: src/reader.c:499
+#: src/reader.c:498
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr ""
 
-#: src/reader.c:502
+#: src/reader.c:501
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr ""
 
-#: src/reader.c:523 src/reader.c:665
+#: src/reader.c:522 src/reader.c:664
 #, c-format
 msgid "symbol %s redefined"
 msgstr "повторное определение символа %s"
 
-#: src/reader.c:533 src/reader.c:611 src/reader.c:672 src/reader.c:1286
+#: src/reader.c:532 src/reader.c:610 src/reader.c:671 src/reader.c:1285
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "повторное описание типа для %s"
 
-#: src/reader.c:542
+#: src/reader.c:541
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "`%s' неверно в %s"
 
-#: src/reader.c:559 src/reader.c:718
+#: src/reader.c:558 src/reader.c:717
 #, c-format
 msgid "multiple %s declarations"
 msgstr "множественное описание %s"
 
-#: src/reader.c:561 src/reader.c:898 src/reader.c:923 src/reader.c:1264
+#: src/reader.c:560 src/reader.c:897 src/reader.c:922 src/reader.c:1263
 #, c-format
 msgid "invalid %s declaration"
 msgstr "неверное описание %s"
 
-#: src/reader.c:581
+#: src/reader.c:580
 msgid "%type declaration has no <typename>"
 msgstr "описание %type не имеет <имя_типа>"
 
-#: src/reader.c:616
+#: src/reader.c:615
 #, c-format
 msgid "invalid %%type declaration due to item: %s"
 msgstr "неверное описание %%type из-за элемента: %s"
 
-#: src/reader.c:661
+#: src/reader.c:660
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "переопределение приоритета для %s"
 
-#: src/reader.c:684
+#: src/reader.c:683
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "неверный текст (%s) - число должно следовать за идентификатором"
 
-#: src/reader.c:694
+#: src/reader.c:693
 #, c-format
 msgid "unexpected item: %s"
 msgstr "неожиданный элемент: %s"
 
-#: src/reader.c:761 src/reader.c:1090 src/reader.c:1161
+#: src/reader.c:760 src/reader.c:1089 src/reader.c:1160
 #, c-format
 msgid "unmatched %s"
 msgstr "непарная %s"
 
-#: src/reader.c:793
+#: src/reader.c:792
 #, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "аргумент %%expect не является целым числом"
 
-#: src/reader.c:839
+#: src/reader.c:838
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "нераспознанный элемент %s, ожидался идентификатор"
 
-#: src/reader.c:863
+#: src/reader.c:862
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "вместо %s ожидалась строковая постоянная"
 
-#: src/reader.c:1006
+#: src/reader.c:1005
 #, c-format
 msgid "unrecognized: %s"
 msgstr "нераспознано: %s"
 
-#: src/reader.c:1011
+#: src/reader.c:1010
 msgid "no input grammar"
 msgstr "нет входной грамматики"
 
-#: src/reader.c:1016
+#: src/reader.c:1015
 #, c-format
 msgid "unknown character: %s"
 msgstr "неизвестный символ: %s"
 
-#: src/reader.c:1184
+#: src/reader.c:1183
 #, c-format
 msgid "unterminated %guard clause"
 msgstr "незаконченный оператор %guard"
 
-#: src/reader.c:1351
+#: src/reader.c:1350
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "неверное правило: двоеточие не следует за начальным символом"
 
-#: src/reader.c:1358
+#: src/reader.c:1357
 msgid "grammar starts with vertical bar"
 msgstr "грамматика начинается с вертикальной черты"
 
-#: src/reader.c:1389
+#: src/reader.c:1388
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "правило задано для %s, который является лексемой"
 
-#: src/reader.c:1491
+#: src/reader.c:1490
 msgid "two @prec's in a row"
 msgstr "два @prec подряд"
 
-#: src/reader.c:1499
+#: src/reader.c:1498
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard присутствует, а %%semantic_parser не задан"
 
-#: src/reader.c:1508
+#: src/reader.c:1507
 msgid "two actions at end of one rule"
 msgstr "два действия в конце одного правила"
 
-#: src/reader.c:1522
+#: src/reader.c:1521
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "конфликт типов (`%s' `%s') на действии по умолчанию"
 
-#: src/reader.c:1528
+#: src/reader.c:1527
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "пустое правило для типизированного нетерминального символа, и нет действия"
 
-#: src/reader.c:1572
+#: src/reader.c:1571
 #, c-format
 msgid "invalid input: %s"
 msgstr "неверные входные данные: %s"
 
-#: src/reader.c:1580
+#: src/reader.c:1579
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"
 
-#: src/reader.c:1583
+#: src/reader.c:1582
 msgid "no rules in the input grammar"
 msgstr "отсутствуют правила во входной грамматике"
 
-#: src/reader.c:1607
+#: src/reader.c:1606
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr "символ %s используется, но не определен как лексема и не имеет правил"
 
-#: src/reader.c:1713
+#: src/reader.c:1712
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "противоречивые приоритеты для %s и %s"
 
-#: src/reader.c:1725
+#: src/reader.c:1724
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "противоречивые значения ассоциативности для %s и %s"
 
-#: src/reader.c:1771
+#: src/reader.c:1770
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "обеим лексемам %s и %s присвоен номер %d"
 
-#: src/reader.c:1783
+#: src/reader.c:1782
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "начальный символ %s неопределен"
 
-#: src/reader.c:1785
+#: src/reader.c:1784
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
 
-#: src/reduce.c:402
+#: src/reduce.c:401
 msgid "Useless nonterminals:"
 msgstr "Бесполезные нетерминалы:"
 
-#: src/reduce.c:417
+#: src/reduce.c:416
 msgid "Terminals which are not used:"
 msgstr "Неиспользованные терминалы:"
 
-#: src/reduce.c:428
+#: src/reduce.c:427
 msgid "Useless rules:"
 msgstr "Бесполезные правила:"
 
-#: src/reduce.c:457
+#: src/reduce.c:456
 msgid ""
 "Variables\n"
 "---------\n"
@@ -647,11 +647,11 @@ msgstr ""
 "----------\n"
 "\n"
 
-#: src/reduce.c:459
+#: src/reduce.c:458
 msgid "Value  Sprec    Sassoc    Tag\n"
 msgstr "Знач   Приор    Ассоц     Тег\n"
 
-#: src/reduce.c:464
+#: src/reduce.c:463
 msgid ""
 "Rules\n"
 "-----\n"
@@ -661,7 +661,7 @@ msgstr ""
 "-------\n"
 "\n"
 
-#: src/reduce.c:475
+#: src/reduce.c:474
 msgid ""
 "Rules interpreted\n"
 "-----------------\n"
@@ -671,36 +671,36 @@ msgstr ""
 "--------------------------\n"
 "\n"
 
-#: src/reduce.c:492
+#: src/reduce.c:491
 #, c-format
 msgid "%d rules never reduced\n"
 msgstr "%d правил не сведено\n"
 
-#: src/reduce.c:494
+#: src/reduce.c:493
 #, c-format
 msgid "%s contains "
 msgstr "%s содержит "
 
-#: src/reduce.c:498
+#: src/reduce.c:497
 #, c-format
 msgid "%d useless nonterminal%s"
 msgstr "%d бесполезных нетерминалов%s"
 
-#: src/reduce.c:503
+#: src/reduce.c:502
 msgid " and "
 msgstr " и "
 
-#: src/reduce.c:507
+#: src/reduce.c:506
 #, c-format
 msgid "%d useless rule%s"
 msgstr "%d бесполезных правил%s"
 
-#: src/reduce.c:540
+#: src/reduce.c:539
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Начальный символ %s не выводит ни одного предложения"
 
-#: src/reduce.c:553
+#: src/reduce.c:552
 #, c-format
 msgid ""
 "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
