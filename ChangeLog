@@ -1,3 +1,11 @@
+2003-04-27  Paul Eggert  <eggert@twinsun.com>
+
+	Avoid gcc -Wundef warnings reported by Gerald Pfeifer in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-04/msg00044.html>.
+	* data/yacc.c (YYSTACK_ALLOC): Don't evaluate YYSTACK_USE_ALLOCA
+	if it is not defined.
+	(YYMAXDEPTH): Don't evaluate YYMAXDEPTH if it is not defined.
+
 2003-04-26  Paul Eggert  <eggert@twinsun.com>
 
 	* data/lalr1.cc (yy::Parser::pact_ninf_, yy::Parser::table_ninf_):
