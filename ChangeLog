@@ -1,5 +1,40 @@
 2001-09-02  Marc Autret  <autret_m@epita.fr>
 
+	* src/reader.c: Include muscle_tab.h.
+	(parse_union_decl): Update.
+	(parse_macro_decl): Rename parse_muscle_decl.
+	Update to use renamed functions and variable.
+	(read_declarations, copy_action, read_additionnal_code, : Updated
+	with correct variables and functions names.
+	(packsymbols, reader): Likewise.
+	
+	* src/reader.h (muscle_obstack): Extern declaration update.
+	
+	* src/output.c: Include muscle_tab.h
+	In all functions using macro_insert, change by using muscle_insert ().
+	(macro_obstack): Rename muscle_obstack.
+	Echo modifications in the whole file.
+	(MACRO_INSERT_INT): Rename MUSCLE_INSERT_INT.
+	(MACRO_INSERT_STRING): Rename MUSCLE_INSERT_STRING.
+	(MACRO_INSERT_PREFIX): Rename MUSCLE_INSERT_PREFIX.
+
+	* src/muscle_tab.h: Update double inclusion macros.
+	(macro_entry_s): Rename muscle_entry_s.
+	Update prototypes.
+	
+	* src/muscle_tab.c: Include muscle_tab.h.
+	Rename macro_tabble to muscle_table.
+	(mhash1, mhash2, mcmp): Use muscle_entry.
+	(macro_init): Rename muscle_init. Update.
+	(macro_insert): Rename muscle_insert. Update.
+	(macro_find): Rename muscle_find. Update.
+
+	* src/main.c: Include muscle_tab.h.
+	(main): Call muscle_init ().
+	* src/Makefile.am (bison_SOURCES): Echo modifications.
+
+2001-09-02  Marc Autret  <autret_m@epita.fr>
+
 	Now the files macro_tab.[ch] are named muscle_tab.[ch].
 	
 	* src/muscle_tab.c, src/muscle_tab.h: Add files.
