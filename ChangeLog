@@ -1,5 +1,9 @@
 2004-09-27  Akim Demaille  <akim@epita.fr>
 
+	* data/yacc.c (YY_LOCATION_PRINT): Fix its default declaration.
+
+2004-09-27  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc (b4_parse_param_decl_1): New.
 	(b4_parse_param_decl): Use it to have different names bw attribute
 	and argument names.
