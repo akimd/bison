@@ -46,7 +46,6 @@ typedef enum token_e
     tok_typename,
     tok_number,
     tok_expect,
-    tok_thong,
     tok_define,
     tok_skel,
     tok_noop,
