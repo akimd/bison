@@ -61,19 +61,20 @@ AT_CHECK([bison input.y -o input.c -v], 0, [],
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
-[[State 4 contains 1 shift/reduce conflict.
+[[State 5 contains 1 shift/reduce conflict.
 
 
 Grammar
 
   Number, Line, Rule
+    0   4 $axiom -> exp $
     1   3 exp -> exp OP exp
     2   3 exp -> NUM
 
 
 Terminals, with rules where they appear
 
-$ (0)
+$ (0) 0
 error (256)
 NUM (257) 2
 OP (258) 1
@@ -81,8 +82,10 @@ OP (258) 1
 
 Nonterminals, with rules where they appear
 
-exp (5)
-    on left: 1 2, on right: 1
+$axiom (5)
+    on left: 0
+exp (6)
+    on left: 1 2, on right: 0 1
 
 
 state 0
@@ -103,44 +106,41 @@ state 1
 
 state 2
 
+    $axiom  ->  exp . $   (rule 0)
     exp  ->  exp . OP exp   (rule 1)
 
-    $   	shift, and go to state 5
-    OP  	shift, and go to state 3
+    $   	shift, and go to state 3
+    OP  	shift, and go to state 4
 
 
 
 state 3
 
-    exp  ->  exp OP . exp   (rule 1)
+    $axiom  ->  exp $ .   (rule 0)
 
-    NUM 	shift, and go to state 1
-
-    exp 	go to state 4
-
+    $default	accept
 
 
 state 4
 
-    exp  ->  exp . OP exp   (rule 1)
-    exp  ->  exp OP exp .   (rule 1)
+    exp  ->  exp OP . exp   (rule 1)
 
-    OP  	shift, and go to state 3
+    NUM 	shift, and go to state 1
 
-    OP  	[reduce using rule 1 (exp)]
-    $default	reduce using rule 1 (exp)
+    exp 	go to state 5
 
 
 
 state 5
 
-    $   	shift, and go to state 6
+    exp  ->  exp . OP exp   (rule 1)
+    exp  ->  exp OP exp .   (rule 1)
 
+    OP  	shift, and go to state 4
 
+    OP  	[reduce using rule 1 (exp)]
+    $default	reduce using rule 1 (exp)
 
-state 6
-
-    $default	accept
 
 
 ]])
@@ -165,19 +165,20 @@ AT_CHECK([bison input.y -o input.c -v], 0, [], [])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
-[[Conflict in state 4 between rule 1 and token OP resolved as shift.
+[[Conflict in state 5 between rule 2 and token OP resolved as shift.
 
 
 Grammar
 
   Number, Line, Rule
+    0   5 $axiom -> exp $
     1   4 exp -> exp OP exp
     2   4 exp -> NUM
 
 
 Terminals, with rules where they appear
 
-$ (0)
+$ (0) 0
 error (256)
 NUM (257) 2
 OP (258) 1
@@ -185,8 +186,10 @@ OP (258) 1
 
 Nonterminals, with rules where they appear
 
-exp (5)
-    on left: 1 2, on right: 1
+$axiom (5)
+    on left: 0
+exp (6)
+    on left: 1 2, on right: 0 1
 
 
 state 0
@@ -207,43 +210,40 @@ state 1
 
 state 2
 
+    $axiom  ->  exp . $   (rule 0)
     exp  ->  exp . OP exp   (rule 1)
 
-    $   	shift, and go to state 5
-    OP  	shift, and go to state 3
+    $   	shift, and go to state 3
+    OP  	shift, and go to state 4
 
 
 
 state 3
 
-    exp  ->  exp OP . exp   (rule 1)
+    $axiom  ->  exp $ .   (rule 0)
 
-    NUM 	shift, and go to state 1
-
-    exp 	go to state 4
-
+    $default	accept
 
 
 state 4
 
-    exp  ->  exp . OP exp   (rule 1)
-    exp  ->  exp OP exp .   (rule 1)
+    exp  ->  exp OP . exp   (rule 1)
 
-    OP  	shift, and go to state 3
+    NUM 	shift, and go to state 1
 
-    $default	reduce using rule 1 (exp)
+    exp 	go to state 5
 
 
 
 state 5
 
-    $   	shift, and go to state 6
+    exp  ->  exp . OP exp   (rule 1)
+    exp  ->  exp OP exp .   (rule 1)
 
+    OP  	shift, and go to state 4
 
+    $default	reduce using rule 1 (exp)
 
-state 6
-
-    $default	accept
 
 
 ]])
@@ -296,6 +296,7 @@ AT_CHECK([cat input.output], [],
 [[Grammar
 
   Number, Line, Rule
+    0  28 $axiom -> expr $
     1   2 @1 -> /* empty */
     2   2 expr -> 'a' @1 'b'
     3  15 @2 -> /* empty */
@@ -304,7 +305,7 @@ AT_CHECK([cat input.output], [],
 
 Terminals, with rules where they appear
 
-$ (0)
+$ (0) 0
 'a' (97) 2
 'b' (98) 2
 'c' (99) 4
@@ -313,11 +314,13 @@ error (256)
 
 Nonterminals, with rules where they appear
 
-expr (6)
-    on left: 2 4
-@1 (7)
+$axiom (6)
+    on left: 0
+expr (7)
+    on left: 2 4, on right: 0
+@1 (8)
     on left: 1, on right: 2
-@2 (8)
+@2 (9)
     on left: 3, on right: 4
 
 
@@ -325,10 +328,8 @@ state 0
 
     'a' 	shift, and go to state 1
 
-    $default	reduce using rule 3 (@2)
-
-    expr	go to state 6
-    @2  	go to state 2
+    expr	go to state 2
+    @2  	go to state 3
 
 
 
@@ -338,27 +339,42 @@ state 1
 
     $default	reduce using rule 1 (@1)
 
-    @1  	go to state 3
+    @1  	go to state 4
 
 
 
 state 2
 
-    expr  ->  @2 . 'c'   (rule 4)
+    $axiom  ->  expr . $   (rule 0)
 
-    'c' 	shift, and go to state 4
+    $   	shift, and go to state 5
 
 
 
 state 3
 
-    expr  ->  'a' @1 . 'b'   (rule 2)
+    expr  ->  @2 . 'c'   (rule 4)
 
-    'b' 	shift, and go to state 5
+    'c' 	shift, and go to state 6
 
 
 
 state 4
+
+    expr  ->  'a' @1 . 'b'   (rule 2)
+
+    'b' 	shift, and go to state 7
+
+
+
+state 5
+
+    $axiom  ->  expr $ .   (rule 0)
+
+    $default	accept
+
+
+state 6
 
     expr  ->  @2 'c' .   (rule 4)
 
@@ -366,23 +382,12 @@ state 4
 
 
 
-state 5
+state 7
 
     expr  ->  'a' @1 'b' .   (rule 2)
 
     $default	reduce using rule 2 (expr)
 
-
-
-state 6
-
-    $   	shift, and go to state 7
-
-
-
-state 7
-
-    $default	accept
 
 
 ]])
