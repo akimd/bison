@@ -1,5 +1,12 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (count_sr_conflicts, count_rr_conflicts)
+	(print_reductions): De-obfuscate using the good o' techniques:
+	arrays not pointers, variable locality, BITISSET.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (print_reductions): Arrays, not pointers.
 	Use BITISSET.
 
