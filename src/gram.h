@@ -1,5 +1,5 @@
 /* Data definitions for internal representation of bison's input,
-   Copyright 1984, 1986, 1989, 1992, 2001, 2002
+   Copyright (C) 1984, 1986, 1989, 1992, 2001, 2002
    Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -118,6 +118,10 @@ typedef struct rule_s
 {
   /* The number of the rule in the source.  It is usually the index in
      RULES too, except if there are useless rules.  */
+  short user_number;
+
+  /* The index in RULES.  Usually the rule number in the source,
+     except if some rules are useless.  */
   short number;
 
   bucket *lhs;

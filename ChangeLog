@@ -1,5 +1,12 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (rule_t): Rename `number' as `user_number'.
+	`number' is a new member.
+	Adjust dependencies.
+	* src/reduce.c (reduce_grammar_tables): Renumber rule_t.number.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	As a result of the previous patch, it is no longer needed
 	to reorder ritem itself.
 
