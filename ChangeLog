@@ -1,5 +1,20 @@
 2002-10-12  Paul Eggert  <eggert@twinsun.com>
 
+	* lib/timevar.c [! IN_GCC && HAVE_SYS_TIME_H]: Include <sys/time.h>.
+	* m4/timevar.m4 (BISON_PREREQ_TIMEVAR): Check for <sys/time.h>.
+	Include <sys/time.h> when checking for clock_t and struct tms.
+	Use same include order as source.
+	This is for the SunOS 4.1.4 porting bug reported by Peter Klein in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-October/001674.html>.
+	
+	* lib/timevar.c: Update copyright date and clarify comments.
+	(get_time) [IN_GCC]: Keep the GCC version for reference.
+	
+	* lib/timevar.c, lib/timevar.h, lib/timevar.def: Import
+	GCC version as of today, then merge Bison's changes.
+	Change "GCC" to "Bison" in copyright notice.  timevar.def's
+	author is Akim, so change that too.
+
 	* src/reader.c (grammar_current_rule_check):
 	Don't worry about the default action if $$ is untyped.
 	Prevents bogus warnings reported by Jim Gifford in
