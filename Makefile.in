@@ -71,7 +71,7 @@ DISTFILES = COPYING ChangeLog Makefile.in configure configure.in \
     warshall.c files.h gram.h lex.h machine.h new.h state.h \
     symtab.h system.h types.h bison.cld build.com vmsgetargs.c \
     vmshlp.mar README INSTALL bison.texinfo bison.info* texinfo.tex \
-    getopt.c getopt.h getopt1.c alloca.c mkinstalldirs install.sh
+    getopt.c getopt.h getopt1.c alloca.c mkinstalldirs install-sh
 
 
 SHELL = /bin/sh
