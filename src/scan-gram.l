@@ -542,9 +542,28 @@ splice	 (\\[ \f\t\v]*\n)*
   "{"|"<"{splice}"%"  STRING_GROW; braces_level++;
   "%"{splice}">"      STRING_GROW; braces_level--;
   "}" {
-    STRING_GROW;
-    braces_level--;
-    if (braces_level < 0)
+    bool outer_brace = --braces_level < 0;
+
+    /* As an undocumented Bison extension, append `;' before the last
+       brace in braced code, so that the user code can omit trailing
+       `;'.  But do not append `;' if emulating Yacc, since Yacc does
+       not append one.
+
+       FIXME: Bison should warn if a semicolon seems to be necessary
+       here, and should omit the semicolon if it seems unnecessary
+       (e.g., after ';', '{', or '}', each followed by comments or
+       white space).  Such a warning shouldn't depend on --yacc; it
+       should depend on a new --pedantic option, which would cause
+       Bison to warn if it detects an extension to POSIX.  --pedantic
+       should also diagnose other Bison extensions like %yacc.
+       Perhaps there should also be a GCC-style --pedantic-errors
+       option, so that such warnings are diagnosed as errors.  */
+    if (outer_brace && ! yacc_flag)
+      obstack_1grow (&obstack_for_string, ';');
+
+    obstack_1grow (&obstack_for_string, '}');
+
+    if (outer_brace)
       {
 	STRING_FINISH;
 	rule_length++;
