@@ -1,5 +1,12 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (new_itemsets): Use nshifts only, not shiftcount.
+	* src/closure.c, src/closure.h (itemsetsize): Rename as...
+	(nitemset): for consistency with the rest of the project.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c (print_closure): Improve.
 	(closure): Use it for printing input and output.
 
