@@ -412,42 +412,41 @@ more information on this.
 @cindex generalized @acronym{LR} (@acronym{GLR}) parsing
 @cindex ambiguous grammars
 @cindex non-deterministic parsing
-Parsers for @acronym{LALR}(1) grammars are @dfn{deterministic},
-meaning roughly that
-the next grammar rule to apply at any point in the input is uniquely
-determined by the preceding input and a fixed, finite portion (called
-a @dfn{look-ahead}) of the remaining input.
-A context-free grammar can be @dfn{ambiguous}, meaning that
-there are multiple ways to apply the grammar rules to get the some inputs.
-Even unambiguous grammars can be @dfn{non-deterministic}, meaning that no
-fixed look-ahead always suffices to determine the next grammar rule to apply.
-With the proper declarations, Bison is also able to parse these more general
-context-free grammars, using a technique known as @acronym{GLR} parsing (for
-Generalized @acronym{LR}).  Bison's @acronym{GLR} parsers are able to
-handle any context-free
-grammar for which the number of possible parses of any given string
-is finite.
+
+Parsers for @acronym{LALR}(1) grammars are @dfn{deterministic}, meaning
+roughly that the next grammar rule to apply at any point in the input is
+uniquely determined by the preceding input and a fixed, finite portion
+(called a @dfn{look-ahead}) of the remaining input.  A context-free
+grammar can be @dfn{ambiguous}, meaning that there are multiple ways to
+apply the grammar rules to get the some inputs.  Even unambiguous
+grammars can be @dfn{non-deterministic}, meaning that no fixed
+look-ahead always suffices to determine the next grammar rule to apply.
+With the proper declarations, Bison is also able to parse these more
+general context-free grammars, using a technique known as @acronym{GLR}
+parsing (for Generalized @acronym{LR}).  Bison's @acronym{GLR} parsers
+are able to handle any context-free grammar for which the number of
+possible parses of any given string is finite.
 
 @cindex symbols (abstract)
 @cindex token
 @cindex syntactic grouping
 @cindex grouping, syntactic
-In the formal grammatical rules for a language, each kind of syntactic unit
-or grouping is named by a @dfn{symbol}.  Those which are built by grouping
-smaller constructs according to grammatical rules are called
+In the formal grammatical rules for a language, each kind of syntactic
+unit or grouping is named by a @dfn{symbol}.  Those which are built by
+grouping smaller constructs according to grammatical rules are called
 @dfn{nonterminal symbols}; those which can't be subdivided are called
 @dfn{terminal symbols} or @dfn{token types}.  We call a piece of input
 corresponding to a single terminal symbol a @dfn{token}, and a piece
 corresponding to a single nonterminal symbol a @dfn{grouping}.
 
 We can use the C language as an example of what symbols, terminal and
-nonterminal, mean.  The tokens of C are identifiers, constants (numeric and
-string), and the various keywords, arithmetic operators and punctuation
-marks.  So the terminal symbols of a grammar for C include `identifier',
-`number', `string', plus one symbol for each keyword, operator or
-punctuation mark: `if', `return', `const', `static', `int', `char',
-`plus-sign', `open-brace', `close-brace', `comma' and many more.  (These
-tokens can be subdivided into characters, but that is a matter of
+nonterminal, mean.  The tokens of C are identifiers, constants (numeric
+and string), and the various keywords, arithmetic operators and
+punctuation marks.  So the terminal symbols of a grammar for C include
+`identifier', `number', `string', plus one symbol for each keyword,
+operator or punctuation mark: `if', `return', `const', `static', `int',
+`char', `plus-sign', `open-brace', `close-brace', `comma' and many more.
+(These tokens can be subdivided into characters, but that is a matter of
 lexicography, not grammar.)
 
 Here is a simple C function subdivided into tokens:
@@ -642,28 +641,28 @@ from the values of the two subexpressions.
 @cindex conflicts
 @cindex shift/reduce conflicts
 
-In some grammars, there will be cases where Bison's standard @acronym{LALR}(1)
-parsing algorithm cannot decide whether to apply a certain grammar rule
-at a given point.  That is, it may not be able to decide (on the basis
-of the input read so far) which of two possible reductions (applications
-of a grammar rule) applies, or whether to apply a reduction or read more
-of the input and apply a reduction later in the input.  These are known
-respectively as @dfn{reduce/reduce} conflicts (@pxref{Reduce/Reduce}),
-and @dfn{shift/reduce} conflicts (@pxref{Shift/Reduce}).
+In some grammars, there will be cases where Bison's standard
+@acronym{LALR}(1) parsing algorithm cannot decide whether to apply a
+certain grammar rule at a given point.  That is, it may not be able to
+decide (on the basis of the input read so far) which of two possible
+reductions (applications of a grammar rule) applies, or whether to apply
+a reduction or read more of the input and apply a reduction later in the
+input.  These are known respectively as @dfn{reduce/reduce} conflicts
+(@pxref{Reduce/Reduce}), and @dfn{shift/reduce} conflicts
+(@pxref{Shift/Reduce}).
 
-To use a grammar that is not easily modified to be @acronym{LALR}(1), a more
-general parsing algorithm is sometimes necessary.  If you include
+To use a grammar that is not easily modified to be @acronym{LALR}(1), a
+more general parsing algorithm is sometimes necessary.  If you include
 @code{%glr-parser} among the Bison declarations in your file
-(@pxref{Grammar Outline}), the result will be a Generalized
-@acronym{LR} (@acronym{GLR})
-parser.  These parsers handle Bison grammars that contain no unresolved
-conflicts (i.e., after applying precedence declarations) identically to
-@acronym{LALR}(1) parsers.  However, when faced with unresolved
-shift/reduce and reduce/reduce conflicts, @acronym{GLR} parsers use
-the simple expedient of doing
-both, effectively cloning the parser to follow both possibilities.  Each
-of the resulting parsers can again split, so that at any given time,
-there can be any number of possible parses being explored.  The parsers
+(@pxref{Grammar Outline}), the result will be a Generalized @acronym{LR}
+(@acronym{GLR}) parser.  These parsers handle Bison grammars that
+contain no unresolved conflicts (i.e., after applying precedence
+declarations) identically to @acronym{LALR}(1) parsers.  However, when
+faced with unresolved shift/reduce and reduce/reduce conflicts,
+@acronym{GLR} parsers use the simple expedient of doing both,
+effectively cloning the parser to follow both possibilities.  Each of
+the resulting parsers can again split, so that at any given time, there
+can be any number of possible parses being explored.  The parsers
 proceed in lockstep; that is, all of them consume (shift) a given input
 symbol before any of them proceed to the next.  Each of the cloned
 parsers eventually meets one of two possible fates: either it runs into
@@ -810,6 +809,32 @@ as both an @code{expr} and a @code{decl}, and print
 "x" y z + T <init-declare> x T <cast> y z + = <OR>
 @end example
 
+@sp 1
+
+@cindex @code{incline}
+@cindex @acronym{GLR} parsers and @code{inline}
+Note that the @acronym{GLR} parsers require an ISO C89 compiler.  In
+addition, they use the @code{inline} keyword, which is not C89, but a
+common extension.  It is up to the user of these parsers to handle
+portability issues.  For instance, if using Autoconf and the Autoconf
+macro @code{AC_C_INLINE}, a mere
+
+@example
+%@{
+#include <config.h>
+%@}
+@end example
+
+@noindent
+will suffice.  Otherwise, we suggest
+
+@example
+%@{
+#if ! defined __GNUC__ && ! defined inline
+# define inline
+#endif
+%@}
+@end example
 
 @node Locations Overview
 @section Locations

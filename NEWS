@@ -2,6 +2,10 @@ Bison News
 ----------
 Changes in version 1.75c:
 
+* GLR and inline
+  Users of Bison have to decide how they handle the portability of the
+  C keyword `inline'.
+
 Changes in version 1.75b, 2002-11-13:
 
 * %destructor

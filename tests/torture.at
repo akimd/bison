@@ -48,6 +48,7 @@ use strict;
 my $max = $ARGV[0] || 10;
 
 print <<EOF;
+]AT_DATA_GRAMMAR_PROLOGUE[
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -163,6 +164,7 @@ use strict;
 my $max = $ARGV[0] || 10;
 
 print <<EOF;
+]AT_DATA_GRAMMAR_PROLOGUE[
 %{
 #include <stdio.h>
 #include <stdlib.h>

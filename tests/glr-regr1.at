@@ -20,7 +20,7 @@ AT_BANNER([[GLR Regression Test #1.]])
 
 AT_SETUP([Badly Collapsed GLR States])
 
-AT_DATA([glr-regr1.y],
+AT_DATA_GRAMMAR([glr-regr1.y],
 [[/* Regression Test: Improper state compression */
 /* Reported by Scott McPeak */
 

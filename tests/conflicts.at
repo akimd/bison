@@ -50,14 +50,9 @@ AT_CLEANUP
 
 AT_SETUP([%nonassoc and eof])
 
-AT_DATA([input.y],
+AT_DATA_GRAMMAR([input.y],
 [[
 %{
-#include <config.h>
-/* We don't need perfect functions for these tests. */
-#undef malloc
-#undef memcmp
-#undef realloc
 #include <stdio.h>
 
 #if STDC_HEADERS

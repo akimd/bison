@@ -29,7 +29,7 @@ AT_SETUP([Mid-rule actions])
 # instead of being attached to the empty rule dedicated to this
 # action.
 
-AT_DATA([[input.y]],
+AT_DATA_GRAMMAR([[input.y]],
 [[%{
 # include <stdio.h>
 # include <stdlib.h>
@@ -88,7 +88,7 @@ AT_CLEANUP
 
 AT_SETUP([Exotic Dollars])
 
-AT_DATA([[input.y]],
+AT_DATA_GRAMMAR([[input.y]],
 [[%{
 # include <stdio.h>
 # include <stdlib.h>
@@ -167,7 +167,7 @@ AT_SETUP([Printers and Destructors: $4])
 
 # Make sure complex $n work.
 
-AT_DATA([[input.y]],
+AT_DATA_GRAMMAR([[input.y]],
 [[$4
 %{
 #include <stdio.h>

@@ -22,6 +22,34 @@
 m4_version_prereq([2.52g])
 
 
+# AT_DATA_GRAMMAR_PROLOGUE
+# ------------------------
+# The prologue that should be included in any grammar which parser is
+# meant to be compiled.
+m4_define([AT_DATA_GRAMMAR_PROLOGUE],
+[[%{
+#if HAVE_CONFIG_H
+# include <config.h>
+  /* We don't need perfect functions for these tests. */
+# undef malloc
+# undef memcmp
+# undef realloc
+#endif
+%}]
+])
+
+
+# AT_DATA_GRAMMAR(NAME, CONTENT)
+# ------------------------------
+# Generate the file NAME, which CONTENT is preceded by
+# AT_DATA_GRAMMAR_PROLOGUE.
+m4_define([AT_DATA_GRAMMAR],
+[AT_DATA([$1],
+[AT_DATA_GRAMMAR_PROLOGUE
+$2])
+])
+
+
 # AT_COMPILE(OUTPUT, [SOURCES = OUTPUT.c])
 # ----------------------------------------
 #
@@ -77,7 +105,7 @@ m4_include([existing.at])
 # Some old bugs.
 m4_include([regression.at])
 
-# GLR tests: 
+# GLR tests:
 # C++ types, simplified
 m4_include([cxx-type.at])
 # Regression test for state-folding optimization

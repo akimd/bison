@@ -18,13 +18,13 @@
 
 AT_BANNER([[C++ Type Syntax (GLR).]])
 
-# _AT_TEST_GLR_CALC(DECL, RESOLVE1, RESOLVE2)
-# -------------------------------------------
+# _AT_TEST_GLR_CXXTYPES(DECL, RESOLVE1, RESOLVE2)
+# -----------------------------------------------
 # Store into types.y the calc program, with DECL inserted as a declaration,
 # and with RESOLVE1 and RESOLVE2 as annotations on the conflicted rule for
 # stmt.  Then compile the result.
-m4_define([_AT_TEST_GLR_CALC],
-[AT_DATA([types.y],
+m4_define([_AT_TEST_GLR_CXXTYPES],
+[AT_DATA_GRAMMAR([types.y],
 [[/* Simplified C++ Type and Expression Grammar.  */
 
 $1
@@ -253,57 +253,62 @@ m4_define([_AT_VERBOSE_GLR_STDERR],
 ## ---------------------------------------------------- ##
 
 AT_SETUP([GLR: Resolve ambiguity, impure, no locations])
-_AT_TEST_GLR_CALC([],[%dprec 1],[%dprec 2])
+_AT_TEST_GLR_CXXTYPES([],
+                      [%dprec 1], [%dprec 2])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
                 _AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, impure, locations])
-_AT_TEST_GLR_CALC([%locations],[%dprec 1],[%dprec 2])
+_AT_TEST_GLR_CXXTYPES([%locations],[%dprec 1],[%dprec 2])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
                 _AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, no locations])
-_AT_TEST_GLR_CALC([%pure-parser],[%dprec 1],[%dprec 2])
+_AT_TEST_GLR_CXXTYPES([%pure-parser],
+                      [%dprec 1], [%dprec 2])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
                 _AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, locations])
-_AT_TEST_GLR_CALC([%pure-parser
-%locations],[%dprec 1],[%dprec 2])
+_AT_TEST_GLR_CXXTYPES([%pure-parser %locations],
+                      [%dprec 1], [%dprec 2])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
                 _AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, no locations])
-_AT_TEST_GLR_CALC([],[%merge <stmtMerge>],[%merge <stmtMerge>])
+_AT_TEST_GLR_CXXTYPES([],
+                      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
                 _AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, locations])
-_AT_TEST_GLR_CALC([%locations],[%merge <stmtMerge>],[%merge <stmtMerge>])
+_AT_TEST_GLR_CXXTYPES([%locations],
+                      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
                 _AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, pure, no locations])
-_AT_TEST_GLR_CALC([%pure-parser],[%merge <stmtMerge>],[%merge <stmtMerge>])
+_AT_TEST_GLR_CXXTYPES([%pure-parser],
+                      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
                 _AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 AT_SETUP([GLR: Merge conflicting parses, pure, locations])
-_AT_TEST_GLR_CALC([%pure-parser
-%locations],[%merge <stmtMerge>],[%merge <stmtMerge>])
+_AT_TEST_GLR_CXXTYPES([%pure-parser %locations],
+                      [%merge <stmtMerge>],[%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
                 _AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Verbose messages, resolve ambiguity, impure, no locations])
-_AT_TEST_GLR_CALC([%error-verbose],
-[%merge <stmtMerge>],[%merge <stmtMerge>])
+_AT_TEST_GLR_CXXTYPES([%error-verbose],
+                      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
 	        _AT_AMBIG_GLR_OUTPUT, _AT_VERBOSE_GLR_STDERR)
 AT_CLEANUP

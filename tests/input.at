@@ -92,7 +92,7 @@ AT_CLEANUP
 
 AT_SETUP([Torturing the Scanner])
 
-AT_DATA([input.y],
+AT_DATA_GRAMMAR([input.y],
 [[%{
 /* This is seen in GCC: a %{ and %} in middle of a comment. */
 const char *foo = "So %{ and %} can be here too.";
@@ -187,6 +187,8 @@ yyerror (const char *msg)
   fprintf (stderr, "%s\n", msg);
 }
 ]])
+
+# Pacify Emacs'font-lock-mode: "
 
 AT_DATA([main.c],
 [[typedef int value_t;

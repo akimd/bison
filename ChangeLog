@@ -1,5 +1,18 @@
 2002-11-14  Akim Demaille  <akim@epita.fr>
 
+	* tests/atlocal.in (CPPFLAGS): We have config.h.
+	* tests/testsuite.at (AT_DATA_GRAMMAR_PROLOGUE, AT_DATA_GRAMMAR):
+	New.
+	* tests/actions.at, tests/calc.at, tests/conflicts.at,
+	* tests/cxx-type.at, tests/glr-regr1.at, tests/headers.at,
+	* tests/regression.at, tests/torture.at: Use them for all the
+	grammars that are to be compiled.
+	* tests/cxx-type.at (_AT_TEST_GLR_CALC): Rename as...
+	* tests/cxx-type.at (_AT_TEST_GLR_CXXTYPES): this.
+	* doc/bison.texinfo (GLR Parsers): Document `inline'.
+
+2002-11-14  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo: Various formatting changes (alignments in
 	samples, additional @group/@end group, GCS in samples.
 	Use @deffn instead of simple @table to define the directives,

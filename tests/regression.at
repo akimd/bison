@@ -29,7 +29,7 @@ AT_SETUP([Early token definitions])
 # Found in GCJ: they expect the tokens to be defined before the user
 # prologue, so that they can use the token definitions in it.
 
-AT_DATA([input.y],
+AT_DATA_GRAMMAR([input.y],
 [[%{
 void yyerror (const char *s);
 int yylex (void);
@@ -313,7 +313,7 @@ AT_CLEANUP
 AT_SETUP([Token definitions])
 
 # Bison managed, when fed with `%token 'f' "f"' to #define 'f'!
-AT_DATA([input.y],
+AT_DATA_GRAMMAR([input.y],
 [%{
 void yyerror (const char *s);
 int yylex (void);
@@ -340,7 +340,7 @@ AT_CLEANUP
 
 AT_SETUP([Characters Escapes])
 
-AT_DATA([input.y],
+AT_DATA_GRAMMAR([input.y],
 [%{
 void yyerror (const char *s);
 int yylex (void);
@@ -352,6 +352,7 @@ exp:
 | '"'  "'"
 ;
 ]])
+# Pacify font-lock-mode: "
 
 AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])

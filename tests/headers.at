@@ -55,7 +55,7 @@ m4_define([AT_TEST_CPP_GUARD_H],
 dirname=`AS_DIRNAME([$1])`
 AS_MKDIR_P([$dirname])
 
-AT_DATA([$1.y],
+AT_DATA_GRAMMAR([$1.y],
 [%%
 dummy:;
 ])
@@ -80,7 +80,7 @@ AT_TEST_CPP_GUARD_H([9foo])
 
 AT_SETUP([export YYLTYPE])
 
-AT_DATA([input.y],
+AT_DATA_GRAMMAR([input.y],
 [%locations
 
 %name-prefix="my_"
