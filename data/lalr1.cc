@@ -432,8 +432,9 @@ yy::]b4_parser_class_name[::parse ()
       // Short files will use "unsigned char" for line numbers,
       // in which case they will be output as character litterals
       // by "<<".
+      unsigned yylineno = rline_[n_];
       YYCDEBUG << "Reducing via rule " << n_ - 1
-               << " (line " << static_cast <unsigned> (rline_[n_]) << "), ";
+               << " (line " << yylineno << "), ";
       for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
 	   0 <= rhs_[i]; ++i)
 	YYCDEBUG << name_[rhs_[i]] << ' ';
@@ -923,7 +924,9 @@ namespace yy
     /** \brief (column related) Advance to the COLUMNS next columns. */
     inline void columns (int columns = 1)
     {
-      if (int (initial_column) < columns + int (column))
+      int leftmost = initial_column;
+      int current  = column;
+      if (leftmost <= current + columns)
 	column += columns;
       else
 	column = initial_column;
