@@ -82,14 +82,16 @@ m4_define([b4_token_define],
 # ---------------------------------------
 # Output the definition of this token as an enum.
 m4_define([b4_token_enum],
-[enum $1 = $2])
+[$1 = $2])
 
 
 # b4_token_defines(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
 # -------------------------------------------------------
-# Output the definition of the tokens as #define.
+# Output the definition of the tokens (if there are) as enums and #define.
 m4_define([b4_token_defines],
-[#ifndef YYTOKENTYPE
+[m4_if([$@], [[]], [],
+[/* Tokens.  */
+#ifndef YYTOKENTYPE
 # if defined (__STDC__) || defined (__cplusplus)
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
@@ -101,8 +103,10 @@ m4_map_sep([     b4_token_enum], [,
    /* POSIX requires `int' for tokens in interfaces.  */
 #  define YYTOKENTYPE int
 # endif
-#endif
-m4_map([b4_token_define], [$@])])
+#endif /* !YYTOKENTYPE */
+m4_map([b4_token_define], [$@])
+])
+])
 
 
 m4_divert(0)dnl
@@ -310,7 +314,6 @@ union yyalloc
 
 #endif
 
-/* Tokens.  */
 b4_token_defines(b4_tokens)
 
 /* YYFINAL -- State number of the termination state. */
