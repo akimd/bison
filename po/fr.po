@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28d\n"
-"POT-Creation-Date: 2002-01-09 19:09+0100\n"
+"POT-Creation-Date: 2002-01-25 16:32+0100\n"
 "PO-Revision-Date: 2001-08-29 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -206,7 +206,7 @@ msgstr ""
 "reproduction. AUCUNE garantie n'est donnée; tant pour des raisons\n"
 "COMMERCIALES que pour RÉPONDRE À UN BESOIN PARTICULIER.\n"
 
-#: src/getargs.c:200 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:599
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' n'est plus supporté"
@@ -274,12 +274,12 @@ msgstr "le nom de type ne se termine pas"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
 
-#: src/lex.c:560
+#: src/lex.c:571
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr ""
 
-#: src/lex.c:577
+#: src/lex.c:588
 #, fuzzy, c-format
 msgid "`%s' requires an argument"
 msgstr "%s: l'option %s requiert un paramètre\n"

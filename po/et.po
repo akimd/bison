@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28d\n"
-"POT-Creation-Date: 2002-01-09 19:09+0100\n"
+"POT-Creation-Date: 2002-01-25 16:32+0100\n"
 "PO-Revision-Date: 2001-08-29 17:06+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -200,7 +200,7 @@ msgstr ""
 "See on vaba tarkvara; kopeerimistingimused leiate lähtetekstidest. Garantii\n"
 "PUUDUB; ka müügiks või mingil eesmärgil kasutamiseks.\n"
 
-#: src/getargs.c:200 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:599
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' ei ole enam toetatud"
@@ -268,12 +268,12 @@ msgstr "lõpetamata tüübinimi"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "kasuta mitmesümboliliste literaalidega \"...\" konstruktsiooni"
 
-#: src/lex.c:560
+#: src/lex.c:571
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr ""
 
-#: src/lex.c:577
+#: src/lex.c:588
 #, fuzzy, c-format
 msgid "`%s' requires an argument"
 msgstr "%s: võti `%s' nõuab argumenti\n"

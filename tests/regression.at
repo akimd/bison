@@ -19,6 +19,81 @@
 AT_BANNER([[Regression tests.]])
 
 
+## ------------------- ##
+## %nonassoc and eof.  ##
+## ------------------- ##
+
+AT_SETUP([%nonassoc and eof])
+
+AT_DATA([input.y],
+[[
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <error.h>
+#define YYERROR_VERBOSE 1
+#define yyerror(Msg) \
+do { \
+  fprintf (stderr, "%s\n", Msg); \
+  exit (1); \
+} while (0)
+
+/* The current argument. */
+static const char *input = NULL;
+
+static int
+yylex (void)
+{
+  /* No token stands for end of file. */
+  if (input && *input)
+    return *input++;
+  else
+    return 0;
+}
+
+%}
+
+%nonassoc '<' '>'
+
+%%
+expr: expr '<' expr
+    | expr '>' expr
+    | '0'
+    ;
+%%
+int
+main (int argc, const char *argv[])
+{
+  if (argc > 1)
+    input = argv[1];
+  return yyparse ();
+}
+]])
+
+# Specify the output files to avoid problems on different file systems.
+AT_CHECK([bison input.y -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
+
+AT_CHECK([input '0<0'])
+# FIXME: This is an actual bug, but a new one, in the sense that
+# no one has ever spotted it!  The messages are *wrong*: there should
+# be nothing there, it should be expected eof.
+AT_CHECK([input '0<0<0'], [1], [],
+         [parse error, unexpected '<', expecting '<' or '>'
+])
+
+AT_CHECK([input '0>0'])
+AT_CHECK([input '0>0>0'], [1], [],
+         [parse error, unexpected '>', expecting '<' or '>'
+])
+
+AT_CHECK([input '0<0>0'], [1], [],
+         [parse error, unexpected '>', expecting '<' or '>'
+])
+
+AT_CLEANUP
+
 ## ---------------- ##
 ## Braces parsing.  ##
 ## ---------------- ##

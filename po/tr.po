@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28c\n"
-"POT-Creation-Date: 2002-01-09 19:09+0100\n"
+"POT-Creation-Date: 2002-01-25 16:32+0100\n"
 "PO-Revision-Date: 2001-09-10 10:54GMT\n"
 "Last-Translator: Altug Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -206,7 +206,7 @@ msgstr ""
 "Hiçbir garantisi yoktur; hatta SATILABÝLÝRLÝÐÝ veya HERHANGÝ BÝR AMACA\n"
 "UYGUNLUÐU için bile garanti verilmez.\n"
 
-#: src/getargs.c:200 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:599
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' artýk desteklenmiyor"
@@ -274,12 +274,12 @@ msgstr "sonlandýrýlmamýþ tip ismi"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "çok-karakterli yazýn andaçlarý için \"...\" kullan"
 
-#: src/lex.c:560
+#: src/lex.c:571
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr ""
 
-#: src/lex.c:577
+#: src/lex.c:588
 #, fuzzy, c-format
 msgid "`%s' requires an argument"
 msgstr "%s: `%s' seçeneði bir argümanla kullanýlýr\n"

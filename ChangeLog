@@ -1,3 +1,8 @@
+2002-01-25  Akim Demaille  <akim@epita.fr>
+
+	* tests/regression.at (%nonassoc and eof): New.
+	Suggested by Robert Anisko.
+
 2002-01-24  Akim Demaille  <akim@epita.fr>
 
 	Bison dumps core when trying to complain about broken input files.

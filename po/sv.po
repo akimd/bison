@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2002-01-09 19:09+0100\n"
+"POT-Creation-Date: 2002-01-25 16:32+0100\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -207,7 +207,7 @@ msgstr ""
 "finns INGEN garanti, inte ens för SÄLJBARHET eller LÄMPLIGHET FÖR ETT\n"
 "SPECIELLT ÄNDAMÅL.\n"
 
-#: src/getargs.c:200 src/lex.c:588
+#: src/getargs.c:200 src/lex.c:599
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "\"%s\" stöds inte längre"
@@ -275,12 +275,12 @@ msgstr "oavslutat typnamn"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "använd \"...\" för bokstavliga element med mer än ett tecken"
 
-#: src/lex.c:560
+#: src/lex.c:571
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr "\"%s\" stödjer inga argument: %s"
 
-#: src/lex.c:577
+#: src/lex.c:588
 #, c-format
 msgid "`%s' requires an argument"
 msgstr "\"%s\" behöver ett argument"
