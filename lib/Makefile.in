@@ -98,14 +98,14 @@ AUTOMAKE_OPTIONS = ansi2knr
 
 noinst_LIBRARIES = libbison.a
 
-INCLUDES = -I.. -I$(srcdir) -I../intl
+INCLUDES = -I.. -I$(srcdir) -I$(top_srcdir)/src -I../intl
 
 # Heck, we are still using an old version of Automake which does not
 # understand LIBOBJ additions using $objext...
 
 EXTRA_DIST = malloc.c realloc.c
 
-libbison_a_SOURCES =    error.c error.h   getopt.h getopt.c getopt1.c   obstack.h obstack.c   quote.h quote.c quotearg.h quotearg.c   xalloc.h xmalloc.c xstrdup.c
+libbison_a_SOURCES =    error.c error.h   getopt.h getopt.c getopt1.c   hash.h hash.c   obstack.h obstack.c   quote.h quote.c quotearg.h quotearg.c   xalloc.h xmalloc.c xstrdup.c
 
 
 libbison_a_LIBADD = @LIBOBJS@
@@ -121,8 +121,8 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 ANSI2KNR = @ANSI2KNR@
-libbison_a_OBJECTS =  error$U.o getopt$U.o getopt1$U.o obstack$U.o \
-quote$U.o quotearg$U.o xmalloc$U.o xstrdup$U.o
+libbison_a_OBJECTS =  error$U.o getopt$U.o getopt1$U.o hash$U.o \
+obstack$U.o quote$U.o quotearg$U.o xmalloc$U.o xstrdup$U.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -136,10 +136,10 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/error.P .deps/getopt.P .deps/getopt1.P .deps/memchr.P \
-.deps/obstack.P .deps/quote.P .deps/quotearg.P .deps/stpcpy.P \
-.deps/strndup.P .deps/strnlen.P .deps/strspn.P .deps/xmalloc.P \
-.deps/xstrdup.P
+DEP_FILES =  .deps/error.P .deps/getopt.P .deps/getopt1.P .deps/hash.P \
+.deps/memchr.P .deps/obstack.P .deps/quote.P .deps/quotearg.P \
+.deps/stpcpy.P .deps/strndup.P .deps/strnlen.P .deps/strspn.P \
+.deps/xmalloc.P .deps/xstrdup.P
 SOURCES = $(libbison_a_SOURCES)
 OBJECTS = $(libbison_a_OBJECTS)
 
@@ -213,6 +213,8 @@ getopt_.c: getopt.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/getopt.c; then echo $(srcdir)/getopt.c; else echo getopt.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > getopt_.c
 getopt1_.c: getopt1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/getopt1.c; then echo $(srcdir)/getopt1.c; else echo getopt1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > getopt1_.c
+hash_.c: hash.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/hash.c; then echo $(srcdir)/hash.c; else echo hash.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > hash_.c
 memchr_.c: memchr.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/memchr.c; then echo $(srcdir)/memchr.c; else echo memchr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > memchr_.c
 obstack_.c: obstack.c $(ANSI2KNR)
@@ -233,9 +235,9 @@ xmalloc_.c: xmalloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xmalloc.c; then echo $(srcdir)/xmalloc.c; else echo xmalloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xmalloc_.c
 xstrdup_.c: xstrdup.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrdup.c; then echo $(srcdir)/xstrdup.c; else echo xstrdup.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrdup_.c
-alloca_.o error_.o getopt_.o getopt1_.o memchr_.o obstack_.o quote_.o \
-quotearg_.o stpcpy_.o strndup_.o strnlen_.o strspn_.o xmalloc_.o \
-xstrdup_.o : $(ANSI2KNR)
+alloca_.o error_.o getopt_.o getopt1_.o hash_.o memchr_.o obstack_.o \
+quote_.o quotearg_.o stpcpy_.o strndup_.o strnlen_.o strspn_.o \
+xmalloc_.o xstrdup_.o : $(ANSI2KNR)
 
 tags: TAGS
 
