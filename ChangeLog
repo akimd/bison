@@ -1,5 +1,11 @@
 2001-11-26  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (allocate_itemsets): kernel_size contains ints, not
+	size_ts.
+	Reported by Hans Aberg.
+
+2001-11-26  Akim Demaille  <akim@epita.fr>
+
 	* src/complain.c, src/complain.h (error): Remove, provided by
 	lib/error.[ch].
 
