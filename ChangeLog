@@ -1,3 +1,9 @@
+2003-02-21  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo: Use "location" consistently to refer to @n,
+	to avoid confusions with lalr1.cc's notion of Position.
+	Suggested by Paul Eggert.
+
 2003-02-20  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (position.hh): Make sure "columns" never pushes

@@ -237,7 +237,7 @@ The Lexical Analyzer Function @code{yylex}
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
 * Token Values::      How @code{yylex} must return the semantic value
                         of the token it has read.
-* Token Positions::   How @code{yylex} must return the text position
+* Token Locations::   How @code{yylex} must return the text location
                         (line number, etc.) of the token, if the
                         actions want that.
 * Pure Calling::      How the calling convention differs
@@ -855,12 +855,12 @@ will suffice.  Otherwise, we suggest
 @node Locations Overview
 @section Locations
 @cindex location
-@cindex textual position
-@cindex position, textual
+@cindex textual location
+@cindex location, textual
 
 Many applications, like interpreters or compilers, have to produce verbose
 and useful error messages.  To achieve this, one must be able to keep track of
-the @dfn{textual position}, or @dfn{location}, of each syntactic construct.
+the @dfn{textual location}, or @dfn{location}, of each syntactic construct.
 Bison provides a mechanism for handling these locations.
 
 Each token has a semantic value.  In a similar fashion, each token has an
@@ -3071,8 +3071,8 @@ actually does to implement mid-rule actions.
 @node Locations
 @section Tracking Locations
 @cindex location
-@cindex textual position
-@cindex position, textual
+@cindex textual location
+@cindex location, textual
 
 Though grammar rules and semantic actions are enough to write a fully
 functional parser, it can be useful to process some additional information,
@@ -3971,7 +3971,7 @@ that need it.  @xref{Invocation, ,Invoking Bison}.
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
 * Token Values::      How @code{yylex} must return the semantic value
                         of the token it has read.
-* Token Positions::   How @code{yylex} must return the text position
+* Token Locations::   How @code{yylex} must return the text location
                         (line number, etc.) of the token, if the
                         actions want that.
 * Pure Calling::      How the calling convention differs
@@ -4104,8 +4104,8 @@ then the code in @code{yylex} might look like this:
 @end group
 @end example
 
-@node Token Positions
-@subsection Textual Positions of Tokens
+@node Token Locations
+@subsection Textual Locations of Tokens
 
 @vindex yylloc
 If you are using the @samp{@@@var{n}}-feature (@pxref{Locations, ,
@@ -4148,7 +4148,7 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 @end example
 
 If the grammar file does not use the @samp{@@} constructs to refer to
-textual positions, then the type @code{YYLTYPE} will not be defined.  In
+textual locations, then the type @code{YYLTYPE} will not be defined.  In
 this case, omit the second argument; @code{yylex} will be called with
 only one argument.
 
@@ -4410,7 +4410,7 @@ errors.  This is useful primarily in error rules.
 
 @deffn {Value} @@$
 @findex @@$
-Acts like a structure variable containing information on the textual position
+Acts like a structure variable containing information on the textual location
 of the grouping made by the current rule.  @xref{Locations, ,
 Tracking Locations}.
 
@@ -4436,7 +4436,7 @@ Tracking Locations}.
 
 @deffn {Value} @@@var{n}
 @findex @@@var{n}
-Acts like a structure variable containing information on the textual position
+Acts like a structure variable containing information on the textual location
 of the @var{n}th component of the current rule.  @xref{Locations, ,
 Tracking Locations}.
 @end deffn
@@ -6562,8 +6562,8 @@ External variable in which @code{yylex} should place the line and column
 numbers associated with a token.  (In a pure parser, it is a local
 variable within @code{yyparse}, and its address is passed to
 @code{yylex}.)  You can ignore this variable if you don't use the
-@samp{@@} feature in the grammar actions.  @xref{Token Positions,
-,Textual Positions of Tokens}.
+@samp{@@} feature in the grammar actions.  @xref{Token Locations,
+,Textual Locations of Tokens}.
 @end deffn
 
 @deffn {Variable} yynerrs
