@@ -181,11 +181,11 @@ void *memrchr (const void *s, int c, size_t n);
 | Booleans.  |
 `-----------*/
 
-#ifndef TRUE
-# define TRUE	(1)
-# define FALSE	(0)
+#if HAVE_STDBOOL_H
+# include <stdbool.h>
+#else
+typedef enum {false = 0, true = 1} bool;
 #endif
-typedef int bool;
 
 
 /*-----------.
