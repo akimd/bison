@@ -34,7 +34,7 @@ File: bison.info,  Node: Top,  Next: Introduction,  Up: (dir)
 Bison
 *****
 
-   This manual documents version 1.28c of Bison, updated 29 August 2001.
+   This manual documents version 1.28d of Bison, updated 29 August 2001.
 
 * Menu:
 
@@ -237,7 +237,7 @@ Bison in detail.
 it Yacc-compatible.  Wilfred Hansen of Carnegie Mellon University added
 multi-character string literals and other features.
 
-   This edition corresponds to version 1.28c of Bison.
+   This edition corresponds to version 1.28d of Bison.
 
 
 File: bison.info,  Node: Conditions,  Next: Copying,  Prev: Introduction,  Up: Top

@@ -1,7 +1,9 @@
 Bison News
 ----------
 
-Changes in version 1.28c:
+Changes in version 1.28d:
+
+* Output file does not redefine const; that is now config.h's job.
 
 * Added `-g' and `--graph'.
 

@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-08-29 12:07+0200\n"
+"POT-Creation-Date: 2001-08-29 14:32+0200\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
