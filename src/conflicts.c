@@ -38,7 +38,7 @@ static unsigned *lookaheadset = NULL;
 
 
 static inline void
-log_resolution (int state, int LAno, int token, char *resolution)
+log_resolution (int state, int LAno, int token, const char *resolution)
 {
   obstack_fgrow4 (&output_obstack,
 		  _("\
