@@ -1,5 +1,13 @@
 2002-07-03  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (print_fderives): Use rule_rhs_print.
+	* src/derives.c (print_derives): Use rule_rhs_print.
+	(rule_list_t): New, replaces `shorts'.
+	(set_derives): Add comments.
+	* tests/sets.at (Nullable, Firsts): Adjust.
+
+2002-07-03  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (prepare_actions): Free `tally' and `width'.
 	(prepare_actions): Allocate and free `order'.
 	* src/symtab.c (symbols_free): Free `symbols'.
@@ -8,7 +16,7 @@
 	* src/scan-skel.l: here.
 	(<<EOF>>): Close yyout, and free its name.
 
-	
+
 2002-07-03  Akim Demaille  <akim@epita.fr>
 
 	Fix some memory leaks, and fix a bug: state 0 was examined twice.
