@@ -22,9 +22,6 @@
 # Do not save the original name or timestamp in the .tar.gz file.
 GZIP_ENV = '--no-name --best'
 
-# Automake 1.4 does not define AMTAR.
-AMTAR ?= $(TAR)
-
 CVS = cvs
 
 prev_version_file ?= .prev-version
@@ -43,6 +40,87 @@ my_distdir = $(PACKAGE)-$(VERSION)
 # Old releases are stored here.
 # Used for diffs and xdeltas.
 release_archive_dir ?= ../release
+
+
+
+## ---------------- ##
+## Updating files.  ##
+## ---------------- ##
+
+WGET = wget
+ftp-gnu = ftp://ftp.gnu.org/gnu
+
+# Use mv, if you don't have/want move-if-change.
+move_if_change ?= move-if-change
+
+# ------------------- #
+# Updating PO files.  #
+# ------------------- #
+
+po_repo = http://www.iro.umontreal.ca/contrib/po/maint/$(PACKAGE)
+.PHONY po-update:
+po-update:
+	cd $(srcdir)/po && wget -r -l1 -nd --no-parent -A '*.po' $(po_repo)
+	rm $(srcdir)/po/index.html
+	cd po && make update-po
+	make po-check
+
+
+# -------------------------- #
+# Updating GNU build tools.  #
+# -------------------------- #
+
+# The following pseudo table associates a local directory and a URL
+# with each of the files that belongs to some other package and is
+# regularly updated from the specified URL.
+wget_files ?= $(srcdir)/config.guess $(srcdir)/config.sub \
+              $(srcdir)/src/ansi2knr.c \
+	      $(srcdir)/doc/texinfo.tex
+wget-targets = $(patsubst %, get-%, $(wget_files))
+
+config.guess-url_prefix = $(ftp-gnu)/config/
+config.sub-url_prefix = $(ftp-gnu)/config/
+
+ansi2knr.c-url_prefix = ftp://ftp.cs.wisc.edu/ghost/
+
+texinfo.tex-url_prefix = $(ftp-gnu)/texinfo/
+
+standards.texi-url_prefix = $(ftp-gnu)/GNUinfo/
+make-stds.texi-url_prefix = $(ftp-gnu)/GNUinfo/
+
+target = $(patsubst get-%, %, $@)
+url = $($(notdir $(target))-url_prefix)$(notdir $(target))
+
+.PHONY: $(wget-targets)
+$(wget-targets):
+	$(WGET) $(url) -O $(target).t \
+	  && $(move_if_change) $(target).t $(target)
+
+.PHONY: wget-update
+wget-update: $(wget-targets)
+
+
+# Updating tools via CVS.
+cvs_files ?= depcomp missing
+cvs-targets = $(patsubst %, get-%, $(cvs_files))
+
+automake_repo = :pserver:anoncvs@anoncvs.cygnus.com:/cvs/automake
+.PHONY: $(cvs-targets)
+$(cvs-targets):
+	$(CVS) -d $(automake_repo) co -p automake/lib/$(notdir $(target)) \
+	  >$(target).t \
+	    && $(move_if_change) $(target).t $(target);
+
+.PHONY: cvs-update
+cvs-update: $(cvs-targets)
+
+
+# --------------------- #
+# Updating everything.  #
+# --------------------- #
+
+.PHONY: update
+update: wget-update cvs-update po-update
 
 
 
@@ -117,6 +195,12 @@ cvs-check: cvs-diff-check cvs-tag-check
 maintainer-distcheck: changelog-check
 	$(MAKE) distcheck
 	$(MAKE) my-distcheck
+
+
+
+## -------------- ##
+## Making dists.  ##
+## -------------- ##
 
 
 # Tag before making distribution.  Also, don't make a distribution if
@@ -229,48 +313,6 @@ announcement: NEWS ChangeLog $(rel-files)
 	    | perl -ne 'm!^\+\+ (\./)?! or print,next;' \
 	      -e 'print "\n"."*"x70 ."\n"; s///; print; print "*"x70 ."\n"'; \
 	)
-
-WGET = wget
-ftp-gnu = ftp://ftp.gnu.org/gnu
-
-# Use mv, if you don't have/want move-if-change.
-move_if_change ?= move-if-change
-
-# The following pseudo table associates a local directory and a URL
-# with each of the files that belongs to some other package and is
-# regularly updated from the specified URL.
-wget_files ?= $(srcdir)/config.guess $(srcdir)/config.sub \
-              $(srcdir)/src/ansi2knr.c \
-	      $(srcdir)/doc/texinfo.tex
-get-targets = $(patsubst %, get-%, $(wget_files))
-
-config.guess-url_prefix = $(ftp-gnu)/config/
-config.sub-url_prefix = $(ftp-gnu)/config/
-
-ansi2knr.c-url_prefix = ftp://ftp.cs.wisc.edu/ghost/
-
-texinfo.tex-url_prefix = $(ftp-gnu)/texinfo/
-
-standards.texi-url_prefix = $(ftp-gnu)/GNUinfo/
-make-stds.texi-url_prefix = $(ftp-gnu)/GNUinfo/
-
-target = $(patsubst get-%, %, $@)
-url = $($(notdir $(target))-url_prefix)$(notdir $(target))
-
-.PHONY: $(get-targets)
-$(get-targets):
-	$(WGET) $(url) -O $(target).t \
-	  && $(move_if_change) $(target).t $(target)
-
-automake_repo=:pserver:anoncvs@anoncvs.cygnus.com:/cvs/automake
-.PHONY: wget-update
-wget-update: $(get-targets)
-	for f in depcomp missing; do                                    \
-	  test -f $$f || continue;					\
-	  echo checking out $$f...;                                     \
-	  $(CVS) -d $(automake_repo) co -p automake/lib/$$f > $$f.t     \
-	    && $(move_if_change) $$f.t $$f;                             \
-	done
 
 define emit-rsync-commands
 	echo =====================================

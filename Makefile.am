@@ -26,3 +26,5 @@ alpha_url_dir = gnu/bison
 # Files to update automatically.
 wget_files = $(srcdir)/config/config.guess $(srcdir)/config/config.sub \
 	     $(srcdir)/config/texinfo.tex
+
+cvs_files = $(srcdir)/config/missing
