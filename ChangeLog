@@ -1,5 +1,22 @@
 2002-10-13  Akim Demaille  <akim@epita.fr>
 
+	Let nondeterministic skeletons be usable with deterministic
+	tables.
+
+	With the patch, GAWK compiled by GCC without -O2 passes its test
+	suite using a GLR parser driven by LALR tables.  It fails with -O2
+	because `struct stat' gives two different answers on my machine:
+	88 (definition of an auto var) and later 96 (memset on this var).
+	Hence the stack is badly corrumpted.  The headers inclusion is to
+	blame: if I move the awk.h inclusion before GLR's system header
+	inclusion, the two struct stat have the same size.
+
+	* src/tables.c (pack_table): Always create conflict_table.
+	(token_actions): Always create conflict_list.
+	* data/glr.c (YYFLAG): Remove, unused.
+
+2002-10-13  Akim Demaille  <akim@epita.fr>
+
 	* configure.ac (AC_GNU_SOURCE): Use it instead of hand written code.
 	(O0FLAGS): New.
 	(VALGRIND, GXX): New.
