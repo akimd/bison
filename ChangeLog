@@ -1,5 +1,29 @@
 2002-05-02  Akim Demaille  <akim@epita.fr>
 
+	Remove the so called hairy (semantic) parsers.
+
+	* src/system.h (EXT_GUARD_C, EXT_STYPE_H): Remove.
+	* src/gram.h, src/gram.c (semantic_parser): Remove.
+	(rule_t): Remove the guard and guard_line members.
+	* src/lex.h (token_t): remove tok_guard.
+	* src/options.c (option_table): Remove %guard and %semantic_parser
+	support.
+	* src/output.c, src/output.h (guards_output): Remove.
+	(prepare): Adjust.
+	(token_definitions_output): Don't output the `T'
+	tokens (???).
+	(output_skeleton): Don't output the guards.
+	* src/files.c, src/files.c (attrsfile): Remove.
+	* src/reader.c (symbol_list): Remove the guard and guard_line
+	members.
+	Adjust dependencies.
+	(parse_guard): Remove.
+	* data/bison.hairy: Remove.
+	* doc/bison.texinfo (Environment Variables): Remove occurrences of
+	BISON_HAIRY.
+
+2002-05-02  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (copy_at, copy_dollarm parse_braces, parse_action)
 	(parse_guard): Rename the formal argument `stack_offset' as
 	`rule_length', which is more readable.

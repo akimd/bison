@@ -1,7 +1,7 @@
 ## Process this file with automake to create Makefile.in.
 
 ## Makefile for Bison testsuite.
-## Copyright 2000, 2001, 2002  Free Software Foundation, Inc.
+## Copyright (C) 2000, 2001, 2002  Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -49,8 +49,7 @@ TESTSUITE_AT = \
 	output.at sets.at reduce.at \
 	synclines.at headers.at actions.at conflicts.at \
 	calc.at \
-        torture.at existing.at regression.at \
-        semantic.at
+        torture.at existing.at regression.at
 
 TESTSUITE = $(srcdir)/testsuite
 

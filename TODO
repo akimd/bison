@@ -214,7 +214,6 @@ Show reductions.	[]
 ** %no-lines		[ok]
 ** %no-parser		[]
 ** %pure-parser		[]
-** %semantic-parser	[]
 ** %token-table		[]
 ** Options which could use parse_dquoted_param ().
 Maybe transfered in lex.c.

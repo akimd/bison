@@ -36,7 +36,6 @@ typedef enum token_e
     tok_percent_left_curly,
     tok_token,
     tok_nterm,
-    tok_guard,
     tok_type,
     tok_union,
     tok_start,

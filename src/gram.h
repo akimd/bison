@@ -47,7 +47,7 @@
    Therefore 0 cannot be used, since it would be both the rule number
    0, and the token EOF).
 
-   Actions and guards are accessed via the rule number.
+   Actions are accessed via the rule number.
 
    The rules themselves are described by several arrays: amongst which
    RITEM, and RULES.
@@ -150,9 +150,6 @@ typedef struct rule_s
 
   const char *action;
   int action_line;
-
-  const char *guard;
-  int guard_line;
 } rule_t;
 
 extern struct rule_s *rules;
@@ -166,11 +163,6 @@ extern symbol_t **symbols;
 extern token_number_t *token_translations;
 extern int max_user_token_number;
 
-/* SEMANTIC_PARSER is nonzero if the input file says to use the hairy
-   parser that provides for semantic error recovery.  If it is zero,
-   the yacc-compatible simplified parser is used.  */
-
-extern int semantic_parser;
 
 /* PURE_PARSER is nonzero if should generate a parser that is all pure
    and reentrant.  */

@@ -238,21 +238,15 @@ do {								\
   /* VMS. */
 # define EXT_TAB	"_tab"
 # define EXT_OUTPUT	".output"
-# define EXT_STYPE_H	"_stype"
-# define EXT_GUARD_C	"_guard"
 #else /* ! VMS */
 # ifdef MSDOS
    /* MS DOS. */
 #  define EXT_TAB	"_tab"
 #  define EXT_OUTPUT	".out"
-#  define EXT_STYPE_H	".sth"
-#  define EXT_GUARD_C	".guc"
 # else /* ! MSDOS */
   /* Standard. */
 #  define EXT_TAB	".tab"
 #  define EXT_OUTPUT	".output"
-#  define EXT_STYPE_H	".stype"
-#  define EXT_GUARD_C	".guard"
 # endif /* ! MSDOS */
 #endif /* ! VMS */
 

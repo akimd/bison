@@ -55,6 +55,10 @@ Changes in version 1.49b:
      %token YYEOF 0
   or
      %token YYEOF 0 "end of file"
+
+* Semantic parser
+  This old option, which has been broken for ages, is removed.
+
 
 Changes in version 1.35, 2002-03-25:
 

@@ -61,6 +61,3 @@ m4_include([existing.at])
 
 # Some old bugs.
 m4_include([regression.at])
-
-# Exercising bison.hairy, before it gets really removed...
-m4_include([semantic.at])

@@ -24,10 +24,7 @@
 #include "symtab.h"
 
 /* Read in the grammar specification and record it in the format
-   described in gram.h.  All guards are copied into the FGUARD file
-   and all actions into FACTION, in each case forming the body of a C
-   function (YYGUARD or YYACTION) which contains a switch statement to
-   decide which guard or action to execute.  */
+   described in gram.h.  */
 
 void reader PARAMS ((void));
 

@@ -57,7 +57,6 @@ extern struct obstack post_prologue_obstack;
 extern struct obstack output_obstack;
 
 extern char *infile;
-extern char *attrsfile;
 
 void compute_output_file_names PARAMS((void));
 
