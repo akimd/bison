@@ -1,5 +1,16 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c, src/files.h (guard_obstack): Remove.
+	* src/output.c (output): Adjust.
+	* src/reader.c (parse_braces): New, factoring...
+	(copy_action, copy_guard): these two which are renamed as...
+	(parse_action, parse_guard): these.
+	As a voluntary consequence, using braces around guards is now
+	mandatory.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (rule_t): `guard' and `guard_line' are new members.
 	* src/reader.c (symbol_list): `guard' and `guard_line' are new
 	members.

@@ -52,9 +52,6 @@ extern struct obstack action_obstack;
 /* If semantic parser, output a .h file that defines YYSTYPE... */
 extern struct obstack attrs_obstack;
 
-/* ... and output yyguard, containing all the guard code. */
-extern struct obstack guard_obstack;
-
 /* The verbose output. */
 extern struct obstack output_obstack;
 
