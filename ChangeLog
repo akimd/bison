@@ -1,5 +1,14 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	All the hacks using a final pseudo state are now useless.
+
+	* src/LR0.c (set_state_table): state_table holds exactly nstates.
+	* src/lalr.c (nLA): New.
+	(initialize_LA, compute_lookaheads, initialize_lookaheads): Use it
+	instead of lookaheadsp from the pseudo state (nstate + 1).
+
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (action_row, token_actions): Use a state_t instead
 	of a integer, and nlookaheads instead of the following state's
 	lookaheadsp.
