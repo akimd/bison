@@ -2,3 +2,4 @@
 .deps
 Makefile
 Makefile.in
+stdbool.h
