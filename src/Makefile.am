@@ -55,6 +55,7 @@ bison_SOURCES = 				  \
 	print_graph.c print_graph.h		  \
 	reader.c reader.h			  \
 	reduce.c reduce.h			  \
+	relation.c relation.h			  \
 	scan-gram.l				  \
 	scan-skel.l				  \
 	state.c state.h				  \

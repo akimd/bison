@@ -1,5 +1,13 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (traverse, digraph, matrix_print, transpose): Move
+	to...
+	* src/relation.h, src/relation.c (traverse, relation_digraph)
+	(relation_print, relation_transpose): New.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h, src/state.c (shifts_to): New.
 	* src/lalr.c (build_relations): Use it.
 
