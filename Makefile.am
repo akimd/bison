@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-AUTOMAKE_OPTIONS = 1.5 check-news readme-alpha
+AUTOMAKE_OPTIONS = 1.5 check-news readme-alpha dist-bzip2
 
 ACLOCAL_AMFLAGS = -I m4
 
