@@ -1,3 +1,13 @@
+2001-02-02  Akim Demaille  <akim@epita.fr>
+
+	* lib/malloc.c, lib/realloc.c: New, from the fileutils 4.0.37.
+	* lib/xalloc.h, lib/xmalloc.c@ Update.
+
+2001-01-19  Akim Demaille  <akim@epita.fr>
+
+	* src/conflicts.c (conflict_report): Report the difference with
+	expected number of s/r conflicts.
+
 2001-01-19  Akim Demaille  <akim@epita.fr>
 
 	Get rid of the ad hoc handling of token_buffer in the scanner: use

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-01-18 17:53+0100\n"
+"POT-Creation-Date: 2001-02-01 17:25+0100\n"
 "PO-Revision-Date: 1996-03-19 20:05 EST\n"
 "Last-Translator: Dominique Boucher <boucherd@IRO.UMontreal.CA>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -223,34 +223,34 @@ msgstr "le commentaire ne se termine pas"
 msgid "unexpected end of file"
 msgstr "Fin de fichier inattendue"
 
-#: src/lex.c:154
+#: src/lex.c:160
 msgid "unescaped newline in constant"
 msgstr "retour de chariot sans échappement dans une constante"
 
-#: src/lex.c:196
+#: src/lex.c:202
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "valeur octale à l'extérieur de l'intervalle 0...255: \\%o"
 
-#: src/lex.c:221
+#: src/lex.c:227
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "valeur hexadécimale supérieure à 255: \\x%x"
 
-#: src/lex.c:233
+#: src/lex.c:239
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "séquence d'échappement inconnue: `\\' suivie de `%s'"
 
-#: src/lex.c:326
+#: src/lex.c:335
 msgid "unterminated type name at end of file"
 msgstr "le nom de type ne se termine pas avant la fin de fichier"
 
-#: src/lex.c:329
+#: src/lex.c:338
 msgid "unterminated type name"
 msgstr "le nom de type ne se termine pas"
 
-#: src/lex.c:422
+#: src/lex.c:430
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
 

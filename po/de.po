@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-01-18 17:53+0100\n"
+"POT-Creation-Date: 2001-02-01 17:25+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -217,34 +217,34 @@ msgid "unexpected end of file"
 msgstr "Datei endet unerwartet"
 
 # Oder soll man den Begriff "Escapezeichen" verwenden?
-#: src/lex.c:154
+#: src/lex.c:160
 msgid "unescaped newline in constant"
 msgstr "nicht maskiertes Zeilenendezeichen in Konstante"
 
-#: src/lex.c:196
+#: src/lex.c:202
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "oktaler Zahlenwert außerhalb des Bereichs 0...255: »\\%o«"
 
-#: src/lex.c:221
+#: src/lex.c:227
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "hexadezimaler Zahlenwert größer als 255: »\\x%x«"
 
-#: src/lex.c:233
+#: src/lex.c:239
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "unbekanntes Fluchtzeichen: »\\« gefolgt von »%s«"
 
-#: src/lex.c:326
+#: src/lex.c:335
 msgid "unterminated type name at end of file"
 msgstr "unerwarteter Typname am Ende der Datei"
 
-#: src/lex.c:329
+#: src/lex.c:338
 msgid "unterminated type name"
 msgstr "unerwarteter Typname"
 
-#: src/lex.c:422
+#: src/lex.c:430
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "für Literal mit mehreren Zeichen bitte \"...\" verwenden"
 
