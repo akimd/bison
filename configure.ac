@@ -122,6 +122,8 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 AC_SUBST([GCC])
 O0CFLAGS=`echo $CFLAGS | sed 's/-O[0-9] *//'`
 AC_SUBST([O0CFLAGS])
+O0CXXFLAGS=`echo $CXXFLAGS | sed 's/-O[0-9] *//'`
+AC_SUBST([O0CXXFLAGS])
 
 AC_CONFIG_FILES([Makefile
                  config/Makefile

@@ -1,3 +1,10 @@
+2004-05-30  Albert Chin-A-Young  <china@thewrittenword.com>
+
+	Don't assume the C++ compiler takes the same arguments as the C compiler
+	(trivial change).
+	* configure.ac (O0CXXFLAGS): New var.
+	* tests/atlocal.in (CXXFLAGS): Use it.
+
 2004-05-29  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix some "make check" problems with C++ reported by

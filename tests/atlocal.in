@@ -21,7 +21,7 @@ CXX='@CXX@'
 BISON_CXX_WORKS='@BISON_CXX_WORKS@'
 
 # We want no optimization with C++, too.
-CXXFLAGS='@O0CFLAGS@ @WARNING_CXXFLAGS@ @WERROR_CFLAGS@'
+CXXFLAGS='@O0CXXFLAGS@ @WARNING_CXXFLAGS@ @WERROR_CFLAGS@'
 
 # Are special link options needed?
 LDFLAGS='@LDFLAGS@'
