@@ -1,3 +1,7 @@
+2004-06-03  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* README: Update location of patched M4 distribution.
+
 2004-05-30  Albert Chin-A-Young  <china@thewrittenword.com>
 
 	Don't assume the C++ compiler takes the same arguments as the C compiler
