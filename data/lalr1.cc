@@ -140,8 +140,7 @@ b4_syncline([@oline@], [@ofile@])],
 b4_syncline([@oline@], [@ofile@])[
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
-   Current.last_line = Rhs[N].last_line; \
-   Current.last_column = Rhs[N].last_column;
+   Current.last = Rhs[N].last;
 #endif
 
 namespace yy
