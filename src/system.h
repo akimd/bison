@@ -279,6 +279,21 @@ do {								\
 #endif
 
 
+/* As memcpy, but for shorts.  */
+#define shortcpy(Dest, Src, Num) \
+  memcpy (Dest, Src, Num * sizeof (short))
+
+/* Free a linked list. */
+#define LIST_FREE(Type, List)			\
+do {						\
+  Type *_node, *_next;				\
+  for (_node = List; _node; _node = _next)	\
+    {						\
+      _next = _node->next;			\
+      XFREE (_node);				\
+    }						\
+} while (0)
+
 /*---------------------------------.
 | Debugging the memory allocator.  |
 `---------------------------------*/

@@ -761,33 +761,6 @@ token_actions (void)
 
 
 static void
-free_shifts (void)
-{
-  shifts *sp, *sptmp;	/* JF derefrenced freed ptr */
-
-  for (sp = first_shift; sp; sp = sptmp)
-    {
-      sptmp = sp->next;
-      XFREE (sp);
-    }
-}
-
-
-static void
-free_reductions (void)
-{
-  reductions *rp, *rptmp;	/* JF fixed freed ptr */
-
-  for (rp = first_reduction; rp; rp = rptmp)
-    {
-      rptmp = rp->next;
-      XFREE (rp);
-    }
-}
-
-
-
-static void
 save_column (int symbol, int default_state)
 {
   int i;
@@ -1136,8 +1109,8 @@ output_actions (void)
   width = XCALLOC (short, nvectors);
 
   token_actions ();
-  free_shifts ();
-  free_reductions ();
+  LIST_FREE (shifts, first_shift);
+  LIST_FREE (reductions, first_reduction);
   XFREE (LA);
   XFREE (LAruleno);
 
@@ -1306,18 +1279,6 @@ output_program (void)
 }
 
 
-static void
-free_itemsets (void)
-{
-  core *cp, *cptmp;
-  for (cp = first_state; cp; cp = cptmp)
-    {
-      cptmp = cp->next;
-      XFREE (cp);
-    }
-}
-
-
 /*----------------------------------------------------------.
 | Output the parsing tables and the parser code to ftable.  |
 `----------------------------------------------------------*/
@@ -1349,7 +1310,7 @@ output (void)
   if (!no_parser_flag)
     obstack_sgrow (&table_obstack, "#include <stdio.h>\n\n");
 
-  free_itemsets ();
+  LIST_FREE (core, first_state);
   output_defines ();
   output_token_translations ();
 /*   if (semantic_parser) */
