@@ -307,14 +307,14 @@ namespace yy
     int debug_;
     std::ostream &cdebug_;
 
-    /* Lookahead and lookahead in internal form.  */
+    /* Look-ahead and look-ahead in internal form.  */
     int looka_;
     int ilooka_;
 
     /* Message.  */
     std::string message;
 
-    /* Semantic value and location of lookahead token.  */
+    /* Semantic value and location of look-ahead token.  */
     SemanticType value;
     LocationType location;
     /* Beginning of the last erroneous token popped off.  */
@@ -394,12 +394,12 @@ yy::]b4_parser_class_name[::parse ()
   /* Backup.  */
  yybackup:
 
-  /* Try to take a decision without lookahead.  */
+  /* Try to take a decision without look-ahead.  */
   n_ = pact_[state_];
   if (n_ == pact_ninf_)
     goto yydefault;
 
-  /* Read a lookahead token.  */
+  /* Read a look-ahead token.  */
   if (looka_ == empty_)
     {
       YYCDEBUG << "Reading a token: ";
@@ -452,7 +452,7 @@ yy::]b4_parser_class_name[::parse ()
   if (n_ == final_)
     goto yyacceptlab;
 
-  /* Shift the lookahead token.  */
+  /* Shift the look-ahead token.  */
 #if YYDEBUG
   YYCDEBUG << "Shifting token " << looka_
            << " (" << name_[ilooka_] << "), ";
@@ -546,7 +546,7 @@ b4_syncline([@oline@], [@ofile@])[
   error_start_ = location.begin;
   if (errstatus_ == 3)
     {
-      /* If just tried and failed to reuse lookahead token after an
+      /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
       /* Return failure if at end of input.  */
@@ -580,7 +580,7 @@ b4_syncline([@oline@], [@ofile@])[
         }
     }
 
-  /* Else will try to reuse lookahead token after shifting the error
+  /* Else will try to reuse look-ahead token after shifting the error
      token.  */
   goto yyerrlab1;
 

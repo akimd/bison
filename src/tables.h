@@ -1,5 +1,5 @@
 /* Prepare the LALR and GLR parser tables.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -56,7 +56,7 @@
    something else to do.
 
    YYPACT[S] = index in YYTABLE of the portion describing state S.
-   The lookahead token's type is used to index that portion to find
+   The look-ahead token's type is used to index that portion to find
    out what to do.
 
    If the value in YYTABLE is positive, we shift the token and go to

@@ -29,7 +29,7 @@ Currently, the GLR parser cannot compile with a C++ compiler.
 
 **  GLR
 How would Paul like to display the conflicted actions?  In particular,
-what when two reductions are possible on a given lookahead, but one is
+what when two reductions are possible on a given look-ahead token, but one is
 part of $default.  Should we make the two reductions explicit, or just
 keep $default?  See the following point.
 
@@ -337,7 +337,7 @@ the parser with a means to create the (visual) parse tree.
 
 -----
 
-Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 

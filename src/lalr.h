@@ -33,12 +33,12 @@
 # include "state.h"
 
 /* Compute how to make the finite state machine deterministic; find
-   which rules need lookahead in each state, and which lookahead
+   which rules need look-ahead in each state, and which look-ahead
    tokens they accept.  */
 
 void lalr (void);
 
-/* Release the information related to lookaheads.  Can be performed
+/* Release the information related to look-ahead tokens.  Can be performed
    once the action tables are computed.  */
 
 void lalr_free (void);

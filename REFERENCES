@@ -19,12 +19,15 @@ kludges that Johnson had to perpetrate to make Yacc fit in a PDP-11.
 Also, Bison uses a faster but less space-efficient encoding for the
 parse tables (see Corbett's PhD thesis from Berkeley, "Static
 Semantics in Compiler Error Recovery", June 1985, Report No. UCB/CSD
-85/251), and more modern technique for generating the lookahead sets.
-(See "Efficient Construction of LALR(1) Lookahead Sets" by F. DeRemer
-and A. Pennello, in ACM TOPLS Vol 4 No 4, October 1982.  Their
+85/251), and more modern technique for generating the look-ahead sets.
+(See Frank DeRemer and Thomas Pennello, "Efficient Computation of
+LALR(1) Look-Ahead Sets", ACM Transactions on Programming Languages
+and Systems (TOPLAS) 4, 4 (October 1982), 615-649.  Their
 technique is the standard one now.)
 
 	paul rubin
 	free software foundation
 
 
+[DeRemer-Pennello reference corrected by Paul Eggert <eggert@cs.ucla.edu>,
+ 2004-06-21.]

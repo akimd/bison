@@ -1,3 +1,28 @@
+2004-06-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS, TODO, doc/bison.texinfo:
+	Use "look-ahead" instead of "lookahead", to be consistent.
+	* REFERENCES: Fix incorrect reference to DeRemer and Pennello,
+	while we're fixing "look-ahead".
+	* src/conflicts.c (shift_set): Renamed from shiftset.
+	(look_ahead_set): Renamed from lookaheadset.
+	* src/print.c: Likewise.
+	* src/getargs.c (report_args): Add "look-ahead" as the new canonical
+	name for "lookahead".
+	(report_types, usage): Likewise.
+	* src/getargs.h (report_look_ahead_tokens): Renamed from
+	report_lookaheads.
+	* src/lalr.c (compute_look_ahead_tokens): Renamed from
+	compute_lookaheads.
+	(state_look_ahead_tokens_count): Renamed from state_lookaheads_count.
+	(look_ahead_tokens_print): Renamed from lookaheads_print.
+	* src/state.c (state_rule_look_ahead_tokens_print): Renamed from
+	state_rule_lookaheads_print.
+	* src/state.h: Likewise.
+	(reductions.look_ahead_tokens): Renamed from lookaheads.
+	* tests/torture.at (AT_DATA_LOOK_AHEAD_TOKENS_GRAMMAR): Renamed from
+	AT_DATA_LOOKAHEADS_GRAMMAR.
+
 2004-06-03  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* README: Update location of patched M4 distribution.

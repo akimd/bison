@@ -1,6 +1,11 @@
 Bison News
 ----------
 
+Changes in version 1.875e:
+
+* The option `--report=lookahead' was changed to `--report=look-ahead'.
+  The old spelling still works, but is not documented and will be removed.
+
 Changes in version 1.875d, 2004-05-21:
 
 * Unescaped newlines are no longer allowed in character constants or
@@ -288,8 +293,8 @@ Changes in version 1.50, 2002-10-04:
   produces additional information:
   - itemset
     complete the core item sets with their closure
-  - lookahead
-    explicitly associate lookaheads to items
+  - lookahead [changed to `look-ahead' in 1.875e and later]
+    explicitly associate look-ahead tokens to items
   - solved
     describe shift/reduce conflicts solving.
     Bison used to systematically output this information on top of

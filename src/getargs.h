@@ -1,5 +1,5 @@
 /* Parse command line arguments for bison.
-   Copyright (C) 1984, 1986, 1989, 1992, 2000, 2001, 2002, 2003
+   Copyright (C) 1984, 1986, 1989, 1992, 2000, 2001, 2002, 2003, 2004
    Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -76,7 +76,7 @@ enum report
     report_none             = 0,
     report_states           = 1 << 0,
     report_itemsets         = 1 << 1,
-    report_lookaheads       = 1 << 2,
+    report_look_ahead_tokens= 1 << 2,
     report_solved_conflicts = 1 << 3,
     report_all              = ~0
   };
