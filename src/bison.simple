@@ -82,7 +82,8 @@ typedef struct yyltype
 /* Copy the user declarations.  */
 %%prologue
 
-#line %%line "%%skeleton"
+/* Line 85 of bison.simple.  */
+#line %%line "%%parser-file-name"
 
 #include <stdio.h>
 
@@ -511,8 +512,6 @@ yystpcpy (yydest, yysrc)
 
 
 
-#line %%line "%%skeleton"
-
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
    into yyparse.  The argument should have type void *.
    It should actually point to an object.
@@ -897,7 +896,8 @@ yyreduce:
     {
 %%actions
     }
-#line %%line "%%skeleton"
+  /* Line 902 of bison.simple.  */
+#line %%line "%%parser-file-name"
 
   yyvsp -= yylen;
   yyssp -= yylen;

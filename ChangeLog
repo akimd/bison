@@ -1,3 +1,15 @@
+2001-12-16  Marc Autret  <autret_m@epita.fr>
+
+	* src/bison.simple: Remove a useless #line directive.
+	s/#line %%line %%skeleton/#line %%line "%%parser-file-name"/'.
+	* src/output.c (get_lines_number): New.
+	(output_parser): Adjust, now takes care about the lines of a 
+	output muscles.
+	Fix line numbering.
+	(actions_output): Computes the number of lines taken by actions.
+	(output_master_parser): Insert new skeleton which is the name of
+	the output parser file name.
+
 2001-12-15  Marc Autret  <autret_m@epita.fr>
 
 	* src/bison.simple [YYERROR_VERBOSE]: Restore backward compatibility.
