@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30b\n"
-"POT-Creation-Date: 2001-11-23 15:16+0100\n"
+"POT-Creation-Date: 2001-11-26 16:23+0100\n"
 "PO-Revision-Date: 2001-11-13 10:42+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Tundmatu süsteemi viga"
 msgid "warning: "
 msgstr "hoiatus: "
 
-#: src/complain.c:238 src/complain.c:279
+#: src/complain.c:238
 msgid "fatal error: "
 msgstr "fataalne viga: "
 
@@ -72,38 +72,38 @@ msgstr "Olek %d sisaldab "
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:460
+#: src/conflicts.c:470
 msgid "conflicts: "
 msgstr "konfliktid: "
 
-#: src/conflicts.c:462
+#: src/conflicts.c:472
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d nihutamine/redutseerimine"
 
-#: src/conflicts.c:466
+#: src/conflicts.c:476
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d redutseerimine/redutseerimine"
 
-#: src/conflicts.c:471 src/reduce.c:493
+#: src/conflicts.c:481 src/reduce.c:493
 #, c-format
 msgid "%s contains "
 msgstr "%s sisaldab "
 
-#: src/conflicts.c:480
+#: src/conflicts.c:488
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "eeldasime %d nihutamine/redutseerimine konflikti"
 msgstr[1] "eeldasime %d nihutamine/redutseerimine konflikti"
 
-#: src/conflicts.c:567 src/conflicts.c:688
+#: src/conflicts.c:575 src/conflicts.c:696
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[redutseerin, kasutades reeglit %d (%s)]\n"
 
-#: src/conflicts.c:579 src/print.c:156
+#: src/conflicts.c:587 src/print.c:156
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -112,12 +112,12 @@ msgstr ""
 "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:668 src/conflicts.c:682
+#: src/conflicts.c:676 src/conflicts.c:690
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tredutseerin kasutades reeglit %d (%s)\n"
 
-#: src/conflicts.c:708
+#: src/conflicts.c:716
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
@@ -566,70 +566,70 @@ msgstr "grammatika algab püstkriipsuga"
 msgid "rule given for %s, which is a token"
 msgstr "%s jaoks on antud reegel, aga see on märk"
 
-#: src/reader.c:1490
+#: src/reader.c:1492
 msgid "two @prec's in a row"
 msgstr "kaks @prec ühel real"
 
-#: src/reader.c:1498
+#: src/reader.c:1500
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard on määratud, aga %%semantic_parser ei ole"
 
-#: src/reader.c:1507
+#: src/reader.c:1509
 msgid "two actions at end of one rule"
 msgstr "kaks tegevust ühe reegli lõpus"
 
-#: src/reader.c:1521
+#: src/reader.c:1523
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "vaikimisi tegevuse tüübikonflikt (`%s' `%s')"
 
-#: src/reader.c:1527
+#: src/reader.c:1529
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tüübiga mitteterminalil on tühi reegel ja puudub tegevus"
 
-#: src/reader.c:1571
+#: src/reader.c:1573
 #, c-format
 msgid "invalid input: %s"
 msgstr "vigane sisend: %s"
 
-#: src/reader.c:1579
+#: src/reader.c:1581
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "liiga palju sümboleid (märgid ja mitteterminalid); maksimaalne on %d"
 
-#: src/reader.c:1582
+#: src/reader.c:1584
 msgid "no rules in the input grammar"
 msgstr "sisendgrammatikas pole reegleid"
 
-#: src/reader.c:1606
+#: src/reader.c:1608
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "kasutatakse sümbolit %s, mis ei ole defineeritud märgina ja millel puuduvad "
 "reeglid"
 
-#: src/reader.c:1741
+#: src/reader.c:1743
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "märkidele %s ja %s on mõlemale omistatud number %d"
 
-#: src/reader.c:1794
+#: src/reader.c:1796
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "%s ja %s omavad konfliktseid prioriteete"
 
-#: src/reader.c:1806
+#: src/reader.c:1808
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "%s ja %s omavad konfliktseid assotsiatiivseid väärtuseid"
 
-#: src/reader.c:1845
+#: src/reader.c:1847
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "stardisümbol %s ei ole defineeritud"
 
-#: src/reader.c:1847
+#: src/reader.c:1849
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "stardisümbol %s on märk"

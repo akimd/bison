@@ -1,5 +1,12 @@
 2001-11-26  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (readgram): Make sure rules for mid-rule actions
+	have a lineno equal to that of their host rule.
+	Reported by Hans Aberg.
+	* tests/regression.at (Rule Line Numbers): New.
+
+2001-11-26  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (allocate_itemsets): kernel_size contains ints, not
 	size_ts.
 	Reported by Hans Aberg.

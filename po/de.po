@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-11-23 15:16+0100\n"
+"POT-Creation-Date: 2001-11-26 16:23+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "warning: "
 msgstr ""
 
-#: src/complain.c:238 src/complain.c:279
+#: src/complain.c:238
 #, fuzzy
 msgid "fatal error: "
 msgstr "fataler Fehler: %s\n"
@@ -72,37 +72,37 @@ msgstr "Zustand %d enthält"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:460
+#: src/conflicts.c:470
 msgid "conflicts: "
 msgstr "Konflikte: "
 
-#: src/conflicts.c:462
+#: src/conflicts.c:472
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d Schiebe/Reduziere"
 
-#: src/conflicts.c:466
+#: src/conflicts.c:476
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d Reduziere/Reduziere"
 
-#: src/conflicts.c:471 src/reduce.c:493
+#: src/conflicts.c:481 src/reduce.c:493
 #, c-format
 msgid "%s contains "
 msgstr "%s enthält "
 
-#: src/conflicts.c:480
+#: src/conflicts.c:488
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d Schiebe/Reduziere Konflikte"
 
-#: src/conflicts.c:567 src/conflicts.c:688
+#: src/conflicts.c:575 src/conflicts.c:696
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduziere mit Regel %d (%s)]\n"
 
-#: src/conflicts.c:579 src/print.c:156
+#: src/conflicts.c:587 src/print.c:156
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,12 +111,12 @@ msgstr ""
 "    $default\treduziere mit Regel %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:668 src/conflicts.c:682
+#: src/conflicts.c:676 src/conflicts.c:690
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduziere mit Tegel %d (%s)\n"
 
-#: src/conflicts.c:708
+#: src/conflicts.c:716
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
@@ -560,71 +560,71 @@ msgstr "Grammatik fängt mit einem vertikalen Strich (»|«) an"
 msgid "rule given for %s, which is a token"
 msgstr "Regel für %s vorhanden, welches aber ein Token ist"
 
-#: src/reader.c:1490
+#: src/reader.c:1492
 msgid "two @prec's in a row"
 msgstr "zwei @prec Anweisungen nacheinander"
 
-#: src/reader.c:1498
+#: src/reader.c:1500
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr ""
 "%%guard Anweisung vorhanden, jedoch wird %%semantic_parser nicht angegeben"
 
-#: src/reader.c:1507
+#: src/reader.c:1509
 msgid "two actions at end of one rule"
 msgstr "Zwei Aktionen am Ende einer Regel"
 
-#: src/reader.c:1521
+#: src/reader.c:1523
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "Typkonflikt (»%s« »%s«) bei Default Aktion"
 
-#: src/reader.c:1527
+#: src/reader.c:1529
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "leere Regel für Nicht-Terminal vmit Typ und keine Aktion"
 
-#: src/reader.c:1571
+#: src/reader.c:1573
 #, c-format
 msgid "invalid input: %s"
 msgstr "ungültige Eingabe: %s"
 
-#: src/reader.c:1579
+#: src/reader.c:1581
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "zu viele Symbols (Token plus Nicht-Terminal); Maximum %s"
 
-#: src/reader.c:1582
+#: src/reader.c:1584
 msgid "no rules in the input grammar"
 msgstr "Eingabegrammatik enthält keine Regeln"
 
-#: src/reader.c:1606
+#: src/reader.c:1608
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "Symbol %s wird benutzt, ist aber nicht als Token definiert und hat keine "
 "Regel"
 
-#: src/reader.c:1741
+#: src/reader.c:1743
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "Token %s und %s haben die selbe nummer %s"
 
-#: src/reader.c:1794
+#: src/reader.c:1796
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "Vorrangwertigkeiten für %s und %s widersprechen sich"
 
-#: src/reader.c:1806
+#: src/reader.c:1808
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "assoc Werte für %s nd %s widersprechen sich"
 
-#: src/reader.c:1845
+#: src/reader.c:1847
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "das Startsymbol %s ist undefiniert"
 
-#: src/reader.c:1847
+#: src/reader.c:1849
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "das Startsymbol %s ist ein Token"

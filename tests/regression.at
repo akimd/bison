@@ -242,6 +242,148 @@ AT_CLEANUP
 
 
 
+
+## ------------------- ##
+## Rule Line Numbers.  ##
+## ------------------- ##
+
+AT_SETUP([Rule Line Numbers])
+
+AT_DATA([input.y],
+[[%%
+expr:
+'a'
+
+{
+
+}
+
+'b'
+
+{
+
+}
+
+|
+
+
+{
+
+
+}
+
+'c'
+
+{
+
+}
+]])
+
+AT_CHECK([bison input.y input.c -v], 0, [], [])
+
+# Check the contents of the report.
+AT_CHECK([cat input.output], [],
+[[
+Grammar
+
+  Number, Line, Rule
+    1   2 @1 -> /* empty */
+    2   2 expr -> 'a' @1 'b'
+    3  15 @2 -> /* empty */
+    4  15 expr -> @2 'c'
+
+Terminals, with rules where they appear
+
+$ (-1)
+'a' (97) 2
+'b' (98) 2
+'c' (99) 4
+error (256)
+
+Nonterminals, with rules where they appear
+
+expr (6)
+    on left: 2 4
+@1 (7)
+    on left: 1, on right: 2
+@2 (8)
+    on left: 3, on right: 4
+
+
+state 0
+
+    'a' 	shift, and go to state 1
+
+    $default	reduce using rule 3 (@2)
+
+    expr	go to state 6
+    @2  	go to state 2
+
+
+
+state 1
+
+    expr  ->  'a' . @1 'b'   (rule 2)
+
+    $default	reduce using rule 1 (@1)
+
+    @1  	go to state 3
+
+
+
+state 2
+
+    expr  ->  @2 . 'c'   (rule 4)
+
+    'c' 	shift, and go to state 4
+
+
+
+state 3
+
+    expr  ->  'a' @1 . 'b'   (rule 2)
+
+    'b' 	shift, and go to state 5
+
+
+
+state 4
+
+    expr  ->  @2 'c' .   (rule 4)
+
+    $default	reduce using rule 4 (expr)
+
+
+
+state 5
+
+    expr  ->  'a' @1 'b' .   (rule 2)
+
+    $default	reduce using rule 2 (expr)
+
+
+
+state 6
+
+    $   	go to state 7
+
+
+
+state 7
+
+    $   	go to state 8
+
+
+
+state 8
+
+    $default	accept
+]])
+
+AT_CLEANUP
+
+
+
 ## -------------------- ##
 ## %expect not enough.  ##
 ## -------------------- ##
