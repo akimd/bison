@@ -27,10 +27,10 @@ extern char *spec_outfile;
 /* File name for the parser (i.e., the one above, or its default.) */
 extern char *parser_file_name;
 
-/* For -a. */
+/* Symbol prefix specified with -p, or 0 if no -p.  */
 extern const char *spec_name_prefix;
 
-/* File name pfx specified with -b, or 0 if no -b.  */
+/* File name prefix specified with -b, or 0 if no -b.  */
 extern char *spec_file_prefix;
 
 /* --verbose. */
