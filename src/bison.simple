@@ -420,7 +420,7 @@ yyparse (YYPARSE_PARAM_ARG)
       yystacksize *= 2;
       if (yystacksize > YYMAXDEPTH)
 	yystacksize = YYMAXDEPTH;
-# if YYSTACK_USE_ALLOCA
+# if !YYSTACK_USE_ALLOCA
       yyfree_stacks = 1;
 # endif
       yyss = (short *) YYSTACK_ALLOC (yystacksize * sizeof (*yyssp));

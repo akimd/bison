@@ -2,8 +2,8 @@
 
 	Version 1.29d.
 	* src/bison.simple: Be sure to set YYSTACK_USE_ALLOCA.
-	Use `#if YYSTACK_USE_ALLOCA', not `#ifdef'.
-	Reported by Airy ANDRE.
+	Use `#if !YYSTACK_USE_ALLOCA', not `#ifndef'.
+	Reported by Airy Andre.
 
 2001-10-10  Akim Demaille  <akim@epita.fr>
 
