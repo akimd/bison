@@ -38,6 +38,14 @@
 @comment %**end of header
 
 @ifinfo
+@format
+START-INFO-DIR-ENTRY
+* bison: (bison).	GNU Project parser generator (yacc replacement).
+END-INFO-DIR-ENTRY
+@end format
+@end ifinfo
+
+@ifinfo
 This file documents the Bison parser generator.
 
 Copyright (C) 1988, 89, 90, 91, 92, 93, 95, 1998 Free Software Foundation, Inc.
