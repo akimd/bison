@@ -165,7 +165,7 @@ Tracking Locations
 
    Though grammar rules and semantic actions are enough to write a fully
 functional parser, it can be useful to process some additionnal
-informations, especially locations of tokens and groupings.
+informations, especially symbol locations.
 
    The way locations are handled is defined by providing a data type,
 and actions to take when rules are matched.
@@ -213,19 +213,47 @@ elements being matched.  The location of the Nth component of the right
 hand side is `@N', while the location of the left hand side grouping is
 `@$'.
 
-   Here is a simple example using the default data type for locations:
+   Here is a basic example using the default data type for locations:
 
      exp:    ...
-             | exp '+' exp
+             | exp '/' exp
                  {
+                   @$.first_column = @1.first_column;
+                   @$.first_line = @1.first_line;
                    @$.last_column = @3.last_column;
                    @$.last_line = @3.last_line;
-                   $$ = $1 + $3;
+                   if ($3)
+                     $$ = $1 / $3;
+                   else
+                     {
+                       $$ = 1;
+                       printf("Division by zero, l%d,c%d-l%d,c%d",
+                              @3.first_line, @3.first_column,
+                              @3.last_line, @3.last_column);
+                     }
                  }
 
-In the example above, there is no need to set the beginning of `@$'. The
-output parser always sets `@$' to `@1' before executing the C code of a
-given action, whether you provide a processing for locations or not.
+   As for semantic values, there is a default action for locations that
+is run each time a rule is matched. It sets the beginning of `@$' to the
+beginning of the first symbol, and the end of `@$' to the end of the
+last symbol.
+
+   With this default action, the location tracking can be fully
+automatic. The example above simply rewrites this way:
+
+     exp:    ...
+             | exp '/' exp
+                 {
+                   if ($3)
+                     $$ = $1 / $3;
+                   else
+                     {
+                       $$ = 1;
+                       printf("Division by zero, l%d,c%d-l%d,c%d",
+                              @3.first_line, @3.first_column,
+                              @3.last_line, @3.last_column);
+                     }
+                 }
 
 
 File: bison.info,  Node: Location Default Action,  Prev: Actions and Locations,  Up: Locations
@@ -235,26 +263,35 @@ Default Action for Locations
 
    Actually, actions are not the best place to compute locations. Since
 locations are much more general than semantic values, there is room in
-the output parser to define a default action to take for each rule. The
-`YYLLOC_DEFAULT' macro is called each time a rule is matched, before
-the associated action is run.
+the output parser to redefine the default action to take for each rule.
+The `YYLLOC_DEFAULT' macro is called each time a rule is matched,
+before the associated action is run.
 
-   This macro takes two parameters, the first one being the location of
-the grouping (the result of the computation), and the second one being
-the location of the last element matched. Of course, before
-`YYLLOC_DEFAULT' is run, the result is set to the location of the first
-component matched.
+   Most of the time, this macro is general enough to suppress location
+dedicated code from semantic actions.
 
-   By default, this macro computes a location that ranges from the
-beginning of the first element to the end of the last element. It is
-defined this way:
+   The `YYLLOC_DEFAULT' macro takes three parameters. The first one is
+the location of the grouping (the result of the computation). The
+second one is an array holding locations of all right hand side
+elements of the rule being matched. The last one is the size of the
+right hand side rule.
 
-     #define YYLLOC_DEFAULT(Current, Last)           \
-       Current.last_line     = Last.last_line;       \
-       Current.last_column   = Last.last_column;
+   By default, it is defined this way:
 
-Most of the time, the default action for locations is general enough to
-suppress location dedicated code from most actions.
+     #define YYLLOC_DEFAULT(Current, Rhs, N)         \
+       Current.last_line   = Rhs[N].last_line;       \
+       Current.last_column = Rhs[N].last_column;
+
+   When defining `YYLLOC_DEFAULT', you should consider that:
+
+   * All arguments are free of side-effects. However, only the first
+     one (the result) should be modified by `YYLLOC_DEFAULT'.
+
+   * Before `YYLLOC_DEFAULT' is executed, the output parser sets `@$'
+     to `@1'.
+
+   * For consistency with semantic actions, valid indexes for the
+     location array range from 1 to N.
 
 
 File: bison.info,  Node: Declarations,  Next: Multiple Parsers,  Prev: Locations,  Up: Grammar File
@@ -1240,83 +1277,4 @@ sequence.
 
    The current look-ahead token is stored in the variable `yychar'.
 *Note Special Features for Use in Actions: Action Features.
-
-
-File: bison.info,  Node: Shift/Reduce,  Next: Precedence,  Prev: Look-Ahead,  Up: Algorithm
-
-Shift/Reduce Conflicts
-======================
-
-   Suppose we are parsing a language which has if-then and if-then-else
-statements, with a pair of rules like this:
-
-     if_stmt:
-               IF expr THEN stmt
-             | IF expr THEN stmt ELSE stmt
-             ;
-
-Here we assume that `IF', `THEN' and `ELSE' are terminal symbols for
-specific keyword tokens.
-
-   When the `ELSE' token is read and becomes the look-ahead token, the
-contents of the stack (assuming the input is valid) are just right for
-reduction by the first rule.  But it is also legitimate to shift the
-`ELSE', because that would lead to eventual reduction by the second
-rule.
-
-   This situation, where either a shift or a reduction would be valid,
-is called a "shift/reduce conflict".  Bison is designed to resolve
-these conflicts by choosing to shift, unless otherwise directed by
-operator precedence declarations.  To see the reason for this, let's
-contrast it with the other alternative.
-
-   Since the parser prefers to shift the `ELSE', the result is to attach
-the else-clause to the innermost if-statement, making these two inputs
-equivalent:
-
-     if x then if y then win (); else lose;
-     
-     if x then do; if y then win (); else lose; end;
-
-   But if the parser chose to reduce when possible rather than shift,
-the result would be to attach the else-clause to the outermost
-if-statement, making these two inputs equivalent:
-
-     if x then if y then win (); else lose;
-     
-     if x then do; if y then win (); end; else lose;
-
-   The conflict exists because the grammar as written is ambiguous:
-either parsing of the simple nested if-statement is legitimate.  The
-established convention is that these ambiguities are resolved by
-attaching the else-clause to the innermost if-statement; this is what
-Bison accomplishes by choosing to shift rather than reduce.  (It would
-ideally be cleaner to write an unambiguous grammar, but that is very
-hard to do in this case.)  This particular ambiguity was first
-encountered in the specifications of Algol 60 and is called the
-"dangling `else'" ambiguity.
-
-   To avoid warnings from Bison about predictable, legitimate
-shift/reduce conflicts, use the `%expect N' declaration.  There will be
-no warning as long as the number of shift/reduce conflicts is exactly N.
-*Note Suppressing Conflict Warnings: Expect Decl.
-
-   The definition of `if_stmt' above is solely to blame for the
-conflict, but the conflict does not actually appear without additional
-rules.  Here is a complete Bison input file that actually manifests the
-conflict:
-
-     %token IF THEN ELSE variable
-     %%
-     stmt:     expr
-             | if_stmt
-             ;
-     
-     if_stmt:
-               IF expr THEN stmt
-             | IF expr THEN stmt ELSE stmt
-             ;
-     
-     expr:     variable
-             ;
 

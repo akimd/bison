@@ -33,8 +33,8 @@ Indirect:
 bison.info-1: 1307
 bison.info-2: 50189
 bison.info-3: 99814
-bison.info-4: 149693
-bison.info-5: 196958
+bison.info-4: 148012
+bison.info-5: 190796
 
 Tag Table:
 (Indirect)
@@ -86,54 +86,54 @@ Node: Actions95726
 Node: Action Types98511
 Node: Mid-Rule Actions99814
 Node: Locations105384
-Node: Location Type106049
-Node: Actions and Locations106607
-Node: Location Default Action107771
-Node: Declarations108978
-Node: Token Decl110297
-Node: Precedence Decl112310
-Node: Union Decl113861
-Node: Type Decl114705
-Node: Expect Decl115611
-Node: Start Decl117157
-Node: Pure Decl117535
-Node: Decl Summary119212
-Node: Multiple Parsers124595
-Node: Interface126089
-Node: Parser Function126961
-Node: Lexical127796
-Node: Calling Convention129202
-Node: Token Values131973
-Node: Token Positions133122
-Node: Pure Calling134007
-Node: Error Reporting136939
-Node: Action Features139061
-Node: Algorithm142356
-Node: Look-Ahead144649
-Node: Shift/Reduce146781
-Node: Precedence149693
-Node: Why Precedence150344
-Node: Using Precedence152209
-Node: Precedence Examples153177
-Node: How Precedence153878
-Node: Contextual Precedence155027
-Node: Parser States156818
-Node: Reduce/Reduce158061
-Node: Mystery Conflicts161622
-Node: Stack Overflow165008
-Node: Error Recovery166381
-Node: Context Dependency171517
-Node: Semantic Tokens172365
-Node: Lexical Tie-ins175382
-Node: Tie-in Recovery176930
-Node: Debugging179102
-Node: Invocation182403
-Node: Bison Options183655
-Node: Environment Variables187089
-Node: Option Cross Key187937
-Node: VMS Invocation188781
-Node: Table of Symbols189565
-Node: Glossary196958
-Node: Index203248
+Node: Location Type106032
+Node: Actions and Locations106590
+Node: Location Default Action108746
+Node: Declarations110209
+Node: Token Decl111528
+Node: Precedence Decl113541
+Node: Union Decl115092
+Node: Type Decl115936
+Node: Expect Decl116842
+Node: Start Decl118388
+Node: Pure Decl118766
+Node: Decl Summary120443
+Node: Multiple Parsers125826
+Node: Interface127320
+Node: Parser Function128192
+Node: Lexical129027
+Node: Calling Convention130433
+Node: Token Values133204
+Node: Token Positions134353
+Node: Pure Calling135238
+Node: Error Reporting138170
+Node: Action Features140292
+Node: Algorithm143587
+Node: Look-Ahead145880
+Node: Shift/Reduce148012
+Node: Precedence150924
+Node: Why Precedence151575
+Node: Using Precedence153440
+Node: Precedence Examples154408
+Node: How Precedence155109
+Node: Contextual Precedence156258
+Node: Parser States158049
+Node: Reduce/Reduce159292
+Node: Mystery Conflicts162853
+Node: Stack Overflow166239
+Node: Error Recovery167612
+Node: Context Dependency172748
+Node: Semantic Tokens173596
+Node: Lexical Tie-ins176613
+Node: Tie-in Recovery178161
+Node: Debugging180333
+Node: Invocation183634
+Node: Bison Options184886
+Node: Environment Variables188320
+Node: Option Cross Key189168
+Node: VMS Invocation190012
+Node: Table of Symbols190796
+Node: Glossary198189
+Node: Index204479
 
 End Tag Table

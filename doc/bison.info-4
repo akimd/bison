@@ -29,6 +29,85 @@ included in translations approved by the Free Software Foundation
 instead of in the original English.
 
 
+File: bison.info,  Node: Shift/Reduce,  Next: Precedence,  Prev: Look-Ahead,  Up: Algorithm
+
+Shift/Reduce Conflicts
+======================
+
+   Suppose we are parsing a language which has if-then and if-then-else
+statements, with a pair of rules like this:
+
+     if_stmt:
+               IF expr THEN stmt
+             | IF expr THEN stmt ELSE stmt
+             ;
+
+Here we assume that `IF', `THEN' and `ELSE' are terminal symbols for
+specific keyword tokens.
+
+   When the `ELSE' token is read and becomes the look-ahead token, the
+contents of the stack (assuming the input is valid) are just right for
+reduction by the first rule.  But it is also legitimate to shift the
+`ELSE', because that would lead to eventual reduction by the second
+rule.
+
+   This situation, where either a shift or a reduction would be valid,
+is called a "shift/reduce conflict".  Bison is designed to resolve
+these conflicts by choosing to shift, unless otherwise directed by
+operator precedence declarations.  To see the reason for this, let's
+contrast it with the other alternative.
+
+   Since the parser prefers to shift the `ELSE', the result is to attach
+the else-clause to the innermost if-statement, making these two inputs
+equivalent:
+
+     if x then if y then win (); else lose;
+     
+     if x then do; if y then win (); else lose; end;
+
+   But if the parser chose to reduce when possible rather than shift,
+the result would be to attach the else-clause to the outermost
+if-statement, making these two inputs equivalent:
+
+     if x then if y then win (); else lose;
+     
+     if x then do; if y then win (); end; else lose;
+
+   The conflict exists because the grammar as written is ambiguous:
+either parsing of the simple nested if-statement is legitimate.  The
+established convention is that these ambiguities are resolved by
+attaching the else-clause to the innermost if-statement; this is what
+Bison accomplishes by choosing to shift rather than reduce.  (It would
+ideally be cleaner to write an unambiguous grammar, but that is very
+hard to do in this case.)  This particular ambiguity was first
+encountered in the specifications of Algol 60 and is called the
+"dangling `else'" ambiguity.
+
+   To avoid warnings from Bison about predictable, legitimate
+shift/reduce conflicts, use the `%expect N' declaration.  There will be
+no warning as long as the number of shift/reduce conflicts is exactly N.
+*Note Suppressing Conflict Warnings: Expect Decl.
+
+   The definition of `if_stmt' above is solely to blame for the
+conflict, but the conflict does not actually appear without additional
+rules.  Here is a complete Bison input file that actually manifests the
+conflict:
+
+     %token IF THEN ELSE variable
+     %%
+     stmt:     expr
+             | if_stmt
+             ;
+     
+     if_stmt:
+               IF expr THEN stmt
+             | IF expr THEN stmt ELSE stmt
+             ;
+     
+     expr:     variable
+             ;
+
+
 File: bison.info,  Node: Precedence,  Next: Contextual Precedence,  Prev: Shift/Reduce,  Up: Algorithm
 
 Operator Precedence
@@ -1057,213 +1136,4 @@ is equivalent to the following command under POSIX.
    The VMS file system does not permit filenames such as `foo.tab.c'.
 In the above example, the output file would instead be named
 `foo_tab.c'.
-
-
-File: bison.info,  Node: Table of Symbols,  Next: Glossary,  Prev: Invocation,  Up: Top
-
-Bison Symbols
-*************
-
-`error'
-     A token name reserved for error recovery.  This token may be used
-     in grammar rules so as to allow the Bison parser to recognize an
-     error in the grammar without halting the process.  In effect, a
-     sentence containing an error may be recognized as valid.  On a
-     parse error, the token `error' becomes the current look-ahead
-     token.  Actions corresponding to `error' are then executed, and
-     the look-ahead token is reset to the token that originally caused
-     the violation.  *Note Error Recovery::.
-
-`YYABORT'
-     Macro to pretend that an unrecoverable syntax error has occurred,
-     by making `yyparse' return 1 immediately.  The error reporting
-     function `yyerror' is not called.  *Note The Parser Function
-     `yyparse': Parser Function.
-
-`YYACCEPT'
-     Macro to pretend that a complete utterance of the language has been
-     read, by making `yyparse' return 0 immediately.  *Note The Parser
-     Function `yyparse': Parser Function.
-
-`YYBACKUP'
-     Macro to discard a value from the parser stack and fake a
-     look-ahead token.  *Note Special Features for Use in Actions:
-     Action Features.
-
-`YYERROR'
-     Macro to pretend that a syntax error has just been detected: call
-     `yyerror' and then perform normal error recovery if possible
-     (*note Error Recovery::), or (if recovery is impossible) make
-     `yyparse' return 1.  *Note Error Recovery::.
-
-`YYERROR_VERBOSE'
-     Macro that you define with `#define' in the Bison declarations
-     section to request verbose, specific error message strings when
-     `yyerror' is called.
-
-`YYINITDEPTH'
-     Macro for specifying the initial size of the parser stack.  *Note
-     Stack Overflow::.
-
-`YYLEX_PARAM'
-     Macro for specifying an extra argument (or list of extra
-     arguments) for `yyparse' to pass to `yylex'.  *Note Calling
-     Conventions for Pure Parsers: Pure Calling.
-
-`YYLTYPE'
-     Macro for the data type of `yylloc'; a structure with four
-     members.  *Note Data Types of Locations: Location Type.
-
-`yyltype'
-     Default value for YYLTYPE.
-
-`YYMAXDEPTH'
-     Macro for specifying the maximum size of the parser stack.  *Note
-     Stack Overflow::.
-
-`YYPARSE_PARAM'
-     Macro for specifying the name of a parameter that `yyparse' should
-     accept.  *Note Calling Conventions for Pure Parsers: Pure Calling.
-
-`YYRECOVERING'
-     Macro whose value indicates whether the parser is recovering from a
-     syntax error.  *Note Special Features for Use in Actions: Action
-     Features.
-
-`YYSTYPE'
-     Macro for the data type of semantic values; `int' by default.
-     *Note Data Types of Semantic Values: Value Type.
-
-`yychar'
-     External integer variable that contains the integer value of the
-     current look-ahead token.  (In a pure parser, it is a local
-     variable within `yyparse'.)  Error-recovery rule actions may
-     examine this variable.  *Note Special Features for Use in Actions:
-     Action Features.
-
-`yyclearin'
-     Macro used in error-recovery rule actions.  It clears the previous
-     look-ahead token.  *Note Error Recovery::.
-
-`yydebug'
-     External integer variable set to zero by default.  If `yydebug' is
-     given a nonzero value, the parser will output information on input
-     symbols and parser action.  *Note Debugging Your Parser: Debugging.
-
-`yyerrok'
-     Macro to cause parser to recover immediately to its normal mode
-     after a parse error.  *Note Error Recovery::.
-
-`yyerror'
-     User-supplied function to be called by `yyparse' on error.  The
-     function receives one argument, a pointer to a character string
-     containing an error message.  *Note The Error Reporting Function
-     `yyerror': Error Reporting.
-
-`yylex'
-     User-supplied lexical analyzer function, called with no arguments
-     to get the next token.  *Note The Lexical Analyzer Function
-     `yylex': Lexical.
-
-`yylval'
-     External variable in which `yylex' should place the semantic value
-     associated with a token.  (In a pure parser, it is a local
-     variable within `yyparse', and its address is passed to `yylex'.)
-     *Note Semantic Values of Tokens: Token Values.
-
-`yylloc'
-     External variable in which `yylex' should place the line and column
-     numbers associated with a token.  (In a pure parser, it is a local
-     variable within `yyparse', and its address is passed to `yylex'.)
-     You can ignore this variable if you don't use the `@' feature in
-     the grammar actions.  *Note Textual Positions of Tokens: Token
-     Positions.
-
-`yynerrs'
-     Global variable which Bison increments each time there is a parse
-     error.  (In a pure parser, it is a local variable within
-     `yyparse'.)  *Note The Error Reporting Function `yyerror': Error
-     Reporting.
-
-`yyparse'
-     The parser function produced by Bison; call this function to start
-     parsing.  *Note The Parser Function `yyparse': Parser Function.
-
-`%debug'
-     Equip the parser for debugging.  *Note Decl Summary::.
-
-`%defines'
-     Bison declaration to create a header file meant for the scanner.
-     *Note Decl Summary::.
-
-`%left'
-     Bison declaration to assign left associativity to token(s).  *Note
-     Operator Precedence: Precedence Decl.
-
-`%no_lines'
-     Bison declaration to avoid generating `#line' directives in the
-     parser file.  *Note Decl Summary::.
-
-`%nonassoc'
-     Bison declaration to assign non-associativity to token(s).  *Note
-     Operator Precedence: Precedence Decl.
-
-`%prec'
-     Bison declaration to assign a precedence to a specific rule.
-     *Note Context-Dependent Precedence: Contextual Precedence.
-
-`%pure_parser'
-     Bison declaration to request a pure (reentrant) parser.  *Note A
-     Pure (Reentrant) Parser: Pure Decl.
-
-`%right'
-     Bison declaration to assign right associativity to token(s).
-     *Note Operator Precedence: Precedence Decl.
-
-`%start'
-     Bison declaration to specify the start symbol.  *Note The
-     Start-Symbol: Start Decl.
-
-`%token'
-     Bison declaration to declare token(s) without specifying
-     precedence.  *Note Token Type Names: Token Decl.
-
-`%token_table'
-     Bison declaration to include a token name table in the parser file.
-     *Note Decl Summary::.
-
-`%type'
-     Bison declaration to declare nonterminals.  *Note Nonterminal
-     Symbols: Type Decl.
-
-`%union'
-     Bison declaration to specify several possible data types for
-     semantic values.  *Note The Collection of Value Types: Union Decl.
-
-   These are the punctuation and delimiters used in Bison input:
-
-`%%'
-     Delimiter used to separate the grammar rule section from the Bison
-     declarations section or the additional C code section.  *Note The
-     Overall Layout of a Bison Grammar: Grammar Layout.
-
-`%{ %}'
-     All code listed between `%{' and `%}' is copied directly to the
-     output file uninterpreted.  Such code forms the "C declarations"
-     section of the input file.  *Note Outline of a Bison Grammar:
-     Grammar Outline.
-
-`/*...*/'
-     Comment delimiters, as in C.
-
-`:'
-     Separates a rule's result from its components.  *Note Syntax of
-     Grammar Rules: Rules.
-
-`;'
-     Terminates a rule.  *Note Syntax of Grammar Rules: Rules.
-
-`|'
-     Separates alternate rules for the same result nonterminal.  *Note
-     Syntax of Grammar Rules: Rules.
 
