@@ -296,7 +296,11 @@ AT_SETUP([Token definitions])
 
 # Bison managed, when fed with `%token 'f' "f"' to #define 'f'!
 AT_DATA([input.y],
-[[%token "end of file"
+[%{
+void yyerror (const char *s);
+int yylex (void);
+%}
+[%token "end of file"
 %token 'a' "a"
 %token "b" 'b'
 %token "c" c
