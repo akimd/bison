@@ -187,23 +187,23 @@ static void yyerror (const char *msg);
 }
 %type <ival> 'x' thing line input
 
-%printer { fprintf (yyout, "%d from %d", $$, @$.first_line); }
+%printer { fprintf (yyout, "%d@%d", $$, @$.first_line); }
    input line thing 'x'
 
 %destructor
-  { fprintf (stdout, "Freeing nterm input (%d from %d)\n", $$, @$.first_line); }
+  { fprintf (stdout, "Freeing nterm input (%d@%d)\n", $$, @$.first_line); }
   input
 
 %destructor
-  { fprintf (stdout, "Freeing nterm line (%d from %d)\n", $$, @$.first_line); }
+  { fprintf (stdout, "Freeing nterm line (%d@%d)\n", $$, @$.first_line); }
   line
 
 %destructor
-  { fprintf (stdout, "Freeing nterm thing (%d from %d)\n", $$, @$.first_line); }
+  { fprintf (stdout, "Freeing nterm thing (%d@%d)\n", $$, @$.first_line); }
   thing
 
 %destructor
-  { fprintf (stdout, "Freeing token 'x' (%d from %d)\n", $$, @$.first_line); }
+  { fprintf (stdout, "Freeing token 'x' (%d@%d)\n", $$, @$.first_line); }
   'x'
 
 %%
@@ -211,13 +211,14 @@ input:
   /* Nothing. */
     {
       $$ = 0;
-      printf ("input(%d): /* Nothing */';'\n", $$);
+      printf ("input(%d@%d): /* Nothing */';'\n", $$, @$.first_line);
     }
 | line input /* Right recursive to load the stack so that popping at
 		EOF can	be exercised.  */
     {
       $$ = 2;
-      printf ("input(%d): line(%d) input(%d)';'\n", $$, $1, $2);
+      printf ("input(%d@%d): line(%d@%d) input(%d@%d)';'\n",
+	      $$, @$.first_line, $1, @1.first_line, $2, @2.first_line);
     }
 ;
 
@@ -225,22 +226,27 @@ line:
   thing thing thing ';'
     {
       $$ = $1;
-      printf ("line(%d): thing(%d) thing(%d) thing(%d) ';'\n", $$, $1, $2, $3);
+      printf ("line(%d@%d): thing(%d@%d) thing(%d@%d) thing(%d@%d) ';'\n",
+              $$, @$.first_line, $1, @1.first_line, $2, @2.first_line,
+              $3, @3.first_line);
     }
 | thing thing ';'
     {
       $$ = $1;
-      printf ("line(%d): thing(%d) thing(%d) ';'\n", $$, $1, $2);
+      printf ("line(%d@%d): thing(%d@%d) thing(%d@%d) ';'\n",
+              $$, @$.first_line, $1, @1.first_line, $2, @2.first_line);
     }
 | thing ';'
     {
       $$ = $1;
-      printf ("line(%d): thing(%d) ';'\n", $$, $1);
+      printf ("line(%d@%d): thing(%d@%d) ';'\n",
+              $$, @$.first_line, $1, @1.first_line);
     }
 | error ';'
     {
       $$ = -1;
-      printf ("line(%d): error ';'\n", $$);
+      printf ("line(%d@%d): error(@%d) ';'\n",
+              $$, @$.first_line, @1.first_line);
     }
 ;
 
@@ -248,7 +254,8 @@ thing:
   'x'
     {
       $$ = $1;
-      printf ("thing(%d): 'x'(%d)\n", $$, $1);
+      printf ("thing(%d@%d): 'x'(%d@%d)\n",
+              $$, @$.first_line, $1, @1.first_line);
     }
 ;
 %%
@@ -309,39 +316,39 @@ AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
 [[sending: 'x' (value = 0, line 0)
-thing(0): 'x'(0)
+thing(0@0): 'x'(0@0)
 sending: 'x' (value = 1, line 10)
-thing(1): 'x'(1)
+thing(1@10): 'x'(1@10)
 sending: 'x' (value = 2, line 20)
-thing(2): 'x'(2)
+thing(2@20): 'x'(2@20)
 sending: 'x' (value = 3, line 30)
 30: parse error, unexpected 'x', expecting ';'
-Freeing nterm thing (2 from 20)
-Freeing nterm thing (1 from 10)
-Freeing nterm thing (0 from 0)
-Freeing token 'x' (3 from 30)
+Freeing nterm thing (2@20)
+Freeing nterm thing (1@10)
+Freeing nterm thing (0@0)
+Freeing token 'x' (3@30)
 sending: 'x' (value = 4, line 40)
-Freeing token 'x' (4 from 40)
+Freeing token 'x' (4@40)
 sending: 'x' (value = 5, line 50)
-Freeing token 'x' (5 from 50)
+Freeing token 'x' (5@50)
 sending: ';' (value = 6, line 60)
-line(-1): error ';'
+line(-1@50): error(@50) ';'
 sending: 'x' (value = 7, line 70)
-thing(7): 'x'(7)
+thing(7@70): 'x'(7@70)
 sending: 'x' (value = 8, line 80)
-thing(8): 'x'(8)
+thing(8@80): 'x'(8@80)
 sending: ';' (value = 9, line 90)
-line(7): thing(7) thing(8) ';'
+line(7@70): thing(7@70) thing(8@80) ';'
 sending: 'x' (value = 10, line 100)
-thing(10): 'x'(10)
+thing(10@100): 'x'(10@100)
 sending: ';' (value = 11, line 110)
-line(10): thing(10) ';'
+line(10@100): thing(10@100) ';'
 sending: 'y' (value = 12, line 120)
 120: parse error, unexpected $undefined, expecting $end or 'x'
 sending: EOF
-Freeing nterm line (10 from 100)
-Freeing nterm line (7 from 70)
-Freeing nterm line (-1 from 50)
+Freeing nterm line (10@100)
+Freeing nterm line (7@70)
+Freeing nterm line (-1@50)
 Parsing FAILED.
 ]])
 
