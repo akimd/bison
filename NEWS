@@ -3,6 +3,12 @@ Bison News
 
 Changes in version 1.30d:
 
+* The verbose report includes the rule line numbers.
+
+* Rule line numbers are fixed in traces.
+
+Changes in version 1.30d:
+
 * Swedish translation
 
 * Parse errors
