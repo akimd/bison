@@ -1,3 +1,13 @@
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
+	Make the test suite pass with warnings checked.
+
+	* tests/actions.at (Printers and Destructors): Improve.
+	Avoid unsigned vs. signed issues.
+	* tests/calc.at: Don't exercise the scanner here, do it...
+	* tests/input.at (Torturing the Scanner): here.
+
+	
 2002-06-28  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
 	* data/glr.c: Correct typo in Emacs-mode directive.  Slightly 

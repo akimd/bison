@@ -21,30 +21,6 @@ AT_BANNER([[Input Processing.]])
 # Mostly test that we are robust to mistakes.
 
 
-## ----------------------- ##
-## Torturing the Scanner.  ##
-## ----------------------- ##
-
-AT_SETUP([Torturing the Scanner])
-
-AT_DATA([input.y],
-[[%{
-/* This is seen in GCC: a %{ and %} in middle of a comment. */
-const char *foo = "So %{ and %} can be here.";
-%}
-/* %{ and %} can be here too. */
-
-%%
-exp: 'a';
-]])
-
-AT_CHECK([bison input.y])
-
-AT_CLEANUP
-
-
-
-
 ## ------------ ##
 ## Invalid $n.  ##
 ## ------------ ##
@@ -101,6 +77,114 @@ AT_CHECK([bison input.y], [1], [],
 [[input.y:4.4-15: type clash (`bar' `') on default action
 input.y:5.4-8: type clash (`bar' `') on default action
 input.y:6.4: empty rule for typed nonterminal, and no action
+]])
+
+AT_CLEANUP
+
+
+
+## ----------------------- ##
+## Torturing the Scanner.  ##
+## ----------------------- ##
+
+# Be sure to compile and run, so that the C compiler checks what
+# we do.
+
+AT_SETUP([Torturing the Scanner])
+
+AT_DATA([input.y],
+[[%{
+/* This is seen in GCC: a %{ and %} in middle of a comment. */
+const char *foo = "So %{ and %} can be here too.";
+
+#include <stdio.h>
+%}
+/* %{ and %} can be here too. */
+
+%{
+/* Exercise pre-prologue dependency to %union.  */
+typedef int value_t;
+%}
+
+/* Exercise M4 quoting: '@:>@@:>@', 0.  */
+
+/* Also exercise %union. */
+%union
+{
+  value_t ival; /* A comment to exercise an old bug. */
+};
+
+
+/* Exercise post-prologue dependency to %union.  */
+%{
+static YYSTYPE value_t_as_yystype (value_t val);
+
+/* Exercise quotes in declarations.  */
+char quote[] = "@:>@@:>@,";
+%}
+
+%{
+static void yyerror (const char *s);
+static int yylex (void);
+%}
+
+%type <ival> '1'
+
+/* Exercise quotes in strings.  */
+%token FAKE "fake @<:@@:>@,"
+
+%%
+/* Exercise M4 quoting: '@:>@@:>@', 1.  */
+exp: '1'
+  {
+    /* Exercise quotes in braces.  */
+    char tmp[] = "@<:@%c@:>@,\n";
+    printf (tmp, $1);
+  }
+;
+%%
+/* Exercise M4 quoting: '@:>@@:>@', 2.  */
+
+static YYSTYPE
+value_t_as_yystype (value_t val)
+{
+  YYSTYPE res;
+  res.ival = val;
+  return res;
+}
+
+static int
+yylex (void)
+{
+  static const char *input = "1";
+  yylval = value_t_as_yystype (*input);
+  return *input++;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+]])
+
+AT_DATA([main.c],
+[[typedef int value_t;
+#include "input.h"
+
+int yyparse (void);
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_CHECK([bison input.y -d -v -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS main.c input.c -o input], 0, [], [ignore])
+AT_CHECK([./input], 0,
+[[[1],
 ]])
 
 AT_CLEANUP

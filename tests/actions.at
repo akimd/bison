@@ -193,7 +193,6 @@ AT_DATA([[input.y]],
 %{
 static int yylex (void);
 static void yyerror (const char *msg);
-static void yyprint (FILE *out, int num, YYSTYPE val);
 %}
 
 
@@ -252,21 +251,22 @@ yylex (void)
          can be reduced.  */
       'x', 'x', 'x', 'x', 'x', 'x', ';',
 
-      /* Load the stack and provoke an error that cannot be caught be
-         the grammar, and check that the stack is cleared. */
+      /* Load the stack and provoke an error that cannot be caught by
+         the grammar, to check that the stack is cleared. */
       'x', 'x', ';',
       'x', ';',
       'y'
     };
-  static int counter = 0;
+  static unsigned int counter = 0;
 
   if (counter < (sizeof(input) / sizeof (input[0])))
     {
        yylval.ival = counter;
-       printf ("sending: '%c' (line %d)\n", input[counter], counter);
        /* As in BASIC, line numbers go from 10 to 10.  */
        yylloc.first_line = 10 * counter;
-       return input[counter++];
+       printf ("sending: '%c' (value = %d, line %d)\n",
+               input[counter], yylval.ival, yylloc.first_line);
+       return (int) input[counter++];
     }
   else
     {
@@ -298,35 +298,35 @@ main (void)
 AT_CHECK([bison input.y --location -d -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
 AT_CHECK([./input], 1,
-[[sending: 'x' (line 0)
+[[sending: 'x' (value = 0, line 0)
 thing(0): 'x'(0)
-sending: 'x' (line 1)
+sending: 'x' (value = 1, line 10)
 thing(1): 'x'(1)
-sending: 'x' (line 2)
+sending: 'x' (value = 2, line 20)
 thing(2): 'x'(2)
-sending: 'x' (line 3)
+sending: 'x' (value = 3, line 30)
 30: parse error, unexpected 'x', expecting ';'
 Freeing nterm thing (2 from 20)
 Freeing nterm thing (1 from 10)
 Freeing nterm thing (0 from 0)
 Freeing token 'x' (3 from 30)
-sending: 'x' (line 4)
+sending: 'x' (value = 4, line 40)
 Freeing token 'x' (4 from 40)
-sending: 'x' (line 5)
+sending: 'x' (value = 5, line 50)
 Freeing token 'x' (5 from 50)
-sending: ';' (line 6)
+sending: ';' (value = 6, line 60)
 line(-1): error ';'
-sending: 'x' (line 7)
+sending: 'x' (value = 7, line 70)
 thing(7): 'x'(7)
-sending: 'x' (line 8)
+sending: 'x' (value = 8, line 80)
 thing(8): 'x'(8)
-sending: ';' (line 9)
+sending: ';' (value = 9, line 90)
 line(7): thing(7) thing(8) ';'
-sending: 'x' (line 10)
+sending: 'x' (value = 10, line 100)
 thing(10): 'x'(10)
-sending: ';' (line 11)
+sending: ';' (value = 11, line 110)
 line(10): thing(10) ';'
-sending: 'y' (line 12)
+sending: 'y' (value = 12, line 120)
 120: parse error, unexpected $undefined., expecting $ or error or 'x'
 sending: EOF
 Freeing nterm line (10 from 100)

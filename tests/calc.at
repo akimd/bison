@@ -67,29 +67,16 @@ typedef int value_t;
 
 %}
 
-/* Exercise M4 quoting: '@:>@@:>@', 0.  */
-
-/* Also exercise %union. */
+/* Exercise %union. */
 %union
 {
-  value_t ival; /* A comment to exercise an old bug. */
+  value_t ival;
 };
-
-/* Exercise post-prologue dependency to %union.  */
-%{
-static void id (YYSTYPE *lval);
-
-/* Exercise quotes in declarations.  */
-char quote[] = "@:>@@:>@,";
-%}
 
 /* Bison Declarations */
 %token CALC_EOF 0 "end of file"
 %token <ival> NUM "number"
 %type  <ival> exp
-
-/* Exercise quotes in strings.  */
-%token FAKE "fake @>:@@>:@,"
 
 %nonassoc '=' /* comparison	       */
 %left '-' '+'
@@ -107,15 +94,10 @@ input:
 ;
 
 line:
-  '\n'
-| exp '\n'
-  {
-    /* Exercise quotes in braces.  */
-    char tmp[] = "@>:@@:>@,";
-  }
+  '\n'      {}
+| exp '\n'  {}
 ;
 
-/* Exercise M4 quoting: '@:>@@:>@', 1.  */
 exp:
   NUM                { $$ = $1;             }
 | exp '=' exp
@@ -137,7 +119,6 @@ exp:
 /* The input. */
 FILE *yyin;
 
-/* Exercise M4 quoting: '@:>@@:>@', 2.  */
 static void
 yyerror (const char *s)
 {
@@ -257,11 +238,6 @@ power (int base, int exponent)
   for (/* Niente */; exponent; --exponent)
     res *= base;
   return res;
-}
-
-void
-id (YYSTYPE* lval)
-{
 }
 
 int
