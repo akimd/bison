@@ -169,7 +169,6 @@ AT_DATA([[input.y]],
 
 #define YYERROR_VERBOSE 1
 #define YYDEBUG 1
-#define YYPRINT yyprint
 %}
 %verbose
 %union
@@ -177,10 +176,19 @@ AT_DATA([[input.y]],
   int ival;
 }
 %type <ival> 'x' thing line input
-%destructor { printf ("Freeing input %d from %d\n", $$, @$.first_line); } input
-%destructor { printf ("Freeing line %d from %d\n", $$, @$.first_line); } line
-%destructor { printf ("Freeing thing %d from %d\n", $$, @$.first_line); } thing
-%destructor { printf ("Freeing 'x' %d from %d\n", $$, @$.first_line); } 'x'
+
+%printer { fprintf (yyout, "%d from %d", $$, @$.first_line); }
+   input line thing 'x'
+
+%destructor
+  {
+    fprintf (stdout, "Freeing ");
+    /* FIXME: Ouch: INTERNAL DETAILS EXPOSED HERE. */
+    /* Cannot use $$ which is the union member, not the union itself. */
+    yysymprint (stdout, yytype, yyvalue, @$);
+    fprintf (stdout, "\n");
+  }
+  input line thing 'x'
 
 %{
 static int yylex (void);
@@ -255,7 +263,7 @@ yylex (void)
   if (counter < (sizeof(input) / sizeof (input[0])))
     {
        yylval.ival = counter;
-       printf ("sending: '%c'(%d)\n", input[counter], counter);
+       printf ("sending: '%c' (line %d)\n", input[counter], counter);
        /* As in BASIC, line numbers go from 10 to 10.  */
        yylloc.first_line = 10 * counter;
        return input[counter++];
@@ -271,12 +279,6 @@ static void
 yyerror (const char *msg)
 {
   fprintf (stdout, "%d: %s\n", yylloc.first_line, msg);
-}
-
-static void
-yyprint (FILE *out, int num, YYSTYPE val)
-{
-  fprintf (out, " = %d", val.ival);
 }
 
 int
@@ -296,40 +298,40 @@ main (void)
 AT_CHECK([bison input.y --location -d -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
 AT_CHECK([./input], 1,
-[[sending: 'x'(0)
+[[sending: 'x' (line 0)
 thing(0): 'x'(0)
-sending: 'x'(1)
+sending: 'x' (line 1)
 thing(1): 'x'(1)
-sending: 'x'(2)
+sending: 'x' (line 2)
 thing(2): 'x'(2)
-sending: 'x'(3)
+sending: 'x' (line 3)
 30: parse error, unexpected 'x', expecting ';'
-Freeing thing 2 from 20
-Freeing thing 1 from 10
-Freeing thing 0 from 0
-Freeing 'x' 3 from 30
-sending: 'x'(4)
-Freeing 'x' 4 from 40
-sending: 'x'(5)
-Freeing 'x' 5 from 50
-sending: ';'(6)
+Freeing nterm thing (2 from 20)
+Freeing nterm thing (1 from 10)
+Freeing nterm thing (0 from 0)
+Freeing token 'x' (3 from 30)
+sending: 'x' (line 4)
+Freeing token 'x' (4 from 40)
+sending: 'x' (line 5)
+Freeing token 'x' (5 from 50)
+sending: ';' (line 6)
 line(-1): error ';'
-sending: 'x'(7)
+sending: 'x' (line 7)
 thing(7): 'x'(7)
-sending: 'x'(8)
+sending: 'x' (line 8)
 thing(8): 'x'(8)
-sending: ';'(9)
+sending: ';' (line 9)
 line(7): thing(7) thing(8) ';'
-sending: 'x'(10)
+sending: 'x' (line 10)
 thing(10): 'x'(10)
-sending: ';'(11)
+sending: ';' (line 11)
 line(10): thing(10) ';'
-sending: 'y'(12)
+sending: 'y' (line 12)
 120: parse error, unexpected $undefined., expecting $ or error or 'x'
 sending: EOF
-Freeing line 10 from 100
-Freeing line 7 from 70
-Freeing line -1 from 50
+Freeing nterm line (10 from 100)
+Freeing nterm line (7 from 70)
+Freeing nterm line (-1 from 50)
 Parsing FAILED.
 ]])
 

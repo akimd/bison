@@ -1250,9 +1250,9 @@ m4_map([b4_symbol_destructor], m4_defn([b4_symbol_destructors]))dnl
 
 
 #if YYDEBUG
-/*---------------------------.
-| Print this symbol on OUT.  |
-`---------------------------*/
+/*-----------------------------.
+| Print this symbol on YYOUT.  |
+`-----------------------------*/
 
 m4_divert_push([KILL])# M4 code.
 # b4_symbol_printer(SYMBOL-NUMBER, PRINTER, TYPE-NAME)
@@ -1270,15 +1270,15 @@ m4_popdef([b4_dollar_dollar])])
 
 m4_divert_pop([KILL])dnl# End of M4 code.
 static void
-yysymprint (FILE* out, int yytype,
+yysymprint (FILE* yyout, int yytype,
 	    YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]))
 {
   if (yytype < YYNTOKENS)
-    YYFPRINTF (out, "token %d (%s ", yytoknum[[yytype]], yytname[[yytype]]);
+    YYFPRINTF (yyout, "token %s (", yytname[[yytype]]);
   else
-    YYFPRINTF (out, "nterm %s (", yytname[[yytype]]);
+    YYFPRINTF (yyout, "nterm %s (", yytname[[yytype]]);
 # ifdef YYPRINT
-  YYPRINT (out, yytype, yyvalue);
+  YYPRINT (yyout, yytype, yyvalue);
 # else
   switch (yytype)
     {
@@ -1287,7 +1287,7 @@ m4_map([b4_symbol_printer], m4_defn([b4_symbol_printers]))dnl
         break;
     }
 # endif /* !defined YYPRINT. */
-  YYFPRINTF (out, ")");
+  YYFPRINTF (yyout, ")");
 }
 #endif /* YYDEBUG. */
 
