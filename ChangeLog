@@ -1,3 +1,9 @@
+2002-01-04  Paul Eggert  <eggert@twinsun.com>
+
+	* doc/bison.texinfo (Debugging):
+	Remove YYSTDERR; it's no longer defined or used.
+	Also, s/cstdio.h/cstdio/.
+
 2002-01-03  Akim Demaille  <akim@epita.fr>
 
 	* src/parse-skel.y (process_skeleton): Don't bind the parser's
