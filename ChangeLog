@@ -1,5 +1,13 @@
 2004-12-15  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (lex_): Rename as...
+	(yylex_): this.
+	Move the trace here.
+	Take the %name-prefix into account.
+	Reported by Alexandre Duret-Lutz.
+
+2004-12-15  Akim Demaille  <akim@epita.fr>
+
 	Simplify the C++ parser constructor.
 
 	* data/lalr1.cc (debug_): Rename as...

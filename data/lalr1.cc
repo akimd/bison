@@ -243,7 +243,7 @@ namespace yy
 
   private:
 
-    virtual void lex_ ();
+    virtual void yylex_ ();
     virtual void error_ ();
     virtual void report_syntax_error_ ();
 #if YYDEBUG
@@ -521,10 +521,7 @@ yybackup:
 
   /* Read a look-ahead token.  */
   if (looka_ == empty_)
-    {
-      YYCDEBUG << "Reading a token: ";
-      lex_ ();
-    }
+    yylex_ ();
 
   /* Convert token to internal form.  */
   if (looka_ <= eof_)
@@ -757,12 +754,13 @@ yyabortlab:
 }
 
 void
-yy::]b4_parser_class_name[::lex_ ()
+yy::]b4_parser_class_name[::yylex_ ()
 {
+  YYCDEBUG << "Reading a token: ";
 #if YYLSP_NEEDED
-  looka_ = yylex (&value, &location);
+  looka_ = ]m4_default(b4_prefix, [yy])[lex (&value, &location);
 #else
-  looka_ = yylex (&value);
+  looka_ = ]m4_default(b4_prefix, [yy])[lex (&value);
 #endif
 }
 
