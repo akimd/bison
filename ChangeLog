@@ -1,3 +1,12 @@
+2001-10-26  Paul Eggert  <eggert@twinsun.com>
+
+	* lib/error.c, lib/error.h, lib/getopt.c, lib/getopt.h,
+	  lib/getopt1.c, lib/obstack.c, lib/obstack.h, lib/quote.c,
+	  lib/strnlen.c, lib/xmalloc.c, m4/c-bs-a.m4, m4/error.m4,
+	  m4/gettext.m4, m4/lcmessage.m4, m4/malloc.m4, m4/mbstate_t.m4,
+	  m4/progtest.m4, m4/realloc.m4, m4/strerror_r.m4:
+	Sync with fileutils 4.1.1.
+
 2001-10-18  Akim Demaille  <akim@epita.fr>
 
 	Version 1.29f.
