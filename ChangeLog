@@ -1,5 +1,23 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (log_resolution, flush_shift)
+	(resolve_sr_conflict, set_conflicts, solve_conflicts)
+	(count_sr_conflicts, count_rr_conflicts, conflicts_output)
+	(conflicts_print, print_reductions): Use a state_t instead of an
+	integer when referring to a state.
+	As much as possible, depend upon nlookaheads, instead of the
+	`lookaheadsp' member of the following state (since lookaheads of
+	successive states are successive, the difference between state n + 1
+	and n served as the number of lookaheads for state n).
+	* src/lalr.c (add_lookback_edge): Likewise.
+	* src/print.c (print_core, print_actions, print_state)
+	(print_results): Likewise.
+	* src/print_graph.c (print_core, print_actions, print_state)
+	(print_graph): Likewise.
+	* src/conflicts.h: Adjust.
+
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.hairy: Formatting/comment changes.
 	ANSIfy.
 	Remove `register' indications.
