@@ -1,5 +1,6 @@
 /* Lists of symbols for Bison
-   Copyright (C) 2002  Free Software Foundation, Inc.
+
+   Copyright (C) 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -21,42 +22,41 @@
 #ifndef SYMLIST_H_
 # define SYMLIST_H_
 
-# include "symtab.h"
 # include "location.h"
+# include "symtab.h"
 
-typedef struct symbol_list_s
+typedef struct symbol_list
 {
-  struct symbol_list_s *next;
-  symbol_t *sym;
-  location_t location;
+  struct symbol_list *next;
+  symbol *sym;
+  location location;
 
   /* The action is attached to the LHS of a rule. */
   const char *action;
-  location_t action_location;
+  location action_location;
 
-  symbol_t *ruleprec;
+  symbol *ruleprec;
   int dprec;
   int merger;
-} symbol_list_t;
+} symbol_list;
 
 
-/* Create a list containing SYMBOL at LOCATION.  */
-symbol_list_t *symbol_list_new (symbol_t *sym, location_t location);
+/* Create a list containing SYM at LOC.  */
+symbol_list *symbol_list_new (symbol *sym, location loc);
 
-/* Prepend SYMBOL at LOCATION to the LIST.  */
-symbol_list_t * symbol_list_prepend (symbol_list_t *list,
-				     symbol_t *symbol,
-				     location_t location);
+/* Prepend SYM at LOC to the LIST.  */
+symbol_list *symbol_list_prepend (symbol_list *list,
+				  symbol *sym,
+				  location loc);
 
 /* Free the LIST, but not the symbols it contains.  */
-void symbol_list_free (symbol_list_t *list);
+void symbol_list_free (symbol_list *list);
 
 /* Return its length. */
-unsigned int symbol_list_length (symbol_list_t *list);
+unsigned int symbol_list_length (symbol_list *list);
 
 /* Get the data type (alternative in the union) of the value for
    symbol N in rule RULE.  */
-struniq_t symbol_list_n_type_name_get (symbol_list_t *rule,
-				   location_t location, int n);
+uniqstr symbol_list_n_type_name_get (symbol_list *rp, location loc, int n);
 
 #endif /* !SYMLIST_H_ */
