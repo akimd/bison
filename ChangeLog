@@ -178,7 +178,7 @@
 
 	* src/reader.c (copy_action): When --yacc, don't append a `;'
 	to the user action: let it fail if lacking.
-	Suggested by Aharon Robbins and Tom Tromey.
+	Suggested by Arnold Robbins and Tom Tromey.
 
 2001-12-14  Akim Demaille  <akim@epita.fr>
 
