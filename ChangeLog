@@ -1,5 +1,9 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/reduce.c: Convert to use bitset.h, not hand coded BSet.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c (ruleset): Be a bitset.
 	(rulesetsize): Remove.
 
