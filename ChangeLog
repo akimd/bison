@@ -1,5 +1,9 @@
 2001-08-16  Marc Autret  <autret_m@epita.fr>
 
+	* src/getargs.c (usage): Update with ``-g, --graph''.
+
+2001-08-16  Marc Autret  <autret_m@epita.fr>
+
 	* doc/bison.texinfo (Bison Options): Add items `-g', `--graph'.
 	(Option Cross Key): Likewise.
 	* doc/bison.1: Update.
