@@ -1,5 +1,12 @@
 2001-11-30  Akim Demaille  <akim@epita.fr>
 
+	* src/reduce.c (nonterminals_reduce): Instead of throwing away
+	useless nonterminals, move them at the end of the symbol arrays.
+	(reduce_output): Adjust.
+	* tests/reduce.at (Useless Nonterminals): Adjust.
+
+2001-11-30  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c: Various comment/formatting changes.
 	(nonterminals_reduce): New, extracted from...
 	(reduce_grammar_tables): here.
