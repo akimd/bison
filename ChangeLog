@@ -1,3 +1,8 @@
+2002-11-07  Paul Eggert  <eggert@twinsun.com>
+
+	* src/scan-gram.l (unexpected_end_of_file): New function.
+	Use it to systematize the error message on unexpected EOF.
+
 2002-11-06  Akim Demaille  <akim@epita.fr>
 
 	#line should have quoted strings.
