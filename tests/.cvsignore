@@ -12,3 +12,4 @@ testsuite
 calc.[chy]
 calc.tab.*
 calc
+*.output *.vcg
