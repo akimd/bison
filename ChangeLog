@@ -1,3 +1,11 @@
+2003-02-26  Paul Eggert  <eggert@twinsun.com>
+
+	* README: Mention compiler bug in Sun Forte Developer 6 update 2.
+	Remove Sequent/Pyramid discussion (nobody uses them any more).
+	Merge VMS and MS-DOS discussion; these ports may well be dead
+	but let's keep mentioning them for now.  Put <> around email
+	addresses.  Add copyright notice.
+
 2003-02-24  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (yy_reduce_print): yylineno -> yylno,
