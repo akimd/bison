@@ -1,5 +1,15 @@
 2001-11-26  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (allocate_itemsets): kernel_size contains ints, not
+	size_ts.
+
+2001-11-26  Akim Demaille  <akim@epita.fr>
+
+	* src/complain.c, src/complain.h (error): Remove, provided by
+	lib/error.[ch].
+
+2001-11-26  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (read_declarations): Don't abort on tok_illegal,
 	issue an error message.
 	* tests/regression.at (Invalid %directive): New.
