@@ -1,5 +1,5 @@
 /* Input parser for bison
-   Copyright (C) 2000, 2001, 2002  Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -21,6 +21,7 @@
 #ifndef READER_H_
 # define READER_H_
 
+# include "location.h"
 # include "symlist.h"
 # include "parse-gram.h"
 
@@ -35,6 +36,7 @@ merger_list;
 /* From the scanner.  */
 extern FILE *gram_in;
 extern int gram__flex_debug;
+extern boundary scanner_cursor;
 void scanner_initialize (void);
 void scanner_free (void);
 void scanner_last_string_free (void);
