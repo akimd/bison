@@ -18,15 +18,11 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
-# We want a recent Autotest.
-m4_version_prereq([2.57])
+# Initializes Autotest, imports macros etc.  It will trigger a warning
+# with Autoconf 2.58, because it includes this file automatically, but
+# it causes no real problem.
+m4_include([input.at])
 
-# Helping macros.
-m4_include([local.at])
-
-AT_INIT
-
-AT_TESTED([bison])
 
 # Testing resistance to user bugs.
 m4_include([input.at])

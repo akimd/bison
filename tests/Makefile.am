@@ -55,6 +55,7 @@ TESTSUITE = $(srcdir)/testsuite
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
 $(TESTSUITE): package.m4 $(TESTSUITE_AT)
+	echo "WARNING: Multiple inclusion warning should be ignored." >&2
 	$(AUTOTEST) -I $(srcdir) testsuite.at -o $@.tmp
 	mv $@.tmp $@
 

@@ -18,6 +18,9 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
+# We want a recent Autotest.
+m4_version_prereq([2.57])
+
 
 ## ------------------------------- ##
 ## Macros decoding Bison options.  ##
@@ -190,3 +193,14 @@ AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_default([$2], [$1.c]) -o $1],
 # So that we can run `./testsuite PREPARSER='valgrind -q' for instance.
 m4_define([AT_PARSER_CHECK],
 [AT_CHECK([$PREPARSER $1], [$2], [$3], [$4])])
+
+
+
+
+## ----------------------- ##
+## Launch the test suite.  ##
+## ----------------------- ##
+
+AT_INIT
+
+AT_TESTED([bison])

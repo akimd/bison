@@ -1,3 +1,16 @@
+2003-08-25  Akim Demaille  <akim@epita.fr>
+
+	Tune local.at so that people can "autom4te -l autotest calc.at -o
+	calc" for instance, to extract a sub test suite.
+
+	* tests/testsuite.at: Move the initialization, Autotest version
+	requirement, and AT_TESTED invocation into...
+	* tests/local.at: here.
+	* tests/testsuite.at: Include it for compatibility with Autoconf
+	2.57.
+	* tests/Makefile.am ($(TESTSUITE)): Report that the warning should
+	be ignore.
+
 2003-08-04  Paul Eggert  <eggert@twinsun.com>
 
 	Rework code slightly to avoid gcc -Wtraditional warnings.
@@ -12,7 +25,7 @@
 	yyresolveStates, yyprocessOneStack):
 	Use `YYASSERT (FOO);' rather than `if (! (FOO)) abort ();'.
 	Derived from a suggestion by Frank Heckenbach.
-	
+
 2003-07-25  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (yyglrReduce): Don't use C89 string concatenation,
