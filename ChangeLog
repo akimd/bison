@@ -1,3 +1,8 @@
+2004-08-30  Florian Krohm  <florian@edamail.fishkill.ibm.com>
+
+	* data/glr.c: Guard the declarations of yypstack and yypdumpstack
+	with #ifdef YYDEBUG.
+
 2004-08-26  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (Implementing Loops): Rename as...
