@@ -1,5 +1,12 @@
 2001-11-28  Marc Autret  <autret_m@epita.fr>
 
+	* src/bison.simple: Adjust muscle names.
+	* src/muscle_tab.c (muscle_init): Also rename the muscles.
+	* src/output.c (prepare): s/_/-/ for the muscles names.
+	(output_parser): When scanning for a muscle, allow '-' instead of '_'.
+
+2001-11-28  Marc Autret  <autret_m@epita.fr>
+
 	* src/bison.simple: Fix debug.
 	[YYERROR_VERBOSE]: Re-integrate as an internal macro.
 

@@ -44,7 +44,7 @@
 #define yynerrs %%prefix##nerrs
 
 /* Copy the user declarations.  */
-#line %%input_line "%%filename"
+#line %%input-line "%%filename"
 %%prologue
 
 #line %%line "%%skeleton"
@@ -132,7 +132,7 @@ do {									\
 # define YYDEBUG %%debug
 #endif
 
-#line %%input_line "%%filename"
+#line %%input-line "%%filename"
 #ifndef YYSTYPE
 typedef %%stype yystype;
 # define YYSTYPE yystype
@@ -153,7 +153,7 @@ typedef struct yyltype
 # undef YYERROR_VERBOSE
 #endif
 
-#define YYERROR_VERBOSE %%error_verbose
+#define YYERROR_VERBOSE %%error-verbose
 
 /* Tokens.  */
 %%tokendef
@@ -306,7 +306,7 @@ while (0)
 #endif
 
 /* Definition of YYLSP_NEEDED.  */
-#define YYLSP_NEEDED %%locations_flag
+#define YYLSP_NEEDED %%locations-flag
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
@@ -1006,5 +1006,5 @@ yyabortlab:
   return 1;
 }
 
-#line %%input_line "%%filename"
+#line %%input-line "%%filename"
 %%epilogue
