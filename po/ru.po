@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-06-27 13:54+0200\n"
+"POT-Creation-Date: 2002-06-27 14:17+0200\n"
 "PO-Revision-Date: 2002-01-25 12:19+0300\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -111,16 +111,16 @@ msgstr "не удается открыть файл `%s'"
 msgid "cannot close file"
 msgstr "не удается закрыть файл"
 
-#: src/getargs.c:100
+#: src/getargs.c:99
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison генерирует анализаторы для грамматик LALR(1).\n"
 
-#: src/getargs.c:104
+#: src/getargs.c:103
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Использование: %s [КЛЮЧИ]... ФАЙЛ\n"
 
-#: src/getargs.c:108
+#: src/getargs.c:107
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -129,7 +129,7 @@ msgstr ""
 "является обязательным для короткой формы.  То же касается необязательных\n"
 "аргументов.\n"
 
-#: src/getargs.c:114
+#: src/getargs.c:113
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -141,7 +141,7 @@ msgstr ""
 "  -V, --version   вывести информацию о версии и выйти\n"
 "  -y, --yacc      эмулировать POSIX yacc\n"
 
-#: src/getargs.c:121
+#: src/getargs.c:120
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -161,7 +161,7 @@ msgstr ""
 "  -n, --no-parser            генерировать только таблицы\n"
 "  -k, --token-table          включить таблицу имен лексем\n"
 
-#: src/getargs.c:133
+#: src/getargs.c:132
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -181,7 +181,7 @@ msgstr ""
 "  -g, --graph                создать также пояснения к автомату в виде \n"
 "VCG-графа\n"
 
-#: src/getargs.c:144
+#: src/getargs.c:143
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -192,27 +192,27 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:155
+#: src/getargs.c:154
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Ошибки сообщайте по адресу <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:169
+#: src/getargs.c:168
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:171
+#: src/getargs.c:170
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:175
+#: src/getargs.c:174
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:177
+#: src/getargs.c:176
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -223,17 +223,17 @@ msgstr ""
 "ПРИГОДНОСТИ\n"
 "ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ.\n"
 
-#: src/getargs.c:280
+#: src/getargs.c:333
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Используйте `%s --help' для дополнительной информации.\n"
 
-#: src/getargs.c:289
+#: src/getargs.c:340
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: не задан файл с грамматикой\n"
 
-#: src/getargs.c:293
+#: src/getargs.c:344
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: лишние аргументы после `%s' игнорированы\n"
@@ -321,35 +321,35 @@ msgstr " налево:"
 msgid " on right:"
 msgstr " направо:"
 
-#: src/reader.c:53
+#: src/reader.c:52
 #, c-format
 msgid "multiple %s declarations"
 msgstr "множественное описание %s"
 
-#: src/reader.c:203
+#: src/reader.c:202
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "правило задано для %s, который является лексемой"
 
-#: src/reader.c:228
+#: src/reader.c:227
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "конфликт типов (`%s' `%s') на действии по умолчанию"
 
-#: src/reader.c:236
+#: src/reader.c:235
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "пустое правило для типизированного нетерминального символа, и нет действия"
 
-#: src/reader.c:307
+#: src/reader.c:306
 msgid "two @prec's in a row"
 msgstr "два @prec подряд"
 
-#: src/reader.c:448
+#: src/reader.c:447
 msgid "no rules in the input grammar"
 msgstr "отсутствуют правила во входной грамматике"
 
-#: src/reader.c:480
+#: src/reader.c:479
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"

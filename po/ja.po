@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-06-27 13:54+0200\n"
+"POT-Creation-Date: 2002-06-27 14:17+0200\n"
 "PO-Revision-Date: 2001-12-10 15:59+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -101,16 +101,16 @@ msgstr "ファイル `%s' を開けません"
 msgid "cannot close file"
 msgstr "ファイルを閉じることができません"
 
-#: src/getargs.c:100
+#: src/getargs.c:99
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison は LALR(1) 文法の構文解析器を生成します。\n"
 
-#: src/getargs.c:104
+#: src/getargs.c:103
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "使い方: %s [オプション]... ファイル\n"
 
-#: src/getargs.c:108
+#: src/getargs.c:107
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -118,7 +118,7 @@ msgstr ""
 "ロングオプションで必須の引数が示されていれば、同じ意味のショートオプション\n"
 "でも同様に必須の引数となります。必須でない選択的引数でも同様です。\n"
 
-#: src/getargs.c:114
+#: src/getargs.c:113
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -130,7 +130,7 @@ msgstr ""
 "  -V, --version   バージョン情報を表示して終了する\n"
 "  -y, --yacc      POSIX yacc をエミュレイトする\n"
 
-#: src/getargs.c:121
+#: src/getargs.c:120
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -150,7 +150,7 @@ msgstr ""
 "  -n, --no-parser            テーブルのみを生成する\n"
 "  -k, --token-table          トークン名のテーブルを含める\n"
 
-#: src/getargs.c:133
+#: src/getargs.c:132
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -169,7 +169,7 @@ msgstr ""
 "  -o, --output=FILE          出力先を FILE とする\n"
 "  -g, --graph                オートマトンの VCG 記述子も作成する\n"
 
-#: src/getargs.c:144
+#: src/getargs.c:143
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -180,26 +180,26 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:155
+#: src/getargs.c:154
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "バグレポートは <bug-bison@gnu.org> まで。\n"
 
-#: src/getargs.c:169
+#: src/getargs.c:168
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:171
+#: src/getargs.c:170
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:175
+#: src/getargs.c:174
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:177
+#: src/getargs.c:176
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -210,17 +210,17 @@ msgstr ""
 "これはフリーソフトウェアです -- 複製についての条件はソースを見ましょう。\n"
 "一切の保証はありません -- 商業性や目的適合性についての保証すらありません。\n"
 
-#: src/getargs.c:280
+#: src/getargs.c:333
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "`%s --help' で詳細情報を参照してください\n"
 
-#: src/getargs.c:289
+#: src/getargs.c:340
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: 文法ファイルが指定されていません\n"
 
-#: src/getargs.c:293
+#: src/getargs.c:344
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: `%s' の後ろの余分な引数は無視されました\n"
@@ -308,34 +308,34 @@ msgstr " 左辺:"
 msgid " on right:"
 msgstr " 右辺:"
 
-#: src/reader.c:53
+#: src/reader.c:52
 #, c-format
 msgid "multiple %s declarations"
 msgstr "%s が複数個宣言されました"
 
-#: src/reader.c:203
+#: src/reader.c:202
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s に規則が与えられ、それはトークンとなります"
 
-#: src/reader.c:228
+#: src/reader.c:227
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "初期状態の動作では型 (`%s' `%s') が衝突します"
 
-#: src/reader.c:236
+#: src/reader.c:235
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "空の型付き非終端アイテム用規則であり、動作が起りません"
 
-#: src/reader.c:307
+#: src/reader.c:306
 msgid "two @prec's in a row"
 msgstr "@prec のもの二つが同列になっています"
 
-#: src/reader.c:448
+#: src/reader.c:447
 msgid "no rules in the input grammar"
 msgstr "入力した文法に規則が定義されていません"
 
-#: src/reader.c:480
+#: src/reader.c:479
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークン + 非終端アイテム) -- 最大 %d"
