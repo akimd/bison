@@ -53,8 +53,8 @@ extern void perror (const char *s);
 /* Exercise pre-prologue dependency to %union.  */
 typedef int value_t;
 
-value_t global_result = 0;
-int global_count = 0;
+static value_t global_result = 0;
+static int global_count = 0;
 
 %}
 
@@ -146,7 +146,7 @@ exp:
 ;
 %%
 /* The input. */
-FILE *yyin;
+static FILE *yyin;
 
 static void
 yyerror (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])[
@@ -291,8 +291,7 @@ main (int argc, const char **argv)
 {
   value_t result = 0;
   int count = 0;
-  int status = 0;
-  yyin = NULL;
+  int status;
 
   if (argc == 2)
     yyin = fopen (argv[1], "r");
