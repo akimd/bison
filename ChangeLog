@@ -1,5 +1,13 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (augment_automaton): Call `insert_eof_shifting_state'
+	only when appropriate: when insert_start_shifting_state' is not
+	invoked.
+	* tests/regression.at (Rule Line Numbers): Adjust.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (augment_automaton): Now that all states have shifts,
 	merge the two cases addition shifts to the initial state.
 

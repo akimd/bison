@@ -382,12 +382,6 @@ state 6
 
 state 7
 
-    $   	go to state 8
-
-
-
-state 8
-
     $default	accept
 
 
