@@ -3,10 +3,15 @@ Bison News
 
 Changes in version 1.30d:
 
+* Swedish translation
+
 * Parse errors
   Verbose parse error messages from the parsers are better looking.
   Before: parse error: unexpected `'/'', expecting `"number"' or `'-'' or `'(''
      Now: parse error: unexpected '/', expecting "number" or '-' or '('
+
+* Fixed VCG output
+  Was broken when strings aliases for symbols were used.
 
 Changes in version 1.30c:
 
