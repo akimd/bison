@@ -158,6 +158,7 @@ yyerror (const char *s
          ]AT_YYERROR_ARG_LOC_IF([, YYLTYPE *yylloc])[
          ]AT_PARAM_IF([, value_t *result, int *count])[)
 {
+]AT_PARAM_IF([(void) result; (void) count; ])[
 ]AT_YYERROR_SEES_LOC_IF([
   fprintf (stderr, "%d.%d-%d.%d: ",
 	   LOC.first_line, LOC.first_column,
@@ -441,10 +442,11 @@ m4_pushdef([AT_GLR_OR_PARAM_IF],
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
                     [$2])])
-# yyerror cannot see the locations if !glr & pure.
+# yyerror cannot see the locations if !glr & pure & !param.
 m4_pushdef([AT_YYERROR_SEES_LOC_IF],
 [AT_LOCATION_IF([AT_GLR_IF([$1],
-                           [AT_PURE_IF([$2], [$1])])],
+                           [AT_PURE_IF([AT_PARAM_IF([$1], [$2])],
+                                       [$1])])],
                 [$2])])
 ])
 

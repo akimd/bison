@@ -29,6 +29,8 @@ AT_DATA([glr-regr1.y],
 
 #define YYSTYPE int
 static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
+int yylex (void);
+int yyerror (char const *msg);
 %}
 
 
@@ -52,24 +54,29 @@ E: E 'P' E { $$=1; printf("E -> E 'P' E\n"); }  %merge <exprMerge>
 
 static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1)
 {
+  (void) x0;
+  (void) x1;
   printf ("<OR>\n");
   return 0;
 }
 
-int main()
+int
+main (void)
 {
   yyparse();
   return 0;
 }
 
-int yyerror(char const *msg)
+int
+yyerror (char const *msg)
 {
   printf("%s\n", msg);
   exit(4);
 }
 
 
-int yylex()
+int
+yylex (void)
 {
   while (1) {
     int ch = fgetc(stdin);
@@ -86,7 +93,7 @@ AT_CHECK([[bison -o glr-regr1.c glr-regr1.y]], 0, [],
 [glr-regr1.y: warning: 1 shift/reduce conflict
 ])
 AT_COMPILE([glr-regr1])
-AT_CHECK([[echo BPBPB | ./glr-regr1]], 0, 
+AT_CHECK([[echo BPBPB | ./glr-regr1]], 0,
 [[E -> 'B'
 E -> 'B'
 E -> E 'P' E

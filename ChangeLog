@@ -1,5 +1,14 @@
 2002-11-04  Akim Demaille  <akim@epita.fr>
 
+	* tests/glr-regr1.at (Badly Collapsed GLR States): Prototype yylex
+	and yyerror.
+	Have yyerror `use' its arguments.
+	* tests/calc.at (AT_CHECK_PUSHDEFS): AT_YYERROR_SEES_LOC_IF
+	returns true when location & yacc & pure & parse-param.
+	(_AT_DATA_CALC_Y): Let yyerror ``use'' its arguments.
+
+2002-11-04  Akim Demaille  <akim@epita.fr>
+
 	* src/location.h (LOCATION_PRINT): Use quotearg slot 3 to avoid
 	clashes.
 	* src/scan-gram.l: Use [\'] instead of ['] to pacify
