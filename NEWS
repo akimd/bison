@@ -1,6 +1,11 @@
 Bison News
 ----------
 
+Changes in version 1.50a:
+
+* Bison should now work on 64-bit hosts.
+
+
 Changes in version 1.50, 2002-10-04:
 
 * GLR parsing
@@ -11,7 +16,7 @@ Changes in version 1.50, 2002-10-04:
   %dprec and %merge on grammar rules allow parse-time resolution of
   ambiguities.  Contributed by Paul Hilfinger.
 
-  Unfortunately GLR parsing does not yet work properly on 64-bit hosts
+  Unfortunately Bison 1.50 does not work properly on 64-bit hosts
   like the Alpha, so please stick to 32-bit hosts for now.
 
 * Output Directory
