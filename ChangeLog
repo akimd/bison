@@ -1,5 +1,9 @@
 2001-09-20  Pascal Bart  <pascal.bart@epita.fr>
 
+	* src/options.c (symtab.h): Include it, need by lex.h.
+	
+2001-09-20  Pascal Bart  <pascal.bart@epita.fr>
+
 	* src/lex.c (parse_percent_token): Change type of variable `tx', which
 	is now an option_table_struct*.
 	(option_strcmp): New function option_strcmp.
