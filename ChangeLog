@@ -1,3 +1,8 @@
+2002-05-27  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* src/conflicts.c (log_resolution): Correct typo: 
+	obstack_printf should be obstack_fgrow1.
+
 2002-05-26  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (state_t): `solved_conflicts' is a new member.
