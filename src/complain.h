@@ -44,19 +44,19 @@ void complain_at (location_t location, const char *format, ...)
 /* Something bad happen and we die now. */
 
 void fatal (const char *format, ...)
-  __attribute__ ((__format__ (__printf__, 1, 2)));
+  __attribute__ ((__noreturn__, __format__ (__printf__, 1, 2)));
 
 void fatal_at (location_t location, const char *format, ...)
-  __attribute__ ((__format__ (__printf__, 2, 3)));
+  __attribute__ ((__noreturn__, __format__ (__printf__, 2, 3)));
 
 /* Position in the current input file. */
 extern char *infile;
 
-/* This variable is incremented each time `warn' is called.  */
-extern unsigned int warn_message_count;
+/* This variable is set each time `warn' is called.  */
+extern bool warning_issued;
 
-/* This variable is incremented each time `complain' is called.  */
-extern unsigned int complain_message_count;
+/* This variable is set each time `complain' is called.  */
+extern bool complaint_issued;
 
 # ifdef	__cplusplus
 }
