@@ -1,5 +1,11 @@
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h, src/state.c (state_rule_lookaheads_print): New.
+	* src/print.c (print_core): Use it.
+
+	
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (log_resolution): Accept the rule involved in
 	the sr conflicts instead of the lookahead number that points to
 	that rule.

@@ -199,4 +199,10 @@ typedef struct state_s
   (state_t *) xcalloc ((unsigned) (sizeof (state_t) 			\
                                   + (Nitems - 1) * sizeof (item_number_t)), 1)
 
+/* Print on OUT all the lookaheads such that this STATE wants to
+   reduce this RULE.  */
+
+void state_rule_lookaheads_print PARAMS ((state_t *state, rule_t *rule,
+					  FILE *out));
+
 #endif /* !STATE_H_ */
