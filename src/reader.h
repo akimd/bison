@@ -29,7 +29,7 @@ typedef struct merger_list
   struct merger_list* next;
   const char* name;
   const char* type;
-} 
+}
 merger_list;
 
 typedef struct gram_control_s
@@ -80,7 +80,7 @@ void grammar_current_rule_prec_set PARAMS ((symbol_t *precsym,
 					    location_t l));
 void grammar_current_rule_dprec_set PARAMS ((int dprec,
 					    location_t l));
-void grammer_current_rule_merge_set PARAMS ((const char* name,
+void grammar_current_rule_merge_set PARAMS ((const char* name,
 					    location_t l));
 
 void grammar_current_rule_symbol_append PARAMS ((symbol_t *symbol,
