@@ -1,5 +1,11 @@
 2001-02-08  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (conflict_report): Be sure not to append to res
+	between two calls, which could happen if both first sprintf were
+	skipped, but not the first cp += strlen.
+
+2001-02-08  Akim Demaille  <akim@epita.fr>
+
 	* lib/memchr.c, lib/stpcpy.c, lib/strndup.c, lib/strnlen.c:
 	New, from fileutils 4.0.37.
 	* configure.in: Require Autoconf 2.49c.  I took some time before
