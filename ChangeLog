@@ -1,5 +1,11 @@
 2002-06-12  Akim Demaille  <akim@epita.fr>
 
+	* src/scan-gram.l (SC_BRACED_CODE): Don't use `<.*>', it is too
+	eager.
+	* tests/actions.at (Exotic Dollars): New.
+
+2002-06-12  Akim Demaille  <akim@epita.fr>
+
 	* src/scan-gram.l (SC_PROLOGUE): Don't eat characters amongst
 	['"/] too eagerly.
 	* tests/input.at (Torturing the Scanner): New.

@@ -437,7 +437,7 @@ blanks   [ \t\f]+
 
   "{"  	        YY_OBS_GROW; braces_level++;
 
-  "$"("<".*">")?(-?[0-9]+|"$") { handle_dollar (yytext); }
+  "$"("<"[^>]+">")?(-?[0-9]+|"$") { handle_dollar (yytext); }
   "@"(-?[0-9]+|"$")            { handle_at (yytext); }
 
   [^$@\[\]/\'\"\{\}\n\r]+ YY_OBS_GROW;

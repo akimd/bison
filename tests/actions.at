@@ -79,3 +79,76 @@ AT_CHECK([./input], 0,
 ]])
 
 AT_CLEANUP
+
+
+
+## ---------------- ##
+## Exotic Dollars.  ##
+## ---------------- ##
+
+AT_SETUP([Exotic Dollars])
+
+# Make sure complex $n work.
+
+AT_DATA([[input.y]],
+[[%{
+# include <stdio.h>
+# include <stdlib.h>
+  static void yyerror (const char *msg);
+  static int yylex (void);
+# define YYDEBUG         1
+# define YYERROR_VERBOSE 1
+%}
+
+%union
+{
+  int val;
+};
+
+%type <val> a_1 a_2 a_4 a_5
+            sum_of_the_five_previous_values
+
+%%
+exp: a_1 a_2 { $<val>$ = 3; } a_4 a_5 sum_of_the_five_previous_values
+    {
+       printf ("%d\n", $6);
+    }
+;
+a_1: { $$ = 1; };
+a_2: { $$ = 2; };
+a_4: { $$ = 4; };
+a_5: { $$ = 5; };
+
+sum_of_the_five_previous_values:
+    {
+       $$ = $<val>0 + $<val>-1 + $<val>-2 + $<val>-3 + $<val>-4;
+    }
+;
+
+%%
+static int
+yylex (void)
+{
+  return EOF;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_CHECK([bison input.y -d -v -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
+AT_CHECK([./input], 0,
+[[15
+]])
+
+AT_CLEANUP
