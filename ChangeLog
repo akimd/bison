@@ -1,3 +1,11 @@
+2001-12-22  Akim Demaille  <akim@epita.fr>
+
+	Reductions in web2c.y are improperly reported.
+	Reported by Mike Castle.
+
+	* src/conflicts.c (print_reductions): Fix.
+	* tests/regression.at (Web2c): New.
+
 2001-12-18  Akim Demaille  <akim@epita.fr>
 
 	Some host fail on `assert (!"foo")', which expands to
@@ -29,24 +37,24 @@
 	* src/lalr.h (nlookaheads): Remove this orphan declaration.
 	* src/lalr.c (initialize_lookaheads): Set nlookaheads for each
 	state.
-	
+
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/files.h, src/files.c (open_files, close_files): Remove.
 	* src/main.c (main): Don't open/close files, nor invoke lex_free,
 	let...
 	* src/reader.c (reader): Do it.
-	
+
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (print_reductions): Formatting changes.
-	
+
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (flush_shift): Also adjust lookaheadset.
 	(flush_reduce): New.
 	(resolve_sr_conflict): Adjust.
-	
+
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_obstack): Be static and rename as...
@@ -64,7 +72,7 @@
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c: Various formatting changes.
-	
+
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c (output_files): Free the output_obstack.
@@ -83,7 +91,7 @@
 	* src/bison.simple: Remove a useless #line directive.
 	s/#line %%line %%skeleton/#line %%line "%%parser-file-name"/'.
 	* src/output.c (get_lines_number): New.
-	(output_parser): Adjust, now takes care about the lines of a 
+	(output_parser): Adjust, now takes care about the lines of a
 	output muscles.
 	Fix line numbering.
 	(actions_output): Computes the number of lines taken by actions.
