@@ -1,3 +1,7 @@
+2002-02-07  Florian Krohm  <florian@edamail.fishkill.ibm.com>
+
+	* src/reader.c (copy_at): Detect invalid @N values.
+
 2002-02-07  Akim Demaille  <akim@epita.fr>
 
 	* tests/input.at: New.
