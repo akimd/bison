@@ -1,5 +1,10 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c (print_actions): Better locality of variables.
+
+	
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/derives.c (print_derives): Fix and enrich.
 	* src/closure.c (print_fderives): Likewise.
 
