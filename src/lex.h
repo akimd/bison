@@ -57,7 +57,7 @@ typedef enum token_e
     tok_obsolete
   } token_t;
 
-extern char *token_buffer;
+extern const char *token_buffer;
 extern bucket *symval;
 extern int numval;
 

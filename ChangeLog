@@ -1,5 +1,22 @@
 2001-11-14  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c: Include reduce.h.
+	Reported by Hans Aberg.
+
+2001-11-14  Akim Demaille  <akim@epita.fr>
+
+	* src/lex.c, src/lex.h (token_buffer, unlexed_token_buffer):
+	Revert a previous patch:  these are really const.
+	* src/conflicts.c (conflict_report): Additional useless pair of
+	braces to pacify GCC's warnings for `if () if () {} else {}'.
+	* src/lex.c (parse_percent_token): Replace equal_offset with
+	arg_offset.
+	arg is const.
+	Be sure to strdup `arg' when used, since there is no reason for
+	token_buffer not to change.
+
+2001-11-14  Akim Demaille  <akim@epita.fr>
+
 	* src/system.h (EXIT_SUCCESS, EXIT_FAILURE): Ensure a proper
 	definition.
 	* src/main.c (main): Use them.
