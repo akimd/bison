@@ -1,3 +1,15 @@
+2003-02-12  Paul Eggert  <eggert@twinsun.com>
+
+	* data/yacc.c (yyerrlab) [YYERROR_VERBOSE]:
+	Avoid subscript error in yycheck.  Bug reported by Andrew Suffield in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-02/msg00003.html>.
+	* data/glr.c (yyreportSyntaxError) [YYERROR_VERBOSE]: Likewise.
+	Check for malloc failure, for consistency with yacc.c.
+	(yytname_size): Remove, for consistency with yacc.c.
+
+	The bug still remains in data/lalr1.cc, as I didn't have time
+	to fix it there.
+
 2003-02-06  Akim Demaille  <akim@epita.fr>
 
 	* configure.ac (GXX): Rename as...
