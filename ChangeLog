@@ -1,5 +1,13 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (readgram): Don't add the rule 0 if there were no
+	rules read.  In other words, add it _after_ having performed
+	grammar sanity checks.
+	Fixes the `tests/regression.at (Invalid input: 1)' Failure.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (Web2c Report): Catch up: the rule 0 is now
 	visible, and some states have now a different number.
 
