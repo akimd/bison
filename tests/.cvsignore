@@ -16,3 +16,4 @@ calc.tab.*
 calc
 *.output *.vcg
 autom4te.cache
+bison

@@ -1,3 +1,8 @@
+2001-09-28  Akim Demaille  <akim@epita.fr>
+
+	* tests/testsuite.at: Update to newer Autotest.
+	* tests/Makefile.am (EXTRA_DIST): bison is not to be shipped.
+
 2001-09-27  Akim Demaille  <akim@epita.fr>
 
 	Position independent wrapper.
