@@ -18,6 +18,9 @@
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
    02111-1307, USA.  */
 
+#ifndef GETARGS_H_
+# define GETARGS_H_
+
 /* flags set by % directives */
 extern char *spec_file_prefix;	/* for -b */
 extern char *spec_name_prefix; 	/* for -p */
@@ -30,5 +33,9 @@ extern int noparserflag;	/* for -n */
 extern int rawtoknumflag;	/* for -r */
 extern int toknumflag;   	/* for -k */
 extern int verboseflag;		/* for -v */
+extern int statisticsflag;
+extern int fixed_outfiles;	/* for -y */
 
 void getargs PARAMS ((int argc, char *argv[]));
+
+#endif /* !GETARGS_H_ */

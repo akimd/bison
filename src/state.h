@@ -130,9 +130,4 @@ typedef struct reductions
 }
 reductions;
 
-extern int nstates;
-extern core *first_state;
-extern shifts *first_shift;
-extern reductions *first_reduction;
-
 #endif /* !STATE_H_ */

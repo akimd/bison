@@ -21,6 +21,14 @@
 #ifndef LR0_H_
 # define LR0_H_
 
+# include "state.h"
+
 void generate_states PARAMS ((void));
+
+extern int nstates;
+extern int final_state;
+extern core *first_state;
+extern shifts *first_shift;
+extern reductions *first_reduction;
 
 #endif /* !LR0_H_ */

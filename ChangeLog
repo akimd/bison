@@ -1,5 +1,18 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (nstates, final_state, first_state, first_shift)
+	(first_reduction): Move their exportation from here...
+	* src/LR0.h: to here.
+	Adjust dependencies.
+	* src/getargs.c (statisticsflag): New variable.
+	Add support for `--statistics'.
+	Adjust dependencies.
+
+	Remove a lot of now useless `extern' statements in most files.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.h: New file.
 	Propagate its use.
 

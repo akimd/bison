@@ -25,7 +25,6 @@
 #include "closure.h"
 
 extern short **derives;
-extern char **tags;
 
 extern void RTC PARAMS ((unsigned *, int));
 
