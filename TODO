@@ -1,5 +1,38 @@
 -*- outline -*-
 
+* Coding system independence
+Paul notes: 
+
+	Currently Bison assumes 8-bit bytes (i.e. that UCHAR_MAX is
+	255).  It also assumes that the 8-bit character encoding is
+	the same for the invocation of 'bison' as it is for the
+	invocation of 'cc', but this is not necessarily true when
+	people run bison on an ASCII host and then use cc on an EBCDIC
+	host.  I don't think these topics are worth our time
+	addressing (unless we find a gung-ho volunteer for EBCDIC or
+	PDP-10 ports :-) but they should probably be documented
+	somewhere.
+
+* Using enums instead of int for tokens.
+Paul suggests:
+
+   #ifndef YYTOKENTYPE
+   # if defined (__STDC__) || defined (__cplusplus)
+      /* Put the tokens into the symbol table, so that GDB and other debuggers
+         know about them.  */
+      enum yytokentype {
+        FOO = 256,
+        BAR,
+        ...
+      };
+      /* POSIX requires `int' for tokens in interfaces.  */
+   #  define YYTOKENTYPE int
+   # endif
+   #endif
+   #define FOO 256
+   #define BAR 257
+   ...
+
 * Unit rules
 Maybe we could expand unit rules, i.e., transform
 
