@@ -1373,7 +1373,7 @@ main (void)
 
 When @code{yyparse} detects a syntax error, it calls the error reporting
 function @code{yyerror} to print an error message (usually but not
-always @code{"parse error"}).  It is up to the programmer to supply
+always @code{"syntax error"}).  It is up to the programmer to supply
 @code{yyerror} (@pxref{Interface, ,Parser C-Language Interface}), so
 here is the definition we will use:
 
@@ -1583,7 +1583,7 @@ line:     '\n'
 @end example
 
 This addition to the grammar allows for simple error recovery in the
-event of a parse error.  If an expression that cannot be evaluated is
+event of a syntax error.  If an expression that cannot be evaluated is
 read, the error will be recognized by the third rule for @code{line},
 and parsing will continue.  (The @code{yyerror} function is still called
 upon to print its message as well.)  The action executes the statement
@@ -3671,7 +3671,7 @@ Generate the code processing the locations (@pxref{Action Features,
 ,Special Features for Use in Actions}).  This mode is enabled as soon as
 the grammar uses the special @samp{@@@var{n}} tokens, but if your
 grammar does not use it, using @samp{%locations} allows for more
-accurate parse error messages.
+accurate syntax error messages.
 @end deffn
 
 @deffn {Directive} %name-prefix="@var{prefix}"
@@ -4134,7 +4134,7 @@ int yyparse (int *nastiness, int *randomness);
 @cindex parse error
 @cindex syntax error
 
-The Bison parser detects a @dfn{parse error} or @dfn{syntax error}
+The Bison parser detects a @dfn{syntax error} or @dfn{parse error}
 whenever it reads a token which cannot satisfy any syntax rule.  An
 action in the grammar can also explicitly proclaim an error, using the
 macro @code{YYERROR} (@pxref{Action Features, ,Special Features for Use
@@ -4143,14 +4143,14 @@ in Actions}).
 The Bison parser expects to report the error by calling an error
 reporting function named @code{yyerror}, which you must supply.  It is
 called by @code{yyparse} whenever a syntax error is found, and it
-receives one argument.  For a parse error, the string is normally
-@w{@code{"parse error"}}.
+receives one argument.  For a syntax error, the string is normally
+@w{@code{"syntax error"}}.
 
 @findex %error-verbose
 If you invoke the directive @code{%error-verbose} in the Bison
 declarations section (@pxref{Bison Declarations, ,The Bison Declarations
 Section}), then Bison provides a more verbose and specific error message
-string instead of just plain @w{@code{"parse error"}}.
+string instead of just plain @w{@code{"syntax error"}}.
 
 The parser can detect one other kind of error: stack overflow.  This
 happens when the input contains constructions that are very deeply
@@ -5156,7 +5156,7 @@ provided which addresses this issue.
 @cindex error recovery
 @cindex recovery from errors
 
-It is not usually acceptable to have a program terminate on a parse
+It is not usually acceptable to have a program terminate on a syntax
 error.  For example, a compiler should recover sufficiently to parse the
 rest of the input file and check it for errors; a calculator should accept
 another expression.
@@ -5259,7 +5259,7 @@ this is unacceptable, then the macro @code{yyclearin} may be used to clear
 this token.  Write the statement @samp{yyclearin;} in the error rule's
 action.
 
-For example, suppose that on a parse error, an error handling routine is
+For example, suppose that on a syntax error, an error handling routine is
 called that advances the input stream to some point where parsing should
 once again commence.  The next symbol returned by the lexical scanner is
 probably correct.  The previous look-ahead token ought to be discarded
@@ -5646,7 +5646,7 @@ after having reduced a rule that produced an @code{exp}, the control
 flow jumps to state 2.  If there is no such transition on a nonterminal
 symbol, and the lookahead is a @code{NUM}, then this token is shifted on
 the parse stack, and the control flow jumps to state 1.  Any other
-lookahead triggers a parse error.''
+lookahead triggers a syntax error.''
 
 @cindex core, item set
 @cindex item set core
@@ -5714,7 +5714,7 @@ because of the item @samp{exp -> exp . '+' exp}, if the lookahead if
 @samp{+}, it will be shifted on the parse stack, and the automaton
 control will jump to state 4, corresponding to the item @samp{exp -> exp
 '+' . exp}.  Since there is no default action, any other token than
-those listed above will trigger a parse error.
+those listed above will trigger a syntax error.
 
 The state 3 is named the @dfn{final state}, or the @dfn{accepting
 state}:
@@ -6300,7 +6300,7 @@ The predefined token onto which all undefined values returned by
 A token name reserved for error recovery.  This token may be used in
 grammar rules so as to allow the Bison parser to recognize an error in
 the grammar without halting the process.  In effect, a sentence
-containing an error may be recognized as valid.  On a parse error, the
+containing an error may be recognized as valid.  On a syntax error, the
 token @code{error} becomes the current look-ahead token.  Actions
 corresponding to @code{error} are then executed, and the look-ahead
 token is reset to the token that originally caused the violation.
@@ -6415,7 +6415,7 @@ symbols and parser action.  @xref{Tracing, ,Tracing Your Parser}.
 
 @deffn {Macro} yyerrok
 Macro to cause parser to recover immediately to its normal mode
-after a parse error.  @xref{Error Recovery}.
+after a syntax error.  @xref{Error Recovery}.
 @end deffn
 
 @deffn {Function} yyerror
@@ -6448,7 +6448,7 @@ variable within @code{yyparse}, and its address is passed to
 @end deffn
 
 @deffn {Variable} yynerrs
-Global variable which Bison increments each time there is a parse error.
+Global variable which Bison increments each time there is a syntax error.
 (In a pure parser, it is a local variable within @code{yyparse}.)
 @xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
 @end deffn
@@ -6715,10 +6715,6 @@ A grammar symbol standing for a grammatical construct that can
 be expressed through rules in terms of smaller constructs; in other
 words, a construct that is not a token.  @xref{Symbols}.
 
-@item Parse error
-An error encountered during parsing of an input stream due to invalid
-syntax.  @xref{Error Recovery}.
-
 @item Parser
 A function that recognizes valid sentences of a language by analyzing
 the syntax structure of a set of tokens passed to it from a lexical
@@ -6770,6 +6766,10 @@ first nonterminal symbol in a language specification.
 A data structure where symbol names and associated data are stored
 during parsing to allow for recognition and use of existing
 information in repeated uses of a symbol.  @xref{Multi-function Calc}.
+
+@item Syntax error
+An error encountered during parsing of an input stream due to invalid
+syntax.  @xref{Error Recovery}.
 
 @item Token
 A basic, grammatically indivisible unit of a language.  The symbol

@@ -105,7 +105,7 @@ extern int conflict_list_cnt;
 
 extern base_t *table;
 extern base_t *check;
-/* The value used in TABLE to denote explicit parse errors
+/* The value used in TABLE to denote explicit syntax errors
    (%nonassoc), a negative infinite.  */
 extern base_t table_ninf;
 

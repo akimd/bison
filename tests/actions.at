@@ -322,7 +322,7 @@ thing(1@10): 'x'(1@10)
 sending: 'x' (value = 2, line 20)
 thing(2@20): 'x'(2@20)
 sending: 'x' (value = 3, line 30)
-30: parse error, unexpected 'x', expecting ';'
+30: syntax error, unexpected 'x', expecting ';'
 Freeing nterm thing (2@20)
 Freeing nterm thing (1@10)
 Freeing nterm thing (0@0)
@@ -344,7 +344,7 @@ thing(10@100): 'x'(10@100)
 sending: ';' (value = 11, line 110)
 line(10@100): thing(10@100) ';'
 sending: 'y' (value = 12, line 120)
-120: parse error, unexpected $undefined, expecting $end or 'x'
+120: syntax error, unexpected $undefined, expecting $end or 'x'
 sending: EOF
 Freeing nterm line (10@100)
 Freeing nterm line (7@70)

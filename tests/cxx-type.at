@@ -241,11 +241,11 @@ z q +
 ]])
 
 m4_define([_AT_GLR_STDERR],
-[[parse error
+[[syntax error
 ]])
 
 m4_define([_AT_VERBOSE_GLR_STDERR],
-[[parse error, unexpected ID, expecting '=' or '+' or ')'
+[[syntax error, unexpected ID, expecting '=' or '+' or ')'
 ]])
 
 ## ---------------------------------------------------- ##

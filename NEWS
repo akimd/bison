@@ -2,6 +2,15 @@ Bison News
 ----------
 Changes in version 1.75c:
 
+* "parse error" -> "syntax error"
+  Bison now uniformly uses the term "syntax error"; formerly, the code
+  and manual sometimes used the term "parse error" instead.  POSIX
+  requires "syntax error" in diagnostics, and it was thought better to
+  be consistent.
+
+* "parsing stack overflow..." -> "parser stack overflow"
+  GLR parsers now report "parser stack overflow" as per the Bison manual.
+
 * GLR and inline
   Users of Bison have to decide how they handle the portability of the
   C keyword `inline'.

@@ -108,16 +108,16 @@ AT_PARSER_CHECK([./input '0<0'])
 # no one has ever spotted it!  The messages are *wrong*: there should
 # be nothing there, it should be expected eof.
 AT_PARSER_CHECK([./input '0<0<0'], [1], [],
-         [parse error, unexpected '<', expecting '<' or '>'
+         [syntax error, unexpected '<', expecting '<' or '>'
 ])
 
 AT_PARSER_CHECK([./input '0>0'])
 AT_PARSER_CHECK([./input '0>0>0'], [1], [],
-         [parse error, unexpected '>', expecting '<' or '>'
+         [syntax error, unexpected '>', expecting '<' or '>'
 ])
 
 AT_PARSER_CHECK([./input '0<0>0'], [1], [],
-         [parse error, unexpected '>', expecting '<' or '>'
+         [syntax error, unexpected '>', expecting '<' or '>'
 ])
 
 AT_CLEANUP

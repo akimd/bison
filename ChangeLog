@@ -1,3 +1,13 @@
+2002-11-15  Paul Eggert  <eggert@twinsun.com>
+
+	* data/glr.c, data/lalr1.cc, data/yacc.cc, doc/bison.texinfo,
+	src/conflicts.c, src/parse-gram.y, src/tables.c, src/tables.h,
+	tests/action.at, tests/calc.at, tests/conflicts.at,
+	tests/cxx-type.at, tests/regression.at:
+	"parse error" -> "syntax error" for POSIX compatibility.
+	"parsing stack overflow..." -> "parser stack overflow" so
+	that code matches Bison documentation.
+
 2002-11-15  Akim Demaille  <akim@epita.fr>
 
 	* src/parse-gram.y (declaration): Have %parse-param and %lex-param

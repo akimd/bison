@@ -40,7 +40,7 @@
 #include "reader.h"
 #include "conflicts.h"
 
-/* Produce verbose parse errors.  */
+/* Produce verbose syntax errors.  */
 #define YYERROR_VERBOSE 1
 #define YYLLOC_DEFAULT(Current, Rhs, N)			\
 do {							\
@@ -64,7 +64,7 @@ do {							\
    correctly typed access to it.  */
 #define yycontrol ((gram_control_t *) gram_control)
 
-/* Request detailed parse error messages, and pass them to GRAM_ERROR.
+/* Request detailed syntax error messages, and pass them to GRAM_ERROR.
    FIXME: depends on the undocumented availability of YYLLOC.t */
 #undef  yyerror
 #define yyerror(Msg) \

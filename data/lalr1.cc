@@ -484,7 +484,7 @@ b4_syncline([@oline@], [@ofile@])
       n_ = pact_[[state_]];
       if (pact_ninf_ < n_ && n_ < last_)
 	{
-	  message = "parse error, unexpected ";
+	  message = "syntax error, unexpected ";
 	  message += name_[[ilooka_]];
 	  {
 	    int count = 0;
@@ -505,7 +505,7 @@ b4_syncline([@oline@], [@ofile@])
 	}
       else
 #endif
-	message = "parse error";
+	message = "syntax error";
       error_ ();
     }
   goto yyerrlab1;
