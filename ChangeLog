@@ -1,5 +1,16 @@
 2002-01-08  Akim Demaille  <akim@epita.fr>
 
+	* lib/Makefile.am (libbison_a_SOURCES): Add xstrndup.c.
+	* src/getargs.c (AS_FILE_NAME): New.
+	(getargs): Use it to convert DOSish file names.
+	* src/files.c (base_name): Rename as full_base_name to avoid
+	clashes with `base_name ()'.
+	(get_extension_index): Remove.
+	(filename_split): New.
+	(compute_base_names): N-th rewrite, using filename_split.
+
+2002-01-08  Akim Demaille  <akim@epita.fr>
+
 	* lib/basename.c, lib/dirname.h, lib/dirname.c, lib/memrchr.c,
 	* lib/xstrndup.c, lib/strchr.c:
 	New, stolen from the Fileutils 4.1.

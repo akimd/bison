@@ -118,7 +118,7 @@ libbison_a_SOURCES = \
   basename.c dirname.h dirname.c \
   getopt.h getopt.c getopt1.c \
   quote.h quote.c quotearg.h quotearg.c \
-  xalloc.h xmalloc.c xstrdup.c
+  xalloc.h xmalloc.c xstrdup.c xstrndup.c
 
 
 libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
@@ -132,7 +132,8 @@ LIBRARIES = $(noinst_LIBRARIES)
 libbison_a_AR = $(AR) cru
 am_libbison_a_OBJECTS = basename$U.$(OBJEXT) dirname$U.$(OBJEXT) \
 	getopt$U.$(OBJEXT) getopt1$U.$(OBJEXT) quote$U.$(OBJEXT) \
-	quotearg$U.$(OBJEXT) xmalloc$U.$(OBJEXT) xstrdup$U.$(OBJEXT)
+	quotearg$U.$(OBJEXT) xmalloc$U.$(OBJEXT) xstrdup$U.$(OBJEXT) \
+	xstrndup$U.$(OBJEXT)
 libbison_a_OBJECTS = $(am_libbison_a_OBJECTS)
 
 DEFS = @DEFS@
@@ -150,7 +151,7 @@ depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/realloc.Po $(DEPDIR)/stpcpy.Po \
 @AMDEP_TRUE@	$(DEPDIR)/strchr.Po $(DEPDIR)/strnlen.Po \
 @AMDEP_TRUE@	$(DEPDIR)/strspn.Po $(DEPDIR)/xmalloc$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/xstrdup$U.Po
+@AMDEP_TRUE@	$(DEPDIR)/xstrdup$U.Po $(DEPDIR)/xstrndup$U.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -216,6 +217,7 @@ mostlyclean-kr:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/strspn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/xmalloc$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/xstrdup$U.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/xstrndup$U.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -270,12 +272,15 @@ xmalloc_.c: xmalloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xmalloc.c; then echo $(srcdir)/xmalloc.c; else echo xmalloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xmalloc_.c || rm -f xmalloc_.c
 xstrdup_.c: xstrdup.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrdup.c; then echo $(srcdir)/xstrdup.c; else echo xstrdup.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrdup_.c || rm -f xstrdup_.c
+xstrndup_.c: xstrndup.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrndup.c; then echo $(srcdir)/xstrndup.c; else echo xstrndup.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrndup_.c || rm -f xstrndup_.c
 alloca_.$(OBJEXT) basename_.$(OBJEXT) dirname_.$(OBJEXT) \
 error_.$(OBJEXT) getopt_.$(OBJEXT) getopt1_.$(OBJEXT) malloc_.$(OBJEXT) \
 memchr_.$(OBJEXT) memrchr_.$(OBJEXT) obstack_.$(OBJEXT) \
 quote_.$(OBJEXT) quotearg_.$(OBJEXT) realloc_.$(OBJEXT) \
 stpcpy_.$(OBJEXT) strchr_.$(OBJEXT) strnlen_.$(OBJEXT) \
-strspn_.$(OBJEXT) xmalloc_.$(OBJEXT) xstrdup_.$(OBJEXT) : $(ANSI2KNR)
+strspn_.$(OBJEXT) xmalloc_.$(OBJEXT) xstrdup_.$(OBJEXT) \
+xstrndup_.$(OBJEXT) : $(ANSI2KNR)
 uninstall-info-am:
 
 tags: TAGS
