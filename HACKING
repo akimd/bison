@@ -104,11 +104,13 @@ In configure.ac.  Run `make', check this in.
 ** Announce
 Complete/fix the announcement file, and send it at least to
 info-gnu@gnu.org (if a real release, or a ``serious beta''),
-bison@gnu.org, and translation@iro.umontreal.ca.
+bug-bison@gnu.org, help-bison@gnu.org, bison-patches@gnu.org,
+and translation@iro.umontreal.ca.
 
-Send the same announcement on the comp.compilers newsgroup.  Do not
-make any Cc as the moderator will throw away anything cross-posted or
-Cc'ed.  It really needs to be a separate message.
+Send the same announcement on the comp.compilers newsgroup by sending
+email to compilers@iecc.com.  Do not make any Cc as the moderator will
+throw away anything cross-posted or Cc'ed.  It really needs to be a
+separate message.
 
 
 -----
