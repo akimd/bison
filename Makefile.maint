@@ -2,7 +2,7 @@
 # This Makefile fragment is shared between fileutils, sh-utils, textutils,
 # CPPI, Bison, and Autoconf.
 
-## Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -209,6 +209,9 @@ my-distcheck: $(local-check)
 	echo "$(distdir).tar.gz is ready for distribution"; \
 	echo "========================"
 
+WGET = wget
+WGETFLAGS = -C off
+
 tgz-md5 = $(shell md5sum < $(my_distdir).tar.gz|sed 's/  -//')
 tgz-sha1 = $(shell sha1sum < $(my_distdir).tar.gz|sed 's/  -//')
 bz2-md5 = $(shell md5sum < $(my_distdir).tar.bz2|sed 's/  -//')
@@ -224,7 +227,7 @@ rel-check:
 	md5_tmp=/tmp/rel-check-md5-$$$$; \
 	set -e; \
 	trap 'status=$$?; rm -f $$tarz $$md5_tmp; exit $$status' 0 1 2 3 15; \
-	wget -q --output-document=$$tarz $(url); \
+	$(WGET) $(WGETFLAGS) -q --output-document=$$tarz $(url); \
 	echo "$(md5)  -" > $$md5_tmp; \
 	md5sum -c $$md5_tmp < $$tarz
 
@@ -278,7 +281,6 @@ announcement: NEWS ChangeLog $(rel-files)
 ## Updating files.  ##
 ## ---------------- ##
 
-WGET = wget
 ftp-gnu = ftp://ftp.gnu.org/gnu
 
 # Use mv, if you don't have/want move-if-change.
@@ -304,7 +306,7 @@ do-po-update:
 	tmppo=/tmp/$(PACKAGE)-$(VERSION)-po &&\
 	rm -rf $$tmppo && \
 	mkdir $$tmppo && \
-	(cd $$tmppo && $(WGET) -r -l1 -nd --no-parent -A '*.po' $(po_repo)) &&\
+	(cd $$tmppo && $(WGET) $(WGETFLAGS) -r -l1 -nd --no-parent -A '*.po' $(po_repo)) &&\
 	cp $$tmppo/*.po po
 	cd po && $(MAKE) update-po
 	$(MAKE) po-check
@@ -342,7 +344,7 @@ url = $($(notdir $(target))-url_prefix)$(notdir $(target))
 
 .PHONY: $(get-targets)
 $(get-targets):
-	$(WGET) $(url) -O $(target).t \
+	$(WGET) $(WGETFLAGS) $(url) -O $(target).t \
 	  && $(move_if_change) $(target).t $(target)
 
 cvs_files ?= $(srcdir)/config/depcomp $(srcdir)/config/missing $(srcdir)/config/mkinstalldirs \
