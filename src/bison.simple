@@ -1,7 +1,7 @@
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line
 /* Skeleton output parser for bison,
-   Copyright 1984, 1989, 1990, 2000, 2001 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1990, 2000, 2001 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,18 +35,24 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
+#ifdef __cplusplus
+# define YYSTD(x) std::x
+#else
+# define YYSTD(x) x
+#endif
+
 #if ! defined (yyoverflow) || defined (YYERROR_VERBOSE)
 
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
 
 # if YYSTACK_USE_ALLOCA
 #  define YYSTACK_ALLOC alloca
-#  define YYSIZE_T size_t
+#  define YYSIZE_T YYSTD (size_t)
 # else
 #  ifndef YYSTACK_USE_ALLOCA
 #   if defined (alloca) || defined (_ALLOCA_H)
 #    define YYSTACK_ALLOC alloca
-#    define YYSIZE_T size_t
+#    define YYSIZE_T YYSTD (size_t)
 #   else
 #    if defined (__GNUC__) || defined (_AIX) || defined (__hpux)
 #     define YYSTACK_ALLOC __builtin_alloca
@@ -58,7 +64,7 @@
 #     if defined (__sgi) || defined (__sparc__) || defined (__sparc) || defined (__sun)
 #      include <alloca.h> /* INFRINGES ON USER NAME SPACE */
 #      define YYSTACK_ALLOC alloca
-#      define YYSIZE_T size_t
+#      define YYSIZE_T YYSTD (size_t)
 #     endif
 #    endif
 #   endif
@@ -72,16 +78,14 @@
 #  ifdef __cplusplus
 #   include <cstdlib> /* INFRINGES ON USER NAME SPACE */
 #   define YYSIZE_T std::size_t
-#   define YYSTACK_ALLOC std::malloc
-#   define YYSTACK_FREE std::free
 #  else
 #   ifdef __STDC__
 #    include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
 #    define YYSIZE_T size_t
 #   endif
-#   define YYSTACK_ALLOC malloc
-#   define YYSTACK_FREE free
 #  endif
+#  define YYSTACK_ALLOC YYSTD (malloc)
+#  define YYSTACK_FREE YYSTD (free)
 # endif
 
 /* A type that is properly aligned for any stack member.  */
@@ -224,13 +228,11 @@ while (0)
 # ifndef YYFPRINTF
 #  ifdef __cplusplus
 #   include <cstdio.h> /* INFRINGES ON USER NAME SPACE */
-#   define YYFPRINTF std::fprintf
-#   define YYSTDERR std::stderr
 #  else
 #   include <stdio.h> /* INFRINGES ON USER NAME SPACE */
-#   define YYFPRINTF fprintf
-#   define YYSTDERR stderr
 #  endif
+#  define YYFPRINTF YYSTD (fprintf)
+#  define YYSTDERR YYSTD (stderr)
 # endif
 
 # define YYDPRINTF(Args)			\
