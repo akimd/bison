@@ -1,5 +1,9 @@
 2001-08-28  Marc Autret  <autret_m@epita.fr>
 
+	* config/depcomp: New file.
+
+2001-08-28  Marc Autret  <autret_m@epita.fr>
+
 	* doc/bison.1 (mandoc): Adjust.
 	From Juan Manuel Guerrero.
 	
