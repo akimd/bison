@@ -1,3 +1,13 @@
+2004-05-26  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* configure.ac (AM_GNU_GETTEXT_VERSION): Lower it from 0.14.1 to
+	0.11.5.  Suggested by Bruno Haible.
+	* bootstrap: Remove gettext version checking.
+
+	* doc/bison.texinfo (Decl Summary): Also mention that %union
+	can depend on prerequisite types.  Problem reported by Tim
+	Van Holder.
+
 2004-05-25  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* README: Mention GNU m4 1.4 bugs and Akim's patched version.

@@ -43,32 +43,6 @@ do
   esac
 done
 
-# Check that gettext version matches what's in configure.ac.
-# FIXME: We shouldn't have to modify configure.ac every time
-# a new gettext version comes out.
-{
-  gettext_version_output=`LC_ALL=C gettext --version` &&
-  case $gettext_version_output in
-  'gettext (GNU '*) ;;
-  *) false;;
-  esac
-} || {
-  echo >&2 "$0: Please install GNU gettext first."
-  exit 1
-}
-newline='
-'
-last_word_in_first_line="[^$newline]* \\([^$newline]*\\)"
-gettext_have=`expr "$gettext_version_output" : "$last_word_in_first_line"`
-gettext_need=`
-  sed -n '/^AM_GNU_GETTEXT_VERSION/{ s/.*\[//; s/].*//; p; q; }' configure.ac
-`
-[ "$gettext_have" = "$gettext_need" ] || {
-  echo >&2 "$0: Your gettext version is $gettext_have."
-  echo >&2 "$0: Please install and use gettext-$gettext_need instead."
-  exit 1
-}
-
 echo "$0: Bootstrapping CVS $package..."
 
 build_cvs_prefix() {
