@@ -1,3 +1,8 @@
+2001-09-22  Marc Autret  <autret_m@epita.fr>
+
+	* src/output.c (output_master_parser): New.
+	(output_parser): Be more re-entrant.
+
 2001-09-21  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (copy_definition, parse_union_decl): Update and use
