@@ -29,8 +29,6 @@
 #if STDC_HEADERS || _LIBC
 # include <stdlib.h>
 # include <string.h>
-#else
-void exit ();
 #endif
 
 #include "complain.h"
