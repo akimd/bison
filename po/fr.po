@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.32\n"
-"POT-Creation-Date: 2002-02-07 18:23+0100\n"
-"PO-Revision-Date: 2002-01-26 13:30-0500\n"
+"Project-Id-Version: GNU bison 1.33\n"
+"POT-Creation-Date: 2002-02-28 16:14+0100\n"
+"PO-Revision-Date: 2002-02-11 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -234,22 +234,22 @@ msgstr ""
 "reproduction. AUCUNE garantie n'est donnée; tant pour des raisons\n"
 "COMMERCIALES que pour RÉPONDRE À UN BESOIN PARTICULIER.\n"
 
-#: src/getargs.c:224 src/lex.c:705
+#: src/getargs.c:230 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' n'est plus supporté"
 
-#: src/getargs.c:248
+#: src/getargs.c:254
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Pour en savoir davantage, faites: `%s --help'.\n"
 
-#: src/getargs.c:255
+#: src/getargs.c:261
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: grammaire manquante\n"
 
-#: src/getargs.c:259
+#: src/getargs.c:265
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: arguments supplémentaires ignorés après `%s'\n"
@@ -436,9 +436,8 @@ msgid "unterminated string"
 msgstr "chaîne de caractère non terminée"
 
 #: src/reader.c:339
-#, fuzzy
 msgid "invalid @ value"
-msgstr "la valeur de symbole $ n'est pas valide"
+msgstr "valeur @ invalide"
 
 #: src/reader.c:352 src/reader.c:416
 #, c-format

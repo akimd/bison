@@ -1,17 +1,18 @@
 # Turkish translations for GNU Bison messages.
 # Copyright (C) 2001 Free Software Foundation, Inc.
-# Altug Bayram <altugbayram_2000@yahoo.com>, 2001.
+# Altuð Bayram <altugbayram_2000@yahoo.com>, 2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.30f\n"
-"POT-Creation-Date: 2002-02-07 18:23+0100\n"
-"PO-Revision-Date: 2001-12-06 12:09+300\n"
-"Last-Translator: Altug Bayram <altugbayram_2000@yahoo.com>\n"
+"Project-Id-Version: bison 1.33\n"
+"POT-Creation-Date: 2002-02-28 16:14+0100\n"
+"PO-Revision-Date: 2002-02-08 18:51+0200\n"
+"Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-9\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: KBabel 0.9.5\n"
 
 #: src/LR0.c:189
@@ -82,7 +83,7 @@ msgstr "çeliþkiler: "
 #: src/conflicts.c:389
 #, c-format
 msgid " %d shift/reduce"
-msgstr " %d shift/reduce"
+msgstr " %d öteleme/indirgeme"
 
 #: src/conflicts.c:393
 #, c-format
@@ -218,13 +219,12 @@ msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
 #: src/getargs.c:146
-#, fuzzy
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 msgstr ""
-"Kopyahakký 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, "
-"Inc.\n"
+"Kopyahakký 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
+"Free Software Foundation, Inc.\n"
 
 #: src/getargs.c:151
 msgid ""
@@ -235,22 +235,22 @@ msgstr ""
 "Hiçbir garantisi yoktur; hatta SATILABÝLÝRLÝÐÝ veya ÞAHSÝ KULLANIMINIZA\n"
 "UYGUNLUÐU için bile garanti verilmez.\n"
 
-#: src/getargs.c:224 src/lex.c:705
+#: src/getargs.c:230 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' artýk desteklenmeyecek"
 
-#: src/getargs.c:248
+#: src/getargs.c:254
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Daha fazla bilgi için `%s --help' yazýn.\n"
 
-#: src/getargs.c:255
+#: src/getargs.c:261
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: gramer dosyasý verilmemiþ\n"
 
-#: src/getargs.c:259
+#: src/getargs.c:265
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: '%s' den sonraki argümanlar yoksayýldý\n"
@@ -437,9 +437,8 @@ msgid "unterminated string"
 msgstr "sonlandýrýlmamýþ dizge"
 
 #: src/reader.c:339
-#, fuzzy
 msgid "invalid @ value"
-msgstr "geçersiz $ deðeri"
+msgstr "geçersiz @ deðeri"
 
 #: src/reader.c:352 src/reader.c:416
 #, c-format
@@ -646,7 +645,7 @@ msgstr "baþlangýç simgesi %s bir andaçtýr"
 
 #: src/reduce.c:409
 msgid "Useless nonterminals:"
-msgstr "Yararsýz kurallar:"
+msgstr "Yararsýz deðiþken simgeler:"
 
 #: src/reduce.c:422
 msgid "Terminals which are not used:"
@@ -668,18 +667,18 @@ msgstr[1] "%d kural asla indirgenmedi\n"
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d yararsýz deðiþken simge"
-msgstr[1] "%d yararsýz deðiþken simge%s"
+msgstr[1] "%d yararsýz deðiþken simge"
 
 #: src/reduce.c:517
 msgid " and "
-msgstr " ve "
+msgstr " ve"
 
 #: src/reduce.c:520
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d yararsýz kural"
-msgstr[1] "%d yararsýz kural%s"
+msgstr[1] "%d yararsýz kural"
 
 #: src/reduce.c:551
 #, c-format

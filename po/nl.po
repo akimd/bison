@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-02-07 18:23+0100\n"
+"POT-Creation-Date: 2002-02-28 16:14+0100\n"
 "PO-Revision-Date: 2002-02-01 18:46+0000\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -238,22 +238,22 @@ msgstr ""
 "garantie; zelfs niet voor VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD\n"
 "DOEL.\n"
 
-#: src/getargs.c:224 src/lex.c:705
+#: src/getargs.c:230 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' wordt niet meer ondersteund"
 
-#: src/getargs.c:248
+#: src/getargs.c:254
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Probeer `%s --help' voor meer informatie.\n"
 
-#: src/getargs.c:255
+#: src/getargs.c:261
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: geen grammaticabestand opgegeven\n"
 
-#: src/getargs.c:259
+#: src/getargs.c:265
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argumenten na `%s' worden genegeerd\n"

@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-02-07 18:23+0100\n"
-"PO-Revision-Date: 2002-01-23 16:28+0200\n"
+"Project-Id-Version: bison 1.33\n"
+"POT-Creation-Date: 2002-02-28 16:14+0100\n"
+"PO-Revision-Date: 2002-02-08 00:15+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -227,22 +227,22 @@ msgstr ""
 "See on vaba tarkvara; kopeerimistingimused leiate lähtetekstidest. Garantii\n"
 "PUUDUB; ka müügiks või mingil eesmärgil kasutamiseks.\n"
 
-#: src/getargs.c:224 src/lex.c:705
+#: src/getargs.c:230 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' ei ole enam toetatud"
 
-#: src/getargs.c:248
+#: src/getargs.c:254
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Lisainfo saamiseks proovige `%s --help'.\n"
 
-#: src/getargs.c:255
+#: src/getargs.c:261
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: puudub grammatikafail\n"
 
-#: src/getargs.c:259
+#: src/getargs.c:265
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: ignoreerin lisaargumente peale `%s'\n"
@@ -429,9 +429,8 @@ msgid "unterminated string"
 msgstr "lõpetamata sõne"
 
 #: src/reader.c:339
-#, fuzzy
 msgid "invalid @ value"
-msgstr "vigane $ väärtus"
+msgstr "vigane @ väärtus"
 
 #: src/reader.c:352 src/reader.c:416
 #, c-format

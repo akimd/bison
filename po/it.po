@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-02-07 18:23+0100\n"
+"POT-Creation-Date: 2002-02-28 16:14+0100\n"
 "PO-Revision-Date: 2002-01-23 14:16+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -229,22 +229,22 @@ msgstr ""
 "sottoposta la copia. NON c'è ALCUNA garanzia, neanche di\n"
 "COMMERCIABILITA` o di ADEGUATEZZA AD UN PARTICOLARE SCOPO.\n"
 
-#: src/getargs.c:224 src/lex.c:705
+#: src/getargs.c:230 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' non è più supportato"
 
-#: src/getargs.c:248
+#: src/getargs.c:254
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Provare `%s --help' per ulteriori informazioni.\n"
 
-#: src/getargs.c:255
+#: src/getargs.c:261
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: nessun file grammatica specificato\n"
 
-#: src/getargs.c:259
+#: src/getargs.c:265
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: ignorati gli argomenti successivi a `%s'\n"
