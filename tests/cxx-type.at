@@ -72,7 +72,7 @@ stmt : expr ';'  $2
      | '@'  { YYACCEPT; }
      ;
 
-expr : ID 		{ printf ("%s ", $$); }
+expr : ID 		{ printf ("%s ", ]$[1); }
      | TYPENAME '(' expr ')'
 			{ printf ("%s <cast> ", ]$[1); }
      | expr '+' expr	{ printf ("+ "); }

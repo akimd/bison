@@ -108,5 +108,5 @@ m4_include([regression.at])
 # GLR tests:
 # C++ types, simplified
 m4_include([cxx-type.at])
-# Regression test for state-folding optimization
-m4_include([glr-regr1.at])
+# Regression tests
+m4_include([glr-regression.at])
