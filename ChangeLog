@@ -1,5 +1,27 @@
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
 
+	* src/reader.c (reader): Remove calls to 'output_headers' and
+	'output_trailers'. Remove some C output.
+	(readgram): Disable a piece of code that was writing a default
+	definition for 'YYSTYPE'.
+	(reader_output_yylsp): Remove.
+	(packsymbols): Output token defintions to a macro.
+	(copy_definition): Disable C output.
+	
+	* src/reader.c (parse_macro_decl): New function used to parse macro
+	declarations.
+	(copy_string2): Put the body of copy_string into this new function.
+	Add a parameter to let the caller choose whether he wants to copy the
+	string delimiters or not.
+	(copy_string): Be a simple call to copy_string2 with the last argument
+	bound to true.
+	(read_declarations): Add case for macro definition.
+	(copy_identifier): New.
+	(parse_macro_decl): Read macro identifiers using copy_identifier 
+	rather than lex.
+
+2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
+
 	* src/output.c (prepare): Add prefixed names.
 	(output_parser): Output semantic actions.
 	(output_parser): Fix bug on '%%line' directives.
