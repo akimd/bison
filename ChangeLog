@@ -1,3 +1,10 @@
+2004-02-25  Paul Eggert  <eggert@twinsun.com>
+
+	* tests/local.at (AT_COMPILE, AT_COMPILE_CXX): Ignore stdout from
+	compilers.  This fixes a problem with Intel's C++ compiler being
+	chatty, reported by Guido Trentalancia in
+	<http://mail.gnu.org/archive/html/bug-bison/2004-02/msg00030.html>.
+
 2004-02-09  Alexandre Duret-Lutz  <adl@gnu.org>
 
 	Support %destructor and merge error locations in lalr1.cc.
