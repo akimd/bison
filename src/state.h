@@ -124,10 +124,17 @@ typedef struct shifts
   (shifts *) xcalloc ((unsigned) (sizeof (shifts) 			\
                                   + (Nshifts - 1) * sizeof (short)), 1)
 
+/* What is the symbol which is shifted by SHIFTS->shifts[Shift]?  Can
+   be a token (amongst which the error token), or non terminals in
+   case of gotos.  */
+
+#define SHIFT_SYMBOL(Shifts, Shift) \
+  (state_table[Shifts->shifts[Shift]].accessing_symbol)
+
 /* Is the SHIFTS->shifts[Shift] a real shift? (as opposed to gotos.) */
 
 #define SHIFT_IS_SHIFT(Shifts, Shift) \
-  (ISTOKEN (state_table[Shifts->shifts[Shift]].accessing_symbol))
+  (ISTOKEN (SHIFT_SYMBOL (Shifts, Shift)))
 
 /* Is the SHIFTS->shifts[Shift] a goto?. */
 
@@ -137,7 +144,7 @@ typedef struct shifts
 /* Is the SHIFTS->shifts[Shift] then handling of the error token?. */
 
 #define SHIFT_IS_ERROR(Shifts, Shift) \
-  (state_table[Shifts->shifts[Shift]].accessing_symbol == error_token_number)
+  (SHIFT_SYMBOL (Shifts, Shift) == error_token_number)
 
 
 /*-------.
