@@ -36,7 +36,7 @@
 
 static graph_t graph;
 
-static unsigned node_output_size = 0;
+static size_t node_output_size = 0;
 
 /* Return an unambiguous printable representated, allocated in slot 0,
    for NAME, suitable for C strings.  */
@@ -246,10 +246,15 @@ print_state (int state)
   }
   
   /* `obstack_cat' NODE_OBSTACK to GRAPH_OBSTACK.  */
-  obstack_grow (&graph_obstack, 
-		obstack_base (&node_obstack), 
-		obstack_object_size (&node_obstack));
-  obstack_finish (&node_obstack);
+  {
+    size_t obs_size;
+
+    obs_size = obstack_object_size (&node_obstack);
+    obstack_grow (&graph_obstack, 
+		  obstack_base (&node_obstack), 
+		  obs_size);
+    obstack_finish (&node_obstack);
+  }
 }
 
 
