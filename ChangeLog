@@ -1,3 +1,9 @@
+2005-01-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/calc.at (_AT_DATA_CALC_Y): Use alarm (100), not alarm (10),
+	for the benefit of slower hosts.  Problem reported by
+	Nelson H. F. Beebe.
+
 2005-01-07  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/yacc.c (yyparse): Pacify non-GCC compilers about yyerrorlab
