@@ -3446,38 +3446,40 @@ dedicated code from semantic actions.
 
 The @code{YYLLOC_DEFAULT} macro takes three parameters.  The first one is
 the location of the grouping (the result of the computation).  When a
-rule is matched, the second parameter is an array holding locations of
+rule is matched, the second parameter identifies locations of
 all right hand side elements of the rule being matched, and the third
 parameter is the size of the rule's right hand side.  When processing
-a syntax error, the second parameter is an array holding locations of
+a syntax error, the second parameter identifies locations of
 the symbols that were discarded during error processing, and the third
 parameter is the number of discarded symbols.
 
-By default, @code{YYLLOC_DEFAULT} is defined this way for simple
-@acronym{LALR}(1) parsers:
+By default, @code{YYLLOC_DEFAULT} is defined this way:
 
-@example
+@smallexample
 @group
-# define YYLLOC_DEFAULT(Current, Rhs, N)		\
-   ((Current).first_line   = (Rhs)[1].first_line,	\
-    (Current).first_column = (Rhs)[1].first_column,	\
-    (Current).last_line    = (Rhs)[N].last_line,	\
-    (Current).last_column  = (Rhs)[N].last_column)
+# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
+    do                                                                  \
+      if (N)                                                            \
+        @{                                                               \
+          (Current).first_line   = YYRHSLOC(Rhs, 1).first_line;         \
+          (Current).first_column = YYRHSLOC(Rhs, 1).first_column;       \
+          (Current).last_line    = YYRHSLOC(Rhs, N).last_line;          \
+          (Current).last_column  = YYRHSLOC(Rhs, N).last_column;        \
+        @}                                                               \
+      else                                                              \
+        @{                                                               \
+          (Current).first_line   = (Current).last_line   =              \
+            YYRHSLOC(Rhs, 0).last_line;                                 \
+          (Current).first_column = (Current).last_column =              \
+            YYRHSLOC(Rhs, 0).last_column;                               \
+        @}                                                               \
+    while (0)
 @end group
-@end example
+@end smallexample
 
-@noindent
-and like this for @acronym{GLR} parsers:
-
-@example
-@group
-# define YYLLOC_DEFAULT(yyCurrent, yyRhs, YYN)			\
-   ((yyCurrent).first_line = YYRHSLOC(yyRhs, 1).first_line,	\
-    (yyCurrent).first_column = YYRHSLOC(yyRhs, 1).first_column,	\
-    (yyCurrent).last_line = YYRHSLOC(yyRhs, YYN).last_line,	\
-    (yyCurrent).last_column  = YYRHSLOC(yyRhs, YYN).last_column)
-@end group
-@end example
+where @code{YYRHSLOC (rhs, k)} is the location of the @var{k}th symbol
+in @var{rhs} when @var{k} is positive, and the location of the symbol
+just before the reduction when @var{k} is zero.
 
 When defining @code{YYLLOC_DEFAULT}, you should consider that:
 
@@ -3487,8 +3489,10 @@ All arguments are free of side-effects.  However, only the first one (the
 result) should be modified by @code{YYLLOC_DEFAULT}.
 
 @item
-For consistency with semantic actions, valid indexes for the location
-array range from 1 to @var{n}.
+For consistency with semantic actions, valid indexes within the
+right hand side range from 1 to @var{n}.  When @var{n} is zero, only 0 is a
+valid index, and it refers to the symbol just before the reduction.
+During error processing @var{n} is always positive.
 
 @item
 Your macro should parenthesize its arguments, if need be, since the
