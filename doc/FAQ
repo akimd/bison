@@ -13,7 +13,7 @@ A1.  If you're looking for a guarantee or certification, I can't
 ----------------------------------------------------------------------
 
 Q2.  I can't build Bison because "make" complains that "msgfmt" is not
-     fund.  What should I do?
+     found.  What should I do?
 
 A2.  Like most GNU packages with internationalization support, that
      feature is turned on by default.  If you have problems building
