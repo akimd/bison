@@ -1,6 +1,8 @@
 m4_divert(-1)
+
 # C++ skeleton for Bison
-# Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+
+# Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -747,12 +749,11 @@ yyerrlab:
 `---------------------------------------------------*/
 yyerrorlab:
 
-#ifdef __GNUC__
-  /* Pacify GCC when the user code never invokes YYERROR and the label
-     yyerrorlab therefore never appears in user code.  */
-  if (0)
+  /* Pacify compilers like GCC when the user code never invokes
+     YYERROR and the label yyerrorlab therefore never appears in user
+     code.  */
+  if (false)
      goto yyerrorlab;
-#endif
 
   yyerror_range_[0] = yylocation_stack_[yylen_ - 1];
   yypop_ (yylen_);
