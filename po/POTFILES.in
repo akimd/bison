@@ -13,6 +13,7 @@ src/scan-gram.c
 src/state.c
 src/symlist.c
 src/symtab.c
+src/system.h
 
 lib/argmatch.c
 lib/bitset_stats.c
