@@ -1,6 +1,7 @@
 This directory contains the Bison parser generator.
 
 See the file INSTALL for compilation and installation instructions.
+See the file doc/FAQ for frequently asked questions.
 
 It was once true that, when installing Bison on Sequent (or Pyramid?)
 systems, you had to be in the Berkeley universe.  This may no longer
