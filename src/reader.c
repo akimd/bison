@@ -874,9 +874,13 @@ parse_thong_decl (void)
   nsyms--;
 }
 
-/*--------------------------------------------------------------.
-| Parse what comes after %header_extension and %source_etension |
-`--------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------.
+| Parse a double quoted parameter. It was used for %{source,header}_extension. |
+| For the moment, It is not used since extension features have been removed.   |
+`-----------------------------------------------------------------------------*/
+
+#if 0
 
 static const char *
 parse_dquoted_param (const char *from)
@@ -922,25 +926,8 @@ parse_dquoted_param (const char *from)
   return xstrdup (buff);
 }
 
-/* %header_extension case.  */
-static void
-parse_header_extension_decl (void)
-{
-  if (header_extension)
-    complain (_("multiple %%header_extension declarations"));
+#endif
 
-  header_extension = parse_dquoted_param ("%header_extension");
-}
-
-/* %source_extension case.  */
-static void
-parse_source_extension_decl (void)
-{
-  if (src_extension)
-    complain (_("multiple %%source_extension declarations"));
-
-  src_extension = parse_dquoted_param ("%source_extension");
-}
 
 /*----------------------------------------------------------------.
 | Read from finput until `%%' is seen.  Discard the `%%'.  Handle |
@@ -1009,14 +996,6 @@ read_declarations (void)
 
 	    case tok_nonassoc:
 	      parse_assoc_decl (non_assoc);
-	      break;
-
-	    case tok_hdrext:
-	      parse_header_extension_decl ();
-	      break;
-
-	    case tok_srcext:
-	      parse_source_extension_decl ();
 	      break;
 
 	    case tok_noop:

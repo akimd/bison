@@ -1,3 +1,18 @@
+2001-09-18  Marc Autret  <autret_m@epita.fr>
+
+	Turn off %{source,header}_extension feature.
+	
+	* src/files.c (compute_exts_from_gf): Update.
+	(compute_exts_from_src): Update.
+	(output_files): CPP-out useless code.
+	* src/files.h: Remove {header,source}_extension extern declarations.
+	* src/reader.c (parse_dquoted_param): CPP-out.
+	(parse_header_extension_decl): Remove.
+	(parse_source_extension_decl): Remove.
+	(read_declarations): Remove cases tok_{hdrext,srcext}.
+	* src/lex.c (percent_table): Remove {header,source}_extension entries.
+	* src/lex.h (token_t): Remove tok_hdrext and tok_srcext.
+
 2001-09-10  Akim Demaille  <akim@epita.fr>
 
 	* tests/output.at (AT_CHECK_BISON_FLAGS, AT_CHECK_BISON_PERCENT):

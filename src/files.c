@@ -260,20 +260,10 @@ get_extension_index (const char *filename)
 static void
 compute_exts_from_gf (const char *ext)
 {
-  /* Checks if SRC_EXTENSION is NULL. In the other case, %source_extension
-     was specified in the grammar file.  */
-  if (src_extension == NULL)
-    {
-      src_extension = tr (ext, 'y', 'c');
-      src_extension = tr (src_extension, 'Y', 'C');
-    }
-  /* Checks if HEADER_EXTENSION is NULL. In the other case,
-     %header_extension was specified in the grammar file.  */
-  if (header_extension == NULL)
-    {
-      header_extension = tr (ext, 'y', 'h');
-      header_extension = tr (header_extension, 'Y', 'H');
-    }
+  src_extension = tr (ext, 'y', 'c');
+  src_extension = tr (src_extension, 'Y', 'C');
+  header_extension = tr (ext, 'y', 'h');
+  header_extension = tr (header_extension, 'Y', 'H');
 }
 
 /* Computes extensions from the given c source file extension. */
@@ -428,11 +418,13 @@ output_files (void)
 
   compute_base_names ();
 
+#if 0
   /* Set default extensions */
   if (!src_extension)
     src_extension = ".c";
   if (!header_extension)
     header_extension = ".h";
+#endif
 
   attrsfile = stringappend (short_base_name, EXT_STYPE_H);
 #ifndef MSDOS
