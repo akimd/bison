@@ -1,5 +1,17 @@
 2001-11-30  Akim Demaille  <akim@epita.fr>
 
+	Instead of mapping the LHS of unused rules to -1, keep the LHS
+	valid, but flag the rules as invalid.
+
+	* src/gram.h (rule_t): `useful' is a new member.
+	* src/print.c (print_grammar): Adjust.
+	* src/derives.c (set_derives): Likewise.
+	* src/reader.c (packgram, reduce_output): Likewise.
+	* src/reduce.c (reduce_grammar_tables): Likewise.
+	* tests/reduce.at (Underivable Rules, Useless Rules): New.
+
+2001-11-30  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c (reduce_output): Formatting changes.
 	* src/print.c (print_results, print_grammar): Likewise.
 	* tests/regression.at (Rule Line Numbers)

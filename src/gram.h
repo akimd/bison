@@ -59,6 +59,8 @@
 
    RULE_TABLE[R].line -- the line where R was defined.
 
+   RULE_TABLE[R].useful -- TRUE iff the rule is used.
+
    The right hand side is stored as symbol numbers in a portion of
    RITEM.
 
@@ -119,6 +121,7 @@ typedef struct rule_s
   short precsym;
   short assoc;
   short line;
+  bool useful;
 } rule_t;
 
 extern struct rule_s *rule_table;

@@ -108,3 +108,101 @@ AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
 ]])
 
 AT_CLEANUP
+
+
+
+## --------------- ##
+## Useless Rules.  ##
+## --------------- ##
+
+AT_SETUP([Useless Rules])
+
+AT_DATA([[input.y]],
+[[%verbose
+%output="input.c"
+%token useful
+%%
+exp: useful;
+useless1: '1';
+useless2: '2';
+useless3: '3';
+useless4: '4';
+useless5: '5';
+useless6: '6';
+useless7: '7';
+useless8: '8';
+useless9: '9';
+]])
+
+AT_CHECK([[bison input.y]], 0, [],
+[[input.y contains 9 useless nonterminals and 9 useless rules
+]])
+
+AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
+[[Useless nonterminals:
+   useless1
+   useless2
+   useless3
+   useless4
+   useless5
+   useless6
+   useless7
+   useless8
+   useless9
+Terminals which are not used:
+   '1'
+   '2'
+   '3'
+   '4'
+   '5'
+   '6'
+   '7'
+   '8'
+   '9'
+Useless rules:
+#2     useless1: '1';
+#3     useless2: '2';
+#4     useless3: '3';
+#5     useless4: '4';
+#6     useless5: '5';
+#7     useless6: '6';
+#8     useless7: '7';
+#9     useless8: '8';
+#10    useless9: '9';
+]])
+
+AT_CLEANUP
+
+
+
+## ------------------- ##
+## Underivable Rules.  ##
+## ------------------- ##
+
+AT_SETUP([Underivable Rules])
+
+AT_DATA([[input.y]],
+[[%verbose
+%output="input.c"
+%token useful
+%%
+exp: useful | underivable;
+underivable: indirection;
+indirection: underivable;
+]])
+
+AT_CHECK([[bison input.y]], 0, [],
+[[input.y contains 2 useless nonterminals and 3 useless rules
+]])
+
+AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
+[[Useless nonterminals:
+   underivable
+   indirection
+Useless rules:
+#2     exp: underivable;
+#3     underivable: indirection;
+#4     indirection: underivable;
+]])
+
+AT_CLEANUP
