@@ -1,3 +1,9 @@
+2004-10-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Language and Grammar): In example, "int" is a
+	keyword, not an identifier.  Problem reported by Baron Schwartz in
+	<http://lists.gnu.org/archive/html/bug-bison/2004-10/msg00017.html>.
+
 2004-10-11  Akim Demaille  <akim@epita.fr>
 
 	* src/symtab.c (symbol_check_alias_consistency): Also check
