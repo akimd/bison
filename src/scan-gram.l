@@ -324,7 +324,7 @@ blanks   [ \t\f]+
     if (c > 255)
       {
 	LOCATION_PRINT (stderr, *yylloc);
-	fprintf (stderr, ": invalid escape: %s\n", yytext);
+	fprintf (stderr, ": invalid escape: %s\n", quote (yytext));
 	YY_STEP;
       }
     else
@@ -343,11 +343,13 @@ blanks   [ \t\f]+
   \\t	obstack_1grow (&string_obstack, '\t');
   \\v	obstack_1grow (&string_obstack, '\v');
   \\[\\""]   obstack_1grow (&string_obstack, yytext[1]);
-  \\.	{
+  \\(.|\n)	{
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unrecognized escape: %s\n", yytext);
+    fprintf (stderr, ": unrecognized escape: %s\n", quote (yytext));
     YY_OBS_GROW;
   }
+  /* FLex wants this rule, in case of a `\<<EOF>>'. */
+  \\                   YY_OBS_GROW;
 }
 
 
@@ -364,8 +366,10 @@ blanks   [ \t\f]+
     yy_pop_state ();
   }
 
-  [^\[\]\'\n\r\\]      YY_OBS_GROW;
-  \\.                  YY_OBS_GROW;
+  [^\[\]\'\n\r\\]+     YY_OBS_GROW;
+  \\(.|\n)             YY_OBS_GROW;
+  /* FLex wants this rule, in case of a `\<<EOF>>'. */
+  \\                   YY_OBS_GROW;
 
   {eols}               YY_OBS_GROW; YY_LINES;
 
@@ -392,7 +396,9 @@ blanks   [ \t\f]+
   }
 
   [^\[\]\"\n\r\\]+      YY_OBS_GROW;
-  \\.                   YY_OBS_GROW;
+  \\(.|\n)              YY_OBS_GROW;
+  /* FLex wants this rule, in case of a `\<<EOF>>'. */
+  \\                   YY_OBS_GROW;
 
   {eols}                YY_OBS_GROW; YY_LINES;
 
@@ -420,6 +426,9 @@ blanks   [ \t\f]+
   /* Comments. */
   "/*"        YY_OBS_GROW; yy_push_state (SC_COMMENT);
   "//".*      YY_OBS_GROW;
+
+  /* Not comments. */
+  "/"         YY_OBS_GROW;
 }
 
 
@@ -479,9 +488,9 @@ blanks   [ \t\f]+
     return PROLOGUE;
   }
 
-  [^%\[\]/\'\"\n\r]+	  YY_OBS_GROW;
-  "%"+[^%\}\n\r]+ YY_OBS_GROW;
-  {eols}	  YY_OBS_GROW; YY_LINES;
+  [^%\[\]/\'\"\n\r]+ YY_OBS_GROW;
+  "%"                YY_OBS_GROW;
+  {eols}	     YY_OBS_GROW; YY_LINES;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
@@ -491,7 +500,6 @@ blanks   [ \t\f]+
     yylval->string = last_string;
     return PROLOGUE;
   }
-
 }
 
 
@@ -546,7 +554,7 @@ handle_action_dollar (char *cp, location_t location)
 	type_name = symbol_list_n_type_name_get (current_rule, location, 0);
       if (!type_name && typed)
 	complain_at (location, _("$$ of `%s' has no declared type"),
-		     current_rule->sym->tag);
+		     symbol_tag_get (current_rule->sym));
       if (!type_name)
 	type_name = "";
       obstack_fgrow1 (&string_obstack,
@@ -570,7 +578,7 @@ handle_action_dollar (char *cp, location_t location)
 						     n);
 	  if (!type_name && typed)
 	    complain_at (location, _("$%d of `%s' has no declared type"),
-		      n, current_rule->sym->tag);
+		      n, symbol_tag_get (current_rule->sym));
 	  if (!type_name)
 	    type_name = "";
 	  obstack_fgrow3 (&string_obstack,

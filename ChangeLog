@@ -1,3 +1,10 @@
+2002-06-20  Akim Demaille  <akim@epita.fr>
+
+	* src/scan-gram.l: Complete the scanner with the missing patterns
+	to pacify Flex.
+	Use `quote' and `symbol_tag_get' where appropriate.
+
+	
 2002-06-19  Akim Demaille  <akim@epita.fr>
 
 	* tests/actions.at (Destructors): Augment to test locations.
