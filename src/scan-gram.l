@@ -440,7 +440,7 @@ blanks   [ \t\f]+
   "$"("<".*">")?(-?[0-9]+|"$") { handle_dollar (yytext); }
   "@"(-?[0-9]+|"$")            { handle_at (yytext); }
 
-  [^\[\]$/\'\"@\{\}\n\r]+ YY_OBS_GROW;
+  [^$@\[\]/\'\"\{\}\n\r]+ YY_OBS_GROW;
   {eols}	YY_OBS_GROW; YY_LINES;
 
   /* A lose $, or /, or etc. */
@@ -471,7 +471,7 @@ blanks   [ \t\f]+
     return PROLOGUE;
   }
 
-  [^\[\]%\n\r]+	  YY_OBS_GROW;
+  [^%\[\]/\'\"\n\r]+	  YY_OBS_GROW;
   "%"+[^%\}\n\r]+ YY_OBS_GROW;
   {eols}	  YY_OBS_GROW; YY_LINES;
 

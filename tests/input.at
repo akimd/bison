@@ -1,5 +1,5 @@
 # Checking the output filenames.                    -*- Autotest -*-
-# Copyright 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,6 +19,31 @@
 AT_BANNER([[Input Processing.]])
 
 # Mostly test that we are robust to mistakes.
+
+
+## ----------------------- ##
+## Torturing the Scanner.  ##
+## ----------------------- ##
+
+AT_SETUP([Torturing the Scanner])
+
+AT_DATA([input.y],
+[[%{
+/* This is seen in GCC: a %{ and %} in middle of a comment. */
+const char *foo = "So %{ and %} can be here.";
+%}
+/* %{ and %} can be here too. */
+
+%%
+exp: 'a';
+]])
+
+AT_CHECK([bison input.y])
+
+AT_CLEANUP
+
+
+
 
 ## ------------ ##
 ## Invalid $n.  ##
