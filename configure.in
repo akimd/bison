@@ -18,10 +18,10 @@
 # We need a recent Autoconf to run a recent Autotest.
 AC_PREREQ(2.52e)
 
-AC_INIT([GNU Bison], [1.29e], [bug-bison@gnu.org])
+AC_INIT([GNU Bison], [1.29f], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR(config)
 
-AM_INIT_AUTOMAKE([bison], [1.29e])
+AM_INIT_AUTOMAKE([bison], [1.29f])
 AM_CONFIG_HEADER(config.h:config.hin)
 
 # Initialize the test suite.

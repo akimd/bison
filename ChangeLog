@@ -1,5 +1,11 @@
 2001-10-18  Akim Demaille  <akim@epita.fr>
 
+	Version 1.29f.
+	* tests/calc.at (_AT_CHECK_CALC_ERROR): Don't use `foo && bar', to
+	avoid spurious failures.
+
+2001-10-18  Akim Demaille  <akim@epita.fr>
+
 	Version 1.29e.
 
 2001-10-18  Akim Demaille  <akim@epita.fr>

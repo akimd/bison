@@ -338,7 +338,7 @@ AT_CHECK([bison calc.y -o calc.c m4_bpatsubst([$1], [--yyerror-verbose])],
 # warnings, but this place is not the right one for that.
 # So let's keep only GCC warnings, which we know are sane.
 AT_CHECK([$CC $CFLAGS $CPPFLAGS calc.c -o calc], 0, [], [stderr])
-AT_CHECK([test "$GCC" = yes && cat stderr])
+AT_CHECK([if test "$GCC" = yes; then cat stderr; else true; fi])
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],
