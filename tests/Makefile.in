@@ -101,9 +101,9 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-EXTRA_DIST = $(TESTSUITE_AT) testsuite
+EXTRA_DIST = $(TESTSUITE_AT) testsuite package.m4
 
-DISTCLEANFILES = atconfig bison package.m4
+DISTCLEANFILES = atconfig bison
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 TESTSUITE_AT = \
@@ -234,7 +234,17 @@ uninstall-am: uninstall-info-am
 	maintainer-clean-generic mostlyclean mostlyclean-generic \
 	uninstall uninstall-am uninstall-info-am
 
-$(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
+
+$(srcdir)/package.m4: $(top_srcdir)/configure.in
+	{					\
+	  echo '# Signature of the current package.'; \
+	  echo 'm4_define([AT_PACKAGE_NAME],      [@PACKAGE_NAME@])'; \
+	  echo 'm4_define([AT_PACKAGE_TARNAME],   [@PACKAGE_TARNAME@])'; \
+	  echo 'm4_define([AT_PACKAGE_VERSION],   [@PACKAGE_VERSION@])'; \
+	  echo 'm4_define([AT_PACKAGE_STRING],    [@PACKAGE_STRING@])'; \
+	  echo 'm4_define([AT_PACKAGE_BUGREPORT], [@PACKAGE_BUGREPORT@])'; \
+	} >$(srcdir)/package.m4
+$(srcdir)/$(TESTSUITE): package.m4 $(TESTSUITE_AT)
 	$(AUTOTEST) -I $(srcdir) testsuite.at -o $@.tmp
 	mv $@.tmp $@
 
