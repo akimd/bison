@@ -2,20 +2,37 @@
 
 * Prologue
 The %union is declared after the user C declarations. It can be
-a problem if YYSTYPE is decalred after the user part.	[]
+a problem if YYSTYPE is declared after the user part.	[]
 
-* --verbose
-Tell the truth about EOF.	[]
+Actually, the real problem seems that the %union ought to be output
+where it was defined.  For instance, in gettext/intl/plural.y, we
+have:
+
+	%{
+	...
+	#include "gettextP.h"
+	...
+	%}
+
+	%union {
+	  unsigned long int num;
+	  enum operator op;
+	  struct expression *exp;
+	}
+
+	%{
+	...
+	static int yylex PARAMS ((YYSTYPE *lval, const char **pexp));
+	...
+	%}
+
+Where the first part defines struct expression, the second uses it to
+define YYSTYPE, and the last uses YYSTYPE.  Only this order is valid.
 
 * --graph
 Show reductions.	[]
 
-* tokendefs
-This muscle should not exist: the information it contains should be
-available from the rest of bison.  Once the information public, get
-rid of it.	[]
-
-* Broken options ?.
+* Broken options ?
 ** %no-lines		[ok]
 ** %no-parser		[]
 ** %pure-parser		[]
@@ -33,9 +50,6 @@ Must we keep %no-parser?
 	     %token-table?
 *** New skeletons.	[]
 
-* src/macrotab.[ch]
-Removing warnings when compiling. (gcc-warnings).	[ok]
-
 * src/print_graph.c
 Find the best graph parameters.	[]
 
@@ -46,7 +60,6 @@ informations about ERROR_VERBOSE.	[]
 skeleton muscles.	[]
 %skeleton.		[]
 
-* testsuite.
-** tests/reduce.at	[ok]
+* testsuite
 ** tests/pure-parser.at	[]
 New tests.

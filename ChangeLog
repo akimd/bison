@@ -1,5 +1,9 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo: Formatting changes.
+
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	Don't store the token defs in a muscle, just be ready to output it
 	on command.  Now possible via `symbols'.  Fixes a memory leak.
 

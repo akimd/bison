@@ -676,12 +676,13 @@ the grammar rules---for example, to build identifiers and operators into
 expressions.  As it does this, it runs the actions for the grammar rules it
 uses.
 
-The tokens come from a function called the @dfn{lexical analyzer} that you
-must supply in some fashion (such as by writing it in C).  The Bison parser
-calls the lexical analyzer each time it wants a new token.  It doesn't know
-what is ``inside'' the tokens (though their semantic values may reflect
-this).  Typically the lexical analyzer makes the tokens by parsing
-characters of text, but Bison does not depend on this.  @xref{Lexical, ,The Lexical Analyzer Function @code{yylex}}.
+The tokens come from a function called the @dfn{lexical analyzer} that
+you must supply in some fashion (such as by writing it in C).  The Bison
+parser calls the lexical analyzer each time it wants a new token.  It
+doesn't know what is ``inside'' the tokens (though their semantic values
+may reflect this).  Typically the lexical analyzer makes the tokens by
+parsing characters of text, but Bison does not depend on this.
+@xref{Lexical, ,The Lexical Analyzer Function @code{yylex}}.
 
 The Bison parser file is C code which defines a function named
 @code{yyparse} which implements that grammar.  This function does not make
@@ -722,15 +723,16 @@ to a working compiler or interpreter, has these parts:
 @enumerate
 @item
 Formally specify the grammar in a form recognized by Bison
-(@pxref{Grammar File, ,Bison Grammar Files}).  For each grammatical rule in the language,
-describe the action that is to be taken when an instance of that rule
-is recognized.  The action is described by a sequence of C statements.
+(@pxref{Grammar File, ,Bison Grammar Files}).  For each grammatical rule
+in the language, describe the action that is to be taken when an
+instance of that rule is recognized.  The action is described by a
+sequence of C statements.
 
 @item
-Write a lexical analyzer to process input and pass tokens to the
-parser.  The lexical analyzer may be written by hand in C
-(@pxref{Lexical, ,The Lexical Analyzer Function @code{yylex}}).  It could also be produced using Lex, but the use
-of Lex is not discussed in this manual.
+Write a lexical analyzer to process input and pass tokens to the parser.
+The lexical analyzer may be written by hand in C (@pxref{Lexical, ,The
+Lexical Analyzer Function @code{yylex}}).  It could also be produced
+using Lex, but the use of Lex is not discussed in this manual.
 
 @item
 Write a controlling function that calls the Bison-produced parser.
@@ -884,9 +886,10 @@ which is a floating point number.
 The @code{#include} directive is used to declare the exponentiation
 function @code{pow}.
 
-The second section, Bison declarations, provides information to Bison about
-the token types (@pxref{Bison Declarations, ,The Bison Declarations Section}).  Each terminal symbol that is
-not a single-character literal must be declared here.  (Single-character
+The second section, Bison declarations, provides information to Bison
+about the token types (@pxref{Bison Declarations, ,The Bison
+Declarations Section}).  Each terminal symbol that is not a
+single-character literal must be declared here.  (Single-character
 literals normally don't need to be declared.)  In this example, all the
 arithmetic operators are designated by single-character literals, so the
 only terminal symbol that needs to be declared is @code{NUM}, the token
@@ -1066,9 +1069,10 @@ The latter, however, is much more readable.
 @cindex writing a lexical analyzer
 @cindex lexical analyzer, writing
 
-The lexical analyzer's job is low-level parsing: converting characters or
-sequences of characters into tokens.  The Bison parser gets its tokens by
-calling the lexical analyzer.  @xref{Lexical, ,The Lexical Analyzer Function @code{yylex}}.
+The lexical analyzer's job is low-level parsing: converting characters
+or sequences of characters into tokens.  The Bison parser gets its
+tokens by calling the lexical analyzer.  @xref{Lexical, ,The Lexical
+Analyzer Function @code{yylex}}.
 
 Only a simple lexical analyzer is needed for the RPN calculator.  This
 lexical analyzer skips blanks and tabs, then reads in numbers as
@@ -1325,12 +1329,14 @@ Operator precedence is determined by the line ordering of the
 declarations; the higher the line number of the declaration (lower on
 the page or screen), the higher the precedence.  Hence, exponentiation
 has the highest precedence, unary minus (@code{NEG}) is next, followed
-by @samp{*} and @samp{/}, and so on.  @xref{Precedence, ,Operator Precedence}.
+by @samp{*} and @samp{/}, and so on.  @xref{Precedence, ,Operator
+Precedence}.
 
-The other important new feature is the @code{%prec} in the grammar section
-for the unary minus operator.  The @code{%prec} simply instructs Bison that
-the rule @samp{| '-' exp} has the same precedence as @code{NEG}---in this
-case the next-to-highest.  @xref{Contextual Precedence, ,Context-Dependent Precedence}.
+The other important new feature is the @code{%prec} in the grammar
+section for the unary minus operator.  The @code{%prec} simply instructs
+Bison that the rule @samp{| '-' exp} has the same precedence as
+@code{NEG}---in this case the next-to-highest.  @xref{Contextual
+Precedence, ,Context-Dependent Precedence}.
 
 Here is a sample run of @file{calc.y}:
 
@@ -1683,11 +1689,12 @@ are @code{NUM}, @code{VAR}, @code{FNCT}, and @code{exp}.  Their
 declarations are augmented with information about their data type (placed
 between angle brackets).
 
-The Bison construct @code{%type} is used for declaring nonterminal symbols,
-just as @code{%token} is used for declaring token types.  We have not used
-@code{%type} before because nonterminal symbols are normally declared
-implicitly by the rules that define them.  But @code{exp} must be declared
-explicitly so we can specify its value type.  @xref{Type Decl, ,Nonterminal Symbols}.
+The Bison construct @code{%type} is used for declaring nonterminal
+symbols, just as @code{%token} is used for declaring token types.  We
+have not used @code{%type} before because nonterminal symbols are
+normally declared implicitly by the rules that define them.  But
+@code{exp} must be declared explicitly so we can specify its value type.
+@xref{Type Decl, ,Nonterminal Symbols}.
 
 @node Mfcalc Rules
 @subsection Grammar Rules for @code{mfcalc}
@@ -1961,8 +1968,8 @@ yylex (void)
 @end smallexample
 
 This program is both powerful and flexible. You may easily add new
-functions, and it is a simple job to modify this code to install predefined
-variables such as @code{pi} or @code{e} as well.
+functions, and it is a simple job to modify this code to install
+predefined variables such as @code{pi} or @code{e} as well.
 
 @node Exercises
 @section Exercises
@@ -2425,7 +2432,8 @@ requires you to do two things:
 @itemize @bullet
 @item
 Specify the entire collection of possible data types, with the
-@code{%union} Bison declaration (@pxref{Union Decl, ,The Collection of Value Types}).
+@code{%union} Bison declaration (@pxref{Union Decl, ,The Collection of
+Value Types}).
 
 @item
 Choose one of those types for each symbol (terminal or nonterminal) for
@@ -2447,10 +2455,11 @@ is to compute a semantic value for the grouping built by the rule from the
 semantic values associated with tokens or smaller groupings.
 
 An action consists of C statements surrounded by braces, much like a
-compound statement in C.  It can be placed at any position in the rule; it
-is executed at that position.  Most rules have just one action at the end
-of the rule, following all the components.  Actions in the middle of a rule
-are tricky and used only for special purposes (@pxref{Mid-Rule Actions, ,Actions in Mid-Rule}).
+compound statement in C.  It can be placed at any position in the rule;
+it is executed at that position.  Most rules have just one action at the
+end of the rule, following all the components.  Actions in the middle of
+a rule are tricky and used only for special purposes (@pxref{Mid-Rule
+Actions, ,Actions in Mid-Rule}).
 
 The C code in an action can refer to the semantic values of the components
 matched by the rule with the construct @code{$@var{n}}, which stands for
@@ -2730,8 +2739,8 @@ especially symbol locations.
 
 @c (terminal or not) ?
 
-The way locations are handled is defined by providing a data type, and actions
-to take when rules are matched.
+The way locations are handled is defined by providing a data type, and
+actions to take when rules are matched.
 
 @menu
 * Location Type::               Specifying a data type for locations.
@@ -2832,11 +2841,11 @@ exp:    @dots{}
 @subsection Default Action for Locations
 @vindex YYLLOC_DEFAULT
 
-Actually, actions are not the best place to compute locations. Since locations
-are much more general than semantic values, there is room in the output parser
-to redefine the default action to take for each rule. The
-@code{YYLLOC_DEFAULT} macro is called each time a rule is matched, before the
-associated action is run.
+Actually, actions are not the best place to compute locations. Since
+locations are much more general than semantic values, there is room in
+the output parser to redefine the default action to take for each
+rule. The @code{YYLLOC_DEFAULT} macro is invoked each time a rule is
+matched, before the associated action is run.
 
 Most of the time, this macro is general enough to suppress location
 dedicated code from semantic actions.
@@ -2888,7 +2897,8 @@ value (@pxref{Multiple Types, ,More Than One Value Type}).
 
 The first rule in the file also specifies the start symbol, by default.
 If you want some other symbol to be the start symbol, you must declare
-it explicitly (@pxref{Language and Grammar, ,Languages and Context-Free Grammars}).
+it explicitly (@pxref{Language and Grammar, ,Languages and Context-Free
+Grammars}).
 
 @menu
 * Token Decl::        Declaring terminal symbols.
@@ -2937,7 +2947,8 @@ with each other or with ASCII characters.
 
 In the event that the stack type is a union, you must augment the
 @code{%token} or other token declaration to include the data type
-alternative delimited by angle-brackets (@pxref{Multiple Types, ,More Than One Value Type}).
+alternative delimited by angle-brackets (@pxref{Multiple Types, ,More
+Than One Value Type}).
 
 For example:
 
@@ -2984,7 +2995,8 @@ obtain the token type code number (@pxref{Calling Convention}).
 Use the @code{%left}, @code{%right} or @code{%nonassoc} declaration to
 declare a token and specify its precedence and associativity, all at
 once.  These are called @dfn{precedence declarations}.
-@xref{Precedence, ,Operator Precedence}, for general information on operator precedence.
+@xref{Precedence, ,Operator Precedence}, for general information on
+operator precedence.
 
 The syntax of a precedence declaration is the same as that of
 @code{%token}: either
@@ -3071,11 +3083,12 @@ used.  This is done with a @code{%type} declaration, like this:
 @end example
 
 @noindent
-Here @var{nonterminal} is the name of a nonterminal symbol, and @var{type}
-is the name given in the @code{%union} to the alternative that you want
-(@pxref{Union Decl, ,The Collection of Value Types}).  You can give any number of nonterminal symbols in
-the same @code{%type} declaration, if they have the same value type.  Use
-spaces to separate the symbol names.
+Here @var{nonterminal} is the name of a nonterminal symbol, and
+@var{type} is the name given in the @code{%union} to the alternative
+that you want (@pxref{Union Decl, ,The Collection of Value Types}).  You
+can give any number of nonterminal symbols in the same @code{%type}
+declaration, if they have the same value type.  Use spaces to separate
+the symbol names.
 
 You can also declare the value type of a terminal symbol.  To do this,
 use the same @code{<@var{type}>} construction in a declaration for the
@@ -3378,10 +3391,10 @@ language with the same program?  Then you need to avoid a name conflict
 between different definitions of @code{yyparse}, @code{yylval}, and so on.
 
 The easy way to do this is to use the option @samp{-p @var{prefix}}
-(@pxref{Invocation, ,Invoking Bison}).  This renames the interface functions and
-variables of the Bison parser to start with @var{prefix} instead of
-@samp{yy}.  You can use this to give each parser distinct names that do
-not conflict.
+(@pxref{Invocation, ,Invoking Bison}).  This renames the interface
+functions and variables of the Bison parser to start with @var{prefix}
+instead of @samp{yy}.  You can use this to give each parser distinct
+names that do not conflict.
 
 The precise list of symbols renamed is @code{yyparse}, @code{yylex},
 @code{yyerror}, @code{yynerrs}, @code{yylval}, @code{yychar} and
@@ -3575,9 +3588,10 @@ Thus, if the type is @code{int} (the default), you might write this in
 @end example
 
 When you are using multiple data types, @code{yylval}'s type is a union
-made from the @code{%union} declaration (@pxref{Union Decl, ,The Collection of Value Types}).  So when
-you store a token's value, you must use the proper member of the union.
-If the @code{%union} declaration looks like this:
+made from the @code{%union} declaration (@pxref{Union Decl, ,The
+Collection of Value Types}).  So when you store a token's value, you
+must use the proper member of the union.  If the @code{%union}
+declaration looks like this:
 
 @example
 @group
@@ -3786,8 +3800,8 @@ immediately return 1.
 @vindex yynerrs
 The variable @code{yynerrs} contains the number of syntax errors
 encountered so far.  Normally this variable is global; but if you
-request a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}) then it is a local variable
-which only the actions can access.
+request a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser})
+then it is a local variable which only the actions can access.
 
 @node Action Features
 @section Special Features for Use in Actions
@@ -3808,7 +3822,8 @@ Acts like a variable that contains the semantic value for the
 
 @item $<@var{typealt}>$
 Like @code{$$} but specifies alternative @var{typealt} in the union
-specified by the @code{%union} declaration.  @xref{Action Types, ,Data Types of Values in Actions}.
+specified by the @code{%union} declaration.  @xref{Action Types, ,Data
+Types of Values in Actions}.
 
 @item $<@var{typealt}>@var{n}
 Like @code{$@var{n}} but specifies alternative @var{typealt} in the
@@ -4237,18 +4252,19 @@ and therefore are represented by names, not character literals.)
 
 The first effect of the precedence declarations is to assign precedence
 levels to the terminal symbols declared.  The second effect is to assign
-precedence levels to certain rules: each rule gets its precedence from the
-last terminal symbol mentioned in the components.  (You can also specify
-explicitly the precedence of a rule.  @xref{Contextual Precedence, ,Context-Dependent Precedence}.)
+precedence levels to certain rules: each rule gets its precedence from
+the last terminal symbol mentioned in the components.  (You can also
+specify explicitly the precedence of a rule.  @xref{Contextual
+Precedence, ,Context-Dependent Precedence}.)
 
-Finally, the resolution of conflicts works by comparing the
-precedence of the rule being considered with that of the
-look-ahead token.  If the token's precedence is higher, the
-choice is to shift.  If the rule's precedence is higher, the
-choice is to reduce.  If they have equal precedence, the choice
-is made based on the associativity of that precedence level.  The
-verbose output file made by @samp{-v} (@pxref{Invocation, ,Invoking Bison}) says
-how each conflict was resolved.
+Finally, the resolution of conflicts works by comparing the precedence
+of the rule being considered with that of the look-ahead token.  If the
+token's precedence is higher, the choice is to shift.  If the rule's
+precedence is higher, the choice is to reduce.  If they have equal
+precedence, the choice is made based on the associativity of that
+precedence level.  The verbose output file made by @samp{-v}
+(@pxref{Invocation, ,Invoking Bison}) says how each conflict was
+resolved.
 
 Not all rules and not all tokens have precedence.  If either the rule or
 the look-ahead token has no precedence, then the default is to shift.
@@ -4966,13 +4982,14 @@ of the state stack afterward.
 @end itemize
 
 To make sense of this information, it helps to refer to the listing file
-produced by the Bison @samp{-v} option (@pxref{Invocation, ,Invoking Bison}).  This file
-shows the meaning of each state in terms of positions in various rules, and
-also what each state will do with each possible input token.  As you read
-the successive trace messages, you can see that the parser is functioning
-according to its specification in the listing file.  Eventually you will
-arrive at the place where something undesirable happens, and you will see
-which parts of the grammar are to blame.
+produced by the Bison @samp{-v} option (@pxref{Invocation, ,Invoking
+Bison}).  This file shows the meaning of each state in terms of
+positions in various rules, and also what each state will do with each
+possible input token.  As you read the successive trace messages, you
+can see that the parser is functioning according to its specification in
+the listing file.  Eventually you will arrive at the place where
+something undesirable happens, and you will see which parts of the
+grammar are to blame.
 
 The parser file is a C program and you can use C debuggers on it, but it's
 not easy to interpret what it is doing.  The parser function is a
@@ -5378,8 +5395,9 @@ containing an error message.  @xref{Error Reporting, ,The Error
 Reporting Function @code{yyerror}}.
 
 @item yylex
-User-supplied lexical analyzer function, called with no arguments
-to get the next token.  @xref{Lexical, ,The Lexical Analyzer Function @code{yylex}}.
+User-supplied lexical analyzer function, called with no arguments to get
+the next token.  @xref{Lexical, ,The Lexical Analyzer Function
+@code{yylex}}.
 
 @item yylval
 External variable in which @code{yylex} should place the semantic
@@ -5455,7 +5473,8 @@ Bison declaration to assign right associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 
 @item %start
-Bison declaration to specify the start symbol.  @xref{Start Decl, ,The Start-Symbol}.
+Bison declaration to specify the start symbol.  @xref{Start Decl, ,The
+Start-Symbol}.
 
 @item %token
 Bison declaration to declare token(s) without specifying precedence.
@@ -5466,7 +5485,8 @@ Bison declaration to include a token name table in the parser file.
 @xref{Decl Summary}.
 
 @item %type
-Bison declaration to declare nonterminals.  @xref{Type Decl, ,Nonterminal Symbols}.
+Bison declaration to declare nonterminals.  @xref{Type Decl,
+,Nonterminal Symbols}.
 
 @item %union
 Bison declaration to specify several possible data types for semantic
