@@ -163,6 +163,12 @@ union yyalloc
      + YYSTACK_GAP_MAX)
 # endif
 
+# if defined (__STDC__) || defined (__cplusplus)
+#  define YYPOINTER void *
+# else
+#  define YYPOINTER char *
+# endif
+
 /* Relocate the TYPE STACK from its old location to the new one.  The
    local variables YYSIZE and YYSTACKSIZE give the old and new number of
    elements in the stack, and YYPTR gives the new location of the
@@ -174,7 +180,7 @@ union yyalloc
 	YYSIZE_T yynewbytes;						\
 	yymemcpy (yyptr, (char *) (Stack),				\
 		  yysize * (YYSIZE_T) sizeof (Type));			\
-	(Stack) = (Type *) yyptr;					\
+	(Stack) = (Type *) (YYPOINTER) yyptr;				\
 	yynewbytes = yystacksize * sizeof (Type) + YYSTACK_GAP_MAX;	\
 	yynewbytes -= yynewbytes % sizeof (union yyalloc);		\
 	yyptr += yynewbytes;						\
@@ -466,12 +472,12 @@ yystrlen (yystr)
 /* Copy YYSRC to YYDEST, returning the address of the terminating '\0' in
    YYDEST.  */
 static char *
-#   ifndef __cplusplus
+#   if defined (__STDC__) || defined (__cplusplus)
+yystpcpy (char *yydest, const char *yysrc)
+#   else
 yystpcpy (yydest, yysrc)
      char *yydest;
      const char *yysrc;
-#   else
-yystpcpy (char *yydest, const char *yysrc)
 #   endif
 {
   register char *yyd = yydest;
@@ -965,7 +971,7 @@ yyerrlab:
   	    yyerror ("parse error; also virtual memory exhausted");
         }
       else
-#endif /* YYERROR_VERBOSE */
+#endif /* defined (YYERROR_VERBOSE) */
         yyerror ("parse error");
     }
   goto yyerrlab1;
