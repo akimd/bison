@@ -1,5 +1,14 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/warshall.h, src/warshall.c (bitmatrix_print): Move to...
+	* src/closure.c: here.
+	(set_firsts): Use bitsetv_reflexive_transitive_closure instead of
+	RTC.
+	* src/warshall.h, src/warshall.c: Remove.
+	* tests/sets.at (Broken Closure): Adjust.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output_skeleton): tempdir is const.
 	bytes_read is unused.
 

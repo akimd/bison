@@ -163,22 +163,22 @@ h: 'h';
 
 AT_CHECK([[bison --trace input.y]], [], [], [stderr])
 
-AT_CHECK([[sed -n 's/[	 ]*$//;/^TC: Output BEGIN/,/^TC: Output END/p' stderr]], [],
-[[TC: Output BEGIN
+AT_CHECK([[sed -n 's/[	 ]*$//;/^RTC: Output BEGIN/,/^RTC: Output END/p' stderr]], [],
+[[RTC: Output BEGIN
 
    012345678
   .---------.
- 0| 11111111|
- 1|  1111111|
- 2|   111111|
- 3|    11111|
- 4|     1111|
- 5|      111|
- 6|       11|
- 7|        1|
- 8|         |
+ 0|111111111|
+ 1| 11111111|
+ 2|  1111111|
+ 3|   111111|
+ 4|    11111|
+ 5|     1111|
+ 6|      111|
+ 7|       11|
+ 8|        1|
   `---------'
-TC: Output END
+RTC: Output END
 ]])
 
 AT_CLEANUP
