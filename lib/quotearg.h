@@ -104,6 +104,12 @@ char *quotearg PARAMS ((char const *arg));
    options to specify the quoting method.  */
 char *quotearg_n_style PARAMS ((int n, enum quoting_style s, char const *arg));
 
+/* Use style S and storage slot N to return a quoted version of the
+   argument ARG of size ARGSIZE.  This is like quotearg_n_style
+   (N, S, ARG), except it can quote null bytes.  */
+char *quotearg_n_style_mem PARAMS ((int n, enum quoting_style s,
+				    char const *arg, size_t argsize));
+
 /* Equivalent to quotearg_n_style (0, S, ARG).  */
 char *quotearg_style PARAMS ((enum quoting_style s, char const *arg));
 
