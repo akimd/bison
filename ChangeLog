@@ -1,3 +1,11 @@
+2000-12-20  Akim Demaille  <akim@epita.fr>
+
+	* src/files.c (guard_obstack): New.
+	(open_files): Initialize it.
+	(output_files): Dump it...
+	* src/files.h: Export it.
+	* src/reader.c (copy_guard): Use it.
+
 2000-12-19  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c (outfile, defsfile, actfile): Removed as global

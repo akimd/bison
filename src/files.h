@@ -27,7 +27,7 @@
 /* File name specified with -o for the output file, or 0 if no -o.  */
 extern char *spec_outfile;
 
-/* For -a, from getargs.c */
+/* For -a. */
 extern char *spec_name_prefix;
 
 /* File name pfx specified with -b, or 0 if no -b.  */
@@ -40,15 +40,9 @@ extern FILE *finput;
 /* Optionally output messages describing the actions taken. */
 extern FILE *foutput;
 
-/* If semantic parser, output yyguard, containing all the guard code. */
-extern FILE *fguard;
-
 
 /* Output all the action code; precise form depends on which parser. */
 extern struct obstack action_obstack;
-
-/* If semantic parser, output a .h file that defines YYSTYPE */
-extern struct obstack attrs_obstack;
 
 /* Output the tables and the parser and also contains all the %{
    ... %} definitions.  */
@@ -57,10 +51,15 @@ extern struct obstack table_obstack;
 /* optionally output #define's for token numbers. */
 extern struct obstack defines_obstack;
 
+/* If semantic parser, output a .h file that defines YYSTYPE... */
+extern struct obstack attrs_obstack;
+
+/* ... and output yyguard, containing all the guard code. */
+extern struct obstack guard_obstack;
+
 
 extern char *infile;
 extern char *attrsfile;
-extern char *guardfile;
 
 void open_files PARAMS((void));
 
