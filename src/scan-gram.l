@@ -32,17 +32,16 @@
 #include "gram.h"
 #include "reader.h"
 
-/* Each time we match a string, move the end cursor to its end. */
 #define YY_USER_INIT				\
 do {						\
-  LOCATION_RESET (*yylloc);			\
-  yylloc->file = current_file;			\
-   /* This is only to avoid GCC warnings. */	\
-  if (yycontrol) {;};				\
+  LOCATION_RESET (*loc);			\
+  loc->file = current_file;			\
 } while (0)
 
-#define YY_USER_ACTION  extend_location (yylloc, yytext, yyleng);
-#define YY_STEP         LOCATION_STEP (*yylloc)
+/* Each time we match a string, move the end cursor to its end. */
+#define STEP  LOCATION_STEP (*loc)
+
+#define YY_USER_ACTION  extend_location (loc, yytext, yyleng);
 
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
 
@@ -135,10 +134,10 @@ extend_location (location_t *loc, char const *token, int size)
    keep (to construct ID, STRINGS etc.).  Use the following macros to
    use it.
 
-   Use YY_OBS_GROW to append what has just been matched, and
-   YY_OBS_FINISH to end the string (it puts the ending 0).
-   YY_OBS_FINISH also stores this string in LAST_STRING, which can be
-   used, and which is used by YY_OBS_FREE to free the last string.  */
+   Use STRING_GROW to append what has just been matched, and
+   STRING_FINISH to end the string (it puts the ending 0).
+   STRING_FINISH also stores this string in LAST_STRING, which can be
+   used, and which is used by STRING_FREE to free the last string.  */
 
 static struct obstack string_obstack;
 
@@ -146,22 +145,22 @@ static struct obstack string_obstack;
 static char *last_string;
 
 
-#define YY_OBS_GROW   \
+#define STRING_GROW   \
   obstack_grow (&string_obstack, yytext, yyleng)
 
-#define YY_OBS_FINISH					\
+#define STRING_FINISH					\
   do {							\
     obstack_1grow (&string_obstack, '\0');		\
     last_string = obstack_finish (&string_obstack);	\
   } while (0)
 
-#define YY_OBS_FREE \
+#define STRING_FREE \
   obstack_free (&string_obstack, last_string)
 
 void
 scanner_last_string_free (void)
 {
-  YY_OBS_FREE;
+  STRING_FREE;
 }
 
 /* Within well-formed rules, RULE_LENGTH is the number of values in
@@ -210,7 +209,7 @@ splice	 (\\[ \f\t\v]*\n)*
 
   /* At each yylex invocation, mark the current position as the
      start of the next token.  */
-  YY_STEP;
+  STEP;
 %}
 
 
@@ -255,13 +254,13 @@ splice	 (\\[ \f\t\v]*\n)*
   "%yacc"                 return PERCENT_YACC;
 
   {directive}             {
-    complain_at (*yylloc, _("invalid directive: %s"), quote (yytext));
-    YY_STEP;
+    complain_at (*loc, _("invalid directive: %s"), quote (yytext));
+    STEP;
   }
 
   ^"#line "{int}" \"".*"\"\n" {
-    handle_syncline (yytext + sizeof "#line " - 1, yylloc);
-    YY_STEP;
+    handle_syncline (yytext + sizeof "#line " - 1, loc);
+    STEP;
   }
 
   "="                     return EQUAL;
@@ -270,10 +269,10 @@ splice	 (\\[ \f\t\v]*\n)*
   ","                     return COMMA;
   ";"                     return SEMICOLON;
 
-  [ \f\n\t\v]  YY_STEP;
+  [ \f\n\t\v]  STEP;
 
   {id}        {
-    yylval->symbol = symbol_get (yytext, *yylloc);
+    val->symbol = symbol_get (yytext, *loc);
     rule_length++;
     return ID;
   }
@@ -284,35 +283,35 @@ splice	 (\\[ \f\t\v]*\n)*
     num = strtoul (yytext, 0, 10);
     if (INT_MAX < num || errno)
       {
-	complain_at (*yylloc, _("integer out of range: %s"), quote (yytext));
+	complain_at (*loc, _("integer out of range: %s"), quote (yytext));
 	num = INT_MAX;
       }
-    yylval->integer = num;
+    val->integer = num;
     return INT;
   }
 
   /* Characters.  We don't check there is only one.  */
-  "'"         YY_OBS_GROW; BEGIN SC_ESCAPED_CHARACTER;
+  "'"         STRING_GROW; BEGIN SC_ESCAPED_CHARACTER;
 
   /* Strings. */
-  "\""        YY_OBS_GROW; BEGIN SC_ESCAPED_STRING;
+  "\""        STRING_GROW; BEGIN SC_ESCAPED_STRING;
 
   /* Comments. */
   "/*"        BEGIN SC_YACC_COMMENT;
-  "//".*      YY_STEP;
+  "//".*      STEP;
 
   /* Prologue. */
   "%{"        BEGIN SC_PROLOGUE;
 
   /* Code in between braces.  */
-  "{"         YY_OBS_GROW; braces_level = 0; BEGIN SC_BRACED_CODE;
+  "{"         STRING_GROW; braces_level = 0; BEGIN SC_BRACED_CODE;
 
   /* A type. */
   "<"{tag}">" {
     obstack_grow (&string_obstack, yytext + 1, yyleng - 2);
-    YY_OBS_FINISH;
-    yylval->struniq = struniq_new (last_string);
-    YY_OBS_FREE;
+    STRING_FINISH;
+    val->struniq = struniq_new (last_string);
+    STRING_FREE;
     return TYPE;
   }
 
@@ -324,8 +323,8 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   . {
-    complain_at (*yylloc, _("invalid character: %s"), quote (yytext));
-    YY_STEP;
+    complain_at (*loc, _("invalid character: %s"), quote (yytext));
+    STEP;
   }
 }
 
@@ -337,12 +336,12 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_YACC_COMMENT>
 {
   "*/" {
-    YY_STEP;
+    STEP;
     BEGIN INITIAL;
   }
 
   .|\n	   ;
-  <<EOF>>  unexpected_end_of_file (yylloc, "*/");
+  <<EOF>>  unexpected_end_of_file (loc, "*/");
 }
 
 
@@ -352,8 +351,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_COMMENT>
 {
-  "*"{splice}"/"  YY_OBS_GROW; BEGIN c_context;
-  <<EOF>>	  unexpected_end_of_file (yylloc, "*/");
+  "*"{splice}"/"  STRING_GROW; BEGIN c_context;
+  <<EOF>>	  unexpected_end_of_file (loc, "*/");
 }
 
 
@@ -363,8 +362,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_LINE_COMMENT>
 {
-  "\n"		 YY_OBS_GROW; BEGIN c_context;
-  {splice}	 YY_OBS_GROW;
+  "\n"		 STRING_GROW; BEGIN c_context;
+  {splice}	 STRING_GROW;
   <<EOF>>	 BEGIN c_context;
 }
 
@@ -377,16 +376,16 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_STRING>
 {
   "\"" {
-    YY_OBS_GROW;
-    YY_OBS_FINISH;
-    yylval->string = last_string;
+    STRING_GROW;
+    STRING_FINISH;
+    val->string = last_string;
     rule_length++;
     BEGIN INITIAL;
     return STRING;
   }
 
-  .|\n	    YY_OBS_GROW;
-  <<EOF>>   unexpected_end_of_file (yylloc, "\"");
+  .|\n	    STRING_GROW;
+  <<EOF>>   unexpected_end_of_file (loc, "\"");
 }
 
   /*---------------------------------------------------------------.
@@ -397,20 +396,20 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_CHARACTER>
 {
   "'" {
-    YY_OBS_GROW;
-    YY_OBS_FINISH;
-    yylval->symbol = symbol_get (last_string, *yylloc);
-    symbol_class_set (yylval->symbol, token_sym, *yylloc);
-    symbol_user_token_number_set (yylval->symbol,
-				  (unsigned char) last_string[1], *yylloc);
-    YY_OBS_FREE;
+    STRING_GROW;
+    STRING_FINISH;
+    val->symbol = symbol_get (last_string, *loc);
+    symbol_class_set (val->symbol, token_sym, *loc);
+    symbol_user_token_number_set (val->symbol,
+				  (unsigned char) last_string[1], *loc);
+    STRING_FREE;
     rule_length++;
     BEGIN INITIAL;
     return ID;
   }
 
-  .|\n	    YY_OBS_GROW;
-  <<EOF>>   unexpected_end_of_file (yylloc, "'");
+  .|\n	    STRING_GROW;
+  <<EOF>>   unexpected_end_of_file (loc, "'");
 }
 
 
@@ -424,9 +423,9 @@ splice	 (\\[ \f\t\v]*\n)*
     unsigned long c = strtoul (yytext + 1, 0, 8);
     if (UCHAR_MAX < c)
       {
-	complain_at (*yylloc, _("invalid escape sequence: %s"),
+	complain_at (*loc, _("invalid escape sequence: %s"),
 		     quote (yytext));
-	YY_STEP;
+	STEP;
       }
     else
       obstack_1grow (&string_obstack, c);
@@ -438,9 +437,9 @@ splice	 (\\[ \f\t\v]*\n)*
     c = strtoul (yytext + 2, 0, 16);
     if (UCHAR_MAX < c || errno)
       {
-	complain_at (*yylloc, _("invalid escape sequence: %s"),
+	complain_at (*loc, _("invalid escape sequence: %s"),
 		     quote (yytext));
-	YY_STEP;
+	STEP;
       }
     else
       obstack_1grow (&string_obstack, c);
@@ -461,17 +460,17 @@ splice	 (\\[ \f\t\v]*\n)*
     int c = convert_ucn_to_byte (yytext);
     if (c < 0)
       {
-	complain_at (*yylloc, _("invalid escape sequence: %s"),
+	complain_at (*loc, _("invalid escape sequence: %s"),
 		     quote (yytext));
-	YY_STEP;
+	STEP;
       }
     else
       obstack_1grow (&string_obstack, c);
   }
   \\(.|\n)	{
-    complain_at (*yylloc, _("unrecognized escape sequence: %s"),
+    complain_at (*loc, _("unrecognized escape sequence: %s"),
 		 quote (yytext));
-    YY_OBS_GROW;
+    STRING_GROW;
   }
 }
 
@@ -483,9 +482,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_CHARACTER>
 {
-  "'"			YY_OBS_GROW; BEGIN c_context;
-  \\{splice}[^$@\[\]]	YY_OBS_GROW;
-  <<EOF>>		unexpected_end_of_file (yylloc, "'");
+  "'"			STRING_GROW; BEGIN c_context;
+  \\{splice}[^$@\[\]]	STRING_GROW;
+  <<EOF>>		unexpected_end_of_file (loc, "'");
 }
 
 
@@ -496,9 +495,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_STRING>
 {
-  "\""			YY_OBS_GROW; BEGIN c_context;
-  \\{splice}[^$@\[\]]	YY_OBS_GROW;
-  <<EOF>>		unexpected_end_of_file (yylloc, "\"");
+  "\""			STRING_GROW; BEGIN c_context;
+  \\{splice}[^$@\[\]]	STRING_GROW;
+  <<EOF>>		unexpected_end_of_file (loc, "\"");
 }
 
 
@@ -508,10 +507,10 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
-  "'"		  YY_OBS_GROW; c_context = YY_START; BEGIN SC_CHARACTER;
-  "\""		  YY_OBS_GROW; c_context = YY_START; BEGIN SC_STRING;
-  "/"{splice}"*"  YY_OBS_GROW; c_context = YY_START; BEGIN SC_COMMENT;
-  "/"{splice}"/"  YY_OBS_GROW; c_context = YY_START; BEGIN SC_LINE_COMMENT;
+  "'"		  STRING_GROW; c_context = YY_START; BEGIN SC_CHARACTER;
+  "\""		  STRING_GROW; c_context = YY_START; BEGIN SC_STRING;
+  "/"{splice}"*"  STRING_GROW; c_context = YY_START; BEGIN SC_COMMENT;
+  "/"{splice}"/"  STRING_GROW; c_context = YY_START; BEGIN SC_LINE_COMMENT;
 }
 
 
@@ -522,15 +521,15 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_BRACED_CODE>
 {
-  "{"|"<"{splice}"%"  YY_OBS_GROW; braces_level++;
-  "%"{splice}">"      YY_OBS_GROW; braces_level--;
+  "{"|"<"{splice}"%"  STRING_GROW; braces_level++;
+  "%"{splice}">"      STRING_GROW; braces_level--;
   "}" {
-    YY_OBS_GROW;
+    STRING_GROW;
     braces_level--;
     if (braces_level < 0)
       {
-	YY_OBS_FINISH;
-	yylval->string = last_string;
+	STRING_FINISH;
+	val->string = last_string;
 	rule_length++;
 	BEGIN INITIAL;
 	return BRACED_CODE;
@@ -539,14 +538,14 @@ splice	 (\\[ \f\t\v]*\n)*
 
   /* Tokenize `<<%' correctly (as `<<' `%') rather than incorrrectly
      (as `<' `<%').  */
-  "<"{splice}"<"  YY_OBS_GROW;
+  "<"{splice}"<"  STRING_GROW;
 
   "$"("<"{tag}">")?(-?[0-9]+|"$") { handle_dollar (current_braced_code,
-						   yytext, *yylloc); }
+						   yytext, *loc); }
   "@"(-?[0-9]+|"$")               { handle_at (current_braced_code,
-					       yytext, *yylloc); }
+					       yytext, *loc); }
 
-  <<EOF>>  unexpected_end_of_file (yylloc, "}");
+  <<EOF>>  unexpected_end_of_file (loc, "}");
 }
 
 
@@ -557,13 +556,13 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_PROLOGUE>
 {
   "%}" {
-    YY_OBS_FINISH;
-    yylval->string = last_string;
+    STRING_FINISH;
+    val->string = last_string;
     BEGIN INITIAL;
     return PROLOGUE;
   }
 
-  <<EOF>>  unexpected_end_of_file (yylloc, "%}");
+  <<EOF>>  unexpected_end_of_file (loc, "%}");
 }
 
 
@@ -575,8 +574,8 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_EPILOGUE>
 {
   <<EOF>> {
-    YY_OBS_FINISH;
-    yylval->string = last_string;
+    STRING_FINISH;
+    val->string = last_string;
     BEGIN INITIAL;
     return EPILOGUE;
   }
@@ -594,7 +593,7 @@ splice	 (\\[ \f\t\v]*\n)*
   \@	obstack_sgrow (&string_obstack, "@@");
   \[	obstack_sgrow (&string_obstack, "@{");
   \]	obstack_sgrow (&string_obstack, "@}");
-  .|\n  YY_OBS_GROW;
+  .|\n  STRING_GROW;
 }
 
 
