@@ -527,3 +527,23 @@ AT_CHECK([bison -o input.c input.y], 1, [],
 input.y: expected 2 shift/reduce conflicts
 ])
 AT_CLEANUP
+
+
+## ------------------------------ ##
+## %expect with reduce conflicts  ##
+## ------------------------------ ##
+
+AT_SETUP([%expect with reduce conflicts])
+
+AT_DATA([input.y],
+[[%expect 0
+%%
+program: a 'a' | a a;
+a: 'a';
+]])
+
+AT_CHECK([bison -o input.c input.y], 1, [],
+[input.y: warning: 1 reduce/reduce conflict
+input.y: expected 0 reduce/reduce conflicts
+])
+AT_CLEANUP
