@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.33b:
+Changes in version 1.34, 2002-03-12:
 
 * File name clashes are detected
   $ bison foo.y -d -o foo.x
@@ -19,7 +19,7 @@ Changes in version 1.33b:
 
 * DJGPP support added.
 
-* Fix portability problems within the test suite.
+* Fix test suite portability problems.
 
 Changes in version 1.33, 2002-02-07:
 
