@@ -2,7 +2,7 @@
 
 	* NEWS: Version 2.0.  Reformat the existing news items since
 	1.875, so that related items are grouped together.
-	* configure.ac (AC_INIT): Bump version to 1.875f.
+	* configure.ac (AC_INIT): Bump version to 2.0.
 	* src/parse-gram.c, src/parse-gram.h: Regenerate with 2.0.
 
 	* tests/torture.at (Exploding the Stack Size with Alloca): Set
