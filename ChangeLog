@@ -1,5 +1,15 @@
 2002-06-10  Akim Demaille  <akim@epita.fr>
 
+	GCJ's parser requires the tokens to be defined before the prologue.
+
+	* data/bison.simple: Output the token definition before the user's
+	prologue.
+	* tests/regression.at (Braces parsing, Duplicate string)
+	(Mixing %token styles): Check the output from bison.
+	(Early token definitions): New.
+
+2002-06-10  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.c (symbol_user_token_number_set): Don't complain when
 	assigning twice the same user number to a token, so that we can
 	use it in...

@@ -175,6 +175,8 @@ m4_if(b4_prefix[], [yy], [],
 /* Copy the first part of user declarations.  */
 b4_pre_prologue
 
+b4_token_defines(b4_tokens)
+
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG b4_debug
@@ -311,8 +313,6 @@ union yyalloc
     while (0)
 
 #endif
-
-b4_token_defines(b4_tokens)
 
 /* YYFINAL -- State number of the termination state. */
 #define YYFINAL  b4_final
