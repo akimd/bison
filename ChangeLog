@@ -1,3 +1,15 @@
+2001-12-12  Paul Eggert  <eggert@twinsun.com>
+
+	* src/bison.simple (YYSIZE_T, YYSTACK_ALLOC, YYSTACK_FREE):
+	Do not infringe on the global user namespace when using C++.
+	(YYFPRINTF, YYSTDERR): New macros, needed for the above.
+	All uses of `fprintf' and `stderr' changed.
+
+	* src/output.c (output): Do not output "#include <stdio.h>"; that
+	is bison.simple's job.  stdio.h should be included only if
+	necessary, to avoid infringing on the user name space when
+	possible.
+
 2001-12-12  Akim Demaille  <akim@epita.fr>
 
 	* src/complain.h, src/complain.c: Remove error_one_per_line, rely
