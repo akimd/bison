@@ -1,3 +1,73 @@
+2002-11-11  Paul Eggert  <eggert@twinsun.com>
+
+	Revamp to fix many (but not all) of the C- and M4-related quoting
+	problems.  Among other things, this fixes the Bison bug reported
+	by Jan Hubicka when processing the Bash grammar; see:
+	<http://mail.gnu.org/pipermail/bison-patches/2002-November/001329.html>
+
+	Use new @ escapes consistently.  Represent brackets with @{ and @}
+	rather than @<:@ and @:>@, since this works a bit better with dumb
+	editors like vi.  Represent @ with @@, since @ is now consistently
+	an escape.  Use @oline@ and @ofile@ rather than __oline__ and
+	__ofile__, to avoid unexpected expansions.  Similarly, use @output
+	rather than #output.
+
+	* data/c.m4 (b4_copyright): Omit file name from comment, since
+	the file name could contain "*/".
+	(b4_synclines_flag): Don't quote the 2nd argument; it should already
+	be quoted.  All uses changed.
+
+	* data/glr.c: Use new @ escapes consistently.
+	(b4_input_suffix, b4_output_parser_suffix, b4_output_parser_name,
+	b4_output_header_suffix, b4_output_header_name, b4_header_guard):
+	Remove, since they couldn't handle arbitrary characters in file
+	names.
+	* data/lalr1.cc: Likewise.
+	* data/yacc.c: Likewise.
+
+	* src/files.c (output_infix): Remove; all uses removed.
+	* src/files.h: Likewise.
+
+	* data/glr.c: Remove use of "#ifdef b4_header_guard", since it
+	mishandled funny characters in file names, and anyway it isn't
+	needed any more.
+	* data/yacc.c: Likewise.
+	* data/lalr1.cc: Use YYSLP_NEEDED instead of b4_header_guard.
+
+	* data/glr.c (YYSTYPE_IS_TRIVIAL): Define when the .h file would.
+	* data/yacc.c: Likewise.
+
+	* src/muscle_tab.c: Include quotearg.h, since we need to quote C
+	strings now.
+	(muscle_init): Quote filename as a C string.
+	* src/muscle_tab.h (MUSCLE_GROW_STRING_PAIR): Remove; unused.
+	(MUSCLE_OBSTACK_SGROW, MUSCLE_INSERT_C_STRING): New macros.
+	* src/output.c (escaped_file_name_output): New function.
+	(prepare_symbols): Quote tokens for M4.
+	(prepare): Don't insert output_infix, output_prefix,
+	output_parser_name, output_header_name; this is now down by scan-skel.
+	Insert skeleton as a C string.
+
+	* src/output.c (user_actions_output, symbol_destructors_output,
+	symbol_printers_output): Quote filenames for C and M4.
+	* src/reader.c (prologue_augment, epilogue_set): Likewise.
+
+	* src/scan-gram.l (<SC_CHARACTER>): Don't worry about any backslash
+	escapes other than \\ and \'; this simplifies the code.
+	(<SC_STRING>): Likewise, for \\ and \".
+	(<SC_COMMENT,SC_LINE_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,
+	SC_PROLOGUE,SC_EPILOGUE>): Escape $ and @, too.
+	Use new escapes @{ and @} for [ and ].
+
+	* src/scan-skel.l (yylineno, yyoutname): Remove static vars, replacing
+	them with auto vars.
+	Switch to new escape scheme, where @ is the escape character uniformly.
+	Abort if a stray escape character is found.  Avoid unbounded input
+	buffer when parsing non-escaped text.
+
+	* tests/input.at (Torturing the Scanner): Add tests that @oline@,
+	__oline__, #output, $@, and @{ do not have unintended meanings.
+
 2002-11-09  Paul Eggert  <eggert@twinsun.com>
 
 	Fix the test failure due to GCC warnings described in
