@@ -1,7 +1,7 @@
 -*- outline -*-
 
 * src/reader.c
-Complete parse_skel_decl () with parse_dquoted_param ().	[]
+Complete parse_skel_decl () with parse_dquoted_param ().	[ok]
 Check and cleanup for CPP-out code.	[]
 
 * src/output.c
@@ -13,6 +13,8 @@ Remove %%verbose which is useless.	[ok]
 %pure-parser ?	[]
 %semantic-parser	[]
 %token-table	[]
+** which could use parse_dquoted_param ().
+%skeleton	[ok]
 %output		[]
 %file-prefix	[]
 %name-prefix	[]
