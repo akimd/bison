@@ -39,9 +39,11 @@ AM_GNU_GETTEXT
 # the ANSI2KNR-filtering rules.
 LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
 
-PFILE="${datadir}/bison.simple"
-BISON_DEFINE_FILE(XPFILE, PFILE)
-PFILE1="${datadir}/bison.hairy"
-BISON_DEFINE_FILE(XPFILE1, PFILE1)
+XPFILE="${datadir}/bison.simple"
+BISON_DEFINE_FILE(XPFILE, XPFILE)
+XPFILE1="${datadir}/bison.hairy"
+BISON_DEFINE_FILE(XPFILE1, XPFILE1)
+LOCALEDIR="${datadir}/locale"
+BISON_DEFINE_FILE(LOCALEDIR, LOCALEDIR)
 
 AC_OUTPUT(Makefile intl/Makefile po/Makefile.in src/Makefile doc/Makefile)
