@@ -29,7 +29,7 @@
 
 #define END_NODE ((relation_node) -1)
 
-typedef unsigned int relation_node;
+typedef size_t relation_node;
 typedef relation_node *relation_nodes;
 typedef relation_nodes *relation;
 
