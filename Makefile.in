@@ -95,7 +95,7 @@ configure: configure.in
 
 # Copy bison.simple, inserting directory name into the #line commands.
 bison.s1: bison.simple
-	-rm bison.s1
+	-rm -f bison.s1
 	sed -e "/^#line/ s|bison|$(datadir)/bison|" < $(srcdir)/$(PFILE) > bison.s1
 
 clean:
