@@ -4109,12 +4109,11 @@ void yyerror (YYLTYPE *locp,
               const char *msg);
 @end example
 
-@noident
+@noindent
 Please, note that the prototypes are only indications of how the code
-produced by Bison will use @code{yyerror}, but you still have freedom
-and the exit value, and even on making @code{yyerror} a variadic
-function.  It is precisely to enable this that the message is passed
-last.
+produced by Bison will use @code{yyerror}; you still have freedom on the
+exit value, and even on making @code{yyerror} a variadic function.  It
+is precisely to enable this that the message is always passed last.
 
 @vindex yynerrs
 The variable @code{yynerrs} contains the number of syntax errors
