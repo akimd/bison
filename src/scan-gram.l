@@ -90,7 +90,7 @@ static void handle_at PARAMS ((braced_code_t code_kind,
 %x SC_ESCAPED_STRING SC_ESCAPED_CHARACTER
 %x SC_BRACED_CODE SC_PROLOGUE SC_EPILOGUE
 
-id	 [.a-zA-Z][.a-zA-Z_0-9]*
+id	 [.a-zA-Z_][.a-zA-Z_0-9]*
 int 	 [0-9]+
 eols     (\n|\r|\n\r|\r\n)+
 blanks   [ \t\f]+

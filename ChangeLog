@@ -1,3 +1,7 @@
+2002-07-19  Akim Demaille  <akim@epita.fr>
+
+	* src/scan-gram.l (id): Can start with an underscore.
+
 2002-07-16  Akim Demaille  <akim@epita.fr>
 
 	* src/assoc.c, src/asssoc.h (assoc_t, assoc_to_string): New.
