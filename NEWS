@@ -3,6 +3,8 @@ Bison News
 
 Changes in version 1.875b:
 
+* Semicolons are now allowed before "|" in grammar rules, as POSIX requires.
+
 Changes in version 1.875a, 2003-02-01:
 
 * For now, %expect-count violations are now just warnings, not errors.
