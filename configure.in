@@ -36,7 +36,7 @@ if test "${enableval}" = yes; then
   BISON_WARNING(-Wmissing-declarations)
   BISON_WARNING(-Wmissing-prototypes)
   BISON_WARNING(-Wnested-externs)
-  BISON_WARNING(-Wno-char-subscripts)
+  BISON_WARNING(-Wshadow)
   BISON_WARNING(-Wstrict-prototypes)
   BISON_WARNING(-Wwrite-strings)
 fi
