@@ -1,5 +1,14 @@
 2000-12-19  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (outfile, defsfile, actfile): Removed as global
+	vars.
+	(open_files): Don't compute them.
+	(output_files): Adjust.
+	(base_name, short_base_name): Be global.
+	Adjust dependencies.
+
+2000-12-19  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c (strsuffix): New.
 	(stringappend): Be just like strcat but allocate.
 	(base_names): Eve out from open_files.
