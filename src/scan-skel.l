@@ -1,6 +1,6 @@
 /* Scan Bison Skeletons.                                       -*- C -*-
 
-   Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -55,7 +55,7 @@ int skel_lex (void);
       else if (strcmp (filename, "@output_parser_name@") == 0)
 	filename = parser_file_name;
       else
-	abort ();
+	fatal ("invalid token in skeleton: %s", yytext);
     }
 
   XFREE (outname);
@@ -74,7 +74,8 @@ int skel_lex (void);
 "@output_parser_name@"	QPUTS (parser_file_name);
 "@output_header_name@"  QPUTS (spec_defines_file);
 
-"@"	   abort ();
+  /* This pattern must not match more than the previous @ patterns. */
+@[^{}@\n]* fatal ("invalid @ in skeleton: %s", yytext);
 \n	   lineno++; ECHO;
 [^@\n]+	   ECHO;
 

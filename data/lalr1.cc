@@ -172,9 +172,14 @@ b4_syncline([@oline@], [@ofile@])],
 
 ]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
+/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].  */
+
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N) \
-   ((Current).end = Rhs[N].end)
+# define YYLLOC_DEFAULT(Current, Rhs, N)	\
+do {						\
+   ((Current).begin = (Rhs)[1].begin);		\
+   ((Current).end   = (Rhs)[N].end);		\
+} while (0)
 #endif
 
 namespace yy
@@ -323,8 +328,8 @@ namespace yy
     /* Semantic value and location of look-ahead token.  */
     SemanticType value;
     LocationType location;
-    /* Beginning of the last erroneous token popped off.  */
-    Position error_start_;
+    /// The locations where the error started and ended.
+    Location error_range_[2];
 
     /* @@$ and $$.  */
     SemanticType yyval;
@@ -604,7 +609,7 @@ yyerrlab:
   /* If not already recovering from an error, report this error.  */
   report_syntax_error_ ();
 
-  error_start_ = location.begin;
+  error_range_[0] = location;
   if (errstatus_ == 3)
     {
       /* If just tried and failed to reuse look-ahead token after an
@@ -618,7 +623,7 @@ yyerrlab:
 	  if (looka_ == eof_)
 	     for (;;)
 	       {
-                 error_start_ = location_stack_[0].begin;
+                 error_range_[0] = location_stack_[0];
                  pop ();
 		 if (state_stack_.height () == 1)
 		   YYABORT;
@@ -652,7 +657,7 @@ yyerrorlab:
      goto yyerrorlab;
 #endif
 
-  error_start_ = location_stack_[len_ - 1].begin;
+  error_range_[0] = location_stack_[len_ - 1];
   pop (len_);
   state_ = state_stack_[0];
   goto yyerrlab1;
@@ -681,10 +686,9 @@ yyerrlab1:
       if (state_stack_.height () == 1)
 	YYABORT;
 
+      error_range_[0] = location_stack_[0];
       destruct_ ("Error: popping",
                  stos_[state_], &semantic_stack_[0], &location_stack_[0]);
-      error_start_ = location_stack_[0].begin;
-
       pop ();
       state_ = state_stack_[0];
       YY_STACK_PRINT ();
@@ -693,13 +697,12 @@ yyerrlab1:
   if (n_ == final_)
     goto yyacceptlab;
 
-  {
-    Location errloc;
-    errloc.begin = error_start_;
-    errloc.end = location.end;
-    semantic_stack_.push (value);
-    location_stack_.push (errloc);
-  }
+  error_range_[1] = location;
+  // Using LOCATION is tempting, but would change the location of
+  // the look-ahead.  YYLOC is available though.
+  YYLLOC_DEFAULT (yyloc, error_range_ - 1, 2);
+  semantic_stack_.push (value);
+  location_stack_.push (yyloc);
 
   /* Shift the error token. */
   YY_SYMBOL_PRINT ("Shifting", stos_[n_],

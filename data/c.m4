@@ -396,23 +396,27 @@ m4_define([b4_yysymprint_generate],
   (void) yyvaluep;
 b4_location_if([  (void) yylocationp;
 ])dnl
-
+[
   if (yytype < YYNTOKENS)
     {
-      YYFPRINTF (yyoutput, "token %s (", yytname[[yytype]]);
+      YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
 # ifdef YYPRINT
-      YYPRINT (yyoutput, yytoknum[[yytype]], *yyvaluep);
+      YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
 # endif
     }
   else
-    YYFPRINTF (yyoutput, "nterm %s (", yytname[[yytype]]);
+    YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
+]b4_location_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
+  fprintf (yyoutput, ": ");
+])dnl
+[
   switch (yytype)
     {
-m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
-      default:
+]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
+[      default:
         break;
     }
   YYFPRINTF (yyoutput, ")");
 }
-])
+]])
