@@ -1,5 +1,10 @@
 2002-05-02  Akim Demaille  <akim@epita.fr>
 
+	* configure.in (AC_INIT): Bump to 1.49b.
+	(AM_INIT_AUTOMAKE): Short invocation.
+
+2002-05-02  Akim Demaille  <akim@epita.fr>
+
 	Version 1.49a.
 
 2002-05-01  Akim Demaille  <akim@epita.fr>

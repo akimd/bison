@@ -1,7 +1,6 @@
 # Swedish messages for bison.
 # Copyright © 2001, 2002 Free Software Foundation, Inc.
 # Göran Uddeborg <goeran@uddeborg.pp.se>, 2001, 2002.
-# $Revision$
 #
 msgid ""
 msgstr ""

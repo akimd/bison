@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.49a:
+Changes in version 1.49b:
 
 * Undefined token
   The undefined token was systematically mapped to 2 which prevented

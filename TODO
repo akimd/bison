@@ -1,49 +1,11 @@
 -*- outline -*-
 
 
-* URGENT: Prologue
-The %union is declared after the user C declarations. It can be
-a problem if YYSTYPE is declared after the user part.
-
-Actually, the real problem seems that the %union ought to be output
-where it was defined.  For instance, in gettext/intl/plural.y, we
-have:
-
-	%{
-	...
-	#include "gettextP.h"
-	...
-	%}
-
-	%union {
-	  unsigned long int num;
-	  enum operator op;
-	  struct expression *exp;
-	}
-
-	%{
-	...
-	static int yylex PARAMS ((YYSTYPE *lval, const char **pexp));
-	...
-	%}
-
-Where the first part defines struct expression, the second uses it to
-define YYSTYPE, and the last uses YYSTYPE.  Only this order is valid.
-
-Note that we have the same problem with GCC.
-
-I suggest splitting the prologue into pre-prologue and post-prologue.
-The reason is that:
-
-1. we keep language independance as it is the skeleton that joins the
-two prologues (there is no need for the engine to encode union yystype
-and to output it inside the prologue, which breaks the language
-independance of the generator)
-
-2. that makes it possible to have several %union in input.  I think
-this is a pleasant (but useless currently) feature, but in the future,
-I want a means to %include other bits of grammars, and _then_ it will
-be important for the various bits to define their needs in %union.
+* Several %unions
+I think this is a pleasant (but useless currently) feature, but in the
+future, I want a means to %include other bits of grammars, and _then_
+it will be important for the various bits to define their needs in
+%union.
 
 When implementing multiple-%union support, bare the following in mind:
 
