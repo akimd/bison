@@ -16,7 +16,7 @@
 ## 02111-1307  USA
 
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-AUTOMAKE_OPTIONS = 1.5 check-news readme-alpha dist-bzip2
+AUTOMAKE_OPTIONS = 1.6 check-news readme-alpha dist-bzip2
 
 ACLOCAL_AMFLAGS = -I m4
 
