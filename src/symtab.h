@@ -40,6 +40,7 @@ typedef enum
 
 /* Internal token numbers. */
 typedef short symbol_number_t;
+#define SYMBOL_NUMBER_MAX ((symbol_number_t) SHRT_MAX)
 
 
 typedef struct symbol_s symbol_t;
