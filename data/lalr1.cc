@@ -284,6 +284,9 @@ namespace yy
                            int yytype,
                            SemanticType *yyvaluep, LocationType *yylocationp);
 
+    /// Pop \a n symbols the three stacks.
+    inline void pop (unsigned int n = 1);
+
     /* Constants.  */
     static const int eof_;
     /* LAST_ -- Last index in TABLE_.  */
@@ -428,6 +431,14 @@ yy::]b4_parser_class_name[::destruct_ (const char *yymsg,
     }
 }
 
+void
+yy::]b4_parser_class_name[::pop (unsigned int n)
+{
+  state_stack_.pop (n);
+  semantic_stack_.pop (n);
+  location_stack_.pop (n);
+}
+
 int
 yy::]b4_parser_class_name[::parse ()
 {
@@ -451,13 +462,13 @@ yy::]b4_parser_class_name[::parse ()
   YYCDEBUG << "Starting parse" << std::endl;
 
   /* New state.  */
- yynewstate:
+yynewstate:
   state_stack_.push (state_);
   YYCDEBUG << "Entering state " << state_ << std::endl;
   goto yybackup;
 
   /* Backup.  */
- yybackup:
+yybackup:
 
   /* Try to take a decision without look-ahead.  */
   n_ = pact_[state_];
@@ -532,7 +543,7 @@ yy::]b4_parser_class_name[::parse ()
 /*-----------------------------------------------------------.
 | yydefault -- do the default action for the current state.  |
 `-----------------------------------------------------------*/
- yydefault:
+yydefault:
   n_ = defact_[state_];
   if (n_ == 0)
     goto yyerrlab;
@@ -541,7 +552,7 @@ yy::]b4_parser_class_name[::parse ()
 /*-----------------------------.
 | yyreduce -- Do a reduction.  |
 `-----------------------------*/
- yyreduce:
+yyreduce:
   len_ = r2_[n_];
   /* If LEN_ is nonzero, implement the default value of the action:
      `$$ = $1'.  Otherwise, use the top of the stack.
@@ -574,9 +585,7 @@ yy::]b4_parser_class_name[::parse ()
 ]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
 
-  state_stack_.pop (len_);
-  semantic_stack_.pop (len_);
-  location_stack_.pop (len_);
+  pop (len_);
 
   YY_STACK_PRINT ();
 
@@ -614,9 +623,7 @@ yyerrlab:
 	     for (;;)
 	       {
                  error_start_ = location_stack_[0].begin;
-                 state_stack_.pop ();
-                 semantic_stack_.pop ();
-                 location_stack_.pop ();
+                 pop ();
 		 if (state_stack_.height () == 1)
 		   YYABORT;
                  destruct_ ("Error: popping",
@@ -649,10 +656,8 @@ yyerrorlab:
      goto yyerrorlab;
 #endif
 
-  state_stack_.pop (len_);
-  semantic_stack_.pop (len_);
   error_start_ = location_stack_[len_ - 1].begin;
-  location_stack_.pop (len_);
+  pop (len_);
   state_ = state_stack_[0];
   goto yyerrlab1;
 
@@ -684,9 +689,7 @@ yyerrlab1:
                  stos_[state_], &semantic_stack_[0], &location_stack_[0]);
       error_start_ = location_stack_[0].begin;
 
-      state_stack_.pop ();
-      semantic_stack_.pop ();
-      location_stack_.pop ();
+      pop ();
       state_ = state_stack_[0];
       YY_STACK_PRINT ();
     }

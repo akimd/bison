@@ -1,5 +1,11 @@
 2004-09-06  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc: Adjust the indentation of the labels.
+        (Parser::pop): New.
+	Use it.
+
+2004-09-06  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.cc, data/glr.cc (yydestruct): Accept an additional
 	argument, an informative message.
 	Call YY_SYMBOL_PRINT.
