@@ -562,7 +562,7 @@ AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix="calc
 
 AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param "value_t *result", "result" %parse-param "int *count", "count"])
+AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {value_t *result}, {result} %parse-param {int *count}, {count}])
 
 
 # ----------------------- #
@@ -597,4 +597,4 @@ AT_CHECK_CALC_GLR([%error-verbose %debug %locations %defines %name-prefix="calc"
 
 AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
-AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param "value_t *result", "result" %parse-param "int *count", "count"])
+AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {value_t *result}, {result} %parse-param {int *count}, {count}])

@@ -1,3 +1,13 @@
+2002-11-15  Akim Demaille  <akim@epita.fr>
+
+	* src/parse-gram.y (declaration): Have %parse-param and %lex-param
+	take two BRACED_CODE, not two string_content.
+	Free the scanner's obstack when we are done.
+	(code_content): New.
+	* tests/calc.at: Adjust.
+	* doc/bison.texinfo: Adjust.
+	Also, make sure to include the `,' for these declarations.
+
 2002-11-15  Tim Van Holder  <tim.van.holder@pandora.be>
 
 	* m4/prereq.m4: Removed the commented jm_PREREQ_HASH

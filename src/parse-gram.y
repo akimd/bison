@@ -158,7 +158,7 @@ braced_code_t current_braced_code = action_braced_code;
 
 
 %type <string> STRING string_content
-               BRACED_CODE action
+               BRACED_CODE code_content action
                PROLOGUE EPILOGUE
 %type <struniq> TYPE
 %type <integer> INT
@@ -194,14 +194,20 @@ declaration:
 | "%expect" INT                            { expected_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
 | "%glr-parser" 			   { glr_parser = 1; }
-| "%lex-param" string_content "," string_content
-                           { muscle_pair_list_grow ("lex_param", $2, $4); }
+| "%lex-param" code_content "," code_content
+                           {
+			     muscle_pair_list_grow ("lex_param", $2, $4);
+			     scanner_last_string_free ();
+			   }
 | "%locations"                             { locations_flag = 1; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
 | "%no-lines"                              { no_lines_flag = 1; }
 | "%output" "=" string_content             { spec_outfile = $3; }
-| "%parse-param" string_content "," string_content
-                           { muscle_pair_list_grow ("parse_param", $2, $4); }
+| "%parse-param" code_content "," code_content
+                           {
+			     muscle_pair_list_grow ("parse_param", $2, $4);
+			     scanner_last_string_free ();
+			   }
 | "%pure-parser"                           { pure_parser = 1; }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = 1; }
@@ -410,6 +416,15 @@ string_as_id:
 /* A string used for its contents.  Strip the quotes. */
 string_content:
   STRING
+    {
+      $$ = $1 + 1;
+      $$[strlen ($$) - 1] = '\0';
+    };
+
+
+/* A BRACED_CODE used for its contents.  Strip the braces. */
+code_content:
+  BRACED_CODE
     {
       $$ = $1 + 1;
       $$[strlen ($$) - 1] = '\0';
