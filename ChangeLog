@@ -1,5 +1,15 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/vcg.c: You do the output, so you are responsible of the
+	handling of VCG syntax, in particular: use quotearg.
+	* src/print_graph.c: Don't.
+	(print_actions): Don't output the actions as part of the nodes,
+	since that's the job of the edges.
+	(print_state): Don't output by hand: fill the node description,
+	and ask for its output.	
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.simple (yyparse): When reporting verbosely an error,
 	no longer issue additional quotes around token names.
 	* tests/calc.at: Adjust.
