@@ -1,5 +1,10 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (initialize_F): Improve variable locality.
+	Avoid variables used as mere abbreviations.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/derives.c (print_derives): Display the ruleno.
 	* src/lalr.c (initialize_F, transpose): Better variable locality
 	to improve readability.
