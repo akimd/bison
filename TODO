@@ -43,6 +43,77 @@ Paul suggests:
 Yes, I think that's a valid extension too, if the user doesn't define
 the token number for error.
 
+* Output directory
+Akim:
+
+| I consider this to be a bug in bison:
+|
+| /tmp % mkdir src
+| /tmp % cp ~/src/bison/tests/calc.y src
+| /tmp % mkdir build && cd build
+| /tmp/build % bison ../src/calc.y
+| /tmp/build % cd ..
+| /tmp % ls -l build src
+| build:
+| total 0
+|
+| src:
+| total 32
+| -rw-r--r--    1 akim     lrde        27553 oct  2 16:31 calc.tab.c
+| -rw-r--r--    1 akim     lrde         3335 oct  2 16:31 calc.y
+|
+|
+| Would it be safe to change this behavior to something more reasonable?
+| Do you think some people depend upon this?
+
+Jim:
+
+Is it that behavior documented?
+If so, then it's probably not reasonable to change it.
+I've Cc'd the automake list, because some of automake's
+rules use bison through $(YACC) -- though I'll bet they
+all use it in yacc-compatible mode.
+
+Pavel:
+
+Hello, Jim and others!
+
+> Is it that behavior documented?
+> If so, then it's probably not reasonable to change it.
+> I've Cc'd the automake list, because some of automake's
+> rules use bison through $(YACC) -- though I'll bet they
+> all use it in yacc-compatible mode.
+
+Yes, Automake currently used bison in Automake-compatible mode, but it
+would be fair for Automake to switch to the native mode as long as the
+processed files are distributed and "missing" emulates bison.
+
+In any case, the makefiles should specify the output file explicitly
+instead of relying on weird defaults.
+
+> | src:
+> | total 32
+> | -rw-r--r--    1 akim     lrde        27553 oct  2 16:31 calc.tab.c
+> | -rw-r--r--    1 akim     lrde         3335 oct  2 16:31 calc.y
+
+This is not _that_ ugly as it seems - with Automake you want to put
+sources where they belong - to the source directory.
+
+> | This is not _that_ ugly as it seems - with Automake you want to put
+> | sources where they belong - to the source directory.
+>
+> The difference source/build you are referring to is based on Automake
+> concepts.  They have no sense at all for tools such as bison or gcc
+> etc.  They have input and output.  I do not want them to try to grasp
+> source/build.  I want them to behave uniformly: output *here*.
+
+I realize that.
+
+It's unfortunate that the native mode of Bison behaves in a less uniform
+way than the yacc mode. I agree with your point. Bison maintainters may
+want to fix it along with the documentation.
+
+
 * Unit rules
 Maybe we could expand unit rules, i.e., transform
 
