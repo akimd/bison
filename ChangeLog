@@ -1,5 +1,11 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Invalid input): Remove, duplicate with
+	``Invalid input: 1''.
+
+	
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	* tests/torture.at (AT_DATA_STACK_TORTURE)
 	(Exploding the Stack Size with Alloca)
 	(Exploding the Stack Size with Malloc): New.
