@@ -1,5 +1,12 @@
 2002-05-27  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
+	* src/output.c (output_skeleton): Put an explicit path in front of
+	the skeleton file name, rather than relying on the -I directory,
+	to partially alleviate effects of having a skeleton file lying around
+	in the current directory.
+	
+2002-05-27  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
 	* src/conflicts.c (log_resolution): Correct typo: 
 	obstack_printf should be obstack_fgrow1.
 
