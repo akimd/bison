@@ -18,7 +18,7 @@
 # 02111-1307  USA
 
 # We need a recent Autoconf to run a recent Autotest.
-AC_PREREQ(2.53)
+AC_PREREQ(2.54)
 
 AC_INIT([GNU Bison], [1.49c], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR(config)
@@ -95,8 +95,8 @@ AC_CHECK_FUNCS(setlocale)
 AC_CHECK_DECLS([getenv, getopt, free, stpcpy, strchr, strspn, strnlen,
                 malloc, memchr, memrchr])
 AC_REPLACE_FUNCS(stpcpy strchr strspn memchr memrchr)
-jm_FUNC_MALLOC
-jm_FUNC_REALLOC
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
 jm_PREREQ_QUOTEARG
 jm_PREREQ_ERROR
 jm_PREREQ_TEMPNAME
