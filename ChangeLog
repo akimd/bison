@@ -1,5 +1,9 @@
 2001-08-03  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (readgram): Display hidden chars in error messages.
+
+2001-08-03  Akim Demaille  <akim@epita.fr>
+
 	Update to gettext 0.10.39.
 
 2001-08-03  Akim Demaille  <akim@epita.fr>
