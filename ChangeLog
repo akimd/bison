@@ -1,3 +1,17 @@
+2002-05-20  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* data/bison.simple (yyr1): Don't use yy_token_number_type as element
+	type; it isn't always big enough, since it doesn't necessarily
+	include non-terminals.
+	(yytranslate): Expand definition of yy_token_number_type, so that 
+	the latter can be removed.
+	(yy_token_number_type): Remove, only one use.
+	* data/bison.c++ (r1_): Parallel change to yyr1 in bison.simple---
+	don't use TokenNumberType as element type.
+	
+	* tests/regression.at: Modify expected output to agree with change
+	to yyr1 and yytranslate.
+	
 2002-05-13  Florian Krohm  <florian@edamail.fishkill.ibm.com>
 
 	* src/reader.c (parse_action): Use copy_character instead of

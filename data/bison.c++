@@ -260,7 +260,7 @@ namespace yy
     static const short defgoto_[[]];
     static const short table_[[]];
     static const short check_[[]];
-    static const TokenNumberType r1_[[]];
+    static const b4_uint_type(b4_r1_max) r1_[[]];
     static const b4_uint_type(b4_r2_max) r2_[[]];
 
 #if YYDEBUG || YYERROR_VERBOSE
@@ -687,7 +687,7 @@ yy::b4_name::check_[[]] =
 };
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
-const yy::b4_name::TokenNumberType
+const b4_uint_type(b4_r1_max)
 yy::b4_name::r1_[[]] =
 {
   b4_r1

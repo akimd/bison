@@ -332,12 +332,11 @@ b4_token_defines(b4_tokens)
 #define YYUNDEFTOK  b4_undef_token_number
 #define YYMAXUTOK   b4_user_token_number_max
 
-typedef b4_uint_type(b4_translate_max) yy_token_number_type;
 #define YYTRANSLATE(X) \
   ((unsigned)(X) <= YYMAXUTOK ? yytranslate[[X]] : YYUNDEFTOK)
 
 /* YYTRANSLATE[[YYLEX]] -- Bison symbol number corresponding to YYLEX.  */
-static const yy_token_number_type yytranslate[[]] =
+static const b4_uint_type(b4_translate_max) yytranslate[[]] =
 {
   b4_translate
 };
@@ -379,7 +378,7 @@ static const short yytoknum[[]] =
 };
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
-static const yy_token_number_type yyr1[[]] =
+static const b4_uint_type(b4_r1_max) yyr1[[]] =
 {
   b4_r1
 };
