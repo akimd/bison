@@ -1,13 +1,9 @@
-ChangeLog
 Makefile
-Makefile.in
 bison.aux
 bison.cp
 bison.cps
 bison.dvi
 bison.fn
-bison.info
-bison.info-[0-9]*
 bison.ky
 bison.log
 bison.pg
@@ -18,5 +14,3 @@ bison.vr
 refcard.dvi
 refcard.log
 refcard.ps
-stamp-vti
-version.texi

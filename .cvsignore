@@ -1,11 +1,8 @@
-configure
-Makefile Makefile.in
-aclocal.m4
+Makefile
 config.cache
-config.h config.hin
+config.h
 config.log
 config.status
-intl
 stamp-h
 bison-*.tar.gz
 patches update-log
