@@ -24,7 +24,7 @@
 	and Doxygen'ed documentation of class Position.
 	(location.hh): Use it.
 	Document a` la Doxygen.
-	With the help of Benoît Perrot.
+	With the help of Benoit Perrot.
 
 2003-02-20  Akim Demaille  <akim@epita.fr>
 
@@ -6748,7 +6748,7 @@
 
 	* tests/atlocal.in (CPPFLAGS): Do not leave a space between -I and
 	its argument.
-	Reported by Peter Hámorský.
+	Reported by Peter Hamorsky.
 
 2001-12-05  Akim Demaille  <akim@epita.fr>
 

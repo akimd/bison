@@ -161,7 +161,7 @@ There are a couple of proposed outputs:
   which is based on Bison.
   <http://www.goice.co.jp/member/mo/hack-progs/bison-java.html>
 
-Sébastien Serrurier (serrur_s@epita.fr) is working on this: he is
+Sebastien Serrurier (serrur_s@epita.fr) is working on this: he is
 expected to contact the authors, design the output, and implement it
 into Bison.
 
@@ -324,7 +324,7 @@ the parser with a means to create the (visual) parse tree.
 
 -----
 
-Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 
