@@ -1,3 +1,10 @@
+2001-08-31  Pascal Bart  <pascal.bart@epita.fr>, Marc Autret  <autret_m@epita.fr>
+
+	* src/reader.c (read_additionnal_code): Rename %%user_code to 
+	%%epilogue.
+	* src/output.c (output): Rename %%declarations to %%prologue.
+	* src/bison.simple: Echo modifications.
+	
 2001-08-31  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (readgram): CleanUp.

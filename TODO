@@ -6,7 +6,7 @@
 * src/output.c
 ** Output sub-skeleton files.
 ** Cleanup dirty CPP-out code.
-** s/definitions/prologue/  s/user_code/epilogue/
+** s/definitions/prologue/  s/user_code/epilogue/ [ok].
 ** s/macro/muscle/
 
 * src/getargs.c src/lex.c
@@ -18,3 +18,6 @@
 
 * src/print_graph.c
 ** Find the best graph parameters.
+
+* doc/bison.texinfo
+** Echo modifications of prologue and epilogue.

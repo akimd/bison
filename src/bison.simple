@@ -34,7 +34,7 @@
 #include <stdio.h>
 
 /* Copy the user declarations.  */
-%%definitions
+%%prologue
 
 #ifndef __cplusplus
 # ifndef __STDC__
@@ -977,5 +977,5 @@ yyabortlab:
   return 1;
 }
 
-%%user_code
+%%epilogue
 
