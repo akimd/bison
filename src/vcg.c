@@ -49,6 +49,9 @@ new_graph (graph_t *g)
   g->textmode = G_TEXTMODE;
   g->shape = G_SHAPE;
 
+  g->vertical_order = G_VERTICAL_ORDER;
+  g->horizontal_order = G_HORIZONTAL_ORDER;
+
   g->xmax = G_XMAX; /* Not output. */
   g->ymax = G_YMAX; /* Not output. */
 
@@ -667,6 +670,11 @@ output_graph (graph_t *graph, struct obstack *os)
 
   if (graph->shape != G_SHAPE)
     obstack_fgrow1 (os, "\tshape:\t%s\n", get_shape_str (graph->shape));
+  
+  if (graph->vertical_order != G_VERTICAL_ORDER)
+    obstack_fgrow1 (os, "\tvertical_order:\t%d\n", graph->vertical_order);  
+  if (graph->horizontal_order != G_HORIZONTAL_ORDER)
+    obstack_fgrow1 (os, "\thorizontal_order:\t%d\n", graph->horizontal_order);  
 
   if (graph->xmax != G_XMAX)
     obstack_fgrow1 (os, "\txmax:\t%d\n", graph->xmax);
@@ -701,6 +709,30 @@ output_graph (graph_t *graph, struct obstack *os)
 
       for (ite = graph->classname; ite; ite = ite->next)
 	obstack_fgrow2 (os, "\tclassname %d :\t%s\n", ite->no, ite->name);
+    }
+
+  if (graph->infoname != G_INFONAME)
+    {
+      struct infoname_s *ite;
+
+      for (ite = graph->infoname; ite; ite = ite->next)
+	obstack_fgrow2 (os, "\tinfoname %d :\t%s\n", ite->integer, ite->string);
+    }
+
+  if (graph->colorentry != G_COLORENTRY)
+    {
+      struct colorentry_s *ite;
+      char buff[64];
+      
+      for (ite = graph->colorentry; ite; ite = ite->next)
+	{	
+	  sprintf (buff, "\tcolorentry %d :\t%d %d %d\n", 
+		   ite->color_index, 
+		   ite->red_cp,
+		   ite->green_cp,
+		   ite->blue_cp);
+	  obstack_sgrow (os, buff);
+	}    
     }
 
   if (graph->layoutalgorithm != G_LAYOUTALGORITHM)

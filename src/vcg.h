@@ -75,12 +75,30 @@ enum shape_e
   triangle
 };
 
+/* Structure for colorentries.  */
+struct colorentry_s
+{
+  int color_index;
+  int red_cp;
+  int green_cp;
+  int blue_cp;
+  struct colorentry_s *next;
+};
+
 /* Structure to construct lists of classnames. */
 struct classname_s
 {
   int no; /* Class number */
   char *name; /* Name associated to the class no. */
   struct classname_s *next; /* next name class association. */
+};
+
+/* Structure is in infoname.  */
+struct infoname_s
+{
+  int integer;
+  char *string;
+  struct infoname_s *next;
 };
 
 /* Layout Algorithms which can be found in VCG.
@@ -559,7 +577,22 @@ struct	graph_s
      Defalut is box, other: rhomb, ellipse, triangle. */
   enum shape_e shape;
 
-  /* FIXME {vertival,horizontal}_order */
+  /* Vertical order is the level position (rank) of the summary node of an 
+     inner subgraph, if this subgraph is folded. We can also specify 
+     level: int. The level is only recognized, if an automatical layout is 
+     calculated.  */
+  int vertical_order;
+
+  /* Horizontal order is the horizontal position of the summary node within 
+     a level. The nodes which are specified with horizontal positions are 
+     ordered according to these positions within the levels. The nodes which 
+     do not have this attribute are inserted into this ordering by the 
+     crossing reduction mechanism. Note that connected components are 
+     handled separately, thus it is not possible to intermix such components 
+     by specifying a horizontal order. If the algorithm for downward laid 
+     out trees is used, the horizontal order influences only the order of 
+     the child nodes at a node, but not the order of the whole level.  */
+  int horizontal_order;
 
   /* xmax, ymax specify the maximal size of the virtual window that is
      used to display the graph. This is usually larger than the displayed
@@ -630,8 +663,19 @@ struct	graph_s
      By default, no class names. */
   struct classname_s *classname;
 
-  /* FIXME : infoname. */
-  /* FIXME : colorentry. */
+  /* Infoname allows to introduce names for the additional text labels. 
+     The names are used in the menus.  
+     Infoname is given by an integer and a string.  
+     The default value is NULL.  */
+  struct infoname_s *infoname;
+  
+  /* Colorentry allows to fill the color map. A color is a triplet of integer 
+     values for the red/green/blue-part. Each integer is between 0 (off) and 
+     255 (on), e.g., 0 0 0 is black and 255 255 255 is white. For instance 
+     colorentry 75 : 70 130 180 sets the map entry 75 to steel blue. This 
+     color can be used by specifying just the number 75.
+     Default id NULL.  */
+  struct colorentry_s *colorentry;
 
   /* layoutalgorithm chooses different graph layout algorithms
      Possibilities are maxdepth, mindepth, maxdepthslow, mindepthslow,

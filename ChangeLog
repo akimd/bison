@@ -1,5 +1,20 @@
 2001-08-27  Marc Autret  <autret_m@epita.fr>
 
+	* src/vcg.h (struct infoname_s): New.
+	(struct colorentry_s): New.
+	(graph_s): New fields {vertical,horizontal}_order in structure.
+	Add `infoname' field.
+	Add `colorentry' field;
+	* src/vcg_defaults.h (G_VERTICAL_ORDER): New.
+	(G_HORIZONTAL_ORDER): New.
+	(G_INFONAME): New.
+	(G_COLORENTRY): New.
+	* src/vcg.c (output_graph): Add output of {vertical,horizontal}_order.
+	Add output of `infoname'.
+	Add output of `colorentry'.
+	
+2001-08-27  Marc Autret  <autret_m@epita.fr>
+
 	* src/reader.c (parse_dquoted_param): Rename variable `index' to `i'.
 	This one shadowed a global parameter.
 
