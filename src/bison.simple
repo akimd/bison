@@ -132,20 +132,22 @@ while (0)
 # endif /* not YYLSP_NEEDED */
 #endif
 
-/* If nonreentrant, generate the variables here */
+/* If nonreentrant, generate the variables here. */
 
 #ifndef YYPURE
+/* The lookahead symbol.  */
+int	yychar;
 
-int	yychar;			/*  the lookahead symbol		*/
-YYSTYPE	yylval;			/*  the semantic value of the		*/
-				/*  lookahead symbol			*/
+/* The semantic value of the lookahead symbol. */
+YYSTYPE	yylval;
 
 # ifdef YYLSP_NEEDED
-YYLTYPE yylloc;			/*  location data for the lookahead	*/
-				/*  symbol				*/
+/* Location data for the lookahead symbol.  */
+YYLTYPE yylloc;
 # endif
 
-int yynerrs;			/*  number of parse errors so far       */
+/* Number of parse errors so far.  */
+int yynerrs;
 #endif  /* not YYPURE */
 
 
@@ -587,10 +589,9 @@ $   /* the action file gets copied in in place of this dollarsign */
     }
 #endif
 
-  /* Now "shift" the result of the reduction.
-     Determine what state that goes to,
-     based on the state we popped back to
-     and the rule number reduced by.  */
+  /* Now `shift' the result of the reduction.  Determine what state
+     that goes to, based on the state we popped back to and the rule
+     number reduced by.  */
 
   yyn = yyr1[yyn];
 
