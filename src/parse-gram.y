@@ -30,15 +30,16 @@
 
 %{
 #include "system.h"
+
 #include "complain.h"
-#include "muscle_tab.h"
+#include "conflicts.h"
 #include "files.h"
 #include "getargs.h"
-#include "output.h"
-#include "symlist.h"
 #include "gram.h"
+#include "muscle_tab.h"
+#include "output.h"
 #include "reader.h"
-#include "conflicts.h"
+#include "symlist.h"
 
 /* Produce verbose syntax errors.  */
 #define YYERROR_VERBOSE 1
@@ -51,33 +52,33 @@ static YYLTYPE lloc_default (YYLTYPE const *, int);
 #undef  yyerror
 #define yyerror(Msg) \
         gram_error (&yylloc, Msg)
-static void gram_error (location_t const *, char const *);
+static void gram_error (location const *, char const *);
 
 #define YYPRINT(File, Type, Value) \
 	print_token_value (File, Type, &Value)
 static void print_token_value (FILE *, int, YYSTYPE const *);
 
-static void add_param (char const *, char const *, location_t);
+static void add_param (char const *, char const *, location);
 
 symbol_class current_class = unknown_sym;
-struniq_t current_type = 0;
-symbol_t *current_lhs;
-location_t current_lhs_location;
-assoc_t current_assoc;
+uniqstr current_type = 0;
+symbol *current_lhs;
+location current_lhs_location;
+assoc current_assoc;
 int current_prec = 0;
-braced_code_t current_braced_code = action_braced_code;
+braced_code current_braced_code = action_braced_code;
 %}
 
 
 /* Only NUMBERS have a value.  */
 %union
 {
-  symbol_t *symbol;
-  symbol_list_t *list;
+  symbol *symbol;
+  symbol_list *list;
   int integer;
-  char *string;
-  assoc_t assoc;
-  struniq_t struniq;
+  char *chars;
+  assoc assoc;
+  uniqstr uniqstr;
 };
 
 /* Define the tokens together with their human representation.  */
@@ -141,10 +142,10 @@ braced_code_t current_braced_code = action_braced_code;
 %token BRACED_CODE     "{...}"
 
 
-%type <string> STRING string_content
-               BRACED_CODE code_content action
-               PROLOGUE EPILOGUE
-%type <struniq> TYPE
+%type <chars> STRING string_content
+	      BRACED_CODE code_content action
+	      PROLOGUE EPILOGUE
+%type <uniqstr> TYPE
 %type <integer> INT
 %type <symbol> ID ID_COLON symbol string_as_id
 %type <assoc> precedence_declarator
@@ -206,7 +207,7 @@ grammar_declaration:
     { current_braced_code = destructor_braced_code; }
   BRACED_CODE symbols.1
     {
-      symbol_list_t *list;
+      symbol_list *list;
       for (list = $4; list; list = list->next)
 	symbol_destructor_set (list->sym, $3, @3);
       symbol_list_free ($4);
@@ -216,7 +217,7 @@ grammar_declaration:
     { current_braced_code = printer_braced_code; }
   BRACED_CODE symbols.1
     {
-      symbol_list_t *list;
+      symbol_list *list;
       for (list = $4; list; list = list->next)
 	symbol_printer_set (list->sym, $3, list->location);
       symbol_list_free ($4);
@@ -237,7 +238,7 @@ symbol_declaration:
     }
 | "%type" TYPE symbols.1
     {
-      symbol_list_t *list;
+      symbol_list *list;
       for (list = $3; list; list = list->next)
 	symbol_type_set (list->sym, $2, @2);
       symbol_list_free ($3);
@@ -247,7 +248,7 @@ symbol_declaration:
 precedence_declaration:
   precedence_declarator type.opt symbols.1
     {
-      symbol_list_t *list;
+      symbol_list *list;
       ++current_prec;
       for (list = $3; list; list = list->next)
 	{
@@ -448,7 +449,7 @@ lloc_default (YYLTYPE const *rhs, int n)
    declaration DECL and location LOC.  */
 
 static void
-add_param (char const *type, char const *decl, location_t loc)
+add_param (char const *type, char const *decl, location loc)
 {
   static char const alphanum[] =
     "0123456789"
@@ -504,17 +505,17 @@ print_token_value (FILE *file, int type, YYSTYPE const *value)
       break;
 
     case STRING:
-      fprintf (file, " = \"%s\"", value->string);
+      fprintf (file, " = \"%s\"", value->chars);
       break;
 
     case TYPE:
-      fprintf (file, " = <%s>", value->struniq);
+      fprintf (file, " = <%s>", value->uniqstr);
       break;
 
     case BRACED_CODE:
     case PROLOGUE:
     case EPILOGUE:
-      fprintf (file, " = {{ %s }}", value->string);
+      fprintf (file, " = {{ %s }}", value->chars);
       break;
 
     default:
@@ -524,7 +525,7 @@ print_token_value (FILE *file, int type, YYSTYPE const *value)
 }
 
 static void
-gram_error (location_t const *loc, char const *msg)
+gram_error (location const *loc, char const *msg)
 {
   complain_at (*loc, "%s", msg);
 }
