@@ -1,5 +1,9 @@
 2001-08-03  Akim Demaille  <akim@epita.fr>
 
+	Version 1.28a.
+
+2001-08-03  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c, src/getarg.h (skeleton)): Constify.
 	* src/lex.c (literalchar): Avoid name clashes on `buf'.
 	* src/getargs.c: Include complain.h.
