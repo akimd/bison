@@ -13,3 +13,6 @@ hand.  Remember to do `SET COMMAND BISON' to install the data in
 Send bug reports to bug-bison@gnu.org.  Please include the version
 number from `bison --version', and a complete, self-contained test
 case in each bug report.
+
+If you have questions about using Bison which the documentation does
+not answer, send mail to help-bison@gnu.org.
