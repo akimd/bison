@@ -1,5 +1,5 @@
 /* Definitions for symtab.c and callers, part of bison,
-   Copyright (C) 1984, 1989 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1992 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 
@@ -24,9 +24,10 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 /*  symbol classes  */
 
 #define SUNKNOWN 0
-#define STOKEN	 1
-#define SNTERM	 2
+#define STOKEN	 1	/* terminal symbol */
+#define SNTERM	 2	/* non-terminal */
 
+#define SALIAS	-9991	/* for symbol generated with an alias */
 
 typedef
   struct bucket
@@ -39,6 +40,11 @@ typedef
       short prec;
       short assoc;
       short user_token_number;
+			/* special value SALIAS in the identifier
+			 half of the identifier-symbol pair for an alias */
+      struct bucket *alias;      
+			/* points to the other in the identifier-symbol
+			 pair for an alias */
       char class;
     }
   bucket;
