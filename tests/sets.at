@@ -38,48 +38,63 @@ AT_DATA([[input.y]],
 e: 'e' | /* Nothing */;
 ]])
 
-AT_CHECK([[bison --trace input.y]], [], [],
+AT_CHECK([[bison --trace input.y]], [], [], [stderr])
+
+AT_CHECK([[sed 's/[	 ]*$//' stderr]], [],
 [[RITEM
-  'e'  (rule 1)
-  (rule 2)
+  e  $  (rule 1)
+  'e'  (rule 2)
+  (rule 3)
 
 
 DERIVES
+	$axiom derives
+		1: e (rule 0)
 	e derives
-		1: 'e' (rule 1)
-		2: (rule 2)
+		2: 'e' (rule 2)
+		3: (rule 3)
 
 
 Entering set_nullable
 NULLABLE
+	$axiom: yes
 	e: yes
 
 
 TC: Input BEGIN
-    @&t@
-   0
-  .-.
- 0| |
-  `-'
+
+   01
+  .--.
+ 0| 1|
+ 1|  |
+  `--'
 TC: Input END
 
 TC: Output BEGIN
-    @&t@
-   0
-  .-.
- 0| |
-  `-'
+
+   01
+  .--.
+ 0| 1|
+ 1|  |
+  `--'
 TC: Output END
 
 FIRSTS
+	$axiom firsts
+		4 ($axiom)
+		5 (e)
 	e firsts
-		4 (e)
+		5 (e)
 
 
 FDERIVES
+	$axiom derives
+		1: e $
+		2: 'e'
+		3:
 	e derives
-		1: 'e'
-		2:
+		2: 'e'
+		3:
 
 
 Processing state 0 (reached by $)
@@ -87,8 +102,9 @@ Closure: input
 
 
 Closure: output
-   0: . 'e'  (rule 1)
-   2: .  (rule 2)
+   0: . e $  (rule 1)
+   3: . 'e'  (rule 2)
+   5: .  (rule 3)
 
 
 Entering new_itemsets, state = 0
@@ -96,22 +112,50 @@ Entering append_states, state = 0
 Entering get_state, state = 0, symbol = 3 ('e')
 Entering new_state, state = 0, symbol = 3 ('e')
 Exiting get_state => 1
+Entering get_state, state = 0, symbol = 5 (e)
+Entering new_state, state = 0, symbol = 5 (e)
+Exiting get_state => 2
 Processing state 1 (reached by 'e')
 Closure: input
-   1: .  (rule 1)
+   4: .  (rule 2)
 
 
 Closure: output
-   1: .  (rule 1)
+   4: .  (rule 2)
 
 
 Entering new_itemsets, state = 1
 Entering append_states, state = 1
+Processing state 2 (reached by e)
+Closure: input
+   1: . $  (rule 1)
+
+
+Closure: output
+   1: . $  (rule 1)
+
+
+Entering new_itemsets, state = 2
+Entering append_states, state = 2
+Entering get_state, state = 2, symbol = 0 ($)
+Entering new_state, state = 2, symbol = 0 ($)
+Exiting get_state => 3
+Processing state 3 (reached by $)
+Closure: input
+   2: .  (rule 1)
+
+
+Closure: output
+   2: .  (rule 1)
+
+
+Entering new_itemsets, state = 3
+Entering append_states, state = 3
 transpose: input
-  0: @&t@
+  0:
 
 transpose: output
-  0: @&t@
+  0:
 
 ]])
 
@@ -171,22 +215,23 @@ g: h
 h: 'h'
 ]])
 
-AT_CHECK([bison --trace input.y 2>&1 |
-          sed -n '/^TC: Output BEGIN/,/^TC: Output END/p'],
-         [0],
+AT_CHECK([[bison --trace input.y]], [], [], [stderr])
+
+AT_CHECK([[sed -n 's/[	 ]*$//;/^TC: Output BEGIN/,/^TC: Output END/p' stderr]], [],
 [[TC: Output BEGIN
-           @&t@
-   01234567
-  .--------.
- 0| 1111111|
- 1|  111111|
- 2|   11111|
- 3|    1111|
- 4|     111|
- 5|      11|
- 6|       1|
- 7|        |
-  `--------'
+
+   012345678
+  .---------.
+ 0| 11111111|
+ 1|  1111111|
+ 2|   111111|
+ 3|    11111|
+ 4|     1111|
+ 5|      111|
+ 6|       11|
+ 7|        1|
+ 8|         |
+  `---------'
 TC: Output END
 ]])
 

@@ -1,5 +1,25 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (new_state): Recognize the final state by the fact it
+	is reached by eoftoken.
+	(insert_start_shifting_state, insert_eof_shifting_state)
+	(insert_accepting_state, augment_automaton): Remove, since now
+	these states are automatically computed from the initial state.
+	(generate_states): Adjust.
+	* src/print.c: When reporting a rule number to the user, substract
+	1, so that the axiom rule is rule 0, and the first user rule is 1.
+	* src/reduce.c: Likewise.
+	* src/print_graph.c (print_core): For the time being, just as for
+	the report, depend upon --trace-flags to dump the full set of
+	items.
+	* src/reader.c (readgram): Once the grammar read, insert the rule
+	0: `$axiom: START-SYMBOL $'.
+	* tests/set.at: Adjust: rule 0 is now displayed, and since the
+	number of the states has changed (the final state is no longer
+	necessarily the last), catch up.
+
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	Try to make the use of the eoftoken valid.  Given that its value
 	is 0 which was also used as a sentinel in ritem, (i) make sure >= 0
 	is used instead of > 0 where appropriate, (ii), depend upon nritems
