@@ -320,7 +320,8 @@ static bool yydebug;
 int
 yyparse ()
 {
-  yy::Parser parser (yydebug);
+  yy::Parser parser;
+  parser.set_debug_level (yydebug);
   return parser.parse ();
 }
 ],

@@ -1,7 +1,25 @@
 2004-12-15  Akim Demaille  <akim@epita.fr>
 
+	Simplify the C++ parser constructor.
+
+	* data/lalr1.cc (debug_): Rename as...
+	(yydebug_): so that the parser's internals are always in the yy*
+	pseudo namespace.
+	Adjust uses.
+	(b4_parse_param_decl): Remove the leading comma as it is now only
+	called as unique argument list.
+	(Parser::Parser): Remove the constructor accepting a location and
+	an initial debugging level.
+	Remove from the other ctor the argument for the debugging level.
+	(debug_level_type, debug_level, set_debug_level): New.
+
+	* tests/actions.at, tests/calc.at, tests/regression.at: Adjust
+	constructor calls.
+
+2004-12-15  Akim Demaille  <akim@epita.fr>
+
 	Remove b4_root related material: failure experiment
-	(which goal was to allow to derive from an class).
+	(which goal was to allow to derive from a class).
 
 	* data/lalr1.cc (b4_root, b4_param, b4_constructor): Remove
 	definitions and uses.

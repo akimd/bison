@@ -735,7 +735,8 @@ yy::Parser::error_ ()
 int
 yyparse (void)
 {
-  yy::Parser parser (!!YYDEBUG);
+  yy::Parser parser;
+  parser.set_debug_level (!!YYDEBUG);
   return parser.parse ();
 }
 ],

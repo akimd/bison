@@ -70,7 +70,7 @@ m4_define([b4_rhs_location],
 # argument name in the constructor.
 m4_define([b4_parse_param_decl],
 [m4_ifset([b4_parse_param],
-          [, m4_map_sep([b4_parse_param_decl_1], [, ], [b4_parse_param])])])
+          [m4_map_sep([b4_parse_param_decl_1], [, ], [b4_parse_param])])])
 
 m4_define([b4_parse_param_decl_1],
 [$1_yyarg])
@@ -217,21 +217,10 @@ namespace yy
     typedef Stack<SemanticType> SemanticStack;
     typedef Stack<LocationType> LocationStack;
 
-    ]b4_parser_class_name[ (bool debug]b4_parse_param_decl[) :
-      debug_ (debug),
+    ]b4_parser_class_name[ (]b4_parse_param_decl[) :
+      yydebug_ (false),
       yycdebug_ (&std::cerr)]b4_parse_param_cons[
     {
-    }
-
-    ]b4_parser_class_name[ (bool debug,
-	    LocationType]b4_parse_param_decl[) :
-      debug_ (debug),
-      yycdebug_ (&std::cerr)]b4_parse_param_cons[
-    {
-      *yycdebug_ << __FILE__ << ':' << __LINE__
-	         << ": this constructor is provided by backward compatibility"
-	         << ", but will be removed in the near future."
-	         << std::endl;
     }
 
     virtual ~]b4_parser_class_name[ ()
@@ -244,6 +233,13 @@ namespace yy
     std::ostream& debug_stream () const;
     /// Set the current debugging stream.
     void set_debug_stream (std::ostream &);
+
+    /// Type for debugging levels.
+    typedef int debug_level_type;
+    /// The current debugging level.
+    debug_level_type debug_level () const;
+    /// Set the current debugging level.
+    void set_debug_level (debug_level_type l);
 
   private:
 
@@ -321,7 +317,7 @@ namespace yy
     int errstatus_;
 
     /* Debugging.  */
-    int debug_;
+    int yydebug_;
     std::ostream* yycdebug_;
 
     /* Look-ahead and look-ahead in internal form.  */
@@ -354,9 +350,9 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 
 m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 
-/* A pseudo ostream that takes debug_ into account. */
+/* A pseudo ostream that takes yydebug_ into account. */
 # define YYCDEBUG							\
-  for (bool yydebugcond_ = debug_; yydebugcond_; yydebugcond_ = false)	\
+  for (bool yydebugcond_ = yydebug_; yydebugcond_; yydebugcond_ = false)	\
     (*yycdebug_)
 
 /* Enable debugging if requested.  */
@@ -364,7 +360,7 @@ m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)	\
 do {							\
-  if (debug_)						\
+  if (yydebug_)						\
     {							\
       *yycdebug_ << (Title) << ' ';			\
       symprint_ ((Type), (Value), (Location));		\
@@ -374,13 +370,13 @@ do {							\
 
 # define YY_REDUCE_PRINT(Rule)		\
 do {					\
-  if (debug_)				\
+  if (yydebug_)				\
     reduce_print_ (Rule);		\
 } while (0)
 
 # define YY_STACK_PRINT()		\
 do {					\
-  if (debug_)				\
+  if (yydebug_)				\
     stack_print_ ();			\
 } while (0)
 
@@ -461,6 +457,19 @@ void
 yy::]b4_parser_class_name[::set_debug_stream (std::ostream& o)
 {
   yycdebug_ = &o;
+}
+
+
+yy::]b4_parser_class_name[::debug_level_type
+yy::]b4_parser_class_name[::debug_level () const
+{
+  return yydebug_;
+}
+
+void
+yy::]b4_parser_class_name[::set_debug_level (debug_level_type l)
+{
+  yydebug_ = l;
 }
 
 
