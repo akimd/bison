@@ -1435,7 +1435,9 @@ INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
 # We need awk for the "check" target.  The system "awk" is bad on
 # some platforms.
 
-            	                ac_config_headers="$ac_config_headers config.h:config.hin"
+# Add the stamp file to the list of files AC keeps track of,
+# along with our hook.
+ac_config_headers="$ac_config_headers config.h:config.hin"
 
 # Initialize the test suite.
 ac_config_commands="$ac_config_commands tests/package.m4"
@@ -9463,7 +9465,7 @@ done; }
   # Run the commands associated with the file.
   case $ac_file in
     config.h ) # update the timestamp
-echo timestamp >"./stamp-h1"
+echo 'timestamp for config.h:config.hin' >"./stamp-h1"
  ;;
   esac
 done

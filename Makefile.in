@@ -137,9 +137,9 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = README ./stamp-h1.in ABOUT-NLS AUTHORS COPYING ChangeLog \
-	INSTALL Makefile.am Makefile.in NEWS THANKS aclocal.m4 \
-	config.hin configure configure.in
+DIST_COMMON = README ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL \
+	Makefile.am Makefile.in NEWS THANKS aclocal.m4 config.hin \
+	configure configure.in
 DIST_SUBDIRS = $(SUBDIRS)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -168,17 +168,10 @@ config.h: stamp-h1
 stamp-h1: $(srcdir)/config.hin $(top_builddir)/config.status
 	@rm -f stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status config.h
-$(srcdir)/config.hin:  $(srcdir)/./stamp-h1.in
-	@if test ! -f $@; then \
-	  rm -f $(srcdir)/./stamp-h1.in; \
-	  $(MAKE) $(srcdir)/./stamp-h1.in; \
-	else :; fi
 
-$(srcdir)/./stamp-h1.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	@rm -f $(srcdir)/./stamp-h1.in $(srcdir)/./stamp-h1.inT
-	@echo timestamp > $(srcdir)/./stamp-h1.inT 2> /dev/null
+$(srcdir)/config.hin:  $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOHEADER)
-	@mv $(srcdir)/./stamp-h1.inT $(srcdir)/./stamp-h1.in
+	touch $(srcdir)/config.hin
 
 distclean-hdr:
 	-rm -f config.h
