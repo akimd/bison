@@ -1,5 +1,12 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.h, src/lalr.c (LAruleno): Replace with...
+	(LArule): this, which is an array to rule_t*.
+	* src/print.c, src/conflicts.c: Adjust.
+
+	
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (rule_t): Rename `number' as `user_number'.
 	`number' is a new member.
 	Adjust dependencies.

@@ -1,5 +1,5 @@
 /* Compute look-ahead criteria for bison,
-   Copyright 1984, 1986, 1989, 2000, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1986, 1989, 2000, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -26,6 +26,8 @@
 /* Import the definition of CORE, SHIFTS and REDUCTIONS. */
 # include "state.h"
 
+/* Import the definition of RULE_T. */
+# include "gram.h"
 
 /* Compute how to make the finite state machine deterministic; find
    which rules need lookahead in each state, and which lookahead
@@ -50,16 +52,15 @@ extern short *goto_map;
 extern short *from_state;
 extern short *to_state;
 
-/* LARULENO is a vector which records the rules that need lookahead in
-   various states.  The elements of LARULENO that apply to state S are
-   those from LOOKAHEADS[S] through LOOKAHEADS[S+1]-1.  Each element
-   of LARULENO is a rule number.
+/* LARULE is a vector which records the rules that need lookahead in
+   various states.  The elements of LARULE that apply to state S are
+   those from LOOKAHEADS[S] through LOOKAHEADS[S+1]-1.
 
-   If LR is the length of LAruleno, then a number from 0 to LR-1 can
+   If LR is the length of LArule, then a number from 0 to LR-1 can
    specify both a rule and a state where the rule might be applied.
    */
 
-extern short *LAruleno;
+extern rule_t **LArule;
 
 /* LA is a lr by ntokens matrix of bits.  LA[l, i] is 1 if the rule
    LAruleno[l] is applicable in the appropriate state when the next
