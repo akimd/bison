@@ -185,7 +185,13 @@ typedef struct state_s
   /* Nonzero if no lookahead is needed to decide what to do in state S.  */
   char consistent;
 
-  /* Used in LALR, not LR(0). */
+  /* Used in LALR, not LR(0).
+
+     When a state is not consistent (there is an S/R or R/R conflict),
+     lookaheads are needed to enable the reductions.  NLOOKAHEADS is
+     the number of lookahead guarded reductions of the
+     LOOKAHEADS_RULE.  For each rule LOOKAHEADS_RULE[R], LOOKAHEADS[R]
+     is the bitset of the lookaheads enabling this reduction.  */
   int nlookaheads;
   bitsetv lookaheads;
   rule_t **lookaheads_rule;

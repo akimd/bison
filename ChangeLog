@@ -1,5 +1,11 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (action_row): Let default_rule be always a rule
+	number.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c (print_firsts, print_fderives, closure):
 	Use BITSET_EXECUTE.
 	* src/lalr.c (lookaheads_print): Likewise.
