@@ -1,5 +1,13 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (CORE_ALLOC, SHIFTS_ALLOC, ERRS_ALLOC)
+	(REDUCTIONS_ALLOC):  New.
+	* src/LR0.c, src/conflicts.c: Use them to de-obfuscate memory
+	allocation.
+
+	
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (new_state): Complete trace code.
 	* src/nullable.c (set_nullable): Don't translate traces.
 
