@@ -1,10 +1,10 @@
 /* Bitset statistics.
-   Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2002 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
-   This program is free software: you can redistribute it and/or modify
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
+   the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -13,30 +13,38 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
 
 /* This file is a wrapper bitset implementation for the other bitset
    implementations.  It provides bitset compatibility checking and
    statistics gathering without having to instrument the bitset
    implementations.  When statistics gathering is enabled, the bitset
    operations get vectored through here and we then call the appropriate
-   routines.  */
+   routines.
+*/
 
-#include <config.h>
-
-#include "bitset_stats.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include "bbitset.h"
 #include "abitset.h"
 #include "ebitset.h"
 #include "lbitset.h"
 #include "vbitset.h"
+#include "bitset_stats.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
+#ifdef HAVE_GETTEXT_H
 #include "gettext.h"
 #define _(Msgid)  gettext (Msgid)
+#else
+#define _(Msgid)  Msgid
+#endif
 
 /* Configuration macros.  */
 #define BITSET_STATS_FILE "bitset.dat"
@@ -46,29 +54,29 @@
 
 
 /* Accessor macros.  */
-#define BITSET_STATS_ALLOCS_INC(TYPE)			\
+#define BITSET_STATS_ALLOCS_INC(TYPE)	 		\
     bitset_stats_info->types[(TYPE)].allocs++
-#define BITSET_STATS_FREES_INC(BSET)			\
+#define BITSET_STATS_FREES_INC(BSET) 			\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].frees++
-#define BITSET_STATS_SETS_INC(BSET)			\
+#define BITSET_STATS_SETS_INC(BSET) 			\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].sets++
-#define BITSET_STATS_CACHE_SETS_INC(BSET)		\
+#define BITSET_STATS_CACHE_SETS_INC(BSET) 		\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].cache_sets++
-#define BITSET_STATS_RESETS_INC(BSET)			\
+#define BITSET_STATS_RESETS_INC(BSET) 			\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].resets++
-#define BITSET_STATS_CACHE_RESETS_INC(BSET)		\
+#define BITSET_STATS_CACHE_RESETS_INC(BSET) 		\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].cache_resets++
-#define BITSET_STATS_TESTS_INC(BSET)			\
+#define BITSET_STATS_TESTS_INC(BSET) 			\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].tests++
-#define BITSET_STATS_CACHE_TESTS_INC(BSET)		\
+#define BITSET_STATS_CACHE_TESTS_INC(BSET) 		\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].cache_tests++
-#define BITSET_STATS_LISTS_INC(BSET)			\
+#define BITSET_STATS_LISTS_INC(BSET) 			\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].lists++
-#define BITSET_STATS_LIST_COUNTS_INC(BSET, I)		\
+#define BITSET_STATS_LIST_COUNTS_INC(BSET, I) 		\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].list_counts[(I)]++
-#define BITSET_STATS_LIST_SIZES_INC(BSET, I)		\
+#define BITSET_STATS_LIST_SIZES_INC(BSET, I) 		\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].list_sizes[(I)]++
-#define BITSET_STATS_LIST_DENSITY_INC(BSET, I)		\
+#define BITSET_STATS_LIST_DENSITY_INC(BSET, I) 		\
     bitset_stats_info->types[BITSET_TYPE_ (BSET)].list_density[(I)]++
 
 
@@ -156,8 +164,8 @@ bitset_log_histogram_print (FILE *file, const char *name, const char *msg,
   for (; i < n_bins; i++)
     fprintf (file, "%*lu-%lu\t%8u (%5.1f%%)\n",
 	     max_width - ((unsigned int) (0.30103 * (i) + 0.9999) + 1),
-	     1UL << (i - 1),
-	     (1UL << i) - 1,
+	     (unsigned long) 1 << (i - 1),
+	     ((unsigned long) 1 << i) - 1,
 	     bins[i],
 	     (100.0 * bins[i]) / total);
 }
@@ -237,17 +245,17 @@ bitset_stats_disable (void)
 
 /* Read bitset statistics file.  */
 void
-bitset_stats_read (const char *file_name)
+bitset_stats_read (const char *filename)
 {
   FILE *file;
 
   if (!bitset_stats_info)
     return;
 
-  if (!file_name)
-    file_name = BITSET_STATS_FILE;
+  if (!filename)
+    filename = BITSET_STATS_FILE;
 
-  file = fopen (file_name, "r");
+  file = fopen (filename, "r");
   if (file)
     {
       if (fread (&bitset_stats_info_data, sizeof (bitset_stats_info_data),
@@ -267,17 +275,17 @@ bitset_stats_read (const char *file_name)
 
 /* Write bitset statistics file.  */
 void
-bitset_stats_write (const char *file_name)
+bitset_stats_write (const char *filename)
 {
   FILE *file;
 
   if (!bitset_stats_info)
     return;
 
-  if (!file_name)
-    file_name = BITSET_STATS_FILE;
+  if (!filename)
+    filename = BITSET_STATS_FILE;
 
-  file = fopen (file_name, "w");
+  file = fopen (filename, "w");
   if (file)
     {
       if (fwrite (&bitset_stats_info_data, sizeof (bitset_stats_info_data),
@@ -692,32 +700,32 @@ bitset_stats_init (bitset bset, bitset_bindex n_bits, enum bitset_type type)
      we are a wrapper over.  */
   switch (type)
     {
-    default:
-      abort ();
-
     case BITSET_ARRAY:
       bytes = abitset_bytes (n_bits);
-      sbset = xcalloc (1, bytes);
+      sbset = (bitset) xcalloc (1, bytes);
       abitset_init (sbset, n_bits);
       break;
 
     case BITSET_LIST:
       bytes = lbitset_bytes (n_bits);
-      sbset = xcalloc (1, bytes);
+      sbset = (bitset) xcalloc (1, bytes);
       lbitset_init (sbset, n_bits);
       break;
 
     case BITSET_TABLE:
       bytes = ebitset_bytes (n_bits);
-      sbset = xcalloc (1, bytes);
+      sbset = (bitset) xcalloc (1, bytes);
       ebitset_init (sbset, n_bits);
       break;
 
     case BITSET_VARRAY:
       bytes = vbitset_bytes (n_bits);
-      sbset = xcalloc (1, bytes);
+      sbset = (bitset) xcalloc (1, bytes);
       vbitset_init (sbset, n_bits);
       break;
+
+    default:
+      abort ();
     }
 
   bset->s.bset = sbset;
