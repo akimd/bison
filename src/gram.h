@@ -150,5 +150,9 @@ extern int error_token_number;
 
 
 /* Dump RITEM for traces. */
-void ritem_print (FILE *out);
+void ritem_print PARAMS ((FILE *out));
+
+/* Return the size of the longest rule RHS.  */
+size_t ritem_longest_rhs PARAMS ((void));
+
 #endif /* !GRAM_H_ */
