@@ -21,6 +21,7 @@
 
 
 #include "system.h"
+#include "bitset_stats.h"
 #include "bitset.h"
 #include "getargs.h"
 #include "symtab.h"
@@ -50,10 +51,11 @@ main (int argc, char *argv[])
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  bitset_stats_init ();
-
   lineno = 0;
   getargs (argc, argv);
+
+  if (trace_flag)
+    bitset_stats_enable ();
 
   muscle_init ();
 
@@ -121,6 +123,9 @@ main (int argc, char *argv[])
 #if C_ALLOCA
     alloca (0);
 #endif
+
+    if (trace_flag)
+      bitset_stats_dump (stderr);
 
   return complain_message_count ? EXIT_FAILURE : EXIT_SUCCESS;
 }

@@ -1,3 +1,11 @@
+2002-07-02  Akim Demaille  <akim@epita.fr>
+
+	* lib/libiberty.h: New.
+	* lib: Update the bitset implementation from upstream.
+	* src/closure.c, src/lalr.c, src/output.c, src/print_graph.c,
+	* src/state.c: Use BITSET_FOR_EACH, not BITSET_EXECUTE.
+	* src/main.c: Adjust bitset stats calls.
+
 2002-07-01  Paul Eggert  <eggert@twinsun.com>
 
 	* src/scan-gram.l (<SC_ESCAPED_CHARACTER>): Convert to unsigned

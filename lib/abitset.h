@@ -1,4 +1,4 @@
-/* Functions to support sbitsets.
+/* Functions to support abitsets.
    Copyright (C) 2002 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
@@ -16,13 +16,13 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
-#ifndef _SBITSET_H
-#define _SBITSET_H
+#ifndef _ABITSET_H
+#define _ABITSET_H 
 
 #include "bbitset.h"
 
-extern int sbitset_bytes PARAMS ((bitset_bindex));
+extern int abitset_bytes PARAMS ((bitset_bindex));
 
-extern bitset sbitset_init PARAMS ((bitset, bitset_bindex));
+extern bitset abitset_init PARAMS ((bitset, bitset_bindex));
 
 #endif

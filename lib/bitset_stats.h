@@ -1,4 +1,4 @@
-/* Functions to support lbitsets.
+/* Functions to support bitset statistics.
    Copyright (C) 2002 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
@@ -16,15 +16,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
-#ifndef _LBITSET_H
-#define _LBITSET_H 
+#ifndef _BITSET_STATS_H
+#define _BITSET_STATS_H 
 
 #include "bbitset.h"
 
-extern int lbitset_bytes PARAMS ((bitset_bindex));
+extern int bitset_stats_enabled;
 
-extern bitset lbitset_init PARAMS ((bitset, bitset_bindex));
+extern enum bitset_type bitset_stats_type_get PARAMS ((bitset));
 
-extern void lbitset_release_memory PARAMS ((void));
+extern int bitset_stats_bytes PARAMS ((void));
+
+extern bitset bitset_stats_init PARAMS ((bitset, bitset_bindex, 
+					 enum bitset_type));
 
 #endif
