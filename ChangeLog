@@ -1,5 +1,12 @@
 2001-09-22  Akim Demaille  <akim@epita.fr>
 
+	* configure.in: Invoke AM_LIB_DMALLOC.
+	* src/system.h: Use dmalloc.
+	* src/LR0.c: Be sure to have pointers initialized to NULL.
+	(allocate_itemsets): Allocate kernel_items only if needed.
+
+2001-09-22  Akim Demaille  <akim@epita.fr>
+
 	* configure.in: Bump to 1.29b.
 	* tests/Makefile.am (DISTCLEANFILES): Add package.m4.
 	* tests/calc.at (_AT_DATA_CALC_Y): #undef malloc so that we don't

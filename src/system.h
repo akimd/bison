@@ -143,8 +143,6 @@ size_t strnlen PARAMS ((const char *s, size_t maxlen));
 # define LOCALEDIR "/usr/local/share/locale"
 #endif
 
-#endif  /* BISON_SYSTEM_H */
-
 
 /*-----------.
 | Booleans.  |
@@ -264,3 +262,17 @@ do {								\
 #  define BISON_HAIRY "c:/usr/local/lib/bison.hairy"
 # endif
 #endif
+
+
+/*---------------------------------.
+| Debugging the memory allocator.  |
+`---------------------------------*/
+
+# if WITH_DMALLOC
+#  define DMALLOC_FUNC_CHECK
+#  include <dmalloc.h>
+
+# endif /* WITH_DMALLOC */
+
+
+#endif  /* BISON_SYSTEM_H */

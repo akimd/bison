@@ -2,6 +2,7 @@
 EXTRA_DIST = 					\
 c-bs-a.m4					\
 codeset.m4					\
+dmalloc.m4					\
 error.m4					\
 gettext.m4					\
 glibc21.m4					\
