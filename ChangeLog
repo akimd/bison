@@ -1,3 +1,9 @@
+2002-10-18  Paul Eggert  <eggert@twinsun.com>
+
+	* tests/calc.at (_AT_DATA_CALC_Y): #undef memcmp and realloc.
+	* tests/conflicts.at (%nonassoc and eof): Likewise.
+	Fixes SunOS 4.1.4 test failure reported by Peter Klein.
+
 2002-10-17  Akim Demaille  <akim@epita.fr>
 
 	* src/getargs.h (trace_e): Add trace_scan, and trace_parse.
