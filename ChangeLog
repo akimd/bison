@@ -1,3 +1,9 @@
+2001-08-10  Pascal Bart  <pascal.bart@epita.fr>
+
+	* doc/bison.texinfo: Include GNU General Public License from 
+	`gpl.texi'.
+	* doc/gpl.texi: Add to package.
+
 2001-08-10  Marc Autret  <autret_m@epita.fr>
 
 	* src/print_graph.h: Fix.
