@@ -54,18 +54,8 @@
 #    define YYSTACK_ALLOC alloca
 #    define YYSIZE_T YYSTD (size_t)
 #   else
-#    if defined (__GNUC__) || defined (_AIX) || defined (__hpux)
+#    ifdef __GNUC__
 #     define YYSTACK_ALLOC __builtin_alloca
-#    endif
-#    ifndef __GNUC__
-#     ifdef _AIX
- #     pragma alloca
-#     endif
-#     if defined (__sgi) || defined (__sparc__) || defined (__sparc) || defined (__sun)
-#      include <alloca.h> /* INFRINGES ON USER NAME SPACE */
-#      define YYSTACK_ALLOC alloca
-#      define YYSIZE_T YYSTD (size_t)
-#     endif
 #    endif
 #   endif
 #  endif

@@ -7,6 +7,9 @@ Changes in version 1.30i:
   If YYSTACK_USE_ALLOCA is defined to 0, then the parsers will use
   malloc exclusively.  Since 1.29, but was not NEWS'ed.
 
+  alloca is used only when compiled with GCC, to avoid portability
+  problems as on AIX.
+
 * Bug fixes
 
 Changes in version 1.30h:
