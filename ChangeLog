@@ -1,5 +1,10 @@
 2002-06-20  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.simple (YYDSYMPRINT): New.
+	Use it to remove many of the #if YYDEBUG/if (yydebug).
+
+2002-06-20  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.h, src/symtab.c (symbol_t): printer and
 	printer_location are new members.
 	(symbol_printer_set): New.

@@ -556,11 +556,17 @@ do {						\
   if (yydebug)					\
     YYFPRINTF Args;				\
 } while (0)
+# define YYDSYMPRINT(Args)			\
+do {						\
+  if (yydebug)					\
+    yysymprint Args;				\
+} while (0)
 /* Nonzero means print parse trace.  It is left uninitialized so that
    multiple parsers can coexist.  */
 int yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
+# define YYDSYMPRINT(Args)
 #endif /* !YYDEBUG */
 
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
@@ -886,16 +892,11 @@ yybackup:
     {
       yychar1 = YYTRANSLATE (yychar);
 
-#if YYDEBUG
-     /* We have to keep this `#if YYDEBUG', since we use variables
-	which are defined only if `YYDEBUG' is set.  */
-      if (yydebug)
-	{
-	  YYFPRINTF (stderr, "Next token is ");
-	  yysymprint (stderr, yychar1, yylval]b4_location_if([, yyloc])[);
-	  YYFPRINTF (stderr, "\n");
-	}
-#endif
+      /* We have to keep this `#if YYDEBUG', since we use variables
+	 which are defined only if `YYDEBUG' is set.  */
+      YYDPRINTF ((stderr, "Next token is "));
+      YYDSYMPRINT ((stderr, yychar1, yylval]b4_location_if([, yyloc])[));
+      YYDPRINTF ((stderr, "\n"));
     }
 
   yyn += yychar1;
@@ -1109,16 +1110,11 @@ yyerrlab1:
 	  /* Pop the rest of the stack.  */
 	  while (yyssp > yyss)
 	    {
-#if YYDEBUG
-	      if (yydebug)
-		{
-		  YYFPRINTF (stderr, "Error: popping ");
-		  yysymprint (stderr,
-			      yystos[*yyssp],
-			      *yyvsp]b4_location_if([, *yylsp])[);
-		  YYFPRINTF (stderr, "\n");
-		}
-#endif
+	      YYDPRINTF ((stderr, "Error: popping "));
+	      YYDSYMPRINT ((stderr,
+			    yystos[*yyssp],
+			    *yyvsp]b4_location_if([, *yylsp])[));
+	      YYDPRINTF ((stderr, "\n"));
 	      yydestructor (yystos[*yyssp], *yyvsp]b4_location_if([, *yylsp])[);
 	      YYPOPSTACK;
 	    }
@@ -1154,16 +1150,10 @@ yyerrlab1:
       if (yyssp == yyss)
 	YYABORT;
 
-#if YYDEBUG
-      if (yydebug)
-	{
-	  YYFPRINTF (stderr, "Error: popping ");
-	  yysymprint (stderr,
-		      yystos[*yyssp],
-		      *yyvsp]b4_location_if([, *yylsp])[);
-	  YYFPRINTF (stderr, "\n");
-	}
-#endif
+      YYDPRINTF ((stderr, "Error: popping "));
+      YYDSYMPRINT ((stderr,
+		    yystos[*yyssp], *yyvsp]b4_location_if([, *yylsp])[));
+      YYDPRINTF ((stderr, "\n"));
 
       yydestructor (yystos[yystate], *yyvsp]b4_location_if([, *yylsp])[);
       yyvsp--;
