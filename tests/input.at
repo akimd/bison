@@ -29,7 +29,7 @@ AT_SETUP([Invalid $n])
 
 AT_DATA([input.y],
 [[%%
-exp: { $$ = $1 ; }
+exp: { $$ = $1 ; };
 ]])
 
 AT_CHECK([bison input.y], [1], [],
@@ -48,7 +48,7 @@ AT_SETUP([Invalid @n])
 
 AT_DATA([input.y],
 [[%%
-exp: { @$ = @1 ; }
+exp: { @$ = @1 ; };
 ]])
 
 AT_CHECK([bison input.y], [1], [],

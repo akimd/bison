@@ -1,5 +1,14 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* tests/input.at (Invalid $n, Invalid @n): Add the ending `;'.
+	* tests/output.at (AT_CHECK_OUTPUT): Likewise.
+	* tests/headers.at (AT_TEST_CPP_GUARD_H): Ditto.
+	* tests/semantic.at (Parsing Guards): Similarly.
+	* src/reader.at (readgram): Complain if the last rule is not ended
+	with a semi-colon.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/warshall.h, src/warshall.c (bitmatrix_print): Move to...
 	* src/closure.c: here.
 	(set_firsts): Use bitsetv_reflexive_transitive_closure instead of
@@ -5750,3 +5759,5 @@
 1987-12-16  Richard Stallman  <rms@gnu.org>
 
 	* REFERENCES: entered into RCS
+
+	$Revision$ $Date$
