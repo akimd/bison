@@ -1,5 +1,15 @@
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (state_t): Replace the `lookaheadsp' member, a
+	short, with `lookaheads' (bitsetv), `lookaheads_rule' (rule_t**).
+	Adjust all dependencies.
+	* src/lalr.c (initialize_lookaheads): Split into...
+	(states_lookaheads_count, states_lookaheads_initialize): these.
+	(lalr): Adjust.
+
+	
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h, src/gram.c (grammar_rules_partial_print): New, eved
 	out of...
 	(grammar_rules_print): here.

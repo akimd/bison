@@ -88,6 +88,7 @@
 #ifndef STATE_H_
 # define STATE_H_
 
+# include "bitsetv.h"
 
 /*---------.
 | Shifts.  |
@@ -180,9 +181,9 @@ typedef struct state_s
   char consistent;
 
   /* Used in LALR, not LR(0). */
-  /* Pseudo pointer into LA. */
-  short lookaheadsp;
   int nlookaheads;
+  bitsetv lookaheads;
+  rule_t **lookaheads_rule;
 
   /* If some conflicts were solved thanks to precedence/associativity,
      a human readable description of the resolution.  */
