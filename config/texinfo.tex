@@ -3,7 +3,7 @@
 % Load plain if necessary, i.e., if running under initex.
 \expandafter\ifx\csname fmtname\endcsname\relax\input plain\fi
 %
-\def\texinfoversion{2002-03-11.08}
+\def\texinfoversion{2002-03-13.06}
 %
 % Copyright (C) 1985, 86, 88, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
 %               2000, 01, 02 Free Software Foundation, Inc.
@@ -1656,8 +1656,6 @@ where each line of input produces a line of output.}
      \global\let\contents = \relax
      \global\let\shortcontents = \relax
    \fi
-   %
-   \ifpdf \pdfmakepagedesttrue \fi
 }
 
 \def\finishtitlepage{%
@@ -3925,7 +3923,7 @@ width0pt\relax} \fi
 % argument, which will end up as the last argument to the \...entry macro.
 %
 % We open the .toc file here instead of at @setfilename or any other
-% given time so that @contents can be put in the document anywhere.
+% fixed time so that @contents can be put in the document anywhere.
 %
 \newif\iftocfileopened
 \def\writetocentry#1{%
@@ -3934,6 +3932,14 @@ width0pt\relax} \fi
     \global\tocfileopenedtrue
   \fi
   \iflinks \write\tocfile{#1{\folio}}\fi
+  %
+  % Tell \shipout to create a page destination if we're doing pdf, which
+  % will be the target of the links in the table of contents.  We can't
+  % just do it on every page because the title pages are numbered 1 and
+  % 2 (the page numbers aren't printed), and so are the first two pages
+  % of the document.  Thus, we'd have two destinations named `1', and
+  % two named `2'.
+  \ifpdf \pdfmakepagedesttrue \fi
 }
 
 \newskip\contentsrightmargin \contentsrightmargin=1in

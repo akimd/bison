@@ -2,6 +2,20 @@ Bison News
 ----------
 
 Changes in version 1.34a:
+
+* C Skeleton
+  Some projects use Bison's C parser with C++ compilers, and define
+  YYSTYPE as a class.  The recent adjustment of C parsers for data
+  alignment and 64 bit architectures made this impossible.
+
+  Because for the time being no real solution for C++ parser
+  generation exists, kludges were implemented in the parser to
+  maintain this use.  In the future, when Bison has C++ parsers, this
+  kludge will be disabled.
+
+  This kludge also addresses some C++ problems when the stack was
+  extended.
+
 
 Changes in version 1.34, 2002-03-12:
 

@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
 "POT-Creation-Date: 2002-03-20 09:33+0100\n"
-"PO-Revision-Date: 2002-03-20 09:33+0100\n"
+"PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -64,10 +64,10 @@ msgid "fatal error: "
 msgstr "error grave: %s\n"
 
 #: src/conflicts.c:44
-#, c-format
+#, fuzzy, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
-"El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
+"El conflicto en el estado %s entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
 #: src/conflicts.c:94 src/conflicts.c:119
@@ -87,6 +87,7 @@ msgstr "un error"
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] " %d conflictos desplazamiento/reducción"
+msgstr[1] " %d conflictos desplazamiento/reducción"
 
 #: src/conflicts.c:309
 #, fuzzy
@@ -98,6 +99,7 @@ msgstr " y"
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d conflictos reducción/reducción"
+msgstr[1] " %d conflictos reducción/reducción"
 
 #: src/conflicts.c:340
 #, fuzzy, c-format
@@ -152,6 +154,7 @@ msgstr "%s contiene "
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d conflictos desplazamiento/reducción"
+msgstr[1] " %d conflictos desplazamiento/reducción"
 
 #: src/conflicts.c:463 src/conflicts.c:540
 #, c-format
@@ -736,12 +739,14 @@ msgstr ""
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d reglas que nunca se han reducido\n"
+msgstr[1] "%d reglas que nunca se han reducido\n"
 
 #: src/reduce.c:511
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d no terminales %s sin uso"
+msgstr[1] "%d no terminales %s sin uso"
 
 #: src/reduce.c:517
 msgid " and "
@@ -752,6 +757,7 @@ msgstr " y "
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d regla%s sin uso"
+msgstr[1] "%d regla%s sin uso"
 
 #: src/reduce.c:551
 #, c-format
