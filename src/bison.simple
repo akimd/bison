@@ -366,7 +366,7 @@ __yy_memcpy (char *to, const char *from, unsigned int count)
 
 
 
-#line %%line "%%filename"
+#line %%line "%%skeleton"
 
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
    into yyparse.  The argument should have type void *.
@@ -760,7 +760,7 @@ yyreduce:
     {
       %%action /* The action file replaces this line.  */
     }
-#line %%line "%%filename"
+#line %%line "%%skeleton"
 
   yyvsp -= yylen;
   yyssp -= yylen;
