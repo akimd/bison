@@ -3,6 +3,11 @@
 * URGENT: Documenting C++ output
 Write a first documentation for C++ output.
 
+* value_components_used
+Was defined but not used: where was it coming from?  It can't be to
+check if %union is used, since the user is free to $<foo>n on her
+union, doesn't she?
+
 * yyerror, yyprint interface
 It should be improved, in particular when using Bison features such as
 locations, and YYPARSE_PARAMS.  For the time being, it is recommended

@@ -1,3 +1,10 @@
+2002-06-10  Akim Demaille  <akim@epita.fr>
+
+	* src/symtab.c, src/symtab.c (symbol_type_set)
+	(symbol_precedence_set): New.
+	* src/reader.c (parse_type_decl, parse_assoc_decl): Use them.
+	(value_components_used): Remove, unused.
+
 2002-06-09  Akim Demaille  <akim@epita.fr>
 
 	Move symbols handling code out of the reader.
