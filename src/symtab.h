@@ -53,4 +53,4 @@ typedef
 extern bucket **symtab;
 extern bucket *firstsymbol;
 
-extern bucket *getsym();
+extern bucket *getsym PARAMS((char *));

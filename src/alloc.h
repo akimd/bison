@@ -27,5 +27,5 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #define FREE(x) 	((x) != 0 && (free ((char *) (x)), 0))
 #endif
 
-extern	char *xmalloc();
-extern	char *xrealloc();
+extern char *xmalloc  PARAMS((register unsigned));
+extern char *xrealloc PARAMS((register char *, register unsigned));
