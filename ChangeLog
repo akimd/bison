@@ -1,3 +1,17 @@
+2004-12-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Version 2.0.  Reformat the existing news items since
+	1.875, so that related items are grouped together.
+	* configure.ac (AC_INIT): Bump version to 1.875f.
+	* src/parse-gram.c, src/parse-gram.h: Regenerate with 2.0.
+
+	* data/lalr1.cc (yydestruct_): Pacify unused variable warning
+	for yymsg, too.
+
+	* src/LR0.c (new_itemsets): Use memset rather than zeroing by
+	hand.  This avoids a warning about comparing int to size_t when
+	GCC warnings are enabled.
+
 2004-12-22  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Bison-generated parsers no longer default to using the
