@@ -1,5 +1,10 @@
 2001-12-12  Akim Demaille  <akim@epita.fr>
 
+	* src/complain.h, src/complain.c: Remove error_one_per_line, rely
+	on that of lib/error.c.
+
+2001-12-12  Akim Demaille  <akim@epita.fr>
+
 	Some hosts don't like `/' in includes.
 
 	* src/system.h: Include libgettext.h without qualifying the path.
