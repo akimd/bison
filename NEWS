@@ -3,6 +3,20 @@ Bison News
 
 Changes in version 1.75e:
 
+* If the user does not define YYSTYPE as a macro, Bison now declares it
+  using typedef instead of defining it as a macro.  POSIX requires this.
+  For consistency, YYLTYPE is also declared instead of defined.
+
+* %union directives can now have a tag before the `{', e.g., the
+  directive `%union foo {...}' now generates the C code
+  `typedef union foo { ... } YYSTYPE;'; this is for Yacc compatibility.
+  The default union tag is `YYSTYPE', for compatibility with Solaris 9 Yacc.
+  For consistency, YYLTYPE's struct tag is now `YYLTYPE' instead of `yyltype'.
+
+* `yystype' and `yyltype' are now obsolescent macros instead of being
+  typedefs or tags; they are no longer documented and will be
+  withdrawn in a future release.
+
 * References to the experimental %lex-param and %parse-param directives
   have been temporarily removed from the manual, since we don't want
   users to rely upon these features quite yet.
@@ -514,16 +528,17 @@ End:
 
 -----
 
-Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002 Free
+Software Foundation, Inc.
 
-This file is part of GNU Autoconf.
+This file is part of Bison, the GNU Compiler Compiler.
 
-GNU Autoconf is free software; you can redistribute it and/or modify
+Bison is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2, or (at your option)
 any later version.
 
-GNU Autoconf is distributed in the hope that it will be useful,
+Bison is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
