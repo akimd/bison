@@ -412,7 +412,7 @@ modification follow.
 @center TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 @end ifinfo
 
-@enumerate
+@enumerate 0
 @item
 This License applies to any program or other work which contains
 a notice placed by the copyright holder saying it may be distributed
