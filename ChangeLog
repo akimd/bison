@@ -1,3 +1,8 @@
+2002-11-14  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* data/glr.c (yyFail): Always set yyerrflag.  Corrects regression
+	on input.at test.
+
 2002-11-14  Paul Eggert  <eggert@twinsun.com>
 
 	Fix bugs reported by Nelson H. F. Beebe in
