@@ -4,13 +4,11 @@
 	* configure.in: Check for the declarations of free and malloc.
 	* src/muscle_tab.c: Adjust.
 
-	
 2002-02-05  Akim Demaille  <akim@epita.fr>
 
 	* src/muscle_tab.c (muscle_init): Don't default to NULL muscle
 	which have no values.
 
-	
 2002-02-05  Akim Demaille  <akim@epita.fr>
 
 	* src/bison.simple, src/bison.hairy, src/bison.c++: Move to...
