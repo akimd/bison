@@ -46,10 +46,6 @@ typedef enum
 
 typedef struct bucket
 {
-  /* Needed for the hash table. */
-  struct bucket *link;
-  struct bucket *next;
-
   /* The key, name of the symbol. */
   char *tag;
   /* Its type. */
@@ -66,12 +62,13 @@ typedef struct bucket
   symbol_class class;
 } bucket;
 
-
-extern bucket *firstsymbol;
+/* A function to apply to each symbol. */
+typedef bool (*bucket_processor) PARAMS ((bucket *));
 
 bucket *getsym PARAMS ((const char *));
 
-void tabinit PARAMS ((void));
-void free_symtab PARAMS ((void));
+void buckets_new PARAMS ((void));
+void buckets_do PARAMS ((bucket_processor processor, void *processor_data));
+void buckets_free PARAMS ((void));
 
 #endif /* !SYMTAB_H_ */

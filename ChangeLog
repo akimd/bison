@@ -1,5 +1,26 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	Use lib/hash for the symbol table.
+
+	* src/gram.c (ntokens): Initialize to 1, to reserve a slot for
+	EOF.
+	* src/lex.c (lex): Set the `number' member of new terminals.
+	* src/reader.c (bucket_check_defined, bucket_make_alias)
+	(bucket_check_alias_consistence, bucket_translation): New.
+	(reader, grammar_free, readgram, token_translations_init)
+	(packsymbols): Adjust.
+	(reader): Number the predefined tokens.
+	* src/reduce.c (inaccessable_symbols): Just use hard coded numbers
+	for predefined tokens.
+	* src/symtab.h (bucket): Remove all the hash table related
+	members.
+	* src/symtab.c (symtab): Replace by...
+	(bucket_table): this.
+	(bucket_new, bucket_free, hash_compare_bucket, hash_bucket)
+	(buckets_new, buckets_do): New.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.c (nitems, nrules, nsyms, ntokens, nvars, nritems)
 	(start_symbol, max_user_token_number, semantic_parser)
 	(error_token_number): Initialize.
