@@ -102,6 +102,10 @@ int current_prec = 0;
 %token PERCENT_NTERM "%nterm"
 %token PERCENT_TYPE  "%type"
 %token PERCENT_UNION "%union"
+%token PERCENT_LEFT     "%left"
+%token PERCENT_RIGHT    "%right"
+%token PERCENT_NONASSOC "%nonassoc"
+
 %token PERCENT_EXPECT "%expect"
 %token PERCENT_START "%start"
 %token PERCENT_PREC     "%prec"
@@ -220,9 +224,6 @@ precedence_declaration:
     { current_assoc = non_assoc; current_type = NULL; }
 ;
 
-%token PERCENT_LEFT     "%left";
-%token PERCENT_RIGHT    "%right";
-%token PERCENT_NONASSOC "%nonassoc";
 precedence_declarator:
   "%left"     { $$ = left_assoc; }
 | "%right"    { $$ = right_assoc; }

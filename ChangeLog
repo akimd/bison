@@ -1,9 +1,13 @@
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
+	* src/parse-gram.y: Move %token in the declaration section so that
+	we don't depend upon CVS Bison.
+
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h, src/state.c (state_rule_lookaheads_print): New.
 	* src/print.c (print_core): Use it.
 
-	
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (log_resolution): Accept the rule involved in
@@ -16,7 +20,6 @@
 	(set_conflicts): Adjust.
 	* src/lalr.c, src/lalr.h, src/state.h: Comment changes.
 
-	
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (state_t): Replace the `lookaheadsp' member, a
@@ -26,7 +29,6 @@
 	(states_lookaheads_count, states_lookaheads_initialize): these.
 	(lalr): Adjust.
 
-	
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h, src/gram.c (grammar_rules_partial_print): New, eved
@@ -36,7 +38,6 @@
 	* tests/reduce.at (Useless Rules, Reduced Automaton)
 	(Underivable Rules): Adjust.
 
-	
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
 	Copy BYacc's nice way to report the grammar.
@@ -47,7 +48,6 @@
 	(rule_print): Use grammar_rhs_print.
 	* src/print.c (print_grammar): Use grammar_rules_print.
 
-	
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
 	Complete and rationalize `useless thing' warnings.
@@ -67,7 +67,6 @@
 	* tests/conflicts.at (Unresolved SR Conflicts)
 	(Solved SR Conflicts): Adjust.
 
-	
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
 	Let symbols have a location.
@@ -101,7 +100,6 @@
 	* tests/regression.at (Web2c Report, Rule Line Numbers): Adjust
 	the line numbers.
 
-	
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
 	Grammar declarations may be found in the grammar section.
