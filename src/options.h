@@ -21,7 +21,7 @@
 #ifndef OPTIONS_H_
 # define OPTIONS_H_
 
-/* opt_access_t and struct option_table_struct need to be declare 
+/* opt_access_t and struct option_table_struct need to be declare
    here, for the parse_percent_token function in lex.c.  */
 
 /* Option accessibility.  */
@@ -43,7 +43,7 @@ struct option_table_struct
   /* Use for command line.  */
   int has_arg;
   /* A set_flag value causes the named flag to be set.  */
-  int *set_flag;
+  void *set_flag;
   /* A retval action returns the code.  */
   int ret_val;
   /* The short option value, frequently a letter.  */

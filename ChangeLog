@@ -1,3 +1,17 @@
+2001-11-05  Akim Demaille  <akim@epita.fr>
+
+	* src/options.h (struct option_table_struct): set_flags is void*.
+	* src/options.c (longopts): Support `--output' and `%output'.
+	(usage): Adjust.
+	* src/lex.h (tok_setopt): Remove, replaced with...
+	(tok_intopt, tok_stropt): these new guys.
+	* src/lex.c (getopt.h): Not needed.
+	(token_buffer, unlexed_token_buffer): Not const.
+	(percent_table): Promote `-' over `_' in directive names.
+	Active `%name-prefix', `file-prefix', and `output'.
+	(parse_percent_token): Accept possible arguments to directives.
+	Promote `-' over `_' in directive names.
+
 2001-11-04  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (Decl Summary): Split the list into
