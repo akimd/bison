@@ -1,5 +1,6 @@
 /* VCG description handler for Bison.
-   Copyright 2001 Free Software Foundation, Inc.
+
+   Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -22,7 +23,7 @@
 # define VCG_H_
 
 /* VCG color map. The 32 prime predefined colors. */
-enum color_e
+enum color
 {
   white		= 0,
   blue,
@@ -59,7 +60,7 @@ enum color_e
 };
 
 /* VCG textmode. Specify the adjustement of the text within the border of a summary node. */
-enum textmode_e
+enum textmode
 {
   centered,
   left_justify,
@@ -67,7 +68,7 @@ enum textmode_e
 };
 
 /* VCG shapes. Used for nodes shapes. */
-enum shape_e
+enum shape
 {
   box,
   rhomb,
@@ -76,34 +77,34 @@ enum shape_e
 };
 
 /* Structure for colorentries.  */
-struct colorentry_s
+struct colorentry
 {
   int color_index;
   int red_cp;
   int green_cp;
   int blue_cp;
-  struct colorentry_s *next;
+  struct colorentry *next;
 };
 
 /* Structure to construct lists of classnames. */
-struct classname_s
+struct classname
 {
   int no; /* Class number */
   const char *name; /* Name associated to the class no. */
-  struct classname_s *next; /* next name class association. */
+  struct classname *next; /* next name class association. */
 };
 
 /* Structure is in infoname.  */
-struct infoname_s
+struct infoname
 {
   int integer;
-  const char *string;
-  struct infoname_s *next;
+  char const *chars;
+  struct infoname *next;
 };
 
 /* Layout Algorithms which can be found in VCG.
    Details about each algoithm can be found below. */
-enum layoutalgorithm_e
+enum layoutalgorithm
 {
   normal,
   maxdepth,
@@ -122,14 +123,14 @@ enum layoutalgorithm_e
 };
 
 /* VCG decision yes/no. */
-enum decision_e
+enum decision
 {
   yes,
   no
 };
 
 /* VCG graph orientation. */
-enum orientation_e
+enum orientation
 {
   top_to_bottom,
   bottom_to_top,
@@ -137,8 +138,8 @@ enum orientation_e
   right_to_left
 };
 
-/* VCG alignement for node alignement. */
-enum alignement_e
+/* VCG alignment for node alignement. */
+enum alignment
 {
   center,
   top,
@@ -146,14 +147,14 @@ enum alignement_e
 };
 
 /* VCG arrow mode. */
-enum arrow_mode_e
+enum arrow_mode
 {
   fixed,
   free_a
 };
 
 /* VCG crossing weight type. */
-enum crossing_type_e
+enum crossing_type
 {
   bary,
   median,
@@ -162,7 +163,7 @@ enum crossing_type_e
 };
 
 /* VCG views. */
-enum view_e
+enum view
 {
   normal_view,
   cfish,
@@ -175,7 +176,7 @@ enum view_e
 | Node attributs list. structure that describes a node. |
 `------------------------------------------------------*/
 
-struct node_s
+struct node
 {
   /* Title the unique string identifying the node. This attribute is
      mandatory. */
@@ -231,18 +232,18 @@ struct node_s
   int width;
   int height;
 
-  /* shrink, stretch gives the shrinking and stretching factor of the
+  /* shrink, expand gives the shrinking and expanding factor of the
      node. The values of the attributes width, height, borderwidth and
-     the size of the label text is scaled by ((stretch=shrink) \Lambda
+     the size of the label text is scaled by ((expand=shrink) \Lambda
      100) percent. Note that the actual scale value is determined by the
      scale value of a node relatively to a scale value of the graph,
-     i.e. if (stretch,shrink) = (2,1) for the graph and (stretch,shrink)
+     i.e. if (expand,shrink) = (2,1) for the graph and (expand,shrink)
      = (2,1) for the node of the graph, then the node is scaled by the
      factor 4 compared to the normal size. The scale value can also be
      specified by scaling: float.
      Default are 1,1. */
   int shrink;
-  int stretch;
+  int expand;
 
   /* folding specifies the default folding of the nodes. The folding k
      (with k ? 0) means that the graph part that is reachable via edges
@@ -268,12 +269,12 @@ struct node_s
      and triangle. The drawing of ellipses is much slower than the drawing
      of the other shapes.
      Default is box. */
-  enum shape_e shape;
+  enum shape shape;
 
   /* textmode specifies the adjustment of the text within the border of a
      node. The possibilities are center, left.justify and right.justify.
      Default is center. */
-  enum textmode_e textmode;
+  enum textmode textmode;
 
   /* borderwidth specifies the thickness of the node's border in pixels.
      color is the background color of the node. If none is given, the
@@ -284,13 +285,13 @@ struct node_s
 
   /* node color.
      Default is white or transparent, */
-  enum color_e color;
+  enum color color;
 
   /* textcolor is the color for the label text. bordercolor is the color
      of the border. Default color is the textcolor. info1, info2, info3
      combines additional text labels with a node or a folded graph. info1,
      Default is black. */
-  enum color_e textcolor;
+  enum color textcolor;
 
   /* info2, info3 can be selected from the menu. The corresponding text
      labels can be shown by mouse clicks on nodes.
@@ -299,14 +300,14 @@ struct node_s
 
   /* Node border color.
      Default is textcolor. */
-  enum color_e bordercolor;
+  enum color bordercolor;
 
   /* Next node node... */
-  struct node_s *next;
+  struct node *next;
 };
 
 /* typedef alias. */
-typedef struct node_s node_t;
+typedef struct node node;
 
 /*-------------------------------------------------------.
 | Edge attributs list. Structure that describes an edge. |
@@ -322,7 +323,7 @@ enum edge_type
 };
 
 /* Structs enum definitions for edges. */
-enum linestyle_e
+enum linestyle
 {
   continuous,
   dashed,
@@ -330,15 +331,15 @@ enum linestyle_e
   invisible
 };
 
-enum arrowstyle_e
+enum arrowstyle
 {
   solid,
   line,
   none
 };
 
-/* The struct edge_s itself. */
-struct edge_s
+/* The struct edge itself. */
+struct edge
 {
 
   /* Edge type.
@@ -365,7 +366,7 @@ struct edge_s
      drawn. The attributes of its shape (color, thickness) are ignored.
      To draw a dashed or dotted line needs more time than solid lines.
      Default is continuous. */
-  enum linestyle_e linestyle;
+  enum linestyle linestyle;
 
   /* Thickness is the thickness of an edge.
      Default is 2. */
@@ -379,7 +380,7 @@ struct edge_s
 
   /* color is the color of the edge.
      Default is black. */
-  enum color_e color;
+  enum color color;
 
   /* textcolor is the color of the label of the edge. arrowcolor,
      backarrowcolor is the color of the arrow head and of the backarrow
@@ -388,15 +389,15 @@ struct edge_s
      of edges that pull a node into its position. The priority of an edges
      corresponds to the strength of the rubberband.
      Default is color. */
-  enum color_e textcolor;
+  enum color textcolor;
 
   /* Arrow color.
      Default is color. */
-  enum color_e arrowcolor;
+  enum color arrowcolor;
 
   /* BackArrow color.
      Default is color. */
-  enum color_e backarrowcolor;
+  enum color backarrowcolor;
 
   /* arrowsize, backarrowsize The arrow head is a right-angled, isosceles
      triangle and the cathetuses have length arrowsize.
@@ -415,10 +416,10 @@ struct edge_s
      backarrowstyle is the style of the backarrow head. Styles are none,
      i.e. no arrow head, solid, and line.
      Default is solid. */
-  enum arrowstyle_e arrowstyle;
+  enum arrowstyle arrowstyle;
 
   /* Default is none. */
-  enum arrowstyle_e backarrowstyle;
+  enum arrowstyle backarrowstyle;
 
   /* Default is 1. */
   int priority;
@@ -448,20 +449,20 @@ struct edge_s
   /*
   ** Next edge node...
   */
-  struct edge_s *next;
+  struct edge *next;
 
 };
 
 /*
 ** typedef alias.
 */
-typedef struct edge_s edge_t;
+typedef struct edge edge;
 
 /*--------------------------------------------------------.
 | Graph attributs list. Structure that describes a graph. |
 `--------------------------------------------------------*/
 
-struct	graph_s
+struct graph
 {
   /* Graph title or name.
      Title specifies the name (a string) associated with the graph. The
@@ -501,19 +502,19 @@ struct	graph_s
      index 2, green has index 3, etc.
      Default is white for background and white or transparent for summary
      nodes. */
-  enum color_e color;
+  enum color color;
 
   /* Textcolor.
      need explainations ???
      defalut is black for summary nodes. */
-  enum color_e textcolor;
+  enum color textcolor;
 
   /* Bordercolor is the color of the summary node's border. Default color
      is the textcolor. width, height are width and height of the
      displayed part of the window of the outermost graph in pixels, or
      width and height of the summary node of inner subgraphs.
      Default is the defalut of the textcolor. */
-  enum color_e bordercolor;
+  enum color bordercolor;
 
   /* Width, height are width and height of the displayed part of the
      window of the outermost graph in pixels, or width and height of the
@@ -541,22 +542,22 @@ struct	graph_s
      Defalut value is 0 */
   int folding;
 
-  /* Shrink, stretch gives the shrinking and stretching factor for the
-     graph's representation (default is 1, 1). ((stretch=shrink) \Lambda
+  /* Shrink, expand gives the shrinking and expanding factor for the
+     graph's representation (default is 1, 1). ((expand=shrink) \Lambda
      100) is the scaling of the graph in percentage, e.g.,
-     (stretch,shrink) = (1,1) or (2,2) or (3,3) : : : is normal size,
-     (stretch,shrink) = (1,2) is half size, (stretch,shrink) = (2,1) is
+     (expand,shrink) = (1,1) or (2,2) or (3,3) : : : is normal size,
+     (expand,shrink) = (1,2) is half size, (expand,shrink) = (2,1) is
      double size. For subgraphs, it is also the scaling factor of the
      summary node. The scaling factor can also be specified by scaling:
      float (here, scaling 1.0 means normal size). */
   int shrink;
-  int stretch;
+  int expand;
 
   /* textmode specifies the adjustment of the text within the border of a
      summary node. The possibilities are center, left.justify and
      right.justify.
      Default value is center.*/
-  enum textmode_e textmode;
+  enum textmode textmode;
 
   /* Shape can be specified for subgraphs only. It is the shape of the
      subgraph summary node that appears if the subgraph is folded: box,
@@ -575,7 +576,7 @@ struct	graph_s
      influences only the order of the child nodes at a node, but not the
      order of the whole level.
      Defalut is box, other: rhomb, ellipse, triangle. */
-  enum shape_e shape;
+  enum shape shape;
 
   /* Vertical order is the level position (rank) of the summary node of an 
      inner subgraph, if this subgraph is folded. We can also specify 
@@ -605,7 +606,7 @@ struct	graph_s
   int xmax;
   int ymax;
 
-  /* xy-base: specify the upper left corner coordonates of the graph
+  /* xy-base: specify the upper left corner coordinates of the graph
      relatively to the root window.
      Defaults are 5, 5. */
   int xbase;
@@ -661,13 +662,13 @@ struct	graph_s
      additional text labels. The names are used in the menus.
      defaults are 1,2,3...
      By default, no class names. */
-  struct classname_s *classname;
+  struct classname *classname;
 
   /* Infoname allows to introduce names for the additional text labels. 
      The names are used in the menus.  
      Infoname is given by an integer and a string.  
      The default value is NULL.  */
-  struct infoname_s *infoname;
+  struct infoname *infoname;
   
   /* Colorentry allows to fill the color map. A color is a triplet of integer 
      values for the red/green/blue-part. Each integer is between 0 (off) and 
@@ -675,7 +676,7 @@ struct	graph_s
      colorentry 75 : 70 130 180 sets the map entry 75 to steel blue. This 
      color can be used by specifying just the number 75.
      Default id NULL.  */
-  struct colorentry_s *colorentry;
+  struct colorentry *colorentry;
 
   /* layoutalgorithm chooses different graph layout algorithms
      Possibilities are maxdepth, mindepth, maxdepthslow, mindepthslow,
@@ -703,7 +704,7 @@ struct	graph_s
      trees. It is much faster on such tree-like graphs and results in a
      balanced layout.
      Default is normal. */
-  enum layoutalgorithm_e layoutalgorithm;
+  enum layoutalgorithm layoutalgorithm;
 
   /* Layout downfactor, layout upfactor, layout nearfactor The layout
      algorithm partitions the set of edges into edges pointing upward,
@@ -731,40 +732,40 @@ struct	graph_s
      labels and then partitions the graph, which yield a more compact
      layout, but may have more crossings.
      Default is no. */
-  enum decision_e late_edge_labels;
+  enum decision late_edge_labels;
 
   /* Display edge labels yes means display labels and no means don't
      display edge labels.
      Default vaule is no. */
-  enum decision_e display_edge_labels;
+  enum decision display_edge_labels;
 
   /* Dirty edge labels yes enforces a fast layout of edge labels, which
      may very ugly because several labels may be drawn at the same place.
      Dirty edge labels cannot be used if splines are used.
      Default is no.
   */
-  enum decision_e dirty_edge_labels;
+  enum decision dirty_edge_labels;
 
   /* Finetuning no switches the fine tuning phase of the graph layout
      algorithm off, while it is on as default. The fine tuning phase
      tries to give all edges the same length.
      Default is yes. */
-  enum decision_e finetuning;
+  enum decision finetuning;
 
   /* Ignore singles yes hides all nodes which would appear single and
      unconnected from the remaining graph. Such nodes have no edge at all
      and are sometimes very ugly. Default is to show all nodes.
      Default is no. */
-  enum decision_e ignore_singles;
+  enum decision ignore_singles;
 
-  /* Straight phase yes initiates an additional phase that tries to avoid
+  /* Long straight phase yes initiates an additional phase that tries to avoid
      bendings in long edges.
      Long edges are laid out by long straight vertical lines with
      gradient 90 degree. Thus, this phase is not very appropriate for
      normal layout, but it is recommended, if an orthogonal layout is
      selected (see manhattan.edges).
      Default is no. */
-  enum decision_e straight_phase;
+  enum decision long_straight_phase;
 
   /* priority phase yes replaces the normal pendulum method by a
      specialized method: It forces straight long edges with 90 degree,
@@ -772,7 +773,7 @@ struct	graph_s
      tune phase of the priority method. This phase is also recommended,
      if an orthogonal layout is selected (see manhattan.edges).
      Default is no. */
-  enum decision_e priority_phase;
+  enum decision priority_phase;
 
   /* manhattan edges yes switches the orthogonal layout on. Orthogonal
      layout (or manhattan layout) means that all edges consist of line
@@ -784,7 +785,7 @@ struct	graph_s
      on, too, unless priority layout and straight line tuning are
      switched off explicitly.
      Default is no. */
-  enum decision_e manhattan_edges;
+  enum decision manhattan_edges;
 
   /* Smanhattan edges yes switches a specialized orthogonal layout on:
      Here, all horizontal edge segments between two levels share the same
@@ -793,12 +794,12 @@ struct	graph_s
      looks nice for trees but might be too confusing in general, because
      the location of an edge might be ambiguously.
      Default is no. */
-  enum decision_e smanhattan_edges;
+  enum decision smanhattan_edges;
 
   /* Near edges no suppresses near edges and bent near edges in the
      graph layout.
      Default is yes. */
-  enum decision_e near_edges;
+  enum decision near_edges;
 
   /* Orientation specifies the orientation of the graph: top.to.bottom,
      bottom.to.top, left.to.right or right.to.left. Note: the normal
@@ -807,7 +808,7 @@ struct	graph_s
      is left to right, the attribute xlspace is not the horizontal but
      the vertical distance between lines, etc.
      Default is to_to_bottom. */
-  enum orientation_e orientation;
+  enum orientation orientation;
 
   /* Node alignment specified the vertical alignment of nodes at the
      horizontal reference line of the levels. If top is specified, the
@@ -815,7 +816,7 @@ struct	graph_s
      the bottoms have the same y-coordinate, on center the nodes are
      centered at the levels.
      Default is center. */
-  enum alignement_e node_alignement;
+  enum alignment node_alignment;
 
   /* Port sharing no suppresses the sharing of ports of edges at the
      nodes. Normally, if multiple edges are adjacent to the same node,
@@ -827,7 +828,7 @@ struct	graph_s
      is used, each edge has its own port, i.e. its own place where it is
      adjacent to the node.
      Default is yes. */
-  enum decision_e port_sharing;
+  enum decision port_sharing;
 
   /* Arrow mode fixed (default) should be used, if port sharing is used,
      because then, only a fixed set of rotations for the arrow heads are
@@ -838,7 +839,7 @@ struct	graph_s
      arrow mode is fixed, then the arrow head is rotated only in steps of
      45 degree, and only one arrow head occurs at each port.
      Default is fixed. */
-  enum arrow_mode_e arrow_mode;
+  enum arrow_mode arrow_mode;
 
   /* Treefactor The algorithm tree for downward laid out trees tries to
      produce a medium dense, balanced tree-like layout. If the tree
@@ -868,21 +869,21 @@ struct	graph_s
      different nodes are not very probable, thus the crossing reduction
      phase 2 might be very fast.
      Default is bary. */
-  enum crossing_type_e crossing_weight;
+  enum crossing_type crossing_weight;
 
   /* Crossing phase2 is the most time consuming phase of the crossing
      reduction. In this phase, the nodes that happen to have equal
      crossing weights are permuted. By specifying no, this phase is
      suppressed.
      Default is yes. */
-  enum decision_e crossing_phase2;
+  enum decision crossing_phase2;
 
   /* Crossing optimization is a postprocessing phase after the normal
      crossing reduction: we try to optimize locally, by exchanging pairs
      of nodes to reduce the crossings. Although this phase is not very
      time consuming, it can be suppressed by specifying no.
      Default is yes. */
-  enum decision_e crossing_optimization;
+  enum decision crossing_optimization;
 
   /* View allows to select the fisheye views. Because
      of the fixed size of the window that shows the graph, we normally
@@ -907,15 +908,15 @@ struct	graph_s
      selected that shows the whole graph, and with fpfish the fixed
      radius polar fisheye is selected.
      Defalut is normal view. */
-  enum view_e view;
+  enum view view;
 
   /* Edges no suppresses the drawing of edges.
      Default is yes. */
-  enum decision_e edges;
+  enum decision edges;
 
   /* Nodes no suppresses the drawing of nodes.
      Default is yes. */
-  enum decision_e nodes;
+  enum decision nodes;
 
   /* Splines specifies whether splines are used to draw edges (yes or no).
      As default, polygon segments are used to draw edges, because this is
@@ -923,7 +924,7 @@ struct	graph_s
      validated, and is very slow. Its use is mainly to prepare high
      quality PostScript output for very small graphs.
      Default is no. */
-  enum decision_e splines;
+  enum decision splines;
 
   /* Bmax set the maximal number of iterations that are done for the
      reduction of edge bendings.
@@ -976,44 +977,44 @@ struct	graph_s
 
   /* Generic values.
    */
-  node_t node;
-  edge_t edge;
+  node node;
+  edge edge;
 
   /* List of nodes declared.
      Pointer. */
-  node_t *node_list;
+  node *node_list;
 
   /* List of edges declared.
      Pointer. */
-  edge_t *edge_list;
+  edge *edge_list;
 
 };
 
 /* Graph typedefs. */
-typedef struct graph_s	graph_t;
+typedef struct graph graph;
 
-void new_graph (graph_t *g);
-void new_node (node_t *node);
-void new_edge (edge_t *edge);
+void new_graph (graph *g);
+void new_node (node *n);
+void new_edge (edge *e);
 
-void add_node (graph_t *graph, node_t *node);
-void add_edge (graph_t *graph, edge_t *edge);
+void add_node (graph *g, node *n);
+void add_edge (graph *g, edge *e);
 
-void add_colorentry (graph_t *g, int color_idx, int red_cp, 
+void add_colorentry (graph *g, int color_idx, int red_cp, 
 		     int green_cp, int blue_cp);
-void add_classname (graph_t *g, int val, const char *name);
-void add_infoname (graph_t *g, int val, const char *name);
+void add_classname (graph *g, int val, const char *name);
+void add_infoname (graph *g, int val, const char *name);
 
 void open_node (FILE *fout);
-void output_node (node_t *node, FILE *fout);
+void output_node (node *n, FILE *fout);
 void close_node (FILE *fout);
 
-void open_edge (edge_t *edge, FILE *fout);
-void output_edge (edge_t *edge, FILE *fout);
+void open_edge (edge *e, FILE *fout);
+void output_edge (edge *e, FILE *fout);
 void close_edge (FILE *fout);
 
 void open_graph (FILE *fout);
-void output_graph (graph_t *graph, FILE *fout);
-void close_graph (graph_t *graph, FILE *fout);
+void output_graph (graph *g, FILE *fout);
+void close_graph (graph *g, FILE *fout);
 
 #endif /* VCG_H_ */
