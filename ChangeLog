@@ -1,5 +1,11 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (initialize_lookaheads): New.  Extracted from...
+	* src/LR0.c (set_state_table): here.
+	* src/lalr.c (lalr): Call it.
+
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h (shifts): Remove the `number' member: shifts are
 	attached to state, hence no longer need to be labelled with a
 	state number.
