@@ -107,7 +107,7 @@ static inline void bitset_set (bset, bitno)
   bitset_windex offset = index - bset->b.cindex;
   
   if (offset < bset->b.csize)
-    bset->b.cdata[offset] |= (1 << (bitno % BITSET_WORD_BITS));
+    bset->b.cdata[offset] |= ((bitset_word) 1 << (bitno % BITSET_WORD_BITS));
   else
     BITSET_SET_ (bset, bitno);
 }
@@ -122,7 +122,7 @@ static inline void bitset_reset (bset, bitno)
   bitset_windex offset = index - bset->b.cindex;
   
   if (offset < bset->b.csize)
-    bset->b.cdata[offset] &= ~(1 << (bitno % BITSET_WORD_BITS));
+    bset->b.cdata[offset] &= ~((bitset_word) 1 << (bitno % BITSET_WORD_BITS));
   else
     BITSET_RESET_ (bset, bitno);
 }
@@ -154,7 +154,8 @@ do   								\
   bitset_windex _offset = _index - (bset)->b.cindex;		\
   								\
   if (_offset < (bset)->b.csize)					\
-    (bset)->b.cdata[_offset] |= (1 << (_bitno % BITSET_WORD_BITS)); 	\
+    (bset)->b.cdata[_offset] |=					\
+      ((bitset_word) 1 << (_bitno % BITSET_WORD_BITS)); 	\
   else  							\
     BITSET_SET_ ((bset), _bitno);				\
 } while (0)
@@ -169,7 +170,8 @@ do   								\
   bitset_windex _offset = _index - (bset)->b.cindex;		\
   								\
   if (_offset < (bset)->b.csize)					\
-    (bset)->b.cdata[_offset] &= ~(1 << (_bitno % BITSET_WORD_BITS)); 	\
+    (bset)->b.cdata[_offset] &=					\
+      ~((bitset_word) 1 << (_bitno % BITSET_WORD_BITS)); 	\
   else  							\
     BITSET_RESET_ ((bset), _bitno);				\
 } while (0)
@@ -178,9 +180,11 @@ do   								\
 /* Test bit BITNO in bitset BSET.  */
 #define bitset_test(bset, bitno) \
 (((((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex) < (bset)->b.csize) \
-  ? ((bset)->b.cdata[(((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex)] \
-     >> ((bitno) % BITSET_WORD_BITS)) & 1 \
-  : (unsigned int) BITSET_TEST_ ((bset), (bitno)))
+  ? (((int)							\
+      ((bset)->b.cdata[(((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex)] \
+       >> ((bitno) % BITSET_WORD_BITS)))			\
+     & 1)							\
+  : BITSET_TEST_ ((bset), (bitno)))
 #endif
 
 
