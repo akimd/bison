@@ -1,5 +1,18 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (rule_t): `lhs' is now a pointer to the symbol's
+	bucket.
+	Adjust all dependencies.
+	* src/reduce.c (nonterminals_reduce): Don't forget to renumber the
+	`number' of the buckets too.
+	* src/gram.h: Include `symtab.h'.
+	(associativity): Move to...
+	* src/symtab.h: here.
+	No longer include `gram.h'.
+
+	
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h, src/gram.c (rules_rhs_length): New.
 	(ritem_longest_rhs): Use it.
 	* src/gram.h (rule_t): `number' is a new member.

@@ -98,6 +98,7 @@
 
    Associativities are recorded similarly in SYMBOLS[I]->assoc.  */
 
+#include "symtab.h"
 
 #define	ISTOKEN(s)	((s) < ntokens)
 #define	ISVAR(s)	((s) >= ntokens)
@@ -113,22 +114,13 @@ extern int nritems;
 
 extern int start_symbol;
 
-/* Associativity values for tokens and rules.  */
-typedef enum
-{
-  right_assoc,
-  left_assoc,
-  non_assoc
-} associativity;
-
-
 typedef struct rule_s
 {
   /* The number of the rule in the source.  It is usually the index in
      RULES too, except if there are useless rules.  */
   short number;
 
-  short lhs;
+  bucket *lhs;
   short *rhs;
   short prec;
   short precsym;
