@@ -155,7 +155,11 @@ dist: bison.info
 	-rm -rf `cat .fname`
 	mkdir `cat .fname`
 	dst=`cat .fname`; for f in $(DISTFILES); do \
-	   ln $$f $$dst/$$f || { echo copying $$f; cp -p $$f $$dst/$$f ; } \
+	 if test -L $$f; then \
+	   cp $$f $$dst/$$f; chmod a-w $$dst/$$f; \
+	 else \
+	   ln $$f $$dst/$$f; \
+	 fi \
 	done
 	tar --gzip -chf `cat .fname`.tar.gz `cat .fname`
 	-rm -rf `cat .fname` .fname
