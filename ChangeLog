@@ -1,5 +1,12 @@
 2002-06-11  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (grammar_rule_begin, previous_rule, current_rule):
+	New.
+	(readgram): Use them as replacement of inlined code, crule and
+	crule1.
+
+2002-06-11  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (grammar_end, grammar_symbol_append): New.
 	(readgram): Use them.
 	Make the use of `p' as local as possible.
