@@ -62,7 +62,6 @@ bison_SOURCES = 				  \
 	symlist.c symlist.h			  \
 	symtab.c symtab.h			  \
 	system.h				  \
-	types.h					  \
 	vcg.c vcg.h				  \
 	vcg_defaults.h
 

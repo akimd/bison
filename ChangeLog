@@ -1,5 +1,14 @@
 2002-07-03  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.h, src/lalr.c (goto_number_t): New.
+	* src/lalr.c (goto_list_t): New.
+	Propagate them.
+	* src/nullable.c (rule_list_t): New.
+	Propagate.
+	* src/types.h: Remove.
+
+2002-07-03  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c (print_fderives): Use rule_rhs_print.
 	* src/derives.c (print_derives): Use rule_rhs_print.
 	(rule_list_t): New, replaces `shorts'.
@@ -15,7 +24,6 @@
 	* src/output.c (m4_invoke): Move to...
 	* src/scan-skel.l: here.
 	(<<EOF>>): Close yyout, and free its name.
-
 
 2002-07-03  Akim Demaille  <akim@epita.fr>
 
