@@ -1,3 +1,10 @@
+2003-07-06  Matthias Mann  <MatthiasMann@gmx.de>
+
+	* data/lalr1.cc (operator<<(std::ostream&, const Position&)):
+	use s.empty() rather than s == "" to test for empty string; see
+	<http://mail.gnu.org/archive/html/bison-patches/2003-07/msg00003.html>
+	(trivial change)
+
 2003-06-25  Akim Demaille  <akim@epita.fr>
 
 	* config/depcomp, config/install-sh: Update from masters.
