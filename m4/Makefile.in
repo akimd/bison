@@ -92,7 +92,7 @@ VERSION = @VERSION@
 WARNING_CFLAGS = @WARNING_CFLAGS@
 l = @l@
 
-EXTRA_DIST =  atconfig.m4 c-bs-a.m4 error.m4 gettext.m4 lcmessage.m4 m4.m4 malloc.m4 mbstate_t.m4 prereq.m4 progtest.m4 realloc.m4 warning.m4
+EXTRA_DIST =  atconfig.m4 c-bs-a.m4 error.m4 gettext.m4 lcmessage.m4 m4.m4 malloc.m4 mbstate_t.m4 prereq.m4 progtest.m4 strerror_r.m4 realloc.m4 warning.m4
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h

@@ -40,6 +40,10 @@
    */
 #undef HAVE_DECL_STPCPY
 
+/* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
+   don't. */
+#undef HAVE_DECL_STRERROR_R
+
 /* Define to 1 if you have the declaration of `strndup', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRNDUP
@@ -170,6 +174,9 @@
 
 /* Define if you have the <wctype.h> header file. */
 #undef HAVE_WCTYPE_H
+
+/* Define to 1 if `strerror_r' returns a string. */
+#undef HAVE_WORKING_STRERROR_R
 
 /* Define if you have the `__argz_count' function. */
 #undef HAVE___ARGZ_COUNT

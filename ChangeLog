@@ -1,5 +1,11 @@
 2001-03-16  Akim Demaille  <akim@epita.fr>
 
+	* m4/strerror_r.m4: New.
+	* m4/error.m4: Run AC_FUNC_STRERROR_R.
+	* lib/error.h, lib/error.c: Update.
+
+2001-03-16  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c (longopts): Clean up.
 
 2001-02-21  Akim Demaille  <akim@epita.fr>

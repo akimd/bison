@@ -8,4 +8,5 @@ AC_DEFUN(jm_PREREQ_ERROR,
 [
   AC_CHECK_FUNCS(strerror strerror_r vprintf doprnt)
   AC_HEADER_STDC
+  AC_FUNC_STRERROR_R
 ])

@@ -69,10 +69,10 @@ AC_REPLACE_FUNCS(stpcpy strndup strnlen memchr)
 jm_FUNC_MALLOC
 jm_FUNC_REALLOC
 jm_PREREQ_QUOTEARG
+jm_PREREQ_ERROR
 
 ALL_LINGUAS="de es et fr ja nl ru"
 AM_GNU_GETTEXT
-jm_PREREQ_ERROR
 
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.

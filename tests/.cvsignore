@@ -10,5 +10,5 @@ stderr
 stdout
 testsuite
 calc.[chy]
-calc.c.*
+calc.tab.*
 calc
