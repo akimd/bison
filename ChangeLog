@@ -2,6 +2,44 @@
 
 	* data/README: New.
 
+2002-10-21  Paul Eggert  <eggert@twinsun.com>
+
+	Be consistent about 'bool'; the old code used an enum in one
+	module and an int in another, and this violates the C standard.
+	* m4/stdbool.m4: New file, from coreutils 4.5.3.
+	* configure.ac (AC_HEADER_STDBOOL): Add.
+	* m4/Makefile.am (EXTRA_DIST): Add stdbool.m4.
+	* src/muscle_tab.c (hash_compare_muscles): (a ? FALSE : TRUE) -> (! a)
+	* src/symtab.c (hash_compare_symbol_t): Likewise.
+	* src/system.h (bool, false, true): Use a definition consistent
+	with ../lib/hash.c.  All uses changed.
+
+	* src/complain.c (warning_issued): Renamed from warn_message_count,
+	so that we needn't worry about integer overflow (!).
+	Now of type bool.  All uses changed.
+	(complaint_issued): Renamed from complain_message_count; likewise.
+
+	* src/main.c (main): Use exit to exit with failure.
+	
+	* src/complain.c (fatal_at, fatal): Use EXIT_FAILURE and EXIT_SUCCESS
+	rather than 1 and 0.
+	* src/main.c (main): Likewise.
+	* src/getargs.c (getargs): Likewise.
+	* src/reader.c (reader): Likewise.
+
+	* src/getarg.c (getargs): Remove duplicate code for
+	"Try `bison --help'".
+
+	* src/files.c (xfopen, xfclose): Use EXIT_FAILURE rather than 2.
+	What was that "2" for?
+
+	* src/complain.h (fatal, fatal_at): Add __attribute__((__noreturn__)).
+	* src/getargs.c (usage): Likewise.
+
+	* src/getargs.c (getargs): When there are too few operands, report
+	the last one.  When there are too many, report the first extra
+	one.  This is how diffutils does it.
+
 2002-10-20  Paul Eggert  <eggert@twinsun.com>
 
 	Remove K&R vestiges.
