@@ -1,7 +1,7 @@
 # -*- Autoconf -*-
 # Checks required to run `subpipe'.
 #
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 AC_DEFUN([BISON_PREREQ_SUBPIPE],
 [
  AC_TYPE_PID_T
- AC_CHECK_HEADERS([fcntl.h sys/wait.h])
+ AC_CHECK_HEADERS([fcntl.h])
  AC_HEADER_SYS_WAIT
  AC_CHECK_FUNCS(dup2 waitpid)
  AC_FUNC_FORK
