@@ -1,5 +1,10 @@
 2002-06-18  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (compute_base_names): When computing the output file
+	names from the input file name, strip the directory part.
+
+2002-06-18  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple.new: Comment changes.
 	Reported by Andreas Schwab.
 

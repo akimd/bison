@@ -3,6 +3,11 @@ Bison News
 
 Changes in version 1.49b:
 
+* Output Directory
+  When not in Yacc compatibility mode, when the output file was not
+  specified, runnning `bison foo/bar.y' created `foo/bar.c'.  It
+  now creates `bar.c'.
+
 * Undefined token
   The undefined token was systematically mapped to 2 which prevented
   the use of 2 from the user.  This is no longer the case.
