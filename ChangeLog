@@ -1,3 +1,9 @@
+2005-02-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Language and Grammar): some -> same
+	(Epilogue): int he -> in the
+	Typos reported by Sebastian Piping via Justin Pence.
+
 2005-02-07  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/glr-regression.at (Improper handling of embedded actions
