@@ -1,5 +1,12 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (reductions_t): Rename member `nreds' as num.
+	(errs_t): Rename members `nerrs' and `errs' as `num' and `symbols'.
+	* src/state.c (ERRS_ALLOC, REDUCTIONS_ALLOC): Use the correct types.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h, src/state.c (shift_t, SHIFT_SYMBOL, SHIFT_IS_SHIFT)
 	(SHIFT_IS_GOTO, SHIFT_IS_ERROR, SHIFT_DISABLE, SHIFT_IS_DISABLED)
 	(shifts_to): Rename as...

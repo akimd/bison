@@ -152,8 +152,8 @@ struct state_s *transitions_to PARAMS ((transitions_t *state,
 
 typedef struct errs_s
 {
-  short nerrs;
-  short errs[1];
+  short num;
+  symbol_number_t symbols[1];
 } errs_t;
 
 errs_t *errs_new PARAMS ((int n));
@@ -166,8 +166,8 @@ errs_t *errs_dup PARAMS ((errs_t *src));
 
 typedef struct reductions_s
 {
-  short nreds;
-  short rules[1];
+  short num;
+  rule_number_t rules[1];
 } reductions_t;
 
 
