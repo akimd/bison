@@ -543,17 +543,18 @@ struct percent_table_struct percent_table[] =
   { "fixed_output_files",&yacc_flag,		tok_noop },	/* -y */
   { "defines",		&defines_flag,		tok_noop },	/* -d */
   { "no_parser",	&no_parser_flag,	tok_noop },	/* -n */
+  { "graph",		&graph_flag,		tok_noop },	/* -g */
 #if 0
   /* For the time being, this is not enabled yet, while it's possible
      though, since we use obstacks.  The only risk is with semantic
      parsers which will output an `include' of an output file: be sure
-     that the naem included is indeed the name of the output file.  */
+     that the name included is indeed the name of the output file.  */
   { "output_file",	&spec_outfile,		tok_setopt },	/* -o */
   { "file_prefix",	&spec_file_prefix,	tok_setopt },	/* -b */
   { "name_prefix",	&spec_name_prefix,	tok_setopt },	/* -p */
 #endif
-  { "header_extension",	NULL,			tok_hdrext},
-  { "source_extension",	NULL,			tok_srcext},
+  { "header_extension",	NULL,			tok_hdrext },
+  { "source_extension",	NULL,			tok_srcext },
   { "verbose",		&verbose_flag,		tok_noop },	/* -v */
   { "debug",		&debug_flag,		tok_noop },	/* -t */
   { "semantic_parser",	&semantic_parser,	tok_noop },
