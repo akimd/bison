@@ -1,5 +1,13 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c: Attach shifts to states as soon as they are
+	computed.
+	* src/lalr.c (set_state_table): Instead of assigning shifts to
+	state, just assert that the mapping was properly done.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (insert_start_shift): Rename as...
 	(insert_start_shifting_state): this.
 	(insert_eof_shifting_state, insert_accepting_state): New.
