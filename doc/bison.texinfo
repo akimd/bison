@@ -119,7 +119,8 @@ Reference sections:
 * Copying This Manual::  License for copying this manual.
 * Index::             Cross-references to the text.
 
-@detailmenu --- The Detailed Node Listing ---
+@detailmenu
+ --- The Detailed Node Listing ---
 
 The Concepts of Bison
 
@@ -130,6 +131,8 @@ The Concepts of Bison
                         a semantic value (the value of an integer,
                         the name of an identifier, etc.).
 * Semantic Actions::  Each rule can have an action containing C code.
+* GLR Parsers::       Writing parsers for general context-free languages
+* Locations Overview::    Tracking Locations.
 * Bison Parser::      What are Bison's input and output,
                         how is the output used?
 * Stages::            Stages in writing and running Bison grammars.
@@ -143,8 +146,8 @@ Examples
                         Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
 * Location Tracking Calc:: Demonstrating the use of @@@var{n} and @@$.
-* Multi-function Calc::    Calculator with memory and trig functions.
-                        It uses multiple data-types for semantic values.
+* Multi-function Calc::  Calculator with memory and trig functions.
+                           It uses multiple data-types for semantic values.
 * Exercises::         Ideas for improving the multi-function calculator.
 
 Reverse Polish Notation Calculator
@@ -182,15 +185,16 @@ Bison Grammar Files
 * Rules::             How to write grammar rules.
 * Recursion::         Writing recursive rules.
 * Semantics::         Semantic values and actions.
+* Locations::         Locations and actions.
 * Declarations::      All kinds of Bison declarations are described here.
 * Multiple Parsers::  Putting more than one Bison parser in one program.
 
 Outline of a Bison Grammar
 
-* Prologue::          Syntax and usage of the prologue (declarations section).
+* Prologue::          Syntax and usage of the prologue.
 * Bison Declarations::  Syntax and usage of the Bison declarations section.
 * Grammar Rules::     Syntax and usage of the grammar rules section.
-* Epilogue::          Syntax and usage of the epilogue (additional code section).
+* Epilogue::          Syntax and usage of the epilogue.
 
 Defining Language Semantics
 
@@ -201,6 +205,12 @@ Defining Language Semantics
 * Mid-Rule Actions::  Most actions go at the end of a rule.
                       This says when, why and how to use the exceptional
                         action in the middle of a rule.
+
+Tracking Locations
+
+* Location Type::               Specifying a data type for locations.
+* Actions and Locations::       Using locations in actions.
+* Location Default Action::     Defining a general way to compute locations.
 
 Bison Declarations
 
@@ -229,7 +239,7 @@ The Lexical Analyzer Function @code{yylex}
                         of the token it has read.
 * Token Positions::   How @code{yylex} must return the text position
                         (line number, etc.) of the token, if the
-                         actions want that.
+                        actions want that.
 * Pure Calling::      How the calling convention differs
                         in a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
 
@@ -259,7 +269,7 @@ Handling Context Dependencies
 * Tie-in Recovery::   Lexical tie-ins have implications for how
                         error recovery rules must be written.
 
-Understanding or Debugging Your Parser
+Debugging Your Parser
 
 * Understanding::     Understanding the structure of your parser.
 * Tracing::           Tracing the execution of your parser.
@@ -269,6 +279,7 @@ Invoking Bison
 * Bison Options::     All the options described in detail,
                         in alphabetical order by short options.
 * Option Cross Key::  Alphabetical list of long options.
+* Yacc Library::      Yacc-compatible @code{yylex} and @code{main}.
 
 Frequently Asked Questions
 
@@ -6075,6 +6086,7 @@ will produce @file{output.c++} and @file{outfile.h++}.
 * Bison Options::     All the options described in detail,
                         in alphabetical order by short options.
 * Option Cross Key::  Alphabetical list of long options.
+* Yacc Library::      Yacc-compatible @code{yylex} and @code{main}.
 @end menu
 
 @node Bison Options
@@ -6265,6 +6277,32 @@ the corresponding short option.
 --yacc                                -y
 @end example
 @end ifinfo
+
+@node Yacc Library
+@section Yacc Library
+
+The Yacc library contains default implementations of the
+@code{yyerror} and @code{main} functions.  These default
+implementations are normally not useful, but @acronym{POSIX} requires
+them.  To use the Yacc library, link your program with the
+@option{-ly} option.  Note that Bison's implementation of the Yacc
+library is distributed under the terms of the @acronym{GNU} General
+Public License (@pxref{Copying}).
+
+If you use the Yacc library's @code{yyerror} function, you should
+declare @code{yyerror} as follows:
+
+@example
+int yyerror (char const *);
+@end example
+
+Bison ignores the @code{int} value returned by this @code{yyerror}.
+If you use the Yacc library's @code{main} function, your
+@code{yyparse} function should have the following type signature:
+
+@example
+int yyparse (void);
+@end example
 
 @c ================================================= Invoking Bison
 
