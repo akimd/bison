@@ -10,6 +10,12 @@
 
 /* Define if the compiler understands prototypes.  */
 #undef PROTOTYPES
+
+/* The location of the simple parser (bison.simple).  */
+#undef XPFILE
+
+/* The location of the semantic parser (bison.hairy).  */
+#undef XPFILE1
 @BOTTOM@
 
 #if defined(PROTOTYPES) || defined(__cplusplus)

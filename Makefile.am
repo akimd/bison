@@ -1,12 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-AUTOMAKE_OPTIONS = 1.3
-
-#names of parser files
-PFILE = bison.simple
-PFILE1 = bison.hairy
-
-INCLUDES = -DXPFILE=\"$(datadir)/$(PFILE)\" \
-           -DXPFILE1=\"$(datadir)/$(PFILE1)\"
+AUTOMAKE_OPTIONS = 1.4
 
 bin_PROGRAMS = bison
 
@@ -22,7 +15,7 @@ bison_LDADD = @ALLOCA@
 noinst_HEADERS = alloc.h files.h gram.h lex.h machine.h state.h	\
  symtab.h system.h types.h getopt.h
 
-data_DATA = $(PFILE) $(PFILE1)
+data_DATA = bison.simple bison.hairy
 info_TEXINFOS = bison.texinfo
 man_MANS = bison.1
 

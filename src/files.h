@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.  */
 
 /* These two should be pathnames for opening the sample parser files.
    When bison is installed, they should be absolute pathnames.
-   XPFILE1 and XPFILE2 normally come from the Makefile.  */
+   XPFILE1 and XPFILE2 normally come from config.h.  */
 
 #define PFILE	XPFILE		/* Simple parser */
 #define PFILE1	XPFILE1		/* Semantic parser */

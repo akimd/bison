@@ -30,4 +30,9 @@ dnl Checks for library functions.
 AC_FUNC_ALLOCA
 AC_CHECK_FUNCS(mkstemp setlocale)
 
+PFILE="${datadir}/bison.simple"
+BISON_DEFINE_FILE(XPFILE, PFILE)
+PFILE1="${datadir}/bison.hairy"
+BISON_DEFINE_FILE(XPFILE1, PFILE1)
+
 AC_OUTPUT(Makefile)
