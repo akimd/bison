@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.35\n"
-"POT-Creation-Date: 2002-05-27 08:28+0200\n"
+"POT-Creation-Date: 2002-06-03 09:28+0200\n"
 "PO-Revision-Date: 2002-04-26 11:58:57+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -169,7 +169,18 @@ msgid ""
 "  -o, --output=FILE          leave output to FILE\n"
 "  -g, --graph                also produce a VCG description of the "
 "automaton\n"
-"\n"
+msgstr ""
+"Ausgabe:\n"
+"  -d, --defines              auch eine Header-Datei herstellen\n"
+"  -v, --verbose              auch eine Erklärung des Automaten herstellen\n"
+"  -b, --file-prefix=PRÄFIX   einen PRÄFIX für Ausgabe-Dateien angeben\n"
+"  -o, --output=DATEI         Ausgabe in DATEI schreiben\n"
+"  -g, --graph                auch eine VCG-Beschreibung des Automaten "
+"herstellen\n"
+
+#: src/getargs.c:143
+#, fuzzy
+msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
 "  `itemset'      complete the core item sets with their closure\n"
@@ -186,28 +197,28 @@ msgstr ""
 "  -g, --graph                auch eine VCG-Beschreibung des Automaten "
 "herstellen\n"
 
-#: src/getargs.c:151
+#: src/getargs.c:154
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Berichten Sie Fehler (auf Englisch, mit LC_ALL=C) an <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:165
+#: src/getargs.c:168
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:167
+#: src/getargs.c:170
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:171
+#: src/getargs.c:174
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:173
+#: src/getargs.c:176
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -216,17 +227,17 @@ msgstr ""
 "gibt keine Garantie; auch nicht für VERKAUFBARKEIT oder FÜR SPEZIELLE "
 "ZWECKE.\n"
 
-#: src/getargs.c:276
+#: src/getargs.c:279
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "»%s --help« gibt weitere Informationen.\n"
 
-#: src/getargs.c:285
+#: src/getargs.c:288
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: keine Grammatik-Datei angegeben\n"
 
-#: src/getargs.c:289
+#: src/getargs.c:292
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: zusätzliche Argumente nach »%s« werden ignoriert\n"

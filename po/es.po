@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.35\n"
-"POT-Creation-Date: 2002-05-27 08:28+0200\n"
+"POT-Creation-Date: 2002-06-03 09:28+0200\n"
 "PO-Revision-Date: 2002-04-03 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -227,7 +227,19 @@ msgid ""
 "  -o, --output=FILE          leave output to FILE\n"
 "  -g, --graph                also produce a VCG description of the "
 "automaton\n"
-"\n"
+msgstr ""
+"Salida:\n"
+"  -d, --defines              también produce un fichero de cabecera\n"
+"  -v, --verbose              también produce una explicación del automaton\n"
+"  -b, --file-prefix=PREFIJO  especifia el PREFIJO para los ficheros de "
+"salida\n"
+"  -o, --output=FICHERO       almacena la salida en FICHERO\n"
+"  -g, --graph                también produce una descripción en VCG del "
+"automaton\n"
+
+#: src/getargs.c:143
+#, fuzzy
+msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
 "  `itemset'      complete the core item sets with their closure\n"
@@ -245,27 +257,27 @@ msgstr ""
 "  -g, --graph                también produce una descripción en VCG del "
 "automaton\n"
 
-#: src/getargs.c:151
+#: src/getargs.c:154
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Informe de los errores a <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:165
+#: src/getargs.c:168
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU bison) %s"
 
-#: src/getargs.c:167
+#: src/getargs.c:170
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:171
+#: src/getargs.c:174
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:173
+#: src/getargs.c:176
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -275,20 +287,20 @@ msgstr ""
 "NINGUNA garantía; ni siquiera para COMERCIALIZACIÓN o ADAPTACIÓN PARA UN\n"
 "USO PARTICULAR\n"
 
-#: src/getargs.c:276
+#: src/getargs.c:279
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Pruebe `%s --help' para más información.\n"
 
 # Me parece menos "computadora" decir "ningún fichero de gramática" - cll
 #
-#: src/getargs.c:285
+#: src/getargs.c:288
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: no se ha especificado ningún fichero de gramática\n"
 
 # Ignorar es no saber, to ignore es no hacer caso, que no es lo mismo. sv
-#: src/getargs.c:289
+#: src/getargs.c:292
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
