@@ -1,3 +1,68 @@
+2002-12-21  Paul Eggert  <eggert@twinsun.com>
+
+	If the user does not define YYSTYPE as a macro, Bison now declares it
+	using typedef instead of defining it as a macro.  POSIX requires this.
+	For consistency, YYLTYPE is also declared instead of defined.
+
+	%union directives can now have a tag before the `{', e.g., the
+	directive `%union foo {...}' now generates the C code
+	`typedef union foo { ... } YYSTYPE;'; this is for Yacc compatibility.
+	The default union tag is `YYSTYPE', for compatibility with Solaris 9
+	Yacc.  For consistency, YYLTYPE's struct tag is now `YYLTYPE'
+	instead of `yyltype'.
+
+	`yystype' and `yyltype' are now obsolescent macros instead of being
+	typedefs or tags; they are no longer documented and will be
+	withdrawn in a future release.
+
+	* data/glr.c (b4_location_type): Remove.
+	(YYSTYPE): Renamed from yystype.
+	(YYSTYPE_IS_DECLARED): New macro, used to prevent double-typedef.
+	(struct YYLTYPE): Renamed from struct yyltype.
+	(YYLTYPE): Renamed from yyltype.
+	(yyltype, yystype): New (and obsolescent) macros,
+	for backward compatibility.
+	* data/yacc.c: Likewise.
+
+	* data/yacc.c (YYSTYPE): Declare as union YYSTYPE if the user
+	does not specify a union tag.  This is for compatibility with
+	Solaris 9 yacc.
+
+	* src/parse-gram.y (add_param): 2nd arg is now char * not char
+	const *, since it is now modified by stripping surrounding { }.
+	(current_braced_code): Remove.
+	(PERCENT_DESTRUCTOR, PERCENT_PRINTER, PERCENT_UNION,
+	PERCENT_LEX_PARAM, PERCENT_PARSE_PARAM): Change names to include
+	trailing " {...}".  Now of type <chars>.
+	(grammar_declaration): Adjust to bundled tokens.
+	(code_content): Remove; stripping is now done by add_param.
+	(print_token_value): Print contents of bundled tokens.
+	(token_name): New function.
+
+	* src/reader.h (braced_code, current_braced_code): Remove.
+	(token_name): New decl.
+
+	* src/scan-gram.l (handle_dollar, handle_at): Now takes int
+	token_type, not braced_code code_kind.  All uses changed.
+	(SC_PRE_CODE): New state, for scanning after a keyword that
+	has (or usually has) an immediately-following braced code.
+	(token_type): New local var, to keep track of which token type
+	to return when scanning braced code.
+	(<INITIAL>"%destructor", <INITIAL>"%lex-param",
+	<INITIAL>"%parse-param", <INITIAL>"%printer,
+	<INITIAL>"%union"): Set token type and BEGIN SC_PRE_CODE
+	instead of returning a token type immediately.
+	(<INITIAL>"{"): Set token type.
+	(<SC_BRACED_CODE>"}"): Use it.
+	(handle_action_dollar, handle_action_at): Now returns bool
+	indicating success.  Fail if ! current_rule; this prevents a core dump.
+	(handle_symbol_code_dollar, handle_symbol_code_at):
+	Remove; merge body into caller.
+	(handle_dollar, handle_at): Complain in invalid contexts.
+
+	* NEWS, doc/bison.texinfo: Document the above.
+	* NEWS: Fix years and program names in copyright notice.
+
 2002-12-17  Paul Eggert  <eggert@twinsun.com>
 
 	* NEWS, doc/bison.texinfo (Parser Function, Pure Calling, Error
@@ -10420,21 +10485,22 @@
 	* REFERENCES: entered into RCS
 -----
 
-Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
+1998, 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 
-This file is part of GNU Bison.
+This file is part of Bison, the GNU Compiler Compiler.
 
-GNU Bison is free software; you can redistribute it and/or modify
+Bison is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2, or (at your option)
 any later version.
 
-GNU Bison is distributed in the hope that it will be useful,
+Bison is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with GNU Bison; see the file COPYING.  If not, write to
+along with Bison; see the file COPYING.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
