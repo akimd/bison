@@ -5092,14 +5092,15 @@ For example :
 @example
 bison -d @var{infile.yxx}
 @end example
+@noindent
 will produce @file{infile.tab.cxx} and @file{infile.tab.hxx}. and
 
 @example
 bison -d @var{infile.y} -o @var{output.c++}
 @end example
+@noindent
 will produce @file{output.c++} and @file{outfile.h++}.
 
-@refill
 
 @menu
 * Bison Options::     All the options described in detail,

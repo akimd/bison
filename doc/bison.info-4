@@ -867,10 +867,12 @@ manipulate filenames like `-o' or `-d'.
    For example :
 
      bison -d INFILE.YXX
-   will produce `infile.tab.cxx' and `infile.tab.hxx'. and
+
+will produce `infile.tab.cxx' and `infile.tab.hxx'. and
 
      bison -d INFILE.Y -o OUTPUT.C++
-   will produce `output.c++' and `outfile.h++'.
+
+will produce `output.c++' and `outfile.h++'.
 
 * Menu:
 
