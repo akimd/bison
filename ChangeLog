@@ -1,5 +1,15 @@
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h, src/gram.c (grammar_rules_partial_print): New, eved
+	out of...
+	(grammar_rules_print): here.
+	* src/reduce.c (reduce_output): Use it.
+	* tests/reduce.at (Useless Rules, Reduced Automaton)
+	(Underivable Rules): Adjust.
+
+	
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
 	Copy BYacc's nice way to report the grammar.
 
 	* src/gram.h, src/gram.c (grammar_rhs_print, grammar_rules_print):

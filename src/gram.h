@@ -183,6 +183,11 @@ void ritem_print PARAMS ((FILE *out));
 /* Return the size of the longest rule RHS.  */
 size_t ritem_longest_rhs PARAMS ((void));
 
+/* Print the grammar's rules numbers from BEGIN (inclusive) to END
+   (exclusive) on OUT under TITLE.  */
+void grammar_rules_partial_print PARAMS ((FILE *out, const char *title,
+					  int begin, int end));
+
 /* Print the grammar's rules on OUT.  */
 void grammar_rules_print PARAMS ((FILE *out));
 
