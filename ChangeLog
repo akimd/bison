@@ -1,5 +1,17 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c, src/conflicts.h (print_reductions): Move to...
+	* src/print.c: here.
+	(lookaheadset, shiftset): New, used as additional storage by
+	print_reductions.
+	(print_results): Adjust.
+	(print_shifts, print_gotos, print_errs): New, extracted from...
+	(print_actions): here.
+	* src/print_graph.c (print_actions): Remove dead code.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (copy_dollar, copy_at): Better checking of `n' in
 	`$n' and `@n'.
 
