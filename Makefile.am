@@ -23,10 +23,10 @@ data_DATA = $(PFILE) $(PFILE1)
 info_TEXINFOS = bison.texinfo
 man_MANS = bison.1
 
-EXTRA_DIST = $(PFILE) $(PFILE1) $(man_MANS) REFERENCES configure.bat	\
+EXTRA_DIST = bison.1 bison.s1 bison.hairy REFERENCES configure.bat	\
  build.com bison.cld bison.rnh vmshlp.mar
 
 bison.simple: bison.s1 Makefile
-	-rm -f bison.simple
+	-rm -f $@
 	sed -e "/^#line/ s|bison|$(datadir)/bison|" -e "s/@bison_version@/$(VERSION)/" < $< > $@-tmp
 	mv $@-tmp $@
