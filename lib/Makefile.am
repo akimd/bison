@@ -31,7 +31,15 @@ liby_a_SOURCES = main.c yyerror.c
 # Heck, we are still using an old version of Automake which does not
 # understand inner AC_LIBOBJ (i.e., from Autoconf itself, not from
 # configure.in).
-EXTRA_DIST = malloc.c realloc.c strnlen.c
+EXTRA_DIST = malloc.c realloc.c stdbool_.h strnlen.c
+MOSTLYCLEANFILES = stdbool.h stdbool.h-t
+
+# We need the following in order to create an <stdbool.h> when the system
+# doesn't have one that works.
+$(libbison_a_OBJECTS): $(STDBOOL_H)
+stdbool.h: stdbool_.h
+	sed -e 's/@''HAVE__BOOL''@/$(HAVE__BOOL)/g' <$(srcdir)/stdbool_.h >$@-t
+	mv $@-t $@
 
 libbison_a_SOURCES = \
   gettext.h \
