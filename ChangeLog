@@ -1,10 +1,28 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	Use the more standard files `xalloc.h' and `xmalloc.c' instead of
+	Bison's `allocate.c' and `alloc.h'.  This patch was surprisingly
+	difficult and introduced a lot of core dump.  It turns out that
+	Bison used an implementation of `xmalloc' based on `calloc', and
+	at various places it does depend upon the initialization to 0.  I
+	have not tried to isolate the pertinent places, and all the former
+	calls to Bison's `xmalloc' are now using `XCALLOC'.  Someday,
+	someone should address this issue.
+
+	* src/allocate.c, src/alloc.h, m4/bison-decl.m4: Remove.
+	* lib/xmalloc.c, lib/xalloc.h, m4/malloc.m4, m4/realloc.m4: New
+	files.
+	Adjust dependencies.
+	* src/warshall.h: New file.
+	Propagate.
+
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	Various anti-`extern in *.c' changes.
 
 	* src/system.h: Include `assert.h'.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (nstates, final_state, first_state, first_shift)
@@ -17,13 +35,13 @@
 
 	Remove a lot of now useless `extern' statements in most files.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.h: New file.
 	Propagate its use.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/print.h: New file.
@@ -33,7 +51,7 @@
 	(print_results): this new function.
 	Adjust dependencies.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (conflict_report): New function.
@@ -43,14 +61,14 @@
 	* src/conflicts.h: New file.
 	Propagate its inclusion.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/nullable.h: New file.
 	Propagate its inclusion.
 	* src/nullable.c: Formatting changes.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/reduce.h: New file.
