@@ -1,5 +1,11 @@
 2001-08-29  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo: Modernize `@node' and `@top' use: just name
+	the nodes.
+	Be sure to tag the `detailmenu'.
+
+2001-08-29  Akim Demaille  <akim@epita.fr>
+
 	* Makefile.maint (do-po-update): Wget refuses to overwrite files:
 	download in a tmp dir.
 

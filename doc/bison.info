@@ -31,111 +31,111 @@ instead of in the original English.
 
 Indirect:
 bison.info-1: 1313
-bison.info-2: 50357
-bison.info-3: 99982
-bison.info-4: 148180
-bison.info-5: 191142
+bison.info-2: 50345
+bison.info-3: 99970
+bison.info-4: 148168
+bison.info-5: 191130
 
 Tag Table:
 (Indirect)
 Node: Top1313
-Node: Introduction8698
-Node: Conditions9973
-Node: Copying11437
-Node: Concepts30640
-Node: Language and Grammar31719
-Node: Grammar in Bison36735
-Node: Semantic Values38659
-Node: Semantic Actions40760
-Node: Locations Overview41949
-Node: Bison Parser43396
-Node: Stages45708
-Node: Grammar Layout46991
-Node: Examples48248
-Node: RPN Calc49383
-Node: Rpcalc Decls50357
-Node: Rpcalc Rules51944
-Node: Rpcalc Input53744
-Node: Rpcalc Line55205
-Node: Rpcalc Expr56320
-Node: Rpcalc Lexer58265
-Node: Rpcalc Main60837
-Node: Rpcalc Error61235
-Node: Rpcalc Gen62243
-Node: Rpcalc Compile63392
-Node: Infix Calc64267
-Node: Simple Error Recovery66974
-Node: Multi-function Calc68860
-Node: Mfcalc Decl70426
-Node: Mfcalc Rules72449
-Node: Mfcalc Symtab73829
-Node: Exercises80202
-Node: Grammar File80708
-Node: Grammar Outline81556
-Node: C Declarations82290
-Node: Bison Declarations82870
-Node: Grammar Rules83282
-Node: C Code83742
-Node: Symbols84672
-Node: Rules89753
-Node: Recursion91392
-Node: Semantics93111
-Node: Value Type94205
-Node: Multiple Types94877
-Node: Actions95894
-Node: Action Types98679
-Node: Mid-Rule Actions99982
-Node: Locations105552
-Node: Location Type106200
-Node: Actions and Locations106758
-Node: Location Default Action108914
-Node: Declarations110377
-Node: Token Decl111696
-Node: Precedence Decl113709
-Node: Union Decl115260
-Node: Type Decl116104
-Node: Expect Decl117010
-Node: Start Decl118556
-Node: Pure Decl118934
-Node: Decl Summary120611
-Node: Multiple Parsers125994
-Node: Interface127488
-Node: Parser Function128360
-Node: Lexical129195
-Node: Calling Convention130601
-Node: Token Values133372
-Node: Token Positions134521
-Node: Pure Calling135406
-Node: Error Reporting138338
-Node: Action Features140460
-Node: Algorithm143755
-Node: Look-Ahead146048
-Node: Shift/Reduce148180
-Node: Precedence151092
-Node: Why Precedence151743
-Node: Using Precedence153608
-Node: Precedence Examples154576
-Node: How Precedence155277
-Node: Contextual Precedence156426
-Node: Parser States158217
-Node: Reduce/Reduce159460
-Node: Mystery Conflicts163021
-Node: Stack Overflow166407
-Node: Error Recovery167780
-Node: Context Dependency172916
-Node: Semantic Tokens173764
-Node: Lexical Tie-ins176781
-Node: Tie-in Recovery178329
-Node: Debugging180501
-Node: Invocation183802
-Node: Bison Options185054
-Node: Environment Variables188666
-Node: Option Cross Key189514
-Node: VMS Invocation190358
-Node: Table of Symbols191142
-Node: Glossary198781
-Node: Copying This Manual205085
-Node: GNU Free Documentation License205294
-Node: Index225159
+Node: Introduction8686
+Node: Conditions9961
+Node: Copying11425
+Node: Concepts30628
+Node: Language and Grammar31707
+Node: Grammar in Bison36723
+Node: Semantic Values38647
+Node: Semantic Actions40748
+Node: Locations Overview41937
+Node: Bison Parser43384
+Node: Stages45696
+Node: Grammar Layout46979
+Node: Examples48236
+Node: RPN Calc49371
+Node: Rpcalc Decls50345
+Node: Rpcalc Rules51932
+Node: Rpcalc Input53732
+Node: Rpcalc Line55193
+Node: Rpcalc Expr56308
+Node: Rpcalc Lexer58253
+Node: Rpcalc Main60825
+Node: Rpcalc Error61223
+Node: Rpcalc Gen62231
+Node: Rpcalc Compile63380
+Node: Infix Calc64255
+Node: Simple Error Recovery66962
+Node: Multi-function Calc68848
+Node: Mfcalc Decl70414
+Node: Mfcalc Rules72437
+Node: Mfcalc Symtab73817
+Node: Exercises80190
+Node: Grammar File80696
+Node: Grammar Outline81544
+Node: C Declarations82278
+Node: Bison Declarations82858
+Node: Grammar Rules83270
+Node: C Code83730
+Node: Symbols84660
+Node: Rules89741
+Node: Recursion91380
+Node: Semantics93099
+Node: Value Type94193
+Node: Multiple Types94865
+Node: Actions95882
+Node: Action Types98667
+Node: Mid-Rule Actions99970
+Node: Locations105540
+Node: Location Type106188
+Node: Actions and Locations106746
+Node: Location Default Action108902
+Node: Declarations110365
+Node: Token Decl111684
+Node: Precedence Decl113697
+Node: Union Decl115248
+Node: Type Decl116092
+Node: Expect Decl116998
+Node: Start Decl118544
+Node: Pure Decl118922
+Node: Decl Summary120599
+Node: Multiple Parsers125982
+Node: Interface127476
+Node: Parser Function128348
+Node: Lexical129183
+Node: Calling Convention130589
+Node: Token Values133360
+Node: Token Positions134509
+Node: Pure Calling135394
+Node: Error Reporting138326
+Node: Action Features140448
+Node: Algorithm143743
+Node: Look-Ahead146036
+Node: Shift/Reduce148168
+Node: Precedence151080
+Node: Why Precedence151731
+Node: Using Precedence153596
+Node: Precedence Examples154564
+Node: How Precedence155265
+Node: Contextual Precedence156414
+Node: Parser States158205
+Node: Reduce/Reduce159448
+Node: Mystery Conflicts163009
+Node: Stack Overflow166395
+Node: Error Recovery167768
+Node: Context Dependency172904
+Node: Semantic Tokens173752
+Node: Lexical Tie-ins176769
+Node: Tie-in Recovery178317
+Node: Debugging180489
+Node: Invocation183790
+Node: Bison Options185042
+Node: Environment Variables188654
+Node: Option Cross Key189502
+Node: VMS Invocation190346
+Node: Table of Symbols191130
+Node: Glossary198769
+Node: Copying This Manual205073
+Node: GNU Free Documentation License205282
+Node: Index225147
 
 End Tag Table

@@ -29,9 +29,12 @@ included in translations approved by the Free Software Foundation
 instead of in the original English.
 
 
-File: bison.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
+File: bison.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
-   This manual documents version 1.28c of Bison.
+Bison
+*****
+
+   This manual documents version 1.28c of Bison, updated 29 August 2001.
 
 * Menu:
 
@@ -58,7 +61,6 @@ Reference sections:
 * Copying This Manual::  License for copying this manual.
 * Index::             Cross-references to the text.
 
- --- The Detailed Node Listing ---
 
 The Concepts of Bison
 
