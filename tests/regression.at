@@ -675,11 +675,10 @@ AT_CLEANUP
 m4_define([_AT_DATA_DANCER_Y],
 [AT_DATA_GRAMMAR([dancer.y],
 [%{
-AT_LALR1_CC_IF(
-[static int yylex (int *lval);],
+static int yylex (AT_LALR1_CC_IF([int *], [void]));
+AT_LALR1_CC_IF([],
 [#include <stdio.h>
-static void yyerror (const char *s);
-static int yylex ();])
+static void yyerror (const char *);])
 %}
 $1
 %token ARROW INVALID NUMBER STRING DATA
@@ -753,13 +752,14 @@ yyerror (const char *s)
 }])
 
 static int
-yylex (AT_LALR1_CC_IF([int *lval]))
+yylex (AT_LALR1_CC_IF([int *lval], [void]))
 [{
   static int toknum = 0;
   int tokens[] =
     {
       ':', -1
     };
+  ]AT_LALR1_CC_IF([*lval = 0; /* Pacify GCC.  */])[
   return tokens[toknum++];
 }]
 
