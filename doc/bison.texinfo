@@ -5986,9 +5986,9 @@ static void
 yyprint (FILE *file, int type, YYSTYPE value)
 @{
   if (type == VAR)
-    fprintf (file, " %s", value.tptr->name);
+    fprintf (file, "%s", value.tptr->name);
   else if (type == NUM)
-    fprintf (file, " %d", value.val);
+    fprintf (file, "%d", value.val);
 @}
 @end smallexample
 

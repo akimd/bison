@@ -1,3 +1,9 @@
+2002-11-18  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (Tracing): `yyprint' shouldn't prepend a
+	space.
+	From Tim Van Holder.
+
 2002-11-16  Akim Demaille  <akim@epita.fr>
 
 	Augment the similarity between GLR and LALR traces.
