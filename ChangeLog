@@ -1,5 +1,19 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	Also test parse error messages, including with YYERROR_VERBOSE.
+
+	* tests/calc.m4 (calc.y): Add support for `exp = exp' (non
+	associative).
+	Use it to check the computations.
+	Use it to check `nonassoc' is honored.
+	(AT_DATA_CALC_Y): Equip `calc.y' with YYERROR_VERBOSE when passed
+	`--yyerror-verbose'.
+	(_AT_CHECK_CALC): Adjust to this option.
+	(_AT_CHECK_CALC_ERROR): New macro to check parse error messages.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	Test also `--verbose', `--defines' and `--name-prefix'.  Testing
 	the latter demonstrates a flaw in the handling of non debugging
 	parsers introduced by myself on 2000-03-16: `#define yydebug 0'
