@@ -24,6 +24,8 @@
 #ifndef HASH_H_
 # define HASH_H_
 
+# include <stdio.h>
+
 # ifndef PARAMS
 #  if PROTOTYPES || __STDC__
 #   define PARAMS(Args) Args
