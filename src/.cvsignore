@@ -7,3 +7,4 @@ bison
 Makefile.in
 scan-gram.c
 scan-skel.c
+yacc
