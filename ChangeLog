@@ -1,5 +1,10 @@
 2001-11-05  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (AT_TEST_CPP_GUARD_H): Adjust the clean up
+	pattern.
+
+2001-11-05  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (parse_union_decl): Output yystype/YYSTYPE as we do
 	with yyltype/YYLTYPE.  This allows inclusion of the generated
 	header within the parser if the compiler, such as GGC, accepts
