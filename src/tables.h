@@ -85,8 +85,10 @@
    default (from YYDEFACT or YYDEFGOTO) should be used.  Otherwise,
    YYTABLE[P+I] should be used.
 
-   YYFINAL = the state number of the termination state.  YYFLAG = most
-   negative short int.  Used to flag ??  */
+   YYFINAL = the state number of the termination state.
+
+   YYLAST ( = high) the number of the last element of YYTABLE, i.e.,
+   sizeof (YYTABLE) - 1.  */
 
 extern int nvectors;
 

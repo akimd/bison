@@ -257,6 +257,7 @@ namespace yy
 
     /* Constants.  */
     static const int eof_;
+    /* LAST_ -- Last index in TABLE_.  */
     static const int last_;
     static const int nnts_;
     static const int empty_;
@@ -374,7 +375,7 @@ yy::b4_parser_class_name::parse ()
     }
 
   n_ += ilooka_;
-  if (n_ < 0 || n_ > last_ || check_[[n_]] != ilooka_)
+  if (n_ < 0 || last_ < n_ || check_[[n_]] != ilooka_)
     goto yydefault;
 
   /* Reduce or error.  */
@@ -442,7 +443,7 @@ yy::b4_parser_class_name::parse ()
       YYCDEBUG << "Reducing via rule " << n_ - 1
 	     << " (line " << rline_[[n_]] << "), ";
       for (b4_int_type_for([b4_prhs]) i = prhs_[[n_]];
-	   rhs_[[i]] >= 0; ++i)
+	   0 <= rhs_[[i]]; ++i)
 	YYCDEBUG << name_[[rhs_[i]]] << ' ';
       YYCDEBUG << "-> " << name_[[r1_[n_]]] << std::endl;
     }
@@ -483,7 +484,7 @@ yy::b4_parser_class_name::parse ()
   /* Shift the result of the reduction.  */
   n_ = r1_[[n_]];
   state_ = pgoto_[[n_ - ntokens_]] + state_stack_[[0]];
-  if (state_ >= 0 && state_ <= last_ && check_[[state_]] == state_stack_[[0]])
+  if (0 <= state_ && state_ <= last_ && check_[[state_]] == state_stack_[[0]])
     state_ = table_[[state_]];
   else
     state_ = defgoto_[[n_ - ntokens_]];

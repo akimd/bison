@@ -1,5 +1,20 @@
 2002-10-20  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (prepare): Move the definition of `tokens_number',
+	`nterms_number', `undef_token_number', `user_token_number_max'
+	to...
+	(prepare_tokens): Here.
+	(prepare_tokens): Rename as...
+	(prepare_symbols): this.
+	(prepare): Move the definition of `rules_number' to...
+	(prepare_rules): here.
+	(prepare): Move the definition of `last', `final_state_number',
+	`states_number' to...
+	(prepare_states): here.
+	* data/yacc.c, data/lalr1.cc, data/glr.c: Normalize `>' into `<'.
+
+2002-10-20  Akim Demaille  <akim@epita.fr>
+
 	* src/tables.h, src/tables.c, src/output.c: Comment changes.
 
 2002-10-20  Akim Demaille  <akim@epita.fr>
