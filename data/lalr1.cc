@@ -783,7 +783,6 @@ yy::]b4_parser_class_name[::check_[] =
   ]b4_check[
 };
 
-#if YYDEBUG
 /* STOS_[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 const ]b4_int_type_for([b4_stos])[
@@ -792,6 +791,7 @@ yy::]b4_parser_class_name[::stos_[] =
   ]b4_stos[
 };
 
+#if YYDEBUG
 /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal token number corresponding
    to YYLEX-NUM.  */
 const ]b4_int_type_for([b4_toknum])[
