@@ -1,5 +1,11 @@
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_short_or_char_table): New function.
+	(output_short_table, output_token_translations): Use it.
+	(goto_actions): Use output_short_table.
+
+2000-10-16  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.c (bucket_new): New function.
 	(getsym): Use it.
 
@@ -9,14 +15,14 @@
 	(output_gram): Use it.
 	(output_rule_data): Nicer output layout for YYTNAME.
 
-	
+
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
 	* src/lex.c (read_typename): New function.
 	(lex): Use it.
 	* src/reader.c (copy_dollar): Likewise.
 
-	
+
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (copy_comment2): Expect the input stream to be on
@@ -25,19 +31,19 @@
 	(copy_comment, copy_definition, parse_union_decl, copy_action)
 	(copy_guard): Adjust.
 
-	
+
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (parse_expect_decl): Use `skip_white_space' and
 	`read_signed_integer'.
 
-	
+
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (copy_dollar): New function.
 	(copy_guard, copy_action): Use it.
 
-	
+
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
 	* lib/quote.h, lib/quote.c, lib/quotearg.h, lib/quotearg.c:

@@ -1,5 +1,5 @@
 /* Compute look-ahead criteria for bison,
-   Copyright (C) 1984, 1986, 1989 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1986, 1989, 2000 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -35,14 +35,15 @@ void lalr PARAMS ((void));
 
 /* lalr() builds these data structures. */
 
-/* goto_map, from_state and to_state --record each shift transition
+/* GOTO_MAP, FROM_STATE and TO_STATE -- record each shift transition
    which accepts a variable (a nonterminal).
 
-   from_state[t] is the state number which a transition leads from and
-   to_state[t] is the state number it leads to.  All the transitions
-   that accept a particular variable are grouped together and
-   goto_map[i - ntokens] is the index in from_state and to_state of
-   the first of them.  */
+   FROM_STATE[T] -- state number which a transition leads from.
+   TO_STATE[T] -- state number it leads to.
+
+   All the transitions that accept a particular variable are grouped
+   together and GOTO_MAP[I - NTOKENS] is the index in FROM_STATE and
+   TO_STATE of the first of them.  */
 
 extern short *goto_map;
 extern short *from_state;
