@@ -49,6 +49,7 @@ TESTSUITE_AT = \
 	synclines.at headers.at actions.at conflicts.at \
 	calc.at \
         torture.at existing.at regression.at \
+        c++.at \
 	cxx-type.at glr-regression.at
 
 TESTSUITE = $(srcdir)/testsuite

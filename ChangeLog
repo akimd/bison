@@ -1,3 +1,20 @@
+2004-12-22  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc (parser::token_number_type, parser::rhs_number_type)
+	(parser::state_type, parser::semantic_type, parser::location_type):
+	Private, not public.
+	(parser::parse): Return ints, not bool.
+	Returning a bool introduces a problem: 0 corresponds to false, and
+	it seems weird to return false on success.  Returning true changes
+	the conventions for yyparse.
+	Alternatively we could return void and send an exception.
+	There is no clear consensus (yet?).
+	(state_stack, semantic_stack, location_stack): Rename as...
+	(state_stack_type, semantic_stack_type, location_stack_type): these.
+	Private, not public.
+	* tests/c++.at: New.
+	* tests/testsuite.at, tests/Makefile.am: Adjust.
+
 2004-12-21  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (parser::parse): Return a bool instead of an int.

@@ -1,7 +1,7 @@
 # Process this file with autom4te to create testsuite. -*- Autotest -*-
 
 # Test suite for GNU Bison.
-# Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -55,6 +55,9 @@ m4_include([existing.at])
 
 # Some old bugs.
 m4_include([regression.at])
+
+# Some C++ specific tests.
+m4_include([c++.at])
 
 # GLR tests:
 # C++ types, simplified

@@ -213,25 +213,12 @@ namespace yy
   /// A Bison parser.
   class ]b4_parser_class_name[
   {
-  public:
-    /// Internal symbol numbers.
-    typedef traits<]b4_parser_class_name[>::token_number_type token_number_type;
-    /// A type to store symbol numbers and -1.
-    typedef traits<]b4_parser_class_name[>::rhs_number_type   rhs_number_type;
-    /// State numbers.
-    typedef traits<]b4_parser_class_name[>::state_type       state_type;
     /// Symbol semantic values.
-    typedef traits<]b4_parser_class_name[>::semantic_type    semantic_type;
+    typedef traits<]b4_parser_class_name[>::semantic_type semantic_type;
     /// Symbol locations.
-    typedef traits<]b4_parser_class_name[>::location_type    location_type;
+    typedef traits<]b4_parser_class_name[>::location_type location_type;
 
-    /// State stack type.
-    typedef stack<state_type>    state_stack;
-    /// Semantic value stack type.
-    typedef stack<semantic_type> semantic_stack;
-    /// location stack type.
-    typedef stack<location_type> location_stack;
-
+  public:
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[) :
       yydebug_ (false),
@@ -245,7 +232,7 @@ namespace yy
 
     /// Parse.
     /// \returns  0 iff parsing succeeded.
-    virtual bool parse ();
+    virtual int parse ();
 
     /// The current debugging stream.
     std::ostream& debug_stream () const;
@@ -283,13 +270,24 @@ namespace yy
 #endif /* ! YYDEBUG */
 
 
-    /// The state stack.
-    state_stack    yystate_stack_;
-    /// The semantic value stack.
-    semantic_stack yysemantic_stack_;
-    /// The location stack.
-    location_stack yylocation_stack_;
+    /// State numbers.
+    typedef traits<]b4_parser_class_name[>::state_type state_type;
+    /// State stack type.
+    typedef stack<state_type>    state_stack_type;
+    /// Semantic value stack type.
+    typedef stack<semantic_type> semantic_stack_type;
+    /// location stack type.
+    typedef stack<location_type> location_stack_type;
 
+    /// The state stack.
+    state_stack_type yystate_stack_;
+    /// The semantic value stack.
+    semantic_stack_type yysemantic_stack_;
+    /// The location stack.
+    location_stack_type yylocation_stack_;
+
+    /// Internal symbol numbers.
+    typedef traits<]b4_parser_class_name[>::token_number_type token_number_type;
     /* Tables.  */
     /// For a state, the index in \a yytable_ of its portion.
     static const ]b4_int_type_for([b4_pact])[ yypact_[];
@@ -327,6 +325,8 @@ namespace yy
 #endif
 
 #if YYDEBUG
+    /// A type to store symbol numbers and -1.
+    typedef traits<]b4_parser_class_name[>::rhs_number_type rhs_number_type;
     /// A `-1'-separated list of the rules' RHS.
     static const rhs_number_type yyrhs_[];
     /// For each rule, the index of the first RHS symbol in \a yyrhs_.
@@ -538,7 +538,7 @@ yy::]b4_parser_class_name[::set_debug_level (debug_level_type l)
 }
 
 
-bool
+int
 yy::]b4_parser_class_name[::parse ()
 {
   YYCDEBUG << "Starting parse" << std::endl;
@@ -564,9 +564,9 @@ b4_syncline([@oline@], [@ofile@])])dnl
      yynewstate, since the latter expects the semantical and the
      location values to have been already stored, initialize these
      stacks with a primary value.  */
-  yystate_stack_ = state_stack (0);
-  yysemantic_stack_ = semantic_stack (0);
-  yylocation_stack_ = location_stack (0);
+  yystate_stack_ = state_stack_type (0);
+  yysemantic_stack_ = semantic_stack_type (0);
+  yylocation_stack_ = location_stack_type (0);
   yysemantic_stack_.push (yylval);
   yylocation_stack_.push (yylloc);
 
@@ -669,7 +669,7 @@ yyreduce:
     yyval = yysemantic_stack_[0];
 
   {
-    slice<location_type, location_stack> slice (yylocation_stack_, yylen_);
+    slice<location_type, location_stack_type> slice (yylocation_stack_, yylen_);
     YYLLOC_DEFAULT (yyloc, slice, yylen_);
   }
   YY_REDUCE_PRINT (yyn_);
@@ -996,7 +996,7 @@ void
 yy::]b4_parser_class_name[::yystack_print_ ()
 {
   *yycdebug_ << "Stack now";
-  for (state_stack::const_iterator i = yystate_stack_.begin ();
+  for (state_stack_type::const_iterator i = yystate_stack_.begin ();
        i != yystate_stack_.end (); ++i)
     *yycdebug_ << ' ' << *i;
   *yycdebug_ << std::endl;
@@ -1118,6 +1118,7 @@ namespace yy
     S seq_;
   };
 
+  /// Present a slice of the top of a stack.
   template <class T, class S = stack<T> >
   class slice
   {
@@ -1283,7 +1284,7 @@ namespace yy
      ** \{ */
   public:
     /// Construct a location.
-    location (void) :
+    location () :
       begin (),
       end ()
     {
@@ -1295,7 +1296,7 @@ namespace yy
      ** \{ */
   public:
     /// Reset initial location to final location.
-    inline void step (void)
+    inline void step ()
     {
       begin = end;
     }
