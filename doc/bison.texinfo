@@ -73,7 +73,7 @@ instead of in the original English.
 @titlepage
 @title Bison
 @subtitle The YACC-compatible Parser Generator
-@subtitle August 1995, Bison Version 1.25
+@subtitle November 1995, Bison Version 1.25
 
 @author by Charles Donnelly and Richard Stallman
 
