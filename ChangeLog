@@ -1,5 +1,10 @@
 2002-06-19  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.simple (m4_location_if): New.
+	Use it instead of #ifdef YYLSP_NEEDED.
+
+2002-06-19  Akim Demaille  <akim@epita.fr>
+
 	Prepare @$ in %destructor, but currently don't bind it in the
 	skeleton, as %location use is not cleaned up yet.
 
