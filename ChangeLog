@@ -1,3 +1,8 @@
+2003-04-21  Paul Eggert  <eggert@twinsun.com>
+
+	* m4/error.m4: Update from Bruno Haible's 2003-04-14 patch
+	to gnulib.
+
 2003-04-21  Yakov Markovitch <Markovitch@iso.ru>
 
 	* data/glr.c (yyexpandGLRStack) [!YYSTACKEXPANDABLE]:
