@@ -189,7 +189,7 @@ declaration:
 | "%pure-parser"                           { pure_parser = 1; }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = 1; }
-| "%verbose"                               { report_flag = 1; }
+| "%verbose"                               { report_flag = report_states; }
 | "%yacc"                                  { yacc_flag = 1; }
 | ";"
 ;
