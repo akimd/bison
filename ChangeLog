@@ -1,5 +1,10 @@
 2002-10-12  Paul Eggert  <eggert@twinsun.com>
 
+	* src/reader.c (grammar_current_rule_check):
+	Don't worry about the default action if $$ is untyped.
+	Prevents bogus warnings reported by Jim Gifford in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-October/001673.html>.
+
 	* data/c.m4 (b4_token_enum): Do not define YYTOKENTYPE.
 	* data/glr.c, data/lalr1.cc, data/yacc.c:
 	Output token definitions before the first part of user declarations.
