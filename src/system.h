@@ -1,5 +1,6 @@
 /* System-dependent definitions for Bison.
-   Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
+
+   Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -185,7 +186,19 @@ void *memrchr (const void *s, int c, size_t n);
 #if HAVE_STDBOOL_H
 # include <stdbool.h>
 #else
-typedef enum {false = 0, true = 1} bool;
+# ifndef __bool_true_false_are_defined
+#  if ! HAVE__BOOL
+#   ifdef __cplusplus
+typedef bool _Bool;
+#   else
+typedef unsigned char _Bool;
+#   endif
+#  endif
+#  define bool _Bool
+#  define false 0
+#  define true 1
+#  define __bool_true_false_are_defined 1
+# endif
 #endif
 
 
