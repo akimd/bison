@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.75d:
+Changes in version 1.75d, 2002-12-13:
 
 * Semicolons are once again optional at the end of grammar rules.
   This reverts to the behavior of Bison 1.33 and earlier, and improves
