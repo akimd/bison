@@ -26,6 +26,7 @@ AT_INIT
 AT_TESTED([bison])
 
 m4_include([output.at])
+m4_include([sets.at])
 m4_include([reduce.at])
 m4_include([calc.at])
 m4_include([torture.at])
