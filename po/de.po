@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-10-26 14:37+0200\n"
+"POT-Creation-Date: 2001-11-01 19:27+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -129,12 +129,12 @@ msgstr ""
 msgid "%s derives"
 msgstr "%s leitet ab"
 
-#: src/files.c:133
+#: src/files.c:143
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:152
+#: src/files.c:162
 msgid "cannot close file"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgid ""
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:214 src/lex.c:650
+#: src/getargs.c:214 src/lex.c:651
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr ""
@@ -233,35 +233,35 @@ msgstr "%s: zusätzliche Argumente nach »%s« werden ignoriert\n"
 msgid "too many gotos (max %d)"
 msgstr ""
 
-#: src/lex.c:78
+#: src/lex.c:77
 msgid "unexpected `/' found and ignored"
 msgstr "»/« wird hier nicht erwartet und wird deshalb ignoriert"
 
-#: src/lex.c:107 src/reader.c:269
+#: src/lex.c:106 src/reader.c:269
 msgid "unterminated comment"
 msgstr "unbeendeter Kommentar"
 
-#: src/lex.c:139
+#: src/lex.c:138
 #, fuzzy
 msgid "unexpected end of file"
 msgstr "Datei endet unerwartet"
 
 # Oder soll man den Begriff "Escapezeichen" verwenden?
-#: src/lex.c:168
+#: src/lex.c:167
 msgid "unescaped newline in constant"
 msgstr "nicht maskiertes Zeilenendezeichen in Konstante"
 
-#: src/lex.c:210
+#: src/lex.c:209
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "oktaler Zahlenwert außerhalb des Bereichs 0...255: »\\%o«"
 
-#: src/lex.c:235
+#: src/lex.c:234
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "hexadezimaler Zahlenwert größer als 255: »\\x%x«"
 
-#: src/lex.c:247
+#: src/lex.c:246
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "unbekanntes Fluchtzeichen: »\\« gefolgt von »%s«"
@@ -274,7 +274,7 @@ msgstr "unerwarteter Typname am Ende der Datei"
 msgid "unterminated type name"
 msgstr "unerwarteter Typname"
 
-#: src/lex.c:437
+#: src/lex.c:438
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "für Literal mit mehreren Zeichen bitte \"...\" verwenden"
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29f\n"
-"POT-Creation-Date: 2001-10-26 14:37+0200\n"
+"POT-Creation-Date: 2001-11-01 19:27+0100\n"
 "PO-Revision-Date: 2001-10-19 17:53+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -128,12 +128,12 @@ msgstr "DERIVES"
 msgid "%s derives"
 msgstr "%s derives"
 
-#: src/files.c:133
+#: src/files.c:143
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "faili `%s' ei saa avada"
 
-#: src/files.c:152
+#: src/files.c:162
 msgid "cannot close file"
 msgstr "faili ei õnnestu sulgeda"
 
@@ -231,7 +231,7 @@ msgstr ""
 "See on vaba tarkvara; kopeerimistingimused leiate lähtetekstidest. Garantii\n"
 "PUUDUB; ka müügiks või mingil eesmärgil kasutamiseks.\n"
 
-#: src/getargs.c:214 src/lex.c:650
+#: src/getargs.c:214 src/lex.c:651
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' ei ole enam toetatud"
@@ -256,33 +256,33 @@ msgstr "%s: ignoreerin lisaargumente peale `%s'\n"
 msgid "too many gotos (max %d)"
 msgstr "liiga palju gotosid (maks %d)"
 
-#: src/lex.c:78
+#: src/lex.c:77
 msgid "unexpected `/' found and ignored"
 msgstr "leidsin ja ignoreerin ootamatu `/'"
 
-#: src/lex.c:107 src/reader.c:269
+#: src/lex.c:106 src/reader.c:269
 msgid "unterminated comment"
 msgstr "lõpetamata kommentaar"
 
-#: src/lex.c:139
+#: src/lex.c:138
 msgid "unexpected end of file"
 msgstr "ootamatu faililõpp"
 
-#: src/lex.c:168
+#: src/lex.c:167
 msgid "unescaped newline in constant"
 msgstr "paojadata reavahetus konstandis"
 
-#: src/lex.c:210
+#: src/lex.c:209
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "kaheksandväärtus väljaspool piire 0...255: `\\%o'"
 
-#: src/lex.c:235
+#: src/lex.c:234
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "kuueteistkümnendväärtus  suurem, kui above 255: `\\x%x'"
 
-#: src/lex.c:247
+#: src/lex.c:246
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "tundmatu paojada: `\\' järgneb `%s'"
@@ -295,7 +295,7 @@ msgstr "lõpetamata tüübinimi faili lõpus"
 msgid "unterminated type name"
 msgstr "lõpetamata tüübinimi"
 
-#: src/lex.c:437
+#: src/lex.c:438
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "kasuta mitmesümboliliste literaalidega \"...\" konstruktsiooni"
 
