@@ -1,3 +1,8 @@
+2005-01-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/vcg.c (get_view_str): Remove case for normal_view.
+	Problem reported by twlevo@xs4all.nl.
+
 2005-01-24  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* configure.ac (O0CFLAGS, O0CXXFLAGS): Fix quoting bug.
