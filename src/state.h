@@ -206,9 +206,13 @@ typedef struct state_s
   item_number_t items[1];
 } state_t;
 
-#define STATE_ALLOC(Nitems)						\
-  (state_t *) xcalloc ((unsigned) (sizeof (state_t) 			\
-                                  + (Nitems - 1) * sizeof (item_number_t)), 1)
+extern state_number_t nstates;
+extern state_t *final_state;
+
+/* Create a new state with ACCESSING_SYMBOL for those items.  */
+
+state_t *state_new PARAMS ((symbol_number_t accessing_symbol,
+			    size_t core_size, item_number_t *core));
 
 /* Print on OUT all the lookaheads such that this STATE wants to
    reduce this RULE.  */
