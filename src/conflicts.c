@@ -401,7 +401,14 @@ conflicts_print (void)
 
   if (expected_conflicts != -1 && !src_ok)
     {
-      complain_message_count++;
+      /* FIXME: BIG ATTROCIOUS HACK.  For flames, complaints and so
+	 on, see Bruno Haible.  GNU Gettext's plural.y's %expect is
+	 wrong, and newer Bison reject it.  But then, Bruno will be
+	 overwhelmed by bug reports, until a fixed Gettext is
+	 released.  So for the 1.3x generation only, we leave a puke
+	 puke hack.  */
+      if (!strsuffix (infile, "plural.y"))
+	complain_message_count++;
       fprintf (stderr, ngettext ("expected %d shift/reduce conflict\n",
 				 "expected %d shift/reduce conflicts\n",
 				 expected_conflicts),

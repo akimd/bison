@@ -1,5 +1,6 @@
 /* Open and close files for bison,
-   Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.
+   Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -58,7 +59,7 @@ const char *header_extension = NULL;
 | Is SUFFIX ending STRING?  |
 `--------------------------*/
 
-static int
+int
 strsuffix (const char *string, const char *suffix)
 {
   size_t string_len = strlen (string);

@@ -3,6 +3,12 @@ Bison News
 
 Changes in version 1.30j:
 
+* GNU Gettext and %expect
+  GNU Gettext asserts 10 s/r conflicts, but there are 7.  Now that
+  Bison dies on incorrect %expectations, we fear there will be
+  too many bug reports for Gettext, so _for the time being_, %expect
+  does not trigger an error when the input file is named `plural.y'.
+
 Changes in version 1.30i:
 
 * Use of alloca in parsers
