@@ -89,7 +89,8 @@ AC_FUNC_ALLOCA
 AC_FUNC_OBSTACK
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_STRNLEN
-AC_CHECK_FUNCS(mkstemp setlocale)
+UTILS_FUNC_MKSTEMP
+AC_CHECK_FUNCS(setlocale)
 AC_CHECK_DECLS([free, stpcpy, strchr, strspn, strnlen, malloc, memchr, memrchr])
 AC_REPLACE_FUNCS(stpcpy strchr strspn memchr memrchr)
 jm_FUNC_MALLOC

@@ -1,3 +1,16 @@
+2002-02-25  Akim Demaille  <akim@epita.fr>
+
+	* lib/tempname.c, lib/mkstemp.c, m4/mkstemp.m4: New, stolen from
+	Fileutils 4.1.5.
+	* configure.in: Invoke UTILS_FUNC_MKSTEMP.
+	* src/output.c (output_skeleton): Use mkstemp to create a real
+	temporary file.
+	Move the filling of `skeleton' and its muscle to...
+	(prepare): here.
+	(output): Move the definition of the prologue muscle to...
+	(prepare): here.
+	* src/system.h (DEFAULT_TMPDIR): New.
+
 2002-02-14  Paul Eggert  <eggert@twinsun.com>
 
 	Remove the support for C++ namespace cleanliness; it was

@@ -1,5 +1,5 @@
 /* system-dependent definitions for Bison.
-   Copyright 2000, 2001  Free Software Foundation, Inc.
+   Copyright 2000, 2001, 2002  Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -249,7 +249,9 @@ do {								\
 #define BITISSET(x, i)	(((x)[(i)/BITS_PER_WORD] & (1<<((i) % BITS_PER_WORD))) != 0)
 
 
-/* Extensions to use for the output files. */
+/*-----------------------------------------.
+| Extensions to use for the output files.  |
+`-----------------------------------------*/
 
 #ifdef VMS
   /* VMS. */
@@ -273,11 +275,23 @@ do {								\
 # endif /* ! MSDOS */
 #endif /* ! VMS */
 
-/* As memcpy, but for shorts.  */
+#ifndef DEFAULT_TMPDIR
+# define DEFAULT_TMPDIR "/tmp"
+#endif
+
+
+
+/*----------------------------.
+| As memcpy, but for shorts.  |
+`----------------------------*/
+
 #define shortcpy(Dest, Src, Num) \
   memcpy (Dest, Src, Num * sizeof (short))
 
-/* Free a linked list. */
+/*---------------------.
+| Free a linked list.  |
+`---------------------*/
+
 #define LIST_FREE(Type, List)			\
 do {						\
   Type *_node, *_next;				\
@@ -288,9 +302,10 @@ do {						\
     }						\
 } while (0)
 
-/*---------------------------------.
-| Debugging the memory allocator.  |
-`---------------------------------*/
+
+/*---------------------------------------------.
+| Debugging memory allocation (must be last).  |
+`---------------------------------------------*/
 
 # if WITH_DMALLOC
 #  define DMALLOC_FUNC_CHECK

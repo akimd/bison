@@ -12,6 +12,7 @@ lcmessage.m4					\
 malloc.m4					\
 mbrtowc.m4					\
 mbstate_t.m4					\
+mkstemp.m4					\
 prereq.m4					\
 progtest.m4					\
 realloc.m4					\
