@@ -1,5 +1,19 @@
 2001-12-13  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c (print_actions): Output the handling of `$' as the
+	traces do: shifting the token EOF.  Before EOF was treated as a
+	nonterminal.
+	* tests/regression.at: Adjust some tests.
+	* src/print_graph.c (print_core): Complete the set of items via
+	closure.  The next-to-final and final states are still unsatisfying,
+	but that's to be addressed elsewhere.
+	No longer output the rule numbers, but do output the state number.
+	A single loop for the shifts + gotos is enough, but picked a
+	distinct color for each.
+	(print_graph): Initialize and finalize closure.
+
+2001-12-13  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (readgram): Remove dead code, an strip useless
 	braces.
 	(get_type): Remove, unused.

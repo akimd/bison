@@ -105,7 +105,7 @@ state 2
 
     exp  ->  exp . OP exp   (rule 1)
 
-    $   	go to state 5
+    $   	shift, and go to state 5
     OP  	shift, and go to state 3
 
 
@@ -134,7 +134,7 @@ state 4
 
 state 5
 
-    $   	go to state 6
+    $   	shift, and go to state 6
 
 
 
@@ -209,7 +209,7 @@ state 2
 
     exp  ->  exp . OP exp   (rule 1)
 
-    $   	go to state 5
+    $   	shift, and go to state 5
     OP  	shift, and go to state 3
 
 
@@ -237,7 +237,7 @@ state 4
 
 state 5
 
-    $   	go to state 6
+    $   	shift, and go to state 6
 
 
 
@@ -376,7 +376,7 @@ state 5
 
 state 6
 
-    $   	go to state 7
+    $   	shift, and go to state 7
 
 
 
