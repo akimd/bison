@@ -1,3 +1,104 @@
+2002-10-10  Paul Eggert  <eggert@twinsun.com>
+
+	Portability fixes for bitsets; this also avoids several GCC
+	warnings.
+
+	* lib/abitset.c: Include <stddef.h>, for offsetof.
+	* lib/lbitset.c: Likewise.
+
+	* lib/abitset.c (abitset_bytes): Return a size that is aligned
+	properly for vectors of objects.  Do not assume that adding a
+	header size to a multiple of a word size yields a value that is
+	properly aligned for the whole union.
+	* lib/bitsetv.c (bitsetv_alloc): Likewise.
+
+	* lib/bitset_stats.c (bitset_stats_bytes): Adjust to new,
+	unique names for structures.
+	* lib/ebitset.c (ebitset_bytes): Likewise.
+	* lib/lbitset.c (lbitset_bytes): Likewise.
+
+	* lib/abitset.c (abitset_ones, abitset_zero, abitset_empty_p,
+	abitset_copy1, abitset_not, abitset_equal_p, abitset_subset_p,
+	abitset_disjoint_p, abitset_and, abitset_and_cmp, abitset_andn,
+	abitset_andn_cmp, abitset_or, abitset_or_cmp, abitset_xor,
+	abitset_xor_cmp, abitset_and_or, abitset_and_or_cmp,
+	abitset_andn_or, abitset_andn_or_cmp, abitset_or_and,
+	abitset_or_and_cmp, abitset_copy): Supply prototype decls,
+	to improve the type-checking that GCC can do.
+	* lib/bitset.c (bitset_op4_cmp): Likewise.
+	* lib/bitset_stats.c (bitset_stats_count,
+	bitset_stats_empty_p, bitset_stats_ones, bitset_stats_zero,
+	bitset_stats_copy, bitset_stats_disjoint_p,
+	bitset_stats_equal_p, bitset_stats_not, bitset_stats_subset_p,
+	bitset_stats_and, bitset_stats_and_cmp, bitset_stats_andn,
+	bitset_stats_andn_cmp, bitset_stats_or, bitset_stats_or_cmp,
+	bitset_stats_xor, bitset_stats_xor_cmp, bitset_stats_and_or,
+	bitset_stats_and_or_cmp, bitset_stats_andn_or,
+	bitset_stats_andn_or_cmp, bitset_stats_or_and,
+	bitset_stats_or_and_cmp): Likewise.
+	* lib/lbitset.c (lbitset_and, lbitset_and_cmp, lbitset_andn,
+	lbitset_andn_cmp, lbitset_or, lbitset_or_cmp, lbitset_xor,
+	lbitset_xor_cmp, lbitset_empty_p, lbitset_ones, lbitset_not,
+	lbitset_subset_p, lbitset_disjoint_p, debug_lbitset): Likewise.
+
+	* lib/abitset.h: Include bitset.h, not bbitset.h.
+	* lib/ebitset.h: Likewise.
+	* lib/lbitset.h: Likewise.
+
+	* lib/bbitset.h: (enum_bitset_ops, enum_bitset_type): New types.
+	All instances of parameters of type enum bitset_opts are now of
+	type enum_bitset_opts, to conform to the C Standard, and similarly
+	for enum_bitset_type.
+	* lib/ebitset.c (enum_ebitset_find_mode): Likewise.
+	* lib/lbitset.c (enum_lbitset_find_mode): Likewise.
+
+	Do not use "struct bitset_struct" to mean different things in
+	different modules.  Not only is this confusing, it violates
+	the C Standard, which requires that structure types in different
+	modules must be compatible if one is to be passed to the other.
+	* lib/bbitset.h (bitset): Now points to a union, not to a struct.
+	All instances of "struct bitset_struct *" replaced with "bitset".
+	* lib/bitset.h (struct bitset_struct): Remove, replacing with....
+	(union bitset_union, struct abitset_struct, struct ebitset_struct,
+	struct lbitset_struct, struct bitset_stats_struct): New types.
+	All uses of struct bitset_struct changed to union bitset_union,
+	etc.
+	* lib/abitset.c	(struct abitset_struct, abitset,
+	struct bitset_struct): Remove.
+	* lib/bitset_stats.c (struct bitset_stats_struct, bitset_stats,
+	struct bitset_struct): Remove.
+	* lib/ebitset.c (struct ebitset_struct, ebitset, struct
+	bitset_struct): Remove.
+	* lib/lbitset.c (struct lbitset_struct, lbitset, bitset_struct):
+	Likewise.
+
+	Do not call a function of type T using a call that assumes the
+	function is of a different type U.  Standard C requires that a
+	function must be called with a type that is compatible with its
+	definition.
+	* lib/bbitset.h (bitset_and_or_, bitset_andn_or_, bitset_or_and_):
+	New decls.
+	* lib/bitset.c (bitset_and_or_, bitset_andn_or_, bitset_or_and_):
+	New functions.
+	* lib/ebitset.c (PFV): Remove.
+	* lib/lbitset.c (PFV): Likewise.
+	* lib/ebitset.c (ebitset_and, ebitset_andn, ebitset_or,
+	ebitset_xor, ebitset_copy, ebitset_ones, ebitset_empty_p): New
+	decls.
+	(ebitset_and, ebitset_andn, ebitset_or, ebitset_xor): New functions.
+	(ebitset_vtable): Use them.
+	* lib/lbitset.c (lbitset_and, lbitset_andn, lbitset_or,
+	lbitset_xor): New functions.
+	(lbitset_vtable): Use them.
+
+	* lib/bitset.h (bitset_next, bitset_prev, bitset_only_set_p):
+	Declare.
+
+	* lib/bitsetv.c (bitsetv_alloc): Add a cast to (void *) to avoid a
+	GCC warning.
+	* lib/lbitset.c (LBITSET_CURRENT1): Likewise.
+	Use offsetof, for simplicity.
+
 2002-10-06  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/bitset.h (bitset_reset): Do not assume that bitset_word is
