@@ -61,7 +61,7 @@
 
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
-	* src/LR0.c (new_itemsets, get_state): Use more arrays and less
+	* src/LR0.c (new_itemsets, get_state): Use more arrays and fewer
 	pointers to clarify the code.
 	(save_reductions, save_shifts): Factor common parts of alternatives.
 
@@ -113,8 +113,8 @@
 
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
-	* src/bison.simple (yyparse): When reporting verbosely an error,
-	no longer issue additional quotes around token names.
+	* src/bison.simple (yyparse): When verbosely reporting an error,
+	no longer put additional quotes around token names.
 	* tests/calc.at: Adjust.
 
 2001-11-19  Akim Demaille  <akim@epita.fr>
@@ -151,12 +151,12 @@
 
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
-	* src/lalr.c (F): New macro to access to the variable F.
+	* src/lalr.c (F): New macro to access the variable F.
 	Adjust.
 
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
-	* src/lalr.h (LA): New macro to access to the variable LA.
+	* src/lalr.h (LA): New macro to access the variable LA.
 	* src/output.c, src/lalr.c, src/print_graph.c, src/conflicts.c:
 	* src/lalr.c: Adjust.
 
@@ -167,24 +167,24 @@
 
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
-	* src/lalr.h (lookaheads): Removed array, which contents is now
-	member of...
+	* src/lalr.h (lookaheads): Removed array, whose contents is now
+	a member of...
 	(state_t): this structure.
 	* src/output.c, src/lalr.c, src/print_graph.c, src/conflicts.c:
 	Adjust.
 
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
-	* src/lalr.h (consistent): Removed array, which	contents is now
-	member of...
+	* src/lalr.h (consistent): Removed array, whose contents is now
+	a member of...
 	(state_t): this structure.
 	* src/output.c, src/lalr.c, src/print_graph.c, src/conflicts.c:
 	Adjust.
 
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
-	* src/lalr.h (reduction_table, shift_table): Removed arrays, which
-	contents is now members of...
+	* src/lalr.h (reduction_table, shift_table): Removed arrays, whose
+	contents are now members of...
 	(state_t): this structure.
 	* src/output.c, src/lalr.c, src/print_graph.c, src/conflicts.c:
 	Adjust.
