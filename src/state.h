@@ -1,5 +1,7 @@
 /* Type definitions for nondeterministic finite state machine for bison,
-   Copyright 1984, 1989, 2000, 2001 Free Software Foundation, Inc.
+
+   Copyright (C) 1984, 1989, 2000, 2001, 2002 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -51,7 +53,7 @@
    lookahead token alone).  When the states are generated, these
    actions are represented in two other lists.
 
-   Each transition_t structure describes the possible transitions out
+   Each transition structure describes the possible transitions out
    of one state, the state whose number is in the number field.  Each
    contains a vector of numbers of the states that transitions can go
    to.  The accessing_symbol fields of those states' cores say what
@@ -82,31 +84,34 @@
 #ifndef STATE_H_
 # define STATE_H_
 
-# include "bitset.h"
+# include <bitset.h>
+
+# include "gram.h"
+# include "symtab.h"
 
 
 /*-------------------.
 | Numbering states.  |
 `-------------------*/
 
-typedef short state_number_t;
-# define STATE_NUMBER_MAX ((state_number_t) SHRT_MAX)
+typedef short state_number;
+# define STATE_NUMBER_MAXIMUM SHRT_MAX
 
-/* Be ready to map a state_number_t to an int.  */
+/* Be ready to map a state_number to an int.  */
 # define state_number_as_int(Tok) ((int) (Tok))
 
 
-typedef struct state_s state_t;
+typedef struct state state;
 
 /*--------------.
 | Transitions.  |
 `--------------*/
 
-typedef struct transtion_s
+typedef struct
 {
   short num;
-  state_t *states[1];
-} transitions_t;
+  state *states[1];
+} transitions;
 
 
 /* What is the symbol labelling the transition to
@@ -151,49 +156,48 @@ typedef struct transtion_s
     if (!TRANSITION_IS_DISABLED (Transitions, Iter))
 
 
-/* Return the state such these TRANSITIONS contain a shift/goto to it on
-   SYMBOL.  Aborts if none found.  */
-struct state_s;
-struct state_s *transitions_to (transitions_t *state, symbol_number_t s);
+/* Return the state such SHIFTS contain a shift/goto to it on S.
+   Abort if none found.  */
+struct state *transitions_to (transitions *shifts, symbol_number s);
 
 
 /*-------.
 | Errs.  |
 `-------*/
 
-typedef struct errs_s
+typedef struct
 {
   short num;
-  symbol_t *symbols[1];
-} errs_t;
+  symbol *symbols[1];
+} errs;
 
-errs_t *errs_new (int num, symbol_t **tokens);
+errs *errs_new (int num, symbol **tokens);
 
 
 /*-------------.
 | Reductions.  |
 `-------------*/
 
-typedef struct reductions_s
+typedef struct
 {
   short num;
   bitset *lookaheads;
-  rule_t *rules[1];
-} reductions_t;
+  rule *rules[1];
+} reductions;
 
 
 
 /*---------.
-| States.  |
+| states.  |
 `---------*/
 
-struct state_s
+struct state
 {
-  state_number_t number;
-  symbol_number_t accessing_symbol;
-  transitions_t     *transitions;
-  reductions_t *reductions;
-  errs_t       *errs;
+  state_number number;
+  symbol_number accessing_symbol;
+  transitions *transitions;
+  reductions *reductions;
+  errs *errs;
 
   /* Nonzero if no lookahead is needed to decide what to do in state S.  */
   char consistent;
@@ -205,30 +209,30 @@ struct state_s
   /* Its items.  Must be last, since ITEMS can be arbitrarily large.
      */
   unsigned short nitems;
-  item_number_t items[1];
+  item_number items[1];
 };
 
-extern state_number_t nstates;
-extern state_t *final_state;
+extern state_number nstates;
+extern state *final_state;
 
 /* Create a new state with ACCESSING_SYMBOL for those items.  */
-state_t *state_new (symbol_number_t accessing_symbol,
-		    size_t core_size, item_number_t *core);
+state *state_new (symbol_number accessing_symbol,
+		  size_t core_size, item_number *core);
 
 /* Set the transitions of STATE.  */
-void state_transitions_set (state_t *state, int num, state_t **transitions);
+void state_transitions_set (state *s, int num, state **trans);
 
 /* Set the reductions of STATE.  */
-void state_reductions_set (state_t *state, int num, rule_t **reductions);
+void state_reductions_set (state *s, int num, rule **reds);
 
-int state_reduction_find (state_t *state, rule_t *rule);
+int state_reduction_find (state *s, rule *r);
 
 /* Set the errs of STATE.  */
-void state_errs_set (state_t *state, int num, symbol_t **errs);
+void state_errs_set (state *s, int num, symbol **errors);
 
 /* Print on OUT all the lookaheads such that this STATE wants to
-   reduce this RULE.  */
-void state_rule_lookaheads_print (state_t *state, rule_t *rule, FILE *out);
+   reduce R.  */
+void state_rule_lookaheads_print (state *s, rule *r, FILE *out);
 
 /* Create/destroy the states hash table.  */
 void state_hash_new (void);
@@ -236,13 +240,13 @@ void state_hash_free (void);
 
 /* Find the state associated to the CORE, and return it.  If it does
    not exist yet, return NULL.  */
-state_t *state_hash_lookup (size_t core_size, item_number_t *core);
+state *state_hash_lookup (size_t core_size, item_number *core);
 
 /* Insert STATE in the state hash table.  */
-void state_hash_insert (state_t *state);
+void state_hash_insert (state *s);
 
 /* All the states, indexed by the state number.  */
-extern state_t **states;
+extern state **states;
 
 /* Free all the states.  */
 void states_free (void);
