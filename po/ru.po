@@ -758,8 +758,35 @@ msgstr "`"
 msgid "'"
 msgstr "'"
 
+#~ msgid " 1 shift/reduce conflict"
+#~ msgstr " 1 конфликт сдвига/вывода"
+
+#~ msgid " 1 reduce/reduce conflict"
+#~ msgstr " 1 конфликт вывода/вывода"
+
+#~ msgid "%s contains"
+#~ msgstr "%s содержит"
+
+#~ msgid "DERIVES"
+#~ msgstr "DERIVES"
+
+#~ msgid "%s derives"
+#~ msgstr "%s выводит"
+
 #~ msgid "%s: internal error: %s\n"
 #~ msgstr "%s: внутренняя ошибка: %s\n"
+
+#~ msgid "Entering set_nullable"
+#~ msgstr "Вход в set_nullable"
+
+#~ msgid "\t\t/* empty */"
+#~ msgstr "\t\t/* пусто */"
+
+#~ msgid "multiple %%header_extension declarations"
+#~ msgstr "множественные описания %%header_extension"
+
+#~ msgid "multiple %%source_extension declarations"
+#~ msgstr "множественные описания %%source_extension"
 
 #~ msgid ""
 #~ "Variables\n"
@@ -790,33 +817,6 @@ msgstr "'"
 #~ "Интерпретированные правила\n"
 #~ "--------------------------\n"
 #~ "\n"
-
-#~ msgid " 1 shift/reduce conflict"
-#~ msgstr " 1 конфликт сдвига/вывода"
-
-#~ msgid " 1 reduce/reduce conflict"
-#~ msgstr " 1 конфликт вывода/вывода"
-
-#~ msgid "%s contains"
-#~ msgstr "%s содержит"
-
-#~ msgid "DERIVES"
-#~ msgstr "DERIVES"
-
-#~ msgid "%s derives"
-#~ msgstr "%s выводит"
-
-#~ msgid "Entering set_nullable"
-#~ msgstr "Вход в set_nullable"
-
-#~ msgid "\t\t/* empty */"
-#~ msgstr "\t\t/* пусто */"
-
-#~ msgid "multiple %%header_extension declarations"
-#~ msgstr "множественные описания %%header_extension"
-
-#~ msgid "multiple %%source_extension declarations"
-#~ msgstr "множественные описания %%source_extension"
 
 #~ msgid ""
 #~ "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"

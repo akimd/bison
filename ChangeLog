@@ -1,5 +1,9 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	Version 1.30f.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* tests/atlocal.in (CPPFLAGS): Do not leave a space between -I and
 	its argument.
 	Reported by Peter Hámorský.

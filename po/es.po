@@ -877,40 +877,6 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#, fuzzy
-#~ msgid "%s: internal error: %s\n"
-#~ msgstr "error interno, %s\n"
-
-#~ msgid ""
-#~ "Variables\n"
-#~ "---------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Variables\n"
-#~ "---------\n"
-#~ "\n"
-
-#~ msgid "Value  Sprec    Sassoc    Tag\n"
-#~ msgstr "Valor  Sprec    Sasoc     Tag\n"
-
-#~ msgid ""
-#~ "Rules\n"
-#~ "-----\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Reglas\n"
-#~ "------\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Rules interpreted\n"
-#~ "-----------------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Reglas interpretadas\n"
-#~ "--------------------\n"
-#~ "\n"
-
 # ¿Por qué no lo pones en mayúsculas? Al fin y al cabo, eso es lo que
 # haces luego con "FDERIVES" que traduces como "FDERIVACIONES", ... -
 # cll
@@ -1028,6 +994,9 @@ msgstr ""
 #~ msgid "limit of %d exceeded, too many %s"
 #~ msgstr "excedido el límite de %d, demasiados %s"
 
+#~ msgid "internal error, %s\n"
+#~ msgstr "error interno, %s\n"
+
 #~ msgid "Entering set_nullable"
 #~ msgstr "Entrando set_nullable"
 
@@ -1084,3 +1053,33 @@ msgstr ""
 #~ msgstr ""
 #~ "la reducción de %s define %d terminal%s, %d no terminal%s, y %d produccion"
 #~ "%s.\n"
+
+#~ msgid ""
+#~ "Variables\n"
+#~ "---------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Variables\n"
+#~ "---------\n"
+#~ "\n"
+
+#~ msgid "Value  Sprec    Sassoc    Tag\n"
+#~ msgstr "Valor  Sprec    Sasoc     Tag\n"
+
+#~ msgid ""
+#~ "Rules\n"
+#~ "-----\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Reglas\n"
+#~ "------\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Rules interpreted\n"
+#~ "-----------------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Reglas interpretadas\n"
+#~ "--------------------\n"
+#~ "\n"

@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.30d\n"
+"Project-Id-Version: bison 1.30e\n"
 "POT-Creation-Date: 2001-12-05 10:29+0100\n"
-"PO-Revision-Date: 2001-11-21 22:10+0100\n"
+"PO-Revision-Date: 2001-11-27 11:16+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -364,12 +364,12 @@ msgstr "Grammatik"
 
 #: src/print.c:212
 msgid "Number, Line, Rule"
-msgstr ""
+msgstr "Nummer, Rad, Regel"
 
 #: src/print.c:217
-#, fuzzy, c-format
+#, c-format
 msgid "  %3d %3d %s ->"
-msgstr "regel %-4d %s ->"
+msgstr "  %3d %3d %s ->"
 
 #: src/print.c:224
 msgid "empty"

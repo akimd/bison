@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.30d\n"
+"Project-Id-Version: GNU bison 1.30e\n"
 "POT-Creation-Date: 2001-12-05 10:29+0100\n"
-"PO-Revision-Date: 2001-11-21 08:00-0500\n"
+"PO-Revision-Date: 2001-11-27 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -361,12 +361,12 @@ msgstr "Grammaire"
 
 #: src/print.c:212
 msgid "Number, Line, Rule"
-msgstr ""
+msgstr "Nombre, ligne, règle"
 
 #: src/print.c:217
-#, fuzzy, c-format
+#, c-format
 msgid "  %3d %3d %s ->"
-msgstr "règle %-4d %s ->"
+msgstr "  %3d %3d %s ->"
 
 #: src/print.c:224
 msgid "empty"
