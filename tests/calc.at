@@ -261,18 +261,25 @@ m4_define([AT_DATA_CALC_Y],
 
 
 
-# _AT_CHECK_CALC(BISON-OPTIONS, INPUT)
-# ------------------------------------
+# _AT_CHECK_CALC(BISON-OPTIONS, INPUT, [NUM-STDERR-LINES = 0])
+# ------------------------------------------------------------
 # Run `calc' on INPUT and expect no STDOUT nor STDERR.
+#
+# If BISON-OPTIONS contains `--debug', then NUM-STDERR-LINES is the number
+# of expected lines on stderr.
 m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
 [[$2
 ]])
-AT_CHECK([calc input])dnl
+AT_CHECK([calc input], 0, [], [stderr])dnl
+AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
+         [m4_match([$1], [--debug],
+                   [$3], [0])
+])
 ])
 
 
-# _AT_CHECK_CALC_ERROR(BISON-OPTIONS, INPUT,
+# _AT_CHECK_CALC_ERROR(BISON-OPTIONS, INPUT, [NUM-DEBUG-LINES],
 #                      [ERROR-LOCATION], [IF-YYERROR-VERBOSE])
 # ------------------------------------------------------------
 # Run `calc' on INPUT, and expect a `parse error' message.
@@ -283,18 +290,33 @@ AT_CHECK([calc input])dnl
 # If BISON-OPTIONS contains `--yyerror-verbose', then make sure the
 # IF-YYERROR-VERBOSE message is properly output after `parse error, '
 # on STDERR.
+#
+# If BISON-OPTIONS contains `--debug', then NUM-STDERR-LINES is the number
+# of expected lines on stderr.
 m4_define([_AT_CHECK_CALC_ERROR],
 [AT_DATA([[input]],
 [[$2
 ]])
 
-AT_CHECK([calc input], 0,
-         [],
-[m4_match([$1], [--location], [$3: ])[]dnl
-parse error[]dnl
-m4_match([$1], [--yyerror-verbose], [, $4])[]dnl
+AT_CHECK([calc input], 0, [], [stderr])
 
-])])
+
+AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
+         [m4_match([$1], [--debug],
+                   [$3], [1])
+])
+
+egrep -v '^((Start|Enter|Read|Reduc|Shift)ing|state|Error:) ' stderr >at-stderr
+mv at-stderr stderr
+
+AT_CHECK([cat stderr], 0,
+[m4_match([$1], [--location], [$4: ])[]dnl
+parse error[]dnl
+m4_match([$1], [--yyerror-verbose], [, $5])[]dnl
+
+])
+
+])
 
 
 # AT_CHECK_CALC([BISON-OPTIONS], [PARSER-EXPECTED-STDERR])
@@ -326,24 +348,25 @@ _AT_CHECK_CALC([$1],
 1 - (2 - 3) = 2
 
 2^2^3 = 256
-(2^2)^3 = 64], [$2])
+(2^2)^3 = 64], [491])
 
 # Some parse errors.
-_AT_CHECK_CALC_ERROR([$1], [+1],
+_AT_CHECK_CALC_ERROR([$1], [+1], [8],
                      [1.0:1.1],
                      [unexpected `'+''])
-_AT_CHECK_CALC_ERROR([$1], [1//2],
+_AT_CHECK_CALC_ERROR([$1], [1//2], [17],
                      [1.2:1.3],
                      [unexpected `'/'', expecting `NUM' or `'-'' or `'(''])
-_AT_CHECK_CALC_ERROR([$1], [error],
+_AT_CHECK_CALC_ERROR([$1], [error], [8],
                      [1.0:1.1],
                      [unexpected `$undefined.'])
-_AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3],
+_AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3], [23],
                      [1.6:1.7],
                      [unexpected `'=''])
 _AT_CHECK_CALC_ERROR([$1],
                      [
 +1],
+                     [16],
                      [2.0:2.1],
                      [unexpected `'+''])
 
