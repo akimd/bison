@@ -181,8 +181,8 @@ __yy_memcpy (to, from, count)
 static void
 __yy_memcpy (char *to, char *from, int count)
 {
-  register char *f = from;
   register char *t = to;
+  register char *f = from;
   register int i = count;
 
   while (i-- > 0)
