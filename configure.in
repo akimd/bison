@@ -4,7 +4,7 @@ AM_INIT_AUTOMAKE(bison,1.28)
 AM_CONFIG_HEADER(config.h:config.hin)
 AC_PREREQ(2.13)
 
-ALL_LINGUAS="de es fr nl"
+ALL_LINGUAS="de es fr nl ru"
 
 dnl Checks for programs.
 AC_PROG_CC
