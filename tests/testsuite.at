@@ -21,7 +21,7 @@
 # Initializes Autotest, imports macros etc.  It will trigger a warning
 # with Autoconf 2.58, because it includes this file automatically, but
 # it causes no real problem.
-m4_include([input.at])
+m4_include([local.at])
 
 
 # Testing resistance to user bugs.
