@@ -1,5 +1,9 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (set_firsts): De-obfuscate.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (action_row): De-obfuscate
 	using the good o' techniques: arrays not pointers, variable
 	locality, BITISSET, RESETBIT etc.
