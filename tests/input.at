@@ -33,7 +33,7 @@ exp: { $$ = $1 ; }
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:2: invalid $ value
+[[input.y:2: invalid value: $1
 ]])
 
 AT_CLEANUP
@@ -52,7 +52,7 @@ exp: { @$ = @1 ; }
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:2: invalid @ value
+[[input.y:2: invalid value: @1
 ]])
 
 AT_CLEANUP
