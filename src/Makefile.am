@@ -1,4 +1,4 @@
-## Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -29,7 +29,8 @@ INCLUDES = -I$(top_builddir)      \
 LDADD = ../lib/libbison.a $(LIBINTL)
 
 bin_PROGRAMS = bison
-bin_SCRIPTS = yacc
+bin_SCRIPTS = @YACC_SCRIPT@
+EXTRA_SCRIPTS = yacc
 
 bison_SOURCES = 				  \
 	LR0.c LR0.h				  \
