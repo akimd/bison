@@ -1,5 +1,17 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h, src/gram.c (symbols): New, similar to state_table
+	and rule_table.
+	* src/reader.c (packsymbols): Fill this table.
+	Drop sprec.
+	* src/conflicts.c (resolve_sr_conflict): Adjust.
+	* src/reduce.c (reduce_grammar): Adjust: just sort symbols, a
+	single table.
+	Use symbols[i]->tag instead of tags[i].
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at (_AT_DATA_CALC_Y): Also use %union.
 	In addition, put a comment in there, to replace...
 	* tests/regression.at (%union and C comments): Remove.

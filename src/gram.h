@@ -133,6 +133,9 @@ typedef struct rule_s
 
 extern struct rule_s *rule_table;
 
+/* Table of the symbols, indexed by the symbol number. */
+extern struct bucket **symbols;
+
 /* token translation table: indexed by a token number as returned by
    the user's yylex routine, it yields the internal token number used
    by the parser and throughout bison.  */
