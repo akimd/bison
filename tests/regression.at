@@ -287,6 +287,32 @@ AT_CLEANUP
 
 
 
+## ------------------- ##
+## Token definitions.  ##
+## ------------------- ##
+
+
+AT_SETUP([Token definitions])
+
+# Bison managed, when fed with `%token 'f' "f"' to #define 'f'!
+AT_DATA([input.y],
+[[%token "end of file"
+%token 'a' "a"
+%token "b" 'b'
+%token "c" c
+%token d "d"
+%token e 'e'
+%token 'f' e
+%%
+exp: "a";
+]])
+
+AT_CHECK([bison input.y -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -c])
+AT_CLEANUP
+
+
+
 ## -------------- ##
 ## Web2c Report.  ##
 ## -------------- ##

@@ -277,38 +277,6 @@ Rewrite the reader in Flex/Bison.  There will be delicate parts, in
 particular, expect the scanner to be hard to write.  Many interesting
 features cannot be implemented without such a new reader.
 
-* Problems with aliases
-From: "Baum, Nathan I" <s0009525@chelt.ac.uk>
-Subject: Token Alias Bug
-To: "'bug-bison@gnu.org'" <bug-bison@gnu.org>
-
-I've noticed a bug in bison. Sadly, our eternally wise sysadmins won't let
-us use CVS, so I can't find out if it's been fixed already...
-
-Basically, I made a program (in flex) that went through a .y file looking
-for "..."-tokens, and then outputed a %token
-line for it. For single-character ""-tokens, I reasoned, I could just use
-[%token 'A' "A"]. However, this causes Bison to output a [#define 'A' 65],
-which cppp chokes on, not unreasonably. (And even if cppp didn't choke, I
-obviously wouldn't want (char)'A' to be replaced with (int)65 throughout my
-code.
-
-Bison normally forgoes outputing a #define for a character token. However,
-it always outputs an aliased token -- even if the token is an alias for a
-character token. We don't want that. The problem is in /output.c/, as I
-recall. When it outputs the token definitions, it checks for a character
-token, and then checks for an alias token. If the character token check is
-placed after the alias check, then it works correctly.
-
-Alias tokens seem to be something of a kludge. What about an [%alias "..."]
-command...
-
-	%alias T_IF "IF"
-
-Hmm. I can't help thinking... What about a --generate-lex option that
-creates an .l file for the alias tokens used... (Or an option to make a
-gperf file, etc...)
-
 * Presentation of the report file
 From: "Baum, Nathan I" <s0009525@chelt.ac.uk>
 Subject: Token Alias Bug

@@ -1,3 +1,12 @@
+2002-05-04  Akim Demaille  <akim@epita.fr>
+
+	* src/symtab.h (SALIAS, SUNDEF): Rename as...
+	(USER_NUMBER_ALIAS, USER_NUMBER_UNDEFINED): these.
+	Adjust dependencies.
+	* src/output.c (token_definitions_output): Be sure not to output a
+	`#define 'a'' when fed with `%token 'a' "a"'.
+	* tests/regression.at (Token definitions): New.
+
 2002-05-03  Paul Eggert  <eggert@twinsun.com>
 
 	* data/bison.simple (b4_token_defines): Also define YYTOKENTYPE

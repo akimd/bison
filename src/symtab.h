@@ -41,14 +41,12 @@ typedef enum
   nterm_sym		/* non-terminal */
 } symbol_class;
 
+
 /* Internal token numbers. */
 typedef short token_number_t;
 
-#define SUNDEF  -1              /* For undefined user number. */
-#define SALIAS	-9991		/* for symbol generated with an alias */
 
-#define NUMBER_UNDEFINED ((token_number_t) -1)
-
+typedef struct symbol_s symbol_t;
 struct symbol_s
 {
   /* The key, name of the symbol. */
@@ -61,14 +59,25 @@ struct symbol_s
   associativity assoc;
   int user_token_number;
 
-  /* Points to the other in the identifier-symbol pair for an
-     alias. Special value SALIAS in the identifier half of the
+  /* Points to the other in the identifier-symbol pair for an alias.
+     Special value USER_NUMBER_ALIAS in the identifier half of the
      identifier-symbol pair for an alias.  */
-  struct symbol_s *alias;
+  symbol_t *alias;
   symbol_class class;
 };
 
-typedef struct symbol_s symbol_t;
+/* Undefined user number.  */
+#define USER_NUMBER_UNDEFINED -1
+
+/* `symbol->user_token_number == USER_NUMBER_ALIAS' means this symbol
+   *has* (not is) a string literal alias.  For instance, `%token foo
+   "foo"' has `"foo"' numbered regularly, and `foo' numbered as
+   USER_NUMBER_ALIAS.  */
+#define USER_NUMBER_ALIAS -9991
+
+/* Undefined internal token number.  */
+#define NUMBER_UNDEFINED ((token_number_t) -1)
+
 
 /* A function to apply to each symbol. */
 typedef bool (*symbol_processor) PARAMS ((symbol_t *));

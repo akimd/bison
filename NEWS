@@ -64,6 +64,9 @@ Changes in version 1.49b:
 * New tranlations
   Croatian, thanks to Denis Lackovic.
 
+* Token definitions
+  When fed with `%token 'a' "A"', Bison used to output `#define 'a' 65'.
+
 
 Changes in version 1.35, 2002-03-25:
 
