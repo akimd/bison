@@ -347,7 +347,13 @@ output_gram (void)
 static void
 output_stos (void)
 {
-  output_short_table (&table_obstack, NULL, "yystos", accessing_symbol,
+  int i;
+  short *values = (short *) alloca (sizeof (short) * nstates);
+  for (i = 0; i < nstates; ++i)
+    values[i] = state_table[i].accessing_symbol;
+  output_short_table (&table_obstack,
+		      "YYSTOS[STATE] -- Accessing symbol to the STATE",
+		      "yystos", values,
 		      0, 1, nstates);
 }
 
@@ -579,7 +585,7 @@ action_row (int state)
 	  if (!shift_state)
 	    continue;
 
-	  symbol = accessing_symbol[shift_state];
+	  symbol = state_table[shift_state].accessing_symbol;
 
 	  if (ISVAR (symbol))
 	    break;
@@ -1121,7 +1127,6 @@ output_actions (void)
   XFREE (lookaheads);
   XFREE (LA);
   XFREE (LAruleno);
-  XFREE (accessing_symbol);
 
   goto_actions ();
   XFREE (goto_map + ntokens);
@@ -1292,9 +1297,6 @@ static void
 free_itemsets (void)
 {
   core *cp, *cptmp;
-
-  XFREE (state_table);
-
   for (cp = first_state; cp; cp = cptmp)
     {
       cptmp = cp->next;
@@ -1345,6 +1347,8 @@ output (void)
     output_stos ();
   output_rule_data ();
   output_actions ();
+  XFREE (state_table);
+
   if (!no_parser_flag)
     output_parser ();
   output_program ();
