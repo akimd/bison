@@ -1,5 +1,10 @@
 2000-03-31  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (tryopen, tryclose): Move to the top.
+	Be static.
+
+2000-03-31  Akim Demaille  <akim@epita.fr>
+
 	* src/main.c (main): Don't call `done', exit does it.
 
 2000-03-31  Akim Demaille  <akim@epita.fr>
