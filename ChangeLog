@@ -1,5 +1,9 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (conflicts_print): Add a missing \n.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/nullable.c (nullable_print): New.
 	(set_nullable): Call it when tracing.
 	Better locality of variables.
