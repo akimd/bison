@@ -1,5 +1,11 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (F): Now a bitset*.
+	Adjust all dependencies.
+
+	
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (shiftset, lookaheadset): Now bitset.
 	Adjust all dependencies.
 
