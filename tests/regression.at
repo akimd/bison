@@ -64,3 +64,26 @@ exp: {};
 AT_CHECK([bison --defines union.y])
 
 AT_CLEANUP([union.*])
+
+
+## --------------------------------------- ##
+## Duplicate '/' in C comments in %union   ##
+## --------------------------------------- ##
+
+
+AT_SETUP([%union and C comments])
+
+AT_DATA([union-comment.y],
+[%union	
+{
+  /* The int.  */	int   integer;
+  /* The string.  */	char *string ;
+}
+%%
+exp: {};
+])
+
+AT_CHECK([bison union-comment.y])
+AT_CHECK([fgrep '//*' union-comment.tab.c], [1], [])
+
+AT_CLEANUP([union-comment.*])
