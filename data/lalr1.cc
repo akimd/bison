@@ -83,13 +83,22 @@ m4_define([b4_constructor],
 
 # b4_parse_param_decl
 # -------------------
-#  Constructor's extra arguments.
+# Extra formal arguments of the constructor.
+# Change the parameter names from "foo" into "foo_yyarg", so that
+# there is no collision bw the user chosen attribute name, and the
+# argument name in the constructor.
 m4_define([b4_parse_param_decl],
-          [m4_ifset([b4_parse_param], [, b4_c_ansi_formals(b4_parse_param)])])
+[m4_ifset([b4_parse_param],
+          [, m4_map_sep([b4_parse_param_decl_1], [, ], [b4_parse_param])])])
+
+m4_define([b4_parse_param_decl_1],
+[$1_yyarg])
+
+
 
 # b4_parse_param_cons
 # -------------------
-#  constructor's extra initialisations.
+# Extra initialisations of the constructor.
 m4_define([b4_parse_param_cons],
           [m4_ifset([b4_parse_param],
 		    [,
@@ -98,11 +107,11 @@ m4_define([b4_cc_constructor_calls],
 	  [m4_map_sep([b4_cc_constructor_call], [,
       ], [$@])])
 m4_define([b4_cc_constructor_call],
-	  [$2($2)])
+	  [$2 ($2_yyarg)])
 
 # b4_parse_param_vars
 # -------------------
-#  Extra instance variables.
+# Extra instance variables.
 m4_define([b4_parse_param_vars],
           [m4_ifset([b4_parse_param],
 		    [

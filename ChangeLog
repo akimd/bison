@@ -1,3 +1,10 @@
+2004-09-27  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc (b4_parse_param_decl_1): New.
+	(b4_parse_param_decl): Use it to have different names bw attribute
+	and argument names.
+	(b4_cc_constructor_call): Likewise.
+
 2004-09-24  Akim Demaille  <akim@epita.fr>
 
 	* src/parse-gram.y (add_param): Strip the leading and trailing
