@@ -239,6 +239,66 @@ state 6
 AT_CLEANUP(input.c input.output)
 
 
+
+## -------------------- ##
+## %expect not enough.  ##
+## -------------------- ##
+
+AT_SETUP([%expect not enough])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 0
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c], 1, [],
+[input.y contains 1 shift/reduce conflict.
+expected 0 shift/reduce conflicts
+])
+AT_CLEANUP(input.c)
+
+
+## --------------- ##
+## %expect right.  ##
+## --------------- ##
+
+AT_SETUP([%expect right])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 1
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c], 0, [],
+[input.y contains 1 shift/reduce conflict.
+])
+AT_CLEANUP(input.c)
+
+
+## ------------------ ##
+## %expect too much.  ##
+## ------------------ ##
+
+AT_SETUP([%expect too much])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 2
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c], 1, [],
+[input.y contains 1 shift/reduce conflict.
+expected 2 shift/reduce conflicts
+])
+AT_CLEANUP(input.c)
+
+
 ## ---------------------- ##
 ## Mixing %token styles.  ##
 ## ---------------------- ##

@@ -1,5 +1,17 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	%expext was not functioning at all.
+
+	* src/conflicts.c (expected_conflicts): Set to -1.
+	(conflict_report): Use ngettext.
+	(conflicts_print): Check %expect and make its violation an error.
+	* doc/bison.texinfo (Expect Decl): Adjust.
+	* configure.in (AM_GNU_GETTEXT): Ask for ngettext.
+	* tests/regression.at (%expect not enough, %expect right)
+	(%expect too much): New.
+
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (Conflicts): Rename as...
 	(Unresolved SR Conflicts): this.
 	(Solved SR Conflicts): New.

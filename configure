@@ -15,6 +15,7 @@ else
   as_expr=false
 fi
 
+
 ## --------------------- ##
 ## M4sh Initialization.  ##
 ## --------------------- ##
@@ -60,6 +61,7 @@ fi
     { $as_unset LC_MESSAGES || test "${LC_MESSAGES+set}" != set; } ||
       { LC_MESSAGES=C; export LC_MESSAGES; }
 
+
 # Name of the executable.
 as_me=`(basename "$0") 2>/dev/null ||
 $as_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
@@ -92,6 +94,7 @@ if test "${PATH_SEPARATOR+set}" != set; then
   fi
   rm -f conftest.sh
 fi
+
 
   as_lineno_1=$LINENO
   as_lineno_2=$LINENO
@@ -177,6 +180,7 @@ done
   exit
 }
 
+
 case `echo "testing\c"; echo 1,2,3`,`echo -n testing; echo 1,2,3` in
   *c*,-n*) ECHO_N= ECHO_C='
 ' ECHO_T='	' ;;
@@ -216,6 +220,7 @@ as_tr_cpp="sed y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g"
 # Sed expression to map a string onto a valid variable name.
 as_tr_sh="sed y%*+%pp%;s%[^_$as_cr_alnum]%_%g"
 
+
 # IFS
 # We need space, tab and new line, in precisely that order.
 as_nl='
@@ -224,6 +229,7 @@ IFS=" 	$as_nl"
 
 # CDPATH.
 $as_unset CDPATH || test "${CDPATH+set}" != set || { CDPATH=$PATH_SEPARATOR; export CDPATH; }
+
 
 # Name of the host.
 # hostname on some systems (SVR3.2, Linux) returns a bogus exit status,
@@ -283,6 +289,7 @@ ac_includes_default="\
 #if HAVE_UNISTD_H
 # include <unistd.h>
 #endif"
+
 
 # Initialize some variables set by options.
 ac_init_help=
@@ -679,6 +686,7 @@ test -n "$host_alias" && ac_tool_prefix=$host_alias-
 
 test "$silent" = yes && exec 6>/dev/null
 
+
 # Find the source files, if location was not specified.
 if test -z "$srcdir"; then
   ac_srcdir_defaulted=yes
@@ -971,11 +979,13 @@ done
 
 cat >&5 <<_ACEOF
 
+
 ## ----------- ##
 ## Core tests. ##
 ## ----------- ##
 
 _ACEOF
+
 
 # Keep a trace of the command line.
 # Strip out --no-create and --no-recursion so they do not pile up.
@@ -1149,6 +1159,31 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ac_aux_dir=
 for ac_dir in config $srcdir/config; do
   if test -f $ac_dir/install-sh; then
@@ -1173,6 +1208,7 @@ fi
 ac_config_guess="$SHELL $ac_aux_dir/config.guess"
 ac_config_sub="$SHELL $ac_aux_dir/config.sub"
 ac_configure="$SHELL $ac_aux_dir/configure" # This should be Cygnus configure.
+
 
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -1227,6 +1263,7 @@ case $as_dir/ in
     ;;
 esac
 done
+
 
 fi
   if test "${ac_cv_path_install+set}" = set; then
@@ -1307,6 +1344,7 @@ s/[\\$]/&&/g;s/;s,x,x,$//
 _ACEOF
 program_transform_name=`echo $program_transform_name | sed -f conftest.sed`
 rm conftest.sed
+
 
 # expand $ac_aux_dir to an absolute path
 am_aux_dir=`cd $ac_aux_dir && pwd`
@@ -1401,6 +1439,7 @@ if test "x$enable_dependency_tracking" != xno; then
   AMDEPBACKSLASH='\'
 fi
 
+
 if test "x$enable_dependency_tracking" != xno; then
   AMDEP_TRUE=
   AMDEP_FALSE='#'
@@ -1408,6 +1447,7 @@ else
   AMDEP_TRUE='#'
   AMDEP_FALSE=
 fi
+
 
 rm -f .deps 2>/dev/null
 mkdir .deps 2>/dev/null
@@ -1418,6 +1458,7 @@ else
   DEPDIR=_deps
 fi
 rmdir .deps 2>/dev/null
+
 
 # test to see if srcdir already configured
 if test "`cd $srcdir && pwd`" != "`pwd`" &&
@@ -1435,21 +1476,29 @@ cat >>confdefs.h <<_ACEOF
 #define PACKAGE "$PACKAGE"
 _ACEOF
 
+
 cat >>confdefs.h <<_ACEOF
 #define VERSION "$VERSION"
 _ACEOF
+
+
 
 # Some tools Automake needs.
 
 ACLOCAL=${ACLOCAL-"${am_missing_run}aclocal"}
 
+
 AUTOCONF=${AUTOCONF-"${am_missing_run}autoconf"}
+
 
 AUTOMAKE=${AUTOMAKE-"${am_missing_run}automake"}
 
+
 AUTOHEADER=${AUTOHEADER-"${am_missing_run}autoheader"}
 
+
 MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
+
 
 AMTAR=${AMTAR-"${am_missing_run}tar"}
 
@@ -1464,16 +1513,22 @@ INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
 # along with our hook.
 ac_config_headers="$ac_config_headers config.h:config.hin"
 
+
+
+
 # Initialize the test suite.
 ac_config_commands="$ac_config_commands tests/package.m4"
 
+
 ac_config_commands="$ac_config_commands tests/atconfig"
+
 
 ac_config_files="$ac_config_files tests/bison"
 
 ac_config_files="$ac_config_files tests/Makefile tests/atlocal"
 
 # Needed by tests/atlocal.in.
+
 
 # Checks for programs.
 ac_ext=c
@@ -1785,6 +1840,7 @@ done
 fi
 
 fi
+
 
 test -z "$CC" && { { echo "$as_me:$LINENO: error: no acceptable cc found in \$PATH" >&5
 echo "$as_me: error: no acceptable cc found in \$PATH" >&2;}
@@ -2230,6 +2286,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 ac_config_commands="$ac_config_commands depfiles"
 
+
 am_make=${MAKE-make}
 cat > confinc << 'END'
 doit:
@@ -2263,9 +2320,11 @@ if test "$am__include" = "#"; then
    fi
 fi
 
+
 echo "$as_me:$LINENO: result: $_am_result" >&5
 echo "${ECHO_T}$_am_result" >&6
 rm -f confinc confmf
+
 
 depcc="$CC"   am_compiler_list=
 
@@ -2334,6 +2393,8 @@ fi
 echo "$as_me:$LINENO: result: $am_cv_CC_dependencies_compiler_type" >&5
 echo "${ECHO_T}$am_cv_CC_dependencies_compiler_type" >&6
 CCDEPMODE=depmode=$am_cv_CC_dependencies_compiler_type
+
+
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -2535,6 +2596,7 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+
 echo "$as_me:$LINENO: checking for ANSI C header files" >&5
 echo $ECHO_N "checking for ANSI C header files... $ECHO_C" >&6
 if test "${ac_cv_header_stdc+set}" = set; then
@@ -2676,6 +2738,14 @@ fi
 
 # On IRIX 5.3, sys/types and inttypes.h are conflicting.
 
+
+
+
+
+
+
+
+
 for ac_header in sys/types.h sys/stat.h stdlib.h string.h memory.h strings.h \
                   inttypes.h stdint.h unistd.h
 do
@@ -2722,6 +2792,7 @@ _ACEOF
 fi
 
 done
+
 
 if test "${ac_cv_header_minix_config_h+set}" = set; then
   echo "$as_me:$LINENO: checking for minix/config.h" >&5
@@ -2830,21 +2901,25 @@ else
   MINIX=
 fi
 
+
 if test "$MINIX" = yes; then
 
 cat >>confdefs.h <<\_ACEOF
 #define _POSIX_SOURCE 1
 _ACEOF
 
+
 cat >>confdefs.h <<\_ACEOF
 #define _POSIX_1_SOURCE 2
 _ACEOF
+
 
 cat >>confdefs.h <<\_ACEOF
 #define _MINIX 1
 _ACEOF
 
 fi
+
 
         echo "$as_me:$LINENO: checking for strerror in -lcposix" >&5
 echo $ECHO_N "checking for strerror in -lcposix... $ECHO_C" >&6
@@ -2904,6 +2979,11 @@ echo "${ECHO_T}$ac_cv_lib_cposix_strerror" >&6
 if test $ac_cv_lib_cposix_strerror = yes; then
   LIBS="$LIBS -lcposix"
 fi
+
+
+
+
+
 
 echo "$as_me:$LINENO: checking for ${CC-cc} option to accept ANSI C" >&5
 echo $ECHO_N "checking for ${CC-cc} option to accept ANSI C... $ECHO_C" >&6
@@ -3085,7 +3165,9 @@ else
   RANLIB="$ac_cv_prog_RANLIB"
 fi
 
+
 AUTOM4TE=${AUTOM4TE-"${am_missing_run}autom4te"}
+
 
 # Check whether --enable-gcc-warnings or --disable-gcc-warnings was given.
 if test "${enable_gcc_warnings+set}" = set; then
@@ -3661,6 +3743,7 @@ cat >>confdefs.h <<\_ACEOF
 #define _GNU_SOURCE 1
 _ACEOF
 
+
 # Checks for header files.
 echo "$as_me:$LINENO: checking for ANSI C header files" >&5
 echo $ECHO_N "checking for ANSI C header files... $ECHO_C" >&6
@@ -3801,6 +3884,12 @@ _ACEOF
 
 fi
 
+
+
+
+
+
+
 for ac_header in ctype.h locale.h memory.h stdlib.h string.h unistd.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -3913,6 +4002,7 @@ _ACEOF
 fi
 
 done
+
 
 # Checks for typedefs.
 
@@ -4167,6 +4257,8 @@ _ACEOF
  ;;
 esac
 
+
+
 echo "$as_me:$LINENO: checking for function prototypes" >&5
 echo $ECHO_N "checking for function prototypes... $ECHO_C" >&6
 if test "$am_cv_prog_cc_stdc" != no; then
@@ -4323,6 +4415,7 @@ _ACEOF
 
 fi
 
+
 for ac_header in string.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -4435,6 +4528,8 @@ _ACEOF
 fi
 
 done
+
+
 
 # Checks for library functions.
 # The Ultrix 4.2 mips builtin alloca declared by alloca.h only works
@@ -4575,6 +4670,7 @@ ALLOCA=alloca.$ac_objext
 cat >>confdefs.h <<\_ACEOF
 #define C_ALLOCA 1
 _ACEOF
+
 
 echo "$as_me:$LINENO: checking whether \`alloca.c' needs Cray hooks" >&5
 echo $ECHO_N "checking whether \`alloca.c' needs Cray hooks... $ECHO_C" >&6
@@ -4741,7 +4837,10 @@ cat >>confdefs.h <<_ACEOF
 #define STACK_DIRECTION $ac_cv_c_stack_direction
 _ACEOF
 
+
 fi
+
+
 
 for ac_func in mkstemp setlocale
 do
@@ -4872,10 +4971,12 @@ cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STPCPY 1
 _ACEOF
 
+
 else
   cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STPCPY 0
 _ACEOF
+
 
 fi
 echo "$as_me:$LINENO: checking whether strndup is declared" >&5
@@ -4932,10 +5033,12 @@ cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STRNDUP 1
 _ACEOF
 
+
 else
   cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STRNDUP 0
 _ACEOF
+
 
 fi
 echo "$as_me:$LINENO: checking whether strnlen is declared" >&5
@@ -4992,10 +5095,12 @@ cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STRNLEN 1
 _ACEOF
 
+
 else
   cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STRNLEN 0
 _ACEOF
+
 
 fi
 echo "$as_me:$LINENO: checking whether memchr is declared" >&5
@@ -5052,12 +5157,20 @@ cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_MEMCHR 1
 _ACEOF
 
+
 else
   cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_MEMCHR 0
 _ACEOF
 
+
 fi
+
+
+
+
+
+
 
 for ac_func in stpcpy strndup strnlen strspn memchr
 do
@@ -5136,9 +5249,13 @@ else
 fi
 done
 
+
+
+
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_DONE_WORKING_MALLOC_CHECK 1
 _ACEOF
+
 
  echo "$as_me:$LINENO: checking for working malloc" >&5
 echo $ECHO_N "checking for working malloc... $ECHO_C" >&6
@@ -5194,9 +5311,12 @@ _ACEOF
 
   fi
 
+
+
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_DONE_WORKING_REALLOC_CHECK 1
 _ACEOF
+
 
  echo "$as_me:$LINENO: checking for working realloc" >&5
 echo $ECHO_N "checking for working realloc... $ECHO_C" >&6
@@ -5251,6 +5371,10 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
   fi
+
+
+
+
 
 for ac_func in isascii iswprint mbsinit
 do
@@ -5327,6 +5451,7 @@ _ACEOF
 fi
 done
 
+
   echo "$as_me:$LINENO: checking whether mbrtowc and mbstate_t are properly declared" >&5
 echo $ECHO_N "checking whether mbrtowc and mbstate_t are properly declared... $ECHO_C" >&6
 if test "${jm_cv_func_mbrtowc+set}" = set; then
@@ -5379,6 +5504,12 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
   fi
+
+
+
+
+
+
 
 for ac_header in limits.h stddef.h stdlib.h string.h wchar.h wctype.h
 do
@@ -5632,6 +5763,7 @@ _ACEOF
 
 fi
 
+
   echo "$as_me:$LINENO: checking whether backslash-a works in strings" >&5
 echo $ECHO_N "checking whether backslash-a works in strings... $ECHO_C" >&6
 if test "${ac_cv_c_backslash_a+set}" = set; then
@@ -5691,6 +5823,8 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
   fi
+
+
 
 for ac_header in stdlib.h
 do
@@ -5805,6 +5939,7 @@ fi
 
 done
 
+
    echo "$as_me:$LINENO: checking for mbstate_t" >&5
 echo $ECHO_N "checking for mbstate_t... $ECHO_C" >&6
 if test "${ac_cv_type_mbstate_t+set}" = set; then
@@ -5861,6 +5996,7 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
    fi
+
 
 echo "$as_me:$LINENO: checking for function prototypes" >&5
 echo $ECHO_N "checking for function prototypes... $ECHO_C" >&6
@@ -6018,6 +6154,7 @@ _ACEOF
 
 fi
 
+
 for ac_header in string.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -6130,6 +6267,12 @@ _ACEOF
 fi
 
 done
+
+
+
+
+
+
 
 for ac_func in strerror vprintf doprnt
 do
@@ -6260,12 +6403,15 @@ cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STRERROR 1
 _ACEOF
 
+
 else
   cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STRERROR 0
 _ACEOF
 
+
 fi
+
 
   echo "$as_me:$LINENO: checking whether strerror_r is declared" >&5
 echo $ECHO_N "checking whether strerror_r is declared... $ECHO_C" >&6
@@ -6321,12 +6467,16 @@ cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STRERROR_R 1
 _ACEOF
 
+
 else
   cat >>confdefs.h <<_ACEOF
 #define HAVE_DECL_STRERROR_R 0
 _ACEOF
 
+
 fi
+
+
 
 for ac_func in strerror_r
 do
@@ -6653,6 +6803,7 @@ _ACEOF
 
 fi
 
+
 echo "$as_me:$LINENO: checking if malloc debugging is wanted" >&5
 echo $ECHO_N "checking if malloc debugging is wanted... $ECHO_C" >&6
 
@@ -6677,6 +6828,7 @@ else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi;
+
 
 ALL_LINGUAS="de es et fr ja nl tr ru"
 # Make sure we can run config.sub.
@@ -6710,6 +6862,7 @@ build_cpu=`echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/'`
 build_vendor=`echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/'`
 build_os=`echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
 
+
 echo "$as_me:$LINENO: checking host system type" >&5
 echo $ECHO_N "checking host system type... $ECHO_C" >&6
 if test "${ac_cv_host+set}" = set; then
@@ -6730,6 +6883,7 @@ host=$ac_cv_host
 host_cpu=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/'`
 host_vendor=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/'`
 host_os=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
+
 
 echo "$as_me:$LINENO: checking for off_t" >&5
 echo $ECHO_N "checking for off_t... $ECHO_C" >&6
@@ -6847,6 +7001,8 @@ _ACEOF
 
 fi
 
+
+
 for ac_header in stdlib.h unistd.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -6959,6 +7115,7 @@ _ACEOF
 fi
 
 done
+
 
 for ac_func in getpagesize
 do
@@ -7203,6 +7360,7 @@ _ACEOF
 fi
 rm -f conftest.mmap
 
+
     echo "$as_me:$LINENO: checking whether we are using the GNU C Library 2.1 or newer" >&5
 echo $ECHO_N "checking whether we are using the GNU C Library 2.1 or newer... $ECHO_C" >&6
 if test "${ac_cv_gnu_library_2_1+set}" = set; then
@@ -7228,11 +7386,25 @@ else
 fi
 rm -f conftest*
 
+
+
 fi
 echo "$as_me:$LINENO: result: $ac_cv_gnu_library_2_1" >&5
 echo "${ECHO_T}$ac_cv_gnu_library_2_1" >&6
 
     GLIBC21="$ac_cv_gnu_library_2_1"
+
+
+
+
+
+
+
+
+
+
+
+
 
 for ac_header in argz.h limits.h locale.h nl_types.h malloc.h stddef.h \
 stdlib.h string.h unistd.h sys/param.h
@@ -7348,6 +7520,27 @@ fi
 
 done
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 for ac_func in feof_unlocked fgets_unlocked getcwd getegid geteuid \
 getgid getuid mempcpy munmap putenv setenv setlocale stpcpy strchr strcasecmp \
 strdup strtoul tsearch __argz_count __argz_stringify __argz_next
@@ -7424,6 +7617,10 @@ _ACEOF
 
 fi
 done
+
+
+
+
 
 # Check whether --with-libiconv-prefix or --without-libiconv-prefix was given.
 if test "${with_libiconv_prefix+set}" = set; then
@@ -7612,6 +7809,8 @@ _ACEOF
     LIBICONV="-liconv"
   fi
 
+
+
   echo "$as_me:$LINENO: checking for nl_langinfo and CODESET" >&5
 echo $ECHO_N "checking for nl_langinfo and CODESET... $ECHO_C" >&6
 if test "${am_cv_langinfo_codeset+set}" = set; then
@@ -7732,6 +7931,7 @@ fi;
     echo "$as_me:$LINENO: result: $USE_NLS" >&5
 echo "${ECHO_T}$USE_NLS" >&6
 
+
     BUILD_INCLUDED_LIBINTL=no
     USE_INCLUDED_LIBINTL=no
     INTLLIBS=
@@ -7758,6 +7958,9 @@ echo "${ECHO_T}$nls_cv_force_use_gnu_gettext" >&6
       nls_cv_use_gnu_gettext="$nls_cv_force_use_gnu_gettext"
       if test "$nls_cv_force_use_gnu_gettext" != "yes"; then
                         	CATOBJEXT=NONE
+
+
+
 
 	if test "${ac_cv_header_libintl_h+set}" = set; then
   echo "$as_me:$LINENO: checking for libintl.h" >&5
@@ -7863,7 +8066,7 @@ fi
 if test $ac_cv_header_libintl_h = yes; then
   echo "$as_me:$LINENO: checking for GNU gettext in libc" >&5
 echo $ECHO_N "checking for GNU gettext in libc... $ECHO_C" >&6
-if test "${gt_cv_func_gnugettext1_libc+set}" = set; then
+if test "${gt_cv_func_gnugettext2_libc+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
@@ -7881,7 +8084,7 @@ int
 main ()
 {
 bindtextdomain ("", "");
-return (int) gettext ("") + _nl_msg_cat_cntr
+return (int) gettext ("") + (int) ngettext ("", "", 0) + _nl_msg_cat_cntr
   ;
   return 0;
 }
@@ -7898,21 +8101,21 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  gt_cv_func_gnugettext1_libc=yes
+  gt_cv_func_gnugettext2_libc=yes
 else
   echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
-gt_cv_func_gnugettext1_libc=no
+gt_cv_func_gnugettext2_libc=no
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:$LINENO: result: $gt_cv_func_gnugettext1_libc" >&5
-echo "${ECHO_T}$gt_cv_func_gnugettext1_libc" >&6
+echo "$as_me:$LINENO: result: $gt_cv_func_gnugettext2_libc" >&5
+echo "${ECHO_T}$gt_cv_func_gnugettext2_libc" >&6
 
-	   if test "$gt_cv_func_gnugettext1_libc" != "yes"; then
+	   if test "$gt_cv_func_gnugettext2_libc" != "yes"; then
 	     echo "$as_me:$LINENO: checking for GNU gettext in libintl" >&5
 echo $ECHO_N "checking for GNU gettext in libintl... $ECHO_C" >&6
-if test "${gt_cv_func_gnugettext1_libintl+set}" = set; then
+if test "${gt_cv_func_gnugettext2_libintl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   gt_save_LIBS="$LIBS"
@@ -7932,7 +8135,7 @@ int
 main ()
 {
 bindtextdomain ("", "");
-return (int) gettext ("") + _nl_msg_cat_cntr
+return (int) gettext ("") + (int) ngettext ("", "", 0) + _nl_msg_cat_cntr
   ;
   return 0;
 }
@@ -7949,28 +8152,29 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  gt_cv_func_gnugettext1_libintl=yes
+  gt_cv_func_gnugettext2_libintl=yes
 else
   echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
-gt_cv_func_gnugettext1_libintl=no
+gt_cv_func_gnugettext2_libintl=no
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 		LIBS="$gt_save_LIBS"
 fi
-echo "$as_me:$LINENO: result: $gt_cv_func_gnugettext1_libintl" >&5
-echo "${ECHO_T}$gt_cv_func_gnugettext1_libintl" >&6
+echo "$as_me:$LINENO: result: $gt_cv_func_gnugettext2_libintl" >&5
+echo "${ECHO_T}$gt_cv_func_gnugettext2_libintl" >&6
 	   fi
 
-	   	   	   	   	   if test "$gt_cv_func_gnugettext1_libc" = "yes" \
-	      || { test "$gt_cv_func_gnugettext1_libintl" = "yes" \
+	   	   	   	   	   if test "$gt_cv_func_gnugettext2_libc" = "yes" \
+	      || { test "$gt_cv_func_gnugettext2_libintl" = "yes" \
 		   && test "$PACKAGE" != gettext; }; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_GETTEXT 1
 _ACEOF
 
-	     if test "$gt_cv_func_gnugettext1_libintl" = "yes"; then
+
+	     if test "$gt_cv_func_gnugettext2_libintl" = "yes"; then
 	       	       	       	       INTLLIBS="-lintl $LIBICONV"
 	     fi
 
@@ -8130,6 +8334,7 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
+
 	     	     # Extract the first word of "xgettext", so it can be a program name with args.
 set dummy xgettext; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
@@ -8166,10 +8371,13 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
+
 	     CATOBJEXT=.gmo
 	   fi
 
 fi
+
+
 
         if test "$CATOBJEXT" = "NONE"; then
 	  	  	  nls_cv_use_gnu_gettext=yes
@@ -8290,6 +8498,7 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
+
 	BUILD_INCLUDED_LIBINTL=yes
 	USE_INCLUDED_LIBINTL=yes
         CATOBJEXT=.gmo
@@ -8320,6 +8529,8 @@ echo "${ECHO_T}found xgettext program is not GNU xgettext; ignore it" >&6
             POSUB=po
     fi
     ac_config_commands="$ac_config_commands default-1"
+
+
 
             if test "$PACKAGE" = gettext; then
       BUILD_INCLUDED_LIBINTL=yes
@@ -8389,14 +8600,28 @@ echo "${ECHO_T}$ac_prog_version" >&6
       POFILES="$POFILES $lang.po"
     done
 
+
+
+
+
+
+
+
+
+
+
         nls_cv_header_intl=
     nls_cv_header_libgt=
 
         DATADIRNAME=share
 
+
         INSTOBJEXT=.mo
 
+
         GENCAT=gencat
+
+
 
    if test "x$CATOBJEXT" != "x"; then
      if test "x$ALL_LINGUAS" = "x"; then
@@ -8439,11 +8664,15 @@ echo "${ECHO_T}$LINGUAS" >&6
      MKINSTALLDIRS="\$(top_srcdir)/mkinstalldirs"
    fi
 
+
       INTL_LIBTOOL_SUFFIX_PREFIX=
+
+
 
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.
 LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
+
 
 ac_config_files="$ac_config_files Makefile config/Makefile intl/Makefile po/Makefile.in lib/Makefile src/Makefile doc/Makefile m4/Makefile"
 cat >confcache <<\_ACEOF
@@ -8522,6 +8751,7 @@ fi
 
 DEFS=-DHAVE_CONFIG_H
 
+
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
@@ -8585,6 +8815,7 @@ fi
     { $as_unset LC_MESSAGES || test "${LC_MESSAGES+set}" != set; } ||
       { LC_MESSAGES=C; export LC_MESSAGES; }
 
+
 # Name of the executable.
 as_me=`(basename "$0") 2>/dev/null ||
 $as_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
@@ -8617,6 +8848,7 @@ if test "${PATH_SEPARATOR+set}" != set; then
   fi
   rm -f conftest.sh
 fi
+
 
   as_lineno_1=$LINENO
   as_lineno_2=$LINENO
@@ -8704,6 +8936,7 @@ echo "$as_me: error: cannot create $as_me.lineno; rerun with a POSIX shell" >&2;
   exit
 }
 
+
 case `echo "testing\c"; echo 1,2,3`,`echo -n testing; echo 1,2,3` in
   *c*,-n*) ECHO_N= ECHO_C='
 ' ECHO_T='	' ;;
@@ -8742,6 +8975,7 @@ as_tr_cpp="sed y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g"
 
 # Sed expression to map a string onto a valid variable name.
 as_tr_sh="sed y%*+%pp%;s%[^_$as_cr_alnum]%_%g"
+
 
 # IFS
 # We need space, tab and new line, in precisely that order.
@@ -8919,7 +9153,10 @@ PACKAGE_BUGREPORT='$PACKAGE_BUGREPORT'
 
 AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"
 
+
 _ACEOF
+
+
 
 cat >>$CONFIG_STATUS <<\_ACEOF
 for ac_config_target in $ac_config_targets
@@ -9213,6 +9450,7 @@ ac_buildpath=`cd "$ac_dir" && cd $ac_builddir && pwd`
 ac_top_buildpath=`cd "$ac_dir" && cd $ac_top_builddir && pwd`
 ac_srcpath=`cd "$ac_dir" && cd $ac_srcdir && pwd`
 ac_top_srcpath=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
+
 
   case $INSTALL in
   [\\/$]* | ?:[\\/]* ) ac_INSTALL=$INSTALL ;;
@@ -9570,6 +9808,7 @@ ac_top_buildpath=`cd "$ac_dir" && cd $ac_top_builddir && pwd`
 ac_srcpath=`cd "$ac_dir" && cd $ac_srcdir && pwd`
 ac_top_srcpath=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
 
+
   { echo "$as_me:$LINENO: executing $ac_dest commands" >&5
 echo "$as_me: executing $ac_dest commands" >&6;}
   case $ac_dest in
@@ -9719,6 +9958,7 @@ _ACEOF
 chmod +x $CONFIG_STATUS
 ac_clean_files=$ac_clean_files_save
 
+
 # configure is writing to config.log, and then calls config.status.
 # config.status does its own redirection, appending to config.log.
 # Unfortunately, on DOS this fails, as config.log is still kept open
@@ -9736,3 +9976,4 @@ if test "$no_create" != yes; then
   # would make configure fail if this is the last instruction.
   $ac_cs_success || { (exit 1); exit 1; }
 fi
+

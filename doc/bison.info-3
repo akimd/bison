@@ -623,19 +623,20 @@ Suppressing Conflict Warnings
 
    Bison normally warns if there are any conflicts in the grammar
 (*note Shift/Reduce Conflicts: Shift/Reduce.), but most real grammars
-have harmless shift/reduce conflicts which are resolved in a
-predictable way and would be difficult to eliminate.  It is desirable
-to suppress the warning about these conflicts unless the number of
-conflicts changes.  You can do this with the `%expect' declaration.
+have harmless shift/reduce conflicts which are resolved in a predictable
+way and would be difficult to eliminate.  It is desirable to suppress
+the warning about these conflicts unless the number of conflicts
+changes.  You can do this with the `%expect' declaration.
 
    The declaration looks like this:
 
      %expect N
 
-   Here N is a decimal integer.  The declaration says there should be no
-warning if there are N shift/reduce conflicts and no reduce/reduce
-conflicts.  The usual warning is given if there are either more or fewer
-conflicts, or if there are any reduce/reduce conflicts.
+   Here N is a decimal integer.  The declaration says there should be
+no warning if there are N shift/reduce conflicts and no reduce/reduce
+conflicts.  An error, instead of the usual warning, is given if there
+are either more or fewer conflicts, or if there are any reduce/reduce
+conflicts.
 
    In general, using `%expect' involves these steps:
 
