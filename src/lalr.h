@@ -74,10 +74,23 @@ extern short *LAruleno;
 extern unsigned *LA;
 
 
+/* A structure decorating a state, with additional information. */
+typedef struct state_s
+{
+  /* A state.  */
+  core *state;
+
+  /* Its accessing symbol. */
+  short accessing_symbol;
+} state_t;
+
+/* All the decorated states, indexed by the state number.  Warning:
+   there is a state_TABLE in LR0.c, but it is different and static.
+   */
+extern state_t *state_table;
+
 extern int tokensetsize;
 extern short *lookaheads;
-extern short *accessing_symbol;
-extern core **state_table;
 extern shifts **shift_table;
 extern reductions **reduction_table;
 
