@@ -1,3 +1,8 @@
+2001-11-27  Akim Demaille  <akim@epita.fr>
+
+	* src/system.h: Use intl/libgettext.h.
+	* src/Makefile.am (INCLUDES): Add -I $(top_srcdir).
+
 2001-11-27  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYSTACK_REALLOC): Fix typo that caused us to
