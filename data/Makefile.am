@@ -18,4 +18,4 @@
 dist_pkgdata_DATA = README c.m4 yacc.c lalr1.cc glr.c
 
 m4sugardir = $(pkgdatadir)/m4sugar
-dist_m4sugar_DATA = m4sugar/m4sugar.m4 m4sugar/version.m4
+dist_m4sugar_DATA = m4sugar/m4sugar.m4
