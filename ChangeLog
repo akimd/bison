@@ -1,6 +1,7 @@
 2001-11-05  Akim Demaille  <akim@epita.fr>
 
 	Version 1.30a.
+	* src/lex.c (parse_percent_token): s/quotearg/quote/.
 
 2001-11-05  Akim Demaille  <akim@epita.fr>
 

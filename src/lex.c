@@ -662,8 +662,8 @@ parse_percent_token (void)
     if (strcmp (token_buffer + 1, tx->name) == 0)
       break;
 
-  if (arg && !tx->retval == tok_stropt)
-    fatal (_("`%s' supports no argument: %s"), token_buffer, quotearg (arg));
+  if (arg && tx->retval != tok_stropt)
+    fatal (_("`%s' supports no argument: %s"), token_buffer, quote (arg));
 
   switch (tx->retval)
     {
