@@ -1,4 +1,4 @@
-#serial 6
+#serial 7
 
 AC_DEFUN([gl_ERROR],
 [
@@ -11,7 +11,7 @@ AC_DEFUN([gl_ERROR],
 AC_DEFUN([jm_PREREQ_ERROR],
 [
   AC_REQUIRE([AC_HEADER_STDC])
-  AC_CHECK_FUNCS_ONCE(doprnt vprintf)
+  AC_REQUIRE([AC_FUNC_VPRINTF])
   AC_CHECK_FUNCS(strerror)
   AC_CHECK_DECLS([strerror])
   AC_FUNC_STRERROR_R
