@@ -1,3 +1,10 @@
+2000-12-12  Akim Demaille  <akim@epita.fr>
+
+	* src/output.c (output_headers, output_program, output): Be sure
+	to escape special characters when outputting filenames.
+	(ACTSTR_PROLOGUE, ACTSTR_EPILOGUE): Remove.
+	(output_headers): Don't depend on them, Use ACTSTR.
+
 2000-11-17  Akim Demaille  <akim@epita.fr>
 
 	* lib/obstack.h: Formatting changes.
