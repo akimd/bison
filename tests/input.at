@@ -202,7 +202,9 @@ main (void)
 ]])
 
 AT_CHECK([bison -d -v -o input.c input.y])
-AT_COMPILE([input], [input.c main.c])
+AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([main.o], [-c main.c])
+AT_COMPILE([input], [input.o main.o])
 AT_PARSER_CHECK([./input], 0,
 [[[@<:@],
 ]])
