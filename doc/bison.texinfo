@@ -3189,6 +3189,11 @@ Start-Symbol}).
 Declare the expected number of shift-reduce conflicts
 (@pxref{Expect Decl, ,Suppressing Conflict Warnings}).
 
+@item %yacc
+@itemx %fixed_output_files
+Pretend the option @option{--yacc} was given, i.e., imitate Yacc,
+including its naming conventions.  @xref{Bison Options}, for more.
+
 @item %locations
 Generate the code processing the locations (@pxref{Action Features,
 ,Special Features for Use in Actions}).  This mode is enabled as soon as
@@ -3200,6 +3205,15 @@ accurate parse error messages.
 Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 (Reentrant) Parser}).
 
+@item %no_parser
+Do not include any C code in the parser file; generate tables only.  The
+parser file contains just @code{#define} directives and static variable
+declarations.
+
+This option also tells Bison to write the C code for the grammar actions
+into a file named @file{@var{filename}.act}, in the form of a
+brace-surrounded body fit for a @code{switch} statement.
+
 @item %no_lines
 Don't generate any @code{#line} preprocessor commands in the parser
 file.  Ordinarily Bison writes these commands in the parser file so that
@@ -3207,6 +3221,39 @@ the C compiler and debuggers will associate errors and object code with
 your source file (the grammar file).  This directive causes them to
 associate errors with the parser file, treating it an independent source
 file in its own right.
+
+@item %debug
+Output a definition of the macro @code{YYDEBUG} into the parser file, so
+that the debugging facilities are compiled.  @xref{Debugging, ,Debugging
+Your Parser}.
+
+@item %defines
+Write an extra output file containing macro definitions for the token
+type names defined in the grammar and the semantic value type
+@code{YYSTYPE}, as well as a few @code{extern} variable declarations.
+
+If the parser output file is named @file{@var{name}.c} then this file
+is named @file{@var{name}.h}.@refill
+
+This output file is essential if you wish to put the definition of
+@code{yylex} in a separate source file, because @code{yylex} needs to
+be able to refer to token type codes and the variable
+@code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.@refill
+
+@item %verbose
+Write an extra output file containing verbose descriptions of the
+parser states and what is done for each type of look-ahead token in
+that state.
+
+This file also describes all the conflicts, both those resolved by
+operator precedence and the unresolved ones.
+
+The file's name is made by removing @samp{.tab.c} or @samp{.c} from
+the parser output file name, and adding @samp{.output} instead.@refill
+
+Therefore, if the input file is @file{foo.y}, then the parser file is
+called @file{foo.tab.c} by default.  As a consequence, the verbose
+output file is called @file{foo.output}.@refill
 
 @item %raw
 The output file @file{@var{name}.h} normally defines the tokens with
@@ -4939,8 +4986,9 @@ Tuning the parser:
 @table @option
 @item -t
 @itemx --debug
-Output a definition of the macro @code{YYDEBUG} into the parser file,
-so that the debugging facilities are compiled.  @xref{Debugging, ,Debugging Your Parser}.
+Output a definition of the macro @code{YYDEBUG} into the parser file, so
+that the debugging facilities are compiled.  @xref{Debugging, ,Debugging
+Your Parser}.
 
 @item --locations
 Pretend that @code{%locactions} was specified.  @xref{Decl Summary}.
@@ -4967,13 +5015,7 @@ parser file, treating it as an independent source file in its own right.
 
 @item -n
 @itemx --no-parser
-Do not include any C code in the parser file; generate tables only.  The
-parser file contains just @code{#define} directives and static variable
-declarations.
-
-This option also tells Bison to write the C code for the grammar actions
-into a file named @file{@var{filename}.act}, in the form of a
-brace-surrounded body fit for a @code{switch} statement.
+Pretend that @code{%no_parser} was specified.  @xref{Decl Summary}.
 
 @item -r
 @itemx --raw
@@ -4990,17 +5032,10 @@ Adjust the output:
 @table @option
 @item -d
 @itemx --defines
-Write an extra output file containing macro definitions for the token
-type names defined in the grammar and the semantic value type
-@code{YYSTYPE}, as well as a few @code{extern} variable declarations.
-
-If the parser output file is named @file{@var{name}.c} then this file
-is named @file{@var{name}.h}.@refill
-
-This output file is essential if you wish to put the definition of
-@code{yylex} in a separate source file, because @code{yylex} needs to
-be able to refer to token type codes and the variable
-@code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.@refill
+Pretend that @code{%verbose} was specified, i.e., write an extra output
+file containing macro definitions for the token type names defined in
+the grammar and the semantic value type @code{YYSTYPE}, as well as a few
+@code{extern} variable declarations.  @xref{Decl Summary}.
 
 @item -b @var{file-prefix}
 @itemx --file-prefix=@var{prefix}
@@ -5009,19 +5044,9 @@ chosen as if the input file were named @file{@var{prefix}.c}.
 
 @item -v
 @itemx --verbose
-Write an extra output file containing verbose descriptions of the
-parser states and what is done for each type of look-ahead token in
-that state.
-
-This file also describes all the conflicts, both those resolved by
-operator precedence and the unresolved ones.
-
-The file's name is made by removing @samp{.tab.c} or @samp{.c} from
-the parser output file name, and adding @samp{.output} instead.@refill
-
-Therefore, if the input file is @file{foo.y}, then the parser file is
-called @file{foo.tab.c} by default.  As a consequence, the verbose
-output file is called @file{foo.output}.@refill
+Pretend that @code{%verbose} was specified, i.e, write an extra output
+file containing verbose descriptions of the grammar and
+parser. @xref{Decl Summary}, for more.
 
 @item -o @var{outfile}
 @itemx --output-file=@var{outfile}
@@ -5254,6 +5279,13 @@ Global variable which Bison increments each time there is a parse error.
 @item yyparse
 The parser function produced by Bison; call this function to start
 parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+
+@item %debug
+Equip the parser for debugging.  @xref{Decl Summary}.
+
+@item %defines
+Bison declaration to create a header file meant for the scanner.
+@xref{Decl Summary}.
 
 @item %left
 Bison declaration to assign left associativity to token(s).

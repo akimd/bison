@@ -1,3 +1,23 @@
+2001-01-18  Akim Demaille  <akim@epita.fr>
+
+	Since we now use obstacks, more % directives can be enabled.
+
+	* src/lex.c (percent_table): Also accept `%yacc',
+	`%fixed_output_files', `%defines', `%no_parser', `%verbose', and
+	`%debug'.
+	Handle the actions for `%semantic_parser' and `%pure_parser' here,
+	instead of returning a token.
+	* src/lex.h (SEMANTIC_PARSER, PURE_PARSER): Remove, unused.
+	* src/reader.c (read_declarations): Adjust.
+	* src/files.c (open_files): Don't call `compute_base_names', don't
+	compute `attrsfile' since they depend upon data which might be
+	*in* the input file now.
+	(output_files): Do it here.
+	* src/output.c (output_headers): Document the fact that this patch
+	introduces a guaranteed SEGV for semantic parsers.
+	* doc/bison.texinfo: Document them.
+	* tests/suite.at: Exercise these %options.
+
 2000-12-20  Akim Demaille  <akim@epita.fr>
 
 	Also handle the output file (--verbose) with obstacks.

@@ -33,8 +33,8 @@ Indirect:
 bison.info-1: 1306
 bison.info-2: 50276
 bison.info-3: 98079
-bison.info-4: 147374
-bison.info-5: 197192
+bison.info-4: 147596
+bison.info-5: 191991
 
 Tag Table:
 (Indirect)
@@ -93,42 +93,42 @@ Node: Expect Decl110281
 Node: Start Decl111827
 Node: Pure Decl112205
 Node: Decl Summary113882
-Node: Multiple Parsers117718
-Node: Interface119212
-Node: Parser Function120084
-Node: Lexical120919
-Node: Calling Convention122325
-Node: Token Values125096
-Node: Token Positions126245
-Node: Pure Calling127137
-Node: Error Reporting130069
-Node: Action Features132191
-Node: Algorithm135852
-Node: Look-Ahead138145
-Node: Shift/Reduce140277
-Node: Precedence143189
-Node: Why Precedence143840
-Node: Using Precedence145705
-Node: Precedence Examples146673
-Node: How Precedence147374
-Node: Contextual Precedence148523
-Node: Parser States150314
-Node: Reduce/Reduce151557
-Node: Mystery Conflicts155118
-Node: Stack Overflow158504
-Node: Error Recovery159877
-Node: Context Dependency165013
-Node: Semantic Tokens165861
-Node: Lexical Tie-ins168878
-Node: Tie-in Recovery170426
-Node: Debugging172598
-Node: Invocation175899
-Node: Bison Options176629
-Node: Environment Variables180983
-Node: Option Cross Key181831
-Node: VMS Invocation182721
-Node: Table of Symbols183505
-Node: Glossary190902
-Node: Index197192
+Node: Multiple Parsers119609
+Node: Interface121103
+Node: Parser Function121975
+Node: Lexical122810
+Node: Calling Convention124216
+Node: Token Values126987
+Node: Token Positions128136
+Node: Pure Calling129028
+Node: Error Reporting131960
+Node: Action Features134082
+Node: Algorithm137743
+Node: Look-Ahead140036
+Node: Shift/Reduce142168
+Node: Precedence145080
+Node: Why Precedence145731
+Node: Using Precedence147596
+Node: Precedence Examples148564
+Node: How Precedence149265
+Node: Contextual Precedence150414
+Node: Parser States152205
+Node: Reduce/Reduce153448
+Node: Mystery Conflicts157009
+Node: Stack Overflow160395
+Node: Error Recovery161768
+Node: Context Dependency166904
+Node: Semantic Tokens167752
+Node: Lexical Tie-ins170769
+Node: Tie-in Recovery172317
+Node: Debugging174489
+Node: Invocation177790
+Node: Bison Options178520
+Node: Environment Variables181893
+Node: Option Cross Key182741
+Node: VMS Invocation183631
+Node: Table of Symbols184415
+Node: Glossary191991
+Node: Index198281
 
 End Tag Table

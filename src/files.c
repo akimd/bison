@@ -245,11 +245,7 @@ compute_base_names (void)
 void
 open_files (void)
 {
-  compute_base_names ();
-
   finput = xfopen (infile, "r");
-
-  attrsfile = stringappend (short_base_name, EXT_STYPE_H);
 
   /* Initialize the obstacks. */
   obstack_init (&action_obstack);
@@ -270,6 +266,9 @@ void
 output_files (void)
 {
   xfclose (finput);
+
+  compute_base_names ();
+  attrsfile = stringappend (short_base_name, EXT_STYPE_H);
 
   /* Output the main file.  */
   if (spec_outfile)

@@ -29,6 +29,172 @@ included in translations approved by the Free Software Foundation
 instead of in the original English.
 
 
+File: bison.info,  Node: Glossary,  Next: Index,  Prev: Table of Symbols,  Up: Top
+
+Glossary
+********
+
+Backus-Naur Form (BNF)
+     Formal method of specifying context-free grammars.  BNF was first
+     used in the `ALGOL-60' report, 1963.  *Note Languages and
+     Context-Free Grammars: Language and Grammar.
+
+Context-free grammars
+     Grammars specified as rules that can be applied regardless of
+     context.  Thus, if there is a rule which says that an integer can
+     be used as an expression, integers are allowed _anywhere_ an
+     expression is permitted.  *Note Languages and Context-Free
+     Grammars: Language and Grammar.
+
+Dynamic allocation
+     Allocation of memory that occurs during execution, rather than at
+     compile time or on entry to a function.
+
+Empty string
+     Analogous to the empty set in set theory, the empty string is a
+     character string of length zero.
+
+Finite-state stack machine
+     A "machine" that has discrete states in which it is said to exist
+     at each instant in time.  As input to the machine is processed, the
+     machine moves from state to state as specified by the logic of the
+     machine.  In the case of the parser, the input is the language
+     being parsed, and the states correspond to various stages in the
+     grammar rules.  *Note The Bison Parser Algorithm: Algorithm.
+
+Grouping
+     A language construct that is (in general) grammatically divisible;
+     for example, `expression' or `declaration' in C.  *Note Languages
+     and Context-Free Grammars: Language and Grammar.
+
+Infix operator
+     An arithmetic operator that is placed between the operands on
+     which it performs some operation.
+
+Input stream
+     A continuous flow of data between devices or programs.
+
+Language construct
+     One of the typical usage schemas of the language.  For example,
+     one of the constructs of the C language is the `if' statement.
+     *Note Languages and Context-Free Grammars: Language and Grammar.
+
+Left associativity
+     Operators having left associativity are analyzed from left to
+     right: `a+b+c' first computes `a+b' and then combines with `c'.
+     *Note Operator Precedence: Precedence.
+
+Left recursion
+     A rule whose result symbol is also its first component symbol; for
+     example, `expseq1 : expseq1 ',' exp;'.  *Note Recursive Rules:
+     Recursion.
+
+Left-to-right parsing
+     Parsing a sentence of a language by analyzing it token by token
+     from left to right.  *Note The Bison Parser Algorithm: Algorithm.
+
+Lexical analyzer (scanner)
+     A function that reads an input stream and returns tokens one by
+     one.  *Note The Lexical Analyzer Function `yylex': Lexical.
+
+Lexical tie-in
+     A flag, set by actions in the grammar rules, which alters the way
+     tokens are parsed.  *Note Lexical Tie-ins::.
+
+Literal string token
+     A token which consists of two or more fixed characters.  *Note
+     Symbols::.
+
+Look-ahead token
+     A token already read but not yet shifted.  *Note Look-Ahead
+     Tokens: Look-Ahead.
+
+LALR(1)
+     The class of context-free grammars that Bison (like most other
+     parser generators) can handle; a subset of LR(1).  *Note
+     Mysterious Reduce/Reduce Conflicts: Mystery Conflicts.
+
+LR(1)
+     The class of context-free grammars in which at most one token of
+     look-ahead is needed to disambiguate the parsing of any piece of
+     input.
+
+Nonterminal symbol
+     A grammar symbol standing for a grammatical construct that can be
+     expressed through rules in terms of smaller constructs; in other
+     words, a construct that is not a token.  *Note Symbols::.
+
+Parse error
+     An error encountered during parsing of an input stream due to
+     invalid syntax.  *Note Error Recovery::.
+
+Parser
+     A function that recognizes valid sentences of a language by
+     analyzing the syntax structure of a set of tokens passed to it
+     from a lexical analyzer.
+
+Postfix operator
+     An arithmetic operator that is placed after the operands upon
+     which it performs some operation.
+
+Reduction
+     Replacing a string of nonterminals and/or terminals with a single
+     nonterminal, according to a grammar rule.  *Note The Bison Parser
+     Algorithm: Algorithm.
+
+Reentrant
+     A reentrant subprogram is a subprogram which can be in invoked any
+     number of times in parallel, without interference between the
+     various invocations.  *Note A Pure (Reentrant) Parser: Pure Decl.
+
+Reverse polish notation
+     A language in which all operators are postfix operators.
+
+Right recursion
+     A rule whose result symbol is also its last component symbol; for
+     example, `expseq1: exp ',' expseq1;'.  *Note Recursive Rules:
+     Recursion.
+
+Semantics
+     In computer languages, the semantics are specified by the actions
+     taken for each instance of the language, i.e., the meaning of each
+     statement.  *Note Defining Language Semantics: Semantics.
+
+Shift
+     A parser is said to shift when it makes the choice of analyzing
+     further input from the stream rather than reducing immediately some
+     already-recognized rule.  *Note The Bison Parser Algorithm:
+     Algorithm.
+
+Single-character literal
+     A single character that is recognized and interpreted as is.
+     *Note From Formal Rules to Bison Input: Grammar in Bison.
+
+Start symbol
+     The nonterminal symbol that stands for a complete valid utterance
+     in the language being parsed.  The start symbol is usually listed
+     as the first nonterminal symbol in a language specification.
+     *Note The Start-Symbol: Start Decl.
+
+Symbol table
+     A data structure where symbol names and associated data are stored
+     during parsing to allow for recognition and use of existing
+     information in repeated uses of a symbol.  *Note Multi-function
+     Calc::.
+
+Token
+     A basic, grammatically indivisible unit of a language.  The symbol
+     that describes a token in the grammar is a terminal symbol.  The
+     input of the Bison parser is a stream of tokens which comes from
+     the lexical analyzer.  *Note Symbols::.
+
+Terminal symbol
+     A grammar symbol that has no rules in the grammar and therefore is
+     grammatically indivisible.  The piece of text it represents is a
+     token.  *Note Languages and Context-Free Grammars: Language and
+     Grammar.
+
+
 File: bison.info,  Node: Index,  Prev: Glossary,  Up: Top
 
 Index

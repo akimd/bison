@@ -9,29 +9,53 @@ AT_INIT([bison])
 ## Checking output file names.  ##
 ## ---------------------------- ##
 
-AT_SETUP([Checking output file names.])
-
+# AT_CHECK_BISON_FLAGS(FLAGS, EXPECTED-FILES-SORTED)
+# --------------------------------------------------
+AT_DEFINE([AT_CHECK_BISON_FLAGS],
+[AT_SETUP([Output files: $1.])
 AT_DATA([foo.y],
 [[%%
 foo: {}
 ]])
-
-# AT_CHECK_BISON_OUTPUT(FLAGS, EXPECTED-FILES-SORTED)
-# ---------------------------------------------------
-AT_DEFINE([AT_CHECK_BISON_OUTPUT],
-[rm -rf $2
+rm -rf $2
 AT_CHECK([bison -dv foo.y $1], 0, ignore, ignore)
 AT_CHECK([ls $2 | sort | tr '\n' ' ' | sed 's/.$//g'], 0, [$2])
-rm -f $2])
-
-AT_CHECK_BISON_OUTPUT([],             [foo.output foo.tab.c foo.tab.h])
-AT_CHECK_BISON_OUTPUT([-o foo.c],     [foo.c foo.h foo.output])
-AT_CHECK_BISON_OUTPUT([-o foo.tab.c], [foo.output foo.tab.c foo.tab.h])
-AT_CHECK_BISON_OUTPUT([-y],           [y.output y.tab.c y.tab.h])
-AT_CHECK_BISON_OUTPUT([-b bar],       [bar.output bar.tab.c bar.tab.h])
-
+rm -f $2
 AT_CLEANUP
+])
 
+AT_CHECK_BISON_FLAGS([],             [foo.output foo.tab.c foo.tab.h])
+AT_CHECK_BISON_FLAGS([-o foo.c],     [foo.c foo.h foo.output])
+AT_CHECK_BISON_FLAGS([-o foo.tab.c], [foo.output foo.tab.c foo.tab.h])
+AT_CHECK_BISON_FLAGS([-y],           [y.output y.tab.c y.tab.h])
+AT_CHECK_BISON_FLAGS([-b bar],       [bar.output bar.tab.c bar.tab.h])
+
+
+
+# AT_CHECK_BISON_PERCENT(GRAMMAR-OPTIONS, EXPECTED-FILES-SORTED)
+# --------------------------------------------------------------
+AT_DEFINE([AT_CHECK_BISON_PERCENT],
+[AT_SETUP([Output files: $1.])
+AT_DATA([foo.y],
+[[$1
+%defines
+%verbose
+%%
+foo: {}
+]])
+rm -rf $2
+AT_CHECK([bison foo.y], 0, ignore, ignore)
+AT_CHECK([ls $2 | sort | tr '\n' ' ' | sed 's/.$//g'], 0, [$2])
+rm -f $2
+AT_CLEANUP
+])
+
+# The sames, but using the % directives.
+AT_CHECK_BISON_PERCENT([],                  [foo.output foo.tab.c foo.tab.h])
+# AT_CHECK_BISON_PERCENT([%output foo.c],     [foo.c foo.h foo.output])
+# AT_CHECK_BISON_PERCENT([%output foo.tab.c], [foo.output foo.tab.c foo.tab.h])
+AT_CHECK_BISON_PERCENT([%yacc],             [y.output y.tab.c y.tab.h])
+# AT_CHECK_BISON_PERCENT([%file_prefix bar],  [bar.output bar.tab.c bar.tab.h])
 
 AT_INCLUDE([calc.at])
 AT_INCLUDE([regression.at])

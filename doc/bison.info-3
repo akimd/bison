@@ -465,6 +465,11 @@ Bison Declaration Summary
      Declare the expected number of shift-reduce conflicts (*note
      Suppressing Conflict Warnings: Expect Decl.).
 
+`%yacc'
+`%fixed_output_files'
+     Pretend the option `--yacc' was given, i.e., imitate Yacc,
+     including its naming conventions.  *Note Bison Options::, for more.
+
 `%locations'
      Generate the code processing the locations (*note Special Features
      for Use in Actions: Action Features.).  This mode is enabled as
@@ -476,6 +481,15 @@ Bison Declaration Summary
      Request a pure (reentrant) parser program (*note A Pure
      (Reentrant) Parser: Pure Decl.).
 
+`%no_parser'
+     Do not include any C code in the parser file; generate tables
+     only.  The parser file contains just `#define' directives and
+     static variable declarations.
+
+     This option also tells Bison to write the C code for the grammar
+     actions into a file named `FILENAME.act', in the form of a
+     brace-surrounded body fit for a `switch' statement.
+
 `%no_lines'
      Don't generate any `#line' preprocessor commands in the parser
      file.  Ordinarily Bison writes these commands in the parser file
@@ -483,6 +497,39 @@ Bison Declaration Summary
      object code with your source file (the grammar file).  This
      directive causes them to associate errors with the parser file,
      treating it an independent source file in its own right.
+
+`%debug'
+     Output a definition of the macro `YYDEBUG' into the parser file, so
+     that the debugging facilities are compiled.  *Note Debugging Your
+     Parser: Debugging.
+
+`%defines'
+     Write an extra output file containing macro definitions for the
+     token type names defined in the grammar and the semantic value type
+     `YYSTYPE', as well as a few `extern' variable declarations.
+
+     If the parser output file is named `NAME.c' then this file is
+     named `NAME.h'.
+
+     This output file is essential if you wish to put the definition of
+     `yylex' in a separate source file, because `yylex' needs to be
+     able to refer to token type codes and the variable `yylval'.
+     *Note Semantic Values of Tokens: Token Values.
+
+`%verbose'
+     Write an extra output file containing verbose descriptions of the
+     parser states and what is done for each type of look-ahead token in
+     that state.
+
+     This file also describes all the conflicts, both those resolved by
+     operator precedence and the unresolved ones.
+
+     The file's name is made by removing `.tab.c' or `.c' from the
+     parser output file name, and adding `.output' instead.
+
+     Therefore, if the input file is `foo.y', then the parser file is
+     called `foo.tab.c' by default.  As a consequence, the verbose
+     output file is called `foo.output'.
 
 `%raw'
      The output file `NAME.h' normally defines the tokens with
@@ -1247,49 +1294,4 @@ former, which is called "left association".  The latter alternative,
 of left or right association is a matter of whether the parser chooses
 to shift or reduce when the stack contains `1 - 2' and the look-ahead
 token is `-': shifting makes right-associativity.
-
-
-File: bison.info,  Node: Using Precedence,  Next: Precedence Examples,  Prev: Why Precedence,  Up: Precedence
-
-Specifying Operator Precedence
-------------------------------
-
-   Bison allows you to specify these choices with the operator
-precedence declarations `%left' and `%right'.  Each such declaration
-contains a list of tokens, which are operators whose precedence and
-associativity is being declared.  The `%left' declaration makes all
-those operators left-associative and the `%right' declaration makes
-them right-associative.  A third alternative is `%nonassoc', which
-declares that it is a syntax error to find the same operator twice "in a
-row".
-
-   The relative precedence of different operators is controlled by the
-order in which they are declared.  The first `%left' or `%right'
-declaration in the file declares the operators whose precedence is
-lowest, the next such declaration declares the operators whose
-precedence is a little higher, and so on.
-
-
-File: bison.info,  Node: Precedence Examples,  Next: How Precedence,  Prev: Using Precedence,  Up: Precedence
-
-Precedence Examples
--------------------
-
-   In our example, we would want the following declarations:
-
-     %left '<'
-     %left '-'
-     %left '*'
-
-   In a more complete example, which supports other operators as well,
-we would declare them in groups of equal precedence.  For example,
-`'+'' is declared with `'-'':
-
-     %left '<' '>' '=' NE LE GE
-     %left '+' '-'
-     %left '*' '/'
-
-(Here `NE' and so on stand for the operators for "not equal" and so on.
-We assume that these tokens are more than one character long and
-therefore are represented by names, not character literals.)
 

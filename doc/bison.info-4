@@ -29,6 +29,51 @@ included in translations approved by the Free Software Foundation
 instead of in the original English.
 
 
+File: bison.info,  Node: Using Precedence,  Next: Precedence Examples,  Prev: Why Precedence,  Up: Precedence
+
+Specifying Operator Precedence
+------------------------------
+
+   Bison allows you to specify these choices with the operator
+precedence declarations `%left' and `%right'.  Each such declaration
+contains a list of tokens, which are operators whose precedence and
+associativity is being declared.  The `%left' declaration makes all
+those operators left-associative and the `%right' declaration makes
+them right-associative.  A third alternative is `%nonassoc', which
+declares that it is a syntax error to find the same operator twice "in a
+row".
+
+   The relative precedence of different operators is controlled by the
+order in which they are declared.  The first `%left' or `%right'
+declaration in the file declares the operators whose precedence is
+lowest, the next such declaration declares the operators whose
+precedence is a little higher, and so on.
+
+
+File: bison.info,  Node: Precedence Examples,  Next: How Precedence,  Prev: Using Precedence,  Up: Precedence
+
+Precedence Examples
+-------------------
+
+   In our example, we would want the following declarations:
+
+     %left '<'
+     %left '-'
+     %left '*'
+
+   In a more complete example, which supports other operators as well,
+we would declare them in groups of equal precedence.  For example,
+`'+'' is declared with `'-'':
+
+     %left '<' '>' '=' NE LE GE
+     %left '+' '-'
+     %left '*' '/'
+
+(Here `NE' and so on stand for the operators for "not equal" and so on.
+We assume that these tokens are more than one character long and
+therefore are represented by names, not character literals.)
+
+
 File: bison.info,  Node: How Precedence,  Prev: Precedence Examples,  Up: Precedence
 
 How Precedence Works
@@ -803,9 +848,9 @@ Tuning the parser:
 
 `-t'
 `--debug'
-     Output a definition of the macro `YYDEBUG' into the parser file,
-     so that the debugging facilities are compiled.  *Note Debugging
-     Your Parser: Debugging.
+     Output a definition of the macro `YYDEBUG' into the parser file, so
+     that the debugging facilities are compiled.  *Note Debugging Your
+     Parser: Debugging.
 
 `--locations'
      Pretend that `%locactions' was specified.  *Note Decl Summary::.
@@ -833,13 +878,7 @@ Tuning the parser:
 
 `-n'
 `--no-parser'
-     Do not include any C code in the parser file; generate tables
-     only.  The parser file contains just `#define' directives and
-     static variable declarations.
-
-     This option also tells Bison to write the C code for the grammar
-     actions into a file named `FILENAME.act', in the form of a
-     brace-surrounded body fit for a `switch' statement.
+     Pretend that `%no_parser' was specified.  *Note Decl Summary::.
 
 `-r'
 `--raw'
@@ -853,17 +892,10 @@ Adjust the output:
 
 `-d'
 `--defines'
-     Write an extra output file containing macro definitions for the
-     token type names defined in the grammar and the semantic value type
-     `YYSTYPE', as well as a few `extern' variable declarations.
-
-     If the parser output file is named `NAME.c' then this file is
-     named `NAME.h'.
-
-     This output file is essential if you wish to put the definition of
-     `yylex' in a separate source file, because `yylex' needs to be
-     able to refer to token type codes and the variable `yylval'.
-     *Note Semantic Values of Tokens: Token Values.
+     Pretend that `%verbose' was specified, i.e., write an extra output
+     file containing macro definitions for the token type names defined
+     in the grammar and the semantic value type `YYSTYPE', as well as a
+     few `extern' variable declarations.  *Note Decl Summary::.
 
 `-b FILE-PREFIX'
 `--file-prefix=PREFIX'
@@ -872,19 +904,9 @@ Adjust the output:
 
 `-v'
 `--verbose'
-     Write an extra output file containing verbose descriptions of the
-     parser states and what is done for each type of look-ahead token in
-     that state.
-
-     This file also describes all the conflicts, both those resolved by
-     operator precedence and the unresolved ones.
-
-     The file's name is made by removing `.tab.c' or `.c' from the
-     parser output file name, and adding `.output' instead.
-
-     Therefore, if the input file is `foo.y', then the parser file is
-     called `foo.tab.c' by default.  As a consequence, the verbose
-     output file is called `foo.output'.
+     Pretend that `%verbose' was specified, i.e, write an extra output
+     file containing verbose descriptions of the grammar and parser.
+     *Note Decl Summary::, for more.
 
 `-o OUTFILE'
 `--output-file=OUTFILE'
@@ -1093,6 +1115,13 @@ Bison Symbols
      The parser function produced by Bison; call this function to start
      parsing.  *Note The Parser Function `yyparse': Parser Function.
 
+`%debug'
+     Equip the parser for debugging.  *Note Decl Summary::.
+
+`%defines'
+     Bison declaration to create a header file meant for the scanner.
+     *Note Decl Summary::.
+
 `%left'
      Bison declaration to assign left associativity to token(s).  *Note
      Operator Precedence: Precedence Decl.
@@ -1168,170 +1197,4 @@ Bison Symbols
 `|'
      Separates alternate rules for the same result nonterminal.  *Note
      Syntax of Grammar Rules: Rules.
-
-
-File: bison.info,  Node: Glossary,  Next: Index,  Prev: Table of Symbols,  Up: Top
-
-Glossary
-********
-
-Backus-Naur Form (BNF)
-     Formal method of specifying context-free grammars.  BNF was first
-     used in the `ALGOL-60' report, 1963.  *Note Languages and
-     Context-Free Grammars: Language and Grammar.
-
-Context-free grammars
-     Grammars specified as rules that can be applied regardless of
-     context.  Thus, if there is a rule which says that an integer can
-     be used as an expression, integers are allowed _anywhere_ an
-     expression is permitted.  *Note Languages and Context-Free
-     Grammars: Language and Grammar.
-
-Dynamic allocation
-     Allocation of memory that occurs during execution, rather than at
-     compile time or on entry to a function.
-
-Empty string
-     Analogous to the empty set in set theory, the empty string is a
-     character string of length zero.
-
-Finite-state stack machine
-     A "machine" that has discrete states in which it is said to exist
-     at each instant in time.  As input to the machine is processed, the
-     machine moves from state to state as specified by the logic of the
-     machine.  In the case of the parser, the input is the language
-     being parsed, and the states correspond to various stages in the
-     grammar rules.  *Note The Bison Parser Algorithm: Algorithm.
-
-Grouping
-     A language construct that is (in general) grammatically divisible;
-     for example, `expression' or `declaration' in C.  *Note Languages
-     and Context-Free Grammars: Language and Grammar.
-
-Infix operator
-     An arithmetic operator that is placed between the operands on
-     which it performs some operation.
-
-Input stream
-     A continuous flow of data between devices or programs.
-
-Language construct
-     One of the typical usage schemas of the language.  For example,
-     one of the constructs of the C language is the `if' statement.
-     *Note Languages and Context-Free Grammars: Language and Grammar.
-
-Left associativity
-     Operators having left associativity are analyzed from left to
-     right: `a+b+c' first computes `a+b' and then combines with `c'.
-     *Note Operator Precedence: Precedence.
-
-Left recursion
-     A rule whose result symbol is also its first component symbol; for
-     example, `expseq1 : expseq1 ',' exp;'.  *Note Recursive Rules:
-     Recursion.
-
-Left-to-right parsing
-     Parsing a sentence of a language by analyzing it token by token
-     from left to right.  *Note The Bison Parser Algorithm: Algorithm.
-
-Lexical analyzer (scanner)
-     A function that reads an input stream and returns tokens one by
-     one.  *Note The Lexical Analyzer Function `yylex': Lexical.
-
-Lexical tie-in
-     A flag, set by actions in the grammar rules, which alters the way
-     tokens are parsed.  *Note Lexical Tie-ins::.
-
-Literal string token
-     A token which consists of two or more fixed characters.  *Note
-     Symbols::.
-
-Look-ahead token
-     A token already read but not yet shifted.  *Note Look-Ahead
-     Tokens: Look-Ahead.
-
-LALR(1)
-     The class of context-free grammars that Bison (like most other
-     parser generators) can handle; a subset of LR(1).  *Note
-     Mysterious Reduce/Reduce Conflicts: Mystery Conflicts.
-
-LR(1)
-     The class of context-free grammars in which at most one token of
-     look-ahead is needed to disambiguate the parsing of any piece of
-     input.
-
-Nonterminal symbol
-     A grammar symbol standing for a grammatical construct that can be
-     expressed through rules in terms of smaller constructs; in other
-     words, a construct that is not a token.  *Note Symbols::.
-
-Parse error
-     An error encountered during parsing of an input stream due to
-     invalid syntax.  *Note Error Recovery::.
-
-Parser
-     A function that recognizes valid sentences of a language by
-     analyzing the syntax structure of a set of tokens passed to it
-     from a lexical analyzer.
-
-Postfix operator
-     An arithmetic operator that is placed after the operands upon
-     which it performs some operation.
-
-Reduction
-     Replacing a string of nonterminals and/or terminals with a single
-     nonterminal, according to a grammar rule.  *Note The Bison Parser
-     Algorithm: Algorithm.
-
-Reentrant
-     A reentrant subprogram is a subprogram which can be in invoked any
-     number of times in parallel, without interference between the
-     various invocations.  *Note A Pure (Reentrant) Parser: Pure Decl.
-
-Reverse polish notation
-     A language in which all operators are postfix operators.
-
-Right recursion
-     A rule whose result symbol is also its last component symbol; for
-     example, `expseq1: exp ',' expseq1;'.  *Note Recursive Rules:
-     Recursion.
-
-Semantics
-     In computer languages, the semantics are specified by the actions
-     taken for each instance of the language, i.e., the meaning of each
-     statement.  *Note Defining Language Semantics: Semantics.
-
-Shift
-     A parser is said to shift when it makes the choice of analyzing
-     further input from the stream rather than reducing immediately some
-     already-recognized rule.  *Note The Bison Parser Algorithm:
-     Algorithm.
-
-Single-character literal
-     A single character that is recognized and interpreted as is.
-     *Note From Formal Rules to Bison Input: Grammar in Bison.
-
-Start symbol
-     The nonterminal symbol that stands for a complete valid utterance
-     in the language being parsed.  The start symbol is usually listed
-     as the first nonterminal symbol in a language specification.
-     *Note The Start-Symbol: Start Decl.
-
-Symbol table
-     A data structure where symbol names and associated data are stored
-     during parsing to allow for recognition and use of existing
-     information in repeated uses of a symbol.  *Note Multi-function
-     Calc::.
-
-Token
-     A basic, grammatically indivisible unit of a language.  The symbol
-     that describes a token in the grammar is a terminal symbol.  The
-     input of the Bison parser is a stream of tokens which comes from
-     the lexical analyzer.  *Note Symbols::.
-
-Terminal symbol
-     A grammar symbol that has no rules in the grammar and therefore is
-     grammatically indivisible.  The piece of text it represents is a
-     token.  *Note Languages and Context-Free Grammars: Language and
-     Grammar.
 
