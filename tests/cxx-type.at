@@ -183,7 +183,7 @@ z + q;
 This is total garbage, but it should be ignored.
 ]])
 
-AT_CHECK([bison types.y -o types.c], 0, [], ignore)
+AT_CHECK([bison -o types.c types.y], 0, [], ignore)
 AT_COMPILE([types])
 ])
 

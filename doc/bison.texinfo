@@ -1403,7 +1403,7 @@ rpcalc.tab.c  rpcalc.y
 @group
 # @r{Compile the Bison parser.}
 # @r{@samp{-lm} tells compiler to search math library for @code{pow}.}
-$ @kbd{cc rpcalc.tab.c -lm -o rpcalc}
+$ @kbd{cc -lm -o rpcalc rpcalc.tab.c}
 @end group
 
 @group
@@ -5812,7 +5812,7 @@ bison -d @var{infile.yxx}
 will produce @file{infile.tab.cxx} and @file{infile.tab.hxx}, and
 
 @example
-bison -d @var{infile.y} -o @var{output.c++}
+bison -d -o @var{output.c++} @var{infile.y}
 @end example
 @noindent
 will produce @file{output.c++} and @file{outfile.h++}.

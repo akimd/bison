@@ -66,7 +66,7 @@ AT_SYNCLINES_COMPILE([syncline.c])
 AT_CHECK([[test "`cat stdout`" = 'syncline.c:1: @%:@error "1"' || exit 77]])
 
 AT_DATA([[input.y]], [$2])
-AT_CHECK([bison input.y -o input.c])
+AT_CHECK([bison -o input.c input.y])
 AT_SYNCLINES_COMPILE([input.c])
 AT_CHECK([cat stdout], 0, [$3])
 AT_CLEANUP

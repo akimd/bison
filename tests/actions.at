@@ -72,7 +72,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison input.y -d -v -o input.c])
+AT_CHECK([bison -d -v -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 0,
 [[0123456789
@@ -143,7 +143,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison input.y -d -v -o input.c])
+AT_CHECK([bison -d -v -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 0,
 [[15
@@ -295,7 +295,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison input.y --location -d -v -o input.c])
+AT_CHECK([bison --location -d -v -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
 [[sending: 'x' (value = 0, line 0)

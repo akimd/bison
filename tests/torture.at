@@ -144,7 +144,7 @@ AT_SETUP([Big triangle])
 # With 500 and the new parser, which consume far too much memory,
 # it gets killed too.  Of course the parser is to be cleaned.
 AT_DATA_TRIANGULAR_GRAMMAR([input.y], [200])
-AT_CHECK([bison input.y -v -o input.c])
+AT_CHECK([bison -v -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input])
 
@@ -248,7 +248,7 @@ AT_DATA_HORIZONTAL_GRAMMAR([input.y], [1000])
 # Ask for 200 MiB, which should be plenty even on a 64-bit host.
 AT_INCREASE_DATA_SIZE(204000)
 
-AT_CHECK([bison input.y -v -o input.c])
+AT_CHECK([bison -v -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input])
 
@@ -372,7 +372,7 @@ AT_DATA_LOOKAHEADS_GRAMMAR([input.y], [1000])
 # Ask for 200 MiB, which should be plenty even on a 64-bit host.
 AT_INCREASE_DATA_SIZE(204000)
 
-AT_CHECK([bison input.y -v -o input.c])
+AT_CHECK([bison -v -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input])
 
@@ -429,7 +429,7 @@ main (int argc, const char **argv)
   return yyparse ();
 }
 ]])
-AT_CHECK([bison input.y -o input.c])
+AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 ])
 

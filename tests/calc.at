@@ -375,7 +375,7 @@ AT_SETUP([Calculator $1])
 AT_DATA_CALC_Y([$1])
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison calc.y -o calc.c m4_bpatsubst([$1], [%[^ ]*])],
+AT_CHECK([bison -o calc.c m4_bpatsubst([$1], [%[^ ]*]) calc.y],
          [0], [], [])
 
 AT_COMPILE([calc])

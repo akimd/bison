@@ -181,7 +181,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison input.y -d -v -o input.c])
+AT_CHECK([bison -d -v -o input.c input.y])
 AT_COMPILE([input], [input.c main.c])
 AT_PARSER_CHECK([./input], 0,
 [[[1],

@@ -105,7 +105,7 @@ my_error (const char *msg)
 exp:;
 ])
 
-AT_CHECK([bison --defines input.y -o input.c])
+AT_CHECK([bison --defines -o input.c input.y])
 
 # YYLTYPE should be defined, and MY_LLOC declared.
 AT_DATA([caller.c],
