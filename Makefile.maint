@@ -1,6 +1,6 @@
 # -*-Makefile-*-
 # This Makefile fragment is shared between fileutils, sh-utils, textutils,
-# and Autoconf.
+# CPPI, Bison, and Autoconf.
 
 ## Copyright 2001 Free Software Foundation, Inc.
 ##
@@ -18,6 +18,14 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 ## 02111-1307, USA.
+
+# Do not save the original name or timestamp in the .tar.gz file.
+GZIP_ENV = '--no-name --best'
+
+# Automake 1.4 does not define AMTAR.
+AMTAR ?= $(TAR)
+
+CVS = cvs
 
 prev_version_file ?= .prev-version
 
@@ -88,13 +96,13 @@ copyright-check:
 # Sanity checks with the CVS repository.
 cvs-tag-check:
 	echo $(this-cvs-tag); \
-	if cvs -n log -h README | grep -e $(this-cvs-tag): >/dev/null; then \
+	if $(CVS) -n log -h README | grep -e $(this-cvs-tag): >/dev/null; then \
 	  echo "$(this-cvs-tag) as already been used; not tagging" 1>&2; \
 	  exit 1; \
 	else :; fi
 
 cvs-diff-check:
-	if cvs diff >cvs-diffs; then			  	\
+	if $(CVS) diff >cvs-diffs; then			  	\
 	  rm cvs-diffs;					  	\
 	else						  	\
 	  echo "Some files are locally modified:" 1>&2;  	\
@@ -109,18 +117,12 @@ maintainer-distcheck: changelog-check
 	$(MAKE) my-distcheck
 
 
-# Do not save the original name or timestamp in the .tar.gz file.
-GZIP_ENV = '--no-name --best'
-
-# Automake 1.4 does not define AMTAR.
-AMTAR ?= $(TAR)
-
 # Tag before making distribution.  Also, don't make a distribution if
 # checks fail.  Also, make sure the NEWS file is up-to-date.
 # FIXME: use dist-hook/my-dist like distcheck-hook/my-distcheck.
 cvs-dist: cvs-check maintainer-distcheck
-	cvs update po
-	cvs tag -c $(this-cvs-tag)
+	$(CVS) update po
+	$(CVS) tag -c $(this-cvs-tag)
 	$(MAKE) dist
 
 # Use this to make sure we don't run these programs when building
@@ -220,7 +222,7 @@ announcement: NEWS ChangeLog $(rel-files)
 	  echo; \
 	  echo ChangeLog entries:; \
 	  find . -name ChangeLog -maxdepth 2 \
-	    | xargs cvs diff -up -r$(prev-cvs-tag) -rHEAD \
+	    | xargs $(CVS) diff -up -r$(prev-cvs-tag) -rHEAD \
 	    | sed -n 's/^+//p' \
 	    | perl -ne 'm!^\+\+ (\./)?! or print,next;' \
 	      -e 'print "\n"."*"x70 ."\n"; s///; print; print "*"x70 ."\n"'; \
@@ -264,7 +266,7 @@ wget-update: $(get-targets)
 	for f in depcomp missing; do                                    \
 	  test -f $$f || continue;					\
 	  echo checking out $$f...;                                     \
-	  cvs -d $(automake_repo) co -p automake/lib/$$f > $$f.t        \
+	  $(CVS) -d $(automake_repo) co -p automake/lib/$$f > $$f.t        \
 	    && $(move_if_change) $$f.t $$f;                             \
 	done
 
@@ -289,5 +291,5 @@ alpha: local-check
 	ln $(rel-files) $(release_archive_dir)
 	chmod a-w $(rel-files)
 	echo $(VERSION) > $(prev_version_file)
-	cvs ci -m. $(prev_version_file)
+	$(CVS) ci -m. $(prev_version_file)
 	@$(emit-rsync-commands)
