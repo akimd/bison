@@ -1,5 +1,11 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (augment_automaton): Now that all states have shifts,
+	merge the two cases addition shifts to the initial state.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (set_state_table): Move to...
 	* src/LR0.c: here.
 	* src/lalr.c (lalr): Don't call it...
