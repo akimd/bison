@@ -1,5 +1,12 @@
 2002-10-14  Paul Eggert  <eggert@twinsun.com>
 
+	* tests/action.at, tests/calc.at, tests/conflicts.at,
+	tests/cxx-type.at, tests/headers.at, tests/input.at,
+	tests/regression.at, tests/synclines.at, tests/torture.at:
+	Say "bison -o foo.c foo.y", not "bison foo.y -o foo.c",
+	so that the tests still work even if POSIXLY_CORRECT is set.
+	* doc/bison.texinfo (Rpcalc Compile, Invocation): Likewise.
+	
 	* data/c.m4 (b4_int_type): Use yysigned_char instead of signed char,
 	for portability to K&R hosts.  Fix typo: signed char is guaranteed
 	only to 127, not to 128.
