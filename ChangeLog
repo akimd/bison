@@ -1,3 +1,9 @@
+2004-09-21  Akim Demaille  <akim@epita.fr>
+
+	* data/yacc.c, data/glr.c (b4_at_dollar, b4_dollar_dollar): Remove
+	the useless parentheses.
+	Suggested by Paul Eggert.
+
 2004-09-20  Akim Demaille  <akim@epita.fr>
 
 	Let the initial-action act on the look-ahead, and use it for the
