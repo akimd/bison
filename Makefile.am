@@ -1,6 +1,8 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
 AUTOMAKE_OPTIONS = 1.4 ansi2knr
 
+SUBDIRS = intl po
+
 bin_PROGRAMS = bison
 
 bison_SOURCES = LR0.c allocate.c closure.c conflicts.c derives.c	\
@@ -27,4 +29,4 @@ bison.simple: bison.s1 Makefile
 	sed -e "/^#line/ s|bison|$(datadir)/bison|" -e "s/@bison_version@/$(VERSION)/" < $(srcdir)/bison.s1 > $@-tmp
 	mv $@-tmp $@
 
-DISTCLEANFILES = bison.simple
+DISTCLEANFILES = bison.simple intl/libintl.h

@@ -4,6 +4,8 @@ AM_INIT_AUTOMAKE(bison,1.27)
 AM_CONFIG_HEADER(config.h:config.hin)
 AC_PREREQ(2.13)
 
+ALL_LINGUAS="de es fr nl"
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_MINIX
@@ -30,9 +32,15 @@ dnl Checks for library functions.
 AC_FUNC_ALLOCA
 AC_CHECK_FUNCS(mkstemp setlocale)
 
+AM_GNU_GETTEXT
+
+# This is necessary so that .o files in LIBOBJS are also built via
+# the ANSI2KNR-filtering rules.
+LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
+
 PFILE="${datadir}/bison.simple"
 BISON_DEFINE_FILE(XPFILE, PFILE)
 PFILE1="${datadir}/bison.hairy"
 BISON_DEFINE_FILE(XPFILE1, PFILE1)
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT(Makefile intl/Makefile po/Makefile.in)
