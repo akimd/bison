@@ -2,7 +2,7 @@
 
 	* src/print_graph.c (node_output_size): Declared POSIX `size_t' type, 
 	instead of `unsigned'.
-	(print_state): Donnot call obstack_object_size () in obstack_grow ()
+	(print_state): Do not call obstack_object_size () in obstack_grow ()
 	to avoid macro variables shadowing.
 
 2001-08-23  Marc Autret  <autret_m@epita.fr>
