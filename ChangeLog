@@ -1,5 +1,10 @@
 2001-10-04  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (parse_union_decl): Push the caracters in
+	union_obstack, not attrs_obstack.
+
+2001-10-04  Akim Demaille  <akim@epita.fr>
+
 	Merge in the branch 1.29.
 
 	* src/reader.c (packsymbols): Use a temporary obstack for
