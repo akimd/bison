@@ -1,6 +1,18 @@
 Bison News
 ----------
 
+Changes in version 1.75f, 2002-12-28:
+
+* In Yacc-style parsers YYLLOC_DEFAULT is now used to compute error
+  locations too.  This fixes bugs in error-location computation.
+
+* Bison now uses a Yacc-style format for conflict reports, e.g.,
+  "conflicts: 2 shift/reduce, 1 reduce/reduce".
+
+* Bison now warns if it detects conflicting outputs to the same file,
+  e.g., it generates a warning for "bison -d -o foo.h foo.y" since
+  that command outputs both code and header to foo.h.
+
 Changes in version 1.75e, 2002-12-24:
 
 * If the user does not define YYSTYPE as a macro, Bison now declares it

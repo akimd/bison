@@ -1,3 +1,31 @@
+2002-12-28  Paul Eggert  <eggert@twinsun.com>
+
+	Version 1.75f.
+
+	Switch back to the Yacc style of conflict reports, undoing some
+	of the 2002-07-30 change.
+	* doc/bison.texinfo (Understanding): Use Yacc style for
+	conflict reports.  Also, use new way of locating rules.
+	* src/conflicts.c (conflict_report):
+	Renamed from conflict_report_yacc, removing the old
+	'conflict_report'.  Translate the entire conflict report at once,
+	so that we don't assume that "," has the same interpretation in
+	all languages.
+	(conflicts_output): Use Yacc-style conflict report for each state,
+	instead of our more-complicated style.
+	(conflicts_print): Use Yacc-style conflict report, except print
+	the input file name when not emulating Yacc.
+	* tests/conflicts.at (Unresolved SR Conflicts, Defaulted
+	Conflicted Reduction, %expect not enough, %expect too much,
+	%expect with reduce conflicts): Switch to Yacc-style conflict reports.
+	* tests/existing.at (GNU Cim Grammar): Likewise.
+	* tests/glr-regr1.at (Badly Collapsed GLR States): Likewise.
+
+	* src/complain.c (warn_at, warn, complain_at, complain, fatal_at,
+	fatal): Don't invoke fflush; it's not needed and it might even be
+	harmful for stdout, as stdout might not be open.
+	* src/reduce.c (reduce_print): Likewise.
+
 2002-12-27  Paul Eggert  <eggert@twinsun.com>
 
 	Fix a bug where error locations were not being recorded correctly.
