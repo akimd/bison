@@ -1,3 +1,9 @@
+2002-06-14  Akim Demaille  <akim@epita.fr>
+
+	* data/bison.simple, data/bison.c++: Be sure to restore the
+	current #line when returning to the skeleton contents after having
+	exposed the input file's #line.
+
 2002-06-12  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-gram.l (SC_BRACED_CODE): Don't use `<.*>', it is too

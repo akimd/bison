@@ -145,6 +145,9 @@ b4_copyright
 /* Copy the first part of user declarations.  */
 b4_pre_prologue
 
+/* Line __line__ of __file__.  */
+#line __oline__ "__ofile__"
+
 /* Tokens.  */
 b4_token_defines(b4_tokens)
 
@@ -161,7 +164,9 @@ b4_token_defines(b4_tokens)
 #ifndef YYSTYPE
 m4_ifdef([b4_stype],
 [#line b4_stype_line "b4_filename"
-typedef union b4_stype yystype;],
+typedef union b4_stype yystype;
+/* Line __line__ of __file__.  */
+#line __oline__ "__ofile__"],
 [typedef int yystype;])
 # define YYSTYPE yystype
 #endif
@@ -169,6 +174,7 @@ typedef union b4_stype yystype;],
 /* Copy the second part of user declarations.  */
 b4_post_prologue
 
+/* Line __line__ of __file__.  */
 #line __oline__  "__ofile__"
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
