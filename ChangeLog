@@ -1,5 +1,11 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (print_closure): Improve.
+	(closure): Use it for printing input and output.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c (FIRSTS, FDERIVES): Adjust to reality: they are
 	indexed by nonterminals.
 
