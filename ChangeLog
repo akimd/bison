@@ -1,5 +1,16 @@
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
+	Grammar declarations may be found in the grammar section.
+
+	* src/parse-gram.y (rules_or_grammar_declaration): New.
+	(declarations): Each declaration may end with a semicolon, not
+	just...
+	(grammar_declaration): `"%union"'.
+	(grammar): Branch to rules_or_grammar_declaration.
+
+	
+2002-06-14  Akim Demaille  <akim@epita.fr>
+
 	* src/main.c (main): Invoke scanner_free.
 
 	

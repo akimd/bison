@@ -89,9 +89,6 @@ int current_prec = 0;
 %token PERCENT_UNION "%union"
 %token PERCENT_EXPECT "%expect"
 %token PERCENT_START "%start"
-%token PERCENT_LEFT  "%left"
-%token PERCENT_RIGHT "%right"
-%token PERCENT_NONASSOC "%nonassoc"
 %token PERCENT_PREC     "%prec"
 %token PERCENT_VERBOSE  "%verbose"
 %token PERCENT_ERROR_VERBOSE "%error-verbose"
@@ -146,7 +143,7 @@ input: { LOCATION_RESET (yylloc); }
 
 declarations:
   /* Nothing */
-| declarations declaration
+| declarations declaration semi_colon.opt
 ;
 
 declaration:
@@ -176,7 +173,7 @@ grammar_declaration:
     {
       grammar_start_symbol_set ($2);
     }
-| "%union" BRACED_CODE semi_colon_opt
+| "%union" BRACED_CODE
     {
       typed = 1;
       MUSCLE_INSERT_INT ("stype_line", @2.first_line);
@@ -208,6 +205,9 @@ precedence_declaration:
     { current_assoc = non_assoc; current_type = NULL; }
 ;
 
+%token PERCENT_LEFT     "%left";
+%token PERCENT_RIGHT    "%right";
+%token PERCENT_NONASSOC "%nonassoc";
 precedence_declarator:
   "%left"     { $$ = left_assoc; }
 | "%right"    { $$ = right_assoc; }
@@ -285,8 +285,16 @@ symbol_defs.1:
 	`------------------------------------------*/
 
 grammar:
+  rules_or_grammar_declaration
+| grammar rules_or_grammar_declaration
+;
+
+/* As a Bison extension, one can use the grammar declarations in the
+   body of the grammar.  But to remain LALR(1), they must be ended
+   with a semi-colon.  */
+rules_or_grammar_declaration:
   rules
-| grammar rules
+| grammar_declaration ";"
 ;
 
 rules:
@@ -350,7 +358,7 @@ epilogue.opt:
     }
 ;
 
-semi_colon_opt:
+semi_colon.opt:
   /* Nothing.  */
 | ";"
 ;
