@@ -1,11 +1,11 @@
-%%{section} %%{output-prefix} %%{output-infix} %%".hh"
+#output "b4_output_prefix[]b4_output_infix[].hh"
 /* -*- C++ -*- */
 
 /* A Bison parser, made from %%filename,
    by GNU bison %%version.  */
 
 /* Skeleton output parser for bison,
-   Copyright 1984, 1989, 1990, 2000, 2001 Free Software Foundation, Inc.
+   Copyright (C) 2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,39 +33,39 @@
 
 namespace yy
 {
-  class %%{name};
- 
+  class b4_name;
+
   template < typename P >
   struct Traits
   {
   };
 
   template < >
-  struct Traits< %%{name} >
+  struct Traits< b4_name >
   {
     typedef int       StateType;
-    typedef %%{stype} SemanticType;
+    typedef b4_stype  SemanticType;
     typedef Location  LocationType;
   };
 }
 
-%%{prologue}
+b4_prologue
 
 namespace yy
 {
-  class %%{name}
+  class b4_name
   {
   public:
-    
-    typedef Traits< %%{name} >::StateType StateType;
-    typedef Traits< %%{name} >::SemanticType SemanticType;
-    typedef Traits< %%{name} >::LocationType LocationType;
+
+    typedef Traits< b4_name >::StateType StateType;
+    typedef Traits< b4_name >::SemanticType SemanticType;
+    typedef Traits< b4_name >::LocationType LocationType;
 
     typedef Stack< StateType >    StateStack;
     typedef Stack< SemanticType > SemanticStack;
     typedef Stack< LocationType > LocationStack;
 
-    %%{name} () : debug (1)
+    b4_name () : debug (1)
     {
       looka = empty;
     }
@@ -73,12 +73,12 @@ namespace yy
     virtual int parse ();
 
   private:
-    
+
     /* Call to lexical analyser.  */
-    virtual 
-    void 
-    lex () 
-    { 
+    virtual
+    void
+    lex ()
+    {
       looka = yylex (&value);
     }
 
@@ -88,23 +88,23 @@ namespace yy
     LocationStack location_stack;
 
     /* Tables.  */
-    static const short pact_[];
-    static const short defact_[];
-    static const short pgoto_[];
-    static const short defgoto_[];
-    static const short table_[];
-    static const short check_[];
-    static const short line_[];
-    static const short r1_[];
-    static const short r2_[];
-    static const char* const name_[];
+    static const short pact_[[]];
+    static const short defact_[[]];
+    static const short pgoto_[[]];
+    static const short defgoto_[[]];
+    static const short table_[[]];
+    static const short check_[[]];
+    static const short line_[[]];
+    static const short r1_[[]];
+    static const short r2_[[]];
+    static const char* const name_[[]];
 
     /* More tables, for debugging.  */
-    /* FIXME: These tables should not be printed when not in debug 
+    /* FIXME: These tables should not be printed when not in debug
        mode.  %%ifdef?  */
-    static const short rhs_[];
-    static const short prhs_[];
-    static const short rline_[];
+    static const short rhs_[[]];
+    static const short prhs_[[]];
+    static const short rline_[[]];
 
     /* Even more tables.  */
     static inline char translate (int token);
@@ -118,22 +118,22 @@ namespace yy
     int len;
     int debug;
     int state;
-    
+
     /* Lookahead.  */
     int looka;
     int ilooka;
-    
+
     /* @$ and $$.  */
     SemanticType value;
     LocationType location;
   };
 }
 
-%%{section} %%{output-prefix} %%{output-infix} %%".cc"
-#include "%%{output-prefix}%%{output-infix}.hh"
+#output "b4_output_prefix[]b4_output_infix[].cc"
+#include "b4_output_prefix[]b4_output_infix.hh"
 
 /* Enable debugging if requested.  */
-#if %%{debug}
+#if b4_debug
 
 # include <cstdio>
 # define YYFPRINTF std::fprintf
@@ -143,20 +143,18 @@ do {						\
   if (debug)					\
     YYFPRINTF Args;				\
 } while (0)
-/* Nonzero means print parse trace. [The following comment makes no
-   sense to me.  Could someone clarify it?  --akim] Since this is
-   uninitialized, it does not stop multiple parsers from coexisting.
-   */
+/* Nonzero means print parse trace.  Since this is uninitialized, it
+   does not stop multiple parsers from coexisting.  */
 int yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
 #endif /* !YYDEBUG */
 
 /* Tokens.  */
-%%{tokendef}
+b4_tokendef
 
 int
-yy::%%{name}::parse ()
+yy::b4_name::parse ()
 {
   /* Initialize stack.  */
   state_stack = StateStack (0);
@@ -165,9 +163,9 @@ yy::%%{name}::parse ()
 
   /* Reserve initial space.  The C parser needed that, but is it really
      useful here?  */
-  state_stack.reserve (%%{initdepth});
-  semantic_stack.reserve (%%{initdepth});
-  location_stack.reserve (%%{initdepth});
+  state_stack.reserve (b4_initdepth);
+  semantic_stack.reserve (b4_initdepth);
+  location_stack.reserve (b4_initdepth);
 
   /* Start.  */
   state = 0;
@@ -182,8 +180,8 @@ yy::%%{name}::parse ()
  yybackup:
 
   /* Try to take a decision without lookahead.  */
-  n = pact_[state];
-  if (n == %%{flag})
+  n = pact_[[state]];
+  if (n == b4_flag)
     goto yydefault;
 
   /* Read a lookahead token.  */
@@ -203,21 +201,21 @@ yy::%%{name}::parse ()
   else
     {
       ilooka = translate (looka);
-#if %%{debug}
-      YYFPRINTF (stderr, "Next token is %d (%s", looka, name_[ilooka]);
+#if b4_debug
+      YYFPRINTF (stderr, "Next token is %d (%s", looka, name_[[ilooka]]);
       YYFPRINTF (stderr, ")\n");
 #endif
     }
 
   n += ilooka;
-  if (n < 0 || n > %%{last} || check_[n] != ilooka)
+  if (n < 0 || n > b4_last || check_[[n]] != ilooka)
     goto yydefault;
 
   /* Reduce or error.  */
-  n = table_[n];
+  n = table_[[n]];
   if (n < 0)
     {
-      if (n == %%{flag})
+      if (n == b4_flag)
 	goto yyerrlab;
       else
 	{
@@ -227,13 +225,13 @@ yy::%%{name}::parse ()
     }
   else if (n == 0)
     goto yyerrlab;
-  
+
   /* Accept?  */
-  if (n == %%{final})
+  if (n == b4_final)
     goto yyacceptlab;
 
   /* Shift the lookahead token.  */
-  YYDPRINTF ((stderr, "Shifting token %d (%s), ", looka, name_[ilooka]));
+  YYDPRINTF ((stderr, "Shifting token %d (%s), ", looka, name_[[ilooka]]));
 
   /* Discard the token being shifted unless it is eof.  */
   if (looka != eof)
@@ -246,191 +244,192 @@ yy::%%{name}::parse ()
 
   /* Default action.  */
  yydefault:
-  n = defact_[state];
+  n = defact_[[state]];
   if (n == 0)
     goto yyerrlab;
 
   /* Reduce.  */
  yyreduce:
-  len = r2_[n];
-  value = semantic_stack[1 - len];
-  location = location_stack[1 - len];
+  len = r2_[[n]];
+  value = semantic_stack[[1 - len]];
+  location = location_stack[[1 - len]];
 
-#if %%{debug}
+#if b4_debug
   if (debug)
     {
-      YYFPRINTF (stderr, "Reducing via rule %d (line %d), ", n - 1, rline_[n]);
-      for (unsigned i = prhs_[n];
-	   rhs_[i] >= 0; ++i)
-	YYFPRINTF (stderr, "%s ", name_[rhs_[i]]);
-      YYFPRINTF (stderr, "-> %s\n", name_[r1_[n]]);
+      YYFPRINTF (stderr, "Reducing via rule %d (line %d), ", n - 1, rline_[[n]]);
+      for (unsigned i = prhs_[[n]];
+	   rhs_[[i]] >= 0; ++i)
+	YYFPRINTF (stderr, "%s ", name_[[rhs_[i]]]);
+      YYFPRINTF (stderr, "-> %s\n", name_[[r1_[n]]]);
     }
 #endif
-  
+
   {
     SemanticType& yyval (value);
     SemanticStack& yyvsp (semantic_stack);
 
     switch (n)
       {
-	%%{actions}
+	b4_actions
       }
   }
-  
+
   state_stack.pop (len);
   semantic_stack.pop (len);
   location_stack.pop (len);
 
-#if %%{debug}
+#if b4_debug
   if (debug)
     {
       YYFPRINTF (stderr, "state stack now");
-      for (StateStack::ConstIterator i = state_stack.begin (); 
+      for (StateStack::ConstIterator i = state_stack.begin ();
 	   i != state_stack.end (); ++i)
 	YYFPRINTF (stderr, " %d", *i);
       YYFPRINTF (stderr, "\n");
     }
 #endif
-  
+
   semantic_stack.push (value);
   location_stack.push (location);
 
   /* Shift the result of the reduction.  */
-  n = r1_[n];
-  state = pgoto_[n - %%{ntokens}] + state_stack[0];
-  if (state >= 0 && state <= %%{last} && check_[state] == state_stack[0])
-    state = table_[state];
+  n = r1_[[n]];
+  state = pgoto_[[n - b4_ntokens]] + state_stack[[0]];
+  if (state >= 0 && state <= b4_last && check_[[state]] == state_stack[[0]])
+    state = table_[[state]];
   else
-    state = defgoto_[n - %%{ntokens}];
+    state = defgoto_[[n - b4_ntokens]];
   goto yynewstate;
 
   /* Report and recover from errors.  This is very incomplete.  */
  yyerrlab:
-  std::cerr << "Parse error." << std::endl; // FIXME: Need something like yyerror?
+  // FIXME: Need something like yyerror?
+  std::cerr << "Parse error." << std::endl;
   return 1;
-  
+
   /* Accept.  */
  yyacceptlab:
   return 0;
 }
 
-/* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
+/* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-const short 
-yy::%%{name}::pact_[] =
+const short
+yy::b4_name::pact_[[]] =
 {
-  %%{pact}
+  b4_pact
 };
 
-/* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
+/* YYDEFACT[[S]] -- default rule to reduce with in state S when YYTABLE
    doesn't specify something else to do.  Zero means the default is an
    error.  */
-const short 
-yy::%%{name}::defact_[] =
+const short
+yy::b4_name::defact_[[]] =
 {
-  %%{defact}
+  b4_defact
 };
 
-/* YYPGOTO[NTERM-NUM].  */
-const short 
-yy::%%{name}::pgoto_[] =
+/* YYPGOTO[[NTERM-NUM]].  */
+const short
+yy::b4_name::pgoto_[[]] =
 {
-  %%{pgoto}
+  b4_pgoto
 };
 
-/* YYDEFGOTO[NTERM-NUM].  */
-const short 
-yy::%%{name}::defgoto_[] =
+/* YYDEFGOTO[[NTERM-NUM]].  */
+const short
+yy::b4_name::defgoto_[[]] =
 {
-  %%{defgoto}
+  b4_defgoto
 };
 
-/* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
+/* YYTABLE[[YYPACT[STATE-NUM]]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-const short 
-yy::%%{name}::table_[] =
+const short
+yy::b4_name::table_[[]] =
 {
-  %%{table}
+  b4_table
 };
 
 /* YYCHECK.  */
-const short 
-yy::%%{name}::check_[] =
-{
-  %%{check}
-};
-
-/* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 const short
-yy::%%{name}::line_[] =
+yy::b4_name::check_[[]] =
 {
-  %%{line}
+  b4_check
 };
 
-/*YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-const short 
-yy::%%{name}::r1_[] =
+/* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
+const short
+yy::b4_name::line_[[]] =
 {
-  %%{r1}
+  b4_line
 };
 
-/* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-const short 
-yy::%%{name}::r2_[] =
+/*YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
+const short
+yy::b4_name::r1_[[]] =
 {
-  %%{r2}
+  b4_r1
 };
 
-/* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+/* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
+const short
+yy::b4_name::r2_[[]] =
+{
+  b4_r2
+};
+
+/* YYTNAME[[SYMBOL-NUM]] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 const char*
-const yy::%%{name}::name_[] =
+const yy::b4_name::name_[[]] =
 {
-  %%{tname}
+  b4_tname
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-const short 
-yy::%%{name}::rhs_[] =
+const short
+yy::b4_name::rhs_[[]] =
 {
-  %%{rhs}
+  b4_rhs
 };
 
-/* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
+/* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-const short 
-yy::%%{name}::prhs_[] =
+const short
+yy::b4_name::prhs_[[]] =
 {
-  %%{prhs}
+  b4_prhs
 };
 
-/* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-const short 
-yy::%%{name}::rline_[] =
+/* YYRLINE[[YYN]] -- Source line where rule number YYN was defined.  */
+const short
+yy::b4_name::rline_[[]] =
 {
-  %%{rline}
+  b4_rline
 };
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 char
-yy::%%{name}::translate (int token)
+yy::b4_name::translate (int token)
 {
-  static 
-  const char 
-  translate_[] =
+  static
+  const char
+  translate_[[]] =
   {
-    %%{translate}
+    b4_translate
   };
-  return ((unsigned)(token) <= %%{maxtok} ? translate_[token] : %%{nsym});
+  return ((unsigned)(token) <= b4_maxtok ? translate_[[token]] : b4_nsym);
 }
 
-const int yy::%%{name}::eof = 0;
-const int yy::%%{name}::empty = -2;
+const int yy::b4_name::eof = 0;
+const int yy::b4_name::empty = -2;
 
-%%{epilogue}
+b4_epilogue
 
-%%{section} %%"stack.hh"
+#output "stack.hh"
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
 
@@ -456,16 +455,16 @@ namespace yy
 
     inline
     T&
-    operator [] (int index)
+    operator [[]] (int index)
     {
-      return seq_[seq_.size () - 1 + index];
+      return seq_[[seq_.size () - 1 + index]];
     }
 
     inline
     const T&
-    operator [] (int index) const
+    operator [[]] (int index) const
     {
-      return seq_[seq_.size () - 1 + index];
+      return seq_[[seq_.size () - 1 + index]];
     }
 
     inline
@@ -482,7 +481,7 @@ namespace yy
       for (; n; --n)
 	seq_.pop_back ();
     }
-    
+
     inline
     void
     reserve (unsigned n)
@@ -501,7 +500,7 @@ namespace yy
 
 #endif // not BISON_STACK_HH
 
-%%{section} %%"location.hh"
+#output "location.hh"
 #ifndef BISON_LOCATION_HH
 # define BISON_LOCATION_HH
 

@@ -1,5 +1,11 @@
 2002-02-05  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.c++: Adjust to the M4 back end.
+	More is certainly needed.
+
+	
+2002-02-05  Akim Demaille  <akim@epita.fr>
+
 	Give a try to M4 as a back end.
 
 	* lib/readpipe.c: New, from wdiff.
