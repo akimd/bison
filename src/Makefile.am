@@ -37,6 +37,7 @@ bin_PROGRAMS = bison
 
 bison_SOURCES = 				  \
 	LR0.c LR0.h				  \
+	assoc.c assoc.h				  \
 	closure.c closure.h			  \
 	complain.c complain.h			  \
 	conflicts.c conflicts.h			  \

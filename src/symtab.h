@@ -23,20 +23,11 @@
 # define SYMTAB_H_
 
 # include "location.h"
+# include "assoc.h"
 
 /*----------.
 | Symbols.  |
 `----------*/
-
-/* Associativity values for tokens and rules.  */
-typedef enum
-{
-  undef_assoc,
-  right_assoc,
-  left_assoc,
-  non_assoc
-} associativity;
-
 
 /* Symbol classes.  */
 typedef enum
@@ -68,7 +59,7 @@ struct symbol_s
 
   symbol_number_t number;
   short prec;
-  associativity assoc;
+  assoc_t assoc;
   int user_token_number;
 
   /* Points to the other in the identifier-symbol pair for an alias.
@@ -118,7 +109,7 @@ void symbol_printer_set PARAMS ((symbol_t *symbol,
 /* Set the PRECEDENCE associated to SYMBOL.  Ensures that SYMBOL is a
    terminal.  Does nothing if invoked with UNDEF_ASSOC as ASSOC.  */
 void symbol_precedence_set PARAMS ((symbol_t *symbol,
-				    int prec, associativity assoc,
+				    int prec, assoc_t assoc,
 				    location_t location));
 
 /* Set the CLASS associated to SYMBOL.  */

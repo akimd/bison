@@ -78,7 +78,7 @@ symbol_class current_class = unknown_sym;
 char *current_type = 0;
 symbol_t *current_lhs;
 location_t current_lhs_location;
-associativity current_assoc;
+assoc_t current_assoc;
 int current_prec = 0;
 braced_code_t current_braced_code = action_braced_code;
 %}
@@ -91,7 +91,7 @@ braced_code_t current_braced_code = action_braced_code;
   symbol_list_t *list;
   int integer;
   char *string;
-  associativity assoc;
+  assoc_t assoc;
 };
 
 /* Define the tokens together with there human representation. */

@@ -1,3 +1,11 @@
+2002-07-16  Akim Demaille  <akim@epita.fr>
+
+	* src/assoc.c, src/asssoc.h (assoc_t, assoc_to_string): New.
+	Adjust all former `associativity' dependencies.
+	* src/symtab.c (symbol_new): Default associativity is `undef', not
+	`right'.
+	(symbol_check_alias_consistence): Adjust.
+
 2002-07-09  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo: Properly set the ``header'' part.

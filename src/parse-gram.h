@@ -134,7 +134,7 @@ typedef union {
   symbol_list_t *list;
   int integer;
   char *string;
-  associativity assoc;
+  assoc_t assoc;
 } yystype;
 /* Line 1271 of /usr/local/share/bison/yacc.c.  */
 #line 141 "y.tab.h"
