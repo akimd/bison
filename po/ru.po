@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-11-28 15:57+0100\n"
+"POT-Creation-Date: 2001-11-30 12:41+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -65,44 +65,44 @@ msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d конфликтов вывода/вывода"
 
-#: src/conflicts.c:426
+#: src/conflicts.c:427
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "Состояние %d содержит"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:470
+#: src/conflicts.c:474
 msgid "conflicts: "
 msgstr "конфликты: "
 
-#: src/conflicts.c:472
+#: src/conflicts.c:476
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d сдвиг/вывод"
 
-#: src/conflicts.c:476
+#: src/conflicts.c:480
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d вывод/вывод"
 
-#: src/conflicts.c:481 src/reduce.c:493
+#: src/conflicts.c:485 src/reduce.c:498
 #, c-format
 msgid "%s contains "
 msgstr "%s содержит "
 
-#: src/conflicts.c:488
+#: src/conflicts.c:492
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d конфликтов сдвига/вывода"
 
-#: src/conflicts.c:575 src/conflicts.c:696
+#: src/conflicts.c:579 src/conflicts.c:700
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[вывод с использованием правила %d (%s)]\n"
 
-#: src/conflicts.c:587 src/print.c:156
+#: src/conflicts.c:591 src/print.c:156
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,12 +111,12 @@ msgstr ""
 "    $default\tвывод с использованием правила %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:676 src/conflicts.c:690
+#: src/conflicts.c:680 src/conflicts.c:694
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tвывод с использованием правила %d (%s)\n"
 
-#: src/conflicts.c:716
+#: src/conflicts.c:720
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tвывод с использованием правила %d (%s)\n"
@@ -307,7 +307,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: ключ `%s' должен использоваться с аргументом\n"
 
-#: src/main.c:134
+#: src/main.c:133
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: внутренняя ошибка: %s\n"
@@ -355,7 +355,7 @@ msgstr "    %-4s\tошибка (неассоциативная)\n"
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tпереход в состояние %d\n"
 
-#: src/print.c:185
+#: src/print.c:184
 #, c-format
 msgid "state %d"
 msgstr "состояние %d"
@@ -379,19 +379,19 @@ msgid "empty"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:233
+#: src/print.c:235
 msgid "Terminals, with rules where they appear"
 msgstr "Терминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:257
+#: src/print.c:260
 msgid "Nonterminals, with rules where they appear"
 msgstr "Нетерминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:283
+#: src/print.c:286
 msgid " on left:"
 msgstr " налево:"
 
-#: src/print.c:298
+#: src/print.c:301
 msgid " on right:"
 msgstr " направо:"
 
@@ -637,41 +637,41 @@ msgstr "начальный символ %s неопределен"
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
 
-#: src/reduce.c:396
+#: src/reduce.c:403
 msgid "Useless nonterminals:"
 msgstr "Бесполезные нетерминалы:"
 
-#: src/reduce.c:410
+#: src/reduce.c:416
 msgid "Terminals which are not used:"
 msgstr "Неиспользованные терминалы:"
 
-#: src/reduce.c:421
+#: src/reduce.c:427
 msgid "Useless rules:"
 msgstr "Бесполезные правила:"
 
-#: src/reduce.c:488
+#: src/reduce.c:493
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d правил не сведено\n"
 
-#: src/reduce.c:496
+#: src/reduce.c:501
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d бесполезных нетерминалов%s"
 
-#: src/reduce.c:502
+#: src/reduce.c:507
 msgid " and "
 msgstr " и "
 
-#: src/reduce.c:505
+#: src/reduce.c:510
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d бесполезных правил%s"
 
-#: src/reduce.c:536
+#: src/reduce.c:541
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Начальный символ %s не выводит ни одного предложения"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-11-28 15:57+0100\n"
+"POT-Creation-Date: 2001-11-30 12:41+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -65,44 +65,44 @@ msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d Reduziere/Reduziere Konflikte"
 
-#: src/conflicts.c:426
+#: src/conflicts.c:427
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "Zustand %d enthält"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:470
+#: src/conflicts.c:474
 msgid "conflicts: "
 msgstr "Konflikte: "
 
-#: src/conflicts.c:472
+#: src/conflicts.c:476
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d Schiebe/Reduziere"
 
-#: src/conflicts.c:476
+#: src/conflicts.c:480
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d Reduziere/Reduziere"
 
-#: src/conflicts.c:481 src/reduce.c:493
+#: src/conflicts.c:485 src/reduce.c:498
 #, c-format
 msgid "%s contains "
 msgstr "%s enthält "
 
-#: src/conflicts.c:488
+#: src/conflicts.c:492
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d Schiebe/Reduziere Konflikte"
 
-#: src/conflicts.c:575 src/conflicts.c:696
+#: src/conflicts.c:579 src/conflicts.c:700
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduziere mit Regel %d (%s)]\n"
 
-#: src/conflicts.c:587 src/print.c:156
+#: src/conflicts.c:591 src/print.c:156
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,12 +111,12 @@ msgstr ""
 "    $default\treduziere mit Regel %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:676 src/conflicts.c:690
+#: src/conflicts.c:680 src/conflicts.c:694
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduziere mit Tegel %d (%s)\n"
 
-#: src/conflicts.c:716
+#: src/conflicts.c:720
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
@@ -280,7 +280,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: die Option »%s« erfordert ein Argument\n"
 
-#: src/main.c:134
+#: src/main.c:133
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "interner Fehler, %s\n"
@@ -328,7 +328,7 @@ msgstr "    %-4s\tFehler (nicht assoziativ)\n"
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tgehe zu Zustand %d über\n"
 
-#: src/print.c:185
+#: src/print.c:184
 #, fuzzy, c-format
 msgid "state %d"
 msgstr ""
@@ -359,7 +359,7 @@ msgid "empty"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:233
+#: src/print.c:235
 #, fuzzy
 msgid "Terminals, with rules where they appear"
 msgstr ""
@@ -367,7 +367,7 @@ msgstr ""
 "Terminale und die Regeln un denen sie verwendet werden\n"
 "\n"
 
-#: src/print.c:257
+#: src/print.c:260
 #, fuzzy
 msgid "Nonterminals, with rules where they appear"
 msgstr ""
@@ -375,11 +375,11 @@ msgstr ""
 "Nicht-Terminal und die Regeln in denen sie verwendet werden\n"
 "\n"
 
-#: src/print.c:283
+#: src/print.c:286
 msgid " on left:"
 msgstr " auf der linken Seite:"
 
-#: src/print.c:298
+#: src/print.c:301
 msgid " on right:"
 msgstr " auf der rechten Seite:"
 
@@ -629,14 +629,14 @@ msgstr "das Startsymbol %s ist undefiniert"
 msgid "the start symbol %s is a token"
 msgstr "das Startsymbol %s ist ein Token"
 
-#: src/reduce.c:396
+#: src/reduce.c:403
 #, fuzzy
 msgid "Useless nonterminals:"
 msgstr ""
 "Nutzlose Nicht-Terminale:\n"
 "\n"
 
-#: src/reduce.c:410
+#: src/reduce.c:416
 #, fuzzy
 msgid "Terminals which are not used:"
 msgstr ""
@@ -645,7 +645,7 @@ msgstr ""
 "Nicht genutzte Terminale:\n"
 "\n"
 
-#: src/reduce.c:421
+#: src/reduce.c:427
 #, fuzzy
 msgid "Useless rules:"
 msgstr ""
@@ -654,29 +654,29 @@ msgstr ""
 "Ungenutzte Regeln:\n"
 "\n"
 
-#: src/reduce.c:488
+#: src/reduce.c:493
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d wurde niemals reduziert\n"
 
-#: src/reduce.c:496
+#: src/reduce.c:501
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d ungenutzte Nicht-Terminal"
 
-#: src/reduce.c:502
+#: src/reduce.c:507
 msgid " and "
 msgstr " und "
 
-#: src/reduce.c:505
+#: src/reduce.c:510
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d ungenutzte Regel"
 
-#: src/reduce.c:536
+#: src/reduce.c:541
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
