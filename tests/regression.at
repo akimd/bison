@@ -545,40 +545,30 @@ AT_CHECK([fgrep '//*' union-comment.tab.c], [1], [])
 AT_CLEANUP
 
 
-## ----------------- ##
-## Invalid input 1.  ##
-## ----------------- ##
+## ---------------- ##
+## Invalid inputs.  ##
+## ---------------- ##
 
 
-AT_SETUP([Invalid input: 1])
+AT_SETUP([Invalid inputs])
 
 AT_DATA([input.y],
 [[%%
 ?
+default: 'a' }
+%{
+%&
+%a
+%-
 ]])
 
 AT_CHECK([bison input.y], [1], [],
 [[input.y:2: invalid input: `?'
-input.y:3: fatal error: no rules in the input grammar
-]])
-
-AT_CLEANUP
-
-
-## ----------------- ##
-## Invalid input 2.  ##
-## ----------------- ##
-
-
-AT_SETUP([Invalid input: 2])
-
-AT_DATA([input.y],
-[[%%
-default: 'a' }
-]])
-
-AT_CHECK([bison input.y], [1], [],
-[[input.y:2: invalid input: `}'
+input.y:3: invalid input: `}'
+input.y:4: invalid input: `%{'
+input.y:5: invalid input: `%&'
+input.y:6: invalid input: `%a'
+input.y:7: invalid input: `%-'
 ]])
 
 AT_CLEANUP
