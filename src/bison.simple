@@ -1102,5 +1102,4 @@ yyreturn:
   return yyresult;
 }
 
-#line %%input-line "%%filename"
 %%epilogue

@@ -1,3 +1,10 @@
+2001-12-11  Marc Autret  <autret_m@epita.fr>
+
+	* src/bison.simple: Remove #line just before %%epilogue. It
+	is now handled in ...
+	* src/reader.c (read_additionnal_code): Add the output of a
+	#line for the epilogue.
+
 2001-12-10  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (copy_definition): Re-use CPP-outed code which 
