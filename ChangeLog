@@ -1,3 +1,13 @@
+2002-05-03  Paul Eggert  <eggert@twinsun.com>
+
+	* data/bison.simple (b4_token_defines): Also define YYTOKENTYPE
+	for K&R C.
+
+2002-05-03  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+	(EXTRA_DIST): Add config/config.rpath.
+
 2002-05-03  Akim Demaille  <akim@epita.fr>
 
 	* data/bison.simple (m4_if): Don't output empty enums.
