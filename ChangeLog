@@ -1,5 +1,10 @@
 2002-10-14  Akim Demaille  <akim@epita.fr>
 
+	* data/glr.c [YYDEBUG] (YYLEFTMOST_STATE): Initialize the yyloc
+	member.
+
+2002-10-14  Akim Demaille  <akim@epita.fr>
+
 	* src/tables.c (table_ninf_remap): base -> tab.
 	Reported by Matt Rosing.
 
