@@ -74,7 +74,7 @@ main (void)
 
 AT_CHECK([bison input.y -d -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
-AT_CHECK([input], 0,
+AT_CHECK([./input], 0,
 [[0123456789
 ]])
 

@@ -1,3 +1,9 @@
+2002-01-26  Akim Demaille  <akim@epita.fr>
+
+	* tests/actions.at, tests/calc.at, tests/headers.at,
+	* tests/torture.at: Adjust to the newest Autotest which no longer
+	forces `.' in the PATH.
+
 2002-01-25  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (%nonassoc and eof): New.

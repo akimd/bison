@@ -124,6 +124,6 @@ main (void)
 # Link and execute, just to make sure everything is fine (and in
 # particular, that MY_LLOC is indeed defined somewhere).
 AT_CHECK([$CC $CFLAGS $CPPFLAGS caller.c input.c -o caller], 0, [], [ignore])
-AT_CHECK([caller])
+AT_CHECK([./caller])
 
 AT_CLEANUP
