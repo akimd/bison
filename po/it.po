@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-04-07 19:13+0200\n"
+"POT-Creation-Date: 2002-04-07 19:46+0200\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/LR0.c:195
+#: src/LR0.c:198
 #, c-format
 msgid "too many states (max %d)"
 msgstr "troppi stati (massimo %d)"
@@ -31,67 +31,67 @@ msgstr "attenzione: "
 msgid "fatal error: "
 msgstr "errore fatale: "
 
-#: src/conflicts.c:47
+#: src/conflicts.c:48
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "Conflitto nello stato %d tra la regola %d e il token %s risolto come %s.\n"
 
-#: src/conflicts.c:112 src/conflicts.c:134
+#: src/conflicts.c:115 src/conflicts.c:137
 msgid "reduce"
 msgstr "riduzione"
 
-#: src/conflicts.c:117 src/conflicts.c:129
+#: src/conflicts.c:120 src/conflicts.c:132
 msgid "shift"
 msgstr "shift"
 
-#: src/conflicts.c:139
+#: src/conflicts.c:142
 msgid "an error"
 msgstr "un errore"
 
-#: src/conflicts.c:280
+#: src/conflicts.c:284
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d conflitto shift/riduzione"
 msgstr[1] "%d conflitti shift/riduzione"
 
-#: src/conflicts.c:287
+#: src/conflicts.c:291
 msgid "and"
 msgstr "e"
 
-#: src/conflicts.c:293
+#: src/conflicts.c:297
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d conflitto riduzione/riduzione"
 msgstr[1] "%d conflitti riduzione/riduzione"
 
-#: src/conflicts.c:318
+#: src/conflicts.c:322
 #, c-format
 msgid "State %d contains "
 msgstr "Lo stato %d contiene"
 
-#: src/conflicts.c:365
+#: src/conflicts.c:369
 msgid "conflicts: "
 msgstr "conflitti: "
 
-#: src/conflicts.c:367
+#: src/conflicts.c:371
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d shift/riduzione"
 
-#: src/conflicts.c:371
+#: src/conflicts.c:375
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d riduzione/riduzione"
 
-#: src/conflicts.c:376 src/reduce.c:457
+#: src/conflicts.c:380 src/reduce.c:445
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
 
-#: src/conflicts.c:383
+#: src/conflicts.c:387
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -201,7 +201,7 @@ msgstr ""
 "sottoposta la copia. NON c'è ALCUNA garanzia, neanche di\n"
 "COMMERCIABILITA` o di ADEGUATEZZA AD UN PARTICOLARE SCOPO.\n"
 
-#: src/getargs.c:200 src/lex.c:595
+#: src/getargs.c:200 src/lex.c:603
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' non è più supportato"
@@ -221,7 +221,7 @@ msgstr "%s: nessun file grammatica specificato\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: ignorati gli argomenti successivi a `%s'\n"
 
-#: src/lalr.c:172
+#: src/lalr.c:174
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "troppi goto (max %d)"
@@ -230,7 +230,7 @@ msgstr "troppi goto (max %d)"
 msgid "unexpected `/' found and ignored"
 msgstr "`/' inatteso, trovato e ignorato"
 
-#: src/lex.c:106 src/reader.c:302
+#: src/lex.c:106 src/reader.c:463
 msgid "unterminated comment"
 msgstr "commento non terminato"
 
@@ -270,47 +270,47 @@ msgstr "nome di tipo non terminato"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "usa \"...\" per token letterali di più caratteri"
 
-#: src/lex.c:567
+#: src/lex.c:575
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr "`%s' non supporta argomenti: %s"
 
-#: src/lex.c:584
+#: src/lex.c:592
 #, c-format
 msgid "`%s' requires an argument"
 msgstr "`%s' richiede un argomento"
 
-#: src/output.c:795
+#: src/output.c:794
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "ecceduta la dimensione massima di una tabella (%d)"
 
-#: src/print.c:45
+#: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
 msgstr " il tipo %d è %s\n"
 
-#: src/print.c:107
+#: src/print.c:108
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regola %d)"
 
-#: src/print.c:128
+#: src/print.c:129
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tshift e prosecuzione allo stato %d\n"
 
-#: src/print.c:145
+#: src/print.c:146
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\terrore (non associativo)\n"
 
-#: src/print.c:169
+#: src/print.c:170
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tprosecuzione allo stato %d\n"
 
-#: src/print.c:193 src/print.c:226
+#: src/print.c:194 src/print.c:228
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -319,337 +319,337 @@ msgstr ""
 "    $default\triduzione con la regola %d (%s)\n"
 "\n"
 
-#: src/print.c:222 src/print.c:295
+#: src/print.c:223 src/print.c:298
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[riduzione con la regole %d (%s)]\n"
 
-#: src/print.c:276 src/print.c:289
+#: src/print.c:279 src/print.c:292
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\triduzione con la regola %d (%s)\n"
 
-#: src/print.c:304
+#: src/print.c:307
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\triduzione con la regola %d (%s)\n"
 
-#: src/print.c:320
+#: src/print.c:323
 msgid "    $default\taccept\n"
 msgstr "    $default\taccetta\n"
 
-#: src/print.c:322
+#: src/print.c:325
 msgid "    NO ACTIONS\n"
 msgstr "    NESSUNA AZIONE\n"
 
-#: src/print.c:335
+#: src/print.c:338
 #, c-format
 msgid "state %d"
 msgstr "stato %d"
 
-#: src/print.c:366
+#: src/print.c:369
 msgid "Grammar"
 msgstr "Grammatica"
 
-#: src/print.c:367
+#: src/print.c:370
 msgid "Number, Line, Rule"
 msgstr "Numero, Linea, Regola"
 
-#: src/print.c:372
+#: src/print.c:373
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:379
+#: src/print.c:380
 msgid "empty"
 msgstr "vuoto"
 
-#: src/print.c:386
+#: src/print.c:387
 msgid "Terminals, with rules where they appear"
 msgstr "Simboli terminali e regole in cui appaiono"
 
-#: src/print.c:409
+#: src/print.c:410
 msgid "Nonterminals, with rules where they appear"
 msgstr "Simboli nonterminali e regole in cui appaiono"
 
-#: src/print.c:435
+#: src/print.c:436
 msgid " on left:"
 msgstr " nel primo membro:"
 
-#: src/print.c:450
+#: src/print.c:451
 msgid " on right:"
 msgstr " nel secondo membro:"
 
-#: src/reader.c:100
-msgid "   Skipping to next \\n"
-msgstr "   Passo al successivo \\n"
-
-#: src/reader.c:102
-#, c-format
-msgid "   Skipping to next %c"
-msgstr "   Passo al successivo %c"
-
-#: src/reader.c:153 src/reader.c:165
-msgid "invalid $ value"
-msgstr "valore $ non valido"
-
-#: src/reader.c:192 src/reader.c:207
-msgid "unterminated string at end of file"
-msgstr "stringa non terminata alla fine del file"
-
-#: src/reader.c:195
-msgid "unterminated string"
-msgstr "stringa non terminata"
-
-#: src/reader.c:337 src/reader.c:401
-#, c-format
-msgid "invalid value: %s%d"
-msgstr "valore non valido: %s%d"
-
-#: src/reader.c:351 src/reader.c:423
-#, c-format
-msgid "%s is invalid"
-msgstr "%s non è valido"
-
-#: src/reader.c:391
-#, c-format
-msgid "$$ of `%s' has no declared type"
-msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
-
-#: src/reader.c:415
-#, c-format
-msgid "$%d of `%s' has no declared type"
-msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
-
-#: src/reader.c:473
-msgid "unterminated `%{' definition"
-msgstr "definizione `%{' non terminata"
-
-#: src/reader.c:518 src/reader.c:636 src/reader.c:686 src/reader.c:934
-#, c-format
-msgid "Premature EOF after %s"
-msgstr "Fine di file prematura dopo %s"
-
-#: src/reader.c:535
-#, c-format
-msgid "symbol `%s' used more than once as a literal string"
-msgstr "simbolo `%s' usato più di una volta in una stringa letterale"
-
-#: src/reader.c:538
-#, c-format
-msgid "symbol `%s' given more than one literal string"
-msgstr "il simbolo `%s' dà pi&grave; di una stringa letterale"
-
-#: src/reader.c:559 src/reader.c:705
-#, c-format
-msgid "symbol %s redefined"
-msgstr "simbolo %s ridefinito"
-
-#: src/reader.c:569 src/reader.c:651 src/reader.c:712
-#, c-format
-msgid "type redeclaration for %s"
-msgstr "tipo dichiarato due volte per %s"
-
-#: src/reader.c:581
-#, c-format
-msgid "`%s' is invalid in %s"
-msgstr "`%s' non è valido in %s"
-
-#: src/reader.c:599 src/reader.c:758
-#, c-format
-msgid "multiple %s declarations"
-msgstr "dichiarazioni multiple per %s"
-
-#: src/reader.c:601 src/reader.c:914 src/reader.c:929 src/reader.c:962
-#: src/reader.c:976 src/reader.c:1179
-#, c-format
-msgid "invalid %s declaration"
-msgstr "dichiarazione %s non valida"
-
-#: src/reader.c:621
-msgid "%type declaration has no <typename>"
-msgstr "dichiarazione %type senza <nome di tipo>"
-
-#: src/reader.c:656
-#, c-format
-msgid "invalid %%type declaration due to item: %s"
-msgstr "dichiarazione %%type non valida per la presenza di `%s'"
-
-#: src/reader.c:701
-#, c-format
-msgid "redefining precedence of %s"
-msgstr "precedenza di `%s' definita due volte"
-
-#: src/reader.c:724
-#, c-format
-msgid "invalid text (%s) - number should be after identifier"
-msgstr "testo non valido (%s) - il numero dovrebbe seguire l'identificatore"
-
-#: src/reader.c:734
-#, c-format
-msgid "unexpected item: %s"
-msgstr "elemento inatteso: %s"
-
-#: src/reader.c:791 src/reader.c:1150
-#, c-format
-msgid "unmatched %s"
-msgstr "%s non bilanciato"
-
-#: src/reader.c:820
-#, c-format
-msgid "argument of %%expect is not an integer"
-msgstr "L'argomento di %%expect non è un intero"
-
-#: src/reader.c:866
-#, c-format
-msgid "unrecognized item %s, expected an identifier"
-msgstr "elemento %s non riconosciuto, atteso un identificatore"
-
-#: src/reader.c:888
-#, c-format
-msgid "expected string constant instead of %s"
-msgstr "attesa una costante stringa invece di %s"
-
-#: src/reader.c:1081
-#, c-format
-msgid "unrecognized: %s"
-msgstr "non riconosciuto: %s"
-
-#: src/reader.c:1086
-msgid "no input grammar"
-msgstr "nessuna grammatica di input"
-
-#: src/reader.c:1091
-#, c-format
-msgid "unknown character: %s"
-msgstr "carattere sconosciuto: %s"
-
-#: src/reader.c:1266
-msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "regola malformata: simbolo iniziale non seguito da `:'"
-
-#: src/reader.c:1273
-msgid "grammar starts with vertical bar"
-msgstr "la grammatica comincia con un `|'"
-
-#: src/reader.c:1301
-#, c-format
-msgid "rule given for %s, which is a token"
-msgstr "fornita una regola per il token %s"
-
-#: src/reader.c:1331 src/reader.c:1450
-msgid "previous rule lacks an ending `;'"
-msgstr ""
-
-#: src/reader.c:1409
-msgid "two @prec's in a row"
-msgstr "due @prec di seguito"
-
-#: src/reader.c:1418
-#, c-format
-msgid "%%guard present but %%semantic_parser not specified"
-msgstr "trovato %%guard senza che sia specificato %%semantic_parser"
-
-#: src/reader.c:1428
-msgid "two actions at end of one rule"
-msgstr "due azioni alla fine di una regola"
-
-#: src/reader.c:1442
-#, c-format
-msgid "type clash (`%s' `%s') on default action"
-msgstr "conflitto di tipo (`%s' e `%s') nell'azione di default"
-
-#: src/reader.c:1448
-msgid "empty rule for typed nonterminal, and no action"
-msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
-
-#: src/reader.c:1456
-#, c-format
-msgid "invalid input: %s"
-msgstr "input non valido: %s"
-
-#: src/reader.c:1463
-msgid "no rules in the input grammar"
-msgstr "nessuna regola nella grammatica di input"
-
-#: src/reader.c:1471
+#: src/reader.c:105
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr "usato il simbolo %s, ma non è un token e non ha regole"
 
-#: src/reader.c:1493
+#: src/reader.c:124
 #, c-format
-msgid "too many symbols (tokens plus nonterminals); maximum %d"
-msgstr "troppi simboli (token e nonterminali); il massimo è %d"
+msgid "symbol `%s' used more than once as a literal string"
+msgstr "simbolo `%s' usato più di una volta in una stringa letterale"
 
-#: src/reader.c:1557
+#: src/reader.c:127
 #, c-format
-msgid "tokens %s and %s both assigned number %d"
-msgstr "i token %s e %s hanno lo stesso numero %d"
+msgid "symbol `%s' given more than one literal string"
+msgstr "il simbolo `%s' dà pi&grave; di una stringa letterale"
 
-#: src/reader.c:1607
+#: src/reader.c:162
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "precedenze in conflitto per %s und %s"
 
-#: src/reader.c:1619
+#: src/reader.c:173
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "associatività in conflitto per %s e %s"
 
-#: src/reader.c:1656
+#: src/reader.c:241
+#, c-format
+msgid "tokens %s and %s both assigned number %d"
+msgstr "i token %s e %s hanno lo stesso numero %d"
+
+#: src/reader.c:261
+msgid "   Skipping to next \\n"
+msgstr "   Passo al successivo \\n"
+
+#: src/reader.c:263
+#, c-format
+msgid "   Skipping to next %c"
+msgstr "   Passo al successivo %c"
+
+#: src/reader.c:314 src/reader.c:326
+msgid "invalid $ value"
+msgstr "valore $ non valido"
+
+#: src/reader.c:353 src/reader.c:368
+msgid "unterminated string at end of file"
+msgstr "stringa non terminata alla fine del file"
+
+#: src/reader.c:356
+msgid "unterminated string"
+msgstr "stringa non terminata"
+
+#: src/reader.c:498 src/reader.c:562
+#, c-format
+msgid "invalid value: %s%d"
+msgstr "valore non valido: %s%d"
+
+#: src/reader.c:512 src/reader.c:584
+#, c-format
+msgid "%s is invalid"
+msgstr "%s non è valido"
+
+#: src/reader.c:552
+#, c-format
+msgid "$$ of `%s' has no declared type"
+msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
+
+#: src/reader.c:576
+#, c-format
+msgid "$%d of `%s' has no declared type"
+msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
+
+#: src/reader.c:634
+msgid "unterminated `%{' definition"
+msgstr "definizione `%{' non terminata"
+
+#: src/reader.c:679 src/reader.c:789 src/reader.c:840 src/reader.c:1092
+#, c-format
+msgid "Premature EOF after %s"
+msgstr "Fine di file prematura dopo %s"
+
+#: src/reader.c:704 src/reader.c:859
+#, c-format
+msgid "symbol %s redefined"
+msgstr "simbolo %s ridefinito"
+
+#: src/reader.c:716 src/reader.c:804 src/reader.c:870
+#, c-format
+msgid "type redeclaration for %s"
+msgstr "tipo dichiarato due volte per %s"
+
+#: src/reader.c:734
+#, c-format
+msgid "`%s' is invalid in %s"
+msgstr "`%s' non è valido in %s"
+
+#: src/reader.c:752 src/reader.c:916
+#, c-format
+msgid "multiple %s declarations"
+msgstr "dichiarazioni multiple per %s"
+
+#: src/reader.c:754 src/reader.c:1072 src/reader.c:1087 src/reader.c:1120
+#: src/reader.c:1134 src/reader.c:1337
+#, c-format
+msgid "invalid %s declaration"
+msgstr "dichiarazione %s non valida"
+
+#: src/reader.c:774
+msgid "%type declaration has no <typename>"
+msgstr "dichiarazione %type senza <nome di tipo>"
+
+#: src/reader.c:809
+#, c-format
+msgid "invalid %%type declaration due to item: %s"
+msgstr "dichiarazione %%type non valida per la presenza di `%s'"
+
+#: src/reader.c:855
+#, c-format
+msgid "redefining precedence of %s"
+msgstr "precedenza di `%s' definita due volte"
+
+#: src/reader.c:882
+#, c-format
+msgid "invalid text (%s) - number should be after identifier"
+msgstr "testo non valido (%s) - il numero dovrebbe seguire l'identificatore"
+
+#: src/reader.c:892
+#, c-format
+msgid "unexpected item: %s"
+msgstr "elemento inatteso: %s"
+
+#: src/reader.c:949 src/reader.c:1308
+#, c-format
+msgid "unmatched %s"
+msgstr "%s non bilanciato"
+
+#: src/reader.c:978
+#, c-format
+msgid "argument of %%expect is not an integer"
+msgstr "L'argomento di %%expect non è un intero"
+
+#: src/reader.c:1024
+#, c-format
+msgid "unrecognized item %s, expected an identifier"
+msgstr "elemento %s non riconosciuto, atteso un identificatore"
+
+#: src/reader.c:1046
+#, c-format
+msgid "expected string constant instead of %s"
+msgstr "attesa una costante stringa invece di %s"
+
+#: src/reader.c:1239
+#, c-format
+msgid "unrecognized: %s"
+msgstr "non riconosciuto: %s"
+
+#: src/reader.c:1244
+msgid "no input grammar"
+msgstr "nessuna grammatica di input"
+
+#: src/reader.c:1249
+#, c-format
+msgid "unknown character: %s"
+msgstr "carattere sconosciuto: %s"
+
+#: src/reader.c:1423
+msgid "ill-formed rule: initial symbol not followed by colon"
+msgstr "regola malformata: simbolo iniziale non seguito da `:'"
+
+#: src/reader.c:1430
+msgid "grammar starts with vertical bar"
+msgstr "la grammatica comincia con un `|'"
+
+#: src/reader.c:1458
+#, c-format
+msgid "rule given for %s, which is a token"
+msgstr "fornita una regola per il token %s"
+
+#: src/reader.c:1488 src/reader.c:1607
+msgid "previous rule lacks an ending `;'"
+msgstr ""
+
+#: src/reader.c:1566
+msgid "two @prec's in a row"
+msgstr "due @prec di seguito"
+
+#: src/reader.c:1575
+#, c-format
+msgid "%%guard present but %%semantic_parser not specified"
+msgstr "trovato %%guard senza che sia specificato %%semantic_parser"
+
+#: src/reader.c:1585
+msgid "two actions at end of one rule"
+msgstr "due azioni alla fine di una regola"
+
+#: src/reader.c:1599
+#, c-format
+msgid "type clash (`%s' `%s') on default action"
+msgstr "conflitto di tipo (`%s' e `%s') nell'azione di default"
+
+#: src/reader.c:1605
+msgid "empty rule for typed nonterminal, and no action"
+msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
+
+#: src/reader.c:1613
+#, c-format
+msgid "invalid input: %s"
+msgstr "input non valido: %s"
+
+#: src/reader.c:1620
+msgid "no rules in the input grammar"
+msgstr "nessuna regola nella grammatica di input"
+
+#: src/reader.c:1641
+#, c-format
+msgid "too many symbols (tokens plus nonterminals); maximum %d"
+msgstr "troppi simboli (token e nonterminali); il massimo è %d"
+
+#: src/reader.c:1724
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "simbolo iniziale %s non definito"
 
-#: src/reader.c:1658
+#: src/reader.c:1726
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"
 
-#: src/reader.c:1678
+#: src/reader.c:1746
 #, c-format
 msgid "too many items (max %d)"
 msgstr "troppi elementi (max %d)"
 
-#: src/reduce.c:356
+#: src/reduce.c:335
 msgid "Useless nonterminals:"
 msgstr "Simboli nonterminali inutili:"
 
-#: src/reduce.c:369
+#: src/reduce.c:349
 msgid "Terminals which are not used:"
 msgstr "Simboli terminali inutilizzati:"
 
-#: src/reduce.c:380
+#: src/reduce.c:361
 msgid "Useless rules:"
 msgstr "Regole inutili:"
 
-#: src/reduce.c:452
+#: src/reduce.c:440
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regola non applicata\n"
 msgstr[1] "%d regole non applicate\n"
 
-#: src/reduce.c:460
+#: src/reduce.c:448
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d simbolo nonterminale inutilizzato"
 msgstr[1] "%d simboli nonterminali inutilizzati"
 
-#: src/reduce.c:466
+#: src/reduce.c:454
 msgid " and "
 msgstr " e "
 
-#: src/reduce.c:469
+#: src/reduce.c:457
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d regola inutile"
 msgstr[1] "%d regole inutili"
 
-#: src/reduce.c:499
+#: src/reduce.c:487
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"

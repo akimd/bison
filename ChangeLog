@@ -23,7 +23,6 @@
 	nritems.
 	Adjust dependencies.
 
-	
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c: Normalize increments to prefix form.
@@ -49,7 +48,6 @@
 	(symbol_new, symbol_free, hash_compare_symbol_t, hash_symbol_t)
 	(symbols_new, symbols_free, symbols_do): these.
 
-	
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
 	Use lib/hash for the symbol table.
@@ -97,14 +95,12 @@
 
 	* src/lalr.h (LA): Is a bitsetv, not bitset*.
 
-	
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.h, src/lalr.c (LAruleno): Replace with...
 	(LArule): this, which is an array to rule_t*.
 	* src/print.c, src/conflicts.c: Adjust.
 
-	
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h (rule_t): Rename `number' as `user_number'.
@@ -176,7 +172,6 @@
 	* src/symtab.h: here.
 	No longer include `gram.h'.
 
-	
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h, src/gram.c (rules_rhs_length): New.
