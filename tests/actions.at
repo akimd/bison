@@ -372,8 +372,8 @@ thing (1@10-19): 'x' (1@10-19)
 sending: ')' (2@20-29)
 line (0@0-29): '(' (0@0-9) thing (1@10-19) ')' (2@20-29)
 sending: EOF (3@30-39)
-input (0@0-29): /* Nothing */
-input (2@0-29): line (0@0-29) input (0@0-29)
+input (0@29-29): /* Nothing */
+input (2@0-29): line (0@0-29) input (0@29-29)
 Successful parse.
 ]])
 
@@ -390,8 +390,8 @@ Freeing token 'y' (1@10-19)
 sending: ')' (2@20-29)
 line (-1@0-29): '(' (0@0-9) error (@10-19) ')' (2@20-29)
 sending: EOF (3@30-39)
-input (0@0-29): /* Nothing */
-input (2@0-29): line (-1@0-29) input (0@0-29)
+input (0@29-29): /* Nothing */
+input (2@0-29): line (-1@0-29) input (0@29-29)
 Successful parse.
 ]])
 
@@ -438,8 +438,8 @@ thing (11@110-119): 'x' (11@110-119)
 sending: ')' (12@120-129)
 line (10@100-129): '(' (10@100-109) thing (11@110-119) ')' (12@120-129)
 sending: 'y' (13@130-139)
-input (0@100-129): /* Nothing */
-input (2@100-129): line (10@100-129) input (0@100-129)
+input (0@129-129): /* Nothing */
+input (2@100-129): line (10@100-129) input (0@129-129)
 input (2@70-129): line (7@70-99) input (2@100-129)
 input (2@0-129): line (-1@0-69) input (2@70-129)
 130-139: syntax error, unexpected 'y', expecting $end

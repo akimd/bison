@@ -181,13 +181,22 @@ b4_syncline([@oline@], [@ofile@])],
 
 ]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].  */
+/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
 
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)	\
-do {						\
-   ((Current).begin = (Rhs)[1].begin);		\
-   ((Current).end   = (Rhs)[N].end);		\
+# define YYLLOC_DEFAULT(Current, Rhs, N)		\
+do {							\
+  if (N)						\
+    {							\
+      (Current).begin = (Rhs)[1].begin;			\
+      (Current).end   = (Rhs)[N].end;			\
+    }							\
+  else							\
+    {							\
+      (Current).begin = (Current).end = (Rhs)[0].end;	\
+    }							\
 } while (0)
 #endif
 
@@ -583,21 +592,14 @@ yyreduce:
      This behavior is undocumented and Bison
      users should not rely upon it.  */
   if (len_)
-    {
-      yyval = semantic_stack_[len_ - 1];
-      yyloc = location_stack_[len_ - 1];
-    }
+    yyval = semantic_stack_[len_ - 1];
   else
-    {
-      yyval = semantic_stack_[0];
-      yyloc = location_stack_[0];
-    }
+    yyval = semantic_stack_[0];
 
-  if (len_)
-    {
-      Slice<LocationType, LocationStack> slice (location_stack_, len_);
-      YYLLOC_DEFAULT (yyloc, slice, len_);
-    }
+  {
+    Slice<LocationType, LocationStack> slice (location_stack_, len_);
+    YYLLOC_DEFAULT (yyloc, slice, len_);
+  }
   YY_REDUCE_PRINT (n_);
   switch (n_)
     {
