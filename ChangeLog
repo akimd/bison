@@ -1,7 +1,10 @@
 2001-12-04  Paul Eggert  <eggert@twinsun.com>
 
-	* src/bison.simple (YYPOINTER): New macro.
-	(YYSTACK_RELOCATE): Use it to avoid a GCC warning.
+	* src/bison.simple (union yyalloc): Change member names
+	to be the same as the stack names.
+	(yyparse): yyptr is now union yyalloc *, not char *.
+	(YYSTACK_RELOCATE): Likewise.  This avoids a GCC warning,
+	and may generate better code on some machines.
 	(yystpcpy): Use prototype if __STDC__ is defined, not just
 	if __cplusplus is defined.
 	
