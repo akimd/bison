@@ -88,6 +88,12 @@ yystype;
 # define YYSTYPE yystype
 #endif
 
+#ifndef YYLLOC_DEFAULT
+# define YYLLOC_DEFAULT(Current, Rhs, N) \
+   Current.last_line = Rhs[[N]].last_line; \
+   Current.last_column = Rhs[[N]].last_column;
+#endif
+
 m4_if(b4_locations_flag, [0], [],
 [#ifndef YYLTYPE
 typedef struct yyltype
@@ -210,9 +216,13 @@ namespace yy
     /* Message.  */
     std::string message;
 
-    /* @$ and $$.  */
+    /* Semantic value and location of lookahead token.  */
     SemanticType value;
     LocationType location;
+
+    /* @$ and $$.  */
+    SemanticType yyval;
+    LocationType yyloc;
 
     /* Initial location.  */
     LocationType initlocation_;
@@ -358,13 +368,13 @@ yy::b4_name::parse ()
   len_ = r2_[[n_]];
   if (len_)
     {
-      value = semantic_stack_[[1 - len_]];
-      location = location_stack_[[1 - len_]];
+      yyval = semantic_stack_[[1 - len_]];
+      yyloc = location_stack_[[1 - len_]];
     }
   else
     {
-      value = semantic_stack_[[0]];
-      location = location_stack_[[0]];
+      yyval = semantic_stack_[[0]];
+      yyloc = location_stack_[[0]];
     }
 
 #if YYDEBUG
@@ -378,9 +388,15 @@ yy::b4_name::parse ()
     }
 #endif
 
+  if (len_)
+    {
+      Slice< LocationType, LocationStack > slice (location_stack_, len_);
+      YYLLOC_DEFAULT (yyloc, slice, len_);
+    }
+
+  std::cout << "Reduced location is :" << yyloc << std::endl;
+
   {
-    SemanticType& yyval (value);
-    LocationType& yyloc (location);
     SemanticStack& yyvsp (semantic_stack_);
     LocationStack& yylsp (location_stack_);
 
@@ -405,8 +421,8 @@ yy::b4_name::parse ()
     }
 #endif
 
-  semantic_stack_.push (value);
-  location_stack_.push (location);
+  semantic_stack_.push (yyval);
+  location_stack_.push (yyloc);
 
   /* Shift the result of the reduction.  */
   n_ = r1_[[n_]];
@@ -698,14 +714,14 @@ namespace yy
     T&
     operator [[]] (int index)
     {
-      return seq_[[seq_.size () - 1 + index]];
+      return seq_[[height () - 1 + index]];
     }
 
     inline
     const T&
     operator [[]] (int index) const
     {
-      return seq_[[seq_.size () - 1 + index]];
+      return seq_[[height () - 1 + index]];
     }
 
     inline
@@ -743,6 +759,30 @@ namespace yy
   private:
 
     S seq_;
+  };
+
+  template < class T, class S = Stack< T > >
+  class Slice
+  {
+  public:
+
+    Slice (const S& stack,
+	   unsigned range) : stack_ (stack),
+			     range_ (range)
+    {
+    }
+
+    inline
+    const T&
+    operator [[]] (unsigned index) const
+    {
+      return stack_[[index - range_]];
+    }
+
+  private:
+
+    const S& stack_;
+    unsigned range_;
   };
 }
 
