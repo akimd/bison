@@ -1,5 +1,18 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	Improve the readability of the produced parsers.
+
+	* src/bison.s1: Formatting changes.
+	Improve the comment related to the `$' mark.
+	(yydefault): Don't fall through to `yyresume': `goto' there.
+	* src/output.c (output_parser): When the `$' is met, skip the end
+	of its line.
+	New variable, `number_of_dollar_signs', to check there's exactly
+	one `$' in the parser skeleton.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* lib/xstrdup.c: New file, from the fileutils.
 	* src/reader.c (parse_token_decl, get_type_name, parse_type_decl)
 	(parse_assoc_decl, parse_thong_decl, get_type): Use `xstrdup'
