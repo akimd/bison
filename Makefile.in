@@ -110,7 +110,7 @@ realclean: distclean
 	rm -f TAGS *.info*
 
 # Most of these deps are in case using RCS.
-install: all bison.1 $(srcdir)/$(PFILE) $(srcdir)/$(PFILE1) uninstall installdirs
+install: all bison.1 $(srcdir)/$(PFILE) $(srcdir)/$(PFILE1) installdirs uninstall
 	$(INSTALL_PROGRAM) bison $(bindir)/bison
 	$(INSTALL_DATA) ./bison.s1 $(datadir)/$(PFILE)
 	$(INSTALL_DATA) $(srcdir)/$(PFILE1) $(datadir)/$(PFILE1)
