@@ -28,8 +28,8 @@ typedef enum
   right_assoc,
   left_assoc,
   non_assoc
-} assoc_t;
+} assoc;
 
-const char *assoc_to_string (assoc_t assoc);
+char const *assoc_to_string (assoc);
 
 #endif /* !ASSOC_H_ */
