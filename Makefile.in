@@ -84,6 +84,15 @@ OBJECTS = LR0.o allocate.o closure.o conflicts.o derives.o files.o	\
 
 all: bison bison.info bison.s1
 
+Makefile: Makefile.in config.status
+	./config.status
+
+config.status: configure
+	$(srcdir)/configure --srcdir=$(srcdir) --no-create
+
+configure: configure.in
+	cd $(srcdir); autoconf
+
 # Copy bison.simple, inserting directory name into the #line commands.
 bison.s1: bison.simple
 	-rm bison.s1
