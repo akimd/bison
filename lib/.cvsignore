@@ -1,7 +1,5 @@
 *_.c
 .deps
-ChangeLog
 Makefile
 Makefile.in
-bison
-bison.simple
+ansi2knr
