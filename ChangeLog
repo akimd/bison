@@ -1,3 +1,9 @@
+2002-09-06  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc (struct yyltype): Don't define it, since we use
+	LocationType.
+	(b4_ltype): Default to yy::Location from location.hh.
+
 2002-09-04  Jim Meyering  <jim@meyering.net>
 
 	* data/yacc.c: Guard the declaration of yytoknum also with

@@ -33,6 +33,7 @@ m4_define([b4_lhs_value],
 m4_define([b4_rhs_value],
 [semantic_stack_@<:@m4_eval([$1 - $2])@:>@m4_ifval([$3], [.$3])])
 
+m4_define_default([b4_ltype], [Location])
 
 # b4_lhs_location()
 # -----------------
@@ -142,18 +143,6 @@ b4_post_prologue
    Current.last_line = Rhs[[N]].last_line; \
    Current.last_column = Rhs[[N]].last_column;
 #endif
-
-m4_if(b4_locations_flag, [0], [],
-[#ifndef YYLTYPE
-typedef struct yyltype
-{
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-} yyltype;
-# define YYLTYPE yyltype
-#endif])
 
 namespace yy
 {
@@ -293,7 +282,7 @@ namespace yy
 }
 
 #endif /* not b4_header_guard */
-
+dnl
 #output "b4_output_prefix[]b4_output_infix[].cc"
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
              [2002])
@@ -772,7 +761,7 @@ const unsigned yy::b4_name::user_token_number_max_ = b4_user_token_number_max;
 const yy::b4_name::TokenNumberType yy::b4_name::undef_token_ = b4_undef_token_number;
 
 b4_epilogue
-
+dnl
 #output "stack.hh"
 b4_copyright([2002])
 
@@ -869,7 +858,7 @@ namespace yy
 }
 
 #endif // not BISON_STACK_HH
-
+dnl
 #output "location.hh"
 b4_copyright([2002])
 
