@@ -22,6 +22,7 @@
 #ifndef SYMTAB_H_
 # define SYMTAB_H_
 
+# include "struniq.h"
 # include "location.h"
 # include "assoc.h"
 
@@ -52,7 +53,7 @@ struct symbol_s
   location_t location;
 
   /* Its %type and associated printer and destructor.  */
-  char *type_name;
+  struniq_t type_name;
   char *destructor;
   location_t destructor_location;
   char *printer;

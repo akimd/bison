@@ -55,6 +55,7 @@ bison_SOURCES = 				  \
 	scan-gram.l				  \
 	scan-skel.l				  \
 	state.c state.h				  \
+	struniq.c struniq.h			  \
 	symlist.c symlist.h			  \
 	symtab.c symtab.h			  \
 	system.h				  \

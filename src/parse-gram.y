@@ -92,6 +92,7 @@ braced_code_t current_braced_code = action_braced_code;
   int integer;
   char *string;
   assoc_t assoc;
+  struniq_t struniq;
 };
 
 /* Define the tokens together with their human representation.  */
@@ -454,7 +455,7 @@ yyprint (FILE *file,
       break;
 
     case TYPE:
-      fprintf (file, " = <%s>", value->string);
+      fprintf (file, " = <%s>", value->struniq);
       break;
 
     case BRACED_CODE:

@@ -1,3 +1,16 @@
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
+	* src/symtab.c (symbol_free): Remove dead deactivated code:
+	type_name are properly removed.
+	Don't use XFREE to free items that cannot be NULL.
+	* src/struniq.h, src/struniq.c: New.
+	* src/main.c (main): Initialize/free struniqs.
+	* src/parse-gram.y (%union): Add astruniq member.
+	(yyprint): Adjust.
+	* src/scan-gram.l (<{tag}>): Return a struniq.
+	Free the obstack bit that used to store it.
+	* src/symtab.h (symbol_t): The 'type_name' member is a struniq.
+
 2002-11-11  Paul Eggert  <eggert@twinsun.com>
 
 	Revamp to fix many (but not all) of the C- and M4-related quoting

@@ -27,6 +27,7 @@
 #include "mbswidth.h"
 #include "complain.h"
 #include "quote.h"
+#include "struniq.h"
 #include "getargs.h"
 #include "gram.h"
 #include "reader.h"
@@ -301,7 +302,8 @@ splice	 (\\[ \f\t\v]*\n)*
   "<"{tag}">" {
     obstack_grow (&string_obstack, yytext + 1, yyleng - 2);
     YY_OBS_FINISH;
-    yylval->string = last_string;
+    yylval->struniq = struniq_new (last_string);
+    YY_OBS_FREE;
     return TYPE;
   }
 
