@@ -1,3 +1,8 @@
+2005-01-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/c++.at (AT_CHECK_DOXYGEN): Don't use options after operands.
+	Problem reported by twlevo@xs4all.nl.
+
 2005-01-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/yacc.c (YYCOPY, yystpcpy, yyparse): Remove "register"
