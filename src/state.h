@@ -88,6 +88,11 @@
 #ifndef STATE_H_
 # define STATE_H_
 
+
+/*-------.
+| Core.  |
+`-------*/
+
 typedef struct core
 {
   struct core *next;
@@ -96,12 +101,15 @@ typedef struct core
   short accessing_symbol;
   short nitems;
   short items[1];
-}
-core;
+} core;
 
 #define CORE_ALLOC(Nitems)						\
   (core *) xcalloc ((unsigned) (sizeof (core)	 			\
                                 + (Nitems - 1) * sizeof (short)), 1)
+
+/*---------.
+| Shifts.  |
+`---------*/
 
 typedef struct shifts
 {
@@ -109,26 +117,47 @@ typedef struct shifts
   short number;
   short nshifts;
   short shifts[1];
-}
-shifts;
+} shifts;
+
 
 #define SHIFTS_ALLOC(Nshifts)						\
   (shifts *) xcalloc ((unsigned) (sizeof (shifts) 			\
                                   + (Nshifts - 1) * sizeof (short)), 1)
 
+/* Is the SHIFTS->shifts[Shift] a real shift? (as opposed to gotos.) */
+
+#define SHIFT_IS_SHIFT(Shifts, Shift) \
+  (ISTOKEN (state_table[Shifts->shifts[Shift]].accessing_symbol))
+
+/* Is the SHIFTS->shifts[Shift] a goto?. */
+
+#define SHIFT_IS_GOTO(Shifts, Shift) \
+  (!SHIFT_IS_SHIFT (Shifts, Shift))
+
+/* Is the SHIFTS->shifts[Shift] then handling of the error token?. */
+
+#define SHIFT_IS_ERROR(Shifts, Shift) \
+  (state_table[Shifts->shifts[Shift]].accessing_symbol == error_token_number)
+
+
+/*-------.
+| Errs.  |
+`-------*/
 
 typedef struct errs
 {
   short nerrs;
   short errs[1];
-}
-errs;
+} errs;
 
 #define ERRS_ALLOC(Nerrs)						\
   (errs *) xcalloc ((unsigned) (sizeof (errs) 				\
                                   + (Nerrs - 1) * sizeof (short)), 1)
 
 
+/*-------------.
+| Reductions.  |
+`-------------*/
 
 typedef struct reductions
 {
@@ -136,8 +165,7 @@ typedef struct reductions
   short number;
   short nreds;
   short rules[1];
-}
-reductions;
+} reductions;
 
 #define REDUCTIONS_ALLOC(Nreductions)					\
   (reductions *) xcalloc ((unsigned) (sizeof (reductions)		\

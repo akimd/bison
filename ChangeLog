@@ -1,5 +1,11 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (SHIFT_IS_ERROR, SHIFT_IS_GOTO, SHIFT_IS_SHIFT): New.
+	* src/lalr.c: Use them.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (augment_automaton): Formatting changes.
 	Better variable locality.
 
