@@ -84,9 +84,8 @@
 	Undo most of the 2002-11-12 yychar -> yytoken patch, as it broke
 	GCC 3.2.1 (which depends on yychar == YYEMPTY when there is no
 	lookahead symbol, and which sets yychar in parser actions) and it
-	disagreed with the Bison documentation.  This should fix the bug
-	reported by Andrew Walrond in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-December/001949.html>.
+	disagreed with the Bison documentation.  Bug
+	reported by Andrew Walrond.
 	
 	* data/yacc.c (YYTRANSLATE): Don't check for negative argument,
 	as the caller now does that.
