@@ -22,7 +22,7 @@ Removing warnings when compiling. (gcc-warnings).	[ok]
 Find the best graph parameters.	[]
 
 * doc/bison.texinfo
-Echo modifications of prologue and epilogue.	[]
+Echo modifications of prologue and epilogue.	[ok]
 Add informations about YYERROR_VERBOSE.	[]
 Add explainations about skeleton muscles.	[]
 Add explainations about %skeleton.	[]
