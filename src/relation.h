@@ -25,9 +25,11 @@
 /* Performing operations on graphs coded as list of adjacency.
 
    If GRAPH is a relation, then GRAPH[Node] is a list of adjacent
-   nodes, ended with -1.  */
+   nodes, ended with END_NODE.  */
 
-typedef short int relation_node;
+#define END_NODE ((relation_node) -1)
+
+typedef unsigned int relation_node;
 typedef relation_node *relation_nodes;
 typedef relation_nodes *relation;
 
