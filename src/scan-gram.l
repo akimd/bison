@@ -129,6 +129,19 @@ extend_location (location_t *loc, char const *token, int size)
 }
 
 
+/* Report an unexpected end of file at LOC.  A token or comment began
+   with TOKEN_START, but an end of file was encountered and the
+   expected TOKEN_END was missing.  */
+
+static void
+unexpected_end_of_file (location_t loc,
+			char const *token_start, char const *token_end)
+{
+  complain_at (loc, _("unexpected end of file in `%s ... %s'"),
+	       token_start, token_end);
+}
+
+
 
 /* STRING_OBSTACK -- Used to store all the characters that we need to
    keep (to construct ID, STRINGS etc.).  Use the following macros to
@@ -349,7 +362,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^*]+|"*"  ;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a comment"));
+    unexpected_end_of_file (*yylloc, "/*", "*/");
     BEGIN INITIAL;
   }
 }
@@ -365,7 +378,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^*\[\]]+|"*"   YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a comment"));
+    unexpected_end_of_file (*yylloc, "/*", "*/");
     yy_pop_state ();
   }
 }
@@ -403,7 +416,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^\"\\]+  YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a string"));
+    unexpected_end_of_file (*yylloc, "\"", "\"");
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -438,7 +451,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^\'\\]+  YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a character literal"));
+    unexpected_end_of_file (*yylloc, "'", "'");
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -529,7 +542,7 @@ splice	 (\\[ \f\t\v]*\n)*
   \\                   YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a character literal"));
+    unexpected_end_of_file (*yylloc, "'", "'");
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
   }
@@ -556,7 +569,7 @@ splice	 (\\[ \f\t\v]*\n)*
   \\                   YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a string"));
+    unexpected_end_of_file (*yylloc, "\"", "\"");
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
   }
@@ -616,7 +629,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^\"$%\'/<@\[\]\{\}]+|[$%/<@]|"<"{splice}"<"  YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in `{ ... }'"));
+    unexpected_end_of_file (*yylloc, "{", "}");
     yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -643,7 +656,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%"                YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in `%%{ ... %%}'"));
+    unexpected_end_of_file (*yylloc, "%{", "%}");
     yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -871,7 +884,7 @@ convert_ucn_to_byte (char const *ucn)
     /* A non-ASCII host.  Use CODE to index into a table of the C
        basic execution character set, which is guaranteed to exist on
        all Standard C platforms.  This table also includes '$', '@',
-       and '`', which not in the basic execution character set but
+       and '`', which are not in the basic execution character set but
        which are unibyte characters on all the platforms that we know
        about.  */
     static signed char const table[] =
