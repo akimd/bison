@@ -102,28 +102,55 @@
 # define YYSTACK_USE_ALLOCA 0
 #endif
 
-/* Realloc WHAT from SIZE to YYSTACKSIZE elements of TYPE.
-   If WHAT was malloc'ed (not the original automatic ARRAY), free it. */
 #if YYSTACK_USE_ALLOCA
-# define YYSTACK_REALLOC(Type, What, Array)				\
-do {									\
-  Type *old = What;							\
-  What = (Type *) alloca (yystacksize * sizeof (Type));			\
-  __yy_memcpy ((char *) What, (char *) old,				\
-	       (size) * (unsigned int) sizeof (Type));			\
-} while (0)
+# define YYSTACK_ALLOC alloca
+# define YYSTACK_FREE(Ptr) /* empty */
 #else
-# define YYSTACK_REALLOC(Type, What, Array)				\
-do {									\
-  Type *old = What;							\
-  What = (Type *) malloc (yystacksize * sizeof (Type));			\
-  __yy_memcpy ((char *) What, (char *) old,				\
-	       (size) * (unsigned int) sizeof (Type));			\
-  yyfree_stacks = 1;							\
-  if (old != Array)							\
-    free (old);								\
-} while (0)
+# define YYSTACK_ALLOC malloc
+# define YYSTACK_FREE(Ptr) free (Ptr)
 #endif
+
+/* A type that is properly aligned for any stack member.  */
+union yyalloc
+{
+  short yys;
+  YYSTYPE yyv;
+#if YYLSP_NEEDED
+  YYLTYPE yyl;
+#endif
+};
+
+/* The size of the maximum gap between one aligned stack and the next.  */
+#define YYSTACK_GAP_MAX (sizeof (union yyalloc) - 1)
+
+/* The size of an array large to enough to hold all stacks, each with
+   N elements.  */
+#if YYLSP_NEEDED
+# define YYSTACK_BYTES(N) \
+    ((N) * (sizeof (short) + sizeof (YYSTYPE) + sizeof (YYLTYPE))	\
+     + 2 * YYSTACK_GAP_MAX)
+#else
+# define YYSTACK_BYTES(N) \
+    ((N) * (sizeof (short) + sizeof (YYSTYPE))				\
+     + YYSTACK_GAP_MAX)
+#endif
+
+/* Relocate the TYPE STACK from its old location to the new one.  The
+   local variables SIZE and YYSTACKSIZE give the old and new number of
+   elements in the stack, and YYPTR gives the new location of the
+   stack.  Advance YYPTR to a properly aligned location for the next
+   stack.  */
+#define YYSTACK_RELOCATE(Type, Stack)					\
+do									\
+  {									\
+    size_t yynewbytes;							\
+    __yy_memcpy (yyptr, (char *) (Stack), size * sizeof (Type));	\
+    (Stack) = (Type *) yyptr;						\
+    yynewbytes = yystacksize * sizeof (Type) + YYSTACK_GAP_MAX;		\
+    yynewbytes -= yynewbytes % sizeof (union yyalloc);			\
+    yyptr += yynewbytes;						\
+  }									\
+while (0)
 
 #define YYBISON	1	/* Identify Bison output.  */
 #define YYPURE	%%pure	/* Identify pure parsers.  */
@@ -350,7 +377,12 @@ int yydebug;
 #endif
 
 /* YYMAXDEPTH -- maximum size the stacks can grow to (effective only
-   if the built-in stack extension method is used).  */
+   if the built-in stack extension method is used).
+
+   Do not make this value too large; the results are undefined if
+   SIZE_MAX < YYSTACK_BYTES (YYMAXDEPTH)
+   evaluated with infinite-precision integer arithmetic.  */
+
 #if YYMAXDEPTH == 0
 # undef YYMAXDEPTH
 #endif
@@ -360,11 +392,6 @@ int yydebug;
 #endif
 
 
-
-/* Define __yy_memcpy.  Note that the size argument
-   should be passed with type unsigned int, because that is what the non-GCC
-   definitions require.  With GCC, __builtin_memcpy takes an arg
-   of type size_t, but it can handle unsigned int.  */
 
 #if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
 # define __yy_memcpy(To, From, Count)	__builtin_memcpy (To, From, Count)
@@ -377,16 +404,16 @@ static void
 __yy_memcpy (to, from, count)
      char *to;
      const char *from;
-     unsigned int count;
+     size_t count;
 # else /* __cplusplus */
-__yy_memcpy (char *to, const char *from, unsigned int count)
+__yy_memcpy (char *to, const char *from, size_t count)
 # endif
 {
   register const char *f = from;
   register char *t = to;
-  register int i = count;
+  register size_t i = count;
 
-  while (i-- > 0)
+  while (i-- != 0)
     *t++ = *f++;
 }
 #endif
@@ -464,6 +491,7 @@ yyparse (YYPARSE_PARAM_ARG)
 
   register int yystate;
   register int yyn;
+  int yyresult;
   /* Number of tokens to shift before error messages enabled.  */
   int yyerrstatus;
   /* Lookahead token as an internal (translated) token number.  */
@@ -500,8 +528,7 @@ yyparse (YYPARSE_PARAM_ARG)
 # define YYPOPSTACK   (yyvsp--, yyssp--)
 #endif
 
-  int yystacksize = YYINITDEPTH;
-  int yyfree_stacks = 0;
+  size_t yystacksize = YYINITDEPTH;
 
   /* The variables used to return semantic value and location from the
      action routines.  */
@@ -548,7 +575,7 @@ yyparse (YYPARSE_PARAM_ARG)
   if (yyssp >= yyss + yystacksize - 1)
     {
       /* Get the current used size of the three stacks, in elements.  */
-      int size = yyssp - yyss + 1;
+      size_t size = yyssp - yyss + 1;
 
 #ifdef yyoverflow
       {
@@ -582,27 +609,25 @@ yyparse (YYPARSE_PARAM_ARG)
 #else /* no yyoverflow */
       /* Extend the stack our own way.  */
       if (yystacksize >= YYMAXDEPTH)
-	{
-	  yyerror ("parser stack overflow");
-	  if (yyfree_stacks)
-	    {
-	      free (yyss);
-	      free (yyvs);
-# if YYLSP_NEEDED
-	      free (yyls);
-# endif
-	    }
-	  return 2;
-	}
+	goto yyoverflowlab;
       yystacksize *= 2;
       if (yystacksize > YYMAXDEPTH)
 	yystacksize = YYMAXDEPTH;
 
-      YYSTACK_REALLOC (short, yyss, yyssa);
-      YYSTACK_REALLOC (YYSTYPE, yyvs, yyvsa);
+      {
+	short *yyss1 = yyss;
+	char *yyptr = (char *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
+	if (! yyptr)
+	  goto yyoverflowlab;
+	YYSTACK_RELOCATE (short, yyss);
+	YYSTACK_RELOCATE (YYSTYPE, yyvs);
 # if YYLSP_NEEDED
-      YYSTACK_REALLOC (YYLTYPE, yyls, yylsa);
+	YYSTACK_RELOCATE (YYLTYPE, yyls);
 # endif
+# undef YYSTACK_RELOCATE
+	if (yyss1 != yyssa)
+	  YYSTACK_FREE (yyss1);
+      }
 #endif /* no yyoverflow */
 
       yyssp = yyss + size - 1;
@@ -611,7 +636,8 @@ yyparse (YYPARSE_PARAM_ARG)
       yylsp = yyls + size - 1;
 #endif
 
-      YYDPRINTF ((stderr, "Stack size increased to %d\n", yystacksize));
+      YYDPRINTF ((stderr, "Stack size increased to %lu\n",
+		  (unsigned long int) yystacksize));
 
       if (yyssp >= yyss + yystacksize - 1)
 	YYABORT;
@@ -830,7 +856,7 @@ yyerrlab:
 
       if (yyn > YYFLAG && yyn < YYLAST)
 	{
-	  int size = 0;
+	  size_t size = 0;
 	  char *msg;
 	  int x, count;
 
@@ -980,30 +1006,30 @@ yyerrhandle:
 | yyacceptlab -- YYACCEPT comes here.  |
 `-------------------------------------*/
 yyacceptlab:
-  if (yyfree_stacks)
-    {
-      free (yyss);
-      free (yyvs);
-#if YYLSP_NEEDED
-      free (yyls);
-#endif
-    }
-  return 0;
-
+  yyresult = 0;
+  goto yyreturn;
 
 /*-----------------------------------.
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
 yyabortlab:
-  if (yyfree_stacks)
-    {
-      free (yyss);
-      free (yyvs);
-#if YYLSP_NEEDED
-      free (yyls);
+  yyresult = 1;
+  goto yyreturn;
+
+/*---------------------------------------------.
+| yyoverflowab -- parser overflow comes here.  |
+`---------------------------------------------*/
+yyoverflowlab:
+  yyerror ("parser stack overflow");
+  yyresult = 2;
+  /* Fall through.  */
+
+yyreturn:
+#ifndef yyoverflow
+  if (yyss != yyssa)
+    YYSTACK_FREE (yyss);
 #endif
-    }
-  return 1;
+  return yyresult;
 }
 
 #line %%input-line "%%filename"
