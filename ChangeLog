@@ -1,5 +1,11 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (maxrhs): Move to...
+	* src/gram.c, src/gram.h (ritem_longest_rhs): here.
+	* src/lalr.c (build_relations): Adjust.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (transpose): Free the memory allocated to the
 	argument, as it is replaced by the results by the unique caller.
 	(build_relations): Merely invoke transpose: it handles the memory
