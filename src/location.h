@@ -20,9 +20,11 @@
 
 #ifndef LOCATION_H_
 # define LOCATION_H_
+# include "quotearg.h"
 
 typedef struct location_s
 {
+  const char *file;
   int first_line;
   int first_column;
   int last_line;
@@ -31,36 +33,52 @@ typedef struct location_s
 #define YYLTYPE location_t
 
 /* Initialize LOC. */
-# define LOCATION_RESET(Loc)                  \
-  (Loc).first_column = (Loc).first_line = 1;  \
-  (Loc).last_column =  (Loc).last_line = 1;
+# define LOCATION_RESET(Loc)			\
+do {						\
+  (Loc).file = NULL;				\
+  (Loc).first_column = (Loc).first_line = 1;	\
+  (Loc).last_column =  (Loc).last_line = 1;	\
+} while (0)
 
 /* Advance of NUM columns. */
-# define LOCATION_COLUMNS(Loc, Num)           \
-  (Loc).last_column += Num;
+# define LOCATION_COLUMNS(Loc, Num)		\
+do {						\
+  (Loc).last_column += Num;			\
+} while (0)
+
 
 /* Advance of NUM lines. */
-# define LOCATION_LINES(Loc, Num)             \
-  (Loc).last_column = 1;                      \
-  (Loc).last_line += Num;
+# define LOCATION_LINES(Loc, Num)		\
+do {						\
+  (Loc).last_column = 1;			\
+  (Loc).last_line += Num;			\
+} while (0)
+
 
 /* Restart: move the first cursor to the last position. */
-# define LOCATION_STEP(Loc)                   \
-  (Loc).first_column = (Loc).last_column;     \
-  (Loc).first_line = (Loc).last_line;
+# define LOCATION_STEP(Loc)			\
+do {						\
+  (Loc).first_column = (Loc).last_column;	\
+  (Loc).first_line = (Loc).last_line;		\
+} while (0)
+
 
 /* Output LOC on the stream OUT. */
-# define LOCATION_PRINT(Out, Loc)                               \
-  fprintf (stderr, "%s:", infile);				\
-  if ((Loc).first_line != (Loc).last_line)                      \
-    fprintf (Out, "%d.%d-%d.%d",                                \
-             (Loc).first_line, (Loc).first_column,              \
-             (Loc).last_line, (Loc).last_column - 1);           \
-  else if ((Loc).first_column < (Loc).last_column - 1)          \
-    fprintf (Out, "%d.%d-%d", (Loc).first_line,                 \
-             (Loc).first_column, (Loc).last_column - 1);        \
-  else                                                          \
-    fprintf (Out, "%d.%d", (Loc).first_line, (Loc).first_column)
+# define LOCATION_PRINT(Out, Loc)					\
+do {									\
+  fprintf (stderr, "%s:", quotearg_style (escape_quoting_style, 	\
+					  (Loc).file));			\
+  if ((Loc).first_line != (Loc).last_line)				\
+    fprintf (Out, "%d.%d-%d.%d",					\
+             (Loc).first_line, (Loc).first_column,			\
+             (Loc).last_line, (Loc).last_column - 1);			\
+  else if ((Loc).first_column < (Loc).last_column - 1)			\
+    fprintf (Out, "%d.%d-%d", (Loc).first_line,				\
+             (Loc).first_column, (Loc).last_column - 1);		\
+  else									\
+    fprintf (Out, "%d.%d", (Loc).first_line, (Loc).first_column);	\
+} while (0)
+
 
 
 extern location_t empty_location;

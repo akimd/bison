@@ -34,13 +34,14 @@
 #define YY_USER_INIT				\
 do {						\
   LOCATION_RESET (*yylloc);			\
+  yylloc->file = infile;			\
    /* This is only to avoid GCC warnings. */	\
   if (yycontrol) {;};				\
 } while (0)
 
-#define YY_USER_ACTION  LOCATION_COLUMNS (*yylloc, yyleng)
+#define YY_USER_ACTION  LOCATION_COLUMNS (*yylloc, yyleng);
 #define YY_LINES        LOCATION_LINES (*yylloc, yyleng);
-#define YY_STEP         LOCATION_STEP (*yylloc)
+#define YY_STEP         LOCATION_STEP (*yylloc);
 
 /* STRING_OBSTACK -- Used to store all the characters that we need to
    keep (to construct ID, STRINGS etc.).  Use the following macros to

@@ -1,5 +1,13 @@
 2002-07-09  Akim Demaille  <akim@epita.fr>
 
+	* lib/quotearg.h: Protect against multiple inclusions.
+	* src/location.h (location_t): Add a `file' member.
+	(LOCATION_RESET, LOCATION_PRINT): Adjust.
+	* src/complain.c (warn_at, complain_at, fatal_at): Drop
+	`error_one_per_line' support.
+
+2002-07-09  Akim Demaille  <akim@epita.fr>
+
 	* src/complain.h, src/complain.c (warn, complain): Remove, unused.
 	* src/reader.c (lineno): Remove.
 	Adjust all dependencies.

@@ -17,6 +17,9 @@
 
 /* Written by Paul Eggert <eggert@twinsun.com> */
 
+#ifndef QUOTEARG_H_
+# define QUOTEARG_H_ 1
+
 /* Basic quoting styles.  */
 enum quoting_style
   {
@@ -30,9 +33,9 @@ enum quoting_style
   };
 
 /* For now, --quoting-style=literal is the default, but this may change.  */
-#ifndef DEFAULT_QUOTING_STYLE
-# define DEFAULT_QUOTING_STYLE literal_quoting_style
-#endif
+# ifndef DEFAULT_QUOTING_STYLE
+#  define DEFAULT_QUOTING_STYLE literal_quoting_style
+# endif
 
 /* Names of quoting styles and their corresponding values.  */
 extern char const *const quoting_style_args[];
@@ -40,13 +43,13 @@ extern enum quoting_style const quoting_style_vals[];
 
 struct quoting_options;
 
-#ifndef PARAMS
-# if defined PROTOTYPES || defined __STDC__
-#  define PARAMS(Args) Args
-# else
-#  define PARAMS(Args) ()
+# ifndef PARAMS
+#  if defined PROTOTYPES || defined __STDC__
+#   define PARAMS(Args) Args
+#  else
+#   define PARAMS(Args) ()
+#  endif
 # endif
-#endif
 
 /* The functions listed below set and use a hidden variable
    that contains the default quoting style options.  */
@@ -107,3 +110,5 @@ char *quotearg_char PARAMS ((char const *arg, char ch));
 
 /* Equivalent to quotearg_char (ARG, ':').  */
 char *quotearg_colon PARAMS ((char const *arg));
+
+#endif /* !QUOTEARG_H_ */
