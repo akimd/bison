@@ -1,5 +1,10 @@
 2003-08-26  Akim Demaille  <akim@epita.fr>
 
+	* config/announce-gen (print_changelog_deltas): Neutralize "<#" as
+	"<\#" to avoid magic from Gnus when posting parts of this script.
+
+2003-08-26  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc (Parser::report_syntax_error_): New, extracted from
 	(Parser::parse): here.
 	Adjust: nerrs and errstatus is now replaced by...
