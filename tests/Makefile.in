@@ -98,7 +98,7 @@ install_sh = @install_sh@
 
 EXTRA_DIST = atlocal.in bison $(TESTSUITE_AT) testsuite
 
-DISTCLEANFILES = atconfig atlocal package.m4
+DISTCLEANFILES = atconfig atlocal bison package.m4
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 TESTSUITE_AT = \
@@ -112,9 +112,9 @@ AUTOTEST = $(AUTOM4TE) --language=autotest
 subdir = tests
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = bison
 DIST_SOURCES =
-DIST_COMMON = Makefile.am Makefile.in
+DIST_COMMON = Makefile.am Makefile.in bison.in
 all: all-am
 
 .SUFFIXES:
@@ -125,6 +125,8 @@ Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+bison: $(top_builddir)/config.status bison.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 uninstall-info-am:
 tags: TAGS
 TAGS:

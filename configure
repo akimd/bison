@@ -1407,6 +1407,8 @@ if test -f $srcdir/tests/atlocal.in; then
 
 fi
 
+ac_config_files="$ac_config_files tests/bison"
+
 # Checks for programs.
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -8913,6 +8915,7 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "tests/atlocal" ) CONFIG_FILES="$CONFIG_FILES tests/atlocal" ;;
+  "tests/bison" ) CONFIG_FILES="$CONFIG_FILES tests/bison" ;;
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "config/Makefile" ) CONFIG_FILES="$CONFIG_FILES config/Makefile" ;;
   "intl/Makefile" ) CONFIG_FILES="$CONFIG_FILES intl/Makefile" ;;
@@ -9267,6 +9270,10 @@ s,@INSTALL@,$ac_INSTALL,;t t
     rm -f $tmp/out
   fi
 
+  # Run the commands associated with the file.
+  case $ac_file in
+    tests/bison ) chmod +x tests/bison ;;
+  esac
 done
 _ACEOF
 cat >>$CONFIG_STATUS <<\_ACEOF

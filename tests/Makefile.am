@@ -20,7 +20,7 @@
 
 EXTRA_DIST = atlocal.in bison $(TESTSUITE_AT) testsuite
 
-DISTCLEANFILES       = atconfig atlocal package.m4
+DISTCLEANFILES       = atconfig atlocal bison package.m4
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 TESTSUITE_AT = \

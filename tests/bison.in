@@ -8,4 +8,4 @@ export BISON_SIMPLE
 BISON_HAIRY='@top_srcpath@/src/bison.hairy'
 export BISON_HAIRY
 
-exec '@top_builddir@/src/bison' ${1+"$@"}
+exec '@top_buildpath@/src/bison' ${1+"$@"}

@@ -26,6 +26,7 @@ AM_CONFIG_HEADER(config.h:config.hin)
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
+AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
 
 # Checks for programs.
 AC_PROG_CC

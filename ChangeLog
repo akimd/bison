@@ -1,3 +1,11 @@
+2001-09-27  Akim Demaille  <akim@epita.fr>
+
+	Position independent wrapper.
+
+	* tests/bison: Remove.
+	* tests/bison.in: New.
+	* configure.in: Adjust.
+
 2001-09-27  Paul Eggert  <eggert@twinsun.com>
 
 	Port quotearg fixes from tar 1.13.24.
