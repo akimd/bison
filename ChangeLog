@@ -1,9 +1,14 @@
-2002-11-04  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+2002-11-05  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
-	* src/tables.c (matching_state): Don't allow states to match if 
+	* src/tables.c (matching_state): Don't allow states to match if
 	either has GLR conflict entries.
-	
+
 2002-11-05  Paul Eggert  <eggert@twinsun.com>
+
+	* src/scan-gram.l: Use more accurate diagnostics, e.g.
+	"integer out of range" rather than "invalid value".
+	* tests/input.at (Invalid $n, Invalid @n): Change expected wording
+	accordingly.
 
 	Scan <% and %> digraphs in C code as POSIX 1003.1-2001 requires.
 	Also, remove one static variable in the scanner.
@@ -194,7 +199,7 @@
 	* tests/glr-regr1.at: New test for reported regressions.
 	* tests/testsuite.at: Add glr-regr1.at test.
 	* tests/Makefile.am: Add glr-regr1.at test.
-	
+
 2002-10-24  Paul Eggert  <eggert@twinsun.com>
 
 	Version 1.75a.
