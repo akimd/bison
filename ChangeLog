@@ -1,5 +1,15 @@
 2002-07-29  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h, src/state.c (transitions_t): Holds state_t*'s, not
+	state_number_t.
+	(errs_t): symbol_t*, not symbol_number_t.
+	(reductions_t): rule_t*, not rule_number_t.
+	(FOR_EACH_SHIFT): New.
+	* src/LR0.c, src/conflicts.c, src/lalr.c, src/output.c
+	* src/print.c, src/print_graph.c: Adjust.
+
+2002-07-29  Akim Demaille  <akim@epita.fr>
+
 	Use $accept and $end, as BYacc and BTYacc do, instead of $axiom and $.
 
 	* src/symtab.h, src/symtab.c (eoftoken, axiom): Rename as...

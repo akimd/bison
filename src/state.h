@@ -95,6 +95,9 @@ typedef short state_number_t;
 /* Be ready to map a state_number_t to an int.  */
 # define state_number_as_int(Tok) ((int) (Tok))
 
+
+typedef struct state_s state_t;
+
 /*--------------.
 | Transitions.  |
 `--------------*/
@@ -102,7 +105,7 @@ typedef short state_number_t;
 typedef struct transtion_s
 {
   short num;
-  state_number_t states[1];
+  state_t *states[1];
 } transitions_t;
 
 
@@ -111,7 +114,7 @@ typedef struct transtion_s
    token), or non terminals in case of gotos.  */
 
 #define TRANSITION_SYMBOL(Transitions, Num) \
-  (states[Transitions->states[Num]]->accessing_symbol)
+  (Transitions->states[Num]->accessing_symbol)
 
 /* Is the TRANSITIONS->states[Num] a shift? (as opposed to gotos).  */
 
@@ -132,10 +135,21 @@ typedef struct transtion_s
    disabled.  */
 
 #define TRANSITION_DISABLE(Transitions, Num) \
-  (Transitions->states[Num] = 0)
+  (Transitions->states[Num] = NULL)
 
 #define TRANSITION_IS_DISABLED(Transitions, Num) \
-  (Transitions->states[Num] == 0)
+  (Transitions->states[Num] == NULL)
+
+
+/* Iterate over each transition over a token (shifts).  */
+#define FOR_EACH_SHIFT(Transitions, Iter)			\
+  for (Iter = 0;						\
+       Iter < Transitions->num					\
+	 && (TRANSITION_IS_DISABLED (Transitions, Iter)		\
+	     || TRANSITION_IS_SHIFT (Transitions, Iter));	\
+       ++Iter)							\
+    if (!TRANSITION_IS_DISABLED (Transitions, Iter))
+
 
 /* Return the state such these TRANSITIONS contain a shift/goto to it on
    SYMBOL.  Aborts if none found.  */
@@ -151,10 +165,10 @@ struct state_s *transitions_to PARAMS ((transitions_t *state,
 typedef struct errs_s
 {
   short num;
-  symbol_number_t symbols[1];
+  symbol_t *symbols[1];
 } errs_t;
 
-errs_t *errs_new PARAMS ((int num, symbol_number_t *tokens));
+errs_t *errs_new PARAMS ((int num, symbol_t **tokens));
 
 
 /*-------------.
@@ -164,16 +178,16 @@ errs_t *errs_new PARAMS ((int num, symbol_number_t *tokens));
 typedef struct reductions_s
 {
   short num;
-  rule_number_t rules[1];
+  rule_t *rules[1];
 } reductions_t;
 
 
 
-/*----------.
-| State_t.  |
-`----------*/
+/*---------.
+| States.  |
+`---------*/
 
-typedef struct state_s
+struct state_s
 {
   state_number_t number;
   symbol_number_t accessing_symbol;
@@ -203,7 +217,7 @@ typedef struct state_s
      */
   unsigned short nitems;
   item_number_t items[1];
-} state_t;
+};
 
 extern state_number_t nstates;
 extern state_t *final_state;
@@ -214,15 +228,15 @@ state_t *state_new PARAMS ((symbol_number_t accessing_symbol,
 
 /* Set the transitions of STATE.  */
 void state_transitions_set PARAMS ((state_t *state,
-				    int num, state_number_t *transitions));
+				    int num, state_t **transitions));
 
 /* Set the reductions of STATE.  */
 void state_reductions_set PARAMS ((state_t *state,
-				   int num, rule_number_t *reductions));
+				   int num, rule_t **reductions));
 
 /* Set the errs of STATE.  */
 void state_errs_set PARAMS ((state_t *state,
-			     int num, symbol_number_t *errs));
+			     int num, symbol_t **errs));
 
 /* Print on OUT all the lookaheads such that this STATE wants to
    reduce this RULE.  */
