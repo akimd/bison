@@ -1,5 +1,10 @@
 2001-12-13  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (closure): Use nrules instead of playing tricks
+	with BITS_PER_WORD.
+
+2001-12-13  Akim Demaille  <akim@epita.fr>
+
 	* src/print.c (print_actions): Output the handling of `$' as the
 	traces do: shifting the token EOF.  Before EOF was treated as a
 	nonterminal.
