@@ -1,5 +1,5 @@
 /* File names and variables for bison,
-   Copyright 1984, 1989, 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -56,9 +56,6 @@ void compute_output_file_names PARAMS((void));
 
 FILE *xfopen PARAMS ((const char *name, const char *mode));
 int xfclose PARAMS ((FILE *ptr));
-
-const char *skeleton_find PARAMS ((const char *envvar,
-				   const char *skeleton_name));
 
 /* Is SUFFIX ending STRING?  */
 int strsuffix (const char* string, const char* suffix);

@@ -1,5 +1,14 @@
 2002-09-13  Akim Demaille  <akim@epita.fr>
 
+	Playing with autoscan.
+
+	* src/reader.c (get_merge_function): Use xstrdup, not strdup.
+	* src/files.c (skeleton_find): Remove, unused.
+	* m4/memcmp.m4: New, from the Coreutils 4.5.1.
+	* m4/prereq.m4 (jm_PREREQ_QUOTEARG): Run jm_FUNC_MEMCMP.
+
+2002-09-13  Akim Demaille  <akim@epita.fr>
+
 	* configure.ac (AM_INIT_AUTOMAKE): Require Automake 1.6.3.
 	* Makefile.am (AUTOMAKE_OPTIONS): Don't.
 
