@@ -1,0 +1,1209 @@
+# Exercising Bison on actual grammars.                   -*- Autotest -*-
+# Copyright (C) 2002 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+AT_BANNER([[Existing Grammars.]])
+## ----------------- ##
+## GNU AWK Grammar.  ##
+## ----------------- ##
+
+AT_SETUP([GNU AWK Grammar])
+
+# We have been careful to strip all the actions excepts the
+# mid-rule actions.  We rely on %expect to check that there are
+# indeed 65 SR conflicts.
+#
+# Bison was once wrong, due to an incorrect computation of nullable.
+# It reported 485 SR conflicts!
+
+AT_DATA([[input.y]],
+[[%expect 65
+
+%token FUNC_CALL NAME REGEXP
+%token ERROR
+%token YNUMBER YSTRING
+%token RELOP APPEND_OP
+%token ASSIGNOP MATCHOP NEWLINE CONCAT_OP
+%token LEX_BEGIN LEX_END LEX_IF LEX_ELSE LEX_RETURN LEX_DELETE
+%token LEX_WHILE LEX_DO LEX_FOR LEX_BREAK LEX_CONTINUE
+%token LEX_PRINT LEX_PRINTF LEX_NEXT LEX_EXIT LEX_FUNCTION
+%token LEX_GETLINE LEX_NEXTFILE
+%token LEX_IN
+%token LEX_AND LEX_OR INCREMENT DECREMENT
+%token LEX_BUILTIN LEX_LENGTH
+
+/* Lowest to highest */
+%right ASSIGNOP
+%right '?' ':'
+%left LEX_OR
+%left LEX_AND
+%left LEX_GETLINE
+%nonassoc LEX_IN
+%left FUNC_CALL LEX_BUILTIN LEX_LENGTH
+%nonassoc ','
+%nonassoc MATCHOP
+%nonassoc RELOP '<' '>' '|' APPEND_OP TWOWAYIO
+%left CONCAT_OP
+%left YSTRING YNUMBER
+%left '+' '-'
+%left '*' '/' '%'
+%right '!' UNARY
+%right '^'
+%left INCREMENT DECREMENT
+%left '$'
+%left '(' ')'
+%%
+
+start
+	: opt_nls program opt_nls
+	;
+
+program
+	: rule
+	| program rule
+	| error
+	| program error
+	| /* empty */
+	;
+
+rule
+	: LEX_BEGIN {} action
+	| LEX_END {}   action
+	| LEX_BEGIN statement_term
+	| LEX_END statement_term
+	| pattern action
+	| action
+	| pattern statement_term
+	| function_prologue function_body
+	;
+
+func_name
+	: NAME
+	| FUNC_CALL
+	| lex_builtin
+	;
+
+lex_builtin
+	: LEX_BUILTIN
+	| LEX_LENGTH
+	;
+
+function_prologue
+	: LEX_FUNCTION {} func_name '(' opt_param_list r_paren opt_nls
+	;
+
+function_body
+	: l_brace statements r_brace opt_semi opt_nls
+	| l_brace r_brace opt_semi opt_nls
+	;
+
+
+pattern
+	: exp
+	| exp ',' exp
+	;
+
+regexp
+	/*
+	 * In this rule, want_regexp tells yylex that the next thing
+	 * is a regexp so it should read up to the closing slash.
+	 */
+	: '/' {} REGEXP '/'
+	;
+
+action
+	: l_brace statements r_brace opt_semi opt_nls
+	| l_brace r_brace opt_semi opt_nls
+	;
+
+statements
+	: statement
+	| statements statement
+	| error
+	| statements error
+	;
+
+statement_term
+	: nls
+	| semi opt_nls
+	;
+
+statement
+	: semi opt_nls
+	| l_brace r_brace
+	| l_brace statements r_brace
+	| if_statement
+	| LEX_WHILE '(' exp r_paren opt_nls statement
+	| LEX_DO opt_nls statement LEX_WHILE '(' exp r_paren opt_nls
+	| LEX_FOR '(' NAME LEX_IN NAME r_paren opt_nls statement
+	| LEX_FOR '(' opt_exp semi opt_nls exp semi opt_nls opt_exp r_paren opt_nls statement
+	| LEX_FOR '(' opt_exp semi opt_nls semi opt_nls opt_exp r_paren opt_nls statement
+	| LEX_BREAK statement_term
+	| LEX_CONTINUE statement_term
+	| print '(' expression_list r_paren output_redir statement_term
+	| print opt_rexpression_list output_redir statement_term
+	| LEX_NEXT statement_term
+	| LEX_NEXTFILE statement_term
+	| LEX_EXIT opt_exp statement_term
+	| LEX_RETURN {} opt_exp statement_term
+	| LEX_DELETE NAME '[' expression_list ']' statement_term
+	| LEX_DELETE NAME  statement_term
+	| exp statement_term
+	;
+
+print
+	: LEX_PRINT
+	| LEX_PRINTF
+	;
+
+if_statement
+	: LEX_IF '(' exp r_paren opt_nls statement
+	| LEX_IF '(' exp r_paren opt_nls statement
+	     LEX_ELSE opt_nls statement
+	;
+
+nls
+	: NEWLINE
+	| nls NEWLINE
+	;
+
+opt_nls
+	: /* empty */
+	| nls
+	;
+
+input_redir
+	: /* empty */
+	| '<' simp_exp
+	;
+
+output_redir
+	: /* empty */
+	| '>' exp
+	| APPEND_OP exp
+	| '|' exp
+	| TWOWAYIO exp
+	;
+
+opt_param_list
+	: /* empty */
+	| param_list
+	;
+
+param_list
+	: NAME
+	| param_list comma NAME
+	| error
+	| param_list error
+	| param_list comma error
+	;
+
+/* optional expression, as in for loop */
+opt_exp
+	: /* empty */
+	| exp
+	;
+
+opt_rexpression_list
+	: /* empty */
+	| rexpression_list
+	;
+
+rexpression_list
+	: rexp
+	| rexpression_list comma rexp
+	| error
+	| rexpression_list error
+	| rexpression_list error rexp
+	| rexpression_list comma error
+	;
+
+opt_expression_list
+	: /* empty */
+	| expression_list
+	;
+
+expression_list
+	: exp
+	| expression_list comma exp
+	| error
+	| expression_list error
+	| expression_list error exp
+	| expression_list comma error
+	;
+
+/* Expressions, not including the comma operator.  */
+exp	: variable ASSIGNOP {} exp
+	| '(' expression_list r_paren LEX_IN NAME
+	| exp '|' LEX_GETLINE opt_variable
+	| exp TWOWAYIO LEX_GETLINE opt_variable
+	| LEX_GETLINE opt_variable input_redir
+	| exp LEX_AND exp
+	| exp LEX_OR exp
+	| exp MATCHOP exp
+	| regexp
+	| '!' regexp %prec UNARY
+	| exp LEX_IN NAME
+	| exp RELOP exp
+	| exp '<' exp
+	| exp '>' exp
+	| exp '?' exp ':' exp
+	| simp_exp
+	| exp simp_exp %prec CONCAT_OP
+	;
+
+rexp
+	: variable ASSIGNOP {} rexp
+	| rexp LEX_AND rexp
+	| rexp LEX_OR rexp
+	| LEX_GETLINE opt_variable input_redir
+	| regexp
+	| '!' regexp %prec UNARY
+	| rexp MATCHOP rexp
+	| rexp LEX_IN NAME
+	| rexp RELOP rexp
+	| rexp '?' rexp ':' rexp
+	| simp_exp
+	| rexp simp_exp %prec CONCAT_OP
+	;
+
+simp_exp
+	: non_post_simp_exp
+	/* Binary operators in order of decreasing precedence.  */
+	| simp_exp '^' simp_exp
+	| simp_exp '*' simp_exp
+	| simp_exp '/' simp_exp
+	| simp_exp '%' simp_exp
+	| simp_exp '+' simp_exp
+	| simp_exp '-' simp_exp
+	| variable INCREMENT
+	| variable DECREMENT
+	;
+
+non_post_simp_exp
+	: '!' simp_exp %prec UNARY
+	| '(' exp r_paren
+	| LEX_BUILTIN
+	  '(' opt_expression_list r_paren
+	| LEX_LENGTH '(' opt_expression_list r_paren
+	| LEX_LENGTH
+	| FUNC_CALL '(' opt_expression_list r_paren
+	| variable
+	| INCREMENT variable
+	| DECREMENT variable
+	| YNUMBER
+	| YSTRING
+	| '-' simp_exp    %prec UNARY
+	| '+' simp_exp    %prec UNARY
+	;
+
+opt_variable
+	: /* empty */
+	| variable
+	;
+
+variable
+	: NAME
+	| NAME '[' expression_list ']'
+	| '$' non_post_simp_exp
+	;
+
+l_brace
+	: '{' opt_nls
+	;
+
+r_brace
+	: '}' opt_nls
+	;
+
+r_paren
+	: ')'
+	;
+
+opt_semi
+	: /* empty */
+	| semi
+	;
+
+semi
+	: ';'
+	;
+
+comma	: ',' opt_nls
+	;
+
+%%
+]])
+
+# Pass plenty of options, to exercise plenty of code, even if we
+# don't actually check the output.  But SEGV is watching us, and
+# so might do dmalloc.
+AT_CHECK([[bison --verbose --defines input.y]])
+
+AT_CLEANUP
+
+
+## ----------------- ##
+## GNU Cim Grammar.  ##
+## ----------------- ##
+
+AT_SETUP([GNU Cim Grammar])
+
+# GNU Cim, the GNU Simula 87 Compiler.
+
+# Bison was once wrong, due to an incorrect computation of the RR conflicts.
+# It reported 80 SR && 99 RR conflicts instead of 78/10!!!
+
+AT_DATA([[input.y]],
+[[%union {
+	long token;
+	long ival;
+        long arrdim;
+	double rval;
+	char *ident;
+	char *tval;
+	char stat_decl;
+       }
+
+%token
+        HACTIVATE HAFTER /*HAND*/ HARRAY HAT
+        HBEFORE HBEGIN HBOOLEAN
+        HCHARACTER HCLASS /*HCOMMENT*/ HCONC
+        HDELAY HDO
+        HELSE HEND HEQ /*HEQV*/ HEXTERNAL
+        HFOR
+        HGE HGO HGOTO HGT
+        HHIDDEN
+        HIF /*HIMP*/ HIN HINNER HINSPECT HINTEGER HIS
+        HLABEL HLE HLONG HLT
+        HNAME HNE HNEW HNONE /*HNOT*/ HNOTEXT
+        /*HOR*/ HOTHERWISE
+        HPRIOR HPROCEDURE HPROTECTED
+        HQUA
+        HREACTIVATE HREAL HREF
+        HSHORT HSTEP HSWITCH
+        HTEXT HTHEN HTHIS HTO
+        HUNTIL
+        HVALUE HVAR HVIRTUAL
+        HWHEN HWHILE
+
+        HASSIGNVALUE HASSIGNREF
+        /*HDOT*/ HPAREXPSEPARATOR HLABELSEPARATOR HSTATEMENTSEPARATOR
+        HBEGPAR HENDPAR
+        HEQR HNER
+        HADD HSUB HMUL HDIV HINTDIV HEXP
+  	HDOTDOTDOT
+
+%token <ident> HIDENTIFIER
+%token <ival> HBOOLEANKONST HINTEGERKONST HCHARACTERKONST
+%token <rval> HREALKONST
+%token <tval> HTEXTKONST
+
+%type <tval> EXT_IDENT
+%type <stat_decl> DECLSTATEMENT MODULSTATEMENT MBEE_DECLSTMS MBEE_DECLSTMSU
+%type <stat_decl> MODULS
+%type <ident> EXPRESSION_SIMP MBEE_ARG_R_PT
+%type <arrdim> BAUND_PAIR_LIST
+
+%right <token> HASSIGN
+%left   HORELSE
+%left   HANDTHEN
+%left   HEQV
+%left   HIMP
+%left   HOR
+%left   HAND
+
+%left   HNOT
+
+%left <token> HVALRELOPERATOR HREFRELOPERATOR HOBJRELOPERATOR
+
+%left	HCONC
+
+%left <token> HTERMOPERATOR
+%left <token> UNEAR
+%left <token> HFACTOROPERATOR
+%left         HPRIMARYOPERATOR
+
+%left   HQUA
+
+%left   HDOT
+
+%start  MAIN_MODULE
+%%
+/* GRAMATIKK FOR PROGRAM MODULES */
+MAIN_MODULE     :       {	  categ=CLOCAL; mout(MBLOCK);
+                                  beginBlock(KBLOKK);separat_comp=FALSE;}
+			MODULS	{ endBlock(NULL,CCNO);   mout(MENDBLOCK);}
+  		|	error HSTATEMENTSEPARATOR MBEE_DECLSTMS
+		;
+EXT_DECLARATION	:	HEXTERNAL
+			MBEE_TYPE
+			HPROCEDURE
+				{ MBEENEWBLOCK();
+				  kind=KPROC;}
+			EXT_LIST
+		|
+			HEXTERNAL
+			HIDENTIFIER
+			HPROCEDURE
+				{ MBEENEWBLOCK();
+				  type=TNOTY;
+				  kind=KPROC;
+				  if($2==Ckind)categ=CCPROC;else
+				  yerror (1);
+                                  ysensitive=sensitive;
+                                  sensitive=ON;}
+			HIDENTIFIER { $<ident>$=$5;
+                                  sensitive=ysensitive;}
+			EXTERNAL_KIND_ITEM
+			        { categ=CLOCAL;}
+		|	HEXTERNAL
+			HCLASS
+				{ MBEENEWBLOCK();
+				  kind=KCLASS;}
+			EXT_LIST
+
+		;
+EXTERNAL_KIND_ITEM:	EXT_IDENT
+			HOBJRELOPERATOR
+				{ if($2!=HIS)yerror (2);}
+		        MBEE_TYPE HPROCEDURE
+			HIDENTIFIER
+				{         regDecl($6, type, KPROC, CCPROC);
+                                          beginBlock(kind);}
+                        HEADING EMPTY_BLOCK
+				{ categ=CLOCAL;
+				  endBlock($1==NULL?$<ident>0:tag($1),CCCPROC);}
+/*		|
+			EXT_IDENT
+				{ if($1!=NULL)yerror (3);
+				  regDecl($0, type, kind, categ);}
+			MBEE_REST_EXT_LIST
+				{ endBlock(NULL,CCNO);}
+		;
+MBEE_REST_EXT_LIST:	/* EMPTY
+		|	HPAREXPSEPARATOR EXT_KIND_LIST
+		;
+EXT_KIND_LIST	:	EXT_KIND_ITEM
+		|	EXT_KIND_LIST HPAREXPSEPARATOR EXT_KIND_ITEM
+		;
+EXT_KIND_ITEM	:	HIDENTIFIER
+			EXT_IDENT
+				{ if($2!=NULL)yerror (3);
+				  regDecl($1, type, kind, categ);}*/
+		;
+EMPTY_BLOCK	:	/*EMPT*/
+		|	HBEGIN HEND
+		;
+EXT_LIST	:	EXT_ITEM
+		|	EXT_LIST HPAREXPSEPARATOR EXT_ITEM
+		;
+EXT_ITEM	:	HIDENTIFIER
+			EXT_IDENT
+				{ lesinn_external_spec($1,$2, kind);}
+		;
+EXT_IDENT	:	/* EMPTY */ { $$=NULL;}
+		|	HVALRELOPERATOR { if($1!=HEQ)yerror (9);
+                                          external=TRUE;}
+			HTEXTKONST { $$=$3;external=FALSE;}
+		;
+/* GRAMATIKK FOR TYPER */
+NO_TYPE         :       /*EMPT*/        { type=TNOTY;}
+                ;
+MBEE_TYPE       :       NO_TYPE
+                |       TYPE
+                ;
+TYPE            :       HREF HBEGPAR
+                        HIDENTIFIER
+                                { prefquantident=$3;
+                                          type=TREF;}
+                        HENDPAR
+                |       HTEXT           { type=TTEXT;}
+                |       HBOOLEAN        { type=TBOOL;}
+                |       HCHARACTER      { type=TCHAR;}
+                |       HSHORT HINTEGER { type=TSHORT;}
+                |       HINTEGER        { type=TINTG;}
+                |       HREAL           { type=TREAL;}
+                |       HLONG HREAL     { type=TLONG;}
+                ;
+
+/* GRAMATIKK FOR DEL AV SETNINGER */
+MBEE_ELSE_PART  :       /*EMPT*/
+/*		|	HELSE
+			HIF
+                        EXPRESSION
+                        HTHEN   { 		  mout(MELSE);
+						  mout(MIF);
+                                  OBSBLOCK();}
+                        BLOCK   { MBEEENDBLOCK();}
+                        MBEE_ELSE_PART          { mout(MENDIF);}*/
+                |       HELSE   { OBSBLOCK();     mout(MELSE);}
+                        BLOCK   { MBEEENDBLOCK();}
+                ;
+FOR_LIST        :       FOR_LIST_ELEMENT        { mout(MENDSEP);
+                                                  mout(MLISTSEP);}
+                |       FOR_LIST_ELEMENT
+                        HPAREXPSEPARATOR
+                        FOR_LIST                { mout(MLISTSEP);}
+                ;
+FOR_LIST_ELEMENT:       EXPRESSION
+                        MBEE_F_L_EL_R_PT
+                ;
+MBEE_F_L_EL_R_PT:       /*EMPT*/
+                |       HWHILE
+                        EXPRESSION              { mout(MFORWHILE);}
+                |       HSTEP
+                        EXPRESSION
+                        HUNTIL
+                        EXPRESSION              { mout(MUNTIL);
+                                                  mout(MSTEP);}
+                ;
+GOTO            :       HGO
+                        HTO
+                |       HGOTO
+                ;
+CONN_STATE_R_PT :       WHEN_CLAUSE_LIST
+                |       HDO   {   beginBlock(KCON);   mout(MDO);
+                              OBSBLOCK(); }
+                        BLOCK {   endBlock(NULL,CCNO);
+                                  MBEEENDBLOCK();  mout(MENDDO);}
+                ;
+WHEN_CLAUSE_LIST:       HWHEN
+                        HIDENTIFIER
+                        HDO    {   beginBlock(KCON);  mout(MIDENTIFIER);
+                                   OBSBLOCK();     moutId($2);
+				   		   mout(MWHEN);}
+                        BLOCK  {   endBlock(NULL,CCNO);
+                              MBEEENDBLOCK(); mout(MENDWHEN);}
+                |       WHEN_CLAUSE_LIST
+                        HWHEN
+                        HIDENTIFIER
+                        HDO    { beginBlock(KCON);	   mout(MIDENTIFIER);
+                                 OBSBLOCK();       moutId($3);
+				 		   mout(MWHEN);}
+                        BLOCK  { endBlock(NULL,CCNO);
+                              MBEEENDBLOCK();    mout(MENDWHEN);}
+                ;
+MBEE_OTWI_CLAUS :       /*EMPT*/
+                |       HOTHERWISE {OBSBLOCK();    mout(MOTHERWISE);}
+
+                        BLOCK      {MBEEENDBLOCK();mout(MENDOTHERWISE);}
+                ;
+ACTIVATOR	:	HACTIVATE		{ mout(MBOOLEANKONST);
+						  moutIval(FALSE);}
+		|	HREACTIVATE		{ mout(MBOOLEANKONST);
+						  moutIval(TRUE);}
+		;
+SCHEDULE	:	/*EMPT*/		{ mout(MCHARACTERKONST);
+						  moutIval(DIRECT);
+						  mout(MINTEGERKONST);
+						  moutIval(0);
+						  mout(MNONE);
+						  mout(MBOOLEANKONST);
+						  moutIval(FALSE);}
+		|	ATDELAY EXPRESSION	{ mout(MNONE);}
+			PRIOR
+		|	BEFOREAFTER		{ mout(MINTEGERKONST);
+						  moutIval(0);}
+			EXPRESSION		{ mout(MBOOLEANKONST);
+						  moutIval(FALSE);}
+		;
+ATDELAY		:	HAT			{ mout(MCHARACTERKONST);
+						  moutIval(AT);}
+		|	HDELAY			{ mout(MCHARACTERKONST);
+						  moutIval(DELAYS);}
+		;
+BEFOREAFTER	:	HBEFORE			{ mout(MCHARACTERKONST);
+						  moutIval(BEFORE);}
+		|	HAFTER			{ mout(MCHARACTERKONST);
+						  moutIval(AFTER);}
+		;
+PRIOR		:	/*EMPT*/		{ mout(MBOOLEANKONST);
+						  moutIval(FALSE);}
+		|	HPRIOR			{ mout(MBOOLEANKONST);
+						  moutIval(TRUE);}
+		;
+/* GRAMATIKK FOR SETNINGER OG DEKLARASJONER */
+MODULSTATEMENT  :       HWHILE
+                        EXPRESSION
+                        HDO     { STOPOBSBLOCK(); mout(MWHILE);
+                                  OBSBLOCK();}
+                        BLOCK   { MBEEENDBLOCK(); mout(MENDWHILE);
+					  	          $$=STATEMENT;}
+	    	|       HIF
+                        EXPRESSION
+                        HTHEN   { STOPOBSBLOCK(); mout(MIF);
+                                  OBSBLOCK();}
+                        BLOCK   { MBEEENDBLOCK();}
+                        MBEE_ELSE_PART          { mout(MENDIF);
+							  $$=STATEMENT;}
+		|       HFOR
+                        HIDENTIFIER
+                        HASSIGN { STOPOBSBLOCK(); mout(MIDENTIFIER);
+                                                  moutId($2);}
+                        FOR_LIST
+                        HDO     { beginBlock(KFOR);
+                        if($3==HASSIGNVALUE)      mout(MFOR);
+                                        else      mout(MFORR);
+                                  OBSBLOCK();     mout(MFORDO);}
+                        BLOCK   { MBEEENDBLOCK();
+                                  endBlock(NULL,CCNO); mout(MENDFOR);
+							  $$=STATEMENT;}
+		|       GOTO
+                        EXPRESSION              { mout(MGOTO);
+                                  STOPOBSBLOCK();	  $$=STATEMENT;}
+		|       HINSPECT
+                        EXPRESSION              { mout(MINSPECT);
+                                  STOPOBSBLOCK();
+                                  beginBlock(KINSP);}
+                        CONN_STATE_R_PT
+                                { endBlock(NULL,CCNO);}
+                        MBEE_OTWI_CLAUS         { mout(MENDINSPECT);
+							  $$=STATEMENT;}
+		|       HINNER  { STOPOBSBLOCK(); mout(MINNER);
+                                  regInner();		  $$=STATEMENT;}
+                |       HIDENTIFIER
+                        HLABELSEPARATOR
+                                { STOPOBSBLOCK();
+                                  regDecl($1, TLABEL, KSIMPLE, categ);    mout(MLABEL);
+                                                  moutId($1);
+                                                  mout(MENDLABEL);}
+                        DECLSTATEMENT   { if($4<=DECLARATION)
+                                            { yerror (27);
+                                              $$=DECLARATION;}
+                                          else $$=$4;}
+                |       EXPRESSION_SIMP
+                        HBEGIN
+                                { $<ident>$=$1; }
+			IMPORT_SPEC_MODULE
+				{ mout(MPRBLOCK);
+				  prefquantident=$1;
+                                  beginBlock(KPRBLK);}
+                        MBEE_DECLSTMS
+                        HEND    { endBlock(NULL,CCNO); mout(MENDPRBLOCK);
+                                                          $$=STATEMENT;}
+		|	EXPRESSION_SIMP HBEGIN error HSTATEMENTSEPARATOR
+                        MBEE_DECLSTMS HEND              { $$=STATEMENT;
+			         endBlock(NULL,CCNO); mout(MENDPRBLOCK);}
+		|	EXPRESSION_SIMP HBEGIN error HEND
+						        { $$=STATEMENT;
+			         endBlock(NULL,CCNO); mout(MENDPRBLOCK);}
+
+                |       EXPRESSION_SIMP
+                                { STOPOBSBLOCK();         $$=STATEMENT;
+                                                  mout(MENDASSIGN);}
+		|	ACTIVATOR EXPRESSION SCHEDULE
+						{      	  $$=STATEMENT;
+						  mout(MENDSEP);
+						  mout(MARGUMENTSEP);
+						  mout(MARGUMENTSEP);
+						  mout(MARGUMENTSEP);
+						  mout(MARGUMENTSEP);
+						  mout(MARGUMENTSEP);
+						  mout(MARGUMENTSEP);
+						  mout(MARGUMENT);
+						  moutId(activateid);
+						  mout(MENDASSIGN);}
+                |       HBEGIN
+                                { STOPOBSBLOCK();
+                                  OBSBLOCK();}
+                        MBEE_DECLSTMS
+                        HEND    { MBEEENDBLOCK();         $$=STATEMENT;}
+		|       MBEE_TYPE HPROCEDURE
+                        HIDENTIFIER
+                                { MBEENEWBLOCK(); mout(MPROCEDURE);
+                                          regDecl($3, type, KPROC, categ);
+                                          beginBlock(KPROC);}
+                        HEADING BLOCK   { endBlock(NULL,CCNO); $$=DECLARATION;
+                                                  mout(MENDPROCEDURE);}
+		|       HIDENTIFIER
+			HCLASS
+                        NO_TYPE
+				{ $<ident>$=$1; }
+			IMPORT_SPEC_MODULE
+                        HIDENTIFIER
+				{ prefquantident=$1;
+				  mout(MCLASS);
+                                          regDecl($6, TNOTY, KCLASS, categ);
+                                          beginBlock(KCLASS);}
+                        HEADING
+                        BLOCK           { endBlock(NULL,CCNO); $$=DECLARATION;
+                                                  mout(MENDCLASS);}
+                |       HCLASS
+                        NO_TYPE
+                        HIDENTIFIER
+                                { prefquantident=0;
+                                  MBEENEWBLOCK(); mout(MCLASS);
+                                          regDecl($3, TNOTY, KCLASS, categ);
+                                          beginBlock(KCLASS);}
+                        HEADING
+                        BLOCK           { endBlock(NULL,CCNO); $$=DECLARATION;
+                                                  mout(MENDCLASS);}
+                |       EXT_DECLARATION			{ $$=EXTDECLARATION;}
+		|       /*EMPT*/{ STOPOBSBLOCK();	  $$=EMPTYSTATEMENT;}
+                ;
+IMPORT_SPEC_MODULE:		{ MBEENEWBLOCK();
+                                  kind=KCLASS;
+				  if($<ident>0==simsetident &&
+				     findDecl(simsetident,cblock,FALSE)==NULL)
+				    lesinn_external_spec(simsetident,
+					SIMSETATRFILE, kind);
+				  if($<ident>0==simulationident && findDecl(
+				    simulationident,cblock,FALSE)==NULL)
+				    lesinn_external_spec(simulationident,
+					SIMULATIONATRFILE, kind);
+				  if(($<ident>0==fileident && findDecl(
+				      fileident,cblock,FALSE)==NULL) ||
+				     ($<ident>0==outfileident && findDecl(
+				      outfileident,cblock,FALSE)==NULL) ||
+				     ($<ident>0==infileident && findDecl(
+				      infileident,cblock,FALSE)==NULL) ||
+				     ($<ident>0==directfileident && findDecl(
+				      directfileident,cblock,FALSE)==NULL) ||
+				     ($<ident>0==printfileident && findDecl(
+				      printfileident,cblock,FALSE)==NULL) ||
+				     ($<ident>0==bytefileident && findDecl(
+				      bytefileident,cblock,FALSE)==NULL) ||
+				     ($<ident>0==inbytefileident && findDecl(
+				      inbytefileident,cblock,FALSE)==NULL) ||
+				     ($<ident>0==outbytefileident && findDecl(
+				      outbytefileident,cblock,FALSE)==NULL) ||
+				     ($<ident>0==directbytefileident && findDecl(
+				      directbytefileident,cblock,FALSE)==NULL))
+				    lesinn_external_spec(fileident,
+					FILEATRFILE, kind);}
+		;
+DECLSTATEMENT	:	MODULSTATEMENT
+		|       TYPE
+                        HIDENTIFIER
+			MBEE_CONSTANT
+                        HPAREXPSEPARATOR
+                                { MBEENEWBLOCK();
+                                          kind=KSIMPLE;
+                                          regDecl($2, type, KSIMPLE, categ);
+					  categ=CLOCAL;}
+                        IDENTIFIER_LISTC                { $$=DECLARATION;}
+                |       TYPE
+                        HIDENTIFIER
+			MBEE_CONSTANT
+                                { MBEENEWBLOCK();
+                                          regDecl($2, type, KSIMPLE, categ);
+					  categ=CLOCAL;	  $$=DECLARATION;}
+                |       MBEE_TYPE
+                        HARRAY  { MBEENEWBLOCK();
+                                          kind=KARRAY;}
+                        ARR_SEGMENT_LIST                { $$=DECLARATION;}
+                |       HSWITCH
+                        HIDENTIFIER
+                        HASSIGN { MBEENEWBLOCK(); mout(MIDENTIFIER);
+                                                  moutId($2);
+                                          regDecl($2, TLABEL, KARRAY, categ);}
+                        SWITCH_LIST                     { $$=DECLARATION;
+                                                   mout(MSWITCH);
+                                                   mout(MENDSWITCH);}
+                ;
+BLOCK           :       DECLSTATEMENT   { if($1<=DECLARATION)yerror (29);}
+                |       HBEGIN MBEE_DECLSTMS HEND
+		|	HBEGIN error HSTATEMENTSEPARATOR MBEE_DECLSTMS HEND
+		|	HBEGIN error HEND
+		;
+MBEE_DECLSTMS   :       MBEE_DECLSTMSU  { if($1<=DECLARATION)yerror (28);
+					  $$=$1;}
+                ;
+MBEE_DECLSTMSU  :       DECLSTATEMENT   { $$=$1;}
+                |       MBEE_DECLSTMSU
+                        HSTATEMENTSEPARATOR
+                        DECLSTATEMENT   { if($1>=STATEMENT && $3<=DECLARATION)
+                                            yerror (26);
+                                          $$=$3;}
+                ;
+MODULS		:	MODULSTATEMENT	{ if($1==DECLARATION)
+					  {separat_comp=TRUE;gettimestamp();}
+                                          $$=$1;}
+  		|	MODULS HSTATEMENTSEPARATOR MODULSTATEMENT
+					{ if($1>=STATEMENT && $3<=DECLARATION)
+                                            yerror (26);else
+       					  if($1>=STATEMENT
+					     && $3!=EMPTYSTATEMENT)yerror (25);
+                                          if(separat_comp && $3==STATEMENT)
+                                             yerror (25);
+                                          if($3==DECLARATION && !separat_comp)
+					  {separat_comp=TRUE;gettimestamp();}
+					  $$=$3;}
+		;
+/* GRAMATIKK FOR DEL AV DEKLARASJONER */
+ARR_SEGMENT_LIST:       ARR_SEGMENT
+                |       ARR_SEGMENT_LIST
+                        HPAREXPSEPARATOR
+                        ARR_SEGMENT
+                ;
+ARR_SEGMENT	:       ARRAY_SEGMENT
+                        HBEGPAR
+                        BAUND_PAIR_LIST HENDPAR { mout(MARRAY);
+                                                  mout(MENDARRAY);
+                                                  setArrayDim($3);}
+                ;
+ARRAY_SEGMENT   :       ARRAY_SEGMENT_EL        { mout(MENDSEP);
+                                                  mout(MARRAYSEP);}
+
+                |       ARRAY_SEGMENT_EL
+                        HPAREXPSEPARATOR
+                        ARRAY_SEGMENT           { mout(MARRAYSEP);}
+                ;
+ARRAY_SEGMENT_EL:       HIDENTIFIER             { mout(MIDENTIFIER);
+                                                  moutId($1);
+                                                  regDecl($1, type, kind, categ);
+				   if(lastArray==NULL)
+                                     lastArray=cblock->lastparloc;}
+                ;
+BAUND_PAIR_LIST :       BAUND_PAIR              { mout(MENDSEP);
+                                                  mout(MBOUNDSEP);
+                                                  $$=1;}
+                |       BAUND_PAIR
+                        HPAREXPSEPARATOR
+                        BAUND_PAIR_LIST         { mout(MBOUNDSEP);
+                                                  $$=$3+1;}
+                ;
+BAUND_PAIR      :       EXPRESSION
+                        HLABELSEPARATOR
+                        EXPRESSION              { mout(MBOUNDPARSEP);}
+                ;
+SWITCH_LIST     :       EXPRESSION              { mout(MENDSEP);
+                                                  mout(MSWITCHSEP);}
+                |       EXPRESSION
+                        HPAREXPSEPARATOR
+                        SWITCH_LIST             { mout(MSWITCHSEP);}
+                ;
+HEADING         :       MBEE_FMAL_PAR_P HSTATEMENTSEPARATOR { kind=KNOKD;}
+                        MBEE_MODE_PART  { categ=CSPEC;}
+                        MBEE_SPEC_PART  { kind=KNOKD;}
+                        MBEE_PROT_PART  { categ=CVIRT;}
+                        MBEE_VIRT_PART
+                                        { categ=CLOCAL;}
+                ;
+MBEE_FMAL_PAR_P :       /*EMPT*/
+                |       FMAL_PAR_PART
+                ;
+FMAL_PAR_PART   :       HBEGPAR NO_TYPE
+                        MBEE_LISTV HENDPAR
+                ;
+MBEE_LISTV      :       /*EMPT*/
+                |       LISTV
+                ;
+LISTV           :       HIDENTIFIER     { regDecl($1, type, KNOKD, CDEFLT);}
+                |	FPP_CATEG HDOTDOTDOT      { regDecl(varargsid, TVARARGS, KNOKD, categ);}
+                |       HIDENTIFIER     { regDecl($1, type, KNOKD, CDEFLT);}
+                        HPAREXPSEPARATOR LISTV
+                |       FPP_SPEC
+                |       FPP_SPEC
+                        HPAREXPSEPARATOR LISTV
+                ;
+FPP_HEADING     :       HBEGPAR NO_TYPE
+                        FPP_MBEE_LISTV HENDPAR
+                ;
+FPP_MBEE_LISTV  :       /*EMPT*/
+                |       FPP_LISTV
+                ;
+FPP_LISTV       :	FPP_CATEG HDOTDOTDOT      { regDecl(varargsid, TVARARGS, KNOKD, categ);}
+                |       FPP_SPEC
+                |       FPP_SPEC
+                        HPAREXPSEPARATOR LISTV
+                ;
+FPP_SPEC        :       FPP_CATEG SPECIFIER HIDENTIFIER
+                                       { regDecl($3, type, kind, categ);}
+		|	FPP_CATEG FPP_PROC_DECL_IN_SPEC
+		;
+FPP_CATEG       :       HNAME HLABELSEPARATOR
+                                       { categ=CNAME;}
+                |       HVALUE HLABELSEPARATOR
+                                       { categ=CVALUE;}
+                |       HVAR HLABELSEPARATOR
+                                       { categ=CVAR;}
+                |       /*EMPT*/       { categ=CDEFLT;}
+                ;
+FPP_PROC_DECL_IN_SPEC:	MBEE_TYPE HPROCEDURE
+                        HIDENTIFIER
+                                	{ $<ival>$=categ;
+                                          regDecl($3, type, KPROC, categ);
+                                          beginBlock(KPROC);}
+                        FPP_HEADING
+					{ categ=$<ival>4; /* M} settes tilbake*/}
+				{ endBlock(NULL,CCNO);}
+		;
+IDENTIFIER_LISTV:       HIDENTIFIER     { regDecl($1, type, kind, categ);}
+                |	HDOTDOTDOT {	  regDecl(varargsid, TVARARGS, kind, categ);}
+                |       HIDENTIFIER     { regDecl($1, type, kind, categ);}
+                        HPAREXPSEPARATOR IDENTIFIER_LISTV
+                ;
+MBEE_MODE_PART  :       /*EMPT*/
+                |       MODE_PART
+                ;
+MODE_PART       :       NAME_PART
+                |       VALUE_PART
+                |       VAR_PART
+                |       NAME_PART VALUE_PART
+                |       VALUE_PART NAME_PART
+                |       NAME_PART VAR_PART
+                |       VAR_PART NAME_PART
+                |       VALUE_PART VAR_PART
+                |       VAR_PART VALUE_PART
+                |       VAR_PART NAME_PART VALUE_PART
+                |       NAME_PART VAR_PART VALUE_PART
+                |       NAME_PART VALUE_PART VAR_PART
+                |       VAR_PART VALUE_PART NAME_PART
+                |       VALUE_PART VAR_PART NAME_PART
+                |       VALUE_PART NAME_PART VAR_PART
+                ;
+NAME_PART       :       HNAME           { categ=CNAME;}
+                        IDENTIFIER_LISTV
+                        HSTATEMENTSEPARATOR
+                ;
+VAR_PART        :       HVAR            { categ=CVAR;}
+                        IDENTIFIER_LISTV
+                        HSTATEMENTSEPARATOR
+                ;
+VALUE_PART      :       HVALUE          { categ=CVALUE;}
+                        IDENTIFIER_LISTV HSTATEMENTSEPARATOR
+                ;
+MBEE_SPEC_PART  :       /*EMPT*/
+                |       SPEC_PART
+                ;
+SPEC_PART       :       ONE_SPEC
+                |       SPEC_PART ONE_SPEC
+                ;
+ONE_SPEC	:	SPECIFIER IDENTIFIER_LIST HSTATEMENTSEPARATOR
+		|	NO_TYPE HPROCEDURE HIDENTIFIER HOBJRELOPERATOR
+			  { if($4!=HIS) yerror (8);}
+			PROC_DECL_IN_SPEC HSTATEMENTSEPARATOR
+                |       FPP_PROC_DECL_IN_SPEC HSTATEMENTSEPARATOR
+                |       MBEE_TYPE HPROCEDURE HIDENTIFIER HSTATEMENTSEPARATOR
+					{ yerror (45);}
+                |       MBEE_TYPE HPROCEDURE HIDENTIFIER HPAREXPSEPARATOR
+                        IDENTIFIER_LIST HSTATEMENTSEPARATOR
+					{ yerror (45);}
+		;
+SPECIFIER       :       TYPE            { kind=KSIMPLE;}
+                |       MBEE_TYPE
+                        HARRAY          { kind=KARRAY;}
+                |       HLABEL          { type=TLABEL;
+                                          kind=KSIMPLE;}
+                |       HSWITCH         { type=TLABEL;
+                                          kind=KARRAY;}
+                ;
+PROC_DECL_IN_SPEC:	MBEE_TYPE HPROCEDURE
+                        HIDENTIFIER
+                                	{ $<ival>$=categ;
+                                          regDecl($3, type, KPROC, categ);
+                                          beginBlock(KPROC);}
+                        HEADING
+					{ categ=$<ival>4; /* M} settes tilbake*/}
+			MBEE_BEGIN_END
+				{ endBlock(NULL,CCNO);}
+		;
+MBEE_BEGIN_END	:	/* EMPTY */
+		|	HBEGIN HEND
+		;
+MBEE_PROT_PART  :       /*EMPT*/
+                |       PROTECTION_PART
+                ;
+PROTECTION_PART :       PROT_SPECIFIER IDENTIFIER_LIST
+                        HSTATEMENTSEPARATOR
+                |       PROTECTION_PART  PROT_SPECIFIER
+                        IDENTIFIER_LIST HSTATEMENTSEPARATOR
+                ;
+PROT_SPECIFIER  :       HHIDDEN         { categ=CHIDEN;}
+                |       HPROTECTED      { categ=CPROT;}
+                |       HHIDDEN
+                        HPROTECTED      { categ=CHIPRO;}
+                |       HPROTECTED
+                        HHIDDEN         { categ=CHIPRO;}
+                ;
+MBEE_VIRT_PART  :       /*EMPT*/
+                |       VIRTUAL_PART
+                ;
+VIRTUAL_PART    :       HVIRTUAL
+                        HLABELSEPARATOR
+                        MBEE_SPEC_PART
+                ;
+IDENTIFIER_LIST :       HIDENTIFIER     { regDecl($1, type, kind, categ);}
+                |       IDENTIFIER_LIST HPAREXPSEPARATOR
+                        HIDENTIFIER     { regDecl($3, type, kind, categ);}
+                ;
+IDENTIFIER_LISTC:       HIDENTIFIER
+			MBEE_CONSTANT   { regDecl($1, type, kind, categ);
+					  categ=CLOCAL;}
+                |       IDENTIFIER_LISTC HPAREXPSEPARATOR
+                        HIDENTIFIER
+			MBEE_CONSTANT   { regDecl($3, type, kind, categ);
+					  categ=CLOCAL;}
+                ;
+MBEE_CONSTANT	:	/* EMPTY */
+		|	HVALRELOPERATOR
+				{ MBEENEWBLOCK();
+			    if($1!=HEQ) yerror (8);
+					  if(type==TREF)yerror (7);
+					  categ=CCONSTU;
+						  mout(MIDENTIFIER);
+						  moutId($<token>0);}
+			EXPRESSION		{ mout(MASSIGN);
+						  mout(MCONST);}
+		;
+
+/* GRAMATIKK FOR UTTRYKK */
+EXPRESSION      :       EXPRESSION_SIMP {}
+                |       HIF
+                        EXPRESSION
+                        HTHEN
+                        EXPRESSION
+                        HELSE
+                        EXPRESSION              { mout(MELSEE);
+                                                  mout(MIFE);}
+                ;
+EXPRESSION_SIMP :	EXPRESSION_SIMP
+			HASSIGN
+			EXPRESSION { if($2==HASSIGNREF)mout(MASSIGNR);
+                                          else    mout(MASSIGN);$$=NULL;}
+		|
+
+			EXPRESSION_SIMP
+                        HCONC
+                        EXPRESSION_SIMP         { mout(MCONC);$$=NULL;}
+                |       EXPRESSION_SIMP HOR
+                        HELSE
+                        EXPRESSION_SIMP
+                        %prec HORELSE           { mout(MORELSEE);$$=NULL;}
+                |       EXPRESSION_SIMP HAND
+                        HTHEN
+                        EXPRESSION_SIMP
+                        %prec HANDTHEN          { mout(MANDTHENE);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HEQV EXPRESSION_SIMP    { mout(MEQV);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HIMP EXPRESSION_SIMP    { mout(MIMP);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HOR EXPRESSION_SIMP     { mout(MOR);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HAND EXPRESSION_SIMP    { mout(MAND);$$=NULL;}
+                |       HNOT EXPRESSION_SIMP    { mout(MNOT);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HVALRELOPERATOR
+                        EXPRESSION_SIMP
+                                { switch($2)
+                                    {   case HEQ: mout(MEQ);break;
+                                        case HNE: mout(MNE);break;
+                                        case HLT: mout(MLT);break;
+                                        case HLE: mout(MLE);break;
+                                        case HGT: mout(MGT);break;
+                                        case HGE: mout(MGE);break;
+                                    }$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HREFRELOPERATOR
+                        EXPRESSION_SIMP
+                                { if($2==HNER)    mout(MNER);
+                                        else      mout(MEQR);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HOBJRELOPERATOR
+                        EXPRESSION_SIMP
+                                { if($2==HIS)     mout(MIS);
+                                        else      mout(MINS);$$=NULL;}
+                |       HTERMOPERATOR
+                        EXPRESSION_SIMP %prec UNEAR
+                                { if($1==HADD)    mout(MUADD);
+                                        else      mout(MUSUB);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HTERMOPERATOR
+                        EXPRESSION_SIMP
+                                { if($2==HADD)    mout(MADD);
+                                        else      mout(MSUB);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HFACTOROPERATOR
+                        EXPRESSION_SIMP
+                                { if($2==HMUL)    mout(MMUL); else
+                                  if($2==HDIV)    mout(MDIV);
+                                        else      mout(MINTDIV);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HPRIMARYOPERATOR
+                        EXPRESSION_SIMP         { mout(MPRIMARY);$$=NULL;}
+                |       HBEGPAR
+                        EXPRESSION HENDPAR      { mout(MNOOP);$$=NULL;}
+                |       HTEXTKONST              { mout(MTEXTKONST);
+                                                  moutTval($1);$$=NULL;}
+                |       HCHARACTERKONST         { mout(MCHARACTERKONST);
+                                                  moutIval($1);$$=NULL;}
+                |       HREALKONST              { mout(MREALKONST);
+                                                  moutRval($1);$$=NULL;}
+                |       HINTEGERKONST           { mout(MINTEGERKONST);
+                                                  moutIval($1);$$=NULL;}
+                |       HBOOLEANKONST           { mout(MBOOLEANKONST);
+                                                  moutIval($1);$$=NULL;}
+                |       HNONE                   { mout(MNONE);$$=NULL;}
+                |       HIDENTIFIER
+                                { $<ident>$=$1;}
+                        MBEE_ARG_R_PT
+                |       HTHIS HIDENTIFIER       { mout(MTHIS);
+                                                  moutId($2);$$=NULL;}
+                |       HNEW
+                        HIDENTIFIER
+                        ARG_R_PT                { mout(MNEWARG);
+                                                  moutId($2);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HDOT
+                        EXPRESSION_SIMP         { mout(MDOT);$$=NULL;}
+                |       EXPRESSION_SIMP
+                        HQUA HIDENTIFIER        { mout(MQUA);
+                                                  moutId($3);$$=NULL;}
+                ;
+ARG_R_PT        :       /*EMPTY*/               { mout(MENDSEP);}
+                |       HBEGPAR
+                        ARGUMENT_LIST HENDPAR
+                ;
+MBEE_ARG_R_PT   :       /*EMPTY*/               { mout(MIDENTIFIER);
+                                                  moutId($<ident>0);
+						  $$=$<ident>0;}
+                |       HBEGPAR
+                        ARGUMENT_LIST HENDPAR   { mout(MARGUMENT);
+                                                  moutId($<ident>0);}
+                ;
+ARGUMENT_LIST   :       EXPRESSION              { mout(MENDSEP);
+                                                  mout(MARGUMENTSEP);}
+                |       EXPRESSION
+                        HPAREXPSEPARATOR
+                        ARGUMENT_LIST           { mout(MARGUMENTSEP);}
+                ;
+%%
+]])
+
+# Pass plenty of options, to exercise plenty of code, even if we
+# don't actually check the output.  But SEGV is watching us, and
+# so might do dmalloc.
+AT_CHECK([[bison --verbose --defines input.y]], 0, [],
+[[input.y contains 78 shift/reduce conflicts and 10 reduce/reduce conflicts.
+]])
+
+AT_CHECK([[grep '^State.*contains' input.output]], 0,
+[[State 64 contains 14 shift/reduce conflicts.
+State 164 contains 1 shift/reduce conflict.
+State 201 contains 33 shift/reduce conflicts and 4 reduce/reduce conflicts.
+State 206 contains 1 shift/reduce conflict.
+State 240 contains 1 shift/reduce conflict.
+State 335 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
+State 356 contains 1 shift/reduce conflict.
+State 360 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
+State 427 contains 9 shift/reduce conflicts and 2 reduce/reduce conflicts.
+]])
+
+AT_CLEANUP
