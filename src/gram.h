@@ -78,7 +78,7 @@
    Item numbers are used in the finite state machine to represent
    places that parsing can get to.
 
-   SPREC records the precedence level of each symbol.
+   SYMBOLS[I]->PREC records the precedence level of each symbol.
 
    Precedence levels are assigned in increasing order starting with 1
    so that numerically higher precedence values mean tighter binding
@@ -99,9 +99,6 @@ extern int nvars;
 
 extern short *ritem;
 extern int nritems;
-
-extern short *sprec;
-extern short *sassoc;
 
 extern int start_symbol;
 
