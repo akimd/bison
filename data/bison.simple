@@ -125,12 +125,6 @@ typedef struct yyltype
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-#ifdef __cplusplus
-# define YYSTD(x) std::x
-#else
-# define YYSTD(x) x
-#endif
-
 #if ! defined (yyoverflow) || defined (YYERROR_VERBOSE)
 
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
@@ -153,17 +147,12 @@ typedef struct yyltype
    /* Pacify GCC's `empty if-body' warning. */
 #  define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
 # else
-#  ifdef __cplusplus
-#   include <cstdlib> /* INFRINGES ON USER NAME SPACE */
-#   define YYSIZE_T std::size_t
-#  else
-#   ifdef __STDC__
-#    include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#    define YYSIZE_T size_t
-#   endif
+#  if defined (__STDC__) || defined (__cplusplus)
+#   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
+#   define YYSIZE_T size_t
 #  endif
-#  define YYSTACK_ALLOC YYSTD (malloc)
-#  define YYSTACK_FREE YYSTD (free)
+#  define YYSTACK_ALLOC malloc
+#  define YYSTACK_FREE free
 # endif
 
 /* A type that is properly aligned for any stack member.  */
@@ -333,14 +322,9 @@ static const short yycheck[[]] =
 # define YYSIZE_T size_t
 #endif
 #if ! defined (YYSIZE_T)
-# ifdef __cplusplus
-#  include <cstddef> /* INFRINGES ON USER NAME SPACE */
-#  define YYSIZE_T std::size_t
-# else
-#  ifdef __STDC__
-#   include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#   define YYSIZE_T size_t
-#  endif
+# if defined (__STDC__) || defined (__cplusplus)
+#  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
+#  define YYSIZE_T size_t
 # endif
 #endif
 #if ! defined (YYSIZE_T)
@@ -421,12 +405,8 @@ while (0)
 #if YYDEBUG
 
 # ifndef YYFPRINTF
-#  ifdef __cplusplus
-#   include <cstdio>  /* INFRINGES ON USER NAME SPACE */
-#  else
-#   include <stdio.h> /* INFRINGES ON USER NAME SPACE */
-#  endif
-#  define YYFPRINTF YYSTD (fprintf)
+#  include <stdio.h> /* INFRINGES ON USER NAME SPACE */
+#  define YYFPRINTF fprintf
 # endif
 
 # define YYDPRINTF(Args)			\
@@ -552,13 +532,13 @@ yystpcpy (yydest, yysrc)
    to the proper pointer type.  */
 
 #ifdef YYPARSE_PARAM
-# ifdef __cplusplus
+# if defined (__STDC__) || defined (__cplusplus)
 #  define YYPARSE_PARAM_ARG void *YYPARSE_PARAM
 #  define YYPARSE_PARAM_DECL
-# else /* !__cplusplus */
+# else
 #  define YYPARSE_PARAM_ARG YYPARSE_PARAM
 #  define YYPARSE_PARAM_DECL void *YYPARSE_PARAM;
-# endif /* !__cplusplus */
+# endif
 #else /* !YYPARSE_PARAM */
 # define YYPARSE_PARAM_ARG
 # define YYPARSE_PARAM_DECL
