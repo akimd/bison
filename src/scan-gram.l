@@ -559,7 +559,7 @@ splice	 (\\[ \f\t\v]*\n)*
        should also diagnose other Bison extensions like %yacc.
        Perhaps there should also be a GCC-style --pedantic-errors
        option, so that such warnings are diagnosed as errors.  */
-    if (outer_brace && ! yacc_flag)
+    if (outer_brace && token_type == BRACED_CODE && ! yacc_flag)
       obstack_1grow (&obstack_for_string, ';');
 
     obstack_1grow (&obstack_for_string, '}');
