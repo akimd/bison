@@ -37,6 +37,7 @@ typedef enum
 
 typedef struct bucket
 {
+  /* Needed for the hash table. */
   struct bucket *link;
   struct bucket *next;
 
@@ -48,10 +49,10 @@ typedef struct bucket
   short prec;
   associativity assoc;
   short user_token_number;
-  /* special value SALIAS in the identifier half of the
-     identifier-symbol pair for an alias */
+  /* Points to the other in the identifier-symbol pair for an
+     alias. Special value SALIAS in the identifier half of the
+     identifier-symbol pair for an alias.  */
   struct bucket *alias;
-  /* points to the other in the identifier-symbol pair for an alias */
   symbol_class class;
 }
 bucket;

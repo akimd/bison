@@ -1,5 +1,17 @@
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
+	* src/symtab.c (bucket_new): New function.
+	(getsym): Use it.
+
+	* src/output.c (output_short_table): New argument to display the
+	comment associated with the table.
+	Adjust dependencies.
+	(output_gram): Use it.
+	(output_rule_data): Nicer output layout for YYTNAME.
+
+	
+2000-10-16  Akim Demaille  <akim@epita.fr>
+
 	* src/lex.c (read_typename): New function.
 	(lex): Use it.
 	* src/reader.c (copy_dollar): Likewise.
