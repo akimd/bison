@@ -1,5 +1,7 @@
 2002-11-15  Paul Eggert  <eggert@twinsun.com>
 
+	* tests/actions.at (Actions after errors): New test case.
+
 	* data/glr.c, data/lalr1.cc, data/yacc.cc, doc/bison.texinfo,
 	src/conflicts.c, src/parse-gram.y, src/tables.c, src/tables.h,
 	tests/action.at, tests/calc.at, tests/conflicts.at,
