@@ -3,7 +3,6 @@
 	* data/bison.c++: Adjust to the M4 back end.
 	More is certainly needed.
 
-	
 2002-02-05  Akim Demaille  <akim@epita.fr>
 
 	Give a try to M4 as a back end.
@@ -41,7 +40,6 @@
 	* data/m4sugar/m4sugar.m4, data/m4sugar/version.m4: New,
 	shamelessly stolen from CVS Autoconf.
 
-	
 2002-02-05  Akim Demaille  <akim@epita.fr>
 
 	* lib/hash.c, lib/hash.h: Replace with Fileutils 4.1's version.
