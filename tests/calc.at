@@ -256,8 +256,8 @@ main (int argc, const char **argv)
 # Produce `calc.y'.
 m4_define([AT_DATA_CALC_Y],
 [_AT_DATA_CALC_Y($[1], $[2], $[3],
-                 [m4_match([$1], [--yyerror-verbose],
-                           [[#define YYERROR_VERBOSE]])])])
+                 [m4_bmatch([$1], [--yyerror-verbose],
+                            [[#define YYERROR_VERBOSE]])])])
 
 
 
@@ -273,8 +273,8 @@ m4_define([_AT_CHECK_CALC],
 ]])
 AT_CHECK([calc input], 0, [], [stderr])dnl
 AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
-         [m4_match([$1], [--debug],
-                   [$3], [0])
+         [m4_bmatch([$1], [--debug],
+                    [$3], [0])
 ])
 ])
 
@@ -302,17 +302,17 @@ AT_CHECK([calc input], 0, [], [stderr])
 
 
 AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
-         [m4_match([$1], [--debug],
-                   [$3], [1])
+         [m4_bmatch([$1], [--debug],
+                    [$3], [1])
 ])
 
 egrep -v '^((Start|Enter|Read|Reduc|Shift)ing|state|Error:) ' stderr >at-stderr
 mv at-stderr stderr
 
 AT_CHECK([cat stderr], 0,
-[m4_match([$1], [--location], [$4: ])[]dnl
+[m4_bmatch([$1], [--location], [$4: ])[]dnl
 parse error[]dnl
-m4_match([$1], [--yyerror-verbose], [, $5])[]dnl
+m4_bmatch([$1], [--yyerror-verbose], [, $5])[]dnl
 
 ])
 
@@ -330,9 +330,15 @@ AT_SETUP([Calculator $1])
 AT_DATA_CALC_Y([$1])
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison calc.y -o calc.c m4_patsubst([$1], [--yyerror-verbose])],
+AT_CHECK([bison calc.y -o calc.c m4_bpatsubst([$1], [--yyerror-verbose])],
          [0], [], [])
-AT_CHECK([$CC $CFLAGS $CPPFLAGS calc.c -o calc], 0, [], [])
+
+# Some compilers issue warnings we don't want to hear about.
+# Maybe some day we will have proper Autoconf macros to disable these
+# warnings, but this place is not the right one for that.
+# So let's keep only GCC warnings, which we know are sane.
+AT_CHECK([$CC $CFLAGS $CPPFLAGS calc.c -o calc], 0, [], [stderr])
+AT_CHECK([test "$GCC" = yes && cat stderr])
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],

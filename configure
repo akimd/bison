@@ -1425,6 +1425,8 @@ fi
 
 ac_config_files="$ac_config_files tests/bison"
 
+# Needed by tests/atlocal.in.
+
 # Checks for programs.
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -9021,6 +9023,7 @@ s,@AMDEP_TRUE@,$AMDEP_TRUE,;t t
 s,@AMDEP_FALSE@,$AMDEP_FALSE,;t t
 s,@AMDEPBACKSLASH@,$AMDEPBACKSLASH,;t t
 s,@DEPDIR@,$DEPDIR,;t t
+s,@GCC@,$GCC,;t t
 s,@CC@,$CC,;t t
 s,@CFLAGS@,$CFLAGS,;t t
 s,@LDFLAGS@,$LDFLAGS,;t t
