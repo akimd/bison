@@ -278,6 +278,9 @@ while (0)
    Current.last_column = Rhs[N].last_column;
 #endif
 
+/* Definition of YYLSP_NEEDED.  */
+#define YYLSP_NEEDED %%locations_flag
+
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
 #if YYPURE

@@ -1,3 +1,8 @@
+2001-08-31  Marc Autret  <autret_m@epita.fr>
+
+	* src/bison.simple (YYLSP_NEEDED): New definition.
+	* src/output.c (prepare): Add macro insertion of `locations_flag'
+
 2001-08-31  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/output.c (prepare): Delete insertion of previous muscles,
