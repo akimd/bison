@@ -1019,7 +1019,7 @@ namespace yy
   inline std::ostream&
   operator<< (std::ostream& ostr, const Position& pos)
   {
-    if (pos.filename != "")
+    if (!pos.filename.empty ())
       ostr << pos.filename << ':';
     return ostr << pos.line << '.' << pos.column;
   }
