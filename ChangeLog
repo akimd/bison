@@ -1,3 +1,8 @@
+2005-02-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Mfcalc Symtab): Correct the prototype for
+	putsym.  Typo reported by Sebastian Piping.
+
 2005-02-23  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Language and Grammar): some -> same
