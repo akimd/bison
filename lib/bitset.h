@@ -1,5 +1,5 @@
 /* Generic bitsets.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
 This program is free software; you can redistribute it and/or modify
@@ -292,7 +292,6 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
    bitset_bindex i;
    bitset_iterator iter;
 
-   bitset_zero (dst);
    BITSET_FOR_EACH (iter, src, i, 0)
    {
       printf ("%ld ", i);
@@ -303,7 +302,9 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
        (ITER.num == BITSET_LIST_SIZE) 					      \
        && (ITER.num = bitset_list (BSET, ITER.list, 			      \
 				   BITSET_LIST_SIZE, &ITER.next));)	      \
-    for (ITER.i = 0; (BIT) = ITER.list[ITER.i], ITER.i < ITER.num; ITER.i++)
+    for (ITER.i = 0;							      \
+	 ITER.i < ITER.num && ((BIT) = ITER.list[ITER.i], 1);		      \
+	 ITER.i++)
 
 
 /* Loop over all elements of BSET, in reverse order starting with
@@ -313,7 +314,6 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
    bitset_bindex i;
    bitset_iterator iter;
 
-   bitset_zero (dst);
    BITSET_FOR_EACH_REVERSE (iter, src, i, 0)
    {
       printf ("%ld ", i);
@@ -324,7 +324,9 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
        (ITER.num == BITSET_LIST_SIZE) 					      \
        && (ITER.num = bitset_list_reverse (BSET, ITER.list,		      \
 					  BITSET_LIST_SIZE, &ITER.next));)    \
-    for (ITER.i = 0; (BIT) = ITER.list[ITER.i], ITER.i < ITER.num; ITER.i++)
+    for (ITER.i = 0;							      \
+	 ITER.i < ITER.num && ((BIT) = ITER.list[ITER.i], 1);		      \
+	 ITER.i++)
 
 
 /* Define set operations in terms of logical operations.  */
