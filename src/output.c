@@ -319,8 +319,15 @@ output_gram (void)
   if (!semantic_parser && !no_parser_flag)
     obstack_sgrow (&table_obstack, "\n#if YYDEBUG != 0\n");
 
-  output_short_table (&table_obstack, NULL, "yyprhs", rrhs,
-		      0, 1, nrules + 1);
+  {
+    int i;
+    short *values = XCALLOC (short, nrules + 1);
+    for (i = 0; i < nrules + 1; ++i)
+      values[i] = rule_table[i].rhs;
+    output_short_table (&table_obstack, NULL, "yyprhs", values,
+			0, 1, nrules + 1);
+    XFREE (values);
+  }
 
   {
     size_t yyrhs_size = 1;
@@ -455,19 +462,24 @@ output_rule_data (void)
     }
 
   /* Output YYR1. */
-  output_short_table (&table_obstack,
+  {
+    short *values = XCALLOC (short, nrules + 1);
+    for (i = 0; i < nrules + 1; ++i)
+      values[i] = rule_table[i].lhs;
+    output_short_table (&table_obstack,
 	      "YYR1[YYN] -- Symbol number of symbol that rule YYN derives",
-		      "yyr1", rlhs,
-		      0, 1, nrules + 1);
-  XFREE (rlhs + 1);
+			"yyr1", values,
+			0, 1, nrules + 1);
+    XFREE (values);
+  }
 
   obstack_1grow (&table_obstack, '\n');
 
   /* Output YYR2. */
   short_tab = XMALLOC (short, nrules + 1);
   for (i = 1; i < nrules; i++)
-    short_tab[i] = rrhs[i + 1] - rrhs[i] - 1;
-  short_tab[nrules] = nitems - rrhs[nrules] - 1;
+    short_tab[i] = rule_table[i + 1].rhs - rule_table[i].rhs - 1;
+  short_tab[nrules] = nitems - rule_table[nrules].rhs - 1;
   output_short_table (&table_obstack,
         "YYR2[YYN] -- Number of symbols composing right hand side of rule YYN",
 		      "yyr2", short_tab,
@@ -476,7 +488,7 @@ output_rule_data (void)
 
   XFREE (short_tab);
 
-  XFREE (rrhs + 1);
+  XFREE (rule_table + 1);
 }
 
 
