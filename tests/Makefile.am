@@ -1,7 +1,7 @@
 ## Process this file with automake to create Makefile.in.
 
 ## Makefile for Bison testsuite.
-## Copyright (C) 2000, 2001, 2002  Free Software Foundation, Inc.
+## Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 ## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 ## 02111-1307, USA.
 
-EXTRA_DIST = $(TESTSUITE_AT) testsuite
+EXTRA_DIST = $(TESTSUITE_AT) testsuite package.m4
 
 DISTCLEANFILES       = atconfig $(check_SCRIPTS)
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
@@ -36,8 +36,6 @@ $(srcdir)/package.m4: $(top_srcdir)/configure.in
 	  echo 'm4_define([AT_PACKAGE_STRING],    [@PACKAGE_STRING@])'; \
 	  echo 'm4_define([AT_PACKAGE_BUGREPORT], [@PACKAGE_BUGREPORT@])'; \
 	} >$(srcdir)/package.m4
-
-EXTRA_DIST += package.m4
 
 ## ------------ ##
 ## Test suite.  ##
