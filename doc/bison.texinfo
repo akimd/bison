@@ -3071,11 +3071,11 @@ terminal symbol.  All kinds of token declarations allow
 @findex %expect
 
 Bison normally warns if there are any conflicts in the grammar
-(@pxref{Shift/Reduce, ,Shift/Reduce Conflicts}), but most real grammars have harmless shift/reduce
-conflicts which are resolved in a predictable way and would be difficult to
-eliminate.  It is desirable to suppress the warning about these conflicts
-unless the number of conflicts changes.  You can do this with the
-@code{%expect} declaration.
+(@pxref{Shift/Reduce, ,Shift/Reduce Conflicts}), but most real grammars
+have harmless shift/reduce conflicts which are resolved in a predictable
+way and would be difficult to eliminate.  It is desirable to suppress
+the warning about these conflicts unless the number of conflicts
+changes.  You can do this with the @code{%expect} declaration.
 
 The declaration looks like this:
 
@@ -3083,10 +3083,11 @@ The declaration looks like this:
 %expect @var{n}
 @end example
 
-Here @var{n} is a decimal integer.  The declaration says there should be no
-warning if there are @var{n} shift/reduce conflicts and no reduce/reduce
-conflicts.  The usual warning is given if there are either more or fewer
-conflicts, or if there are any reduce/reduce conflicts.
+Here @var{n} is a decimal integer.  The declaration says there should be
+no warning if there are @var{n} shift/reduce conflicts and no
+reduce/reduce conflicts.  An error, instead of the usual warning, is
+given if there are either more or fewer conflicts, or if there are any
+reduce/reduce conflicts.
 
 In general, using @code{%expect} involves these steps:
 

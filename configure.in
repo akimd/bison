@@ -95,7 +95,7 @@ jm_PREREQ_ERROR
 AM_WITH_DMALLOC
 
 ALL_LINGUAS="de es et fr ja nl tr ru"
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT(, need-ngettext)
 
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.
