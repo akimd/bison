@@ -19,7 +19,7 @@ Changes in version 1.49a:
 
 * Large grammars
   Are now supported (large token numbers, large grammar size (= sum of
-  the LHS and RHS lengths).
+  the LHS and RHS lengths), large LALR tables).
 
 * The initial rule is explicit.
   Bison used to play hacks with the initial rule, which the user does

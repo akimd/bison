@@ -1,5 +1,11 @@
 2002-04-22  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (table_size, table_grow): New.
+	(MAXTABLE): Remove, replace uses with table_size.
+	(pack_vector): Instead of dying when the table is too big, grow it.
+
+2002-04-22  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple (yyr1): Its type is that of a token number.
 	* data/bison.c++ (r1_): Likewise.
 	* tests/regression.at (Web2c Actions): Adjust.
