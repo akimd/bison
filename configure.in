@@ -44,4 +44,4 @@ BISON_DEFINE_FILE(XPFILE, PFILE)
 PFILE1="${datadir}/bison.hairy"
 BISON_DEFINE_FILE(XPFILE1, PFILE1)
 
-AC_OUTPUT(Makefile intl/Makefile po/Makefile.in)
+AC_OUTPUT(Makefile intl/Makefile po/Makefile.in src/Makefile doc/Makefile)

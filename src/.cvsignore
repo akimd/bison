@@ -1,0 +1,8 @@
+*_.c
+.deps
+ChangeLog
+Makefile
+Makefile.in
+ansi2knr
+bison
+bison.simple
