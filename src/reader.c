@@ -1672,6 +1672,49 @@ output_token_defines (struct obstack *oout)
 }
 
 
+/*--------------------.
+| Output the header.  |
+`--------------------*/
+
+static void
+symbols_output (void)
+{
+  if (defines_flag)
+    {
+      output_token_defines (&defines_obstack);
+
+      if (!pure_parser)
+	{
+	  if (spec_name_prefix)
+	    obstack_fgrow1 (&defines_obstack, "\nextern YYSTYPE %slval;\n",
+			    spec_name_prefix);
+	  else
+	    obstack_sgrow (&defines_obstack,
+				 "\nextern YYSTYPE yylval;\n");
+	}
+
+      if (semantic_parser)
+	{
+	  int i;
+
+	  for (i = ntokens; i < nsyms; i++)
+	    {
+	      /* don't make these for dummy nonterminals made by gensym.  */
+	      if (*tags[i] != '@')
+		obstack_fgrow2 (&defines_obstack,
+				"# define\tNT%s\t%d\n", tags[i], i);
+	    }
+#if 0
+	  /* `fdefines' is now a temporary file, so we need to copy its
+	     contents in `done', so we can't close it here.  */
+	  fclose (fdefines);
+	  fdefines = NULL;
+#endif
+	}
+    }
+}
+
+
 /*------------------------------------------------------------------.
 | Set TOKEN_TRANSLATIONS.  Check that no two symbols share the same |
 | number.                                                           |
@@ -1813,40 +1856,6 @@ packsymbols (void)
     fatal (_("the start symbol %s is a token"), startval->tag);
 
   start_symbol = startval->value;
-
-  if (defines_flag)
-    {
-      output_token_defines (&defines_obstack);
-
-      if (!pure_parser)
-	{
-	  if (spec_name_prefix)
-	    obstack_fgrow1 (&defines_obstack, "\nextern YYSTYPE %slval;\n",
-			    spec_name_prefix);
-	  else
-	    obstack_sgrow (&defines_obstack,
-				 "\nextern YYSTYPE yylval;\n");
-	}
-
-      if (semantic_parser)
-	{
-	  int i;
-
-	  for (i = ntokens; i < nsyms; i++)
-	    {
-	      /* don't make these for dummy nonterminals made by gensym.  */
-	      if (*tags[i] != '@')
-		obstack_fgrow2 (&defines_obstack,
-				"# define\tNT%s\t%d\n", tags[i], i);
-	    }
-#if 0
-	  /* `fdefines' is now a temporary file, so we need to copy its
-	     contents in `done', so we can't close it here.  */
-	  fclose (fdefines);
-	  fdefines = NULL;
-#endif
-	}
-    }
 }
 
 
@@ -1990,6 +1999,8 @@ reader (void)
   packsymbols ();
   /* Convert the grammar into the format described in gram.h.  */
   packgram ();
+  /* Output the headers. */
+  symbols_output ();
 }
 
 
