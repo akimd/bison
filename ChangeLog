@@ -1,5 +1,11 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_rule_data): Fix various range errors:
+	`rules' starts at 1, not 0.
+
+	
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	Remove the useless rules from the parser.
 
 	* src/gram.h, src/gram.c (rules_swap, rule_rhs_length): New.
