@@ -1,10 +1,10 @@
 /* Functions to support link list bitsets.
-   Copyright (C) 2002, 2003, 2004, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
-   This program is free software: you can redistribute it and/or modify
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
+   the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -13,12 +13,15 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
 
-#include <config.h>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include "lbitset.h"
-
 #include "obstack.h"
 #include <stddef.h>
 #include <stdlib.h>
@@ -38,7 +41,7 @@
 /* Number of words to use for each element.  The larger the value the
    greater the size of the cache and the shorter the time to find a given bit
    but the more memory wasted for sparse bitsets and the longer the time
-   to search for set bits.
+   to search for set bits. 
 
    The routines that dominate timing profiles are lbitset_elt_find
    and lbitset_elt_link, especially when accessing the bits randomly.  */
@@ -51,7 +54,7 @@ typedef bitset_word lbitset_word;
 
 /* Number of bits stored in each element.  */
 #define LBITSET_ELT_BITS \
-  ((unsigned int) (LBITSET_ELT_WORDS * LBITSET_WORD_BITS))
+  ((unsigned) (LBITSET_ELT_WORDS * LBITSET_WORD_BITS))
 
 /* Lbitset element.   We use an array of bits for each element.
    These are linked together in a doubly-linked list.  */
@@ -75,7 +78,7 @@ static struct obstack lbitset_obstack;
 static bool lbitset_obstack_init = false;
 static lbitset_elt *lbitset_free_list;	/* Free list of bitset elements.  */
 
-extern void debug_lbitset (bitset);
+extern void debug_lbitset PARAMS ((bitset));
 
 #define LBITSET_CURRENT1(X) \
   ((lbitset_elt *) (void *) ((char *) (X) - offsetof (lbitset_elt, words)))
@@ -118,13 +121,15 @@ lbitset_elt_alloc (void)
 #define OBSTACK_CHUNK_FREE free
 #endif
 
-#if ! defined __GNUC__ || __GNUC__ < 2
+#if !defined(__GNUC__) || (__GNUC__ < 2)
 #define __alignof__(type) 0
 #endif
 
 	  obstack_specify_allocation (&lbitset_obstack, OBSTACK_CHUNK_SIZE,
 				      __alignof__ (lbitset_elt),
+				      (void *(*)PARAMS ((long)))
 				      OBSTACK_CHUNK_ALLOC,
+				      (void (*)PARAMS ((void *)))
 				      OBSTACK_CHUNK_FREE);
 	}
 
@@ -360,9 +365,6 @@ lbitset_elt_find (bitset bset, bitset_windex windex,
 
   switch (mode)
     {
-    default:
-      abort ();
-
     case LBITSET_FIND:
       return 0;
 
@@ -376,6 +378,9 @@ lbitset_elt_find (bitset bset, bitset_windex windex,
 
     case LBITSET_SUBST:
       return &lbitset_zero_elts[0];
+
+    default:
+      abort ();
     }
 }
 
@@ -878,25 +883,26 @@ lbitset_empty_p (bitset dst)
 
 /* Ensure that any unused bits within the last element are clear.  */
 static inline void
-lbitset_unused_clear (bitset dst)
+lbitset_unused_clear (dst)
+     bitset dst;
 {
   unsigned int last_bit;
   bitset_bindex n_bits;
 
   n_bits = BITSET_SIZE_ (dst);
   last_bit = n_bits % LBITSET_ELT_BITS;
-
+  
   if (last_bit)
     {
       lbitset_elt *elt;
       bitset_windex windex;
       bitset_word *srcp;
-
+      
       elt = LBITSET_TAIL (dst);
       srcp = elt->words;
       windex = n_bits / BITSET_WORD_BITS;
-
-      srcp[windex - elt->index] &= ((bitset_word) 1 << last_bit) - 1;
+  
+      srcp[windex - elt->index] &= ((bitset_word) 1 << last_bit) - 1;	  
       windex++;
 
       for (; (windex - elt->index) < LBITSET_ELT_WORDS; windex++)
@@ -1114,9 +1120,6 @@ lbitset_op3_cmp (bitset dst, bitset src1, bitset src2, enum bitset_ops op)
       dstp = dtmp->words;
       switch (op)
 	{
-	default:
-	  abort ();
-
 	case BITSET_OP_OR:
 	  for (i = 0; i < LBITSET_ELT_WORDS; i++, dstp++)
 	    {
@@ -1168,6 +1171,9 @@ lbitset_op3_cmp (bitset dst, bitset src1, bitset src2, enum bitset_ops op)
 		}
 	    }
 	  break;
+
+	default:
+	  abort ();
 	}
 
       if (!lbitset_elt_zero_p (dtmp))
@@ -1385,7 +1391,7 @@ debug_lbitset (bitset bset)
 
   for (elt = LBITSET_HEAD (bset); elt; elt = elt->next)
     {
-      fprintf (stderr, "Elt %lu\n", (unsigned long int) elt->index);
+      fprintf (stderr, "Elt %lu\n", (unsigned long) elt->index);
       for (i = 0; i < LBITSET_ELT_WORDS; i++)
 	{
 	  unsigned int j;

@@ -1,10 +1,10 @@
 /* Functions to support expandable bitsets.
-   Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
-   This program is free software: you can redistribute it and/or modify
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
+   the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -13,12 +13,15 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
 
-#include <config.h>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include "ebitset.h"
-
 #include "obstack.h"
 #include <stdlib.h>
 #include <string.h>
@@ -49,7 +52,7 @@
 
 /* Number of bits stored in each element.  */
 #define EBITSET_ELT_BITS \
-  ((unsigned int) (EBITSET_ELT_WORDS * BITSET_WORD_BITS))
+  ((unsigned) (EBITSET_ELT_WORDS * BITSET_WORD_BITS))
 
 /* Ebitset element.  We use an array of bits.  */
 typedef struct ebitset_elt_struct
@@ -112,13 +115,15 @@ static ebitset_elt *ebitset_free_list;	/* Free list of bitset elements.  */
  ((BSET)->b.cindex = (EINDEX) * EBITSET_ELT_WORDS, \
   (BSET)->b.cdata = EBITSET_WORDS (EBITSET_ELTS (BSET) [EINDEX]))
 
-#undef min
-#undef max
+
 #define min(a, b) ((a) > (b) ? (b) : (a))
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
+
 static bitset_bindex
-ebitset_resize (bitset src, bitset_bindex n_bits)
+ebitset_resize (src, n_bits)
+     bitset src;
+     bitset_bindex n_bits;
 {
   bitset_windex oldsize;
   bitset_windex newsize;
@@ -133,7 +138,7 @@ ebitset_resize (bitset src, bitset_bindex n_bits)
     {
       bitset_windex size;
 
-      /* The bitset needs to grow.  If we already have enough memory
+      /* The bitset needs to grow.  If we already have enough memory 
 	 allocated, then just zero what we need.  */
       if (newsize > EBITSET_ASIZE (src))
 	{
@@ -146,13 +151,13 @@ ebitset_resize (bitset src, bitset_bindex n_bits)
 	    size = newsize;
 	  else
 	    size = newsize + newsize / 4;
-
+	  
 	  EBITSET_ELTS (src)
 	    = realloc (EBITSET_ELTS (src), size * sizeof (ebitset_elt *));
 	  EBITSET_ASIZE (src) = size;
 	}
 
-      memset (EBITSET_ELTS (src) + oldsize, 0,
+      memset (EBITSET_ELTS (src) + oldsize, 0, 
 	      (newsize - oldsize) * sizeof (ebitset_elt *));
     }
   else
@@ -207,13 +212,15 @@ ebitset_elt_alloc (void)
 #define OBSTACK_CHUNK_FREE free
 #endif
 
-#if ! defined __GNUC__ || __GNUC__ < 2
+#if !defined(__GNUC__) || (__GNUC__ < 2)
 #define __alignof__(type) 0
 #endif
 
 	  obstack_specify_allocation (&ebitset_obstack, OBSTACK_CHUNK_SIZE,
 				      __alignof__ (ebitset_elt),
+				      (void *(*)PARAMS ((long)))
 				      OBSTACK_CHUNK_ALLOC,
+				      (void (*)PARAMS ((void *)))
 				      OBSTACK_CHUNK_FREE);
 	}
 
@@ -319,9 +326,6 @@ ebitset_elt_find (bitset bset, bitset_bindex bindex,
 
   switch (mode)
     {
-    default:
-      abort ();
-
     case EBITSET_FIND:
       return 0;
 
@@ -337,6 +341,9 @@ ebitset_elt_find (bitset bset, bitset_bindex bindex,
 
     case EBITSET_SUBST:
       return &ebitset_zero_elts[0];
+
+    default:
+      abort ();
     }
 }
 
@@ -831,14 +838,15 @@ ebitset_list (bitset bset, bitset_bindex *list,
 
 /* Ensure that any unused bits within the last element are clear.  */
 static inline void
-ebitset_unused_clear (bitset dst)
+ebitset_unused_clear (dst)
+     bitset dst;
 {
   unsigned int last_bit;
   bitset_bindex n_bits;
-
+  
   n_bits = BITSET_NBITS_ (dst);
   last_bit = n_bits % EBITSET_ELT_BITS;
-
+  
   if (last_bit)
     {
       bitset_windex eindex;
@@ -846,20 +854,20 @@ ebitset_unused_clear (bitset dst)
       ebitset_elt *elt;
 
       elts = EBITSET_ELTS (dst);
-
+      
       eindex = n_bits / EBITSET_ELT_BITS;
-
+      
       elt = elts[eindex];
       if (elt)
 	{
 	  bitset_windex windex;
 	  bitset_windex woffset;
 	  bitset_word *srcp = EBITSET_WORDS (elt);
-
+	  
 	  windex = n_bits / BITSET_WORD_BITS;
 	  woffset = eindex * EBITSET_ELT_WORDS;
-
-	  srcp[windex - woffset] &= ((bitset_word) 1 << last_bit) - 1;
+	  
+	  srcp[windex - woffset] &= ((bitset_word) 1 << last_bit) - 1;	  
 	  windex++;
 	  for (; (windex - woffset) < EBITSET_ELT_WORDS; windex++)
 	    srcp[windex - woffset] = 0;
@@ -1087,9 +1095,6 @@ ebitset_op3_cmp (bitset dst, bitset src1, bitset src2, enum bitset_ops op)
       dstp = EBITSET_WORDS (delt);
       switch (op)
 	{
-	default:
-	  abort ();
-
 	case BITSET_OP_OR:
 	  for (i = 0; i < EBITSET_ELT_WORDS; i++, dstp++)
 	    {
@@ -1141,6 +1146,9 @@ ebitset_op3_cmp (bitset dst, bitset src1, bitset src2, enum bitset_ops op)
 		}
 	    }
 	  break;
+
+	default:
+	  abort ();
 	}
 
       if (!ebitset_elt_zero_p (delt))
