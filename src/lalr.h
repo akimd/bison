@@ -83,6 +83,8 @@ typedef struct state_s
   /* Nonzero if no lookahead is needed to decide what to do in state
      S.  */
   char consistent;
+
+  short lookaheads;
 } state_t;
 
 /* All the decorated states, indexed by the state number.  Warning:
@@ -91,9 +93,7 @@ typedef struct state_s
 extern state_t *state_table;
 
 extern int tokensetsize;
-extern short *lookaheads;
 
-
-
-
+/* The number of lookaheads. */
+extern size_t nlookaheads;
 #endif /* !LALR_H_ */
