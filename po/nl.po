@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-06-10 10:38+0200\n"
+"POT-Creation-Date: 2002-06-11 10:09+0200\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -495,7 +495,7 @@ msgid "unexpected item: %s"
 msgstr "onverwacht element: %s"
 
 # Lichtjes vrij vertaald; maar klinkt wel beter dan 'niet overeenkomstige x'
-#: src/reader.c:740 src/reader.c:1018
+#: src/reader.c:740 src/reader.c:1021
 #, c-format
 msgid "unmatched %s"
 msgstr "%s zonder tegenhanger"
@@ -519,51 +519,47 @@ msgstr "geen invoergrammatica"
 msgid "unknown character: %s"
 msgstr "onbekend karakter: %s"
 
-#: src/reader.c:1113
-msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr ""
-"slecht geformuleerde regel: beginsymbool wordt niet gevolgd door dubbele punt"
-
-#: src/reader.c:1120
-msgid "grammar starts with vertical bar"
-msgstr "grammatica start met een verticale streep"
-
-#: src/reader.c:1148
+#: src/reader.c:1129
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel opgegeven voor token (%s)"
 
-#: src/reader.c:1178 src/reader.c:1288
-msgid "previous rule lacks an ending `;'"
-msgstr "`;' ontbreekt aan het einde van de voorgaande regel"
-
-#: src/reader.c:1256
+#: src/reader.c:1181
 msgid "two @prec's in a row"
 msgstr "twee @prec's na elkaar"
 
-#: src/reader.c:1266
-msgid "two actions at end of one rule"
-msgstr "twee akties aan het einde van één regel"
-
-#: src/reader.c:1280
+#: src/reader.c:1206
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "type-conflict (`%s' `%s') bij standaardaktie"
 
-#: src/reader.c:1286
+#: src/reader.c:1213
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "lege regel voor niet-eindsymbool met type, en geen actie"
 
-#: src/reader.c:1294
+#: src/reader.c:1263
+msgid "ill-formed rule: initial symbol not followed by colon"
+msgstr ""
+"slecht geformuleerde regel: beginsymbool wordt niet gevolgd door dubbele punt"
+
+#: src/reader.c:1269
+msgid "grammar starts with vertical bar"
+msgstr "grammatica start met een verticale streep"
+
+#: src/reader.c:1302 src/reader.c:1342
+msgid "previous rule lacks an ending `;'"
+msgstr "`;' ontbreekt aan het einde van de voorgaande regel"
+
+#: src/reader.c:1348
 #, c-format
 msgid "invalid input: %s"
 msgstr "ongeldige invoer: %s"
 
-#: src/reader.c:1301
+#: src/reader.c:1355
 msgid "no rules in the input grammar"
 msgstr "invoergrammatica bevat geen regels"
 
-#: src/reader.c:1321
+#: src/reader.c:1377
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "teveel symbolen (tokens plus niet-eindsymbolen); het maximum is %d"
@@ -677,6 +673,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "two actions at end of one rule"
+#~ msgstr "twee akties aan het einde van één regel"
 
 #~ msgid "symbol %s redefined"
 #~ msgstr "symbool %s opnieuw gedefinieerd"

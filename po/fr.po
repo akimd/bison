@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.34a\n"
-"POT-Creation-Date: 2002-06-10 10:38+0200\n"
+"POT-Creation-Date: 2002-06-11 10:09+0200\n"
 "PO-Revision-Date: 2002-03-21 15:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -487,7 +487,7 @@ msgstr ""
 msgid "unexpected item: %s"
 msgstr "item inattendu: %s"
 
-#: src/reader.c:740 src/reader.c:1018
+#: src/reader.c:740 src/reader.c:1021
 #, c-format
 msgid "unmatched %s"
 msgstr "non appariement de %s"
@@ -511,50 +511,46 @@ msgstr "aucune grammaire en entrée"
 msgid "unknown character: %s"
 msgstr "caractère inconnu: %s"
 
-#: src/reader.c:1113
-msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "règle mal formée: le symbole initial n'est pas suivi de « : »"
-
-#: src/reader.c:1120
-msgid "grammar starts with vertical bar"
-msgstr "la grammaire débute par une barre verticale"
-
-#: src/reader.c:1148
+#: src/reader.c:1129
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "la règle pour %s, qui est un terminal"
 
-#: src/reader.c:1178 src/reader.c:1288
-msgid "previous rule lacks an ending `;'"
-msgstr "règle précédente manque une terminaison « ; »"
-
-#: src/reader.c:1256
+#: src/reader.c:1181
 msgid "two @prec's in a row"
 msgstr "deux @prec de suite"
 
-#: src/reader.c:1266
-msgid "two actions at end of one rule"
-msgstr "deux actions à la fin d'une même règle"
-
-#: src/reader.c:1280
+#: src/reader.c:1206
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflit de type (« %s » « %s ») pour l'action par défaut"
 
-#: src/reader.c:1286
+#: src/reader.c:1213
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "règle vide pour une catégorie typée et aucune action"
 
-#: src/reader.c:1294
+#: src/reader.c:1263
+msgid "ill-formed rule: initial symbol not followed by colon"
+msgstr "règle mal formée: le symbole initial n'est pas suivi de « : »"
+
+#: src/reader.c:1269
+msgid "grammar starts with vertical bar"
+msgstr "la grammaire débute par une barre verticale"
+
+#: src/reader.c:1302 src/reader.c:1342
+msgid "previous rule lacks an ending `;'"
+msgstr "règle précédente manque une terminaison « ; »"
+
+#: src/reader.c:1348
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrée non valide: %s"
 
-#: src/reader.c:1301
+#: src/reader.c:1355
 msgid "no rules in the input grammar"
 msgstr "la grammaire n'a pas de règles"
 
-#: src/reader.c:1321
+#: src/reader.c:1377
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "trop de symboles (jeton plus non terminaux); maximum %d"
@@ -667,6 +663,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "two actions at end of one rule"
+#~ msgstr "deux actions à la fin d'une même règle"
 
 #~ msgid "symbol %s redefined"
 #~ msgstr "symbole %s redéfini"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-06-10 10:38+0200\n"
+"POT-Creation-Date: 2002-06-11 10:09+0200\n"
 "PO-Revision-Date: 2002-03-05 16:27+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -476,7 +476,7 @@ msgstr "vigane tekst (%s) - number peab olema peale identifikaatorit"
 msgid "unexpected item: %s"
 msgstr "ootamatu element: %s"
 
-#: src/reader.c:740 src/reader.c:1018
+#: src/reader.c:740 src/reader.c:1021
 #, c-format
 msgid "unmatched %s"
 msgstr "puudub %s"
@@ -500,50 +500,46 @@ msgstr "sisendgrammatikat pole"
 msgid "unknown character: %s"
 msgstr "tundmatu sümbol: %s"
 
-#: src/reader.c:1113
-msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "vigaselt formeeritud reegel: algsümbolile ei järgne koolonit"
-
-#: src/reader.c:1120
-msgid "grammar starts with vertical bar"
-msgstr "grammatika algab püstkriipsuga"
-
-#: src/reader.c:1148
+#: src/reader.c:1129
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s jaoks on antud reegel, aga see on märk"
 
-#: src/reader.c:1178 src/reader.c:1288
-msgid "previous rule lacks an ending `;'"
-msgstr "eelmisel reeglil puudub lõpetav `;'"
-
-#: src/reader.c:1256
+#: src/reader.c:1181
 msgid "two @prec's in a row"
 msgstr "kaks @prec ühel real"
 
-#: src/reader.c:1266
-msgid "two actions at end of one rule"
-msgstr "kaks tegevust ühe reegli lõpus"
-
-#: src/reader.c:1280
+#: src/reader.c:1206
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "vaikimisi tegevuse tüübikonflikt (`%s' `%s')"
 
-#: src/reader.c:1286
+#: src/reader.c:1213
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tüübiga mitteterminalil on tühi reegel ja puudub tegevus"
 
-#: src/reader.c:1294
+#: src/reader.c:1263
+msgid "ill-formed rule: initial symbol not followed by colon"
+msgstr "vigaselt formeeritud reegel: algsümbolile ei järgne koolonit"
+
+#: src/reader.c:1269
+msgid "grammar starts with vertical bar"
+msgstr "grammatika algab püstkriipsuga"
+
+#: src/reader.c:1302 src/reader.c:1342
+msgid "previous rule lacks an ending `;'"
+msgstr "eelmisel reeglil puudub lõpetav `;'"
+
+#: src/reader.c:1348
 #, c-format
 msgid "invalid input: %s"
 msgstr "vigane sisend: %s"
 
-#: src/reader.c:1301
+#: src/reader.c:1355
 msgid "no rules in the input grammar"
 msgstr "sisendgrammatikas pole reegleid"
 
-#: src/reader.c:1321
+#: src/reader.c:1377
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "liiga palju sümboleid (märgid ja mitteterminalid); maksimaalne on %d"
@@ -656,6 +652,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "two actions at end of one rule"
+#~ msgstr "kaks tegevust ühe reegli lõpus"
 
 #~ msgid "symbol %s redefined"
 #~ msgstr "sümbol %s on uuesti defineeritud"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-06-10 10:38+0200\n"
+"POT-Creation-Date: 2002-06-11 10:09+0200\n"
 "PO-Revision-Date: 2002-01-25 12:19+0300\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -489,7 +489,7 @@ msgstr "неверный текст (%s) - число должно следовать за идентификатором"
 msgid "unexpected item: %s"
 msgstr "неожиданный элемент: %s"
 
-#: src/reader.c:740 src/reader.c:1018
+#: src/reader.c:740 src/reader.c:1021
 #, c-format
 msgid "unmatched %s"
 msgstr "непарная %s"
@@ -513,51 +513,47 @@ msgstr "нет входной грамматики"
 msgid "unknown character: %s"
 msgstr "неизвестный символ: %s"
 
-#: src/reader.c:1113
-msgid "ill-formed rule: initial symbol not followed by colon"
-msgstr "неверное правило: двоеточие не следует за начальным символом"
-
-#: src/reader.c:1120
-msgid "grammar starts with vertical bar"
-msgstr "грамматика начинается с вертикальной черты"
-
-#: src/reader.c:1148
+#: src/reader.c:1129
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "правило задано для %s, который является лексемой"
 
-#: src/reader.c:1178 src/reader.c:1288
-msgid "previous rule lacks an ending `;'"
-msgstr ""
-
-#: src/reader.c:1256
+#: src/reader.c:1181
 msgid "two @prec's in a row"
 msgstr "два @prec подряд"
 
-#: src/reader.c:1266
-msgid "two actions at end of one rule"
-msgstr "два действия в конце одного правила"
-
-#: src/reader.c:1280
+#: src/reader.c:1206
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "конфликт типов (`%s' `%s') на действии по умолчанию"
 
-#: src/reader.c:1286
+#: src/reader.c:1213
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "пустое правило для типизированного нетерминального символа, и нет действия"
 
-#: src/reader.c:1294
+#: src/reader.c:1263
+msgid "ill-formed rule: initial symbol not followed by colon"
+msgstr "неверное правило: двоеточие не следует за начальным символом"
+
+#: src/reader.c:1269
+msgid "grammar starts with vertical bar"
+msgstr "грамматика начинается с вертикальной черты"
+
+#: src/reader.c:1302 src/reader.c:1342
+msgid "previous rule lacks an ending `;'"
+msgstr ""
+
+#: src/reader.c:1348
 #, c-format
 msgid "invalid input: %s"
 msgstr "неверные входные данные: %s"
 
-#: src/reader.c:1301
+#: src/reader.c:1355
 msgid "no rules in the input grammar"
 msgstr "отсутствуют правила во входной грамматике"
 
-#: src/reader.c:1321
+#: src/reader.c:1377
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"
@@ -673,6 +669,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "two actions at end of one rule"
+#~ msgstr "два действия в конце одного правила"
 
 #~ msgid "symbol %s redefined"
 #~ msgstr "повторное определение символа %s"
