@@ -1,5 +1,5 @@
-# -*-Autoconf-*-
-# Checks required to run `timevar', a nonportable memory/time tracker.
+# -*- Autoconf -*-
+# Checks required to run `timevar', a time tracker.
 #
 # Copyright (C) 2002 Free Software Foundation, Inc.
 #

@@ -251,19 +251,15 @@ my-distcheck: writable-files po-check
 	echo "$(distdir).tar.gz is ready for distribution"; \
 	echo "========================"
 
-# This must be the same name on both hosts.
-# Make it a symlink that points to the right place.
-real_dir = fetish-ftp
-
-url_dir_list = $(foreach x,$(hosts),ftp://$($(x)_host)/$($(x)_url_dir))
-
 tgz-md5 = $(shell md5sum < $(my_distdir).tar.gz|sed 's/  -//')
 tgz-sha1 = $(shell sha1sum < $(my_distdir).tar.gz|sed 's/  -//')
 bz2-md5 = $(shell md5sum < $(my_distdir).tar.bz2|sed 's/  -//')
 bz2-sha1 = $(shell sha1sum < $(my_distdir).tar.bz2|sed 's/  -//')
-tgz-size = $(shell du --human $(my_distdir).tar.gz|sed 's/\([Mk]\).*/ \1B/')
-bz2-size = $(shell du --human $(my_distdir).tar.bz2|sed 's/\([Mk]\).*/ \1B/')
-xd-size = $(shell du --human $(xd-delta)|sed 's/\([Mk]\).*/ \1B/')
+xdelta-md5 = $(shell md5sum < $(xd-delta)|sed 's/  -//')
+xdelta-sha1 = $(shell sha1sum < $(xd-delta)|sed 's/  -//')
+tgz-size = $(shell du --human $(my_distdir).tar.gz|sed 's/\([MkK]\).*/ \1B/')
+bz2-size = $(shell du --human $(my_distdir).tar.bz2|sed 's/\([MkK]\).*/ \1B/')
+xd-size = $(shell du --human $(xd-delta)|sed 's/\([MkK]\).*/ \1B/')
 
 rel-check:
 	tarz=/tmp/rel-check-tarz-$$$$; \
@@ -277,12 +273,8 @@ rel-check:
 prev-tgz = $(PACKAGE)-$(PREV_VERSION).tar.gz
 xd-delta = $(PACKAGE)-$(PREV_VERSION)-$(VERSION).xdelta
 
-GZIP = gzip
-BZIP2 = bzip2
-$(my_distdir).tar.bz2: $(my_distdir).tar.gz
-	$(GZIP) -dc $< > $(my_distdir).tar
-	rm -f $@
-	$(BZIP2) -9 $(my_distdir).tar
+news-r1 = /^[^ ].*$(THIS_VERSION_REGEXP)[]:]/
+news-r2 = /^[^ ].*$(PREV_VERSION_REGEXP)[]:]/
 
 rel-files = $(xd-delta) $(distdir).tar.bz2 $(distdir).tar.gz
 announcement: NEWS ChangeLog $(rel-files)
@@ -302,15 +294,17 @@ announcement: NEWS ChangeLog $(rel-files)
 	    echo "  $$url/$(xd-delta)   ($(xd-size))"; \
 	  done; \
 	  echo; \
-	  echo "Here are the MD5 and SHA1 signatures for the compressed tar files:"; \
+	  echo "Here are the MD5 and SHA1 signatures:"; \
 	  echo; \
 	  echo "$(tgz-md5)  $(my_distdir).tar.gz"; \
 	  echo "$(bz2-md5)  $(my_distdir).tar.bz2"; \
+	  echo "$(xdelta-md5)  $(xd-delta)"; \
 	  echo "$(tgz-sha1)  $(my_distdir).tar.gz"; \
 	  echo "$(bz2-sha1)  $(my_distdir).tar.bz2"; \
+	  echo "$(xdelta-sha1)  $(xd-delta)"; \
 	  echo; \
 	  echo NEWS:; \
-	  sed -n "/$(THIS_VERSION_REGEXP)[]:]/,/$(PREV_VERSION_REGEXP)[]:]/p" NEWS \
+	  sed -n "$(news-r1),$(news-r2)p" NEWS \
 	    | grep -v '^\['; \
 	  echo; \
 	  echo ChangeLog entries:; \
@@ -321,12 +315,10 @@ announcement: NEWS ChangeLog $(rel-files)
 	      -e 'print "\n"."*"x70 ."\n"; s///; print; print "*"x70 ."\n"'; \
 	)
 
-define emit-rsync-commands
+define emit-upload-commands
 	echo =====================================
 	echo =====================================
-	echo 'for host in $(a_host) $(b_host); do \'
-	echo '  rsync -e ssh --pro -av $(xd-delta) $(my_distdir).tar.bz2 \'
-	echo '    $(my_distdir).tar.gz $$host:$(real_dir); done'
+	echo upload $(PACKAGE) $(PREV_VERSION) $(VERSION)
 	echo '# send the /tmp/announcement e-mail'
 	echo =====================================
 	echo =====================================
@@ -343,4 +335,4 @@ alpha:
 	chmod a-w $(rel-files)
 	echo $(VERSION) > $(prev_version_file)
 	$(CVS) ci -m. $(prev_version_file)
-	@$(emit-rsync-commands)
+	@$(emit-upload-commands)

@@ -1,5 +1,10 @@
 2002-10-13  Akim Demaille  <akim@epita.fr>
 
+	* Makefile.maint: Update from Autoconf 2.54.
+	* m4/strerror_r.m4 (AC_FUNC_STRERROR_R): Remove, shipped with 2.54.
+
+2002-10-13  Akim Demaille  <akim@epita.fr>
+
 	* src/print.c (print_state): Separate the list of solved conflicts
 	from the other items.
 	* tests/conflicts.at (Resolved SR Conflicts): Adjust.
