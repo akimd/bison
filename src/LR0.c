@@ -23,7 +23,6 @@
    The entry point is generate_states.  */
 
 #include "system.h"
-#include "xalloc.h"
 #include "gram.h"
 #include "state.h"
 #include "complain.h"

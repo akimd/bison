@@ -19,7 +19,6 @@
    Boston, MA 02111-1307, USA.  */
 
 #include "system.h"
-#include "xalloc.h"
 #include "files.h"
 #include "gram.h"
 #include "LR0.h"

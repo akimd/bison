@@ -20,7 +20,6 @@
 
 #include "system.h"
 #include "getargs.h"
-#include "xalloc.h"
 #include "files.h"
 #include "gram.h"
 #include "state.h"

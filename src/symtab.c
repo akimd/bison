@@ -20,7 +20,6 @@
 
 
 #include "system.h"
-#include "xalloc.h"
 #include "symtab.h"
 #include "gram.h"
 

@@ -26,7 +26,6 @@
 #include "quote.h"
 #include "getargs.h"
 #include "files.h"
-#include "xalloc.h"
 #include "symtab.h"
 #include "lex.h"
 #include "gram.h"
@@ -1912,7 +1911,7 @@ reader (void)
 
   grammar = NULL;
 
-  init_lex ();
+  lex_init ();
   lineno = 1;
 
   /* Initialize the symbol table.  */

@@ -102,6 +102,8 @@ main (int argc, char *argv[])
   /* Free the symbol table data structure.  */
   free_symtab ();
 
+  lex_free ();
+
   /* Close the input files. */
   close_files ();
 

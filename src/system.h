@@ -73,7 +73,7 @@ extern int errno;
 # define PARAMS(p) ()
 #endif
 
-
+# include "xalloc.h"
 
 /*---------------------.
 | Missing prototypes.  |
@@ -159,9 +159,9 @@ typedef int bool;
 | Obstacks.  |
 `-----------*/
 
-#define obstack_chunk_alloc xmalloc
-#define obstack_chunk_free  free
-#include "obstack.h"
+# define obstack_chunk_alloc xmalloc
+# define obstack_chunk_free  free
+# include "obstack.h"
 
 #define obstack_sgrow(Obs, Str) \
   obstack_grow (Obs, Str, strlen (Str))
@@ -271,8 +271,6 @@ do {								\
 # if WITH_DMALLOC
 #  define DMALLOC_FUNC_CHECK
 #  include <dmalloc.h>
-
 # endif /* WITH_DMALLOC */
-
 
 #endif  /* BISON_SYSTEM_H */

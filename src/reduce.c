@@ -29,7 +29,6 @@
 #include "getargs.h"
 #include "files.h"
 #include "gram.h"
-#include "xalloc.h"
 #include "complain.h"
 #include "reduce.h"
 #include "reader.h"

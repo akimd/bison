@@ -26,7 +26,6 @@
 #include "system.h"
 #include "types.h"
 #include "gram.h"
-#include "xalloc.h"
 #include "nullable.h"
 
 char *nullable = NULL;

@@ -1,3 +1,13 @@
+2001-09-25  Akim Demaille  <akim@epita.fr>
+
+	* src/system.h: Include `xalloc.h'.
+	Remove it from the C files.
+	* src/files.c (output_files): Free the obstacks.
+	* src/lex.c (init_lex): Rename as...
+	(lex_init): this.
+	(lex_free): New.
+	* src/main.c (main): Use it.
+
 2001-09-24  Marc Autret  <autret_m@epita.fr>
 
 	* src/vcg.c (open_edge, close_edge, open_node, close_node): Change

@@ -20,7 +20,6 @@
 
 
 #include "system.h"
-#include "xalloc.h"
 #include "files.h"
 #include "gram.h"
 #include "LR0.h"

@@ -22,7 +22,6 @@
 #include "system.h"
 #include "getargs.h"
 #include "files.h"
-#include "xalloc.h"
 #include "gram.h"
 #include "complain.h"
 
@@ -467,14 +466,17 @@ output_files (void)
     obstack_save (&table_obstack, spec_outfile);
   else
     obstack_save (&table_obstack, stringappend (base_name, src_extension));
+  obstack_free (&table_obstack, NULL);
 
   /* Output the header file if wanted. */
   if (defines_flag)
     defines_obstack_save (spec_defines_file);
+  obstack_free (&defines_obstack, NULL);
 
   /* If we output only the table, dump the actions in ACTFILE. */
   if (no_parser_flag)
     obstack_save (&action_obstack, stringappend (short_base_name, ".act"));
+  obstack_free (&action_obstack, NULL);
 
   /* If we produced a semantic parser ATTRS_OBSTACK must be dumped
      into its own file, ATTTRSFILE.  */
@@ -483,10 +485,12 @@ output_files (void)
       char *temp_name;
 
       obstack_save (&attrs_obstack, attrsfile);
+      obstack_free (&attrs_obstack, NULL);
       temp_name = stringappend (short_base_name, EXT_GUARD_C);
 #ifndef MSDOS
       temp_name = stringappend (temp_name, src_extension);
 #endif /* MSDOS */
       obstack_save (&guard_obstack, temp_name);
+      obstack_free (&guard_obstack, NULL);
     }
 }

@@ -24,7 +24,6 @@
 #include "getopt.h"		/* for optarg */
 #include "symtab.h"
 #include "lex.h"
-#include "xalloc.h"
 #include "complain.h"
 #include "gram.h"
 #include "quote.h"
@@ -43,10 +42,17 @@ static bucket *unlexed_symval = NULL;
 
 
 void
-init_lex (void)
+lex_init (void)
 {
   obstack_init (&token_obstack);
   unlexed = tok_undef;
+}
+
+
+void
+lex_free (void)
+{
+  obstack_free (&token_obstack, NULL);
 }
 
 

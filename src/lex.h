@@ -58,7 +58,8 @@ extern const char *token_buffer;
 extern bucket *symval;
 extern int numval;
 
-void init_lex PARAMS ((void));
+void lex_init PARAMS ((void));
+void lex_free PARAMS ((void));
 int skip_white_space PARAMS ((void));
 void unlex PARAMS ((int));
 void read_type_name PARAMS ((FILE *fin));
