@@ -1,6 +1,5 @@
 ChangeLog
-Makefile
-Makefile.in
+Makefile Makefile.in
 POTFILES
 bison.pot
 stamp-cat-id
