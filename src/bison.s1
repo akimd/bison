@@ -148,10 +148,17 @@ YYLTYPE yylloc;			/*  location data for the lookahead	*/
 int yynerrs;			/*  number of parse errors so far       */
 #endif  /* not YYPURE */
 
+
 #if YYDEBUG != 0
 int yydebug;			/*  nonzero means print parse trace	*/
-/* Since this is uninitialized, it does not stop multiple parsers
-   from coexisting.  */
+
+  /* [The following comment makes no sense to me.  Could someone
+     clarify it?  --akim] Since this is uninitialized, it does not
+     stop multiple parsers from coexisting.  */
+#else
+  /* To avoid crippling this file with `#if YYDEBUG', define `yydebug'
+     as `0', so that the `if (yydebug)' be removed as dead code.  */
+# define yydebug 0
 #endif
 
 /*  YYINITDEPTH indicates the initial size of the parser's stacks	*/
@@ -306,10 +313,8 @@ yyparse(YYPARSE_PARAM_ARG)
 
   int yylen;
 
-#if YYDEBUG != 0
   if (yydebug)
-    fprintf(stderr, "Starting parse\n");
-#endif
+    fprintf (stderr, "Starting parse\n");
 
   yystate = 0;
   yyerrstatus = 0;
@@ -409,19 +414,15 @@ yynewstate:
       yylsp = yyls + size - 1;
 #endif
 
-#if YYDEBUG != 0
       if (yydebug)
-	fprintf(stderr, "Stack size increased to %d\n", yystacksize);
-#endif
+	fprintf (stderr, "Stack size increased to %d\n", yystacksize);
 
       if (yyssp >= yyss + yystacksize - 1)
 	YYABORT;
     }
 
-#if YYDEBUG != 0
   if (yydebug)
-    fprintf(stderr, "Entering state %d\n", yystate);
-#endif
+    fprintf (stderr, "Entering state %d\n", yystate);
 
   goto yybackup;
  yybackup:
@@ -443,10 +444,8 @@ yynewstate:
 
   if (yychar == YYEMPTY)
     {
-#if YYDEBUG != 0
       if (yydebug)
-	fprintf(stderr, "Reading a token: ");
-#endif
+	fprintf (stderr, "Reading a token: ");
       yychar = YYLEX;
     }
 
@@ -457,16 +456,13 @@ yynewstate:
       yychar1 = 0;
       yychar = YYEOF;		/* Don't call YYLEX any more */
 
-#if YYDEBUG != 0
       if (yydebug)
-	fprintf(stderr, "Now at end of input.\n");
-#endif
+	fprintf (stderr, "Now at end of input.\n");
     }
   else
     {
       yychar1 = YYTRANSLATE(yychar);
 
-#if YYDEBUG != 0
       if (yydebug)
 	{
 	  fprintf (stderr, "Next token is %d (%s", yychar, yytname[yychar1]);
@@ -477,7 +473,6 @@ yynewstate:
 # endif
 	  fprintf (stderr, ")\n");
 	}
-#endif
     }
 
   yyn += yychar1;
@@ -508,10 +503,8 @@ yynewstate:
 
   /* Shift the lookahead token.  */
 
-#if YYDEBUG != 0
   if (yydebug)
-    fprintf(stderr, "Shifting token %d (%s), ", yychar, yytname[yychar1]);
-#endif
+    fprintf (stderr, "Shifting token %d (%s), ", yychar, yytname[yychar1]);
 
   /* Discard the token being shifted unless it is eof.  */
   if (yychar != YYEOF)
@@ -541,7 +534,9 @@ yyreduce:
   if (yylen > 0)
     yyval = yyvsp[1-yylen]; /* implement default value of the action */
 
-#if YYDEBUG != 0
+#if YYDEBUG
+  /* We have to keep this `#if YYDEBUG', since we use variables which
+     are defined only if `YYDEBUG' is set.  */
   if (yydebug)
     {
       int i;
@@ -555,7 +550,6 @@ yyreduce:
       fprintf (stderr, " -> %s\n", yytname[yyr1[yyn]]);
     }
 #endif
-
 $   /* the action file gets copied in in place of this dollarsign */
 #line 543 "bison.simple"
 
@@ -565,7 +559,6 @@ $   /* the action file gets copied in in place of this dollarsign */
   yylsp -= yylen;
 #endif
 
-#if YYDEBUG != 0
   if (yydebug)
     {
       short *ssp1 = yyss - 1;
@@ -574,7 +567,6 @@ $   /* the action file gets copied in in place of this dollarsign */
 	fprintf (stderr, " %d", *++ssp1);
       fprintf (stderr, "\n");
     }
-#endif
 
   *++yyvsp = yyval;
 
@@ -672,10 +664,9 @@ yyerrlab1:   /* here on error raised explicitly by an action */
       if (yychar == YYEOF)
 	YYABORT;
 
-#if YYDEBUG != 0
       if (yydebug)
-	fprintf(stderr, "Discarding token %d (%s).\n", yychar, yytname[yychar1]);
-#endif
+	fprintf (stderr, "Discarding token %d (%s).\n",
+		 yychar, yytname[yychar1]);
 
       yychar = YYEMPTY;
     }
@@ -705,7 +696,6 @@ yyerrpop:   /* pop the current state because it cannot handle the error token */
   yylsp--;
 #endif
 
-#if YYDEBUG != 0
   if (yydebug)
     {
       short *ssp1 = yyss - 1;
@@ -714,7 +704,6 @@ yyerrpop:   /* pop the current state because it cannot handle the error token */
 	fprintf (stderr, " %d", *++ssp1);
       fprintf (stderr, "\n");
     }
-#endif
 
 yyerrhandle:
 
@@ -740,10 +729,8 @@ yyerrhandle:
   if (yyn == YYFINAL)
     YYACCEPT;
 
-#if YYDEBUG != 0
   if (yydebug)
-    fprintf(stderr, "Shifting error token, ");
-#endif
+    fprintf (stderr, "Shifting error token, ");
 
   *++yyvsp = yylval;
 #ifdef YYLSP_NEEDED

@@ -1,5 +1,12 @@
 2000-03-16  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.s1 [!YYDEBUG]: Define yydebug to 0.  This allows to
+	remove most `#if YYDEBUG != 0', since `if (yydebug)' is enough.
+	One `#if YYDEBUG' remains, since it uses variables which are
+	defined only if `YYDEBUG != 0'.
+
+2000-03-16  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.s1 (yyparse): Reorganize the definitions of the stacks
 	and related variables so that the similarities are highlighted.
 
