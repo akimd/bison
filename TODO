@@ -5,15 +5,12 @@ Complete parse_skel_decl () with parse_dquoted_param ().	[]
 Check and cleanup for CPP-out code.	[]
 
 * src/output.c
-Synchronize `#line' directive with user file.	[ok]
+Remove %%verbose which is useless.
 
 Cleanup dirty CPP-out code.	[]
 ** Output sub-skeleton files.	[]
 Useful for %no_parser.	[]
 *** New skeleton.	[]
-
-* src/getargs.c src/lex.c
-Synchronize percent and command line options.	[ok]
 
 * src/macrotab.[ch]
 Removing warnings when compiling. (gcc-warnings).	[ok]
@@ -22,7 +19,6 @@ Removing warnings when compiling. (gcc-warnings).	[ok]
 Find the best graph parameters.	[]
 
 * doc/bison.texinfo
-Echo modifications of prologue and epilogue.	[ok]
-Add informations about YYERROR_VERBOSE.	[]
+Update informations about ERROR_VERBOSE.	[]
 Add explainations about skeleton muscles.	[]
 Add explainations about %skeleton.	[]
