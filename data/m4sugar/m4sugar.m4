@@ -1746,15 +1746,6 @@ m4_define([m4_version_compare],
              (m4_split(m4_version_unletter([$2]), [\.])))])
 
 
-# m4_PACKAGE_NAME
-# m4_PACKAGE_TARNAME
-# m4_PACKAGE_VERSION
-# m4_PACKAGE_STRING
-# m4_PACKAGE_BUGREPORT
-# --------------------
-m4_include([m4sugar/version.m4])
-
-
 # m4_version_prereq(VERSION, [IF-OK], [IF-NOT = FAIL])
 # ----------------------------------------------------
 # Check this Autoconf version against VERSION.
