@@ -263,6 +263,7 @@ namespace yy
     static const ]b4_int_type_for([b4_rline])[ rline_[];
     static const ]b4_int_type_for([b4_stos])[ stos_[];
     static const ]b4_int_type_for([b4_toknum])[ token_number_[];
+    virtual void reduce_print_ (int yyrule);
 #endif
 
     /* Even more tables.  */
@@ -322,8 +323,14 @@ m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 /* Enable debugging if requested.  */
 #if YYDEBUG
 # define YYCDEBUG    if (debug_) cdebug_
+# define YY_REDUCE_PRINT(Rule)		\
+do {					\
+  if (debug_)				\
+    reduce_print_ (Rule);		\
+} while (0)
 #else /* !YYDEBUG */
 # define YYCDEBUG    if (0) cdebug_
+# define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
 
 #define YYACCEPT	goto yyacceptlab
@@ -472,28 +479,12 @@ yy::]b4_parser_class_name[::parse ()
       yyloc = location_stack_[0];
     }
 
-#if YYDEBUG
-  if (debug_)
-    {
-      // Short files will use "unsigned char" for line numbers,
-      // in which case they will be output as character litterals
-      // by "<<".
-      unsigned yylno = rline_[n_];
-      YYCDEBUG << "Reducing via rule " << n_ - 1
-               << " (line " << yylno << "), ";
-      for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
-	   0 <= rhs_[i]; ++i)
-	YYCDEBUG << name_[rhs_[i]] << ' ';
-      YYCDEBUG << "-> " << name_[r1_[n_]] << std::endl;
-    }
-#endif
-
   if (len_)
     {
       Slice< LocationType, LocationStack > slice (location_stack_, len_);
       YYLLOC_DEFAULT (yyloc, slice, len_);
     }
-
+  YY_REDUCE_PRINT (n_);
   switch (n_)
     {
       ]b4_actions[
@@ -715,6 +706,7 @@ yy::]b4_parser_class_name[::lex_ ()
 #endif
 }
 
+
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
 const ]b4_int_type(b4_pact_ninf, b4_pact_ninf) yy::b4_parser_class_name::pact_ninf_ = b4_pact_ninf[;
@@ -828,7 +820,22 @@ yy::]b4_parser_class_name[::rline_[] =
 {
   ]b4_rline[
 };
-#endif
+
+/** Report that the YYRULE is going to be reduced.  */
+
+void
+yy::]b4_parser_class_name[::reduce_print_ (int yyrule)
+{
+  int yyi;
+  unsigned int yylno = rline_[yyrule];
+  /* Print the symbols being reduced, and their result.  */
+  cdebug_ << "Reducing via rule " << n_ - 1 << " (line " << yylno << "), ";
+  for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
+       0 <= rhs_[i]; ++i)
+    cdebug_ << name_[rhs_[i]] << ' ';
+  cdebug_ << "-> " << name_[r1_[n_]] << std::endl;
+}
+#endif // YYDEBUG
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 yy::]b4_parser_class_name[::TokenNumberType
