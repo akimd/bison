@@ -18,7 +18,7 @@
 
 2001-08-01  Robert Anisko  <anisko_r@epita.fr>
 
-	* doc/autoconf.texi: Document @$.
+	* doc/bison.texi: Document @$.
 	(Locations): New section.
 
 2001-07-18  Akim Demaille  <akim@epita.fr>
