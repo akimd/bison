@@ -1,5 +1,9 @@
 2002-03-04  Robert Anisko  <robert@lrde.epita.fr>
 
+	* src/reader.c: Warn about lacking semi-colons, do not complain.
+
+2002-03-04  Robert Anisko  <robert@lrde.epita.fr>
+
 	* data/bison.c++: Remove a debug line.
 
 2002-03-04  Robert Anisko  <robert@lrde.epita.fr>
