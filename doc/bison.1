@@ -12,6 +12,10 @@ bison \- GNU Project parser generator (yacc replacement)
 ] [
 .B \-\-defines
 ] [
+.B \-g
+] [
+.B \-\-graph
+] [
 .B \-k
 ] [
 .B \-\-token-table
@@ -144,6 +148,17 @@ in a separate source file, because
 .B yylex
 needs to be able to refer to token type codes and the variable
 .BR yylval .
+.TP
+.BI \-g
+.br
+.ns
+.TP
+.BI \-\-graph
+Output a VCG definition of the LALR(1) grammar automaton computed by
+Bison. If the grammar file is 
+.BR foo.y
+, the VCG output file will be
+.BR foo.vcg .
 .TP
 .B \-k
 .br

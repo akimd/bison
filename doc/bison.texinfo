@@ -4899,6 +4899,12 @@ Specify the name @var{outfile} for the parser file.
 
 The other output files' names are constructed from @var{outfile}
 as described under the @samp{-v} and @samp{-d} options.
+
+@item -g
+@itemx --graph
+Output a VCG definition of the LALR(1) grammar automaton computed by
+Bison. If the grammar file is @file{foo.y}, the VCG output file will
+be @file{foo.vcg}.
 @end table
 
 @node Environment Variables, Option Cross Key, Bison Options, Invocation
@@ -4940,6 +4946,7 @@ the corresponding short option.
 \line{ --defines \leaderfill -d}
 \line{ --file-prefix \leaderfill -b}
 \line{ --fixed-output-files \leaderfill -y}
+\line{ --graph \leaderfill -g}
 \line{ --help \leaderfill -h}
 \line{ --name-prefix \leaderfill -p}
 \line{ --no-lines \leaderfill -l}

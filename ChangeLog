@@ -1,8 +1,14 @@
+2001-08-16  Marc Autret  <autret_m@epita.fr>
+
+	* doc/bison.texinfo (Bison Options): Add items `-g', `--graph'.
+	(Option Cross Key): Likewise.
+	* doc/bison.1: Update.
+
 2001-08-15  Akim Demaille  <akim@epita.fr>
 
 	Version 1.28c.
 
-2001-08-15  Marc Autret  <prog@epita.fr>
+2001-08-15  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (readgram): Indent output macro YYSTYPE.
 	(packsymbols): Likewise.
