@@ -685,7 +685,10 @@ Let's consider an example, vastly simplified from a C++ grammar.
 
 @example
 %@{
-  #define YYSTYPE const char*
+  #include <stdio.h>
+  #define YYSTYPE char const *
+  int yylex (void);
+  void yyerror (char const *);
 %@}
 
 %token TYPENAME ID
@@ -783,7 +786,8 @@ stmt : expr ';'  %merge <stmtMerge>
 and define the @code{stmtMerge} function as:
 
 @example
-static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1)
+static YYSTYPE
+stmtMerge (YYSTYPE x0, YYSTYPE x1)
 @{
   printf ("<OR> ");
   return "";
@@ -796,7 +800,7 @@ in the C declarations at the beginning of the file:
 
 @example
 %@{
-  #define YYSTYPE const char*
+  #define YYSTYPE char const *
   static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
 %@}
 @end example
@@ -813,15 +817,16 @@ as both an @code{expr} and a @code{decl}, and print
 
 @cindex @code{incline}
 @cindex @acronym{GLR} parsers and @code{inline}
-Note that the @acronym{GLR} parsers require an ISO C89 compiler.  In
-addition, they use the @code{inline} keyword, which is not C89, but a
-common extension.  It is up to the user of these parsers to handle
+The @acronym{GLR} parsers require a compiler for @acronym{ISO} C89 or
+later.  In addition, they use the @code{inline} keyword, which is not
+C89, but is C99 and is a common extension in pre-C99 compilers.  It is
+up to the user of these parsers to handle
 portability issues.  For instance, if using Autoconf and the Autoconf
 macro @code{AC_C_INLINE}, a mere
 
 @example
 %@{
-#include <config.h>
+  #include <config.h>
 %@}
 @end example
 
@@ -830,9 +835,9 @@ will suffice.  Otherwise, we suggest
 
 @example
 %@{
-#if ! defined __GNUC__ && ! defined inline
-# define inline
-#endif
+  #if __STDC_VERSION__ < 199901 && ! defined __GNUC__ && ! defined inline
+   #define inline
+  #endif
 %@}
 @end example
 
@@ -992,6 +997,9 @@ in every Bison grammar file to separate the sections.
 The prologue may define types and variables used in the actions.  You can
 also use preprocessor commands to define macros used there, and use
 @code{#include} to include header files that do any of these things.
+You need to declare the lexical analyzer @code{yylex} and the error
+printer @code{yyerror} here, along with any other global identifiers
+used by the actions in the grammar rules.
 
 The Bison declarations declare the names of the terminal and nonterminal
 symbols, and may also describe operator precedence and the data types of
@@ -1000,10 +1008,9 @@ semantic values of various symbols.
 The grammar rules define how to construct each nonterminal symbol from its
 parts.
 
-The epilogue can contain any code you want to use.  Often the definition of
-the lexical analyzer @code{yylex} goes here, plus subroutines called by the
-actions in the grammar rules.  In a simple program, all the rest of the
-program can go here.
+The epilogue can contain any code you want to use.  Often the
+definitions of functions declared in the prologue go here.  In a
+simple program, all the rest of the program can go here.
 
 @node Examples
 @chapter Examples
@@ -1070,8 +1077,10 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 /* Reverse polish notation calculator.  */
 
 %@{
-#define YYSTYPE double
-#include <math.h>
+  #define YYSTYPE double
+  #include <math.h>
+  int yylex (void);
+  void yyerror (char const *);
 %@}
 
 %token NUM
@@ -1080,7 +1089,7 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 @end example
 
 The declarations section (@pxref{Prologue, , The prologue}) contains two
-preprocessor directives.
+preprocessor directives and two forward declarations.
 
 The @code{#define} directive defines the macro @code{YYSTYPE}, thus
 specifying the C data type for semantic values of both tokens and
@@ -1092,6 +1101,12 @@ which is a floating point number.
 
 The @code{#include} directive is used to declare the exponentiation
 function @code{pow}.
+
+The forward declarations for @code{yylex} and @code{yyerror} are
+needed because the C language requires that functions be declared
+before they are used.  These functions will be defined in the
+epilogue, but the parser calls them so they must be declared in the
+prologue.
 
 The second section, Bison declarations, provides information to Bison
 about the token types (@pxref{Bison Declarations, ,The Bison
@@ -1381,8 +1396,9 @@ here is the definition we will use:
 @group
 #include <stdio.h>
 
+/* Called by yyparse on error.  */
 void
-yyerror (const char *s)  /* Called by yyparse on error.  */
+yyerror (char const *s)
 @{
   printf ("%s\n", s);
 @}
@@ -1482,23 +1498,25 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 @file{calc.y}, an infix desk-top calculator.
 
 @example
-/* Infix notation calculator--calc */
+/* Infix notation calculator.  */
 
 %@{
-#define YYSTYPE double
-#include <math.h>
+  #define YYSTYPE double
+  #include <math.h>
+  #include <stdio.h>
+  int yylex (void);
+  void yyerror (char const *);
 %@}
 
-/* Bison Declarations */
+/* Bison declarations.  */
 %token NUM
 %left '-' '+'
 %left '*' '/'
 %left NEG     /* negation--unary minus */
-%right '^'    /* exponentiation        */
+%right '^'    /* exponentiation */
 
-/* Grammar follows */
-%%
-input:    /* empty string */
+%% /* The grammar follows.  */
+input:    /* empty */
         | input line
 ;
 
@@ -1628,8 +1646,10 @@ the same as the declarations for the infix notation calculator.
 /* Location tracking calculator.  */
 
 %@{
-#define YYSTYPE int
-#include <math.h>
+  #define YYSTYPE int
+  #include <math.h>
+  int yylex (void);
+  void yyerror (char const *);
 %@}
 
 /* Bison declarations.  */
@@ -1640,7 +1660,7 @@ the same as the declarations for the infix notation calculator.
 %left NEG
 %right '^'
 
-%% /* Grammar follows */
+%% /* The grammar follows.  */
 @end example
 
 @noindent
@@ -1863,29 +1883,30 @@ Here are the C and Bison declarations for the multi-function calculator.
 @smallexample
 @group
 %@{
-#include <math.h>  /* For math functions, cos(), sin(), etc.  */
-#include "calc.h"  /* Contains definition of `symrec'         */
+  #include <math.h>  /* For math functions, cos(), sin(), etc.  */
+  #include "calc.h"  /* Contains definition of `symrec'.  */
+  int yylex (void);
+  void yyerror (char const *);
 %@}
 @end group
 @group
 %union @{
-  double    val;   /* For returning numbers.                  */
-  symrec  *tptr;   /* For returning symbol-table pointers.    */
+  double    val;   /* For returning numbers.  */
+  symrec  *tptr;   /* For returning symbol-table pointers.  */
 @}
 @end group
-%token <val>  NUM        /* Simple double precision number.   */
-%token <tptr> VAR FNCT   /* Variable and Function.            */
+%token <val>  NUM        /* Simple double precision number.  */
+%token <tptr> VAR FNCT   /* Variable and Function.  */
 %type  <val>  exp
 
 @group
 %right '='
 %left '-' '+'
 %left '*' '/'
-%left NEG     /* Negation--unary minus */
-%right '^'    /* Exponentiation        */
+%left NEG     /* negation--unary minus */
+%right '^'    /* exponentiation */
 @end group
-/* Grammar follows */
-%%
+%% /* The grammar follows.  */
 @end smallexample
 
 The above grammar introduces only two new features of the Bison language.
@@ -1946,7 +1967,7 @@ exp:      NUM                @{ $$ = $1;                         @}
         | '(' exp ')'        @{ $$ = $2;                         @}
 ;
 @end group
-/* End of grammar */
+/* End of grammar.  */
 %%
 @end smallexample
 
@@ -1965,33 +1986,33 @@ provides for either functions or variables to be placed in the table.
 
 @smallexample
 @group
-/* Function type.                                    */
+/* Function type.  */
 typedef double (*func_t) (double);
 @end group
 
 @group
-/* Data type for links in the chain of symbols.      */
+/* Data type for links in the chain of symbols.  */
 struct symrec
 @{
-  char *name;  /* name of symbol                     */
+  char *name;  /* name of symbol */
   int type;    /* type of symbol: either VAR or FNCT */
   union
   @{
-    double var;                  /* value of a VAR   */
-    func_t fnctptr;              /* value of a FNCT  */
+    double var;      /* value of a VAR */
+    func_t fnctptr;  /* value of a FNCT */
   @} value;
-  struct symrec *next;    /* link field              */
+  struct symrec *next;  /* link field */
 @};
 @end group
 
 @group
 typedef struct symrec symrec;
 
-/* The symbol table: a chain of `struct symrec'.     */
+/* The symbol table: a chain of `struct symrec'.  */
 extern symrec *sym_table;
 
-symrec *putsym (const char *, func_t);
-symrec *getsym (const char *);
+symrec *putsym (char const *, func_t);
+symrec *getsym (char const *);
 @end group
 @end smallexample
 
@@ -2003,17 +2024,9 @@ function that initializes the symbol table.  Here it is, and
 #include <stdio.h>
 
 @group
-int
-main (void)
-@{
-  init_table ();
-  return yyparse ();
-@}
-@end group
-
-@group
+/* Called by yyparse on error.  */
 void
-yyerror (const char *s)  /* Called by yyparse on error.  */
+yyerror (char const *s)
 @{
   printf ("%s\n", s);
 @}
@@ -2022,13 +2035,13 @@ yyerror (const char *s)  /* Called by yyparse on error.  */
 @group
 struct init
 @{
-  char *fname;
-  double (*fnct)(double);
+  char const *fname;
+  double (*fnct) (double);
 @};
 @end group
 
 @group
-struct init arith_fncts[] =
+struct init const arith_fncts[] =
 @{
   "sin",  sin,
   "cos",  cos,
@@ -2042,7 +2055,7 @@ struct init arith_fncts[] =
 
 @group
 /* The symbol table: a chain of `struct symrec'.  */
-symrec *sym_table = (symrec *) 0;
+symrec *sym_table;
 @end group
 
 @group
@@ -2059,6 +2072,15 @@ init_table (void)
     @}
 @}
 @end group
+
+@group
+int
+main (void)
+@{
+  init_table ();
+  return yyparse ();
+@}
+@end group
 @end smallexample
 
 By simply editing the initialization list and adding the necessary include
@@ -2073,7 +2095,7 @@ found, a pointer to that symbol is returned; otherwise zero is returned.
 
 @smallexample
 symrec *
-putsym (char *sym_name, int sym_type)
+putsym (char const *sym_name, int sym_type)
 @{
   symrec *ptr;
   ptr = (symrec *) malloc (sizeof (symrec));
@@ -2087,7 +2109,7 @@ putsym (char *sym_name, int sym_type)
 @}
 
 symrec *
-getsym (const char *sym_name)
+getsym (char const *sym_name)
 @{
   symrec *ptr;
   for (ptr = sym_table; ptr != (symrec *) 0;
@@ -2245,7 +2267,7 @@ appropriate delimiters:
 
 @example
 %@{
-@var{Prologue}
+  @var{Prologue}
 %@}
 
 @var{Bison declarations}
@@ -2268,7 +2290,7 @@ continues until end of line.
 * Epilogue::          Syntax and usage of the epilogue.
 @end menu
 
-@node Prologue, Bison Declarations,  , Grammar Outline
+@node Prologue
 @subsection The prologue
 @cindex declarations section
 @cindex Prologue
@@ -2292,8 +2314,8 @@ can be done with two @var{Prologue} blocks, one before and one after the
 
 @smallexample
 %@{
-#include <stdio.h>
-#include "ptypes.h"
+  #include <stdio.h>
+  #include "ptypes.h"
 %@}
 
 %union @{
@@ -2302,8 +2324,8 @@ can be done with two @var{Prologue} blocks, one before and one after the
 @}
 
 %@{
-static void print_token_value (FILE *, int, YYSTYPE);
-#define YYPRINT(F, N, L) print_token_value (F, N, L)
+  static void print_token_value (FILE *, int, YYSTYPE);
+  #define YYPRINT(F, N, L) print_token_value (F, N, L)
 %@}
 
 @dots{}
@@ -2331,7 +2353,7 @@ There must always be at least one grammar rule, and the first
 @samp{%%} (which precedes the grammar rules) may never be omitted even
 if it is the first thing in the file.
 
-@node Epilogue,  , Grammar Rules, Grammar Outline
+@node Epilogue
 @subsection The epilogue
 @cindex additional C code section
 @cindex epilogue
@@ -2341,14 +2363,17 @@ The @var{Epilogue} is copied verbatim to the end of the parser file, just as
 the @var{Prologue} is copied to the beginning.  This is the most convenient
 place to put anything that you want to have in the parser file but which need
 not come before the definition of @code{yyparse}.  For example, the
-definitions of @code{yylex} and @code{yyerror} often go here.
+definitions of @code{yylex} and @code{yyerror} often go here.  Because
+C requires functions to be declared before being used, you often need
+to declare functions like @code{yylex} and @code{yyerror} in the Prologue,
+even if you define them int he Epilogue.
 @xref{Interface, ,Parser C-Language Interface}.
 
 If the last section is empty, you may omit the @samp{%%} that separates it
 from the grammar rules.
 
-The Bison parser itself contains many static variables whose names start
-with @samp{yy} and many macros whose names start with @samp{YY}.  It is a
+The Bison parser itself contains many macros and identifiers whose
+names start with @samp{yy} or @samp{YY}, so it is a
 good idea to avoid using any such names (except those documented in this
 manual) in the epilogue of the grammar file.
 
@@ -4166,7 +4191,7 @@ The following definition suffices in simple programs:
 @example
 @group
 void
-yyerror (const char *s)
+yyerror (char const *s)
 @{
 @end group
 @group
@@ -4187,15 +4212,15 @@ parsers, but not for the Yacc parser, for historical reasons.  I.e., if
 @code{yyerror} are:
 
 @example
-void yyerror (const char *msg);                 /* Yacc parsers.  */
-void yyerror (YYLTYPE *locp, const char *msg);  /* GLR parsers.   */
+void yyerror (char const *msg);                 /* Yacc parsers.  */
+void yyerror (YYLTYPE *locp, char const *msg);  /* GLR parsers.   */
 @end example
 
 If @samp{%parse-param @{int *nastiness@}} is used, then:
 
 @example
-void yyerror (int *randomness, const char *msg);  /* Yacc parsers.  */
-void yyerror (int *randomness, const char *msg);  /* GLR parsers.   */
+void yyerror (int *randomness, char const *msg);  /* Yacc parsers.  */
+void yyerror (int *randomness, char const *msg);  /* GLR parsers.   */
 @end example
 
 Finally, GLR and Yacc parsers share the same @code{yyerror} calling
@@ -4222,14 +4247,20 @@ int yylex (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
 int yyparse (int *nastiness, int *randomness);
 void yyerror (YYLTYPE *locp,
               int *nastiness, int *randomness,
-              const char *msg);
+              char const *msg);
 @end example
 
 @noindent
-Please, note that the prototypes are only indications of how the code
-produced by Bison will use @code{yyerror}; you still have freedom on the
-exit value, and even on making @code{yyerror} a variadic function.  It
-is precisely to enable this that the message is always passed last.
+The prototypes are only indications of how the code produced by Bison
+uses @code{yyerror}.  Bison-generated code always ignores the returned
+value, so @code{yyerror} can return any type, including @code{void}.
+Also, @code{yyerror} can be a variadic function; that is why the
+message is always passed last.
+
+Traditionally @code{yyerror} returns an @code{int} that is always
+ignored, but this is purely for historical reasons, and @code{void} is
+preferable since it more accurately describes the return type for
+@code{yyerror}.
 
 @vindex yynerrs
 The variable @code{yynerrs} contains the number of syntax errors
@@ -5383,7 +5414,9 @@ as an identifier if it appears in that context.  Here is how you can do it:
 @example
 @group
 %@{
-int hexflag;
+  int hexflag;
+  int yylex (void);
+  void yyerror (char const *);
 %@}
 %%
 @dots{}
@@ -5981,7 +6014,12 @@ Here is an example of @code{YYPRINT} suitable for the multi-function
 calculator (@pxref{Mfcalc Decl, ,Declarations for @code{mfcalc}}):
 
 @smallexample
-#define YYPRINT(file, type, value) print_token_value (file, type, value)
+%@{
+  static void print_token_value (FILE *, int, YYSTYPE);
+  #define YYPRINT(file, type, value) print_token_value (file, type, value)
+%@}
+
+@dots{} %% @dots{} %% @dots{}
 
 static void
 print_token_value (FILE *file, int type, YYSTYPE value)
@@ -6420,9 +6458,8 @@ after a syntax error.  @xref{Error Recovery}.
 @end deffn
 
 @deffn {Function} yyerror
-User-supplied function to be called by @code{yyparse} on error.  The
-function receives one argument, a pointer to a character string
-containing an error message.  @xref{Error Reporting, ,The Error
+User-supplied function to be called by @code{yyparse} on error.
+@xref{Error Reporting, ,The Error
 Reporting Function @code{yyerror}}.
 @end deffn
 
