@@ -1,5 +1,12 @@
 2002-05-03  Akim Demaille  <akim@epita.fr>
 
+	* configure.bat: Remove, completely obsolete.
+	* Makefile.am (EXTRA_DIST): Adjust.
+	Don't distribute config.rpath...
+	* config/Makefile.am (EXTRA_DIST): Do it.
+
+2002-05-03  Akim Demaille  <akim@epita.fr>
+
 	* configure.in (GETTEXT_VERSION): New.
 	Suggested by Bruno Haible for the forthcoming Gettext 0.10.3.
 
