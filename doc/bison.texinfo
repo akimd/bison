@@ -2505,6 +2505,18 @@ the addition-expression just recognized by the rule.  If there were a
 useful semantic value associated with the @samp{+} token, it could be
 referred to as @code{$2}.
 
+Note that the vertical-bar character @samp{|} is really a rule
+separator, and actions are attached to a single rule.  This is a
+difference with tools like Flex, for which @samp{|} stands for either
+``or'', or ``the same action as that of the next rule''.  In the
+following example, the action is triggered only when @samp{b} is found:
+
+@example
+@group
+a-or-b: 'a'|'b'   @{ a_or_b_found = 1; @};
+@end group
+@end example
+
 @cindex default action
 If you don't specify an action for a rule, Bison supplies a default:
 @w{@code{$$ = $1}.}  Thus, the value of the first symbol in the rule becomes
@@ -4948,7 +4960,6 @@ clear the flag.
 
 @node Debugging
 @chapter Debugging Your Parser
-@findex YYDEBUG
 @findex yydebug
 @cindex debugging
 @cindex tracing the parser
@@ -4956,15 +4967,32 @@ clear the flag.
 If a Bison grammar compiles properly but doesn't do what you want when it
 runs, the @code{yydebug} parser-trace feature can help you figure out why.
 
-To enable compilation of trace facilities, you must define the macro
-@code{YYDEBUG} to a nonzero value when you compile the parser.  You
-could use @samp{-DYYDEBUG=1} as a compiler option or you could put
-@samp{#define YYDEBUG 1} in the prologue of the grammar file
-(@pxref{Prologue, , The Prologue}).  Alternatively, use the @samp{-t}
-option when you run Bison (@pxref{Invocation, ,Invoking Bison}) or the
-@code{%debug} declaration (@pxref{Decl Summary, ,Bison Declaration
-Summary}).  We suggest that you always define @code{YYDEBUG} so that
-debugging is always possible.
+There are several means to enable compilation of trace facilities:
+
+@table @asis
+@item the macro @code{YYDEBUG}
+@findex YYDEBUG
+Define the macro @code{YYDEBUG} to a nonzero value when you compile the
+parser.  This is compliant with POSIX Yacc.  You could use
+@samp{-DYYDEBUG=1} as a compiler option or you could put @samp{#define
+YYDEBUG 1} in the prologue of the grammar file (@pxref{Prologue, , The
+Prologue}).
+
+@item the option @option{-t}, @option{--debug}
+Use the @samp{-t} option when you run Bison (@pxref{Invocation,
+,Invoking Bison}).  This is POSIX compliant too.
+
+@item the directive @samp{%debug}
+@findex %debug
+Add the @code{%debug} directive (@pxref{Decl Summary, ,Bison
+Declaration Summary}).  This is a Bison extension, which will prove
+useful when Bison will output parsers for languages that don't use a
+preprocessor.  Useless POSIX and Yacc portability matter to you, this is
+the preferred solution.
+@end table
+
+We suggest that you always enable the debug option so that debugging is
+always possible.
 
 The trace facility outputs messages with macro calls of the form
 @code{YYFPRINTF (stderr, @var{format}, @var{args})} where
@@ -5307,6 +5335,22 @@ would instead be named @file{foo_tab.c}.
 @cindex symbols in Bison, table of
 
 @table @code
+@item @@$
+In an action, the location of the left-hand side of the rule.
+  @xref{Locations, , Locations Overview}.
+
+@item @@@var{n}
+In an action, the location of the @var{n}-th symbol of the right-hand
+side of the rule.  @xref{Locations, , Locations Overview}.
+
+@item $$
+In an action, the semantic value of the left-hand side of the rule.
+@xref{Actions}.
+
+@item $@var{n}
+In an action, the semantic value of the @var{n}-th symbol of the
+right-hand side of the rule.  @xref{Actions}.
+
 @item error
 A token name reserved for error recovery.  This token may be used in
 grammar rules so as to allow the Bison parser to recognize an error in
@@ -5331,6 +5375,10 @@ read, by making @code{yyparse} return 0 immediately.
 @item YYBACKUP
 Macro to discard a value from the parser stack and fake a look-ahead
 token.  @xref{Action Features, ,Special Features for Use in Actions}.
+
+@item YYDEBUG
+Macro to define to equip the parser with tracing code. @xref{Debugging,
+,Debugging Your Parser}.
 
 @item YYERROR
 Macro to pretend that a syntax error has just been detected: call
@@ -5504,6 +5552,8 @@ Bison declaration to declare nonterminals.  @xref{Type Decl,
 Bison declaration to specify several possible data types for semantic
 values.  @xref{Union Decl, ,The Collection of Value Types}.
 @end table
+
+@sp 1
 
 These are the punctuation and delimiters used in Bison input:
 
