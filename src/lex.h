@@ -49,13 +49,10 @@
 # define SETOPT		26
 # define ILLEGAL	27
 
-# define MAXTOKEN	1024
 
-
-/* Allocated size of token_buffer, not including space for terminator.  */
-extern int maxtoken;
 extern char *token_buffer;
-char *grow_token_buffer PARAMS ((char *));
+extern bucket *symval;
+extern int numval;
 
 void init_lex PARAMS ((void));
 int skip_white_space PARAMS ((void));
@@ -70,8 +67,5 @@ void read_type_name PARAMS ((FILE *fin));
 int lex PARAMS ((void));
 
 int parse_percent_token PARAMS ((void));
-
-extern bucket *symval;
-extern int numval;
 
 #endif /* !LEX_H_ */

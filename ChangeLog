@@ -1,5 +1,10 @@
 2001-01-18  Akim Demaille  <akim@epita.fr>
 
+	* src/lex.h (MAXTOKEN, maxtoken, grow_token_buffer): Remove, private.
+	* src/lex.c (maxtoken, grow_token_buffer): Static.
+
+2001-01-18  Akim Demaille  <akim@epita.fr>
+
 	Since we now use obstacks, more % directives can be enabled.
 
 	* src/lex.c (percent_table): Also accept `%yacc',
