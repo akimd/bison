@@ -1,5 +1,10 @@
 2001-10-01  Marc Autret  <autret_m@epita.fr>
 
+	* src/lex.h: Echo modifications.
+	* src/lex.c (unlex): Parameter is now token_t.
+
+2001-10-01  Marc Autret  <autret_m@epita.fr>
+
 	* src/main.c: Include lex.h.
 
 2001-09-29  Akim Demaille  <akim@epita.fr>

@@ -61,7 +61,7 @@ extern int numval;
 void lex_init PARAMS ((void));
 void lex_free PARAMS ((void));
 int skip_white_space PARAMS ((void));
-void unlex PARAMS ((int));
+void unlex PARAMS ((token_t));
 void read_type_name PARAMS ((FILE *fin));
 
 /* Return one of the token-type codes.  When an identifier is seen,

@@ -321,7 +321,7 @@ literalchar (struct obstack *out, int *pcode, char term)
 
 
 void
-unlex (int token)
+unlex (token_t token)
 {
   unlexed = token;
   unlexed_symval = symval;
