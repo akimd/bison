@@ -1,3 +1,4 @@
+## Process this file with automake to produce Makefile.in -*-Makefile-*-
 ## Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
@@ -14,9 +15,6 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 ## 02111-1307  USA
-
-## Process this file with automake to produce Makefile.in -*-Makefile-*-
-AUTOMAKE_OPTIONS = 1.6 check-news readme-alpha dist-bzip2
 
 ACLOCAL_AMFLAGS = -I m4
 

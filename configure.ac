@@ -23,7 +23,7 @@ AC_PREREQ(2.54)
 AC_INIT([GNU Bison], [1.49c], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR(config)
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([1.6.3 check-news readme-alpha dist-bzip2])
 AM_CONFIG_HEADER(config.h:config.hin)
 
 # Initialize the test suite.
