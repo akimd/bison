@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.35\n"
-"POT-Creation-Date: 2002-07-01 18:45+0200\n"
+"POT-Creation-Date: 2002-07-03 14:09+0200\n"
 "PO-Revision-Date: 2002-04-03 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -78,30 +78,30 @@ msgstr ""
 "El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
-#: src/conflicts.c:379
+#: src/conflicts.c:403
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d conflicto desplazamiento/reducción"
 msgstr[1] "%d conflictos desplazamiento/reducción"
 
-#: src/conflicts.c:386
+#: src/conflicts.c:410
 msgid "and"
 msgstr "y"
 
-#: src/conflicts.c:392
+#: src/conflicts.c:416
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d conflicto reducción/reducción"
 msgstr[1] " %d conflictos reducción/reducción"
 
-#: src/conflicts.c:417
+#: src/conflicts.c:441
 #, c-format
 msgid "State %d contains "
 msgstr "El estado %d contiene"
 
-#: src/conflicts.c:490
+#: src/conflicts.c:514
 msgid "conflicts: "
 msgstr "conflictos: "
 
@@ -117,7 +117,7 @@ msgstr "conflictos: "
 # ok
 # ngp
 #
-#: src/conflicts.c:492
+#: src/conflicts.c:516
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d desplazamiento(s)/reducción(ones)"
@@ -134,17 +134,17 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 #
 # ok
 # ngp
-#: src/conflicts.c:496
+#: src/conflicts.c:520
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:501
+#: src/conflicts.c:525
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
 
-#: src/conflicts.c:508
+#: src/conflicts.c:532
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -291,7 +291,7 @@ msgstr "%s: no se ha especificado ningún fichero de gramática\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
 
-#: src/lalr.c:102
+#: src/lalr.c:110
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "demasiados gotos (máximo %d)"
@@ -474,22 +474,22 @@ msgstr[1] "%d reglas sin uso"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
 
-#: scan-gram.l:560
+#: scan-gram.l:559
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' no tiene tipo declarado"
 
-#: scan-gram.l:577 scan-gram.l:664
+#: scan-gram.l:576 scan-gram.l:663
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "valor @ no válido"
 
-#: scan-gram.l:584
+#: scan-gram.l:583
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d de `%s' no tiene tipo declarado"
 
-#: scan-gram.l:595 scan-gram.l:612 scan-gram.l:671 scan-gram.l:688
+#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:670 scan-gram.l:687
 #, c-format
 msgid "%s is invalid"
 msgstr "%s no es válido"
