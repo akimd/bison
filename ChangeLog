@@ -1,5 +1,20 @@
 2002-08-01  Akim Demaille  <akim@epita.fr>
 
+	* src/derives.h, src/derives.c (derives): A `rule_t***' instead of
+	`rule_number_t**'.
+	(set_derives, free_derives): Rename as...
+	(derives_compute, derives_free): this.
+	Adjust all dependencies.
+	* src/nullable.c (set_nullable, free_nullable): Rename as...
+	(nullable_compute, nullable_free): these.
+	(rule_list_t): Store rule_t *, not rule_number_t.
+	* src/state.c (state_rule_lookaheads_print): Directly compare rule
+	pointers, instead of their numbers.
+	* src/main.c (main): Call nullable_free, and derives_free earlier,
+	as they were lo longer used.
+
+2002-08-01  Akim Demaille  <akim@epita.fr>
+
 	* lib/timevar.c (get_time): Include children time.
 	* src/lalr.h (LA, LArule): Don't export them: used with the
 	state_t.

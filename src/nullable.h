@@ -1,5 +1,5 @@
 /* Part of the bison parser generator,
-   Copyright 2000 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -23,11 +23,11 @@
 
 /* A vector saying which nonterminals can expand into the null string.
    NULLABLE[I - NTOKENS] is nonzero if symbol I can do so.  */
-extern char *nullable;
+extern bool *nullable;
 
 /* Set up NULLABLE. */
-extern void set_nullable PARAMS((void));
+extern void nullable_compute PARAMS((void));
 
 /* Free NULLABLE. */
-extern void free_nullable PARAMS((void));
+extern void nullable_free PARAMS((void));
 #endif /* !NULLABLE_H_ */
