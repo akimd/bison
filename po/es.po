@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.49a\n"
-"POT-Creation-Date: 2002-09-27 18:59+0200\n"
+"POT-Creation-Date: 2002-09-30 14:30+0200\n"
 "PO-Revision-Date: 2002-05-02 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -638,67 +638,67 @@ msgstr ""
 msgid "Valid arguments are:"
 msgstr ""
 
-#: lib/bitset_stats.c:226
+#: lib/bitset_stats.c:222
 #, c-format
 msgid "%d bitset_allocs, %d freed (%.2f%%).\n"
 msgstr ""
 
-#: lib/bitset_stats.c:229
+#: lib/bitset_stats.c:225
 #, c-format
 msgid "%d bitset_sets, %d cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:232
+#: lib/bitset_stats.c:228
 #, c-format
 msgid "%d bitset_resets, %d cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:235
+#: lib/bitset_stats.c:231
 #, c-format
 msgid "%d bitset_tests, %d cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:239
+#: lib/bitset_stats.c:235
 #, c-format
 msgid "%d bitset_lists\n"
 msgstr ""
 
-#: lib/bitset_stats.c:241
+#: lib/bitset_stats.c:237
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:244
+#: lib/bitset_stats.c:240
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:247
+#: lib/bitset_stats.c:243
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:264
+#: lib/bitset_stats.c:259
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset_stats.c:267
+#: lib/bitset_stats.c:262
 #, c-format
 msgid "Accumulated runs = %d\n"
 msgstr ""
 
-#: lib/bitset_stats.c:311
+#: lib/bitset_stats.c:307
 msgid "Could not read stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:313
+#: lib/bitset_stats.c:309
 msgid "Bad stats file size.\n"
 msgstr ""
 
-#: lib/bitset_stats.c:339
+#: lib/bitset_stats.c:335
 msgid "Could not write stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:343
+#: lib/bitset_stats.c:339
 msgid "Could not open stats file for writing."
 msgstr ""
 
