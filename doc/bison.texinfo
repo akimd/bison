@@ -6508,6 +6508,11 @@ handle features like include files, you might consider using Flex
 functions like @samp{yy_switch_to_buffer} that manipulate multiple
 input buffers.
 
+If your Flex-generated scanner uses start conditions (@pxref{Start
+conditions, , Start conditions, flex, The Flex Manual}), you might
+also want to reset the scanner's state, i.e., go back to the initial
+start condition, through a call to @samp{BEGIN (0)}.
+
 @node Strings are Destroyed
 @section Strings are Destroyed
 

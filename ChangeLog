@@ -1,3 +1,9 @@
+2003-12-02  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (How Can I Reset the Parser): More about start
+	conditions.
+	From Bruno Haible.
+
 2003-11-18  Alexandre Duret-Lutz  <adl@gnu.org>
 
 	* doc/bison.texinfo (Bison Options): Escape `@' in `$@'.
