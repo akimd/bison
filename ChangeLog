@@ -1,3 +1,8 @@
+2002-02-13  Andreas Schwab  <schwab@suse.de>
+
+	* src/output.c (output_rule_data): Don't output NULL, it might
+	not be defined yet.
+
 2002-02-13  Guerrero, Juan Manuel  <st001906@hrz1.hrz.tu-darmstadt.de>
 
 	* doc/bison.texinfo:  Add DJGPP specific information about

@@ -452,7 +452,7 @@ output_rule_data (void)
       j += strsize;
     }
   /* add a NULL entry to list of tokens */
-  obstack_sgrow (&table_obstack, "NULL\n};\n");
+  obstack_sgrow (&table_obstack, "0\n};\n");
 
   if (!token_table_flag && !no_parser_flag)
     obstack_sgrow (&table_obstack, "#endif\n\n");
