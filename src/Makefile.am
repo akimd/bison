@@ -22,7 +22,7 @@ DEFS = @DEFS@ \
   -DBISON_HAIRY=\"$(pkgdatadir)/bison.hairy\" \
   -DLOCALEDIR=\"$(datadir)/locale\"
 
-CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
+CFLAGS = @CFLAGS@ $(WARNING_CFLAGS) $(WERROR_CFLAGS)
 YFLAGS = "-dv"
 
 # libintl.h in is build/intl, intl/libgettext.h in src/,

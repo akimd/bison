@@ -1,3 +1,11 @@
+2002-01-09  Akim Demaille  <akim@epita.fr>
+
+	* configure.in (WERROR_CFLAGS): Compute it.
+	* src/Makefile.am (CFLAGS): Pass it.
+	* tests/atlocal.in (CFLAGS): Idem.
+	* src/files.c: Fix a few warnings.
+	(get_extension_index): Remove, unused.
+
 2002-01-08  Akim Demaille  <akim@epita.fr>
 
 	* src/getargs.c (AS_FILE_NAME): New.
