@@ -25,7 +25,7 @@ AT_DATA([glr-regr1.y],
 /* Reported by Scott McPeak */
 
 %{
-#include <stdio.h>    // fgetc, printf
+#include <stdio.h>
 
 #define YYSTYPE int
 static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
@@ -63,29 +63,29 @@ static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1)
 int
 main (void)
 {
-  yyparse();
+  yyparse ();
   return 0;
 }
 
 int
 yyerror (char const *msg)
 {
-  printf("%s\n", msg);
-  exit(4);
+  fprintf (stderr, "%s\n", msg);
+  exit (4);
 }
 
 
 int
 yylex (void)
 {
-  while (1) {
-    int ch = fgetc(stdin);
-    if (ch == EOF) {
-      return 0;   // bison's EOF
-    } else if (ch == 'B' || ch == 'P') {
-      return ch;
+  for (;;)
+    {
+      int ch = getchar ();
+      if (ch == EOF)
+	return 0;
+      else if (ch == 'B' || ch == 'P')
+	return ch;
     }
-  }
 }
 ]])
 
