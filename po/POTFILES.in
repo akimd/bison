@@ -1,5 +1,4 @@
 src/LR0.c
-src/allocate.c
 src/closure.c
 src/conflicts.c
 src/derives.c
@@ -17,5 +16,8 @@ src/reduce.c
 # src/symtab.c
 # src/warshall.c
 
+lib/error.c
 lib/getopt.c
-lib/getopt1.c
+lib/obstack.c
+lib/quotearg.c
+lib/xmalloc.c

@@ -27,18 +27,28 @@
 #define PFILE	XPFILE		/* Simple parser */
 #define PFILE1	XPFILE1		/* Semantic parser */
 
-extern FILE *finput;   /* read grammar specifications */
-extern FILE *foutput;  /* optionally output messages describing the actions taken */
-extern FILE *fguard;   /* if semantic parser, output yyguard, containing all the guard code */
-extern FILE *fparser;  /* read the parser to copy into ftable */
-
 /* File name specified with -o for the output file, or 0 if no -o.  */
 extern char *spec_outfile;
 
-extern char *spec_name_prefix; /* for -a, from getargs.c */
+/* For -a, from getargs.c */
+extern char *spec_name_prefix;
 
 /* File name pfx specified with -b, or 0 if no -b.  */
 extern char *spec_file_prefix;
+
+
+/* Read grammar specifications. */
+extern FILE *finput;
+
+/* Optionally output messages describing the actions taken. */
+extern FILE *foutput;
+
+/* If semantic parser, output yyguard, containing all the guard code. */
+extern FILE *fguard;
+
+/* Read the parser to copy into TABLE_OBSTACK. */
+extern FILE *fparser;
+
 
 /* Output all the action code; precise form depends on which parser. */
 extern struct obstack action_obstack;

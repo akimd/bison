@@ -1,5 +1,11 @@
 2000-11-02  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c [VMS]: No longer include `ssdef.h', no longer define
+	`unlink': it's no longer used.
+	* src/files.h: Formatting changes.
+
+2000-11-02  Akim Demaille  <akim@epita.fr>
+
 	Remove the last uses of mktemp and unlink/delete.
 
 	* src/files.c (fdefines, ftable): Removed.
