@@ -23,12 +23,12 @@
 # include "state.h"
 
 void solve_conflicts PARAMS ((void));
-void print_conflicts PARAMS ((FILE *out));
+void conflicts_print PARAMS ((void));
+void conflicts_output PARAMS ((FILE *out));
 void print_reductions PARAMS ((int));
 void free_conflicts PARAMS ((void));
 
 /* Were there conflicts? */
-extern int any_conflicts;
 extern errs **err_table;
 extern int expected_conflicts;
 #endif /* !CONFLICTS_H_ */
