@@ -1,3 +1,7 @@
+2000-10-20  Akim Demaille  <akim@epita.fr>
+
+	* lib/quote.h (PARAMS): New macro.  Use it.
+
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_short_or_char_table): New function.
