@@ -259,7 +259,10 @@ splice	 (\\[ \f\t\v]*\n)*
     YY_STEP;
   }
 
-  ^"#line "{int}" \""[^\"]*"\"\n"   handle_syncline (yytext + strlen ("#line "), yylloc); YY_STEP;
+  ^"#line "{int}" \"".*"\"\n" {
+    handle_syncline (yytext + sizeof "#line " - 1, yylloc);
+    YY_STEP;
+  }
 
   "="                     return EQUAL;
   ":"                     rule_length = 0; return COLON;
@@ -450,7 +453,10 @@ splice	 (\\[ \f\t\v]*\n)*
   \\r	obstack_1grow (&string_obstack, '\r');
   \\t	obstack_1grow (&string_obstack, '\t');
   \\v	obstack_1grow (&string_obstack, '\v');
-  \\[\"\'?\\]  obstack_1grow (&string_obstack, yytext[1]);
+
+  /* \\[\"\'?\\] would be shorter, but it confuses xgettext.  */
+  \\("\""|"'"|"?"|"\\")  obstack_1grow (&string_obstack, yytext[1]);
+
   \\(u|U[0-9a-fA-F]{4})[0-9a-fA-F]{4} {
     int c = convert_ucn_to_byte (yytext);
     if (c < 0)
@@ -477,9 +483,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_CHARACTER>
 {
-  "'"		    YY_OBS_GROW; BEGIN c_context;
-  \\{splice}[\'\\]  YY_OBS_GROW;
-  <<EOF>>	    unexpected_end_of_file (yylloc, "'");
+  "'"			YY_OBS_GROW; BEGIN c_context;
+  \\{splice}[^$@\[\]]	YY_OBS_GROW;
+  <<EOF>>		unexpected_end_of_file (yylloc, "'");
 }
 
 
@@ -490,9 +496,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_STRING>
 {
-  "\""		    YY_OBS_GROW; BEGIN c_context;
-  \\{splice}[\"\\]  YY_OBS_GROW;
-  <<EOF>>	    unexpected_end_of_file (yylloc, "\"");
+  "\""			YY_OBS_GROW; BEGIN c_context;
+  \\{splice}[^$@\[\]]	YY_OBS_GROW;
+  <<EOF>>		unexpected_end_of_file (yylloc, "\"");
 }
 
 
