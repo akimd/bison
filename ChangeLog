@@ -1,5 +1,10 @@
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
+	* Makefile.maint: Sync with Autoconf:
+	(local_updates): New.
+
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
 	* po/POTFILES.in (src/lalr.c, src/state.c): Remove
 
 2002-11-12  Akim Demaille  <akim@epita.fr>
