@@ -1,5 +1,19 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	Now that states have a complete set of members, the linked list of
+	shifts is useless: just fill directly the state's shifts member.
+
+	* src/state.h (shifts): Remove the `next' member.
+	* src/LR0.c (first_state, last_state): Remove.
+	Adjust the callers.
+	(augment_automaton): Don't look for the shifts that must be added
+	a shift on EOF: it is those of the state we looked for!  But now,
+	since shifts are attached, it is no longer needed to looking
+	merely by its id: its number.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (augment_automaton): Better variable locality.
 	Remove an impossible branch: if there is a state corresponding to
 	the start symbol being shifted, then there is shift for the start
