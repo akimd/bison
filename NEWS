@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.49b:
+Changes in version 1.49b, 2002-08-12:
 
 * GLR parsing
   The declaration
@@ -49,9 +49,11 @@ Changes in version 1.49b:
 * Traces
   Popped tokens and nonterminals are now reported.
 
-* Large grammars
-  Large grammars are now supported (large token numbers, large grammar
-  size (= sum of the LHS and RHS lengths), large LALR tables).
+* Larger grammars
+  Larger grammars are now supported (larger token numbers, larger grammar
+  size (= sum of the LHS and RHS lengths), larger LALR tables).
+  Formerly, many of these numbers ran afoul of 16-bit limits;
+  now these limits are 32 bits on most hosts.
 
 * Explicit initial rule
   Bison used to play hacks with the initial rule, which the user does
@@ -91,7 +93,7 @@ Changes in version 1.49b:
 * Token end-of-file
   The token end of file may be specified by the user, in which case,
   the user symbol is used in the reports, the graphs, and the verbose
-  error messages instead of `$end', which remains being the defaults.
+  error messages instead of `$end', which remains being the default.
   For instance
      %token YYEOF 0
   or
@@ -100,7 +102,8 @@ Changes in version 1.49b:
 * Semantic parser
   This old option, which has been broken for ages, is removed.
 
-* New translation
+* New translations
+  Brazilian Portuguese, thanks to Alexandre Folle de Menezes.
   Croatian, thanks to Denis Lackovic.
 
 * Incorrect token definitions
@@ -132,6 +135,8 @@ Changes in version 1.49b:
       bar: '0' {} '0';
 
   This is fixed.
+
+* GNU M4 is now required when using Bison.
 
 Changes in version 1.35, 2002-03-25:
 
