@@ -1,3 +1,22 @@
+2002-08-02  Akim Demaille  <akim@epita.fr>
+
+	* src/conflicts.c (conflicts_output): Don't output rules never
+	reduced here, since anyway that computation doesn't work.
+	* src/gram.h, src/gram.h (rule_filter_t, rule_useful_p)
+	(rule_useless_p, rule_never_reduced_p): New.
+	(grammar_rules_partial_print): Use a filter instead of a range.
+	Display the title only if needed.
+	(grammar_rules_print): Adjust.
+	(grammar_rules_never_reduced_report): New.
+	* src/tables.c (action_row): Move the computation of rules never
+	reduced to...
+	(token_actions): here.
+	* src/main.c (main): Make the parser before making the report, so
+	that rules never reduced are computed.
+	Call grammar_rules_never_reduced_report.
+	* src/print.c (print_results): Report rules never reduced.
+	* tests/conflicts.at, tests/reduce.at: Adjust.
+
 2002-08-01  Akim Demaille  <akim@epita.fr>
 
 	Instead of attaching lookaheads and duplicating the rules being

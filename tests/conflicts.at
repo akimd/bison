@@ -377,7 +377,12 @@ input.y:4.4-8: warning: rule never reduced because of conflicts: id: '0'
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
-[[State 1 contains 1 reduce/reduce conflict.
+[[Rules never reduced
+
+    4 id: '0'
+
+
+State 1 contains 1 reduce/reduce conflict.
 
 
 Grammar

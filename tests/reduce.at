@@ -47,7 +47,7 @@ exp: useful;
 AT_CHECK([[bison input.y]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
-[[Terminals which are not used:
+[[Terminals which are not used
    useless1
    useless2
    useless3
@@ -102,7 +102,7 @@ input.y:12.8-15: warning: useless nonterminal: useless9
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
-[[Useless nonterminals:
+[[Useless nonterminals
    useless1
    useless2
    useless3
@@ -166,7 +166,7 @@ input.y:14.9-13: warning: useless rule: useless9: '9'
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
-[[Useless nonterminals:
+[[Useless nonterminals
    useless1
    useless2
    useless3
@@ -176,7 +176,7 @@ AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
    useless7
    useless8
    useless9
-Terminals which are not used:
+Terminals which are not used
    '1'
    '2'
    '3'
@@ -248,10 +248,10 @@ not-reduced.y:17.15-18.63: warning: useless rule: non_productive: non_productive
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' not-reduced.output]], 0,
-[[Useless nonterminals:
+[[Useless nonterminals
    not_reachable
    non_productive
-Terminals which are not used:
+Terminals which are not used
    useless_token
 Useless rules
     2 exp: non_productive
@@ -322,7 +322,7 @@ input.y:7.12-24: warning: useless rule: indirection: underivable
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
-[[Useless nonterminals:
+[[Useless nonterminals
    underivable
    indirection
 Useless rules

@@ -175,26 +175,18 @@ typedef struct rule_s
 
 extern struct rule_s *rules;
 
-/* Table of the symbols, indexed by the symbol number. */
-extern symbol_t **symbols;
+/* A function that selects a rule.  */
+typedef bool (*rule_filter_t) PARAMS ((rule_t *r));
 
-/* TOKEN_TRANSLATION -- a table indexed by a token number as returned
-   by the user's yylex routine, it yields the internal token number
-   used by the parser and throughout bison.  */
-extern symbol_number_t *token_translations;
-extern int max_user_token_number;
+/* Return true IFF the rule has a `number' smaller than NRULES.  */
+bool rule_useful_p PARAMS ((rule_t *r));
 
+/* Return true IFF the rule has a `number' higher than NRULES.  */
+bool rule_useless_p PARAMS ((rule_t *r));
 
-/* GLR_PARSER is nonzero if the input file says to use the GLR
-   (Generalized LR) parser, and to output some additional
-   information used by the GLR algorithm. */
-
-extern int glr_parser;
-
-/* PURE_PARSER is nonzero if should generate a parser that is all pure
-   and reentrant.  */
-
-extern int pure_parser;
+/* Return true IFF the rule is not flagged as useful *and* is useful.
+   In other words, it was discarded because of conflicts.  */
+bool rule_never_reduced_p PARAMS ((rule_t *r));
 
 /* Print this RULE's number and lhs on OUT.  If a PREVIOUS_LHS was
    already displayed (by a previous call for another rule), avoid
@@ -210,6 +202,31 @@ void rule_rhs_print PARAMS ((rule_t *rule, FILE *out));
 /* Print this RULE on OUT.  */
 void rule_print PARAMS ((rule_t *rule, FILE *out));
 
+
+
+
+/* Table of the symbols, indexed by the symbol number. */
+extern symbol_t **symbols;
+
+/* TOKEN_TRANSLATION -- a table indexed by a token number as returned
+   by the user's yylex routine, it yields the internal token number
+   used by the parser and throughout bison.  */
+extern symbol_number_t *token_translations;
+extern int max_user_token_number;
+
+
+
+/* GLR_PARSER is nonzero if the input file says to use the GLR
+   (Generalized LR) parser, and to output some additional
+   information used by the GLR algorithm. */
+
+extern int glr_parser;
+
+/* PURE_PARSER is nonzero if should generate a parser that is all pure
+   and reentrant.  */
+
+extern int pure_parser;
+
 /* Dump RITEM for traces. */
 void ritem_print PARAMS ((FILE *out));
 
@@ -219,14 +236,19 @@ size_t ritem_longest_rhs PARAMS ((void));
 /* Print the grammar's rules numbers from BEGIN (inclusive) to END
    (exclusive) on OUT under TITLE.  */
 void grammar_rules_partial_print PARAMS ((FILE *out, const char *title,
-					  rule_number_t begin,
-					  rule_number_t end));
+					  rule_filter_t filter));
 
 /* Print the grammar's rules on OUT.  */
 void grammar_rules_print PARAMS ((FILE *out));
 
 /* Dump the grammar. */
 void grammar_dump PARAMS ((FILE *out, const char *title));
+
+/* Report on STDERR the rules that are not flagged USEFUL, using the
+   MESSAGE (which can be `useless rule' when invoked after grammar
+   reduction, or `never reduced' after conflicts were taken into
+   account).  */
+void grammar_rules_never_reduced_report PARAMS ((const char *message));
 
 /* Free the packed grammar. */
 void grammar_free PARAMS ((void));
