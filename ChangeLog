@@ -1,5 +1,13 @@
 2002-01-06  Akim Demaille  <akim@epita.fr>
 
+	Bison is dead wrong in its RR conflict reports.
+
+	* tests/torture.at (GNU Cim Grammar): New.
+	* src/conflicts.c (count_rr_conflicts): Fix.
+
+	
+2002-01-06  Akim Demaille  <akim@epita.fr>
+
 	Creating package.m4 from configure.ac causes too many problems.
 
 	* tests/Makefile.am (package.m4): Create it by hand,
