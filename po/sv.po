@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.75b\n"
-"POT-Creation-Date: 2002-12-13 03:47-0800\n"
+"POT-Creation-Date: 2002-12-24 00:30-0800\n"
 "PO-Revision-Date: 2002-11-23 14:19+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -246,11 +246,11 @@ msgstr "varning"
 msgid "rule never reduced because of conflicts"
 msgstr "regel aldrig reducerad på grund av konflikter"
 
-#: src/parse-gram.y:336
+#: src/parse-gram.y:334
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX förbjuder deklarationer i grammatiken"
 
-#: src/parse-gram.y:468
+#: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
 msgstr ""
 
@@ -405,51 +405,56 @@ msgstr[1] "%d oanvändbara regler"
 msgid "start symbol %s does not derive any sentence"
 msgstr "startsymbolen %s genererar inga meningar"
 
-#: src/scan-gram.l:208
+#: src/scan-gram.l:211
 #, c-format
 msgid "invalid directive: %s"
 msgstr "ogiltigt direktiv: %s"
 
-#: src/scan-gram.l:216
+#: src/scan-gram.l:219
 msgid "stray `,' treated as white space"
 msgstr ""
 
-#: src/scan-gram.l:232 src/scan-gram.l:727 src/scan-gram.l:798
+#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
 #, c-format
 msgid "integer out of range: %s"
 msgstr "heltal utanför intervall: %s"
 
-#: src/scan-gram.l:276
+#: src/scan-gram.l:280
 #, c-format
 msgid "invalid character: %s"
 msgstr "ogiltigt tecken: %s"
 
-#: src/scan-gram.l:400 src/scan-gram.l:410 src/scan-gram.l:429
+#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "ogiltig specialsekvens: %s"
 
-#: src/scan-gram.l:434
+#: src/scan-gram.l:438
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "okänd specialsekvens: %s"
 
-#: src/scan-gram.l:699
+#: src/scan-gram.l:523
+#, fuzzy, c-format
+msgid "missing `{' in `%s'"
+msgstr "saknad operand efter \"%s\""
+
+#: src/scan-gram.l:737
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ för \"%s\" har ingen deklarerad typ"
 
-#: src/scan-gram.l:718
+#: src/scan-gram.l:756
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d för \"%s\" har ingen deklarerad typ"
 
-#: src/scan-gram.l:744 src/scan-gram.l:815
+#: src/scan-gram.l:800 src/scan-gram.l:867
 #, c-format
 msgid "invalid value: %s"
 msgstr "felaktigt värde: %s"
 
-#: src/scan-gram.l:928
+#: src/scan-gram.l:958
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "saknat \"%s\" vid filslut"

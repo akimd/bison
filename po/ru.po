@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-12-13 03:47-0800\n"
+"POT-Creation-Date: 2002-12-24 00:30-0800\n"
 "PO-Revision-Date: 2002-07-20 13:23+0400\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -249,11 +249,11 @@ msgstr "предупреждение: "
 msgid "rule never reduced because of conflicts"
 msgstr " 1 конфликт вывода/вывода"
 
-#: src/parse-gram.y:336
+#: src/parse-gram.y:334
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
-#: src/parse-gram.y:468
+#: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
 msgstr ""
 
@@ -418,51 +418,56 @@ msgstr[2] "%d бесполезных правил"
 msgid "start symbol %s does not derive any sentence"
 msgstr "Начальный символ %s не выводит ни одного предложения"
 
-#: src/scan-gram.l:208
+#: src/scan-gram.l:211
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "неверные входные данные: %s"
 
-#: src/scan-gram.l:216
+#: src/scan-gram.l:219
 msgid "stray `,' treated as white space"
 msgstr ""
 
-#: src/scan-gram.l:232 src/scan-gram.l:727 src/scan-gram.l:798
+#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:276
+#: src/scan-gram.l:280
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "неизвестный символ: %s"
 
-#: src/scan-gram.l:400 src/scan-gram.l:410 src/scan-gram.l:429
+#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "неверное значение: %s%d"
 
-#: src/scan-gram.l:434
+#: src/scan-gram.l:438
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "нераспознано: %s"
 
-#: src/scan-gram.l:699
+#: src/scan-gram.l:523
+#, c-format
+msgid "missing `{' in `%s'"
+msgstr ""
+
+#: src/scan-gram.l:737
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ в `%s' не имеет описанного типа"
 
-#: src/scan-gram.l:718
+#: src/scan-gram.l:756
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d из `%s' не имеет описанного типа"
 
-#: src/scan-gram.l:744 src/scan-gram.l:815
+#: src/scan-gram.l:800 src/scan-gram.l:867
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "неверное значение: %s%d"
 
-#: src/scan-gram.l:928
+#: src/scan-gram.l:958
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "незаконченная строка в конце файла"

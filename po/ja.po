@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-12-13 03:47-0800\n"
+"POT-Creation-Date: 2002-12-24 00:30-0800\n"
 "PO-Revision-Date: 2002-10-29 01:00-05:00\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -238,11 +238,11 @@ msgstr "警告: "
 msgid "rule never reduced because of conflicts"
 msgstr " 1 還元/還元衝突"
 
-#: src/parse-gram.y:336
+#: src/parse-gram.y:334
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
-#: src/parse-gram.y:468
+#: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
 msgstr ""
 
@@ -400,51 +400,56 @@ msgstr[0] "%d 個の無意味な規則"
 msgid "start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"
 
-#: src/scan-gram.l:208
+#: src/scan-gram.l:211
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "不適切な入力: %s"
 
-#: src/scan-gram.l:216
+#: src/scan-gram.l:219
 msgid "stray `,' treated as white space"
 msgstr ""
 
-#: src/scan-gram.l:232 src/scan-gram.l:727 src/scan-gram.l:798
+#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:276
+#: src/scan-gram.l:280
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "未知の文字: %s"
 
-#: src/scan-gram.l:400 src/scan-gram.l:410 src/scan-gram.l:429
+#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "不適切な入力: %s"
 
-#: src/scan-gram.l:434
+#: src/scan-gram.l:438
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "認識できない: %s"
 
-#: src/scan-gram.l:699
+#: src/scan-gram.l:523
+#, c-format
+msgid "missing `{' in `%s'"
+msgstr ""
+
+#: src/scan-gram.l:737
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' の $$ に宣言のない型があります"
 
-#: src/scan-gram.l:718
+#: src/scan-gram.l:756
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d 個の `%s' が宣言された型を持っていません"
 
-#: src/scan-gram.l:744 src/scan-gram.l:815
+#: src/scan-gram.l:800 src/scan-gram.l:867
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "不適切な $ の値"
 
-#: src/scan-gram.l:928
+#: src/scan-gram.l:958
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "閉じられていない文字列がファイル末尾にあります"

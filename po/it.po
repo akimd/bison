@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-12-13 03:47-0800\n"
+"POT-Creation-Date: 2002-12-24 00:30-0800\n"
 "PO-Revision-Date: 2002-10-17 14:37+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -243,11 +243,11 @@ msgstr "attenzione"
 msgid "rule never reduced because of conflicts"
 msgstr "regola mai ridotta a causa dei conflitti"
 
-#: src/parse-gram.y:336
+#: src/parse-gram.y:334
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX proibisce l'uso di dichiarazioni interne alla grammatica"
 
-#: src/parse-gram.y:468
+#: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
 msgstr ""
 
@@ -403,51 +403,56 @@ msgstr[1] "%d regole inutili"
 msgid "start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
-#: src/scan-gram.l:208
+#: src/scan-gram.l:211
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr ": escape non valido: %s\n"
 
-#: src/scan-gram.l:216
+#: src/scan-gram.l:219
 msgid "stray `,' treated as white space"
 msgstr ""
 
-#: src/scan-gram.l:232 src/scan-gram.l:727 src/scan-gram.l:798
+#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:276
+#: src/scan-gram.l:280
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr ": carattere non valido: `%c'\n"
 
-#: src/scan-gram.l:400 src/scan-gram.l:410 src/scan-gram.l:429
+#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr ": escape non valido: %s\n"
 
-#: src/scan-gram.l:434
+#: src/scan-gram.l:438
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr ": escape non riconosciuto: %s\n"
 
-#: src/scan-gram.l:699
+#: src/scan-gram.l:523
+#, c-format
+msgid "missing `{' in `%s'"
+msgstr ""
+
+#: src/scan-gram.l:737
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: src/scan-gram.l:718
+#: src/scan-gram.l:756
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: src/scan-gram.l:744 src/scan-gram.l:815
+#: src/scan-gram.l:800 src/scan-gram.l:867
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "valore non valido: %s%d"
 
-#: src/scan-gram.l:928
+#: src/scan-gram.l:958
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr ""
