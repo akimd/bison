@@ -2,6 +2,10 @@ Bison News
 ----------
 
 Changes in version 1.30a:
+
+* Fixed incorrect processing of some invalid input.
+
+* Fixed CPP guards: 9foo.h uses BISON_9FOO_H instead of 9FOO_H.
 
 Changes in version 1.30:
 
