@@ -1,5 +1,10 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.h (LA): Is a bitsetv, not bitset*.
+
+	
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.h, src/lalr.c (LAruleno): Replace with...
 	(LArule): this, which is an array to rule_t*.
 	* src/print.c, src/conflicts.c: Adjust.

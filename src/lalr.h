@@ -22,6 +22,7 @@
 # define LALR_H_
 
 #include "bitset.h"
+#include "bitsetv.h"
 
 /* Import the definition of CORE, SHIFTS and REDUCTIONS. */
 # include "state.h"
@@ -67,7 +68,7 @@ extern rule_t **LArule;
    token is symbol i.  If LA[l, i] and LA[l, j] are both 1 for i != j,
    it is a conflict.  */
 
-extern bitset *LA;
+extern bitsetv LA;
 
 
 /* All the states, indexed by the state number.  */
