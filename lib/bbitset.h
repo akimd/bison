@@ -25,21 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include <limits.h>
 #endif
 
-/* Use the following types for function parameters where the
-   corresponding enum would be the correct type if we could use
-   prototyped function definitions.  Standard C says that one cannot
-   portably use an enum as a parameter of an old-style function
-   definition that is also declared with a prototype.  */
-
-typedef int enum_bitset_ops;
-typedef int enum_bitset_type;
-
 /* Currently we support three flavours of bitsets:
    BITSET_ARRAY:  Array of bits (fixed size, fast for dense bitsets).
    BITSET_LIST:   Linked list of array of bits (variable size, least storage
-                  for large very sparse sets). 
-   BITSET_TABLE:  Expandable table of pointers to array of bits 
-                  (variable size, less storage for large sparse sets). 
+		  for large very sparse sets).
+   BITSET_TABLE:  Expandable table of pointers to array of bits
+		  (variable size, less storage for large sparse sets).
 
    BITSET_STATS:  Wrapper bitset for internal use only.
 */
@@ -82,11 +73,11 @@ typedef size_t bitset_windex;
 
 #define BITSET_LIST_SIZE 1024
 
-enum bitset_ops {BITSET_OP_ZERO, BITSET_OP_ONES, 
-		 BITSET_OP_COPY, BITSET_OP_NOT, 
+enum bitset_ops {BITSET_OP_ZERO, BITSET_OP_ONES,
+		 BITSET_OP_COPY, BITSET_OP_NOT,
 		 BITSET_OP_EMPTY_P, BITSET_OP_EQUAL_P,
 		 BITSET_OP_SUBSET_P, BITSET_OP_DISJOINT_P,
-		 BITSET_OP_AND, BITSET_OP_OR, BITSET_OP_XOR, BITSET_OP_ANDN, 
+		 BITSET_OP_AND, BITSET_OP_OR, BITSET_OP_XOR, BITSET_OP_ANDN,
 		 BITSET_OP_OR_AND, BITSET_OP_AND_OR, BITSET_OP_ANDN_OR};
 
 struct bbitset_struct
@@ -166,25 +157,25 @@ if (!BITSET_COMPATIBLE_ (DST, SRC1) || !BITSET_COMPATIBLE_ (DST, SRC2) \
 
 
 /* Return size in bits of bitset SRC.  */
-#define BITSET_SIZE_(SRC) (SRC)->b.vtable->size (SRC) 
+#define BITSET_SIZE_(SRC) (SRC)->b.vtable->size (SRC)
 
 /* Return number of bits set in bitset SRC.  */
-#define BITSET_COUNT_(SRC) (SRC)->b.vtable->count (SRC) 
+#define BITSET_COUNT_(SRC) (SRC)->b.vtable->count (SRC)
 
 /* Return type of bitset SRC.  */
-#define BITSET_TYPE_(DST) (DST)->b.vtable->type 
+#define BITSET_TYPE_(DST) (DST)->b.vtable->type
 
 /* Set bit BITNO in bitset DST.  */
-#define BITSET_SET_(DST, BITNO) (DST)->b.vtable->set (DST, BITNO) 
+#define BITSET_SET_(DST, BITNO) (DST)->b.vtable->set (DST, BITNO)
 
 /* Reset bit BITNO in bitset DST.  */
-#define BITSET_RESET_(DST, BITNO) (DST)->b.vtable->reset (DST, BITNO) 
+#define BITSET_RESET_(DST, BITNO) (DST)->b.vtable->reset (DST, BITNO)
 
 /* Toggle bit BITNO in bitset DST.  */
-#define BITSET_TOGGLE_(DST, BITNO) (DST)->b.vtable->toggle (DST, BITNO) 
+#define BITSET_TOGGLE_(DST, BITNO) (DST)->b.vtable->toggle (DST, BITNO)
 
 /* Return non-zero if bit BITNO in bitset SRC is set.  */
-#define BITSET_TEST_(SRC, BITNO) (SRC)->b.vtable->test (SRC, BITNO) 
+#define BITSET_TEST_(SRC, BITNO) (SRC)->b.vtable->test (SRC, BITNO)
 
 /* Free bitset SRC.  */
 #define BITSET_FREE_(SRC)\
@@ -258,21 +249,21 @@ if (!BITSET_COMPATIBLE_ (DST, SRC1) || !BITSET_COMPATIBLE_ (DST, SRC2) \
  (SRC1)->b.vtable->or_and_cmp (DST, SRC1, SRC2, SRC3)
 
 
-/* Find list of up to NUM bits set in BSET starting from and including 
+/* Find list of up to NUM bits set in BSET starting from and including
    *NEXT.  Return with actual number of bits found and with *NEXT
    indicating where search stopped.  */
 #define BITSET_LIST_(BSET, LIST, NUM, NEXT) \
- (BSET)->b.vtable->list (BSET, LIST, NUM, NEXT) 
+ (BSET)->b.vtable->list (BSET, LIST, NUM, NEXT)
 
 /* Find reverse list of up to NUM bits set in BSET starting from and
    including NEXT.  Return with actual number of bits found and with
    *NEXT indicating where search stopped.  */
 #define BITSET_LIST_REVERSE_(BSET, LIST, NUM, NEXT) \
- (BSET)->b.vtable->list_reverse (BSET, LIST, NUM, NEXT) 
+ (BSET)->b.vtable->list_reverse (BSET, LIST, NUM, NEXT)
 
 
 /* Private functions for bitset implementations.  */
- 
+
 extern int bitset_toggle_ PARAMS ((bitset, bitset_bindex));
 
 extern bitset_bindex bitset_count_ PARAMS ((bitset));
