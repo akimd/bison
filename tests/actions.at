@@ -333,7 +333,7 @@ static void yyerror (const char *msg);
 }
 %type <ival> 'x' ';' thing line input
 
-%printer { fprintf (yyout, "%d@%d-%d", $$, RANGE (@$)); }
+%printer { fprintf (yyoutput, "%d@%d-%d", $$, RANGE (@$)); }
    input line thing 'x'
 
 %destructor
