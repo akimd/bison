@@ -16,6 +16,9 @@ Changes in version 1.75b:
   In addition, they provide a means for yyerror to remain pure, and
   to access to the current location.
 
+  #defining yyerror to steal internal variables is strongly
+  discouraged.  It is not guaranteed to work for ever.
+
 * #line
   Bison now recognizes #line in its input, and forwards them.
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-24 22:53-0700\n"
+"POT-Creation-Date: 2002-11-07 15:27+0100\n"
 "PO-Revision-Date: 2002-10-07 00:30-0300\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -89,6 +89,10 @@ msgstr[1] "esperados: %d conflitos de deslocamento/redução"
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "impossível abrir o arquivo `%s'"
+
+#: src/files.c:130
+msgid "I/O error"
+msgstr ""
 
 #: src/files.c:133
 msgid "cannot close file"
@@ -308,50 +312,50 @@ msgstr " à direita:"
 msgid "Rules never reduced"
 msgstr "Regras nunca reduzidas"
 
-#: src/reader.c:52
+#: src/reader.c:51
 #, c-format
 msgid "multiple %s declarations"
 msgstr "declarações de %s múltiplas"
 
-#: src/reader.c:141
-#, c-format
-msgid "result type clash on merge function %s: `%s' vs. `%s'"
+#: src/reader.c:132
+#, fuzzy, c-format
+msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr "tipo de resultado conflita na fução de mescla %s: `%s' vs. `%s'"
 
-#: src/reader.c:239
+#: src/reader.c:230
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regra fornecida para %s, que é um token"
 
-#: src/reader.c:268
-#, c-format
-msgid "type clash (`%s' `%s') on default action"
+#: src/reader.c:259
+#, fuzzy, c-format
+msgid "type clash on default action: <%s> != <%s>"
 msgstr "os tipos (`%s' `%s') não concordam na ação padrão"
 
-#: src/reader.c:274
+#: src/reader.c:265
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regra vazia para um não-terminal com tipo, e não há ações"
 
-#: src/reader.c:344 src/reader.c:359 src/reader.c:372
+#: src/reader.c:335 src/reader.c:350 src/reader.c:363
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
 msgstr "apenas um %%dprec é permitido por regra"
 
-#: src/reader.c:354 src/reader.c:370
+#: src/reader.c:345 src/reader.c:361
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
 msgstr "%%dprec afeta apenas analisadores GLR"
 
-#: src/reader.c:357
+#: src/reader.c:348
 #, fuzzy, c-format
 msgid "%s must be followed by positive number"
 msgstr "%%dprec deve ser seguido por um número positivo"
 
-#: src/reader.c:515
+#: src/reader.c:506
 msgid "no rules in the input grammar"
 msgstr "não há regras na gramática de entrada"
 
-#: src/reader.c:547
+#: src/reader.c:538
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "muitos símbolos (terminais e não-terminais); máximo %d"
@@ -406,60 +410,50 @@ msgstr[1] "%d regras inúteis"
 msgid "start symbol %s does not derive any sentence"
 msgstr "símbolo de início %s não deriva nenhuma sentença"
 
-#: scan-gram.l:203
-#, c-format
-msgid ": invalid character: `%c'\n"
-msgstr ": caractere inválido: `%c'\n"
-
-#: scan-gram.l:247
-msgid ": unexpected end of file in a comment\n"
-msgstr ": fim de arquivo inesperado em um comentário\n"
-
-#: scan-gram.l:276 scan-gram.l:415
-msgid ": unexpected end of file in a string\n"
+#: scan-gram.l:140
+#, fuzzy, c-format
+msgid "unexpected end of file in `%s ... %s'"
 msgstr ": fim de arquivo inesperado em uma string\n"
 
-#: scan-gram.l:314 scan-gram.l:386
-msgid ": unexpected end of file in a character\n"
-msgstr ": fim de arquivo inesperado em um caractere\n"
-
-#: scan-gram.l:335
-#, c-format
-msgid ": invalid escape: %s\n"
+#: scan-gram.l:267
+#, fuzzy, c-format
+msgid "invalid directive: %s"
 msgstr ": escape inválido: %s\n"
 
-#: scan-gram.l:356
+#: scan-gram.l:293 scan-gram.l:746 scan-gram.l:818
 #, c-format
-msgid ": unrecognized escape: %s\n"
+msgid "integer out of range: %s"
+msgstr ""
+
+#: scan-gram.l:332
+#, fuzzy, c-format
+msgid "invalid character: %s"
+msgstr ": caractere inválido: `%c'\n"
+
+#: scan-gram.l:474 scan-gram.l:488 scan-gram.l:508
+#, fuzzy, c-format
+msgid "invalid escape sequence: %s"
+msgstr ": escape inválido: %s\n"
+
+#: scan-gram.l:516
+#, fuzzy, c-format
+msgid "unrecognized escape sequence: %s"
 msgstr ": escape não reconhecido: %s\n"
 
-#: scan-gram.l:477
-msgid ": unexpected end of file in a braced code\n"
-msgstr ": fim de arquivo inesperado em código entre chaves\n"
-
-#: scan-gram.l:506
-msgid ": unexpected end of file in a prologue\n"
-msgstr ": fim de arquivo inesperado em um prólogo\n"
-
-#: scan-gram.l:564
+#: scan-gram.l:717
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' não tem tipo declarado"
 
-#: scan-gram.l:576 scan-gram.l:658
-#, c-format
-msgid "invalid value: %s%d"
-msgstr "valor inválido: %s%d"
-
-#: scan-gram.l:583
+#: scan-gram.l:737
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d de `%s' não tem tipo declarado"
 
-#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:665 scan-gram.l:682
-#, c-format
-msgid "%s is invalid"
-msgstr "%s é inválido"
+#: scan-gram.l:763 scan-gram.l:835
+#, fuzzy, c-format
+msgid "invalid value: %s"
+msgstr "valor inválido: %s%d"
 
 #: src/state.c:145
 #, c-format
@@ -599,7 +593,7 @@ msgstr ""
 msgid "Accumulated runs = %u\n"
 msgstr "Execuções acumuladas = %u\n"
 
-#: lib/bitset_stats.c:260
+#: lib/bitset_stats.c:260 lib/bitset_stats.c:265
 msgid "Could not read stats file."
 msgstr "Impossível ler o arquivo de estatísticas."
 
@@ -607,11 +601,11 @@ msgstr "Impossível ler o arquivo de estatísticas."
 msgid "Bad stats file size.\n"
 msgstr "Tamanho do arquivo de estatísticas com erro.\n"
 
-#: lib/bitset_stats.c:287
+#: lib/bitset_stats.c:288 lib/bitset_stats.c:290
 msgid "Could not write stats file."
 msgstr "Impossível de escrever no arquivo de estatísticas."
 
-#: lib/bitset_stats.c:291
+#: lib/bitset_stats.c:293
 msgid "Could not open stats file for writing."
 msgstr "Impossível abrir arquivo de estatísticas para escrita."
 
@@ -718,6 +712,21 @@ msgstr " TOTAL                 :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "tempo em  %s: %ld.%06ld (%ld%%)\n"
+
+#~ msgid ": unexpected end of file in a comment\n"
+#~ msgstr ": fim de arquivo inesperado em um comentário\n"
+
+#~ msgid ": unexpected end of file in a character\n"
+#~ msgstr ": fim de arquivo inesperado em um caractere\n"
+
+#~ msgid ": unexpected end of file in a braced code\n"
+#~ msgstr ": fim de arquivo inesperado em código entre chaves\n"
+
+#~ msgid ": unexpected end of file in a prologue\n"
+#~ msgstr ": fim de arquivo inesperado em um prólogo\n"
+
+#~ msgid "%s is invalid"
+#~ msgstr "%s é inválido"
 
 #~ msgid "%s: no grammar file given\n"
 #~ msgstr "%s: nenhum arquivo de gramática foi especificado\n"

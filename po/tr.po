@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-10-24 22:53-0700\n"
+"POT-Creation-Date: 2002-11-07 15:27+0100\n"
 "PO-Revision-Date: 2002-06-25 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -96,6 +96,11 @@ msgstr[1] "beklenen %d öteleme/indirgeme çeliþkisi\n"
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "`%s' dosyasý açýlamadý"
+
+#: src/files.c:130
+#, fuzzy
+msgid "I/O error"
+msgstr "bir hata"
 
 #: src/files.c:133
 msgid "cannot close file"
@@ -311,51 +316,51 @@ msgstr " saðda:"
 msgid "Rules never reduced"
 msgstr "%d kural asla indirgenmedi\n"
 
-#: src/reader.c:52
+#: src/reader.c:51
 #, c-format
 msgid "multiple %s declarations"
 msgstr "çoklu %s bildirimleri"
 
-#: src/reader.c:141
+#: src/reader.c:132
 #, c-format
-msgid "result type clash on merge function %s: `%s' vs. `%s'"
+msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr ""
 
-#: src/reader.c:239
+#: src/reader.c:230
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "bir andaç olan %s için verilen kural"
 
-#: src/reader.c:268
-#, c-format
-msgid "type clash (`%s' `%s') on default action"
+#: src/reader.c:259
+#, fuzzy, c-format
+msgid "type clash on default action: <%s> != <%s>"
 msgstr "öntanýmlý eylem üzerinde (`%s' `%s') tip çatýþmasý"
 
-#: src/reader.c:274
+#: src/reader.c:265
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "Tipli deðiþken simge için boþ kural tanýmlanmýþ, ve eylem belirtilmemiþ"
 
-#: src/reader.c:344 src/reader.c:359 src/reader.c:372
+#: src/reader.c:335 src/reader.c:350 src/reader.c:363
 #, c-format
 msgid "only one %s allowed per rule"
 msgstr ""
 
-#: src/reader.c:354 src/reader.c:370
+#: src/reader.c:345 src/reader.c:361
 #, c-format
 msgid "%s affects only GLR parsers"
 msgstr ""
 
-#: src/reader.c:357
+#: src/reader.c:348
 #, c-format
 msgid "%s must be followed by positive number"
 msgstr ""
 
-#: src/reader.c:515
+#: src/reader.c:506
 msgid "no rules in the input grammar"
 msgstr "girdi grameri içinde kurallar yok"
 
-#: src/reader.c:547
+#: src/reader.c:538
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "çok fazla simge var (andaçlar ve deðiþken simgeler); en fazla %d"
@@ -415,65 +420,50 @@ msgstr[1] "%d yararsýz kural"
 msgid "start symbol %s does not derive any sentence"
 msgstr "Baþlangýç simgesi %s herhangi bir cümleden türemez"
 
-#: scan-gram.l:203
+#: scan-gram.l:140
+#, fuzzy, c-format
+msgid "unexpected end of file in `%s ... %s'"
+msgstr "beklenmeyen dosya sonu"
+
+#: scan-gram.l:267
+#, fuzzy, c-format
+msgid "invalid directive: %s"
+msgstr "geçersiz girdi: %s"
+
+#: scan-gram.l:293 scan-gram.l:746 scan-gram.l:818
 #, c-format
-msgid ": invalid character: `%c'\n"
+msgid "integer out of range: %s"
 msgstr ""
 
-#: scan-gram.l:247
-#, fuzzy
-msgid ": unexpected end of file in a comment\n"
-msgstr "beklenmeyen dosya sonu"
-
-#: scan-gram.l:276 scan-gram.l:415
-#, fuzzy
-msgid ": unexpected end of file in a string\n"
-msgstr "beklenmeyen dosya sonu"
-
-#: scan-gram.l:314 scan-gram.l:386
-#, fuzzy
-msgid ": unexpected end of file in a character\n"
-msgstr "beklenmeyen dosya sonu"
-
-#: scan-gram.l:335
+#: scan-gram.l:332
 #, fuzzy, c-format
-msgid ": invalid escape: %s\n"
+msgid "invalid character: %s"
 msgstr "geçersiz deðer: %s%d"
 
-#: scan-gram.l:356
+#: scan-gram.l:474 scan-gram.l:488 scan-gram.l:508
 #, fuzzy, c-format
-msgid ": unrecognized escape: %s\n"
+msgid "invalid escape sequence: %s"
+msgstr "geçersiz deðer: %s%d"
+
+#: scan-gram.l:516
+#, fuzzy, c-format
+msgid "unrecognized escape sequence: %s"
 msgstr "tanýnmayan: %s"
 
-#: scan-gram.l:477
-#, fuzzy
-msgid ": unexpected end of file in a braced code\n"
-msgstr "beklenmeyen dosya sonu"
-
-#: scan-gram.l:506
-#, fuzzy
-msgid ": unexpected end of file in a prologue\n"
-msgstr "beklenmeyen dosya sonu"
-
-#: scan-gram.l:564
+#: scan-gram.l:717
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s''in $$'ý bildirilmiþ tip deðil"
 
-#: scan-gram.l:576 scan-gram.l:658
-#, c-format
-msgid "invalid value: %s%d"
-msgstr "geçersiz deðer: %s%d"
-
-#: scan-gram.l:583
+#: scan-gram.l:737
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "`%2$s''in %1$d'i bildirilmiþ tip deðil"
 
-#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:665 scan-gram.l:682
-#, c-format
-msgid "%s is invalid"
-msgstr "%s geçersizdir"
+#: scan-gram.l:763 scan-gram.l:835
+#, fuzzy, c-format
+msgid "invalid value: %s"
+msgstr "geçersiz deðer: %s%d"
 
 #: src/state.c:145
 #, c-format
@@ -612,7 +602,7 @@ msgstr ""
 msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset_stats.c:260
+#: lib/bitset_stats.c:260 lib/bitset_stats.c:265
 msgid "Could not read stats file."
 msgstr ""
 
@@ -620,11 +610,11 @@ msgstr ""
 msgid "Bad stats file size.\n"
 msgstr ""
 
-#: lib/bitset_stats.c:287
+#: lib/bitset_stats.c:288 lib/bitset_stats.c:290
 msgid "Could not write stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:291
+#: lib/bitset_stats.c:293
 msgid "Could not open stats file for writing."
 msgstr ""
 
@@ -730,14 +720,30 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
+#, fuzzy
+#~ msgid ": unexpected end of file in a comment\n"
+#~ msgstr "beklenmeyen dosya sonu"
+
+#, fuzzy
+#~ msgid ": unexpected end of file in a character\n"
+#~ msgstr "beklenmeyen dosya sonu"
+
+#, fuzzy
+#~ msgid ": unexpected end of file in a braced code\n"
+#~ msgstr "beklenmeyen dosya sonu"
+
+#, fuzzy
+#~ msgid ": unexpected end of file in a prologue\n"
+#~ msgstr "beklenmeyen dosya sonu"
+
+#~ msgid "%s is invalid"
+#~ msgstr "%s geçersizdir"
+
 #~ msgid "reduce"
 #~ msgstr "indirgeme"
 
 #~ msgid "shift"
 #~ msgstr "shift"
-
-#~ msgid "an error"
-#~ msgstr "bir hata"
 
 #~ msgid "%s contains "
 #~ msgstr "%s içerir"
@@ -889,9 +895,6 @@ msgstr ""
 
 #~ msgid "two actions at end of one rule"
 #~ msgstr "bir kuralýn sonunda iki eylem"
-
-#~ msgid "invalid input: %s"
-#~ msgstr "geçersiz girdi: %s"
 
 #~ msgid "maximum table size (%d) exceeded"
 #~ msgstr "en büyük tablo uzunluðu (%d) aþýldý"

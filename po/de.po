@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-24 22:53-0700\n"
+"POT-Creation-Date: 2002-11-07 15:27+0100\n"
 "PO-Revision-Date: 2002-10-07 10:50:39+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -93,6 +93,11 @@ msgstr[1] "erwartete %d Schiebe/Reduziere-Konflikte"
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "kann Datei »%s« nicht öffnen"
+
+#: src/files.c:130
+#, fuzzy
+msgid "I/O error"
+msgstr "als Fehler betrachtet"
 
 #: src/files.c:133
 msgid "cannot close file"
@@ -314,50 +319,50 @@ msgstr " auf der rechten Seite:"
 msgid "Rules never reduced"
 msgstr "niemals reduzierte Regeln"
 
-#: src/reader.c:52
+#: src/reader.c:51
 #, c-format
 msgid "multiple %s declarations"
 msgstr "mehr als eine %s-Deklaration"
 
-#: src/reader.c:141
-#, c-format
-msgid "result type clash on merge function %s: `%s' vs. `%s'"
+#: src/reader.c:132
+#, fuzzy, c-format
+msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr "Rückgabetyp-Konflikt in merge-Funktion %s: »%s« und »%s«"
 
-#: src/reader.c:239
+#: src/reader.c:230
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "Regel für %s vorhanden, welches aber ein Token ist"
 
-#: src/reader.c:268
-#, c-format
-msgid "type clash (`%s' `%s') on default action"
+#: src/reader.c:259
+#, fuzzy, c-format
+msgid "type clash on default action: <%s> != <%s>"
 msgstr "Typkonflikt (»%s« »%s«) bei Default-Aktion"
 
-#: src/reader.c:274
+#: src/reader.c:265
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "leere Regel für Nicht-Terminal mit Typ und keine Aktion"
 
-#: src/reader.c:344 src/reader.c:359 src/reader.c:372
+#: src/reader.c:335 src/reader.c:350 src/reader.c:363
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
 msgstr "nur ein %%dprec pro Regel erlaubt"
 
-#: src/reader.c:354 src/reader.c:370
+#: src/reader.c:345 src/reader.c:361
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
 msgstr "%%dprec betrifft nur GLR-Parser"
 
-#: src/reader.c:357
+#: src/reader.c:348
 #, fuzzy, c-format
 msgid "%s must be followed by positive number"
 msgstr "%%dprec muss von positiver Zahl gefolgt sein"
 
-#: src/reader.c:515
+#: src/reader.c:506
 msgid "no rules in the input grammar"
 msgstr "Eingabegrammatik enthält keine Regeln"
 
-#: src/reader.c:547
+#: src/reader.c:538
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "zu viele Symbole (Token plus Nicht-Terminale); Maximum %d"
@@ -412,60 +417,50 @@ msgstr[1] "%d nutzlose Regeln"
 msgid "start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
 
-#: scan-gram.l:203
-#, c-format
-msgid ": invalid character: `%c'\n"
-msgstr ": ungültiges Zeichen: »%c«\n"
-
-#: scan-gram.l:247
-msgid ": unexpected end of file in a comment\n"
-msgstr ": Datei endet unerwartet innerhalb eines Kommentars\n"
-
-#: scan-gram.l:276 scan-gram.l:415
-msgid ": unexpected end of file in a string\n"
+#: scan-gram.l:140
+#, fuzzy, c-format
+msgid "unexpected end of file in `%s ... %s'"
 msgstr ": Datei endet unerwartet innerhalb einer Zeichenkette\n"
 
-#: scan-gram.l:314 scan-gram.l:386
-msgid ": unexpected end of file in a character\n"
-msgstr ": Datei endet unerwartet innerhalb eines Zeichens\n"
+#: scan-gram.l:267
+#, fuzzy, c-format
+msgid "invalid directive: %s"
+msgstr "ungültige Eingabe: %s"
 
-#: scan-gram.l:335
+#: scan-gram.l:293 scan-gram.l:746 scan-gram.l:818
 #, c-format
-msgid ": invalid escape: %s\n"
+msgid "integer out of range: %s"
+msgstr ""
+
+#: scan-gram.l:332
+#, fuzzy, c-format
+msgid "invalid character: %s"
+msgstr ": ungültiges Zeichen: »%c«\n"
+
+#: scan-gram.l:474 scan-gram.l:488 scan-gram.l:508
+#, fuzzy, c-format
+msgid "invalid escape sequence: %s"
 msgstr ": unzulässiges Fluchtzeichen: %s\n"
 
-#: scan-gram.l:356
-#, c-format
-msgid ": unrecognized escape: %s\n"
+#: scan-gram.l:516
+#, fuzzy, c-format
+msgid "unrecognized escape sequence: %s"
 msgstr ": unbekannt Fluchtzeichen: %s\n"
 
-#: scan-gram.l:477
-msgid ": unexpected end of file in a braced code\n"
-msgstr ": Datei endet unerwartet innerhalb geklammerten Programmtexts\n"
-
-#: scan-gram.l:506
-msgid ": unexpected end of file in a prologue\n"
-msgstr ": Datei endet unerwartet innerhalb eines Prologs\n"
-
-#: scan-gram.l:564
+#: scan-gram.l:717
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:576 scan-gram.l:658
-#, c-format
-msgid "invalid value: %s%d"
-msgstr "unzulässiger Wert: %s%d"
-
-#: scan-gram.l:583
+#: scan-gram.l:737
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:665 scan-gram.l:682
-#, c-format
-msgid "%s is invalid"
-msgstr "%s ist unzulässig"
+#: scan-gram.l:763 scan-gram.l:835
+#, fuzzy, c-format
+msgid "invalid value: %s"
+msgstr "unzulässiger Wert: %s%d"
 
 #: src/state.c:145
 #, c-format
@@ -607,7 +602,7 @@ msgstr ""
 msgid "Accumulated runs = %u\n"
 msgstr "Gesammelte Durchläufe = %u\n"
 
-#: lib/bitset_stats.c:260
+#: lib/bitset_stats.c:260 lib/bitset_stats.c:265
 msgid "Could not read stats file."
 msgstr "Konnte Statistik-Datei nicht lesen."
 
@@ -615,11 +610,11 @@ msgstr "Konnte Statistik-Datei nicht lesen."
 msgid "Bad stats file size.\n"
 msgstr "Ungültige Statistik-Datei-Größe.\n"
 
-#: lib/bitset_stats.c:287
+#: lib/bitset_stats.c:288 lib/bitset_stats.c:290
 msgid "Could not write stats file."
 msgstr "Konnte Statistik-Datei nicht schreiben."
 
-#: lib/bitset_stats.c:291
+#: lib/bitset_stats.c:293
 msgid "Could not open stats file for writing."
 msgstr "Konnte Statistik-Datei nicht zum Schreiben öffnen."
 
@@ -727,6 +722,21 @@ msgstr " ZUSAMMEN              :"
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "Zeit in %s: %ld.%06ld (%ld%%)\n"
 
+#~ msgid ": unexpected end of file in a comment\n"
+#~ msgstr ": Datei endet unerwartet innerhalb eines Kommentars\n"
+
+#~ msgid ": unexpected end of file in a character\n"
+#~ msgstr ": Datei endet unerwartet innerhalb eines Zeichens\n"
+
+#~ msgid ": unexpected end of file in a braced code\n"
+#~ msgstr ": Datei endet unerwartet innerhalb geklammerten Programmtexts\n"
+
+#~ msgid ": unexpected end of file in a prologue\n"
+#~ msgstr ": Datei endet unerwartet innerhalb eines Prologs\n"
+
+#~ msgid "%s is invalid"
+#~ msgstr "%s ist unzulässig"
+
 #~ msgid "%s: no grammar file given\n"
 #~ msgstr "%s: keine Grammatik-Datei angegeben\n"
 
@@ -833,9 +843,6 @@ msgstr "Zeit in %s: %ld.%06ld (%ld%%)\n"
 
 #~ msgid "shift"
 #~ msgstr "durch Schieben gelöst"
-
-#~ msgid "an error"
-#~ msgstr "als Fehler betrachtet"
 
 #~ msgid "%s contains "
 #~ msgstr "%s enthält "
@@ -979,9 +986,6 @@ msgstr "Zeit in %s: %ld.%06ld (%ld%%)\n"
 
 #~ msgid "two actions at end of one rule"
 #~ msgstr "Zwei Aktionen am Ende einer Regel"
-
-#~ msgid "invalid input: %s"
-#~ msgstr "ungültige Eingabe: %s"
 
 #~ msgid "maximum table size (%d) exceeded"
 #~ msgstr "maximale Tabellengröße (%d) überschritten"

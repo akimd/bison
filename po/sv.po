@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-24 22:53-0700\n"
+"POT-Creation-Date: 2002-11-07 15:27+0100\n"
 "PO-Revision-Date: 2002-10-08 19:02+0200\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -90,6 +90,10 @@ msgstr[1] "förväntade %d skifta/reducerakonflikter"
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "kan inte öppna filen \"%s\""
+
+#: src/files.c:130
+msgid "I/O error"
+msgstr ""
 
 #: src/files.c:133
 msgid "cannot close file"
@@ -308,50 +312,50 @@ msgstr " till höger:"
 msgid "Rules never reduced"
 msgstr "Aldrig reducerade regler"
 
-#: src/reader.c:52
+#: src/reader.c:51
 #, c-format
 msgid "multiple %s declarations"
 msgstr "flera %s-deklarationer"
 
-#: src/reader.c:141
-#, c-format
-msgid "result type clash on merge function %s: `%s' vs. `%s'"
+#: src/reader.c:132
+#, fuzzy, c-format
+msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr "resultattypskonflikt vid sammanslagningsfunktion %s: \"%s\" mot \"%s\""
 
-#: src/reader.c:239
+#: src/reader.c:230
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel given för %s, som är ett element"
 
-#: src/reader.c:268
-#, c-format
-msgid "type clash (`%s' `%s') on default action"
+#: src/reader.c:259
+#, fuzzy, c-format
+msgid "type clash on default action: <%s> != <%s>"
 msgstr "typkonflikt (\"%s\" \"%s\") för standardåtgärd"
 
-#: src/reader.c:274
+#: src/reader.c:265
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tom regel för typad icketerminal, och ingen åtgärd"
 
-#: src/reader.c:344 src/reader.c:359 src/reader.c:372
+#: src/reader.c:335 src/reader.c:350 src/reader.c:363
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
 msgstr "endast en %%dprec tillåts per regel"
 
-#: src/reader.c:354 src/reader.c:370
+#: src/reader.c:345 src/reader.c:361
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
 msgstr "%%dprec påverkar endast GLR-parsrar"
 
-#: src/reader.c:357
+#: src/reader.c:348
 #, fuzzy, c-format
 msgid "%s must be followed by positive number"
 msgstr "%%dprec måste följas av ett positivt tal"
 
-#: src/reader.c:515
+#: src/reader.c:506
 msgid "no rules in the input grammar"
 msgstr "inga regler i ingrammatiken"
 
-#: src/reader.c:547
+#: src/reader.c:538
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
@@ -406,60 +410,50 @@ msgstr[1] "%d oanvändbara regler"
 msgid "start symbol %s does not derive any sentence"
 msgstr "startsymbolen %s genererar inga meningar"
 
-#: scan-gram.l:203
-#, c-format
-msgid ": invalid character: `%c'\n"
-msgstr ": ogiltigt tecken: \"%c\"\n"
-
-#: scan-gram.l:247
-msgid ": unexpected end of file in a comment\n"
-msgstr ": oväntat filslut i en kommentar\n"
-
-#: scan-gram.l:276 scan-gram.l:415
-msgid ": unexpected end of file in a string\n"
+#: scan-gram.l:140
+#, fuzzy, c-format
+msgid "unexpected end of file in `%s ... %s'"
 msgstr ": oväntat filslut i en sträng\n"
 
-#: scan-gram.l:314 scan-gram.l:386
-msgid ": unexpected end of file in a character\n"
-msgstr ": oväntat filslut i ett tecken\n"
-
-#: scan-gram.l:335
-#, c-format
-msgid ": invalid escape: %s\n"
+#: scan-gram.l:267
+#, fuzzy, c-format
+msgid "invalid directive: %s"
 msgstr ": ogiltig specialsekvens: %s\n"
 
-#: scan-gram.l:356
+#: scan-gram.l:293 scan-gram.l:746 scan-gram.l:818
 #, c-format
-msgid ": unrecognized escape: %s\n"
+msgid "integer out of range: %s"
+msgstr ""
+
+#: scan-gram.l:332
+#, fuzzy, c-format
+msgid "invalid character: %s"
+msgstr ": ogiltigt tecken: \"%c\"\n"
+
+#: scan-gram.l:474 scan-gram.l:488 scan-gram.l:508
+#, fuzzy, c-format
+msgid "invalid escape sequence: %s"
+msgstr ": ogiltig specialsekvens: %s\n"
+
+#: scan-gram.l:516
+#, fuzzy, c-format
+msgid "unrecognized escape sequence: %s"
 msgstr ": okänd specialsekvens: %s\n"
 
-#: scan-gram.l:477
-msgid ": unexpected end of file in a braced code\n"
-msgstr ": oväntat filslut i kod inom klamrar\n"
-
-#: scan-gram.l:506
-msgid ": unexpected end of file in a prologue\n"
-msgstr ": oväntat filslut i en prolog\n"
-
-#: scan-gram.l:564
+#: scan-gram.l:717
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ för \"%s\" har ingen deklarerad typ"
 
-#: scan-gram.l:576 scan-gram.l:658
-#, c-format
-msgid "invalid value: %s%d"
-msgstr "felaktigt värde: %s%d"
-
-#: scan-gram.l:583
+#: scan-gram.l:737
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d för \"%s\" har ingen deklarerad typ"
 
-#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:665 scan-gram.l:682
-#, c-format
-msgid "%s is invalid"
-msgstr "%s är felaktigt"
+#: scan-gram.l:763 scan-gram.l:835
+#, fuzzy, c-format
+msgid "invalid value: %s"
+msgstr "felaktigt värde: %s%d"
 
 #: src/state.c:145
 #, c-format
@@ -601,7 +595,7 @@ msgstr ""
 msgid "Accumulated runs = %u\n"
 msgstr "Accumulerade körningar = %u\n"
 
-#: lib/bitset_stats.c:260
+#: lib/bitset_stats.c:260 lib/bitset_stats.c:265
 msgid "Could not read stats file."
 msgstr "Kunde inte läsa statistikfil."
 
@@ -609,11 +603,11 @@ msgstr "Kunde inte läsa statistikfil."
 msgid "Bad stats file size.\n"
 msgstr "Dålig statistikfilstorlek.\n"
 
-#: lib/bitset_stats.c:287
+#: lib/bitset_stats.c:288 lib/bitset_stats.c:290
 msgid "Could not write stats file."
 msgstr "Kunde inte skriva statistikfil."
 
-#: lib/bitset_stats.c:291
+#: lib/bitset_stats.c:293
 msgid "Could not open stats file for writing."
 msgstr "Kunde inte öppna statistikfil för skrivning."
 
@@ -723,6 +717,21 @@ msgstr " TOTALT                :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "tid i %s: %ld.%06ld (%ld%%)\n"
+
+#~ msgid ": unexpected end of file in a comment\n"
+#~ msgstr ": oväntat filslut i en kommentar\n"
+
+#~ msgid ": unexpected end of file in a character\n"
+#~ msgstr ": oväntat filslut i ett tecken\n"
+
+#~ msgid ": unexpected end of file in a braced code\n"
+#~ msgstr ": oväntat filslut i kod inom klamrar\n"
+
+#~ msgid ": unexpected end of file in a prologue\n"
+#~ msgstr ": oväntat filslut i en prolog\n"
+
+#~ msgid "%s is invalid"
+#~ msgstr "%s är felaktigt"
 
 #~ msgid "%s: no grammar file given\n"
 #~ msgstr "%s: ingen grammatikfil angiven\n"
