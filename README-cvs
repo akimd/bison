@@ -37,24 +37,38 @@ should output no difference, except maybe the date in po/*.po files.
 
 Enjoy!
 
+* Troubleshooting
+
+Unfortunately the current Gettext still does not include all the
+needed tools so that the bootstrapping always perform successfully.
+
+If you experiment problems, I suggest the following:
+
+1. do a regular CVS checkout
+2. fetch http://www.lrde.epita.fr/~akim/download/bison-1.49b.tar.gz
+3. extract it
+4. override the content of your checkout with the content of this
+   tarball, i.e.:
+   cp -r bison-1.49b/* bison-cvs
+5. proceed on ./configure && make etc.
 
 -----
 
 Copyright (C) 2002 Free Software Foundation, Inc.
 
-This file is part of GNU Autoconf.
+This file is part of GNU Bison.
 
-GNU Autoconf is free software; you can redistribute it and/or modify
+GNU Bison is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2, or (at your option)
 any later version.
 
-GNU Autoconf is distributed in the hope that it will be useful,
+GNU Bison is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with autoconf; see the file COPYING.  If not, write to
+along with Bison; see the file COPYING.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
