@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-04-22 10:39+0200\n"
+"POT-Creation-Date: 2002-05-02 09:20+0200\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -98,12 +98,12 @@ msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "atteso %d conflitto shift/riduzione\n"
 msgstr[1] "attesi %d conflitti shift/riduzione\n"
 
-#: src/files.c:159
+#: src/files.c:160
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "impossibile aprire il file `%s'"
 
-#: src/files.c:178
+#: src/files.c:179
 msgid "cannot close file"
 msgstr "impossibile chiudere il file `%s'"
 
@@ -230,7 +230,7 @@ msgstr "troppi goto (max %d)"
 msgid "unexpected `/' found and ignored"
 msgstr "`/' inatteso, trovato e ignorato"
 
-#: src/lex.c:106 src/reader.c:463
+#: src/lex.c:106 src/reader.c:485
 msgid "unterminated comment"
 msgstr "commento non terminato"
 
@@ -418,186 +418,186 @@ msgstr "   Passo al successivo %c"
 msgid "invalid $ value"
 msgstr "valore $ non valido"
 
-#: src/reader.c:353 src/reader.c:368
+#: src/reader.c:375 src/reader.c:390
 msgid "unterminated string at end of file"
 msgstr "stringa non terminata alla fine del file"
 
-#: src/reader.c:356
+#: src/reader.c:378
 msgid "unterminated string"
 msgstr "stringa non terminata"
 
-#: src/reader.c:498 src/reader.c:562
+#: src/reader.c:520 src/reader.c:584
 #, c-format
 msgid "invalid value: %s%d"
 msgstr "valore non valido: %s%d"
 
-#: src/reader.c:512 src/reader.c:584
+#: src/reader.c:534 src/reader.c:606
 #, c-format
 msgid "%s is invalid"
 msgstr "%s non è valido"
 
-#: src/reader.c:552
+#: src/reader.c:574
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: src/reader.c:576
+#: src/reader.c:598
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: src/reader.c:634
+#: src/reader.c:656
 msgid "unterminated `%{' definition"
 msgstr "definizione `%{' non terminata"
 
-#: src/reader.c:679 src/reader.c:789 src/reader.c:840 src/reader.c:1092
+#: src/reader.c:701 src/reader.c:811 src/reader.c:862 src/reader.c:1114
 #, c-format
 msgid "Premature EOF after %s"
 msgstr "Fine di file prematura dopo %s"
 
-#: src/reader.c:704 src/reader.c:859
+#: src/reader.c:726 src/reader.c:881
 #, c-format
 msgid "symbol %s redefined"
 msgstr "simbolo %s ridefinito"
 
-#: src/reader.c:716 src/reader.c:804 src/reader.c:870
+#: src/reader.c:738 src/reader.c:826 src/reader.c:892
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "tipo dichiarato due volte per %s"
 
-#: src/reader.c:734
+#: src/reader.c:756
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "`%s' non è valido in %s"
 
-#: src/reader.c:752 src/reader.c:916
+#: src/reader.c:774 src/reader.c:938
 #, c-format
 msgid "multiple %s declarations"
 msgstr "dichiarazioni multiple per %s"
 
-#: src/reader.c:754 src/reader.c:1072 src/reader.c:1087 src/reader.c:1120
-#: src/reader.c:1134 src/reader.c:1337
+#: src/reader.c:776 src/reader.c:1094 src/reader.c:1109 src/reader.c:1142
+#: src/reader.c:1156 src/reader.c:1362
 #, c-format
 msgid "invalid %s declaration"
 msgstr "dichiarazione %s non valida"
 
-#: src/reader.c:774
+#: src/reader.c:796
 msgid "%type declaration has no <typename>"
 msgstr "dichiarazione %type senza <nome di tipo>"
 
-#: src/reader.c:809
+#: src/reader.c:831
 #, c-format
 msgid "invalid %%type declaration due to item: %s"
 msgstr "dichiarazione %%type non valida per la presenza di `%s'"
 
-#: src/reader.c:855
+#: src/reader.c:877
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "precedenza di `%s' definita due volte"
 
-#: src/reader.c:882
+#: src/reader.c:904
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "testo non valido (%s) - il numero dovrebbe seguire l'identificatore"
 
-#: src/reader.c:892
+#: src/reader.c:914
 #, c-format
 msgid "unexpected item: %s"
 msgstr "elemento inatteso: %s"
 
-#: src/reader.c:949 src/reader.c:1308
+#: src/reader.c:971 src/reader.c:1333
 #, c-format
 msgid "unmatched %s"
 msgstr "%s non bilanciato"
 
-#: src/reader.c:978
+#: src/reader.c:1000
 #, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "L'argomento di %%expect non è un intero"
 
-#: src/reader.c:1024
+#: src/reader.c:1046
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "elemento %s non riconosciuto, atteso un identificatore"
 
-#: src/reader.c:1046
+#: src/reader.c:1068
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "attesa una costante stringa invece di %s"
 
-#: src/reader.c:1239
+#: src/reader.c:1264
 #, c-format
 msgid "unrecognized: %s"
 msgstr "non riconosciuto: %s"
 
-#: src/reader.c:1244
+#: src/reader.c:1269
 msgid "no input grammar"
 msgstr "nessuna grammatica di input"
 
-#: src/reader.c:1249
+#: src/reader.c:1274
 #, c-format
 msgid "unknown character: %s"
 msgstr "carattere sconosciuto: %s"
 
-#: src/reader.c:1423
+#: src/reader.c:1448
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "regola malformata: simbolo iniziale non seguito da `:'"
 
-#: src/reader.c:1430
+#: src/reader.c:1455
 msgid "grammar starts with vertical bar"
 msgstr "la grammatica comincia con un `|'"
 
-#: src/reader.c:1458
+#: src/reader.c:1483
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "fornita una regola per il token %s"
 
-#: src/reader.c:1488 src/reader.c:1607
+#: src/reader.c:1513 src/reader.c:1632
 msgid "previous rule lacks an ending `;'"
 msgstr ""
 
-#: src/reader.c:1566
+#: src/reader.c:1591
 msgid "two @prec's in a row"
 msgstr "due @prec di seguito"
 
-#: src/reader.c:1575
+#: src/reader.c:1600
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "trovato %%guard senza che sia specificato %%semantic_parser"
 
-#: src/reader.c:1585
+#: src/reader.c:1610
 msgid "two actions at end of one rule"
 msgstr "due azioni alla fine di una regola"
 
-#: src/reader.c:1599
+#: src/reader.c:1624
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflitto di tipo (`%s' e `%s') nell'azione di default"
 
-#: src/reader.c:1605
+#: src/reader.c:1630
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
 
-#: src/reader.c:1613
+#: src/reader.c:1638
 #, c-format
 msgid "invalid input: %s"
 msgstr "input non valido: %s"
 
-#: src/reader.c:1620
+#: src/reader.c:1645
 msgid "no rules in the input grammar"
 msgstr "nessuna regola nella grammatica di input"
 
-#: src/reader.c:1641
+#: src/reader.c:1666
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "troppi simboli (token e nonterminali); il massimo è %d"
 
-#: src/reader.c:1743
+#: src/reader.c:1768
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "simbolo iniziale %s non definito"
 
-#: src/reader.c:1745
+#: src/reader.c:1770
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"

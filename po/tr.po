@@ -1,18 +1,19 @@
 # Turkish translations for GNU Bison messages.
 # Copyright (C) 2001 Free Software Foundation, Inc.
-# Altug Bayram <altugbayram_2000@yahoo.com>, 2001.
+# Altuð Bayram <altugbayram_2000@yahoo.com>, 2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.28c\n"
-"POT-Creation-Date: 2002-04-22 10:39+0200\n"
-"PO-Revision-Date: 2001-09-10 10:54GMT\n"
-"Last-Translator: Altug Bayram <altugbayram_2000@yahoo.com>\n"
+"Project-Id-Version: bison 1.34\n"
+"POT-Creation-Date: 2002-05-02 09:20+0200\n"
+"PO-Revision-Date: 2002-03-14 11:03GMT +02:00\n"
+"Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-9\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.5\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/LR0.c:198
 #, c-format
@@ -35,8 +36,8 @@ msgstr "ölümcül hata:"
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
-"%d durumu içinde %d kuralý ve %s andaçý arasýndaki çeliþki %s "
-"olarakçözümlendi.\n"
+"%d durumu içinde %d kuralý ve %s andaçý arasýndaki çeliþki %s olarak\n"
+"çözümlendi.\n"
 
 #: src/conflicts.c:115 src/conflicts.c:137
 msgid "reduce"
@@ -44,31 +45,32 @@ msgstr "indirgeme"
 
 #: src/conflicts.c:120 src/conflicts.c:132
 msgid "shift"
-msgstr "öteleme"
+msgstr "shift"
 
 #: src/conflicts.c:142
 msgid "an error"
 msgstr "bir hata"
 
 #: src/conflicts.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
-msgstr[0] " %d öteleme/indirgeme çeliþkisi"
+msgstr[0] "%d öteleme/indirgeme çeliþkisi"
+msgstr[1] "%d öteleme/indirgeme çeliþkisi"
 
 #: src/conflicts.c:291
-#, fuzzy
 msgid "and"
-msgstr " ve"
+msgstr "ve"
 
 #: src/conflicts.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] " %d indirgeme/indirgeme çeliþkisi"
+msgstr[0] "%d indirgeme/indirgeme çeliþkisi"
+msgstr[1] "%d indirgeme/indirgeme çeliþkisi"
 
 #: src/conflicts.c:322
-#, fuzzy, c-format
+#, c-format
 msgid "State %d contains "
 msgstr "%d durumu içerir"
 
@@ -89,20 +91,21 @@ msgstr " %d indirgeme/indirgeme"
 #: src/conflicts.c:380 src/reduce.c:391
 #, c-format
 msgid "%s contains "
-msgstr "%s içerir "
+msgstr "%s içerir"
 
 #: src/conflicts.c:387
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
-msgstr[0] " %d öteleme/indirgeme çeliþkisi"
+msgstr[0] "beklenen %d öteleme/indirgeme çeliþkisi\n"
+msgstr[1] "beklenen %d öteleme/indirgeme çeliþkisi\n"
 
-#: src/files.c:159
+#: src/files.c:160
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "`%s' dosyasý açýlamadý"
 
-#: src/files.c:178
+#: src/files.c:179
 msgid "cannot close file"
 msgstr "dosya kapatýlamýyor"
 
@@ -120,8 +123,9 @@ msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
 msgstr ""
-"Eðer bir uzun seçenek bir argümaný gerektirirse, bu gereklilik, denk olan\n"
-"kýsa seçenek için de geçerlidir.  Bu durum, seçimli argümanlar için de\n"
+"Eðer bir uzun seçenek bir argümaný gerektirirse, bu gereklilik, denk olan "
+"kýsa\n"
+"seçenek için de geçerlidir.  Bu durum, seçimli argümanlar için de "
 "geçerlidir.\n"
 
 #: src/getargs.c:70
@@ -148,16 +152,15 @@ msgid ""
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
 "Ayrýþtýrýcý:\n"
-"  -S, --skeleton=DOSYA       kullanýlacak iskeleti belirler\n"
+"  -S, --skeleton=FILE        kullanýlacak iskeleti belirle\n"
 "  -t, --debug                ayrýþtýrýcý için hata ayýklayýcý aracý\n"
-"      --locations            konum hesaplamalarýný etkinleþtirir\n"
-"  -p, --name-prefix=ÖNEK     dýþ simgelere eklenen ÖNEK\n"
-"  -l, --no-lines             `#line' bildirimlerini üretmez\n"
-"  -n, --no-parser            sadece tablolarý üretir\n"
-"  -k, --token-table          andaç isimlerinin bir tablosunu içerir\n"
+"      --locations            konum hesaplamalarýný etkinleþtir\n"
+"  -p, --name-prefix=PREFIX   dýþ simgelere hazýr bekletilen ÖNEK\n"
+"  -l, --no-lines             `#line' bildirimlerini üretme\n"
+"  -n, --no-parser            sadece tablolarý üret\n"
+"  -k, --token-table          andaç isimlerinin bir tablosunu içer\n"
 
 #: src/getargs.c:89
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -168,10 +171,11 @@ msgid ""
 "automaton\n"
 msgstr ""
 "Çýktý:\n"
-"  -d, --defines              bir baþlýk dosyasý da üretir\n"
+"  -d, --defines              bir baþlýk dosyasýda üretir\n"
 "  -v, --verbose              otomatýn bir açýklamasýný da üretir\n"
-"  -b, --file-prefix=ÖNEK     çýktý dosyalarý için bir ÖNEK belirtir\n"
-"  -o, --output-file=DOSYA    çýktýyý DOSYAYA býrakýr\n"
+"  -b, --file-prefix=ÖNEK      çýktý dosyalarý için bir önek belirtir\n"
+"  -o, --output=DOSYA        çýktýyý dosyaya býrakýr\n"
+"  -g, --graph                otomatýn bir VCG grafik açýklamasýný da üretir\n"
 
 #: src/getargs.c:99
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -192,8 +196,8 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
-"Telifhakký 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, "
-"Inc.\n"
+"Kopyahakký 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
+"Free Software Foundation, Inc.\n"
 
 #: src/getargs.c:121
 msgid ""
@@ -201,13 +205,13 @@ msgid ""
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 "Bu bir serbest yazýlýmdýr; kopyalama koþullarý için kaynak koduna bakýnýz.\n"
-"Hiçbir garantisi yoktur; hatta SATILABÝLÝRLÝÐÝ veya HERHANGÝ BÝR AMACA\n"
+"Hiçbir garantisi yoktur; hatta SATILABÝLÝRLÝÐÝ veya ÞAHSÝ KULLANIMINIZA\n"
 "UYGUNLUÐU için bile garanti verilmez.\n"
 
 #: src/getargs.c:200 src/lex.c:603
 #, c-format
 msgid "`%s' is no longer supported"
-msgstr "`%s' artýk desteklenmiyor"
+msgstr "`%s' artýk desteklenmeyecek"
 
 #: src/getargs.c:224
 #, c-format
@@ -233,7 +237,7 @@ msgstr "gotos çok fazla (en fazla %d)"
 msgid "unexpected `/' found and ignored"
 msgstr "beklenmeyen `/' bulundu ve yoksayýldý"
 
-#: src/lex.c:106 src/reader.c:463
+#: src/lex.c:106 src/reader.c:485
 msgid "unterminated comment"
 msgstr "sonlandýrýlmamýþ açýklama"
 
@@ -243,7 +247,7 @@ msgstr "beklenmeyen dosya sonu"
 
 #: src/lex.c:157
 msgid "unescaped newline in constant"
-msgstr "sabit içinde kaçýþsýz yeni satýr"
+msgstr "sabit içinde kaçamayan yeni satýr"
 
 #: src/lex.c:196
 #, c-format
@@ -275,12 +279,12 @@ msgstr "çok-karakterli yazýn andaçlarý için \"...\" kullan"
 #: src/lex.c:575
 #, c-format
 msgid "`%s' supports no argument: %s"
-msgstr ""
+msgstr "`%s' argüman %s'i desteklemez"
 
 #: src/lex.c:592
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' requires an argument"
-msgstr "%s: `%s' seçeneði bir argümanla kullanýlýr\n"
+msgstr "`%s' bir argüman gerektirir"
 
 #: src/print.c:46
 #, c-format
@@ -350,16 +354,16 @@ msgstr "Gramer"
 
 #: src/print.c:371
 msgid "Number, Line, Rule"
-msgstr ""
+msgstr "Sayý, Satýr, Kural"
 
 #: src/print.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "  %3d %3d %s ->"
-msgstr "kural %-4d %s ->"
+msgstr "  %3d %3d %s ->"
 
 #: src/print.c:381
 msgid "empty"
-msgstr ""
+msgstr "boþ"
 
 #: src/print.c:388
 msgid "Terminals, with rules where they appear"
@@ -381,17 +385,17 @@ msgstr " saðda:"
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
-"simge %s kullanýldý, fakat bir andaç olarak tanýmlanmadý vekurallarý yok"
+"simge %s kullanýldý, fakat bir andaç olarak tanýmlanmadý ve kurallarý yok"
 
 #: src/reader.c:124
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
-msgstr "simge `%s' birden fazla defa sabit dizge olarak kullanýldý"
+msgstr "simge `%s' bir harfiyen uyumlu dizgi gibi birden fazla kullanýldý"
 
 #: src/reader.c:127
 #, c-format
 msgid "symbol `%s' given more than one literal string"
-msgstr "`%s' simgesine birden fazla sabit dizge verilmiþ"
+msgstr "simge `%s' bir harfiyen uyumlu dizgi gibi birden fazla verilmiþ"
 
 #: src/reader.c:162
 #, c-format
@@ -421,193 +425,194 @@ msgstr "   Sonraki  %c'ye atlanýyor"
 msgid "invalid $ value"
 msgstr "geçersiz $ deðeri"
 
-#: src/reader.c:353 src/reader.c:368
+#: src/reader.c:375 src/reader.c:390
 msgid "unterminated string at end of file"
 msgstr "dosyanýn sonunda sonlandýrýlmamýþ dizge"
 
-#: src/reader.c:356
+#: src/reader.c:378
 msgid "unterminated string"
 msgstr "sonlandýrýlmamýþ dizge"
 
-#: src/reader.c:498 src/reader.c:562
+#: src/reader.c:520 src/reader.c:584
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
-msgstr "geçersiz $ deðeri"
+msgstr "geçersiz @ deðeri"
 
-#: src/reader.c:512 src/reader.c:584
+#: src/reader.c:534 src/reader.c:606
 #, c-format
 msgid "%s is invalid"
 msgstr "%s geçersizdir"
 
-#: src/reader.c:552
+#: src/reader.c:574
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s''in $$'ý bildirilmiþ tip deðil"
 
-#: src/reader.c:576
+#: src/reader.c:598
 #, c-format
 msgid "$%d of `%s' has no declared type"
-msgstr "`%d''in $%s'i bildirilmiþ tip deðil"
+msgstr "`%2$s''in %1$d'i bildirilmiþ tip deðil"
 
-#: src/reader.c:634
+#: src/reader.c:656
 msgid "unterminated `%{' definition"
 msgstr "`%{' tanýmlamasý sonlandýrýlmamýþ"
 
-#: src/reader.c:679 src/reader.c:789 src/reader.c:840 src/reader.c:1092
+#: src/reader.c:701 src/reader.c:811 src/reader.c:862 src/reader.c:1114
 #, c-format
 msgid "Premature EOF after %s"
 msgstr "%s'den sonra erken EOF"
 
-#: src/reader.c:704 src/reader.c:859
+#: src/reader.c:726 src/reader.c:881
 #, c-format
 msgid "symbol %s redefined"
 msgstr "%s simgesi yeniden tanýmlandý"
 
-#: src/reader.c:716 src/reader.c:804 src/reader.c:870
+#: src/reader.c:738 src/reader.c:826 src/reader.c:892
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "%s için yeniden tip bildirimi"
 
-#: src/reader.c:734
+#: src/reader.c:756
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "`%s' %s içinde geçersizdir"
 
-#: src/reader.c:752 src/reader.c:916
+#: src/reader.c:774 src/reader.c:938
 #, c-format
 msgid "multiple %s declarations"
 msgstr "çoklu %s bildirimleri"
 
-#: src/reader.c:754 src/reader.c:1072 src/reader.c:1087 src/reader.c:1120
-#: src/reader.c:1134 src/reader.c:1337
+#: src/reader.c:776 src/reader.c:1094 src/reader.c:1109 src/reader.c:1142
+#: src/reader.c:1156 src/reader.c:1362
 #, c-format
 msgid "invalid %s declaration"
 msgstr "geçersiz %s bildirimi"
 
-#: src/reader.c:774
+#: src/reader.c:796
 msgid "%type declaration has no <typename>"
 msgstr "%type bildirimi <tipadý>'na sahip deðil"
 
-#: src/reader.c:809
+#: src/reader.c:831
 #, c-format
 msgid "invalid %%type declaration due to item: %s"
-msgstr "geçersiz %%type bildirimine neden olan öðe: %s"
+msgstr "geçersiz %%type bildirimine neden olan öðe: `%s'"
 
-#: src/reader.c:855
+#: src/reader.c:877
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "%s'in önceliði tekrar tanýmlandý"
 
-#: src/reader.c:882
+#: src/reader.c:904
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "geçersiz metin (%s) - sayý tanýtýcýdan sonra olmalýdýr"
 
-#: src/reader.c:892
+#: src/reader.c:914
 #, c-format
 msgid "unexpected item: %s"
 msgstr "beklenmeyen öðe: %s"
 
-#: src/reader.c:949 src/reader.c:1308
+#: src/reader.c:971 src/reader.c:1333
 #, c-format
 msgid "unmatched %s"
 msgstr "eþlenemeyen %s"
 
-#: src/reader.c:978
+#: src/reader.c:1000
 #, c-format
 msgid "argument of %%expect is not an integer"
-msgstr "%%expect'in argümaný bir tamsayý deðil"
+msgstr "%%expect'in argümaný bir tamsayý deðildir"
 
-#: src/reader.c:1024
+#: src/reader.c:1046
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "%s öðesi tanýnmadý, beklenen bir tanýtýcýdýr"
 
-#: src/reader.c:1046
+#: src/reader.c:1068
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "%s'in yerine sabit dizge beklendi"
 
-#: src/reader.c:1239
+#: src/reader.c:1264
 #, c-format
 msgid "unrecognized: %s"
 msgstr "tanýnmayan: %s"
 
-#: src/reader.c:1244
+#: src/reader.c:1269
 msgid "no input grammar"
 msgstr "girdi grameri yok"
 
-#: src/reader.c:1249
+#: src/reader.c:1274
 #, c-format
 msgid "unknown character: %s"
 msgstr "bilinmeyen karakter: %s"
 
-#: src/reader.c:1423
+#: src/reader.c:1448
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "kötü-biçemli kural: baþlangýç simgesini takip eden \":\" yok"
 
-#: src/reader.c:1430
+#: src/reader.c:1455
 msgid "grammar starts with vertical bar"
 msgstr "gramer düþey çubuk ile baþlýyor"
 
-#: src/reader.c:1458
+#: src/reader.c:1483
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "bir andaç olan %s için verilen kural"
 
-#: src/reader.c:1488 src/reader.c:1607
+#: src/reader.c:1513 src/reader.c:1632
 msgid "previous rule lacks an ending `;'"
-msgstr ""
+msgstr "önceki kuralda bir bitiþ `;' eksik"
 
-#: src/reader.c:1566
+#: src/reader.c:1591
 msgid "two @prec's in a row"
 msgstr "bir satýrda iki @prec"
 
-#: src/reader.c:1575
+#: src/reader.c:1600
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard sunulmuþ fakat %%semantic_parser belirlenmemiþ"
 
-#: src/reader.c:1585
+#: src/reader.c:1610
 msgid "two actions at end of one rule"
 msgstr "bir kuralýn sonunda iki eylem"
 
-#: src/reader.c:1599
+#: src/reader.c:1624
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "öntanýmlý eylem üzerinde (`%s' `%s') tip çatýþmasý"
 
-#: src/reader.c:1605
+#: src/reader.c:1630
 msgid "empty rule for typed nonterminal, and no action"
-msgstr "Tipli deðiþken simge için boþ kural tanýmlanmýþ, ve eylembelirtilmemiþ"
+msgstr ""
+"Tipli deðiþken simge için boþ kural tanýmlanmýþ, ve eylem belirtilmemiþ"
 
-#: src/reader.c:1613
+#: src/reader.c:1638
 #, c-format
 msgid "invalid input: %s"
 msgstr "geçersiz girdi: %s"
 
-#: src/reader.c:1620
+#: src/reader.c:1645
 msgid "no rules in the input grammar"
 msgstr "girdi grameri içinde kurallar yok"
 
-#: src/reader.c:1641
+#: src/reader.c:1666
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "çok fazla simge var (andaçlar ve deðiþken simgeler); en fazla %d"
 
-#: src/reader.c:1743
+#: src/reader.c:1768
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "baþlangýç simgesi %s tanýmlanmadý"
 
-#: src/reader.c:1745
+#: src/reader.c:1770
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "baþlangýç simgesi %s bir andaçtýr"
 
 #: src/reduce.c:332
 msgid "Useless nonterminals:"
-msgstr "Yararsýz kurallar:"
+msgstr "Yararsýz deðiþken simgeler:"
 
 #: src/reduce.c:346
 msgid "Terminals which are not used:"
@@ -618,26 +623,29 @@ msgid "Useless rules:"
 msgstr "Yararsýz kurallar:"
 
 #: src/reduce.c:386
-#, fuzzy, c-format
+#, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d kural asla indirgenmedi\n"
+msgstr[1] "%d kural asla indirgenmedi\n"
 
 #: src/reduce.c:394
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
-msgstr[0] "%d yararsýz deðiþken simge%s"
+msgstr[0] "%d yararsýz deðiþken simge"
+msgstr[1] "%d yararsýz deðiþken simge"
 
 #: src/reduce.c:400
 msgid " and "
 msgstr " ve "
 
 #: src/reduce.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
-msgstr[0] "%d yararsýz kural%s"
+msgstr[0] "%d yararsýz kural"
+msgstr[1] "%d yararsýz kural"
 
 #: src/reduce.c:433
 #, c-format
@@ -714,9 +722,8 @@ msgstr "'"
 #~ msgid "maximum table size (%d) exceeded"
 #~ msgstr "en büyük tablo uzunluðu (%d) aþýldý"
 
-#, fuzzy
-#~ msgid "too many items (max %d)"
-#~ msgstr "çok fazla durum (en fazla %d)"
+#~ msgid "    $   \tgo to state %d\n"
+#~ msgstr "    $   \tdurum %d'ye git\n"
 
 #~ msgid "%-4s\terror (nonassociative)"
 #~ msgstr "%-4s\thata (birleþmeli deðil)"
@@ -726,106 +733,3 @@ msgstr "'"
 
 #~ msgid "unterminated %guard clause"
 #~ msgstr "sonlandýrýlmamýþ %guard yantümcesi"
-
-#~ msgid "    $   \tgo to state %d\n"
-#~ msgstr "    $   \tdurum %d'ye git\n"
-
-#~ msgid "%s: internal error: %s\n"
-#~ msgstr "%s: iç hata: %s\n"
-
-#~ msgid ""
-#~ "Variables\n"
-#~ "---------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Deðiþkenler\n"
-#~ "-----------\n"
-#~ "\n"
-
-#~ msgid "Value  Sprec    Sassoc    Tag\n"
-#~ msgstr "Deðer  Söncel   Sbirleþ   Etiket\n"
-
-#~ msgid ""
-#~ "Rules\n"
-#~ "-----\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Kurallar\n"
-#~ "--------\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Rules interpreted\n"
-#~ "-----------------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Kurallar yorumlandý\n"
-#~ "-------------------\n"
-#~ "\n"
-
-#~ msgid " 1 shift/reduce conflict"
-#~ msgstr " 1 öteleme/indirgeme çeliþkisi"
-
-#~ msgid " 1 reduce/reduce conflict"
-#~ msgstr " 1 indirgeme/indirgeme çeliþkisi"
-
-#~ msgid "%s contains"
-#~ msgstr "%s içerir"
-
-#~ msgid "DERIVES"
-#~ msgstr "TÜRETÝLENLER"
-
-#~ msgid "%s derives"
-#~ msgstr "%s türetildi"
-
-#~ msgid "Entering set_nullable"
-#~ msgstr "set_nullable'a girildi"
-
-#, fuzzy
-#~ msgid ""
-#~ "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
-#~ msgstr ""
-#~ "indirgenen %s tanýmlanan %d sabit simge%s, %d deðiþken simge%s, ve %"
-#~ "düretilen%s.\n"
-
-#~ msgid "\t\t/* empty */"
-#~ msgstr "\t\t/* boþ */"
-
-#~ msgid "multiple %%header_extension declarations"
-#~ msgstr "çoklu %%header_extension bildirimleri"
-
-#~ msgid "multiple %%source_extension declarations"
-#~ msgstr "çoklu %%source_extension bildirimleri"
-
-#~ msgid "vcg graph: no such color."
-#~ msgstr "vcg graph: böyle bir renk yok."
-
-#~ msgid "vcg graph: no such text mode"
-#~ msgstr "vcg graph: böyle bir metin kipi yok"
-
-#~ msgid "vcg graph: no such shape"
-#~ msgstr "vcg graph: böyle bir þekil yok"
-
-#~ msgid "vcg graph: no such decision"
-#~ msgstr "vcg graph: böyle bir karar yok"
-
-#~ msgid "vcg graph: no such an orientation"
-#~ msgstr "vcg graph: böyle bir konum yok"
-
-#~ msgid "vcg graph: no such an alignement"
-#~ msgstr "vcg graph: böyle bir hizalama yok"
-
-#~ msgid "vcg graph: no such an arrow mode"
-#~ msgstr "vcg graph: böyle bir yön kipi yok"
-
-#~ msgid "vcg graph: no such crossing_type"
-#~ msgstr "vcg graph: böyle bir kesme tipi yok"
-
-#~ msgid "vcg graph: no such view"
-#~ msgstr "vcg graph: böyle bir görünüm yok"
-
-#~ msgid "vcg graph: no such linestyle"
-#~ msgstr "vcg graph: böyle bir çizgi biçemi yok"
-
-#~ msgid "vcg graph: no such an arrowstyle"
-#~ msgstr "vcg graph: böyle bir yön biçemi yok"
