@@ -16,3 +16,9 @@ GCC='@GCC@'
 
 # The GCC C++ compiler.
 CXX='@CXX@'
+
+# Are special link options needed?
+LDFLAGS='@LDFLAGS@'
+
+# Are special libraries needed?
+LIBS='@LIBS@'
