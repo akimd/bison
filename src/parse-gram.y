@@ -85,11 +85,11 @@ int current_prec = 0;
 
 %token PERCENT_TOKEN "%token"
 %token PERCENT_NTERM "%nterm"
-%token PERCENT_TYPE "%type"
+%token PERCENT_TYPE  "%type"
 %token PERCENT_UNION "%union"
 %token PERCENT_EXPECT "%expect"
 %token PERCENT_START "%start"
-%token PERCENT_LEFT "%left"
+%token PERCENT_LEFT  "%left"
 %token PERCENT_RIGHT "%right"
 %token PERCENT_NONASSOC "%nonassoc"
 %token PERCENT_PREC     "%prec"
@@ -123,31 +123,35 @@ int current_prec = 0;
 %token PROLOGUE EPILOGUE
 %token BRACED_CODE
 
-%type <string> CHARACTER TYPE  STRING string_content
+%type <string> CHARACTER TYPE STRING string_content
                BRACED_CODE PROLOGUE EPILOGUE epilogue.opt action
 %type <integer> INT
 %type <symbol> ID symbol string_as_id
-%type <assoc> precedence_directive
+%type <assoc> precedence_declarator
+
 %%
+
 input: { LOCATION_RESET (yylloc); }
-  directives "%%" gram epilogue.opt
+  declarations "%%" grammar epilogue.opt
     {
       yycontrol->errcode = 0;
       epilogue_set ($5, @5);
     }
 ;
 
-directives:
+
+	/*------------------------------------.
+	| Declarations: before the first %%.  |
+	`------------------------------------*/
+
+declarations:
   /* Nothing */
-| directives directive
+| declarations declaration
 ;
 
-directive:
-  grammar_directives
-| PROLOGUE
-   {
-     prologue_augment ($1, @1);
-   }
+declaration:
+  grammar_declaration
+| PROLOGUE                                 { prologue_augment ($1, @1); }
 | "%debug"                                 { debug_flag = 1; }
 | "%define" string_content string_content  { muscle_insert ($2, $3); }
 | "%defines"                               { defines_flag = 1; }
@@ -165,16 +169,26 @@ directive:
 | "%yacc"                                  { yacc_flag = 1; }
 ;
 
-grammar_directives:
-  precedence_directives
-| "%nterm" { current_class = nterm_sym; } symbol_defs.1
-    {
-      current_class = unknown_sym;
-      current_type = NULL;
-    }
+grammar_declaration:
+  precedence_declaration
+| symbol_declaration
 | "%start" symbol
     {
       grammar_start_symbol_set ($2);
+    }
+| "%union" BRACED_CODE semi_colon_opt
+    {
+      typed = 1;
+      MUSCLE_INSERT_INT ("stype_line", @2.first_line);
+      muscle_insert ("stype", $2);
+    }
+;
+
+symbol_declaration:
+  "%nterm" { current_class = nterm_sym; } symbol_defs.1
+    {
+      current_class = unknown_sym;
+      current_type = NULL;
     }
 | "%token" { current_class = token_sym; } symbol_defs.1
     {
@@ -185,22 +199,16 @@ grammar_directives:
     {
       current_type = NULL;
     }
-| "%union" BRACED_CODE semi_colon_opt
-    {
-      typed = 1;
-      MUSCLE_INSERT_INT ("stype_line", @2.first_line);
-      muscle_insert ("stype", $2);
-    }
 ;
 
-precedence_directives:
-  precedence_directive type.opt
+precedence_declaration:
+  precedence_declarator type.opt
     { current_assoc = $1; ++current_prec; }
   terms_to_prec.1
     { current_assoc = non_assoc; current_type = NULL; }
 ;
 
-precedence_directive:
+precedence_declarator:
   "%left"     { $$ = left_assoc; }
 | "%right"    { $$ = right_assoc; }
 | "%nonassoc" { $$ = non_assoc; }
@@ -230,7 +238,6 @@ terms_to_prec.1:
       symbol_precedence_set ($2, current_prec, current_assoc);
     }
 ;
-
 
 /* One token definition.  */
 symbol_def:
@@ -272,9 +279,14 @@ symbol_defs.1:
     {;}
 ;
 
-gram:
+
+	/*------------------------------------------.
+	| The grammar section: between the two %%.  |
+	`------------------------------------------*/
+
+grammar:
   rules
-| gram rules
+| grammar rules
 ;
 
 rules:

@@ -1,5 +1,15 @@
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
+	* src/parse-gram.y (directives, directive, gram)
+	(grammar_directives, precedence_directives, precedence_directive):
+	Rename as...
+	(declarations, declaration, grammar, grammar_declaration)
+	(precedence_declaration, precedence_declarator): these.
+	(symbol_declaration): New.
+
+	
+2002-06-14  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c (action_obstack): Remove, unused.
 	(output_obstack): Remove it, and all its dependencies, as it is no
 	longer needed.

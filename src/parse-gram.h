@@ -1,5 +1,5 @@
-#ifndef BISON_Y_TAB_H
-# define BISON_Y_TAB_H
+#ifndef BISON_PARSE_GRAM_H
+# define BISON_PARSE_GRAM_H
 
 #ifndef YYSTYPE
 typedef union
@@ -67,4 +67,4 @@ typedef struct yyltype
 # define	BRACED_CODE	293
 
 
-#endif /* not BISON_Y_TAB_H */
+#endif /* not BISON_PARSE_GRAM_H */
