@@ -1,5 +1,11 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (set_goto_map): Remove a wrong but benign loop
+	duplication.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (packgram): Catch nitems overflows.
 
 	
