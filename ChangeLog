@@ -1,3 +1,8 @@
+2002-09-04  Jim Meyering  <jim@meyering.net>
+
+	* data/yacc.c: Guard the declaration of yytoknum also with
+	`#ifdef YYPRINT', so it is declared only when used.
+
 2002-09-04  Akim Demaille  <akim@epita.fr>
 
 	* configure.in: Rename as...
