@@ -1,5 +1,9 @@
 2002-01-20  Marc Autret  <marc@gnu.org>
 
+	* src/files.c (compute_output_file_names): Fix
+
+2002-01-20  Marc Autret  <marc@gnu.org>
+
 	* tests/output.at: New test.
 	* src/files.c (compute_base_names): Don't map extensions when
 	the YACC flag is set, use defaults.
