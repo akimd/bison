@@ -16,25 +16,25 @@ Changes in version 1.49b, 2002-08-12:
 
 * Output Directory
   When not in Yacc compatibility mode, when the output file was not
-  specified, runnning `bison foo/bar.y' created `foo/bar.c'.  It
+  specified, running `bison foo/bar.y' created `foo/bar.c'.  It
   now creates `bar.c'.
 
 * Undefined token
   The undefined token was systematically mapped to 2 which prevented
-  the use of 2 from the user.  This is no longer the case.
+  the use of 2 by the user.  This is no longer the case.
 
 * Unknown token numbers
-  If yylex returned a code out of range, yyparse could die.  This is
+  If yylex returned an out of range value, yyparse could die.  This is
   no longer the case.
 
 * Error token
-  According to POSIX, the error token should be numbered as 256.
+  According to POSIX, the error token must be 256.
   Bison extends this requirement by making it a preference: *if* the
   user specified that one of her tokens is numbered 256, then error
   will be mapped onto another number.
 
 * Verbose error messages
-  They no longer report `..., expecting error or...' for state where
+  They no longer report `..., expecting error or...' for states where
   error recovery is possible.
 
 * End token
@@ -110,12 +110,12 @@ Changes in version 1.49b, 2002-08-12:
   Croatian, thanks to Denis Lackovic.
 
 * Incorrect token definitions
-  When fed with `%token 'a' "A"', Bison used to output `#define 'a' 65'.
+  When given `%token 'a' "A"', Bison used to output `#define 'a' 65'.
 
 * Token definitions as enums
   Tokens are output both as the traditional #define's, and, provided
   the compiler supports ANSI C or is a C++ compiler, as enums.
-  This helps debuggers producing symbols instead of values.
+  This lets debuggers display names instead of integers.
 
 * Reports
   In addition to --verbose, bison supports --report=THINGS, which
