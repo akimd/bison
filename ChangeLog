@@ -1,3 +1,7 @@
+2002-07-09  Akim Demaille  <akim@epita.fr>
+
+	* data/yacc.c: Output the copyright notive in the header.
+
 2002-07-03  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (froms, tos): Are state_number_t.

@@ -29,7 +29,7 @@ m4_define([b4_copyright],
 [/* A Bison parser, made from b4_filename, by GNU bison b4_version.  */
 
 /* $1,
-   Copyright $2 Free Software Foundation, Inc.
+   Copyright (C) $2 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
