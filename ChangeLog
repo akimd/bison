@@ -1,5 +1,10 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/print_graph.c: Use report_flag.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (traverse, digraph, matrix_print, transpose): Move
 	to...
 	* src/relation.h, src/relation.c (traverse, relation_digraph)
