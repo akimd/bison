@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-08-03 10:49+0200\n"
+"POT-Creation-Date: 2001-08-03 11:05+0200\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -42,6 +42,22 @@ msgstr ""
 #, c-format
 msgid "too many states (max %d)"
 msgstr ""
+
+#: src/complain.c:110
+msgid "warning: "
+msgstr ""
+
+# Duda: desconozco cuál será el convenio en la lista de correo a
+# propósito de "fatal". Por favor, comprueba que "error grave" es
+# preferido por todos los miembros a "error fatal" - cll
+# veremos que dice la mayoría, como hay otros 2 revisores
+# La verdad es que a mi lo de error fatal me suena fatal
+# ngp
+#
+#: src/complain.c:198 src/complain.c:239
+#, fuzzy
+msgid "fatal error: "
+msgstr "error grave: %s\n"
 
 #: src/conflicts.c:49
 #, c-format
@@ -171,6 +187,15 @@ msgstr ""
 #, c-format
 msgid "%s derives"
 msgstr "%s deriva"
+
+#: src/files.c:98
+#, c-format
+msgid "cannot open file `%s'"
+msgstr ""
+
+#: src/files.c:117
+msgid "cannot close file"
+msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
@@ -931,17 +956,6 @@ msgstr ""
 #
 #~ msgid "gotos"
 #~ msgstr "saltos (gotos)"
-
-# Duda: desconozco cuál será el convenio en la lista de correo a
-# propósito de "fatal". Por favor, comprueba que "error grave" es
-# preferido por todos los miembros a "error fatal" - cll
-# veremos que dice la mayoría, como hay otros 2 revisores
-# La verdad es que a mi lo de error fatal me suena fatal
-# ngp
-#
-#, fuzzy
-#~ msgid "fatal error: "
-#~ msgstr "error grave: %s\n"
 
 # ¿Por qué no lo pones en mayúsculas? Al fin y al cabo, eso es lo que
 # haces luego con "FDERIVES" que traduces como "FDERIVACIONES", ... -

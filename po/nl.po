@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-03 10:49+0200\n"
+"POT-Creation-Date: 2001-08-03 11:05+0200\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -17,6 +17,15 @@ msgstr ""
 #, c-format
 msgid "too many states (max %d)"
 msgstr ""
+
+#: src/complain.c:110
+msgid "warning: "
+msgstr ""
+
+#: src/complain.c:198 src/complain.c:239
+#, fuzzy
+msgid "fatal error: "
+msgstr "fatale fout: %s\n"
 
 #: src/conflicts.c:49
 #, c-format
@@ -121,6 +130,15 @@ msgstr ""
 #, c-format
 msgid "%s derives"
 msgstr "%s afgeleiden"
+
+#: src/files.c:98
+#, c-format
+msgid "cannot open file `%s'"
+msgstr ""
+
+#: src/files.c:117
+msgid "cannot close file"
+msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
@@ -797,10 +815,6 @@ msgstr ""
 
 #~ msgid "gotos"
 #~ msgstr "ganaar"
-
-#, fuzzy
-#~ msgid "fatal error: "
-#~ msgstr "fatale fout: %s\n"
 
 #~ msgid ""
 #~ "\n"

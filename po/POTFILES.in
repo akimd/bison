@@ -1,8 +1,8 @@
 src/LR0.c
-src/closure.c
+src/complain.c
 src/conflicts.c
 src/derives.c
-# src/files.c
+src/files.c
 src/getargs.c
 # src/gram.c
 src/lalr.c

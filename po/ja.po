@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-08-03 10:49+0200\n"
+"POT-Creation-Date: 2001-08-03 11:05+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -17,6 +17,15 @@ msgstr ""
 #, fuzzy, c-format
 msgid "too many states (max %d)"
 msgstr "%s の数が多すぎます (最大 %d)"
+
+#: src/complain.c:110
+msgid "warning: "
+msgstr ""
+
+#: src/complain.c:198 src/complain.c:239
+#, fuzzy
+msgid "fatal error: "
+msgstr "%s: 致命的エラー: "
 
 #: src/conflicts.c:49
 #, c-format
@@ -121,6 +130,15 @@ msgstr ""
 #, c-format
 msgid "%s derives"
 msgstr "%s は以下から派生"
+
+#: src/files.c:98
+#, c-format
+msgid "cannot open file `%s'"
+msgstr ""
+
+#: src/files.c:117
+msgid "cannot close file"
+msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
@@ -846,9 +864,6 @@ msgstr ""
 
 #~ msgid "gotos"
 #~ msgstr "goto"
-
-#~ msgid "%s: fatal error: "
-#~ msgstr "%s: 致命的エラー: "
 
 #~ msgid "%s:%d: fatal error: "
 #~ msgstr "%s:%d: 致命的エラー: "
