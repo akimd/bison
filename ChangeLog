@@ -1,5 +1,9 @@
 2001-11-20  Akim Demaille  <akim@epita.fr>
 
+	Version 1.30d.
+
+2001-11-20  Akim Demaille  <akim@epita.fr>
+
 	* po/sv.po: New.
 	* configure.in (ALL_LINGUAS): Adjust.
 	* po/POTFILE.in: Remove `nullable.c' and `derives.c' which no

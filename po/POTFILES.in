@@ -1,13 +1,11 @@
 src/LR0.c
 src/complain.c
 src/conflicts.c
-src/derives.c
 src/files.c
 src/getargs.c
 src/lalr.c
 src/lex.c
 src/main.c
-src/nullable.c
 src/output.c
 src/print.c
 src/print_graph.c
