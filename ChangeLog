@@ -5,6 +5,11 @@
 	* configure.ac (AC_INIT): Bump version to 1.875f.
 	* src/parse-gram.c, src/parse-gram.h: Regenerate with 2.0.
 
+	* tests/torture.at (Exploding the Stack Size with Alloca): Set
+	YYSTACK_USE_ALLOCA to 1 if __GNUC__ or alloca are defined;
+	otherwise, we're not testing alloca.  Unfortunately there's no
+	simple way to consult HAVE_ALLOCA here.
+
 	* data/lalr1.cc (yydestruct_): Pacify unused variable warning
 	for yymsg, too.
 
