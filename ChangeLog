@@ -1,5 +1,17 @@
 2003-04-29  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h, src/gram.c (pure_parser, glr_parser): Move to...
+	* src/getargs.c, src/getargs.h: here, as bool, not int.
+	(nondeterministic_parser): New.
+	* src/parse-gram.y, src/scan-gram.l: Support
+	%nondeterministic-parser.
+	* src/output.c (prepare): Use nondeterministic_parser instead
+	of glr_parser where appropriate.
+	* src/tables.c (conflict_row, action_row, save_row)
+	(token_actions, token_actions, pack_vector): Ditto.
+
+2003-04-29  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo (C++ Parsers, Implementing Loops): New.
 
 2003-04-29  Akim Demaille  <akim@epita.fr>

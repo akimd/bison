@@ -1,5 +1,5 @@
 /* Parse command line arguments for bison.
-   Copyright (C) 1984, 1986, 1989, 1992, 2000, 2001, 2002
+   Copyright (C) 1984, 1986, 1989, 1992, 2000, 2001, 2002, 2003
    Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -34,6 +34,23 @@ extern int no_parser_flag;	/* for -n */
 extern int token_table_flag;   	/* for -k */
 extern int graph_flag;		/* for -g */
 extern int yacc_flag;  		/* for -y */
+
+/* GLR_PARSER is true if the input file says to use the GLR
+   (Generalized LR) parser, and to output some additional information
+   used by the GLR algorithm.  */
+
+extern bool glr_parser;
+
+/* PURE_PARSER is true if should generate a parser that is all pure
+   and reentrant.  */
+
+extern bool pure_parser;
+
+/* NONDETERMINISTIC_PARSER is true iff conflicts are accepted.  This
+   is used by the GLR parser, and might be used in BackTracking
+   parsers too.  */
+
+extern bool nondeterministic_parser;
 
 /* --trace.  */
 enum trace

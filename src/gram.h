@@ -231,17 +231,6 @@ extern int max_user_token_number;
 
 
 
-/* GLR_PARSER is nonzero if the input file says to use the GLR
-   (Generalized LR) parser, and to output some additional
-   information used by the GLR algorithm. */
-
-extern int glr_parser;
-
-/* PURE_PARSER is nonzero if should generate a parser that is all pure
-   and reentrant.  */
-
-extern int pure_parser;
-
 /* Dump RITEM for traces. */
 void ritem_print (FILE *out);
 

@@ -198,6 +198,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%name"[-_]"prefix"     return PERCENT_NAME_PREFIX;
   "%no"[-_]"lines"        return PERCENT_NO_LINES;
   "%nonassoc"             return PERCENT_NONASSOC;
+  "%nondeterministic-parser"   return PERCENT_NONDETERMINISTIC_PARSER;
   "%nterm"                return PERCENT_NTERM;
   "%output"               return PERCENT_OUTPUT;
   "%parse-param"	  token_type = PERCENT_PARSE_PARAM; BEGIN SC_PRE_CODE;

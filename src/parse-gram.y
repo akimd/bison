@@ -120,6 +120,7 @@ int current_prec = 0;
   PERCENT_LOCATIONS     "%locations"
   PERCENT_NAME_PREFIX   "%name-prefix"
   PERCENT_NO_LINES      "%no-lines"
+  PERCENT_NONDETERMINISTIC_PARSER    "%nondeterministic-parser"
   PERCENT_OUTPUT        "%output"
   PERCENT_PARSE_PARAM   "%parse-param {...}"
   PERCENT_PURE_PARSER   "%pure-parser"
@@ -180,14 +181,16 @@ declaration:
 | "%error-verbose"                         { error_verbose = 1; }
 | "%expect" INT                            { expected_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
-| "%glr-parser" 			   { glr_parser = 1; }
+| "%glr-parser" 			   { nondeterministic_parser = true;
+                                             glr_parser = true; }
 | "%lex-param {...}"			   { add_param ("lex_param", $1, @1); }
 | "%locations"                             { locations_flag = 1; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
 | "%no-lines"                              { no_lines_flag = 1; }
+| "%nondeterministic-parser" 		   { nondeterministic_parser = true; }
 | "%output" "=" string_content             { spec_outfile = $3; }
 | "%parse-param {...}"			 { add_param ("parse_param", $1, @1); }
-| "%pure-parser"                           { pure_parser = 1; }
+| "%pure-parser"                           { pure_parser = true; }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = 1; }
 | "%verbose"                               { report_flag = report_states; }
