@@ -1,5 +1,12 @@
 2002-01-20  Marc Autret  <marc@gnu.org>
 
+	* tests/output.at: New test.
+	* src/files.c (compute_base_names): Don't map extensions when
+	the YACC flag is set, use defaults.
+	Reported by Evgeny Stambulchik.
+
+2002-01-20  Marc Autret  <marc@gnu.org>
+
 	* src/system.h: Need to	define __attribute__ away for non-GCC 
 	compilers as well (i.e.	the vendor C compiler).
 	Suggested by Albert Chin-A-Young.
