@@ -1,5 +1,12 @@
 2000-11-03  Akim Demaille  <akim@epita.fr>
 
+	For some reasons, this has not been applied.
+
+	* src/files.c [VMS]: No longer include `ssdef.h', no longer define
+	`unlink': it's no longer used.
+
+2000-11-03  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c (skeleton_find): New function, eved out of...
 	(open_files, open_extra_files): here.
 
