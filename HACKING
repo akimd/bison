@@ -1,0 +1,122 @@
+-*- outline -*-
+
+This file attempts to describe the rules to use when hacking Bison.
+Don't put this file into the distribution.  Don't mention it in the
+ChangeLog.
+
+* Administrivia
+
+** If you incorporate a change from somebody on the net:
+First, if it is a large change, you must make sure they have signed
+the appropriate paperwork.  Second, be sure to add their name and
+email address to THANKS.
+
+** If a change fixes a test, mention the test in the ChangeLog entry.
+
+** Bug reports
+If somebody reports a new bug, mention his name in the ChangeLog entry
+and in the test case you write.  Put him into THANKS.
+
+The correct response to most actual bugs is to write a new test case
+which demonstrates the bug.  Then fix the bug, re-run the test suite,
+and check everything in.
+
+** Visible changes
+Which include serious bug fixes, must be mentioned in NEWS.
+
+
+* Test suite
+
+** make check
+Use liberally.
+
+** Release checks
+Try to run the test suite with more severe conditions before a
+release:
+
+- Configure the package with --enable-gcc-warnings, so that one checks
+  that 1. Bison compiles cleanly, 2. the parsers it produces compile
+  cleanly too.
+
+- Change tests/bison to run `valgrind -q bison' to run Bison under
+  Valgrind.
+
+- Run the test suite with `./testsuite PREPARSER='valgrind -q' to make
+  sure the parser behave properly.
+
+- Change tests/atlocal/CFLAGS to add your preferred options.  For
+  instance, `-traditional' to check that the parsers are K&R.  Note
+  that it does not make sense for glr.c, which should be ANSI,
+  but currently is actually GNU C, nor for lalr1.cc, which anyway is
+  not exercised yet in the test suite.
+
+- Change tests/atlocal/CC to use a C++ compiler.
+
+
+* Release Procedure
+
+** Tests
+See above.
+
+** Update the foreign files
+Running `make update' in the top level should make it all for you.
+This covers PO files too.  Beware that it happens that some PO files
+contain serious problems and are rejected by recent Gettext releases:
+fix them all, and complain to the Translation Project!
+
+Note that there might be *new* PO files.  Don't forget to update the
+whole machinery, which not only includes LINGUAS, but `cvs add'ing the
+PO files too.
+
+** Update NEWS
+The version number, *and* the date of the release (including for
+betas).
+
+** Update ChangeLog
+Should have an entry similar to `Version 1.49b.'.
+Check all this in once `make distcheck' passes.
+
+** make alpha
+Running `make alpha' is absolutely perfect for beta releases: it makes
+the tarballs, the xdeltas, and prepares (in /tmp/) a proto
+announcement.  It is so neat, that that's what I use anyway for
+genuine releases, but adjusting things by hand (e.g., the urls in the
+announcement file, the ChangeLog which is not needed etc.).
+
+If it fails, you're on your own...
+
+It requires GNU Make.
+
+** Upload
+Put the tarballs/xdeltas where they should be.  Or put it somewhere,
+and send the URL to ftp-upload@gnu.org.
+
+** Bump the version number
+In configure.ac.  Run `make', check this in.
+
+** Announce
+Complete/fix the announcement file, and send it at least to
+info@gnu.org (if a real release, or a ``serious beta''),
+bison@gnu.org, and translation@iro.umontreal.ca.
+
+
+-----
+
+Copyright (C) 2002 Free Software Foundation, Inc.
+
+This file is part of GNU Bison.
+
+GNU Bison is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+GNU Bison is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GNU Bison; see the file COPYING.  If not, write to the Free
+Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+02111-1307, USA.
