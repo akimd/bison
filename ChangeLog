@@ -1,5 +1,12 @@
 2002-07-25  Akim Demaille  <akim@epita.fr>
 
+	* data/yacc.c (yyreport_parse_error): New, extracted from...
+	(yyparse): here.
+	(yydestruct, yysymprint): Move above yyparse.
+	Be K&R compliant.
+
+2002-07-25  Akim Demaille  <akim@epita.fr>
+
 	* data/c.m4 (b4_ints_in, b4_int_type, b4_int_type_for): New,
 	replace...
 	(b4_sint_type, b4_uint_type): these.
