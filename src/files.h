@@ -67,8 +67,4 @@ char* stringappend (const char* string1, const char* string2);
 /* Prefix used to generate output file names.  */
 extern char *short_base_name;
 
-/* Infix used to generate output file names (i.e., `.tab', or `_tab',
-   or `').  */
-extern char *output_infix;
-
 #endif /* !FILES_H_ */
