@@ -1,3 +1,79 @@
+2002-10-15  Paul Eggert  <eggert@twinsun.com>
+
+	Stop using the "enum_" trick for K&R-style function definitions;
+	it confused me, and I was the author!  Instead, assume that people
+	who want to use K&R C compilers (when using these modules in GCC,
+	perhaps?) will run ansi2knr.
+
+	* lib/bbitset.h: (enum_bitset_ops, enum_bitset_type): Remove.
+	All uses of "enum_" changed to "enum ".
+	* lib/ebitset.c (enum_ebitset_find_mode): Likewise.
+	* lib/lbitset.c (enum_lbitset_find_mode): Likewise.
+	
+	* lib/abitset.c (abitset_and, abitset_and_cmp, abitset_and_or,
+	abitset_and_or_cmp, abitset_andn, abitset_andn_cmp,
+	abitset_andn_or, abitset_andn_or_cmp, abitset_bytes, abitset_copy,
+	abitset_copy1, abitset_disjoint_p, abitset_empty_p,
+	abitset_equal_p, abitset_init, abitset_list, abitset_list_reverse,
+	abitset_not, abitset_ones, abitset_or, abitset_or_and,
+	abitset_or_and_cmp, abitset_or_cmp, abitset_reset, abitset_set,
+	abitset_size, abitset_small_list, abitset_subset_p, abitset_test,
+	abitset_unused_clear, abitset_xor, abitset_xor_cmp, abitset_zero):
+	Use function prototypes; this removes the need for declaring
+	static functions simply to provide their prototypes.
+	* lib/bitset.c (bitset_alloc, bitset_and_or_, bitset_and_or_cmp_,
+	bitset_andn_or_, bitset_andn_or_cmp_, bitset_bytes, bitset_copy_,
+	bitset_count_, bitset_create, bitset_dump, bitset_first,
+	bitset_free, bitset_init, bitset_last, bitset_next,
+	bitset_obstack_alloc, bitset_obstack_free, bitset_only_set_p,
+	bitset_op4_cmp, bitset_or_and_, bitset_or_and_cmp_, bitset_prev,
+	bitset_print, bitset_release_memory, bitset_toggle_,
+	bitset_type_choose, bitset_type_get, bitset_type_name_get,
+	debug_bitset): Likewise.
+	* lib/bitset.h (bitset_set, bitset_reset, bitset_test): Likewise.
+	* lib/bitset_stats.c (bitset_log_histogram_print,
+	bitset_percent_histogram_print, bitset_stats_and,
+	bitset_stats_and_cmp, bitset_stats_and_or,
+	bitset_stats_and_or_cmp, bitset_stats_andn, bitset_stats_andn_cmp,
+	bitset_stats_andn_or, bitset_stats_andn_or_cmp, bitset_stats_copy,
+	bitset_stats_count, bitset_stats_disable, bitset_stats_disjoint_p,
+	bitset_stats_dump, bitset_stats_empty_p, bitset_stats_enable,
+	bitset_stats_equal_p, bitset_stats_free, bitset_stats_init,
+	bitset_stats_list, bitset_stats_list_reverse, bitset_stats_not,
+	bitset_stats_ones, bitset_stats_or, bitset_stats_or_and,
+	bitset_stats_or_and_cmp, bitset_stats_or_cmp, bitset_stats_print,
+	bitset_stats_print_1, bitset_stats_read, bitset_stats_reset,
+	bitset_stats_set, bitset_stats_size, bitset_stats_subset_p,
+	bitset_stats_test, bitset_stats_toggle, bitset_stats_type_get,
+	bitset_stats_write, bitset_stats_xor, bitset_stats_xor_cmp,
+	bitset_stats_zero): Likewise.
+	* lib/bitsetv.c (bitsetv_alloc, bitsetv_create, bitsetv_free,
+	bitsetv_zero, bitsetv_ones, bitsetv_transitive_closure,
+	bitsetv_dump, debug_bitsetv): Likewise.
+	* lib/ebitset.c (ebitset_and, ebitset_and_cmp, ebitset_andn,
+	ebitset_andn_cmp, ebitset_bytes, ebitset_copy, ebitset_copy_,
+	ebitset_copy_cmp, ebitset_disjoint_p, ebitset_elt_add,
+	ebitset_elt_alloc, ebitset_elt_calloc, ebitset_elt_find,
+	ebitset_elt_free, ebitset_elt_last, ebitset_elt_remove,
+	ebitset_elt_zero_p, ebitset_elts_grow, ebitset_empty_p,
+	ebitset_equal_p, ebitset_free, ebitset_init, ebitset_list,
+	ebitset_list_reverse, ebitset_not, ebitset_ones, ebitset_op3_cmp,
+	ebitset_or, ebitset_or_cmp, ebitset_release_memory, ebitset_reset,
+	ebitset_set, ebitset_size, ebitset_subset_p, ebitset_test,
+	ebitset_weed, ebitset_xor, ebitset_xor_cmp, ebitset_zero):
+	Likewise.
+	* lib/lbitset.c (debug_lbitset, lbitset_and, lbitset_and_cmp,
+	lbitset_andn, lbitset_andn_cmp, lbitset_bytes, lbitset_copy,
+	lbitset_copy_cmp, lbitset_disjoint_p, lbitset_elt_alloc,
+	lbitset_elt_calloc, lbitset_elt_find, lbitset_elt_free,
+	lbitset_elt_link, lbitset_elt_unlink, lbitset_elt_zero_p,
+	lbitset_empty_p, lbitset_equal_p, lbitset_free, lbitset_init,
+	lbitset_list, lbitset_list_reverse, lbitset_not, lbitset_ones,
+	lbitset_op3_cmp, lbitset_or, lbitset_or_cmp, lbitset_prune,
+	lbitset_release_memory, lbitset_reset, lbitset_set, lbitset_size,
+	lbitset_subset_p, lbitset_test, lbitset_weed, lbitset_xor,
+	lbitset_xor_cmp, lbitset_zero): Likewise.
+	
 2002-10-14  Akim Demaille  <akim@epita.fr>
 
 	Version 1.75.
