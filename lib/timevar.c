@@ -1,42 +1,28 @@
 /* Timing variables for measuring compiler performance.
-   Copyright (C) 2000, 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2000 Free Software Foundation, Inc.
    Contributed by Alex Samuel <samuel@codesourcery.com>
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+This file is part of GCC.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+GCC is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2, or (at your option) any later
+version.
 
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+GCC is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+for more details.
 
-#include <config.h>
+You should have received a copy of the GNU General Public License
+along with GCC; see the file COPYING.  If not, write to the Free
+Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+02111-1307, USA.  */
 
-#if IN_GCC
-
+#include "config.h"
 #include "system.h"
 #include "intl.h"
 #include "rtl.h"
-
-#else
-
-/* This source file is taken from the GCC source code, with slight
-   modifications that are under control of the IN_GCC preprocessor
-   variable.  The !IN_GCC part of this file is specific to Bison.  */
-
-# include "../src/system.h"
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# endif
-int timevar_report = 0;
-
-#endif
-
 
 #ifdef HAVE_SYS_TIMES_H
 # include <sys/times.h>
@@ -60,13 +46,13 @@ struct tms
 #endif
 
 #if defined HAVE_DECL_GETRUSAGE && !HAVE_DECL_GETRUSAGE
-extern int getrusage (int, struct rusage *);
+extern int getrusage PARAMS ((int, struct rusage *));
 #endif
 #if defined HAVE_DECL_TIMES && !HAVE_DECL_TIMES
-extern clock_t times (struct tms *);
+extern clock_t times PARAMS ((struct tms *));
 #endif
 #if defined HAVE_DECL_CLOCK && !HAVE_DECL_CLOCK
-extern clock_t clock (void);
+extern clock_t clock PARAMS ((void));
 #endif
 
 #ifndef RUSAGE_SELF
@@ -115,23 +101,21 @@ extern clock_t clock (void);
    _constants_ variable at run time, anyway?  */
 #ifdef USE_TIMES
 static float ticks_to_msec;
-#define TICKS_TO_MSEC (1.0 / TICKS_PER_SECOND)
+#define TICKS_TO_MSEC (1 / (float)TICKS_PER_SECOND)
 #endif
 
 #ifdef USE_CLOCK
 static float clocks_to_msec;
-#define CLOCKS_TO_MSEC (1.0 / CLOCKS_PER_SEC)
+#define CLOCKS_TO_MSEC (1 / (float)CLOCKS_PER_SEC)
 #endif
 
-#if IN_GCC
 #include "flags.h"
-#endif
 #include "timevar.h"
 
 /* See timevar.h for an explanation of timing variables.  */
 
 /* This macro evaluates to nonzero if timing variables are enabled.  */
-#define TIMEVAR_ENABLE (timevar_report)
+#define TIMEVAR_ENABLE (time_report)
 
 /* A timing variable.  */
 
@@ -184,10 +168,11 @@ static struct timevar_stack_def *unused_stack_instances;
    element.  */
 static struct timevar_time_def start_time;
 
-static void get_time (struct timevar_time_def *);
-static void timevar_accumulate (struct timevar_time_def *,
-				struct timevar_time_def *,
-				struct timevar_time_def *);
+static void get_time
+  PARAMS ((struct timevar_time_def *));
+static void timevar_accumulate
+  PARAMS ((struct timevar_time_def *, struct timevar_time_def *,
+	   struct timevar_time_def *));
 
 /* Fill the current times into TIME.  The definition of this function
    also defines any or all of the HAVE_USER_TIME, HAVE_SYS_TIME, and
@@ -208,21 +193,12 @@ get_time (now)
 #ifdef USE_TIMES
     struct tms tms;
     now->wall = times (&tms)  * ticks_to_msec;
-#if IN_GCC
     now->user = tms.tms_utime * ticks_to_msec;
     now->sys  = tms.tms_stime * ticks_to_msec;
-#else
-    now->user = (tms.tms_utime + tms.tms_cutime) * ticks_to_msec;
-    now->sys  = (tms.tms_stime + tms.tms_cstime) * ticks_to_msec;
-#endif
 #endif
 #ifdef USE_GETRUSAGE
     struct rusage rusage;
-#if IN_GCC
     getrusage (RUSAGE_SELF, &rusage);
-#else
-    getrusage (RUSAGE_CHILDREN, &rusage);
-#endif
     now->user = rusage.ru_utime.tv_sec + rusage.ru_utime.tv_usec * 1e-6;
     now->sys  = rusage.ru_stime.tv_sec + rusage.ru_stime.tv_usec * 1e-6;
 #endif
@@ -232,17 +208,17 @@ get_time (now)
   }
 }
 
-/* Add the difference between STOP and START to TIMER.  */
+/* Add the difference between STOP_TIME and START_TIME to TIMER.  */
 
 static void
-timevar_accumulate (timer, start, stop)
+timevar_accumulate (timer, start_time, stop_time)
      struct timevar_time_def *timer;
-     struct timevar_time_def *start;
-     struct timevar_time_def *stop;
+     struct timevar_time_def *start_time;
+     struct timevar_time_def *stop_time;
 {
-  timer->user += stop->user - start->user;
-  timer->sys += stop->sys - start->sys;
-  timer->wall += stop->wall - start->wall;
+  timer->user += stop_time->user - start_time->user;
+  timer->sys += stop_time->sys - start_time->sys;
+  timer->wall += stop_time->wall - start_time->wall;
 }
 
 /* Initialize timing variables.  */
@@ -444,7 +420,7 @@ timevar_print (fp)
      FILE *fp;
 {
   /* Only print stuff if we have some sort of time information.  */
-#if defined HAVE_USER_TIME || defined HAVE_SYS_TIME || defined HAVE_WALL_TIME
+#if defined (HAVE_USER_TIME) || defined (HAVE_SYS_TIME) || defined (HAVE_WALL_TIME)
   unsigned int /* timevar_id_t */ id;
   struct timevar_time_def *total = &timevars[TV_TOTAL].elapsed;
   struct timevar_time_def now;
@@ -485,7 +461,7 @@ timevar_print (fp)
 	continue;
 
       /* Don't print timing variables if we're going to get a row of
-	 zeroes.  */
+         zeroes.  */
       if (tv->elapsed.user < tiny
 	  && tv->elapsed.sys < tiny
 	  && tv->elapsed.wall < tiny)
