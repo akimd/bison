@@ -37,13 +37,12 @@ extern bitsetv bitsetv_create PARAMS ((unsigned int, unsigned int,
 extern void bitsetv_free PARAMS ((bitsetv));
 
 /* Zero vector of bitsets.  */
-extern void bitsetv_zero PARAMS ((bitsetv, unsigned int));
+extern void bitsetv_zero PARAMS ((bitsetv));
 
 /* Set vector of bitsets.  */
-extern void bitsetv_ones PARAMS ((bitsetv, unsigned int));
+extern void bitsetv_ones PARAMS ((bitsetv));
 
 /* Dump vector of bitsets.  */
 extern void bitsetv_dump PARAMS ((FILE *, const char *,
-				  const char *, bitsetv,
-				  unsigned int));
+				  const char *, bitsetv));
 #endif  /* _BITSETV_H  */

@@ -19,39 +19,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #ifndef _EBITSET_H
 #define _EBITSET_H
 
-#include "bitset-int.h"
-
-/* Number of words to use for each element.  */
-#ifndef EBITSET_ELT_WORDS
-#define EBITSET_ELT_WORDS 2
-#endif
-
-/* Number of bits stored in each element.  */
-#define EBITSET_ELT_BITS \
-  ((unsigned) (EBITSET_ELT_WORDS * BITSET_WORD_BITS))
-
-/* Ebitset element.  We use an array of bits.  */
-typedef struct ebitset_elt_struct
-{
-  union
-  {
-    bitset_word words[EBITSET_ELT_WORDS]; /* Bits that are set.  */
-    struct ebitset_elt_struct *next;
-  } u;
-} ebitset_elt;
-
-
-typedef ebitset_elt *ebitset_elts;
-
-/* Head of ebitset linked list.  */
-typedef struct ebitset_struct
-{
-  unsigned int size;		/* Number of elements.  */
-  ebitset_elts *elts;		/* Expanding array of pointers to elements.  */
-} *ebitset;
-
+#include "bbitset.h"
 
 extern int ebitset_bytes PARAMS ((bitset_bindex));
+
+extern bitset ebitset_init PARAMS ((bitset, bitset_bindex));
 
 extern void ebitset_release_memory PARAMS ((void));
 

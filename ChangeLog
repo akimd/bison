@@ -1,5 +1,13 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* lib/bitset.c, lib/bitset.h, lib/bitsetv.c, lib/bitsetv.h,
+	* lib/ebitset.c, lib/ebitset.h, lib/lbitset.c, lib/lbitset.h,
+	* lib/sbitset.c, lib/sbitset.h, lib/bbitset.h: Update from the
+	latest sources from Michael.
+
+	
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output): Don't free the grammar.
 	* src/reader.c (grammar_free): New.
 	* src/main.c (main): Call it and don't free symtab here.

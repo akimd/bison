@@ -19,15 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #ifndef _SBITSET_H
 #define _SBITSET_H
 
-#include "bitset-int.h"
-
-typedef struct sbitset_struct
-{
-    unsigned int n_bits;	/* Number of bits.  */
-    bitset_word words[1];	/* The array of bits.  */
-} *sbitset;
-
+#include "bbitset.h"
 
 extern int sbitset_bytes PARAMS ((bitset_bindex));
+
+extern bitset sbitset_init PARAMS ((bitset, bitset_bindex));
 
 #endif

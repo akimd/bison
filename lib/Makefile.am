@@ -44,6 +44,7 @@ libbison_a_SOURCES = \
 
 # Implementation of bitsets
 libbison_a_SOURCES += \
+	bbitset.h \
 	bitset-int.h bitset.h bitsetv.h ebitset.h lbitset.h sbitset.h \
 	bitset.c bitsetv.c ebitset.c lbitset.c sbitset.c
 
