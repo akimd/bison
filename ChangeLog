@@ -1,3 +1,38 @@
+2004-12-17  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Remove uses of 'short int' and 'unsigned short int'.  This raises
+	some arbitrary limits.  It uses more memory but nowadays that's
+	not much of an issue.
+
+	This change does not affect the generated parsers; that's a different
+	task, as some users will want to conserve memory there.
+
+	Ideally we should use size_t to represent all object counts, and
+	something like ptrdiff_t to represent signed differences of object
+	counts; but that will require more code-cleanup than I have the
+	time to do right now.
+
+	* src/LR0.c (allocate_itemsets, new_itemsets, save_reductions):
+	Use size_t, not int or short int, to count objects.
+	* src/closure.c (nritemset, closure): Likewise.
+	* src/closure.h (nritemset, closure): Likewise.
+	* src/nullable.c (nullable_compute): Likewise.
+	* src/print.c (print_core): Likewise.
+	* src/print_graph.c (print_core): Likewise.
+	* src/state.c (state_compare, state_hash): Likewise.
+	* src/state.h (struct state): Likewise.
+	* src/tables.c (default_goto, goto_actions): Likewise.
+
+	* src/gram.h (rule_number, rule): Use int, not short int.
+	* src/output.c (prepare_rules): Likewise.
+	* src/state.h (state_number, STATE_NUMBER_MAXIMUM, transitions,
+	errs, reductions): Likewise.
+	* src/symtab.h (symbol_number, SYMBOL_NUMBER_MAXIMUM, struct symbol):
+	Likewise.
+	* src/tables.c (vector_number, tally, action_number,
+	ACTION_NUMBER_MINIMUM): Likewise.
+	* src/output.c (muscle_insert_short_int_table): Remove.
+
 2004-12-17  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc: Extensive Doxygenation.

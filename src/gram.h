@@ -139,7 +139,7 @@ item_number_as_symbol_number (item_number i)
 }
 
 /* Rule numbers.  */
-typedef short int rule_number;
+typedef int rule_number;
 extern rule_number nrules;
 
 static inline item_number
@@ -175,8 +175,8 @@ typedef struct
   /* This symbol provides both the associativity, and the precedence. */
   symbol *prec;
 
-  short int dprec;
-  short int merger;
+  int dprec;
+  int merger;
 
   /* This symbol was attached to the rule via %prec. */
   symbol *precsym;

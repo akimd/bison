@@ -94,8 +94,8 @@
 | Numbering states.  |
 `-------------------*/
 
-typedef short int state_number;
-# define STATE_NUMBER_MAXIMUM SHRT_MAX
+typedef int state_number;
+# define STATE_NUMBER_MAXIMUM INT_MAX
 
 /* Be ready to map a state_number to an int.  */
 static inline int
@@ -113,7 +113,7 @@ typedef struct state state;
 
 typedef struct
 {
-  short int num;
+  int num;
   state *states[1];
 } transitions;
 
@@ -171,7 +171,7 @@ struct state *transitions_to (transitions *shifts, symbol_number sym);
 
 typedef struct
 {
-  short int num;
+  int num;
   symbol *symbols[1];
 } errs;
 
@@ -184,7 +184,7 @@ errs *errs_new (int num, symbol **tokens);
 
 typedef struct
 {
-  short int num;
+  int num;
   bitset *look_ahead_tokens;
   rule *rules[1];
 } reductions;
@@ -212,7 +212,7 @@ struct state
 
   /* Its items.  Must be last, since ITEMS can be arbitrarily large.
      */
-  unsigned short int nitems;
+  size_t nitems;
   item_number items[1];
 };
 

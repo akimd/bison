@@ -46,7 +46,7 @@ void new_closure (unsigned int n);
    significant).  CLOSURE places there the indices of all items which
    represent units of input that could arrive next.  */
 
-void closure (item_number *items, int n);
+void closure (item_number *items, size_t n);
 
 
 /* Frees ITEMSET, RULESET and internal data.  */
@@ -54,6 +54,6 @@ void closure (item_number *items, int n);
 void free_closure (void);
 
 extern item_number *itemset;
-extern int nritemset;
+extern size_t nritemset;
 
 #endif /* !CLOSURE_H_ */

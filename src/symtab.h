@@ -41,8 +41,8 @@ typedef enum
 
 
 /* Internal token numbers. */
-typedef short int symbol_number;
-#define SYMBOL_NUMBER_MAXIMUM SHRT_MAX
+typedef int symbol_number;
+#define SYMBOL_NUMBER_MAXIMUM INT_MAX
 
 
 typedef struct symbol symbol;
@@ -68,7 +68,7 @@ struct symbol
 
   symbol_number number;
   location prec_location;
-  short int prec;
+  int prec;
   assoc assoc;
   int user_token_number;
 
