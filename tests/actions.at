@@ -169,61 +169,100 @@ AT_DATA([[input.y]],
 
 #define YYERROR_VERBOSE 1
 #define YYDEBUG 1
-/* #define YYPRINT yyprint */
-
-static int yylex (void);
-static void yyerror (const char *msg);
-static void yyprint (FILE *out, int toknum, int tokval);
+#define YYPRINT yyprint
 %}
-
+%verbose
 %union
 {
   int ival;
 }
-%type <ival> thing 'x'
+%type <ival> 'x' thing line input
+%destructor { printf ("Freeing input %d\n", $$); } input
+%destructor { printf ("Freeing line %d\n", $$); } line
 %destructor { printf ("Freeing thing %d\n", $$); } thing
 %destructor { printf ("Freeing 'x' %d\n", $$); } 'x'
+
+%{
+static int yylex (void);
+static void yyerror (const char *msg);
+static void yyprint (FILE *out, int num, YYSTYPE val);
+%}
+
 
 %%
 input:
   /* Nothing. */
-| input line
+    {
+      $$ = 0;
+      printf ("input(%d): /* Nothing */';'\n", $$);
+    }
+| line input /* Right recursive to load the stack so that popping at
+		EOF can	be exercised.  */
+    {
+      $$ = 2;
+      printf ("input(%d): line(%d) input(%d)';'\n", $$, $1, $2);
+    }
 ;
 
 line:
   thing thing thing ';'
-    { printf ("input: thing(%d) thing(%d) thing(%d) ';'\n", $1, $2, $3); }
+    {
+      $$ = $1;
+      printf ("line(%d): thing(%d) thing(%d) thing(%d) ';'\n", $$, $1, $2, $3);
+    }
 | thing thing ';'
-    { printf ("input: thing(%d) thing(%d) ';'\n", $1, $2); }
+    {
+      $$ = $1;
+      printf ("line(%d): thing(%d) thing(%d) ';'\n", $$, $1, $2);
+    }
 | thing ';'
-    { printf ("input: thing(%d) ';'\n", $1); }
+    {
+      $$ = $1;
+      printf ("line(%d): thing(%d) ';'\n", $$, $1);
+    }
 | error ';'
-    { printf ("input: error ';'\n"); }
+    {
+      $$ = -1;
+      printf ("line(%d): error ';'\n", $$);
+    }
 ;
 
 thing:
-  'x'  { printf ("thing: 'x' (%d)\n", $1); $$ = $1; }
+  'x'
+    {
+      $$ = $1;
+      printf ("thing(%d): 'x'(%d)\n", $$, $1);
+    }
 ;
 %%
 static int
 yylex (void)
 {
-  static const int input[] =
+  static const unsigned int input[] =
     {
+      /* Exericise the discarding of stack top and input until `error'
+         can be reduced.  */
       'x', 'x', 'x', 'x', 'x', 'x', ';',
+
+      /* Load the stack and provoke an error that cannot be caught be
+         the grammar, and check that the stack is cleared. */
       'x', 'x', ';',
       'x', ';',
-      'x', 'y', ';'
+      'y'
     };
   static int counter = 0;
 
   if (counter < (sizeof(input) / sizeof (input[0])))
     {
        yylval.ival = counter;
+       printf ("sending: '%c'(%d)\n", input[counter], counter);
        return input[counter++];
     }
   else
-    return EOF;
+    {
+      printf ("sending: EOF\n");
+      return EOF;
+    }
 }
 
 static void
@@ -233,10 +272,9 @@ yyerror (const char *msg)
 }
 
 static void
-yyprint (FILE *out, int toknum, int tokval)
+yyprint (FILE *out, int num, YYSTYPE val)
 {
-  if (0 < toknum && toknum < 256)
-    fprintf (out, " = %d", tokval);
+  fprintf (out, " = %d", val.ival);
 }
 
 int
@@ -255,28 +293,42 @@ main (void)
 
 AT_CHECK([bison input.y -d -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
-AT_CHECK([./input], 0,
-[[thing: 'x' (0)
-thing: 'x' (1)
-thing: 'x' (2)
+AT_CHECK([./input], 1,
+[[sending: 'x'(0)
+thing(0): 'x'(0)
+sending: 'x'(1)
+thing(1): 'x'(1)
+sending: 'x'(2)
+thing(2): 'x'(2)
+sending: 'x'(3)
 parse error, unexpected 'x', expecting ';'
 Freeing thing 2
 Freeing thing 1
 Freeing thing 0
 Freeing 'x' 3
+sending: 'x'(4)
 Freeing 'x' 4
+sending: 'x'(5)
 Freeing 'x' 5
-input: error ';'
-thing: 'x' (7)
-thing: 'x' (8)
-input: thing(7) thing(8) ';'
-thing: 'x' (10)
-input: thing(10) ';'
-thing: 'x' (12)
-parse error, unexpected $undefined., expecting 'x' or ';'
-Freeing thing 12
-input: error ';'
-Successful parse.
+sending: ';'(6)
+line(-1): error ';'
+sending: 'x'(7)
+thing(7): 'x'(7)
+sending: 'x'(8)
+thing(8): 'x'(8)
+sending: ';'(9)
+line(7): thing(7) thing(8) ';'
+sending: 'x'(10)
+thing(10): 'x'(10)
+sending: ';'(11)
+line(10): thing(10) ';'
+sending: 'y'(12)
+parse error, unexpected $undefined., expecting $ or error or 'x'
+sending: EOF
+Freeing line 10
+Freeing line 7
+Freeing line -1
+Parsing FAILED.
 ]])
 
 AT_CLEANUP

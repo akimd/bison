@@ -1,3 +1,10 @@
+2002-06-18  Cris Bailiff  <c.bailiff@awayweb.com>
+	and Akim Demaille  <akim@epita.fr>
+
+	* data/bison.simple.new (yyerrlab1): Be sure to pop and destroy
+	what's left on the stack when the error recovery hits EOF.
+	* tests/actions.at (Destructors): Complete to exercise this case.
+
 2002-06-17  Akim Demaille  <akim@epita.fr>
 
 	* data/m4sugar/m4sugar.m4 (m4_map): Recognize when the list of

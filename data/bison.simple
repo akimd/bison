@@ -1123,7 +1123,38 @@ yyerrlab1:
 
       /* Return failure if at end of input.  */
       if (yychar == YYEOF)
-	YYABORT;
+        {
+	  /* Pop the error token.  */
+          YYPOPSTACK;
+	  /* Pop the rest of the stack.  */
+	  while (yyssp > yyss)
+	    {
+#if YYDEBUG
+	      if (yydebug)
+		{
+		  if (yystos[*yyssp] < YYNTOKENS)
+		    {
+		      YYFPRINTF (stderr, "Error: popping token %d (%s",
+				 yytoknum[yystos[*yyssp]],
+				 yytname[yystos[*yyssp]]);
+# ifdef YYPRINT
+		      YYPRINT (stderr, yytoknum[yystos[*yyssp]], *yyvsp);
+# endif
+		      YYFPRINTF (stderr, ")\n");
+		    }
+		  else
+		    {
+		      YYFPRINTF (stderr, "Error: popping nonterminal (%s)\n",
+				 yytname[yystos[*yyssp]]);
+		    }
+		}
+#endif
+	      yydestructor (yystos[*yyssp], *yyvsp);
+	      YYPOPSTACK;
+	    }
+	  YYABORT;
+        }
+
       YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
 		  yychar, yytname[yychar1]));
       yydestructor (yychar1, yylval);
@@ -1263,8 +1294,8 @@ yydestructor (int symbol_type, YYSTYPE symbol_value)
     {
 m4_map([b4_symbol_destructor], m4_defn([b4_symbol_destructors]))dnl
       default:
-        YYDPRINTF ((stderr, "yydestructor: unknown symbol type: %s\n",
-		    yytname[[symbol_type]]));
+        YYDPRINTF ((stderr, "yydestructor: unknown symbol type: %d (%s)\n",
+		    symbol_type, yytname[[symbol_type]]));
         break;
     }
 }
