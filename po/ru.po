@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.28c\n"
+"Project-Id-Version: bison 1.28d\n"
 "POT-Creation-Date: 2001-08-29 14:32+0200\n"
-"PO-Revision-Date: 2001-08-23 11:40+04:00\n"
+"PO-Revision-Date: 2001-08-31 18:28+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -191,7 +191,6 @@ msgstr ""
 "  -k, --token-table          включить таблицу имен лексем\n"
 
 #: src/getargs.c:116
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -206,6 +205,8 @@ msgstr ""
 "  -v, --verbose              создать также пояснения в автомату\n"
 "  -b, --file-prefix=ПРЕФИКС  указать ПРЕФИКС для выходных файлов\n"
 "  -o, --output-file=ФАЙЛ     поместить результат в ФАЙЛ\n"
+"  -g, --graph                создать также пояснения к автомату в виде \n"
+"VCG-графа\n"
 
 #: src/getargs.c:126
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -801,30 +802,6 @@ msgstr "`"
 #: lib/quotearg.c:260
 msgid "'"
 msgstr "'"
-
-#~ msgid "vcg graph: no such color."
-#~ msgstr "vcg graph: такого цвета нет."
-
-#~ msgid "vcg graph: no such text mode"
-#~ msgstr "vcg graph: такого текстового режима нет"
-
-#~ msgid "vcg graph: no such shape"
-#~ msgstr "vcg graph: такой формы нет"
-
-#~ msgid "vcg graph: no such decision"
-#~ msgstr "vcg graph: такого решения нет"
-
-#~ msgid "vcg graph: no such an orientation"
-#~ msgstr "vcg graph: такой ориентации нет"
-
-#~ msgid "vcg graph: no such an alignement"
-#~ msgstr "vcg graph: такого выравнивания нет"
-
-#~ msgid "vcg graph: no such crossing_type"
-#~ msgstr "vcg graph: такого crossing_type нет"
-
-#~ msgid "vcg graph: no such view"
-#~ msgstr "vcg graph: такого представления нет"
 
 #~ msgid "unterminated comment at end of file"
 #~ msgstr "незаконченный комментарий в конце файла"
