@@ -1,6 +1,12 @@
 Bison News
 ----------
 
+Changes in version 1.30i:
+
+* Use of alloca in parsers
+  If YYSTACK_USE_ALLOCA is defined to 0, then the parsers will use
+  malloc exclusively.  Since 1.29, but was not NEWS'ed.
+
 Changes in version 1.30h:
 
 * When the generated parser lacks debugging code, YYDEBUG is now 0
