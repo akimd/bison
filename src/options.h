@@ -57,6 +57,6 @@ extern struct option *longopts;
 extern const struct option_table_struct option_table[];
 
 /* Set the longopts variable from option_table.  */
-void create_long_option_table PARAMS (());
+void create_long_option_table PARAMS ((void));
 
 #endif /* !OPTIONS_H_ */

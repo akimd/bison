@@ -1,5 +1,5 @@
 /* hash.h -- decls for hash table
-   Copyright (C) 1995 Free Software Foundation, Inc.
+   Copyright 1995, 2001  Free Software Foundation, Inc.
    Written by Greg McGary <gkm@gnu.ai.mit.edu>
 
    This program is free software; you can redistribute it and/or modify
@@ -47,10 +47,10 @@ void hash_load __P((struct hash_table *ht, void *item_table,
 		    unsigned long cardinality, unsigned long size));
 void **hash_find_slot __P((struct hash_table *ht, void const *key));
 void *hash_find_item __P((struct hash_table *ht, void const *key));
-void *hash_insert __P((struct hash_table *ht, void *item));
-void *hash_insert_at __P((struct hash_table *ht, void *item, void const *slot));
-void *hash_delete __P((struct hash_table *ht, void const *item));
-void *hash_delete_at __P((struct hash_table *ht, void const *slot));
+const void *hash_insert __P((struct hash_table *ht, void *item));
+const void *hash_insert_at __P((struct hash_table *ht, void *item, void const *slot));
+const void *hash_delete __P((struct hash_table *ht, void const *item));
+const void *hash_delete_at __P((struct hash_table *ht, void const *slot));
 void hash_delete_items __P((struct hash_table *ht));
 void hash_free_items __P((struct hash_table *ht));
 void hash_free __P((struct hash_table *ht, int free_items));
@@ -59,7 +59,8 @@ void hash_print_stats __P((struct hash_table *ht, FILE *out_FILE));
 void **hash_dump __P((struct hash_table *ht, void **vector_0, qsort_cmp_t compare));
 
 extern void *hash_deleted_item;
-#define HASH_VACANT(item) ((item) == 0 || (void *) (item) == hash_deleted_item)
+#define HASH_VACANT(item) \
+   ((item) == 0 || (const void *) (item) == hash_deleted_item)
 
 
 /* hash and comparison macros for string keys. */

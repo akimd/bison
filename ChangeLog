@@ -1,5 +1,17 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	Clean up GCC warnings.
+
+	* src/reader.c (copy_action): `buf' is not used.
+	(parse_skel_decl): Be static.
+	* src/muscle_tab.c (mhash1, mhash2, muscle_insert): Preserve `const'.
+	* src/options.h (create_long_option_table): Have a real prototype.
+	* lib/hash.c, lib/hash.h (hash_insert, hash_insert_at, hash_delete)
+	(hash_delete_at): Return const void *.
+	Adjust casts to preserve the const.
+
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* configure.in: Require 2.52g.
 	M4 is not needed, but AUTOM4TE is.
 	* m4/m4.m4: Remove.
