@@ -1,5 +1,5 @@
 # Checking the Bison scanner.                    -*- Autotest -*-
-# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -77,6 +77,43 @@ AT_CHECK([bison input.y], [], [],
 [[input.y:4.6-15: warning: type clash on default action: <bar> != <>
 input.y:5.6-8: warning: type clash on default action: <bar> != <>
 input.y:6.5: warning: empty rule for typed nonterminal, and no action
+]])
+
+AT_CLEANUP
+
+
+## ---------------------- ##
+## Incompatible Aliases.  ##
+## ---------------------- ##
+
+AT_SETUP([Incompatible Aliases])
+
+AT_DATA([input.y],
+[[%token foo "foo"
+
+%type <bar>       foo
+%printer {bar}    foo
+%destructor {bar} foo
+%left             foo
+
+%type <baz>       "foo"
+%printer {baz}    "foo"
+%destructor {baz} "foo"
+%left             "foo"
+
+%%
+exp: foo;
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:8.7-11: %type redeclaration for foo
+input.y:3.7-11: first declaration
+input.y:10.13-17: %destructor redeclaration for foo
+input.y:5.13-17: first declaration
+input.y:9.19-23: %printer redeclaration for foo
+input.y:10.13-17: first declaration
+input.y:11.1-5: %left redeclaration for foo
+input.y:6.1-5: first declaration
 ]])
 
 AT_CLEANUP

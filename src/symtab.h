@@ -46,6 +46,9 @@ typedef short int symbol_number;
 
 
 typedef struct symbol symbol;
+
+/* When extending this structure, be sure to complete
+   symbol_check_alias_consistency.  */
 struct symbol
 {
   /* The key, name of the symbol.  */
@@ -55,12 +58,16 @@ struct symbol
 
   /* Its %type and associated printer and destructor.  */
   uniqstr type_name;
+  location type_location;
+
   char *destructor;
   location destructor_location;
+
   char *printer;
   location printer_location;
 
   symbol_number number;
+  location prec_location;
   short int prec;
   assoc assoc;
   int user_token_number;

@@ -1,3 +1,21 @@
+2004-10-11  Akim Demaille  <akim@epita.fr>
+
+	* src/symtab.c (symbol_check_alias_consistency): Also check
+	type names, destructors, and printers.
+	Reported by Alexandre Duret-Lutz.
+	Recode the handling of associativity and precedence in terms
+	of symbol_precedence_set.
+	Accept no redeclaration at all, not even equal to the previous
+	value.
+	(redeclaration): New.
+	Use it to factor redeclaration complaints.
+	(symbol_make_alias): Don't set the type of the alias, let
+	symbol_check_alias_consistency do it as for other features.
+	* src/symtab.h (symbol): Add new member prec_location, and
+	type_location.
+	* src/symtab.c (symbol_precedence_set, symbol_type_set): Set them.
+	* tests/input.at (Incompatible Aliases): New.
+
 2004-10-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	.cvsignore fixes to accommodate gnulib changes,
