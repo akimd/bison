@@ -1,5 +1,12 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/nullable.c (set_nullable): Deobfuscate the handling of
+	ritem.
+	`symbol >= 0' is wrong now, use `rule_table[ruleno].useful'.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.c, src/gram.h (ritem_print): New.
 	* src/gram.c (dummy): Remove, now there is actual code in gram.c.
 	(This useless function was defined only to work around VMS linkers
