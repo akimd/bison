@@ -1,5 +1,11 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (kernel_end): Remove, replaced with...
+	(kernel_size): new.
+
+	
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (set_conflicts): Use arrays instead of pointers
 	to clarify.
 
