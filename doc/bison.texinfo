@@ -39,7 +39,7 @@
 This manual is for @acronym{GNU} Bison (version @value{VERSION},
 @value{UPDATED}), the @acronym{GNU} parser generator.
 
-Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
+Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998, 2003,
 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
 
 @quotation
@@ -3902,12 +3902,6 @@ Return immediately with value 0 (to report success).
 Return immediately with value 1 (to report failure).
 @end defmac
 
-@c For now, do not document %lex-param and %parse-param, since it's
-@c not clear that the current behavior is stable enough.  For example,
-@c we may need to add %error-param.
-@clear documentparam
-
-@ifset documentparam
 If you use a reentrant parser, you can optionally pass additional
 parameter information to it in a reentrant way.  To do so, use the
 declaration @code{%parse-param}:
@@ -3946,7 +3940,6 @@ In the grammar actions, use expressions like this to refer to the data:
 @example
 exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
 @end example
-@end ifset
 
 
 @node Lexical
@@ -4153,7 +4146,6 @@ this case, omit the second argument; @code{yylex} will be called with
 only one argument.
 
 
-@ifset documentparam
 If you wish to pass the additional parameter data to @code{yylex}, use
 @code{%lex-param} just like @code{%parse-param} (@pxref{Parser
 Function}).
@@ -4194,7 +4186,6 @@ and finally, if both @code{%pure-parser} and @code{%locations} are used:
 int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
 int yyparse (int *nastiness, int *randomness);
 @end example
-@end ifset
 
 @node Error Reporting
 @section The Error Reporting Function @code{yyerror}
@@ -4259,7 +4250,6 @@ void yyerror (char const *msg);                 /* Yacc parsers.  */
 void yyerror (YYLTYPE *locp, char const *msg);  /* GLR parsers.   */
 @end example
 
-@ifset documentparam
 If @samp{%parse-param @{int *nastiness@}} is used, then:
 
 @example
@@ -4293,7 +4283,6 @@ void yyerror (YYLTYPE *locp,
               int *nastiness, int *randomness,
               char const *msg);
 @end example
-@end ifset
 
 @noindent
 The prototypes are only indications of how the code produced by Bison
@@ -6617,13 +6606,11 @@ Bison declaration to assign left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
-@ifset documentparam
 @deffn {Directive} %lex-param @{@var{argument-declaration}@}
 Bison declaration to specifying an additional parameter that
 @code{yylex} should accept.  @xref{Pure Calling,, Calling Conventions
 for Pure Parsers}.
 @end deffn
-@end ifset
 
 @deffn {Directive} %merge
 Bison declaration to assign a merging function to a rule.  If there is a
@@ -6651,13 +6638,11 @@ Bison declaration to set the name of the parser file.  @xref{Decl
 Summary}.
 @end deffn
 
-@ifset documentparam
 @deffn {Directive} %parse-param @{@var{argument-declaration}@}
 Bison declaration to specifying an additional parameter that
 @code{yyparse} should accept.  @xref{Parser Function,, The Parser
 Function @code{yyparse}}.
 @end deffn
-@end ifset
 
 @deffn {Directive} %prec
 Bison declaration to assign a precedence to a specific rule.

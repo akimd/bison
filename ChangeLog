@@ -1,5 +1,10 @@
 2003-03-02  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo (Table of Symbols): Reactivate the
+	documentation for %lex-param, and %parse-param.
+
+2003-03-02  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.c, data/glr.c, data/lal1.cc: Use similar code to
 	generate verbose error messages.
 	Use the number of tokens as an upper bound in yytname, as it
