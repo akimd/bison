@@ -1,3 +1,83 @@
+2002-10-01  Paul Eggert  <eggert@twinsun.com>
+
+	More fixes for 64-bit hosts and large bitsets.
+
+	* lib/abitset.c (struct abitset_struct.n_bits, abitset_small_list,
+	abitset_size, abitset_list, abitset_list_reverse, abitset_list):
+	Use bitset_bindex, not int or unsigned int or size_t, to count bits.
+	* lib/bbitset.h (struct bitset_vtable.size, struct bitset_vtable.count,
+	struct bitset_vtable.list, struct bitset_vtable.list_reverse,
+	bitset_count_, bitset_next, bitset_prev, bitset_first, bitset_last,
+	bitset_count_): Likewise.
+	* lib/bitset.h (bitset_iterator.num, bitset_iterator.i,
+	bitset_first, bitset_last): Likewise.
+	* lib/bitset_stats.c (bitset_stats_size, bitset_stats_list,
+	bitset_stats_list_reverse, bitset_stats_size,
+	bitset_stats_count, bitset_stats_list, bitset_stat_list_reverse):
+	Likewise.
+	* lib/bitsetv-print.c (bitsetv_matrix_dump): Likewise.
+	* lib/bitsetv.c (bitsetv_alloc, bitsetv_create, bitsetv_free,
+	bitsetv_zero, bitsetv_ones, bitsetv_transitive_closure,
+	bitsetv_reflexive_transitive_closure): Likewise.
+	* lib/bitsetv.h (bitsetv_alloc, bitsetv_create): Likewise.
+	* lib/ebitset.c (ebitset_size, ebitset_list, ebitset_list_reverse):
+	Likewise.
+	* lib/lbitset.c (lbitset_size, lbitset_list, lbitset_list_merge):
+	Likewise.
+	
+	* lib/abitset.c (abitset_ones, abitset_zero, abitset_bytes):
+	Use size_t, not unsigned int, to count bytes.
+	* lib/abitset.h (abitset_bytes): Likewise.
+	* lib/bitset.c (bitset_bytes, bitset_alloc, bitset_obstack_alloc):
+	Likewise.
+	* lib/bitset.h (bitset_bytes): Likewise.
+	* lib/bitset_stats.c (bitset_stats_bytes, bitset_stats_init): Likewise.
+	* lib/bitset_stats.h (bitset_stats_bytes): Likewise.
+	* lib/bitsetv.c (bitsetv_alloc): Likewise.
+	* lib/ebitset.c (ebitset_bytes): Likewise.
+	* lib/ebitset.h (ebitset_bytes): Likewise.
+	* lib/lbitset.c (lbitset_bytes): Likewise.
+	* lib/lbitset.h (lbitset_bytes): Likewise.
+	
+	* lib/abitset.c (abitset_empty_p, abitset_not, abitset_equal_p,
+	abitset_subset_p, abitset_disjoint_p, abitset_and,
+	abitset_and_cmp, abitset_andn, abitset_andn_cmp, abitset_or,
+	abitset_or_cmp, abitset_xor, abitset_xor_cmp, abitset_and_or,
+	abitset_and_or_cmp, abitset_andn_or, abitset_andn_or_cmp,
+	abitset_or_and, abitset_or_and_cmp):
+	Use bitset_windex instead of unsigned int.
+	* lib/bitsetv.c (bitsetv_dump, debug_bitsetv): Likewise.
+	* lib/ebitset.c (struct ebitset_struct.size, ebitset_elts_grow,
+	ebitset_elt_add, ebitset_elt_remove, ebitset_weed,
+	ebitset_elt_find, ebitset_list_reverse, ebitset_list, ebitset_init):
+	Likewise.
+	* lib/lbitset.c (lbitset_ones, lbitset_not): Likewise.
+	
+	* lib/bitset.c (bitset_print):
+	Use proper printf formats for widths of integer types.
+	* lib/bitset_stats.c (bitset_percent_histogram_print,
+	bitset_log_histogram_print, bitset_stats_print_1): Likewise.
+	* lib/bitsetv-print.c (bitsetv_matrix_dump): Likewise.
+	* lib/bitsetv.c (bitsetv_dump, debug_bitsetv): Likewise.
+	* lib/lbitset.c (lbitset_bytes): Likewise.
+	
+	* lib/bbitset.h (BITSET_BINDEX_MAX, BITSET_WINDEX_MAX,
+	BITSET_SIZE_MAX): New macros.
+	(BITSET_INDEX_MAX): Remove.  It wasn't right, since it assumed that
+	sizeof (bitset_word) == sizeof (bitset_windex).  All uses changed
+	to BITSET_WINDEX_MAX.
+
+	* lib/bitset.c (bitset_next, bitset_prev, bitset_first,
+	bitset_last): Return BITSET_BINDEX_MAX (not -1) for no value,
+	since we now return the bitset_bindex type (not int).
+
+	* lib/bitsetv.c (bitsetv_alloc): Check for arithmetic overflow
+	when computing sizes.
+	* lib/ebitset.c (ebitset_elts_grow): Likewise.
+
+	* lib/lbitset.c (lbitset_elt_find): Simplify windex calculation
+	and avoid cast to unsigned.
+
 2002-09-30  Akim Demaille  <akim@epita.fr>
 
 	* lib/abitset.c, lib/bbitset.h, lib/bitset.c, lib/bitset.h,
