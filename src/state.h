@@ -107,7 +107,7 @@ shifts *shifts_new PARAMS ((int n));
    case of gotos.  */
 
 #define SHIFT_SYMBOL(Shifts, Shift) \
-  (state_table[Shifts->shifts[Shift]]->accessing_symbol)
+  (states[Shifts->shifts[Shift]]->accessing_symbol)
 
 /* Is the SHIFTS->shifts[Shift] a real shift? (as opposed to gotos.) */
 

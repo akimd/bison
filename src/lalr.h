@@ -70,7 +70,7 @@ extern unsigned *LA;
 
 
 /* All the states, indexed by the state number.  */
-extern state_t **state_table;
+extern state_t **states;
 
 extern int tokensetsize;
 
