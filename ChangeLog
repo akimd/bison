@@ -1,5 +1,14 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/lex.h: Prototype `lex.c' exported functions.
+	* src/reader.c: Adjust.
+	* src/lex.c: Formatting changes.
+	(safegetc): Rename as...
+	(xgetc): this.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.h: New file.
 	Propagate its inclusion instead of prototypes and `extern'.
 	* src/lalr.c: Formatting changes, topological sorting etc.
