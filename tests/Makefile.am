@@ -25,7 +25,7 @@ MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 TESTSUITE_AT = \
 	testsuite.at \
-	output.at calc.at regression.at
+	output.at calc.at torture.at regression.at
 TESTSUITE = $(srcdir)/testsuite
 
 AUTOM4TE = autom4te
