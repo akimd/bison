@@ -34,6 +34,7 @@ libbison_a_SOURCES = \
   basename.c dirname.h dirname.c \
   getopt.h getopt.c getopt1.c \
   hash.h hash.c \
+  mbswidth.h mbswidth.c \
   quote.h quote.c quotearg.h quotearg.c \
   subpipe.h subpipe.c unlocked-io.h \
   xalloc.h xmalloc.c xstrdup.c xstrndup.c \
