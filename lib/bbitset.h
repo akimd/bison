@@ -45,17 +45,19 @@ enum bitset_alloc_type {BITSET_MALLOC, BITSET_OBALLOC};
 
 /* Data type used to store a word of bits.  */
 typedef unsigned long bitset_word;
-#define BITSET_WORD_BITS ((unsigned) CHAR_BIT * sizeof (bitset_word))
+#define BITSET_WORD_BITS ((unsigned) (CHAR_BIT * sizeof (bitset_word)))
 
-/* Bit index.  */
-typedef unsigned long bitset_bindex;
+/* Bit index.  In theory we might need a type wider than size_t, but
+   in practice we lose at most a factor of CHAR_BIT by going with
+   size_t, and that is good enough.  */
+typedef size_t bitset_bindex;
 
 /* Word index.  */
-typedef unsigned long bitset_windex;
+typedef size_t bitset_windex;
 
-#define BITSET_INDEX_MAX ((1U << (BITSET_WORD_BITS - 1)))
+#define BITSET_INDEX_MAX ((bitset_word) 1 << (BITSET_WORD_BITS - 1))
 
-#define BITSET_MSB (1U << (BITSET_WORD_BITS - 1))
+#define BITSET_MSB ((bitset_word) 1 << (BITSET_WORD_BITS - 1))
 
 #define BITSET_LIST_SIZE 1024
 
