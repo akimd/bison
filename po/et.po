@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49b\n"
-"POT-Creation-Date: 2002-09-10 15:52+0200\n"
+"POT-Creation-Date: 2002-09-27 16:50+0200\n"
 "PO-Revision-Date: 2002-08-13 01:35+0300\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -242,7 +242,7 @@ msgstr "liiga palju gotosid (maks. %d)"
 msgid "rule never reduced because of conflicts"
 msgstr "reeglit ei redutseerita konfliktide tõttu kunagi"
 
-#: src/parse-gram.y:347
+#: parse-gram.y:347
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX keelab deklareerimised grammatikas"
 
@@ -415,58 +415,57 @@ msgstr[1] "%d kasutamata reeglit"
 msgid "start symbol %s does not derive any sentence"
 msgstr "stardisümbolist %s ei tuletata ühtegi lauset"
 
-#: src/scan-gram.l:202
+#: scan-gram.l:202
 #, c-format
 msgid ": invalid character: `%c'\n"
 msgstr ": vigane sümbol: `%c'\n"
 
-#: src/scan-gram.l:246
+#: scan-gram.l:246
 msgid ": unexpected end of file in a comment\n"
 msgstr ": ootamatu faililõpp kommentaaris\n"
 
-#: src/scan-gram.l:274 src/scan-gram.l:412
+#: scan-gram.l:274 scan-gram.l:412
 msgid ": unexpected end of file in a string\n"
 msgstr ": ootamatu faililõpp sõnes\n"
 
-#: src/scan-gram.l:311 src/scan-gram.l:383
+#: scan-gram.l:311 scan-gram.l:383
 msgid ": unexpected end of file in a character\n"
 msgstr ": ootamatu faililõpp sümbolis\n"
 
-#: src/scan-gram.l:332
+#: scan-gram.l:332
 #, c-format
 msgid ": invalid escape: %s\n"
 msgstr ": vigane paojada: %s\n"
 
-#: src/scan-gram.l:353
+#: scan-gram.l:353
 #, c-format
 msgid ": unrecognized escape: %s\n"
 msgstr ": tundmatu paojada: %s\n"
 
-#: src/scan-gram.l:473
+#: scan-gram.l:473
 msgid ": unexpected end of file in a braced code\n"
 msgstr ": ootamatu faililõpp sulgude vahelises koodis\n"
 
-#: src/scan-gram.l:502
+#: scan-gram.l:502
 msgid ": unexpected end of file in a prologue\n"
 msgstr ": ootamatu faililõpp proloogis\n"
 
-#: src/scan-gram.l:560
+#: scan-gram.l:560
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' $$ ei oma deklareeritud tüüpi"
 
-#: src/scan-gram.l:577 src/scan-gram.l:664
+#: scan-gram.l:577 scan-gram.l:664
 #, c-format
 msgid "invalid value: %s%d"
 msgstr "vigane väärtus: %s%d"
 
-#: src/scan-gram.l:584
+#: scan-gram.l:584
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d `%s' ei oma deklareeritud tüüpi"
 
-#: src/scan-gram.l:595 src/scan-gram.l:612 src/scan-gram.l:671
-#: src/scan-gram.l:688
+#: scan-gram.l:595 scan-gram.l:612 scan-gram.l:671 scan-gram.l:688
 #, c-format
 msgid "%s is invalid"
 msgstr "%s on vigane"

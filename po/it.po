@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-09-10 15:52+0200\n"
+"POT-Creation-Date: 2002-09-27 16:50+0200\n"
 "PO-Revision-Date: 2002-05-03 11:03+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -240,7 +240,7 @@ msgstr "troppi goto (max %d)"
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: src/parse-gram.y:347
+#: parse-gram.y:347
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
@@ -420,63 +420,62 @@ msgstr[1] "%d regole inutili"
 msgid "start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
-#: src/scan-gram.l:202
+#: scan-gram.l:202
 #, c-format
 msgid ": invalid character: `%c'\n"
 msgstr ""
 
-#: src/scan-gram.l:246
+#: scan-gram.l:246
 #, fuzzy
 msgid ": unexpected end of file in a comment\n"
 msgstr "fine del file inattesa"
 
-#: src/scan-gram.l:274 src/scan-gram.l:412
+#: scan-gram.l:274 scan-gram.l:412
 #, fuzzy
 msgid ": unexpected end of file in a string\n"
 msgstr "fine del file inattesa"
 
-#: src/scan-gram.l:311 src/scan-gram.l:383
+#: scan-gram.l:311 scan-gram.l:383
 #, fuzzy
 msgid ": unexpected end of file in a character\n"
 msgstr "fine del file inattesa"
 
-#: src/scan-gram.l:332
+#: scan-gram.l:332
 #, fuzzy, c-format
 msgid ": invalid escape: %s\n"
 msgstr "valore non valido: %s%d"
 
-#: src/scan-gram.l:353
+#: scan-gram.l:353
 #, fuzzy, c-format
 msgid ": unrecognized escape: %s\n"
 msgstr "non riconosciuto: %s"
 
-#: src/scan-gram.l:473
+#: scan-gram.l:473
 #, fuzzy
 msgid ": unexpected end of file in a braced code\n"
 msgstr "fine del file inattesa"
 
-#: src/scan-gram.l:502
+#: scan-gram.l:502
 #, fuzzy
 msgid ": unexpected end of file in a prologue\n"
 msgstr "fine del file inattesa"
 
-#: src/scan-gram.l:560
+#: scan-gram.l:560
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: src/scan-gram.l:577 src/scan-gram.l:664
+#: scan-gram.l:577 scan-gram.l:664
 #, c-format
 msgid "invalid value: %s%d"
 msgstr "valore non valido: %s%d"
 
-#: src/scan-gram.l:584
+#: scan-gram.l:584
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: src/scan-gram.l:595 src/scan-gram.l:612 src/scan-gram.l:671
-#: src/scan-gram.l:688
+#: scan-gram.l:595 scan-gram.l:612 scan-gram.l:671 scan-gram.l:688
 #, c-format
 msgid "%s is invalid"
 msgstr "%s non è valido"
