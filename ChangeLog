@@ -1,3 +1,8 @@
+2002-06-18  Akim Demaille  <akim@epita.fr>
+
+	* data/bison.simple.new: Comment changes.
+	Reported by Andreas Schwab.
+
 2002-06-18  Matt Kraai  <kraai@alumni.cmu.edu>
 
 	* data/bison.simple (yyoverflowlab): #ifndef yyoverflow, so that
