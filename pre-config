@@ -1,0 +1,8 @@
+#! /bin/sh
+
+aclocal && \
+autoconf && \
+autoheader && \
+automake -a && \
+touch stamp-h.in || \
+exit 1
