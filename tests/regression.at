@@ -150,7 +150,7 @@ AT_CHECK([bison input.y -o input.c -v])
 AT_CHECK([cat input.output], [],
 [[Grammar
 
-    0 $axiom: expr $
+    0 $accept: expr $end
 
     1 @1: /* empty */
 
@@ -163,7 +163,7 @@ AT_CHECK([cat input.output], [],
 
 Terminals, with rules where they appear
 
-$ (0) 0
+$end (0) 0
 'a' (97) 2
 'b' (98) 2
 'c' (99) 4
@@ -172,7 +172,7 @@ error (256)
 
 Nonterminals, with rules where they appear
 
-$axiom (6)
+$accept (6)
     on left: 0
 expr (7)
     on left: 2 4, on right: 0
@@ -184,7 +184,7 @@ expr (7)
 
 state 0
 
-    0 $axiom: . expr $
+    0 $accept: . expr $end
 
     'a'  shift, and go to state 1
 
@@ -205,9 +205,9 @@ state 1
 
 state 2
 
-    0 $axiom: expr . $
+    0 $accept: expr . $end
 
-    $  shift, and go to state 5
+    $end  shift, and go to state 5
 
 
 state 3
@@ -226,7 +226,7 @@ state 4
 
 state 5
 
-    0 $axiom: expr $ .
+    0 $accept: expr $end .
 
     $default	accept
 
@@ -371,7 +371,7 @@ AT_CHECK([bison -v input.y])
 AT_CHECK([cat input.output], 0,
 [[Grammar
 
-    0 $axiom: CONST_DEC_PART $
+    0 $accept: CONST_DEC_PART $end
 
     1 CONST_DEC_PART: CONST_DEC_LIST
 
@@ -385,7 +385,7 @@ AT_CHECK([cat input.output], 0,
 
 Terminals, with rules where they appear
 
-$ (0) 0
+$end (0) 0
 ';' (59) 5
 '=' (61) 5
 error (256)
@@ -395,7 +395,7 @@ const_id_tok (259) 5
 
 Nonterminals, with rules where they appear
 
-$axiom (7)
+$accept (7)
     on left: 0
 CONST_DEC_PART (8)
     on left: 1, on right: 0
@@ -409,7 +409,7 @@ CONST_DEC (10)
 
 state 0
 
-    0 $axiom: . CONST_DEC_PART $
+    0 $accept: . CONST_DEC_PART $end
 
     $default  reduce using rule 4 (@1)
 
@@ -421,9 +421,9 @@ state 0
 
 state 1
 
-    0 $axiom: CONST_DEC_PART . $
+    0 $accept: CONST_DEC_PART . $end
 
-    $  shift, and go to state 5
+    $end  shift, and go to state 5
 
 
 state 2
@@ -454,7 +454,7 @@ state 4
 
 state 5
 
-    0 $axiom: CONST_DEC_PART $ .
+    0 $accept: CONST_DEC_PART $end .
 
     $default	accept
 
@@ -584,8 +584,8 @@ static const unsigned char yyrline[] =
 };
 static const char *const yytname[] =
 {
-  "$", "error", "$undefined.", "\"if\"", "\"const\"", "\"then\"",
-  "\"else\"", "$axiom", "statement", "struct_stat", "if", "else", 0
+  "$end", "error", "$undefined", "\"if\"", "\"const\"", "\"then\"",
+  "\"else\"", "$accept", "statement", "struct_stat", "if", "else", 0
 };
 static const unsigned short yytoknum[] =
 {

@@ -127,8 +127,8 @@ void symbol_user_token_number_set PARAMS ((symbol_t *symbol,
    */
 extern symbol_t *errtoken;
 extern symbol_t *undeftoken;
-extern symbol_t *eoftoken;
-extern symbol_t *axiom;
+extern symbol_t *endtoken;
+extern symbol_t *accept;
 extern symbol_t *startsymbol;
 extern location_t startsymbol_location;
 

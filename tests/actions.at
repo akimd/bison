@@ -327,7 +327,7 @@ thing(10): 'x'(10)
 sending: ';' (value = 11, line 110)
 line(10): thing(10) ';'
 sending: 'y' (value = 12, line 120)
-120: parse error, unexpected $undefined., expecting $ or error or 'x'
+120: parse error, unexpected $undefined, expecting $end or error or 'x'
 sending: EOF
 Freeing nterm line (10 from 100)
 Freeing nterm line (7 from 70)

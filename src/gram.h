@@ -36,16 +36,16 @@
 
    The rules receive rule numbers 1 to NRULES in the order they are
    written.  More precisely Bison augments the grammar with the
-   initial rule, `$axiom: START-SYMBOL EOF', which is numbered 1, all
-   the user rules are 2, 3 etc.  Each time a rule number is presented
-   to the user, we subtract 1, so *displayed* rule numbers are 0, 1,
-   2...
+   initial rule, `$accept: START-SYMBOL $end', which is numbered 1,
+   all the user rules are 2, 3 etc.  Each time a rule number is
+   presented to the user, we subtract 1, so *displayed* rule numbers
+   are 0, 1, 2...
 
    Internally, we cannot use the number 0 for a rule because for
    instance RITEM stores both symbol (the RHS) and rule numbers: the
    symbols are shorts >= 0, and rule number are stored negative.
    Therefore 0 cannot be used, since it would be both the rule number
-   0, and the token EOF).
+   0, and the token $end).
 
    Actions are accessed via the rule number.
 
@@ -68,9 +68,11 @@
 
    RULES[R].assoc -- the associativity of R.
 
-   RULES[R].dprec -- the dynamic precedence level of R (for GLR parsing).
+   RULES[R].dprec -- the dynamic precedence level of R (for GLR
+   parsing).
 
-   RULES[R].merger -- index of merging function for R (for GLR parsing).
+   RULES[R].merger -- index of merging function for R (for GLR
+   parsing).
 
    RULES[R].line -- the line where R was defined.
 

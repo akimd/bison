@@ -4,6 +4,11 @@
 Write a first documentation for C++ output.
 
 
+* Documentation
+Before releasing, make sure the documentation refers to the current
+`output' format.
+
+
 * Error messages
 Some are really funky.  For instance
 
@@ -120,13 +125,6 @@ this issue.  Does anybody have it?
 
 
 * Documentation
-
-** Vocabulary
-Explain $axiom (and maybe change its name: BTYacc names it `goal',
-byacc `$accept' probably based on AT&T Yacc, Meta `Start'...).
-Complete the glossary (item, axiom, ?).  Should we also rename `$'?
-BYacc uses `$end'.  `$eof' is attracting, but after all we may be
-parsing a string, a stream etc.
 
 ** History/Bibliography
 Some history of Bison and some bibliography would be most welcome.

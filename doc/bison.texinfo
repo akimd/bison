@@ -3553,9 +3553,9 @@ Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 Generate an array of token names in the parser file.  The name of the
 array is @code{yytname}; @code{yytname[@var{i}]} is the name of the
 token whose internal Bison token code number is @var{i}.  The first
-three elements of @code{yytname} are always @code{"$"}, @code{"error"},
-and @code{"$undefined."}; after these come the symbols defined in the
-grammar file.
+three elements of @code{yytname} are always @code{"$end"},
+@code{"error"}, and @code{"$undefined"}; after these come the symbols
+defined in the grammar file.
 
 For single-character literal tokens and literal string tokens, the name
 in the table includes the single-quote or double-quote characters: for
@@ -5276,12 +5276,19 @@ useless: STR;
 %%
 @end example
 
-@command{bison} reports that @samp{calc.y contains 1 useless nonterminal
-and 1 useless rule} and that @samp{calc.y contains 7 shift/reduce
-conflicts}.  When given @option{--report=state}, in addition to
-@file{calc.tab.c}, it creates a file @file{calc.output} with contents
-detailed below.  The order of the output and the exact presentation
-might vary, but the interpretation is the same.
+@command{bison} reports:
+
+@example
+calc.y: warning: 1 useless nonterminal and 1 useless rule
+calc.y:11.1-7: warning: useless nonterminal: useless
+calc.y:11.8-12: warning: useless rule: useless: STR
+calc.y contains 7 shift/reduce conflicts.
+@end example
+
+When given @option{--report=state}, in addition to @file{calc.tab.c}, it
+creates a file @file{calc.output} with contents detailed below.  The
+order of the output and the exact presentation might vary, but the
+interpretation is the same.
 
 The first section includes details on conflicts that were solved thanks
 to precedence and/or associativity:
@@ -5334,7 +5341,7 @@ The next section reproduces the exact grammar that Bison used:
 Grammar
 
   Number, Line, Rule
-    0   5 $axiom -> exp $
+    0   5 $accept -> exp $end
     1   5 exp -> exp '+' exp
     2   6 exp -> exp '-' exp
     3   7 exp -> exp '*' exp
@@ -5348,7 +5355,7 @@ and reports the uses of the symbols:
 @example
 Terminals, with rules where they appear
 
-$ (0) 0
+$end (0) 0
 '*' (42) 3
 '+' (43) 1
 '-' (45) 2
@@ -5358,7 +5365,7 @@ NUM (258) 5
 
 Nonterminals, with rules where they appear
 
-$axiom (8)
+$accept (8)
     on left: 0
 exp (9)
     on left: 1 2 3 4 5, on right: 0 1 2 3 4
@@ -5376,7 +5383,7 @@ that the input cursor.
 @example
 state 0
 
-    $axiom  ->  . exp $   (rule 0)
+    $accept  ->  . exp $   (rule 0)
 
     NUM 	shift, and go to state 1
 
@@ -5407,7 +5414,7 @@ be derived:
 @example
 state 0
 
-    $axiom  ->  . exp $   (rule 0)
+    $accept  ->  . exp $   (rule 0)
     exp  ->  . exp '+' exp   (rule 1)
     exp  ->  . exp '-' exp   (rule 2)
     exp  ->  . exp '*' exp   (rule 3)
@@ -5439,7 +5446,7 @@ jump to state 2 (@samp{exp: go to state 2}).
 @example
 state 2
 
-    $axiom  ->  exp . $   (rule 0)
+    $accept  ->  exp . $   (rule 0)
     exp  ->  exp . '+' exp   (rule 1)
     exp  ->  exp . '-' exp   (rule 2)
     exp  ->  exp . '*' exp   (rule 3)
@@ -5466,7 +5473,7 @@ state}:
 @example
 state 3
 
-    $axiom  ->  exp $ .   (rule 0)
+    $accept  ->  exp $ .   (rule 0)
 
     $default	accept
 @end example
@@ -6006,7 +6013,7 @@ would instead be named @file{foo_tab.c}.
 @table @code
 @item @@$
 In an action, the location of the left-hand side of the rule.
-  @xref{Locations, , Locations Overview}.
+@xref{Locations, , Locations Overview}.
 
 @item @@@var{n}
 In an action, the location of the @var{n}-th symbol of the right-hand
@@ -6019,6 +6026,20 @@ In an action, the semantic value of the left-hand side of the rule.
 @item $@var{n}
 In an action, the semantic value of the @var{n}-th symbol of the
 right-hand side of the rule.  @xref{Actions}.
+
+@item $accept
+The predefined nonterminal whose only rule is @samp{$accept: @var{start}
+$end}, where @var{start} is the start symbol.  @xref{Start Decl, , The
+Start-Symbol}.  It cannot be used in the grammar.
+
+@item $end
+The predefined token marking the end of the token stream.  It cannot be
+used in the grammar.
+
+@item $undefined
+The predefined token onto which all undefined values returned by
+@code{yylex} are mapped.  It cannot be used in the grammar, rather, use
+@code{error}.
 
 @item error
 A token name reserved for error recovery.  This token may be used in

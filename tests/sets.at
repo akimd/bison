@@ -82,23 +82,23 @@ AT_CHECK([[bison --trace input.y]], [], [], [stderr])
 AT_EXTRACT_SETS([stderr], [sets])
 AT_CHECK([[cat sets]], [],
 [[DERIVES
-	$axiom derives
-		  0  e $
+	$accept derives
+		  0  e $end
 	e derives
 		  1  'e'
 		  2  /* empty */
 NULLABLE
-	$axiom: no
+	$accept: no
 	e: yes
 FIRSTS
-	$axiom firsts
-		$axiom
+	$accept firsts
+		$accept
 		e
 	e firsts
 		e
 FDERIVES
-	$axiom derives
-		  0  e $
+	$accept derives
+		  0  e $end
 		  1  'e'
 		  2  /* empty */
 	e derives
@@ -212,8 +212,8 @@ AT_CHECK([[bison --trace input.y]], [], [], [stderr])
 AT_EXTRACT_SETS([stderr], [sets])
 AT_CHECK([[cat sets]], [],
 [[DERIVES
-	$axiom derives
-		  0  exp $
+	$accept derives
+		  0  exp $end
 	exp derives
 		  1  exp '<' exp
 		  2  exp '>' exp
@@ -223,17 +223,17 @@ AT_CHECK([[cat sets]], [],
 		  6  exp '=' exp
 		  7  "exp"
 NULLABLE
-	$axiom: no
+	$accept: no
 	exp: no
 FIRSTS
-	$axiom firsts
-		$axiom
+	$accept firsts
+		$accept
 		exp
 	exp firsts
 		exp
 FDERIVES
-	$axiom derives
-		  0  exp $
+	$accept derives
+		  0  exp $end
 		  1  exp '<' exp
 		  2  exp '>' exp
 		  3  exp '+' exp
