@@ -1,4 +1,24 @@
+2002-11-30  Paul Eggert  <eggert@twinsun.com>
+
+	Add Yacc library, since POSIX requires it.
+	* doc/bison.texinfo (Yacc Library): New node.  Regenerate top menu.
+	* lib/Makefile.am (lib_LIBRARIES, liby_a_SOURCES): New macros.
+	* lib/main.c, lib/yyerror.c: New files.
+
+	gram_error can be static; it need not be extern.
+	* src/reader.h (gram_error): Remove decl.
+	* src/parse-gram.y (gram_error): Now static.  Add static decl.
+	(print_token_value): Omit parameter names from forward decl,
+	for consistency.
+
 2002-11-29  Paul Eggert  <eggert@twinsun.com>
+
+	* doc/bison.texinfo: Emphasize that yylex and yyerror must
+	be declared before being used.  E.g., one should typically
+	declare them in the prologue.  Use GNU coding style in examples.
+	Put "const" consistently after the type it modifies.  Mention
+	that C99 supports "inline".  Mention that yyerror traditionally
+	returns "int".
 
 	%parse-param and %lex-param now take just one argument, the
 	declaration; the argument name is deduced from the declaration.
