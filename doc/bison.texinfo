@@ -3186,17 +3186,23 @@ Actually, actions are not the best place to compute locations.  Since
 locations are much more general than semantic values, there is room in
 the output parser to redefine the default action to take for each
 rule.  The @code{YYLLOC_DEFAULT} macro is invoked each time a rule is
-matched, before the associated action is run.
+matched, before the associated action is run.  It is also invoked
+while processing a syntax error, to compute the error's location.
 
 Most of the time, this macro is general enough to suppress location
 dedicated code from semantic actions.
 
 The @code{YYLLOC_DEFAULT} macro takes three parameters.  The first one is
-the location of the grouping (the result of the computation).  The second one
-is an array holding locations of all right hand side elements of the rule
-being matched.  The last one is the size of the right hand side rule.
+the location of the grouping (the result of the computation).  When a
+rule is matched, the second parameter is an array holding locations of
+all right hand side elements of the rule being matched, and the third
+parameter is the size of the rule's right hand side.  When processing
+a syntax error, the second parameter is an array holding locations of
+the symbols that were discarded during error processing, and the third
+parameter is the number of discarded symbols.
 
-By default, it is defined this way for simple @acronym{LALR}(1) parsers:
+By default, @code{YYLLOC_DEFAULT} is defined this way for simple
+@acronym{LALR}(1) parsers:
 
 @example
 @group
@@ -3491,7 +3497,7 @@ should use @code{$$} to designate the semantic value associated to the
 (@pxref{Parser Function, , The Parser Function @code{yyparse}}).
 
 @strong{Warning:} as of Bison 1.875, this feature is still considered as
-experimental, as there was not enough users feedback.  In particular,
+experimental, as there was not enough user feedback.  In particular,
 the syntax might still change.
 @end deffn
 
