@@ -364,9 +364,9 @@ save_reductions (void)
 }
 
 
-/*--------------------.
+/*---------------.
 | Build STATES.  |
-`--------------------*/
+`---------------*/
 
 static void
 set_states (void)
