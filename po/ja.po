@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-03-04 18:05+0100\n"
+"POT-Creation-Date: 2002-03-04 19:13+0100\n"
 "PO-Revision-Date: 2001-12-10 15:59+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -119,12 +119,12 @@ msgstr "    %-4s\t規則 %d を利用して還元 (%s)\n"
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
 
-#: src/files.c:150
+#: src/files.c:151
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "ファイル `%s' を開けません"
 
-#: src/files.c:169
+#: src/files.c:170
 msgid "cannot close file"
 msgstr "ファイルを閉じることができません"
 

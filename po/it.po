@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-03-04 18:05+0100\n"
+"POT-Creation-Date: 2002-03-04 19:13+0100\n"
 "PO-Revision-Date: 2002-01-23 14:16+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -124,12 +124,12 @@ msgstr "    %-4s\triduzione con la regola %d (%s)\n"
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\triduzione con la regola %d (%s)\n"
 
-#: src/files.c:150
+#: src/files.c:151
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "impossibile aprire il file `%s'"
 
-#: src/files.c:169
+#: src/files.c:170
 msgid "cannot close file"
 msgstr "impossibile chiudere il file `%s'"
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33\n"
-"POT-Creation-Date: 2002-03-04 18:05+0100\n"
+"POT-Creation-Date: 2002-03-04 19:13+0100\n"
 "PO-Revision-Date: 2002-02-08 00:15+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -123,12 +123,12 @@ msgstr "    %-4s\tredutseerin kasutades reeglit %d (%s)\n"
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 
-#: src/files.c:150
+#: src/files.c:151
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "faili `%s' ei saa avada"
 
-#: src/files.c:169
+#: src/files.c:170
 msgid "cannot close file"
 msgstr "faili ei õnnestu sulgeda"
 
