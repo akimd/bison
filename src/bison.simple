@@ -72,6 +72,10 @@
 # endif /* alloca not defined */
 #endif /* YYSTACK_USE_ALLOCA not defined */
 
+#ifndef YYSTACK_USE_ALLOCA
+# define YYSTACK_USE_ALLOCA 0
+#endif
+
 #if YYSTACK_USE_ALLOCA
 # define YYSTACK_ALLOC alloca
 #else
@@ -358,7 +362,7 @@ yyparse (YYPARSE_PARAM_ARG)
      have just been pushed. so pushing a state here evens the stacks.
      */
   yyssp++;
-  
+
  yysetstate:
   *yyssp = yystate;
 
@@ -416,7 +420,7 @@ yyparse (YYPARSE_PARAM_ARG)
       yystacksize *= 2;
       if (yystacksize > YYMAXDEPTH)
 	yystacksize = YYMAXDEPTH;
-# ifndef YYSTACK_USE_ALLOCA
+# if YYSTACK_USE_ALLOCA
       yyfree_stacks = 1;
 # endif
       yyss = (short *) YYSTACK_ALLOC (yystacksize * sizeof (*yyssp));
