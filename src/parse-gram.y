@@ -472,29 +472,27 @@ lloc_default (YYLTYPE const *rhs, int n)
 static void
 add_param (char const *type, char *decl, location loc)
 {
-  static char const alphanum[] =
-    "0123456789"
+  static char const alphanum[26 + 26 + 1 + 10] =
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "_";
-  static char const blank[] = " \t";
-  char const *alpha = alphanum + 10;
+    "_"
+    "0123456789";
   char const *name_start = NULL;
   char *p;
 
   for (p = decl; *p; p++)
-    if ((p == decl || ! strchr (alphanum, p[-1])) && strchr (alpha, p[0]))
+    if ((p == decl
+	 || ! memchr (alphanum, p[-1], sizeof alphanum))
+	&& memchr (alphanum, p[0], sizeof alphanum - 10))
       name_start = p;
 
-  /* Strip the surrounding '{' and '}'.  */
-  decl++;
-  *--p = '\0';
-
-  /* Strip surrounding white spaces.  */
-  while (strchr (blank, *decl))
-    ++decl;
-  while (strchr (blank, p[-1]))
-    *--p = '\0';
+  /* Strip the surrounding '{' and '}', and any blanks just inside
+     the braces.  */
+  while (*--p == ' ' || *p == '\t')
+    continue;
+  *p = '\0';
+  while (*++decl == ' ' || *decl == '\t')
+    continue;
 
   if (! name_start)
     complain_at (loc, _("missing identifier in parameter declaration"));
@@ -504,7 +502,7 @@ add_param (char const *type, char *decl, location loc)
       size_t name_len;
 
       for (name_len = 1;
-	   name_start[name_len] && strchr (alphanum, name_start[name_len]);
+	   memchr (alphanum, name_start[name_len], sizeof alphanum);
 	   name_len++)
 	continue;
 
