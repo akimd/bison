@@ -1,5 +1,14 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c, src/print_graph.c (escape): New.
+	Use it to quote the TAGS outputs.
+	* src/print_graph.c (print_state): Now errors are in red, and
+	reductions in green.
+	Prefer high to wide: output the state number on a line of its own.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h, src/state.c (reductions_new): New.
 	* src/LR0.c (set_state_table): Let all the states have a
 	`reductions', even if reduced to 0.
