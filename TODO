@@ -1,8 +1,17 @@
 -*- outline -*-
 
+* URGENT: Documenting C++ output
+Write a first documentation for C++ output.
+
+* yyerror, yyprint interface
+It should be improved, in particular when using Bison features such as
+locations, and YYPARSE_PARAMS.  For the time being, it is recommended
+to #define yyerror and yyprint to steal internal variables...
+
 * documentation
-Explain $axiom (and maybe change its name: BTYacc names it goal).
-Complete the glossary (item, axiom, ?).
+Explain $axiom (and maybe change its name: BTYacc names it `goal',
+byacc `$accept', probably based on AT&T Yacc).  Complete the glossary
+(item, axiom, ?).
 
 * report documentation
 Extend with error.  The hard part will probably be finding the right
@@ -162,11 +171,6 @@ src/bison/tests % cd ./testsuite.dir/51
 tests/testsuite.dir/51 % echo "()" | ./calc
 1.2-1.3: parse error, unexpected ')', expecting error or "number" or '-' or '('
 
-* yyerror, yyprint interface
-It should be improved, in particular when using Bison features such as
-locations, and YYPARSE_PARAMS.  For the time being, it is recommended
-to #define yyerror and yyprint to steal internal variables...
-
 * read_pipe.c
 This is not portable to DOS for instance.  Implement a more portable
 scheme.  Sources of inspiration include GNU diff, and Free Recode.
@@ -296,20 +300,6 @@ Rewrite the reader in Flex/Bison.  There will be delicate parts, in
 particular, expect the scanner to be hard to write.  Many interesting
 features cannot be implemented without such a new reader.
 
-* Presentation of the report file
-From: "Baum, Nathan I" <s0009525@chelt.ac.uk>
-Subject: Token Alias Bug
-To: "'bug-bison@gnu.org'" <bug-bison@gnu.org>
-
-I've also noticed something, that whilst not *wrong*, is inconvienient: I
-use the verbose mode to help find the causes of unresolved shift/reduce
-conflicts. However, this mode insists on starting the .output file with a
-list of *resolved* conflicts, something I find quite useless. Might it be
-possible to define a -v mode, and a -vv mode -- Where the -vv mode shows
-everything, but the -v mode only tells you what you need for examining
-conflicts? (Or, perhaps, a "*** This state has N conflicts ***" marker above
-each state with conflicts.)
-
 * $undefined
 From Hans:
 - If the Bison generated parser experiences an undefined number in the
@@ -333,9 +323,6 @@ a Bison option where every typed default rule is explicitly written out
 (same typed ruled can of course be grouped together).
 
 Note: Robert Anisko handles this.  He knows how to do it.
-
-* Documenting C++ output
-Write a first documentation for C++ output.
 
 * Warnings
 It would be nice to have warning support.  See how Autoconf handles
