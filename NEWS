@@ -3,6 +3,15 @@ Bison News
 
 Changes in version 1.49a:
 
+* The initial rule is explicit.
+  Bison used to play hacks with the initial rule, which the user does
+  not write.  It is now explicit, and visible in the reports and
+  graphs as rule 0.
+      
+* Useless rules are actually removed.
+  Before, Bison reported the useless rules, but, although not used,
+  included them in the parsers.
+	 
 * False `Token not used' report fixed.
   On a grammar such as
 

@@ -1,5 +1,5 @@
 # Exercising Bison on conflicts.                         -*- Autotest -*-
-# Copyright 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,6 +18,28 @@
 
 AT_BANNER([[Conflicts.]])
 
+
+## ---------------- ##
+## S/R in initial.  ##
+## ---------------- ##
+
+# I once hacked Bison in such a way that it lost its reductions on the
+# initial state (because it was confusing it with the last state).  It
+# took me a while to strip down my failures to this simple case.  So
+# make sure it finds the s/r conflict below.
+
+AT_SETUP([S/R in initial])
+
+AT_DATA([[input.y]],
+[[%expect 1
+%%
+exp: e 'e';
+e: 'e' | /* Nothing. */;
+]])
+
+AT_CHECK([bison input.y -o input.c])
+
+AT_CLEANUP
 
 ## ------------------- ##
 ## %nonassoc and eof.  ##
@@ -143,6 +165,8 @@ exp (6)
 
 state 0
 
+    $axiom  ->  . exp $   (rule 0)
+
     NUM 	shift, and go to state 1
 
     exp 	go to state 2
@@ -246,6 +270,8 @@ exp (6)
 
 
 state 0
+
+    $axiom  ->  . exp $   (rule 0)
 
     NUM 	shift, and go to state 1
 

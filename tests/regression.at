@@ -139,6 +139,8 @@ expr (7)
 
 state 0
 
+    $axiom  ->  . expr $   (rule 0)
+
     'a' 	shift, and go to state 1
 
     $default	reduce using rule 3 (@2)
@@ -348,6 +350,7 @@ CONST_DEC (10)
 @1 (11)
     on left: 4, on right: 5
 state 0
+    $axiom  ->  . CONST_DEC_PART $   (rule 0)
     $default	reduce using rule 4 (@1)
     CONST_DEC_PART	go to state 1
     CONST_DEC_LIST	go to state 2

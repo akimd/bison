@@ -1,5 +1,25 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (new_state): Display `nstates' as the name of the
+	newly created state.
+	Adjust to initialize first_state and last_state if needed.
+	Be sure to distinguish the initial from the final state.
+	(new_states): Create the itemset of the initial state, and use
+	new_state.
+	* src/closure.c (closure): Now that the initial state has its
+	items properly set, there is no need for a special case when
+	creating `ruleset'.
+
+	As a result, now the rule 0, reducing to $axiom, is visible in the
+	outputs.  Adjust the test suite.
+
+	* tests/conflicts.at (Solved SR Conflicts)
+	(Unresolved SR Conflicts): Adjust.
+	* tests/regression.at (Web2c Report, Rule Line Numbers): Idem.
+	* tests/conflicts.at (S/R in initial): New.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (allocate_itemsets): Don't loop over ritem: loop over
 	the RHS of the rules.
 	* src/output.c (output_gram): Likewise.

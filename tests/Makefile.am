@@ -55,7 +55,7 @@ TESTSUITE_AT = \
 TESTSUITE = $(srcdir)/testsuite
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
-$(srcdir)/$(TESTSUITE): package.m4 $(TESTSUITE_AT)
+$(TESTSUITE): package.m4 $(TESTSUITE_AT)
 	$(AUTOTEST) -I $(srcdir) testsuite.at -o $@.tmp
 	mv $@.tmp $@
 
