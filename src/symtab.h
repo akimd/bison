@@ -1,5 +1,5 @@
 /* Definitions for symtab.c and callers, part of bison,
-   Copyright 1984, 1989, 1992, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 1992, 2000, 2001  Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -33,6 +33,7 @@ typedef enum
   nterm_sym		/* non-terminal */
 } symbol_class;
 
+#define SUNDEF  -1              /* For undefined user number. */
 #define SALIAS	-9991		/* for symbol generated with an alias */
 
 typedef struct bucket

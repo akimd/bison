@@ -64,7 +64,8 @@ static void yyungetc (int c);
 extern void perror (const char *s);
 %}
 
-/* BISON Declarations */
+/* Bison Declarations */
+%token CALC_EOF 0
 %token NUM
 
 %nonassoc '=' /* comparison	       */
@@ -204,7 +205,7 @@ yylex (void)
 
   /* Return end-of-file.  */
   if (c == EOF)
-    return 0;
+    return CALC_EOF;
 
   /* Return single chars. */
   return c;

@@ -1,5 +1,18 @@
 2001-11-02  Akim Demaille  <akim@epita.fr>
 
+	* src/symtab.h (SUNDEF): New.
+	* src/symtab.c (bucket_new): Init user_token_number to SUNDEF to
+	stand for `uninitialized', instead of 0.
+	* src/reader.c (packsymbols, parse_thong_decl): Adjust.
+	* src/lex.c (lex): Adjust.
+
+	* tests/calc.at (_AT_DATA_CALC_Y): Declare a token for EOF.
+	Number it 0.
+	Let yylex return it instead of a plain 0.
+	Reported by Dick Streefland.
+
+2001-11-02  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (Mixing %token styles): New test.
 
 2001-11-02  Akim Demaille  <akim@epita.fr>
