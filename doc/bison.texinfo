@@ -6082,6 +6082,10 @@ bison -d -o @var{output.c++} @var{infile.y}
 @noindent
 will produce @file{output.c++} and @file{outfile.h++}.
 
+For compatibility with @acronym{POSIX}, the standard Bison
+distribution also contains a shell script called @command{yacc} that
+invokes Bison with the @option{-y} option.
+
 @menu
 * Bison Options::     All the options described in detail,
                         in alphabetical order by short options.
@@ -6122,10 +6126,12 @@ Equivalent to @samp{-o y.tab.c}; the parser output file is called
 @file{y.tab.c}, and the other outputs are called @file{y.output} and
 @file{y.tab.h}.  The purpose of this option is to imitate Yacc's output
 file name conventions.  Thus, the following shell script can substitute
-for Yacc:
+for Yacc, and the Bison distribution contains such a script for
+compatibility with @acronym{POSIX}:
 
 @example
-bison -y $*
+#! /bin/sh
+bison -y "$@"
 @end example
 @end table
 
