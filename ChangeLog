@@ -1,5 +1,11 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c: Convert to use bitset.h, not hand coded iterations
+	over ints.
+
+	
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c: Convert to use bitset.h, not hand coded BSet.
 
 2002-03-04  Akim Demaille  <akim@epita.fr>
