@@ -2,7 +2,8 @@
 
 	* data/bison.simple (YYSTYPE_IS_TRIVIAL, YYLTYPE_IS_TRIVIAL):
 	Define if we define YYSTYPE and YYLTYPE, respectively.
-
+	(YYCOPY): Fix [] quoting problem in the non-GCC case.
+	
 2002-04-25  Robert Anisko  <robert@lrde.epita.fr>
 
 	* src/scan-skel.l: Postprocess quadrigraphs.
