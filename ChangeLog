@@ -1,5 +1,9 @@
 2001-12-11  Marc Autret  <autret_m@epita.fr>
 
+	* src/output.c (output_parser): Remove useless muscle.
+
+2001-12-11  Marc Autret  <autret_m@epita.fr>
+
 	* src/bison.simple: Remove #line just before %%epilogue. It
 	is now handled in ...
 	* src/reader.c (read_additionnal_code): Add the output of a
