@@ -1,3 +1,8 @@
+2004-08-10  Florian Krohm  <florian@edamail.fishkill.ibm.com>
+
+	* src/scan-action.l: Remove. Scanning of semantic actions is
+	handled in scan-gram.l.
+
 2004-08-07  Florian Krohm  <florian@edamail.fishkill.ibm.com>
 
 	* src/scan-gram.l (handle_syncline): Use uniqstr_new not xstrdup.
