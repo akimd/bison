@@ -142,6 +142,7 @@ m4_ifdef([b4_stype_line],
 ])dnl
 typedef b4_stype yystype;
 # define YYSTYPE yystype
+# define YYSTYPE_IS_TRIVIAL 1
 #endif
 
 #ifndef YYLTYPE
@@ -153,6 +154,7 @@ typedef struct yyltype
   int last_column;
 } yyltype;
 # define YYLTYPE b4_ltype
+# define YYLTYPE_IS_TRIVIAL 1
 #endif
 
 /* Copy the second part of user declarations.  */
