@@ -1,3 +1,8 @@
+2001-08-09  Robert Anisko  <anisko_r@epita.fr>
+
+	* src/bison.simple (YYLLOC_DEFAULT): Update.
+	(yyparse): Adjust.
+
 2001-08-08  Marc Autret  <autret_m@epita.fr>
 
 	* doc/bison.texinfo: Change @samp{$<@dots{}>} to 

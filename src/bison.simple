@@ -119,9 +119,9 @@ while (0)
    its range to the last symbol.  */
 
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Last)		\
-   Current.last_line   = Last.last_line;	\
-   Current.last_column = Last.last_column;
+# define YYLLOC_DEFAULT(Current, Rhs, N)       	\
+   Current.last_line   = Rhs[N].last_line;	\
+   Current.last_column = Rhs[N].last_column;
 #endif
 
 
@@ -592,7 +592,7 @@ yyreduce:
   /* Similarly for the default location.  Let the user run additional
      commands if for instance locations are ranges.  */
   yyloc = yylsp[1-yylen];
-  YYLLOC_DEFAULT (yyloc, yylsp[0]);
+  YYLLOC_DEFAULT (yyloc, (yylsp - yylen), yylen);
 #endif
 
 #if YYDEBUG
