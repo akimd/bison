@@ -1,5 +1,13 @@
 2001-09-21  Marc Autret  <autret_m@epita.fr>
 
+	* src/reader.c (copy_definition, parse_union_decl): Update and use
+	`linef' muscle.
+	(copy_action): Likewise.
+	Use obstack_1grow ().
+	* src/muscle_tab.c (muscle_init): Add muscle `linef'.
+
+2001-09-21  Marc Autret  <autret_m@epita.fr>
+
 	* src/options.c (option_table): Adjust.
 	* src/lex.c (parse_percent_token): Fix.
 
