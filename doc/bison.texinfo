@@ -6969,178 +6969,42 @@ In an action, the semantic value of the @var{n}-th symbol of the
 right-hand side of the rule.  @xref{Actions}.
 @end deffn
 
+@deffn {Delimiter} %%
+Delimiter used to separate the grammar rule section from the
+Bison declarations section or the epilogue.
+@xref{Grammar Layout, ,The Overall Layout of a Bison Grammar}.
+@end deffn
+
+@c Don't insert spaces, or check the DVI output.
+@deffn {Delimiter} %@{@var{code}%@}
+All code listed between @samp{%@{} and @samp{%@}} is copied directly to
+the output file uninterpreted.  Such code forms the prologue of the input
+file.  @xref{Grammar Outline, ,Outline of a Bison
+Grammar}.
+@end deffn
+
+@deffn {Construct} /*@dots{}*/
+Comment delimiters, as in C.
+@end deffn
+
+@deffn {Delimiter} :
+Separates a rule's result from its components.  @xref{Rules, ,Syntax of
+Grammar Rules}.
+@end deffn
+
+@deffn {Delimiter} ;
+Terminates a rule.  @xref{Rules, ,Syntax of Grammar Rules}.
+@end deffn
+
+@deffn {Delimiter} |
+Separates alternate rules for the same result nonterminal.
+@xref{Rules, ,Syntax of Grammar Rules}.
+@end deffn
+
 @deffn {Symbol} $accept
 The predefined nonterminal whose only rule is @samp{$accept: @var{start}
 $end}, where @var{start} is the start symbol.  @xref{Start Decl, , The
 Start-Symbol}.  It cannot be used in the grammar.
-@end deffn
-
-@deffn {Symbol} $end
-The predefined token marking the end of the token stream.  It cannot be
-used in the grammar.
-@end deffn
-
-@deffn {Symbol} $undefined
-The predefined token onto which all undefined values returned by
-@code{yylex} are mapped.  It cannot be used in the grammar, rather, use
-@code{error}.
-@end deffn
-
-@deffn {Symbol} error
-A token name reserved for error recovery.  This token may be used in
-grammar rules so as to allow the Bison parser to recognize an error in
-the grammar without halting the process.  In effect, a sentence
-containing an error may be recognized as valid.  On a syntax error, the
-token @code{error} becomes the current look-ahead token.  Actions
-corresponding to @code{error} are then executed, and the look-ahead
-token is reset to the token that originally caused the violation.
-@xref{Error Recovery}.
-@end deffn
-
-@deffn {Macro} YYABORT
-Macro to pretend that an unrecoverable syntax error has occurred, by
-making @code{yyparse} return 1 immediately.  The error reporting
-function @code{yyerror} is not called.  @xref{Parser Function, ,The
-Parser Function @code{yyparse}}.
-@end deffn
-
-@deffn {Macro} YYACCEPT
-Macro to pretend that a complete utterance of the language has been
-read, by making @code{yyparse} return 0 immediately.
-@xref{Parser Function, ,The Parser Function @code{yyparse}}.
-@end deffn
-
-@deffn {Macro} YYBACKUP
-Macro to discard a value from the parser stack and fake a look-ahead
-token.  @xref{Action Features, ,Special Features for Use in Actions}.
-@end deffn
-
-@deffn {Macro} YYDEBUG
-Macro to define to equip the parser with tracing code.  @xref{Tracing,
-,Tracing Your Parser}.
-@end deffn
-
-@deffn {Macro} YYERROR
-Macro to pretend that a syntax error has just been detected: call
-@code{yyerror} and then perform normal error recovery if possible
-(@pxref{Error Recovery}), or (if recovery is impossible) make
-@code{yyparse} return 1.  @xref{Error Recovery}.
-@end deffn
-
-@deffn {Macro} YYERROR_VERBOSE
-An obsolete macro that you define with @code{#define} in the prologue
-to request verbose, specific error message strings
-when @code{yyerror} is called.  It doesn't matter what definition you
-use for @code{YYERROR_VERBOSE}, just whether you define it.  Using
-@code{%error-verbose} is preferred.
-@end deffn
-
-@deffn {Macro} YYINITDEPTH
-Macro for specifying the initial size of the parser stack.
-@xref{Stack Overflow}.
-@end deffn
-
-@deffn {Macro} YYLEX_PARAM
-An obsolete macro for specifying an extra argument (or list of extra
-arguments) for @code{yyparse} to pass to @code{yylex}.  he use of this
-macro is deprecated, and is supported only for Yacc like parsers.
-@xref{Pure Calling,, Calling Conventions for Pure Parsers}.
-@end deffn
-
-@deffn {Type} YYLTYPE
-Data type of @code{yylloc}; by default, a structure with four
-members.  @xref{Location Type, , Data Types of Locations}.
-@end deffn
-
-@deffn {Macro} YYMAXDEPTH
-Macro for specifying the maximum size of the parser stack.  @xref{Stack
-Overflow}.
-@end deffn
-
-@deffn {Macro} YYPARSE_PARAM
-An obsolete macro for specifying the name of a parameter that
-@code{yyparse} should accept.  The use of this macro is deprecated, and
-is supported only for Yacc like parsers.  @xref{Pure Calling,, Calling
-Conventions for Pure Parsers}.
-@end deffn
-
-@deffn {Macro} YYRECOVERING
-Macro whose value indicates whether the parser is recovering from a
-syntax error.  @xref{Action Features, ,Special Features for Use in Actions}.
-@end deffn
-
-@deffn {Macro} YYSTACK_USE_ALLOCA
-Macro used to control the use of @code{alloca}.  If defined to @samp{0},
-the parser will not use @code{alloca} but @code{malloc} when trying to
-grow its internal stacks.  Do @emph{not} define @code{YYSTACK_USE_ALLOCA}
-to anything else.
-@end deffn
-
-@deffn {Type} YYSTYPE
-Data type of semantic values; @code{int} by default.
-@xref{Value Type, ,Data Types of Semantic Values}.
-@end deffn
-
-@deffn {Variable} yychar
-External integer variable that contains the integer value of the current
-look-ahead token.  (In a pure parser, it is a local variable within
-@code{yyparse}.)  Error-recovery rule actions may examine this variable.
-@xref{Action Features, ,Special Features for Use in Actions}.
-@end deffn
-
-@deffn {Variable} yyclearin
-Macro used in error-recovery rule actions.  It clears the previous
-look-ahead token.  @xref{Error Recovery}.
-@end deffn
-
-@deffn {Variable} yydebug
-External integer variable set to zero by default.  If @code{yydebug}
-is given a nonzero value, the parser will output information on input
-symbols and parser action.  @xref{Tracing, ,Tracing Your Parser}.
-@end deffn
-
-@deffn {Macro} yyerrok
-Macro to cause parser to recover immediately to its normal mode
-after a syntax error.  @xref{Error Recovery}.
-@end deffn
-
-@deffn {Function} yyerror
-User-supplied function to be called by @code{yyparse} on error.
-@xref{Error Reporting, ,The Error
-Reporting Function @code{yyerror}}.
-@end deffn
-
-@deffn {Function} yylex
-User-supplied lexical analyzer function, called with no arguments to get
-the next token.  @xref{Lexical, ,The Lexical Analyzer Function
-@code{yylex}}.
-@end deffn
-
-@deffn {Variable} yylval
-External variable in which @code{yylex} should place the semantic
-value associated with a token.  (In a pure parser, it is a local
-variable within @code{yyparse}, and its address is passed to
-@code{yylex}.)  @xref{Token Values, ,Semantic Values of Tokens}.
-@end deffn
-
-@deffn {Variable} yylloc
-External variable in which @code{yylex} should place the line and column
-numbers associated with a token.  (In a pure parser, it is a local
-variable within @code{yyparse}, and its address is passed to
-@code{yylex}.)  You can ignore this variable if you don't use the
-@samp{@@} feature in the grammar actions.  @xref{Token Locations,
-,Textual Locations of Tokens}.
-@end deffn
-
-@deffn {Variable} yynerrs
-Global variable which Bison increments each time there is a syntax error.
-(In a pure parser, it is a local variable within @code{yyparse}.)
-@xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
-@end deffn
-
-@deffn {Function} yyparse
-The parser function produced by Bison; call this function to start
-parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
 @end deffn
 
 @deffn {Directive} %debug
@@ -7171,8 +7035,20 @@ time to resolve reduce/reduce conflicts.  @xref{GLR Parsers, ,Writing
 @acronym{GLR} Parsers}.
 @end deffn
 
-@deffn {Directive} %initial-action
-Run user code before parsing.  @xref{Initial Action Decl, , Performing Actions before Parsing}.
+@deffn {Symbol} $end
+The predefined token marking the end of the token stream.  It cannot be
+used in the grammar.
+@end deffn
+
+@deffn {Symbol} error
+A token name reserved for error recovery.  This token may be used in
+grammar rules so as to allow the Bison parser to recognize an error in
+the grammar without halting the process.  In effect, a sentence
+containing an error may be recognized as valid.  On a syntax error, the
+token @code{error} becomes the current look-ahead token.  Actions
+corresponding to @code{error} are then executed, and the look-ahead
+token is reset to the token that originally caused the violation.
+@xref{Error Recovery}.
 @end deffn
 
 @deffn {Directive} %error-verbose
@@ -7188,6 +7064,10 @@ Summary}.
 @deffn {Directive} %glr-parser
 Bison declaration to produce a @acronym{GLR} parser.  @xref{GLR
 Parsers, ,Writing @acronym{GLR} Parsers}.
+@end deffn
+
+@deffn {Directive} %initial-action
+Run user code before parsing.  @xref{Initial Action Decl, , Performing Actions before Parsing}.
 @end deffn
 
 @deffn {Directive} %left
@@ -7276,45 +7156,161 @@ Bison declaration to declare nonterminals.  @xref{Type Decl,
 ,Nonterminal Symbols}.
 @end deffn
 
+@deffn {Symbol} $undefined
+The predefined token onto which all undefined values returned by
+@code{yylex} are mapped.  It cannot be used in the grammar, rather, use
+@code{error}.
+@end deffn
+
 @deffn {Directive} %union
 Bison declaration to specify several possible data types for semantic
 values.  @xref{Union Decl, ,The Collection of Value Types}.
 @end deffn
 
-@sp 1
-
-These are the punctuation and delimiters used in Bison input:
-
-@deffn {Delimiter} %%
-Delimiter used to separate the grammar rule section from the
-Bison declarations section or the epilogue.
-@xref{Grammar Layout, ,The Overall Layout of a Bison Grammar}.
+@deffn {Macro} YYABORT
+Macro to pretend that an unrecoverable syntax error has occurred, by
+making @code{yyparse} return 1 immediately.  The error reporting
+function @code{yyerror} is not called.  @xref{Parser Function, ,The
+Parser Function @code{yyparse}}.
 @end deffn
 
-@c Don't insert spaces, or check the DVI output.
-@deffn {Delimiter} %@{@var{code}%@}
-All code listed between @samp{%@{} and @samp{%@}} is copied directly to
-the output file uninterpreted.  Such code forms the prologue of the input
-file.  @xref{Grammar Outline, ,Outline of a Bison
-Grammar}.
+@deffn {Macro} YYACCEPT
+Macro to pretend that a complete utterance of the language has been
+read, by making @code{yyparse} return 0 immediately.
+@xref{Parser Function, ,The Parser Function @code{yyparse}}.
 @end deffn
 
-@deffn {Construct} /*@dots{}*/
-Comment delimiters, as in C.
+@deffn {Macro} YYBACKUP
+Macro to discard a value from the parser stack and fake a look-ahead
+token.  @xref{Action Features, ,Special Features for Use in Actions}.
 @end deffn
 
-@deffn {Delimiter} :
-Separates a rule's result from its components.  @xref{Rules, ,Syntax of
-Grammar Rules}.
+@deffn {Variable} yychar
+External integer variable that contains the integer value of the current
+look-ahead token.  (In a pure parser, it is a local variable within
+@code{yyparse}.)  Error-recovery rule actions may examine this variable.
+@xref{Action Features, ,Special Features for Use in Actions}.
 @end deffn
 
-@deffn {Delimiter} ;
-Terminates a rule.  @xref{Rules, ,Syntax of Grammar Rules}.
+@deffn {Variable} yyclearin
+Macro used in error-recovery rule actions.  It clears the previous
+look-ahead token.  @xref{Error Recovery}.
 @end deffn
 
-@deffn {Delimiter} |
-Separates alternate rules for the same result nonterminal.
-@xref{Rules, ,Syntax of Grammar Rules}.
+@deffn {Macro} YYDEBUG
+Macro to define to equip the parser with tracing code.  @xref{Tracing,
+,Tracing Your Parser}.
+@end deffn
+
+@deffn {Variable} yydebug
+External integer variable set to zero by default.  If @code{yydebug}
+is given a nonzero value, the parser will output information on input
+symbols and parser action.  @xref{Tracing, ,Tracing Your Parser}.
+@end deffn
+
+@deffn {Macro} yyerrok
+Macro to cause parser to recover immediately to its normal mode
+after a syntax error.  @xref{Error Recovery}.
+@end deffn
+
+@deffn {Macro} YYERROR
+Macro to pretend that a syntax error has just been detected: call
+@code{yyerror} and then perform normal error recovery if possible
+(@pxref{Error Recovery}), or (if recovery is impossible) make
+@code{yyparse} return 1.  @xref{Error Recovery}.
+@end deffn
+
+@deffn {Function} yyerror
+User-supplied function to be called by @code{yyparse} on error.
+@xref{Error Reporting, ,The Error
+Reporting Function @code{yyerror}}.
+@end deffn
+
+@deffn {Macro} YYERROR_VERBOSE
+An obsolete macro that you define with @code{#define} in the prologue
+to request verbose, specific error message strings
+when @code{yyerror} is called.  It doesn't matter what definition you
+use for @code{YYERROR_VERBOSE}, just whether you define it.  Using
+@code{%error-verbose} is preferred.
+@end deffn
+
+@deffn {Macro} YYINITDEPTH
+Macro for specifying the initial size of the parser stack.
+@xref{Stack Overflow}.
+@end deffn
+
+@deffn {Function} yylex
+User-supplied lexical analyzer function, called with no arguments to get
+the next token.  @xref{Lexical, ,The Lexical Analyzer Function
+@code{yylex}}.
+@end deffn
+
+@deffn {Macro} YYLEX_PARAM
+An obsolete macro for specifying an extra argument (or list of extra
+arguments) for @code{yyparse} to pass to @code{yylex}.  he use of this
+macro is deprecated, and is supported only for Yacc like parsers.
+@xref{Pure Calling,, Calling Conventions for Pure Parsers}.
+@end deffn
+
+@deffn {Variable} yylloc
+External variable in which @code{yylex} should place the line and column
+numbers associated with a token.  (In a pure parser, it is a local
+variable within @code{yyparse}, and its address is passed to
+@code{yylex}.)  You can ignore this variable if you don't use the
+@samp{@@} feature in the grammar actions.  @xref{Token Locations,
+,Textual Locations of Tokens}.
+@end deffn
+
+@deffn {Type} YYLTYPE
+Data type of @code{yylloc}; by default, a structure with four
+members.  @xref{Location Type, , Data Types of Locations}.
+@end deffn
+
+@deffn {Variable} yylval
+External variable in which @code{yylex} should place the semantic
+value associated with a token.  (In a pure parser, it is a local
+variable within @code{yyparse}, and its address is passed to
+@code{yylex}.)  @xref{Token Values, ,Semantic Values of Tokens}.
+@end deffn
+
+@deffn {Macro} YYMAXDEPTH
+Macro for specifying the maximum size of the parser stack.  @xref{Stack
+Overflow}.
+@end deffn
+
+@deffn {Variable} yynerrs
+Global variable which Bison increments each time there is a syntax error.
+(In a pure parser, it is a local variable within @code{yyparse}.)
+@xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
+@end deffn
+
+@deffn {Function} yyparse
+The parser function produced by Bison; call this function to start
+parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+@end deffn
+
+@deffn {Macro} YYPARSE_PARAM
+An obsolete macro for specifying the name of a parameter that
+@code{yyparse} should accept.  The use of this macro is deprecated, and
+is supported only for Yacc like parsers.  @xref{Pure Calling,, Calling
+Conventions for Pure Parsers}.
+@end deffn
+
+@deffn {Macro} YYRECOVERING
+Macro whose value indicates whether the parser is recovering from a
+syntax error.  @xref{Action Features, ,Special Features for Use in Actions}.
+@end deffn
+
+@deffn {Macro} YYSTACK_USE_ALLOCA
+Macro used to control the use of @code{alloca}.  If defined to @samp{0},
+the parser will not use @code{alloca} but @code{malloc} when trying to
+grow its internal stacks.  Do @emph{not} define @code{YYSTACK_USE_ALLOCA}
+to anything else.
+@end deffn
+
+@deffn {Type} YYSTYPE
+Data type of semantic values; @code{int} by default.
+@xref{Value Type, ,Data Types of Semantic Values}.
 @end deffn
 
 @node Glossary
