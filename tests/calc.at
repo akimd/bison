@@ -50,9 +50,9 @@ AT_DATA_GRAMMAR([calc.y],
 extern void perror (const char *s);
 
 /* Exercise pre-prologue dependency to %union.  */
-typedef int value_t;
+typedef int value;
 
-static value_t global_result = 0;
+static value global_result = 0;
 static int global_count = 0;
 
 %}
@@ -60,7 +60,7 @@ static int global_count = 0;
 /* Exercise %union. */
 %union
 {
-  value_t ival;
+  value ival;
 };
 
 %{
@@ -95,7 +95,7 @@ static int power (int base, int exponent);
    - %location & %pure & %glr
    - %location & %pure & %yacc & %parse-param. */
 static void yyerror (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])[
-                     ]AT_PARAM_IF([value_t *result, int *count, ])[
+                     ]AT_PARAM_IF([value *result, int *count, ])[
                      const char *s
                      );
 static int yylex (LEX_FORMALS);
@@ -149,7 +149,7 @@ static FILE *yyin;
 
 static void
 yyerror (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])[
-         ]AT_PARAM_IF([value_t *result, int *count, ])[
+         ]AT_PARAM_IF([value *result, int *count, ])[
          const char *s
          )
 {
@@ -288,7 +288,7 @@ power (int base, int exponent)
 int
 main (int argc, const char **argv)
 {
-  value_t result = 0;
+  value result = 0;
   int count = 0;
   int status;
 
@@ -562,7 +562,7 @@ AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix="calc
 
 AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {value_t *result} %parse-param {int *count}])
+AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {value *result} %parse-param {int *count}])
 
 
 # ----------------------- #
@@ -597,4 +597,4 @@ AT_CHECK_CALC_GLR([%error-verbose %debug %locations %defines %name-prefix="calc"
 
 AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
-AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {value_t *result} %parse-param {int *count}])
+AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {value *result} %parse-param {int *count}])
