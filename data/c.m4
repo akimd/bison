@@ -1,4 +1,4 @@
-m4_divert(-1)                                                *- Autoconf -*-
+m4_divert(-1)                                               -*- Autoconf -*-
 
 # C M4 Macros for Bison.
 # Copyright (C) 2002 Free Software Foundation, Inc.
