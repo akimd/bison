@@ -24,7 +24,7 @@
 %defines
 %locations
 %pure-parser
-%error-verbose
+// %error-verbose
 %defines
 %name-prefix="gram_"
 
@@ -37,6 +37,8 @@
 #include "gram.h"
 #include "reader.h"
 #include "conflicts.h"
+
+#define YYERROR_VERBOSE 1
 
 /* Pass the control structure to YYPARSE and YYLEX. */
 #define YYPARSE_PARAM gram_control
@@ -120,7 +122,8 @@ int current_prec = 0;
 %token PROLOGUE EPILOGUE
 %token BRACED_CODE
 
-%type <string> CHARACTER TYPE BRACED_CODE PROLOGUE EPILOGUE epilogue.opt action STRING string_content
+%type <string> CHARACTER TYPE  STRING string_content
+               BRACED_CODE PROLOGUE EPILOGUE epilogue.opt action
 %type <integer> INT
 %type <symbol> ID symbol string_as_id
 %type <assoc> precedence_directive
@@ -140,7 +143,10 @@ directives:
 
 directive:
   grammar_directives
-| PROLOGUE                                 { prologue_augment ($1, @1.first_line); }
+| PROLOGUE
+   {
+     prologue_augment ($1, @1.first_line);
+   }
 | "%debug"                                 { debug_flag = 1; }
 | "%define" string_content string_content  { muscle_insert ($2, $3); }
 | "%defines"                               { defines_flag = 1; }

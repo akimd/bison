@@ -59,13 +59,19 @@ char *last_string;
   do {							\
     obstack_1grow (&string_obstack, '\0');		\
     last_string = obstack_finish (&string_obstack);	\
-    yylval->string = last_string;			\
   } while (0)
 
 #define YY_OBS_FREE						\
   do {								\
     obstack_free (&string_obstack, last_string);		\
   } while (0)
+
+void
+scanner_last_string_free (void)
+{
+  YY_OBS_FREE;
+}
+
 
 /* This is only to avoid GCC warnings. */
 #define YY_USER_INIT    if (yycontrol) {;};
@@ -148,9 +154,7 @@ blanks   [ \t\f]+
   {eols}      YY_LINES; YY_STEP;
   {blanks}    YY_STEP;
   {id}        {
-    YY_OBS_INIT; YY_OBS_GROW; YY_OBS_FINISH;
-    yylval->symbol = getsym (last_string);
-    YY_OBS_FREE;
+    yylval->symbol = getsym (yytext);
     return ID;
   }
 
@@ -173,7 +177,14 @@ blanks   [ \t\f]+
   "{"         YY_OBS_INIT; YY_OBS_GROW; ++braces_level; yy_push_state (SC_BRACED_CODE);
 
   /* A type. */
-  "<"[^>]+">" YY_OBS_INIT; obstack_grow (&string_obstack, yytext + 1, yyleng - 2); YY_OBS_FINISH; return TYPE;
+  "<"[^>]+">" {
+    YY_OBS_INIT;
+    obstack_grow (&string_obstack, yytext + 1, yyleng - 2);
+    YY_OBS_FINISH;
+    yylval->string = last_string;
+    return TYPE;
+  }
+
 
   "%%"   {
     if (++percent_percent_count == 2)
@@ -244,6 +255,7 @@ blanks   [ \t\f]+
     assert (yy_top_state () == INITIAL);
     YY_OBS_GROW;
     YY_OBS_FINISH;
+    yylval->string = last_string;
     yy_pop_state ();
     return STRING;
   }
@@ -257,6 +269,7 @@ blanks   [ \t\f]+
     fprintf (stderr, ": unexpected end of file in a string\n");
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
+    yylval->string = last_string;
     yy_pop_state ();
     return STRING;
   }
@@ -292,6 +305,7 @@ blanks   [ \t\f]+
     fprintf (stderr, ": unexpected end of file in a character\n");
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
+    yylval->string = last_string;
     yy_pop_state ();
     return CHARACTER;
   }
@@ -421,6 +435,7 @@ blanks   [ \t\f]+
       {
 	yy_pop_state ();
 	YY_OBS_FINISH;
+	yylval->string = last_string;
 	return BRACED_CODE;
       }
   }
@@ -441,7 +456,8 @@ blanks   [ \t\f]+
     fprintf (stderr, ": unexpected end of file in a braced code\n");
     yy_pop_state ();
     YY_OBS_FINISH;
-    return PROLOGUE;
+    yylval->string = last_string;
+    return BRACED_CODE;
   }
 
 }
@@ -456,6 +472,7 @@ blanks   [ \t\f]+
   "%}" {
     yy_pop_state ();
     YY_OBS_FINISH;
+    yylval->string = last_string;
     return PROLOGUE;
   }
 
@@ -468,6 +485,7 @@ blanks   [ \t\f]+
     fprintf (stderr, ": unexpected end of file in a prologue\n");
     yy_pop_state ();
     YY_OBS_FINISH;
+    yylval->string = last_string;
     return PROLOGUE;
   }
 
@@ -486,6 +504,7 @@ blanks   [ \t\f]+
   <<EOF>> {
     yy_pop_state ();
     YY_OBS_FINISH;
+    yylval->string = last_string;
     return EPILOGUE;
   }
 }
@@ -606,4 +625,10 @@ handle_at (char *cp)
       buf[1] = *cp;
       complain (_("%s is invalid"), quote (buf));
     }
+}
+
+void
+scanner_free (void)
+{
+  obstack_free (&string_obstack, 0);
 }
