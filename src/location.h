@@ -40,20 +40,6 @@ do {						\
   (Loc).last_column =  (Loc).last_line = 1;	\
 } while (0)
 
-/* Advance of NUM columns. */
-# define LOCATION_COLUMNS(Loc, Num)		\
-do {						\
-  (Loc).last_column += Num;			\
-} while (0)
-
-
-/* Advance of NUM lines. */
-# define LOCATION_LINES(Loc, Num)		\
-do {						\
-  (Loc).last_column = 1;			\
-  (Loc).last_line += Num;			\
-} while (0)
-
 
 /* Restart: move the first cursor to the last position. */
 # define LOCATION_STEP(Loc)			\
