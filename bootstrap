@@ -12,7 +12,6 @@ for f in m4/Makefile.am Makefile.am configure.in
 do
   if test -f "$f~"; then
     mv -f "$f~" "$f"
-    touch "$f"
   fi
 done
 rm -f po/Makevars.template
