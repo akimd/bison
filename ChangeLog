@@ -1,5 +1,9 @@
 2004-05-25  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* bootstrap: Don't assume $(...) works; use `...` instead.
+	Problem reported by Paul Hilfinger.  Also, diagnose non-GNU
+	gettext better.
+
 	* doc/bison.texinfo (Decl Summary, Bison Options): Clarify what's
 	put into the -d output file, and mention what to do if YYSTYPE is
 	defined as a macro.
@@ -14,7 +18,7 @@
 	configure.ac.  Warn users to ignore robots.txt ERROR 404.
 	* bootstrap: Undo today's earlier change (logged below).
 	* configure.ac (AM_GNU_GETTEXT_VERSION): Likewise.
-	
+
 	The gettext version checking is causing more trouble than it's
 	curing; remove it.  Problem reported by Paul Hilfinger.
 
