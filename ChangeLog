@@ -1,5 +1,12 @@
 2003-02-19  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (b4_stack_depth_init, yy::Parser::initdepth_):
+	Remove, useless.
+	(YYABORT, YYACCEPT, YYERROR): New.
+	* tests/calc.at: Renable the lalr1.cc test.
+
+2003-02-19  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at (AT_CHECK_CALC): Check different scenarios of
 	error recovery, mixing with/without pops and discarding of the
 	lookahead.

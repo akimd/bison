@@ -21,9 +21,6 @@ m4_divert(-1)
 ## Default values.  ##
 ## ---------------- ##
 
-# Stack parameters.
-m4_define_default([b4_stack_depth_init],  [200])
-
 # Default Parser class name.
 m4_define_default([b4_parser_class_name], [Parser])
 
@@ -248,7 +245,6 @@ namespace yy
     static const int terror_;
     static const int errcode_;
     static const int ntokens_;
-    static const int initdepth_;
     static const unsigned user_token_number_max_;
     static const TokenNumberType undef_token_;
 
@@ -295,6 +291,11 @@ m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 #else /* !YYDEBUG */
 # define YYCDEBUG    if (0) cdebug_
 #endif /* !YYDEBUG */
+
+#define YYACCEPT	goto yyacceptlab
+#define YYABORT		goto yyabortlab
+#define YYERROR		goto yyerrlab1
+
 
 int
 yy::]b4_parser_class_name[::parse ()
@@ -515,7 +516,10 @@ b4_syncline([@oline@], [@ofile@])[
     }
   goto yyerrlab1;
 
-  /* Error raised explicitly by an action.  */
+
+  /*----------------------------------------------------.
+  | yyerrlab1 -- error raised explicitly by an action.  |
+  `----------------------------------------------------*/
  yyerrlab1:
   if (errstatus == 3)
     {
@@ -762,7 +766,6 @@ const int yy::]b4_parser_class_name[::final_ = ]b4_final_state_number[;
 const int yy::]b4_parser_class_name[::terror_ = 1;
 const int yy::]b4_parser_class_name[::errcode_ = 256;
 const int yy::]b4_parser_class_name[::ntokens_ = ]b4_tokens_number[;
-const int yy::]b4_parser_class_name[::initdepth_ = ]b4_stack_depth_init[;
 
 const unsigned yy::]b4_parser_class_name[::user_token_number_max_ = ]b4_user_token_number_max[;
 const yy::]b4_parser_class_name[::TokenNumberType yy::]b4_parser_class_name[::undef_token_ = ]b4_undef_token_number[;
