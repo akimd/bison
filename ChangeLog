@@ -1,5 +1,11 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Conflicts): Rename as...
+	(Unresolved SR Conflicts): this.
+	(Solved SR Conflicts): New.
+
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c (print_results): Rename as...
 	(reduce_output): This.
 	Output to OUT, passed as argument, instead of output_obstack.
