@@ -1,7 +1,7 @@
 2004-09-27  Paul Eggert  <eggert@cs.ucla.edu>
 
-	* src/parse-gram.y (add_param): Fix bug where NUL was mishandled.
-	Avoid the use of strchr to avoid future recurrences.
+	* src/parse-gram.y (add_param): Rewrite to avoid strchr,
+	since it's less likely to work if NULs are involved in the future.
 
 2004-09-27  Akim Demaille  <akim@epita.fr>
 
