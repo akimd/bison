@@ -480,7 +480,8 @@ add_param (char const *type, char *decl, location loc)
   char const *name_start = NULL;
   char *p;
 
-  for (p = decl; *p; p++)
+  /* Stop on last actual character.  */
+  for (p = decl; p[1]; p++)
     if ((p == decl
 	 || ! memchr (alphanum, p[-1], sizeof alphanum))
 	&& memchr (alphanum, p[0], sizeof alphanum - 10))
@@ -490,7 +491,7 @@ add_param (char const *type, char *decl, location loc)
      the braces.  */
   while (*--p == ' ' || *p == '\t')
     continue;
-  *p = '\0';
+  p[1] = '\0';
   while (*++decl == ' ' || *decl == '\t')
     continue;
 

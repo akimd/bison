@@ -1,3 +1,8 @@
+2004-10-06  Akim Demaille  <akim@epita.fr>
+
+	* src/parse-gram.y (add_param): Fix the truncation of trailing
+	spaces.
+
 2004-10-05  Akim Demaille  <akim@epita.fr>
 
 	In Bison 1.875's yacc.c, YYLLOC_DEFAULT was called regardless
