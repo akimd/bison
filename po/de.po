@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.35\n"
-"POT-Creation-Date: 2002-06-15 20:06+0200\n"
+"POT-Creation-Date: 2002-06-15 20:27+0200\n"
 "PO-Revision-Date: 2002-04-26 11:58:57+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: src/LR0.c:198
+#: src/LR0.c:197
 #, c-format
 msgid "too many states (max %d)"
 msgstr "zu viele Zustände (max %d)"
@@ -24,72 +24,72 @@ msgstr "zu viele Zustände (max %d)"
 msgid "Unknown system error"
 msgstr "Unbekannter Systemfehler"
 
-#: src/complain.c:151 src/complain.c:200
+#: src/complain.c:148 src/complain.c:197
 msgid "warning: "
 msgstr "Warnung: "
 
-#: src/complain.c:337 src/complain.c:370
+#: src/complain.c:329 src/complain.c:362
 msgid "fatal error: "
 msgstr "fataler Fehler: "
 
-#: src/conflicts.c:67
+#: src/conflicts.c:72
 #, fuzzy, c-format
 msgid "    Conflict between rule %d and token %s resolved as shift"
 msgstr "Konflikt in Zustand %d zwischen Regel %d and Token %s wurde %s.\n"
 
-#: src/conflicts.c:75
+#: src/conflicts.c:80
 #, fuzzy, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
 msgstr "Konflikt in Zustand %d zwischen Regel %d and Token %s wurde %s.\n"
 
-#: src/conflicts.c:82
+#: src/conflicts.c:87
 #, fuzzy, c-format
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr "Konflikt in Zustand %d zwischen Regel %d and Token %s wurde %s.\n"
 
-#: src/conflicts.c:366
+#: src/conflicts.c:375
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d Schiebe/Reduziere-Konflikt"
 msgstr[1] "%d Schiebe/Reduziere-Konflikte"
 
-#: src/conflicts.c:373
+#: src/conflicts.c:382
 msgid "and"
 msgstr "und"
 
-#: src/conflicts.c:379
+#: src/conflicts.c:388
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d Reduziere/Reduziere-Konflikt"
 msgstr[1] "%d Reduziere/Reduziere-Konflikte"
 
-#: src/conflicts.c:404
+#: src/conflicts.c:413
 #, c-format
 msgid "State %d contains "
 msgstr "Zustand %d enthält "
 
-#: src/conflicts.c:451
+#: src/conflicts.c:460
 msgid "conflicts: "
 msgstr "Konflikte: "
 
-#: src/conflicts.c:453
+#: src/conflicts.c:462
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d Schiebe/Reduziere"
 
-#: src/conflicts.c:457
+#: src/conflicts.c:466
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d Reduziere/Reduziere"
 
-#: src/conflicts.c:462 src/reduce.c:397
+#: src/conflicts.c:471
 #, c-format
 msgid "%s contains "
 msgstr "%s enthält "
 
-#: src/conflicts.c:469
+#: src/conflicts.c:478
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -244,27 +244,27 @@ msgstr "zu viele Gotos (max %d)"
 msgid " type %d is %s\n"
 msgstr " Typ %d ist %s\n"
 
-#: src/print.c:133
+#: src/print.c:98
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (Regel %d)"
 
-#: src/print.c:154
+#: src/print.c:119
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tschiebe und gehe zu Zustand %d über\n"
 
-#: src/print.c:171
+#: src/print.c:136
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tFehler (nicht assoziativ)\n"
 
-#: src/print.c:195
+#: src/print.c:160
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tgehe zu Zustand %d über\n"
 
-#: src/print.c:219 src/print.c:253
+#: src/print.c:184 src/print.c:218
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -273,161 +273,160 @@ msgstr ""
 "    $default\treduziere mit Regel %d (%s)\n"
 "\n"
 
-#: src/print.c:248 src/print.c:323
+#: src/print.c:213 src/print.c:288
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduziere mit Regel %d (%s)]\n"
 
-#: src/print.c:304 src/print.c:317
+#: src/print.c:269 src/print.c:282
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduziere mit Regel %d (%s)\n"
 
-#: src/print.c:332
+#: src/print.c:297
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
 
-#: src/print.c:348
+#: src/print.c:313
 msgid "    $default\taccept\n"
 msgstr "    $default\takzeptiere\n"
 
-#: src/print.c:350
+#: src/print.c:315
 msgid "    NO ACTIONS\n"
 msgstr "    KEINE AKTIONEN\n"
 
-#: src/print.c:363
+#: src/print.c:328
 #, c-format
 msgid "state %d"
 msgstr "Zustand %d"
 
-#: src/print.c:398
-msgid "Grammar"
-msgstr "Grammatik"
-
-#: src/print.c:399
-msgid "Number, Line, Rule"
-msgstr "Nummer, Zeile, Regel"
-
-#: src/print.c:402
-#, c-format
-msgid "  %3d %3d %s ->"
-msgstr "  %3d %3d %s ->"
-
-#: src/print.c:409
-msgid "empty"
-msgstr "leer"
-
-#: src/print.c:416
+#: src/print.c:364
 msgid "Terminals, with rules where they appear"
 msgstr "Terminale und die Regeln, in denen sie verwendet werden"
 
-#: src/print.c:439
+#: src/print.c:389
 msgid "Nonterminals, with rules where they appear"
 msgstr "Nicht-Terminal und die Regeln, in denen sie verwendet werden"
 
-#: src/print.c:465
+#: src/print.c:417
 msgid " on left:"
 msgstr " auf der linken Seite:"
 
-#: src/print.c:480
+#: src/print.c:432
 msgid " on right:"
 msgstr " auf der rechten Seite:"
 
-#: src/reader.c:71 src/reader.c:83
+#: src/reader.c:70 src/reader.c:82
 msgid "invalid $ value"
 msgstr "unzulässiger $-Wert"
 
-#: src/reader.c:101
+#: src/reader.c:100
 #, c-format
 msgid "multiple %s declarations"
 msgstr "mehr als eine %s-Deklaration"
 
-#: src/reader.c:246
+#: src/reader.c:250
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "Regel für %s vorhanden, welches aber ein Token ist"
 
-#: src/reader.c:270
+#: src/reader.c:274
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "Typkonflikt (»%s« »%s«) bei Default-Aktion"
 
-#: src/reader.c:277
+#: src/reader.c:281
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "leere Regel für Nicht-Terminal mit Typ und keine Aktion"
 
-#: src/reader.c:342
+#: src/reader.c:352
 msgid "two @prec's in a row"
 msgstr "zwei @prec-Anweisungen nacheinander"
 
-#: src/reader.c:483
+#: src/reader.c:493
 msgid "no rules in the input grammar"
 msgstr "Eingabegrammatik enthält keine Regeln"
 
-#: src/reader.c:515
+#: src/reader.c:525
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "zu viele Symbole (Token plus Nicht-Terminale); Maximum %d"
 
-#: src/reduce.c:338
+#: src/reduce.c:239 src/reduce.c:305 src/reduce.c:396
+#, fuzzy
+msgid "warning"
+msgstr "Warnung: "
+
+#: src/reduce.c:239
+#, fuzzy
+msgid "useless rule"
+msgstr "%d nutzlose Regel"
+
+#: src/reduce.c:305
+#, fuzzy
+msgid "useless nonterminal"
+msgstr "%d nutzloses Nicht-Terminal"
+
+#: src/reduce.c:352
 msgid "Useless nonterminals:"
 msgstr "Nutzlose Nicht-Terminale:"
 
-#: src/reduce.c:352
+#: src/reduce.c:365
 msgid "Terminals which are not used:"
 msgstr "Nicht genutzte Terminale:"
 
-#: src/reduce.c:364
-msgid "Useless rules:"
+#: src/reduce.c:374
+#, fuzzy
+msgid "Useless rules"
 msgstr "Ungenutzte Regeln:"
 
-#: src/reduce.c:392
+#: src/reduce.c:391
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d Regel wurde niemals reduziert\n"
 msgstr[1] "%d Regeln wurden niemals reduziert\n"
 
-#: src/reduce.c:400
+#: src/reduce.c:399
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d nutzloses Nicht-Terminal"
 msgstr[1] "%d nutzlose Nicht-Terminale"
 
-#: src/reduce.c:406
+#: src/reduce.c:405
 msgid " and "
 msgstr " und "
 
-#: src/reduce.c:409
+#: src/reduce.c:408
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d nutzlose Regel"
 msgstr[1] "%d nutzlose Regeln"
 
-#: src/reduce.c:439
+#: src/reduce.c:438
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
 
-#: scan-gram.l:549
+#: scan-gram.l:553
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:561 scan-gram.l:612
+#: scan-gram.l:565 scan-gram.l:616
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "unzulässiger @-Wert"
 
-#: scan-gram.l:567
+#: scan-gram.l:571
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:580 scan-gram.l:621
+#: scan-gram.l:584 scan-gram.l:625
 #, c-format
 msgid "%s is invalid"
 msgstr "%s ist unzulässig"
@@ -498,6 +497,18 @@ msgstr "»"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "«"
+
+#~ msgid "Grammar"
+#~ msgstr "Grammatik"
+
+#~ msgid "Number, Line, Rule"
+#~ msgstr "Nummer, Zeile, Regel"
+
+#~ msgid "  %3d %3d %s ->"
+#~ msgstr "  %3d %3d %s ->"
+
+#~ msgid "empty"
+#~ msgstr "leer"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "»/« wird hier nicht erwartet und wird deshalb ignoriert"

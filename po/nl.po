@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-06-15 20:06+0200\n"
+"POT-Creation-Date: 2002-06-15 20:27+0200\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/LR0.c:198
+#: src/LR0.c:197
 #, c-format
 msgid "too many states (max %d)"
 msgstr "teveel staten (maximum is %d)"
@@ -24,75 +24,75 @@ msgstr "teveel staten (maximum is %d)"
 msgid "Unknown system error"
 msgstr "Onbekende systeemfout"
 
-#: src/complain.c:151 src/complain.c:200
+#: src/complain.c:148 src/complain.c:197
 msgid "warning: "
 msgstr "let op: "
 
-#: src/complain.c:337 src/complain.c:370
+#: src/complain.c:329 src/complain.c:362
 msgid "fatal error: "
 msgstr "fatale fout: "
 
-#: src/conflicts.c:67
+#: src/conflicts.c:72
 #, fuzzy, c-format
 msgid "    Conflict between rule %d and token %s resolved as shift"
 msgstr ""
 "Conflict in staat %d tussen regel %d en token %s opgelost als \"%s\".\n"
 
-#: src/conflicts.c:75
+#: src/conflicts.c:80
 #, fuzzy, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
 msgstr ""
 "Conflict in staat %d tussen regel %d en token %s opgelost als \"%s\".\n"
 
-#: src/conflicts.c:82
+#: src/conflicts.c:87
 #, fuzzy, c-format
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr ""
 "Conflict in staat %d tussen regel %d en token %s opgelost als \"%s\".\n"
 
-#: src/conflicts.c:366
+#: src/conflicts.c:375
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d shift/reductie conflict"
 msgstr[1] "%d shift/reductie conflicten"
 
-#: src/conflicts.c:373
+#: src/conflicts.c:382
 msgid "and"
 msgstr "en"
 
-#: src/conflicts.c:379
+#: src/conflicts.c:388
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d reductie/reductie conflict"
 msgstr[1] "%d reductie/reductie conflicten"
 
-#: src/conflicts.c:404
+#: src/conflicts.c:413
 #, c-format
 msgid "State %d contains "
 msgstr "Staat %d bevat"
 
-#: src/conflicts.c:451
+#: src/conflicts.c:460
 msgid "conflicts: "
 msgstr "conflicten: "
 
-#: src/conflicts.c:453
+#: src/conflicts.c:462
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d vershuif/reductie"
 
-#: src/conflicts.c:457
+#: src/conflicts.c:466
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reductie/reductie"
 
-#: src/conflicts.c:462 src/reduce.c:397
+#: src/conflicts.c:471
 #, c-format
 msgid "%s contains "
 msgstr "%s bevat"
 
-#: src/conflicts.c:469
+#: src/conflicts.c:478
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -249,27 +249,27 @@ msgstr "teveel gotos (maximum is %d)"
 msgid " type %d is %s\n"
 msgstr " type %d is %s\n"
 
-#: src/print.c:133
+#: src/print.c:98
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regel %d)"
 
-#: src/print.c:154
+#: src/print.c:119
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tshift, en ga naar staat %d\n"
 
-#: src/print.c:171
+#: src/print.c:136
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tfout (niet associatief)\n"
 
-#: src/print.c:195
+#: src/print.c:160
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tga naar staat %d\n"
 
-#: src/print.c:219 src/print.c:253
+#: src/print.c:184 src/print.c:218
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -278,136 +278,134 @@ msgstr ""
 "    $standaard\treductie via regel %d (%s)\n"
 "\n"
 
-#: src/print.c:248 src/print.c:323
+#: src/print.c:213 src/print.c:288
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reductie via regel %d (%s)]\n"
 
-#: src/print.c:304 src/print.c:317
+#: src/print.c:269 src/print.c:282
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treductie via regel %d (%s)\n"
 
-#: src/print.c:332
+#: src/print.c:297
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $standaard\treductie via regel %d (%s)\n"
 
-#: src/print.c:348
+#: src/print.c:313
 msgid "    $default\taccept\n"
 msgstr "    $standaard\taccepteer\n"
 
-#: src/print.c:350
+#: src/print.c:315
 msgid "    NO ACTIONS\n"
 msgstr "    GEEN AKTIES\n"
 
-#: src/print.c:363
+#: src/print.c:328
 #, c-format
 msgid "state %d"
 msgstr "staat %d"
 
-#: src/print.c:398
-msgid "Grammar"
-msgstr "Grammatica"
-
-# Ik zou liever 'line' vertalen als 'regel', maar hoe zit het dan met 'rule'? :-)
-#: src/print.c:399
-msgid "Number, Line, Rule"
-msgstr "Nummer, Lijn, Regel"
-
-#: src/print.c:402
-#, c-format
-msgid "  %3d %3d %s ->"
-msgstr "  %3d %3d %s ->"
-
-#: src/print.c:409
-msgid "empty"
-msgstr "leeg"
-
-#: src/print.c:416
+#: src/print.c:364
 msgid "Terminals, with rules where they appear"
 msgstr "Eindsymbolen, met de regels waarin ze voorkomen"
 
 # Betere vertaling voor non-terminals? 'tussensymbolen'?
-#: src/print.c:439
+#: src/print.c:389
 msgid "Nonterminals, with rules where they appear"
 msgstr "Niet-eindsymbolen, met de regels waarin ze voorkomen"
 
-#: src/print.c:465
+#: src/print.c:417
 msgid " on left:"
 msgstr " links:"
 
-#: src/print.c:480
+#: src/print.c:432
 msgid " on right:"
 msgstr " rechts:"
 
-#: src/reader.c:71 src/reader.c:83
+#: src/reader.c:70 src/reader.c:82
 msgid "invalid $ value"
 msgstr "ongeldige $-waarde"
 
-#: src/reader.c:101
+#: src/reader.c:100
 #, c-format
 msgid "multiple %s declarations"
 msgstr "meerdere %s declaraties"
 
-#: src/reader.c:246
+#: src/reader.c:250
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel opgegeven voor token (%s)"
 
-#: src/reader.c:270
+#: src/reader.c:274
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "type-conflict (`%s' `%s') bij standaardaktie"
 
-#: src/reader.c:277
+#: src/reader.c:281
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "lege regel voor niet-eindsymbool met type, en geen actie"
 
-#: src/reader.c:342
+#: src/reader.c:352
 msgid "two @prec's in a row"
 msgstr "twee @prec's na elkaar"
 
-#: src/reader.c:483
+#: src/reader.c:493
 msgid "no rules in the input grammar"
 msgstr "invoergrammatica bevat geen regels"
 
-#: src/reader.c:515
+#: src/reader.c:525
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "teveel symbolen (tokens plus niet-eindsymbolen); het maximum is %d"
 
-#: src/reduce.c:338
+#: src/reduce.c:239 src/reduce.c:305 src/reduce.c:396
+#, fuzzy
+msgid "warning"
+msgstr "let op: "
+
+#: src/reduce.c:239
+#, fuzzy
+msgid "useless rule"
+msgstr "%d nutteloze regel"
+
+#: src/reduce.c:305
+#, fuzzy
+msgid "useless nonterminal"
+msgstr "%d nutteloos niet-eindsymbool"
+
+#: src/reduce.c:352
 msgid "Useless nonterminals:"
 msgstr "Nutteloze niet-eindsymbolen:"
 
-#: src/reduce.c:352
+#: src/reduce.c:365
 msgid "Terminals which are not used:"
 msgstr "Eindsymbolen die niet gebruikt worden:"
 
-#: src/reduce.c:364
-msgid "Useless rules:"
+#: src/reduce.c:374
+#, fuzzy
+msgid "Useless rules"
 msgstr "Nutteloze regels:"
 
-#: src/reduce.c:392
+#: src/reduce.c:391
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regel wordt nooit gereduceerd\n"
 msgstr[1] "%d regels worden nooit gereduceerd\n"
 
-#: src/reduce.c:400
+#: src/reduce.c:399
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d nutteloos niet-eindsymbool"
 msgstr[1] "%d nutteloze niet-eindsymbolen"
 
-#: src/reduce.c:406
+#: src/reduce.c:405
 msgid " and "
 msgstr " en "
 
-#: src/reduce.c:409
+#: src/reduce.c:408
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
@@ -415,27 +413,27 @@ msgstr[0] "%d nutteloze regel"
 msgstr[1] "%d nutteloze regels"
 
 # Ik _denk_ dat dit correct weergeeft wat er bedoeld wordt (m.a.w. er is geen regel voor het startsymbool)
-#: src/reduce.c:439
+#: src/reduce.c:438
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Startsymbool %s wordt vanuit geen enkele zin bereikt"
 
-#: scan-gram.l:549
+#: scan-gram.l:553
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ van `%s' heeft geen gedeclareerd type"
 
-#: scan-gram.l:561 scan-gram.l:612
+#: scan-gram.l:565 scan-gram.l:616
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "ongeldige @-waarde"
 
-#: scan-gram.l:567
+#: scan-gram.l:571
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d van `%s' heeft geen gedeclareerd type"
 
-#: scan-gram.l:580 scan-gram.l:621
+#: scan-gram.l:584 scan-gram.l:625
 #, c-format
 msgid "%s is invalid"
 msgstr "%s is ongeldig"
@@ -506,6 +504,19 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "Grammar"
+#~ msgstr "Grammatica"
+
+# Ik zou liever 'line' vertalen als 'regel', maar hoe zit het dan met 'rule'? :-)
+#~ msgid "Number, Line, Rule"
+#~ msgstr "Nummer, Lijn, Regel"
+
+#~ msgid "  %3d %3d %s ->"
+#~ msgstr "  %3d %3d %s ->"
+
+#~ msgid "empty"
+#~ msgstr "leeg"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "onverwachte `/' gevonden en genegeerd"
