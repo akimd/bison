@@ -1,5 +1,10 @@
 2003-08-25  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (Parser::reduce_print_): Remove unused yyi.
+	From Alexandre Duret-Lutz.
+
+2003-08-25  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc (Parser::stack_print_, YY_STACK_PRINT): New.
 	Use them.
 

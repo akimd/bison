@@ -826,7 +826,6 @@ yy::]b4_parser_class_name[::stack_print_ ()
 void
 yy::]b4_parser_class_name[::reduce_print_ (int yyrule)
 {
-  int yyi;
   unsigned int yylno = rline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
   cdebug_ << "Reducing via rule " << n_ - 1 << " (line " << yylno << "), ";
