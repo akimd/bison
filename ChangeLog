@@ -1,5 +1,11 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (new_itemsets, get_state): Use more arrays and less
+	pointers to clarify the code.
+	(save_reductions, save_shifts): Factor common parts of alternatives.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (new_state, get_state): Complete TRACE code.
 	* src/closure.c: Include `reader.h' to get `tags', needed by the
 	trace code.
