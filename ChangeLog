@@ -1,3 +1,8 @@
+2004-01-13  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* data/glr.c: Put casts on uses of YYREALLOC and YYMALLOC so that
+	resulting parsers are compilable with C++.
+
 2003-12-23  Paul Eggert  <eggert@twinsun.com>
 
 	* config/depcomp, config/install-sh: Sync with Automake 1.8.
