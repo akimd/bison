@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.75a\n"
-"POT-Creation-Date: 2002-11-12 16:04+0100\n"
+"POT-Creation-Date: 2002-11-13 00:28-0800\n"
 "PO-Revision-Date: 2002-10-25 10:07:22+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -253,7 +253,7 @@ msgstr "Warnung"
 msgid "rule never reduced because of conflicts"
 msgstr "Regel nie reduziert wegen Konflikten"
 
-#: parse-gram.y:358
+#: src/parse-gram.y:358
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX verbietet Deklarationen in der Grammatik"
 
@@ -407,47 +407,47 @@ msgstr[1] "%d nutzlose Regeln"
 msgid "start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
 
-#: scan-gram.l:258
+#: src/scan-gram.l:258
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "ungültige Eingabe: %s"
 
-#: scan-gram.l:284 scan-gram.l:655 scan-gram.l:727
+#: src/scan-gram.l:287 src/scan-gram.l:661 src/scan-gram.l:733
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: scan-gram.l:324
+#: src/scan-gram.l:327
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr ": ungültiges Zeichen: »%c«\n"
 
-#: scan-gram.l:424 scan-gram.l:438 scan-gram.l:458
+#: src/scan-gram.l:427 src/scan-gram.l:441 src/scan-gram.l:464
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr ": unzulässiges Fluchtzeichen: %s\n"
 
-#: scan-gram.l:466
+#: src/scan-gram.l:472
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr ": unbekannt Fluchtzeichen: %s\n"
 
-#: scan-gram.l:626
+#: src/scan-gram.l:632
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:646
+#: src/scan-gram.l:652
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d von »%s« hat keinen deklarierten Typ"
 
-#: scan-gram.l:672 scan-gram.l:744
+#: src/scan-gram.l:678 src/scan-gram.l:750
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "unzulässiger Wert: %s%d"
 
-#: scan-gram.l:855
+#: src/scan-gram.l:861
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "unbeendete Zeichenkette am Ende der Datei"

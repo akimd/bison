@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.75a\n"
-"POT-Creation-Date: 2002-11-12 16:04+0100\n"
+"POT-Creation-Date: 2002-11-13 00:28-0800\n"
 "PO-Revision-Date: 2002-10-25 11:05+03:00\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -241,7 +241,7 @@ msgstr "hoiatus"
 msgid "rule never reduced because of conflicts"
 msgstr "reeglit ei redutseerita konfliktide tõttu kunagi"
 
-#: parse-gram.y:358
+#: src/parse-gram.y:358
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX keelab deklareerimised grammatikas"
 
@@ -395,47 +395,47 @@ msgstr[1] "%d kasutamata reeglit"
 msgid "start symbol %s does not derive any sentence"
 msgstr "stardisümbolist %s ei tuletata ühtegi lauset"
 
-#: scan-gram.l:258
+#: src/scan-gram.l:258
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr ": vigane paojada: %s\n"
 
-#: scan-gram.l:284 scan-gram.l:655 scan-gram.l:727
+#: src/scan-gram.l:287 src/scan-gram.l:661 src/scan-gram.l:733
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: scan-gram.l:324
+#: src/scan-gram.l:327
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr ": vigane sümbol: `%c'\n"
 
-#: scan-gram.l:424 scan-gram.l:438 scan-gram.l:458
+#: src/scan-gram.l:427 src/scan-gram.l:441 src/scan-gram.l:464
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr ": vigane paojada: %s\n"
 
-#: scan-gram.l:466
+#: src/scan-gram.l:472
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr ": tundmatu paojada: %s\n"
 
-#: scan-gram.l:626
+#: src/scan-gram.l:632
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' $$ ei oma deklareeritud tüüpi"
 
-#: scan-gram.l:646
+#: src/scan-gram.l:652
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d `%s' ei oma deklareeritud tüüpi"
 
-#: scan-gram.l:672 scan-gram.l:744
+#: src/scan-gram.l:678 src/scan-gram.l:750
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "vigane väärtus: %s%d"
 
-#: scan-gram.l:855
+#: src/scan-gram.l:861
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr ""

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-11-12 16:04+0100\n"
+"POT-Creation-Date: 2002-11-13 00:28-0800\n"
 "PO-Revision-Date: 2002-10-29 01:00-05:00\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -238,7 +238,7 @@ msgstr "警告: "
 msgid "rule never reduced because of conflicts"
 msgstr " 1 還元/還元衝突"
 
-#: parse-gram.y:358
+#: src/parse-gram.y:358
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
@@ -396,47 +396,47 @@ msgstr[0] "%d 個の無意味な規則"
 msgid "start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"
 
-#: scan-gram.l:258
+#: src/scan-gram.l:258
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "不適切な入力: %s"
 
-#: scan-gram.l:284 scan-gram.l:655 scan-gram.l:727
+#: src/scan-gram.l:287 src/scan-gram.l:661 src/scan-gram.l:733
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: scan-gram.l:324
+#: src/scan-gram.l:327
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "未知の文字: %s"
 
-#: scan-gram.l:424 scan-gram.l:438 scan-gram.l:458
+#: src/scan-gram.l:427 src/scan-gram.l:441 src/scan-gram.l:464
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "不適切な入力: %s"
 
-#: scan-gram.l:466
+#: src/scan-gram.l:472
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "認識できない: %s"
 
-#: scan-gram.l:626
+#: src/scan-gram.l:632
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' の $$ に宣言のない型があります"
 
-#: scan-gram.l:646
+#: src/scan-gram.l:652
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d 個の `%s' が宣言された型を持っていません"
 
-#: scan-gram.l:672 scan-gram.l:744
+#: src/scan-gram.l:678 src/scan-gram.l:750
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "不適切な $ の値"
 
-#: scan-gram.l:855
+#: src/scan-gram.l:861
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "閉じられていない文字列がファイル末尾にあります"

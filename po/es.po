@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.49a\n"
-"POT-Creation-Date: 2002-11-12 16:04+0100\n"
+"POT-Creation-Date: 2002-11-13 00:28-0800\n"
 "PO-Revision-Date: 2002-05-02 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -303,7 +303,7 @@ msgstr "aviso: "
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: parse-gram.y:358
+#: src/parse-gram.y:358
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
@@ -464,47 +464,47 @@ msgstr[1] "%d reglas sin uso"
 msgid "start symbol %s does not derive any sentence"
 msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
 
-#: scan-gram.l:258
+#: src/scan-gram.l:258
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "entrada no válida: %s"
 
-#: scan-gram.l:284 scan-gram.l:655 scan-gram.l:727
+#: src/scan-gram.l:287 src/scan-gram.l:661 src/scan-gram.l:733
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: scan-gram.l:324
+#: src/scan-gram.l:327
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "carácter desconocido: %s"
 
-#: scan-gram.l:424 scan-gram.l:438 scan-gram.l:458
+#: src/scan-gram.l:427 src/scan-gram.l:441 src/scan-gram.l:464
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "valor no válido: %s%d"
 
-#: scan-gram.l:466
+#: src/scan-gram.l:472
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "no reconocido: %s"
 
-#: scan-gram.l:626
+#: src/scan-gram.l:632
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' no tiene tipo declarado"
 
-#: scan-gram.l:646
+#: src/scan-gram.l:652
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d de `%s' no tiene tipo declarado"
 
-#: scan-gram.l:672 scan-gram.l:744
+#: src/scan-gram.l:678 src/scan-gram.l:750
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "valor no válido: %s%d"
 
-#: scan-gram.l:855
+#: src/scan-gram.l:861
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "cadena sin terminar al final del fichero"

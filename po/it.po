@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-11-12 16:04+0100\n"
+"POT-Creation-Date: 2002-11-13 00:28-0800\n"
 "PO-Revision-Date: 2002-10-17 14:37+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -243,7 +243,7 @@ msgstr "attenzione"
 msgid "rule never reduced because of conflicts"
 msgstr "regola mai ridotta a causa dei conflitti"
 
-#: parse-gram.y:358
+#: src/parse-gram.y:358
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX proibisce l'uso di dichiarazioni interne alla grammatica"
 
@@ -332,12 +332,12 @@ msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
 #: src/reader.c:340 src/reader.c:355 src/reader.c:368
 #, fuzzy, c-format
 msgid "only one %s allowed per rule"
-msgstr "solo un %%merge è permesso in una regola"
+msgstr "solo un %%dprec è permesso in una regola"
 
 #: src/reader.c:350 src/reader.c:366
 #, fuzzy, c-format
 msgid "%s affects only GLR parsers"
-msgstr "%%merge considerato solo nei parser GLR"
+msgstr "%%dprec considerato solo nei parser GLR"
 
 #: src/reader.c:353
 #, fuzzy, c-format
@@ -398,47 +398,47 @@ msgstr[1] "%d regole inutili"
 msgid "start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
-#: scan-gram.l:258
+#: src/scan-gram.l:258
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr ": escape non valido: %s\n"
 
-#: scan-gram.l:284 scan-gram.l:655 scan-gram.l:727
+#: src/scan-gram.l:287 src/scan-gram.l:661 src/scan-gram.l:733
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: scan-gram.l:324
+#: src/scan-gram.l:327
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr ": carattere non valido: `%c'\n"
 
-#: scan-gram.l:424 scan-gram.l:438 scan-gram.l:458
+#: src/scan-gram.l:427 src/scan-gram.l:441 src/scan-gram.l:464
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr ": escape non valido: %s\n"
 
-#: scan-gram.l:466
+#: src/scan-gram.l:472
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr ": escape non riconosciuto: %s\n"
 
-#: scan-gram.l:626
+#: src/scan-gram.l:632
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: scan-gram.l:646
+#: src/scan-gram.l:652
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: scan-gram.l:672 scan-gram.l:744
+#: src/scan-gram.l:678 src/scan-gram.l:750
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "valore non valido: %s%d"
 
-#: scan-gram.l:855
+#: src/scan-gram.l:861
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr ""
@@ -708,11 +708,11 @@ msgstr "tempo in %s: %ld.%06ld (%ld%%)\n"
 #~ msgid "two @prec's in a row"
 #~ msgstr "due @prec di seguito"
 
-#~ msgid "%%dprec affects only GLR parsers"
-#~ msgstr "%%dprec considerato solo nei parser GLR"
+#~ msgid "%%merge affects only GLR parsers"
+#~ msgstr "%%merge considerato solo nei parser GLR"
 
-#~ msgid "only one %%dprec allowed per rule"
-#~ msgstr "solo un %%dprec è permesso in una regola"
+#~ msgid "only one %%merge allowed per rule"
+#~ msgstr "solo un %%merge è permesso in una regola"
 
 #~ msgid "too many symbols (tokens plus nonterminals); maximum %d"
 #~ msgstr "troppi simboli (token e nonterminali); il massimo è %d"
