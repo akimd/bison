@@ -44,7 +44,7 @@ This manual is for @acronym{GNU} Bison (version @value{VERSION},
 @value{UPDATED}), the @acronym{GNU} parser generator.
 
 Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
-1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -62,7 +62,7 @@ Copies published by the Free Software Foundation raise funds for
 @end quotation
 @end copying
 
-@dircategory GNU programming tools
+@dircategory Software development
 @direntry
 * bison: (bison).       @acronym{GNU} parser generator (Yacc replacement).
 @end direntry
