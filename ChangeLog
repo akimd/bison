@@ -1,5 +1,10 @@
 2002-05-02  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (parse_braces): Merge into...
+	(parse_action): this.
+
+2002-05-02  Akim Demaille  <akim@epita.fr>
+
 	* configure.in (ALL_LINGUAS): Remove.
 	* po/LINGUAS, hr.po: New.
 
