@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-05-02 09:20+0200\n"
+"POT-Creation-Date: 2002-05-02 17:01+0200\n"
 "PO-Revision-Date: 2002-03-05 16:27+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -97,12 +97,12 @@ msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "eeldasime %d nihutamine/redutseerimine konflikti\n"
 msgstr[1] "eeldasime %d nihutamine/redutseerimine konflikti\n"
 
-#: src/files.c:160
+#: src/files.c:159
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "faili `%s' ei saa avada"
 
-#: src/files.c:179
+#: src/files.c:178
 msgid "cannot close file"
 msgstr "faili ei õnnestu sulgeda"
 
@@ -229,7 +229,7 @@ msgstr "liiga palju gotosid (maks %d)"
 msgid "unexpected `/' found and ignored"
 msgstr "leidsin ja ignoreerin ootamatu `/'"
 
-#: src/lex.c:106 src/reader.c:485
+#: src/lex.c:106 src/reader.c:480
 msgid "unterminated comment"
 msgstr "lõpetamata kommentaar"
 
@@ -373,231 +373,226 @@ msgstr " vasakul:"
 msgid " on right:"
 msgstr " paremal:"
 
-#: src/reader.c:105
+#: src/reader.c:100
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "kasutatakse sümbolit %s, mis ei ole defineeritud märgina ja millel puuduvad "
 "reeglid"
 
-#: src/reader.c:124
+#: src/reader.c:119
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr "sümbolit `%s' on kasutatud enam kui kord literaal sõnena"
 
-#: src/reader.c:127
+#: src/reader.c:122
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr "sümbolile `%s' on antud enam kui üks literaal sõne"
 
-#: src/reader.c:162
+#: src/reader.c:157
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "%s ja %s omavad konfliktseid prioriteete"
 
-#: src/reader.c:173
+#: src/reader.c:168
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "%s ja %s omavad konfliktseid assotsiatiivseid väärtuseid"
 
-#: src/reader.c:241
+#: src/reader.c:236
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "märkidele %s ja %s on mõlemale omistatud number %d"
 
-#: src/reader.c:261
+#: src/reader.c:256
 msgid "   Skipping to next \\n"
 msgstr "   Liigun järgmisele \\n"
 
-#: src/reader.c:263
+#: src/reader.c:258
 #, c-format
 msgid "   Skipping to next %c"
 msgstr "   Liigun järgmisele %c"
 
-#: src/reader.c:314 src/reader.c:326
+#: src/reader.c:309 src/reader.c:321
 msgid "invalid $ value"
 msgstr "vigane $ väärtus"
 
-#: src/reader.c:375 src/reader.c:390
+#: src/reader.c:370 src/reader.c:385
 msgid "unterminated string at end of file"
 msgstr "lõpetamata sõne faili lõpus"
 
-#: src/reader.c:378
+#: src/reader.c:373
 msgid "unterminated string"
 msgstr "lõpetamata sõne"
 
-#: src/reader.c:520 src/reader.c:584
+#: src/reader.c:514 src/reader.c:573
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "vigane @ väärtus"
 
-#: src/reader.c:534 src/reader.c:606
+#: src/reader.c:523 src/reader.c:591
 #, c-format
 msgid "%s is invalid"
 msgstr "%s on vigane"
 
-#: src/reader.c:574
+#: src/reader.c:559
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' $$ ei oma deklareeritud tüüpi"
 
-#: src/reader.c:598
+#: src/reader.c:579
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d `%s' ei oma deklareeritud tüüpi"
 
-#: src/reader.c:656
+#: src/reader.c:641
 msgid "unterminated `%{' definition"
 msgstr "lõpetamata `%{' definitsioon"
 
-#: src/reader.c:701 src/reader.c:811 src/reader.c:862 src/reader.c:1114
+#: src/reader.c:686 src/reader.c:796 src/reader.c:847 src/reader.c:1099
 #, c-format
 msgid "Premature EOF after %s"
 msgstr "Enneaegne EOF peale %s"
 
-#: src/reader.c:726 src/reader.c:881
+#: src/reader.c:711 src/reader.c:866
 #, c-format
 msgid "symbol %s redefined"
 msgstr "sümbol %s on uuesti defineeritud"
 
-#: src/reader.c:738 src/reader.c:826 src/reader.c:892
+#: src/reader.c:723 src/reader.c:811 src/reader.c:877
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "%s tüübi uuesti deklareerimine"
 
-#: src/reader.c:756
+#: src/reader.c:741
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "`%s' ei ole %s sees lubatud"
 
-#: src/reader.c:774 src/reader.c:938
+#: src/reader.c:759 src/reader.c:923
 #, c-format
 msgid "multiple %s declarations"
 msgstr "korduvad %s deklaratsioonid"
 
-#: src/reader.c:776 src/reader.c:1094 src/reader.c:1109 src/reader.c:1142
-#: src/reader.c:1156 src/reader.c:1362
+#: src/reader.c:761 src/reader.c:1079 src/reader.c:1094 src/reader.c:1127
+#: src/reader.c:1141
 #, c-format
 msgid "invalid %s declaration"
 msgstr "vigane %s deklaratsioon"
 
-#: src/reader.c:796
+#: src/reader.c:781
 msgid "%type declaration has no <typename>"
 msgstr "%type deklaratsioonis puudub <tüübinimi>"
 
-#: src/reader.c:831
+#: src/reader.c:816
 #, c-format
 msgid "invalid %%type declaration due to item: %s"
 msgstr "vigane %%type deklaratsioon, element: %s"
 
-#: src/reader.c:877
+#: src/reader.c:862
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "%s prioriteedi uus definitsioon"
 
-#: src/reader.c:904
+#: src/reader.c:889
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "vigane tekst (%s) - number peab olema peale identifikaatorit"
 
-#: src/reader.c:914
+#: src/reader.c:899
 #, c-format
 msgid "unexpected item: %s"
 msgstr "ootamatu element: %s"
 
-#: src/reader.c:971 src/reader.c:1333
+#: src/reader.c:956 src/reader.c:1314
 #, c-format
 msgid "unmatched %s"
 msgstr "puudub %s"
 
-#: src/reader.c:1000
+#: src/reader.c:985
 #, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "%%expect argument ei ole täisarv"
 
-#: src/reader.c:1046
+#: src/reader.c:1031
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "tundmatu element %s, eeldasin identifikaatorit"
 
-#: src/reader.c:1068
+#: src/reader.c:1053
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "eeldasin %s asemel sõnekonstanti"
 
-#: src/reader.c:1264
+#: src/reader.c:1249
 #, c-format
 msgid "unrecognized: %s"
 msgstr "tundmatu: %s"
 
-#: src/reader.c:1269
+#: src/reader.c:1254
 msgid "no input grammar"
 msgstr "sisendgrammatikat pole"
 
-#: src/reader.c:1274
+#: src/reader.c:1259
 #, c-format
 msgid "unknown character: %s"
 msgstr "tundmatu sümbol: %s"
 
-#: src/reader.c:1448
+#: src/reader.c:1417
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "vigaselt formeeritud reegel: algsümbolile ei järgne koolonit"
 
-#: src/reader.c:1455
+#: src/reader.c:1424
 msgid "grammar starts with vertical bar"
 msgstr "grammatika algab püstkriipsuga"
 
-#: src/reader.c:1483
+#: src/reader.c:1452
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s jaoks on antud reegel, aga see on märk"
 
-#: src/reader.c:1513 src/reader.c:1632
+#: src/reader.c:1482 src/reader.c:1592
 msgid "previous rule lacks an ending `;'"
 msgstr "eelmisel reeglil puudub lõpetav `;'"
 
-#: src/reader.c:1591
+#: src/reader.c:1560
 msgid "two @prec's in a row"
 msgstr "kaks @prec ühel real"
 
-#: src/reader.c:1600
-#, c-format
-msgid "%%guard present but %%semantic_parser not specified"
-msgstr "%%guard on määratud, aga %%semantic_parser ei ole"
-
-#: src/reader.c:1610
+#: src/reader.c:1570
 msgid "two actions at end of one rule"
 msgstr "kaks tegevust ühe reegli lõpus"
 
-#: src/reader.c:1624
+#: src/reader.c:1584
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "vaikimisi tegevuse tüübikonflikt (`%s' `%s')"
 
-#: src/reader.c:1630
+#: src/reader.c:1590
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tüübiga mitteterminalil on tühi reegel ja puudub tegevus"
 
-#: src/reader.c:1638
+#: src/reader.c:1598
 #, c-format
 msgid "invalid input: %s"
 msgstr "vigane sisend: %s"
 
-#: src/reader.c:1645
+#: src/reader.c:1605
 msgid "no rules in the input grammar"
 msgstr "sisendgrammatikas pole reegleid"
 
-#: src/reader.c:1666
+#: src/reader.c:1626
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "liiga palju sümboleid (märgid ja mitteterminalid); maksimaalne on %d"
 
-#: src/reader.c:1768
+#: src/reader.c:1728
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "stardisümbol %s ei ole defineeritud"
 
-#: src/reader.c:1770
+#: src/reader.c:1730
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "stardisümbol %s on märk"
@@ -710,6 +705,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "%%guard present but %%semantic_parser not specified"
+#~ msgstr "%%guard on määratud, aga %%semantic_parser ei ole"
 
 #~ msgid "maximum table size (%d) exceeded"
 #~ msgstr "ületati maksimaalset tabelisuurust (%d)"
