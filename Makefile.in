@@ -88,7 +88,7 @@ Makefile: Makefile.in config.status
 	./config.status
 
 config.status: configure
-	$(srcdir)/configure --srcdir=$(srcdir) --no-create
+	./config.status --recheck
 
 configure: configure.in
 	cd $(srcdir); autoconf
