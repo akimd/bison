@@ -1,5 +1,10 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (set_maxrhs, maxrhs): Remove, replaced with...
+	(maxrhs): this new function.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (F): New macro to access to the variable F.
 	Adjust.
 
