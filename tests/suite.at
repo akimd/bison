@@ -1,0 +1,8 @@
+#! /bin/sh
+# Validation suite for Bison.
+# Copyright 2000 Free Software Foundation, Inc.
+
+AT_INIT([bison])
+
+AT_INCLUDE([calc.at])
+AT_INCLUDE([regression.at])
