@@ -1,4 +1,4 @@
-# aclocal.m4 generated automatically by aclocal 1.5a
+# aclocal.m4 generated automatically by aclocal 1.5a -*- Autoconf -*-
 
 # Copyright 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -156,6 +156,8 @@ else
 Check your system clock])
 fi
 AC_MSG_RESULT(yes)])
+
+#  -*- Autoconf -*-
 
 
 # Copyright 1997, 1999, 2000, 2001 Free Software Foundation, Inc.
@@ -353,7 +355,7 @@ AC_SUBST([INSTALL_STRIP_PROGRAM])])
 
 
 # _AM_DEPENDENCIES(NAME)
-# ---------------------
+# ----------------------
 # See how the compiler implements dependency checking.
 # NAME is "CC", "CXX" or "OBJC".
 # We try a few techniques and use that to set a single cache variable.
@@ -432,8 +434,7 @@ else
   am_cv_$1_dependencies_compiler_type=none
 fi
 ])
-$1DEPMODE="depmode=$am_cv_$1_dependencies_compiler_type"
-AC_SUBST([$1DEPMODE])
+AC_SUBST([$1DEPMODE], [depmode=$am_cv_$1_dependencies_compiler_type])
 ])
 
 
@@ -451,7 +452,7 @@ else
   DEPDIR=_deps
 fi
 rmdir .deps 2>/dev/null
-AC_SUBST(DEPDIR)
+AC_SUBST([DEPDIR])
 ])
 
 
@@ -466,12 +467,10 @@ if test "x$enable_dependency_tracking" != xno; then
   AMDEPBACKSLASH='\'
 fi
 AM_CONDITIONAL([AMDEP], [test "x$enable_dependency_tracking" != xno])
-pushdef([subst], defn([AC_SUBST]))
-subst(AMDEPBACKSLASH)
-popdef([subst])
+AC_SUBST([AMDEPBACKSLASH])
 ])
 
-# Generate code to set up dependency tracking.
+# Generate code to set up dependency tracking.   -*- Autoconf -*-
 
 # Copyright 1999, 2000, 2001 Free Software Foundation, Inc.
 
@@ -490,24 +489,18 @@ popdef([subst])
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
-# This macro should only be invoked once -- use via AC_REQUIRE.
-# Usage:
-# AM_OUTPUT_DEPENDENCY_COMMANDS
+#serial 2
 
-#
-# This code is only required when automatic dependency tracking
-# is enabled.  FIXME.  This creates each `.P' file that we will
-# need in order to bootstrap the dependency handling code.
-AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS],[
-AC_OUTPUT_COMMANDS([
-test x"$AMDEP_TRUE" != x"" ||
-for mf in $CONFIG_FILES; do
-  case "$mf" in
+# _AM_OUTPUT_DEPENDENCY_COMMANDS
+# ------------------------------
+AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS],
+[for mf in $CONFIG_FILES; do
+  case $mf in
   Makefile) dirpart=.;;
-  */Makefile) dirpart=`echo "$mf" | sed -e 's|/[^/]*$||'`;;
+  */Makefile) dirpart=`AS_DIRNAME("$mf")`;;
   *) continue;;
   esac
-  grep '^DEP_FILES *= *[^ #]' < "$mf" > /dev/null || continue
+  grep '^DEP_FILES *= *[[^ @%:@]]' < "$mf" > /dev/null || continue
   # Extract the definition of DEP_FILES from the Makefile without
   # running `make'.
   DEPDIR=`sed -n -e '/^DEPDIR = / s///p' < "$mf"`
@@ -531,14 +524,27 @@ for mf in $CONFIG_FILES; do
        sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g' -e 's/\$U/'"$U"'/g'`; do
     # Make sure the directory exists.
     test -f "$dirpart/$file" && continue
-    fdir=`echo "$file" | sed -e 's|/[^/]*$||'`
-    $ac_aux_dir/mkinstalldirs "$dirpart/$fdir" > /dev/null 2>&1
+    fdir=`AS_DIRNAME(["$file"])`
+    AS_MKDIR_P([$dirpart/$fdir])
     # echo "creating $dirpart/$file"
     echo '# dummy' > "$dirpart/$file"
   done
 done
-], [AMDEP_TRUE="$AMDEP_TRUE"
-ac_aux_dir="$ac_aux_dir"])])
+])# _AM_OUTPUT_DEPENDENCY_COMMANDS
+
+
+# AM_OUTPUT_DEPENDENCY_COMMANDS
+# -----------------------------
+# This macro should only be invoked once -- use via AC_REQUIRE.
+#
+# This code is only required when automatic dependency tracking
+# is enabled.  FIXME.  This creates each `.P' file that we will
+# need in order to bootstrap the dependency handling code.
+AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS],
+[AC_CONFIG_COMMANDS([depfiles],
+     [test x"$AMDEP_TRUE" != x"" || _AM_OUTPUT_DEPENDENCY_COMMANDS],
+     [AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"])
+])
 
 # AM_MAKE_INCLUDE()
 # -----------------
@@ -671,7 +677,7 @@ AC_DEFUN([AM_CONFIG_HEADER],
 m4_ifndef([_AM_Config_Header_Index], m4_define([_AM_Config_Header_Index], [0]))
 dnl prepare to store our destination file list for use in config.status
 AC_FOREACH([_AM_File], [$1],
-           [m4_pushdef([_AM_Dest], m4_patsubst(_AM_File, [:.*]))
+           [m4_pushdef([_AM_Dest], patsubst(_AM_File, [:.*]))
             m4_define([_AM_Config_Header_Index],
                       m4_incr(_AM_Config_Header_Index))
             dnl and add it to the list of files AC keeps track of, along
@@ -871,19 +877,19 @@ AC_SUBST(U)dnl
 AC_SUBST(ANSI2KNR)dnl
 ])
 
-#serial 3
+#serial 5
 
 dnl From Jim Meyering.
 dnl Determine whether malloc accepts 0 as its argument.
 dnl If it doesn't, arrange to use the replacement function.
 dnl
 
-AC_DEFUN(jm_FUNC_MALLOC,
+AC_DEFUN([jm_FUNC_MALLOC],
 [
  dnl xmalloc.c requires that this symbol be defined so it doesn't
  dnl mistakenly use a broken malloc -- as it might if this test were omitted.
- AC_DEFINE_UNQUOTED(HAVE_DONE_WORKING_MALLOC_CHECK, 1,
-                    [Define if the malloc check has been performed. ])
+ AC_DEFINE(HAVE_DONE_WORKING_MALLOC_CHECK, 1,
+           [Define if the malloc check has been performed. ])
 
  AC_CACHE_CHECK([for working malloc], jm_cv_func_working_malloc,
   [AC_TRY_RUN([
@@ -900,26 +906,25 @@ AC_DEFUN(jm_FUNC_MALLOC,
 	 jm_cv_func_working_malloc=no)
   ])
   if test $jm_cv_func_working_malloc = no; then
-    AC_SUBST(LIBOBJS)
-    LIBOBJS="$LIBOBJS malloc.$ac_objext"
-    AC_DEFINE_UNQUOTED(malloc, rpl_malloc,
+    AC_LIBOBJ(malloc)
+    AC_DEFINE(malloc, rpl_malloc,
       [Define to rpl_malloc if the replacement function should be used.])
   fi
 ])
 
-#serial 3
+#serial 5
 
 dnl From Jim Meyering.
 dnl Determine whether realloc works when both arguments are 0.
 dnl If it doesn't, arrange to use the replacement function.
 dnl
 
-AC_DEFUN(jm_FUNC_REALLOC,
+AC_DEFUN([jm_FUNC_REALLOC],
 [
  dnl xmalloc.c requires that this symbol be defined so it doesn't
  dnl mistakenly use a broken realloc -- as it might if this test were omitted.
- AC_DEFINE_UNQUOTED(HAVE_DONE_WORKING_REALLOC_CHECK, 1,
-                    [Define if the realloc check has been performed. ])
+ AC_DEFINE(HAVE_DONE_WORKING_REALLOC_CHECK, 1,
+           [Define if the realloc check has been performed. ])
 
  AC_CACHE_CHECK([for working realloc], jm_cv_func_working_realloc,
   [AC_TRY_RUN([
@@ -936,9 +941,8 @@ AC_DEFUN(jm_FUNC_REALLOC,
 	 jm_cv_func_working_realloc=no)
   ])
   if test $jm_cv_func_working_realloc = no; then
-    AC_SUBST(LIBOBJS)
-    LIBOBJS="$LIBOBJS realloc.$ac_objext"
-    AC_DEFINE_UNQUOTED(realloc, rpl_realloc,
+    AC_LIBOBJ(realloc)
+    AC_DEFINE(realloc, rpl_realloc,
       [Define to rpl_realloc if the replacement function should be used.])
   fi
 ])
@@ -978,11 +982,11 @@ AC_DEFUN([jm_FUNC_MBRTOWC],
   fi
 ])
 
-#serial 3
+#serial 4
 
 dnl From Paul Eggert.
 
-AC_DEFUN(AC_C_BACKSLASH_A,
+AC_DEFUN([AC_C_BACKSLASH_A],
 [
   AC_CACHE_CHECK([whether backslash-a works in strings], ac_cv_c_backslash_a,
    [AC_TRY_COMPILE([],
@@ -1002,7 +1006,7 @@ AC_DEFUN(AC_C_BACKSLASH_A,
   fi
 ])
 
-# serial 8
+# serial 9
 
 # From Paul Eggert.
 
@@ -1014,7 +1018,7 @@ AC_DEFUN(AC_C_BACKSLASH_A,
 # (at least glibc-2.1.3) because the "_XOPEN_SOURCE 500" definition elicits
 # a syntax error in wchar.h due to the use of undefined __int32_t.
 
-AC_DEFUN(AC_MBSTATE_T,
+AC_DEFUN([AC_MBSTATE_T],
   [
    AC_CHECK_HEADERS(stdlib.h)
 
@@ -1032,24 +1036,39 @@ AC_DEFUN(AC_MBSTATE_T,
 	       [Define to a type if <wchar.h> does not define.])
    fi])
 
-#serial 1
+#serial 4
 
 dnl FIXME: put these prerequisite-only *.m4 files in a separate
 dnl directory -- otherwise, they'll conflict with existing files.
 
 dnl These are the prerequisite macros for GNU's error.c file.
-AC_DEFUN(jm_PREREQ_ERROR,
+AC_DEFUN([jm_PREREQ_ERROR],
 [
-  AC_CHECK_FUNCS(strerror strerror_r vprintf doprnt)
-  AC_HEADER_STDC
+  AC_CHECK_FUNCS(strerror vprintf doprnt)
+  AC_CHECK_DECLS([strerror])
   AC_FUNC_STRERROR_R
+  AC_HEADER_STDC
 ])
 
-#serial 1002
+#serial 1003
 # Experimental replacement for the function in the latest CVS autoconf.
-# If the compile-test says strerror_r doesn't work, then resort to a
-# `run'-test that works on BeOS and segfaults on DEC Unix.
 # Use with the error.c file in ../lib.
+
+# Copyright 2001 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 undefine([AC_FUNC_STRERROR_R])
 
@@ -1058,57 +1077,36 @@ undefine([AC_FUNC_STRERROR_R])
 AC_DEFUN([AC_FUNC_STRERROR_R],
 [AC_CHECK_DECLS([strerror_r])
 AC_CHECK_FUNCS([strerror_r])
-if test $ac_cv_func_strerror_r = yes; then
-  AC_CHECK_HEADERS(string.h)
-  AC_CACHE_CHECK([for working strerror_r],
-                 ac_cv_func_strerror_r_works,
+AC_CACHE_CHECK([whether strerror_r returns char *],
+               ac_cv_func_strerror_r_char_p,
    [
-    AC_TRY_COMPILE(
-     [
-#       include <stdio.h>
-#       if HAVE_STRING_H
-#        include <string.h>
-#       endif
-     ],
-     [
-       char buf[100];
-       char x = *strerror_r (0, buf, sizeof buf);
-     ],
-     ac_cv_func_strerror_r_works=yes,
-     ac_cv_func_strerror_r_works=no
-    )
-    if test $ac_cv_func_strerror_r_works = no; then
-      # strerror_r seems not to work, but now we have to choose between
+    ac_cv_func_strerror_r_char_p=no
+    if test $ac_cv_have_decl_strerror_r = yes; then
+      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([AC_INCLUDES_DEFAULT],
+	[[
+	  char buf[100];
+	  char x = *strerror_r (0, buf, sizeof buf);
+	  char *p = strerror_r (0, buf, sizeof buf);
+	]])],
+			ac_cv_func_strerror_r_char_p=yes)
+    else
+      # strerror_r is not declared.  Choose between
       # systems that have relatively inaccessible declarations for the
       # function.  BeOS and DEC UNIX 4.0 fall in this category, but the
       # former has a strerror_r that returns char*, while the latter
       # has a strerror_r that returns `int'.
       # This test should segfault on the DEC system.
-      AC_TRY_RUN(
-       [
-#       include <stdio.h>
-#       include <string.h>
-#       include <ctype.h>
-
-	extern char *strerror_r ();
-
-	int
-	main ()
-	{
-	  char buf[100];
+      AC_RUN_IFELSE([AC_LANG_PROGRAM([AC_INCLUDES_DEFAULT
+	extern char *strerror_r ();],
+	[[char buf[100];
 	  char x = *strerror_r (0, buf, sizeof buf);
-	  exit (!isalpha (x));
-	}
-       ],
-       ac_cv_func_strerror_r_works=yes,
-       ac_cv_func_strerror_r_works=no,
-       ac_cv_func_strerror_r_works=no)
+	  exit (!isalpha (x));]])],
+                    ac_cv_func_strerror_r_char_p=yes, , :)
     fi
   ])
-  if test $ac_cv_func_strerror_r_works = yes; then
-    AC_DEFINE_UNQUOTED(HAVE_WORKING_STRERROR_R, 1,
-      [Define to 1 if `strerror_r' returns a string.])
-  fi
+if test $ac_cv_func_strerror_r_char_p = yes; then
+  AC_DEFINE([STRERROR_R_CHAR_P], 1,
+	    [Define to 1 if strerror_r returns char *.])
 fi
 ])# AC_FUNC_STRERROR_R
 
@@ -1136,10 +1134,12 @@ fi], [AC_MSG_RESULT(no)])
 #
 # This file can be copied and used freely without restrictions.  It can
 # be used in projects which are not available under the GNU General Public
-# License but which still want to provide support for the GNU gettext
-# functionality.
-# Please note that the actual code of GNU gettext is covered by the GNU
-# General Public License and is *not* in the public domain.
+# License or the GNU Library General Public License but which still want
+# to provide support for the GNU gettext functionality.
+# Please note that the actual code of the GNU gettext library is covered
+# by the GNU Library General Public License, and the rest of the GNU
+# gettext package package is covered by the GNU General Public License.
+# They are *not* in the public domain.
 
 # serial 10
 
@@ -1374,7 +1374,7 @@ return (int) gettext ("")]ifelse([$2], need-ngettext, [ + (int) ngettext ("", ""
       dnl Found it, now check the version.
       AC_MSG_CHECKING([version of bison])
 changequote(<<,>>)dnl
-      ac_prog_version=`$INTLBISON --version 2>&1 | sed -n 's/^.*GNU Bison .* \([0-9]*\.[0-9.]*\).*$/\1/p'`
+      ac_prog_version=`$INTLBISON --version 2>&1 | sed -n 's/^.*GNU Bison.* \([0-9]*\.[0-9.]*\).*$/\1/p'`
       case $ac_prog_version in
         '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
         1.2[6-9]* | 1.[3-9][0-9]* | [2-9].*)
@@ -1505,10 +1505,12 @@ strdup strtoul tsearch __argz_count __argz_stringify __argz_next])
 #
 # This file can be copied and used freely without restrictions.  It can
 # be used in projects which are not available under the GNU General Public
-# License but which still want to provide support for the GNU gettext
-# functionality.
-# Please note that the actual code of GNU gettext is covered by the GNU
-# General Public License and is *not* in the public domain.
+# License or the GNU Library General Public License but which still want
+# to provide support for the GNU gettext functionality.
+# Please note that the actual code of the GNU gettext library is covered
+# by the GNU Library General Public License, and the rest of the GNU
+# gettext package package is covered by the GNU General Public License.
+# They are *not* in the public domain.
 
 # serial 2
 
@@ -1670,10 +1672,12 @@ AC_DEFUN([AM_LANGINFO_CODESET],
 #
 # This file can be copied and used freely without restrictions.  It can
 # be used in projects which are not available under the GNU General Public
-# License but which still want to provide support for the GNU gettext
-# functionality.
-# Please note that the actual code of GNU gettext is covered by the GNU
-# General Public License and is *not* in the public domain.
+# License or the GNU Library General Public License but which still want
+# to provide support for the GNU gettext functionality.
+# Please note that the actual code of the GNU gettext library is covered
+# by the GNU Library General Public License, and the rest of the GNU
+# gettext package package is covered by the GNU General Public License.
+# They are *not* in the public domain.
 
 # serial 2
 
