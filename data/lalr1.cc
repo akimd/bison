@@ -544,11 +544,11 @@ b4_syncline([@oline@], [@ofile@])[
 	    if (count < 5)
 	      {
 		count = 0;
-		for (int x = xbegin; x < xend; ++x)
-		  if (check_[x + n_] == x && x != terror_)
+		for (int x1 = xbegin; x1 < xend; ++x1)
+		  if (check_[x1 + n_] == x1 && x1 != terror_)
 		    {
 		      message += (!count++) ? ", expecting " : " or ";
-		      message += name_[x];
+		      message += name_[x1];
 		    }
 	      }
 	  }
@@ -792,12 +792,12 @@ yy::]b4_parser_class_name[::translate_ (int token)
 {
   static
   const TokenNumberType
-  translate_[] =
+  translate_table[] =
   {
     ]b4_translate[
   };
   if ((unsigned) token <= user_token_number_max_)
-    return translate_[token];
+    return translate_table[token];
   else
     return undef_token_;
 }
@@ -844,16 +844,16 @@ namespace yy
 
     inline
     T&
-    operator [] (unsigned index)
+    operator [] (unsigned i)
     {
-      return seq_[index];
+      return seq_[i];
     }
 
     inline
     const T&
-    operator [] (unsigned index) const
+    operator [] (unsigned i) const
     {
-      return seq_[index];
+      return seq_[i];
     }
 
     inline
@@ -899,9 +899,9 @@ namespace yy
 
     inline
     const T&
-    operator [] (unsigned index) const
+    operator [] (unsigned i) const
     {
-      return stack_[range_ - index];
+      return stack_[range_ - i];
     }
 
   private:
