@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.875e:
+Changes in version 1.875e, 2004-12-10:
 
 * New directive: %initial-action.
   This directive allows the user to run arbitrary code (including
@@ -231,7 +231,8 @@ Changes in version 1.50, 2002-10-04:
   allowed some non-error action other than a default reduction on the
   error token.  The new behavior has long been the documented behavior,
   and has long been required by POSIX.  For more details, please see
-  <http://mail.gnu.org/pipermail/bug-bison/2002-May/001452.html>.
+  Paul Eggert, "Reductions during Bison error handling" (2002-05-20)
+  <http://lists.gnu.org/archive/html/bug-bison/2002-05/msg00038.html>.
 
 * Traces
   Popped tokens and nonterminals are now reported.
