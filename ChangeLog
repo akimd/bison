@@ -1,3 +1,8 @@
+2001-10-10  Akim Demaille  <akim@epita.fr>
+
+	* INSTALL, config/config.guess, config/config.sub, config/mdate-sh
+	* config/mkinstalldirs, lib/ansi2knr.c: Update.
+
 2001-10-02  Akim Demaille  <akim@epita.fr>
 
 	Bump 1.29d.

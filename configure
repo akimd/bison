@@ -24,25 +24,34 @@ fi
 # Name of the executable.
 as_me=`echo "$0" |sed 's,\(.*[\\/]\+\)\?\([^\\/]\+\)[\\/]*,\2,'`
 
-# If LINENO is not supported by the shell, produce a version of this
-# script where LINENO is hard coded.  Rewrite if not up to date only.
-# Comparing LINENO against _oline_ is not a good solution, since in
-# the case of embedded executables (such as config.status within
-# configure) you'd compare LINENO wrt config.status vs. _oline_ vs
-# configure.  Hence a useless rewrite (not to mention the risk of
-# ``infinite'' rewrites.  Merely check that LINENO is incremented
-# between two lines, which is a property guaranteed for _oline_, hence
-# it protects us from repetitive rewrites.  Be sure to have a test
-# that does detect non LINENO support...
-as_lineno_1=$LINENO
-as_lineno_2=$LINENO
-as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
-if test "x$as_lineno_1"  = "x$as_lineno_2" ||
-   test "x$as_lineno_3" != "x$as_lineno_2";
-  then
-  # Find who we are.
+# Rewrite early, but we need PATH_SEPARATOR.
+# The user is always right.
+if test "${PATH_SEPARATOR+set}" != set; then
+  echo "#! $SHELL" >conftest.sh
+  echo  "exit 0"   >>conftest.sh
+  chmod +x conftest.sh
+  if (PATH=".;."; conftest.sh) >/dev/null 2>&1; then
+    PATH_SEPARATOR=';'
+  else
+    PATH_SEPARATOR=:
+  fi
+  rm -f conftest.sh
+fi
+
+as_command='
+  as_lineno_1=$LINENO
+  as_lineno_2=$LINENO
+  as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
+  test "x$as_lineno_1" != "x$as_lineno_2" &&
+  test "x$as_lineno_3"  = "x$as_lineno_2"
+'
+if eval "$as_command"; then
+  :
+else
+  # Find who we are.  Look in the path if we contain no path at all
+  # relative or not.
   case $0 in
-    *[\\/]* | ?:[\\/]* ) as_myself=$0 ;;
+    *[\\/]* ) as_myself=$0 ;;
     *) as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
 do
@@ -53,29 +62,55 @@ done
 
        ;;
   esac
-  if test ! -f $as_myself; then
+  # We did not find ourselves, most probably we were run as `sh COMMAND'
+  # in which case we are not to be found in the path.
+  if test "x$as_myself" = x; then
+    as_myself=$0
+  fi
+  if test ! -f "$as_myself"; then
     { echo "$as_me: error: cannot find myself; rerun with an absolute path" >&2
    { (exit 1); exit 1; }; }
   fi
-  if test ! -f $as_me.lineno ||
-     test x`ls -1dt $as_me.lineno $as_myself 2>/dev/null | sed 1q` \
-                != x$as_me.lineno; then
+  case $CONFIG_SHELL in
+  '')
+    as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in /bin:/usr/bin:$PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for as_base in sh bash ksh sh5; do
+	 case $as_dir in
+	 /*)
+	   if ("$as_dir/$as_base" -c "$as_command") 2>/dev/null; then
+	     CONFIG_SHELL=$as_dir/$as_base
+	     export CONFIG_SHELL
+	     exec "$CONFIG_SHELL" "$0" ${1+"$@"}
+	   fi;;
+	 esac
+       done
+done
+;;
+  esac
+  if test ! -f "$as_me.lineno" ||
+     test x`ls -1dt "$as_me.lineno" "$as_myself" 2>/dev/null | sed 1q` \
+                != x"$as_me.lineno"; then
      # Be sure to write the pattern so that it doesn't replace itself:
      # it must not match itself.
-     awk '{
-            if ($0 ~ /[$]LINENO/)
-              while (sub (/[$]LINENO/, NR))
-                continue
-            print
-          }' <$as_myself >$as_me.lineno
+     awk <$as_myself '
+           /[$]LINENO/ { printf "%d:", NR }
+                         { print }
+         ' |
+       sed '/[$]LINENO/s/^\([0-9][0-9]*\):\(.*\)[$]LINENO/\2\1/' \
+         >$as_me.lineno
     chmod +x $as_me.lineno
   fi
 
   # Don't try to exec as it changes $[0], causing all sort of problems
   # (the dirname of $[0] is not the place where we might find the
   # original and so on.  Autoconf is especially sensible to this).
-  source ./$as_me.lineno
-  exit 0
+  . ./$as_me.lineno
+  # Exit status is that of the last command.
+  exit
 fi
 
 # Avoid depending upon Character Ranges.
@@ -115,19 +150,6 @@ else
   as_ln_s='cp -p'
 fi
 rm -f conf$$ conf$$.exe conf$$.file
-
-# The user is always right.
-if test "${PATH_SEPARATOR+set}" != set; then
-  echo "#! $SHELL" >conftest.sh
-  echo  "exit 0"   >>conftest.sh
-  chmod +x conftest.sh
-  if (PATH=".;."; conftest.sh) >/dev/null 2>&1; then
-    PATH_SEPARATOR=';'
-  else
-    PATH_SEPARATOR=:
-  fi
-  rm -f conftest.sh
-fi
 
 as_executable_p="test -f"
 
@@ -1783,7 +1805,7 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link_default\"") >&5
   # Find the output, starting from the most likely.  This scheme is
 # not robust to junk in `.', hence go to wildcards (a.*) only as a last
 # resort.
-for ac_file in `ls a.exe conftest.exe 2>/dev/null;
+for ac_file in `ls a_out.exe a.exe conftest.exe 2>/dev/null;
                 ls a.out conftest 2>/dev/null;
                 ls a.* conftest.* 2>/dev/null`; do
   case $ac_file in
@@ -8620,25 +8642,34 @@ fi
 # Name of the executable.
 as_me=`echo "$0" |sed 's,\(.*[\\/]\+\)\?\([^\\/]\+\)[\\/]*,\2,'`
 
-# If LINENO is not supported by the shell, produce a version of this
-# script where LINENO is hard coded.  Rewrite if not up to date only.
-# Comparing LINENO against _oline_ is not a good solution, since in
-# the case of embedded executables (such as config.status within
-# configure) you'd compare LINENO wrt config.status vs. _oline_ vs
-# configure.  Hence a useless rewrite (not to mention the risk of
-# ``infinite'' rewrites.  Merely check that LINENO is incremented
-# between two lines, which is a property guaranteed for _oline_, hence
-# it protects us from repetitive rewrites.  Be sure to have a test
-# that does detect non LINENO support...
-as_lineno_1=$LINENO
-as_lineno_2=$LINENO
-as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
-if test "x$as_lineno_1"  = "x$as_lineno_2" ||
-   test "x$as_lineno_3" != "x$as_lineno_2";
-  then
-  # Find who we are.
+# Rewrite early, but we need PATH_SEPARATOR.
+# The user is always right.
+if test "${PATH_SEPARATOR+set}" != set; then
+  echo "#! $SHELL" >conftest.sh
+  echo  "exit 0"   >>conftest.sh
+  chmod +x conftest.sh
+  if (PATH=".;."; conftest.sh) >/dev/null 2>&1; then
+    PATH_SEPARATOR=';'
+  else
+    PATH_SEPARATOR=:
+  fi
+  rm -f conftest.sh
+fi
+
+as_command='
+  as_lineno_1=$LINENO
+  as_lineno_2=$LINENO
+  as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
+  test "x$as_lineno_1" != "x$as_lineno_2" &&
+  test "x$as_lineno_3"  = "x$as_lineno_2"
+'
+if eval "$as_command"; then
+  :
+else
+  # Find who we are.  Look in the path if we contain no path at all
+  # relative or not.
   case $0 in
-    *[\\/]* | ?:[\\/]* ) as_myself=$0 ;;
+    *[\\/]* ) as_myself=$0 ;;
     *) as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
 do
@@ -8649,30 +8680,56 @@ done
 
        ;;
   esac
-  if test ! -f $as_myself; then
+  # We did not find ourselves, most probably we were run as `sh COMMAND'
+  # in which case we are not to be found in the path.
+  if test "x$as_myself" = x; then
+    as_myself=$0
+  fi
+  if test ! -f "$as_myself"; then
     { { echo "$as_me:$LINENO: error: cannot find myself; rerun with an absolute path" >&5
 echo "$as_me: error: cannot find myself; rerun with an absolute path" >&2;}
    { (exit 1); exit 1; }; }
   fi
-  if test ! -f $as_me.lineno ||
-     test x`ls -1dt $as_me.lineno $as_myself 2>/dev/null | sed 1q` \
-                != x$as_me.lineno; then
+  case $CONFIG_SHELL in
+  '')
+    as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in /bin:/usr/bin:$PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for as_base in sh bash ksh sh5; do
+	 case $as_dir in
+	 /*)
+	   if ("$as_dir/$as_base" -c "$as_command") 2>/dev/null; then
+	     CONFIG_SHELL=$as_dir/$as_base
+	     export CONFIG_SHELL
+	     exec "$CONFIG_SHELL" "$0" ${1+"$@"}
+	   fi;;
+	 esac
+       done
+done
+;;
+  esac
+  if test ! -f "$as_me.lineno" ||
+     test x`ls -1dt "$as_me.lineno" "$as_myself" 2>/dev/null | sed 1q` \
+                != x"$as_me.lineno"; then
      # Be sure to write the pattern so that it doesn't replace itself:
      # it must not match itself.
-     awk '{
-            if ($0 ~ /[$]LINENO/)
-              while (sub (/[$]LINENO/, NR))
-                continue
-            print
-          }' <$as_myself >$as_me.lineno
+     awk <$as_myself '
+           /[$]LINENO/ { printf "%d:", NR }
+                         { print }
+         ' |
+       sed '/[$]LINENO/s/^\([0-9][0-9]*\):\(.*\)[$]LINENO/\2\1/' \
+         >$as_me.lineno
     chmod +x $as_me.lineno
   fi
 
   # Don't try to exec as it changes $[0], causing all sort of problems
   # (the dirname of $[0] is not the place where we might find the
   # original and so on.  Autoconf is especially sensible to this).
-  source ./$as_me.lineno
-  exit 0
+  . ./$as_me.lineno
+  # Exit status is that of the last command.
+  exit
 fi
 
 # Avoid depending upon Character Ranges.
@@ -8712,19 +8769,6 @@ else
   as_ln_s='cp -p'
 fi
 rm -f conf$$ conf$$.exe conf$$.file
-
-# The user is always right.
-if test "${PATH_SEPARATOR+set}" != set; then
-  echo "#! $SHELL" >conftest.sh
-  echo  "exit 0"   >>conftest.sh
-  chmod +x conftest.sh
-  if (PATH=".;."; conftest.sh) >/dev/null 2>&1; then
-    PATH_SEPARATOR=';'
-  else
-    PATH_SEPARATOR=:
-  fi
-  rm -f conftest.sh
-fi
 
 as_executable_p="test -f"
 

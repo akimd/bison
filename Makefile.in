@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.5 from Makefile.am.
+# Makefile.in generated automatically by automake 1.5a from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -43,6 +43,7 @@ AUTOCONF = @AUTOCONF@
 AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
+am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
@@ -57,6 +58,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
+
+EXEEXT = @EXEEXT@
+OBJEXT = @OBJEXT@
+PATH_SEPARATOR = @PATH_SEPARATOR@
 AMTAR = @AMTAR@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
@@ -66,7 +71,6 @@ CC = @CC@
 CPP = @CPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
-EXEEXT = @EXEEXT@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
@@ -82,7 +86,6 @@ LIBOBJS = @LIBOBJS@
 M4 = @M4@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
-OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 POFILES = @POFILES@
 POSUB = @POSUB@
@@ -132,9 +135,10 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = README ./stamp-h.in ABOUT-NLS AUTHORS COPYING ChangeLog \
-	INSTALL Makefile.am Makefile.in NEWS README-alpha THANKS \
-	aclocal.m4 config.hin configure configure.in
+DIST_COMMON = README ././stamp-h.in ./stamp-h.in ABOUT-NLS AUTHORS \
+	COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS \
+	README-alpha THANKS aclocal.m4 config.hin configure \
+	configure.in
 DIST_SUBDIRS = $(SUBDIRS)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -269,7 +273,7 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES) config.hin $(TAGS_DEPENDENCIES) \
 	  || etags $(ETAGS_ARGS) $$tags config.hin $$unique $(LISP)
 
 GTAGS:
-	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	here=`$(am__cd) $(top_builddir) && pwd` \
 	  && cd $(top_srcdir) \
 	  && gtags -i $(GTAGS_ARGS) $$here
 
@@ -292,7 +296,7 @@ distdir: $(DISTFILES)
 	fi
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/intl $(distdir)/po $(distdir)/tests
+	$(mkinstalldirs) $(distdir)/./. $(distdir)/intl $(distdir)/po $(distdir)/tests
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -326,11 +330,16 @@ distdir: $(DISTFILES)
 	  ! -type d ! -perm -400 -exec chmod a+r {} \; -o \
 	  ! -type d ! -perm -444 -exec $(SHELL) $(install_sh) -c -m a+r {} {} \; \
 	|| chmod -R a+r $(distdir)
-dist: distdir
+dist-gzip: distdir
 	$(AMTAR) chof - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 
 dist-bzip2: distdir
+	$(AMTAR) chof - $(distdir) | bzip2 -9 -c >$(distdir).tar.bz2
+	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
+
+dist dist-all: distdir
+	$(AMTAR) chof - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(AMTAR) chof - $(distdir) | bzip2 -9 -c >$(distdir).tar.bz2
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 
@@ -344,7 +353,7 @@ distcheck: dist
 	mkdir $(distdir)/=build
 	mkdir $(distdir)/=inst
 	chmod a-w $(distdir)
-	dc_install_base=`CDPATH=: && cd $(distdir)/=inst && pwd` \
+	dc_install_base=`$(am__cd) $(distdir)/=inst && pwd` \
 	  && cd $(distdir)/=build \
 	  && ../configure --srcdir=.. --prefix=$$dc_install_base \
 	    --with-included-gettext \
@@ -355,14 +364,16 @@ distcheck: dist
 	  && $(MAKE) $(AM_MAKEFLAGS) installcheck \
 	  && $(MAKE) $(AM_MAKEFLAGS) uninstall \
 	  && (test `find $$dc_install_base -type f -print | wc -l` -le 1 \
-	     || (echo "Error: files left after uninstall" 1>&2; \
-	         exit 1) ) \
-	  && $(MAKE) $(AM_MAKEFLAGS) dist \
+	      || { echo "ERROR: files left after uninstall:" ; \
+	           find $$dc_install_base -type f -print ; \
+	           exit 1; } >&2 ) \
+	  && $(MAKE) $(AM_MAKEFLAGS) dist-gzip \
 	  && $(MAKE) $(AM_MAKEFLAGS) distclean \
 	  && rm -f $(distdir).tar.gz \
 	  && (test `find . -type f -print | wc -l` -eq 0 \
-	     || (echo "Error: files left after distclean" 1>&2; \
-	         exit 1) )
+	      || { echo "ERROR: files left after distclean:" ; \
+	           find . -type f -print ; \
+	           exit 1; } >&2 )
 	-chmod -R a+w $(distdir) > /dev/null 2>&1; rm -rf $(distdir)
 	@echo "$(distdir).tar.gz is ready for distribution" | \
 	  sed 'h;s/./=/g;p;x;p;x'
@@ -400,10 +411,6 @@ clean: clean-recursive
 
 clean-am: clean-generic mostlyclean-am
 
-dist-all: distdir
-	$(AMTAR) chof - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
-	$(AMTAR) chof - $(distdir) | bzip2 -9 -c >$(distdir).tar.bz2
-	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 distclean: distclean-recursive
 	-rm -f config.status config.cache config.log
 distclean-am: clean-am distclean-generic distclean-hdr distclean-tags
@@ -440,7 +447,7 @@ uninstall-info: uninstall-info-recursive
 
 .PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
 	clean-generic clean-recursive dist dist-all dist-bzip2 \
-	distcheck distclean distclean-generic distclean-hdr \
+	dist-gzip distcheck distclean distclean-generic distclean-hdr \
 	distclean-recursive distclean-tags distdir dvi dvi-am \
 	dvi-recursive info info-am info-recursive install install-am \
 	install-data install-data-am install-data-recursive \
