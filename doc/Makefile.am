@@ -4,4 +4,11 @@ AUTOMAKE_OPTIONS = 1.4
 info_TEXINFOS = bison.texinfo
 man_MANS = bison.1
 
-EXTRA_DIST = FAQ bison.1 bison.rnh
+EXTRA_DIST = FAQ bison.1 bison.rnh refcard.tex
+
+CLEANFILES = refcard.dvi refcard.log refcard.ps
+
+refcard.dvi: refcard.tex
+	tex refcard.tex
+
+refcard.ps: refcard.dvi

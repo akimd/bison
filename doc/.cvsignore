@@ -15,5 +15,8 @@ bison.ps
 bison.toc
 bison.tp
 bison.vr
+refcard.dvi
+refcard.log
+refcard.ps
 stamp-vti
 version.texi
