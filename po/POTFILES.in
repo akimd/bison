@@ -20,5 +20,6 @@ lib/error.c
 lib/getopt.c
 lib/obstack.c
 lib/quotearg.c
+lib/subpipe.c
 lib/timevar.c
 lib/xmalloc.c
