@@ -1,3 +1,9 @@
+2003-04-21  Yakov Markovitch <Markovitch@iso.ru>
+
+	* data/glr.c (yyexpandGLRStack) [!YYSTACKEXPANDABLE]:
+	Fix obvious typo that results in uncompilable GLR parsers
+	when both %pure-parser and %locations are used.  (trivial change)
+
 2003-04-17  Paul Eggert  <eggert@twinsun.com>
 
 	* src/scan-gram.l: Add %option nounput, since we no longer use unput.
