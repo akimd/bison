@@ -3,6 +3,7 @@ Bison News
 
 Changes in version 1.33a:
 
+* Fix portability problems within the test suite.
 
 Changes in version 1.33, 2002-02-07:
 
