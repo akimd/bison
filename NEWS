@@ -17,6 +17,15 @@ Changes in version 1.49b:
   user specified that one of her tokens is numbered 256, then error
   will be mapped onto another number.
 
+* Error recovery now conforms to documentation and to POSIX
+  When a Bison-generated parser encounters a syntax error, it now pops
+  the stack until it finds a state that allows shifting the error
+  token.  Formerly, it popped the stack until it found a state that
+  allowed some non-error action other than a default reduction on the
+  error token.  The new behavior has long been the documented behavior,
+  and has long been required by POSIX.  For more details, please see
+  <http://mail.gnu.org/pipermail/bug-bison/2002-May/001452.html>.
+
 * Large grammars
   Large grammars are now supported (large token numbers, large grammar
   size (= sum of the LHS and RHS lengths), large LALR tables).
