@@ -1,5 +1,10 @@
 2002-05-03  Akim Demaille  <akim@epita.fr>
 
+	* configure.in (GETTEXT_VERSION): New.
+	Suggested by Bruno Haible for the forthcoming Gettext 0.10.3.
+
+2002-05-03  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple (b4_token_enum): New.
 	(b4_token_defines): Use it to output tokens both as #define and
 	enums.

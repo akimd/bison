@@ -80,9 +80,6 @@ AC_DEFINE([_GNU_SOURCE],1,[Define to 1 for GNU C library extensions.])
 AC_HEADER_STDC
 AC_CHECK_HEADERS(ctype.h locale.h memory.h stdlib.h string.h unistd.h)
 
-# Checks for typedefs.
-
-# Checks for structures.
 
 # Checks for compiler characteristics.
 AC_C_CONST
@@ -96,7 +93,8 @@ AC_FUNC_ERROR_AT_LINE
 AC_FUNC_STRNLEN
 UTILS_FUNC_MKSTEMP
 AC_CHECK_FUNCS(setlocale)
-AC_CHECK_DECLS([free, stpcpy, strchr, strspn, strnlen, malloc, memchr, memrchr])
+AC_CHECK_DECLS([free, stpcpy, strchr, strspn, strnlen,
+                malloc, memchr, memrchr])
 AC_REPLACE_FUNCS(stpcpy strchr strspn memchr memrchr)
 jm_FUNC_MALLOC
 jm_FUNC_REALLOC
@@ -104,6 +102,8 @@ jm_PREREQ_QUOTEARG
 jm_PREREQ_ERROR
 AM_WITH_DMALLOC
 
+# Gettext.
+GETTEXT_VERSION=0.11.2
 AM_GNU_GETTEXT(, need-ngettext)
 
 # This is necessary so that .o files in LIBOBJS are also built via
