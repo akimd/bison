@@ -22,33 +22,35 @@
 # define LEX_H_
 
 /* Token-type codes. */
-# define ENDFILE	0
-# define IDENTIFIER	1
-# define COMMA		2
-# define COLON		3
-# define SEMICOLON	4
-# define BAR   		5
-# define LEFT_CURLY     6
-# define TWO_PERCENTS	7
-# define PERCENT_LEFT_CURLY	8
-# define TOKEN		9
-# define NTERM		10
-# define GUARD		11
-# define TYPE  		12
-# define UNION		13
-# define START		14
-# define LEFT  		15
-# define RIGHT		16
-# define NONASSOC	17
-# define PREC  		18
-# define TYPENAME  	21
-# define NUMBER		22
-# define EXPECT		23
-# define THONG		24
-# define NOOP		25
-# define SETOPT		26
-# define ILLEGAL	27
-
+typedef enum token_e
+  {
+    tok_eof,
+    tok_identifier,
+    tok_comma,
+    tok_colon,
+    tok_semicolon,
+    tok_bar,
+    tok_left_curly,
+    tok_two_percents,
+    tok_percent_left_curly,
+    tok_token,
+    tok_nterm,
+    tok_guard,
+    tok_type,
+    tok_union,
+    tok_start,
+    tok_left,
+    tok_right,
+    tok_nonassoc,
+    tok_prec,
+    tok_typename,
+    tok_number,
+    tok_expect,
+    tok_thong,
+    tok_noop,
+    tok_setopt,
+    tok_illegal
+  } token_t;
 
 extern char *token_buffer;
 extern bucket *symval;
@@ -64,7 +66,7 @@ void read_type_name PARAMS ((FILE *fin));
    symbol table using symtab.c; symval is set to a pointer to the
    entry found.  */
 
-int lex PARAMS ((void));
+token_t lex PARAMS ((void));
 
 int parse_percent_token PARAMS ((void));
 

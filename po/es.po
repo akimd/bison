@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-01-15 14:43+0100\n"
+"POT-Creation-Date: 2001-01-18 17:53+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -263,49 +263,49 @@ msgid "too many gotos (max %d)"
 msgstr ""
 
 # to ignore no es ignorar. Pon otra cosa, please. sv
-#: src/lex.c:83
+#: src/lex.c:70
 msgid "unexpected `/' found and ignored"
 msgstr "se ha encontrado `/' cuando no se esperaba, no se tendrán en cuenta"
 
-#: src/lex.c:112 src/reader.c:273
+#: src/lex.c:99 src/reader.c:273
 msgid "unterminated comment"
 msgstr "comentario sin terminar"
 
-#: src/lex.c:144
+#: src/lex.c:131
 #, fuzzy
 msgid "unexpected end of file"
 msgstr "Fin de fichero inesperado"
 
 # ¿unescaped?
-#: src/lex.c:167
+#: src/lex.c:154
 msgid "unescaped newline in constant"
 msgstr "salto de línea en constante sin secuencia de escape"
 
-#: src/lex.c:209
+#: src/lex.c:196
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "valor octal fuera del rango 0...255: `\\%o'"
 
-#: src/lex.c:234
+#: src/lex.c:221
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "valor hexadecimal mayor que 255: `\\x%x'"
 
-#: src/lex.c:246
+#: src/lex.c:233
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "secuencia de escape desconocida: `\\' seguido de `%s'"
 
-#: src/lex.c:340
+#: src/lex.c:326
 msgid "unterminated type name at end of file"
 msgstr "nombre de tipo sin terminar al final del fichero"
 
-#: src/lex.c:343
+#: src/lex.c:329
 msgid "unterminated type name"
 msgstr "nombre de tipo sin terminar"
 
 # ¿multicarácter o multicaracteres? sv
-#: src/lex.c:447
+#: src/lex.c:422
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "use \"...\" para terminales literales multicarácter"
 
@@ -323,7 +323,7 @@ msgstr "Entrando set_nullable"
 # en inglés era así, pero quizás en español sea mejor como dices
 # ngp
 #
-#: src/output.c:985
+#: src/output.c:993
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "excedido el tamaño máximo de la tabla (%s)"
@@ -479,7 +479,7 @@ msgstr ""
 msgid "symbol %s redefined"
 msgstr "redefinido el símbolo %s"
 
-#: src/reader.c:538 src/reader.c:617 src/reader.c:678 src/reader.c:1237
+#: src/reader.c:538 src/reader.c:617 src/reader.c:678 src/reader.c:1230
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "redeclaración del tipo de %s"
@@ -494,7 +494,7 @@ msgstr "`%s' no es válido en %s"
 msgid "multiple %s declarations"
 msgstr "múltiples declaraciones de %start"
 
-#: src/reader.c:567 src/reader.c:1215
+#: src/reader.c:567 src/reader.c:1208
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "declaración de %start no válida"
@@ -533,7 +533,7 @@ msgid "unexpected item: %s"
 msgstr "ítem inesperado: %s"
 
 # Cambio el orden y el sexo. Ahora está "en español". sv
-#: src/reader.c:763 src/reader.c:1046 src/reader.c:1117
+#: src/reader.c:763 src/reader.c:1039 src/reader.c:1110
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "`{' desemparejada"
@@ -559,16 +559,16 @@ msgstr "no se reconoce el ítem %s, se esperaba un identificador"
 msgid "expected string constant instead of %s"
 msgstr "se esperaba una cadena constante en lugar de %s"
 
-#: src/reader.c:962
+#: src/reader.c:955
 #, c-format
 msgid "unrecognized: %s"
 msgstr "no reconocido: %s"
 
-#: src/reader.c:967
+#: src/reader.c:960
 msgid "no input grammar"
 msgstr "no hay gramática de entrada"
 
-#: src/reader.c:972
+#: src/reader.c:965
 #, c-format
 msgid "unknown character: %s"
 msgstr "carácter desconocido: %s"
@@ -577,93 +577,93 @@ msgstr "carácter desconocido: %s"
 # mejor que `sin terminar' que me parece más "computerizado" - cll
 # quizás un poco cacofónico lo de claúsula inconclusa - ngp
 #
-#: src/reader.c:1140
+#: src/reader.c:1133
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "cláusula %%guard sin terminar"
 
-#: src/reader.c:1302
+#: src/reader.c:1295
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "regla mal formada: el símbolo inicial no está seguido por :"
 
-#: src/reader.c:1309
+#: src/reader.c:1302
 msgid "grammar starts with vertical bar"
 msgstr "la gramática comienza con una barra vertical"
 
-#: src/reader.c:1340
+#: src/reader.c:1333
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "se ha dado una regla para %s, que es un terminal"
 
-#: src/reader.c:1442
+#: src/reader.c:1435
 msgid "two @prec's in a row"
 msgstr "dos @prec en una línea"
 
 # Insisto, el empleo de participios a secas me parece como hablar en
 # indio. Por favor, permíteme que añada un "está" :) - cll
 # ok - ngp
-#: src/reader.c:1450
+#: src/reader.c:1443
 #, fuzzy
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard presente pero %%semantic_parser está sin especificar"
 
-#: src/reader.c:1459
+#: src/reader.c:1452
 msgid "two actions at end of one rule"
 msgstr "dos acciones al final de una regla"
 
-#: src/reader.c:1473
+#: src/reader.c:1466
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "los tipos (`%s' `%s') no concuerdan en la acción por defecto"
 
-#: src/reader.c:1479
+#: src/reader.c:1472
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regla vacía para un no terminal con tipo y no hay ninguna acción"
 
-#: src/reader.c:1523
+#: src/reader.c:1516
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrada no válida: %s"
 
-#: src/reader.c:1531
+#: src/reader.c:1524
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "demasiados símbolos (terminales y no terminales); máximo %s"
 
-#: src/reader.c:1534
+#: src/reader.c:1527
 msgid "no rules in the input grammar"
 msgstr "no hay reglas en la gramática de entrada"
 
 # `token' se debe traducir como `literal' - cll
 # en terminología de compiladores token es más un terminal - ngp
 #
-#: src/reader.c:1558
+#: src/reader.c:1551
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "se usa el símbolo %s, pero no está definido como terminal y no tiene reglas"
 
-#: src/reader.c:1664
+#: src/reader.c:1657
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "precedencias en conflicto entre %s y %s"
 
-#: src/reader.c:1676
+#: src/reader.c:1669
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "conflicto de valores assoc para %s y %s"
 
-#: src/reader.c:1727
+#: src/reader.c:1720
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "los terminales %s y %s tienen asignados ambos el número %s"
 
-#: src/reader.c:1740
+#: src/reader.c:1733
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "el símbolo de inicio (axioma) %s no está definido"
 
-#: src/reader.c:1742
+#: src/reader.c:1735
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "el símbolo de inicio (axioma) %s es un terminal"
