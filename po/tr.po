@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34\n"
-"POT-Creation-Date: 2002-06-19 10:51+0200\n"
+"POT-Creation-Date: 2002-06-20 11:03+0200\n"
 "PO-Revision-Date: 2002-03-14 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -412,22 +412,22 @@ msgstr[1] "%d yararsýz kural"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Baþlangýç simgesi %s herhangi bir cümleden türemez"
 
-#: scan-gram.l:548
+#: scan-gram.l:556
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s''in $$'ý bildirilmiþ tip deðil"
 
-#: scan-gram.l:565 scan-gram.l:658
+#: scan-gram.l:573 scan-gram.l:660
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "geçersiz @ deðeri"
 
-#: scan-gram.l:572
+#: scan-gram.l:580
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "`%2$s''in %1$d'i bildirilmiþ tip deðil"
 
-#: scan-gram.l:585 scan-gram.l:606 scan-gram.l:667 scan-gram.l:688
+#: scan-gram.l:591 scan-gram.l:608 scan-gram.l:667 scan-gram.l:684
 #, c-format
 msgid "%s is invalid"
 msgstr "%s geçersizdir"
