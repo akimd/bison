@@ -73,9 +73,7 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS([ctype.h locale.h memory.h stdlib.h string.h unistd.h])
 
 # Checks for compiler characteristics.
-AC_C_CONST
 AC_C_INLINE
-AM_C_PROTOTYPES
 
 # Checks for library functions.
 AC_FUNC_ALLOCA
