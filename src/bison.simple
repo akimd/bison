@@ -141,10 +141,10 @@ typedef struct yyltype
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  short yys;
-  YYSTYPE yyv;
+  short yyss;
+  YYSTYPE yyvs;
 # if YYLSP_NEEDED
-  YYLTYPE yyl;
+  YYLTYPE yyls;
 # endif
 };
 
@@ -163,12 +163,6 @@ union yyalloc
      + YYSTACK_GAP_MAX)
 # endif
 
-# if defined (__STDC__) || defined (__cplusplus)
-#  define YYPOINTER void *
-# else
-#  define YYPOINTER char *
-# endif
-
 /* Relocate the TYPE STACK from its old location to the new one.  The
    local variables YYSIZE and YYSTACKSIZE give the old and new number of
    elements in the stack, and YYPTR gives the new location of the
@@ -178,12 +172,11 @@ union yyalloc
     do									\
       {									\
 	YYSIZE_T yynewbytes;						\
-	yymemcpy (yyptr, (char *) (Stack),				\
+	yymemcpy ((char *) yyptr, (char *) (Stack),			\
 		  yysize * (YYSIZE_T) sizeof (Type));			\
-	(Stack) = (Type *) (YYPOINTER) yyptr;				\
+	Stack = &yyptr->Stack;						\
 	yynewbytes = yystacksize * sizeof (Type) + YYSTACK_GAP_MAX;	\
-	yynewbytes -= yynewbytes % sizeof (union yyalloc);		\
-	yyptr += yynewbytes;						\
+	yyptr += yynewbytes / sizeof (*yyptr);				\
       }									\
     while (0)
 
@@ -691,7 +684,8 @@ yyparse (YYPARSE_PARAM_ARG)
 
       {
 	short *yyss1 = yyss;
-	char *yyptr = (char *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
+	union yyalloc *yyptr =
+	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
 	if (! yyptr)
 	  goto yyoverflowlab;
 	YYSTACK_RELOCATE (short, yyss);
