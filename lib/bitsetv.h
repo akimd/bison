@@ -42,7 +42,21 @@ extern void bitsetv_zero PARAMS ((bitsetv));
 /* Set vector of bitsets.  */
 extern void bitsetv_ones PARAMS ((bitsetv));
 
+/* Given a vector BSETV of N bitsets of size N, modify its contents to
+   be the transitive closure of what was given.  */
+extern void bitsetv_transitive_closure PARAMS ((bitsetv));
+
+/* Given a vector BSETV of N bitsets of size N, modify its contents to
+   be the reflexive transitive closure of what was given.  This is 
+   the same as transitive closure but with all bits on the diagonal
+   of the bit matrix set.  */
+extern void bitsetv_reflexive_transitive_closure PARAMS ((bitsetv));
+
 /* Dump vector of bitsets.  */
 extern void bitsetv_dump PARAMS ((FILE *, const char *,
 				  const char *, bitsetv));
+
+/* Function to debug vector of bitsets from debugger.  */
+extern void debug_bitsetv PARAMS ((bitsetv));
+
 #endif  /* _BITSETV_H  */

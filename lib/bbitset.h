@@ -103,8 +103,7 @@ enum bitset_ops {BITSET_OP_ZERO, BITSET_OP_ONES,
 		 BITSET_OP_COPY, BITSET_OP_NOT,
 		 BITSET_OP_EMPTY_P, BITSET_OP_EQUAL_P,
 		 BITSET_OP_SUBSET_P, BITSET_OP_DISJOINT_P,
-		 BITSET_OP_AND, BITSET_OP_OR, BITSET_OP_XOR,
-		 BITSET_OP_ANDN, BITSET_OP_ORN,
+		 BITSET_OP_AND, BITSET_OP_OR, BITSET_OP_XOR, BITSET_OP_ANDN,
 		 BITSET_OP_OR_AND, BITSET_OP_AND_OR, BITSET_OP_ANDN_OR};
 
 /* Return size in bits of bitset SRC.  */
@@ -181,10 +180,6 @@ enum bitset_ops {BITSET_OP_ZERO, BITSET_OP_ONES,
 #define BITSET_ANDN_(DST, SRC1, SRC2) BITSET_OP3_ (DST, SRC1, SRC2, \
   BITSET_OP_ANDN)
 
-/* DST = SRC1 | ~SRC2.  */
-#define BITSET_ORN_(DST, SRC1, SRC2) BITSET_OP3_ (DST, SRC1, SRC2, \
-  BITSET_OP_ORN)
-
 /* DST = (SRC1 & SRC2) | SRC3.  Return non-zero if
    DST != (SRC1 & SRC2) | SRC3.  */
 #define BITSET_AND_OR_(DST, SRC1, SRC2, SRC3)\
@@ -219,6 +214,11 @@ struct bbitset_struct
   bitset_windex cindex;		/* Cache word index.  */
   bitset_windex csize;		/* Cache size in words.  */
   bitset_word *cdata;		/* Cache data pointer.  */
+  /* Perhaps we could sacrifice another word to indicate
+     that the bitset is known to be zero, that a bit has been set
+     in the cache, and that a bit has been cleared in the cache.
+     This would speed up some of the searches but slightly slow down
+     bit set/reset operations of cached bits.  */
 };
 
 

@@ -179,6 +179,9 @@ do   								\
 #define bitset_test(SRC, BITNO) BITSET_TEST_ (SRC, BITNO)
 #endif
 
+/* Toggle bit BITNO in bitset BSET and return non-zero if now set.  */
+extern int bitset_toggle PARAMS ((bitset, bitset_bindex));
+
 /* DST = 0.  */
 extern int bitset_zero PARAMS ((bitset));
 
@@ -215,9 +218,6 @@ extern int bitset_xor PARAMS ((bitset, bitset, bitset));
 /* DST = SRC1 & ~SRC2.  Return non-zero if DST != SRC1 & ~SRC2.  */
 extern int bitset_andn PARAMS ((bitset, bitset, bitset));
 
-/* DST = SRC1 | ~SRC2.  Return non-zero if DST != SRC1 | ~SRC2.  */
-extern int bitset_orn PARAMS ((bitset, bitset, bitset));
-
 /* DST = (SRC1 | SRC2) & SRC3.  Return non-zero if
    DST != (SRC1 | SRC2) & SRC3.  */
 extern int bitset_or_and PARAMS ((bitset, bitset, bitset, bitset));
@@ -235,6 +235,9 @@ extern int bitset_next PARAMS ((bitset, bitset_bindex));
 
 /* Find previous bit set in BSET starting from and including BITNO.  */
 extern int bitset_prev PARAMS ((bitset, bitset_bindex));
+
+/* Return non-zero if BITNO in SRC is the only set bit.  */
+extern int bitset_only_set_p PARAMS ((bitset, bitset_bindex));
 
 /* Find list of up to NUM bits set in BSET starting from and including
    *NEXT.  Return with actual number of bits found and with *NEXT
