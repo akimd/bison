@@ -1,5 +1,11 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/muscle_tab.c (muscle_init): NULL is a better default than
+	`"0"'.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (reader): Calling symbols_output once is enough.
 
 	
