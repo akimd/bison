@@ -19,7 +19,7 @@
    02111-1307  USA
 */
 
-%option debug nodefault noyywrap nounput never-interactive stack
+%option debug nodefault noyywrap never-interactive
 %option prefix="gram_" outfile="lex.yy.c"
 
 %{
@@ -129,19 +129,6 @@ extend_location (location_t *loc, char const *token, int size)
 }
 
 
-/* Report an unexpected end of file at LOC.  A token or comment began
-   with TOKEN_START, but an end of file was encountered and the
-   expected TOKEN_END was missing.  */
-
-static void
-unexpected_end_of_file (location_t loc,
-			char const *token_start, char const *token_end)
-{
-  complain_at (loc, _("unexpected end of file in `%s ... %s'"),
-	       token_start, token_end);
-}
-
-
 
 /* STRING_OBSTACK -- Used to store all the characters that we need to
    keep (to construct ID, STRINGS etc.).  Use the following macros to
@@ -153,7 +140,6 @@ unexpected_end_of_file (location_t loc,
    used, and which is used by YY_OBS_FREE to free the last string.  */
 
 static struct obstack string_obstack;
-char *last_string;
 
 #define YY_OBS_GROW   \
   obstack_grow (&string_obstack, yytext, yyleng)
@@ -164,19 +150,9 @@ char *last_string;
     last_string = obstack_finish (&string_obstack);	\
   } while (0)
 
-#define YY_OBS_FREE						\
-  do {								\
-    obstack_free (&string_obstack, last_string);		\
-  } while (0)
+#define YY_OBS_FREE \
+  obstack_free (&string_obstack, last_string)
 
-void
-scanner_last_string_free (void)
-{
-  YY_OBS_FREE;
-}
-
-
-static int percent_percent_count = 0;
 
 /* Within well-formed rules, RULE_LENGTH is the number of values in
    the current rule so far, which says where to find `$0' with respect
@@ -192,6 +168,7 @@ static void handle_at (braced_code_t code_kind,
 		       char *cp, location_t location);
 static void handle_syncline (char *args, location_t *location);
 static int convert_ucn_to_byte (char const *hex_text);
+static void unexpected_end_of_file (location_t, char const *);
 
 %}
 %x SC_COMMENT SC_LINE_COMMENT SC_YACC_COMMENT
@@ -215,7 +192,14 @@ splice	 (\\[ \f\t\v]*\n)*
 
 %%
 %{
+  /* Nesting level of the current code in braces.  */
   int braces_level IF_LINT (= 0);
+
+  /* Scanner context when scanning C code.  */
+  int c_context IF_LINT (= 0);
+
+  /* A string representing the most recently saved token.  */
+  char *last_string;
 
   /* At each yylex invocation, mark the current position as the
      start of the next token.  */
@@ -276,7 +260,7 @@ splice	 (\\[ \f\t\v]*\n)*
   ","                     return COMMA;
   ";"                     return SEMICOLON;
 
-  [ \f\n\t\v]+  YY_STEP;
+  [ \f\n\t\v]  YY_STEP;
 
   {id}        {
     yylval->symbol = symbol_get (yytext, *yylloc);
@@ -298,20 +282,20 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   /* Characters.  We don't check there is only one.  */
-  "'"         YY_OBS_GROW; yy_push_state (SC_ESCAPED_CHARACTER);
+  "'"         YY_OBS_GROW; BEGIN SC_ESCAPED_CHARACTER;
 
   /* Strings. */
-  "\""        YY_OBS_GROW; yy_push_state (SC_ESCAPED_STRING);
+  "\""        YY_OBS_GROW; BEGIN SC_ESCAPED_STRING;
 
   /* Comments. */
   "/*"        BEGIN SC_YACC_COMMENT;
   "//".*      YY_STEP;
 
   /* Prologue. */
-  "%{"        yy_push_state (SC_PROLOGUE);
+  "%{"        BEGIN SC_PROLOGUE;
 
   /* Code in between braces.  */
-  "{"         YY_OBS_GROW; braces_level = 0; yy_push_state (SC_BRACED_CODE);
+  "{"         YY_OBS_GROW; braces_level = 0; BEGIN SC_BRACED_CODE;
 
   /* A type. */
   "<"{tag}">" {
@@ -321,30 +305,17 @@ splice	 (\\[ \f\t\v]*\n)*
     return TYPE;
   }
 
-
-  "%%"   {
+  "%%" {
+    static int percent_percent_count;
     if (++percent_percent_count == 2)
-      yy_push_state (SC_EPILOGUE);
+      BEGIN SC_EPILOGUE;
     return PERCENT_PERCENT;
   }
 
-  .           {
+  . {
     complain_at (*yylloc, _("invalid character: %s"), quote (yytext));
     YY_STEP;
   }
-}
-
-
-  /*-------------------------------------------------------------------.
-  | Whatever the start condition (but those which correspond to        |
-  | entities `swallowed' by Bison: SC_YACC_COMMENT, SC_ESCAPED_STRING, |
-  | and SC_ESCAPED_CHARACTER), no M4 character must escape as is.      |
-  `-------------------------------------------------------------------*/
-
-<SC_COMMENT,SC_LINE_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
-{
-  \[	obstack_sgrow (&string_obstack, "@<:@");
-  \]	obstack_sgrow (&string_obstack, "@:>@");
 }
 
 
@@ -359,12 +330,8 @@ splice	 (\\[ \f\t\v]*\n)*
     BEGIN INITIAL;
   }
 
-  [^*]+|"*"  ;
-
-  <<EOF>> {
-    unexpected_end_of_file (*yylloc, "/*", "*/");
-    BEGIN INITIAL;
-  }
+  .|\n	   ;
+  <<EOF>>  unexpected_end_of_file (*yylloc, "*/");
 }
 
 
@@ -374,13 +341,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_COMMENT>
 {
-  "*"{splice}"/"  YY_OBS_GROW; yy_pop_state ();
-  [^*\[\]]+|"*"   YY_OBS_GROW;
-
-  <<EOF>> {
-    unexpected_end_of_file (*yylloc, "/*", "*/");
-    yy_pop_state ();
-  }
+  "*"{splice}"/"  YY_OBS_GROW; BEGIN c_context;
+  <<EOF>>	  unexpected_end_of_file (*yylloc, "*/");
 }
 
 
@@ -390,9 +352,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_LINE_COMMENT>
 {
-  "\n"			 YY_OBS_GROW; yy_pop_state ();
-  ([^\n\[\]]|{splice})+  YY_OBS_GROW;
-  <<EOF>>		 yy_pop_state ();
+  "\n"		 YY_OBS_GROW; BEGIN c_context;
+  {splice}	 YY_OBS_GROW;
+  <<EOF>>	 BEGIN c_context;
 }
 
 
@@ -404,25 +366,16 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_STRING>
 {
   "\"" {
-    assert (yy_top_state () == INITIAL);
     YY_OBS_GROW;
     YY_OBS_FINISH;
     yylval->string = last_string;
-    yy_pop_state ();
     rule_length++;
+    BEGIN INITIAL;
     return STRING;
   }
 
-  [^\"\\]+  YY_OBS_GROW;
-
-  <<EOF>> {
-    unexpected_end_of_file (*yylloc, "\"", "\"");
-    assert (yy_top_state () == INITIAL);
-    YY_OBS_FINISH;
-    yylval->string = last_string;
-    yy_pop_state ();
-    return STRING;
-  }
+  .|\n	    YY_OBS_GROW;
+  <<EOF>>   unexpected_end_of_file (*yylloc, "\"");
 }
 
   /*---------------------------------------------------------------.
@@ -434,30 +387,19 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "'" {
     YY_OBS_GROW;
-    assert (yy_top_state () == INITIAL);
-    {
-      YY_OBS_FINISH;
-      yylval->symbol = symbol_get (last_string, *yylloc);
-      symbol_class_set (yylval->symbol, token_sym, *yylloc);
-      symbol_user_token_number_set (yylval->symbol,
-				    (unsigned char) last_string[1], *yylloc);
-      YY_OBS_FREE;
-      yy_pop_state ();
-      rule_length++;
-      return ID;
-    }
-  }
-
-  [^\'\\]+  YY_OBS_GROW;
-
-  <<EOF>> {
-    unexpected_end_of_file (*yylloc, "'", "'");
-    assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
-    yylval->string = last_string;
-    yy_pop_state ();
-    return CHARACTER;
+    yylval->symbol = symbol_get (last_string, *yylloc);
+    symbol_class_set (yylval->symbol, token_sym, *yylloc);
+    symbol_user_token_number_set (yylval->symbol,
+				  (unsigned char) last_string[1], *yylloc);
+    YY_OBS_FREE;
+    rule_length++;
+    BEGIN INITIAL;
+    return ID;
   }
+
+  .|\n	    YY_OBS_GROW;
+  <<EOF>>   unexpected_end_of_file (*yylloc, "'");
 }
 
 
@@ -517,8 +459,6 @@ splice	 (\\[ \f\t\v]*\n)*
 		 quote (yytext));
     YY_OBS_GROW;
   }
-  /* FLex wants this rule, in case of a `\<<EOF>>'. */
-  \\                   YY_OBS_GROW;
 }
 
 
@@ -529,23 +469,10 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_CHARACTER>
 {
-  "'" {
-    YY_OBS_GROW;
-    assert (yy_top_state () != INITIAL);
-    yy_pop_state ();
-  }
-
-  [^'\[\]\\]+	       YY_OBS_GROW;
+  "'"		       YY_OBS_GROW; BEGIN c_context;
   \\{splice}[^\[\]]    YY_OBS_GROW;
   {splice}	       YY_OBS_GROW;
-  /* Needed for `\<<EOF>>', `\\<<newline>>[', and `\\<<newline>>]'.  */
-  \\                   YY_OBS_GROW;
-
-  <<EOF>> {
-    unexpected_end_of_file (*yylloc, "'", "'");
-    assert (yy_top_state () != INITIAL);
-    yy_pop_state ();
-  }
+  <<EOF>>	       unexpected_end_of_file (*yylloc, "'");
 }
 
 
@@ -556,23 +483,10 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_STRING>
 {
-  "\"" {
-    assert (yy_top_state () != INITIAL);
-    YY_OBS_GROW;
-    yy_pop_state ();
-  }
-
-  [^\"\[\]\\]+	       YY_OBS_GROW;
+  "\""		       YY_OBS_GROW; BEGIN c_context;
   \\{splice}[^\[\]]    YY_OBS_GROW;
   {splice}	       YY_OBS_GROW;
-  /* Needed for `\<<EOF>>', `\\<<newline>>[', and `\\<<newline>>]'.  */
-  \\                   YY_OBS_GROW;
-
-  <<EOF>> {
-    unexpected_end_of_file (*yylloc, "\"", "\"");
-    assert (yy_top_state () != INITIAL);
-    yy_pop_state ();
-  }
+  <<EOF>>	       unexpected_end_of_file (*yylloc, "\"");
 }
 
 
@@ -582,18 +496,10 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
-  /* Characters.  We don't check there is only one.  */
-  "'"         YY_OBS_GROW; yy_push_state (SC_CHARACTER);
-
-  /* Strings. */
-  "\""        YY_OBS_GROW; yy_push_state (SC_STRING);
-
-  /* Comments. */
-  "/"{splice}"*"  YY_OBS_GROW; yy_push_state (SC_COMMENT);
-  "/"{splice}"/"  YY_OBS_GROW; yy_push_state (SC_LINE_COMMENT);
-
-  /* Not comments. */
-  "/"         YY_OBS_GROW;
+  "'"		  YY_OBS_GROW; c_context = YY_START; BEGIN SC_CHARACTER;
+  "\""		  YY_OBS_GROW; c_context = YY_START; BEGIN SC_STRING;
+  "/"{splice}"*"  YY_OBS_GROW; c_context = YY_START; BEGIN SC_COMMENT;
+  "/"{splice}"/"  YY_OBS_GROW; c_context = YY_START; BEGIN SC_LINE_COMMENT;
 }
 
 
@@ -611,31 +517,24 @@ splice	 (\\[ \f\t\v]*\n)*
     braces_level--;
     if (braces_level < 0)
       {
-	yy_pop_state ();
 	YY_OBS_FINISH;
 	yylval->string = last_string;
 	rule_length++;
+	BEGIN INITIAL;
 	return BRACED_CODE;
       }
   }
+
+  /* Tokenize `<<%' correctly (as `<<' `%') rather than incorrrectly
+     (as `<' `<%').  */
+  "<"{splice}"<"  YY_OBS_GROW;
 
   "$"("<"{tag}">")?(-?[0-9]+|"$") { handle_dollar (current_braced_code,
 						   yytext, *yylloc); }
   "@"(-?[0-9]+|"$")               { handle_at (current_braced_code,
 					       yytext, *yylloc); }
 
-  /* `"<"{splice}"<"' tokenizes `<<%' correctly (as `<<' `%') rather
-     than incorrrectly (as `<' `<%').  */
-  [^\"$%\'/<@\[\]\{\}]+|[$%/<@]|"<"{splice}"<"  YY_OBS_GROW;
-
-  <<EOF>> {
-    unexpected_end_of_file (*yylloc, "{", "}");
-    yy_pop_state ();
-    YY_OBS_FINISH;
-    yylval->string = last_string;
-    return BRACED_CODE;
-  }
-
+  <<EOF>>  unexpected_end_of_file (*yylloc, "}");
 }
 
 
@@ -646,22 +545,13 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_PROLOGUE>
 {
   "%}" {
-    yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
+    BEGIN INITIAL;
     return PROLOGUE;
   }
 
-  [^%\[\]/\'\"]+     YY_OBS_GROW;
-  "%"                YY_OBS_GROW;
-
-  <<EOF>> {
-    unexpected_end_of_file (*yylloc, "%{", "%}");
-    yy_pop_state ();
-    YY_OBS_FINISH;
-    yylval->string = last_string;
-    return PROLOGUE;
-  }
+  <<EOF>>  unexpected_end_of_file (*yylloc, "%}");
 }
 
 
@@ -672,14 +562,25 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_EPILOGUE>
 {
-  [^\[\]]+  YY_OBS_GROW;
-
   <<EOF>> {
-    yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
+    BEGIN INITIAL;
     return EPILOGUE;
   }
+}
+
+
+  /*----------------------------------------------------------------.
+  | By default, grow the string obstack with the input, escaping M4 |
+  | quoting characters.						    |
+  `----------------------------------------------------------------*/
+
+<SC_COMMENT,SC_LINE_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
+{
+  \[	obstack_sgrow (&string_obstack, "@<:@");
+  \]	obstack_sgrow (&string_obstack, "@:>@");
+  .|\n  YY_OBS_GROW;
 }
 
 
@@ -932,6 +833,24 @@ handle_syncline (char *args, location_t *location)
   location->file = infile;
   location->last_line = lineno;
 }
+
+
+/*-------------------------------------------------------------.
+| Report an unexpected end of file at LOC.  An end of file was |
+| encountered and the expected TOKEN_END was missing.  After   |
+| reporting the problem, pretend that TOKEN_END was found.     |
+`-------------------------------------------------------------*/
+
+static void
+unexpected_end_of_file (location_t loc, char const *token_end)
+{
+  size_t i;
+
+  complain_at (loc, _("missing `%s' at end of file"), token_end);
+  for (i = strlen (token_end); i != 0; i--)
+    unput (token_end[i - 1]);
+}
+
 
 /*-------------------------.
 | Initialize the scanner.  |
