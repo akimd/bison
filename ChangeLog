@@ -1,3 +1,10 @@
+2001-11-28  Akim Demaille  <akim@epita.fr>
+
+	* tests/reduce.at (Useless Terminals, Useless Nonterminals): New.
+	* src/reduce.c (reduce_grammar_tables): Do not free useless tags,
+	as all tags are free'ed afterwards.
+	From Enrico Scholz.
+
 2001-11-27  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYSTACK_REALLOC): Fix typo that caused us to
