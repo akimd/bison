@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2002-04-07 19:46+0200\n"
+"POT-Creation-Date: 2002-04-08 14:33+0200\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "för många tillstånd (max %d)"
 
-#: src/complain.c:99 lib/error.c:128 lib/error.c:156
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr "Okänt systemfel"
 
@@ -87,7 +87,7 @@ msgstr " %d skifta/reducera"
 msgid " %d reduce/reduce"
 msgstr " %d reducera/reducera"
 
-#: src/conflicts.c:380 src/reduce.c:445
+#: src/conflicts.c:380 src/reduce.c:442
 #, c-format
 msgid "%s contains "
 msgstr "%s innehåller "
@@ -283,7 +283,7 @@ msgstr "\"%s\" stödjer inga argument: %s"
 msgid "`%s' requires an argument"
 msgstr "\"%s\" behöver ett argument"
 
-#: src/output.c:794
+#: src/output.c:834
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "maximal tabellstorlek (%d) överskriden"
@@ -612,24 +612,19 @@ msgstr "startsymbolen %s är odefinierad"
 msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"
 
-#: src/reader.c:1746
-#, fuzzy, c-format
-msgid "too many items (max %d)"
-msgstr "för många tillstånd (max %d)"
-
-#: src/reduce.c:335
+#: src/reduce.c:332
 msgid "Useless nonterminals:"
 msgstr "Oanvändbara icketerminaler:"
 
-#: src/reduce.c:349
+#: src/reduce.c:346
 msgid "Terminals which are not used:"
 msgstr "Terminaler som inte används:"
 
-#: src/reduce.c:361
+#: src/reduce.c:358
 msgid "Useless rules:"
 msgstr "Oanvändbara regler:"
 
-#: src/reduce.c:440
+#: src/reduce.c:437
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
@@ -638,23 +633,23 @@ msgstr[0] "%d regler reduceras aldrig\n"
 # Jag har anmält att det är fel att anta att "s" är en universell pluraländelse.
 # Jag föreslog också att de använder ngettext istället.
 # "Vad göras skall är redan gjort."
-#: src/reduce.c:448
+#: src/reduce.c:445
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d oanvändbara icketerminaler%.0s"
 
-#: src/reduce.c:454
+#: src/reduce.c:451
 msgid " and "
 msgstr " och "
 
-#: src/reduce.c:457
+#: src/reduce.c:454
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d oanvändbara regler%.0s"
 
-#: src/reduce.c:487
+#: src/reduce.c:484
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Startsymbolen %s genererar inga meningar"
@@ -728,6 +723,10 @@ msgstr "\""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "\""
+
+#, fuzzy
+#~ msgid "too many items (max %d)"
+#~ msgstr "för många tillstånd (max %d)"
 
 #~ msgid "%-4s\terror (nonassociative)"
 #~ msgstr "%-4s\tfel (ickeassociativ)"

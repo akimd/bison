@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2002-04-07 19:46+0200\n"
+"POT-Creation-Date: 2002-04-08 14:33+0200\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr ""
 
-#: src/complain.c:99 lib/error.c:128 lib/error.c:156
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr " %d vershuif/reduceer"
 msgid " %d reduce/reduce"
 msgstr " %d reduceer/reduceer"
 
-#: src/conflicts.c:380 src/reduce.c:445
+#: src/conflicts.c:380 src/reduce.c:442
 #, c-format
 msgid "%s contains "
 msgstr "%s bevat"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: optie `%s' vereist een argument\n"
 
-#: src/output.c:794
+#: src/output.c:834
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "maximale tabel grootte (%s) overschreden"
@@ -598,19 +598,14 @@ msgstr ""
 msgid "the start symbol %s is a token"
 msgstr "het start symbool %s is een token"
 
-#: src/reader.c:1746
-#, c-format
-msgid "too many items (max %d)"
-msgstr ""
-
-#: src/reduce.c:335
+#: src/reduce.c:332
 #, fuzzy
 msgid "Useless nonterminals:"
 msgstr ""
 "Onbruikbare niet terminals:\n"
 "\n"
 
-#: src/reduce.c:349
+#: src/reduce.c:346
 #, fuzzy
 msgid "Terminals which are not used:"
 msgstr ""
@@ -619,7 +614,7 @@ msgstr ""
 "Terminals welke niet worden gebruikt:\n"
 "\n"
 
-#: src/reduce.c:361
+#: src/reduce.c:358
 #, fuzzy
 msgid "Useless rules:"
 msgstr ""
@@ -628,29 +623,29 @@ msgstr ""
 "Onbruikbare regels:\n"
 "\n"
 
-#: src/reduce.c:440
+#: src/reduce.c:437
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regels nooit gereduceerd\n"
 
-#: src/reduce.c:448
+#: src/reduce.c:445
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d onbruikbare niet terminal%s"
 
-#: src/reduce.c:454
+#: src/reduce.c:451
 msgid " and "
 msgstr " en "
 
-#: src/reduce.c:457
+#: src/reduce.c:454
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d onbruikbare regels%s"
 
-#: src/reduce.c:487
+#: src/reduce.c:484
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Start symbool %s is niet afkomstig uit een zin"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-04-07 19:46+0200\n"
+"POT-Creation-Date: 2002-04-08 14:33+0200\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "troppi stati (massimo %d)"
 
-#: src/complain.c:99 lib/error.c:128 lib/error.c:156
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr "Errore di sistema sconosciuto"
 
@@ -86,7 +86,7 @@ msgstr " %d shift/riduzione"
 msgid " %d reduce/reduce"
 msgstr " %d riduzione/riduzione"
 
-#: src/conflicts.c:380 src/reduce.c:445
+#: src/conflicts.c:380 src/reduce.c:442
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
@@ -280,7 +280,7 @@ msgstr "`%s' non supporta argomenti: %s"
 msgid "`%s' requires an argument"
 msgstr "`%s' richiede un argomento"
 
-#: src/output.c:794
+#: src/output.c:834
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "ecceduta la dimensione massima di una tabella (%d)"
@@ -607,49 +607,44 @@ msgstr "simbolo iniziale %s non definito"
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"
 
-#: src/reader.c:1746
-#, c-format
-msgid "too many items (max %d)"
-msgstr "troppi elementi (max %d)"
-
-#: src/reduce.c:335
+#: src/reduce.c:332
 msgid "Useless nonterminals:"
 msgstr "Simboli nonterminali inutili:"
 
-#: src/reduce.c:349
+#: src/reduce.c:346
 msgid "Terminals which are not used:"
 msgstr "Simboli terminali inutilizzati:"
 
-#: src/reduce.c:361
+#: src/reduce.c:358
 msgid "Useless rules:"
 msgstr "Regole inutili:"
 
-#: src/reduce.c:440
+#: src/reduce.c:437
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regola non applicata\n"
 msgstr[1] "%d regole non applicate\n"
 
-#: src/reduce.c:448
+#: src/reduce.c:445
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d simbolo nonterminale inutilizzato"
 msgstr[1] "%d simboli nonterminali inutilizzati"
 
-#: src/reduce.c:454
+#: src/reduce.c:451
 msgid " and "
 msgstr " e "
 
-#: src/reduce.c:457
+#: src/reduce.c:454
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d regola inutile"
 msgstr[1] "%d regole inutili"
 
-#: src/reduce.c:487
+#: src/reduce.c:484
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
@@ -720,6 +715,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "too many items (max %d)"
+#~ msgstr "troppi elementi (max %d)"
 
 #~ msgid "    $   \tgo to state %d\n"
 #~ msgstr "    $   \tprosecuzione allo stato %d\n"
