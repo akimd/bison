@@ -3,6 +3,9 @@ Bison News
 
 Changes in version 1.30h:
 
+* When the generated parser lacks debugging code, YYDEBUG is now 0
+  (as POSIX requires) instead of being undefined.
+
 * User Actions
   Bison has always permitted actions such as { $$ = $1 }: it adds the
   ending semicolon.  Now if in Yacc compatibility mode, the semicolon
