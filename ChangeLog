@@ -1,5 +1,12 @@
 2000-03-16  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_rule_data): Output the documentation of
+	some of the tables.
+	(Copyright notice): Update.
+	Formatting changes.
+
+2000-03-16  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.s1 [!YYDEBUG]: Define yydebug to 0.  This allows to
 	remove most `#if YYDEBUG != 0', since `if (yydebug)' is enough.
 	One `#if YYDEBUG' remains, since it uses variables which are
