@@ -1,3 +1,18 @@
+2002-10-30  Paul Eggert  <eggert@twinsun.com>
+
+	* lib/bitset_stats.c (bitset_stats_read, bitset_stats_write):
+	Check for close failures.
+	* src/files.h (xfclose): Return void, not int, since it always
+	returned zero.
+	* src/files.c (xfclose): Likewise.  Report I/O error if ferror
+	indicates one.
+	* src/output.c (output_skeleton): Use xfclose rather than fclose
+	and ferror.  xfclose now checks ferror.
+
+	* data/glr.c (YYLEFTMOST_STATE): Remove.
+	(yyreportTree): Use a stack-based leftmost state.  This avoids
+	our continuing battles with bogus warnings about initializers.
+
 2002-10-30  Akim Demaille  <akim@epita.fr>
 
 	* src/system.h: Don't use #ifdef/#ifndef on HAVE_ values, only
