@@ -1,5 +1,5 @@
 /* Declaration for error-reporting function for Bison.
-   Copyright 2000 Free Software Foundation, Inc.
+   Copyright 2000, 2001 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the
@@ -40,18 +40,10 @@ extern void complain (const char *format, ...)
 extern void fatal (const char *format, ...)
      __attribute__ ((__format__ (__printf__, 1, 2)));
 
-/* Print a message with `fprintf (stderr, FORMAT, ...)';
-   if ERRNUM is nonzero, follow it with ": " and strerror (ERRNUM).
-   If STATUS is nonzero, terminate the program with `exit (STATUS)'.  */
-
-extern void error (int status, int errnum,
-		   const char *format, ...)
-     __attribute__ ((__format__ (__printf__, 3, 4)));
-
 #else
 void warn ();
 void complain ();
-void error ();
+void fatal ();
 #endif
 
 /* Position in the current input file. */

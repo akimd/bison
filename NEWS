@@ -3,6 +3,9 @@ Bison News
 
 Changes in version 1.30e:
 
+* Error messages
+  Some calls to strerror resulted in scrambled or missing error messages.
+
 * %expect
   When the number of shift/reduce conflicts is correct, don't issue
   any warning.
