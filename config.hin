@@ -145,6 +145,9 @@
 /* Define to 1 if you have the <nl_types.h> header file. */
 #undef HAVE_NL_TYPES_H
 
+/* Define to 1 if libc includes obstacks. */
+#undef HAVE_OBSTACK
+
 /* Define to 1 if you have the `putenv' function. */
 #undef HAVE_PUTENV
 
