@@ -36,4 +36,6 @@ extern int lineno;
 extern char **tags;
 extern short *user_toknums;
 
+extern struct obstack macro_obstack;
+
 #endif /* !READER_H_ */

@@ -1,5 +1,17 @@
 2001-08-27  Robert Anisko  <robert.anisko@epita.fr>
 
+	* src/output.c (output): Remove the initialization of the macro 
+	obstack.  It was done too late here.
+
+	* src/reader.c (parse_macro_decl): Fix.  Use of the macro obstack was
+	completely wrong.
+	(reader): Initialize the macro obstack here, since we need it to grow
+	'%define' directives.
+
+	* src/reader.h: Declare the macro obstack as extern.
+
+2001-08-27  Robert Anisko  <robert.anisko@epita.fr>
+
 	* src/output.c (output_parser): Fix.  Store single '%' characters in
 	the output obstack instead of throwing them away.
 
