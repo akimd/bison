@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28a\n"
-"POT-Creation-Date: 2001-03-16 16:02+0100\n"
+"POT-Creation-Date: 2001-07-20 14:12+0200\n"
 "PO-Revision-Date: 2000-04-12 13:16+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -125,16 +125,16 @@ msgstr "%s выводит"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:80
+#: src/getargs.c:79
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison генерирует анализаторы для грамматик LALR(1).\n"
 
-#: src/getargs.c:84
+#: src/getargs.c:83
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Использование: %s [КЛЮЧИ]... ФАЙЛ\n"
 
-#: src/getargs.c:88
+#: src/getargs.c:87
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -143,7 +143,7 @@ msgstr ""
 "является обязательным для короткой формы.  То же касается необязательных\n"
 "аргументов.\n"
 
-#: src/getargs.c:94
+#: src/getargs.c:93
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -155,7 +155,7 @@ msgstr ""
 "  -V, --version   вывести информацию о версии и выйти\n"
 "  -y, --yacc      эмулировать POSIX yacc\n"
 
-#: src/getargs.c:101
+#: src/getargs.c:100
 #, fuzzy
 msgid ""
 "Parser:\n"
@@ -165,7 +165,6 @@ msgid ""
 "  -p, --name-prefix=PREFIX   prepend PREFIX to the external symbols\n"
 "  -l, --no-lines             don't generate `#line' directives\n"
 "  -n, --no-parser            generate the tables only\n"
-"  -r, --raw                  number the tokens from 3\n"
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
 "Анализатор:\n"
@@ -176,7 +175,7 @@ msgstr ""
 "  -r, --raw                  нумеровать лексемы, начиная с 3\n"
 "  -k, --token-table          включить таблицу имен лексем\n"
 
-#: src/getargs.c:114
+#: src/getargs.c:112
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -190,39 +189,44 @@ msgstr ""
 "  -b, --file-prefix=ПРЕФИКС  указать ПРЕФИКС для выходных файлов\n"
 "  -o, --output-file=ФАЙЛ     поместить результат в ФАЙЛ\n"
 
-#: src/getargs.c:122
+#: src/getargs.c:120
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Ошибки сообщайте по адресу <bug-bison@gnu.org>.\n"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:136
+#: src/getargs.c:134
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr ""
 
-#: src/getargs.c:141
+#: src/getargs.c:139
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
 
-#: src/getargs.c:145
+#: src/getargs.c:143
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:226
+#: src/getargs.c:200 src/lex.c:633
+#, c-format
+msgid "`%s' is no longer supported"
+msgstr ""
+
+#: src/getargs.c:224
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/getargs.c:233
+#: src/getargs.c:231
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: не задан файл с грамматикой\n"
 
-#: src/getargs.c:237
+#: src/getargs.c:235
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: лишние аргументы после `%s' игнорированы\n"
@@ -400,7 +404,7 @@ msgstr "незаконченная строка"
 #: src/reader.c:327 src/reader.c:391
 #, fuzzy, c-format
 msgid "%s is invalid"
-msgstr "неверный знак @%s"
+msgstr "неверный знак $%s"
 
 #: src/reader.c:367
 #, c-format
@@ -461,6 +465,7 @@ msgid "%type declaration has no <typename>"
 msgstr "описание %type не имеет <имя_типа>"
 
 #: src/reader.c:619
+#, c-format
 msgid "invalid %%type declaration due to item: %s"
 msgstr "неверное описание %%type из-за элемента: %s"
 
@@ -485,7 +490,7 @@ msgid "unmatched %s"
 msgstr "непарная `{'"
 
 #: src/reader.c:792
-#, fuzzy
+#, fuzzy, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "аргумент %expect не является целым числом"
 
@@ -536,7 +541,7 @@ msgid "two @prec's in a row"
 msgstr "два @prec подряд"
 
 #: src/reader.c:1445
-#, fuzzy
+#, fuzzy, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%guard присутствует, а %semantic_parser не задан"
 
@@ -573,27 +578,27 @@ msgstr "отсутствуют правила во входной грамматике"
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr "символ %s используется, но не определен как лексема и не имеет правил"
 
-#: src/reader.c:1659
+#: src/reader.c:1658
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "противоречивые приоритеты для %s и %s"
 
-#: src/reader.c:1671
+#: src/reader.c:1670
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "противоречивые значения ассоциативности для %s и %s"
 
-#: src/reader.c:1722
+#: src/reader.c:1721
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "обеим лексемам %s и %s присвоен номер %d"
 
-#: src/reader.c:1735
+#: src/reader.c:1734
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "начальный символ %s неопределен"
 
-#: src/reader.c:1737
+#: src/reader.c:1736
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
@@ -786,13 +791,6 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Memory exhausted"
-#~ msgstr "%s: память исчерпана\n"
-
-#~ msgid "$%s is invalid"
-#~ msgstr "неверный знак $%s"
-
 #~ msgid "multiple %union declarations"
 #~ msgstr "множественное описание %union"
 
@@ -801,6 +799,9 @@ msgstr ""
 
 #~ msgid "unmatched close-brace (`}')"
 #~ msgstr "непарная закрывающая фигурная скобка (`}')"
+
+#~ msgid "@%s is invalid"
+#~ msgstr "неверный знак @%s"
 
 #~ msgid "unmatched right brace (`}')"
 #~ msgstr "непарная правая фигурная скобка (`}')"
