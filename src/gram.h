@@ -113,15 +113,15 @@ extern item_number_t *ritem;
 extern unsigned int nritems;
 
 /* There is weird relationship between item_number_t and
-   token_number_t: we store token_number_t in item_number_t, but in
+   symbol_number_t: we store symbol_number_t in item_number_t, but in
    the latter we also store, as negative numbers, the rule numbers.
 
-   Therefore, an token_number_t must be a valid item_number_t, and we
+   Therefore, an symbol_number_t must be a valid item_number_t, and we
    sometimes have to perform the converse transformation.  */
-#define token_number_as_item_number(Tok) ((item_number_t) (Tok))
-#define item_number_as_token_number(Ite) ((token_number_t) (Ite))
+#define symbol_number_as_item_number(Tok) ((item_number_t) (Tok))
+#define item_number_as_symbol_number(Ite) ((symbol_number_t) (Ite))
 
-extern token_number_t start_symbol;
+extern symbol_number_t start_symbol;
 
 
 typedef struct rule_s
@@ -158,7 +158,7 @@ extern symbol_t **symbols;
 /* TOKEN_TRANSLATION -- a table indexed by a token number as returned
    by the user's yylex routine, it yields the internal token number
    used by the parser and throughout bison.  */
-extern token_number_t *token_translations;
+extern symbol_number_t *token_translations;
 extern int max_user_token_number;
 
 

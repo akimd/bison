@@ -43,7 +43,7 @@ typedef enum
 
 
 /* Internal token numbers. */
-typedef short token_number_t;
+typedef short symbol_number_t;
 
 
 typedef struct symbol_s symbol_t;
@@ -54,7 +54,7 @@ struct symbol_s
   /* Its type. */
   char *type_name;
 
-  token_number_t number;
+  symbol_number_t number;
   short prec;
   associativity assoc;
   int user_token_number;
@@ -76,7 +76,7 @@ struct symbol_s
 #define USER_NUMBER_ALIAS -9991
 
 /* Undefined internal token number.  */
-#define NUMBER_UNDEFINED ((token_number_t) -1)
+#define NUMBER_UNDEFINED ((symbol_number_t) -1)
 
 
 /* A function to apply to each symbol. */

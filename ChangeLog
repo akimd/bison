@@ -1,5 +1,17 @@
 2002-05-26  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c, src/derives.c, src/gram.c, src/gram.h, src/lalr.c,
+	* src/nullable.c, src/output.c, src/print.c, src/print_graph.c,
+	* src/reader.c, src/reduce.c, src/state.h, src/symtab.h
+	(token_number_t, item_number_as_token_number)
+	(token_number_as_item_number, muscle_insert_token_number_table):
+	Rename as...
+	(symbol_number_t, item_number_as_symbol_number)
+	(symbol_number_as_item_number, muscle_insert_symbol_number_table):
+	these, since it is more appropriate.
+
+2002-05-26  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at (AT_CHECK_CALC): Adjust: there are now additional
 	`Error:' lines.
 	* data/bison.simple (yystos) [YYDEBUG]: New.
