@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30d\n"
-"POT-Creation-Date: 2001-11-30 12:41+0100\n"
+"POT-Creation-Date: 2001-11-30 16:11+0100\n"
 "PO-Revision-Date: 2001-11-21 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -756,11 +756,11 @@ msgstr "mémoire épuisée"
 #. MARK).  A British English Unicode locale should instead
 #. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
 #. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
-#: lib/quotearg.c:268
+#: lib/quotearg.c:274
 msgid "`"
 msgstr "`"
 
-#: lib/quotearg.c:269
+#: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
 
