@@ -1,5 +1,9 @@
 2003-03-31  Akim Demaille  <akim@epita.fr>
 
+	* doc/Makefile.am (AM_MAKEINFOFLAGS): Don't split the info file.
+
+2003-03-31  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (prepare_symbols): Avoid trailing spaces in the
 	output.
 

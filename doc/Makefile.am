@@ -16,6 +16,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 ## 02111-1307  USA
 
+AM_MAKEINFOFLAGS = --no-split
 info_TEXINFOS = bison.texinfo
 man_MANS = bison.1
 bison_TEXINFOS = gpl.texi fdl.texi
