@@ -27,6 +27,39 @@ elif test -n "${BASH_VERSION+set}" && (set -o posix) >/dev/null 2>&1; then
   set -o posix
 fi
 
+# NLS nuisances.
+# Support unset when possible.
+if (FOO=FOO; unset FOO) >/dev/null 2>&1; then
+  as_unset=unset
+else
+  as_unset=false
+fi
+
+(set +x; test -n "`(LANG=C; export LANG) 2>&1`") &&
+    { $as_unset LANG || test "${LANG+set}" != set; } ||
+      { LANG=C; export LANG; }
+(set +x; test -n "`(LC_ALL=C; export LC_ALL) 2>&1`") &&
+    { $as_unset LC_ALL || test "${LC_ALL+set}" != set; } ||
+      { LC_ALL=C; export LC_ALL; }
+(set +x; test -n "`(LC_TIME=C; export LC_TIME) 2>&1`") &&
+    { $as_unset LC_TIME || test "${LC_TIME+set}" != set; } ||
+      { LC_TIME=C; export LC_TIME; }
+(set +x; test -n "`(LC_CTYPE=C; export LC_CTYPE) 2>&1`") &&
+    { $as_unset LC_CTYPE || test "${LC_CTYPE+set}" != set; } ||
+      { LC_CTYPE=C; export LC_CTYPE; }
+(set +x; test -n "`(LANGUAGE=C; export LANGUAGE) 2>&1`") &&
+    { $as_unset LANGUAGE || test "${LANGUAGE+set}" != set; } ||
+      { LANGUAGE=C; export LANGUAGE; }
+(set +x; test -n "`(LC_COLLATE=C; export LC_COLLATE) 2>&1`") &&
+    { $as_unset LC_COLLATE || test "${LC_COLLATE+set}" != set; } ||
+      { LC_COLLATE=C; export LC_COLLATE; }
+(set +x; test -n "`(LC_NUMERIC=C; export LC_NUMERIC) 2>&1`") &&
+    { $as_unset LC_NUMERIC || test "${LC_NUMERIC+set}" != set; } ||
+      { LC_NUMERIC=C; export LC_NUMERIC; }
+(set +x; test -n "`(LC_MESSAGES=C; export LC_MESSAGES) 2>&1`") &&
+    { $as_unset LC_MESSAGES || test "${LC_MESSAGES+set}" != set; } ||
+      { LC_MESSAGES=C; export LC_MESSAGES; }
+
 # Name of the executable.
 as_me=`(basename "$0") 2>/dev/null ||
 $as_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
@@ -39,7 +72,14 @@ echo X/"$0" |
   	  /^X\/\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`
 
-# Rewrite early, but we need PATH_SEPARATOR.
+# PATH needs CR, and LINENO needs CR and PATH.
+# Avoid depending upon Character Ranges.
+as_cr_letters='abcdefghijklmnopqrstuvwxyz'
+as_cr_LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+as_cr_Letters=$as_cr_letters$as_cr_LETTERS
+as_cr_digits='0123456789'
+as_cr_alnum=$as_cr_Letters$as_cr_digits
+
 # The user is always right.
 if test "${PATH_SEPARATOR+set}" != set; then
   echo "#! $SHELL" >conftest.sh
@@ -53,13 +93,11 @@ if test "${PATH_SEPARATOR+set}" != set; then
   rm -f conftest.sh
 fi
 
-{
   as_lineno_1=$LINENO
   as_lineno_2=$LINENO
   as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
   test "x$as_lineno_1" != "x$as_lineno_2" &&
-  test "x$as_lineno_3"  = "x$as_lineno_2"
-} || {
+  test "x$as_lineno_3"  = "x$as_lineno_2"  || {
   # Find who we are.  Look in the path if we contain no path at all
   # relative or not.
   case $0 in
@@ -93,13 +131,12 @@ do
   for as_base in sh bash ksh sh5; do
 	 case $as_dir in
 	 /*)
-	   if ("$as_dir/$as_base" -c '{
+	   if ("$as_dir/$as_base" -c '
   as_lineno_1=$LINENO
   as_lineno_2=$LINENO
   as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
   test "x$as_lineno_1" != "x$as_lineno_2" &&
-  test "x$as_lineno_3"  = "x$as_lineno_2"
-}') 2>/dev/null; then
+  test "x$as_lineno_3"  = "x$as_lineno_2" ') 2>/dev/null; then
 	     CONFIG_SHELL=$as_dir/$as_base
 	     export CONFIG_SHELL
 	     exec "$CONFIG_SHELL" "$0" ${1+"$@"}
@@ -109,19 +146,28 @@ do
 done
 ;;
   esac
-  if test ! -f "$as_me.lineno" ||
-     test x`ls -1dt "$as_me.lineno" "$as_myself" 2>/dev/null | sed 1q` \
-                != x"$as_me.lineno"; then
-     # Be sure to write the pattern so that it doesn't replace itself:
-     # it must not match itself.
-     awk <$as_myself '
-           /[$]LINENO/ { printf "%d:", NR }
-                         { print }
-         ' |
-       sed '/[$]LINENO/s/^\([0-9][0-9]*\):\(.*\)[$]LINENO/\2\1/' \
-         >$as_me.lineno
-    chmod +x $as_me.lineno
-  fi
+
+  # Create $as_me.lineno as a copy of $as_myself, but with $LINENO
+  # uniformly replaced by the line number.  The first 'sed' inserts a
+  # line-number line before each line; the second 'sed' does the real
+  # work.  The second script uses 'N' to pair each line-number line
+  # with the numbered line, and appends trailing '-' during
+  # substitution so that $LINENO is not a special case at line end.
+  # (Raja R Harinath suggested sed '=', and Paul Eggert wrote the
+  # second 'sed' script.  Blame Lee E. McMahon for sed's syntax.  :-)
+  sed '=' <$as_myself |
+    sed '
+      N
+      s,$,-,
+      : loop
+      s,^\(['$as_cr_digits']*\)\(.*\)[$]LINENO\([^'$as_cr_alnum'_]\),\1\2\1\3,
+      t loop
+      s,-$,,
+      s,^['$as_cr_digits']*\n,,
+    ' >$as_me.lineno &&
+  chmod +x $as_me.lineno ||
+    { echo "$as_me: error: cannot create $as_me.lineno; rerun with a POSIX shell" >&2
+   { (exit 1); exit 1; }; }
 
   # Don't try to exec as it changes $[0], causing all sort of problems
   # (the dirname of $[0] is not the place where we might find the
@@ -130,13 +176,6 @@ done
   # Exit status is that of the last command.
   exit
 }
-
-# Avoid depending upon Character Ranges.
-as_cr_letters='abcdefghijklmnopqrstuvwxyz'
-as_cr_LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-as_cr_Letters=$as_cr_letters$as_cr_LETTERS
-as_cr_digits='0123456789'
-as_cr_alnum=$as_cr_Letters$as_cr_digits
 
 case `echo "testing\c"; echo 1,2,3`,`echo -n testing; echo 1,2,3` in
   *c*,-n*) ECHO_N= ECHO_C='
@@ -176,23 +215,6 @@ as_tr_cpp="sed y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g"
 
 # Sed expression to map a string onto a valid variable name.
 as_tr_sh="sed y%*+%pp%;s%[^_$as_cr_alnum]%_%g"
-
-# Support unset when possible.
-if (FOO=FOO; unset FOO) >/dev/null 2>&1; then
-  as_unset=unset
-else
-  as_unset=false
-fi
-
-# NLS nuisances.
-$as_unset LANG || test "${LANG+set}" != set || { LANG=C; export LANG; }
-$as_unset LC_ALL || test "${LC_ALL+set}" != set || { LC_ALL=C; export LC_ALL; }
-$as_unset LC_TIME || test "${LC_TIME+set}" != set || { LC_TIME=C; export LC_TIME; }
-$as_unset LC_CTYPE || test "${LC_CTYPE+set}" != set || { LC_CTYPE=C; export LC_CTYPE; }
-$as_unset LANGUAGE || test "${LANGUAGE+set}" != set || { LANGUAGE=C; export LANGUAGE; }
-$as_unset LC_COLLATE || test "${LC_COLLATE+set}" != set || { LC_COLLATE=C; export LC_COLLATE; }
-$as_unset LC_NUMERIC || test "${LC_NUMERIC+set}" != set || { LC_NUMERIC=C; export LC_NUMERIC; }
-$as_unset LC_MESSAGES || test "${LC_MESSAGES+set}" != set || { LC_MESSAGES=C; export LC_MESSAGES; }
 
 # IFS
 # We need space, tab and new line, in precisely that order.
@@ -8530,6 +8552,39 @@ elif test -n "${BASH_VERSION+set}" && (set -o posix) >/dev/null 2>&1; then
   set -o posix
 fi
 
+# NLS nuisances.
+# Support unset when possible.
+if (FOO=FOO; unset FOO) >/dev/null 2>&1; then
+  as_unset=unset
+else
+  as_unset=false
+fi
+
+(set +x; test -n "`(LANG=C; export LANG) 2>&1`") &&
+    { $as_unset LANG || test "${LANG+set}" != set; } ||
+      { LANG=C; export LANG; }
+(set +x; test -n "`(LC_ALL=C; export LC_ALL) 2>&1`") &&
+    { $as_unset LC_ALL || test "${LC_ALL+set}" != set; } ||
+      { LC_ALL=C; export LC_ALL; }
+(set +x; test -n "`(LC_TIME=C; export LC_TIME) 2>&1`") &&
+    { $as_unset LC_TIME || test "${LC_TIME+set}" != set; } ||
+      { LC_TIME=C; export LC_TIME; }
+(set +x; test -n "`(LC_CTYPE=C; export LC_CTYPE) 2>&1`") &&
+    { $as_unset LC_CTYPE || test "${LC_CTYPE+set}" != set; } ||
+      { LC_CTYPE=C; export LC_CTYPE; }
+(set +x; test -n "`(LANGUAGE=C; export LANGUAGE) 2>&1`") &&
+    { $as_unset LANGUAGE || test "${LANGUAGE+set}" != set; } ||
+      { LANGUAGE=C; export LANGUAGE; }
+(set +x; test -n "`(LC_COLLATE=C; export LC_COLLATE) 2>&1`") &&
+    { $as_unset LC_COLLATE || test "${LC_COLLATE+set}" != set; } ||
+      { LC_COLLATE=C; export LC_COLLATE; }
+(set +x; test -n "`(LC_NUMERIC=C; export LC_NUMERIC) 2>&1`") &&
+    { $as_unset LC_NUMERIC || test "${LC_NUMERIC+set}" != set; } ||
+      { LC_NUMERIC=C; export LC_NUMERIC; }
+(set +x; test -n "`(LC_MESSAGES=C; export LC_MESSAGES) 2>&1`") &&
+    { $as_unset LC_MESSAGES || test "${LC_MESSAGES+set}" != set; } ||
+      { LC_MESSAGES=C; export LC_MESSAGES; }
+
 # Name of the executable.
 as_me=`(basename "$0") 2>/dev/null ||
 $as_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
@@ -8542,7 +8597,14 @@ echo X/"$0" |
   	  /^X\/\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`
 
-# Rewrite early, but we need PATH_SEPARATOR.
+# PATH needs CR, and LINENO needs CR and PATH.
+# Avoid depending upon Character Ranges.
+as_cr_letters='abcdefghijklmnopqrstuvwxyz'
+as_cr_LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+as_cr_Letters=$as_cr_letters$as_cr_LETTERS
+as_cr_digits='0123456789'
+as_cr_alnum=$as_cr_Letters$as_cr_digits
+
 # The user is always right.
 if test "${PATH_SEPARATOR+set}" != set; then
   echo "#! $SHELL" >conftest.sh
@@ -8556,13 +8618,11 @@ if test "${PATH_SEPARATOR+set}" != set; then
   rm -f conftest.sh
 fi
 
-{
   as_lineno_1=$LINENO
   as_lineno_2=$LINENO
   as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
   test "x$as_lineno_1" != "x$as_lineno_2" &&
-  test "x$as_lineno_3"  = "x$as_lineno_2"
-} || {
+  test "x$as_lineno_3"  = "x$as_lineno_2"  || {
   # Find who we are.  Look in the path if we contain no path at all
   # relative or not.
   case $0 in
@@ -8597,13 +8657,12 @@ do
   for as_base in sh bash ksh sh5; do
 	 case $as_dir in
 	 /*)
-	   if ("$as_dir/$as_base" -c '{
+	   if ("$as_dir/$as_base" -c '
   as_lineno_1=$LINENO
   as_lineno_2=$LINENO
   as_lineno_3=`(expr $as_lineno_1 + 1) 2>/dev/null`
   test "x$as_lineno_1" != "x$as_lineno_2" &&
-  test "x$as_lineno_3"  = "x$as_lineno_2"
-}') 2>/dev/null; then
+  test "x$as_lineno_3"  = "x$as_lineno_2" ') 2>/dev/null; then
 	     CONFIG_SHELL=$as_dir/$as_base
 	     export CONFIG_SHELL
 	     exec "$CONFIG_SHELL" "$0" ${1+"$@"}
@@ -8613,19 +8672,29 @@ do
 done
 ;;
   esac
-  if test ! -f "$as_me.lineno" ||
-     test x`ls -1dt "$as_me.lineno" "$as_myself" 2>/dev/null | sed 1q` \
-                != x"$as_me.lineno"; then
-     # Be sure to write the pattern so that it doesn't replace itself:
-     # it must not match itself.
-     awk <$as_myself '
-           /[$]LINENO/ { printf "%d:", NR }
-                         { print }
-         ' |
-       sed '/[$]LINENO/s/^\([0-9][0-9]*\):\(.*\)[$]LINENO/\2\1/' \
-         >$as_me.lineno
-    chmod +x $as_me.lineno
-  fi
+
+  # Create $as_me.lineno as a copy of $as_myself, but with $LINENO
+  # uniformly replaced by the line number.  The first 'sed' inserts a
+  # line-number line before each line; the second 'sed' does the real
+  # work.  The second script uses 'N' to pair each line-number line
+  # with the numbered line, and appends trailing '-' during
+  # substitution so that $LINENO is not a special case at line end.
+  # (Raja R Harinath suggested sed '=', and Paul Eggert wrote the
+  # second 'sed' script.  Blame Lee E. McMahon for sed's syntax.  :-)
+  sed '=' <$as_myself |
+    sed '
+      N
+      s,$,-,
+      : loop
+      s,^\(['$as_cr_digits']*\)\(.*\)[$]LINENO\([^'$as_cr_alnum'_]\),\1\2\1\3,
+      t loop
+      s,-$,,
+      s,^['$as_cr_digits']*\n,,
+    ' >$as_me.lineno &&
+  chmod +x $as_me.lineno ||
+    { { echo "$as_me:$LINENO: error: cannot create $as_me.lineno; rerun with a POSIX shell" >&5
+echo "$as_me: error: cannot create $as_me.lineno; rerun with a POSIX shell" >&2;}
+   { (exit 1); exit 1; }; }
 
   # Don't try to exec as it changes $[0], causing all sort of problems
   # (the dirname of $[0] is not the place where we might find the
@@ -8634,13 +8703,6 @@ done
   # Exit status is that of the last command.
   exit
 }
-
-# Avoid depending upon Character Ranges.
-as_cr_letters='abcdefghijklmnopqrstuvwxyz'
-as_cr_LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-as_cr_Letters=$as_cr_letters$as_cr_LETTERS
-as_cr_digits='0123456789'
-as_cr_alnum=$as_cr_Letters$as_cr_digits
 
 case `echo "testing\c"; echo 1,2,3`,`echo -n testing; echo 1,2,3` in
   *c*,-n*) ECHO_N= ECHO_C='
@@ -8680,23 +8742,6 @@ as_tr_cpp="sed y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g"
 
 # Sed expression to map a string onto a valid variable name.
 as_tr_sh="sed y%*+%pp%;s%[^_$as_cr_alnum]%_%g"
-
-# Support unset when possible.
-if (FOO=FOO; unset FOO) >/dev/null 2>&1; then
-  as_unset=unset
-else
-  as_unset=false
-fi
-
-# NLS nuisances.
-$as_unset LANG || test "${LANG+set}" != set || { LANG=C; export LANG; }
-$as_unset LC_ALL || test "${LC_ALL+set}" != set || { LC_ALL=C; export LC_ALL; }
-$as_unset LC_TIME || test "${LC_TIME+set}" != set || { LC_TIME=C; export LC_TIME; }
-$as_unset LC_CTYPE || test "${LC_CTYPE+set}" != set || { LC_CTYPE=C; export LC_CTYPE; }
-$as_unset LANGUAGE || test "${LANGUAGE+set}" != set || { LANGUAGE=C; export LANGUAGE; }
-$as_unset LC_COLLATE || test "${LC_COLLATE+set}" != set || { LC_COLLATE=C; export LC_COLLATE; }
-$as_unset LC_NUMERIC || test "${LC_NUMERIC+set}" != set || { LC_NUMERIC=C; export LC_NUMERIC; }
-$as_unset LC_MESSAGES || test "${LC_MESSAGES+set}" != set || { LC_MESSAGES=C; export LC_MESSAGES; }
 
 # IFS
 # We need space, tab and new line, in precisely that order.

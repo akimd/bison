@@ -9,6 +9,8 @@ Changes in version 1.30a:
 
 * %token MY_EOF 0 is supported.
   Before, MY_EOF was silently renumbered as 257.
+
+* doc/refcard.tex is updated.
 
 Changes in version 1.30:
 

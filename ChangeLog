@@ -1,5 +1,9 @@
 2001-11-02  Akim Demaille  <akim@epita.fr>
 
+	* doc/refcard.tex: Update.
+
+2001-11-02  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.h (SUNDEF): New.
 	* src/symtab.c (bucket_new): Init user_token_number to SUNDEF to
 	stand for `uninitialized', instead of 0.
