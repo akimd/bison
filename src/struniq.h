@@ -41,8 +41,7 @@ struniq_t struniq_new (const char *s);
 void struniqs_new (void);
 
 /* Die if S is not a struniq.  */
-#define struniq_assert(S) assert (struniq_assert_p (S));
-bool struniq_assert_p (const char *s);
+void struniq_assert (const char *s);
 
 /* Free all the memory allocated for symbols.  */
 void struniqs_free (void);
