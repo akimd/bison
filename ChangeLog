@@ -1,5 +1,6 @@
 2002-05-12  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
+	* src/scan-skel.l: Correct off-by-one error in handling of __oline__.
 	* data/bison.simple (b4_sint_type, b4_uint_type): Correct to reflect
 	32-bit arithmetic.
 	* data/bison.c++ (b4_sint_type, b4_uint_type): Ditto.
