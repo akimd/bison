@@ -97,6 +97,7 @@ USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WARNING_CFLAGS = @WARNING_CFLAGS@
+WERROR_CFLAGS = @WERROR_CFLAGS@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
@@ -109,7 +110,7 @@ DEFS = @DEFS@ \
   -DLOCALEDIR=\"$(datadir)/locale\"
 
 
-CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
+CFLAGS = @CFLAGS@ $(WARNING_CFLAGS) $(WERROR_CFLAGS)
 
 # libintl.h in is build/intl, intl/libgettext.h in src/,
 # config.h in build/.

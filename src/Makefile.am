@@ -1,4 +1,4 @@
-## Copyright 2001 Free Software Foundation, Inc.
+## Copyright 2001, 2002 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ DEFS = @DEFS@ \
   -DBISON_HAIRY=\"$(pkgdatadir)/bison.hairy\" \
   -DLOCALEDIR=\"$(datadir)/locale\"
 
-CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
+CFLAGS = @CFLAGS@ $(WARNING_CFLAGS) $(WERROR_CFLAGS)
 
 # libintl.h in is build/intl, intl/libgettext.h in src/,
 # config.h in build/.

@@ -49,6 +49,9 @@ AC_ARG_ENABLE(gcc-warnings,
  esac],
               [enableval=no])
 if test "${enableval}" = yes; then
+  BISON_WARNING(-Werror)
+  AC_SUBST([WERROR_CFLAGS], [$WARNING_CFLAGS])
+  WARNING_CFLAGS=
   BISON_WARNING(-Wall)
   BISON_WARNING(-W)
   BISON_WARNING(-Wbad-function-cast)
@@ -61,7 +64,6 @@ if test "${enableval}" = yes; then
   BISON_WARNING(-Wshadow)
   BISON_WARNING(-Wstrict-prototypes)
   BISON_WARNING(-Wwrite-strings)
-  BISON_WARNING(-Werror)
 fi
 
 # Checks for libraries.
