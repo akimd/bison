@@ -257,7 +257,8 @@ namespace yy
     static const int errcode_;
     static const int ntokens_;
     static const int initdepth_;
-    static const unsigned maxtok_;
+    static const unsigned user_token_number_max_;
+    static const TokenNumberType undef_token_;
 
     /* State.  */
     int n_;
@@ -722,7 +723,10 @@ yy::b4_name::translate_ (int token)
   {
     b4_translate
   };
-  return (unsigned)(token) <= maxtok_ ? translate_[[token]] : nsym_;
+  if ((unsigned) token <= user_token_number_max_)
+    return translate_[[token]];
+  else
+    return undef_token_;
 }
 
 const int yy::b4_name::eof_ = 0;
@@ -737,7 +741,8 @@ const int yy::b4_name::errcode_ = 256;
 const int yy::b4_name::ntokens_ = b4_ntokens;
 const int yy::b4_name::initdepth_ = b4_initdepth;
 
-const unsigned yy::b4_name::maxtok_ = b4_maxtok;
+const unsigned yy::b4_name::user_token_number_max_ = b4_user_token_number_max;
+const yy::b4_name::TokenNumberType yy::b4_name::undef_token_ = b4_undef_token_number;
 
 b4_epilogue
 

@@ -122,7 +122,7 @@ shifts *shifts_new PARAMS ((int n));
 /* Is the SHIFTS->shifts[Shift] then handling of the error token?. */
 
 #define SHIFT_IS_ERROR(Shifts, Shift) \
-  (SHIFT_SYMBOL (Shifts, Shift) == error_token_number)
+  (SHIFT_SYMBOL (Shifts, Shift) == errtoken->number)
 
 /* When resolving a SR conflicts, if the reduction wins, the shift is
    disabled.  */

@@ -151,8 +151,8 @@ Terminals, with rules where they appear
 
 $ (0) 0
 error (256)
-NUM (257) 2
-OP (258) 1
+NUM (258) 2
+OP (259) 1
 
 
 Nonterminals, with rules where they appear
@@ -257,8 +257,8 @@ Terminals, with rules where they appear
 
 $ (0) 0
 error (256)
-NUM (257) 2
-OP (258) 1
+NUM (258) 2
+OP (259) 1
 
 
 Nonterminals, with rules where they appear

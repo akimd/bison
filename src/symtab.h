@@ -41,6 +41,8 @@ typedef enum
   nterm_sym		/* non-terminal */
 } symbol_class;
 
+/* Internal token numbers. */
+typedef short token_number_t;
 #define SUNDEF  -1              /* For undefined user number. */
 #define SALIAS	-9991		/* for symbol generated with an alias */
 
@@ -50,7 +52,7 @@ struct symbol_s
   char *tag;
   /* Its type. */
   char *type_name;
-  short number;
+  token_number_t number;
   short prec;
   associativity assoc;
   int user_token_number;

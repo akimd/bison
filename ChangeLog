@@ -1,3 +1,28 @@
+2002-04-09  Akim Demaille  <akim@epita.fr>
+
+	* src/gram.h, src/gram.c (error_token_number): Remove, use
+	errtoken->number.
+	* src/reader.c (reader): Don't specify the user token number (2)
+	for $undefined, as it uselessly prevents using it.
+	* src/gram.h (token_number_t): Move to...
+	* src/symtab.h: here.
+	(state_t.number): Is a token_number_t.
+	* src/print.c, src/reader.c: Use undeftoken->number instead of
+	hard coded 2.
+	(Even though this 2 is not the same as above: the number of the
+	undeftoken remains being 2, it is its user token number which
+	might not be 2).
+	* src/output.c (prepare_tokens): Rename the `maxtok' muscle with
+	`user_token_number_max'.
+	Output `undef_token_number'.
+	* data/bison.simple, data/bison.c++: Use them.
+	Be sure to map invalid yylex return values to
+	`undef_token_number'.  This saves us from gratuitous SEGV.
+
+	* tests/conflicts.at (Solved SR Conflicts)
+	(Unresolved SR Conflicts): Adjust.
+	* tests/regression.at (Web2c Actions): Adjust.
+
 2002-04-08  Akim Demaille  <akim@epita.fr>
 
 	* data/bison.c++: s/b4_item_number_max/b4_rhs_number_max/.

@@ -3,6 +3,14 @@ Bison News
 
 Changes in version 1.49a:
 
+* Undefined token
+  The undefined token was systematically mapped to 2 which prevented
+  the use of 2 from the user.  This is no longer the case.
+
+* Undefined token
+  If yylex returned a code out of range, yyparse could die.  This is
+  no longer the case.
+
 * Large grammars
   Are now supported (large token numbers, large grammar size (= sum of
   the LHS and RHS lengths).

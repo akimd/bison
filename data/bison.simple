@@ -1,4 +1,4 @@
-m4_divert(-1)
+m4_divert(-1)                                                       -*- C -*-
 
 # b4_sint_type(MAX)
 # -----------------
@@ -265,11 +265,14 @@ b4_token_defines(b4_tokens)
 #define YYNRULES  b4_nrules
 /* YYNRULES -- Number of states. */
 #define YYNSTATES  b4_nstates
-#define YYMAXUTOK  b4_maxtok
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
+#define YYUNDEFTOK  b4_undef_token_number
+#define YYMAXUTOK   b4_user_token_number_max
+
 typedef b4_uint_type(b4_token_number_max) yy_token_number_type;
-#define YYTRANSLATE(x) ((unsigned)(x) <= b4_maxtok ? yytranslate[[x]] : b4_nsym)
+#define YYTRANSLATE(X) \
+  ((unsigned)(X) <= YYMAXUTOK ? yytranslate[[X]] : YYUNDEFTOK)
 
 /* YYTRANSLATE[[YYLEX]] -- Bison symbol number corresponding to YYLEX.  */
 static const yy_token_number_type yytranslate[[]] =

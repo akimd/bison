@@ -154,7 +154,6 @@ extern symbol_t **symbols;
 /* TOKEN_TRANSLATION -- a table indexed by a token number as returned
    by the user's yylex routine, it yields the internal token number
    used by the parser and throughout bison.  */
-typedef short token_number_t;
 extern token_number_t *token_translations;
 extern int max_user_token_number;
 
@@ -168,10 +167,6 @@ extern int semantic_parser;
    and reentrant.  */
 
 extern int pure_parser;
-
-/* ERROR_TOKEN_NUMBER is the token number of the error token.  */
-
-extern int error_token_number;
 
 /* Report the length of the RHS. */
 int rule_rhs_length PARAMS ((rule_t *rule));

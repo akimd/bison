@@ -336,8 +336,8 @@ $ (0) 0
 ';' (59) 5
 '=' (61) 5
 error (256)
-undef_id_tok (257) 5
-const_id_tok (258) 5
+undef_id_tok (258) 5
+const_id_tok (259) 5
 Nonterminals, with rules where they appear
 $axiom (7)
     on left: 0
@@ -460,8 +460,8 @@ AT_CHECK([[sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c]], 0,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     3,     4,     5,
-       6
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5,     6
 };
 static const short yyprhs[] =
 {
@@ -483,7 +483,7 @@ static const char *const yytname[] =
 };
 static const short yytoknum[] =
 {
-       0,   256,     2,   257,   258,   259,   260,    -1
+       0,   256,   257,   258,   259,   260,   261,    -1
 };
 static const short yyr1[] =
 {
