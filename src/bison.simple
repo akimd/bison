@@ -385,40 +385,38 @@ yyparse (YYPARSE_PARAM_ARG)
 
   if (yyssp >= yyss + yystacksize - 1)
     {
-      /* Give user a chance to reallocate the stack. Use copies of
-	 these so that the &'s don't force the real ones into memory.
-	 */
-      YYSTYPE *yyvs1 = yyvs;
-      short *yyss1 = yyss;
-#if YYLSP_NEEDED
-      YYLTYPE *yyls1 = yyls;
-#endif
-
       /* Get the current used size of the three stacks, in elements.  */
       int size = yyssp - yyss + 1;
 
 #ifdef yyoverflow
-      /* Each stack pointer address is followed by the size of the
-	 data in use in that stack, in bytes.  */
-# if YYLSP_NEEDED
-      /* This used to be a conditional around just the two extra args,
-	 but that might be undefined if yyoverflow is a macro.  */
-      yyoverflow ("parser stack overflow",
-		  &yyss1, size * sizeof (*yyssp),
-		  &yyvs1, size * sizeof (*yyvsp),
-		  &yyls1, size * sizeof (*yylsp),
-		  &yystacksize);
-# else
-      yyoverflow ("parser stack overflow",
-		  &yyss1, size * sizeof (*yyssp),
-		  &yyvs1, size * sizeof (*yyvsp),
-		  &yystacksize);
-# endif
+      {
+	/* Give user a chance to reallocate the stack. Use copies of
+	   these so that the &'s don't force the real ones into
+	   memory.  */
+	YYSTYPE *yyvs1 = yyvs;
+	short *yyss1 = yyss;
 
-      yyss = yyss1; yyvs = yyvs1;
+	/* Each stack pointer address is followed by the size of the
+	   data in use in that stack, in bytes.  */
 # if YYLSP_NEEDED
-      yyls = yyls1;
+	YYLTYPE *yyls1 = yyls;
+	/* This used to be a conditional around just the two extra args,
+	   but that might be undefined if yyoverflow is a macro.  */
+	yyoverflow ("parser stack overflow",
+		    &yyss1, size * sizeof (*yyssp),
+		    &yyvs1, size * sizeof (*yyvsp),
+		    &yyls1, size * sizeof (*yylsp),
+		    &yystacksize);
+	yyls = yyls1;
+# else
+	yyoverflow ("parser stack overflow",
+		    &yyss1, size * sizeof (*yyssp),
+		    &yyvs1, size * sizeof (*yyvsp),
+		    &yystacksize);
 # endif
+	yyss = yyss1;
+	yyvs = yyvs1;
+      }
 #else /* no yyoverflow */
       /* Extend the stack our own way.  */
       if (yystacksize >= YYMAXDEPTH)
