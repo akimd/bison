@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-11-13 00:28-0800\n"
+"POT-Creation-Date: 2002-11-13 16:15+0100\n"
 "PO-Revision-Date: 2002-06-25 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.75a\n"
-"POT-Creation-Date: 2002-11-13 00:28-0800\n"
+"POT-Creation-Date: 2002-11-13 16:15+0100\n"
 "PO-Revision-Date: 2002-10-26 11:54+0200\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
