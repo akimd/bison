@@ -37,10 +37,6 @@ extern char *spec_file_prefix;
 /* Read grammar specifications. */
 extern FILE *finput;
 
-/* Optionally output messages describing the actions taken. */
-extern FILE *foutput;
-
-
 /* Output all the action code; precise form depends on which parser. */
 extern struct obstack action_obstack;
 
@@ -56,6 +52,9 @@ extern struct obstack attrs_obstack;
 
 /* ... and output yyguard, containing all the guard code. */
 extern struct obstack guard_obstack;
+
+/* The verbose output. */
+extern struct obstack output_obstack;
 
 
 extern char *infile;

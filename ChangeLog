@@ -1,5 +1,17 @@
 2000-12-20  Akim Demaille  <akim@epita.fr>
 
+	Also handle the output file (--verbose) with obstacks.
+
+	* files.c (foutput): Remove.
+	(output_obstack): New.
+	Adjust all dependencies.
+	* src/conflicts.c: Return a string.
+	* src/system.h (obstack_grow_string): Rename as...
+	(obstack_sgrow): this.  Be ready to work with non literals.
+	(obstack_fgrow4): New.
+
+2000-12-20  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c (open_files): Fix the computation of short_base_name
 	in the case of `-o foo.tab.c'.
 

@@ -145,8 +145,8 @@ typedef int bool;
 #define obstack_chunk_free  free
 #include "obstack.h"
 
-#define obstack_grow_string(Obs, Str) \
-  obstack_grow (Obs, Str, sizeof (Str) - 1)
+#define obstack_sgrow(Obs, Str) \
+  obstack_grow (Obs, Str, strlen (Str))
 
 #define obstack_fgrow1(Obs, Format, Arg1)	\
 do {						\
@@ -167,6 +167,13 @@ do {							\
   char buf[4096];					\
   sprintf (buf, Format, Arg1, Arg2, Arg3);		\
   obstack_grow (Obs, buf, strlen (buf));		\
+} while (0)
+
+#define obstack_fgrow4(Obs, Format, Arg1, Arg2, Arg3, Arg4)	\
+do {								\
+  char buf[4096];						\
+  sprintf (buf, Format, Arg1, Arg2, Arg3, Arg4);		\
+  obstack_grow (Obs, buf, strlen (buf));			\
 } while (0)
 
 
