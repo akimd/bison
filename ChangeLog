@@ -1,5 +1,12 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.hairy: Formatting/comment changes.
+	ANSIfy.
+	Remove `register' indications.
+	Add plenty of `static'.
+
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (prepare): Drop the muscle `ntbase' which
 	duplicates ntokens.
 	* src/bison.simple: Formatting/comment changes.
