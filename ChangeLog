@@ -1,5 +1,11 @@
 2000-12-20  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (copy_string, copy_comment, copy_comment2, copy_at)
+	(copy_dollar): Now that everything uses obstacks, get rid of the
+	FILE * parameters.
+
+2000-12-20  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c (open_files): Actually the `.output' file is based
 	on the short_base_name, not base_name.
 	* tests/suite.at (Checking output file names): Adjust.
