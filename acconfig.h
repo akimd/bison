@@ -8,6 +8,9 @@
 /* Version of package.  */
 #undef VERSION
 
+/* Version string.  */
+#undef VERSION_STRING
+
 /* Define if the compiler understands prototypes.  */
 #undef PROTOTYPES
 

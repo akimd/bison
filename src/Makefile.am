@@ -5,8 +5,7 @@ bin_PROGRAMS = bison
 
 bison_SOURCES = LR0.c allocate.c closure.c conflicts.c derives.c	\
     files.c getargs.c gram.c lalr.c lex.c main.c nullable.c output.c	\
-    print.c reader.c reduce.c symtab.c warshall.c version.c getopt.c	\
-    getopt1.c
+    print.c reader.c reduce.c symtab.c warshall.c getopt.c getopt1.c
 
 EXTRA_bison_SOURCES = vmsgetargs.c
 

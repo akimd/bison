@@ -39,6 +39,7 @@ AM_GNU_GETTEXT
 # the ANSI2KNR-filtering rules.
 LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
 
+AC_DEFINE_UNQUOTED(VERSION_STRING, "GNU Bison version ${VERSION}")
 XPFILE="${datadir}/bison.simple"
 BISON_DEFINE_FILE(XPFILE, XPFILE)
 XPFILE1="${datadir}/bison.hairy"
