@@ -1,5 +1,16 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/getargs.h: Don't declare `spec_name_prefix' and
+	`spec_file_prefix', declared by src/files.h.
+	* src/files.c, src/files.h: Default for spec_name_prefix is "yy".
+	* src/muscle_tab.c (muscle_init): Default prefix to NULL.
+	* src/output.c (prepare): Adjust.
+	* src/reader.c (symbols_output): Likewise.
+	* src/vmsgetargs.c: Vaguely adjust, but who cares?
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/muscle_tab.c (muscle_init): NULL is a better default than
 	`"0"'.
 

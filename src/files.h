@@ -28,7 +28,7 @@
 extern char *spec_outfile;
 
 /* For -a. */
-extern char *spec_name_prefix;
+extern const char *spec_name_prefix;
 
 /* File name pfx specified with -b, or 0 if no -b.  */
 extern char *spec_file_prefix;

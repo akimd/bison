@@ -22,8 +22,6 @@
 # define GETARGS_H_
 
 /* flags set by % directives */
-extern char *spec_file_prefix;		/* for -b */
-extern char *spec_name_prefix;		/* for -p */
 extern const char *skeleton;		/* for -S */
 extern const char *include;		/* for -I */
 
