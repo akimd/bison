@@ -809,14 +809,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Exiting get_state => %d\n"
-#~ msgstr "    %-4s\tir al estado %d\n"
-
-#, fuzzy
-#~ msgid "  (rule %d)\n"
-#~ msgstr "   (regla %d)"
-
 #~ msgid "reduce"
 #~ msgstr "reduce"
 
@@ -867,6 +859,9 @@ msgstr ""
 
 #~ msgid "`%s' requires an argument"
 #~ msgstr "`%s' requiere un argumento"
+
+#~ msgid "   (rule %d)"
+#~ msgstr "   (regla %d)"
 
 #~ msgid "    %-4s\terror (nonassociative)\n"
 #~ msgstr "    %-4s\terror (no asociativo)\n"

@@ -715,14 +715,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Exiting get_state => %d\n"
-#~ msgstr "    %-4s\tprosecuzione allo stato %d\n"
-
-#, fuzzy
-#~ msgid "  (rule %d)\n"
-#~ msgstr "   (regola %d)"
-
 #~ msgid "reduce"
 #~ msgstr "riduzione"
 
@@ -771,6 +763,9 @@ msgstr ""
 
 #~ msgid "`%s' requires an argument"
 #~ msgstr "`%s' richiede un argomento"
+
+#~ msgid "   (rule %d)"
+#~ msgstr "   (regola %d)"
 
 #~ msgid ""
 #~ "    $default\treduce using rule %d (%s)\n"

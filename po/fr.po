@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.49a\n"
+"Project-Id-Version: GNU bison 1.49b\n"
 "POT-Creation-Date: 2002-09-10 15:52+0200\n"
-"PO-Revision-Date: 2002-08-06 08:00-0500\n"
+"PO-Revision-Date: 2002-08-12 12:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,22 +28,19 @@ msgid "fatal error: "
 msgstr "erreur fatale: "
 
 #: src/conflicts.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as shift"
-msgstr ""
-"Conflit à l'état %d entre la règle %d et le terminal %s résolu par %s.\n"
+msgstr "Conflit entre la règle %d et le jeton %s résolu par décalage"
 
 #: src/conflicts.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
-msgstr ""
-"Conflit à l'état %d entre la règle %d et le terminal %s résolu par %s.\n"
+msgstr "Conflit entre la règle %d et le jeton %s résolu par réduction"
 
 #: src/conflicts.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as an error"
-msgstr ""
-"Conflit à l'état %d entre la règle %d et le terminal %s résolu par %s.\n"
+msgstr "Conflit entre la règle %d et le jeton %s résolu comme étant une erreur"
 
 #: src/conflicts.c:402
 #, c-format
@@ -83,11 +80,11 @@ msgid "State %d contains "
 msgstr "L'état %d contient "
 
 #: src/conflicts.c:537
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
-msgstr[0] "attendait %d conflit par décalage/réduction\n"
-msgstr[1] "attendait %d conflits par décalage/réduction\n"
+msgstr[0] "attendait %d conflit par décalage/réduction"
+msgstr[1] "attendait %d conflits par décalage/réduction"
 
 #: src/files.c:114
 #, c-format
@@ -151,7 +148,6 @@ msgstr ""
 "  -k, --token-table          inclure la table des noms de jetons\n"
 
 #: src/getargs.c:190
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -164,6 +160,7 @@ msgid ""
 msgstr ""
 "Sortie:\n"
 "  -d, --defines              produire un fichier d'en-tête\n"
+"  -r, --report=CHOSES        générer les détails concernant l'automate\n"
 "  -v, --verbose              produire une explication de l'automate\n"
 "  -b, --file-prefix=PREFIXE  utiliser le PREFIXE pour le fichier de sortie\n"
 "  -o, --output=FICHIER       produire la sortie dans le FICHIER\n"
@@ -180,6 +177,13 @@ msgid ""
 "  `all'          include all the above information\n"
 "  `none'         disable the report\n"
 msgstr ""
+"CHOSES est une liste de mots séparés par des virgules par les suivants:\n"
+"  `state'        description des états\n"
+"  `itemset'      compléter le corps du jeu d'items avec leur fermeture\n"
+"  `lookahead'    explicitement associé les lookahead aux items\n"
+"  `solved'       décrirer la résolution des conflits décalage/réduction\n"
+"  `all'          inclure toutes les informations ci-haut\n"
+"  `none'         désactiver la génération de rapport\n"
 
 #: src/getargs.c:212
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -232,9 +236,8 @@ msgid "Grammar"
 msgstr "Grammaire"
 
 #: src/gram.c:321 src/reduce.c:302 src/reduce.c:392
-#, fuzzy
 msgid "warning"
-msgstr "AVERTISSEMENT: "
+msgstr "AVERTISSEMENT"
 
 #: src/lalr.c:91
 #, c-format
@@ -242,13 +245,12 @@ msgid "too many gotos (max %d)"
 msgstr "nombre trop grand de « goto » (Max %d)"
 
 #: src/main.c:117
-#, fuzzy
 msgid "rule never reduced because of conflicts"
-msgstr "1 conflit réduction/réduction"
+msgstr "la règle n'a jamais fait de réduction en raison des conflits"
 
 #: src/parse-gram.y:347
 msgid "POSIX forbids declarations in the grammar"
-msgstr ""
+msgstr "POSIX interdit les déclaration dans la grammaire"
 
 #: src/print.c:46
 #, c-format
@@ -256,32 +258,31 @@ msgid " type %d is %s\n"
 msgstr " le type %d est %s\n"
 
 #: src/print.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "shift, and go to state %d\n"
-msgstr "    %-4s\tdécalage et aller à l'état %d\n"
+msgstr "décalage et aller à l'état %d\n"
 
 #: src/print.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "go to state %d\n"
-msgstr "    %-4s\taller à l'état %d\n"
+msgstr "aller à l'état %d\n"
 
 #: src/print.c:201
-#, fuzzy
 msgid "error (nonassociative)\n"
-msgstr "%-4s\terreur (non-associatif)"
+msgstr "erreur (non-associative)\n"
 
 #: src/print.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "reduce using rule %d (%s)"
-msgstr "$défaut\tréduction par la règle %d (%s)"
+msgstr "réduction par utilisation de la règle %d (%s)"
 
 #: src/print.c:293
 msgid "accept"
-msgstr ""
+msgstr "accepter"
 
 #: src/print.c:324 src/print.c:390
 msgid "$default"
-msgstr ""
+msgstr "$défaut"
 
 #: src/print.c:419
 #, c-format
@@ -305,19 +306,19 @@ msgid " on right:"
 msgstr " à droite:"
 
 #: src/print.c:552
-#, fuzzy
 msgid "Rules never reduced"
-msgstr "%d règle n'a jamais été réduite\n"
+msgstr "Règles jamais réduites"
 
 #: src/reader.c:52
 #, c-format
 msgid "multiple %s declarations"
-msgstr "multiples déclarations %s"
+msgstr "déclarations multiples de %s"
 
 #: src/reader.c:141
 #, c-format
 msgid "result type clash on merge function %s: `%s' vs. `%s'"
 msgstr ""
+"conflit dans le type résultant de la fonction de fusion %s: « %s » vs « %s »"
 
 #: src/reader.c:239
 #, c-format
@@ -340,27 +341,27 @@ msgstr "deux @prec de suite"
 #: src/reader.c:353
 #, c-format
 msgid "%%dprec affects only GLR parsers"
-msgstr ""
+msgstr "%%dprec affecte seulement les analyseurs GLR"
 
 #: src/reader.c:355
 #, c-format
 msgid "%%dprec must be followed by positive number"
-msgstr ""
+msgstr "%%dprec doit être suivi d'un nombre positif"
 
 #: src/reader.c:357
 #, c-format
 msgid "only one %%dprec allowed per rule"
-msgstr ""
+msgstr "seul un %%dprec est permis par règle"
 
 #: src/reader.c:368
 #, c-format
 msgid "%%merge affects only GLR parsers"
-msgstr ""
+msgstr "%%merge affecte seulement les analyseurs GLR"
 
 #: src/reader.c:370
 #, c-format
 msgid "only one %%merge allowed per rule"
-msgstr ""
+msgstr "seul un %%merge est permis par règle"
 
 #: src/reader.c:513
 msgid "no rules in the input grammar"
@@ -372,29 +373,24 @@ msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "trop de symboles (jeton plus non terminaux); maximum %d"
 
 #: src/reduce.c:239
-#, fuzzy
 msgid "useless rule"
-msgstr "%d règle inutilisable"
+msgstr "règle inutilisable"
 
 #: src/reduce.c:302
-#, fuzzy
 msgid "useless nonterminal"
-msgstr "%d nonterminal inutilisable"
+msgstr "non-terminal inutilisable"
 
 #: src/reduce.c:349
-#, fuzzy
 msgid "Useless nonterminals"
-msgstr "Non-terminaux inutiles:"
+msgstr "Non-terminaux inutiles"
 
 #: src/reduce.c:362
-#, fuzzy
 msgid "Terminals which are not used"
-msgstr "Terminaux non utilisés:"
+msgstr "Terminaux qui ne sont utilisés"
 
 #: src/reduce.c:371
-#, fuzzy
 msgid "Useless rules"
-msgstr "Règles inutiles:"
+msgstr "Règles inutiles"
 
 #: src/reduce.c:387
 #, c-format
@@ -422,49 +418,45 @@ msgstr[0] "%d règle inutilisable"
 msgstr[1] "%d règles inutilisables"
 
 #: src/reduce.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "start symbol %s does not derive any sentence"
-msgstr "Aucune phrase ne peut être dérivée du symbole de départ %s"
+msgstr ""
+"symbole de départ %s peut permettre la dérivation de n'importe quelle phrase"
 
 #: src/scan-gram.l:202
 #, c-format
 msgid ": invalid character: `%c'\n"
-msgstr ""
+msgstr ": caractère invalide: `%c'\n"
 
 #: src/scan-gram.l:246
-#, fuzzy
 msgid ": unexpected end of file in a comment\n"
-msgstr "Fin de fichier inattendue"
+msgstr ": fin de fichier inattendue dans un commentaire\n"
 
 #: src/scan-gram.l:274 src/scan-gram.l:412
-#, fuzzy
 msgid ": unexpected end of file in a string\n"
-msgstr "Fin de fichier inattendue"
+msgstr ": fin de fichier inattendue dans une chaîne\n"
 
 #: src/scan-gram.l:311 src/scan-gram.l:383
-#, fuzzy
 msgid ": unexpected end of file in a character\n"
-msgstr "Fin de fichier inattendue"
+msgstr ": fin de fichier inattendue dans un caractère\n"
 
 #: src/scan-gram.l:332
-#, fuzzy, c-format
+#, c-format
 msgid ": invalid escape: %s\n"
-msgstr "valeur invalide: %s%d"
+msgstr ": séquence d'échappement invalide: %s\n"
 
 #: src/scan-gram.l:353
-#, fuzzy, c-format
+#, c-format
 msgid ": unrecognized escape: %s\n"
-msgstr "non reconnu: %s"
+msgstr ": séquence d'échappement non reconnue: %s\n"
 
 #: src/scan-gram.l:473
-#, fuzzy
 msgid ": unexpected end of file in a braced code\n"
-msgstr "Fin de fichier inattendue"
+msgstr ": fin de fichier inattendue dans du code entre accolades\n"
 
 #: src/scan-gram.l:502
-#, fuzzy
 msgid ": unexpected end of file in a prologue\n"
-msgstr "Fin de fichier inattendue"
+msgstr ": fin de fichier inattendue dans un prologue\n"
 
 #: src/scan-gram.l:560
 #, c-format
@@ -502,9 +494,9 @@ msgid "type redeclaration for %s"
 msgstr "redéclaration du type de %s"
 
 #: src/symtab.c:98 src/symtab.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "%s redeclaration for %s"
-msgstr "redéclaration du type de %s"
+msgstr "redéclaration de %s pour %s"
 
 #: src/symtab.c:138
 #, c-format
@@ -517,9 +509,9 @@ msgid "symbol %s redefined"
 msgstr "symbole %s redéfini"
 
 #: src/symtab.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "redefining user token number of %s"
-msgstr "redéfinition du niveau de priorité de %s"
+msgstr "redéfinition du jeton usager numéro de %s"
 
 #: src/symtab.c:225
 #, c-format
@@ -544,9 +536,9 @@ msgid "conflicting precedences for %s and %s"
 msgstr "les priorités pour %s et %s entrent en conflit"
 
 #: src/symtab.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
-msgstr "les valeurs d'association de %s et %s entrent en conflit"
+msgstr "conflits d'associativités pour %s (%s) et %s (%s)"
 
 #: src/symtab.c:363
 #, c-format
@@ -564,82 +556,84 @@ msgid "the start symbol %s is a token"
 msgstr "le symbole de départ %s est un terminal"
 
 #: lib/argmatch.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument %s for %s"
-msgstr "valeur invalide: %s%d"
+msgstr "argument invalide %s pour %s"
 
 #: lib/argmatch.c:162
 #, c-format
 msgid "ambiguous argument %s for %s"
-msgstr ""
+msgstr "argument ambiguë %s pour %s"
 
 #: lib/argmatch.c:181
 msgid "Valid arguments are:"
-msgstr ""
+msgstr "Arguments valides sont:"
 
 #: lib/bitset_stats.c:226
 #, c-format
 msgid "%d bitset_allocs, %d freed (%.2f%%).\n"
-msgstr ""
+msgstr "%d bitset_allocs, %d libérés (%.2f%%).\n"
 
 #: lib/bitset_stats.c:229
 #, c-format
 msgid "%d bitset_sets, %d cached (%.2f%%)\n"
-msgstr ""
+msgstr "%d bitset_sets, %d dans la cache (%.2f%%)\n"
 
 #: lib/bitset_stats.c:232
 #, c-format
 msgid "%d bitset_resets, %d cached (%.2f%%)\n"
-msgstr ""
+msgstr "%d bitset_resets, %d dans la cache (%.2f%%)\n"
 
 #: lib/bitset_stats.c:235
 #, c-format
 msgid "%d bitset_tests, %d cached (%.2f%%)\n"
-msgstr ""
+msgstr "%d bitset_tests, %d dans la cache (%.2f%%)\n"
 
 #: lib/bitset_stats.c:239
 #, c-format
 msgid "%d bitset_lists\n"
-msgstr ""
+msgstr "%d bitset_lists\n"
 
 #: lib/bitset_stats.c:241
 msgid "count log histogram\n"
-msgstr ""
+msgstr "histogramme des compteurs\n"
 
 #: lib/bitset_stats.c:244
 msgid "size log histogram\n"
-msgstr ""
+msgstr "taille de l'histogramme des compteurs\n"
 
 #: lib/bitset_stats.c:247
 msgid "density histogram\n"
-msgstr ""
+msgstr "densité de l'histogramme\n"
 
 #: lib/bitset_stats.c:264
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
+"Statistiques des bitset:\n"
+"\n"
 
 #: lib/bitset_stats.c:267
 #, c-format
 msgid "Accumulated runs = %d\n"
-msgstr ""
+msgstr "Exécutions accumulées = %d\n"
 
 #: lib/bitset_stats.c:311
 msgid "Could not read stats file."
-msgstr ""
+msgstr "Ne peut lire le fichier de stats."
 
 #: lib/bitset_stats.c:313
 msgid "Bad stats file size.\n"
-msgstr ""
+msgstr "Taille erronée du fichier de stats.\n"
 
 #: lib/bitset_stats.c:339
 msgid "Could not write stats file."
-msgstr ""
+msgstr "Ne peut écrire le fichier de stats."
 
 #: lib/bitset_stats.c:343
 msgid "Could not open stats file for writing."
-msgstr ""
+msgstr "Ne ouvrir en écriture le fichier de stats."
 
 #: lib/getopt.c:662
 #, c-format
@@ -713,27 +707,56 @@ msgid ""
 "\n"
 "Execution times (seconds)\n"
 msgstr ""
+"\n"
+"Temps d'exécution (secondes)\n"
 
 #: lib/timevar.c:516
 msgid " TOTAL                 :"
-msgstr ""
+msgstr " TOTAL                 :"
 
 #: lib/timevar.c:552
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
-msgstr ""
+msgstr "temps dans %s: %ld.%06ld (%ld%%)\n"
 
-#, fuzzy
+#~ msgid "state_list_append (state = %d, symbol = %d (%s))\n"
+#~ msgstr "state_list_append (état = %d, symbole = %d (%s))\n"
+
+#~ msgid "Entering new_itemsets, state = %d\n"
+#~ msgstr "Entrant dans new_itemsets, état = %d\n"
+
+#~ msgid "Entering get_state, symbol = %d (%s)\n"
+#~ msgstr "Entrant dans get_state, symbole = %d (%s)\n"
+
 #~ msgid "Exiting get_state => %d\n"
-#~ msgstr "    %-4s\taller à l'état %d\n"
+#~ msgstr "Sortant de get_state => %d\n"
 
-#, fuzzy
+#~ msgid "Entering append_states, state = %d\n"
+#~ msgstr "Entrant dans append_states, état = %d\n"
+
+#~ msgid "Processing state %d (reached by %s)\n"
+#~ msgstr "Traitement de l'état %d (atteint par %s)\n"
+
+#~ msgid "undefined associativity"
+#~ msgstr "associativité indéfinie"
+
 #~ msgid "Closure: %s\n"
-#~ msgstr "erreur: %s\n"
+#~ msgstr "Fermeture: %s\n"
 
-#, fuzzy
 #~ msgid "  (rule %d)\n"
-#~ msgstr "   (règle %d)"
+#~ msgstr "   (règle %d)\n"
+
+#~ msgid "RTC: Firsts Input"
+#~ msgstr "RTC: premières entrées"
+
+#~ msgid "RTC: Firsts Output"
+#~ msgstr "RTC: premières sorties"
+
+#~ msgid "input"
+#~ msgstr "entrée"
+
+#~ msgid "output"
+#~ msgstr "sortie"
 
 #~ msgid ""
 #~ "Variables\n"
@@ -744,9 +767,8 @@ msgstr ""
 #~ "---------\n"
 #~ "\n"
 
-#, fuzzy
 #~ msgid "Value  Sprec  Sassoc  Tag\n"
-#~ msgstr "Valeur Spréc    Sassoc    Tag\n"
+#~ msgstr "Valeur Sprec  Sassoc  Étiquette\n"
 
 #~ msgid ""
 #~ "Rules\n"
@@ -758,6 +780,12 @@ msgstr ""
 #~ "\n"
 
 #~ msgid ""
+#~ "Num (Prec, Assoc, Useful, Ritem Range) Lhs -> Rhs (Ritem range) [Num]\n"
+#~ msgstr ""
+#~ "Num (Prec, Assoc, Utile,  Ritem étendue) Lhs -> Rhs (Ritem étendue) "
+#~ "[Num]\n"
+
+#~ msgid ""
 #~ "Rules interpreted\n"
 #~ "-----------------\n"
 #~ "\n"
@@ -765,6 +793,30 @@ msgstr ""
 #~ "Règles interprétées\n"
 #~ "-------------------\n"
 #~ "\n"
+
+#~ msgid "Lookaheads: BEGIN\n"
+#~ msgstr "Lookaheads: DÉBUT\n"
+
+#~ msgid "State %d: %d lookaheads\n"
+#~ msgstr "État %d: %d lookaheads\n"
+
+#~ msgid "   on %d (%s) -> rule %d\n"
+#~ msgstr "   sur %d (%s) -> règle %d\n"
+
+#~ msgid "Lookaheads: END\n"
+#~ msgstr "Lookaheads: FIN\n"
+
+#~ msgid "relation_transpose: input\n"
+#~ msgstr "relation_transpose: entrée\n"
+
+#~ msgid "relation_transpose: output\n"
+#~ msgstr "relation_transpose: sortie\n"
+
+#~ msgid "growing table and check from: %lu to %lu\n"
+#~ msgstr "table en croissance et vérification depuis %lu à %lu\n"
+
+#~ msgid "base_t too small to hold %d\n"
+#~ msgstr "base_t trop petite pour contenir %d\n"
 
 #~ msgid "reduce"
 #~ msgstr "réduction"

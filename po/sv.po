@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.49a\n"
+"Project-Id-Version: bison 1.49b\n"
 "POT-Creation-Date: 2002-09-10 15:52+0200\n"
-"PO-Revision-Date: 2002-05-04 11:27+0200\n"
+"PO-Revision-Date: 2002-08-24 21:56+0200\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,22 +28,19 @@ msgid "fatal error: "
 msgstr "ödesdigert fel: "
 
 #: src/conflicts.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as shift"
-msgstr ""
-"Konflikt i tillstånd %d mellan regel %d och element %s, löstes med %s.\n"
+msgstr "    Konflikt mellan regel %d och element %s löstes som skift"
 
 #: src/conflicts.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
-msgstr ""
-"Konflikt i tillstånd %d mellan regel %d och element %s, löstes med %s.\n"
+msgstr "    Konflikt mellan regel %d och element %s löstes som reducera"
 
 #: src/conflicts.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "    Conflict between rule %d and token %s resolved as an error"
-msgstr ""
-"Konflikt i tillstånd %d mellan regel %d och element %s, löstes med %s.\n"
+msgstr "    Konflikt mellan regel %d och element %s löstes som ett fel"
 
 #: src/conflicts.c:402
 #, c-format
@@ -83,11 +80,11 @@ msgid "State %d contains "
 msgstr "Tillstånd %d innehåller "
 
 #: src/conflicts.c:537
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
-msgstr[0] "förväntade %d skifta/reducerakonflikt\n"
-msgstr[1] "förväntade %d skifta/reducerakonflikter\n"
+msgstr[0] "förväntade %d skifta/reducerakonflikt"
+msgstr[1] "förväntade %d skifta/reducerakonflikter"
 
 #: src/files.c:114
 #, c-format
@@ -149,7 +146,6 @@ msgstr ""
 "  -k, --token-table          inkludera en tabell över elementnamn\n"
 
 #: src/getargs.c:190
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -162,7 +158,8 @@ msgid ""
 msgstr ""
 "Utdata:\n"
 "  -d, --defines              skapa också en huvudfil\n"
-"  -v, --verbose              skapa också en förklaring av automaten\n"
+"  -r, --report=SAKER         skapa också detaljer om automaten\n"
+"  -v, --verbose              samma som \"--report=state\"\n"
 "  -b, --file-prefix=PREFIX   ange ett PREFIX för utdatafiler\n"
 "  -o, --output=FIL           lägg utdata i FIL\n"
 "  -g, --graph                skapa också en VCG-beskrivning av automaten\n"
@@ -177,6 +174,13 @@ msgid ""
 "  `all'          include all the above information\n"
 "  `none'         disable the report\n"
 msgstr ""
+"SAKER är en lista med kommaseparerade ord som kan innehålla:\n"
+"  \"state\"        beskriv tillstånden\n"
+"  \"itemset\"      komplettera kärnobjektmängderna med sina höljen\n"
+"  \"lookahead\"    koppla uttryckligen framåtblickar till objekt\n"
+"  \"solved\"       beskriv lösningar av skifta/reducerakonflikter\n"
+"  \"all\"          inkludera all ovanstående information\n"
+"  \"none\"         avaktivera rapporten\n"
 
 #: src/getargs.c:212
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
@@ -231,9 +235,8 @@ msgid "Grammar"
 msgstr "Grammatik"
 
 #: src/gram.c:321 src/reduce.c:302 src/reduce.c:392
-#, fuzzy
 msgid "warning"
-msgstr "varning: "
+msgstr "varning"
 
 #: src/lalr.c:91
 #, c-format
@@ -242,11 +245,11 @@ msgstr "för många goto (max %d)"
 
 #: src/main.c:117
 msgid "rule never reduced because of conflicts"
-msgstr ""
+msgstr "regel aldrig reducerad på grund av konflikter"
 
 #: src/parse-gram.y:347
 msgid "POSIX forbids declarations in the grammar"
-msgstr ""
+msgstr "POSIX förbjuder deklarationer i grammatiken"
 
 #: src/print.c:46
 #, c-format
@@ -254,32 +257,31 @@ msgid " type %d is %s\n"
 msgstr " typ %d är %s\n"
 
 #: src/print.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "shift, and go to state %d\n"
-msgstr "    %-4s\tskifta, och gå till tillstånd %d\n"
+msgstr "skifta, och gå till tillstånd %d\n"
 
 #: src/print.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "go to state %d\n"
-msgstr "    %-4s\tgå till tillstånd %d\n"
+msgstr "gå till tillstånd %d\n"
 
 #: src/print.c:201
-#, fuzzy
 msgid "error (nonassociative)\n"
-msgstr "    %-4s\tfel (ickeassociativ)\n"
+msgstr "fel (ickeassociativ)\n"
 
 #: src/print.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "reduce using rule %d (%s)"
-msgstr "    %-4s\treducera med regel %d (%s)\n"
+msgstr "reducera med regel %d (%s)"
 
 #: src/print.c:293
 msgid "accept"
-msgstr ""
+msgstr "acceptera"
 
 #: src/print.c:324 src/print.c:390
 msgid "$default"
-msgstr ""
+msgstr "$standard"
 
 #: src/print.c:419
 #, c-format
@@ -303,9 +305,8 @@ msgid " on right:"
 msgstr " till höger:"
 
 #: src/print.c:552
-#, fuzzy
 msgid "Rules never reduced"
-msgstr "%d regel reduceras aldrig\n"
+msgstr "Aldrig reducerade regler"
 
 #: src/reader.c:52
 #, c-format
@@ -315,7 +316,7 @@ msgstr "flera %s-deklarationer"
 #: src/reader.c:141
 #, c-format
 msgid "result type clash on merge function %s: `%s' vs. `%s'"
-msgstr ""
+msgstr "resultattypskonflikt vid sammanslagningsfunktion %s: \"%s\" mot \"%s\""
 
 #: src/reader.c:239
 #, c-format
@@ -338,27 +339,27 @@ msgstr "två @prec i rad"
 #: src/reader.c:353
 #, c-format
 msgid "%%dprec affects only GLR parsers"
-msgstr ""
+msgstr "%%dprec påverkar endast GLR-parsrar"
 
 #: src/reader.c:355
 #, c-format
 msgid "%%dprec must be followed by positive number"
-msgstr ""
+msgstr "%%dprec måste följas av ett positivt tal"
 
 #: src/reader.c:357
 #, c-format
 msgid "only one %%dprec allowed per rule"
-msgstr ""
+msgstr "endast en %%dprec tillåts per regel"
 
 #: src/reader.c:368
 #, c-format
 msgid "%%merge affects only GLR parsers"
-msgstr ""
+msgstr "%%merge påverkar endast GLR-parsrar"
 
 #: src/reader.c:370
 #, c-format
 msgid "only one %%merge allowed per rule"
-msgstr ""
+msgstr "endast en %%merge tillåts per regel"
 
 #: src/reader.c:513
 msgid "no rules in the input grammar"
@@ -370,29 +371,24 @@ msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
 
 #: src/reduce.c:239
-#, fuzzy
 msgid "useless rule"
-msgstr "%d oanvändbar regel"
+msgstr "oanvändbar regel"
 
 #: src/reduce.c:302
-#, fuzzy
 msgid "useless nonterminal"
-msgstr "%d oanvändbar icketerminal"
+msgstr "oanvändbar icketerminal"
 
 #: src/reduce.c:349
-#, fuzzy
 msgid "Useless nonterminals"
-msgstr "Oanvändbara icketerminaler:"
+msgstr "Oanvändbara icketerminaler"
 
 #: src/reduce.c:362
-#, fuzzy
 msgid "Terminals which are not used"
-msgstr "Terminaler som inte används:"
+msgstr "Terminaler som inte används"
 
 #: src/reduce.c:371
-#, fuzzy
 msgid "Useless rules"
-msgstr "Oanvändbara regler:"
+msgstr "Oanvändbara regler"
 
 #: src/reduce.c:387
 #, c-format
@@ -420,49 +416,44 @@ msgstr[0] "%d oanvändbar regel"
 msgstr[1] "%d oanvändbara regler"
 
 #: src/reduce.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "start symbol %s does not derive any sentence"
-msgstr "Startsymbolen %s genererar inga meningar"
+msgstr "startsymbolen %s genererar inga meningar"
 
 #: src/scan-gram.l:202
 #, c-format
 msgid ": invalid character: `%c'\n"
-msgstr ""
+msgstr ": ogiltigt tecken: \"%c\"\n"
 
 #: src/scan-gram.l:246
-#, fuzzy
 msgid ": unexpected end of file in a comment\n"
-msgstr "oväntat filslut"
+msgstr ": oväntat filslut i en kommentar\n"
 
 #: src/scan-gram.l:274 src/scan-gram.l:412
-#, fuzzy
 msgid ": unexpected end of file in a string\n"
-msgstr "oväntat filslut"
+msgstr ": oväntat filslut i en sträng\n"
 
 #: src/scan-gram.l:311 src/scan-gram.l:383
-#, fuzzy
 msgid ": unexpected end of file in a character\n"
-msgstr "oväntat filslut"
+msgstr ": oväntat filslut i ett tecken\n"
 
 #: src/scan-gram.l:332
-#, fuzzy, c-format
+#, c-format
 msgid ": invalid escape: %s\n"
-msgstr "felaktigt värde: %s%d"
+msgstr ": ogiltig specialsekvens: %s\n"
 
 #: src/scan-gram.l:353
-#, fuzzy, c-format
+#, c-format
 msgid ": unrecognized escape: %s\n"
-msgstr "okänt: %s"
+msgstr ": okänd specialsekvens: %s\n"
 
 #: src/scan-gram.l:473
-#, fuzzy
 msgid ": unexpected end of file in a braced code\n"
-msgstr "oväntat filslut"
+msgstr ": oväntat filslut i kod inom klamrar\n"
 
 #: src/scan-gram.l:502
-#, fuzzy
 msgid ": unexpected end of file in a prologue\n"
-msgstr "oväntat filslut"
+msgstr ": oväntat filslut i en prolog\n"
 
 #: src/scan-gram.l:560
 #, c-format
@@ -500,9 +491,9 @@ msgid "type redeclaration for %s"
 msgstr "typen omdeklarerad för %s"
 
 #: src/symtab.c:98 src/symtab.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "%s redeclaration for %s"
-msgstr "typen omdeklarerad för %s"
+msgstr "%s-omdeklaration för %s"
 
 #: src/symtab.c:138
 #, c-format
@@ -515,9 +506,9 @@ msgid "symbol %s redefined"
 msgstr "symbolen %s omdefinierad"
 
 #: src/symtab.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "redefining user token number of %s"
-msgstr "omdefinition av precedens för %s"
+msgstr "omdefinition av elementnummer för %s"
 
 #: src/symtab.c:225
 #, c-format
@@ -542,9 +533,9 @@ msgid "conflicting precedences for %s and %s"
 msgstr "motstridiga precedenser mellan %s och %s"
 
 #: src/symtab.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
-msgstr "motstridiga assoc-värden mellan %s och %s"
+msgstr "motstridiga associativiteter för %s (%s) och %s (%s)"
 
 #: src/symtab.c:363
 #, c-format
@@ -562,82 +553,84 @@ msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"
 
 #: lib/argmatch.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument %s for %s"
-msgstr "felaktigt värde: %s%d"
+msgstr "ogiltigt argument %s till %s"
 
 #: lib/argmatch.c:162
 #, c-format
 msgid "ambiguous argument %s for %s"
-msgstr ""
+msgstr "tvetydigt argument %s till %s"
 
 #: lib/argmatch.c:181
 msgid "Valid arguments are:"
-msgstr ""
+msgstr "Giltiga argument är:"
 
 #: lib/bitset_stats.c:226
 #, c-format
 msgid "%d bitset_allocs, %d freed (%.2f%%).\n"
-msgstr ""
+msgstr "%d bitmängdallokeringar, %d frianden (%.2f%%).\n"
 
 #: lib/bitset_stats.c:229
 #, c-format
 msgid "%d bitset_sets, %d cached (%.2f%%)\n"
-msgstr ""
+msgstr "%d bitmängdmängder, %d cachade (%.2f%%)\n"
 
 #: lib/bitset_stats.c:232
 #, c-format
 msgid "%d bitset_resets, %d cached (%.2f%%)\n"
-msgstr ""
+msgstr "%d bitmängdåterställanden, %d cachade (%.2f%%)\n"
 
 #: lib/bitset_stats.c:235
 #, c-format
 msgid "%d bitset_tests, %d cached (%.2f%%)\n"
-msgstr ""
+msgstr "%d bitmängdtester, %d cachade (%.2f%%)\n"
 
 #: lib/bitset_stats.c:239
 #, c-format
 msgid "%d bitset_lists\n"
-msgstr ""
+msgstr "%d bitmängdlistor\n"
 
 #: lib/bitset_stats.c:241
 msgid "count log histogram\n"
-msgstr ""
+msgstr "anropslogghistogram\n"
 
 #: lib/bitset_stats.c:244
 msgid "size log histogram\n"
-msgstr ""
+msgstr "storlekslogghistogram\n"
 
 #: lib/bitset_stats.c:247
 msgid "density histogram\n"
-msgstr ""
+msgstr "densitetshistogram\n"
 
 #: lib/bitset_stats.c:264
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
+"Bitmängdsstatistik:\n"
+"\n"
 
 #: lib/bitset_stats.c:267
 #, c-format
 msgid "Accumulated runs = %d\n"
-msgstr ""
+msgstr "Accumulerade körningar = %d\n"
 
 #: lib/bitset_stats.c:311
 msgid "Could not read stats file."
-msgstr ""
+msgstr "Kunde inte läsa statistikfil."
 
 #: lib/bitset_stats.c:313
 msgid "Bad stats file size.\n"
-msgstr ""
+msgstr "Dålig statistikfilstorlek.\n"
 
 #: lib/bitset_stats.c:339
 msgid "Could not write stats file."
-msgstr ""
+msgstr "Kunde inte skriva statistikfil."
 
 #: lib/bitset_stats.c:343
 msgid "Could not open stats file for writing."
-msgstr ""
+msgstr "Kunde inte öppna statistikfil för skrivning."
 
 #: lib/getopt.c:662
 #, c-format
@@ -714,165 +707,117 @@ msgid ""
 "\n"
 "Execution times (seconds)\n"
 msgstr ""
+"\n"
+"Exekveringstider (sekunder)\n"
 
 #: lib/timevar.c:516
 msgid " TOTAL                 :"
-msgstr ""
+msgstr " TOTALT                :"
 
 #: lib/timevar.c:552
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
-msgstr ""
+msgstr "tid i %s: %ld.%06ld (%ld%%)\n"
 
-#, fuzzy
+#~ msgid "state_list_append (state = %d, symbol = %d (%s))\n"
+#~ msgstr "state_list_append (tillstånd = %d, symbol = %d (%s))\n"
+
+#~ msgid "Entering new_itemsets, state = %d\n"
+#~ msgstr "Går in i new_itemsets, tillstånd = %d\n"
+
+#~ msgid "Entering get_state, symbol = %d (%s)\n"
+#~ msgstr "Går in i get_state, symbol = %d (%s)\n"
+
 #~ msgid "Exiting get_state => %d\n"
-#~ msgstr "    %-4s\tgå till tillstånd %d\n"
+#~ msgstr "Lämnar get_state => %d\n"
 
-#, fuzzy
+#~ msgid "Entering append_states, state = %d\n"
+#~ msgstr "Går in i append_states, tillstånd = %d\n"
+
+#~ msgid "Processing state %d (reached by %s)\n"
+#~ msgstr "Bearbetar tillstånd %d (nått av %s)\n"
+
+#~ msgid "undefined associativity"
+#~ msgstr "odefinierad associativitet"
+
+#~ msgid "Closure: %s\n"
+#~ msgstr "Hölje: %s\n"
+
 #~ msgid "  (rule %d)\n"
-#~ msgstr "   (regel %d)"
+#~ msgstr "   (regel %d)\n"
 
-#~ msgid "reduce"
-#~ msgstr "reducera"
+# RTC betyder "reflexive transitive closure"
+# Firsts är ett variabelnamn
+#~ msgid "RTC: Firsts Input"
+#~ msgstr "RTH: Firsts-indata"
 
-#~ msgid "shift"
-#~ msgstr "skifta"
+#~ msgid "RTC: Firsts Output"
+#~ msgstr "RTH: Firsts-utdata"
 
-#~ msgid "an error"
-#~ msgstr "ett fel"
+#~ msgid "input"
+#~ msgstr "indata"
 
-#~ msgid "%s contains "
-#~ msgstr "%s innehåller "
-
-#~ msgid "`%s' is no longer supported"
-#~ msgstr "\"%s\" stöds inte längre"
-
-#~ msgid "unexpected `/' found and ignored"
-#~ msgstr "oväntat \"/\" hittat och ignorerat"
-
-#~ msgid "unterminated comment"
-#~ msgstr "oavslutad kommentar"
-
-#~ msgid "unescaped newline in constant"
-#~ msgstr "oskyddat nyradstecken i konstant"
-
-#~ msgid "octal value outside range 0...255: `\\%o'"
-#~ msgstr "oktalt värde utanför intervallet 0-255: \"\\%o\""
-
-#~ msgid "hexadecimal value above 255: `\\x%x'"
-#~ msgstr "hexadecimalt värde över 255: \"\\x%x\""
-
-#~ msgid "unknown escape sequence: `\\' followed by `%s'"
-#~ msgstr "okänd specialsekvens: \"\\\" följt av \"%s\""
-
-#~ msgid "unterminated type name at end of file"
-#~ msgstr "oavslutat typnamn vid filslut"
-
-#~ msgid "unterminated type name"
-#~ msgstr "oavslutat typnamn"
-
-#~ msgid "use \"...\" for multi-character literal tokens"
-#~ msgstr "använd \"...\" för bokstavliga element med mer än ett tecken"
-
-#~ msgid "`%s' supports no argument: %s"
-#~ msgstr "\"%s\" stödjer inga argument: %s"
-
-#~ msgid "`%s' requires an argument"
-#~ msgstr "\"%s\" behöver ett argument"
+#~ msgid "output"
+#~ msgstr "utdata"
 
 #~ msgid ""
-#~ "    $default\treduce using rule %d (%s)\n"
+#~ "Variables\n"
+#~ "---------\n"
 #~ "\n"
 #~ msgstr ""
-#~ "    $standard\treducera med regel %d (%s)\n"
+#~ "Variabler\n"
+#~ "---------\n"
 #~ "\n"
 
-#~ msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-#~ msgstr "    %-4s\t[reducera med regel %d (%s)]\n"
+#~ msgid "Value  Sprec  Sassoc  Tag\n"
+#~ msgstr "Värde  Sprec  Sassoc  Tagg\n"
 
-#~ msgid "    $default\treduce using rule %d (%s)\n"
-#~ msgstr "    $standard\treducera med regel %d (%s)\n"
+#~ msgid ""
+#~ "Rules\n"
+#~ "-----\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Regler\n"
+#~ "------\n"
+#~ "\n"
 
-#~ msgid "    $default\taccept\n"
-#~ msgstr "    $standard\tacceptera\n"
+#~ msgid ""
+#~ "Num (Prec, Assoc, Useful, Ritem Range) Lhs -> Rhs (Ritem range) [Num]\n"
+#~ msgstr ""
+#~ "Num (Prec, Assoc, Användbar, Robjektintervall) Vhs -> Hhs "
+#~ "(Hobjektintervall) [Num]\n"
 
-#~ msgid "    NO ACTIONS\n"
-#~ msgstr "    INGA ÅTGÄRDER\n"
+#~ msgid ""
+#~ "Rules interpreted\n"
+#~ "-----------------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Tolkade regler\n"
+#~ "--------------\n"
+#~ "\n"
 
-#~ msgid "Number, Line, Rule"
-#~ msgstr "Nummer, Rad, Regel"
+#~ msgid "Lookaheads: BEGIN\n"
+#~ msgstr "Framåtblickar: START\n"
 
-#~ msgid "  %3d %3d %s ->"
-#~ msgstr "  %3d %3d %s ->"
+#~ msgid "State %d: %d lookaheads\n"
+#~ msgstr "Tillstånd %d: %d framåtblickar\n"
 
-#~ msgid "   Skipping to next \\n"
-#~ msgstr "   Hoppar över till nästa \\n"
+#~ msgid "   on %d (%s) -> rule %d\n"
+#~ msgstr "   vid %d (%s) -> regel %d\n"
 
-#~ msgid "   Skipping to next %c"
-#~ msgstr "   Hoppar över till nästa %c"
+#~ msgid "Lookaheads: END\n"
+#~ msgstr "Framåtblickar: SLUT\n"
 
-#~ msgid "unterminated string at end of file"
-#~ msgstr "oavslutad sträng vid filslut"
+#~ msgid "relation_transpose: input\n"
+#~ msgstr "relation_transpose: indata\n"
 
-#~ msgid "unterminated string"
-#~ msgstr "oavslutad sträng"
+#~ msgid "relation_transpose: output\n"
+#~ msgstr "relation_transpose: utdata\n"
 
-#~ msgid "unterminated `%{' definition"
-#~ msgstr "oavslutad \"%{\"-definition"
+# "table" och "check" är variabelnamn, som bör vara bekanta för den som
+# begär denna spårutskrift.
+#~ msgid "growing table and check from: %lu to %lu\n"
+#~ msgstr "utökar table och check från: %lu till %lu\n"
 
-#~ msgid "Premature EOF after %s"
-#~ msgstr "Förtida filslut efter %s"
-
-#~ msgid "`%s' is invalid in %s"
-#~ msgstr "\"%s\" är felaktig i %s"
-
-#~ msgid "invalid %s declaration"
-#~ msgstr "felaktig %s-deklaration"
-
-#~ msgid "%type declaration has no <typename>"
-#~ msgstr "%type-deklaration har inget <typnamn>"
-
-#~ msgid "invalid %%type declaration due to item: %s"
-#~ msgstr "felaktig %%type-deklaration på grund av objekt: %s"
-
-#~ msgid "invalid text (%s) - number should be after identifier"
-#~ msgstr "felaktig text (%s) - tal skulle följa efter identifierare"
-
-#~ msgid "unexpected item: %s"
-#~ msgstr "oväntat objekt: %s"
-
-#~ msgid "unmatched %s"
-#~ msgstr "ensam %s"
-
-#~ msgid "argument of %%expect is not an integer"
-#~ msgstr "argument till %%expect är inte ett heltal"
-
-#~ msgid "unrecognized item %s, expected an identifier"
-#~ msgstr "oväntat objekt %s, förväntade en identifierare"
-
-#~ msgid "expected string constant instead of %s"
-#~ msgstr "förväntade strängkonstant istället för %s"
-
-#~ msgid "no input grammar"
-#~ msgstr "ingen ingrammatik"
-
-#~ msgid "unknown character: %s"
-#~ msgstr "okänt tecken: %s"
-
-#~ msgid "ill-formed rule: initial symbol not followed by colon"
-#~ msgstr "felskriven regel: första symbolen följs inte av ett kolon"
-
-#~ msgid "grammar starts with vertical bar"
-#~ msgstr "grammatiken startar med ett vertikalt streck"
-
-#~ msgid "previous rule lacks an ending `;'"
-#~ msgstr "föregående regel saknar ett avslutande \";\""
-
-#~ msgid "%%guard present but %%semantic_parser not specified"
-#~ msgstr "%%guard finns men %%semantic_parser är inte angiven"
-
-#~ msgid "two actions at end of one rule"
-#~ msgstr "två åtgärder vid slutet av en regel"
-
-#~ msgid "invalid input: %s"
-#~ msgstr "felaktig indata: %s"
+#~ msgid "base_t too small to hold %d\n"
+#~ msgstr "base_t för liten för att hålla %d\n"

@@ -1,6 +1,3 @@
-src/LR0.c
-src/assoc.c
-src/closure.c
 src/complain.c
 src/conflicts.c
 src/files.c
@@ -8,16 +5,14 @@ src/getargs.c
 src/gram.c
 src/lalr.c
 src/main.c
-src/parse-gram.y
+src/parse-gram.c
 src/print.c
 src/reader.c
 src/reduce.c
-src/relation.c
-src/scan-gram.l
+src/scan-gram.c
 src/state.c
 src/symlist.c
 src/symtab.c
-src/tables.c
 
 lib/argmatch.c
 lib/bitset_stats.c

@@ -725,14 +725,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Exiting get_state => %d\n"
-#~ msgstr "    %-4s\tdurum %d'ye git\n"
-
-#, fuzzy
-#~ msgid "  (rule %d)\n"
-#~ msgstr "   (kural %d)"
-
 #~ msgid "reduce"
 #~ msgstr "indirgeme"
 
@@ -780,6 +772,9 @@ msgstr ""
 
 #~ msgid "`%s' requires an argument"
 #~ msgstr "`%s' bir argüman gerektirir"
+
+#~ msgid "   (rule %d)"
+#~ msgstr "   (kural %d)"
 
 #~ msgid "    %-4s\terror (nonassociative)\n"
 #~ msgstr "    %-4s\thata (birleþmeli deðil)\n"

@@ -255,7 +255,7 @@ msgstr "    %-4s\tシフト、および状態 %d へ\n"
 #: src/print.c:164
 #, fuzzy, c-format
 msgid "go to state %d\n"
-msgstr "    %-4s\t状態 %d へ\n"
+msgstr "    $   \t状態 %d へ\n"
 
 #: src/print.c:201
 #, fuzzy
@@ -438,7 +438,7 @@ msgstr "予期しないファイルの終端です"
 #: src/scan-gram.l:332
 #, fuzzy, c-format
 msgid ": invalid escape: %s\n"
-msgstr "不適切な $ の値"
+msgstr "不適切な入力: %s"
 
 #: src/scan-gram.l:353
 #, fuzzy, c-format
@@ -555,7 +555,7 @@ msgstr "開始シンボル %s はトークンです"
 #: lib/argmatch.c:161
 #, fuzzy, c-format
 msgid "invalid argument %s for %s"
-msgstr "不適切な $ の値"
+msgstr "不適切な入力: %s"
 
 #: lib/argmatch.c:162
 #, c-format
@@ -712,20 +712,20 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
+#~ msgid "reduce"
+#~ msgstr "還元"
+
+#~ msgid "shift"
+#~ msgstr "シフト"
+
+#~ msgid "an error"
+#~ msgstr "エラー"
+
 #~ msgid "%s contains "
 #~ msgstr "%s の中身は"
 
-#~ msgid "    $default\taccept\n"
-#~ msgstr "    $default\taccept\n"
-
-#~ msgid "    NO ACTIONS\n"
-#~ msgstr "    動作無し\n"
-
-#~ msgid "   (rule %d)"
-#~ msgstr "   (規則 %d)"
-
-#~ msgid "    %-4s\terror (nonassociative)\n"
-#~ msgstr "    %-4s\tエラー (非結合)\n"
+#~ msgid "    %-4s\t[reduce using rule %d (%s)]\n"
+#~ msgstr "    %-4s\t[規則 %d を利用して還元 (%s)]\n"
 
 #~ msgid ""
 #~ "    $default\treduce using rule %d (%s)\n"
@@ -734,20 +734,14 @@ msgstr ""
 #~ "    $default\t規則 %d を利用して還元 (%s)\n"
 #~ "\n"
 
-#~ msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-#~ msgstr "    %-4s\t[規則 %d を利用して還元 (%s)]\n"
-
 #~ msgid "    %-4s\treduce using rule %d (%s)\n"
 #~ msgstr "    %-4s\t規則 %d を利用して還元 (%s)\n"
 
 #~ msgid "    $default\treduce using rule %d (%s)\n"
 #~ msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
 
-#~ msgid "Number, Line, Rule"
-#~ msgstr "番号,   行, 規則"
-
-#~ msgid "  %3d %3d %s ->"
-#~ msgstr "  %3d %3d %s ->"
+#~ msgid "`%s' is no longer supported"
+#~ msgstr "`%s' は最早サポートされません"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "予期しない `/' が見つかり、無視されました"
@@ -782,8 +776,29 @@ msgstr ""
 #~ msgid "`%s' requires an argument"
 #~ msgstr "`%s' オプションは引数を要求します"
 
-#~ msgid "`%s' is no longer supported"
-#~ msgstr "`%s' は最早サポートされません"
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "最大テーブルサイズ (%d) を超えました"
+
+#~ msgid "   (rule %d)"
+#~ msgstr "   (規則 %d)"
+
+#~ msgid "    $default\taccept\n"
+#~ msgstr "    $default\taccept\n"
+
+#~ msgid "    NO ACTIONS\n"
+#~ msgstr "    動作無し\n"
+
+#~ msgid "    %-4s\terror (nonassociative)\n"
+#~ msgstr "    %-4s\tエラー (非結合)\n"
+
+#~ msgid "    %-4s\tgo to state %d\n"
+#~ msgstr "    %-4s\t状態 %d へ\n"
+
+#~ msgid "Number, Line, Rule"
+#~ msgstr "番号,   行, 規則"
+
+#~ msgid "  %3d %3d %s ->"
+#~ msgstr "  %3d %3d %s ->"
 
 #~ msgid "   Skipping to next \\n"
 #~ msgstr "   次の \\n にスキップ"
@@ -797,11 +812,17 @@ msgstr ""
 #~ msgid "unterminated string"
 #~ msgstr "閉じられていない文字列"
 
+#~ msgid "unterminated `%{' definition"
+#~ msgstr "`%{' 定義 が閉じられていません"
+
 #~ msgid "Premature EOF after %s"
 #~ msgstr "%s の後ろに早くも EOF があります"
 
 #~ msgid "`%s' is invalid in %s"
 #~ msgstr "`%s' は %s 内では不適切です"
+
+#~ msgid "invalid %s declaration"
+#~ msgstr "%s の宣言が不適切です"
 
 #~ msgid "%type declaration has no <typename>"
 #~ msgstr "%type 宣言に <タイプ名> がありません"
@@ -818,39 +839,6 @@ msgstr ""
 #~ msgid "unmatched %s"
 #~ msgstr "対応のない %s です"
 
-#~ msgid "invalid %s declaration"
-#~ msgstr "%s の宣言が不適切です"
-
-#~ msgid "no input grammar"
-#~ msgstr "文法の入力が無い"
-
-#~ msgid "unknown character: %s"
-#~ msgstr "未知の文字: %s"
-
-#~ msgid "ill-formed rule: initial symbol not followed by colon"
-#~ msgstr "邪悪な規則: 初期化シンボルにコロン (:) が続いていません"
-
-#~ msgid "grammar starts with vertical bar"
-#~ msgstr "文法は縦棒 (|) で始めます"
-
-#~ msgid "invalid input: %s"
-#~ msgstr "不適切な入力: %s"
-
-#~ msgid "two actions at end of one rule"
-#~ msgstr "一つの規則の終りに二つの動作を指定しています"
-
-#~ msgid "reduce"
-#~ msgstr "還元"
-
-#~ msgid "shift"
-#~ msgstr "シフト"
-
-#~ msgid "an error"
-#~ msgstr "エラー"
-
-#~ msgid "unterminated `%{' definition"
-#~ msgstr "`%{' 定義 が閉じられていません"
-
 #~ msgid "argument of %%expect is not an integer"
 #~ msgstr "%%expect の引数が整数値ではありません"
 
@@ -860,17 +848,26 @@ msgstr ""
 #~ msgid "expected string constant instead of %s"
 #~ msgstr "ここでは %s ではなく文字列定数が期待されます"
 
-#~ msgid "%%guard present but %%semantic_parser not specified"
-#~ msgstr "%%guard がありますが %%semantic_parser が指定されていません"
+#~ msgid "no input grammar"
+#~ msgstr "文法の入力が無い"
 
-#~ msgid "maximum table size (%d) exceeded"
-#~ msgstr "最大テーブルサイズ (%d) を超えました"
-
-#~ msgid "    $   \tgo to state %d\n"
-#~ msgstr "    $   \t状態 %d へ\n"
+#~ msgid "unknown character: %s"
+#~ msgstr "未知の文字: %s"
 
 #~ msgid "unterminated %guard clause"
 #~ msgstr "%guard 節が閉じられていません"
+
+#~ msgid "ill-formed rule: initial symbol not followed by colon"
+#~ msgstr "邪悪な規則: 初期化シンボルにコロン (:) が続いていません"
+
+#~ msgid "grammar starts with vertical bar"
+#~ msgstr "文法は縦棒 (|) で始めます"
+
+#~ msgid "%%guard present but %%semantic_parser not specified"
+#~ msgstr "%%guard がありますが %%semantic_parser が指定されていません"
+
+#~ msgid "two actions at end of one rule"
+#~ msgstr "一つの規則の終りに二つの動作を指定しています"
 
 #~ msgid ""
 #~ "\n"

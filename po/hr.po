@@ -258,7 +258,7 @@ msgstr "    %-4s\tpomakni i idi u stanje %d\n"
 #: src/print.c:164
 #, fuzzy, c-format
 msgid "go to state %d\n"
-msgstr "    %-4s\tidu u stanje %d\n"
+msgstr "    $   \tidu u stanje %d\n"
 
 #: src/print.c:201
 #, fuzzy
@@ -444,7 +444,7 @@ msgstr "neoèekivan kraj datoteke"
 #: src/scan-gram.l:332
 #, fuzzy, c-format
 msgid ": invalid escape: %s\n"
-msgstr "nedozvoljena  @ vrijednost"
+msgstr "nedozvoljeni ulaz: %s"
 
 #: src/scan-gram.l:353
 #, fuzzy, c-format
@@ -559,7 +559,7 @@ msgstr "poèetni simbol %s je znak"
 #: lib/argmatch.c:161
 #, fuzzy, c-format
 msgid "invalid argument %s for %s"
-msgstr "nedozvoljena  @ vrijednost"
+msgstr "nedozvoljeni ulaz: %s"
 
 #: lib/argmatch.c:162
 #, c-format
@@ -716,20 +716,20 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
+#~ msgid "reduce"
+#~ msgstr "reduciraj"
+
+#~ msgid "shift"
+#~ msgstr "pomakni"
+
+#~ msgid "an error"
+#~ msgstr "gre¹ka"
+
 #~ msgid "%s contains "
 #~ msgstr "%s sadr¾i"
 
-#~ msgid "    $default\taccept\n"
-#~ msgstr "    $default\tprihvati\n"
-
-#~ msgid "    NO ACTIONS\n"
-#~ msgstr "    NEMA AKCIJA\n"
-
-#~ msgid "   (rule %d)"
-#~ msgstr "   (pravilo %d)"
-
-#~ msgid "    %-4s\terror (nonassociative)\n"
-#~ msgstr "    %-4s\tgre¹ka (nonassociative)\n"
+#~ msgid "    %-4s\t[reduce using rule %d (%s)]\n"
+#~ msgstr "    %-4s\t[reduciraj koristeæi pravilo %d (%s)]\n"
 
 #~ msgid ""
 #~ "    $default\treduce using rule %d (%s)\n"
@@ -738,20 +738,14 @@ msgstr ""
 #~ "    $default\treduciraj koristeæi pravilo %d (%s)\n"
 #~ "\n"
 
-#~ msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-#~ msgstr "    %-4s\t[reduciraj koristeæi pravilo %d (%s)]\n"
-
 #~ msgid "    %-4s\treduce using rule %d (%s)\n"
 #~ msgstr "    %-4s\treduciraj koristeæi pravilo %d (%s)\n"
 
 #~ msgid "    $default\treduce using rule %d (%s)\n"
 #~ msgstr "    $default\treduciraj koristeæi pravilo %d (%s)\n"
 
-#~ msgid "Number, Line, Rule"
-#~ msgstr "Broj, Linija, Pravilo"
-
-#~ msgid "  %3d %3d %s ->"
-#~ msgstr "  %3d %3d %s ->"
+#~ msgid "`%s' is no longer supported"
+#~ msgstr "`%s' vi¹e nije podr¾ano"
 
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "neoèekivan  `/' naðen i zanemaren"
@@ -786,8 +780,29 @@ msgstr ""
 #~ msgid "`%s' requires an argument"
 #~ msgstr "`%s' zahtijeva argument"
 
-#~ msgid "`%s' is no longer supported"
-#~ msgstr "`%s' vi¹e nije podr¾ano"
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "maksimalna velièina tablice (%d) prekoraèena"
+
+#~ msgid "   (rule %d)"
+#~ msgstr "   (pravilo %d)"
+
+#~ msgid "    $default\taccept\n"
+#~ msgstr "    $default\tprihvati\n"
+
+#~ msgid "    NO ACTIONS\n"
+#~ msgstr "    NEMA AKCIJA\n"
+
+#~ msgid "    %-4s\terror (nonassociative)\n"
+#~ msgstr "    %-4s\tgre¹ka (nonassociative)\n"
+
+#~ msgid "    %-4s\tgo to state %d\n"
+#~ msgstr "    %-4s\tidu u stanje %d\n"
+
+#~ msgid "Number, Line, Rule"
+#~ msgstr "Broj, Linija, Pravilo"
+
+#~ msgid "  %3d %3d %s ->"
+#~ msgstr "  %3d %3d %s ->"
 
 #~ msgid "   Skipping to next \\n"
 #~ msgstr "   Preskaèem na slijedeæe \\n"
@@ -801,11 +816,17 @@ msgstr ""
 #~ msgid "unterminated string"
 #~ msgstr "nezavr¹eni znakovni niz"
 
+#~ msgid "unterminated `%{' definition"
+#~ msgstr "nezavr¹ena `%{' definicija"
+
 #~ msgid "Premature EOF after %s"
 #~ msgstr "Preuranjeni EOF nakon %s"
 
 #~ msgid "`%s' is invalid in %s"
 #~ msgstr "`%s' je nedozvoljen u %s"
+
+#~ msgid "invalid %s declaration"
+#~ msgstr "nedozvoljena %s deklaracija"
 
 #~ msgid "%type declaration has no <typename>"
 #~ msgstr "%type deklaracija nema  <typename>"
@@ -822,14 +843,23 @@ msgstr ""
 #~ msgid "unmatched %s"
 #~ msgstr "nije pronaðen %s"
 
-#~ msgid "invalid %s declaration"
-#~ msgstr "nedozvoljena %s deklaracija"
+#~ msgid "argument of %%expect is not an integer"
+#~ msgstr "argument od %%expect nije cijeli broj"
+
+#~ msgid "unrecognized item %s, expected an identifier"
+#~ msgstr "neprepoznati %s, oèekivan nakon identifikatora"
+
+#~ msgid "expected string constant instead of %s"
+#~ msgstr "oèekivana znakovna konstana umjesto %s"
 
 #~ msgid "no input grammar"
 #~ msgstr "nema ulazne gramatike"
 
 #~ msgid "unknown character: %s"
 #~ msgstr "nepoznati znak: %s"
+
+#~ msgid "unterminated %guard clause"
+#~ msgstr "nezavr¹ena %guard klauzula"
 
 #~ msgid "ill-formed rule: initial symbol not followed by colon"
 #~ msgstr "lo¹e pravilo: zarez ne bi trebao slijediti poèetni simbol"
@@ -840,41 +870,8 @@ msgstr ""
 #~ msgid "previous rule lacks an ending `;'"
 #~ msgstr "prethodnom pravilu nedostaje zavr¹etak `;'"
 
-#~ msgid "invalid input: %s"
-#~ msgstr "nedozvoljeni ulaz: %s"
+#~ msgid "%%guard present but %%semantic_parser not specified"
+#~ msgstr "%%guard prisutan ali %%semantic_parser nije specificiran"
 
 #~ msgid "two actions at end of one rule"
 #~ msgstr "dvije akcije pri kraju jednog pravila"
-
-#~ msgid "reduce"
-#~ msgstr "reduciraj"
-
-#~ msgid "shift"
-#~ msgstr "pomakni"
-
-#~ msgid "an error"
-#~ msgstr "gre¹ka"
-
-#~ msgid "unterminated `%{' definition"
-#~ msgstr "nezavr¹ena `%{' definicija"
-
-#~ msgid "argument of %%expect is not an integer"
-#~ msgstr "argument od %%expect nije cijeli broj"
-
-#~ msgid "unrecognized item %s, expected an identifier"
-#~ msgstr "neprepoznati %s, oèekivan nakon identifikatora"
-
-#~ msgid "expected string constant instead of %s"
-#~ msgstr "oèekivana znakovna konstana umjesto %s"
-
-#~ msgid "maximum table size (%d) exceeded"
-#~ msgstr "maksimalna velièina tablice (%d) prekoraèena"
-
-#~ msgid "    $   \tgo to state %d\n"
-#~ msgstr "    $   \tidu u stanje %d\n"
-
-#~ msgid "unterminated %guard clause"
-#~ msgstr "nezavr¹ena %guard klauzula"
-
-#~ msgid "%%guard present but %%semantic_parser not specified"
-#~ msgstr "%%guard prisutan ali %%semantic_parser nije specificiran"

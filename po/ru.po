@@ -728,45 +728,6 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Exiting get_state => %d\n"
-#~ msgstr "    %-4s\tпереход в состояние %d\n"
-
-#, fuzzy
-#~ msgid "  (rule %d)\n"
-#~ msgstr "   (правило %d)"
-
-#~ msgid ""
-#~ "Variables\n"
-#~ "---------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Переменные\n"
-#~ "----------\n"
-#~ "\n"
-
-#, fuzzy
-#~ msgid "Value  Sprec  Sassoc  Tag\n"
-#~ msgstr "Знач   Приор    Ассоц     Тег\n"
-
-#~ msgid ""
-#~ "Rules\n"
-#~ "-----\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Правила\n"
-#~ "-------\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Rules interpreted\n"
-#~ "-----------------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Интерпретированные правила\n"
-#~ "--------------------------\n"
-#~ "\n"
-
 #~ msgid "reduce"
 #~ msgstr "вывод"
 
@@ -814,6 +775,9 @@ msgstr ""
 
 #~ msgid "`%s' requires an argument"
 #~ msgstr "ключ `%s' должен использоваться с аргументом"
+
+#~ msgid "   (rule %d)"
+#~ msgstr "   (правило %d)"
 
 #~ msgid "    %-4s\terror (nonassociative)\n"
 #~ msgstr "    %-4s\tошибка (неассоциативная)\n"
@@ -953,6 +917,36 @@ msgstr ""
 
 #~ msgid "multiple %%source_extension declarations"
 #~ msgstr "множественные описания %%source_extension"
+
+#~ msgid ""
+#~ "Variables\n"
+#~ "---------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Переменные\n"
+#~ "----------\n"
+#~ "\n"
+
+#~ msgid "Value  Sprec    Sassoc    Tag\n"
+#~ msgstr "Знач   Приор    Ассоц     Тег\n"
+
+#~ msgid ""
+#~ "Rules\n"
+#~ "-----\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Правила\n"
+#~ "-------\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Rules interpreted\n"
+#~ "-----------------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Интерпретированные правила\n"
+#~ "--------------------------\n"
+#~ "\n"
 
 #~ msgid ""
 #~ "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
