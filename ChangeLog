@@ -1,3 +1,8 @@
+2002-03-19  Paul Eggert  <eggert@twinsun.com>
+
+	* Makefile.am (AUTOMAKE_OPTIONS): 1.6.
+	* doc/Makefile.am (AUTOMAKE_OPTIONS): Remove.
+
 2002-03-19  Akim Demaille  <akim@epita.fr>
 
 	Test and fix the #line outputs.
