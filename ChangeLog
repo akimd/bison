@@ -1,5 +1,18 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/derives.c (print_derives): Be sure to use `>= 0', not `> 0',
+	when walking through ritem, even via rule->rhs.
+	* src/reduce.c (dump_grammar, useful_production, reduce_output)
+	(useful_production, useless_nonterminals): Likewise.
+	(reduce_grammar_tables): Likewise, plus update nritems.
+	* src/nullable.c (set_nullable): Likewise.
+	* src/lalr.c (build_relations): Likewise.
+	* tests/sets.at (Nullable): Adjust.
+	Fortunately, now, the $axiom is no longer nullable.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (generate_states): Use nritems, not nitems, nor using
 	the 0-sentinel.
 	* src/gram.c (ritem_longest_rhs): Likewise.

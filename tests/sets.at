@@ -49,15 +49,15 @@ AT_CHECK([[sed 's/[	 ]*$//' stderr]], [],
 
 DERIVES
 	$axiom derives
-		1: e (rule 0)
+		1: e $ (rule 0)
 	e derives
-		2: 'e' (rule 2)
-		3: (rule 3)
+		2: 'e' (rule 1)
+		3: (rule 2)
 
 
 Entering set_nullable
 NULLABLE
-	$axiom: yes
+	$axiom: no
 	e: yes
 
 
