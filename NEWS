@@ -8,6 +8,14 @@ Changes in version 1.75a, 2002-10-24:
   ago, but nobody noticed until we recently asked someone to try
   building Bison with a K&R C compiler.
 
+* %error-verbose
+  This new directive is preferred over YYERROR_VERBOSE.
+
+* %lex-param, %parse-param
+  These new directives are preferred over PARSE_PARAM and LEX_PARAM.
+  In addition, they provide a means for yyerror to remain pure, and
+  to access to the current location.
+
 Changes in version 1.75, 2002-10-14:
 
 * Bison should now work on 64-bit hosts.

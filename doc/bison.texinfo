@@ -682,7 +682,7 @@ involved, or by performing both actions, and then calling a designated
 user-defined function on the resulting values to produce an arbitrary
 merged result.
 
-Let's consider an example, vastly simplified from C++.
+Let's consider an example, vastly simplified from a C++ grammar.
 
 @example
 %@{
@@ -706,20 +706,20 @@ stmt : expr ';'  %dprec 1
      | decl      %dprec 2
      ;
 
-expr : ID 		@{ printf ("%s ", $$); @}
+expr : ID               @{ printf ("%s ", $$); @}
      | TYPENAME '(' expr ')'
-			@{ printf ("%s <cast> ", $1); @}
-     | expr '+' expr	@{ printf ("+ "); @}
-     | expr '=' expr	@{ printf ("= "); @}
+                        @{ printf ("%s <cast> ", $1); @}
+     | expr '+' expr    @{ printf ("+ "); @}
+     | expr '=' expr    @{ printf ("= "); @}
      ;
 
 decl : TYPENAME declarator ';'
-			@{ printf ("%s <declare> ", $1); @}
+                        @{ printf ("%s <declare> ", $1); @}
      | TYPENAME declarator '=' expr ';'
-			@{ printf ("%s <init-declare> ", $1); @}
+                        @{ printf ("%s <init-declare> ", $1); @}
      ;
 
-declarator : ID		@{ printf ("\"%s\" ", $1); @}
+declarator : ID         @{ printf ("\"%s\" ", $1); @}
      | '(' declarator ')'
      ;
 @end example
@@ -3559,10 +3559,11 @@ accurate parse error messages.
 Rename the external symbols used in the parser so that they start with
 @var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
 is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
-@code{yylval}, @code{yychar}, @code{yydebug}, and possible
-@code{yylloc}.  For example, if you use @samp{%name-prefix="c_"}, the
-names become @code{c_parse}, @code{c_lex}, and so on.  @xref{Multiple
-Parsers, ,Multiple Parsers in the Same Program}.
+@code{yylval}, @code{yylloc}, @code{yychar}, @code{yydebug}, and
+possible @code{yylloc}.  For example, if you use
+@samp{%name-prefix="c_"}, the names become @code{c_parse}, @code{c_lex},
+and so on.  @xref{Multiple Parsers, ,Multiple Parsers in the Same
+Program}.
 
 @item %no-parser
 Do not include any C code in the parser file; generate tables only.  The
@@ -3659,9 +3660,9 @@ instead of @samp{yy}.  You can use this to give each parser distinct
 names that do not conflict.
 
 The precise list of symbols renamed is @code{yyparse}, @code{yylex},
-@code{yyerror}, @code{yynerrs}, @code{yylval}, @code{yychar} and
-@code{yydebug}.  For example, if you use @samp{-p c}, the names become
-@code{cparse}, @code{clex}, and so on.
+@code{yyerror}, @code{yynerrs}, @code{yylval}, @code{yylloc},
+@code{yychar} and @code{yydebug}.  For example, if you use @samp{-p c},
+the names become @code{cparse}, @code{clex}, and so on.
 
 @strong{All the other variables and macros associated with Bison are not
 renamed.} These others are not global; there is no conflict if the same
@@ -3706,23 +3707,65 @@ encounters end-of-input or an unrecoverable syntax error.  You can also
 write an action which directs @code{yyparse} to return immediately
 without reading further.
 
+
+@deftypefun int yyparse (void)
 The value returned by @code{yyparse} is 0 if parsing was successful (return
 is due to end-of-input).
 
 The value is 1 if parsing failed (return is due to a syntax error).
+@end deftypefun
 
 In an action, you can cause immediate return from @code{yyparse} by using
 these macros:
 
-@table @code
-@item YYACCEPT
+@defmac YYACCEPT
 @findex YYACCEPT
 Return immediately with value 0 (to report success).
+@end defmac
 
-@item YYABORT
+@defmac YYABORT
 @findex YYABORT
 Return immediately with value 1 (to report failure).
-@end table
+@end defmac
+
+If you use a reentrant parser, you can optionally pass additional
+parameter information to it in a reentrant way.  To do so, use the
+declaration @code{%parse-param}:
+
+@deffn {Directive} %parse-param @var{argument-declaration} @var{argument-name}
+@findex %parse-param
+Declare that @code{argument-name} is an additional @code{yyparse}
+argument.  This argument is also passed to @code{yyerror}.  The
+@var{argument-declaration} is used when declaring functions or
+prototypes.
+@end deffn
+
+Here's an example.  Write this in the parser:
+
+@example
+%parse-param "int *nastiness"  "nastiness"
+%parse-param "int *randomness" "randomness"
+@end example
+
+@noindent
+Then call the parser like this:
+
+@example
+@{
+  int nastiness, randomness;
+  @dots{}  /* @r{Store proper data in @code{nastiness} and @code{randomness}.}  */
+  value = yyparse (&nastiness, &randomness);
+  @dots{}
+@}
+@end example
+
+@noindent
+In the grammar actions, use expressions like this to refer to the data:
+
+@example
+exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
+@end example
+
 
 @node Lexical
 @section The Lexical Analyzer Function @code{yylex}
@@ -3927,85 +3970,47 @@ textual positions, then the type @code{YYLTYPE} will not be defined.  In
 this case, omit the second argument; @code{yylex} will be called with
 only one argument.
 
-@vindex YYPARSE_PARAM
-If you use a reentrant parser, you can optionally pass additional
-parameter information to it in a reentrant way.  To do so, define the
-macro @code{YYPARSE_PARAM} as a variable name.  This modifies the
-@code{yyparse} function to accept one argument, of type @code{void *},
-with that name.
 
-When you call @code{yyparse}, pass the address of an object, casting the
-address to @code{void *}.  The grammar actions can refer to the contents
-of the object by casting the pointer value back to its proper type and
-then dereferencing it.  Here's an example.  Write this in the parser:
+If you wish to pass the additional parameter data to @code{yylex}, use
+@code{%lex-param} just like @code{%parse-param} (@pxref{Parser
+Function}).
+
+@deffn {Directive} lex-param @var{argument-declaration} @var{argument-name}
+@findex %lex-param
+Declare that @code{argument-name} is an additional @code{yylex}
+argument.
+@end deffn
+
+For instance:
 
 @example
-%@{
-struct parser_control
-@{
-  int nastiness;
-  int randomness;
-@};
-
-#define YYPARSE_PARAM parm
-%@}
+%parse-param "int *nastiness"  "nastiness"
+%lex-param   "int *nastiness"  "nastiness"
+%parse-param "int *randomness" "randomness"
 @end example
 
 @noindent
-Then call the parser like this:
+results in the following signature:
 
 @example
-struct parser_control
-@{
-  int nastiness;
-  int randomness;
-@};
+int yylex   (int *nastiness);
+int yyparse (int *nastiness, int *randomness);
+@end example
 
-@dots{}
+If @code{%pure-parser} is added:
 
-@{
-  struct parser_control foo;
-  @dots{}  /* @r{Store proper data in @code{foo}.}  */
-  value = yyparse ((void *) &foo);
-  @dots{}
-@}
+@example
+int yylex   (YYSTYPE *lvalp, int *nastiness);
+int yyparse (int *nastiness, int *randomness);
 @end example
 
 @noindent
-In the grammar actions, use expressions like this to refer to the data:
+and finally, if both @code{%pure-parser} and @code{%locations} are used:
 
 @example
-((struct parser_control *) parm)->randomness
+int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
+int yyparse (int *nastiness, int *randomness);
 @end example
-
-@vindex YYLEX_PARAM
-If you wish to pass the additional parameter data to @code{yylex},
-define the macro @code{YYLEX_PARAM} just like @code{YYPARSE_PARAM}, as
-shown here:
-
-@example
-%@{
-struct parser_control
-@{
-  int nastiness;
-  int randomness;
-@};
-
-#define YYPARSE_PARAM parm
-#define YYLEX_PARAM parm
-%@}
-@end example
-
-You should then define @code{yylex} to accept one additional
-argument---the value of @code{parm}.  (This makes either two or three
-arguments in total, depending on whether an argument of type
-@code{YYLTYPE} is passed.)  You can declare the argument as a pointer to
-the proper object type, or you can declare it as @code{void *} and
-access the contents as shown above.
-
-You can use @samp{%pure-parser} to request a reentrant parser without
-also using @code{YYPARSE_PARAM}.  Then you should call @code{yyparse}
-with no arguments, as usual.
 
 @node Error Reporting
 @section The Error Reporting Function @code{yyerror}
@@ -4026,13 +4031,11 @@ called by @code{yyparse} whenever a syntax error is found, and it
 receives one argument.  For a parse error, the string is normally
 @w{@code{"parse error"}}.
 
-@findex YYERROR_VERBOSE
-If you define the macro @code{YYERROR_VERBOSE} in the Bison declarations
-section (@pxref{Bison Declarations, ,The Bison Declarations Section}),
-then Bison provides a more verbose and specific error message string
-instead of just plain @w{@code{"parse error"}}.  It doesn't matter what
-definition you use for @code{YYERROR_VERBOSE}, just whether you define
-it.
+@findex %error-verbose
+If you invoke the directive @code{%error-verbose} in the Bison
+declarations section (@pxref{Bison Declarations, ,The Bison Declarations
+Section}), then Bison provides a more verbose and specific error message
+string instead of just plain @w{@code{"parse error"}}.
 
 The parser can detect one other kind of error: stack overflow.  This
 happens when the input contains constructions that are very deeply
@@ -4060,6 +4063,50 @@ After @code{yyerror} returns to @code{yyparse}, the latter will attempt
 error recovery if you have written suitable error recovery grammar rules
 (@pxref{Error Recovery}).  If recovery is impossible, @code{yyparse} will
 immediately return 1.
+
+Oviously, in location tracking pure parsers, @code{yyerror} should have
+an access to the current location.  This is indeed the case for the GLR
+parsers, but not for the Yacc parser, for historical reasons.  I.e., if
+@samp{%locations %pure-parser} is passed then the prototypes for
+@code{yyerror} are:
+
+@example
+void yyerror (const char *msg);                 /* Yacc parsers.  */
+void yyerror (const char *msg, YYLTYPE *locp);  /* GLR parsers.   */
+@end example
+
+If @samp{%parse-param "int *nastiness"  "nastiness"} is used, then:
+
+@example
+void yyerror (int *randomness);  /* Yacc parsers.  */
+void yyerror (int *randomness);  /* GLR parsers.   */
+@end example
+
+Finally, GLR and Yacc parsers share the same @code{yyerror} calling
+convention for absolutely pure parsers, i.e., when the calling
+convention of @code{yylex} @emph{and} the calling convention of
+@code{%pure-parser} are pure.  I.e.:
+
+@example
+/* Location tracking.  */
+%locations
+/* Pure yylex.  */
+%pure-parser
+%lex-param   "int *nastiness"  "nastiness"
+/* Pure yyparse.  */
+%parse-param "int *nastiness"  "nastiness"
+%parse-param "int *randomness" "randomness"
+@end example
+
+@noindent
+results in the following signatures for all the parser kinds:
+
+@example
+int yylex (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
+int yyparse (int *nastiness, int *randomness);
+void yyerror (const char *msg, YYLTYPE *locp,
+              int *nastiness, int *randomness);
+@end example
 
 @vindex yynerrs
 The variable @code{yynerrs} contains the number of syntax errors
@@ -5450,9 +5497,9 @@ state 0
 
     $accept  ->  . exp $   (rule 0)
 
-    NUM 	shift, and go to state 1
+    NUM         shift, and go to state 1
 
-    exp 	go to state 2
+    exp         go to state 2
 @end example
 
 This reads as follows: ``state 0 corresponds to being at the very
@@ -5499,7 +5546,7 @@ state 1
 
     exp  ->  NUM .   (rule 5)
 
-    $default	reduce using rule 5 (exp)
+    $default    reduce using rule 5 (exp)
 @end example
 
 @noindent
@@ -5517,11 +5564,11 @@ state 2
     exp  ->  exp . '*' exp   (rule 3)
     exp  ->  exp . '/' exp   (rule 4)
 
-    $   	shift, and go to state 3
-    '+' 	shift, and go to state 4
-    '-' 	shift, and go to state 5
-    '*' 	shift, and go to state 6
-    '/' 	shift, and go to state 7
+    $           shift, and go to state 3
+    '+'         shift, and go to state 4
+    '-'         shift, and go to state 5
+    '*'         shift, and go to state 6
+    '/'         shift, and go to state 7
 @end example
 
 @noindent
@@ -5540,7 +5587,7 @@ state 3
 
     $accept  ->  exp $ .   (rule 0)
 
-    $default	accept
+    $default    accept
 @end example
 
 @noindent
@@ -5555,33 +5602,33 @@ state 4
 
     exp  ->  exp '+' . exp   (rule 1)
 
-    NUM 	shift, and go to state 1
+    NUM         shift, and go to state 1
 
-    exp 	go to state 8
+    exp         go to state 8
 
 state 5
 
     exp  ->  exp '-' . exp   (rule 2)
 
-    NUM 	shift, and go to state 1
+    NUM         shift, and go to state 1
 
-    exp 	go to state 9
+    exp         go to state 9
 
 state 6
 
     exp  ->  exp '*' . exp   (rule 3)
 
-    NUM 	shift, and go to state 1
+    NUM         shift, and go to state 1
 
-    exp 	go to state 10
+    exp         go to state 10
 
 state 7
 
     exp  ->  exp '/' . exp   (rule 4)
 
-    NUM 	shift, and go to state 1
+    NUM         shift, and go to state 1
 
-    exp 	go to state 11
+    exp         go to state 11
 @end example
 
 As was announced in beginning of the report, @samp{State 8 contains 1
@@ -5596,11 +5643,11 @@ state 8
     exp  ->  exp . '*' exp   (rule 3)
     exp  ->  exp . '/' exp   (rule 4)
 
-    '*' 	shift, and go to state 6
-    '/' 	shift, and go to state 7
+    '*'         shift, and go to state 6
+    '/'         shift, and go to state 7
 
-    '/' 	[reduce using rule 1 (exp)]
-    $default	reduce using rule 1 (exp)
+    '/'         [reduce using rule 1 (exp)]
+    $default    reduce using rule 1 (exp)
 @end example
 
 Indeed, there are two actions associated to the lookahead @samp{/}:
@@ -5657,11 +5704,11 @@ state 9
     exp  ->  exp . '*' exp   (rule 3)
     exp  ->  exp . '/' exp   (rule 4)
 
-    '*' 	shift, and go to state 6
-    '/' 	shift, and go to state 7
+    '*'         shift, and go to state 6
+    '/'         shift, and go to state 7
 
-    '/' 	[reduce using rule 2 (exp)]
-    $default	reduce using rule 2 (exp)
+    '/'         [reduce using rule 2 (exp)]
+    $default    reduce using rule 2 (exp)
 
 state 10
 
@@ -5671,10 +5718,10 @@ state 10
     exp  ->  exp '*' exp .   (rule 3)
     exp  ->  exp . '/' exp   (rule 4)
 
-    '/' 	shift, and go to state 7
+    '/'         shift, and go to state 7
 
-    '/' 	[reduce using rule 3 (exp)]
-    $default	reduce using rule 3 (exp)
+    '/'         [reduce using rule 3 (exp)]
+    $default    reduce using rule 3 (exp)
 
 state 11
 
@@ -5684,16 +5731,16 @@ state 11
     exp  ->  exp . '/' exp   (rule 4)
     exp  ->  exp '/' exp .   (rule 4)
 
-    '+' 	shift, and go to state 4
-    '-' 	shift, and go to state 5
-    '*' 	shift, and go to state 6
-    '/' 	shift, and go to state 7
+    '+'         shift, and go to state 4
+    '-'         shift, and go to state 5
+    '*'         shift, and go to state 6
+    '/'         shift, and go to state 7
 
-    '+' 	[reduce using rule 4 (exp)]
-    '-' 	[reduce using rule 4 (exp)]
-    '*' 	[reduce using rule 4 (exp)]
-    '/' 	[reduce using rule 4 (exp)]
-    $default	reduce using rule 4 (exp)
+    '+'         [reduce using rule 4 (exp)]
+    '-'         [reduce using rule 4 (exp)]
+    '*'         [reduce using rule 4 (exp)]
+    '/'         [reduce using rule 4 (exp)]
+    $default    reduce using rule 4 (exp)
 @end example
 
 @noindent
@@ -6171,18 +6218,21 @@ Macro to pretend that a syntax error has just been detected: call
 @code{yyparse} return 1.  @xref{Error Recovery}.
 
 @item YYERROR_VERBOSE
-Macro that you define with @code{#define} in the Bison declarations
-section to request verbose, specific error message strings when
-@code{yyerror} is called.
+An obsolete macro that you define with @code{#define} in the Bison
+declarations section to request verbose, specific error message strings
+when @code{yyerror} is called.  It doesn't matter what definition you
+use for @code{YYERROR_VERBOSE}, just whether you define it.  Using
+@code{%error-verbose} is preferred.
 
 @item YYINITDEPTH
 Macro for specifying the initial size of the parser stack.
 @xref{Stack Overflow}.
 
 @item YYLEX_PARAM
-Macro for specifying an extra argument (or list of extra arguments) for
-@code{yyparse} to pass to @code{yylex}.  @xref{Pure Calling,, Calling
-Conventions for Pure Parsers}.
+An obsolete macro for specifying an extra argument (or list of extra
+arguments) for @code{yyparse} to pass to @code{yylex}.  he use of this
+macro is deprecated, and is supported only for Yacc like parsers.
+@xref{Pure Calling,, Calling Conventions for Pure Parsers}.
 
 @item YYLTYPE
 Macro for the data type of @code{yylloc}; a structure with four
@@ -6196,8 +6246,10 @@ Macro for specifying the maximum size of the parser stack.
 @xref{Stack Overflow}.
 
 @item YYPARSE_PARAM
-Macro for specifying the name of a parameter that @code{yyparse} should
-accept.  @xref{Pure Calling,, Calling Conventions for Pure Parsers}.
+An obsolete macro for specifying the name of a parameter that
+@code{yyparse} should accept.  The use of this macro is deprecated, and
+is supported only for Yacc like parsers.  @xref{Pure Calling,, Calling
+Conventions for Pure Parsers}.
 
 @item YYRECOVERING
 Macro whose value indicates whether the parser is recovering from a
@@ -6278,6 +6330,10 @@ Bison declaration to assign a precedence to a rule that is used at parse
 time to resolve reduce/reduce conflicts.  @xref{GLR Parsers, ,Writing
 @acronym{GLR} Parsers}.
 
+@item %error-verbose
+Bison declaration to request verbose, specific error message strings
+when @code{yyerror} is called.
+
 @item %file-prefix="@var{prefix}"
 Bison declaration to set the prefix of the output files.  @xref{Decl
 Summary}.
@@ -6297,6 +6353,11 @@ Parsers, ,Writing @acronym{GLR} Parsers}.
 @item %left
 Bison declaration to assign left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
+
+@item %lex-param "@var{argument-declaration}" "@var{argument-name}"
+Bison declaration to specifying an additional parameter that
+@code{yylex} should accept.  @xref{Pure Calling,, Calling Conventions
+for Pure Parsers}.
 
 @item %merge
 Bison declaration to assign a merging function to a rule.  If there is a
@@ -6318,6 +6379,11 @@ Bison declaration to assign non-associativity to token(s).
 @item %output="@var{filename}"
 Bison declaration to set the name of the parser file.  @xref{Decl
 Summary}.
+
+@item %parse-param "@var{argument-declaration}" "@var{argument-name}"
+Bison declaration to specifying an additional parameter that
+@code{yyparse} should accept.  @xref{Parser Function,, The Parser
+Function @code{yyparse}}.
 
 @item %prec
 Bison declaration to assign a precedence to a specific rule.

@@ -1,5 +1,40 @@
 2002-11-03  Akim Demaille  <akim@epita.fr>
 
+	* data/c.m4 (b4_identification, b4_user_args, b4_parse_param):
+	New.
+	* data/yacc.m4 (b4_pure_args, b4_Pure_args): New.
+	(b4_parse_param): Remove.
+	Use b4_identification.
+	Propagate b4_pure_args where needed to pass them to yyerror.
+	* data/glr.m4 (b4_parse_param): Remove.
+	(b4_user_formals, b4_pure_args, b4_pure_formals, b4_lpure_args)
+	(b4_lpure_formals): New.
+	Use b4_identification.
+	(YY_USER_FORMALS, YY_USER_ARGS): Remove, replaced by
+	b4_user_formals and b4_user_args.
+	(yyexpandGLRStack, yyFail, yyaddDeferredAction, yyglrShiftDefer)
+	(yyreportAmbiguity): When using a pure parser, also need
+	the location, and the parse-params.
+	Adjust callers.
+	(yyuserAction, yyglrShift, yyreportParseError, yyrecoverParseError):
+	When using a pure parser, also need the parse-params.
+	Adjust callers.
+	* tests/calc.at: Test pure (%pure-parser) and absolutely pure
+	(%pure-parser + %parse-param) LALR and GLR parsers.
+	(AT_CHECK_PUSHDEFS, AT_CHECK_POPDEFS): New, define AT_PARAM_IF,
+	AT_LOCATION_IF, AT_PURE_IF, AT_GLR_IF, AAT_PURE_AND_LOC_IF,
+	AT_GLR_OR_PARAM_IF, AT_YYERROR_ARG_LOC_IF, AT_YYERROR_SEES_LOC_IF.
+	(_AT_DATA_CALC_Y): Equip for purity of yyerror.
+	(_AT_CHECK_CALC_ERROR): Use AT_YYERROR_SEES_LOC_IF.
+	* tests/cxx-type.at (_AT_TEST_GLR_CALC): Equip for yyerror purity.
+	* doc/bison.texinfo: Untabify the whole file.
+	(Parser Function): Document %parse-param, deprecate YYPARSE_PARAM.
+	(Pure Calling): Document %lex-param, deprecate YYLEX_PARAM.
+	(Error Reporting): Adjust to these new directives.
+	Document %error-verbose, deprecate YYERROR_VERBOSE.
+
+2002-11-03  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at: Change all the AT_CHECK_CALC_LALR and
 	AT_CHECK_CALC_GLR invocations to use % directives, instead of
 	command line options.

@@ -19,9 +19,9 @@ m4_divert(-1)                                               -*- Autoconf -*-
 # 02111-1307  USA
 
 
-## ----------- ##
-## Copyright.  ##
-## ----------- ##
+## ---------------- ##
+## Identification.  ##
+## ---------------- ##
 
 # b4_copyright(TITLE, YEARS)
 # --------------------------
@@ -45,6 +45,45 @@ m4_define([b4_copyright],
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */])
+
+
+# b4_identification
+# -----------------
+m4_define([b4_identification],
+[/* Identify Bison output.  */
+[#]define YYBISON 1
+
+/* Skeleton name.  */
+[#]define YYSKELETON_NAME "b4_skeleton"
+
+/* Pure parsers.  */
+[#]define YYPURE b4_pure
+
+/* Using locations.  */
+[#]define YYLSP_NEEDED b4_locations_flag
+])
+
+
+
+## ------------------------ ##
+## Pure/impure interfaces.  ##
+## ------------------------ ##
+
+
+# b4_user_args
+# ------------
+m4_define([b4_user_args],
+[m4_ifset([b4_parse_param], [, b4_c_args(b4_parse_param)])])
+
+
+# b4_parse_param
+# --------------
+# If defined, b4_parse_param arrives double quoted, but below we prefer
+# it to be single quoted.
+m4_define_default([b4_parse_param])
+m4_define([b4_parse_param],
+b4_parse_param))
+
 
 
 ## ------------ ##

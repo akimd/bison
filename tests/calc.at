@@ -26,8 +26,8 @@
 # ------------------------- #
 
 
-# _AT_DATA_CALC_Y($1, $2, $3, [CPP-DIRECTIVES])
-# ---------------------------------------------
+# _AT_DATA_CALC_Y($1, $2, $3, [BISON-DIRECTIVES])
+# -----------------------------------------------
 # Produce `calc.y'.  Don't call this macro directly, because it contains
 # some occurrences of `$1' etc. which will be interpreted by m4.  So
 # you should call it with $1, $2, and $3 as arguments, which is what
@@ -37,7 +37,7 @@ m4_define([_AT_DATA_CALC_Y],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 AT_DATA([calc.y],
 [[/* Infix notation calculator--calc */
-
+]$4[
 %{
 #include <config.h>
 /* We don't need perfect functions for these tests. */
@@ -63,9 +63,6 @@ int global_count = 0;
 
 %}
 
-%parse-param "value_t *result", "result"
-%parse-param "int *count",      "count"
-
 /* Exercise %union. */
 %union
 {
@@ -81,16 +78,14 @@ int global_count = 0;
 #  define VAL     (yylval)
 #endif
 
+#define YYLLOC_FORMAL   ]AT_LOCATION_IF([, YYLTYPE *yylloc])[
+#define YYLLOC_ARG      ]AT_LOCATION_IF([, yylloc])[
+#define USE_YYLLOC      ]AT_LOCATION_IF([(void) yylloc;])[
+
 #if YYPURE
-#  if YYLSP_NEEDED
-#    define LEX_FORMALS     YYSTYPE *yylval, YYLTYPE *yylloc
-#    define LEX_ARGS        yylval, yylloc
-#    define USE_LEX_ARGS    (void) yylval; (void) yylloc;
-#  else
-#    define LEX_FORMALS     YYSTYPE *yylval
-#    define LEX_ARGS        yylval
-#    define USE_LEX_ARGS    (void) yylval
-#  endif
+#  define LEX_FORMALS     YYSTYPE *yylval YYLLOC_FORMAL
+#  define LEX_ARGS        yylval          YYLLOC_ARG
+#  define USE_LEX_ARGS    (void) yylval;  USE_YYLLOC
 #  define LEX_PRE_FORMALS   LEX_FORMALS,
 #  define LEX_PRE_ARGS      LEX_ARGS,
 #else
@@ -102,7 +97,13 @@ int global_count = 0;
 #endif
 
 static int power (int base, int exponent);
-static void yyerror (const char *s);
+/* yyerror receives the location if:
+   - %location & %pure & %glr
+   - %location & %pure & %yacc & %parse-param. */
+static void yyerror (const char *s
+                     ]AT_YYERROR_ARG_LOC_IF([, YYLTYPE *yylloc])[
+                     ]AT_PARAM_IF([, value_t *result, int *count])[
+                     );
 static int yylex (LEX_FORMALS);
 static int yygetc (LEX_FORMALS);
 static void yyungetc (LEX_PRE_FORMALS int c);
@@ -119,27 +120,25 @@ static void yyungetc (LEX_PRE_FORMALS int c);
 %left NEG     /* negation--unary minus */
 %right '^'    /* exponentiation        */
 
-]$4[
-
 /* Grammar follows */
 %%
 input:
   line
-| input line         { ++*count; ++global_count; }
+| input line         { ]AT_PARAM_IF([++*count; ++global_count;])[ }
 ;
 
 line:
   '\n'
-| exp '\n'           { *result = global_result = $1; }
+| exp '\n'           { ]AT_PARAM_IF([*result = global_result = $1;])[ }
 ;
 
 exp:
   NUM                { $$ = $1;             }
 | exp '=' exp
   {
-     if ($1 != $3)
-       fprintf (stderr, "calc: error: %d != %d\n", $1, $3);
-     $$ = $1;
+    if ($1 != $3)
+      fprintf (stderr, "calc: error: %d != %d\n", $1, $3);
+    $$ = $1;
   }
 | exp '+' exp        { $$ = $1 + $3;        }
 | exp '-' exp        { $$ = $1 - $3;        }
@@ -155,26 +154,28 @@ exp:
 FILE *yyin;
 
 static void
-yyerror (const char *s)
+yyerror (const char *s
+         ]AT_YYERROR_ARG_LOC_IF([, YYLTYPE *yylloc])[
+         ]AT_PARAM_IF([, value_t *result, int *count])[)
 {
-#if YYLSP_NEEDED
+]AT_YYERROR_SEES_LOC_IF([
   fprintf (stderr, "%d.%d-%d.%d: ",
 	   LOC.first_line, LOC.first_column,
 	   LOC.last_line, LOC.last_column);
-#endif
+])[
   fprintf (stderr, "%s\n", s);
 }
 
 
-#if YYLSP_NEEDED
+]AT_LOCATION_IF([
 static YYLTYPE last_yylloc;
-#endif
+])[
 static int
 yygetc (LEX_FORMALS)
 {
   int res = getc (yyin);
   USE_LEX_ARGS;
-#if YYLSP_NEEDED
+]AT_LOCATION_IF([
   last_yylloc = LOC;
   if (res == '\n')
     {
@@ -183,7 +184,7 @@ yygetc (LEX_FORMALS)
     }
   else
     LOC.last_column++;
-#endif
+])[
   return res;
 }
 
@@ -192,10 +193,10 @@ static void
 yyungetc (LEX_PRE_FORMALS int c)
 {
   USE_LEX_ARGS;
-#if YYLSP_NEEDED
+]AT_LOCATION_IF([
   /* Wrong when C == `\n'. */
   LOC = last_yylloc;
-#endif
+])[
   ungetc (c, yyin);
 }
 
@@ -241,24 +242,24 @@ yylex (LEX_FORMALS)
   if (init)
     {
       init = 0;
-#if YYLSP_NEEDED
+]AT_LOCATION_IF([
       LOC.last_column = 1;
       LOC.last_line = 1;
-#endif
+])[
     }
 
-#if YYLSP_NEEDED
+]AT_LOCATION_IF([
   LOC.first_column = LOC.last_column;
   LOC.first_line = LOC.last_line;
-#endif
+])[
 
   /* Skip white space.  */
   while ((c = yygetc (LEX_ARGS)) == ' ' || c == '\t')
     {
-#if YYLSP_NEEDED
+]AT_LOCATION_IF([
       LOC.first_column = LOC.last_column;
       LOC.first_line = LOC.last_line;
-#endif
+])[
     }
 
   /* process numbers   */
@@ -309,7 +310,7 @@ main (int argc, const char **argv)
 #if YYDEBUG
   yydebug = 1;
 #endif
-  yyparse (&result, &count);
+  yyparse (]AT_PARAM_IF([&result, &count])[);
   assert (global_result == result);
   assert (global_count  == count);
 
@@ -352,8 +353,8 @@ m4_bmatch([$1],
 
 
 # _AT_CHECK_CALC_ERROR(BISON-OPTIONS, INPUT, [NUM-DEBUG-LINES],
-#                      [ERROR-LOCATION], [IF-YYERROR-VERBOSE])
-# ------------------------------------------------------------
+#                      [VERBOSE-AND-LOCATED-ERROR-MESSAGE])
+# -------------------------------------------------------------
 # Run `calc' on INPUT, and expect a `parse error' message.
 #
 # If INPUT starts with a slash, it is used as absolute input file name,
@@ -402,7 +403,7 @@ AT_DATA([[expout]],
 [$4
 ])
 # 3. If locations are not used, remove them.
-m4_bmatch([$1], [%locations], [],
+AT_YYERROR_SEES_LOC_IF([],
 [[sed 's/^[-0-9.]*: //' expout >at-expout
 mv at-expout expout]])
 # 4. If error-verbose is not used, strip the`, unexpected....' part.
@@ -414,6 +415,54 @@ AT_CHECK([cat stderr], 0, [expout])
 ])
 
 
+# AT_CALC_PUSHDEFS($1, $2, [BISON-OPTIONS])
+# -----------------------------------------
+# This macro works around the impossibility to define macros
+# inside macros, because issuing `[$1]' is not possible in M4 :(.
+# This sucks hard, GNU M4 should really provide M5 like $$1.
+m4_define([AT_CHECK_PUSHDEFS],
+[m4_if([$1$2], $[1]$[2], [],
+       [m4_fatal([$0: Invalid arguments: $@])])dnl
+m4_pushdef([AT_PARAM_IF],
+[m4_bmatch([$3], [%parse-param], [$1], [$2])])
+m4_pushdef([AT_LOCATION_IF],
+[m4_bmatch([$3], [%locations], [$1], [$2])])
+m4_pushdef([AT_PURE_IF],
+[m4_bmatch([$3], [%pure-parser], [$1], [$2])])
+m4_pushdef([AT_GLR_IF],
+[m4_bmatch([$3], [%glr-parser], [$1], [$2])])
+m4_pushdef([AT_PURE_AND_LOC_IF],
+[m4_bmatch([$3], [%locations.*%pure-parser\|%pure-parser.*%locations],
+           [$1], [$2])])
+m4_pushdef([AT_GLR_OR_PARAM_IF],
+[m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
+
+# yyerror receives the location if %location & %pure & (%glr or %parse-param).
+m4_pushdef([AT_YYERROR_ARG_LOC_IF],
+[AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
+                    [$2])])
+# yyerror cannot see the locations if !glr & pure.
+m4_pushdef([AT_YYERROR_SEES_LOC_IF],
+[AT_LOCATION_IF([AT_GLR_IF([$1],
+                           [AT_PURE_IF([$2], [$1])])],
+                [$2])])
+])
+
+
+# AT_CALC_POPDEFS
+# ---------------
+m4_define([AT_CHECK_POPDEFS],
+[m4_popdef([AT_YYERROR_SEES_LOC_IF])
+m4_popdef([AT_YYERROR_ARG_LOC_IF])
+m4_popdef([AT_GLR_OR_PARAM_IF])
+m4_popdef([AT_PURE_AND_LOC_IF])
+m4_popdef([AT_GLR_IF])
+m4_popdef([AT_LOCATION_IF])
+m4_popdef([AT_PARAM_IF])
+])
+
+
+
 # AT_CHECK_CALC([BISON-OPTIONS])
 # ------------------------------
 # Start a testing chunk which compiles `calc' grammar with
@@ -421,6 +470,8 @@ AT_CHECK([cat stderr], 0, [expout])
 m4_define([AT_CHECK_CALC],
 [# We use integers to avoid dependencies upon the precision of doubles.
 AT_SETUP([Calculator $1])
+
+AT_CHECK_PUSHDEFS($[1], $[2], [$1])
 
 AT_DATA_CALC_Y([$1])
 
@@ -473,6 +524,8 @@ _AT_CHECK_CALC_ERROR([$1], [(1 ++ 2) + (0 0) = 1], [82],
 1.15-1.16: parse error, unexpected "number"
 calc: error: 0 != 1])
 
+AT_CHECK_POPDEFS
+
 AT_CLEANUP
 ])# AT_CHECK_CALC
 
@@ -508,7 +561,9 @@ AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix="calc" %verb
 AT_CHECK_CALC_LALR([%debug])
 AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
-# AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+
+AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param "value_t *result", "result" %parse-param "int *count", "count"])
 
 
 # ----------------------- #
@@ -541,4 +596,6 @@ AT_CHECK_CALC_GLR([%error-verbose %locations %defines %name-prefix="calc" %verbo
 AT_CHECK_CALC_GLR([%debug])
 AT_CHECK_CALC_GLR([%error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
-# AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+
+AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param "value_t *result", "result" %parse-param "int *count", "count"])
