@@ -1,3 +1,9 @@
+2001-11-29  Marc Autret  <autret_m@epita.fr>
+
+	* tests/calc.at [AT_DATA_CALC_Y]: Use %error-verbose instead
+	of defining YYERROR_VERBOSE.
+	[AT_DATA]: $4 is now out of C declarations in the prologue.
+
 2001-11-28  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (parse_dquoted_param): New.

@@ -53,7 +53,6 @@ AT_DATA([calc.y],
 char *strcat(char *dest, const char *src);
 #endif
 #include <ctype.h>
-]$4[
 
 static int power (int base, int exponent);
 static void yyerror (const char *s);
@@ -73,6 +72,8 @@ extern void perror (const char *s);
 %left '*' '/'
 %left NEG     /* negation--unary minus */
 %right '^'    /* exponentiation        */
+
+]$4[
 
 /* Grammar follows */
 %%
@@ -258,7 +259,7 @@ main (int argc, const char **argv)
 m4_define([AT_DATA_CALC_Y],
 [_AT_DATA_CALC_Y($[1], $[2], $[3],
                  [m4_bmatch([$1], [--yyerror-verbose],
-                            [[#define YYERROR_VERBOSE]])])])
+                            [[%error-verbose]])])])
 
 
 
