@@ -1,5 +1,7 @@
 2002-08-12  Paul Eggert  <eggert@twinsun.com>
 
+	Version 1.49b.
+
 	* Makefile.am (SUBDIRS): Remove intl.
 	(DISTCLEANFILES): Remove.
 	* NEWS: Mention that GNU M4 is now required.  Clarify what is
