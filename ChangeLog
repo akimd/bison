@@ -1,5 +1,12 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.h (first_shift, first_reduction): Remove.
+	* src/lalr.c: Don't use first_shift: find shifts through the
+	states.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c: Attach shifts to states as soon as they are
 	computed.
 	* src/lalr.c (set_state_table): Instead of assigning shifts to
