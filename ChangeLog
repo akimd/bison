@@ -1,3 +1,9 @@
+2001-08-14  Pascal Bart  <pascal.bart@epita.fr>
+
+	* doc/bison.texinfo: Include GNU Free Documentation License from 
+	`fdl.texi'.
+	* doc/fdl.texi: Add to package.
+
 2001-08-14  Marc Autret  <autret_m@epita.fr>
 
 	Turn on %{source,header}_extension features.

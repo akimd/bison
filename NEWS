@@ -3,6 +3,8 @@ Bison News
 
 Changes in version 1.28c:
 
+* The Bison manual is now distributed under the terms of the GNU FDL.
+
 * The input and the output files has automatically a similar extension.
 
 * Russian translation added.

@@ -156,6 +156,7 @@ Reference sections:
 * Invocation::        How to run Bison (to produce the parser source file).
 * Table of Symbols::  All the keywords of the Bison language are explained.
 * Glossary::          Basic concepts are explained.
+* Copying This Manual::  License for copying this manual.
 * Index::             Cross-references to the text.
 
  --- The Detailed Node Listing ---
@@ -295,6 +296,11 @@ Invoking Bison
 			in alphabetical order by short options.
 * Option Cross Key::  Alphabetical list of long options.
 * VMS Invocation::    Bison command syntax on VMS.
+
+Copying This Manual
+
+* GNU Free Documentation License::  License for copying this manual.
+
 @end menu
 
 @node Introduction, Conditions, Top, Top
@@ -5181,7 +5187,7 @@ Separates alternate rules for the same result nonterminal.
 @xref{Rules, ,Syntax of Grammar Rules}.
 @end table
 
-@node Glossary, Index, Table of Symbols, Top
+@node Glossary, Copying This Manual, Table of Symbols, Top
 @appendix Glossary
 @cindex glossary
 
@@ -5342,7 +5348,16 @@ grammatically indivisible.  The piece of text it represents is a token.
 @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
 @end table
 
-@node Index,  , Glossary, Top
+@node Copying This Manual, Index, Glossary, Top
+@appendix Copying This Manual
+   
+@menu
+* GNU Free Documentation License::  License for copying this manual.
+@end menu
+   
+@include fdl.texi
+
+@node Index,  , Copying This Manual, Top
 @unnumbered Index
 
 @printindex cp
