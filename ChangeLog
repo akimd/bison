@@ -1,5 +1,11 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (add_lookback_edge): Use state_t instead of ints.
+	(build_relations): Adjust.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (set_goto_map): Remove a wrong but benign loop
 	duplication.
 
