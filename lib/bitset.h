@@ -54,12 +54,11 @@ union bitset_union
 {
   /* This must be the first member of every other structure that is a
      member of this union.  */
-  struct bbitset_struct b;
+  struct bbitset_struct b;	        /* Base bitset data.  */
 
   struct abitset_struct
   {
     struct bbitset_struct b;
-    bitset_bindex n_bits;		/* Number of bits.  */
     bitset_word words[1];		/* The array of bits.  */
   } a;
 
@@ -82,6 +81,13 @@ union bitset_union
     struct bbitset_struct b;
     bitset bset;
   } s;
+
+  struct vbitset_struct
+  {
+    struct bbitset_struct b;
+    bitset_windex size;			/* Allocated size of array.  */
+  } v;
+
 };
 
 
@@ -178,6 +184,9 @@ bitset_test (bitset bset, bitset_bindex bitno)
 
 /* Return size in bits of bitset SRC.  */
 #define bitset_size(SRC) BITSET_SIZE_ (SRC)
+
+/* Change size of bitset.  */
+extern void bitset_resize PARAMS ((bitset, bitset_bindex));
 
 /* Return number of bits set in bitset SRC.  */
 #define bitset_count(SRC) BITSET_COUNT_ (SRC)
@@ -276,11 +285,14 @@ bitset_test (bitset bset, bitset_bindex bitno)
 #define bitset_list_reverse(BSET, LIST, NUM, NEXT) \
  BITSET_LIST_REVERSE_ (BSET, LIST, NUM, NEXT)
 
+/* Return true if both bitsets are of the same type and size.  */
+extern bool
+bitset_compatible_p (bitset bset1, bitset bset2);
 
-/* Find next set bit.  */
+/* Find next set bit from the given bit index.  */
 extern bitset_bindex bitset_next PARAMS ((bitset, bitset_bindex));
 
-/* Find previous set bit.  */
+/* Find previous set bit from the given bit index.  */
 extern bitset_bindex bitset_prev PARAMS ((bitset, bitset_bindex));
 
 /* Find first set bit.  */
@@ -295,47 +307,47 @@ extern bool bitset_only_set_p PARAMS ((bitset, bitset_bindex));
 /* Dump bitset.  */
 extern void bitset_dump PARAMS ((FILE *, bitset));
 
-/* Loop over all elements of BSET, starting with MIN, setting BIT
+/* Loop over all elements of BSET, starting with MIN, setting INDEX
    to the index of each set bit.  For example, the following will print
    the bits set in a bitset:
 
-   bitset_bindex i;
+   bitset_bindex index;
    bitset_iterator iter;
 
-   BITSET_FOR_EACH (iter, src, i, 0)
+   BITSET_FOR_EACH (iter, src, index, 0)
    {
-      printf ("%ld ", i);
+      printf ("%ld ", index);
    };
 */
-#define BITSET_FOR_EACH(ITER, BSET, BIT, MIN)				      \
+#define BITSET_FOR_EACH(ITER, BSET, INDEX, MIN)				      \
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;			      \
        (ITER.num == BITSET_LIST_SIZE) 					      \
        && (ITER.num = bitset_list (BSET, ITER.list, 			      \
 				   BITSET_LIST_SIZE, &ITER.next));)	      \
     for (ITER.i = 0;							      \
-	 ITER.i < ITER.num && ((BIT) = ITER.list[ITER.i], 1);		      \
+	 ITER.i < ITER.num && ((INDEX) = ITER.list[ITER.i], 1);		      \
 	 ITER.i++)
 
 
 /* Loop over all elements of BSET, in reverse order starting with
-   MIN,  setting BIT to the index of each set bit. For example, the
+   MIN,  setting INDEX to the index of each set bit. For example, the
    following will print the bits set in a bitset in reverse order:
 
-   bitset_bindex i;
+   bitset_bindex index;
    bitset_iterator iter;
 
-   BITSET_FOR_EACH_REVERSE (iter, src, i, 0)
+   BITSET_FOR_EACH_REVERSE (iter, src, index, 0)
    {
-      printf ("%ld ", i);
+      printf ("%ld ", index);
    };
 */
-#define BITSET_FOR_EACH_REVERSE(ITER, BSET, BIT, MIN)			      \
+#define BITSET_FOR_EACH_REVERSE(ITER, BSET, INDEX, MIN)			      \
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;			      \
        (ITER.num == BITSET_LIST_SIZE) 					      \
        && (ITER.num = bitset_list_reverse (BSET, ITER.list,		      \
-					  BITSET_LIST_SIZE, &ITER.next));)    \
+					   BITSET_LIST_SIZE, &ITER.next));)   \
     for (ITER.i = 0;							      \
-	 ITER.i < ITER.num && ((BIT) = ITER.list[ITER.i], 1);		      \
+	 ITER.i < ITER.num && ((INDEX) = ITER.list[ITER.i], 1);		      \
 	 ITER.i++)
 
 
@@ -359,7 +371,6 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
   bitset_andn_or (DST, SRC1, SRC2, SRC3)
 #define bitset_diff_union_cmp(DST, SRC1, SRC2, SRC3) \
   bitset_andn_or_cmp (DST, SRC1, SRC2, SRC3)
-
 
 
 /* Release any memory tied up with bitsets.  */
