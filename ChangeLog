@@ -1,5 +1,10 @@
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c: Various formatting changes.
+
+	
+2001-12-17  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c (output_files): Free the output_obstack.
 	* src/main.c (main): Call print and print_graph conditionally.
 	* src/print.c (print): Work unconditionally.
