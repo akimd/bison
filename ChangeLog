@@ -1,3 +1,7 @@
+2000-11-17  Akim Demaille  <akim@epita.fr>
+
+	* acconfig.h: Remove, no longer used.
+
 2000-11-07  Akim Demaille  <akim@epita.fr>
 
 	* src: s/Copyright (C)/Copyright/g.
