@@ -12,18 +12,6 @@ They should not: it is not documented.  But if they need to, let's
 find something clean (not like YYLSP_NEEDED...).
 
 
-* readpipe
-
-It should be replaced to avoid tmp files and to improve portability.
-Also, as it is it does not call error () when execve fails, and
-therefore, running M4='m4 --version' bison will silently fail instead
-of:
-
-	bison: cannot run m4 --version: No such file or directory
-
-BTW: I would really like to be able to pass arguments to m4...
-
-
 * URGENT: Documenting C++ output
 Write a first documentation for C++ output.
 
@@ -39,17 +27,6 @@ Some are really funky.  For instance
 	type clash (`%s' `%s') on default action
 
 is really weird.  Revisit them all.
-
-
-* read_pipe.c
-This is not portable to DOS for instance.  Implement a more portable
-scheme.  Sources of inspiration include GNU diff, and Free Recode.
-
-
-* value_components_used
-Was defined but not used: where was it coming from?  It can't be to
-check if %union is used, since the user is free to $<foo>n on her
-union, doesn't she?
 
 
 * GLR & C++
@@ -108,6 +85,17 @@ When implementing multiple-%union support, bare the following in mind:
 	#line 23 "foo.y"
 	  char *sval;
 	}
+
+** %if and the like
+It should be possible to have %if/%else/%endif.  The implementation is
+not clear: should it be lexical or syntactic.  Vadim Maslow thinks it
+must be in the scanner: we must not parse what is in a switched off
+part of %if.  Akim Demaille thinks it should be in the parser, so as
+to avoid falling into another CPP mistake.
+
+** -D, --define-muscle NAME=VALUE
+To define muscles via cli.  Or maybe support directly NAME=VALUE?
+
 
 * Unit rules
 Maybe we could expand unit rules, i.e., transform
@@ -210,8 +198,11 @@ Some users create their foo.y files, and equip them with #line.  Bison
 should recognize these, and preserve them.
 
 * BTYacc
-See if we can integrate backtracking in Bison.  Contact the BTYacc
-maintainers.
+See if we can integrate backtracking in Bison.  Charles-Henri de
+Boysson <de-boy_c@epita.fr> is working on this, and already has some
+results.  Vadim Maslow, the maintainer of BTYacc was contacted, and we
+stay in touch with him.  Adjusting the Bison grammar parser will be
+needed to support some extra BTYacc features.  This is less urgent.
 
 ** Keeping the conflicted actions
 First, analyze the differences between byacc and btyacc (I'm referring
