@@ -1,3 +1,13 @@
+2002-11-16  Akim Demaille  <akim@epita.fr>
+
+	Make the ``Printers and Destructors'' test more verbose, taking
+	`yacc.c''s behavior as (possibly wrong) reference.
+
+	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR): Use printf
+	instead of fprint on stdout.
+	Set and report the last_line of the symbols.
+	Consistently display values and locations.
+
 2002-11-16  Paul Eggert  <eggert@twinsun.com>
 
 	* data/yacc.c: Avoid over-quoting of __line__ and __file__.

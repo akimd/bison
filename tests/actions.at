@@ -320,7 +320,7 @@ AT_DATA_GRAMMAR([[input.y]],
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
+#define RANGE(Location) (Location).first_line, (Location).last_line
 static int yylex (void);
 static void yyerror (const char *msg);
 %}
@@ -334,23 +334,23 @@ static void yyerror (const char *msg);
 }
 %type <ival> 'x' thing line input
 
-%printer { fprintf (yyout, "%d@%d", $$, @$.first_line); }
+%printer { fprintf (yyout, "%d@%d-%d", $$, RANGE (@$)); }
    input line thing 'x'
 
 %destructor
-  { fprintf (stdout, "Freeing nterm input (%d@%d)\n", $$, @$.first_line); }
+  { printf ("Freeing nterm input (%d@%d-%d)\n", $$, RANGE (@$)); }
   input
 
 %destructor
-  { fprintf (stdout, "Freeing nterm line (%d@%d)\n", $$, @$.first_line); }
+  { printf ("Freeing nterm line (%d@%d-%d)\n", $$, RANGE (@$)); }
   line
 
 %destructor
-  { fprintf (stdout, "Freeing nterm thing (%d@%d)\n", $$, @$.first_line); }
+  { printf ("Freeing nterm thing (%d@%d-%d)\n", $$, RANGE (@$)); }
   thing
 
 %destructor
-  { fprintf (stdout, "Freeing token 'x' (%d@%d)\n", $$, @$.first_line); }
+  { printf ("Freeing token 'x' (%d@%d-%d)\n", $$, RANGE (@$)); }
   'x'
 
 %%
@@ -358,14 +358,14 @@ input:
   /* Nothing. */
     {
       $$ = 0;
-      printf ("input(%d@%d): /* Nothing */';'\n", $$, @$.first_line);
+      printf ("input (%d@%d-%d): /* Nothing */';'\n", $$, RANGE (@$));
     }
 | line input /* Right recursive to load the stack so that popping at
 		EOF can	be exercised.  */
     {
       $$ = 2;
-      printf ("input(%d@%d): line(%d@%d) input(%d@%d)';'\n",
-	      $$, @$.first_line, $1, @1.first_line, $2, @2.first_line);
+      printf ("input (%d@%d-%d): line (%d@%d-%d) input (%d@%d-%d)';'\n",
+	      $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2));
     }
 ;
 
@@ -373,27 +373,27 @@ line:
   thing thing thing ';'
     {
       $$ = $1;
-      printf ("line(%d@%d): thing(%d@%d) thing(%d@%d) thing(%d@%d) ';'\n",
-              $$, @$.first_line, $1, @1.first_line, $2, @2.first_line,
-              $3, @3.first_line);
+      printf ("line (%d@%d-%d): thing (%d@%d-%d) thing (%d@%d-%d) thing (%d@%d-%d) ';'\n",
+              $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2),
+              $3, RANGE (@3));
     }
 | thing thing ';'
     {
       $$ = $1;
-      printf ("line(%d@%d): thing(%d@%d) thing(%d@%d) ';'\n",
-              $$, @$.first_line, $1, @1.first_line, $2, @2.first_line);
+      printf ("line (%d@%d-%d): thing (%d@%d-%d) thing (%d@%d-%d) ';'\n",
+              $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2));
     }
 | thing ';'
     {
       $$ = $1;
-      printf ("line(%d@%d): thing(%d@%d) ';'\n",
-              $$, @$.first_line, $1, @1.first_line);
+      printf ("line (%d@%d-%d): thing (%d@%d-%d) ';'\n",
+              $$, RANGE (@$), $1, RANGE (@1));
     }
 | error ';'
     {
       $$ = -1;
-      printf ("line(%d@%d): error(@%d) ';'\n",
-              $$, @$.first_line, @1.first_line);
+      printf ("line (%d@%d-%d): error (@%d-%d) ';'\n",
+              $$, RANGE (@$), RANGE (@1));
     }
 ;
 
@@ -401,8 +401,8 @@ thing:
   'x'
     {
       $$ = $1;
-      printf ("thing(%d@%d): 'x'(%d@%d)\n",
-              $$, @$.first_line, $1, @1.first_line);
+      printf ("thing (%d@%d-%d): 'x' (%d@%d-%d)\n",
+              $$, RANGE (@$), $1, RANGE (@1));
     }
 ;
 %%
@@ -411,7 +411,7 @@ yylex (void)
 {
   static const unsigned int input[] =
     {
-      /* Exericise the discarding of stack top and input until `error'
+      /* Exercise the discarding of stack top and input until `error'
          can be reduced.  */
       'x', 'x', 'x', 'x', 'x', 'x', ';',
 
@@ -427,9 +427,10 @@ yylex (void)
     {
        yylval.ival = counter;
        /* As in BASIC, line numbers go from 10 to 10.  */
-       yylloc.first_line = 10 * counter;
-       printf ("sending: '%c' (value = %d, line %d)\n",
-               input[counter], yylval.ival, yylloc.first_line);
+       yylloc.first_line = yylloc.first_column = 10 * counter;
+       yylloc.last_line = yylloc.last_column = yylloc.first_line + 9;
+       printf ("sending: '%c' (%d@%d-%d)\n",
+               input[counter], yylval.ival, RANGE (yylloc));
        return (int) input[counter++];
     }
   else
@@ -442,7 +443,7 @@ yylex (void)
 static void
 yyerror (const char *msg)
 {
-  fprintf (stdout, "%d: %s\n", yylloc.first_line, msg);
+  printf ("%d-%d: %s\n", RANGE (yylloc), msg);
 }
 
 int
@@ -451,10 +452,10 @@ main (void)
   yydebug = !!getenv ("YYDEBUG");
   if (yyparse ())
     {
-      fprintf (stdout, "Parsing FAILED.\n");
+      printf ("Parsing FAILED.\n");
       exit (1);
     }
-  fprintf (stdout, "Successful parse.\n");
+  printf ("Successful parse.\n");
   return 0;
 }
 ]])
@@ -462,40 +463,40 @@ main (void)
 AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
-[[sending: 'x' (value = 0, line 0)
-thing(0@0): 'x'(0@0)
-sending: 'x' (value = 1, line 10)
-thing(1@10): 'x'(1@10)
-sending: 'x' (value = 2, line 20)
-thing(2@20): 'x'(2@20)
-sending: 'x' (value = 3, line 30)
-30: syntax error, unexpected 'x', expecting ';'
-Freeing nterm thing (2@20)
-Freeing nterm thing (1@10)
-Freeing nterm thing (0@0)
-Freeing token 'x' (3@30)
-sending: 'x' (value = 4, line 40)
-Freeing token 'x' (4@40)
-sending: 'x' (value = 5, line 50)
-Freeing token 'x' (5@50)
-sending: ';' (value = 6, line 60)
-line(-1@50): error(@50) ';'
-sending: 'x' (value = 7, line 70)
-thing(7@70): 'x'(7@70)
-sending: 'x' (value = 8, line 80)
-thing(8@80): 'x'(8@80)
-sending: ';' (value = 9, line 90)
-line(7@70): thing(7@70) thing(8@80) ';'
-sending: 'x' (value = 10, line 100)
-thing(10@100): 'x'(10@100)
-sending: ';' (value = 11, line 110)
-line(10@100): thing(10@100) ';'
-sending: 'y' (value = 12, line 120)
-120: syntax error, unexpected $undefined, expecting $end or 'x'
+[[sending: 'x' (0@0-9)
+thing (0@0-9): 'x' (0@0-9)
+sending: 'x' (1@10-19)
+thing (1@10-19): 'x' (1@10-19)
+sending: 'x' (2@20-29)
+thing (2@20-29): 'x' (2@20-29)
+sending: 'x' (3@30-39)
+30-39: syntax error, unexpected 'x', expecting ';'
+Freeing nterm thing (2@20-29)
+Freeing nterm thing (1@10-19)
+Freeing nterm thing (0@0-9)
+Freeing token 'x' (3@30-39)
+sending: 'x' (4@40-49)
+Freeing token 'x' (4@40-49)
+sending: 'x' (5@50-59)
+Freeing token 'x' (5@50-59)
+sending: ';' (6@60-69)
+line (-1@50-69): error (@50-59) ';'
+sending: 'x' (7@70-79)
+thing (7@70-79): 'x' (7@70-79)
+sending: 'x' (8@80-89)
+thing (8@80-89): 'x' (8@80-89)
+sending: ';' (9@90-99)
+line (7@70-99): thing (7@70-79) thing (8@80-89) ';'
+sending: 'x' (10@100-109)
+thing (10@100-109): 'x' (10@100-109)
+sending: ';' (11@110-119)
+line (10@100-119): thing (10@100-109) ';'
+sending: 'y' (12@120-129)
+120-129: syntax error, unexpected $undefined, expecting $end or 'x'
 sending: EOF
-Freeing nterm line (10@100)
-Freeing nterm line (7@70)
-Freeing nterm line (-1@50)
+Freeing nterm line (10@100-119)
+Freeing nterm line (7@70-99)
+Freeing nterm line (-1@50-69)
 Parsing FAILED.
 ]])
 
