@@ -125,7 +125,8 @@ instead of in the original English.
 @sp 2
 Cover art by Etienne Suvasa.
 @end titlepage
-@page
+
+@contents
 
 @node Top, Introduction, (dir), (dir)
 
@@ -5457,7 +5458,5 @@ is a token.  @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
 @unnumbered Index
 
 @printindex cp
-
-@contents
 
 @bye
