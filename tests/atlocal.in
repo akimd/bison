@@ -6,5 +6,8 @@
 CC='@CC@'
 CFLAGS='@CFLAGS@'
 
+# We need to know if the compiler is GCC.
+GCC='@GCC@'
+
 # We need `config.h'.
 CPPFLAGS="-I $top_builddir @CPPFLAGS@"

@@ -1,3 +1,11 @@
+2001-10-18  Akim Demaille  <akim@epita.fr>
+
+	* tests/atlocal.in (GCC): Add.
+	* tests/calc.at: s/m4_match/m4_bmatch/.
+	s/m4_patsubst/m4_bpatsubst/.
+	(AT_CHECK_CALC): Check the compiler's stderr only if it's GCC.
+	* configure.in: AC_SUBST(GCC).
+
 2001-10-14  Marc Autret  <autret_m@epita.fr>
 
 	* src/options.c (create_long_option_table): Fix.
