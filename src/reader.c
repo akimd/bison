@@ -736,10 +736,15 @@ parse_union_decl (void)
 
   while (c != EOF)
     {
-      obstack_1grow (&attrs_obstack, c);
-      if (defines_flag)
-	obstack_1grow (&defines_obstack, c);
-
+      
+      /* If C contains '/', it is output by copy_comment ().  */
+      if (c != '/')
+	{
+	  obstack_1grow (&attrs_obstack, c);
+	  if (defines_flag)
+	    obstack_1grow (&defines_obstack, c);
+	}
+      
       switch (c)
 	{
 	case '\n':

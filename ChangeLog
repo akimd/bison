@@ -1,5 +1,11 @@
 2001-09-18  Marc Autret  <autret_m@epita.fr>
 
+	* src/reader.c (parse_union_decl): Do not output '/'. Let copy_comment
+	do that.
+	Reported by Keith Browne.
+	
+2001-09-18  Marc Autret  <autret_m@epita.fr>
+	
 	* tests/output.at: Add tests for --defines and --graph.
 
 2001-09-18  Marc Autret  <autret_m@epita.fr>
