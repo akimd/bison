@@ -107,7 +107,7 @@ In configure.ac.  Run `make', check this in.
 
 ** Announce
 Complete/fix the announcement file, and send it at least to
-info@gnu.org (if a real release, or a ``serious beta''),
+info-gnu@gnu.org (if a real release, or a ``serious beta''),
 bison@gnu.org, and translation@iro.umontreal.ca.
 
 Send the same announcement on the comp.compilers newsgroup.  Do not
