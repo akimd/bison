@@ -1,13 +1,13 @@
 # Swedish messages for bison.
-# Copyright © 2001 Free Software Foundation, Inc.
-# Göran Uddeborg <goeran@uddeborg.pp.se>, 2001.
+# Copyright © 2001, 2002 Free Software Foundation, Inc.
+# Göran Uddeborg <goeran@uddeborg.pp.se>, 2001, 2002.
 # $Revision$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.30f\n"
+"Project-Id-Version: bison 1.32\n"
 "POT-Creation-Date: 2002-01-23 14:12+0100\n"
-"PO-Revision-Date: 2001-12-06 22:33+0100\n"
+"PO-Revision-Date: 2002-01-23 19:59+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -207,7 +207,7 @@ msgstr ""
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Rapportera fel till <bug-bison@gnu.org>.\n"
-"Rapportera anmärkningar på översättningen till <sv@li.org>.\n"
+"Rapportera synpunkter på översättningen till <sv@li.org>.\n"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
