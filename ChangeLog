@@ -1,5 +1,17 @@
 2002-05-02  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (copy_at, copy_dollarm parse_braces, parse_action)
+	(parse_guard): Rename the formal argument `stack_offset' as
+	`rule_length', which is more readable.
+	Adjust callers.
+	(copy_at, copy_dollar): Instead of outputting the hard coded
+	values of $$, $n and so forth, output invocation to b4_lhs_value,
+	b4_lhs_location, b4_rhs_value, and b4_rhs_location.
+	* data/bison.simple, data/bison.c++ (b4_lhs_value)
+	(b4_lhs_location, b4_rhs_value, and b4_rhs_location: New.
+
+2002-05-02  Akim Demaille  <akim@epita.fr>
+
 	* configure.in (AC_INIT): Bump to 1.49b.
 	(AM_INIT_AUTOMAKE): Short invocation.
 

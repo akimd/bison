@@ -20,6 +20,36 @@ m4_define([b4_uint_type],
        [m4_fatal([no unsigned int type for $1])])])
 
 
+# b4_lhs_value([TYPE])
+# --------------------
+# Expansion of $<TYPE>$.
+m4_define([b4_lhs_value],
+[yyval[]m4_ifval([$1], [.$1])])
+
+
+# b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
+# --------------------------------------
+# Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
+# symbols on RHS.
+m4_define([b4_rhs_value],
+[yyvsp@<:@m4_eval([$2 - $1])@:>@m4_ifval([$3], [.$3])])
+
+
+# b4_lhs_location()
+# -----------------
+# Expansion of @$.
+m4_define([b4_lhs_location],
+[yyloc])
+
+
+# b4_rhs_location(RULE-LENGTH, NUM)
+# ---------------------------------
+# Expansion of @NUM, where the current rule has RULE-LENGTH symbols
+# on RHS.
+m4_define([b4_rhs_location],
+[yylsp@<:@m4_eval([$2 - $1])@:>@])
+
+
 # b4_token_defines(TOKEN-NAME, TOKEN-NUMBER)
 # ------------------------------------------
 # Output the definition of this token as #define.

@@ -1,6 +1,5 @@
 -*- outline -*-
 
-
 * Several %unions
 I think this is a pleasant (but useless currently) feature, but in the
 future, I want a means to %include other bits of grammars, and _then_
