@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-10-14 14:47+0200\n"
+"POT-Creation-Date: 2002-10-22 09:16+0200\n"
 "PO-Revision-Date: 2002-05-03 11:03+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -14,15 +14,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/complain.c:89 lib/error.c:128 lib/error.c:156
+#: src/complain.c:80 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Errore di sistema sconosciuto"
 
-#: src/complain.c:123 src/complain.c:152
+#: src/complain.c:105 src/complain.c:122
 msgid "warning: "
 msgstr "attenzione: "
 
-#: src/complain.c:252 src/complain.c:282
+#: src/complain.c:184 src/complain.c:202
 msgid "fatal error: "
 msgstr "errore fatale: "
 
@@ -97,16 +97,21 @@ msgstr "impossibile aprire il file `%s'"
 msgid "cannot close file"
 msgstr "impossibile chiudere il file `%s'"
 
-#: src/getargs.c:157
+#: src/getargs.c:164
+#, c-format
+msgid "Try `%s --help' for more information.\n"
+msgstr "Provare `%s --help' per ulteriori informazioni.\n"
+
+#: src/getargs.c:170
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genera parser per grammatiche LALR(1).\n"
 
-#: src/getargs.c:161
+#: src/getargs.c:174
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Utilizzo: %s [OPZIONE]... FILE\n"
 
-#: src/getargs.c:165
+#: src/getargs.c:178
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -115,7 +120,7 @@ msgstr ""
 "è obbligatorio anche per l'equivalente opzione corta.  Analogamente per\n"
 "gli argomenti opzionali.\n"
 
-#: src/getargs.c:171
+#: src/getargs.c:184
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -127,7 +132,7 @@ msgstr ""
 "  -V, --version   mostra informazioni sulla versione ed esce\n"
 "  -y, --yacc      emula il comportamento di POSIX yacc\n"
 
-#: src/getargs.c:178
+#: src/getargs.c:191
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -146,7 +151,7 @@ msgstr ""
 "  -n, --no-parser            genera le sole tabelle\n"
 "  -k, --token-table          include una tabella di nomi dei token\n"
 
-#: src/getargs.c:190
+#: src/getargs.c:203
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -165,7 +170,7 @@ msgstr ""
 "  -o, --output=FILE          lascia l'output in FILE\n"
 "  -g, --graph                produce anche una descrizione VCG dell'automa\n"
 
-#: src/getargs.c:201
+#: src/getargs.c:214
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -176,25 +181,25 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:212
+#: src/getargs.c:225
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Segnalare eventuali bug a <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:226
+#: src/getargs.c:242
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:228
+#: src/getargs.c:244
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr "Scritto da Robert Corbett e Richard Stallman.\n"
 
-#: src/getargs.c:232
+#: src/getargs.c:248
 #, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr "Copyright (C) %d Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:234
+#: src/getargs.c:250
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -203,20 +208,15 @@ msgstr ""
 "sottoposta la copia. NON c'è ALCUNA garanzia, neanche di\n"
 "COMMERCIABILITA` o di ADEGUATEZZA AD UN PARTICOLARE SCOPO.\n"
 
-#: src/getargs.c:395
+#: src/getargs.c:416
 #, c-format
-msgid "Try `%s --help' for more information.\n"
-msgstr "Provare `%s --help' per ulteriori informazioni.\n"
+msgid "missing operand after `%s'"
+msgstr ""
 
-#: src/getargs.c:402
+#: src/getargs.c:418
 #, c-format
-msgid "%s: no grammar file given\n"
-msgstr "%s: nessun file grammatica specificato\n"
-
-#: src/getargs.c:406
-#, c-format
-msgid "%s: extra arguments ignored after `%s'\n"
-msgstr "%s: ignorati gli argomenti successivi a `%s'\n"
+msgid "extra operand `%s'"
+msgstr ""
 
 #: src/gram.c:139
 msgid "empty"
@@ -240,7 +240,7 @@ msgstr "troppi goto (max %d)"
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: parse-gram.y:347
+#: parse-gram.y:357
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
@@ -327,40 +327,26 @@ msgstr "conflitto di tipo (`%s' e `%s') nell'azione di default"
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
 
-#: src/reader.c:344
-msgid "two @prec's in a row"
-msgstr "due @prec di seguito"
-
-#: src/reader.c:354
+#: src/reader.c:344 src/reader.c:359 src/reader.c:372
 #, c-format
-msgid "%%dprec affects only GLR parsers"
+msgid "only one %s allowed per rule"
 msgstr ""
 
-#: src/reader.c:356
+#: src/reader.c:354 src/reader.c:370
 #, c-format
-msgid "%%dprec must be followed by positive number"
+msgid "%s affects only GLR parsers"
 msgstr ""
 
-#: src/reader.c:358
+#: src/reader.c:357
 #, c-format
-msgid "only one %%dprec allowed per rule"
+msgid "%s must be followed by positive number"
 msgstr ""
 
-#: src/reader.c:369
-#, c-format
-msgid "%%merge affects only GLR parsers"
-msgstr ""
-
-#: src/reader.c:371
-#, c-format
-msgid "only one %%merge allowed per rule"
-msgstr ""
-
-#: src/reader.c:514
+#: src/reader.c:515
 msgid "no rules in the input grammar"
 msgstr "nessuna regola nella grammatica di input"
 
-#: src/reader.c:546
+#: src/reader.c:547
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "troppi simboli (token e nonterminali); il massimo è %d"
@@ -420,62 +406,62 @@ msgstr[1] "%d regole inutili"
 msgid "start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
-#: scan-gram.l:211
+#: scan-gram.l:203
 #, c-format
 msgid ": invalid character: `%c'\n"
 msgstr ""
 
-#: scan-gram.l:255
+#: scan-gram.l:247
 #, fuzzy
 msgid ": unexpected end of file in a comment\n"
 msgstr "fine del file inattesa"
 
-#: scan-gram.l:284 scan-gram.l:423
+#: scan-gram.l:276 scan-gram.l:415
 #, fuzzy
 msgid ": unexpected end of file in a string\n"
 msgstr "fine del file inattesa"
 
-#: scan-gram.l:322 scan-gram.l:394
+#: scan-gram.l:314 scan-gram.l:386
 #, fuzzy
 msgid ": unexpected end of file in a character\n"
 msgstr "fine del file inattesa"
 
-#: scan-gram.l:343
+#: scan-gram.l:335
 #, fuzzy, c-format
 msgid ": invalid escape: %s\n"
 msgstr "valore non valido: %s%d"
 
-#: scan-gram.l:364
+#: scan-gram.l:356
 #, fuzzy, c-format
 msgid ": unrecognized escape: %s\n"
 msgstr "non riconosciuto: %s"
 
-#: scan-gram.l:485
+#: scan-gram.l:477
 #, fuzzy
 msgid ": unexpected end of file in a braced code\n"
 msgstr "fine del file inattesa"
 
-#: scan-gram.l:514
+#: scan-gram.l:506
 #, fuzzy
 msgid ": unexpected end of file in a prologue\n"
 msgstr "fine del file inattesa"
 
-#: scan-gram.l:572
+#: scan-gram.l:564
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: scan-gram.l:584 scan-gram.l:666
+#: scan-gram.l:576 scan-gram.l:658
 #, c-format
 msgid "invalid value: %s%d"
 msgstr "valore non valido: %s%d"
 
-#: scan-gram.l:591
+#: scan-gram.l:583
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: scan-gram.l:602 scan-gram.l:619 scan-gram.l:673 scan-gram.l:690
+#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:665 scan-gram.l:682
 #, c-format
 msgid "%s is invalid"
 msgstr "%s non è valido"
@@ -568,67 +554,67 @@ msgstr ""
 msgid "Valid arguments are:"
 msgstr ""
 
-#: lib/bitset_stats.c:235
+#: lib/bitset_stats.c:178
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr ""
 
-#: lib/bitset_stats.c:238
+#: lib/bitset_stats.c:181
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:241
+#: lib/bitset_stats.c:184
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:244
+#: lib/bitset_stats.c:187
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:248
+#: lib/bitset_stats.c:191
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr ""
 
-#: lib/bitset_stats.c:250
+#: lib/bitset_stats.c:193
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:253
+#: lib/bitset_stats.c:196
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:256
+#: lib/bitset_stats.c:199
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:272
+#: lib/bitset_stats.c:213
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset_stats.c:275
+#: lib/bitset_stats.c:216
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset_stats.c:320
+#: lib/bitset_stats.c:260
 msgid "Could not read stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:322
+#: lib/bitset_stats.c:262
 msgid "Bad stats file size.\n"
 msgstr ""
 
-#: lib/bitset_stats.c:348
+#: lib/bitset_stats.c:287
 msgid "Could not write stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:352
+#: lib/bitset_stats.c:291
 msgid "Could not open stats file for writing."
 msgstr ""
 
@@ -699,6 +685,26 @@ msgstr "`"
 msgid "'"
 msgstr "'"
 
+#: lib/subpipe.c:187
+#, c-format
+msgid "subsidiary program `%s' could not be invoked"
+msgstr ""
+
+#: lib/subpipe.c:189
+#, c-format
+msgid "subsidiary program `%s' not found"
+msgstr ""
+
+#: lib/subpipe.c:191
+#, c-format
+msgid "subsidiary program `%s' failed"
+msgstr ""
+
+#: lib/subpipe.c:192
+#, c-format
+msgid "subsidiary program `%s' failed (exit status %d)"
+msgstr ""
+
 #: lib/timevar.c:476
 msgid ""
 "\n"
@@ -713,6 +719,15 @@ msgstr ""
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
+
+#~ msgid "%s: no grammar file given\n"
+#~ msgstr "%s: nessun file grammatica specificato\n"
+
+#~ msgid "%s: extra arguments ignored after `%s'\n"
+#~ msgstr "%s: ignorati gli argomenti successivi a `%s'\n"
+
+#~ msgid "two @prec's in a row"
+#~ msgstr "due @prec di seguito"
 
 #~ msgid "reduce"
 #~ msgstr "riduzione"

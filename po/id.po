@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-14 14:47+0200\n"
+"POT-Creation-Date: 2002-10-22 09:16+0200\n"
 "PO-Revision-Date: 2002-10-08 17:53+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: KBabel 0.9.5\n"
 
-#: src/complain.c:89 lib/error.c:128 lib/error.c:156
+#: src/complain.c:80 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Kesalahan sistem tidak dikenal"
 
-#: src/complain.c:123 src/complain.c:152
+#: src/complain.c:105 src/complain.c:122
 msgid "warning: "
 msgstr "peringatan: "
 
-#: src/complain.c:252 src/complain.c:282
+#: src/complain.c:184 src/complain.c:202
 msgid "fatal error: "
 msgstr "kesalahan fatal: "
 
@@ -97,16 +97,21 @@ msgstr "tidak dapat membuka file `%s'"
 msgid "cannot close file"
 msgstr "tidak dapat menutup file"
 
-#: src/getargs.c:157
+#: src/getargs.c:164
+#, c-format
+msgid "Try `%s --help' for more information.\n"
+msgstr "Coba `%s --help' untuk informasi lebih lanjut.\n"
+
+#: src/getargs.c:170
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison generates parsers for LALR(1) grammars.\n"
 
-#: src/getargs.c:161
+#: src/getargs.c:174
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Penggunaan: %s [OPTION]... FILE\n"
 
-#: src/getargs.c:165
+#: src/getargs.c:178
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -115,7 +120,7 @@ msgstr ""
 "juga\n"
 "untuk option pendek.  Hal yang sama untuk argumen opsional.\n"
 
-#: src/getargs.c:171
+#: src/getargs.c:184
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -127,7 +132,7 @@ msgstr ""
 "  -V, --version   tampilkan informasi versi dan keluar\n"
 "  -y, --yacc      emulasikan POSIX yacc\n"
 
-#: src/getargs.c:178
+#: src/getargs.c:191
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -147,7 +152,7 @@ msgstr ""
 "  -n, --no-parser            hasilkan hanya tabel\n"
 "  -k, --token-table          sertakan tabel nama token\n"
 
-#: src/getargs.c:190
+#: src/getargs.c:203
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -166,7 +171,7 @@ msgstr ""
 "  -o, --output=FILE          simpan output ke FILE\n"
 "  -g, --graph                juga hasilkan deskripsi VCG automaton\n"
 
-#: src/getargs.c:201
+#: src/getargs.c:214
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -184,25 +189,25 @@ msgstr ""
 "  `all'          sertakan semua informasi di atas\n"
 "  `none'         tiadakan laporan\n"
 
-#: src/getargs.c:212
+#: src/getargs.c:225
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Laporkan kesalahan ke <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:226
+#: src/getargs.c:242
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:228
+#: src/getargs.c:244
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr "Written by Robert Corbett and Richard Stallman.\n"
 
-#: src/getargs.c:232
+#: src/getargs.c:248
 #, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr "Copyright (C) %d Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:234
+#: src/getargs.c:250
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -210,20 +215,15 @@ msgstr ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 
-#: src/getargs.c:395
+#: src/getargs.c:416
 #, c-format
-msgid "Try `%s --help' for more information.\n"
-msgstr "Coba `%s --help' untuk informasi lebih lanjut.\n"
+msgid "missing operand after `%s'"
+msgstr ""
 
-#: src/getargs.c:402
+#: src/getargs.c:418
 #, c-format
-msgid "%s: no grammar file given\n"
-msgstr "%s: tidak diberikan file grammar\n"
-
-#: src/getargs.c:406
-#, c-format
-msgid "%s: extra arguments ignored after `%s'\n"
-msgstr "%s: argumen ekstra diabaikan setelah `%s'\n"
+msgid "extra operand `%s'"
+msgstr ""
 
 #: src/gram.c:139
 msgid "empty"
@@ -246,7 +246,7 @@ msgstr "terlalu banyak goto (maks %d)"
 msgid "rule never reduced because of conflicts"
 msgstr "aturan tidak pernah dikurangi karena konflik"
 
-#: parse-gram.y:347
+#: parse-gram.y:357
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX melarang deklarasi dalam grammar"
 
@@ -331,40 +331,26 @@ msgstr "bentrokan tipe (`%s' `%s') pada aksi baku"
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "aturan kosong untuk nonterminal typed, dan tidak ada aksi"
 
-#: src/reader.c:344
-msgid "two @prec's in a row"
-msgstr "dua @prec dalam satu baris"
-
-#: src/reader.c:354
-#, c-format
-msgid "%%dprec affects only GLR parsers"
-msgstr "%%dprec hanya mempengaruhi parser GLR"
-
-#: src/reader.c:356
-#, c-format
-msgid "%%dprec must be followed by positive number"
-msgstr "%%dprec harus diikuti oleh angka positif"
-
-#: src/reader.c:358
-#, c-format
-msgid "only one %%dprec allowed per rule"
-msgstr "hanya satu %%dprec yang dibolehkan untuk satu aturan"
-
-#: src/reader.c:369
-#, c-format
-msgid "%%merge affects only GLR parsers"
-msgstr "%%merge hanya mempengaruhi parser GLR"
-
-#: src/reader.c:371
-#, c-format
-msgid "only one %%merge allowed per rule"
+#: src/reader.c:344 src/reader.c:359 src/reader.c:372
+#, fuzzy, c-format
+msgid "only one %s allowed per rule"
 msgstr "hanya satu %%merge yang dibolehkan tiap aturan"
 
-#: src/reader.c:514
+#: src/reader.c:354 src/reader.c:370
+#, fuzzy, c-format
+msgid "%s affects only GLR parsers"
+msgstr "%%merge hanya mempengaruhi parser GLR"
+
+#: src/reader.c:357
+#, fuzzy, c-format
+msgid "%s must be followed by positive number"
+msgstr "%%dprec harus diikuti oleh angka positif"
+
+#: src/reader.c:515
 msgid "no rules in the input grammar"
 msgstr "tidak ada aturan dalam grammar input"
 
-#: src/reader.c:546
+#: src/reader.c:547
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "terlalu banyak simbol (token dan nonterminal); maksimum %d"
@@ -419,57 +405,57 @@ msgstr[1] "aturan tidak berguna %d"
 msgid "start symbol %s does not derive any sentence"
 msgstr "simbol awal %s tidak melahirkan kalimat"
 
-#: scan-gram.l:211
+#: scan-gram.l:203
 #, c-format
 msgid ": invalid character: `%c'\n"
 msgstr ": karakter tidak valid: `%c'\n"
 
-#: scan-gram.l:255
+#: scan-gram.l:247
 msgid ": unexpected end of file in a comment\n"
 msgstr ": akhir file tidak diharapkan dalam komentar\n"
 
-#: scan-gram.l:284 scan-gram.l:423
+#: scan-gram.l:276 scan-gram.l:415
 msgid ": unexpected end of file in a string\n"
 msgstr ": akhir file tidak diharapkan dalam string\n"
 
-#: scan-gram.l:322 scan-gram.l:394
+#: scan-gram.l:314 scan-gram.l:386
 msgid ": unexpected end of file in a character\n"
 msgstr ": akhir file tidak diharapkan dalam karakter\n"
 
-#: scan-gram.l:343
+#: scan-gram.l:335
 #, c-format
 msgid ": invalid escape: %s\n"
 msgstr ": escape tidak valid: %s\n"
 
-#: scan-gram.l:364
+#: scan-gram.l:356
 #, c-format
 msgid ": unrecognized escape: %s\n"
 msgstr ": escape tidak dikenal: %s\n"
 
-#: scan-gram.l:485
+#: scan-gram.l:477
 msgid ": unexpected end of file in a braced code\n"
 msgstr ": akhir file tidak diharapkan dalam kode braced\n"
 
-#: scan-gram.l:514
+#: scan-gram.l:506
 msgid ": unexpected end of file in a prologue\n"
 msgstr ": akhir file tidak diharapkan dalam prolog\n"
 
-#: scan-gram.l:572
+#: scan-gram.l:564
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ dari `%s' tidak memiliki tipe yang terdeklarasi"
 
-#: scan-gram.l:584 scan-gram.l:666
+#: scan-gram.l:576 scan-gram.l:658
 #, c-format
 msgid "invalid value: %s%d"
 msgstr "nilai tidak valid: %s%d"
 
-#: scan-gram.l:591
+#: scan-gram.l:583
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d dari `%s' tidak memiliki tipe terdeklarasi"
 
-#: scan-gram.l:602 scan-gram.l:619 scan-gram.l:673 scan-gram.l:690
+#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:665 scan-gram.l:682
 #, c-format
 msgid "%s is invalid"
 msgstr "%s tidak valid"
@@ -564,44 +550,44 @@ msgstr "argumen %s ambigu untuk %s"
 msgid "Valid arguments are:"
 msgstr "Argumen valid adalah:"
 
-#: lib/bitset_stats.c:235
+#: lib/bitset_stats.c:178
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%u bitset_allocs, %u freed (%.2f%%).\n"
 
-#: lib/bitset_stats.c:238
+#: lib/bitset_stats.c:181
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_sets, %u cached (%.2f%%)\n"
 
-#: lib/bitset_stats.c:241
+#: lib/bitset_stats.c:184
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_resets, %u cached (%.2f%%)\n"
 
-#: lib/bitset_stats.c:244
+#: lib/bitset_stats.c:187
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%u bitset_tests, %u cached (%.2f%%)\n"
 
-#: lib/bitset_stats.c:248
+#: lib/bitset_stats.c:191
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u bitset_lists\n"
 
-#: lib/bitset_stats.c:250
+#: lib/bitset_stats.c:193
 msgid "count log histogram\n"
 msgstr "hitung log histogram\n"
 
-#: lib/bitset_stats.c:253
+#: lib/bitset_stats.c:196
 msgid "size log histogram\n"
 msgstr "ukuran log histogram\n"
 
-#: lib/bitset_stats.c:256
+#: lib/bitset_stats.c:199
 msgid "density histogram\n"
 msgstr "kepadatan histogram\n"
 
-#: lib/bitset_stats.c:272
+#: lib/bitset_stats.c:213
 msgid ""
 "Bitset statistics:\n"
 "\n"
@@ -609,24 +595,24 @@ msgstr ""
 "Statistik bitset:\n"
 "\n"
 
-#: lib/bitset_stats.c:275
+#: lib/bitset_stats.c:216
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "Run terakumulasi = %u\n"
 
-#: lib/bitset_stats.c:320
+#: lib/bitset_stats.c:260
 msgid "Could not read stats file."
 msgstr "Tidak dapat membaca file stat."
 
-#: lib/bitset_stats.c:322
+#: lib/bitset_stats.c:262
 msgid "Bad stats file size.\n"
 msgstr "Ukuran file stat buruk.\n"
 
-#: lib/bitset_stats.c:348
+#: lib/bitset_stats.c:287
 msgid "Could not write stats file."
 msgstr "Tidak dapat menulis file stat."
 
-#: lib/bitset_stats.c:352
+#: lib/bitset_stats.c:291
 msgid "Could not open stats file for writing."
 msgstr "Tidak dapat membuka file stat untuk ditulisi."
 
@@ -697,6 +683,26 @@ msgstr "`"
 msgid "'"
 msgstr "'"
 
+#: lib/subpipe.c:187
+#, c-format
+msgid "subsidiary program `%s' could not be invoked"
+msgstr ""
+
+#: lib/subpipe.c:189
+#, c-format
+msgid "subsidiary program `%s' not found"
+msgstr ""
+
+#: lib/subpipe.c:191
+#, c-format
+msgid "subsidiary program `%s' failed"
+msgstr ""
+
+#: lib/subpipe.c:192
+#, c-format
+msgid "subsidiary program `%s' failed (exit status %d)"
+msgstr ""
+
 #: lib/timevar.c:476
 msgid ""
 "\n"
@@ -713,3 +719,18 @@ msgstr " TOTAL                 :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "waktu dalam %s: %ld.%06ld (%ld%%)\n"
+
+#~ msgid "%s: no grammar file given\n"
+#~ msgstr "%s: tidak diberikan file grammar\n"
+
+#~ msgid "%s: extra arguments ignored after `%s'\n"
+#~ msgstr "%s: argumen ekstra diabaikan setelah `%s'\n"
+
+#~ msgid "two @prec's in a row"
+#~ msgstr "dua @prec dalam satu baris"
+
+#~ msgid "%%dprec affects only GLR parsers"
+#~ msgstr "%%dprec hanya mempengaruhi parser GLR"
+
+#~ msgid "only one %%dprec allowed per rule"
+#~ msgstr "hanya satu %%dprec yang dibolehkan untuk satu aturan"
