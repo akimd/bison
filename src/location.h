@@ -53,20 +53,23 @@ do {						\
    Warning: it uses quotearg's slot 3.  */
 # define LOCATION_PRINT(Out, Loc)					\
 do {									\
-  fprintf (stderr, "%s:", quotearg_n_style (3, escape_quoting_style, 	\
+  fprintf (stderr, "%s:", quotearg_n_style (3, escape_quoting_style,	\
 					    (Loc).file));		\
-  if ((Loc).first_line != (Loc).last_line)				\
-    fprintf (Out, "%d.%d-%d.%d",					\
-             (Loc).first_line, (Loc).first_column,			\
-             (Loc).last_line, (Loc).last_column - 1);			\
-  else if ((Loc).first_column < (Loc).last_column - 1)			\
-    fprintf (Out, "%d.%d-%d", (Loc).first_line,				\
-             (Loc).first_column, (Loc).last_column - 1);		\
-  else									\
-    fprintf (Out, "%d.%d", (Loc).first_line, (Loc).first_column);	\
+  if ((Loc).first_line)							\
+    {									\
+      if ((Loc).first_line != (Loc).last_line)				\
+	fprintf (Out, "%d.%d-%d.%d",					\
+		 (Loc).first_line, (Loc).first_column,			\
+		 (Loc).last_line, (Loc).last_column - 1);		\
+      else if ((Loc).first_column < (Loc).last_column - 1)		\
+	fprintf (Out, "%d.%d-%d", (Loc).first_line,			\
+		 (Loc).first_column, (Loc).last_column - 1);		\
+      else								\
+	fprintf (Out, "%d.%d", (Loc).first_line, (Loc).first_column);	\
+  }									\
 } while (0)
 
 
-
 extern location_t empty_location;
+
 #endif /* !LOCATION_H_ */
