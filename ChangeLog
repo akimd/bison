@@ -1,3 +1,28 @@
+2002-10-23  Paul Eggert  <eggert@twinsun.com>
+
+	* configure.ac (AC_PROG_LEX): Use instead of AM_PROG_LEX.
+	Suggested by Art Haas.
+
+2002-10-22  Paul Eggert  <eggert@twinsun.com>
+
+	* src/complain.c (exit) [! (STDC_HEADERS || _LIBC)]: Remove exit
+	decl; not needed any more.
+	* src/main.c (main): Use return to exit, undoing yesterday's change.
+	The last OS that we could find where this wouldn't work is
+	SunOS 3.5, and that's too old to worry about now.
+
+	* data/glr.c (struct yyltype): Define members even when not
+	doing locations.  This is more consistent with yacc.c, and it
+	works around the following bug reports:
+	http://mail.gnu.org/pipermail/bug-bison/2002-October/001764.html
+	http://mail.gnu.org/pipermail/bug-bison/2002-October/001769.html
+	and I hope it also fixes this bug report:
+	http://mail.gnu.org/pipermail/bug-bison/2002-October/001748.html
+	
+	* doc/bison.texinfo: Minor spelling and typographical fixes.  Use
+	@acronym consistently.  Standardize on "Yacc" instead of "YACC",
+	"Algol" instead of "ALGOL".  Give a bit more history about BNF.
+
 2002-10-22  Akim Demaille  <akim@epita.fr>
 
 	* data/README: New.
