@@ -1,5 +1,10 @@
 2001-11-27  Marc Autret  <autret_m@epita.fr>
 
+	* src/muscle_tab.c (muscle_init): Remove 'verbose' muscle initialization.
+	* src/output.c (prepare): Remove its update.
+
+2001-11-27  Marc Autret  <autret_m@epita.fr>
+
 	* tests/torture.at [AT_DATA]: Remove YYERROR_VERBOSE definition.
 	Use %error-verbose.
 
