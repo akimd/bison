@@ -1,3 +1,9 @@
+2001-11-01  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at: Catch up with 1.30.
+	* configure.in: Bump to 1.49a.
+	Adjust to newer Autotest.
+
 2001-10-19  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/conflicts.c: Move global variables rrc_total and src_total ...

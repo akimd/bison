@@ -18,7 +18,7 @@
 ## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 ## 02111-1307, USA.
 
-EXTRA_DIST = atlocal.in $(TESTSUITE_AT) testsuite
+EXTRA_DIST = $(TESTSUITE_AT) testsuite
 
 DISTCLEANFILES       = atconfig atlocal bison package.m4
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
@@ -35,9 +35,6 @@ $(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
 	mv $@.tmp $@
 
 atconfig: $(top_builddir)/config.status
-	cd $(top_builddir) && ./config.status tests/$@
-
-atlocal: $(srcdir)/atlocal.in $(top_builddir)/config.status
 	cd $(top_builddir) && ./config.status tests/$@
 
 clean-local:
