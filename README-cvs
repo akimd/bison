@@ -1,0 +1,72 @@
+These notes intend to help people working on the CVS versions of
+Bison.  Only the sources are installed in the CVS repository (to ease
+the maintenance, merges etc.), therefore you will have to the
+maintainer tools we depend upon:
+
+- Automake 1.6 or 1.6.1
+- Autoconf 2.53 or better
+  (actually, CVS Autoconf provides a better autoreconf...
+   http://www.lrde.epita.fr/~akim/download/autoconf-2.53a.tar.gz)
+- Gettext 0.10.1
+
+Only building the initial full source tree will be a bit painful,
+later, a plain `cvs update -P & make' should be sufficient.
+
+* First CVS checkout
+
+Obviously, if you are reading these notes, you did manage to check out
+Bison from CVS.  For the records, you will find all the relevant
+information on:
+
+	http://savannah.gnu.org/cvs/?group_id=56
+
+The next step is asking the installation of all the missing files:
+
+	$ autoreconf -f -v -i
+
+Unfortunately, this will change a few files that should not have been
+replaced, so remove them, and ask for the original copies:
+
+	$ rm Makefile.am configure.in m4/Makefile.am
+	$ cvs update
+
+(Hopefully, these steps will no longer be needed in the future.)
+Because of these changes, running autoreconf a second, and last time,
+is needed.  Pay attention that the options are different this time:
+
+	$ autoreconf -v -f
+
+And there you are!  Just
+
+	$ ./configure && make && make check
+
+At this point, there should be no difference between your local copy,
+and the CVS master copy:
+
+	$ cvs diff
+
+should output no difference, except maybe the date in po/*.po files.
+
+Enjoy!
+
+
+-----
+
+Copyright (C) 2002 Free Software Foundation, Inc.
+
+This file is part of GNU Autoconf.
+
+GNU Autoconf is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+GNU Autoconf is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with autoconf; see the file COPYING.  If not, write to
+the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.
