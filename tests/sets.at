@@ -1,5 +1,5 @@
 # Exercising Bison Grammar Sets.                      -*- Autotest -*-
-# Copyright 2001 Free Software Foundation, Inc.
+# Copyright 2001, 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,6 +15,45 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
+
+# AT_EXTRACT_SETS(INPUT, OUTPUT)
+# ------------------------------
+# Extract the information about the grammar sets from a bison
+# trace output (INPUT), and save it in OUTPUT.
+# And remember, there is no alternation in portable sed.
+m4_define([AT_EXTRACT_SETS],
+[AT_DATA([extract.sed],
+[[#n
+/^NULLABLE$/ {
+   :nullable
+   p
+   n
+   /^[ 	]*$/! b nullable
+}
+/^FIRSTS$/ {
+   :firsts
+   p
+   n
+   /^[ 	]*$/! b firsts
+}
+/^FDERIVES$/ {
+   :fderives
+   p
+   n
+   /^[ 	]*$/! b fderives
+}
+/^DERIVES$/ {
+   :derives
+   p
+   n
+   /^[ 	]*$/! b derives
+}
+]])
+AT_CHECK([sed -f extract.sed $1], 0, [stdout])
+AT_CHECK([mv stdout $2])
+])
+
+
 
 AT_BANNER([[Grammar Sets (Firsts etc.).]])
 
@@ -39,54 +78,23 @@ e: 'e' | /* Nothing */;
 ]])
 
 AT_CHECK([[bison --trace input.y]], [], [], [stderr])
-
-AT_CHECK([[sed 's/[	 ]*$//' stderr]], [],
-[[RITEM
-  e  $  (rule 0)
-  'e'  (rule 1)
-  (rule 2)
-
-
-DERIVES
+AT_EXTRACT_SETS([stderr], [sets])
+AT_CHECK([[cat sets]], [],
+[[DERIVES
 	$axiom derives
 		1: e $ (rule 0)
 	e derives
 		2: 'e' (rule 1)
 		3: (rule 2)
-
-
-Entering set_nullable
 NULLABLE
 	$axiom: no
 	e: yes
-
-
-TC: Input BEGIN
-
-   01
-  .--.
- 0| 1|
- 1|  |
-  `--'
-TC: Input END
-
-TC: Output BEGIN
-
-   01
-  .--.
- 0| 1|
- 1|  |
-  `--'
-TC: Output END
-
 FIRSTS
 	$axiom firsts
 		4 ($axiom)
 		5 (e)
 	e firsts
 		5 (e)
-
-
 FDERIVES
 	$axiom derives
 		0: e $
@@ -95,78 +103,6 @@ FDERIVES
 	e derives
 		1: 'e'
 		2:
-
-
-Processing state 0 (reached by $)
-Closure: input
-
-
-Closure: output
-   0: . e $  (rule 0)
-   3: . 'e'  (rule 1)
-   5: .  (rule 2)
-
-
-Entering new_itemsets, state = 0
-Entering append_states, state = 0
-Entering get_state, state = 0, symbol = 3 ('e')
-Entering new_state, state = 0, symbol = 3 ('e')
-Exiting get_state => 1
-Entering get_state, state = 0, symbol = 5 (e)
-Entering new_state, state = 0, symbol = 5 (e)
-Exiting get_state => 2
-Processing state 1 (reached by 'e')
-Closure: input
-   4: .  (rule 1)
-
-
-Closure: output
-   4: .  (rule 1)
-
-
-Entering new_itemsets, state = 1
-Entering append_states, state = 1
-Processing state 2 (reached by e)
-Closure: input
-   1: . $  (rule 0)
-
-
-Closure: output
-   1: . $  (rule 0)
-
-
-Entering new_itemsets, state = 2
-Entering append_states, state = 2
-Entering get_state, state = 2, symbol = 0 ($)
-Entering new_state, state = 2, symbol = 0 ($)
-Exiting get_state => 3
-Processing state 3 (reached by $)
-Closure: input
-   2: .  (rule 0)
-
-
-Closure: output
-   2: .  (rule 0)
-
-
-Entering new_itemsets, state = 3
-Entering append_states, state = 3
-transpose: input
-  0:
-
-transpose: output
-  0:
-
-Lookaheads: BEGIN
-State 0: 1 lookaheads
-   on 0 ($) -> rule -4
-   on 1 (error) -> rule -4
-   on 2 ($undefined.) -> rule -4
-   on 3 ('e') -> rule -4
-State 1: 0 lookaheads
-State 2: 0 lookaheads
-State 3: 0 lookaheads
-Lookaheads: END
 ]])
 
 AT_CLEANUP
@@ -243,6 +179,75 @@ AT_CHECK([[sed -n 's/[	 ]*$//;/^TC: Output BEGIN/,/^TC: Output END/p' stderr]], 
  8|         |
   `---------'
 TC: Output END
+]])
+
+AT_CLEANUP
+
+
+
+## -------- ##
+## Firsts.  ##
+## -------- ##
+
+AT_SETUP([Firsts])
+
+AT_DATA([input.y],
+[[%nonassoc '<' '>'
+%left '+' '-'
+%right '^' '='
+%%
+exp:
+   exp '<' exp
+ | exp '>' exp
+ | exp '+' exp
+ | exp '-' exp
+ | exp '^' exp
+ | exp '=' exp
+ | "exp"
+ ;
+]])
+
+AT_CHECK([[bison --trace input.y]], [], [], [stderr])
+AT_EXTRACT_SETS([stderr], [sets])
+AT_CHECK([[cat sets]], [],
+[[DERIVES
+	$axiom derives
+		1: exp $ (rule 0)
+	exp derives
+		2: exp '<' exp (rule 1)
+		3: exp '>' exp (rule 2)
+		4: exp '+' exp (rule 3)
+		5: exp '-' exp (rule 4)
+		6: exp '^' exp (rule 5)
+		7: exp '=' exp (rule 6)
+		8: "exp" (rule 7)
+NULLABLE
+	$axiom: no
+	exp: no
+FIRSTS
+	$axiom firsts
+		10 ($axiom)
+		11 (exp)
+	exp firsts
+		11 (exp)
+FDERIVES
+	$axiom derives
+		0: exp $
+		1: exp '<' exp
+		2: exp '>' exp
+		3: exp '+' exp
+		4: exp '-' exp
+		5: exp '^' exp
+		6: exp '=' exp
+		7: "exp"
+	exp derives
+		1: exp '<' exp
+		2: exp '>' exp
+		3: exp '+' exp
+		4: exp '-' exp
+		5: exp '^' exp
+		6: exp '=' exp
+		7: "exp"
 ]])
 
 AT_CLEANUP
