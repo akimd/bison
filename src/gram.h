@@ -97,10 +97,13 @@ extern int start_symbol;
 
 
 /* associativity values in elements of rassoc, sassoc.  */
+typedef enum
+{
+  right_assoc,
+  left_assoc,
+  non_assoc
+} associativity;
 
-#define RIGHT_ASSOC 1
-#define LEFT_ASSOC 2
-#define NON_ASSOC 3
 
 /* token translation table: indexed by a token number as returned by
    the user's yylex routine, it yields the internal token number used

@@ -1,5 +1,18 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (associativity): New enum type which replaces the
+	former CPP macros `RIGHT_ASSOC', `LEFT_ASSOC' and `NON_ASSOC' with
+	`right_assoc', `left_assoc' and `non_assoc'.
+	Adjust all dependencies.
+	* src/reader.c: Formatting changes.
+	(LTYPESTR): Don't define it, use it as a literal in
+	`reader_output_yylsp'.
+	* src/symtab.h (symbol_class): New enum type which replaces the
+	former CPP macros `SUNKNOWN', `STOKEN and `SNTERM' with
+	`sunknown', `stoken and `snterm'.
+
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c (fixed_outfiles): Rename as...
 	(yaccflag): for consistency and accuracy.
 	Adjust dependencies.

@@ -20,14 +20,18 @@
 
 #ifndef SYMTAB_H_
 # define SYMTAB_H_
+# include "gram.h"
 
 #define	TABSIZE	1009
 
 /*  symbol classes  */
 
-#define SUNKNOWN 0
-#define STOKEN	 1		/* terminal symbol */
-#define SNTERM	 2		/* non-terminal */
+typedef enum
+{
+  unknown_sym,
+  token_sym,		/* terminal symbol */
+  nterm_sym		/* non-terminal */
+} symbol_class;
 
 #define SALIAS	-9991		/* for symbol generated with an alias */
 
@@ -39,13 +43,13 @@ typedef struct bucket
   char *type_name;
   short value;
   short prec;
-  short assoc;
+  associativity assoc;
   short user_token_number;
   /* special value SALIAS in the identifier half of the
      identifier-symbol pair for an alias */
   struct bucket *alias;
   /* points to the other in the identifier-symbol pair for an alias */
-  char class;
+  symbol_class class;
 }
 bucket;
 
