@@ -144,7 +144,7 @@ dist: bison.info
 	    vmshlp.mar README INSTALL bison.texinfo bison.info* texinfo.tex \
 	  `cat .fname`
 	cp -p getopt.[ch] getopt1.c alloca.c `cat .fname`
-	tar chZf `cat .fname`.tar.Z `cat .fname`
+	tar --gzip -chf `cat .fname`.tar.z `cat .fname`
 	-rm -rf `cat .fname` .fname
 
 bison.info: bison.texinfo
