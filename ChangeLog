@@ -1,3 +1,10 @@
+2005-01-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/yacc.c (yyparse): Pacify non-GCC compilers about yyerrorlab
+	being defined and not used.
+	* data/lalr1.cc (yyparse): Likewise.
+	Use "if (false)" rather than "if (0)".
+
 2005-01-05  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* TODO: Mention that we should allow NUL bytes in tokens.
