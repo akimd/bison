@@ -323,8 +323,7 @@ main (int argc, const char **argv)
 # -------------------------------
 # Produce `calc.y'.
 m4_define([AT_DATA_CALC_Y],
-[_AT_DATA_CALC_Y($[1], $[2], $[3],
-                 [m4_bpatsubst([$1], [--[^ ]*])])
+[_AT_DATA_CALC_Y($[1], $[2], $[3], [$1])
 ])
 
 
@@ -360,7 +359,7 @@ m4_bmatch([$1],
 # If INPUT starts with a slash, it is used as absolute input file name,
 # otherwise as contents.
 #
-# If BISON-OPTIONS contains `--location', then make sure the ERROR-LOCATION
+# If BISON-OPTIONS contains `%location', then make sure the ERROR-LOCATION
 # is correctly output on stderr.
 #
 # If BISON-OPTIONS contains `%error-verbose', then make sure the
@@ -426,7 +425,7 @@ AT_SETUP([Calculator $1])
 AT_DATA_CALC_Y([$1])
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison -o calc.c m4_bpatsubst([$1], [%[^ ]*]) calc.y],
+AT_CHECK([bison -o calc.c calc.y],
          [0], [], [])
 
 AT_COMPILE([calc])
@@ -495,22 +494,21 @@ m4_define([AT_CHECK_CALC_LALR],
 
 AT_CHECK_CALC_LALR()
 
-AT_CHECK_CALC_LALR([--defines])
+AT_CHECK_CALC_LALR([%defines])
 AT_CHECK_CALC_LALR([%locations])
-AT_CHECK_CALC_LALR([--name-prefix=calc])
-AT_CHECK_CALC_LALR([--verbose])
-AT_CHECK_CALC_LALR([--yacc])
+AT_CHECK_CALC_LALR([%name-prefix="calc"])
+AT_CHECK_CALC_LALR([%verbose])
+AT_CHECK_CALC_LALR([%yacc])
 AT_CHECK_CALC_LALR([%error-verbose])
 
 AT_CHECK_CALC_LALR([%error-verbose %locations])
 
-AT_CHECK_CALC_LALR([%error-verbose %locations --defines --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix="calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%debug])
-AT_CHECK_CALC_LALR([%error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
-# FIXME: Not ready yet.
-# AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])
+# AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
 
 # ----------------------- #
@@ -529,18 +527,18 @@ m4_define([AT_CHECK_CALC_GLR],
 
 AT_CHECK_CALC_GLR()
 
-AT_CHECK_CALC_GLR([--defines])
+AT_CHECK_CALC_GLR([%defines])
 AT_CHECK_CALC_GLR([%locations])
-AT_CHECK_CALC_GLR([--name-prefix=calc])
-AT_CHECK_CALC_GLR([--verbose])
-AT_CHECK_CALC_GLR([--yacc])
+AT_CHECK_CALC_GLR([%name-prefix="calc"])
+AT_CHECK_CALC_GLR([%verbose])
+AT_CHECK_CALC_GLR([%yacc])
 AT_CHECK_CALC_GLR([%error-verbose])
 
 AT_CHECK_CALC_GLR([%error-verbose %locations])
 
-AT_CHECK_CALC_GLR([%error-verbose %locations --defines --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_GLR([%error-verbose %locations %defines %name-prefix="calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR([%debug])
-AT_CHECK_CALC_GLR([%error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])
+AT_CHECK_CALC_GLR([%error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
-# AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations --defines --name-prefix=calc --verbose --yacc])
+# AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])

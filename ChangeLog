@@ -1,8 +1,15 @@
+2002-11-03  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at: Change all the AT_CHECK_CALC_LALR and
+	AT_CHECK_CALC_GLR invocations to use % directives, instead of
+	command line options.
+	* tests/cxx-type.at: Formatting changes.
+
 2002-11-03  Paul Eggert  <eggert@twinsun.com>
 
 	* src/scan-gram.l: Revamp to fix POSIX incompatibilities,
 	to count columns correctly, and to check for invalid inputs.
-	
+
 	Use mbsnwidth to count columns correctly.  Account for tabs, too.
 	Include mbswidth.h.
 	(YY_USER_ACTION): Invoke extend_location rather than LOCATION_COLUMNS.
@@ -24,12 +31,12 @@
 	Use {splice} wherever C allows backslash-newline.
 	YY_STEP after space, newline, vertical-tab.
 	("/*"): BEGIN SC_YACC_COMMENT, not yy_push_state (SC_COMMENT).
-	
+
 	(letter, id): Don't assume ASCII; e.g., spell out a-z.
 
 	({int}, handle_action_dollar, handle_action_at): Check for integer
 	overflow.
-	
+
 	(YY_STEP): Omit trailing semicolon, so that it's more like C.
 
 	(<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>): Allow \0 and \00
