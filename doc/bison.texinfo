@@ -444,7 +444,7 @@ roughly that the next grammar rule to apply at any point in the input is
 uniquely determined by the preceding input and a fixed, finite portion
 (called a @dfn{look-ahead}) of the remaining input.  A context-free
 grammar can be @dfn{ambiguous}, meaning that there are multiple ways to
-apply the grammar rules to get the some inputs.  Even unambiguous
+apply the grammar rules to get the same inputs.  Even unambiguous
 grammars can be @dfn{non-deterministic}, meaning that no fixed
 look-ahead always suffices to determine the next grammar rule to apply.
 With the proper declarations, Bison is also able to parse these more
@@ -2627,7 +2627,7 @@ not come before the definition of @code{yyparse}.  For example, the
 definitions of @code{yylex} and @code{yyerror} often go here.  Because
 C requires functions to be declared before being used, you often need
 to declare functions like @code{yylex} and @code{yyerror} in the Prologue,
-even if you define them int he Epilogue.
+even if you define them in the Epilogue.
 @xref{Interface, ,Parser C-Language Interface}.
 
 If the last section is empty, you may omit the @samp{%%} that separates it
