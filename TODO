@@ -119,3 +119,7 @@ With the hex addresses of tree nodes, I can inspect the values
 associated with any rhs token.
 
 You like?
+
+* input synclines
+Some users create their foo.y files, and equip them with #line.  Bison
+should recognize these, and preserve them.
