@@ -28,7 +28,7 @@
 typedef const char *struniq_t;
 
 /* Return the struniq for S.  */
-const struniq_t struniq_new (const char *s);
+struniq_t struniq_new (const char *s);
 
 /* Two struniq have the same value iff they are the same.  */
 #define STRUNIQ_EQ(S1, S2) ((S1) == (S2))
