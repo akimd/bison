@@ -23,7 +23,7 @@
 
 /* DERIVES[SYMBOL - NTOKENS] points to a vector of the number of the
    rules that SYMBOL derives, terminated with -1.  */
-extern short **derives;
+extern rule_number_t **derives;
 
 /* Compute DERIVES.  */
 

@@ -1,5 +1,16 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (rule_number_t, RULE_NUMBER_MAX, int_of_rule_number)
+	(item_number_of_rule_number, rule_number_of_item_number): New.
+	* src/LR0.c, src/closure.c, src/derives.c, src/derives.h,
+	* src/gram.c, src/lalr.c, src/nullable.c, src/output.c, src/print.c,
+	* src/print_graph.c, src/reader.c, src/reduce.c, src/reduce.h:
+	Propagate their use.
+	Much remains to be done, in particular wrt `shorts' from types.h.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.c (symbol_new): Initialize the `printer' member.
 
 	

@@ -107,19 +107,19 @@
 # define ISTOKEN(s)	((s) < ntokens)
 # define ISVAR(s)	((s) >= ntokens)
 
-extern int nrules;
 extern int nsyms;
 extern int ntokens;
 extern int nvars;
 
-# define ITEM_NUMBER_MAX INT_MAX
 typedef int item_number_t;
+# define ITEM_NUMBER_MAX ((item_number_t) INT_MAX)
 extern item_number_t *ritem;
 extern unsigned int nritems;
 
-/* There is weird relationship between item_number_t and
-   symbol_number_t: we store symbol_number_t in item_number_t, but in
-   the latter we also store, as negative numbers, the rule numbers.
+/* There is weird relationship between OT1H item_number_t and OTOH
+   symbol_number_t and rule_number_t: we store the latter in
+   item_number_t.  symbol_number_t are stored as are, while
+   the negation of rule_number_t are stored.
 
    Therefore, an symbol_number_t must be a valid item_number_t, and we
    sometimes have to perform the converse transformation.  */
@@ -128,16 +128,28 @@ extern unsigned int nritems;
 
 extern symbol_number_t start_symbol;
 
+/* Rules numbers. */
+typedef short rule_number_t;
+# define RULE_NUMBER_MAX ((rule_number_t) SHRT_MAX)
+extern rule_number_t nrules;
+# define int_of_rule_number(RNum) ((int) (RNum))
+# define item_number_of_rule_number(RNum) ((item_number_t) (- RNum))
+# define rule_number_of_item_number(INum) ((rule_number_t) (- INum))
+
+
+/*--------.
+| Rules.  |
+`--------*/
 
 typedef struct rule_s
 {
   /* The number of the rule in the source.  It is usually the index in
      RULES too, except if there are useless rules.  */
-  short user_number;
+  rule_number_t user_number;
 
   /* The index in RULES.  Usually the rule number in the source,
      except if some rules are useless.  */
-  short number;
+  rule_number_t number;
 
   symbol_t *lhs;
   item_number_t *rhs;
@@ -199,7 +211,8 @@ size_t ritem_longest_rhs PARAMS ((void));
 /* Print the grammar's rules numbers from BEGIN (inclusive) to END
    (exclusive) on OUT under TITLE.  */
 void grammar_rules_partial_print PARAMS ((FILE *out, const char *title,
-					  int begin, int end));
+					  rule_number_t begin,
+					  rule_number_t end));
 
 /* Print the grammar's rules on OUT.  */
 void grammar_rules_print PARAMS ((FILE *out));

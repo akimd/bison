@@ -25,6 +25,6 @@ void reduce_grammar PARAMS ((void));
 void reduce_output PARAMS ((FILE *out));
 void reduce_free PARAMS ((void));
 
-extern int nuseless_nonterminals;
-extern int nuseless_productions;
+extern symbol_number_t nuseless_nonterminals;
+extern rule_number_t nuseless_productions;
 #endif /* !REDUCE_H_ */
