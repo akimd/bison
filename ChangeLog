@@ -1,5 +1,11 @@
 2001-08-15  Akim Demaille  <akim@epita.fr>
 
+	* missing: Update from CVS Automake.
+	* config/config.guess, config/config.sub, config/texinfo.tex:
+	Update from gnu.org.
+
+2001-08-15  Akim Demaille  <akim@epita.fr>
+
 	* Makefile.maint: Sync with CVS Autoconf.
 
 2001-08-14  Pascal Bart  <pascal.bart@epita.fr>
