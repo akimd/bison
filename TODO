@@ -7,6 +7,16 @@ Check and cleanup for CPP-out code.	[]
 * src/output.c
 Remove %%verbose which is useless.	[ok]
 
+* Broken options.
+%no-lines	[]
+%no-parser	[]
+%pure-parser ?	[]
+%semantic-parser	[]
+%token-table	[]
+%output		[]
+%file-prefix	[]
+%name-prefix	[]
+
 Cleanup dirty CPP-out code.	[]
 ** Output sub-skeleton files.	[]
 Useful for %no_parser.	[]
