@@ -738,7 +738,7 @@ print_reductions (int state)
 
 
 void
-finalize_conflicts (void)
+free_conflicts (void)
 {
   XFREE (conflicts);
   XFREE (shiftset);

@@ -25,7 +25,7 @@
 void initialize_conflicts PARAMS ((void));
 void print_conflicts PARAMS ((void));
 void print_reductions PARAMS ((int));
-void finalize_conflicts PARAMS ((void));
+void free_conflicts PARAMS ((void));
 
 /* Were there conflicts? */
 extern int any_conflicts;

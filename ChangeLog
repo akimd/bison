@@ -1,5 +1,10 @@
 2001-09-22  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (finalize_conflicts): Rename as...
+	(free_conflicts): this.
+
+2001-09-22  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.c (gram_free): Rename back as...
 	(dummy): this.
 	(output_token_translations): Free `token_translations'.

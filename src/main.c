@@ -90,7 +90,7 @@ main (int argc, char *argv[])
   /* Output the tables and the parser to ftable.  In file output.  */
   output ();
 
-  finalize_conflicts ();
+  free_conflicts ();
   free_nullable ();
   free_derives ();
 
