@@ -1,17 +1,27 @@
-#! /bin/sh
-# -*- Autoconf -*-
-# Validation suite for Bison.
-# Copyright 2000 Free Software Foundation, Inc.
+# Checking the output filenames.                    -*- Autotest -*-
+# Copyright 2000, 2001 Free Software Foundation, Inc.
 
-AT_INIT([bison])
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
 
-## ---------------------------- ##
-## Checking output file names.  ##
-## ---------------------------- ##
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+AT_BANNER([[Output file names.]])
+
 
 # AT_CHECK_BISON_FLAGS(FLAGS, EXPECTED-FILES-SORTED)
 # --------------------------------------------------
-AT_DEFINE([AT_CHECK_BISON_FLAGS],
+m4_define([AT_CHECK_BISON_FLAGS],
 [AT_SETUP([Output files: $1.])
 AT_DATA([foo.y],
 [[%%
@@ -33,7 +43,7 @@ AT_CHECK_BISON_FLAGS([-g -o foo.c],  [foo.c foo.h foo.output foo.vcg])
 
 # AT_CHECK_BISON_PERCENT(GRAMMAR-OPTIONS, EXPECTED-FILES-SORTED)
 # --------------------------------------------------------------
-AT_DEFINE([AT_CHECK_BISON_PERCENT],
+m4_define([AT_CHECK_BISON_PERCENT],
 [AT_SETUP([Output files: $1.])
 AT_DATA([foo.y],
 [[$1
@@ -58,7 +68,7 @@ AT_CHECK_BISON_PERCENT([%yacc],             [y.output y.tab.c y.tab.h])
 
 # AT_CHECK_BISON_PERCENT_FLAGS(GRAMMAR_OPTIONS, FLAGS, EXPECTED-FILES-SORTED)
 # ---------------------------------------------------------------------------
-AT_DEFINE([AT_CHECK_BISON_PERCENT_FLAGS],
+m4_define([AT_CHECK_BISON_PERCENT_FLAGS],
 [AT_SETUP([Output files: $1.])
 AT_DATA([foo.yy],
 [[$1
@@ -91,6 +101,3 @@ AT_CHECK_BISON_PERCENT_FLAGS(
 [%source_extension ".cc"] [%header_extension ".hh"],
 [-o foo.c],
 [foo.c foo.h foo.output])
-
-AT_INCLUDE([calc.at])
-AT_INCLUDE([regression.at])

@@ -1,12 +1,31 @@
-# Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.52)
-AC_INIT(bison, 1.28e, bug-bison@gnu.org)
+# Configure template for GNU Bison.                   -*-Autoconf-*-
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+# 02111-1307  USA
+
+# We need a recent Autoconf to run a recent Autotest.
+AC_PREREQ(2.52e)
+
+AC_INIT([GNU Bison], [1.28e], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR(config)
-AM_INIT_AUTOMAKE(bison, 1.28e)
+
+AM_INIT_AUTOMAKE([bison], [1.28e])
 AM_CONFIG_HEADER(config.h:config.hin)
 
 # Initialize the test suite.
-AT_CONFIG(../src)
+AC_CONFIG_TESTDIR(tests)
 
 # Checks for programs.
 AC_PROG_CC
@@ -83,4 +102,4 @@ AC_OUTPUT([Makefile
            intl/Makefile po/Makefile.in
            lib/Makefile src/Makefile doc/Makefile
            m4/Makefile
-           tests/Makefile tests/atconfig])
+           tests/Makefile])

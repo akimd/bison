@@ -1,0 +1,11 @@
+#! /bin/sh
+# Wrapper around a non installed bison to make it work as an installed one.
+. ./atconfig
+
+# We want to use the files shipped with Bison.
+BISON_SIMPLE=$top_srcdir/src/bison.simple
+export BISON_SIMPLE
+BISON_HAIRY=$top_srcdir/src/bison.hairy
+export BISON_HAIRY
+
+exec $top_builddir/src/bison ${1+"$@"}

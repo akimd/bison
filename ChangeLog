@@ -1,3 +1,14 @@
+2001-08-30  Akim Demaille  <akim@epita.fr>
+
+	* tests/atgeneral.m4, tests/atconfig.in, tests/suite.at: Remove.
+	* m4/atconfig.m4: Remove.
+	* tests/testsuite.at, tests/atlocal.in, tests/output.at,
+	* tests/bison: New.
+	* tests/regression.at, tests/calc.at: Use m4_define, AT_BANNER,
+	m4_if, m4_patsubst, and m4_regexp.
+	* tests/calc.at (_AT_CHECK_CALC, _AT_CHECK_CALC_ERROR): Use an
+	`input' file instead of echo.
+
 2001-08-29  Akim Demaille  <akim@epita.fr>
 
 	Bump to 1.28e.

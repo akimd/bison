@@ -1,11 +1,22 @@
-#                                                        -*- Autoconf -*-
+# Checking the output filenames.                         -*- Autotest -*-
+# Copyright 2000, 2001 Free Software Foundation, Inc.
 
-cat <<EOF
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
 
-Simple Calculator.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 
-EOF
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
 
+AT_BANNER([[Simple Calculator.]])
 
 ## ---------------------------------------------------- ##
 ## Compile the grammar described in the documentation.  ##
@@ -23,11 +34,9 @@ EOF
 # some occurrences of `$1' etc. which will be interpreted by m4.  So
 # you should call it with $1, $2, and $3 as arguments, which is what
 # AT_DATA_CALC_Y does.
-AT_DEFINE([_AT_DATA_CALC_Y],
-[ifelse([$1$2$3],
-        $[1]$[2]$[3], [],
-        [errprint([$0: Invalid arguments: $@
-])m4exit(1)])dnl
+m4_define([_AT_DATA_CALC_Y],
+[m4_if([$1$2$3], $[1]$[2]$[3], [],
+       [m4_fatal([$0: Invalid arguments: $@])])dnl
 AT_DATA([calc.y],
 [[/* Infix notation calculator--calc */
 
@@ -241,11 +250,11 @@ main (int argn, const char **argv)
 # AT_DATA_CALC_Y([BISON-OPTIONS])
 # -------------------------------
 # Produce `calc.y'.
-AT_DEFINE([AT_DATA_CALC_Y],
+m4_define([AT_DATA_CALC_Y],
 [_AT_DATA_CALC_Y($[1], $[2], $[3],
-                 [ifelse(regexp([$1], [--yyerror-verbose]),
-                         [-1], [],
-                         [[#define YYERROR_VERBOSE]])])])
+                 [m4_if(m4_regexp([$1], [--yyerror-verbose]),
+                        [-1], [],
+                        [[#define YYERROR_VERBOSE]])])])
 
 
 
@@ -255,12 +264,15 @@ AT_DEFINE([AT_DATA_CALC_Y],
 # If `--debug' is passed to bison, discard all the debugging traces
 # preserving only the `parse errors'.  Note that since there should be
 # none, the `grep' will fail with exit status 1.
-AT_DEFINE([_AT_CHECK_CALC],
-[ifelse(regexp([$1], [--debug]),
+m4_define([_AT_CHECK_CALC],
+[AT_DATA([[input]],
+[[$2
+]])
+m4_if(m4_regexp([$1], [--debug]),
   [-1],
-     [AT_CHECK([echo "$2" | calc],
+     [AT_CHECK([./calc <input],
                [0], [], [])],
-     [AT_CHECK([echo "$2" | calc 2>&1 >/dev/null | grep 'parse error' >&2],
+     [AT_CHECK([calc ./input 2>&1 >/dev/null | grep 'parse error' >&2],
                [1], [], [])])])
 
 
@@ -268,14 +280,18 @@ AT_DEFINE([_AT_CHECK_CALC],
 #                      [ERROR-LOCATION], [IF-YYERROR-VERBOSE])
 # ------------------------------------------------------------
 # Run `calc' on INPUT, and expect STDERR.
-AT_DEFINE([_AT_CHECK_CALC_ERROR],
-[AT_CHECK([echo "$2" | calc 2>&1 >/dev/null | grep 'parse error' >&2], 0,
+m4_define([_AT_CHECK_CALC_ERROR],
+[AT_DATA([[input]],
+[[$2
+]])
+
+AT_CHECK([./calc <input 2>&1 >/dev/null | grep 'parse error' >&2], 0,
           [],
-[ifelse(regexp([$1], [--location]),
-        [-1], [], [$3: ])[]dnl
+[m4_if(m4_regexp([$1], [--location]),
+       [-1], [], [$3: ])[]dnl
 parse error[]dnl
-ifelse(regexp([$1], [--yyerror-verbose]),
-       [-1], [], [$4])[]dnl
+m4_if(m4_regexp([$1], [--yyerror-verbose]),
+      [-1], [], [$4])[]dnl
 
 ])])
 
@@ -284,14 +300,14 @@ ifelse(regexp([$1], [--yyerror-verbose]),
 # --------------------------------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
-AT_DEFINE([AT_CHECK_CALC],
+m4_define([AT_CHECK_CALC],
 [# We use integers to avoid dependencies upon the precision of doubles.
 AT_SETUP([Calculator $1])
 
 AT_DATA_CALC_Y([$1])
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison calc.y -o calc.c patsubst([$1], [--yyerror-verbose])],
+AT_CHECK([bison calc.y -o calc.c m4_patsubst([$1], [--yyerror-verbose])],
          [0], [], [])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS calc.c -o calc], 0, [], [])
 
