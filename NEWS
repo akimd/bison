@@ -1,7 +1,14 @@
 Bison News
 ----------
 
-Changes in version 1.33a:
+Changes in version 1.33b:
+
+* A missing `;' ending a rule triggers a warning
+  In accordance with POSIX, and in agreement with other
+  Yacc implementations, Bison will mandate this semicolon in a near
+  future.  This eases the implementation of a Bison parser of Bison
+  grammars by making this grammar LALR(1) instead of LR(2).  To
+  facilitate the transition, this release introduces a warning.
 
 * Revert the C++ namespace changes introduced in 1.31, as they caused too
   many portability hassles.

@@ -161,14 +161,14 @@ AT_SETUP([Broken Closure])
 
 AT_DATA([input.y],
 [[%%
-a: b
-b: c
-c: d
-d: e
-e: f
-f: g
-g: h
-h: 'h'
+a: b;
+b: c;
+c: d;
+d: e;
+e: f;
+f: g;
+g: h;
+h: 'h';
 ]])
 
 AT_CHECK([bison --trace input.y 2>&1 |

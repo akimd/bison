@@ -103,7 +103,7 @@ AT_DATA([input.y],
 [[/* Bison used to swallow the character after `}'. */
 
 %%
-exp: { tests = {{{{{{{{{{}}}}}}}}}}; }
+exp: { tests = {{{{{{{{{{}}}}}}}}}}; };
 %%
 ]])
 
@@ -382,7 +382,7 @@ expr:
 
 {
 
-}
+};
 ]])
 
 AT_CHECK([bison input.y -o input.c -v], 0, [], [])

@@ -1,3 +1,11 @@
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
+	* tests/sets.at (Broken Closure): Add the ending `;'.
+	* tests/input.at (Invalid $n, Invalid @n): Likewise.
+	* tests/output.at (AT_CHECK_OUTPUT): Likewise.
+	* src/reader.at (readgram): Complain if a rule is not ended with a
+	semi-colon.
+
 2002-02-28  Akim Demaille  <akim@epita.fr>
 
 	* tests/Makefile.am (check_SCRIPTS): New.
