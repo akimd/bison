@@ -1,5 +1,9 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (traverse): Use arrays instead of pointers.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/nullable.c (set_nullable): Use a for loop to de-obfuscate
 	the handling of squeue.
 	`symbol >= 0' is wrong now, use `rule_table[ruleno].useful'.
