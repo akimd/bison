@@ -5259,14 +5259,15 @@ The plain DOS file system has limited file name length, does not allow
 the use of a set of certain illicit characters and does not allow more
 than a single dot in the file name.
 
-The DJGPP port of @code{bison} will detect at runtime if (LFN) long file name
-support is available or not.  LFN support will be available in a DOS session
-under Windows 9X and successors.  Windows NT 4.0 needs a special LFN driver
-(@file(ntlfn08b.zip) or later available at any simtelnet mirror in the /v2misc
-dir) for proper LFN support in a DOS session.  If LFN support is available the
-DJGPP port of @code{bison} will use the standard POSIX file name extensions
-of the output files.  If LFN support is not available, then the DJGPP port
-of @code{bison} will use DOS specific file name extensions.
+The DJGPP port of @code{bison} will detect at runtime if (LFN) long file
+name support is available or not.  LFN support will be available in a
+DOS session under Windows 9X and successors.  Windows NT 4.0 needs a
+special LFN driver (@file{ntlfn08b.zip}) or later available at any
+simtelnet mirror in the /v2misc dir) for proper LFN support in a DOS
+session.  If LFN support is available the DJGPP port of @code{bison}
+will use the standard POSIX file name extensions of the output files.
+If LFN support is not available, then the DJGPP port of @code{bison}
+will use DOS specific file name extensions.
 
 @noindent This table summarizes the used extensions:
 
