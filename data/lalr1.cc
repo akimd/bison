@@ -43,7 +43,7 @@ m4_define([b4_lhs_value],
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
 m4_define([b4_rhs_value],
-[semantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3])])
+[yysemantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3])])
 
 m4_define_default([b4_location_type], [Location])
 
@@ -59,7 +59,7 @@ m4_define([b4_lhs_location],
 # Expansion of @NUM, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[location_stack_@{m4_eval([$1 - $2])@}])
+[yylocation_stack_@{m4_eval([$1 - $2])@}])
 
 
 # b4_parse_param_decl
@@ -206,11 +206,15 @@ namespace yy
   class ]b4_parser_class_name[
   {
   public:
-
+    /// Internal symbol numbers.
     typedef Traits<]b4_parser_class_name[>::TokenNumberType TokenNumberType;
+    /// A type to store symbol numbers and -1.
     typedef Traits<]b4_parser_class_name[>::RhsNumberType   RhsNumberType;
+    /// State numbers.
     typedef Traits<]b4_parser_class_name[>::StateType       StateType;
+    /// Symbol semantic values.
     typedef Traits<]b4_parser_class_name[>::SemanticType    SemanticType;
+    /// Symbol locations.
     typedef Traits<]b4_parser_class_name[>::LocationType    LocationType;
 
     typedef Stack<StateType>    StateStack;
@@ -262,36 +266,41 @@ namespace yy
 
 
     /// The state stack.
-    StateStack    state_stack_;
+    StateStack    yystate_stack_;
     /// The semantic value stack.
-    SemanticStack semantic_stack_;
+    SemanticStack yysemantic_stack_;
     /// The location stack.
-    LocationStack location_stack_;
+    LocationStack yylocation_stack_;
 
     /* Tables.  */
-    static const ]b4_int_type_for([b4_pact])[ pact_[];
-    static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ pact_ninf_;
-    static const ]b4_int_type_for([b4_defact])[ defact_[];
-    static const ]b4_int_type_for([b4_pgoto])[ pgoto_[];
-    static const ]b4_int_type_for([b4_defgoto])[ defgoto_[];
-    static const ]b4_int_type_for([b4_table])[ table_[];
-    static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ table_ninf_;
-    static const ]b4_int_type_for([b4_check])[ check_[];
-    static const ]b4_int_type_for([b4_stos])[ stos_[];
-    static const ]b4_int_type_for([b4_r1])[ r1_[];
-    static const ]b4_int_type_for([b4_r2])[ r2_[];
+    static const ]b4_int_type_for([b4_pact])[ yypact_[];
+    static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
+    static const ]b4_int_type_for([b4_defact])[ yydefact_[];
+    static const ]b4_int_type_for([b4_pgoto])[ yypgoto_[];
+    static const ]b4_int_type_for([b4_defgoto])[ yydefgoto_[];
+    static const ]b4_int_type_for([b4_table])[ yytable_[];
+    static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
+    static const ]b4_int_type_for([b4_check])[ yycheck_[];
+    static const ]b4_int_type_for([b4_stos])[ yystos_[];
+    static const ]b4_int_type_for([b4_r1])[ yyr1_[];
+    static const ]b4_int_type_for([b4_r2])[ yyr2_[];
 
 #if YYDEBUG || YYERROR_VERBOSE
-    static const char* const name_[];
+    static const char* const yyname_[];
 #endif
 
-    /* More tables, for debugging.  */
 #if YYDEBUG
-    static const RhsNumberType rhs_[];
-    static const ]b4_int_type_for([b4_prhs])[ prhs_[];
-    static const ]b4_int_type_for([b4_rline])[ rline_[];
-    static const ]b4_int_type_for([b4_toknum])[ token_number_[];
+    /// A `-1'-separated list of the rules' RHS.
+    static const RhsNumberType yyrhs_[];
+    /// For each rule, the index of the first RHS symbol in \a yyrhs_.
+    static const ]b4_int_type_for([b4_prhs])[ yyprhs_[];
+    /// For each rule, its source line number.
+    static const ]b4_int_type_for([b4_rline])[ yyrline_[];
+    /// For each scanner token number, its symbol number.
+    static const ]b4_int_type_for([b4_toknum])[ yytoken_number_[];
+    /// Report on the debug stream that the rule \a yyrule is going to be reduced.
     virtual void yyreduce_print_ (int yyrule);
+/// Print the state stack on the debug stream.
     virtual void yystack_print_ ();
 #endif
 
@@ -312,34 +321,34 @@ namespace yy
     inline void yypop_ (unsigned int n = 1);
 
     /* Constants.  */
-    static const int eof_;
+    static const int yyeof_;
     /* LAST_ -- Last index in TABLE_.  */
-    static const int last_;
-    static const int nnts_;
-    static const int empty_;
-    static const int final_;
-    static const int terror_;
-    static const int errcode_;
-    static const int ntokens_;
-    static const unsigned int user_token_number_max_;
-    static const TokenNumberType undef_token_;
+    static const int yylast_;
+    static const int yynnts_;
+    static const int yyempty_;
+    static const int yyfinal_;
+    static const int yyterror_;
+    static const int yyerrcode_;
+    static const int yyntokens_;
+    static const unsigned int yyuser_token_number_max_;
+    static const TokenNumberType yyundef_token_;
 
     /* State.  */
-    int n_;
-    int len_;
-    int state_;
+    int yyn_;
+    int yylen_;
+    int yystate_;
 
     /* Error handling. */
-    int nerrs_;
-    int errstatus_;
+    int yynerrs_;
+    int yyerrstatus_;
 
     /* Debugging.  */
     int yydebug_;
     std::ostream* yycdebug_;
 
     /* Look-ahead and look-ahead in internal form.  */
-    int looka_;
-    int ilooka_;
+    int yylooka_;
+    int yyilooka_;
 
     /* Message.  */
     std::string message;
@@ -349,7 +358,7 @@ namespace yy
     /// Location of the look-ahead.
     LocationType location;
     /// The locations where the error started and ended.
-    Location error_range_[2];
+    Location yyerror_range_[2];
 
     /// $$.
     SemanticType yyval;
@@ -425,8 +434,8 @@ yy::]b4_parser_class_name[::yysymprint_ (int yytype,
   std::ostream& cdebug_ = *yycdebug_;
   (void) cdebug_;
 
-  *yycdebug_ << (yytype < ntokens_ ? "token" : "nterm")
-	     << ' ' << name_[yytype] << " ("
+  *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
+	     << ' ' << yyname_[yytype] << " ("
              << *yylocationp << ": ";
   switch (yytype)
     {
@@ -459,9 +468,9 @@ yy::]b4_parser_class_name[::yydestruct_ (const char* yymsg,
 void
 yy::]b4_parser_class_name[::yypop_ (unsigned int n)
 {
-  state_stack_.pop (n);
-  semantic_stack_.pop (n);
-  location_stack_.pop (n);
+  yystate_stack_.pop (n);
+  yysemantic_stack_.pop (n);
+  yylocation_stack_.pop (n);
 }
 
 std::ostream&
@@ -495,12 +504,12 @@ yy::]b4_parser_class_name[::parse ()
 {
   YYCDEBUG << "Starting parse" << std::endl;
 
-  nerrs_ = 0;
-  errstatus_ = 0;
+  yynerrs_ = 0;
+  yyerrstatus_ = 0;
 
   /* Start.  */
-  state_ = 0;
-  looka_ = empty_;
+  yystate_ = 0;
+  yylooka_ = yyempty_;
 
 ]m4_ifdef([b4_initial_action], [
 m4_pushdef([b4_at_dollar],     [location])dnl
@@ -516,91 +525,91 @@ b4_syncline([@oline@], [@ofile@])])dnl
      yynewstate, since the latter expects the semantical and the
      location values to have been already stored, initialize these
      stacks with a primary value.  */
-  state_stack_ = StateStack (0);
-  semantic_stack_ = SemanticStack (0);
-  location_stack_ = LocationStack (0);
-  semantic_stack_.push (value);
-  location_stack_.push (location);
+  yystate_stack_ = StateStack (0);
+  yysemantic_stack_ = SemanticStack (0);
+  yylocation_stack_ = LocationStack (0);
+  yysemantic_stack_.push (value);
+  yylocation_stack_.push (location);
 
   /* New state.  */
 yynewstate:
-  state_stack_.push (state_);
-  YYCDEBUG << "Entering state " << state_ << std::endl;
+  yystate_stack_.push (yystate_);
+  YYCDEBUG << "Entering state " << yystate_ << std::endl;
   goto yybackup;
 
   /* Backup.  */
 yybackup:
 
   /* Try to take a decision without look-ahead.  */
-  n_ = pact_[state_];
-  if (n_ == pact_ninf_)
+  yyn_ = yypact_[yystate_];
+  if (yyn_ == yypact_ninf_)
     goto yydefault;
 
   /* Read a look-ahead token.  */
-  if (looka_ == empty_)
+  if (yylooka_ == yyempty_)
     yylex_ ();
 
   /* Convert token to internal form.  */
-  if (looka_ <= eof_)
+  if (yylooka_ <= yyeof_)
     {
-      looka_ = ilooka_ = eof_;
+      yylooka_ = yyilooka_ = yyeof_;
       YYCDEBUG << "Now at end of input." << std::endl;
     }
   else
     {
-      ilooka_ = yytranslate_ (looka_);
-      YY_SYMBOL_PRINT ("Next token is", ilooka_, &value, &location);
+      yyilooka_ = yytranslate_ (yylooka_);
+      YY_SYMBOL_PRINT ("Next token is", yyilooka_, &value, &location);
     }
 
   /* If the proper action on seeing token ILOOKA_ is to reduce or to
      detect an error, take that action.  */
-  n_ += ilooka_;
-  if (n_ < 0 || last_ < n_ || check_[n_] != ilooka_)
+  yyn_ += yyilooka_;
+  if (yyn_ < 0 || yylast_ < yyn_ || yycheck_[yyn_] != yyilooka_)
     goto yydefault;
 
   /* Reduce or error.  */
-  n_ = table_[n_];
-  if (n_ < 0)
+  yyn_ = yytable_[yyn_];
+  if (yyn_ < 0)
     {
-      if (n_ == table_ninf_)
+      if (yyn_ == yytable_ninf_)
 	goto yyerrlab;
       else
 	{
-	  n_ = -n_;
+	  yyn_ = -yyn_;
 	  goto yyreduce;
 	}
     }
-  else if (n_ == 0)
+  else if (yyn_ == 0)
     goto yyerrlab;
 
   /* Accept?  */
-  if (n_ == final_)
+  if (yyn_ == yyfinal_)
     goto yyacceptlab;
 
   /* Shift the look-ahead token.  */
-  YY_SYMBOL_PRINT ("Shifting", ilooka_, &value, &location);
+  YY_SYMBOL_PRINT ("Shifting", yyilooka_, &value, &location);
 
   /* Discard the token being shifted unless it is eof.  */
-  if (looka_ != eof_)
-    looka_ = empty_;
+  if (yylooka_ != yyeof_)
+    yylooka_ = yyempty_;
 
-  semantic_stack_.push (value);
-  location_stack_.push (location);
+  yysemantic_stack_.push (value);
+  yylocation_stack_.push (location);
 
   /* Count tokens shifted since error; after three, turn off error
      status.  */
-  if (errstatus_)
-    --errstatus_;
+  if (yyerrstatus_)
+    --yyerrstatus_;
 
-  state_ = n_;
+  yystate_ = yyn_;
   goto yynewstate;
 
 /*-----------------------------------------------------------.
 | yydefault -- do the default action for the current state.  |
 `-----------------------------------------------------------*/
 yydefault:
-  n_ = defact_[state_];
-  if (n_ == 0)
+  yyn_ = yydefact_[yystate_];
+  if (yyn_ == 0)
     goto yyerrlab;
   goto yyreduce;
 
@@ -608,24 +617,24 @@ yydefault:
 | yyreduce -- Do a reduction.  |
 `-----------------------------*/
 yyreduce:
-  len_ = r2_[n_];
+  yylen_ = yyr2_[yyn_];
   /* If LEN_ is nonzero, implement the default value of the action:
      `$$ = $1'.  Otherwise, use the top of the stack.
 
      Otherwise, the following line sets YYVAL to garbage.
      This behavior is undocumented and Bison
      users should not rely upon it.  */
-  if (len_)
-    yyval = semantic_stack_[len_ - 1];
+  if (yylen_)
+    yyval = yysemantic_stack_[yylen_ - 1];
   else
-    yyval = semantic_stack_[0];
+    yyval = yysemantic_stack_[0];
 
   {
-    Slice<LocationType, LocationStack> slice (location_stack_, len_);
-    YYLLOC_DEFAULT (yyloc, slice, len_);
+    Slice<LocationType, LocationStack> slice (yylocation_stack_, yylen_);
+    YYLLOC_DEFAULT (yyloc, slice, yylen_);
   }
-  YY_REDUCE_PRINT (n_);
-  switch (n_)
+  YY_REDUCE_PRINT (yyn_);
+  switch (yyn_)
     {
       ]b4_actions[
     }
@@ -633,20 +642,21 @@ yyreduce:
 ]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
 
-  yypop_ (len_);
+  yypop_ (yylen_);
 
   YY_STACK_PRINT ();
 
-  semantic_stack_.push (yyval);
-  location_stack_.push (yyloc);
+  yysemantic_stack_.push (yyval);
+  yylocation_stack_.push (yyloc);
 
   /* Shift the result of the reduction.  */
-  n_ = r1_[n_];
-  state_ = pgoto_[n_ - ntokens_] + state_stack_[0];
-  if (0 <= state_ && state_ <= last_ && check_[state_] == state_stack_[0])
-    state_ = table_[state_];
+  yyn_ = yyr1_[yyn_];
+  yystate_ = yypgoto_[yyn_ - yyntokens_] + yystate_stack_[0];
+  if (0 <= yystate_ && yystate_ <= yylast_
+      && yycheck_[yystate_] == yystate_stack_[0])
+    yystate_ = yytable_[yystate_];
   else
-    state_ = defgoto_[n_ - ntokens_];
+    yystate_ = yydefgoto_[yyn_ - yyntokens_];
   goto yynewstate;
 
 /*------------------------------------.
@@ -656,34 +666,34 @@ yyerrlab:
   /* If not already recovering from an error, report this error.  */
   yyreport_syntax_error_ ();
 
-  error_range_[0] = location;
-  if (errstatus_ == 3)
+  yyerror_range_[0] = location;
+  if (yyerrstatus_ == 3)
     {
       /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
       /* Return failure if at end of input.  */
-      if (looka_ <= eof_)
+      if (yylooka_ <= yyeof_)
         {
           /* If at end of input, pop the error token,
 	     then the rest of the stack, then return failure.  */
-	  if (looka_ == eof_)
+	  if (yylooka_ == yyeof_)
 	     for (;;)
 	       {
-                 error_range_[0] = location_stack_[0];
+                 yyerror_range_[0] = yylocation_stack_[0];
                  yypop_ ();
-		 if (state_stack_.height () == 1)
+		 if (yystate_stack_.height () == 1)
 		   YYABORT;
                  yydestruct_ ("Error: popping",
-                              stos_[state_stack_[0]],
-                              &semantic_stack_[0],
-                              &location_stack_[0]);
+                              yystos_[yystate_stack_[0]],
+                              &yysemantic_stack_[0],
+                              &yylocation_stack_[0]);
 	       }
         }
       else
         {
-          yydestruct_ ("Error: discarding", ilooka_, &value, &location);
-          looka_ = empty_;
+          yydestruct_ ("Error: discarding", yyilooka_, &value, &location);
+          yylooka_ = yyempty_;
         }
     }
 
@@ -704,58 +714,59 @@ yyerrorlab:
      goto yyerrorlab;
 #endif
 
-  error_range_[0] = location_stack_[len_ - 1];
-  yypop_ (len_);
-  state_ = state_stack_[0];
+  yyerror_range_[0] = yylocation_stack_[yylen_ - 1];
+  yypop_ (yylen_);
+  yystate_ = yystate_stack_[0];
   goto yyerrlab1;
 
 /*-------------------------------------------------------------.
 | yyerrlab1 -- common code for both syntax error and YYERROR.  |
 `-------------------------------------------------------------*/
 yyerrlab1:
-  errstatus_ = 3;	/* Each real token shifted decrements this.  */
+  yyerrstatus_ = 3;	/* Each real token shifted decrements this.  */
 
   for (;;)
     {
-      n_ = pact_[state_];
-      if (n_ != pact_ninf_)
+      yyn_ = yypact_[yystate_];
+      if (yyn_ != yypact_ninf_)
 	{
-	  n_ += terror_;
-	  if (0 <= n_ && n_ <= last_ && check_[n_] == terror_)
+	  yyn_ += yyterror_;
+	  if (0 <= yyn_ && yyn_ <= yylast_ && yycheck_[yyn_] == yyterror_)
 	    {
-	      n_ = table_[n_];
-	      if (0 < n_)
+	      yyn_ = yytable_[yyn_];
+	      if (0 < yyn_)
 		break;
 	    }
 	}
 
       /* Pop the current state because it cannot handle the error token.  */
-      if (state_stack_.height () == 1)
+      if (yystate_stack_.height () == 1)
 	YYABORT;
 
-      error_range_[0] = location_stack_[0];
+      yyerror_range_[0] = yylocation_stack_[0];
       yydestruct_ ("Error: popping",
-                   stos_[state_], &semantic_stack_[0], &location_stack_[0]);
+                   yystos_[yystate_],
+                   &yysemantic_stack_[0], &yylocation_stack_[0]);
       yypop_ ();
-      state_ = state_stack_[0];
+      yystate_ = yystate_stack_[0];
       YY_STACK_PRINT ();
     }
 
-  if (n_ == final_)
+  if (yyn_ == yyfinal_)
     goto yyacceptlab;
 
-  error_range_[1] = location;
+  yyerror_range_[1] = location;
   // Using LOCATION is tempting, but would change the location of
   // the look-ahead.  YYLOC is available though.
-  YYLLOC_DEFAULT (yyloc, error_range_ - 1, 2);
-  semantic_stack_.push (value);
-  location_stack_.push (yyloc);
+  YYLLOC_DEFAULT (yyloc, yyerror_range_ - 1, 2);
+  yysemantic_stack_.push (value);
+  yylocation_stack_.push (yyloc);
 
   /* Shift the error token. */
-  YY_SYMBOL_PRINT ("Shifting", stos_[n_],
-		   &semantic_stack_[0], &location_stack_[0]);
+  YY_SYMBOL_PRINT ("Shifting", yystos_[yyn_],
+		   &yysemantic_stack_[0], &yylocation_stack_[0]);
 
-  state_ = n_;
+  yystate_ = yyn_;
   goto yynewstate;
 
   /* Accept.  */
@@ -765,8 +776,8 @@ yyacceptlab:
   /* Abort.  */
 yyabortlab:
   /* Free the lookahead. */
-  yydestruct_ ("Error: discarding lookahead", ilooka_, &value, &location);
-  looka_ = empty_;
+  yydestruct_ ("Error: discarding lookahead", yyilooka_, &value, &location);
+  yylooka_ = yyempty_;
   return 1;
 }
 
@@ -775,9 +786,9 @@ yy::]b4_parser_class_name[::yylex_ ()
 {
   YYCDEBUG << "Reading a token: ";
 #if YYLSP_NEEDED
-  looka_ = ]m4_default(b4_prefix, [yy])[lex (&value, &location);
+  yylooka_ = ]m4_default(b4_prefix, [yy])[lex (&value, &location);
 #else
-  looka_ = ]m4_default(b4_prefix, [yy])[lex (&value);
+  yylooka_ = ]m4_default(b4_prefix, [yy])[lex (&value);
 #endif
 }
 
@@ -786,29 +797,29 @@ void
 yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
 {
   /* If not already recovering from an error, report this error.  */
-  if (!errstatus_)
+  if (!yyerrstatus_)
     {
-      ++nerrs_;
+      ++yynerrs_;
 
 #if YYERROR_VERBOSE
-      n_ = pact_[state_];
-      if (pact_ninf_ < n_ && n_ < last_)
+      yyn_ = yypact_[yystate_];
+      if (yypact_ninf_ < yyn_ && yyn_ < yylast_)
 	{
 	  message = "syntax error, unexpected ";
-	  message += name_[ilooka_];
+	  message += yyname_[yyilooka_];
 	  {
 	    int count = 0;
-	    for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
-	      if (check_[x + n_] == x && x != terror_)
+	    for (int x = (yyn_ < 0 ? -yyn_ : 0); x < yyntokens_ + yynnts_; ++x)
+	      if (yycheck_[x + yyn_] == x && x != yyterror_)
 		++count;
 	    if (count < 5)
 	      {
 		count = 0;
-		for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
-		  if (check_[x + n_] == x && x != terror_)
+		for (int x = (yyn_ < 0 ? -yyn_ : 0); x < yyntokens_ + yynnts_; ++x)
+		  if (yycheck_[x + yyn_] == x && x != yyterror_)
 		    {
 		      message += (!count++) ? ", expecting " : " or ";
-		      message += name_[x];
+		      message += yyname_[x];
 		    }
 	      }
 	  }
@@ -823,9 +834,9 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-const ]b4_int_type(b4_pact_ninf, b4_pact_ninf) yy::b4_parser_class_name::pact_ninf_ = b4_pact_ninf[;
+const ]b4_int_type(b4_pact_ninf, b4_pact_ninf) yy::b4_parser_class_name::yypact_ninf_ = b4_pact_ninf[;
 const ]b4_int_type_for([b4_pact])[
-yy::]b4_parser_class_name[::pact_[] =
+yy::]b4_parser_class_name[::yypact_[] =
 {
   ]b4_pact[
 };
@@ -834,21 +845,21 @@ yy::]b4_parser_class_name[::pact_[] =
    doesn't specify something else to do.  Zero means the default is an
    error.  */
 const ]b4_int_type_for([b4_defact])[
-yy::]b4_parser_class_name[::defact_[] =
+yy::]b4_parser_class_name[::yydefact_[] =
 {
   ]b4_defact[
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 const ]b4_int_type_for([b4_pgoto])[
-yy::]b4_parser_class_name[::pgoto_[] =
+yy::]b4_parser_class_name[::yypgoto_[] =
 {
   ]b4_pgoto[
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 const ]b4_int_type_for([b4_defgoto])[
-yy::]b4_parser_class_name[::defgoto_[] =
+yy::]b4_parser_class_name[::yydefgoto_[] =
 {
   ]b4_defgoto[
 };
@@ -856,16 +867,16 @@ yy::]b4_parser_class_name[::defgoto_[] =
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-const ]b4_int_type(b4_table_ninf, b4_table_ninf) yy::b4_parser_class_name::table_ninf_ = b4_table_ninf[;
+const ]b4_int_type(b4_table_ninf, b4_table_ninf) yy::b4_parser_class_name::yytable_ninf_ = b4_table_ninf[;
 const ]b4_int_type_for([b4_table])[
-yy::]b4_parser_class_name[::table_[] =
+yy::]b4_parser_class_name[::yytable_[] =
 {
   ]b4_table[
 };
 
 /* YYCHECK.  */
 const ]b4_int_type_for([b4_check])[
-yy::]b4_parser_class_name[::check_[] =
+yy::]b4_parser_class_name[::yycheck_[] =
 {
   ]b4_check[
 };
@@ -873,16 +884,16 @@ yy::]b4_parser_class_name[::check_[] =
 /* STOS_[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 const ]b4_int_type_for([b4_stos])[
-yy::]b4_parser_class_name[::stos_[] =
+yy::]b4_parser_class_name[::yystos_[] =
 {
   ]b4_stos[
 };
 
 #if YYDEBUG
-/* TOKEN_NUMBER_[YYLEX-NUM] -- Internal token number corresponding
+/* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
    to YYLEX-NUM.  */
 const ]b4_int_type_for([b4_toknum])[
-yy::]b4_parser_class_name[::token_number_[] =
+yy::]b4_parser_class_name[::yytoken_number_[] =
 {
   ]b4_toknum[
 };
@@ -890,23 +901,23 @@ yy::]b4_parser_class_name[::token_number_[] =
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 const ]b4_int_type_for([b4_r1])[
-yy::]b4_parser_class_name[::r1_[] =
+yy::]b4_parser_class_name[::yyr1_[] =
 {
   ]b4_r1[
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 const ]b4_int_type_for([b4_r2])[
-yy::]b4_parser_class_name[::r2_[] =
+yy::]b4_parser_class_name[::yyr2_[] =
 {
   ]b4_r2[
 };
 
 #if YYDEBUG || YYERROR_VERBOSE
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-   First, the terminals, then, starting at NTOKENS_, nonterminals. */
+   First, the terminals, then, starting at \a yyntokens_, nonterminals. */
 const char*
-const yy::]b4_parser_class_name[::name_[] =
+const yy::]b4_parser_class_name[::yyname_[] =
 {
   ]b4_tname[
 };
@@ -915,7 +926,7 @@ const yy::]b4_parser_class_name[::name_[] =
 #if YYDEBUG
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
 const yy::]b4_parser_class_name[::RhsNumberType
-yy::]b4_parser_class_name[::rhs_[] =
+yy::]b4_parser_class_name[::yyrhs_[] =
 {
   ]b4_rhs[
 };
@@ -923,41 +934,41 @@ yy::]b4_parser_class_name[::rhs_[] =
 /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
 const ]b4_int_type_for([b4_prhs])[
-yy::]b4_parser_class_name[::prhs_[] =
+yy::]b4_parser_class_name[::yyprhs_[] =
 {
   ]b4_prhs[
 };
 
-/* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
+/* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 const ]b4_int_type_for([b4_rline])[
-yy::]b4_parser_class_name[::rline_[] =
+yy::]b4_parser_class_name[::yyrline_[] =
 {
   ]b4_rline[
 };
 
-/// Print the state stack on the debug stream.
+// Print the state stack on the debug stream.
 void
 yy::]b4_parser_class_name[::yystack_print_ ()
 {
   *yycdebug_ << "Stack now";
-  for (StateStack::const_iterator i = state_stack_.begin ();
-       i != state_stack_.end (); ++i)
+  for (StateStack::const_iterator i = yystate_stack_.begin ();
+       i != yystate_stack_.end (); ++i)
     *yycdebug_ << ' ' << *i;
   *yycdebug_ << std::endl;
 }
 
-/// Report on the debug stream that the rule \a yyrule is going to be reduced.
+// Report on the debug stream that the rule \a yyrule is going to be reduced.
 void
 yy::]b4_parser_class_name[::yyreduce_print_ (int yyrule)
 {
-  unsigned int yylno = rline_[yyrule];
+  unsigned int yylno = yyrline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
-    *yycdebug_ << "Reducing stack by rule " << n_ - 1
+    *yycdebug_ << "Reducing stack by rule " << yyn_ - 1
                << " (line " << yylno << "), ";
-  for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
-       0 <= rhs_[i]; ++i)
-    *yycdebug_ << name_[rhs_[i]] << ' ';
-  *yycdebug_ << "-> " << name_[r1_[n_]] << std::endl;
+  for (]b4_int_type_for([b4_prhs])[ i = yyprhs_[yyn_];
+       0 <= yyrhs_[i]; ++i)
+    *yycdebug_ << yyname_[yyrhs_[i]] << ' ';
+  *yycdebug_ << "-> " << yyname_[yyr1_[yyn_]] << std::endl;
 }
 #endif // YYDEBUG
 
@@ -971,23 +982,23 @@ yy::]b4_parser_class_name[::yytranslate_ (int token)
   {
     ]b4_translate[
   };
-  if ((unsigned int) token <= user_token_number_max_)
+  if ((unsigned int) token <= yyuser_token_number_max_)
     return translate_table[token];
   else
-    return undef_token_;
+    return yyundef_token_;
 }
 
-const int yy::]b4_parser_class_name[::eof_ = 0;
-const int yy::]b4_parser_class_name[::last_ = ]b4_last[;
-const int yy::]b4_parser_class_name[::nnts_ = ]b4_nterms_number[;
-const int yy::]b4_parser_class_name[::empty_ = -2;
-const int yy::]b4_parser_class_name[::final_ = ]b4_final_state_number[;
-const int yy::]b4_parser_class_name[::terror_ = 1;
-const int yy::]b4_parser_class_name[::errcode_ = 256;
-const int yy::]b4_parser_class_name[::ntokens_ = ]b4_tokens_number[;
+const int yy::]b4_parser_class_name[::yyeof_ = 0;
+const int yy::]b4_parser_class_name[::yylast_ = ]b4_last[;
+const int yy::]b4_parser_class_name[::yynnts_ = ]b4_nterms_number[;
+const int yy::]b4_parser_class_name[::yyempty_ = -2;
+const int yy::]b4_parser_class_name[::yyfinal_ = ]b4_final_state_number[;
+const int yy::]b4_parser_class_name[::yyterror_ = 1;
+const int yy::]b4_parser_class_name[::yyerrcode_ = 256;
+const int yy::]b4_parser_class_name[::yyntokens_ = ]b4_tokens_number[;
 
-const unsigned int yy::]b4_parser_class_name[::user_token_number_max_ = ]b4_user_token_number_max[;
-const yy::]b4_parser_class_name[::TokenNumberType yy::]b4_parser_class_name[::undef_token_ = ]b4_undef_token_number[;
+const unsigned int yy::]b4_parser_class_name[::yyuser_token_number_max_ = ]b4_user_token_number_max[;
+const yy::]b4_parser_class_name[::TokenNumberType yy::]b4_parser_class_name[::yyundef_token_ = ]b4_undef_token_number[;
 
 ]b4_epilogue
 dnl

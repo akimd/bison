@@ -1,3 +1,25 @@
+2004-12-16  Akim Demaille  <akim@epita.fr>
+
+	Move lalr1.cc internals into yy*.
+
+	* data/lalr1.cc (semantic_stack_, location_stack_, state_stack_)
+	(semantic_stack_, location_stack_, pact_, pact_ninf_, defact_)
+	(pgoto_, defgoto_, table_, table_ninf_, check_, stos_, r1_, r2_)
+	(name_, rhs_, prhs_, rline_, token_number_, eof_, last_, nnts_)
+	(empty_, final_, terror_, errcode_, ntokens_)
+	(user_token_number_max_, undef_token_, n_, len_, state_, nerrs_)
+	(looka_, ilooka_, error_range_, nerrs_):
+	Rename as...
+	(yysemantic_stack_, yylocation_stack_, yystate_stack_)
+	(yysemantic_stack_, yylocation_stack_, yypact_, yypact_ninf_)
+	(yydefact_, yypgoto_, yydefgoto_, yytable_, yytable_ninf_)
+	(yycheck_, yystos_, yyr1_, yyr2_, yyname_, yyrhs_, yyprhs_)
+	(yyrline_, yytoken_number_, yyeof_, yylast_, yynnts_, yyempty_)
+	(yyfinal_, yyterror_, yyerrcode_, yyntokens_)
+	(yyuser_token_number_max_, yyundef_token_, yyn_, yylen_, yystate_)
+	(yynerrs_, yylooka_, yyilooka_, yyerror_range_, yynerrs_):
+	these.
+
 2004-12-15  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix some problems reported by twlevo at xs4all.
