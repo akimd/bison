@@ -1208,7 +1208,7 @@ EXPRESSION_SIMP :	EXPRESSION_SIMP
                                         case HLE: mout(MLE);break;
                                         case HGT: mout(MGT);break;
                                         case HGE: mout(MGE);break;
-                                    }; $$=NULL;}
+                                    }$$=NULL;}
                 |       EXPRESSION_SIMP
                         HREFRELOPERATOR
                         EXPRESSION_SIMP

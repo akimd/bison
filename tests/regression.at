@@ -18,6 +18,29 @@
 
 AT_BANNER([[Regression tests.]])
 
+
+## ---------------- ##
+## Braces parsing.  ##
+## ---------------- ##
+
+
+AT_SETUP([braces parsing])
+
+AT_DATA([input.y],
+[[/* Bison used to swallow the character after `}'. */
+
+%%
+exp: { tests = {{{{{{{{{{}}}}}}}}}}; }
+%%
+]])
+
+AT_CHECK([bison -v input.y -o input.c], 0, ignore, ignore)
+
+AT_CHECK([fgrep 'tests = {{{{{{{{{{}}}}}}}}}};' input.c], 0, [ignore])
+
+AT_CLEANUP
+
+
 ## ------------------ ##
 ## Duplicate string.  ##
 ## ------------------ ##
