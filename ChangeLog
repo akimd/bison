@@ -1,5 +1,9 @@
 2001-09-18  Marc Autret  <autret_m@epita.fr>
 
+	* tests/output.at: Add tests for --defines and --graph.
+
+2001-09-18  Marc Autret  <autret_m@epita.fr>
+
 	* tests/output.at: Removes tests of %{header,src}_extension features.
 
 2001-09-18  Akim Demaille  <akim@epita.fr>

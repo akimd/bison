@@ -60,3 +60,11 @@ AT_CHECK_OUTPUT([foo.yy], [%defines %verbose], [],
 
 AT_CHECK_OUTPUT([foo.yy], [%defines %verbose ], [-o foo.c],
                 [foo.c foo.h foo.output])
+
+AT_CHECK_OUTPUT([foo.yy], [],
+                [--defines=foo.hpp -o foo.c++],
+                [foo.c++ foo.hpp])
+
+AT_CHECK_OUTPUT([foo.yy], [],
+                [-o foo.c++ --graph=foo.gph],
+                [foo.c++ foo.gph])
