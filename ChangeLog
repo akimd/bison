@@ -1,5 +1,10 @@
 2000-11-03  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (skeleton_find): New function, eved out of...
+	(open_files, open_extra_files): here.
+
+2000-11-03  Akim Demaille  <akim@epita.fr>
+
 	Don't use `atexit'.
 
 	* src/files.c (obstack_save): New function.
