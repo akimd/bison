@@ -1,3 +1,7 @@
+2001-08-13  Pascal Bart  <pascal.bart@epita.fr>
+
+	* tests/atconfig.in (CPPFLAGS): Fix.
+
 2001-08-10  Pascal Bart  <pascal.bart@epita.fr>
 
 	* doc/bison.texinfo: Include GNU General Public License from

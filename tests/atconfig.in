@@ -85,7 +85,9 @@ M4='@M4@'
 # We need a C compiler.
 CC='@CC@'
 CFLAGS='@CFLAGS@'
-CPPFLAGS='-I@top_srcdir@ @CPPFLAGS@'
+
+# We need `config.h'.
+CPPFLAGS="-I$at_top_builddir @CPPFLAGS@"
 
 # We want to use the files shipped with Bison.
 BISON_SIMPLE=$at_top_srcdir/src/bison.simple
