@@ -5,16 +5,7 @@ Complete parse_skel_decl () with parse_dquoted_param ().	[]
 Check and cleanup for CPP-out code.	[]
 
 * src/output.c
-Synchronize `#line' directive with user file.	[]
--------------------------------------------------------------------
-In the bison source:
-%define linef "#line %d %s"
-
-In output.c:
-if (macro_find ("linef"))
-    obstack_fgrow2 (&table_obstack, macro_find ("linef"),
-    line, filename);
--------------------------------------------------------------------
+Synchronize `#line' directive with user file.	[ok]
 
 Cleanup dirty CPP-out code.	[]
 ** Output sub-skeleton files.	[]
