@@ -49,11 +49,12 @@ do {						\
 } while (0)
 
 
-/* Output LOC on the stream OUT. */
+/* Output LOC on the stream OUT.
+   Warning: it uses quotearg's slot 3.  */
 # define LOCATION_PRINT(Out, Loc)					\
 do {									\
-  fprintf (stderr, "%s:", quotearg_style (escape_quoting_style, 	\
-					  (Loc).file));			\
+  fprintf (stderr, "%s:", quotearg_n_style (3, escape_quoting_style, 	\
+					    (Loc).file));		\
   if ((Loc).first_line != (Loc).last_line)				\
     fprintf (Out, "%d.%d-%d.%d",					\
              (Loc).first_line, (Loc).first_column,			\

@@ -1,3 +1,13 @@
+2002-11-04  Akim Demaille  <akim@epita.fr>
+
+	* src/location.h (LOCATION_PRINT): Use quotearg slot 3 to avoid
+	clashes.
+	* src/scan-gram.l: Use [\'] instead of ['] to pacify
+	font-lock-mode.
+	Use complain_at.
+	Use quote, not quote_n since LOCATION_PRINT no longer uses the
+	slot 0.
+
 2002-11-03  Paul Eggert  <eggert@twinsun.com>
 
 	* src/reader.c (get_merge_function, grammar_current_rule_check):

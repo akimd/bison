@@ -267,7 +267,7 @@ splice	 (\\[ \f\t\v]*\n)*
     num = strtoul (yytext, 0, 10);
     if (INT_MAX < num || errno)
       {
-	complain_at (*yylloc, _("%s is invalid"), yytext);
+	complain_at (*yylloc, _("invalid value: %s"), quote (yytext));
 	num = INT_MAX;
       }
     yylval->integer = num;
@@ -306,8 +306,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   .           {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": invalid character: `%c'\n"), *yytext);
+    complain_at (*yylloc, _("invalid character: %s"), quote (yytext));
     YY_STEP;
   }
 }
@@ -340,8 +339,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^*]+|"*"  ;
 
   <<EOF>> {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unexpected end of file in a comment\n"));
+    complain_at (*yylloc, _("unexpected end of file in a comment"));
     BEGIN INITIAL;
   }
 }
@@ -357,8 +355,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^*\[\]]+|"*"   YY_OBS_GROW;
 
   <<EOF>> {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unexpected end of file in a comment\n"));
+    complain_at (*yylloc, _("unexpected end of file in a comment"));
     yy_pop_state ();
   }
 }
@@ -396,8 +393,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^\"\\]+  YY_OBS_GROW;
 
   <<EOF>> {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unexpected end of file in a string\n"));
+    complain_at (*yylloc, _("unexpected end of file in a string"));
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -429,11 +425,10 @@ splice	 (\\[ \f\t\v]*\n)*
     }
   }
 
-  [^'\\]+  YY_OBS_GROW;
+  [^\'\\]+  YY_OBS_GROW;
 
   <<EOF>> {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unexpected end of file in a character\n"));
+    complain_at (*yylloc, _("unexpected end of file in a character"));
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -453,8 +448,7 @@ splice	 (\\[ \f\t\v]*\n)*
     unsigned long c = strtoul (yytext + 1, 0, 8);
     if (UCHAR_MAX < c)
       {
-	LOCATION_PRINT (stderr, *yylloc);
-	fprintf (stderr, _(": invalid escape: %s\n"), quote (yytext));
+	complain_at (*yylloc, _("invalid escape: %s"), quote (yytext));
 	YY_STEP;
       }
     else
@@ -467,8 +461,7 @@ splice	 (\\[ \f\t\v]*\n)*
     c = strtoul (yytext + 2, 0, 16);
     if (UCHAR_MAX < c || errno)
       {
-	LOCATION_PRINT (stderr, *yylloc);
-	fprintf (stderr, _(": invalid escape: %s\n"), quote (yytext));
+	complain_at (*yylloc, _("invalid escape: %s"), quote (yytext));
 	YY_STEP;
       }
     else
@@ -482,21 +475,19 @@ splice	 (\\[ \f\t\v]*\n)*
   \\r	obstack_1grow (&string_obstack, '\r');
   \\t	obstack_1grow (&string_obstack, '\t');
   \\v	obstack_1grow (&string_obstack, '\v');
-  \\[\"'?\\]  obstack_1grow (&string_obstack, yytext[1]);
+  \\[\"\'?\\]  obstack_1grow (&string_obstack, yytext[1]);
   \\(u|U[0-9a-fA-F]{4})[0-9a-fA-F]{4} {
     int c = convert_ucn_to_byte (yytext);
     if (c < 0)
       {
-	LOCATION_PRINT (stderr, *yylloc);
-	fprintf (stderr, _(": invalid escape: %s\n"), quote (yytext));
+	complain_at (*yylloc, _("invalid escape: %s"), quote (yytext));
 	YY_STEP;
       }
     else
       obstack_1grow (&string_obstack, c);
   }
   \\(.|\n)	{
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unrecognized escape: %s\n"), quote (yytext));
+    complain_at (*yylloc, _("unrecognized escape: %s"), quote (yytext));
     YY_OBS_GROW;
   }
   /* FLex wants this rule, in case of a `\<<EOF>>'. */
@@ -524,8 +515,7 @@ splice	 (\\[ \f\t\v]*\n)*
   \\                   YY_OBS_GROW;
 
   <<EOF>> {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unexpected end of file in a character\n"));
+    complain_at (*yylloc, _("unexpected end of file in a character"));
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
   }
@@ -552,8 +542,7 @@ splice	 (\\[ \f\t\v]*\n)*
   \\                   YY_OBS_GROW;
 
   <<EOF>> {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unexpected end of file in a string\n"));
+    complain_at (*yylloc, _("unexpected end of file in a string"));
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
   }
@@ -607,14 +596,13 @@ splice	 (\\[ \f\t\v]*\n)*
   "@"(-?[0-9]+|"$")               { handle_at (current_braced_code,
 					       yytext, *yylloc); }
 
-  [^$@\[\]/'\"\{\}]+	YY_OBS_GROW;
+  [^$@\[\]/\'\"\{\}]+	YY_OBS_GROW;
 
   /* A stray $, or /, or etc. */
   .             YY_OBS_GROW;
 
   <<EOF>> {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unexpected end of file in a braced code\n"));
+    complain_at (*yylloc, _("unexpected end of file in a braced code"));
     yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -637,12 +625,11 @@ splice	 (\\[ \f\t\v]*\n)*
     return PROLOGUE;
   }
 
-  [^%\[\]/'\"]+      YY_OBS_GROW;
+  [^%\[\]/\'\"]+     YY_OBS_GROW;
   "%"                YY_OBS_GROW;
 
   <<EOF>> {
-    LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, _(": unexpected end of file in a prologue\n"));
+    complain_at (*yylloc, _("unexpected end of file in a prologue"));
     yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -729,7 +716,7 @@ handle_action_dollar (char *text, location_t location)
 			  rule_length, n, type_name);
 	}
       else
-	complain_at (location, _("invalid value: %s"), text);
+	complain_at (location, _("invalid value: %s"), quote (text));
     }
 }
 
@@ -746,7 +733,7 @@ handle_symbol_code_dollar (char *text, location_t location)
   if (*cp == '$')
     obstack_sgrow (&string_obstack, "]b4_dollar_dollar[");
   else
-    complain_at (location, _("%s is invalid"), quote_n (1, text));
+    complain_at (location, _("invalid value: %s"), quote (text));
 }
 
 
@@ -801,7 +788,7 @@ handle_action_at (char *text, location_t location)
 			  rule_length, n);
 	}
       else
-	complain_at (location, _("invalid value: %s"), text);
+	complain_at (location, _("invalid value: %s"), quote (text));
     }
 }
 
@@ -818,7 +805,7 @@ handle_symbol_code_at (char *text, location_t location)
   if (*cp == '$')
     obstack_sgrow (&string_obstack, "]b4_at_dollar[");
   else
-    complain_at (location, _("%s is invalid"), quote_n (1, text));
+    complain_at (location, _("invalid value: %s"), quote (text));
 }
 
 
@@ -896,7 +883,7 @@ convert_ucn_to_byte (char const *ucn)
     code = code < sizeof table ? table[code] : -1;
   }
 #endif
-      
+
   return code;
 }
 
