@@ -1,3 +1,10 @@
+2001-11-14  Akim Demaille  <akim@epita.fr>
+
+	* src/system.h (EXIT_SUCCESS, EXIT_FAILURE): Ensure a proper
+	definition.
+	* src/main.c (main): Use them.
+	Suggested by Hans Aberg.
+
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
 	Version 1.30b.

@@ -40,6 +40,18 @@
 # include <stdlib.h>
 #endif
 
+/* The following test is to work around the gross typo in
+   systems like Sony NEWS-OS Release 4.0C, whereby EXIT_FAILURE
+   is defined to 0, not 1.  */
+#if !EXIT_FAILURE
+# undef EXIT_FAILURE
+# define EXIT_FAILURE 1
+#endif
+
+#ifndef EXIT_SUCCESS
+# define EXIT_SUCCESS 0
+#endif
+
 #if HAVE_UNISTD_H
 # include <unistd.h>
 #endif
