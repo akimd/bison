@@ -1,5 +1,11 @@
 2002-06-28  Akim Demaille  <akim@epita.fr>
 
+	* data/c.m4 (b4_copyright, b4_sint_type, b4_uint_type, b4_token_define)
+	(b4_token_enum, b4_token_defines): New, factored from...
+	* data/lalr1.cc, data/yacc.c, glr.c: here.
+
+2002-06-28  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.c (yydestruct, yysymprint): Pacify GCC warnings for
 	unused variables.
 	* src/output.c (merger_output): static.
