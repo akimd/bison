@@ -1,3 +1,9 @@
+2001-08-06  Marc Autret   <autret_@epita.fr>
+
+	* src/print_graph.c, src/print_graph.h (graph): New.
+	* src/vcg.h: New file.
+	* src/vcg.c: New file, VCG graph handling.
+
 2001-08-06  Marc Autret  <autret_m@epita.fr>
 
 	Add of %source_extension and %header_extension which specify
