@@ -20,7 +20,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "för många tillstånd (max %d)"
 
-#: src/complain.c:99 lib/error.c:128 lib/error.c:156
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr "Okänt systemfel"
 

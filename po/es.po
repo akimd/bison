@@ -43,7 +43,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr ""
 
-#: src/complain.c:99 lib/error.c:128 lib/error.c:156
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr ""
 

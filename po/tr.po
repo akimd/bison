@@ -19,7 +19,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "çok fazla durum (en fazla %d)"
 
-#: src/complain.c:99 lib/error.c:128 lib/error.c:156
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr "Bilinmeyen sistem hatasý"
 
