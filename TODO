@@ -118,16 +118,6 @@ Paul suggests:
    #define BAR 257
    ...
 
-> I'm in favor of
->
-> %token FOO 256
-> %token BAR 257
->
-> and Bison moves error into 258.
-
-Yes, I think that's a valid extension too, if the user doesn't define
-the token number for error.
-
 * Output directory
 Akim:
 
