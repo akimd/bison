@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.49a\n"
-"POT-Creation-Date: 2002-08-11 00:16-0700\n"
+"POT-Creation-Date: 2002-09-04 11:54+0200\n"
 "PO-Revision-Date: 2002-05-02 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -37,66 +37,6 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: src/LR0.c:63
-#, c-format
-msgid "state_list_append (state = %d, symbol = %d (%s))\n"
-msgstr ""
-
-#: src/LR0.c:181
-#, c-format
-msgid "Entering new_itemsets, state = %d\n"
-msgstr ""
-
-#: src/LR0.c:219
-#, c-format
-msgid "Entering get_state, symbol = %d (%s)\n"
-msgstr ""
-
-#: src/LR0.c:227
-#, fuzzy, c-format
-msgid "Exiting get_state => %d\n"
-msgstr "    %-4s\tir al estado %d\n"
-
-#: src/LR0.c:247
-#, c-format
-msgid "Entering append_states, state = %d\n"
-msgstr ""
-
-#: src/LR0.c:355
-#, c-format
-msgid "Processing state %d (reached by %s)\n"
-msgstr ""
-
-#: src/assoc.c:31
-msgid "undefined associativity"
-msgstr ""
-
-#: src/closure.c:56
-#, c-format
-msgid "Closure: %s\n"
-msgstr ""
-
-#: src/closure.c:63
-#, fuzzy, c-format
-msgid "  (rule %d)\n"
-msgstr "   (regla %d)"
-
-#: src/closure.c:136
-msgid "RTC: Firsts Input"
-msgstr ""
-
-#: src/closure.c:139
-msgid "RTC: Firsts Output"
-msgstr ""
-
-#: src/closure.c:203
-msgid "input"
-msgstr ""
-
-#: src/closure.c:234
-msgid "output"
-msgstr ""
 
 #: src/complain.c:89 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
@@ -352,35 +292,6 @@ msgstr "vacío"
 msgid "Grammar"
 msgstr "Gramática"
 
-#: src/gram.c:250
-msgid ""
-"Variables\n"
-"---------\n"
-"\n"
-msgstr ""
-
-#: src/gram.c:253
-msgid "Value  Sprec  Sassoc  Tag\n"
-msgstr ""
-
-#: src/gram.c:263
-msgid ""
-"Rules\n"
-"-----\n"
-"\n"
-msgstr ""
-
-#: src/gram.c:266
-msgid "Num (Prec, Assoc, Useful, Ritem Range) Lhs -> Rhs (Ritem range) [Num]\n"
-msgstr ""
-
-#: src/gram.c:292
-msgid ""
-"Rules interpreted\n"
-"-----------------\n"
-"\n"
-msgstr ""
-
 #: src/gram.c:321 src/reduce.c:302 src/reduce.c:392
 #, fuzzy
 msgid "warning"
@@ -390,24 +301,6 @@ msgstr "aviso: "
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "demasiados gotos (máximo %d)"
-
-#: src/lalr.c:406
-msgid "Lookaheads: BEGIN\n"
-msgstr ""
-
-#: src/lalr.c:418
-#, c-format
-msgid "State %d: %d lookaheads\n"
-msgstr ""
-
-#: src/lalr.c:425
-#, c-format
-msgid "   on %d (%s) -> rule %d\n"
-msgstr ""
-
-#: src/lalr.c:430
-msgid "Lookaheads: END\n"
-msgstr ""
 
 #: src/main.c:117
 msgid "rule never reduced because of conflicts"
@@ -593,14 +486,6 @@ msgstr[1] "%d reglas sin uso"
 msgid "start symbol %s does not derive any sentence"
 msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
 
-#: src/relation.c:137
-msgid "relation_transpose: input\n"
-msgstr ""
-
-#: src/relation.c:176
-msgid "relation_transpose: output\n"
-msgstr ""
-
 #: src/scan-gram.l:202
 #, c-format
 msgid ": invalid character: `%c'\n"
@@ -739,16 +624,6 @@ msgstr "el símbolo de inicio (axioma) %s no está definido"
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "el símbolo de inicio (axioma) %s es un terminal"
-
-#: src/tables.c:210
-#, c-format
-msgid "growing table and check from: %lu to %lu\n"
-msgstr ""
-
-#: src/tables.c:757
-#, c-format
-msgid "base_t too small to hold %d\n"
-msgstr ""
 
 #: lib/argmatch.c:161
 #, fuzzy, c-format
@@ -933,6 +808,14 @@ msgstr ""
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Exiting get_state => %d\n"
+#~ msgstr "    %-4s\tir al estado %d\n"
+
+#, fuzzy
+#~ msgid "  (rule %d)\n"
+#~ msgstr "   (regla %d)"
 
 #~ msgid "reduce"
 #~ msgstr "reduce"
