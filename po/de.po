@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-11-30 16:11+0100\n"
+"POT-Creation-Date: 2001-12-05 10:29+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -31,78 +31,78 @@ msgstr ""
 msgid "fatal error: "
 msgstr "fataler Fehler: %s\n"
 
-#: src/conflicts.c:45
+#: src/conflicts.c:44
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr "Konflikt in Zustand %d zwischen Regel %d and Token %s wurde %s.\n"
 
-#: src/conflicts.c:111 src/conflicts.c:134
+#: src/conflicts.c:94 src/conflicts.c:119
 msgid "reduce"
 msgstr "durch Reduzierung gelöst"
 
-#: src/conflicts.c:117 src/conflicts.c:130
+#: src/conflicts.c:101 src/conflicts.c:115
 msgid "shift"
 msgstr "durch Schieben gelöst"
 
-#: src/conflicts.c:138
+#: src/conflicts.c:123
 msgid "an error"
 msgstr "als Fehler betrachtet"
 
-#: src/conflicts.c:389
+#: src/conflicts.c:302
 #, fuzzy, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] " %d Schiebe/Reduziere Konflikte"
 
-#: src/conflicts.c:396
+#: src/conflicts.c:309
 #, fuzzy
 msgid "and"
 msgstr " und"
 
-#: src/conflicts.c:402
+#: src/conflicts.c:315
 #, fuzzy, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d Reduziere/Reduziere Konflikte"
 
-#: src/conflicts.c:427
+#: src/conflicts.c:340
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "Zustand %d enthält"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:474
+#: src/conflicts.c:387
 msgid "conflicts: "
 msgstr "Konflikte: "
 
-#: src/conflicts.c:476
+#: src/conflicts.c:389
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d Schiebe/Reduziere"
 
-#: src/conflicts.c:480
+#: src/conflicts.c:393
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d Reduziere/Reduziere"
 
-#: src/conflicts.c:485 src/reduce.c:498
+#: src/conflicts.c:398 src/reduce.c:508
 #, c-format
 msgid "%s contains "
 msgstr "%s enthält "
 
-#: src/conflicts.c:492
+#: src/conflicts.c:405
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d Schiebe/Reduziere Konflikte"
 
-#: src/conflicts.c:579 src/conflicts.c:700
+#: src/conflicts.c:457 src/conflicts.c:534
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduziere mit Regel %d (%s)]\n"
 
-#: src/conflicts.c:591 src/print.c:156
+#: src/conflicts.c:461 src/print.c:154
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,12 +111,12 @@ msgstr ""
 "    $default\treduziere mit Regel %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:680 src/conflicts.c:694
+#: src/conflicts.c:515 src/conflicts.c:528
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduziere mit Tegel %d (%s)\n"
 
-#: src/conflicts.c:720
+#: src/conflicts.c:544
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
@@ -220,7 +220,7 @@ msgstr "%s: keine Grammatik-Datei angegeben\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: zusätzliche Argumente nach »%s« werden ignoriert\n"
 
-#: src/lalr.c:293
+#: src/lalr.c:255
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr ""
@@ -280,55 +280,50 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: die Option »%s« erfordert ein Argument\n"
 
-#: src/main.c:133
-#, fuzzy, c-format
-msgid "%s: internal error: %s\n"
-msgstr "interner Fehler, %s\n"
-
-#: src/output.c:979
+#: src/output.c:949
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "maximale Tabellengröße (%s) überschritten"
 
-#: src/print.c:38
+#: src/print.c:39
 #, c-format
 msgid " type %d is %s\n"
 msgstr " Typ %d ist %s\n"
 
-#: src/print.c:78
+#: src/print.c:88
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (Regel %d)"
 
-#: src/print.c:98
+#: src/print.c:108
 msgid "    $default\taccept\n"
 msgstr "    $default\takzeptiere\n"
 
-#: src/print.c:100
+#: src/print.c:110
 msgid "    NO ACTIONS\n"
 msgstr "    KEINE AKTIONEN\n"
 
-#: src/print.c:120
+#: src/print.c:124
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \tgehe zu Zustand %d über\n"
 
-#: src/print.c:123
+#: src/print.c:127
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tSchiebe und gehe zu Zustand %d über\n"
 
-#: src/print.c:144
+#: src/print.c:142
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tFehler (nicht assoziativ)\n"
 
-#: src/print.c:173
+#: src/print.c:169
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tgehe zu Zustand %d über\n"
 
-#: src/print.c:184
+#: src/print.c:180
 #, fuzzy, c-format
 msgid "state %d"
 msgstr ""
@@ -338,28 +333,28 @@ msgstr ""
 "\n"
 
 #. rule # : LHS -> RHS
-#: src/print.c:215
+#: src/print.c:211
 #, fuzzy
 msgid "Grammar"
 msgstr ""
 "\n"
 "Grammatik\n"
 
-#: src/print.c:216
+#: src/print.c:212
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:221
+#: src/print.c:217
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "Regel %-4d %s ->"
 
-#: src/print.c:228
+#: src/print.c:224
 msgid "empty"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:235
+#: src/print.c:231
 #, fuzzy
 msgid "Terminals, with rules where they appear"
 msgstr ""
@@ -367,7 +362,7 @@ msgstr ""
 "Terminale und die Regeln un denen sie verwendet werden\n"
 "\n"
 
-#: src/print.c:260
+#: src/print.c:256
 #, fuzzy
 msgid "Nonterminals, with rules where they appear"
 msgstr ""
@@ -375,11 +370,11 @@ msgstr ""
 "Nicht-Terminal und die Regeln in denen sie verwendet werden\n"
 "\n"
 
-#: src/print.c:286
+#: src/print.c:282
 msgid " on left:"
 msgstr " auf der linken Seite:"
 
-#: src/print.c:301
+#: src/print.c:297
 msgid " on right:"
 msgstr " auf der rechten Seite:"
 
@@ -388,7 +383,7 @@ msgstr " auf der rechten Seite:"
 #. if (obstack_object_size (node_obstack) > node_output_size)
 #. obstack_sgrow (node_obstack, "\n");
 #.
-#: src/print_graph.c:165
+#: src/print_graph.c:146
 #, fuzzy, c-format
 msgid "%-4s\terror (nonassociative)"
 msgstr "    %-4s\tFehler (nicht assoziativ)\n"
@@ -397,7 +392,7 @@ msgstr "    %-4s\tFehler (nicht assoziativ)\n"
 #. if (obstack_object_size (node_obstack) > node_output_size)
 #. obstack_sgrow (node_obstack, "\n");
 #.
-#: src/print_graph.c:180
+#: src/print_graph.c:161
 #, fuzzy, c-format
 msgid "$default\treduce using rule %d (%s)"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
@@ -629,14 +624,14 @@ msgstr "das Startsymbol %s ist undefiniert"
 msgid "the start symbol %s is a token"
 msgstr "das Startsymbol %s ist ein Token"
 
-#: src/reduce.c:403
+#: src/reduce.c:409
 #, fuzzy
 msgid "Useless nonterminals:"
 msgstr ""
 "Nutzlose Nicht-Terminale:\n"
 "\n"
 
-#: src/reduce.c:416
+#: src/reduce.c:422
 #, fuzzy
 msgid "Terminals which are not used:"
 msgstr ""
@@ -645,7 +640,7 @@ msgstr ""
 "Nicht genutzte Terminale:\n"
 "\n"
 
-#: src/reduce.c:427
+#: src/reduce.c:433
 #, fuzzy
 msgid "Useless rules:"
 msgstr ""
@@ -654,29 +649,29 @@ msgstr ""
 "Ungenutzte Regeln:\n"
 "\n"
 
-#: src/reduce.c:493
+#: src/reduce.c:503
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d wurde niemals reduziert\n"
 
-#: src/reduce.c:501
+#: src/reduce.c:511
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d ungenutzte Nicht-Terminal"
 
-#: src/reduce.c:507
+#: src/reduce.c:517
 msgid " and "
 msgstr " und "
 
-#: src/reduce.c:510
+#: src/reduce.c:520
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d ungenutzte Regel"
 
-#: src/reduce.c:541
+#: src/reduce.c:551
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
@@ -768,6 +763,10 @@ msgstr ""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr ""
+
+#, fuzzy
+#~ msgid "%s: internal error: %s\n"
+#~ msgstr "interner Fehler, %s\n"
 
 #~ msgid ""
 #~ "Variables\n"

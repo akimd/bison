@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30\n"
-"POT-Creation-Date: 2001-11-30 16:11+0100\n"
+"POT-Creation-Date: 2001-12-05 10:29+0100\n"
 "PO-Revision-Date: 2001-11-02 14:49GMT\n"
 "Last-Translator: Altug Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -31,80 +31,80 @@ msgstr "uyarý: "
 msgid "fatal error: "
 msgstr "ölümcül hata:"
 
-#: src/conflicts.c:45
+#: src/conflicts.c:44
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "%d durumu içinde %d kuralý ve %s andaçý arasýndaki çeliþki %s "
 "olarakçözümlendi.\n"
 
-#: src/conflicts.c:111 src/conflicts.c:134
+#: src/conflicts.c:94 src/conflicts.c:119
 msgid "reduce"
 msgstr "indirgeme"
 
-#: src/conflicts.c:117 src/conflicts.c:130
+#: src/conflicts.c:101 src/conflicts.c:115
 msgid "shift"
 msgstr "öteleme"
 
-#: src/conflicts.c:138
+#: src/conflicts.c:123
 msgid "an error"
 msgstr "bir hata"
 
-#: src/conflicts.c:389
+#: src/conflicts.c:302
 #, fuzzy, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] " %d öteleme/indirgeme çeliþkisi"
 
-#: src/conflicts.c:396
+#: src/conflicts.c:309
 #, fuzzy
 msgid "and"
 msgstr " ve"
 
-#: src/conflicts.c:402
+#: src/conflicts.c:315
 #, fuzzy, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d indirgeme/indirgeme çeliþkisi"
 
-#: src/conflicts.c:427
+#: src/conflicts.c:340
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "%d durumu içerir"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:474
+#: src/conflicts.c:387
 msgid "conflicts: "
 msgstr "çeliþkiler: "
 
-#: src/conflicts.c:476
+#: src/conflicts.c:389
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d öteleme/indirgeme"
 
-#: src/conflicts.c:480
+#: src/conflicts.c:393
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d indirgeme/indirgeme"
 
-#: src/conflicts.c:485 src/reduce.c:498
+#: src/conflicts.c:398 src/reduce.c:508
 #, c-format
 msgid "%s contains "
 msgstr "%s içerir "
 
-#: src/conflicts.c:492
+#: src/conflicts.c:405
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d öteleme/indirgeme çeliþkisi"
 
-#: src/conflicts.c:579 src/conflicts.c:700
+#: src/conflicts.c:457 src/conflicts.c:534
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[indirgeme kural %d (%s)'i kullanýyor]\n"
 
-#: src/conflicts.c:591 src/print.c:156
+#: src/conflicts.c:461 src/print.c:154
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -113,12 +113,12 @@ msgstr ""
 "    $default\tindirgeme kural %d (%s)'i kullanýyor\n"
 "\n"
 
-#: src/conflicts.c:680 src/conflicts.c:694
+#: src/conflicts.c:515 src/conflicts.c:528
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tindirgeme kural %d (%s)'i kullanýyor\n"
 
-#: src/conflicts.c:720
+#: src/conflicts.c:544
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tindirgeme kural %d (%s)'i kullanýyor\n"
@@ -249,7 +249,7 @@ msgstr "%s: verilen gramer dosyasý yok\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: '%s' den sonraki ek baðýmsýz deðiþkenler yoksayýldý\n"
 
-#: src/lalr.c:293
+#: src/lalr.c:255
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "gotos çok fazla (en fazla %d)"
@@ -307,91 +307,86 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: `%s' seçeneði bir argümanla kullanýlýr\n"
 
-#: src/main.c:133
-#, c-format
-msgid "%s: internal error: %s\n"
-msgstr "%s: iç hata: %s\n"
-
-#: src/output.c:979
+#: src/output.c:949
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "en büyük tablo uzunluðu (%d) aþýldý"
 
-#: src/print.c:38
+#: src/print.c:39
 #, c-format
 msgid " type %d is %s\n"
 msgstr " tip %d %s'dir\n"
 
-#: src/print.c:78
+#: src/print.c:88
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (kural %d)"
 
-#: src/print.c:98
+#: src/print.c:108
 msgid "    $default\taccept\n"
 msgstr "    $default\tonayla\n"
 
-#: src/print.c:100
+#: src/print.c:110
 msgid "    NO ACTIONS\n"
 msgstr "    EYLEMLER YOK\n"
 
-#: src/print.c:120
+#: src/print.c:124
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \tdurum %d'ye git\n"
 
-#: src/print.c:123
+#: src/print.c:127
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tötele, ve durum %d'ye git\n"
 
-#: src/print.c:144
+#: src/print.c:142
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\thata (birleþmeli deðil)\n"
 
-#: src/print.c:173
+#: src/print.c:169
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tdurum %d'ye git\n"
 
-#: src/print.c:184
+#: src/print.c:180
 #, c-format
 msgid "state %d"
 msgstr "durum %d"
 
 #. rule # : LHS -> RHS
-#: src/print.c:215
+#: src/print.c:211
 msgid "Grammar"
 msgstr "Gramer"
 
-#: src/print.c:216
+#: src/print.c:212
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:221
+#: src/print.c:217
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "kural %-4d %s ->"
 
-#: src/print.c:228
+#: src/print.c:224
 msgid "empty"
 msgstr "boþ"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:235
+#: src/print.c:231
 msgid "Terminals, with rules where they appear"
 msgstr "Sabit simgeler, kurallarýnýn bulunduklarý yerde"
 
-#: src/print.c:260
+#: src/print.c:256
 msgid "Nonterminals, with rules where they appear"
 msgstr "Deðiþken simgeler, kurallarýnýn bulunduklarý yerde"
 
-#: src/print.c:286
+#: src/print.c:282
 msgid " on left:"
 msgstr " solda:"
 
-#: src/print.c:301
+#: src/print.c:297
 msgid " on right:"
 msgstr " saðda:"
 
@@ -400,7 +395,7 @@ msgstr " saðda:"
 #. if (obstack_object_size (node_obstack) > node_output_size)
 #. obstack_sgrow (node_obstack, "\n");
 #.
-#: src/print_graph.c:165
+#: src/print_graph.c:146
 #, c-format
 msgid "%-4s\terror (nonassociative)"
 msgstr "%-4s\thata (birleþmeli deðil)"
@@ -409,7 +404,7 @@ msgstr "%-4s\thata (birleþmeli deðil)"
 #. if (obstack_object_size (node_obstack) > node_output_size)
 #. obstack_sgrow (node_obstack, "\n");
 #.
-#: src/print_graph.c:180
+#: src/print_graph.c:161
 #, c-format
 msgid "$default\treduce using rule %d (%s)"
 msgstr "$default\tindirgeme kural %d (%s)'i kullanýyor"
@@ -639,41 +634,41 @@ msgstr "baþlangýç simgesi %s tanýmlanmadý"
 msgid "the start symbol %s is a token"
 msgstr "baþlangýç simgesi %s bir andaçtýr"
 
-#: src/reduce.c:403
+#: src/reduce.c:409
 msgid "Useless nonterminals:"
 msgstr "Yararsýz kurallar:"
 
-#: src/reduce.c:416
+#: src/reduce.c:422
 msgid "Terminals which are not used:"
 msgstr "Kullanýlmayan sabit simgeler:"
 
-#: src/reduce.c:427
+#: src/reduce.c:433
 msgid "Useless rules:"
 msgstr "Yararsýz kurallar:"
 
-#: src/reduce.c:493
+#: src/reduce.c:503
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d kural asla indirgenmedi\n"
 
-#: src/reduce.c:501
+#: src/reduce.c:511
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d yararsýz deðiþken simge%s"
 
-#: src/reduce.c:507
+#: src/reduce.c:517
 msgid " and "
 msgstr " ve "
 
-#: src/reduce.c:510
+#: src/reduce.c:520
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d yararsýz kural%s"
 
-#: src/reduce.c:541
+#: src/reduce.c:551
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Baþlangýç simgesi %s herhangi bir cümleden türemez"
@@ -764,6 +759,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "%s: internal error: %s\n"
+#~ msgstr "%s: iç hata: %s\n"
 
 #~ msgid ""
 #~ "Variables\n"

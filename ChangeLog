@@ -6,7 +6,6 @@
 	Rename as...
 	(state_t.reductions, state_t.shifts): this.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/reduce.c (reduce_grammar_tables): No longer disable the
@@ -16,7 +15,6 @@
 	the `line' member of rule_t.
 	* src/gram.c (dummy, rline): Remove, unused.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (pack_vector): Use assert, not berror.
@@ -38,36 +36,30 @@
 	* src/closure.c, src/closure.h (itemsetsize): Rename as...
 	(nitemset): for consistency with the rest of the project.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c (print_closure): Improve.
 	(closure): Use it for printing input and output.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c (FIRSTS, FDERIVES): Adjust to reality: they are
 	indexed by nonterminals.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/warshall.c (TC, RTC): De-obsfucate (source reduced to 22% of
 	what it was!).
 	* src/warshall.h: Remove accidental duplication of the content.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c (set_fderives): De-obfuscate.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c (print_firsts, print_fderives): De-obfuscate.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c (set_firsts): De-obfuscate.
@@ -78,7 +70,6 @@
 	using the good o' techniques: arrays not pointers, variable
 	locality, BITISSET, RESETBIT etc.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	Pessimize the code to simplify it: from now on, all the states
@@ -89,7 +80,6 @@
 	* src/conflicts, src/lalr.c, src/output.c, src/print.c,
 	* src/print_graph: Adjust.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (SHIFT_DISABLE, SHIFT_IS_DISABLED): New.
@@ -97,65 +87,54 @@
 	Restore a few missing `if (!SHIFT_IS_DISABLED)' which were
 	incorrectly ``simplified''.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (flush_shift, resolve_sr_conflict): De-obfuscate
 	using the good o' techniques: arrays not pointers, variable
 	locality, BITISSET, RESETBIT etc.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (SHIFT_SYMBOL): New.
 	* src/conflicts.c: Use it to deobfuscate.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (count_sr_conflicts, count_rr_conflicts)
 	(print_reductions): De-obfuscate using the good o' techniques:
 	arrays not pointers, variable locality, BITISSET.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (print_reductions): Arrays, not pointers.
 	Use BITISSET.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (print_reductions): Pessimize, but clarify.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (print_reductions): Improve variable locality.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (print_reductions): Pessimize, but clarify.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (print_reductions): Improve variable locality.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (SHIFT_IS_ERROR, SHIFT_IS_GOTO, SHIFT_IS_SHIFT): New.
 	* src/lalr.c: Use them.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (augment_automaton): Formatting changes.
 	Better variable locality.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.c (matrix_print): New.
@@ -200,7 +179,6 @@
 	the handling of squeue.
 	`symbol >= 0' is wrong now, use `rule_table[ruleno].useful'.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	Because useless nonterminals are now kept alive (instead of being
@@ -223,14 +201,12 @@
 	(free_storage): Use `free', not `XFREE', for pointers that cannot
 	be null.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/nullable.c (set_nullable): Deobfuscate the handling of
 	ritem.
 	`symbol >= 0' is wrong now, use `rule_table[ruleno].useful'.
 
-	
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.c, src/gram.h (ritem_print): New.
@@ -249,7 +225,7 @@
 	and may generate better code on some machines.
 	(yystpcpy): Use prototype if __STDC__ is defined, not just
 	if __cplusplus is defined.
-	
+
 2001-11-30  Akim Demaille  <akim@epita.fr>
 
 	* configure.in (WARNING_CFLAGS): Add -Werror when possible.
