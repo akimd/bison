@@ -95,6 +95,7 @@ alloca
 argmatch
 dirname
 error
+extensions
 getopt
 hard-locale
 hash
