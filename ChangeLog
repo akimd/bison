@@ -1,3 +1,9 @@
+2001-02-21  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (gensym): `gensym_count' is your own.
+	Use a static buf to create the symbol name, as token_buffer is no
+	longer a buffer.
+
 2001-02-08  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (conflict_report): Be sure not to append to res

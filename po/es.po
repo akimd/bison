@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-02-08 15:32+0100\n"
+"POT-Creation-Date: 2001-02-21 11:16+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -62,36 +62,36 @@ msgstr "desplaza"
 msgid "an error"
 msgstr "un error"
 
-#: src/conflicts.c:421
+#: src/conflicts.c:422
 msgid " 1 shift/reduce conflict"
 msgstr " 1 conflicto desplazamiento/reducción"
 
-#: src/conflicts.c:423
+#: src/conflicts.c:427
 #, c-format
 msgid " %d shift/reduce conflicts"
 msgstr " %d conflictos desplazamiento/reducción"
 
-#: src/conflicts.c:427
+#: src/conflicts.c:433
 msgid " and"
 msgstr " y"
 
-#: src/conflicts.c:431
+#: src/conflicts.c:439
 msgid " 1 reduce/reduce conflict"
 msgstr " 1 conflicto reducción/reducción"
 
-#: src/conflicts.c:433
+#: src/conflicts.c:444
 #, c-format
 msgid " %d reduce/reduce conflicts"
 msgstr " %d conflictos reducción/reducción"
 
-#: src/conflicts.c:469
+#: src/conflicts.c:481
 #, c-format
 msgid "State %d contains"
 msgstr "El estado %d contiene"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:481
+#: src/conflicts.c:493
 msgid "conflicts: "
 msgstr "conflictos: "
 
@@ -107,7 +107,7 @@ msgstr "conflictos: "
 # ok
 # ngp
 #
-#: src/conflicts.c:483
+#: src/conflicts.c:495
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d desplazamiento(s)/reducción(ones)"
@@ -124,22 +124,22 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 #
 # ok
 # ngp
-#: src/conflicts.c:487
+#: src/conflicts.c:499
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:492
+#: src/conflicts.c:504
 #, c-format
 msgid "%s contains"
 msgstr "%s contiene"
 
-#: src/conflicts.c:578 src/conflicts.c:699
+#: src/conflicts.c:590 src/conflicts.c:711
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduce usando la regla  %d (%s)]\n"
 
-#: src/conflicts.c:590 src/print.c:173
+#: src/conflicts.c:602 src/print.c:173
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -148,12 +148,12 @@ msgstr ""
 "    $default\treduce usando la regla %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:679 src/conflicts.c:693
+#: src/conflicts.c:691 src/conflicts.c:705
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduce usando la regla  %d (%s)\n"
 
-#: src/conflicts.c:720
+#: src/conflicts.c:732
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduce usando la regla %d (%s)\n"
@@ -267,7 +267,7 @@ msgstr ""
 msgid "unexpected `/' found and ignored"
 msgstr "se ha encontrado `/' cuando no se esperaba, no se tendrán en cuenta"
 
-#: src/lex.c:99 src/reader.c:273
+#: src/lex.c:99 src/reader.c:270
 msgid "unterminated comment"
 msgstr "comentario sin terminar"
 
@@ -419,96 +419,96 @@ msgstr " en la izquierda:"
 msgid " on right:"
 msgstr " en la derecha:"
 
-#: src/reader.c:82
+#: src/reader.c:79
 msgid "   Skipping to next \\n"
 msgstr "   Saltando al siguiente \\n"
 
-#: src/reader.c:84
+#: src/reader.c:81
 #, c-format
 msgid "   Skipping to next %c"
 msgstr "   Saltando al siguiente %c"
 
-#: src/reader.c:135 src/reader.c:147
+#: src/reader.c:132 src/reader.c:144
 msgid "invalid $ value"
 msgstr "valor $ no válido"
 
-#: src/reader.c:173 src/reader.c:188
+#: src/reader.c:170 src/reader.c:185
 msgid "unterminated string at end of file"
 msgstr "cadena sin terminar al final del fichero"
 
-#: src/reader.c:176
+#: src/reader.c:173
 msgid "unterminated string"
 msgstr "cadena sin terminar"
 
-#: src/reader.c:330 src/reader.c:394
+#: src/reader.c:327 src/reader.c:391
 #, fuzzy, c-format
 msgid "%s is invalid"
 msgstr "@%s no es válido"
 
-#: src/reader.c:370
+#: src/reader.c:367
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' no tiene tipo declarado"
 
-#: src/reader.c:387
+#: src/reader.c:384
 #, fuzzy, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%s de `%s' no tiene tipo declarado"
 
-#: src/reader.c:441
+#: src/reader.c:438
 msgid "unterminated `%{' definition"
 msgstr "definición `%{' sin terminar"
 
-#: src/reader.c:486 src/reader.c:602 src/reader.c:652
+#: src/reader.c:483 src/reader.c:599 src/reader.c:649
 #, c-format
 msgid "Premature EOF after %s"
 msgstr ""
 
-#: src/reader.c:503
+#: src/reader.c:500
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr ""
 
-#: src/reader.c:506
+#: src/reader.c:503
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr ""
 
-#: src/reader.c:528 src/reader.c:671
+#: src/reader.c:525 src/reader.c:668
 #, c-format
 msgid "symbol %s redefined"
 msgstr "redefinido el símbolo %s"
 
-#: src/reader.c:538 src/reader.c:617 src/reader.c:678 src/reader.c:1230
+#: src/reader.c:535 src/reader.c:614 src/reader.c:675 src/reader.c:1232
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "redeclaración del tipo de %s"
 
-#: src/reader.c:548
+#: src/reader.c:545
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "`%s' no es válido en %s"
 
-#: src/reader.c:565 src/reader.c:725
+#: src/reader.c:562 src/reader.c:722
 #, fuzzy, c-format
 msgid "multiple %s declarations"
 msgstr "múltiples declaraciones de %start"
 
-#: src/reader.c:567 src/reader.c:1208
+#: src/reader.c:564 src/reader.c:1210
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "declaración de %start no válida"
 
-#: src/reader.c:587
+#: src/reader.c:584
 msgid "%type declaration has no <typename>"
 msgstr "la declaración %type no tiene <nombre-tipo>"
 
-#: src/reader.c:622
+#: src/reader.c:619
 #, fuzzy
 msgid "invalid %%type declaration due to item: %s"
 msgstr "declaración de %%type no válida debido al ítem: `%s'"
 
-#: src/reader.c:667
+#: src/reader.c:664
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "redefinición de la precedencia de %s"
@@ -517,7 +517,7 @@ msgstr "redefinición de la precedencia de %s"
 # de "to must" y aquí se emplea en su forma condicional. Por eso, he
 # cambiado `debe' por `debería' - cll
 # ahí me has pillado en un olvido del inglés - ngp
-#: src/reader.c:691
+#: src/reader.c:688
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr ""
@@ -527,18 +527,18 @@ msgstr ""
 # otras, como `inesperado'. Cualquiera es correcta, por supuesto y, en
 # este caso, la segunda me parece más apropiada - cll
 # ok - ngp
-#: src/reader.c:701
+#: src/reader.c:698
 #, c-format
 msgid "unexpected item: %s"
 msgstr "ítem inesperado: %s"
 
 # Cambio el orden y el sexo. Ahora está "en español". sv
-#: src/reader.c:763 src/reader.c:1039 src/reader.c:1110
+#: src/reader.c:760 src/reader.c:1036 src/reader.c:1107
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "`{' desemparejada"
 
-#: src/reader.c:795
+#: src/reader.c:792
 #, fuzzy
 msgid "argument of %%expect is not an integer"
 msgstr "el argumento de %expect no es un entero"
@@ -549,26 +549,26 @@ msgstr "el argumento de %expect no es un entero"
 # - cll
 # ok - ngp
 #
-#: src/reader.c:842
+#: src/reader.c:839
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "no se reconoce el ítem %s, se esperaba un identificador"
 
-#: src/reader.c:866
+#: src/reader.c:863
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "se esperaba una cadena constante en lugar de %s"
 
-#: src/reader.c:955
+#: src/reader.c:952
 #, c-format
 msgid "unrecognized: %s"
 msgstr "no reconocido: %s"
 
-#: src/reader.c:960
+#: src/reader.c:957
 msgid "no input grammar"
 msgstr "no hay gramática de entrada"
 
-#: src/reader.c:965
+#: src/reader.c:962
 #, c-format
 msgid "unknown character: %s"
 msgstr "carácter desconocido: %s"
@@ -577,93 +577,93 @@ msgstr "carácter desconocido: %s"
 # mejor que `sin terminar' que me parece más "computerizado" - cll
 # quizás un poco cacofónico lo de claúsula inconclusa - ngp
 #
-#: src/reader.c:1133
+#: src/reader.c:1130
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "cláusula %%guard sin terminar"
 
-#: src/reader.c:1295
+#: src/reader.c:1297
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "regla mal formada: el símbolo inicial no está seguido por :"
 
-#: src/reader.c:1302
+#: src/reader.c:1304
 msgid "grammar starts with vertical bar"
 msgstr "la gramática comienza con una barra vertical"
 
-#: src/reader.c:1333
+#: src/reader.c:1335
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "se ha dado una regla para %s, que es un terminal"
 
-#: src/reader.c:1435
+#: src/reader.c:1437
 msgid "two @prec's in a row"
 msgstr "dos @prec en una línea"
 
 # Insisto, el empleo de participios a secas me parece como hablar en
 # indio. Por favor, permíteme que añada un "está" :) - cll
 # ok - ngp
-#: src/reader.c:1443
+#: src/reader.c:1445
 #, fuzzy
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard presente pero %%semantic_parser está sin especificar"
 
-#: src/reader.c:1452
+#: src/reader.c:1454
 msgid "two actions at end of one rule"
 msgstr "dos acciones al final de una regla"
 
-#: src/reader.c:1466
+#: src/reader.c:1468
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "los tipos (`%s' `%s') no concuerdan en la acción por defecto"
 
-#: src/reader.c:1472
+#: src/reader.c:1474
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regla vacía para un no terminal con tipo y no hay ninguna acción"
 
-#: src/reader.c:1516
+#: src/reader.c:1518
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrada no válida: %s"
 
-#: src/reader.c:1524
+#: src/reader.c:1526
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "demasiados símbolos (terminales y no terminales); máximo %s"
 
-#: src/reader.c:1527
+#: src/reader.c:1529
 msgid "no rules in the input grammar"
 msgstr "no hay reglas en la gramática de entrada"
 
 # `token' se debe traducir como `literal' - cll
 # en terminología de compiladores token es más un terminal - ngp
 #
-#: src/reader.c:1551
+#: src/reader.c:1553
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "se usa el símbolo %s, pero no está definido como terminal y no tiene reglas"
 
-#: src/reader.c:1657
+#: src/reader.c:1659
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "precedencias en conflicto entre %s y %s"
 
-#: src/reader.c:1669
+#: src/reader.c:1671
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "conflicto de valores assoc para %s y %s"
 
-#: src/reader.c:1720
+#: src/reader.c:1722
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "los terminales %s y %s tienen asignados ambos el número %s"
 
-#: src/reader.c:1733
+#: src/reader.c:1735
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "el símbolo de inicio (axioma) %s no está definido"
 
-#: src/reader.c:1735
+#: src/reader.c:1737
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "el símbolo de inicio (axioma) %s es un terminal"
