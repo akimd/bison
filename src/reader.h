@@ -21,6 +21,8 @@
 #ifndef READER_H_
 # define READER_H_
 
+#include "symtab.h"
+
 /* Read in the grammar specification and record it in the format
    described in gram.h.  All guards are copied into the FGUARD file
    and all actions into FACTION, in each case forming the body of a C
@@ -33,5 +35,10 @@ void reader PARAMS ((void));
 void grammar_free PARAMS ((void));
 
 extern int lineno;
+
+extern bucket *errtoken;
+extern bucket *undeftoken;
+extern bucket *eoftoken;
+extern bucket *axiom;
 
 #endif /* !READER_H_ */

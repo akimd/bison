@@ -1,5 +1,15 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.c (nitems, nrules, nsyms, ntokens, nvars, nritems)
+	(start_symbol, max_user_token_number, semantic_parser)
+	(error_token_number): Initialize.
+	* src/reader.c (grammar, start_flag, startval, typed, lastprec):
+	Initialize.
+	(reader): Don't.
+	(errtoken, eoftoken, undeftoken, axiom): Extern.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (rule_s): prec and precsym are now pointers
 	to the bucket giving the priority/associativity.
 	Member `associativity' removed: useless.
