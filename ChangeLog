@@ -1,5 +1,10 @@
 2004-09-24  Akim Demaille  <akim@epita.fr>
 
+	* data/c.m4 (b4_yysymprint_generate): Move the YYINPUT invocation
+	after the location.
+
+2004-09-24  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo (Table of Symbols): Sort.
 
 2004-09-21  Akim Demaille  <akim@epita.fr>
