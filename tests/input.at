@@ -74,8 +74,8 @@ exp: foo {} foo
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:4.4-15: type clash (`bar' `') on default action
-input.y:5.4-8: type clash (`bar' `') on default action
+[[input.y:4.4-15: type clash on default action: <bar> != <>
+input.y:5.4-8: type clash on default action: <bar> != <>
 input.y:6.4: empty rule for typed nonterminal, and no action
 ]])
 
