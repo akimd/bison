@@ -1,3 +1,8 @@
+2003-04-28  Tim Van Holder <tim.van.holder@pandora.be>
+
+	* data/yacc.c: (b4_lex_param): Corrected for the case where
+	%lex-param is provided and %pure-parser isn't.
+
 2003-04-27  Paul Eggert  <eggert@twinsun.com>
 
 	Avoid gcc -Wundef warnings reported by Gerald Pfeifer in
