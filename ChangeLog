@@ -1,5 +1,10 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (print_reductions): Improve variable locality.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h (SHIFT_IS_ERROR, SHIFT_IS_GOTO, SHIFT_IS_SHIFT): New.
 	* src/lalr.c: Use them.
 
