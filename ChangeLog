@@ -1,12 +1,9 @@
-2002-01-06  Akim Demaille  <akim@epita.fr>
+2002-01-07  Akim Demaille  <akim@epita.fr>
 
-	* src/reader.c (parse_braces): Don't fetch the next char, the
-	convention is to fetch on entry.
 	* tests/torture.at (GNU Cim Grammar): Reintroduce their weird
 	'switch' without a following semicolon.
 	* tests/regression.at (braces parsing): New.
 
-	
 2002-01-06  Akim Demaille  <akim@epita.fr>
 
 	Bison is dead wrong in its RR conflict reports.
@@ -14,7 +11,6 @@
 	* tests/torture.at (GNU Cim Grammar): New.
 	* src/conflicts.c (count_rr_conflicts): Fix.
 
-	
 2002-01-06  Akim Demaille  <akim@epita.fr>
 
 	Creating package.m4 from configure.ac causes too many problems.

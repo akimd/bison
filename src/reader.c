@@ -1119,7 +1119,10 @@ copy_action (symbol_list *rule, int stack_offset)
       /* above loop exits when c is '}' */
 
       if (--count)
-	obstack_1grow (&action_obstack, c);
+	{
+	  obstack_1grow (&action_obstack, c);
+	  c = getc (finput);
+	}
     }
 
   /* As a Bison extension, add the ending semicolon.  Since some Yacc

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30f\n"
-"POT-Creation-Date: 2002-01-04 17:16+0100\n"
+"POT-Creation-Date: 2002-01-06 22:01+0100\n"
 "PO-Revision-Date: 2001-12-06 12:09+300\n"
 "Last-Translator: Altug Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -473,7 +473,7 @@ msgstr "simge `%s' bir harfiyen uyumlu dizgi gibi birden fazla verilmiþ"
 msgid "symbol %s redefined"
 msgstr "%s simgesi yeniden tanýmlandý"
 
-#: src/reader.c:543 src/reader.c:622 src/reader.c:683 src/reader.c:1298
+#: src/reader.c:543 src/reader.c:622 src/reader.c:683 src/reader.c:1295
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "%s için yeniden tip bildirimi"
@@ -488,7 +488,7 @@ msgstr "`%s' %s içinde geçersizdir"
 msgid "multiple %s declarations"
 msgstr "çoklu %s bildirimleri"
 
-#: src/reader.c:572 src/reader.c:914 src/reader.c:939 src/reader.c:1276
+#: src/reader.c:572 src/reader.c:914 src/reader.c:939 src/reader.c:1273
 #, c-format
 msgid "invalid %s declaration"
 msgstr "geçersiz %s bildirimi"
@@ -517,7 +517,7 @@ msgstr "geçersiz metin (%s) - sayý tanýtýcýdan sonra olmalýdýr"
 msgid "unexpected item: %s"
 msgstr "beklenmeyen öðe: %s"
 
-#: src/reader.c:778 src/reader.c:1110 src/reader.c:1187
+#: src/reader.c:778 src/reader.c:1110 src/reader.c:1184
 #, c-format
 msgid "unmatched %s"
 msgstr "eþlenemeyen %s"
@@ -551,88 +551,88 @@ msgstr "girdi grameri yok"
 msgid "unknown character: %s"
 msgstr "bilinmeyen karakter: %s"
 
-#: src/reader.c:1210
+#: src/reader.c:1207
 #, c-format
 msgid "unterminated %guard clause"
 msgstr "sonlandýrýlmamýþ %guard yantümcesi"
 
-#: src/reader.c:1363
+#: src/reader.c:1360
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "kötü-biçemli kural: baþlangýç simgesini takip eden \":\" yok"
 
-#: src/reader.c:1370
+#: src/reader.c:1367
 msgid "grammar starts with vertical bar"
 msgstr "gramer düþey çubuk ile baþlýyor"
 
-#: src/reader.c:1398
+#: src/reader.c:1395
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "bir andaç olan %s için verilen kural"
 
-#: src/reader.c:1498
+#: src/reader.c:1495
 msgid "two @prec's in a row"
 msgstr "bir satýrda iki @prec"
 
-#: src/reader.c:1506
+#: src/reader.c:1503
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard sunulmuþ fakat %%semantic_parser belirlenmemiþ"
 
-#: src/reader.c:1515
+#: src/reader.c:1512
 msgid "two actions at end of one rule"
 msgstr "bir kuralýn sonunda iki eylem"
 
-#: src/reader.c:1529
+#: src/reader.c:1526
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "öntanýmlý eylem üzerinde (`%s' `%s') tip çatýþmasý"
 
-#: src/reader.c:1535
+#: src/reader.c:1532
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "Tipli deðiþken simge için boþ kural tanýmlanmýþ, ve eylem belirtilmemiþ"
 
-#: src/reader.c:1579
+#: src/reader.c:1576
 #, c-format
 msgid "invalid input: %s"
 msgstr "geçersiz girdi: %s"
 
-#: src/reader.c:1587
+#: src/reader.c:1584
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "çok fazla simge var (andaçlar ve deðiþken simgeler); en fazla %d"
 
-#: src/reader.c:1590
+#: src/reader.c:1587
 msgid "no rules in the input grammar"
 msgstr "girdi grameri içinde kurallar yok"
 
-#: src/reader.c:1614
+#: src/reader.c:1611
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "simge %s kullanýldý, fakat bir andaç olarak tanýmlanmadý ve kurallarý yok"
 
-#: src/reader.c:1749
+#: src/reader.c:1746
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "%s ve %s andaçlarýnýn her ikisi %d sayýsýna atandý"
 
-#: src/reader.c:1802
+#: src/reader.c:1799
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "%s ve %s için çeliþen öncelikler"
 
-#: src/reader.c:1814
+#: src/reader.c:1811
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "%s ve %s için çeliþen birleþmeli deðerler"
 
-#: src/reader.c:1853
+#: src/reader.c:1850
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "baþlangýç simgesi %s tanýmlanmadý"
 
-#: src/reader.c:1855
+#: src/reader.c:1852
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "baþlangýç simgesi %s bir andaçtýr"
