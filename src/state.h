@@ -139,6 +139,10 @@ typedef struct shifts_s
 #define SHIFT_IS_DISABLED(Shifts, Shift) \
   (Shifts->shifts[Shift] == 0)
 
+/* Return the state such these SHIFTS contain a shift/goto to it on
+   SYMBOL.  Aborts if none found.  */
+struct state_s;
+struct state_s *shifts_to PARAMS ((shifts_t *shifts, symbol_number_t s));
 
 /*-------.
 | Errs.  |
