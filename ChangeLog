@@ -1,5 +1,10 @@
 2004-05-21  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/glr.c (yylloc): Output this macro even if locations are not
+	being generated, as the GLR parser needs it even in that case.
+	Problem reported by Troy A. Johnson
+	<http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=195946>.
+
 	* configure.ac (AC_INIT): Update to 1.875e.
 
 2004-05-21  Paul Eggert  <eggert@cs.ucla.edu>
