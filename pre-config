@@ -1,9 +1,0 @@
-#! /bin/sh
-
-aclocal -I m4 && \
-gettextize && \
-autoconf && \
-autoheader && \
-automake -a && \
-touch stamp-h.in || \
-exit 1
