@@ -3,10 +3,6 @@
 	* doc/bison.texinfo: Change @samp{$<@dots{}>} to 
 	@samp{$<@dots{}>@var{n}} in Section Actions in Mid-Rule.
 	Reported by Fabrice Bauzac.
-	
-2001-08-08  Marc Autret  <autret_m@epita.fr>
-
-	* ChangeLog: Adjust.
 
 2001-08-08  Marc Autret  <autret_m@epita.fr>
 
