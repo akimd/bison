@@ -3,6 +3,16 @@
 * URGENT: Documenting C++ output
 Write a first documentation for C++ output.
 
+* Report and GLR
+How would Paul like to display the conflicted actions?  In particular,
+what when two reductions are possible on a given lookahead, but one is
+part of $default.  Should we make the two reductions explicit, or just
+keep $default?  See the following point.
+
+* Report and Disabled Reductions
+See `tests/conflicts.at (Defaulted Conflicted Reduction)', and decide
+what we want to do.
+
 * value_components_used
 Was defined but not used: where was it coming from?  It can't be to
 check if %union is used, since the user is free to $<foo>n on her
@@ -16,7 +26,9 @@ to #define yyerror and yyprint to steal internal variables...
 * documentation
 Explain $axiom (and maybe change its name: BTYacc names it `goal',
 byacc `$accept' probably based on AT&T Yacc, Meta `Start'...).
-Complete the glossary (item, axiom, ?).
+Complete the glossary (item, axiom, ?).  Should we also rename `$'?
+BYacc uses `$end'.  `$eof' is attracting, but after all we may be
+parsing a string, a stream etc.
 
 * Error messages
 Some are really funky.  For instance
@@ -26,11 +38,11 @@ Some are really funky.  For instance
 is really weird.  Revisit them all.
 
 * Report documentation
-Extend with error.  The hard part will probably be finding the right
-rule so that a single state does not exhibit to many yet undocumented
-``features''.  Maybe an empty action ought to be presented too.  Shall
-we try to make a single grammar with all these features, or should we
-have several very small grammars?
+Extend with error productions.  The hard part will probably be finding
+the right rule so that a single state does not exhibit too many yet
+undocumented ``features''.  Maybe an empty action ought to be
+presented too.  Shall we try to make a single grammar with all these
+features, or should we have several very small grammars?
 
 * Documentation
 Some history of Bison and some bibliography would be most welcome.

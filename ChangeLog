@@ -1,5 +1,12 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c (state_default_rule_compute): New, extracted from...
+	(print_reductions): here.
+	Pessimize, but clarify the code.
+	* tests/conflicts.at (Defaulted Conflicted Reduction): New.
+
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (action_row): Let default_rule be always a rule
 	number.
 

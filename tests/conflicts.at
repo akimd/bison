@@ -41,6 +41,7 @@ AT_CHECK([bison input.y -o input.c])
 
 AT_CLEANUP
 
+
 ## ------------------- ##
 ## %nonassoc and eof.  ##
 ## ------------------- ##
@@ -237,26 +238,30 @@ state 5
 AT_CLEANUP
 
 
-## --------------------- ##
-## Solved SR Conflicts.  ##
-## --------------------- ##
+## ------------------------- ##
+## Unresolved SR Conflicts.  ##
+## ------------------------- ##
 
-AT_SETUP([Solved SR Conflicts])
+AT_SETUP([Unresolved SR Conflicts])
 
 AT_KEYWORDS([report])
 
 AT_DATA([input.y],
 [[%token NUM OP
-%right OP
 %%
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison input.y -o input.c --report=all], 0, [], [])
+AT_CHECK([bison input.y -o input.c --report=all], 0, [],
+[input.y contains 1 shift/reduce conflict.
+])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
-[[Grammar
+[[State 5 contains 1 shift/reduce conflict.
+
+
+Grammar
 
     0 $axiom: exp $
 
@@ -331,14 +336,154 @@ state 4
 
 state 5
 
-    exp  ->  exp . OP exp  [$]   (rule 1)
-    exp  ->  exp OP exp .  [$]   (rule 1)
+    exp  ->  exp . OP exp  [$, OP]   (rule 1)
+    exp  ->  exp OP exp .  [$, OP]   (rule 1)
 
     OP  	shift, and go to state 4
 
+    OP  	[reduce using rule 1 (exp)]
     $default	reduce using rule 1 (exp)
 
-    Conflict between rule 2 and token OP resolved as reduce (%right OP).
+
+
+]])
+
+AT_CLEANUP
+
+
+
+## -------------------------------- ##
+## Defaulted Conflicted Reduction.  ##
+## -------------------------------- ##
+
+# When there are RR conflicts, some rules are disabled.  Usually it is
+# simply displayed as:
+#
+#    $           reduce using rule 3 (num)
+#    $           [reduce using rule 4 (id)]
+#
+# But when `reduce 3' is the default action, we'd produce:
+#
+#    $           [reduce using rule 4 (id)]
+#    $default    reduce using rule 3 (num)
+#
+# In this precise case (a reduction is masked by the default
+# reduction), we make the `reduce 3' explicit:
+#
+#    $           reduce using rule 3 (num)
+#    $           [reduce using rule 4 (id)]
+#    $default    reduce using rule 3 (num)
+#
+# Maybe that's not the best display, but then, please propose something
+# else.
+
+AT_SETUP([Defaulted Conflicted Reduction])
+AT_KEYWORDS([report])
+
+AT_DATA([input.y],
+[[%%
+exp: num | id;
+num: '0';
+id : '0';
+%%
+]])
+
+AT_CHECK([bison input.y -o input.c --report=all], 1, [],
+[input.y contains 1 reduce/reduce conflict.
+])
+
+# Check the contents of the report.
+AT_CHECK([cat input.output], [],
+[[State 1 contains 1 reduce/reduce conflict.
+
+
+Grammar
+
+    0 $axiom: exp $
+
+    1 exp: num
+    2    | id
+
+    3 num: '0'
+
+    4 id: '0'
+
+
+Terminals, with rules where they appear
+
+$ (0) 0
+'0' (48) 3 4
+error (256)
+
+
+Nonterminals, with rules where they appear
+
+$axiom (4)
+    on left: 0
+exp (5)
+    on left: 1 2, on right: 0
+num (6)
+    on left: 3, on right: 1
+id (7)
+    on left: 4, on right: 2
+
+
+state 0
+
+    $axiom  ->  . exp $   (rule 0)
+    exp  ->  . num   (rule 1)
+    exp  ->  . id   (rule 2)
+    num  ->  . '0'   (rule 3)
+    id  ->  . '0'   (rule 4)
+
+    '0' 	shift, and go to state 1
+
+    exp 	go to state 2
+    num 	go to state 3
+    id  	go to state 4
+
+
+
+state 1
+
+    num  ->  '0' .  [$]   (rule 3)
+    id  ->  '0' .  [$]   (rule 4)
+
+    $   	reduce using rule 3 (num)
+    $   	[reduce using rule 4 (id)]
+    $default	reduce using rule 3 (num)
+
+
+
+state 2
+
+    $axiom  ->  exp . $   (rule 0)
+
+    $   	shift, and go to state 5
+
+
+
+state 3
+
+    exp  ->  num .   (rule 1)
+
+    $default	reduce using rule 1 (exp)
+
+
+
+state 4
+
+    exp  ->  id .   (rule 2)
+
+    $default	reduce using rule 2 (exp)
+
+
+
+state 5
+
+    $axiom  ->  exp $ .   (rule 0)
+
+    $default	accept
 
 
 ]])
@@ -381,7 +526,7 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison input.y -o input.c], 0)
+AT_CHECK([bison input.y -o input.c])
 AT_CLEANUP
 
 
