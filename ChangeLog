@@ -1,3 +1,20 @@
+2004-12-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (YYRHSLOC): Don't have two definitions, one for
+	the normal case and one for the error case.  Just use the
+	first one uniformly.  Problem reported by Frank Heckenbach.
+	(YYLLOC_DEFAULT): Use the conventions of yacc.c, so we can
+	use exactly the same macro in both places.
+	(yyerror_range): Now of type yyGLRStackItem, not YYLTYPE,
+	so that the normal-case YYRHSLOC works for the error case too.
+	All uses changed.
+	* data/yacc.c (YYRHSLOC): New macro, taken from glr.c.
+	(YYLLOC_DEFAULT): Use the same macro as glr.c.
+	* doc/bison.texinfo (Location Default Action): Don't claim that
+	we have an array of locations.  Use the same macro for both glr
+	and lalr parsers.  Mention YYRHSLOC.  Mention what happens when
+	the index is 0.
+
 2004-12-10  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* HACKING: Update email addresses to send announcements to.
