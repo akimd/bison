@@ -146,3 +146,22 @@ You like?
 * input synclines
 Some users create their foo.y files, and equip them with #line.  Bison
 should recognize these, and preserve them.
+
+* BTYacc
+See if we can integrate backtracking in Bison.  Contact the BTYacc
+maintainers.
+
+* Automaton report
+Display more clearly the lookaheads for each item.
+
+* RR conflicts
+See if we can use precedence between rules to solve RR conflicts.  See
+what POSIX says.
+
+* Precedence
+It is unfortunate that there is a total order for precedence.  It
+makes it impossible to have modular precedence information.  We should
+move to partial orders.
+
+* Parsing grammars
+Rewrite the reader in Bison.
