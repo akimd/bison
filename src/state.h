@@ -41,7 +41,7 @@
    the last thing accepted to reach that state.  It is the
    accessing_symbol of the core.
 
-   Each core contains a vector of nitems items which are the indices
+   Each core contains a vector of NITEMS items which are the indices
    in the ritems vector of the items that are selected in this state.
 
    The link field is used for chaining symbols that hash states by

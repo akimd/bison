@@ -82,7 +82,7 @@
    says which rule it is for.
 
    The portions of RITEM come in order of increasing rule number and
-   are followed by an element which is zero to mark the end.  nitems
+   are followed by an element which is zero to mark the end.  nritems
    is the total length of ritem, not counting the final zero.  Each
    element of RITEM is called an "item" and its index in RITEM is an
    item number.
@@ -104,7 +104,6 @@
 #define	ISTOKEN(s)	((s) < ntokens)
 #define	ISVAR(s)	((s) >= ntokens)
 
-extern int nitems;
 extern int nrules;
 extern int nsyms;
 extern int ntokens;

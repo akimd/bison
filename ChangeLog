@@ -1,5 +1,12 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h, src/gram.c (nitems): Remove, it is an alias of
+	nritems.
+	Adjust dependencies.
+
+	
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c: Normalize increments to prefix form.
 
 2002-04-07  Akim Demaille  <akim@epita.fr>
