@@ -18,6 +18,10 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
+#ifndef DERIVES_H_
+# define DERIVES_H_
+
+extern short **derives;
 
 /* set_derives finds, for each variable (nonterminal), which rules can
    derive it.  It sets up the value of derives so that derives[i -
@@ -26,3 +30,5 @@
 
 void set_derives PARAMS((void));
 void free_derives PARAMS((void));
+
+#endif /* !DERIVES_H_ */

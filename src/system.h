@@ -24,6 +24,8 @@
 
 #include <stdio.h>
 
+#include <assert.h>
+
 #ifdef MSDOS
 # include <io.h>
 #endif

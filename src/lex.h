@@ -53,8 +53,13 @@
 
 # define MAXTOKEN	1024
 
-void init_lex PARAMS ((void));
+
+/* Allocated size of token_buffer, not including space for terminator.  */
+extern int maxtoken;
+extern char *token_buffer;
 char *grow_token_buffer PARAMS ((char *));
+
+void init_lex PARAMS ((void));
 int skip_white_space PARAMS ((void));
 void unlex PARAMS ((int));
 
@@ -67,5 +72,7 @@ int lex PARAMS ((void));
 
 int parse_percent_token PARAMS ((void));
 
+extern bucket *symval;
+extern int numval;
 
 #endif /* !LEX_H_ */

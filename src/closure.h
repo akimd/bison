@@ -18,6 +18,8 @@
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
    02111-1307, USA.  */
 
+#ifndef CLOSURE_H_
+# define CLOSURE_H_
 
 /* Subroutines of file LR0.c. */
 
@@ -47,3 +49,8 @@ void closure PARAMS ((short *items, int n));
 /* Frees itemset, ruleset and internal data.  */
 
 void free_closure PARAMS ((void));
+
+extern short *itemset;
+extern short *itemsetend;
+
+#endif /* !CLOSURE_H_ */

@@ -1,59 +1,60 @@
 /* Definitions for symtab.c and callers, part of bison,
-   Copyright (C) 1984, 1989, 1992 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1992, 2000 Free Software Foundation, Inc.
 
-This file is part of Bison, the GNU Compiler Compiler.
+   This file is part of Bison, the GNU Compiler Compiler.
 
-Bison is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2, or (at your option)
-any later version.
+   Bison is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
 
-Bison is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   Bison is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with Bison; see the file COPYING.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  */
+   You should have received a copy of the GNU General Public License
+   along with Bison; see the file COPYING.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef SYMTAB_H_
+# define SYMTAB_H_
 
 #define	TABSIZE	1009
-
 
 /*  symbol classes  */
 
 #define SUNKNOWN 0
-#define STOKEN	 1	/* terminal symbol */
-#define SNTERM	 2	/* non-terminal */
+#define STOKEN	 1		/* terminal symbol */
+#define SNTERM	 2		/* non-terminal */
 
-#define SALIAS	-9991	/* for symbol generated with an alias */
+#define SALIAS	-9991		/* for symbol generated with an alias */
 
-typedef
-  struct bucket
-    {
-      struct bucket *link;
-      struct bucket *next;
-      char *tag;
-      char *type_name;
-      short value;
-      short prec;
-      short assoc;
-      short user_token_number;
-			/* special value SALIAS in the identifier
-			 half of the identifier-symbol pair for an alias */
-      struct bucket *alias;      
-			/* points to the other in the identifier-symbol
-			 pair for an alias */
-      char class;
-    }
-  bucket;
+typedef struct bucket
+{
+  struct bucket *link;
+  struct bucket *next;
+  char *tag;
+  char *type_name;
+  short value;
+  short prec;
+  short assoc;
+  short user_token_number;
+  /* special value SALIAS in the identifier half of the
+     identifier-symbol pair for an alias */
+  struct bucket *alias;
+  /* points to the other in the identifier-symbol pair for an alias */
+  char class;
+}
+bucket;
 
 
 extern bucket *firstsymbol;
 
-extern bucket *getsym PARAMS((const char *));
+bucket *getsym PARAMS ((const char *));
+
+void tabinit PARAMS ((void));
+void free_symtab PARAMS ((void));
+
+#endif /* !SYMTAB_H_ */

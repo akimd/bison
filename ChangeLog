@@ -1,5 +1,12 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	Various anti-`extern in *.c' changes.
+
+	* src/system.h: Include `assert.h'.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h (nstates, final_state, first_state, first_shift)
 	(first_reduction): Move their exportation from here...
 	* src/LR0.h: to here.
