@@ -1,3 +1,11 @@
+2002-10-24  Paul Eggert  <eggert@twinsun.com>
+
+	* tests/calc.at (_AT_DATA_CALC_Y): Remove unused strcat declaration.
+	* tests/cxx-type.at (_AT_TEST_GLR_CALC): Include stdlib.h, since
+	we use malloc.  Don't assume 'A' through 'Z' are contiguous.
+	Don't assume strdup exists; POSIX says its an XSI extension.
+	Check for buffer overflow on input.
+
 2002-10-24  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_skeleton): Don't disable M4sugar comments
