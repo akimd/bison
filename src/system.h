@@ -126,10 +126,12 @@ size_t strnlen PARAMS ((const char *s, size_t maxlen));
 # include <libintl.h>
 # define _(Text) gettext (Text)
 #else
-# undef bindtextdomain
+# undef  bindtextdomain
 # define bindtextdomain(Domain, Directory)
-# undef textdomain
+# undef  textdomain
 # define textdomain(Domain)
+# undef  ngettext
+# define ngettext(Singular, Plural, Num)   Plural
 # define _(Text) Text
 #endif
 #define N_(Text) Text

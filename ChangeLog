@@ -1,5 +1,10 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	* src/system.h (ngettext): Now that we use ngettext, be sure to
+	provide a default definition when NLS are not used.
+
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo: Use `$' as shell prompt, not `%'.
 	Use @kbd to denote user input.
 	(Language and Grammar): ANSIfy the example.
