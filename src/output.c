@@ -1160,6 +1160,7 @@ output_parser (void)
       else
 	skeleton = skeleton_find ("BISON_SIMPLE", BISON_SIMPLE);
     }
+  assert (skeleton);
   fskel = xfopen (skeleton, "r");
 
   /* Set LINE to 2, not 1: `#line LINENUM' -- Here LINENUM is a

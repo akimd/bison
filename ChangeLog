@@ -1,14 +1,21 @@
+2001-10-02  Akim Demaille  <akim@epita.fr>
+
+	* src/output.c (output_parser): Assert `skeleton'.
+	* src/files.c (skeleton_find): Look harder for skeletons on DOSish
+	systems.
+	From Shura.
+
 2001-10-01  Marc Autret  <autret_m@epita.fr>
 
 	* src/lex.h: Echo modifications.
 	* src/lex.c (unlex): Parameter is now token_t.
 	From Hans Aberg.
-	
+
 2001-10-01  Marc Autret  <autret_m@epita.fr>
 
 	* src/main.c: Include lex.h.
 	From Hans Aberg.
-	
+
 2001-09-29  Akim Demaille  <akim@epita.fr>
 
 	* src/getargs.c (longopts): `--debug' is `-t', not `-d'.
