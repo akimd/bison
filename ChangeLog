@@ -1,3 +1,18 @@
+2002-05-07  Akim Demaille  <akim@epita.fr>
+
+	Kill GCC warnings.
+
+	* src/reduce.c (nonterminals_reduce): Don't loop over RITEM: loop
+	over the RHS of each rule.
+	* src/gram.h, src/gram.c (nritems): Is `unsigned int', not int.
+	* src/state.h (state_t): Member `nitems' is unsigned short.
+	* src/LR0.c (get_state): Adjust.
+	* src/reader.c (packgram): Likewise.
+	* src/output.c (GENERATE_MUSCLE_INSERT_TABLE): `max' is of type
+	`Type'.
+	(muscle_insert_int_table): Remove, unused.
+	(prepare_rules): Remove `max'.
+
 2002-05-06  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.c (print_firsts): Display of the symbol tags.

@@ -185,7 +185,7 @@ typedef struct state_s
   int nlookaheads;
 
   /* Its items. */
-  short nitems;
+  unsigned short nitems;
   item_number_t items[1];
 } state_t;
 

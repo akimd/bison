@@ -110,7 +110,7 @@ extern int nvars;
 #define ITEM_NUMBER_MAX INT_MAX
 typedef int item_number_t;
 extern item_number_t *ritem;
-extern int nritems;
+extern unsigned int nritems;
 
 /* There is weird relationship between item_number_t and
    token_number_t: we store token_number_t in item_number_t, but in
