@@ -1,5 +1,10 @@
 2001-11-28  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (shifts_new): New.
+	(save_shifts, insert_start_shift, augment_automaton): Use it.
+
+2001-11-28  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c (closure): `b' and `ruleno' denote the same value:
 	keep ruleno only.
 
