@@ -1,5 +1,20 @@
 2002-11-16  Akim Demaille  <akim@epita.fr>
 
+	* src/getargs.h, src/getargs.c (trace_e, trace_args, trace_types):
+	Add support for --trace=skeleton.
+	* src/scan-skel.l: %option debug.
+	Scan strings of non-@ or \n instead of character by character.
+	(scan_skel): Handle trace_skeleton.
+	(QPUTS): New.
+	(@output_parser_name@, @output_header_name@): ``Restore'' their
+	support (used to be M4 macros).
+	* data/yacc.c: Quote larger chunks, a la glr.c.
+	* data/lalr1.cc: Likewise.
+	The header guards are no longer available, so use some other
+	string than `YYLSP_NEEDED'.
+
+2002-11-16  Akim Demaille  <akim@epita.fr>
+
 	Make the ``Printers and Destructors'' test more verbose, taking
 	`yacc.c''s behavior as (possibly wrong) reference.
 

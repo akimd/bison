@@ -18,7 +18,7 @@
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
    02111-1307, USA.  */
 
-%option nodefault noyywrap nounput never-interactive
+%option nodefault noyywrap nounput never-interactive debug
 %option prefix="skel_" outfile="lex.yy.c"
 
 %{
@@ -29,6 +29,9 @@
 #include "files.h"
 
 int skel_lex (void);
+
+#define QPUTS(String) \
+   fputs (quotearg_style (c_quoting_style, (String)), yyout);
 
 %}
 %%
@@ -63,11 +66,13 @@ int skel_lex (void);
 "@}"	   fputc (']', yyout);
 
 "@oline@"  fprintf (yyout, "%d", lineno);
-"@ofile@"  fputs (quotearg_style (c_quoting_style, outname), yyout);
+"@ofile@"  QPUTS (outname);
+"@output_parser_name@"	QPUTS (parser_file_name);
+"@output_header_name@"  QPUTS (spec_defines_file);
 
 "@"	   abort ();
 \n	   lineno++; ECHO;
-.	   ECHO;
+[^@\n]+	   ECHO;
 
 <<EOF>>	   xfclose (yyout); free (outname); return EOF;
 %%
@@ -82,8 +87,8 @@ void
 scan_skel (FILE *in)
 {
   skel_in = in;
+  skel__flex_debug = trace_flag & trace_skeleton;
   skel_lex ();
-
   /* Reclaim Flex's buffers.  */
   yy_delete_buffer (YY_CURRENT_BUFFER);
 }

@@ -91,9 +91,11 @@ m4_changecom()
 m4_divert(0)dnl
 @output @output_header_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002])
-#ifndef YYLSP_NEEDED
-# define YYLSP_NEEDED
+             [2002])[
+/* FIXME: This is wrong, we want computed header guards.
+   I don't know why the macros are missing now. :( */
+#ifndef PARSER_HEADER_H
+# define PARSER_HEADER_H
 
 #include "stack.hh"
 #include "location.hh"
@@ -102,50 +104,50 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 #include <iostream>
 
 /* Using locations.  */
-#define YYLSP_NEEDED b4_locations_flag
+#define YYLSP_NEEDED ]b4_locations_flag[
 
-b4_token_defines(b4_tokens)
+]b4_token_defines(b4_tokens)[
 
 /* Copy the first part of user declarations.  */
-b4_pre_prologue
+]b4_pre_prologue[
 
-/* Line __line__ of __file__.  */
-b4_syncline([@oline@], [@ofile@])
+]/* Line __line__ of __file__.  */
+b4_syncline([@oline@], [@ofile@])[
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG b4_debug
+# define YYDEBUG ]b4_debug[
 #endif
 
 /* Enabling verbose error message.  */
 #ifndef YYERROR_VERBOSE
-# define YYERROR_VERBOSE b4_error_verbose
+# define YYERROR_VERBOSE ]b4_error_verbose[
 #endif
 
 #ifndef YYSTYPE
-m4_ifdef([b4_stype],
+]m4_ifdef([b4_stype],
 [b4_syncline([b4_stype_line], [b4_filename])
 typedef union b4_stype yystype;
 /* Line __line__ of __file__.  */
 b4_syncline([@oline@], [@ofile@])],
-[typedef int yystype;])
+[typedef int yystype;])[
 # define YYSTYPE yystype
 #endif
 
 /* Copy the second part of user declarations.  */
-b4_post_prologue
+]b4_post_prologue[
 
-/* Line __line__ of __file__.  */
-b4_syncline([@oline@], [@ofile@])
+]/* Line __line__ of __file__.  */
+b4_syncline([@oline@], [@ofile@])[
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
-   Current.last_line = Rhs[[N]].last_line; \
-   Current.last_column = Rhs[[N]].last_column;
+   Current.last_line = Rhs[N].last_line; \
+   Current.last_column = Rhs[N].last_column;
 #endif
 
 namespace yy
 {
-  class b4_parser_class_name;
+  class ]b4_parser_class_name[;
 
   template < typename P >
   struct Traits
@@ -153,47 +155,47 @@ namespace yy
   };
 
   template < >
-  struct Traits< b4_parser_class_name >
+  struct Traits< ]b4_parser_class_name[ >
   {
-    typedef b4_int_type_for([b4_translate]) TokenNumberType;
-    typedef b4_int_type_for([b4_rhs])       RhsNumberType;
+    typedef ]b4_int_type_for([b4_translate])[ TokenNumberType;
+    typedef ]b4_int_type_for([b4_rhs])[       RhsNumberType;
     typedef int      StateType;
     typedef yystype  SemanticType;
-    typedef b4_location_type LocationType;
+    typedef ]b4_location_type[ LocationType;
   };
 }
 
 namespace yy
 {
-  class b4_parser_class_name b4_inherit
+  class ]b4_parser_class_name b4_inherit[
   {
   public:
 
-    typedef Traits< b4_parser_class_name >::TokenNumberType TokenNumberType;
-    typedef Traits< b4_parser_class_name >::RhsNumberType   RhsNumberType;
-    typedef Traits< b4_parser_class_name >::StateType       StateType;
-    typedef Traits< b4_parser_class_name >::SemanticType    SemanticType;
-    typedef Traits< b4_parser_class_name >::LocationType    LocationType;
+    typedef Traits< ]b4_parser_class_name[ >::TokenNumberType TokenNumberType;
+    typedef Traits< ]b4_parser_class_name[ >::RhsNumberType   RhsNumberType;
+    typedef Traits< ]b4_parser_class_name[ >::StateType       StateType;
+    typedef Traits< ]b4_parser_class_name[ >::SemanticType    SemanticType;
+    typedef Traits< ]b4_parser_class_name[ >::LocationType    LocationType;
 
     typedef Stack< StateType >    StateStack;
     typedef Stack< SemanticType > SemanticStack;
     typedef Stack< LocationType > LocationStack;
 
 #if YYLSP_NEEDED
-    b4_parser_class_name (bool debug,
-	    LocationType initlocation[]b4_param) :
-      b4_constructor[]debug_ (debug),
+    ]b4_parser_class_name[ (bool debug,
+	    LocationType initlocation][]b4_param[) :
+      ]b4_constructor[][debug_ (debug),
       cdebug_ (std::cerr),
       initlocation_ (initlocation)
 #else
-    b4_parser_class_name (bool debug[]b4_param) :
-      b4_constructor[]debug_ (debug),
+    ]b4_parser_class_name[ (bool debug][]b4_param[) :
+      ]b4_constructor[][debug_ (debug),
       cdebug_ (std::cerr)
 #endif
     {
     }
 
-    virtual ~b4_parser_class_name ()
+    virtual ~]b4_parser_class_name[ ()
     {
     }
 
@@ -211,28 +213,28 @@ namespace yy
     LocationStack location_stack_;
 
     /* Tables.  */
-    static const b4_int_type_for([b4_pact]) pact_[[]];
-    static const b4_int_type_for([b4_pact]) pact_ninf_;
-    static const b4_int_type_for([b4_defact]) defact_[[]];
-    static const b4_int_type_for([b4_pgoto]) pgoto_[[]];
-    static const b4_int_type_for([b4_defgoto]) defgoto_[[]];
-    static const b4_int_type_for([b4_table]) table_[[]];
-    static const b4_int_type_for([b4_table]) table_ninf_;
-    static const b4_int_type_for([b4_check]) check_[[]];
-    static const b4_int_type_for([b4_r1]) r1_[[]];
-    static const b4_int_type_for([b4_r2]) r2_[[]];
+    static const ]b4_int_type_for([b4_pact])[ pact_[];
+    static const ]b4_int_type_for([b4_pact])[ pact_ninf_;
+    static const ]b4_int_type_for([b4_defact])[ defact_[];
+    static const ]b4_int_type_for([b4_pgoto])[ pgoto_[];
+    static const ]b4_int_type_for([b4_defgoto])[ defgoto_[];
+    static const ]b4_int_type_for([b4_table])[ table_[];
+    static const ]b4_int_type_for([b4_table])[ table_ninf_;
+    static const ]b4_int_type_for([b4_check])[ check_[];
+    static const ]b4_int_type_for([b4_r1])[ r1_[];
+    static const ]b4_int_type_for([b4_r2])[ r2_[];
 
 #if YYDEBUG || YYERROR_VERBOSE
-    static const char* const name_[[]];
+    static const char* const name_[];
 #endif
 
     /* More tables, for debugging.  */
 #if YYDEBUG
-    static const RhsNumberType rhs_[[]];
-    static const b4_int_type_for([b4_prhs]) prhs_[[]];
-    static const b4_int_type_for([b4_rline]) rline_[[]];
-    static const b4_int_type_for([b4_stos]) stos_[[]];
-    static const b4_int_type_for([b4_toknum]) token_number_[[]];
+    static const RhsNumberType rhs_[];
+    static const ]b4_int_type_for([b4_prhs])[ prhs_[];
+    static const ]b4_int_type_for([b4_rline])[ rline_[];
+    static const ]b4_int_type_for([b4_stos])[ stos_[];
+    static const ]b4_int_type_for([b4_toknum])[ token_number_[];
 #endif
 
     /* Even more tables.  */
@@ -281,11 +283,11 @@ namespace yy
   };
 }
 
-#endif /* ! defined YYLSP_NEEDED */
+#endif /* ! defined PARSER_HEADER_H */]
 dnl
 @output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002])
+             [2002])[
 
 #include @output_header_name@
 
@@ -297,7 +299,7 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 #endif /* !YYDEBUG */
 
 int
-yy::b4_parser_class_name::parse ()
+yy::]b4_parser_class_name[::parse ()
 {
   int nerrs = 0;
   int errstatus = 0;
@@ -325,7 +327,7 @@ yy::b4_parser_class_name::parse ()
  yybackup:
 
   /* Try to take a decision without lookahead.  */
-  n_ = pact_[[state_]];
+  n_ = pact_[state_];
   if (n_ == pact_ninf_)
     goto yydefault;
 
@@ -350,7 +352,7 @@ yy::b4_parser_class_name::parse ()
       if (debug_)
 	{
 	  YYCDEBUG << "Next token is " << looka_
-		 << " (" << name_[[ilooka_]];
+		 << " (" << name_[ilooka_];
 	  print_ ();
 	  YYCDEBUG << ')' << std::endl;
 	}
@@ -358,11 +360,11 @@ yy::b4_parser_class_name::parse ()
     }
 
   n_ += ilooka_;
-  if (n_ < 0 || last_ < n_ || check_[[n_]] != ilooka_)
+  if (n_ < 0 || last_ < n_ || check_[n_] != ilooka_)
     goto yydefault;
 
   /* Reduce or error.  */
-  n_ = table_[[n_]];
+  n_ = table_[n_];
   if (n_ < 0)
     {
       if (n_ == table_ninf_)
@@ -382,7 +384,7 @@ yy::b4_parser_class_name::parse ()
 
   /* Shift the lookahead token.  */
   YYCDEBUG << "Shifting token " << looka_
-	 << " (" << name_[[ilooka_]] << "), ";
+	 << " (" << name_[ilooka_] << "), ";
 
   /* Discard the token being shifted unless it is eof.  */
   if (looka_ != eof_)
@@ -401,34 +403,34 @@ yy::b4_parser_class_name::parse ()
 
   /* Default action.  */
  yydefault:
-  n_ = defact_[[state_]];
+  n_ = defact_[state_];
   if (n_ == 0)
     goto yyerrlab;
   goto yyreduce;
 
   /* Reduce.  */
  yyreduce:
-  len_ = r2_[[n_]];
+  len_ = r2_[n_];
   if (len_)
     {
-      yyval = semantic_stack_[[len_ - 1]];
-      yyloc = location_stack_[[len_ - 1]];
+      yyval = semantic_stack_[len_ - 1];
+      yyloc = location_stack_[len_ - 1];
     }
   else
     {
-      yyval = semantic_stack_[[0]];
-      yyloc = location_stack_[[0]];
+      yyval = semantic_stack_[0];
+      yyloc = location_stack_[0];
     }
 
 #if YYDEBUG
   if (debug_)
     {
       YYCDEBUG << "Reducing via rule " << n_ - 1
-	     << " (line " << rline_[[n_]] << "), ";
-      for (b4_int_type_for([b4_prhs]) i = prhs_[[n_]];
-	   0 <= rhs_[[i]]; ++i)
-	YYCDEBUG << name_[[rhs_[i]]] << ' ';
-      YYCDEBUG << "-> " << name_[[r1_[n_]]] << std::endl;
+	     << " (line " << rline_[n_] << "), ";
+      for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
+	   0 <= rhs_[i]; ++i)
+	YYCDEBUG << name_[rhs_[i]] << ' ';
+      YYCDEBUG << "-> " << name_[r1_[n_]] << std::endl;
     }
 #endif
 
@@ -440,11 +442,11 @@ yy::b4_parser_class_name::parse ()
 
   switch (n_)
     {
-      b4_actions
+      ]b4_actions[
     }
 
-/* Line __line__ of __file__.  */
-b4_syncline([@oline@], [@ofile@])
+]/* Line __line__ of __file__.  */
+b4_syncline([@oline@], [@ofile@])[
 
   state_stack_.pop (len_);
   semantic_stack_.pop (len_);
@@ -465,12 +467,12 @@ b4_syncline([@oline@], [@ofile@])
   location_stack_.push (yyloc);
 
   /* Shift the result of the reduction.  */
-  n_ = r1_[[n_]];
-  state_ = pgoto_[[n_ - ntokens_]] + state_stack_[[0]];
-  if (0 <= state_ && state_ <= last_ && check_[[state_]] == state_stack_[[0]])
-    state_ = table_[[state_]];
+  n_ = r1_[n_];
+  state_ = pgoto_[n_ - ntokens_] + state_stack_[0];
+  if (0 <= state_ && state_ <= last_ && check_[state_] == state_stack_[0])
+    state_ = table_[state_];
   else
-    state_ = defgoto_[[n_ - ntokens_]];
+    state_ = defgoto_[n_ - ntokens_];
   goto yynewstate;
 
   /* Report and recover from errors.  This is very incomplete.  */
@@ -481,24 +483,24 @@ b4_syncline([@oline@], [@ofile@])
       ++nerrs;
 
 #if YYERROR_VERBOSE
-      n_ = pact_[[state_]];
+      n_ = pact_[state_];
       if (pact_ninf_ < n_ && n_ < last_)
 	{
 	  message = "syntax error, unexpected ";
-	  message += name_[[ilooka_]];
+	  message += name_[ilooka_];
 	  {
 	    int count = 0;
 	    for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
-	      if (check_[[x + n_]] == x && x != terror_)
+	      if (check_[x + n_] == x && x != terror_)
 		++count;
 	    if (count < 5)
 	      {
 		count = 0;
 		for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
-		  if (check_[[x + n_]] == x && x != terror_)
+		  if (check_[x + n_] == x && x != terror_)
 		    {
 		      message += (!count++) ? ", expecting " : " or ";
-		      message += name_[[x]];
+		      message += name_[x];
 		    }
 	      }
 	  }
@@ -521,7 +523,7 @@ b4_syncline([@oline@], [@ofile@])
       if (looka_ == eof_)
 	goto yyabortlab;
       YYCDEBUG << "Discarding token " << looka_
-	     << " (" << name_[[ilooka_]] << ")." << std::endl;
+	     << " (" << name_[ilooka_] << ")." << std::endl;
       looka_ = empty_;
     }
 
@@ -532,13 +534,13 @@ b4_syncline([@oline@], [@ofile@])
 
   for (;;)
     {
-      n_ = pact_[[state_]];
+      n_ = pact_[state_];
       if (n_ != pact_ninf_)
 	{
 	  n_ += terror_;
-	  if (0 <= n_ && n_ <= last_ && check_[[n_]] == terror_)
+	  if (0 <= n_ && n_ <= last_ && check_[n_] == terror_)
 	    {
-	      n_ = table_[[n_]];
+	      n_ = table_[n_];
 	      if (0 < n_)
 		break;
 	    }
@@ -551,13 +553,13 @@ b4_syncline([@oline@], [@ofile@])
 #if YYDEBUG
       if (debug_)
 	{
-	  if (stos_[[state_]] < ntokens_)
+	  if (stos_[state_] < ntokens_)
 	    {
 	      YYCDEBUG << "Error: popping token "
-		     << token_number_[[stos_[state_]]]
-		     << " (" << name_[[stos_[state_]]];
+		     << token_number_[stos_[state_]]
+		     << " (" << name_[stos_[state_]];
 # ifdef YYPRINT
-	      YYPRINT (stderr, token_number_[[stos_[state_]]],
+	      YYPRINT (stderr, token_number_[stos_[state_]],
 		       semantic_stack_.top ());
 # endif
 	      YYCDEBUG << ')' << std::endl;
@@ -565,12 +567,12 @@ b4_syncline([@oline@], [@ofile@])
 	  else
 	    {
 	      YYCDEBUG << "Error: popping nonterminal ("
-		     << name_[[stos_[state_]]] << ')' << std::endl;
+		     << name_[stos_[state_]] << ')' << std::endl;
 	    }
 	}
 #endif
 
-      state_ = (state_stack_.pop (), state_stack_[[0]]);
+      state_ = (state_stack_.pop (), state_stack_[0]);
       semantic_stack_.pop ();
       location_stack_.pop ();;
 
@@ -607,7 +609,7 @@ b4_syncline([@oline@], [@ofile@])
 }
 
 void
-yy::b4_parser_class_name::lex_ ()
+yy::]b4_parser_class_name[::lex_ ()
 {
 #if YYLSP_NEEDED
   looka_ = yylex (&value, &location);
@@ -616,154 +618,154 @@ yy::b4_parser_class_name::lex_ ()
 #endif
 }
 
-/* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
+/* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-const b4_int_type_for([b4_pact]) yy::b4_parser_class_name::pact_ninf_ = b4_pact_ninf;
-const b4_int_type_for([b4_pact])
-yy::b4_parser_class_name::pact_[[]] =
+const ]b4_int_type_for([b4_pact]) yy::b4_parser_class_name::pact_ninf_ = b4_pact_ninf[;
+const ]b4_int_type_for([b4_pact])[
+yy::]b4_parser_class_name[::pact_[] =
 {
-  b4_pact
+  ]b4_pact[
 };
 
-/* YYDEFACT[[S]] -- default rule to reduce with in state S when YYTABLE
+/* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
    doesn't specify something else to do.  Zero means the default is an
    error.  */
-const b4_int_type_for([b4_defact])
-yy::b4_parser_class_name::defact_[[]] =
+const ]b4_int_type_for([b4_defact])[
+yy::]b4_parser_class_name[::defact_[] =
 {
-  b4_defact
+  ]b4_defact[
 };
 
-/* YYPGOTO[[NTERM-NUM]].  */
-const b4_int_type_for([b4_pgoto])
-yy::b4_parser_class_name::pgoto_[[]] =
+/* YYPGOTO[NTERM-NUM].  */
+const ]b4_int_type_for([b4_pgoto])[
+yy::]b4_parser_class_name[::pgoto_[] =
 {
-  b4_pgoto
+  ]b4_pgoto[
 };
 
-/* YYDEFGOTO[[NTERM-NUM]].  */
-const b4_int_type_for([b4_defgoto])
-yy::b4_parser_class_name::defgoto_[[]] =
+/* YYDEFGOTO[NTERM-NUM].  */
+const ]b4_int_type_for([b4_defgoto])[
+yy::]b4_parser_class_name[::defgoto_[] =
 {
-  b4_defgoto
+  ]b4_defgoto[
 };
 
-/* YYTABLE[[YYPACT[STATE-NUM]]].  What to do in state STATE-NUM.  If
+/* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-const b4_int_type_for([b4_table]) yy::b4_parser_class_name::table_ninf_ = b4_table_ninf;
-const b4_int_type_for([b4_table])
-yy::b4_parser_class_name::table_[[]] =
+const ]b4_int_type_for([b4_table]) yy::b4_parser_class_name::table_ninf_ = b4_table_ninf[;
+const ]b4_int_type_for([b4_table])[
+yy::]b4_parser_class_name[::table_[] =
 {
-  b4_table
+  ]b4_table[
 };
 
 /* YYCHECK.  */
-const b4_int_type_for([b4_check])
-yy::b4_parser_class_name::check_[[]] =
+const ]b4_int_type_for([b4_check])[
+yy::]b4_parser_class_name[::check_[] =
 {
-  b4_check
+  ]b4_check[
 };
 
 #if YYDEBUG
-/* STOS_[[STATE-NUM]] -- The (internal number of the) accessing
+/* STOS_[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
-const b4_int_type_for([b4_stos])
-yy::b4_parser_class_name::stos_[[]] =
+const ]b4_int_type_for([b4_stos])[
+yy::]b4_parser_class_name[::stos_[] =
 {
-  b4_stos
+  ]b4_stos[
 };
 
-/* TOKEN_NUMBER_[[YYLEX-NUM]] -- Internal token number corresponding
+/* TOKEN_NUMBER_[YYLEX-NUM] -- Internal token number corresponding
    to YYLEX-NUM.  */
-const b4_int_type_for([b4_toknum])
-yy::b4_parser_class_name::token_number_[[]] =
+const ]b4_int_type_for([b4_toknum])[
+yy::]b4_parser_class_name[::token_number_[] =
 {
-  b4_toknum
+  ]b4_toknum[
 };
 #endif
 
-/* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
-const b4_int_type_for([b4_r1])
-yy::b4_parser_class_name::r1_[[]] =
+/* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
+const ]b4_int_type_for([b4_r1])[
+yy::]b4_parser_class_name[::r1_[] =
 {
-  b4_r1
+  ]b4_r1[
 };
 
-/* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
-const b4_int_type_for([b4_r2])
-yy::b4_parser_class_name::r2_[[]] =
+/* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
+const ]b4_int_type_for([b4_r2])[
+yy::]b4_parser_class_name[::r2_[] =
 {
-  b4_r2
+  ]b4_r2[
 };
 
 #if YYDEBUG || YYERROR_VERBOSE
-/* YYTNAME[[SYMBOL-NUM]] -- String name of the symbol SYMBOL-NUM.
+/* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 const char*
-const yy::b4_parser_class_name::name_[[]] =
+const yy::]b4_parser_class_name[::name_[] =
 {
-  b4_tname
+  ]b4_tname[
 };
 #endif
 
 #if YYDEBUG
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-const yy::b4_parser_class_name::RhsNumberType
-yy::b4_parser_class_name::rhs_[[]] =
+const yy::]b4_parser_class_name[::RhsNumberType
+yy::]b4_parser_class_name[::rhs_[] =
 {
-  b4_rhs
+  ]b4_rhs[
 };
 
-/* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
+/* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-const b4_int_type_for([b4_prhs])
-yy::b4_parser_class_name::prhs_[[]] =
+const ]b4_int_type_for([b4_prhs])[
+yy::]b4_parser_class_name[::prhs_[] =
 {
-  b4_prhs
+  ]b4_prhs[
 };
 
-/* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
-const b4_int_type_for([b4_rline])
-yy::b4_parser_class_name::rline_[[]] =
+/* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
+const ]b4_int_type_for([b4_rline])[
+yy::]b4_parser_class_name[::rline_[] =
 {
-  b4_rline
+  ]b4_rline[
 };
 #endif
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-yy::b4_parser_class_name::TokenNumberType
-yy::b4_parser_class_name::translate_ (int token)
+yy::]b4_parser_class_name[::TokenNumberType
+yy::]b4_parser_class_name[::translate_ (int token)
 {
   static
   const TokenNumberType
-  translate_[[]] =
+  translate_[] =
   {
-    b4_translate
+    ]b4_translate[
   };
   if ((unsigned) token <= user_token_number_max_)
-    return translate_[[token]];
+    return translate_[token];
   else
     return undef_token_;
 }
 
-const int yy::b4_parser_class_name::eof_ = 0;
-const int yy::b4_parser_class_name::last_ = b4_last;
-const int yy::b4_parser_class_name::nnts_ = b4_nterms_number;
-const int yy::b4_parser_class_name::empty_ = -2;
-const int yy::b4_parser_class_name::final_ = b4_final_state_number;
-const int yy::b4_parser_class_name::terror_ = 1;
-const int yy::b4_parser_class_name::errcode_ = 256;
-const int yy::b4_parser_class_name::ntokens_ = b4_tokens_number;
-const int yy::b4_parser_class_name::initdepth_ = b4_stack_depth_init;
+const int yy::]b4_parser_class_name[::eof_ = 0;
+const int yy::]b4_parser_class_name[::last_ = ]b4_last[;
+const int yy::]b4_parser_class_name[::nnts_ = ]b4_nterms_number[;
+const int yy::]b4_parser_class_name[::empty_ = -2;
+const int yy::]b4_parser_class_name[::final_ = ]b4_final_state_number[;
+const int yy::]b4_parser_class_name[::terror_ = 1;
+const int yy::]b4_parser_class_name[::errcode_ = 256;
+const int yy::]b4_parser_class_name[::ntokens_ = ]b4_tokens_number[;
+const int yy::]b4_parser_class_name[::initdepth_ = ]b4_stack_depth_init[;
 
-const unsigned yy::b4_parser_class_name::user_token_number_max_ = b4_user_token_number_max;
-const yy::b4_parser_class_name::TokenNumberType yy::b4_parser_class_name::undef_token_ = b4_undef_token_number;
+const unsigned yy::]b4_parser_class_name[::user_token_number_max_ = ]b4_user_token_number_max[;
+const yy::]b4_parser_class_name[::TokenNumberType yy::]b4_parser_class_name[::undef_token_ = ]b4_undef_token_number[;
 
-b4_epilogue
+]b4_epilogue
 dnl
 @output stack.hh
-b4_copyright([2002])
+b4_copyright([2002])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
@@ -790,16 +792,16 @@ namespace yy
 
     inline
     T&
-    operator [[]] (unsigned index)
+    operator [] (unsigned index)
     {
-      return seq_[[index]];
+      return seq_[index];
     }
 
     inline
     const T&
-    operator [[]] (unsigned index) const
+    operator [] (unsigned index) const
     {
-      return seq_[[index]];
+      return seq_[index];
     }
 
     inline
@@ -845,9 +847,9 @@ namespace yy
 
     inline
     const T&
-    operator [[]] (unsigned index) const
+    operator [] (unsigned index) const
     {
-      return stack_[[range_ - index]];
+      return stack_[range_ - index];
     }
 
   private:
@@ -857,10 +859,10 @@ namespace yy
   };
 }
 
-#endif // not BISON_STACK_HH
+#endif // not BISON_STACK_HH]
 dnl
 @output location.hh
-b4_copyright([2002])
+b4_copyright([2002])[
 
 #ifndef BISON_LOCATION_HH
 # define BISON_LOCATION_HH
@@ -880,4 +882,4 @@ namespace yy
   };
 }
 
-#endif // not BISON_LOCATION_HH
+#endif // not BISON_LOCATION_HH]
