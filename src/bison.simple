@@ -78,7 +78,8 @@
 
 #if YYSTACK_USE_ALLOCA
 # define YYSTACK_ALLOC alloca
-# define YYSTACK_FREE(Ptr) /* empty */
+/* Pacify GCC's `empty if-body' warning. */
+# define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
 #else
 # define YYSTACK_ALLOC malloc
 # define YYSTACK_FREE(Ptr) free (Ptr)
