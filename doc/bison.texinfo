@@ -2212,6 +2212,8 @@ appropriate delimiters:
 @end example
 
 Comments enclosed in @samp{/* @dots{} */} may appear in any of the sections.
+As a @acronym{GNU} extension, @samp{//} introduces a comment that
+continues until end of line.
 
 @menu
 * Prologue::          Syntax and usage of the prologue.
@@ -2360,7 +2362,9 @@ All the usual escape sequences used in character literals in C can be
 used in Bison as well, but you must not use the null character as a
 character literal because its numeric code, zero, signifies
 end-of-input (@pxref{Calling Convention, ,Calling Convention
-for @code{yylex}}).
+for @code{yylex}}).  Also, unlike standard C, trigraphs have no
+special meaning in Bison character literals, nor is backslash-newline
+allowed.
 
 @item
 @cindex string token
@@ -2387,9 +2391,10 @@ does not enforce this convention, but if you depart from it, people who
 read your program will be confused.
 
 All the escape sequences used in string literals in C can be used in
-Bison as well.  A literal string token must contain two or more
-characters; for a token containing just one character, use a character
-token (see above).
+Bison as well.  However, unlike Standard C, trigraphs have no special
+meaning in Bison string literals, nor is backslash-newline allowed.  A
+literal string token must contain two or more characters; for a token
+containing just one character, use a character token (see above).
 @end itemize
 
 How you choose to write a terminal symbol has no effect on its
@@ -2691,7 +2696,13 @@ is to compute a semantic value for the grouping built by the rule from the
 semantic values associated with tokens or smaller groupings.
 
 An action consists of C statements surrounded by braces, much like a
-compound statement in C@.  It can be placed at any position in the rule;
+compound statement in C@.  An action can contain any sequence of C
+statements.  Bison does not look for trigraphs, though, so if your C
+code uses trigraphs you should ensure that they do not affect the
+nesting of braces or the boundaries of comments, strings, or character
+literals.
+
+An action can be placed at any position in the rule;
 it is executed at that position.  Most rules have just one action at the
 end of the rule, following all the components.  Actions in the middle of
 a rule are tricky and used only for special purposes (@pxref{Mid-Rule
