@@ -28,6 +28,7 @@
 #include <error.h>
 #include <quotearg.h>
 
+#include "complain.h"
 #include "getargs.h"
 #include "files.h"
 
