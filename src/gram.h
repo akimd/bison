@@ -122,6 +122,8 @@ typedef struct rule_s
   short assoc;
   short line;
   bool useful;
+  const char *action;
+  short action_line;
 } rule_t;
 
 extern struct rule_s *rule_table;

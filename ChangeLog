@@ -1,5 +1,21 @@
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
+	Attach actions to rules, instead of pre-outputting them to
+	actions_obstack.
+
+	* src/gram.h (rule_t): action and action_line are new members.
+	* src/reader.c (symbol_list): Likewise.
+	(copy_action): Save the actions within the rule.
+	(packgram): Save them in rule_table.
+	* src/output.c (actions_output): New.
+	(output_parser): Use it on `%%actions'.
+	(output_rule_data): Don't free rule_table.
+	(output): Do it.
+	(prepare): Don't save the `action' muscle.
+	* src/bison.simple: s/%%action/%%actions/.
+
+2001-12-15  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (copy_action): When --yacc, don't append a `;'
 	to the user action: let it fail if lacking.
 	Suggested by Aharon Robbins and Tom Tromey.

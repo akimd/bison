@@ -891,7 +891,7 @@ yyreduce:
 #endif
   switch (yyn)
     {
-      %%action
+%%actions
     }
 #line %%line "%%skeleton"
 

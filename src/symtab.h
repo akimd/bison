@@ -50,13 +50,13 @@ typedef struct bucket
   short prec;
   associativity assoc;
   short user_token_number;
+
   /* Points to the other in the identifier-symbol pair for an
      alias. Special value SALIAS in the identifier half of the
      identifier-symbol pair for an alias.  */
   struct bucket *alias;
   symbol_class class;
-}
-bucket;
+} bucket;
 
 
 extern bucket *firstsymbol;
