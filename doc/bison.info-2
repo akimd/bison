@@ -385,21 +385,21 @@ Compiling the Parser File
    Here is how to compile and run the parser file:
 
      # List files in current directory.
-     % ls
+     $ ls
      rpcalc.tab.c  rpcalc.y
      
      # Compile the Bison parser.
      # `-lm' tells compiler to search math library for `pow'.
-     % cc rpcalc.tab.c -lm -o rpcalc
+     $ cc rpcalc.tab.c -lm -o rpcalc
      
      # List files again.
-     % ls
+     $ ls
      rpcalc  rpcalc.tab.c  rpcalc.y
 
    The file `rpcalc' now contains the executable code.  Here is an
 example session using `rpcalc'.
 
-     % rpcalc
+     $ rpcalc
      4 9 +
      13
      3 7 + 3 4 5 *+-
@@ -411,7 +411,7 @@ example session using `rpcalc'.
      3 4 ^                            Exponentiation
      81
      ^D                               End-of-file indicator
-     %
+     $
 
 
 File: bison.info,  Node: Infix Calc,  Next: Simple Error Recovery,  Prev: RPN Calc,  Up: Examples
@@ -485,7 +485,7 @@ Precedence.
 
    Here is a sample run of `calc.y':
 
-     % calc
+     $ calc
      4 + 4.5 - (34/(8*3+-3))
      6.880952381
      -56 + 2
@@ -539,12 +539,10 @@ Location Tracking Calculator: `ltcalc'
 ======================================
 
    This example extends the infix notation calculator with location
-tracking.  This feature will be used to improve error reporting, and
-provide better error messages.
-
-   For the sake of clarity, we will switch for this example to an
-integer calculator, since most of the work needed to use locations will
-be done in the lexical analyser.
+tracking.  This feature will be used to improve the error messages.  For
+the sake of clarity, this example is a simple integer calculator, since
+most of the work needed to use locations will be done in the lexical
+analyser.
 
 * Menu:
 
@@ -558,8 +556,8 @@ File: bison.info,  Node: Ltcalc Decls,  Next: Ltcalc Rules,  Up: Location Tracki
 Declarations for `ltcalc'
 -------------------------
 
-   The C and Bison declarations for the location tracking calculator
-are the same as the declarations for the infix notation calculator.
+   The C and Bison declarations for the location tracking calculator are
+the same as the declarations for the infix notation calculator.
 
      /* Location tracking calculator.  */
      
@@ -578,11 +576,11 @@ are the same as the declarations for the infix notation calculator.
      
      %% /* Grammar follows */
 
-   In the code above, there are no declarations specific to locations.
-Defining a data type for storing locations is not needed: we will use
-the type provided by default (*note Data Types of Locations: Location
-Type.), which is a four member structure with the following integer
-fields: `first_line', `first_column', `last_line' and `last_column'.
+Note there are no declarations specific to locations.  Defining a data
+type for storing locations is not needed: we will use the type provided
+by default (*note Data Types of Locations: Location Type.), which is a
+four member structure with the following integer fields: `first_line',
+`first_column', `last_line' and `last_column'.
 
 
 File: bison.info,  Node: Ltcalc Rules,  Next: Ltcalc Lexer,  Prev: Ltcalc Decls,  Up: Location Tracking Calc
@@ -590,10 +588,10 @@ File: bison.info,  Node: Ltcalc Rules,  Next: Ltcalc Lexer,  Prev: Ltcalc Decls,
 Grammar Rules for `ltcalc'
 --------------------------
 
-   Whether you choose to handle locations or not has no effect on the
-syntax of your language.  Therefore, grammar rules for this example
-will be very close to those of the previous example: we will only
-modify them to benefit from the new informations we will have.
+   Whether handling locations or not has no effect on the syntax of your
+language.  Therefore, grammar rules for this example will be very close
+to those of the previous example: we will only modify them to benefit
+from the new information.
 
    Here, we will use locations to report divisions by zero, and locate
 the wrong expressions or subexpressions.
@@ -617,9 +615,9 @@ the wrong expressions or subexpressions.
                    else
                      {
                        $$ = 1;
-                       printf("Division by zero, l%d,c%d-l%d,c%d",
-                              @3.first_line, @3.first_column,
-                              @3.last_line, @3.last_column);
+                       fprintf (stderr, "%d.%d-%d.%d: division by zero",
+                                @3.first_line, @3.first_column,
+                                @3.last_line, @3.last_column);
                      }
                  }
              | '-' exp %preg NEG     { $$ = -$2; }
@@ -630,14 +628,12 @@ the wrong expressions or subexpressions.
 using the pseudo-variables `@N' for rule components, and the
 pseudo-variable `@$' for groupings.
 
-   In this example, we never assign a value to `@$', because the output
-parser can do this automatically.  By default, before executing the C
-code of each action, `@$' is set to range from the beginning of `@1' to
-the end of `@N', for a rule with N components.
-
-   Of course, this behavior can be redefined (*note Default Action for
-Locations: Location Default Action.), and for very specific rules, `@$'
-can be computed by hand.
+   We don't need to assign a value to `@$': the output parser does it
+automatically.  By default, before executing the C code of each action,
+`@$' is set to range from the beginning of `@1' to the end of `@N', for
+a rule with N components.  This behavior can be redefined (*note
+Default Action for Locations: Location Default Action.), and for very
+specific rules, `@$' can be computed by hand.
 
 
 File: bison.info,  Node: Ltcalc Lexer,  Prev: Ltcalc Rules,  Up: Location Tracking Calc
@@ -647,10 +643,10 @@ The `ltcalc' Lexical Analyzer.
 
    Until now, we relied on Bison's defaults to enable location
 tracking. The next step is to rewrite the lexical analyser, and make it
-able to feed the parser with locations of tokens, as he already does
-for semantic values.
+able to feed the parser with the token locations, as it already does for
+semantic values.
 
-   To do so, we must take into account every single character of the
+   To this end, we must take into account every single character of the
 input text, to avoid the computed locations of being fuzzy or wrong:
 
      int
@@ -695,14 +691,14 @@ input text, to avoid the computed locations of being fuzzy or wrong:
        return c;
      }
 
-   Basically, the lexical analyzer does the same processing as before:
-it skips blanks and tabs, and reads numbers or single-character tokens.
-In addition to this, it updates the `yylloc' global variable (of type
-`YYLTYPE'), where the location of tokens is stored.
+   Basically, the lexical analyzer performs the same processing as
+before: it skips blanks and tabs, and reads numbers or single-character
+tokens.  In addition, it updates `yylloc', the global variable (of type
+`YYLTYPE') containing the token's location.
 
-   Now, each time this function returns a token, the parser has it's
-number as well as it's semantic value, and it's position in the text.
-The last needed change is to initialize `yylloc', for example in the
+   Now, each time this function returns a token, the parser has its
+number as well as its semantic value, and its location in the text. The
+last needed change is to initialize `yylloc', for example in the
 controlling function:
 
      int
@@ -715,7 +711,7 @@ controlling function:
 
    Remember that computing locations is not a matter of syntax.  Every
 character must be associated to a location update, whether it is in
-valid input, in comments, in literal strings, and so on...
+valid input, in comments, in literal strings, and so on.
 
 
 File: bison.info,  Node: Multi-function Calc,  Next: Exercises,  Prev: Location Tracking Calc,  Up: Examples
@@ -741,7 +737,7 @@ At the same time, we will add memory to the calculator, by allowing you
 to create named variables, store values in them, and use them later.
 Here is a sample session with the multi-function calculator:
 
-     % mfcalc
+     $ mfcalc
      pi = 3.141592653589
      3.1415926536
      sin(pi)
@@ -754,7 +750,7 @@ Here is a sample session with the multi-function calculator:
      0.8329091229
      exp(ln(beta1))
      2.3000000000
-     %
+     $
 
    Note that multiple assignment and nested function calls are
 permitted.

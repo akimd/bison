@@ -709,12 +709,11 @@ matter of lexicography, not grammar.)
    Here is a simple C function subdivided into tokens:
 
      int             /* keyword `int' */
-     square (x)      /* identifier, open-paren, */
-                     /* identifier, close-paren */
-          int x;     /* keyword `int', identifier, semicolon */
+     square (int x)  /* identifier, open-paren, identifier,
+                        identifier, close-paren */
      {               /* open-brace */
-       return x * x; /* keyword `return', identifier, */
-                     /* asterisk, identifier, semicolon */
+       return x * x; /* keyword `return', identifier, asterisk,
+                        identifier, semicolon */
      }               /* close-brace */
 
    The syntactic groupings of C include the expression, the statement,
