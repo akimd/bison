@@ -324,7 +324,7 @@ makedepend)
   if test "$stat" != 0; then exit $stat; fi
   rm -f "$depfile"
   cat < "$tmpdepfile" > "$depfile"
-  tail +3 "$tmpdepfile" | tr ' ' '
+  sed '1,2d' "$tmpdepfile" | tr ' ' '
 ' | \
 ## Some versions of the HPUX 10.20 sed can't process this invocation
 ## correctly.  Breaking it into two sed invocations is a workaround.
