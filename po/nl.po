@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-02-01 17:25+0100\n"
+"POT-Creation-Date: 2001-02-08 15:32+0100\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -738,7 +738,9 @@ msgstr "%s: optie `%s' is niet eenduidig\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: optie `--%s' staat geen argument toe\n"
 
-#: lib/obstack.c:477
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: lib/obstack.c:477 lib/xmalloc.c:66
 #, fuzzy
 msgid "memory exhausted"
 msgstr "%s: geen geheugen meer beschikbaar\n"
@@ -765,12 +767,9 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
-#: lib/xmalloc.c:66
 #, fuzzy
-msgid "Memory exhausted"
-msgstr "%s: geen geheugen meer beschikbaar\n"
+#~ msgid "Memory exhausted"
+#~ msgstr "%s: geen geheugen meer beschikbaar\n"
 
 #~ msgid "$%s is invalid"
 #~ msgstr "$%s is onjuist"

@@ -6,6 +6,11 @@ noinst_LIBRARIES = libbison.a
 
 INCLUDES = -I.. -I$(srcdir) -I../intl
 
+# Heck, we are still using an old version of Automake which does not
+# understand LIBOBJ additions using $objext...
+
+EXTRA_DIST = malloc.c realloc.c
+
 libbison_a_SOURCES = \
   error.c error.h \
   getopt.h getopt.c getopt1.c \

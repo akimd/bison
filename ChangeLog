@@ -1,3 +1,13 @@
+2001-02-08  Akim Demaille  <akim@epita.fr>
+
+	* lib/memchr.c, lib/stpcpy.c, lib/strndup.c, lib/strnlen.c:
+	New, from fileutils 4.0.37.
+	* configure.in: Require Autoconf 2.49c.  I took some time before
+	making this decision.  This is the only way out for portability
+	issues in Bison, it would mean way too much duplicate effort to
+	import in Bison features implemented in 2.49c since 2.13.
+	AC_REPLACE_FUNCS and AC_CHECK_DECLS the functions above.
+
 2001-02-02  Akim Demaille  <akim@epita.fr>
 
 	* lib/malloc.c, lib/realloc.c: New, from the fileutils 4.0.37.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28a\n"
-"POT-Creation-Date: 2001-02-01 17:25+0100\n"
+"POT-Creation-Date: 2001-02-08 15:32+0100\n"
 "PO-Revision-Date: 2000-04-12 13:16+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -755,7 +755,9 @@ msgstr "%s: неоднозначный ключ `-W %s'\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: ключ `-W %s' должен использоваться без аргумента\n"
 
-#: lib/obstack.c:477
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: lib/obstack.c:477 lib/xmalloc.c:66
 #, fuzzy
 msgid "memory exhausted"
 msgstr "%s: память исчерпана\n"
@@ -782,12 +784,9 @@ msgstr ""
 msgid "'"
 msgstr ""
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
-#: lib/xmalloc.c:66
 #, fuzzy
-msgid "Memory exhausted"
-msgstr "%s: память исчерпана\n"
+#~ msgid "Memory exhausted"
+#~ msgstr "%s: память исчерпана\n"
 
 #~ msgid "$%s is invalid"
 #~ msgstr "неверный знак $%s"
