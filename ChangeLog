@@ -1,5 +1,11 @@
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (parse_expect_decl): Use `skip_white_space' and
+	`read_signed_integer'.
+
+	
+2000-10-16  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (copy_dollar): New function.
 	(copy_guard, copy_action): Use it.
 
