@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
-à partir bison.texinfo.
+This is bison.info, produced by makeinfo version 4.0b from
+bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -87,7 +87,7 @@ Examples
 
 Reverse Polish Notation Calculator
 
-* Decls: Rpcalc Decls.  Bison and C declarations for rpcalc.
+* Decls: Rpcalc Decls.  Prologue (declarations) for rpcalc.
 * Rules: Rpcalc Rules.  Grammar Rules for rpcalc, with explanation.
 * Lexer: Rpcalc Lexer.  The lexical analyzer.
 * Main: Rpcalc Main.    The controlling function.
@@ -119,10 +119,10 @@ Bison Grammar Files
 
 Outline of a Bison Grammar
 
-* C Declarations::    Syntax and usage of the C declarations section.
+* Prologue::          Syntax and usage of the prologue (declarations section).
 * Bison Declarations::  Syntax and usage of the Bison declarations section.
 * Grammar Rules::     Syntax and usage of the grammar rules section.
-* C Code::            Syntax and usage of the additional C code section.
+* Epilogue::          Syntax and usage of the epilogue (additional code section).
 
 Defining Language Semantics
 
@@ -981,7 +981,7 @@ The Overall Layout of a Bison Grammar
 general form of a Bison grammar file is as follows:
 
      %{
-     C DECLARATIONS
+     PROLOGUE (DECLARATIONS)
      %}
      
      BISON DECLARATIONS
@@ -989,15 +989,14 @@ general form of a Bison grammar file is as follows:
      %%
      GRAMMAR RULES
      %%
-     ADDITIONAL C CODE
+     EPILOGUE (ADDITIONAL CODE)
 
 The `%%', `%{' and `%}' are punctuation that appears in every Bison
 grammar file to separate the sections.
 
-   The C declarations may define types and variables used in the
-actions.  You can also use preprocessor commands to define macros used
-there, and use `#include' to include header files that do any of these
-things.
+   The prologue may define types and variables used in the actions. You
+can also use preprocessor commands to define macros used there, and use
+`#include' to include header files that do any of these things.
 
    The Bison declarations declare the names of the terminal and
 nonterminal symbols, and may also describe operator precedence and the
@@ -1006,10 +1005,10 @@ data types of semantic values of various symbols.
    The grammar rules define how to construct each nonterminal symbol
 from its parts.
 
-   The additional C code can contain any C code you want to use.  Often
-the definition of the lexical analyzer `yylex' goes here, plus
-subroutines called by the actions in the grammar rules.  In a simple
-program, all the rest of the program can go here.
+   The epilogue can contain any code you want to use. Often the
+definition of the lexical analyzer `yylex' goes here, plus subroutines
+called by the actions in the grammar rules.  In a simple program, all
+the rest of the program can go here.
 
 
 File: bison.info,  Node: Examples,  Next: Grammar File,  Prev: Concepts,  Up: Top
@@ -1055,7 +1054,7 @@ extension is a convention used for Bison input files.
 
 * Menu:
 
-* Decls: Rpcalc Decls.  Bison and C declarations for rpcalc.
+* Decls: Rpcalc Decls.  Prologue (declarations) for rpcalc.
 * Rules: Rpcalc Rules.  Grammar Rules for rpcalc, with explanation.
 * Lexer: Rpcalc Lexer.  The lexical analyzer.
 * Main: Rpcalc Main.    The controlling function.

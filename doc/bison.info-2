@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
-à partir bison.texinfo.
+This is bison.info, produced by makeinfo version 4.0b from
+bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -48,8 +48,8 @@ calculator.  As in C, comments are placed between `/*...*/'.
      
      %% /* Grammar rules and actions follow */
 
-   The C declarations section (*note The C Declarations Section: C
-Declarations.) contains two preprocessor directives.
+   The declarations section (*note The prologue: Prologue.) contains two
+preprocessor directives.
 
    The `#define' directive defines the macro `YYSTYPE', thus specifying
 the C data type for semantic values of both tokens and groupings (*note
@@ -359,8 +359,8 @@ Running Bison to Make the Parser
 arrange all the source code in one or more source files.  For such a
 simple example, the easiest thing is to put everything in one file.  The
 definitions of `yylex', `yyerror' and `main' go at the end, in the
-"additional C code" section of the file (*note The Overall Layout of a
-Bison Grammar: Grammar Layout.).
+epilogue of the file (*note The Overall Layout of a Bison Grammar:
+Grammar Layout.).
 
    For a large project, you would probably have several source files,
 and use `make' to arrange to recompile them.
@@ -926,7 +926,7 @@ Outline of a Bison Grammar
 appropriate delimiters:
 
      %{
-     C DECLARATIONS
+     PROLOGUE
      %}
      
      BISON DECLARATIONS
@@ -935,33 +935,33 @@ appropriate delimiters:
      GRAMMAR RULES
      %%
      
-     ADDITIONAL C CODE
+     EPILOGUE
 
    Comments enclosed in `/* ... */' may appear in any of the sections.
 
 * Menu:
 
-* C Declarations::    Syntax and usage of the C declarations section.
+* Prologue::          Syntax and usage of the prologue.
 * Bison Declarations::  Syntax and usage of the Bison declarations section.
 * Grammar Rules::     Syntax and usage of the grammar rules section.
-* C Code::            Syntax and usage of the additional C code section.
+* Epilogue::          Syntax and usage of the epilogue.
 
 
-File: bison.info,  Node: C Declarations,  Next: Bison Declarations,  Up: Grammar Outline
+File: bison.info,  Node: Prologue,  Next: Bison Declarations,  Up: Grammar Outline
 
-The C Declarations Section
---------------------------
+The prologue
+------------
 
-   The C DECLARATIONS section contains macro definitions and
-declarations of functions and variables that are used in the actions in
-the grammar rules.  These are copied to the beginning of the parser
-file so that they precede the definition of `yyparse'.  You can use
-`#include' to get the declarations from a header file.  If you don't
-need any C declarations, you may omit the `%{' and `%}' delimiters that
-bracket this section.
+   The PROLOGUE section contains macro definitions and declarations of
+functions and variables that are used in the actions in the grammar
+rules.  These are copied to the beginning of the parser file so that
+they precede the definition of `yyparse'.  You can use `#include' to
+get the declarations from a header file.  If you don't need any C
+declarations, you may omit the `%{' and `%}' delimiters that bracket
+this section.
 
 
-File: bison.info,  Node: Bison Declarations,  Next: Grammar Rules,  Prev: C Declarations,  Up: Grammar Outline
+File: bison.info,  Node: Bison Declarations,  Next: Grammar Rules,  Prev: Prologue,  Up: Grammar Outline
 
 The Bison Declarations Section
 ------------------------------
@@ -972,7 +972,7 @@ some simple grammars you may not need any declarations.  *Note Bison
 Declarations: Declarations.
 
 
-File: bison.info,  Node: Grammar Rules,  Next: C Code,  Prev: Bison Declarations,  Up: Grammar Outline
+File: bison.info,  Node: Grammar Rules,  Next: Epilogue,  Prev: Bison Declarations,  Up: Grammar Outline
 
 The Grammar Rules Section
 -------------------------
@@ -985,17 +985,17 @@ rules, and nothing else.  *Note Syntax of Grammar Rules: Rules.
 the first thing in the file.
 
 
-File: bison.info,  Node: C Code,  Prev: Grammar Rules,  Up: Grammar Outline
+File: bison.info,  Node: Epilogue,  Prev: Grammar Rules,  Up: Grammar Outline
 
-The Additional C Code Section
------------------------------
+The epilogue
+------------
 
-   The ADDITIONAL C CODE section is copied verbatim to the end of the
-parser file, just as the C DECLARATIONS section is copied to the
-beginning.  This is the most convenient place to put anything that you
-want to have in the parser file but which need not come before the
-definition of `yyparse'.  For example, the definitions of `yylex' and
-`yyerror' often go here.  *Note Parser C-Language Interface: Interface.
+   The EPILOGUE is copied verbatim to the end of the parser file, just
+as the PROLOGUE is copied to the beginning.  This is the most convenient
+place to put anything that you want to have in the parser file but
+which need not come before the definition of `yyparse'.  For example,
+the definitions of `yylex' and `yyerror' often go here.  *Note Parser
+C-Language Interface: Interface.
 
    If the last section is empty, you may omit the `%%' that separates it
 from the grammar rules.
@@ -1003,7 +1003,7 @@ from the grammar rules.
    The Bison parser itself contains many static variables whose names
 start with `yy' and many macros whose names start with `YY'.  It is a
 good idea to avoid using any such names (except those documented in this
-manual) in the additional C code section of the grammar file.
+manual) in the epilogue of the grammar file.
 
 
 File: bison.info,  Node: Symbols,  Next: Rules,  Prev: Grammar Outline,  Up: Grammar File
@@ -1256,8 +1256,8 @@ specify some other type, define `YYSTYPE' as a macro, like this:
 
      #define YYSTYPE double
 
-This macro definition must go in the C declarations section of the
-grammar file (*note Outline of a Bison Grammar: Grammar Outline.).
+This macro definition must go in the prologue of the grammar file
+(*note Outline of a Bison Grammar: Grammar Outline.).
 
 
 File: bison.info,  Node: Multiple Types,  Next: Actions,  Prev: Value Type,  Up: Semantics

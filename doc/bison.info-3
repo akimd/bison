@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
-à partir bison.texinfo.
+This is bison.info, produced by makeinfo version 4.0b from
+bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -746,8 +746,8 @@ that it needs to use.
 
    Keep in mind that the parser uses many C identifiers starting with
 `yy' and `YY' for internal purposes.  If you use such an identifier
-(aside from those in this manual) in an action or in additional C code
-in the grammar file, you are likely to run into trouble.
+(aside from those in this manual) in an action or in epilogue in the
+grammar file, you are likely to run into trouble.
 
 * Menu:
 

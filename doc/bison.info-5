@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
-à partir bison.texinfo.
+This is bison.info, produced by makeinfo version 4.0b from
+bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -220,14 +220,13 @@ Bison Symbols
 
 `%%'
      Delimiter used to separate the grammar rule section from the Bison
-     declarations section or the additional C code section.  *Note The
-     Overall Layout of a Bison Grammar: Grammar Layout.
+     declarations section or the epilogue.  *Note The Overall Layout of
+     a Bison Grammar: Grammar Layout.
 
 `%{ %}'
      All code listed between `%{' and `%}' is copied directly to the
-     output file uninterpreted.  Such code forms the "C declarations"
-     section of the input file.  *Note Outline of a Bison Grammar:
-     Grammar Outline.
+     output file uninterpreted.  Such code forms the prologue of the
+     input file.  *Note Outline of a Bison Grammar: Grammar Outline.
 
 `/*...*/'
      Comment delimiters, as in C.
@@ -824,17 +823,17 @@ Index
 * %token:                                Token Decl.
 * %type:                                 Type Decl.
 * %union:                                Union Decl.
-* @$ <1>:                                Action Features.
-* @$:                                    Actions and Locations.
-* @N <1>:                                Action Features.
-* @N:                                    Actions and Locations.
+* @$ <1>:                                Actions and Locations.
+* @$:                                    Action Features.
+* @N <1>:                                Actions and Locations.
+* @N:                                    Action Features.
 * action:                                Actions.
 * action data types:                     Action Types.
 * action features summary:               Action Features.
 * actions in mid-rule:                   Mid-Rule Actions.
 * actions, location:                     Actions and Locations.
 * actions, semantic:                     Semantic Actions.
-* additional C code section:             C Code.
+* additional C code section:             Epilogue.
 * algorithm of parser:                   Algorithm.
 * associativity:                         Why Precedence.
 * Backus-Naur form:                      Language and Grammar.
@@ -850,8 +849,7 @@ Index
 * BISON_HAIRY:                           Environment Variables.
 * BISON_SIMPLE:                          Environment Variables.
 * BNF:                                   Language and Grammar.
-* C code, section for additional:        C Code.
-* C declarations section:                C Declarations.
+* C code, section for additional:        Epilogue.
 * C-language interface:                  Interface.
 * calc:                                  Infix Calc.
 * calculator, infix notation:            Infix Calc.
@@ -871,9 +869,10 @@ Index
 * data types of semantic values:         Value Type.
 * debugging:                             Debugging.
 * declaration summary:                   Decl Summary.
+* declarations:                          Prologue.
+* declarations section:                  Prologue.
 * declarations, Bison:                   Declarations.
 * declarations, Bison (introduction):    Bison Declarations.
-* declarations, C:                       C Declarations.
 * declaring literal string tokens:       Token Decl.
 * declaring operator precedence:         Precedence Decl.
 * declaring the start symbol:            Start Decl.
@@ -888,6 +887,7 @@ Index
 * defining language semantics:           Semantics.
 * else, dangling:                        Shift/Reduce.
 * environment variables:                 Environment Variables.
+* epilogue:                              Epilogue.
 * error:                                 Error Recovery.
 * error recovery:                        Error Recovery.
 * error recovery, simple:                Simple Error Recovery.
@@ -944,13 +944,14 @@ Index
 * parser stack overflow:                 Stack Overflow.
 * parser state:                          Parser States.
 * polish notation calculator:            RPN Calc.
-* position, textual <1>:                 Locations.
-* position, textual:                     Locations Overview.
+* position, textual <1>:                 Locations Overview.
+* position, textual:                     Locations.
 * precedence declarations:               Precedence Decl.
 * precedence of operators:               Precedence.
 * precedence, context-dependent:         Contextual Precedence.
 * precedence, unary operator:            Contextual Precedence.
 * preventing warnings about conflicts:   Expect Decl.
+* Prologue:                              Prologue.
 * pure parser:                           Pure Decl.
 * recovery from errors:                  Error Recovery.
 * recursive rule:                        Recursion.
@@ -1008,8 +1009,8 @@ Index
 * YYBACKUP:                              Action Features.
 * yychar:                                Look-Ahead.
 * yyclearin:                             Error Recovery.
-* yydebug:                               Debugging.
 * YYDEBUG:                               Debugging.
+* yydebug:                               Debugging.
 * YYEMPTY:                               Action Features.
 * yyerrok:                               Error Recovery.
 * YYERROR:                               Action Features.

@@ -1,5 +1,5 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0b
-à partir bison.texinfo.
+This is bison.info, produced by makeinfo version 4.0b from
+bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -787,10 +787,9 @@ Here we assume that `yylex' looks at the value of `hexflag'; when it is
 nonzero, all integers are parsed in hexadecimal, and tokens starting
 with letters are parsed as integers if possible.
 
-   The declaration of `hexflag' shown in the C declarations section of
-the parser file is needed to make it accessible to the actions (*note
-The C Declarations Section: C Declarations.).  You must also write the
-code in `yylex' to obey the flag.
+   The declaration of `hexflag' shown in the prologue of the parser file
+is needed to make it accessible to the actions (*note The Prologue:
+Prologue.).  You must also write the code in `yylex' to obey the flag.
 
 
 File: bison.info,  Node: Tie-in Recovery,  Prev: Lexical Tie-ins,  Up: Context Dependency
@@ -859,15 +858,13 @@ out why.
 
    To enable compilation of trace facilities, you must define the macro
 `YYDEBUG' when you compile the parser.  You could use `-DYYDEBUG=1' as
-a compiler option or you could put `#define YYDEBUG 1' in the C
-declarations section of the grammar file (*note The C Declarations
-Section: C Declarations.).  Alternatively, use the `-t' option when you
-run Bison (*note Invoking Bison: Invocation.).  We always define
-`YYDEBUG' so that debugging is always possible.
+a compiler option or you could put `#define YYDEBUG 1' in the prologue
+of the grammar file (*note The Prologue: Prologue.). Alternatively, use
+the `-t' option when you run Bison (*note Invoking Bison: Invocation.).
+We always define `YYDEBUG' so that debugging is always possible.
 
    The trace facility uses `stderr', so you must add
-`#include <stdio.h>' to the C declarations section unless it is already
-there.
+`#include <stdio.h>' to the prologue unless it is already there.
 
    Once you have compiled the program with trace facilities, the way to
 request a trace is to store a nonzero value in the variable `yydebug'.
