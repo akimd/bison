@@ -29,6 +29,7 @@
 /* Associativity values for tokens and rules.  */
 typedef enum
 {
+  undef_assoc,
   right_assoc,
   left_assoc,
   non_assoc
@@ -84,15 +85,15 @@ struct symbol_s
 /* Fetch (or create) the symbol associated to KEY.  */
 symbol_t *getsym PARAMS ((const char *key));
 
-/* Declare the new SYMBOL.  Make it an alias of SYMVAL, and type */
-/* them with TYPENAME.                                           */
-void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval,
-				char *typename));
+/* Declare the new SYMBOL.  Make it an alias of SYMVAL.  */
+void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval));
 
-/* Set the TYPE_NAME associated to SYMBOL. */
+/* Set the TYPE_NAME associated to SYMBOL. Does nothing if passed 0 as
+   TYPE_NAME.  */
 void symbol_type_set PARAMS ((symbol_t *symbol, char *type_name));
 
-/* Set the PRECEDENCE associated to SYMBOL.  */
+/* Set the PRECEDENCE associated to SYMBOL.  Ensures that SYMBOL is a
+   terminal.  Does nothing if invoked with UNDEF_ASSOC as ASSOC.  */
 void symbol_precedence_set PARAMS ((symbol_t *symbol,
 				    int prec, associativity assoc));
 
@@ -131,8 +132,8 @@ void symbols_do PARAMS ((symbol_processor processor, void *processor_data));
 /* Free all the memory allocated for symbols.  */
 void symbols_free PARAMS ((void));
 
-/* Check that all the symbols are defined.  Report any undefined */
-/* symbols and consider them nonterminals.                       */
+/* Check that all the symbols are defined.  Report any undefined
+   symbols and consider them nonterminals.  */
 void symbols_check_defined PARAMS ((void));
 
 /* Perform various sanity checks, assign symbol numbers, and set up

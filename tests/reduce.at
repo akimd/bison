@@ -204,6 +204,7 @@ not_reachable: useful  { /* A not reachable action. */ }
 non_productive: non_productive useless_token
                        { /* Another non productive action. */ }
               ;
+%%
 ]])
 
 AT_CHECK([[bison not-reduced.y]], 0, [],
@@ -244,6 +245,7 @@ exp: useful            { /* A useful action. */ }
 //non_productive: non_productive useless_token
 //                       { /* Another non productive action. */ }
 //              ;
+%%
 ]])
 
 AT_CHECK([[bison reduced.y]])

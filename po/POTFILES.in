@@ -4,10 +4,11 @@ src/conflicts.c
 src/files.c
 src/getargs.c
 src/lalr.c
-src/lex.c
+src/parse-gram.c
 src/print.c
 src/reader.c
 src/reduce.c
+src/scan-gram.c
 
 lib/error.c
 lib/getopt.c

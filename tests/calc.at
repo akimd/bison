@@ -89,7 +89,7 @@ char quote[] = "@:>@@:>@,";
 %type  <ival> exp
 
 /* Exercise quotes in strings.  */
-%token "fake @>:@@>:@,"
+%token FAKE "fake @>:@@>:@,"
 
 %nonassoc '=' /* comparison	       */
 %left '-' '+'

@@ -287,40 +287,23 @@ AT_DATA([input.y],
 [[%%
 ?
 default: 'a' }
-%{
 %&
 %a
 %-
+%{
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:2: invalid input: `?'
-input.y:3: invalid input: `}'
-input.y:4: invalid input: `%{'
-input.y:5: invalid input: `%&'
-input.y:6: invalid input: `%a'
-input.y:7: invalid input: `%-'
-]])
-
-AT_CLEANUP
-
-
-
-## -------------------- ##
-## Invalid %directive.  ##
-## -------------------- ##
-
-
-AT_SETUP([Invalid %directive])
-
-AT_DATA([input.y],
-[[%invalid
-]])
-
-AT_CHECK([bison input.y], [1], [],
-[[input.y:1: unrecognized: %invalid
-input.y:1:    Skipping to next %
-input.y:2: fatal error: no input grammar
+[[input.y:2.1: invalid character: `?'
+input.y:3.14: invalid character: `}'
+input.y:4.1: invalid character: `%'
+input.y:4.2: invalid character: `&'
+input.y:5.1: invalid character: `%'
+input.y:6.1: invalid character: `%'
+input.y:6.2: invalid character: `-'
+input.y:7.1-8.0: unexpected end of file in a prologue
+input.y:7.1-8.0: parse error, unexpected PROLOGUE, expecting ";" or "|"
+input.y:8: symbol a is used, but is not defined as a token and has no rules
 ]])
 
 AT_CLEANUP
@@ -340,13 +323,11 @@ AT_DATA([input.y],
 void yyerror (const char *s);
 int yylex (void);
 %}
-[%token "end of file"
+[%token YYEOF 0 "end of file"
 %token 'a' "a"
-%token "b" 'b'
-%token "c" c
-%token d "d"
-%token e 'e'
-%token 'f' e
+%token b "b"
+%token c 'c'
+%token 'd' d
 %%
 exp: "a";
 ]])

@@ -33,7 +33,7 @@ AT_DATA([[input.y]],
 [$2])
 
 AT_CHECK([bison input.y -o input.c])
-AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 1, [], [stderr])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -c], 1, [], [stderr])
 # In case GCC displays column information, strip it down.
 #
 #   input.y:4:2: #error "4"    or input.y:4.2: #error "4"

@@ -27,23 +27,35 @@ extern "C" {
 
 /* Informative messages, but we proceed. */
 
-extern void warn (const char *format, ...)
-     __attribute__ ((__format__ (__printf__, 1, 2)));
+void warn (const char *format, ...)
+  __attribute__ ((__format__ (__printf__, 1, 2)));
+
+void warn_at (int location, const char *format, ...)
+  __attribute__ ((__format__ (__printf__, 2, 3)));
 
 /* Something bad happen, but let's continue and die later. */
 
-extern void complain (const char *format, ...)
-     __attribute__ ((__format__ (__printf__, 1, 2)));
+void complain (const char *format, ...)
+  __attribute__ ((__format__ (__printf__, 1, 2)));
+
+void complain_at (int location, const char *format, ...)
+  __attribute__ ((__format__ (__printf__, 2, 3)));
 
 /* Something bad happen and we die now. */
 
-extern void fatal (const char *format, ...)
-     __attribute__ ((__format__ (__printf__, 1, 2)));
+void fatal (const char *format, ...)
+  __attribute__ ((__format__ (__printf__, 1, 2)));
+
+void fatal_at (int location, const char *format, ...)
+  __attribute__ ((__format__ (__printf__, 2, 3)));
 
 #else
 void warn ();
+void warn_at ();
 void complain ();
+void complain_at ();
 void fatal ();
+void fatal_at ();
 #endif
 
 /* Position in the current input file. */

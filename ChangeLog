@@ -1,5 +1,128 @@
 2002-06-11  Akim Demaille  <akim@epita.fr>
 
+	Have Bison grammars parsed by a Bison grammar.
+
+	* src/reader.c, src/reader.h (prologue_augment): New.
+	* src/reader.c (copy_definition): Remove.
+
+	* src/reader.h, src/reader.c (gram_start_symbol_set, prologue_augment)
+	(grammar_symbol_append, grammar_rule_begin, grammar_midrule_action)
+	(grammar_current_rule_prec_set, grammar_current_rule_check)
+	(grammar_current_rule_symbol_append)
+	(grammar_current_rule_action_append): Export.
+	* src/parse-gram.y (symbol_list_new, symbol_list_symbol_append_
+	(symbol_list_action_append): Remove.
+	Hook the routines from reader.
+	* src/scan-gram.l: In INITIAL, characters and strings are tokens.
+	* src/system.h (ATTRIBUTE_NORETURN, ATTRIBUTE_UNUSED): Now.
+
+	* src/reader.c (read_declarations): Remove, unused.
+
+	* src/parse-gram.y: Handle the epilogue.
+	* src/reader.h, src/reader.c (gram_start_symbol_set): Rename as...
+	(grammar_start_symbol_set): this.
+	* src/scan-gram.l: Be sure to ``use'' yycontrol to keep GCC quiet.
+	* src/reader.c (readgram): Remove, unused.
+	(reader): Adjust to insert eoftoken and axiom where appropriate.
+
+	* src/reader.c (copy_dollar): Replace with...
+	* src/scan-gram.h (handle_dollar): this.
+	* src/parse-gram.y: Remove `%thong'.
+
+	* src/reader.c (copy_at): Replace with...
+	* src/scan-gram.h (handle_at): this.
+
+	* src/complain.h, src/complain.c (warn_at, complain_at, fatal_at):
+	New.
+
+	* src/scan-gram.l (YY_LINES): Keep lineno synchronized for the
+	time being.
+
+	* src/reader.h, src/reader.c (grammar_rule_end): New.
+
+	* src/parse.y (current_type, current_class): New.
+	Implement `%nterm', `%token' support.
+	Merge `%term' into `%token'.
+	(string_as_id): New.
+	* src/symtab.h, src/symtab.c (symbol_make_alias): Don't pass the
+	type name.
+
+	* src/parse-gram.y: Be sure to handle properly the beginning of
+	rules.
+
+	* src/parse-gram.y: Handle %type.
+	* src/reader.c (grammar_rule_end): Call grammar_current_rule_check.
+
+	* src/parse-gram.y: More directives support.
+	* src/options.c: No longer handle source directives.
+
+	* src/parse-gram.y: Fix %output.
+
+	* src/parse-gram.y: Handle %union.
+	Use the prologue locations.
+	* src/reader.c (parse_union_decl): Remove.
+
+	* src/reader.h, src/reader.c (epilogue_set): New.
+	* src/parse-gram.y: Use it.
+
+	* data/bison.simple, data/bison.c++: b4_stype is now either not
+	defined, then default to int, or to the contents of %union,
+	without `union' itself.
+	Adjust.
+	* src/muscle_tab.c (muscle_init): Don't predefine `stype'.
+
+	* src/output.c (actions_output): Don't output braces, as they are
+	already handled by the scanner.
+
+	* src/scan-gram.l (SC_CHARACTER): Set the user_token_number of
+	characters to themselves.
+
+	* tests/reduce.at (Reduced Automaton): End the grammars with %% so
+	that the epilogue has a proper #line.
+
+	* src/parse-gram.y: Handle precedence/associativity.
+
+	* src/symtab.c (symbol_precedence_set): Requires the symbol to be
+	a terminal.
+	* src/scan-gram.l (SC_BRACED_CODE): Catch strings and characters.
+	* tests/calc.at: Do not use `%token "foo"' as it makes not sense
+	at all to define terminals that cannot be emitted.
+
+	* src/scan-gram.l: Escape M4 characters.
+
+	* src/scan-gram.l: Working properly with escapes in user
+	strings/characters.
+
+	* tests/torture.at (AT_DATA_TRIANGULAR_GRAMMAR)
+	(AT_DATA_HORIZONTAL_GRAMMAR): Respect the `%token ID NUM STRING'
+	grammar.
+	Use more modest sizes, as for the time being the parser does not
+	release memory, and therefore the process swallows a huge amount
+	of memory.
+
+	* tests/torture.at (AT_DATA_LOOKAHEADS_GRAMMAR): Adjust to the
+	stricter %token grammar.
+
+	* src/symtab.h (associativity): Add `undef_assoc'.
+	(symbol_precedence_set): Do nothing when passed an undef_assoc.
+	* src/symtab.c (symbol_check_alias_consistence): Adjust.
+
+	* tests/regression.at (Invalid %directive): Remove, as it is now
+	meaningless.
+	(Invalid inputs): Adjust to the new error messages.
+	(Token definitions): The new grammar doesn't allow too many
+	eccentricities.
+
+	* src/lex.h, src/lex.c: Remove.
+	* src/reader.c (lastprec, skip_to_char, read_signed_integer)
+	(copy_character, copy_string2, copy_string, copy_identifier)
+	(copy_comment, parse_token_decl, parse_type_decl, parse_assoc_decl)
+	(parse_muscle_decl, parse_dquoted_param, parse_skel_decl)
+	(parse_action): Remove.
+	* po/POTFILES.in: Adjust.
+
+2002-06-11  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c 	(parse_action): Don't store directly into the
 	rule's action member: return the action as a string.
 	Don't require `rule_length' as an argument: compute it.

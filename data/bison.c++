@@ -159,11 +159,10 @@ b4_token_defines(b4_tokens)
 #endif
 
 #ifndef YYSTYPE
-m4_ifdef([b4_stype_line],
+m4_ifdef([b4_stype],
 [#line b4_stype_line "b4_filename"
-])dnl
-typedef b4_stype
-yystype;
+typedef union b4_stype yystype;],
+[typedef int yystype;])
 # define YYSTYPE yystype
 #endif
 
