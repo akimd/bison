@@ -1,5 +1,13 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (readgram): Bind the initial rule's lineno to that
+	of the first rule.
+	* tests/regression.at (Rule Line Numbers, Unresolved SR Conflicts):
+	(Solved SR Conflicts): Adjust rule 0's line number.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	Fix the `GAWK Grammar' failure.
 
 	* src/LR0.c (final_state): Initialize to -1 so that we do compute
