@@ -1,3 +1,8 @@
+2002-02-06  Robert Anisko  <robert@lrde.epita.fr>
+
+	* data/bison.c++: Adjust the parser code.  Fix some muscles that were
+	not expanded by m4.
+
 2002-02-05  Akim Demaille  <akim@epita.fr>
 
 	* data/bison.c++: Adjust to the M4 back end.
