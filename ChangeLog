@@ -16,6 +16,7 @@
 	* bootstrap (--gnulib-srcdir=*, --cvs-user=*):
 	Fix typo by replacing $1 with $option.
 	Remove more 'intl'-related files.
+	Don't DEFUN AM_INTL_SUBDIR twice.
 
 	* lib/.cvsignore: Add strndup.h.  Remove memchr.c, memcmp.c,
 	memrchr.c, strcasecmp.c, strchr.c, strrchr.c, strspn.c, strtol.c,

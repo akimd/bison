@@ -206,8 +206,6 @@ sed '
 ' m4/gettext.m4 >m4/gettext.m4t &&
 mv m4/gettext.m4t m4/gettext.m4 || exit
 
-echo 'AC_DEFUN([AM_INTL_SUBDIR],[])' >>m4/gettext.m4 || exit
-
 # Patch what appears to be a bug in gettext 0.14.1;
 # remove this once the bug is fixed.
 grep @top_builddir@ po/Makefile.in.in >/dev/null || {
