@@ -1,3 +1,14 @@
+2003-05-14  Paul Eggert  <eggert@twinsun.com>
+
+	* src/parse-gram.y (rules_or_grammar_declaration): Require a
+	semicolon after a grammar declaration, in the interest of possible
+	future changes to the Bison input language.
+	Do not allow a stray semicolon at the start of the grammar.
+	(rhses.1): Allow one or more semicolons after any rule, including
+	just before "|" as required by POSIX.
+	* tests/input.at (Torturing the Scanner): Add tests for ";|" in a
+	grammar.
+
 2003-05-14  Alexandre Duret-Lutz  <adl@gnu.org>
 
 	%parse-param support for lalr1.cc.
