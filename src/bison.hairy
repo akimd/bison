@@ -1,4 +1,4 @@
-%%{section} %%{body} %%".c" %%{yacc}
+%%{section} %%{output-prefix} %%{output-infix} %%".c"
 							  /* -*- C -*- */
 
 /* YYERROR and YYCOST are set by guards. If yyerror is set to a

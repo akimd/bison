@@ -44,7 +44,6 @@
    typed access to it.  */
 #define yycontrol ((skel_control_t *) skel_control)
 
-char* prefix = NULL;
 FILE* parser = NULL;
 
 size_t output_line;
@@ -87,14 +86,13 @@ static void yyprint (FILE *file, const yyltype *loc,
 %token LINE
 %token SLINE
 
-%token YACC
 %token SECTION
 
 %token GUARDS
 %token TOKENS
 %token ACTIONS
 
-%type <boolean> section.yacc
+%type <string> string.1 string
 
 %start input
 
@@ -110,42 +108,13 @@ skeleton : /* Empty.  */    { }
 section : section.header section.body { }
 ;
 
-section.header : SECTION BLANKS MUSCLE BLANKS STRING BLANKS section.yacc '\n'
+section.header : SECTION BLANKS string '\n'
 {
-  char *name = 0;
-  char *limit = 0;
-  char *suffix = $5;
+  char *name = $3;
 
   /* Close the previous parser.  */
   if (parser)
     parser = (xfclose (parser), NULL);
-
-  /* If the following section should be named with the yacc-style, and it's
-     suffix is of the form 'something.h' or 'something.c', then add '.tab' in
-     the middle of the suffix.  */
-  if (tab_extension && $7 && (strsuffix (suffix, ".h") ||
-			      strsuffix (suffix, ".c")))
-    {
-      size_t prefix_len = strlen (prefix);
-      size_t suffix_len = strlen (suffix);
-
-      /* Allocate enough space to insert '.tab'.  */
-      name = XMALLOC (char, prefix_len + suffix_len + 5);
-      limit = strrchr (suffix, '.');
-      if (!limit)
-	limit = suffix;
-
-      /* Prefix is 'X', suffix is 'Y.Z'.  Name will be 'XY.tab.Z'.  */
-      {
-	char* cp = 0;
-	cp = stpcpy (name, prefix);
-	cp = stpncpy (cp, suffix, limit - suffix);
-	cp = stpcpy (cp, ".tab");
-	cp = stpcpy (cp, limit);
-      }
-    }
-  else
-    name = stringappend (prefix, suffix);
 
   /* Prepare the next parser to be output.  */
   parser = xfopen (name, "w");
@@ -156,9 +125,20 @@ section.header : SECTION BLANKS MUSCLE BLANKS STRING BLANKS section.yacc '\n'
 }
 ;
 
-section.yacc : /* Empty.  */ { $$ = 0; }
-             | YACC          { $$ = 1; }
-;
+/* Either a literal string, or a muscle value.  */
+string.1:
+    STRING { $$ = $1; }
+  | MUSCLE { $$ = xstrdup (muscle_find ($1)); }
+  ;
+
+/* Either a literal string, or a muscle value, or the concatenation of
+   them.  */
+string:
+    string.1
+    { $$ = $1; }
+  | string BLANKS string.1
+    { $$ = stringappend ($1, $3); free ($1); free ($3); }
+  ;
 
 section.body
 : /* Empty.  */ { }
@@ -210,10 +190,6 @@ yyprint (FILE *file,
     case CHARACTER:
       fprintf (file, " = '%c'", value->character);
       break;
-
-    case YACC:
-      fprintf (file, " = %s", value->boolean ? "true" : "false");
-      break;
     }
 }
 
@@ -238,10 +214,6 @@ skel_error (skel_control_t *control,
 void
 process_skeleton (const char* skel)
 {
-  /* Compute prefix.  Actually, it seems that the processing I need here is
-     done in compute_base_names, and the result stored in short_base_name.  */
-  prefix = short_base_name;
-
   /* Prepare a few things.  */
   output_line = 1;
   skeleton_line = 1;

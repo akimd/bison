@@ -50,7 +50,6 @@
 "%%{line}"          { return LINE; }
 "%%{skeleton-line}" { return SLINE; }
 
-"%%{yacc}"    { return YACC; }
 "%%{section}" { return SECTION; }
 
 "%%{guards}"   { return GUARDS; }

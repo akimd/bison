@@ -1,5 +1,5 @@
 /* File names and variables for bison,
-   Copyright 1984, 1989, 2000, 2001 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -76,10 +76,11 @@ int strsuffix (const char* string, const char* suffix);
    STRING1, and STRING2.  */
 char* stringappend (const char* string1, const char* string2);
 
-/* Should we insert '.tab' in yacc-compatible parsers?  */
-extern int tab_extension;
+/* Prefix used to generate output file names.  */
+extern char *short_base_name;
 
-/* Prefix used to generate output files names.  */
-extern char* short_base_name;
+/* Infix used to generate output file names (i.e., `.tab', or `_tab',
+   or `').  */
+extern char *output_infix;
 
 #endif /* !FILES_H_ */
