@@ -56,6 +56,7 @@ if test "${enableval}" = yes; then
   BISON_WARNING(-Wshadow)
   BISON_WARNING(-Wstrict-prototypes)
   BISON_WARNING(-Wwrite-strings)
+  AC_DEFINE([lint], 1, [Define to 1 if the compiler is checking for lint.])
 fi
 
 # Checks for programs.
