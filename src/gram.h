@@ -125,14 +125,14 @@ typedef struct rule_s
      except if some rules are useless.  */
   short number;
 
-  bucket *lhs;
+  symbol_t *lhs;
   short *rhs;
 
   /* This symbol provides both the associativity, and the precedence. */
-  bucket *prec;
+  symbol_t *prec;
 
   /* This symbol was attached to the rule via %prec. */
-  bucket *precsym;
+  symbol_t *precsym;
 
   short line;
   bool useful;
@@ -147,7 +147,7 @@ typedef struct rule_s
 extern struct rule_s *rules;
 
 /* Table of the symbols, indexed by the symbol number. */
-extern struct bucket **symbols;
+extern symbol_t **symbols;
 
 /* token translation table: indexed by a token number as returned by
    the user's yylex routine, it yields the internal token number used

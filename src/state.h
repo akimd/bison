@@ -44,7 +44,7 @@
    Each core contains a vector of nitems items which are the indices
    in the ritems vector of the items that are selected in this state.
 
-   The link field is used for chaining buckets that hash states by
+   The link field is used for chaining symbols that hash states by
    their itemsets.  This is for recognizing equivalent states and
    combining them when the states are generated.
 

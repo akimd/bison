@@ -44,7 +44,7 @@ typedef enum
 #define SUNDEF  -1              /* For undefined user number. */
 #define SALIAS	-9991		/* for symbol generated with an alias */
 
-typedef struct bucket
+struct symbol_s
 {
   /* The key, name of the symbol. */
   char *tag;
@@ -58,17 +58,19 @@ typedef struct bucket
   /* Points to the other in the identifier-symbol pair for an
      alias. Special value SALIAS in the identifier half of the
      identifier-symbol pair for an alias.  */
-  struct bucket *alias;
+  struct symbol_s *alias;
   symbol_class class;
-} bucket;
+};
+
+typedef struct symbol_s symbol_t;
 
 /* A function to apply to each symbol. */
-typedef bool (*bucket_processor) PARAMS ((bucket *));
+typedef bool (*symbol_processor) PARAMS ((symbol_t *));
 
-bucket *getsym PARAMS ((const char *));
+symbol_t *getsym PARAMS ((const char *));
 
-void buckets_new PARAMS ((void));
-void buckets_do PARAMS ((bucket_processor processor, void *processor_data));
-void buckets_free PARAMS ((void));
+void symbols_new PARAMS ((void));
+void symbols_do PARAMS ((symbol_processor processor, void *processor_data));
+void symbols_free PARAMS ((void));
 
 #endif /* !SYMTAB_H_ */

@@ -1,5 +1,23 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	Rename all the `bucket's as `symbol_t'.
+
+	* src/gram.c, src/gram.h, src/lex.c, src/lex.h, src/output.c,
+	* src/reader.c, src/reader.h, src/reduce.c, src/state.h,
+	* src/symtab.c, src/symtab.h (bucket): Rename as...
+	(symbol_t): this.
+	(symbol_list_new, bucket_check_defined, bucket_make_alias)
+	(bucket_check_alias_consistence, bucket_pack, bucket_translation)
+	(bucket_new, bucket_free, hash_compare_bucket, hash_bucket)
+	(buckets_new, buckets_free, buckets_do): Rename as...
+	(symbol_list_new, symbol_check_defined, symbol_make_alias)
+	(symbol_check_alias_consistence, symbol_pack, symbol_translation)
+	(symbol_new, symbol_free, hash_compare_symbol_t, hash_symbol_t)
+	(symbols_new, symbols_free, symbols_do): these.
+
+	
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	Use lib/hash for the symbol table.
 
 	* src/gram.c (ntokens): Initialize to 1, to reserve a slot for

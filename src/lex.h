@@ -58,7 +58,7 @@ typedef enum token_e
   } token_t;
 
 extern const char *token_buffer;
-extern bucket *symval;
+extern symbol_t *symval;
 extern int numval;
 
 void lex_init PARAMS ((void));

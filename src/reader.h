@@ -36,9 +36,9 @@ void grammar_free PARAMS ((void));
 
 extern int lineno;
 
-extern bucket *errtoken;
-extern bucket *undeftoken;
-extern bucket *eoftoken;
-extern bucket *axiom;
+extern symbol_t *errtoken;
+extern symbol_t *undeftoken;
+extern symbol_t *eoftoken;
+extern symbol_t *axiom;
 
 #endif /* !READER_H_ */
