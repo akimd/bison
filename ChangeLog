@@ -1,5 +1,14 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/reduce.h: New file.
+	Propagate its inclusion.
+	* src/reduce.c: Topological sort and other formatting changes.
+	(bool, TRUE, FALSE): Move their definition to...
+	* src/system.h: here.
+
+
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c: Formatting changes.
 	(tryopen, tryclose, openfiles): Rename as...
 	(xfopen, xfclose, open_files): this.
@@ -7,7 +16,7 @@
 	* src/files.h: Complete the list of exported symbols.
 	Propagate its use.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.h: New file.
@@ -25,21 +34,21 @@
 	(safegetc): Rename as...
 	(xgetc): this.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.h: New file.
 	Propagate its inclusion instead of prototypes and `extern'.
 	* src/lalr.c: Formatting changes, topological sorting etc.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (token_actions): Introduce a temporary array,
 	YYDEFACT, that makes it possible for this function to use
 	output_short_table.
 
-	
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	`user_toknums' is output as a `short[]' in `output.c', while it is

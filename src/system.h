@@ -148,3 +148,14 @@ extern int errno;
 #define	SETBIT(x, i)	((x)[(i)/BITS_PER_WORD] |= (1<<((i) % BITS_PER_WORD)))
 #define RESETBIT(x, i)	((x)[(i)/BITS_PER_WORD] &= ~(1<<((i) % BITS_PER_WORD)))
 #define BITISSET(x, i)	(((x)[(i)/BITS_PER_WORD] & (1<<((i) % BITS_PER_WORD))) != 0)
+
+
+/*-----------.
+| Booleans.  |
+`-----------*/
+
+#ifndef TRUE
+# define TRUE	(1)
+# define FALSE	(0)
+#endif
+typedef int bool;
