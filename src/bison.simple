@@ -31,15 +31,18 @@
    It was written by Richard Stallman by simplifying the hairy parser
    used when %semantic_parser is specified.  */
 
+#define YYBISON	1	/* Identify Bison output.  */
+#define YYPURE	%%pure	/* Identify pure parsers.  */
+
 #include <stdio.h>
 
 /* If name_prefix is specify substitute the variables and functions
    names.  */
 #define yyparse %%prefix##parse
-#define yylex %%prefix##lex
+#define yylex   %%prefix##lex
 #define yyerror %%prefix##error
-#define yylval %%prefix##lval
-#define yychar %%prefix##char
+#define yylval  %%prefix##lval
+#define yychar  %%prefix##char
 #define yydebug %%prefix##debug
 #define yynerrs %%prefix##nerrs
 
@@ -111,6 +114,24 @@
 # define YYSTACK_FREE(Ptr) free (Ptr)
 #endif
 
+#line %%input-line "%%filename"
+#ifndef YYSTYPE
+typedef %%stype yystype;
+# define YYSTYPE yystype
+#endif
+
+#ifndef YYLTYPE
+typedef struct yyltype
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} yyltype;
+# define YYLTYPE %%ltype
+#endif
+
+#line %%line "%%skeleton"
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
@@ -153,28 +174,8 @@ do									\
   }									\
 while (0)
 
-#define YYBISON	1	/* Identify Bison output.  */
-#define YYPURE	%%pure	/* Identify pure parsers.  */
-
 #ifndef YYDEBUG
 # define YYDEBUG %%debug
-#endif
-
-#line %%input-line "%%filename"
-#ifndef YYSTYPE
-typedef %%stype yystype;
-# define YYSTYPE yystype
-#endif
-
-#ifndef YYLTYPE
-typedef struct yyltype
-{
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-} yyltype;
-# define YYLTYPE %%ltype
 #endif
 
 #ifdef YYERROR_VERBOSE

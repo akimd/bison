@@ -1,5 +1,11 @@
 2001-11-30  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.simple (YYSTYPE, YYLTYPE): Move their definitions
+	before their first uses.
+	(YYBISON, YYPURE): Move to the top of the output.
+
+2001-11-30  Akim Demaille  <akim@epita.fr>
+
 	* tests/reduce.at (Useless Nonterminals): Fix.
 
 2001-11-30  Akim Demaille  <akim@epita.fr>
