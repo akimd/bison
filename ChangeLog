@@ -1,3 +1,12 @@
+2002-10-14  Paul Eggert  <eggert@twinsun.com>
+
+	* data/c.m4 (b4_int_type): Use yysigned_char instead of signed char,
+	for portability to K&R hosts.  Fix typo: signed char is guaranteed
+	only to 127, not to 128.
+	* data/glr.c (yysigned_char): New type.
+	* data/yacc.c (yysigned_char): Likewise.
+	* tests/regression.at (Web2c Actions): signed char -> yysigned_char.
+
 2002-10-13  Paul Eggert  <eggert@twinsun.com>
 
 	* data/yacc.c (yyparse): Rewrite to avoid "comparison is always
