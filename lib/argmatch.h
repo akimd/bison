@@ -30,7 +30,7 @@
 
 /* Assert there are as many real arguments as there are values
    (argument list ends with a NULL guard).  ARGMATCH_VERIFY is
-   preferred, since it is guaranteed to be chedk at compile-time.
+   preferred, since it is guaranteed to be checked at compile-time.
    ARGMATCH_ASSERT is for backward compatibility only.  */
 
 # define ARGMATCH_VERIFY(Arglist, Vallist)				  \

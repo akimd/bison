@@ -22,6 +22,7 @@
 # include <config.h>
 #endif
 
+/* Specification.  */
 #include "argmatch.h"
 
 #include <stdio.h>
