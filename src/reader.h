@@ -1,5 +1,5 @@
 /* Input parser for bison
-   Copyright 2000 Free Software Foundation, Inc.
+   Copyright 2000, 2001  Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -33,7 +33,5 @@ extern void reader PARAMS ((void));
 extern int lineno;
 extern char **tags;
 extern short *user_toknums;
-
-extern struct obstack muscle_obstack;
 
 #endif /* !READER_H_ */

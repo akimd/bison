@@ -26,4 +26,6 @@ extern int error_verbose;
 /* Output the parsing tables and the parser code to FTABLE.  */
 void output PARAMS ((void));
 
+extern struct obstack muscle_obstack;
+
 #endif /* !OUTPUT_H_ */

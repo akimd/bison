@@ -1,5 +1,14 @@
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_obstack): Be static and rename as...
+	(format_obstack): this, to avoid any confusion with files.c's
+	output_obstack.
+	* src/reader.h (muscle_obstack): Move to...
+	* src/output.h: here, since it's defined in output.c.
+
+	
+2001-12-17  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (action_row, save_column, default_goto)
 	(sort_actions, matching_state, pack_vector): Better variable
 	locality.
