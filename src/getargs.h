@@ -34,19 +34,31 @@ extern int no_parser_flag;	/* for -n */
 extern int token_table_flag;   	/* for -k */
 extern int graph_flag;		/* for -g */
 extern int yacc_flag;  		/* for -y */
+
+/* --trace.  */
+enum trace_e
+  {
+    trace_none      = 0,
+    trace_resource  = 1 << 0,
+    trace_sets      = 1 << 1,
+    trace_bitsets   = 1 << 2,
+    trace_tools     = 1 << 3,
+    trace_automaton = 1 << 4,
+    trace_grammar   = 1 << 5,
+    trace_all       = ~0
+  };
 extern int trace_flag;
 
 /* --report.  */
-enum
+enum report_e
   {
-    report_none = 0,
-    report_states = 1 << 0,
-    report_itemsets = 1 << 1,
-    report_lookaheads = 1 << 2,
+    report_none             = 0,
+    report_states           = 1 << 0,
+    report_itemsets         = 1 << 1,
+    report_lookaheads       = 1 << 2,
     report_solved_conflicts = 1 << 3,
-    report_all = ~0
+    report_all              = ~0
   };
-
 extern int report_flag;
 
 void getargs PARAMS ((int argc, char *argv[]));

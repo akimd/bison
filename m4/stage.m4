@@ -1,6 +1,7 @@
-# Finding valid warning flags for the C Compiler.           -*-Autoconf-*-
+# -*-Autoconf-*-
+# Checks required to run `stage', a nonportable memory/time tracker.
 #
-# Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,14 +20,21 @@
 
 # serial 1
 
-AC_DEFUN([BISON_WARNING],
-[AC_MSG_CHECKING(whether compiler accepts $1)
-AC_SUBST(WARNING_CFLAGS)
-ac_save_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS $1"
-AC_TRY_COMPILE(,
-[int x;],
-WARNING_CFLAGS="$WARNING_CFLAGS $1"
-AC_MSG_RESULT(yes),
-AC_MSG_RESULT(no))
-CFLAGS="$ac_save_CFLAGS"])
+AC_DEFUN([BISON_PREREQ_STAGE],
+[AC_CHECK_HEADERS([malloc.h sys/times.h])
+AC_CHECK_FUNCS([mallinfo times])
+
+AC_CHECK_TYPES([struct mallinfo], [], [],
+[$ac_includes_default
+#if HAVE_MALLOC_H
+# include <malloc.h>
+#endif
+])
+
+AC_CHECK_TYPES([struct tms], [], [],
+[$ac_includes_default
+#if HAVE_SYS_TIMES_H
+# include <sys/times.h>
+#endif
+])
+])

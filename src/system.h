@@ -104,6 +104,18 @@ char *alloca ();
 /* From xstrndup.c.  */
 char *xstrndup PARAMS ((const char *s, size_t n));
 
+/* Finding `mallinfo' where available.  */
+#if HAVE_MALLOC_H
+# include <malloc.h>
+#endif
+
+
+/* Find `times' where available.  */
+#if HAVE_SYS_TIMES_H
+# include <sys/times.h>
+#endif
+
+
 /*---------------------.
 | Missing prototypes.  |
 `---------------------*/

@@ -78,7 +78,7 @@ AT_DATA([[input.y]],
 e: 'e' | /* Nothing */;
 ]])
 
-AT_CHECK([[bison --trace input.y]], [], [], [stderr])
+AT_CHECK([[bison --trace=sets input.y]], [], [], [stderr])
 AT_EXTRACT_SETS([stderr], [sets])
 AT_CHECK([[cat sets]], [],
 [[DERIVES
@@ -162,7 +162,7 @@ g: h;
 h: 'h';
 ]])
 
-AT_CHECK([[bison --trace input.y]], [], [], [stderr])
+AT_CHECK([[bison --trace=sets input.y]], [], [], [stderr])
 
 AT_CHECK([[sed -n 's/[	 ]*$//;/^RTC: Firsts Output BEGIN/,/^RTC: Firsts Output END/p' stderr]], [],
 [[RTC: Firsts Output BEGIN
@@ -208,7 +208,7 @@ exp:
  ;
 ]])
 
-AT_CHECK([[bison --trace input.y]], [], [], [stderr])
+AT_CHECK([[bison --trace=sets input.y]], [], [], [stderr])
 AT_EXTRACT_SETS([stderr], [sets])
 AT_CHECK([[cat sets]], [],
 [[DERIVES

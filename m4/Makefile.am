@@ -17,5 +17,6 @@ mkstemp.m4					\
 prereq.m4					\
 progtest.m4					\
 realloc.m4					\
+stage.m4					\
 strerror_r.m4					\
 warning.m4

@@ -1,3 +1,23 @@
+2002-07-31  Akim Demaille  <akim@epita.fr>
+
+	Let --trace have arguments.
+
+	* src/getargs.h (enum trace_e): New.
+	* src/getargs.c (trace_args, trace_types, trace_argmatch): New.
+	(long_options, short_options): --trace/-T takes an optional
+	argument.
+	Change all the uses of trace_flag to reflect the new flags.
+	* tests/sets.at (Firsts, Nullable, Broken Closure): Use --trace=sets.
+
+	Strengthen `stage' portability.
+
+	* m4/stage.m4 (BISON_PREREQ_STAGE): New.
+	* configure.in: Use it.
+	Don't check for malloc.h and sys/times.h.
+	* src/system.h: Include them when appropriate.
+	* src/main.c (stage): Compile only when mallinfo, struct mallinfo,
+	times and struct tms are available.
+
 2002-07-30  Akim Demaille  <akim@epita.fr>
 
 	In verbose parse error message, don't report `error' as an
