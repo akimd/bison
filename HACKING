@@ -54,7 +54,7 @@ release:
 
 - run `make maintainer-check' which:
   - runs `valgrind -q bison' to run Bison under Valgrind.
-  - runs the parsers under Valdrind.
+  - runs the parsers under Valgrind.
   - runs the test suite with G++ as C compiler...
 
 - Change tests/atlocal/CFLAGS to add your preferred options.  For
