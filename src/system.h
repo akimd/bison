@@ -62,7 +62,8 @@
 #endif
 #define N_(Text) Text
 
-/* In the meantime, waiting for Automake.  */
+#ifndef LOCALEDIR
 #define LOCALEDIR "/usr/local/share/locale"
+#endif
 
 #endif  /* BISON_SYSTEM_H */

@@ -10,7 +10,8 @@ bison_SOURCES = LR0.c allocate.c closure.c conflicts.c derives.c	\
 
 EXTRA_bison_SOURCES = vmsgetargs.c
 
-bison_LDADD = @ALLOCA@
+bison_LDADD = @INTLLIBS@ @ALLOCA@
+INCLUDES = -I../intl -I$(top_srcdir)/intl
 
 noinst_HEADERS = alloc.h files.h gram.h lex.h machine.h state.h	\
  symtab.h system.h types.h getopt.h
