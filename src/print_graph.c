@@ -273,7 +273,7 @@ print_graph (void)
 #endif
 
   graph.display_edge_labels = yes;
-  graph.layoutalgorithm = 0;
+  graph.layoutalgorithm = normal;
 
   graph.port_sharing = no;
   graph.finetuning = yes;

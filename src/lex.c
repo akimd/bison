@@ -36,15 +36,17 @@ const char *token_buffer = NULL;
 bucket *symval;
 int numval;
 
-static int unlexed;		/* these two describe a token to be reread */
-static bucket *unlexed_symval;	/* by the next call to lex */
+/* these two describe a token to be reread */
+static token_t unlexed = tok_undef;
+/* by the next call to lex */
+static bucket *unlexed_symval = NULL;
 
 
 void
 init_lex (void)
 {
   obstack_init (&token_obstack);
-  unlexed = -1;
+  unlexed = tok_undef;
 }
 
 
@@ -356,12 +358,12 @@ lex (void)
   /* Just to make sure. */
   token_buffer = NULL;
 
-  if (unlexed >= 0)
+  if (unlexed != tok_undef)
     {
+      token_t res = unlexed;
       symval = unlexed_symval;
-      c = unlexed;
-      unlexed = -1;
-      return c;
+      unlexed = tok_undef;
+      return res;
     }
 
   c = skip_white_space ();
@@ -516,7 +518,7 @@ struct percent_table_struct
 {
   const char *name;
   void *set_flag;
-  int retval;
+  token_t retval;
 };
 
 struct percent_table_struct percent_table[] =
@@ -566,13 +568,12 @@ struct percent_table_struct percent_table[] =
 /* Parse a token which starts with %.
    Assumes the % has already been read and discarded.  */
 
-int
+token_t
 parse_percent_token (void)
 {
-  int c;
   struct percent_table_struct *tx;
 
-  c = getc (finput);
+  int c = getc (finput);
 
   switch (c)
     {
@@ -634,6 +635,10 @@ parse_percent_token (void)
 
     case tok_obsolete:
       fatal (_("`%s' is no longer supported"), token_buffer);
+      break;
+
+    default:
+      /* Other cases do not apply here. */
       break;
     }
 

@@ -501,19 +501,19 @@ struct	graph_s
      index 2, green has index 3, etc.
      Default is white for background and white or transparent for summary
      nodes. */
-  unsigned char color;
+  enum color_e color;
 
   /* Textcolor.
      need explainations ???
      defalut is black for summary nodes. */
-  unsigned char textcolor;
+  enum color_e textcolor;
 
   /* Bordercolor is the color of the summary node's border. Default color
      is the textcolor. width, height are width and height of the
      displayed part of the window of the outermost graph in pixels, or
      width and height of the summary node of inner subgraphs.
      Default is the defalut of the textcolor. */
-  unsigned char bordercolor;
+  enum color_e bordercolor;
 
   /* Width, height are width and height of the displayed part of the
      window of the outermost graph in pixels, or width and height of the

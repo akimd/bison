@@ -1,3 +1,19 @@
+2001-09-10  Marc Autret   <autret_m@epita.fr>, Akim Demaille  <akim@epita.fr>
+
+	* src/vcg.h (graph_s): color, textcolor, bordercolor are now
+	enum color_e.
+	* src/print_graph.c (print_graph): Initalize graph.layoutalgorithm
+	to `normal'.
+	* src/reader.c (parse_token_decl): Initialize token with tok_eof.
+	* src/lex.h: Adjust prototype.
+	(token_t): Add `tok_undef'.
+	* src/lex.c (struct percent_table_struct): Retval is now a token_t.
+	(parse_percent_token): Now returns token_t.
+	Add default statement in switch.
+	(lex): Separate `c' as an input variable, from the token_t result
+	part.
+	(unlexed): Is a token_t.
+
 2001-09-10  Akim Demaille  <akim@epita.fr>
 
 	* configure.in: Bump to 1.29a.

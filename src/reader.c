@@ -462,8 +462,8 @@ copy_definition (void)
 static void
 parse_token_decl (symbol_class what_is, symbol_class what_is_not)
 {
-  token_t token = 0;
-  char *typename = 0;
+  token_t token = tok_undef;
+  char *typename = NULL;
 
   /* The symbol being defined.  */
   struct bucket *symbol = NULL;
@@ -884,7 +884,7 @@ parse_dquoted_param (const char *from)
   char buff[32];
   int c;
   int i;
-  
+
   c = skip_white_space ();
 
   if (c != '"')
@@ -893,7 +893,7 @@ parse_dquoted_param (const char *from)
       complain (_("invalid %s declaration"), from);
       return NULL;
     }
-  
+
   c = getc (finput);
   for (i = 0; (c >= '!') && (c <= '~'); i++)
     {
@@ -906,12 +906,12 @@ parse_dquoted_param (const char *from)
 	  if ((c < '!') && (c > '~'))
 	    break;
 	}
-      
+
       buff[i] = c;
       c = getc (finput);
     }
   buff[i] = '\0';
-  
+
   if (c != '"')
     {
       ungetc (c, finput);
@@ -938,7 +938,7 @@ parse_source_extension_decl (void)
 {
   if (src_extension)
     complain (_("multiple %%source_extension declarations"));
-  
+
   src_extension = parse_dquoted_param ("%source_extension");
 }
 

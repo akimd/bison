@@ -24,6 +24,7 @@
 /* Token-type codes. */
 typedef enum token_e
   {
+    tok_undef,	/* Not defined.  Used to initial token_t vars. */
     tok_eof,
     tok_identifier,
     tok_comma,
@@ -71,6 +72,6 @@ void read_type_name PARAMS ((FILE *fin));
 
 token_t lex PARAMS ((void));
 
-int parse_percent_token PARAMS ((void));
+token_t parse_percent_token PARAMS ((void));
 
 #endif /* !LEX_H_ */
