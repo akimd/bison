@@ -1,5 +1,19 @@
 2002-10-20  Akim Demaille  <akim@epita.fr>
 
+	* data/c.m4 (b4_c_ansi_args): Recognize functions with no
+	arguments and output `void'.
+	(b4_c_function): Rename as...
+	(b4_c_function_def): this.
+	(b4_c_function_decl, b4_c_ansi_function_def)
+	(b4_c_ansi_function_decl): New.
+	Change the interpretation of the arguments: before `int, foo', now
+	`int foo, foo'.
+	* data/yacc.c (yyparse): Prototype and define thanks to these.
+	Adjust b4_c_function_def uses.
+	* data/glr.c (yyparse): Likewise, but ANSI only.
+
+2002-10-20  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (prepare): Move the definition of `tokens_number',
 	`nterms_number', `undef_token_number', `user_token_number_max'
 	to...

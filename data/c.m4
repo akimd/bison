@@ -82,6 +82,30 @@ m4_define([b4_int_type_for],
 [b4_int_type($1_min, $1_max)])
 
 
+## ------------------ ##
+## Decoding options.  ##
+## ------------------ ##
+
+
+# b4_location_if(IF-TRUE, IF-FALSE)
+# ---------------------------------
+# Expand IF-TRUE, if locations are used, IF-FALSE otherwise.
+m4_define([b4_location_if],
+[m4_if(b4_locations_flag, [1],
+       [$1],
+       [$2])])
+
+
+# b4_pure_if(IF-TRUE, IF-FALSE)
+# -----------------------------
+# Expand IF-TRUE, if %pure-parser, IF-FALSE otherwise.
+m4_define([b4_pure_if],
+[m4_if(b4_pure, [1],
+       [$1],
+       [$2])])
+
+
+
 ## ------------------------- ##
 ## Assigning token numbers.  ##
 ## ------------------------- ##
@@ -122,12 +146,105 @@ m4_map([b4_token_define], [$@])
 ])
 
 
+
+## --------------------------------------------- ##
+## Defining C functions in both K&R and ANSI-C.  ##
+## --------------------------------------------- ##
+
+
+# b4_c_function_def(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# ----------------------------------------------------------
+# Declare the function NAME.
+m4_define([b4_c_function_def],
+[#if defined (__STDC__) || defined (__cplusplus)
+b4_c_ansi_function_def($@)
+#else
+$2
+$1 (b4_c_knr_formal_names(m4_shiftn(2, $@)))
+b4_c_knr_formal_decls(m4_shiftn(2, $@))
+#endif[]dnl
+])
+
+
+# b4_c_ansi_function_def(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# ---------------------------------------------------------------
+# Declare the function NAME in ANSI.
+m4_define([b4_c_ansi_function_def],
+[$2
+$1 (b4_c_ansi_formals(m4_shiftn(2, $@)))[]dnl
+])
+
+
+# b4_c_ansi_formals([DECL1, NAME1], ...)
+# --------------------------------------
+# Output the arguments ANSI-C definition.
+m4_define([b4_c_ansi_formals],
+[m4_case([$@],
+         [],   [void],
+         [[]], [void],
+               [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
+
+m4_define([b4_c_ansi_formal],
+[$1])
+
+
+# b4_c_knr_formal_names([DECL1, NAME1], ...)
+# ------------------------------------------
+# Output the argument names.
+m4_define([b4_c_knr_formal_names],
+[m4_map_sep([b4_c_knr_formal_name], [, ], [$@])])
+
+m4_define([b4_c_knr_formal_name],
+[$2])
+
+
+# b4_c_knr_formal_decls([DECL1, NAME1], ...)
+# ------------------------------------------
+# Output the K&R argument declarations.
+m4_define([b4_c_knr_formal_decls],
+[m4_map_sep([b4_c_knr_formal_decl],
+            [
+],
+            [$@])])
+
+m4_define([b4_c_knr_formal_decl],
+[    $1;])
+
+
+
+## ------------------------------------------------------------ ##
+## Declaring (prototyping) C functions in both K&R and ANSI-C.  ##
+## ------------------------------------------------------------ ##
+
+
+# b4_c_function_decl(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# -----------------------------------------------------------
+# Declare the function NAME.
+m4_define([b4_c_function_decl],
+[#if defined (__STDC__) || defined (__cplusplus)
+b4_c_ansi_function_decl($@)
+#else
+$2 $1 ();
+#endif[]dnl
+])
+
+
+# b4_c_ansi_function_decl(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# ----------------------------------------------------------------
+# Declare the function NAME.
+m4_define([b4_c_ansi_function_decl],
+[$2 $1 (b4_c_ansi_formals(m4_shiftn(2, $@)));[]dnl
+])
+
+
+
+
 ## --------------------- ##
 ## Calling C functions.  ##
 ## --------------------- ##
 
 
-# b4_c_function_call(NAME, RETURN-VALUE, [TYPE1, NAME1], ...)
+# b4_c_function_call(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
 # -----------------------------------------------------------
 # Call the function NAME with arguments NAME1, NAME2 etc.
 m4_define([b4_c_function_call],
@@ -135,7 +252,7 @@ m4_define([b4_c_function_call],
 ])
 
 
-# b4_c_args([TYPE1, NAME1], ...)
+# b4_c_args([DECL1, NAME1], ...)
 # ------------------------------
 # Output the arguments NAME1, NAME2...
 m4_define([b4_c_args],
@@ -143,79 +260,3 @@ m4_define([b4_c_args],
 
 m4_define([b4_c_arg],
 [$2])
-
-
-## ---------------------------------------------- ##
-## Declaring C functions in both K&R and ANSI-C.  ##
-## ---------------------------------------------- ##
-
-
-# b4_c_function(NAME, RETURN-VALUE, [TYPE1, NAME1], ...)
-# ------------------------------------------------------
-# Declare the function NAME.
-m4_define([b4_c_function],
-[$2
-#if defined (__STDC__) || defined (__cplusplus)
-$1 (b4_c_ansi_args(m4_shiftn(2, $@)))
-#else
-$1 (b4_c_knr_arg_names(m4_shiftn(2, $@)))
-b4_c_knr_arg_decls(m4_shiftn(2, $@))
-#endif[]dnl
-])
-
-
-# b4_c_ansi_args([TYPE1, NAME1], ...)
-# -----------------------------------
-# Output the arguments ANSI-C definition.
-m4_define([b4_c_ansi_args],
-[m4_map_sep([b4_c_ansi_arg], [, ], [$@])])
-
-m4_define([b4_c_ansi_arg],
-[$1 $2])
-
-
-# b4_c_knr_args([TYPE1, NAME1], ...)
-# ----------------------------------
-# Output the argument names.
-m4_define([b4_c_knr_arg_names],
-[m4_map_sep([b4_c_knr_arg_name], [, ], [$@])])
-
-m4_define([b4_c_knr_arg_name],
-[$2])
-
-
-# b4_c_knr_args([TYPE1, NAME1], ...)
-# ----------------------------------
-# Output the K&R argument declarations.
-m4_define([b4_c_knr_arg_decls],
-[m4_map_sep([b4_c_knr_arg_decl],
-            [
-],
-            [$@])])
-
-m4_define([b4_c_knr_arg_decl],
-[    $1 $2;])
-
-
-
-## ------------------ ##
-## Decoding options.  ##
-## ------------------ ##
-
-
-# b4_location_if(IF-TRUE, IF-FALSE)
-# ---------------------------------
-# Expand IF-TRUE, if locations are used, IF-FALSE otherwise.
-m4_define([b4_location_if],
-[m4_if(b4_locations_flag, [1],
-       [$1],
-       [$2])])
-
-
-# b4_pure_if(IF-TRUE, IF-FALSE)
-# -----------------------------
-# Expand IF-TRUE, if %pure-parser, IF-FALSE otherwise.
-m4_define([b4_pure_if],
-[m4_if(b4_pure, [1],
-       [$1],
-       [$2])])
