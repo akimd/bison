@@ -5,8 +5,14 @@ DEFS = @DEFS@ \
   -DBISON_HAIRY=\"$(pkgdatadir)/bison.hairy\" \
   -DLOCALEDIR=\"$(datadir)/locale\"
 
-INCLUDES = -I../intl -I$(top_srcdir)/lib -I..
-LDADD = @INTLLIBS@ ../lib/libbison.a
+# libintl.h in is build/intl, intl/libgettext.h in src/,
+# config.h in build/.
+INCLUDES = -I$(top_builddir)/intl \
+           -I$(top_builddir)      \
+           -I$(top_srcdir)/lib    \
+           -I$(top_srcdir)
+
+LDADD = $(INTLLIBS) ../lib/libbison.a
 
 bin_PROGRAMS = bison
 

@@ -149,20 +149,9 @@ size_t strnlen PARAMS ((const char *s, size_t maxlen));
 # define setlocale(Category, Locale)
 #endif
 
-#ifdef ENABLE_NLS
-# include <libintl.h>
-# define _(Text) gettext (Text)
-#else
-# undef  bindtextdomain
-# define bindtextdomain(Domain, Directory)
-# undef  textdomain
-# define textdomain(Domain)
-# undef  ngettext
-# define ngettext(Singular, Plural, Number)   \
-         ((Number == 1) ? Singular : Plural)
-# define _(Text) Text
-#endif
-#define N_(Text) Text
+#include "intl/libgettext.h"
+#define _(Msgid)  gettext (Msgid)
+#define N_(Msgid) (Msgid)
 
 
 /*-------------------------------.
