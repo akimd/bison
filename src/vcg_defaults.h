@@ -43,7 +43,7 @@
 # define G_FOLDING		0
 
 # define G_SHRINK		1
-# define G_EXPAND		1
+# define G_STRETCH		1
 
 # define G_TEXTMODE		centered
 # define G_SHAPE		box
@@ -129,7 +129,7 @@
 # define N_HEIGHT		-1	/* also. */
 
 # define N_SHRINK		1
-# define N_EXPAND		1
+# define N_STRETCH		1
 
 # define N_FOLDING		-1	/* no explicit default value. */
 
