@@ -205,7 +205,7 @@ do {						\
   for (_node = List; _node; _node = _next)	\
     {						\
       _next = _node->next;			\
-      XFREE (_node);				\
+      free (_node);				\
     }						\
 } while (0)
 

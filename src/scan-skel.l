@@ -58,7 +58,7 @@ int skel_lex (void);
 	fatal ("invalid token in skeleton: %s", yytext);
     }
 
-  XFREE (outname);
+  free (outname);
   outname = xstrdup (filename);
   xfclose (yyout);
   yyout = xfopen (outname, "w");
