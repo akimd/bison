@@ -1,5 +1,5 @@
 /* Locations for Bison
-   Copyright (C) 2002  Free Software Foundation, Inc.
+   Copyright (C) 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -20,56 +20,46 @@
 
 #ifndef LOCATION_H_
 # define LOCATION_H_
-# include "quotearg.h"
 
-typedef struct location_s
+/* A boundary between two characters.  */
+typedef struct
 {
-  const char *file;
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-}  location_t;
+  /* The name of the file that contains the boundary.  */
+  char const *file;
+
+  /* The (origin-1) line that contains the boundary.  */
+  int line;
+
+  /* The (origin-1) column just after the boundary.  This is neither a
+     byte count, nor a character count; it is a column count.  */
+  int column;
+
+} boundary;
+
+/* Return nonzero if A and B are equal boundaries.  */
+static inline bool
+equal_boundaries (boundary a, boundary b)
+{
+  return (a.column == b.column
+	  && a.line == b.line
+	  && a.file == b.file);
+}
+
+/* A location, that is, a region of source code.  */
+typedef struct
+{
+  /* Boundary just before the location starts.  */
+  boundary start;
+
+  /* Boundary just after the location ends.  */
+  boundary end;
+
+} location_t;
+
 #define YYLTYPE location_t
 
-/* Initialize LOC. */
-# define LOCATION_RESET(Loc)			\
-do {						\
-  (Loc).file = NULL;				\
-  (Loc).first_column = (Loc).first_line = 1;	\
-  (Loc).last_column =  (Loc).last_line = 1;	\
-} while (0)
+extern location_t const empty_location;
 
+void location_print (FILE *, location_t);
 
-/* Restart: move the first cursor to the last position. */
-# define LOCATION_STEP(Loc)			\
-do {						\
-  (Loc).first_column = (Loc).last_column;	\
-  (Loc).first_line = (Loc).last_line;		\
-} while (0)
-
-
-/* Output LOC on the stream OUT.
-   Warning: it uses quotearg's slot 3.  */
-# define LOCATION_PRINT(Out, Loc)					\
-do {									\
-  fprintf (stderr, "%s:", quotearg_n_style (3, escape_quoting_style,	\
-					    (Loc).file));		\
-  if ((Loc).first_line)							\
-    {									\
-      if ((Loc).first_line != (Loc).last_line)				\
-	fprintf (Out, "%d.%d-%d.%d",					\
-		 (Loc).first_line, (Loc).first_column,			\
-		 (Loc).last_line, (Loc).last_column - 1);		\
-      else if ((Loc).first_column < (Loc).last_column - 1)		\
-	fprintf (Out, "%d.%d-%d", (Loc).first_line,			\
-		 (Loc).first_column, (Loc).last_column - 1);		\
-      else								\
-	fprintf (Out, "%d.%d", (Loc).first_line, (Loc).first_column);	\
-  }									\
-} while (0)
-
-
-extern location_t empty_location;
-
-#endif /* !LOCATION_H_ */
+#endif /* ! defined LOCATION_H_ */
