@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.32\n"
+"Project-Id-Version: bison 1.34a\n"
 "POT-Creation-Date: 2002-03-20 09:33+0100\n"
-"PO-Revision-Date: 2002-02-01 18:46+0000\n"
+"PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -426,9 +426,8 @@ msgid "unterminated string"
 msgstr "niet-beëindigde string"
 
 #: src/reader.c:339
-#, fuzzy
 msgid "invalid @ value"
-msgstr "ongeldige $-waarde"
+msgstr "ongeldige @-waarde"
 
 #: src/reader.c:352 src/reader.c:416
 #, c-format
@@ -570,7 +569,7 @@ msgstr "regel opgegeven voor token (%s)"
 
 #: src/reader.c:1445 src/reader.c:1557
 msgid "previous rule lacks an ending `;'"
-msgstr ""
+msgstr "`;' ontbreekt aan het einde van de voorgaande regel"
 
 #: src/reader.c:1518
 msgid "two @prec's in a row"
