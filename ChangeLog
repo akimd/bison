@@ -1,5 +1,17 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (print_firsts, print_fderives, closure):
+	Use BITSET_EXECUTE.
+	* src/lalr.c (lookaheads_print): Likewise.
+	* src/state.c (state_rule_lookaheads_print): Likewise.
+	* src/print_graph.c (print_core): Likewise.
+	* src/print.c (print_reductions): Likewise.
+	* src/output.c (action_row): Likewise.
+	Use SHIFT_IS_DISABLED, SHIFT_IS_SHIFT and SHIFT_SYMBOL.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/print_graph.c: Use report_flag.
 
 	
