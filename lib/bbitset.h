@@ -19,23 +19,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #ifndef _BBITSET_H
 #define _BBITSET_H
 
+#include "config.h"
 #include "libiberty.h"
 
 #include <stdbool.h>
 #include <limits.h>
+#include <sys/types.h>
 
-/* Currently we support three flavours of bitsets:
+/* Currently we support five flavours of bitsets:
    BITSET_ARRAY:  Array of bits (fixed size, fast for dense bitsets).
-   BITSET_LIST:   Linked list of array of bits (variable size, least storage
+                  Memory for bit array and bitset structure allocated
+                  contiguously.
+   BITSET_LIST:   Linked list of arrays of bits (variable size, least storage
 		  for large very sparse sets).
-   BITSET_TABLE:  Expandable table of pointers to array of bits
+   BITSET_TABLE:  Expandable table of pointers to arrays of bits
 		  (variable size, less storage for large sparse sets).
-
-   BITSET_STATS:  Wrapper bitset for internal use only.
+                  Faster than BITSET_LIST for random access.
+   BITSET_VARRAY: Variable array of bits (variable size, fast for 
+                  dense bitsets).
+   BITSET_STATS:  Wrapper bitset for internal use only.  Used for gathering
+                  statistics and/or better run-time checking.
 */
-enum bitset_type {BITSET_ARRAY, BITSET_LIST, BITSET_TABLE, BITSET_TYPE_NUM,
-		  BITSET_STATS};
-#define BITSET_TYPE_NAMES {"abitset", "lbitset", "ebitset"}
+enum bitset_type {BITSET_ARRAY, BITSET_LIST, BITSET_TABLE, BITSET_VARRAY,
+		  BITSET_TYPE_NUM, BITSET_STATS};
+#define BITSET_TYPE_NAMES {"abitset", "lbitset", "ebitset", "vbitset"}
 
 extern const char * const bitset_type_names[];
 
@@ -78,10 +85,11 @@ enum bitset_ops {BITSET_OP_ZERO, BITSET_OP_ONES,
 
 struct bbitset_struct
 {
-  const struct bitset_vtable * vtable;
+  const struct bitset_vtable *vtable;
   bitset_windex cindex;		/* Cache word index.  */
   bitset_windex csize;		/* Cache size in words.  */
   bitset_word *cdata;		/* Cache data pointer.  */
+  bitset_bindex n_bits;		/* Number of bits.  */
   /* Perhaps we could sacrifice another word to indicate
      that the bitset is known to be zero, that a bit has been set
      in the cache, and that a bit has been cleared in the cache.
@@ -93,6 +101,14 @@ struct bbitset_struct
 typedef union bitset_union *bitset;
 
 
+/* Private accessor macros to bitset structure.  */
+#define BITSET_VTABLE_(SRC) (SRC)->b.vtable
+#define BITSET_CINDEX_(SRC) (SRC)->b.cindex
+#define BITSET_CDATA_(SRC) (SRC)->b.cdata
+#define BITSET_CSIZE_(SRC) (SRC)->b.csize
+#define BITSET_NBITS_(SRC) (SRC)->b.n_bits
+
+
 /* The contents of this structure should be considered private.  */
 struct bitset_vtable
 {
@@ -100,6 +116,7 @@ struct bitset_vtable
   void (*reset) PARAMS ((bitset, bitset_bindex));
   bool (*toggle) PARAMS ((bitset, bitset_bindex));
   bool (*test) PARAMS ((bitset, bitset_bindex));
+  bitset_bindex (*resize) PARAMS ((bitset, bitset_bindex));
   bitset_bindex (*size) PARAMS ((bitset));
   bitset_bindex (*count) PARAMS ((bitset));
 
@@ -138,7 +155,8 @@ struct bitset_vtable
   enum bitset_type type;
 };
 
-#define BITSET_COMPATIBLE_(BSET1, BSET2) ((BSET1)->b.vtable == (BSET2)->b.vtable)
+#define BITSET_COMPATIBLE_(BSET1, BSET2) \
+((BSET1)->b.vtable == (BSET2)->b.vtable)
 
 #define BITSET_CHECK2_(DST, SRC) \
 if (!BITSET_COMPATIBLE_ (DST, SRC)) abort ();
@@ -151,6 +169,9 @@ if (!BITSET_COMPATIBLE_ (DST, SRC1) \
 if (!BITSET_COMPATIBLE_ (DST, SRC1) || !BITSET_COMPATIBLE_ (DST, SRC2) \
     || !BITSET_COMPATIBLE_ (DST, SRC3)) abort ();
 
+
+/* Redefine number of bits in bitset DST.  */
+#define BITSET_RESIZE_(DST, SIZE) (DST)->b.vtable->resize (DST, SIZE)
 
 /* Return size in bits of bitset SRC.  */
 #define BITSET_SIZE_(SRC) (SRC)->b.vtable->size (SRC)
@@ -263,6 +284,8 @@ if (!BITSET_COMPATIBLE_ (DST, SRC1) || !BITSET_COMPATIBLE_ (DST, SRC2) \
 extern bool bitset_toggle_ PARAMS ((bitset, bitset_bindex));
 
 extern bitset_bindex bitset_count_ PARAMS ((bitset));
+
+extern bitset_bindex bitset_size_ PARAMS ((bitset));
 
 extern bool bitset_copy_ PARAMS ((bitset, bitset));
 
