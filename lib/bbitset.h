@@ -42,9 +42,6 @@ extern const char * const bitset_type_names[];
 
 enum bitset_alloc_type {BITSET_MALLOC, BITSET_OBALLOC};
 
-/* Non-zero to use inline functions instead of macros.  */
-#define BITSET_INLINE 0
-
 /* Data type used to store a word of bits.  */
 typedef unsigned long bitset_word;
 #define BITSET_WORD_BITS ((unsigned) (CHAR_BIT * sizeof (bitset_word)))
