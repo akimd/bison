@@ -41,12 +41,10 @@
 	* src/reduce.c (reduce_grammar): First reduce the nonterminals,
 	and then the grammar.
 
-	
 2002-04-08  Akim Demaille  <akim@epita.fr>
 
 	* src/system.h: No longer using strndup.
 
-	
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
 	* src/muscle_tab.h (MUSCLE_INSERT_LONG_INT): New.
