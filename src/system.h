@@ -2,6 +2,12 @@
 #include <io.h>
 #endif
 
+#ifdef _MSC_VER
+#include <stdlib.h>
+#include <process.h>
+#define getpid _getpid
+#endif
+
 #if defined(HAVE_STDLIB_H) || defined(MSDOS)
 #include <stdlib.h>
 #endif
