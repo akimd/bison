@@ -1,3 +1,14 @@
+2002-10-20  Akim Demaille  <akim@epita.fr>
+
+	* src/output.c (prepare): Use MUSCLE_INSERT_STRING.
+	* src/muscle_tab.c (muscle_pair_list_grow): Rename `val as
+	`pair'.
+	(muscle_init): Move the `b4_ltype', `b4_maxdepth', `b4_initdepth',
+	`name' to...
+	* data/glr.c, data/lalr1.cc, data/yacc.c (b4_location_type)
+	(b4_stack_depth_init, b4_stack_depth_max, b4_parser_class_name):
+	These.
+
 2002-10-19  Paul Eggert  <eggert@twinsun.com>
 
 	Do not create a temporary file, as that involves security and
@@ -20,7 +31,7 @@
 	* src/scan-skel.l (readpipe): Remove decl.
 	(scan_skel): New function, to be used in place of m4_invoke.
 	Read from stream rather than file.
-	
+
 	* lib/timevar.c (TICKS_TO_MSEC, CLOCKS_TO_MSEC): Do not cast to
 	float, as this generates a warning on Solaris 8 + GCC 3.2 with
 	--enable-gcc-warnings.  Instead, divide into 1.0 rather than 1;

@@ -19,6 +19,23 @@ m4_divert(-1)
 
 m4_include([c.m4])
 
+## ---------------- ##
+## Default values.  ##
+## ---------------- ##
+
+# Stack parameters.
+m4_define_default([b4_stack_depth_init],  [200])
+
+# Default Parser class name.
+m4_define_default([b4_parser_class_name], [Parser])
+
+
+
+## ----------------- ##
+## Semantic Values.  ##
+## ----------------- ##
+
+
 # b4_lhs_value([TYPE])
 # --------------------
 # Expansion of $<TYPE>$.
@@ -33,7 +50,7 @@ m4_define([b4_lhs_value],
 m4_define([b4_rhs_value],
 [semantic_stack_@<:@m4_eval([$1 - $2])@:>@m4_ifval([$3], [.$3])])
 
-m4_define_default([b4_ltype], [Location])
+m4_define_default([b4_location_type], [Location])
 
 # b4_lhs_location()
 # -----------------
@@ -145,7 +162,7 @@ b4_post_prologue
 
 namespace yy
 {
-  class b4_name;
+  class b4_parser_class_name;
 
   template < typename P >
   struct Traits
@@ -153,47 +170,47 @@ namespace yy
   };
 
   template < >
-  struct Traits< b4_name >
+  struct Traits< b4_parser_class_name >
   {
     typedef b4_int_type_for([b4_translate]) TokenNumberType;
     typedef b4_int_type_for([b4_rhs])       RhsNumberType;
     typedef int      StateType;
     typedef yystype  SemanticType;
-    typedef b4_ltype LocationType;
+    typedef b4_location_type LocationType;
   };
 }
 
 namespace yy
 {
-  class b4_name b4_inherit
+  class b4_parser_class_name b4_inherit
   {
   public:
 
-    typedef Traits< b4_name >::TokenNumberType TokenNumberType;
-    typedef Traits< b4_name >::RhsNumberType   RhsNumberType;
-    typedef Traits< b4_name >::StateType       StateType;
-    typedef Traits< b4_name >::SemanticType    SemanticType;
-    typedef Traits< b4_name >::LocationType    LocationType;
+    typedef Traits< b4_parser_class_name >::TokenNumberType TokenNumberType;
+    typedef Traits< b4_parser_class_name >::RhsNumberType   RhsNumberType;
+    typedef Traits< b4_parser_class_name >::StateType       StateType;
+    typedef Traits< b4_parser_class_name >::SemanticType    SemanticType;
+    typedef Traits< b4_parser_class_name >::LocationType    LocationType;
 
     typedef Stack< StateType >    StateStack;
     typedef Stack< SemanticType > SemanticStack;
     typedef Stack< LocationType > LocationStack;
 
 #if YYLSP_NEEDED
-    b4_name (bool debug,
+    b4_parser_class_name (bool debug,
 	    LocationType initlocation[]b4_param) :
       b4_constructor[]debug_ (debug),
       cdebug_ (std::cerr),
       initlocation_ (initlocation)
 #else
-    b4_name (bool debug[]b4_param) :
+    b4_parser_class_name (bool debug[]b4_param) :
       b4_constructor[]debug_ (debug),
       cdebug_ (std::cerr)
 #endif
     {
     }
 
-    virtual ~b4_name ()
+    virtual ~b4_parser_class_name ()
     {
     }
 
@@ -296,7 +313,7 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 #endif /* !YYDEBUG */
 
 int
-yy::b4_name::parse ()
+yy::b4_parser_class_name::parse ()
 {
   int nerrs = 0;
   int errstatus = 0;
@@ -606,7 +623,7 @@ yy::b4_name::parse ()
 }
 
 void
-yy::b4_name::lex_ ()
+yy::b4_parser_class_name::lex_ ()
 {
 #if YYLSP_NEEDED
   looka_ = yylex (&value, &location);
@@ -617,9 +634,9 @@ yy::b4_name::lex_ ()
 
 /* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-const b4_int_type_for([b4_pact]) yy::b4_name::pact_ninf_ = b4_pact_ninf;
+const b4_int_type_for([b4_pact]) yy::b4_parser_class_name::pact_ninf_ = b4_pact_ninf;
 const b4_int_type_for([b4_pact])
-yy::b4_name::pact_[[]] =
+yy::b4_parser_class_name::pact_[[]] =
 {
   b4_pact
 };
@@ -628,21 +645,21 @@ yy::b4_name::pact_[[]] =
    doesn't specify something else to do.  Zero means the default is an
    error.  */
 const b4_int_type_for([b4_defact])
-yy::b4_name::defact_[[]] =
+yy::b4_parser_class_name::defact_[[]] =
 {
   b4_defact
 };
 
 /* YYPGOTO[[NTERM-NUM]].  */
 const b4_int_type_for([b4_pgoto])
-yy::b4_name::pgoto_[[]] =
+yy::b4_parser_class_name::pgoto_[[]] =
 {
   b4_pgoto
 };
 
 /* YYDEFGOTO[[NTERM-NUM]].  */
 const b4_int_type_for([b4_defgoto])
-yy::b4_name::defgoto_[[]] =
+yy::b4_parser_class_name::defgoto_[[]] =
 {
   b4_defgoto
 };
@@ -650,16 +667,16 @@ yy::b4_name::defgoto_[[]] =
 /* YYTABLE[[YYPACT[STATE-NUM]]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-const b4_int_type_for([b4_table]) yy::b4_name::table_ninf_ = b4_table_ninf;
+const b4_int_type_for([b4_table]) yy::b4_parser_class_name::table_ninf_ = b4_table_ninf;
 const b4_int_type_for([b4_table])
-yy::b4_name::table_[[]] =
+yy::b4_parser_class_name::table_[[]] =
 {
   b4_table
 };
 
 /* YYCHECK.  */
 const b4_int_type_for([b4_check])
-yy::b4_name::check_[[]] =
+yy::b4_parser_class_name::check_[[]] =
 {
   b4_check
 };
@@ -668,7 +685,7 @@ yy::b4_name::check_[[]] =
 /* STOS_[[STATE-NUM]] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 const b4_int_type_for([b4_stos])
-yy::b4_name::stos_[[]] =
+yy::b4_parser_class_name::stos_[[]] =
 {
   b4_stos
 };
@@ -676,7 +693,7 @@ yy::b4_name::stos_[[]] =
 /* TOKEN_NUMBER_[[YYLEX-NUM]] -- Internal token number corresponding
    to YYLEX-NUM.  */
 const b4_int_type_for([b4_toknum])
-yy::b4_name::token_number_[[]] =
+yy::b4_parser_class_name::token_number_[[]] =
 {
   b4_toknum
 };
@@ -684,14 +701,14 @@ yy::b4_name::token_number_[[]] =
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
 const b4_int_type_for([b4_r1])
-yy::b4_name::r1_[[]] =
+yy::b4_parser_class_name::r1_[[]] =
 {
   b4_r1
 };
 
 /* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
 const b4_int_type_for([b4_r2])
-yy::b4_name::r2_[[]] =
+yy::b4_parser_class_name::r2_[[]] =
 {
   b4_r2
 };
@@ -700,7 +717,7 @@ yy::b4_name::r2_[[]] =
 /* YYTNAME[[SYMBOL-NUM]] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 const char*
-const yy::b4_name::name_[[]] =
+const yy::b4_parser_class_name::name_[[]] =
 {
   b4_tname
 };
@@ -708,8 +725,8 @@ const yy::b4_name::name_[[]] =
 
 #if YYDEBUG
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-const yy::b4_name::RhsNumberType
-yy::b4_name::rhs_[[]] =
+const yy::b4_parser_class_name::RhsNumberType
+yy::b4_parser_class_name::rhs_[[]] =
 {
   b4_rhs
 };
@@ -717,22 +734,22 @@ yy::b4_name::rhs_[[]] =
 /* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
 const b4_int_type_for([b4_prhs])
-yy::b4_name::prhs_[[]] =
+yy::b4_parser_class_name::prhs_[[]] =
 {
   b4_prhs
 };
 
 /* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
 const b4_int_type_for([b4_rline])
-yy::b4_name::rline_[[]] =
+yy::b4_parser_class_name::rline_[[]] =
 {
   b4_rline
 };
 #endif
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-yy::b4_name::TokenNumberType
-yy::b4_name::translate_ (int token)
+yy::b4_parser_class_name::TokenNumberType
+yy::b4_parser_class_name::translate_ (int token)
 {
   static
   const TokenNumberType
@@ -746,18 +763,18 @@ yy::b4_name::translate_ (int token)
     return undef_token_;
 }
 
-const int yy::b4_name::eof_ = 0;
-const int yy::b4_name::last_ = b4_last;
-const int yy::b4_name::nnts_ = b4_nterms_number;
-const int yy::b4_name::empty_ = -2;
-const int yy::b4_name::final_ = b4_final_state_number;
-const int yy::b4_name::terror_ = 1;
-const int yy::b4_name::errcode_ = 256;
-const int yy::b4_name::ntokens_ = b4_tokens_number;
-const int yy::b4_name::initdepth_ = b4_initdepth;
+const int yy::b4_parser_class_name::eof_ = 0;
+const int yy::b4_parser_class_name::last_ = b4_last;
+const int yy::b4_parser_class_name::nnts_ = b4_nterms_number;
+const int yy::b4_parser_class_name::empty_ = -2;
+const int yy::b4_parser_class_name::final_ = b4_final_state_number;
+const int yy::b4_parser_class_name::terror_ = 1;
+const int yy::b4_parser_class_name::errcode_ = 256;
+const int yy::b4_parser_class_name::ntokens_ = b4_tokens_number;
+const int yy::b4_parser_class_name::initdepth_ = b4_stack_depth_init;
 
-const unsigned yy::b4_name::user_token_number_max_ = b4_user_token_number_max;
-const yy::b4_name::TokenNumberType yy::b4_name::undef_token_ = b4_undef_token_number;
+const unsigned yy::b4_parser_class_name::user_token_number_max_ = b4_user_token_number_max;
+const yy::b4_parser_class_name::TokenNumberType yy::b4_name::undef_token_ = b4_undef_token_number;
 
 b4_epilogue
 dnl
