@@ -39,7 +39,7 @@
 @ifinfo
 This file documents the Bison parser generator.
 
-Copyright (C) 1988, 1989, 1990, 1991, 1992 Free Software Foundation, Inc.
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -121,7 +121,7 @@ Cover art by Etienne Suvasa.
 @node Top, Introduction, (dir), (dir)
 
 @ifinfo
-This manual documents version 1.20 of Bison.
+This manual documents version 1.23 of Bison.
 @end ifinfo
 
 @menu
@@ -307,7 +307,7 @@ don't know Bison or Yacc, start by reading these chapters.  Reference
 chapters follow which describe specific aspects of Bison in detail.
 
 Bison was written primarily by Robert Corbett; Richard Stallman made
-it Yacc-compatible.  This edition corresponds to version 1.20 of Bison.
+it Yacc-compatible.  This edition corresponds to version 1.23 of Bison.
 
 @node Conditions, Copying, Introduction, Top
 @unnumbered Conditions for Using Bison
@@ -763,8 +763,6 @@ use Bison or Yacc, we suggest you start by reading this chapter carefully.
 @node Language and Grammar, Grammar in Bison,  , Concepts
 @section Languages and Context-Free Grammars
 
-@c !!! ``An expression can be an integer'' is not a valid Bison
-@c expression---Bison cannot read English! --rjc     6 Feb 1992
 @cindex context-free grammar
 @cindex grammar, context-free
 In order for Bison to parse a language, it must be described by a
@@ -3055,11 +3053,12 @@ to be reentrant.  It looks like this:
 @end example
 
 The effect is that the two communication variables become local
-variables in @code{yyparse}, and a different calling convention is used for
-the lexical analyzer function @code{yylex}.  @xref{Pure Calling, ,Calling for Pure Parsers}, for the
-details of this.  The variable @code{yynerrs} also becomes local in
-@code{yyparse} (@pxref{Error Reporting, ,The Error Reporting Function @code{yyerror}}).  The convention for calling
-@code{yyparse} itself is unchanged.
+variables in @code{yyparse}, and a different calling convention is used
+for the lexical analyzer function @code{yylex}.  @xref{Pure Calling,
+,Calling Conventions for Pure Parsers}, for the details of this.  The
+variable @code{yynerrs} also becomes local in @code{yyparse}
+(@pxref{Error Reporting, ,The Error Reporting Function @code{yyerror}}).
+The convention for calling @code{yyparse} itself is unchanged.
 
 @node Decl Summary,  , Pure Decl, Declarations
 @subsection Bison Declaration Summary
@@ -3121,9 +3120,9 @@ variables of the Bison parser to start with @var{prefix} instead of
 not conflict.
 
 The precise list of symbols renamed is @code{yyparse}, @code{yylex},
-@code{yyerror}, @code{yylval}, @code{yychar} and @code{yydebug}.  For
-example, if you use @samp{-p c}, the names become @code{cparse},
-@code{clex}, and so on.
+@code{yyerror}, @code{yynerrs}, @code{yylval}, @code{yychar} and
+@code{yydebug}.  For example, if you use @samp{-p c}, the names become
+@code{cparse}, @code{clex}, and so on.
 
 @strong{All the other variables and macros associated with Bison are not
 renamed.} These others are not global; there is no conflict if the same
@@ -3318,7 +3317,7 @@ the use of this feature makes the parser noticeably slower.
 The data type of @code{yylloc} has the name @code{YYLTYPE}.
 
 @node Pure Calling,  , Token Positions, Lexical
-@subsection Calling for Pure Parsers
+@subsection Calling Conventions for Pure Parsers
 
 When you use the Bison declaration @code{%pure_parser} to request a
 pure, reentrant parser, the global communication variables @code{yylval}
@@ -3345,10 +3344,11 @@ textual positions, then the type @code{YYLTYPE} will not be defined.  In
 this case, omit the second argument; @code{yylex} will be called with
 only one argument.
 
-If you wish to pass additional parameters to a reentrant parser in a
-reentrant way, you can do so by defining the macro @code{YYPARSE_PARAM}.
-Define it as a variable name.  The resulting @code{yyparse} function
-then accepts one argument, of type @code{void *}, with that name.
+@vindex YYPARSE_PARAM
+You can pass parameter information to a reentrant parser in a reentrant
+way.  Define the macro @code{YYPARSE_PARAM} as a variable name.  The
+resulting @code{yyparse} function then accepts one argument, of type
+@code{void *}, with that name.
 
 When you call @code{yyparse}, pass the address of an object, casting the
 address to @code{void *}.  The grammar actions can refer to the contents
@@ -3393,6 +3393,31 @@ In the grammar actions, use expressions like this to refer to the data:
 @example
 ((struct parser_control *) parm)->randomness
 @end example
+
+@vindex YYLEX_PARAM
+If you wish to pass the additional parameter data to @code{yylex},
+define the macro @code{YYLEX_PARAM} just like @code{YYPARSE_PARAM}, as
+shown here:
+
+@example
+%@{
+struct parser_control
+@{
+  int nastiness;
+  int randomness;
+@};
+
+#define YYPARSE_PARAM parm
+#define YYLEX_PARAM parm
+%@}
+@end example
+
+You should then define @code{yylex} to accept one additional
+argument---the value of @code{parm}.  (This makes either two or three
+arguments in total, depending on whether an argument of type
+@code{YYLTYPE} is passed.)  You can declare the argument as a pointer to
+the proper object type, or you can declare it as @code{void *} and
+access the contents as shown above.
 
 @node Error Reporting, Action Features, Lexical, Interface
 @section The Error Reporting Function @code{yyerror}
@@ -4896,6 +4921,11 @@ section to request verbose, specific error message strings when
 Macro for specifying the initial size of the parser stack.
 @xref{Stack Overflow}.
 
+@item YYLEX_PARAM
+Macro for specifying an extra argument (or list of extra arguments) for
+@code{yyparse} to pass to @code{yylex}.  @xref{Pure Calling,, Calling
+Conventions for Pure Parsers}.
+
 @item YYLTYPE
 Macro for the data type of @code{yylloc}; a structure with four
 members.  @xref{Token Positions, ,Textual Positions of Tokens}.
@@ -4903,6 +4933,10 @@ members.  @xref{Token Positions, ,Textual Positions of Tokens}.
 @item YYMAXDEPTH
 Macro for specifying the maximum size of the parser stack.
 @xref{Stack Overflow}.
+
+@item YYPARSE_PARAM
+Macro for specifying the name of a parameter that @code{yyparse} should
+accept.  @xref{Pure Calling,, Calling Conventions for Pure Parsers}.
 
 @item YYRECOVERING
 Macro whose value indicates whether the parser is recovering from a
