@@ -1,3 +1,35 @@
+2002-12-26  Paul Eggert  <eggert@twinsun.com>
+
+	Don't use m4_include on relative file names, as it doesn't work as
+	desired if there happens to be a file with that name under ".".
+	
+	* m4sugar/version.m4: Remove; it was included but it wasn't used.
+	* data/Makefile.am (dist_m4sugar_DATA): Remove m4sugar/version.m4.
+	* data/m4sugar/m4sugar.m4: Don't include m4sugar/version.m4.
+	* data/glr.c, data/lalr1.cc, data/yacc.c: Don't include c.m4.
+	* src/output.c (output_skeleton): Use full path names when
+	specifying a file to include; don't rely on include path, as
+	it's unreliable when the working file contains a file with
+	that name.
+	
+2002-12-25  Paul Eggert  <eggert@twinsun.com>
+
+	Remove obsolete references to bison.simple and bison.hairy.
+	Problem mentioned by Aubin Mahe in
+	<http://mail.gnu.org/pipermail/help-bison/2002-December/001765.html>.
+	* data/glr.c: Comment fix.
+	* doc/bison.1: Remove references.  Also, mention "yacc".
+
+	* src/getargs.c (getargs) [MSDOS]: Don't assume optarg != NULL
+	with -g option.
+
+	* src/parse-gram.y (declaration): Use enum "report_states" rather
+	than its numeric value 1.
+
+	* src/scan-skel.l ("@output ".*\n): Close any old yyout before
+	opening a new one.  This fixes Debian bug 165349, reported by
+	Bruce Stephens.
+
 2002-12-24  Paul Eggert  <eggert@twinsun.com>
 
 	Version 1.75e.
