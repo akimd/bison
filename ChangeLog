@@ -1,5 +1,11 @@
 2001-11-05  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (symbols_output): New, extracted from...
+	(packsymbols): here.
+	(reader): Adjust.
+
+2001-11-05  Akim Demaille  <akim@epita.fr>
+
 	* src/lex.c (parse_percent_token): s/quotearg/quote/.
 
 2001-11-05  Akim Demaille  <akim@epita.fr>
