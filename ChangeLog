@@ -1,3 +1,7 @@
+2005-01-05  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* TODO: Mention that we should allow NUL bytes in tokens.
+
 2005-01-02  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/scan-skel.l (<<EOF>>): Don't close standard output.
