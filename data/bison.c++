@@ -341,7 +341,7 @@ yy::b4_name::parse ()
   return 0;
 }
 
-/* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
+/* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
 const short 
 yy::b4_name::pact_[[]] =
@@ -349,7 +349,7 @@ yy::b4_name::pact_[[]] =
   b4_pact
 };
 
-/* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
+/* YYDEFACT[[S]] -- default rule to reduce with in state S when YYTABLE
    doesn't specify something else to do.  Zero means the default is an
    error.  */
 const short 
@@ -358,21 +358,21 @@ yy::b4_name::defact_[[]] =
   b4_defact
 };
 
-/* YYPGOTO[NTERM-NUM].  */
+/* YYPGOTO[[NTERM-NUM]].  */
 const short 
 yy::b4_name::pgoto_[[]] =
 {
   b4_pgoto
 };
 
-/* YYDEFGOTO[NTERM-NUM].  */
+/* YYDEFGOTO[[NTERM-NUM]].  */
 const short 
 yy::b4_name::defgoto_[[]] =
 {
   b4_defgoto
 };
 
-/* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
+/* YYTABLE[[YYPACT[STATE-NUM]]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
 const short 
@@ -388,28 +388,28 @@ yy::b4_name::check_[[]] =
   b4_check
 };
 
-/* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
+/* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
 const short
 yy::b4_name::rline_[[]] =
 {
   b4_rline
 };
 
-/*YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
+/* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
 const short 
 yy::b4_name::r1_[[]] =
 {
   b4_r1
 };
 
-/* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
+/* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
 const short 
 yy::b4_name::r2_[[]] =
 {
   b4_r2
 };
 
-/* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+/* YYTNAME[[SYMBOL-NUM]] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 const char*
 const yy::b4_name::name_[[]] =
@@ -424,7 +424,7 @@ yy::b4_name::rhs_[[]] =
   b4_rhs
 };
 
-/* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
+/* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
 const short 
 yy::b4_name::prhs_[[]] =

@@ -1,5 +1,9 @@
 2002-02-06  Robert Anisko  <robert@lrde.epita.fr>
 
+	* data/bison.c++: Fix m4 quoting in comments.
+
+2002-02-06  Robert Anisko  <robert@lrde.epita.fr>
+
 	* data/bison.c++: Adjust the parser code.  Fix some muscles that were
 	not expanded by m4.
 
