@@ -154,10 +154,15 @@ splice	 (\\[ \f\t\v]*\n)*
 <INITIAL,SC_AFTER_IDENTIFIER,SC_PRE_CODE>
 {
   [ \f\n\t\v]  ;
+  ","	       warn_at (*loc, _("stray `,' treated as white space"));
 
   /* Comments. */
-  "/*"         token_start = loc->start; context_state = YY_START; BEGIN SC_YACC_COMMENT;
   "//".*       ;
+  "/*" {
+    token_start = loc->start;
+    context_state = YY_START;
+    BEGIN SC_YACC_COMMENT;
+  }
 
   /* #line directives are not documented, and may be withdrawn or
      modified in future versions of Bison.  */
@@ -214,10 +219,6 @@ splice	 (\\[ \f\t\v]*\n)*
   "="                     return EQUAL;
   "|"                     rule_length = 0; return PIPE;
   ";"                     return SEMICOLON;
-
-  "," {
-    warn_at (*loc, _("stray `,' treated as white space"));
-  }
 
   {id} {
     val->symbol = symbol_get (yytext, *loc);
