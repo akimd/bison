@@ -1,10 +1,10 @@
 /* General bitsets.
-   Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
-   This program is free software: you can redistribute it and/or modify
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
+   the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -13,14 +13,16 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
-#include <config.h>
-
-#include "bitset.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <stdlib.h>
 #include <string.h>
+#include "bitset.h"
 #include "abitset.h"
 #include "lbitset.h"
 #include "ebitset.h"
@@ -43,9 +45,6 @@ bitset_bytes (enum bitset_type type, bitset_bindex n_bits)
 
   switch (type)
     {
-    default:
-      abort ();
-
     case BITSET_ARRAY:
       bytes = abitset_bytes (n_bits);
       break;
@@ -61,6 +60,9 @@ bitset_bytes (enum bitset_type type, bitset_bindex n_bits)
     case BITSET_VARRAY:
       bytes = vbitset_bytes (n_bits);
       break;
+
+    default:
+      abort ();
     }
 
   return bytes;
@@ -76,9 +78,6 @@ bitset_init (bitset bset, bitset_bindex n_bits, enum bitset_type type)
 
   switch (type)
     {
-    default:
-      abort ();
-
     case BITSET_ARRAY:
       return abitset_init (bset, n_bits);
 
@@ -90,6 +89,9 @@ bitset_init (bitset bset, bitset_bindex n_bits, enum bitset_type type)
 
     case BITSET_VARRAY:
       return vbitset_init (bset, n_bits);
+
+    default:
+      abort ();
     }
 }
 
@@ -109,7 +111,7 @@ bitset_type_choose (bitset_bindex n_bits ATTRIBUTE_UNUSED, unsigned int attr)
   /* Choose the type of bitset.  Note that sometimes we will be asked
   for a zero length fixed size bitset.  */
 
-
+  
   /* If no attributes selected, choose a good compromise.  */
   if (!attr)
     return BITSET_VARRAY;
@@ -136,7 +138,7 @@ bitset_alloc (bitset_bindex n_bits, enum bitset_type type)
 
   bytes = bitset_bytes (type, n_bits);
 
-  bset = xcalloc (1, bytes);
+  bset = (bitset) xcalloc (1, bytes);
 
   /* The cache is disabled until some elements are allocated.  If we
      have variable length arrays, then we may need to allocate a dummy
@@ -294,7 +296,7 @@ bitset_print (FILE *file, bitset bset, bool verbose)
 
   if (verbose)
     fprintf (file, "n_bits = %lu, set = {",
-	     (unsigned long int) bitset_size (bset));
+	     (unsigned long) bitset_size (bset));
 
   pos = 30;
   BITSET_FOR_EACH (iter, bset, i, 0)
@@ -305,7 +307,7 @@ bitset_print (FILE *file, bitset bset, bool verbose)
 	pos = 0;
       }
 
-    fprintf (file, "%lu ", (unsigned long int) i);
+    fprintf (file, "%d ", i);
     pos += 1 + (i >= 10) + (i >= 100);
   };
 
@@ -419,9 +421,6 @@ bitset_op4_cmp (bitset dst, bitset src1, bitset src2, bitset src3,
 
   switch (op)
     {
-    default:
-      abort ();
-
     case BITSET_OP_OR_AND:
       bitset_or (tmp, src1, src2);
       changed = bitset_and_cmp (dst, src3, tmp);
@@ -436,6 +435,9 @@ bitset_op4_cmp (bitset dst, bitset src1, bitset src2, bitset src3,
       bitset_andn (tmp, src1, src2);
       changed = bitset_or_cmp (dst, src3, tmp);
       break;
+
+    default:
+      abort ();
     }
 
   bitset_free (tmp);
