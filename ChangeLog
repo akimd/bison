@@ -1,5 +1,11 @@
 2002-12-28  Paul Eggert  <eggert@twinsun.com>
 
+	* src/symtab.c (symbol_make_alias): Set type of SYMVAL to be
+	that of SYM's type.  This fixes Debian bug 168069, reported by
+	Thomas Olsson.
+	
+2002-12-28  Paul Eggert  <eggert@twinsun.com>
+
 	Version 1.75f.
 
 	Switch back to the Yacc style of conflict reports, undoing some
