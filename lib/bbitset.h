@@ -19,12 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #ifndef _BBITSET_H
 #define _BBITSET_H
 
-#include "config.h"
 #include "libiberty.h"
 
 #include <stdbool.h>
 #include <limits.h>
-#include <sys/types.h>
 
 /* Currently we support five flavours of bitsets:
    BITSET_ARRAY:  Array of bits (fixed size, fast for dense bitsets).
