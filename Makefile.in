@@ -110,9 +110,8 @@ realclean: distclean
 	rm -f TAGS *.info*
 
 # Most of these deps are in case using RCS.
-install: all bison.1 $(srcdir)/$(PFILE) $(srcdir)/$(PFILE1)
+install: all bison.1 $(srcdir)/$(PFILE) $(srcdir)/$(PFILE1) uninstall installdirs
 	$(INSTALL_PROGRAM) bison $(bindir)/bison
-	-cd $(datadir); rm -f $(PFILE) $(PFILE1)
 	$(INSTALL_DATA) ./bison.s1 $(datadir)/$(PFILE)
 	$(INSTALL_DATA) $(srcdir)/$(PFILE1) $(datadir)/$(PFILE1)
 	-chmod a+r $(datadir)/$(PFILE) $(datadir)/$(PFILE1) 
@@ -120,6 +119,21 @@ install: all bison.1 $(srcdir)/$(PFILE) $(srcdir)/$(PFILE1)
 	-chmod a+r $(mandir)/bison.$(manext)
 	cd $(srcdir); for f in bison.info*; \
 	do $(INSTALL_DATA) $$f $(infodir)/$$f; done
+
+# Make sure all installation directories, e.g. $(bindir) actually exist by
+# making them if necessary.
+installdirs:
+	for file in $(bindir) $(datadir) $(libdir) $(infodir) $(mandir) ; do \
+	   oIFS="$${IFS}"; IFS='/'; set - $${file}; IFS="$${oIFS}"; \
+	   pathcomp=''; test ".$${1}" = "." && shift; \
+	   while test $$# -ne 0 ; do \
+	     pathcomp="$${pathcomp}/$${1}"; shift; \
+	     if test ! -d "$${pathcomp}"; then \
+	        echo "making directory $$pathcomp" 1>&2 ; \
+	        mkdir "$${pathcomp}"; \
+	     fi; \
+	   done; \
+	done
 
 uninstall:
 	rm -f $(bindir)/bison
