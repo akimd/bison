@@ -143,8 +143,8 @@ void symbols_new (void);
 /* A function to apply to each symbol. */
 typedef bool (*symbol_processor) (symbol_t *);
 
-/* Apply PROCESSOR to all the symbols.  PROCESSOR must return TRUE: on
-   FALSE, the processing stops.  */
+/* Apply PROCESSOR to all the symbols.  PROCESSOR must return true: on
+   false, the processing stops.  */
 void symbols_do (symbol_processor processor, void *processor_data);
 
 /* Free all the memory allocated for symbols.  */

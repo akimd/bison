@@ -76,7 +76,7 @@
 
    RULES[R].line -- the line where R was defined.
 
-   RULES[R].useful -- TRUE iff the rule is used (i.e., FALSE if thrown
+   RULES[R].useful -- true iff the rule is used (i.e., false if thrown
    away by reduce).
 
    The right hand side is stored as symbol numbers in a portion of
