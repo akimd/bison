@@ -3,6 +3,9 @@ Bison News
 
 Changes in version 1.49a:
 
+* Large grammars
+  Are now supported.
+
 * The initial rule is explicit.
   Bison used to play hacks with the initial rule, which the user does
   not write.  It is now explicit, and visible in the reports and

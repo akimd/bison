@@ -129,7 +129,9 @@ mv stdout $1
 
 AT_SETUP([Big triangle])
 
-AT_DATA_TRIANGULAR_GRAMMAR([input.y], [253])
+# I have been able to go up to 2000 on my machine.
+# I tried 3000, a 29Mb grammar file, but then my system killed bison.
+AT_DATA_TRIANGULAR_GRAMMAR([input.y], [500])
 AT_CHECK([bison input.y -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
 AT_CHECK([./input])
