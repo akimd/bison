@@ -903,7 +903,7 @@ produces a C-language function that recognizes correct instances of the
 grammar.
 
    The Bison grammar input file conventionally has a name ending in
-`.y'.
+`.y'.  *Note Invoking Bison: Invocation.
 
 * Menu:
 

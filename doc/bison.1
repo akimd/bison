@@ -71,13 +71,22 @@ Unlike
 .IR yacc ,
 the generated files do not have fixed names, but instead use the prefix
 of the input file.
+Moreover, if you need to put 
+.IR C++
+code in the input file, you can end his name by a C++-like extension
+(.ypp or .y++), then bison will follow your extension to name the 
+output file (.cpp or .c++).
 For instance, a grammar description file named
-.B parse.y
+.B parse.yxx
 would produce the generated parser in a file named
-.BR parse.tab.c ,
+.BR parse.tab.cxx ,
 instead of
 .IR yacc 's
-.BR y.tab.c .
+.BR y.tab.c 
+or old 
+.IR Bison
+versions
+.BR parse.tab.c .
 .PP
 This description of the options that can be given to
 .I bison

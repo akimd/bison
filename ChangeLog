@@ -1,3 +1,21 @@
+2001-08-01  Marc Autret  <autret_m@epita.fr>
+
+	* doc/bison.texinfo: Update.
+	* doc/bison.1 (mandoc): Update.
+	* src/system.h (EXT_GUARD_C, EXT_STYPE_H): Remove .c and .h.
+	* src/files.c: Support output files extensions computing.
+	(src_extension): New static variable.
+	(header_extension): New static variable.
+	(tr): New function.
+	(get_extension_index): New function, gets the index of an extension
+	filename in a string.
+	(compute_exts_from_gf): New function, computes extensions from the
+	grammar file extension.
+	(compute_exts_from_src): New functions, computes extensions from the
+	C source file extension, file given by ``-o'' option.
+	(compute_base_names): Update.
+	(output_files): Update.
+
 2001-08-01  Robert Anisko  <anisko_r@epita.fr>
 
 	* doc/autoconf.texi: Document @$.

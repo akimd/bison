@@ -32,9 +32,9 @@ instead of in the original English.
 Indirect:
 bison.info-1: 1307
 bison.info-2: 50189
-bison.info-3: 99779
-bison.info-4: 149657
-bison.info-5: 196400
+bison.info-3: 99814
+bison.info-4: 149692
+bison.info-5: 196961
 
 Tag Table:
 (Indirect)
@@ -71,69 +71,69 @@ Node: Mfcalc Rules72281
 Node: Mfcalc Symtab73661
 Node: Exercises80034
 Node: Grammar File80540
-Node: Grammar Outline81353
-Node: C Declarations82087
-Node: Bison Declarations82667
-Node: Grammar Rules83079
-Node: C Code83539
-Node: Symbols84469
-Node: Rules89550
-Node: Recursion91189
-Node: Semantics92908
-Node: Value Type94002
-Node: Multiple Types94674
-Node: Actions95691
-Node: Action Types98476
-Node: Mid-Rule Actions99779
-Node: Locations105348
-Node: Location Type106013
-Node: Actions and Locations106571
-Node: Location Default Action107735
-Node: Declarations108942
-Node: Token Decl110261
-Node: Precedence Decl112274
-Node: Union Decl113825
-Node: Type Decl114669
-Node: Expect Decl115575
-Node: Start Decl117121
-Node: Pure Decl117499
-Node: Decl Summary119176
-Node: Multiple Parsers124559
-Node: Interface126053
-Node: Parser Function126925
-Node: Lexical127760
-Node: Calling Convention129166
-Node: Token Values131937
-Node: Token Positions133086
-Node: Pure Calling133971
-Node: Error Reporting136903
-Node: Action Features139025
-Node: Algorithm142320
-Node: Look-Ahead144613
-Node: Shift/Reduce146745
-Node: Precedence149657
-Node: Why Precedence150308
-Node: Using Precedence152173
-Node: Precedence Examples153141
-Node: How Precedence153842
-Node: Contextual Precedence154991
-Node: Parser States156782
-Node: Reduce/Reduce158025
-Node: Mystery Conflicts161586
-Node: Stack Overflow164972
-Node: Error Recovery166345
-Node: Context Dependency171481
-Node: Semantic Tokens172329
-Node: Lexical Tie-ins175346
-Node: Tie-in Recovery176894
-Node: Debugging179066
-Node: Invocation182367
-Node: Bison Options183097
-Node: Environment Variables186531
-Node: Option Cross Key187379
-Node: VMS Invocation188223
-Node: Table of Symbols189007
-Node: Glossary196400
-Node: Index202690
+Node: Grammar Outline81388
+Node: C Declarations82122
+Node: Bison Declarations82702
+Node: Grammar Rules83114
+Node: C Code83574
+Node: Symbols84504
+Node: Rules89585
+Node: Recursion91224
+Node: Semantics92943
+Node: Value Type94037
+Node: Multiple Types94709
+Node: Actions95726
+Node: Action Types98511
+Node: Mid-Rule Actions99814
+Node: Locations105383
+Node: Location Type106048
+Node: Actions and Locations106606
+Node: Location Default Action107770
+Node: Declarations108977
+Node: Token Decl110296
+Node: Precedence Decl112309
+Node: Union Decl113860
+Node: Type Decl114704
+Node: Expect Decl115610
+Node: Start Decl117156
+Node: Pure Decl117534
+Node: Decl Summary119211
+Node: Multiple Parsers124594
+Node: Interface126088
+Node: Parser Function126960
+Node: Lexical127795
+Node: Calling Convention129201
+Node: Token Values131972
+Node: Token Positions133121
+Node: Pure Calling134006
+Node: Error Reporting136938
+Node: Action Features139060
+Node: Algorithm142355
+Node: Look-Ahead144648
+Node: Shift/Reduce146780
+Node: Precedence149692
+Node: Why Precedence150343
+Node: Using Precedence152208
+Node: Precedence Examples153176
+Node: How Precedence153877
+Node: Contextual Precedence155026
+Node: Parser States156817
+Node: Reduce/Reduce158060
+Node: Mystery Conflicts161621
+Node: Stack Overflow165007
+Node: Error Recovery166380
+Node: Context Dependency171516
+Node: Semantic Tokens172364
+Node: Lexical Tie-ins175381
+Node: Tie-in Recovery176929
+Node: Debugging179101
+Node: Invocation182402
+Node: Bison Options183658
+Node: Environment Variables187092
+Node: Option Cross Key187940
+Node: VMS Invocation188784
+Node: Table of Symbols189568
+Node: Glossary196961
+Node: Index203251
 
 End Tag Table

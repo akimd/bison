@@ -2142,6 +2142,7 @@ Bison takes as input a context-free grammar specification and produces a
 C-language function that recognizes correct instances of the grammar.
 
 The Bison grammar input file conventionally has a name ending in @samp{.y}.
+@xref{Invocation, ,Invoking Bison}.
 
 @menu
 * Grammar Outline::   Overall layout of the grammar file.
@@ -5079,7 +5080,26 @@ Here @var{infile} is the grammar file name, which usually ends in
 @samp{.y}.  The parser file's name is made by replacing the @samp{.y}
 with @samp{.tab.c}.  Thus, the @samp{bison foo.y} filename yields
 @file{foo.tab.c}, and the @samp{bison hack/foo.y} filename yields
-@file{hack/foo.tab.c}.@refill
+@file{hack/foo.tab.c}. It's is also possible, in case you are writting
+C++ code instead of C in your grammar file, to name it @file{foo.ypp} 
+or @file{foo.y++}. Then, the output files will take an extention like
+the given one as input (repectively @file{foo.tab.cpp} and @file{foo.tab.c++}).
+This feature takes effect with all options that manipulate filenames like
+@samp{-o} or @samp{-d}.
+
+For example :
+
+@example
+bison -d @var{infile.yxx}
+@end example
+will produce @file{infile.tab.cxx} and @file{infile.tab.hxx}. and
+
+@example
+bison -d @var{infile.y} -o @var{output.c++}
+@end example
+will produce @file{output.c++} and @file{outfile.h++}.
+
+@refill
 
 @menu
 * Bison Options::     All the options described in detail,

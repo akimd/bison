@@ -857,7 +857,20 @@ Invoking Bison
    Here INFILE is the grammar file name, which usually ends in `.y'.
 The parser file's name is made by replacing the `.y' with `.tab.c'.
 Thus, the `bison foo.y' filename yields `foo.tab.c', and the `bison
-hack/foo.y' filename yields `hack/foo.tab.c'.
+hack/foo.y' filename yields `hack/foo.tab.c'. It's is also possible, in
+case you are writting C++ code instead of C in your grammar file, to
+name it `foo.ypp' or `foo.y++'. Then, the output files will take an
+extention like the given one as input (repectively `foo.tab.cpp' and
+`foo.tab.c++').  This feature takes effect with all options that
+manipulate filenames like `-o' or `-d'.
+
+   For example :
+
+     bison -d INFILE.YXX
+   will produce `infile.tab.cxx' and `infile.tab.hxx'. and
+
+     bison -d INFILE.Y -o OUTPUT.C++
+   will produce `output.c++' and `outfile.h++'.
 
 * Menu:
 

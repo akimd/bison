@@ -3,6 +3,8 @@ Bison News
 
 Changes in version 1.28a:
 
+* the input and the output files has automatically a similar extension.
+
 * Russian translation added.
 
 * NLS support updated; should hopefully be less troublesome.
