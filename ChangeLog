@@ -1,3 +1,20 @@
+2004-02-02  Paul Eggert  <eggert@twinsun.com>
+
+	* src/Makefile.am (AM_CPPFLAGS): New macro.  It mentions
+	$(top_srcdir)/lib and ../lib.  This fixes a bug reported
+	by Paul Hilfinger; the old INCLUDES value didn't mention ../lib.
+	There's no need to mention top_builddir since Automake does that
+	for us.
+	(INCLUDES): Remove, as Automake says it's obsolescent.
+	Contents migrated into AM_CPPFLAGS as described above.
+	* lib/Makefile.am (INCLUDES): Remove; obsolescent.
+
+2004-01-14  Paul Hilfinger  <hilfingr@CS.Berkeley.EDU>
+
+	* data/glr.c (yytokenName): Bullet-proof against YYEMPTY token.
+	(yyreportSyntaxError): Handle case where lookahead token is
+	YYEMPTY.
+
 2004-01-13  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
 	* data/glr.c: Put casts on uses of YYREALLOC and YYMALLOC so that
@@ -17,7 +34,7 @@
 	including it.
 	* tests/Makefile.am ($(TESTSUITE)): Remove warning about ignoring
 	multiple inclusion warnings.
-	
+
 2003-12-02  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (How Can I Reset the Parser): More about start
@@ -11789,7 +11806,7 @@
 -----
 
 Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
-1998, 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 

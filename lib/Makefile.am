@@ -1,4 +1,4 @@
-## Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -20,11 +20,6 @@ AM_CFLAGS = $(WARNING_CFLAGS)
 lib_LIBRARIES = $(YACC_LIBRARY)
 EXTRA_LIBRARIES = liby.a
 noinst_LIBRARIES = libbison.a
-
-# config.h is in build/., and system.h is in src/src/.
-INCLUDES = -I$(top_builddir)      \
-           -I$(top_srcdir)/src \
-           -I$(top_srcdir)/lib
 
 liby_a_SOURCES = main.c yyerror.c
 
