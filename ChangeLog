@@ -1,5 +1,15 @@
 2002-04-08  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.c++: s/b4_item_number_max/b4_rhs_number_max/.
+	Adding #line.
+	Remove the duplicate `typedefs'.
+	(RhsNumberType): Fix the declaration and various other typos.
+	Use __ofile__.
+	* data/bison.simple: Use __ofile__.
+	* src/scan-skel.l: Handle __ofile__.
+
+2002-04-08  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (item_number_t): New, the type of item numbers in
 	RITEM.  Note that it must be able to code symbol numbers as
 	positive number, and the negation of rule numbers as negative

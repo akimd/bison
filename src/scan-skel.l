@@ -26,16 +26,20 @@
 #include "files.h"
 int skel_lex PARAMS ((void));
 static int yylineno = 1;
+static char *yyoutname = NULL;
 %}
 %%
   /* This is an approximation, but we don't need more. */
 ^"#output \""[^\"]+\"\n        {
      yytext[yyleng - 2] = '\0';
-     skel_out = xfopen (yytext + strlen ("#output \""), "w");
+     XFREE (yyoutname);
+     yyoutname = xstrdup (yytext + strlen ("#output \""));
+     yyout = xfopen (yyoutname, "w");
      yylineno = 1;
    }
 
 "__oline__"      fprintf (yyout, "%d", yylineno);
+"__ofile__"      fprintf (yyout, "%s", yyoutname);
 [^_\n]+          ECHO;
 \n+              yylineno += yyleng; ECHO;
 .                ECHO;

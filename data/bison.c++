@@ -137,6 +137,7 @@ yystype;
 # define YYSTYPE yystype
 #endif
 
+#line __oline__  "__ofile__"
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
    Current.last_line = Rhs[[N]].last_line; \
@@ -167,8 +168,8 @@ namespace yy
   template < >
   struct Traits< b4_name >
   {
-    typedef typedef b4_uint_type(b4_token_number_max) TokenNumberType;
-    typedef typedef b4_sint_type(b4_item_number_max)  RhsNumberType;
+    typedef b4_uint_type(b4_token_number_max) TokenNumberType;
+    typedef b4_sint_type(b4_rhs_number_max)   RhsNumberType;
     typedef int      StateType;
     typedef yystype  SemanticType;
     typedef b4_ltype LocationType;
@@ -182,7 +183,7 @@ namespace yy
   public:
 
     typedef Traits< b4_name >::TokenNumberType TokenNumberType;
-    typedef Traits< b4_name >::RhsNumberType   TokenNumberType;
+    typedef Traits< b4_name >::RhsNumberType   RhsNumberType;
     typedef Traits< b4_name >::StateType       StateType;
     typedef Traits< b4_name >::SemanticType    SemanticType;
     typedef Traits< b4_name >::LocationType    LocationType;
@@ -236,7 +237,7 @@ namespace yy
 
     /* More tables, for debugging.  */
 #if YYDEBUG
-    static const short rhs_[[]];
+    static const RhsNumberType rhs_[[]];
     static const short prhs_[[]];
     static const short rline_[[]];
 #endif
@@ -458,6 +459,9 @@ yy::b4_name::parse ()
 	b4_actions
       }
   }
+
+/* Line __line__ of __file__.  */
+#line __oline__ "__ofile__"
 
   state_stack_.pop (len_);
   semantic_stack_.pop (len_);
@@ -686,7 +690,7 @@ const yy::b4_name::name_[[]] =
 
 #if YYDEBUG
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-const RhsNumberType
+const yy::b4_name::RhsNumberType
 yy::b4_name::rhs_[[]] =
 {
   b4_rhs
@@ -709,7 +713,7 @@ yy::b4_name::rline_[[]] =
 #endif
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-TokenNumberType
+yy::b4_name::TokenNumberType
 yy::b4_name::translate_ (int token)
 {
   static
