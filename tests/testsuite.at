@@ -52,10 +52,11 @@ $2])
 
 # AT_COMPILE(OUTPUT, [SOURCES = OUTPUT.c])
 # ----------------------------------------
+# Compile SOURCES into OUTPUT.  If OUTPUT does not contain '.',
+# assume that we are linking too; this is a hack.
 m4_define([AT_COMPILE],
-[AT_CHECK([$CC $CFLAGS $CPPFLAGS m4_default([$2], [$1.c]) -o $1], 0,
-          [], [ignore])])
-
+[AT_CHECK([$CC $CFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])m4_default([$2], [$1.c]) m4_bmatch([$1], [[.]], [], [$LIBS ])-o $1],
+	   0, [], [ignore])])
 
 # AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.c])
 # --------------------------------------------
