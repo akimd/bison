@@ -1,5 +1,10 @@
 2002-06-11  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (grammar_midrule_action): New, Eved out from
+	(readgram): here.
+
+2002-06-11  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (grammar_rule_begin, previous_rule, current_rule):
 	New.
 	(readgram): Use them as replacement of inlined code, crule and
