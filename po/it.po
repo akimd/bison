@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-12-28 19:00-0800\n"
+"POT-Creation-Date: 2003-01-01 01:28-0800\n"
 "PO-Revision-Date: 2002-10-17 14:37+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -396,56 +396,56 @@ msgstr[1] "%d regole inutili"
 msgid "start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
-#: src/scan-gram.l:211
+#: src/scan-gram.l:157
+msgid "stray `,' treated as white space"
+msgstr ""
+
+#: src/scan-gram.l:216
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr ": escape non valido: %s\n"
 
-#: src/scan-gram.l:219
-msgid "stray `,' treated as white space"
-msgstr ""
-
-#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
+#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:280
+#: src/scan-gram.l:281
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr ": carattere non valido: `%c'\n"
 
-#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
+#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr ": escape non valido: %s\n"
 
-#: src/scan-gram.l:438
+#: src/scan-gram.l:439
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr ": escape non riconosciuto: %s\n"
 
-#: src/scan-gram.l:523
+#: src/scan-gram.l:524
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr ""
 
-#: src/scan-gram.l:737
+#: src/scan-gram.l:757
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: src/scan-gram.l:756
+#: src/scan-gram.l:776
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: src/scan-gram.l:800 src/scan-gram.l:867
+#: src/scan-gram.l:820 src/scan-gram.l:887
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "valore non valido: %s%d"
 
-#: src/scan-gram.l:958
+#: src/scan-gram.l:978
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr ""
@@ -494,27 +494,27 @@ msgstr "simbolo `%s' usato più di una volta in una stringa letterale"
 msgid "symbol `%s' given more than one literal string"
 msgstr "il simbolo `%s' dà pi&grave; di una stringa letterale"
 
-#: src/symtab.c:269
+#: src/symtab.c:270
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "precedenze in conflitto per %s und %s"
 
-#: src/symtab.c:281
+#: src/symtab.c:282
 #, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
 msgstr "associatività in conflitto per %s (%s) e %s (%s)"
 
-#: src/symtab.c:366
+#: src/symtab.c:367
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "i token %s e %s hanno lo stesso numero %d"
 
-#: src/symtab.c:589
+#: src/symtab.c:590
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "simbolo iniziale %s non definito"
 
-#: src/symtab.c:593
+#: src/symtab.c:594
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"

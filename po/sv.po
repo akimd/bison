@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.75e\n"
-"POT-Creation-Date: 2002-12-28 19:00-0800\n"
+"POT-Creation-Date: 2003-01-01 01:28-0800\n"
 "PO-Revision-Date: 2002-12-28 20:27+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -398,56 +398,56 @@ msgstr[1] "%d oanvändbara regler"
 msgid "start symbol %s does not derive any sentence"
 msgstr "startsymbolen %s genererar inga meningar"
 
-#: src/scan-gram.l:211
+#: src/scan-gram.l:157
+msgid "stray `,' treated as white space"
+msgstr "vilsekommet \",\" hanterat som blank"
+
+#: src/scan-gram.l:216
 #, c-format
 msgid "invalid directive: %s"
 msgstr "ogiltigt direktiv: %s"
 
-#: src/scan-gram.l:219
-msgid "stray `,' treated as white space"
-msgstr "vilsekommet \",\" hanterat som blank"
-
-#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
+#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
 #, c-format
 msgid "integer out of range: %s"
 msgstr "heltal utanför intervall: %s"
 
-#: src/scan-gram.l:280
+#: src/scan-gram.l:281
 #, c-format
 msgid "invalid character: %s"
 msgstr "ogiltigt tecken: %s"
 
-#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
+#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "ogiltig specialsekvens: %s"
 
-#: src/scan-gram.l:438
+#: src/scan-gram.l:439
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "okänd specialsekvens: %s"
 
-#: src/scan-gram.l:523
+#: src/scan-gram.l:524
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "saknad \"{\" i \"%s\""
 
-#: src/scan-gram.l:737
+#: src/scan-gram.l:757
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ för \"%s\" har ingen deklarerad typ"
 
-#: src/scan-gram.l:756
+#: src/scan-gram.l:776
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d för \"%s\" har ingen deklarerad typ"
 
-#: src/scan-gram.l:800 src/scan-gram.l:867
+#: src/scan-gram.l:820 src/scan-gram.l:887
 #, c-format
 msgid "invalid value: %s"
 msgstr "felaktigt värde: %s"
 
-#: src/scan-gram.l:958
+#: src/scan-gram.l:978
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "saknat \"%s\" vid filslut"
@@ -498,27 +498,27 @@ msgstr "symbolen \"%s\" används mer än en gång som en bokstavlig sträng"
 msgid "symbol `%s' given more than one literal string"
 msgstr "symbolen \"%s\" har fått mer än en bokstavlig sträng"
 
-#: src/symtab.c:269
+#: src/symtab.c:270
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "motstridiga precedenser mellan %s och %s"
 
-#: src/symtab.c:281
+#: src/symtab.c:282
 #, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
 msgstr "motstridiga associativiteter för %s (%s) och %s (%s)"
 
-#: src/symtab.c:366
+#: src/symtab.c:367
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "elementen %s och %s har båda fått nummer %d"
 
-#: src/symtab.c:589
+#: src/symtab.c:590
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "startsymbolen %s är odefinierad"
 
-#: src/symtab.c:593
+#: src/symtab.c:594
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"

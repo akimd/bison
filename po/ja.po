@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-12-28 19:00-0800\n"
+"POT-Creation-Date: 2003-01-01 01:28-0800\n"
 "PO-Revision-Date: 2002-10-29 01:00-05:00\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -395,56 +395,56 @@ msgstr[0] "%d 個の無意味な規則"
 msgid "start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"
 
-#: src/scan-gram.l:211
+#: src/scan-gram.l:157
+msgid "stray `,' treated as white space"
+msgstr ""
+
+#: src/scan-gram.l:216
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "不適切な入力: %s"
 
-#: src/scan-gram.l:219
-msgid "stray `,' treated as white space"
-msgstr ""
-
-#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
+#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:280
+#: src/scan-gram.l:281
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "未知の文字: %s"
 
-#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
+#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "不適切な入力: %s"
 
-#: src/scan-gram.l:438
+#: src/scan-gram.l:439
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "認識できない: %s"
 
-#: src/scan-gram.l:523
+#: src/scan-gram.l:524
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr ""
 
-#: src/scan-gram.l:737
+#: src/scan-gram.l:757
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' の $$ に宣言のない型があります"
 
-#: src/scan-gram.l:756
+#: src/scan-gram.l:776
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d 個の `%s' が宣言された型を持っていません"
 
-#: src/scan-gram.l:800 src/scan-gram.l:867
+#: src/scan-gram.l:820 src/scan-gram.l:887
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "不適切な $ の値"
 
-#: src/scan-gram.l:958
+#: src/scan-gram.l:978
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "閉じられていない文字列がファイル末尾にあります"
@@ -495,27 +495,27 @@ msgstr "シンボル `%s' はリテラル文字列として複数回使われました"
 msgid "symbol `%s' given more than one literal string"
 msgstr "シンボル `%s' は複数のリテラル文字列が与えられました"
 
-#: src/symtab.c:269
+#: src/symtab.c:270
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "先行している %s と %s で競合が生じています"
 
-#: src/symtab.c:281
+#: src/symtab.c:282
 #, fuzzy, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
 msgstr "非結合値 %s と %s で競合が生じています"
 
-#: src/symtab.c:366
+#: src/symtab.c:367
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "トークン %s と %s の双方が番号 %d に割り当てられました"
 
-#: src/symtab.c:589
+#: src/symtab.c:590
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "開始シンボル %s は定義されていません"
 
-#: src/symtab.c:593
+#: src/symtab.c:594
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"

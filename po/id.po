@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.75b\n"
-"POT-Creation-Date: 2002-12-28 19:00-0800\n"
+"POT-Creation-Date: 2003-01-01 01:28-0800\n"
 "PO-Revision-Date: 2002-11-22 12:24GMT+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -397,56 +397,56 @@ msgstr[1] "aturan tidak berguna %d"
 msgid "start symbol %s does not derive any sentence"
 msgstr "simbol awal %s tidak melahirkan kalimat"
 
-#: src/scan-gram.l:211
+#: src/scan-gram.l:157
+msgid "stray `,' treated as white space"
+msgstr ""
+
+#: src/scan-gram.l:216
 #, c-format
 msgid "invalid directive: %s"
 msgstr "direktif tidak valid: %s"
 
-#: src/scan-gram.l:219
-msgid "stray `,' treated as white space"
-msgstr ""
-
-#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
+#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
 #, c-format
 msgid "integer out of range: %s"
 msgstr "integer ke luar batas: %s"
 
-#: src/scan-gram.l:280
+#: src/scan-gram.l:281
 #, c-format
 msgid "invalid character: %s"
 msgstr "karakter tidak valid: %s"
 
-#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
+#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "urutan escape tidak valid: %s"
 
-#: src/scan-gram.l:438
+#: src/scan-gram.l:439
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "urutan escape tidak dikenal: %s"
 
-#: src/scan-gram.l:523
+#: src/scan-gram.l:524
 #, fuzzy, c-format
 msgid "missing `{' in `%s'"
 msgstr "operand hilang setelah `%s'"
 
-#: src/scan-gram.l:737
+#: src/scan-gram.l:757
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ dari `%s' tidak memiliki tipe yang terdeklarasi"
 
-#: src/scan-gram.l:756
+#: src/scan-gram.l:776
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d dari `%s' tidak memiliki tipe terdeklarasi"
 
-#: src/scan-gram.l:800 src/scan-gram.l:867
+#: src/scan-gram.l:820 src/scan-gram.l:887
 #, c-format
 msgid "invalid value: %s"
 msgstr "nilai tidak valid: %s"
 
-#: src/scan-gram.l:958
+#: src/scan-gram.l:978
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "`%s' hilang di akhir file"
@@ -497,27 +497,27 @@ msgstr "simbol `%s' digunakan lebih dari satu kali sebagai string literal"
 msgid "symbol `%s' given more than one literal string"
 msgstr "simbol `%s' diberikan lebih dari satu string literal"
 
-#: src/symtab.c:269
+#: src/symtab.c:270
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "presenden konflik untuk %s dan %s"
 
-#: src/symtab.c:281
+#: src/symtab.c:282
 #, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
 msgstr "asosiatif konflik untuk %s (%s) dan %s (%s)"
 
-#: src/symtab.c:366
+#: src/symtab.c:367
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "token %s dan %s keduanya memiliki angka %d"
 
-#: src/symtab.c:589
+#: src/symtab.c:590
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "simbol awal %s tidak didefinisikan"
 
-#: src/symtab.c:593
+#: src/symtab.c:594
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "simbol awal %s adalah sebuah token"

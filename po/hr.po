@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-12-28 19:00-0800\n"
+"POT-Creation-Date: 2003-01-01 01:28-0800\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -399,56 +399,56 @@ msgstr[1] "%d beskorisnih pravila"
 msgid "start symbol %s does not derive any sentence"
 msgstr "Poèetni simbol %s ne daje niti jednu reèenicu"
 
-#: src/scan-gram.l:211
+#: src/scan-gram.l:157
+msgid "stray `,' treated as white space"
+msgstr ""
+
+#: src/scan-gram.l:216
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "nedozvoljeni ulaz: %s"
 
-#: src/scan-gram.l:219
-msgid "stray `,' treated as white space"
-msgstr ""
-
-#: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
+#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:280
+#: src/scan-gram.l:281
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "nepoznati znak: %s"
 
-#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
+#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "nedozvoljeni ulaz: %s"
 
-#: src/scan-gram.l:438
+#: src/scan-gram.l:439
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "neprepoznati: %s"
 
-#: src/scan-gram.l:523
+#: src/scan-gram.l:524
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr ""
 
-#: src/scan-gram.l:737
+#: src/scan-gram.l:757
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ od `%s' nema deklarirani tip"
 
-#: src/scan-gram.l:756
+#: src/scan-gram.l:776
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d od `%s' nema deklarirani tip"
 
-#: src/scan-gram.l:800 src/scan-gram.l:867
+#: src/scan-gram.l:820 src/scan-gram.l:887
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "nedozvoljena $ vrijednost"
 
-#: src/scan-gram.l:958
+#: src/scan-gram.l:978
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "nezavr¹eni znakovni niz na kraju datoteke"
@@ -497,27 +497,27 @@ msgstr "simbol `%s' kori¹ten vi¹e puta kao znakovni niz"
 msgid "symbol `%s' given more than one literal string"
 msgstr "simbolz `%s' dat vi¹e od jednog znakovnog niza"
 
-#: src/symtab.c:269
+#: src/symtab.c:270
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "konflikt u prethodnici za %s and %s"
 
-#: src/symtab.c:281
+#: src/symtab.c:282
 #, fuzzy, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
 msgstr "konfliktne asocijativne vrijednosti za %s i %s"
 
-#: src/symtab.c:366
+#: src/symtab.c:367
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "objema znakovima %s i %s je pridru¾en broj %d"
 
-#: src/symtab.c:589
+#: src/symtab.c:590
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "poèetni simbol  %s nije definiran"
 
-#: src/symtab.c:593
+#: src/symtab.c:594
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "poèetni simbol %s je znak"
