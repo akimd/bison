@@ -97,8 +97,8 @@ scanner_last_string_free (void)
    Outside of well-formed rules, RULE_LENGTH has an undefined value.  */
 static int rule_length;
 
-static void handle_dollar (braced_code code_kind, char *cp, location loc);
-static void handle_at (braced_code code_kind, char *cp, location loc);
+static void handle_dollar (int token_type, char *cp, location loc);
+static void handle_at (int token_type, char *cp, location loc);
 static void handle_syncline (char *args);
 static int convert_ucn_to_byte (char const *hex_text);
 static void unexpected_end_of_file (boundary, char const *);
@@ -108,12 +108,12 @@ static void unexpected_end_of_file (boundary, char const *);
 %x SC_STRING SC_CHARACTER
 %x SC_AFTER_IDENTIFIER
 %x SC_ESCAPED_STRING SC_ESCAPED_CHARACTER
-%x SC_BRACED_CODE SC_PROLOGUE SC_EPILOGUE
+%x SC_PRE_CODE SC_BRACED_CODE SC_PROLOGUE SC_EPILOGUE
 
 letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
 id	  {letter}({letter}|[0-9])*
 directive %{letter}({letter}|[0-9]|-)*
-int 	  [0-9]+
+int	  [0-9]+
 
 /* POSIX says that a tag must be both an id and a C union member, but
    historically almost any character is allowed in a tag.  We disallow
@@ -132,6 +132,9 @@ splice	 (\\[ \f\t\v]*\n)*
   /* Parent context state, when applicable.  */
   int context_state IF_LINT (= 0);
 
+  /* Token type to return, when applicable.  */
+  int token_type IF_LINT (= 0);
+
   /* Location of most recent identifier, when applicable.  */
   location id_loc IF_LINT (= *loc);
 
@@ -148,7 +151,7 @@ splice	 (\\[ \f\t\v]*\n)*
   | Scanning white space.  |
   `-----------------------*/
 
-<INITIAL,SC_AFTER_IDENTIFIER>
+<INITIAL,SC_AFTER_IDENTIFIER,SC_PRE_CODE>
 {
   [ \f\n\t\v]  ;
 
@@ -173,7 +176,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%debug"                return PERCENT_DEBUG;
   "%define"               return PERCENT_DEFINE;
   "%defines"              return PERCENT_DEFINES;
-  "%destructor"           return PERCENT_DESTRUCTOR;
+  "%destructor"		  token_type = PERCENT_DESTRUCTOR; BEGIN SC_PRE_CODE;
   "%dprec"		  return PERCENT_DPREC;
   "%error"[-_]"verbose"   return PERCENT_ERROR_VERBOSE;
   "%expect"               return PERCENT_EXPECT;
@@ -181,6 +184,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%fixed"[-_]"output"[-_]"files"   return PERCENT_YACC;
   "%glr-parser"           return PERCENT_GLR_PARSER;
   "%left"                 return PERCENT_LEFT;
+  "%lex-param"		  token_type = PERCENT_LEX_PARAM; BEGIN SC_PRE_CODE;
   "%locations"            return PERCENT_LOCATIONS;
   "%merge"		  return PERCENT_MERGE;
   "%name"[-_]"prefix"     return PERCENT_NAME_PREFIX;
@@ -188,19 +192,18 @@ splice	 (\\[ \f\t\v]*\n)*
   "%nonassoc"             return PERCENT_NONASSOC;
   "%nterm"                return PERCENT_NTERM;
   "%output"               return PERCENT_OUTPUT;
-  "%parse-param"          return PERCENT_PARSE_PARAM;
+  "%parse-param"	  token_type = PERCENT_PARSE_PARAM; BEGIN SC_PRE_CODE;
   "%prec"                 rule_length--; return PERCENT_PREC;
-  "%printer"              return PERCENT_PRINTER;
+  "%printer"              token_type = PERCENT_PRINTER; BEGIN SC_PRE_CODE;
   "%pure"[-_]"parser"     return PERCENT_PURE_PARSER;
   "%right"                return PERCENT_RIGHT;
-  "%lex-param"            return PERCENT_LEX_PARAM;
   "%skeleton"             return PERCENT_SKELETON;
   "%start"                return PERCENT_START;
   "%term"                 return PERCENT_TOKEN;
   "%token"                return PERCENT_TOKEN;
   "%token"[-_]"table"     return PERCENT_TOKEN_TABLE;
   "%type"                 return PERCENT_TYPE;
-  "%union"                return PERCENT_UNION;
+  "%union"		  token_type = PERCENT_UNION; BEGIN SC_PRE_CODE;
   "%verbose"              return PERCENT_VERBOSE;
   "%yacc"                 return PERCENT_YACC;
 
@@ -248,6 +251,7 @@ splice	 (\\[ \f\t\v]*\n)*
   /* Code in between braces.  */
   "{" {
     STRING_GROW;
+    token_type = BRACED_CODE;
     braces_level = 0;
     code_start = loc->start;
     BEGIN SC_BRACED_CODE;
@@ -496,6 +500,39 @@ splice	 (\\[ \f\t\v]*\n)*
 
 
   /*---------------------------------------------------------------.
+  | Scanning after %union etc., possibly followed by white space.  |
+  | For %union only, allow arbitrary C code to appear before the   |
+  | following brace, as an extension to POSIX.			   |
+  `---------------------------------------------------------------*/
+
+<SC_PRE_CODE>
+{
+  . {
+    bool valid = yytext[0] == '{' || token_type == PERCENT_UNION;
+    scanner_cursor.column -= mbsnwidth (yytext, yyleng, 0);
+    yyless (0);
+
+    if (valid)
+      {
+	braces_level = -1;
+	code_start = loc->start;
+	BEGIN SC_BRACED_CODE;
+      }
+    else
+      {
+	complain_at (*loc, _("missing `{' in `%s'"),
+		     token_name (token_type));
+	obstack_sgrow (&obstack_for_string, "{}");
+	STRING_FINISH;
+	val->chars = last_string;
+	BEGIN INITIAL;
+	return token_type;
+      }
+  }
+}
+
+
+  /*---------------------------------------------------------------.
   | Scanning some code in braces (%union and actions). The initial |
   | "{" is already eaten.                                          |
   `---------------------------------------------------------------*/
@@ -510,11 +547,11 @@ splice	 (\\[ \f\t\v]*\n)*
     if (braces_level < 0)
       {
 	STRING_FINISH;
+	rule_length++;
 	loc->start = code_start;
 	val->chars = last_string;
-	rule_length++;
 	BEGIN INITIAL;
-	return BRACED_CODE;
+	return token_type;
       }
   }
 
@@ -522,10 +559,8 @@ splice	 (\\[ \f\t\v]*\n)*
      (as `<' `<%').  */
   "<"{splice}"<"  STRING_GROW;
 
-  "$"("<"{tag}">")?(-?[0-9]+|"$") { handle_dollar (current_braced_code,
-						   yytext, *loc); }
-  "@"(-?[0-9]+|"$")               { handle_at (current_braced_code,
-					       yytext, *loc); }
+  "$"("<"{tag}">")?(-?[0-9]+|"$")  handle_dollar (token_type, yytext, *loc);
+  "@"(-?[0-9]+|"$")		   handle_at (token_type, yytext, *loc);
 
   <<EOF>>  unexpected_end_of_file (code_start, "}");
 }
@@ -675,11 +710,14 @@ no_cr_read (FILE *fp, char *buf, size_t size)
 | Output to OBSTACK_FOR_STRING a reference to this semantic value.  |
 `------------------------------------------------------------------*/
 
-static inline void
+static inline bool
 handle_action_dollar (char *text, location loc)
 {
   const char *type_name = NULL;
   char *cp = text + 1;
+
+  if (! current_rule)
+    return false;
 
   /* Get the type name if explicit. */
   if (*cp == '<')
@@ -726,44 +764,40 @@ handle_action_dollar (char *text, location loc)
       else
 	complain_at (loc, _("integer out of range: %s"), quote (text));
     }
-}
 
-
-/*---------------------------------------------------------------.
-| TEXT is expected to be $$ in some code associated to a symbol: |
-| destructor or printer.                                         |
-`---------------------------------------------------------------*/
-
-static inline void
-handle_symbol_code_dollar (char *text, location loc)
-{
-  char *cp = text + 1;
-  if (*cp == '$')
-    obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar[");
-  else
-    complain_at (loc, _("invalid value: %s"), quote (text));
+  return true;
 }
 
 
 /*-----------------------------------------------------------------.
 | Dispatch onto handle_action_dollar, or handle_destructor_dollar, |
-| depending upon CODE_KIND.                                        |
+| depending upon TOKEN_TYPE.                                       |
 `-----------------------------------------------------------------*/
 
 static void
-handle_dollar (braced_code braced_code_kind, char *text, location loc)
+handle_dollar (int token_type, char *text, location loc)
 {
-  switch (braced_code_kind)
+  switch (token_type)
     {
-    case action_braced_code:
-      handle_action_dollar (text, loc);
+    case BRACED_CODE:
+      if (handle_action_dollar (text, loc))
+	return;
       break;
 
-    case destructor_braced_code:
-    case printer_braced_code:
-      handle_symbol_code_dollar (text, loc);
+    case PERCENT_DESTRUCTOR:
+    case PERCENT_PRINTER:
+      if (text[1] == '$')
+	{
+	  obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar[");
+	  return;
+	}
+      break;
+
+    default:
       break;
     }
+
+  complain_at (loc, _("invalid value: %s"), quote (text));
 }
 
 
@@ -772,16 +806,17 @@ handle_dollar (braced_code braced_code_kind, char *text, location loc)
 | OBSTACK_FOR_STRING a reference to this location.      |
 `------------------------------------------------------*/
 
-static inline void
+static inline bool
 handle_action_at (char *text, location loc)
 {
   char *cp = text + 1;
   locations_flag = 1;
 
+  if (! current_rule)
+    return false;
+
   if (*cp == '$')
-    {
-      obstack_sgrow (&obstack_for_string, "]b4_lhs_location[");
-    }
+    obstack_sgrow (&obstack_for_string, "]b4_lhs_location[");
   else
     {
       long num;
@@ -797,22 +832,8 @@ handle_action_at (char *text, location loc)
       else
 	complain_at (loc, _("integer out of range: %s"), quote (text));
     }
-}
 
-
-/*---------------------------------------------------------------.
-| TEXT is expected to be @$ in some code associated to a symbol: |
-| destructor or printer.                                         |
-`---------------------------------------------------------------*/
-
-static inline void
-handle_symbol_code_at (char *text, location loc)
-{
-  char *cp = text + 1;
-  if (*cp == '$')
-    obstack_sgrow (&obstack_for_string, "]b4_at_dollar[");
-  else
-    complain_at (loc, _("invalid value: %s"), quote (text));
+  return true;
 }
 
 
@@ -822,19 +843,28 @@ handle_symbol_code_at (char *text, location loc)
 `-------------------------------------------------------------------*/
 
 static void
-handle_at (braced_code braced_code_kind, char *text, location loc)
+handle_at (int token_type, char *text, location loc)
 {
-  switch (braced_code_kind)
+  switch (token_type)
     {
-    case action_braced_code:
+    case BRACED_CODE:
       handle_action_at (text, loc);
+      return;
+
+    case PERCENT_DESTRUCTOR:
+    case PERCENT_PRINTER:
+      if (text[1] == '$')
+	{
+	  obstack_sgrow (&obstack_for_string, "]b4_at_dollar[");
+	  return;
+	}
       break;
 
-    case destructor_braced_code:
-    case printer_braced_code:
-      handle_symbol_code_at (text, loc);
+    default:
       break;
     }
+
+  complain_at (loc, _("invalid value: %s"), quote (text));
 }
 
 
