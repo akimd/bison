@@ -1,5 +1,5 @@
 # Checking the output filenames.                    -*- Autotest -*-
-# Copyright 2000, 2001 Free Software Foundation, Inc.
+# Copyright 2000, 2001, 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -84,12 +84,12 @@ AT_CHECK_OUTPUT([foo.yy], [],
 
 # Be sure to reject cases where the parser and the header would have
 # the same name.
-AT_SETUP([Clashing Output Files.])
+AT_SETUP([Clashing Output Files])
 AT_DATA([foo.y],
 [[%% foo: {};
 ]])
 
 AT_CHECK([bison -do foo.x foo.y], [1], [],
-         [foo.y:2: fatal error: header and parser would be both named `foo.x'
+         [foo.y:2: fatal error: header and parser would both be named `foo.x'
 ])
 AT_CLEANUP

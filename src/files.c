@@ -456,7 +456,7 @@ compute_output_file_names (void)
       else
 	parser_filename = stringappend (full_base_name, src_extension);
       if (!strcmp (spec_defines_file, parser_filename))
-	fatal ("header and parser would be both named %s",
+	fatal ("header and parser would both be named %s",
 	       quote (parser_filename));
     }
 

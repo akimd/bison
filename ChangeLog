@@ -1,5 +1,12 @@
 2002-03-12  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (compute_output_file_names): s/would be both named/
+	/would both be named/.
+	Reported by Jim Meyering.
+	* tests/output.at (Clashing Output Files): Adjust.
+
+2002-03-12  Akim Demaille  <akim@epita.fr>
+
 	Version 1.34.
 
 2002-03-04  Akim Demaille  <akim@epita.fr>

@@ -1,15 +1,17 @@
 Bison News
 ----------
 
+Changes in version 1.34a:
+
 Changes in version 1.34, 2002-03-12:
 
 * File name clashes are detected
   $ bison foo.y -d -o foo.x
-  fatal error: header and parser would be both named `foo.x'
+  fatal error: header and parser would both be named `foo.x'
 
-* A missing `;' ending a rule triggers a warning
+* A missing `;' at the end of a rule triggers a warning
   In accordance with POSIX, and in agreement with other
-  Yacc implementations, Bison will mandate this semicolon in a near
+  Yacc implementations, Bison will mandate this semicolon in the near
   future.  This eases the implementation of a Bison parser of Bison
   grammars by making this grammar LALR(1) instead of LR(2).  To
   facilitate the transition, this release introduces a warning.
