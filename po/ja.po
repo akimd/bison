@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-11-27 19:40+0100\n"
+"POT-Creation-Date: 2001-11-28 15:57+0100\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -625,14 +625,14 @@ msgstr "開始シンボル %s は定義されていません"
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"
 
-#: src/reduce.c:400
+#: src/reduce.c:396
 #, fuzzy
 msgid "Useless nonterminals:"
 msgstr ""
 "不使用非終端子:\n"
 "\n"
 
-#: src/reduce.c:414
+#: src/reduce.c:410
 #, fuzzy
 msgid "Terminals which are not used:"
 msgstr ""
@@ -641,7 +641,7 @@ msgstr ""
 "利用されない終端子:\n"
 "\n"
 
-#: src/reduce.c:425
+#: src/reduce.c:421
 #, fuzzy
 msgid "Useless rules:"
 msgstr ""
@@ -650,58 +650,27 @@ msgstr ""
 "不使用規則:\n"
 "\n"
 
-#: src/reduce.c:451
-msgid ""
-"Variables\n"
-"---------\n"
-"\n"
-msgstr ""
-"変数\n"
-"---------\n"
-"\n"
+#: src/reduce.c:488
+#, fuzzy, c-format
+msgid "%d rule never reduced\n"
+msgid_plural "%d rules never reduced\n"
+msgstr[0] "%d 個の規則は決して還元されません\n"
 
-#: src/reduce.c:452
-msgid "Value  Sprec    Sassoc    Tag\n"
-msgstr "値     前置     結合      タグ\n"
-
-#: src/reduce.c:456
-msgid ""
-"Rules\n"
-"-----\n"
-"\n"
-msgstr ""
-"規則\n"
-"-----\n"
-"\n"
-
-#: src/reduce.c:470
-msgid ""
-"Rules interpreted\n"
-"-----------------\n"
-"\n"
-msgstr ""
-"解釈された規則\n"
-"-----------------\n"
-"\n"
-
-#: src/reduce.c:491
-#, c-format
-msgid "%d rules never reduced\n"
-msgstr "%d 個の規則は決して還元されません\n"
-
-#: src/reduce.c:497
-#, c-format
-msgid "%d useless nonterminal%s"
-msgstr "%d 個の不使用非終端子%.0s"
+#: src/reduce.c:496
+#, fuzzy, c-format
+msgid "%d useless nonterminal"
+msgid_plural "%d useless nonterminals"
+msgstr[0] "%d 個の不使用非終端子%.0s"
 
 #: src/reduce.c:502
 msgid " and "
 msgstr "および"
 
-#: src/reduce.c:506
-#, c-format
-msgid "%d useless rule%s"
-msgstr "%d 個の不使用規則%.0s"
+#: src/reduce.c:505
+#, fuzzy, c-format
+msgid "%d useless rule"
+msgid_plural "%d useless rules"
+msgstr[0] "%d 個の不使用規則%.0s"
 
 #: src/reduce.c:536
 #, c-format
@@ -795,6 +764,36 @@ msgstr ""
 #: lib/quotearg.c:269
 msgid "'"
 msgstr ""
+
+#~ msgid ""
+#~ "Variables\n"
+#~ "---------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "変数\n"
+#~ "---------\n"
+#~ "\n"
+
+#~ msgid "Value  Sprec    Sassoc    Tag\n"
+#~ msgstr "値     前置     結合      タグ\n"
+
+#~ msgid ""
+#~ "Rules\n"
+#~ "-----\n"
+#~ "\n"
+#~ msgstr ""
+#~ "規則\n"
+#~ "-----\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Rules interpreted\n"
+#~ "-----------------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "解釈された規則\n"
+#~ "-----------------\n"
+#~ "\n"
 
 #~ msgid ""
 #~ "\n"

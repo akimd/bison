@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-11-27 19:40+0100\n"
+"POT-Creation-Date: 2001-11-28 15:57+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -718,14 +718,14 @@ msgstr "el símbolo de inicio (axioma) %s no está definido"
 msgid "the start symbol %s is a token"
 msgstr "el símbolo de inicio (axioma) %s es un terminal"
 
-#: src/reduce.c:400
+#: src/reduce.c:396
 #, fuzzy
 msgid "Useless nonterminals:"
 msgstr ""
 "No terminales sin uso:\n"
 "\n"
 
-#: src/reduce.c:414
+#: src/reduce.c:410
 #, fuzzy
 msgid "Terminals which are not used:"
 msgstr ""
@@ -734,7 +734,7 @@ msgstr ""
 "Terminales que no se usan:\n"
 "\n"
 
-#: src/reduce.c:425
+#: src/reduce.c:421
 #, fuzzy
 msgid "Useless rules:"
 msgstr ""
@@ -743,58 +743,27 @@ msgstr ""
 "Reglas sin uso:\n"
 "\n"
 
-#: src/reduce.c:451
-msgid ""
-"Variables\n"
-"---------\n"
-"\n"
-msgstr ""
-"Variables\n"
-"---------\n"
-"\n"
+#: src/reduce.c:488
+#, fuzzy, c-format
+msgid "%d rule never reduced\n"
+msgid_plural "%d rules never reduced\n"
+msgstr[0] "%d reglas que nunca se han reducido\n"
 
-#: src/reduce.c:452
-msgid "Value  Sprec    Sassoc    Tag\n"
-msgstr "Valor  Sprec    Sasoc     Tag\n"
-
-#: src/reduce.c:456
-msgid ""
-"Rules\n"
-"-----\n"
-"\n"
-msgstr ""
-"Reglas\n"
-"------\n"
-"\n"
-
-#: src/reduce.c:470
-msgid ""
-"Rules interpreted\n"
-"-----------------\n"
-"\n"
-msgstr ""
-"Reglas interpretadas\n"
-"--------------------\n"
-"\n"
-
-#: src/reduce.c:491
-#, c-format
-msgid "%d rules never reduced\n"
-msgstr "%d reglas que nunca se han reducido\n"
-
-#: src/reduce.c:497
-#, c-format
-msgid "%d useless nonterminal%s"
-msgstr "%d no terminales %s sin uso"
+#: src/reduce.c:496
+#, fuzzy, c-format
+msgid "%d useless nonterminal"
+msgid_plural "%d useless nonterminals"
+msgstr[0] "%d no terminales %s sin uso"
 
 #: src/reduce.c:502
 msgid " and "
 msgstr " y "
 
-#: src/reduce.c:506
-#, c-format
-msgid "%d useless rule%s"
-msgstr "%d regla%s sin uso"
+#: src/reduce.c:505
+#, fuzzy, c-format
+msgid "%d useless rule"
+msgid_plural "%d useless rules"
+msgstr[0] "%d regla%s sin uso"
 
 #: src/reduce.c:536
 #, c-format
@@ -912,6 +881,36 @@ msgstr ""
 #: lib/quotearg.c:269
 msgid "'"
 msgstr ""
+
+#~ msgid ""
+#~ "Variables\n"
+#~ "---------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Variables\n"
+#~ "---------\n"
+#~ "\n"
+
+#~ msgid "Value  Sprec    Sassoc    Tag\n"
+#~ msgstr "Valor  Sprec    Sasoc     Tag\n"
+
+#~ msgid ""
+#~ "Rules\n"
+#~ "-----\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Reglas\n"
+#~ "------\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Rules interpreted\n"
+#~ "-----------------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Reglas interpretadas\n"
+#~ "--------------------\n"
+#~ "\n"
 
 # ¿Por qué no lo pones en mayúsculas? Al fin y al cabo, eso es lo que
 # haces luego con "FDERIVES" que traduces como "FDERIVACIONES", ... -

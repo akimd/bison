@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30d\n"
-"POT-Creation-Date: 2001-11-27 19:40+0100\n"
+"POT-Creation-Date: 2001-11-28 15:57+0100\n"
 "PO-Revision-Date: 2001-11-21 17:33+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -634,70 +634,39 @@ msgstr "stardisümbol %s ei ole defineeritud"
 msgid "the start symbol %s is a token"
 msgstr "stardisümbol %s on märk"
 
-#: src/reduce.c:400
+#: src/reduce.c:396
 msgid "Useless nonterminals:"
 msgstr "Kasutamata mitteterminalid:"
 
-#: src/reduce.c:414
+#: src/reduce.c:410
 msgid "Terminals which are not used:"
 msgstr "Terminalid, mida ei kasutatud:"
 
-#: src/reduce.c:425
+#: src/reduce.c:421
 msgid "Useless rules:"
 msgstr "Kasutamata reeglid:"
 
-#: src/reduce.c:451
-msgid ""
-"Variables\n"
-"---------\n"
-"\n"
-msgstr ""
-"Muutujad\n"
-"--------\n"
-"\n"
+#: src/reduce.c:488
+#, fuzzy, c-format
+msgid "%d rule never reduced\n"
+msgid_plural "%d rules never reduced\n"
+msgstr[0] "%d reeglit ei redutseeritud\n"
 
-#: src/reduce.c:452
-msgid "Value  Sprec    Sassoc    Tag\n"
-msgstr "Value  Sprec    Sassoc    Tag\n"
-
-#: src/reduce.c:456
-msgid ""
-"Rules\n"
-"-----\n"
-"\n"
-msgstr ""
-"Reeglid\n"
-"-------\n"
-"\n"
-
-#: src/reduce.c:470
-msgid ""
-"Rules interpreted\n"
-"-----------------\n"
-"\n"
-msgstr ""
-"Interpreteeritud reeglid\n"
-"------------------------\n"
-"\n"
-
-#: src/reduce.c:491
-#, c-format
-msgid "%d rules never reduced\n"
-msgstr "%d reeglit ei redutseeritud\n"
-
-#: src/reduce.c:497
-#, c-format
-msgid "%d useless nonterminal%s"
-msgstr "%d kasutamata mitteterminali%s"
+#: src/reduce.c:496
+#, fuzzy, c-format
+msgid "%d useless nonterminal"
+msgid_plural "%d useless nonterminals"
+msgstr[0] "%d kasutamata mitteterminali%s"
 
 #: src/reduce.c:502
 msgid " and "
 msgstr " ja "
 
-#: src/reduce.c:506
-#, c-format
-msgid "%d useless rule%s"
-msgstr "%d kasutamata reeglit%s"
+#: src/reduce.c:505
+#, fuzzy, c-format
+msgid "%d useless rule"
+msgid_plural "%d useless rules"
+msgstr[0] "%d kasutamata reeglit%s"
 
 #: src/reduce.c:536
 #, c-format
@@ -790,3 +759,33 @@ msgstr "`"
 #: lib/quotearg.c:269
 msgid "'"
 msgstr "'"
+
+#~ msgid ""
+#~ "Variables\n"
+#~ "---------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Muutujad\n"
+#~ "--------\n"
+#~ "\n"
+
+#~ msgid "Value  Sprec    Sassoc    Tag\n"
+#~ msgstr "Value  Sprec    Sassoc    Tag\n"
+
+#~ msgid ""
+#~ "Rules\n"
+#~ "-----\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Reeglid\n"
+#~ "-------\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Rules interpreted\n"
+#~ "-----------------\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Interpreteeritud reeglid\n"
+#~ "------------------------\n"
+#~ "\n"
