@@ -51,6 +51,6 @@ void closure PARAMS ((short *items, int n));
 void free_closure PARAMS ((void));
 
 extern short *itemset;
-extern size_t itemsetsize;
+extern int itemsetsize;
 
 #endif /* !CLOSURE_H_ */
