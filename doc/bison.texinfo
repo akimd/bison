@@ -5784,9 +5784,13 @@ redeclare a typedef name provided an explicit type has been specified
 earlier:
 
 @example
-typedef int foo, bar, lose;
-static foo (bar);        /* @r{redeclare @code{bar} as static variable} */
-static int foo (lose);   /* @r{redeclare @code{foo} as function} */
+typedef int foo, bar;
+int baz (void)
+@{
+  static bar (bar);      /* @r{redeclare @code{bar} as static variable} */
+  extern foo foo (foo);  /* @r{redeclare @code{foo} as function} */
+  return foo (bar);
+@}
 @end example
 
 Unfortunately, the name being declared is separated from the declaration
