@@ -30,9 +30,9 @@ INCLUDES = -I$(top_builddir)/intl \
            -I$(top_srcdir)/lib
 
 # Heck, we are still using an old version of Automake which does not
-# understand LIBOBJ additions using $objext...
-
-EXTRA_DIST = malloc.c realloc.c
+# understand inner AC_LIBOBJ (i.e., from Autoconf itself, not from
+# configure.in).
+EXTRA_DIST = malloc.c realloc.c strnlen.c
 
 libbison_a_SOURCES = \
   basename.c dirname.h dirname.c \
