@@ -1,3 +1,11 @@
+2003-02-19  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at (AT_CHECK_CALC): Check different scenarios of
+	error recovery, mixing with/without pops and discarding of the
+	lookahead.
+	Exercise YYERROR.
+	Disable the lalr1.cc tests as currently it doesn't support YYERROR.
+
 2003-02-17  Paul Eggert  <eggert@twinsun.com>
 
 	* tests/atlocal.in (LDFLAGS, LIBS): New vars.
