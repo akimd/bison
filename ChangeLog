@@ -9,34 +9,12 @@
 	twice `Now at end of input', therefore there are two lines less to
 	expect.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (Unresolved SR Conflicts):
 	(Solved SR Conflicts, Rule Line Numbers): Adjust to the changes
 	below.
 
-	
-	* src/LR0.c (new_state): Recognize the final state by the fact it
-	is reached by eoftoken.
-	(insert_start_shifting_state, insert_eof_shifting_state)
-	(insert_accepting_state, augment_automaton): Remove, since now
-	these states are automatically computed from the initial state.
-	(generate_states): Adjust.
-	* src/print.c: When reporting a rule number to the user, substract
-	1, so that the axiom rule is rule 0, and the first user rule is 1.
-	* src/reduce.c: Likewise.
-	* src/print_graph.c (print_core): For the time being, just as for
-	the report, depend upon --trace-flags to dump the full set of
-	items.
-	* src/reader.c (readgram): Once the grammar read, insert the rule
-	0: `$axiom: START-SYMBOL $'.
-	* tests/set.at: Adjust: rule 0 is now displayed, and since the
-	number of the states has changed (the final state is no longer
-	necessarily the last), catch up.
-	* tests/regression.at: Partly catch up.
-
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (new_state): Recognize the final state by the fact it
@@ -93,7 +71,6 @@
 	Adjust expectations.
 	When yyungeting, be sure to use a valid yylloc: use last_yylloc.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* configure.in: Check the protos of strchr ans strspn.
@@ -103,7 +80,6 @@
 	* lib/strchr.c: New.
 	* src/reader.c (symbols_save): Use strchr.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/print.c, src/print_graph.c (escape): New.
@@ -112,7 +88,6 @@
 	reductions in green.
 	Prefer high to wide: output the state number on a line of its own.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h, src/state.c (reductions_new): New.
@@ -123,7 +98,6 @@
 	* src/print.c (print_reductions, print_actions): Adjust.
 	* src/output.c (action_row): Adjust.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h, src/state.c (errs_new, errs_dup): New.
@@ -133,7 +107,6 @@
 	* src/output.c (output_actions, action_row): Adjust.
 	* src/conflicts.c (resolve_sr_conflict): Adjust.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.c (set_goto_map, initialize_F): Use SHIFT_SYMBOL.
@@ -149,30 +122,25 @@
 	(print_actions): here.
 	* src/print_graph.c (print_actions): Remove dead code.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (copy_dollar, copy_at): Better checking of `n' in
 	`$n' and `@n'.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.c (add_lookback_edge): Use state_t instead of ints.
 	(build_relations): Adjust.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/lalr.c (set_goto_map): Remove a wrong but benign loop
 	duplication.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (packgram): Catch nitems overflows.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c, src/files.h (guard_obstack): Remove.
@@ -183,7 +151,6 @@
 	As a voluntary consequence, using braces around guards is now
 	mandatory.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h (rule_t): `guard' and `guard_line' are new members.
@@ -232,7 +199,6 @@
 	of a integer, and nlookaheads instead of the following state's
 	lookaheadsp.
 
-	
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (log_resolution, flush_shift)
@@ -266,7 +232,6 @@
 	Use YYNTOKENS only, which is documented, but not YYNTBASE, which
 	is an undocumented synonym.
 
-	
 2001-12-22  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_table_data): Change the prototype to use

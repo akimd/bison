@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-12-22 17:25+0100\n"
+"POT-Creation-Date: 2001-12-27 19:24+0100\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -48,85 +48,61 @@ msgstr "シフト"
 msgid "an error"
 msgstr "エラー"
 
-#: src/conflicts.c:301
+#: src/conflicts.c:289
 #, fuzzy, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] " %d シフト/還元衝突"
 
-#: src/conflicts.c:308
+#: src/conflicts.c:296
 #, fuzzy
 msgid "and"
 msgstr " および"
 
-#: src/conflicts.c:314
+#: src/conflicts.c:302
 #, fuzzy, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d 還元/還元衝突"
 
-#: src/conflicts.c:339
+#: src/conflicts.c:327
 #, fuzzy, c-format
 msgid "State %d contains "
 msgstr "状態 %d が含むのは"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:386
+#: src/conflicts.c:374
 msgid "conflicts: "
 msgstr "衝突: "
 
-#: src/conflicts.c:388
+#: src/conflicts.c:376
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d シフト/還元"
 
-#: src/conflicts.c:392
+#: src/conflicts.c:380
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d 還元/還元"
 
-#: src/conflicts.c:397 src/reduce.c:508
+#: src/conflicts.c:385 src/reduce.c:508
 #, c-format
 msgid "%s contains "
 msgstr "%s には"
 
-#: src/conflicts.c:404
+#: src/conflicts.c:392
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d シフト/還元衝突"
 
-#: src/conflicts.c:450 src/conflicts.c:527
-#, c-format
-msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-msgstr "    %-4s\t[規則 %d を利用して還元 (%s)]\n"
-
-#: src/conflicts.c:454 src/print.c:147
-#, c-format
-msgid ""
-"    $default\treduce using rule %d (%s)\n"
-"\n"
-msgstr ""
-"    $default\t規則 %d を利用して還元 (%s)\n"
-"\n"
-
-#: src/conflicts.c:508 src/conflicts.c:521
-#, c-format
-msgid "    %-4s\treduce using rule %d (%s)\n"
-msgstr "    %-4s\t規則 %d を利用して還元 (%s)\n"
-
-#: src/conflicts.c:537
-#, c-format
-msgid "    $default\treduce using rule %d (%s)\n"
-msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
-
-#: src/files.c:143
+#: src/files.c:142
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:162
+#: src/files.c:161
 msgid "cannot close file"
 msgstr ""
 
@@ -220,7 +196,7 @@ msgstr "%s: 文法ファイルが指定されていません\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: '%s' より後ろの余分な引数は無視されました\n"
 
-#: src/lalr.c:182
+#: src/lalr.c:173
 #, fuzzy, c-format
 msgid "too many gotos (max %d)"
 msgstr "%s の数が多すぎます (最大 %d)"
@@ -229,7 +205,7 @@ msgstr "%s の数が多すぎます (最大 %d)"
 msgid "unexpected `/' found and ignored"
 msgstr "予期しない `/' が見つかり、無視されました"
 
-#: src/lex.c:106 src/reader.c:295
+#: src/lex.c:106 src/reader.c:304
 msgid "unterminated comment"
 msgstr "閉じていないコメントです"
 
@@ -279,45 +255,69 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: オプション `%s' は引数を要求します\n"
 
-#: src/output.c:730
+#: src/output.c:750
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "最大テーブルサイズ (%s) を超えました"
 
-#: src/print.c:39
+#: src/print.c:43
 #, c-format
 msgid " type %d is %s\n"
 msgstr " タイプ %d は %s です\n"
 
-#: src/print.c:88
+#: src/print.c:105
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (規則 %d)"
 
-#: src/print.c:108
-msgid "    $default\taccept\n"
-msgstr "    $default\taccept\n"
-
-#: src/print.c:110
-msgid "    NO ACTIONS\n"
-msgstr "    動作無し\n"
-
-#: src/print.c:120
+#: src/print.c:126
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tシフト、および状態 %d へ\n"
 
-#: src/print.c:135
+#: src/print.c:143
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tエラー (非結合)\n"
 
-#: src/print.c:162
+#: src/print.c:167
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\t状態 %d へ\n"
 
-#: src/print.c:173
+#: src/print.c:191 src/print.c:227
+#, c-format
+msgid ""
+"    $default\treduce using rule %d (%s)\n"
+"\n"
+msgstr ""
+"    $default\t規則 %d を利用して還元 (%s)\n"
+"\n"
+
+#: src/print.c:223 src/print.c:300
+#, c-format
+msgid "    %-4s\t[reduce using rule %d (%s)]\n"
+msgstr "    %-4s\t[規則 %d を利用して還元 (%s)]\n"
+
+#: src/print.c:281 src/print.c:294
+#, c-format
+msgid "    %-4s\treduce using rule %d (%s)\n"
+msgstr "    %-4s\t規則 %d を利用して還元 (%s)\n"
+
+#: src/print.c:310
+#, c-format
+msgid "    $default\treduce using rule %d (%s)\n"
+msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
+
+#: src/print.c:326
+msgid "    $default\taccept\n"
+msgstr "    $default\taccept\n"
+
+#: src/print.c:328
+msgid "    NO ACTIONS\n"
+msgstr "    動作無し\n"
+
+#: src/print.c:341
 #, fuzzy, c-format
 msgid "state %d"
 msgstr ""
@@ -327,28 +327,28 @@ msgstr ""
 "\n"
 
 #. rule # : LHS -> RHS
-#: src/print.c:204
+#: src/print.c:372
 #, fuzzy
 msgid "Grammar"
 msgstr ""
 "\n"
 "文法\n"
 
-#: src/print.c:205
+#: src/print.c:373
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:210
+#: src/print.c:378
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "規則 %-4d %s ->"
 
-#: src/print.c:217
+#: src/print.c:385
 msgid "empty"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:224
+#: src/print.c:392
 #, fuzzy
 msgid "Terminals, with rules where they appear"
 msgstr ""
@@ -356,7 +356,7 @@ msgstr ""
 "終端トークン、およびそこに現れた規則\n"
 "\n"
 
-#: src/print.c:249
+#: src/print.c:415
 #, fuzzy
 msgid "Nonterminals, with rules where they appear"
 msgstr ""
@@ -364,257 +364,243 @@ msgstr ""
 "非終端トークン、およびそこに現れた規則\n"
 "\n"
 
-#: src/print.c:275
+#: src/print.c:441
 msgid " on left:"
 msgstr " 左辺:"
 
-#: src/print.c:290
+#: src/print.c:456
 msgid " on right:"
 msgstr " 右辺:"
 
-#. If something has been added in the NODE_OBSTACK after
-#. the declaration of the label, then we need a `\n'.
-#. if (obstack_object_size (node_obstack) > node_output_size)
-#. obstack_sgrow (node_obstack, "\n");
-#.
-#: src/print_graph.c:151
-#, fuzzy, c-format
-msgid "%-4s\terror (nonassociative)"
-msgstr "    %-4s\tエラー (非結合)\n"
-
-#.
-#. if (obstack_object_size (node_obstack) > node_output_size)
-#. obstack_sgrow (node_obstack, "\n");
-#.
-#: src/print_graph.c:166
-#, fuzzy, c-format
-msgid "$default\treduce using rule %d (%s)"
-msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
-
-#: src/reader.c:93
+#: src/reader.c:102
 msgid "   Skipping to next \\n"
 msgstr "   次の \\n にスキップ"
 
-#: src/reader.c:95
+#: src/reader.c:104
 #, c-format
 msgid "   Skipping to next %c"
 msgstr "   次の %c にスキップ"
 
-#: src/reader.c:146 src/reader.c:158
+#: src/reader.c:155 src/reader.c:167
 msgid "invalid $ value"
 msgstr "無効な $ の値"
 
-#: src/reader.c:185 src/reader.c:200
+#: src/reader.c:194 src/reader.c:209
 msgid "unterminated string at end of file"
 msgstr "閉じられていない文字列がファイル末尾にあります"
 
-#: src/reader.c:188
+#: src/reader.c:197
 msgid "unterminated string"
 msgstr "閉じられていない文字列"
 
-#: src/reader.c:337 src/reader.c:401
+#: src/reader.c:339 src/reader.c:403
+#, fuzzy, c-format
+msgid "invalid value: %s%d"
+msgstr "無効な $ の値"
+
+#: src/reader.c:353 src/reader.c:425
 #, fuzzy, c-format
 msgid "%s is invalid"
 msgstr "@%s は無効です"
 
-#: src/reader.c:377
+#: src/reader.c:393
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' の $$ に宣言のない型があります"
 
-#: src/reader.c:394
+#: src/reader.c:417
 #, fuzzy, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "`%s' の $%s に宣言のない型があります"
 
-#: src/reader.c:451
+#: src/reader.c:475
 msgid "unterminated `%{' definition"
 msgstr "`%{' 定義 が閉じられていません"
 
-#: src/reader.c:496 src/reader.c:611 src/reader.c:661 src/reader.c:907
+#: src/reader.c:520 src/reader.c:638 src/reader.c:688 src/reader.c:935
 #, c-format
 msgid "Premature EOF after %s"
 msgstr ""
 
-#: src/reader.c:513
+#: src/reader.c:537
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr ""
 
-#: src/reader.c:516
+#: src/reader.c:540
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr ""
 
-#: src/reader.c:537 src/reader.c:680
+#: src/reader.c:561 src/reader.c:707
 #, c-format
 msgid "symbol %s redefined"
 msgstr "シンボル %s が再定義されました"
 
-#: src/reader.c:547 src/reader.c:626 src/reader.c:687
+#: src/reader.c:571 src/reader.c:653 src/reader.c:714
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "%s の型が再定義されました"
 
-#: src/reader.c:556
+#: src/reader.c:583
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "%2$s 内の `%1$s' は無効です"
 
-#: src/reader.c:574 src/reader.c:733
+#: src/reader.c:601 src/reader.c:760
 #, fuzzy, c-format
 msgid "multiple %s declarations"
 msgstr "複数の %start が宣言されました"
 
-#: src/reader.c:576 src/reader.c:887 src/reader.c:902 src/reader.c:935
-#: src/reader.c:949
+#: src/reader.c:603 src/reader.c:915 src/reader.c:930 src/reader.c:963
+#: src/reader.c:977 src/reader.c:1183
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "無効な %start が宣言されました"
 
-#: src/reader.c:596
+#: src/reader.c:623
 msgid "%type declaration has no <typename>"
 msgstr "%type 宣言に <タイプ名> がありません"
 
-#: src/reader.c:631
+#: src/reader.c:658
 #, fuzzy, c-format
 msgid "invalid %%type declaration due to item: %s"
 msgstr "アイテムに与えられるべき %%type 宣言が無効です: `%s'"
 
-#: src/reader.c:676
+#: src/reader.c:703
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "%s に先行した再定義です"
 
-#: src/reader.c:699
+#: src/reader.c:726
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "無効なテキスト (%s) - 数値は識別子の後ろにあるべきです"
 
-#: src/reader.c:709
+#: src/reader.c:736
 #, c-format
 msgid "unexpected item: %s"
 msgstr "予期せぬアイテム: %s"
 
-#: src/reader.c:765 src/reader.c:1126 src/reader.c:1200
+#: src/reader.c:792 src/reader.c:1151
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "対応のない `{' です"
 
-#: src/reader.c:794
+#: src/reader.c:821
 #, fuzzy, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "%expect の引数が整数値ではありません"
 
-#: src/reader.c:840
+#: src/reader.c:867
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "認識できないアイテム %s、ここでは識別子が期待されます"
 
-#: src/reader.c:862
+#: src/reader.c:889
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "ここでは %s ではなく文字列定数が期待されます"
 
-#: src/reader.c:1054
+#: src/reader.c:1082
 #, c-format
 msgid "unrecognized: %s"
 msgstr "認識できない: %s"
 
-#: src/reader.c:1059
+#: src/reader.c:1087
 msgid "no input grammar"
 msgstr "文法の入力が無い"
 
-#: src/reader.c:1064
+#: src/reader.c:1092
 #, c-format
 msgid "unknown character: %s"
 msgstr "未知の文字: %s"
 
-#: src/reader.c:1223
-#, fuzzy, c-format
-msgid "unterminated %guard clause"
-msgstr "閉じられていない %%guard 節です"
-
-#: src/reader.c:1328
+#: src/reader.c:1270
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "邪悪な規則: 初期化シンボルにコロン (:) が続いていません"
 
-#: src/reader.c:1335
+#: src/reader.c:1277
 msgid "grammar starts with vertical bar"
 msgstr "文法は縦棒 (|) で始めます"
 
-#: src/reader.c:1363
+#: src/reader.c:1305
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s に規則が与えられ、それはトークンとなります"
 
-#: src/reader.c:1463
+#: src/reader.c:1405
 msgid "two @prec's in a row"
 msgstr "@prec のもの二つが同列になっています"
 
-#: src/reader.c:1471
+#: src/reader.c:1414
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard がありますが %%semantic_parser が指定されていません"
 
-#: src/reader.c:1480
+#: src/reader.c:1424
 msgid "two actions at end of one rule"
 msgstr "一つの規則の終りに二つの動作を指定しています"
 
-#: src/reader.c:1494
+#: src/reader.c:1438
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "初期状態の動作では型 (`%s' `%s') が衝突します"
 
-#: src/reader.c:1500
+#: src/reader.c:1444
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "空の型付き非終端アイテム用規則であり、動作が起りません"
 
-#: src/reader.c:1506
+#: src/reader.c:1450
 #, c-format
 msgid "invalid input: %s"
 msgstr "無効な入力: %s"
 
-#: src/reader.c:1514
+#: src/reader.c:1470
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークンと非終端アイテム) -- 最大 %s"
 
-#: src/reader.c:1517
+#: src/reader.c:1473
 msgid "no rules in the input grammar"
 msgstr "入力した文法に規則が定義されていません"
 
-#: src/reader.c:1525
+#: src/reader.c:1481
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "シンボル %s が使われていますが、トークンとして定義されておらず、規則を持ちま"
 "せん"
 
-#: src/reader.c:1592
+#: src/reader.c:1548
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "トークン %s と %s の双方が番号 %s に割り当てられました"
 
-#: src/reader.c:1645
+#: src/reader.c:1603
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "先行している %s と %s で競合が生じています"
 
-#: src/reader.c:1657
+#: src/reader.c:1615
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "非結合値 %s と %s で競合が生じています"
 
-#: src/reader.c:1693
+#: src/reader.c:1655
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "開始シンボル %s は定義されていません"
 
-#: src/reader.c:1695
+#: src/reader.c:1657
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"
+
+#: src/reader.c:1727
+#, fuzzy, c-format
+msgid "too many items (max %d)"
+msgstr "%s の数が多すぎます (最大 %d)"
 
 #: src/reduce.c:409
 #, fuzzy
@@ -755,6 +741,18 @@ msgstr ""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr ""
+
+#, fuzzy
+#~ msgid "%-4s\terror (nonassociative)"
+#~ msgstr "    %-4s\tエラー (非結合)\n"
+
+#, fuzzy
+#~ msgid "$default\treduce using rule %d (%s)"
+#~ msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
+
+#, fuzzy
+#~ msgid "unterminated %guard clause"
+#~ msgstr "閉じられていない %%guard 節です"
 
 #~ msgid "    $   \tgo to state %d\n"
 #~ msgstr "    $   \t状態 %d へ\n"
