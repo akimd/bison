@@ -16,6 +16,90 @@ Changes in version 1.49a:
   or
      %token YYEOF 0 "end of file"
 
+Changes in version 1.31, 2002-01-14:
+
+* Many Bug Fixes
+
+* GNU Gettext and %expect
+  GNU Gettext asserts 10 s/r conflicts, but there are 7.  Now that
+  Bison dies on incorrect %expectations, we fear there will be
+  too many bug reports for Gettext, so _for the time being_, %expect
+  does not trigger an error when the input file is named `plural.y'.
+
+* Use of alloca in parsers
+  If YYSTACK_USE_ALLOCA is defined to 0, then the parsers will use
+  malloc exclusively.  Since 1.29, but was not NEWS'ed.
+
+  alloca is used only when compiled with GCC, to avoid portability
+  problems as on AIX.
+
+* When the generated parser lacks debugging code, YYDEBUG is now 0
+  (as POSIX requires) instead of being undefined.
+
+* User Actions
+  Bison has always permitted actions such as { $$ = $1 }: it adds the
+  ending semicolon.  Now if in Yacc compatibility mode, the semicolon
+  is no longer output: one has to write { $$ = $1; }.
+
+* Better C++ compliance
+  The output parsers try to respect C++ namespaces.
+
+* Reduced Grammars
+  Fixed bugs when reporting useless nonterminals.
+
+* 64 bit hosts
+  The parsers work properly on 64 bit hosts.
+
+* Error messages
+  Some calls to strerror resulted in scrambled or missing error messages.
+
+* %expect
+  When the number of shift/reduce conflicts is correct, don't issue
+  any warning.
+
+* The verbose report includes the rule line numbers.
+
+* Rule line numbers are fixed in traces.
+
+* Swedish translation
+
+* Parse errors
+  Verbose parse error messages from the parsers are better looking.
+  Before: parse error: unexpected `'/'', expecting `"number"' or `'-'' or `'(''
+     Now: parse error: unexpected '/', expecting "number" or '-' or '('
+
+* Fixed parser memory leaks.
+  When the generated parser was using malloc to extend its stacks, the
+  previous allocations were not freed.
+
+* Fixed verbose output file.
+  Some newlines were missing.
+  Some conflicts in state descriptions were missing.
+
+* Fixed conflict report.
+  Option -v was needed to get the result.
+
+* %expect
+  Was not used.
+  Mismatches are errors, not warnings.
+
+* Fixed incorrect processing of some invalid input.
+
+* Fixed CPP guards: 9foo.h uses BISON_9FOO_H instead of 9FOO_H.
+
+* Fixed some typos in the documentation.
+
+* %token MY_EOF 0 is supported.
+  Before, MY_EOF was silently renumbered as 257.
+
+* doc/refcard.tex is updated.
+
+* %output, %file-prefix, %name-prefix.
+  New.
+
+* --output
+  New, aliasing `--output-file'.
+
 Changes in version 1.30:
 
 * `--defines' and `--graph' have now an optionnal argument which is the

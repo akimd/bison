@@ -1,5 +1,8 @@
 -*- outline -*-
 
+* NEWS
+Sort from 1.31 NEWS.
+
 * Prologue
 The %union is declared after the user C declarations. It can be
 a problem if YYSTYPE is declared after the user part.	[]
