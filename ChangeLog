@@ -1,5 +1,12 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (action_row): De-obfuscate
+	using the good o' techniques: arrays not pointers, variable
+	locality, BITISSET, RESETBIT etc.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	Pessimize the code to simplify it: from now on, all the states
 	have a valid SHIFTS, which NSHIFTS is possibly 0.
 
