@@ -1,5 +1,10 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/print_graph.c (print_core): Better locality of variables.
+	* src/print.c (print_core): Likewise.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/vcg.c: You do the output, so you are responsible of the
 	handling of VCG syntax, in particular: use quotearg.
 	* src/print_graph.c: Don't.
