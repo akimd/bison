@@ -1,5 +1,14 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/getargs.c (statistics_flag): Replace with...
+	(trace_flag): New.
+	(longopts): Accept --trace instead of --statistics.
+	* src/getargs.h: Adjust.
+	* src/LR0.c, src/closure.c, src/derives.c, src/nullable.c,
+	* src/reduce.c: Use trace_flags instead of the CPP conditional TRACE.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (new_itemsets, get_state): Use more arrays and less
 	pointers to clarify the code.
 	(save_reductions, save_shifts): Factor common parts of alternatives.
