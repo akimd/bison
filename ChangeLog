@@ -5,6 +5,9 @@
 
 2002-11-14  Paul Eggert  <eggert@twinsun.com>
 
+	* src/output.c (output_skeleton): Call xfopen instead of
+	duplicating xfopen's body.
+
 	Fix bugs reported by Nelson H. F. Beebe in
 	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001893.html>.
 
