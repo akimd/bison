@@ -1,28 +1,30 @@
 /* Base bitset stuff.
-   Copyright (C) 2002, 2003, 2004, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #ifndef _BBITSET_H
 #define _BBITSET_H
 
+#include "config.h"
 #include "libiberty.h"
 
 #include <stdbool.h>
 #include <limits.h>
-#include <stddef.h>
+#include <sys/types.h>
 
 /* Currently we support five flavours of bitsets:
    BITSET_ARRAY:  Array of bits (fixed size, fast for dense bitsets).
@@ -33,7 +35,7 @@
    BITSET_TABLE:  Expandable table of pointers to arrays of bits
 		  (variable size, less storage for large sparse sets).
                   Faster than BITSET_LIST for random access.
-   BITSET_VARRAY: Variable array of bits (variable size, fast for
+   BITSET_VARRAY: Variable array of bits (variable size, fast for 
                   dense bitsets).
    BITSET_STATS:  Wrapper bitset for internal use only.  Used for gathering
                   statistics and/or better run-time checking.
@@ -47,8 +49,8 @@ extern const char * const bitset_type_names[];
 enum bitset_alloc_type {BITSET_MALLOC, BITSET_OBALLOC};
 
 /* Data type used to store a word of bits.  */
-typedef unsigned long int bitset_word;
-#define BITSET_WORD_BITS ((unsigned int) (CHAR_BIT * sizeof (bitset_word)))
+typedef unsigned long bitset_word;
+#define BITSET_WORD_BITS ((unsigned) (CHAR_BIT * sizeof (bitset_word)))
 
 /* Bit index.  In theory we might need a type wider than size_t, but
    in practice we lose at most a factor of CHAR_BIT by going with
@@ -110,45 +112,46 @@ typedef union bitset_union *bitset;
 /* The contents of this structure should be considered private.  */
 struct bitset_vtable
 {
-  void (*set) (bitset, bitset_bindex);
-  void (*reset) (bitset, bitset_bindex);
-  bool (*toggle) (bitset, bitset_bindex);
-  bool (*test) (bitset, bitset_bindex);
-  bitset_bindex (*resize) (bitset, bitset_bindex);
-  bitset_bindex (*size) (bitset);
-  bitset_bindex (*count) (bitset);
+  void (*set) PARAMS ((bitset, bitset_bindex));
+  void (*reset) PARAMS ((bitset, bitset_bindex));
+  bool (*toggle) PARAMS ((bitset, bitset_bindex));
+  bool (*test) PARAMS ((bitset, bitset_bindex));
+  bitset_bindex (*resize) PARAMS ((bitset, bitset_bindex));
+  bitset_bindex (*size) PARAMS ((bitset));
+  bitset_bindex (*count) PARAMS ((bitset));
 
-  bool (*empty_p) (bitset);
-  void (*ones) (bitset);
-  void (*zero) (bitset);
+  bool (*empty_p) PARAMS ((bitset));
+  void (*ones) PARAMS ((bitset));
+  void (*zero) PARAMS ((bitset));
 
-  void (*copy) (bitset, bitset);
-  bool (*disjoint_p) (bitset, bitset);
-  bool (*equal_p) (bitset, bitset);
-  void (*not_) (bitset, bitset);
-  bool (*subset_p) (bitset, bitset);
+  void (*copy) PARAMS ((bitset, bitset));
+  bool (*disjoint_p) PARAMS ((bitset, bitset));
+  bool (*equal_p) PARAMS ((bitset, bitset));
+  void (*not) PARAMS ((bitset, bitset));
+  bool (*subset_p) PARAMS ((bitset, bitset));
 
-  void (*and_) (bitset, bitset, bitset);
-  bool (*and_cmp) (bitset, bitset, bitset);
-  void (*andn) (bitset, bitset, bitset);
-  bool (*andn_cmp) (bitset, bitset, bitset);
-  void (*or_) (bitset, bitset, bitset);
-  bool (*or_cmp) (bitset, bitset, bitset);
-  void (*xor_) (bitset, bitset, bitset);
-  bool (*xor_cmp) (bitset, bitset, bitset);
+  void (*and) PARAMS ((bitset, bitset, bitset));
+  bool (*and_cmp) PARAMS ((bitset, bitset, bitset));
+  void (*andn) PARAMS ((bitset, bitset, bitset));
+  bool (*andn_cmp) PARAMS ((bitset, bitset, bitset));
+  void (*or) PARAMS ((bitset, bitset, bitset));
+  bool (*or_cmp) PARAMS ((bitset, bitset, bitset));
+  void (*xor) PARAMS ((bitset, bitset, bitset));
+  bool (*xor_cmp) PARAMS ((bitset, bitset, bitset));
 
-  void (*and_or) (bitset, bitset, bitset, bitset);
-  bool (*and_or_cmp) (bitset, bitset, bitset, bitset);
-  void (*andn_or) (bitset, bitset, bitset, bitset);
-  bool (*andn_or_cmp) (bitset, bitset, bitset, bitset);
-  void (*or_and) (bitset, bitset, bitset, bitset);
-  bool (*or_and_cmp) (bitset, bitset, bitset, bitset);
+  void (*and_or) PARAMS ((bitset, bitset, bitset, bitset));
+  bool (*and_or_cmp) PARAMS ((bitset, bitset, bitset, bitset));
+  void (*andn_or) PARAMS ((bitset, bitset, bitset, bitset));
+  bool (*andn_or_cmp) PARAMS ((bitset, bitset, bitset, bitset));
+  void (*or_and) PARAMS ((bitset, bitset, bitset, bitset));
+  bool (*or_and_cmp) PARAMS ((bitset, bitset, bitset, bitset));
 
-  bitset_bindex (*list) (bitset, bitset_bindex *, bitset_bindex,
-			 bitset_bindex *);
-  bitset_bindex (*list_reverse) (bitset, bitset_bindex *, bitset_bindex,
-				 bitset_bindex *);
-  void (*free) (bitset);
+  bitset_bindex (*list) PARAMS ((bitset, bitset_bindex *,
+				 bitset_bindex, bitset_bindex *));
+  bitset_bindex (*list_reverse) PARAMS ((bitset,
+					 bitset_bindex *, bitset_bindex,
+					 bitset_bindex *));
+  void (*free) PARAMS ((bitset));
   enum bitset_type type;
 };
 
@@ -217,14 +220,14 @@ if (!BITSET_COMPATIBLE_ (DST, SRC1) || !BITSET_COMPATIBLE_ (DST, SRC2) \
 #define BITSET_EQUAL_P_(DST, SRC) (SRC)->b.vtable->equal_p (DST, SRC)
 
 /* DST = ~SRC.  */
-#define BITSET_NOT_(DST, SRC) (SRC)->b.vtable->not_ (DST, SRC)
+#define BITSET_NOT_(DST, SRC) (SRC)->b.vtable->not (DST, SRC)
 
 /* Return DST == DST | SRC.  */
 #define BITSET_SUBSET_P_(DST, SRC) (SRC)->b.vtable->subset_p (DST, SRC)
 
 
 /* DST = SRC1 & SRC2.  */
-#define BITSET_AND_(DST, SRC1, SRC2) (SRC1)->b.vtable->and_ (DST, SRC1, SRC2)
+#define BITSET_AND_(DST, SRC1, SRC2) (SRC1)->b.vtable->and (DST, SRC1, SRC2)
 #define BITSET_AND_CMP_(DST, SRC1, SRC2) (SRC1)->b.vtable->and_cmp (DST, SRC1, SRC2)
 
 /* DST = SRC1 & ~SRC2.  */
@@ -232,11 +235,11 @@ if (!BITSET_COMPATIBLE_ (DST, SRC1) || !BITSET_COMPATIBLE_ (DST, SRC2) \
 #define BITSET_ANDN_CMP_(DST, SRC1, SRC2) (SRC1)->b.vtable->andn_cmp (DST, SRC1, SRC2)
 
 /* DST = SRC1 | SRC2.  */
-#define BITSET_OR_(DST, SRC1, SRC2) (SRC1)->b.vtable->or_ (DST, SRC1, SRC2)
+#define BITSET_OR_(DST, SRC1, SRC2) (SRC1)->b.vtable->or (DST, SRC1, SRC2)
 #define BITSET_OR_CMP_(DST, SRC1, SRC2) (SRC1)->b.vtable->or_cmp (DST, SRC1, SRC2)
 
 /* DST = SRC1 ^ SRC2.  */
-#define BITSET_XOR_(DST, SRC1, SRC2) (SRC1)->b.vtable->xor_ (DST, SRC1, SRC2)
+#define BITSET_XOR_(DST, SRC1, SRC2) (SRC1)->b.vtable->xor (DST, SRC1, SRC2)
 #define BITSET_XOR_CMP_(DST, SRC1, SRC2) (SRC1)->b.vtable->xor_cmp (DST, SRC1, SRC2)
 
 
@@ -278,24 +281,24 @@ if (!BITSET_COMPATIBLE_ (DST, SRC1) || !BITSET_COMPATIBLE_ (DST, SRC2) \
 
 /* Private functions for bitset implementations.  */
 
-extern bool bitset_toggle_ (bitset, bitset_bindex);
+extern bool bitset_toggle_ PARAMS ((bitset, bitset_bindex));
 
-extern bitset_bindex bitset_count_ (bitset);
+extern bitset_bindex bitset_count_ PARAMS ((bitset));
 
-extern bitset_bindex bitset_size_ (bitset);
+extern bitset_bindex bitset_size_ PARAMS ((bitset));
 
-extern bool bitset_copy_ (bitset, bitset);
+extern bool bitset_copy_ PARAMS ((bitset, bitset));
 
-extern void bitset_and_or_ (bitset, bitset, bitset, bitset);
+extern void bitset_and_or_ PARAMS ((bitset, bitset, bitset, bitset));
 
-extern bool bitset_and_or_cmp_ (bitset, bitset, bitset, bitset);
+extern bool bitset_and_or_cmp_ PARAMS ((bitset, bitset, bitset, bitset));
 
-extern void bitset_andn_or_ (bitset, bitset, bitset, bitset);
+extern void bitset_andn_or_ PARAMS ((bitset, bitset, bitset, bitset));
 
-extern bool bitset_andn_or_cmp_ (bitset, bitset, bitset, bitset);
+extern bool bitset_andn_or_cmp_ PARAMS ((bitset, bitset, bitset, bitset));
 
-extern void bitset_or_and_ (bitset, bitset, bitset, bitset);
+extern void bitset_or_and_ PARAMS ((bitset, bitset, bitset, bitset));
 
-extern bool bitset_or_and_cmp_ (bitset, bitset, bitset, bitset);
+extern bool bitset_or_and_cmp_ PARAMS ((bitset, bitset, bitset, bitset));
 
 #endif /* _BBITSET_H  */
