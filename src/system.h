@@ -18,7 +18,7 @@
 #ifndef BISON_SYSTEM_H
 #define BISON_SYSTEM_H
 
-#ifdef HAVE_CONFIG_H
+#if HAVE_CONFIG_H
 # include <config.h>
 #endif
 
@@ -103,27 +103,27 @@ extern int time_report;
 | Missing prototypes.  |
 `---------------------*/
 
-#if !HAVE_DECL_STPCPY
+#if defined HAVE_DECL_STPCPY && !HAVE_DECL_STPCPY
 char *stpcpy (char *dest, const char *src);
 #endif
 
-#if !HAVE_DECL_STRCHR
+#if defined HAVE_DECL_STRCHR && !HAVE_DECL_STRCHR
 char *strchr (const char *s, int c);
 #endif
 
-#if !HAVE_DECL_STRSPN
+#if defined HAVE_DECL_STRSPN && !HAVE_DECL_STRSPN
 size_t strspn (const char *s, const char *accept);
 #endif
 
-#if !HAVE_DECL_STRNLEN
+#if defined HAVE_DECL_STRNLEN && !HAVE_DECL_STRNLEN
 size_t strnlen (const char *s, size_t maxlen);
 #endif
 
-#if !HAVE_DECL_MEMCHR
+#if defined HAVE_DECL_MEMCHR && !HAVE_DECL_MEMCHR
 void *memchr (const void *s, int c, size_t n);
 #endif
 
-#if !HAVE_DECL_MEMRCHR
+#if defined HAVE_DECL_MEMRCHR && !HAVE_DECL_MEMRCHR
 void *memrchr (const void *s, int c, size_t n);
 #endif
 
@@ -160,10 +160,10 @@ void *memrchr (const void *s, int c, size_t n);
 | NLS.  |
 `------*/
 
-#ifdef HAVE_LOCALE_H
+#if HAVE_LOCALE_H
 # include <locale.h>
 #endif
-#ifndef HAVE_SETLOCALE
+#if !HAVE_SETLOCALE
 # define setlocale(Category, Locale)
 #endif
 
