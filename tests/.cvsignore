@@ -1,14 +1,15 @@
-Makefile
-Makefile.in
-atconfig
-testsuite
-testsuite.dir
-package.m4
-calc.[chy]
-calc.tab.*
-calc
 *.output *.vcg
+atconfig
+atlocal
 autom4te.cache
 bison
+calc
+calc.[chy]
+calc.tab.*
+Makefile
 Makefile.in
-atlocal
+Makefile.in
+package.m4
+testsuite
+testsuite.dir
+testsuite.log
