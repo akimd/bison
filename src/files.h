@@ -61,9 +61,6 @@ extern struct obstack output_obstack;
 extern char *infile;
 extern char *attrsfile;
 
-void open_files PARAMS((void));
-void close_files PARAMS((void));
-
 void compute_output_file_names PARAMS((void));
 void output_files PARAMS((void));
 

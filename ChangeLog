@@ -1,5 +1,13 @@
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
+	* src/files.h, src/files.c (open_files, close_files): Remove.
+	* src/main.c (main): Don't open/close files, nor invoke lex_free,
+	let...
+	* src/reader.c (reader): Do it.
+
+	
+2001-12-17  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (print_reductions): Formatting changes.
 
 	
