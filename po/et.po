@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.49b\n"
-"POT-Creation-Date: 2002-10-04 23:07-0700\n"
-"PO-Revision-Date: 2002-08-13 01:35+0300\n"
+"Project-Id-Version: bison 1.50\n"
+"POT-Creation-Date: 2002-10-11 11:58+0200\n"
+"PO-Revision-Date: 2002-10-07 09:28+03:00\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -560,44 +560,44 @@ msgstr "segane argument %s %s'le"
 msgid "Valid arguments are:"
 msgstr "Lubatud argumendid on:"
 
-#: lib/bitset_stats.c:225
-#, fuzzy, c-format
+#: lib/bitset_stats.c:235
+#, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
-msgstr "%d bitset_allocs, %d vabastatud (%.2f%%).\n"
-
-#: lib/bitset_stats.c:228
-#, fuzzy, c-format
-msgid "%u bitset_sets, %u cached (%.2f%%)\n"
-msgstr "%d bitset_sets, %d puhverdatud (%.2f%%)\n"
-
-#: lib/bitset_stats.c:231
-#, fuzzy, c-format
-msgid "%u bitset_resets, %u cached (%.2f%%)\n"
-msgstr "%d bitset_resets, %d puhverdatud (%.2f%%)\n"
-
-#: lib/bitset_stats.c:234
-#, fuzzy, c-format
-msgid "%u bitset_tests, %u cached (%.2f%%)\n"
-msgstr "%d bitset_tests, %d puhverdatud (%.2f%%)\n"
+msgstr "%u bitset_allocs, %u vabastatud (%.2f%%).\n"
 
 #: lib/bitset_stats.c:238
-#, fuzzy, c-format
-msgid "%u bitset_lists\n"
-msgstr "%d bitset_lists\n"
+#, c-format
+msgid "%u bitset_sets, %u cached (%.2f%%)\n"
+msgstr "%u bitset_sets, %u puhverdatud (%.2f%%)\n"
 
-#: lib/bitset_stats.c:240
+#: lib/bitset_stats.c:241
+#, c-format
+msgid "%u bitset_resets, %u cached (%.2f%%)\n"
+msgstr "%u bitset_resets, %u puhverdatud (%.2f%%)\n"
+
+#: lib/bitset_stats.c:244
+#, c-format
+msgid "%u bitset_tests, %u cached (%.2f%%)\n"
+msgstr "%u bitset_tests, %u puhverdatud (%.2f%%)\n"
+
+#: lib/bitset_stats.c:248
+#, c-format
+msgid "%u bitset_lists\n"
+msgstr "%u bitset_lists\n"
+
+#: lib/bitset_stats.c:250
 msgid "count log histogram\n"
 msgstr "loenduri logi histogramm\n"
 
-#: lib/bitset_stats.c:243
+#: lib/bitset_stats.c:253
 msgid "size log histogram\n"
 msgstr "suuruste logi histogramm\n"
 
-#: lib/bitset_stats.c:246
+#: lib/bitset_stats.c:256
 msgid "density histogram\n"
 msgstr "tiheduse histogramm\n"
 
-#: lib/bitset_stats.c:262
+#: lib/bitset_stats.c:272
 msgid ""
 "Bitset statistics:\n"
 "\n"
@@ -605,24 +605,24 @@ msgstr ""
 "Bitset statistika:\n"
 "\n"
 
-#: lib/bitset_stats.c:265
-#, fuzzy, c-format
+#: lib/bitset_stats.c:275
+#, c-format
 msgid "Accumulated runs = %u\n"
-msgstr "Salvestatud läbimisi = %d\n"
+msgstr "Salvestatud läbimisi = %u\n"
 
-#: lib/bitset_stats.c:310
+#: lib/bitset_stats.c:320
 msgid "Could not read stats file."
 msgstr "Statistika faili ei saa lugeda."
 
-#: lib/bitset_stats.c:312
+#: lib/bitset_stats.c:322
 msgid "Bad stats file size.\n"
 msgstr "Vigane statistika faili suurus.\n"
 
-#: lib/bitset_stats.c:338
+#: lib/bitset_stats.c:348
 msgid "Could not write stats file."
 msgstr "Statistika faili ei saa kirjutada."
 
-#: lib/bitset_stats.c:342
+#: lib/bitset_stats.c:352
 msgid "Could not open stats file for writing."
 msgstr "Statistika faili ei saa kirjutamiseks avada."
 
@@ -709,101 +709,3 @@ msgstr " KOKKU                 :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "aeg %s: %ld.%06ld (%ld%%)\n"
-
-#~ msgid "state_list_append (state = %d, symbol = %d (%s))\n"
-#~ msgstr "state_list_append (olek = %d, sümbol = %d (%s))\n"
-
-#~ msgid "Entering new_itemsets, state = %d\n"
-#~ msgstr "Sisenen new_itemsets, olek = %d\n"
-
-#~ msgid "Entering get_state, symbol = %d (%s)\n"
-#~ msgstr "Sisenen get_state, szmbol = %d (%s)\n"
-
-#~ msgid "Exiting get_state => %d\n"
-#~ msgstr "Väljun get_state => %d\n"
-
-#~ msgid "Entering append_states, state = %d\n"
-#~ msgstr "Sisenen append_states, olek = %d\n"
-
-#~ msgid "Processing state %d (reached by %s)\n"
-#~ msgstr "Töötlen olekut %d (olekust %s)\n"
-
-#~ msgid "undefined associativity"
-#~ msgstr "defineerimata assotsiatiivsus"
-
-#~ msgid "Closure: %s\n"
-#~ msgstr "Sulund: %s\n"
-
-#~ msgid "  (rule %d)\n"
-#~ msgstr "  (reegel %d)\n"
-
-#~ msgid "RTC: Firsts Input"
-#~ msgstr "RTC: Firsts Sisend"
-
-#~ msgid "RTC: Firsts Output"
-#~ msgstr "RTC: Firsts Väljund"
-
-#~ msgid "input"
-#~ msgstr "sisend"
-
-#~ msgid "output"
-#~ msgstr "väljund"
-
-#~ msgid ""
-#~ "Variables\n"
-#~ "---------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Muutujad\n"
-#~ "--------\n"
-#~ "\n"
-
-#~ msgid "Value  Sprec  Sassoc  Tag\n"
-#~ msgstr "Väärtus  Sprec  Sassoc  Märk\n"
-
-#~ msgid ""
-#~ "Rules\n"
-#~ "-----\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Reeglid\n"
-#~ "-------\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Num (Prec, Assoc, Useful, Ritem Range) Lhs -> Rhs (Ritem range) [Num]\n"
-#~ msgstr ""
-#~ "Num (Prec, Assoc, Useful, Ritem Range) Lhs -> Rhs (Ritem range) [Num]\n"
-
-#~ msgid ""
-#~ "Rules interpreted\n"
-#~ "-----------------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Interpreteeritud reeglid\n"
-#~ "------------------------\n"
-#~ "\n"
-
-#~ msgid "Lookaheads: BEGIN\n"
-#~ msgstr "Ettevaatamine: ALGUS\n"
-
-#~ msgid "State %d: %d lookaheads\n"
-#~ msgstr "Olek %d: %d ettevaatamist\n"
-
-#~ msgid "   on %d (%s) -> rule %d\n"
-#~ msgstr "   %d (%s) -> reegel %d\n"
-
-#~ msgid "Lookaheads: END\n"
-#~ msgstr "Ettevaatamine: LÕPP\n"
-
-#~ msgid "relation_transpose: input\n"
-#~ msgstr "relation_transpose: sisend\n"
-
-#~ msgid "relation_transpose: output\n"
-#~ msgstr "relation_transpose: väljund\n"
-
-#~ msgid "growing table and check from: %lu to %lu\n"
-#~ msgstr "kasvatan table ja check suuruselt: %lu suurusele %lu\n"
-
-#~ msgid "base_t too small to hold %d\n"
-#~ msgstr "base_t on liiga väike hoidmaks %d\n"

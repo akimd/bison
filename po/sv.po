@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.49b\n"
-"POT-Creation-Date: 2002-10-04 23:07-0700\n"
-"PO-Revision-Date: 2002-08-24 21:56+0200\n"
+"Project-Id-Version: bison 1.50\n"
+"POT-Creation-Date: 2002-10-11 11:58+0200\n"
+"PO-Revision-Date: 2002-10-08 19:02+0200\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -565,44 +565,44 @@ msgstr "tvetydigt argument %s till %s"
 msgid "Valid arguments are:"
 msgstr "Giltiga argument är:"
 
-#: lib/bitset_stats.c:225
-#, fuzzy, c-format
+#: lib/bitset_stats.c:235
+#, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
-msgstr "%d bitmängdallokeringar, %d frianden (%.2f%%).\n"
-
-#: lib/bitset_stats.c:228
-#, fuzzy, c-format
-msgid "%u bitset_sets, %u cached (%.2f%%)\n"
-msgstr "%d bitmängdmängder, %d cachade (%.2f%%)\n"
-
-#: lib/bitset_stats.c:231
-#, fuzzy, c-format
-msgid "%u bitset_resets, %u cached (%.2f%%)\n"
-msgstr "%d bitmängdåterställanden, %d cachade (%.2f%%)\n"
-
-#: lib/bitset_stats.c:234
-#, fuzzy, c-format
-msgid "%u bitset_tests, %u cached (%.2f%%)\n"
-msgstr "%d bitmängdtester, %d cachade (%.2f%%)\n"
+msgstr "%u bitmängdallokeringar, %u frianden (%.2f%%).\n"
 
 #: lib/bitset_stats.c:238
-#, fuzzy, c-format
-msgid "%u bitset_lists\n"
-msgstr "%d bitmängdlistor\n"
+#, c-format
+msgid "%u bitset_sets, %u cached (%.2f%%)\n"
+msgstr "%u bitmängdmängder, %u cachade (%.2f%%)\n"
 
-#: lib/bitset_stats.c:240
+#: lib/bitset_stats.c:241
+#, c-format
+msgid "%u bitset_resets, %u cached (%.2f%%)\n"
+msgstr "%u bitmängdåterställanden, %u cachade (%.2f%%)\n"
+
+#: lib/bitset_stats.c:244
+#, c-format
+msgid "%u bitset_tests, %u cached (%.2f%%)\n"
+msgstr "%u bitmängdtester, %u cachade (%.2f%%)\n"
+
+#: lib/bitset_stats.c:248
+#, c-format
+msgid "%u bitset_lists\n"
+msgstr "%u bitmängdlistor\n"
+
+#: lib/bitset_stats.c:250
 msgid "count log histogram\n"
 msgstr "anropslogghistogram\n"
 
-#: lib/bitset_stats.c:243
+#: lib/bitset_stats.c:253
 msgid "size log histogram\n"
 msgstr "storlekslogghistogram\n"
 
-#: lib/bitset_stats.c:246
+#: lib/bitset_stats.c:256
 msgid "density histogram\n"
 msgstr "densitetshistogram\n"
 
-#: lib/bitset_stats.c:262
+#: lib/bitset_stats.c:272
 msgid ""
 "Bitset statistics:\n"
 "\n"
@@ -610,24 +610,24 @@ msgstr ""
 "Bitmängdsstatistik:\n"
 "\n"
 
-#: lib/bitset_stats.c:265
-#, fuzzy, c-format
+#: lib/bitset_stats.c:275
+#, c-format
 msgid "Accumulated runs = %u\n"
-msgstr "Accumulerade körningar = %d\n"
+msgstr "Accumulerade körningar = %u\n"
 
-#: lib/bitset_stats.c:310
+#: lib/bitset_stats.c:320
 msgid "Could not read stats file."
 msgstr "Kunde inte läsa statistikfil."
 
-#: lib/bitset_stats.c:312
+#: lib/bitset_stats.c:322
 msgid "Bad stats file size.\n"
 msgstr "Dålig statistikfilstorlek.\n"
 
-#: lib/bitset_stats.c:338
+#: lib/bitset_stats.c:348
 msgid "Could not write stats file."
 msgstr "Kunde inte skriva statistikfil."
 
-#: lib/bitset_stats.c:342
+#: lib/bitset_stats.c:352
 msgid "Could not open stats file for writing."
 msgstr "Kunde inte öppna statistikfil för skrivning."
 
@@ -718,67 +718,10 @@ msgstr " TOTALT                :"
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "tid i %s: %ld.%06ld (%ld%%)\n"
 
-#~ msgid "state_list_append (state = %d, symbol = %d (%s))\n"
-#~ msgstr "state_list_append (tillstånd = %d, symbol = %d (%s))\n"
-
-#~ msgid "Entering new_itemsets, state = %d\n"
-#~ msgstr "Går in i new_itemsets, tillstånd = %d\n"
-
-#~ msgid "Entering get_state, symbol = %d (%s)\n"
-#~ msgstr "Går in i get_state, symbol = %d (%s)\n"
-
-#~ msgid "Exiting get_state => %d\n"
-#~ msgstr "Lämnar get_state => %d\n"
-
-#~ msgid "Entering append_states, state = %d\n"
-#~ msgstr "Går in i append_states, tillstånd = %d\n"
-
-#~ msgid "Processing state %d (reached by %s)\n"
-#~ msgstr "Bearbetar tillstånd %d (nått av %s)\n"
-
-#~ msgid "undefined associativity"
-#~ msgstr "odefinierad associativitet"
-
-#~ msgid "Closure: %s\n"
-#~ msgstr "Hölje: %s\n"
-
-#~ msgid "  (rule %d)\n"
-#~ msgstr "   (regel %d)\n"
-
 # RTC betyder "reflexive transitive closure"
 # Firsts är ett variabelnamn
 #~ msgid "RTC: Firsts Input"
 #~ msgstr "RTH: Firsts-indata"
-
-#~ msgid "RTC: Firsts Output"
-#~ msgstr "RTH: Firsts-utdata"
-
-#~ msgid "input"
-#~ msgstr "indata"
-
-#~ msgid "output"
-#~ msgstr "utdata"
-
-#~ msgid ""
-#~ "Variables\n"
-#~ "---------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Variabler\n"
-#~ "---------\n"
-#~ "\n"
-
-#~ msgid "Value  Sprec  Sassoc  Tag\n"
-#~ msgstr "Värde  Sprec  Sassoc  Tagg\n"
-
-#~ msgid ""
-#~ "Rules\n"
-#~ "-----\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Regler\n"
-#~ "------\n"
-#~ "\n"
 
 #~ msgid ""
 #~ "Num (Prec, Assoc, Useful, Ritem Range) Lhs -> Rhs (Ritem range) [Num]\n"
@@ -786,37 +729,11 @@ msgstr "tid i %s: %ld.%06ld (%ld%%)\n"
 #~ "Num (Prec, Assoc, Användbar, Robjektintervall) Vhs -> Hhs "
 #~ "(Hobjektintervall) [Num]\n"
 
-#~ msgid ""
-#~ "Rules interpreted\n"
-#~ "-----------------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Tolkade regler\n"
-#~ "--------------\n"
-#~ "\n"
-
 #~ msgid "Lookaheads: BEGIN\n"
 #~ msgstr "Framåtblickar: START\n"
 
 #~ msgid "State %d: %d lookaheads\n"
 #~ msgstr "Tillstånd %d: %d framåtblickar\n"
 
-#~ msgid "   on %d (%s) -> rule %d\n"
-#~ msgstr "   vid %d (%s) -> regel %d\n"
-
 #~ msgid "Lookaheads: END\n"
 #~ msgstr "Framåtblickar: SLUT\n"
-
-#~ msgid "relation_transpose: input\n"
-#~ msgstr "relation_transpose: indata\n"
-
-#~ msgid "relation_transpose: output\n"
-#~ msgstr "relation_transpose: utdata\n"
-
-# "table" och "check" är variabelnamn, som bör vara bekanta för den som
-# begär denna spårutskrift.
-#~ msgid "growing table and check from: %lu to %lu\n"
-#~ msgstr "utökar table och check från: %lu till %lu\n"
-
-#~ msgid "base_t too small to hold %d\n"
-#~ msgstr "base_t för liten för att hålla %d\n"

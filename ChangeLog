@@ -1,3 +1,7 @@
+2002-10-11  Akim Demaille  <akim@epita.fr>
+
+	* po/id.po: New.
+
 2002-10-10  Paul Eggert  <eggert@twinsun.com>
 
 	Portability fixes for bitsets; this also avoids several GCC

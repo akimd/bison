@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.49b\n"
-"POT-Creation-Date: 2002-10-04 23:07-0700\n"
-"PO-Revision-Date: 2002-08-12 12:00-0500\n"
+"Project-Id-Version: GNU bison 1.50\n"
+"POT-Creation-Date: 2002-10-11 11:58+0200\n"
+"PO-Revision-Date: 2002-10-06 12:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -568,44 +568,44 @@ msgstr "argument ambiguë %s pour %s"
 msgid "Valid arguments are:"
 msgstr "Arguments valides sont:"
 
-#: lib/bitset_stats.c:225
-#, fuzzy, c-format
+#: lib/bitset_stats.c:235
+#, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
-msgstr "%d bitset_allocs, %d libérés (%.2f%%).\n"
-
-#: lib/bitset_stats.c:228
-#, fuzzy, c-format
-msgid "%u bitset_sets, %u cached (%.2f%%)\n"
-msgstr "%d bitset_sets, %d dans la cache (%.2f%%)\n"
-
-#: lib/bitset_stats.c:231
-#, fuzzy, c-format
-msgid "%u bitset_resets, %u cached (%.2f%%)\n"
-msgstr "%d bitset_resets, %d dans la cache (%.2f%%)\n"
-
-#: lib/bitset_stats.c:234
-#, fuzzy, c-format
-msgid "%u bitset_tests, %u cached (%.2f%%)\n"
-msgstr "%d bitset_tests, %d dans la cache (%.2f%%)\n"
+msgstr "%u bitset_allocs, %u libérés (%.2f%%).\n"
 
 #: lib/bitset_stats.c:238
-#, fuzzy, c-format
-msgid "%u bitset_lists\n"
-msgstr "%d bitset_lists\n"
+#, c-format
+msgid "%u bitset_sets, %u cached (%.2f%%)\n"
+msgstr "%u bitset_sets, %u dans la cache (%.2f%%)\n"
 
-#: lib/bitset_stats.c:240
+#: lib/bitset_stats.c:241
+#, c-format
+msgid "%u bitset_resets, %u cached (%.2f%%)\n"
+msgstr "%u bitset_resets, %u dans la cache (%.2f%%)\n"
+
+#: lib/bitset_stats.c:244
+#, c-format
+msgid "%u bitset_tests, %u cached (%.2f%%)\n"
+msgstr "%u bitset_tests, %u dans la cache (%.2f%%)\n"
+
+#: lib/bitset_stats.c:248
+#, c-format
+msgid "%u bitset_lists\n"
+msgstr "%u bitset_lists\n"
+
+#: lib/bitset_stats.c:250
 msgid "count log histogram\n"
 msgstr "histogramme des compteurs\n"
 
-#: lib/bitset_stats.c:243
+#: lib/bitset_stats.c:253
 msgid "size log histogram\n"
 msgstr "taille de l'histogramme des compteurs\n"
 
-#: lib/bitset_stats.c:246
+#: lib/bitset_stats.c:256
 msgid "density histogram\n"
 msgstr "densité de l'histogramme\n"
 
-#: lib/bitset_stats.c:262
+#: lib/bitset_stats.c:272
 msgid ""
 "Bitset statistics:\n"
 "\n"
@@ -613,24 +613,24 @@ msgstr ""
 "Statistiques des bitset:\n"
 "\n"
 
-#: lib/bitset_stats.c:265
-#, fuzzy, c-format
+#: lib/bitset_stats.c:275
+#, c-format
 msgid "Accumulated runs = %u\n"
-msgstr "Exécutions accumulées = %d\n"
+msgstr "Exécutions accumulées = %u\n"
 
-#: lib/bitset_stats.c:310
+#: lib/bitset_stats.c:320
 msgid "Could not read stats file."
 msgstr "Ne peut lire le fichier de stats."
 
-#: lib/bitset_stats.c:312
+#: lib/bitset_stats.c:322
 msgid "Bad stats file size.\n"
 msgstr "Taille erronée du fichier de stats.\n"
 
-#: lib/bitset_stats.c:338
+#: lib/bitset_stats.c:348
 msgid "Could not write stats file."
 msgstr "Ne peut écrire le fichier de stats."
 
-#: lib/bitset_stats.c:342
+#: lib/bitset_stats.c:352
 msgid "Could not open stats file for writing."
 msgstr "Ne ouvrir en écriture le fichier de stats."
 
