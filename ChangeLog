@@ -1,5 +1,12 @@
 2001-11-26  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (read_declarations): Don't abort on tok_illegal,
+	issue an error message.
+	* tests/regression.at (Invalid %directive): New.
+	Reported by Hans Aberg.
+
+2001-11-26  Akim Demaille  <akim@epita.fr>
+
 	* configure.in: Invoke AC_FUNC_OBSTACK and AC_FUNC_ERROR_AT_LINE.
 	* lib/Makefile.am (libbison_a_SOURCES): Adjust.
 
