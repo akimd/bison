@@ -1,5 +1,11 @@
 2002-11-30  Paul Eggert  <eggert@twinsun.com>
 
+	Type clashes now generate warnings, not errors, since it
+	appears that POSIX may allow some grammars with type clashes.
+	* src/reader.c (grammar_current_rule_check): Warn about
+	type clashes instead of complaining.
+	* tests/input.at (Type Clashes): Expect warnings, not complaints.
+
 	Add Yacc library, since POSIX requires it.
 	* doc/bison.texinfo (Yacc Library): New node.  Regenerate top menu.
 	* lib/Makefile.am (lib_LIBRARIES, liby_a_SOURCES): New macros.
