@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.33\n"
-"POT-Creation-Date: 2002-03-04 17:25+0100\n"
+"POT-Creation-Date: 2002-03-04 18:05+0100\n"
 "PO-Revision-Date: 2002-02-11 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"

@@ -1,5 +1,10 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (readgram): A missing `;' is a warning, not an
+	error!
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* tests/sets.at (Broken Closure): Add the ending `;'.
 	* tests/input.at (Invalid $n, Invalid @n): Likewise.
 	* tests/output.at (AT_CHECK_OUTPUT): Likewise.
