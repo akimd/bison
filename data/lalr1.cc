@@ -923,7 +923,10 @@ namespace yy
     /** \brief (column related) Advance to the COLUMNS next columns. */
     inline void columns (int columns = 1)
     {
-      column += columns;
+      if (int (initial_column) < columns + int (column))
+	column += columns;
+      else
+	column = initial_column;
     }
     /** \} */
 
@@ -1068,19 +1071,20 @@ namespace yy
 
   /** \brief Intercept output stream redirection.
    ** \param ostr the destination output stream
-   ** \param pos a reference to the Position to redirect
+   ** \param loc a reference to the Location to redirect
    **
-   ** Don't issue twice the line number when the location is on a single line.
+   ** Avoid duplicate information.
    */
-  inline std::ostream& operator<< (std::ostream& ostr, const Location& pos)
+  inline std::ostream& operator<< (std::ostream& ostr, const Location& loc)
   {
-    ostr << pos.begin;
-    if (pos.begin.filename != pos.end.filename)
-      ostr << '-' << pos.end - 1;
-    else if (pos.begin.line != pos.end.line)
-      ostr << '-' << pos.end.line  << '.' << pos.end.column - 1;
-    else if (pos.begin.column != pos.end.column - 1)
-      ostr << '-' << pos.end.column - 1;
+    Position last = loc.end - 1;
+    ostr << loc.begin;
+    if (loc.begin.filename != last.filename)
+      ostr << '-' << last;
+    else if (loc.begin.line != last.line)
+      ostr << '-' << last.line  << '.' << last.column;
+    else if (loc.begin.column != last.column)
+      ostr << '-' << last.column;
     return ostr;
   }
 
