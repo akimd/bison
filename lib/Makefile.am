@@ -32,7 +32,7 @@ libbison_a_SOURCES = \
   basename.c dirname.h dirname.c \
   getopt.h getopt.c getopt1.c \
   quote.h quote.c quotearg.h quotearg.c \
-  xalloc.h xmalloc.c xstrdup.c xstrndup.c
+  xalloc.h xmalloc.c xstrdup.c xstrndup.c gettext.h
 
 libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)

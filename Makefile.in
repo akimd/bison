@@ -68,7 +68,6 @@ AMTAR = @AMTAR@
 AUTOM4TE = @AUTOM4TE@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
-CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CPP = @CPP@
@@ -77,8 +76,8 @@ DEPDIR = @DEPDIR@
 GCC = @GCC@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
-GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
+HAVE_LIB = @HAVE_LIB@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
 INTLBISON = @INTLBISON@
@@ -87,10 +86,12 @@ INTLOBJS = @INTLOBJS@
 INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
 LIB = @LIB@
 LIBICONV = @LIBICONV@
+LIBINTL = @LIBINTL@
+LTLIB = @LTLIB@
+LTLIBICONV = @LTLIBICONV@
+LTLIBINTL = @LTLIBINTL@
 MKINSTALLDIRS = @MKINSTALLDIRS@
-MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
-POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
@@ -110,7 +111,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = config intl po lib src doc m4 tests
 
-EXTRA_DIST = REFERENCES configure.bat OChangeLog Makefile.maint GNUmakefile
+EXTRA_DIST = config/config.rpath  REFERENCES configure.bat OChangeLog Makefile.maint GNUmakefile
 
 DISTCLEANFILES = intl/libintl.h
 
@@ -159,7 +160,7 @@ $(top_builddir)/config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure:  $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-$(ACLOCAL_M4):  configure.in m4/c-bs-a.m4 m4/codeset.m4 m4/dmalloc.m4 m4/error.m4 m4/gettext.m4 m4/glibc21.m4 m4/iconv.m4 m4/isc-posix.m4 m4/lcmessage.m4 m4/malloc.m4 m4/mbrtowc.m4 m4/mbstate_t.m4 m4/prereq.m4 m4/progtest.m4 m4/realloc.m4 m4/strerror_r.m4 m4/warning.m4
+$(ACLOCAL_M4):  configure.in m4/c-bs-a.m4 m4/codeset.m4 m4/dmalloc.m4 m4/error.m4 m4/gettext.m4 m4/glibc21.m4 m4/iconv.m4 m4/isc-posix.m4 m4/lcmessage.m4 m4/lib-ld.m4 m4/lib-link.m4 m4/lib-prefix.m4 m4/malloc.m4 m4/mbrtowc.m4 m4/mbstate_t.m4 m4/prereq.m4 m4/progtest.m4 m4/realloc.m4 m4/strerror_r.m4 m4/warning.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
 config.h: stamp-h1
@@ -298,7 +299,7 @@ distdir: $(DISTFILES)
 	fi
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/intl $(distdir)/po $(distdir)/tests
+	$(mkinstalldirs) $(distdir)/config $(distdir)/intl $(distdir)/po $(distdir)/tests
 	@for file in $(DISTFILES); do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

@@ -5,13 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-03-20 09:14+0100\n"
-"PO-Revision-Date: 2001-12-10 15:59+0900\n"
+"POT-Creation-Date: 2002-03-20 09:33+0100\n"
+"PO-Revision-Date: 2002-03-20 09:34+0100\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=EUC-JP\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/LR0.c:189
 #, c-format
@@ -68,8 +69,6 @@ msgstr[0] "%d 還元/還元衝突"
 msgid "State %d contains "
 msgstr "状態 %d が含むのは "
 
-#. If invoked with `--yacc', use the output format specified by
-#. POSIX.
 #: src/conflicts.c:387
 msgid "conflicts: "
 msgstr "衝突: "
@@ -128,8 +127,6 @@ msgstr "ファイル `%s' を開けません"
 msgid "cannot close file"
 msgstr "ファイルを閉じることができません"
 
-#. Some efforts were made to ease the translators' task, please
-#. continue.
 #: src/getargs.c:84
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison は LALR(1) 文法の構文解析器を生成します。\n"
@@ -200,8 +197,6 @@ msgstr ""
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "バグレポートは <bug-bison@gnu.org> まで。\n"
 
-#. Some efforts were made to ease the translators' task, please
-#. continue.
 #: src/getargs.c:141
 #, c-format
 msgid "bison (GNU Bison) %s"
@@ -352,7 +347,6 @@ msgstr "    %-4s\t状態 %d へ\n"
 msgid "state %d"
 msgstr "状態 %d"
 
-#. rule # : LHS -> RHS
 #: src/print.c:211
 msgid "Grammar"
 msgstr "文法"
@@ -370,7 +364,6 @@ msgstr "  %3d %3d %s ->"
 msgid "empty"
 msgstr "空"
 
-#. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:231
 msgid "Terminals, with rules where they appear"
 msgstr "出現位置の規則による終端"
@@ -387,20 +380,11 @@ msgstr " 左辺:"
 msgid " on right:"
 msgstr " 右辺:"
 
-#. If something has been added in the NODE_OBSTACK after
-#. the declaration of the label, then we need a `\n'.
-#. if (obstack_object_size (node_obstack) > node_output_size)
-#. obstack_sgrow (node_obstack, "\n");
-#.
 #: src/print_graph.c:146
 #, c-format
 msgid "%-4s\terror (nonassociative)"
 msgstr "%-4s\tエラー (非結合)"
 
-#.
-#. if (obstack_object_size (node_obstack) > node_output_size)
-#. obstack_sgrow (node_obstack, "\n");
-#.
 #: src/print_graph.c:161
 #, c-format
 msgid "$default\treduce using rule %d (%s)"
@@ -698,19 +682,16 @@ msgstr "%s: オプション `%c%s' は引数を許しません\n"
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: オプション `%s' は引数を要求します\n"
 
-#. --option
 #: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: 認識できないオプション `--%s' です\n"
 
-#. +option or -option
 #: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: 認識できないオプション `%c%s' です\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
@@ -721,7 +702,6 @@ msgstr "%s: 定格外のオプション -- %c\n"
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: 不適切なオプション -- %c\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
@@ -737,26 +717,10 @@ msgstr "%s: オプション `-W %s' は曖昧です\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: オプション `-W %s' は引数を許しません\n"
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/obstack.c:494 lib/obstack.c:497 lib/xmalloc.c:66
 msgid "memory exhausted"
 msgstr "メモリを使い果たしました"
 
-#. Get translations for open and closing quotation marks.
-#.
-#. The message catalog should translate "`" to a left
-#. quotation mark suitable for the locale, and similarly for
-#. "'".  If the catalog has no translation,
-#. locale_quoting_style quotes `like this', and
-#. clocale_quoting_style quotes "like this".
-#.
-#. For example, an American English Unicode locale should
-#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
-#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
-#. MARK).  A British English Unicode locale should instead
-#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
-#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #: lib/quotearg.c:274
 msgid "`"
 msgstr "`"

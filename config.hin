@@ -28,7 +28,8 @@
 /* Define if backslash-a works in C strings. */
 #undef HAVE_C_BACKSLASH_A
 
-/* Define to 1 if you have the `dcgettext' function. */
+/* Define if the GNU dcgettext() function is already present or preinstalled.
+   */
 #undef HAVE_DCGETTEXT
 
 /* Define to 1 if you have the declaration of `memchr', and to 0 if you don't.
@@ -80,6 +81,9 @@
 
 /* Define to 1 if you have the `getcwd' function. */
 #undef HAVE_GETCWD
+
+/* Define to 1 if you have the `getc_unlocked' function. */
+#undef HAVE_GETC_UNLOCKED
 
 /* Define to 1 if you have the `getegid' function. */
 #undef HAVE_GETEGID

@@ -20,7 +20,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = config intl po lib src doc m4 tests
 
-EXTRA_DIST = REFERENCES configure.bat OChangeLog Makefile.maint GNUmakefile
+EXTRA_DIST = config/config.rpath  REFERENCES configure.bat OChangeLog Makefile.maint GNUmakefile
 
 DISTCLEANFILES = intl/libintl.h
 

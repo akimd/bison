@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-03-20 09:14+0100\n"
+"POT-Creation-Date: 2002-03-20 09:33+0100\n"
 "PO-Revision-Date: 2002-03-05 16:27+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -71,8 +71,6 @@ msgstr[1] "%d redutseerimine/redutseerimine konflikti"
 msgid "State %d contains "
 msgstr "Olek %d sisaldab "
 
-#. If invoked with `--yacc', use the output format specified by
-#. POSIX.
 #: src/conflicts.c:387
 msgid "conflicts: "
 msgstr "konfliktid: "
@@ -132,8 +130,6 @@ msgstr "faili `%s' ei saa avada"
 msgid "cannot close file"
 msgstr "faili ei õnnestu sulgeda"
 
-#. Some efforts were made to ease the translators' task, please
-#. continue.
 #: src/getargs.c:84
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genereerib parsereid LALR(1) grammatikatele.\n"
@@ -204,8 +200,6 @@ msgstr ""
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Teatage palun vigadest aadressil <bug-bison@gnu.org>.\n"
 
-#. Some efforts were made to ease the translators' task, please
-#. continue.
 #: src/getargs.c:141
 #, c-format
 msgid "bison (GNU Bison) %s"
@@ -353,7 +347,6 @@ msgstr "    %-4s\tliigu olekule %d\n"
 msgid "state %d"
 msgstr "olek %d"
 
-#. rule # : LHS -> RHS
 #: src/print.c:211
 msgid "Grammar"
 msgstr "Grammatika"
@@ -371,7 +364,6 @@ msgstr "  %3d %3d %s ->"
 msgid "empty"
 msgstr "tühi"
 
-#. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:231
 msgid "Terminals, with rules where they appear"
 msgstr "Terminalid, koos reeglitega, kus nad ilmuvad"
@@ -388,20 +380,11 @@ msgstr " vasakul:"
 msgid " on right:"
 msgstr " paremal:"
 
-#. If something has been added in the NODE_OBSTACK after
-#. the declaration of the label, then we need a `\n'.
-#. if (obstack_object_size (node_obstack) > node_output_size)
-#. obstack_sgrow (node_obstack, "\n");
-#.
 #: src/print_graph.c:146
 #, c-format
 msgid "%-4s\terror (nonassociative)"
 msgstr "%-4s\tviga (mitteassotsiatiivne)"
 
-#.
-#. if (obstack_object_size (node_obstack) > node_output_size)
-#. obstack_sgrow (node_obstack, "\n");
-#.
 #: src/print_graph.c:161
 #, c-format
 msgid "$default\treduce using rule %d (%s)"
@@ -701,19 +684,16 @@ msgstr "%s: võti `%c%s' ei luba argumenti\n"
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: võti `%s' nõuab argumenti\n"
 
-#. --option
 #: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: tundmatu võti `--%s'\n"
 
-#. +option or -option
 #: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: tundmatu võti `%c%s'\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
@@ -724,7 +704,6 @@ msgstr "%s: lubamatu võti -- %c\n"
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: vigane võti -- %c\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
@@ -740,26 +719,10 @@ msgstr "%s: võti `-W %s' on segane\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: võti `-W %s' ei luba argumenti\n"
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/obstack.c:494 lib/obstack.c:497 lib/xmalloc.c:66
 msgid "memory exhausted"
 msgstr "mälu on otsas"
 
-#. Get translations for open and closing quotation marks.
-#.
-#. The message catalog should translate "`" to a left
-#. quotation mark suitable for the locale, and similarly for
-#. "'".  If the catalog has no translation,
-#. locale_quoting_style quotes `like this', and
-#. clocale_quoting_style quotes "like this".
-#.
-#. For example, an American English Unicode locale should
-#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
-#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
-#. MARK).  A British English Unicode locale should instead
-#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
-#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #: lib/quotearg.c:274
 msgid "`"
 msgstr "`"

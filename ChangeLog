@@ -1,3 +1,7 @@
+2002-03-20  Akim Demaille  <akim@epita.fr>
+
+	* Gettext 0.11.1.
+
 2002-03-19  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYCOPY): New macro.
