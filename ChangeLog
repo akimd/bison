@@ -1,5 +1,9 @@
 2001-11-05  Akim Demaille  <akim@epita.fr>
 
+	* src/lex.c (parse_percent_token): s/quotearg/quote/.
+
+2001-11-05  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (AT_TEST_CPP_GUARD_H): Adjust the clean up
 	pattern.
 
