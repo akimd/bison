@@ -1,3 +1,13 @@
+2001-11-12  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/bison.simple: Define type yystype instead of YYSTYPE, and
+	define CPP macro, which substitute YYSTYPE by yystype.
+	* src/reader.c (parse_union_decl): Output yystype/YYSTYPE as we do
+	with yyltype/YYLTYPE.  This allows inclusion of the generated
+	header within the parser if the compiler, such as GGC, accepts
+	multiple equivalent #defines.
+	From Akim.
+
 2001-11-05  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (symbols_output): New, extracted from...

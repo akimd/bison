@@ -117,7 +117,8 @@
 
 #line %%input_line "%%filename"
 #ifndef YYSTYPE
-typedef %%stype YYSTYPE;
+typedef %%stype yystype;
+# define YYSTYPE yystype
 #endif
 
 #ifndef YYLTYPE
