@@ -352,6 +352,7 @@ m4_define([b4_yydestruct_generate],
 
 ]$1([yydestruct],
     [static void],
+    [[const char *yymsg],    [yymsg]],
     [[int yytype],           [yytype]],
     [[YYSTYPE *yyvaluep],    [yyvaluep]]b4_location_if([,
     [[YYLTYPE *yylocationp], [yylocationp]]]))[
@@ -360,6 +361,10 @@ m4_define([b4_yydestruct_generate],
   (void) yyvaluep;
 ]b4_location_if([  (void) yylocationp;
 ])[
+  if (!yymsg)
+    yymsg = "Deleting";
+  YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+
   switch (yytype)
     {
 ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[

@@ -1,3 +1,14 @@
+2004-09-06  Akim Demaille  <akim@epita.fr>
+
+	* data/yacc.cc, data/glr.cc (yydestruct): Accept an additional
+	argument, an informative message.
+	Call YY_SYMBOL_PRINT.
+	Adjust all callers: integrate the associated YY_SYMBOL_PRINT.
+	* data/lalr1.cc (destruct_): Likewise.
+	In addition, no longer depend on b4_yysymprint_generate and
+	b4_yydestruct_generate to generate these functions, do it "by
+	hand".
+
 2004-09-03  Akim Demaille  <akim@epita.fr>
 
 	* data/glr.c, data/lalr1.cc, data/yacc.c: When YYABORT was

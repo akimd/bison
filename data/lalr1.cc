@@ -115,42 +115,6 @@ m4_define([b4_cc_var_decl],
 	  [    $1;])
 
 
-# b4_yysymprint_generate(FUNCTION-DECLARATOR)
-# -------------------------------------------
-# Generate the "symprint_" member function.
-m4_define([b4_yysymprint_generate],
-[[/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
-
-]void
-yy::b4_parser_class_name::symprint_ (int yytype, const SemanticType *yyvaluep, const LocationType *yylocationp)[
-{
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yyvaluep;
-  (void) yylocationp;
-
-  cdebug_ << (yytype < ntokens_ ? "token" : "nterm")
-	  << ' ' << name_[yytype] << " (";
-  switch (yytype)
-    {
-]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
-[      default:
-        break;
-    }
-  cdebug_ << ')';
-}
-]])
-
-
-# b4_cxx_destruct_def(IGNORED-ARGUMENTS)
-# --------------------------------------
-# Declare the destruct_ method.
-m4_define([b4_cxx_destruct_def],
-[void
-yy::b4_parser_class_name::destruct_ (int yytype, SemanticType *yyvaluep, LocationType *yylocationp)[]dnl
-])
-
 
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
@@ -316,8 +280,9 @@ namespace yy
 
     /* Even more tables.  */
     inline TokenNumberType translate_ (int token);
-    inline void destruct_ (int yytype, SemanticType *yyvaluep,
-			   LocationType *yylocationp);
+    inline void destruct_ (const char *yymsg,
+                           int yytype,
+                           SemanticType *yyvaluep, LocationType *yylocationp);
 
     /* Constants.  */
     static const int eof_;
@@ -419,9 +384,49 @@ do {					\
 #define YYERROR		goto yyerrorlab
 
 #if YYDEBUG
-]b4_yysymprint_generate([b4_cxx_symprint_def])[
+/*--------------------------------.
+| Print this symbol on YYOUTPUT.  |
+`--------------------------------*/
+
+void
+yy::]b4_parser_class_name[::symprint_ (int yytype,
+                         const SemanticType *yyvaluep, const LocationType *yylocationp)
+{
+  /* Pacify ``unused variable'' warnings.  */
+  (void) yyvaluep;
+  (void) yylocationp;
+
+  cdebug_ << (yytype < ntokens_ ? "token" : "nterm")
+	  << ' ' << name_[yytype] << " (";
+  switch (yytype)
+    {
+]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
+[      default:
+        break;
+    }
+  cdebug_ << ')';
+}
 #endif /* ! YYDEBUG */
-]b4_yydestruct_generate([b4_cxx_destruct_def])[
+
+void
+yy::]b4_parser_class_name[::destruct_ (const char *yymsg,
+                         int yytype, SemanticType *yyvaluep, LocationType *yylocationp)
+{
+  /* Pacify ``unused variable'' warnings.  */
+  (void) yyvaluep;
+  (void) yylocationp;
+
+  if (!yymsg)
+    yymsg = "Deleting";
+  YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+
+  switch (yytype)
+    {
+]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
+      default:
+        break;
+    }
+}
 
 int
 yy::]b4_parser_class_name[::parse ()
@@ -614,19 +619,15 @@ yyerrlab:
                  location_stack_.pop ();
 		 if (state_stack_.height () == 1)
 		   YYABORT;
-                 YY_SYMBOL_PRINT ("Error: popping",
-                                  stos_[state_stack_[0]],
-                                  &semantic_stack_[0],
-		                  &location_stack_[0]);
-                 destruct_ (stos_[state_stack_[0]],
+                 destruct_ ("Error: popping",
+                            stos_[state_stack_[0]],
                             &semantic_stack_[0],
                             &location_stack_[0]);
 	       }
         }
       else
         {
-          YY_SYMBOL_PRINT ("Error: discarding", ilooka_, &value, &location);
-          destruct_ (ilooka_, &value, &location);
+          destruct_ ("Error: discarding", ilooka_, &value, &location);
           looka_ = empty_;
         }
     }
@@ -679,10 +680,8 @@ yyerrlab1:
       if (state_stack_.height () == 1)
 	YYABORT;
 
-      YY_SYMBOL_PRINT ("Error: popping",
-                       stos_[state_],
-                       &semantic_stack_[0], &location_stack_[0]);
-      destruct_ (stos_[state_], &semantic_stack_[0], &location_stack_[0]);
+      destruct_ ("Error: popping",
+                 stos_[state_], &semantic_stack_[0], &location_stack_[0]);
       error_start_ = location_stack_[0].begin;
 
       state_stack_.pop ();
@@ -715,8 +714,7 @@ yyacceptlab:
   /* Abort.  */
 yyabortlab:
   /* Free the lookahead. */
-  YY_SYMBOL_PRINT ("Error: discarding lookahead", ilooka_, &value, &location);
-  destruct_ (ilooka_, &value, &location);
+  destruct_ ("Error: discarding lookahead", ilooka_, &value, &location);
   looka_ = empty_;
   return 1;
 }
