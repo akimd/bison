@@ -45,6 +45,21 @@ this is a pleasant (but useless currently) feature, but in the future,
 I want a means to %include other bits of grammars, and _then_ it will
 be important for the various bits to define their needs in %union.
 
+When implementing multiple-%union support, bare the following in mind:
+
+- when --yacc, this must be flagged as an error.  Don't make it fatal
+  though.
+
+- The #line must now appear *inside* the definition of yystype.
+  Something like
+
+	{
+	#line 12 "foo.y"
+	  int ival;
+	#line 23 "foo.y"
+	  char *sval;
+	}
+
 * Coding system independence
 Paul notes:
 
