@@ -1,4 +1,13 @@
 2001-09-18  Marc Autret  <autret_m@epita.fr>
+	
+	* src/getargs.c (longopts): Declare --defines and --graph as options
+	with optional arguments.
+	* src/files.h: Add extern declarations.
+	* src/files.c (spec_graph_file, spec_defines_file): New.
+	(output_files): Update.
+	Remove CPP-outed code.
+
+2001-09-18  Marc Autret  <autret_m@epita.fr>
 
 	Turn off %{source,header}_extension feature.
 	

@@ -39,6 +39,8 @@ struct obstack graph_obstack;
 char *spec_outfile = NULL;	/* for -o. */
 char *spec_file_prefix = NULL;	/* for -b. */
 char *spec_name_prefix = NULL;	/* for -p. */
+char *spec_graph_file = NULL;   /* for -g. */
+char *spec_defines_file = NULL; /* for --defines. */
 
 char *infile = NULL;
 char *attrsfile = NULL;
@@ -418,14 +420,14 @@ output_files (void)
 
   compute_base_names ();
 
-#if 0
-  /* Set default extensions */
-  if (!src_extension)
-    src_extension = ".c";
-  if (!header_extension)
-    header_extension = ".h";
-#endif
-
+  /* It the defines filename if not given, we create it.  */
+  if (!spec_defines_file)
+    spec_defines_file = stringappend (base_name, header_extension);
+  
+  /* It the graph filename if not given, we create it.  */
+  if (!spec_graph_file)
+    spec_graph_file = stringappend (short_base_name, ".vcg");
+  
   attrsfile = stringappend (short_base_name, EXT_STYPE_H);
 #ifndef MSDOS
   stringappend (attrsfile, header_extension);
@@ -439,7 +441,7 @@ output_files (void)
 
   /* Output the header file if wanted. */
   if (defines_flag)
-    defines_obstack_save (stringappend (base_name, header_extension));
+    defines_obstack_save (spec_defines_file);
 
   /* If we output only the table, dump the actions in ACTFILE. */
   if (no_parser_flag)
@@ -466,5 +468,5 @@ output_files (void)
 		  stringappend (short_base_name, EXT_OUTPUT));
 
   if (graph_flag)
-    obstack_save (&graph_obstack, stringappend (short_base_name, ".vcg"));
+    obstack_save (&graph_obstack, spec_graph_file);
 }
