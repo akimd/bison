@@ -21,6 +21,110 @@ When implementing multiple-%union support, bare the following in mind:
 	  char *sval;
 	}
 
+* Experimental report features
+Decide whether they should be enabled, or optional.  For instance, on:
+
+	input:
+	  exp
+	| input exp
+	;
+
+	exp:
+	  token1 "1"
+	| token2 "2"
+	| token3 "3"
+	;
+
+	token1: token;
+	token2: token;
+	token3: token;
+
+the traditional Bison reports:
+
+	state 0
+
+	    $axiom  ->  . input $   (rule 0)
+
+	    token       shift, and go to state 1
+
+	    input       go to state 2
+	    exp         go to state 3
+	    token1      go to state 4
+	    token2      go to state 5
+	    token3      go to state 6
+
+	state 1
+
+	    token1  ->  token .   (rule 6)
+	    token2  ->  token .   (rule 7)
+	    token3  ->  token .   (rule 8)
+
+	    "2"         reduce using rule 7 (token2)
+	    "3"         reduce using rule 8 (token3)
+	    $default    reduce using rule 6 (token1)
+
+while with --trace, i.e., when enabling both the display of non-core
+item sets and the display of lookaheads, Bison now displays:
+
+	state 0
+
+	    $axiom  ->  . input $   (rule 0)
+	    input  ->  . exp   (rule 1)
+	    input  ->  . input exp   (rule 2)
+	    exp  ->  . token1 "1"   (rule 3)
+	    exp  ->  . token2 "2"   (rule 4)
+	    exp  ->  . token3 "3"   (rule 5)
+	    token1  ->  . token   (rule 6)
+	    token2  ->  . token   (rule 7)
+	    token3  ->  . token   (rule 8)
+
+	    token       shift, and go to state 1
+
+	    input       go to state 2
+	    exp         go to state 3
+	    token1      go to state 4
+	    token2      go to state 5
+	    token3      go to state 6
+
+	state 1
+
+	    token1  ->  token .  ["1"]   (rule 6)
+	    token2  ->  token .  ["2"]   (rule 7)
+	    token3  ->  token .  ["3"]   (rule 8)
+
+	    "2"         reduce using rule 7 (token2)
+	    "3"         reduce using rule 8 (token3)
+	    $default    reduce using rule 6 (token1)
+
+so decide whether this should be an option, or always enabled.  I'm in
+favor of making it the default, but maybe we should tune the output to
+distinguish core item sets from non core:
+
+	state 0
+	    Core:
+	    $axiom  ->  . input $   (rule 0)
+
+	    Derived:
+	    input  ->  . exp   (rule 1)
+	    input  ->  . input exp   (rule 2)
+	    exp  ->  . token1 "1"   (rule 3)
+	    exp  ->  . token2 "2"   (rule 4)
+	    exp  ->  . token3 "3"   (rule 5)
+	    token1  ->  . token   (rule 6)
+	    token2  ->  . token   (rule 7)
+	    token3  ->  . token   (rule 8)
+
+	    token       shift, and go to state 1
+
+	    input       go to state 2
+	    exp         go to state 3
+	    token1      go to state 4
+	    token2      go to state 5
+	    token3      go to state 6
+
+
+Note that the same questions applies to --graph.
+
 * Coding system independence
 Paul notes:
 

@@ -1,5 +1,16 @@
 2002-05-05  Akim Demaille  <akim@epita.fr>
 
+	New experimental feature: display the lookaheads in the report and
+	graph.
+
+	* src/print (print_core): When --trace-flag, display the rules
+	lookaheads.
+	* src/print_graph.c (print_core): Likewise.
+	Swap the arguments.
+	Adjust caller.
+
+2002-05-05  Akim Demaille  <akim@epita.fr>
+
 	* tests/torture.at (Many lookaheads): New test.
 
 2002-05-05  Akim Demaille  <akim@epita.fr>
