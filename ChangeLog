@@ -1,5 +1,23 @@
 2003-03-12  Paul Eggert  <eggert@twinsun.com>
 
+	* scan-gram.l (YY_USER_INIT): Initialize code_start, too.
+	(<INITIAL><<EOF>>, <SC_PRE_CODE><<EOF>>): Set *loc to the scanner
+	cursor, instead of leaving it undefined.  This fixes a bug
+	reported by Tim Van Holder in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-03/msg00023.html>.
+	* tests/input.at (Torturing the Scanner): Test the scanner on
+	an empty input file, which was Tim Van Holder's test case.
+
+	* m4/timevar.m4 (BISON_PREREQ_TIMEVAR): When checking whether
+	<sys/resource.h> can be included, include sys/time.h and
+	sys/times.h first, if available.  This works around the SunOS
+	4.1.4 porting bug reported by Bruce Becker in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-03/msg00018.html>.
+
+	* m4/subpipe.m4 (BISON_PREREQ_SUBPIPE): Don't
+	AC_CHECK_HEADERS([sys/wait.h]), as this interferes with
+	AC_HEADER_SYS_WAIT.
+
 	Merge changes from gnulib.  This was prompted because the CVS
 	snapshot didn't build on Solaris 7 due to strnlen problems.
 
