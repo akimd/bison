@@ -1,5 +1,5 @@
 /* Data definitions for internal representation of bison's input,
-   Copyright (C) 1984, 1986, 1989 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1986, 1989, 1992 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 
@@ -22,6 +22,9 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
 ntokens is the number of tokens, and nvars is the number of variables
 (nonterminals).  nsyms is the total number, ntokens + nvars.
+
+	(the true number of token values assigned is ntokens
+	reduced by one for each alias declaration)
 
 Each symbol (either token or variable) receives a symbol number.
 Numbers 0 to ntokens-1 are for tokens, and ntokens to nsyms-1 are for
@@ -99,7 +102,9 @@ extern int start_symbol;
 indexed by a token number as returned by the user's yylex routine,
 it yields the internal token number used by the parser and throughout bison.
 If translations is zero, the translation table is not used because
-the two kinds of token numbers are the same.  */
+the two kinds of token numbers are the same.  
+(It is noted in reader.c that "Nowadays translations is always set to 1...")
+*/
 
 extern short *token_translations;
 extern int translations;
