@@ -1,5 +1,12 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c, src/derives.c, src/nullable.c: Adjust various
+	trace messages.
+	* src/LR0.c: Likewise.
+	(allocate_itemsets): Use arrays instead of pointers to clarify.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c (statistics_flag): Replace with...
 	(trace_flag): New.
 	(longopts): Accept --trace instead of --statistics.
