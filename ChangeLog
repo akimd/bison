@@ -1,3 +1,42 @@
+2001-12-30  Robert Anisko  <robert.anisko@epita.fr>
+
+	* src/muscle_tab.h (MUSCLE_INSERT_INT, MUSCLE_INSERT_STRING)
+	(MUSCLE_INSERT_PREFIX): ...to there.
+	* src/output.c (MUSCLE_INSERT_INT, MUSCLE_INSERT_STRING)
+	(MUSCLE_INSERT_PREFIX): Move from here...
+
+	* src/bison.hairy: Add a section directive.  Put braces around muscle
+	names.  This parser skeleton is still broken, but Bison should not
+	choke on a bad muscle 'syntax'.
+	* src/bison.simple: Add a section directive.  Put braces around muscle
+	names.
+
+	* src/files.h (strsuffix, stringappend): Add declarations.
+	(tab_extension): Add declaration.
+	(short_base_name): Add declaration.
+
+	* src/files.c (strsuffix, stringappend): No longer static.  These
+	functions are used in the skeleton parser.
+	(tab_extension): New.
+	(compute_base_names): Use the computations done in this function
+	to guess if the generated parsers should have '.tab' in their 
+	names.
+	(short_base_name): No longer static.
+
+	* src/output.c (output_skeleton): New.
+	(output): Disable call to output_master_parser, and give a try to
+	a new skeleton handling system.
+	(guards_output, actions_output): No longer static.
+	(token_definitions_output, get_lines_number): No longer static.
+
+	* configure.in: Use AM_PROG_LEX and AC_PROG_YACC.
+
+	* src/Makefile.am (bison_SOURCES): Add scan-skel.l and 
+	parse-skel.y.
+
+	* src/parse-skel.y: New file.
+	* src/scan-skel.l: New file.
+
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
 	%name-prefix is broken.

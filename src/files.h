@@ -68,4 +68,18 @@ char *compute_header_macro PARAMS ((void));
 
 const char *skeleton_find PARAMS ((const char *envvar,
 				   const char *skeleton_name));
+
+/* Is SUFFIX ending STRING?  */
+int strsuffix (const char* string, const char* suffix);
+
+/* Return a newly allocated string composed of the concatenation of
+   STRING1, and STRING2.  */
+char* stringappend (const char* string1, const char* string2);
+
+/* Should we insert '.tab' in yacc-compatible parsers?  */
+extern int tab_extension;
+
+/* Prefix used to generate output files names.  */
+extern char* short_base_name;
+
 #endif /* !FILES_H_ */

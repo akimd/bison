@@ -1,3 +1,4 @@
+%%{section} %%{body} %%".c" %%{yacc}
 							  /* -*- C -*- */
 
 /* YYERROR and YYCOST are set by guards. If yyerror is set to a
@@ -332,4 +333,4 @@ yyerrlab:
   goto yyresume;
 }
 
-%%actions
+%%{actions}

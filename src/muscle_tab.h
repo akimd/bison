@@ -33,4 +33,26 @@ void muscle_init PARAMS ((void));
 void muscle_insert PARAMS ((const char *key, const char *value));
 const char *muscle_find PARAMS ((const char *key));
 
+#define MUSCLE_INSERT_INT(Key, Value)				\
+{								\
+  obstack_fgrow1 (&muscle_obstack, "%d", Value);	       	\
+  obstack_1grow (&muscle_obstack, 0);				\
+  muscle_insert (Key, obstack_finish (&muscle_obstack));	\
+}
+
+#define MUSCLE_INSERT_STRING(Key, Value)			\
+{								\
+  obstack_sgrow (&muscle_obstack, Value);			\
+  obstack_1grow (&muscle_obstack, 0);				\
+  muscle_insert (Key, obstack_finish (&muscle_obstack));	\
+}
+
+#define MUSCLE_INSERT_PREFIX(Key, Value)	       			\
+{									\
+  obstack_fgrow2 (&muscle_obstack, "%s%s", 				\
+		  spec_name_prefix ? spec_name_prefix : "yy", Value);	\
+  obstack_1grow (&muscle_obstack, 0);					\
+  muscle_insert (Key, obstack_finish (&muscle_obstack));	       	\
+}
+
 #endif /* not MUSCLE_TAB_H_ */

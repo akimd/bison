@@ -23,6 +23,7 @@ DEFS = @DEFS@ \
   -DLOCALEDIR=\"$(datadir)/locale\"
 
 CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
+YFLAGS = "-dv"
 
 # libintl.h in is build/intl, intl/libgettext.h in src/,
 # config.h in build/.
@@ -43,7 +44,8 @@ bison_SOURCES = LR0.c closure.c complain.c conflicts.c	\
     print_graph.h print_graph.c \
     muscle_tab.h muscle_tab.c \
     options.h options.c \
-    print.c reader.c reduce.c symtab.c warshall.c vcg.c
+    print.c reader.c reduce.c symtab.c warshall.c vcg.c \
+    parse-skel.y scan-skel.l
 
 EXTRA_bison_SOURCES = vmsgetargs.c
 
