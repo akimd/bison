@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-10-22 09:16+0200\n"
+"POT-Creation-Date: 2002-10-24 11:20+0200\n"
 "PO-Revision-Date: 2002-07-20 13:23+0400\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -15,15 +15,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/complain.c:80 lib/error.c:128 lib/error.c:156
+#: src/complain.c:78 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Неизвестная системная ошибка"
 
-#: src/complain.c:105 src/complain.c:122
+#: src/complain.c:103 src/complain.c:120
 msgid "warning: "
 msgstr "предупреждение: "
 
-#: src/complain.c:184 src/complain.c:202
+#: src/complain.c:182 src/complain.c:200
 msgid "fatal error: "
 msgstr "фатальная ошибка: "
 

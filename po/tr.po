@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-10-22 09:16+0200\n"
+"POT-Creation-Date: 2002-10-24 11:20+0200\n"
 "PO-Revision-Date: 2002-06-25 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -15,15 +15,15 @@ msgstr ""
 "X-Generator: KBabel 0.9.5\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/complain.c:80 lib/error.c:128 lib/error.c:156
+#: src/complain.c:78 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Bilinmeyen sistem hatasý"
 
-#: src/complain.c:105 src/complain.c:122
+#: src/complain.c:103 src/complain.c:120
 msgid "warning: "
 msgstr "uyarý: "
 
-#: src/complain.c:184 src/complain.c:202
+#: src/complain.c:182 src/complain.c:200
 msgid "fatal error: "
 msgstr "ölümcül hata:"
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-22 09:16+0200\n"
+"POT-Creation-Date: 2002-10-24 11:20+0200\n"
 "PO-Revision-Date: 2002-10-07 10:50:39+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -15,15 +15,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: src/complain.c:80 lib/error.c:128 lib/error.c:156
+#: src/complain.c:78 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Unbekannter Systemfehler"
 
-#: src/complain.c:105 src/complain.c:122
+#: src/complain.c:103 src/complain.c:120
 msgid "warning: "
 msgstr "Warnung: "
 
-#: src/complain.c:184 src/complain.c:202
+#: src/complain.c:182 src/complain.c:200
 msgid "fatal error: "
 msgstr "fataler Fehler: "
 

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-10-22 09:16+0200\n"
+"POT-Creation-Date: 2002-10-24 11:20+0200\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
 
-#: src/complain.c:80 lib/error.c:128 lib/error.c:156
+#: src/complain.c:78 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Nepoznata sistemska gre¹ka"
 
-#: src/complain.c:105 src/complain.c:122
+#: src/complain.c:103 src/complain.c:120
 msgid "warning: "
 msgstr "upozorenje:"
 
-#: src/complain.c:184 src/complain.c:202
+#: src/complain.c:182 src/complain.c:200
 msgid "fatal error: "
 msgstr "fatalna gre¹ka:"
 
