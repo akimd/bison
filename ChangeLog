@@ -1,3 +1,8 @@
+2005-01-28  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/vcg.c (output_graph): G_VIEW -> normal_view in case someone
+	wants to redefine G_VIEW.
+
 2005-01-27  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/vcg.c (get_view_str): Remove case for normal_view.
