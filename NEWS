@@ -3,9 +3,6 @@ Bison News
 
 Changes in version 1.875c:
 
-* New %no-default-prec declaration, to disable default rule precedences.
-  New %default-prec declaration, to reestablish the default.
-
 Changes in version 1.875b, 2003-06-17:
 
 * GLR grammars now support locations.

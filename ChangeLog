@@ -1,3 +1,10 @@
+2003-10-05  Paul Eggert  <eggert@twinsun.com>
+
+	* NEWS: Don't document %no-default-prec, as it's still
+	too experimental.
+	* doc/bison.texinfo: Document %no-default-prec only if
+	the defaultprec flag is set.  Normally it's not.
+
 2003-10-04  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (b4_rhs_value, b4_rhs_location): Yield a
