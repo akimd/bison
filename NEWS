@@ -1,14 +1,13 @@
 Bison News
 ----------
 
-Changes in version 1.31a:
+Changes in version 1.32, 2002-01-23:
 
 * Fix Yacc output file names
 
 * Portability fixes
 
-* Italian translation
-
+* Italian, Dutch translations
 
 Changes in version 1.31, 2002-01-14:
 

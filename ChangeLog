@@ -1,5 +1,9 @@
 2002-01-23  Akim Demaille  <akim@epita.fr>
 
+	Version 1.32.
+
+2002-01-23  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c (version): Bump to 2002.
 	Patch the PO files to help translators.
 

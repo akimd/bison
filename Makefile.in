@@ -139,8 +139,8 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = README ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL \
-	Makefile.am Makefile.in NEWS README-alpha THANKS aclocal.m4 \
-	config.hin configure configure.in
+	Makefile.am Makefile.in NEWS THANKS aclocal.m4 config.hin \
+	configure configure.in
 DIST_SUBDIRS = $(SUBDIRS)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
