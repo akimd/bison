@@ -1,5 +1,10 @@
 2002-06-03  Akim Demaille  <akim@epita.fr>
 
+	* src/muscle_tab.c (muscle_insert, muscle_find): Declarations,
+	then statements.
+
+2002-06-03  Akim Demaille  <akim@epita.fr>
+
 	* src/muscle_tab.c (muscle_find, muscle_insert): Don't initialize
 	structs with non literals.
 	* src/scan-skel.l: never-interactive.
