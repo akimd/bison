@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -20,26 +20,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = config po lib data src doc m4 tests
 
-EXTRA_DIST = REFERENCES OChangeLog Makefile.maint GNUmakefile
+EXTRA_DIST = REFERENCES OChangeLog Makefile.maint GNUmakefile Makefile.cfg
 
 .PHONY: maintainer-check
 maintainer-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
-
-## ---------------------------- ##
-## Customizing Makefile.maint.  ##
-## ---------------------------- ##
-
-move_if_change = $(srcdir)/config/move-if-change
-prev_version_file = $(srcdir)/config/prev-version.txt
-release_archive_dir = releases
-
-# Uploading betas.
-url_dir_list = \
-  ftp://alpha.gnu.org/gnu/bison
-
-# Files to update automatically.
-wget_files = $(srcdir)/config/config.guess $(srcdir)/config/config.sub \
-	     $(srcdir)/config/texinfo.tex
-
-cvs_files = $(srcdir)/config/missing

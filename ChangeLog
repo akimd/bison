@@ -1,5 +1,12 @@
 2003-08-25  Akim Demaille  <akim@epita.fr>
 
+	* config/announce-gen, Makefile.cfg: New.
+	* Makefile.am: Adjust.
+	* GNUmakefile, Makefile.maint: Update from CVS Autoconf, but
+	keeping local WGET and WGETFLAGS modifications from Paul Eggert.
+
+2003-08-25  Akim Demaille  <akim@epita.fr>
+
 	When reducing initial empty rules, Bison parser read an initial
 	location that is not defined.  This results in garbage, and that
 	affects Bison's own parser.  Therefore we need (i) to extend Bison
