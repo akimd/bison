@@ -30,9 +30,11 @@
 #if (!defined (__STDC__) && defined (sparc)) || defined (__sparc__) || defined (__sparc) || defined (__sgi)
 #include <alloca.h>
 #else /* not sparc */
-#if defined (MSDOS) && !defined (__TURBOC__)
+/* This used to test MSDOS, but that is a bad idea
+   since that is in the user namespace.  */
+#if defined (_MSDOS_) && !defined (__TURBOC__)
 #include <malloc.h>
-#else /* not MSDOS, or __TURBOC__ */
+#else /* not _MSDOS_, or __TURBOC__ */
 #if defined(_AIX)
 #include <malloc.h>
  #pragma alloca
@@ -47,7 +49,7 @@ void *alloca ();
 #endif /* not __cplusplus */
 #endif /* __hpux */
 #endif /* not _AIX */
-#endif /* not MSDOS, or __TURBOC__ */
+#endif /* not _MSDOS_, or __TURBOC__ */
 #endif /* not sparc.  */
 #endif /* not GNU C.  */
 #endif /* alloca not defined.  */
