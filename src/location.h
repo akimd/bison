@@ -54,12 +54,12 @@ typedef struct
   /* Boundary just after the location ends.  */
   boundary end;
 
-} location_t;
+} location;
 
-#define YYLTYPE location_t
+#define YYLTYPE location
 
-extern location_t const empty_location;
+extern location const empty_location;
 
-void location_print (FILE *, location_t);
+void location_print (FILE *, location);
 
 #endif /* ! defined LOCATION_H_ */
