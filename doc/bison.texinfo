@@ -876,7 +876,7 @@ the @acronym{GLR} parsing algorithm with some advanced features such as
 @samp{%dprec} and @samp{%merge} to handle syntactically ambiguous
 grammars.  However, the @acronym{GLR} algorithm can also be used in a simpler
 way to parse grammars that are unambiguous, but fail to be @acronym{LALR}(1).
-Such grammars typically require more than one symbol of lookahead,
+Such grammars typically require more than one symbol of look-ahead,
 or (in rare cases) fall into the category of grammars in which the
 @acronym{LALR}(1) algorithm throws away too much information (they are in
 @acronym{LR}(1), but not @acronym{LALR}(1), @ref{Mystery Conflicts}).
