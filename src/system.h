@@ -54,9 +54,6 @@ typedef size_t uintptr_t;
 #endif
 
 #include <xalloc.h>
-#define CALLOC(P, N) ((P) = xcalloc (N, sizeof *(P)))
-#define MALLOC(P, N) ((P) = xnmalloc (N, sizeof *(P)))
-#define REALLOC(P, N) ((P) = xnrealloc (P, N, sizeof *(P)))
 
 
 /*---------------------.
