@@ -1,5 +1,12 @@
 2003-03-02  Akim Demaille  <akim@epita.fr>
 
+	* data/yacc.c, data/glr.c, data/lal1.cc: Use similar code to
+	generate verbose error messages.
+	Use the number of tokens as an upper bound in yytname, as it
+	cannot be a non terminal.
+
+2003-03-02  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (_AT_DATA_DANCER_Y): Fix the expected error
 	message.
 

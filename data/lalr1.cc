@@ -498,13 +498,19 @@ b4_syncline([@oline@], [@ofile@])[
 	  message += name_[ilooka_];
 	  {
 	    int count = 0;
-	    for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
+            /* Start YYX at -YYN if negative to avoid negative indexes in
+               YYCHECK.  */
+	    int xbegin = n_ < 0 ? -n_ : 0;
+ 	    /* Stay within bounds of both yycheck and yytname.  */
+	    int checklim = last_ - n_;
+	    int xend = checklim < ntokens_ ? checklim : ntokens_;
+	    for (int x = xbegin; x < xend; ++x)
 	      if (check_[x + n_] == x && x != terror_)
 		++count;
 	    if (count < 5)
 	      {
 		count = 0;
-		for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
+		for (int x = xbegin; x < xend; ++x)
 		  if (check_[x + n_] == x && x != terror_)
 		    {
 		      message += (!count++) ? ", expecting " : " or ";
