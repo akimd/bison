@@ -18,7 +18,7 @@
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
    02111-1307, USA.  */
 
-%option nodefault noyywrap nounput
+%option nodefault noyywrap nounput never-interactive
 %option prefix="skel_" outfile="lex.yy.c"
 
 %{

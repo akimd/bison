@@ -1,3 +1,13 @@
+2002-06-03  Akim Demaille  <akim@epita.fr>
+
+	* src/muscle_tab.c (muscle_find, muscle_insert): Don't initialize
+	structs with non literals.
+	* src/scan-skel.l: never-interactive.
+	* src/conflicts.c (enum conflict_resolution_e): No trailing
+	comma.
+	* src/getargs.c (usage): Split long literal strings.
+	Reported by Hans Aberg.
+
 2002-05-28  Akim Demaille  <akim@epita.fr>
 
 	* data/bison.c++: Use C++ ostreams.
