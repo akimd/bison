@@ -1,5 +1,13 @@
 2001-11-01  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Invalid input: 2): New.
+	* src/lex.c (unlexed_token_buffer): New.
+	(lex, unlex): Adjust: when unlexing, be sure to save token_buffer
+	too.
+	Reported by Wwp.
+
+2001-11-01  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at: Catch up with 1.30.
 	* configure.in: Bump to 1.49a.
 	Adjust to newer Autotest.
