@@ -3,6 +3,9 @@ Bison News
 
 Changes in version 1.49a:
 
+* Revert the C++ namespace changes introduced in 1.31, as they caused too
+  many portability hassles.
+
 * Items overflow
   Bison no longer dumps core when there are too many items, it just
   dies.
