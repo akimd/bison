@@ -1,5 +1,12 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.simple: Do not provide a default for YYSTYPE and
+	YYLTYPE before the user's prologue.  Otherwise it's hardly... a
+	default.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	Mid-rule actions are simply... ignored!
 
 	* src/reader.c (readgram): Be sure to attach mid-rule actions to

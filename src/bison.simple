@@ -63,6 +63,9 @@
 #define yydebug %%prefix##debug
 #define yynerrs %%prefix##nerrs
 
+/* Copy the user declarations.  */
+%%prologue
+
 #ifndef YYSTYPE
 typedef %%stype yystype;
 # define YYSTYPE yystype
@@ -78,9 +81,6 @@ typedef struct yyltype
 } yyltype;
 # define YYLTYPE %%ltype
 #endif
-
-/* Copy the user declarations.  */
-%%prologue
 
 /* Line %%skeleton-line of %%skeleton.  */
 #line %%line "%%parser-file-name"
