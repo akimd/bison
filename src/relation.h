@@ -1,5 +1,5 @@
 /* Binary relations.
-   Copyright (C) 2002  Free Software Foundation, Inc.
+   Copyright (C) 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -24,25 +24,25 @@
 
 /* Performing operations on graphs coded as list of adjacency.
 
-   If GRAPH is a relation_t, then GRAPH[Node] is a list of adjacent
+   If GRAPH is a relation, then GRAPH[Node] is a list of adjacent
    nodes, ended with -1.  */
 
-typedef short relation_node_t;
-typedef relation_node_t *relation_nodes_t;
-typedef relation_nodes_t *relation_t;
+typedef short relation_node;
+typedef relation_node *relation_nodes;
+typedef relation_nodes *relation;
 
 
-/* Report a RELATION that has SIZE vertices.  */
-void relation_print (relation_t relatio, size_t size, FILE *out);
+/* Report a relation R that has SIZE vertices.  */
+void relation_print (relation r, size_t size, FILE *out);
 
-/* Compute the transitive closure of the FUNCTION on the RELATION with
-   SIZE vertices.
+/* Compute the transitive closure of the FUNCTION on the relation R
+   with SIZE vertices.
 
-   If RELATION (NODE-1, NODE-2) then on exit FUNCTION[NODE-1] was
-   extended (unioned) with FUNCTION[NODE-2].  */
-void relation_digraph (relation_t relation, size_t size, bitsetv *function);
+   If R (NODE-1, NODE-2) then on exit FUNCTION[NODE - 1] was extended
+   (unioned) with FUNCTION[NODE - 2].  */
+void relation_digraph (relation r, size_t size, bitsetv *function);
 
 /* Destructively transpose *R_ARG, of size N.  */
-void relation_transpose (relation_t *R_arg, int n);
+void relation_transpose (relation *R_arg, int n);
 
 #endif /* ! RELATION_H_ */
