@@ -1,3 +1,10 @@
+2001-08-06  Akim Demaille  <akim@epita.fr>, Marc Autret  <autret_@epita.fr>
+
+	* src/print_graph.c (print_actions): CPP out useless code.
+	* src/vcg.c (complain.h): Include it.
+	Unepitaize `return' invocations.
+	* src/vcg.c [NDEBUG] (main): Remove.
+
 2001-08-06  Marc Autret   <autret_@epita.fr>
 
 	Automaton VCG graph output.
