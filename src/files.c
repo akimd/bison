@@ -420,6 +420,12 @@ output_files (void)
 
   compute_base_names ();
 
+  /* If not yet done. */
+  if (!src_extension)
+    src_extension = ".c";
+  if (!header_extension)
+    header_extension = ".h";
+
   /* It the defines filename if not given, we create it.  */
   if (!spec_defines_file)
     spec_defines_file = stringappend (base_name, header_extension);

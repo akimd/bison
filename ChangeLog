@@ -1,3 +1,7 @@
+2001-09-23  Marc Autret  <autret_m@epita.fr>
+
+	* src/files.c (output_files): Add default extensions.
+
 2001-09-22  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (finalize_conflicts): Rename as...
