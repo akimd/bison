@@ -23,17 +23,25 @@
 %defines
 %verbose
 %error-verbose
+%locations
+%name-prefix="skel_"
+%pure-parser
 
 %{
 #include "system.h"
 #include "obstack.h"
+#include "quotearg.h"
 #include "files.h"
+#include "getargs.h"
 #include "output.h"
 #include "skeleton.h"
 #include "muscle_tab.h"
 
-extern FILE* yyin;
-extern int   yylineno;
+/* Pass the control structure to YYPARSE but not YYLEX (yet?). */
+#define YYPARSE_PARAM skel_control
+/* YYPARSE receives SKEL_CONTROL as a void *.  Provide a correctly
+   typed access to it.  */
+#define yycontrol ((skel_control_t *) skel_control)
 
 char* prefix = NULL;
 FILE* parser = NULL;
@@ -41,28 +49,37 @@ FILE* parser = NULL;
 size_t output_line;
 size_t skeleton_line;
 
-static int merror PARAMS ((const char* error));
-static int yyerror PARAMS ((const char* error));
+static void merror PARAMS ((const char* error));
 
+/* Request detailed parse error messages, and pass them to
+   YLEVAL_ERROR. */
+#undef  yyerror
+#define yyerror(Msg) \
+        skel_error (yycontrol, &yylloc, Msg)
+
+/* When debugging our pure parser, we want to see values and locations
+   of the tokens.  */
+#define YYPRINT(File, Type, Value) \
+        yyprint (File, &yylloc, Type, &Value)
+static void yyprint (FILE *file, const yyltype *loc,
+                     int type, const yystype *value);
 %}
 
 %union
 {
-  char *muscle;
   char *string;
-  char *literal;
   char character;
-  int yacc;
+  int  boolean;
 }
 
 /* Name of a muscle. */
-%token <muscle> MUSCLE
+%token <string> MUSCLE
 /* A string dedicated to Bison (%%"foo").  */
 %token <string> STRING
 /* Raw data, to output directly. */
-%token <literal> RAW
+%token <string> RAW
 /* Spaces. */
-%token <literal> BLANKS
+%token <string> BLANKS
 /* Raw data, but char by char. */
 %token <character> CHARACTER
 
@@ -76,11 +93,14 @@ static int yyerror PARAMS ((const char* error));
 %token TOKENS
 %token ACTIONS
 
-%type <yacc> section.yacc
+%type <boolean> section.yacc
 
-%start skeleton
+%start input
 
 %%
+input:
+     { LOCATION_RESET (yylloc) } skeleton
+  ;
 
 skeleton : /* Empty.  */    { }
          | section skeleton { }
@@ -165,19 +185,53 @@ section.body
 }
 ;
 %%
+/*------------------------------------------------------------------.
+| When debugging the parser, display tokens' locations and values.  |
+`------------------------------------------------------------------*/
 
-static int
+static void
+yyprint (FILE *file,
+         const yyltype *loc, int type, const yystype *value)
+{
+  fputs (" (", file);
+  LOCATION_PRINT (file, *loc);
+  fputs (")", file);
+  switch (type)
+    {
+    case MUSCLE:
+    case STRING:
+    case RAW:
+    case BLANKS:
+      fprintf (file, " = %s", quotearg_style (c_quoting_style,
+					      value->string));
+      break;
+
+    case CHARACTER:
+      fprintf (file, " = '%c'", value->character);
+      break;
+
+    case YACC:
+      fprintf (file, " = %s", value->boolean ? "true" : "false");
+      break;
+    }
+}
+
+
+static void
 merror (const char* error)
 {
   printf ("line %d: %%{%s} undeclared.\n", skeleton_line, error);
-  return 0;
 }
 
-static int
-yyerror (const char* error)
+void
+skel_error (skel_control_t *control,
+	    const yyltype *loc, const char *msg)
 {
-  fprintf (stderr, "%s\n", error);
-  return 0;
+  /* Neutralize GCC warnings for unused parameters. */
+  skel_control_t *c = control;
+  c++;
+  LOCATION_PRINT (stderr, *loc);
+  fprintf (stderr, "%s\n", msg);
 }
 
 void
@@ -192,9 +246,10 @@ process_skeleton (const char* skel)
   skeleton_line = 1;
 
   /* Output.  */
-  yyin = fopen (skel, "r");
-  yydebug = 0;
-  yyparse ();
+  skel_in = fopen (skel, "r");
+  skel__flex_debug = 0;
+  skel_debug = trace_flag ? 1 : 0;
+  skel_parse (NULL);
 
   /* Close the last parser.  */
   if (parser)

@@ -1,3 +1,20 @@
+2002-01-02  Akim Demaille  <akim@epita.fr>
+
+	Equip the skeleton chain with location tracking, runtime trace,
+	pure parser and scanner.
+
+	* src/parse-skel.y: Request a pure parser, locations, and prefix
+	renaming.
+	(%union): Having several members with the same type does not help
+	type mismatches, simplify.
+	(YYPRINT, yyprint): New.
+	(yyerror): ``Rename'' (there is a #define yyerror skel_error) as...
+	(skel_error): this.
+	Handle locations.
+	* src/scan-skel.l: Adjust to these changes.
+	* src/skeleton.h (LOCATION_RESET, LOCATION_LINES, LOCATION_STEP)
+	(LOCATION_PRINT, skel_control_t): New.
+
 2001-12-30  Akim Demaille  <akim@epita.fr>
 
 	* src/parse-skel.y: Get rid of the shift/reduce conflict:
