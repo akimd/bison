@@ -1,5 +1,9 @@
 2002-02-07  Akim Demaille  <akim@epita.fr>
 
+	Version 1.33.
+
+2002-02-07  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at, tests/torture.at, tests/calc.at: Adjust to
 	newest Autotest, where `.' is not in the PATH.
 

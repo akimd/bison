@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.32a:
+Changes in version 1.33, 2002-02-07:
 
 * Fix C++ issues
   Groff could not be compiled for the definition of size_t was lacking
