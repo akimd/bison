@@ -1,3 +1,18 @@
+2002-10-20  Paul Eggert  <eggert@twinsun.com>
+
+	Remove K&R vestiges.
+	* configure.ac (AC_C_CONST, AM_C_PROTOTYPES): Remove.
+	* src/complain.c (VA_START): Remove.  Assume prototypes.
+	(vfprintf) [! (HAVE_VPRINTF || defined vfprintf)]: New macro.
+	(private_strerror, warn_at, warn, complain_at, complain, fatal_at,
+	fatal): Assume prototypes.
+	* src/complain.h: Assume prototypes.
+	* src/system.h (PARAMS): Remove.
+	Include <limits.h> unconditionally, since it's guaranteeed even
+	for a freestanding C89 compiler.
+	(SHRT_MIN, SHRT_MAX): Remove, since C89 guarantees them.
+	* src/vmsgetargs.c (getargs, cli_present, cli_get_value): Prototype.
+	
 2002-10-20  Akim Demaille  <akim@epita.fr>
 
 	* src/muscle_tab.c (muscle_grow): Remove trailing debugging code.
