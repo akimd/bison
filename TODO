@@ -66,3 +66,56 @@ skeleton muscles.	[]
 * testsuite
 ** tests/pure-parser.at	[]
 New tests.
+
+* Debugging parsers
+
+From Greg McGary:
+
+akim demaille <akim.demaille@epita.fr> writes:
+
+> With great pleasure!  Nonetheless, things which are debatable
+> (or not, but just `big') should be discuss in `public': something
+> like help- or bug-bison@gnu.org is just fine.  Jesse and I are there,
+> but there is also Jim and some other people.
+
+I have no idea whether it qualifies as big or controversial, so I'll
+just summarize for you.  I proposed this change years ago and was
+surprised that it was met with utter indifference!
+
+This debug feature is for the programs/grammars one develops with
+bison, not for debugging bison itself.  I find that the YYDEBUG
+output comes in a very inconvenient format for my purposes.
+When debugging gcc, for instance, what I want is to see a trace of
+the sequence of reductions and the line#s for the semantic actions
+so I can follow what's happening.  Single-step in gdb doesn't cut it
+because to move from one semantic action to the next takes you through
+lots of internal machinery of the parser, which is uninteresting.
+
+The change I made was to the format of the debug output, so that it
+comes out in the format of C error messages, digestible by emacs
+compile mode, like so:
+
+grammar.y:1234: foo: bar(0x123456) baz(0x345678)
+
+where "foo: bar baz" is the reduction rule, whose semantic action
+appears on line 1234 of the bison grammar file grammar.y.  The hex
+numbers on the rhs tokens are the parse-stack values associated with
+those tokens.  Of course, yytype might be something totally
+incompatible with that representation, but for the most part, yytype
+values are single words (scalars or pointers).  In the case of gcc,
+they're most often pointers to tree nodes.  Come to think of it, the
+right thing to do is to make the printing of stack values be
+user-definable.  It would also be useful to include the filename &
+line# of the file being parsed, but the main filename & line# should
+continue to be that of grammar.y
+
+Anyway, this feature has saved my life on numerous occasions.  The way
+I customarily use it is to first run bison with the traces on, isolate
+the sequence of reductions that interests me, put those traces in a
+buffer and force it into compile-mode, then visit each of those lines
+in the grammar and set breakpoints with C-x SPACE.  Then, I can run
+again under the control of gdb and stop at each semantic action.
+With the hex addresses of tree nodes, I can inspect the values
+associated with any rhs token.
+
+You like?
