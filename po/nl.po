@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-11-03 17:35+0100\n"
+"POT-Creation-Date: 2000-11-03 17:45+0100\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -254,7 +254,7 @@ msgstr "niet getermineerd type naam"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "gebruik \"...\" voor meerdere karakters literal tekens"
 
-#: src/main.c:103
+#: src/main.c:104
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "interne fout, %s\n"

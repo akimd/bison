@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2000-11-03 17:35+0100\n"
+"POT-Creation-Date: 2000-11-03 17:45+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -310,7 +310,7 @@ msgstr "nombre de tipo sin terminar"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "use \"...\" para terminales literales multicarácter"
 
-#: src/main.c:103
+#: src/main.c:104
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "error interno, %s\n"

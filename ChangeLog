@@ -6,7 +6,7 @@
 
 2000-11-03  Akim Demaille  <akim@epita.fr>
 
-	For some reasons, this has not been applied.
+	For some reason, this was not applied.
 
 	* src/files.c [VMS]: No longer include `ssdef.h', no longer define
 	`unlink': it's no longer used.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2000-11-03 17:35+0100\n"
+"POT-Creation-Date: 2000-11-03 17:45+0100\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -254,7 +254,7 @@ msgstr "閉じられていないタイプ名があります"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "複数文字のリテラルトークンには \"...\" を使いましょう"
 
-#: src/main.c:103
+#: src/main.c:104
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: 内部エラー: %s\n"
