@@ -195,12 +195,6 @@ scheme.  Sources of inspiration include GNU diff, and Free Recode.
 A round of memory leak clean ups would be most welcome.  Dmalloc,
 Checker GCC, Electric Fence, or Valgrind: you chose your tool.
 
-* Memory leaks in the parser
-The same applies to the generated parsers.  In particular, this is
-critical for user data: when aborting a parsing, when handling the
-error token etc., we often throw away yylval without giving a chance
-of cleaning it up to the user.
-
 * --graph
 Show reductions.	[]
 
@@ -307,14 +301,6 @@ move to partial orders.
 
 This will be possible with a Bison parser for the grammar, as it will
 make it much easier to extend the grammar.
-
-* Parsing grammars
-Rewrite the reader in Flex/Bison.  There will be delicate parts, in
-particular, expect the scanner to be hard to write.  Many interesting
-features cannot be implemented without such a new reader.
-
-I'm on it!  I already have a proto that parses (but the actions are
-not fully written yet).  -- Akim
 
 * $undefined
 From Hans:
