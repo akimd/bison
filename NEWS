@@ -56,6 +56,59 @@ Changes in version 1.49a:
   or
      %token YYEOF 0 "end of file"
 
+Changes in version 1.35, 2002-03-25:
+
+* C Skeleton
+  Some projects use Bison's C parser with C++ compilers, and define
+  YYSTYPE as a class.  The recent adjustment of C parsers for data
+  alignment and 64 bit architectures made this impossible.
+
+  Because for the time being no real solution for C++ parser
+  generation exists, kludges were implemented in the parser to
+  maintain this use.  In the future, when Bison has C++ parsers, this
+  kludge will be disabled.
+
+  This kludge also addresses some C++ problems when the stack was
+  extended.
+
+
+Changes in version 1.34, 2002-03-12:
+
+* File name clashes are detected
+  $ bison foo.y -d -o foo.x
+  fatal error: header and parser would both be named `foo.x'
+
+* A missing `;' at the end of a rule triggers a warning
+  In accordance with POSIX, and in agreement with other
+  Yacc implementations, Bison will mandate this semicolon in the near
+  future.  This eases the implementation of a Bison parser of Bison
+  grammars by making this grammar LALR(1) instead of LR(2).  To
+  facilitate the transition, this release introduces a warning.
+
+* Revert the C++ namespace changes introduced in 1.31, as they caused too
+  many portability hassles.
+
+* DJGPP support added.
+
+* Fix test suite portability problems.
+
+Changes in version 1.33, 2002-02-07:
+
+* Fix C++ issues
+  Groff could not be compiled for the definition of size_t was lacking
+  under some conditions.
+
+* Catch invalid @n
+  As is done with $n.
+
+Changes in version 1.32, 2002-01-23:
+
+* Fix Yacc output file names
+
+* Portability fixes
+
+* Italian, Dutch translations
+
 Changes in version 1.31, 2002-01-14:
 
 * Many Bug Fixes
@@ -83,6 +136,7 @@ Changes in version 1.31, 2002-01-14:
 
 * Better C++ compliance
   The output parsers try to respect C++ namespaces.
+  [This turned out to be a failed experiment, and it was reverted later.]
 
 * Reduced Grammars
   Fixed bugs when reporting useless nonterminals.
@@ -140,7 +194,7 @@ Changes in version 1.31, 2002-01-14:
 * --output
   New, aliasing `--output-file'.
 
-Changes in version 1.30:
+Changes in version 1.30, 2001-10-26:
 
 * `--defines' and `--graph' have now an optionnal argument which is the
   output file name. `-d' and `-g' do not change, they do not take any
@@ -263,3 +317,24 @@ Output file does not redefine const for C++.
 Local Variables:
 mode: outline
 End:
+
+-----
+
+Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+
+This file is part of GNU Autoconf.
+
+GNU Autoconf is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+GNU Autoconf is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with autoconf; see the file COPYING.  If not, write to
+the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.
