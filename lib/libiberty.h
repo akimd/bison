@@ -23,7 +23,7 @@
 #ifndef BISON_LIBIBERTY_H_
 # define BISON_LIBIBERTY_H_ 1
 
-# define PARAMS(X) X
+# define PARAMS(Args) Args
 
 # ifndef __attribute__
 #  if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8) || __STRICT_ANSI__
