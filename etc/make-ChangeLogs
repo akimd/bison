@@ -1,0 +1,16 @@
+#! /bin/sh
+
+for dir in . po src doc; do
+  (
+    cd $dir && rcs2log -r -l \
+  -u 'akim	Akim Demaille	akim@epita.fr' \
+  -u 'djm	David J. MacKenzie	djm@gnu.org' \
+  -u 'eggert	Paul Eggert	eggert@gnu.org' \
+  -u 'friedman	Noah Friedman	friedman@gnu.org' \
+  -u 'hag	Daniel Hagerty	hag@gnu.org' \
+  -u 'jthilo	Jesse Thilo	jthilo@gnu.org' \
+  -u 'meyering	Jim Meyering	meyering@gnu.org' \
+  -u 'rms	Richard Stallman	rms@gnu.org' \
+  > ChangeLog
+  )
+done
