@@ -1,10 +1,21 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	* src/reduce.c (print_results): Rename as...
+	(reduce_output): This.
+	Output to OUT, passed as argument, instead of output_obstack.
+	(dump_grammar): Likewise.
+	(reduce_free): New.
+	Also free V1.
+	(reduce_grammar): No longer call reduce_output, since...
+	* src/print.c (print_results): do it.
+	* src/main.c (main): Call reduce_free;
+
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (print_reductions): Accept OUT as argument.
 	Output to it, not to output_obstack.
 	* src/print.c (print_actions): Adjust.
 
-	
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (count_sr_conflicts, count_rr_conflicts): Return
@@ -24,7 +35,6 @@
 	* tests/regression.at (Invalid input): Remove, duplicate with
 	``Invalid input: 1''.
 
-	
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
 	* tests/torture.at (AT_DATA_STACK_TORTURE)

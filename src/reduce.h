@@ -1,5 +1,5 @@
 /* Grammar reduction for Bison.
-   Copyright 2000 Free Software Foundation, Inc.
+   Copyright 2000, 2001  Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -22,5 +22,6 @@
 # define REDUCE_H_
 
 void reduce_grammar PARAMS ((void));
-
+void reduce_output PARAMS ((FILE *out));
+void reduce_free PARAMS ((void));
 #endif /* !REDUCE_H_ */
