@@ -435,7 +435,7 @@ splice	 (\\[ \f\t\v]*\n)*
       obstack_1grow (&string_obstack, c);
   }
 
-  \\x[0-9a-fA-F]+ {
+  \\x[0-9abcdefABCDEF]+ {
     unsigned long c;
     errno = 0;
     c = strtoul (yytext + 2, 0, 16);
@@ -460,7 +460,7 @@ splice	 (\\[ \f\t\v]*\n)*
   /* \\[\"\'?\\] would be shorter, but it confuses xgettext.  */
   \\("\""|"'"|"?"|"\\")  obstack_1grow (&string_obstack, yytext[1]);
 
-  \\(u|U[0-9a-fA-F]{4})[0-9a-fA-F]{4} {
+  \\(u|U[0-9abcdefABCDEF]{4})[0-9abcdefABCDEF]{4} {
     int c = convert_ucn_to_byte (yytext);
     if (c < 0)
       {
