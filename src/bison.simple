@@ -113,23 +113,23 @@ while (0)
 #define YYERRCODE	256
 
 #ifndef YYPURE
-#define YYLEX		yylex()
+# define YYLEX		yylex()
 #endif
 
 #ifdef YYPURE
-#ifdef YYLSP_NEEDED
-#ifdef YYLEX_PARAM
-#define YYLEX		yylex(&yylval, &yylloc, YYLEX_PARAM)
-#else
-#define YYLEX		yylex(&yylval, &yylloc)
-#endif
-#else /* not YYLSP_NEEDED */
-#ifdef YYLEX_PARAM
-#define YYLEX		yylex(&yylval, YYLEX_PARAM)
-#else
-#define YYLEX		yylex(&yylval)
-#endif
-#endif /* not YYLSP_NEEDED */
+# ifdef YYLSP_NEEDED
+#  ifdef YYLEX_PARAM
+#   define YYLEX		yylex(&yylval, &yylloc, YYLEX_PARAM)
+#  else
+#   define YYLEX		yylex(&yylval, &yylloc)
+#  endif
+# else /* not YYLSP_NEEDED */
+#  ifdef YYLEX_PARAM
+#   define YYLEX		yylex(&yylval, YYLEX_PARAM)
+#  else
+#   define YYLEX		yylex(&yylval)
+#  endif
+# endif /* not YYLSP_NEEDED */
 #endif
 
 /* If nonreentrant, generate the variables here */
@@ -140,10 +140,10 @@ int	yychar;			/*  the lookahead symbol		*/
 YYSTYPE	yylval;			/*  the semantic value of the		*/
 				/*  lookahead symbol			*/
 
-#ifdef YYLSP_NEEDED
+# ifdef YYLSP_NEEDED
 YYLTYPE yylloc;			/*  location data for the lookahead	*/
 				/*  symbol				*/
-#endif
+# endif
 
 int yynerrs;			/*  number of parse errors so far       */
 #endif  /* not YYPURE */
@@ -157,18 +157,18 @@ int yydebug;			/*  nonzero means print parse trace	*/
 /*  YYINITDEPTH indicates the initial size of the parser's stacks	*/
 
 #ifndef	YYINITDEPTH
-#define YYINITDEPTH 200
+# define YYINITDEPTH 200
 #endif
 
 /*  YYMAXDEPTH is the maximum size the stacks can grow to
     (effective only if the built-in stack extension method is used).  */
 
 #if YYMAXDEPTH == 0
-#undef YYMAXDEPTH
+# undef YYMAXDEPTH
 #endif
 
 #ifndef YYMAXDEPTH
-#define YYMAXDEPTH 10000
+# define YYMAXDEPTH 10000
 #endif
 
 /* Define __yy_memcpy.  Note that the size argument
@@ -177,9 +177,9 @@ int yydebug;			/*  nonzero means print parse trace	*/
    of type size_t, but it can handle unsigned int.  */
 
 #if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
-#define __yy_memcpy(TO,FROM,COUNT)	__builtin_memcpy(TO,FROM,COUNT)
+# define __yy_memcpy(TO,FROM,COUNT)	__builtin_memcpy(TO,FROM,COUNT)
 #else				/* not GNU C or C++ */
-#ifndef __cplusplus
+# ifndef __cplusplus
 
 /* This is the most reliable way to avoid incompatibilities
    in available built-in functions on various systems.  */
@@ -197,7 +197,7 @@ __yy_memcpy (to, from, count)
     *t++ = *f++;
 }
 
-#else /* __cplusplus */
+# else /* __cplusplus */
 
 /* This is the most reliable way to avoid incompatibilities
    in available built-in functions on various systems.  */
@@ -212,7 +212,7 @@ __yy_memcpy (char *to, char *from, unsigned int count)
     *t++ = *f++;
 }
 
-#endif
+# endif
 #endif
 
 #line 217 "bison.simple"
@@ -224,25 +224,25 @@ __yy_memcpy (char *to, char *from, unsigned int count)
    to the proper pointer type.  */
 
 #ifdef YYPARSE_PARAM
-#ifdef __cplusplus
-#define YYPARSE_PARAM_ARG void *YYPARSE_PARAM
-#define YYPARSE_PARAM_DECL
-#else /* not __cplusplus */
-#define YYPARSE_PARAM_ARG YYPARSE_PARAM
-#define YYPARSE_PARAM_DECL void *YYPARSE_PARAM;
-#endif /* not __cplusplus */
+# ifdef __cplusplus
+#  define YYPARSE_PARAM_ARG void *YYPARSE_PARAM
+#  define YYPARSE_PARAM_DECL
+# else /* not __cplusplus */
+#  define YYPARSE_PARAM_ARG YYPARSE_PARAM
+#  define YYPARSE_PARAM_DECL void *YYPARSE_PARAM;
+# endif /* not __cplusplus */
 #else /* not YYPARSE_PARAM */
-#define YYPARSE_PARAM_ARG
-#define YYPARSE_PARAM_DECL
+# define YYPARSE_PARAM_ARG
+# define YYPARSE_PARAM_DECL
 #endif /* not YYPARSE_PARAM */
 
 /* Prevent warning if -Wstrict-prototypes.  */
 #ifdef __GNUC__
-#ifdef YYPARSE_PARAM
+# ifdef YYPARSE_PARAM
 int yyparse (void *);
-#else
+# else
 int yyparse (void);
-#endif
+# endif
 #endif
 
 int
@@ -253,23 +253,30 @@ yyparse(YYPARSE_PARAM_ARG)
   register int yyn;
   register short *yyssp;
   register YYSTYPE *yyvsp;
-  int yyerrstatus;	/*  number of tokens to shift before error messages enabled */
-  int yychar1 = 0;		/*  lookahead token as an internal (translated) token number */
+  /* Number of tokens to shift before error messages enabled.  */
+  int yyerrstatus;
+  /* Lookahead token as an internal (translated) token number.  */
+  int yychar1 = 0;
 
-  short	yyssa[YYINITDEPTH];	/*  the state stack			*/
-  YYSTYPE yyvsa[YYINITDEPTH];	/*  the semantic value stack		*/
+  /* The state stack. */
+  short	yyssa[YYINITDEPTH];
+  /* The semantic value stack.  */
+  YYSTYPE yyvsa[YYINITDEPTH];
 
-  short *yyss = yyssa;		/*  refer to the stacks thru separate pointers */
-  YYSTYPE *yyvs = yyvsa;	/*  to allow yyoverflow to reallocate them elsewhere */
+  /* Refer to the stacks thru separate pointers.  */
+  short *yyss = yyssa;
+  /* To allow yyoverflow to reallocate them elsewhere.  */
+  YYSTYPE *yyvs = yyvsa;
 
 #ifdef YYLSP_NEEDED
-  YYLTYPE yylsa[YYINITDEPTH];	/*  the location stack			*/
+  /* The location stack.  */
+  YYLTYPE yylsa[YYINITDEPTH];
   YYLTYPE *yyls = yylsa;
   YYLTYPE *yylsp;
 
-#define YYPOPSTACK   (yyvsp--, yyssp--, yylsp--)
+# define YYPOPSTACK   (yyvsp--, yyssp--, yylsp--)
 #else
-#define YYPOPSTACK   (yyvsp--, yyssp--)
+# define YYPOPSTACK   (yyvsp--, yyssp--)
 #endif
 
   int yystacksize = YYINITDEPTH;
@@ -279,9 +286,9 @@ yyparse(YYPARSE_PARAM_ARG)
   int yychar;
   YYSTYPE yylval;
   int yynerrs;
-#ifdef YYLSP_NEEDED
+# ifdef YYLSP_NEEDED
   YYLTYPE yylloc;
-#endif
+# endif
 #endif
 
   YYSTYPE yyval;		/*  the variable used to return		*/
@@ -334,7 +341,7 @@ yynewstate:
 #ifdef yyoverflow
       /* Each stack pointer address is followed by the size of
 	 the data in use in that stack, in bytes.  */
-#ifdef YYLSP_NEEDED
+# ifdef YYLSP_NEEDED
       /* This used to be a conditional around just the two extra args,
 	 but that might be undefined if yyoverflow is a macro.  */
       yyoverflow("parser stack overflow",
@@ -342,17 +349,17 @@ yynewstate:
 		 &yyvs1, size * sizeof (*yyvsp),
 		 &yyls1, size * sizeof (*yylsp),
 		 &yystacksize);
-#else
+# else
       yyoverflow("parser stack overflow",
 		 &yyss1, size * sizeof (*yyssp),
 		 &yyvs1, size * sizeof (*yyvsp),
 		 &yystacksize);
-#endif
+# endif
 
       yyss = yyss1; yyvs = yyvs1;
-#ifdef YYLSP_NEEDED
+# ifdef YYLSP_NEEDED
       yyls = yyls1;
-#endif
+# endif
 #else /* no yyoverflow */
       /* Extend the stack our own way.  */
       if (yystacksize >= YYMAXDEPTH)
@@ -362,29 +369,29 @@ yynewstate:
 	    {
 	      free (yyss);
 	      free (yyvs);
-#ifdef YYLSP_NEEDED
+# ifdef YYLSP_NEEDED
 	      free (yyls);
-#endif
+# endif
 	    }
 	  return 2;
 	}
       yystacksize *= 2;
       if (yystacksize > YYMAXDEPTH)
 	yystacksize = YYMAXDEPTH;
-#ifndef YYSTACK_USE_ALLOCA
+# ifndef YYSTACK_USE_ALLOCA
       yyfree_stacks = 1;
-#endif
+# endif
       yyss = (short *) YYSTACK_ALLOC (yystacksize * sizeof (*yyssp));
       __yy_memcpy ((char *)yyss, (char *)yyss1,
 		   size * (unsigned int) sizeof (*yyssp));
       yyvs = (YYSTYPE *) YYSTACK_ALLOC (yystacksize * sizeof (*yyvsp));
       __yy_memcpy ((char *)yyvs, (char *)yyvs1,
 		   size * (unsigned int) sizeof (*yyvsp));
-#ifdef YYLSP_NEEDED
+# ifdef YYLSP_NEEDED
       yyls = (YYLTYPE *) YYSTACK_ALLOC (yystacksize * sizeof (*yylsp));
       __yy_memcpy ((char *)yyls, (char *)yyls1,
 		   size * (unsigned int) sizeof (*yylsp));
-#endif
+# endif
 #endif /* no yyoverflow */
 
       yyssp = yyss + size - 1;
@@ -456,9 +463,9 @@ yynewstate:
 	  fprintf (stderr, "Next token is %d (%s", yychar, yytname[yychar1]);
 	  /* Give the individual parser a way to print the precise meaning
 	     of a token, for further debugging info.  */
-#ifdef YYPRINT
+# ifdef YYPRINT
 	  YYPRINT (stderr, yychar, yylval);
-#endif
+# endif
 	  fprintf (stderr, ")\n");
 	}
 #endif

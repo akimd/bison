@@ -1,5 +1,9 @@
 2000-03-16  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.s1: Properly indent CPP directives.
+
+2000-03-16  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.s1: Properly indent the `alloca' CPP section.
 
 2000-03-16  Akim Demaille  <akim@epita.fr>
