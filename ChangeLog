@@ -1,3 +1,13 @@
+2002-05-24  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+	and Paul Eggert  <eggert@twinsun.com>
+	
+	* data/bison.simple (yyparse): Correct error handling to conform to
+	POSIX and yacc.  Specifically, after syntax error is discovered,
+	do not reduce further before shifting the error token.
+	Clean up the code a bit by removing the labels yyerrdefault,
+	yyerrhandle, yyerrpop.
+	* NEWS: Document the above.
+
 2002-05-20  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
 	* data/bison.simple (yyr1): Don't use yy_token_number_type as element
