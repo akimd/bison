@@ -1,10 +1,12 @@
 # @configure_input@					-*- shell-script -*-
 # Configurable variable values for Bison test suite.
-# Copyright 2000, 2001, 2002 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
 # We need a C compiler.
 CC='@CC@'
-CFLAGS='@CFLAGS@ @WARNING_CFLAGS@ @WERROR_CFLAGS@'
+
+# We want no optimization.
+CFLAGS='@O0CFLAGS@ @WARNING_CFLAGS@ @WERROR_CFLAGS@'
 
 # We need `config.h'.
 CPPFLAGS="-I$abs_top_builddir @CPPFLAGS@"

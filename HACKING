@@ -52,19 +52,16 @@ release:
   that 1. Bison compiles cleanly, 2. the parsers it produces compile
   cleanly too.
 
-- Change tests/bison to run `valgrind -q bison' to run Bison under
-  Valgrind.
-
-- Run the test suite with `./testsuite PREPARSER='valgrind -q' to make
-  sure the parser behave properly.
+- run `make maintainer-check' which:
+  - runs `valgrind -q bison' to run Bison under Valgrind.
+  - runs the parsers under Valdrind.
+  - runs the test suite with G++ as C compiler...
 
 - Change tests/atlocal/CFLAGS to add your preferred options.  For
   instance, `-traditional' to check that the parsers are K&R.  Note
   that it does not make sense for glr.c, which should be ANSI,
   but currently is actually GNU C, nor for lalr1.cc, which anyway is
   not exercised yet in the test suite.
-
-- Change tests/atlocal/CC to use a C++ compiler.
 
 
 * Release Procedure

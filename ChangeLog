@@ -1,5 +1,16 @@
 2002-10-13  Akim Demaille  <akim@epita.fr>
 
+	* configure.ac (AC_GNU_SOURCE): Use it instead of hand written code.
+	(O0FLAGS): New.
+	(VALGRIND, GXX): New.
+	* tests/atlocal.in (CFLAGS): Use O0FLAGS.
+	* tests/bison.in: Run $PREBISON a pre-command.
+	* tests/Makefile.am (maintainer-check, maintainer-check-valgrind)
+	(maintainer-check-g++): New.
+	* Makefile.am (maintainer-check): New.
+
+2002-10-13  Akim Demaille  <akim@epita.fr>
+
 	* data/glr.c: Formatting changes.
 	Tweak some trace messages to match yacc.c's.
 

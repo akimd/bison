@@ -22,6 +22,9 @@ SUBDIRS = config po lib data src doc m4 tests
 
 EXTRA_DIST = REFERENCES OChangeLog Makefile.maint GNUmakefile
 
+.PHONY: maintainer-check
+maintainer-check:
+	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
 
 ## ---------------------------- ##
 ## Customizing Makefile.maint.  ##

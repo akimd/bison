@@ -26,28 +26,13 @@ AC_CONFIG_AUX_DIR(config)
 AM_INIT_AUTOMAKE([1.7 check-news readme-alpha dist-bzip2])
 AC_CONFIG_HEADERS([config.h:config.hin])
 
-# Initialize the test suite.
-AC_CONFIG_TESTDIR(tests)
-AC_CONFIG_FILES([tests/Makefile tests/atlocal])
-AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
-# Needed by tests/atlocal.in.
-AC_SUBST([GCC])
-
-# Checks for programs.
+# Checks for the compiler.
 AC_PROG_CC
-AM_PROG_LEX
-AC_PROG_YACC
-AC_MINIX
+# Remove with Automake 1.8.
 AC_ISC_POSIX
+AC_GNU_SOURCE
+AC_MINIX
 AM_PROG_CC_STDC
-AC_PROG_RANLIB
-AM_MISSING_PROG([AUTOM4TE], [autom4te])
-BISON_PROG_GNU_M4
-if test x"$ac_cv_prog_gnu_m4" != xyes; then
-  AC_MSG_ERROR([GNU M4 1.4 is required])
-fi
-AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
-
 AC_ARG_ENABLE(gcc-warnings,
 [  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended)],
 [case "${enableval}" in
@@ -73,8 +58,15 @@ if test "${enableval}" = yes; then
   BISON_WARNING(-Wwrite-strings)
 fi
 
-# Checks for libraries.
-AC_DEFINE([_GNU_SOURCE],1,[Define to 1 for GNU C library extensions.])
+# Checks for programs.
+AM_PROG_LEX
+AC_PROG_YACC
+AC_PROG_RANLIB
+BISON_PROG_GNU_M4
+if test x"$ac_cv_prog_gnu_m4" != xyes; then
+  AC_MSG_ERROR([GNU M4 1.4 is required])
+fi
+AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -109,6 +101,18 @@ BISON_PREREQ_TIMEVAR
 # Gettext.
 AM_GNU_GETTEXT(external, need-ngettext)
 AM_GNU_GETTEXT_VERSION(0.11.5)
+
+# Initialize the test suite.
+AC_CONFIG_TESTDIR(tests)
+AC_CONFIG_FILES([tests/Makefile tests/atlocal])
+AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
+AC_CHECK_PROGS([VALGRIND], [valgrind])
+AC_CHECK_PROGS([GXX], [g++])
+AM_MISSING_PROG([AUTOM4TE], [autom4te])
+# Needed by tests/atlocal.in.
+AC_SUBST([GCC])
+O0CFLAGS=`echo $CFLAGS | sed 's/-O[0-9] *//'`
+AC_SUBST([O0CFLAGS])
 
 AC_CONFIG_FILES([Makefile
                  config/Makefile

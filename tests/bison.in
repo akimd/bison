@@ -5,4 +5,4 @@
 # We want to use the files shipped with Bison.
 BISON_PKGDATADIR='@abs_top_srcdir@/data'
 export BISON_PKGDATADIR
-exec '@abs_top_builddir@/src/bison' ${1+"$@"}
+exec $PREBISON '@abs_top_builddir@/src/bison' ${1+"$@"}
