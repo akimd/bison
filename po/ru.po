@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-05-25 18:12+0200\n"
+"POT-Creation-Date: 2002-05-27 08:28+0200\n"
 "PO-Revision-Date: 2002-01-25 12:19+0300\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -32,25 +32,25 @@ msgstr "предупреждение: "
 msgid "fatal error: "
 msgstr "фатальная ошибка: "
 
-#: src/conflicts.c:48
-#, c-format
-msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
+#: src/conflicts.c:67
+#, fuzzy, c-format
+msgid "    Conflict between rule %d and token %s resolved as shift"
 msgstr ""
 "Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
 
-#: src/conflicts.c:115 src/conflicts.c:137
-msgid "reduce"
-msgstr "вывод"
+#: src/conflicts.c:75
+#, fuzzy, c-format
+msgid "    Conflict between rule %d and token %s resolved as reduce"
+msgstr ""
+"Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
 
-#: src/conflicts.c:120 src/conflicts.c:132
-msgid "shift"
-msgstr "сдвиг"
+#: src/conflicts.c:82
+#, fuzzy, c-format
+msgid "    Conflict between rule %d and token %s resolved as an error"
+msgstr ""
+"Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
 
-#: src/conflicts.c:142
-msgid "an error"
-msgstr "ошибка"
-
-#: src/conflicts.c:284
+#: src/conflicts.c:362
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
@@ -58,11 +58,11 @@ msgstr[0] "%d конфликт сдвига/вывода"
 msgstr[1] "%d конфликта сдвига/вывода"
 msgstr[2] "%d конфликтов сдвига/вывода"
 
-#: src/conflicts.c:291
+#: src/conflicts.c:369
 msgid "and"
 msgstr "и"
 
-#: src/conflicts.c:297
+#: src/conflicts.c:375
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
@@ -70,31 +70,31 @@ msgstr[0] "%d конфликт вывода/вывода"
 msgstr[1] "%d конфликта вывода/вывода"
 msgstr[2] "%d конфликтов вывода/вывода"
 
-#: src/conflicts.c:322
+#: src/conflicts.c:400
 #, c-format
 msgid "State %d contains "
 msgstr "Состояние %d содержит "
 
-#: src/conflicts.c:369
+#: src/conflicts.c:447
 msgid "conflicts: "
 msgstr "конфликты: "
 
-#: src/conflicts.c:371
+#: src/conflicts.c:449
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d сдвиг/вывод"
 
-#: src/conflicts.c:375
+#: src/conflicts.c:453
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d вывод/вывод"
 
-#: src/conflicts.c:380 src/reduce.c:397
+#: src/conflicts.c:458 src/reduce.c:397
 #, c-format
 msgid "%s contains "
 msgstr "%s содержит "
 
-#: src/conflicts.c:387
+#: src/conflicts.c:465
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -111,16 +111,16 @@ msgstr "не удается открыть файл `%s'"
 msgid "cannot close file"
 msgstr "не удается закрыть файл"
 
-#: src/getargs.c:97
+#: src/getargs.c:99
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison генерирует анализаторы для грамматик LALR(1).\n"
 
-#: src/getargs.c:101
+#: src/getargs.c:103
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Использование: %s [КЛЮЧИ]... ФАЙЛ\n"
 
-#: src/getargs.c:105
+#: src/getargs.c:107
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -129,7 +129,7 @@ msgstr ""
 "является обязательным для короткой формы.  То же касается необязательных\n"
 "аргументов.\n"
 
-#: src/getargs.c:111
+#: src/getargs.c:113
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -141,7 +141,7 @@ msgstr ""
 "  -V, --version   вывести информацию о версии и выйти\n"
 "  -y, --yacc      эмулировать POSIX yacc\n"
 
-#: src/getargs.c:118
+#: src/getargs.c:120
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -161,7 +161,7 @@ msgstr ""
 "  -n, --no-parser            генерировать только таблицы\n"
 "  -k, --token-table          включить таблицу имен лексем\n"
 
-#: src/getargs.c:130
+#: src/getargs.c:132
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -177,6 +177,7 @@ msgid ""
 "  `state'        describe the states\n"
 "  `itemset'      complete the core item sets with their closure\n"
 "  `lookahead'    explicitly associate lookaheads to items\n"
+"  `solved'       describe shift/reduce conflicts solving\n"
 "  `all'          include all the above information\n"
 "  `none'         disable the report\n"
 msgstr ""
@@ -188,27 +189,27 @@ msgstr ""
 "  -g, --graph                создать также пояснения к автомату в виде \n"
 "VCG-графа\n"
 
-#: src/getargs.c:148
+#: src/getargs.c:151
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Ошибки сообщайте по адресу <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:162
+#: src/getargs.c:165
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:164
+#: src/getargs.c:167
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:168
+#: src/getargs.c:171
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:170
+#: src/getargs.c:173
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -219,17 +220,17 @@ msgstr ""
 "ПРИГОДНОСТИ\n"
 "ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ.\n"
 
-#: src/getargs.c:273
+#: src/getargs.c:276
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Используйте `%s --help' для дополнительной информации.\n"
 
-#: src/getargs.c:282
+#: src/getargs.c:285
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: не задан файл с грамматикой\n"
 
-#: src/getargs.c:286
+#: src/getargs.c:289
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: лишние аргументы после `%s' игнорированы\n"
@@ -359,36 +360,36 @@ msgstr "    НЕТ ДЕЙСТВИЙ\n"
 msgid "state %d"
 msgstr "состояние %d"
 
-#: src/print.c:395
+#: src/print.c:398
 msgid "Grammar"
 msgstr "Грамматика"
 
-#: src/print.c:396
+#: src/print.c:399
 msgid "Number, Line, Rule"
 msgstr "Номер, Строка, Правило"
 
-#: src/print.c:399
+#: src/print.c:402
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:406
+#: src/print.c:409
 msgid "empty"
 msgstr "пусто"
 
-#: src/print.c:413
+#: src/print.c:416
 msgid "Terminals, with rules where they appear"
 msgstr "Терминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:436
+#: src/print.c:439
 msgid "Nonterminals, with rules where they appear"
 msgstr "Нетерминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:462
+#: src/print.c:465
 msgid " on left:"
 msgstr " налево:"
 
-#: src/print.c:477
+#: src/print.c:480
 msgid " on right:"
 msgstr " направо:"
 
@@ -726,6 +727,15 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "reduce"
+#~ msgstr "вывод"
+
+#~ msgid "shift"
+#~ msgstr "сдвиг"
+
+#~ msgid "an error"
+#~ msgstr "ошибка"
 
 #~ msgid "%%guard present but %%semantic_parser not specified"
 #~ msgstr "%%guard присутствует, а %%semantic_parser не задан"

@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.35\n"
-"POT-Creation-Date: 2002-05-25 18:12+0200\n"
+"POT-Creation-Date: 2002-05-27 08:28+0200\n"
 "PO-Revision-Date: 2002-04-03 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -62,49 +62,51 @@ msgstr "aviso: "
 msgid "fatal error: "
 msgstr "error grave: "
 
-#: src/conflicts.c:48
-#, c-format
-msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
+#: src/conflicts.c:67
+#, fuzzy, c-format
+msgid "    Conflict between rule %d and token %s resolved as shift"
 msgstr ""
 "El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
-#: src/conflicts.c:115 src/conflicts.c:137
-msgid "reduce"
-msgstr "reduce"
+#: src/conflicts.c:75
+#, fuzzy, c-format
+msgid "    Conflict between rule %d and token %s resolved as reduce"
+msgstr ""
+"El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
+"como %s.\n"
 
-#: src/conflicts.c:120 src/conflicts.c:132
-msgid "shift"
-msgstr "desplaza"
+#: src/conflicts.c:82
+#, fuzzy, c-format
+msgid "    Conflict between rule %d and token %s resolved as an error"
+msgstr ""
+"El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
+"como %s.\n"
 
-#: src/conflicts.c:142
-msgid "an error"
-msgstr "un error"
-
-#: src/conflicts.c:284
+#: src/conflicts.c:362
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d conflicto desplazamiento/reducción"
 msgstr[1] "%d conflictos desplazamiento/reducción"
 
-#: src/conflicts.c:291
+#: src/conflicts.c:369
 msgid "and"
 msgstr "y"
 
-#: src/conflicts.c:297
+#: src/conflicts.c:375
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] " %d conflicto reducción/reducción"
 msgstr[1] " %d conflictos reducción/reducción"
 
-#: src/conflicts.c:322
+#: src/conflicts.c:400
 #, c-format
 msgid "State %d contains "
 msgstr "El estado %d contiene"
 
-#: src/conflicts.c:369
+#: src/conflicts.c:447
 msgid "conflicts: "
 msgstr "conflictos: "
 
@@ -120,7 +122,7 @@ msgstr "conflictos: "
 # ok
 # ngp
 #
-#: src/conflicts.c:371
+#: src/conflicts.c:449
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d desplazamiento(s)/reducción(ones)"
@@ -137,17 +139,17 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 #
 # ok
 # ngp
-#: src/conflicts.c:375
+#: src/conflicts.c:453
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:380 src/reduce.c:397
+#: src/conflicts.c:458 src/reduce.c:397
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
 
-#: src/conflicts.c:387
+#: src/conflicts.c:465
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -163,16 +165,16 @@ msgstr "no se puede abrir el fichero `%s'"
 msgid "cannot close file"
 msgstr "no se puede cerrar el fichero"
 
-#: src/getargs.c:97
+#: src/getargs.c:99
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genera analizadores para gramáticas LALR(1).\n"
 
-#: src/getargs.c:101
+#: src/getargs.c:103
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Utilización: %s [OPCIÓN]... FICHERO\n"
 
-#: src/getargs.c:105
+#: src/getargs.c:107
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -182,7 +184,7 @@ msgstr ""
 "para la opción corta equivalente también. De igual forma para los argumentos "
 "opcionales.\n"
 
-#: src/getargs.c:111
+#: src/getargs.c:113
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -194,7 +196,7 @@ msgstr ""
 "  -V, --version   informa de la versión y termina\n"
 "  -y, --yacc      emula POSIX yacc\n"
 
-#: src/getargs.c:118
+#: src/getargs.c:120
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -214,7 +216,7 @@ msgstr ""
 "  -n, --no-parser            solamente genera las tablas\n"
 " --k, --token-table          incluye una tabla de nombres de terminales\n"
 
-#: src/getargs.c:130
+#: src/getargs.c:132
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -230,6 +232,7 @@ msgid ""
 "  `state'        describe the states\n"
 "  `itemset'      complete the core item sets with their closure\n"
 "  `lookahead'    explicitly associate lookaheads to items\n"
+"  `solved'       describe shift/reduce conflicts solving\n"
 "  `all'          include all the above information\n"
 "  `none'         disable the report\n"
 msgstr ""
@@ -242,27 +245,27 @@ msgstr ""
 "  -g, --graph                también produce una descripción en VCG del "
 "automaton\n"
 
-#: src/getargs.c:148
+#: src/getargs.c:151
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Informe de los errores a <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:162
+#: src/getargs.c:165
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU bison) %s"
 
-#: src/getargs.c:164
+#: src/getargs.c:167
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:168
+#: src/getargs.c:171
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:170
+#: src/getargs.c:173
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -272,20 +275,20 @@ msgstr ""
 "NINGUNA garantía; ni siquiera para COMERCIALIZACIÓN o ADAPTACIÓN PARA UN\n"
 "USO PARTICULAR\n"
 
-#: src/getargs.c:273
+#: src/getargs.c:276
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Pruebe `%s --help' para más información.\n"
 
 # Me parece menos "computadora" decir "ningún fichero de gramática" - cll
 #
-#: src/getargs.c:282
+#: src/getargs.c:285
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: no se ha especificado ningún fichero de gramática\n"
 
 # Ignorar es no saber, to ignore es no hacer caso, que no es lo mismo. sv
-#: src/getargs.c:286
+#: src/getargs.c:289
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
@@ -418,36 +421,36 @@ msgstr "    SIN ACCIONES\n"
 msgid "state %d"
 msgstr "estado %d"
 
-#: src/print.c:395
+#: src/print.c:398
 msgid "Grammar"
 msgstr "Gramática"
 
-#: src/print.c:396
+#: src/print.c:399
 msgid "Number, Line, Rule"
 msgstr "Número, Línea, Regla"
 
-#: src/print.c:399
+#: src/print.c:402
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:406
+#: src/print.c:409
 msgid "empty"
 msgstr "vacío"
 
-#: src/print.c:413
+#: src/print.c:416
 msgid "Terminals, with rules where they appear"
 msgstr "Terminales con las reglas donde aparecen"
 
-#: src/print.c:436
+#: src/print.c:439
 msgid "Nonterminals, with rules where they appear"
 msgstr "No terminales con las reglas donde aparecen"
 
-#: src/print.c:462
+#: src/print.c:465
 msgid " on left:"
 msgstr " en la izquierda:"
 
-#: src/print.c:477
+#: src/print.c:480
 msgid " on right:"
 msgstr " en la derecha:"
 
@@ -825,6 +828,15 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "reduce"
+#~ msgstr "reduce"
+
+#~ msgid "shift"
+#~ msgstr "desplaza"
+
+#~ msgid "an error"
+#~ msgstr "un error"
 
 # Insisto, el empleo de participios a secas me parece como hablar en
 # indio. Por favor, permíteme que añada un "está" :) - cll
