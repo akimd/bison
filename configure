@@ -5245,7 +5245,7 @@ _ACEOF
 
   fi
 
-for ac_func in isascii iswprint mbrtowc
+for ac_func in isascii iswprint mbsinit
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $ac_func" >&5
@@ -5320,7 +5320,60 @@ _ACEOF
 fi
 done
 
-for ac_header in limits.h stdlib.h string.h wchar.h wctype.h
+  echo "$as_me:$LINENO: checking whether mbrtowc and mbstate_t are properly declared" >&5
+echo $ECHO_N "checking whether mbrtowc and mbstate_t are properly declared... $ECHO_C" >&6
+if test "${jm_cv_func_mbrtowc+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+#include "confdefs.h"
+#include <wchar.h>
+#ifdef F77_DUMMY_MAIN
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int F77_DUMMY_MAIN() { return 1; }
+#endif
+int
+main ()
+{
+mbstate_t state; return ! (sizeof state && mbrtowc);
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  jm_cv_func_mbrtowc=yes
+else
+  echo "$as_me: failed program was:" >&5
+cat conftest.$ac_ext >&5
+jm_cv_func_mbrtowc=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $jm_cv_func_mbrtowc" >&5
+echo "${ECHO_T}$jm_cv_func_mbrtowc" >&6
+  if test $jm_cv_func_mbrtowc = yes; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_MBRTOWC 1
+_ACEOF
+
+  fi
+
+for ac_header in limits.h stddef.h stdlib.h string.h wchar.h wctype.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then

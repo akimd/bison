@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-09-27 10:55+0200\n"
+"POT-Creation-Date: 2001-09-27 16:21+0200\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -799,11 +799,11 @@ msgstr "%s: geen geheugen meer beschikbaar\n"
 #. MARK).  A British English Unicode locale should instead
 #. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
 #. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
-#: lib/quotearg.c:259
+#: lib/quotearg.c:268
 msgid "`"
 msgstr ""
 
-#: lib/quotearg.c:260
+#: lib/quotearg.c:269
 msgid "'"
 msgstr ""
 

@@ -1,3 +1,17 @@
+2001-09-27  Paul Eggert  <eggert@twinsun.com>
+
+	Port quotearg fixes from tar 1.13.24.
+
+	* lib/quotearg.c: BSD/OS 4.1 wchar.h requires FILE and struct
+	tm to be declared.
+	(HAVE_MBSINIT): Undef if !HAVE_MBRTOWC.
+	(mbsinit): Define to 1 if !defined mbsinit && !HAVE_MBSINIT.
+
+	* m4/Makefile.am (EXTRA_DIST): Add mbrtowc.m4.
+	* m4/mbrtowc.m4: New file.
+	* m4/prereq.m4 (jm_PREREQ_QUOTEARG): Check for mbsinit and stddef.h.
+	Use jm_FUNC_MBRTOWC instead of AC_CHECK_FUNCS(mbrtowc).
+
 2001-09-27  Akim Demaille  <akim@epita.fr>
 
 	Bump to 1.29c.

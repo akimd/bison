@@ -788,19 +788,39 @@ AC_DEFUN(jm_FUNC_REALLOC,
   fi
 ])
 
-#serial 1
+#serial 2
 
 dnl These are the prerequisite macros for files in the lib/
 dnl directories of Bison.
 
 AC_DEFUN([jm_PREREQ_QUOTEARG],
 [
-  AC_CHECK_FUNCS(isascii iswprint mbrtowc)
-  AC_CHECK_HEADERS(limits.h stdlib.h string.h wchar.h wctype.h)
+  AC_CHECK_FUNCS(isascii iswprint mbsinit)
+  jm_FUNC_MBRTOWC
+  AC_CHECK_HEADERS(limits.h stddef.h stdlib.h string.h wchar.h wctype.h)
   AC_HEADER_STDC
   AC_C_BACKSLASH_A
   AC_MBSTATE_T
   AM_C_PROTOTYPES
+])
+
+#serial 4
+
+dnl From Paul Eggert
+
+AC_DEFUN([jm_FUNC_MBRTOWC],
+[
+  AC_CACHE_CHECK([whether mbrtowc and mbstate_t are properly declared],
+    jm_cv_func_mbrtowc,
+    [AC_TRY_LINK(
+       [#include <wchar.h>],
+       [mbstate_t state; return ! (sizeof state && mbrtowc);],
+       jm_cv_func_mbrtowc=yes,
+       jm_cv_func_mbrtowc=no)])
+  if test $jm_cv_func_mbrtowc = yes; then
+    AC_DEFINE(HAVE_MBRTOWC, 1,
+      [Define to 1 if mbrtowc and mbstate_t are properly declared.])
+  fi
 ])
 
 #serial 3

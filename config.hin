@@ -113,8 +113,11 @@
 /* Define if you have the <malloc.h> header file. */
 #undef HAVE_MALLOC_H
 
-/* Define if you have the `mbrtowc' function. */
+/* Define to 1 if mbrtowc and mbstate_t are properly declared. */
 #undef HAVE_MBRTOWC
+
+/* Define if you have the `mbsinit' function. */
+#undef HAVE_MBSINIT
 
 /* Define if you have the `memchr' function. */
 #undef HAVE_MEMCHR
