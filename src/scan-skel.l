@@ -30,30 +30,46 @@
 
 int skel_lex (void);
 
-static int yylineno = 1;
-static char *yyoutname = NULL;
-
 %}
 %%
-  /* This is an approximation, but we don't need more. */
-^"#output \""[^\"]+\"\n        {
-     yytext[yyleng - 2] = '\0';
-     XFREE (yyoutname);
-     yyoutname = xstrdup (yytext + strlen ("#output \""));
-     yyout = xfopen (yyoutname, "w");
-     yylineno = 1;
-   }
 
-"@<:@"           fputc ('[', yyout);
-"@:>@"           fputc (']', yyout);
+%{
+  int lineno IF_LINT (= 0);
+  char *outname = NULL;
+%}
 
-"__oline__"      fprintf (yyout, "%d", yylineno+1);
-"__ofile__"      fprintf (yyout, "%s", quotearg_style (escape_quoting_style, yyoutname));
-[^@_\n]+         ECHO;
-\n+              yylineno += yyleng; ECHO;
-.                ECHO;
+"@output ".*\n {
+  char const *filename = yytext + sizeof "@output " - 1;
+  yytext[yyleng - 1] = '\0';
 
-<<EOF>>          xfclose (yyout); free (yyoutname); return EOF;
+  if (*filename == '@')
+    {
+      if (strcmp (filename, "@output_header_name@") == 0)
+	filename = spec_defines_file;
+      else if (strcmp (filename, "@output_parser_name@") == 0)
+	filename = parser_file_name;
+      else
+	abort ();
+    }
+
+  XFREE (outname);
+  outname = xstrdup (filename);
+  yyout = xfopen (outname, "w");
+  lineno = 1;
+}
+
+"@@"	   fputc ('@', yyout);
+"@{"	   fputc ('[', yyout);
+"@}"	   fputc (']', yyout);
+
+"@oline@"  fprintf (yyout, "%d", lineno);
+"@ofile@"  fputs (quotearg_style (c_quoting_style, outname), yyout);
+
+"@"	   abort ();
+\n	   lineno++; ECHO;
+.	   ECHO;
+
+<<EOF>>	   xfclose (yyout); free (outname); return EOF;
 %%
 
 /*------------------------.
