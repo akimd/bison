@@ -1,5 +1,10 @@
 2001-08-15  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo (Table of Symbols): Document
+	YYSTACK_USE_ALLOCA.
+
+2001-08-15  Akim Demaille  <akim@epita.fr>
+
 	* missing: Update from CVS Automake.
 	* config/config.guess, config/config.sub, config/texinfo.tex:
 	Update from gnu.org.

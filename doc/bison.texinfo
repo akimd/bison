@@ -3045,6 +3045,21 @@ This output file is essential if you wish to put the definition of
 be able to refer to token type codes and the variable
 @code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.@refill
 
+@c @item %source_extension
+@c Specify the extension of the parser output file.
+@c
+@c For example, a grammar file named @file{foo.yy} and containing a
+@c @code{%source_extension .cpp} directive will produce a parser file
+@c named @file{foo.tab.cpp}
+@c
+@c @item %header_extension
+@c Specify the extension of the parser header file generated when
+@c @code{%define} or @samp{-d} are used.
+@c
+@c For example, a garmmar file named @file{foo.ypp} and containing a
+@c @code{%header_extension .hh} directive will produce a header file
+@c named @file{foo.tab.hh}
+
 @item %verbose
 Write an extra output file containing verbose descriptions of the
 parser states and what is done for each type of look-ahead token in
@@ -5052,6 +5067,12 @@ accept.  @xref{Pure Calling,, Calling Conventions for Pure Parsers}.
 Macro whose value indicates whether the parser is recovering from a
 syntax error.  @xref{Action Features, ,Special Features for Use in Actions}.
 
+@item YYSTACK_USE_ALLOCA
+Macro used to control the use of @code{alloca}. If defined to @samp{0},
+the parser will not use @code{alloca} but @code{malloc} when trying to
+grow its internal stacks. Do @emph{not} define @code{YYSTACK_USE_ALLOCA}
+to anything else.
+
 @item YYSTYPE
 Macro for the data type of semantic values; @code{int} by default.
 @xref{Value Type, ,Data Types of Semantic Values}.
@@ -5114,6 +5135,14 @@ Equip the parser for debugging.  @xref{Decl Summary}.
 @item %defines
 Bison declaration to create a header file meant for the scanner.
 @xref{Decl Summary}.
+
+@c @item %source_extension
+@c Bison declaration to specify the generated parser output file extension.
+@c @xref{Decl Summary}.
+@c
+@c @item %header_extension
+@c Bison declaration to specify the generated parser header file extension
+@c if required. @xref{Decl Summary}.
 
 @item %left
 Bison declaration to assign left associativity to token(s).
@@ -5350,11 +5379,11 @@ grammatically indivisible.  The piece of text it represents is a token.
 
 @node Copying This Manual, Index, Glossary, Top
 @appendix Copying This Manual
-   
+
 @menu
 * GNU Free Documentation License::  License for copying this manual.
 @end menu
-   
+
 @include fdl.texi
 
 @node Index,  , Copying This Manual, Top
