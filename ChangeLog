@@ -1,5 +1,10 @@
 2002-06-20  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.simple (YYLEX): Fix the declaration when
+	%pure-parser.
+
+2002-06-20  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple (yysymprint): Don't print the token number,
 	just its name.
 	* tests/actions.at (Destructors): Rename as...
