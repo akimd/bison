@@ -1,3 +1,8 @@
+2004-05-28  Albert Chin-A-Young  <china@thewrittenword.com>
+
+	* tests/calc.at, tests/actions.at: Workaround for SGI
+	C++ compiler.  (trivial change)
+
 2004-05-27  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Spent a few hours checking out which prerequisite versions the

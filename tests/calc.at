@@ -144,7 +144,7 @@ yy::Parser::error_ ()
 int
 yyparse (AT_PARAM_IF([semantic_value *result, int *count]))
 {
-  yy::Parser parser (!!YYDEBUG[]AT_LOCATION_IF([, yy::Location::Location ()])AT_PARAM_IF([, result, count]));
+  yy::Parser parser (!!YYDEBUG[]AT_LOCATION_IF([, yy::Location ()])AT_PARAM_IF([, result, count]));
   return parser.parse ();
 }
 ],
