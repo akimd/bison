@@ -1,8 +1,7 @@
 # -*-Makefile-*-
-# This Makefile fragment is shared between fileutils, sh-utils, textutils,
-# CPPI, Bison, and Autoconf.
+# This Makefile fragment is shared between Autoconf and Bison.
 
-## Copyright 2001 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -81,14 +80,11 @@ po-update:
 # with each of the files that belongs to some other package and is
 # regularly updated from the specified URL.
 wget_files ?= $(srcdir)/config.guess $(srcdir)/config.sub \
-              $(srcdir)/src/ansi2knr.c \
 	      $(srcdir)/doc/texinfo.tex
 wget-targets = $(patsubst %, get-%, $(wget_files))
 
 config.guess-url_prefix = $(ftp-gnu)/config/
 config.sub-url_prefix = $(ftp-gnu)/config/
-
-ansi2knr.c-url_prefix = ftp://ftp.cs.wisc.edu/ghost/
 
 texinfo.tex-url_prefix = $(ftp-gnu)/texinfo/
 
