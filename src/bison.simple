@@ -396,12 +396,11 @@ while (0)
 
 # ifndef YYFPRINTF
 #  ifdef __cplusplus
-#   include <cstdio.h> /* INFRINGES ON USER NAME SPACE */
+#   include <cstdio>  /* INFRINGES ON USER NAME SPACE */
 #  else
 #   include <stdio.h> /* INFRINGES ON USER NAME SPACE */
 #  endif
 #  define YYFPRINTF YYSTD (fprintf)
-#  define YYSTDERR YYSTD (stderr)
 # endif
 
 # define YYDPRINTF(Args)			\
@@ -641,7 +640,7 @@ yyparse (YYPARSE_PARAM_ARG)
      rule.  */
   int yylen;
 
-  YYDPRINTF ((YYSTDERR, "Starting parse\n"));
+  YYDPRINTF ((stderr, "Starting parse\n"));
 
   yystate = 0;
   yyerrstatus = 0;
@@ -737,14 +736,14 @@ yyparse (YYPARSE_PARAM_ARG)
       yylsp = yyls + yysize - 1;
 #endif
 
-      YYDPRINTF ((YYSTDERR, "Stack size increased to %lu\n",
+      YYDPRINTF ((stderr, "Stack size increased to %lu\n",
 		  (unsigned long int) yystacksize));
 
       if (yyssp >= yyss + yystacksize - 1)
 	YYABORT;
     }
 
-  YYDPRINTF ((YYSTDERR, "Entering state %d\n", yystate));
+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
   goto yybackup;
 
@@ -770,7 +769,7 @@ yybackup:
 
   if (yychar == YYEMPTY)
     {
-      YYDPRINTF ((YYSTDERR, "Reading a token: "));
+      YYDPRINTF ((stderr, "Reading a token: "));
       yychar = YYLEX;
     }
 
@@ -781,7 +780,7 @@ yybackup:
       yychar1 = 0;
       yychar = YYEOF;		/* Don't call YYLEX any more.  */
 
-      YYDPRINTF ((YYSTDERR, "Now at end of input.\n"));
+      YYDPRINTF ((stderr, "Now at end of input.\n"));
     }
   else
     {
@@ -792,14 +791,14 @@ yybackup:
 	which are defined only if `YYDEBUG' is set.  */
       if (yydebug)
 	{
-	  YYFPRINTF (YYSTDERR, "Next token is %d (%s",
+	  YYFPRINTF (stderr, "Next token is %d (%s",
 		     yychar, yytname[yychar1]);
 	  /* Give the individual parser a way to print the precise
 	     meaning of a token, for further debugging info.  */
 # ifdef YYPRINT
-	  YYPRINT (YYSTDERR, yychar, yylval);
+	  YYPRINT (stderr, yychar, yylval);
 # endif
-	  YYFPRINTF (YYSTDERR, ")\n");
+	  YYFPRINTF (stderr, ")\n");
 	}
 #endif
     }
@@ -831,7 +830,7 @@ yybackup:
     YYACCEPT;
 
   /* Shift the lookahead token.  */
-  YYDPRINTF ((YYSTDERR, "Shifting token %d (%s), ",
+  YYDPRINTF ((stderr, "Shifting token %d (%s), ",
 	      yychar, yytname[yychar1]));
 
   /* Discard the token being shifted unless it is eof.  */
@@ -893,13 +892,13 @@ yyreduce:
     {
       int yyi;
 
-      YYFPRINTF (YYSTDERR, "Reducing via rule %d (line %d), ",
+      YYFPRINTF (stderr, "Reducing via rule %d (line %d), ",
 		 yyn - 1, yyrline[yyn]);
 
       /* Print the symbols being reduced, and their result.  */
       for (yyi = yyprhs[yyn]; yyrhs[yyi] >= 0; yyi++)
-	YYFPRINTF (YYSTDERR, "%s ", yytname[yyrhs[yyi]]);
-      YYFPRINTF (YYSTDERR, " -> %s\n", yytname[yyr1[yyn]]);
+	YYFPRINTF (stderr, "%s ", yytname[yyrhs[yyi]]);
+      YYFPRINTF (stderr, " -> %s\n", yytname[yyr1[yyn]]);
     }
 #endif
   switch (yyn)
@@ -920,10 +919,10 @@ yyreduce:
   if (yydebug)
     {
       short *yyssp1 = yyss - 1;
-      YYFPRINTF (YYSTDERR, "state stack now");
+      YYFPRINTF (stderr, "state stack now");
       while (yyssp1 != yyssp)
-	YYFPRINTF (YYSTDERR, " %d", *++yyssp1);
-      YYFPRINTF (YYSTDERR, "\n");
+	YYFPRINTF (stderr, " %d", *++yyssp1);
+      YYFPRINTF (stderr, "\n");
     }
 #endif
 
@@ -1019,7 +1018,7 @@ yyerrlab1:
       /* Return failure if at end of input.  */
       if (yychar == YYEOF)
 	YYABORT;
-      YYDPRINTF ((YYSTDERR, "Discarding token %d (%s).\n",
+      YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
 		  yychar, yytname[yychar1]));
       yychar = YYEMPTY;
     }
@@ -1065,10 +1064,10 @@ yyerrpop:
   if (yydebug)
     {
       short *yyssp1 = yyss - 1;
-      YYFPRINTF (YYSTDERR, "Error: state stack now");
+      YYFPRINTF (stderr, "Error: state stack now");
       while (yyssp1 != yyssp)
-	YYFPRINTF (YYSTDERR, " %d", *++yyssp1);
-      YYFPRINTF (YYSTDERR, "\n");
+	YYFPRINTF (stderr, " %d", *++yyssp1);
+      YYFPRINTF (stderr, "\n");
     }
 #endif
 
@@ -1098,7 +1097,7 @@ yyerrhandle:
   if (yyn == YYFINAL)
     YYACCEPT;
 
-  YYDPRINTF ((YYSTDERR, "Shifting error token, "));
+  YYDPRINTF ((stderr, "Shifting error token, "));
 
   *++yyvsp = yylval;
 #if YYLSP_NEEDED

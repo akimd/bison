@@ -1,5 +1,14 @@
 2002-01-03  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.simple (YYSTDERR): Remove, replace `stderr'.
+	The ISO C++ standard is extremely clear about it: stderr is
+	considered a macro, not a regular symbol (see table 94 `Header
+	<cstdio> synopsis', [lib.c.files] 27.8.2 C Library files).
+	Therefore std:: does not apply to it.  It still does with fprintf.
+	Also, s/cstdio.h/cstdio/.
+
+2002-01-03  Akim Demaille  <akim@epita.fr>
+
 	* lib/quotearg.c: Use `#include "..."' instead of `#include <...>'
 	for non system headers.
 
