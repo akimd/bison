@@ -67,6 +67,8 @@ do {							\
 	print_token_value (File, Type, &Value)
 static void print_token_value (FILE *file, int type, YYSTYPE const *value);
 
+static void add_param (char const *, char const *, location_t);
+
 symbol_class current_class = unknown_sym;
 struniq_t current_type = 0;
 symbol_t *current_lhs;
@@ -141,7 +143,6 @@ braced_code_t current_braced_code = action_braced_code;
 %token EQUAL           "="
 %token SEMICOLON       ";"
 %token COLON           ":"
-%token COMMA           ","
 %token PIPE            "|"
 %token ID              "identifier"
 %token PERCENT_PERCENT "%%"
@@ -184,20 +185,12 @@ declaration:
 | "%expect" INT                            { expected_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
 | "%glr-parser" 			   { glr_parser = 1; }
-| "%lex-param" code_content "," code_content
-                           {
-			     muscle_pair_list_grow ("lex_param", $2, $4);
-			     scanner_last_string_free ();
-			   }
+| "%lex-param" code_content		   { add_param ("lex_param", $2, @2); }
 | "%locations"                             { locations_flag = 1; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
 | "%no-lines"                              { no_lines_flag = 1; }
 | "%output" "=" string_content             { spec_outfile = $3; }
-| "%parse-param" code_content "," code_content
-                           {
-			     muscle_pair_list_grow ("parse_param", $2, $4);
-			     scanner_last_string_free ();
-			   }
+| "%parse-param" code_content		{ add_param ("parse_param", $2, @2); }
 | "%pure-parser"                           { pure_parser = 1; }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = 1; }
@@ -435,6 +428,44 @@ semi_colon.opt:
 | ";"
 ;
 %%
+static void
+add_param (char const *type, char const *decl, location_t loc)
+{
+  static char const alphanum[] =
+    "0123456789"
+    "abcdefghijklmnopqrstuvwxyz"
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "_";
+  char const *alpha = alphanum + 10;
+  char const *name_start = NULL;
+  char const *p;
+
+  for (p = decl; *p; p++)
+    if ((p == decl || ! strchr (alphanum, p[-1])) && strchr (alpha, p[0]))
+      name_start = p;
+
+  if (! name_start)
+    complain_at (loc, _("missing identifier in parameter declaration"));
+  else
+    {
+      char *name;
+      size_t name_len;
+
+      for (name_len = 1;
+	   name_start[name_len] && strchr (alphanum, name_start[name_len]);
+	   name_len++)
+	continue;
+
+      name = xmalloc (name_len + 1);
+      memcpy (name, name_start, name_len);
+      name[name_len] = '\0';
+      muscle_pair_list_grow (type, decl, name);
+      free (name);
+    }
+
+  scanner_last_string_free ();
+}
+
 /*------------------------------------------------------------------.
 | When debugging the parser, display tokens' locations and values.  |
 `------------------------------------------------------------------*/
