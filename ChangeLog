@@ -1,3 +1,8 @@
+2002-11-04  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* src/tables.c (matching_state): Don't allow states to match if 
+	either has GLR conflict entries.
+	
 2002-11-05  Paul Eggert  <eggert@twinsun.com>
 
 	Scan <% and %> digraphs in C code as POSIX 1003.1-2001 requires.
@@ -184,6 +189,12 @@
 	* src/system.h: Don't use #ifdef/#ifndef on HAVE_ values, only
 	#if.
 
+2002-10-29  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* tests/glr-regr1.at: New test for reported regressions.
+	* tests/testsuite.at: Add glr-regr1.at test.
+	* tests/Makefile.am: Add glr-regr1.at test.
+	
 2002-10-24  Paul Eggert  <eggert@twinsun.com>
 
 	Version 1.75a.
