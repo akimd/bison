@@ -36,7 +36,7 @@ MAKEINFO = makeinfo
 DEFS = @DEFS@
 
 CFLAGS = -g
-LDFLAGS = -g
+LDFLAGS =
 
 LIBS = @LIBS@
 
@@ -146,7 +146,7 @@ check:
 	@echo "No checks implemented (yet)."
 
 bison: $(OBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS)
+	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
 
 dist: bison.info
 	echo bison-`sed -e '/version_string/!d' -e 's/[^0-9.]*\([0-9.]*\).*/\1/' -e q version.c` > .fname
