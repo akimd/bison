@@ -1,5 +1,10 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_skeleton): tempdir is const.
+	bytes_read is unused.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* lib/bbitset.h, lib/bitset.c, lib/bitset.h, lib/bitsetv.c,
 	* lib/bitsetv.h, lib/ebitset.c, lib/lbitset.c, lib/sbitset.c:
 	Update.
