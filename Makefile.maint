@@ -355,7 +355,7 @@ wget-update: $(get-targets)
 cvs-update:
 	for f in $(cvs_files); do				      \
 	  test -f $$f || { echo "*** skipping $$f" 1>&2; continue; }; \
-	  file=$$(basename $$f);				      \
+	  file=`basename $$f`;					      \
 	  echo checking out $$file...;				      \
 	  $(CVS) -d $(automake_repo) co -p automake/lib/$$file> $$f.t \
 	    && $(move_if_change) $$f.t $$f;			      \
