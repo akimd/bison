@@ -21,6 +21,8 @@
 #ifndef OUTPUT_H_
 # define OUTPUT_H_
 
+extern int error_verbose;
+
 /* Output the parsing tables and the parser code to FTABLE.  */
 void output PARAMS ((void));
 

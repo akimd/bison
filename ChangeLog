@@ -1,5 +1,23 @@
 2001-11-28  Marc Autret  <autret_m@epita.fr>
 
+	* src/output.h: And put its extern declaration here.
+	* src/output.c (error_verbose): Define here.
+	(prepare): Echo name modification.
+	* src/getargs.h: Clean its extern declaration.
+	* src/getargs.c (error_verbose_flag): Remove.
+	(getargs): Remove case 'e'.
+	* src/options.c (option_table): 'error-verbose' is now seen as simple
+	percent option.
+	Include output.h.
+
+	* src/reader.c (read_declarations): Remove case tok_include.
+	(parse_include_decl): Remove.
+	* src/lex.h (token_t): Remove tok_include.
+	* src/options.c (option_table): 'include' is now a simple command line
+	option.
+
+2001-11-28  Marc Autret  <autret_m@epita.fr>
+
 	* src/bison.simple: Adjust muscle names.
 	* src/muscle_tab.c (muscle_init): Also rename the muscles.
 	* src/output.c (prepare): s/_/-/ for the muscles names.
