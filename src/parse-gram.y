@@ -94,7 +94,7 @@ braced_code_t current_braced_code = action_braced_code;
   assoc_t assoc;
 };
 
-/* Define the tokens together with there human representation. */
+/* Define the tokens together with their human representation.  */
 %token GRAM_EOF 0 "end of string"
 %token STRING CHARACTER
 %token INT
