@@ -105,6 +105,8 @@ m4_define([b4_constructor],
 		    [])])
 
 
+# We do want M4 expansion after # for CPP macros.
+m4_changecom()
 m4_divert(0)dnl
 #output "b4_output_header_name"
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],

@@ -1,5 +1,12 @@
 2002-10-24  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_skeleton): Don't disable M4sugar comments
+	too soon: it results in comments being expanded.
+	* data/yacc.c, data/glr.c, data/lalr1.cc: Do it right before the
+	first output.
+
+2002-10-24  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.c (m4_int_type): New.
 	* data/c.m4 (m4_int_type): Don't use yysigned_char, but `signed
 	char' as only yacc.c wants K&R portability.
