@@ -1,5 +1,17 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (insert_start_shift): Rename as...
+	(insert_start_shifting_state): this.
+	(insert_eof_shifting_state, insert_accepting_state): New.
+	(augment_automaton): Adjust.
+	Better locality of the variables.
+	When looking if the start_symbol is shifted from the initial
+	state, using `while (... symbol != start_symbol ...)' sounds
+	better than `while (... symbol < start_symbol ...)': If fail
+	to see how the order between symbols could be relevant!
+
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.h: Don't declare `spec_name_prefix' and
 	`spec_file_prefix', declared by src/files.h.
 	* src/files.c, src/files.h: Default for spec_name_prefix is "yy".
