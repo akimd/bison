@@ -1,5 +1,12 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c, src/conflicts.c, src/lalr.c, src/print.c,
+	* src/reduce.c: Remove the `bitset_zero's following the
+	`bitset_create's, as now it is performed by the latter.
+
+	
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* lib/bitset.c, lib/bitset.h, lib/bitsetv.c, lib/bitsetv.h,
 	* lib/ebitset.c, lib/ebitset.h, lib/lbitset.c, lib/lbitset.h,
 	* lib/sbitset.c, lib/sbitset.h, lib/bbitset.h: Update from the
