@@ -429,6 +429,7 @@ yy::]b4_parser_class_name[::symprint_ (int yytype,
   (void) yylocationp;
   /* Backward compatibility, but should be removed eventually. */
   std::ostream& cdebug_ = *yycdebug_;
+  (void) cdebug_;
 
   *yycdebug_ << (yytype < ntokens_ ? "token" : "nterm")
 	     << ' ' << name_[yytype] << " ("

@@ -1,4 +1,8 @@
-2004-11-17  Akim Demaille  <akim@epita.fr>,
+2004-11-17  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc (symprint_): Use cdebug_ to avoid warnings.
+
+2004-10-28  Akim Demaille  <akim@epita.fr>,
 	    Alexandre Duret-Lutz <adl@gnu.org>
 
 	* data/lalr1.cc (Parser::yycdebug_): New, a pointer, to allow
