@@ -29,9 +29,6 @@
 
 extern FILE *finput;   /* read grammar specifications */
 extern FILE *foutput;  /* optionally output messages describing the actions taken */
-extern FILE *fdefines; /* optionally output #define's for token numbers. */
-extern FILE *ftable;   /* output the tables and the parser */
-		       /* and also contains all the %{ ... %} definitions.  */
 extern FILE *fguard;   /* if semantic parser, output yyguard, containing all the guard code */
 extern FILE *fparser;  /* read the parser to copy into ftable */
 
@@ -48,6 +45,14 @@ extern struct obstack action_obstack;
 
 /* If semantic parser, output a .h file that defines YYSTYPE */
 extern struct obstack attrs_obstack;
+
+/* Output the tables and the parser and also contains all the %{
+   ... %} definitions.  */
+extern struct obstack table_obstack;
+
+/* optionally output #define's for token numbers. */
+extern struct obstack defines_obstack;
+
 
 extern char *infile;
 extern int lineno;

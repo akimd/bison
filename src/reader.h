@@ -1,5 +1,5 @@
 /* Input parser for bison
-   Copyright (C) 2000 Free Software Foundation, Inc.
+   Copyright 2000 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -30,7 +30,7 @@
 extern void reader PARAMS ((void));
 
 
-extern void reader_output_yylsp PARAMS ((FILE *));
+extern void reader_output_yylsp PARAMS ((struct obstack *));
 
 extern int lineno;
 extern char **tags;

@@ -187,3 +187,10 @@ do {						\
   sprintf (buf, Format, Arg1, Arg2);		\
   obstack_grow (Obs, buf, strlen (buf));	\
 } while (0)
+
+#define obstack_fgrow3(Obs, Format, Arg1, Arg2, Arg3)	\
+do {							\
+  char buf[4096];					\
+  sprintf (buf, Format, Arg1, Arg2, Arg3);		\
+  obstack_grow (Obs, buf, strlen (buf));		\
+} while (0)

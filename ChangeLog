@@ -1,3 +1,17 @@
+2000-11-02  Akim Demaille  <akim@epita.fr>
+
+	Remove the last uses of mktemp and unlink/delete.
+
+	* src/files.c (fdefines, ftable): Removed.
+	(defines_ostack, table_obstack): New.
+	Adjust dependencies of the former into uses of the latter.
+	* src/output.c (output_short_or_char_table, output_short_table):
+	Convert to using obstacks.
+	* src/reader.c (copy_comment2): Accept one FILE * and two
+	obstacks.
+	(output_token_defines, reader_output_yylsp): Use obstacks.
+	* src/system.h (obstack_fgrow3): New.
+
 2000-11-01  Akim Demaille  <akim@epita.fr>
 
 	Change each use of `fattrs' into a use of `attrs_obstack'.
