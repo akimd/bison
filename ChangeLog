@@ -1,3 +1,7 @@
+2003-01-09  Akim Demaille  <akim@epita.fr>
+
+	* src/Makefile.am, lib/Makefile.am: Use $(VAR) instead of @VAR@.
+
 2003-01-08  Paul Eggert  <eggert@twinsun.com>
 
 	* Makefile.maint (WGETFLAGS):

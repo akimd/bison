@@ -17,7 +17,7 @@
 
 AM_CFLAGS = $(WARNING_CFLAGS)
 
-lib_LIBRARIES = @YACC_LIBRARY@
+lib_LIBRARIES = $(YACC_LIBRARY)
 EXTRA_LIBRARIES = liby.a
 noinst_LIBRARIES = libbison.a
 
@@ -60,5 +60,5 @@ additional_bitsets_sources = \
 timevars_sources = \
 	timevar.h timevar.c timevar.def
 
-libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
+libbison_a_LIBADD = $(LIBOBJS) $(ALLOCA)
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)

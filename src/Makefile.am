@@ -29,7 +29,7 @@ INCLUDES = -I$(top_builddir)      \
 LDADD = ../lib/libbison.a $(LIBINTL)
 
 bin_PROGRAMS = bison
-bin_SCRIPTS = @YACC_SCRIPT@
+bin_SCRIPTS = $(YACC_SCRIPT)
 EXTRA_SCRIPTS = yacc
 
 bison_SOURCES = 				  \
