@@ -1,3 +1,11 @@
+2001-12-17  Paul Eggert  <eggert@twinsun.com>
+
+	* NEWS, doc/bison.texinfo, doc/bison.1, doc/bison.rnh: Document that
+	YYDEBUG must be defined to a nonzero value.
+
+	* src/bison.simple (yytname): Do not assume that the user defines
+	YYDEBUG to a properly parenthesized expression.
+
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h (state_t): Rename lookaheads as lookaheadsp.
