@@ -500,9 +500,11 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input.c input.y])
-AT_LALR1_CC_IF([AT_COMPILE_CXX([input])],
-               [AT_COMPILE([input])])
+AT_LALR1_CC_IF(
+  [AT_CHECK([bison -o input.cc input.y])
+   AT_COMPILE_CXX([input])],
+  [AT_CHECK([bison -o input.c input.y])
+   AT_COMPILE([input])])
 AT_PARSER_CHECK([./input], 1,
 [[sending: 'x' (0@0-9)
 thing (0@0-9): 'x' (0@0-9)

@@ -442,11 +442,11 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
 
-# Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison -o calc.c calc.y])
-
-AT_LALR1_CC_IF([AT_COMPILE_CXX([calc])],
-               [AT_COMPILE([calc])])
+AT_LALR1_CC_IF(
+  [AT_CHECK([bison -o calc.cc calc.y])
+   AT_COMPILE_CXX([calc])],
+  [AT_CHECK([bison -o calc.c calc.y])
+   AT_COMPILE([calc])])
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],

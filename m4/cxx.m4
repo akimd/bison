@@ -29,7 +29,8 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
       [AC_LANG_PROGRAM(
 	 [#include <iostream>
 	  using namespace std;],
-         [cout << "";])],
+         [std::cerr << "";
+          cout << "";])],
       [bison_cv_cxx_works=yes],
       [bison_cv_cxx_works=no],
       [bison_cv_cxx_works=cross])

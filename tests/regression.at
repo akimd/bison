@@ -780,8 +780,11 @@ m4_define([AT_CHECK_DANCER],
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_DANCER_Y([$1])
 AT_CHECK([bison -o dancer.c dancer.y])
-AT_LALR1_CC_IF([AT_COMPILE_CXX([dancer])],
-               [AT_COMPILE([dancer])])
+AT_LALR1_CC_IF(
+  [AT_CHECK([bison -o dancer.cc dancer.y])
+   AT_COMPILE_CXX([dancer])],
+  [AT_CHECK([bison -o dancer.c dancer.y])
+   AT_COMPILE([dancer])])
 AT_PARSER_CHECK([./dancer], 1, [],
 [syntax error, unexpected ':'
 ])

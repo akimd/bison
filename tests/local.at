@@ -173,13 +173,13 @@ m4_define([AT_COMPILE],
 [AT_CHECK([$CC $CFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])m4_default([$2], [$1.c]) m4_bmatch([$1], [[.]], [], [$LIBS ])-o $1],
 	   0, [ignore], [ignore])])
 
-# AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.c])
+# AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.cc])
 # --------------------------------------------
 # If the C++ compiler does not work, ignore the test.
 m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS(c++)
 AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
-AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_default([$2], [$1.c]) -o $1],
+AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_default([$2], [$1.cc]) -o $1],
          0, [ignore], [ignore])])
 
 
