@@ -64,6 +64,12 @@
   return '\n';
 }
 
+  /* White spaces.  */
+[\t ]+ {
+  yylval.literal = yytext;
+  return BLANKS;
+}
+
   /* Plain Character.  */
 . {
   yylval.character = *yytext;

@@ -50,12 +50,20 @@ static int yyerror PARAMS ((const char* error));
 {
   char *muscle;
   char *string;
+  char *literal;
   char character;
   int yacc;
 }
 
+/* Name of a muscle. */
 %token <muscle> MUSCLE
+/* A string dedicated to Bison (%%"foo").  */
 %token <string> STRING
+/* Raw data, to output directly. */
+%token <literal> RAW
+/* Spaces. */
+%token <literal> BLANKS
+/* Raw data, but char by char. */
 %token <character> CHARACTER
 
 %token LINE
@@ -81,7 +89,7 @@ skeleton : /* Empty.  */    { }
 section : section.header section.body { }
 ;
 
-section.header : SECTION gb MUSCLE gb STRING gb section.yacc gb '\n'
+section.header : SECTION BLANKS MUSCLE BLANKS STRING BLANKS section.yacc '\n'
 {
   char *name = 0;
   char *limit = 0;
@@ -140,6 +148,8 @@ section.body
 | section.body TOKENS { token_definitions_output (parser, &output_line); }
 | section.body ACTIONS { actions_output (parser, &output_line); }
 | section.body CHARACTER { fputc ($2, parser); }
+| section.body RAW       { fputs ($2, parser); }
+| section.body BLANKS    { fputs ($2, parser); }
 | section.body MUSCLE {
   const char* value = muscle_find ($2);
   if (value)
@@ -154,11 +164,6 @@ section.body
     }
 }
 ;
-
-gb : /* Empty.  */ { }
-   | gb CHARACTER  { /* Do not echo garbage characters.  */ }
-;
-
 %%
 
 static int

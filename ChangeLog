@@ -1,5 +1,12 @@
 2001-12-30  Akim Demaille  <akim@epita.fr>
 
+	* src/parse-skel.y: Get rid of the shift/reduce conflict:
+	replace `gb' with BLANKS.
+	* src/scan-skel.l: Adjust.
+
+	
+2001-12-30  Akim Demaille  <akim@epita.fr>
+
 	* src/system.h: We don't need nor want bcopy.
 	Throw away MS-DOS crap: we don't need getpid.
 	* configure.in: We don't need strndup.  It was even causing
