@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-11-07 15:27+0100\n"
+"POT-Creation-Date: 2002-11-12 16:04+0100\n"
 "PO-Revision-Date: 2002-06-25 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -92,35 +92,35 @@ msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] "beklenen %d öteleme/indirgeme çeliþkisi\n"
 msgstr[1] "beklenen %d öteleme/indirgeme çeliþkisi\n"
 
-#: src/files.c:114
+#: src/files.c:111
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "`%s' dosyasý açýlamadý"
 
-#: src/files.c:130
+#: src/files.c:127
 #, fuzzy
 msgid "I/O error"
 msgstr "bir hata"
 
-#: src/files.c:133
+#: src/files.c:130
 msgid "cannot close file"
 msgstr "dosya kapatýlamýyor"
 
-#: src/getargs.c:164
+#: src/getargs.c:165
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Daha fazla bilgi için `%s --help' yazýn.\n"
 
-#: src/getargs.c:170
+#: src/getargs.c:171
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison LALR(1) gramerler için ayrýþtýrýcýlar üretir.\n"
 
-#: src/getargs.c:174
+#: src/getargs.c:175
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Kullaným: %s [SEÇENEK]... DOSYA\n"
 
-#: src/getargs.c:178
+#: src/getargs.c:179
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -130,7 +130,7 @@ msgstr ""
 "seçenek için de geçerlidir.  Bu durum, seçimli argümanlar için de "
 "geçerlidir.\n"
 
-#: src/getargs.c:184
+#: src/getargs.c:185
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -142,7 +142,7 @@ msgstr ""
 "  -V, --version   sürüm bilgisini ver ve çýk\n"
 "  -y, --yacc      POSIX yacc öykünmesi\n"
 
-#: src/getargs.c:191
+#: src/getargs.c:192
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -162,7 +162,7 @@ msgstr ""
 "  -n, --no-parser            sadece tablolarý üret\n"
 "  -k, --token-table          andaç isimlerinin bir tablosunu içer\n"
 
-#: src/getargs.c:203
+#: src/getargs.c:204
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -181,7 +181,7 @@ msgstr ""
 "  -o, --output=DOSYA        çýktýyý dosyaya býrakýr\n"
 "  -g, --graph                otomatýn bir VCG grafik açýklamasýný da üretir\n"
 
-#: src/getargs.c:214
+#: src/getargs.c:215
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -192,27 +192,27 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:225
+#: src/getargs.c:226
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Hatalarý <bug-bison@gnu.org>'a,\n"
 "çeviri hatalarýný <gnu-tr-u12a@lists.sourceforge.net>'e bildir.\n"
 
-#: src/getargs.c:242
+#: src/getargs.c:243
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:244
+#: src/getargs.c:245
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr "Yazanlar: Robert Corbett ve Richard Stallman.\n"
 
-#: src/getargs.c:248
+#: src/getargs.c:249
 #, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr "Telif Hakký (C) %d Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:250
+#: src/getargs.c:251
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -221,12 +221,12 @@ msgstr ""
 "Hiçbir garantisi yoktur; hatta SATILABÝLÝRLÝÐÝ veya ÞAHSÝ KULLANIMINIZA\n"
 "UYGUNLUÐU için bile garanti verilmez.\n"
 
-#: src/getargs.c:416
+#: src/getargs.c:405
 #, c-format
 msgid "missing operand after `%s'"
 msgstr ""
 
-#: src/getargs.c:418
+#: src/getargs.c:407
 #, c-format
 msgid "extra operand `%s'"
 msgstr ""
@@ -244,16 +244,11 @@ msgstr "Gramer"
 msgid "warning"
 msgstr "uyarý: "
 
-#: src/lalr.c:91
-#, c-format
-msgid "too many gotos (max %d)"
-msgstr "gotos çok fazla (en fazla %d)"
-
-#: src/main.c:117
+#: src/main.c:120
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: parse-gram.y:357
+#: parse-gram.y:358
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
@@ -321,49 +316,44 @@ msgstr "%d kural asla indirgenmedi\n"
 msgid "multiple %s declarations"
 msgstr "çoklu %s bildirimleri"
 
-#: src/reader.c:132
+#: src/reader.c:137
 #, c-format
 msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr ""
 
-#: src/reader.c:230
+#: src/reader.c:235
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "bir andaç olan %s için verilen kural"
 
-#: src/reader.c:259
+#: src/reader.c:264
 #, fuzzy, c-format
 msgid "type clash on default action: <%s> != <%s>"
 msgstr "öntanýmlý eylem üzerinde (`%s' `%s') tip çatýþmasý"
 
-#: src/reader.c:265
+#: src/reader.c:270
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "Tipli deðiþken simge için boþ kural tanýmlanmýþ, ve eylem belirtilmemiþ"
 
-#: src/reader.c:335 src/reader.c:350 src/reader.c:363
+#: src/reader.c:340 src/reader.c:355 src/reader.c:368
 #, c-format
 msgid "only one %s allowed per rule"
 msgstr ""
 
-#: src/reader.c:345 src/reader.c:361
+#: src/reader.c:350 src/reader.c:366
 #, c-format
 msgid "%s affects only GLR parsers"
 msgstr ""
 
-#: src/reader.c:348
+#: src/reader.c:353
 #, c-format
 msgid "%s must be followed by positive number"
 msgstr ""
 
-#: src/reader.c:506
+#: src/reader.c:511
 msgid "no rules in the input grammar"
 msgstr "girdi grameri içinde kurallar yok"
-
-#: src/reader.c:538
-#, c-format
-msgid "too many symbols (tokens plus nonterminals); maximum %d"
-msgstr "çok fazla simge var (andaçlar ve deðiþken simgeler); en fazla %d"
 
 #: src/reduce.c:239
 #, fuzzy
@@ -420,122 +410,117 @@ msgstr[1] "%d yararsýz kural"
 msgid "start symbol %s does not derive any sentence"
 msgstr "Baþlangýç simgesi %s herhangi bir cümleden türemez"
 
-#: scan-gram.l:140
-#, fuzzy, c-format
-msgid "unexpected end of file in `%s ... %s'"
-msgstr "beklenmeyen dosya sonu"
-
-#: scan-gram.l:267
+#: scan-gram.l:258
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "geçersiz girdi: %s"
 
-#: scan-gram.l:293 scan-gram.l:746 scan-gram.l:818
+#: scan-gram.l:284 scan-gram.l:655 scan-gram.l:727
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: scan-gram.l:332
+#: scan-gram.l:324
 #, fuzzy, c-format
 msgid "invalid character: %s"
-msgstr "geçersiz deðer: %s%d"
+msgstr "bilinmeyen karakter: %s"
 
-#: scan-gram.l:474 scan-gram.l:488 scan-gram.l:508
+#: scan-gram.l:424 scan-gram.l:438 scan-gram.l:458
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "geçersiz deðer: %s%d"
 
-#: scan-gram.l:516
+#: scan-gram.l:466
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "tanýnmayan: %s"
 
-#: scan-gram.l:717
+#: scan-gram.l:626
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s''in $$'ý bildirilmiþ tip deðil"
 
-#: scan-gram.l:737
+#: scan-gram.l:646
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "`%2$s''in %1$d'i bildirilmiþ tip deðil"
 
-#: scan-gram.l:763 scan-gram.l:835
+#: scan-gram.l:672 scan-gram.l:744
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "geçersiz deðer: %s%d"
 
-#: src/state.c:145
-#, c-format
-msgid "too many states (max %d)"
-msgstr "çok fazla durum (en fazla %d)"
+#: scan-gram.l:855
+#, fuzzy, c-format
+msgid "missing `%s' at end of file"
+msgstr "dosyanýn sonunda sonlandýrýlmamýþ dizge"
 
 #: src/symlist.c:97 src/symlist.c:109
 msgid "invalid $ value"
 msgstr "geçersiz $ deðeri"
 
-#: src/symtab.c:81
+#: src/symtab.c:82
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "%s için yeniden tip bildirimi"
 
-#: src/symtab.c:98 src/symtab.c:117
+#: src/symtab.c:100 src/symtab.c:119
 #, fuzzy, c-format
 msgid "%s redeclaration for %s"
 msgstr "%s için yeniden tip bildirimi"
 
-#: src/symtab.c:138
+#: src/symtab.c:140
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "%s'in önceliði tekrar tanýmlandý"
 
-#: src/symtab.c:157
+#: src/symtab.c:159
 #, c-format
 msgid "symbol %s redefined"
 msgstr "%s simgesi yeniden tanýmlandý"
 
-#: src/symtab.c:180
+#: src/symtab.c:182
 #, fuzzy, c-format
 msgid "redefining user token number of %s"
 msgstr "%s'in önceliði tekrar tanýmlandý"
 
-#: src/symtab.c:225
+#: src/symtab.c:221
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "simge %s kullanýldý, fakat bir andaç olarak tanýmlanmadý ve kurallarý yok"
 
-#: src/symtab.c:244
+#: src/symtab.c:240
 #, c-format
 msgid "symbol `%s' used more than once as a literal string"
 msgstr "simge `%s' bir harfiyen uyumlu dizgi gibi birden fazla kullanýldý"
 
-#: src/symtab.c:247
+#: src/symtab.c:243
 #, c-format
 msgid "symbol `%s' given more than one literal string"
 msgstr "simge `%s' bir harfiyen uyumlu dizgi gibi birden fazla verilmiþ"
 
-#: src/symtab.c:281
+#: src/symtab.c:277
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "%s ve %s için çeliþen öncelikler"
 
-#: src/symtab.c:293
+#: src/symtab.c:289
 #, fuzzy, c-format
 msgid "conflicting associativities for %s (%s) and %s (%s)"
 msgstr "%s ve %s için çeliþen birleþmeli deðerler"
 
-#: src/symtab.c:363
+#: src/symtab.c:359
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "%s ve %s andaçlarýnýn her ikisi %d sayýsýna atandý"
 
-#: src/symtab.c:568
+#: src/symtab.c:566
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "baþlangýç simgesi %s tanýmlanmadý"
 
-#: src/symtab.c:572
+#: src/symtab.c:570
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "baþlangýç simgesi %s bir andaçtýr"
@@ -720,24 +705,8 @@ msgstr ""
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr ""
 
-#, fuzzy
-#~ msgid ": unexpected end of file in a comment\n"
-#~ msgstr "beklenmeyen dosya sonu"
-
-#, fuzzy
-#~ msgid ": unexpected end of file in a character\n"
-#~ msgstr "beklenmeyen dosya sonu"
-
-#, fuzzy
-#~ msgid ": unexpected end of file in a braced code\n"
-#~ msgstr "beklenmeyen dosya sonu"
-
-#, fuzzy
-#~ msgid ": unexpected end of file in a prologue\n"
-#~ msgstr "beklenmeyen dosya sonu"
-
-#~ msgid "%s is invalid"
-#~ msgstr "%s geçersizdir"
+#~ msgid "too many states (max %d)"
+#~ msgstr "çok fazla durum (en fazla %d)"
 
 #~ msgid "reduce"
 #~ msgstr "indirgeme"
@@ -757,11 +726,17 @@ msgstr ""
 #~ msgid "%s: extra arguments ignored after `%s'\n"
 #~ msgstr "%s: '%s' den sonraki argümanlar yoksayýldý\n"
 
+#~ msgid "too many gotos (max %d)"
+#~ msgstr "gotos çok fazla (en fazla %d)"
+
 #~ msgid "unexpected `/' found and ignored"
 #~ msgstr "beklenmeyen `/' bulundu ve yoksayýldý"
 
 #~ msgid "unterminated comment"
 #~ msgstr "sonlandýrýlmamýþ açýklama"
+
+#~ msgid "unexpected end of file"
+#~ msgstr "beklenmeyen dosya sonu"
 
 #~ msgid "unescaped newline in constant"
 #~ msgstr "sabit içinde kaçamayan yeni satýr"
@@ -830,11 +805,11 @@ msgstr ""
 #~ msgid "   Skipping to next %c"
 #~ msgstr "   Sonraki  %c'ye atlanýyor"
 
-#~ msgid "unterminated string at end of file"
-#~ msgstr "dosyanýn sonunda sonlandýrýlmamýþ dizge"
-
 #~ msgid "unterminated string"
 #~ msgstr "sonlandýrýlmamýþ dizge"
+
+#~ msgid "%s is invalid"
+#~ msgstr "%s geçersizdir"
 
 #~ msgid "unterminated `%{' definition"
 #~ msgstr "`%{' tanýmlamasý sonlandýrýlmamýþ"
@@ -875,9 +850,6 @@ msgstr ""
 #~ msgid "no input grammar"
 #~ msgstr "girdi grameri yok"
 
-#~ msgid "unknown character: %s"
-#~ msgstr "bilinmeyen karakter: %s"
-
 #~ msgid "ill-formed rule: initial symbol not followed by colon"
 #~ msgstr "kötü-biçemli kural: baþlangýç simgesini takip eden \":\" yok"
 
@@ -895,6 +867,9 @@ msgstr ""
 
 #~ msgid "two actions at end of one rule"
 #~ msgstr "bir kuralýn sonunda iki eylem"
+
+#~ msgid "too many symbols (tokens plus nonterminals); maximum %d"
+#~ msgstr "çok fazla simge var (andaçlar ve deðiþken simgeler); en fazla %d"
 
 #~ msgid "maximum table size (%d) exceeded"
 #~ msgstr "en büyük tablo uzunluðu (%d) aþýldý"
