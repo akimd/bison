@@ -1,3 +1,14 @@
+2004-12-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/lalr.h (GOTO_NUMBER_MAXIMUM): New macro.
+	* src/lalr.c (set_goto_map): Don't allow ngotos to equal
+	GOTO_NUMBER_MAXIMUM, since we occasionally compute
+	ngotos + 1 without checking for overflow.
+	(build_relations): Use END_NODE, not -1, to denote end of edges.
+	* src/lalr.c (set_goto_map, map_goto, initialize_F, add_loopback_edge,
+	build_relations): Use goto_number, not int, for goto numbers.
+	* src/tables.c (save_column, default_goto): Likewise.
+
 2004-11-23  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (YYSTYPE): Define it as is done for C, instead
