@@ -60,6 +60,7 @@ int skel_lex (void);
 
   XFREE (outname);
   outname = xstrdup (filename);
+  xfclose (yyout);
   yyout = xfopen (outname, "w");
   lineno = 1;
 }
