@@ -1,3 +1,17 @@
+2004-12-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix some problems reported by twlevo at xs4all.
+	* src/symtab.c (symbol_new): Report an error if the input grammar
+	contains too many symbols.  This is better than calling abort() later.
+	* src/vcg.h (enum layoutalgorithm): Remove.  All uses removed.
+	(struct node, struct graph):
+	Rename member expand to stretch.  All uses changed.
+	(struct graph): Remove member layoutalgorithm.  All uses removed.
+	* src/vcg.c (get_layoutalgorithm_str): Remove.  All uses removed.
+	* src/vcg_defaults.h (G_STRETCH): Renamed from G_EXPAND.
+	All uses changed.
+	(N_STRETCH): Rename from N_EXPAND.  All uses changed.
+
 2004-12-15  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc: Normalize /** \brief ... */ to ///.
