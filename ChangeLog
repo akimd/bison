@@ -1,5 +1,9 @@
 2004-12-21  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (parser::parse): Return a bool instead of an int.
+
+2004-12-21  Akim Demaille  <akim@epita.fr>
+
 	Don't impose std::string for filenames.
 
 	* data/lalr1.cc (b4_filename_type): New.
@@ -7,6 +11,9 @@
 	(parser.hh): Move the inclusion of stack.hh and location.hh below
 	the user code, so that needed headers for the filename type can be
 	included first.
+	Forward declare them before the user code.
+	* tests/Makefile.am (check-local, installcheck-local): Pass
+	TESTSUITEFLAGS to the TESTSUITE.
 
 2004-12-20  Akim Demaille  <akim@epita.fr>
 

@@ -245,7 +245,7 @@ namespace yy
 
     /// Parse.
     /// \returns  0 iff parsing succeeded.
-    virtual int parse ();
+    virtual bool parse ();
 
     /// The current debugging stream.
     std::ostream& debug_stream () const;
@@ -538,7 +538,7 @@ yy::]b4_parser_class_name[::set_debug_level (debug_level_type l)
 }
 
 
-int
+bool
 yy::]b4_parser_class_name[::parse ()
 {
   YYCDEBUG << "Starting parse" << std::endl;
