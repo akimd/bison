@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.875a:
+Changes in version 1.875a, 2003-02-01:
 
 * %expect-count violations are now just warnings, not errors, for
   compatibility with Bison 1.75 and earlier (when there are
