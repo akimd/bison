@@ -1,5 +1,24 @@
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
+	The header can also be produced directly, without any obstack!
+	Yahoo!
+
+	* src/files.c, src/files.h (defines_obstack): Remove.
+	(compute_header_macro): Global.
+	(defines_obstack_save): Remove.
+	* src/reader.c (parse_union_decl): No longer output to
+	defines_obstack: its content can be found in the `stype' muscle
+	anyway.
+	(output_token_translations): Merge into...
+	(symbols_output): this.
+	Rename as...
+	(symbols_save): this.
+	(reader): Adjust.
+	* src/output.c (header_output): New.
+	(output): Call it.
+
+2001-12-15  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (parse_union_decl): Instead of handling two obstack
 	simultaneously, use one to define the `stype' muscle, and use the
 	value of the latter to fill defines_obstack.

@@ -49,9 +49,6 @@ extern FILE *finput;
 /* Output all the action code; precise form depends on which parser. */
 extern struct obstack action_obstack;
 
-/* optionally output #define's for token numbers. */
-extern struct obstack defines_obstack;
-
 /* If semantic parser, output a .h file that defines YYSTYPE... */
 extern struct obstack attrs_obstack;
 
@@ -72,6 +69,9 @@ void output_files PARAMS((void));
 
 FILE *xfopen PARAMS ((const char *name, const char *mode));
 int xfclose PARAMS ((FILE *ptr));
+
+/* Compute the double inclusion guard's name. */
+char * compute_header_macro PARAMS ((void));
 
 const char *skeleton_find PARAMS ((const char *envvar,
 				   const char *skeleton_name));
