@@ -38,6 +38,7 @@
 #include "reader.h"
 #include "conflicts.h"
 
+/* Produce verbose parse errors.  */
 #define YYERROR_VERBOSE 1
 
 /* Pass the control structure to YYPARSE and YYLEX. */
@@ -57,7 +58,7 @@
    of the tokens.  */
 #define YYPRINT(File, Type, Value) \
         yyprint (File, &yylloc, Type, &Value)
-static void yyprint (FILE *file, const yyltype *loc,
+static void yyprint (FILE *file, const location_t *loc,
                      int type, const yystype *value);
 
 symbol_class current_class = unknown_sym;
@@ -132,7 +133,7 @@ input: { LOCATION_RESET (yylloc); }
   directives "%%" gram epilogue.opt
     {
       yycontrol->errcode = 0;
-      epilogue_set ($5, @5.first_line);
+      epilogue_set ($5, @5);
     }
 ;
 
@@ -145,7 +146,7 @@ directive:
   grammar_directives
 | PROLOGUE
    {
-     prologue_augment ($1, @1.first_line);
+     prologue_augment ($1, @1);
    }
 | "%debug"                                 { debug_flag = 1; }
 | "%define" string_content string_content  { muscle_insert ($2, $3); }
@@ -348,7 +349,7 @@ semi_colon_opt:
 
 static void
 yyprint (FILE *file,
-         const yyltype *loc, int type, const yystype *value)
+         const location_t *loc, int type, const yystype *value)
 {
   fputs (" (", file);
   LOCATION_PRINT (file, *loc);
@@ -385,7 +386,7 @@ yyprint (FILE *file,
 
 void
 gram_error (gram_control_t *control ATTRIBUTE_UNUSED,
-	    yyltype *yylloc, const char *msg)
+	    location_t *yylloc, const char *msg)
 {
   LOCATION_PRINT (stderr, *yylloc);
   fprintf (stderr, ": %s\n", msg);

@@ -35,27 +35,41 @@ LDADD = $(INTLLIBS) ../lib/libbison.a
 
 bin_PROGRAMS = bison
 
-bison_SOURCES = LR0.c closure.c complain.c conflicts.c	\
-    parse-gram.y parse-gram.h \
-    scan-gram.c \
-    derives.c	\
-    files.c getargs.c gram.c lalr.c main.c nullable.c \
-    output.h output.c \
-    state.h state.c \
-    print_graph.h print_graph.c \
-    muscle_tab.h muscle_tab.c \
-    options.h options.c \
-    print.c reader.c reduce.c symtab.c vcg.c \
-    scan-skel.l
+bison_SOURCES = 				  \
+	LR0.c LR0.h				  \
+	closure.c closure.h			  \
+	complain.c complain.h			  \
+	conflicts.c conflicts.h			  \
+	derives.c derives.h			  \
+	files.c files.h				  \
+	getargs.c getargs.h			  \
+	gram.c gram.h				  \
+	lalr.h lalr.c				  \
+	location.h				  \
+	main.c					  \
+	muscle_tab.c muscle_tab.h		  \
+	nullable.c nullable.h			  \
+	options.c options.h			  \
+	output.c output.h			  \
+	parse-gram.h parse-gram.y		  \
+	print.c print.h				  \
+	print_graph.c print_graph.h		  \
+	reader.c reader.h			  \
+	reduce.c reduce.h			  \
+	scan-gram.l				  \
+	scan-skel.l				  \
+	state.c state.h				  \
+	symtab.c symtab.h			  \
+	system.h				  \
+	types.h					  \
+	vcg.c vcg.h				  \
+	vcg_defaults.h
 
 BUILT_SOURCES = scan-skel.c scan-gram.c parse-gram.c parse-gram.h
 
 EXTRA_bison_SOURCES = vmsgetargs.c
 
-noinst_HEADERS = LR0.h closure.h complain.h conflicts.h \
- derives.h \
- files.h getargs.h gram.h lalr.h nullable.h \
- print.h reader.h reduce.h symtab.h system.h \
- types.h vcg.h vcg_defaults.h
-
 EXTRA_DIST = build.com bison.cld vmshlp.mar
+
+echo:
+	echo $(bison_SOURCES) $(noinst_HEADERS)

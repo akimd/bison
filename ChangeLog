@@ -1,5 +1,17 @@
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
+	* src/location.h: New, extracted from...
+	* src/reader.h: here.
+	* src/Makefile.am (noinst_HEADERS): Merge into
+	(bison_SOURCES): this.
+	Add location.h.
+	* src/parse-gram.y: Use location_t instead of Bison's.
+	* src/reader.h, src/reader.c (prologue_augment, epilogue_set):
+	Use location_t instead of ints.
+
+	
+2002-06-14  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple, data/bison.c++: Be sure to restore the
 	current #line when returning to the skeleton contents after having
 	exposed the input file's #line.

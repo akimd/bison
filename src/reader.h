@@ -21,6 +21,8 @@
 #ifndef READER_H_
 # define READER_H_
 
+# include "location.h"
+
 typedef struct symbol_list
 {
   struct symbol_list *next;
@@ -36,40 +38,6 @@ typedef struct symbol_list
 
 # include "parse-gram.h"
 
-typedef int location_t;
-
-/* Initialize LOC. */
-# define LOCATION_RESET(Loc)                  \
-  (Loc).first_column = (Loc).first_line = 1;  \
-  (Loc).last_column =  (Loc).last_line = 1;
-
-/* Advance of NUM columns. */
-# define LOCATION_COLUMNS(Loc, Num)           \
-  (Loc).last_column += Num;
-
-/* Advance of NUM lines. */
-# define LOCATION_LINES(Loc, Num)             \
-  (Loc).last_column = 1;                      \
-  (Loc).last_line += Num;
-
-/* Restart: move the first cursor to the last position. */
-# define LOCATION_STEP(Loc)                   \
-  (Loc).first_column = (Loc).last_column;     \
-  (Loc).first_line = (Loc).last_line;
-
-/* Output LOC on the stream OUT. */
-# define LOCATION_PRINT(Out, Loc)                               \
-  fprintf (stderr, "%s:", infile);				\
-  if ((Loc).first_line != (Loc).last_line)                      \
-    fprintf (Out, "%d.%d-%d.%d",                                \
-             (Loc).first_line, (Loc).first_column,              \
-             (Loc).last_line, (Loc).last_column - 1);           \
-  else if ((Loc).first_column < (Loc).last_column - 1)          \
-    fprintf (Out, "%d.%d-%d", (Loc).first_line,                 \
-             (Loc).first_column, (Loc).last_column - 1);        \
-  else                                                          \
-    fprintf (Out, "%d.%d", (Loc).first_line, (Loc).first_column)
-
 typedef struct gram_control_s
 {
   int errcode;
@@ -83,7 +51,7 @@ void scanner_initialize PARAMS ((void));
 void scanner_free PARAMS ((void));
 
 # define YY_DECL \
-  int gram_lex (yystype *yylval, yyltype *yylloc, \
+  int gram_lex (yystype *yylval, location_t *yylloc, \
 		gram_control_t *yycontrol)
 YY_DECL;
 
@@ -91,7 +59,7 @@ YY_DECL;
 /* From the parser.  */
 extern int gram_debug;
 void gram_error (gram_control_t *control,
-		 yyltype *loc, const char *msg);
+		 location_t *loc, const char *msg);
 int gram_parse (void *control);
 
 char *get_type_name PARAMS ((int n, symbol_list *rule));
