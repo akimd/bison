@@ -56,8 +56,7 @@ void lalr_free (void);
    together and GOTO_MAP[I - NTOKENS] is the index in FROM_STATE and
    TO_STATE of the first of them.  */
 
-typedef short int goto_number;
-# define GOTO_NUMBER_MAXIMUM SHRT_MAX
+typedef unsigned int goto_number;
 
 extern goto_number *goto_map;
 extern state_number *from_state;
