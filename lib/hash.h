@@ -1,5 +1,5 @@
 /* hash - hashing table processing.
-   Copyright (C) 1998, 1999 Free Software Foundation, Inc.
+   Copyright (C) 1998, 1999, 2001 Free Software Foundation, Inc.
    Written by Jim Meyering <meyering@ascend.com>, 1998.
 
    This program is free software; you can redistribute it and/or modify
@@ -21,13 +21,16 @@
 /* Make sure USE_OBSTACK is defined to 1 if you want the allocator to use
    obstacks instead of malloc, and recompile `hash.c' with same setting.  */
 
-#ifndef PARAMS
-# if PROTOTYPES || __STDC__
-#  define PARAMS(Args) Args
-# else
-#  define PARAMS(Args) ()
+#ifndef HASH_H_
+# define HASH_H_
+
+# ifndef PARAMS
+#  if PROTOTYPES || __STDC__
+#   define PARAMS(Args) Args
+#  else
+#   define PARAMS(Args) ()
+#  endif
 # endif
-#endif
 
 typedef unsigned (*Hash_hasher) PARAMS ((const void *, unsigned));
 typedef bool (*Hash_comparator) PARAMS ((const void *, const void *));
@@ -54,39 +57,7 @@ struct hash_tuning
 
 typedef struct hash_tuning Hash_tuning;
 
-struct hash_table
-  {
-    /* The array of buckets starts at BUCKET and extends to BUCKET_LIMIT-1,
-       for a possibility of N_BUCKETS.  Among those, N_BUCKETS_USED buckets
-       are not empty, there are N_ENTRIES active entries in the table.  */
-    struct hash_entry *bucket;
-    struct hash_entry *bucket_limit;
-    unsigned n_buckets;
-    unsigned n_buckets_used;
-    unsigned n_entries;
-
-    /* Tuning arguments, kept in a physicaly separate structure.  */
-    const Hash_tuning *tuning;
-
-    /* Three functions are given to `hash_initialize', see the documentation
-       block for this function.  In a word, HASHER randomizes a user entry
-       into a number up from 0 up to some maximum minus 1; COMPARATOR returns
-       true if two user entries compare equally; and DATA_FREER is the cleanup
-       function for a user entry.  */
-    Hash_hasher hasher;
-    Hash_comparator comparator;
-    Hash_data_freer data_freer;
-
-    /* A linked list of freed struct hash_entry structs.  */
-    struct hash_entry *free_entry_list;
-
-#if USE_OBSTACK
-    /* Whenever obstacks are used, it is possible to allocate all overflowed
-       entries into a single stack, so they all can be freed in a single
-       operation.  It is not clear if the speedup is worth the trouble.  */
-    struct obstack entry_stack;
-#endif
-  };
+struct hash_table;
 
 typedef struct hash_table Hash_table;
 
@@ -118,3 +89,5 @@ void hash_free PARAMS ((Hash_table *));
 bool hash_rehash PARAMS ((Hash_table *, unsigned));
 void *hash_insert PARAMS ((Hash_table *, const void *));
 void *hash_delete PARAMS ((Hash_table *, const void *));
+
+#endif
