@@ -66,6 +66,7 @@ extern short *LAruleno;
    it is a conflict.  */
 
 extern unsigned *LA;
+#define LA(Rule) (LA + (Rule) * tokensetsize)
 
 
 /* A structure decorating a state, with additional information. */
