@@ -1,5 +1,15 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/print.h: New file.
+	Propagate its use.
+	* src/print.c: Formatting and ordering changes.
+	(verbose, terse): Replace with...
+	(print_results): this new function.
+	Adjust dependencies.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (conflict_report): New function.
 	(conflict_log, verbose_conflict_log): Replace with...
 	(print_conflicts): this function.

@@ -29,6 +29,6 @@ extern int nolinesflag;    	/* for -l */
 extern int noparserflag;	/* for -n */
 extern int rawtoknumflag;	/* for -r */
 extern int toknumflag;   	/* for -k */
-extern int verboseflag;	/* for -v */
+extern int verboseflag;		/* for -v */
 
 void getargs PARAMS ((int argc, char *argv[]));
