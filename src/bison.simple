@@ -111,8 +111,9 @@
 # define YYDEBUG %%debug
 #endif
 
+#line %%input_line "%%filename"
 #ifndef YYSTYPE
-# define YYSTYPE %%stype
+typedef %%stype YYSTYPE;
 #endif
 
 #ifndef YYLTYPE

@@ -1,5 +1,16 @@
 2001-09-23  Pascal Bart  <pascal.bart@epita.fr>
 
+	* src/reader.c (parse_union_decl): Add new obstack union_obstack.  Which
+	will contain `%union' declaration.
+	(parse_union_decl): Delete #line directive output.
+	(parse_union_decl): Substitute /attrs_obstack/union_obstack for all
+	informations about %union.
+	(parse_union_decl): Copy the union_obstack in the muscle stype.
+	* src/bison.simple: Add new #line directive.
+	Add typdef %%stype YYSTYPE.
+
+2001-09-23  Pascal Bart  <pascal.bart@epita.fr>
+
 	* src/bison.simple: Add new `#line' directive.
 
 2001-09-22  Pascal Bart  <pascal.bart@epita.fr>
