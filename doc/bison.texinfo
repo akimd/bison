@@ -3847,19 +3847,20 @@ If you use a reentrant parser, you can optionally pass additional
 parameter information to it in a reentrant way.  To do so, use the
 declaration @code{%parse-param}:
 
-@deffn {Directive} %parse-param @{@var{argument-declaration}@}, @{@var{argument-name}@}
+@deffn {Directive} %parse-param @{@var{argument-declaration}@}
 @findex %parse-param
-Declare that @code{argument-name} is an additional @code{yyparse}
-argument.  This argument is also passed to @code{yyerror}.  The
-@var{argument-declaration} is used when declaring functions or
-prototypes.
+Declare that an argument declared by @code{argument-declaration} is an
+additional @code{yyparse} argument.  This argument is also passed to
+@code{yyerror}.  The @var{argument-declaration} is used when declaring
+functions or prototypes.  The last identifier in
+@var{argument-declaration} must be the argument name.
 @end deffn
 
 Here's an example.  Write this in the parser:
 
 @example
-%parse-param @{int *nastiness@},  @{nastiness@}
-%parse-param @{int *randomness@}, @{randomness@}
+%parse-param @{int *nastiness@}
+%parse-param @{int *randomness@}
 @end example
 
 @noindent
@@ -4090,18 +4091,18 @@ If you wish to pass the additional parameter data to @code{yylex}, use
 @code{%lex-param} just like @code{%parse-param} (@pxref{Parser
 Function}).
 
-@deffn {Directive} lex-param @{@var{argument-declaration}@}, @{@var{argument-name}@}
+@deffn {Directive} lex-param @{@var{argument-declaration}@}
 @findex %lex-param
-Declare that @code{argument-name} is an additional @code{yylex}
-argument.
+Declare that @code{argument-declaration} is an additional @code{yylex}
+argument declaration.
 @end deffn
 
 For instance:
 
 @example
-%parse-param @{int *nastiness@},  @{nastiness@}
-%lex-param   @{int *nastiness@},  @{nastiness@}
-%parse-param @{int *randomness@}, @{randomness@}
+%parse-param @{int *nastiness@}
+%lex-param   @{int *nastiness@}
+%parse-param @{int *randomness@}
 @end example
 
 @noindent
@@ -4190,7 +4191,7 @@ void yyerror (const char *msg);                 /* Yacc parsers.  */
 void yyerror (YYLTYPE *locp, const char *msg);  /* GLR parsers.   */
 @end example
 
-If @samp{%parse-param @{int *nastiness@}, @{nastiness@}} is used, then:
+If @samp{%parse-param @{int *nastiness@}} is used, then:
 
 @example
 void yyerror (int *randomness, const char *msg);  /* Yacc parsers.  */
@@ -4207,10 +4208,10 @@ convention of @code{yylex} @emph{and} the calling convention of
 %locations
 /* Pure yylex.  */
 %pure-parser
-%lex-param   @{int *nastiness@},  @{nastiness@}
+%lex-param   @{int *nastiness@}
 /* Pure yyparse.  */
-%parse-param @{int *nastiness@},  @{nastiness@}
-%parse-param @{int *randomness@}, @{randomness@}
+%parse-param @{int *nastiness@}
+%parse-param @{int *randomness@}
 @end example
 
 @noindent
@@ -6498,7 +6499,7 @@ Bison declaration to assign left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
-@deffn {Directive} %lex-param @{@var{argument-declaration}@}. @{@var{argument-name}"@}
+@deffn {Directive} %lex-param @{@var{argument-declaration}@}
 Bison declaration to specifying an additional parameter that
 @code{yylex} should accept.  @xref{Pure Calling,, Calling Conventions
 for Pure Parsers}.
@@ -6530,7 +6531,7 @@ Bison declaration to set the name of the parser file.  @xref{Decl
 Summary}.
 @end deffn
 
-@deffn {Directive} %parse-param @{@var{argument-declaration}@}, @{@var{argument-name}@}
+@deffn {Directive} %parse-param @{@var{argument-declaration}@}
 Bison declaration to specifying an additional parameter that
 @code{yyparse} should accept.  @xref{Parser Function,, The Parser
 Function @code{yyparse}}.
