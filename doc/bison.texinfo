@@ -693,7 +693,7 @@ arrange for it to call @code{yyparse} or the parser will never run.
 @xref{Interface, ,Parser C-Language Interface}.
 
 Aside from the token type names and the symbols in the actions you
-write, all variable and function names used in the Bison parser file
+write, all symbols defined in the Bison parser file itself
 begin with @samp{yy} or @samp{YY}.  This includes interface functions
 such as the lexical analyzer function @code{yylex}, the error reporting
 function @code{yyerror} and the parser function @code{yyparse} itself.
@@ -701,6 +701,14 @@ This also includes numerous identifiers used for internal purposes.
 Therefore, you should avoid using C identifiers starting with @samp{yy}
 or @samp{YY} in the Bison grammar file except for the ones defined in
 this manual.
+
+In some cases the Bison parser file includes system headers, and in
+those cases your code should respect the identifiers reserved by those
+headers.  On some non-@sc{gnu} hosts, @code{<alloca.h>},
+@code{<stddef.h>}, and @code{<stdlib.h>} are included as needed to
+declare memory allocators and related types.  On all hosts,
+@code{<stdio.h>} is included if you define @code{YYDEBUG}
+(@pxref{Debugging, ,Debugging Your Parser}).
 
 @node Stages
 @section Stages in Using Bison

@@ -31,10 +31,23 @@
    It was written by Richard Stallman by simplifying the hairy parser
    used when %semantic_parser is specified.  */
 
-#define YYBISON	1	/* Identify Bison output.  */
-#define YYPURE	%%pure	/* Identify pure parsers.  */
+/* Identify Bison output.  */
+#define YYBISON	1
 
-#include <stdio.h>
+/* Pure parsers.  */
+#define YYPURE	%%pure
+
+/* Using locations.  */
+#define YYLSP_NEEDED %%locations-flag
+
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG %%debug
+#endif
+
+/* Enabling verbose error messages.  */
+#undef YYERROR_VERBOSE
+#define YYERROR_VERBOSE %%error-verbose
 
 /* If name_prefix is specify substitute the variables and functions
    names.  */
@@ -46,75 +59,6 @@
 #define yydebug %%prefix##debug
 #define yynerrs %%prefix##nerrs
 
-/* Copy the user declarations.  */
-#line %%input-line "%%filename"
-%%prologue
-
-#line %%line "%%skeleton"
-#ifndef __cplusplus
-# ifndef __STDC__
-#  define const
-# endif
-#endif
-
-#ifndef YYSTACK_USE_ALLOCA
-# ifdef alloca
-#  define YYSTACK_USE_ALLOCA 1
-# else /* alloca not defined */
-#  ifdef __GNUC__
-#   define YYSTACK_USE_ALLOCA 1
-#   define alloca __builtin_alloca
-#  else /* not GNU C.  */
-#   if (!defined (__STDC__) && defined (sparc)) || defined (__sparc__) || defined (__sparc) || defined (__sgi) || (defined (__sun) && defined (__i386))
-#    define YYSTACK_USE_ALLOCA 1
-#    include <alloca.h>
-#   else /* not sparc */
-     /* We think this test detects Watcom and Microsoft C.  */
-     /* This used to test MSDOS, but that is a bad idea since that
-	symbol is in the user namespace.  */
-#    if (defined (_MSDOS) || defined (_MSDOS_)) && !defined (__TURBOC__)
-#     if 0
-       /* No need for malloc.h, which pollutes the namespace; instead,
-	  just don't use alloca.  */
-#      include <malloc.h>
-#     endif
-#    else /* not MSDOS, or __TURBOC__ */
-#     if defined(_AIX)
-       /* I don't know what this was needed for, but it pollutes the
-	  namespace.  So I turned it off.  rms, 2 May 1997.  */
-       /* #include <malloc.h>  */
- #pragma alloca
-#      define YYSTACK_USE_ALLOCA 1
-#     else /* not MSDOS, or __TURBOC__, or _AIX */
-#      if 0
-	/* haible@ilog.fr says this works for HPUX 9.05 and up, and on
-	   HPUX 10.  Eventually we can turn this on.  */
-#       ifdef __hpux
-#        define YYSTACK_USE_ALLOCA 1
-#        define alloca __builtin_alloca
-#  	endif /* __hpux */
-#      endif
-#     endif /* not _AIX */
-#    endif /* not MSDOS, or __TURBOC__ */
-#   endif /* not sparc */
-#  endif /* not GNU C */
-# endif /* alloca not defined */
-#endif /* YYSTACK_USE_ALLOCA not defined */
-
-#ifndef YYSTACK_USE_ALLOCA
-# define YYSTACK_USE_ALLOCA 0
-#endif
-
-#if YYSTACK_USE_ALLOCA
-# define YYSTACK_ALLOC alloca
-/* Pacify GCC's `empty if-body' warning. */
-# define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
-#else
-# define YYSTACK_ALLOC malloc
-# define YYSTACK_FREE(Ptr) free (Ptr)
-#endif
-
-#line %%input-line "%%filename"
 #ifndef YYSTYPE
 typedef %%stype yystype;
 # define YYSTYPE yystype
@@ -131,58 +75,113 @@ typedef struct yyltype
 # define YYLTYPE %%ltype
 #endif
 
+/* Copy the user declarations.  */
+#line %%input-line "%%filename"
+%%prologue
+
 #line %%line "%%skeleton"
+
+#include <stdio.h>
+
+#ifndef __cplusplus
+# ifndef __STDC__
+#  define const
+# endif
+#endif
+
+/* All symbols defined below should begin with yy or YY, to avoid
+   infringing on user name space.  This should be done even for local
+   variables, as they might otherwise be expanded by user macros.
+   There are some unavoidable exceptions within include files to
+   define necessary C library symbols; they are noted "INFRINGES ON
+   USER NAME SPACE" below.  */
+
+#if ! defined (yyoverflow) || YYERROR_VERBOSE
+
+/* The parser invokes alloca or malloc; define the necessary symbols.  */
+
+# if YYSTACK_USE_ALLOCA
+#  define YYSTACK_ALLOC alloca
+#  define YYSIZE_T size_t
+# else
+#  ifndef YYSTACK_USE_ALLOCA
+#   if defined (alloca) || defined (_ALLOCA_H)
+#    define YYSTACK_ALLOC alloca
+#    define YYSIZE_T size_t
+#   else
+#    if defined (__GNUC__) || defined (_AIX) || defined (__hpux)
+#     define YYSTACK_ALLOC __builtin_alloca
+#    endif
+#    ifndef __GNUC__
+#     ifdef _AIX
+ #     pragma alloca
+#     endif
+#     if defined (__sgi) || defined (__sparc__) || defined (__sparc) || defined (__sun)
+#      include <alloca.h> /* INFRINGES ON USER NAME SPACE */
+#      define YYSTACK_ALLOC alloca
+#      define YYSIZE_T size_t
+#     endif
+#    endif
+#   endif
+#  endif
+# endif
+
+# ifdef YYSTACK_ALLOC
+   /* Pacify GCC's `empty if-body' warning. */
+#  define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
+# else
+#  define YYSTACK_ALLOC malloc
+#  define YYSTACK_FREE(Ptr) free (Ptr)
+#  if defined (__STDC__) || defined (__cplusplus)
+#   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
+#   define YYSIZE_T size_t
+#  endif
+# endif
+
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
   short yys;
   YYSTYPE yyv;
-#if YYLSP_NEEDED
+# if YYLSP_NEEDED
   YYLTYPE yyl;
-#endif
+# endif
 };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
-#define YYSTACK_GAP_MAX (sizeof (union yyalloc) - 1)
+# define YYSTACK_GAP_MAX (sizeof (union yyalloc) - 1)
 
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
-#if YYLSP_NEEDED
-# define YYSTACK_BYTES(N) \
+# if YYLSP_NEEDED
+#  define YYSTACK_BYTES(N) \
     ((N) * (sizeof (short) + sizeof (YYSTYPE) + sizeof (YYLTYPE))	\
      + 2 * YYSTACK_GAP_MAX)
-#else
-# define YYSTACK_BYTES(N) \
+# else
+#  define YYSTACK_BYTES(N) \
     ((N) * (sizeof (short) + sizeof (YYSTYPE))				\
      + YYSTACK_GAP_MAX)
-#endif
+# endif
 
 /* Relocate the TYPE STACK from its old location to the new one.  The
-   local variables SIZE and YYSTACKSIZE give the old and new number of
+   local variables YYSIZE and YYSTACKSIZE give the old and new number of
    elements in the stack, and YYPTR gives the new location of the
    stack.  Advance YYPTR to a properly aligned location for the next
    stack.  */
-#define YYSTACK_RELOCATE(Type, Stack)					\
-do									\
-  {									\
-    size_t yynewbytes;							\
-    __yy_memcpy (yyptr, (char *) (Stack), size * sizeof (Type));	\
-    (Stack) = (Type *) yyptr;						\
-    yynewbytes = yystacksize * sizeof (Type) + YYSTACK_GAP_MAX;		\
-    yynewbytes -= yynewbytes % sizeof (union yyalloc);			\
-    yyptr += yynewbytes;						\
-  }									\
-while (0)
+# define YYSTACK_RELOCATE(Type, Stack)					\
+    do									\
+      {									\
+	YYSIZE_T yynewbytes;						\
+	yymemcpy (yyptr, (char *) (Stack),				\
+		  yysize * (YYSIZE_T) sizeof (Type));			\
+	(Stack) = (Type *) yyptr;					\
+	yynewbytes = yystacksize * sizeof (Type) + YYSTACK_GAP_MAX;	\
+	yynewbytes -= yynewbytes % sizeof (union yyalloc);		\
+	yyptr += yynewbytes;						\
+      }									\
+    while (0)
 
-#ifndef YYDEBUG
-# define YYDEBUG %%debug
-#endif
-
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-#endif
-
-#define YYERROR_VERBOSE %%error-verbose
+#endif /* ! defined (yyoverflow) || YYERROR_VERBOSE */
 
 /* Tokens.  */
 %%tokendef
@@ -284,6 +283,21 @@ static const short yycheck[] =
   %%check
 };
 
+
+#if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
+# define YYSIZE_T __SIZE_TYPE__
+#endif
+#if ! defined (YYSIZE_T) && defined (size_t)
+# define YYSIZE_T size_t
+#endif
+#if ! defined (YYSIZE_T) && (defined (__STDC__) || defined (__cplusplus))
+# include <stddef.h> /* INFRINGES ON USER NAME SPACE */
+# define YYSIZE_T size_t
+#endif
+#if ! defined (YYSIZE_T)
+# define YYSIZE_T unsigned int
+#endif
+
 #define yyerrok		(yyerrstatus = 0)
 #define yyclearin	(yychar = YYEMPTY)
 #define YYEMPTY		-2
@@ -334,9 +348,6 @@ while (0)
    Current.last_column = Rhs[N].last_column;
 #endif
 
-/* Definition of YYLSP_NEEDED.  */
-#define YYLSP_NEEDED %%locations-flag
-
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
 #if YYPURE
@@ -359,6 +370,7 @@ while (0)
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
+# include <stdio.h>
 # define YYDPRINTF(Args)			\
 do {						\
   if (yydebug)					\
@@ -395,30 +407,85 @@ int yydebug;
 
 
 
-#if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
-# define __yy_memcpy(To, From, Count)	__builtin_memcpy (To, From, Count)
-#else				/* not GNU C or C++ */
+#if ! defined (yyoverflow) && ! defined (yymemcpy)
+# if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
+#  define yymemcpy __builtin_memcpy
+# else				/* not GNU C or C++ */
 
 /* This is the most reliable way to avoid incompatibilities
    in available built-in functions on various systems.  */
 static void
-# ifndef __cplusplus
-__yy_memcpy (to, from, count)
-     char *to;
-     const char *from;
-     size_t count;
-# else /* __cplusplus */
-__yy_memcpy (char *to, const char *from, size_t count)
-# endif
+#  if defined (__STDC__) || defined (__cplusplus)
+yymemcpy (char *yyto, const char *yyfrom, YYSIZE_T yycount)
+#  else
+yymemcpy (yyto, yyfrom, yycount)
+     char *yyto;
+     const char *yyfrom;
+     YYSIZE_T yycount;
+#  endif
 {
-  register const char *f = from;
-  register char *t = to;
-  register size_t i = count;
+  register const char *yyf = yyfrom;
+  register char *yyt = yyto;
+  register YYSIZE_T yyi = yycount;
 
-  while (i-- != 0)
-    *t++ = *f++;
+  while (yyi-- != 0)
+    *yyt++ = *yyf++;
 }
+# endif
 #endif
+
+#if YYERROR_VERBOSE
+
+# ifndef yystrlen
+#  if defined (__GLIBC__) && defined (_STRING_H)
+#   define yystrlen strlen
+#  else
+/* Return the length of YYSTR.  */
+static YYSIZE_T
+#   if defined (__STDC__) || defined (__cplusplus)
+yystrlen (const char *yystr)
+#   else
+yystrlen (yystr)
+     const char *yystr;
+#   endif
+{
+  register const char *yys = yystr;
+
+  while (*yys++ != '\0')
+    continue;
+
+  return yys - yystr - 1;
+}
+#  endif
+# endif
+
+# ifndef yystpcpy
+#  if defined (__GLIBC__) && defined (_STRING_H) && defined (_GNU_SOURCE)
+#   define yystpcpy stpcpy
+#  else
+/* Copy YYSRC to YYDEST, returning the address of the terminating '\0' in
+   YYDEST.  */
+static char *
+#   ifndef __cplusplus
+yystpcpy (yydest, yysrc)
+     char *yydest;
+     const char *yysrc;
+#   else
+yystpcpy (char *yydest, const char *yysrc)
+#   endif
+{
+  register char *yyd = yydest;
+  register const char *yys = yysrc;
+
+  while ((*yyd++ = *yys++) != '\0')
+    continue;
+
+  return yyd - 1;
+}
+#  endif
+# endif
+
+#endif /* !YYERROR_VERBOSE */
 
 
 
@@ -455,7 +522,7 @@ int yyparse (void);
 /* YY_DECL_VARIABLES -- depending whether we use a pure parser,
    variables are global, or local to YYPARSE.  */
 
-#define _YY_DECL_VARIABLES				\
+#define YY_DECL_NON_LSP_VARIABLES			\
 /* The lookahead symbol.  */				\
 int yychar;						\
 							\
@@ -467,13 +534,13 @@ int yynerrs;
 
 #if YYLSP_NEEDED
 # define YY_DECL_VARIABLES			\
-_YY_DECL_VARIABLES				\
+YY_DECL_NON_LSP_VARIABLES			\
 						\
 /* Location data for the lookahead symbol.  */	\
 YYLTYPE yylloc;
 #else
 # define YY_DECL_VARIABLES			\
-_YY_DECL_VARIABLES
+YY_DECL_NON_LSP_VARIABLES
 #endif
 
 /* If nonreentrant, generate the variables here.  */
@@ -530,14 +597,14 @@ yyparse (YYPARSE_PARAM_ARG)
 # define YYPOPSTACK   (yyvsp--, yyssp--)
 #endif
 
-  size_t yystacksize = YYINITDEPTH;
+  YYSIZE_T yystacksize = YYINITDEPTH;
 
   /* The variables used to return semantic value and location from the
      action routines.  */
   YYSTYPE yyval;
-# if YYLSP_NEEDED
+#if YYLSP_NEEDED
   YYLTYPE yyloc;
-# endif
+#endif
 
   /* When reducing, the number of symbols on the RHS of the reduced
      rule.  */
@@ -577,7 +644,7 @@ yyparse (YYPARSE_PARAM_ARG)
   if (yyssp >= yyss + yystacksize - 1)
     {
       /* Get the current used size of the three stacks, in elements.  */
-      size_t size = yyssp - yyss + 1;
+      YYSIZE_T yysize = yyssp - yyss + 1;
 
 #ifdef yyoverflow
       {
@@ -594,15 +661,15 @@ yyparse (YYPARSE_PARAM_ARG)
 	/* This used to be a conditional around just the two extra args,
 	   but that might be undefined if yyoverflow is a macro.  */
 	yyoverflow ("parser stack overflow",
-		    &yyss1, size * sizeof (*yyssp),
-		    &yyvs1, size * sizeof (*yyvsp),
-		    &yyls1, size * sizeof (*yylsp),
+		    &yyss1, yysize * sizeof (*yyssp),
+		    &yyvs1, yysize * sizeof (*yyvsp),
+		    &yyls1, yysize * sizeof (*yylsp),
 		    &yystacksize);
 	yyls = yyls1;
 # else
 	yyoverflow ("parser stack overflow",
-		    &yyss1, size * sizeof (*yyssp),
-		    &yyvs1, size * sizeof (*yyvsp),
+		    &yyss1, yysize * sizeof (*yyssp),
+		    &yyvs1, yysize * sizeof (*yyvsp),
 		    &yystacksize);
 # endif
 	yyss = yyss1;
@@ -632,10 +699,10 @@ yyparse (YYPARSE_PARAM_ARG)
       }
 #endif /* no yyoverflow */
 
-      yyssp = yyss + size - 1;
-      yyvsp = yyvs + size - 1;
+      yyssp = yyss + yysize - 1;
+      yyvsp = yyvs + yysize - 1;
 #if YYLSP_NEEDED
-      yylsp = yyls + size - 1;
+      yylsp = yyls + yysize - 1;
 #endif
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
@@ -790,14 +857,14 @@ yyreduce:
      are defined only if `YYDEBUG' is set.  */
   if (yydebug)
     {
-      int i;
+      int yyi;
 
       fprintf (stderr, "Reducing via rule %d (line %d), ",
 	       yyn, yyrline[yyn]);
 
       /* Print the symbols being reduced, and their result.  */
-      for (i = yyprhs[yyn]; yyrhs[i] > 0; i++)
-	fprintf (stderr, "%s ", yytname[yyrhs[i]]);
+      for (yyi = yyprhs[yyn]; yyrhs[yyi] > 0; yyi++)
+	fprintf (stderr, "%s ", yytname[yyrhs[yyi]]);
       fprintf (stderr, " -> %s\n", yytname[yyr1[yyn]]);
     }
 #endif
@@ -816,10 +883,10 @@ yyreduce:
 #if YYDEBUG
   if (yydebug)
     {
-      short *ssp1 = yyss - 1;
+      short *yyssp1 = yyss - 1;
       fprintf (stderr, "state stack now");
-      while (ssp1 != yyssp)
-	fprintf (stderr, " %d", *++ssp1);
+      while (yyssp1 != yyssp)
+	fprintf (stderr, " %d", *++yyssp1);
       fprintf (stderr, "\n");
     }
 #endif
@@ -858,42 +925,44 @@ yyerrlab:
 
       if (yyn > YYFLAG && yyn < YYLAST)
 	{
-	  size_t size = 0;
-	  char *msg;
-	  int x, count;
+	  YYSIZE_T yysize = 0;
+	  char *yymsg;
+	  int yyx, yycount;
 
-	  count = 0;
-	  /* Start X at -YYN if negative to avoid negative indexes in
+	  yycount = 0;
+	  /* Start YYX at -YYN if negative to avoid negative indexes in
 	     YYCHECK.  */
-	  for (x = yyn < 0 ? -yyn : 0;
-	       x < (int) (sizeof (yytname) / sizeof (char *)); x++)
-	    if (yycheck[x + yyn] == x)
-	      size += strlen (yytname[x]) + 15, count++;
-	  size += strlen ("parse error, unexpected ") + 1;
-	  size += strlen (yytname[YYTRANSLATE (yychar)]);
-	  msg = (char *) malloc (size);
-	  if (msg != 0)
+	  for (yyx = yyn < 0 ? -yyn : 0;
+	       yyx < (int) (sizeof (yytname) / sizeof (char *)); yyx++)
+	    if (yycheck[yyx + yyn] == yyx)
+	      yysize += yystrlen (yytname[yyx]) + 15, yycount++;
+	  yysize += yystrlen ("parse error, unexpected ") + 1;
+	  yysize += yystrlen (yytname[YYTRANSLATE (yychar)]);
+	  yymsg = (char *) YYSTACK_ALLOC (yysize);
+	  if (yymsg != 0)
 	    {
-	      strcpy (msg, "parse error, unexpected ");
-	      strcat (msg, yytname[YYTRANSLATE (yychar)]);
+	      char *yyp = yystpcpy (yymsg, "parse error, unexpected ");
+	      yyp = yystpcpy (yyp, yytname[YYTRANSLATE (yychar)]);
 
-	      if (count < 5)
+	      if (yycount < 5)
 		{
-		  count = 0;
-		  for (x = yyn < 0 ? -yyn : 0;
-			 x < (int) (sizeof (yytname) / sizeof (char *)); x++)
-		    if (yycheck[x + yyn] == x)
+		  yycount = 0;
+		  for (yyx = yyn < 0 ? -yyn : 0;
+		       yyx < (int) (sizeof (yytname) / sizeof (char *));
+		       yyx++)
+		    if (yycheck[yyx + yyn] == yyx)
 		      {
-			strcat (msg, count == 0 ? ", expecting " : " or ");
-		        strcat (msg, yytname[x]);
-			count++;
+			const char *yyq = ! yycount ? ", expecting " : " or ";
+			yyp = yystpcpy (yyp, yyq);
+			yyp = yystpcpy (yyp, yytname[yyx]);
+			yycount++;
 		      }
 		}
-	      yyerror (msg);
-	      free (msg);
-	    }
-          else
-	    yyerror ("parse error; also virtual memory exhausted");
+	      yyerror (yymsg);
+	      YYSTACK_FREE (yymsg);
+  	    }
+  	  else
+  	    yyerror ("parse error; also virtual memory exhausted");
         }
       else
 #endif /* YYERROR_VERBOSE */
@@ -959,10 +1028,10 @@ yyerrpop:
 #if YYDEBUG
   if (yydebug)
     {
-      short *ssp1 = yyss - 1;
+      short *yyssp1 = yyss - 1;
       fprintf (stderr, "Error: state stack now");
-      while (ssp1 != yyssp)
-	fprintf (stderr, " %d", *++ssp1);
+      while (yyssp1 != yyssp)
+	fprintf (stderr, " %d", *++yyssp1);
       fprintf (stderr, "\n");
     }
 #endif

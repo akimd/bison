@@ -1,3 +1,40 @@
+2001-11-29  Paul Eggert  <eggert@twinsun.com>
+
+	Name space cleanup in generated parser.
+
+	* doc/bison.texinfo (Bison Parser): Discuss system headers
+	and their effect on the user name space.
+
+	* src/bison.simple:
+	(YYSTACK_ALLOC, YYSTACK_FREE, union yyalloc, YYSTACK_GAP_MAX,
+	YYSTACK_BYTES, YYSTACK_RELOCATE): Do not define unless necessary,
+	i.e. unless ! defined (yyoverflow) || defined (YYERROR_VERBOSE).
+
+	(YYSIZE_T): New macro.  Use it instead of size_t, to avoid infringing
+	on user names when possible.
+
+	(YYSTACK_USE_ALLOCA): Do not define; just use any existing defn.
+	Simplify test for whather <alloca.h> exists.
+
+	(<stdlib.h>): Include if we will use malloc, and if standard C or C++.
+
+	(<stdio.h>): Include if YYDEBUG.
+
+	(yymemcpy): Renamed from __yy_memcpy.  Do not define unless
+	! defined (yyoverflow) && ! defined (yymemcpy).
+
+	(yymemcpy, yyparse): Rename local variables as needed so that
+	they all begin with 'yy'.
+
+	(yystrlen, yystpcpy): New functions.
+
+	(YY_DECL_NON_LSP_VARIABLES): Renamed from _YY_DECL_VARIABLES.
+	All uses changed.
+
+	(yyparse): size_t -> YYSIZE_T.  Use yystrlen and yystpcpy
+	instead of relying on string.h functions.  Use YYSTACK_ALLOC
+	and YYSTACK_FREE instead of malloc and free.
+
 2001-11-30  Akim Demaille  <akim@epita.fr>
 
 	* src/bison.simple (YYSTYPE, YYLTYPE): Move their definitions
