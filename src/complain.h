@@ -56,10 +56,6 @@ extern unsigned int warn_message_count;
 /* This variable is incremented each time `complain' is called.  */
 extern unsigned int complain_message_count;
 
-/* Sometimes we want to have at most one error per line.  This
-   variable controls whether this mode is selected or not.  */
-extern int error_one_per_line;
-
 #ifdef	__cplusplus
 }
 #endif
