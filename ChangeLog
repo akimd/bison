@@ -1,5 +1,12 @@
 2002-04-22  Akim Demaille  <akim@epita.fr>
 
+	* src/reduce.c (dump_grammar): Move to...
+	* src/gram.h, src/gram.c (grammar_dump): here.
+	Be sure to separate long item numbers.
+	Don't read the members of a rule's prec if its nil.
+
+2002-04-22  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (table_size, table_grow): New.
 	(MAXTABLE): Remove, replace uses with table_size.
 	(pack_vector): Instead of dying when the table is too big, grow it.

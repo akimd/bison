@@ -186,4 +186,7 @@ void ritem_print PARAMS ((FILE *out));
 /* Return the size of the longest rule RHS.  */
 size_t ritem_longest_rhs PARAMS ((void));
 
+/* Dump the grammar. */
+void grammar_dump PARAMS ((FILE *out, const char *title));
+
 #endif /* !GRAM_H_ */
