@@ -3,6 +3,15 @@ Bison News
 
 Changes in version 1.29a:
 
+* `%source_extension' and `%header_extension' are removed, failed
+  experiment.
+
+* The test suite is more portable.
+
+* Better portability.
+
+Changes in version 1.29:
+
 * Output file does not redefine const; that is now config.h's job.
 
 * Added `-g' and `--graph'.
