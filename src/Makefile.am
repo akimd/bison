@@ -21,8 +21,8 @@ DEFS = @DEFS@ \
   -DPKGDATADIR=\"$(pkgdatadir)\" \
   -DLOCALEDIR=\"$(datadir)/locale\"
 
-CFLAGS = @CFLAGS@ $(WARNING_CFLAGS) $(WERROR_CFLAGS)
-YFLAGS = "-dv"
+AM_CFLAGS = $(WARNING_CFLAGS) $(WERROR_CFLAGS)
+AM_YFLAGS = "-dv"
 
 # config.h is in build/.
 INCLUDES = -I$(top_builddir)      \
