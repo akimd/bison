@@ -1,5 +1,11 @@
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (copy_dollar): New function.
+	(copy_guard, copy_action): Use it.
+
+	
+2000-10-16  Akim Demaille  <akim@epita.fr>
+
 	* lib/quote.h, lib/quote.c, lib/quotearg.h, lib/quotearg.c:
 	* m4/prereq.m4, m4/c-bs-a.m4, m4/mbstate.m4:
 	New files, from Fileutils 4.0.27.
