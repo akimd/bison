@@ -284,6 +284,7 @@ Invoking Bison
 Frequently Asked Questions
 
 * Parser Stack Overflow::      Breaking the Stack Limits
+* How Can I Reset @code{yyparse}::    @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 
 Copying This Manual
@@ -6353,6 +6354,7 @@ are addressed.
 
 @menu
 * Parser Stack Overflow::      Breaking the Stack Limits
+* How Can I Reset @code{yyparse}::    @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 @end menu
 
@@ -6366,6 +6368,89 @@ message.  What can I do?
 
 This question is already addressed elsewhere, @xref{Recursion,
 ,Recursive Rules}.
+
+@node How Can I Reset @code{yyparse}
+@section How Can I Reset @code{yyparse}
+
+The following phenomenon gives raise to several incarnations,
+resulting in the following typical questions:
+
+@display
+I invoke @code{yyparse} several times, and on correct input it works
+properly; but when a parse error is found, all the other calls fail
+too.  How can I reset @code{yyparse}'s error flag?
+@end display
+
+@noindent
+or
+
+@display
+My parser includes support for a @samp{#include} like feature, in
+which case I run @code{yyparse} from @code{yyparse}.  This fails
+although I did specify I needed a @code{%pure-parser}.
+@end display
+
+These problems are not related to Bison itself, but with the Lex
+generated scanners.  Because these scanners use large buffers for
+speed, they might not notice a change of input file.  As a
+demonstration, consider the following source file,
+@file{first-line.l}:
+
+@verbatim
+%{
+#include <stdio.h>
+#include <stdlib.h>
+%}
+%%
+.*\n    ECHO; return 1;
+%%
+int
+yyparse (const char *file)
+{
+  yyin = fopen (file, "r");
+  if (!yyin)
+    exit (2);
+  /* One token only. */
+  yylex ();
+  if (!fclose (yyin))
+    exit (3);
+  return 0;
+}
+
+int
+main ()
+{
+  yyparse ("input");
+  yyparse ("input");
+  return 0;
+}
+@end verbatim
+
+@noindent
+If the file @file{input} contains
+
+@verbatim
+input:1: Hello,
+input:2: World!
+@end verbatim
+
+@noindent
+then instead of getting twice the first line, you get:
+
+@example
+$ @kbd{flex -ofirst-line.c first-line.l}
+$ @kbd{gcc  -ofirst-line   first-line.c -ll}
+$ @kbd{./first-line}
+input:1: Hello,
+input:2: World!
+@end example
+
+Therefore, whenever you change @code{yyin}, you must tell the Lex
+generated scanner to discard its current buffer, and to switch to the
+new one.  This depends upon your implementation of Lex, see its
+documentation for more.  For instance, in the case of Flex, a simple
+call @samp{yyrestart (yyin)} suffices after each change to
+@code{yyin}.
 
 @node Strings are Destroyed
 @section Strings are Destroyed

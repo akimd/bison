@@ -1,3 +1,7 @@
+2003-03-29  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (How Can I Reset @code{yyparse}): New.
+
 2003-03-13  Paul Eggert  <eggert@twinsun.com>
 
 	* .cvsignore: Add configure.lineno.
@@ -35,7 +39,7 @@
 	Quote AC_FOREACH variable-expansions properly.
 	The 2003-01-03 obstack.h change also needs merging.
 	{end of changes requiring merging}
-	
+
 	* lib/stdbool.h.in, m4/alloca.m4, m4/dirname.m4, m4/dos.m4,
 	m4/getopt.m4, m4/hash.m4, m4/malloc.m4, m4/memchr.m4,
 	m4/memrchr.m4, m4/obstack.m4, m4/onceonly.m4, m4/quote.m4,
