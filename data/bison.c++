@@ -6,8 +6,7 @@ m4_divert(-1)
 m4_define([b4_sint_type],
 [m4_if(m4_eval([$1 <= 127]),        [1], [signed char],
        m4_eval([$1 <= 32767]),      [1], [signed short],
-       m4_eval([$1 <= 2147483647]), [1], [signed int],
-       [m4_fatal([no signed int type for $1])])])
+       [signed int])])
 
 
 # b4_uint_type(MAX)
@@ -16,8 +15,7 @@ m4_define([b4_sint_type],
 m4_define([b4_uint_type],
 [m4_if(m4_eval([$1 <= 255]),        [1], [unsigned char],
        m4_eval([$1 <= 65535]),      [1], [unsigned short],
-       m4_eval([$1 <= 4294967295]), [1], [unsigned int],
-       [m4_fatal([no unsigned int type for $1])])])
+       [unsigned int])])
 
 
 # b4_lhs_value([TYPE])
