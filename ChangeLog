@@ -1,3 +1,10 @@
+2003-03-01  Akim Demaille  <akim@epita.fr>
+
+	* src/scan-gram.l (code_start): Always initialize it when entering
+	into yylex, as SC_EPILOGUE is activated *before* the corresponding
+	yylex invocation.  An alternative would be making it static, but
+	then it starts with the second %%'s beginning, instead of its end.
+
 2003-02-28  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/mbswidth.c: Include <wchar.h> before "mbswidth.h", to work

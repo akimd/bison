@@ -138,8 +138,9 @@ splice	 (\\[ \f\t\v]*\n)*
   /* Location of most recent identifier, when applicable.  */
   location id_loc IF_LINT (= *loc);
 
-  /* Where containing code started, when applicable.  */
-  boundary code_start IF_LINT (= loc->start);
+  /* Where containing code started, when applicable.
+     Once the second %% seen, we are looking for the epilogue.  */
+  boundary code_start = loc->end;
 
   /* Where containing comment or string or character literal started,
      when applicable.  */
