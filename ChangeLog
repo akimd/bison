@@ -1,5 +1,7 @@
 2004-12-10  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* HACKING: Update email addresses to send announcements to.
+
 	* configure.ac (AC_INIT): Bump version to 1.875f.
 
 2004-12-10  Paul Eggert  <eggert@cs.ucla.edu>
