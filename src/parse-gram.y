@@ -332,7 +332,7 @@ grammar:
    body of the grammar.  */
 rules_or_grammar_declaration:
   rules
-| grammar_declaration
+| grammar_declaration ";"
     {
       if (yacc_flag)
 	complain_at (@$, _("POSIX forbids declarations in the grammar"));
@@ -341,7 +341,6 @@ rules_or_grammar_declaration:
     {
       yyerrok;
     }
-| ";"
 ;
 
 rules:
@@ -351,6 +350,7 @@ rules:
 rhses.1:
   rhs                { grammar_rule_end (@1); }
 | rhses.1 "|" rhs    { grammar_rule_end (@3); }
+| rhses.1 ";"
 ;
 
 rhs:
