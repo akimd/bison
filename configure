@@ -6830,7 +6830,7 @@ echo "${ECHO_T}no" >&6
 fi;
 
 
-ALL_LINGUAS="de es et fr ja nl tr ru"
+ALL_LINGUAS="de es et fr ja nl ru sv tr"
 # Make sure we can run config.sub.
 $ac_config_sub sun4 >/dev/null 2>&1 ||
   { { echo "$as_me:$LINENO: error: cannot run $ac_config_sub" >&5

@@ -1,3 +1,10 @@
+2001-11-20  Akim Demaille  <akim@epita.fr>
+
+	* po/sv.po: New.
+	* configure.in (ALL_LINGUAS): Adjust.
+	* po/POTFILE.in: Remove `nullable.c' and `derives.c' which no
+	longer contains strings to translate.
+
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (conflicts_print): Add a missing \n.

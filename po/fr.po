@@ -5,16 +5,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.30a\n"
-"POT-Creation-Date: 2001-11-14 15:59+0100\n"
-"PO-Revision-Date: 2001-11-12 08:00-0500\n"
+"Project-Id-Version: GNU bison 1.30c\n"
+"POT-Creation-Date: 2001-11-19 12:14+0100\n"
+"PO-Revision-Date: 2001-11-19 12:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: src/LR0.c:207
+#: src/LR0.c:189
 #, c-format
 msgid "too many states (max %d)"
 msgstr "nombre trop grand d'états (max %d)"
@@ -49,61 +49,60 @@ msgstr "décalage"
 msgid "an error"
 msgstr "une erreur"
 
-#: src/conflicts.c:411
-#, fuzzy, c-format
+#: src/conflicts.c:389
+#, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
-msgstr[0] " %d conflits décalage/réduction"
+msgstr[0] "%d conflits par décalage/réduction"
 
-#: src/conflicts.c:418
-#, fuzzy
+#: src/conflicts.c:396
 msgid "and"
-msgstr " et"
+msgstr "et"
 
-#: src/conflicts.c:424
-#, fuzzy, c-format
+#: src/conflicts.c:402
+#, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] " %d conflits réduction/réduction"
+msgstr[0] "%d conflits par réduction/réduction"
 
-#: src/conflicts.c:448
-#, fuzzy, c-format
+#: src/conflicts.c:426
+#, c-format
 msgid "State %d contains "
-msgstr "L'état %d contient"
+msgstr "L'état %d contient "
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:482
+#: src/conflicts.c:460
 msgid "conflicts: "
 msgstr "conflits: "
 
-#: src/conflicts.c:484
+#: src/conflicts.c:462
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d décalage/réduction"
 
-#: src/conflicts.c:488
+#: src/conflicts.c:466
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d réduction/réduction"
 
-#: src/conflicts.c:493 src/reduce.c:497
+#: src/conflicts.c:471 src/reduce.c:493
 #, c-format
 msgid "%s contains "
 msgstr "%s contient "
 
-#: src/conflicts.c:502
+#: src/conflicts.c:480
 #, fuzzy, c-format
-msgid "expected %d shift/reduce conflict"
-msgid_plural "expected %d shift/reduce conflicts"
-msgstr[0] " %d conflits décalage/réduction"
+msgid "expected %d shift/reduce conflict\n"
+msgid_plural "expected %d shift/reduce conflicts\n"
+msgstr[0] "attendu %d conflits décalage/réduction"
 
-#: src/conflicts.c:589 src/conflicts.c:709
+#: src/conflicts.c:567 src/conflicts.c:688
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[réduction par la règle %d (%s)\n"
 
-#: src/conflicts.c:600 src/print.c:172
+#: src/conflicts.c:579 src/print.c:156
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -112,24 +111,15 @@ msgstr ""
 "    $défaut\tréduction par la règle %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:689 src/conflicts.c:703
+#: src/conflicts.c:668 src/conflicts.c:682
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tréduction par la règle %d (%s)\n"
 
-#: src/conflicts.c:729
+#: src/conflicts.c:708
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $défaut\tréduction par la règle %d (%s)\n"
-
-#: src/derives.c:43
-msgid "DERIVES"
-msgstr "DÉRIVES"
-
-#: src/derives.c:48
-#, c-format
-msgid "%s derives"
-msgstr "%s dérive"
 
 #: src/files.c:143
 #, c-format
@@ -258,7 +248,7 @@ msgstr "%s: grammaire manquante\n"
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: arguments supplémentaires ignorés après `%s'\n"
 
-#: src/lalr.c:311
+#: src/lalr.c:293
 #, c-format
 msgid "too many gotos (max %d)"
 msgstr "nombre trop grand de \"goto\" (Max %d)"
@@ -321,11 +311,7 @@ msgstr "`%s': requiert un argument"
 msgid "%s: internal error: %s\n"
 msgstr "%s: erreur interne: %s\n"
 
-#: src/nullable.c:51
-msgid "Entering set_nullable"
-msgstr "Entré dans set_nullable"
-
-#: src/output.c:986
+#: src/output.c:979
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "taille maximale de la table (%d) dépassée"
@@ -335,81 +321,90 @@ msgstr "taille maximale de la table (%d) dépassée"
 msgid " type %d is %s\n"
 msgstr " le type %d est %s\n"
 
-#: src/print.c:86
+#: src/print.c:78
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (règle %d)"
 
-#: src/print.c:112
+#: src/print.c:98
 msgid "    $default\taccept\n"
 msgstr "    $défaut\taccepter\n"
 
-#: src/print.c:114
+#: src/print.c:100
 msgid "    NO ACTIONS\n"
 msgstr "    PAS D'ACTION\n"
 
-#: src/print.c:133
+#: src/print.c:120
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \taller à l'état %d\n"
 
-#: src/print.c:136
+#: src/print.c:123
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tdécalage et aller à l'état %d\n"
 
-#: src/print.c:160
+#: src/print.c:144
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\terreur (non-associatif)\n"
 
-#: src/print.c:188
+#: src/print.c:173
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\taller à l'état %d\n"
 
-#: src/print.c:200
+#: src/print.c:185
 #, c-format
 msgid "state %d"
 msgstr "état %d"
 
 #. rule # : LHS -> RHS
-#: src/print.c:230
+#: src/print.c:215
 msgid "Grammar"
 msgstr "Grammaire"
 
-#: src/print.c:235
+#: src/print.c:220
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "règle %-4d %s ->"
 
-#: src/print.c:241
+#: src/print.c:226
 msgid "empty"
 msgstr "vide"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:246
+#: src/print.c:231
 msgid "Terminals, with rules where they appear"
 msgstr "Terminaux, suivis des règles où ils apparaissent"
 
-#: src/print.c:270
+#: src/print.c:255
 msgid "Nonterminals, with rules where they appear"
 msgstr "Non-terminaux, suivis des règles où ils apparaissent"
 
-#: src/print.c:296
+#: src/print.c:281
 msgid " on left:"
 msgstr " à gauche:"
 
-#: src/print.c:311
+#: src/print.c:296
 msgid " on right:"
 msgstr " à droite:"
 
-#: src/print_graph.c:174
+#. If something has been added in the NODE_OBSTACK after
+#. the declaration of the label, then we need a `\n'.
+#. if (obstack_object_size (node_obstack) > node_output_size)
+#. obstack_sgrow (node_obstack, "\n");
+#.
+#: src/print_graph.c:166
 #, c-format
 msgid "%-4s\terror (nonassociative)"
 msgstr "%-4s\terreur (non-associatif)"
 
-#: src/print_graph.c:187
+#.
+#. if (obstack_object_size (node_obstack) > node_output_size)
+#. obstack_sgrow (node_obstack, "\n");
+#.
+#: src/print_graph.c:181
 #, c-format
 msgid "$default\treduce using rule %d (%s)"
 msgstr "$défaut\tréduction par la règle %d (%s)"
@@ -474,7 +469,7 @@ msgstr "symbole `%s' présent dans plus d'une chaîne litérale"
 msgid "symbol %s redefined"
 msgstr "symbole %s redéfini"
 
-#: src/reader.c:532 src/reader.c:610 src/reader.c:671 src/reader.c:1294
+#: src/reader.c:532 src/reader.c:610 src/reader.c:671 src/reader.c:1280
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "redéclaration du type de %s"
@@ -489,7 +484,7 @@ msgstr "`%s' n'est pas valide dans %s"
 msgid "multiple %s declarations"
 msgstr "multiples déclarations %s"
 
-#: src/reader.c:560 src/reader.c:902 src/reader.c:927 src/reader.c:1272
+#: src/reader.c:560 src/reader.c:902 src/reader.c:927 src/reader.c:1258
 #, c-format
 msgid "invalid %s declaration"
 msgstr "la déclaration %s n'est pas valide"
@@ -558,100 +553,100 @@ msgstr "caractère inconnu: %s"
 msgid "unterminated %guard clause"
 msgstr "clause %guard non terminée"
 
-#: src/reader.c:1359
+#: src/reader.c:1345
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "règle mal formée: le symbole initial n'est pas suivi de `:'"
 
-#: src/reader.c:1366
+#: src/reader.c:1352
 msgid "grammar starts with vertical bar"
 msgstr "la grammaire débute par une barre verticale"
 
-#: src/reader.c:1397
+#: src/reader.c:1381
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "la règle pour %s, qui est un terminal"
 
-#: src/reader.c:1499
+#: src/reader.c:1483
 msgid "two @prec's in a row"
 msgstr "deux @prec de suite"
 
-#: src/reader.c:1507
+#: src/reader.c:1491
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard est présent mais %%semantic_parser n'est pas spécifié"
 
-#: src/reader.c:1516
+#: src/reader.c:1500
 msgid "two actions at end of one rule"
 msgstr "deux actions à la fin d'une même règle"
 
-#: src/reader.c:1530
+#: src/reader.c:1514
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflit de type (`%s' `%s') pour l'action par défaut"
 
-#: src/reader.c:1536
+#: src/reader.c:1520
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "règle vide pour une catégorie typée et aucune action"
 
-#: src/reader.c:1580
+#: src/reader.c:1564
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrée non valide: %s"
 
-#: src/reader.c:1588
+#: src/reader.c:1572
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "trop de symboles (jeton plus non terminaux); maximum %d"
 
-#: src/reader.c:1591
+#: src/reader.c:1575
 msgid "no rules in the input grammar"
 msgstr "la grammaire n'a pas de règles"
 
-#: src/reader.c:1615
+#: src/reader.c:1599
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "le symbole %s est utilisé mais ce n'est pas un terminal et il ne possède pas "
 "de règle"
 
-#: src/reader.c:1707
+#: src/reader.c:1734
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "les jetons %s et %s se sont vus assigner le nombre %d"
 
-#: src/reader.c:1760
+#: src/reader.c:1787
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "les priorités pour %s et %s entrent en conflit"
 
-#: src/reader.c:1772
+#: src/reader.c:1799
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "les valeurs d'association de %s et %s entrent en conflit"
 
-#: src/reader.c:1811
+#: src/reader.c:1838
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "le symbole de départ %s n'est pas défini"
 
-#: src/reader.c:1813
+#: src/reader.c:1840
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "le symbole de départ %s est un terminal"
 
-#: src/reduce.c:405
+#: src/reduce.c:400
 msgid "Useless nonterminals:"
 msgstr "Non-terminaux inutiles:"
 
-#: src/reduce.c:419
+#: src/reduce.c:414
 msgid "Terminals which are not used:"
 msgstr "Terminaux non utilisés:"
 
-#: src/reduce.c:430
+#: src/reduce.c:425
 msgid "Useless rules:"
 msgstr "Règles inutiles:"
 
-#: src/reduce.c:458
+#: src/reduce.c:451
 msgid ""
 "Variables\n"
 "---------\n"
@@ -661,11 +656,11 @@ msgstr ""
 "---------\n"
 "\n"
 
-#: src/reduce.c:459
+#: src/reduce.c:452
 msgid "Value  Sprec    Sassoc    Tag\n"
 msgstr "Valeur Spréc    Sassoc    Tag\n"
 
-#: src/reduce.c:463
+#: src/reduce.c:456
 msgid ""
 "Rules\n"
 "-----\n"
@@ -675,7 +670,7 @@ msgstr ""
 "------\n"
 "\n"
 
-#: src/reduce.c:473
+#: src/reduce.c:470
 msgid ""
 "Rules interpreted\n"
 "-----------------\n"
@@ -685,37 +680,29 @@ msgstr ""
 "-------------------\n"
 "\n"
 
-#: src/reduce.c:495
+#: src/reduce.c:491
 #, c-format
 msgid "%d rules never reduced\n"
 msgstr "%d règles jamais réduites\n"
 
-#: src/reduce.c:501
+#: src/reduce.c:497
 #, c-format
 msgid "%d useless nonterminal%s"
 msgstr "%d catégories non productives%s"
 
-#: src/reduce.c:506
+#: src/reduce.c:502
 msgid " and "
 msgstr " et "
 
-#: src/reduce.c:510
+#: src/reduce.c:506
 #, c-format
 msgid "%d useless rule%s"
 msgstr "%d règle(s) non productive(s)%s"
 
-#: src/reduce.c:540
+#: src/reduce.c:536
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Aucune phrase ne peut être dérivée du symbole de départ %s"
-
-#: src/reduce.c:553
-#, c-format
-msgid ""
-"reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
-msgstr ""
-"la réduction de %s définit %d terminal%s, %d catégorie%s et %d production%"
-"s.\n"
 
 #: lib/getopt.c:694
 #, c-format
@@ -803,6 +790,21 @@ msgstr "`"
 #: lib/quotearg.c:269
 msgid "'"
 msgstr "'"
+
+#~ msgid "DERIVES"
+#~ msgstr "DÉRIVES"
+
+#~ msgid "%s derives"
+#~ msgstr "%s dérive"
+
+#~ msgid "Entering set_nullable"
+#~ msgstr "Entré dans set_nullable"
+
+#~ msgid ""
+#~ "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
+#~ msgstr ""
+#~ "la réduction de %s définit %d terminal%s, %d catégorie%s et %d production%"
+#~ "s.\n"
 
 #~ msgid " 1 shift/reduce conflict"
 #~ msgstr " 1 conflit décalage/réduction"
