@@ -25,12 +25,12 @@ typedef bitset * bitsetv;
 
 /* Create a vector of N_VECS bitsets, each of N_BITS, and of
    type TYPE.  */
-extern bitsetv bitsetv_alloc PARAMS ((unsigned int, unsigned int,
+extern bitsetv bitsetv_alloc PARAMS ((bitset_bindex, bitset_bindex,
 				      enum bitset_type));
 
 /* Create a vector of N_VECS bitsets, each of N_BITS, and with
    attribute hints specified by ATTR.  */
-extern bitsetv bitsetv_create PARAMS ((unsigned int, unsigned int,
+extern bitsetv bitsetv_create PARAMS ((bitset_bindex, bitset_bindex,
 				       unsigned int));
 
 /* Free vector of bitsets.  */
