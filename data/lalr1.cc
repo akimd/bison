@@ -954,20 +954,20 @@ namespace yy
     /** \name Line and Column related manipulators
      ** \{ */
   public:
-    /** \brief (line related) Advance to the LINES next lines. */
-    inline void lines (int lines = 1)
+    /** \brief (line related) Advance to the COUNT next lines. */
+    inline void lines (int count = 1)
     {
       column = initial_column;
-      line += lines;
+      line += count;
     }
 
-    /** \brief (column related) Advance to the COLUMNS next columns. */
-    inline void columns (int columns = 1)
+    /** \brief (column related) Advance to the COUNT next columns. */
+    inline void columns (int count = 1)
     {
       int leftmost = initial_column;
       int current  = column;
-      if (leftmost <= current + columns)
-	column += columns;
+      if (leftmost <= current + count)
+	column += count;
       else
 	column = initial_column;
     }
@@ -1068,16 +1068,16 @@ namespace yy
       begin = end;
     }
 
-    /** \brief Extend the current location to the COLUMNS next columns. */
-    inline void columns (unsigned columns = 1)
+    /** \brief Extend the current location to the COUNT next columns. */
+    inline void columns (unsigned int count = 1)
     {
-      end += columns;
+      end += count;
     }
 
-    /** \brief Extend the current location to the LINES next lines. */
-    inline void lines (unsigned lines = 1)
+    /** \brief Extend the current location to the COUNT next lines. */
+    inline void lines (unsigned int count = 1)
     {
-      end.lines (lines);
+      end.lines (count);
     }
     /** \} */
 
