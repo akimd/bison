@@ -1,5 +1,5 @@
 /* Concentrate all options use in bison,
-   Copyright 2001 Free Software Foundation, Inc.
+   Copyright 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -34,7 +34,7 @@ typedef enum opt_access_e
 
 /* This is the general struct, which contains user's options from
    command line or in grammar with percent flag.  */
-struct option_table_struct
+struct option_table_s
 {
   /* Set the accessibility.  */
   opt_access_t access;
@@ -42,8 +42,8 @@ struct option_table_struct
   const char *name;
   /* Use for command line.  */
   int has_arg;
-  /* A set_flag value causes the named flag to be set.  */
-  void *set_flag;
+  /* An optional lvalue to be set.  */
+  void *flag;
   /* A retval action returns the code.  */
   int ret_val;
   /* The short option value, frequently a letter.  */
@@ -53,9 +53,9 @@ struct option_table_struct
 extern const char *shortopts;
 
 /* Table which contain all options.  */
-extern const struct option_table_struct option_table[];
+extern const struct option_table_s option_table[];
 
-/* Set the longopts variable from option_table.  */
+/* Return a malloc'd list of the options for getopt_long.  */
 struct option *long_option_table_new PARAMS ((void));
 
 #endif /* !OPTIONS_H_ */

@@ -1,5 +1,20 @@
 -*- outline -*-
 
+* documentation
+Explain $axiom (and maybe change its name: BTYacc names it goal).
+Complete the glossary (item, axiom, ?).
+
+* report documentation
+Extend with error.  The hard part will probably be finding the right
+rule so that a single state does not exhibit to many yet undocumented
+``features''.  Maybe an empty action ought to be presented too.  Shall
+we try to make a single grammar with all these features, or should we
+have several very small grammars?
+
+* documentation
+Some history of Bison and some bibliography would be most welcome.
+Are there any Texinfo standards for bibliography?
+
 * Several %unions
 I think this is a pleasant (but useless currently) feature, but in the
 future, I want a means to %include other bits of grammars, and _then_
@@ -21,130 +36,25 @@ When implementing multiple-%union support, bare the following in mind:
 	  char *sval;
 	}
 
-* Experimental report features
-Decide whether they should be enabled, or optional.  For instance, on:
+* --report=conflict-path
+Provide better assistance for understanding the conflicts by providing
+a sample text exhibiting the (LALR) ambiguity.
 
-	input:
-	  exp
-	| input exp
-	;
+* report
+Solved conflicts should not be reported in the beginning of the file.
+Rather they should be reported within each state description.  Also,
+now that the symbol providing the precedence of a rule is kept, it is
+possible to explain why a conflict was solved this way.  E.g., instead
+of
 
-	exp:
-	  token1 "1"
-	| token2 "2"
-	| token3 "3"
-	;
+   Conflict in state 8 between rule 2 and token '+' resolved as reduce.
 
-	token1: token;
-	token2: token;
-	token3: token;
+we can (in state 8) report something like
 
-the traditional Bison reports:
+   Conflict between rule 2 and token '+' resolved as reduce
+   because '*' < '+'.
 
-	state 0
-
-	    $axiom  ->  . input $   (rule 0)
-
-	    token       shift, and go to state 1
-
-	    input       go to state 2
-	    exp         go to state 3
-	    token1      go to state 4
-	    token2      go to state 5
-	    token3      go to state 6
-
-	state 1
-
-	    token1  ->  token .   (rule 6)
-	    token2  ->  token .   (rule 7)
-	    token3  ->  token .   (rule 8)
-
-	    "2"         reduce using rule 7 (token2)
-	    "3"         reduce using rule 8 (token3)
-	    $default    reduce using rule 6 (token1)
-
-while with --trace, i.e., when enabling both the display of non-core
-item sets and the display of lookaheads, Bison now displays:
-
-	state 0
-
-	    $axiom  ->  . input $   (rule 0)
-	    input  ->  . exp   (rule 1)
-	    input  ->  . input exp   (rule 2)
-	    exp  ->  . token1 "1"   (rule 3)
-	    exp  ->  . token2 "2"   (rule 4)
-	    exp  ->  . token3 "3"   (rule 5)
-	    token1  ->  . token   (rule 6)
-	    token2  ->  . token   (rule 7)
-	    token3  ->  . token   (rule 8)
-
-	    token       shift, and go to state 1
-
-	    input       go to state 2
-	    exp         go to state 3
-	    token1      go to state 4
-	    token2      go to state 5
-	    token3      go to state 6
-
-	state 1
-
-	    token1  ->  token .  ["1"]   (rule 6)
-	    token2  ->  token .  ["2"]   (rule 7)
-	    token3  ->  token .  ["3"]   (rule 8)
-
-	    "2"         reduce using rule 7 (token2)
-	    "3"         reduce using rule 8 (token3)
-	    $default    reduce using rule 6 (token1)
-
-so decide whether this should be an option, or always enabled.  I'm in
-favor of making it the default, but maybe we should tune the output to
-distinguish core item sets from non core:
-
-	state 0
-	    Core:
-	    $axiom  ->  . input $   (rule 0)
-
-	    Derived:
-	    input  ->  . exp   (rule 1)
-	    input  ->  . input exp   (rule 2)
-	    exp  ->  . token1 "1"   (rule 3)
-	    exp  ->  . token2 "2"   (rule 4)
-	    exp  ->  . token3 "3"   (rule 5)
-	    token1  ->  . token   (rule 6)
-	    token2  ->  . token   (rule 7)
-	    token3  ->  . token   (rule 8)
-
-	    token       shift, and go to state 1
-
-	    input       go to state 2
-	    exp         go to state 3
-	    token1      go to state 4
-	    token2      go to state 5
-	    token3      go to state 6
-
-
-> So, it seems clear that it has to be an additional option :)
-
-Paul:
-
-	There will be further such options in the future, so I'd make
-	them all operands of the --report option.  E.g., you could do
-	something like this:
-
-	--report=state --report=lookahead --report=itemset
-	--report=conflict-path
-
-	where "--verbose" is equivalent to "--report=state", and where
-	"--report=conflict-path" reports each path to a conflict
-	state.
-
-	(As a minor point, I prefer avoiding plurals in option names.
-	It's partly for brevity, and partly to avoid wearing out the
-	's' keys in our keyboards.  :-)
-
-To implement this, see in the Fileutils the latest versions of
-argmatch and so forth.
-
+or something like that.
 
 * Coding system independence
 Paul notes:

@@ -5,9 +5,7 @@
 @settitle Bison @value{VERSION}
 @setchapternewpage odd
 
-@iftex
 @finalout
-@end iftex
 
 @c SMALL BOOK version
 @c This edition has been formatted so that you can format and print it in
@@ -23,6 +21,7 @@
 @c Check COPYRIGHT dates.  should be updated in the titlepage, ifinfo
 @c titlepage; should NOT be changed in the GPL.  --mew
 
+@c FIXME: I don't understand this `iftex'.  Obsolete? --akim.
 @iftex
 @syncodeindex fn cp
 @syncodeindex vr cp
@@ -154,7 +153,7 @@ Reference sections:
 * Error Recovery::    Writing rules for error recovery.
 * Context Dependency::  What to do if your language syntax is too
                         messy for Bison to handle straightforwardly.
-* Debugging::         Debugging Bison parsers that parse wrong.
+* Debugging::         Understanding or debugging Bison parsers.
 * Invocation::        How to run Bison (to produce the parser source file).
 * Table of Symbols::  All the keywords of the Bison language are explained.
 * Glossary::          Basic concepts are explained.
@@ -298,6 +297,11 @@ Handling Context Dependencies
 * Lexical Tie-ins::   Token parsing can depend on the syntactic context.
 * Tie-in Recovery::   Lexical tie-ins have implications for how
                         error recovery rules must be written.
+
+Understanding or Debugging Your Parser
+
+* Understanding::     Understanding the structure of your parser.
+* Tracing::           Tracing the execution of your parser.
 
 Invoking Bison
 
@@ -707,9 +711,9 @@ In some cases the Bison parser file includes system headers, and in
 those cases your code should respect the identifiers reserved by those
 headers.  On some non-@sc{gnu} hosts, @code{<alloca.h>},
 @code{<stddef.h>}, and @code{<stdlib.h>} are included as needed to
-declare memory allocators and related types.
-Other system headers may be included if you define @code{YYDEBUG} to a
-nonzero value (@pxref{Debugging, ,Debugging Your Parser}).
+declare memory allocators and related types.  Other system headers may
+be included if you define @code{YYDEBUG} to a nonzero value
+(@pxref{Tracing, ,Tracing Your Parser}).
 
 @node Stages
 @section Stages in Using Bison
@@ -2351,14 +2355,14 @@ expseq1:  exp
 @end example
 
 @noindent
-Any kind of sequence can be defined using either left recursion or
-right recursion, but you should always use left recursion, because it
-can parse a sequence of any number of elements with bounded stack
-space.  Right recursion uses up space on the Bison stack in proportion
-to the number of elements in the sequence, because all the elements
-must be shifted onto the stack before the rule can be applied even
-once.  @xref{Algorithm, ,The Bison Parser Algorithm }, for
-further explanation of this.
+Any kind of sequence can be defined using either left recursion or right
+recursion, but you should always use left recursion, because it can
+parse a sequence of any number of elements with bounded stack space.
+Right recursion uses up space on the Bison stack in proportion to the
+number of elements in the sequence, because all the elements must be
+shifted onto the stack before the rule can be applied even once.
+@xref{Algorithm, ,The Bison Parser Algorithm}, for further explanation
+of this.
 
 @cindex mutual recursion
 @dfn{Indirect} or @dfn{mutual} recursion occurs when the result of the
@@ -3276,7 +3280,7 @@ directives:
 @item %debug
 In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
 already defined, so that the debugging facilities are compiled.
-@xref{Debugging, ,Debugging Your Parser}.
+@xref{Tracing, ,Tracing Your Parser}.
 
 @item %defines
 Write an extra output file containing macro definitions for the token
@@ -3386,17 +3390,10 @@ The number of parser states (@pxref{Parser States}).
 @item %verbose
 Write an extra output file containing verbose descriptions of the
 parser states and what is done for each type of look-ahead token in
-that state.
+that state. @xref{Understanding, , Understanding Your Parser}, for more
+information.
 
-This file also describes all the conflicts, both those resolved by
-operator precedence and the unresolved ones.
 
-The file's name is made by removing @samp{.tab.c} or @samp{.c} from
-the parser output file name, and adding @samp{.output} instead.
-
-Therefore, if the input file is @file{foo.y}, then the parser file is
-called @file{foo.tab.c} by default.  As a consequence, the verbose
-output file is called @file{foo.output}.
 
 @item %yacc
 Pretend the option @option{--yacc} was given, i.e., imitate Yacc,
@@ -4954,8 +4951,414 @@ make sure your error recovery rules are not of this kind.  Each rule must
 be such that you can be sure that it always will, or always won't, have to
 clear the flag.
 
+@c ================================================== Debugging Your Parser
+
 @node Debugging
 @chapter Debugging Your Parser
+
+Developing a parser can be a challenge, especially if you don't
+understand the algorithm (@pxref{Algorithm, ,The Bison Parser
+Algorithm}).  Even so, sometimes a detailed description of the automaton
+can help (@pxref{Understanding, , Understanding Your Parser}), or
+tracing the execution of the parser can give some insight on why it
+behaves improperly (@pxref{Tracing, , Tracing Your Parser}).
+
+@menu
+* Understanding::     Understanding the structure of your parser.
+* Tracing::           Tracing the execution of your parser.
+@end menu
+
+@node Understanding
+@section Understanding Your Parser
+
+As documented elsewhere (@pxref{Algorithm, ,The Bison Parser Algorithm})
+Bison parsers are @dfn{shift/reduce automata}.  In some cases (much more
+frequent than one would hope), looking at this automaton is required to
+tune or simply fix a parser.  Bison provides two different
+representation of it, either textually or graphically (as a @sc{vcg}
+file).
+
+The textual file is generated when the options @option{--report} or
+@option{--verbose} are specified, see @xref{Invocation, , Invoking
+Bison}.  Its name is made by removing @samp{.tab.c} or @samp{.c} from
+the parser output file name, and adding @samp{.output} instead.
+Therefore, if the input file is @file{foo.y}, then the parser file is
+called @file{foo.tab.c} by default.  As a consequence, the verbose
+output file is called @file{foo.output}.
+
+The following grammar file, @file{calc.y}, will be used in the sequel:
+
+@example
+%token NUM STR
+%left '+' '-'
+%left '*'
+%%
+exp: exp '+' exp
+   | exp '-' exp
+   | exp '*' exp
+   | exp '/' exp
+   | NUM
+   ;
+useless: STR;
+%%
+@end example
+
+@command{bison} reports that @samp{calc.y contains 1 useless nonterminal
+and 1 useless rule} and that @samp{calc.y contains 7 shift/reduce
+conflicts}.  When given @option{--report=state}, in addition to
+@file{calc.tab.c}, it creates a file @file{calc.output} with contents
+detailed below.  The order of the output and the exact presentation
+might vary, but the interpretation is the same.
+
+The first section includes details on conflicts that were solved thanks
+to precedence and/or associativity:
+
+@example
+Conflict in state 8 between rule 2 and token '+' resolved as reduce.
+Conflict in state 8 between rule 2 and token '-' resolved as reduce.
+Conflict in state 8 between rule 2 and token '*' resolved as shift.
+@exdent @dots{}
+@end example
+
+@noindent
+The next section lists states that still have conflicts.
+
+@example
+State 8 contains 1 shift/reduce conflict.
+State 9 contains 1 shift/reduce conflict.
+State 10 contains 1 shift/reduce conflict.
+State 11 contains 4 shift/reduce conflicts.
+@end example
+
+@noindent
+@cindex token, useless
+@cindex useless token
+@cindex nonterminal, useless
+@cindex useless nonterminal
+@cindex rule, useless
+@cindex useless rule
+The next section reports useless tokens, nonterminal and rules.  Useless
+nonterminals and rules are removed in order to produce a smaller parser,
+but useless tokens are preserved, since they might be used by the
+scanner (note the difference between ``useless'' and ``not used''
+below):
+
+@example
+Useless nonterminals:
+   useless
+
+Terminals which are not used:
+   STR
+
+Useless rules:
+#6     useless: STR;
+@end example
+
+@noindent
+The next section reproduces the exact grammar that Bison used:
+
+@example
+Grammar
+
+  Number, Line, Rule
+    0   5 $axiom -> exp $
+    1   5 exp -> exp '+' exp
+    2   6 exp -> exp '-' exp
+    3   7 exp -> exp '*' exp
+    4   8 exp -> exp '/' exp
+    5   9 exp -> NUM
+@end example
+
+@noindent
+and reports the uses of the symbols:
+
+@example
+Terminals, with rules where they appear
+
+$ (0) 0
+'*' (42) 3
+'+' (43) 1
+'-' (45) 2
+'/' (47) 4
+error (256)
+NUM (258) 5
+
+Nonterminals, with rules where they appear
+
+$axiom (8)
+    on left: 0
+exp (9)
+    on left: 1 2 3 4 5, on right: 0 1 2 3 4
+@end example
+
+@noindent
+@cindex item
+@cindex pointed rule
+@cindex rule, pointed
+Bison then proceeds onto the automaton itself, describing each state
+with it set of @dfn{items}, also known as @dfn{pointed rules}.  Each
+item is a production rule together with a point (marked by @samp{.})
+that the input cursor.
+
+@example
+state 0
+
+    $axiom  ->  . exp $   (rule 0)
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 2
+@end example
+
+This reads as follows: ``state 0 corresponds to being at the very
+beginning of the parsing, in the initial rule, right before the start
+symbol (here, @code{exp}).  When the parser returns to this state right
+after having reduced a rule that produced an @code{exp}, the control
+flow jumps to state 2.  If there is no such transition on a nonterminal
+symbol, and the lookahead is a @code{NUM}, then this token is shifted on
+the parse stack, and the control flow jumps to state 1.  Any other
+lookahead triggers a parse error.''
+
+@cindex core, item set
+@cindex item set core
+@cindex kernel, item set
+@cindex item set core
+Even though the only active rule in state 0 seems to be rule 0, the
+report lists @code{NUM} as a lookahead symbol because @code{NUM} can be
+at the beginning of any rule deriving an @code{exp}.  By default Bison
+reports the so-called @dfn{core} or @dfn{kernel} of the item set, but if
+you want to see more detail you can invoke @command{bison} with
+@option{--report=itemset} to list all the items, include those that can
+be derived:
+
+@example
+state 0
+
+    $axiom  ->  . exp $   (rule 0)
+    exp  ->  . exp '+' exp   (rule 1)
+    exp  ->  . exp '-' exp   (rule 2)
+    exp  ->  . exp '*' exp   (rule 3)
+    exp  ->  . exp '/' exp   (rule 4)
+    exp  ->  . NUM   (rule 5)
+
+    NUM         shift, and go to state 1
+
+    exp         go to state 2
+@end example
+
+@noindent
+In the state 1...
+
+@example
+state 1
+
+    exp  ->  NUM .   (rule 5)
+
+    $default	reduce using rule 5 (exp)
+@end example
+
+@noindent
+the rule 5, @samp{exp: NUM;}, is completed.  Whatever the lookahead
+(@samp{$default}), the parser will reduce it.  If it was coming from
+state 0, then, after this reduction it will return to state 0, and will
+jump to state 2 (@samp{exp: go to state 2}).
+
+@example
+state 2
+
+    $axiom  ->  exp . $   (rule 0)
+    exp  ->  exp . '+' exp   (rule 1)
+    exp  ->  exp . '-' exp   (rule 2)
+    exp  ->  exp . '*' exp   (rule 3)
+    exp  ->  exp . '/' exp   (rule 4)
+
+    $   	shift, and go to state 3
+    '+' 	shift, and go to state 4
+    '-' 	shift, and go to state 5
+    '*' 	shift, and go to state 6
+    '/' 	shift, and go to state 7
+@end example
+
+@noindent
+In state 2, the automaton can only shift a symbol.  For instance,
+because of the item @samp{exp -> exp . '+' exp}, if the lookahead if
+@samp{+}, it will be shifted on the parse stack, and the automaton
+control will jump to state 4, corresponding to the item @samp{exp -> exp
+'+' . exp}.  Since there is no default action, any other token than
+those listed above will trigger a parse error.
+
+The state 3 is named the @dfn{final state}, or the @dfn{accepting
+state}:
+
+@example
+state 3
+
+    $axiom  ->  exp $ .   (rule 0)
+
+    $default	accept
+@end example
+
+@noindent
+the initial rule is completed (the start symbol and the end
+of input were read), the parsing exits successfully.
+
+The interpretation of states 4 to 7 is straightforward, and is left to
+the reader.
+
+@example
+state 4
+
+    exp  ->  exp '+' . exp   (rule 1)
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 8
+
+state 5
+
+    exp  ->  exp '-' . exp   (rule 2)
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 9
+
+state 6
+
+    exp  ->  exp '*' . exp   (rule 3)
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 10
+
+state 7
+
+    exp  ->  exp '/' . exp   (rule 4)
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 11
+@end example
+
+As was announced in beginning of the report, @samp{State 8 contains 1
+shift/reduce conflict}:
+
+@example
+state 8
+
+    exp  ->  exp . '+' exp   (rule 1)
+    exp  ->  exp '+' exp .   (rule 1)
+    exp  ->  exp . '-' exp   (rule 2)
+    exp  ->  exp . '*' exp   (rule 3)
+    exp  ->  exp . '/' exp   (rule 4)
+
+    '*' 	shift, and go to state 6
+    '/' 	shift, and go to state 7
+
+    '/' 	[reduce using rule 1 (exp)]
+    $default	reduce using rule 1 (exp)
+@end example
+
+Indeed, there are two actions associated to the lookahead @samp{/}:
+either shifting (and going to state 7), or reducing rule 1.  The
+conflict means that either the grammar is ambiguous, or the parser lacks
+information to make the right decision.  Indeed the grammar is
+ambiguous, as, since we did not specify the precedence of @samp{/}, the
+sentence @samp{NUM + NUM / NUM} can be parsed as @samp{NUM + (NUM /
+NUM)}, which corresponds to shifting @samp{/}, or as @samp{(NUM + NUM) /
+NUM}, which corresponds to reducing rule 1.
+
+Because in LALR(1) parsing a single decision can be made, Bison
+arbitrarily chose to disable the reduction, see @ref{Shift/Reduce, ,
+Shift/Reduce Conflicts}.  Discarded actions are reported in between
+square brackets.
+
+Note that all the previous states had a single possible action: either
+shifting the next token and going to the corresponding state, or
+reducing a single rule.  In the other cases, i.e., when shifting
+@emph{and} reducing is possible or when @emph{several} reductions are
+possible, the lookahead is required to select the action.  State 8 is
+one such state: if the lookahead is @samp{*} or @samp{/} then the action
+is shifting, otherwise the action is reducing rule 1.  In other words,
+the first two items, corresponding to rule 1, are not eligible when the
+lookahead is @samp{*}, since we specified that @samp{*} has higher
+precedence that @samp{+}.  More generally, some items are eligible only
+with some set of possible lookaheads.  When run with
+@option{--report=lookahead}, Bison specifies these lookaheads:
+
+@example
+state 8
+
+    exp  ->  exp . '+' exp  [$, '+', '-', '/']   (rule 1)
+    exp  ->  exp '+' exp .  [$, '+', '-', '/']   (rule 1)
+    exp  ->  exp . '-' exp   (rule 2)
+    exp  ->  exp . '*' exp   (rule 3)
+    exp  ->  exp . '/' exp   (rule 4)
+
+    '*'         shift, and go to state 6
+    '/'         shift, and go to state 7
+
+    '/'         [reduce using rule 1 (exp)]
+    $default    reduce using rule 1 (exp)
+@end example
+
+The remaining states are similar:
+
+@example
+state 9
+
+    exp  ->  exp . '+' exp   (rule 1)
+    exp  ->  exp . '-' exp   (rule 2)
+    exp  ->  exp '-' exp .   (rule 2)
+    exp  ->  exp . '*' exp   (rule 3)
+    exp  ->  exp . '/' exp   (rule 4)
+
+    '*' 	shift, and go to state 6
+    '/' 	shift, and go to state 7
+
+    '/' 	[reduce using rule 2 (exp)]
+    $default	reduce using rule 2 (exp)
+
+state 10
+
+    exp  ->  exp . '+' exp   (rule 1)
+    exp  ->  exp . '-' exp   (rule 2)
+    exp  ->  exp . '*' exp   (rule 3)
+    exp  ->  exp '*' exp .   (rule 3)
+    exp  ->  exp . '/' exp   (rule 4)
+
+    '/' 	shift, and go to state 7
+
+    '/' 	[reduce using rule 3 (exp)]
+    $default	reduce using rule 3 (exp)
+
+state 11
+
+    exp  ->  exp . '+' exp   (rule 1)
+    exp  ->  exp . '-' exp   (rule 2)
+    exp  ->  exp . '*' exp   (rule 3)
+    exp  ->  exp . '/' exp   (rule 4)
+    exp  ->  exp '/' exp .   (rule 4)
+
+    '+' 	shift, and go to state 4
+    '-' 	shift, and go to state 5
+    '*' 	shift, and go to state 6
+    '/' 	shift, and go to state 7
+
+    '+' 	[reduce using rule 4 (exp)]
+    '-' 	[reduce using rule 4 (exp)]
+    '*' 	[reduce using rule 4 (exp)]
+    '/' 	[reduce using rule 4 (exp)]
+    $default	reduce using rule 4 (exp)
+@end example
+
+@noindent
+Observe that state 11 contains conflicts due to the lack of precedence
+of @samp{/} wrt @samp{+}, @samp{-}, and @samp{*}, but also because the
+associativity of @samp{/} is not specified.
+
+
+@node Tracing
+@section Tracing Your Parser
 @findex yydebug
 @cindex debugging
 @cindex tracing the parser
@@ -5059,6 +5462,8 @@ yyprint (FILE *file, int type, YYSTYPE value)
 @}
 @end smallexample
 
+@c ================================================= Invoking Bison
+
 @node Invocation
 @chapter Invoking Bison
 @cindex invoking Bison
@@ -5158,7 +5563,7 @@ you are developing Bison.
 @itemx --debug
 In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
 already defined, so that the debugging facilities are compiled.
-@xref{Debugging, ,Debugging Your Parser}.
+@xref{Tracing, ,Tracing Your Parser}.
 
 @item --locations
 Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
@@ -5203,6 +5608,27 @@ Same as above, but save in the file @var{defines-file}.
 @itemx --file-prefix=@var{prefix}
 Pretend that @code{%verbose} was specified, i.e, specify prefix to use
 for all Bison output file names. @xref{Decl Summary}.
+
+@item -r @var{things}
+@itemx --report=@var{things}
+Write an extra output file containing verbose description of the comma
+separated list of @var{things} among:
+
+@table @code
+@item state
+Description of the grammar, conflicts (resolved and unresolved), and
+LALR automaton.
+
+@item lookahead
+Implies @code{state} and augments the description of the automaton with
+each rule's lookahead set.
+
+@item itemset
+Implies @code{state} and augments the description of the automaton with
+the full set of items for each state, instead of its core only.
+@end table
+
+For instance, on the following grammar
 
 @item -v
 @itemx --verbose
@@ -5365,8 +5791,8 @@ Macro to discard a value from the parser stack and fake a look-ahead
 token.  @xref{Action Features, ,Special Features for Use in Actions}.
 
 @item YYDEBUG
-Macro to define to equip the parser with tracing code. @xref{Debugging,
-,Debugging Your Parser}.
+Macro to define to equip the parser with tracing code. @xref{Tracing,
+,Tracing Your Parser}.
 
 @item YYERROR
 Macro to pretend that a syntax error has just been detected: call
@@ -5430,7 +5856,7 @@ look-ahead token.  @xref{Error Recovery}.
 @item yydebug
 External integer variable set to zero by default.  If @code{yydebug}
 is given a nonzero value, the parser will output information on input
-symbols and parser action.  @xref{Debugging, ,Debugging Your Parser}.
+symbols and parser action.  @xref{Tracing, ,Tracing Your Parser}.
 
 @item yyerrok
 Macro to cause parser to recover immediately to its normal mode

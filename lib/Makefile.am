@@ -35,6 +35,7 @@ INCLUDES = -I$(top_builddir)/intl \
 EXTRA_DIST = malloc.c realloc.c strnlen.c
 
 libbison_a_SOURCES = \
+  argmatch.h argmatch.c \
   gettext.h \
   basename.c dirname.h dirname.c \
   getopt.h getopt.c getopt1.c \

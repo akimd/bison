@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-05-06 10:24+0200\n"
+"POT-Creation-Date: 2002-05-21 19:56+0200\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -86,7 +86,7 @@ msgstr " %d shift/riduzione"
 msgid " %d reduce/reduce"
 msgstr " %d riduzione/riduzione"
 
-#: src/conflicts.c:380 src/reduce.c:391
+#: src/conflicts.c:380 src/reduce.c:397
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
@@ -597,44 +597,44 @@ msgstr "simbolo iniziale %s non definito"
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"
 
-#: src/reduce.c:332
+#: src/reduce.c:338
 msgid "Useless nonterminals:"
 msgstr "Simboli nonterminali inutili:"
 
-#: src/reduce.c:346
+#: src/reduce.c:352
 msgid "Terminals which are not used:"
 msgstr "Simboli terminali inutilizzati:"
 
-#: src/reduce.c:358
+#: src/reduce.c:364
 msgid "Useless rules:"
 msgstr "Regole inutili:"
 
-#: src/reduce.c:386
+#: src/reduce.c:392
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regola non applicata\n"
 msgstr[1] "%d regole non applicate\n"
 
-#: src/reduce.c:394
+#: src/reduce.c:400
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d simbolo nonterminale inutilizzato"
 msgstr[1] "%d simboli nonterminali inutilizzati"
 
-#: src/reduce.c:400
+#: src/reduce.c:406
 msgid " and "
 msgstr " e "
 
-#: src/reduce.c:403
+#: src/reduce.c:409
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d regola inutile"
 msgstr[1] "%d regole inutili"
 
-#: src/reduce.c:433
+#: src/reduce.c:439
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"

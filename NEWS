@@ -81,6 +81,13 @@ Changes in version 1.49b:
   the compiler supports ANSI C or is a C++ compiler, as enums.
   This helps debuggers producing symbols instead of values.
 
+* Reports
+  In addition to --verbose, bison supports --report=THINGS, which
+  produces additional information:
+
+  `itemset'      complete the core item sets with their closure
+  `lookahead'    explicitly associate lookaheads to items
+
 
 Changes in version 1.35, 2002-03-25:
 

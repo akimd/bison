@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-05-06 10:24+0200\n"
+"POT-Creation-Date: 2002-05-21 19:56+0200\n"
 "PO-Revision-Date: 2002-03-05 10:18+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -86,7 +86,7 @@ msgstr " %d skifta/reducera"
 msgid " %d reduce/reduce"
 msgstr " %d reducera/reducera"
 
-#: src/conflicts.c:380 src/reduce.c:391
+#: src/conflicts.c:380 src/reduce.c:397
 #, c-format
 msgid "%s contains "
 msgstr "%s innehåller "
@@ -602,44 +602,44 @@ msgstr "startsymbolen %s är odefinierad"
 msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"
 
-#: src/reduce.c:332
+#: src/reduce.c:338
 msgid "Useless nonterminals:"
 msgstr "Oanvändbara icketerminaler:"
 
-#: src/reduce.c:346
+#: src/reduce.c:352
 msgid "Terminals which are not used:"
 msgstr "Terminaler som inte används:"
 
-#: src/reduce.c:358
+#: src/reduce.c:364
 msgid "Useless rules:"
 msgstr "Oanvändbara regler:"
 
-#: src/reduce.c:386
+#: src/reduce.c:392
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regel reduceras aldrig\n"
 msgstr[1] "%d regler reduceras aldrig\n"
 
-#: src/reduce.c:394
+#: src/reduce.c:400
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d oanvändbar icketerminal"
 msgstr[1] "%d oanvändbara icketerminaler"
 
-#: src/reduce.c:400
+#: src/reduce.c:406
 msgid " and "
 msgstr " och "
 
-#: src/reduce.c:403
+#: src/reduce.c:409
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d oanvändbar regel"
 msgstr[1] "%d oanvändbara regler"
 
-#: src/reduce.c:433
+#: src/reduce.c:439
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Startsymbolen %s genererar inga meningar"

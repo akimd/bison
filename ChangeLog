@@ -1,3 +1,26 @@
+2002-05-25  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (Debugging): Split into...
+	(Tracing): this new section, its former contents, and...
+	(Understanding): this new section.
+	* src/getargs.h, src/getargs.c (verbose_flag): Remove, replaced
+	by...
+	(report_flag): this.
+	Adjust all dependencies.
+	(report_args, report_types, report_argmatch): New.
+	(usage, getargs): Report/support -r, --report.
+	* src/options.h
+	(struct option_table_struct): Rename as..,
+	(struct option_table_s): this.
+	Rename the `set_flag' member to `flag' to match with getopt_long's
+	struct.
+	* src/options.c (option_table): Split verbose into an entry for
+	%verbose, and another for --verbose.
+	Support --report/-r, so remove -r from the obsolete --raw.
+	* src/print.c: Attach full item sets and lookaheads reports to
+	report_flag instead of trace_flag.
+	* lib/argmatch.h, lib/argmatch.c: New, from Fileutils 4.1.
+
 2002-05-24  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 	and Paul Eggert  <eggert@twinsun.com>
 	

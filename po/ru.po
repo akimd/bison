@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-05-06 10:24+0200\n"
+"POT-Creation-Date: 2002-05-21 19:56+0200\n"
 "PO-Revision-Date: 2002-01-25 12:19+0300\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -89,7 +89,7 @@ msgstr " %d сдвиг/вывод"
 msgid " %d reduce/reduce"
 msgstr " %d вывод/вывод"
 
-#: src/conflicts.c:380 src/reduce.c:391
+#: src/conflicts.c:380 src/reduce.c:397
 #, c-format
 msgid "%s contains "
 msgstr "%s содержит "
@@ -606,19 +606,19 @@ msgstr "начальный символ %s неопределен"
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
 
-#: src/reduce.c:332
+#: src/reduce.c:338
 msgid "Useless nonterminals:"
 msgstr "Бесполезные нетерминалы:"
 
-#: src/reduce.c:346
+#: src/reduce.c:352
 msgid "Terminals which are not used:"
 msgstr "Неиспользованные терминалы:"
 
-#: src/reduce.c:358
+#: src/reduce.c:364
 msgid "Useless rules:"
 msgstr "Бесполезные правила:"
 
-#: src/reduce.c:386
+#: src/reduce.c:392
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
@@ -626,7 +626,7 @@ msgstr[0] "%d правило не сведено\n"
 msgstr[1] "%d правила не сведено\n"
 msgstr[2] "%d правил не сведено\n"
 
-#: src/reduce.c:394
+#: src/reduce.c:400
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
@@ -634,11 +634,11 @@ msgstr[0] "%d бесполезный нетерминал"
 msgstr[1] "%d бесполезных нетерминала"
 msgstr[2] "%d бесполезных нетерминалов"
 
-#: src/reduce.c:400
+#: src/reduce.c:406
 msgid " and "
 msgstr " и "
 
-#: src/reduce.c:403
+#: src/reduce.c:409
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
@@ -646,7 +646,7 @@ msgstr[0] "%d бесполезное правило"
 msgstr[1] "%d бесполезных правила"
 msgstr[2] "%d бесполезных правил"
 
-#: src/reduce.c:433
+#: src/reduce.c:439
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Начальный символ %s не выводит ни одного предложения"

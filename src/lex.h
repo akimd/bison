@@ -50,7 +50,10 @@ typedef enum token_e
     tok_define,
     tok_skel,
     tok_noop,
+    /* A directive that sets to true its associated variable. */
     tok_intopt,
+    /* A directive that sets its associated variable to the string
+       argument.  */
     tok_stropt,
     tok_illegal,
     tok_obsolete
