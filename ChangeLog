@@ -1,6 +1,16 @@
 2000-03-31  Akim Demaille  <akim@epita.fr>
 
-	Clean the error reporting functions.
+	* allocate.c: s/return (foo)/return foo/.
+	* lalr.c: Likewise.
+	* LR0.c: Likewise.
+	* output.c: Likewise.
+	* reader.c: Likewise.
+	* symtab.c: Likewise.
+	* vmsgetargs.c: Likewise.
+
+2000-03-31  Akim Demaille  <akim@epita.fr>
+
+	Clean up the error reporting functions.
 
 	* src/report.c: New file.
 	* src/report.h: Likewise.
