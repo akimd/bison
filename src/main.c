@@ -35,6 +35,7 @@
 #include "conflicts.h"
 #include "print_graph.h"
 #include "symtab.h"
+#include "lex.h"
 
 /* The name this program was run with, for messages.  */
 char *program_name;

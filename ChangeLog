@@ -1,3 +1,7 @@
+2001-10-01  Marc Autret  <autret_m@epita.fr>
+
+	* src/main.c: Include lex.h.
+
 2001-09-29  Akim Demaille  <akim@epita.fr>
 
 	* src/getargs.c (longopts): `--debug' is `-t', not `-d'.
