@@ -42,6 +42,16 @@ tests/testsuite.dir/51 % echo "()" | ./calc
 This is not portable to DOS for instance.  Implement a more portable
 scheme.  Sources of inspiration include GNU diff, and Free Recode.
 
+* Memory leaks in the generator
+A round of memory leak clean ups would be most welcome.  Dmalloc,
+Checker GCC, Electric Fence, or Valgrind: you chose your tool.
+
+* Memory leaks in the parser
+The same applies to the generated parsers.  In particular, this is
+critical for user data: when aborting a parsing, when handling the
+error token etc., we often throw away yylval without giving a chance
+of cleaning it up to the user.
+
 * NEWS
 Sort from 1.31 NEWS.
 
