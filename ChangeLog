@@ -1,3 +1,9 @@
+2001-09-07  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/output.c (output): Delete call to reader_output_yylsp.
+	* src/reader.c (reader): Likewise.
+	* src/reader.h:	Delete declaration of reader_output_yylsp.
+	
 2001-09-02  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c: Include muscle_tab.h.

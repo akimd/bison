@@ -30,8 +30,6 @@
 extern void reader PARAMS ((void));
 
 
-extern void reader_output_yylsp PARAMS ((struct obstack *));
-
 extern int lineno;
 extern char **tags;
 extern short *user_toknums;
