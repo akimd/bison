@@ -1,3 +1,12 @@
+2004-09-03  Akim Demaille  <akim@epita.fr>
+
+	* data/glr.c, data/lalr1.cc, data/yacc.c: When YYABORT was
+	invoked, yydestruct the lookahead.
+	* tests/calc.at (Calculator $1): Update the expected lengths of
+	traces: there is an added line for the discarded lookahead.
+	* doc/bison.texinfo (Destructor Decl): Some rewording.
+	Define "discarded" symbols.
+
 2004-09-02  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (translate_, destruct_): No reason to be static.

@@ -466,21 +466,21 @@ _AT_CHECK_CALC([$1],
                [486])
 
 # Some syntax errors.
-_AT_CHECK_CALC_ERROR([$1], [1], [0 0], [11],
+_AT_CHECK_CALC_ERROR([$1], [1], [0 0], [12],
                      [1.2: syntax error, unexpected "number"])
-_AT_CHECK_CALC_ERROR([$1], [1], [1//2], [15],
+_AT_CHECK_CALC_ERROR([$1], [1], [1//2], [16],
                      [1.2: syntax error, unexpected '/', expecting "number" or '-' or '(' or '!'])
-_AT_CHECK_CALC_ERROR([$1], [1], [error], [4],
+_AT_CHECK_CALC_ERROR([$1], [1], [error], [5],
                      [1.0: syntax error, unexpected $undefined])
-_AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3], [22],
+_AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3], [23],
                      [1.6: syntax error, unexpected '='])
 _AT_CHECK_CALC_ERROR([$1], [1],
                      [
 +1],
-                     [14],
+                     [15],
                      [2.0: syntax error, unexpected '+'])
 # Exercise error messages with EOF: work on an empty file.
-_AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
+_AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [5],
                      [1.0: syntax error, unexpected "end of input"])
 
 # Exercise the error token: without it, we die at the first error,

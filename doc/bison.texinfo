@@ -787,7 +787,7 @@ are possible---either locally redefining @samp{a}, or using the
 value of @samp{a} from the outer scope.  So this approach cannot
 work.
 
-A simple solution to this problem is to declare the parser to 
+A simple solution to this problem is to declare the parser to
 use the @acronym{GLR} algorithm.
 When the @acronym{GLR} parser reaches the critical state, it
 merely splits into two branches and pursues both syntax rules
@@ -871,7 +871,7 @@ type t = (a) .. b;
 
 The parser can be turned into a @acronym{GLR} parser, while also telling Bison
 to be silent about the one known reduce/reduce conflict, by
-adding these two declarations to the Bison input file (before the first 
+adding these two declarations to the Bison input file (before the first
 @samp{%%}):
 
 @example
@@ -893,7 +893,7 @@ Bison to make sure that @acronym{GLR} splitting is only done where it is
 intended.  A @acronym{GLR} parser splitting inadvertently may cause
 problems less obvious than an @acronym{LALR} parser statically choosing the
 wrong alternative in a conflict.
-Second, consider interactions with the lexer (@pxref{Semantic Tokens}) 
+Second, consider interactions with the lexer (@pxref{Semantic Tokens})
 with great care.  Since a split parser consumes tokens
 without performing any actions during the split, the lexer cannot
 obtain information via parser actions.  Some cases of
@@ -977,20 +977,20 @@ parses as either an @code{expr} or a @code{stmt}
 @samp{x} as an @code{ID}).
 Bison detects this as a reduce/reduce conflict between the rules
 @code{expr : ID} and @code{declarator : ID}, which it cannot resolve at the
-time it encounters @code{x} in the example above.  Since this is a 
-@acronym{GLR} parser, it therefore splits the problem into two parses, one for 
+time it encounters @code{x} in the example above.  Since this is a
+@acronym{GLR} parser, it therefore splits the problem into two parses, one for
 each choice of resolving the reduce/reduce conflict.
 Unlike the example from the previous section (@pxref{Simple GLR Parsers}),
 however, neither of these parses ``dies,'' because the grammar as it stands is
-ambiguous.  One of the parsers eventually reduces @code{stmt : expr ';'} and 
-the other reduces @code{stmt : decl}, after which both parsers are in an 
-identical state: they've seen @samp{prog stmt} and have the same unprocessed 
-input remaining.  We say that these parses have @dfn{merged.}  
+ambiguous.  One of the parsers eventually reduces @code{stmt : expr ';'} and
+the other reduces @code{stmt : decl}, after which both parsers are in an
+identical state: they've seen @samp{prog stmt} and have the same unprocessed
+input remaining.  We say that these parses have @dfn{merged.}
 
 At this point, the @acronym{GLR} parser requires a specification in the
 grammar of how to choose between the competing parses.
 In the example above, the two @code{%dprec}
-declarations specify that Bison is to give precedence 
+declarations specify that Bison is to give precedence
 to the parse that interprets the example as a
 @code{decl}, which implies that @code{x} is a declarator.
 The parser therefore prints
@@ -1007,7 +1007,7 @@ T (x) + y;
 @end example
 
 @noindent
-This is another example of using @acronym{GLR} to parse an unambiguous 
+This is another example of using @acronym{GLR} to parse an unambiguous
 construct, as shown in the previous section (@pxref{Simple GLR Parsers}).
 Here, there is no ambiguity (this cannot be parsed as a declaration).
 However, at the time the Bison parser encounters @code{x}, it does not
@@ -1066,7 +1066,7 @@ as both an @code{expr} and a @code{decl}, and prints
 @end example
 
 Bison requires that all of the
-productions that participate in any particular merge have identical 
+productions that participate in any particular merge have identical
 @samp{%merge} clauses.  Otherwise, the ambiguity would be unresolvable,
 and the parser will report an error during any parse that results in
 the offending merge.
@@ -3734,14 +3734,13 @@ terminal symbol.  All kinds of token declarations allow
 @cindex freeing discarded symbols
 @findex %destructor
 
-Some symbols can be discarded by the parser, typically during error
-recovery (@pxref{Error Recovery}).  Basically, during error recovery,
-embarrassing symbols already pushed on the stack, and embarrassing
-tokens coming from the rest of the file are thrown away until the parser
-falls on its feet.  If these symbols convey heap based information, this
-memory is lost.  While this behavior is tolerable for batch parsers,
-such as in compilers, it is unacceptable for parsers that can
-possibility ``never end'' such as shells, or implementations of
+Some symbols can be discarded by the parser.  For instance, during error
+recovery (@pxref{Error Recovery}), embarrassing symbols already pushed
+on the stack, and embarrassing tokens coming from the rest of the file
+are thrown away until the parser falls on its feet.  If these symbols
+convey heap based information, this memory is lost.  While this behavior
+can be tolerable for batch parsers, such as in compilers, it is not for
+possibly ``never ending'' parsers such as shells, or implementations of
 communication protocols.
 
 The @code{%destructor} directive allows for the definition of code that
@@ -3793,6 +3792,22 @@ compare:
 typeless: string;  // $$ = $1 does not apply; $1 is destroyed.
 typefull: string;  // $$ = $1 applies, $1 is not destroyed.
 @end smallexample
+
+@sp 1
+
+@cindex discarded symbols
+@dfn{Discarded symbols} are the following:
+
+@itemize
+@item
+stacked symbols popped during the first phase of error recovery,
+@item
+incoming terminals during the second phase of error recovery,
+@item
+the current lookahead when the parser aborts (either via an explicit
+call to @code{YYABORT}, or as a consequence of a failed error recovery).
+@end itemize
+
 
 @node Expect Decl
 @subsection Suppressing Conflict Warnings

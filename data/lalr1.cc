@@ -714,6 +714,10 @@ yyacceptlab:
 
   /* Abort.  */
 yyabortlab:
+  /* Free the lookahead. */
+  YY_SYMBOL_PRINT ("Error: discarding lookahead", ilooka_, &value, &location);
+  destruct_ (ilooka_, &value, &location);
+  looka_ = empty_;
   return 1;
 }
 
