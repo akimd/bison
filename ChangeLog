@@ -1,5 +1,21 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (state_list_t, state_list_append): New.
+	(first_state, last_state): Now symbol_list_t.
+	(this_state): Remove.
+	(new_itemsets, append_states, save_reductions): Take a state_t as
+	argument.
+	(set_states, generate_states): Adjust.
+	(save_shifts): Remove, replaced by...
+	* src/state.h, src/state.c (state_shifts_set): New.
+	(shifts): Rename as...
+	(shifts_t): this.
+	Adjust all dependencies.
+	* src/state.h (state_t): Remove the `next' member.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/vcg.c (quote): Use slot 2, since we often pass symbol tag
 	escaped in slot 0.
 

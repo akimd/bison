@@ -43,12 +43,10 @@ typedef struct symbol_list_s
 /* Create a list containing SYMBOL at LOCATION.  */
 symbol_list_t *symbol_list_new PARAMS ((symbol_t *sym, location_t location));
 
-
 /* Prepend SYMBOL at LOCATION to the LIST.  */
 symbol_list_t * symbol_list_prepend PARAMS ((symbol_list_t *list,
 					     symbol_t *symbol,
 					     location_t location));
-
 
 /* Free the LIST, but not the symbols it contains.  */
 void symbol_list_free PARAMS ((symbol_list_t *list));

@@ -101,13 +101,11 @@ typedef short state_number_t;
 | Shifts.  |
 `---------*/
 
-typedef struct shifts
+typedef struct shifts_s
 {
   short nshifts;
   state_number_t shifts[1];
-} shifts;
-
-shifts *shifts_new PARAMS ((int n));
+} shifts_t;
 
 
 /* What is the symbol which is shifted by SHIFTS->shifts[Shift]?  Can
@@ -175,11 +173,9 @@ reductions *reductions_new PARAMS ((int n));
 
 typedef struct state_s
 {
-  struct state_s *next;
-
   state_number_t number;
   symbol_number_t accessing_symbol;
-  shifts     *shifts;
+  shifts_t     *shifts;
   reductions *reductions;
   errs       *errs;
 
@@ -205,13 +201,15 @@ extern state_number_t nstates;
 extern state_t *final_state;
 
 /* Create a new state with ACCESSING_SYMBOL for those items.  */
-
 state_t *state_new PARAMS ((symbol_number_t accessing_symbol,
 			    size_t core_size, item_number_t *core));
 
+/* Set the shifts of STATE.  */
+void state_shifts_set PARAMS ((state_t *state,
+			       int nshifts, state_number_t *shifts));
+
 /* Print on OUT all the lookaheads such that this STATE wants to
    reduce this RULE.  */
-
 void state_rule_lookaheads_print PARAMS ((state_t *state, rule_t *rule,
 					  FILE *out));
 
