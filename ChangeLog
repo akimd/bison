@@ -1,5 +1,9 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c, symtab.c: Remove debugging code.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	Rename all the `bucket's as `symbol_t'.
 
 	* src/gram.c, src/gram.h, src/lex.c, src/lex.h, src/output.c,
