@@ -1,3 +1,10 @@
+2001-10-19  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/conflicts.c: Move global variables rrc_total and src_total ...
+	(print_conflicts): here.
+	* src/output.c (output): Free global variable user_toknums.
+	* src/lex.c (token_obstack): Become static.
+
 2001-10-18  Akim Demaille  <akim@epita.fr>
 
 	* tests/atlocal.in (GCC): Add.
