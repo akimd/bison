@@ -1,6 +1,5 @@
 #ifndef CONFIG_H
 #define CONFIG_H
-
 @TOP@
 
 /* Name of package.  */
@@ -11,7 +10,6 @@
 
 /* Define if the compiler understands prototypes.  */
 #undef PROTOTYPES
-
 @BOTTOM@
 
 #if defined(PROTOTYPES) || defined(__cplusplus)
