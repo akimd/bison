@@ -35,8 +35,8 @@ MAKEINFO = makeinfo
 # -DHAVE_STRERROR	If you have strerror function.
 DEFS = @DEFS@
 
-CFLAGS = -g
-LDFLAGS =
+CFLAGS = @CFLAGS@
+LDFLAGS = @LDFLAGS@
 
 LIBS = @LIBS@
 
@@ -96,27 +96,28 @@ OBJECTS = LR0.o allocate.o closure.o conflicts.o derives.o files.o	\
 
 all: bison bison.info bison.s1
 
-Makefile: Makefile.in config.status
-	./config.status
+Makefile: config.status Makefile.in
+	CONFIG_FILES=$@ CONFIG_HEADERS= ./config.status
 
 config.status: configure
 	./config.status --recheck
 
 configure: configure.in
-	cd $(srcdir); autoconf
+	cd $(srcdir) && autoconf
 
 # Copy bison.simple, inserting directory name into the #line commands.
 bison.s1: bison.simple
 	-rm -f bison.s1
-	sed -e "/^#line/ s|bison|$(datadir)/bison|" < $(srcdir)/$(PFILE) > bison.s1
+	sed -e "/^#line/ s|bison|$(datadir)/bison|" < $(srcdir)/$(PFILE) > $@-tmp
+	mv $@-tmp $@
 
 clean:
-	rm -f *.o core bison bison.s1
+	rm -f *.o core bison bison.s1 config.status config.log
 
 mostlyclean: clean
 
 distclean: clean
-	rm -f Makefile config.status
+	rm -f Makefile
 
 realclean: distclean
 	rm -f TAGS *.info*
