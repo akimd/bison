@@ -1,5 +1,29 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	The location tracking mechanism is precious for parse error
+	messages.  Nevertheless, it is enabled only when `@n' is used in
+	the grammar, which is a different issue (you can use it in error
+	message, but not in the grammar per se).  Therefore, there should
+	be another means to enable it.
+
+	* src/getargs.c (getargs): Support `--locations'.
+	(usage): Report it.
+	* src/getargs.h (locationsflag): Export it.
+	* src/lex.c (percent_table): Support `%locations'.
+	* src/reader.c (yylsp_needed): Remove this variable, now replaced
+	with `locationsflag'.
+	* doc/bison.texinfo: Document `--locations' and `%locations'.
+	Sort the options.
+	* tests/calc.m4: Test it.
+
+	For regularity of the names, replace each
+	(nolineflag, toknumflag, rawtokenumflag, noparserflag): with...
+	(no_lineflag, token_tableflag, rawflag, no_parserflag): this.
+	In addition replace each `flag' with `_flag'.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	Also test parse error messages, including with YYERROR_VERBOSE.
 
 	* tests/calc.m4 (calc.y): Add support for `exp = exp' (non

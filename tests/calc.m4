@@ -38,7 +38,6 @@ AT_DATA([calc.y],
 ]$4[
 
 static int power (int base, int exponent);
-static int read_signed_integer (FILE *stream);
 static void yyerror (const char *s);
 static int yylex (void);
 extern void perror (const char *s);
@@ -88,32 +87,66 @@ FILE *yyin;
 static void
 yyerror (const char *s)
 {
+#ifdef YYLSP_NEEDED
+  fprintf (stderr, "%d.%d:%d.%d: ",
+	   yylloc.first_line, yylloc.first_column,
+	   yylloc.last_line, yylloc.last_column);
+#endif
   fprintf (stderr, "%s\n", s);
 }
 
 static int
-read_signed_integer (FILE *stream)
+yygetc ()
 {
-  int c = getc (stream);
+  int res = getc (yyin);
+#ifdef YYLSP_NEEDED
+  if (res == '\n')
+    {
+      yylloc.last_line++;
+      yylloc.last_column = 0;
+    }
+  else
+    yylloc.last_column++;
+#endif
+  return res;
+}
+
+
+static void
+yyungetc (int c)
+{
+#ifdef YYLSP_NEEDED
+  /* Wrong when C == `\n'. */
+  yylloc.last_column--;
+#endif
+  ungetc (c, yyin);
+}
+
+static int
+read_signed_integer (void)
+{
+  int c = yygetc ();
   int sign = 1;
   int n = 0;
 
   if (c == '-')
     {
-      c = getc (stream);
+      c = yygetc ();
       sign = -1;
     }
 
   while (isdigit (c))
     {
       n = 10 * n + (c - '0');
-      c = getc (stream);
+      c = yygetc ();
     }
 
-  ungetc (c, stream);
+  yyungetc (c);
 
   return sign * n;
 }
+
+
 
 /*---------------------------------------------------------------.
 | Lexical analyzer returns an integer on the stack and the token |
@@ -126,19 +159,32 @@ yylex (void)
 {
   int c;
 
+#ifdef YYLSP_NEEDED
+  yylloc.first_column = yylloc.last_column;
+  yylloc.first_line = yylloc.last_line;
+#endif
+
   /* Skip white space.  */
-  while ((c = getc (yyin)) == ' ' || c == '\t')
-    ;
+  while ((c = yygetc ()) == ' ' || c == '\t')
+    {
+#ifdef YYLSP_NEEDED
+      yylloc.first_column = yylloc.last_column;
+      yylloc.first_line = yylloc.last_line;
+#endif
+    }
+
   /* process numbers   */
   if (c == '.' || isdigit (c))
     {
-      ungetc (c, yyin);
-      yylval = read_signed_integer (yyin);
+      yyungetc (c);
+      yylval = read_signed_integer ();
       return NUM;
     }
+
   /* Return end-of-file.  */
   if (c == EOF)
     return 0;
+
   /* Return single chars. */
   return c;
 }
@@ -160,7 +206,7 @@ main (int argn, const char **argv)
   if (argn == 2)
     yyin = fopen (argv[1], "r");
   else
-     yyin = stdin;
+    yyin = stdin;
 
   if (!stdin)
     {
@@ -170,6 +216,10 @@ main (int argn, const char **argv)
 
 #if YYDEBUG
   yydebug = 1;
+#endif
+#ifdef YYLSP_NEEDED
+  yylloc.last_column = 0;
+  yylloc.last_line = 1;
 #endif
   yyparse ();
   return 0;
@@ -204,14 +254,19 @@ AT_DEFINE([_AT_CHECK_CALC],
                [1], [], [])])])
 
 
-# _AT_CHECK_CALC_ERROR(BISON-OPTIONS, INPUT, [IF-YYERROR-VERBOSE])
-# ----------------------------------------------------------------
+# _AT_CHECK_CALC_ERROR(BISON-OPTIONS, INPUT,
+#                      [ERROR-LOCATION], [IF-YYERROR-VERBOSE])
+# ------------------------------------------------------------
 # Run `calc' on INPUT, and expect STDERR.
 AT_DEFINE([_AT_CHECK_CALC_ERROR],
 [AT_CHECK([echo "$2" | calc 2>&1 >/dev/null | grep 'parse error' >&2], 0,
           [],
-          [parse error[]ifelse(regexp([$1], [--yyerror-verbose]),
-                               [-1], [], [$3])
+[ifelse(regexp([$1], [--location]),
+        [-1], [], [$3: ])[]dnl
+parse error[]dnl
+ifelse(regexp([$1], [--yyerror-verbose]),
+       [-1], [], [$4])[]dnl
+
 ])])
 
 
@@ -248,13 +303,22 @@ _AT_CHECK_CALC([$1],
 
 # Some parse errors.
 _AT_CHECK_CALC_ERROR([$1], [+1],
+                     [1.0:1.1],
                      [, unexpected `'+''])
 _AT_CHECK_CALC_ERROR([$1], [1//2],
+                     [1.2:1.3],
                      [, unexpected `'/'', expecting `NUM' or `'-'' or `'(''])
 _AT_CHECK_CALC_ERROR([$1], [error],
+                     [1.0:1.1],
                      [, unexpected `$undefined.'])
 _AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3],
+                     [1.6:1.7],
                      [, unexpected `'=''])
+_AT_CHECK_CALC_ERROR([$1],
+                     [
++1],
+                     [2.0:2.1],
+                     [, unexpected `'+''])
 
 AT_CLEANUP(calc calc.c calc.h calc.output)
 ])# AT_CHECK_CALC
@@ -271,12 +335,15 @@ AT_CHECK_CALC()
 AT_CHECK_CALC([--raw])
 
 AT_CHECK_CALC([--defines])
+AT_CHECK_CALC([--locations])
 AT_CHECK_CALC([--name-prefix=calc])
 AT_CHECK_CALC([--verbose])
 AT_CHECK_CALC([--yacc])
 AT_CHECK_CALC([--yyerror-verbose])
-AT_CHECK_CALC([--defines --name-prefix=calc --verbose --yacc --yyerror-verbose])
 
-# When --debug, a lot of data is sent to STDERR, we can't test it.
+AT_CHECK_CALC([--locations --yyerror-verbose])
+
+AT_CHECK_CALC([--defines --locations --name-prefix=calc --verbose --yacc --yyerror-verbose])
+
 AT_CHECK_CALC([--debug])
-AT_CHECK_CALC([--debug --defines --name-prefix=calc --verbose --yacc --yyerror-verbose])
+AT_CHECK_CALC([--debug --defines --locations --name-prefix=calc --verbose --yacc --yyerror-verbose])

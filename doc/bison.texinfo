@@ -3180,14 +3180,23 @@ Declare the type of semantic values for a nonterminal symbol
 (@pxref{Type Decl, ,Nonterminal Symbols}).
 
 @item %start
-Specify the grammar's start symbol (@pxref{Start Decl, ,The Start-Symbol}).
+Specify the grammar's start symbol (@pxref{Start Decl, ,The
+Start-Symbol}).
 
 @item %expect
 Declare the expected number of shift-reduce conflicts
 (@pxref{Expect Decl, ,Suppressing Conflict Warnings}).
 
+@item %locations
+Generate the code processing the locations (@pxref{Action Features,
+,Special Features for Use in Actions}).  This mode is enabled as soon as
+the grammar uses the special @samp{@@@var{n}} tokens, but if your
+grammar does not use it, using @samp{%locations} allows for more
+accurate parse error messages.
+
 @item %pure_parser
-Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
+Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
+(Reentrant) Parser}).
 
 @item %no_lines
 Don't generate any @code{#line} preprocessor commands in the parser
@@ -3474,16 +3483,17 @@ then the code in @code{yylex} might look like this:
 @subsection Textual Positions of Tokens
 
 @vindex yylloc
-If you are using the @samp{@@@var{n}}-feature (@pxref{Action Features, ,Special Features for Use in Actions}) in
-actions to keep track of the textual locations of tokens and groupings,
-then you must provide this information in @code{yylex}.  The function
-@code{yyparse} expects to find the textual location of a token just parsed
-in the global variable @code{yylloc}.  So @code{yylex} must store the
-proper data in that variable.  The value of @code{yylloc} is a structure
-and you need only initialize the members that are going to be used by the
-actions.  The four members are called @code{first_line},
-@code{first_column}, @code{last_line} and @code{last_column}.  Note that
-the use of this feature makes the parser noticeably slower.
+If you are using the @samp{@@@var{n}}-feature (@pxref{Action Features,
+,Special Features for Use in Actions}) in actions to keep track of the
+textual locations of tokens and groupings, then you must provide this
+information in @code{yylex}.  The function @code{yyparse} expects to
+find the textual location of a token just parsed in the global variable
+@code{yylloc}.  So @code{yylex} must store the proper data in that
+variable.  The value of @code{yylloc} is a structure and you need only
+initialize the members that are going to be used by the actions.  The
+four members are called @code{first_line}, @code{first_column},
+@code{last_line} and @code{last_column}.  Note that the use of this
+feature makes the parser noticeably slower.
 
 @tindex YYLTYPE
 The data type of @code{yylloc} has the name @code{YYLTYPE}.
@@ -4894,25 +4904,56 @@ Here is a list of options that can be used with Bison, alphabetized by
 short option.  It is followed by a cross key alphabetized by long
 option.
 
-@table @samp
-@item -b @var{file-prefix}
-@itemx --file-prefix=@var{prefix}
-Specify a prefix to use for all Bison output file names.  The names are
-chosen as if the input file were named @file{@var{prefix}.c}.
+@c Please, keep this ordered as in `bison --help'.
+@noindent
+Operations modes:
+@table @option
+@item -h
+@itemx --help
+Print a summary of the command-line options to Bison and exit.
 
-@item -d
-@itemx --defines
-Write an extra output file containing macro definitions for the token
-type names defined in the grammar and the semantic value type
-@code{YYSTYPE}, as well as a few @code{extern} variable declarations.
+@item -V
+@itemx --version
+Print the version number of Bison and exit.
 
-If the parser output file is named @file{@var{name}.c} then this file
-is named @file{@var{name}.h}.@refill
+@need 1750
+@item -y
+@itemx --yacc
+@itemx --fixed-output-files
+Equivalent to @samp{-o y.tab.c}; the parser output file is called
+@file{y.tab.c}, and the other outputs are called @file{y.output} and
+@file{y.tab.h}.  The purpose of this option is to imitate Yacc's output
+file name conventions.  Thus, the following shell script can substitute
+for Yacc:@refill
 
-This output file is essential if you wish to put the definition of
-@code{yylex} in a separate source file, because @code{yylex} needs to
-be able to refer to token type codes and the variable
-@code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.@refill
+@example
+bison -y $*
+@end example
+@end table
+
+@noindent
+Tuning the parser:
+
+@table @option
+@item -t
+@itemx --debug
+Output a definition of the macro @code{YYDEBUG} into the parser file,
+so that the debugging facilities are compiled.  @xref{Debugging, ,Debugging Your Parser}.
+
+@item --locations
+Pretend that @code{%locactions} was specified.  @xref{Decl Summary}.
+
+@item -p @var{prefix}
+@itemx --name-prefix=@var{prefix}
+Rename the external symbols used in the parser so that they start with
+@var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
+is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
+@code{yylval}, @code{yychar} and @code{yydebug}.
+
+For example, if you use @samp{-p c}, the names become @code{cparse},
+@code{clex}, and so on.
+
+@xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
 
 @item -l
 @itemx --no-lines
@@ -4932,33 +4973,37 @@ This option also tells Bison to write the C code for the grammar actions
 into a file named @file{@var{filename}.act}, in the form of a
 brace-surrounded body fit for a @code{switch} statement.
 
-@item -o @var{outfile}
-@itemx --output-file=@var{outfile}
-Specify the name @var{outfile} for the parser file.
-
-The other output files' names are constructed from @var{outfile}
-as described under the @samp{-v} and @samp{-d} options.
-
-@item -p @var{prefix}
-@itemx --name-prefix=@var{prefix}
-Rename the external symbols used in the parser so that they start with
-@var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
-is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
-@code{yylval}, @code{yychar} and @code{yydebug}.
-
-For example, if you use @samp{-p c}, the names become @code{cparse},
-@code{clex}, and so on.
-
-@xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
-
 @item -r
 @itemx --raw
 Pretend that @code{%raw} was specified.  @xref{Decl Summary}.
 
-@item -t
-@itemx --debug
-Output a definition of the macro @code{YYDEBUG} into the parser file,
-so that the debugging facilities are compiled.  @xref{Debugging, ,Debugging Your Parser}.
+@item -k
+@itemx --token-table
+Pretend that @code{%token_table} was specified.  @xref{Decl Summary}.
+@end table
+
+@noindent
+Adjust the output:
+
+@table @option
+@item -d
+@itemx --defines
+Write an extra output file containing macro definitions for the token
+type names defined in the grammar and the semantic value type
+@code{YYSTYPE}, as well as a few @code{extern} variable declarations.
+
+If the parser output file is named @file{@var{name}.c} then this file
+is named @file{@var{name}.h}.@refill
+
+This output file is essential if you wish to put the definition of
+@code{yylex} in a separate source file, because @code{yylex} needs to
+be able to refer to token type codes and the variable
+@code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.@refill
+
+@item -b @var{file-prefix}
+@itemx --file-prefix=@var{prefix}
+Specify a prefix to use for all Bison output file names.  The names are
+chosen as if the input file were named @file{@var{prefix}.c}.
 
 @item -v
 @itemx --verbose
@@ -4976,27 +5021,12 @@ Therefore, if the input file is @file{foo.y}, then the parser file is
 called @file{foo.tab.c} by default.  As a consequence, the verbose
 output file is called @file{foo.output}.@refill
 
-@item -V
-@itemx --version
-Print the version number of Bison and exit.
+@item -o @var{outfile}
+@itemx --output-file=@var{outfile}
+Specify the name @var{outfile} for the parser file.
 
-@item -h
-@itemx --help
-Print a summary of the command-line options to Bison and exit.
-
-@need 1750
-@item -y
-@itemx --yacc
-@itemx --fixed-output-files
-Equivalent to @samp{-o y.tab.c}; the parser output file is called
-@file{y.tab.c}, and the other outputs are called @file{y.output} and
-@file{y.tab.h}.  The purpose of this option is to imitate Yacc's output
-file name conventions.  Thus, the following shell script can substitute
-for Yacc:@refill
-
-@example
-bison -y $*
-@end example
+The other output files' names are constructed from @var{outfile}
+as described under the @samp{-v} and @samp{-d} options.
 @end table
 
 @node Environment Variables, Option Cross Key, Bison Options, Invocation
@@ -5280,15 +5310,17 @@ Bison declarations section or the additional C code section.
 @xref{Grammar Layout, ,The Overall Layout of a Bison Grammar}.
 
 @item %@{ %@}
-All code listed between @samp{%@{} and @samp{%@}} is copied directly
-to the output file uninterpreted.  Such code forms the ``C
-declarations'' section of the input file.  @xref{Grammar Outline, ,Outline of a Bison Grammar}.
+All code listed between @samp{%@{} and @samp{%@}} is copied directly to
+the output file uninterpreted.  Such code forms the ``C declarations''
+section of the input file.  @xref{Grammar Outline, ,Outline of a Bison
+Grammar}.
 
 @item /*@dots{}*/
 Comment delimiters, as in C.
 
 @item :
-Separates a rule's result from its components.  @xref{Rules, ,Syntax of Grammar Rules}.
+Separates a rule's result from its components.  @xref{Rules, ,Syntax of
+Grammar Rules}.
 
 @item ;
 Terminates a rule.  @xref{Rules, ,Syntax of Grammar Rules}.
@@ -5305,13 +5337,15 @@ Separates alternate rules for the same result nonterminal.
 @table @asis
 @item Backus-Naur Form (BNF)
 Formal method of specifying context-free grammars.  BNF was first used
-in the @cite{ALGOL-60} report, 1963.  @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
+in the @cite{ALGOL-60} report, 1963.  @xref{Language and Grammar,
+,Languages and Context-Free Grammars}.
 
 @item Context-free grammars
 Grammars specified as rules that can be applied regardless of context.
 Thus, if there is a rule which says that an integer can be used as an
 expression, integers are allowed @emph{anywhere} an expression is
-permitted.  @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
+permitted.  @xref{Language and Grammar, ,Languages and Context-Free
+Grammars}.
 
 @item Dynamic allocation
 Allocation of memory that occurs during execution, rather than at
@@ -5352,8 +5386,9 @@ Operators having left associativity are analyzed from left to right:
 @samp{c}.  @xref{Precedence, ,Operator Precedence}.
 
 @item Left recursion
-A rule whose result symbol is also its first component symbol;
-for example, @samp{expseq1 : expseq1 ',' exp;}.  @xref{Recursion, ,Recursive Rules}.
+A rule whose result symbol is also its first component symbol; for
+example, @samp{expseq1 : expseq1 ',' exp;}.  @xref{Recursion, ,Recursive
+Rules}.
 
 @item Left-to-right parsing
 Parsing a sentence of a language by analyzing it token by token from
@@ -5372,7 +5407,8 @@ A token which consists of two or more fixed characters.
 @xref{Symbols}.
 
 @item Look-ahead token
-A token already read but not yet shifted.  @xref{Look-Ahead, ,Look-Ahead Tokens}.
+A token already read but not yet shifted.  @xref{Look-Ahead, ,Look-Ahead
+Tokens}.
 
 @item LALR(1)
 The class of context-free grammars that Bison (like most other parser
@@ -5403,7 +5439,8 @@ performs some operation.
 
 @item Reduction
 Replacing a string of nonterminals and/or terminals with a single
-nonterminal, according to a grammar rule.  @xref{Algorithm, ,The Bison Parser Algorithm }.
+nonterminal, according to a grammar rule.  @xref{Algorithm, ,The Bison
+Parser Algorithm }.
 
 @item Reentrant
 A reentrant subprogram is a subprogram which can be in invoked any
@@ -5414,8 +5451,9 @@ invocations.  @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
 A language in which all operators are postfix operators.
 
 @item Right recursion
-A rule whose result symbol is also its last component symbol;
-for example, @samp{expseq1: exp ',' expseq1;}.  @xref{Recursion, ,Recursive Rules}.
+A rule whose result symbol is also its last component symbol; for
+example, @samp{expseq1: exp ',' expseq1;}.  @xref{Recursion, ,Recursive
+Rules}.
 
 @item Semantics
 In computer languages, the semantics are specified by the actions
@@ -5449,9 +5487,9 @@ The input of the Bison parser is a stream of tokens which comes from
 the lexical analyzer.  @xref{Symbols}.
 
 @item Terminal symbol
-A grammar symbol that has no rules in the grammar and therefore
-is grammatically indivisible.  The piece of text it represents
-is a token.  @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
+A grammar symbol that has no rules in the grammar and therefore is
+grammatically indivisible.  The piece of text it represents is a token.
+@xref{Language and Grammar, ,Languages and Context-Free Grammars}.
 @end table
 
 @node Index,  , Glossary, Top
