@@ -1,3 +1,8 @@
+2002-02-21  Guerrero, Juan Manuel  <st001906@hrz1.hrz.tu-darmstadt.de>
+
+	* src/getargs.c [AS_FILE_NAME] [__DJGPP__]: New macro STRLWR.
+	Check that no NULL pointer is passed to strlwr.
+
 2002-02-14  Paul Eggert  <eggert@twinsun.com>
 
 	Remove the support for C++ namespace cleanliness; it was

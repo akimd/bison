@@ -165,7 +165,8 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\
 #ifdef MSDOS
 # if defined (__DJGPP__)
 /* Windows 9X and successors are case sensitive. */
-#  define AS_FILE_NAME(File) ((pathconf ((File), _PC_NAME_MAX) > 12) ? (File) : (strlwr (File), (File)))
+#  define STRLWR(String)     ((String) ? (strlwr (String), (String)) : (String))
+#  define AS_FILE_NAME(File) ((pathconf ((File), _PC_NAME_MAX) > 12) ? (File) : STRLWR (File))
 # else
 #  define AS_FILE_NAME(File) (strlwr (File), (File))
 # endif
