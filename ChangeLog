@@ -1,10 +1,15 @@
 2002-06-28  Akim Demaille  <akim@epita.fr>
 
+	* data/yacc.c (yydestruct, yysymprint): Pacify GCC warnings for
+	unused variables.
+	* src/output.c (merger_output): static.
+
+2002-06-28  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.h:	s/grammer_current_rule_merge_set/grammar_.../.
 	* src/conflicts.c (conflicts_total_count): `i' is unsigned, to
 	pacify GCC.
 	* src/output.c (save_row): Initialize all the variables to pacify GCC.
-	(merger_output): static.
 
 2002-06-27  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 

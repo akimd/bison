@@ -111,7 +111,7 @@ typedef union {
   char *string;
   associativity assoc;
 } yystype;
-/* Line 1343 of /home/cs/hilfingr/work/grammars/glr2/install/share/bison/yacc.c.  */
+/* Line 1353 of /home/lrde/prof/akim/src/bison/data/yacc.c.  */
 #line 116 "y.tab.h"
 # define YYSTYPE yystype
 #endif
