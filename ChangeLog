@@ -1,3 +1,159 @@
+2002-12-09  Paul Eggert  <eggert@twinsun.com>
+
+	Change identifier spellings to avoid collisions with names
+	that are reserved by POSIX.
+
+	Don't use names ending in _t, since POSIX reserves them.
+	For consistency, remove _e and _s endings -- they're weren't
+	needed to remove ambiguity.  All uses changed.
+	* src/uniqstr.h (uniqstr): Renamed from uniqstr_t, which in
+	turn was just renamed from struniq_t.
+	* src/uniqstr.c (uniqstr_processor): Renamed from struniq_processor,
+	which in turn was just renamed from struniq_processor_t.
+	(hash_compare_uniqstr): Renamed from hash_compare_struniq, which
+	in turn was renamed from hash_compare_struniq_t.
+	* src/LR0.c (struct state_list): Renamed from struct state_list_s.
+	(state_list): Renamed from state_list_t.
+	* src/assoc.h (assoc): Renamed from assoc_t.
+	* src/conflicts.c (enum conflict_resolution): Renamed from
+	enum conflict_resolution_e.
+	* src/derives.c (struct rule_list): Renamed from struct rule_list_s.
+	(rule_list): Renamed from rule_list_t.
+	* src/getargs.h (enum trace): Renamed from enum trace_e.
+	(enum report): Renamed from enum report_e.
+	* src/gram.h (item_number): Renamed from item_number_t.
+	(rule_number): Renamed from rule_number_t.
+	(struct rule_s): Remove the "rule_s" part; not used.
+	(rule): Renamed from rule_t.
+	(rule_filter): Renamed from rule_filter_t.
+	* src/lalr.c (struct goto_list): Renamed from struct goto_list_s.
+	(goto_list): Renamed from goto_list_t.
+	* src/lalr.h (goto_number): Renamed from goto_number_t.
+	* src/location.h (location): Renamed from location_t.
+	* src/muscle_tab.c (muscle_entry): Renamed from muscle_entry_t,
+	and moved here from:
+	* src/muscle_tab.h (muscle_entry_t): here.
+	* src/nullable.c (struct rule_list): Renamed from struct rule_list_s.
+	(rule_list): Renamed from rule_list_t.
+	* src/print_graph.c (static_graph): Renamed from graph.
+	* src/reader.h (braced_code): Renamed from braced_code_t.
+	Remove brace_code_e tag.
+	* src/relation.h (relation_node): Renamed from relation_node_t.
+	(relation_nodes): Renamed from relation_nodes_t.
+	(relation): Renamed from relation_t.
+	* src/state.h (state_number): Renamed from state_number_t.
+	(struct state): Renamed from struct state_s.
+	(state): Renamed from state_t.
+	(transitions): Renamed from transitions_t.  Unused (and
+	misspelled) transtion_s tag removed.
+	(errs): Renamed from errs_t.  Unused errs_s tag removed.
+	(reductions): Renamed from reductions_t.  Unused tag
+	reductions_s removed.
+	* src/symlist.h (symbol_list): Renamed from symbol_list_t.
+	(struct symbol_list): Renamed from struct symbol_list_s.
+	* src/symtab.h (symbol_number): Renamed from symbol_number_t.
+	(struct symbol): Renamed from struct symbol_s.
+	(symbol): Renamed from symbol_t.
+	* src/tables.c (vector_number): Renamed from vector_number_t.
+	(action_number): Renamed from action_t.
+	* src/tables.h (base_number): Renamed from base_t.
+	* src/vcg.h (enum color): Renamed from enum color_e.
+	(enum textmode): Renamed from enum textmode_e.
+	(enum shape): Renamed from enum shape_e.
+	(struct colorentry): Renamed from struct colorentry_s.
+	(struct classname): Renamed from struct classname_s.
+	(struct infoname): Renamed from struct infoname_s.
+	(enum layoutalgorithm): Renamed from enum layoutalgorithm_e.
+	(enum decision): Renamed from enum decision_e.
+	(enum orientation): Renamed from enum orientation_e.
+	(enum alignment): Renamed from enum alignment_e.
+	(enum arrow_mode): Renamed from enum arrow_mode_e.
+	(enum crossing_type): Renamed from enum crossing_type_e.
+	(enum view): Renamed from enum view_e.
+	(struct node): Renamed from struct node_s.
+	(node): Renamed from node_t.
+	(enum linestyle): Renamed from enum linestyle_e.
+	(enum arrowstyle): Renamed from enum arrowstyle_e.
+	(struct edge): Renamed from struct edge.
+	(edge): Renamed from edge_t.
+	(struct graph): Renamed from struct graph_s.
+	(graph): Renamed from graph_t.
+	* tests/calc.at (_AT_DATA_CALC_Y, Simple LALR Calculator):
+	Rename value_t -> value.
+	* tests/input.at (Torturing the Scanner): Rename value_t -> value,
+	value_t_as_yystype -> value_as_yystype.
+
+	Don't include <errno.h> in the mainstream code, since it
+	reserves E[A-Z0-9]* and we want to use symbols like 'EQUALS'.
+	* lib/get-errno.c, lib/get-errno.h: New files.
+	* lib/Makefile.am (libbison_a_SOURCES): Add get-errno.h,
+	get-errno.c.
+	* src/files.c (xfopen, xfclose): Use get_errno instead of errno.
+	* src/output.c (output_skeleton): Likewise.
+	* src/scan-gram.l (<INITIAL>{int}): Use set_errno and get_errno
+	instead of errno.
+	(<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>\\x[0-9abcdefABCDEF]+):
+	Likewise.
+	(handle_action_dollar, handle_action_at): Likewise.
+	* src/system.h: Do not include <errno.h>.
+	(TAB_EXT): Renamed from EXT_TAB.
+	(OUTPUT_EXT): Renamed from EXT_OUTPUT.
+
+	Avoid str[a-z]*, since <string.h> reserves that name space.
+	Change all instances of "struniq" in names to "uniqstr", and
+	likewise for "STRUNIQ" and "UNIQSTR".
+	* src/uniqstr.c: Renamed from src/struniq.c.
+	* src/uniqstr.h: Renamed from src/struniq.h.
+	* src/Makefile.am (bison_SOURCES): Adjust to these renamings.
+	* src/files.c (strsuffix): Remove; unused.
+	(concat2): Renamed from stringappend.  Now static.
+	* src/files.h (strsuffix, stringappend): Remove; unused.
+	* src/parse-gram.y (<chars>): Renamed from <string>.
+	(<uniqstr>): Renamed from <struniq>.
+	* src/scan-gram.l (obstack_for_string): Renamed from string_obstack.
+	* src/vcg.h (struct node_s.expand): Renamed from struct node_s.stretch.
+	(struct graph_s.expand): Renamed from struct graph_s.stretch.
+	* src/vcg_defaults.h (G_EXPAND): Renamed from G_STRETCH.
+	(G_LONG_STRAIGHT_PHASE): Renamed from G_STRAIGHT_PHASE.
+	(N_EXPAND): Renamed from N_STRETCH.
+
+	Avoid *_MAX and *_MIN, since <limits.h> reserves that name space.
+	* data/yacc.c (YYSTACK_GAP_MAXIMUM): Renamed from YYSTACK_GAP_MAX.
+	* src/gram.h (ITEM_NUMBER_MAX, ITEM_NUMBER_MIN, RULE_NUMBER_MAX):
+	Remove; unused.
+	* src/lalr.h (GOTO_NUMBER_MAXIMUM): Renamed from GOTO_NUMBER_MAX.
+	* src/state.h (STATE_NUMBER_MAXIMUM): Renamed from STATE_NUMBER_MAX.
+	* src/symtab.h (SYMBOL_NUMBER_MAXIMUM): Renamed from SYMBOL_NUMBER_MAX.
+	* src/tables.c (VECTOR_NUMBER_MAX, VECTOR_NUMBER_MIN): Remove; unused.
+	(BASE_MAXIMUM): Renamed from BASE_MAX.
+	(BASE_MINIMUM): Renamed from BASE_MIN.
+	(ACTION_MAX): Remove; unused.
+	(ACTION_NUMBER_MINIMUM): Renamed from ACTION_MIN.
+	Unnecessary casts removed from above defines.
+
+
+	Fix misspelling in names.
+	* src/vcg.h (enum_alignment_e): Renamed from enum_alignement_e.
+	* src/vcg_defaults.h (G_NODE_ALIGNMENT): Renamed from
+	G_NODE_ALIGNEMENT.
+
+
+	* lib/timevar.c (timevar_report): Renamed from time_report,
+	for consistency with other names.
+	* lib/timevar.h (timevar_report): New decl.
+	* src/system.h (time_report): Remove; decl is now in lib/timevar.h.
+
+
+	Sort include-file uses.
+
+	Reorder all include files under src to be in the order "system.h".
+	then the ../lib include files in angle brackets (alphabetized),
+	then the . include files in double-quotes (alphabetized).  Fix
+	dependency breakages encountered in this process, as follows:
+	* src/closure.h, src/derives.h, src/state.h: Include "gram.h".
+	* src/complain.c: Don't include stdlib.h, string.h _LIBC stuff.
+	* src/state.h: Include "symtab.h".
+
 2002-12-08  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c, data/lalr1.cc, data/yacc.c: Do not use __file__,
@@ -5,14 +161,14 @@
 	sequences like "@" that are treated specially by src/scan-skel.l.
 	Instead, just use the file's basename.  This fixes the bug
 	reported by Martin Mokrejs in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-December/001949.html>.
+	<http://mail.gnu.org/pipermail/bug-bison/2002-December/001945.html>.
 
 2002-12-06  Paul Eggert  <eggert@twinsun.com>
 
 	Add support for rules that do not have trailing semicolons, as
 	POSIX requires.  Improve the quality of locations in Bison
 	diagnostics.
-	
+
 	* src/location.c: Include <quotearg.h>.
 	(empty_location): Now const.
 	(location_print): New function.  Follow the recommendation of the
@@ -33,7 +189,7 @@
 	(YYLLOC_DEFAULT): Use it.
 	(%token COLON): Remove.
 	(%token ID_COLON): New token.
-	(rules): Use it.	
+	(rules): Use it.
 	(declarations, rules): Remove trailing semicolon.
 	(declaration, rules_or_grammar_declaration):
 	Allow empty (";") declaration.
@@ -89,7 +245,7 @@
 	* src/complain.c, src/scan-gram.l: Include files.h.
 
 2002-12-06  Paul Eggert  <eggert@twinsun.com>
-	
+
 	* data/glr.c (yy_reduce_print): Don't assume that yyrline[yyrule]
 	promotes to int; it might be unsigned int.
 	* data/yacc.c (yy_reduce_print): Likewise.
@@ -97,7 +253,7 @@
 	* doc/bison.texinfo (Table of Symbols): YYERROR_VERBOSE should
 	be #defined in the prologue, not in the Bison declarations.
 	This fixes Debian Bug 102878, reported by Shaul Karl.
-	
+
 2002-12-02  Paul Eggert  <eggert@twinsun.com>
 
 	* configure.ac (AC_REPLACE_FUNCS): Add strtoul.
@@ -198,13 +354,13 @@
 	* lib/quotearg.c, lib/quotearg.h: Sync with gnulib.
 	* lib/mbswidth.c, lib/mbswidth.h: Likewise.
 	* lib/xmalloc.c: Likewise.
-	
+
 2002-11-20  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/argmatch.c, lib/argmatch.h: Sync with gnulib.
 
 2002-11-20  Paul Eggert  <eggert@twinsun.com>
-	
+
 	Avoid use of <assert.h>, as the GNU Coding Standards hint that one
 	should use `if (! x) abort ();' rather than `assert (x);', and
 	anyway it's one less thing to worry about configuring.
