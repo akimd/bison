@@ -2,6 +2,10 @@
 
 	* doc/bison.texinfo (How Can I Reset @code{yyparse}): New.
 
+2003-03-29  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (Strings are Destroyed): New.
+
 2003-03-13  Paul Eggert  <eggert@twinsun.com>
 
 	* .cvsignore: Add configure.lineno.
