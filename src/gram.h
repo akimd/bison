@@ -98,6 +98,7 @@ extern int ntokens;
 extern int nvars;
 
 extern short *ritem;
+extern int nritems;
 
 extern short *sprec;
 extern short *sassoc;

@@ -1,5 +1,21 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	Try to make the use of the eoftoken valid.  Given that its value
+	is 0 which was also used as a sentinel in ritem, (i) make sure >= 0
+	is used instead of > 0 where appropriate, (ii), depend upon nritems
+	instead of the 0-sentinel.
+
+	* src/gram.h, src/gram.c (nritems): New.
+	Expected to be duplication of nitems, but for the time being...
+	* src/reader.c (packgram): Assert nritems and nitems are equal.
+	* src/LR0.c (allocate_itemsets, new_itemsets): Adjust.
+	* src/closure.c (print_closure, print_fderives): Likewise.
+	* src/gram.c (ritem_print): Likewise.
+	* src/print.c (print_core, print_grammar): Likewise.
+	* src/print_graph.c: Likewise.
+
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/main.c (main): If there are complains after grammar
 	reductions, then output the report anyway if requested, then die.
 	* src/symtab.c (bucket_new): Initialize `value' to -1, not 0.
