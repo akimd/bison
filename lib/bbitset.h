@@ -51,13 +51,20 @@ typedef unsigned long bitset_word;
 
 /* Bit index.  In theory we might need a type wider than size_t, but
    in practice we lose at most a factor of CHAR_BIT by going with
-   size_t, and that is good enough.  */
+   size_t, and that is good enough.  If this type is changed to be
+   wider than size_t, the code needs to be modified to check for
+   overflow when converting bit counts to byte or word counts.
+   The bit and word index types must be unsigned.  */
 typedef size_t bitset_bindex;
 
 /* Word index.  */
 typedef size_t bitset_windex;
 
-#define BITSET_INDEX_MAX ((bitset_word) 1 << (BITSET_WORD_BITS - 1))
+/* Maximum values for commonly-used unsigned types.  BITSET_SIZE_MAX
+   always equals SIZE_MAX, but some older systems lack SIZE_MAX.  */
+#define BITSET_BINDEX_MAX ((bitset_bindex) -1)
+#define BITSET_WINDEX_MAX ((bitset_windex) -1)
+#define BITSET_SIZE_MAX ((size_t) -1)
 
 #define BITSET_MSB ((bitset_word) 1 << (BITSET_WORD_BITS - 1))
 
@@ -94,8 +101,8 @@ struct bitset_vtable
   void (*reset) PARAMS ((struct bitset_struct *, bitset_bindex));
   int (*toggle) PARAMS ((struct bitset_struct *, bitset_bindex));
   int (*test) PARAMS ((struct bitset_struct *, bitset_bindex));
-  int (*size) PARAMS ((struct bitset_struct *));
-  int (*count) PARAMS ((struct bitset_struct *));
+  bitset_bindex (*size) PARAMS ((struct bitset_struct *));
+  bitset_bindex (*count) PARAMS ((struct bitset_struct *));
 
   int (*empty_p) PARAMS ((struct bitset_struct *));
   void (*ones) PARAMS ((struct bitset_struct *));
@@ -137,10 +144,11 @@ struct bitset_vtable
   int (*or_and_cmp) PARAMS ((struct bitset_struct *, struct bitset_struct *,
 			     struct bitset_struct *, struct bitset_struct *));
 
-  int (*list) PARAMS ((struct bitset_struct *, bitset_bindex *,
-		       bitset_bindex, bitset_bindex *));
-  int (*list_reverse) PARAMS ((struct bitset_struct *, bitset_bindex *,
-			       bitset_bindex, bitset_bindex *));
+  bitset_bindex (*list) PARAMS ((struct bitset_struct *, bitset_bindex *,
+				 bitset_bindex, bitset_bindex *));
+  bitset_bindex (*list_reverse) PARAMS ((struct bitset_struct *,
+					 bitset_bindex *, bitset_bindex,
+					 bitset_bindex *));
   void (*free) PARAMS ((struct bitset_struct *));
   enum bitset_type type;
 };
@@ -269,7 +277,7 @@ if (!BITSET_COMPATIBLE_ (DST, SRC1) || !BITSET_COMPATIBLE_ (DST, SRC2) \
  
 extern int bitset_toggle_ PARAMS ((bitset, bitset_bindex));
 
-extern int bitset_count_ PARAMS ((bitset));
+extern bitset_bindex bitset_count_ PARAMS ((bitset));
 
 extern int bitset_copy_ PARAMS ((bitset, bitset));
 
