@@ -1,7 +1,8 @@
 \input texinfo @c -*-texinfo-*-
 @comment %**start of header
 @setfilename bison.info
-@settitle Bison 1.25
+@include version.texi
+@settitle Bison @value{VERSION}
 @setchapternewpage odd
 
 @iftex
@@ -39,7 +40,7 @@
 @ifinfo
 This file documents the Bison parser generator.
 
-Copyright (C) 1988, 89, 90, 91, 92, 93, 1995 Free Software Foundation, Inc.
+Copyright (C) 1988, 89, 90, 91, 92, 93, 95, 1998 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -73,13 +74,13 @@ instead of in the original English.
 @titlepage
 @title Bison
 @subtitle The YACC-compatible Parser Generator
-@subtitle November 1995, Bison Version 1.25
+@subtitle @value{UPDATED}, Bison Version @value{VERSION}
 
 @author by Charles Donnelly and Richard Stallman
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1988, 89, 90, 91, 92, 93, 1995 Free Software
+Copyright @copyright{} 1988, 89, 90, 91, 92, 93, 95, 1998 Free Software
 Foundation 
 
 @sp 2
@@ -121,7 +122,7 @@ Cover art by Etienne Suvasa.
 @node Top, Introduction, (dir), (dir)
 
 @ifinfo
-This manual documents version 1.25 of Bison.
+This manual documents version @value{VERSION} of Bison.
 @end ifinfo
 
 @menu
@@ -310,7 +311,7 @@ Bison was written primarily by Robert Corbett; Richard Stallman made it
 Yacc-compatible.  Wilfred Hansen of Carnegie Mellon University added
 multicharacter string literals and other features.
 
-This edition corresponds to version 1.25 of Bison.
+This edition corresponds to version @value{VERSION} of Bison.
 
 @node Conditions, Copying, Introduction, Top
 @unnumbered Conditions for Using Bison
