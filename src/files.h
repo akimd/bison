@@ -55,7 +55,7 @@ extern char *infile;
 void compute_output_file_names (void);
 
 FILE *xfopen (const char *name, const char *mode);
-int xfclose (FILE *ptr);
+void xfclose (FILE *ptr);
 
 /* Is SUFFIX ending STRING?  */
 int strsuffix (const char* string, const char* suffix);
