@@ -45,6 +45,7 @@ EXTRA_DIST += package.m4
 
 TESTSUITE_AT = \
 	testsuite.at \
+	input.at \
 	output.at sets.at reduce.at \
 	headers.at actions.at calc.at \
         torture.at regression.at \

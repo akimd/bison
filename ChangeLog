@@ -1,7 +1,11 @@
+2002-02-07  Akim Demaille  <akim@epita.fr>
+
+	* tests/input.at: New.
+
 2002-02-07  Robert Anisko  <robert@lrde.epita.fr>
 
 	* data/bison.c++: Replace some direct m4 expansions by constants.  Be
-	more consistent when naming methods and variables.  Put preprocessor	
+	more consistent when naming methods and variables.  Put preprocessor
 	directives around tables only needed for debugging.
 
 2002-02-07  Robert Anisko  <robert@lrde.epita.fr>
