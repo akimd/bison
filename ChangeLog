@@ -1,5 +1,10 @@
 2002-10-13  Akim Demaille  <akim@epita.fr>
 
+	* data/glr.c (yyglrShiftDefer, yyaddDeferredAction, yydoAction):
+	Un yy- yyrhs to avoid the name clash with the global YYRHS.
+
+2002-10-13  Akim Demaille  <akim@epita.fr>
+
 	* Makefile.maint: Update from Autoconf 2.54.
 	* m4/strerror_r.m4 (AC_FUNC_STRERROR_R): Remove, shipped with 2.54.
 
