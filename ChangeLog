@@ -1,5 +1,21 @@
 2000-03-28  Akim Demaille  <akim@epita.fr>
 
+	* lib/: New directory.
+	* Makefile.am (SUBDIRS): Adjust.
+	* configure.in: Adjust.
+	(LIBOBJS): Although not used yet, AC_SUBST it, otherwise it's
+	useless.
+	* src/alloca.c: Moved to lib/.
+	* src/getopt.c: Likewise.
+	* src/getopt1.c: Likewise.
+	* src/getopt.h: Likewise.
+	* src/ansi2knr.c: Likewise.
+	* src/ansi2knr.1: Likewise.
+	* src/Makefile.am: Adjust.
+	* lib/Makefile.am: New file.
+
+2000-03-28  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c (usage): Refresh the help message.
 
 2000-03-17  Akim Demaille  <akim@epita.fr>

@@ -17,5 +17,5 @@ src/reduce.c
 # src/symtab.c
 # src/warshall.c
 
-src/getopt.c
-src/getopt1.c
+lib/getopt.c
+lib/getopt1.c
