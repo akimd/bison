@@ -1,4 +1,5 @@
 /* Bison Grammar Scanner                             -*- C -*-
+
    Copyright (C) 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -368,13 +369,14 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_CHARACTER>
 {
   "'" {
+    unsigned char last_string_1;
     STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
     val->symbol = symbol_get (last_string, *loc);
     symbol_class_set (val->symbol, token_sym, *loc);
-    symbol_user_token_number_set (val->symbol,
-				  (unsigned char) last_string[1], *loc);
+    last_string_1 = last_string[1];
+    symbol_user_token_number_set (val->symbol, last_string_1, *loc);
     STRING_FREE;
     rule_length++;
     BEGIN INITIAL;
