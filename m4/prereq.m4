@@ -1,10 +1,10 @@
-#serial 27
+#serial 28                                                         -*- Autoconf -*-
 
 dnl We use jm_ for non Autoconf macros.
 m4_pattern_forbid([^jm_[ABCDEFGHIJKLMNOPQRSTUVXYZ]])dnl
 
 # These are the prerequisite macros for files in the lib/
-# directories of the coreutils package.
+# directories of the fileutils, sh-utils, and textutils packages.
 
 AC_DEFUN([jm_PREREQ],
 [
@@ -30,6 +30,20 @@ AC_DEFUN([jm_PREREQ],
   jm_PREREQ_TEMPNAME # called by mkstemp
   jm_PREREQ_XGETCWD
   jm_PREREQ_XREADLINK
+])
+
+AC_DEFUN([jm_PREREQ_ARGMATCH],
+[
+  AC_REQUIRE([jm_PREREQ_QUOTEARG])
+  AC_REPLACE_FUNCS(strcasecmp strncasecmp)
+])
+
+# Ask for argmatch.[ch], and set it up.
+AC_DEFUN([jm_FUNC_ARGMATCH],
+[
+  AC_REQUIRE([jm_PREREQ_ARGMATCH])
+  AC_LIBOBJ([argmatch])
+  AC_LIBSOURCES([argmatch.c, argmatch.h])
 ])
 
 AC_DEFUN([jm_PREREQ_ADDEXT],
