@@ -1,7 +1,5 @@
-#ifndef FILES_H_
-# define FILES_H_
 /* File names and variables for bison,
-   Copyright 1984, 1989, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 2000, 2001 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -20,12 +18,14 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
-/* These two should be pathnames for opening the sample parser files.
-   When bison is installed, they should be absolute pathnames.
-   XPFILE1 and XPFILE2 normally come from config.h.  */
+#ifndef FILES_H_
+# define FILES_H_
 
 /* File name specified with -o for the output file, or 0 if no -o.  */
 extern char *spec_outfile;
+
+/* File name for the parser (i.e., the one above, or its default.) */
+extern char *parser_file_name;
 
 /* For -a. */
 extern const char *spec_name_prefix;
@@ -48,10 +48,6 @@ extern FILE *finput;
 
 /* Output all the action code; precise form depends on which parser. */
 extern struct obstack action_obstack;
-
-/* Output the tables and the parser and also contains all the %{
-   ... %} definitions.  */
-extern struct obstack table_obstack;
 
 /* optionally output #define's for token numbers. */
 extern struct obstack defines_obstack;

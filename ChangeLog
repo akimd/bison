@@ -1,5 +1,17 @@
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
+	Still making progress in separating Bison into (i) input, (ii)
+	process, (iii) output: now we can directly output the parser file
+	without using table_obstack at all.
+
+	* src/files.c, src/files.h (table_obstack): Bye bye.
+	(parser_file_name): New.
+	* src/files.c (compute_output_file_names): Compute it.
+	* src/output.c (actions_output, output_parser)
+	(output_master_parser): To a file instead of an obstack.
+
+2001-12-15  Akim Demaille  <akim@epita.fr>
+
 	Attach actions to rules, instead of pre-outputting them to
 	actions_obstack.
 
