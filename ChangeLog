@@ -1,3 +1,8 @@
+2001-11-27  Marc Autret  <autret_m@epita.fr>
+
+	* tests/torture.at [AT_DATA]: Remove YYERROR_VERBOSE definition.
+	Use %error-verbose.
+
 2001-11-26  Marc Autret  <autret_m@epita.fr>
 
 	* src/bison.simple: Remove YYERROR_VERBOSE using.
