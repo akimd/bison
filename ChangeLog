@@ -1,3 +1,24 @@
+2000-03-31  Akim Demaille  <akim@epita.fr>
+
+	Clean the error reporting functions.
+
+	* src/report.c: New file.
+	* src/report.h: Likewise.
+	* src/Makefile.am: Adjust.
+	* m4/error.m4: New file.
+	* m4/Makefile.am: Adjust.
+	* configure.in (jm_PREREQ_ERROR): Call it.
+	* src/main.c (int_to_string, banner, fatal_banner, warn_banner):
+	Remove.
+	(fatal, fatals): Remove.  All callers use complain.c::fatal.
+	(warn, warni, warns, warnss, warnss): Remove.  All callers use
+	complain.c::complain.
+	(toomany): Remove, use fatal instead.
+	* src/files.c (done): No argument, use complain_message_count.
+	* src/main.c (main): Register `done' to `atexit'.
+
+	* src/getargs.c (usage): More `fputs', less `fprintf'.
+
 2000-03-28  Akim Demaille  <akim@epita.fr>
 
 	* lib/: New directory.

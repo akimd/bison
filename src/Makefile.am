@@ -1,14 +1,6 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
 AUTOMAKE_OPTIONS = 1.4 ../lib/ansi2knr
 
-bin_PROGRAMS = bison
-
-bison_SOURCES = LR0.c allocate.c closure.c conflicts.c derives.c	\
-    files.c getargs.c gram.c lalr.c lex.c main.c nullable.c output.c	\
-    print.c reader.c reduce.c symtab.c warshall.c
-
-EXTRA_bison_SOURCES = vmsgetargs.c
-
 DEFS = @DEFS@ \
   -DXPFILE=\"${datadir}/bison.simple\" \
   -DXPFILE1=\"${datadir}/bison.hairy\" \
@@ -16,7 +8,18 @@ DEFS = @DEFS@ \
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I..
 LDADD = @INTLLIBS@ ../lib/libbison.a
 
-noinst_HEADERS = alloc.h files.h gram.h lex.h machine.h state.h	\
+bin_PROGRAMS = bison
+
+bison_SOURCES = LR0.c allocate.c closure.c complain.c conflicts.c	\
+    derives.c	\
+    files.c getargs.c gram.c lalr.c lex.c main.c nullable.c \
+    output.c	\
+    print.c reader.c reduce.c symtab.c warshall.c
+
+EXTRA_bison_SOURCES = vmsgetargs.c
+
+noinst_HEADERS = alloc.h complain.h files.h gram.h lex.h machine.h 	\
+ state.h	\
  symtab.h system.h types.h
 
 data_DATA = bison.simple bison.hairy

@@ -1,3 +1,20 @@
+/* system-dependent definitions for Bison.
+   Copyright (C) 2000 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+
 #ifndef BISON_SYSTEM_H
 #define BISON_SYSTEM_H
 
@@ -6,44 +23,72 @@
 #endif
 
 #ifdef MSDOS
-#include <io.h>
+# include <io.h>
 #endif
 
 #ifdef _MSC_VER
-#include <stdlib.h>
-#include <process.h>
-#define getpid _getpid
+# include <stdlib.h>
+# include <process.h>
+# define getpid _getpid
 #endif
 
 #if defined(HAVE_STDLIB_H) || defined(MSDOS)
-#include <stdlib.h>
+# include <stdlib.h>
 #endif
 
 #if defined(HAVE_UNISTD_H)
-#include <unistd.h>
+# include <unistd.h>
 #endif
 
 #if (defined(VMS) || defined(MSDOS)) && !defined(HAVE_STRING_H)
-#define HAVE_STRING_H 1
+# define HAVE_STRING_H 1
 #endif
 
 #if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
-#include <string.h>
+# include <string.h>
 /* An ANSI string.h and pre-ANSI memory.h might conflict.  */
-#if !defined(STDC_HEADERS) && defined(HAVE_MEMORY_H)
-#include <memory.h>
-#endif /* not STDC_HEADERS and HAVE_MEMORY_H */
-#ifndef bcopy
-#define bcopy(src, dst, num) memcpy((dst), (src), (num))
-#endif
+# if !defined(STDC_HEADERS) && defined(HAVE_MEMORY_H)
+#  include <memory.h>
+# endif /* not STDC_HEADERS and HAVE_MEMORY_H */
+# ifndef bcopy
+#  define bcopy(src, dst, num) memcpy((dst), (src), (num))
+# endif
 #else /* not STDC_HEADERS and not HAVE_STRING_H */
-#include <strings.h>
+# include <strings.h>
 /* memory.h and strings.h conflict on some systems.  */
 #endif /* not STDC_HEADERS and not HAVE_STRING_H */
 
 #if defined(STDC_HEADERS) || defined(HAVE_CTYPE_H)
-#include <ctype.h>
+# include <ctype.h>
 #endif
+
+#include <errno.h>
+#ifndef errno
+extern int errno;
+#endif
+
+
+/*-----------------.
+| GCC extensions.  |
+`-----------------*/
+
+#ifndef __attribute__
+/* This feature is available in gcc versions 2.5 and later.  */
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 5) || __STRICT_ANSI__
+#  define __attribute__(Spec) /* empty */
+# endif
+/* The __-protected variants of `format' and `printf' attributes
+   are accepted by gcc versions 2.6.4 (effectively 2.7) and later.  */
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 7)
+#  define __format__ format
+#  define __printf__ printf
+# endif
+#endif
+
+
+/*------.
+| NLS.  |
+`------*/
 
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
@@ -64,8 +109,13 @@
 #endif
 #define N_(Text) Text
 
+
+/*-------------------------------.
+| Fix broken compilation flags.  |
+`-------------------------------*/
+
 #ifndef LOCALEDIR
-#define LOCALEDIR "/usr/local/share/locale"
+# define LOCALEDIR "/usr/local/share/locale"
 #endif
 
 #endif  /* BISON_SYSTEM_H */

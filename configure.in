@@ -36,6 +36,7 @@ AC_CHECK_FUNCS(mkstemp setlocale)
 BISON_NEED_DECLARATIONS(calloc realloc)
 
 AM_GNU_GETTEXT
+jm_PREREQ_ERROR
 
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.
