@@ -347,20 +347,19 @@ static const yy_token_number_type yytranslate[[]] =
 #if YYDEBUG
 /* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-static const short yyprhs[[]] =
+static const b4_uint_type(b4_prhs_max) yyprhs[[]] =
 {
   b4_prhs
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-typedef b4_sint_type(b4_rhs_number_max) yyrhs_t;
-static const yyrhs_t yyrhs[[]] =
+static const b4_sint_type(b4_rhs_max) yyrhs[[]] =
 {
   b4_rhs
 };
 
 /* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
-static const short yyrline[[]] =
+static const b4_uint_type(b4_rline_max) yyrline[[]] =
 {
   b4_rline
 };
@@ -388,7 +387,7 @@ static const yy_token_number_type yyr1[[]] =
 };
 
 /* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
-static const short yyr2[[]] =
+static const b4_uint_type(b4_r2_max) yyr2[[]] =
 {
   b4_r2
 };

@@ -1,3 +1,16 @@
+2002-05-05  Akim Demaille  <akim@epita.fr>
+
+	* src/output.c (output_unsigned_int_table): New.
+	(prepare_rules): `i' is unsigned.
+	`prhs', `rline', `r2' are unsigned int.
+	Rename muscle `rhs_number_max' as `rhs_max'.
+	Output muscles `prhs_max', `rline_max', and `r2_max'.
+	Free rline and r1.
+	* data/bison.simple, data/bison.c++: Adjust to use these muscles
+	to compute types instead of constant types.
+	* tests/regression.at (Web2c Actions): Adjust.
+
+	
 2002-05-04  Akim Demaille  <akim@epita.fr>
 
 	* src/symtab.h (SALIAS, SUNDEF): Rename as...

@@ -203,7 +203,7 @@ namespace yy
   struct Traits< b4_name >
   {
     typedef b4_uint_type(b4_token_number_max) TokenNumberType;
-    typedef b4_sint_type(b4_rhs_number_max)   RhsNumberType;
+    typedef b4_sint_type(b4_rhs_max)          RhsNumberType;
     typedef int      StateType;
     typedef yystype  SemanticType;
     typedef b4_ltype LocationType;
@@ -263,7 +263,7 @@ namespace yy
     static const short table_[[]];
     static const short check_[[]];
     static const TokenNumberType r1_[[]];
-    static const short r2_[[]];
+    static const b4_uint_type(b4_r2_max) r2_[[]];
 
 #if YYDEBUG || YYERROR_VERBOSE
     static const char* const name_[[]];
@@ -272,8 +272,8 @@ namespace yy
     /* More tables, for debugging.  */
 #if YYDEBUG
     static const RhsNumberType rhs_[[]];
-    static const short prhs_[[]];
-    static const short rline_[[]];
+    static const b4_uint_type(b4_prhs_max) prhs_[[]];
+    static const b4_uint_type(b4_rline_max) rline_[[]];
 #endif
 
     /* Even more tables.  */
@@ -466,7 +466,7 @@ yy::b4_name::parse ()
   if (debug_)
     {
       YYFPRINTF (stderr, "Reducing via rule %d (line %d), ", n_ - 1, rline_[[n_]]);
-      for (unsigned i = prhs_[[n_]];
+      for (b4_uint_type(b4_prhs_max) i = prhs_[[n_]];
 	   rhs_[[i]] >= 0; ++i)
 	YYFPRINTF (stderr, "%s ", name_[[rhs_[i]]]);
       YYFPRINTF (stderr, "-> %s\n", name_[[r1_[n_]]]);
@@ -696,7 +696,7 @@ yy::b4_name::r1_[[]] =
 };
 
 /* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
-const short
+const b4_uint_type(b4_r2_max)
 yy::b4_name::r2_[[]] =
 {
   b4_r2
@@ -722,14 +722,14 @@ yy::b4_name::rhs_[[]] =
 
 /* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-const short
+const b4_uint_type(b4_prhs_max)
 yy::b4_name::prhs_[[]] =
 {
   b4_prhs
 };
 
 /* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
-const short
+const b4_uint_type(b4_rline_max)
 yy::b4_name::rline_[[]] =
 {
   b4_rline

@@ -489,16 +489,16 @@ AT_CHECK([[sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c]], 0,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6
 };
-static const short yyprhs[] =
+static const unsigned char yyprhs[] =
 {
        0,     0,     3,     5,     6,     9,    14
 };
-static const yyrhs_t yyrhs[] =
+static const signed char yyrhs[] =
 {
        8,     0,    -1,     9,    -1,    -1,    10,    11,    -1,     3,
        4,     5,     8,    -1,     6,     8,    -1
 };
-static const short yyrline[] =
+static const unsigned char yyrline[] =
 {
        0,     2,     2,     3,     3,     4,     5
 };
@@ -515,7 +515,7 @@ static const yy_token_number_type yyr1[] =
 {
        0,     7,     8,     9,     9,    10,    11
 };
-static const short yyr2[] =
+static const unsigned char yyr2[] =
 {
        0,     2,     1,     0,     2,     4,     2
 };
