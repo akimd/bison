@@ -1,3 +1,14 @@
+2003-02-20  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at (AT_CHECK_PUSHDEFS, AT_CHECK_POPDEFS): Define
+	AT_YACC_IF.
+	Redefine AT_YYERROR_SEES_LOC_IF using it.
+	(_AT_DATA_CALC_Y): Don't declare yyerror when lalr1.cc, as it is
+	not defined.
+	Don't use the location in yy::Parser::error_ and
+	yy::Parser::print_ when not %locations.
+	Activate more lalr1.cc tests.
+
 2003-02-19  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc: When displaying a line number, be sure to make it
@@ -68,7 +79,7 @@
 	these CPP macros with the m4 macros new defined by...
 	(AT_CHECK_PUSHDEFS): this, i.e.:
 	(AT_LALR1_CC_IF, AT_PURE_LEX_IF, AT_LOC, AT_VAL, AT_LEX_FORMALS)
-	(AT_LEX_ARGS, AT_USE_LEX_ARGS, AT_LEX_PRE_FORMALSm AT_LEX_PRE_ARGS)
+	(AT_LEX_ARGS, AT_USE_LEX_ARGS, AT_LEX_PRE_FORMALS, AT_LEX_PRE_ARGS)
 	New macros.
 	(AT_CHECK_POPDEFS): Undefine them.
 	(AT_CHECK_CALC_LALR1_CC): New.
