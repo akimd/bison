@@ -442,7 +442,8 @@ yydefault:
 /* Do a reduction.  yyn is the number of a rule to reduce with.  */
 yyreduce:
   yylen = yyr2[yyn];
-  yyval = yyvsp[1-yylen]; /* implement default value of the action */
+  if (yylen > 0)
+    yyval = yyvsp[1-yylen]; /* implement default value of the action */
 
 #if YYDEBUG != 0
   if (yydebug)
@@ -460,7 +461,7 @@ yyreduce:
 #endif
 
 $   /* the action file gets copied in in place of this dollarsign */
-#line 464 "bison.simple"
+#line 465 "bison.simple"
 
   yyvsp -= yylen;
   yyssp -= yylen;
