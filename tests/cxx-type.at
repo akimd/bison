@@ -93,8 +93,9 @@ declarator : ID		{ printf ("\"%s\" ", ]$[1); }
 int
 main (int argc, char** argv)
 {
-  assert (argc = 2);
-  assert (freopen (argv[1], "r", stdin));
+  assert (argc == 2);
+  if (!freopen (argv[1], "r", stdin))
+    abort ();
   exit (yyparse ());
 }
 

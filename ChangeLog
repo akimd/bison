@@ -1,3 +1,10 @@
+2002-09-30  Art Haas  <ahaas@neosoft.com>
+
+	* configure.ac: Update AC_OUTPUT and AM_CONFIG_HEADER
+	invocations.
+	* tests/cxx-type.at (declarator): Don't rely on NDEBUG being not
+	defined.
+
 2002-09-27  Akim Demaille  <akim@epita.fr>
 
 	Version 1.49c.

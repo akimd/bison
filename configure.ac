@@ -24,7 +24,7 @@ AC_INIT([GNU Bison], [1.49d], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR(config)
 
 AM_INIT_AUTOMAKE([1.7 check-news readme-alpha dist-bzip2])
-AM_CONFIG_HEADER(config.h:config.hin)
+AC_CONFIG_HEADERS([config.h:config.hin])
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
@@ -110,9 +110,10 @@ BISON_PREREQ_TIMEVAR
 AM_GNU_GETTEXT(external, need-ngettext)
 AM_GNU_GETTEXT_VERSION(0.11.5)
 
-AC_OUTPUT([Makefile
-           config/Makefile
-           po/Makefile.in
-           data/Makefile
-           lib/Makefile src/Makefile doc/Makefile
-           m4/Makefile])
+AC_CONFIG_FILES([Makefile
+                 config/Makefile
+                 po/Makefile.in
+                 data/Makefile
+                 lib/Makefile src/Makefile doc/Makefile
+                 m4/Makefile])
+AC_OUTPUT
