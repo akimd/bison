@@ -128,3 +128,55 @@ m4_map_sep([     b4_token_enum], [,
 m4_map([b4_token_define], [$@])
 ])
 ])
+
+
+## ---------------------------------------------- ##
+## Declaring C functions in both K&R and ANSI-C.  ##
+## ---------------------------------------------- ##
+
+
+# b4_c_function(NAME, RETURN-VALUE, [TYPE1, NAME1], ...)
+# ------------------------------------------------
+# Declare the function NAME.
+m4_define([b4_c_function],
+[$2
+#if defined (__STDC__) || defined (__cplusplus)
+$1 (b4_c_ansi_args(m4_shiftn(2, $@)))
+#else
+$1 (b4_c_knr_arg_names(m4_shiftn(2, $@)))
+b4_c_knr_arg_decls(m4_shiftn(2, $@))
+#endif[]dnl
+])
+
+
+# b4_c_ansi_args([TYPE1, NAME1], ...)
+# -----------------------------------
+# Output the arguments ANSI-C definition.
+m4_define([b4_c_ansi_args],
+[m4_map_sep([b4_c_ansi_arg], [, ], [$@])])
+
+m4_define([b4_c_ansi_arg],
+[$1 $2])
+
+
+# b4_c_knr_args([TYPE1, NAME1], ...)
+# ----------------------------------
+# Output the argument names.
+m4_define([b4_c_knr_arg_names],
+[m4_map_sep([b4_c_knr_arg_name], [, ], [$@])])
+
+m4_define([b4_c_knr_arg_name],
+[$2])
+
+
+# b4_c_knr_args([TYPE1, NAME1], ...)
+# ----------------------------------
+# Output the K&R argument declarations.
+m4_define([b4_c_knr_arg_decls],
+[m4_map_sep([b4_c_knr_arg_decl],
+            [
+],
+            [$@])])
+
+m4_define([b4_c_knr_arg_decl],
+[    $1 $2;])

@@ -1,5 +1,13 @@
 2002-07-25  Akim Demaille  <akim@epita.fr>
 
+	* data/c.m4 (b4_c_function, b4_c_ansi_args, b4_c_ansi_arg)
+	(b4_c_knr_arg_names, b4_c_knr_arg_name, b4_c_knr_arg_decls)
+	(b4_c_knr_arg_decl): New.
+	* data/yacc.c: Use it to define yysymprint, yydestruct, and
+	yyreport_parse_error.
+
+2002-07-25  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.c (yyreport_parse_error): New, extracted from...
 	(yyparse): here.
 	(yydestruct, yysymprint): Move above yyparse.
