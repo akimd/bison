@@ -33,7 +33,7 @@ exp: { $$ = $1 ; };
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:2.6-14: invalid value: `$1'
+[[input.y:2.6-14: integer out of range: `$1'
 ]])
 
 AT_CLEANUP
@@ -51,7 +51,7 @@ exp: { @$ = @1 ; };
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:2.6-14: invalid value: `@1'
+[[input.y:2.6-14: integer out of range: `@1'
 ]])
 
 AT_CLEANUP
