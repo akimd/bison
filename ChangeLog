@@ -1,5 +1,15 @@
 2002-06-11  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c 	(parse_action): Don't store directly into the
+	rule's action member: return the action as a string.
+	Don't require `rule_length' as an argument: compute it.
+	(grammar_current_rule_symbol_append)
+	(grammar_current_rule_action_append): New, eved out from
+	(readgram): here.
+	Remove `action_flag', `rulelength', unused now.
+
+2002-06-11  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (grammar_current_rule_prec_set).
 	(grammar_current_rule_check): New, eved out from...
 	(readgram): here.
