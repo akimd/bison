@@ -1,5 +1,11 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (build_relations): Rename `states' as `states1'.
+	Sorry, I don't understand exactly what it is, no better name...
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c, src/conflicts.c, src/derives.c, src/gram.c
 	* src/gram.h, src/lalr.c, src/nullable.c, src/output.c, src/print.c
 	* src/print_graph.c, src/reader.c, src/reduce.c: Rename rule_table
