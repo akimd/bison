@@ -115,7 +115,7 @@ extern int nvars;
 
 typedef int item_number_t;
 # define ITEM_NUMBER_MAX ((item_number_t) INT_MAX)
-# define ITEM_NUMBER_MIN ((item_number_t) MIN_MAX)
+# define ITEM_NUMBER_MIN ((item_number_t) INT_MIN)
 extern item_number_t *ritem;
 extern unsigned int nritems;
 
