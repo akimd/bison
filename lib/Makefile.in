@@ -108,7 +108,7 @@ EXTRA_DIST = malloc.c realloc.c
 libbison_a_SOURCES =    error.c error.h   getopt.h getopt.c getopt1.c   obstack.h obstack.c   quote.h quote.c quotearg.h quotearg.c   xalloc.h xmalloc.c xstrdup.c
 
 
-libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
+libbison_a_LIBADD = @LIBOBJS@
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -128,18 +128,18 @@ CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-DIST_COMMON =  Makefile.am Makefile.in alloca.c ansi2knr.1 ansi2knr.c \
-memchr.c stpcpy.c strndup.c strnlen.c strspn.c
+DIST_COMMON =  Makefile.am Makefile.in ansi2knr.1 ansi2knr.c memchr.c \
+stpcpy.c strndup.c strnlen.c strspn.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/alloca.P .deps/error.P .deps/getopt.P .deps/getopt1.P \
-.deps/memchr.P .deps/obstack.P .deps/quote.P .deps/quotearg.P \
-.deps/stpcpy.P .deps/strndup.P .deps/strnlen.P .deps/strspn.P \
-.deps/xmalloc.P .deps/xstrdup.P
+DEP_FILES =  .deps/error.P .deps/getopt.P .deps/getopt1.P .deps/memchr.P \
+.deps/obstack.P .deps/quote.P .deps/quotearg.P .deps/stpcpy.P \
+.deps/strndup.P .deps/strnlen.P .deps/strspn.P .deps/xmalloc.P \
+.deps/xstrdup.P
 SOURCES = $(libbison_a_SOURCES)
 OBJECTS = $(libbison_a_OBJECTS)
 

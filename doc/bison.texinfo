@@ -46,7 +46,8 @@ END-INFO-DIR-ENTRY
 @ifinfo
 This file documents the Bison parser generator.
 
-Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998, 1999, 2000
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998, 1999,
+2000, 2001
 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
@@ -88,7 +89,7 @@ instead of in the original English.
 @page
 @vskip 0pt plus 1filll
 Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
-1999, 2000
+1999, 2000, 2001
 Free Software Foundation, Inc.
 
 @sp 2
@@ -2565,7 +2566,7 @@ exp:    @dots{}
 As for semantic values, there is a default action for locations that is
 run each time a rule is matched. It sets the beginning of @code{@@$} to the
 beginning of the first symbol, and the end of @code{@@$} to the end of the
-last symbol. 
+last symbol.
 
 With this default action, the location tracking can be fully automatic. The
 example above simply rewrites this way:
@@ -2594,16 +2595,16 @@ exp:    @dots{}
 
 Actually, actions are not the best place to compute locations. Since locations
 are much more general than semantic values, there is room in the output parser
-to redefine the default action to take for each rule. The 
+to redefine the default action to take for each rule. The
 @code{YYLLOC_DEFAULT} macro is called each time a rule is matched, before the
-associated action is run. 
+associated action is run.
 
 Most of the time, this macro is general enough to suppress location
-dedicated code from semantic actions. 
+dedicated code from semantic actions.
 
-The @code{YYLLOC_DEFAULT} macro takes three parameters. The first one is 
-the location of the grouping (the result of the computation). The second one 
-is an array holding locations of all right hand side elements of the rule 
+The @code{YYLLOC_DEFAULT} macro takes three parameters. The first one is
+the location of the grouping (the result of the computation). The second one
+is an array holding locations of all right hand side elements of the rule
 being matched. The last one is the size of the right hand side rule.
 
 By default, it is defined this way:
@@ -2619,7 +2620,7 @@ By default, it is defined this way:
 When defining @code{YYLLOC_DEFAULT}, you should consider that:
 
 @itemize @bullet
-@item 
+@item
 All arguments are free of side-effects. However, only the first one (the
 result) should be modified by @code{YYLLOC_DEFAULT}.
 
@@ -4732,7 +4733,7 @@ Here @var{infile} is the grammar file name, which usually ends in
 with @samp{.tab.c}.  Thus, the @samp{bison foo.y} filename yields
 @file{foo.tab.c}, and the @samp{bison hack/foo.y} filename yields
 @file{hack/foo.tab.c}. It's is also possible, in case you are writting
-C++ code instead of C in your grammar file, to name it @file{foo.ypp} 
+C++ code instead of C in your grammar file, to name it @file{foo.ypp}
 or @file{foo.y++}. Then, the output files will take an extention like
 the given one as input (repectively @file{foo.tab.cpp} and @file{foo.tab.c++}).
 This feature takes effect with all options that manipulate filenames like

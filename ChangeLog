@@ -1,6 +1,6 @@
 2001-08-10  Pascal Bart  <pascal.bart@epita.fr>
 
-	* doc/bison.texinfo: Include GNU General Public License from 
+	* doc/bison.texinfo: Include GNU General Public License from
 	`gpl.texi'.
 	* doc/gpl.texi: Add to package.
 
@@ -62,7 +62,7 @@
 	* src/vcg.c (complain.h): Include it.
 	Unepitaize `return' invocations.
 	[NDEBUG] (main): Remove.
-	* src/vcg.h (node_t, edge_t, graph_t): Constify the char * memebers.
+	* src/vcg.h (node_t, edge_t, graph_t): Constify the char * members.
 	* src/files.c (open_files): Initialize graph_obstack.
 	* src/print_graph.c (print_actions): CPP out useless code.
 	(print_core): Don't output the last `\n' in labels.

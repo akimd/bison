@@ -18,5 +18,5 @@ libbison_a_SOURCES = \
   quote.h quote.c quotearg.h quotearg.c \
   xalloc.h xmalloc.c xstrdup.c
 
-libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
+libbison_a_LIBADD = @LIBOBJS@
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)
