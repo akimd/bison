@@ -34,16 +34,12 @@
 # define getpid _getpid
 #endif
 
-#if defined(HAVE_STDLIB_H) || defined(MSDOS)
+#if HAVE_STDLIB_H
 # include <stdlib.h>
 #endif
 
-#if defined(HAVE_UNISTD_H)
+#if HAVE_UNISTD_H
 # include <unistd.h>
-#endif
-
-#if (defined(VMS) || defined(MSDOS)) && !defined(HAVE_STRING_H)
-# define HAVE_STRING_H 1
 #endif
 
 #if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
@@ -69,6 +65,11 @@
 extern int errno;
 #endif
 
+#if PROTOTYPES
+# define PARAMS(p) p
+#else
+# define PARAMS(p) ()
+#endif
 
 /*-----------------.
 | GCC extensions.  |

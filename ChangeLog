@@ -1,5 +1,15 @@
 2000-09-20  Akim Demaille  <akim@epita.fr>
 
+	* src/acconfig.h: Don't protect config.h against multiple
+	inclusion.
+	Don't define PARAMS.
+	* src/system.h: Define PARAMS.
+	Remove some of the ad-hoc CPP magic for DOS, VMS etc.: this is the
+	purpose of config.h.  system.h must not try to fix wrong
+	definitions in config.h.
+
+2000-09-20  Akim Demaille  <akim@epita.fr>
+
 	* src/derives.h: New file.
 	* src/main.c, src/derives.h: Use it.
 	Formatting changes.
