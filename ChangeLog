@@ -1,5 +1,9 @@
 2001-08-08  Marc Autret  <autret_m@epita.fr>
 
+	* ChangeLog: Adjust.
+
+2001-08-08  Marc Autret  <autret_m@epita.fr>
+
 	* src/vcg_default.h: Use NULL instead of 0 to initialize pointers.
 	* src/vcg.c (output_node): Fix.
 	* src/vcg.h: Cleanup.
@@ -26,7 +30,7 @@
 	* src/print_graph.c (quote): New.
 	(print_core): Use it.
 
-2001-08-06  Akim Demaille  <akim@epita.fr>, Marc Autret  <autret_@epita.fr>
+2001-08-06  Akim Demaille  <akim@epita.fr>, Marc Autret  <autret_m@epita.fr>
 
 	* src/vcg.c (complain.h): Include it.
 	Unepitaize `return' invocations.
@@ -39,7 +43,7 @@
 	* src/files.c (output_files): Output the VCG file.
 	* src/main.c (main): Invoke print_graph ();
 
-2001-08-06  Marc Autret   <autret_@epita.fr>
+2001-08-06  Marc Autret  <autret_m@epita.fr>
 
 	Automaton VCG graph output.
 	Using option ``-g'' or long option ``--graph'', you can generate
@@ -58,7 +62,7 @@
 	* src/files.h (graph_obstack): New extern declaration.
 	* src/Makefile.am: Add new source files.
 
-2001-08-06  Marc Autret   <autret_@epita.fr>
+2001-08-06  Marc Autret   <autret_m@epita.fr>
 
 	* src/print_graph.c, src/print_graph.h (graph): New.
 	* src/vcg.h: New file.
