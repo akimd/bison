@@ -49,8 +49,6 @@ AT_DATA([calc.y],
 #if STDC_HEADERS
 # include <stdlib.h>
 # include <string.h>
-#else
-char *strcat(char *dest, const char *src);
 #endif
 #include <ctype.h>
 #include <assert.h>
