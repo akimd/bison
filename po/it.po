@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-03-06 17:59+0100\n"
+"POT-Creation-Date: 2002-03-14 19:33+0100\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "troppi stati (massimo %d)"
 
-#: lib/error.c:128 lib/error.c:156 src/complain.c:99
+#: src/complain.c:99 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Errore di sistema sconosciuto"
 
@@ -72,8 +72,6 @@ msgstr[1] "%d conflitti riduzione/riduzione"
 msgid "State %d contains "
 msgstr "Lo stato %d contiene"
 
-#. If invoked with `--yacc', use the output format specified by
-#. POSIX.
 #: src/conflicts.c:365
 msgid "conflicts: "
 msgstr "conflitti: "
@@ -109,8 +107,6 @@ msgstr "impossibile aprire il file `%s'"
 msgid "cannot close file"
 msgstr "impossibile chiudere il file `%s'"
 
-#. Some efforts were made to ease the translators' task, please
-#. continue.
 #: src/getargs.c:56
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genera parser per grammatiche LALR(1).\n"
@@ -181,8 +177,6 @@ msgstr ""
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Segnalare eventuali bug a <bug-bison@gnu.org>.\n"
 
-#. Some efforts were made to ease the translators' task, please
-#. continue.
 #: src/getargs.c:113
 #, c-format
 msgid "bison (GNU Bison) %s"
@@ -353,7 +347,6 @@ msgstr "    NESSUNA AZIONE\n"
 msgid "state %d"
 msgstr "stato %d"
 
-#. rule # : LHS -> RHS
 #: src/print.c:366
 msgid "Grammar"
 msgstr "Grammatica"
@@ -371,7 +364,6 @@ msgstr "  %3d %3d %s ->"
 msgid "empty"
 msgstr "vuoto"
 
-#. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:386
 msgid "Terminals, with rules where they appear"
 msgstr "Simboli terminali e regole in cui appaiono"
@@ -682,19 +674,16 @@ msgstr "%s: l'opzione `%c%s' non ammette argomenti\n"
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: l'opzione `%s' richiede un argomento\n"
 
-#. --option
 #: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: opzione sconosciuta `--%s'\n"
 
-#. +option or -option
 #: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: opzione sconosciuta `%c%s'\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
@@ -705,7 +694,6 @@ msgstr "%s: opzione non valida -- %c\n"
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: opzione non valida -- %c\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
@@ -721,26 +709,10 @@ msgstr "%s: l'opzione `-W %s' è ambigua\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: l'opzione `-W %s' non ammette un argomento\n"
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/obstack.c:494 lib/obstack.c:497 lib/xmalloc.c:66
 msgid "memory exhausted"
 msgstr "memoria esaurita"
 
-#. Get translations for open and closing quotation marks.
-#.
-#. The message catalog should translate "`" to a left
-#. quotation mark suitable for the locale, and similarly for
-#. "'".  If the catalog has no translation,
-#. locale_quoting_style quotes `like this', and
-#. clocale_quoting_style quotes "like this".
-#.
-#. For example, an American English Unicode locale should
-#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
-#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
-#. MARK).  A British English Unicode locale should instead
-#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
-#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #: lib/quotearg.c:274
 msgid "`"
 msgstr "`"

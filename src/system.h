@@ -158,7 +158,7 @@ void *memrchr PARAMS ((const void *s, int c, size_t n));
 # define setlocale(Category, Locale)
 #endif
 
-#include "libgettext.h"
+#include "gettext.h"
 #define _(Msgid)  gettext (Msgid)
 #define N_(Msgid) (Msgid)
 

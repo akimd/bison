@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2002-03-06 17:59+0100\n"
+"POT-Creation-Date: 2002-03-14 19:33+0100\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "för många tillstånd (max %d)"
 
-#: lib/error.c:128 lib/error.c:156 src/complain.c:99
+#: src/complain.c:99 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Okänt systemfel"
 
@@ -73,8 +73,6 @@ msgstr[1] "%d reducera/reducerakonflikter"
 msgid "State %d contains "
 msgstr "Tillstånd %d innehåller "
 
-#. If invoked with `--yacc', use the output format specified by
-#. POSIX.
 #: src/conflicts.c:365
 msgid "conflicts: "
 msgstr "konflikter: "
@@ -110,8 +108,6 @@ msgstr "kan inte öppna filen \"%s\""
 msgid "cannot close file"
 msgstr "kan inte stänga fil"
 
-#. Some efforts were made to ease the translators' task, please
-#. continue.
 #: src/getargs.c:56
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genererar parsrar för LALR(1)-grammatiker.\n"
@@ -185,8 +181,6 @@ msgstr ""
 "Rapportera fel till <bug-bison@gnu.org>.\n"
 "Rapportera anmärkningar på översättningen till <sv@li.org>.\n"
 
-#. Some efforts were made to ease the translators' task, please
-#. continue.
 #: src/getargs.c:113
 #, c-format
 msgid "bison (GNU Bison) %s"
@@ -356,7 +350,6 @@ msgstr "    INGA ÅTGÄRDER\n"
 msgid "state %d"
 msgstr "tillstånd %d"
 
-#. rule # : LHS -> RHS
 #: src/print.c:366
 msgid "Grammar"
 msgstr "Grammatik"
@@ -374,7 +367,6 @@ msgstr "regel %-4d %s ->"
 msgid "empty"
 msgstr "tom"
 
-#. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:386
 msgid "Terminals, with rules where they appear"
 msgstr "Terminaler, med regler där de förekommer"
@@ -687,19 +679,16 @@ msgstr "%s: flaggan \"%c%s\" tar inget argument\n"
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: flaggan \"%s\" behöver ett argument\n"
 
-#. --option
 #: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: okänd flagga \"--%s\"\n"
 
-#. +option or -option
 #: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: okänd flagga \"%c%s\"\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
@@ -710,7 +699,6 @@ msgstr "%s: otillåten flagga -- %c\n"
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: ogiltig flagga --%c\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
@@ -726,8 +714,6 @@ msgstr "%s: flaggan \"-W %s\" är tvetydig\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: flaggan \"-W %s\" tar inget argument\n"
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/obstack.c:494 lib/obstack.c:497 lib/xmalloc.c:66
 msgid "memory exhausted"
 msgstr "minnet slut"
@@ -735,20 +721,6 @@ msgstr "minnet slut"
 # När vi går över till Unicode mer allmänt kanske vi bör översätta båda dessa
 # med U+201D (RIGHT DOUBLE QUOTATION MARK) på svenska.  Eller?
 #
-#. Get translations for open and closing quotation marks.
-#.
-#. The message catalog should translate "`" to a left
-#. quotation mark suitable for the locale, and similarly for
-#. "'".  If the catalog has no translation,
-#. locale_quoting_style quotes `like this', and
-#. clocale_quoting_style quotes "like this".
-#.
-#. For example, an American English Unicode locale should
-#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
-#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
-#. MARK).  A British English Unicode locale should instead
-#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
-#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #: lib/quotearg.c:274
 msgid "`"
 msgstr "\""

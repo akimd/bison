@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-EXTRA_DIST = 					\
+EXTRA_DIST = lib-ld.m4 lib-link.m4 lib-prefix.m4  					\
 c-bs-a.m4					\
 codeset.m4					\
 dmalloc.m4					\

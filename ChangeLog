@@ -1,3 +1,7 @@
+2002-03-14  Akim Demaille  <akim@epita.fr>
+
+	Use Gettext 0.11.1.
+
 2002-03-09  Robert Anisko  <robert@lrde.epita.fr>
 
 	* data/bison.c++: Make the user able to add members to the generated
