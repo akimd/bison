@@ -2797,9 +2797,10 @@ Actions, ,Actions in Mid-Rule}).
 The C code in an action can refer to the semantic values of the components
 matched by the rule with the construct @code{$@var{n}}, which stands for
 the value of the @var{n}th component.  The semantic value for the grouping
-being constructed is @code{$$}.  (Bison translates both of these constructs
-into array element references when it copies the actions into the parser
-file.)
+being constructed is @code{$$}.  Bison translates both of these
+constructs into expressions of the appropriate type when it copies the
+actions into the parser file.  @code{$$} is translated to a modifiable
+lvalue, so it can be assigned to.
 
 Here is a typical example:
 

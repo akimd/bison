@@ -1,3 +1,11 @@
+2003-10-04  Paul Eggert  <eggert@twinsun.com>
+
+	* data/glr.c (b4_rhs_value, b4_rhs_location): Yield a
+	non-modifiable lvalue, instead of a modifiable one.
+	* doc/bison.texinfo (Actions): Document that $$ can
+	be assigned to.  Do not claim that $$ and $N are
+	array element references: user code should not rely on this.
+
 2003-10-01  Paul Eggert  <eggert@twinsun.com>
 
 	* src/parse-gram.h (PERCENT_NO_DEFAULT_PREC): New token.
