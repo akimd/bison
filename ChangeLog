@@ -1,5 +1,10 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output, prepare): Make sure the values of the
+	muscles `action' and `prologue' are 0-terminated.
+
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	Clean up GCC warnings.
 
 	* src/reader.c (copy_action): `buf' is not used.
