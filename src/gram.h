@@ -39,27 +39,27 @@
    written.  Actions and guards are accessed via the rule number.
 
    The rules themselves are described by several arrays: amongst which
-   RITEM, and RULE_TABLE.
+   RITEM, and RULES.
 
-   RULE_TABLE is an array of struct rule_s, which members are:
+   RULES is an array of struct rule_s, which members are:
 
-   RULE_TABLE[R].lhs -- the symbol number of the left hand side of
+   RULES[R].lhs -- the symbol number of the left hand side of
    rule R.  If -1, the rule has been thrown out by reduce.c and should
    be ignored.
 
-   RULE_TABLE[R].rhs -- the index in RITEM of the beginning of the
+   RULES[R].rhs -- the index in RITEM of the beginning of the
    portion for rule R.
 
-   RULE_TABLE[R].prec -- the precedence level of R.
+   RULES[R].prec -- the precedence level of R.
 
-   RULE_TABLE[R].precsym -- the symbol-number of the symbol in %prec
+   RULES[R].precsym -- the symbol-number of the symbol in %prec
    for R (if any).
 
-   RULE_TABLE[R].assoc -- the associativity of R.
+   RULES[R].assoc -- the associativity of R.
 
-   RULE_TABLE[R].line -- the line where R was defined.
+   RULES[R].line -- the line where R was defined.
 
-   RULE_TABLE[R].useful -- TRUE iff the rule is used.
+   RULES[R].useful -- TRUE iff the rule is used.
 
    The right hand side is stored as symbol numbers in a portion of
    RITEM.
@@ -128,7 +128,7 @@ typedef struct rule_s
   short guard_line;
 } rule_t;
 
-extern struct rule_s *rule_table;
+extern struct rule_s *rules;
 
 /* Table of the symbols, indexed by the symbol number. */
 extern struct bucket **symbols;
