@@ -126,7 +126,8 @@ bin_PROGRAMS = bison
 bison_SOURCES = LR0.c closure.c complain.c conflicts.c	\
     derives.c	\
     files.c getargs.c gram.c lalr.c lex.c main.c nullable.c \
-    output.c	\
+    output.h output.c \
+    state.h state.c \
     print.c reader.c reduce.c symtab.c warshall.c vcg.c print_graph.c
 
 
@@ -135,7 +136,6 @@ EXTRA_bison_SOURCES = vmsgetargs.c
 noinst_HEADERS = LR0.h closure.h complain.h conflicts.h \
  derives.h \
  files.h getargs.h gram.h lalr.h lex.h nullable.h \
- output.h state.h	\
  print.h reader.h reduce.h symtab.h warshall.h system.h types.h \
  vcg.h vcg_defaults.h print_graph.h
 
@@ -154,9 +154,10 @@ am_bison_OBJECTS = LR0$U.$(OBJEXT) closure$U.$(OBJEXT) \
 	complain$U.$(OBJEXT) conflicts$U.$(OBJEXT) derives$U.$(OBJEXT) \
 	files$U.$(OBJEXT) getargs$U.$(OBJEXT) gram$U.$(OBJEXT) \
 	lalr$U.$(OBJEXT) lex$U.$(OBJEXT) main$U.$(OBJEXT) \
-	nullable$U.$(OBJEXT) output$U.$(OBJEXT) print$U.$(OBJEXT) \
-	reader$U.$(OBJEXT) reduce$U.$(OBJEXT) symtab$U.$(OBJEXT) \
-	warshall$U.$(OBJEXT) vcg$U.$(OBJEXT) print_graph$U.$(OBJEXT)
+	nullable$U.$(OBJEXT) output$U.$(OBJEXT) state$U.$(OBJEXT) \
+	print$U.$(OBJEXT) reader$U.$(OBJEXT) reduce$U.$(OBJEXT) \
+	symtab$U.$(OBJEXT) warshall$U.$(OBJEXT) vcg$U.$(OBJEXT) \
+	print_graph$U.$(OBJEXT)
 bison_OBJECTS = $(am_bison_OBJECTS)
 bison_LDADD = $(LDADD)
 bison_DEPENDENCIES = ../lib/libbison.a
@@ -174,9 +175,9 @@ depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/main$U.Po $(DEPDIR)/nullable$U.Po \
 @AMDEP_TRUE@	$(DEPDIR)/output$U.Po $(DEPDIR)/print$U.Po \
 @AMDEP_TRUE@	$(DEPDIR)/print_graph$U.Po $(DEPDIR)/reader$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/reduce$U.Po $(DEPDIR)/symtab$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/vcg$U.Po $(DEPDIR)/vmsgetargs$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/warshall$U.Po
+@AMDEP_TRUE@	$(DEPDIR)/reduce$U.Po $(DEPDIR)/state$U.Po \
+@AMDEP_TRUE@	$(DEPDIR)/symtab$U.Po $(DEPDIR)/vcg$U.Po \
+@AMDEP_TRUE@	$(DEPDIR)/vmsgetargs$U.Po $(DEPDIR)/warshall$U.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -255,6 +256,7 @@ mostlyclean-kr:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/print_graph$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/reader$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/reduce$U.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/state$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/symtab$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/vcg$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/vmsgetargs$U.Po@am__quote@
@@ -309,6 +311,8 @@ reader_.c: reader.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/reader.c; then echo $(srcdir)/reader.c; else echo reader.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > reader_.c || rm -f reader_.c
 reduce_.c: reduce.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/reduce.c; then echo $(srcdir)/reduce.c; else echo reduce.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > reduce_.c || rm -f reduce_.c
+state_.c: state.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/state.c; then echo $(srcdir)/state.c; else echo state.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > state_.c || rm -f state_.c
 symtab_.c: symtab.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/symtab.c; then echo $(srcdir)/symtab.c; else echo symtab.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > symtab_.c || rm -f symtab_.c
 vcg_.c: vcg.c $(ANSI2KNR)
@@ -322,7 +326,7 @@ conflicts_.$(OBJEXT) derives_.$(OBJEXT) files_.$(OBJEXT) \
 getargs_.$(OBJEXT) gram_.$(OBJEXT) lalr_.$(OBJEXT) lex_.$(OBJEXT) \
 main_.$(OBJEXT) nullable_.$(OBJEXT) output_.$(OBJEXT) print_.$(OBJEXT) \
 print_graph_.$(OBJEXT) reader_.$(OBJEXT) reduce_.$(OBJEXT) \
-symtab_.$(OBJEXT) vcg_.$(OBJEXT) vmsgetargs_.$(OBJEXT) \
+state_.$(OBJEXT) symtab_.$(OBJEXT) vcg_.$(OBJEXT) vmsgetargs_.$(OBJEXT) \
 warshall_.$(OBJEXT) : $(ANSI2KNR)
 uninstall-info-am:
 install-pkgdataDATA: $(pkgdata_DATA)

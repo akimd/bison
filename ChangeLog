@@ -1,5 +1,16 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	Pessimize the code to simplify it: from now on, all the states
+	have a valid SHIFTS, which NSHIFTS is possibly 0.
+
+	* src/LR0.c (shifts_new): Be global and move to..
+	* src/state.c, src/state.h: here.
+	* src/conflicts, src/lalr.c, src/output.c, src/print.c,
+	* src/print_graph: Adjust.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h (SHIFT_DISABLE, SHIFT_IS_DISABLED): New.
 	* src/conflicts.c: Use it.
 	Restore a few missing `if (!SHIFT_IS_DISABLED)' which were
