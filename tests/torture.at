@@ -51,7 +51,6 @@ print <<EOF;
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 #define YYERROR_VERBOSE 1
 #define YYDEBUG 1
@@ -76,8 +75,8 @@ for my $size (1 .. $max)
 print <<EOF;
 %%
 input:
-  exp        { assert (\@S|@1 == 0); \$\$ = \@S|@1; }
-| input exp  { assert (\@S|@2 == \@S|@1 + 1); \$\$ = \@S|@2; }
+  exp        { if (\@S|@1 != 0) abort (); \$\$ = \@S|@1; }
+| input exp  { if (\@S|@2 != \@S|@1 + 1) abort (); \$\$ = \@S|@2; }
 ;
 
 exp:
@@ -167,7 +166,6 @@ print <<EOF;
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 #define YYERROR_VERBOSE 1
 #define YYDEBUG 1
@@ -272,7 +270,6 @@ print <<EOF;
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 #define YYERROR_VERBOSE 1
 #define YYDEBUG 1
@@ -303,17 +300,17 @@ for my $count (1 .. $max)
 print <<EOF;
 %%
 input:
-  exp        { assert (\@S|@1 == 1); \$\$ = \@S|@1; }
-| input exp  { assert (\@S|@2 == \@S|@1 + 1); \$\$ = \@S|@2; }
+  exp        { if (\@S|@1 != 1) abort (); \$\$ = \@S|@1; }
+| input exp  { if (\@S|@2 != \@S|@1 + 1) abort (); \$\$ = \@S|@2; }
 ;
 
 exp:
-  n1 "1" { assert (\@S|@1 == 1); }
+  n1 "1" { if (\@S|@1 != 1) abort (); }
 EOF
 
 for my $count (2 .. $max)
   {
-    print "| n$count \"$count\" { assert (\@S|@1 == $count); }\n";
+    print "| n$count \"$count\" { if (\@S|@1 != $count) abort (); }\n";
   };
 print ";\n";
 
@@ -390,7 +387,6 @@ AT_DATA([input.y],
 [[%{
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 ]$1[
   static int yylex (void);
   static void yyerror (const char *msg);
@@ -423,7 +419,8 @@ yylex (void)
 int
 main (int argc, const char **argv)
 {
-  assert (argc == 2);
+  if (argc != 2)
+    abort ();
   yylval = atoi (argv[1]);
   yydebug = 1;
   return yyparse ();
