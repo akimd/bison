@@ -6376,26 +6376,26 @@ This question is already addressed elsewhere, @xref{Recursion,
 @node How Can I Reset @code{yyparse}
 @section How Can I Reset @code{yyparse}
 
-The following phenomenon gives raise to several incarnations,
-resulting in the following typical questions:
+The following phenomenon has several symptoms, resulting in the
+following typical questions:
 
 @display
 I invoke @code{yyparse} several times, and on correct input it works
 properly; but when a parse error is found, all the other calls fail
-too.  How can I reset @code{yyparse}'s error flag?
+too.  How can I reset the error flag of @code{yyparse}?
 @end display
 
 @noindent
 or
 
 @display
-My parser includes support for a @samp{#include} like feature, in
+My parser includes support for an @samp{#include}-like feature, in
 which case I run @code{yyparse} from @code{yyparse}.  This fails
 although I did specify I needed a @code{%pure-parser}.
 @end display
 
-These problems are not related to Bison itself, but with the Lex
-generated scanners.  Because these scanners use large buffers for
+These problems typically come not from Bison itself, but from
+Lex-generated scanners.  Because these scanners use large buffers for
 speed, they might not notice a change of input file.  As a
 demonstration, consider the following source file,
 @file{first-line.l}:
@@ -6409,20 +6409,20 @@ demonstration, consider the following source file,
 .*\n    ECHO; return 1;
 %%
 int
-yyparse (const char *file)
+yyparse (char const *file)
 {
   yyin = fopen (file, "r");
   if (!yyin)
     exit (2);
   /* One token only. */
   yylex ();
-  if (!fclose (yyin))
+  if (fclose (yyin) != 0)
     exit (3);
   return 0;
 }
 
 int
-main ()
+main (void)
 {
   yyparse ("input");
   yyparse ("input");
@@ -6439,7 +6439,7 @@ input:2: World!
 @end verbatim
 
 @noindent
-then instead of getting twice the first line, you get:
+then instead of getting the first line twice, you get:
 
 @example
 $ @kbd{flex -ofirst-line.c first-line.l}
@@ -6449,12 +6449,15 @@ input:1: Hello,
 input:2: World!
 @end example
 
-Therefore, whenever you change @code{yyin}, you must tell the Lex
-generated scanner to discard its current buffer, and to switch to the
-new one.  This depends upon your implementation of Lex, see its
-documentation for more.  For instance, in the case of Flex, a simple
-call @samp{yyrestart (yyin)} suffices after each change to
-@code{yyin}.
+Therefore, whenever you change @code{yyin}, you must tell the
+Lex-generated scanner to discard its current buffer and switch to the
+new one.  This depends upon your implementation of Lex; see its
+documentation for more.  For Flex, it suffices to call
+@samp{YY_FLUSH_BUFFER} after each change to @code{yyin}.  If your
+Flex-generated scanner needs to read from several input streams to
+handle features like include files, you might consider using Flex
+functions like @samp{yy_switch_to_buffer} that manipulate multiple
+input buffers.
 
 @node Strings are Destroyed
 @section Strings are Destroyed
