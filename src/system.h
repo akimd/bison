@@ -79,10 +79,6 @@ char *alloca ();
 #endif /* not STDC_HEADERS and not HAVE_STRING_H */
 
 #include <errno.h>
-#ifndef errno
-extern int errno;
-#endif
-
 #include <limits.h>
 
 # include "xalloc.h"
