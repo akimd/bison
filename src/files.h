@@ -24,9 +24,6 @@
    When bison is installed, they should be absolute pathnames.
    XPFILE1 and XPFILE2 normally come from config.h.  */
 
-#define PFILE	XPFILE		/* Simple parser */
-#define PFILE1	XPFILE1		/* Semantic parser */
-
 /* File name specified with -o for the output file, or 0 if no -o.  */
 extern char *spec_outfile;
 

@@ -1,5 +1,11 @@
 2000-11-03  Akim Demaille  <akim@epita.fr>
 
+	* src/Makefile.am (INCLUDES): s/PFILE/BISON_SIMPLE/.
+	s/PFILE1/BISON_HAIRY/.
+	Adjust dependencies.
+
+2000-11-03  Akim Demaille  <akim@epita.fr>
+
 	For some reasons, this has not been applied.
 
 	* src/files.c [VMS]: No longer include `ssdef.h', no longer define

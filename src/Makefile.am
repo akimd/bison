@@ -2,9 +2,10 @@
 AUTOMAKE_OPTIONS = 1.4 ../lib/ansi2knr
 
 DEFS = @DEFS@ \
-  -DXPFILE=\"${datadir}/bison.simple\" \
-  -DXPFILE1=\"${datadir}/bison.hairy\" \
+  -DBISON_SIMPLE=\"${datadir}/bison.simple\" \
+  -DBISON_HAIRY=\"${datadir}/bison.hairy\" \
   -DLOCALEDIR=\"${datadir}/locale\"
+
 INCLUDES = -I../intl -I$(top_srcdir)/lib -I..
 LDADD = @INTLLIBS@ ../lib/libbison.a
 
