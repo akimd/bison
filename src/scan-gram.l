@@ -26,23 +26,27 @@
 #include "system.h"
 #include "mbswidth.h"
 #include "complain.h"
+#include "files.h"
 #include "quote.h"
 #include "struniq.h"
 #include "getargs.h"
 #include "gram.h"
 #include "reader.h"
 
-#define YY_USER_INIT				\
-do {						\
-  LOCATION_RESET (*loc);			\
-  loc->file = current_file;			\
-} while (0)
+#define YY_USER_INIT					\
+  do							\
+    {							\
+      scanner_cursor.file = current_file;		\
+      scanner_cursor.line = 1;				\
+      scanner_cursor.column = 1;			\
+    }							\
+  while (0)
 
-/* Each time we match a string, move the end cursor to its end. */
-#define STEP  LOCATION_STEP (*loc)
+/* Location of scanner cursor.  */
+boundary scanner_cursor;
 
-static void extend_location (location_t *, char const *, int);
-#define YY_USER_ACTION  extend_location (loc, yytext, yyleng);
+static void adjust_location (location_t *, char const *, size_t);
+#define YY_USER_ACTION  adjust_location (loc, yytext, yyleng);
 
 static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
@@ -93,13 +97,14 @@ static void handle_dollar (braced_code_t code_kind,
 			   char *cp, location_t location);
 static void handle_at (braced_code_t code_kind,
 		       char *cp, location_t location);
-static void handle_syncline (char *args, location_t *location);
+static void handle_syncline (char *args);
 static int convert_ucn_to_byte (char const *hex_text);
-static void unexpected_end_of_file (location_t *, char const *);
+static void unexpected_end_of_file (boundary, char const *);
 
 %}
 %x SC_COMMENT SC_LINE_COMMENT SC_YACC_COMMENT
 %x SC_STRING SC_CHARACTER
+%x SC_AFTER_IDENTIFIER
 %x SC_ESCAPED_STRING SC_ESCAPED_CHARACTER
 %x SC_BRACED_CODE SC_PROLOGUE SC_EPILOGUE
 
@@ -122,13 +127,39 @@ splice	 (\\[ \f\t\v]*\n)*
   /* Nesting level of the current code in braces.  */
   int braces_level IF_LINT (= 0);
 
-  /* Scanner context when scanning C code.  */
-  int c_context IF_LINT (= 0);
+  /* Parent context state, when applicable.  */
+  int context_state IF_LINT (= 0);
 
-  /* At each yylex invocation, mark the current position as the
-     start of the next token.  */
-  STEP;
+  /* Location of most recent identifier, when applicable.  */
+  location_t id_loc IF_LINT (= *loc);
+
+  /* Location where containing code started, when applicable.  */
+  boundary code_start IF_LINT (= loc->start);
+
+  /* Location where containing comment or string or character literal
+     started, when applicable.  */
+  boundary token_start IF_LINT (= loc->start);
 %}
+
+
+  /*-----------------------.
+  | Scanning white space.  |
+  `-----------------------*/
+
+<INITIAL,SC_AFTER_IDENTIFIER>
+{
+  [ \f\n\t\v]  ;
+
+  /* Comments. */
+  "/*"         token_start = loc->start; context_state = YY_START; BEGIN SC_YACC_COMMENT;
+  "//".*       ;
+
+  /* #line directives are not documented, and may be withdrawn or
+     modified in future versions of Bison.  */
+  ^"#line "{int}" \"".*"\"\n" {
+    handle_syncline (yytext + sizeof "#line " - 1);
+  }
+}
 
 
   /*----------------------------.
@@ -171,32 +202,23 @@ splice	 (\\[ \f\t\v]*\n)*
   "%verbose"              return PERCENT_VERBOSE;
   "%yacc"                 return PERCENT_YACC;
 
-  {directive}             {
+  {directive} {
     complain_at (*loc, _("invalid directive: %s"), quote (yytext));
-    STEP;
-  }
-
-  ^"#line "{int}" \"".*"\"\n" {
-    handle_syncline (yytext + sizeof "#line " - 1, loc);
-    STEP;
   }
 
   "="                     return EQUAL;
-  ":"                     rule_length = 0; return COLON;
   "|"                     rule_length = 0; return PIPE;
   ";"                     return SEMICOLON;
 
-  [ \f\n\t\v]  STEP;
-
   "," {
     warn_at (*loc, _("stray `,' treated as white space"));
-    STEP;
   }
 
-  {id}        {
+  {id} {
     val->symbol = symbol_get (yytext, *loc);
+    id_loc = *loc;
     rule_length++;
-    return ID;
+    BEGIN SC_AFTER_IDENTIFIER;
   }
 
   {int} {
@@ -213,20 +235,21 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   /* Characters.  We don't check there is only one.  */
-  "'"         STRING_GROW; BEGIN SC_ESCAPED_CHARACTER;
+  "'"	      STRING_GROW; token_start = loc->start; BEGIN SC_ESCAPED_CHARACTER;
 
   /* Strings. */
-  "\""        STRING_GROW; BEGIN SC_ESCAPED_STRING;
-
-  /* Comments. */
-  "/*"        BEGIN SC_YACC_COMMENT;
-  "//".*      STEP;
+  "\""	      STRING_GROW; token_start = loc->start; BEGIN SC_ESCAPED_STRING;
 
   /* Prologue. */
-  "%{"        BEGIN SC_PROLOGUE;
+  "%{"        code_start = loc->start; BEGIN SC_PROLOGUE;
 
   /* Code in between braces.  */
-  "{"         STRING_GROW; braces_level = 0; BEGIN SC_BRACED_CODE;
+  "{" {
+    STRING_GROW;
+    braces_level = 0;
+    code_start = loc->start;
+    BEGIN SC_BRACED_CODE;
+  }
 
   /* A type. */
   "<"{tag}">" {
@@ -240,13 +263,42 @@ splice	 (\\[ \f\t\v]*\n)*
   "%%" {
     static int percent_percent_count;
     if (++percent_percent_count == 2)
-      BEGIN SC_EPILOGUE;
+      {
+	code_start = loc->start;
+	BEGIN SC_EPILOGUE;
+      }
     return PERCENT_PERCENT;
   }
 
   . {
     complain_at (*loc, _("invalid character: %s"), quote (yytext));
-    STEP;
+  }
+}
+
+
+  /*-----------------------------------------------------------------.
+  | Scanning after an identifier, checking whether a colon is next.  |
+  `-----------------------------------------------------------------*/
+
+<SC_AFTER_IDENTIFIER>
+{
+  ":" {
+    rule_length = 0;
+    *loc = id_loc;
+    BEGIN INITIAL;
+    return ID_COLON;
+  }
+  . {
+    scanner_cursor.column -= mbsnwidth (yytext, yyleng, 0);
+    yyless (0);
+    *loc = id_loc;
+    BEGIN INITIAL;
+    return ID;
+  }
+  <<EOF>> {
+    *loc = id_loc;
+    BEGIN INITIAL;
+    return ID;
   }
 }
 
@@ -257,13 +309,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_YACC_COMMENT>
 {
-  "*/" {
-    STEP;
-    BEGIN INITIAL;
-  }
-
+  "*/"     BEGIN context_state;
   .|\n	   ;
-  <<EOF>>  unexpected_end_of_file (loc, "*/");
+  <<EOF>>  unexpected_end_of_file (token_start, "*/");
 }
 
 
@@ -273,8 +321,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_COMMENT>
 {
-  "*"{splice}"/"  STRING_GROW; BEGIN c_context;
-  <<EOF>>	  unexpected_end_of_file (loc, "*/");
+  "*"{splice}"/"  STRING_GROW; BEGIN context_state;
+  <<EOF>>	  unexpected_end_of_file (token_start, "*/");
 }
 
 
@@ -284,9 +332,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_LINE_COMMENT>
 {
-  "\n"		 STRING_GROW; BEGIN c_context;
+  "\n"		 STRING_GROW; BEGIN context_state;
   {splice}	 STRING_GROW;
-  <<EOF>>	 BEGIN c_context;
+  <<EOF>>	 BEGIN context_state;
 }
 
 
@@ -300,6 +348,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "\"" {
     STRING_GROW;
     STRING_FINISH;
+    loc->start = token_start;
     val->string = last_string;
     rule_length++;
     BEGIN INITIAL;
@@ -307,7 +356,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   .|\n	    STRING_GROW;
-  <<EOF>>   unexpected_end_of_file (loc, "\"");
+  <<EOF>>   unexpected_end_of_file (token_start, "\"");
 }
 
   /*---------------------------------------------------------------.
@@ -320,6 +369,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "'" {
     STRING_GROW;
     STRING_FINISH;
+    loc->start = token_start;
     val->symbol = symbol_get (last_string, *loc);
     symbol_class_set (val->symbol, token_sym, *loc);
     symbol_user_token_number_set (val->symbol,
@@ -331,7 +381,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   .|\n	    STRING_GROW;
-  <<EOF>>   unexpected_end_of_file (loc, "'");
+  <<EOF>>   unexpected_end_of_file (token_start, "'");
 }
 
 
@@ -344,11 +394,7 @@ splice	 (\\[ \f\t\v]*\n)*
   \\[0-7]{1,3} {
     unsigned long c = strtoul (yytext + 1, 0, 8);
     if (UCHAR_MAX < c)
-      {
-	complain_at (*loc, _("invalid escape sequence: %s"),
-		     quote (yytext));
-	STEP;
-      }
+      complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
     else
       obstack_1grow (&string_obstack, c);
   }
@@ -358,11 +404,7 @@ splice	 (\\[ \f\t\v]*\n)*
     errno = 0;
     c = strtoul (yytext + 2, 0, 16);
     if (UCHAR_MAX < c || errno)
-      {
-	complain_at (*loc, _("invalid escape sequence: %s"),
-		     quote (yytext));
-	STEP;
-      }
+      complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
     else
       obstack_1grow (&string_obstack, c);
   }
@@ -381,17 +423,12 @@ splice	 (\\[ \f\t\v]*\n)*
   \\(u|U[0-9abcdefABCDEF]{4})[0-9abcdefABCDEF]{4} {
     int c = convert_ucn_to_byte (yytext);
     if (c < 0)
-      {
-	complain_at (*loc, _("invalid escape sequence: %s"),
-		     quote (yytext));
-	STEP;
-      }
+      complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
     else
       obstack_1grow (&string_obstack, c);
   }
   \\(.|\n)	{
-    complain_at (*loc, _("unrecognized escape sequence: %s"),
-		 quote (yytext));
+    complain_at (*loc, _("unrecognized escape sequence: %s"), quote (yytext));
     STRING_GROW;
   }
 }
@@ -404,9 +441,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_CHARACTER>
 {
-  "'"			STRING_GROW; BEGIN c_context;
+  "'"			STRING_GROW; BEGIN context_state;
   \\{splice}[^$@\[\]]	STRING_GROW;
-  <<EOF>>		unexpected_end_of_file (loc, "'");
+  <<EOF>>		unexpected_end_of_file (token_start, "'");
 }
 
 
@@ -417,9 +454,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_STRING>
 {
-  "\""			STRING_GROW; BEGIN c_context;
+  "\""			STRING_GROW; BEGIN context_state;
   \\{splice}[^$@\[\]]	STRING_GROW;
-  <<EOF>>		unexpected_end_of_file (loc, "\"");
+  <<EOF>>		unexpected_end_of_file (token_start, "\"");
 }
 
 
@@ -429,10 +466,29 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
-  "'"		  STRING_GROW; c_context = YY_START; BEGIN SC_CHARACTER;
-  "\""		  STRING_GROW; c_context = YY_START; BEGIN SC_STRING;
-  "/"{splice}"*"  STRING_GROW; c_context = YY_START; BEGIN SC_COMMENT;
-  "/"{splice}"/"  STRING_GROW; c_context = YY_START; BEGIN SC_LINE_COMMENT;
+  "'" {
+    STRING_GROW;
+    context_state = YY_START;
+    token_start = loc->start;
+    BEGIN SC_CHARACTER;
+  }
+  "\"" {
+    STRING_GROW;
+    context_state = YY_START;
+    token_start = loc->start;
+    BEGIN SC_STRING;
+  }
+  "/"{splice}"*" {
+    STRING_GROW;
+    context_state = YY_START;
+    token_start = loc->start;
+    BEGIN SC_COMMENT;
+  }
+  "/"{splice}"/" {
+    STRING_GROW;
+    context_state = YY_START;
+    BEGIN SC_LINE_COMMENT;
+  }
 }
 
 
@@ -451,6 +507,7 @@ splice	 (\\[ \f\t\v]*\n)*
     if (braces_level < 0)
       {
 	STRING_FINISH;
+	loc->start = code_start;
 	val->string = last_string;
 	rule_length++;
 	BEGIN INITIAL;
@@ -467,7 +524,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "@"(-?[0-9]+|"$")               { handle_at (current_braced_code,
 					       yytext, *loc); }
 
-  <<EOF>>  unexpected_end_of_file (loc, "}");
+  <<EOF>>  unexpected_end_of_file (code_start, "}");
 }
 
 
@@ -479,12 +536,13 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "%}" {
     STRING_FINISH;
+    loc->start = code_start;
     val->string = last_string;
     BEGIN INITIAL;
     return PROLOGUE;
   }
 
-  <<EOF>>  unexpected_end_of_file (loc, "%}");
+  <<EOF>>  unexpected_end_of_file (code_start, "%}");
 }
 
 
@@ -497,6 +555,7 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   <<EOF>> {
     STRING_FINISH;
+    loc->start = code_start;
     val->string = last_string;
     BEGIN INITIAL;
     return EPILOGUE;
@@ -521,24 +580,23 @@ splice	 (\\[ \f\t\v]*\n)*
 
 %%
 
-/* Extend *LOC to account for token TOKEN of size SIZE.  */
+/* Set *LOC and adjust scanner cursor to account for token TOKEN of
+   size SIZE.  */
 
 static void
-extend_location (location_t *loc, char const *token, int size)
+adjust_location (location_t *loc, char const *token, size_t size)
 {
-  int line = loc->last_line;
-  int column = loc->last_column;
+  int line = scanner_cursor.line;
+  int column = scanner_cursor.column;
   char const *p0 = token;
   char const *p = token;
   char const *lim = token + size;
 
+  loc->start = scanner_cursor;
+
   for (p = token; p < lim; p++)
     switch (*p)
       {
-      case '\r':
-	/* \r shouldn't survive no_cr_read.  */
-	abort ();
-
       case '\n':
 	line++;
 	column = 1;
@@ -552,8 +610,10 @@ extend_location (location_t *loc, char const *token, int size)
 	break;
       }
 
-  loc->last_line = line;
-  loc->last_column = column + mbsnwidth (p0, p - p0, 0);
+  scanner_cursor.line = line;
+  scanner_cursor.column = column + mbsnwidth (p0, p - p0, 0);
+
+  loc->end = scanner_cursor;
 }
 
 
@@ -839,34 +899,37 @@ convert_ucn_to_byte (char const *ucn)
 `----------------------------------------------------------------*/
 
 static void
-handle_syncline (char *args, location_t *location)
+handle_syncline (char *args)
 {
   int lineno = strtol (args, &args, 10);
   const char *file = NULL;
   file = strchr (args, '"') + 1;
   *strchr (file, '"') = 0;
-  current_file = xstrdup (file);
-  location->file = current_file;
-  location->last_line = lineno;
+  scanner_cursor.file = current_file = xstrdup (file);
+  scanner_cursor.line = lineno;
+  scanner_cursor.column = 1;
 }
 
 
-/*-------------------------------------------------------------.
-| Report an unexpected end of file at LOC.  An end of file was |
-| encountered and the expected TOKEN_END was missing.  After   |
-| reporting the problem, pretend that TOKEN_END was found.     |
-`-------------------------------------------------------------*/
+/*------------------------------------------------------------------------.
+| Report an unexpected EOF in a token or comment starting at START.       |
+| An end of file was encountered and the expected TOKEN_END was missing.  |
+| After reporting the problem, pretend that TOKEN_END was found.          |
+`------------------------------------------------------------------------*/
 
 static void
-unexpected_end_of_file (location_t *loc, char const *token_end)
+unexpected_end_of_file (boundary start, char const *token_end)
 {
   size_t i = strlen (token_end);
 
-  complain_at (*loc, _("missing `%s' at end of file"), token_end);
+  location_t location;
+  location.start = start;
+  location.end = scanner_cursor;
+  complain_at (location, _("missing `%s' at end of file"), token_end);
 
-  /* Adjust location's last column so that any later message does not
-     mention the characters just inserted.  */
-  loc->last_column -= i;
+  /* Adjust scanner cursor so that any later message does not count
+     the characters about to be inserted.  */
+  scanner_cursor.column -= i;
 
   while (i != 0)
     unput (token_end[--i]);
