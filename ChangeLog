@@ -1,3 +1,8 @@
+2001-09-22  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/bison.simple: New `#line' directive.
+	* src/output.c (output_parser): Support new dynamic muscle input_line.
+
 2001-09-22  Marc Autret  <autret_m@epita.fr>
 
 	* src/output.c (output_master_parser): New.

@@ -990,5 +990,6 @@ yyabortlab:
   return 1;
 }
 
+#line %%input_line "%%filename"
 %%epilogue
 
