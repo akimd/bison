@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-05-06 09:40+0200\n"
+"POT-Creation-Date: 2002-05-06 10:24+0200\n"
 "PO-Revision-Date: 2002-03-05 10:18+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
