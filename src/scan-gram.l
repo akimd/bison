@@ -168,7 +168,7 @@ static void handle_at (braced_code_t code_kind,
 		       char *cp, location_t location);
 static void handle_syncline (char *args, location_t *location);
 static int convert_ucn_to_byte (char const *hex_text);
-static void unexpected_end_of_file (location_t, char const *);
+static void unexpected_end_of_file (location_t *, char const *);
 
 %}
 %x SC_COMMENT SC_LINE_COMMENT SC_YACC_COMMENT
@@ -331,7 +331,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   .|\n	   ;
-  <<EOF>>  unexpected_end_of_file (*yylloc, "*/");
+  <<EOF>>  unexpected_end_of_file (yylloc, "*/");
 }
 
 
@@ -342,7 +342,7 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_COMMENT>
 {
   "*"{splice}"/"  YY_OBS_GROW; BEGIN c_context;
-  <<EOF>>	  unexpected_end_of_file (*yylloc, "*/");
+  <<EOF>>	  unexpected_end_of_file (yylloc, "*/");
 }
 
 
@@ -375,7 +375,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   .|\n	    YY_OBS_GROW;
-  <<EOF>>   unexpected_end_of_file (*yylloc, "\"");
+  <<EOF>>   unexpected_end_of_file (yylloc, "\"");
 }
 
   /*---------------------------------------------------------------.
@@ -399,7 +399,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   .|\n	    YY_OBS_GROW;
-  <<EOF>>   unexpected_end_of_file (*yylloc, "'");
+  <<EOF>>   unexpected_end_of_file (yylloc, "'");
 }
 
 
@@ -472,7 +472,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "'"		       YY_OBS_GROW; BEGIN c_context;
   \\{splice}[^\[\]]    YY_OBS_GROW;
   {splice}	       YY_OBS_GROW;
-  <<EOF>>	       unexpected_end_of_file (*yylloc, "'");
+  <<EOF>>	       unexpected_end_of_file (yylloc, "'");
 }
 
 
@@ -486,7 +486,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "\""		       YY_OBS_GROW; BEGIN c_context;
   \\{splice}[^\[\]]    YY_OBS_GROW;
   {splice}	       YY_OBS_GROW;
-  <<EOF>>	       unexpected_end_of_file (*yylloc, "\"");
+  <<EOF>>	       unexpected_end_of_file (yylloc, "\"");
 }
 
 
@@ -534,7 +534,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "@"(-?[0-9]+|"$")               { handle_at (current_braced_code,
 					       yytext, *yylloc); }
 
-  <<EOF>>  unexpected_end_of_file (*yylloc, "}");
+  <<EOF>>  unexpected_end_of_file (yylloc, "}");
 }
 
 
@@ -551,7 +551,7 @@ splice	 (\\[ \f\t\v]*\n)*
     return PROLOGUE;
   }
 
-  <<EOF>>  unexpected_end_of_file (*yylloc, "%}");
+  <<EOF>>  unexpected_end_of_file (yylloc, "%}");
 }
 
 
@@ -842,13 +842,18 @@ handle_syncline (char *args, location_t *location)
 `-------------------------------------------------------------*/
 
 static void
-unexpected_end_of_file (location_t loc, char const *token_end)
+unexpected_end_of_file (location_t *loc, char const *token_end)
 {
-  size_t i;
+  size_t i = strlen (token_end);
 
-  complain_at (loc, _("missing `%s' at end of file"), token_end);
-  for (i = strlen (token_end); i != 0; i--)
-    unput (token_end[i - 1]);
+  complain_at (*loc, _("missing `%s' at end of file"), token_end);
+
+  /* Adjust location's last column so that any later message does not
+     mention the characters just inserted.  */
+  loc->last_column -= i;
+
+  while (i != 0)
+    unput (token_end[--i]);
 }
 
 
