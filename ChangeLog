@@ -1,5 +1,17 @@
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
+	* data/c.m4 (b4_yydestruct_generate, b4_symbol_actions): New.
+	* data/yacc.c: Rename yychar1 as yytoken, as in glr.c.
+	Don't work on yychar (i.e., do set it to YYEMPTY, don't match
+	it against YYEMPTY and so forth), work on yytoken (i.e., set
+	it to YYEMPTY etc.).
+	(yydestruct): Replace with a b4_yydestruct_generate invocation.
+	(b4_symbol_actions): Remove.
+	* data/glr.c (YYTRANSLATE): As for yacc.c, if negative, it stands
+	for 0, end-of-input.
+
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo (Destructor Decl): New.
 
 2002-11-12  Akim Demaille  <akim@epita.fr>
