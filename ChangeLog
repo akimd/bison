@@ -19,7 +19,7 @@
 	when printing sizes.  Print sizes using an unsigned format.
 	Problem reported by Frank Heckenbach in
 	<http://mail.gnu.org/archive/html/bison-patches/2003-06/msg00035.html>.
-	
+
 	Port to Forte Developer 7 C compiler.
 	* data/glr.c (struct YYLTYPE): If locations are not being used,
 	declare a single dummy member, as empty structs do not conform
@@ -27,6 +27,11 @@
 	(YYERROR, YYBACKUP): Do not use "do { ...; return foo; } while (0)";
 	the Forte Developer 7 C compiler complains that end-of-loop
 	code is not reached.
+
+2003-06-17  Paul Eggert  <eggert@twinsun.com>
+
+	* lib/libiberty.h (PARAMS): Spell argument as Args, not as X, to
+	avoid warnings from picky compilers about redefinition of PARAMS.
 
 2003-06-17  Paul Eggert  <eggert@twinsun.com>
 
