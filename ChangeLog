@@ -1,5 +1,14 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (err_table): Remove.
+	(resolve_sr_conflict): Adjust.
+	* src/lalr.h (state_t.reduction_table, state_t.shift_table):
+	Rename as...
+	(state_t.reductions, state_t.shifts): this.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c (reduce_grammar_tables): No longer disable the
 	removal of useless rules via CPP but via `if (0)', so that the
 	compiler still check the code is valid.
