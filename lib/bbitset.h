@@ -25,6 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include <limits.h>
 #endif
 
+/* Use the following types for function parameters where the
+   corresponding enum would be the correct type if we could use
+   prototyped function definitions.  Standard C says that one cannot
+   portably use an enum as a parameter of an old-style function
+   definition that is also declared with a prototype.  */
+
+typedef int enum_bitset_ops;
+typedef int enum_bitset_type;
+
 /* Currently we support three flavours of bitsets:
    BITSET_ARRAY:  Array of bits (fixed size, fast for dense bitsets).
    BITSET_LIST:   Linked list of array of bits (variable size, least storage
@@ -94,65 +103,51 @@ struct bbitset_struct
 };
 
 
-typedef struct bitset_struct *bitset;
+typedef union bitset_union *bitset;
 
 
 /* The contents of this structure should be considered private.  */
 struct bitset_vtable
 {
-  void (*set) PARAMS ((struct bitset_struct *, bitset_bindex));
-  void (*reset) PARAMS ((struct bitset_struct *, bitset_bindex));
-  int (*toggle) PARAMS ((struct bitset_struct *, bitset_bindex));
-  int (*test) PARAMS ((struct bitset_struct *, bitset_bindex));
-  bitset_bindex (*size) PARAMS ((struct bitset_struct *));
-  bitset_bindex (*count) PARAMS ((struct bitset_struct *));
+  void (*set) PARAMS ((bitset, bitset_bindex));
+  void (*reset) PARAMS ((bitset, bitset_bindex));
+  int (*toggle) PARAMS ((bitset, bitset_bindex));
+  int (*test) PARAMS ((bitset, bitset_bindex));
+  bitset_bindex (*size) PARAMS ((bitset));
+  bitset_bindex (*count) PARAMS ((bitset));
 
-  int (*empty_p) PARAMS ((struct bitset_struct *));
-  void (*ones) PARAMS ((struct bitset_struct *));
-  void (*zero) PARAMS ((struct bitset_struct *));
+  int (*empty_p) PARAMS ((bitset));
+  void (*ones) PARAMS ((bitset));
+  void (*zero) PARAMS ((bitset));
 
-  void (*copy) PARAMS ((struct bitset_struct *, struct bitset_struct *));
-  int (*disjoint_p) PARAMS ((struct bitset_struct *, struct bitset_struct *));
-  int (*equal_p) PARAMS ((struct bitset_struct *, struct bitset_struct *));
-  void (*not) PARAMS ((struct bitset_struct *, struct bitset_struct *));
-  int (*subset_p) PARAMS ((struct bitset_struct *, struct bitset_struct *));
+  void (*copy) PARAMS ((bitset, bitset));
+  int (*disjoint_p) PARAMS ((bitset, bitset));
+  int (*equal_p) PARAMS ((bitset, bitset));
+  void (*not) PARAMS ((bitset, bitset));
+  int (*subset_p) PARAMS ((bitset, bitset));
 
-  void (*and) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-		       struct bitset_struct *));
-  int (*and_cmp) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			  struct bitset_struct *));
-  void (*andn) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-		       struct bitset_struct *));
-  int (*andn_cmp) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			   struct bitset_struct *));
-  void (*or) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-		      struct bitset_struct *));
-  int (*or_cmp) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			 struct bitset_struct *));
-  void (*xor) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-		      struct bitset_struct *));
-  int (*xor_cmp) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			  struct bitset_struct *));
+  void (*and) PARAMS ((bitset, bitset, bitset));
+  int (*and_cmp) PARAMS ((bitset, bitset, bitset));
+  void (*andn) PARAMS ((bitset, bitset, bitset));
+  int (*andn_cmp) PARAMS ((bitset, bitset, bitset));
+  void (*or) PARAMS ((bitset, bitset, bitset));
+  int (*or_cmp) PARAMS ((bitset, bitset, bitset));
+  void (*xor) PARAMS ((bitset, bitset, bitset));
+  int (*xor_cmp) PARAMS ((bitset, bitset, bitset));
 
-  void (*and_or) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			  struct bitset_struct *, struct bitset_struct *));
-  int (*and_or_cmp) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			 struct bitset_struct *, struct bitset_struct *));
-  void (*andn_or) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			  struct bitset_struct *, struct bitset_struct *));
-  int (*andn_or_cmp) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			      struct bitset_struct *, struct bitset_struct *));
-  void (*or_and) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			  struct bitset_struct *, struct bitset_struct *));
-  int (*or_and_cmp) PARAMS ((struct bitset_struct *, struct bitset_struct *,
-			     struct bitset_struct *, struct bitset_struct *));
+  void (*and_or) PARAMS ((bitset, bitset, bitset, bitset));
+  int (*and_or_cmp) PARAMS ((bitset, bitset, bitset, bitset));
+  void (*andn_or) PARAMS ((bitset, bitset, bitset, bitset));
+  int (*andn_or_cmp) PARAMS ((bitset, bitset, bitset, bitset));
+  void (*or_and) PARAMS ((bitset, bitset, bitset, bitset));
+  int (*or_and_cmp) PARAMS ((bitset, bitset, bitset, bitset));
 
-  bitset_bindex (*list) PARAMS ((struct bitset_struct *, bitset_bindex *,
+  bitset_bindex (*list) PARAMS ((bitset, bitset_bindex *,
 				 bitset_bindex, bitset_bindex *));
-  bitset_bindex (*list_reverse) PARAMS ((struct bitset_struct *,
+  bitset_bindex (*list_reverse) PARAMS ((bitset,
 					 bitset_bindex *, bitset_bindex,
 					 bitset_bindex *));
-  void (*free) PARAMS ((struct bitset_struct *));
+  void (*free) PARAMS ((bitset));
   enum bitset_type type;
 };
 
@@ -284,9 +279,15 @@ extern bitset_bindex bitset_count_ PARAMS ((bitset));
 
 extern int bitset_copy_ PARAMS ((bitset, bitset));
 
+extern void bitset_and_or_ PARAMS ((bitset, bitset, bitset, bitset));
+
 extern int bitset_and_or_cmp_ PARAMS ((bitset, bitset, bitset, bitset));
 
+extern void bitset_andn_or_ PARAMS ((bitset, bitset, bitset, bitset));
+
 extern int bitset_andn_or_cmp_ PARAMS ((bitset, bitset, bitset, bitset));
+
+extern void bitset_or_and_ PARAMS ((bitset, bitset, bitset, bitset));
 
 extern int bitset_or_and_cmp_ PARAMS ((bitset, bitset, bitset, bitset));
 
