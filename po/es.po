@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-08-06 11:26+0200\n"
+"POT-Creation-Date: 2001-08-06 12:24+0200\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -344,7 +344,7 @@ msgstr "nombre de tipo sin terminar"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "use \"...\" para terminales literales multicarácter"
 
-#: src/main.c:104
+#: src/main.c:108
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "error interno, %s\n"
@@ -514,7 +514,7 @@ msgstr ""
 msgid "symbol %s redefined"
 msgstr "redefinido el símbolo %s"
 
-#: src/reader.c:534 src/reader.c:613 src/reader.c:674 src/reader.c:1277
+#: src/reader.c:534 src/reader.c:613 src/reader.c:674 src/reader.c:1267
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "redeclaración del tipo de %s"
@@ -529,7 +529,7 @@ msgstr "`%s' no es válido en %s"
 msgid "multiple %s declarations"
 msgstr "múltiples declaraciones de %start"
 
-#: src/reader.c:563 src/reader.c:1255
+#: src/reader.c:563 src/reader.c:1245
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "declaración de %start no válida"
@@ -568,7 +568,7 @@ msgid "unexpected item: %s"
 msgstr "ítem inesperado: %s"
 
 # Cambio el orden y el sexo. Ahora está "en español". sv
-#: src/reader.c:759 src/reader.c:1081 src/reader.c:1152
+#: src/reader.c:759 src/reader.c:1071 src/reader.c:1142
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "`{' desemparejada"
@@ -594,26 +594,26 @@ msgstr "no se reconoce el ítem %s, se esperaba un identificador"
 msgid "expected string constant instead of %s"
 msgstr "se esperaba una cadena constante en lugar de %s"
 
-#: src/reader.c:888
+#: src/reader.c:887
 #, fuzzy, c-format
 msgid "multiple %%header_extension declarations"
 msgstr "declaraciones múltiples de %union"
 
-#: src/reader.c:908
+#: src/reader.c:902
 #, fuzzy, c-format
 msgid "multiple %%source_extension declarations"
 msgstr "declaraciones múltiples de %union"
 
-#: src/reader.c:997
+#: src/reader.c:987
 #, c-format
 msgid "unrecognized: %s"
 msgstr "no reconocido: %s"
 
-#: src/reader.c:1002
+#: src/reader.c:992
 msgid "no input grammar"
 msgstr "no hay gramática de entrada"
 
-#: src/reader.c:1007
+#: src/reader.c:997
 #, c-format
 msgid "unknown character: %s"
 msgstr "carácter desconocido: %s"
@@ -622,93 +622,93 @@ msgstr "carácter desconocido: %s"
 # mejor que `sin terminar' que me parece más "computerizado" - cll
 # quizás un poco cacofónico lo de claúsula inconclusa - ngp
 #
-#: src/reader.c:1175
+#: src/reader.c:1165
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "cláusula %%guard sin terminar"
 
-#: src/reader.c:1342
+#: src/reader.c:1332
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "regla mal formada: el símbolo inicial no está seguido por :"
 
-#: src/reader.c:1349
+#: src/reader.c:1339
 msgid "grammar starts with vertical bar"
 msgstr "la gramática comienza con una barra vertical"
 
-#: src/reader.c:1380
+#: src/reader.c:1370
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "se ha dado una regla para %s, que es un terminal"
 
-#: src/reader.c:1482
+#: src/reader.c:1472
 msgid "two @prec's in a row"
 msgstr "dos @prec en una línea"
 
 # Insisto, el empleo de participios a secas me parece como hablar en
 # indio. Por favor, permíteme que añada un "está" :) - cll
 # ok - ngp
-#: src/reader.c:1490
+#: src/reader.c:1480
 #, fuzzy, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard presente pero %%semantic_parser está sin especificar"
 
-#: src/reader.c:1499
+#: src/reader.c:1489
 msgid "two actions at end of one rule"
 msgstr "dos acciones al final de una regla"
 
-#: src/reader.c:1513
+#: src/reader.c:1503
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "los tipos (`%s' `%s') no concuerdan en la acción por defecto"
 
-#: src/reader.c:1519
+#: src/reader.c:1509
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regla vacía para un no terminal con tipo y no hay ninguna acción"
 
-#: src/reader.c:1563
+#: src/reader.c:1553
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrada no válida: %s"
 
-#: src/reader.c:1571
+#: src/reader.c:1561
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "demasiados símbolos (terminales y no terminales); máximo %s"
 
-#: src/reader.c:1574
+#: src/reader.c:1564
 msgid "no rules in the input grammar"
 msgstr "no hay reglas en la gramática de entrada"
 
 # `token' se debe traducir como `literal' - cll
 # en terminología de compiladores token es más un terminal - ngp
 #
-#: src/reader.c:1598
+#: src/reader.c:1588
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "se usa el símbolo %s, pero no está definido como terminal y no tiene reglas"
 
-#: src/reader.c:1703
+#: src/reader.c:1693
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "precedencias en conflicto entre %s y %s"
 
-#: src/reader.c:1715
+#: src/reader.c:1705
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "conflicto de valores assoc para %s y %s"
 
-#: src/reader.c:1766
+#: src/reader.c:1756
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "los terminales %s y %s tienen asignados ambos el número %s"
 
-#: src/reader.c:1779
+#: src/reader.c:1769
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "el símbolo de inicio (axioma) %s no está definido"
 
-#: src/reader.c:1781
+#: src/reader.c:1771
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "el símbolo de inicio (axioma) %s es un terminal"
