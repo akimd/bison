@@ -1,5 +1,453 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	Remove the useless rules from the parser.
+
+	* src/gram.h, src/gram.c (rules_swap, rule_rhs_length): New.
+	(ritem_longest_rhs): Use the latter.
+	* src/gram.h (rule_t): `number' is a new member.
+	* src/reader.c (packgram): Set it.
+	* src/reduce.c (reduce_grammar_tables): Move the useless rules at
+	the end of `rules', and count them out of `nrules'.
+	(reduce_output, dump_grammar): Adjust.
+	* src/print.c (print_grammar): It is no longer needed to check for
+	the usefulness of a rule, as useless rules are beyond `nrules + 1'.
+	* tests/reduce.at (Reduced Automaton): New test.
+
+diff -x *.po -ur -x testsuite bison-1.49a/NEWS bison/NEWS
+--- bison-1.49a/NEWS	Sun Apr  7 17:36:56 2002
++++ bison/NEWS	Sun Apr  7 18:19:39 2002
+@@ -3,6 +3,10 @@
+
+	Changes in version 1.49a:
+
++* Useless rules are actually removed.
++  Before, Bison reported the useless rules, but, although not used,
++  included them in the parsers.
++
+	* False `Token not used' report fixed.
+	On a grammar such as
+
+diff -x *.po -ur -x testsuite bison-1.49a/src/gram.c bison/src/gram.c
+--- bison-1.49a/src/gram.c	Sun Apr  7 17:36:56 2002
++++ bison/src/gram.c	Sun Apr  7 18:19:39 2002
+@@ -1,5 +1,5 @@
+	/* Allocate input grammar variables for bison,
+-   Copyright 1984, 1986, 1989, 2001 Free Software Foundation, Inc.
++   Copyright 1984, 1986, 1989, 2001, 2002 Free Software Foundation, Inc.
+
+	This file is part of Bison, the GNU Compiler Compiler.
+
+@@ -51,6 +51,51 @@
+	int error_token_number;
+
+
++/*----------------------------------.
++| Swap the rules number R1 and R2.  |
++`----------------------------------*/
++
++void
++rules_swap (int r1, int r2)
++{
++  /* The easy part: swap the immediate contents of the structures. */
++  {
++    rule_t rule = rules[r1];
++    rules[r1] = rules[r2];
++    rules[r2] = rule;
++  }
++
++  /* The first negative number in the RHS is the rule number.  */
++  {
++    short *rhsp;
++    for (rhsp = rules[r1].rhs; *rhsp >= 0; ++rhsp)
++      /* Nothing. */;
++    assert (*rhsp == -r2);
++    *rhsp = -r1;
++
++    for (rhsp = rules[r2].rhs; *rhsp >= 0; ++rhsp)
++      /* Nothing. */;
++    assert (*rhsp == -r1);
++    *rhsp = -r2;
++  }
++}
++
++
++/*--------------------------------------.
++| Return the number of symbols in RHS.  |
++`--------------------------------------*/
++
++int
++rule_rhs_length (rule_t *rule)
++{
++  int res = 0;
++  short *rhsp;
++  for (rhsp = rule->rhs; *rhsp >= 0; ++rhsp)
++    ++res;
++  return res;
++}
++
++
+	/*------------------------.
+	| Dump RITEM for traces.  |
+	`------------------------*/
+@@ -76,23 +121,15 @@
+	size_t
+	ritem_longest_rhs (void)
+	{
+-  int length;
+-  int max;
++  int max = 0;
+	int i;
+
+-  length = 0;
+-  max = 0;
+-  for (i = 0; i < nritems; ++i)
+-    if (ritem[i] >= 0)
+-      {
+-	length++;
+-      }
+-    else
+-      {
+-	if (length > max)
+-	  max = length;
+-	length = 0;
+-      }
++  for (i = 1; i < nrules + 1; ++i)
++    {
++      int length = rule_rhs_length (&rules[i]);
++      if (length > max)
++	max = length;
++    }
+
+	return max;
+	}
+diff -x *.po -ur -x testsuite bison-1.49a/src/gram.h bison/src/gram.h
+--- bison-1.49a/src/gram.h	Sun Apr  7 17:55:00 2002
++++ bison/src/gram.h	Sun Apr  7 18:19:39 2002
+@@ -124,6 +124,10 @@
+
+	typedef struct rule_s
+	{
++  /* The number of the rule in the source.  It is usually the index in
++     RULES too, except if there are useless rules.  */
++  short number;
++
+	short lhs;
+	short *rhs;
+	short prec;
+@@ -166,6 +170,11 @@
+
+	extern int error_token_number;
+
++/* Swap two rules. */
++void rules_swap PARAMS ((int r1, int r2));
++
++/* Report the length of the RHS. */
++int rule_rhs_length PARAMS ((rule_t *rule));
+
+	/* Dump RITEM for traces. */
+	void ritem_print PARAMS ((FILE *out));
+diff -x *.po -ur -x testsuite bison-1.49a/src/print.c bison/src/print.c
+--- bison-1.49a/src/print.c	Sun Apr  7 17:55:00 2002
++++ bison/src/print.c	Sun Apr  7 18:19:39 2002
+@@ -366,19 +366,17 @@
+	fprintf (out, "%s\n\n", _("Grammar"));
+	fprintf (out, "  %s\n", _("Number, Line, Rule"));
+	for (i = 1; i < nrules + 1; i++)
+-    /* Don't print rules disabled in reduce_grammar_tables.  */
+-    if (rules[i].useful)
+-      {
+-	fprintf (out, _("  %3d %3d %s ->"),
+-		 i - 1, rules[i].line, escape (symbols[rules[i].lhs]->tag));
+-	rule = rules[i].rhs;
+-	if (*rule >= 0)
+-	  while (*rule >= 0)
+-	    fprintf (out, " %s", escape (symbols[*rule++]->tag));
+-	else
+-	  fprintf (out, " /* %s */", _("empty"));
+-	fputc ('\n', out);
+-      }
++    {
++      fprintf (out, _("  %3d %3d %s ->"),
++	       i - 1, rules[i].line, escape (symbols[rules[i].lhs]->tag));
++      rule = rules[i].rhs;
++      if (*rule >= 0)
++	while (*rule >= 0)
++	  fprintf (out, " %s", escape (symbols[*rule++]->tag));
++      else
++	fprintf (out, " /* %s */", _("empty"));
++      fputc ('\n', out);
++    }
+	fputs ("\n\n", out);
+
+
+diff -x *.po -ur -x testsuite bison-1.49a/src/reader.c bison/src/reader.c
+--- bison-1.49a/src/reader.c	Sun Apr  7 17:56:13 2002
++++ bison/src/reader.c	Sun Apr  7 18:19:39 2002
+@@ -1687,6 +1687,7 @@
+	while (p)
+	{
+	bucket *ruleprec = p->ruleprec;
++      rules[ruleno].number = ruleno;
+	rules[ruleno].lhs = p->sym->number;
+	rules[ruleno].rhs = ritem + itemno;
+	rules[ruleno].line = p->line;
+diff -x *.po -ur -x testsuite bison-1.49a/src/reduce.c bison/src/reduce.c
+--- bison-1.49a/src/reduce.c	Sun Apr  7 17:55:00 2002
++++ bison/src/reduce.c	Sun Apr  7 18:19:39 2002
+@@ -220,70 +220,59 @@
+	bitset_set (V1, rules[i].precsym);
+	}
+
++
++/*-------------------------------------------------------------------.
++| Put the useless productions at the end of RULES, and adjust NRULES |
++| accordingly.                                                       |
++`-------------------------------------------------------------------*/
++
+	static void
+	reduce_grammar_tables (void)
+	{
+-  /* This is turned off because we would need to change the numbers in
+-     the case statements in the actions file.
+-
+-     We don't disable it via CPP so that it is still checked with the
+-     rest of the code, to avoid its becoming completely obsolete.
+-
+-     FIXME: I think the comment above demonstrates this code must be
+-     turned off for *semantic* parser, not in the general case.  Try
+-     to understand this better --akim.  */
+-
+-  if (0)
+-    /* remove useless productions */
+-    if (nuseless_productions > 0)
+-      {
+-	short np, pn, ni, pi;
+-
+-	np = 0;
+-	ni = 0;
+-	for (pn = 1; pn < nrules + 1; pn++)
+-	  if (bitset_test (P, pn))
+-	    {
+-	      np++;
+-	      if (pn != np)
+-		{
+-		  rules[np].lhs   = rules[pn].lhs;
+-		  rules[np].line  = rules[pn].line;
+-		  rules[np].prec  = rules[pn].prec;
+-		  rules[np].assoc = rules[pn].assoc;
+-		  rules[np].rhs   = rules[pn].rhs;
+-		  if (rules[np].rhs - ritem != ni)
+-		    {
+-		      pi = rules[np].rhs - ritem;
+-		      rules[np].rhs = ritem + ni;
+-		      while (ritem[pi] >= 0)
+-			ritem[ni++] = ritem[pi++];
+-		      ritem[ni++] = -np;
+-		    }
+-		}
+-	      else
+-		{
+-		  while (ritem[ni++] >= 0)
+-		    /* Nothing. */;
+-		}
+-	    }
+-
+-	ritem[ni] = 0;
+-	nrules -= nuseless_productions;
+-	nitems = ni;
+-	nritems = ni;
+-
+-	/* Is it worth it to reduce the amount of memory for the
+-	   grammar? Probably not.  */
+-      }
+-
+-  /* Disable useless productions. */
++  /* Flag useless productions.  */
+	if (nuseless_productions > 0)
+	{
+	int pn;
+	for (pn = 1; pn < nrules + 1; pn++)
+	rules[pn].useful = bitset_test (P, pn);
+	}
++
++  /* Map the nonterminals to their new index: useful first, useless
++     afterwards.  Kept for later report.  */
++  if (nuseless_productions > 0)
++    {
++      short *map = XCALLOC (short, nrules + 1) - 1;
++      int useful = 1;
++      int useless = nrules + 1 - nuseless_productions;
++      int i;
++      for (i = 1; i < nrules + 1; ++i)
++	map[i] = rules[i].useful ? useful++ : useless++;
++
++      /* Shuffle elements of tables indexed by symbol number.  */
++      for (i = 1; i < nrules + 1; ++i)
++	if (i != map[i])
++	  {
++	    int j = map[i];
++	    rules_swap (i, map[i]);
++	    map[i] = map[j];
++	    map[j] = j;
++	  }
++
++      free (map + 1);
++      nrules -= nuseless_productions;
++    }
++
++  /* Adjust NRITEMS and NITEMS.  */
++  {
++    int r;
++    int length;
++    for (r = nrules + 1; r < nrules + 1 + nuseless_productions; ++r)
++      {
++	length = rule_rhs_length (&rules[r]);
++	nritems -= length + 1;
++	nitems -= length + 1;
++      }
++  }
+	}
+
+
+@@ -378,16 +367,15 @@
+	{
+	int i;
+	fprintf (out, "%s\n\n", _("Useless rules:"));
+-      for (i = 1; i < nrules + 1; i++)
+-	if (!rules[i].useful)
+-	  {
+-	    rule r;
+-	    fprintf (out, "#%-4d  ", i - 1);
+-	    fprintf (out, "%s:", symbols[rules[i].lhs]->tag);
+-	    for (r = rules[i].rhs; *r >= 0; r++)
+-	      fprintf (out, " %s", symbols[*r]->tag);
+-	    fputs (";\n", out);
+-	  }
++      for (i = nrules + 1; i < nuseless_productions + nrules + 1; i++)
++	{
++	  rule r;
++	  fprintf (out, "#%-4d  ", rules[i].number - 1);
++	  fprintf (out, "%s:", symbols[rules[i].lhs]->tag);
++	  for (r = rules[i].rhs; *r >= 0; r++)
++	    fprintf (out, " %s", symbols[*r]->tag);
++	  fputs (";\n", out);
++	}
+	fputs ("\n\n", out);
+	}
+	}
+@@ -411,7 +399,7 @@
+	fprintf (out, "\n\n");
+	fprintf (out, "Rules\n-----\n\n");
+	fprintf (out, "Num (Prec, Assoc, Useful, Ritem Range) Lhs -> Rhs (Ritem range) [Num]\n");
+-  for (i = 1; i < nrules + 1; i++)
++  for (i = 1; i < nrules + nuseless_productions + 1; i++)
+	{
+	int rhs_count = 0;
+	/* Find the last RHS index in ritems. */
+@@ -429,7 +417,7 @@
+	}
+	fprintf (out, "\n\n");
+	fprintf (out, "Rules interpreted\n-----------------\n\n");
+-  for (i = 1; i < nrules + 1; i++)
++  for (i = 1; i < nrules + nuseless_productions + 1; i++)
+	{
+	fprintf (out, "%-5d  %s :", i, symbols[rules[i].lhs]->tag);
+	for (r = rules[i].rhs; *r >= 0; r++)
+diff -x *.po -ur -x testsuite bison-1.49a/tests/reduce.at bison/tests/reduce.at
+--- bison-1.49a/tests/reduce.at	Sun Apr  7 17:36:56 2002
++++ bison/tests/reduce.at	Sun Apr  7 18:19:39 2002
+@@ -174,6 +174,89 @@
+
+
+	## ------------------- ##
++## Reduced Automaton.  ##
++## ------------------- ##
++
++# Check that the automaton is that as the for the grammar reduced by
++# hand.
++
++AT_SETUP([Reduced Automaton])
++
++# The non reduced grammar.
++# ------------------------
++AT_DATA([[not-reduced.y]],
++[[/* A useless token. */
++%token useless_token
++/* A useful one. */
++%token useful
++%verbose
++%output="not-reduced.c"
++
++%%
++
++exp: useful            { /* A useful action. */ }
++   | non_productive    { /* A non productive action. */ }
++   ;
++
++not_reachable: useful  { /* A not reachable action. */ }
++             ;
++
++non_productive: non_productive useless_token
++                       { /* Another non productive action. */ }
++              ;
++]])
++
++AT_CHECK([[bison not-reduced.y]], 0, [],
++[[not-reduced.y contains 2 useless nonterminals and 3 useless rules
++]])
++
++AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' not-reduced.output]], 0,
++[[Useless nonterminals:
++   not_reachable
++   non_productive
++Terminals which are not used:
++   useless_token
++Useless rules:
++#2     exp: non_productive;
++#3     not_reachable: useful;
++#4     non_productive: non_productive useless_token;
++]])
++
++# The reduced grammar.
++# --------------------
++AT_DATA([[reduced.y]],
++[[/* A useless token. */
++%token useless_token
++/* A useful one. */
++%token useful
++%verbose
++%output="reduced.c"
++
++%%
++
++exp: useful            { /* A useful action. */ }
++//   | non_productive    { /* A non productive action. */ } */
++   ;
++
++//not_reachable: useful  { /* A not reachable action. */ }
++//             ;
++
++//non_productive: non_productive useless_token
++//                       { /* Another non productive action. */ }
++//              ;
++]])
++
++AT_CHECK([[bison reduced.y]])
++
++# Comparing the parsers.
++cp reduced.c expout
++AT_CHECK([sed 's/not-reduced/reduced/g' not-reduced.c], 0, [expout])
++
++AT_CLEANUP
++
++
++
++## ------------------- ##
+	## Underivable Rules.  ##
+	## ------------------- ##
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c (inaccessable_symbols): Fix a buglet: because of a
 	lacking `+ 1' to nrules, Bison reported as useless a token if it
 	was used solely to set the precedence of the last rule...
