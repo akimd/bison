@@ -1,12 +1,9 @@
 -*- outline -*-
 
-* src/reader.c
-Check and cleanup for CPP-out code.	[ok]
-
-* src/output.c
-Check and cleanup for CPP-out code.	[ok]
-** %%input-line is not correct at this time.	[ok]
-Rely with bison.simple.
+* tokendefs
+This muscle should not exist: the information it contains should be
+available from the rest of bison.  Once the information public, get
+rid of it.
 
 * Broken options ?.
 ** %no-lines		[ok]
@@ -33,9 +30,9 @@ Removing warnings when compiling. (gcc-warnings).	[ok]
 Find the best graph parameters.	[]
 
 * doc/bison.texinfo
-** Update 
+** Update
 informations about ERROR_VERBOSE.	[]
-** Add explainations about 
+** Add explainations about
 skeleton muscles.	[]
 %skeleton.		[]
 

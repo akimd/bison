@@ -21,7 +21,13 @@ CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
 
 noinst_LIBRARIES = libbison.a
 
-INCLUDES = -I.. -I$(srcdir) -I$(top_srcdir)/src -I../intl
+# libintl.h in is build/intl, libgettext.h in src/intl/,
+# config.h in build/., and system.h is in src/src/.
+INCLUDES = -I$(top_builddir)/intl \
+           -I$(top_builddir)      \
+           -I$(top_srcdir)/ \
+           -I$(top_srcdir)/intl \
+           -I$(top_srcdir)/lib
 
 # Heck, we are still using an old version of Automake which does not
 # understand LIBOBJ additions using $objext...

@@ -1,5 +1,12 @@
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
+	Make `make distcheck' work.
+
+	* lib/Makefile.am (INCLUDES): Add top_srcdir/intl, since hash uses
+	system.h which uses libgettext.h.
+
+2001-12-15  Akim Demaille  <akim@epita.fr>
+
 	* src/nullable.c (set_nullable): Useless rules must be skipped,
 	otherwise, since we range over their symbols, we might look at a
 	nonterminal which no longer ``exists'', i.e., it is not counted in
