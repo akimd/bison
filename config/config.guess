@@ -3,7 +3,7 @@
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 #   Free Software Foundation, Inc.
 
-timestamp='2001-06-29'
+timestamp='2001-07-12'
 
 # This file is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by
@@ -639,7 +639,7 @@ EOF
     9000/8??:4.3bsd:*:*)
 	echo hppa1.0-hp-bsd
 	exit 0 ;;
-    *9??*:MPE/iX:*:*)
+    *9??*:MPE/iX:*:* | *3000*:MPE/iX:*:*)
 	echo hppa1.0-hp-mpeix
 	exit 0 ;;
     hp7??:OSF1:*:* | hp8?[79]:OSF1:*:* )
@@ -683,12 +683,13 @@ EOF
 	echo xmp-cray-unicos
         exit 0 ;;
     CRAY*Y-MP:*:*:*)
-	echo ymp-cray-unicos${UNAME_RELEASE}
+	echo ymp-cray-unicos${UNAME_RELEASE} | sed -e 's/\.[^.]*$/.X/'
 	exit 0 ;;
     CRAY*[A-Z]90:*:*:*)
 	echo ${UNAME_MACHINE}-cray-unicos${UNAME_RELEASE} \
 	| sed -e 's/CRAY.*\([A-Z]90\)/\1/' \
-	      -e y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/
+	      -e y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/ \
+	      -e 's/\.[^.]*$/.X/'
 	exit 0 ;;
     CRAY*TS:*:*:*)
 	echo t90-cray-unicos${UNAME_RELEASE} | sed -e 's/\.[^.]*$/.X/'
