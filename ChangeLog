@@ -1,4 +1,38 @@
+2002-12-27  Paul Eggert  <eggert@twinsun.com>
+
+	Fix a bug where error locations were not being recorded correctly.
+	This problem was originally reported by Paul Hilfinger in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001901.html>.
+
+	* data/yacc.c (yyparse): New local var yylerrsp, to record the
+	top of the location stack's error locations.
+	(yyerrlab): Set it.  When discarding a token, push its location
+	onto yylerrsp so that we don't lose track of the error's end.
+	(yyerrlab1): Now is only the target of YYERROR, so that we can
+	properly record the location of the action that failed.  For GCC
+	2.93 and later, insert an __attribute__ ((__unused__)) to avoid
+	GCC warning about yyerrlab1 being unused if YYERROR is unused.
+	(yyerrlab2): New label, which yyerrlab now falls through to.
+	Compute the error's location by applying YYLLOC_DEFAULT to
+	the locations of all the symbols that went into the error.
+	* doc/bison.texinfo (Location Default Action): Mention that
+	YYLLOC_DEFAULT is also invoked for syntax errors.
+	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR):
+	Error locations include the locations of all the tokens that were
+	discarded, not just the last token.
+	
 2002-12-26  Paul Eggert  <eggert@twinsun.com>
+
+	* src/files.c: Include quote.h.
+	(compute_output_file_names): Warn if we detect conflicting
+	outputs to the same file.  This should catch the misunderstanding
+	exemplified by Debian Bug 165349, reported by Bruce Stephens..
+
+	* src/conflicts.c (conflicts_print): If the user specifies
+	"%expect N", report an error if there are any reduce/reduce
+	conflicts.  This is what the manual says should happen.
+	This fixes Debian bug 130890, reported by Anthony DeRobertis.
+	* tests/conflicts.at (%expect with reduce conflicts): New test.
 
 	Don't use m4_include on relative file names, as it doesn't work as
 	desired if there happens to be a file with that name under ".".
