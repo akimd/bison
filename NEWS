@@ -3,13 +3,26 @@ Bison News
 
 Changes in version 1.75d:
 
-* Yacc library now available
-  Bison now installs a small library liby.a containing implementations
-  of Yacc-compatible yyerror and main functions.  This library is
-  normally not useful, but POSIX requires it.
+* Semicolons are once again optional at the end of grammar rules.
+  This reverts to the behavior of Bison 1.33 and earlier, and improves
+  compatibility with Yacc.
+
+* Type clashes now generate warnings, not errors.
+
+* Yacc command and library now available
+  The Bison distribution now installs a yacc command, as POSIX requires.
+  Also, Bison now installs a small library liby.a containing
+  implementations of Yacc-compatible yyerror and main functions.
+  This library is normally not useful, but POSIX requires it.
 
 * %lex-param, %parse-param
   These now take just one operand, not two.
+
+* The documentation now emphasizes that yylex and yyerror must be
+  declared before use.  C99 requires this.
+
+* The documentation license has been upgraded to version 1.2
+  of the GNU Free Documentation License.
 
 Changes in version 1.75c, 2002-11-25:
 

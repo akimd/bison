@@ -1,3 +1,34 @@
+2002-12-13  Paul Eggert  <eggert@twinsun.com>
+
+	Version 1.75d.
+
+	POSIX requires a "yacc" command.
+	* src/Makefile.am (bin_SCRIPTS): New macro, for yacc.
+	(MOSTLYCLEANFILES): Add yacc.
+	(yacc): New rule.
+	* docbison.texinfo (Invocation, Bison Options): Mention yacc
+	as an alias for bison y.
+
+	* po/LINGUAS: Add da.
+	
+	* src/getargs.c (__GNU_LIBRARY__) [lint]: Define to work around
+	problem with latest <getopt.h>.
+	(HACK_FOR___GNU_LIBRARY___PROTOTYPE): New macro.
+
+	* doc/fdl.texi: Upgrade to 1.2.
+	* lib/alloca.c, lib/error.c, lib/getopt.c, lib/getopt.h
+	lib/getopt1.c, lib/gettext.h, lib/memrchr.c, lib/obstack.c,
+	lib/obstack.h, lib/strnlen.c, lib/unlocked-io.h: Sync with
+	gnulib.
+	* config/install-sh: Sync with autotools.
+
+	Fix a bad interaction with flex 2.5.23 reported by Bruce Lilly in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001929.html>.
+	* data/yacc.c (YYLTYPE, struct yyltype): Do not define unless
+	locations are requested.
+	(union yyalloc): Do not depend on YYLTYPE_IS_TRIVIAL unless
+	locations are requested.
+
 2002-12-12  Paul Eggert  <eggert@twinsun.com>
 
 	Remove unportable casts and storage allocation tricks.
