@@ -7,7 +7,7 @@ Changes in version 1.49b:
   The undefined token was systematically mapped to 2 which prevented
   the use of 2 from the user.  This is no longer the case.
 
-* Undefined token
+* Unknown token numbers
   If yylex returned a code out of range, yyparse could die.  This is
   no longer the case.
 
@@ -18,19 +18,19 @@ Changes in version 1.49b:
   will be mapped onto another number.
 
 * Large grammars
-  Are now supported (large token numbers, large grammar size (= sum of
-  the LHS and RHS lengths), large LALR tables).
+  Large grammars are now supported (large token numbers, large grammar
+  size (= sum of the LHS and RHS lengths), large LALR tables).
 
-* The initial rule is explicit.
+* Explicit initial rule
   Bison used to play hacks with the initial rule, which the user does
   not write.  It is now explicit, and visible in the reports and
   graphs as rule 0.
 
-* Useless rules are actually removed.
+* Useless rules
   Before, Bison reported the useless rules, but, although not used,
-  included them in the parsers.
+  included them in the parsers.  They are now actually removed.
 
-* False `Token not used' report fixed.
+* Incorrect `Token not used'
   On a grammar such as
 
            %token useless useful
@@ -40,8 +40,8 @@ Changes in version 1.49b:
   where a token was used to set the precedence of the last rule,
   bison reported both `useful' and `useless' as useless tokens.
 
-* Revert the C++ namespace changes introduced in 1.31, as they caused too
-  many portability hassles.
+* Revert the C++ namespace changes introduced in 1.31
+  as they caused too many portability hassles.
 
 * Default locations
   By an accident of design, the default computation of @$ was
@@ -61,11 +61,16 @@ Changes in version 1.49b:
 * Semantic parser
   This old option, which has been broken for ages, is removed.
 
-* New tranlations
+* New translations
   Croatian, thanks to Denis Lackovic.
 
-* Token definitions
+* Incorrect token definitions
   When fed with `%token 'a' "A"', Bison used to output `#define 'a' 65'.
+
+* Token definitions as enums
+  Tokens are output both as the traditional #define's, and, provided
+  the compiler supports ANSI C or is a C++ compiler, as enums.
+  This helps debuggers producing symbols instead of values.
 
 
 Changes in version 1.35, 2002-03-25:
