@@ -1,3 +1,13 @@
+2001-11-30  Akim Demaille  <akim@epita.fr>
+
+	* configure.in (WARNING_CFLAGS): Add -Werror when possible.
+	(CFLAGS): Do not include the WARNING_CFLAGS here, since GNU
+	Gettext doesn't compile cleanly, and dies with -Werror.
+	* src/Makefile.am, lib/Makefile.am, tests/atlocal.in (CFLAGS):
+	Include WARNING_CFLAGS here.
+	* lib/xstrdup.c: Include xalloc.h, so that xstrdup be declared
+	before being defined.
+
 2001-11-30  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/quotearg.h (quotearg_n, quotearg_n_style):

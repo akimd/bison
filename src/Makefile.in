@@ -101,12 +101,15 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-AUTOMAKE_OPTIONS = 1.4 ../lib/ansi2knr
+AUTOMAKE_OPTIONS = ../lib/ansi2knr
+
 DEFS = @DEFS@ \
   -DBISON_SIMPLE=\"$(pkgdatadir)/bison.simple\" \
   -DBISON_HAIRY=\"$(pkgdatadir)/bison.hairy\" \
   -DLOCALEDIR=\"$(datadir)/locale\"
 
+
+CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
 
 # libintl.h in is build/intl, intl/libgettext.h in src/,
 # config.h in build/.
@@ -178,7 +181,6 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-CFLAGS = @CFLAGS@
 DIST_SOURCES = $(bison_SOURCES) $(EXTRA_bison_SOURCES)
 DATA = $(pkgdata_DATA)
 

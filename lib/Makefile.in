@@ -103,6 +103,8 @@ install_sh = @install_sh@
 
 AUTOMAKE_OPTIONS = ansi2knr
 
+CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
+
 noinst_LIBRARIES = libbison.a
 
 INCLUDES = -I.. -I$(srcdir) -I../intl
@@ -150,7 +152,6 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-CFLAGS = @CFLAGS@
 DIST_SOURCES = $(libbison_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in alloca.c ansi2knr.1 ansi2knr.c \
 	error.c error.h malloc.c memchr.c obstack.c obstack.h realloc.c \
