@@ -107,18 +107,7 @@ blanks   [ \t\f]+
 %{
   /* At each yylex invocation, mark the current position as the
      start of the next token.  */
-#define TR_POS 0
-#if TR_POS
-  fprintf (stderr, "FOO1: %p: ", yylloc);
-  LOCATION_PRINT (stderr, *yylloc);
-  fprintf (stderr, "\n");
-#endif
   YY_STEP;
-#if TR_POS
-  fprintf (stderr, "BAR1: ");
-  LOCATION_PRINT (stderr, *yylloc);
-  fprintf (stderr, "\n");
-#endif
 %}
 
 

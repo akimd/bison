@@ -1,3 +1,15 @@
+2002-10-17  Akim Demaille  <akim@epita.fr>
+
+	* src/getargs.h (trace_e): Add trace_scan, and trace_parse.
+	* src/getargs.c (trace_types, trace_args): Adjust.
+	* src/reader.c (grammar_current_rule_prec_set)
+	(grammar_current_rule_dprec_set, grammar_current_rule_merge_set):
+	Standardize error messages.
+	And s/@prec/%prec/!
+	(reader): Use trace_flag to enable scanner/parser debugging,
+	instead of an adhoc scheme.
+	* src/scan-gram.l: Remove trailing debugging code.
+
 2002-10-16  Paul Eggert  <eggert@twinsun.com>
 
 	* src/muscle_tab.h (MUSCLE_TAB_H_): Was misspelled as

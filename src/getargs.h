@@ -39,13 +39,15 @@ extern int yacc_flag;  		/* for -y */
 enum trace_e
   {
     trace_none      = 0,
-    trace_resource  = 1 << 0,
-    trace_sets      = 1 << 1,
-    trace_bitsets   = 1 << 2,
-    trace_tools     = 1 << 3,
-    trace_automaton = 1 << 4,
-    trace_grammar   = 1 << 5,
-    trace_time      = 1 << 6,
+    trace_scan      = 1 << 0,
+    trace_parse     = 1 << 1,
+    trace_resource  = 1 << 2,
+    trace_sets      = 1 << 3,
+    trace_bitsets   = 1 << 4,
+    trace_tools     = 1 << 5,
+    trace_automaton = 1 << 6,
+    trace_grammar   = 1 << 7,
+    trace_time      = 1 << 8,
     trace_all       = ~0
   };
 extern int trace_flag;
