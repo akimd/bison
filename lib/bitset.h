@@ -160,7 +160,7 @@ bitset_reset (bitset bset, bitset_bindex bitno)
 
 
 /* Test bit BITNO in bitset BSET.  */
-static inline int
+static inline bool
 bitset_test (bitset bset, bitset_bindex bitno)
 {
   bitset_windex windex = bitno / BITSET_WORD_BITS;
@@ -290,7 +290,7 @@ extern bitset_bindex bitset_first PARAMS ((bitset));
 extern bitset_bindex bitset_last PARAMS ((bitset));
 
 /* Return nonzero if this is the only set bit.  */
-extern int bitset_only_set_p PARAMS ((bitset, bitset_bindex));
+extern bool bitset_only_set_p PARAMS ((bitset, bitset_bindex));
 
 /* Dump bitset.  */
 extern void bitset_dump PARAMS ((FILE *, bitset));

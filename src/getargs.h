@@ -26,14 +26,14 @@
 extern const char *skeleton;		/* for -S */
 extern const char *include;		/* for -I */
 
-extern int debug_flag; 		/* for -t */
-extern int defines_flag;    	/* for -d */
-extern int locations_flag;
-extern int no_lines_flag;    	/* for -l */
-extern int no_parser_flag;	/* for -n */
-extern int token_table_flag;   	/* for -k */
-extern int graph_flag;		/* for -g */
-extern int yacc_flag;  		/* for -y */
+extern bool debug_flag;			/* for -t */
+extern bool defines_flag;		/* for -d */
+extern bool locations_flag;
+extern bool no_lines_flag;		/* for -l */
+extern bool no_parser_flag;		/* for -n */
+extern bool token_table_flag;		/* for -k */
+extern bool graph_flag;			/* for -g */
+extern bool yacc_flag;			/* for -y */
 
 /* GLR_PARSER is true if the input file says to use the GLR
    (Generalized LR) parser, and to output some additional information

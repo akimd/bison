@@ -175,26 +175,26 @@ declarations:
 declaration:
   grammar_declaration
 | PROLOGUE                                 { prologue_augment ($1, @1); }
-| "%debug"                                 { debug_flag = 1; }
+| "%debug"                                 { debug_flag = true; }
 | "%define" string_content string_content  { muscle_insert ($2, $3); }
-| "%defines"                               { defines_flag = 1; }
-| "%error-verbose"                         { error_verbose = 1; }
+| "%defines"                               { defines_flag = true; }
+| "%error-verbose"                         { error_verbose = true; }
 | "%expect" INT                            { expected_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
 | "%glr-parser" 			   { nondeterministic_parser = true;
                                              glr_parser = true; }
 | "%lex-param {...}"			   { add_param ("lex_param", $1, @1); }
-| "%locations"                             { locations_flag = 1; }
+| "%locations"                             { locations_flag = true; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
-| "%no-lines"                              { no_lines_flag = 1; }
+| "%no-lines"                              { no_lines_flag = true; }
 | "%nondeterministic-parser" 		   { nondeterministic_parser = true; }
 | "%output" "=" string_content             { spec_outfile = $3; }
 | "%parse-param {...}"			 { add_param ("parse_param", $1, @1); }
 | "%pure-parser"                           { pure_parser = true; }
 | "%skeleton" string_content               { skeleton = $2; }
-| "%token-table"                           { token_table_flag = 1; }
+| "%token-table"                           { token_table_flag = true; }
 | "%verbose"                               { report_flag = report_states; }
-| "%yacc"                                  { yacc_flag = 1; }
+| "%yacc"                                  { yacc_flag = true; }
 | ";"
 ;
 
@@ -207,7 +207,7 @@ grammar_declaration:
     }
 | "%union {...}"
     {
-      typed = 1;
+      typed = true;
       MUSCLE_INSERT_INT ("stype_line", @1.start.line);
       muscle_insert ("stype", $1);
     }

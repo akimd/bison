@@ -30,6 +30,12 @@ void muscle_free (void);
 /* An obstack dedicated to receive muscle keys and values.  */
 extern struct obstack muscle_obstack;
 
+#define MUSCLE_INSERT_BOOL(Key, Value)				\
+{								\
+  int v = Value;						\
+  MUSCLE_INSERT_INT (Key, v);					\
+}
+
 #define MUSCLE_INSERT_INT(Key, Value)				\
 {								\
   obstack_fgrow1 (&muscle_obstack, "%d", Value);	       	\

@@ -841,7 +841,7 @@ static inline bool
 handle_action_at (char *text, location loc)
 {
   char *cp = text + 1;
-  locations_flag = 1;
+  locations_flag = true;
 
   if (! current_rule)
     return false;

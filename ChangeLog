@@ -1,3 +1,68 @@
+2003-05-24  Paul Eggert  <eggert@twinsun.com>
+
+	Switch from 'int' to 'bool' where that makes sense.
+
+	* lib/abitset.c (abitset_test, abitset_empty_p, abitset_equal_p,
+	abitset_subset_p, abitset_disjoint_p, abitset_and_cmp,
+	abitset_andn_cmp, abitset_or_cmp, abitset_xor_cmp, abitset_and_or,
+	abitset_and_or_cmp, abitset_andn_or_cmp, abitset_or_and_cmp):
+	Return or accept bool, not int.  All callers changed.
+	* lib/bbitset.h: (bitset_toggle_, bitset_copy_, bitset_and_or_cmp_,
+	bitset_andn_or_cmp_, bitset_or_and_cmp_): Likewise.
+	* lib/bitset.c (bitset_only_set_p, bitset_print, bitset_toggle_,
+	bitset_copy_, bitset_op4_cmp, bitset_and_or_cmp_, bitset_andn_or_cmp_,
+	bitset_or_and_cmp_): Likewise.
+	* lib/bitset.h (bitset_test, bitset_only_set_p): Likewise.
+	* lib/bitset_stats.c (bitset_stats_print, bitset_stats_toggle,
+	bitset_stats_test, bitset_stats_empty_p, bitset_stats_disjoint_p,
+	bitset_stats_equal_p, bitset_stats_subset_p, bitset_stats_and_cmp,
+	bitset_stats_andn_cmp, bitset_stats_or_cmp, bitset_stats_xor_cmp,
+	bitset_stats_and_or_cmp, bitset_stats_andn_or_cmp,
+	bitset_stats_or_and_cmp): Likewise.
+	* lib/ebitset.c (ebitset_elt_zero_p, ebitset_equal_p, ebitset_copy_cmp,
+	ebitset_test, ebitset_empty_p, ebitset_subset_p, ebitset_disjoint_p,
+	ebitset_op3_cmp, ebitset_and_cmp, ebitset_andn_cmp, ebitset_or_cmp,
+	ebitset_xor_cmp): Likewise.
+	* lib/lbitset.c (lbitset_elt_zero_p, lbitset_equal_p, lbitset_copy_cmp,
+	lbitset_test, lbitset_empty_p, lbitset_subset_p, lbitset_disjoint_p,
+	lbitset_op3_cmp, lbitset_and_cmp, lbitset_andn_cmp, lbitset_or_cmp,
+	lbitset_xor_cmp): Likewise.
+	* lib/bbitset.h: Include <stdbool.h>.
+	(struct bitset_vtable): The following members now return bool, not
+	int: toggle, test, empty_p, disjoint_p, equal_p, subset_p,
+	and_cmp, andn_cmp, or_cmp, xor_cmp, and_or_cmp, andn_or_cmp,
+	or_and_cmp).
+	* src/conflicts.c (count_rr_conflicts): Likewise.
+	* lib/bitset_stats.h (bitset_stats_enabled): Now bool, not int.
+	All uses changed.
+	* lib/ebitset.c (ebitset_obstack_init): Likewise.
+	* lib/lbitset.c (lbitset_obstack_init): Likewise.
+	* src/getargs.c (debug_flag, defines_flag, locations_flag,
+	no_lines_flag, no_parser_flag, token_table_flag, yacc_flag,
+	graph_flag): Likewise.
+	* src/getargs.h (debug_flag, defines_flag, locations_flag,
+	no_lines_flag, no_parser_flag, token_table_flag, yacc_flag,
+	graph_flag): Likewise.
+	* src/output.c (error_verbose): Likewise.
+	* src/output.h (error_verbose): Likewise.
+	* src/reader.c (start_flag, typed): Likewise.
+	* src/reader.h (typed): Likewise.
+	* src/getargs.c (LOCATIONS_OPTION): New constant.
+	(long_options, getargs): Use it.
+	* src/lalr.c (build_relations): Use bool, not int.
+	* src/nullable.c (nullable_compute): Likewise.
+	* src/print.c (print_reductions): Likewise.
+	* src/tables.c (action_row, pack_vector): Likewise.
+	* src/muscle_tab.h (MUSCLE_INSERT_BOOL): New macro.
+	* src/output.c (prepare): Use it.
+	* src/output.c (token_definitions_output,
+	symbol_destructors_output, symbol_destructors_output): Use string,
+	not boolean integer, to keep track of whether to output separator.
+	* src/print_graph.c (print_core): Likewise.
+	* src/state.c (state_rule_lookaheads_print): Likewise.
+
+	* config/install-sh: Sync from automake 1.7.5.
+
 2003-05-14  Paul Eggert  <eggert@twinsun.com>
 
 	* src/parse-gram.y (rules_or_grammar_declaration): Require a
