@@ -35,6 +35,9 @@
 #define YYLLOC_DEFAULT(Current, Rhs, N)  (Current) = lloc_default (Rhs, N)
 static YYLTYPE lloc_default (YYLTYPE const *, int);
 
+#define YY_LOCATION_PRINT(File, Loc) \
+          location_print (File, Loc)
+
 /* Request detailed syntax error messages, and pass them to GRAM_ERROR.
    FIXME: depends on the undocumented availability of YYLLOC.  */
 #undef  yyerror
@@ -474,6 +477,7 @@ add_param (char const *type, char *decl, location loc)
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "_";
+  static char const blank[] = " \t";
   char const *alpha = alphanum + 10;
   char const *name_start = NULL;
   char *p;
@@ -484,7 +488,13 @@ add_param (char const *type, char *decl, location loc)
 
   /* Strip the surrounding '{' and '}'.  */
   decl++;
-  p[-1] = '\0';
+  *--p = '\0';
+
+  /* Strip surrounding white spaces.  */
+  while (strchr (blank, *decl))
+    ++decl;
+  while (strchr (blank, p[-1]))
+    *--p = '\0';
 
   if (! name_start)
     complain_at (loc, _("missing identifier in parameter declaration"));

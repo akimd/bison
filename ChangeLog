@@ -1,5 +1,11 @@
 2004-09-24  Akim Demaille  <akim@epita.fr>
 
+	* src/parse-gram.y (add_param): Strip the leading and trailing
+	blanks from a formal argument declaration.
+	(YY_LOCATION_PRINT): New.
+
+2004-09-24  Akim Demaille  <akim@epita.fr>
+
 	* data/c.m4 (b4_yysymprint_generate): Move the YYINPUT invocation
 	after the location.
 
