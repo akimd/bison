@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #ifndef _BITSET_H
-#define _BITSET_H 
+#define _BITSET_H
 
 /* This file is the public interface to the bitset abstract data type.
    Only use the functions and macros defined in this file.  */
@@ -87,10 +87,10 @@ typedef struct
 
 
 /* Return bytes required for bitset of desired type and size.  */
-extern size_t bitset_bytes PARAMS ((enum_bitset_type, bitset_bindex));
+extern size_t bitset_bytes PARAMS ((enum bitset_type, bitset_bindex));
 
 /* Initialise a bitset with desired type and size.  */
-extern bitset bitset_init PARAMS ((bitset, bitset_bindex, enum_bitset_type));
+extern bitset bitset_init PARAMS ((bitset, bitset_bindex, enum bitset_type));
 
 /* Select an implementation type based on the desired bitset size
    and attributes.  */
@@ -98,7 +98,7 @@ extern enum bitset_type bitset_type_choose PARAMS ((bitset_bindex,
 						    bitset_attrs));
 
 /* Create a bitset of desired type and size.  The bitset is zeroed.  */
-extern bitset bitset_alloc PARAMS ((bitset_bindex, enum_bitset_type));
+extern bitset bitset_alloc PARAMS ((bitset_bindex, enum bitset_type));
 
 /* Free bitset.  */
 extern void bitset_free PARAMS ((bitset));
@@ -106,7 +106,7 @@ extern void bitset_free PARAMS ((bitset));
 /* Create a bitset of desired type and size using an obstack.  The
    bitset is zeroed.  */
 extern bitset bitset_obstack_alloc PARAMS ((struct obstack *bobstack,
-					    bitset_bindex, enum_bitset_type));
+					    bitset_bindex, enum bitset_type));
 
 /* Free bitset allocated on obstack.  */
 extern void bitset_obstack_free PARAMS ((bitset));
@@ -121,18 +121,14 @@ extern enum bitset_type bitset_type_get PARAMS ((bitset));
 extern const char *bitset_type_name_get PARAMS ((bitset));
 
 #if BITSET_INLINE
-static inline void bitset_set PARAMS ((bitset, bitset_bindex));
-static inline void bitset_reset PARAMS ((bitset, bitset_bindex));
-static inline int bitset_test PARAMS ((bitset, bitset_bindex));
 
 /* Set bit BITNO in bitset BSET.  */
-static inline void bitset_set (bset, bitno)
-    bitset bset;
-    bitset_bindex bitno;
+static inline void
+bitset_set (bitset bset, bitset_bindex bitno)
 {
   bitset_windex index = bitno / BITSET_WORD_BITS;
   bitset_windex offset = index - bset->b.cindex;
-  
+
   if (offset < bset->b.csize)
     bset->b.cdata[offset] |= ((bitset_word) 1 << (bitno % BITSET_WORD_BITS));
   else
@@ -141,13 +137,12 @@ static inline void bitset_set (bset, bitno)
 
 
 /* Reset bit BITNO in bitset BSET.  */
-static inline void bitset_reset (bset, bitno)
-    bitset bset;
-    bitset_bindex bitno;
+static inline void
+bitset_reset (bitset bset, bitset_bindex bitno)
 {
   bitset_windex index = bitno / BITSET_WORD_BITS;
   bitset_windex offset = index - bset->b.cindex;
-  
+
   if (offset < bset->b.csize)
     bset->b.cdata[offset] &= ~((bitset_word) 1 << (bitno % BITSET_WORD_BITS));
   else
@@ -156,13 +151,12 @@ static inline void bitset_reset (bset, bitno)
 
 
 /* Test bit BITNO in bitset BSET.  */
-static inline int bitset_test (bset, bitno)
-    bitset bset;
-    bitset_bindex bitno;
+static inline int
+bitset_test (bitset bset, bitset_bindex bitno)
 {
   bitset_windex index = bitno / BITSET_WORD_BITS;
   bitset_windex offset = index - bset->b.cindex;
-  
+
   if (offset < bset->b.csize)
     return (bset->b.cdata[offset] >> (bitno % BITSET_WORD_BITS)) & 1;
   else
@@ -179,7 +173,7 @@ do   								\
   bitset_bindex _bitno = (bitno);				\
   bitset_windex _index = _bitno / BITSET_WORD_BITS; 		\
   bitset_windex _offset = _index - (bset)->b.cindex;		\
-  								\
+								\
   if (_offset < (bset)->b.csize)					\
     (bset)->b.cdata[_offset] |=					\
       ((bitset_word) 1 << (_bitno % BITSET_WORD_BITS)); 	\
@@ -195,7 +189,7 @@ do   								\
   bitset_bindex _bitno = (bitno);				\
   bitset_windex _index = _bitno / BITSET_WORD_BITS; 		\
   bitset_windex _offset = _index - (bset)->b.cindex;		\
-  								\
+								\
   if (_offset < (bset)->b.csize)				\
     (bset)->b.cdata[_offset] &=					\
        ~((bitset_word) 1 << (_bitno % BITSET_WORD_BITS)); 	\
@@ -304,17 +298,17 @@ do   								\
 #define bitset_or_and_cmp(DST, SRC1, SRC2, SRC3)\
  BITSET_OR_AND_CMP_ (DST, SRC1, SRC2, SRC3)
 
-/* Find list of up to NUM bits set in BSET starting from and including 
+/* Find list of up to NUM bits set in BSET starting from and including
    *NEXT.  Return with actual number of bits found and with *NEXT
    indicating where search stopped.  */
 #define bitset_list(BSET, LIST, NUM, NEXT) \
- BITSET_LIST_ (BSET, LIST, NUM, NEXT) 
+ BITSET_LIST_ (BSET, LIST, NUM, NEXT)
 
 /* Find reverse list of up to NUM bits set in BSET starting from and
    including NEXT.  Return with actual number of bits found and with
    *NEXT indicating where search stopped.  */
 #define bitset_list_reverse(BSET, LIST, NUM, NEXT) \
- BITSET_LIST_REVERSE_ (BSET, LIST, NUM, NEXT) 
+ BITSET_LIST_REVERSE_ (BSET, LIST, NUM, NEXT)
 
 
 /* Find next set bit.  */
@@ -352,12 +346,12 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;			      \
        (ITER.num == BITSET_LIST_SIZE) 					      \
        && (ITER.num = bitset_list (BSET, ITER.list, 			      \
-                                   BITSET_LIST_SIZE, &ITER.next));)	      \
+				   BITSET_LIST_SIZE, &ITER.next));)	      \
     for (ITER.i = 0; (BIT) = ITER.list[ITER.i], ITER.i < ITER.num; ITER.i++)
 
 
 /* Loop over all elements of BSET, in reverse order starting with
-   MIN,  setting BIT to the index of each set bit. For example, the 
+   MIN,  setting BIT to the index of each set bit. For example, the
    following will print the bits set in a bitset in reverse order:
 
    bitset_bindex i;
@@ -373,30 +367,30 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;			      \
        (ITER.num == BITSET_LIST_SIZE) 					      \
        && (ITER.num = bitset_list_reverse (BSET, ITER.list,		      \
-                                          BITSET_LIST_SIZE, &ITER.next));)    \
+					  BITSET_LIST_SIZE, &ITER.next));)    \
     for (ITER.i = 0; (BIT) = ITER.list[ITER.i], ITER.i < ITER.num; ITER.i++)
 
 
 /* Define set operations in terms of logical operations.  */
 
-#define bitset_diff(DST, SRC1, SRC2) bitset_andn (DST, SRC1, SRC2) 
-#define bitset_diff_cmp(DST, SRC1, SRC2) bitset_andn_cmp (DST, SRC1, SRC2) 
+#define bitset_diff(DST, SRC1, SRC2) bitset_andn (DST, SRC1, SRC2)
+#define bitset_diff_cmp(DST, SRC1, SRC2) bitset_andn_cmp (DST, SRC1, SRC2)
 
-#define bitset_intersection(DST, SRC1, SRC2) bitset_and (DST, SRC1, SRC2) 
-#define bitset_intersection_cmp(DST, SRC1, SRC2) bitset_and_cmp (DST, SRC1, SRC2) 
+#define bitset_intersection(DST, SRC1, SRC2) bitset_and (DST, SRC1, SRC2)
+#define bitset_intersection_cmp(DST, SRC1, SRC2) bitset_and_cmp (DST, SRC1, SRC2)
 
-#define bitset_union(DST, SRC1, SRC2) bitset_or (DST, SRC1, SRC2) 
-#define bitset_union_cmp(DST, SRC1, SRC2) bitset_or_cmp (DST, SRC1, SRC2) 
+#define bitset_union(DST, SRC1, SRC2) bitset_or (DST, SRC1, SRC2)
+#define bitset_union_cmp(DST, SRC1, SRC2) bitset_or_cmp (DST, SRC1, SRC2)
 
 /* Symmetrical difference.  */
-#define bitset_symdiff(DST, SRC1, SRC2) bitset_xor (DST, SRC1, SRC2) 
-#define bitset_symdiff_cmp(DST, SRC1, SRC2) bitset_xor_cmp (DST, SRC1, SRC2) 
+#define bitset_symdiff(DST, SRC1, SRC2) bitset_xor (DST, SRC1, SRC2)
+#define bitset_symdiff_cmp(DST, SRC1, SRC2) bitset_xor_cmp (DST, SRC1, SRC2)
 
 /* Union of difference.  */
 #define bitset_diff_union(DST, SRC1, SRC2, SRC3) \
-  bitset_andn_or (DST, SRC1, SRC2, SRC3) 
+  bitset_andn_or (DST, SRC1, SRC2, SRC3)
 #define bitset_diff_union_cmp(DST, SRC1, SRC2, SRC3) \
-  bitset_andn_or_cmp (DST, SRC1, SRC2, SRC3) 
+  bitset_andn_or_cmp (DST, SRC1, SRC2, SRC3)
 
 
 
