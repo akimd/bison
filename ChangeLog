@@ -1,5 +1,13 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.h (consistent): Removed array, which	contents is now
+	member of...
+	(state_t): this structure.
+	* src/output.c, src/lalr.c, src/print_graph.c, src/conflicts.c:
+	Adjust.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.h (reduction_table, shift_table): Removed arrays, which
 	contents is now members of...
 	(state_t): this structure.
