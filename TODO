@@ -1,5 +1,27 @@
 -*- outline -*-
 
+* Unit rules
+Maybe we could expand unit rules, i.e., transform
+
+	exp: arith | bool;
+	arith: exp '+' exp;
+	bool: exp '&' exp;
+
+into
+
+	exp: exp '+' exp | exp '&' exp;
+
+when there are no actions.  This can significantly speed up some
+grammars.
+
+* Useless rules
+We have all the needed material to actually remove them.  Do it.
+Or maybe not, but at least do not include them in the automaton.
+
+* read_pipe.c
+This is not portable to DOS for instance.  Implement a more portable
+scheme.  Sources of inspiration include GNU diff, and Free Recode.
+
 * NEWS
 Sort from 1.31 NEWS.
 
