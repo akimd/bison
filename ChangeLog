@@ -1,5 +1,22 @@
 2000-09-19  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c: Formatting changes.
+	* src/machine.h: Remove, leaving its contents in...
+	* src/system.h: here.
+	Include stdio.h.
+	Adjust all dependencies on stdio.h and machine.h.
+	* src/getargs.h: New file.
+	Let all `extern' declarations about getargs.c be replaced with
+	inclusion of `getargs.h'.
+	* src/Makefile.am (noinst_HEADERS): Adjust.
+
+	* tests/calc.m4 (yyin): Be initialized in main, not on the global
+	scope.
+	(yyerror): Returns void, not int.
+	* doc/bison.texinfo: Formatting changes.
+
+2000-09-19  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.m4 (calc.y): Do not assign to stdin, as it's not
 	portable.
 

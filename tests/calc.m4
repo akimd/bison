@@ -24,6 +24,7 @@ AT_DATA([calc.y],
 
 static int power (int base, int exponent);
 static int read_signed_integer (FILE *stream);
+static void yyerror (const char *s);
 extern void perror (const char *s);
 %}
 
@@ -54,23 +55,10 @@ exp:      NUM                { $$ = $1;             }
         | '(' exp ')'        { $$ = $2;             }
 ;
 %%
-FILE *yyin = stdin;
+/* The input. */
+FILE *yyin;
 
-int
-main (int argn, const char **argv)
-{
-  if (argn == 2)
-    yyin = fopen (argv[1], "r");
-  if (!stdin)
-    {
-      perror (argv[1]);
-      exit (1);
-    }
-  yyparse ();
-  return 0;
-}
-
-int
+static void
 yyerror (const char *s)
 {
   fprintf (stderr, "%s\n", s);
@@ -137,6 +125,23 @@ power (int base, int exponent)
   for (/* Niente */; exponent; --exponent)
     res *= base;
   return res;
+}
+
+int
+main (int argn, const char **argv)
+{
+  if (argn == 2)
+    yyin = fopen (argv[1], "r");
+  else
+     yyin = stdin;
+
+  if (!stdin)
+    {
+      perror (argv[1]);
+      exit (1);
+    }
+  yyparse ();
+  return 0;
 }
 ]])
 

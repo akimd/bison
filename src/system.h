@@ -22,6 +22,8 @@
 # include <config.h>
 #endif
 
+#include <stdio.h>
+
 #ifdef MSDOS
 # include <io.h>
 #endif
@@ -119,3 +121,29 @@ extern int errno;
 #endif
 
 #endif  /* BISON_SYSTEM_H */
+
+
+/*---------------------------------.
+| Machine-dependencies for Bison.  |
+`---------------------------------*/
+
+#ifdef	eta10
+# define	MAXSHORT	2147483647
+# define	MINSHORT	-2147483648
+#else
+# define	MAXSHORT	32767
+# define	MINSHORT	-32768
+#endif
+
+#if defined (MSDOS) && !defined (__GO32__)
+# define	BITS_PER_WORD	16
+# define MAXTABLE	16383
+#else
+# define	BITS_PER_WORD	32
+# define MAXTABLE	32767
+#endif
+
+#define	WORDSIZE(n)	(((n) + BITS_PER_WORD - 1) / BITS_PER_WORD)
+#define	SETBIT(x, i)	((x)[(i)/BITS_PER_WORD] |= (1<<((i) % BITS_PER_WORD)))
+#define RESETBIT(x, i)	((x)[(i)/BITS_PER_WORD] &= ~(1<<((i) % BITS_PER_WORD)))
+#define BITISSET(x, i)	(((x)[(i)/BITS_PER_WORD] & (1<<((i) % BITS_PER_WORD))) != 0)

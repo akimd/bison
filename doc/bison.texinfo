@@ -1510,11 +1510,12 @@ real calculator, but it is adequate for the first example.
 @subsection Running Bison to Make the Parser
 @cindex running Bison (introduction)
 
-Before running Bison to produce a parser, we need to decide how to arrange
-all the source code in one or more source files.  For such a simple example,
-the easiest thing is to put everything in one file.  The definitions of
-@code{yylex}, @code{yyerror} and @code{main} go at the end, in the
-``additional C code'' section of the file (@pxref{Grammar Layout, ,The Overall Layout of a Bison Grammar}).
+Before running Bison to produce a parser, we need to decide how to
+arrange all the source code in one or more source files.  For such a
+simple example, the easiest thing is to put everything in one file.  The
+definitions of @code{yylex}, @code{yyerror} and @code{main} go at the
+end, in the ``additional C code'' section of the file (@pxref{Grammar
+Layout, ,The Overall Layout of a Bison Grammar}).
 
 For a large project, you would probably have several source files, and use
 @code{make} to arrange to recompile them.
@@ -1628,8 +1629,8 @@ exp:      NUM                @{ $$ = $1;         @}
 @end example
 
 @noindent
-The functions @code{yylex}, @code{yyerror} and @code{main} can be the same
-as before.
+The functions @code{yylex}, @code{yyerror} and @code{main} can be the
+same as before.
 
 There are two important new features shown in this code.
 
@@ -1671,10 +1672,10 @@ Here is a sample run of @file{calc.y}:
 
 Up to this point, this manual has not addressed the issue of @dfn{error
 recovery}---how to continue parsing after the parser detects a syntax
-error.  All we have handled is error reporting with @code{yyerror}.  Recall
-that by default @code{yyparse} returns after calling @code{yyerror}.  This
-means that an erroneous input line causes the calculator program to exit.
-Now we show how to rectify this deficiency.
+error.  All we have handled is error reporting with @code{yyerror}.
+Recall that by default @code{yyparse} returns after calling
+@code{yyerror}.  This means that an erroneous input line causes the
+calculator program to exit.  Now we show how to rectify this deficiency.
 
 The Bison language itself includes the reserved word @code{error}, which
 may be included in the grammar rules.  In the example below it has
@@ -1689,14 +1690,15 @@ line:     '\n'
 @end group
 @end example
 
-This addition to the grammar allows for simple error recovery in the event
-of a parse error.  If an expression that cannot be evaluated is read, the
-error will be recognized by the third rule for @code{line}, and parsing
-will continue.  (The @code{yyerror} function is still called upon to print
-its message as well.)  The action executes the statement @code{yyerrok}, a
-macro defined automatically by Bison; its meaning is that error recovery is
-complete (@pxref{Error Recovery}).  Note the difference between
-@code{yyerrok} and @code{yyerror}; neither one is a misprint.@refill
+This addition to the grammar allows for simple error recovery in the
+event of a parse error.  If an expression that cannot be evaluated is
+read, the error will be recognized by the third rule for @code{line},
+and parsing will continue.  (The @code{yyerror} function is still called
+upon to print its message as well.)  The action executes the statement
+@code{yyerrok}, a macro defined automatically by Bison; its meaning is
+that error recovery is complete (@pxref{Error Recovery}).  Note the
+difference between @code{yyerrok} and @code{yyerror}; neither one is a
+misprint.@refill
 
 This form of error recovery deals with syntax errors.  There are other
 kinds of errors; for example, division by zero, which raises an exception
@@ -2186,12 +2188,13 @@ if it is the first thing in the file.
 @cindex additional C code section
 @cindex C code, section for additional
 
-The @var{additional C code} section is copied verbatim to the end of
-the parser file, just as the @var{C declarations} section is copied to
-the beginning.  This is the most convenient place to put anything
-that you want to have in the parser file but which need not come before
-the definition of @code{yyparse}.  For example, the definitions of
-@code{yylex} and @code{yyerror} often go here.  @xref{Interface, ,Parser C-Language Interface}.
+The @var{additional C code} section is copied verbatim to the end of the
+parser file, just as the @var{C declarations} section is copied to the
+beginning.  This is the most convenient place to put anything that you
+want to have in the parser file but which need not come before the
+definition of @code{yyparse}.  For example, the definitions of
+@code{yylex} and @code{yyerror} often go here.  @xref{Interface, ,Parser
+C-Language Interface}.
 
 If the last section is empty, you may omit the @samp{%%} that separates it
 from the grammar rules.
@@ -3601,7 +3604,8 @@ with no arguments, as usual.
 The Bison parser detects a @dfn{parse error} or @dfn{syntax error}
 whenever it reads a token which cannot satisfy any syntax rule.  An
 action in the grammar can also explicitly proclaim an error, using the
-macro @code{YYERROR} (@pxref{Action Features, ,Special Features for Use in Actions}).
+macro @code{YYERROR} (@pxref{Action Features, ,Special Features for Use
+in Actions}).
 
 The Bison parser expects to report the error by calling an error
 reporting function named @code{yyerror}, which you must supply.  It is
@@ -3611,10 +3615,11 @@ receives one argument.  For a parse error, the string is normally
 
 @findex YYERROR_VERBOSE
 If you define the macro @code{YYERROR_VERBOSE} in the Bison declarations
-section (@pxref{Bison Declarations, ,The Bison Declarations Section}), then Bison provides a more verbose
-and specific error message string instead of just plain @w{@code{"parse
-error"}}.  It doesn't matter what definition you use for
-@code{YYERROR_VERBOSE}, just whether you define it.
+section (@pxref{Bison Declarations, ,The Bison Declarations Section}),
+then Bison provides a more verbose and specific error message string
+instead of just plain @w{@code{"parse error"}}.  It doesn't matter what
+definition you use for @code{YYERROR_VERBOSE}, just whether you define
+it.
 
 The parser can detect one other kind of error: stack overflow.  This
 happens when the input contains constructions that are very deeply
@@ -5110,7 +5115,8 @@ token is reset to the token that originally caused the violation.
 @item YYABORT
 Macro to pretend that an unrecoverable syntax error has occurred, by
 making @code{yyparse} return 1 immediately.  The error reporting
-function @code{yyerror} is not called.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+function @code{yyerror} is not called.  @xref{Parser Function, ,The
+Parser Function @code{yyparse}}.
 
 @item YYACCEPT
 Macro to pretend that a complete utterance of the language has been
