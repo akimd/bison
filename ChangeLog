@@ -1,3 +1,8 @@
+2002-01-03  Akim Demaille  <akim@epita.fr>
+
+	* lib/quotearg.c: Use `#include "..."' instead of `#include <...>'
+	for non system headers.
+
 2002-01-02  Akim Demaille  <akim@epita.fr>
 
 	Equip the skeleton chain with location tracking, runtime trace,
@@ -21,7 +26,7 @@
 	replace `gb' with BLANKS.
 	* src/scan-skel.l: Adjust.
 
-	
+
 2001-12-30  Akim Demaille  <akim@epita.fr>
 
 	* src/system.h: We don't need nor want bcopy.
@@ -35,7 +40,7 @@
 	Be sure to initialize yylval.muscle member when scanning a MUSCLE.
 	* src/parse-skel.y: Use %directives instead of #defines.
 
-	
+
 2001-12-30  Akim Demaille  <akim@epita.fr>
 
 	* src/skeleton.h: New.
@@ -77,7 +82,7 @@
 	functions are used in the skeleton parser.
 	(tab_extension): New.
 	(compute_base_names): Use the computations done in this function
-	to guess if the generated parsers should have '.tab' in their 
+	to guess if the generated parsers should have '.tab' in their
 	names.
 	(short_base_name): No longer static.
 
@@ -89,7 +94,7 @@
 
 	* configure.in: Use AM_PROG_LEX and AC_PROG_YACC.
 
-	* src/Makefile.am (bison_SOURCES): Add scan-skel.l and 
+	* src/Makefile.am (bison_SOURCES): Add scan-skel.l and
 	parse-skel.y.
 
 	* src/parse-skel.y: New file.
