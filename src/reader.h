@@ -31,7 +31,6 @@ extern void reader PARAMS ((void));
 
 
 extern int lineno;
-extern char **tags;
 extern short *user_toknums;
 
 #endif /* !READER_H_ */

@@ -1,5 +1,11 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c, src/reader.h (tags): Remove.
+	Adjust all users to use symbols[i]->tag.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h, src/gram.c (symbols): New, similar to state_table
 	and rule_table.
 	* src/reader.c (packsymbols): Fill this table.
