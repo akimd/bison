@@ -1,5 +1,33 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (rule_t): `guard' and `guard_line' are new members.
+	* src/reader.c (symbol_list): `guard' and `guard_line' are new
+	members.
+	(symbol_list_new): Adjust.
+	(copy_action): action_line is the first line, not the last.
+	(copy_guard): Just as for actions, store the `action' only, not
+	the switch/case/break flesh.
+	Don't parse the user action that might follow the guard, let...
+	(readgram): do it, i.e., now, there can be an action after a
+	guard.
+	In other words the guard is just explicitly optional.
+	(packgram): Adjust.
+	* src/output.c (guards_output): New.
+	(output_parser): Call it when needed.
+	(output): Also free the guard and attrs obstacks.
+	* src/files.c, src/files.h (obstack_save): Remove.
+	(output_files): Remove.
+	As a result, if one needs the former `.act' file, using an
+	appropriate skeleton which requires actions and guards is now
+	required.
+	* src/main.c (main): Adjust.
+	* tests/semantic.at: New.
+	* tests/regression.at: Use `input.y' as input file name.
+	Avoid 8+3 problems by requiring input.c when the test needs the
+	parser.
+
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (symbol_list_new): Be sure to initialize all the
 	fields.
 

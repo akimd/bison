@@ -25,7 +25,7 @@ AT_BANNER([[Regression tests.]])
 
 AT_SETUP([Duplicate string])
 
-AT_DATA([duplicate.y],
+AT_DATA([input.y],
 [[/* `Bison -v' used to dump core when two tokens are defined with the same
    string, as LE and GE below. */
 
@@ -38,7 +38,7 @@ exp: '(' exp ')' | NUM ;
 %%
 ]])
 
-AT_CHECK([bison -v duplicate.y -o duplicate.c], 0, ignore, ignore)
+AT_CHECK([bison -v input.y -o input.c], 0, ignore, ignore)
 
 AT_CLEANUP
 
@@ -478,7 +478,7 @@ AT_CLEANUP
 
 AT_SETUP([%union and --defines])
 
-AT_DATA([union.y],
+AT_DATA([input.y],
 [%union
 {
   int   integer;
@@ -488,7 +488,7 @@ AT_DATA([union.y],
 exp: {};
 ])
 
-AT_CHECK([bison --defines union.y])
+AT_CHECK([bison --defines input.y])
 
 AT_CLEANUP
 
@@ -500,7 +500,7 @@ AT_CLEANUP
 
 AT_SETUP([%union and C comments])
 
-AT_DATA([union-comment.y],
+AT_DATA([input.y],
 [%union
 {
   /* The int.  */	int   integer;
@@ -510,8 +510,8 @@ AT_DATA([union-comment.y],
 exp: {};
 ])
 
-AT_CHECK([bison union-comment.y])
-AT_CHECK([fgrep '//*' union-comment.tab.c], [1], [])
+AT_CHECK([bison input.y -o input.c])
+AT_CHECK([fgrep '//*' input.c], [1], [])
 
 AT_CLEANUP
 

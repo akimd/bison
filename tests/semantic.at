@@ -1,7 +1,5 @@
-# Process this file with autom4te to create testsuite. -*- Autotest -*-
-
-# Test suite for GNU Bison.
-# Copyright 2000, 2001 Free Software Foundation, Inc.
+# Bison Semantic Parsers.                               -*- Autotest -*-
+# Copyright 2001 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,17 +16,32 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
-# We need a recent Autotest.
-m4_version_prereq([2.52g])
+AT_BANNER([[Semantic Parsers.]])
 
-AT_INIT
+# Well, nothing, or almost, is known about semantic parsers.  For the
+# time being, just make sure we still parse them properly.
 
-AT_TESTED([bison])
+## ---------------- ##
+## Parsing Guards.  ##
+## ---------------- ##
 
-m4_include([output.at])
-m4_include([sets.at])
-m4_include([reduce.at])
-m4_include([calc.at])
-m4_include([torture.at])
-m4_include([regression.at])
-m4_include([semantic.at])
+
+AT_SETUP([Parsing Guards])
+
+AT_DATA([input.y],
+[[%semantic-parser
+%union {
+  int ival;
+}
+%token <ival> INT
+%type  <ival> exp
+%%
+exp: exp '+' exp { $$ = $1 + $3 }
+   | exp '/' exp %guard { if ($3 == 0) yyerror = 1 } { $$ = $1 / $3 }
+   | INT
+%%
+]])
+
+AT_CHECK([bison -v input.y -o input.c], 0, ignore, ignore)
+
+AT_CLEANUP
