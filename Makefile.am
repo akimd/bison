@@ -3,7 +3,7 @@ AUTOMAKE_OPTIONS = 1.4 check-news
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = intl po lib src doc m4
+SUBDIRS = intl po lib src doc m4 tests
 
 EXTRA_DIST = REFERENCES configure.bat OChangeLog
 

@@ -1,3 +1,18 @@
+2000-09-18  Akim Demaille  <akim@epita.fr>
+
+	Add support for an Autotest test suite for Bison.
+
+	* m4/m4.m4, m4/atconfig.m4: New files.
+	* m4/Makefile.am (EXTRA_DIST): Adjust.
+	* tests/suite.m4, tests/Makefile.am, tests/atgeneral.m4: New
+	files.
+	* src/getargs.c: Display a more standard --version message.
+	* src/reader.c (reader): Formatting changes.
+	No longer depend upon VERSION_STRING.
+	* configure.in: No longer use `dnl'.
+	Set up the test suite and the new directory `tests/.
+	(VERSION_STRING): Remove.
+
 2000-04-14  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (copy_comment2): New function, same as former
