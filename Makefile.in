@@ -149,9 +149,7 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
 	  $(AUTOMAKE) --gnu  Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
-	cd $(top_builddir) && \
-	  CONFIG_HEADERS= CONFIG_LINKS= \
-	  CONFIG_FILES=$@ $(SHELL) ./config.status
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 $(top_builddir)/config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -160,23 +158,22 @@ $(srcdir)/configure:  $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENC
 
 $(ACLOCAL_M4):  configure.in m4/c-bs-a.m4 m4/codeset.m4 m4/dmalloc.m4 m4/error.m4 m4/gettext.m4 m4/glibc21.m4 m4/iconv.m4 m4/isc-posix.m4 m4/lcmessage.m4 m4/malloc.m4 m4/mbrtowc.m4 m4/mbstate_t.m4 m4/prereq.m4 m4/progtest.m4 m4/realloc.m4 m4/strerror_r.m4 m4/warning.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+
 config.h: stamp-h1
 	@if test ! -f $@; then \
-		rm -f stamp-h1; \
-		$(MAKE) stamp-h1; \
+	  rm -f stamp-h1; \
+	  $(MAKE) stamp-h1; \
 	else :; fi
+
 stamp-h1: $(srcdir)/config.hin $(top_builddir)/config.status
-	@rm -f stamp-h1 stamp-h1T
-	@echo timestamp > stamp-h1T 2> /dev/null
-	cd $(top_builddir) \
-	  && CONFIG_FILES= CONFIG_HEADERS=config.h:config.hin \
-	     $(SHELL) ./config.status
-	@mv stamp-h1T stamp-h1
+	@rm -f stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status config.h
 $(srcdir)/config.hin:  $(srcdir)/./stamp-h1.in
 	@if test ! -f $@; then \
-		rm -f $(srcdir)/./stamp-h1.in; \
-		$(MAKE) $(srcdir)/./stamp-h1.in; \
+	  rm -f $(srcdir)/./stamp-h1.in; \
+	  $(MAKE) $(srcdir)/./stamp-h1.in; \
 	else :; fi
+
 $(srcdir)/./stamp-h1.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	@rm -f $(srcdir)/./stamp-h1.in $(srcdir)/./stamp-h1.inT
 	@echo timestamp > $(srcdir)/./stamp-h1.inT 2> /dev/null
@@ -186,7 +183,7 @@ $(srcdir)/./stamp-h1.in: $(top_srcdir)/configure.in $(ACLOCAL_M4)
 distclean-hdr:
 	-rm -f config.h
 intl/Makefile: $(top_builddir)/config.status $(top_srcdir)/intl/Makefile.in
-	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 uninstall-info-am:
 
 # This directory's subdirectories are mostly independent; you can cd
