@@ -1,3 +1,27 @@
+2002-11-09  Paul Eggert  <eggert@twinsun.com>
+
+	Fix the test failure due to GCC warnings described in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001815.html>.
+	* data/glr.c (yyis_pact_ninf, yyis_table_ninf): New macros, which
+	evaluate to 0 if it's impossible for NINF to be in the respective
+	table.
+	(yygetLRActions, yyrecoverParseError): Use them.
+
+	* src/scan-gram.l (unexpected_end_of_file): Fix bug: columns were
+	counted in the token inserted at end of file.  Now takes
+	location_t *, not location_t, so that the location can be
+	adjusted.  All uses changed.
+
+	* tests/regression.at (Invalid inputs): Adjust wording in
+	diagnostic to match the new behavior.
+
+	* tests/torture.at (AT_DATA_TRIANGULAR_GRAMMAR,
+	AT_DATA_HORIZONTAL_GRAMMAR, AT_DATA_LOOKAHEADS_GRAMMAR,
+	AT_DATA_STACK_TORTURE): Replace `assert (x);' with `if (! (x))
+	abort ();'.  This reduces the runtime of the "Many lookaheads"
+	test from 27.6 to 2.7 minutes on a 440 MHz Ultrasparc III running
+	GCC 3.2.
+
 2002-11-07  Paul Eggert  <eggert@twinsun.com>
 
 	* src/parse-gram.y (CHARACTER): Remove unused token.
