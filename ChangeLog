@@ -1,5 +1,11 @@
 2002-07-09  Akim Demaille  <akim@epita.fr>
 
+	* tests/synclines.at (AT_SYNCLINES_COMPILE): New.
+	(AT_TEST_SYNCLINE): Adjust to unusual GCC outputs.
+	Reported by R Blake <blakers@mac.com>.
+
+2002-07-09  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.c: Output the copyright notive in the header.
 
 2002-07-03  Akim Demaille  <akim@epita.fr>
