@@ -15,7 +15,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 ## 02111-1307  USA
 
-dist_pkgdata_DATA = bison.simple bison.c++
+dist_pkgdata_DATA = yacc.c lalr1.cc
 
 m4sugardir = $(pkgdatadir)/m4sugar
 dist_m4sugar_DATA = m4sugar/m4sugar.m4 m4sugar/version.m4
