@@ -1,3 +1,14 @@
+2003-03-01  Paul Eggert  <eggert@twinsun.com>
+
+	* src/scan-gram.l (code_start): Initialize it to scanner_cursor,
+	not loc->end, since loc->end might contain garbage and this leads
+	to undefined behavior on some platforms.
+	(id_loc, token_start): Use (IF_LINTed) initial values that do not
+	depend on *loc, so that the reader doesn't give the the false
+	impression that *loc is initialized.
+	(<INITIAL>"%%"): Do not bother setting code_start, since its value
+	does not survive the return.
+
 2003-03-01  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-gram.l (code_start): Always initialize it when entering
