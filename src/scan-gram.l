@@ -177,6 +177,7 @@ static void handle_dollar (braced_code_t code_kind,
 			   char *cp, location_t location);
 static void handle_at (braced_code_t code_kind,
 		       char *cp, location_t location);
+static void handle_syncline (char *args, location_t *location);
 static int convert_ucn_to_byte (char const *hex_text);
 
 %}
@@ -253,6 +254,8 @@ splice	 (\\[ \f\t\v]*\n)*
     complain_at (*yylloc, _("invalid directive: %s"), quote (yytext));
     YY_STEP;
   }
+
+  ^"#line "{int}" \""[^\"]*"\"\n"   handle_syncline (yytext + strlen ("#line "), yylloc); YY_STEP;
 
   "="                     return EQUAL;
   ":"                     rule_length = 0; return COLON;
@@ -898,6 +901,24 @@ convert_ucn_to_byte (char const *ucn)
   return code;
 }
 
+
+/*----------------------------------------------------------------.
+| Handle `#line INT "FILE"'.  ARGS has already skipped `#line '.  |
+`----------------------------------------------------------------*/
+
+static void
+handle_syncline (char *args, location_t *location)
+{
+  int lineno = strtol (args, &args, 10);
+  const char *file = NULL;
+  file = strchr (args, '"') + 1;
+  *strchr (file, '"') = 0;
+  /* FIXME: Leaking...  Can't free, as some locations are still
+     pointing to the old file name.  */
+  infile = xstrdup (file);
+  location->file = infile;
+  location->last_line = lineno;
+}
 
 /*-------------------------.
 | Initialize the scanner.  |

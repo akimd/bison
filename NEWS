@@ -21,6 +21,9 @@ Changes in version 1.75a, 2002-10-24:
   In addition, they provide a means for yyerror to remain pure, and
   to access to the current location.
 
+* #line
+  Bison now recognizes #line in its input, and forwards them.
+
 Changes in version 1.75, 2002-10-14:
 
 * Bison should now work on 64-bit hosts.

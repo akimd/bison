@@ -185,10 +185,6 @@ skeleton muscles.	[]
 ** tests/pure-parser.at	[]
 New tests.
 
-* input synclines
-Some users create their foo.y files, and equip them with #line.  Bison
-should recognize these, and preserve them.
-
 * BTYacc
 See if we can integrate backtracking in Bison.  Charles-Henri de
 Boysson <de-boy_c@epita.fr> is working on this, and already has some

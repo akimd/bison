@@ -1,3 +1,13 @@
+2002-11-06  Akim Demaille  <akim@epita.fr>
+
+	* src/main.c (main): Free `infile'.
+	* src/scan-gram.l (handle_syncline): New.
+	Recognize `#line'.
+	* src/output.c (user_actions_output, symbol_destructors_output)
+	(symbol_printers_output): Use the location's file name, not
+	infile.
+	* src/reader.c (prologue_augment, epilogue_set): Likewise.
+
 2002-11-05  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
 	* src/tables.c (matching_state): Don't allow states to match if
