@@ -2877,7 +2877,9 @@ actually does to implement mid-rule actions.
 
 Though grammar rules and semantic actions are enough to write a fully
 functional parser, it can be useful to process some additionnal informations,
-especially locations of tokens and groupings.
+especially symbol locations.
+
+@c (terminal or not) ?
 
 The way locations are handled is defined by providing a data type, and actions
 to take when rules are matched.
@@ -2927,24 +2929,55 @@ The location of the @var{n}th component of the right hand side is
 @code{@@@var{n}}, while the location of the left hand side grouping is
 @code{@@$}.
 
-Here is a simple example using the default data type for locations:
+Here is a basic example using the default data type for locations:
 
 @example
 @group
 exp:    @dots{}
-        | exp '+' exp
+        | exp '/' exp
             @{
+              @@$.first_column = @@1.first_column;
+              @@$.first_line = @@1.first_line;
               @@$.last_column = @@3.last_column;
               @@$.last_line = @@3.last_line;
-              $$ = $1 + $3;
+              if ($3)
+                $$ = $1 / $3;
+              else
+                @{
+                  $$ = 1;
+                  printf("Division by zero, l%d,c%d-l%d,c%d",
+                         @@3.first_line, @@3.first_column,
+                         @@3.last_line, @@3.last_column);
+                @}
             @}
 @end group
 @end example
 
-@noindent
-In the example above, there is no need to set the beginning of @code{@@$}. The
-output parser always sets @code{@@$} to @code{@@1} before executing the C
-code of a given action, whether you provide a processing for locations or not.
+As for semantic values, there is a default action for locations that is
+run each time a rule is matched. It sets the beginning of @code{@@$} to the
+beginning of the first symbol, and the end of @code{@@$} to the end of the
+last symbol. 
+
+With this default action, the location tracking can be fully automatic. The
+example above simply rewrites this way:
+
+@example
+@group
+exp:    @dots{}
+        | exp '/' exp
+            @{
+              if ($3)
+                $$ = $1 / $3;
+              else
+                @{
+                  $$ = 1;
+                  printf("Division by zero, l%d,c%d-l%d,c%d",
+                         @@3.first_line, @@3.first_column,
+                         @@3.last_line, @@3.last_column);
+                @}
+            @}
+@end group
+@end example
 
 @node Location Default Action,  , Actions and Locations, Locations
 @subsection Default Action for Locations
@@ -2952,34 +2985,43 @@ code of a given action, whether you provide a processing for locations or not.
 
 Actually, actions are not the best place to compute locations. Since locations
 are much more general than semantic values, there is room in the output parser
-to define a default action to take for each rule. The @code{YYLLOC_DEFAULT}
-macro is called each time a rule is matched, before the associated action is
-run.
+to redefine the default action to take for each rule. The 
+@code{YYLLOC_DEFAULT} macro is called each time a rule is matched, before the
+associated action is run. 
 
-@c Documentation for the old (?) YYLLOC_DEFAULT
+Most of the time, this macro is general enough to suppress location
+dedicated code from semantic actions. 
 
-This macro takes two parameters, the first one being the location of the
-grouping (the result of the computation), and the second one being the
-location of the last element matched. Of course, before @code{YYLLOC_DEFAULT}
-is run, the result is set to the location of the first component matched.
+The @code{YYLLOC_DEFAULT} macro takes three parameters. The first one is 
+the location of the grouping (the result of the computation). The second one 
+is an array holding locations of all right hand side elements of the rule 
+being matched. The last one is the size of the right hand side rule.
 
-By default, this macro computes a location that ranges from the beginning of
-the first element to the end of the last element. It is defined this way:
+By default, it is defined this way:
 
 @example
 @group
-#define YYLLOC_DEFAULT(Current, Last)           \
-  Current.last_line     = Last.last_line;       \
-  Current.last_column   = Last.last_column;
+#define YYLLOC_DEFAULT(Current, Rhs, N)         \
+  Current.last_line   = Rhs[N].last_line;       \
+  Current.last_column = Rhs[N].last_column;
 @end group
 @end example
 
-@c not Documentation for the old (?) YYLLOC_DEFAULT
+When defining @code{YYLLOC_DEFAULT}, you should consider that:
 
-@noindent
+@itemize @bullet
+@item 
+All arguments are free of side-effects. However, only the first one (the
+result) should be modified by @code{YYLLOC_DEFAULT}.
 
-Most of the time, the default action for locations is general enough to
-suppress location dedicated code from most actions.
+@item
+Before @code{YYLLOC_DEFAULT} is executed, the output parser sets @code{@@$}
+to @code{@@1}.
+
+@item
+For consistency with semantic actions, valid indexes for the location array
+range from 1 to @var{n}.
+@end itemize
 
 @node Declarations, Multiple Parsers, Locations, Grammar File
 @section Bison Declarations
