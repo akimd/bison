@@ -1,5 +1,15 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h, src/state.c (errs_new, errs_dup): New.
+	* src/LR0.c (set_state_table): Let all the states have an errs,
+	even if reduced to 0.
+	* src/print.c (print_errs, print_reductions): Adjust.
+	* src/output.c (output_actions, action_row): Adjust.
+	* src/conflicts.c (resolve_sr_conflict): Adjust.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (set_goto_map, initialize_F): Use SHIFT_SYMBOL.
 
 2001-12-27  Akim Demaille  <akim@epita.fr>

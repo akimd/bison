@@ -99,12 +99,7 @@ typedef struct shifts
   short shifts[1];
 } shifts;
 
-
-#define SHIFTS_ALLOC(Nshifts)						\
-  (shifts *) xcalloc ((unsigned) (sizeof (shifts) 			\
-                                  + (Nshifts - 1) * sizeof (short)), 1)
-
-shifts * shifts_new PARAMS ((int n));
+shifts *shifts_new PARAMS ((int n));
 
 
 /* What is the symbol which is shifted by SHIFTS->shifts[Shift]?  Can
@@ -149,9 +144,8 @@ typedef struct errs
   short errs[1];
 } errs;
 
-#define ERRS_ALLOC(Nerrs)						\
-  (errs *) xcalloc ((unsigned) (sizeof (errs) 				\
-                                  + (Nerrs - 1) * sizeof (short)), 1)
+errs *errs_new PARAMS ((int n));
+errs *errs_dup PARAMS ((errs *src));
 
 
 /*-------------.
