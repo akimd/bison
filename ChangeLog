@@ -1,3 +1,9 @@
+2001-12-15  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (copy_action): When --yacc, don't append a `;'
+	to the user action: let it fail if lacking.
+	Suggested by Aharon Robbins and Tom Tromey.
+
 2001-12-14  Akim Demaille  <akim@epita.fr>
 
 	* src/lex.c (literalchar): Simply return the char you decoded, non

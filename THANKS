@@ -2,6 +2,7 @@ Bison was originally written by Robert Corbett.  It would not be what
 it is today without the invaluable help of these people:
 
 Airy Andre              Airy.Andre@edf.fr
+Aharon Robbins          arnold@gnu.org
 Akim Demaille           akim@freefriends.org
 Albert Chin-A-Young     china@thewrittenword.com
 Alexander Belopolsky    alexb@rentec.com
@@ -28,6 +29,7 @@ Richard Stallman        rms@gnu.org
 Robert Anisko           anisko_r@epita.fr
 Shura                   debil_urod@ngs.ru
 Tom Lane                tgl@sss.pgh.pa.us
+Tom Tromey              tromey@cygnus.com
 Wolfram Wagner          ww@mpi-sb.mpg.de
 Wwp                     subscript@free.fr
 
