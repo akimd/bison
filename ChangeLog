@@ -1,3 +1,21 @@
+2002-03-18  Paul Eggert  <eggert@twinsun.com>
+
+	Fix the problem with union yyalloc and C++.
+
+	* src/bison.simple (union yyalloc, YYSTACK_GAP_MAX, YYSTACK_BYTES,
+	YYSTACK_RELOCATE): Do not define if yyoverflow is defined, or if
+	this is a C++ parser and YYSTYPE or YYLTYPE has nontrivial
+	constructors or destructors.
+	(yymemcpy) [! defined YYSTACK_RELOCATE]: Do not define; not needed.
+	(yyparse) [! defined YYSTACK_RELOCATE]: Do not relocate the stack.
+
+	* src/reader.c (parse_union_decl): Define YYSTYPE_IS_TRIVIAL if we
+	use our YYSTYPE.  It must be trivial, or our own union wouldn't be
+	valid C++ anyway.
+	(readgram): Define YYSTYPE_IS_TRIVIAL if it is int.
+	(reader_output_yylsp): Define YYLTYPE_IS_TRIVIAL if we use our
+	YYLTYPE.
+
 2002-03-12  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c (compute_output_file_names): s/would be both named/
