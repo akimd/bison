@@ -294,7 +294,8 @@ blanks   [ \t\f]+
       YY_OBS_FINISH;
       yylval->symbol = symbol_get (last_string, *yylloc);
       symbol_class_set (yylval->symbol, token_sym, *yylloc);
-      symbol_user_token_number_set (yylval->symbol, last_string[1], *yylloc);
+      symbol_user_token_number_set (yylval->symbol,
+				    (unsigned char) last_string[1], *yylloc);
       YY_OBS_FREE;
       yy_pop_state ();
       return ID;
