@@ -1,5 +1,5 @@
 /* Fake libiberty.h for Bison.
-   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,8 +22,6 @@
 
 #ifndef BISON_LIBIBERTY_H_
 # define BISON_LIBIBERTY_H_ 1
-
-# define PARAMS(Args) Args
 
 # ifndef __attribute__
 #  if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8) || __STRICT_ANSI__

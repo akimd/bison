@@ -1,5 +1,5 @@
 /* Timing variables for measuring compiler performance.
-   Copyright (C) 2000, 2002 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2002, 2004 Free Software Foundation, Inc.
    Contributed by Alex Samuel <samuel@codesourcery.com>
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -76,17 +76,17 @@ typedef enum
 timevar_id_t;
 #undef DEFTIMEVAR
 
-extern void init_timevar PARAMS ((void));
-extern void timevar_push PARAMS ((timevar_id_t));
-extern void timevar_pop PARAMS ((timevar_id_t));
-extern void timevar_start PARAMS ((timevar_id_t));
-extern void timevar_stop PARAMS ((timevar_id_t));
-extern void timevar_get PARAMS ((timevar_id_t, struct timevar_time_def *));
-extern void timevar_print PARAMS ((FILE *));
+extern void init_timevar (void);
+extern void timevar_push (timevar_id_t);
+extern void timevar_pop (timevar_id_t);
+extern void timevar_start (timevar_id_t);
+extern void timevar_stop (timevar_id_t);
+extern void timevar_get (timevar_id_t, struct timevar_time_def *);
+extern void timevar_print (FILE *);
 
 /* Provided for backward compatibility.  */
-extern long get_run_time PARAMS ((void));
-extern void print_time PARAMS ((const char *, long));
+extern long get_run_time (void);
+extern void print_time (const char *, long);
 
 extern int timevar_report;
 
