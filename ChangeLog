@@ -1,3 +1,18 @@
+2002-12-30  Paul Eggert  <eggert@twinsun.com>
+
+	* src/scan-gram.l (<INITIAL,SC_AFTER_IDENTIFIER,SC_PRE_CODE>","):
+	Moved here from...
+	(<INITIAL>","): Here.  This causes stray "," to be treated
+	more uniformly.
+
+	* src/scan-gram.l (<SC_BRACED_CODE>"}"): Append ";" before the
+	last brace in braced code when not in Yacc mode, for compatibility
+	with Bison 1.35.  This resurrects the 2001-12-15 patch to
+	src/reader.c.
+
+	* src/reader.h (YYDECL): Use YYSTYPE, not its deprecated alias
+	yystype.  This follows up the 2002-12-24 YYSTYPE bug fix.
+
 2002-12-28  Paul Eggert  <eggert@twinsun.com>
 
 	* src/symtab.c (symbol_make_alias): Set type of SYMVAL to be
