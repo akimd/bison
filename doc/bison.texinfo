@@ -3102,13 +3102,13 @@ When @code{YYLTYPE} is not defined, Bison uses a default structure type with
 four members:
 
 @example
-struct
+typedef struct YYLTYPE
 @{
   int first_line;
   int first_column;
   int last_line;
   int last_column;
-@}
+@} YYLTYPE;
 @end example
 
 @node Actions and Locations
@@ -3417,7 +3417,23 @@ This says that the two alternative types are @code{double} and @code{symrec
 in the @code{%token} and @code{%type} declarations to pick one of the types
 for a terminal or nonterminal symbol (@pxref{Type Decl, ,Nonterminal Symbols}).
 
-Note that, unlike making a @code{union} declaration in C, you do not write
+As an extension to @acronym{POSIX}, a tag is allowed after the
+@code{union}.  For example:
+
+@example
+@group
+%union value @{
+  double val;
+  symrec *tptr;
+@}
+@end group
+@end example
+
+specifies the union tag @code{value}, so the corresponding C type is
+@code{union value}.  If you do not specify a tag, it defaults to
+@code{YYSTYPE}.
+
+Note that, unlike making a @code{union} declaration in C, you need not write
 a semicolon after the closing brace.
 
 @node Type Decl
@@ -6452,13 +6468,9 @@ macro is deprecated, and is supported only for Yacc like parsers.
 @xref{Pure Calling,, Calling Conventions for Pure Parsers}.
 @end deffn
 
-@deffn {Macro} YYLTYPE
-Macro for the data type of @code{yylloc}; a structure with four
+@deffn {Type} YYLTYPE
+Data type of @code{yylloc}; by default, a structure with four
 members.  @xref{Location Type, , Data Types of Locations}.
-@end deffn
-
-@deffn {Type} yyltype
-Default value for YYLTYPE.
 @end deffn
 
 @deffn {Macro} YYMAXDEPTH
@@ -6485,8 +6497,8 @@ grow its internal stacks.  Do @emph{not} define @code{YYSTACK_USE_ALLOCA}
 to anything else.
 @end deffn
 
-@deffn {Macro} YYSTYPE
-Macro for the data type of semantic values; @code{int} by default.
+@deffn {Type} YYSTYPE
+Data type of semantic values; @code{int} by default.
 @xref{Value Type, ,Data Types of Semantic Values}.
 @end deffn
 
