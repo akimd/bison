@@ -144,7 +144,8 @@ bison (GNU Bison) %s"), VERSION);
   putc ('\n', stream);
 
   fputs (_("\
-Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"),
+Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n\
+Free Software Foundation, Inc.\n"),
 	 stream);
 
   fputs (_("\

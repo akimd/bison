@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-01-21 20:34+0100\n"
-"PO-Revision-Date: 2001-12-10 15:59+0900\n"
+"POT-Creation-Date: 2002-01-23 14:12+0100\n"
+"PO-Revision-Date: 2002-01-23 14:16+0100\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -209,11 +209,13 @@ msgstr "bison (GNU Bison) %s"
 
 #: src/getargs.c:146
 msgid ""
-"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
+"Free Software Foundation, Inc.\n"
 msgstr ""
-"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
+"Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:150
+#: src/getargs.c:151
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -224,22 +226,22 @@ msgstr ""
 "これはフリーソフトウェアです -- 複製についての条件はソースを見ましょう。\n"
 "一切の保証はありません -- 商業性や目的適合性についての保証すらありません。\n"
 
-#: src/getargs.c:223 src/lex.c:694
+#: src/getargs.c:224 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' は最早サポートされません"
 
-#: src/getargs.c:247
+#: src/getargs.c:248
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "`%s --help' で詳細情報を参照してください\n"
 
-#: src/getargs.c:254
+#: src/getargs.c:255
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: 文法ファイルが指定されていません\n"
 
-#: src/getargs.c:258
+#: src/getargs.c:259
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: `%s' の後ろの余分な引数は無視されました\n"
@@ -292,12 +294,12 @@ msgstr "閉じられていないタイプ名があります"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "複数文字のリテラルトークンには \"...\" を使いましょう"
 
-#: src/lex.c:667
+#: src/lex.c:678
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr "`%s' は引数を受け付けません: %s"
 
-#: src/lex.c:683
+#: src/lex.c:694
 #, c-format
 msgid "`%s' requires an argument"
 msgstr "`%s' オプションは引数を要求します"

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-01-21 20:34+0100\n"
-"PO-Revision-Date: 2002-01-18 12:40 CET\n"
+"POT-Creation-Date: 2002-01-23 14:12+0100\n"
+"PO-Revision-Date: 2002-01-23 14:16+0100\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -214,11 +214,13 @@ msgstr "bison (GNU Bison) %s"
 
 #: src/getargs.c:146
 msgid ""
-"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
+"Free Software Foundation, Inc.\n"
 msgstr ""
-"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
+"Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:150
+#: src/getargs.c:151
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -227,22 +229,22 @@ msgstr ""
 "sottoposta la copia. NON c'è ALCUNA garanzia, neanche di\n"
 "COMMERCIABILITA` o di ADEGUATEZZA AD UN PARTICOLARE SCOPO.\n"
 
-#: src/getargs.c:223 src/lex.c:694
+#: src/getargs.c:224 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' non è più supportato"
 
-#: src/getargs.c:247
+#: src/getargs.c:248
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Provare `%s --help' per ulteriori informazioni.\n"
 
-#: src/getargs.c:254
+#: src/getargs.c:255
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: nessun file grammatica specificato\n"
 
-#: src/getargs.c:258
+#: src/getargs.c:259
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: ignorati gli argomenti successivi a `%s'\n"
@@ -296,12 +298,12 @@ msgstr "nome di tipo non terminato"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "usa \"...\" per token letterali di più caratteri"
 
-#: src/lex.c:667
+#: src/lex.c:678
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr "`%s' non supporta argomenti: %s"
 
-#: src/lex.c:683
+#: src/lex.c:694
 #, c-format
 msgid "`%s' requires an argument"
 msgstr "`%s' richiede un argomento"

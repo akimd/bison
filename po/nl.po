@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-01-13 12:36+0000\n"
+"POT-Creation-Date: 2002-01-23 14:12+0100\n"
 "PO-Revision-Date: 2002-01-21 17:09+0000\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -223,11 +223,13 @@ msgstr "bison (GNU Bison) %s"
 
 #: src/getargs.c:146
 msgid ""
-"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
+"Free Software Foundation, Inc.\n"
 msgstr ""
-"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
+"Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:150
+#: src/getargs.c:151
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -236,22 +238,22 @@ msgstr ""
 "garantie; zelfs niet voor VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD\n"
 "DOEL.\n"
 
-#: src/getargs.c:223 src/lex.c:694
+#: src/getargs.c:224 src/lex.c:705
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' wordt niet meer ondersteund"
 
-#: src/getargs.c:247
+#: src/getargs.c:248
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Probeer `%s --help' voor meer informatie.\n"
 
-#: src/getargs.c:254
+#: src/getargs.c:255
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: geen grammaticabestand opgegeven\n"
 
-#: src/getargs.c:258
+#: src/getargs.c:259
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argumenten na `%s' worden genegeerd\n"
@@ -305,12 +307,12 @@ msgstr "niet-beëindigde typenaam"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "gebruik \"...\" voor letterlijke tokens die meerder karakters bevatten"
 
-#: src/lex.c:667
+#: src/lex.c:678
 #, c-format
 msgid "`%s' supports no argument: %s"
 msgstr "`%s' ondersteunt geen argument: %s"
 
-#: src/lex.c:683
+#: src/lex.c:694
 #, c-format
 msgid "`%s' requires an argument"
 msgstr "`%s' heeft een argument nodig"
