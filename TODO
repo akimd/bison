@@ -5,7 +5,13 @@
 
 * src/output.c
 ** Output sub-skeleton files.
-** cleanup dirty CPP-out code.
+** Cleanup dirty CPP-out code.
 
-* Options
-** Synchronize percent options and command line options.
+* src/getargs.c src/lex.c
+** Synchronize percent and command line options.
+
+* src/macrotab.[ch]
+** Removing warnings when compiling. (gcc-warnings)
+
+* src/print_graph.c
+** Find the best graph parameters.
