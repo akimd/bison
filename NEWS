@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.34a:
+Changes in version 1.35, 2002-03-25:
 
 * C Skeleton
   Some projects use Bison's C parser with C++ compilers, and define
