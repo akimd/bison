@@ -2,7 +2,7 @@ Bison News
 ----------
 
 Changes in version 1.30a:
-
+
 Changes in version 1.30:
 
 * `--defines' and `--graph' have now an optionnal argument which is the
@@ -12,10 +12,8 @@ Changes in version 1.30:
 * `%source_extension' and `%header_extension' are removed, failed
   experiment.
 
-* The test suite is more portable.
-
-* Better portability.
-
+* Portability fixes.
+
 Changes in version 1.29:
 
 * The output file does not define const, as this caused problems when used
@@ -47,6 +45,9 @@ Changes in version 1.29:
 * New directives.
   `%yacc', `%fixed_output_files', `%defines', `%no_parser', `%verbose',
   `%debug', `%source_extension' and `%header_extension'.
+
+* @$
+  Automatic location tracking.
 
 Changes in version 1.28:
 
