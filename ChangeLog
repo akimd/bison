@@ -1,5 +1,10 @@
 2000-12-19  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (open_files): Yipee!  We no longer need all the code
+	looking for `/tmp' since we have no tmp file.
+
+2000-12-19  Akim Demaille  <akim@epita.fr>
+
 	* src/system.h (EXT_TAB, EXT_OUTPUT, EXT_STYPE_H, EXT_GUARD_C):
 	New macros.
 	* src/files.c (open_files): Less dependency on MSDOS etc.
