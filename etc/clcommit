@@ -49,7 +49,7 @@
 # -h,-?   --help        print short or long help message
 
 name=clcommit
-: ${CVS=cvs}
+: ${CVS="runsocks cvs"}
 cvsopt=
 updateopt=
 commitopt=
