@@ -7,6 +7,13 @@ Changes in version 1.50a:
 
 * Indonesian translation thanks to Tedi Heriyanto.
 
+* GLR parsers
+  Fix spurious parse errors.
+
+* Pure parsers
+  Some people redefine yyerror to steal yyparse' private variables.
+  Reenable this trick until an official feature replaces it.
+
 Changes in version 1.50, 2002-10-04:
 
 * GLR parsing

@@ -1,3 +1,31 @@
+2002-10-13  Akim Demaille  <akim@epita.fr>
+
+	GLR parsers sometimes raise parse errors instead of performing the
+	default reduction.
+	Reported by Charles-Henry de Boysson.
+
+	* tests/calc.at (_AT_CHECK_CALC, _AT_CHECK_CALC_ERROR): Don't
+	check the length of the	traces when %glr.
+	(_AT_CHECK_CALC_ERROR): Also skip `^Stack' lines, coming from
+	GLR's traces.
+	(AT_CHECK_CALC_LALR, AT_CHECK_CALC_GLR): New.
+	Test GLR parsers.
+	* data/glr.c (YYLEFTMOST_STATE): Fix its value.
+	(yyltype): Remove the yy prefix from the member names.
+	(yytable): Complete its comment.
+	(yygetLRActions): Map error action number from YYTABLE from
+	YYTABLE_NINF to 0.
+	(yyisErrorAction): No longer compare YYACTION to YYPACT_NINF
+	(which was a bug: it should have been YYTABEL_NINF, and yet it was
+	not satisfying as we could compare an YYACTION computed from
+	YYDEFACT to YYTABLE_NINF although they are unrelated): 0 is the
+	only value for error actions.
+	(yyreportParseError): In verbose parse error messages, don't issue
+	`error' in the list of expected tokens.
+	* data/yacc.c (yyparse) <yybackup>: Rewrite the decoding of the
+	next action to perform to match glr.c's decoding.
+	(yytable): Complete its comment.
+
 2002-10-13  Paul Eggert  <eggert@twinsun.com>
 
 	Fix problem reported by Henrik Grubbstroem in

@@ -16,8 +16,6 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
-AT_BANNER([[Simple Calculator.]])
-
 ## ---------------------------------------------------- ##
 ## Compile the grammar described in the documentation.  ##
 ## ---------------------------------------------------- ##
@@ -275,8 +273,8 @@ main (int argc, const char **argv)
 # Produce `calc.y'.
 m4_define([AT_DATA_CALC_Y],
 [_AT_DATA_CALC_Y($[1], $[2], $[3],
-                 [m4_bmatch([$1], [--yyerror-verbose],
-                            [[%error-verbose]])])])
+                 [m4_bpatsubst([$1], [--[^ ]*])])
+])
 
 
 
@@ -284,17 +282,22 @@ m4_define([AT_DATA_CALC_Y],
 # ------------------------------------------------------------
 # Run `calc' on INPUT and expect no STDOUT nor STDERR.
 #
-# If BISON-OPTIONS contains `--debug', then NUM-STDERR-LINES is the number
-# of expected lines on stderr.
+# If BISON-OPTIONS contains `%debug' but not `%glr-parser', then
+# NUM-STDERR-LINES is the number of expected lines on stderr.
+#
+# We don't count GLR's traces yet, since its traces are somewhat
+# different from LALR's.
 m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
 [[$2
 ]])
-AT_PARSER_CHECK([./calc input], 0, [], [stderr])dnl
-AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
-         [m4_bmatch([$1], [--debug],
-                    [$3], [0])
-])
+AT_PARSER_CHECK([./calc input], 0, [], [stderr])
+m4_bmatch([$1],
+  [%debug.*%glr\|%glr.*%debug],
+     [],
+  [%debug],
+     [AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0, [$3
+])])
 ])
 
 
@@ -309,12 +312,12 @@ AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0,
 # If BISON-OPTIONS contains `--location', then make sure the ERROR-LOCATION
 # is correctly output on stderr.
 #
-# If BISON-OPTIONS contains `--yyerror-verbose', then make sure the
+# If BISON-OPTIONS contains `%error-verbose', then make sure the
 # IF-YYERROR-VERBOSE message is properly output after `parse error, '
 # on STDERR.
 #
-# If BISON-OPTIONS contains `--debug', then NUM-STDERR-LINES is the number
-# of expected lines on stderr.
+# If BISON-OPTIONS contains `%debug' but not `%glr', then NUM-STDERR-LINES
+# is the number of expected lines on stderr.
 m4_define([_AT_CHECK_CALC_ERROR],
 [m4_bmatch([$2], [^/],
            [AT_PARSER_CHECK([./calc $2], 0, [], [stderr])],
@@ -322,9 +325,11 @@ m4_define([_AT_CHECK_CALC_ERROR],
 [[$2
 ]])
 AT_PARSER_CHECK([./calc input], 0, [], [stderr])])
-
-m4_bmatch([$1], [--debug],
-[AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0, [$3
+m4_bmatch([$1],
+  [%debug.*%glr\|%glr.*%debug],
+     [],
+  [%debug],
+     [AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0, [$3
 ])])
 
 # Normalize the observed and expected error messages, depending upon the
@@ -332,6 +337,7 @@ m4_bmatch([$1], [--debug],
 # 1. Remove the traces from observed.
 sed '/^Starting/d
 /^Entering/d
+/^Stack/d
 /^Reading/d
 /^Reducing/d
 /^Shifting/d
@@ -350,7 +356,7 @@ m4_bmatch([$1], [--location], [],
 [[sed 's/^[-0-9.]*: //' expout >at-expout
 mv at-expout expout]])
 # 4. If error-verbose is not used, strip the`, unexpected....' part.
-m4_bmatch([$1], [--yyerror-verbose], [],
+m4_bmatch([$1], [%error-verbose], [],
 [[sed 's/parse error, .*$/parse error/' expout >at-expout
 mv at-expout expout]])
 # 5. Check
@@ -358,8 +364,8 @@ AT_CHECK([cat stderr], 0, [expout])
 ])
 
 
-# AT_CHECK_CALC([BISON-OPTIONS], [PARSER-EXPECTED-STDERR])
-# --------------------------------------------------------
+# AT_CHECK_CALC([BISON-OPTIONS])
+# ------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC],
@@ -369,7 +375,7 @@ AT_SETUP([Calculator $1])
 AT_DATA_CALC_Y([$1])
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison calc.y -o calc.c m4_bpatsubst([$1], [--yyerror-verbose])],
+AT_CHECK([bison calc.y -o calc.c m4_bpatsubst([$1], [%[^ ]*])],
          [0], [], [])
 
 AT_COMPILE([calc])
@@ -427,22 +433,62 @@ AT_CLEANUP
 
 
 
-# ------------------ #
-# Test the parsers.  #
-# ------------------ #
+# ------------------------ #
+# Simple LALR Calculator.  #
+# ------------------------ #
 
-AT_CHECK_CALC()
+AT_BANNER([[Simple LALR Calculator.]])
 
-AT_CHECK_CALC([--defines])
-AT_CHECK_CALC([--locations])
-AT_CHECK_CALC([--name-prefix=calc])
-AT_CHECK_CALC([--verbose])
-AT_CHECK_CALC([--yacc])
-AT_CHECK_CALC([--yyerror-verbose])
+# AT_CHECK_CALC_LALR([BISON-OPTIONS])
+# -----------------------------------
+# Start a testing chunk which compiles `calc' grammar with
+# BISON-OPTIONS, and performs several tests over the parser.
+m4_define([AT_CHECK_CALC_LALR],
+[AT_CHECK_CALC($@)])
 
-AT_CHECK_CALC([--locations --yyerror-verbose])
+AT_CHECK_CALC_LALR()
 
-AT_CHECK_CALC([--defines --locations --name-prefix=calc --verbose --yacc --yyerror-verbose])
+AT_CHECK_CALC_LALR([--defines])
+AT_CHECK_CALC_LALR([--locations])
+AT_CHECK_CALC_LALR([--name-prefix=calc])
+AT_CHECK_CALC_LALR([--verbose])
+AT_CHECK_CALC_LALR([--yacc])
+AT_CHECK_CALC_LALR([%error-verbose])
 
-AT_CHECK_CALC([--debug])
-AT_CHECK_CALC([--debug --defines --locations --name-prefix=calc --verbose --yacc --yyerror-verbose])
+AT_CHECK_CALC_LALR([%error-verbose --locations])
+
+AT_CHECK_CALC_LALR([%error-verbose --defines --locations --name-prefix=calc --verbose --yacc])
+
+AT_CHECK_CALC_LALR([%debug])
+AT_CHECK_CALC_LALR([%error-verbose %debug --defines --locations --name-prefix=calc --verbose --yacc])
+
+
+# ----------------------- #
+# Simple GLR Calculator.  #
+# ----------------------- #
+
+AT_BANNER([[Simple GLR Calculator.]])
+
+# AT_CHECK_CALC_GLR([BISON-OPTIONS])
+# ----------------------------------
+# Start a testing chunk which compiles `calc' grammar with
+# BISON-OPTIONS and %glr-parser, and performs several tests over the parser.
+m4_define([AT_CHECK_CALC_GLR],
+[AT_CHECK_CALC([%glr_parser] $@)])
+
+
+AT_CHECK_CALC_GLR()
+
+AT_CHECK_CALC_GLR([--defines])
+AT_CHECK_CALC_GLR([--locations])
+AT_CHECK_CALC_GLR([--name-prefix=calc])
+AT_CHECK_CALC_GLR([--verbose])
+AT_CHECK_CALC_GLR([--yacc])
+AT_CHECK_CALC_GLR([%error-verbose])
+
+AT_CHECK_CALC_GLR([%error-verbose --locations])
+
+AT_CHECK_CALC_GLR([%error-verbose --defines --locations --name-prefix=calc --verbose --yacc])
+
+AT_CHECK_CALC_GLR([%debug])
+AT_CHECK_CALC_GLR([%error-verbose %debug --defines --locations --name-prefix=calc --verbose --yacc])
