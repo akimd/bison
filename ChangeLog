@@ -1,5 +1,19 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (count_sr_conflicts, count_rr_conflicts): Return
+	the result instead of using...
+	(src_total, rrc_total, src_count, rrc_count): Remove.
+	(any_conflicts): Remove.
+	(print_conflicts): Split into...
+	(conflicts_print, conflicts_output): New.
+	* src/conflicts.h: Adjust.
+	* src/main.c (main): Invoke both conflicts_output and conflicts_print.
+	* src/print.c (print_grammar): Issue `\n' between to rule outputs.
+	* tests/regression.at (Conflicts): New.
+	Reported by Tom Lane.
+
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (Invalid input): Remove, duplicate with
 	``Invalid input: 1''.
 

@@ -43,6 +43,101 @@ AT_CHECK([bison -v duplicate.y -o duplicate.c], 0, ignore, ignore)
 AT_CLEANUP([duplicate.*])
 
 
+## ----------- ##
+## Conflicts.  ##
+## ----------- ##
+
+AT_SETUP([Conflicts])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%%
+exp: exp OP exp | NUM;
+]])
+
+AT_CHECK([bison input.y -o input.c -v], 0, [],
+[input.y contains 1 shift/reduce conflict.
+])
+
+# Check the contents of the report.
+AT_CHECK([cat input.output], [],
+[[State 4 contains 1 shift/reduce conflict.
+
+Grammar
+
+rule 1    exp -> exp OP exp
+rule 2    exp -> NUM
+
+Terminals, with rules where they appear
+
+$ (-1)
+error (256)
+NUM (257) 2
+OP (258) 1
+
+Nonterminals, with rules where they appear
+
+exp (5)
+    on left: 1 2, on right: 1
+
+
+state 0
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 2
+
+
+
+state 1
+
+    exp  ->  NUM .   (rule 2)
+
+    $default	reduce using rule 2 (exp)
+
+
+
+state 2
+
+    exp  ->  exp . OP exp   (rule 1)
+
+    $   	go to state 5
+    OP  	shift, and go to state 3
+
+
+
+state 3
+
+    exp  ->  exp OP . exp   (rule 1)
+
+    NUM 	shift, and go to state 1
+
+    exp 	go to state 4
+
+
+
+state 4
+
+    exp  ->  exp . OP exp   (rule 1)
+    exp  ->  exp OP exp .   (rule 1)
+
+    OP  	shift, and go to state 3
+
+
+
+state 5
+
+    $   	go to state 6
+
+
+
+state 6
+
+    $default	accept
+]])
+
+AT_CLEANUP(input.c input.output)
+
 
 ## ---------------------- ##
 ## Mixing %token styles.  ##
