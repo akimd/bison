@@ -1,3 +1,8 @@
+2003-02-02  Akim Demaille  <akim@epita.fr>
+
+	* src/scan-skel.l: Scan more than one inert character per yylex
+	invocation.
+
 2003-02-01  Paul Eggert  <eggert@twinsun.com>
 
 	Version 1.875a.
