@@ -1,5 +1,14 @@
 2002-01-08  Akim Demaille  <akim@epita.fr>
 
+	* src/getargs.c (AS_FILE_NAME): New.
+	(getargs): Use it to convert DOSish file names.
+	* src/files.c (base_name): Rename as full_base_name to avoid
+	clashes with `base_name ()'.
+	(filename_split): New.
+	(compute_base_names): N-th rewrite, using filename_split.
+
+2002-01-08  Akim Demaille  <akim@epita.fr>
+
 	* lib/basename.c, lib/dirname.h, lib/dirname.c, lib/memrchr.c:
 	New, stolen from the Fileutils 4.1.
 	* lib/Makefile.am (libbison_a_SOURCES): Adjust.
