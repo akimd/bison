@@ -21,6 +21,11 @@
 #ifndef LALR_H_
 # define LALR_H_
 
+
+/* Import the definition of CORE, SHIFTS and REDUCTIONS. */
+# include "state.h"
+
+
 /* Compute how to make the finite state machine deterministic; find
    which rules need lookahead in each state, and which lookahead
    tokens they accept.  */

@@ -22,7 +22,7 @@ noinst_HEADERS = alloc.h closure.h complain.h \
  derives.h \
  files.h getargs.h gram.h lalr.h lex.h \
  output.h state.h	\
- symtab.h system.h types.h
+ reader.h symtab.h system.h types.h
 
 data_DATA = bison.simple bison.hairy
 
