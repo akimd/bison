@@ -1,3 +1,8 @@
+2001-08-10  Akim Demaille  <akim@epita.fr>
+
+	* src/system.h: Provide default declarations for stpcpy, strndup,
+	and strnlen.
+
 2001-08-10  Robert Anisko  <anisko_r@epita.fr>
 
 	* doc/bison.texinfo (Locations): Update @$ stuff.
@@ -9,7 +14,7 @@
 
 2001-08-08  Marc Autret  <autret_m@epita.fr>
 
-	* doc/bison.texinfo: Change @samp{$<@dots{}>} to 
+	* doc/bison.texinfo: Change @samp{$<@dots{}>} to
 	@samp{$<@dots{}>@var{n}} in Section Actions in Mid-Rule.
 	Reported by Fabrice Bauzac.
 
@@ -19,11 +24,11 @@
 	* src/vcg.c (output_node): Fix.
 	* src/vcg.h: Cleanup.
 	* src/print_graph.c: Add comments.
-	(node_output_size): New global variable. Simplify the formatting of 
+	(node_output_size): New global variable. Simplify the formatting of
 	the VCG graph output.
-	(print_actions): Unused code is now used. It notifies the final state 
+	(print_actions): Unused code is now used. It notifies the final state
 	and no action states in the VCG graph. It also give the reduce actions.
-	The `shift and goto' edges are red and the `go to state' edges are 
+	The `shift and goto' edges are red and the `go to state' edges are
 	blue.
 	Get the current node name and node_obstack by argument.
 	(node_obstack): New variable.

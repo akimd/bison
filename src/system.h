@@ -73,6 +73,26 @@ extern int errno;
 # define PARAMS(p) ()
 #endif
 
+
+
+/*---------------------.
+| Missing prototypes.  |
+`---------------------*/
+
+#if !HAVE_DECL_STPCPY
+char *stpcpy PARAMS ((char *dest, const char *src));
+#endif
+
+#if !HAVE_DECL_STRNDUP
+char *strndup PARAMS ((const char *s, size_t size));
+#endif
+
+#if !HAVE_DECL_STRNLEN
+size_t strnlen PARAMS ((const char *s, size_t maxlen));
+#endif
+
+
+
 /*-----------------.
 | GCC extensions.  |
 `-----------------*/
