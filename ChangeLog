@@ -1,3 +1,10 @@
+2001-12-04  Paul Eggert  <eggert@twinsun.com>
+
+	* src/bison.simple (YYPOINTER): New macro.
+	(YYSTACK_RELOCATE): Use it to avoid a GCC warning.
+	(yystpcpy): Use prototype if __STDC__ is defined, not just
+	if __cplusplus is defined.
+	
 2001-11-30  Akim Demaille  <akim@epita.fr>
 
 	* configure.in (WARNING_CFLAGS): Add -Werror when possible.
