@@ -136,7 +136,7 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison input.y -o input.c -v], 0, [],
+AT_CHECK([bison input.y -o input.c --report=all], 0, [],
 [input.y contains 1 shift/reduce conflict.
 ])
 
@@ -172,6 +172,8 @@ exp (6)
 state 0
 
     $axiom  ->  . exp $   (rule 0)
+    exp  ->  . exp OP exp   (rule 1)
+    exp  ->  . NUM   (rule 2)
 
     NUM 	shift, and go to state 1
 
@@ -206,7 +208,9 @@ state 3
 
 state 4
 
+    exp  ->  . exp OP exp   (rule 1)
     exp  ->  exp OP . exp   (rule 1)
+    exp  ->  . NUM   (rule 2)
 
     NUM 	shift, and go to state 1
 
@@ -216,8 +220,8 @@ state 4
 
 state 5
 
-    exp  ->  exp . OP exp   (rule 1)
-    exp  ->  exp OP exp .   (rule 1)
+    exp  ->  exp . OP exp  [$, OP]   (rule 1)
+    exp  ->  exp OP exp .  [$, OP]   (rule 1)
 
     OP  	shift, and go to state 4
 
@@ -244,14 +248,11 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison input.y -o input.c -v], 0, [], [])
+AT_CHECK([bison input.y -o input.c --report=all], 0, [], [])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
-[[Conflict in state 5 between rule 2 and token OP resolved as shift.
-
-
-Grammar
+[[Grammar
 
   Number, Line, Rule
     0   4 $axiom -> exp $
@@ -278,6 +279,8 @@ exp (6)
 state 0
 
     $axiom  ->  . exp $   (rule 0)
+    exp  ->  . exp OP exp   (rule 1)
+    exp  ->  . NUM   (rule 2)
 
     NUM 	shift, and go to state 1
 
@@ -312,7 +315,9 @@ state 3
 
 state 4
 
+    exp  ->  . exp OP exp   (rule 1)
     exp  ->  exp OP . exp   (rule 1)
+    exp  ->  . NUM   (rule 2)
 
     NUM 	shift, and go to state 1
 
@@ -322,13 +327,14 @@ state 4
 
 state 5
 
-    exp  ->  exp . OP exp   (rule 1)
-    exp  ->  exp OP exp .   (rule 1)
+    exp  ->  exp . OP exp  [$]   (rule 1)
+    exp  ->  exp OP exp .  [$]   (rule 1)
 
     OP  	shift, and go to state 4
 
     $default	reduce using rule 1 (exp)
 
+    Conflict between rule 2 and token OP resolved as reduce (%right OP).
 
 
 ]])

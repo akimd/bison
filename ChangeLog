@@ -1,5 +1,24 @@
 2002-05-26  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (state_t): `solved_conflicts' is a new member.
+	* src/LR0.c (new_state): Set it to 0.
+	* src/conflicts.h, src/conflicts.c (print_conflicts)
+	(free_conflicts, solve_conflicts): Rename as...
+	(conflicts_print, conflicts_free, conflicts_solve): these.
+	Adjust callers.
+	* src/conflicts.c (enum conflict_resolution_e)
+	(solved_conflicts_obstack): New, used by...
+	(log_resolution): this.
+	Adjust to attach the conflict resolution to each state.
+	Complete the description with the precedence/associativity
+	information.
+	(resolve_sr_conflict): Adjust.
+	* src/print.c (print_state): Output its solved_conflicts.
+	* tests/conflicts.at (Unresolved SR Conflicts)
+	(Solved SR Conflicts): Exercise --report=all.
+
+2002-05-26  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c, src/derives.c, src/gram.c, src/gram.h, src/lalr.c,
 	* src/nullable.c, src/output.c, src/print.c, src/print_graph.c,
 	* src/reader.c, src/reduce.c, src/state.h, src/symtab.h

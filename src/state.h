@@ -184,7 +184,12 @@ typedef struct state_s
   short lookaheadsp;
   int nlookaheads;
 
-  /* Its items. */
+  /* If some conflicts were solved thanks to precedence/associativity,
+     a human readable description of the resolution.  */
+  const char *solved_conflicts;
+
+  /* Its items.  Must be last, since ITEMS can be arbitrarily large.
+     */
   unsigned short nitems;
   item_number_t items[1];
 } state_t;

@@ -43,6 +43,7 @@ enum
     report_states = 1 << 0,
     report_itemsets = 1 << 1,
     report_lookaheads = 1 << 2,
+    report_solved_conflicts = 1 << 3,
     report_all = ~0
   };
 

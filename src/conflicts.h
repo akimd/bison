@@ -1,5 +1,5 @@
 /* Find and resolve or report look-ahead conflicts for bison,
-   Copyright 2000, 2001 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -22,10 +22,10 @@
 # define CONFLICTS_H_
 # include "state.h"
 
-void solve_conflicts PARAMS ((void));
+void conflicts_solve PARAMS ((void));
 void conflicts_print PARAMS ((void));
 void conflicts_output PARAMS ((FILE *out));
-void free_conflicts PARAMS ((void));
+void conflicts_free PARAMS ((void));
 
 /* Were there conflicts? */
 extern int expected_conflicts;

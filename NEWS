@@ -73,7 +73,7 @@ Changes in version 1.49b:
 * Semantic parser
   This old option, which has been broken for ages, is removed.
 
-* New translations
+* New translation
   Croatian, thanks to Denis Lackovic.
 
 * Incorrect token definitions
@@ -87,9 +87,14 @@ Changes in version 1.49b:
 * Reports
   In addition to --verbose, bison supports --report=THINGS, which
   produces additional information:
-
-  `itemset'      complete the core item sets with their closure
-  `lookahead'    explicitly associate lookaheads to items
+  - itemset
+    complete the core item sets with their closure
+  - lookahead
+    explicitly associate lookaheads to items
+  - solved
+    describe shift/reduce conflicts solving.
+    Bison used to systematically output this information on top of
+    the report.  Solved conflicts are now attached to their states.
 
 
 Changes in version 1.35, 2002-03-25:

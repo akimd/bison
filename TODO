@@ -40,22 +40,6 @@ When implementing multiple-%union support, bare the following in mind:
 Provide better assistance for understanding the conflicts by providing
 a sample text exhibiting the (LALR) ambiguity.
 
-* report
-Solved conflicts should not be reported in the beginning of the file.
-Rather they should be reported within each state description.  Also,
-now that the symbol providing the precedence of a rule is kept, it is
-possible to explain why a conflict was solved this way.  E.g., instead
-of
-
-   Conflict in state 8 between rule 2 and token '+' resolved as reduce.
-
-we can (in state 8) report something like
-
-   Conflict between rule 2 and token '+' resolved as reduce
-   because '*' < '+'.
-
-or something like that.
-
 * Coding system independence
 Paul notes:
 
