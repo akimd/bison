@@ -1,5 +1,5 @@
 /* Subroutines for bison
-   Copyright 1984, 1989, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 2000, 2001  Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -51,6 +51,6 @@ void closure PARAMS ((short *items, int n));
 void free_closure PARAMS ((void));
 
 extern short *itemset;
-extern short *itemsetend;
+extern size_t itemsetsize;
 
 #endif /* !CLOSURE_H_ */
