@@ -1,24 +1,25 @@
 Bison was originally written by Robert Corbett.  It would not be what
 it is today without the invaluable help of these people:
 
-Akim Demaille		akim@epita.fr
+Akim Demaille           akim@epita.fr
 Albert Chin-A-Young     china@thewrittenword.com
-Daniel Hagerty  	hag@gnu.org
-David J. MacKenzie  	djm@gnu.org
-Fabrice Bauzac		noon@cote-dazur.com
-Hans Aberg		haberg@matematik.su.se
-Jesse Thilo  		jthilo@gnu.org
-Jim Meyering  		meyering@gnu.org
-Juan Manuel Guerrero	ST001906@HRZ1.HRZ.TU-Darmstadt.De
-Keith Browne		kbrowne@legato.com
-Laurent Mascherpa	laurent.mascherpa@epita.fr
+Alexander Belopolsky    alexb@rentec.com
+Daniel Hagerty          hag@gnu.org
+David J. MacKenzie      djm@gnu.org
+Fabrice Bauzac          noon@cote-dazur.com
+Hans Aberg              haberg@matematik.su.se
+Jesse Thilo             jthilo@gnu.org
+Jim Meyering            meyering@gnu.org
+Juan Manuel Guerrero    ST001906@HRZ1.HRZ.TU-Darmstadt.De
+Keith Browne            kbrowne@legato.com
+Laurent Mascherpa       laurent.mascherpa@epita.fr
 Marc Autret             autret_m@epita.fr
-Neil Booth		NeilB@earthling.net
-Noah Friedman  		friedman@gnu.org
+Neil Booth              NeilB@earthling.net
+Noah Friedman           friedman@gnu.org
 Pascal Bart             pascal.bart@epita.fr
-Paul Eggert  		eggert@twinsun.com
-Piotr Gackiewicz	gacek@intertel.com.pl
-Richard Stallman  	rms@gnu.org
+Paul Eggert             eggert@twinsun.com
+Piotr Gackiewicz        gacek@intertel.com.pl
+Richard Stallman        rms@gnu.org
 Robert Anisko           anisko_r@epita.fr
 Shura                   debil_urod@ngs.ru
 

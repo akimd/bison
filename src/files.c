@@ -94,8 +94,7 @@ stringappend (const char *string1, const char *string2)
 static char *
 compute_header_macro (void)
 {
-  int ite;
-  char *macro_name;
+  char *macro_name, *cp;
 
   if (spec_defines_file)
     macro_name = xstrdup (spec_defines_file);
@@ -109,14 +108,12 @@ compute_header_macro (void)
       strcat (macro_name, header_extension);
     }
 
-  for (ite = 0; macro_name[ite]; ite++)
-    if (macro_name[ite] == '.')
-      macro_name[ite] = '_';
-    else
-      {
-	if (islower (macro_name[ite]))
-	  macro_name[ite] -= ('a' - 'A');
-      }
+  for (cp = macro_name; *cp; ++cp)
+    if (islower (*cp))
+      *cp = toupper (*cp);
+    else if (!isalnum (*cp))
+      *cp = '_';
+
   return macro_name;
 }
 

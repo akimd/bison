@@ -107,3 +107,25 @@ input.y:3: fatal error: no rules in the input grammar
 ])
 
 AT_CLEANUP
+
+
+## --------------------- ##
+## Invalid CPP headers.  ##
+## --------------------- ##
+
+AT_SETUP([Invalid CPP headers])
+
+mkdir input
+
+AT_DATA([input/input.y],
+[%%
+dummy:
+])
+
+AT_CHECK([bison --defines input/input.y])
+
+AT_CHECK([sed 1q input/input.tab.h], 0,
+[[#ifndef INPUT_INPUT_TAB_H
+]])
+
+AT_CLEANUP(input)

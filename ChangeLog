@@ -1,5 +1,11 @@
 2001-10-02  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Invalid CPP headers): New.
+	From Alexander Belopolsky.
+	* src/files.c (compute_header_macro): Map non alnum chars to `_'.
+
+2001-10-02  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (Invalid input): New.
 	* src/lex.c (lex): Be sure to set `token_buffer' in any case.
 	Reported by Shura.
