@@ -274,7 +274,7 @@ splice	 (\\[ \f\t\v]*\n)*
     num = strtoul (yytext, 0, 10);
     if (INT_MAX < num || errno)
       {
-	complain_at (*yylloc, _("invalid value: %s"), quote (yytext));
+	complain_at (*yylloc, _("integer out of range: %s"), quote (yytext));
 	num = INT_MAX;
       }
     yylval->integer = num;
@@ -435,7 +435,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^\'\\]+  YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a character"));
+    complain_at (*yylloc, _("unexpected end of file in a character literal"));
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -455,7 +455,8 @@ splice	 (\\[ \f\t\v]*\n)*
     unsigned long c = strtoul (yytext + 1, 0, 8);
     if (UCHAR_MAX < c)
       {
-	complain_at (*yylloc, _("invalid escape: %s"), quote (yytext));
+	complain_at (*yylloc, _("invalid escape sequence: %s"),
+		     quote (yytext));
 	YY_STEP;
       }
     else
@@ -468,7 +469,8 @@ splice	 (\\[ \f\t\v]*\n)*
     c = strtoul (yytext + 2, 0, 16);
     if (UCHAR_MAX < c || errno)
       {
-	complain_at (*yylloc, _("invalid escape: %s"), quote (yytext));
+	complain_at (*yylloc, _("invalid escape sequence: %s"),
+		     quote (yytext));
 	YY_STEP;
       }
     else
@@ -487,14 +489,16 @@ splice	 (\\[ \f\t\v]*\n)*
     int c = convert_ucn_to_byte (yytext);
     if (c < 0)
       {
-	complain_at (*yylloc, _("invalid escape: %s"), quote (yytext));
+	complain_at (*yylloc, _("invalid escape sequence: %s"),
+		     quote (yytext));
 	YY_STEP;
       }
     else
       obstack_1grow (&string_obstack, c);
   }
   \\(.|\n)	{
-    complain_at (*yylloc, _("unrecognized escape: %s"), quote (yytext));
+    complain_at (*yylloc, _("unrecognized escape sequence: %s"),
+		 quote (yytext));
     YY_OBS_GROW;
   }
   /* FLex wants this rule, in case of a `\<<EOF>>'. */
@@ -522,7 +526,7 @@ splice	 (\\[ \f\t\v]*\n)*
   \\                   YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a character"));
+    complain_at (*yylloc, _("unexpected end of file in a character literal"));
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
   }
@@ -609,7 +613,7 @@ splice	 (\\[ \f\t\v]*\n)*
   [^\"$%\'/<@\[\]\{\}]+|[$%/<@]|"<"{splice}"<"  YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a braced code"));
+    complain_at (*yylloc, _("unexpected end of file in `{ ... }'"));
     yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -636,7 +640,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%"                YY_OBS_GROW;
 
   <<EOF>> {
-    complain_at (*yylloc, _("unexpected end of file in a prologue"));
+    complain_at (*yylloc, _("unexpected end of file in `%%{ ... %%}'"));
     yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -723,7 +727,7 @@ handle_action_dollar (char *text, location_t location)
 			  rule_length, n, type_name);
 	}
       else
-	complain_at (location, _("invalid value: %s"), quote (text));
+	complain_at (location, _("integer out of range: %s"), quote (text));
     }
 }
 
@@ -795,7 +799,7 @@ handle_action_at (char *text, location_t location)
 			  rule_length, n);
 	}
       else
-	complain_at (location, _("invalid value: %s"), quote (text));
+	complain_at (location, _("integer out of range: %s"), quote (text));
     }
 }
 
