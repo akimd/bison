@@ -1,7 +1,12 @@
 2001-09-02  Marc Autret  <autret_m@epita.fr>
 
-	* src/macrotab.c: Remove.
-	* src/macrotab.h: Remove.
+	Now the files macro_tab.[ch] are named muscle_tab.[ch].
+	
+	* src/muscle_tab.c, src/muscle_tab.h: Add files.
+
+2001-09-02  Marc Autret  <autret_m@epita.fr>
+
+	* src/macrotab.c, src/macrotab.h: Remove.
 
 2001-09-01  Pascal Bart  <pascal.bart@epita.fr>
 
