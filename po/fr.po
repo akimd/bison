@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 1999-04-18 11:20-0400\n"
+"POT-Creation-Date: 1999-04-18 12:43-0400\n"
 "PO-Revision-Date: 1996-03-19 20:05 EST\n"
 "Last-Translator: Dominique Boucher <boucherd@IRO.UMontreal.CA>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -13,12 +13,12 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: allocate.c:59 allocate.c:75
+#: src/allocate.c:59 src/allocate.c:75
 #, c-format
 msgid "%s: memory exhausted\n"
 msgstr "%s: mémoire épuisée\n"
 
-#: closure.c:315
+#: src/closure.c:315
 msgid ""
 "\n"
 "\n"
@@ -32,7 +32,7 @@ msgstr ""
 "FIRSTS\n"
 "\n"
 
-#: closure.c:319
+#: src/closure.c:319
 #, c-format
 msgid ""
 "\n"
@@ -45,7 +45,7 @@ msgstr ""
 "%s firsts\n"
 "\n"
 
-#: closure.c:337
+#: src/closure.c:337
 msgid ""
 "\n"
 "\n"
@@ -57,7 +57,7 @@ msgstr ""
 "\n"
 "FDERIVES\n"
 
-#: closure.c:341
+#: src/closure.c:341
 #, c-format
 msgid ""
 "\n"
@@ -70,78 +70,78 @@ msgstr ""
 "%s derives\n"
 "\n"
 
-#: conflicts.c:199 conflicts.c:223
+#: src/conflicts.c:199 src/conflicts.c:223
 msgid "reduce"
 msgstr "réduction"
 
-#: conflicts.c:205 conflicts.c:219
+#: src/conflicts.c:205 src/conflicts.c:219
 msgid "shift"
 msgstr "décalage"
 
-#: conflicts.c:227
+#: src/conflicts.c:227
 msgid "an error"
 msgstr "une erreur"
 
-#: conflicts.c:299
+#: src/conflicts.c:299
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "Conflit à l'état %d entre la règle %d et le terminal %s résolu par %s.\n"
 
-#: conflicts.c:344
+#: src/conflicts.c:344
 #, c-format
 msgid "State %d contains"
 msgstr "L'état %d contient"
 
-#: conflicts.c:347 conflicts.c:392
+#: src/conflicts.c:347 src/conflicts.c:392
 msgid " 1 shift/reduce conflict"
 msgstr " 1 conflit décalage/réduction"
 
-#: conflicts.c:349 conflicts.c:394
+#: src/conflicts.c:349 src/conflicts.c:394
 #, c-format
 msgid " %d shift/reduce conflicts"
 msgstr " %d conflits décalage/réduction"
 
-#: conflicts.c:352 conflicts.c:397
+#: src/conflicts.c:352 src/conflicts.c:397
 msgid " and"
 msgstr " et"
 
-#: conflicts.c:355 conflicts.c:400
+#: src/conflicts.c:355 src/conflicts.c:400
 msgid " 1 reduce/reduce conflict"
 msgstr "1 conflit réduction/réduction"
 
-#: conflicts.c:357 conflicts.c:402
+#: src/conflicts.c:357 src/conflicts.c:402
 #, c-format
 msgid " %d reduce/reduce conflicts"
 msgstr " %d conflits réduction/réduction"
 
 #. If invoked under the name `yacc', use the output format
 #. specified by POSIX.
-#: conflicts.c:378
+#: src/conflicts.c:378
 msgid "conflicts: "
 msgstr "conflits: "
 
-#: conflicts.c:380
+#: src/conflicts.c:380
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d décalage/réduction"
 
-#: conflicts.c:384
+#: src/conflicts.c:384
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d réduction/réduction"
 
-#: conflicts.c:389
+#: src/conflicts.c:389
 #, c-format
 msgid "%s contains"
 msgstr "%s contient"
 
-#: conflicts.c:598 conflicts.c:712
+#: src/conflicts.c:598 src/conflicts.c:712
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[réduction par la règle %d (%s)\n"
 
-#: conflicts.c:609 print.c:217
+#: src/conflicts.c:609 src/print.c:217
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -150,17 +150,17 @@ msgstr ""
 "    $défaut\tréduction par la règle %d (%s)\n"
 "\n"
 
-#: conflicts.c:695 conflicts.c:707
+#: src/conflicts.c:695 src/conflicts.c:707
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tréduction par la règle %d (%s)\n"
 
-#: conflicts.c:733
+#: src/conflicts.c:733
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $défaut\tréduction par la règle %d (%s)\n"
 
-#: derives.c:106
+#: src/derives.c:106
 msgid ""
 "\n"
 "\n"
@@ -174,12 +174,12 @@ msgstr ""
 "DERIVES\n"
 "\n"
 
-#: derives.c:110
+#: src/derives.c:110
 #, c-format
 msgid "%s derives"
 msgstr "%s dérive"
 
-#: getargs.c:69
+#: src/getargs.c:69
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
@@ -199,108 +199,108 @@ msgstr ""
 "       [--file-prefix=préfixe] [--name-prefix=préfixe]\n"
 "       [--output=outfile] grammaire\n"
 
-#: getargs.c:162
+#: src/getargs.c:162
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: grammaire manquante\n"
 
-#: getargs.c:166
+#: src/getargs.c:166
 #, c-format
 msgid "%s: extra arguments ignored after '%s'\n"
 msgstr "%s: paramètres supplémentaires ignorés après «%s»\n"
 
-#: lalr.c:294
+#: src/lalr.c:294
 msgid "gotos"
 msgstr "gotos"
 
-#: lex.c:119
+#: src/lex.c:119
 msgid "unexpected `/' found and ignored"
 msgstr "`/' inattendu et ignoré"
 
-#: lex.c:148 reader.c:1107 reader.c:1332
+#: src/lex.c:148 src/reader.c:1107 src/reader.c:1332
 msgid "unterminated comment"
 msgstr "le commentaire ne se termine pas"
 
-#: lex.c:176
+#: src/lex.c:176
 msgid "Unexpected end of file"
 msgstr "Fin de fichier inattendue"
 
-#: lex.c:197
+#: src/lex.c:197
 msgid "unescaped newline in constant"
 msgstr "retour de chariot sans échappement dans une constante"
 
-#: lex.c:229
+#: src/lex.c:229
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "valeur octale à l'extérieur de l'intervalle 0...255: \\%o"
 
-#: lex.c:253
+#: src/lex.c:253
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "valeur hexadécimale supérieure à 255: \\x%x"
 
-#: lex.c:263
+#: src/lex.c:263
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "séquence d'échappement inconnue: `\\' suivie de `%s'"
 
-#: lex.c:396
+#: src/lex.c:396
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
 
-#: lex.c:475
+#: src/lex.c:475
 msgid "unterminated type name at end of file"
 msgstr "le nom de type ne se termine pas avant la fin de fichier"
 
-#: lex.c:478
+#: src/lex.c:478
 msgid "unterminated type name"
 msgstr "le nom de type ne se termine pas"
 
-#: main.c:152
+#: src/main.c:152
 #, fuzzy, c-format
 msgid "%s: fatal error: "
 msgstr "erreur fatale: %s\n"
 
-#: main.c:154
+#: src/main.c:154
 #, fuzzy, c-format
 msgid "%s:%d: fatal error: "
 msgstr "erreur fatale: %s\n"
 
-#: main.c:185
+#: src/main.c:185
 #, c-format
 msgid "%s: "
 msgstr ""
 
-#: main.c:187
+#: src/main.c:187
 #, c-format
 msgid "%s:%d: "
 msgstr ""
 
-#: main.c:252
+#: src/main.c:252
 #, c-format
 msgid "too many %s (max %d)"
 msgstr ""
 
-#: main.c:262
+#: src/main.c:262
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "erreur interne, %s\n"
 
-#: nullable.c:55
+#: src/nullable.c:55
 msgid "Entering set_nullable"
 msgstr "Entré dans set_nullable"
 
-#: output.c:1190
+#: src/output.c:1190
 #, c-format
 msgid "maximum table size (%s) exceeded"
 msgstr "taille maximum des tables (%s) dépassée"
 
-#: print.c:85
+#: src/print.c:85
 #, c-format
 msgid " type %d is %s\n"
 msgstr " le type %d est %s\n"
 
-#: print.c:92
+#: src/print.c:92
 #, c-format
 msgid ""
 "\n"
@@ -313,42 +313,42 @@ msgstr ""
 "état %d\n"
 "\n"
 
-#: print.c:136
+#: src/print.c:136
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (règle %d)"
 
-#: print.c:163
+#: src/print.c:163
 msgid "    $default\taccept\n"
 msgstr "    $défaut\taccepter\n"
 
-#: print.c:165
+#: src/print.c:165
 msgid "    NO ACTIONS\n"
 msgstr "    PAS D'ACTION\n"
 
 #. I.e. strcmp(tags[symbol],"$")==0
-#: print.c:181
+#: src/print.c:181
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \taller à l'état %d\n"
 
-#: print.c:183
+#: src/print.c:183
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tdécalage et aller à l'état %d\n"
 
-#: print.c:206
+#: src/print.c:206
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\terreur (non-associatif)\n"
 
-#: print.c:232
+#: src/print.c:232
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\taller à l'état %d\n"
 
 #. rule # : LHS -> RHS
-#: print.c:253
+#: src/print.c:253
 msgid ""
 "\n"
 "Grammar\n"
@@ -356,17 +356,17 @@ msgstr ""
 "\n"
 "Grammaire\n"
 
-#: print.c:258
+#: src/print.c:258
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "règle %-4d %s ->"
 
-#: print.c:264
+#: src/print.c:264
 msgid "\t\t/* empty */"
 msgstr "\t\t/* epsilon */"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: print.c:269
+#: src/print.c:269
 msgid ""
 "\n"
 "Terminals, with rules where they appear\n"
@@ -376,7 +376,7 @@ msgstr ""
 "Terminaux, suivis des règles où ils apparaissent\n"
 "\n"
 
-#: print.c:317
+#: src/print.c:317
 msgid ""
 "\n"
 "Nonterminals, with rules where they appear\n"
@@ -386,261 +386,262 @@ msgstr ""
 "Catégories, suivis des règles où elles apparaissent\n"
 "\n"
 
-#: print.c:343
+#: src/print.c:343
 msgid " on left:"
 msgstr " à gauche:"
 
-#: print.c:358
+#: src/print.c:358
 msgid " on right:"
 msgstr " à droite:"
 
-#: reader.c:147
+#: src/reader.c:147
 msgid "   Skipping to next \\n"
 msgstr "   Saut jusqu'au prochain \\n"
 
-#: reader.c:149
+#: src/reader.c:149
 #, c-format
 msgid "   Skipping to next %c"
 msgstr "   Saut jusqu'au prochain %c"
 
-#: reader.c:325
+#: src/reader.c:325
 #, c-format
 msgid "unrecognized: %s"
 msgstr "non reconnu: %s"
 
-#: reader.c:330
+#: src/reader.c:330
 msgid "no input grammar"
 msgstr "aucune grammaire en entrée"
 
-#: reader.c:334
+#: src/reader.c:334
 #, c-format
 msgid "unknown character: %s"
 msgstr "caractère inconnu: %s"
 
-#: reader.c:383 reader.c:398 reader.c:1043 reader.c:1275
+#: src/reader.c:383 src/reader.c:398 src/reader.c:1043 src/reader.c:1275
 msgid "unterminated string at end of file"
 msgstr "chaîne de caractères non terminée en fin de fichier"
 
-#: reader.c:386 reader.c:1046 reader.c:1058 reader.c:1269 reader.c:1283
+#: src/reader.c:386 src/reader.c:1046 src/reader.c:1058 src/reader.c:1269
+#: src/reader.c:1283
 msgid "unterminated string"
 msgstr "chaîne de caractère non terminée"
 
-#: reader.c:447
+#: src/reader.c:447
 msgid "unterminated comment in `%{' definition"
 msgstr "le commentaire ne se termine pas dans la section de définition (%{)"
 
-#: reader.c:458
+#: src/reader.c:458
 msgid "unterminated `%{' definition"
 msgstr "La section de définition (%{) ne termine pas avant la fin du fichier"
 
-#: reader.c:536 reader.c:757
+#: src/reader.c:536 src/reader.c:757
 #, c-format
 msgid "symbol %s redefined"
 msgstr "symbole %s redéfini"
 
-#: reader.c:546 reader.c:702 reader.c:764 reader.c:1806
+#: src/reader.c:546 src/reader.c:702 src/reader.c:764 src/reader.c:1806
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "redéclaration du type de %s"
 
-#: reader.c:556
+#: src/reader.c:556
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "`%s' n'est pas valide dans %s"
 
-#: reader.c:604
+#: src/reader.c:604
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "item %s non reconnu, un identificateur est attendu"
 
-#: reader.c:626
+#: src/reader.c:626
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "chaîne de caractères constante attendue plutôt que %s"
 
-#: reader.c:648
+#: src/reader.c:648
 #, c-format
 msgid "multiple %start declarations"
 msgstr "multiples déclarations %start"
 
-#: reader.c:650
+#: src/reader.c:650
 #, c-format
 msgid "invalid %start declaration"
 msgstr "la déclaration %start n'est pas valide"
 
-#: reader.c:670
+#: src/reader.c:670
 msgid "%type declaration has no <typename>"
 msgstr "la déclaration %type n'a pas de <nom_de_type>"
 
-#: reader.c:707
+#: src/reader.c:707
 msgid "invalid %%type declaration due to item: `%s'"
 msgstr "la déclaration %%type n'est pas valide à cause de l'item: %s"
 
-#: reader.c:753
+#: src/reader.c:753
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "redéfinition du niveau de priorité de %s"
 
-#: reader.c:776
+#: src/reader.c:776
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr ""
 "le texte n'est pas valide (%s) - le nombre devrait suivre l'identificateur"
 
-#: reader.c:786
+#: src/reader.c:786
 #, c-format
 msgid "unexpected item: %s"
 msgstr "item inattendu: %s"
 
-#: reader.c:810
+#: src/reader.c:810
 #, c-format
 msgid "multiple %union declarations"
 msgstr "multiples déclarations %union"
 
-#: reader.c:868
+#: src/reader.c:868
 msgid "unterminated comment at end of file"
 msgstr "le commentaire ne se termine pas avant la fin du fichier"
 
-#: reader.c:894
+#: src/reader.c:894
 msgid "unmatched close-brace (`}')"
 msgstr "accolade fermante `}' non appariée"
 
-#: reader.c:938
+#: src/reader.c:938
 #, c-format
 msgid "argument of %expect is not an integer"
 msgstr "le paramètre de %expect n'est pas un entier"
 
-#: reader.c:949
+#: src/reader.c:949
 msgid "invalid $ value"
 msgstr "la valeur de symbole $ n'est pas valide"
 
-#: reader.c:1029
+#: src/reader.c:1029
 msgid "unmatched right brace (`}')"
 msgstr "accolade fermante `}' non appariée"
 
-#: reader.c:1145 reader.c:1370
+#: src/reader.c:1145 src/reader.c:1370
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' n'a pas son type déclaré"
 
-#: reader.c:1161 reader.c:1385
+#: src/reader.c:1161 src/reader.c:1385
 #, c-format
 msgid "$%s of `%s' has no declared type"
 msgstr "$%s cd `%s' n'a pas son type déclaré"
 
-#: reader.c:1165 reader.c:1390
+#: src/reader.c:1165 src/reader.c:1390
 #, c-format
 msgid "$%s is invalid"
 msgstr "$%s n'est pas valide"
 
-#: reader.c:1179
+#: src/reader.c:1179
 #, c-format
 msgid "@%s is invalid"
 msgstr "@%s n'est pas valide"
 
-#: reader.c:1189
+#: src/reader.c:1189
 msgid "unterminated %%guard clause"
 msgstr "clause %%guard non terminée"
 
-#: reader.c:1404
+#: src/reader.c:1404
 msgid "invalid @-construct"
 msgstr "la construction `@' n'est pas valide"
 
-#: reader.c:1414
+#: src/reader.c:1414
 msgid "unmatched `{'"
 msgstr "accolade ouvrante `{' non appariée"
 
-#: reader.c:1500
+#: src/reader.c:1500
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "règle mal formée: le symbole initial n'est pas suivi de `:'"
 
-#: reader.c:1507
+#: src/reader.c:1507
 msgid "grammar starts with vertical bar"
 msgstr "la grammaire débute par une barre verticale"
 
-#: reader.c:1538
+#: src/reader.c:1538
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "la règle pour %s, qui est un terminal"
 
-#: reader.c:1636
+#: src/reader.c:1636
 msgid "two @prec's in a row"
 msgstr "deux @prec de suite"
 
-#: reader.c:1644
+#: src/reader.c:1644
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard est présent mais %%semantic_parser n'est pas spécifié"
 
 #. This case never occurs -wjh
-#: reader.c:1652
+#: src/reader.c:1652
 msgid "two actions at end of one rule"
 msgstr "deux actions à la fin d'une même règle"
 
-#: reader.c:1664
+#: src/reader.c:1664
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflit de type (`%s' `%s') pour l'action par défaut"
 
-#: reader.c:1670
+#: src/reader.c:1670
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "règle vide pour une catégorie typée et aucune action"
 
-#: reader.c:1714
+#: src/reader.c:1714
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrée non valide: %s"
 
-#: reader.c:1722
+#: src/reader.c:1722
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %s"
 msgstr "trop de symboles (terminaux et catégories); maximum de %s"
 
-#: reader.c:1725
+#: src/reader.c:1725
 msgid "no rules in the input grammar"
 msgstr "la grammaire n'a pas de règles"
 
-#: reader.c:1743
+#: src/reader.c:1743
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "le symbole %s est utilisé mais ce n'est pas un terminal et il ne possède pas "
 "de règle"
 
-#: reader.c:1782
+#: src/reader.c:1782
 msgid "ill-formed %type declaration"
 msgstr "déclaration %type mal formée"
 
-#: reader.c:1861
+#: src/reader.c:1861
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "les priorités pour %s et %s entrent en conflit"
 
-#: reader.c:1870
+#: src/reader.c:1870
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "les valeurs d'association de %s et %s entrent en conflit"
 
-#: reader.c:1917
+#: src/reader.c:1917
 #, c-format
 msgid "tokens %s and %s both assigned number %s"
 msgstr "les terminaux %s et %s se sont vus assigner le nombre %s"
 
-#: reader.c:1931
+#: src/reader.c:1931
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "le symbole de départ %s n'est pas défini"
 
-#: reader.c:1933
+#: src/reader.c:1933
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "le symbole de départ %s est un terminal"
 
-#: reduce.c:141
+#: src/reduce.c:141
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Aucune phrase ne peut être dérivée du symbole de départ %s"
 
-#: reduce.c:154
+#: src/reduce.c:154
 #, c-format
 msgid ""
 "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
@@ -648,7 +649,7 @@ msgstr ""
 "la réduction de %s définit %d terminal%s, %d catégorie%s et %d "
 "production%s.\n"
 
-#: reduce.c:492
+#: src/reduce.c:492
 msgid ""
 "Useless nonterminals:\n"
 "\n"
@@ -656,7 +657,7 @@ msgstr ""
 "Catégories non productives:\n"
 "\n"
 
-#: reduce.c:504
+#: src/reduce.c:504
 msgid ""
 "\n"
 "\n"
@@ -668,7 +669,7 @@ msgstr ""
 "Terminaux non utilisés:\n"
 "\n"
 
-#: reduce.c:513
+#: src/reduce.c:513
 msgid ""
 "\n"
 "\n"
@@ -680,7 +681,7 @@ msgstr ""
 "Règles non productives:\n"
 "\n"
 
-#: reduce.c:541
+#: src/reduce.c:541
 msgid ""
 "Variables\n"
 "---------\n"
@@ -690,11 +691,11 @@ msgstr ""
 "---------\n"
 "\n"
 
-#: reduce.c:542
+#: src/reduce.c:542
 msgid "Value  Sprec    Sassoc    Tag\n"
 msgstr "Valeur Spréc    Sassoc    Tag\n"
 
-#: reduce.c:547
+#: src/reduce.c:547
 msgid ""
 "Rules\n"
 "-----\n"
@@ -704,7 +705,7 @@ msgstr ""
 "------\n"
 "\n"
 
-#: reduce.c:557
+#: src/reduce.c:557
 msgid ""
 "Rules interpreted\n"
 "-----------------\n"
@@ -714,85 +715,85 @@ msgstr ""
 "-------------------\n"
 "\n"
 
-#: reduce.c:573
+#: src/reduce.c:573
 #, c-format
 msgid "%d rules never reduced\n"
 msgstr "%d règles jamais réduites\n"
 
-#: reduce.c:575
+#: src/reduce.c:575
 #, c-format
 msgid "%s contains "
 msgstr "%s contient "
 
-#: reduce.c:579
+#: src/reduce.c:579
 #, c-format
 msgid "%d useless nonterminal%s"
 msgstr "%d catégories non productives%s"
 
-#: reduce.c:584
+#: src/reduce.c:584
 msgid " and "
 msgstr " et "
 
-#: reduce.c:588
+#: src/reduce.c:588
 #, c-format
 msgid "%d useless rule%s"
 msgstr "%d règle(s) non productive(s)"
 
-#: getopt.c:680
+#: src/getopt.c:680
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: l'option %s est ambigüe\n"
 
-#: getopt.c:704
+#: src/getopt.c:704
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: l'option --%s n'admet pas de paramètre\n"
 
-#: getopt.c:709
+#: src/getopt.c:709
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: l'option %c%s n'admet pas de paramètre\n"
 
-#: getopt.c:726 getopt.c:899
+#: src/getopt.c:726 src/getopt.c:899
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: l'option %s requiert un paramètre\n"
 
 #. --option
-#: getopt.c:755
+#: src/getopt.c:755
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: l'option --%s est inconnue\n"
 
 #. +option or -option
-#: getopt.c:759
+#: src/getopt.c:759
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: l'option %c%s est inconnue\n"
 
 #. 1003.2 specifies the format of this message.
-#: getopt.c:785
+#: src/getopt.c:785
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: option illégale -- %c\n"
 
-#: getopt.c:788
+#: src/getopt.c:788
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: option non valide -- %c\n"
 
 #. 1003.2 specifies the format of this message.
-#: getopt.c:818 getopt.c:948
+#: src/getopt.c:818 src/getopt.c:948
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: Cette option requiert un paramètre -- %c\n"
 
-#: getopt.c:865
+#: src/getopt.c:865
 #, fuzzy, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: l'option %s est ambigüe\n"
 
-#: getopt.c:883
+#: src/getopt.c:883
 #, fuzzy, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: l'option --%s n'admet pas de paramètre\n"
