@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875\n"
-"POT-Creation-Date: 2003-01-01 01:28-0800\n"
+"POT-Creation-Date: 2003-02-03 18:24+0100\n"
 "PO-Revision-Date: 2003-01-26 22:43GMT+8\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -36,7 +36,8 @@ msgstr "    Konflik antara hukum %d dan token %s diselesaikan sebagai pindahan"
 #: src/conflicts.c:83
 #, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
-msgstr "    Konflik antara hukum %d dan token %s diselesaikan sebagai pengurangan"
+msgstr ""
+"    Konflik antara hukum %d dan token %s diselesaikan sebagai pengurangan"
 
 #: src/conflicts.c:90
 #, c-format
@@ -111,8 +112,10 @@ msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
 msgstr ""
-"Jika satu pilihan panjang menunjukkan satu hujah sebagai mandatori, oleh itu ia\n"
-"mandatori untuk pilihan pendek sepadan juga.  Serupa juga dengan hujah tidak wajib.\n"
+"Jika satu pilihan panjang menunjukkan satu hujah sebagai mandatori, oleh itu "
+"ia\n"
+"mandatori untuk pilihan pendek sepadan juga.  Serupa juga dengan hujah tidak "
+"wajib.\n"
 
 #: src/getargs.c:202
 msgid ""
@@ -154,7 +157,8 @@ msgid ""
 "  -v, --verbose              same as `--report=state'\n"
 "  -b, --file-prefix=PREFIX   specify a PREFIX for output files\n"
 "  -o, --output=FILE          leave output to FILE\n"
-"  -g, --graph                also produce a VCG description of the automaton\n"
+"  -g, --graph                also produce a VCG description of the "
+"automaton\n"
 msgstr ""
 "Keluaran:\n"
 "  -d, --defines              juga hasilkan fail header\n"
@@ -206,7 +210,8 @@ msgid ""
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 "Ini adalah perisian bebas; lihat sumber untuk syarat menyalin.  TIADA\n"
-"jaminan disediakan; tidak juga untuk KEBOLEHDAGANGAN atau KEUPAYAAN UNTUK SESUATU TUJUAN KHUSUS.\n"
+"jaminan disediakan; tidak juga untuk KEBOLEHDAGANGAN atau KEUPAYAAN UNTUK "
+"SESUATU TUJUAN KHUSUS.\n"
 
 #: src/getargs.c:424
 #, c-format
@@ -218,15 +223,15 @@ msgstr "operan hilang selepas `%s'"
 msgid "extra operand `%s'"
 msgstr "operan tambahan `%s'"
 
-#: src/gram.c:142
+#: src/gram.c:143
 msgid "empty"
 msgstr "kosong"
 
-#: src/gram.c:236
+#: src/gram.c:237
 msgid "Grammar"
 msgstr "Tatabahasa"
 
-#: src/gram.c:324 src/reduce.c:393
+#: src/gram.c:325 src/reduce.c:394
 msgid "warning"
 msgstr "amaran"
 
@@ -234,68 +239,68 @@ msgstr "amaran"
 msgid "rule never reduced because of conflicts"
 msgstr "hukum tidak dikurangkan kerana konflik"
 
-#: src/parse-gram.y:334
+#: src/parse-gram.y:335
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX melarang pengisytiharan didalam tatabahasa"
 
-#: src/parse-gram.y:457
+#: src/parse-gram.y:458
 msgid "missing identifier in parameter declaration"
 msgstr "pengecam hilang dalam parameter pengisytiharan"
 
-#: src/print.c:48
+#: src/print.c:49
 #, c-format
 msgid " type %d is %s\n"
 msgstr " jenis %d adalah %s\n"
 
-#: src/print.c:164
+#: src/print.c:165
 #, c-format
 msgid "shift, and go to state %d\n"
 msgstr "pindah, dan pergi ke keadaan %d\n"
 
-#: src/print.c:166
+#: src/print.c:167
 #, c-format
 msgid "go to state %d\n"
 msgstr "pergi ke keadaan %d\n"
 
-#: src/print.c:203
+#: src/print.c:204
 msgid "error (nonassociative)\n"
 msgstr "ralat (tidak bergabung)\n"
 
-#: src/print.c:291
+#: src/print.c:292
 #, c-format
 msgid "reduce using rule %d (%s)"
 msgstr "kurang menggunakan hukum %d (%s)"
 
-#: src/print.c:293
+#: src/print.c:294
 msgid "accept"
 msgstr "terima"
 
-#: src/print.c:324 src/print.c:390
+#: src/print.c:325 src/print.c:391
 msgid "$default"
 msgstr "$default"
 
-#: src/print.c:419
+#: src/print.c:420
 #, c-format
 msgid "state %d"
 msgstr "keadaan %d"
 
-#: src/print.c:455
+#: src/print.c:456
 msgid "Terminals, with rules where they appear"
 msgstr "Terminal, dengan hukum dimana mereka kelihatan"
 
-#: src/print.c:482
+#: src/print.c:483
 msgid "Nonterminals, with rules where they appear"
 msgstr "Tidak terminal, dengan hukum dimana mereka kelihatan"
 
-#: src/print.c:511
+#: src/print.c:512
 msgid " on left:"
 msgstr " pada kiri:"
 
-#: src/print.c:526
+#: src/print.c:527
 msgid " on right:"
 msgstr " pada kanan:"
 
-#: src/print.c:554
+#: src/print.c:555
 msgid "Rules never reduced"
 msgstr "Hukum tidak dikurangkan"
 
@@ -342,53 +347,53 @@ msgstr "%s mesti diikuti dengan nombor positif"
 msgid "no rules in the input grammar"
 msgstr "tiada hukum dalam masukan tatabahasa"
 
-#: src/reduce.c:241
+#: src/reduce.c:242
 msgid "useless rule"
 msgstr "hukum tidak berguna"
 
-#: src/reduce.c:302
+#: src/reduce.c:303
 #, c-format
 msgid "useless nonterminal: %s"
 msgstr "bukan terminal tidak berguna: %s"
 
-#: src/reduce.c:350
+#: src/reduce.c:351
 msgid "Useless nonterminals"
 msgstr "Bukan terminal tidak berguna"
 
-#: src/reduce.c:363
+#: src/reduce.c:364
 msgid "Terminals which are not used"
 msgstr "Terminal yang tidak digunakan"
 
-#: src/reduce.c:372
+#: src/reduce.c:373
 msgid "Useless rules"
 msgstr "Hukum tidak berguna"
 
-#: src/reduce.c:388
+#: src/reduce.c:389
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d hukum tidak dikurangkan\n"
 msgstr[1] "%d hukum tidak dikurangkan\n"
 
-#: src/reduce.c:396
+#: src/reduce.c:397
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d bukan terminal tidak berguna"
 msgstr[1] "%d bukan terminal tidak berguna"
 
-#: src/reduce.c:402
+#: src/reduce.c:403
 msgid " and "
 msgstr " dan "
 
-#: src/reduce.c:405
+#: src/reduce.c:406
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d hukum tidak berguna"
 msgstr[1] "%d hukum tidak berguna"
 
-#: src/reduce.c:435
+#: src/reduce.c:436
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "simbol permulaan %s tidak menghasilkan sebarang perkataan"
@@ -479,7 +484,9 @@ msgstr "mentakrif semula nombor token pengguna %s"
 #: src/symtab.c:206
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
-msgstr "simbol %s digunakan, tetapi tidak ditakrifkan sebagai token atau mempunyai hukum"
+msgstr ""
+"simbol %s digunakan, tetapi tidak ditakrifkan sebagai token atau mempunyai "
+"hukum"
 
 #: src/symtab.c:231
 #, c-format

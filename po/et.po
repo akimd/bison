@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875\n"
-"POT-Creation-Date: 2003-02-01 00:13-0800\n"
+"POT-Creation-Date: 2003-02-03 18:24+0100\n"
 "PO-Revision-Date: 2003-01-02 11:59+0200\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -218,15 +218,15 @@ msgstr "`%s' järel puudub operand"
 msgid "extra operand `%s'"
 msgstr "Liigne operand `%s'"
 
-#: src/gram.c:142
+#: src/gram.c:143
 msgid "empty"
 msgstr "tühi"
 
-#: src/gram.c:236
+#: src/gram.c:237
 msgid "Grammar"
 msgstr "Grammatika"
 
-#: src/gram.c:324 src/reduce.c:393
+#: src/gram.c:325 src/reduce.c:394
 msgid "warning"
 msgstr "hoiatus"
 
@@ -234,68 +234,68 @@ msgstr "hoiatus"
 msgid "rule never reduced because of conflicts"
 msgstr "reeglit ei redutseerita konfliktide tõttu kunagi"
 
-#: src/parse-gram.y:334
+#: src/parse-gram.y:335
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX keelab deklareerimised grammatikas"
 
-#: src/parse-gram.y:457
+#: src/parse-gram.y:458
 msgid "missing identifier in parameter declaration"
 msgstr "parameetri deklaratsioonis puudub identifikaator"
 
-#: src/print.c:48
+#: src/print.c:49
 #, c-format
 msgid " type %d is %s\n"
 msgstr " tüüp %d on %s\n"
 
-#: src/print.c:164
+#: src/print.c:165
 #, c-format
 msgid "shift, and go to state %d\n"
 msgstr "nihuta ja liigu olekule %d\n"
 
-#: src/print.c:166
+#: src/print.c:167
 #, c-format
 msgid "go to state %d\n"
 msgstr "liigu olekule %d\n"
 
-#: src/print.c:203
+#: src/print.c:204
 msgid "error (nonassociative)\n"
 msgstr "viga (mitteassotsiatiivne)\n"
 
-#: src/print.c:291
+#: src/print.c:292
 #, c-format
 msgid "reduce using rule %d (%s)"
 msgstr "redutseerin kasutades reeglit %d (%s)"
 
-#: src/print.c:293
+#: src/print.c:294
 msgid "accept"
 msgstr "nõustun"
 
-#: src/print.c:324 src/print.c:390
+#: src/print.c:325 src/print.c:391
 msgid "$default"
 msgstr "$default"
 
-#: src/print.c:419
+#: src/print.c:420
 #, c-format
 msgid "state %d"
 msgstr "olek %d"
 
-#: src/print.c:455
+#: src/print.c:456
 msgid "Terminals, with rules where they appear"
 msgstr "Terminalid, koos reeglitega kus nad ilmuvad"
 
-#: src/print.c:482
+#: src/print.c:483
 msgid "Nonterminals, with rules where they appear"
 msgstr "Mitteterminalid, koos reeglitega kus nad ilmuvad"
 
-#: src/print.c:511
+#: src/print.c:512
 msgid " on left:"
 msgstr " vasakul:"
 
-#: src/print.c:526
+#: src/print.c:527
 msgid " on right:"
 msgstr " paremal:"
 
-#: src/print.c:554
+#: src/print.c:555
 msgid "Rules never reduced"
 msgstr "Mitteredutseeruvad reeglid"
 
@@ -342,53 +342,53 @@ msgstr "%s järel peab olema positiivne number"
 msgid "no rules in the input grammar"
 msgstr "sisendgrammatikas pole reegleid"
 
-#: src/reduce.c:241
+#: src/reduce.c:242
 msgid "useless rule"
 msgstr "kasutamata reegel"
 
-#: src/reduce.c:302
+#: src/reduce.c:303
 #, c-format
 msgid "useless nonterminal: %s"
 msgstr "kasutamata mitteterminal: %s"
 
-#: src/reduce.c:350
+#: src/reduce.c:351
 msgid "Useless nonterminals"
 msgstr "Kasutamata mitteterminalid"
 
-#: src/reduce.c:363
+#: src/reduce.c:364
 msgid "Terminals which are not used"
 msgstr "Terminalid, mida ei kasutatud"
 
-#: src/reduce.c:372
+#: src/reduce.c:373
 msgid "Useless rules"
 msgstr "Kasutamata reeglid"
 
-#: src/reduce.c:388
+#: src/reduce.c:389
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d reegel ei redutseeru\n"
 msgstr[1] "%d reeglit ei redutseeru\n"
 
-#: src/reduce.c:396
+#: src/reduce.c:397
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d kasutamata mitteterminal"
 msgstr[1] "%d kasutamata mitteterminali"
 
-#: src/reduce.c:402
+#: src/reduce.c:403
 msgid " and "
 msgstr " ja "
 
-#: src/reduce.c:405
+#: src/reduce.c:406
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d kasutamata reegel"
 msgstr[1] "%d kasutamata reeglit"
 
-#: src/reduce.c:435
+#: src/reduce.c:436
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "stardisümbolist %s ei tuletata ühtegi lauset"

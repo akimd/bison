@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2003-02-01 00:13-0800\n"
+"POT-Creation-Date: 2003-02-03 18:24+0100\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -217,15 +217,15 @@ msgstr ""
 msgid "extra operand `%s'"
 msgstr ""
 
-#: src/gram.c:142
+#: src/gram.c:143
 msgid "empty"
 msgstr "prazno"
 
-#: src/gram.c:236
+#: src/gram.c:237
 msgid "Grammar"
 msgstr "Gramatika"
 
-#: src/gram.c:324 src/reduce.c:393
+#: src/gram.c:325 src/reduce.c:394
 #, fuzzy
 msgid "warning"
 msgstr "upozorenje:"
@@ -234,69 +234,69 @@ msgstr "upozorenje:"
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: src/parse-gram.y:334
+#: src/parse-gram.y:335
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
-#: src/parse-gram.y:457
+#: src/parse-gram.y:458
 msgid "missing identifier in parameter declaration"
 msgstr ""
 
-#: src/print.c:48
+#: src/print.c:49
 #, c-format
 msgid " type %d is %s\n"
 msgstr " tip %d je %s\n"
 
-#: src/print.c:164
+#: src/print.c:165
 #, fuzzy, c-format
 msgid "shift, and go to state %d\n"
 msgstr "    %-4s\tpomakni i idi u stanje %d\n"
 
-#: src/print.c:166
+#: src/print.c:167
 #, fuzzy, c-format
 msgid "go to state %d\n"
 msgstr "    $   \tidu u stanje %d\n"
 
-#: src/print.c:203
+#: src/print.c:204
 #, fuzzy
 msgid "error (nonassociative)\n"
 msgstr "%-4s\tgre¹ka (nonassociative)"
 
-#: src/print.c:291
+#: src/print.c:292
 #, fuzzy, c-format
 msgid "reduce using rule %d (%s)"
 msgstr "$default\treduciraj koristeæi pravilo %d (%s)"
 
-#: src/print.c:293
+#: src/print.c:294
 msgid "accept"
 msgstr ""
 
-#: src/print.c:324 src/print.c:390
+#: src/print.c:325 src/print.c:391
 msgid "$default"
 msgstr ""
 
-#: src/print.c:419
+#: src/print.c:420
 #, c-format
 msgid "state %d"
 msgstr "stanje %d"
 
-#: src/print.c:455
+#: src/print.c:456
 msgid "Terminals, with rules where they appear"
 msgstr "Zavr¹ni znakovi, sa pravilima gdje se pojavljuju"
 
-#: src/print.c:482
+#: src/print.c:483
 msgid "Nonterminals, with rules where they appear"
 msgstr "Nezavr¹ni znakovi, sa pravilima gdje se pojavljuju"
 
-#: src/print.c:511
+#: src/print.c:512
 msgid " on left:"
 msgstr "s lijeva:"
 
-#: src/print.c:526
+#: src/print.c:527
 msgid " on right:"
 msgstr "s desna:"
 
-#: src/print.c:554
+#: src/print.c:555
 #, fuzzy
 msgid "Rules never reduced"
 msgstr "%d pravilo nije nikad reducirano\n"
@@ -344,57 +344,57 @@ msgstr ""
 msgid "no rules in the input grammar"
 msgstr "nema pravila u ulaznoj gramatici"
 
-#: src/reduce.c:241
+#: src/reduce.c:242
 #, fuzzy
 msgid "useless rule"
 msgstr "%d beskorisno pravilo"
 
-#: src/reduce.c:302
+#: src/reduce.c:303
 #, fuzzy, c-format
 msgid "useless nonterminal: %s"
 msgstr "Beskorisni nezavr¹ni znakovi:"
 
-#: src/reduce.c:350
+#: src/reduce.c:351
 #, fuzzy
 msgid "Useless nonterminals"
 msgstr "Beskorisni nezavr¹ni znakovi:"
 
-#: src/reduce.c:363
+#: src/reduce.c:364
 #, fuzzy
 msgid "Terminals which are not used"
 msgstr "Zavr¹ni znakovi koji nisu kori¹teni:"
 
-#: src/reduce.c:372
+#: src/reduce.c:373
 #, fuzzy
 msgid "Useless rules"
 msgstr "Beskorisna pravila:"
 
-#: src/reduce.c:388
+#: src/reduce.c:389
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d pravilo nije nikad reducirano\n"
 msgstr[1] "%d pravila nisu nikad reducirana\n"
 
-#: src/reduce.c:396
+#: src/reduce.c:397
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d beskorisan nezavr¹ni znak"
 msgstr[1] "%d beskorisnih nezavr¹nih znakova"
 
-#: src/reduce.c:402
+#: src/reduce.c:403
 msgid " and "
 msgstr " i"
 
-#: src/reduce.c:405
+#: src/reduce.c:406
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d beskorisno pravilo"
 msgstr[1] "%d beskorisnih pravila"
 
-#: src/reduce.c:435
+#: src/reduce.c:436
 #, fuzzy, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "Poèetni simbol %s ne daje niti jednu reèenicu"

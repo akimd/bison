@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.875\n"
-"POT-Creation-Date: 2003-02-01 00:13-0800\n"
+"POT-Creation-Date: 2003-02-03 18:24+0100\n"
 "PO-Revision-Date: 2003-01-01 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -223,15 +223,15 @@ msgstr "opérande manquante après « %s »"
 msgid "extra operand `%s'"
 msgstr "opérande superflue « %s »"
 
-#: src/gram.c:142
+#: src/gram.c:143
 msgid "empty"
 msgstr "vide"
 
-#: src/gram.c:236
+#: src/gram.c:237
 msgid "Grammar"
 msgstr "Grammaire"
 
-#: src/gram.c:324 src/reduce.c:393
+#: src/gram.c:325 src/reduce.c:394
 msgid "warning"
 msgstr "AVERTISSEMENT"
 
@@ -239,68 +239,68 @@ msgstr "AVERTISSEMENT"
 msgid "rule never reduced because of conflicts"
 msgstr "la règle n'a jamais fait de réduction en raison des conflits"
 
-#: src/parse-gram.y:334
+#: src/parse-gram.y:335
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX interdit les déclaration dans la grammaire"
 
-#: src/parse-gram.y:457
+#: src/parse-gram.y:458
 msgid "missing identifier in parameter declaration"
 msgstr "identificateur manquant dans la déclaration de paramètres"
 
-#: src/print.c:48
+#: src/print.c:49
 #, c-format
 msgid " type %d is %s\n"
 msgstr " le type %d est %s\n"
 
-#: src/print.c:164
+#: src/print.c:165
 #, c-format
 msgid "shift, and go to state %d\n"
 msgstr "décalage et aller à l'état %d\n"
 
-#: src/print.c:166
+#: src/print.c:167
 #, c-format
 msgid "go to state %d\n"
 msgstr "aller à l'état %d\n"
 
-#: src/print.c:203
+#: src/print.c:204
 msgid "error (nonassociative)\n"
 msgstr "erreur (non-associative)\n"
 
-#: src/print.c:291
+#: src/print.c:292
 #, c-format
 msgid "reduce using rule %d (%s)"
 msgstr "réduction par utilisation de la règle %d (%s)"
 
-#: src/print.c:293
+#: src/print.c:294
 msgid "accept"
 msgstr "accepter"
 
-#: src/print.c:324 src/print.c:390
+#: src/print.c:325 src/print.c:391
 msgid "$default"
 msgstr "$défaut"
 
-#: src/print.c:419
+#: src/print.c:420
 #, c-format
 msgid "state %d"
 msgstr "état %d"
 
-#: src/print.c:455
+#: src/print.c:456
 msgid "Terminals, with rules where they appear"
 msgstr "Terminaux, suivis des règles où ils apparaissent"
 
-#: src/print.c:482
+#: src/print.c:483
 msgid "Nonterminals, with rules where they appear"
 msgstr "Non-terminaux, suivis des règles où ils apparaissent"
 
-#: src/print.c:511
+#: src/print.c:512
 msgid " on left:"
 msgstr " à gauche:"
 
-#: src/print.c:526
+#: src/print.c:527
 msgid " on right:"
 msgstr " à droite:"
 
-#: src/print.c:554
+#: src/print.c:555
 msgid "Rules never reduced"
 msgstr "Règles jamais réduites"
 
@@ -348,53 +348,53 @@ msgstr "%s doit être suivi d'un nombre positif"
 msgid "no rules in the input grammar"
 msgstr "la grammaire n'a pas de règles"
 
-#: src/reduce.c:241
+#: src/reduce.c:242
 msgid "useless rule"
 msgstr "règle inutilisable"
 
-#: src/reduce.c:302
+#: src/reduce.c:303
 #, c-format
 msgid "useless nonterminal: %s"
 msgstr "non-terminal inutilisable: %s"
 
-#: src/reduce.c:350
+#: src/reduce.c:351
 msgid "Useless nonterminals"
 msgstr "Non-terminaux inutiles"
 
-#: src/reduce.c:363
+#: src/reduce.c:364
 msgid "Terminals which are not used"
 msgstr "Terminaux qui ne sont utilisés"
 
-#: src/reduce.c:372
+#: src/reduce.c:373
 msgid "Useless rules"
 msgstr "Règles inutiles"
 
-#: src/reduce.c:388
+#: src/reduce.c:389
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d règle n'a jamais été réduite\n"
 msgstr[1] "%d règles n'ont jamais été réduites\n"
 
-#: src/reduce.c:396
+#: src/reduce.c:397
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d nonterminal inutilisable"
 msgstr[1] "%d nonterminals inutilisables"
 
-#: src/reduce.c:402
+#: src/reduce.c:403
 msgid " and "
 msgstr " et "
 
-#: src/reduce.c:405
+#: src/reduce.c:406
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d règle inutilisable"
 msgstr[1] "%d règles inutilisables"
 
-#: src/reduce.c:435
+#: src/reduce.c:436
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr ""

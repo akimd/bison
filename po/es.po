@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.875\n"
-"POT-Creation-Date: 2003-02-01 00:13-0800\n"
+"POT-Creation-Date: 2003-02-03 18:24+0100\n"
 "PO-Revision-Date: 2003-01-02 12:47+0100\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -285,15 +285,15 @@ msgstr "falta un operando después de `%s'"
 msgid "extra operand `%s'"
 msgstr "operando extra `%s'"
 
-#: src/gram.c:142
+#: src/gram.c:143
 msgid "empty"
 msgstr "vacío"
 
-#: src/gram.c:236
+#: src/gram.c:237
 msgid "Grammar"
 msgstr "Gramática"
 
-#: src/gram.c:324 src/reduce.c:393
+#: src/gram.c:325 src/reduce.c:394
 msgid "warning"
 msgstr "aviso"
 
@@ -301,68 +301,68 @@ msgstr "aviso"
 msgid "rule never reduced because of conflicts"
 msgstr "la regla nunca se redujo debido a los conflictos"
 
-#: src/parse-gram.y:334
+#: src/parse-gram.y:335
 msgid "POSIX forbids declarations in the grammar"
 msgstr "POSIX prohíbe declaraciones en a gramática"
 
-#: src/parse-gram.y:457
+#: src/parse-gram.y:458
 msgid "missing identifier in parameter declaration"
 msgstr "falta el identificador el la declaración del parámetro"
 
-#: src/print.c:48
+#: src/print.c:49
 #, c-format
 msgid " type %d is %s\n"
 msgstr " el tipo %d es %s\n"
 
-#: src/print.c:164
+#: src/print.c:165
 #, c-format
 msgid "shift, and go to state %d\n"
 msgstr "desplazar e ir al estado %d\n"
 
-#: src/print.c:166
+#: src/print.c:167
 #, c-format
 msgid "go to state %d\n"
 msgstr "ir al estado %d\n"
 
-#: src/print.c:203
+#: src/print.c:204
 msgid "error (nonassociative)\n"
 msgstr "error (no asociativo)\n"
 
-#: src/print.c:291
+#: src/print.c:292
 #, c-format
 msgid "reduce using rule %d (%s)"
 msgstr "reduce usando la regla %d (%s)"
 
-#: src/print.c:293
+#: src/print.c:294
 msgid "accept"
 msgstr "aceptar"
 
-#: src/print.c:324 src/print.c:390
+#: src/print.c:325 src/print.c:391
 msgid "$default"
 msgstr "$default"
 
-#: src/print.c:419
+#: src/print.c:420
 #, c-format
 msgid "state %d"
 msgstr "estado %d"
 
-#: src/print.c:455
+#: src/print.c:456
 msgid "Terminals, with rules where they appear"
 msgstr "Terminales con las reglas donde aparecen"
 
-#: src/print.c:482
+#: src/print.c:483
 msgid "Nonterminals, with rules where they appear"
 msgstr "No terminales con las reglas donde aparecen"
 
-#: src/print.c:511
+#: src/print.c:512
 msgid " on left:"
 msgstr " en la izquierda:"
 
-#: src/print.c:526
+#: src/print.c:527
 msgid " on right:"
 msgstr " en la derecha:"
 
-#: src/print.c:554
+#: src/print.c:555
 msgid "Rules never reduced"
 msgstr "Reglas nunca reducidas"
 
@@ -409,53 +409,53 @@ msgstr "%s debe estar seguido por un número positivo"
 msgid "no rules in the input grammar"
 msgstr "no hay reglas en la gramática de entrada"
 
-#: src/reduce.c:241
+#: src/reduce.c:242
 msgid "useless rule"
 msgstr "regla sin uso"
 
-#: src/reduce.c:302
+#: src/reduce.c:303
 #, c-format
 msgid "useless nonterminal: %s"
 msgstr "No terminal sin uso: %s"
 
-#: src/reduce.c:350
+#: src/reduce.c:351
 msgid "Useless nonterminals"
 msgstr "No terminales sin uso"
 
-#: src/reduce.c:363
+#: src/reduce.c:364
 msgid "Terminals which are not used"
 msgstr "Terminales que no se usan"
 
-#: src/reduce.c:372
+#: src/reduce.c:373
 msgid "Useless rules"
 msgstr "Reglas sin uso"
 
-#: src/reduce.c:388
+#: src/reduce.c:389
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regla que nunca se ha reducido\n"
 msgstr[1] "%d reglas que nunca se han reducido\n"
 
-#: src/reduce.c:396
+#: src/reduce.c:397
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d no terminal sin uso"
 msgstr[1] "%d no terminales sin uso"
 
-#: src/reduce.c:402
+#: src/reduce.c:403
 msgid " and "
 msgstr " y "
 
-#: src/reduce.c:405
+#: src/reduce.c:406
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d regla sin uso"
 msgstr[1] "%d reglas sin uso"
 
-#: src/reduce.c:435
+#: src/reduce.c:436
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
