@@ -103,9 +103,6 @@
 #include "reader.h"
 #include "conflicts.h"
 
-extern void berror PARAMS((const char *));
-
-
 
 static int nvectors;
 static int nentries;
@@ -980,8 +977,8 @@ pack_vector (int vector)
 	}
     }
 
-  berror ("pack_vector");
-  return 0;			/* JF keep lint happy */
+  assert (!"pack_vector");
+  return 0;
 }
 
 

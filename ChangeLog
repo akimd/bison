@@ -1,5 +1,10 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (pack_vector): Use assert, not berror.
+	* src/main.c (berror): Remove, unused.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	New experimental feature: if --verbose --trace output all the
 	items of a state, not only its kernel.
 

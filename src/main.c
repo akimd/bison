@@ -1,5 +1,5 @@
 /* Top level entry point of bison,
-   Copyright 1984, 1986, 1989, 1992, 1995, 2000
+   Copyright 1984, 1986, 1989, 1992, 1995, 2000, 2001
    Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -40,7 +40,6 @@
 /* The name this program was run with, for messages.  */
 char *program_name;
 
-extern void berror PARAMS((const char *));
 
 int
 main (int argc, char *argv[])
@@ -123,13 +122,4 @@ main (int argc, char *argv[])
 #endif
 
   return complain_message_count ? EXIT_FAILURE : EXIT_SUCCESS;
-}
-
-/* Abort for an internal error denoted by string S.  */
-
-void
-berror (const char *s)
-{
-  fprintf (stderr, _("%s: internal error: %s\n"), program_name, s);
-  abort ();
 }
