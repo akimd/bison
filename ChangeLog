@@ -1,5 +1,10 @@
 2003-02-19  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc: When displaying a line number, be sure to make it
+	an int.
+
+2003-02-19  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc (b4_stack_depth_init, yy::Parser::initdepth_):
 	Remove, useless.
 	(YYABORT, YYACCEPT, YYERROR): New.

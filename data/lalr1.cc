@@ -429,8 +429,11 @@ yy::]b4_parser_class_name[::parse ()
 #if YYDEBUG
   if (debug_)
     {
+      // Short files will use "unsigned char" for line numbers,
+      // in which case they will be output as character litterals
+      // by "<<".
       YYCDEBUG << "Reducing via rule " << n_ - 1
-	     << " (line " << rline_[n_] << "), ";
+               << " (line " << static_cast <unsigned> (rline_[n_]) << "), ";
       for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
 	   0 <= rhs_[i]; ++i)
 	YYCDEBUG << name_[rhs_[i]] << ' ';
