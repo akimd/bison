@@ -1,5 +1,5 @@
 /* Data definitions for internal representation of bison's input,
-   Copyright 1984, 1986, 1989, 1992 Free Software Foundation, Inc.
+   Copyright 1984, 1986, 1989, 1992, 2001  Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -38,21 +38,27 @@
    The rules receive rule numbers 1 to nrules in the order they are
    written.  Actions and guards are accessed via the rule number.
 
-   The rules themselves are described by three arrays: rrhs, rlhs and
-   ritem.  rlhs[R] is the symbol number of the left hand side of rule
-   R.  The right hand side is stored as symbol numbers in a portion of
-   ritem.  rrhs[R] contains the index in ritem of the beginning of the
+   The rules themselves are described by several arrays: amongst which
+   RITEM, and RULE_TABLE.
+
+   RULE_TABLE is an array of struct rule_s, which members are:
+
+   RULE_TABLE[R].lhs -- the symbol number of the left hand side of
+   rule R.  If -1, the rule has been thrown out by reduce.c and should
+   be ignored.
+
+   RULE_TABLE[R].rhs -- the index in RITEM of the beginning of the
    portion for rule R.
 
-   If rlhs[R] is -1, the rule has been thrown out by reduce.c and
-   should be ignored.
+   The right hand side is stored as symbol numbers in a portion of
+   RITEM.
 
    The length of the portion is one greater than the number of symbols
    in the rule's right hand side.  The last element in the portion
    contains minus R, which identifies it as the end of a portion and
    says which rule it is for.
 
-   The portions of ritem come in order of increasing rule number and
+   The portions of RITEM come in order of increasing rule number and
    are followed by an element which is zero to mark the end.  nitems
    is the total length of ritem, not counting the final zero.  Each
    element of ritem is called an "item" and its index in ritem is an
@@ -84,8 +90,7 @@ extern int ntokens;
 extern int nvars;
 
 extern short *ritem;
-extern short *rlhs;
-extern short *rrhs;
+
 extern short *rprec;
 extern short *rprecsym;
 extern short *sprec;
@@ -95,6 +100,13 @@ extern short *rline;		/* Source line number of each rule */
 
 extern int start_symbol;
 
+typedef struct rule_s
+{
+  short lhs;
+  short rhs;
+} rule_t;
+
+extern struct rule_s *rule_table;
 
 /* associativity values in elements of rassoc, sassoc.  */
 typedef enum
