@@ -6,6 +6,9 @@ Changes in version 1.30f:
 * Reduced Grammars
   Fixed bugs when reporting useless nonterminals.
 
+* 64 bit hosts
+  The parsers work properly on 64 bit hosts.
+
 Changes in version 1.30e:
 
 * Error messages
