@@ -1,3 +1,9 @@
+2003-01-02  Paul Eggert  <eggert@twinsun.com>
+
+	* data/yacc.c (yyerrlab1): Append `;' after attribute, to
+	pacify the buggy "smart preprocessor" in MacOS 10.2.3.
+	Bug reported by Nelson H. F. Beebe.
+
 2003-01-01  Paul Eggert  <eggert@twinsun.com>
 
 	* Version 1.875.
