@@ -1,5 +1,14 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/options.h, src/options.c (create_long_option_table): Rename
+	as...
+	(long_option_table_new): this, with a clearer prototype.
+	(percent_table): Remove, unused,
+	* src/getargs.c (getargs): Adjust.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c, src/conflicts.c, src/lalr.c, src/lalr.h, src/output.c
 	* src/print.c, src/print_graph.c, src/state.h: Rename state_table
 	as states.
