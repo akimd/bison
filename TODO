@@ -2,6 +2,7 @@
 
 * src/reader.c
 ** Complete parse_skel_decl () with parse_dquoted_param ().
+** Check and cleanup for CPP-out code.
 
 * src/output.c
 ** Output sub-skeleton files.
