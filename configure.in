@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(reduce.c)
-AM_INIT_AUTOMAKE(bison,1.25.90,nodef)
+AM_INIT_AUTOMAKE(bison,1.25.90)
 AM_CONFIG_HEADER(config.h:config.hin)
 
 dnl Checks for programs.
@@ -21,4 +21,4 @@ AC_C_CONST
 dnl Checks for library functions.
 AC_FUNC_ALLOCA
 
-AC_OUTPUT(Makefile version.c:version.cin)
+AC_OUTPUT(Makefile)
