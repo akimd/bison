@@ -469,10 +469,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_CHARACTER>
 {
-  "'"		       YY_OBS_GROW; BEGIN c_context;
-  \\{splice}[^\[\]]    YY_OBS_GROW;
-  {splice}	       YY_OBS_GROW;
-  <<EOF>>	       unexpected_end_of_file (yylloc, "'");
+  "'"		    YY_OBS_GROW; BEGIN c_context;
+  \\{splice}[\'\\]  YY_OBS_GROW;
+  <<EOF>>	    unexpected_end_of_file (yylloc, "'");
 }
 
 
@@ -483,10 +482,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_STRING>
 {
-  "\""		       YY_OBS_GROW; BEGIN c_context;
-  \\{splice}[^\[\]]    YY_OBS_GROW;
-  {splice}	       YY_OBS_GROW;
-  <<EOF>>	       unexpected_end_of_file (yylloc, "\"");
+  "\""		    YY_OBS_GROW; BEGIN c_context;
+  \\{splice}[\"\\]  YY_OBS_GROW;
+  <<EOF>>	    unexpected_end_of_file (yylloc, "\"");
 }
 
 
@@ -578,8 +576,10 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_COMMENT,SC_LINE_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
-  \[	obstack_sgrow (&string_obstack, "@<:@");
-  \]	obstack_sgrow (&string_obstack, "@:>@");
+  \$	obstack_sgrow (&string_obstack, "$][");
+  \@	obstack_sgrow (&string_obstack, "@@");
+  \[	obstack_sgrow (&string_obstack, "@{");
+  \]	obstack_sgrow (&string_obstack, "@}");
   .|\n  YY_OBS_GROW;
 }
 
