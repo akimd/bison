@@ -1,5 +1,11 @@
 2002-05-06  Akim Demaille  <akim@epita.fr>
 
+	* src/muscle_tab.c (muscle_m4_output): Must return TRUE for
+	hash_do_for_each.
+
+	
+2002-05-06  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (new_state, get_state): Instead of using the global
 	`kernel_size' and `kernel_base', have two new arguments:
 	`core_size' and `core'.
