@@ -1,5 +1,18 @@
 2002-11-16  Akim Demaille  <akim@epita.fr>
 
+	Augment the similarity between GLR and LALR traces.
+
+	* data/yacc.c (yy_stack_print, YY_STACK_PRINT, yy_reduce_print)
+	(YY_REDUCE_PRINT): New.
+	(yyparse): Use them.
+	* data/glr.c (yy_reduce_print): Use YYFPRINTF, no need for
+	YYDPRINT here.
+	(yyglrReduce, yyrecoverParseError, yyparse): Don't report the
+	state reached after the reduction/recovery, since...
+	(yyparse, yyprocessOneStack): Report the state we are entering in.
+
+2002-11-16  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.h, src/getargs.c (trace_e, trace_args, trace_types):
 	Add support for --trace=skeleton.
 	* src/scan-skel.l: %option debug.
