@@ -21,6 +21,12 @@
 
 #include <stdio.h>
 
+#if defined (__GNUC__) || (defined (__STDC__) && __STDC__)
+#define __P(args) args
+#else
+#define __P(args) ()
+#endif  /* GCC.  */
+
 typedef unsigned long (*hash_func_t) __P((void const *key));
 typedef int (*hash_cmp_func_t) __P((void const *x, void const *y));
 typedef void (*hash_map_func_t) __P((void const *item));

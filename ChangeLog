@@ -1,3 +1,11 @@
+2002-01-07  Tim Van Holder  <tim.van.holder@pandora.be>
+
+	* lib/hash.h (__P): Added definition for this macro.
+	* src/Makefile.am: Add parse-skel.c and scan-skel.c to
+	BUILT_SOURCES, to ensure they are generated first.
+	* src/parse-skel.y: Use YYERROR_VERBOSE instead of
+	%error-verbose to allow bootstrapping with bison 1.30x.
+
 2002-01-06  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (parse_braces): Don't fetch the next char, the

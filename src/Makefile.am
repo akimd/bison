@@ -47,6 +47,8 @@ bison_SOURCES = LR0.c closure.c complain.c conflicts.c	\
     print.c reader.c reduce.c symtab.c warshall.c vcg.c \
     skeleton.h parse-skel.h parse-skel.y scan-skel.l
 
+BUILT_SOURCES = parse-skel.c scan-skel.c
+
 EXTRA_bison_SOURCES = vmsgetargs.c
 
 noinst_HEADERS = LR0.h closure.h complain.h conflicts.h \

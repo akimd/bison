@@ -22,7 +22,6 @@
 %debug
 %defines
 %verbose
-%error-verbose
 %locations
 %name-prefix="skel_"
 %pure-parser
@@ -36,6 +35,8 @@
 #include "output.h"
 #include "skeleton.h"
 #include "muscle_tab.h"
+
+#define YYERROR_VERBOSE 1
 
 /* Pass the control structure to YYPARSE but not YYLEX (yet?). */
 #define YYPARSE_PARAM skel_control
