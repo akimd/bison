@@ -51,7 +51,7 @@ exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
 
 # where the parsers go
-datadir = $(prefix)/lib
+datadir = $(prefix)/share
 
 # where the info files go
 infodir = $(prefix)/info
