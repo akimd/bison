@@ -3,6 +3,9 @@ Bison News
 
 Changes in version 1.33a:
 
+* Revert the C++ namespace changes introduced in 1.31, as they caused too
+  many portability hassles.
+
 * DJGPP support added.
 
 * Fix portability problems within the test suite.
@@ -51,6 +54,7 @@ Changes in version 1.31, 2002-01-14:
 
 * Better C++ compliance
   The output parsers try to respect C++ namespaces.
+  [This turned out to be a failed experiment, and it was reverted later.]
 
 * Reduced Grammars
   Fixed bugs when reporting useless nonterminals.
