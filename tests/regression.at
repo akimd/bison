@@ -45,6 +45,29 @@ AT_CLEANUP([duplicate.*])
 
 
 ## ---------------------- ##
+## Mixing %token styles.  ##
+## ---------------------- ##
+
+
+AT_SETUP([Mixing %token styles])
+
+# Taken from the documentation.
+AT_DATA([input.y],
+[[%token  <operator>  OR      "||"
+%token  <operator>  LE 134  "<="
+%left  OR  "<="
+%%
+exp: ;
+%%
+]])
+
+AT_CHECK([bison -v input.y -o input.c], 0, ignore, ignore)
+
+AT_CLEANUP([input.*])
+
+
+
+## ---------------------- ##
 ## %union and --defines.  ##
 ## ---------------------- ##
 

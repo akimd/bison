@@ -1,5 +1,9 @@
 2001-11-02  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Mixing %token styles): New test.
+
+2001-11-02  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (parse_thong_decl): Formatting changes.
 	(token_translations_init): New, extracted from...
 	(packsymbols): Here.
