@@ -43,6 +43,7 @@
       scanner_cursor.file = current_file;		\
       scanner_cursor.line = 1;				\
       scanner_cursor.column = 1;			\
+      code_start = scanner_cursor;			\
     }							\
   while (0)
 
@@ -278,6 +279,11 @@ splice	 (\\[ \f\t\v]*\n)*
 
   . {
     complain_at (*loc, _("invalid character: %s"), quote (yytext));
+  }
+
+  <<EOF>> {
+    loc->start = loc->end = scanner_cursor;
+    yyterminate ();
   }
 }
 
@@ -529,6 +535,8 @@ splice	 (\\[ \f\t\v]*\n)*
 	return token_type;
       }
   }
+
+  <<EOF>>  unexpected_end_of_file (scanner_cursor, "{}");
 }
 
 
