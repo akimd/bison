@@ -6456,7 +6456,7 @@ call @samp{yyrestart (yyin)} suffices after each change to
 @section Strings are Destroyed
 
 @display
-My parser seems to destroy old strings, or maybe it losses track of
+My parser seems to destroy old strings, or maybe it loses track of
 them.  Instead of reporting @samp{"foo", "bar"}, it reports
 @samp{"bar", "bar"}, or even @samp{"foo\nbar", "bar"}.
 @end display

@@ -1,3 +1,8 @@
+2003-03-31  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (Strings are Destroyed): s/losses/loses/.
+	From Paul Hilfinger.
+
 2003-03-29  Akim Demaille  <akim@epita.fr>
 
 	* m4/error.m4: Do not put under dynamic conditions some code which
