@@ -76,7 +76,7 @@ int skel_lex (void);
 
 "@"	   abort ();
 \n	   lineno++; ECHO;
-[^@\n]+	   ECHO;
+[^@\n]	   ECHO;
 
 <<EOF>>	   xfclose (yyout); free (outname); return EOF;
 %%
