@@ -21,4 +21,4 @@ AC_C_CONST
 dnl Checks for library functions.
 AC_FUNC_ALLOCA
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT(Makefile version.c:version.cin)
