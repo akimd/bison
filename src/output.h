@@ -1,5 +1,5 @@
 /* Output the generated parsing program for bison,
-   Copyright 2000, 2001  Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002  Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -25,8 +25,6 @@ extern int error_verbose;
 
 /* Output the parsing tables and the parser code to FTABLE.  */
 void output PARAMS ((void));
-
-size_t get_lines_number PARAMS ((const char *s));
 
 void actions_output PARAMS ((FILE *out));
 void guards_output PARAMS ((FILE *out));
