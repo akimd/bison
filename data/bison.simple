@@ -667,7 +667,11 @@ int yyparse (void *);
 int yyparse (void);
 # endif
 #endif
-static void yydestructor (int symbol_type, YYSTYPE symbol_value);
+
+#if defined (__STDC__) || defined (__cplusplus)
+static void yydestructor (int yytype,
+			  YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]));
+#endif
 
 m4_divert_push([KILL])# ======================== M4 code.
 # b4_declare_parser_variables
@@ -1126,7 +1130,7 @@ yyerrlab1:
 		    }
 		}
 #endif
-	      yydestructor (yystos[*yyssp], *yyvsp);
+	      yydestructor (yystos[*yyssp], *yyvsp]b4_location_if([, *yylsp])[);
 	      YYPOPSTACK;
 	    }
 	  YYABORT;
@@ -1134,7 +1138,7 @@ yyerrlab1:
 
       YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
 		  yychar, yytname[yychar1]));
-      yydestructor (yychar1, yylval);
+      yydestructor (yychar1, yylval]b4_location_if([, yylloc])[);
       yychar = YYEMPTY;
     }
 
@@ -1181,7 +1185,7 @@ yyerrlab1:
 	}
 #endif
 
-      yydestructor (yystos[yystate], *yyvsp);
+      yydestructor (yystos[yystate], *yyvsp]b4_location_if([, *yylsp])[);
       yyvsp--;
       yystate = *--yyssp;
 ]b4_location_if([      yylsp--;])[
@@ -1251,24 +1255,27 @@ m4_divert_push([KILL])# M4 code.
 # b4_symbol_destructor(SYMBOL-NUMBER, DESTRUCTOR, TYPE-NAME)
 # ----------------------------------------------------------
 m4_define([b4_symbol_destructor],
-[m4_pushdef([b4_dollar_dollar], [symbol_value.$6])dnl
+[m4_pushdef([b4_dollar_dollar], [yyvalue.$6])dnl
+m4_pushdef([b4_at_dollar], [yylocation])dnl
       case $4: /* $3 */
 #line $2 "$1"
         $5;
 #line __oline__ "__ofile__"
         break;
+m4_popdef([b4_at_dollar])dnl
 m4_popdef([b4_dollar_dollar])])
 
 m4_divert_pop([KILL])dnl# End of M4 code.
 static void
-yydestructor (int symbol_type, YYSTYPE symbol_value)
+yydestructor (int yytype,
+	      YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]))
 {
-  switch (symbol_type)
+  switch (yytype)
     {
 m4_map([b4_symbol_destructor], m4_defn([b4_symbol_destructors]))dnl
       default:
         YYDPRINTF ((stderr, "yydestructor: unknown symbol type: %d (%s)\n",
-		    symbol_type, yytname[[symbol_type]]));
+		    yytype, yytname[[yytype]]));
         break;
     }
 }

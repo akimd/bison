@@ -177,10 +177,10 @@ AT_DATA([[input.y]],
   int ival;
 }
 %type <ival> 'x' thing line input
-%destructor { printf ("Freeing input %d\n", $$); } input
-%destructor { printf ("Freeing line %d\n", $$); } line
-%destructor { printf ("Freeing thing %d\n", $$); } thing
-%destructor { printf ("Freeing 'x' %d\n", $$); } 'x'
+%destructor { printf ("Freeing input %d from %d\n", $$, @$.first_line); } input
+%destructor { printf ("Freeing line %d from %d\n", $$, @$.first_line); } line
+%destructor { printf ("Freeing thing %d from %d\n", $$, @$.first_line); } thing
+%destructor { printf ("Freeing 'x' %d from %d\n", $$, @$.first_line); } 'x'
 
 %{
 static int yylex (void);
@@ -256,6 +256,8 @@ yylex (void)
     {
        yylval.ival = counter;
        printf ("sending: '%c'(%d)\n", input[counter], counter);
+       /* As in BASIC, line numbers go from 10 to 10.  */
+       yylloc.first_line = 10 * counter;
        return input[counter++];
     }
   else
@@ -268,7 +270,7 @@ yylex (void)
 static void
 yyerror (const char *msg)
 {
-  fprintf (stdout, "%s\n", msg);
+  fprintf (stdout, "%d: %s\n", yylloc.first_line, msg);
 }
 
 static void
@@ -291,7 +293,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison input.y -d -v -o input.c])
+AT_CHECK([bison input.y --location -d -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
 AT_CHECK([./input], 1,
 [[sending: 'x'(0)
@@ -301,15 +303,15 @@ thing(1): 'x'(1)
 sending: 'x'(2)
 thing(2): 'x'(2)
 sending: 'x'(3)
-parse error, unexpected 'x', expecting ';'
-Freeing thing 2
-Freeing thing 1
-Freeing thing 0
-Freeing 'x' 3
+30: parse error, unexpected 'x', expecting ';'
+Freeing thing 2 from 20
+Freeing thing 1 from 10
+Freeing thing 0 from 0
+Freeing 'x' 3 from 30
 sending: 'x'(4)
-Freeing 'x' 4
+Freeing 'x' 4 from 40
 sending: 'x'(5)
-Freeing 'x' 5
+Freeing 'x' 5 from 50
 sending: ';'(6)
 line(-1): error ';'
 sending: 'x'(7)
@@ -323,11 +325,11 @@ thing(10): 'x'(10)
 sending: ';'(11)
 line(10): thing(10) ';'
 sending: 'y'(12)
-parse error, unexpected $undefined., expecting $ or error or 'x'
+120: parse error, unexpected $undefined., expecting $ or error or 'x'
 sending: EOF
-Freeing line 10
-Freeing line 7
-Freeing line -1
+Freeing line 10 from 100
+Freeing line 7 from 70
+Freeing line -1 from 50
 Parsing FAILED.
 ]])
 

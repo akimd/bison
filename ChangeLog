@@ -1,5 +1,14 @@
 2002-06-19  Akim Demaille  <akim@epita.fr>
 
+	* tests/actions.at (Destructors): Augment to test locations.
+	* data/bison.simple (yydestructor): Pass it the current location
+	if locations are enabled.
+	Prototype only when __STDC__ or C++.
+	Change the argument names to move into the yy name space: there is
+	user code here.
+
+2002-06-19  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple (b4_pure_if): New.
 	Use it instead of #ifdef YYPURE.
 
