@@ -1,3 +1,7 @@
+2001-12-15  Marc Autret  <autret_m@epita.fr>
+
+	* src/output.c (output_gram): Keep track of the hairy one.
+
 2001-12-15  Akim Demaille  <akim@epita.fr>
 
 	Make `make distcheck' work.
