@@ -394,8 +394,6 @@ yy::b4_name::parse ()
       YYLLOC_DEFAULT (yyloc, slice, len_);
     }
 
-  std::cout << "Reduced location is :" << yyloc << std::endl;
-
   {
     SemanticStack& yyvsp (semantic_stack_);
     LocationStack& yylsp (location_stack_);

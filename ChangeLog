@@ -1,5 +1,9 @@
 2002-03-04  Robert Anisko  <robert@lrde.epita.fr>
 
+	* data/bison.c++: Remove a debug line.
+
+2002-03-04  Robert Anisko  <robert@lrde.epita.fr>
+
 	* data/bison.c++: Unmerge value as yylval and value as yyval.  Unmerge
 	location as yylloc and location as yyloc.  Use YYLLOC_DEFAULT, and
 	provide a default implementation.
