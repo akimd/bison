@@ -1,3 +1,11 @@
+2002-11-13  Akim Demaille  <akim@epita.fr>
+
+	* data/yacc.c: Leave bigger chunks of quoted text.
+	(YYDSYMPRINTF): New.
+	Use it to report symbol activities.
+	* data/glr.c (YYDSYMPRINTF): New.
+	Use it.
+
 2002-11-12  Paul Eggert  <eggert@twinsun.com>
 
 	Version 1.75b.
