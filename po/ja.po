@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 1999-06-14 18:19-0400\n"
+"POT-Creation-Date: 2000-04-14 15:35+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,28 +13,15 @@ msgstr ""
 "Content-Type: text/plain; charset=EUC-JP\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: src/LR0.c:377
+#, fuzzy, c-format
+msgid "too many states (max %d)"
+msgstr "%s の数が多すぎます (最大 %d)"
+
 #: src/allocate.c:59 src/allocate.c:75
 #, c-format
 msgid "%s: memory exhausted\n"
 msgstr "%s: メモリを使い果たしました\n"
-
-#: src/closure.c:315
-msgid "\n\n\nFIRSTS\n\n"
-msgstr "\n\n\nFIRSTS\n\n"
-
-#: src/closure.c:319
-#, c-format
-msgid "\n\n%s firsts\n\n"
-msgstr "\n\n%s firsts\n\n"
-
-#: src/closure.c:337
-msgid "\n\n\nFDERIVES\n"
-msgstr "\n\n\nFDERIVES\n"
-
-#: src/closure.c:341
-#, c-format
-msgid "\n\n%s derives\n\n"
-msgstr "\n\n%s は以下から派生\n\n"
 
 #: src/conflicts.c:199 src/conflicts.c:223
 msgid "reduce"
@@ -108,8 +95,12 @@ msgstr "    %-4s\t[規則 %d を利用して還元 (%s)]\n"
 
 #: src/conflicts.c:609 src/print.c:217
 #, c-format
-msgid "    $default\treduce using rule %d (%s)\n\n"
-msgstr "    $default\t規則 %d を利用して還元 (%s)\n\n"
+msgid ""
+"    $default\treduce using rule %d (%s)\n"
+"\n"
+msgstr ""
+"    $default\t規則 %d を利用して還元 (%s)\n"
+"\n"
 
 #: src/conflicts.c:695 src/conflicts.c:707
 #, c-format
@@ -122,118 +113,133 @@ msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\t規則 %d を利用して還元 (%s)\n"
 
 #: src/derives.c:106
-msgid "\n\n\nDERIVES\n\n"
-msgstr "\n\n\nDERIVES\n\n"
+msgid ""
+"\n"
+"\n"
+"\n"
+"DERIVES\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"\n"
+"DERIVES\n"
+"\n"
 
 #: src/derives.c:110
 #, c-format
 msgid "%s derives"
 msgstr "%s は以下から派生"
 
-#: src/getargs.c:68
-#, c-format
-msgid ""
-"Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
-"       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
-"       [--verbose] [--version] [--help] [--yacc]\n"
-"       [--no-parser] [--token-table]\n"
-"       [--file-prefix=prefix] [--name-prefix=prefix]\n"
-"       [--output=outfile] grammar-file\n"
-"\n"
-"Report bugs to bug-bison@gnu.org\n"
+#. Some efforts were made to ease the translators' task, please
+#. continue.
+#: src/getargs.c:69
+msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr ""
-"使い方: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
-"       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
-"       [--verbose] [--version] [--help] [--yacc]\n"
-"       [--no-parser] [--token-table]\n"
-"       [--file-prefix=prefix] [--name-prefix=prefix]\n"
-"       [--output=outfile] 文法ファイル\n"
-"\n"
-"バグを見つけたら bug-bison@gnu.org まで連絡を。\n"
 
-#: src/getargs.c:161
+#: src/getargs.c:73
+#, c-format
+msgid "Usage: %s [OPTION]... FILE\n"
+msgstr ""
+
+#: src/getargs.c:77
+msgid ""
+"If a long option shows an argument as mandatory, then it is mandatory\n"
+"for the equivalent short option also.  Similarly for optional arguments.\n"
+msgstr ""
+
+#: src/getargs.c:83
+msgid ""
+"Operation modes:\n"
+"  -h, --help      display this help and exit\n"
+"  -V, --version   output version information and exit\n"
+"  -y, --yacc      emulate POSIX yacc\n"
+msgstr ""
+
+#: src/getargs.c:90
+msgid ""
+"Parser:\n"
+"  -t, --debug                instrument the parser for debugging\n"
+"  -p, --name-prefix=PREFIX   prepend PREFIX to the external symbols\n"
+"  -l, --no-lines             don't generate `#line' directives\n"
+"  -n, --no-parser            generate the tables only\n"
+"  -r, --raw                  number the tokens from 3\n"
+"  -k, --token-table          include a table of token names\n"
+msgstr ""
+
+#: src/getargs.c:101
+msgid ""
+"Output:\n"
+"  -d, --defines              also produce a header file\n"
+"  -v, --verbose              also produce an explanation of the automaton\n"
+"  -b, --file-prefix=PREFIX   specify a PREFIX for output files\n"
+"  -o, --output-file=FILE     leave output to FILE\n"
+msgstr ""
+
+#: src/getargs.c:109
+msgid "Report bugs to <bug-bison@gnu.org>.\n"
+msgstr ""
+
+#: src/getargs.c:195
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: 文法ファイルが指定されていません\n"
 
-#: src/getargs.c:165
-#, c-format
-msgid "%s: extra arguments ignored after '%s'\n"
+#: src/getargs.c:199
+#, fuzzy, c-format
+msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: '%s' より後ろの余分な引数は無視されました\n"
 
-#: src/lalr.c:294
-msgid "gotos"
-msgstr "goto"
+#: src/lalr.c:293
+#, fuzzy, c-format
+msgid "too many gotos (max %d)"
+msgstr "%s の数が多すぎます (最大 %d)"
 
-#: src/lex.c:119
+#: src/lex.c:115
 msgid "unexpected `/' found and ignored"
 msgstr "予期しない `/' が見つかり、無視されました"
 
-#: src/lex.c:148 src/reader.c:1105 src/reader.c:1330
+#: src/lex.c:144 src/reader.c:256
 msgid "unterminated comment"
 msgstr "閉じていないコメントです"
 
-#: src/lex.c:176
-msgid "Unexpected end of file"
+#: src/lex.c:172
+#, fuzzy
+msgid "unexpected end of file"
 msgstr "予期しないファイルの終端です"
 
-#: src/lex.c:197
+#: src/lex.c:193
 msgid "unescaped newline in constant"
 msgstr "定数の中にエスケープされていない改行があります"
 
-#: src/lex.c:229
+#: src/lex.c:225
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "8 進数の値が 0...255 の範囲外です: `\\%o'"
 
-#: src/lex.c:253
+#: src/lex.c:250
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "16 進数の値が 255 を越えています: `\\x%x'"
 
-#: src/lex.c:263
+#: src/lex.c:261
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "未知のエスケープシーケンス: `\\' の後に `%s'"
 
-#: src/lex.c:396
+#: src/lex.c:394
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "複数文字のリテラルトークンには \"...\" を使いましょう"
 
-#: src/lex.c:475
+#: src/lex.c:473
 msgid "unterminated type name at end of file"
 msgstr "閉じられていないタイプ名が、ファイル末尾にあります"
 
-#: src/lex.c:478
+#: src/lex.c:476
 msgid "unterminated type name"
 msgstr "閉じられていないタイプ名があります"
 
-#: src/main.c:152
-#, c-format
-msgid "%s: fatal error: "
-msgstr "%s: 致命的エラー: "
-
-#: src/main.c:154
-#, c-format
-msgid "%s:%d: fatal error: "
-msgstr "%s:%d: 致命的エラー: "
-
-#: src/main.c:185
-#, c-format
-msgid "%s: "
-msgstr "%s: "
-
-#: src/main.c:187
-#, c-format
-msgid "%s:%d: "
-msgstr "%s:%d: "
-
-#: src/main.c:252
-#, c-format
-msgid "too many %s (max %d)"
-msgstr "%s の数が多すぎます (最大 %d)"
-
-#: src/main.c:262
+#: src/main.c:136
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: 内部エラー: %s\n"
@@ -242,9 +248,9 @@ msgstr "%s: 内部エラー: %s\n"
 msgid "Entering set_nullable"
 msgstr "set_nullable に入ります"
 
-#: src/output.c:1190
-#, c-format
-msgid "maximum table size (%s) exceeded"
+#: src/output.c:1207
+#, fuzzy, c-format
+msgid "maximum table size (%d) exceeded"
 msgstr "最大テーブルサイズ (%s) を超えました"
 
 #: src/print.c:85
@@ -254,8 +260,16 @@ msgstr " タイプ %d は %s です\n"
 
 #: src/print.c:92
 #, c-format
-msgid "\n\nstate %d\n\n"
-msgstr "\n\n状態 %d\n\n"
+msgid ""
+"\n"
+"\n"
+"state %d\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"状態 %d\n"
+"\n"
 
 #: src/print.c:136
 #, c-format
@@ -293,8 +307,12 @@ msgstr "    %-4s\t状態 %d へ\n"
 
 #. rule # : LHS -> RHS
 #: src/print.c:253
-msgid "\nGrammar\n"
-msgstr "\n文法\n"
+msgid ""
+"\n"
+"Grammar\n"
+msgstr ""
+"\n"
+"文法\n"
 
 #: src/print.c:258
 #, c-format
@@ -307,12 +325,24 @@ msgstr "\t\t/* 空 */"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:269
-msgid "\nTerminals, with rules where they appear\n\n"
-msgstr "\n終端トークン、およびそこに現れた規則\n\n"
+msgid ""
+"\n"
+"Terminals, with rules where they appear\n"
+"\n"
+msgstr ""
+"\n"
+"終端トークン、およびそこに現れた規則\n"
+"\n"
 
 #: src/print.c:317
-msgid "\nNonterminals, with rules where they appear\n\n"
-msgstr "\n非終端トークン、およびそこに現れた規則\n\n"
+msgid ""
+"\n"
+"Nonterminals, with rules where they appear\n"
+"\n"
+msgstr ""
+"\n"
+"非終端トークン、およびそこに現れた規則\n"
+"\n"
 
 #: src/print.c:343
 msgid " on left:"
@@ -322,241 +352,221 @@ msgstr " 左辺:"
 msgid " on right:"
 msgstr " 右辺:"
 
-#: src/reader.c:145
+#: src/reader.c:154
 msgid "   Skipping to next \\n"
 msgstr "   次の \\n にスキップ"
 
-#: src/reader.c:147
+#: src/reader.c:156
 #, c-format
 msgid "   Skipping to next %c"
 msgstr "   次の %c にスキップ"
 
-#: src/reader.c:323
+#: src/reader.c:180 src/reader.c:195
+msgid "unterminated string at end of file"
+msgstr "閉じられていない文字列がファイル末尾にあります"
+
+#: src/reader.c:183
+msgid "unterminated string"
+msgstr "閉じられていない文字列"
+
+#: src/reader.c:444
 #, c-format
 msgid "unrecognized: %s"
 msgstr "認識できない: %s"
 
-#: src/reader.c:328
+#: src/reader.c:449
 msgid "no input grammar"
 msgstr "文法の入力が無い"
 
-#: src/reader.c:332
+#: src/reader.c:452
 #, c-format
 msgid "unknown character: %s"
 msgstr "未知の文字: %s"
 
-#: src/reader.c:381 src/reader.c:396 src/reader.c:1041 src/reader.c:1273
-msgid "unterminated string at end of file"
-msgstr "閉じられていない文字列がファイル末尾にあります"
-
-#: src/reader.c:384 src/reader.c:1044 src/reader.c:1056 src/reader.c:1267
-#: src/reader.c:1281
-msgid "unterminated string"
-msgstr "閉じられていない文字列"
-
-#: src/reader.c:445
-msgid "unterminated comment in `%{' definition"
-msgstr "`%{' 定義 に閉じられていないコメントがあります"
-
-#: src/reader.c:456
+#: src/reader.c:504
 msgid "unterminated `%{' definition"
 msgstr "`%{' 定義 が閉じられていません"
 
-#: src/reader.c:534 src/reader.c:755
+#: src/reader.c:545 src/reader.c:733 src/reader.c:782
+#, c-format
+msgid "Premature EOF after %s"
+msgstr ""
+
+#: src/reader.c:582 src/reader.c:804
 #, c-format
 msgid "symbol %s redefined"
 msgstr "シンボル %s が再定義されました"
 
-#: src/reader.c:544 src/reader.c:700 src/reader.c:762 src/reader.c:1804
+#: src/reader.c:592 src/reader.c:748 src/reader.c:811 src/reader.c:1673
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "%s の型が再定義されました"
 
-#: src/reader.c:554
+#: src/reader.c:602
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "%2$s 内の `%1$s' は無効です"
 
-#: src/reader.c:602
+#: src/reader.c:650
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "認識できないアイテム %s、ここでは識別子が期待されます"
 
-#: src/reader.c:624
+#: src/reader.c:672
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "ここでは %s ではなく文字列定数が期待されます"
 
-#: src/reader.c:646
-#, c-format
-msgid "multiple %start declarations"
+#: src/reader.c:694 src/reader.c:855
+#, fuzzy, c-format
+msgid "multiple %s declarations"
 msgstr "複数の %start が宣言されました"
 
-#: src/reader.c:648
-#, c-format
-msgid "invalid %start declaration"
+#: src/reader.c:696 src/reader.c:1649
+#, fuzzy, c-format
+msgid "invalid %s declaration"
 msgstr "無効な %start が宣言されました"
 
-#: src/reader.c:668
+#: src/reader.c:716
 msgid "%type declaration has no <typename>"
 msgstr "%type 宣言に <タイプ名> がありません"
 
-#: src/reader.c:705
-msgid "invalid %%type declaration due to item: `%s'"
+#: src/reader.c:753
+#, fuzzy
+msgid "invalid %%type declaration due to item: %s"
 msgstr "アイテムに与えられるべき %%type 宣言が無効です: `%s'"
 
-#: src/reader.c:751
+#: src/reader.c:800
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "%s に先行した再定義です"
 
-#: src/reader.c:774
+#: src/reader.c:823
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr "無効なテキスト (%s) - 数値は識別子の後ろにあるべきです"
 
-#: src/reader.c:784
+#: src/reader.c:833
 #, c-format
 msgid "unexpected item: %s"
 msgstr "予期せぬアイテム: %s"
 
-#: src/reader.c:808
-#, c-format
-msgid "multiple %union declarations"
-msgstr "複数の %union 宣言です"
+#: src/reader.c:896 src/reader.c:1059 src/reader.c:1276
+#, fuzzy, c-format
+msgid "unmatched %s"
+msgstr "対応のない `{' です"
 
-#: src/reader.c:866
-msgid "unterminated comment at end of file"
-msgstr "ファイル末尾に閉じられていないコメントがあります"
-
-#: src/reader.c:892
-msgid "unmatched close-brace (`}')"
-msgstr "対応のない閉じブレース (`}') です"
-
-#: src/reader.c:936
+#: src/reader.c:941
 #, c-format
 msgid "argument of %expect is not an integer"
 msgstr "%expect の引数が整数値ではありません"
 
-#: src/reader.c:947
-msgid "invalid $ value"
-msgstr "無効な $ の値"
-
-#: src/reader.c:1027
-msgid "unmatched right brace (`}')"
-msgstr "対応のない右ブレース (`}') です"
-
-#: src/reader.c:1143 src/reader.c:1368
-#, c-format
-msgid "$$ of `%s' has no declared type"
-msgstr "`%s' の $$ に宣言のない型があります"
-
-#: src/reader.c:1159 src/reader.c:1383
-#, c-format
-msgid "$%s of `%s' has no declared type"
-msgstr "`%s' の $%s に宣言のない型があります"
-
-#: src/reader.c:1163 src/reader.c:1388
-#, c-format
-msgid "$%s is invalid"
-msgstr "$%s は無効です"
-
-#: src/reader.c:1177
+#: src/reader.c:973
 #, c-format
 msgid "@%s is invalid"
 msgstr "@%s は無効です"
 
-#: src/reader.c:1187
-msgid "unterminated %%guard clause"
+#: src/reader.c:988 src/reader.c:1000
+msgid "invalid $ value"
+msgstr "無効な $ の値"
+
+#: src/reader.c:1106 src/reader.c:1246
+#, c-format
+msgid "$$ of `%s' has no declared type"
+msgstr "`%s' の $$ に宣言のない型があります"
+
+#: src/reader.c:1122 src/reader.c:1262
+#, fuzzy, c-format
+msgid "$%d of `%s' has no declared type"
+msgstr "`%s' の $%s に宣言のない型があります"
+
+#: src/reader.c:1127 src/reader.c:1267
+#, c-format
+msgid "$%s is invalid"
+msgstr "$%s は無効です"
+
+#: src/reader.c:1136
+#, fuzzy, c-format
+msgid "unterminated %guard clause"
 msgstr "閉じられていない %%guard 節です"
 
-#: src/reader.c:1402
-msgid "invalid @-construct"
-msgstr "無効な @-コンストラクトです"
-
-#: src/reader.c:1412
-msgid "unmatched `{'"
-msgstr "対応のない `{' です"
-
-#: src/reader.c:1498
+#: src/reader.c:1362
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "邪悪な規則: 初期化シンボルにコロン (:) が続いていません"
 
-#: src/reader.c:1505
+#: src/reader.c:1369
 msgid "grammar starts with vertical bar"
 msgstr "文法は縦棒 (|) で始めます"
 
-#: src/reader.c:1536
+#: src/reader.c:1400
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s に規則が与えられ、それはトークンとなります"
 
-#: src/reader.c:1634
+#: src/reader.c:1498
 msgid "two @prec's in a row"
 msgstr "@prec のもの二つが同列になっています"
 
-#: src/reader.c:1642
-msgid "%%guard present but %%semantic_parser not specified"
+#: src/reader.c:1507
+#, fuzzy, c-format
+msgid "%guard present but %semantic_parser not specified"
 msgstr "%%guard がありますが %%semantic_parser が指定されていません"
 
-#. This case never occurs -wjh
-#: src/reader.c:1650
+#: src/reader.c:1516
 msgid "two actions at end of one rule"
 msgstr "一つの規則の終りに二つの動作を指定しています"
 
-#: src/reader.c:1662
+#: src/reader.c:1531
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "初期状態の動作では型 (`%s' `%s') が衝突します"
 
-#: src/reader.c:1668
+#: src/reader.c:1537
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "空の型付き非終端アイテム用規則であり、動作が起りません"
 
-#: src/reader.c:1712
+#: src/reader.c:1581
 #, c-format
 msgid "invalid input: %s"
 msgstr "無効な入力: %s"
 
-#: src/reader.c:1720
-#, c-format
-msgid "too many symbols (tokens plus nonterminals); maximum %s"
+#: src/reader.c:1589
+#, fuzzy, c-format
+msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークンと非終端アイテム) -- 最大 %s"
 
-#: src/reader.c:1723
+#: src/reader.c:1592
 msgid "no rules in the input grammar"
 msgstr "入力した文法に規則が定義されていません"
 
-#: src/reader.c:1741
+#: src/reader.c:1610
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
-msgstr "シンボル %s が使われていますが、トークンとして定義されておらず、規則を持ちません"
+msgstr ""
+"シンボル %s "
+"が使われていますが、トークンとして定義されておらず、規則を持ちません"
 
-#: src/reader.c:1780
-msgid "ill-formed %type declaration"
-msgstr "邪悪な %type 宣言です"
-
-#: src/reader.c:1859
+#: src/reader.c:1728
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "先行している %s と %s で競合が生じています"
 
-#: src/reader.c:1868
+#: src/reader.c:1740
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "非結合値 %s と %s で競合が生じています"
 
-#: src/reader.c:1915
-#, c-format
-msgid "tokens %s and %s both assigned number %s"
+#: src/reader.c:1791
+#, fuzzy, c-format
+msgid "tokens %s and %s both assigned number %d"
 msgstr "トークン %s と %s の双方が番号 %s に割り当てられました"
 
-#: src/reader.c:1929
+#: src/reader.c:1805
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "開始シンボル %s は定義されていません"
 
-#: src/reader.c:1931
+#: src/reader.c:1807
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"
@@ -566,24 +576,47 @@ msgstr "開始シンボル %s はトークンです"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"
 
-#: src/reduce.c:154
+#: src/reduce.c:155
 #, c-format
-msgid "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
-msgstr "還元ファイル %s で %d 個の終端子%.0s, %d 個の非終端子%.0s, %d 個の規則%.0sが定義されました\n"
+msgid ""
+"reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
+msgstr ""
+"還元ファイル %s で %d 個の終端子%.0s, %d 個の非終端子%.0s, %d "
+"個の規則%.0sが定義されました\n"
 
-#: src/reduce.c:492
-msgid "Useless nonterminals:\n\n"
-msgstr "不使用非終端子:\n\n"
+#: src/reduce.c:493
+msgid ""
+"Useless nonterminals:\n"
+"\n"
+msgstr ""
+"不使用非終端子:\n"
+"\n"
 
-#: src/reduce.c:504
-msgid "\n\nTerminals which are not used:\n\n"
-msgstr "\n\n利用されない終端子:\n\n"
+#: src/reduce.c:505
+msgid ""
+"\n"
+"\n"
+"Terminals which are not used:\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"利用されない終端子:\n"
+"\n"
 
-#: src/reduce.c:513
-msgid "\n\nUseless rules:\n\n"
-msgstr "\n\n不使用規則:\n\n"
+#: src/reduce.c:514
+msgid ""
+"\n"
+"\n"
+"Useless rules:\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"不使用規則:\n"
+"\n"
 
-#: src/reduce.c:541
+#: src/reduce.c:542
 msgid ""
 "Variables\n"
 "---------\n"
@@ -593,11 +626,11 @@ msgstr ""
 "---------\n"
 "\n"
 
-#: src/reduce.c:542
+#: src/reduce.c:543
 msgid "Value  Sprec    Sassoc    Tag\n"
 msgstr "値     前置     結合      タグ\n"
 
-#: src/reduce.c:547
+#: src/reduce.c:548
 msgid ""
 "Rules\n"
 "-----\n"
@@ -607,7 +640,7 @@ msgstr ""
 "-----\n"
 "\n"
 
-#: src/reduce.c:557
+#: src/reduce.c:558
 msgid ""
 "Rules interpreted\n"
 "-----------------\n"
@@ -617,85 +650,186 @@ msgstr ""
 "-----------------\n"
 "\n"
 
-#: src/reduce.c:573
+#: src/reduce.c:574
 #, c-format
 msgid "%d rules never reduced\n"
 msgstr "%d 個の規則は決して還元されません\n"
 
-#: src/reduce.c:575
+#: src/reduce.c:576
 #, c-format
 msgid "%s contains "
 msgstr "%s には"
 
-#: src/reduce.c:579
+#: src/reduce.c:580
 #, c-format
 msgid "%d useless nonterminal%s"
 msgstr "%d 個の不使用非終端子%.0s"
 
-#: src/reduce.c:584
+#: src/reduce.c:585
 msgid " and "
 msgstr "および"
 
-#: src/reduce.c:588
+#: src/reduce.c:589
 #, c-format
 msgid "%d useless rule%s"
 msgstr "%d 個の不使用規則%.0s"
 
-#: src/getopt.c:680
+#: lib/getopt.c:675
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: オプション `%s' は曖昧です\n"
 
-#: src/getopt.c:704
+#: lib/getopt.c:700
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: オプション `--%s' は引数を許しません\n"
 
-#: src/getopt.c:709
+#: lib/getopt.c:705
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: オプション `%c%s' は引数を許しません\n"
 
-#: src/getopt.c:726 src/getopt.c:899
+#: lib/getopt.c:723 lib/getopt.c:896
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: オプション `%s' は引数を要求します\n"
 
 #. --option
-#: src/getopt.c:755
+#: lib/getopt.c:752
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: 認識できないオプション `--%s' です\n"
 
 #. +option or -option
-#: src/getopt.c:759
+#: lib/getopt.c:756
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: 認識できないオプション `%c%s' です\n"
 
 #. 1003.2 specifies the format of this message.
-#: src/getopt.c:785
+#: lib/getopt.c:782
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: 定格外のオプション -- %c\n"
 
-#: src/getopt.c:788
+#: lib/getopt.c:785
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: 無効なオプション -- %c\n"
 
 #. 1003.2 specifies the format of this message.
-#: src/getopt.c:818 src/getopt.c:948
+#: lib/getopt.c:815 lib/getopt.c:945
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: オプションは引数を要求します -- %c\n"
 
-#: src/getopt.c:865
+#: lib/getopt.c:862
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: オプション `-W %s' は曖昧です\n"
 
-#: src/getopt.c:883
+#: lib/getopt.c:880
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: オプション `-W %s' は引数を許しません\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "\n"
+#~ "FIRSTS\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "\n"
+#~ "FIRSTS\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "%s firsts\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "%s firsts\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "\n"
+#~ "FDERIVES\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "\n"
+#~ "FDERIVES\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "%s derives\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "%s は以下から派生\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Usage: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
+#~ "       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
+#~ "       [--verbose] [--version] [--help] [--yacc]\n"
+#~ "       [--no-parser] [--token-table]\n"
+#~ "       [--file-prefix=prefix] [--name-prefix=prefix]\n"
+#~ "       [--output=outfile] grammar-file\n"
+#~ "\n"
+#~ "Report bugs to bug-bison@gnu.org\n"
+#~ msgstr ""
+#~ "使い方: %s [-dhklntvyV] [-b file-prefix] [-o outfile] [-p name-prefix]\n"
+#~ "       [--debug] [--defines] [--fixed-output-files] [--no-lines]\n"
+#~ "       [--verbose] [--version] [--help] [--yacc]\n"
+#~ "       [--no-parser] [--token-table]\n"
+#~ "       [--file-prefix=prefix] [--name-prefix=prefix]\n"
+#~ "       [--output=outfile] 文法ファイル\n"
+#~ "\n"
+#~ "バグを見つけたら bug-bison@gnu.org まで連絡を。\n"
+
+#~ msgid "gotos"
+#~ msgstr "goto"
+
+#~ msgid "%s: fatal error: "
+#~ msgstr "%s: 致命的エラー: "
+
+#~ msgid "%s:%d: fatal error: "
+#~ msgstr "%s:%d: 致命的エラー: "
+
+#~ msgid "%s: "
+#~ msgstr "%s: "
+
+#~ msgid "%s:%d: "
+#~ msgstr "%s:%d: "
+
+#~ msgid "unterminated comment in `%{' definition"
+#~ msgstr "`%{' 定義 に閉じられていないコメントがあります"
+
+#~ msgid "multiple %union declarations"
+#~ msgstr "複数の %union 宣言です"
+
+#~ msgid "unterminated comment at end of file"
+#~ msgstr "ファイル末尾に閉じられていないコメントがあります"
+
+#~ msgid "unmatched close-brace (`}')"
+#~ msgstr "対応のない閉じブレース (`}') です"
+
+#~ msgid "unmatched right brace (`}')"
+#~ msgstr "対応のない右ブレース (`}') です"
+
+#~ msgid "invalid @-construct"
+#~ msgstr "無効な @-コンストラクトです"
+
+#~ msgid "ill-formed %type declaration"
+#~ msgstr "邪悪な %type 宣言です"

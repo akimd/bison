@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2000-03-31 16:02+0200\n"
+"POT-Creation-Date: 2000-04-14 15:35+0200\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "unexpected `/' found and ignored"
 msgstr "se ha encontrado `/' cuando no se esperaba, no se tendrán en cuenta"
 
-#: src/lex.c:144 src/reader.c:248
+#: src/lex.c:144 src/reader.c:256
 msgid "unterminated comment"
 msgstr "comentario sin terminar"
 
@@ -295,7 +295,7 @@ msgstr "nombre de tipo sin terminar al final del fichero"
 msgid "unterminated type name"
 msgstr "nombre de tipo sin terminar"
 
-#: src/main.c:137
+#: src/main.c:136
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "error interno, %s\n"
@@ -309,7 +309,7 @@ msgstr "Entrando set_nullable"
 # en inglés era así, pero quizás en español sea mejor como dices
 # ngp
 #
-#: src/output.c:1199
+#: src/output.c:1207
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "excedido el tamaño máximo de la tabla (%s)"
@@ -434,40 +434,40 @@ msgstr "cadena sin terminar al final del fichero"
 msgid "unterminated string"
 msgstr "cadena sin terminar"
 
-#: src/reader.c:424
+#: src/reader.c:444
 #, c-format
 msgid "unrecognized: %s"
 msgstr "no reconocido: %s"
 
-#: src/reader.c:429
+#: src/reader.c:449
 msgid "no input grammar"
 msgstr "no hay gramática de entrada"
 
-#: src/reader.c:432
+#: src/reader.c:452
 #, c-format
 msgid "unknown character: %s"
 msgstr "carácter desconocido: %s"
 
-#: src/reader.c:484
+#: src/reader.c:504
 msgid "unterminated `%{' definition"
 msgstr "definición `%{' sin terminar"
 
-#: src/reader.c:525 src/reader.c:713 src/reader.c:762
+#: src/reader.c:545 src/reader.c:733 src/reader.c:782
 #, c-format
 msgid "Premature EOF after %s"
 msgstr ""
 
-#: src/reader.c:562 src/reader.c:784
+#: src/reader.c:582 src/reader.c:804
 #, c-format
 msgid "symbol %s redefined"
 msgstr "redefinido el símbolo %s"
 
-#: src/reader.c:572 src/reader.c:728 src/reader.c:791 src/reader.c:1697
+#: src/reader.c:592 src/reader.c:748 src/reader.c:811 src/reader.c:1673
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "redeclaración del tipo de %s"
 
-#: src/reader.c:582
+#: src/reader.c:602
 #, c-format
 msgid "`%s' is invalid in %s"
 msgstr "`%s' no es válido en %s"
@@ -478,36 +478,36 @@ msgstr "`%s' no es válido en %s"
 # - cll
 # ok - ngp
 #
-#: src/reader.c:630
+#: src/reader.c:650
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "no se reconoce el ítem %s, se esperaba un identificador"
 
-#: src/reader.c:652
+#: src/reader.c:672
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "se esperaba una cadena constante en lugar de %s"
 
-#: src/reader.c:674
-#, c-format
-msgid "multiple %start declarations"
+#: src/reader.c:694 src/reader.c:855
+#, fuzzy, c-format
+msgid "multiple %s declarations"
 msgstr "múltiples declaraciones de %start"
 
-#: src/reader.c:676
-#, c-format
-msgid "invalid %start declaration"
+#: src/reader.c:696 src/reader.c:1649
+#, fuzzy, c-format
+msgid "invalid %s declaration"
 msgstr "declaración de %start no válida"
 
-#: src/reader.c:696
+#: src/reader.c:716
 msgid "%type declaration has no <typename>"
 msgstr "la declaración %type no tiene <nombre-tipo>"
 
-#: src/reader.c:733
+#: src/reader.c:753
 #, fuzzy
 msgid "invalid %%type declaration due to item: %s"
 msgstr "declaración de %%type no válida debido al ítem: `%s'"
 
-#: src/reader.c:780
+#: src/reader.c:800
 #, c-format
 msgid "redefining precedence of %s"
 msgstr "redefinición de la precedencia de %s"
@@ -516,7 +516,7 @@ msgstr "redefinición de la precedencia de %s"
 # de "to must" y aquí se emplea en su forma condicional. Por eso, he
 # cambiado `debe' por `debería' - cll
 # ahí me has pillado en un olvido del inglés - ngp
-#: src/reader.c:803
+#: src/reader.c:823
 #, c-format
 msgid "invalid text (%s) - number should be after identifier"
 msgstr ""
@@ -526,53 +526,42 @@ msgstr ""
 # otras, como `inesperado'. Cualquiera es correcta, por supuesto y, en
 # este caso, la segunda me parece más apropiada - cll
 # ok - ngp
-#: src/reader.c:813
+#: src/reader.c:833
 #, c-format
 msgid "unexpected item: %s"
 msgstr "ítem inesperado: %s"
 
-#: src/reader.c:837
-#, c-format
-msgid "multiple %union declarations"
-msgstr "declaraciones múltiples de %union"
+# Cambio el orden y el sexo. Ahora está "en español". sv
+#: src/reader.c:896 src/reader.c:1059 src/reader.c:1276
+#, fuzzy, c-format
+msgid "unmatched %s"
+msgstr "`{' desemparejada"
 
-#: src/reader.c:895
-msgid "unterminated comment at end of file"
-msgstr "comentario sin terminar al final del fichero"
-
-#: src/reader.c:921
-msgid "unmatched close-brace (`}')"
-msgstr "llave de cierre (`}') desemparejada"
-
-#: src/reader.c:965
+#: src/reader.c:941
 #, c-format
 msgid "argument of %expect is not an integer"
 msgstr "el argumento de %expect no es un entero"
 
-#: src/reader.c:997
+#: src/reader.c:973
 #, c-format
 msgid "@%s is invalid"
 msgstr "@%s no es válido"
 
-#: src/reader.c:1012 src/reader.c:1024
+#: src/reader.c:988 src/reader.c:1000
 msgid "invalid $ value"
 msgstr "valor $ no válido"
 
-#: src/reader.c:1083
-msgid "unmatched right brace (`}')"
-msgstr "llave derecha (`}') desemparejada"
-
-#: src/reader.c:1130 src/reader.c:1270
+#: src/reader.c:1106 src/reader.c:1246
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' no tiene tipo declarado"
 
-#: src/reader.c:1146 src/reader.c:1286
+#: src/reader.c:1122 src/reader.c:1262
 #, fuzzy, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%s de `%s' no tiene tipo declarado"
 
-#: src/reader.c:1151 src/reader.c:1291
+#: src/reader.c:1127 src/reader.c:1267
 #, c-format
 msgid "$%s is invalid"
 msgstr "$%s no es válida"
@@ -581,102 +570,93 @@ msgstr "$%s no es válida"
 # mejor que `sin terminar' que me parece más "computerizado" - cll
 # quizás un poco cacofónico lo de claúsula inconclusa - ngp
 #
-#: src/reader.c:1160
+#: src/reader.c:1136
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "cláusula %%guard sin terminar"
 
-# Cambio el orden y el sexo. Ahora está "en español". sv
-#: src/reader.c:1300
-msgid "unmatched `{'"
-msgstr "`{' desemparejada"
-
-#: src/reader.c:1386
+#: src/reader.c:1362
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "regla mal formada: el símbolo inicial no está seguido por :"
 
-#: src/reader.c:1393
+#: src/reader.c:1369
 msgid "grammar starts with vertical bar"
 msgstr "la gramática comienza con una barra vertical"
 
-#: src/reader.c:1424
+#: src/reader.c:1400
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "se ha dado una regla para %s, que es un terminal"
 
-#: src/reader.c:1522
+#: src/reader.c:1498
 msgid "two @prec's in a row"
 msgstr "dos @prec en una línea"
 
 # Insisto, el empleo de participios a secas me parece como hablar en
 # indio. Por favor, permíteme que añada un "está" :) - cll
 # ok - ngp
-#: src/reader.c:1531
+#: src/reader.c:1507
 #, fuzzy, c-format
 msgid "%guard present but %semantic_parser not specified"
 msgstr "%%guard presente pero %%semantic_parser está sin especificar"
 
-#: src/reader.c:1540
+#: src/reader.c:1516
 msgid "two actions at end of one rule"
 msgstr "dos acciones al final de una regla"
 
-#: src/reader.c:1555
+#: src/reader.c:1531
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "los tipos (`%s' `%s') no concuerdan en la acción por defecto"
 
-#: src/reader.c:1561
+#: src/reader.c:1537
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regla vacía para un no terminal con tipo y no hay ninguna acción"
 
-#: src/reader.c:1605
+#: src/reader.c:1581
 #, c-format
 msgid "invalid input: %s"
 msgstr "entrada no válida: %s"
 
-#: src/reader.c:1613
+#: src/reader.c:1589
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "demasiados símbolos (terminales y no terminales); máximo %s"
 
-#: src/reader.c:1616
+#: src/reader.c:1592
 msgid "no rules in the input grammar"
 msgstr "no hay reglas en la gramática de entrada"
 
 # `token' se debe traducir como `literal' - cll
 # en terminología de compiladores token es más un terminal - ngp
 #
-#: src/reader.c:1634
+#: src/reader.c:1610
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "se usa el símbolo %s, pero no está definido como terminal y no tiene reglas"
 
-#: src/reader.c:1673
-msgid "ill-formed %type declaration"
-msgstr "declaración %type incorrectamente formada"
-
-#: src/reader.c:1752
+#: src/reader.c:1728
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "precedencias en conflicto entre %s y %s"
 
-#: src/reader.c:1764
+#: src/reader.c:1740
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "conflicto de valores assoc para %s y %s"
 
-#: src/reader.c:1815
+#: src/reader.c:1791
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "los terminales %s y %s tienen asignados ambos el número %s"
 
-#: src/reader.c:1829
+#: src/reader.c:1805
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "el símbolo de inicio (axioma) %s no está definido"
 
-#: src/reader.c:1831
+#: src/reader.c:1807
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "el símbolo de inicio (axioma) %s es un terminal"
@@ -698,7 +678,7 @@ msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
 # Te recomiendo `la reducción de %s' en vez de seguir el estilo inglés y
 # usar participios - cll
 # un error lo tiene cualquiera - ngp
-#: src/reduce.c:154
+#: src/reduce.c:155
 #, c-format
 msgid ""
 "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
@@ -706,7 +686,7 @@ msgstr ""
 "la reducción de %s define %d terminal%s, %d no terminal%s, y %d "
 "produccion%s.\n"
 
-#: src/reduce.c:492
+#: src/reduce.c:493
 msgid ""
 "Useless nonterminals:\n"
 "\n"
@@ -714,7 +694,7 @@ msgstr ""
 "No terminales sin uso:\n"
 "\n"
 
-#: src/reduce.c:504
+#: src/reduce.c:505
 msgid ""
 "\n"
 "\n"
@@ -726,7 +706,7 @@ msgstr ""
 "Terminales que no se usan:\n"
 "\n"
 
-#: src/reduce.c:513
+#: src/reduce.c:514
 msgid ""
 "\n"
 "\n"
@@ -738,7 +718,7 @@ msgstr ""
 "Reglas sin uso:\n"
 "\n"
 
-#: src/reduce.c:541
+#: src/reduce.c:542
 msgid ""
 "Variables\n"
 "---------\n"
@@ -748,11 +728,11 @@ msgstr ""
 "---------\n"
 "\n"
 
-#: src/reduce.c:542
+#: src/reduce.c:543
 msgid "Value  Sprec    Sassoc    Tag\n"
 msgstr "Valor  Sprec    Sasoc     Tag\n"
 
-#: src/reduce.c:547
+#: src/reduce.c:548
 msgid ""
 "Rules\n"
 "-----\n"
@@ -762,7 +742,7 @@ msgstr ""
 "------\n"
 "\n"
 
-#: src/reduce.c:557
+#: src/reduce.c:558
 msgid ""
 "Rules interpreted\n"
 "-----------------\n"
@@ -772,26 +752,26 @@ msgstr ""
 "--------------------\n"
 "\n"
 
-#: src/reduce.c:573
+#: src/reduce.c:574
 #, c-format
 msgid "%d rules never reduced\n"
 msgstr "%d reglas que nunca se han reducido\n"
 
-#: src/reduce.c:575
+#: src/reduce.c:576
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
 
-#: src/reduce.c:579
+#: src/reduce.c:580
 #, c-format
 msgid "%d useless nonterminal%s"
 msgstr "%d no terminales %s sin uso"
 
-#: src/reduce.c:584
+#: src/reduce.c:585
 msgid " and "
 msgstr " y "
 
-#: src/reduce.c:588
+#: src/reduce.c:589
 #, c-format
 msgid "%d useless rule%s"
 msgstr "%d regla%s sin uso"
@@ -878,6 +858,21 @@ msgstr "%s: la opción `%s' es ambigua\n"
 #, fuzzy, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: la opción `--%s' no admite ningún argumento\n"
+
+#~ msgid "unmatched close-brace (`}')"
+#~ msgstr "llave de cierre (`}') desemparejada"
+
+#~ msgid "unmatched right brace (`}')"
+#~ msgstr "llave derecha (`}') desemparejada"
+
+#~ msgid "multiple %union declarations"
+#~ msgstr "declaraciones múltiples de %union"
+
+#~ msgid "unterminated comment at end of file"
+#~ msgstr "comentario sin terminar al final del fichero"
+
+#~ msgid "ill-formed %type declaration"
+#~ msgstr "declaración %type incorrectamente formada"
 
 # Duda: desconozco en qué caso se emplea esto. Estúdialo bien y
 # comprueba que realmente es necesario emplear una palabra no

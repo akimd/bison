@@ -1,3 +1,16 @@
+2000-04-14  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (copy_comment2): New function, same as former
+	`copy_comment', but outputs into two FILE *.
+	(copy_comment): Use it.
+	(parse_union_decl): Use it.
+	(get_type, parse_start_decl): Use the same `invalid' message.
+	(parse_start_decl, parse_union_decl): Use the same `multiple'
+	message.
+	(parse_union_decl, copy_guard, copy_action): Use the same
+	`unmatched' message.
+	* m4/Makefile.am (EXTRA_DIST): Add `warning.m4'.
+
 2000-03-31  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c (tryopen, tryclose): Move to the top.
