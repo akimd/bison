@@ -311,9 +311,9 @@ yylex (]AT_LEX_FORMALS[)
 ]AT_LALR1_CC_IF(
 [/* A C++ error reporting function. */
 void
-yy::Parser::error_ ()
+yy::Parser::error (const Location& l, const std::string& m)
 {
-  printf ("%d-%d: %s\n", RANGE (location), message.c_str());
+  printf ("%d-%d: %s\n", RANGE (l), m.c_str());
 }
 
 static bool yydebug;

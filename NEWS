@@ -1,6 +1,8 @@
 Bison News
 ----------
 
+Changes in version 1.875f:
+
 Changes in version 1.875e, 2004-12-10:
 
 * New directive: %initial-action.

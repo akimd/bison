@@ -128,9 +128,10 @@ static FILE *yyin;
 ]AT_LALR1_CC_IF(
 [/* A C++ error reporting function. */
 void
-yy::Parser::error_ ()
+yy::Parser::error (const Location& l, const std::string& m)
 {
-  std::cerr << AT_LOCATION_IF([location << ": " << ])message << std::endl;
+  (void) l;
+  std::cerr << AT_LOCATION_IF([l << ": " << ])m << std::endl;
 }
 
 int

@@ -203,6 +203,7 @@ namespace yy
 
 namespace yy
 {
+  /// A Bison parser.
   class ]b4_parser_class_name[
   {
   public:
@@ -217,10 +218,14 @@ namespace yy
     /// Symbol locations.
     typedef Traits<]b4_parser_class_name[>::LocationType    LocationType;
 
+    /// State stack type.
     typedef Stack<StateType>    StateStack;
+    /// Semantic value stack type.
     typedef Stack<SemanticType> SemanticStack;
+    /// Location stack type.
     typedef Stack<LocationType> LocationStack;
 
+    /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[) :
       yydebug_ (false),
       yycdebug_ (&std::cerr)]b4_parse_param_cons[
@@ -251,9 +256,15 @@ namespace yy
 
     /// Call the scanner.
     virtual void yylex_ ();
-    virtual void error_ ();
-    /// Generate an error message, and invoke error. */
+
+    /// Report a syntax error.
+    /// \param loc    where the syntax error is found.
+    /// \param msg    a description of the syntax error.
+    virtual void error (const LocationType& loc, const std::string& msg);
+
+    /// Generate an error message, and invoke error.
     virtual void yyreport_syntax_error_ ();
+
 #if YYDEBUG
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
@@ -273,19 +284,38 @@ namespace yy
     LocationStack yylocation_stack_;
 
     /* Tables.  */
+    /// For a state, the index in \a yytable_ of its portion.
     static const ]b4_int_type_for([b4_pact])[ yypact_[];
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
+
+    /// For a state, default rule to reduce.
+    /// Unless\a  yytable_ specifies something else to do.
+    /// Zero means the default is an error.
     static const ]b4_int_type_for([b4_defact])[ yydefact_[];
+
     static const ]b4_int_type_for([b4_pgoto])[ yypgoto_[];
     static const ]b4_int_type_for([b4_defgoto])[ yydefgoto_[];
+
+    /// What to do in a state.
+    /// \a yytable_[yypact_[s]]: what to do in state \a s.
+    /// - if positive, shift that token.
+    /// - if negative, reduce the rule which number is the opposite.
+    /// - if zero, do what YYDEFACT says.
     static const ]b4_int_type_for([b4_table])[ yytable_[];
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
+
     static const ]b4_int_type_for([b4_check])[ yycheck_[];
+
+    /// For a state, its accessing symbol.
     static const ]b4_int_type_for([b4_stos])[ yystos_[];
+
+    /// For a rule, its LHS.
     static const ]b4_int_type_for([b4_r1])[ yyr1_[];
+    /// For a rule, its RHS length.
     static const ]b4_int_type_for([b4_r2])[ yyr2_[];
 
 #if YYDEBUG || YYERROR_VERBOSE
+    /// For a symbol, its name in clear.
     static const char* const yyname_[];
 #endif
 
@@ -298,9 +328,9 @@ namespace yy
     static const ]b4_int_type_for([b4_rline])[ yyrline_[];
     /// For each scanner token number, its symbol number.
     static const ]b4_int_type_for([b4_toknum])[ yytoken_number_[];
-    /// Report on the debug stream that the rule \a yyrule is going to be reduced.
-    virtual void yyreduce_print_ (int yyrule);
-/// Print the state stack on the debug stream.
+    /// Report on the debug stream that the rule \a r is going to be reduced.
+    virtual void yyreduce_print_ (int r);
+    /// Print the state stack on the debug stream.
     virtual void yystack_print_ ();
 #endif
 
@@ -349,9 +379,6 @@ namespace yy
     /* Look-ahead and look-ahead in internal form.  */
     int yylooka_;
     int yyilooka_;
-
-    /* Message.  */
-    std::string message;
 
     /// Semantic value of the look-ahead.
     SemanticType value;
@@ -805,7 +832,7 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
   if (!yyerrstatus_)
     {
       ++yynerrs_;
-
+      std::string message;
 #if YYERROR_VERBOSE
       yyn_ = yypact_[yystate_];
       if (yypact_ninf_ < yyn_ && yyn_ < yylast_)
@@ -838,7 +865,7 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
       else
 #endif
 	message = "syntax error";
-      error_ ();
+      error (location, message);
     }
 }
 

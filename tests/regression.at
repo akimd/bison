@@ -727,9 +727,9 @@ member: STRING
 AT_LALR1_CC_IF(
 [/* A C++ error reporting function. */
 void
-yy::Parser::error_ ()
+yy::Parser::error (const Location&, const std::string& m)
 {
-  std::cerr << message << std::endl;
+  std::cerr << m << std::endl;
 }
 
 int

@@ -1,3 +1,15 @@
+2004-12-17  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc: Extensive Doxygenation.
+	(error_): Rename as...
+	(error): this, since it is visible to the user.
+	Adjust callers.
+	(Parser::message): Now an automatic variable from...
+	(Parser::yyreport_syntax_error_): here.
+	* tests/actions.at, tests/calc.at, tests/regression.at: Adjust to
+	Parser::error.
+	* tests/input.at: Escape $.
+
 2004-12-16  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (b4_lhs_value, b4_rhs_value, b4_rhs-location):
