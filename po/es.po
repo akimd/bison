@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.49a\n"
-"POT-Creation-Date: 2002-12-24 00:30-0800\n"
+"POT-Creation-Date: 2002-12-28 19:00-0800\n"
 "PO-Revision-Date: 2002-05-02 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Unknown system error"
 msgstr "Error del sistema desconocido"
 
-#: src/complain.c:80 src/complain.c:97
+#: src/complain.c:79 src/complain.c:94
 msgid "warning: "
 msgstr "aviso: "
 
@@ -53,7 +53,7 @@ msgstr "aviso: "
 # La verdad es que a mi lo de error fatal me suena fatal
 # ngp
 #
-#: src/complain.c:159 src/complain.c:177
+#: src/complain.c:150 src/complain.c:166
 msgid "fatal error: "
 msgstr "error grave: "
 
@@ -78,27 +78,10 @@ msgstr ""
 "El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
-#: src/conflicts.c:403
+#: src/conflicts.c:398
 #, c-format
-msgid "%d shift/reduce conflict"
-msgid_plural "%d shift/reduce conflicts"
-msgstr[0] "%d conflicto desplazamiento/reducción"
-msgstr[1] "%d conflictos desplazamiento/reducción"
-
-#: src/conflicts.c:410
-msgid "and"
-msgstr "y"
-
-#: src/conflicts.c:416
-#, c-format
-msgid "%d reduce/reduce conflict"
-msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] " %d conflicto reducción/reducción"
-msgstr[1] " %d conflictos reducción/reducción"
-
-#: src/conflicts.c:436
-msgid "conflicts: "
-msgstr "conflictos: "
+msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
+msgstr ""
 
 # Date cuenta de que `%d' puede ser cualquier número decimal. Podría
 # ocurrir, por lo tanto, que tu mensaje en ejecución se vea luego como:
@@ -112,9 +95,9 @@ msgstr "conflictos: "
 # ok
 # ngp
 #
-#: src/conflicts.c:438
-#, c-format
-msgid " %d shift/reduce"
+#: src/conflicts.c:401
+#, fuzzy, c-format
+msgid "conflicts: %d shift/reduce\n"
 msgstr " %d desplazamiento(s)/reducción(ones)"
 
 # Date cuenta de que `%d' puede ser cualquier número decimal. Podría
@@ -129,36 +112,46 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 #
 # ok
 # ngp
-#: src/conflicts.c:442
-#, c-format
-msgid " %d reduce/reduce"
+#: src/conflicts.c:403
+#, fuzzy, c-format
+msgid "conflicts: %d reduce/reduce\n"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:461
-#, c-format
-msgid "State %d contains "
-msgstr "El estado %d contiene"
+#: src/conflicts.c:421
+#, fuzzy, c-format
+msgid "State %d "
+msgstr "estado %d"
 
-#: src/conflicts.c:538
+#: src/conflicts.c:498
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] "esperado: %d conflicto desplazamiento/reducción\n"
 msgstr[1] "esperados: %d conflictos desplazamiento/reducción\n"
 
-#: src/files.c:98
+#: src/conflicts.c:503
+#, fuzzy
+msgid "expected 0 reduce/reduce conflicts"
+msgstr " %d conflicto reducción/reducción"
+
+#: src/files.c:99
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "no se puede abrir el fichero `%s'"
 
-#: src/files.c:114
+#: src/files.c:115
 #, fuzzy
 msgid "I/O error"
 msgstr "un error"
 
-#: src/files.c:117
+#: src/files.c:118
 msgid "cannot close file"
 msgstr "no se puede cerrar el fichero"
+
+#: src/files.c:336
+#, fuzzy, c-format
+msgid "conflicting outputs to file %s"
+msgstr "conflicto de valores assoc para %s y %s"
 
 #: src/getargs.c:182
 #, c-format
@@ -276,12 +269,12 @@ msgstr ""
 "NINGUNA garantía; ni siquiera para COMERCIALIZACIÓN o ADAPTACIÓN PARA UN\n"
 "USO PARTICULAR\n"
 
-#: src/getargs.c:423
+#: src/getargs.c:424
 #, c-format
 msgid "missing operand after `%s'"
 msgstr ""
 
-#: src/getargs.c:425
+#: src/getargs.c:426
 #, c-format
 msgid "extra operand `%s'"
 msgstr ""
@@ -463,7 +456,7 @@ msgid_plural "%d useless rules"
 msgstr[0] "%d regla sin uso"
 msgstr[1] "%d reglas sin uso"
 
-#: src/reduce.c:436
+#: src/reduce.c:435
 #, fuzzy, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
@@ -807,6 +800,20 @@ msgstr ""
 
 #~ msgid "shift"
 #~ msgstr "desplaza"
+
+#~ msgid "%d shift/reduce conflict"
+#~ msgid_plural "%d shift/reduce conflicts"
+#~ msgstr[0] "%d conflicto desplazamiento/reducción"
+#~ msgstr[1] "%d conflictos desplazamiento/reducción"
+
+#~ msgid "and"
+#~ msgstr "y"
+
+#~ msgid "State %d contains "
+#~ msgstr "El estado %d contiene"
+
+#~ msgid "conflicts: "
+#~ msgstr "conflictos: "
 
 #~ msgid "%s contains "
 #~ msgstr "%s contiene "

@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.75b\n"
-"POT-Creation-Date: 2002-12-24 00:30-0800\n"
-"PO-Revision-Date: 2002-11-23 14:19+0100\n"
+"Project-Id-Version: bison 1.75e\n"
+"POT-Creation-Date: 2002-12-28 19:00-0800\n"
+"PO-Revision-Date: 2002-12-28 20:27+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 msgid "Unknown system error"
 msgstr "Okänt systemfel"
 
-#: src/complain.c:80 src/complain.c:97
+#: src/complain.c:79 src/complain.c:94
 msgid "warning: "
 msgstr "varning: "
 
-#: src/complain.c:159 src/complain.c:177
+#: src/complain.c:150 src/complain.c:166
 msgid "fatal error: "
 msgstr "ödesdigert fel: "
 
@@ -42,62 +42,55 @@ msgstr "    Konflikt mellan regel %d och element %s löstes som reducera"
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr "    Konflikt mellan regel %d och element %s löstes som ett fel"
 
-#: src/conflicts.c:403
+#: src/conflicts.c:398
 #, c-format
-msgid "%d shift/reduce conflict"
-msgid_plural "%d shift/reduce conflicts"
-msgstr[0] "%d skifta/reducerakonflikt"
-msgstr[1] "%d skifta/reducerakonflikter"
+msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
+msgstr ""
 
-#: src/conflicts.c:410
-msgid "and"
-msgstr "och"
-
-#: src/conflicts.c:416
-#, c-format
-msgid "%d reduce/reduce conflict"
-msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] "%d reducera/reducerakonflikt"
-msgstr[1] "%d reducera/reducerakonflikter"
-
-#: src/conflicts.c:436
-msgid "conflicts: "
-msgstr "konflikter: "
-
-#: src/conflicts.c:438
-#, c-format
-msgid " %d shift/reduce"
+#: src/conflicts.c:401
+#, fuzzy, c-format
+msgid "conflicts: %d shift/reduce\n"
 msgstr " %d skifta/reducera"
 
-#: src/conflicts.c:442
-#, c-format
-msgid " %d reduce/reduce"
+#: src/conflicts.c:403
+#, fuzzy, c-format
+msgid "conflicts: %d reduce/reduce\n"
 msgstr " %d reducera/reducera"
 
-#: src/conflicts.c:461
-#, c-format
-msgid "State %d contains "
-msgstr "Tillstånd %d innehåller "
+#: src/conflicts.c:421
+#, fuzzy, c-format
+msgid "State %d "
+msgstr "tillstånd %d"
 
-#: src/conflicts.c:538
+#: src/conflicts.c:498
 #, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] "förväntade %d skifta/reducerakonflikt"
 msgstr[1] "förväntade %d skifta/reducerakonflikter"
 
-#: src/files.c:98
+#: src/conflicts.c:503
+#, fuzzy
+msgid "expected 0 reduce/reduce conflicts"
+msgstr "%d reducera/reducerakonflikt"
+
+#: src/files.c:99
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "kan inte öppna filen \"%s\""
 
-#: src/files.c:114
+#: src/files.c:115
 msgid "I/O error"
 msgstr "I/O-fel"
 
-#: src/files.c:117
+#: src/files.c:118
 msgid "cannot close file"
 msgstr "kan inte stänga fil"
+
+#: src/files.c:336
+#, c-format
+msgid "conflicting outputs to file %s"
+msgstr ""
 
 #: src/getargs.c:182
 #, c-format
@@ -220,12 +213,12 @@ msgstr ""
 "finns INGEN garanti, inte ens för SÄLJBARHET eller LÄMPLIGHET FÖR ETT\n"
 "SPECIELLT ÄNDAMÅL.\n"
 
-#: src/getargs.c:423
+#: src/getargs.c:424
 #, c-format
 msgid "missing operand after `%s'"
 msgstr "saknad operand efter \"%s\""
 
-#: src/getargs.c:425
+#: src/getargs.c:426
 #, c-format
 msgid "extra operand `%s'"
 msgstr "extra operand \"%s\""
@@ -252,7 +245,7 @@ msgstr "POSIX förbjuder deklarationer i grammatiken"
 
 #: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
-msgstr ""
+msgstr "identiferare saknas i parameterdeklaration"
 
 #: src/print.c:48
 #, c-format
@@ -359,9 +352,9 @@ msgid "useless rule"
 msgstr "oanvändbar regel"
 
 #: src/reduce.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "useless nonterminal: %s"
-msgstr "oanvändbar icketerminal"
+msgstr "oanvändbar icketerminal: %s"
 
 #: src/reduce.c:350
 msgid "Useless nonterminals"
@@ -400,7 +393,7 @@ msgid_plural "%d useless rules"
 msgstr[0] "%d oanvändbar regel"
 msgstr[1] "%d oanvändbara regler"
 
-#: src/reduce.c:436
+#: src/reduce.c:435
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "startsymbolen %s genererar inga meningar"
@@ -412,7 +405,7 @@ msgstr "ogiltigt direktiv: %s"
 
 #: src/scan-gram.l:219
 msgid "stray `,' treated as white space"
-msgstr ""
+msgstr "vilsekommet \",\" hanterat som blank"
 
 #: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
 #, c-format
@@ -435,9 +428,9 @@ msgid "unrecognized escape sequence: %s"
 msgstr "okänd specialsekvens: %s"
 
 #: src/scan-gram.l:523
-#, fuzzy, c-format
+#, c-format
 msgid "missing `{' in `%s'"
-msgstr "saknad operand efter \"%s\""
+msgstr "saknad \"{\" i \"%s\""
 
 #: src/scan-gram.l:737
 #, c-format
@@ -716,3 +709,17 @@ msgstr " TOTALT                :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "tid i %s: %ld.%06ld (%ld%%)\n"
+
+#~ msgid "%d shift/reduce conflict"
+#~ msgid_plural "%d shift/reduce conflicts"
+#~ msgstr[0] "%d skifta/reducerakonflikt"
+#~ msgstr[1] "%d skifta/reducerakonflikter"
+
+#~ msgid "and"
+#~ msgstr "och"
+
+#~ msgid "conflicts: "
+#~ msgstr "konflikter: "
+
+#~ msgid "State %d contains "
+#~ msgstr "Tillstånd %d innehåller "

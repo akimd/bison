@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-12-24 00:30-0800\n"
+"POT-Creation-Date: 2002-12-28 19:00-0800\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -20,11 +20,11 @@ msgstr ""
 msgid "Unknown system error"
 msgstr "Nepoznata sistemska gre¹ka"
 
-#: src/complain.c:80 src/complain.c:97
+#: src/complain.c:79 src/complain.c:94
 msgid "warning: "
 msgstr "upozorenje:"
 
-#: src/complain.c:159 src/complain.c:177
+#: src/complain.c:150 src/complain.c:166
 msgid "fatal error: "
 msgstr "fatalna gre¹ka:"
 
@@ -43,63 +43,56 @@ msgstr "Konflikt u stanju %d izmeðu pravila %d i znaka %s razrije¹en kao %s.\n"
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr "Konflikt u stanju %d izmeðu pravila %d i znaka %s razrije¹en kao %s.\n"
 
-#: src/conflicts.c:403
+#: src/conflicts.c:398
 #, c-format
-msgid "%d shift/reduce conflict"
-msgid_plural "%d shift/reduce conflicts"
-msgstr[0] "%d pomakni/reduciraj konflikat"
-msgstr[1] "%d pomakni/reduciraj konflikata"
+msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
+msgstr ""
 
-#: src/conflicts.c:410
-msgid "and"
-msgstr "i"
-
-#: src/conflicts.c:416
-#, c-format
-msgid "%d reduce/reduce conflict"
-msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] "%d reduciraj/reduciraj konflikt"
-msgstr[1] "%d reduciraj/reduciraj konflikata"
-
-#: src/conflicts.c:436
-msgid "conflicts: "
-msgstr "konflikt:"
-
-#: src/conflicts.c:438
-#, c-format
-msgid " %d shift/reduce"
+#: src/conflicts.c:401
+#, fuzzy, c-format
+msgid "conflicts: %d shift/reduce\n"
 msgstr " %d pomakni/reduciraj"
 
-#: src/conflicts.c:442
-#, c-format
-msgid " %d reduce/reduce"
+#: src/conflicts.c:403
+#, fuzzy, c-format
+msgid "conflicts: %d reduce/reduce\n"
 msgstr " %d reduviraj/reduciraj"
 
-#: src/conflicts.c:461
-#, c-format
-msgid "State %d contains "
-msgstr "Stanje %d sadr¾i"
+#: src/conflicts.c:421
+#, fuzzy, c-format
+msgid "State %d "
+msgstr "stanje %d"
 
-#: src/conflicts.c:538
+#: src/conflicts.c:498
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] "oèekujem %d pomakni/reduciraj konflikt\n"
 msgstr[1] "oèekujem %d pomakni/reduciraj konflikata\n"
 
-#: src/files.c:98
+#: src/conflicts.c:503
+#, fuzzy
+msgid "expected 0 reduce/reduce conflicts"
+msgstr "%d reduciraj/reduciraj konflikt"
+
+#: src/files.c:99
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "ne mogu otvoriti datoteku `%s'"
 
-#: src/files.c:114
+#: src/files.c:115
 #, fuzzy
 msgid "I/O error"
 msgstr "gre¹ka"
 
-#: src/files.c:117
+#: src/files.c:118
 msgid "cannot close file"
 msgstr "ne mogu zatvoriti datoteku"
+
+#: src/files.c:336
+#, fuzzy, c-format
+msgid "conflicting outputs to file %s"
+msgstr "konfliktne asocijativne vrijednosti za %s i %s"
 
 #: src/getargs.c:182
 #, c-format
@@ -214,12 +207,12 @@ msgstr ""
 "kopiranja.  NEMA\n"
 "garancije; èak ni tvrdnje o ISPLATIVOSTI ili POGODNOSTI ZA NEKU SVRHU.\n"
 
-#: src/getargs.c:423
+#: src/getargs.c:424
 #, c-format
 msgid "missing operand after `%s'"
 msgstr ""
 
-#: src/getargs.c:425
+#: src/getargs.c:426
 #, c-format
 msgid "extra operand `%s'"
 msgstr ""
@@ -401,7 +394,7 @@ msgid_plural "%d useless rules"
 msgstr[0] "%d beskorisno pravilo"
 msgstr[1] "%d beskorisnih pravila"
 
-#: src/reduce.c:436
+#: src/reduce.c:435
 #, fuzzy, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "Poèetni simbol %s ne daje niti jednu reèenicu"
@@ -717,6 +710,20 @@ msgstr ""
 
 #~ msgid "shift"
 #~ msgstr "pomakni"
+
+#~ msgid "%d shift/reduce conflict"
+#~ msgid_plural "%d shift/reduce conflicts"
+#~ msgstr[0] "%d pomakni/reduciraj konflikat"
+#~ msgstr[1] "%d pomakni/reduciraj konflikata"
+
+#~ msgid "and"
+#~ msgstr "i"
+
+#~ msgid "State %d contains "
+#~ msgstr "Stanje %d sadr¾i"
+
+#~ msgid "conflicts: "
+#~ msgstr "konflikt:"
 
 #~ msgid "%s contains "
 #~ msgstr "%s sadr¾i"

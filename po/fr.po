@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.75b\n"
-"POT-Creation-Date: 2002-12-24 00:30-0800\n"
+"POT-Creation-Date: 2002-12-28 19:00-0800\n"
 "PO-Revision-Date: 2002-11-13 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 msgid "Unknown system error"
 msgstr "Erreur système inconnue"
 
-#: src/complain.c:80 src/complain.c:97
+#: src/complain.c:79 src/complain.c:94
 msgid "warning: "
 msgstr "AVERTISSEMENT: "
 
-#: src/complain.c:159 src/complain.c:177
+#: src/complain.c:150 src/complain.c:166
 msgid "fatal error: "
 msgstr "erreur fatale: "
 
@@ -42,62 +42,55 @@ msgstr "Conflit entre la règle %d et le jeton %s résolu par réduction"
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr "Conflit entre la règle %d et le jeton %s résolu comme étant une erreur"
 
-#: src/conflicts.c:403
+#: src/conflicts.c:398
 #, c-format
-msgid "%d shift/reduce conflict"
-msgid_plural "%d shift/reduce conflicts"
-msgstr[0] "%d conflit par décalage/réduction"
-msgstr[1] "%d conflits par décalage/réduction"
+msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
+msgstr ""
 
-#: src/conflicts.c:410
-msgid "and"
-msgstr "et"
-
-#: src/conflicts.c:416
-#, c-format
-msgid "%d reduce/reduce conflict"
-msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] "%d conflit par réduction/réduction"
-msgstr[1] "%d conflits par réduction/réduction"
-
-#: src/conflicts.c:436
-msgid "conflicts: "
-msgstr "conflits: "
-
-#: src/conflicts.c:438
-#, c-format
-msgid " %d shift/reduce"
+#: src/conflicts.c:401
+#, fuzzy, c-format
+msgid "conflicts: %d shift/reduce\n"
 msgstr " %d décalage/réduction"
 
-#: src/conflicts.c:442
-#, c-format
-msgid " %d reduce/reduce"
+#: src/conflicts.c:403
+#, fuzzy, c-format
+msgid "conflicts: %d reduce/reduce\n"
 msgstr " %d réduction/réduction"
 
-#: src/conflicts.c:461
-#, c-format
-msgid "State %d contains "
-msgstr "L'état %d contient "
+#: src/conflicts.c:421
+#, fuzzy, c-format
+msgid "State %d "
+msgstr "état %d"
 
-#: src/conflicts.c:538
+#: src/conflicts.c:498
 #, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] "attendait %d conflit par décalage/réduction"
 msgstr[1] "attendait %d conflits par décalage/réduction"
 
-#: src/files.c:98
+#: src/conflicts.c:503
+#, fuzzy
+msgid "expected 0 reduce/reduce conflicts"
+msgstr "%d conflit par réduction/réduction"
+
+#: src/files.c:99
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "ne peut ouvrir le fichier « %s »"
 
-#: src/files.c:114
+#: src/files.c:115
 msgid "I/O error"
 msgstr "une erreur d'E/S"
 
-#: src/files.c:117
+#: src/files.c:118
 msgid "cannot close file"
 msgstr "ne peut fermer le fichier"
+
+#: src/files.c:336
+#, c-format
+msgid "conflicting outputs to file %s"
+msgstr ""
 
 #: src/getargs.c:182
 #, c-format
@@ -221,12 +214,12 @@ msgstr ""
 "reproduction. AUCUNE garantie n'est donnée; tant pour des raisons\n"
 "COMMERCIALES que pour RÉPONDRE À UN BESOIN PARTICULIER.\n"
 
-#: src/getargs.c:423
+#: src/getargs.c:424
 #, c-format
 msgid "missing operand after `%s'"
 msgstr "opérande manquante après « %s »"
 
-#: src/getargs.c:425
+#: src/getargs.c:426
 #, c-format
 msgid "extra operand `%s'"
 msgstr "opérande superflue « %s »"
@@ -402,7 +395,7 @@ msgid_plural "%d useless rules"
 msgstr[0] "%d règle inutilisable"
 msgstr[1] "%d règles inutilisables"
 
-#: src/reduce.c:436
+#: src/reduce.c:435
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr ""
@@ -716,6 +709,20 @@ msgstr " TOTAL                 :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "temps dans %s: %ld.%06ld (%ld%%)\n"
+
+#~ msgid "%d shift/reduce conflict"
+#~ msgid_plural "%d shift/reduce conflicts"
+#~ msgstr[0] "%d conflit par décalage/réduction"
+#~ msgstr[1] "%d conflits par décalage/réduction"
+
+#~ msgid "and"
+#~ msgstr "et"
+
+#~ msgid "conflicts: "
+#~ msgstr "conflits: "
+
+#~ msgid "State %d contains "
+#~ msgstr "L'état %d contient "
 
 #~ msgid "too many gotos (max %d)"
 #~ msgstr "nombre trop grand de « goto » (Max %d)"

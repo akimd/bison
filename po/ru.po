@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-12-24 00:30-0800\n"
+"POT-Creation-Date: 2002-12-28 19:00-0800\n"
 "PO-Revision-Date: 2002-07-20 13:23+0400\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 msgid "Unknown system error"
 msgstr "Неизвестная системная ошибка"
 
-#: src/complain.c:80 src/complain.c:97
+#: src/complain.c:79 src/complain.c:94
 msgid "warning: "
 msgstr "предупреждение: "
 
-#: src/complain.c:159 src/complain.c:177
+#: src/complain.c:150 src/complain.c:166
 msgid "fatal error: "
 msgstr "фатальная ошибка: "
 
@@ -45,46 +45,27 @@ msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr ""
 "Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
 
-#: src/conflicts.c:403
+#: src/conflicts.c:398
 #, c-format
-msgid "%d shift/reduce conflict"
-msgid_plural "%d shift/reduce conflicts"
-msgstr[0] "%d конфликт сдвига/вывода"
-msgstr[1] "%d конфликта сдвига/вывода"
-msgstr[2] "%d конфликтов сдвига/вывода"
+msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
+msgstr ""
 
-#: src/conflicts.c:410
-msgid "and"
-msgstr "и"
-
-#: src/conflicts.c:416
-#, c-format
-msgid "%d reduce/reduce conflict"
-msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] "%d конфликт вывода/вывода"
-msgstr[1] "%d конфликта вывода/вывода"
-msgstr[2] "%d конфликтов вывода/вывода"
-
-#: src/conflicts.c:436
-msgid "conflicts: "
-msgstr "конфликты: "
-
-#: src/conflicts.c:438
-#, c-format
-msgid " %d shift/reduce"
+#: src/conflicts.c:401
+#, fuzzy, c-format
+msgid "conflicts: %d shift/reduce\n"
 msgstr " %d сдвиг/вывод"
 
-#: src/conflicts.c:442
-#, c-format
-msgid " %d reduce/reduce"
+#: src/conflicts.c:403
+#, fuzzy, c-format
+msgid "conflicts: %d reduce/reduce\n"
 msgstr " %d вывод/вывод"
 
-#: src/conflicts.c:461
-#, c-format
-msgid "State %d contains "
-msgstr "Состояние %d содержит "
+#: src/conflicts.c:421
+#, fuzzy, c-format
+msgid "State %d "
+msgstr "состояние %d"
 
-#: src/conflicts.c:538
+#: src/conflicts.c:498
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
@@ -92,19 +73,29 @@ msgstr[0] "ожидался %d конфликт сдвига/вывода\n"
 msgstr[1] "ожидалось %d конфликта сдвига/вывода\n"
 msgstr[2] "ожидалось %d конфликтов сдвига/вывода\n"
 
-#: src/files.c:98
+#: src/conflicts.c:503
+#, fuzzy
+msgid "expected 0 reduce/reduce conflicts"
+msgstr "%d конфликт вывода/вывода"
+
+#: src/files.c:99
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "не удается открыть файл `%s'"
 
-#: src/files.c:114
+#: src/files.c:115
 #, fuzzy
 msgid "I/O error"
 msgstr "ошибка"
 
-#: src/files.c:117
+#: src/files.c:118
 msgid "cannot close file"
 msgstr "не удается закрыть файл"
+
+#: src/files.c:336
+#, fuzzy, c-format
+msgid "conflicting outputs to file %s"
+msgstr "противоречивые значения ассоциативности для %s и %s"
 
 #: src/getargs.c:182
 #, c-format
@@ -221,12 +212,12 @@ msgstr ""
 "ПРИГОДНОСТИ\n"
 "ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ.\n"
 
-#: src/getargs.c:423
+#: src/getargs.c:424
 #, c-format
 msgid "missing operand after `%s'"
 msgstr ""
 
-#: src/getargs.c:425
+#: src/getargs.c:426
 #, c-format
 msgid "extra operand `%s'"
 msgstr ""
@@ -413,7 +404,7 @@ msgstr[0] "%d бесполезное правило"
 msgstr[1] "%d бесполезных правила"
 msgstr[2] "%d бесполезных правил"
 
-#: src/reduce.c:436
+#: src/reduce.c:435
 #, fuzzy, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "Начальный символ %s не выводит ни одного предложения"
@@ -729,6 +720,21 @@ msgstr ""
 
 #~ msgid "shift"
 #~ msgstr "сдвиг"
+
+#~ msgid "%d shift/reduce conflict"
+#~ msgid_plural "%d shift/reduce conflicts"
+#~ msgstr[0] "%d конфликт сдвига/вывода"
+#~ msgstr[1] "%d конфликта сдвига/вывода"
+#~ msgstr[2] "%d конфликтов сдвига/вывода"
+
+#~ msgid "and"
+#~ msgstr "и"
+
+#~ msgid "State %d contains "
+#~ msgstr "Состояние %d содержит "
+
+#~ msgid "conflicts: "
+#~ msgstr "конфликты: "
 
 #~ msgid "%s contains "
 #~ msgstr "%s содержит "

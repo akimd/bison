@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.75b\n"
-"POT-Creation-Date: 2002-12-24 00:30-0800\n"
-"PO-Revision-Date: 2002-11-14 10:40:26+0100\n"
+"Project-Id-Version: bison 1.75e\n"
+"POT-Creation-Date: 2002-12-28 19:00-0800\n"
+"PO-Revision-Date: 2002-12-27 12:17:36+0100\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 msgid "Unknown system error"
 msgstr "Unbekannter Systemfehler"
 
-#: src/complain.c:80 src/complain.c:97
+#: src/complain.c:79 src/complain.c:94
 msgid "warning: "
 msgstr "Warnung: "
 
-#: src/complain.c:159 src/complain.c:177
+#: src/complain.c:150 src/complain.c:166
 msgid "fatal error: "
 msgstr "fataler Fehler: "
 
@@ -45,62 +45,55 @@ msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr ""
 "    Konflikt zwischen Regel %d and Token %s wurde als Fehler betrachtet"
 
-#: src/conflicts.c:403
+#: src/conflicts.c:398
 #, c-format
-msgid "%d shift/reduce conflict"
-msgid_plural "%d shift/reduce conflicts"
-msgstr[0] "%d Schiebe/Reduziere-Konflikt"
-msgstr[1] "%d Schiebe/Reduziere-Konflikte"
+msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
+msgstr ""
 
-#: src/conflicts.c:410
-msgid "and"
-msgstr "und"
-
-#: src/conflicts.c:416
-#, c-format
-msgid "%d reduce/reduce conflict"
-msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] "%d Reduziere/Reduziere-Konflikt"
-msgstr[1] "%d Reduziere/Reduziere-Konflikte"
-
-#: src/conflicts.c:436
-msgid "conflicts: "
-msgstr "Konflikte: "
-
-#: src/conflicts.c:438
-#, c-format
-msgid " %d shift/reduce"
+#: src/conflicts.c:401
+#, fuzzy, c-format
+msgid "conflicts: %d shift/reduce\n"
 msgstr " %d Schiebe/Reduziere"
 
-#: src/conflicts.c:442
-#, c-format
-msgid " %d reduce/reduce"
+#: src/conflicts.c:403
+#, fuzzy, c-format
+msgid "conflicts: %d reduce/reduce\n"
 msgstr " %d Reduziere/Reduziere"
 
-#: src/conflicts.c:461
-#, c-format
-msgid "State %d contains "
-msgstr "Zustand %d enthält "
+#: src/conflicts.c:421
+#, fuzzy, c-format
+msgid "State %d "
+msgstr "Zustand %d"
 
-#: src/conflicts.c:538
+#: src/conflicts.c:498
 #, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
 msgstr[0] "erwartete %d Schiebe/Reduziere-Konflikt"
 msgstr[1] "erwartete %d Schiebe/Reduziere-Konflikte"
 
-#: src/files.c:98
+#: src/conflicts.c:503
+#, fuzzy
+msgid "expected 0 reduce/reduce conflicts"
+msgstr "%d Reduziere/Reduziere-Konflikt"
+
+#: src/files.c:99
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "kann Datei »%s« nicht öffnen"
 
-#: src/files.c:114
+#: src/files.c:115
 msgid "I/O error"
 msgstr "E/A-Fehler"
 
-#: src/files.c:117
+#: src/files.c:118
 msgid "cannot close file"
 msgstr "kann Datei nicht schließen"
+
+#: src/files.c:336
+#, c-format
+msgid "conflicting outputs to file %s"
+msgstr ""
 
 #: src/getargs.c:182
 #, c-format
@@ -226,12 +219,12 @@ msgstr ""
 "gibt keine Garantie; auch nicht für VERKAUFBARKEIT oder FÜR SPEZIELLE "
 "ZWECKE.\n"
 
-#: src/getargs.c:423
+#: src/getargs.c:424
 #, c-format
 msgid "missing operand after `%s'"
 msgstr "fehlender Operand nach »%s«"
 
-#: src/getargs.c:425
+#: src/getargs.c:426
 #, c-format
 msgid "extra operand `%s'"
 msgstr "zusätzlicher Operand »%s«"
@@ -258,7 +251,7 @@ msgstr "POSIX verbietet Deklarationen in der Grammatik"
 
 #: src/parse-gram.y:457
 msgid "missing identifier in parameter declaration"
-msgstr ""
+msgstr "fehlender Bezeichner in Parameterdeklaration"
 
 #: src/print.c:48
 #, c-format
@@ -365,9 +358,9 @@ msgid "useless rule"
 msgstr "nutzlose Regel"
 
 #: src/reduce.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "useless nonterminal: %s"
-msgstr "nutzloses Nicht-Terminal"
+msgstr "nutzloses Nicht-Terminal: %s"
 
 #: src/reduce.c:350
 msgid "Useless nonterminals"
@@ -406,7 +399,7 @@ msgid_plural "%d useless rules"
 msgstr[0] "%d nutzlose Regel"
 msgstr[1] "%d nutzlose Regeln"
 
-#: src/reduce.c:436
+#: src/reduce.c:435
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
@@ -418,7 +411,7 @@ msgstr "ungültige Direktive: %s"
 
 #: src/scan-gram.l:219
 msgid "stray `,' treated as white space"
-msgstr ""
+msgstr "überzähliges »,« als Freiraum betrachtet"
 
 #: src/scan-gram.l:235 src/scan-gram.l:765 src/scan-gram.l:833
 #, c-format
@@ -441,9 +434,9 @@ msgid "unrecognized escape sequence: %s"
 msgstr "unbekanntes Fluchtzeichen: %s"
 
 #: src/scan-gram.l:523
-#, fuzzy, c-format
+#, c-format
 msgid "missing `{' in `%s'"
-msgstr "fehlender Operand nach »%s«"
+msgstr "fehlende »{« in »%s«"
 
 #: src/scan-gram.l:737
 #, c-format
@@ -719,6 +712,20 @@ msgstr " ZUSAMMEN              :"
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "Zeit in %s: %ld.%06ld (%ld%%)\n"
+
+#~ msgid "%d shift/reduce conflict"
+#~ msgid_plural "%d shift/reduce conflicts"
+#~ msgstr[0] "%d Schiebe/Reduziere-Konflikt"
+#~ msgstr[1] "%d Schiebe/Reduziere-Konflikte"
+
+#~ msgid "and"
+#~ msgstr "und"
+
+#~ msgid "conflicts: "
+#~ msgstr "Konflikte: "
+
+#~ msgid "State %d contains "
+#~ msgstr "Zustand %d enthält "
 
 #~ msgid "too many gotos (max %d)"
 #~ msgstr "zu viele Gotos (max %d)"
