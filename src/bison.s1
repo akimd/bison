@@ -635,10 +635,14 @@ yyerrlab:   /* here on detecting error */
 	       x < (sizeof(yytname) / sizeof(char *)); x++)
 	    if (yycheck[x + yyn] == x)
 	      size += strlen(yytname[x]) + 15, count++;
-	  msg = (char *) malloc(size + 15);
+	  size += strlen ("parse error, unexpected `") + 1;
+	  size += strlen (yytname[YYTRANSLATE (yychar)]);
+	  msg = (char *) malloc (size);
 	  if (msg != 0)
 	    {
-	      strcpy(msg, "parse error");
+	      strcpy (msg, "parse error, unexpected `");
+	      strcat (msg, yytname[YYTRANSLATE (yychar)]);
+	      strcat (msg, "'");
 
 	      if (count < 5)
 		{
@@ -647,21 +651,21 @@ yyerrlab:   /* here on detecting error */
 		       x < (sizeof(yytname) / sizeof(char *)); x++)
 		    if (yycheck[x + yyn] == x)
 		      {
-			strcat(msg, count == 0 ? ", expecting `" : " or `");
-			strcat(msg, yytname[x]);
-			strcat(msg, "'");
+			strcat (msg, count == 0 ? ", expecting `" : " or `");
+			strcat (msg, yytname[x]);
+			strcat (msg, "'");
 			count++;
 		      }
 		}
-	      yyerror(msg);
-	      free(msg);
+	      yyerror (msg);
+	      free (msg);
 	    }
 	  else
 	    yyerror ("parse error; also virtual memory exceeded");
 	}
       else
 #endif /* YYERROR_VERBOSE */
-	yyerror("parse error");
+	yyerror ("parse error");
     }
 
   goto yyerrlab1;
