@@ -1,5 +1,11 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (FIRSTS, FDERIVES): Adjust to reality: they are
+	indexed by nonterminals.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/warshall.c (TC, RTC): De-obsfucate (source reduced to 22% of
 	what it was!).
 	* src/warshall.h: Remove accidental duplication of the content.
