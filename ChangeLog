@@ -1,5 +1,11 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* tests/atlocal.in (CPPFLAGS): Do not leave a space between -I and
+	its argument.
+	Reported by Peter Hámorský.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (err_table): Remove.
 	(resolve_sr_conflict): Adjust.
 	* src/lalr.h (state_t.reduction_table, state_t.shift_table):
