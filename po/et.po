@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28d\n"
-"POT-Creation-Date: 2002-04-08 14:33+0200\n"
+"POT-Creation-Date: 2002-04-10 13:04+0200\n"
 "PO-Revision-Date: 2001-08-29 17:06+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "liiga palju olekuid (maks %d)"
 
-#: lib/error.c:128 lib/error.c:156 src/complain.c:99
+#: src/complain.c:99 lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
 msgstr "Tundmatu süsteemi viga"
 
@@ -595,12 +595,12 @@ msgstr "sisendgrammatikas pole reegleid"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "liiga palju sümboleid (märgid ja mitteterminalid); maksimaalne on %d"
 
-#: src/reader.c:1724
+#: src/reader.c:1722
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "stardisümbol %s ei ole defineeritud"
 
-#: src/reader.c:1726
+#: src/reader.c:1724
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "stardisümbol %s on märk"
