@@ -1,3 +1,9 @@
+2002-04-25  Akim Demaille  <akim@epita.fr>
+
+	* tests/sets.at (AT_EXTRACT_SETS): Sed portability issue: no space
+	between `!' and the command.
+	Reported by Paul Eggert.
+
 2002-04-24  Robert Anisko  <robert@lrde.epita.fr>
 
 	* tests/calc.at: Exercise prologue splitting.

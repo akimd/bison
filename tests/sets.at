@@ -29,25 +29,25 @@ m4_define([AT_EXTRACT_SETS],
    :null
    p
    n
-   /^[ 	]*$/! b null
+   /^[ 	]*$/ !b null
 }
 /^FIRSTS$/ {
    :firsts
    p
    n
-   /^[ 	]*$/! b firsts
+   /^[ 	]*$/ !b firsts
 }
 /^FDERIVES$/ {
    :fderiv
    p
    n
-   /^[ 	]*$/! b fderiv
+   /^[ 	]*$/ !b fderiv
 }
 /^DERIVES$/ {
    :deriv
    p
    n
-   /^[ 	]*$/! b deriv
+   /^[ 	]*$/ !b deriv
 }
 ]])
 AT_CHECK([sed -f extract.sed $1], 0, [stdout])
