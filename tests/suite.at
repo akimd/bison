@@ -5,10 +5,6 @@
 
 AT_INIT([bison])
 
-AT_INCLUDE([calc.at])
-AT_INCLUDE([regression.at])
-
-
 ## ---------------------------- ##
 ## Checking output file names.  ##
 ## ---------------------------- ##
@@ -28,10 +24,14 @@ AT_CHECK([bison -dv foo.y $1], 0, ignore, ignore)
 AT_CHECK([ls $2 | sort | tr '\n' ' ' | sed 's/.$//g'], 0, [$2])
 rm -f $2])
 
-AT_CHECK_BISON_OUTPUT([],             [foo.tab.c foo.tab.h foo.tab.output])
+AT_CHECK_BISON_OUTPUT([],             [foo.output foo.tab.c foo.tab.h])
 AT_CHECK_BISON_OUTPUT([-o foo.c],     [foo.c foo.h foo.output])
-AT_CHECK_BISON_OUTPUT([-o foo.tab.c], [foo.tab.c foo.tab.h foo.tab.output])
-AT_CHECK_BISON_OUTPUT([-y],           [y.tab.c y.tab.h y.tab.output])
-AT_CHECK_BISON_OUTPUT([-b bar],       [bar.tab.c bar.tab.h bar.tab.output])
+AT_CHECK_BISON_OUTPUT([-o foo.tab.c], [foo.output foo.tab.c foo.tab.h])
+AT_CHECK_BISON_OUTPUT([-y],           [y.output y.tab.c y.tab.h])
+AT_CHECK_BISON_OUTPUT([-b bar],       [bar.output bar.tab.c bar.tab.h])
 
 AT_CLEANUP
+
+
+AT_INCLUDE([calc.at])
+AT_INCLUDE([regression.at])
