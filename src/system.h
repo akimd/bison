@@ -131,7 +131,8 @@ size_t strnlen PARAMS ((const char *s, size_t maxlen));
 # undef  textdomain
 # define textdomain(Domain)
 # undef  ngettext
-# define ngettext(Singular, Plural, Num)   Plural
+# define ngettext(Singular, Plural, Number)   \
+         ((Number == 1) ? Singular : Plural)
 # define _(Text) Text
 #endif
 #define N_(Text) Text

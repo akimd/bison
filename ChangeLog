@@ -4,7 +4,8 @@
 
 	* config/config.guess, config/config.sub, po/*.po: Update.
 	* src/system.h (ngettext): Now that we use ngettext, be sure to
-	provide a default definition when NLS are not used.
+	provide a default definition when NLS are not used that takes care
+	of the cardinality.
 
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
