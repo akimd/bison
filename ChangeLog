@@ -1,5 +1,16 @@
 2001-11-30  Paul Eggert  <eggert@twinsun.com>
 
+	* lib/quotearg.h (quotearg_n, quotearg_n_style):
+	First arg is int, not unsigned.
+	* lib/quotearg.c (quotearg_n, quotearg_n_style): Likewise.
+	(SIZE_MAX, UINT_MAX): New macros.
+	(quotearg_n_options): Abort if N is negative.
+	Avoid overflow check on hosts where size_t is 64 bits and int
+	is 32 bits, as overflow is impossible there.
+	Fix off-by-one typo that caused unnecessary reallocation.
+
+2001-11-30  Paul Eggert  <eggert@twinsun.com>
+
 	Name space cleanup in generated parser.
 
 	* doc/bison.texinfo (Bison Parser): Discuss system headers
