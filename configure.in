@@ -78,7 +78,8 @@ AC_DEFINE([_GNU_SOURCE],1,[Define to 1 for GNU C library extensions.])
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(ctype.h locale.h memory.h stdlib.h string.h unistd.h)
+AC_CHECK_HEADERS([ctype.h locale.h malloc.h memory.h stdlib.h string.h \
+                  sys/times.h unistd.h])
 
 
 # Checks for compiler characteristics.

@@ -1,3 +1,12 @@
+2002-07-30  Akim Demaille  <akim@epita.fr>
+
+	`stage' was accidently included in a previous patch.
+	Initiate its autoconfiscation.
+
+	* configure.in: Look for malloc.h and sys/times.h.
+	* src/main.c (stage): Adjust.
+	Report only when trace_flag.
+
 2002-07-29  Akim Demaille  <akim@epita.fr>
 
 	* src/state.h, src/state.c (transitions_t): Holds state_t*'s, not
