@@ -1,5 +1,15 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	Don't store the token defs in a muscle, just be ready to output it
+	on command.  Now possible via `symbols'.  Fixes a memory leak.
+
+	* src/output.c (token_definitions_output): New.
+	(output_parser, header_output): Use it.
+	* src/reader.c (symbols_save): Remove.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.simple: Do not provide a default for YYSTYPE and
 	YYLTYPE before the user's prologue.  Otherwise it's hardly... a
 	default.
