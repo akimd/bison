@@ -1,3 +1,27 @@
+2002-11-07  Paul Eggert  <eggert@twinsun.com>
+
+	* src/parse-gram.y (CHARACTER): Remove unused token.
+	All uses removed.
+
+	* src/scan-gram.l: Remove stack option.  We no longer use the
+	stack, since the stack was never deeper than 1; instead, use the
+	new auto var c_context to record the stacked value.
+
+	Remove nounput option.  At an unexpected end of file, we now unput
+	the minimal input necessary to end cleanly; this simplifies the
+	code.
+
+	Avoid unbounded token sizes where this is easy.
+
+	(unexpected_end_of_file): New function.
+	Use it to systematize the error message on unexpected EOF.
+	(last-string): Now auto, not static.
+	(YY_OBS_FREE): Remove unnecessary do while (0) wrapper.
+	(scanner_last_string_free): Remove; not used.
+	(percent_percent_count): Move decl to just before use.
+	(SC_ESCAPED_CHARACTER): Return ID at unexpected end of file,
+	not the (never otherwised-used) CHARACTER.
+
 2002-11-07  Akim Demaille  <akim@epita.fr>
 
 	Let yyerror always receive the msg as last argument, so that
@@ -10,11 +34,6 @@
 	* doc/bison.texinfo (Error Reporting): Adjust.
 	* tests/calc.at (_AT_DATA_CALC_Y): Adjust.
 	* tests/cxx-type.at (_AT_TEST_GLR_CALC): Adjust.
-
-2002-11-07  Paul Eggert  <eggert@twinsun.com>
-
-	* src/scan-gram.l (unexpected_end_of_file): New function.
-	Use it to systematize the error message on unexpected EOF.
 
 2002-11-06  Akim Demaille  <akim@epita.fr>
 
