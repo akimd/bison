@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.33b\n"
 "POT-Creation-Date: 2002-03-04 19:13+0100\n"
-"PO-Revision-Date: 2002-03-10 08:00-0500\n"
+"PO-Revision-Date: 2002-03-12 16:49+0100\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "le nom de type ne se termine pas"
 
 #: src/lex.c:438
 msgid "use \"...\" for multi-character literal tokens"
-msgstr "utilisez «...» pour les terminaux litéraux de plusieurs caractères"
+msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
 
 #: src/lex.c:678
 #, c-format
@@ -746,7 +746,7 @@ msgstr "%s: l'option «-W %s» est ambiguë\n"
 #: lib/getopt.c:899
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
-msgstr "%s: l'option «-W %s« n»admet pas d'argument\n"
+msgstr "%s: l'option «-W %s» n'admet pas d'argument\n"
 
 #. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
 #. before exiting when memory is exhausted.  Goes through gettext.
