@@ -4,9 +4,9 @@ the maintenance, merges etc.), therefore you will have to the
 maintainer tools we depend upon:
 
 - Automake 1.6 or 1.6.1
-- Autoconf 2.53 or better
-  (actually, CVS Autoconf provides a better autoreconf...
-   http://www.lrde.epita.fr/~akim/download/autoconf-2.53a.tar.gz)
+- Autoconf 2.53a or better
+  ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.53a.tar.gz   (992 kB)
+  ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.53a.tar.bz2  (756 kB)
 - Gettext 0.10.1
 
 Only building the initial full source tree will be a bit painful,
