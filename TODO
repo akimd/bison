@@ -1,7 +1,7 @@
 -*- outline -*-
 
 * Coding system independence
-Paul notes: 
+Paul notes:
 
 	Currently Bison assumes 8-bit bytes (i.e. that UCHAR_MAX is
 	255).  It also assumes that the 8-bit character encoding is
@@ -32,6 +32,16 @@ Paul suggests:
    #define FOO 256
    #define BAR 257
    ...
+
+> I'm in favor of
+>
+> %token FOO 256
+> %token BAR 257
+>
+> and Bison moves error into 258.
+
+Yes, I think that's a valid extension too, if the user doesn't define
+the token number for error.
 
 * Unit rules
 Maybe we could expand unit rules, i.e., transform
