@@ -1,5 +1,9 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (closure): `r' is unused.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* tests/sets.at (Broken Closure): Add the ending `;'.
 	* src/reader.at (readgram): Complain if a rule is not ended with a
 	semi-colon.
