@@ -139,12 +139,12 @@ exp: exp OP exp | NUM;
 ]])
 
 AT_CHECK([bison -o input.c --report=all input.y], 0, [],
-[input.y: warning: 1 shift/reduce conflict
+[input.y: conflicts: 1 shift/reduce
 ])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
-[[State 5 contains 1 shift/reduce conflict.
+[[State 5 conflicts: 1 shift/reduce
 
 
 Grammar
@@ -369,7 +369,7 @@ id : '0';
 ]])
 
 AT_CHECK([bison -o input.c --report=all input.y], 0, [],
-[[input.y: warning: 1 reduce/reduce conflict
+[[input.y: conflicts: 1 reduce/reduce
 input.y:4.6-8: warning: rule never reduced because of conflicts: id: '0'
 ]])
 
@@ -380,7 +380,7 @@ AT_CHECK([cat input.output], [],
     4 id: '0'
 
 
-State 1 contains 1 reduce/reduce conflict.
+State 1 conflicts: 1 reduce/reduce
 
 
 Grammar
@@ -486,7 +486,7 @@ exp: exp OP exp | NUM;
 ]])
 
 AT_CHECK([bison -o input.c input.y], 1, [],
-[input.y: warning: 1 shift/reduce conflict
+[input.y: conflicts: 1 shift/reduce
 input.y: expected 0 shift/reduce conflicts
 ])
 AT_CLEANUP
@@ -523,7 +523,7 @@ exp: exp OP exp | NUM;
 ]])
 
 AT_CHECK([bison -o input.c input.y], 1, [],
-[input.y: warning: 1 shift/reduce conflict
+[input.y: conflicts: 1 shift/reduce
 input.y: expected 2 shift/reduce conflicts
 ])
 AT_CLEANUP
@@ -543,7 +543,7 @@ a: 'a';
 ]])
 
 AT_CHECK([bison -o input.c input.y], 1, [],
-[input.y: warning: 1 reduce/reduce conflict
+[input.y: conflicts: 1 reduce/reduce
 input.y: expected 0 reduce/reduce conflicts
 ])
 AT_CLEANUP
