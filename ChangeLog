@@ -1,3 +1,12 @@
+2005-03-17  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/vcg.h: Comment fix.
+	* src/vcg_defaults.h: Parenthesize macro bodies to make them safe.
+	(G_CMAX): Change to -1 instead of INT_MAX.
+
+	* data/yacc.c (yyparse): Omit spaces before #line.
+	Problem reported by twlevo@xs4all.nl.
+
 2005-03-15  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/tables.c (state_number_to_vector_number): Put it inside an

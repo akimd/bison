@@ -1,6 +1,6 @@
 /* VCG description handler for Bison.
 
-   Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002, 2005 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -59,13 +59,13 @@
 
 # define G_XSPACE		20
 # define G_YSPACE		70
-# define G_XLSPACE		G_XSPACE / 2	/* Not output */
+# define G_XLSPACE		(G_XSPACE / 2)	/* Not output */
 
 # define G_XRASTER		1
 # define G_YRASTER		1
 # define G_XLRASTER		1
 
-# define G_HIDDEN		-1     	/* No default value. */
+# define G_HIDDEN		(-1)   	/* No default value. */
 
 # define G_CLASSNAME		NULL   	/* No class name association */
 # define G_INFONAME		NULL
@@ -105,7 +105,7 @@
 
 # define G_BMAX			100
 # define G_CMIN			0
-# define G_CMAX			INT_MAX
+# define G_CMAX			(-1)	/* Infinity */
 # define G_PMIN			0
 # define G_PMAX			100
 # define G_RMIN			0
@@ -119,19 +119,19 @@
 # define N_TITLE		NULL
 # define N_LABEL		NULL
 
-# define N_LOCX			-1	/* Default unspcified */
-# define N_LOCY			-1	/* Default unspcified */
+# define N_LOCX			(-1)	/* Default unspcified */
+# define N_LOCY			(-1)	/* Default unspcified */
 
-# define N_VERTICAL_ORDER	-1	/* Default unspcified */
-# define N_HORIZONTAL_ORDER	-1	/* Default unspcified */
+# define N_VERTICAL_ORDER	(-1)	/* Default unspcified */
+# define N_HORIZONTAL_ORDER	(-1)	/* Default unspcified */
 
-# define N_WIDTH		-1	/* We assume that we can't define it now. */
-# define N_HEIGHT		-1	/* also. */
+# define N_WIDTH		(-1)	/* We assume that we can't define it now. */
+# define N_HEIGHT		(-1)	/* also. */
 
 # define N_SHRINK		1
 # define N_STRETCH		1
 
-# define N_FOLDING		-1	/* no explicit default value. */
+# define N_FOLDING		(-1)	/* no explicit default value. */
 
 # define N_SHAPE		box
 # define N_TEXTMODE		centered
@@ -172,9 +172,9 @@
 
 # define E_PRIORITY		1
 
-# define E_ANCHOR		-1
+# define E_ANCHOR		(-1)
 
-# define E_HORIZONTAL_ORDER	-1
+# define E_HORIZONTAL_ORDER	(-1)
 
 # define E_NEXT			NULL
 
