@@ -1,3 +1,18 @@
+2002-02-14  Paul Eggert  <eggert@twinsun.com>
+
+	Remove the support for C++ namespace cleanliness; it was
+	causing more problems than it was curing, since it didn't work
+	properly on some nonstandard C++ compilers.  This can wait
+	for a proper C++ parser.
+
+	* NEWS: Document this.
+	* doc/bison.texinfo (Bison Parser, Debugging): Remove special mention
+	of C++, as it's treated like C now.
+	* src/bison.simple (YYSTD): Remove.
+	(YYSIZE_T, YYFPRINTF, YYPARSE_PARAM_ARG, YYPARSE_PARAM_DECL):
+	Treat C++ just like Standard C instead of trying to support
+	namespace cleanliness.
+
 2002-02-14  Akim Demaille  <akim@epita.fr>
 
 	* tests/regression.at (else): Adjust to Andreas' change.
