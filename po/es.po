@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.35\n"
-"POT-Creation-Date: 2002-07-03 14:09+0200\n"
+"POT-Creation-Date: 2002-07-09 14:54+0200\n"
 "PO-Revision-Date: 2002-04-03 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -296,6 +296,10 @@ msgstr "%s: los argumentos extra después de '%s' no se tendrán en cuenta\n"
 msgid "too many gotos (max %d)"
 msgstr "demasiados gotos (máximo %d)"
 
+#: parse-gram.y:344
+msgid "POSIX forbids declarations in the grammar"
+msgstr ""
+
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -407,11 +411,11 @@ msgstr ""
 msgid "only one %%merge allowed per rule"
 msgstr ""
 
-#: src/reader.c:507
+#: src/reader.c:512
 msgid "no rules in the input grammar"
 msgstr "no hay reglas en la gramática de entrada"
 
-#: src/reader.c:539
+#: src/reader.c:544
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "demasiados símbolos (terminales y no terminales); máximo %d"

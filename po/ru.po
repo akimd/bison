@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-07-03 14:09+0200\n"
+"POT-Creation-Date: 2002-07-09 14:54+0200\n"
 "PO-Revision-Date: 2002-01-25 12:19+0300\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -238,6 +238,10 @@ msgstr "%s: лишние аргументы после `%s' игнорированы\n"
 msgid "too many gotos (max %d)"
 msgstr "слишком много goto (максимально %d)"
 
+#: parse-gram.y:344
+msgid "POSIX forbids declarations in the grammar"
+msgstr ""
+
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -350,11 +354,11 @@ msgstr ""
 msgid "only one %%merge allowed per rule"
 msgstr ""
 
-#: src/reader.c:507
+#: src/reader.c:512
 msgid "no rules in the input grammar"
 msgstr "отсутствуют правила во входной грамматике"
 
-#: src/reader.c:539
+#: src/reader.c:544
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"

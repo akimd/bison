@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34\n"
-"POT-Creation-Date: 2002-07-03 14:09+0200\n"
+"POT-Creation-Date: 2002-07-09 14:54+0200\n"
 "PO-Revision-Date: 2002-03-14 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -238,6 +238,10 @@ msgstr "%s: '%s' den sonraki argümanlar yoksayýldý\n"
 msgid "too many gotos (max %d)"
 msgstr "gotos çok fazla (en fazla %d)"
 
+#: parse-gram.y:344
+msgid "POSIX forbids declarations in the grammar"
+msgstr ""
+
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -350,11 +354,11 @@ msgstr ""
 msgid "only one %%merge allowed per rule"
 msgstr ""
 
-#: src/reader.c:507
+#: src/reader.c:512
 msgid "no rules in the input grammar"
 msgstr "girdi grameri içinde kurallar yok"
 
-#: src/reader.c:539
+#: src/reader.c:544
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "çok fazla simge var (andaçlar ve deðiþken simgeler); en fazla %d"

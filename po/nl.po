@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-07-03 14:09+0200\n"
+"POT-Creation-Date: 2002-07-09 14:54+0200\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -239,6 +239,10 @@ msgstr "%s: extra argumenten na `%s' worden genegeerd\n"
 msgid "too many gotos (max %d)"
 msgstr "teveel gotos (maximum is %d)"
 
+#: parse-gram.y:344
+msgid "POSIX forbids declarations in the grammar"
+msgstr ""
+
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -351,11 +355,11 @@ msgstr ""
 msgid "only one %%merge allowed per rule"
 msgstr ""
 
-#: src/reader.c:507
+#: src/reader.c:512
 msgid "no rules in the input grammar"
 msgstr "invoergrammatica bevat geen regels"
 
-#: src/reader.c:539
+#: src/reader.c:544
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "teveel symbolen (tokens plus niet-eindsymbolen); het maximum is %d"
