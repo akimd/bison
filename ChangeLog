@@ -1,5 +1,15 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c: Formatting changes.
+	(tryopen, tryclose, openfiles): Rename as...
+	(xfopen, xfclose, open_files): this.
+	(stringappend): static.
+	* src/files.h: Complete the list of exported symbols.
+	Propagate its use.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.h: New file.
 	Propagate its use instead of tedious list of `extern' and
 	prototypes.

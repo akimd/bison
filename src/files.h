@@ -53,4 +53,7 @@ extern char *attrsfile;
 extern char *guardfile;
 extern char *actfile;
 
-extern void done PARAMS((void));
+void open_files PARAMS((void));
+void open_extra_files PARAMS((void));
+
+void done PARAMS((void));
