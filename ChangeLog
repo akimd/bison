@@ -1,3 +1,18 @@
+2003-01-11  Paul Eggert  <eggert@twinsun.com>
+
+	* NEWS: %expect-violations are now just warnings, reverting
+	to Bison 1.30 and 1.75 behavior.  This fixes the GCC 3.2
+	bootstrapping problem reported by Matthias Klose; see
+	<http://mail.gnu.org/archive/html/bug-bison/2003-01/msg00053.html>.
+	* src/conflicts.c (conflicts_print): Likewise.
+	* tests/conflicts.at (%expect not enough, %expect too much,
+	%expect with reduce conflicts): Likewise.
+	* doc/bison.texinfo (Expect Decl): Document this.  Also mention
+	that the warning is enabled if the number of conflicts changes
+	(not necessarily increases).
+
+	* src/getargs.c (version): Update copyright year.
+
 2003-01-09  Akim Demaille  <akim@epita.fr>
 
 	* src/Makefile.am, lib/Makefile.am: Use $(VAR) instead of @VAR@.
@@ -116,7 +131,7 @@
 
 	Fix a bug where error locations were not being recorded correctly.
 	This problem was originally reported by Paul Hilfinger in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001901.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00086.html>.
 
 	* data/yacc.c (yyparse): New local var yylerrsp, to record the
 	top of the location stack's error locations.
@@ -164,7 +179,7 @@
 
 	Remove obsolete references to bison.simple and bison.hairy.
 	Problem mentioned by Aubin Mahe in
-	<http://mail.gnu.org/pipermail/help-bison/2002-December/001765.html>.
+	<http://mail.gnu.org/archive/html/help-bison/2002-12/msg00010.html>.
 	* data/glr.c: Comment fix.
 	* doc/bison.1: Remove references.  Also, mention "yacc".
 
@@ -299,7 +314,7 @@
 	* config/install-sh: Sync with autotools.
 
 	Fix a bad interaction with flex 2.5.23 reported by Bruce Lilly in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001929.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00114.html>.
 	* data/yacc.c (YYLTYPE, struct yyltype): Do not define unless
 	locations are requested.
 	(union yyalloc): Do not depend on YYLTYPE_IS_TRIVIAL unless
@@ -580,7 +595,7 @@
 	sequences like "@" that are treated specially by src/scan-skel.l.
 	Instead, just use the file's basename.  This fixes the bug
 	reported by Martin Mokrejs in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-December/001945.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-12/msg00007.html>.
 
 2002-12-06  Paul Eggert  <eggert@twinsun.com>
 
@@ -678,7 +693,7 @@
 	* configure.ac (AC_REPLACE_FUNCS): Add strtoul.
 	* lib/strtoul.c: New file, from gnulib.
 	This fixes a porting bug reported by Peter Klein in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-December/001944.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-12/msg00000.html>.
 
 2002-11-30  Paul Eggert  <eggert@twinsun.com>
 
@@ -730,7 +745,7 @@
 
 	* data/c.m4 (b4_yysymprint_generate): yyout -> yyoutput,
 	to avoid collision with lex macro described by Bruce Lilly in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001929.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00114.html>.
 	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR): Likewise.
 	* doc/bison.texinfo (Prologue, Tracing): yyprint -> print_token_value.
 	* src/parse-gram.y (print_token_value): Renamed from yyprint.
@@ -828,7 +843,7 @@
 	* data/glr.c (yygetLRActions): Replace `yyindex' with
 	`yytable[yyindex]' to fix typo introduced in my 2002-11-09 patch.
 	This fixes the regression with Sun ONE Studio 7 cc that I reported in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001892.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00077.html>.
 
 2002-11-18  Akim Demaille  <akim@epita.fr>
 
@@ -946,7 +961,7 @@
 	duplicating xfopen's body.
 
 	Fix bugs reported by Nelson H. F. Beebe in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001893.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00078.html>.
 
 	* tests/headers.at (AT_TEST_CPP_GUARD_H): Don't assume that
 	"$CC -E foo.h" is allowed, as this doesn't work with the Portland
@@ -957,9 +972,7 @@
 	backslash-newline tests with "#if 0", to make it less likely that
 	we'll run into compiler bugs.  Bring back solitary \ inside
 	comment, but add a closing comment to work around HP C bug.  Don't
-	test backslash-newline in C character constant.  This should fix
-	the input.at bug reported by Nelson H. F. Beebe in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001893.html>.
+	test backslash-newline in C character constant.
 
 2002-11-14  Akim Demaille  <akim@epita.fr>
 
@@ -991,7 +1004,7 @@
 2002-11-13  Paul Eggert  <eggert@twinsun.com>
 
 	Fix some bugs reported by Albert Chin-A-Young in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001881.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00066.html>.
 
 	* tests/input.at (Torturing the Scanner): Don't invoke "cc a.c b.c
 	-o c"; the HP C compiler chatters during compilation.
@@ -1020,7 +1033,7 @@
 	(yyglrReduce): Return yyok, not 0.
 	This should avoid the enumerated-type warnings reported
 	by Nelson H. F. Beebe in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001872.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00057.html>.
 
 	* lib/bbitset.h (BITSET_INLINE): Remove.
 	* lib/bitset.h [! BITSET_INLINE]: Remove.
@@ -1030,12 +1043,12 @@
 	* data/glr.c (inline): Remove #define.  It's the user's
 	responsibility to #define it away, just like 'const'.
 	This fixes one of the bugs reported by Nelson H. F. Beebe in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001873.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00058.html>.
 
 	* Makefile.maint (po-check): Scan .l and .y files instead of the
 	.c and the .h files that they generate.  This fixes the bug
 	reported by Tim Van Holder in:
-	<http://mail.gnu.org/pipermail/bison-patches/2002-November/001352.html>
+	<http://mail.gnu.org/archive/html/bison-patches/2002-11/msg00062.html>
 	Look for N_ as well as for _.  Try to avoid matching #define for
 	N_ and _.
 	* po/POTFILES.in: Remove src/parse-gram.c, src/scan-gram.c,
@@ -1196,7 +1209,7 @@
 	Revamp to fix many (but not all) of the C- and M4-related quoting
 	problems.  Among other things, this fixes the Bison bug reported
 	by Jan Hubicka when processing the Bash grammar; see:
-	<http://mail.gnu.org/pipermail/bison-patches/2002-November/001329.html>
+	<http://mail.gnu.org/archive/html/bison-patches/2002-11/msg00039.html>
 
 	Use new @ escapes consistently.  Represent brackets with @{ and @}
 	rather than @<:@ and @:>@, since this works a bit better with dumb
@@ -1264,7 +1277,7 @@
 2002-11-09  Paul Eggert  <eggert@twinsun.com>
 
 	Fix the test failure due to GCC warnings described in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001815.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-11/msg00000.html>.
 	* data/glr.c (yyis_pact_ninf, yyis_table_ninf): New macros, which
 	evaluate to 0 if it's impossible for NINF to be in the respective
 	table.
@@ -1616,10 +1629,8 @@
 	* data/glr.c (struct yyltype): Define members even when not
 	doing locations.  This is more consistent with yacc.c, and it
 	works around the following bug reports:
-	http://mail.gnu.org/pipermail/bug-bison/2002-October/001764.html
-	http://mail.gnu.org/pipermail/bug-bison/2002-October/001769.html
-	and I hope it also fixes this bug report:
-	http://mail.gnu.org/pipermail/bug-bison/2002-October/001748.html
+	http://mail.gnu.org/archive/html/bug-bison/2002-10/msg00106.html
+	http://mail.gnu.org/archive/html/bug-bison/2002-10/msg00111.html
 
 	* doc/bison.texinfo: Minor spelling and typographical fixes.  Use
 	@acronym consistently.  Standardize on "Yacc" instead of "YACC",
@@ -2051,7 +2062,7 @@
 2002-10-13  Paul Eggert  <eggert@twinsun.com>
 
 	Fix problem reported by Henrik Grubbstroem in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-October/001670.html>:
+	<http://mail.gnu.org/archive/html/bug-bison/2002-10/msg00098.html>:
 	"nonterm: { $$ = 123; } { $$ = $1; };" was wrongly rejected,
 	because the Bison parser reads the second action before reducing
 	the first one.
@@ -2068,7 +2079,7 @@
 	Include <sys/time.h> when checking for clock_t and struct tms.
 	Use same include order as source.
 	This is for the SunOS 4.1.4 porting bug reported by Peter Klein in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-October/001674.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-10/msg00016.html>.
 
 	* lib/timevar.c: Update copyright date and clarify comments.
 	(get_time) [IN_GCC]: Keep the GCC version for reference.
@@ -2081,13 +2092,13 @@
 	* src/reader.c (grammar_current_rule_check):
 	Don't worry about the default action if $$ is untyped.
 	Prevents bogus warnings reported by Jim Gifford in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-October/001673.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-10/msg00015.html>.
 
 	* data/c.m4 (b4_token_enum): Do not define YYTOKENTYPE.
 	* data/glr.c, data/lalr1.cc, data/yacc.c:
 	Output token definitions before the first part of user declarations.
 	Fixes compatibility problem reported by Jim Gifford for kbd in
-	<http://mail.gnu.org/pipermail/bug-bison/2002-October/001672.html>.
+	<http://mail.gnu.org/archive/html/bug-bison/2002-10/msg00014.html>.
 
 2002-10-11  Paul Eggert  <eggert@twinsun.com>
 
@@ -2212,7 +2223,7 @@
 
 	* lib/bitset.h (bitset_reset): Do not assume that bitset_word is
 	the same width as int.  This reapplies a hunk of the 2002-08-12 patch
-	<http://mail.gnu.org/pipermail/bison-patches/2002-August/001111.html>,
+	<http://mail.gnu.org/archive/html/bison-patches/2002-08/msg00007.html>,
 	which was inadvertently undone by the 2002-09-30 patch.
 	* lib/lbitset.c (debug_lbitset): Do not assume that bitset_word is
 	the same width as int.
@@ -7314,7 +7325,7 @@
 
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
-	%expext was not functioning at all.
+	%expect was not functioning at all.
 
 	* src/conflicts.c (expected_conflicts): Set to -1.
 	(conflict_report): Use ngettext.
