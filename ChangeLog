@@ -1,5 +1,11 @@
 2001-10-02  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Invalid input): New.
+	* src/lex.c (lex): Be sure to set `token_buffer' in any case.
+	Reported by Shura.
+
+2001-10-02  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at: Now that --debug works, the tests must be adjusted.
 
 2001-10-02  Akim Demaille  <akim@epita.fr>

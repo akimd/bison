@@ -469,32 +469,40 @@ lex (void)
       }
 
     case ',':
+      token_buffer = ",";
       return tok_comma;
 
     case ':':
+      token_buffer = ":";
       return tok_colon;
 
     case ';':
+      token_buffer = ";";
       return tok_semicolon;
 
     case '|':
+      token_buffer = "|";
       return tok_bar;
 
     case '{':
+      token_buffer = "{";
       return tok_left_curly;
 
     case '=':
+      obstack_1grow (&token_obstack, c);
       do
 	{
 	  c = getc (finput);
+	  obstack_1grow (&token_obstack, c);
 	  if (c == '\n')
 	    lineno++;
 	}
       while (c == ' ' || c == '\n' || c == '\t');
+      obstack_1grow (&token_obstack, '\0');
+      token_buffer = obstack_finish (&token_obstack);
 
       if (c == '{')
 	{
-	  token_buffer = "={";
 	  return tok_left_curly;
 	}
       else
@@ -511,6 +519,9 @@ lex (void)
       return parse_percent_token ();
 
     default:
+      obstack_1grow (&token_obstack, c);
+      obstack_1grow (&token_obstack, '\0');
+      token_buffer = obstack_finish (&token_obstack);
       return tok_illegal;
     }
 }

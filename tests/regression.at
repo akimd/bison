@@ -74,7 +74,7 @@ AT_CLEANUP([union.*])
 AT_SETUP([%union and C comments])
 
 AT_DATA([union-comment.y],
-[%union	
+[%union
 {
   /* The int.  */	int   integer;
   /* The string.  */	char *string ;
@@ -87,3 +87,23 @@ AT_CHECK([bison union-comment.y])
 AT_CHECK([fgrep '//*' union-comment.tab.c], [1], [])
 
 AT_CLEANUP([union-comment.*])
+
+
+## --------------- ##
+## invalid input.  ##
+## --------------- ##
+
+
+AT_SETUP([Invalid input])
+
+AT_DATA([input.y],
+[[%%
+?
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[input.y:2: invalid input: `?'
+input.y:3: fatal error: no rules in the input grammar
+])
+
+AT_CLEANUP
