@@ -3739,17 +3739,33 @@ already defined, so that the debugging facilities are compiled.
 @xref{Tracing, ,Tracing Your Parser}.
 
 @deffn {Directive} %defines
-Write an extra output file containing macro definitions for the token
-type names defined in the grammar and the semantic value type
-@code{YYSTYPE}, as well as a few @code{extern} variable declarations.
-
+Write a header file containing macro definitions for the token type
+names defined in the grammar as well as a few other declarations.
 If the parser output file is named @file{@var{name}.c} then this file
 is named @file{@var{name}.h}.
 
-This output file is essential if you wish to put the definition of
-@code{yylex} in a separate source file, because @code{yylex} needs to
-be able to refer to token type codes and the variable
-@code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.
+Unless @code{YYSTYPE} is already defined as a macro, the output header
+declares @code{YYSTYPE}.  Therefore, if you have defined a
+@code{YYSTYPE} macro (@pxref{Value Type, ,Data Types of Semantic
+Values}) you need to arrange for this definition to be propagated to
+all modules, e.g., by putting the macro definition in another,
+prerequisite header that is included both by your parser and by any
+other module that needs @code{YYSTYPE}.
+
+Unless your parser is pure, the output header declares @code{yylval}
+as an external variable.  @xref{Pure Decl, ,A Pure (Reentrant)
+Parser}.
+
+If you have also used locations, the output header declares
+@code{YYLTYPE} and @code{yylloc} using a protocol similar to that of
+@code{YYSTYPE} and @code{yylval}.  @xref{Locations, ,Tracking
+Locations}.
+
+This output file is normally essential if you wish to put the
+definition of @code{yylex} in a separate source file, because
+@code{yylex} typically needs to be able to refer to the
+above-mentioned declarations and to the token type codes.
+@xref{Token Values, ,Semantic Values of Tokens}.
 @end deffn
 
 @deffn {Directive} %destructor
@@ -6281,8 +6297,7 @@ Adjust the output:
 @itemx --defines
 Pretend that @code{%defines} was specified, i.e., write an extra output
 file containing macro definitions for the token type names defined in
-the grammar and the semantic value type @code{YYSTYPE}, as well as a few
-@code{extern} variable declarations.  @xref{Decl Summary}.
+the grammar, as well as a few other declarations.  @xref{Decl Summary}.
 
 @item --defines=@var{defines-file}
 Same as above, but save in the file @var{defines-file}.

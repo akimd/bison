@@ -1,3 +1,9 @@
+2004-05-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Decl Summary, Bison Options): Clarify what's
+	put into the -d output file, and mention what to do if YYSTYPE is
+	defined as a macro.
+
 2004-05-24  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Undo change made earlier today: it caused autopoint to not bring
