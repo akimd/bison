@@ -15,17 +15,24 @@ to #define yyerror and yyprint to steal internal variables...
 
 * documentation
 Explain $axiom (and maybe change its name: BTYacc names it `goal',
-byacc `$accept', probably based on AT&T Yacc).  Complete the glossary
-(item, axiom, ?).
+byacc `$accept' probably based on AT&T Yacc, Meta `Start'...).
+Complete the glossary (item, axiom, ?).
 
-* report documentation
+* Error messages
+Some are really funky.  For instance
+
+	type clash (`%s' `%s') on default action
+
+is really weird.  Revisit them all.
+
+* Report documentation
 Extend with error.  The hard part will probably be finding the right
 rule so that a single state does not exhibit to many yet undocumented
 ``features''.  Maybe an empty action ought to be presented too.  Shall
 we try to make a single grammar with all these features, or should we
 have several very small grammars?
 
-* documentation
+* Documentation
 Some history of Bison and some bibliography would be most welcome.
 Are there any Texinfo standards for bibliography?
 
@@ -52,7 +59,8 @@ When implementing multiple-%union support, bare the following in mind:
 
 * --report=conflict-path
 Provide better assistance for understanding the conflicts by providing
-a sample text exhibiting the (LALR) ambiguity.
+a sample text exhibiting the (LALR) ambiguity.  See the paper from
+DeRemer and Penello: they already provide the algorithm.
 
 * Coding system independence
 Paul notes:
@@ -150,7 +158,10 @@ into
 	exp: exp '+' exp | exp '&' exp;
 
 when there are no actions.  This can significantly speed up some
-grammars.
+grammars.  I can't find the papers.  In particular the book `LR
+parsing: Theory and Practice' is impossible to find, but according to
+`Parsing Techniques: a Practical Guide', it includes information about
+this issue.  Does anybody have it?
 
 * Stupid error messages
 An example shows it easily:
@@ -285,9 +296,6 @@ should recognize these, and preserve them.
 See if we can integrate backtracking in Bison.  Contact the BTYacc
 maintainers.
 
-* Automaton report
-Display more clearly the lookaheads for each item.
-
 * RR conflicts
 See if we can use precedence between rules to solve RR conflicts.  See
 what POSIX says.
@@ -304,6 +312,9 @@ make it much easier to extend the grammar.
 Rewrite the reader in Flex/Bison.  There will be delicate parts, in
 particular, expect the scanner to be hard to write.  Many interesting
 features cannot be implemented without such a new reader.
+
+I'm on it!  I already have a proto that parses (but the actions are
+not fully written yet).  -- Akim
 
 * $undefined
 From Hans:
@@ -366,6 +377,10 @@ at the proper place to bison.simple. Ditto for YYACT_PROLOGUE.
 
 I was wondering what you think about adding YYACT_PROLOGUE/EPILOGUE
 to bison. If you're interested, I'll work on a patch.
+
+* Move to Graphviz
+Well, VCG seems really dead.  Move to Graphviz instead.  Also, equip
+the parser with a means to create the (visual) parse tree.
 
 -----
 
