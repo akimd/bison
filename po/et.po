@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-09-19 20:18+0200\n"
+"POT-Creation-Date: 2000-09-20 14:50+0200\n"
 "PO-Revision-Date: 2000-04-11 22:19+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -112,7 +112,7 @@ msgstr "    %-4s\tredutseerin kasutades reeglit %d (%s)\n"
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 
-#: src/derives.c:108
+#: src/derives.c:42
 msgid ""
 "\n"
 "\n"
@@ -126,7 +126,7 @@ msgstr ""
 "DERIVES\n"
 "\n"
 
-#: src/derives.c:112
+#: src/derives.c:46
 #, c-format
 msgid "%s derives"
 msgstr "%s derives"
@@ -274,7 +274,7 @@ msgstr "lõpetamata tüübinimi faili lõpus"
 msgid "unterminated type name"
 msgstr "lõpetamata tüübinimi"
 
-#: src/main.c:141
+#: src/main.c:139
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: sisemine viga: %s\n"

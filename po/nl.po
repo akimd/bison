@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-09-19 20:18+0200\n"
+"POT-Creation-Date: 2000-09-20 14:50+0200\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -112,7 +112,7 @@ msgstr ""
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr ""
 
-#: src/derives.c:108
+#: src/derives.c:42
 msgid ""
 "\n"
 "\n"
@@ -126,7 +126,7 @@ msgstr ""
 "AFGELEIDEN\n"
 "\n"
 
-#: src/derives.c:112
+#: src/derives.c:46
 #, c-format
 msgid "%s derives"
 msgstr "%s afgeleiden"
@@ -257,7 +257,7 @@ msgstr "niet getermineerd type naam aan het einde van bestand"
 msgid "unterminated type name"
 msgstr "niet getermineerd type naam"
 
-#: src/main.c:141
+#: src/main.c:139
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "interne fout, %s\n"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-09-19 20:18+0200\n"
+"POT-Creation-Date: 2000-09-20 14:50+0200\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -112,7 +112,7 @@ msgstr "    %-4s\treduziere mit Tegel %d (%s)\n"
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
 
-#: src/derives.c:108
+#: src/derives.c:42
 msgid ""
 "\n"
 "\n"
@@ -121,7 +121,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/derives.c:112
+#: src/derives.c:46
 #, c-format
 msgid "%s derives"
 msgstr "%s leitet ab"
@@ -253,7 +253,7 @@ msgstr "unerwarteter Typname am Ende der Datei"
 msgid "unterminated type name"
 msgstr "unerwarteter Typname"
 
-#: src/main.c:141
+#: src/main.c:139
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "interner Fehler, %s\n"

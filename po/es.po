@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2000-09-19 20:18+0200\n"
+"POT-Creation-Date: 2000-09-20 14:50+0200\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -163,7 +163,7 @@ msgstr "    %-4s\treduce usando la regla  %d (%s)\n"
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduce usando la regla %d (%s)\n"
 
-#: src/derives.c:108
+#: src/derives.c:42
 msgid ""
 "\n"
 "\n"
@@ -176,7 +176,7 @@ msgstr ""
 "\n"
 "DERIVACIONES\n"
 
-#: src/derives.c:112
+#: src/derives.c:46
 #, c-format
 msgid "%s derives"
 msgstr "%s deriva"
@@ -313,7 +313,7 @@ msgstr "nombre de tipo sin terminar al final del fichero"
 msgid "unterminated type name"
 msgstr "nombre de tipo sin terminar"
 
-#: src/main.c:141
+#: src/main.c:139
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "error interno, %s\n"
