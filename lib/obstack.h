@@ -1,5 +1,7 @@
 /* obstack.h - object stack macros
-   Copyright (C) 1988,89,90,91,92,93,94,96,97,98,99 Free Software Foundation, Inc.
+
+   Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1996, 1997,
+   1998, 1999, 2002 Free Software Foundation, Inc.
 
    This file is part of the GNU C Library.  Its master source is NOT part of
    the C library, however.  The master source lives in /gd/gnu/lib.
@@ -7,20 +9,19 @@
    NOTE: The canonical source of this file is maintained with the GNU C Library.
    Bugs can be reported to bug-glibc@gnu.org.
 
-   This program is free software; you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published by the
-   Free Software Foundation; either version 2, or (at your option) any
-   later version.
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-   You should have received a copy of the GNU Library General Public
-   License along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
-   USA.  */
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 /* Summary:
 
@@ -123,7 +124,11 @@ extern "C" {
 #endif
 
 #ifndef __INT_TO_PTR
-# define __INT_TO_PTR(P) ((P) + (char *) 0)
+# ifdef __STDC__
+#  define __INT_TO_PTR(P) ((void *) ((P) + (char *) 0))
+# else
+#  define __INT_TO_PTR(P) ((P) + (char *) 0)
+# endif
 #endif
 
 /* We need the type of the resulting object.  If __PTRDIFF_TYPE__ is
@@ -170,7 +175,7 @@ struct obstack		/* control current object in current chunk */
   char	*chunk_limit;		/* address of char after current chunk */
   PTR_INT_TYPE temp;		/* Temporary for some macros.  */
   int   alignment_mask;		/* Mask of alignment for each object. */
-#if defined __STDC__ && __STDC__
+#if PROTOTYPES || (defined __STDC__ && __STDC__)
   /* These prototypes vary based on `use_extra_arg', and we use
      casts to the prototypeless function type in all assignments,
      but having prototypes here quiets -Wstrict-prototypes.  */
@@ -194,7 +199,7 @@ struct obstack		/* control current object in current chunk */
 
 /* Declare the external functions we use; they are in obstack.c.  */
 
-#if defined __STDC__ && __STDC__
+#if PROTOTYPES || (defined __STDC__ && __STDC__)
 extern void _obstack_newchunk (struct obstack *, int);
 extern void _obstack_free (struct obstack *, void *);
 extern int _obstack_begin (struct obstack *, int, int,
@@ -211,7 +216,7 @@ extern int _obstack_begin_1 ();
 extern int _obstack_memory_used ();
 #endif
 
-#if defined __STDC__ && __STDC__
+#if PROTOTYPES || (defined __STDC__ && __STDC__)
 
 /* Do the function-declarations after the structs
    but before defining the macros.  */
@@ -251,7 +256,7 @@ int obstack_alignment_mask (struct obstack *obstack);
 int obstack_chunk_size (struct obstack *obstack);
 int obstack_memory_used (struct obstack *obstack);
 
-#endif /* __STDC__ */
+#endif /* PROTOTYPES || (defined __STDC__ && __STDC__) */
 
 /* Non-ANSI C cannot really support alternative functions for these macros,
    so we do not declare them.  */
@@ -260,7 +265,7 @@ int obstack_memory_used (struct obstack *obstack);
    more memory.  This can be set to a user defined function which
    should either abort gracefully or use longjump - but shouldn't
    return.  The default action is to print a message and abort.  */
-#if defined __STDC__ && __STDC__
+#if PROTOTYPES || (defined __STDC__ && __STDC__)
 extern void (*obstack_alloc_failed_handler) (void);
 #else
 extern void (*obstack_alloc_failed_handler) ();
@@ -289,7 +294,7 @@ extern int obstack_exit_failure;
 
 /* To prevent prototype warnings provide complete argument list in
    standard C version.  */
-#if defined __STDC__ && __STDC__
+#if PROTOYPES || (defined __STDC__ && __STDC__)
 
 # define obstack_init(h)					\
   _obstack_begin ((h), 0, 0,					\
@@ -584,7 +589,7 @@ __extension__								\
   (h)->object_base = (h)->next_free,					\
   __INT_TO_PTR ((h)->temp))
 
-# if defined __STDC__ && __STDC__
+# if PROTOTYPES || (defined __STDC__ && __STDC__)
 #  define obstack_free(h,obj)						\
 ( (h)->temp = (char *) (obj) - (char *) (h)->chunk,			\
   (((h)->temp > 0 && (h)->temp < (h)->chunk_limit - (char *) (h)->chunk)\
