@@ -46,15 +46,9 @@ extern char *spec_defines_file;
 extern FILE *finput;
 
 
-/* Output all the action code; precise form depends on which parser. */
-extern struct obstack action_obstack;
-
 /* If semantic parser, output a .h file that defines YYSTYPE... */
 extern struct obstack pre_prologue_obstack;
 extern struct obstack post_prologue_obstack;
-
-/* The verbose output. */
-extern struct obstack output_obstack;
 
 extern char *infile;
 

@@ -29,6 +29,4 @@ void output PARAMS ((void));
 void actions_output PARAMS ((FILE *out));
 void token_definitions_output PARAMS ((FILE *out));
 
-extern struct obstack muscle_obstack;
-
 #endif /* !OUTPUT_H_ */

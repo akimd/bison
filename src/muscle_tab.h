@@ -32,6 +32,11 @@ typedef struct muscle_entry_s
 void muscle_init PARAMS ((void));
 void muscle_insert PARAMS ((const char *key, const char *value));
 const char *muscle_find PARAMS ((const char *key));
+void muscle_free PARAMS ((void));
+
+
+/* An obstack dedicated to receive muscle keys and values.  */
+extern struct obstack muscle_obstack;
 
 #define MUSCLE_INSERT_INT(Key, Value)				\
 {								\

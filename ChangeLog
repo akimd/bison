@@ -1,5 +1,19 @@
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (action_obstack): Remove, unused.
+	(output_obstack): Remove it, and all its dependencies, as it is no
+	longer needed.
+	* src/reader.c (epilogue_set): Build the epilogue in the
+	muscle_obstack.
+	* src/output.h, src/output.c (muscle_obstack): Move to...
+	* src/muscle_tab.h, src/muscle_tab.h: here.
+	(muscle_init): Initialize muscle_obstack.
+	(muscle_free): New.
+	* src/main.c (main): Call it.
+
+	
+2002-06-14  Akim Demaille  <akim@epita.fr>
+
 	* src/location.h: New, extracted from...
 	* src/reader.h: here.
 	* src/Makefile.am (noinst_HEADERS): Merge into
