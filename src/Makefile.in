@@ -265,6 +265,8 @@ strndup_.c: strndup.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strndup.c; then echo $(srcdir)/strndup.c; else echo strndup.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strndup_.c
 strnlen_.c: strnlen.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strnlen.c; then echo $(srcdir)/strnlen.c; else echo strnlen.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strnlen_.c
+strspn_.c: strspn.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strspn.c; then echo $(srcdir)/strspn.c; else echo strspn.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strspn_.c
 symtab_.c: symtab.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/symtab.c; then echo $(srcdir)/symtab.c; else echo symtab.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > symtab_.c
 vmsgetargs_.c: vmsgetargs.c $(ANSI2KNR)
@@ -274,7 +276,7 @@ warshall_.c: warshall.c $(ANSI2KNR)
 LR0_.o alloca_.o closure_.o complain_.o conflicts_.o derives_.o \
 files_.o getargs_.o gram_.o lalr_.o lex_.o main_.o memchr_.o \
 nullable_.o output_.o print_.o reader_.o reduce_.o stpcpy_.o strndup_.o \
-strnlen_.o symtab_.o vmsgetargs_.o warshall_.o : $(ANSI2KNR)
+strnlen_.o strspn_.o symtab_.o vmsgetargs_.o warshall_.o : $(ANSI2KNR)
 
 install-pkgdataDATA: $(pkgdata_DATA)
 	@$(NORMAL_INSTALL)

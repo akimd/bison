@@ -149,6 +149,9 @@
 /* Define if you have the <stddef.h> header file. */
 #undef HAVE_STDDEF_H
 
+/* Define if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
 /* Define if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
@@ -182,11 +185,20 @@
 /* Define if you have the `strnlen' function. */
 #undef HAVE_STRNLEN
 
+/* Define if you have the `strspn' function. */
+#undef HAVE_STRSPN
+
 /* Define if you have the `strtoul' function. */
 #undef HAVE_STRTOUL
 
 /* Define if you have the <sys/param.h> header file. */
 #undef HAVE_SYS_PARAM_H
+
+/* Define if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
 
 /* Define if you have the `tsearch' function. */
 #undef HAVE_TSEARCH
