@@ -1,5 +1,14 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* lib/xstrdup.c: New file, from the fileutils.
+	* src/reader.c (parse_token_decl, get_type_name, parse_type_decl)
+	(parse_assoc_decl, parse_thong_decl, get_type): Use `xstrdup'
+	instead of strlen + xmalloc + strcpy.
+	* src/symtab.c (copys): Remove, use xstrdup instead.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (associativity): New enum type which replaces the
 	former CPP macros `RIGHT_ASSOC', `LEFT_ASSOC' and `NON_ASSOC' with
 	`right_assoc', `left_assoc' and `non_assoc'.
