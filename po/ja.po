@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-08-15 10:51+0200\n"
+"POT-Creation-Date: 2001-08-15 10:53+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -721,6 +721,50 @@ msgid ""
 msgstr ""
 "還元ファイル %s で %d 個の終端子%.0s, %d 個の非終端子%.0s, %d 個の規則%.0sが"
 "定義されました\n"
+
+#: src/vcg.c:234
+msgid "vcg graph: no such color."
+msgstr ""
+
+#: src/vcg.c:249
+msgid "vcg graph: no such text mode"
+msgstr ""
+
+#: src/vcg.c:265
+msgid "vcg graph: no such shape"
+msgstr ""
+
+#: src/vcg.c:304
+msgid "vcg graph: no such decision"
+msgstr ""
+
+#: src/vcg.c:320
+msgid "vcg graph: no such an orientation"
+msgstr ""
+
+#: src/vcg.c:335
+msgid "vcg graph: no such an alignement"
+msgstr ""
+
+#: src/vcg.c:349
+msgid "vcg graph: no such an arrow mode"
+msgstr ""
+
+#: src/vcg.c:365
+msgid "vcg graph: no such crossing_type"
+msgstr ""
+
+#: src/vcg.c:382
+msgid "vcg graph: no such view"
+msgstr ""
+
+#: src/vcg.c:398
+msgid "vcg graph: no such linestyle"
+msgstr ""
+
+#: src/vcg.c:413
+msgid "vcg graph: no such an arrowstyle"
+msgstr ""
 
 #: lib/getopt.c:675
 #, c-format

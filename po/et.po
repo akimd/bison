@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-08-15 10:51+0200\n"
+"POT-Creation-Date: 2001-08-15 10:53+0200\n"
 "PO-Revision-Date: 2000-04-11 22:19+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -739,6 +739,50 @@ msgid ""
 msgstr ""
 "redutseeritud %s defineerib %d terminali%s, %d mitteterminali%s ja %d reeglit"
 "%s.\n"
+
+#: src/vcg.c:234
+msgid "vcg graph: no such color."
+msgstr ""
+
+#: src/vcg.c:249
+msgid "vcg graph: no such text mode"
+msgstr ""
+
+#: src/vcg.c:265
+msgid "vcg graph: no such shape"
+msgstr ""
+
+#: src/vcg.c:304
+msgid "vcg graph: no such decision"
+msgstr ""
+
+#: src/vcg.c:320
+msgid "vcg graph: no such an orientation"
+msgstr ""
+
+#: src/vcg.c:335
+msgid "vcg graph: no such an alignement"
+msgstr ""
+
+#: src/vcg.c:349
+msgid "vcg graph: no such an arrow mode"
+msgstr ""
+
+#: src/vcg.c:365
+msgid "vcg graph: no such crossing_type"
+msgstr ""
+
+#: src/vcg.c:382
+msgid "vcg graph: no such view"
+msgstr ""
+
+#: src/vcg.c:398
+msgid "vcg graph: no such linestyle"
+msgstr ""
+
+#: src/vcg.c:413
+msgid "vcg graph: no such an arrowstyle"
+msgstr ""
 
 #: lib/getopt.c:675
 #, c-format
