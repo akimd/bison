@@ -1,12 +1,10 @@
-ChangeLog
 Makefile
 Makefile.in
 aclocal.m4
 config.cache
 config.h
-config.hin
 config.log
 config.status
-configure
 intl
 stamp-h
+bison-*.tar.gz
