@@ -1,3 +1,20 @@
+2004-10-25  Akim Demaille  <akim@epita.fr>
+
+	* data/glr.c (YYRHSLOC): Move its definition next to its uses.
+	Introduce another definition to address simple location arrays.
+	(yyGLRStack): New member: yyerror_range.
+	(yyrecoverSyntaxError, yyparse): Update it.
+	(yyrecoverSyntaxError): Use it when shifting the error token to
+	have an accurate range, equivalent to the one computed by both
+	yacc.c and lalr1.cc.
+	* tests/cxx-type.at (_AT_TEST_GLR_CXXTYPES): Change its yylex so
+	that column numbers start at column 0, as per GNU Coding
+	Standards, the others tests, and the doc.
+	(_AT_RESOLVED_GLR_OUTPUT_WITH_LOC, _AT_AMBIG_GLR_OUTPUT_WITH_LOC):
+	Adjust to the above change (first column is 0).
+	And adjust the location of the "<error>", now covering the whole
+	line.
+
 2004-10-22  Akim Demaille  <akim@epita.fr>
        and  Paul Eggert  <eggert@cs.ucla.edu>
 

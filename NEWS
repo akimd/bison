@@ -8,7 +8,14 @@ Changes in version 1.875e:
   initializing @$) from yyparse before parsing starts.
 
 * The option `--report=lookahead' was changed to `--report=look-ahead'.
-  The old spelling still works, but is not documented and will be removed.
+  The old spelling still works, but is not documented and will be
+  removed.
+
+* Error token location.
+  During error recovery, the location of the syntax error is updated
+  to cover the whole sequence covered by the error token: it includes
+  the shifted symbols thrown away during the first part of the error
+  recovery, and the lookahead rejected during the second part.
 
 Changes in version 1.875d, 2004-05-21:
 
