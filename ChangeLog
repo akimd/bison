@@ -1,13 +1,21 @@
+2002-05-28  Akim Demaille  <akim@epita.fr>
+
+	* data/bison.c++: Catch up with bison.simple:
+	2002-05-24  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+	and Paul Eggert  <eggert@twinsun.com>: `error' handing.
+	2002-05-26  Akim Demaille  <akim@epita.fr>: stos_, token_number_,
+	and popping traces.
+
 2002-05-27  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
 	* src/output.c (output_skeleton): Put an explicit path in front of
 	the skeleton file name, rather than relying on the -I directory,
 	to partially alleviate effects of having a skeleton file lying around
 	in the current directory.
-	
+
 2002-05-27  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
-	* src/conflicts.c (log_resolution): Correct typo: 
+	* src/conflicts.c (log_resolution): Correct typo:
 	obstack_printf should be obstack_fgrow1.
 
 2002-05-26  Akim Demaille  <akim@epita.fr>
@@ -75,7 +83,7 @@
 
 2002-05-24  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 	and Paul Eggert  <eggert@twinsun.com>
-	
+
 	* data/bison.simple (yyparse): Correct error handling to conform to
 	POSIX and yacc.  Specifically, after syntax error is discovered,
 	do not reduce further before shifting the error token.
@@ -88,15 +96,15 @@
 	* data/bison.simple (yyr1): Don't use yy_token_number_type as element
 	type; it isn't always big enough, since it doesn't necessarily
 	include non-terminals.
-	(yytranslate): Expand definition of yy_token_number_type, so that 
+	(yytranslate): Expand definition of yy_token_number_type, so that
 	the latter can be removed.
 	(yy_token_number_type): Remove, only one use.
 	* data/bison.c++ (r1_): Parallel change to yyr1 in bison.simple---
 	don't use TokenNumberType as element type.
-	
+
 	* tests/regression.at: Modify expected output to agree with change
 	to yyr1 and yytranslate.
-	
+
 2002-05-13  Florian Krohm  <florian@edamail.fishkill.ibm.com>
 
 	* src/reader.c (parse_action): Use copy_character instead of

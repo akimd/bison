@@ -272,6 +272,8 @@ namespace yy
     static const RhsNumberType rhs_[[]];
     static const b4_uint_type(b4_prhs_max) prhs_[[]];
     static const b4_uint_type(b4_rline_max) rline_[[]];
+    static const b4_uint_type(b4_stos_max) stos_[[]];
+    static const short token_number_[[]];
 #endif
 
     /* Even more tables.  */
@@ -567,47 +569,62 @@ yy::b4_name::parse ()
      token.  */
 
   errstatus = 3;
-  goto yyerrhandle;
 
-  /* Pop the current state because it cannot handle the error token.  */
- yyerrdefault:
- yyerrpop:
-  if (!state_stack_.height ())
-    goto yyabortlab;
-  state_ = (state_stack_.pop (), state_stack_[[0]]);
-  semantic_stack_.pop ();
-  location_stack_.pop ();;
+  for (;;)
+    {
+      n_ = pact_[[state_]];
+      if (n_ != flag_)
+	{
+	  n_ += terror_;
+	  if (0 <= n_ && n_ <= last_ && check_[[n_]] == terror_)
+	    {
+	      n_ = table_[[n_]];
+	      if (0 < n_)
+		break;
+	    }
+	}
+
+      /* Pop the current state because it cannot handle the error token.  */
+      if (!state_stack_.height ())
+	goto yyabortlab;
 
 #if YYDEBUG
-  if (debug_)
-    {
-      YYFPRINTF (stderr, "Error: state stack now");
-      for (StateStack::ConstIterator i = state_stack_.begin ();
-	   i != state_stack_.end (); ++i)
-	YYFPRINTF (stderr, " %d", *i);
-      YYFPRINTF (stderr, "\n");
-    }
+      if (debug_)
+	{
+	  if (stos_[[state_]] < ntokens_)
+	    {
+	      YYFPRINTF (stderr, "Error: popping token %d (%s",
+			 token_number_[[stos_[state_]]],
+			 name_[[stos_[state_]]]);
+# ifdef YYPRINT
+	      YYPRINT (stderr, token_number_[[stos_[state_]]],
+		       semantic_stack_.top ());
+# endif
+	      YYFPRINTF (stderr, ")\n");
+	    }
+	  else
+	    {
+	      YYFPRINTF (stderr, "Error: popping nonterminal (%s)\n",
+			 name_[[stos_[state_]]]);
+	    }
+	}
 #endif
 
- yyerrhandle:
-  n_ = pact_[[state_]];
-  if (n_ == flag_)
-    goto yyerrdefault;
+      state_ = (state_stack_.pop (), state_stack_[[0]]);
+      semantic_stack_.pop ();
+      location_stack_.pop ();;
 
-  n_ += terror_;
-  if (n_ < 0 || n_ > last_ || check_[[n_]] != terror_)
-    goto yyerrdefault;
-
-  n_ = table_[[n_]];
-  if (n_ < 0)
-    {
-      if (n_ == flag_)
-	goto yyerrpop;
-      n_ = -n_;
-      goto yyreduce;
+#if YYDEBUG
+      if (debug_)
+	{
+	  YYFPRINTF (stderr, "Error: state stack now");
+	  for (StateStack::ConstIterator i = state_stack_.begin ();
+	       i != state_stack_.end (); ++i)
+	    YYFPRINTF (stderr, " %d", *i);
+	  YYFPRINTF (stderr, "\n");
+	}
+#endif
     }
-  else if (!n_)
-    goto yyerrpop;
 
   if (n_ == final_)
     goto yyacceptlab;
@@ -685,6 +702,24 @@ yy::b4_name::check_[[]] =
 {
   b4_check
 };
+
+#if YYDEBUG
+/* STOS_[[STATE-NUM]] -- The (internal number of the) accessing
+   symbol of state STATE-NUM.  */
+const b4_uint_type(b4_stos_max)
+yy::b4_name::stos_[[]] =
+{
+  b4_stos
+};
+
+/* TOKEN_NUMBER_[[YYLEX-NUM]] -- Internal token number corresponding
+   to YYLEX-NUM.  */
+const short
+yy::b4_name::token_number_[[]] =
+{
+  b4_toknum
+};
+#endif
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
 const b4_uint_type(b4_r1_max)

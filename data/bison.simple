@@ -371,7 +371,8 @@ static const char *const yytname[[]] =
 };
 #endif
 
-/* YYTOKNUM[[YYN]] -- Index in YYTNAME corresponding to YYLEX.  */
+/* YYTOKNUM[[YYLEX-NUM]] -- Internal token number corresponding to
+   token YYLEX-NUM.  */
 static const short yytoknum[[]] =
 {
   b4_toknum
