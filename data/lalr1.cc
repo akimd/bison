@@ -227,9 +227,11 @@ namespace yy
     {
     }
 
+    /// Parse.
+    /// \returns  0 iff parsing succeeded.
     virtual int parse ();
 
-    /// Return the current debugging stream.
+    /// The current debugging stream.
     std::ostream& debug_stream () const;
     /// Set the current debugging stream.
     void set_debug_stream (std::ostream &);
@@ -243,19 +245,27 @@ namespace yy
 
   private:
 
+    /// Call the scanner.
     virtual void yylex_ ();
     virtual void error_ ();
-    virtual void report_syntax_error_ ();
+    /// Generate an error message, and invoke error. */
+    virtual void yyreport_syntax_error_ ();
 #if YYDEBUG
-    virtual void symprint_ (int yytype,
-			    const SemanticType* yyvaluep,
-			    const LocationType* yylocationp);
+    /// \brief Report a symbol on the debug stream.
+    /// \param yytype       The token type.
+    /// \param yyvaluep     Its semantic value.
+    /// \param yylocationp  Its location.
+    virtual void yysymprint_ (int yytype,
+			      const SemanticType* yyvaluep,
+			      const LocationType* yylocationp);
 #endif /* ! YYDEBUG */
 
 
-    /* Stacks.  */
+    /// The state stack.
     StateStack    state_stack_;
+    /// The semantic value stack.
     SemanticStack semantic_stack_;
+    /// The location stack.
     LocationStack location_stack_;
 
     /* Tables.  */
@@ -281,18 +291,25 @@ namespace yy
     static const ]b4_int_type_for([b4_prhs])[ prhs_[];
     static const ]b4_int_type_for([b4_rline])[ rline_[];
     static const ]b4_int_type_for([b4_toknum])[ token_number_[];
-    virtual void reduce_print_ (int yyrule);
-    virtual void stack_print_ ();
+    virtual void yyreduce_print_ (int yyrule);
+    virtual void yystack_print_ ();
 #endif
 
-    /* Even more tables.  */
-    inline TokenNumberType translate_ (int token);
-    inline void destruct_ (const char* yymsg,
-                           int yytype,
-                           SemanticType* yyvaluep, LocationType* yylocationp);
+    /// Convert a scanner token number to a symbol number.
+    inline TokenNumberType yytranslate_ (int token);
+
+    /// \brief Reclaim the memory associated to a symbol.
+    /// \param yymsg        Why this token is reclaimed.
+    /// \param yytype       The symbol type.
+    /// \param yyvaluep     Its semantic value.
+    /// \param yylocationp  Its location.
+    inline void yydestruct_ (const char* yymsg,
+                             int yytype,
+                             SemanticType* yyvaluep,
+                             LocationType* yylocationp);
 
     /// Pop \a n symbols the three stacks.
-    inline void pop (unsigned int n = 1);
+    inline void yypop_ (unsigned int n = 1);
 
     /* Constants.  */
     static const int eof_;
@@ -363,7 +380,7 @@ do {							\
   if (yydebug_)						\
     {							\
       *yycdebug_ << (Title) << ' ';			\
-      symprint_ ((Type), (Value), (Location));		\
+      yysymprint_ ((Type), (Value), (Location));	\
       *yycdebug_ << std::endl;				\
     }							\
 } while (0)
@@ -371,13 +388,13 @@ do {							\
 # define YY_REDUCE_PRINT(Rule)		\
 do {					\
   if (yydebug_)				\
-    reduce_print_ (Rule);		\
+    yyreduce_print_ (Rule);		\
 } while (0)
 
 # define YY_STACK_PRINT()		\
 do {					\
   if (yydebug_)				\
-    stack_print_ ();			\
+    yystack_print_ ();			\
 } while (0)
 
 #else /* !YYDEBUG */
@@ -398,7 +415,7 @@ do {					\
 `--------------------------------*/
 
 void
-yy::]b4_parser_class_name[::symprint_ (int yytype,
+yy::]b4_parser_class_name[::yysymprint_ (int yytype,
                          const SemanticType* yyvaluep, const LocationType* yylocationp)
 {
   /* Pacify ``unused variable'' warnings.  */
@@ -422,7 +439,7 @@ yy::]b4_parser_class_name[::symprint_ (int yytype,
 #endif /* ! YYDEBUG */
 
 void
-yy::]b4_parser_class_name[::destruct_ (const char* yymsg,
+yy::]b4_parser_class_name[::yydestruct_ (const char* yymsg,
                          int yytype, SemanticType* yyvaluep, LocationType* yylocationp)
 {
   /* Pacify ``unused variable'' warnings.  */
@@ -440,7 +457,7 @@ yy::]b4_parser_class_name[::destruct_ (const char* yymsg,
 }
 
 void
-yy::]b4_parser_class_name[::pop (unsigned int n)
+yy::]b4_parser_class_name[::yypop_ (unsigned int n)
 {
   state_stack_.pop (n);
   semantic_stack_.pop (n);
@@ -531,7 +548,7 @@ yybackup:
     }
   else
     {
-      ilooka_ = translate_ (looka_);
+      ilooka_ = yytranslate_ (looka_);
       YY_SYMBOL_PRINT ("Next token is", ilooka_, &value, &location);
     }
 
@@ -616,7 +633,7 @@ yyreduce:
 ]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
 
-  pop (len_);
+  yypop_ (len_);
 
   YY_STACK_PRINT ();
 
@@ -637,7 +654,7 @@ b4_syncline([@oline@], [@ofile@])[
 `------------------------------------*/
 yyerrlab:
   /* If not already recovering from an error, report this error.  */
-  report_syntax_error_ ();
+  yyreport_syntax_error_ ();
 
   error_range_[0] = location;
   if (errstatus_ == 3)
@@ -654,18 +671,18 @@ yyerrlab:
 	     for (;;)
 	       {
                  error_range_[0] = location_stack_[0];
-                 pop ();
+                 yypop_ ();
 		 if (state_stack_.height () == 1)
 		   YYABORT;
-                 destruct_ ("Error: popping",
-                            stos_[state_stack_[0]],
-                            &semantic_stack_[0],
-                            &location_stack_[0]);
+                 yydestruct_ ("Error: popping",
+                              stos_[state_stack_[0]],
+                              &semantic_stack_[0],
+                              &location_stack_[0]);
 	       }
         }
       else
         {
-          destruct_ ("Error: discarding", ilooka_, &value, &location);
+          yydestruct_ ("Error: discarding", ilooka_, &value, &location);
           looka_ = empty_;
         }
     }
@@ -688,7 +705,7 @@ yyerrorlab:
 #endif
 
   error_range_[0] = location_stack_[len_ - 1];
-  pop (len_);
+  yypop_ (len_);
   state_ = state_stack_[0];
   goto yyerrlab1;
 
@@ -717,9 +734,9 @@ yyerrlab1:
 	YYABORT;
 
       error_range_[0] = location_stack_[0];
-      destruct_ ("Error: popping",
-                 stos_[state_], &semantic_stack_[0], &location_stack_[0]);
-      pop ();
+      yydestruct_ ("Error: popping",
+                   stos_[state_], &semantic_stack_[0], &location_stack_[0]);
+      yypop_ ();
       state_ = state_stack_[0];
       YY_STACK_PRINT ();
     }
@@ -748,7 +765,7 @@ yyacceptlab:
   /* Abort.  */
 yyabortlab:
   /* Free the lookahead. */
-  destruct_ ("Error: discarding lookahead", ilooka_, &value, &location);
+  yydestruct_ ("Error: discarding lookahead", ilooka_, &value, &location);
   looka_ = empty_;
   return 1;
 }
@@ -764,9 +781,9 @@ yy::]b4_parser_class_name[::yylex_ ()
 #endif
 }
 
-/** Generate an error message, and invoke yyerror. */
+// Generate an error message, and invoke error.
 void
-yy::]b4_parser_class_name[::report_syntax_error_ ()
+yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
 {
   /* If not already recovering from an error, report this error.  */
   if (!errstatus_)
@@ -918,10 +935,9 @@ yy::]b4_parser_class_name[::rline_[] =
   ]b4_rline[
 };
 
-/** Print the state stack from its BOTTOM up to its TOP (included).  */
-
+/// Print the state stack on the debug stream.
 void
-yy::]b4_parser_class_name[::stack_print_ ()
+yy::]b4_parser_class_name[::yystack_print_ ()
 {
   *yycdebug_ << "Stack now";
   for (StateStack::const_iterator i = state_stack_.begin ();
@@ -930,10 +946,9 @@ yy::]b4_parser_class_name[::stack_print_ ()
   *yycdebug_ << std::endl;
 }
 
-/** Report that the YYRULE is going to be reduced.  */
-
+/// Report on the debug stream that the rule \a yyrule is going to be reduced.
 void
-yy::]b4_parser_class_name[::reduce_print_ (int yyrule)
+yy::]b4_parser_class_name[::yyreduce_print_ (int yyrule)
 {
   unsigned int yylno = rline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
@@ -948,7 +963,7 @@ yy::]b4_parser_class_name[::reduce_print_ (int yyrule)
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 yy::]b4_parser_class_name[::TokenNumberType
-yy::]b4_parser_class_name[::translate_ (int token)
+yy::]b4_parser_class_name[::yytranslate_ (int token)
 {
   static
   const TokenNumberType
@@ -1090,19 +1105,19 @@ b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004])[
 
 namespace yy
 {
-  /** \brief Abstract a Position. */
+  /// Abstract a Position.
   class Position
   {
   public:
-    /** \brief Initial column number. */
+    /// Initial column number.
     static const unsigned int initial_column = 0;
-    /** \brief Initial line number. */
+    /// Initial line number.
     static const unsigned int initial_line = 1;
 
     /** \name Ctor & dtor.
      ** \{ */
   public:
-    /** \brief Construct a Position. */
+    /// Construct a Position.
     Position () :
       filename (),
       line (initial_line),
@@ -1115,14 +1130,14 @@ namespace yy
     /** \name Line and Column related manipulators
      ** \{ */
   public:
-    /** \brief (line related) Advance to the COUNT next lines. */
+    /// (line related) Advance to the COUNT next lines.
     inline void lines (int count = 1)
     {
       column = initial_column;
       line += count;
     }
 
-    /** \brief (column related) Advance to the COUNT next columns. */
+    /// (column related) Advance to the COUNT next columns.
     inline void columns (int count = 1)
     {
       int leftmost = initial_column;
@@ -1135,15 +1150,15 @@ namespace yy
     /** \} */
 
   public:
-    /** \brief File name to which this position refers. */
+    /// File name to which this position refers.
     std::string filename;
-    /** \brief Current line number. */
+    /// Current line number.
     unsigned int line;
-    /** \brief Current column number. */
+    /// Current column number.
     unsigned int column;
   };
 
-  /** \brief Add and assign a Position. */
+  /// Add and assign a Position.
   inline const Position&
   operator+= (Position& res, const int width)
   {
@@ -1151,7 +1166,7 @@ namespace yy
     return res;
   }
 
-  /** \brief Add two Position objects. */
+  /// Add two Position objects.
   inline const Position
   operator+ (const Position& begin, const int width)
   {
@@ -1159,14 +1174,14 @@ namespace yy
     return res += width;
   }
 
-  /** \brief Add and assign a Position. */
+  /// Add and assign a Position.
   inline const Position&
   operator-= (Position& res, const int width)
   {
     return res += -width;
   }
 
-  /** \brief Add two Position objects. */
+  /// Add two Position objects.
   inline const Position
   operator- (const Position& begin, const int width)
   {
@@ -1205,13 +1220,13 @@ b4_copyright([Location class for Bison C++ parsers], [2002, 2003, 2004])[
 namespace yy
 {
 
-  /** \brief Abstract a Location. */
+  /// Abstract a Location.
   class Location
   {
     /** \name Ctor & dtor.
      ** \{ */
   public:
-    /** \brief Construct a Location. */
+    /// Construct a Location.
     Location (void) :
       begin (),
       end ()
@@ -1223,19 +1238,19 @@ namespace yy
     /** \name Line and Column related manipulators
      ** \{ */
   public:
-    /** \brief Reset initial location to final location. */
+    /// Reset initial location to final location.
     inline void step (void)
     {
       begin = end;
     }
 
-    /** \brief Extend the current location to the COUNT next columns. */
+    /// Extend the current location to the COUNT next columns.
     inline void columns (unsigned int count = 1)
     {
       end += count;
     }
 
-    /** \brief Extend the current location to the COUNT next lines. */
+    /// Extend the current location to the COUNT next lines.
     inline void lines (unsigned int count = 1)
     {
       end.lines (count);
@@ -1244,13 +1259,13 @@ namespace yy
 
 
   public:
-    /** \brief Beginning of the located region. */
+    /// Beginning of the located region.
     Position begin;
-    /** \brief End of the located region. */
+    /// End of the located region.
     Position end;
   };
 
-  /** \brief Join two Location objects to create a Location. */
+  /// Join two Location objects to create a Location.
   inline const Location operator+ (const Location& begin, const Location& end)
   {
     Location res = begin;
@@ -1258,7 +1273,7 @@ namespace yy
     return res;
   }
 
-  /** \brief Add two Location objects */
+  /// Add two Location objects.
   inline const Location operator+ (const Location& begin, unsigned int width)
   {
     Location res = begin;
@@ -1266,7 +1281,7 @@ namespace yy
     return res;
   }
 
-  /** \brief Add and assign a Location */
+  /// Add and assign a Location.
   inline Location& operator+= (Location& res, unsigned int width)
   {
     res.columns (width);
