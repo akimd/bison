@@ -76,10 +76,27 @@
 # define YYSTACK_USE_ALLOCA 0
 #endif
 
+/* Realloc WHAT from SIZE to YYSTACKSIZE elements of TYPE.
+   If WHAT was malloc'ed (not the original automatic ARRAY), free it. */
 #if YYSTACK_USE_ALLOCA
-# define YYSTACK_ALLOC alloca
+# define YYSTACK_REALLOC(Type, What, Array)				\
+do {									\
+  Type *old = What;							\
+  What = (Type *) malloc (yystacksize * sizeof (Type));			\
+  __yy_memcpy ((char *) What, (char *) old,				\
+	       (size) * (unsigned int) sizeof (Type));			\
+  yyfree_stacks = 1;							\
+  if (old != Array)							\
+    free (old);								\
+} while (0)
 #else
-# define YYSTACK_ALLOC malloc
+# define YYSTACK_REALLOC(Type, What, Array)				\
+do {									\
+  Type *old = What;							\
+  What = (Type *) alloca (yystacksize * sizeof (Type));			\
+  __yy_memcpy ((char *) What, (char *) old,				\
+	       (size) * (unsigned int) sizeof (Type));			\
+} while (0)
 #endif
 
 #define yyerrok		(yyerrstatus = 0)
@@ -291,7 +308,7 @@ yyparse (YYPARSE_PARAM_ARG)
 
   /* Three stacks and their tools:
      `yyss': related to states,
-     `yysv': related to semantic values,
+     `yyvs': related to semantic values,
      `yyls': related to locations.
 
      Refer to the stacks thru separate pointers, to allow yyoverflow
@@ -420,19 +437,11 @@ yyparse (YYPARSE_PARAM_ARG)
       yystacksize *= 2;
       if (yystacksize > YYMAXDEPTH)
 	yystacksize = YYMAXDEPTH;
-# if !YYSTACK_USE_ALLOCA
-      yyfree_stacks = 1;
-# endif
-      yyss = (short *) YYSTACK_ALLOC (yystacksize * sizeof (*yyssp));
-      __yy_memcpy ((char *)yyss, (char *)yyss1,
-		   size * (unsigned int) sizeof (*yyssp));
-      yyvs = (YYSTYPE *) YYSTACK_ALLOC (yystacksize * sizeof (*yyvsp));
-      __yy_memcpy ((char *)yyvs, (char *)yyvs1,
-		   size * (unsigned int) sizeof (*yyvsp));
+
+      YYSTACK_REALLOC (short, yyss, yyssa);
+      YYSTACK_REALLOC (YYSTYPE, yyvs, yyvsa);
 # if YYLSP_NEEDED
-      yyls = (YYLTYPE *) YYSTACK_ALLOC (yystacksize * sizeof (*yylsp));
-      __yy_memcpy ((char *)yyls, (char *)yyls1,
-		   size * (unsigned int) sizeof (*yylsp));
+      YYSTACK_REALLOC (YYLTYPE, yyls, yylsa);
 # endif
 #endif /* no yyoverflow */
 

@@ -1,3 +1,9 @@
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
+	* src/bison.simple (YYSTACK_REALLOC): New.
+	(yyparse) [!yyoverflow]: Use it and free the old stack.
+	Reported by FIXME: Who.
+
 2001-11-05  Akim Demaille  <akim@epita.fr>
 
 	Version 1.30a.
