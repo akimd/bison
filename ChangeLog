@@ -1,5 +1,13 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (set_conflicts): Use bitset_disjoint_p.
+	(count_sr_conflicts): Use bitset_count.
+	* src/reduce.c (inaccessable_symbols): Ditto.
+	(bits_size): Remove.
+	* src/warshall.h, src/warshall.c: Convert to bitsetv.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c, src/conflicts.c, src/lalr.c, src/print.c,
 	* src/reduce.c: Remove the `bitset_zero's following the
 	`bitset_create's, as now it is performed by the latter.
