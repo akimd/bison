@@ -1,5 +1,12 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/nullable.c (set_nullable): Use a for loop to de-obfuscate
+	the handling of squeue.
+	`symbol >= 0' is wrong now, use `rule_table[ruleno].useful'.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	Because useless nonterminals are now kept alive (instead of being
 	`destroyed'), we now sometimes examine them, and store information
 	related to them.  Hence we need to know their number, and adjust
