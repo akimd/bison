@@ -21,14 +21,14 @@
 #ifndef LALR_H_
 # define LALR_H_
 
-# include "bitset.h"
-# include "bitsetv.h"
-
-/* Import the definition of CORE, TRANSITIONS and REDUCTIONS. */
-# include "state.h"
+# include <bitset.h>
+# include <bitsetv.h>
 
 /* Import the definition of RULE_T. */
 # include "gram.h"
+
+/* Import the definition of CORE, TRANSITIONS and REDUCTIONS. */
+# include "state.h"
 
 /* Compute how to make the finite state machine deterministic; find
    which rules need lookahead in each state, and which lookahead
@@ -54,12 +54,12 @@ void lalr_free (void);
    together and GOTO_MAP[I - NTOKENS] is the index in FROM_STATE and
    TO_STATE of the first of them.  */
 
-typedef short goto_number_t;
-# define GOTO_NUMBER_MAX ((goto_number_t) SHRT_MAX)
+typedef short goto_number;
+# define GOTO_NUMBER_MAXIMUM SHRT_MAX
 
-extern goto_number_t *goto_map;
-extern state_number_t *from_state;
-extern state_number_t *to_state;
+extern goto_number *goto_map;
+extern state_number *from_state;
+extern state_number *to_state;
 
 
 #endif /* !LALR_H_ */
