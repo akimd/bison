@@ -1,3 +1,9 @@
+2005-02-28  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Semantic Tokens): Fix scoping problem in
+	example, reported by Derek M Jones.  Also, make the example even
+	more outrageous, to better illustrate how bad the problem is.
+
 2005-02-24  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Mfcalc Symtab): Correct the prototype for
