@@ -1,3 +1,18 @@
+2002-11-14  Paul Eggert  <eggert@twinsun.com>
+
+	* tests/headers.at (AT_TEST_CPP_GUARD_H): Don't assume that
+	"$CC -E foo.h" is allowed, as this doesn't work with the Portland
+	Group compiler.  Instead, use "$CC -E bar.c".  Include the .h
+	file twice in the grammar, as an extra check.
+
+	* tests/input.at (Torturing the Scanner): Surround the
+	backslash-newline tests with "#if 0", to make it less likely that
+	we'll run into compiler bugs.  Bring back solitary \ inside
+	comment, but add a closing comment to work around HP C bug.  Don't
+	test backslash-newline in C character constant.  This should fix
+	the input.at bug reported by Nelson H. F. Beebe in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001893.html>.
+
 2002-11-14  Akim Demaille  <akim@epita.fr>
 
 	* tests/synclines.at (AT_SYNCLINES_COMPILE): Ignore the exit
@@ -31,13 +46,12 @@
 	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001881.html>.
 
 	* tests/input.at (Torturing the Scanner): Don't invoke "cc a.c b.c
-	-o c"; the HP-UX 11i C compiler chatters during compilation.
+	-o c"; the HP C compiler chatters during compilation.
 	Instead, invoke "cc -c a.c -o a.o; cc -c b.c -o b.o; cc a.o b.o -o c".
 	* tests/headers.at (export YYLTYPE): Likewise.
 
 	* tests/input.at (Torturing the Scanner): Remove lines containing
-	solitary backslashes, as they tickle a bug in the HP-UX 11i C
-	compiler.
+	solitary backslashes, as they tickle a bug in the HP C compiler.
 
 	* tests/glr-regr1.at (Badly Collapsed GLR States): Avoid //
 	comments, since they're not portable.  Use GNU coding style.
