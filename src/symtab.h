@@ -22,9 +22,9 @@
 #ifndef SYMTAB_H_
 # define SYMTAB_H_
 
-# include "struniq.h"
-# include "location.h"
 # include "assoc.h"
+# include "location.h"
+# include "uniqstr.h"
 
 /*----------.
 | Symbols.  |
@@ -40,34 +40,34 @@ typedef enum
 
 
 /* Internal token numbers. */
-typedef short symbol_number_t;
-#define SYMBOL_NUMBER_MAX ((symbol_number_t) SHRT_MAX)
+typedef short symbol_number;
+#define SYMBOL_NUMBER_MAXIMUM SHRT_MAX
 
 
-typedef struct symbol_s symbol_t;
-struct symbol_s
+typedef struct symbol symbol;
+struct symbol
 {
   /* The key, name of the symbol.  */
-  struniq_t tag;
-  /* The location of its first occurence.  */
-  location_t location;
+  uniqstr tag;
+  /* The location of its first occurrence.  */
+  location location;
 
   /* Its %type and associated printer and destructor.  */
-  struniq_t type_name;
+  uniqstr type_name;
   char *destructor;
-  location_t destructor_location;
+  location destructor_location;
   char *printer;
-  location_t printer_location;
+  location printer_location;
 
-  symbol_number_t number;
+  symbol_number number;
   short prec;
-  assoc_t assoc;
+  assoc assoc;
   int user_token_number;
 
   /* Points to the other in the identifier-symbol pair for an alias.
      Special value USER_NUMBER_ALIAS in the identifier half of the
      identifier-symbol pair for an alias.  */
-  symbol_t *alias;
+  symbol *alias;
   symbol_class class;
 };
 
@@ -81,56 +81,49 @@ struct symbol_s
 #define USER_NUMBER_ALIAS -9991
 
 /* Undefined internal token number.  */
-#define NUMBER_UNDEFINED ((symbol_number_t) -1)
+#define NUMBER_UNDEFINED ((symbol_number) -1)
 
 
 /* Fetch (or create) the symbol associated to KEY.  */
-symbol_t *symbol_get (const char *key, location_t location);
+symbol *symbol_get (const char *key, location loc);
 
 /* Generate a dummy nonterminal, whose name cannot conflict with the
    user's names.  */
-symbol_t *dummy_symbol_get (location_t location);
+symbol *dummy_symbol_get (location loc);
 
-/* Declare the new SYMBOL.  Make it an alias of SYMVAL.  */
-void symbol_make_alias (symbol_t *symbol, symbol_t *symval,
-			location_t location);
+/* Declare the new symbol SYM.  Make it an alias of SYMVAL.  */
+void symbol_make_alias (symbol *sym, symbol *symval, location loc);
 
-/* Set the TYPE_NAME associated to SYMBOL. Does nothing if passed 0 as
+/* Set the TYPE_NAME associated with SYM.  Do nothing if passed 0 as
    TYPE_NAME.  */
-void symbol_type_set (symbol_t *symbol,
-		      struniq_t type_name, location_t location);
+void symbol_type_set (symbol *sym, uniqstr type_name, location loc);
 
-/* Set the DESTRUCTOR associated to SYMBOL.  */
-void symbol_destructor_set (symbol_t *symbol,
-			    char *destructor, location_t location);
+/* Set the DESTRUCTOR associated with SYM.  */
+void symbol_destructor_set (symbol *sym, char *destructor, location loc);
 
-/* Set the PRINTER associated to SYMBOL.  */
-void symbol_printer_set (symbol_t *symbol,
-			 char *printer, location_t location);
+/* Set the PRINTER associated with SYM.  */
+void symbol_printer_set (symbol *sym, char *printer, location loc);
 
-/* Set the PRECEDENCE associated to SYMBOL.  Ensures that SYMBOL is a
-   terminal.  Does nothing if invoked with UNDEF_ASSOC as ASSOC.  */
-void symbol_precedence_set (symbol_t *symbol,
-			    int prec, assoc_t assoc, location_t location);
+/* Set the PRECEDENCE associated with SYM.  Ensure that SYMBOL is a
+   terminal.  Do nothing if invoked with UNDEF_ASSOC as ASSOC.  */
+void symbol_precedence_set (symbol *sym, int prec, assoc a, location loc);
 
-/* Set the CLASS associated to SYMBOL.  */
-void symbol_class_set (symbol_t *symbol,
-		       symbol_class class, location_t location);
+/* Set the CLASS associated with SYM.  */
+void symbol_class_set (symbol *sym, symbol_class class, location loc);
 
-/* Set the USER_TOKEN_NUMBER associated to SYMBOL.  */
-void symbol_user_token_number_set (symbol_t *symbol,
-				   int user_number, location_t location);
+/* Set the USER_TOKEN_NUMBER associated with SYM.  */
+void symbol_user_token_number_set (symbol *sym, int user_number, location loc);
 
 
 /* Distinguished symbols.  AXIOM is the real start symbol, that used
    by the automaton.  STARTSYMBOL is the one specified by the user.
    */
-extern symbol_t *errtoken;
-extern symbol_t *undeftoken;
-extern symbol_t *endtoken;
-extern symbol_t *accept;
-extern symbol_t *startsymbol;
-extern location_t startsymbol_location;
+extern symbol *errtoken;
+extern symbol *undeftoken;
+extern symbol *endtoken;
+extern symbol *accept;
+extern symbol *startsymbol;
+extern location startsymbol_location;
 
 
 /*---------------.
@@ -142,7 +135,7 @@ extern location_t startsymbol_location;
 void symbols_new (void);
 
 /* A function to apply to each symbol. */
-typedef bool (*symbol_processor) (symbol_t *);
+typedef bool (*symbol_processor) (symbol *);
 
 /* Apply PROCESSOR to all the symbols.  PROCESSOR must return true: on
    false, the processing stops.  */
