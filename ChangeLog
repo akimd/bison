@@ -1,3 +1,36 @@
+2002-10-04  Paul Eggert  <eggert@twinsun.com>
+
+	Version 1.50.
+
+	* configure.ac (AC_INIT), NEWS: Increment version number.
+
+	* doc/bison.texinfo: Minor spelling, grammar, and white space
+	fixes.
+	(Symbols): Mention that any negative value returned from yylex
+	signifies end-of-input.  Warn about negative chars.  Mention
+	the portable Standard C character set.
+
+	The GNU coding standard says CFLAGS and YFLAGS are reserved
+	for the installer to set.
+	* lib/Makefile.am (AM_CFLAGS): Renamed from CFLAGS.
+	* src/Makefile.am (AM_CFLAGS): Likewise.
+	(AM_YFLAGS): Renamed from YFLAGS.
+
+	Fix some MAX and MIN problems.
+	* src/gram.h (ITEM_NUMBER_MIN): MIN_MAX -> INT_MIN.
+	* src/lalr.h (GOTO_NUMBER_MAX): INT_MAX -> SHRT_MAX.
+	* src/symtab.h (SYMBOL_NUMBER_MAX): New macro.
+	* src/reader.c (reader): Use it.
+
+	* tests/regression.at (Braces parsing): Use grep, not fgrep, as
+	POSIX 1003.1-2001 has removed fgrep.
+
+2002-10-04  Michael Hayes  <m.hayes@elec.canterbury.ac.nz>
+
+	* lib/bbitset.h (BITSET_WINDEX_MAX): Redefine so that it cannot be
+	interpreted as signed.
+	* lib/ebitset.c (ebitset_list): Fix bug.
+
 2002-10-01  Paul Eggert  <eggert@twinsun.com>
 
 	More fixes for 64-bit hosts and large bitsets.
@@ -24,7 +57,7 @@
 	Likewise.
 	* lib/lbitset.c (lbitset_size, lbitset_list, lbitset_list_merge):
 	Likewise.
-	
+
 	* lib/abitset.c (abitset_ones, abitset_zero, abitset_bytes):
 	Use size_t, not unsigned int, to count bytes.
 	* lib/abitset.h (abitset_bytes): Likewise.
@@ -38,7 +71,7 @@
 	* lib/ebitset.h (ebitset_bytes): Likewise.
 	* lib/lbitset.c (lbitset_bytes): Likewise.
 	* lib/lbitset.h (lbitset_bytes): Likewise.
-	
+
 	* lib/abitset.c (abitset_empty_p, abitset_not, abitset_equal_p,
 	abitset_subset_p, abitset_disjoint_p, abitset_and,
 	abitset_and_cmp, abitset_andn, abitset_andn_cmp, abitset_or,
@@ -52,7 +85,7 @@
 	ebitset_elt_find, ebitset_list_reverse, ebitset_list, ebitset_init):
 	Likewise.
 	* lib/lbitset.c (lbitset_ones, lbitset_not): Likewise.
-	
+
 	* lib/bitset.c (bitset_print):
 	Use proper printf formats for widths of integer types.
 	* lib/bitset_stats.c (bitset_percent_histogram_print,
@@ -60,7 +93,7 @@
 	* lib/bitsetv-print.c (bitsetv_matrix_dump): Likewise.
 	* lib/bitsetv.c (bitsetv_dump, debug_bitsetv): Likewise.
 	* lib/lbitset.c (lbitset_bytes): Likewise.
-	
+
 	* lib/bbitset.h (BITSET_BINDEX_MAX, BITSET_WINDEX_MAX,
 	BITSET_SIZE_MAX): New macros.
 	(BITSET_INDEX_MAX): Remove.  It wasn't right, since it assumed that

@@ -1,10 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.49d:
-
-
-Changes in version 1.49b, 2002-08-12:
+Changes in version 1.50, 2002-10-04:
 
 * GLR parsing
   The declaration
@@ -13,6 +10,9 @@ Changes in version 1.49b, 2002-08-12:
   almost any context-free grammar, ambiguous or not.  The new declarations
   %dprec and %merge on grammar rules allow parse-time resolution of
   ambiguities.  Contributed by Paul Hilfinger.
+
+  Unfortunately GLR parsing does not yet work properly on 64-bit hosts
+  like the Alpha, so please stick to 32-bit hosts for now.
 
 * Output Directory
   When not in Yacc compatibility mode, when the output file was not
@@ -155,7 +155,6 @@ Changes in version 1.35, 2002-03-25:
 
   This kludge also addresses some C++ problems when the stack was
   extended.
-
 
 Changes in version 1.34, 2002-03-12:
 
