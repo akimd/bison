@@ -14,7 +14,7 @@ bison_SOURCES = LR0.c closure.c complain.c conflicts.c	\
     derives.c	\
     files.c getargs.c gram.c lalr.c lex.c main.c nullable.c \
     output.c print_graph.c \
-    muscle_tab.c	\
+    muscle_tab.c options.c \
     print.c reader.c reduce.c symtab.c warshall.c vcg.c
 
 EXTRA_bison_SOURCES = vmsgetargs.c
@@ -23,7 +23,7 @@ noinst_HEADERS = LR0.h closure.h complain.h conflicts.h \
  derives.h \
  files.h getargs.h gram.h lalr.h lex.h nullable.h \
  output.h print_graph.h	\
- muscle_tab.h \
+ muscle_tab.h options.h \
  print.h reader.h reduce.h state.h symtab.h warshall.h system.h \
  types.h vcg.h vcg_defaults.h
 

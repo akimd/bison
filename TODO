@@ -14,7 +14,7 @@
 ** Synchronize `#line' directive with user file.	[]
 
 * src/getargs.c src/lex.c
-** Synchronize percent and command line options.	[]
+** Synchronize percent and command line options.	[ok]
 
 * src/macrotab.[ch]
 ** Removing warnings when compiling. (gcc-warnings).	[ok]

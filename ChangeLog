@@ -1,3 +1,28 @@
+2001-09-20  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/lex.c (parse_percent_token): Change type of variable `tx', which
+	is now an option_table_struct*.
+	(option_strcmp): New function option_strcmp.
+	(parse_percent_token): Call option_strcmp.
+	* src/getargs.c (xalloc.h, options.h): Include it.
+	(getargs): Call create_long_option_table.
+	(getargs): Free longopts at the end of the function.
+	(shortopts): Move in options.c.
+	* src/options.c (create_long_option_table): New function.  Convert
+	information from option_table to option structure.
+	* src/reader.c (options.h): Include it.
+
+	* src/Makefile.am: Adjust.
+	* src/options.c (option_table): Create from longopts and percent_table.
+	* src/getargs.c (longopts): Delete.
+	* src/lex.c (struct percent_table_struct): Delete.
+	(percent_table): Delete.
+	(options.h): Include it.
+	* src/options.c: Create.
+	* src/options.h: Create.
+	Declare enum opt_access_e.
+	Define struct option_table_struct.
+
 2001-09-20  Marc Autret  <autret_m@epita.fr>
 
 	* doc/bison.texinfo: Adjust terminologies about prologue and epilogue
