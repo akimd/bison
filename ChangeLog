@@ -1,5 +1,15 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (transpose): Free the memory allocated to the
+	argument, as it is replaced by the results by the unique caller.
+	(build_relations): Merely invoke transpose: it handles the memory
+	deallocation.
+	Improve variable locality.
+	Avoid variables used as mere abbreviations.
+	(compute_lookaheads): Use arrays instead of pointers.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (initialize_F): Improve variable locality.
 	Avoid variables used as mere abbreviations.
 
