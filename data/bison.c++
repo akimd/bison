@@ -80,11 +80,13 @@ namespace yy
 
   private:
 
+    virtual void error_ ();
+
     /* Call to lexical analyser.  */
-    virtual 
-    void 
-    lex () 
-    { 
+    virtual
+    void
+    lex ()
+    {
       looka = yylex (&value, &location);
     }
 
@@ -124,11 +126,14 @@ namespace yy
     int len;
     int debug_;
     int state;
-    
+
     /* Lookahead.  */
     int looka;
     int ilooka;
-    
+
+    /* Message.  */
+    std::string message;
+
     /* @$ and $$.  */
     SemanticType value;
     LocationType location;
@@ -169,6 +174,9 @@ b4_tokendef
 int
 yy::b4_name::parse ()
 {
+  int nerrs = 0;
+  int errstatus = 0;
+
   /* Initialize stack.  */
   state_stack = StateStack (0);
   semantic_stack = SemanticStack (1);
@@ -333,7 +341,39 @@ yy::b4_name::parse ()
 
   /* Report and recover from errors.  This is very incomplete.  */
  yyerrlab:
-  std::cerr << "Parse error." << std::endl; // FIXME: Need something like yyerror?
+  /* If not already recovering from an error, report this error.  */
+  if (!errstatus)
+    {
+      ++nerrs;
+      
+      // FIXME: Should be #if YYERROR_VERBOSE from here...
+      n = pact_[[state]];
+      if (n > b4_flag && n < b4_last)
+	{
+	  message = "parse error, unexpected ";
+	  message += name_[[ilooka]];
+	  {
+	    int count = 0;
+	    for (int x = (n < 0 ? -n : 0); x < b4_ntokens + b4_nnts; ++x)
+	      if (check_[[x + n]] == x)
+		++count;
+	    if (count < 5)
+	      {
+		count = 0;
+		for (int x = (n < 0 ? -n : 0); x < b4_ntokens + b4_nnts; ++x)
+		  if (check_[[x + n]] == x)
+		    {
+		      message += (!count++) ? ", expecting " : " or "; 
+		      message += name_[[x]];
+		    }
+	      }
+	  }
+	}
+      else
+      // FIXME: to there...
+	message = "parse error";
+    }
+  error_ ();
   return 1;
   
   /* Accept.  */

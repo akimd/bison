@@ -1,3 +1,9 @@
+2002-02-07  Robert Anisko  <robert@lrde.epita.fr>
+
+	* data/bison.c++ (yy::b4_name::error_): New method, replaces yyerror in
+	C++ parsers.
+	(yy::b4_name::parse): Build verbose error messages, and use error_.
+
 2002-02-06  Robert Anisko  <robert@lrde.epita.fr>
 
 	* data/bison.c++: Fix m4 quoting in comments.
