@@ -17,6 +17,9 @@ GCC='@GCC@'
 # The GCC C++ compiler.
 CXX='@CXX@'
 
+# We want no optimization with C++, too.
+CXXFLAGS='@O0CFLAGS@ @WARNING_CXXFLAGS@ @WERROR_CFLAGS@'
+
 # Are special link options needed?
 LDFLAGS='@LDFLAGS@'
 
