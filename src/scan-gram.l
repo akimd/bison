@@ -167,10 +167,10 @@ blanks   [ \t\f]+
   {int}       yylval->integer = strtol (yytext, 0, 10); return INT;
 
   /* Characters.  We don't check there is only one.  */
-  \'          YY_OBS_GROW; yy_push_state (SC_ESCAPED_CHARACTER);
+  "'"         YY_OBS_GROW; yy_push_state (SC_ESCAPED_CHARACTER);
 
   /* Strings. */
-  \"          YY_OBS_GROW; yy_push_state (SC_ESCAPED_STRING);
+  "\""        YY_OBS_GROW; yy_push_state (SC_ESCAPED_STRING);
 
   /* Comments. */
   "/*"        yy_push_state (SC_COMMENT);
@@ -199,7 +199,7 @@ blanks   [ \t\f]+
 
   .           {
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": invalid character: `%c'\n", *yytext);
+    fprintf (stderr, _(": invalid character: `%c'\n"), *yytext);
     YY_STEP;
   }
 }
@@ -243,7 +243,7 @@ blanks   [ \t\f]+
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unexpected end of file in a comment\n");
+    fprintf (stderr, _(": unexpected end of file in a comment\n"));
     yy_pop_state ();
   }
 }
@@ -256,7 +256,7 @@ blanks   [ \t\f]+
 
 <SC_ESCAPED_STRING>
 {
-  \" {
+  "\"" {
     assert (yy_top_state () == INITIAL);
     YY_OBS_GROW;
     YY_OBS_FINISH;
@@ -271,7 +271,7 @@ blanks   [ \t\f]+
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unexpected end of file in a string\n");
+    fprintf (stderr, _(": unexpected end of file in a string\n"));
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -287,7 +287,7 @@ blanks   [ \t\f]+
 
 <SC_ESCAPED_CHARACTER>
 {
-  \' {
+  "'" {
     YY_OBS_GROW;
     assert (yy_top_state () == INITIAL);
     {
@@ -302,13 +302,13 @@ blanks   [ \t\f]+
     }
   }
 
-  [^\'\n\r\\]      YY_OBS_GROW;
+  [^\n\r\\] YY_OBS_GROW;
 
   {eols}    obstack_1grow (&string_obstack, '\n'); YY_LINES;
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unexpected end of file in a character\n");
+    fprintf (stderr, _(": unexpected end of file in a character\n"));
     assert (yy_top_state () == INITIAL);
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -329,7 +329,7 @@ blanks   [ \t\f]+
     if (c > 255)
       {
 	LOCATION_PRINT (stderr, *yylloc);
-	fprintf (stderr, ": invalid escape: %s\n", quote (yytext));
+	fprintf (stderr, _(": invalid escape: %s\n"), quote (yytext));
 	YY_STEP;
       }
     else
@@ -350,7 +350,7 @@ blanks   [ \t\f]+
   \\[\\""]   obstack_1grow (&string_obstack, yytext[1]);
   \\(.|\n)	{
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unrecognized escape: %s\n", quote (yytext));
+    fprintf (stderr, _(": unrecognized escape: %s\n"), quote (yytext));
     YY_OBS_GROW;
   }
   /* FLex wants this rule, in case of a `\<<EOF>>'. */
@@ -365,7 +365,7 @@ blanks   [ \t\f]+
 
 <SC_CHARACTER>
 {
-  \' {
+  "'" {
     YY_OBS_GROW;
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
@@ -380,7 +380,7 @@ blanks   [ \t\f]+
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unexpected end of file in a character\n");
+    fprintf (stderr, _(": unexpected end of file in a character\n"));
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
   }
@@ -394,7 +394,7 @@ blanks   [ \t\f]+
 
 <SC_STRING>
 {
-  \" {
+  "\"" {
     assert (yy_top_state () != INITIAL);
     YY_OBS_GROW;
     yy_pop_state ();
@@ -409,7 +409,7 @@ blanks   [ \t\f]+
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unexpected end of file in a string\n");
+    fprintf (stderr, _(": unexpected end of file in a string\n"));
     assert (yy_top_state () != INITIAL);
     yy_pop_state ();
   }
@@ -423,10 +423,10 @@ blanks   [ \t\f]+
 <SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
   /* Characters.  We don't check there is only one.  */
-  \'          YY_OBS_GROW; yy_push_state (SC_CHARACTER);
+  "'"         YY_OBS_GROW; yy_push_state (SC_CHARACTER);
 
   /* Strings. */
-  \"          YY_OBS_GROW; yy_push_state (SC_STRING);
+  "\""        YY_OBS_GROW; yy_push_state (SC_STRING);
 
   /* Comments. */
   "/*"        YY_OBS_GROW; yy_push_state (SC_COMMENT);
@@ -470,7 +470,7 @@ blanks   [ \t\f]+
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unexpected end of file in a braced code\n");
+    fprintf (stderr, _(": unexpected end of file in a braced code\n"));
     yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -499,7 +499,7 @@ blanks   [ \t\f]+
 
   <<EOF>> {
     LOCATION_PRINT (stderr, *yylloc);
-    fprintf (stderr, ": unexpected end of file in a prologue\n");
+    fprintf (stderr, _(": unexpected end of file in a prologue\n"));
     yy_pop_state ();
     YY_OBS_FINISH;
     yylval->string = last_string;
@@ -564,7 +564,7 @@ handle_action_dollar (char *text, location_t location)
       obstack_fgrow1 (&string_obstack,
 		      "]b4_lhs_value([%s])[", type_name);
     }
-  else if (isdigit (*cp) || *cp == '-')
+  else if (('0' <= *cp && *cp <= '9') || *cp == '-')
     {
       /* RULE_LENGTH is the number of values in the current rule so
 	 far, which says where to find `$0' with respect to the top of
@@ -651,7 +651,7 @@ handle_action_at (char *text, location_t location)
     {
       obstack_sgrow (&string_obstack, "]b4_lhs_location[");
     }
-  else if (isdigit (*cp) || *cp == '-')
+  else if (('0' <= *cp && *cp <= '9') || *cp == '-')
     {
       /* RULE_LENGTH is the number of values in the current rule so
 	 far, which says where to find `$0' with respect to the top of
