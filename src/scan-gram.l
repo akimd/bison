@@ -20,7 +20,7 @@
    02111-1307  USA
 */
 
-%option debug nodefault noyywrap never-interactive
+%option debug nodefault nounput noyywrap never-interactive
 %option prefix="gram_" outfile="lex.yy.c"
 
 %{
@@ -102,7 +102,7 @@ static void handle_dollar (int token_type, char *cp, location loc);
 static void handle_at (int token_type, char *cp, location loc);
 static void handle_syncline (char *args);
 static int convert_ucn_to_byte (char const *hex_text);
-static void unexpected_end_of_file (boundary, char const *);
+static void unexpected_eof (boundary, char const *);
 
 %}
 %x SC_COMMENT SC_LINE_COMMENT SC_YACC_COMMENT
@@ -323,7 +323,7 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "*/"     BEGIN context_state;
   .|\n	   ;
-  <<EOF>>  unexpected_end_of_file (token_start, "*/");
+  <<EOF>>  unexpected_eof (token_start, "*/"); BEGIN context_state;
 }
 
 
@@ -334,7 +334,7 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_COMMENT>
 {
   "*"{splice}"/"  STRING_GROW; BEGIN context_state;
-  <<EOF>>	  unexpected_end_of_file (token_start, "*/");
+  <<EOF>>	  unexpected_eof (token_start, "*/"); BEGIN context_state;
 }
 
 
@@ -368,7 +368,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   .|\n	    STRING_GROW;
-  <<EOF>>   unexpected_end_of_file (token_start, "\"");
+  <<EOF>>   unexpected_eof (token_start, "\""); BEGIN INITIAL;
 }
 
   /*---------------------------------------------------------------.
@@ -394,7 +394,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   .|\n	    STRING_GROW;
-  <<EOF>>   unexpected_end_of_file (token_start, "'");
+  <<EOF>>   unexpected_eof (token_start, "'"); BEGIN INITIAL;
 }
 
 
@@ -456,7 +456,7 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "'"			STRING_GROW; BEGIN context_state;
   \\{splice}[^$@\[\]]	STRING_GROW;
-  <<EOF>>		unexpected_end_of_file (token_start, "'");
+  <<EOF>>		unexpected_eof (token_start, "'"); BEGIN context_state;
 }
 
 
@@ -469,7 +469,10 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "\""			STRING_GROW; BEGIN context_state;
   \\{splice}[^$@\[\]]	STRING_GROW;
-  <<EOF>>		unexpected_end_of_file (token_start, "\"");
+  <<EOF>> {
+    unexpected_eof (token_start, "\"");
+    BEGIN context_state;
+  }
 }
 
 
@@ -536,7 +539,7 @@ splice	 (\\[ \f\t\v]*\n)*
       }
   }
 
-  <<EOF>>  unexpected_end_of_file (scanner_cursor, "{}");
+  <<EOF>>  unexpected_eof (scanner_cursor, "{}"); BEGIN INITIAL;
 }
 
 
@@ -589,7 +592,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "$"("<"{tag}">")?(-?[0-9]+|"$")  handle_dollar (token_type, yytext, *loc);
   "@"(-?[0-9]+|"$")		   handle_at (token_type, yytext, *loc);
 
-  <<EOF>>  unexpected_end_of_file (code_start, "}");
+  <<EOF>>  unexpected_eof (code_start, "}"); BEGIN INITIAL;
 }
 
 
@@ -607,7 +610,7 @@ splice	 (\\[ \f\t\v]*\n)*
     return PROLOGUE;
   }
 
-  <<EOF>>  unexpected_end_of_file (code_start, "%}");
+  <<EOF>>  unexpected_eof (code_start, "%}"); BEGIN INITIAL;
 }
 
 
@@ -971,25 +974,15 @@ handle_syncline (char *args)
 /*------------------------------------------------------------------------.
 | Report an unexpected EOF in a token or comment starting at START.       |
 | An end of file was encountered and the expected TOKEN_END was missing.  |
-| After reporting the problem, pretend that TOKEN_END was found.          |
 `------------------------------------------------------------------------*/
 
 static void
-unexpected_end_of_file (boundary start, char const *token_end)
+unexpected_eof (boundary start, char const *token_end)
 {
-  size_t i = strlen (token_end);
-
   location loc;
   loc.start = start;
   loc.end = scanner_cursor;
   complain_at (loc, _("missing `%s' at end of file"), token_end);
-
-  /* Adjust scanner cursor so that any later message does not count
-     the characters about to be inserted.  */
-  scanner_cursor.column -= i;
-
-  while (i != 0)
-    unput (token_end[--i]);
 }
 
 
