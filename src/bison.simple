@@ -185,40 +185,27 @@ int yydebug;
 #if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
 # define __yy_memcpy(To, From, Count)	__builtin_memcpy (To, From, Count)
 #else				/* not GNU C or C++ */
-# ifndef __cplusplus
 
 /* This is the most reliable way to avoid incompatibilities
    in available built-in functions on various systems.  */
 static void
+# ifndef __cplusplus
 __yy_memcpy (to, from, count)
      char *to;
-     char *from;
+     const char *from;
      unsigned int count;
-{
-  register char *f = from;
-  register char *t = to;
-  register int i = count;
-
-  while (i-- > 0)
-    *t++ = *f++;
-}
-
 # else /* __cplusplus */
-
-/* This is the most reliable way to avoid incompatibilities
-   in available built-in functions on various systems.  */
-static void
-__yy_memcpy (char *to, char *from, unsigned int count)
+__yy_memcpy (char *to, const char *from, unsigned int count)
+# endif
 {
+  register const char *f = from;
   register char *t = to;
-  register char *f = from;
   register int i = count;
 
   while (i-- > 0)
     *t++ = *f++;
 }
 
-# endif
 #endif
 
 #line
