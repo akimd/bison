@@ -126,32 +126,6 @@ extern int errno;
 #endif  /* BISON_SYSTEM_H */
 
 
-/*---------------------------------.
-| Machine-dependencies for Bison.  |
-`---------------------------------*/
-
-#ifdef	eta10
-# define	MAXSHORT	2147483647
-# define	MINSHORT	-2147483648
-#else
-# define	MAXSHORT	32767
-# define	MINSHORT	-32768
-#endif
-
-#if defined (MSDOS) && !defined (__GO32__)
-# define	BITS_PER_WORD	16
-# define MAXTABLE	16383
-#else
-# define	BITS_PER_WORD	32
-# define MAXTABLE	32767
-#endif
-
-#define	WORDSIZE(n)	(((n) + BITS_PER_WORD - 1) / BITS_PER_WORD)
-#define	SETBIT(x, i)	((x)[(i)/BITS_PER_WORD] |= (1<<((i) % BITS_PER_WORD)))
-#define RESETBIT(x, i)	((x)[(i)/BITS_PER_WORD] &= ~(1<<((i) % BITS_PER_WORD)))
-#define BITISSET(x, i)	(((x)[(i)/BITS_PER_WORD] & (1<<((i) % BITS_PER_WORD))) != 0)
-
-
 /*-----------.
 | Booleans.  |
 `-----------*/
@@ -194,3 +168,54 @@ do {							\
   sprintf (buf, Format, Arg1, Arg2, Arg3);		\
   obstack_grow (Obs, buf, strlen (buf));		\
 } while (0)
+
+
+/*---------------------------------.
+| Machine-dependencies for Bison.  |
+`---------------------------------*/
+
+#ifdef	eta10
+# define	MAXSHORT	2147483647
+# define	MINSHORT	-2147483648
+#else
+# define	MAXSHORT	32767
+# define	MINSHORT	-32768
+#endif
+
+#if defined (MSDOS) && !defined (__GO32__)
+# define	BITS_PER_WORD	16
+# define MAXTABLE	16383
+#else
+# define	BITS_PER_WORD	32
+# define MAXTABLE	32767
+#endif
+
+#define	WORDSIZE(n)	(((n) + BITS_PER_WORD - 1) / BITS_PER_WORD)
+#define	SETBIT(x, i)	((x)[(i)/BITS_PER_WORD] |= (1<<((i) % BITS_PER_WORD)))
+#define RESETBIT(x, i)	((x)[(i)/BITS_PER_WORD] &= ~(1<<((i) % BITS_PER_WORD)))
+#define BITISSET(x, i)	(((x)[(i)/BITS_PER_WORD] & (1<<((i) % BITS_PER_WORD))) != 0)
+
+
+/* Extensions to use for the output files. */
+
+#ifdef VMS
+  /* VMS. */
+# define EXT_TAB	"_tab"
+# define EXT_OUTPUT	".output"
+# define EXT_STYPE_H	"_stype.h"
+# define EXT_GUARD_C	"_guard.c"
+#else /* ! VMS */
+# ifdef MSDOS
+   /* MS DOS. */
+#  define EXT_TAB	"_tab"
+#  define EXT_OUTPUT	".out"
+#  define EXT_STYPE_H	".sth"
+#  define EXT_GUARD_C	".guc"
+# else /* ! MSDOS */
+  /* Standard. */
+#  define EXT_TAB	".tab"
+#  define EXT_OUTPUT	".output"
+#  define EXT_STYPE_H	".stype.h"
+#  define EXT_GUARD_C	".guard.c"
+# endif /* ! MSDOS */
+#endif /* ! VMS */
