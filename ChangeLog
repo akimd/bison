@@ -1,3 +1,16 @@
+2002-11-05  Paul Eggert  <eggert@twinsun.com>
+
+	Scan <% and %> digraphs in C code as POSIX 1003.1-2001 requires.
+	Also, remove one static variable in the scanner.
+
+	* src/scan-gram.l (braces_level): Now auto, not static.
+	Initialize to zero if the compiler is being picky.
+	(INITIAL): Clear braces_level instead of incrementing it.
+	(SC_BRACED_CODE): Treat <% and %> as { and } when inside C code,
+	as POSIX 1003.1-2001 requires.
+	* src/system.h (IF_LINT): New macro, taken from coreutils.
+	* configure.ac: Define "lint" if --enable-gcc-warnings.
+
 2002-11-05  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-gram.l: When it starts with `%', complain about the
