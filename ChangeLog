@@ -1,5 +1,10 @@
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
 
+	* src/lex.c (percent_table): Add tok_define.
+	* src/lex.h: Add tok_define.
+
+2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
+
 	* src/macrotab.c: New file.
 	* src/macrotab.h: New file.
 	* src/Makefile.am: Update.
