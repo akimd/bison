@@ -276,7 +276,7 @@ count_rr_conflicts (int state)
       int count = 0;
       int j;
       for (j = m; j < n; j++)
-	if (BITISSET (LA (m), j))
+	if (BITISSET (LA (i), j))
 	  count++;
 
       if (count >= 2)
