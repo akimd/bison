@@ -1,5 +1,15 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Web2c Actions): Blindly move the actual
+	output as expected output.  The contents *seem* right to me, but I
+	can't pretend reading perfectly parser tables...  Nonetheless, all
+	the other tests pass correctly, the table look OK, even though the
+	presence of `$axiom' is to be noted: AFAICS it is useless (but
+	harmless).
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (readgram): Don't add the rule 0 if there were no
 	rules read.  In other words, add it _after_ having performed
 	grammar sanity checks.

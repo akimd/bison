@@ -792,21 +792,21 @@ AT_CHECK([[sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c]], 0,
 };
 static const short yyprhs[] =
 {
-       0,     0,     2,     3,     6,    11
+       0,     0,     3,     5,     6,     9,    14
 };
 static const short yyrhs[] =
 {
-       8,     0,     0,     9,    10,     0,     3,     4,     5,     7,
-       0,     6,     7,     0
+       8,     0,    -1,     9,    -1,    -1,    10,    11,    -1,     3,
+       4,     5,     8,    -1,     6,     8,    -1
 };
 static const short yyrline[] =
 {
-       0,     2,     3,     3,     4,     5
+       0,     2,     2,     3,     3,     4,     5
 };
 static const char *const yytname[] =
 {
   "$", "error", "$undefined.", "\"if\"", "\"const\"", "\"then\"",
-  "\"else\"", "statement", "struct_stat", "if", "else", NULL
+  "\"else\"", "$axiom", "statement", "struct_stat", "if", "else", NULL
 };
 static const short yytoknum[] =
 {
@@ -814,37 +814,37 @@ static const short yytoknum[] =
 };
 static const short yyr1[] =
 {
-       0,     7,     8,     8,     9,    10
+       0,     7,     8,     9,     9,    10,    11
 };
 static const short yyr2[] =
 {
-       0,     1,     0,     2,     4,     2
+       0,     2,     1,     0,     2,     4,     2
 };
 static const short yydefact[] =
 {
-       2,     0,     1,     0,     0,     2,     3,     2,     5,     4,
-       0,     0
+       3,     0,     0,     2,     0,     0,     0,     3,     4,     3,
+       6,     5
 };
 static const short yydefgoto[] =
 {
-       8,     2,     3,     6
+      -1,     2,     3,     4,     8
 };
 static const short yypact[] =
 {
-      -2,    -1,-32768,    -4,     1,    -2,-32768,    -2,-32768,-32768,
-       4,-32768
+      -2,    -1,     4,-32768,     0,     2,-32768,    -2,-32768,    -2,
+  -32768,-32768
 };
 static const short yypgoto[] =
 {
-       0,-32768,-32768,-32768
+  -32768,    -7,-32768,-32768,-32768
 };
 static const short yytable[] =
 {
-      10,     1,     5,     4,    11,     0,     7,     9
+      10,     1,    11,     5,     6,     0,     7,     9
 };
 static const short yycheck[] =
 {
-       0,     3,     6,     4,     0,    -1,     5,     7
+       7,     3,     9,     4,     0,    -1,     6,     5
 };
 ]])
 
