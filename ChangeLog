@@ -1,5 +1,12 @@
 2001-11-28  Marc Autret  <autret_m@epita.fr>
 
+	* src/reader.c (parse_dquoted_param): New.
+	(parse_skel_decl): Use it.
+	* src/lex.h: Add its prototype.
+	* src/lex.c (literalchar): Become not static.
+
+2001-11-28  Marc Autret  <autret_m@epita.fr>
+
 	* src/output.h: And put its extern declaration here.
 	* src/output.c (error_verbose): Define here.
 	(prepare): Echo name modification.

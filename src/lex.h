@@ -73,6 +73,7 @@ void read_type_name PARAMS ((FILE *fin));
    entry found.  */
 
 token_t lex PARAMS ((void));
+int literalchar PARAMS ((struct obstack *out, int *pcode, char term));
 
 token_t parse_percent_token PARAMS ((void));
 
