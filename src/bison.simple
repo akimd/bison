@@ -32,7 +32,7 @@
    infringing on user name space.  This should be done even for local
    variables, as they might otherwise be expanded by user macros.
    There are some unavoidable exceptions within include files to
-   define necessary C library symbols; they are noted "INFRINGES ON
+   define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
 #if ! defined (yyoverflow) || defined (YYERROR_VERBOSE)
@@ -69,11 +69,18 @@
    /* Pacify GCC's `empty if-body' warning. */
 #  define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
 # else
-#  define YYSTACK_ALLOC malloc
-#  define YYSTACK_FREE(Ptr) free (Ptr)
-#  if defined (__STDC__) || defined (__cplusplus)
-#   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#   define YYSIZE_T size_t
+#  ifdef __cplusplus
+#   include <cstdlib> /* INFRINGES ON USER NAME SPACE */
+#   define YYSIZE_T std::size_t
+#   define YYSTACK_ALLOC std::malloc
+#   define YYSTACK_FREE std::free
+#  else
+#   ifdef __STDC__
+#    include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
+#    define YYSIZE_T size_t
+#   endif
+#   define YYSTACK_ALLOC malloc
+#   define YYSTACK_FREE free
 #  endif
 # endif
 
@@ -128,9 +135,16 @@ union yyalloc
 #if ! defined (YYSIZE_T) && defined (size_t)
 # define YYSIZE_T size_t
 #endif
-#if ! defined (YYSIZE_T) && (defined (__STDC__) || defined (__cplusplus))
-# include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-# define YYSIZE_T size_t
+#if ! defined (YYSIZE_T)
+# ifdef __cplusplus
+#  include <cstddef> /* INFRINGES ON USER NAME SPACE */
+#  define YYSIZE_T std::size_t
+# else
+#  ifdef __STDC__
+#   include <stddef.h> /* INFRINGES ON USER NAME SPACE */
+#   define YYSIZE_T size_t
+#  endif
+# endif
 #endif
 #if ! defined (YYSIZE_T)
 # define YYSIZE_T unsigned int
@@ -206,11 +220,23 @@ while (0)
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
-# include <stdio.h>
+
+# ifndef YYFPRINTF
+#  ifdef __cplusplus
+#   include <cstdio.h> /* INFRINGES ON USER NAME SPACE */
+#   define YYFPRINTF std::fprintf
+#   define YYSTDERR std::stderr
+#  else
+#   include <stdio.h> /* INFRINGES ON USER NAME SPACE */
+#   define YYFPRINTF fprintf
+#   define YYSTDERR stderr
+#  endif
+# endif
+
 # define YYDPRINTF(Args)			\
 do {						\
   if (yydebug)					\
-    fprintf Args;				\
+    YYFPRINTF Args;				\
 } while (0)
 /* Nonzero means print parse trace. [The following comment makes no
    sense to me.  Could someone clarify it?  --akim] Since this is
@@ -443,7 +469,7 @@ yyparse (YYPARSE_PARAM_ARG)
      rule. */
   int yylen;
 
-  YYDPRINTF ((stderr, "Starting parse\n"));
+  YYDPRINTF ((YYSTDERR, "Starting parse\n"));
 
   yystate = 0;
   yyerrstatus = 0;
@@ -539,14 +565,14 @@ yyparse (YYPARSE_PARAM_ARG)
       yylsp = yyls + yysize - 1;
 #endif
 
-      YYDPRINTF ((stderr, "Stack size increased to %lu\n",
+      YYDPRINTF ((YYSTDERR, "Stack size increased to %lu\n",
 		  (unsigned long int) yystacksize));
 
       if (yyssp >= yyss + yystacksize - 1)
 	YYABORT;
     }
 
-  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
+  YYDPRINTF ((YYSTDERR, "Entering state %d\n", yystate));
 
   goto yybackup;
 
@@ -573,7 +599,7 @@ yybackup:
 
   if (yychar == YYEMPTY)
     {
-      YYDPRINTF ((stderr, "Reading a token: "));
+      YYDPRINTF ((YYSTDERR, "Reading a token: "));
       yychar = YYLEX;
     }
 
@@ -584,7 +610,7 @@ yybackup:
       yychar1 = 0;
       yychar = YYEOF;		/* Don't call YYLEX any more */
 
-      YYDPRINTF ((stderr, "Now at end of input.\n"));
+      YYDPRINTF ((YYSTDERR, "Now at end of input.\n"));
     }
   else
     {
@@ -595,13 +621,14 @@ yybackup:
 	which are defined only if `YYDEBUG' is set.  */
       if (yydebug)
 	{
-	  fprintf (stderr, "Next token is %d (%s", yychar, yytname[yychar1]);
+	  YYFPRINTF (YYSTDERR, "Next token is %d (%s",
+		     yychar, yytname[yychar1]);
 	  /* Give the individual parser a way to print the precise
 	     meaning of a token, for further debugging info.  */
 # ifdef YYPRINT
-	  YYPRINT (stderr, yychar, yylval);
+	  YYPRINT (YYSTDERR, yychar, yylval);
 # endif
-	  fprintf (stderr, ")\n");
+	  YYFPRINTF (YYSTDERR, ")\n");
 	}
 #endif
     }
@@ -633,7 +660,8 @@ yybackup:
     YYACCEPT;
 
   /* Shift the lookahead token.  */
-  YYDPRINTF ((stderr, "Shifting token %d (%s), ", yychar, yytname[yychar1]));
+  YYDPRINTF ((YYSTDERR, "Shifting token %d (%s), ",
+	      yychar, yytname[yychar1]));
 
   /* Discard the token being shifted unless it is eof.  */
   if (yychar != YYEOF)
@@ -694,13 +722,13 @@ yyreduce:
     {
       int yyi;
 
-      fprintf (stderr, "Reducing via rule %d (line %d), ",
-	       yyn, yyrline[yyn]);
+      YYFPRINTF (YYSTDERR, "Reducing via rule %d (line %d), ",
+		 yyn, yyrline[yyn]);
 
       /* Print the symbols being reduced, and their result.  */
       for (yyi = yyprhs[yyn]; yyrhs[yyi] > 0; yyi++)
-	fprintf (stderr, "%s ", yytname[yyrhs[yyi]]);
-      fprintf (stderr, " -> %s\n", yytname[yyr1[yyn]]);
+	YYFPRINTF (YYSTDERR, "%s ", yytname[yyrhs[yyi]]);
+      YYFPRINTF (YYSTDERR, " -> %s\n", yytname[yyr1[yyn]]);
     }
 #endif
 %% actions /* The action file replaces this line. */
@@ -716,10 +744,10 @@ yyreduce:
   if (yydebug)
     {
       short *yyssp1 = yyss - 1;
-      fprintf (stderr, "state stack now");
+      YYFPRINTF (YYSTDERR, "state stack now");
       while (yyssp1 != yyssp)
-	fprintf (stderr, " %d", *++yyssp1);
-      fprintf (stderr, "\n");
+	YYFPRINTF (YYSTDERR, " %d", *++yyssp1);
+      YYFPRINTF (YYSTDERR, "\n");
     }
 #endif
 
@@ -815,7 +843,7 @@ yyerrlab1:
       /* return failure if at end of input */
       if (yychar == YYEOF)
 	YYABORT;
-      YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
+      YYDPRINTF ((YYSTDERR, "Discarding token %d (%s).\n",
 		  yychar, yytname[yychar1]));
       yychar = YYEMPTY;
     }
@@ -861,10 +889,10 @@ yyerrpop:
   if (yydebug)
     {
       short *yyssp1 = yyss - 1;
-      fprintf (stderr, "Error: state stack now");
+      YYFPRINTF (YYSTDERR, "Error: state stack now");
       while (yyssp1 != yyssp)
-	fprintf (stderr, " %d", *++yyssp1);
-      fprintf (stderr, "\n");
+	YYFPRINTF (YYSTDERR, " %d", *++yyssp1);
+      YYFPRINTF (YYSTDERR, "\n");
     }
 #endif
 
@@ -894,7 +922,7 @@ yyerrhandle:
   if (yyn == YYFINAL)
     YYACCEPT;
 
-  YYDPRINTF ((stderr, "Shifting error token, "));
+  YYDPRINTF ((YYSTDERR, "Shifting error token, "));
 
   *++yyvsp = yylval;
 #if YYLSP_NEEDED
