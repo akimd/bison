@@ -1,3 +1,12 @@
+2001-12-27  Paul Eggert  <eggert@twinsun.com>
+
+	* src/bison.simple (YYSTACK_ALLOC, YYSIZE_T): Remove special
+	cases for non-GNU systems like AIX, HP-UX, SGI, Sun, and
+	Sparc, as they were causing more porting problems than the
+	(minor) performance improvement was worth.
+
+	Also, catch up with 1.31's YYSTD.
+
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_gram): Rely on nritems, not the
