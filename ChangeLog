@@ -1,5 +1,10 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (closure): Use arrays instead of pointers to clarify.
+
+	
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c, src/derives.c, src/nullable.c: Adjust various
 	trace messages.
 	* src/LR0.c: Likewise.
