@@ -833,30 +833,29 @@ yyerrlab:
 	  int x, count;
 
 	  count = 0;
-	  /* Start X at -yyn if nec to avoid negative indexes in yycheck.  */
-	  for (x = (yyn < 0 ? -yyn : 0);
+	  /* Start X at -YYN if negative to avoid negative indexes in
+	     YYCHECK.  */
+	  for (x = yyn < 0 ? -yyn : 0;
 	       x < (int) (sizeof (yytname) / sizeof (char *)); x++)
 	    if (yycheck[x + yyn] == x)
 	      size += strlen (yytname[x]) + 15, count++;
-	  size += strlen ("parse error, unexpected `") + 1;
+	  size += strlen ("parse error, unexpected ") + 1;
 	  size += strlen (yytname[YYTRANSLATE (yychar)]);
 	  msg = (char *) malloc (size);
 	  if (msg != 0)
 	    {
-	      strcpy (msg, "parse error, unexpected `");
+	      strcpy (msg, "parse error, unexpected ");
 	      strcat (msg, yytname[YYTRANSLATE (yychar)]);
-	      strcat (msg, "'");
 
 	      if (count < 5)
 		{
 		  count = 0;
-		  for (x = (yyn < 0 ? -yyn : 0);
+		  for (x = yyn < 0 ? -yyn : 0;
 			 x < (int) (sizeof (yytname) / sizeof (char *)); x++)
 		    if (yycheck[x + yyn] == x)
 		      {
-		        strcat (msg, count == 0 ? ", expecting `" : " or `");
+			strcat (msg, count == 0 ? ", expecting " : " or ");
 		        strcat (msg, yytname[x]);
-			strcat (msg, "'");
 			count++;
 		      }
 		}
@@ -864,7 +863,7 @@ yyerrlab:
 	      free (msg);
 	    }
           else
-	    yyerror ("parse error; also virtual memory exceeded");
+	    yyerror ("parse error; also virtual memory exhausted");
         }
       else
 #endif /* YYERROR_VERBOSE */
