@@ -1,0 +1,120 @@
+# Executing Actions.                               -*- Autotest -*-
+# Copyright 2002 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+AT_BANNER([[User Actions.]])
+
+# AT_TEST_SYNCLINE(TITLE, INPUT, ERROR-MSG)
+# -----------------------------------------
+# Check that compiling the parser produced from INPUT cause GCC
+# to issue ERROR-MSG.
+m4_define([AT_TEST_SYNCLINE],
+[AT_SETUP([$1])
+
+# I'm not sure I can find a generic scheme to check the location
+# of an error, so we keep this for GCC only.
+AT_CHECK([test "$GCC" = yes || exit 77])
+
+AT_DATA([[input.y]],
+[$2])
+
+AT_CHECK([bison input.y -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 1, [], [$3])
+AT_CLEANUP
+])
+
+
+## --------------------- ##
+## Prologue synch line.  ##
+## --------------------- ##
+
+
+AT_TEST_SYNCLINE([Prologue synch line],
+[[%{
+#error "2"
+%}
+%%
+exp: '0';
+]],
+[input.y:2: #error "2"
+])
+
+
+## ------------------- ##
+## %union synch line.  ##
+## ------------------- ##
+
+AT_TEST_SYNCLINE([%union synch line],
+[[%union {
+#error "2"
+}
+%%
+exp: '0';
+]],
+[input.y:2: #error "2"
+])
+
+
+## ------------------------- ##
+## Postprologue synch line.  ##
+## ------------------------- ##
+
+AT_TEST_SYNCLINE([Postprologue synch line],
+[[%{
+/* Nothing here. */
+%}
+%union
+{
+  int ival;
+}
+%{
+#error "9"
+%}
+%%
+exp: '0';
+]],
+[input.y:9: #error "9"
+])
+
+
+## ------------------- ##
+## Action synch line.  ##
+## ------------------- ##
+
+AT_TEST_SYNCLINE([Action synch line],
+[[%%
+exp:
+{
+#error "4"
+};
+]],
+[input.y:4: #error "4"
+])
+
+
+## --------------------- ##
+## Epilogue synch line.  ##
+## --------------------- ##
+
+AT_TEST_SYNCLINE([Epilogue synch line],
+[[%%
+exp: '0';
+%%
+#error "4"
+]],
+[input.y:4: #error "4"
+])

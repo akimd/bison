@@ -110,6 +110,9 @@ b4_prologue
 #endif
 
 #ifndef YYSTYPE
+m4_ifdef([b4_stype_line],
+[#line b4_stype_line "b4_filename"
+])dnl
 typedef b4_stype yystype;
 # define YYSTYPE yystype
 #endif
@@ -1161,6 +1164,9 @@ m4_if(b4_defines_flag, 0, [],
 b4_token_defines(b4_tokens)
 
 #ifndef YYSTYPE
+m4_ifdef([b4_stype_line],
+[#line b4_stype_line "b4_filename"
+])dnl
 typedef b4_stype
 yystype;
 # define YYSTYPE yystype

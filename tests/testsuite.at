@@ -37,6 +37,9 @@ m4_include([sets.at])
 # Testing grammar reduction.
 m4_include([reduce.at])
 
+# Testing that #lines are correct.
+m4_include([synclines.at])
+
 # Testing that headers are sane.
 m4_include([headers.at])
 

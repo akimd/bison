@@ -47,7 +47,8 @@ TESTSUITE_AT = \
 	testsuite.at \
 	input.at \
 	output.at sets.at reduce.at \
-	headers.at actions.at conflicts.at calc.at \
+	synclines.at headers.at actions.at conflicts.at \
+	calc.at \
         torture.at regression.at \
         semantic.at
 

@@ -1,5 +1,17 @@
 2002-03-19  Akim Demaille  <akim@epita.fr>
 
+	Test and fix the #line outputs.
+
+	* tests/atlocal.at (GCC): New.
+	* tests/synclines.at (AT_TEST_SYNCLINE): New macro.
+	(Prologue synch line, ,%union synch line, Postprologue synch line)
+	(Action synch line, Epilogue synch line): New tests.
+	* src/reader.c (parse_union_decl): Define the muscle stype_line.
+	* data/bison.simple, data/bison.c++: Use it.
+
+	
+2002-03-19  Akim Demaille  <akim@epita.fr>
+
 	* tests/regression.at (%nonassoc and eof, Unresolved SR Conflicts)
 	(Solved SR Conflicts, %expect not enough, %expect right)
 	(%expect too much): Move to...
