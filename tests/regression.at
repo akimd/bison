@@ -784,7 +784,7 @@ AT_CHECK([bison -o dancer.c dancer.y])
 AT_LALR1_CC_IF([AT_COMPILE_CXX([dancer])],
                [AT_COMPILE([dancer])])
 AT_PARSER_CHECK([./dancer], 1, [],
-[syntax error, unexpected ':', expecting ARROW or INVALID or DATA or '<'
+[syntax error, unexpected ':'
 ])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
