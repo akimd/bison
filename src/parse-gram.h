@@ -1,4 +1,4 @@
-/* A Bison parser, made from parse-gram.y, by GNU bison 1.49b.  */
+/* A Bison parser, made from parse-gram.y, by GNU bison 1.49c.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
@@ -136,7 +136,7 @@ typedef union {
   char *string;
   assoc_t assoc;
 } yystype;
-/* Line 1292 of /tmp/prefix/share/bison/yacc.c.  */
+/* Line 1294 of /usr/local/share/bison/yacc.c.  */
 #line 141 "y.tab.h"
 # define YYSTYPE yystype
 #endif

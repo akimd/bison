@@ -95,9 +95,10 @@ braced_code_t current_braced_code = action_braced_code;
 };
 
 /* Define the tokens together with their human representation.  */
-%token GRAM_EOF 0 "end of string"
-%token STRING CHARACTER
-%token INT
+%token GRAM_EOF 0 "end of file"
+%token STRING     "string"
+%token CHARACTER  "character"
+%token INT        "integer"
 
 %token PERCENT_TOKEN       "%token"
 %token PERCENT_NTERM       "%nterm"
@@ -112,41 +113,43 @@ braced_code_t current_braced_code = action_braced_code;
 %token PERCENT_RIGHT       "%right"
 %token PERCENT_NONASSOC    "%nonassoc"
 
-%token PERCENT_EXPECT "%expect"
-%token PERCENT_START "%start"
-%token PERCENT_PREC     "%prec"
-%token PERCENT_DPREC    "%dprec"
-%token PERCENT_MERGE    "%merge"
-%token PERCENT_VERBOSE  "%verbose"
+%token PERCENT_EXPECT        "%expect"
+%token PERCENT_START         "%start"
+%token PERCENT_PREC          "%prec"
+%token PERCENT_DPREC         "%dprec"
+%token PERCENT_MERGE         "%merge"
+%token PERCENT_VERBOSE       "%verbose"
 %token PERCENT_ERROR_VERBOSE "%error-verbose"
 
-%token PERCENT_OUTPUT "%output"
+%token PERCENT_OUTPUT      "%output"
 %token PERCENT_FILE_PREFIX "%file-prefix"
 %token PERCENT_NAME_PREFIX "%name-prefix"
 
-%token PERCENT_DEFINE "%define"
+%token PERCENT_DEFINE      "%define"
 %token PERCENT_PURE_PARSER "%pure-parser"
-%token PERCENT_GLR_PARSER "%glr-parser"
+%token PERCENT_GLR_PARSER  "%glr-parser"
 
 %token PERCENT_DEFINES "%defines"
 
 %token PERCENT_YACC "%yacc"
 
-%token PERCENT_DEBUG "%debug"
-%token PERCENT_LOCATIONS "%locations"
-%token PERCENT_NO_LINES "%no-lines"
-%token PERCENT_SKELETON "%skeleton"
+%token PERCENT_DEBUG       "%debug"
+%token PERCENT_LOCATIONS   "%locations"
+%token PERCENT_NO_LINES    "%no-lines"
+%token PERCENT_SKELETON    "%skeleton"
 %token PERCENT_TOKEN_TABLE "%token-table"
 
-%token TYPE
-%token EQUAL "="
-%token SEMICOLON ";"
-%token COLON ":"
-%token PIPE "|"
-%token ID "identifier"
+%token TYPE            "type"
+%token EQUAL           "="
+%token SEMICOLON       ";"
+%token COLON           ":"
+%token PIPE            "|"
+%token ID              "identifier"
 %token PERCENT_PERCENT "%%"
-%token PROLOGUE EPILOGUE
-%token BRACED_CODE
+%token PROLOGUE        "%{...%}"
+%token EPILOGUE        "epilogue"
+%token BRACED_CODE     "{...}"
+
 
 %type <string> CHARACTER TYPE STRING string_content
                BRACED_CODE PROLOGUE EPILOGUE epilogue.opt action
