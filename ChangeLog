@@ -1,3 +1,10 @@
+2003-03-13  Paul Eggert  <eggert@twinsun.com>
+
+	* .cvsignore: Add configure.lineno.
+	* src/.cvsignore: Add yacc.
+	* tests/.cvsignore: Add testsuite.log.
+	* doc/fdl.texi: Sync with latest FSF version.
+
 2003-03-12  Paul Eggert  <eggert@twinsun.com>
 
 	* scan-gram.l (YY_USER_INIT): Initialize code_start, too.
