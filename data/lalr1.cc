@@ -114,6 +114,14 @@ m4_define([b4_cc_var_decls],
 m4_define([b4_cc_var_decl],
 	  [    $1;])
 
+# b4_cxx_destruct_def(IGNORED-ARGUMENTS)
+# --------------------------------------
+# Declare the destruct_ method.
+m4_define([b4_cxx_destruct_def],
+[void
+yy::b4_parser_class_name::destruct_ (int yytype, SemanticType *yyvaluep, LocationType *yylocationp)[]dnl
+])
+
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
 m4_divert(0)dnl
@@ -250,6 +258,7 @@ namespace yy
     static const ]b4_int_type_for([b4_table])[ table_[];
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ table_ninf_;
     static const ]b4_int_type_for([b4_check])[ check_[];
+    static const ]b4_int_type_for([b4_stos])[ stos_[];
     static const ]b4_int_type_for([b4_r1])[ r1_[];
     static const ]b4_int_type_for([b4_r2])[ r2_[];
 
@@ -262,7 +271,6 @@ namespace yy
     static const RhsNumberType rhs_[];
     static const ]b4_int_type_for([b4_prhs])[ prhs_[];
     static const ]b4_int_type_for([b4_rline])[ rline_[];
-    static const ]b4_int_type_for([b4_stos])[ stos_[];
     static const ]b4_int_type_for([b4_toknum])[ token_number_[];
     virtual void reduce_print_ (int yyrule);
     virtual void stack_print_ ();
@@ -270,6 +278,8 @@ namespace yy
 
     /* Even more tables.  */
     static inline TokenNumberType translate_ (int token);
+    static inline void destruct_ (int yytype, SemanticType *yyvaluep,
+				  LocationType *yylocationp);
 
     /* Constants.  */
     static const int eof_;
@@ -307,6 +317,8 @@ namespace yy
     /* Semantic value and location of lookahead token.  */
     SemanticType value;
     LocationType location;
+    /* Beginning of the last erroneous token popped off.  */
+    Position error_start_;
 
     /* @@$ and $$.  */
     SemanticType yyval;
@@ -349,6 +361,7 @@ do {					\
 #define YYABORT		goto yyabortlab
 #define YYERROR		goto yyerrorlab
 
+]b4_yydestruct_generate([b4_cxx_destruct_def])[
 
 int
 yy::]b4_parser_class_name[::parse ()
@@ -530,6 +543,7 @@ b4_syncline([@oline@], [@ofile@])[
   /* If not already recovering from an error, report this error.  */
   report_syntax_error_ ();
 
+  error_start_ = location.begin;
   if (errstatus_ == 3)
     {
       /* If just tried and failed to reuse lookahead token after an
@@ -543,23 +557,26 @@ b4_syncline([@oline@], [@ofile@])[
 	  if (looka_ == eof_)
 	     for (;;)
 	       {
+                 error_start_ = location_stack_[0].begin;
                  state_stack_.pop ();
                  semantic_stack_.pop ();
                  location_stack_.pop ();
 		 if (state_stack_.height () == 1)
 		   YYABORT;
 //		 YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
-// FIXME: yydestruct (yystos[*yyssp], yyvsp]b4_location_if([, yylsp])[);
+                 destruct_ (stos_[state_stack_[0]],
+                            &semantic_stack_[0],
+                            &location_stack_[0]);
 	       }
         }
       else
         {
 #if YYDEBUG
-           YYCDEBUG << "Discarding token " << looka_
-  	            << " (" << name_[ilooka_] << ")." << std::endl;
-//	  yydestruct (yytoken, &yylval]b4_location_if([, &yylloc])[);
+          YYCDEBUG << "Discarding token " << looka_
+  	           << " (" << name_[ilooka_] << ")." << std::endl;
 #endif
-           looka_ = empty_;
+          destruct_ (ilooka_, &value, &location);
+          looka_ = empty_;
         }
     }
 
@@ -582,6 +599,7 @@ yyerrorlab:
 
   state_stack_.pop (len_);
   semantic_stack_.pop (len_);
+  error_start_ = location_stack_[len_ - 1].begin;
   location_stack_.pop (len_);
   state_ = state_stack_[0];
   goto yyerrlab1;
@@ -631,6 +649,8 @@ yyerrlab1:
 	    }
 	}
 #endif
+      destruct_ (stos_[state_], &semantic_stack_[0], &location_stack_[0]);
+      error_start_ = location_stack_[0].begin;
 
       state_stack_.pop ();
       semantic_stack_.pop ();
@@ -644,8 +664,13 @@ yyerrlab1:
 
   YYCDEBUG << "Shifting error token, ";
 
-  semantic_stack_.push (value);
-  location_stack_.push (location);
+  {
+    Location errloc;
+    errloc.begin = error_start_;
+    errloc.end = location.end;
+    semantic_stack_.push (value);
+    location_stack_.push (errloc);
+  }
 
   state_ = n_;
   goto yynewstate;
