@@ -1,5 +1,10 @@
 2002-06-27  Akim Demaille  <akim@epita.fr>
 
+	* src/options.h, src/options.c: Remove.
+	* src/getargs.c (short_options, long_options): New.
+
+2002-06-27  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple, data/bison.c++: Rename as...
 	* data/yacc.c, data/lalr1.cc: these.
 	* doc/bison.texinfo (Environment Variables): Remove.

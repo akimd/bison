@@ -49,7 +49,6 @@ bison_SOURCES = 				  \
 	main.c					  \
 	muscle_tab.c muscle_tab.h		  \
 	nullable.c nullable.h			  \
-	options.c options.h			  \
 	output.c output.h			  \
 	parse-gram.h parse-gram.y		  \
 	print.c print.h				  \

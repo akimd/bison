@@ -27,7 +27,6 @@
 #include "files.h"
 #include "symtab.h"
 #include "symlist.h"
-#include "options.h"
 #include "gram.h"
 #include "complain.h"
 #include "output.h"
