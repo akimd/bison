@@ -32,11 +32,6 @@ typedef struct merger_list
 }
 merger_list;
 
-typedef struct gram_control_s
-{
-  int errcode;
-} gram_control_t;
-
 /* From the scanner.  */
 extern FILE *gram_in;
 extern int gram__flex_debug;
@@ -44,16 +39,14 @@ void scanner_initialize (void);
 void scanner_free (void);
 void scanner_last_string_free (void);
 
-# define YY_DECL \
-  int gram_lex (yystype *yylval, location_t *yylloc, \
-		gram_control_t *yycontrol)
+# define YY_DECL int gram_lex (yystype *val, location_t *loc)
 YY_DECL;
 
 
 /* From the parser.  */
 extern int gram_debug;
-void gram_error (location_t *loc, const char *msg);
-int gram_parse (void *control);
+void gram_error (location_t const *loc, char const *msg);
+int gram_parse (void);
 
 /* The sort of braced code we are in.  */
 typedef enum braced_code_e
