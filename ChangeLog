@@ -1,3 +1,10 @@
+2002-01-11  Tim Van Holder  <tim.van.holder@pandora.be>
+
+	* lib/hash.h, lib/hash.c: Renamed __P to PARAMS and used the
+	canonical definition.
+	* src/system.h: Use the canonical definition for PARAMS (avoids
+	a conflict with the macro from lib/hash.h).
+
 2002-01-11  Akim Demaille  <akim@epita.fr>
 
 	* configure.in: Use AC_FUNC_STRNLEN.
