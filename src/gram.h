@@ -55,7 +55,9 @@
    RULE_TABLE[R].precsym -- the symbol-number of the symbol in %prec
    for R (if any).
 
-   RULE_TABLE[R].assoc -- the associativity of the rule.
+   RULE_TABLE[R].assoc -- the associativity of R.
+
+   RULE_TABLE[R].line -- the line where R was defined.
 
    The right hand side is stored as symbol numbers in a portion of
    RITEM.
@@ -97,7 +99,6 @@ extern short *ritem;
 
 extern short *sprec;
 extern short *sassoc;
-extern short *rline;		/* Source line number of each rule */
 
 extern int start_symbol;
 
@@ -117,6 +118,7 @@ typedef struct rule_s
   short prec;
   short precsym;
   short assoc;
+  short line;
 } rule_t;
 
 extern struct rule_s *rule_table;

@@ -375,10 +375,16 @@ output_rule_data (void)
   obstack_sgrow (&table_obstack, "\n\
 #if YYDEBUG != 0\n");
 
-  output_short_table (&table_obstack,
-           "YYRLINE[YYN] -- source line where rule number YYN was defined",
-		      "yyrline", rline,
-		      0, 1, nrules + 1);
+  {
+    short *values = XCALLOC (short, nrules + 1);
+    for (i = 0; i < nrules + 1; ++i)
+      values[i] = rule_table[i].line;
+    output_short_table (&table_obstack,
+			"YYRLINE[YYN] -- source line where rule number YYN was defined",
+			"yyrline", values,
+			0, 1, nrules + 1);
+    XFREE (values);
+  }
 
   obstack_sgrow (&table_obstack, "#endif\n\n");
 
