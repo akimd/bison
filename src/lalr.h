@@ -78,8 +78,9 @@ typedef struct state_s
   /* Its accessing symbol. */
   short accessing_symbol;
 
-  shifts *shift_table;
-  reductions *reduction_table;
+  shifts     *shifts;
+  reductions *reductions;
+  errs       *errs;
 
   /* Nonzero if no lookahead is needed to decide what to do in state
      S.  */
