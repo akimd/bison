@@ -1,3 +1,9 @@
+2000-10-02  Paul Eggert  <eggert@twinsun.com>
+
+	* bison.s1 (yyparse): Assign the default value
+	unconditionally, to avoid a GCC warning and make the parser a
+	tad smaller.
+
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
 	* src/getargs.c (getargs): Don't dump `--help' on unrecognized
