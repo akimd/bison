@@ -1,5 +1,14 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	Memory leak.
+
+	* src/LR0.c (new_itemsets): Don't allocate `shift_symbol' here,
+	since it allocates it for each state, although only one is needed.
+	(allocate_storage): Do it here.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/options.h, src/options.c (create_long_option_table): Rename
 	as...
 	(long_option_table_new): this, with a clearer prototype.
