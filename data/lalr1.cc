@@ -264,6 +264,7 @@ namespace yy
     static const ]b4_int_type_for([b4_stos])[ stos_[];
     static const ]b4_int_type_for([b4_toknum])[ token_number_[];
     virtual void reduce_print_ (int yyrule);
+    virtual void stack_print_ ();
 #endif
 
     /* Even more tables.  */
@@ -328,9 +329,15 @@ do {					\
   if (debug_)				\
     reduce_print_ (Rule);		\
 } while (0)
+# define YY_STACK_PRINT()		\
+do {					\
+  if (debug_)				\
+    stack_print_ ();			\
+} while (0)
 #else /* !YYDEBUG */
 # define YYCDEBUG    if (0) cdebug_
 # define YY_REDUCE_PRINT(Rule)
+# define YY_STACK_PRINT()
 #endif /* !YYDEBUG */
 
 #define YYACCEPT	goto yyacceptlab
@@ -497,16 +504,7 @@ b4_syncline([@oline@], [@ofile@])[
   semantic_stack_.pop (len_);
   location_stack_.pop (len_);
 
-#if YYDEBUG
-  if (debug_)
-    {
-      YYCDEBUG << "state stack now";
-      for (StateStack::ConstIterator i = state_stack_.begin ();
-	   i != state_stack_.end (); ++i)
-	YYCDEBUG << ' ' << *i;
-      YYCDEBUG << std::endl;
-    }
-#endif
+  YY_STACK_PRINT ();
 
   semantic_stack_.push (yyval);
   location_stack_.push (yyloc);
@@ -663,17 +661,7 @@ yyerrlab1:
       semantic_stack_.pop ();
       location_stack_.pop ();
       state_ = state_stack_[0];
-
-#if YYDEBUG
-      if (debug_)
-	{
-	  YYCDEBUG << "Error: state stack now";
-	  for (StateStack::ConstIterator i = state_stack_.begin ();
-	       i != state_stack_.end (); ++i)
-	    YYCDEBUG << ' ' << *i;
-	  YYCDEBUG << std::endl;
-	}
-#endif
+      YY_STACK_PRINT ();
     }
 
   if (n_ == final_)
@@ -820,6 +808,18 @@ yy::]b4_parser_class_name[::rline_[] =
 {
   ]b4_rline[
 };
+
+/** Print the state stack from its BOTTOM up to its TOP (included).  */
+
+void
+yy::]b4_parser_class_name[::stack_print_ ()
+{
+  cdebug_ << "state stack now";
+  for (StateStack::ConstIterator i = state_stack_.begin ();
+       i != state_stack_.end (); ++i)
+    cdebug_ << ' ' << *i;
+  cdebug_ << std::endl;
+}
 
 /** Report that the YYRULE is going to be reduced.  */
 
