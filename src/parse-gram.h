@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 1.875b.  */
+/* A Bison parser, made by GNU Bison 1.875c.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
@@ -51,29 +51,30 @@
      PERCENT_EXPECT = 276,
      PERCENT_FILE_PREFIX = 277,
      PERCENT_GLR_PARSER = 278,
-     PERCENT_LEX_PARAM = 279,
-     PERCENT_LOCATIONS = 280,
-     PERCENT_NAME_PREFIX = 281,
-     PERCENT_NO_LINES = 282,
-     PERCENT_NONDETERMINISTIC_PARSER = 283,
-     PERCENT_OUTPUT = 284,
-     PERCENT_PARSE_PARAM = 285,
-     PERCENT_PURE_PARSER = 286,
-     PERCENT_SKELETON = 287,
-     PERCENT_START = 288,
-     PERCENT_TOKEN_TABLE = 289,
-     PERCENT_VERBOSE = 290,
-     PERCENT_YACC = 291,
-     TYPE = 292,
-     EQUAL = 293,
-     SEMICOLON = 294,
-     PIPE = 295,
-     ID = 296,
-     ID_COLON = 297,
-     PERCENT_PERCENT = 298,
-     PROLOGUE = 299,
-     EPILOGUE = 300,
-     BRACED_CODE = 301
+     PERCENT_INITIAL_ACTION = 279,
+     PERCENT_LEX_PARAM = 280,
+     PERCENT_LOCATIONS = 281,
+     PERCENT_NAME_PREFIX = 282,
+     PERCENT_NO_LINES = 283,
+     PERCENT_NONDETERMINISTIC_PARSER = 284,
+     PERCENT_OUTPUT = 285,
+     PERCENT_PARSE_PARAM = 286,
+     PERCENT_PURE_PARSER = 287,
+     PERCENT_SKELETON = 288,
+     PERCENT_START = 289,
+     PERCENT_TOKEN_TABLE = 290,
+     PERCENT_VERBOSE = 291,
+     PERCENT_YACC = 292,
+     TYPE = 293,
+     EQUAL = 294,
+     SEMICOLON = 295,
+     PIPE = 296,
+     ID = 297,
+     ID_COLON = 298,
+     PERCENT_PERCENT = 299,
+     PROLOGUE = 300,
+     EPILOGUE = 301,
+     BRACED_CODE = 302
    };
 #endif
 #define GRAM_EOF 0
@@ -98,35 +99,36 @@
 #define PERCENT_EXPECT 276
 #define PERCENT_FILE_PREFIX 277
 #define PERCENT_GLR_PARSER 278
-#define PERCENT_LEX_PARAM 279
-#define PERCENT_LOCATIONS 280
-#define PERCENT_NAME_PREFIX 281
-#define PERCENT_NO_LINES 282
-#define PERCENT_NONDETERMINISTIC_PARSER 283
-#define PERCENT_OUTPUT 284
-#define PERCENT_PARSE_PARAM 285
-#define PERCENT_PURE_PARSER 286
-#define PERCENT_SKELETON 287
-#define PERCENT_START 288
-#define PERCENT_TOKEN_TABLE 289
-#define PERCENT_VERBOSE 290
-#define PERCENT_YACC 291
-#define TYPE 292
-#define EQUAL 293
-#define SEMICOLON 294
-#define PIPE 295
-#define ID 296
-#define ID_COLON 297
-#define PERCENT_PERCENT 298
-#define PROLOGUE 299
-#define EPILOGUE 300
-#define BRACED_CODE 301
+#define PERCENT_INITIAL_ACTION 279
+#define PERCENT_LEX_PARAM 280
+#define PERCENT_LOCATIONS 281
+#define PERCENT_NAME_PREFIX 282
+#define PERCENT_NO_LINES 283
+#define PERCENT_NONDETERMINISTIC_PARSER 284
+#define PERCENT_OUTPUT 285
+#define PERCENT_PARSE_PARAM 286
+#define PERCENT_PURE_PARSER 287
+#define PERCENT_SKELETON 288
+#define PERCENT_START 289
+#define PERCENT_TOKEN_TABLE 290
+#define PERCENT_VERBOSE 291
+#define PERCENT_YACC 292
+#define TYPE 293
+#define EQUAL 294
+#define SEMICOLON 295
+#define PIPE 296
+#define ID 297
+#define ID_COLON 298
+#define PERCENT_PERCENT 299
+#define PROLOGUE 300
+#define EPILOGUE 301
+#define BRACED_CODE 302
 
 
 
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 75 "parse-gram.y"
+#line 80 "parse-gram.y"
 typedef union YYSTYPE {
   symbol *symbol;
   symbol_list *list;
@@ -135,8 +137,8 @@ typedef union YYSTYPE {
   assoc assoc;
   uniqstr uniqstr;
 } YYSTYPE;
-/* Line 1268 of yacc.c.  */
-#line 140 "y.tab.h"
+/* Line 1285 of yacc.c.  */
+#line 142 "y.tab.h"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

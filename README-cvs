@@ -11,9 +11,11 @@ tools we depend upon:
 
 - Automake 1.7
 
-- Autoconf 2.54
+- Autoconf 2.57
 
-- Gettext 0.11.5
+- Gettext 0.12.1
+
+- CVS Bison itself
 
 Only building the initial full source tree will be a bit painful,
 later, a plain `cvs update -P & make' should be sufficient.
@@ -65,7 +67,7 @@ If you experience problems, I suggest the following:
 
 -----
 
-Copyright (C) 2002 Free Software Foundation, Inc.
+Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 

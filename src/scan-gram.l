@@ -190,6 +190,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%expect"               return PERCENT_EXPECT;
   "%file-prefix"          return PERCENT_FILE_PREFIX;
   "%fixed"[-_]"output"[-_]"files"   return PERCENT_YACC;
+  "%initial-action"       token_type = PERCENT_INITIAL_ACTION; BEGIN SC_PRE_CODE;
   "%glr-parser"           return PERCENT_GLR_PARSER;
   "%left"                 return PERCENT_LEFT;
   "%lex-param"		  token_type = PERCENT_LEX_PARAM; BEGIN SC_PRE_CODE;
@@ -649,8 +650,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
 %%
 
-/* Keeps track of the maximum number of semantic values to the left of 
-   a handle (those referenced by $0, $-1, etc.) are required by the 
+/* Keeps track of the maximum number of semantic values to the left of
+   a handle (those referenced by $0, $-1, etc.) are required by the
    semantic actions of this grammar. */
 int max_left_semantic_context = 0;
 
@@ -807,10 +808,10 @@ handle_action_dollar (char *text, location loc)
 }
 
 
-/*-----------------------------------------------------------------.
-| Dispatch onto handle_action_dollar, or handle_destructor_dollar, |
-| depending upon TOKEN_TYPE.                                       |
-`-----------------------------------------------------------------*/
+/*----------------------------------------------------------------.
+| Map `$?' onto the proper M4 symbol, depending on its TOKEN_TYPE |
+| (are we in an action?).                                         |
+`----------------------------------------------------------------*/
 
 static void
 handle_dollar (int token_type, char *text, location loc)
@@ -823,6 +824,7 @@ handle_dollar (int token_type, char *text, location loc)
       break;
 
     case PERCENT_DESTRUCTOR:
+    case PERCENT_INITIAL_ACTION:
     case PERCENT_PRINTER:
       if (text[1] == '$')
 	{
@@ -875,10 +877,10 @@ handle_action_at (char *text, location loc)
 }
 
 
-/*-------------------------------------------------------------------.
-| Dispatch onto handle_action_at, or handle_destructor_at, depending |
-| upon CODE_KIND.                                                    |
-`-------------------------------------------------------------------*/
+/*----------------------------------------------------------------.
+| Map `@?' onto the proper M4 symbol, depending on its TOKEN_TYPE |
+| (are we in an action?).                                         |
+`----------------------------------------------------------------*/
 
 static void
 handle_at (int token_type, char *text, location loc)
@@ -889,6 +891,7 @@ handle_at (int token_type, char *text, location loc)
       handle_action_at (text, loc);
       return;
 
+    case PERCENT_INITIAL_ACTION:
     case PERCENT_DESTRUCTOR:
     case PERCENT_PRINTER:
       if (text[1] == '$')

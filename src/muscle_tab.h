@@ -21,6 +21,8 @@
 #ifndef MUSCLE_TAB_H_
 # define MUSCLE_TAB_H_
 
+# include "location.h"
+
 void muscle_init (void);
 void muscle_insert (const char *key, char *value);
 char *muscle_find (const char *key);
@@ -85,6 +87,13 @@ extern struct obstack muscle_obstack;
    associated value.  VALUE and SEPARATOR are copied.  */
 
 void muscle_grow (const char *key, const char *value, const char *separator);
+
+
+/* Append VALUE to the current value of KEY, using muscle_grow.  But
+   in addition, issue a synchronization line for the location LOC.  */
+
+void muscle_code_grow (const char *key, const char *value, location loc);
+
 
 /* MUSCLE is an M4 list of pairs.  Create or extend it with the pair
    (A1, A2).  Note that because the muscle values are output *double*

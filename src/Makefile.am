@@ -28,6 +28,10 @@ INCLUDES = -I$(top_builddir)      \
 
 LDADD = ../lib/libbison.a $(LIBINTL)
 
+# Use our own Bison to build the parser.  Of course, you ought to
+# keep a sane version of Bison nearby...
+YACC = ../tests/bison -y
+
 bin_PROGRAMS = bison
 bin_SCRIPTS = $(YACC_SCRIPT)
 EXTRA_SCRIPTS = yacc

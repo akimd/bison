@@ -25,7 +25,7 @@
 %defines
 %locations
 %pure-parser
-// %error-verbose
+%error-verbose
 %defines
 %name-prefix="gram_"
 
@@ -41,9 +41,6 @@
 #include "output.h"
 #include "reader.h"
 #include "symlist.h"
-
-/* Produce verbose syntax errors.  */
-#define YYERROR_VERBOSE 1
 
 #define YYLLOC_DEFAULT(Current, Rhs, N)  (Current) = lloc_default (Rhs, N)
 static YYLTYPE lloc_default (YYLTYPE const *, int);
@@ -69,6 +66,14 @@ assoc current_assoc;
 int current_prec = 0;
 %}
 
+%initial-action
+{
+  /* Bison's grammar can initial empty locations, hence a default
+     location is needed. */
+  @$.start.file   = @$.end.file   = current_file;
+  @$.start.line   = @$.end.line   = 1;
+  @$.start.column = @$.end.column = 0;
+}
 
 /* Only NUMBERS have a value.  */
 %union
@@ -109,26 +114,28 @@ int current_prec = 0;
 `----------------------*/
 
 %token
-  PERCENT_DEBUG         "%debug"
-  PERCENT_DEFINE        "%define"
-  PERCENT_DEFINES       "%defines"
-  PERCENT_ERROR_VERBOSE "%error-verbose"
-  PERCENT_EXPECT        "%expect"
-  PERCENT_FILE_PREFIX   "%file-prefix"
-  PERCENT_GLR_PARSER    "%glr-parser"
-  PERCENT_LEX_PARAM     "%lex-param {...}"
-  PERCENT_LOCATIONS     "%locations"
-  PERCENT_NAME_PREFIX   "%name-prefix"
-  PERCENT_NO_LINES      "%no-lines"
-  PERCENT_NONDETERMINISTIC_PARSER    "%nondeterministic-parser"
-  PERCENT_OUTPUT        "%output"
-  PERCENT_PARSE_PARAM   "%parse-param {...}"
-  PERCENT_PURE_PARSER   "%pure-parser"
-  PERCENT_SKELETON      "%skeleton"
-  PERCENT_START         "%start"
-  PERCENT_TOKEN_TABLE   "%token-table"
-  PERCENT_VERBOSE       "%verbose"
-  PERCENT_YACC          "%yacc"
+  PERCENT_DEBUG           "%debug"
+  PERCENT_DEFINE          "%define"
+  PERCENT_DEFINES         "%defines"
+  PERCENT_ERROR_VERBOSE   "%error-verbose"
+  PERCENT_EXPECT          "%expect"
+  PERCENT_FILE_PREFIX     "%file-prefix"
+  PERCENT_GLR_PARSER      "%glr-parser"
+  PERCENT_INITIAL_ACTION  "%initial-action {...}"
+  PERCENT_LEX_PARAM       "%lex-param {...}"
+  PERCENT_LOCATIONS       "%locations"
+  PERCENT_NAME_PREFIX     "%name-prefix"
+  PERCENT_NO_LINES        "%no-lines"
+  PERCENT_NONDETERMINISTIC_PARSER
+                          "%nondeterministic-parser"
+  PERCENT_OUTPUT          "%output"
+  PERCENT_PARSE_PARAM     "%parse-param {...}"
+  PERCENT_PURE_PARSER     "%pure-parser"
+  PERCENT_SKELETON        "%skeleton"
+  PERCENT_START           "%start"
+  PERCENT_TOKEN_TABLE     "%token-table"
+  PERCENT_VERBOSE         "%verbose"
+  PERCENT_YACC            "%yacc"
 ;
 
 %token TYPE            "type"
@@ -145,6 +152,7 @@ int current_prec = 0;
 
 %type <chars> STRING string_content
 	      "%destructor {...}"
+	      "%initial-action {...}"
 	      "%lex-param {...}"
 	      "%parse-param {...}"
 	      "%printer {...}"
@@ -181,21 +189,28 @@ declaration:
 | "%error-verbose"                         { error_verbose = true; }
 | "%expect" INT                            { expected_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
-| "%glr-parser" 			   { nondeterministic_parser = true;
-                                             glr_parser = true; }
+| "%glr-parser"
+  {
+    nondeterministic_parser = true;
+    glr_parser = true;
+  }
+| "%initial-action {...}"
+  {
+    muscle_code_grow ("initial_action", $1, @1);
+  }
 | "%lex-param {...}"			   { add_param ("lex_param", $1, @1); }
 | "%locations"                             { locations_flag = true; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
 | "%no-lines"                              { no_lines_flag = true; }
 | "%nondeterministic-parser" 		   { nondeterministic_parser = true; }
 | "%output" "=" string_content             { spec_outfile = $3; }
-| "%parse-param {...}"			 { add_param ("parse_param", $1, @1); }
+| "%parse-param {...}"			   { add_param ("parse_param", $1, @1); }
 | "%pure-parser"                           { pure_parser = true; }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = true; }
 | "%verbose"                               { report_flag = report_states; }
 | "%yacc"                                  { yacc_flag = true; }
-| ";"
+| /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
 
 grammar_declaration:
@@ -400,7 +415,7 @@ epilogue.opt:
   /* Nothing.  */
 | "%%" EPILOGUE
     {
-      epilogue_augment ($2, @2);
+      muscle_code_grow ("epilogue", $2, @2);
       scanner_last_string_free ();
     }
 ;
