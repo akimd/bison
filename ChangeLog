@@ -26,8 +26,6 @@
 
 2001-11-28  Akim Demaille  <akim@epita.fr>
 
-	* tests/reduce.at (Useless Nonterminals):
-
 	* src/reduce.c (reduce_print): Use ngettext.
 	(dump_grammar): Improve the trace accuracy.
 
