@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.30a\n"
+"Project-Id-Version: bison 1.30b\n"
 "POT-Creation-Date: 2001-11-14 15:59+0100\n"
-"PO-Revision-Date: 2001-11-05 21:19+02:00\n"
+"PO-Revision-Date: 2001-11-13 10:42+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -48,26 +48,27 @@ msgid "an error"
 msgstr "viga"
 
 #: src/conflicts.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
-msgstr[0] " %d nihutamine/redutseerimine konflikti"
+msgstr[0] "%d nihutamine/redutseerimine konflikt"
+msgstr[1] "%d nihutamine/redutseerimine konflikti"
 
 #: src/conflicts.c:418
-#, fuzzy
 msgid "and"
-msgstr " ja"
+msgstr "ja"
 
 #: src/conflicts.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] " %d redutseerimine/redutseerimine konflikti"
+msgstr[0] "%d redutseerimine/redutseerimine konflikt"
+msgstr[1] "%d redutseerimine/redutseerimine konflikti"
 
 #: src/conflicts.c:448
-#, fuzzy, c-format
+#, c-format
 msgid "State %d contains "
-msgstr "Olek %d sisaldab"
+msgstr "Olek %d sisaldab "
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
@@ -91,10 +92,11 @@ msgid "%s contains "
 msgstr "%s sisaldab "
 
 #: src/conflicts.c:502
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict"
 msgid_plural "expected %d shift/reduce conflicts"
-msgstr[0] " %d nihutamine/redutseerimine konflikti"
+msgstr[0] "eeldasime %d nihutamine/redutseerimine konflikti"
+msgstr[1] "eeldasime %d nihutamine/redutseerimine konflikti"
 
 #: src/conflicts.c:589 src/conflicts.c:709
 #, c-format
@@ -796,12 +798,3 @@ msgstr "`"
 #: lib/quotearg.c:269
 msgid "'"
 msgstr "'"
-
-#~ msgid " 1 shift/reduce conflict"
-#~ msgstr " 1 nihutamine/redutseerimine konflikt"
-
-#~ msgid " 1 reduce/reduce conflict"
-#~ msgstr " 1 redutseerimine/redutseerimine konflikt"
-
-#~ msgid "%s contains"
-#~ msgstr "%s sisaldab"

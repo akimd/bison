@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.29f\n"
+"Project-Id-Version: GNU bison 1.30a\n"
 "POT-Creation-Date: 2001-11-14 15:59+0100\n"
-"PO-Revision-Date: 2001-10-19 15:00-0500\n"
+"PO-Revision-Date: 2001-11-12 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -156,9 +156,9 @@ msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
 msgstr ""
-"Si une option de forme longue montre un paramètre comme étant obligatoire,\n"
+"Si une option de forme longue montre un arguement comme étant obligatoire,\n"
 "il est alors obligatoire également pour une option de forme courte.\n"
-"Il en est de même pour les paramètres optionnels.\n"
+"Il en est de même pour les arguments optionnels.\n"
 
 #: src/getargs.c:98
 msgid ""
@@ -195,7 +195,6 @@ msgstr ""
 "  -k, --token-table          inclure la table des noms de jetons\n"
 
 #: src/getargs.c:117
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -209,7 +208,7 @@ msgstr ""
 "  -d, --defines              produire un fichier d'en-tête\n"
 "  -v, --verbose              produire une explication de l'automate\n"
 "  -b, --file-prefix=PREFIXE  utiliser le PREFIXE pour le fichier de sortie\n"
-"  -o, --output-file=FICHIER  produire la sortie dans le FICHIER\n"
+"  -o, --output=FICHIER       produire la sortie dans le FICHIER\n"
 "  -g, --graph                produire aussi la description du graphe VCG de "
 "l'automate\n"
 
@@ -257,7 +256,7 @@ msgstr "%s: grammaire manquante\n"
 #: src/getargs.c:250
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
-msgstr "%s: paramètres supplémentaires ignorés après `%s'\n"
+msgstr "%s: arguments supplémentaires ignorés après `%s'\n"
 
 #: src/lalr.c:311
 #, c-format
@@ -310,12 +309,12 @@ msgstr "utilisez \"...\" pour les terminaux litéraux de plusieurs caractères"
 #: src/lex.c:667
 #, c-format
 msgid "`%s' supports no argument: %s"
-msgstr ""
+msgstr "`%s' ne supporte aucun argument: %s"
 
 #: src/lex.c:683
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' requires an argument"
-msgstr "%s: l'option %s requiert un paramètre\n"
+msgstr "`%s': requiert un argument"
 
 #: src/main.c:128
 #, c-format
@@ -528,7 +527,7 @@ msgstr "non appariement de %s"
 #: src/reader.c:798
 #, c-format
 msgid "argument of %%expect is not an integer"
-msgstr "le paramètre de %%expect n'est pas un entier"
+msgstr "l'argument de %%expect n'est pas un entier"
 
 #: src/reader.c:844
 #, c-format
@@ -726,17 +725,17 @@ msgstr "%s: l'option %s est ambigüe\n"
 #: lib/getopt.c:719
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
-msgstr "%s: l'option --%s n'admet pas de paramètre\n"
+msgstr "%s: l'option --%s n'admet pas d'argument\n"
 
 #: lib/getopt.c:724
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
-msgstr "%s: l'option %c%s n'admet pas de paramètre\n"
+msgstr "%s: l'option %c%s n'admet pas d'argument\n"
 
 #: lib/getopt.c:742 lib/getopt.c:915
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
-msgstr "%s: l'option %s requiert un paramètre\n"
+msgstr "%s: l'option %s requiert un argument\n"
 
 #. --option
 #: lib/getopt.c:771
@@ -765,7 +764,7 @@ msgstr "%s: option non valide -- %c\n"
 #: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
-msgstr "%s: l'option requiert un paramètre -- %c\n"
+msgstr "%s: l'option requiert un argument -- %c\n"
 
 #: lib/getopt.c:881
 #, c-format
@@ -775,7 +774,7 @@ msgstr "%s: l'option `-W %s' est ambiguë\n"
 #: lib/getopt.c:899
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
-msgstr "%s: l'option `-W %s' n'admet pas de paramètre\n"
+msgstr "%s: l'option `-W %s' n'admet pas d'argument\n"
 
 #. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
 #. before exiting when memory is exhausted.  Goes through gettext.

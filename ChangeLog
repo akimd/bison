@@ -1,5 +1,9 @@
 2001-11-14  Akim Demaille  <akim@epita.fr>
 
+	Version 1.30c.
+
+2001-11-14  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at, tests/output.at, tests/regression.at,
 	* tests/testsuite.at, tests/torture.at: Rely on Autotest 2.52g:
 	now the tests are run in private dirs, therefore AC_CLEANUP and
