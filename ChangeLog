@@ -1,3 +1,19 @@
+2002-06-19  Akim Demaille  <akim@epita.fr>
+
+	Prepare @$ in %destructor, but currently don't bind it in the
+	skeleton, as %location use is not cleaned up yet.
+
+	* src/scan-gram.l (handle_dollar, handle_destructor_at)
+	(handle_action_at): New.
+	(handle_at, handle_action_dollar, handle_destructor_dollar): Take
+	a braced_code_t and a location as additional arguments.
+	(handle_destructor_dollar): Instead of requiring `b4_eval', just
+	unquote one when outputting `b4_dollar_dollar'.
+	Adjust callers.
+	* data/bison.simple (b4_eval): Remove.
+	(b4_symbol_destructor): Adjust.
+	* tests/input.at (Invalid @n): Adjust.
+
 2002-06-19  Zack Weinberg  <zack@codesourcery.com>
 
 	* doc/bison.texinfo: Document ability to have multiple

@@ -1275,21 +1275,13 @@ yyreturn:
 `-------------------------------------------------*/
 
 m4_divert_push([KILL])# M4 code.
-# b4_eval
-# -------
-# FIXME: This is really wrong, we no longer guarantee we don't evaluate
-# the user's input.  This demonstrates that decoding actions (BRACED_CODE)
-# ought to be done when output, not when read.
-m4_define([b4_eval],
-[$*])
-
 # b4_symbol_destructor(SYMBOL-NUMBER, DESTRUCTOR, TYPE-NAME)
 # ----------------------------------------------------------
 m4_define([b4_symbol_destructor],
 [m4_pushdef([b4_dollar_dollar], [symbol_value.$6])dnl
       case $4: /* $3 */
 #line $2 "$1"
-        b4_eval($5);
+        $5;
 #line __oline__ "__ofile__"
         break;
 m4_popdef([b4_dollar_dollar])])
