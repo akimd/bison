@@ -1,4 +1,5 @@
-/* Input parser for bison
+/* Input parser for Bison
+
    Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -48,17 +49,7 @@ YY_DECL;
 /* From the parser.  */
 extern int gram_debug;
 int gram_parse (void);
-
-/* The sort of braced code we are in.  */
-typedef enum
-  {
-    action_braced_code,
-    destructor_braced_code,
-    printer_braced_code
-  } braced_code;
-/* FIXME: This is really a dirty hack which demonstrates that we
-   should probably not try to parse the actions now.  */
-extern braced_code current_braced_code;
+char const *token_name (int);
 
 
 /* From reader.c. */
