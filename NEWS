@@ -1,20 +1,9 @@
 Bison News
 ----------
 
-Changes in version 1.30m:
+Changes in version 1.31, 2002-01-14:
 
-Changes in version 1.30l:
-
-* Package fixes
-  Missing portability files.
-
-Changes in version 1.30k:
-
-* Portability
-  The AIX portability issue seems to be solved: strnlen was the
-  culprit.
-
-Changes in version 1.30j:
+* Many Bug Fixes
 
 * GNU Gettext and %expect
   GNU Gettext asserts 10 s/r conflicts, but there are 7.  Now that
@@ -22,18 +11,12 @@ Changes in version 1.30j:
   too many bug reports for Gettext, so _for the time being_, %expect
   does not trigger an error when the input file is named `plural.y'.
 
-Changes in version 1.30i:
-
 * Use of alloca in parsers
   If YYSTACK_USE_ALLOCA is defined to 0, then the parsers will use
   malloc exclusively.  Since 1.29, but was not NEWS'ed.
 
   alloca is used only when compiled with GCC, to avoid portability
   problems as on AIX.
-
-* Bug fixes
-
-Changes in version 1.30h:
 
 * When the generated parser lacks debugging code, YYDEBUG is now 0
   (as POSIX requires) instead of being undefined.
@@ -43,22 +26,14 @@ Changes in version 1.30h:
   ending semicolon.  Now if in Yacc compatibility mode, the semicolon
   is no longer output: one has to write { $$ = $1; }.
 
-Changes in version 1.30g:
-
-* Bug fixes
-
 * Better C++ compliance
   The output parsers try to respect C++ namespaces.
-
-Changes in version 1.30f:
 
 * Reduced Grammars
   Fixed bugs when reporting useless nonterminals.
 
 * 64 bit hosts
   The parsers work properly on 64 bit hosts.
-
-Changes in version 1.30e:
 
 * Error messages
   Some calls to strerror resulted in scrambled or missing error messages.
@@ -71,25 +46,12 @@ Changes in version 1.30e:
 
 * Rule line numbers are fixed in traces.
 
-Changes in version 1.30d:
-
 * Swedish translation
 
 * Parse errors
   Verbose parse error messages from the parsers are better looking.
   Before: parse error: unexpected `'/'', expecting `"number"' or `'-'' or `'(''
      Now: parse error: unexpected '/', expecting "number" or '-' or '('
-
-* Fixed VCG output
-  Was broken when strings aliases for symbols were used.
-
-Changes in version 1.30c:
-
-* Fixed a few warnings.
-
-* Some portability issues.
-
-Changes in version 1.30b:
 
 * Fixed parser memory leaks.
   When the generated parser was using malloc to extend its stacks, the
