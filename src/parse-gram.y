@@ -218,7 +218,7 @@ symbol_declaration:
       symbol_list_t *list;
       for (list = $3; list; list = list->next)
 	symbol_type_set (list->sym, list->location, $2);
-      LIST_FREE (symbol_list_t, $3);
+      symbol_list_free ($3);
     }
 ;
 
@@ -232,7 +232,7 @@ precedence_declaration:
 	  symbol_type_set (list->sym, list->location, current_type);
 	  symbol_precedence_set (list->sym, list->location, current_prec, $1);
 	}
-      LIST_FREE (symbol_list_t, $3);
+      symbol_list_free ($3);
       current_type = NULL;
     }
 ;

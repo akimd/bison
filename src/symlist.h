@@ -51,6 +51,8 @@ symbol_list_t * symbol_list_prepend PARAMS ((symbol_list_t *list,
 /* Free the LIST, but not the symbols it contains.  */
 void symbol_list_free PARAMS ((symbol_list_t *list));
 
+/* Return its length. */
+unsigned int symbol_list_length PARAMS ((symbol_list_t *list));
 
 /* Get the data type (alternative in the union) of the value for
    symbol N in rule RULE.  */

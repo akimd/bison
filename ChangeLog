@@ -1,5 +1,17 @@
 2002-06-17  Akim Demaille  <akim@epita.fr>
 
+	* src/symlist.h, src/symlist.c (symbol_list_length): New.
+	* src/scan-gram.l (handle_dollar, handle_at): Compute the
+	rule_length only when needed.
+	* src/output.c (actions_output, token_definitions_output): Output
+	the full M4 block.
+	* src/symtab.c: Don't access directly to the symbol tag, use
+	symbol_tag_get.
+	* src/parse-gram.y: Use symbol_list_free.
+
+	
+2002-06-17  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.h, src/reader.c (symbol_list, symbol_list_new)
 	(symbol_list_prepend, get_type_name): Move to...
 	* src/symlist.h, src/symlist.c (symbol_list_t, symbol_list_new)
