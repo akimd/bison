@@ -24,14 +24,17 @@
 
 %{
 #include "system.h"
-#include "mbswidth.h"
+
+#include <mbswidth.h>
+#include <get-errno.h>
+#include <quote.h>
+
 #include "complain.h"
 #include "files.h"
-#include "quote.h"
-#include "struniq.h"
 #include "getargs.h"
 #include "gram.h"
 #include "reader.h"
+#include "uniqstr.h"
 
 #define YY_USER_INIT					\
   do							\
@@ -45,14 +48,14 @@
 /* Location of scanner cursor.  */
 boundary scanner_cursor;
 
-static void adjust_location (location_t *, char const *, size_t);
+static void adjust_location (location *, char const *, size_t);
 #define YY_USER_ACTION  adjust_location (loc, yytext, yyleng);
 
 static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
 
 
-/* STRING_OBSTACK -- Used to store all the characters that we need to
+/* OBSTACK_FOR_STRING -- Used to store all the characters that we need to
    keep (to construct ID, STRINGS etc.).  Use the following macros to
    use it.
 
@@ -61,23 +64,23 @@ static size_t no_cr_read (FILE *, char *, size_t);
    STRING_FINISH also stores this string in LAST_STRING, which can be
    used, and which is used by STRING_FREE to free the last string.  */
 
-static struct obstack string_obstack;
+static struct obstack obstack_for_string;
 
 /* A string representing the most recently saved token.  */
 static char *last_string;
 
 
 #define STRING_GROW   \
-  obstack_grow (&string_obstack, yytext, yyleng)
+  obstack_grow (&obstack_for_string, yytext, yyleng)
 
 #define STRING_FINISH					\
   do {							\
-    obstack_1grow (&string_obstack, '\0');		\
-    last_string = obstack_finish (&string_obstack);	\
+    obstack_1grow (&obstack_for_string, '\0');		\
+    last_string = obstack_finish (&obstack_for_string);	\
   } while (0)
 
 #define STRING_FREE \
-  obstack_free (&string_obstack, last_string)
+  obstack_free (&obstack_for_string, last_string)
 
 void
 scanner_last_string_free (void)
@@ -93,10 +96,8 @@ scanner_last_string_free (void)
    Outside of well-formed rules, RULE_LENGTH has an undefined value.  */
 static int rule_length;
 
-static void handle_dollar (braced_code_t code_kind,
-			   char *cp, location_t location);
-static void handle_at (braced_code_t code_kind,
-		       char *cp, location_t location);
+static void handle_dollar (braced_code code_kind, char *cp, location loc);
+static void handle_at (braced_code code_kind, char *cp, location loc);
 static void handle_syncline (char *args);
 static int convert_ucn_to_byte (char const *hex_text);
 static void unexpected_end_of_file (boundary, char const *);
@@ -131,13 +132,13 @@ splice	 (\\[ \f\t\v]*\n)*
   int context_state IF_LINT (= 0);
 
   /* Location of most recent identifier, when applicable.  */
-  location_t id_loc IF_LINT (= *loc);
+  location id_loc IF_LINT (= *loc);
 
-  /* Location where containing code started, when applicable.  */
+  /* Where containing code started, when applicable.  */
   boundary code_start IF_LINT (= loc->start);
 
-  /* Location where containing comment or string or character literal
-     started, when applicable.  */
+  /* Where containing comment or string or character literal started,
+     when applicable.  */
   boundary token_start IF_LINT (= loc->start);
 %}
 
@@ -223,9 +224,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
   {int} {
     unsigned long num;
-    errno = 0;
+    set_errno (0);
     num = strtoul (yytext, 0, 10);
-    if (INT_MAX < num || errno)
+    if (INT_MAX < num || get_errno ())
       {
 	complain_at (*loc, _("integer out of range: %s"), quote (yytext));
 	num = INT_MAX;
@@ -253,9 +254,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
   /* A type. */
   "<"{tag}">" {
-    obstack_grow (&string_obstack, yytext + 1, yyleng - 2);
+    obstack_grow (&obstack_for_string, yytext + 1, yyleng - 2);
     STRING_FINISH;
-    val->struniq = struniq_new (last_string);
+    val->uniqstr = uniqstr_new (last_string);
     STRING_FREE;
     return TYPE;
   }
@@ -349,7 +350,7 @@ splice	 (\\[ \f\t\v]*\n)*
     STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
-    val->string = last_string;
+    val->chars = last_string;
     rule_length++;
     BEGIN INITIAL;
     return STRING;
@@ -396,36 +397,36 @@ splice	 (\\[ \f\t\v]*\n)*
     if (UCHAR_MAX < c)
       complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
     else
-      obstack_1grow (&string_obstack, c);
+      obstack_1grow (&obstack_for_string, c);
   }
 
   \\x[0-9abcdefABCDEF]+ {
     unsigned long c;
-    errno = 0;
+    set_errno (0);
     c = strtoul (yytext + 2, 0, 16);
-    if (UCHAR_MAX < c || errno)
+    if (UCHAR_MAX < c || get_errno ())
       complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
     else
-      obstack_1grow (&string_obstack, c);
+      obstack_1grow (&obstack_for_string, c);
   }
 
-  \\a	obstack_1grow (&string_obstack, '\a');
-  \\b	obstack_1grow (&string_obstack, '\b');
-  \\f	obstack_1grow (&string_obstack, '\f');
-  \\n	obstack_1grow (&string_obstack, '\n');
-  \\r	obstack_1grow (&string_obstack, '\r');
-  \\t	obstack_1grow (&string_obstack, '\t');
-  \\v	obstack_1grow (&string_obstack, '\v');
+  \\a	obstack_1grow (&obstack_for_string, '\a');
+  \\b	obstack_1grow (&obstack_for_string, '\b');
+  \\f	obstack_1grow (&obstack_for_string, '\f');
+  \\n	obstack_1grow (&obstack_for_string, '\n');
+  \\r	obstack_1grow (&obstack_for_string, '\r');
+  \\t	obstack_1grow (&obstack_for_string, '\t');
+  \\v	obstack_1grow (&obstack_for_string, '\v');
 
   /* \\[\"\'?\\] would be shorter, but it confuses xgettext.  */
-  \\("\""|"'"|"?"|"\\")  obstack_1grow (&string_obstack, yytext[1]);
+  \\("\""|"'"|"?"|"\\")  obstack_1grow (&obstack_for_string, yytext[1]);
 
   \\(u|U[0-9abcdefABCDEF]{4})[0-9abcdefABCDEF]{4} {
     int c = convert_ucn_to_byte (yytext);
     if (c < 0)
       complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
     else
-      obstack_1grow (&string_obstack, c);
+      obstack_1grow (&obstack_for_string, c);
   }
   \\(.|\n)	{
     complain_at (*loc, _("unrecognized escape sequence: %s"), quote (yytext));
@@ -508,7 +509,7 @@ splice	 (\\[ \f\t\v]*\n)*
       {
 	STRING_FINISH;
 	loc->start = code_start;
-	val->string = last_string;
+	val->chars = last_string;
 	rule_length++;
 	BEGIN INITIAL;
 	return BRACED_CODE;
@@ -537,7 +538,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%}" {
     STRING_FINISH;
     loc->start = code_start;
-    val->string = last_string;
+    val->chars = last_string;
     BEGIN INITIAL;
     return PROLOGUE;
   }
@@ -556,7 +557,7 @@ splice	 (\\[ \f\t\v]*\n)*
   <<EOF>> {
     STRING_FINISH;
     loc->start = code_start;
-    val->string = last_string;
+    val->chars = last_string;
     BEGIN INITIAL;
     return EPILOGUE;
   }
@@ -570,10 +571,10 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_COMMENT,SC_LINE_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
-  \$	obstack_sgrow (&string_obstack, "$][");
-  \@	obstack_sgrow (&string_obstack, "@@");
-  \[	obstack_sgrow (&string_obstack, "@{");
-  \]	obstack_sgrow (&string_obstack, "@}");
+  \$	obstack_sgrow (&obstack_for_string, "$][");
+  \@	obstack_sgrow (&obstack_for_string, "@@");
+  \[	obstack_sgrow (&obstack_for_string, "@{");
+  \]	obstack_sgrow (&obstack_for_string, "@}");
   .|\n  STRING_GROW;
 }
 
@@ -584,7 +585,7 @@ splice	 (\\[ \f\t\v]*\n)*
    size SIZE.  */
 
 static void
-adjust_location (location_t *loc, char const *token, size_t size)
+adjust_location (location *loc, char const *token, size_t size)
 {
   int line = scanner_cursor.line;
   int column = scanner_cursor.column;
@@ -669,11 +670,11 @@ no_cr_read (FILE *fp, char *buf, size_t size)
 |                                                                   |
 | Possible inputs: $[<TYPENAME>]($|integer)                         |
 |                                                                   |
-| Output to the STRING_OBSTACK a reference to this semantic value.  |
+| Output to OBSTACK_FOR_STRING a reference to this semantic value.  |
 `------------------------------------------------------------------*/
 
 static inline void
-handle_action_dollar (char *text, location_t location)
+handle_action_dollar (char *text, location loc)
 {
   const char *type_name = NULL;
   char *cp = text + 1;
@@ -691,38 +692,37 @@ handle_action_dollar (char *text, location_t location)
   if (*cp == '$')
     {
       if (!type_name)
-	type_name = symbol_list_n_type_name_get (current_rule, location, 0);
+	type_name = symbol_list_n_type_name_get (current_rule, loc, 0);
       if (!type_name && typed)
-	complain_at (location, _("$$ of `%s' has no declared type"),
+	complain_at (loc, _("$$ of `%s' has no declared type"),
 		     current_rule->sym->tag);
       if (!type_name)
 	type_name = "";
-      obstack_fgrow1 (&string_obstack,
+      obstack_fgrow1 (&obstack_for_string,
 		      "]b4_lhs_value([%s])[", type_name);
     }
   else
     {
       long num;
-      errno = 0;
+      set_errno (0);
       num = strtol (cp, 0, 10);
 
-      if (INT_MIN <= num && num <= rule_length && ! errno)
+      if (INT_MIN <= num && num <= rule_length && ! get_errno ())
 	{
 	  int n = num;
 	  if (!type_name && n > 0)
-	    type_name = symbol_list_n_type_name_get (current_rule, location,
-						     n);
+	    type_name = symbol_list_n_type_name_get (current_rule, loc, n);
 	  if (!type_name && typed)
-	    complain_at (location, _("$%d of `%s' has no declared type"),
-		      n, current_rule->sym->tag);
+	    complain_at (loc, _("$%d of `%s' has no declared type"),
+			 n, current_rule->sym->tag);
 	  if (!type_name)
 	    type_name = "";
-	  obstack_fgrow3 (&string_obstack,
+	  obstack_fgrow3 (&obstack_for_string,
 			  "]b4_rhs_value([%d], [%d], [%s])[",
 			  rule_length, n, type_name);
 	}
       else
-	complain_at (location, _("integer out of range: %s"), quote (text));
+	complain_at (loc, _("integer out of range: %s"), quote (text));
     }
 }
 
@@ -733,13 +733,13 @@ handle_action_dollar (char *text, location_t location)
 `---------------------------------------------------------------*/
 
 static inline void
-handle_symbol_code_dollar (char *text, location_t location)
+handle_symbol_code_dollar (char *text, location loc)
 {
   char *cp = text + 1;
   if (*cp == '$')
-    obstack_sgrow (&string_obstack, "]b4_dollar_dollar[");
+    obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar[");
   else
-    complain_at (location, _("invalid value: %s"), quote (text));
+    complain_at (loc, _("invalid value: %s"), quote (text));
 }
 
 
@@ -749,18 +749,17 @@ handle_symbol_code_dollar (char *text, location_t location)
 `-----------------------------------------------------------------*/
 
 static void
-handle_dollar (braced_code_t braced_code_kind,
-	       char *text, location_t location)
+handle_dollar (braced_code braced_code_kind, char *text, location loc)
 {
   switch (braced_code_kind)
     {
     case action_braced_code:
-      handle_action_dollar (text, location);
+      handle_action_dollar (text, loc);
       break;
 
     case destructor_braced_code:
     case printer_braced_code:
-      handle_symbol_code_dollar (text, location);
+      handle_symbol_code_dollar (text, loc);
       break;
     }
 }
@@ -768,33 +767,33 @@ handle_dollar (braced_code_t braced_code_kind,
 
 /*------------------------------------------------------.
 | TEXT is a location token (i.e., a `@...').  Output to |
-| STRING_OBSTACK a reference to this location.          |
+| OBSTACK_FOR_STRING a reference to this location.      |
 `------------------------------------------------------*/
 
 static inline void
-handle_action_at (char *text, location_t location)
+handle_action_at (char *text, location loc)
 {
   char *cp = text + 1;
   locations_flag = 1;
 
   if (*cp == '$')
     {
-      obstack_sgrow (&string_obstack, "]b4_lhs_location[");
+      obstack_sgrow (&obstack_for_string, "]b4_lhs_location[");
     }
   else
     {
       long num;
-      errno = 0;
+      set_errno (0);
       num = strtol (cp, 0, 10);
 
-      if (INT_MIN <= num && num <= rule_length && ! errno)
+      if (INT_MIN <= num && num <= rule_length && ! get_errno ())
 	{
 	  int n = num;
-	  obstack_fgrow2 (&string_obstack, "]b4_rhs_location([%d], [%d])[",
+	  obstack_fgrow2 (&obstack_for_string, "]b4_rhs_location([%d], [%d])[",
 			  rule_length, n);
 	}
       else
-	complain_at (location, _("integer out of range: %s"), quote (text));
+	complain_at (loc, _("integer out of range: %s"), quote (text));
     }
 }
 
@@ -805,13 +804,13 @@ handle_action_at (char *text, location_t location)
 `---------------------------------------------------------------*/
 
 static inline void
-handle_symbol_code_at (char *text, location_t location)
+handle_symbol_code_at (char *text, location loc)
 {
   char *cp = text + 1;
   if (*cp == '$')
-    obstack_sgrow (&string_obstack, "]b4_at_dollar[");
+    obstack_sgrow (&obstack_for_string, "]b4_at_dollar[");
   else
-    complain_at (location, _("invalid value: %s"), quote (text));
+    complain_at (loc, _("invalid value: %s"), quote (text));
 }
 
 
@@ -821,18 +820,17 @@ handle_symbol_code_at (char *text, location_t location)
 `-------------------------------------------------------------------*/
 
 static void
-handle_at (braced_code_t braced_code_kind,
-	   char *text, location_t location)
+handle_at (braced_code braced_code_kind, char *text, location loc)
 {
   switch (braced_code_kind)
     {
     case action_braced_code:
-      handle_action_at (text, location);
+      handle_action_at (text, loc);
       break;
 
     case destructor_braced_code:
     case printer_braced_code:
-      handle_symbol_code_at (text, location);
+      handle_symbol_code_at (text, loc);
       break;
     }
 }
@@ -922,10 +920,10 @@ unexpected_end_of_file (boundary start, char const *token_end)
 {
   size_t i = strlen (token_end);
 
-  location_t location;
-  location.start = start;
-  location.end = scanner_cursor;
-  complain_at (location, _("missing `%s' at end of file"), token_end);
+  location loc;
+  loc.start = start;
+  loc.end = scanner_cursor;
+  complain_at (loc, _("missing `%s' at end of file"), token_end);
 
   /* Adjust scanner cursor so that any later message does not count
      the characters about to be inserted.  */
@@ -943,7 +941,7 @@ unexpected_end_of_file (boundary start, char const *token_end)
 void
 scanner_initialize (void)
 {
-  obstack_init (&string_obstack);
+  obstack_init (&obstack_for_string);
 }
 
 
@@ -954,7 +952,7 @@ scanner_initialize (void)
 void
 scanner_free (void)
 {
-  obstack_free (&string_obstack, 0);
+  obstack_free (&obstack_for_string, 0);
   /* Reclaim Flex's buffers.  */
   yy_delete_buffer (YY_CURRENT_BUFFER);
 }
