@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #include "bbitset.h"
 
-extern int lbitset_bytes PARAMS ((bitset_bindex));
+extern size_t lbitset_bytes PARAMS ((bitset_bindex));
 
 extern bitset lbitset_init PARAMS ((bitset, bitset_bindex));
 
