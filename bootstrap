@@ -2,21 +2,5 @@
 
 echo "Bootstrapping CVS Bison..."
 
-# This will run gettextize which will patch some files, and cause
-# autoconf to choke (because for instance intl/Makefile is registered
-# several times).
+echo "running: autoreconf --verbose --install --force"
 autoreconf --verbose --install --force
-
-# gettextize modified these files: restore them.
-for f in m4/Makefile.am Makefile.am configure.in
-do
-  if test -f "$f~"; then
-    mv -f "$f~" "$f"
-  fi
-done
-rm -f po/Makevars.template
-
-# Since some files were restored, some files must probably be remade.
-# But automake could not install all of its files, so pass --install
-# for it.
-autoreconf --verbose --install
