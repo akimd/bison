@@ -1,3 +1,14 @@
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
+	Bison dumps core on bash.y.
+	Reported by Pascal Bart.
+
+	* src/warshall.c (bitmatrix_print): New.
+	(TC): Use it.
+	When performing a transitive closure R(i, j) && R(j, k) => R(i,	k),
+	j must be the outer loop.
+	* tests/regression.at (Broken Closure): New.
+
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
 	Version 1.30f.

@@ -247,16 +247,17 @@ set_goto_map (void)
 
   ngotos = 0;
   for (sp = first_shift; sp; sp = sp->next)
-    for (i = sp->nshifts - 1; i >= 0 && SHIFT_IS_GOTO (sp, i); --i)
-      {
-	symbol = state_table[sp->shifts[i]].accessing_symbol;
+    if (sp->nshifts)
+      for (i = sp->nshifts - 1; i >= 0 && SHIFT_IS_GOTO (sp, i); --i)
+	{
+	  symbol = state_table[sp->shifts[i]].accessing_symbol;
 
-	if (ngotos == MAXSHORT)
-	  fatal (_("too many gotos (max %d)"), MAXSHORT);
+	  if (ngotos == MAXSHORT)
+	    fatal (_("too many gotos (max %d)"), MAXSHORT);
 
-	ngotos++;
-	goto_map[symbol]++;
-      }
+	  ngotos++;
+	  goto_map[symbol]++;
+	}
 
   k = 0;
   for (i = ntokens; i < nsyms; i++)
@@ -277,15 +278,16 @@ set_goto_map (void)
   for (sp = first_shift; sp; sp = sp->next)
     {
       state1 = sp->number;
-      for (i = sp->nshifts - 1; i >= 0 && SHIFT_IS_GOTO (sp, i); --i)
-	{
-	  state2 = sp->shifts[i];
-	  symbol = state_table[state2].accessing_symbol;
+      if (sp->nshifts)
+	for (i = sp->nshifts - 1; i >= 0 && SHIFT_IS_GOTO (sp, i); --i)
+	  {
+	    state2 = sp->shifts[i];
+	    symbol = state_table[state2].accessing_symbol;
 
-	  k = temp_map[symbol]++;
-	  from_state[k] = state1;
-	  to_state[k] = state2;
-	}
+	    k = temp_map[symbol]++;
+	    from_state[k] = state1;
+	    to_state[k] = state2;
+	  }
     }
 
   XFREE (temp_map + ntokens);
