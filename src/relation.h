@@ -35,16 +35,16 @@ typedef relation_nodes *relation;
 
 
 /* Report a relation R that has SIZE vertices.  */
-void relation_print (relation r, size_t size, FILE *out);
+void relation_print (relation r, relation_node size, FILE *out);
 
 /* Compute the transitive closure of the FUNCTION on the relation R
    with SIZE vertices.
 
    If R (NODE-1, NODE-2) then on exit FUNCTION[NODE - 1] was extended
    (unioned) with FUNCTION[NODE - 2].  */
-void relation_digraph (relation r, size_t size, bitsetv *function);
+void relation_digraph (relation r, relation_node size, bitsetv *function);
 
 /* Destructively transpose *R_ARG, of size N.  */
-void relation_transpose (relation *R_arg, int n);
+void relation_transpose (relation *R_arg, relation_node n);
 
 #endif /* ! RELATION_H_ */
