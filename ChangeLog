@@ -1,3 +1,18 @@
+2001-11-23  Akim Demaille  <akim@epita.fr>
+
+	Attaching lineno to buckets is stupid, since only one copy of each
+	symbol is kept, only the line of the first occurrence is kept too.
+
+	* src/symtab.h, src/symtab.c (bucket): Remove the line member.
+	* src/reader.c (rline_allocated): Remove, unused.
+	(symbol_list): Have a `line' member.
+	(symbol_list_new): New.
+	(readgram): Use it.
+	* src/print.c (print_grammar): Output the rule line numbers.
+	* tests/regression.at (Solved SR Conflicts)
+	(Unresolved SR Conflicts): Adjust.
+	Reported by Hans Aberg.
+
 2001-11-22  Marc Autret  <autret_m@epita.fr>
 
 	* src/bison.simple [YYERROR_VERBOSE]: Force its value to be 1 or 0.

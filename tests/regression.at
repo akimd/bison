@@ -65,8 +65,9 @@ AT_CHECK([cat input.output], [],
 
 Grammar
 
-rule 1    exp -> exp OP exp
-rule 2    exp -> NUM
+  Number, Line, Rule
+    1   3 exp -> exp OP exp
+    2   3 exp -> NUM
 
 Terminals, with rules where they appear
 
@@ -163,8 +164,9 @@ AT_CHECK([cat input.output], [],
 
 Grammar
 
-rule 1    exp -> exp OP exp
-rule 2    exp -> NUM
+  Number, Line, Rule
+    1   4 exp -> exp OP exp
+    2   4 exp -> NUM
 
 Terminals, with rules where they appear
 
