@@ -2055,6 +2055,33 @@ that they precede the definition of @code{yyparse}.  You can use
 need any C declarations, you may omit the @samp{%@{} and @samp{%@}}
 delimiters that bracket this section.
 
+You may have more than one @var{Prologue} section, intermixed with the
+@var{Bison declarations}.  This allows you to have C and Bison
+declarations that refer to each other.  For example, the @code{%union}
+declaration may use types defined in a header file, and you may wish to
+prototype functions that take arguments of type @code{YYSTYPE}.  This
+can be done with two @var{Prologue} blocks, one before and one after the
+@code{%union} declaration.
+
+@smallexample
+%@{
+#include <stdio.h>
+#include "ptypes.h"
+%@}
+
+%union @{
+  long n;
+  tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
+@}
+
+%@{
+static void yyprint(FILE *, int, YYSTYPE);
+#define YYPRINT(F, N, L) yyprint(F, N, L)
+%@}
+
+@dots{}
+@end smallexample
+
 @node Bison Declarations
 @subsection The Bison Declarations Section
 @cindex Bison declarations (introduction)

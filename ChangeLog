@@ -1,3 +1,8 @@
+2002-06-19  Zack Weinberg  <zack@codesourcery.com>
+
+	* doc/bison.texinfo: Document ability to have multiple
+	prologue sections.
+
 2002-06-18  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c (compute_base_names): When computing the output file
