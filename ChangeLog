@@ -1,5 +1,11 @@
 2002-09-04  Akim Demaille  <akim@epita.fr>
 
+	* configure.in: Rename as...
+	* configure.ac: this.
+	Bump to 1.49c.
+
+2002-09-04  Akim Demaille  <akim@epita.fr>
+
 	* src/assoc.c, src/closure.c, src/gram.c, src/injections.c,
 	* src/lalr.c, src/LR0.c, src/relation.c, src/tables.c: Don't
 	translate maintainer only messages.

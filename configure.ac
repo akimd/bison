@@ -20,7 +20,7 @@
 # We need a recent Autoconf to run a recent Autotest.
 AC_PREREQ(2.53)
 
-AC_INIT([GNU Bison], [1.49b], [bug-bison@gnu.org])
+AC_INIT([GNU Bison], [1.49c], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR(config)
 
 AM_INIT_AUTOMAKE
