@@ -123,7 +123,28 @@ distinguish core item sets from non core:
 	    token3      go to state 6
 
 
-Note that the same questions applies to --graph.
+> So, it seems clear that it has to be an additional option :)
+
+Paul:
+
+	There will be further such options in the future, so I'd make
+	them all operands of the --report option.  E.g., you could do
+	something like this:
+
+	--report=state --report=lookahead --report=itemset
+	--report=conflict-path
+
+	where "--verbose" is equivalent to "--report=state", and where
+	"--report=conflict-path" reports each path to a conflict
+	state.
+
+	(As a minor point, I prefer avoiding plurals in option names.
+	It's partly for brevity, and partly to avoid wearing out the
+	's' keys in our keyboards.  :-)
+
+To implement this, see in the Fileutils the latest versions of
+argmatch and so forth.
+
 
 * Coding system independence
 Paul notes:
