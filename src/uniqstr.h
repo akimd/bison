@@ -41,7 +41,7 @@ uniqstr uniqstr_new (char const *s);
 void uniqstrs_new (void);
 
 /* Die if S is not a uniqstr.  */
-void uniqstr_assert (const char *s);
+void uniqstr_assert (char const *s);
 
 /* Free all the memory allocated for symbols.  */
 void uniqstrs_free (void);
