@@ -1,9 +1,15 @@
+2004-11-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (gnulib_modules): Add extensions.
+	Problem reported by Jim Meyering.
+
 2004-11-22  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/LR0.c, src/closure.c, src/derives.c, src/gram.c,
 	src/lalr.c, src/nullable.c, src/relation.c, src/scan-skel.l,
 	src/system.h, src/tables.c: XFREE -> free, to accommodate
 	recent change to gnulib xalloc.h.
+	Problem reported by Jim Meyering.
 
 2004-11-17  Akim Demaille  <akim@epita.fr>
 
