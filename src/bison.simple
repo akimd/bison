@@ -151,7 +151,7 @@ int yynerrs;
 #endif  /* not YYPURE */
 
 
-#if YYDEBUG != 0
+#if YYDEBUG
 int yydebug;			/*  nonzero means print parse trace	*/
 
   /* [The following comment makes no sense to me.  Could someone
@@ -470,16 +470,20 @@ yynewstate:
     {
       yychar1 = YYTRANSLATE(yychar);
 
+#if YYDEBUG
+     /* We have to keep this `#if YYDEBUG', since we use variables
+	which are defined only if `YYDEBUG' is set.  */
       if (yydebug)
 	{
 	  fprintf (stderr, "Next token is %d (%s", yychar, yytname[yychar1]);
-	  /* Give the individual parser a way to print the precise meaning
-	     of a token, for further debugging info.  */
+	  /* Give the individual parser a way to print the precise
+	     meaning of a token, for further debugging info.  */
 # ifdef YYPRINT
 	  YYPRINT (stderr, yychar, yylval);
 # endif
 	  fprintf (stderr, ")\n");
 	}
+#endif
     }
 
   yyn += yychar1;
@@ -509,9 +513,10 @@ yynewstate:
     YYACCEPT;
 
   /* Shift the lookahead token.  */
-
+#if YYDEBUG
   if (yydebug)
     fprintf (stderr, "Shifting token %d (%s), ", yychar, yytname[yychar1]);
+#endif
 
   /* Discard the token being shifted unless it is eof.  */
   if (yychar != YYEOF)
@@ -678,11 +683,11 @@ yyerrlab1:   /* here on error raised explicitly by an action */
       /* return failure if at end of input */
       if (yychar == YYEOF)
 	YYABORT;
-
+#if YYDEBUG
       if (yydebug)
 	fprintf (stderr, "Discarding token %d (%s).\n",
 		 yychar, yytname[yychar1]);
-
+#endif
       yychar = YYEMPTY;
     }
 

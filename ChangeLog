@@ -1,5 +1,19 @@
 2000-09-18  Akim Demaille  <akim@epita.fr>
 
+	First set of tests: use the `calc' example from the documentation.
+
+	* src/bison.s1 (yyparse): Condition the code using `yytname' which
+	is defined only when YYDEBUG is.
+	* m4/atconfig.m4 (AT_CONFIG): Adjust to Autoconf 2.13.
+	* src/files.c (tryopen, tryclose): Formatting changes.
+	Move to the top and be static.
+	* src/reader.c (read_signed_integer): Likewise.
+	* tests/calc.m4: New file.
+	* Makefile.am, suite.m4: Adjust.
+	* m4/atconfig.m4: Set BISON_SIMPLE and BISON_HAIRY.
+
+2000-09-18  Akim Demaille  <akim@epita.fr>
+
 	Add support for an Autotest test suite for Bison.
 
 	* m4/m4.m4, m4/atconfig.m4: New files.

@@ -49,11 +49,11 @@
 # This debugging script has been automatically generated from `make check'.
 # Call it with `--help' to get a quick usage summary.
 
-at_package=@PACKAGE@
-at_version=@VERSION@
+at_package='@PACKAGE@'
+at_version='@VERSION@'
 # Snippet )1
 # Snippet (2
-at_n=@ECHO_N@
+at_n='@ECHO_N@'
 at_c='@ECHO_C@'
 test -f atlocal && . ./atlocal
 
@@ -71,12 +71,24 @@ top_srcdir=@top_srcdir@
 # Use absolute file notations, as the test might change directories.
 at_srcdir=`cd @srcdir@ && pwd`
 at_top_srcdir=`cd @top_srcdir@ && pwd`
+at_builddir=`pwd`
+at_top_builddir=`cd .. && pwd`
 if test -n "@AT_TESTPATH@"; then
   export PATH; PATH=`pwd`:`cd @AT_TESTPATH@ && pwd`:$PATH
 else
   export PATH; PATH=`pwd`:$PATH
 fi
 
-# We need GNU m4.
-M4=@M4@
+# We need GNU M4.
+M4='@M4@'
+
+# We need a C compiler.
+CC='@CC@'
+CFLAGS='@CFLAGS@'
+
+# We want to use the files shipped with Bison.
+BISON_SIMPLE=$at_top_builddir/src/bison.simple
+export BISON_SIMPLE
+BISON_HAIRY=$at_top_builddir/src/bison.hairy
+export BISON_HAIRY
 # Snippet )2
