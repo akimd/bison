@@ -9,6 +9,7 @@
 ** Cleanup dirty CPP-out code.
 ** s/definitions/prologue/  s/user_code/epilogue/ [ok].
 ** s/macro/muscle/
+** Synchronize `#line' directive with user file.
 
 * src/getargs.c src/lex.c
 ** Synchronize percent and command line options.
