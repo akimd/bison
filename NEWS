@@ -12,6 +12,11 @@ Change in version 1.26:
 * Bison honors the TMPDIR environment variable.
 
 * A couple of buffer overruns have been fixed.
+
+* Problems when closing files should now be reported.
+
+* Generated parsers should now work even on operating systems which do
+  not provide alloca().
 
 Change in version 1.25:
 
