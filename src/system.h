@@ -19,6 +19,10 @@
 #include <stdlib.h>
 #endif
 
+#if defined(HAVE_UNISTD_H)
+#include <unistd.h>
+#endif
+
 #if (defined(VMS) || defined(MSDOS)) && !defined(HAVE_STRING_H)
 #define HAVE_STRING_H 1
 #endif
@@ -37,14 +41,18 @@
 /* memory.h and strings.h conflict on some systems.  */
 #endif /* not STDC_HEADERS and not HAVE_STRING_H */
 
-#if HAVE_LOCALE_H
+#if defined(STDC_HEADERS) || defined(HAVE_CTYPE_H)
+#include <ctype.h>
+#endif
+
+#ifdef HAVE_LOCALE_H
 # include <locale.h>
 #endif
-#if !HAVE_SETLOCALE
+#ifndef HAVE_SETLOCALE
 # define setlocale(Category, Locale)
 #endif
 
-#if ENABLE_NLS
+#ifdef ENABLE_NLS
 # include <libintl.h>
 # define _(Text) gettext (Text)
 #else
