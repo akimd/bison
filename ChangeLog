@@ -1,5 +1,15 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (header_output): Don't forget to export YYLTYPE and
+	yylloc.
+	* tests/headers.at (export YYLTYPE): New, make sure it does.
+	* tests/regression.at (%union and --defines, Invalid CPP headers):
+	Move to...
+	* tests/headers.at: here.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (rule_s): Member `assoc' is of type `associativity'.
 
 	
