@@ -1,3 +1,10 @@
+2005-03-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/regression.at (Token definitions): Don't use a token named
+	c, as that generates a "#define c ..." that runs afoul of buggy
+	stdlib.h that uses the identifier c as a member of struct
+	drand48_data.  Problem reported by Horst Wente.
+
 2005-03-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap: Change translation URL from
