@@ -79,6 +79,14 @@ scanner_last_string_free (void)
 static int braces_level = 0;
 static int percent_percent_count = 0;
 
+/* Within well-formed rules, RULE_LENGTH is the number of values in
+   the current rule so far, which says where to find `$0' with respect
+   to the top of the stack.  It is not the same as the rule->length in
+   the case of mid rule actions.
+
+   Outside of well-formed rules, RULE_LENGTH has an undefined value.  */
+static int rule_length;
+
 static void handle_dollar PARAMS ((braced_code_t code_kind,
 				   char *cp, location_t location));
 static void handle_at PARAMS ((braced_code_t code_kind,
@@ -138,7 +146,7 @@ blanks   [ \t\f]+
   "%nonassoc"             return PERCENT_NONASSOC;
   "%nterm"                return PERCENT_NTERM;
   "%output"               return PERCENT_OUTPUT;
-  "%prec"                 return PERCENT_PREC;
+  "%prec"                 { rule_length--; return PERCENT_PREC; }
   "%printer"              return PERCENT_PRINTER;
   "%pure"[-_]"parser"     return PERCENT_PURE_PARSER;
   "%right"                return PERCENT_RIGHT;
@@ -153,14 +161,15 @@ blanks   [ \t\f]+
   "%yacc"                 return PERCENT_YACC;
 
   "="                     return EQUAL;
-  ":"                     return COLON;
-  "|"                     return PIPE;
+  ":"                     { rule_length = 0; return COLON; }
+  "|"                     { rule_length = 0; return PIPE; }
   ";"                     return SEMICOLON;
 
   {eols}      YY_LINES; YY_STEP;
   {blanks}    YY_STEP;
   {id}        {
     yylval->symbol = symbol_get (yytext, *yylloc);
+    rule_length++;
     return ID;
   }
 
@@ -262,6 +271,7 @@ blanks   [ \t\f]+
     YY_OBS_FINISH;
     yylval->string = last_string;
     yy_pop_state ();
+    rule_length++;
     return STRING;
   }
 
@@ -298,6 +308,7 @@ blanks   [ \t\f]+
 				    (unsigned char) last_string[1], *yylloc);
       YY_OBS_FREE;
       yy_pop_state ();
+      rule_length++;
       return ID;
     }
   }
@@ -451,6 +462,7 @@ blanks   [ \t\f]+
 	yy_pop_state ();
 	YY_OBS_FINISH;
 	yylval->string = last_string;
+	rule_length++;
 	return BRACED_CODE;
       }
   }
@@ -566,11 +578,6 @@ handle_action_dollar (char *text, location_t location)
     }
   else if (('0' <= *cp && *cp <= '9') || *cp == '-')
     {
-      /* RULE_LENGTH is the number of values in the current rule so
-	 far, which says where to find `$0' with respect to the top of
-	 the stack.  It is not the same as the rule->length in the
-	 case of mid rule actions.  */
-      int rule_length = symbol_list_length (current_rule->next);
       int n = strtol (cp, &cp, 10);
 
       if (n > rule_length)
@@ -653,11 +660,6 @@ handle_action_at (char *text, location_t location)
     }
   else if (('0' <= *cp && *cp <= '9') || *cp == '-')
     {
-      /* RULE_LENGTH is the number of values in the current rule so
-	 far, which says where to find `$0' with respect to the top of
-	 the stack.  It is not the same as the rule->length in the
-	 case of mid rule actions.  */
-      int rule_length = symbol_list_length (current_rule->next);
       int n = strtol (cp, &cp, 10);
 
       if (n > rule_length)
