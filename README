@@ -8,7 +8,7 @@ serious bugs, so we recommend using m4 1.4 as patched by the standard
 GNU/Linux distributions.  If you're building GNU m4 1.4 from scratch
 we suggest using this version:
 
-http://www.lrde.epita.fr/~akim/download/m4-1.4.tar.gz
+ftp://alpha.gnu.org/gnu/bison/m4-1.4.1.tar.gz
 
 Older versions of Sun Forte Developer 6 update 2 have a compiler bug
 that cause "make check" to fail with a "Encounter BINCL entry"
