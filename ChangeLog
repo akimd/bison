@@ -1,5 +1,10 @@
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
+	* src/Makefile.am (bison.simple): Fix the awk program: quote only
+	the file name, not the whole `#line LINE FILE'.
+
+2000-03-17  Akim Demaille  <akim@epita.fr>
+
 	On syntax errors, report the token on which we choked.
 
 	* bison.s1 (yyparse): In the label yyerrlab, when YYERROR_VERBOSE,
