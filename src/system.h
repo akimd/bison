@@ -63,7 +63,6 @@
 #define N_(Text) Text
 
 /* In the meantime, waiting for Automake.  */
-#define PACKAGE "bison"
 #define LOCALEDIR "/usr/local/share/locale"
 
 #endif  /* BISON_SYSTEM_H */
