@@ -1,4 +1,4 @@
-@node Copying, Concepts, Conditions, Top
+@node Copying
 @unnumbered GNU GENERAL PUBLIC LICENSE
 @center Version 2, June 1991
 
