@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-06-15 20:27+0200\n"
+"POT-Creation-Date: 2002-06-17 10:43+0200\n"
 "PO-Revision-Date: 2002-03-05 10:18+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -316,38 +316,34 @@ msgstr " till vänster:"
 msgid " on right:"
 msgstr " till höger:"
 
-#: src/reader.c:70 src/reader.c:82
-msgid "invalid $ value"
-msgstr "felaktigt $-värde"
-
-#: src/reader.c:100
+#: src/reader.c:53
 #, c-format
 msgid "multiple %s declarations"
 msgstr "flera %s-deklarationer"
 
-#: src/reader.c:250
+#: src/reader.c:203
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel given för %s, som är ett element"
 
-#: src/reader.c:274
+#: src/reader.c:227
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "typkonflikt (\"%s\" \"%s\") för standardåtgärd"
 
-#: src/reader.c:281
+#: src/reader.c:234
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tom regel för typad icketerminal, och ingen åtgärd"
 
-#: src/reader.c:352
+#: src/reader.c:305
 msgid "two @prec's in a row"
 msgstr "två @prec i rad"
 
-#: src/reader.c:493
+#: src/reader.c:446
 msgid "no rules in the input grammar"
 msgstr "inga regler i ingrammatiken"
 
-#: src/reader.c:525
+#: src/reader.c:478
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
@@ -410,22 +406,22 @@ msgstr[1] "%d oanvändbara regler"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Startsymbolen %s genererar inga meningar"
 
-#: scan-gram.l:553
+#: scan-gram.l:557
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ för \"%s\" har ingen deklarerad typ"
 
-#: scan-gram.l:565 scan-gram.l:616
+#: scan-gram.l:574 scan-gram.l:648
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "felaktigt @-värde"
 
-#: scan-gram.l:571
+#: scan-gram.l:581
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d för \"%s\" har ingen deklarerad typ"
 
-#: scan-gram.l:584 scan-gram.l:625
+#: scan-gram.l:594 scan-gram.l:619 scan-gram.l:657
 #, c-format
 msgid "%s is invalid"
 msgstr "%s är felaktigt"
@@ -499,6 +495,9 @@ msgstr "\""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "\""
+
+#~ msgid "invalid $ value"
+#~ msgstr "felaktigt $-värde"
 
 #~ msgid "Grammar"
 #~ msgstr "Grammatik"

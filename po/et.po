@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-06-15 20:27+0200\n"
+"POT-Creation-Date: 2002-06-17 10:43+0200\n"
 "PO-Revision-Date: 2002-03-05 16:27+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -309,38 +309,34 @@ msgstr " vasakul:"
 msgid " on right:"
 msgstr " paremal:"
 
-#: src/reader.c:70 src/reader.c:82
-msgid "invalid $ value"
-msgstr "vigane $ väärtus"
-
-#: src/reader.c:100
+#: src/reader.c:53
 #, c-format
 msgid "multiple %s declarations"
 msgstr "korduvad %s deklaratsioonid"
 
-#: src/reader.c:250
+#: src/reader.c:203
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s jaoks on antud reegel, aga see on märk"
 
-#: src/reader.c:274
+#: src/reader.c:227
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "vaikimisi tegevuse tüübikonflikt (`%s' `%s')"
 
-#: src/reader.c:281
+#: src/reader.c:234
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tüübiga mitteterminalil on tühi reegel ja puudub tegevus"
 
-#: src/reader.c:352
+#: src/reader.c:305
 msgid "two @prec's in a row"
 msgstr "kaks @prec ühel real"
 
-#: src/reader.c:493
+#: src/reader.c:446
 msgid "no rules in the input grammar"
 msgstr "sisendgrammatikas pole reegleid"
 
-#: src/reader.c:525
+#: src/reader.c:478
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "liiga palju sümboleid (märgid ja mitteterminalid); maksimaalne on %d"
@@ -403,22 +399,22 @@ msgstr[1] "%d kasutamata reeglit"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Stardisümbolist %s ei tuletata ühtegi lauset"
 
-#: scan-gram.l:553
+#: scan-gram.l:557
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' $$ ei oma deklareeritud tüüpi"
 
-#: scan-gram.l:565 scan-gram.l:616
+#: scan-gram.l:574 scan-gram.l:648
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "vigane @ väärtus"
 
-#: scan-gram.l:571
+#: scan-gram.l:581
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d `%s' ei oma deklareeritud tüüpi"
 
-#: scan-gram.l:584 scan-gram.l:625
+#: scan-gram.l:594 scan-gram.l:619 scan-gram.l:657
 #, c-format
 msgid "%s is invalid"
 msgstr "%s on vigane"
@@ -489,6 +485,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "invalid $ value"
+#~ msgstr "vigane $ väärtus"
 
 #~ msgid "Grammar"
 #~ msgstr "Grammatika"
