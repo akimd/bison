@@ -1,5 +1,5 @@
 /* Generic bitsets.
-   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
 This program is free software; you can redistribute it and/or modify
@@ -23,17 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
    Only use the functions and macros defined in this file.  */
 
 #include "bbitset.h"
-
-/* obstack.h tries to be portable to K&R compilers, but its
-   __INT_TO_PTR macro generates diagnostics on compilers like Tru64 cc
-   that define __STDC__ to 0 when not in strict ANSI mode.  The bitset
-   code assumes C89 or later, so it can avoid these glitches by
-   defining __INT_TO_PTR appropriately for C89 or later.  */
-#ifndef __INT_TO_PTR
-# define __INT_TO_PTR(P) ((void *) ((P) + (char *) 0))
-#endif
 #include "obstack.h"
-
 #include <stdio.h>
 
 /* Attributes used to select a bitset implementation.  */
@@ -103,38 +93,37 @@ typedef struct
 
 
 /* Return bytes required for bitset of desired type and size.  */
-extern size_t bitset_bytes PARAMS ((enum bitset_type, bitset_bindex));
+extern size_t bitset_bytes (enum bitset_type, bitset_bindex);
 
 /* Initialise a bitset with desired type and size.  */
-extern bitset bitset_init PARAMS ((bitset, bitset_bindex, enum bitset_type));
+extern bitset bitset_init (bitset, bitset_bindex, enum bitset_type);
 
 /* Select an implementation type based on the desired bitset size
    and attributes.  */
-extern enum bitset_type bitset_type_choose PARAMS ((bitset_bindex,
-						    bitset_attrs));
+extern enum bitset_type bitset_type_choose (bitset_bindex, bitset_attrs);
 
 /* Create a bitset of desired type and size.  The bitset is zeroed.  */
-extern bitset bitset_alloc PARAMS ((bitset_bindex, enum bitset_type));
+extern bitset bitset_alloc (bitset_bindex, enum bitset_type);
 
 /* Free bitset.  */
-extern void bitset_free PARAMS ((bitset));
+extern void bitset_free (bitset);
 
 /* Create a bitset of desired type and size using an obstack.  The
    bitset is zeroed.  */
-extern bitset bitset_obstack_alloc PARAMS ((struct obstack *bobstack,
-					    bitset_bindex, enum bitset_type));
+extern bitset bitset_obstack_alloc (struct obstack *bobstack,
+				    bitset_bindex, enum bitset_type);
 
 /* Free bitset allocated on obstack.  */
-extern void bitset_obstack_free PARAMS ((bitset));
+extern void bitset_obstack_free (bitset);
 
 /* Create a bitset of desired size and attributes.  The bitset is zeroed.  */
-extern bitset bitset_create PARAMS ((bitset_bindex, bitset_attrs));
+extern bitset bitset_create (bitset_bindex, bitset_attrs);
 
 /* Return bitset type.  */
-extern enum bitset_type bitset_type_get PARAMS ((bitset));
+extern enum bitset_type bitset_type_get (bitset);
 
 /* Return bitset type name.  */
-extern const char *bitset_type_name_get PARAMS ((bitset));
+extern const char *bitset_type_name_get (bitset);
 
 
 /* Set bit BITNO in bitset BSET.  */
@@ -186,7 +175,7 @@ bitset_test (bitset bset, bitset_bindex bitno)
 #define bitset_size(SRC) BITSET_SIZE_ (SRC)
 
 /* Change size of bitset.  */
-extern void bitset_resize PARAMS ((bitset, bitset_bindex));
+extern void bitset_resize (bitset, bitset_bindex);
 
 /* Return number of bits set in bitset SRC.  */
 #define bitset_count(SRC) BITSET_COUNT_ (SRC)
@@ -289,22 +278,22 @@ extern void bitset_resize PARAMS ((bitset, bitset_bindex));
 extern bool bitset_compatible_p (bitset bset1, bitset bset2);
 
 /* Find next set bit from the given bit index.  */
-extern bitset_bindex bitset_next PARAMS ((bitset, bitset_bindex));
+extern bitset_bindex bitset_next (bitset, bitset_bindex);
 
 /* Find previous set bit from the given bit index.  */
-extern bitset_bindex bitset_prev PARAMS ((bitset, bitset_bindex));
+extern bitset_bindex bitset_prev (bitset, bitset_bindex);
 
 /* Find first set bit.  */
-extern bitset_bindex bitset_first PARAMS ((bitset));
+extern bitset_bindex bitset_first (bitset);
 
 /* Find last set bit.  */
-extern bitset_bindex bitset_last PARAMS ((bitset));
+extern bitset_bindex bitset_last (bitset);
 
 /* Return nonzero if this is the only set bit.  */
-extern bool bitset_only_set_p PARAMS ((bitset, bitset_bindex));
+extern bool bitset_only_set_p (bitset, bitset_bindex);
 
 /* Dump bitset.  */
-extern void bitset_dump PARAMS ((FILE *, bitset));
+extern void bitset_dump (FILE *, bitset);
 
 /* Loop over all elements of BSET, starting with MIN, setting INDEX
    to the index of each set bit.  For example, the following will print
@@ -373,28 +362,28 @@ extern void bitset_dump PARAMS ((FILE *, bitset));
 
 
 /* Release any memory tied up with bitsets.  */
-extern void bitset_release_memory PARAMS ((void));
+extern void bitset_release_memory (void);
 
 /* Enable bitset stats gathering.  */
-extern void bitset_stats_enable PARAMS ((void));
+extern void bitset_stats_enable (void);
 
 /* Disable bitset stats gathering.  */
-extern void bitset_stats_disable PARAMS ((void));
+extern void bitset_stats_disable (void);
 
 /* Read bitset stats file of accummulated stats.  */
-void bitset_stats_read PARAMS ((const char *filename));
+void bitset_stats_read (const char *filename);
 
 /* Write bitset stats file of accummulated stats.  */
-void bitset_stats_write PARAMS ((const char *filename));
+void bitset_stats_write (const char *filename);
 
 /* Dump bitset stats.  */
-extern void bitset_stats_dump PARAMS ((FILE *));
+extern void bitset_stats_dump (FILE *);
 
 /* Function to debug bitset from debugger.  */
-extern void debug_bitset PARAMS ((bitset));
+extern void debug_bitset (bitset);
 
 /* Function to debug bitset stats from debugger.  */
-extern void debug_bitset_stats PARAMS ((void));
+extern void debug_bitset_stats (void);
 
 #endif /* _BITSET_H  */
 

@@ -1,5 +1,5 @@
 /* Functions to support lbitsets.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
 This program is free software; you can redistribute it and/or modify
@@ -21,10 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #include "bitset.h"
 
-extern size_t lbitset_bytes PARAMS ((bitset_bindex));
+extern size_t lbitset_bytes (bitset_bindex);
 
-extern bitset lbitset_init PARAMS ((bitset, bitset_bindex));
+extern bitset lbitset_init (bitset, bitset_bindex);
 
-extern void lbitset_release_memory PARAMS ((void));
+extern void lbitset_release_memory (void);
 
 #endif

@@ -1,5 +1,5 @@
 /* Bitset vectors.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004 Free Software Foundation, Inc.
    Contributed by Akim Demaille (akim@freefriends.org).
 
 This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include "bitsetv.h"
 
 /* Dump vector of bitsets as a matrix.  */
-extern void bitsetv_matrix_dump PARAMS ((FILE *, const char *,
-					 bitsetv));
+extern void bitsetv_matrix_dump (FILE *, const char *, bitsetv);
 
 #endif  /* _BITSETV_H  */

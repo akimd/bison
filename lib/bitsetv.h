@@ -1,5 +1,5 @@
 /* Bitset vectors.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
 This program is free software; you can redistribute it and/or modify
@@ -25,38 +25,35 @@ typedef bitset * bitsetv;
 
 /* Create a vector of N_VECS bitsets, each of N_BITS, and of
    type TYPE.  */
-extern bitsetv bitsetv_alloc PARAMS ((bitset_bindex, bitset_bindex,
-				      enum bitset_type));
+extern bitsetv bitsetv_alloc (bitset_bindex, bitset_bindex, enum bitset_type);
 
 /* Create a vector of N_VECS bitsets, each of N_BITS, and with
    attribute hints specified by ATTR.  */
-extern bitsetv bitsetv_create PARAMS ((bitset_bindex, bitset_bindex,
-				       unsigned int));
+extern bitsetv bitsetv_create (bitset_bindex, bitset_bindex, unsigned int);
 
 /* Free vector of bitsets.  */
-extern void bitsetv_free PARAMS ((bitsetv));
+extern void bitsetv_free (bitsetv);
 
 /* Zero vector of bitsets.  */
-extern void bitsetv_zero PARAMS ((bitsetv));
+extern void bitsetv_zero (bitsetv);
 
 /* Set vector of bitsets.  */
-extern void bitsetv_ones PARAMS ((bitsetv));
+extern void bitsetv_ones (bitsetv);
 
 /* Given a vector BSETV of N bitsets of size N, modify its contents to
    be the transitive closure of what was given.  */
-extern void bitsetv_transitive_closure PARAMS ((bitsetv));
+extern void bitsetv_transitive_closure (bitsetv);
 
 /* Given a vector BSETV of N bitsets of size N, modify its contents to
    be the reflexive transitive closure of what was given.  This is
    the same as transitive closure but with all bits on the diagonal
    of the bit matrix set.  */
-extern void bitsetv_reflexive_transitive_closure PARAMS ((bitsetv));
+extern void bitsetv_reflexive_transitive_closure (bitsetv);
 
 /* Dump vector of bitsets.  */
-extern void bitsetv_dump PARAMS ((FILE *, const char *,
-				  const char *, bitsetv));
+extern void bitsetv_dump (FILE *, const char *, const char *, bitsetv);
 
 /* Function to debug vector of bitsets from debugger.  */
-extern void debug_bitsetv PARAMS ((bitsetv));
+extern void debug_bitsetv (bitsetv);
 
 #endif  /* _BITSETV_H  */

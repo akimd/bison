@@ -1,5 +1,5 @@
 /* Functions to support bitset statistics.
-   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
    Contributed by Michael Hayes (m.hayes@elec.canterbury.ac.nz).
 
 This program is free software; you can redistribute it and/or modify
@@ -23,11 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 extern bool bitset_stats_enabled;
 
-extern enum bitset_type bitset_stats_type_get PARAMS ((bitset));
+extern enum bitset_type bitset_stats_type_get (bitset);
 
-extern size_t bitset_stats_bytes PARAMS ((void));
+extern size_t bitset_stats_bytes (void);
 
-extern bitset bitset_stats_init PARAMS ((bitset, bitset_bindex,
-					 enum bitset_type));
+extern bitset bitset_stats_init (bitset, bitset_bindex, enum bitset_type);
 
 #endif
