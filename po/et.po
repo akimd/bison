@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-11-02 12:45+0100\n"
+"POT-Creation-Date: 2000-11-03 17:35+0100\n"
 "PO-Revision-Date: 2000-04-11 22:19+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -272,7 +272,7 @@ msgstr "lõpetamata tüübinimi"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "kasuta mitmesümboliliste literaalidega \"...\" konstruktsiooni"
 
-#: src/main.c:104
+#: src/main.c:103
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: sisemine viga: %s\n"
@@ -693,6 +693,10 @@ msgstr ""
 "redutseeritud %s defineerib %d terminali%s, %d mitteterminali%s ja %d "
 "reeglit%s.\n"
 
+#: lib/error.c:102
+msgid "Unknown system error"
+msgstr ""
+
 #: lib/getopt.c:675
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
@@ -752,11 +756,42 @@ msgstr "%s: võti `-W %s' on segane\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: võti `-W %s' ei luba argumenti\n"
 
+#: lib/obstack.c:477
+#, fuzzy
+msgid "memory exhausted"
+msgstr "%s: mälu on otsas\n"
+
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#: lib/quotearg.c:262
+msgid "`"
+msgstr ""
+
+#: lib/quotearg.c:263
+msgid "'"
+msgstr ""
+
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: lib/xmalloc.c:66
+#, fuzzy
+msgid "Memory exhausted"
+msgstr "%s: mälu on otsas\n"
+
 #~ msgid "$%s is invalid"
 #~ msgstr "$%s on vigane"
-
-#~ msgid "%s: memory exhausted\n"
-#~ msgstr "%s: mälu on otsas\n"
 
 #~ msgid "multiple %union declarations"
 #~ msgstr "korduvad %union deklaratsioonid"

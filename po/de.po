@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-11-02 12:45+0100\n"
+"POT-Creation-Date: 2000-11-03 17:35+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -249,7 +249,7 @@ msgstr "unerwarteter Typname"
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "für Literal mit mehreren Zeichen bitte \"...\" verwenden"
 
-#: src/main.c:104
+#: src/main.c:103
 #, fuzzy, c-format
 msgid "%s: internal error: %s\n"
 msgstr "interner Fehler, %s\n"
@@ -674,6 +674,10 @@ msgstr ""
 "Reduzierung von %s definiert %d Terminal, %d Nicht-Terminal und %d "
 "Produktionen.\n"
 
+#: lib/error.c:102
+msgid "Unknown system error"
+msgstr ""
+
 #: lib/getopt.c:675
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
@@ -733,11 +737,42 @@ msgstr "%s: die Option »%s« ist nicht eindeutig\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: die Option »--%s« erlaubt kein Argument\n"
 
+#: lib/obstack.c:477
+#, fuzzy
+msgid "memory exhausted"
+msgstr "%s: Hauptspeicher erschöpft\n"
+
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#: lib/quotearg.c:262
+msgid "`"
+msgstr ""
+
+#: lib/quotearg.c:263
+msgid "'"
+msgstr ""
+
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: lib/xmalloc.c:66
+#, fuzzy
+msgid "Memory exhausted"
+msgstr "%s: Hauptspeicher erschöpft\n"
+
 #~ msgid "$%s is invalid"
 #~ msgstr "$%s ist unzulässig"
-
-#~ msgid "%s: memory exhausted\n"
-#~ msgstr "%s: Hauptspeicher erschöpft\n"
 
 #~ msgid "unmatched close-brace (`}')"
 #~ msgstr "schließende geschweifte Klammer (»}«) hat kein Gegenstück"

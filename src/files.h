@@ -76,5 +76,5 @@ extern char *actfile;
 void open_files PARAMS((void));
 void open_extra_files PARAMS((void));
 
-void done PARAMS((void));
+void output_files PARAMS((void));
 #endif /* !FILES_H_ */

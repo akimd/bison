@@ -1,3 +1,15 @@
+2000-11-03  Akim Demaille  <akim@epita.fr>
+
+	Don't use `atexit'.
+
+	* src/files.c (obstack_save): New function.
+	(done): Rename as...
+	(output_files): this.
+	Use `obstack_save'.
+	* src/main.c (main): Don't use `atexit' to register `done', since
+	it no longer has to remove tmp files, just call `output_files'
+	when there are no errors.
+
 2000-11-02  Akim Demaille  <akim@epita.fr>
 
 	* src/files.c [VMS]: No longer include `ssdef.h', no longer define
