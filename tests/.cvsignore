@@ -1,7 +1,6 @@
 Makefile
 Makefile.in
 at-*
-debug-*
 atconfig
 empty
 experr
@@ -9,6 +8,9 @@ expout
 stderr
 stdout
 testsuite
+testsuite.[0-9]
+testsuite.[0-9][0-9]
+package.m4
 calc.[chy]
 calc.tab.*
 calc
