@@ -53,13 +53,20 @@ AT_DATA([calc.y],
 char *strcat(char *dest, const char *src);
 #endif
 #include <ctype.h>
+#include <assert.h>
 
 extern void perror (const char *s);
 
 /* Exercise pre-prologue dependency to %union.  */
 typedef int value_t;
 
+value_t global_result = 0;
+int global_count = 0;
+
 %}
+
+%parse-param "value_t *result", "result"
+%parse-param "int *count",      "count"
 
 /* Exercise %union. */
 %union
@@ -120,12 +127,12 @@ static void yyungetc (LEX_PRE_FORMALS int c);
 %%
 input:
   line
-| input line
+| input line         { ++*count; ++global_count; }
 ;
 
 line:
   '\n'
-| exp '\n'
+| exp '\n'           { *result = global_result = $1; }
 ;
 
 exp:
@@ -134,7 +141,7 @@ exp:
   {
      if ($1 != $3)
        fprintf (stderr, "calc: error: %d != %d\n", $1, $3);
-     $$ = $1 == $3;
+     $$ = $1;
   }
 | exp '+' exp        { $$ = $1 + $3;        }
 | exp '-' exp        { $$ = $1 - $3;        }
@@ -286,6 +293,8 @@ power (int base, int exponent)
 int
 main (int argc, const char **argv)
 {
+  value_t result = 0;
+  int count = 0;
   yyin = NULL;
 
   if (argc == 2)
@@ -302,7 +311,10 @@ main (int argc, const char **argv)
 #if YYDEBUG
   yydebug = 1;
 #endif
-  yyparse ();
+  yyparse (&result, &count);
+  assert (global_result == result);
+  assert (global_count  == count);
+
   return 0;
 }
 ]])
@@ -435,7 +447,8 @@ _AT_CHECK_CALC([$1],
 1 - (2 - 3) = 2
 
 2^2^3 = 256
-(2^2)^3 = 64], [486])
+(2^2)^3 = 64],
+               [486])
 
 # Some parse errors.
 _AT_CHECK_CALC_ERROR([$1], [0 0], [11],
@@ -462,11 +475,6 @@ _AT_CHECK_CALC_ERROR([$1], [(1 ++ 2) + (0 0) = 1], [82],
 [1.5-1.6: parse error, unexpected '+', expecting "number" or '-' or '('
 1.15-1.16: parse error, unexpected "number"
 calc: error: 0 != 1])
-
-# Add a studid example demonstrating that Bison can further improve the
-# error message.  FIXME: Fix this ridiculous message.
-_AT_CHECK_CALC_ERROR([$1], [()], [21],
-[1.2-1.3: parse error, unexpected ')', expecting "number" or '-' or '('])
 
 AT_CLEANUP
 ])# AT_CHECK_CALC

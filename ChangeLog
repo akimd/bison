@@ -1,5 +1,15 @@
 2002-10-20  Akim Demaille  <akim@epita.fr>
 
+	* src/muscle_tab.c (muscle_grow): Remove trailing debugging code.
+	* data/glr.c (YY_USER_FORMALS, YY_USER_ARGS): New.
+	(yyuserAction, yydoAction, yyglrReduce, yyresolveValue)
+	(yyresolveStates, yyresolveAction, yyresolveStack)
+	(yyprocessOneStack): Use them.
+	(yy_reduce_print): New.
+	* tests/calc.at (_AT_DATA_CALC_Y): Exercise %parse-param.
+
+2002-10-20  Akim Demaille  <akim@epita.fr>
+
 	* data/c.m4 (b4_c_ansi_args): Recognize functions with no
 	arguments and output `void'.
 	(b4_c_function): Rename as...
