@@ -3391,7 +3391,8 @@ for (i = 0; i < YYNTOKENS; i++)
   @{
     if (yytname[i] != 0
         && yytname[i][0] == '"'
-        && strncmp (yytname[i] + 1, token_buffer, strlen (token_buffer))
+        && strncmp (yytname[i] + 1, token_buffer,
+                    strlen (token_buffer))
         && yytname[i][strlen (token_buffer) + 1] == '"'
         && yytname[i][strlen (token_buffer) + 2] == 0)
       break;
@@ -3726,8 +3727,8 @@ struct @{
 @};
 @end example
 
-Thus, to get the starting line number of the third component, use
-@samp{@@3.first_line}.
+Thus, to get the starting line number of the third component, you would
+use @samp{@@3.first_line}.
 
 In order for the members of this structure to contain valid information,
 you must make @code{yylex} supply this information about each token.
