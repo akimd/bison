@@ -1,29 +1,33 @@
+2003-01-30  Akim Demaille  <akim@epita.fr>
+
+	* doc/Makefile.am (CLEANFILES): Add bison.fns for distcheck.
+
 2003-01-29  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
 	* tests/cxx-type.at: Correct apparent typo in Bison input: $$ instead
 	of $1.
-	
-	Changes in response to error report by S. Eken: GLR mode does not 
+
+	Changes in response to error report by S. Eken: GLR mode does not
 	handle negative $ indices or $ indices in embedded rules correctly.
 	See <http://mail.gnu.org/archive/html/bug-bison/2003-01/msg00076.html>.
-	
+
 	* data/glr.c (b4_rhs_value): Change to use YYFILL macro.
 	(b4_rhs_location): Ditto.
-	(yyfill): New function to copy from stack tree into array 
+	(yyfill): New function to copy from stack tree into array
 	incrementally.
-	(yyuserAction): Modify to allow incremental move of semantic values 
-	to rhs array when in GLR mode.  
-	Define YYFILL to use in user-defined actions to fill semantic array 
+	(yyuserAction): Modify to allow incremental move of semantic values
+	to rhs array when in GLR mode.
+	Define YYFILL to use in user-defined actions to fill semantic array
 	as needed.
 	Remove dummy use of yystack, as there is now a guaranteed use.
 	(yydoAction): Modify to allow incremental move of semantic values
 	to rhs array when in GLR mode.
 	(yyresolveAction): Ditto.
 	(yyglrShiftDefer): Update comment.
-	(yyresolveStates): Use X == NULL for pointers, not !X. 
+	(yyresolveStates): Use X == NULL for pointers, not !X.
 	(yyglrReduce): Ditto.
 	(yydoAction): Ditto
-	
+
 	* tests/glr-regr1.at: Rename to ...
 	* tests/glr-regression.at: Add new regression test for the problems
 	described above (adapted from S. Eken).
