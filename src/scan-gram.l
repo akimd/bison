@@ -136,15 +136,16 @@ splice	 (\\[ \f\t\v]*\n)*
   int token_type IF_LINT (= 0);
 
   /* Location of most recent identifier, when applicable.  */
-  location id_loc IF_LINT (= *loc);
+  location id_loc IF_LINT (= empty_location);
 
-  /* Where containing code started, when applicable.
-     Once the second %% seen, we are looking for the epilogue.  */
-  boundary code_start = loc->end;
+  /* Where containing code started, when applicable.  Its initial
+     value is relevant only when yylex is invoked in the SC_EPILOGUE
+     start condition.  */
+  boundary code_start = scanner_cursor;
 
   /* Where containing comment or string or character literal started,
      when applicable.  */
-  boundary token_start IF_LINT (= loc->start);
+  boundary token_start IF_LINT (= scanner_cursor);
 %}
 
 
@@ -271,10 +272,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%%" {
     static int percent_percent_count;
     if (++percent_percent_count == 2)
-      {
-	code_start = loc->start;
-	BEGIN SC_EPILOGUE;
-      }
+      BEGIN SC_EPILOGUE;
     return PERCENT_PERCENT;
   }
 
