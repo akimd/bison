@@ -1,3 +1,8 @@
+2001-09-02  Marc Autret  <autret_m@epita.fr>
+
+	* src/macrotab.c: Remove.
+	* src/macrotab.h: Remove.
+
 2001-09-01  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/reader.c (copy_guard): Use muscle to specify the `#line' 
