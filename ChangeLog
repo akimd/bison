@@ -1,5 +1,14 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.c (ritem_print): Be sure to subtract 1 when displaying
+	rule line numbers.
+	* src/closure.c (print_closure): Likewise.
+	* src/derives.c (print_derives): Likewise.
+	* tests/sets.at (Nullable): Adjust: the rule numbers are correct
+	now.
+
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (lookaheads_print): New.
 	(lalr): Call it when --trace-flag.
 	* tests/sets.at (Nullable): Adjust: when tracing, the lookaheads
