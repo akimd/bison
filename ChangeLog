@@ -1,3 +1,14 @@
+2002-11-15  Akim Demaille  <akim@epita.fr>
+
+	Always check the value returned by yyparse.
+
+	* tests/calc.at (_AT_DATA_CALC_Y): Have `main' exit with the value
+	returned by yyparse.
+	(_AT_CHECK_CALC_ERROR): Take the expected exit value as argument.
+	Adjust calls.
+	* tests/glr-regr1.at (glr-regr1.y): Have `main' exit with the value
+	returned by yyparse.
+
 2002-11-14  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
 	* data/glr.c (yyFail): Always set yyerrflag.  Corrects regression

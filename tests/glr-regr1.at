@@ -63,8 +63,7 @@ static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1)
 int
 main (void)
 {
-  yyparse ();
-  return 0;
+  return yyparse ();
 }
 
 int
