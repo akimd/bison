@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28d\n"
-"POT-Creation-Date: 2002-02-25 14:45+0100\n"
+"POT-Creation-Date: 2002-02-25 15:48+0100\n"
 "PO-Revision-Date: 2001-08-29 17:06+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -107,16 +107,16 @@ msgstr "faili ei õnnestu sulgeda"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:55
+#: src/getargs.c:56
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genereerib parsereid LALR(1) grammatikatele.\n"
 
-#: src/getargs.c:59
+#: src/getargs.c:60
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Kasuta: %s [VÕTI]...FAIL\n"
 
-#: src/getargs.c:63
+#: src/getargs.c:64
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -124,7 +124,7 @@ msgstr ""
 "Kui pikk võti näitab, et argument on kohustuslik, siis on see kohustuslik \n"
 "ka lühikese võtme korral. Sama ka vabalt valitavate võtmete korral.\n"
 
-#: src/getargs.c:69
+#: src/getargs.c:70
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -136,7 +136,7 @@ msgstr ""
 "  -V, --version   esita versiooniinfo ja lõpeta töö\n"
 "  -y, --yacc      emuleeri POSIX yacc\n"
 
-#: src/getargs.c:76
+#: src/getargs.c:77
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -156,7 +156,7 @@ msgstr ""
 "  -n, --no-parser            genereeri ainult tabelid\n"
 "  -k, --token-table          lisa ka sümbolite nimede tabel\n"
 
-#: src/getargs.c:88
+#: src/getargs.c:89
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -174,20 +174,24 @@ msgstr ""
 "  -o, --output-file=FAIL     jäta väljund FAILi\n"
 "  -g, --graph                loo automaadi kirjeldus VCG graafina\n"
 
-#: src/getargs.c:98
+#: src/getargs.c:99
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Teatage palun vigadest aadressil <bug-bison@gnu.org>.\n"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:112
+#: src/getargs.c:113
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:117
-msgid ""
-"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
+#: src/getargs.c:115
+msgid "Written by Robert Corbett and Richard Stallman.\n"
+msgstr ""
+
+#: src/getargs.c:119
+#, fuzzy, c-format
+msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Autoriõigus 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, "
 "Inc.\n"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28c\n"
-"POT-Creation-Date: 2002-02-25 14:45+0100\n"
+"POT-Creation-Date: 2002-02-25 15:48+0100\n"
 "PO-Revision-Date: 2001-09-10 10:54GMT\n"
 "Last-Translator: Altug Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -110,16 +110,16 @@ msgstr "dosya kapatýlamýyor"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:55
+#: src/getargs.c:56
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison LALR(1) gramerler için ayrýþtýrýcýlar üretir.\n"
 
-#: src/getargs.c:59
+#: src/getargs.c:60
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Kullaným: %s [SEÇENEK]... DOSYA\n"
 
-#: src/getargs.c:63
+#: src/getargs.c:64
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -128,7 +128,7 @@ msgstr ""
 "kýsa seçenek için de geçerlidir.  Bu durum, seçimli argümanlar için de\n"
 "geçerlidir.\n"
 
-#: src/getargs.c:69
+#: src/getargs.c:70
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -140,7 +140,7 @@ msgstr ""
 "  -V, --version   sürüm bilgisini ver ve çýk\n"
 "  -y, --yacc      POSIX yacc öykünmesi\n"
 
-#: src/getargs.c:76
+#: src/getargs.c:77
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -160,7 +160,7 @@ msgstr ""
 "  -n, --no-parser            sadece tablolarý üretir\n"
 "  -k, --token-table          andaç isimlerinin bir tablosunu içerir\n"
 
-#: src/getargs.c:88
+#: src/getargs.c:89
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -177,7 +177,7 @@ msgstr ""
 "  -b, --file-prefix=ÖNEK     çýktý dosyalarý için bir ÖNEK belirtir\n"
 "  -o, --output-file=DOSYA    çýktýyý DOSYAYA býrakýr\n"
 
-#: src/getargs.c:98
+#: src/getargs.c:99
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Hatalarý <bug-bison@gnu.org>'a,\n"
@@ -185,14 +185,18 @@ msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:112
+#: src/getargs.c:113
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:117
-msgid ""
-"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
+#: src/getargs.c:115
+msgid "Written by Robert Corbett and Richard Stallman.\n"
+msgstr ""
+
+#: src/getargs.c:119
+#, fuzzy, c-format
+msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Telifhakký 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, "
 "Inc.\n"
