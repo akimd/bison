@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
-"POT-Creation-Date: 2002-09-04 11:54+0200\n"
+"POT-Creation-Date: 2002-09-10 15:52+0200\n"
 "PO-Revision-Date: 2001-12-10 15:59+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -238,7 +238,7 @@ msgstr "goto の数が多すぎます (最大 %d)"
 msgid "rule never reduced because of conflicts"
 msgstr " 1 還元/還元衝突"
 
-#: src/parse-gram.y:344
+#: src/parse-gram.y:347
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 

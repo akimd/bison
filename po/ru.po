@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-09-04 11:54+0200\n"
+"POT-Creation-Date: 2002-09-10 15:52+0200\n"
 "PO-Revision-Date: 2002-07-20 13:23+0400\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -249,7 +249,7 @@ msgstr "слишком много goto (максимально %d)"
 msgid "rule never reduced because of conflicts"
 msgstr " 1 конфликт вывода/вывода"
 
-#: src/parse-gram.y:344
+#: src/parse-gram.y:347
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 

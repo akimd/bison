@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-09-04 11:54+0200\n"
+"POT-Creation-Date: 2002-09-10 15:52+0200\n"
 "PO-Revision-Date: 2002-05-04 11:27+0200\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -244,7 +244,7 @@ msgstr "för många goto (max %d)"
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: src/parse-gram.y:344
+#: src/parse-gram.y:347
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2002-09-04 11:54+0200\n"
+"POT-Creation-Date: 2002-09-10 15:52+0200\n"
 "PO-Revision-Date: 2002-07-24 17:35-0300\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -243,7 +243,7 @@ msgstr "muitos gotos (máximo %d)"
 msgid "rule never reduced because of conflicts"
 msgstr ""
 
-#: src/parse-gram.y:344
+#: src/parse-gram.y:347
 msgid "POSIX forbids declarations in the grammar"
 msgstr ""
 
