@@ -104,6 +104,7 @@ static void handle_syncline (char *args);
 static unsigned long int scan_integer (char const *p, int base, location loc);
 static int convert_ucn_to_byte (char const *hex_text);
 static void unexpected_eof (boundary, char const *);
+static void unexpected_newline (boundary, char const *);
 
 %}
 %x SC_COMMENT SC_LINE_COMMENT SC_YACC_COMMENT
@@ -157,10 +158,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <INITIAL,SC_AFTER_IDENTIFIER,SC_PRE_CODE>
 {
-  [ \f\n\t\v]  ;
+  /* Comments and white space.  */
   ","	       warn_at (*loc, _("stray `,' treated as white space"));
-
-  /* Comments. */
+  [ \f\n\t\v]  |
   "//".*       ;
   "/*" {
     token_start = loc->start;
@@ -352,10 +352,10 @@ splice	 (\\[ \f\t\v]*\n)*
 }
 
 
-  /*----------------------------------------------------------------.
-  | Scanning a C string, including its escapes.  The initial `"' is |
-  | already eaten.                                                  |
-  `----------------------------------------------------------------*/
+  /*------------------------------------------------.
+  | Scanning a Bison string, including its escapes. |
+  | The initial quote is already eaten.             |
+  `------------------------------------------------*/
 
 <SC_ESCAPED_STRING>
 {
@@ -368,16 +368,14 @@ splice	 (\\[ \f\t\v]*\n)*
     BEGIN INITIAL;
     return STRING;
   }
-
-  \0	    complain_at (*loc, _("invalid null character"));
-  .|\n	    STRING_GROW;
-  <<EOF>>   unexpected_eof (token_start, "\""); BEGIN INITIAL;
+  \n		unexpected_newline (token_start, "\"");	BEGIN INITIAL;
+  <<EOF>>	unexpected_eof (token_start, "\"");	BEGIN INITIAL;
 }
 
-  /*---------------------------------------------------------------.
-  | Scanning a C character, decoding its escapes.  The initial "'" |
-  | is already eaten.                                              |
-  `---------------------------------------------------------------*/
+  /*----------------------------------------------------------.
+  | Scanning a Bison character literal, decoding its escapes. |
+  | The initial quote is already eaten.			      |
+  `----------------------------------------------------------*/
 
 <SC_ESCAPED_CHARACTER>
 {
@@ -395,10 +393,13 @@ splice	 (\\[ \f\t\v]*\n)*
     BEGIN INITIAL;
     return ID;
   }
+  \n		unexpected_newline (token_start, "'");	BEGIN INITIAL;
+  <<EOF>>	unexpected_eof (token_start, "'");	BEGIN INITIAL;
+}
 
+<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING>
+{
   \0	    complain_at (*loc, _("invalid null character"));
-  .|\n	    STRING_GROW;
-  <<EOF>>   unexpected_eof (token_start, "'"); BEGIN INITIAL;
 }
 
 
@@ -456,33 +457,27 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 }
 
+  /*--------------------------------------------.
+  | Scanning user-code characters and strings.  |
+  `--------------------------------------------*/
 
-  /*----------------------------------------------------------.
-  | Scanning a C character without decoding its escapes.  The |
-  | initial "'" is already eaten.                             |
-  `----------------------------------------------------------*/
+<SC_CHARACTER,SC_STRING>
+{
+  {splice}|\\{splice}[^\n$@\[\]]	STRING_GROW;
+}
 
 <SC_CHARACTER>
 {
-  "'"			STRING_GROW; BEGIN context_state;
-  \\{splice}[^$@\[\]]	STRING_GROW;
-  <<EOF>>		unexpected_eof (token_start, "'"); BEGIN context_state;
+  "'"		STRING_GROW; BEGIN context_state;
+  \n		unexpected_newline (token_start, "'"); BEGIN context_state;
+  <<EOF>>	unexpected_eof (token_start, "'"); BEGIN context_state;
 }
-
-
-  /*----------------------------------------------------------------.
-  | Scanning a C string, without decoding its escapes.  The initial |
-  | `"' is already eaten.                                           |
-  `----------------------------------------------------------------*/
 
 <SC_STRING>
 {
-  "\""			STRING_GROW; BEGIN context_state;
-  \\{splice}[^$@\[\]]	STRING_GROW;
-  <<EOF>> {
-    unexpected_eof (token_start, "\"");
-    BEGIN context_state;
-  }
+  "\""		STRING_GROW; BEGIN context_state;
+  \n		unexpected_newline (token_start, "\""); BEGIN context_state;
+  <<EOF>>	unexpected_eof (token_start, "\""); BEGIN context_state;
 }
 
 
@@ -641,10 +636,9 @@ splice	 (\\[ \f\t\v]*\n)*
 }
 
 
-  /*----------------------------------------------------------------.
-  | By default, grow the string obstack with the input, escaping M4 |
-  | quoting characters.						    |
-  `----------------------------------------------------------------*/
+  /*-----------------------------------------.
+  | Escape M4 quoting characters in C code.  |
+  `-----------------------------------------*/
 
 <SC_COMMENT,SC_LINE_COMMENT,SC_STRING,SC_CHARACTER,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
 {
@@ -652,9 +646,15 @@ splice	 (\\[ \f\t\v]*\n)*
   \@	obstack_sgrow (&obstack_for_string, "@@");
   \[	obstack_sgrow (&obstack_for_string, "@{");
   \]	obstack_sgrow (&obstack_for_string, "@}");
-  .|\n  STRING_GROW;
 }
 
+
+  /*-----------------------------------------------------.
+  | By default, grow the string obstack with the input.  |
+  `-----------------------------------------------------*/
+
+<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>.	|
+<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>\n	STRING_GROW;
 
 %%
 
@@ -1009,6 +1009,22 @@ handle_syncline (char *args)
 }
 
 
+/*----------------------------------------------------------------.
+| For a token or comment starting at START, report message MSGID, |
+| which should say that an end marker was found before		  |
+| the expected TOKEN_END.					  |
+`----------------------------------------------------------------*/
+
+static void
+unexpected_end (boundary start, char const *msgid, char const *token_end)
+{
+  location loc;
+  loc.start = start;
+  loc.end = scanner_cursor;
+  complain_at (loc, _(msgid), token_end);
+}
+
+
 /*------------------------------------------------------------------------.
 | Report an unexpected EOF in a token or comment starting at START.       |
 | An end of file was encountered and the expected TOKEN_END was missing.  |
@@ -1017,10 +1033,18 @@ handle_syncline (char *args)
 static void
 unexpected_eof (boundary start, char const *token_end)
 {
-  location loc;
-  loc.start = start;
-  loc.end = scanner_cursor;
-  complain_at (loc, _("missing `%s' at end of file"), token_end);
+  unexpected_end (start, N_("missing `%s' at end of file"), token_end);
+}
+
+
+/*----------------------------------------.
+| Likewise, but for unexpected newlines.  |
+`----------------------------------------*/
+
+static void
+unexpected_newline (boundary start, char const *token_end)
+{
+  unexpected_end (start, N_("missing `%s' at end of line"), token_end);
 }
 
 

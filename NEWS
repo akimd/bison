@@ -3,10 +3,18 @@ Bison News
 
 Changes in version 1.875d:
 
+* Unescaped newlines are no longer allowed in character constants or
+  string literals.  They were never portable, and GCC 3.4.0 has
+  dropped support for them.  Better diagnostics are now generated if
+  forget a closing quote.
+
 * NUL bytes are no longer allowed in Bison string literals, unfortunately.
 
 * %token numbers can now be hexadecimal integers, e.g., `%token FOO 0x12d'.
   This is a GNU extension.
+
+* A new directive "%expect-rr N" specifies the expected number of
+  reduce/reduce conflicts in GLR parsers.
 
 * Experimental %destructor support has been added to lalr1.cc.
 
