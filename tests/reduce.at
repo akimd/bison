@@ -1,0 +1,106 @@
+# Exercising Bison Grammar Reduction.                      -*- Autotest -*-
+# Copyright 2001 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+AT_BANNER([[Grammar Reduction.]])
+
+
+## ------------------- ##
+## Useless Terminals.  ##
+## ------------------- ##
+
+AT_SETUP([Useless Terminals])
+
+AT_DATA([[input.y]],
+[[%verbose
+%output="input.c"
+
+%token useless1
+%token useless2
+%token useless3
+%token useless4
+%token useless5
+%token useless6
+%token useless7
+%token useless8
+%token useless9
+
+%token useful
+%%
+exp: useful;
+]])
+
+AT_CHECK([[bison input.y]])
+
+AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
+[[Terminals which are not used:
+   useless1
+   useless2
+   useless3
+   useless4
+   useless5
+   useless6
+   useless7
+   useless8
+   useless9
+]])
+
+AT_CLEANUP
+
+
+
+## ---------------------- ##
+## Useless Nonterminals.  ##
+## ---------------------- ##
+
+AT_SETUP([Useless Nonterminals])
+
+AT_DATA([[input.y]],
+[[%verbose
+%output="input.c"
+
+%nterm useless1
+%nterm useless2
+%nterm useless3
+%nterm useless4
+%nterm useless5
+%nterm useless6
+%nterm useless7
+%nterm useless8
+%nterm useless9
+
+%token useful
+%%
+exp: useful;
+]])
+
+AT_CHECK([[bison input.y]])
+
+AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
+[[Terminals which are not used:
+   useless1
+   useless2
+   useless3
+   useless4
+   useless5
+   useless6
+   useless7
+   useless8
+   useless9
+]])
+
+AT_CLEANUP
