@@ -1,7 +1,13 @@
+2002-02-28  Akim Demaille  <akim@epita.fr>
+
+	* data/bison.c++: Copy the prologue of bison.simple to fetch
+	useful M4 definitions, such as b4_header_guard.
+
 2002-02-25  Akim Demaille  <akim@epita.fr>
 
 	* src/getargs.c (version): Give the name of the authors, and use a
-	translator friendly scheme for the copyright notice.
+	translator friendly scheme for the bgr
+	copyright notice.
 
 2002-02-25  Akim Demaille  <akim@epita.fr>
 

@@ -1,3 +1,31 @@
+m4_divert(-1)
+
+# m4_define_default(MACRO, VALUE)
+# -------------------------------
+# Define MACRO to VALUE, unless already defined.
+m4_define([m4_define_default],
+[m4_ifdef([$1], [], [m4_define($@)])])
+
+m4_define_default([b4_input_suffix], [.y])
+
+m4_define_default([b4_output_parser_suffix],
+[m4_translit(b4_input_suffix, [yY], [cC])])
+
+m4_define_default([b4_output_parser_name],
+[b4_output_prefix[]b4_output_infix[]b4_output_parser_suffix[]])
+
+
+m4_define_default([b4_output_header_suffix],
+[m4_translit(b4_input_suffix, [yY], [hH])])
+
+m4_define_default([b4_output_header_name],
+[b4_output_prefix[]b4_output_infix[]b4_output_header_suffix[]])
+
+m4_define_default([b4_header_guard],
+                  [m4_bpatsubst(m4_toupper([BISON_]b4_output_header_name),
+                                [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
+
+m4_divert(0)dnl
 #output "b4_output_prefix[]b4_output_infix[]-class.hh"
 /* -*- C++ -*- */
 
@@ -272,7 +300,7 @@ yy::b4_name::parse ()
     }
   else if (n_ == 0)
     goto yyerrlab;
-  
+
   /* Accept?  */
   if (n_ == final_)
     goto yyacceptlab;
@@ -326,7 +354,7 @@ yy::b4_name::parse ()
       YYFPRINTF (stderr, "-> %s\n", name_[[r1_[n_]]]);
     }
 #endif
-  
+
   {
     SemanticType& yyval (value);
     LocationType& yyloc (location);
@@ -338,7 +366,7 @@ yy::b4_name::parse ()
 	b4_actions
       }
   }
-  
+
   state_stack_.pop (len_);
   semantic_stack_.pop (len_);
   location_stack_.pop (len_);
@@ -347,13 +375,13 @@ yy::b4_name::parse ()
   if (debug_)
     {
       YYFPRINTF (stderr, "state stack now");
-      for (StateStack::ConstIterator i = state_stack_.begin (); 
+      for (StateStack::ConstIterator i = state_stack_.begin ();
 	   i != state_stack_.end (); ++i)
 	YYFPRINTF (stderr, " %d", *i);
       YYFPRINTF (stderr, "\n");
     }
 #endif
-  
+
   semantic_stack_.push (value);
   location_stack_.push (location);
 
@@ -372,7 +400,7 @@ yy::b4_name::parse ()
   if (!errstatus)
     {
       ++nerrs;
-      
+
 #if YYERROR_VERBOSE
       n_ = pact_[[state_]];
       if (n_ > flag_ && n_ < last_)
@@ -390,7 +418,7 @@ yy::b4_name::parse ()
 		for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
 		  if (check_[[x + n_]] == x)
 		    {
-		      message += (!count++) ? ", expecting " : " or "; 
+		      message += (!count++) ? ", expecting " : " or ";
 		      message += name_[[x]];
 		    }
 	      }
@@ -402,7 +430,7 @@ yy::b4_name::parse ()
       error_ ();
     }
   goto yyerrlab1;
-  
+
   /* Error raised explicitly by an action.  */
  yyerrlab1:
   if (errstatus == 3)
@@ -436,10 +464,10 @@ yy::b4_name::parse ()
   if (debug_)
     {
       YYFPRINTF (stderr, "Error: state stack now");
-      for (StateStack::ConstIterator i = state_stack_.begin (); 
+      for (StateStack::ConstIterator i = state_stack_.begin ();
 	   i != state_stack_.end (); ++i)
 	YYFPRINTF (stderr, " %d", *i);
-      YYFPRINTF (stderr, "\n"); 
+      YYFPRINTF (stderr, "\n");
     }
 #endif
 
@@ -541,14 +569,14 @@ yy::b4_name::check_[[]] =
 };
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
-const short 
+const short
 yy::b4_name::r1_[[]] =
 {
   b4_r1
 };
 
 /* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
-const short 
+const short
 yy::b4_name::r2_[[]] =
 {
   b4_r2
@@ -566,7 +594,7 @@ const yy::b4_name::name_[[]] =
 
 #if YYDEBUG
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-const short 
+const short
 yy::b4_name::rhs_[[]] =
 {
   b4_rhs
@@ -592,8 +620,8 @@ yy::b4_name::rline_[[]] =
 char
 yy::b4_name::translate_ (int token)
 {
-  static 
-  const char 
+  static
+  const char
   translate_[[]] =
   {
     b4_translate
@@ -669,7 +697,7 @@ namespace yy
       for (; n; --n)
 	seq_.pop_back ();
     }
-    
+
     inline
     void
     reserve (unsigned n)
