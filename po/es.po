@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-12-15 18:00+0100\n"
+"POT-Creation-Date: 2001-12-15 18:58+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -348,7 +348,7 @@ msgstr "%s: la opción `%s' requiere un argumento\n"
 # en inglés era así, pero quizás en español sea mejor como dices
 # ngp
 #
-#: src/output.c:756
+#: src/output.c:761
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "excedido el tamaño máximo de la tabla (%s)"

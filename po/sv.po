@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2001-12-15 18:00+0100\n"
+"POT-Creation-Date: 2001-12-15 18:58+0100\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -309,7 +309,7 @@ msgstr "\"%s\" stödjer inga argument: %s"
 msgid "`%s' requires an argument"
 msgstr "\"%s\" behöver ett argument"
 
-#: src/output.c:756
+#: src/output.c:761
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "maximal tabellstorlek (%d) överskriden"

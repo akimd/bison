@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28d\n"
-"POT-Creation-Date: 2001-12-15 18:00+0100\n"
+"POT-Creation-Date: 2001-12-15 18:58+0100\n"
 "PO-Revision-Date: 2001-08-29 20:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -308,7 +308,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: l'option %s requiert un paramètre\n"
 
-#: src/output.c:756
+#: src/output.c:761
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "taille maximale de la table (%d) dépassée"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2001-12-15 18:00+0100\n"
+"POT-Creation-Date: 2001-12-15 18:58+0100\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -279,7 +279,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: オプション `%s' は引数を要求します\n"
 
-#: src/output.c:756
+#: src/output.c:761
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "最大テーブルサイズ (%s) を超えました"
