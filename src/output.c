@@ -316,7 +316,7 @@ output_gram (void)
      yyprhs and yyrhs are needed only for yydebug. */
   /* With the no_parser option, all tables are generated */
   if (!semantic_parser && !no_parser_flag)
-    obstack_sgrow (&table_obstack, "\n#if YYDEBUG != 0\n");
+    obstack_sgrow (&table_obstack, "\n#if YYDEBUG\n");
 
   {
     int i;
@@ -372,7 +372,7 @@ output_rule_data (void)
   short *short_tab = NULL;
 
   obstack_sgrow (&table_obstack, "\n\
-#if YYDEBUG != 0\n");
+#if YYDEBUG\n");
 
   {
     short *values = XCALLOC (short, nrules + 1);
@@ -400,7 +400,7 @@ output_rule_data (void)
   /* Output the table of symbol names.  */
   if (!token_table_flag && !no_parser_flag)
     obstack_sgrow (&table_obstack,
-			 "\n#if YYDEBUG != 0 || defined YYERROR_VERBOSE\n\n");
+			 "\n#if (YYDEBUG) || defined YYERROR_VERBOSE\n\n");
   obstack_sgrow (&table_obstack, "\
 /* YYTNAME[TOKEN_NUM] -- String name of the token TOKEN_NUM. */\n");
   obstack_sgrow (&table_obstack,
@@ -1268,12 +1268,11 @@ output (void)
       obstack_grow (&table_obstack, obstack_finish (&attrs_obstack), size);
     }
   reader_output_yylsp (&table_obstack);
-  if (debug_flag)
-    obstack_sgrow (&table_obstack, "\
+  obstack_fgrow1 (&table_obstack, "\
 #ifndef YYDEBUG\n\
-# define YYDEBUG 1\n\
+# define YYDEBUG %d\n\
 #endif\n\
-\n");
+\n", debug_flag);
 
   if (semantic_parser)
     obstack_fgrow1 (&table_obstack, "#include %s\n",
