@@ -4,10 +4,7 @@
 .!	This is a RUNOFF input file which will produce a VMS help file
 .!	for the VMS HELP library.
 .!
-.!	Date of last revision: June 21, 1992
-.!
-.!
-.!	Eric Youngdale
+.!	Eric Youngdale and Wilfred J. Hansen (wjh+@cmu.edu).
 .!
 .literal
 .end literal
@@ -47,7 +44,10 @@ foo_tab.c.
 	/FIXED_OUTFILES
 	/NAME_PREFIX=prefix
 	/NOLINES
+	/NOPARSER
 	/OUTPUT=outfilefile
+	/RAW
+	/TOKEN_TABLE
 	/VERBOSE
 	/VERSION
 	/YACC
@@ -122,7 +122,15 @@ Ordinarily Bison puts them in the parser file so that the C compiler
 and debuggers will associate errors with your source file, the
 grammar file.  This option causes them to associate errors with the
 parser file, treating it an independent source file in its own right.
-
+.skip
+.indent -1
+2 /NOPARSER
+.skip
+Do not generate the parser code into the output;  generate only
+declarations.  The generated name_tab.c file will have only 
+constant declarations.  In addition, a name.act file is
+generated containing a switch statement body containing all the
+translated actions. 
 .skip
 .indent -1
 2 /OUTPUT
@@ -132,6 +140,22 @@ parser file, treating it an independent source file in its own right.
 .end literal
 .skip
 Specify the name "outfile" for the parser file.
+.skip
+.indent -1
+2 /RAW
+.skip
+When this switch is specified, the .tab.h file defines the tokens to
+have the bison token numbers rather than the yacc compatible numbers.
+To employ this switch you would have to have your own parser.
+.skip
+.indent -1
+2 /TOKEN_TABLE
+.skip
+This switch causes the name_tab.c output to include a list of 
+token names in order by their token numbers;  this is defined in the array 
+yytname.  Also generated are #defines for YYNTOKENS, YYNNTS, YYNRULES,
+and YYNSTATES.
+
 .skip
 .indent -1
 2 /VERBOSE

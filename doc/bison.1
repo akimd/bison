@@ -12,9 +12,17 @@ bison \- GNU Project parser generator (yacc replacement)
 ] [
 .B \-\-defines
 ] [
+.B \-k
+] [
+.B \-\-token-table
+] [
 .B \-l
 ] [
 .B \-\-no-lines
+] [
+.B \-n
+] [
+.B \-\-no-parser
 ] [
 .BI \-o " outfile"
 ] [
@@ -23,6 +31,10 @@ bison \- GNU Project parser generator (yacc replacement)
 .BI \-p " prefix"
 ] [
 .BI \-\-name-prefix= prefix
+] [
+.B \-r
+] [
+.B \-\-raw
 ] [
 .B \-t
 ] [
@@ -128,6 +140,33 @@ in a separate source file, because
 needs to be able to refer to token type codes and the variable
 .BR yylval .
 .TP
+.B \-r
+.br
+.ns
+.TP
+.B \-\-raw
+The token numbers in the \fIname\fB.h\fR file are usually the Yacc compatible 
+translations.  If this switch is specified, Bison token numbers
+are output instead.  (Yacc numbers start at 257 except for single character 
+tokens;  Bison assigns token numbers sequentially for all tokens 
+starting at 3.)
+.TP
+.B \-k
+.br
+.ns
+.TP
+.B \-\-token-table
+This switch causes the \fIname\fB.tab.c\fR output to include a list of 
+token names in order by their token numbers;  this is defined in the array 
+.IR yytname .
+Also generated 
+are #defines for 
+.IR YYNTOKENS ,
+.IR YYNNTS ,
+.IR YYNRULES ,
+and 
+.IR YYNSTATES .
+.TP
 .B \-l
 .br
 .ns
@@ -142,6 +181,17 @@ puts them in the parser file so that the C compiler
 and debuggers will associate errors with your source file, the
 grammar file.  This option causes them to associate errors with the
 parser file, treating it an independent source file in its own right.
+.TP
+.B \-n
+.br
+.ns
+.TP
+.B \-\-no-parser
+Do not generate the parser code into the output;  generate only
+declarations.  The generated \fIname\fB.tab.c\fR file will have only 
+constant declarations.  In addition, a \fIname\fB.act\fR file is
+generated containing a switch statement body containing all the
+translated actions. 
 .TP
 .BI \-o " outfile"
 .br
@@ -290,4 +340,3 @@ in the
 source distribution.
 .SH DIAGNOSTICS
 Self explanatory.
-
