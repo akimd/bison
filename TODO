@@ -22,7 +22,8 @@ Maybe transfered in lex.c.
 *** %name-prefix	[]
 
 ** Skeleton strategy.	[]
-Useful for %no_parser.	[]
+Must we keep %no-parser?
+	     %token-table?
 *** New skeletons.	[]
 
 * src/macrotab.[ch]
@@ -32,9 +33,13 @@ Removing warnings when compiling. (gcc-warnings).	[ok]
 Find the best graph parameters.	[]
 
 * doc/bison.texinfo
-Update informations about ERROR_VERBOSE.	[]
-Add explainations about skeleton muscles.	[]
-Add explainations about %skeleton.	[]
+** Update 
+informations about ERROR_VERBOSE.	[]
+** Add explainations about 
+skeleton muscles.	[]
+%skeleton.		[]
 
 * testsuite.
 ** tests/reduce.at	[ok]
+** tests/pure-parser.at	[]
+New tests.
