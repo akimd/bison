@@ -20,7 +20,7 @@
 
 EXTRA_DIST = $(TESTSUITE_AT) testsuite
 
-DISTCLEANFILES       = atconfig atlocal bison package.m4
+DISTCLEANFILES       = atconfig bison package.m4
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 TESTSUITE_AT = \
@@ -28,7 +28,6 @@ TESTSUITE_AT = \
 	output.at reduce.at calc.at torture.at regression.at
 TESTSUITE = $(srcdir)/testsuite
 
-AUTOM4TE = autom4te
 AUTOTEST = $(AUTOM4TE) --language=autotest
 $(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
 	$(AUTOTEST) -I $(srcdir) testsuite.at -o $@.tmp

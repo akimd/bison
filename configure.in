@@ -18,7 +18,7 @@
 # 02111-1307  USA
 
 # We need a recent Autoconf to run a recent Autotest.
-AC_PREREQ(2.52e)
+AC_PREREQ(2.52g)
 
 AC_INIT([GNU Bison], [1.49a], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR(config)
@@ -28,7 +28,7 @@ AM_CONFIG_HEADER(config.h:config.hin)
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
-AC_CONFIG_FILES(tests/Makefile tests/atlocal)
+AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
@@ -39,12 +39,7 @@ AC_MINIX
 AC_ISC_POSIX
 AM_PROG_CC_STDC
 AC_PROG_RANLIB
-# GNU M4 is needed to build the testsuite.
-BISON_AC_PROG_GNU_M4
-if test "$ac_cv_prog_gnu_m4" != yes; then
-  missing_dir=`cd $ac_aux_dir && pwd`
-  M4="$missing_dir/missing m4"
-fi
+AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 AC_ARG_ENABLE(gcc-warnings,
 [  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended)],

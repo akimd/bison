@@ -1,5 +1,13 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* configure.in: Require 2.52g.
+	M4 is not needed, but AUTOM4TE is.
+	* m4/m4.m4: Remove.
+	* tests/Makefile.am: Adjust.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	One structure for states is enough, even though theoretically
 	there are LR(0) states and LALR(1) states.
 

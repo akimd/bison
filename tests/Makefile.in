@@ -64,6 +64,7 @@ EXEEXT = @EXEEXT@
 OBJEXT = @OBJEXT@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 AMTAR = @AMTAR@
+AUTOM4TE = @AUTOM4TE@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
@@ -85,7 +86,6 @@ INTLOBJS = @INTLOBJS@
 INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
 LIB = @LIB@
 LIBICONV = @LIBICONV@
-M4 = @M4@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
@@ -103,7 +103,7 @@ install_sh = @install_sh@
 
 EXTRA_DIST = $(TESTSUITE_AT) testsuite
 
-DISTCLEANFILES = atconfig atlocal bison package.m4
+DISTCLEANFILES = atconfig bison package.m4
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 TESTSUITE_AT = \
@@ -112,7 +112,6 @@ TESTSUITE_AT = \
 
 TESTSUITE = $(srcdir)/testsuite
 
-AUTOM4TE = autom4te
 AUTOTEST = $(AUTOM4TE) --language=autotest
 subdir = tests
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs

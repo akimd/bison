@@ -9,7 +9,6 @@ glibc21.m4					\
 iconv.m4					\
 isc-posix.m4					\
 lcmessage.m4					\
-m4.m4						\
 malloc.m4					\
 mbrtowc.m4					\
 mbstate_t.m4					\
