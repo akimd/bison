@@ -1,5 +1,14 @@
 2000-10-16  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (copy_comment2): Expect the input stream to be on
+	the `/' which is suspected to open a comment, instead of being
+	called after `//' or `/*' was read.
+	(copy_comment, copy_definition, parse_union_decl, copy_action)
+	(copy_guard): Adjust.
+
+	
+2000-10-16  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (parse_expect_decl): Use `skip_white_space' and
 	`read_signed_integer'.
 
