@@ -328,6 +328,7 @@ state 5
     1    | exp OP exp .  [$end, OP]
 
     $default  reduce using rule 1 (exp)
+
     Conflict between rule 1 and token OP resolved as reduce (%left OP).
 ]])
 

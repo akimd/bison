@@ -1,5 +1,11 @@
 2002-10-13  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c (print_state): Separate the list of solved conflicts
+	from the other items.
+	* tests/conflicts.at (Resolved SR Conflicts): Adjust.
+
+2002-10-13  Akim Demaille  <akim@epita.fr>
+
 	Let nondeterministic skeletons be usable with deterministic
 	tables.
 
