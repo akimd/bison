@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-09-30 14:30+0200\n"
+"POT-Creation-Date: 2002-10-04 23:07-0700\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -469,7 +469,7 @@ msgstr "$$ od `%s' nema deklarirani tip"
 #: scan-gram.l:577 scan-gram.l:664
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
-msgstr "nedozvoljena  @ vrijednost"
+msgstr "nedozvoljena $ vrijednost"
 
 #: scan-gram.l:584
 #, c-format
@@ -569,67 +569,67 @@ msgstr ""
 msgid "Valid arguments are:"
 msgstr ""
 
-#: lib/bitset_stats.c:222
-#, c-format
-msgid "%d bitset_allocs, %d freed (%.2f%%).\n"
-msgstr ""
-
 #: lib/bitset_stats.c:225
 #, c-format
-msgid "%d bitset_sets, %d cached (%.2f%%)\n"
+msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr ""
 
 #: lib/bitset_stats.c:228
 #, c-format
-msgid "%d bitset_resets, %d cached (%.2f%%)\n"
+msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr ""
 
 #: lib/bitset_stats.c:231
 #, c-format
-msgid "%d bitset_tests, %d cached (%.2f%%)\n"
+msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:235
+#: lib/bitset_stats.c:234
 #, c-format
-msgid "%d bitset_lists\n"
+msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset_stats.c:237
-msgid "count log histogram\n"
+#: lib/bitset_stats.c:238
+#, c-format
+msgid "%u bitset_lists\n"
 msgstr ""
 
 #: lib/bitset_stats.c:240
-msgid "size log histogram\n"
+msgid "count log histogram\n"
 msgstr ""
 
 #: lib/bitset_stats.c:243
+msgid "size log histogram\n"
+msgstr ""
+
+#: lib/bitset_stats.c:246
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset_stats.c:259
+#: lib/bitset_stats.c:262
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset_stats.c:262
+#: lib/bitset_stats.c:265
 #, c-format
-msgid "Accumulated runs = %d\n"
+msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset_stats.c:307
+#: lib/bitset_stats.c:310
 msgid "Could not read stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:309
+#: lib/bitset_stats.c:312
 msgid "Bad stats file size.\n"
 msgstr ""
 
-#: lib/bitset_stats.c:335
+#: lib/bitset_stats.c:338
 msgid "Could not write stats file."
 msgstr ""
 
-#: lib/bitset_stats.c:339
+#: lib/bitset_stats.c:342
 msgid "Could not open stats file for writing."
 msgstr ""
 
@@ -814,6 +814,9 @@ msgstr ""
 
 #~ msgid "unterminated string"
 #~ msgstr "nezavr¹eni znakovni niz"
+
+#~ msgid "invalid @ value"
+#~ msgstr "nedozvoljena  @ vrijednost"
 
 #~ msgid "unterminated `%{' definition"
 #~ msgstr "nezavr¹ena `%{' definicija"

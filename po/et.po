@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49b\n"
-"POT-Creation-Date: 2002-09-30 14:30+0200\n"
+"POT-Creation-Date: 2002-10-04 23:07-0700\n"
 "PO-Revision-Date: 2002-08-13 01:35+0300\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -560,44 +560,44 @@ msgstr "segane argument %s %s'le"
 msgid "Valid arguments are:"
 msgstr "Lubatud argumendid on:"
 
-#: lib/bitset_stats.c:222
-#, c-format
-msgid "%d bitset_allocs, %d freed (%.2f%%).\n"
+#: lib/bitset_stats.c:225
+#, fuzzy, c-format
+msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%d bitset_allocs, %d vabastatud (%.2f%%).\n"
 
-#: lib/bitset_stats.c:225
-#, c-format
-msgid "%d bitset_sets, %d cached (%.2f%%)\n"
+#: lib/bitset_stats.c:228
+#, fuzzy, c-format
+msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%d bitset_sets, %d puhverdatud (%.2f%%)\n"
 
-#: lib/bitset_stats.c:228
-#, c-format
-msgid "%d bitset_resets, %d cached (%.2f%%)\n"
+#: lib/bitset_stats.c:231
+#, fuzzy, c-format
+msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%d bitset_resets, %d puhverdatud (%.2f%%)\n"
 
-#: lib/bitset_stats.c:231
-#, c-format
-msgid "%d bitset_tests, %d cached (%.2f%%)\n"
+#: lib/bitset_stats.c:234
+#, fuzzy, c-format
+msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%d bitset_tests, %d puhverdatud (%.2f%%)\n"
 
-#: lib/bitset_stats.c:235
-#, c-format
-msgid "%d bitset_lists\n"
+#: lib/bitset_stats.c:238
+#, fuzzy, c-format
+msgid "%u bitset_lists\n"
 msgstr "%d bitset_lists\n"
 
-#: lib/bitset_stats.c:237
+#: lib/bitset_stats.c:240
 msgid "count log histogram\n"
 msgstr "loenduri logi histogramm\n"
 
-#: lib/bitset_stats.c:240
+#: lib/bitset_stats.c:243
 msgid "size log histogram\n"
 msgstr "suuruste logi histogramm\n"
 
-#: lib/bitset_stats.c:243
+#: lib/bitset_stats.c:246
 msgid "density histogram\n"
 msgstr "tiheduse histogramm\n"
 
-#: lib/bitset_stats.c:259
+#: lib/bitset_stats.c:262
 msgid ""
 "Bitset statistics:\n"
 "\n"
@@ -605,24 +605,24 @@ msgstr ""
 "Bitset statistika:\n"
 "\n"
 
-#: lib/bitset_stats.c:262
-#, c-format
-msgid "Accumulated runs = %d\n"
+#: lib/bitset_stats.c:265
+#, fuzzy, c-format
+msgid "Accumulated runs = %u\n"
 msgstr "Salvestatud läbimisi = %d\n"
 
-#: lib/bitset_stats.c:307
+#: lib/bitset_stats.c:310
 msgid "Could not read stats file."
 msgstr "Statistika faili ei saa lugeda."
 
-#: lib/bitset_stats.c:309
+#: lib/bitset_stats.c:312
 msgid "Bad stats file size.\n"
 msgstr "Vigane statistika faili suurus.\n"
 
-#: lib/bitset_stats.c:335
+#: lib/bitset_stats.c:338
 msgid "Could not write stats file."
 msgstr "Statistika faili ei saa kirjutada."
 
-#: lib/bitset_stats.c:339
+#: lib/bitset_stats.c:342
 msgid "Could not open stats file for writing."
 msgstr "Statistika faili ei saa kirjutamiseks avada."
 
