@@ -46,8 +46,12 @@
 #endif
 
 /* Enabling verbose error messages.  */
-#undef YYERROR_VERBOSE
-#define YYERROR_VERBOSE %%error-verbose
+#ifdef YYERROR_VERBOSE
+# undef YYERROR_VERBOSE
+# define YYERROR_VERBOSE 1
+#else
+# define YYERROR_VERBOSE %%error-verbose
+#endif
 
 /* If name_prefix is specify substitute the variables and functions
    names.  */
