@@ -101,7 +101,6 @@ AC_CHECK_DECLS([free, getenv, getopt,
                 stpcpy, strchr, strspn, strnlen,
                 malloc, memchr, memrchr])
 AC_REPLACE_FUNCS(strchr strrchr strspn)
-AC_FUNC_ERROR_AT_LINE
 AM_WITH_DMALLOC
 BISON_PREREQ_SUBPIPE
 BISON_PREREQ_TIMEVAR
