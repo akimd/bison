@@ -10,4 +10,4 @@ CFLAGS='@CFLAGS@ @WARNING_CFLAGS@'
 GCC='@GCC@'
 
 # We need `config.h'.
-CPPFLAGS="-I $top_buildpath @CPPFLAGS@"
+CPPFLAGS="-I$top_buildpath @CPPFLAGS@"
