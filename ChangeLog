@@ -1,3 +1,7 @@
+2002-02-14  Akim Demaille  <akim@epita.fr>
+
+	* tests/regression.at (else): Adjust to Andreas' change.
+
 2002-02-13  Andreas Schwab  <schwab@suse.de>
 
 	* src/output.c (output_rule_data): Don't output NULL, it might
