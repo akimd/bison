@@ -1,3 +1,94 @@
+2002-12-06  Paul Eggert  <eggert@twinsun.com>
+
+	Add support for rules that do not have trailing semicolons, as
+	POSIX requires.  Improve the quality of locations in Bison
+	diagnostics.
+	
+	* src/location.c: Include <quotearg.h>.
+	(empty_location): Now const.
+	(location_print): New function.  Follow the recommendation of the
+	GNU Coding Standards for locations that span file boundaries.
+	* src/location.h: Do not include <quotearg.h>; no longer needed.
+	(boundary): New type.
+	(location_t): Use it.  This allows locations to span file boundaries.
+	All member uses changed: file -> start.file or end.file (as needed),
+	first_line -> start.line, first_column -> start.column,
+	last_line -> end.line, last_column -> end.column.
+	(equal_boundaries): New function.
+	(LOCATION_RESET, LOCATION_STEP): Remove.
+	(LOCATION_PRINT): Remove.  All callers changed to use location_print.
+	(empty_location): Now const.
+	(location_print): New decl.
+	* src/parse-gram.y (lloc_default): New function, which handles
+	empty locations more accurately.
+	(YYLLOC_DEFAULT): Use it.
+	(%token COLON): Remove.
+	(%token ID_COLON): New token.
+	(rules): Use it.	
+	(declarations, rules): Remove trailing semicolon.
+	(declaration, rules_or_grammar_declaration):
+	Allow empty (";") declaration.
+	(symbol_def): Remove empty actions; no longer needed.
+	(rules_or_grammar_declaration): Remove trailing semicolon.
+	(semi_colon.opt): Remove.
+	* src/reader.h: Include location.h.
+	(scanner_cursor): New decl.
+	* src/reduce.c (nonterminals_reduce): Use warn_at rather than
+	rolling our own.
+	* src/scan-gram.l (YY_USER_INIT): Initialize scanner_cursor instead
+	of *loc.
+	(STEP): Remove.  No longer needed, now that adjust_location does
+	the work.  All uses removed.
+	(scanner_cursor): New var.
+	(adjust_location): Renamed from extend_location.  It now sets
+	*loc and adjusts the scanner cursor.  All uses changed.
+	Don't bother testing for CR.
+	(handle_syncline): Remove location arg; now updates scanner cursor.
+	All callers changed.
+	(unexpected_end_of_file): Now accepts start boundary of token or
+	comment, not location.  All callers changed.  Update scanner cursor,
+	not the location.
+	(SC_AFTER_IDENTIFIER): New state.
+	(context_state): Renamed from c_context.  All uses changed.
+	(id_loc, code_start, token_start): New local vars.
+	(<INITIAL,SC_AFTER_IDENTIFIER>): New initial context.  Move all
+	processing of Yacc white space and equivalents here.
+	(<INITIAL>{id}): Save id_loc.  Begin state SC_AFTER_IDENTIFIER
+	instead of returning ID immediately, since we need to search for
+	a subsequent colon.
+	(<INITIAL>"'", "\""): Save token_start.
+	(<INITIAL>"%{", "{", "%%"): Save code_start.
+	(<SC_AFTER_IDENTIFIER>): New state, looking for a colon.
+	(<SC_YACC_COMMENT>, <SC_COMMENT>, <SC_LINE_COMMENT>):
+	BEGIN context_state at end, not INITIAL.
+	(<SC_ESCAPED_STRING>"\"", <SC_ESCAPED_CHARACTER>"'",
+	<SC_BRACED_CODE>"}", <SC_PROLOGUE>"%}", <SC_EPILOGUE><<EOF>>):
+	Return correct token start.
+	(<SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>): Save start boundary when
+	the start of a character, string or multiline comment is found.
+	* tests/conflicts.at (S/R in initial, Defaulted Conflicted
+	Reduction): Adjust reported locations to match the more-precise
+	results now expected.
+	* tests/input.at (Invalid $n, Invalid @n, Type Clashes): Likewise.
+	* tests/reduce.at (Useless Rules, Reduced Automaton,
+	Underivable Rules): Likewise.
+	* tests/regression.at (Invalid inputs): No longer `expecting ";"
+	or "|"' now that so many other tokens are allowed by the new grammar.
+
+	* src/complain.h (current_file): Remove duplicate decl;
+	current_file is now owned by files.h.
+	* src/complain.c, src/scan-gram.l: Include files.h.
+
+2002-12-06  Paul Eggert  <eggert@twinsun.com>
+	
+	* data/glr.c (yy_reduce_print): Don't assume that yyrline[yyrule]
+	promotes to int; it might be unsigned int.
+	* data/yacc.c (yy_reduce_print): Likewise.
+
+	* doc/bison.texinfo (Table of Symbols): YYERROR_VERBOSE should
+	be #defined in the prologue, not in the Bison declarations.
+	This fixes Debian Bug 102878, reported by Shaul Karl.
+	
 2002-12-02  Paul Eggert  <eggert@twinsun.com>
 
 	* configure.ac (AC_REPLACE_FUNCS): Add strtoul.
