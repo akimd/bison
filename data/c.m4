@@ -26,7 +26,7 @@ m4_divert(-1)                                               -*- Autoconf -*-
 # b4_copyright(TITLE, YEARS)
 # --------------------------
 m4_define([b4_copyright],
-[/* A Bison parser, made from b4_filename, by GNU bison b4_version.  */
+[/* A Bison parser, made by GNU Bison b4_version.  */
 
 /* $1,
    Copyright (C) $2 Free Software Foundation, Inc.
@@ -54,7 +54,7 @@ m4_define([b4_identification],
 [#]define YYBISON 1
 
 /* Skeleton name.  */
-[#]define YYSKELETON_NAME "b4_skeleton"
+[#]define YYSKELETON_NAME b4_skeleton
 
 /* Pure parsers.  */
 [#]define YYPURE b4_pure
@@ -311,4 +311,4 @@ m4_define([b4_c_arg],
 # -----------------------
 m4_define([b4_syncline],
 [m4_if(b4_synclines_flag, 1,
-       [[#]line $1 "$2"])])
+       [[#]line $1 $2])])
