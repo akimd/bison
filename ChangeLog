@@ -1,5 +1,13 @@
 2003-03-02  Akim Demaille  <akim@epita.fr>
 
+	Write a test the yycheck overrun reported by Andrew Suffield.
+
+	* tests/regression.at (_AT_DATA_DANCER_Y, AT_CHECK_DANCER): New.
+	Use them to exercise yycheck overrun.
+	Based on Andrew Suffield's grammar.
+
+2003-03-02  Akim Demaille  <akim@epita.fr>
+
 	Create tests/local.at for Bison generic testing macros.
 
 	* tests/calc.at (AT_CHECK_PUSHDEFS, AT_CHECK_POPDEFS): Move to...
