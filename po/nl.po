@@ -1,5 +1,5 @@
 # Dutch messages for GNU bison.
-# Copyright (C) 1996-2002 Free Software Foundation, Inc.
+# Copyright (C) 1996, 2002 Free Software Foundation, Inc.
 # Erick Branderhorst <branderh@debian.org>, 1996.
 # Tim Van Holder <tim.van.holder@pandora.be>, 2002.
 #
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
 "POT-Creation-Date: 2002-01-23 14:12+0100\n"
-"PO-Revision-Date: 2002-01-21 17:09+0000\n"
+"PO-Revision-Date: 2002-02-01 18:46+0000\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"

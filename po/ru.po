@@ -1,12 +1,12 @@
 # Перевод сообщений bison.
 # Copyright (C) 1999 Free Software Foundation, Inc.
-# Dmitry S. Sivachenko <dima@Chg.RU>, 1999,2000,2001.
+# Dmitry S. Sivachenko <dima@Chg.RU>, 1999,2000,2001,2002.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.29\n"
+"Project-Id-Version: bison 1.32\n"
 "POT-Creation-Date: 2002-01-23 14:12+0100\n"
-"PO-Revision-Date: 2001-09-09 13:49+04:00\n"
+"PO-Revision-Date: 2002-01-25 12:19+0300\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,26 +49,29 @@ msgid "an error"
 msgstr "ошибка"
 
 #: src/conflicts.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
-msgstr[0] " %d конфликтов сдвига/вывода"
+msgstr[0] "%d конфликт сдвига/вывода"
+msgstr[1] "%d конфликта сдвига/вывода"
+msgstr[2] "%d конфликтов сдвига/вывода"
 
 #: src/conflicts.c:309
-#, fuzzy
 msgid "and"
-msgstr " и"
+msgstr "и"
 
 #: src/conflicts.c:315
-#, fuzzy, c-format
+#, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
-msgstr[0] " %d конфликтов вывода/вывода"
+msgstr[0] "%d конфликт вывода/вывода"
+msgstr[1] "%d конфликта вывода/вывода"
+msgstr[2] "%d конфликтов вывода/вывода"
 
 #: src/conflicts.c:340
-#, fuzzy, c-format
+#, c-format
 msgid "State %d contains "
-msgstr "Состояние %d содержит"
+msgstr "Состояние %d содержит "
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
@@ -92,10 +95,12 @@ msgid "%s contains "
 msgstr "%s содержит "
 
 #: src/conflicts.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
-msgstr[0] " %d конфликтов сдвига/вывода"
+msgstr[0] "ожидался %d конфликт сдвига/вывода\n"
+msgstr[1] "ожидалось %d конфликта сдвига/вывода\n"
+msgstr[2] "ожидалось %d конфликтов сдвига/вывода\n"
 
 #: src/conflicts.c:463 src/conflicts.c:540
 #, c-format
@@ -183,7 +188,6 @@ msgstr ""
 "  -k, --token-table          включить таблицу имен лексем\n"
 
 #: src/getargs.c:117
-#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -197,7 +201,7 @@ msgstr ""
 "  -d, --defines              создать также файл заголовков\n"
 "  -v, --verbose              создать также пояснения в автомату\n"
 "  -b, --file-prefix=ПРЕФИКС  указать ПРЕФИКС для выходных файлов\n"
-"  -o, --output-file=ФАЙЛ     поместить результат в ФАЙЛ\n"
+"  -o, --output=ФАЙЛ          поместить результат в ФАЙЛ\n"
 "  -g, --graph                создать также пояснения к автомату в виде \n"
 "VCG-графа\n"
 
@@ -302,12 +306,12 @@ msgstr "используйте \"...\" для многосимвольных литеральных лексем"
 #: src/lex.c:678
 #, c-format
 msgid "`%s' supports no argument: %s"
-msgstr ""
+msgstr "`%s' не поддерживает аргумента %s"
 
 #: src/lex.c:694
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' requires an argument"
-msgstr "%s: ключ `%s' должен использоваться с аргументом\n"
+msgstr "ключ `%s' должен использоваться с аргументом"
 
 #: src/output.c:951
 #, c-format
@@ -364,16 +368,16 @@ msgstr "Грамматика"
 
 #: src/print.c:212
 msgid "Number, Line, Rule"
-msgstr ""
+msgstr "Номер, Строка, Правило"
 
 #: src/print.c:217
-#, fuzzy, c-format
+#, c-format
 msgid "  %3d %3d %s ->"
-msgstr "правило %-4d %s ->"
+msgstr "  %3d %3d %s ->"
 
 #: src/print.c:224
 msgid "empty"
-msgstr ""
+msgstr "пусто"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:231
@@ -647,26 +651,32 @@ msgid "Useless rules:"
 msgstr "Бесполезные правила:"
 
 #: src/reduce.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
-msgstr[0] "%d правил не сведено\n"
+msgstr[0] "%d правило не сведено\n"
+msgstr[1] "%d правила не сведено\n"
+msgstr[2] "%d правил не сведено\n"
 
 #: src/reduce.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
-msgstr[0] "%d бесполезных нетерминалов%s"
+msgstr[0] "%d бесполезный нетерминал"
+msgstr[1] "%d бесполезных нетерминала"
+msgstr[2] "%d бесполезных нетерминалов"
 
 #: src/reduce.c:517
 msgid " and "
 msgstr " и "
 
 #: src/reduce.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
-msgstr[0] "%d бесполезных правил%s"
+msgstr[0] "%d бесполезное правило"
+msgstr[1] "%d бесполезных правила"
+msgstr[2] "%d бесполезных правил"
 
 #: src/reduce.c:551
 #, c-format

@@ -218,12 +218,13 @@ msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
 #: src/getargs.c:146
+#, fuzzy
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 msgstr ""
-"Kopyahakký 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
-"Free Software Foundation, Inc.\n"
+"Kopyahakký 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, "
+"Inc.\n"
 
 #: src/getargs.c:151
 msgid ""
