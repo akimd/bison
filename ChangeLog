@@ -1,5 +1,33 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	Have the GLR tests be `warning' checked, and fix the warnings.
+
+	* data/glr.c (YYFPRINTF): Always define it, not only when YYDEBUG
+	(yyuserAction, yyreportAmbiguity): `Use' all the arguments.
+	(yyremoveDeletes): `yyi' and `yyj' are size_t.
+	Use YYFPRINTF when under if (YYDEBUG) to avoid empty `if' bodies.
+	(yyaddDeferredAction): static.
+	(yyglrReduce): yyi, yyk, amd yyposn are size_t.
+	(yyreportParseError): yyprefix is const.
+	yytokenp is used only when verbose.
+	(yy__GNUC__): Replace with __GNUC__.
+	(yypdumpstack): yyi is size_t.
+	(yypreference): Un-yy local variables and arguments, to avoid
+	clashes with `yyr1'.  Anyway, we are not in the user name space.
+	(yytname_size): be an int, as is compared with ints.
+	* tests/testsuite.at (AT_COMPILE, AT_PARSER_CHECK): New.
+	Use them.
+	* tests/cxx-gram.at: Use quotation to protect $1.
+	Use AT_COMPILE to enable warnings hunts.
+	Prototype yylex and yyerror.
+	`Use' argc.
+	Include `string.h', not `strings.h'.
+	Produce and prototype stmtMerge only when used.
+	yylex takes a location.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	We spend a lot of time in quotearg, in particular when --verbose.
 
 	* src/symtab.c (symbol_get): Store a quoted version of the key.

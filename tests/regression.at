@@ -51,7 +51,7 @@ exp: MY_TOKEN;
 ]])
 
 AT_CHECK([bison input.y -o input.c])
-AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -c])
+AT_COMPILE([input], [-c input.c])
 
 AT_CLEANUP
 
@@ -329,7 +329,7 @@ exp: "a";
 ]])
 
 AT_CHECK([bison input.y -o input.c])
-AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -c])
+AT_COMPILE([input], [input.c -c])
 AT_CLEANUP
 
 

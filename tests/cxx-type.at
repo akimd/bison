@@ -1,5 +1,5 @@
-# Checking the output filenames.                         -*- Autotest -*-
-# Copyright 2000, 2001 Free Software Foundation, Inc.
+# Checking GLR Parsing.                         -*- Autotest -*-
+# Copyright 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,22 +18,34 @@
 
 AT_BANNER([[C++ Type Syntax (GLR).]])
 
-# _AT_TEST_GLR_CALC(`$1',DECL, RESOLVE1, RESOLVE2) 
-# (first argument is a literal $1; it's a trick).  
+# _AT_TEST_GLR_CALC(DECL, RESOLVE1, RESOLVE2)
+# -------------------------------------------
 # Store into types.y the calc program, with DECL inserted as a declaration,
 # and with RESOLVE1 and RESOLVE2 as annotations on the conflicted rule for
 # stmt.  Then compile the result.
 m4_define([_AT_TEST_GLR_CALC],
 [AT_DATA([types.y],
-[[/* Simplified C++ Type and Expression Grammar */
+[[/* Simplified C++ Type and Expression Grammar.  */
 
-$2
+$1
 
 %{
   #include <stdio.h>
   #define YYSTYPE const char*
-  static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
+  #define YYLTYPE int
+]m4_bmatch([$2], [stmtMerge],
+[ static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);])[
   #define YYINITDEPTH 10
+  int yyerror (const char *s);
+
+  #if YYPURE
+]m4_bmatch([$1], [location],
+[  int yylex (YYSTYPE *lvalp, YYLTYPE *llocp);],
+[  int yylex (YYSTYPE *lvalp);])[
+  #else
+  int yylex (void);
+  #endif
+
 %}
 
 %token TYPENAME ID
@@ -45,53 +57,65 @@ $2
 
 %%
 
-prog : 
+prog :
      | prog stmt   { printf ("\n"); }
      ;
 
-stmt : expr ';'  $3
-     | decl      $4
+stmt : expr ';'  $2
+     | decl      $3
      | error ';'
      | '@'  { YYACCEPT; }
      ;
 
 expr : ID 		{ printf ("%s ", $$); }
-     | TYPENAME '(' expr ')'  
-			{ printf ("%s <cast> ", $1); }
+     | TYPENAME '(' expr ')'
+			{ printf ("%s <cast> ", ]$[1); }
      | expr '+' expr	{ printf ("+ "); }
      | expr '=' expr	{ printf ("= "); }
      ;
 
-decl : TYPENAME declarator ';' 
-			{ printf ("%s <declare> ", $1); }
+decl : TYPENAME declarator ';'
+			{ printf ("%s <declare> ", ]$[1); }
      | TYPENAME declarator '=' expr ';'
-			{ printf ("%s <init-declare> ", $1); }
+			{ printf ("%s <init-declare> ", ]$[1); }
      ;
 
-declarator : ID		{ printf ("\"%s\" ", $1); }
+declarator : ID		{ printf ("\"%s\" ", ]$[1); }
      | '(' declarator ')'
      ;
 
 %%
 
+#include <assert.h>
 #include <ctype.h>
-#include <strings.h>
+#include <string.h>
 
-main (int argc, char** argv) 
+int
+main (int argc, char** argv)
 {
-  freopen (argv[1], "r", stdin);
+  assert (argc = 2);
+  assert (freopen (argv[1], "r", stdin));
   exit (yyparse ());
 }
 
 #if YYPURE
-int yylex (YYSTYPE *lvalp)
-#define yylval (*lvalp)
+int
+]m4_bmatch([$1], [location],
+[yylex (YYSTYPE *lvalp, YYLTYPE *llocp)],
+[yylex (YYSTYPE *lvalp)])[
 #else
-int yylex ()
+int
+yylex ()
 #endif
 {
   char buffer[256];
   int c;
+
+#if YYPURE
+# define yylval (*lvalp)
+]m4_bmatch([$1], [location],[  (void) llocp;])[
+#endif
+
   while (1) {
     c = getchar ();
     switch (c) {
@@ -118,12 +142,19 @@ yyerror (const char *s)
   return 0;
 }
 
-static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1)
+]]
+m4_bmatch([$2], [stmtMerge],
+[[static YYSTYPE
+stmtMerge (YYSTYPE x0, YYSTYPE x1)
 {
+  /* Use the arguments. */
+  (void) x0;
+  (void) x1;
   printf ("<OR> ");
   return "";
 }
 ]])
+)
 
 AT_DATA([test-input],
 [[
@@ -151,8 +182,8 @@ z + q;
 This is total garbage, but it should be ignored.
 ]])
 
-AT_CHECK([bison types.y], 0, [], ignore)
-AT_CHECK([gcc -o types types.tab.c], 0, [], ignore)
+AT_CHECK([bison types.y -o types.c], 0, [], ignore)
+AT_COMPILE([types])
 ])
 
 m4_define([_AT_RESOLVED_GLR_OUTPUT],
@@ -168,22 +199,22 @@ z q +
 ]])
 
 m4_define([_AT_AMBIG_GLR_OUTPUT],
-[[z q + 
-"x" T <declare> 
-"x" y T <init-declare> 
-x y = 
-x T <cast> y + 
-"x" T <declare> x T <cast> <OR> 
-"y" z q + T <init-declare> y T <cast> z q + = <OR> 
+[[z q +
+"x" T <declare>
+"x" y T <init-declare>
+x y =
+x T <cast> y +
+"x" T <declare> x T <cast> <OR>
+"y" z q + T <init-declare> y T <cast> z q + = <OR>
 y
 z q +
 ]])
 
-m4_define([_AT_GLR_STDERR], 
+m4_define([_AT_GLR_STDERR],
 [[parse error
 ]])
 
-m4_define([_AT_VERBOSE_GLR_STDERR], 
+m4_define([_AT_VERBOSE_GLR_STDERR],
 [[parse error, unexpected ID, expecting '=' or '+' or ')'
 ]])
 
@@ -192,57 +223,63 @@ m4_define([_AT_VERBOSE_GLR_STDERR],
 ## ---------------------------------------------------- ##
 
 AT_SETUP([GLR: Resolve ambiguity, impure, no locations])
-_AT_TEST_GLR_CALC([$1],[],[%dprec 1],[%dprec 2])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_RESOLVED_GLR_OUTPUT, 
+_AT_TEST_GLR_CALC([],[%dprec 1],[%dprec 2])
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_RESOLVED_GLR_OUTPUT,
 	 _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, impure, locations])
-_AT_TEST_GLR_CALC([$1],[%locations],[%dprec 1],[%dprec 2])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_RESOLVED_GLR_OUTPUT, 
+_AT_TEST_GLR_CALC([%locations],[%dprec 1],[%dprec 2])
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_RESOLVED_GLR_OUTPUT,
 	_AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, no locations])
-_AT_TEST_GLR_CALC([$1],[%pure-parser],[%dprec 1],[%dprec 2])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_RESOLVED_GLR_OUTPUT,
+_AT_TEST_GLR_CALC([%pure-parser],[%dprec 1],[%dprec 2])
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_RESOLVED_GLR_OUTPUT,
 	 _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, locations])
-_AT_TEST_GLR_CALC([$1],[%pure-parser
+_AT_TEST_GLR_CALC([%pure-parser
 %locations],[%dprec 1],[%dprec 2])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_RESOLVED_GLR_OUTPUT, 
-	 _AT_GLR_STDERR)
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
+                _AT_RESOLVED_GLR_OUTPUT,
+	        _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, no locations])
-_AT_TEST_GLR_CALC([$1],[],[%merge <stmtMerge>],[%merge <stmtMerge>])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_AMBIG_GLR_OUTPUT, 
-	 _AT_GLR_STDERR)
+_AT_TEST_GLR_CALC([],[%merge <stmtMerge>],[%merge <stmtMerge>])
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
+                _AT_AMBIG_GLR_OUTPUT,
+ 	        _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, locations])
-_AT_TEST_GLR_CALC([$1],[%locations],[%merge <stmtMerge>],[%merge <stmtMerge>])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_AMBIG_GLR_OUTPUT, 
-	 _AT_GLR_STDERR)
+_AT_TEST_GLR_CALC([%locations],[%merge <stmtMerge>],[%merge <stmtMerge>])
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
+                _AT_AMBIG_GLR_OUTPUT,
+	        _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, pure, no locations])
-_AT_TEST_GLR_CALC([$1],[%pure-parser],[%merge <stmtMerge>],[%merge <stmtMerge>])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_AMBIG_GLR_OUTPUT, 
-	 _AT_GLR_STDERR)
+_AT_TEST_GLR_CALC([%pure-parser],[%merge <stmtMerge>],[%merge <stmtMerge>])
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
+                _AT_AMBIG_GLR_OUTPUT,
+	        _AT_GLR_STDERR)
 AT_CLEANUP
 AT_SETUP([GLR: Merge conflicting parses, pure, locations])
-_AT_TEST_GLR_CALC([$1],[%pure-parser
+_AT_TEST_GLR_CALC([%pure-parser
 %locations],[%merge <stmtMerge>],[%merge <stmtMerge>])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, _AT_AMBIG_GLR_OUTPUT, 
-	 _AT_GLR_STDERR)
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
+                _AT_AMBIG_GLR_OUTPUT,
+	        _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Verbose messages, resolve ambiguity, impure, no locations])
-_AT_TEST_GLR_CALC([$1],[%error-verbose],
+_AT_TEST_GLR_CALC([%error-verbose],
 [%merge <stmtMerge>],[%merge <stmtMerge>])
-AT_CHECK([[./types test-input | sed 's/  *$//']], 0, 
-	 _AT_AMBIG_GLR_OUTPUT, _AT_VERBOSE_GLR_STDERR)
+AT_PARSER_CHECK([[./types test-input | sed 's/  *$//']], 0,
+	        _AT_AMBIG_GLR_OUTPUT,
+                _AT_VERBOSE_GLR_STDERR)
 AT_CLEANUP

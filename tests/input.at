@@ -182,8 +182,8 @@ main (void)
 ]])
 
 AT_CHECK([bison input.y -d -v -o input.c])
-AT_CHECK([$CC $CFLAGS $CPPFLAGS main.c input.c -o input], 0, [], [ignore])
-AT_CHECK([./input], 0,
+AT_COMPILE([input], [input.c main.c])
+AT_PARSER_CHECK([./input], 0,
 [[[1],
 ]])
 
