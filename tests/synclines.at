@@ -21,10 +21,12 @@ AT_BANNER([[User Actions.]])
 
 # AT_SYNCLINES_COMPILE(FILE)
 # --------------------------
-# Compile FILE expecting an error, and save in the file stdout the normalized
-# output.
+# Compile FILE expecting an error, and save in the file stdout the
+# normalized output.  Ignore the exit status, since some compilers
+# (e.g. c89 on IRIX 6.5) triger warnings on `#error', instead of
+# errors.
 m4_define([AT_SYNCLINES_COMPILE],
-[AT_CHECK([$CC $CFLAGS $CPPFLAGS -c $1 || (exit 1)], 1, [], [stderr])
+[AT_CHECK([$CC $CFLAGS $CPPFLAGS -c $1 || (exit 1)], [ignore], [], [stderr])
 # In case GCC displays column information, strip it down.
 #
 #   input.y:4:2: #error "4"    or input.y:4.2: #error "4"

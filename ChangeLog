@@ -1,5 +1,11 @@
 2002-11-14  Akim Demaille  <akim@epita.fr>
 
+	* tests/synclines.at (AT_SYNCLINES_COMPILE): Ignore the exit
+	status of the compiler.
+	Reported by Nelson H. F. Beebe.
+
+2002-11-14  Akim Demaille  <akim@epita.fr>
+
 	* tests/atlocal.in (CPPFLAGS): We have config.h.
 	* tests/testsuite.at (AT_DATA_GRAMMAR_PROLOGUE, AT_DATA_GRAMMAR):
 	New.
