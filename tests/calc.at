@@ -61,13 +61,22 @@ static int yygetc (void);
 static void yyungetc (int c);
 
 extern void perror (const char *s);
+
+/* Exercise pre-prologue dependency to %union.  */
+typedef int value_t;
+
 %}
 
 /* Also exercise %union. */
 %union
 {
-  int ival; /* A comment to exercise an old bug. */
+  value_t ival; /* A comment to exercise an old bug. */
 };
+
+/* Exercise post-prologue dependency to %union.  */
+%{
+static void id (YYSTYPE *lval);
+%}
 
 /* Bison Declarations */
 %token CALC_EOF 0 "end of file"
@@ -234,6 +243,11 @@ power (int base, int exponent)
   for (/* Niente */; exponent; --exponent)
     res *= base;
   return res;
+}
+
+void
+id (YYSTYPE* lval)
+{
 }
 
 int

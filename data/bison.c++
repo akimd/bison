@@ -113,7 +113,8 @@ b4_copyright
 /* Using locations.  */
 #define YYLSP_NEEDED b4_locations_flag
 
-b4_prologue
+/* Copy the first part of user declarations.  */
+b4_pre_prologue
 
 /* Tokens.  */
 b4_token_defines(b4_tokens)
@@ -136,6 +137,9 @@ typedef b4_stype
 yystype;
 # define YYSTYPE yystype
 #endif
+
+/* Copy the second part of user declarations.  */
+b4_post_prologue
 
 #line __oline__  "__ofile__"
 #ifndef YYLLOC_DEFAULT

@@ -120,8 +120,8 @@ m4_if(b4_prefix[], [yy], [],
 #endif
 ])
 
-/* Copy the user declarations.  */
-b4_prologue
+/* Copy the first part of user declarations.  */
+b4_pre_prologue
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -154,6 +154,9 @@ typedef struct yyltype
 } yyltype;
 # define YYLTYPE b4_ltype
 #endif
+
+/* Copy the second part of user declarations.  */
+b4_post_prologue
 
 /* Line __line__ of __file__.  */
 #line __oline__ "__ofile__"

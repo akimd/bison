@@ -1,3 +1,20 @@
+2002-04-24  Robert Anisko  <robert@lrde.epita.fr>
+
+	* tests/calc.at: Exercise prologue splitting.
+
+	* data/bison.simple, data/bison.c++: Use `b4_pre_prologue' and
+	`b4_post_prologue' instead of `b4_prologue'.
+
+	* src/output.c (prepare): Add the `pre_prologue' and `post_prologue'
+	muscles.
+	(output): Free pre_prologue_obstack and post_prologue_obstack.
+	* src/files.h, src/files.c (attrs_obstack): Remove.
+	(pre_prologue_obstack, post_prologue_obstack): New.
+	* src/reader.c (copy_definition): Add a parameter to specify the
+	obstack to fill, instead of using attrs_obstack unconditionally.
+	(read_declarations): Pass pre_prologue_obstack to copy_definition if
+	`%union' has not yet been seen, pass post_prologue_obstack otherwise.
+
 2002-04-23  Paul Eggert  <eggert@twinsun.com>
 
 	* data/bison.simple: Remove unnecessary commentary and white

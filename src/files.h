@@ -50,7 +50,8 @@ extern FILE *finput;
 extern struct obstack action_obstack;
 
 /* If semantic parser, output a .h file that defines YYSTYPE... */
-extern struct obstack attrs_obstack;
+extern struct obstack pre_prologue_obstack;
+extern struct obstack post_prologue_obstack;
 
 /* The verbose output. */
 extern struct obstack output_obstack;
