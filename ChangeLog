@@ -1,3 +1,8 @@
+2001-08-27  Marc Autret  <autret_m@epita.fr>
+
+	* src/reader.c (parse_dquoted_param): Rename variable `index' to `i'.
+	This one shadowed a global parameter.
+
 2001-08-24  Marc Autret  <autret_m@epita.fr>
 
 	* src/print_graph.c (node_output_size): Declared POSIX `size_t' type, 

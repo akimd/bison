@@ -883,7 +883,7 @@ parse_dquoted_param (const char *from)
 {
   char buff[32];
   int c;
-  int index;
+  int i;
   
   c = skip_white_space ();
 
@@ -895,7 +895,7 @@ parse_dquoted_param (const char *from)
     }
   
   c = getc (finput);
-  for (index = 0; (c >= '!') && (c <= '~'); index++)
+  for (i = 0; (c >= '!') && (c <= '~'); i++)
     {
       if (c == '"')
 	break;
@@ -907,10 +907,10 @@ parse_dquoted_param (const char *from)
 	    break;
 	}
       
-      buff[index] = c;
+      buff[i] = c;
       c = getc (finput);
     }
-  buff[index] = '\0';
+  buff[i] = '\0';
   
   if (c != '"')
     {
