@@ -37,7 +37,9 @@ A3.  Before you send a bug report, make sure you are using the latest
      did not contain the bug.
 
      If the bug is parser-related, you should include the smallest
-     grammar you can which demonstrates the bug.  The smaller and
+     grammar you can which demonstrates the bug.  The grammar file
+     should also be complete (i.e., I should be able to run it through
+     Bison without having to edit or add anything).  The smaller and
      simpler the grammar, the easier it will be to fix the bug.
 
      Include information about your compilation environment, including
@@ -72,7 +74,7 @@ Q5.  What is involved in being a beta tester?
 
 A5.  It's not terribly involved.  Basically, you would download a test
      release, compile it, and use it to build and run a parser or two.
-     After that, you would either submit a bug report or a message
+     After that, you would submit either a bug report or a message
      saying that everything is okay.  It is important to report
      successes as well as failures because test releases eventually
      become mainstream releases, but only if they are adequately
