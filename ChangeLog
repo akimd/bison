@@ -1,6 +1,10 @@
+2001-08-15  Akim Demaille  <akim@epita.fr>
+
+	* Makefile.maint: Sync with CVS Autoconf.
+
 2001-08-14  Pascal Bart  <pascal.bart@epita.fr>
 
-	* doc/bison.texinfo: Include GNU Free Documentation License from 
+	* doc/bison.texinfo: Include GNU Free Documentation License from
 	`fdl.texi'.
 	* doc/fdl.texi: Add to package.
 
@@ -8,10 +12,10 @@
 
 	Turn on %{source,header}_extension features.
 
-	* src/lex.c (percent_table): Un-CPP out header_extension and 
+	* src/lex.c (percent_table): Un-CPP out header_extension and
 	source_extension.
 	* src/files.c (compute_exts_from_gf): Compare pointers with NULL.
-	(compute_exts_from_src): Remove conditions. It restores priorities 
+	(compute_exts_from_src): Remove conditions. It restores priorities
 	between options.
 
 2001-08-14  Marc Autret  <autret_m@epita.fr>
@@ -22,7 +26,7 @@
 
 2001-08-13  Marc Autret  <autret_m@epita.fr>
 
-	* src/bison.simple (YYSTACK_USE_ALLOCA): Changed to allow users 
+	* src/bison.simple (YYSTACK_USE_ALLOCA): Changed to allow users
 	defining it (defined but null disables alloca).
 
 2001-08-13  Marc Autret  <autret_m@epita.fr>
