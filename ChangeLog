@@ -1,3 +1,18 @@
+2002-04-04  Paul Eggert  <eggert@twinsun.com>
+
+	* doc/bison.texinfo: Update copyright date.
+	(Rpcalc Lexer, Symbols, Token Decl): Don't assume ASCII.
+	(Symbols): Warn about running Bison in one character set,
+	but compiling and/or running in an incompatible one.
+	Warn about character code 256, too.
+
+2002-04-03  Paul Eggert  <eggert@twinsun.com>
+
+	* src/bison.data (YYSTACK_ALLOC): Depend on whether
+	YYERROR_VERBOSE is nonzero, not whether it is defined.
+
+	Merge changes from bison-1_29-branch.
+	
 2002-03-20  Paul Eggert  <eggert@twinsun.com>
 
 	Merge fixes from Debian bison_1.34-1.diff.
