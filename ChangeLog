@@ -1,3 +1,8 @@
+2001-08-04  Pascal Bart  <pascal.bart@epita.fr>
+
+	* tests/atconfig.in (CPPFLAGS): Add.
+	* tests/calc.at (AT_CHECK): Use CPPFLAGS.
+
 2001-08-03  Akim Demaille  <akim@epita.fr>
 
 	Version 1.28b.

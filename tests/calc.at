@@ -293,7 +293,7 @@ AT_DATA_CALC_Y([$1])
 # Specify the output files to avoid problems on different file systems.
 AT_CHECK([bison calc.y -o calc.c patsubst([$1], [--yyerror-verbose])],
          [0], [], [])
-AT_CHECK([$CC $CFLAGS calc.c -o calc], 0, [], [])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS calc.c -o calc], 0, [], [])
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],
