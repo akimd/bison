@@ -1,5 +1,12 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (firsts): Now, also a bitset.
+	Adjust all dependencies.
+	(varsetsize): Remove, now unused.
+	* src/warshall.h, src/warshall.c: Now work on arrays of bitsets.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/print.c: Convert to use bitset.h, not hand coded iterations
 	over ints.
 
