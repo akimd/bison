@@ -1,5 +1,12 @@
 2001-12-22  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output_short_table, output_short_or_char_table):
+	Change the prototype to use `int' for array ranges: some
+	invocations do pass an int, not a short.
+	Reported by Wayne Green.
+
+2001-12-22  Akim Demaille  <akim@epita.fr>
+
 	Some actions of web2c.y are improperly triggered.
 	Reported by Mike Castle.
 

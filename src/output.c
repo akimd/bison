@@ -131,7 +131,7 @@ output_short_or_char_table (struct obstack *oout,
 			    const char *table_name,
 			    short *short_table,
 			    short first_value,
-			    short begin, short end)
+			    int begin, int end)
 {
   int i, j;
 
@@ -169,7 +169,7 @@ output_short_table (struct obstack *oout,
 		    const char *table_name,
 		    short *short_table,
 		    short first_value,
-		    short begin, short end)
+		    int begin, int end)
 {
   output_short_or_char_table (oout, comment, "short", table_name, short_table,
 			      first_value, begin, end);
