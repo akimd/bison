@@ -1,3 +1,8 @@
+2002-02-25  Akim Demaille  <akim@epita.fr>
+
+	* src/bison.simple (yydebug): Fix the comment.
+	From Bruce Lilly.
+
 2002-02-21  Guerrero, Juan Manuel  <st001906@hrz1.hrz.tu-darmstadt.de>
 
 	* src/getargs.c [AS_FILE_NAME] [__DJGPP__]: New macro STRLWR.
