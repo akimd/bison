@@ -1,5 +1,12 @@
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
+	* reader.c (copy_comment): New function, factored out from:
+	(copy_action): Use it.  Removed now unused `match', `ended',
+	`cplus_comment'.
+	(copy_guard): Likewise.
+
+2000-03-17  Akim Demaille  <akim@epita.fr>
+
 	* reader.c (copy_string): New function, factored out from:
 	(copy_action): Use it.
 	(copy_guard): Likewise.
