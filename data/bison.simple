@@ -100,9 +100,9 @@ m4_map_sep([     b4_token_enum], [,
 ],
            [$@])
    };
-   /* POSIX requires `int' for tokens in interfaces.  */
-#  define YYTOKENTYPE int
 # endif
+  /* POSIX requires `int' for tokens in interfaces.  */
+# define YYTOKENTYPE int
 #endif /* !YYTOKENTYPE */
 m4_map([b4_token_define], [$@])
 ])
