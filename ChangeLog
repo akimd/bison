@@ -1,5 +1,9 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/lalr.c (set_goto_map, initialize_F): Use SHIFT_SYMBOL.
+
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c, src/conflicts.h (print_reductions): Move to...
 	* src/print.c: here.
 	(lookaheadset, shiftset): New, used as additional storage by
