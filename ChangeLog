@@ -1,5 +1,11 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (print_reductions): Arrays, not pointers.
+	Use BITISSET.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (print_reductions): Pessimize, but clarify.
 
 	
