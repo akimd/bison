@@ -1,5 +1,10 @@
 2004-12-16  Akim Demaille  <akim@epita.fr>
 
+	* src/print_graph.c (print_graph): Remove layoutalgorithm uses for
+	real.
+
+2004-12-16  Akim Demaille  <akim@epita.fr>
+
 	Use #define to handle the %name-prefix.
 
 	* data/glr.c, data/yacc.c: Comment changes.
