@@ -52,9 +52,15 @@ $2])
 
 # AT_COMPILE(OUTPUT, [SOURCES = OUTPUT.c])
 # ----------------------------------------
-#
 m4_define([AT_COMPILE],
 [AT_CHECK([$CC $CFLAGS $CPPFLAGS m4_default([$2], [$1.c]) -o $1], 0,
+          [], [ignore])])
+
+
+# AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.c])
+# --------------------------------------------
+m4_define([AT_COMPILE_CXX],
+[AT_CHECK([$CXX $CFLAGS $CPPFLAGS m4_default([$2], [$1.c]) -o $1], 0,
           [], [ignore])])
 
 

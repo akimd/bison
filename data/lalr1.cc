@@ -140,7 +140,7 @@ b4_syncline([@oline@], [@ofile@])],
 b4_syncline([@oline@], [@ofile@])[
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
-   Current.last = Rhs[N].last;
+   Current.end = Rhs[N].end;
 #endif
 
 namespace yy
@@ -525,8 +525,10 @@ b4_syncline([@oline@], [@ofile@])[
       /* Return failure if at end of input.  */
       if (looka_ == eof_)
 	goto yyabortlab;
+#if YYDEBUG
       YYCDEBUG << "Discarding token " << looka_
-	     << " (" << name_[ilooka_] << ")." << std::endl;
+  	       << " (" << name_[ilooka_] << ")." << std::endl;
+#endif
       looka_ = empty_;
     }
 
@@ -768,7 +770,7 @@ const yy::]b4_parser_class_name[::TokenNumberType yy::]b4_parser_class_name[::un
 ]b4_epilogue
 dnl
 @output stack.hh
-b4_copyright([2002, 2003])[
+b4_copyright([Stack handling for Bison C++ parsers], [2002, 2003])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
@@ -865,24 +867,69 @@ namespace yy
 #endif // not BISON_STACK_HH]
 dnl
 @output location.hh
-b4_copyright([2002, 2003])[
+b4_copyright([Location class for Bison C++ parsers], [2002, 2003])[
 
 #ifndef BISON_LOCATION_HH
 # define BISON_LOCATION_HH
 
+# include <iostream>
+# include <string>
+
 namespace yy
 {
-  struct Position
+  class Position
   {
+  public:
+    Position ()
+      : filename (), line (1), column (0)
+    {}
+
+    std::string filename;
     int line;
     int column;
   };
 
-  struct Location
+  inline std::ostream&
+  operator<< (std::ostream& ostr, const Position& pos)
   {
-    Position first;
-    Position last;
+    if (pos.filename != "")
+      ostr << pos.filename << ':';
+    ostr << pos.line << '.' << pos.column;
+    return ostr;
+  }
+
+  inline Position
+  operator- (const Position& pos, int col)
+  {
+    Position res (pos);
+    res.column -= col;
+    return res;
+  }
+
+
+  class Location
+  {
+  public:
+    Position begin;
+    Position end;
   };
+
+  /* Don't issue twice the line number when the location is on a single
+     line.  */
+
+  inline std::ostream&
+  operator<< (std::ostream& ostr, const Location& pos)
+  {
+    ostr << pos.begin;
+    if (pos.begin.filename != pos.end.filename)
+      ostr << '-' << pos.end - 1;
+    else if (pos.begin.line != pos.end.line)
+      ostr << '-' << pos.end.line  << '.' << pos.end.column - 1;
+    else if (pos.begin.column != pos.end.column - 1)
+      ostr << '-' << pos.end.column - 1;
+    return ostr;
+  }
+
 }
 
 #endif // not BISON_LOCATION_HH]

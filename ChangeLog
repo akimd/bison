@@ -1,3 +1,40 @@
+2003-02-06  Akim Demaille  <akim@epita.fr>
+
+	* configure.ac (GXX): Rename as...
+	(CXX): this, to keep the original Autoconf semantics.
+	Require 2.57.
+	* data/lalr1.cc: Fix b4_copyright invocations.
+	If YYDEBUG is not defined, don't depend upon name_ being defined.
+	(location.hh): Include string and iostream.
+	(Position::filename): New member.
+	(Position::Position ()): New.
+	(operator<< (Position)): New.
+	(operator- (Position, int)): New.
+	(Location::first, Location::last): Rename as...
+	(Location::begin, Location::end): these, to mock the conventional
+	iterator names.
+	(operator<< (Location)): New.
+	* tests/atlocal.in (CXX): New.
+	* tests/testsuite.at (AT_COMPILE_CXX): New.
+	* tests/calc.at (_AT_DATA_CALC_Y): Adjust yyerror to report the
+	locations in a more synthetic way.
+	(AT_CHECK_PUSHDEFS): AT_YYERROR_SEES_LOC_IF is positive if
+	lalr1.cc is used.
+	Adjust the C locations to match those from Emacs: first column is
+	column 0.
+	Change all the expected results.
+	Conform to the GCS: simplify the locations when applicable.
+	(LOC, VAL, YYLLOC_FORMAL, YYLLOC_ARG, USE_YYLLOC, LEX_FORMALS)
+	(LEX_ARGS, USE_LEX_ARGS, LEX_PRE_FORMALS, LEX_PRE_ARGS): Replace
+	these CPP macros with the m4 macros new defined by...
+	(AT_CHECK_PUSHDEFS): this, i.e.:
+	(AT_LALR1_CC_IF, AT_PURE_LEX_IF, AT_LOC, AT_VAL, AT_LEX_FORMALS)
+	(AT_LEX_ARGS, AT_USE_LEX_ARGS, AT_LEX_PRE_FORMALSm AT_LEX_PRE_ARGS)
+	New macros.
+	(AT_CHECK_POPDEFS): Undefine them.
+	(AT_CHECK_CALC_LALR1_CC): New.
+	Use it for the first lalr1.cc test.
+
 2003-02-04  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (YYLLOC_DEFAULT): Fix its definition: be based on

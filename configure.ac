@@ -18,7 +18,7 @@
 # 02111-1307  USA
 
 # We need a recent Autoconf to run a recent Autotest.
-AC_PREREQ(2.56)
+AC_PREREQ(2.57)
 
 AC_INIT([GNU Bison], [1.875b], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR(config)
@@ -125,7 +125,7 @@ AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
 AC_CHECK_PROGS([VALGRIND], [valgrind])
-AC_CHECK_PROGS([GXX], [g++])
+AC_CHECK_PROGS([CXX], [g++])
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
