@@ -50,16 +50,22 @@ AT_SETUP([%nonassoc and eof])
 AT_DATA([input.y],
 [[
 %{
+#include <config.h>
+/* We don't need a perfect malloc for these tests. */
+#undef malloc
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <error.h>
+
+#if STDC_HEADERS
+# include <stdlib.h>
+#endif
+
 #define YYERROR_VERBOSE 1
-#define yyerror(Msg) \
-do { \
-  fprintf (stderr, "%s\n", Msg); \
-  exit (1); \
-} while (0)
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+  exit (1);
+}
 
 /* The current argument. */
 static const char *input = NULL;

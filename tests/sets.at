@@ -1,5 +1,5 @@
 # Exercising Bison Grammar Sets.                      -*- Autotest -*-
-# Copyright 2001, 2002 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
+
 # AT_EXTRACT_SETS(INPUT, OUTPUT)
 # ------------------------------
 # Extract the information about the grammar sets from a bison
@@ -25,10 +26,10 @@ m4_define([AT_EXTRACT_SETS],
 [AT_DATA([extract.sed],
 [[#n
 /^NULLABLE$/ {
-   :nullable
+   :null
    p
    n
-   /^[ 	]*$/! b nullable
+   /^[ 	]*$/! b null
 }
 /^FIRSTS$/ {
    :firsts
@@ -37,16 +38,16 @@ m4_define([AT_EXTRACT_SETS],
    /^[ 	]*$/! b firsts
 }
 /^FDERIVES$/ {
-   :fderives
+   :fderiv
    p
    n
-   /^[ 	]*$/! b fderives
+   /^[ 	]*$/! b fderiv
 }
 /^DERIVES$/ {
-   :derives
+   :deriv
    p
    n
-   /^[ 	]*$/! b derives
+   /^[ 	]*$/! b deriv
 }
 ]])
 AT_CHECK([sed -f extract.sed $1], 0, [stdout])

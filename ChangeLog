@@ -1,3 +1,11 @@
+2002-04-23  Akim Demaille  <akim@epita.fr>
+
+	* tests/sets.at (AT_EXTRACT_SETS): Don't use 8 char long sed labels.
+	* tests/synclines.at (AT_TEST_SYNCLINE): Be robust to GCC's
+	location with columns.
+	* tests/conflicts.at (%nonassoc and eof): Don't use `error.h'.
+	All reported by Paul Eggert.
+
 2002-04-22  Akim Demaille  <akim@epita.fr>
 
 	* src/reduce.c (dump_grammar): Move to...
