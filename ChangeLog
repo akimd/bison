@@ -1,3 +1,9 @@
+2002-01-29  Paul Eggert  <eggert@twinsun.com>
+
+	* src/bison.simple (YYSIZE_T): Do not define merely because
+	YYSTACK_USE_ALLOCA is nonzero or alloca or _ALLOCA_H are defined.
+	On some platforms, <alloca.h> does not declare YYSTD (size_t).
+
 2002-01-27  Akim Demaille  <akim@epita.fr>
 
 	Fix `%nonassoc and eof'.
