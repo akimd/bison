@@ -34,6 +34,7 @@ extern int no_parser_flag;	/* for -n */
 extern int statistics_flag;
 extern int token_table_flag;   	/* for -k */
 extern int verbose_flag;	/* for -v */
+extern int graph_flag;		/* for -g */
 extern int yacc_flag;  		/* for -y */
 
 void getargs PARAMS ((int argc, char *argv[]));

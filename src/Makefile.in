@@ -103,12 +103,12 @@ LDADD = @INTLLIBS@ ../lib/libbison.a
 
 bin_PROGRAMS = bison
 
-bison_SOURCES = LR0.c closure.c complain.c conflicts.c	    derives.c	    files.c getargs.c gram.c lalr.c lex.c main.c nullable.c     output.c	    print.c reader.c reduce.c symtab.c warshall.c
+bison_SOURCES = LR0.c closure.c complain.c conflicts.c	    derives.c	    files.c getargs.c gram.c lalr.c lex.c main.c nullable.c     output.c	    print.c reader.c reduce.c symtab.c warshall.c vcg.c print_graph.c
 
 
 EXTRA_bison_SOURCES = vmsgetargs.c
 
-noinst_HEADERS = LR0.h closure.h complain.h conflicts.h  derives.h  files.h getargs.h gram.h lalr.h lex.h nullable.h  output.h state.h	 print.h reader.h reduce.h symtab.h warshall.h system.h types.h
+noinst_HEADERS = LR0.h closure.h complain.h conflicts.h  derives.h  files.h getargs.h gram.h lalr.h lex.h nullable.h  output.h state.h	 print.h reader.h reduce.h symtab.h warshall.h system.h types.h  vcg.h vcg_defaults.h print_graph.h
 
 
 pkgdata_DATA = bison.simple bison.hairy
@@ -126,7 +126,7 @@ ANSI2KNR = ../lib/ansi2knr
 bison_OBJECTS =  LR0$U.o closure$U.o complain$U.o conflicts$U.o \
 derives$U.o files$U.o getargs$U.o gram$U.o lalr$U.o lex$U.o main$U.o \
 nullable$U.o output$U.o print$U.o reader$U.o reduce$U.o symtab$U.o \
-warshall$U.o
+warshall$U.o vcg$U.o print_graph$U.o
 bison_LDADD = $(LDADD)
 bison_DEPENDENCIES =  ../lib/libbison.a
 bison_LDFLAGS = 
@@ -148,8 +148,9 @@ GZIP_ENV = --best
 DEP_FILES =  .deps/LR0.P .deps/closure.P .deps/complain.P \
 .deps/conflicts.P .deps/derives.P .deps/files.P .deps/getargs.P \
 .deps/gram.P .deps/lalr.P .deps/lex.P .deps/main.P .deps/nullable.P \
-.deps/output.P .deps/print.P .deps/reader.P .deps/reduce.P \
-.deps/symtab.P .deps/vmsgetargs.P .deps/warshall.P
+.deps/output.P .deps/print.P .deps/print_graph.P .deps/reader.P \
+.deps/reduce.P .deps/symtab.P .deps/vcg.P .deps/vmsgetargs.P \
+.deps/warshall.P
 SOURCES = $(bison_SOURCES) $(EXTRA_bison_SOURCES)
 OBJECTS = $(bison_OBJECTS)
 
@@ -255,6 +256,8 @@ output_.c: output.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/output.c; then echo $(srcdir)/output.c; else echo output.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > output_.c
 print_.c: print.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/print.c; then echo $(srcdir)/print.c; else echo print.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > print_.c
+print_graph_.c: print_graph.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/print_graph.c; then echo $(srcdir)/print_graph.c; else echo print_graph.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > print_graph_.c
 reader_.c: reader.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/reader.c; then echo $(srcdir)/reader.c; else echo reader.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > reader_.c
 reduce_.c: reduce.c $(ANSI2KNR)
@@ -269,14 +272,17 @@ strspn_.c: strspn.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strspn.c; then echo $(srcdir)/strspn.c; else echo strspn.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strspn_.c
 symtab_.c: symtab.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/symtab.c; then echo $(srcdir)/symtab.c; else echo symtab.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > symtab_.c
+vcg_.c: vcg.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vcg.c; then echo $(srcdir)/vcg.c; else echo vcg.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > vcg_.c
 vmsgetargs_.c: vmsgetargs.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vmsgetargs.c; then echo $(srcdir)/vmsgetargs.c; else echo vmsgetargs.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > vmsgetargs_.c
 warshall_.c: warshall.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/warshall.c; then echo $(srcdir)/warshall.c; else echo warshall.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > warshall_.c
 LR0_.o alloca_.o closure_.o complain_.o conflicts_.o derives_.o \
 files_.o getargs_.o gram_.o lalr_.o lex_.o main_.o memchr_.o \
-nullable_.o output_.o print_.o reader_.o reduce_.o stpcpy_.o strndup_.o \
-strnlen_.o strspn_.o symtab_.o vmsgetargs_.o warshall_.o : $(ANSI2KNR)
+nullable_.o output_.o print_.o print_graph_.o reader_.o reduce_.o \
+stpcpy_.o strndup_.o strnlen_.o strspn_.o symtab_.o vcg_.o \
+vmsgetargs_.o warshall_.o : $(ANSI2KNR)
 
 install-pkgdataDATA: $(pkgdata_DATA)
 	@$(NORMAL_INSTALL)

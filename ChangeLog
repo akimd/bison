@@ -1,5 +1,24 @@
 2001-08-06  Marc Autret   <autret_@epita.fr>
 
+	Automaton VCG graph output.
+	Using option ``-g'' or long option ``--graph'', you can generate
+	a gram_filename.vcg file containing a VCG description of the LALR (1)
+	automaton of your grammar.
+
+	* src/main.c: Call to print_graph() function.
+	* src/getargs.h: Update.
+	* src/getargs.c (options): Update to catch `-g' and `--graph' options.
+	(graph_flag): New flag.
+	(longopts): Update.
+	(getargs): Add case `g'.
+	* src/files.c (graph_obstack): New obstack struct.
+	(open_files): Initialize new obstack.
+	(output_files): Saves graph_obstack if required.
+	* src/files.h (graph_obstack): New extern declaration.
+	* src/Makefile.am: Add new source files.
+
+2001-08-06  Marc Autret   <autret_@epita.fr>
+
 	* src/print_graph.c, src/print_graph.h (graph): New.
 	* src/vcg.h: New file.
 	* src/vcg.c: New file, VCG graph handling.
