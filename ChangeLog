@@ -1,5 +1,10 @@
 2001-11-28  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (closure): `b' and `ruleno' denote the same value:
+	keep ruleno only.
+
+2001-11-28  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c (closure): Instead of looping over word in array
 	then bits in words, loop over bits in array.
 
