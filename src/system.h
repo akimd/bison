@@ -79,28 +79,12 @@ char *alloca ();
 extern int errno;
 #endif
 
-#ifndef PARAMS
-# if defined PROTOTYPES || defined __STDC__
-#  define PARAMS(Args) Args
-# else
-#  define PARAMS(Args) ()
-# endif
-#endif
-
-#if HAVE_LIMITS_H
-# include <limits.h>
-#endif
-#ifndef SHRT_MIN
-# define SHRT_MIN (-32768)
-#endif
-#ifndef SHRT_MAX
-# define SHRT_MAX 32767
-#endif
+#include <limits.h>
 
 # include "xalloc.h"
 
 /* From xstrndup.c.  */
-char *xstrndup PARAMS ((const char *s, size_t n));
+char *xstrndup (const char *s, size_t n);
 
 
 /*----------------.
@@ -116,27 +100,27 @@ extern int time_report;
 `---------------------*/
 
 #if !HAVE_DECL_STPCPY
-char *stpcpy PARAMS ((char *dest, const char *src));
+char *stpcpy (char *dest, const char *src);
 #endif
 
 #if !HAVE_DECL_STRCHR
-char *strchr(const char *s, int c);
+char *strchr (const char *s, int c);
 #endif
 
 #if !HAVE_DECL_STRSPN
-size_t strspn(const char *s, const char *accept);
+size_t strspn (const char *s, const char *accept);
 #endif
 
 #if !HAVE_DECL_STRNLEN
-size_t strnlen PARAMS ((const char *s, size_t maxlen));
+size_t strnlen (const char *s, size_t maxlen);
 #endif
 
 #if !HAVE_DECL_MEMCHR
-void *memchr PARAMS ((const void *s, int c, size_t n));
+void *memchr (const void *s, int c, size_t n);
 #endif
 
 #if !HAVE_DECL_MEMRCHR
-void *memrchr PARAMS ((const void *s, int c, size_t n));
+void *memrchr (const void *s, int c, size_t n);
 #endif
 
 
