@@ -44,21 +44,9 @@
 #include <malloc.h>
  #pragma alloca
 #else /* not MSDOS, or __TURBOC__, or _AIX */
-#ifdef __hpux /* This is right for HPUX 10.  */
-#include <alloca.h>
-#endif
-#if 0 /* This was right for HPUX 9.
-	 Unfortunately there is no clean way to distinguish.  */
-#ifdef __hpux
-#ifdef __cplusplus
-extern "C" {
-void *alloca (unsigned int);
-};
-#else /* not __cplusplus */
-void *alloca ();
-#endif /* not __cplusplus */
+#ifdef __hpux /* haible@ilog.fr says this works for HPUX 9 and 10.  */
+#define alloca __builtin_alloca
 #endif /* __hpux */
-#endif /* 0 */
 #endif /* not _AIX */
 #endif /* not MSDOS, or __TURBOC__ */
 #endif /* not sparc.  */
