@@ -56,23 +56,35 @@ m4_define([b4_copyright],
 ## Data Types.  ##
 ## ------------ ##
 
-# b4_sint_type(MAX)
-# -----------------
-# Return the smallest signed int type able to handle the number MAX.
-m4_define([b4_sint_type],
-[m4_if(m4_eval([$1 <= 127]),        [1], [signed char],
-       m4_eval([$1 <= 32767]),      [1], [signed short],
-       [signed int])])
+
+# b4_ints_in(INT1, INT2, LOW, HIGH)
+# ---------------------------------
+# Return 1 iff both INT1 and INT2 are in [LOW, HIGH], 0 otherwise.
+m4_define([b4_ints_in],
+[m4_eval([$3 <= $1 && $1 <= $4 && $3 <= $2 && $2 <= $4])])
 
 
-# b4_uint_type(MAX)
-# -----------------
-# Return the smallest unsigned int type able to handle the number MAX.
-m4_define([b4_uint_type],
-[m4_if(m4_eval([$1 <= 255]),        [1], [unsigned char],
-       m4_eval([$1 <= 65535]),      [1], [unsigned short],
-       [unsigned int])])
+# b4_int_type(MIN, MAX)
+# ---------------------
+# Return the smallest int type able to handle numbers ranging from
+# MIN to MAX (included).
+m4_define([b4_int_type],
+[m4_if(b4_ints_in($@,      [0],   [255]), [1], [unsigned char],
+       b4_ints_in($@,   [-128],   [128]), [1], [signed char],
 
+       b4_ints_in($@,      [0], [65535]), [1], [unsigned short],
+       b4_ints_in($@, [-32768], [32767]), [1], [short],
+
+       m4_eval([0 <= $1]),                [1], [unsigned int],
+
+ 	                                       [int])])
+
+# b4_int_type_for(NAME)
+# ---------------------
+# Return the smallest int type able to handle numbers ranging from
+# `NAME_min' to `NAME_max' (included).
+m4_define([b4_int_type_for],
+[b4_int_type($1_min, $1_max)])
 
 
 ## ------------------------- ##

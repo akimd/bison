@@ -599,12 +599,12 @@ static const unsigned char yyr2[] =
 {
        0,     2,     1,     0,     2,     4,     2
 };
-static const short yydefact[] =
+static const unsigned char yydefact[] =
 {
        3,     0,     0,     2,     0,     0,     0,     3,     4,     3,
        6,     5
 };
-static const short yydefgoto[] =
+static const signed char yydefgoto[] =
 {
       -1,     2,     3,     4,     8
 };
@@ -613,15 +613,15 @@ static const signed char yypact[] =
       -2,    -1,     4,    -8,     0,     2,    -8,    -2,    -8,    -2,
       -8,    -8
 };
-static const short yypgoto[] =
+static const signed char yypgoto[] =
 {
       -8,    -7,    -8,    -8,    -8
 };
-static const signed char yytable[] =
+static const unsigned char yytable[] =
 {
       10,     1,    11,     5,     6,     0,     7,     9
 };
-static const short yycheck[] =
+static const signed char yycheck[] =
 {
        7,     3,     9,     4,     0,    -1,     6,     5
 };

@@ -167,8 +167,8 @@ namespace yy
   template < >
   struct Traits< b4_name >
   {
-    typedef b4_uint_type(b4_translate_max) TokenNumberType;
-    typedef b4_sint_type(b4_rhs_max)       RhsNumberType;
+    typedef b4_int_type_for([b4_translate]) TokenNumberType;
+    typedef b4_int_type_for([b4_rhs])       RhsNumberType;
     typedef int      StateType;
     typedef yystype  SemanticType;
     typedef b4_ltype LocationType;
@@ -223,16 +223,16 @@ namespace yy
     LocationStack location_stack_;
 
     /* Tables.  */
-    static const b4_sint_type(b4_pact_max) pact_[[]];
-    static const b4_sint_type(b4_pact_max) pact_ninf_;
-    static const short defact_[[]];
-    static const short pgoto_[[]];
-    static const short defgoto_[[]];
-    static const b4_sint_type(b4_table_max) table_[[]];
-    static const b4_sint_type(b4_table_max) table_ninf_;
-    static const short check_[[]];
-    static const b4_uint_type(b4_r1_max) r1_[[]];
-    static const b4_uint_type(b4_r2_max) r2_[[]];
+    static const b4_int_type_for([b4_pact]) pact_[[]];
+    static const b4_int_type_for([b4_pact]) pact_ninf_;
+    static const b4_int_type_for([b4_defact]) defact_[[]];
+    static const b4_int_type_for([b4_pgoto]) pgoto_[[]];
+    static const b4_int_type_for([b4_defgoto]) defgoto_[[]];
+    static const b4_int_type_for([b4_table]) table_[[]];
+    static const b4_int_type_for([b4_table]) table_ninf_;
+    static const b4_int_type_for([b4_check]) check_[[]];
+    static const b4_int_type_for([b4_r1]) r1_[[]];
+    static const b4_int_type_for([b4_r2]) r2_[[]];
 
 #if YYDEBUG || YYERROR_VERBOSE
     static const char* const name_[[]];
@@ -241,10 +241,10 @@ namespace yy
     /* More tables, for debugging.  */
 #if YYDEBUG
     static const RhsNumberType rhs_[[]];
-    static const b4_uint_type(b4_prhs_max) prhs_[[]];
-    static const b4_uint_type(b4_rline_max) rline_[[]];
-    static const b4_uint_type(b4_stos_max) stos_[[]];
-    static const short token_number_[[]];
+    static const b4_int_type_for([b4_prhs]) prhs_[[]];
+    static const b4_int_type_for([b4_rline]) rline_[[]];
+    static const b4_int_type_for([b4_stos]) stos_[[]];
+    static const b4_int_type_for([b4_toknum]) token_number_[[]];
 #endif
 
     /* Even more tables.  */
@@ -436,7 +436,7 @@ yy::b4_name::parse ()
     {
       YYCDEBUG << "Reducing via rule " << n_ - 1
 	     << " (line " << rline_[[n_]] << "), ";
-      for (b4_uint_type(b4_prhs_max) i = prhs_[[n_]];
+      for (b4_int_type_for([b4_prhs]) i = prhs_[[n_]];
 	   rhs_[[i]] >= 0; ++i)
 	YYCDEBUG << name_[[rhs_[i]]] << ' ';
       YYCDEBUG << "-> " << name_[[r1_[n_]]] << std::endl;
@@ -629,8 +629,8 @@ yy::b4_name::lex_ ()
 
 /* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-const b4_sint_type(b4_pact_max) yy::b4_name::pact_ninf_ = b4_pact_ninf;
-const b4_sint_type(b4_pact_max)
+const b4_int_type_for([b4_pact]) yy::b4_name::pact_ninf_ = b4_pact_ninf;
+const b4_int_type_for([b4_pact])
 yy::b4_name::pact_[[]] =
 {
   b4_pact
@@ -639,21 +639,21 @@ yy::b4_name::pact_[[]] =
 /* YYDEFACT[[S]] -- default rule to reduce with in state S when YYTABLE
    doesn't specify something else to do.  Zero means the default is an
    error.  */
-const short
+const b4_int_type_for([b4_defact])
 yy::b4_name::defact_[[]] =
 {
   b4_defact
 };
 
 /* YYPGOTO[[NTERM-NUM]].  */
-const short
+const b4_int_type_for([b4_pgoto])
 yy::b4_name::pgoto_[[]] =
 {
   b4_pgoto
 };
 
 /* YYDEFGOTO[[NTERM-NUM]].  */
-const short
+const b4_int_type_for([b4_defgoto])
 yy::b4_name::defgoto_[[]] =
 {
   b4_defgoto
@@ -662,15 +662,15 @@ yy::b4_name::defgoto_[[]] =
 /* YYTABLE[[YYPACT[STATE-NUM]]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-const b4_sint_type(b4_table_max) yy::b4_name::table_ninf_ = b4_table_ninf;
-const b4_sint_type(b4_table_max)
+const b4_int_type_for([b4_table]) yy::b4_name::table_ninf_ = b4_table_ninf;
+const b4_int_type_for([b4_table])
 yy::b4_name::table_[[]] =
 {
   b4_table
 };
 
 /* YYCHECK.  */
-const short
+const b4_int_type_for([b4_check])
 yy::b4_name::check_[[]] =
 {
   b4_check
@@ -679,7 +679,7 @@ yy::b4_name::check_[[]] =
 #if YYDEBUG
 /* STOS_[[STATE-NUM]] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
-const b4_uint_type(b4_stos_max)
+const b4_int_type_for([b4_stos])
 yy::b4_name::stos_[[]] =
 {
   b4_stos
@@ -687,7 +687,7 @@ yy::b4_name::stos_[[]] =
 
 /* TOKEN_NUMBER_[[YYLEX-NUM]] -- Internal token number corresponding
    to YYLEX-NUM.  */
-const short
+const b4_int_type_for([b4_toknum])
 yy::b4_name::token_number_[[]] =
 {
   b4_toknum
@@ -695,14 +695,14 @@ yy::b4_name::token_number_[[]] =
 #endif
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
-const b4_uint_type(b4_r1_max)
+const b4_int_type_for([b4_r1])
 yy::b4_name::r1_[[]] =
 {
   b4_r1
 };
 
 /* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
-const b4_uint_type(b4_r2_max)
+const b4_int_type_for([b4_r2])
 yy::b4_name::r2_[[]] =
 {
   b4_r2
@@ -728,14 +728,14 @@ yy::b4_name::rhs_[[]] =
 
 /* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-const b4_uint_type(b4_prhs_max)
+const b4_int_type_for([b4_prhs])
 yy::b4_name::prhs_[[]] =
 {
   b4_prhs
 };
 
 /* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
-const b4_uint_type(b4_rline_max)
+const b4_int_type_for([b4_rline])
 yy::b4_name::rline_[[]] =
 {
   b4_rline

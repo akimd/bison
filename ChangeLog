@@ -1,5 +1,13 @@
 2002-07-25  Akim Demaille  <akim@epita.fr>
 
+	* data/c.m4 (b4_ints_in, b4_int_type, b4_int_type_for): New,
+	replace...
+	(b4_sint_type, b4_uint_type): these.
+	* data/yacc.c, data/glr.c, data/lalr1.cc: Use b4_int_type_for.
+	* tests/regression.at (Web2c Actions): Adjust.
+
+2002-07-25  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (TIEM_NUMBER_MAX): New.
 	(item_number_of_rule_number, rule_number_of_item_number): Rename
 	as...
