@@ -1,3 +1,9 @@
+2001-08-28  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/output.c (output_definitions): New function, which copies 
+	attrs_obstack in the '%%definitions' directive.
+	* src/bison.simple: Add `%%definitions'.
+
 2001-08-28  Marc Autret  <autret_m@epita.fr>
 
 	* config/depcomp: New file.

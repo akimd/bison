@@ -33,6 +33,9 @@
 
 #include <stdio.h>
 
+/* Copy the user declarations.  */
+%%definitions
+
 #ifndef __cplusplus
 # ifndef __STDC__
 #  define const
