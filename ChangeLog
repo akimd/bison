@@ -1,10 +1,28 @@
 2002-06-20  Akim Demaille  <akim@epita.fr>
 
+	* src/symtab.h, src/symtab.c (symbol_t): printer and
+	printer_location are new members.
+	(symbol_printer_set): New.
+	* src/parse-gram.y (PERCENT_PRINTER): New token.
+	Handle its associated rule.
+	* src/scan-gram.l: Adjust.
+	(handle_destructor_at, handle_destructor_dollar): Rename as...
+	(handle_symbol_code_at, handle_symbol_code_dollar): these.
+	* src/output.c (symbol_printers_output): New.
+	(output_skeleton): Call it.
+	* data/bison.simple (yysymprint): New.  Cannot be named yyprint
+	since there are already many grammar files with a user `yyprint'.
+	Replace the calls to YYPRINT to calls to yysymprint.
+	* tests/calc.at: Adjust.
+	* tests/torture.at (AT_DATA_STACK_TORTURE): Remove YYPRINT: it was
+	taking advantage of parser very internal details (stack size!).
+
+2002-06-20  Akim Demaille  <akim@epita.fr>
+
 	* src/scan-gram.l: Complete the scanner with the missing patterns
 	to pacify Flex.
 	Use `quote' and `symbol_tag_get' where appropriate.
 
-	
 2002-06-19  Akim Demaille  <akim@epita.fr>
 
 	* tests/actions.at (Destructors): Augment to test locations.

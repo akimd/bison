@@ -671,6 +671,10 @@ int yyparse (void);
 #if defined (__STDC__) || defined (__cplusplus)
 static void yydestructor (int yytype,
 			  YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]));
+# if YYDEBUG
+static void yysymprint (FILE* out, int yytype,
+			YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]));
+# endif
 #endif
 
 m4_divert_push([KILL])# ======================== M4 code.
@@ -887,14 +891,9 @@ yybackup:
 	which are defined only if `YYDEBUG' is set.  */
       if (yydebug)
 	{
-	  YYFPRINTF (stderr, "Next token is %d (%s",
-		     yychar, yytname[yychar1]);
-	  /* Give the individual parser a way to print the precise
-	     meaning of a token, for further debugging info.  */
-# ifdef YYPRINT
-	  YYPRINT (stderr, yychar, yylval);
-# endif
-	  YYFPRINTF (stderr, ")\n");
+	  YYFPRINTF (stderr, "Next token is ");
+	  yysymprint (stderr, yychar1, yylval]b4_location_if([, yyloc])[);
+	  YYFPRINTF (stderr, "\n");
 	}
 #endif
     }
@@ -1113,21 +1112,11 @@ yyerrlab1:
 #if YYDEBUG
 	      if (yydebug)
 		{
-		  if (yystos[*yyssp] < YYNTOKENS)
-		    {
-		      YYFPRINTF (stderr, "Error: popping token %d (%s",
-				 yytoknum[yystos[*yyssp]],
-				 yytname[yystos[*yyssp]]);
-# ifdef YYPRINT
-		      YYPRINT (stderr, yytoknum[yystos[*yyssp]], *yyvsp);
-# endif
-		      YYFPRINTF (stderr, ")\n");
-		    }
-		  else
-		    {
-		      YYFPRINTF (stderr, "Error: popping nonterminal (%s)\n",
-				 yytname[yystos[*yyssp]]);
-		    }
+		  YYFPRINTF (stderr, "Error: popping ");
+		  yysymprint (stderr,
+			      yystos[*yyssp],
+			      *yyvsp]b4_location_if([, *yylsp])[);
+		  YYFPRINTF (stderr, "\n");
 		}
 #endif
 	      yydestructor (yystos[*yyssp], *yyvsp]b4_location_if([, *yylsp])[);
@@ -1168,20 +1157,11 @@ yyerrlab1:
 #if YYDEBUG
       if (yydebug)
 	{
-	  if (yystos[yystate] < YYNTOKENS)
-	    {
-	      YYFPRINTF (stderr, "Error: popping token %d (%s",
-			 yytoknum[yystos[yystate]], yytname[yystos[yystate]]);
-# ifdef YYPRINT
-	      YYPRINT (stderr, yytoknum[yystos[yystate]], *yyvsp);
-# endif
-	      YYFPRINTF (stderr, ")\n");
-	    }
-	  else
-	    {
-	      YYFPRINTF (stderr, "Error: popping nonterminal (%s)\n",
-			 yytname[yystos[yystate]]);
-	    }
+	  YYFPRINTF (stderr, "Error: popping ");
+	  yysymprint (stderr,
+		      yystos[*yyssp],
+		      *yyvsp]b4_location_if([, *yylsp])[);
+	  YYFPRINTF (stderr, "\n");
 	}
 #endif
 
@@ -1247,9 +1227,9 @@ yyreturn:
 ]}
 
 
-/*-------------------------------------------------.
-| Release the memory associated to SYMBOL-NUMBER.  |
-`-------------------------------------------------*/
+/*-----------------------------------------------.
+| Release the memory associated to this symbol.  |
+`-----------------------------------------------*/
 
 m4_divert_push([KILL])# M4 code.
 # b4_symbol_destructor(SYMBOL-NUMBER, DESTRUCTOR, TYPE-NAME)
@@ -1274,11 +1254,52 @@ yydestructor (int yytype,
     {
 m4_map([b4_symbol_destructor], m4_defn([b4_symbol_destructors]))dnl
       default:
-        YYDPRINTF ((stderr, "yydestructor: unknown symbol type: %d (%s)\n",
-		    yytype, yytname[[yytype]]));
         break;
     }
 }
+
+
+#if YYDEBUG
+/*---------------------------.
+| Print this symbol on OUT.  |
+`---------------------------*/
+
+m4_divert_push([KILL])# M4 code.
+# b4_symbol_printer(SYMBOL-NUMBER, PRINTER, TYPE-NAME)
+# ----------------------------------------------------------
+m4_define([b4_symbol_printer],
+[m4_pushdef([b4_dollar_dollar], [yyvalue.$6])dnl
+m4_pushdef([b4_at_dollar], [yylocation])dnl
+      case $4: /* $3 */
+#line $2 "$1"
+        $5;
+#line __oline__ "__ofile__"
+        break;
+m4_popdef([b4_at_dollar])dnl
+m4_popdef([b4_dollar_dollar])])
+
+m4_divert_pop([KILL])dnl# End of M4 code.
+static void
+yysymprint (FILE* out, int yytype,
+	    YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]))
+{
+  if (yytype < YYNTOKENS)
+    YYFPRINTF (out, "token %d (%s ", yytoknum[[yytype]], yytname[[yytype]]);
+  else
+    YYFPRINTF (out, "nterm %s (", yytname[[yytype]]);
+# ifdef YYPRINT
+  YYPRINT (out, yytype, yyvalue);
+# else
+  switch (yytype)
+    {
+m4_map([b4_symbol_printer], m4_defn([b4_symbol_printers]))dnl
+      default:
+        break;
+    }
+# endif /* !defined YYPRINT. */
+  YYFPRINTF (out, ")");
+}
+#endif /* YYDEBUG. */
 
 b4_epilogue
 m4_if(b4_defines_flag, 0, [],

@@ -136,6 +136,7 @@ blanks   [ \t\f]+
   "%nterm"                return PERCENT_NTERM;
   "%output"               return PERCENT_OUTPUT;
   "%prec"                 return PERCENT_PREC;
+  "%printer"              return PERCENT_PRINTER;
   "%pure"[-_]"parser"     return PERCENT_PURE_PARSER;
   "%right"                return PERCENT_RIGHT;
   "%skeleton"             return PERCENT_SKELETON;
@@ -524,7 +525,7 @@ blanks   [ \t\f]+
 %%
 
 /*------------------------------------------------------------------.
-| CP is pointing to a wannabee semantic value (i.e., a `$').        |
+| TEXT is pointing to a wannabee semantic value (i.e., a `$').      |
 |                                                                   |
 | Possible inputs: $[<TYPENAME>]($|integer)                         |
 |                                                                   |
@@ -532,11 +533,10 @@ blanks   [ \t\f]+
 `------------------------------------------------------------------*/
 
 static inline void
-handle_action_dollar (char *cp, location_t location)
+handle_action_dollar (char *text, location_t location)
 {
   const char *type_name = NULL;
-
-  ++cp;
+  char *cp = text + 1;
 
   /* Get the type name if explicit. */
   if (*cp == '<')
@@ -588,31 +588,24 @@ handle_action_dollar (char *cp, location_t location)
     }
   else
     {
-      char buf[] = "$c";
-      buf[1] = *cp;
-      complain_at (location, _("%s is invalid"), quote (buf));
+      complain_at (location, _("%s is invalid"), quote (text));
     }
 }
 
 
-/*---------------------------------------.
-| CP is pointing to $$ in a destructor.  |
-`---------------------------------------*/
+/*---------------------------------------------------------------.
+| TEXT is expexted tp be $$ in some code associated to a symbol: |
+| destructor or printer.                                         |
+`---------------------------------------------------------------*/
 
 static inline void
-handle_destructor_dollar (char *cp, location_t location)
+handle_symbol_code_dollar (char *text, location_t location)
 {
-  ++cp;
+  char *cp = text + 1;
   if (*cp == '$')
-    {
-      obstack_sgrow (&string_obstack, "]b4_dollar_dollar[");
-    }
+    obstack_sgrow (&string_obstack, "]b4_dollar_dollar[");
   else
-    {
-      char buf[] = "$c";
-      buf[1] = *cp;
-      complain_at (location, _("%s is invalid"), quote (buf));
-    }
+    complain_at (location, _("%s is invalid"), quote (text));
 }
 
 
@@ -632,7 +625,8 @@ handle_dollar (braced_code_t braced_code_kind,
       break;
 
     case destructor_braced_code:
-      handle_destructor_dollar (text, location);
+    case printer_braced_code:
+      handle_symbol_code_dollar (text, location);
       break;
     }
 }
@@ -646,21 +640,21 @@ handle_dollar (braced_code_t braced_code_kind,
 static inline void
 handle_action_at (char *text, location_t location)
 {
+  char *cp = text + 1;
   locations_flag = 1;
-  ++text;
 
-  if (*text == '$')
+  if (*cp == '$')
     {
       obstack_sgrow (&string_obstack, "]b4_lhs_location[");
     }
-  else if (isdigit (*text) || *text == '-')
+  else if (isdigit (*cp) || *cp == '-')
     {
       /* RULE_LENGTH is the number of values in the current rule so
 	 far, which says where to find `$0' with respect to the top of
 	 the stack.  It is not the same as the rule->length in the
 	 case of mid rule actions.  */
       int rule_length = symbol_list_length (current_rule->next);
-      int n = strtol (text, &text, 10);
+      int n = strtol (cp, &cp, 10);
 
       if (n > rule_length)
 	complain_at (location, _("invalid value: %s%d"), "@", n);
@@ -670,31 +664,24 @@ handle_action_at (char *text, location_t location)
     }
   else
     {
-      char buf[] = "@c";
-      buf[1] = *text;
-      complain_at (location, _("%s is invalid"), quote (buf));
+      complain_at (location, _("%s is invalid"), quote (text));
     }
 }
 
 
-/*--------------------------------------------.
-| TEXT is expexted tp be @$ in a destructor.  |
-`--------------------------------------------*/
+/*---------------------------------------------------------------.
+| TEXT is expexted tp be @$ in some code associated to a symbol: |
+| destructor or printer.                                         |
+`---------------------------------------------------------------*/
 
 static inline void
-handle_destructor_at (char *text, location_t location)
+handle_symbol_code_at (char *text, location_t location)
 {
-  ++text;
-  if (*text == '$')
-    {
-      obstack_sgrow (&string_obstack, "]b4_at_dollar[");
-    }
+  char *cp = text + 1;
+  if (*cp == '$')
+    obstack_sgrow (&string_obstack, "]b4_at_dollar[");
   else
-    {
-      char buf[] = "$c";
-      buf[1] = *text;
-      complain_at (location, _("%s is invalid"), quote (buf));
-    }
+    complain_at (location, _("%s is invalid"), quote (text));
 }
 
 
@@ -714,7 +701,8 @@ handle_at (braced_code_t braced_code_kind,
       break;
 
     case destructor_braced_code:
-      handle_destructor_at (text, location);
+    case printer_braced_code:
+      handle_symbol_code_at (text, location);
       break;
     }
 }

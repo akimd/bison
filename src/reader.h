@@ -52,7 +52,8 @@ int gram_parse (void *control);
 typedef enum braced_code_e
   {
     action_braced_code,
-    destructor_braced_code
+    destructor_braced_code,
+    printer_braced_code
   } braced_code_t;
 /* FIXME: This is really a dirty hack which demonstrates that we
    should probably not try to parse the actions now.  */

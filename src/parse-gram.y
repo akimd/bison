@@ -103,9 +103,13 @@ braced_code_t current_braced_code = action_braced_code;
 
 %token PERCENT_TOKEN       "%token"
 %token PERCENT_NTERM       "%nterm"
+
 %token PERCENT_TYPE        "%type"
 %token PERCENT_DESTRUCTOR  "%destructor"
+%token PERCENT_PRINTER     "%printer"
+
 %token PERCENT_UNION       "%union"
+
 %token PERCENT_LEFT        "%left"
 %token PERCENT_RIGHT       "%right"
 %token PERCENT_NONASSOC    "%nonassoc"
@@ -209,6 +213,16 @@ grammar_declaration:
       symbol_list_t *list;
       for (list = $4; list; list = list->next)
 	symbol_destructor_set (list->sym, list->location, $3);
+      symbol_list_free ($4);
+      current_braced_code = action_braced_code;
+    }
+| "%printer"
+    { current_braced_code = printer_braced_code; }
+  BRACED_CODE symbols.1
+    {
+      symbol_list_t *list;
+      for (list = $4; list; list = list->next)
+	symbol_printer_set (list->sym, $3, list->location);
       symbol_list_free ($4);
       current_braced_code = action_braced_code;
     }

@@ -371,9 +371,6 @@ AT_DATA([input.y],
 ]$1[
   static int yylex (void);
   static void yyerror (const char *msg);
-#define YYPRINT(File, Type, Value)                   \
-  fprintf (File, " (%d, stack size = %d, max = %d)", \
-           Value, yyssp - yyss + 1, yystacksize);
 %}
 %error-verbose
 %debug

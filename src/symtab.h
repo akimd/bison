@@ -59,11 +59,12 @@ struct symbol_s
   /* The location of its first occurence.  */
   location_t location;
 
-  /* Its %type and associated destructor.  */
+  /* Its %type and associated printer and destructor.  */
   char *type_name;
   char *destructor;
   location_t destructor_location;
-
+  char *printer;
+  location_t printer_location;
 
   symbol_number_t number;
   short prec;
@@ -115,6 +116,10 @@ void symbol_type_set PARAMS ((symbol_t *symbol, location_t location,
 /* Set the DESTRUCTOR associated to SYMBOL.  */
 void symbol_destructor_set PARAMS ((symbol_t *symbol, location_t location,
 				    char *destructor));
+
+/* Set the PRINTER associated to SYMBOL.  */
+void symbol_printer_set PARAMS ((symbol_t *symbol,
+				 char *printer, location_t location));
 
 /* Set the PRECEDENCE associated to SYMBOL.  Ensures that SYMBOL is a
    terminal.  Does nothing if invoked with UNDEF_ASSOC as ASSOC.  */
