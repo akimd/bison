@@ -1,5 +1,11 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (allocate_itemsets): Don't loop over ritem: loop over
+	the RHS of the rules.
+	* src/output.c (output_gram): Likewise.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (rule_t): `lhs' is now a pointer to the symbol's
 	bucket.
 	Adjust all dependencies.
