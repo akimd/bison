@@ -385,8 +385,10 @@ yy::]b4_parser_class_name[::parse ()
     goto yyacceptlab;
 
   /* Shift the lookahead token.  */
+#if YYDEBUG
   YYCDEBUG << "Shifting token " << looka_
-	 << " (" << name_[ilooka_] << "), ";
+           << " (" << name_[ilooka_] << "), ";
+#endif
 
   /* Discard the token being shifted unless it is eof.  */
   if (looka_ != eof_)

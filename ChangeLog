@@ -1,3 +1,8 @@
+2003-02-04  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc: If YYDEBUG is not defined, don't depend upon
+	name_ being defined.
+
 2003-02-03  Paul Eggert  <eggert@twinsun.com>
 
 	* src/gram.h (start_symbol): Remove unused decl.
