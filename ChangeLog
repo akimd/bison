@@ -1,3 +1,9 @@
+2001-07-14  Akim Demaille  <akim@epita.fr>
+
+	* config/: New.
+	* configure.in: Require Autoconf 2.50.
+	Update to gettext 0.10.38.
+
 2001-03-16  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo: ANSIfy the examples.

@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -57,7 +57,10 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
 AT_TESTPATH = @AT_TESTPATH@
+BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -67,15 +70,15 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 GENCAT = @GENCAT@
+GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
-GT_NO = @GT_NO@
-GT_YES = @GT_YES@
-INCLUDE_LOCALE_H = @INCLUDE_LOCALE_H@
 INSTOBJEXT = @INSTOBJEXT@
-INTLDEPS = @INTLDEPS@
+INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
+LIBICONV = @LIBICONV@
 LIBOBJS = @LIBOBJS@
 M4 = @M4@
 MAKEINFO = @MAKEINFO@
@@ -90,24 +93,23 @@ USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WARNING_CFLAGS = @WARNING_CFLAGS@
-l = @l@
 
 AUTOMAKE_OPTIONS = 1.4 check-news readme-alpha
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = intl po lib src doc m4 tests
+SUBDIRS = config intl po lib src doc m4 tests
 
 EXTRA_DIST = REFERENCES configure.bat OChangeLog THANKS
 
 DISTCLEANFILES = intl/libintl.h
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = 
 DIST_COMMON =  README ./stamp-h.in ABOUT-NLS AUTHORS COPYING ChangeLog \
 INSTALL Makefile.am Makefile.in NEWS README-alpha THANKS aclocal.m4 \
-config.hin configure configure.in install-sh missing mkinstalldirs
+config.hin configure configure.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -123,13 +125,14 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-$(ACLOCAL_M4):  configure.in  m4/atconfig.m4 m4/c-bs-a.m4 m4/error.m4 \
-		m4/gettext.m4 m4/lcmessage.m4 m4/m4.m4 m4/malloc.m4 \
+$(ACLOCAL_M4):  configure.in  m4/atconfig.m4 m4/c-bs-a.m4 m4/codeset.m4 \
+		m4/error.m4 m4/gettext.m4 m4/glibc21.m4 m4/iconv.m4 \
+		m4/isc-posix.m4 m4/lcmessage.m4 m4/m4.m4 m4/malloc.m4 \
 		m4/mbstate_t.m4 m4/prereq.m4 m4/progtest.m4 \
 		m4/realloc.m4 m4/strerror_r.m4 m4/warning.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
-config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
+config.status: $(srcdir)/configure.in $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
 $(srcdir)/configure: $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)

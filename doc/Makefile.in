@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -57,7 +57,10 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
 AT_TESTPATH = @AT_TESTPATH@
+BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -67,15 +70,15 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 GENCAT = @GENCAT@
+GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
-GT_NO = @GT_NO@
-GT_YES = @GT_YES@
-INCLUDE_LOCALE_H = @INCLUDE_LOCALE_H@
 INSTOBJEXT = @INSTOBJEXT@
-INTLDEPS = @INTLDEPS@
+INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
+LIBICONV = @LIBICONV@
 LIBOBJS = @LIBOBJS@
 M4 = @M4@
 MAKEINFO = @MAKEINFO@
@@ -90,7 +93,6 @@ USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WARNING_CFLAGS = @WARNING_CFLAGS@
-l = @l@
 
 AUTOMAKE_OPTIONS = 1.4
 
@@ -100,10 +102,11 @@ man_MANS = bison.1
 EXTRA_DIST = FAQ bison.1 bison.rnh refcard.tex
 
 CLEANFILES = refcard.dvi refcard.log refcard.ps
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
 TEXI2DVI = texi2dvi
+TEXINFO_TEX = $(top_srcdir)/config/texinfo.tex
 INFO_DEPS = bison.info
 DVIS = bison.dvi
 TEXINFOS = bison.texinfo
@@ -134,7 +137,7 @@ $(srcdir)/version.texi: stamp-vti
 	@:
 
 $(srcdir)/stamp-vti: bison.texinfo $(top_srcdir)/configure.in
-	@echo "@set UPDATED `$(SHELL) $(srcdir)/mdate-sh $(srcdir)/bison.texinfo`" > vti.tmp
+	@echo "@set UPDATED `$(SHELL) $(top_srcdir)/config/mdate-sh $(srcdir)/bison.texinfo`" > vti.tmp
 	@echo "@set EDITION $(VERSION)" >> vti.tmp
 	@echo "@set VERSION $(VERSION)" >> vti.tmp
 	@cmp -s vti.tmp $(srcdir)/version.texi \
@@ -165,7 +168,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .texi.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(top_srcdir)/config/texinfo.tex:$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .texi:
@@ -184,7 +187,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .texinfo.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(top_srcdir)/config/texinfo.tex:$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .txi.info:
@@ -193,7 +196,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .txi.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(top_srcdir)/config/texinfo.tex:$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .txi:
@@ -232,7 +235,7 @@ uninstall-info:
 	else ii=; fi; \
 	list='$(INFO_DEPS)'; \
 	for file in $$list; do \
-	  test -z "$ii" \
+	  test -z "$$ii" \
 	    || install-info --info-dir=$(DESTDIR)$(infodir) --remove $$file; \
 	done
 	@$(NORMAL_UNINSTALL)

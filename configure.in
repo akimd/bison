@@ -1,6 +1,7 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.49c)
-AC_INIT(src/reduce.c)
+AC_PREREQ(2.50)
+AC_INIT(bison, 1.28a, bug-bison@gnu.org)
+AC_CONFIG_AUX_DIR(config)
 AM_INIT_AUTOMAKE(bison, 1.28a)
 AM_CONFIG_HEADER(config.h:config.hin)
 
@@ -12,7 +13,6 @@ AC_PROG_CC
 AC_MINIX
 AC_ISC_POSIX
 AM_PROG_CC_STDC
-AC_PROG_INSTALL
 AC_PROG_RANLIB
 # GNU M4 is needed to build the testsuite.
 BISON_AC_PROG_GNU_M4
@@ -26,10 +26,8 @@ AC_ARG_ENABLE(gcc-warnings,
 [case "${enableval}" in
    yes|no) ;;
    *)      AC_MSG_ERROR([bad value ${enableval} for gcc-warnings option]) ;;
- esac
-],
-enableval=no
-)
+ esac],
+              [enableval=no])
 if test "${enableval}" = yes; then
   BISON_WARNING(-Wall)
   BISON_WARNING(-W)
@@ -80,6 +78,7 @@ LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
 AC_SUBST(LIBOBJS)
 
 AC_OUTPUT([Makefile
+           config/Makefile
            intl/Makefile po/Makefile.in
            lib/Makefile src/Makefile doc/Makefile
            m4/Makefile

@@ -1,5 +1,4 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0 à
-partir bison.texinfo.
+This is bison.info, produced by makeinfo version 4.0 from bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -642,14 +641,18 @@ declarations, but it requires some additional C functions for support.
 definition, which is kept in the header `calc.h', is as follows.  It
 provides for either functions or variables to be placed in the table.
 
+     /* Fonctions type.                                   */
+     typedef double (*func_t) (double);
+     
      /* Data type for links in the chain of symbols.      */
      struct symrec
      {
        char *name;  /* name of symbol                     */
        int type;    /* type of symbol: either VAR or FNCT */
-       union {
-         double var;           /* value of a VAR          */
-         double (*fnctptr)();  /* value of a FNCT         */
+       union
+       {
+         double var;                  /* value of a VAR   */
+         func_t fnctptr;              /* value of a FNCT  */
        } value;
        struct symrec *next;    /* link field              */
      };
@@ -659,8 +662,8 @@ provides for either functions or variables to be placed in the table.
      /* The symbol table: a chain of `struct symrec'.     */
      extern symrec *sym_table;
      
-     symrec *putsym ();
-     symrec *getsym ();
+     symrec *putsym (const char *, func_t);
+     symrec *getsym (const char *);
 
    The new version of `main' includes a call to `init_table', a
 function that initializes the symbol table.  Here it is, and
@@ -684,22 +687,22 @@ function that initializes the symbol table.  Here it is, and
      struct init
      {
        char *fname;
-       double (*fnct)();
+       double (*fnct)(double);
      };
      
      struct init arith_fncts[] =
      {
-       "sin", sin,
-       "cos", cos,
+       "sin",  sin,
+       "cos",  cos,
        "atan", atan,
-       "ln", log,
-       "exp", exp,
+       "ln",   log,
+       "exp",  exp,
        "sqrt", sqrt,
        0, 0
      };
      
      /* The symbol table: a chain of `struct symrec'.  */
-     symrec *sym_table = (symrec *)0;
+     symrec *sym_table = (symrec *) 0;
      
      /* Put arithmetic functions in table. */
      void

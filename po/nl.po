@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2001-02-21 11:16+0100\n"
+"POT-Creation-Date: 2001-03-16 16:02+0100\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -124,22 +124,22 @@ msgstr "%s afgeleiden"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:71
+#: src/getargs.c:80
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr ""
 
-#: src/getargs.c:75
+#: src/getargs.c:84
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr ""
 
-#: src/getargs.c:79
+#: src/getargs.c:88
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
 msgstr ""
 
-#: src/getargs.c:85
+#: src/getargs.c:94
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -147,9 +147,10 @@ msgid ""
 "  -y, --yacc      emulate POSIX yacc\n"
 msgstr ""
 
-#: src/getargs.c:92
+#: src/getargs.c:101
 msgid ""
 "Parser:\n"
+"  -S, --skeleton=FILE        specify the skeleton to use\n"
 "  -t, --debug                instrument the parser for debugging\n"
 "      --locations            enable locations computation\n"
 "  -p, --name-prefix=PREFIX   prepend PREFIX to the external symbols\n"
@@ -159,7 +160,7 @@ msgid ""
 "  -k, --token-table          include a table of token names\n"
 msgstr ""
 
-#: src/getargs.c:104
+#: src/getargs.c:114
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -168,38 +169,39 @@ msgid ""
 "  -o, --output-file=FILE     leave output to FILE\n"
 msgstr ""
 
-#: src/getargs.c:112
+#: src/getargs.c:122
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:126
+#: src/getargs.c:136
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr ""
 
-#: src/getargs.c:131
-msgid "Copyright 1984, 1986, 1989, 1992, 2000 Free Software Foundation, Inc.\n"
+#: src/getargs.c:141
+msgid ""
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
 
-#: src/getargs.c:135
+#: src/getargs.c:145
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:214
+#: src/getargs.c:226
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/getargs.c:222
+#: src/getargs.c:233
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: geen grammatica bestand gegeven\n"
 
-#: src/getargs.c:226
+#: src/getargs.c:237
 #, fuzzy, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argumenten genegeerd na '%s'\n"
@@ -672,10 +674,10 @@ msgstr "Start symbool %s is niet afkomstig uit een zin"
 msgid ""
 "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
 msgstr ""
-"gereduceerd %s gedefinieerd %d terminal%s, %d nietterminal%s, en %d "
-"productie%s.\n"
+"gereduceerd %s gedefinieerd %d terminal%s, %d nietterminal%s, en %d productie"
+"%s.\n"
 
-#: lib/error.c:102
+#: lib/error.c:117
 msgid "Unknown system error"
 msgstr ""
 

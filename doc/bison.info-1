@@ -1,5 +1,4 @@
-Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0 à
-partir bison.texinfo.
+This is bison.info, produced by makeinfo version 4.0 from bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).

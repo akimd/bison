@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28a\n"
-"POT-Creation-Date: 2001-02-21 11:16+0100\n"
+"POT-Creation-Date: 2001-03-16 16:02+0100\n"
 "PO-Revision-Date: 2000-04-12 13:16+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -125,16 +125,16 @@ msgstr "%s выводит"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:71
+#: src/getargs.c:80
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison генерирует анализаторы для грамматик LALR(1).\n"
 
-#: src/getargs.c:75
+#: src/getargs.c:84
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Использование: %s [КЛЮЧИ]... ФАЙЛ\n"
 
-#: src/getargs.c:79
+#: src/getargs.c:88
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -143,7 +143,7 @@ msgstr ""
 "является обязательным для короткой формы.  То же касается необязательных\n"
 "аргументов.\n"
 
-#: src/getargs.c:85
+#: src/getargs.c:94
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -155,10 +155,11 @@ msgstr ""
 "  -V, --version   вывести информацию о версии и выйти\n"
 "  -y, --yacc      эмулировать POSIX yacc\n"
 
-#: src/getargs.c:92
+#: src/getargs.c:101
 #, fuzzy
 msgid ""
 "Parser:\n"
+"  -S, --skeleton=FILE        specify the skeleton to use\n"
 "  -t, --debug                instrument the parser for debugging\n"
 "      --locations            enable locations computation\n"
 "  -p, --name-prefix=PREFIX   prepend PREFIX to the external symbols\n"
@@ -175,7 +176,7 @@ msgstr ""
 "  -r, --raw                  нумеровать лексемы, начиная с 3\n"
 "  -k, --token-table          включить таблицу имен лексем\n"
 
-#: src/getargs.c:104
+#: src/getargs.c:114
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
@@ -189,38 +190,39 @@ msgstr ""
 "  -b, --file-prefix=ПРЕФИКС  указать ПРЕФИКС для выходных файлов\n"
 "  -o, --output-file=ФАЙЛ     поместить результат в ФАЙЛ\n"
 
-#: src/getargs.c:112
+#: src/getargs.c:122
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Ошибки сообщайте по адресу <bug-bison@gnu.org>.\n"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:126
+#: src/getargs.c:136
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr ""
 
-#: src/getargs.c:131
-msgid "Copyright 1984, 1986, 1989, 1992, 2000 Free Software Foundation, Inc.\n"
+#: src/getargs.c:141
+msgid ""
+"Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
 
-#: src/getargs.c:135
+#: src/getargs.c:145
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/getargs.c:214
+#: src/getargs.c:226
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/getargs.c:222
+#: src/getargs.c:233
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: не задан файл с грамматикой\n"
 
-#: src/getargs.c:226
+#: src/getargs.c:237
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: лишние аргументы после `%s' игнорированы\n"
@@ -692,7 +694,7 @@ msgstr ""
 "выведенный %s определяет %d терминалов%s, %d нетерминалов%s, и %d правил "
 "вывода%s.\n"
 
-#: lib/error.c:102
+#: lib/error.c:117
 msgid "Unknown system error"
 msgstr ""
 

@@ -8,7 +8,8 @@
 /* Define if using `alloca.c'. */
 #undef C_ALLOCA
 
-/* Define to 1 if NLS is requested. */
+/* Define to 1 if translation of program messages to the user's native
+   language is requested. */
 #undef ENABLE_NLS
 
 /* Define if you have `alloca', as a function or macro. */
@@ -19,9 +20,6 @@
 
 /* Define if you have the <argz.h> header file. */
 #undef HAVE_ARGZ_H
-
-/* Define as 1 if you have `catgets' and don't want to use GNU gettext. */
-#undef HAVE_CATGETS
 
 /* Define if you have the <ctype.h> header file. */
 #undef HAVE_CTYPE_H
@@ -61,14 +59,35 @@
 /* Define if you have the `doprnt' function. */
 #undef HAVE_DOPRNT
 
+/* Define if you have the `feof_unlocked' function. */
+#undef HAVE_FEOF_UNLOCKED
+
+/* Define if you have the `fgets_unlocked' function. */
+#undef HAVE_FGETS_UNLOCKED
+
 /* Define if you have the `getcwd' function. */
 #undef HAVE_GETCWD
+
+/* Define if you have the `getegid' function. */
+#undef HAVE_GETEGID
+
+/* Define if you have the `geteuid' function. */
+#undef HAVE_GETEUID
+
+/* Define if you have the `getgid' function. */
+#undef HAVE_GETGID
 
 /* Define if you have the `getpagesize' function. */
 #undef HAVE_GETPAGESIZE
 
-/* Define to 1 if you have gettext and don't want to use GNU gettext. */
+/* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
+
+/* Define if you have the `getuid' function. */
+#undef HAVE_GETUID
+
+/* Define if you have the iconv() function. */
+#undef HAVE_ICONV
 
 /* Define if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -79,14 +98,11 @@
 /* Define if you have the `iswprint' function. */
 #undef HAVE_ISWPRINT
 
-/* Define if your locale.h file contains LC_MESSAGES. */
+/* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
+#undef HAVE_LANGINFO_CODESET
+
+/* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
-
-/* Define if you have the `i' library (-li). */
-#undef HAVE_LIBI
-
-/* Define if you have the `intl' library (-lintl). */
-#undef HAVE_LIBINTL
 
 /* Define if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
@@ -105,6 +121,9 @@
 
 /* Define if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
+
+/* Define if you have the `mempcpy' function. */
+#undef HAVE_MEMPCPY
 
 /* Define if you have the `mkstemp' function. */
 #undef HAVE_MKSTEMP
@@ -127,10 +146,13 @@
 /* Define if you have the `setlocale' function. */
 #undef HAVE_SETLOCALE
 
+/* Define if you have the <stddef.h> header file. */
+#undef HAVE_STDDEF_H
+
 /* Define if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
-/* Define to 1 if you have the `stpcpy' function. */
+/* Define if you have the `stpcpy' function. */
 #undef HAVE_STPCPY
 
 /* Define if you have the `strcasecmp' function. */
@@ -160,8 +182,14 @@
 /* Define if you have the `strnlen' function. */
 #undef HAVE_STRNLEN
 
+/* Define if you have the `strtoul' function. */
+#undef HAVE_STRTOUL
+
 /* Define if you have the <sys/param.h> header file. */
 #undef HAVE_SYS_PARAM_H
+
+/* Define if you have the `tsearch' function. */
+#undef HAVE_TSEARCH
 
 /* Define if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
@@ -186,6 +214,9 @@
 
 /* Define if you have the `__argz_stringify' function. */
 #undef HAVE___ARGZ_STRINGIFY
+
+/* Define as const if the declaration of iconv() needs const. */
+#undef ICONV_CONST
 
 /* Name of package */
 #undef PACKAGE
@@ -217,7 +248,7 @@
    defined. */
 #undef _POSIX_1_SOURCE
 
-/* Define if you need to in order for stat and other things to work. */
+/* Define if you need to in order for `stat' and other things to work. */
 #undef _POSIX_SOURCE
 
 /* Define to empty if `const' does not conform to ANSI C. */
