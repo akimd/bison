@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-05-21 19:56+0200\n"
+"POT-Creation-Date: 2002-05-25 18:12+0200\n"
 "PO-Revision-Date: 2002-03-05 10:18+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -107,16 +107,16 @@ msgstr "kan inte öppna filen \"%s\""
 msgid "cannot close file"
 msgstr "kan inte stänga fil"
 
-#: src/getargs.c:56
+#: src/getargs.c:97
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genererar parsrar för LALR(1)-grammatiker.\n"
 
-#: src/getargs.c:60
+#: src/getargs.c:101
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Användning: %s [FLAGGA]... FIL\n"
 
-#: src/getargs.c:64
+#: src/getargs.c:105
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -125,7 +125,7 @@ msgstr ""
 "obligatoriskt för den motsvarande korta flaggan också.  Motsvarande\n"
 "för valfria argument.\n"
 
-#: src/getargs.c:70
+#: src/getargs.c:111
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -137,7 +137,7 @@ msgstr ""
 "  -V, --version   visa versionsinformation och avsluta\n"
 "  -y, --yacc      emulera POSIX-yacc\n"
 
-#: src/getargs.c:77
+#: src/getargs.c:118
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -157,15 +157,24 @@ msgstr ""
 "  -n, --no-parser            generera endast tabellerna\n"
 "  -k, --token-table          inkludera en tabell över elementnamn\n"
 
-#: src/getargs.c:89
+#: src/getargs.c:130
+#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
-"  -v, --verbose              also produce an explanation of the automaton\n"
+"  -r, --report=THINGS        also produce details on the automaton\n"
+"  -v, --verbose              same as `--report=state'\n"
 "  -b, --file-prefix=PREFIX   specify a PREFIX for output files\n"
 "  -o, --output=FILE          leave output to FILE\n"
 "  -g, --graph                also produce a VCG description of the "
 "automaton\n"
+"\n"
+"THINGS is a list of comma separated words that can include:\n"
+"  `state'        describe the states\n"
+"  `itemset'      complete the core item sets with their closure\n"
+"  `lookahead'    explicitly associate lookaheads to items\n"
+"  `all'          include all the above information\n"
+"  `none'         disable the report\n"
 msgstr ""
 "Utdata:\n"
 "  -d, --defines              skapa också en huvudfil\n"
@@ -174,29 +183,29 @@ msgstr ""
 "  -o, --output=FIL           lägg utdata i FIL\n"
 "  -g, --graph                skapa också en VCG-beskrivning av automaten\n"
 
-#: src/getargs.c:99
+#: src/getargs.c:148
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Rapportera fel till <bug-bison@gnu.org>.\n"
 "Rapportera synpunkter på översättningen till <sv@li.org>.\n"
 
-#: src/getargs.c:113
+#: src/getargs.c:162
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:115
+#: src/getargs.c:164
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:119
+#: src/getargs.c:168
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:121
+#: src/getargs.c:170
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -205,22 +214,17 @@ msgstr ""
 "finns INGEN garanti, inte ens för SÄLJBARHET eller LÄMPLIGHET FÖR ETT\n"
 "SPECIELLT ÄNDAMÅL.\n"
 
-#: src/getargs.c:200 src/lex.c:603
-#, c-format
-msgid "`%s' is no longer supported"
-msgstr "\"%s\" stöds inte längre"
-
-#: src/getargs.c:224
+#: src/getargs.c:273
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Försök med \"%s --help\" för mer information.\n"
 
-#: src/getargs.c:233
+#: src/getargs.c:282
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: ingen grammatikfil angiven\n"
 
-#: src/getargs.c:237
+#: src/getargs.c:286
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argument ignorerade efter \"%s\"\n"
@@ -278,37 +282,42 @@ msgstr "använd \"...\" för bokstavliga element med mer än ett tecken"
 msgid "`%s' supports no argument: %s"
 msgstr "\"%s\" stödjer inga argument: %s"
 
-#: src/lex.c:592
+#: src/lex.c:593
 #, c-format
 msgid "`%s' requires an argument"
 msgstr "\"%s\" behöver ett argument"
+
+#: src/lex.c:604
+#, c-format
+msgid "`%s' is no longer supported"
+msgstr "\"%s\" stöds inte längre"
 
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
 msgstr " typ %d är %s\n"
 
-#: src/print.c:134
+#: src/print.c:133
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regel %d)"
 
-#: src/print.c:155
+#: src/print.c:154
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tskifta, och gå till tillstånd %d\n"
 
-#: src/print.c:172
+#: src/print.c:171
 #, c-format
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tfel (ickeassociativ)\n"
 
-#: src/print.c:196
+#: src/print.c:195
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tgå till tillstånd %d\n"
 
-#: src/print.c:220 src/print.c:254
+#: src/print.c:219 src/print.c:253
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -317,64 +326,64 @@ msgstr ""
 "    $standard\treducera med regel %d (%s)\n"
 "\n"
 
-#: src/print.c:249 src/print.c:324
+#: src/print.c:248 src/print.c:323
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reducera med regel %d (%s)]\n"
 
-#: src/print.c:305 src/print.c:318
+#: src/print.c:304 src/print.c:317
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treducera med regel %d (%s)\n"
 
-#: src/print.c:333
+#: src/print.c:332
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $standard\treducera med regel %d (%s)\n"
 
-#: src/print.c:349
+#: src/print.c:348
 msgid "    $default\taccept\n"
 msgstr "    $standard\tacceptera\n"
 
-#: src/print.c:351
+#: src/print.c:350
 msgid "    NO ACTIONS\n"
 msgstr "    INGA ÅTGÄRDER\n"
 
-#: src/print.c:364
+#: src/print.c:363
 #, c-format
 msgid "state %d"
 msgstr "tillstånd %d"
 
-#: src/print.c:396
+#: src/print.c:395
 msgid "Grammar"
 msgstr "Grammatik"
 
-#: src/print.c:397
+#: src/print.c:396
 msgid "Number, Line, Rule"
 msgstr "Nummer, Rad, Regel"
 
-#: src/print.c:400
+#: src/print.c:399
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:407
+#: src/print.c:406
 msgid "empty"
 msgstr "tom"
 
-#: src/print.c:414
+#: src/print.c:413
 msgid "Terminals, with rules where they appear"
 msgstr "Terminaler, med regler där de förekommer"
 
-#: src/print.c:437
+#: src/print.c:436
 msgid "Nonterminals, with rules where they appear"
 msgstr "Icketerminaler, med regler där de förekommer"
 
-#: src/print.c:463
+#: src/print.c:462
 msgid " on left:"
 msgstr " till vänster:"
 
-#: src/print.c:478
+#: src/print.c:477
 msgid " on right:"
 msgstr " till höger:"
 
