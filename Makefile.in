@@ -172,6 +172,7 @@ files.o: files.c
 	   $(srcdir)/files.c $(OUTPUT_OPTION)
 
 LR0.o: system.h machine.h new.h gram.h state.h
+allocate.o: system.h
 closure.o: system.h machine.h new.h gram.h
 conflicts.o: system.h machine.h new.h files.h gram.h state.h
 derives.o: system.h new.h types.h gram.h
