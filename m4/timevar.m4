@@ -1,7 +1,7 @@
 # -*- Autoconf -*-
 # Checks required to run `timevar', a time tracker.
 #
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,11 +18,19 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 # 02111-1307  USA
 
-# serial 1
+# serial 2
 
 AC_DEFUN([BISON_PREREQ_TIMEVAR],
-[AC_CHECK_HEADERS([sys/resource.h sys/time.h sys/times.h])
-
+[AC_CHECK_HEADERS([sys/time.h sys/times.h])
+ AC_CHECK_HEADERS([sys/resource.h],,,
+   [$ac_includes_default
+#if HAVE_SYS_TIME_H
+# include <sys/time.h>
+#endif
+#ifdef HAVE_SYS_TIMES_H
+# include <sys/times.h>
+#endif
+])
 AC_CHECK_FUNCS([times])
 
 AC_CHECK_DECLS([getrusage, times, clock, sysconf], [], [],
