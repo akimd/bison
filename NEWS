@@ -1,6 +1,9 @@
 Bison News
 ----------
 
+Changes in version 1.32a:
+
+
 Changes in version 1.32, 2002-01-23:
 
 * Fix Yacc output file names
