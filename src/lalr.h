@@ -74,6 +74,4 @@ extern state_t **state_table;
 
 extern int tokensetsize;
 
-/* The number of lookaheads. */
-extern size_t nlookaheads;
 #endif /* !LALR_H_ */

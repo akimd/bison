@@ -1,5 +1,15 @@
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (state_t): Rename lookaheads as lookaheadsp.
+	nlookaheads is a new member.
+	Adjust all users.
+	* src/lalr.h (nlookaheads): Remove this orphan declaration.
+	* src/lalr.c (initialize_lookaheads): Set nlookaheads for each
+	state.
+
+	
+2001-12-17  Akim Demaille  <akim@epita.fr>
+
 	* src/files.h, src/files.c (open_files, close_files): Remove.
 	* src/main.c (main): Don't open/close files, nor invoke lex_free,
 	let...

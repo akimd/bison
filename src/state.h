@@ -189,7 +189,9 @@ typedef struct state_s
   char consistent;
 
   /* Used in LALR, not LR(0). */
-  short lookaheads;
+  /* Pseudo pointer into LA. */
+  short lookaheadsp;
+  int nlookaheads;
 
   /* Its items. */
   short nitems;
