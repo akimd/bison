@@ -1,5 +1,14 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	We spend a lot of time in quotearg, in particular when --verbose.
+
+	* src/symtab.c (symbol_get): Store a quoted version of the key.
+	(symbol_tag_get, symbol_tag_get_n, symbol_tag_print): Remove.
+	Adjust all callers.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h (reductions_t): Rename member `nreds' as num.
 	(errs_t): Rename members `nerrs' and `errs' as `num' and `symbols'.
 	* src/state.c (ERRS_ALLOC, REDUCTIONS_ALLOC): Use the correct types.
