@@ -46,16 +46,18 @@ if test "${enableval}" = yes; then
   WARNING_CFLAGS=
   BISON_WARNING(-Wall)
   BISON_WARNING(-W)
-  BISON_WARNING(-Wbad-function-cast)
   BISON_WARNING(-Wcast-align)
   BISON_WARNING(-Wcast-qual)
   BISON_WARNING(-Wformat)
-  BISON_WARNING(-Wmissing-declarations)
   BISON_WARNING(-Wmissing-prototypes)
-  BISON_WARNING(-Wnested-externs)
   BISON_WARNING(-Wshadow)
   BISON_WARNING(-Wstrict-prototypes)
   BISON_WARNING(-Wwrite-strings)
+  AC_SUBST([WARNING_CXXFLAGS], [$WARNING_CFLAGS])
+  # The following warnings are not suitable for C++.
+  BISON_WARNING(-Wbad-function-cast)
+  BISON_WARNING(-Wmissing-declarations)
+  BISON_WARNING(-Wnested-externs)
   AC_DEFINE([lint], 1, [Define to 1 if the compiler is checking for lint.])
 fi
 
@@ -132,7 +134,7 @@ AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
 AC_CHECK_PROGS([VALGRIND], [valgrind])
-AC_CHECK_PROGS([CXX], [g++])
+AC_PROG_CXX
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
