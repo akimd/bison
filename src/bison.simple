@@ -66,6 +66,12 @@
 #  define YYSTACK_ALLOC malloc
 #  define YYSTACK_FREE free
 # endif
+#endif /* ! defined (yyoverflow) || defined (YYERROR_VERBOSE) */
+
+
+#if (! defined (yyoverflow) \
+     && (! defined (__cplusplus) \
+	 || (YYLTYPE_IS_TRIVIAL && YYSTYPE_IS_TRIVIAL)))
 
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
@@ -109,7 +115,7 @@ union yyalloc
       }									\
     while (0)
 
-#endif /* ! defined (yyoverflow) || defined (YYERROR_VERBOSE) */
+#endif
 
 
 #if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
@@ -236,7 +242,7 @@ int yydebug;
 # define YYMAXDEPTH 10000
 #endif
 
-#if ! defined (yyoverflow) && ! defined (yymemcpy)
+#if defined (YYSTACK_RELOCATE) && ! defined (yymemcpy)
 # if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
 #  define yymemcpy __builtin_memcpy
 # else				/* not GNU C or C++ */
@@ -504,6 +510,9 @@ yyparse (YYPARSE_PARAM_ARG)
 	yyvs = yyvs1;
       }
 #else /* no yyoverflow */
+# ifndef YYSTACK_RELOCATE
+      goto yyoverflowlab;
+# else
       /* Extend the stack our own way.  */
       if (yystacksize >= YYMAXDEPTH)
 	goto yyoverflowlab;
@@ -526,6 +535,7 @@ yyparse (YYPARSE_PARAM_ARG)
 	if (yyss1 != yyssa)
 	  YYSTACK_FREE (yyss1);
       }
+# endif
 #endif /* no yyoverflow */
 
       yyssp = yyss + yysize - 1;
