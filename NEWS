@@ -3,6 +3,11 @@ Bison News
 
 Changes in version 1.30h:
 
+* User Actions
+  Bison has always permitted actions such as { $$ = $1 }: it adds the
+  ending semicolon.  Now if in Yacc compatibility mode, the semicolon
+  is no longer output: one has to write { $$ = $1; }.
+
 Changes in version 1.30g:
 
 * Bug fixes
