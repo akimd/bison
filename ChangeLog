@@ -1,5 +1,10 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (reader): Calling symbols_output once is enough.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	Now that states have a complete set of members, the linked list of
 	reductions is useless: just fill directly the state's reductions
 	member.
