@@ -6,7 +6,6 @@
 	'switch' without a following semicolon.
 	* tests/regression.at (braces parsing): New.
 
-	
 2002-01-06  Akim Demaille  <akim@epita.fr>
 
 	Bison is dead wrong in its RR conflict reports.
@@ -14,7 +13,6 @@
 	* tests/torture.at (GNU Cim Grammar): New.
 	* src/conflicts.c (count_rr_conflicts): Fix.
 
-	
 2002-01-06  Akim Demaille  <akim@epita.fr>
 
 	Creating package.m4 from configure.ac causes too many problems.
@@ -80,7 +78,6 @@
 	replace `gb' with BLANKS.
 	* src/scan-skel.l: Adjust.
 
-
 2001-12-30  Akim Demaille  <akim@epita.fr>
 
 	* src/system.h: We don't need nor want bcopy.
@@ -93,7 +90,6 @@
 	* src/scan-skel.l: Use it.
 	Be sure to initialize yylval.muscle member when scanning a MUSCLE.
 	* src/parse-skel.y: Use %directives instead of #defines.
-
 
 2001-12-30  Akim Demaille  <akim@epita.fr>
 
@@ -111,9 +107,6 @@
 	REJECT has been used, and therefore it won't reallocate its
 	buffers (which makes no other sense to me than a bug).  It results
 	in warnings for `unused: yy_flex_realloc'.
-
-	to guess if the generated parsers should have '.tab' in their
-	* src/Makefile.am (bison_SOURCES): Add scan-skel.l and
 
 2001-12-30  Robert Anisko  <robert.anisko@epita.fr>
 
