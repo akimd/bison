@@ -1,7 +1,7 @@
 \input texinfo @c -*-texinfo-*-
 @comment %**start of header
 @setfilename bison.info
-@settitle Bison 1.20
+@settitle Bison 1.23
 @setchapternewpage odd
 
 @iftex
@@ -73,13 +73,13 @@ instead of in the original English.
 @titlepage
 @title Bison
 @subtitle The YACC-compatible Parser Generator
-@subtitle December 1992, Bison Version 1.20
+@subtitle December 1993, Bison Version 1.23
 
 @author by Charles Donnelly and Richard Stallman
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1988, 1989, 1990, 1991, 1992 Free Software
+Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993 Free Software
 Foundation 
 
 @sp 2
@@ -2281,8 +2281,10 @@ In particular, @code{yylex} should never return this value.
 A Bison grammar rule has the following general form:
 
 @example
+@group
 @var{result}: @var{components}@dots{}
         ;
+@end group
 @end example
 
 @noindent
@@ -3318,12 +3320,13 @@ The data type of @code{yylloc} has the name @code{YYLTYPE}.
 @node Pure Calling,  , Token Positions, Lexical
 @subsection Calling for Pure Parsers
 
-When you use the Bison declaration @code{%pure_parser} to request a pure,
-reentrant parser, the global communication variables @code{yylval} and
-@code{yylloc} cannot be used.  (@xref{Pure Decl, ,A Pure (Reentrant) Parser}.)  In such parsers the
-two global variables are replaced by pointers passed as arguments to
-@code{yylex}.  You must declare them as shown here, and pass the
-information back by storing it through those pointers.
+When you use the Bison declaration @code{%pure_parser} to request a
+pure, reentrant parser, the global communication variables @code{yylval}
+and @code{yylloc} cannot be used.  (@xref{Pure Decl, ,A Pure (Reentrant)
+Parser}.)  In such parsers the two global variables are replaced by
+pointers passed as arguments to @code{yylex}.  You must declare them as
+shown here, and pass the information back by storing it through those
+pointers.
 
 @example
 yylex (lvalp, llocp)
@@ -3341,6 +3344,55 @@ If the grammar file does not use the @samp{@@} constructs to refer to
 textual positions, then the type @code{YYLTYPE} will not be defined.  In
 this case, omit the second argument; @code{yylex} will be called with
 only one argument.
+
+If you wish to pass additional parameters to a reentrant parser in a
+reentrant way, you can do so by defining the macro @code{YYPARSE_PARAM}.
+Define it as a variable name.  The resulting @code{yyparse} function
+then accepts one argument, of type @code{void *}, with that name.
+
+When you call @code{yyparse}, pass the address of an object, casting the
+address to @code{void *}.  The grammar actions can refer to the contents
+of the object by casting the pointer value back to its proper type and
+then dereferencing it.  Here's an example.  Write this in the parser:
+
+@example
+%@{
+struct parser_control
+@{
+  int nastiness;
+  int randomness;
+@};
+
+#define YYPARSE_PARAM parm
+%@}
+@end example
+
+@noindent
+Then call the parser like this:
+
+@example
+struct parser_control
+@{
+  int nastiness;
+  int randomness;
+@};
+
+@dots{}
+
+@{
+  struct parser_control foo;
+  @dots{}  /* @r{Store proper data in @code{foo}.}  */
+  value = yyparse ((void *) &foo);
+  @dots{}
+@}
+@end example
+
+@noindent
+In the grammar actions, use expressions like this to refer to the data:
+
+@example
+((struct parser_control *) parm)->randomness
+@end example
 
 @node Error Reporting, Action Features, Lexical, Interface
 @section The Error Reporting Function @code{yyerror}
@@ -4680,8 +4732,8 @@ as described under the @samp{-v} and @samp{-d} switches.
 @itemx --name-prefix=@var{prefix}
 Rename the external symbols used in the parser so that they start with
 @var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
-is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yylval},
-@code{yychar} and @code{yydebug}.
+is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
+@code{yylval}, @code{yychar} and @code{yydebug}.
 
 For example, if you use @samp{-p c}, the names become @code{cparse},
 @code{clex}, and so on.
