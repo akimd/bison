@@ -104,14 +104,13 @@ b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 /* Using locations.  */
 #define YYLSP_NEEDED b4_locations_flag
 
+b4_token_defines(b4_tokens)
+
 /* Copy the first part of user declarations.  */
 b4_pre_prologue
 
 /* Line __line__ of __file__.  */
 #line __oline__ "__ofile__"
-
-/* Tokens.  */
-b4_token_defines(b4_tokens)
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
