@@ -26,4 +26,6 @@ config.log
 config.status
 configure
 stamp-h
+stamp-vti
 version.c
+version.texi
