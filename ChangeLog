@@ -1,3 +1,12 @@
+2004-05-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	The gettext version checking is causing more trouble than it's
+	curing; remove it.  Problem reported by Paul Hilfinger.
+
+	* bootstrap: Issue a warning that one can expect a message
+	'AM_GNU_GETTEXT is used, but not AM_GNU_GETTEXT_VERSION'.
+	* configure.ac (AM_GNU_GETTEXT_VERSION): Remove.
+
 2004-05-23  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Ensure that the C++ compiler used for testing actually works on a

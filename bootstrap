@@ -166,6 +166,7 @@ esac
 
 # Reconfigure, getting other files.
 
+echo "$0: Expect an 'AM_GNU_GETTEXT is used, but not AM_GNU_GETTEXT_VERSION' warning"
 echo "$0: autoreconf --verbose --install --force ..."
 autoreconf --verbose --install --force || exit
 
