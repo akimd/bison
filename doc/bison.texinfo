@@ -284,7 +284,7 @@ Invoking Bison
 Frequently Asked Questions
 
 * Parser Stack Overflow::      Breaking the Stack Limits
-* How Can I Reset @code{yyparse}::    @code{yyparse} Keeps some State
+* How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 * C++ Parsers::                Compiling Parsers with C++ Compilers
 * Implementing Loops::         Control Flow in the Calculator
@@ -6356,7 +6356,7 @@ are addressed.
 
 @menu
 * Parser Stack Overflow::      Breaking the Stack Limits
-* How Can I Reset @code{yyparse}::    @code{yyparse} Keeps some State
+* How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 * C++ Parsers::                Compiling Parsers with C++ Compilers
 * Implementing Loops::         Control Flow in the Calculator
@@ -6373,8 +6373,8 @@ message.  What can I do?
 This question is already addressed elsewhere, @xref{Recursion,
 ,Recursive Rules}.
 
-@node How Can I Reset @code{yyparse}
-@section How Can I Reset @code{yyparse}
+@node How Can I Reset the Parser
+@section How Can I Reset the Parser
 
 The following phenomenon has several symptoms, resulting in the
 following typical questions:
