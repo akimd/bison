@@ -69,30 +69,8 @@ extern unsigned *LA;
 #define LA(Rule) (LA + (Rule) * tokensetsize)
 
 
-/* A structure decorating a state, with additional information. */
-typedef struct state_s
-{
-  /* A state.  */
-  core *state;
-
-  /* Its accessing symbol. */
-  short accessing_symbol;
-
-  shifts     *shifts;
-  reductions *reductions;
-  errs       *errs;
-
-  /* Nonzero if no lookahead is needed to decide what to do in state
-     S.  */
-  char consistent;
-
-  short lookaheads;
-} state_t;
-
-/* All the decorated states, indexed by the state number.  Warning:
-   there is a state_TABLE in LR0.c, but it is different and static.
-   */
-extern state_t *state_table;
+/* All the states, indexed by the state number.  */
+extern state_t **state_table;
 
 extern int tokensetsize;
 

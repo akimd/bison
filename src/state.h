@@ -89,24 +89,6 @@
 # define STATE_H_
 
 
-/*-------.
-| Core.  |
-`-------*/
-
-typedef struct core
-{
-  struct core *next;
-  struct core *link;
-  short number;
-  short accessing_symbol;
-  short nitems;
-  short items[1];
-} core;
-
-#define CORE_ALLOC(Nitems)						\
-  (core *) xcalloc ((unsigned) (sizeof (core)	 			\
-                                + (Nitems - 1) * sizeof (short)), 1)
-
 /*---------.
 | Shifts.  |
 `---------*/
@@ -132,7 +114,7 @@ shifts * shifts_new PARAMS ((int n));
    case of gotos.  */
 
 #define SHIFT_SYMBOL(Shifts, Shift) \
-  (state_table[Shifts->shifts[Shift]].accessing_symbol)
+  (state_table[Shifts->shifts[Shift]]->accessing_symbol)
 
 /* Is the SHIFTS->shifts[Shift] a real shift? (as opposed to gotos.) */
 
@@ -189,5 +171,37 @@ typedef struct reductions
 #define REDUCTIONS_ALLOC(Nreductions)					\
   (reductions *) xcalloc ((unsigned) (sizeof (reductions)		\
                                   + (Nreductions - 1) * sizeof (short)), 1)
+
+
+
+/*----------.
+| State_t.  |
+`----------*/
+
+typedef struct state_s
+{
+  struct state_s *next;
+  struct state_s *link;
+
+  short number;
+  short accessing_symbol;
+  shifts     *shifts;
+  reductions *reductions;
+  errs       *errs;
+
+  /* Nonzero if no lookahead is needed to decide what to do in state S.  */
+  char consistent;
+
+  /* Used in LALR, not LR(0). */
+  short lookaheads;
+
+  /* Its items. */
+  short nitems;
+  short items[1];
+} state_t;
+
+#define STATE_ALLOC(Nitems)						\
+  (state_t *) xcalloc ((unsigned) (sizeof (state_t) 			\
+                                  + (Nitems - 1) * sizeof (short)), 1)
 
 #endif /* !STATE_H_ */
