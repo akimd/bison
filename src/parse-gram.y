@@ -62,10 +62,11 @@ do {							\
 #undef  yyerror
 #define yyerror(Msg) \
         gram_error (&yylloc, Msg)
+static void gram_error (location_t const *, char const *);
 
 #define YYPRINT(File, Type, Value) \
 	print_token_value (File, Type, &Value)
-static void print_token_value (FILE *file, int type, YYSTYPE const *value);
+static void print_token_value (FILE *, int, YYSTYPE const *);
 
 static void add_param (char const *, char const *, location_t);
 
@@ -504,7 +505,7 @@ print_token_value (FILE *file, int type, YYSTYPE const *value)
     }
 }
 
-void
+static void
 gram_error (location_t const *loc, char const *msg)
 {
   complain_at (*loc, "%s", msg);
