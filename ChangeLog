@@ -1,5 +1,26 @@
 2003-08-25  Akim Demaille  <akim@epita.fr>
 
+	Have lalr1.cc catch with Paul Eggert's patch to fix the infinite
+	error recovery loops.  This patch is based on
+	<http://mail.gnu.org/archive/html/bison-patches/2003-06/msg00000.html>.
+	Also, augment the similarity between lalr1.cc and yacc.c.
+	Note: the locations of error recovery rules are not correct yet.
+
+	* data/lalr1.cc: Comment changes to augment the similarity between
+	lalr1.cc and yacc.c.
+	(YYERROR): Goto to yyerrorlab, not yyerrlab1.
+	(yyerrlab1): Remove, but where it used to be (now the bottom part of
+	yyerrlab), when hitting EOF, pop the whole stack here instead of
+	merely falling thru the default error handling mechanism.
+	(yyerrorlab): New label, with the old contents of YYERROR,
+	plus the following change: pop the stack of rhs corresponding
+	to the production that invoked YYERROR.  That is how Yacc
+	behaves (required by POSIX).
+	* tests/calc.at (AT_CHECK_CALC_LALR1_CC): No longer expected to
+	fail.
+
+2003-08-25  Akim Demaille  <akim@epita.fr>
+
 	Tune local.at so that people can "autom4te -l autotest calc.at -o
 	calc" for instance, to extract a sub test suite.
 

@@ -328,7 +328,7 @@ m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 
 #define YYACCEPT	goto yyacceptlab
 #define YYABORT		goto yyabortlab
-#define YYERROR		goto yyerrlab1
+#define YYERROR		goto yyerrorlab
 
 
 int
@@ -395,6 +395,8 @@ yy::]b4_parser_class_name[::parse ()
 #endif
     }
 
+  /* If the proper action on seeing token YYTOKEN is to reduce or to
+     detect an error, take that action.  */
   n_ += ilooka_;
   if (n_ < 0 || last_ < n_ || check_[n_] != ilooka_)
     goto yydefault;
@@ -439,16 +441,26 @@ yy::]b4_parser_class_name[::parse ()
   state_ = n_;
   goto yynewstate;
 
-  /* Default action.  */
+/*-----------------------------------------------------------.
+| yydefault -- do the default action for the current state.  |
+`-----------------------------------------------------------*/
  yydefault:
   n_ = defact_[state_];
   if (n_ == 0)
     goto yyerrlab;
   goto yyreduce;
 
-  /* Reduce.  */
+/*-----------------------------.
+| yyreduce -- Do a reduction.  |
+`-----------------------------*/
  yyreduce:
   len_ = r2_[n_];
+  /* If LEN_ is nonzero, implement the default value of the action:
+     `$$ = $1'.  Otherwise, use the top of the stack.
+
+     Otherwise, the following line sets YYVAL to garbage.
+     This behavior is undocumented and Bison
+     users should not rely upon it.  */
   if (len_)
     {
       yyval = semantic_stack_[len_ - 1];
@@ -517,7 +529,9 @@ b4_syncline([@oline@], [@ofile@])[
     state_ = defgoto_[n_ - ntokens_];
   goto yynewstate;
 
-  /* Report and recover from errors.  This is very incomplete.  */
+/*------------------------------------.
+| yyerrlab -- here on detecting error |
+`------------------------------------*/
  yyerrlab:
   /* If not already recovering from an error, report this error.  */
   if (!errstatus)
@@ -558,32 +572,61 @@ b4_syncline([@oline@], [@ofile@])[
 	message = "syntax error";
       error_ ();
     }
-  goto yyerrlab1;
 
-
-  /*----------------------------------------------------.
-  | yyerrlab1 -- error raised explicitly by an action.  |
-  `----------------------------------------------------*/
- yyerrlab1:
   if (errstatus == 3)
     {
       /* If just tried and failed to reuse lookahead token after an
 	 error, discard it.  */
 
       /* Return failure if at end of input.  */
-      if (looka_ == eof_)
-	goto yyabortlab;
+      if (looka_ <= eof_)
+        {
+          /* If at end of input, pop the error token,
+	     then the rest of the stack, then return failure.  */
+	  if (looka_ == eof_)
+	     for (;;)
+	       {
+                 state_stack_.pop ();
+                 semantic_stack_.pop ();
+                 location_stack_.pop ();
+		 if (state_stack_.height () == 1)
+		   YYABORT;
+//		 YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
+// FIXME: yydestruct (yystos[*yyssp], yyvsp]b4_location_if([, yylsp])[);
+	       }
+        }
+      else
+        {
 #if YYDEBUG
-      YYCDEBUG << "Discarding token " << looka_
-  	       << " (" << name_[ilooka_] << ")." << std::endl;
+           YYCDEBUG << "Discarding token " << looka_
+  	            << " (" << name_[ilooka_] << ")." << std::endl;
+//	  yydestruct (yytoken, &yylval]b4_location_if([, &yylloc])[);
 #endif
-      looka_ = empty_;
+           looka_ = empty_;
+        }
     }
 
   /* Else will try to reuse lookahead token after shifting the error
      token.  */
+  goto yyerrlab1;
 
-  errstatus = 3;
+
+/*---------------------------------------------------.
+| yyerrorlab -- error raised explicitly by YYERROR.  |
+`---------------------------------------------------*/
+yyerrorlab:
+
+  state_stack_.pop (len_);
+  semantic_stack_.pop (len_);
+  location_stack_.pop (len_);
+  state_ = state_stack_[0];
+  goto yyerrlab1;
+
+/*-------------------------------------------------------------.
+| yyerrlab1 -- common code for both syntax error and YYERROR.  |
+`-------------------------------------------------------------*/
+yyerrlab1:
+  errstatus = 3;	/* Each real token shifted decrements this.  */
 
   for (;;)
     {
@@ -601,7 +644,7 @@ b4_syncline([@oline@], [@ofile@])[
 
       /* Pop the current state because it cannot handle the error token.  */
       if (state_stack_.height () == 1)
-	goto yyabortlab;
+	YYABORT;
 
 #if YYDEBUG
       if (debug_)
@@ -625,9 +668,10 @@ b4_syncline([@oline@], [@ofile@])[
 	}
 #endif
 
-      state_ = (state_stack_.pop (), state_stack_[0]);
+      state_stack_.pop ();
       semantic_stack_.pop ();
-      location_stack_.pop ();;
+      location_stack_.pop ();
+      state_ = state_stack_[0];
 
 #if YYDEBUG
       if (debug_)
