@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS = ansi2knr
 
 noinst_LIBRARIES = libbison.a
 
-INCLUDES = -I.. -I$(srcdir) -I../intl
+INCLUDES = -I.. -I$(srcdir) -I$(top_srcdir)/src -I../intl
 
 # Heck, we are still using an old version of Automake which does not
 # understand LIBOBJ additions using $objext...

@@ -1,5 +1,9 @@
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
 
+	* lib/Makefile.am: Adjust.
+
+2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
+
 	* src/bison.simple: Update and add '%%' directives.
 
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
