@@ -1,5 +1,18 @@
 2004-05-27  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Spent a few hours checking out which prerequisite versions the
+	current sources actually require.  I went all the way back to
+	Gettext 0.10.40, Automake 1.4, and Autoconf 2.57 and investigated
+	a seemingly endless set of combinations of versions more recent
+	than that.  The bottom line is that the current sources require
+	fairly recent versions of the build tools, and it'll be some work
+	to change this.
+	* configure.ac (AC_PREREQ): Increase from 2.58 to 2.59.
+	(AM_INIT_AUTOMAKE): Increase from 1.7 to 1.8.
+	(AM_GNU_GETTEXT_VERSION): Increase from 0.11.5 to 0.12.
+	Add comments explaining why those particular versions are
+	currently needed.
+	
 	* src/parse-gram.y (lloc_default): Rewrite to avoid compiler bug
 	in SGI MIPSpro 7.4.1m.  Problem reported by Albert Chin-A-Young in
 	<http://mail.gnu.org/archive/html/bug-bison/2004-05/msg00037.html>.

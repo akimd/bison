@@ -17,15 +17,18 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 # 02111-1307  USA
 
-# We need a recent Autoconf to avoid the message
-# "autom4te: unknown language: Autoconf-without-aclocal-m4".
-AC_PREREQ(2.58)
+# This file uses AC_CONFIG_MACRO_DIR, so we need Autoconf 2.58 or better.
+# But Autoconf 2.58 has a bug in the way that it generates tests: it
+# puts the wrong absolute path names in the tests.  So we need at
+# least Autoconf 2.59.
+AC_PREREQ(2.59)
 
 AC_INIT([GNU Bison], [1.875e], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.7 check-news readme-alpha dist-bzip2])
+# We don't have a file m4/Makefile.am, so we need Automake 1.8 or later.
+AM_INIT_AUTOMAKE([1.8 check-news readme-alpha dist-bzip2])
 AC_CONFIG_HEADERS([config.h:config.hin])
 
 gl_USE_SYSTEM_EXTENSIONS
@@ -104,7 +107,8 @@ BISON_PREREQ_TIMEVAR
 
 # gnulib and gettext.
 GNULIB_AUTOCONF_SNIPPET
-AM_GNU_GETTEXT_VERSION([0.11.5])
+# We use po/Makevars.template, so we need at least gettext 0.12.
+AM_GNU_GETTEXT_VERSION([0.12])
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
