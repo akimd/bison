@@ -1,3 +1,8 @@
+2001-09-21  Marc Autret  <autret_m@epita.fr>
+
+	* src/options.c (option_table): Adjust.
+	* src/lex.c (parse_percent_token): Fix.
+
 2001-09-20  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/options.c (symtab.h): Include it, need by lex.h.
