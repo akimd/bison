@@ -16,7 +16,6 @@ src/reader.c
 src/reduce.c
 # src/symtab.c
 # src/warshall.c
-src/version.c
 
 src/getopt.c
 src/getopt1.c
