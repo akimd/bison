@@ -99,7 +99,8 @@ symbol_t *symbol_get PARAMS ((const char *key, location_t location));
 symbol_t *dummy_symbol_get PARAMS ((location_t location));
 
 /* Declare the new SYMBOL.  Make it an alias of SYMVAL.  */
-void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval));
+void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval,
+				location_t location));
 
 /* Set the TYPE_NAME associated to SYMBOL. Does nothing if passed 0 as
    TYPE_NAME.  */
