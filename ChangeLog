@@ -1,5 +1,18 @@
 2000-09-20  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.h: New file.
+	* src/closure.c: Formatting changes, topological sort over the
+	functions, use of closure.h.
+	(initialize_closure, finalize_closure):  Rename as...
+	(new_closure, free_closure): these.  Adjust dependencies.
+	* src/LR0.c: Formatting changes, topological sort, use of
+	cloture.h.
+	(initialize_states): Rename as...
+	(new_states): this.
+	* src/Makefile.am (noinst_HEADERS): Adjust.
+
+2000-09-20  Akim Demaille  <akim@epita.fr>
+
 	* src/acconfig.h: Don't protect config.h against multiple
 	inclusion.
 	Don't define PARAMS.
