@@ -120,14 +120,13 @@ extern enum bitset_type bitset_type_get PARAMS ((bitset));
 /* Return bitset type name.  */
 extern const char *bitset_type_name_get PARAMS ((bitset));
 
-#if BITSET_INLINE
 
 /* Set bit BITNO in bitset BSET.  */
 static inline void
 bitset_set (bitset bset, bitset_bindex bitno)
 {
-  bitset_windex index = bitno / BITSET_WORD_BITS;
-  bitset_windex offset = index - bset->b.cindex;
+  bitset_windex windex = bitno / BITSET_WORD_BITS;
+  bitset_windex offset = windex - bset->b.cindex;
 
   if (offset < bset->b.csize)
     bset->b.cdata[offset] |= ((bitset_word) 1 << (bitno % BITSET_WORD_BITS));
@@ -140,8 +139,8 @@ bitset_set (bitset bset, bitset_bindex bitno)
 static inline void
 bitset_reset (bitset bset, bitset_bindex bitno)
 {
-  bitset_windex index = bitno / BITSET_WORD_BITS;
-  bitset_windex offset = index - bset->b.cindex;
+  bitset_windex windex = bitno / BITSET_WORD_BITS;
+  bitset_windex offset = windex - bset->b.cindex;
 
   if (offset < bset->b.csize)
     bset->b.cdata[offset] &= ~((bitset_word) 1 << (bitno % BITSET_WORD_BITS));
@@ -154,57 +153,14 @@ bitset_reset (bitset bset, bitset_bindex bitno)
 static inline int
 bitset_test (bitset bset, bitset_bindex bitno)
 {
-  bitset_windex index = bitno / BITSET_WORD_BITS;
-  bitset_windex offset = index - bset->b.cindex;
+  bitset_windex windex = bitno / BITSET_WORD_BITS;
+  bitset_windex offset = windex - bset->b.cindex;
 
   if (offset < bset->b.csize)
     return (bset->b.cdata[offset] >> (bitno % BITSET_WORD_BITS)) & 1;
   else
     return BITSET_TEST_ (bset, bitno);
 }
-#endif
-
-#if ! BITSET_INLINE
-
-/* Set bit BITNO in bitset BSET.  */
-#define bitset_set(bset, bitno)					\
-do   								\
-{    								\
-  bitset_bindex _bitno = (bitno);				\
-  bitset_windex _index = _bitno / BITSET_WORD_BITS; 		\
-  bitset_windex _offset = _index - (bset)->b.cindex;		\
-								\
-  if (_offset < (bset)->b.csize)					\
-    (bset)->b.cdata[_offset] |=					\
-      ((bitset_word) 1 << (_bitno % BITSET_WORD_BITS)); 	\
-  else  							\
-    BITSET_SET_ ((bset), _bitno);				\
-} while (0)
-
-
-/* Reset bit BITNO in bitset BSET.  */
-#define bitset_reset(bset, bitno)				\
-do   								\
-{    								\
-  bitset_bindex _bitno = (bitno);				\
-  bitset_windex _index = _bitno / BITSET_WORD_BITS; 		\
-  bitset_windex _offset = _index - (bset)->b.cindex;		\
-								\
-  if (_offset < (bset)->b.csize)				\
-    (bset)->b.cdata[_offset] &=					\
-       ~((bitset_word) 1 << (_bitno % BITSET_WORD_BITS)); 	\
-  else  							\
-    BITSET_RESET_ ((bset), _bitno);				\
-} while (0)
-
-
-/* Test bit BITNO in bitset BSET.  */
-#define bitset_test(bset, bitno) \
-(((((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex) < (bset)->b.csize)  \
-  ? ((bset)->b.cdata[(((bitno) / BITSET_WORD_BITS) - (bset)->b.cindex)] \
-     >> ((bitno) % BITSET_WORD_BITS)) & 1 \
-  : (unsigned int) BITSET_TEST_ ((bset), (bitno)))
-#endif
 
 
 /* Toggle bit BITNO in bitset BSET and return non-zero if now set.  */
