@@ -1,5 +1,9 @@
 2001-11-23  Akim Demaille  <akim@epita.fr>
 
+	* lib/Makefile.am (libbison_a_LIBADD): Add @ALLOCA@.
+
+2001-11-23  Akim Demaille  <akim@epita.fr>
+
 	* src/system.h: Include alloca.h.
 	* src/main.c (main) [C_ALLOCA]: Call alloca (0).
 

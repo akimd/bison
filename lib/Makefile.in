@@ -120,7 +120,7 @@ libbison_a_SOURCES = \
   xalloc.h xmalloc.c xstrdup.c
 
 
-libbison_a_LIBADD = @LIBOBJS@
+libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)
 subdir = lib
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
@@ -140,22 +140,23 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/error$U.Po $(DEPDIR)/getopt$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/getopt1$U.Po $(DEPDIR)/malloc.Po \
-@AMDEP_TRUE@	$(DEPDIR)/memchr.Po $(DEPDIR)/obstack$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/quote$U.Po $(DEPDIR)/quotearg$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/realloc.Po $(DEPDIR)/stpcpy.Po \
-@AMDEP_TRUE@	$(DEPDIR)/strndup.Po $(DEPDIR)/strnlen.Po \
-@AMDEP_TRUE@	$(DEPDIR)/strspn.Po $(DEPDIR)/xmalloc$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/xstrdup$U.Po
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/alloca.Po $(DEPDIR)/error$U.Po \
+@AMDEP_TRUE@	$(DEPDIR)/getopt$U.Po $(DEPDIR)/getopt1$U.Po \
+@AMDEP_TRUE@	$(DEPDIR)/malloc.Po $(DEPDIR)/memchr.Po \
+@AMDEP_TRUE@	$(DEPDIR)/obstack$U.Po $(DEPDIR)/quote$U.Po \
+@AMDEP_TRUE@	$(DEPDIR)/quotearg$U.Po $(DEPDIR)/realloc.Po \
+@AMDEP_TRUE@	$(DEPDIR)/stpcpy.Po $(DEPDIR)/strndup.Po \
+@AMDEP_TRUE@	$(DEPDIR)/strnlen.Po $(DEPDIR)/strspn.Po \
+@AMDEP_TRUE@	$(DEPDIR)/xmalloc$U.Po $(DEPDIR)/xstrdup$U.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 DIST_SOURCES = $(libbison_a_SOURCES)
-DIST_COMMON = Makefile.am Makefile.in ansi2knr.1 ansi2knr.c malloc.c \
-	memchr.c realloc.c stpcpy.c strndup.c strnlen.c strspn.c
+DIST_COMMON = Makefile.am Makefile.in alloca.c ansi2knr.1 ansi2knr.c \
+	malloc.c memchr.c realloc.c stpcpy.c strndup.c strnlen.c \
+	strspn.c
 SOURCES = $(libbison_a_SOURCES)
 
 all: all-am
@@ -194,6 +195,7 @@ clean-krextra:
 mostlyclean-kr:
 	-test "$U" = "" || rm -f *_.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/alloca.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/error$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/getopt$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/getopt1$U.Po@am__quote@
