@@ -2,7 +2,7 @@ divert(-1)#                                                  -*- Autoconf -*-
 # This file is part of Autoconf.
 # Base M4 layer.
 # Requires GNU M4.
-# Copyright 1999, 2000, 2001 Free Software Foundation, Inc.
+# Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -426,6 +426,16 @@ m4_define([m4_bmatch],
        [$3])])
 
 
+# m4_map(MACRO, LIST)
+# -------------------
+# Invoke MACRO($1), MACRO($2) etc. where $1, $2... are the elements
+# of LIST (which can be lists themselves, for multiple arguments MACROs).
+m4_define([m4_fst], [$1])
+m4_define([m4_map],
+[m4_if([$2], [[]], [],
+       [$1(m4_fst($2))[]dnl
+m4_map([$1], m4_cdr($2))])])
+
 
 ## ---------------------------------------- ##
 ## 6. Enhanced version of some primitives.  ##
@@ -464,6 +474,13 @@ m4_define([m4_do],
 [m4_if($#, 0, [],
        $#, 1, [$1],
        [$1[]m4_do(m4_shift($@))])])
+
+
+# m4_define_default(MACRO, VALUE)
+# -------------------------------
+# If MACRO is undefined, set it to VALUE.
+m4_define([m4_define_default],
+[m4_ifndef([$1], [m4_define($@)])])
 
 
 # m4_default(EXP1, EXP2)
@@ -521,16 +538,16 @@ m4_define([m4_popdef],
 m4_builtin([popdef], $@)])
 
 
-# m4_quote(STRING)
-# ----------------
-# Return STRING quoted.
+# m4_quote(ARGS)
+# --------------
+# Return ARGS as a single arguments.
 #
 # It is important to realize the difference between `m4_quote(exp)' and
 # `[exp]': in the first case you obtain the quoted *result* of the
 # expansion of EXP, while in the latter you just obtain the string
 # `exp'.
-m4_define([m4_quote], [[$*]])
-m4_define([m4_dquote], [[[$*]]])
+m4_define([m4_quote],  [[$*]])
+m4_define([m4_dquote],  [[$@]])
 
 
 # m4_noquote(STRING)
@@ -696,12 +713,12 @@ m4_define([m4_foreach],
 
 # Low level macros used to define m4_foreach.
 m4_define([m4_car], [[$1]])
-m4_define([m4_car2], [[$@]])
+m4_define([m4_cdr], [m4_dquote(m4_shift($@))])
 m4_define([_m4_foreach],
-[m4_if(m4_quote($2), [], [],
-       [m4_define([$1], [m4_car($2)])$3[]_m4_foreach([$1],
-                                                     m4_car2(m4_shift($2)),
-                                                     [$3])])])
+[m4_if([$2], [[]], [],
+       [m4_define([$1], m4_car($2))$3[]_m4_foreach([$1],
+                                                   m4_cdr($2),
+                                                   [$3])])])
 
 
 
@@ -1375,7 +1392,7 @@ m4_define([m4_re_escape],
 # ------------
 # Regexp for `[a-zA-Z_0-9]*'
 m4_define([m4_re_string],
-m4_dquote(m4_defn([m4_cr_symbols2]))dnl
+m4_defn([m4_cr_symbols2])dnl
 [*]dnl
 )
 
@@ -1384,7 +1401,7 @@ m4_dquote(m4_defn([m4_cr_symbols2]))dnl
 # ----------
 # Regexp for `[a-zA-Z_][a-zA-Z_0-9]*'
 m4_define([m4_re_word],
-m4_dquote(m4_defn([m4_cr_symbols1]))dnl
+m4_defn([m4_cr_symbols1])dnl
 m4_defn([m4_re_string])dnl
 )
 
@@ -1554,22 +1571,6 @@ m4_define([m4_append_uniq],
           [m4_append($@)])])
 
 
-# m4_foreach_quoted(VARIABLE, LIST, EXPRESSION)
-# ---------------------------------------------
-# FIXME: This macro should not exists.  Currently it's used only in
-# m4_wrap, which needs to be rewritten.  But it's godam hard.
-m4_define([m4_foreach_quoted],
-[m4_pushdef([$1], [])_m4_foreach_quoted($@)m4_popdef([$1])])
-
-# Low level macros used to define m4_foreach.
-m4_define([m4_car_quoted], [[$1]])
-m4_define([_m4_foreach_quoted],
-[m4_if($2, [()], ,
-       [m4_define([$1], [m4_car_quoted$2])$3[]_m4_foreach_quoted([$1],
-                                                               [(m4_shift$2)],
-                                                               [$3])])])
-
-
 # m4_text_wrap(STRING, [PREFIX], [FIRST-PREFIX], [WIDTH])
 # -------------------------------------------------------
 # Expands into STRING wrapped to hold in WIDTH columns (default = 79).
@@ -1617,16 +1618,16 @@ m4_Prefix1[]dnl
 m4_if(m4_eval(m4_Cursor > m4_len(m4_Prefix)),
       1, [m4_define([m4_Cursor], m4_len(m4_Prefix))
 m4_Prefix])[]dnl
-m4_foreach_quoted([m4_Word], (m4_split(m4_normalize([$1]))),
-[m4_define([m4_Cursor], m4_eval(m4_Cursor + m4_len(m4_Word) + 1))dnl
+m4_foreach([m4_Word], m4_quote(m4_split(m4_normalize([$1]))),
+[m4_define([m4_Cursor], m4_eval(m4_Cursor + m4_len(m4_defn([m4_Word])) + 1))dnl
 dnl New line if too long, else insert a space unless it is the first
 dnl of the words.
 m4_if(m4_eval(m4_Cursor > m4_Width),
       1, [m4_define([m4_Cursor],
-                    m4_eval(m4_len(m4_Prefix) + m4_len(m4_Word) + 1))]
+                    m4_eval(m4_len(m4_Prefix) + m4_len(m4_defn([m4_Word])) + 1))]
 m4_Prefix,
        [m4_Separator])[]dnl
-m4_Word[]dnl
+m4_defn([m4_Word])[]dnl
 m4_define([m4_Separator], [ ])])dnl
 m4_popdef([m4_Separator])dnl
 m4_popdef([m4_Cursor])dnl

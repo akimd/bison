@@ -1,11 +1,5 @@
 m4_divert(-1)
 
-# m4_define_default(MACRO, VALUE)
-# -------------------------------
-# Define MACRO to VALUE, unless already defined.
-m4_define([m4_define_default],
-[m4_ifdef([$1], [], [m4_define($@)])])
-
 m4_define_default([b4_input_suffix], [.y])
 
 m4_define_default([b4_output_parser_suffix],
@@ -24,6 +18,22 @@ m4_define_default([b4_output_header_name],
 m4_define_default([b4_header_guard],
                   [m4_bpatsubst(m4_toupper([BISON_]b4_output_header_name),
                                 [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
+
+
+# b4_token_defines(TOKEN-NAME, TOKEN-NUMBER)
+# ------------------------------------------
+# Output the definition of this token as #define.
+m4_define([b4_token_define],
+[#define $1 $2
+])
+
+
+# b4_token_defines(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
+# -------------------------------------------------------
+# Output the definition of the tokens as #define.
+m4_define([b4_token_defines],
+[m4_map([b4_token_define], [$@])])
+
 
 m4_divert(0)dnl
 #output "b4_output_parser_name"
@@ -200,7 +210,7 @@ union yyalloc
 #endif /* ! defined (yyoverflow) || YYERROR_VERBOSE */
 
 /* Tokens.  */
-b4_tokendef
+b4_token_defines(b4_tokens)
 
 /* YYFINAL -- State number of the termination state. */
 #define YYFINAL  b4_final
@@ -1148,7 +1158,7 @@ m4_if(b4_defines_flag, 0, [],
 #ifndef b4_header_guard
 # define b4_header_guard
 
-b4_tokendef
+b4_token_defines(b4_tokens)
 
 #ifndef YYSTYPE
 typedef b4_stype

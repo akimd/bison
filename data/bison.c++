@@ -1,10 +1,18 @@
 m4_divert(-1)
 
-# m4_define_default(MACRO, VALUE)
-# -------------------------------
-# Define MACRO to VALUE, unless already defined.
-m4_define([m4_define_default],
-[m4_ifdef([$1], [], [m4_define($@)])])
+# b4_token_defines(TOKEN-NAME, TOKEN-NUMBER)
+# ------------------------------------------
+# Output the definition of this token as #define.
+m4_define([b4_token_define],
+[#define $1 $2
+])
+
+
+# b4_token_defines(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
+# -------------------------------------------------------
+# Output the definition of the tokens as #define.
+m4_define([b4_token_defines],
+[m4_map([b4_token_define], [$@])])
 
 m4_define_default([b4_input_suffix], [.y])
 
@@ -26,7 +34,7 @@ m4_define_default([b4_header_guard],
                                 [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
 
 m4_define([b4_inherit],
-          [m4_ifdef([b4_root], 
+          [m4_ifdef([b4_root],
 		    [: public b4_root
 ],
 		    [])])
@@ -88,7 +96,7 @@ b4_copyright
 b4_prologue
 
 /* Tokens.  */
-b4_tokendef
+b4_token_defines
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -158,7 +166,7 @@ namespace yy
 
 #if YYLSP_NEEDED
     b4_name (bool debug,
-	    LocationType initlocation[]b4_param) : 
+	    LocationType initlocation[]b4_param) :
       b4_constructor[]debug_ (debug),
       initlocation_ (initlocation)
 #else
