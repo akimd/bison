@@ -23,7 +23,7 @@
 # least Autoconf 2.59.
 AC_PREREQ(2.59)
 
-AC_INIT([GNU Bison], [1.875f], [bug-bison@gnu.org])
+AC_INIT([GNU Bison], [2.0], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([m4])
 
