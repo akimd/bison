@@ -60,8 +60,11 @@ move_if_change ?= move-if-change
 po_repo = http://www.iro.umontreal.ca/contrib/po/maint/$(PACKAGE)
 .PHONY: do-po-update po-update
 do-po-update:
-	cd $(srcdir)/po && wget -r -l1 -nd --no-parent -A '*.po' $(po_repo)
-	rm $(srcdir)/po/index.html
+	tmppo=/tmp/$(PACKAGE)-$(VERSION)-po &&\
+	rm -rf $$tmppo && \
+	mkdir $$tmppo && \
+	(cd $$tmppo && $(WGET) -r -l1 -nd --no-parent -A '*.po' $(po_repo)) &&\
+	cp $$tmppo/*.po po
 	cd po && $(MAKE) update-po
 	$(MAKE) po-check
 
@@ -267,7 +270,7 @@ rel-check:
 	md5_tmp=/tmp/rel-check-md5-$$$$; \
 	set -e; \
 	trap 'status=$$?; rm -f $$tarz $$md5_tmp; exit $$status' 0 1 2 3 15; \
-	wget -q --output-document=$$tarz $(url); \
+	$(WGET) -q --output-document=$$tarz $(url); \
 	echo "$(md5)  -" > $$md5_tmp; \
 	md5sum -c $$md5_tmp < $$tarz
 

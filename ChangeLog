@@ -1,3 +1,8 @@
+2001-08-29  Akim Demaille  <akim@epita.fr>
+
+	* Makefile.maint (do-po-update): Wget refuses to overwrite files:
+	download in a tmp dir.
+
 2001-08-28  Marc Autret  <autret_m@epita.fr>
 
 	* config/depcomp: New file.
@@ -6,14 +11,14 @@
 
 	* doc/bison.1 (mandoc): Adjust.
 	From Juan Manuel Guerrero.
-	
+
 2001-08-28  Marc Autret  <autret_m@epita.fr>
 
 	* src/print_graph.c (print_state): Fix.
 
 2001-08-27  Marc Autret  <autret_m@epita.fr>
 
-	* src/vcg.h (classname_s, infoname_s, node_s): Constify the 
+	* src/vcg.h (classname_s, infoname_s, node_s): Constify the
 	char * members.
 	Echo modifications to the functions prototypes.
 	* src/vcg.c (add_classname, add_infoname): Adjust arguments.
