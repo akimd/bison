@@ -65,6 +65,14 @@ m4_define([b4_identification],
 
 
 
+## ---------------- ##
+## Default values.  ##
+## ---------------- ##
+
+m4_define_default([b4_epilogue], [])
+
+
+
 ## ------------------------ ##
 ## Pure/impure interfaces.  ##
 ## ------------------------ ##

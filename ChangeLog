@@ -1,5 +1,17 @@
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
+	* src/scan-gram.l, src/reader.h (scanner_last_string_free):
+	Restore.
+	* src/scan-gram.l (last_string): Is global to the file, not to
+	yylex.
+	* src/parse-gram.y (input): Don't append the epilogue here,
+	(epilogue.opt): do it here, and free the scanner's obstack.
+	* src/reader.c (epilogue_set): Rename as...
+	(epilogue_augment): this.
+	* data/c.m4 (b4_epilogue): Defaults to empty.
+
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c (long_options): Remove duplicates.
 	* src/vmsgetargs.c, src/build.com, src/bison.cld, src/vmshlp.mar:
 	Remove.

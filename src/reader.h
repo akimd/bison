@@ -42,6 +42,7 @@ extern FILE *gram_in;
 extern int gram__flex_debug;
 void scanner_initialize (void);
 void scanner_free (void);
+void scanner_last_string_free (void);
 
 # define YY_DECL \
   int gram_lex (yystype *yylval, location_t *yylloc, \
@@ -69,7 +70,7 @@ extern braced_code_t current_braced_code;
 /* From reader.c. */
 void grammar_start_symbol_set (symbol_t *s, location_t l);
 void prologue_augment (const char *prologue, location_t location);
-void epilogue_set (const char *epilogue, location_t location);
+void epilogue_augment (const char *epilogue, location_t location);
 void grammar_symbol_append (symbol_t *s, location_t l);
 void grammar_rule_begin (symbol_t *lhs, location_t l);
 void grammar_rule_end (location_t l);

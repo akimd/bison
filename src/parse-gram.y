@@ -158,7 +158,8 @@ braced_code_t current_braced_code = action_braced_code;
 
 
 %type <string> STRING string_content
-               BRACED_CODE PROLOGUE EPILOGUE epilogue.opt action
+               BRACED_CODE action
+               PROLOGUE EPILOGUE
 %type <struniq> TYPE
 %type <integer> INT
 %type <symbol> ID symbol string_as_id
@@ -170,7 +171,6 @@ input:
   declarations "%%" grammar epilogue.opt
     {
       yycontrol->errcode = 0;
-      epilogue_set ($4, @4);
     }
 ;
 
@@ -418,12 +418,10 @@ string_content:
 
 epilogue.opt:
   /* Nothing.  */
-    {
-      $$ = xstrdup ("");
-    }
 | "%%" EPILOGUE
     {
-      $$ = $2;
+      epilogue_augment ($2, @2);
+      scanner_last_string_free ();
     }
 ;
 
@@ -463,6 +461,10 @@ yyprint (FILE *file,
     case PROLOGUE:
     case EPILOGUE:
       fprintf (file, " = {{ %s }}", value->string);
+      break;
+
+    default:
+      fprintf (file, "unknown token type");
       break;
     }
 }

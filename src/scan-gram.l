@@ -142,6 +142,10 @@ extend_location (location_t *loc, char const *token, int size)
 
 static struct obstack string_obstack;
 
+/* A string representing the most recently saved token.  */
+static char *last_string;
+
+
 #define YY_OBS_GROW   \
   obstack_grow (&string_obstack, yytext, yyleng)
 
@@ -154,6 +158,11 @@ static struct obstack string_obstack;
 #define YY_OBS_FREE \
   obstack_free (&string_obstack, last_string)
 
+void
+scanner_last_string_free (void)
+{
+  YY_OBS_FREE;
+}
 
 /* Within well-formed rules, RULE_LENGTH is the number of values in
    the current rule so far, which says where to find `$0' with respect
@@ -198,9 +207,6 @@ splice	 (\\[ \f\t\v]*\n)*
 
   /* Scanner context when scanning C code.  */
   int c_context IF_LINT (= 0);
-
-  /* A string representing the most recently saved token.  */
-  char *last_string;
 
   /* At each yylex invocation, mark the current position as the
      start of the next token.  */
