@@ -1,5 +1,17 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/options.c (OPTN, DRTV, BOTH): New.
+	(option_table): Use them.
+
+	
+	* src/muscle_tab.c: Don't include xalloc.h and string.h: that's
+	the job of system.h.
+	* src/options.c: Don't include stdio.h and xalloc.h for the same
+	reasons.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output, prepare): Make sure the values of the
 	muscles `action' and `prologue' are 0-terminated.
 
