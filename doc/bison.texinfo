@@ -2481,7 +2481,8 @@ does not enforce this convention, but if you depart from it, people who
 read your program will be confused.
 
 All the escape sequences used in string literals in C can be used in
-Bison as well.  However, unlike Standard C, trigraphs have no special
+Bison as well, except that you must not use a null character within a
+string literal.  Also, unlike Standard C, trigraphs have no special
 meaning in Bison string literals, nor is backslash-newline allowed.  A
 literal string token must contain two or more characters; for a token
 containing just one character, use a character token (see above).

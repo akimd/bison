@@ -371,6 +371,7 @@ splice	 (\\[ \f\t\v]*\n)*
     return STRING;
   }
 
+  \0	    complain_at (*loc, _("invalid null character"));
   .|\n	    STRING_GROW;
   <<EOF>>   unexpected_eof (token_start, "\""); BEGIN INITIAL;
 }
@@ -397,6 +398,7 @@ splice	 (\\[ \f\t\v]*\n)*
     return ID;
   }
 
+  \0	    complain_at (*loc, _("invalid null character"));
   .|\n	    STRING_GROW;
   <<EOF>>   unexpected_eof (token_start, "'"); BEGIN INITIAL;
 }
@@ -412,6 +414,8 @@ splice	 (\\[ \f\t\v]*\n)*
     unsigned long c = strtoul (yytext + 1, 0, 8);
     if (UCHAR_MAX < c)
       complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
+    else if (! c) 
+      complain_at (*loc, _("invalid null character: %s"), quote (yytext));
     else
       obstack_1grow (&obstack_for_string, c);
   }
@@ -422,6 +426,8 @@ splice	 (\\[ \f\t\v]*\n)*
     c = strtoul (yytext + 2, 0, 16);
     if (UCHAR_MAX < c || get_errno ())
       complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
+    else if (! c)
+      complain_at (*loc, _("invalid null character: %s"), quote (yytext));
     else
       obstack_1grow (&obstack_for_string, c);
   }
@@ -441,6 +447,8 @@ splice	 (\\[ \f\t\v]*\n)*
     int c = convert_ucn_to_byte (yytext);
     if (c < 0)
       complain_at (*loc, _("invalid escape sequence: %s"), quote (yytext));
+    else if (! c)
+      complain_at (*loc, _("invalid null character: %s"), quote (yytext));
     else
       obstack_1grow (&obstack_for_string, c);
   }

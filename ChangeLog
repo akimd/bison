@@ -1,3 +1,10 @@
+2003-10-07  Paul Eggert  <eggert@twinsun.com>
+
+	* doc/bison.texinfo (Symbols): NUL bytes are not allowed in string
+	literals, unfortunately.
+	* src/scan-gram.l (<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>):
+	Complain about NUL bytes in character constants or string literals.
+
 2003-10-05  Paul Eggert  <eggert@twinsun.com>
 
 	* NEWS: Don't document %no-default-prec, as it's still
