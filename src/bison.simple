@@ -40,7 +40,7 @@
 /* Using locations.  */
 #define YYLSP_NEEDED %%locations-flag
 
-/* If name_prefix is specify substitute the variables and functions
+/* If NAME_PREFIX is specified substitute the variables and functions
    names.  */
 #define yyparse %%prefix##parse
 #define yylex   %%prefix##lex
@@ -49,6 +49,10 @@
 #define yychar  %%prefix##char
 #define yydebug %%prefix##debug
 #define yynerrs %%prefix##nerrs
+#if YYLSP_NEEDED
+# define yylloc %%prefix##lloc
+#endif
+
 
 /* Copy the user declarations.  */
 %%prologue

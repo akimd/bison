@@ -1,5 +1,20 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	%name-prefix is broken.
+
+	* src/files.c (spec_name_prefix): Initialize to NULL, not to "yy".
+	Adjust all dependencies.
+	* tests/headers.at (export YYLTYPE): Strengthen this test: use
+	%name-prefix.
+
+	Renaming yylval but not yylloc is not consistent.  Now we do.
+
+	* src/bison.simple: Prefix yylloc if used.
+	* doc/bison.texinfo (Decl Summary): Document that.
+
+	
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo: Promote `%long-directive' over
 	`%long_directive'.
 	Remove all references to fixed-output-files, yacc is enough.

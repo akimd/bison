@@ -82,18 +82,20 @@ AT_SETUP([export YYLTYPE])
 
 AT_DATA([input.y],
 [%locations
+
+%name-prefix="my_"
 %{
 #include <stdio.h>
 #include <stdlib.h>
 
 static int
-yylex (void)
+my_lex (void)
 {
   return EOF;
 }
 
 static void
-yyerror (const char *msg)
+my_error (const char *msg)
 {
   fprintf (stderr, "%s\n", msg);
 }
@@ -105,22 +107,22 @@ exp:;
 
 AT_CHECK([bison --defines input.y -o input.c])
 
-# YYLTYPE should be defined, and YYLLOC declared.
+# YYLTYPE should be defined, and MY_LLOC declared.
 AT_DATA([caller.c],
 [[#include "input.h"
-YYLTYPE *yyllocp = &yylloc;
+YYLTYPE *my_llocp = &my_lloc;
 
-int yyparse (void);
+int my_parse (void);
 
 int
 main (void)
 {
-  return yyparse ();
+  return my_parse ();
 }
 ]])
 
 # Link and execute, just to make sure everything is fine (and in
-# particular, that YYLLOC is indeed defined somewhere).
+# particular, that MY_LLOC is indeed defined somewhere).
 AT_CHECK([$CC $CFLAGS $CPPFLAGS caller.c input.c -o caller], 0, [], [ignore])
 AT_CHECK([caller])
 

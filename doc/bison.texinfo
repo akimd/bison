@@ -3289,10 +3289,10 @@ accurate parse error messages.
 Rename the external symbols used in the parser so that they start with
 @var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
 is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
-@code{yylval}, @code{yychar} and @code{yydebug}.  For example, if you
-use @samp{%name-prefix="c_"}, the names become @code{c_parse},
-@code{c_lex}, and so on.  @xref{Multiple Parsers, ,Multiple Parsers in
-the Same Program}.
+@code{yylval}, @code{yychar}, @code{yydebug}, and possible
+@code{yylloc}.  For example, if you use @samp{%name-prefix="c_"}, the
+names become @code{c_parse}, @code{c_lex}, and so on.  @xref{Multiple
+Parsers, ,Multiple Parsers in the Same Program}.
 
 @item %no-parser
 Do not include any C code in the parser file; generate tables only.  The
