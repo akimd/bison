@@ -4230,8 +4230,8 @@ void yyerror (YYLTYPE *locp, char const *msg);  /* GLR parsers.   */
 If @samp{%parse-param @{int *nastiness@}} is used, then:
 
 @example
-void yyerror (int *randomness, char const *msg);  /* Yacc parsers.  */
-void yyerror (int *randomness, char const *msg);  /* GLR parsers.   */
+void yyerror (int *nastiness, char const *msg);  /* Yacc parsers.  */
+void yyerror (int *nastiness, char const *msg);  /* GLR parsers.   */
 @end example
 
 Finally, GLR and Yacc parsers share the same @code{yyerror} calling
