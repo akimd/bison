@@ -1,3 +1,11 @@
+2001-08-29  Marc Autret  <autret_m@epita.fr>
+
+	* src/bison.simple: Add %%user_code directive at the end.
+	* src/reader.c (read_additionnal_code): New.
+	(reader): Use it.
+	* src/output.c (output_program): Remove.
+	(output): Update.
+
 2001-08-28  Marc Autret  <autret_m@epita.fr>
 
 	* src/output.c (output_actions): Clean up.
