@@ -39,6 +39,8 @@ stdbool.h
 stdbool_.h
 stpcpy.c
 stpcpy.h
+strdup.c
+strdup.h
 stripslash.c
 strncasecmp.c
 strndup.c
