@@ -17,8 +17,6 @@ m4_divert(-1)
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 # 02111-1307  USA
 
-m4_include([c.m4])
-
 ## ---------------- ##
 ## Default values.  ##
 ## ---------------- ##
