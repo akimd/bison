@@ -1,6 +1,6 @@
 m4_divert(-1)
 # C++ skeleton for Bison
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -87,9 +87,10 @@ m4_define([b4_constructor],
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
 m4_divert(0)dnl
-@output @output_header_name@
+m4_if(b4_defines_flag, 0, [],
+[@output @output_header_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002])[
+             [2002, 2003])[
 /* FIXME: This is wrong, we want computed header guards.
    I don't know why the macros are missing now. :( */
 #ifndef PARSER_HEADER_H
@@ -282,12 +283,12 @@ namespace yy
 }
 
 #endif /* ! defined PARSER_HEADER_H */]
-dnl
+])dnl
 @output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002])[
+             [2002, 2003])
 
-#include @output_header_name@
+m4_if(b4_defines_flag, 0, [], [#include @output_header_name@])[
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
@@ -766,7 +767,7 @@ const yy::]b4_parser_class_name[::TokenNumberType yy::]b4_parser_class_name[::un
 ]b4_epilogue
 dnl
 @output stack.hh
-b4_copyright([2002])[
+b4_copyright([2002, 2003])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
@@ -863,7 +864,7 @@ namespace yy
 #endif // not BISON_STACK_HH]
 dnl
 @output location.hh
-b4_copyright([2002])[
+b4_copyright([2002, 2003])[
 
 #ifndef BISON_LOCATION_HH
 # define BISON_LOCATION_HH
