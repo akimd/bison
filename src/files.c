@@ -420,7 +420,7 @@ compute_output_file_names (void)
 
   attrsfile = stringappend (short_base_name, EXT_STYPE_H);
 #ifndef MSDOS
-  stringappend (attrsfile, header_extension);
+  attrsfile = stringappend (attrsfile, header_extension);
 #endif /* MSDOS */
 
 }

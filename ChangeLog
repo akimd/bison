@@ -1,3 +1,7 @@
+2001-09-24  Marc Autret  <autret_m@epita.fr>
+
+	* src/files.c (compute_output_file_names): Fix.
+
 2001-09-24  Marc Autret  <autret_m@epita.fr>, Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (reader): Remove call to free_symtab ().
