@@ -1,5 +1,8 @@
 2002-11-14  Paul Eggert  <eggert@twinsun.com>
 
+	Fix bugs reported by Nelson H. F. Beebe in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001893.html>.
+
 	* tests/headers.at (AT_TEST_CPP_GUARD_H): Don't assume that
 	"$CC -E foo.h" is allowed, as this doesn't work with the Portland
 	Group compiler.  Instead, use "$CC -E bar.c".  Include the .h
