@@ -1,3 +1,16 @@
+2001-08-30  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/main.c: Include macrotab.h.
+	* src/macrotab.h (macro_entry_s): Constify fields. 
+	Adjust functions prototypes.
+	* src/macrotab.c (macro_insert): Constify key and value.
+	(macro_find): Constify key.
+	(macro_insert): Include 'xalloc.h'
+	(macro_insert): Use XMALLOC.
+	(macro_find): Constify return value.
+	* src/output.c (output_table_data): Rename table to table_data.
+	(output_parser): Constify macro_key, macro_value.
+
 2001-08-30  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (parse_skel_decl): New.
