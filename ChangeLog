@@ -1,5 +1,9 @@
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
 
+	* src/bison.simple: Update and add '%%' directives.
+
+2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
+
 	* src/reader.c (reader): Remove calls to 'output_headers' and
 	'output_trailers'. Remove some C output.
 	(readgram): Disable a piece of code that was writing a default
