@@ -672,7 +672,7 @@ yyerrlab:
 	  count = 0;
 	  /* Start X at -yyn if nec to avoid negative indexes in yycheck.  */
 	  for (x = (yyn < 0 ? -yyn : 0);
-	       x < (sizeof (yytname) / sizeof (char *)); x++)
+	       x < (int) (sizeof (yytname) / sizeof (char *)); x++)
 	    if (yycheck[x + yyn] == x)
 	      size += strlen (yytname[x]) + 15, count++;
 	  size += strlen ("parse error, unexpected `") + 1;
@@ -688,7 +688,7 @@ yyerrlab:
 		{
 		  count = 0;
 		  for (x = (yyn < 0 ? -yyn : 0);
-		       x < (sizeof (yytname) / sizeof (char *)); x++)
+		       x < (int) (sizeof (yytname) / sizeof (char *)); x++)
 		    if (yycheck[x + yyn] == x)
 		      {
 			strcat (msg, count == 0 ? ", expecting `" : " or `");
