@@ -4506,9 +4506,8 @@ produce parsers that are very large.  In practice, Bison is more useful
 as it is now.
 
 When the problem arises, you can often fix it by identifying the two
-parser states that are being confused (using @samp{-v}
-(@pxref{Invocation, ,Invoking Bison}) can help), and adding something to
-make them look distinct.  In the above example, adding one rule to
+parser states that are being confused, and adding something to make them
+look distinct.  In the above example, adding one rule to
 @code{return_spec} as follows makes the problem go away:
 
 @example
