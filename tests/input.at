@@ -100,7 +100,6 @@ const char *foo = "So %{ and %} can be here too.";
 #ifdef __STDC__
 /\
 * A comment with backslash-newlines in it. %{ %} *\
-\
 /
 
 char str[] = "\\
@@ -108,7 +107,6 @@ char str[] = "\\
 "";
 
 char apostrophe = '\\
-\
 '\
 ';
 #endif
