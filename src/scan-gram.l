@@ -266,10 +266,14 @@ splice	 (\\[ \f\t\v]*\n)*
   "="                     return EQUAL;
   ":"                     rule_length = 0; return COLON;
   "|"                     rule_length = 0; return PIPE;
-  ","                     return COMMA;
   ";"                     return SEMICOLON;
 
   [ \f\n\t\v]  STEP;
+
+  "," {
+    warn_at (*loc, _("stray `,' treated as white space"));
+    STEP;
+  }
 
   {id}        {
     val->symbol = symbol_get (yytext, *loc);
