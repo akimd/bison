@@ -1,5 +1,15 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	New experimental feature: if --verbose --trace output all the
+	items of a state, not only its kernel.
+
+	* src/print.c (print_core): If `trace_flag', then invoke closure
+	before outputting the items of the state (print_core is no longer
+	a correct name them).
+	(print_results): Invoke new_closure/free_closure if needed.
+
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (new_itemsets): Use nshifts only, not shiftcount.
 	* src/closure.c, src/closure.h (itemsetsize): Rename as...
 	(nitemset): for consistency with the rest of the project.
