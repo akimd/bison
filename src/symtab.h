@@ -56,13 +56,14 @@ struct symbol_s
 {
   /* The key, name of the symbol.  */
   char *tag;
+  /* The location of its first occurence.  */
+  location_t location;
 
   /* Its %type and associated destructor.  */
   char *type_name;
   char *destructor;
+  location_t destructor_location;
 
-  /* The location of its first occurence.  */
-  location_t location;
 
   symbol_number_t number;
   short prec;

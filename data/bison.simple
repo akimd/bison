@@ -1267,7 +1267,11 @@ yyreturn:
   return yyresult;
 ]}
 
-/* Release the memory associated to SYMBOL-NUMBER. */
+
+/*-------------------------------------------------.
+| Release the memory associated to SYMBOL-NUMBER.  |
+`-------------------------------------------------*/
+
 m4_divert_push([KILL])# M4 code.
 # b4_eval
 # -------
@@ -1280,9 +1284,11 @@ m4_define([b4_eval],
 # b4_symbol_destructor(SYMBOL-NUMBER, DESTRUCTOR, TYPE-NAME)
 # ----------------------------------------------------------
 m4_define([b4_symbol_destructor],
-[m4_pushdef([b4_dollar_dollar], [symbol_value.$3])dnl
-      case $1:
-        b4_eval($2);
+[m4_pushdef([b4_dollar_dollar], [symbol_value.$6])dnl
+      case $4: /* $3 */
+#line $2 "$1"
+        b4_eval($5);
+#line __oline__ "__ofile__"
         break;
 m4_popdef([b4_dollar_dollar])])
 

@@ -1,3 +1,13 @@
+2002-06-18  Akim Demaille  <akim@epita.fr>
+
+	* src/symtab.h, src/symtab.c (symbol_t): destructor_location is a
+	new member.
+	(symbol_destructor_set): Adjust.
+	* src/output.c (symbol_destructors_output): Output the destructor
+	locations.
+	Output the symbol name.
+	* data/bison.simple (b4_symbol_destructor): Adjust.
+
 2002-06-18  Cris Bailiff  <c.bailiff@awayweb.com>
 	and Akim Demaille  <akim@epita.fr>
 
