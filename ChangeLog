@@ -1,3 +1,7 @@
+2004-06-21  Frank Heckenbach  <frank@g-n-u.de>
+
+	* doc/bison.texinfo (Simple GLR Parsers): New section.
+
 2004-06-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS, TODO, doc/bison.texinfo:
