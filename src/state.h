@@ -99,7 +99,9 @@ typedef struct core
 }
 core;
 
-
+#define CORE_ALLOC(Nitems)						\
+  (core *) xcalloc ((unsigned) (sizeof (core)	 			\
+                                + (Nitems - 1) * sizeof (short)), 1)
 
 typedef struct shifts
 {
@@ -110,6 +112,9 @@ typedef struct shifts
 }
 shifts;
 
+#define SHIFTS_ALLOC(Nshifts)						\
+  (shifts *) xcalloc ((unsigned) (sizeof (shifts) 			\
+                                  + (Nshifts - 1) * sizeof (short)), 1)
 
 
 typedef struct errs
@@ -118,6 +123,10 @@ typedef struct errs
   short errs[1];
 }
 errs;
+
+#define ERRS_ALLOC(Nerrs)						\
+  (errs *) xcalloc ((unsigned) (sizeof (errs) 				\
+                                  + (Nerrs - 1) * sizeof (short)), 1)
 
 
 
@@ -129,5 +138,9 @@ typedef struct reductions
   short rules[1];
 }
 reductions;
+
+#define REDUCTIONS_ALLOC(Nreductions)					\
+  (reductions *) xcalloc ((unsigned) (sizeof (reductions)		\
+                                  + (Nreductions - 1) * sizeof (short)), 1)
 
 #endif /* !STATE_H_ */
