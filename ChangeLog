@@ -1,3 +1,14 @@
+2003-01-13  Akim Demaille  <akim@epita.fr>,
+		Quoc Peyrot <chojin@lrde.epita.fr>,
+		Robert Anisko <anisko_r@lrde.epita.fr>
+
+	* data/lalr1.cc (parse::yyerrlab1): When popping the stack, stop
+	when the stacks contain one element, as the loop would otherwise
+	free the last state, and then use the top state (the one we just
+	popped).  This means that the initial elements will not be freed
+	explicitly, as is the case in yacc.c; it is not a problem, as
+	these elements have fake values.
+
 2003-01-11  Paul Eggert  <eggert@twinsun.com>
 
 	* NEWS: %expect-violations are now just warnings, reverting

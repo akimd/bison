@@ -302,7 +302,10 @@ yy::]b4_parser_class_name[::parse ()
   int nerrs = 0;
   int errstatus = 0;
 
-  /* Initialize stack.  */
+  /* Initialize the stacks.  The initial state will be pushed in
+     yynewstate, since the latter expects the semantical and the
+     location values to have been already stored, initialize these
+     stacks with a primary value.  */
   state_stack_ = StateStack (0);
   semantic_stack_ = SemanticStack (1);
   location_stack_ = LocationStack (1);
@@ -545,7 +548,7 @@ b4_syncline([@oline@], [@ofile@])[
 	}
 
       /* Pop the current state because it cannot handle the error token.  */
-      if (!state_stack_.height ())
+      if (state_stack_.height () == 1)
 	goto yyabortlab;
 
 #if YYDEBUG
