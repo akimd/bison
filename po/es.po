@@ -67,7 +67,7 @@ msgstr "error grave: %s\n"
 #, fuzzy, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
-"El conflicto en el estado %s entre la regla %d y el terminal %s se resuelve "
+"El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
 #: src/conflicts.c:94 src/conflicts.c:119
