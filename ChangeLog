@@ -1,5 +1,12 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/state.h (state_number_t, STATE_NUMBER_MAX): New.
+	* src/LR0.c, src/LR0.h, src/conflicts.c, src/lalr.c, src/lalr.h,
+	* src/output.c, src/print.c, src/print_graph.c: Propagate.
+	* src/LR0.h, src/LR0.h (final_state): Is a state_t*.
+
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	Make the test suite pass with warnings checked.
 
 	* tests/actions.at (Printers and Destructors): Improve.

@@ -25,7 +25,7 @@
 
 void generate_states PARAMS ((void));
 
-extern unsigned int nstates;
-extern int final_state;
+extern state_number_t nstates;
+extern state_t *final_state;
 
 #endif /* !LR0_H_ */

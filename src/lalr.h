@@ -50,8 +50,8 @@ void lalr PARAMS ((void));
    TO_STATE of the first of them.  */
 
 extern short *goto_map;
-extern short *from_state;
-extern short *to_state;
+extern state_number_t *from_state;
+extern state_number_t *to_state;
 
 /* LARULE is a vector which records the rules that need lookahead in
    various states.  The elements of LARULE that apply to state S are

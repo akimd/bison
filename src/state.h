@@ -90,6 +90,17 @@
 
 # include "bitsetv.h"
 
+
+/*-------------------.
+| Numbering states.  |
+`-------------------*/
+
+typedef short state_number_t;
+# define STATE_NUMBER_MAX ((state_number_t) SHRT_MAX)
+
+/* Be ready to map a state_number_t to an int.  */
+# define state_number_as_int(Tok) ((int) (Tok))
+
 /*---------.
 | Shifts.  |
 `---------*/
@@ -97,7 +108,7 @@
 typedef struct shifts
 {
   short nshifts;
-  short shifts[1];
+  state_number_t shifts[1];
 } shifts;
 
 shifts *shifts_new PARAMS ((int n));
@@ -171,7 +182,7 @@ typedef struct state_s
   struct state_s *next;
   struct state_s *link;
 
-  short number;
+  state_number_t number;
   symbol_number_t accessing_symbol;
   shifts     *shifts;
   reductions *reductions;
