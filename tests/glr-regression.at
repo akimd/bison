@@ -127,6 +127,7 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
 
   #include <ctype.h>
   #include <stdio.h>
+  #include <stdlib.h>
   #include <string.h>
   int yylex (void);
   void yyerror (char const *);
@@ -155,11 +156,10 @@ var_list:
     { $$ = $1; }
   | var ',' var_list
     {
-      char buffer[50];
-      strcpy (buffer, $1);
-      strcat (buffer, ",");
-      strcat (buffer, $3);
-      $$ = strdup (buffer);
+      $$ = malloc (strlen ($1) + 1 + strlen ($3) + 1);
+      strcpy ($$, $1);
+      strcat ($$, ",");
+      strcat ($$, $3);
     }
   ;
 
@@ -182,8 +182,12 @@ yylex (void)
   default:
     break;
   }
-  fscanf (yyin, "%s", buf);
-  yylval = strdup (buf);
+  if (fscanf (yyin, "%49s", buf) != 1)
+    abort ();
+  if (sizeof buf - 1 <= strlen (buf))
+    abort ();
+  yylval = malloc (strlen (buf) + 1);
+  strcpy (yylval, buf);
   return 'V';
 }
 
