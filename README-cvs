@@ -22,19 +22,7 @@ information on:
 
 The next step is asking the installation of all the missing files:
 
-	$ autoreconf -f -v -i
-
-Unfortunately, this will change a few files that should not have been
-replaced, so remove them, and ask for the original copies:
-
-	$ rm Makefile.am configure.in m4/Makefile.am
-	$ cvs update
-
-(Hopefully, these steps will no longer be needed in the future.)
-Because of these changes, running autoreconf a second, and last time,
-is needed.  Pay attention that the options are different this time:
-
-	$ autoreconf -v -f
+	$ ./bootstrap
 
 And there you are!  Just
 

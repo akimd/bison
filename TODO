@@ -152,6 +152,11 @@ src/bison/tests % cd ./testsuite.dir/51
 tests/testsuite.dir/51 % echo "()" | ./calc
 1.2-1.3: parse error, unexpected ')', expecting error or "number" or '-' or '('
 
+* yyerror, yyprint interface
+It should be improved, in particular when using Bison features such as
+locations, and YYPARSE_PARAMS.  For the time being, it is recommended
+to #define yyerror and yyprint to steal internal variables...
+
 * read_pipe.c
 This is not portable to DOS for instance.  Implement a more portable
 scheme.  Sources of inspiration include GNU diff, and Free Recode.

@@ -1,0 +1,14 @@
+#! /bin/sh
+
+echo "Bootstrapping CVS Bison..."
+
+autoreconf --force --install --verbose
+
+# Because of Gettext
+mv m4/Makefile.am~ m4/Makefile.am
+mv Makefile.am~ Makefile.am
+mv configure.in~ configure.in
+touch m4/Makefile.am Makefile.am configure.in
+rm po/Makevars.template
+
+autoreconf --verbose
