@@ -1,8 +1,10 @@
+*_.c
 .deps
 ChangeLog
 Makefile
 Makefile.in
 aclocal.m4
+ansi2knr
 bison
 bison.aux
 bison.cp
