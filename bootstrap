@@ -165,7 +165,7 @@ case $SKIP_PO in
   (cd po &&
    rm -f dummy `ls | sed -n '/\.gmo$/p; /\.po/p'` &&
    wget -nv -nd -r -l 1 -A .po -C off \
-     http://www2.iro.umontreal.ca/~gnutra/po/maint/$package/ &&
+     http://www.iro.umontreal.ca/translation/maint/$package/ &&
    ls *.po | sed 's/\.po$//' >LINGUAS
   ) || exit;;
 esac

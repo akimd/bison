@@ -1,3 +1,10 @@
+2005-03-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap: Change translation URL from
+	http://www2.iro.umontreal.ca/~gnutra/po/maint/bison/ to
+	http://www.iro.umontreal.ca/translation/maint/bison/ to avoid
+	redirection glitches.  Problem reported by twlevo@xs4all.nl.
+
 2005-03-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/local.at (AT_COMPILE, AT_COMPILE_CXX): Don't put options
