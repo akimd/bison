@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.28d\n"
+"Project-Id-Version: GNU bison 1.29f\n"
 "POT-Creation-Date: 2001-10-26 14:37+0200\n"
-"PO-Revision-Date: 2001-08-29 20:00-0500\n"
+"PO-Revision-Date: 2001-10-19 15:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -374,7 +374,7 @@ msgstr "règle %-4d %s ->"
 
 #: src/print.c:240
 msgid "empty"
-msgstr ""
+msgstr "vide"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:244

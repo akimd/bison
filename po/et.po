@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.28d\n"
+"Project-Id-Version: bison 1.29f\n"
 "POT-Creation-Date: 2001-10-26 14:37+0200\n"
-"PO-Revision-Date: 2001-08-29 17:06+02:00\n"
+"PO-Revision-Date: 2001-10-19 17:53+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -368,7 +368,7 @@ msgstr "reegel %-4d %s ->"
 
 #: src/print.c:240
 msgid "empty"
-msgstr ""
+msgstr "tühi"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
 #: src/print.c:244
@@ -790,12 +790,3 @@ msgstr "`"
 #: lib/quotearg.c:269
 msgid "'"
 msgstr "'"
-
-#~ msgid "\t\t/* empty */"
-#~ msgstr "\t\t/* tühi */"
-
-#~ msgid "multiple %%header_extension declarations"
-#~ msgstr "korduvad %%header_extension eklaratsioonid"
-
-#~ msgid "multiple %%source_extension declarations"
-#~ msgstr "korduvad %%source_extension deklaratsioonid"
