@@ -675,8 +675,8 @@ int yyparse (void);
 #endif
 
 #if defined (__STDC__) || defined (__cplusplus)
-static void yydestructor (int yytype,
-			  YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]));
+static void yydestruct (int yytype,
+			YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]));
 # if YYDEBUG
 static void yysymprint (FILE* out, int yytype,
 			YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]));
@@ -1115,7 +1115,7 @@ yyerrlab1:
 			    yystos[*yyssp],
 			    *yyvsp]b4_location_if([, *yylsp])[));
 	      YYDPRINTF ((stderr, "\n"));
-	      yydestructor (yystos[*yyssp], *yyvsp]b4_location_if([, *yylsp])[);
+	      yydestruct (yystos[*yyssp], *yyvsp]b4_location_if([, *yylsp])[);
 	      YYPOPSTACK;
 	    }
 	  YYABORT;
@@ -1123,7 +1123,7 @@ yyerrlab1:
 
       YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
 		  yychar, yytname[yychar1]));
-      yydestructor (yychar1, yylval]b4_location_if([, yylloc])[);
+      yydestruct (yychar1, yylval]b4_location_if([, yylloc])[);
       yychar = YYEMPTY;
     }
 
@@ -1155,7 +1155,7 @@ yyerrlab1:
 		    yystos[*yyssp], *yyvsp]b4_location_if([, *yylsp])[));
       YYDPRINTF ((stderr, "\n"));
 
-      yydestructor (yystos[yystate], *yyvsp]b4_location_if([, *yylsp])[);
+      yydestruct (yystos[yystate], *yyvsp]b4_location_if([, *yylsp])[);
       yyvsp--;
       yystate = *--yyssp;
 ]b4_location_if([      yylsp--;])[
@@ -1237,8 +1237,8 @@ m4_popdef([b4_dollar_dollar])])
 
 m4_divert_pop([KILL])dnl# End of M4 code.
 static void
-yydestructor (int yytype,
-	      YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]))
+yydestruct (int yytype,
+	    YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]))
 {
   switch (yytype)
     {

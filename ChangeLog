@@ -1,5 +1,10 @@
 2002-06-20  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.simple (yydestructor): Rename as...
+	(yydestruct): this.
+
+2002-06-20  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.h, src/symtab.c (symbol_type_set)
 	(symbol_destructor_set, symbol_precedence_set): The location is
 	the last argument.
