@@ -1,5 +1,5 @@
 /* Timing variables for measuring compiler performance.
-   Copyright (C) 2000 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2002 Free Software Foundation, Inc.
    Contributed by Alex Samuel <samuel@codesourcery.com>
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -87,5 +87,7 @@ extern void timevar_print PARAMS ((FILE *));
 /* Provided for backward compatibility.  */
 extern long get_run_time PARAMS ((void));
 extern void print_time PARAMS ((const char *, long));
+
+extern int timevar_report;
 
 #endif /* ! GCC_TIMEVAR_H */
