@@ -1,3 +1,35 @@
+2003-01-04  Paul Eggert  <eggert@twinsun.com>
+
+	* data/yacc.c (yyerrlab1): Omit attribute if __cplusplus is defined,
+	since GNU C++ (as of 3.2.1) does not allow attributes on labels.
+	Problem reported by Nelson H. F. Beebe.
+
+2003-01-03  Paul Eggert  <eggert@twinsun.com>
+
+	* lib/obstack.h (__INT_TO_PTR) [__STDC__]: Cast result to
+	(void *) to avoid diagnostic with native c89 on SGI IRIX 6.5
+	when compiling Bison 1.875's `bitset bset = obstack_alloc
+	(bobstack, bytes);'.  Problem reported by Nelson H. F. Beebe.
+
+	* src/scan-skel.l (QPUTS): Omit redundant `;' from macro definition.
+	([^@\n]): Renamed from [^@\n]+ so that the token buffer does not
+	grow to a huge size with typical invocation.
+	
+	* lib/hash.c (_Bool, bool, false, true, __bool_true_false_are_defined):
+	Use the pattern recommended by Autoconf 2.57, except also protect
+	against double-definition.
+	* src/system.h: Likewise.
+	Portability issues reported by Nelson H. F. Beebe.
+	
+	* data/glr.c (yybool): Renamed from bool, to avoid collisions in C.
+	All uses changed.  Provide a definition in both C and C++.
+	(yytrue, yyfalse): Define even if defined (__cplusplus).
+
+	* lib/bitset_stats.c (bitset_stats_list): Remove unused var.
+	Reported by Nelson H. F. Beebe.
+	
+	* src/scan-skel.l ("@oline@"): Output lineno+1, not lineno.
+
 2003-01-02  Paul Eggert  <eggert@twinsun.com>
 
 	* data/yacc.c (yyerrlab1): Append `;' after attribute, to
@@ -964,7 +996,7 @@
 	* data/glr.c (yydoAction): Return YYRESULTTAG, not int.
 	(yyglrReduce): Return yyok, not 0.
 	This should avoid the enumerated-type warnings reported
-	by Nelson H.F. Beebe in
+	by Nelson H. F. Beebe in
 	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001872.html>.
 
 	* lib/bbitset.h (BITSET_INLINE): Remove.
@@ -974,7 +1006,7 @@
 
 	* data/glr.c (inline): Remove #define.  It's the user's
 	responsibility to #define it away, just like 'const'.
-	This fixes one of the bugs reported by Nelson H.F. Beebe in
+	This fixes one of the bugs reported by Nelson H. F. Beebe in
 	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001873.html>.
 
 	* Makefile.maint (po-check): Scan .l and .y files instead of the
