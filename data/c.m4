@@ -327,8 +327,8 @@ m4_define([b4_syncline],
 #                   SYMBOL-ACTION, SYMBOL-TYPENAME)
 # -------------------------------------------------
 m4_define([b4_symbol_actions],
-[m4_pushdef([b4_dollar_dollar], [yyvalue.$6])dnl
-m4_pushdef([b4_at_dollar], [yylocation])dnl
+[m4_pushdef([b4_dollar_dollar], [yyvaluep->$6])dnl
+m4_pushdef([b4_at_dollar], [(*yylocationp)])dnl
       case $4: /* $3 */
 b4_syncline([$2], [$1])
         $5;
@@ -351,13 +351,13 @@ m4_define([b4_yydestruct_generate],
 
 ]$1([yydestruct],
     [static void],
-    [[int yytype],         [yytype]],
-    [[YYSTYPE yyvalue],    [yyvalue]]b4_location_if([,
-    [[YYLTYPE yylocation], [yylocation]]]))[
+    [[int yytype],           [yytype]],
+    [[YYSTYPE *yyvaluep],    [yyvaluep]]b4_location_if([,
+    [[YYLTYPE *yylocationp], [yylocationp]]]))[
 {
   /* Pacify ``unused variable'' warnings.  */
-  (void) yyvalue;
-]b4_location_if([  (void) yylocation;
+  (void) yyvaluep;
+]b4_location_if([  (void) yylocationp;
 ])[
   switch (yytype)
     {
@@ -366,4 +366,47 @@ m4_define([b4_yydestruct_generate],
         break;
     }
 }]dnl
+])
+
+
+# b4_yysymprint_generate(FUNTION-DECLARATOR)
+# ------------------------------------------
+# Generate the "yysymprint" function, which declaration is issued using
+# FUNTION-DECLARATOR, which may be "b4_c_ansi_function_def" for ISO C
+# or "b4_c_function_def" for K&R.
+m4_define([b4_yysymprint_generate],
+[[/*-----------------------------.
+| Print this symbol on YYOUT.  |
+`-----------------------------*/
+
+]$1([yysymprint],
+    [static void],
+    [[FILE *yyout],          [yyout]],
+    [[int yytype],           [yytype]],
+    [[YYSTYPE *yyvaluep],    [yyvaluep]]b4_location_if([,
+    [[YYLTYPE *yylocationp], [yylocationp]]]))
+{
+  /* Pacify ``unused variable'' warnings.  */
+  (void) yyvaluep;
+b4_location_if([  (void) yylocationp;
+])dnl
+
+  if (yytype < YYNTOKENS)
+    {
+      YYFPRINTF (yyout, "token %s (", yytname[[yytype]]);
+# ifdef YYPRINT
+      YYPRINT (yyout, yytoknum[[yytype]], yyvalue);
+# endif
+    }
+  else
+    YYFPRINTF (yyout, "nterm %s (", yytname[[yytype]]);
+
+  switch (yytype)
+    {
+m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
+      default:
+        break;
+    }
+  YYFPRINTF (yyout, ")");
+}
 ])

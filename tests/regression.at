@@ -318,7 +318,7 @@ AT_DATA([input.y],
 void yyerror (const char *s);
 int yylex (void);
 %}
-[%token YYEOF 0 "end of file"
+[%token MYEOF 0 "end of file"
 %token 'a' "a"
 %token b "b"
 %token c 'c'

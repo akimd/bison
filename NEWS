@@ -164,9 +164,9 @@ Changes in version 1.50, 2002-10-04:
   the user symbol is used in the reports, the graphs, and the verbose
   error messages instead of `$end', which remains being the default.
   For instance
-     %token YYEOF 0
+     %token MYEOF 0
   or
-     %token YYEOF 0 "end of file"
+     %token MYEOF 0 "end of file"
 
 * Semantic parser
   This old option, which has been broken for ages, is removed.

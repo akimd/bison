@@ -1,5 +1,24 @@
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (input.y): s/YYEOF/MYEOF/, as the skeleton
+	defines it.
+	* data/glr.c (yystos): New.
+	(b4_yysymprint_generate, b4_yydestruct_generate): Invoke.
+	(YYDSYMPRINT): New.
+	(yyval): Don't define it, it is handled via M4.
+	(yyrecoverParseError): Free verbosely the discarded symbols.
+	* data/yacc.c (yysymprint): Remove, rather...
+	(b4_yysymprint_generate): invoke.
+	* data/c.m4 (b4_yysymprint_generate): New.
+	Accept pointers as arguments, as opposed to the version from
+	yacc.c.
+	(b4_yydestruct_generate): Likewise.
+	* tests/cations.at (Printers and Destructors): Use Bison directives
+	instead of CPP macros.
+	Don't rely on internal details.
+
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
 	* data/c.m4 (b4_yydestruct_generate, b4_symbol_actions): New.
 	* data/yacc.c: Rename yychar1 as yytoken, as in glr.c.
 	Don't work on yychar (i.e., do set it to YYEMPTY, don't match

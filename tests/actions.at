@@ -167,10 +167,13 @@ AT_DATA([[input.y]],
 #include <stdlib.h>
 #include <assert.h>
 
-#define YYERROR_VERBOSE 1
-#define YYDEBUG 1
+static int yylex (void);
+static void yyerror (const char *msg);
 %}
+%error-verbose
+%debug
 %verbose
+%locations
 %union
 {
   int ival;
@@ -181,20 +184,20 @@ AT_DATA([[input.y]],
    input line thing 'x'
 
 %destructor
-  {
-    fprintf (stdout, "Freeing ");
-    /* FIXME: Ouch: INTERNAL DETAILS EXPOSED HERE. */
-    /* Cannot use $$ which is the union member, not the union itself. */
-    yysymprint (stdout, yytype, yyvalue, @$);
-    fprintf (stdout, "\n");
-  }
-  input line thing 'x'
+  { fprintf (stdout, "Freeing nterm input (%d from %d)\n", $$, @$.first_line); }
+  input
 
-%{
-static int yylex (void);
-static void yyerror (const char *msg);
-%}
+%destructor
+  { fprintf (stdout, "Freeing nterm line (%d from %d)\n", $$, @$.first_line); }
+  line
 
+%destructor
+  { fprintf (stdout, "Freeing nterm thing (%d from %d)\n", $$, @$.first_line); }
+  thing
+
+%destructor
+  { fprintf (stdout, "Freeing token 'x' (%d from %d)\n", $$, @$.first_line); }
+  'x'
 
 %%
 input:
@@ -295,7 +298,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison --location -d -v -o input.c input.y])
+AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
 [[sending: 'x' (value = 0, line 0)
