@@ -1,3 +1,8 @@
+2002-05-02  Robert Anisko  <robert@lrde.epita.fr>
+
+	* data/bison.c++: Adapt expansion of $s and @s to the C++ parser.
+	Update the stack class, give a try to deque as the default container.
+
 2002-05-02  Akim Demaille  <akim@epita.fr>
 
 	* data/bison.simple (yyparse): Do not implement @$ = @1.

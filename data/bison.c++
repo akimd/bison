@@ -32,7 +32,7 @@ m4_define([b4_lhs_value],
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
 m4_define([b4_rhs_value],
-[yyvsp@<:@m4_eval([$2 - $1])@:>@m4_ifval([$3], [.$3])])
+[semantic_stack_@<:@m4_eval([$1 - $2])@:>@m4_ifval([$3], [.$3])])
 
 
 # b4_lhs_location()
@@ -47,7 +47,7 @@ m4_define([b4_lhs_location],
 # Expansion of @NUM, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[yylsp@<:@m4_eval([$2 - $1])@:>@])
+[location_stack_@<:@m4_eval([$1 - $2])@:>@])
 
 
 # b4_token_defines(TOKEN-NAME, TOKEN-NUMBER)
@@ -351,12 +351,6 @@ yy::b4_name::parse ()
   semantic_stack_ = SemanticStack (1);
   location_stack_ = LocationStack (1);
 
-  /* Reserve initial space.  The C parser needed that, but is it really
-     useful here?  */
-  state_stack_.reserve (initdepth_);
-  semantic_stack_.reserve (initdepth_);
-  location_stack_.reserve (initdepth_);
-
   /* Start.  */
   state_ = 0;
   looka_ = empty_;
@@ -459,8 +453,8 @@ yy::b4_name::parse ()
   len_ = r2_[[n_]];
   if (len_)
     {
-      yyval = semantic_stack_[[1 - len_]];
-      yyloc = location_stack_[[1 - len_]];
+      yyval = semantic_stack_[[len_ - 1]];
+      yyloc = location_stack_[[len_ - 1]];
     }
   else
     {
@@ -485,15 +479,10 @@ yy::b4_name::parse ()
       YYLLOC_DEFAULT (yyloc, slice, len_);
     }
 
-  {
-    SemanticStack& yyvsp (semantic_stack_);
-    LocationStack& yylsp (location_stack_);
-
-    switch (n_)
-      {
-	b4_actions
-      }
-  }
+  switch (n_)
+    {
+      b4_actions
+    }
 
 /* Line __line__ of __file__.  */
 #line __oline__ "__ofile__"
@@ -786,11 +775,11 @@ b4_copyright
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
 
-#include <vector>
+#include <deque>
 
 namespace yy
 {
-  template < class T, class S = std::vector< T > >
+  template < class T, class S = std::deque< T > >
   class Stack
   {
   public:
@@ -808,23 +797,23 @@ namespace yy
 
     inline
     T&
-    operator [[]] (int index)
+    operator [[]] (unsigned index)
     {
-      return seq_[[height () - 1 + index]];
+      return seq_[[index]];
     }
 
     inline
     const T&
-    operator [[]] (int index) const
+    operator [[]] (unsigned index) const
     {
-      return seq_[[height () - 1 + index]];
+      return seq_[[index]];
     }
 
     inline
     void
     push (const T& t)
     {
-      seq_.push_back (t);
+      seq_.push_front (t);
     }
 
     inline
@@ -832,14 +821,7 @@ namespace yy
     pop (unsigned n = 1)
     {
       for (; n; --n)
-	seq_.pop_back ();
-    }
-
-    inline
-    void
-    reserve (unsigned n)
-    {
-      seq_.reserve (n);
+	seq_.pop_front ();
     }
 
     inline
@@ -872,7 +854,7 @@ namespace yy
     const T&
     operator [[]] (unsigned index) const
     {
-      return stack_[[index - range_]];
+      return stack_[[range_ - index]];
     }
 
   private:
