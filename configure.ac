@@ -77,6 +77,9 @@ AC_HEADER_STDBOOL
 # Checks for compiler characteristics.
 AC_C_INLINE
 
+# Checks for types.
+AC_CHECK_TYPES([uintptr_t])
+
 # Checks for library functions.
 AC_FUNC_ALLOCA
 AC_FUNC_OBSTACK
