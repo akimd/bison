@@ -1,8 +1,15 @@
+2002-11-14  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo: Various formatting changes (alignments in
+	samples, additional @group/@end group, GCS in samples.
+	Use @deffn instead of simple @table to define the directives,
+	macros, variables etc.
+
 2002-11-13  Paul Eggert  <eggert@twinsun.com>
 
 	Fix some bugs reported by Albert Chin-A-Young in
 	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001881.html>.
-	
+
 	* tests/input.at (Torturing the Scanner): Don't invoke "cc a.c b.c
 	-o c"; the HP-UX 11i C compiler chatters during compilation.
 	Instead, invoke "cc -c a.c -o a.o; cc -c b.c -o b.o; cc a.o b.o -o c".
@@ -42,7 +49,7 @@
 	responsibility to #define it away, just like 'const'.
 	This fixes one of the bugs reported by Nelson H.F. Beebe in
 	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001873.html>.
-	
+
 	* Makefile.maint (po-check): Scan .l and .y files instead of the
 	.c and the .h files that they generate.  This fixes the bug
 	reported by Tim Van Holder in:

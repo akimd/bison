@@ -1088,18 +1088,18 @@ input:    /* empty */
 ;
 
 line:     '\n'
-        | exp '\n'  @{ printf ("\t%.10g\n", $1); @}
+        | exp '\n'      @{ printf ("\t%.10g\n", $1); @}
 ;
 
-exp:      NUM             @{ $$ = $1;         @}
-        | exp exp '+'     @{ $$ = $1 + $2;    @}
-        | exp exp '-'     @{ $$ = $1 - $2;    @}
-        | exp exp '*'     @{ $$ = $1 * $2;    @}
-        | exp exp '/'     @{ $$ = $1 / $2;    @}
-      /* Exponentiation */
-        | exp exp '^'     @{ $$ = pow ($1, $2); @}
-      /* Unary minus    */
-        | exp 'n'         @{ $$ = -$1;        @}
+exp:      NUM           @{ $$ = $1;           @}
+        | exp exp '+'   @{ $$ = $1 + $2;      @}
+        | exp exp '-'   @{ $$ = $1 - $2;      @}
+        | exp exp '*'   @{ $$ = $1 * $2;      @}
+        | exp exp '/'   @{ $$ = $1 / $2;      @}
+         /* Exponentiation */
+        | exp exp '^'   @{ $$ = pow ($1, $2); @}
+         /* Unary minus    */
+        | exp 'n'       @{ $$ = -$1;          @}
 ;
 %%
 @end example
@@ -1706,11 +1706,15 @@ int
 yylex (void)
 @{
   int c;
+@end group
 
+@group
   /* Skip white space.  */
   while ((c = getchar ()) == ' ' || c == '\t')
     ++yylloc.last_column;
+@end group
 
+@group
   /* Step.  */
   yylloc.first_line = yylloc.last_line;
   yylloc.first_column = yylloc.last_column;
@@ -1832,25 +1836,29 @@ Note that multiple assignment and nested function calls are permitted.
 Here are the C and Bison declarations for the multi-function calculator.
 
 @smallexample
+@group
 %@{
 #include <math.h>  /* For math functions, cos(), sin(), etc.  */
-#include "calc.h"  /* Contains definition of `symrec'        */
+#include "calc.h"  /* Contains definition of `symrec'         */
 %@}
+@end group
+@group
 %union @{
-double     val;  /* For returning numbers.                   */
-symrec  *tptr;   /* For returning symbol-table pointers      */
+  double    val;   /* For returning numbers.                  */
+  symrec  *tptr;   /* For returning symbol-table pointers.    */
 @}
-
-%token <val>  NUM        /* Simple double precision number   */
-%token <tptr> VAR FNCT   /* Variable and Function            */
+@end group
+%token <val>  NUM        /* Simple double precision number.   */
+%token <tptr> VAR FNCT   /* Variable and Function.            */
 %type  <val>  exp
 
+@group
 %right '='
 %left '-' '+'
 %left '*' '/'
 %left NEG     /* Negation--unary minus */
 %right '^'    /* Exponentiation        */
-
+@end group
 /* Grammar follows */
 %%
 @end smallexample
@@ -1885,16 +1893,21 @@ Most of them are copied directly from @code{calc}; three rules,
 those which mention @code{VAR} or @code{FNCT}, are new.
 
 @smallexample
+@group
 input:   /* empty */
         | input line
 ;
+@end group
 
+@group
 line:
           '\n'
         | exp '\n'   @{ printf ("\t%.10g\n", $1); @}
         | error '\n' @{ yyerrok;                  @}
 ;
+@end group
 
+@group
 exp:      NUM                @{ $$ = $1;                         @}
         | VAR                @{ $$ = $1->value.var;              @}
         | VAR '=' exp        @{ $$ = $3; $1->value.var = $3;     @}
@@ -1907,6 +1920,7 @@ exp:      NUM                @{ $$ = $1;                         @}
         | exp '^' exp        @{ $$ = pow ($1, $3);               @}
         | '(' exp ')'        @{ $$ = $2;                         @}
 ;
+@end group
 /* End of grammar */
 %%
 @end smallexample
@@ -1961,9 +1975,9 @@ function that initializes the symbol table.  Here it is, and
 @code{init_table} as well:
 
 @smallexample
-@group
 #include <stdio.h>
 
+@group
 int
 main (void)
 @{
@@ -1978,7 +1992,9 @@ yyerror (const char *s)  /* Called by yyparse on error.  */
 @{
   printf ("%s\n", s);
 @}
+@end group
 
+@group
 struct init
 @{
   char *fname;
@@ -1997,7 +2013,9 @@ struct init arith_fncts[] =
   "sqrt", sqrt,
   0, 0
 @};
+@end group
 
+@group
 /* The symbol table: a chain of `struct symrec'.  */
 symrec *sym_table = (symrec *) 0;
 @end group
@@ -2073,7 +2091,9 @@ operators in @code{yylex}.
 @smallexample
 @group
 #include <ctype.h>
+@end group
 
+@group
 int
 yylex (void)
 @{
@@ -2121,7 +2141,7 @@ yylex (void)
           if (i == length)
             @{
               length *= 2;
-              symbuf = (char *)realloc (symbuf, length + 1);
+              symbuf = (char *) realloc (symbuf, length + 1);
             @}
           /* Add this character to the buffer.         */
           symbuf[i++] = c;
@@ -3544,53 +3564,60 @@ valid grammar.
 
 Here is a summary of the declarations used to define a grammar:
 
-@table @code
-@item %union
+@deffn {Directive} %union
 Declare the collection of data types that semantic values may have
 (@pxref{Union Decl, ,The Collection of Value Types}).
+@end deffn
 
-@item %token
+@deffn {Directive} %token
 Declare a terminal symbol (token type name) with no precedence
 or associativity specified (@pxref{Token Decl, ,Token Type Names}).
+@end deffn
 
-@item %right
+@deffn {Directive} %right
 Declare a terminal symbol (token type name) that is right-associative
 (@pxref{Precedence Decl, ,Operator Precedence}).
+@end deffn
 
-@item %left
+@deffn {Directive} %left
 Declare a terminal symbol (token type name) that is left-associative
 (@pxref{Precedence Decl, ,Operator Precedence}).
+@end deffn
 
-@item %nonassoc
+@deffn {Directive} %nonassoc
 Declare a terminal symbol (token type name) that is nonassociative
 (using it in a way that would be associative is a syntax error)
+@end deffn
 (@pxref{Precedence Decl, ,Operator Precedence}).
 
-@item %type
+@deffn {Directive} %type
 Declare the type of semantic values for a nonterminal symbol
 (@pxref{Type Decl, ,Nonterminal Symbols}).
+@end deffn
 
-@item %start
+@deffn {Directive} %start
 Specify the grammar's start symbol (@pxref{Start Decl, ,The
 Start-Symbol}).
+@end deffn
 
-@item %expect
+@deffn {Directive} %expect
 Declare the expected number of shift-reduce conflicts
 (@pxref{Expect Decl, ,Suppressing Conflict Warnings}).
-@end table
+@end deffn
+
 
 @sp 1
 @noindent
 In order to change the behavior of @command{bison}, use the following
 directives:
 
-@table @code
-@item %debug
+@deffn {Directive} %debug
 In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
 already defined, so that the debugging facilities are compiled.
+@end deffn
 @xref{Tracing, ,Tracing Your Parser}.
 
-@item %defines
+@deffn {Directive} %defines
 Write an extra output file containing macro definitions for the token
 type names defined in the grammar and the semantic value type
 @code{YYSTYPE}, as well as a few @code{extern} variable declarations.
@@ -3602,31 +3629,27 @@ This output file is essential if you wish to put the definition of
 @code{yylex} in a separate source file, because @code{yylex} needs to
 be able to refer to token type codes and the variable
 @code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.
+@end deffn
 
-@item %destructor
+@deffn {Directive} %destructor
 Specifying how the parser should reclaim the memory associated to
 discarded symbols. @xref{Destructor Decl, , Freeing Discarded Symbols}.
+@end deffn
 
-@item %file-prefix="@var{prefix}"
+@deffn {Directive} %file-prefix="@var{prefix}"
 Specify a prefix to use for all Bison output file names.  The names are
 chosen as if the input file were named @file{@var{prefix}.y}.
+@end deffn
 
-@c @item %header-extension
-@c Specify the extension of the parser header file generated when
-@c @code{%define} or @samp{-d} are used.
-@c
-@c For example, a grammar file named @file{foo.ypp} and containing a
-@c @code{%header-extension .hh} directive will produce a header file
-@c named @file{foo.tab.hh}
-
-@item %locations
+@deffn {Directive} %locations
 Generate the code processing the locations (@pxref{Action Features,
 ,Special Features for Use in Actions}).  This mode is enabled as soon as
 the grammar uses the special @samp{@@@var{n}} tokens, but if your
 grammar does not use it, using @samp{%locations} allows for more
 accurate parse error messages.
+@end deffn
 
-@item %name-prefix="@var{prefix}"
+@deffn {Directive} %name-prefix="@var{prefix}"
 Rename the external symbols used in the parser so that they start with
 @var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
 is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
@@ -3635,8 +3658,9 @@ possible @code{yylloc}.  For example, if you use
 @samp{%name-prefix="c_"}, the names become @code{c_parse}, @code{c_lex},
 and so on.  @xref{Multiple Parsers, ,Multiple Parsers in the Same
 Program}.
+@end deffn
 
-@item %no-parser
+@deffn {Directive} %no-parser
 Do not include any C code in the parser file; generate tables only.  The
 parser file contains just @code{#define} directives and static variable
 declarations.
@@ -3644,30 +3668,27 @@ declarations.
 This option also tells Bison to write the C code for the grammar actions
 into a file named @file{@var{filename}.act}, in the form of a
 brace-surrounded body fit for a @code{switch} statement.
+@end deffn
 
-@item %no-lines
+@deffn {Directive} %no-lines
 Don't generate any @code{#line} preprocessor commands in the parser
 file.  Ordinarily Bison writes these commands in the parser file so that
 the C compiler and debuggers will associate errors and object code with
 your source file (the grammar file).  This directive causes them to
 associate errors with the parser file, treating it an independent source
 file in its own right.
+@end deffn
 
-@item %output="@var{filename}"
+@deffn {Directive} %output="@var{filename}"
 Specify the @var{filename} for the parser file.
+@end deffn
 
-@item %pure-parser
+@deffn {Directive} %pure-parser
 Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 (Reentrant) Parser}).
+@end deffn
 
-@c @item %source-extension
-@c Specify the extension of the parser output file.
-@c
-@c For example, a grammar file named @file{foo.yy} and containing a
-@c @code{%source-extension .cpp} directive will produce a parser file
-@c named @file{foo.tab.cpp}
-
-@item %token-table
+@deffn {Directive} %token-table
 Generate an array of token names in the parser file.  The name of the
 array is @code{yytname}; @code{yytname[@var{i}]} is the name of the
 token whose internal Bison token code number is @var{i}.  The first
@@ -3699,19 +3720,19 @@ The number of grammar rules,
 @item YYNSTATES
 The number of parser states (@pxref{Parser States}).
 @end table
+@end deffn
 
-@item %verbose
+@deffn {Directive} %verbose
 Write an extra output file containing verbose descriptions of the
 parser states and what is done for each type of look-ahead token in
 that state.  @xref{Understanding, , Understanding Your Parser}, for more
 information.
+@end deffn
 
-@item %yacc
+@deffn {Directive} %yacc
 Pretend the option @option{--yacc} was given, i.e., imitate Yacc,
 including its naming conventions.  @xref{Bison Options}, for more.
-@end table
-
-
+@end deffn
 
 
 @node Multiple Parsers
@@ -4198,34 +4219,39 @@ then it is a local variable which only the actions can access.
 Here is a table of Bison constructs, variables and macros that
 are useful in actions.
 
-@table @samp
-@item $$
+@deffn {Variable} $$
 Acts like a variable that contains the semantic value for the
 grouping made by the current rule.  @xref{Actions}.
+@end deffn
 
-@item $@var{n}
+@deffn {Variable} $@var{n}
 Acts like a variable that contains the semantic value for the
 @var{n}th component of the current rule.  @xref{Actions}.
+@end deffn
 
-@item $<@var{typealt}>$
+@deffn {Variable} $<@var{typealt}>$
 Like @code{$$} but specifies alternative @var{typealt} in the union
 specified by the @code{%union} declaration.  @xref{Action Types, ,Data
 Types of Values in Actions}.
+@end deffn
 
-@item $<@var{typealt}>@var{n}
+@deffn {Variable} $<@var{typealt}>@var{n}
 Like @code{$@var{n}} but specifies alternative @var{typealt} in the
 union specified by the @code{%union} declaration.
 @xref{Action Types, ,Data Types of Values in Actions}.
+@end deffn
 
-@item YYABORT;
+@deffn {Macro} YYABORT;
 Return immediately from @code{yyparse}, indicating failure.
 @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+@end deffn
 
-@item YYACCEPT;
+@deffn {Macro} YYACCEPT;
 Return immediately from @code{yyparse}, indicating success.
 @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+@end deffn
 
-@item YYBACKUP (@var{token}, @var{value});
+@deffn {Macro} YYBACKUP (@var{token}, @var{value});
 @findex YYBACKUP
 Unshift a token.  This macro is allowed only for rules that reduce
 a single value, and only when there is no look-ahead token.
@@ -4240,40 +4266,47 @@ a message @samp{cannot back up} and performs ordinary error
 recovery.
 
 In either case, the rest of the action is not executed.
+@end deffn
 
-@item YYEMPTY
+@deffn {Macro} YYEMPTY
 @vindex YYEMPTY
 Value stored in @code{yychar} when there is no look-ahead token.
+@end deffn
 
-@item YYERROR;
+@deffn {Macro} YYERROR;
 @findex YYERROR
 Cause an immediate syntax error.  This statement initiates error
 recovery just as if the parser itself had detected an error; however, it
 does not call @code{yyerror}, and does not print any message.  If you
 want to print an error message, call @code{yyerror} explicitly before
 the @samp{YYERROR;} statement.  @xref{Error Recovery}.
+@end deffn
 
-@item YYRECOVERING
+@deffn {Macro} YYRECOVERING
 This macro stands for an expression that has the value 1 when the parser
 is recovering from a syntax error, and 0 the rest of the time.
 @xref{Error Recovery}.
+@end deffn
 
-@item yychar
+@deffn {Variable} yychar
 Variable containing the current look-ahead token.  (In a pure parser,
 this is actually a local variable within @code{yyparse}.)  When there is
 no look-ahead token, the value @code{YYEMPTY} is stored in the variable.
 @xref{Look-Ahead, ,Look-Ahead Tokens}.
+@end deffn
 
-@item yyclearin;
+@deffn {Macro} yyclearin;
 Discard the current look-ahead token.  This is useful primarily in
 error rules.  @xref{Error Recovery}.
+@end deffn
 
-@item yyerrok;
+@deffn {Macro} yyerrok;
 Resume generating error messages immediately for subsequent syntax
 errors.  This is useful primarily in error rules.
 @xref{Error Recovery}.
+@end deffn
 
-@item @@$
+@deffn {Value} @@$
 @findex @@$
 Acts like a structure variable containing information on the textual position
 of the grouping made by the current rule.  @xref{Locations, ,
@@ -4297,14 +4330,15 @@ Tracking Locations}.
 @c those members.
 
 @c The use of this feature makes the parser noticeably slower.
+@end deffn
 
-@item @@@var{n}
+@deffn {Value} @@@var{n}
 @findex @@@var{n}
 Acts like a structure variable containing information on the textual position
 of the @var{n}th component of the current rule.  @xref{Locations, ,
 Tracking Locations}.
+@end deffn
 
-@end table
 
 @node Algorithm
 @chapter The Bison Parser Algorithm
@@ -6200,38 +6234,44 @@ This question is already addressed elsewhere, @xref{Recursion,
 @cindex Bison symbols, table of
 @cindex symbols in Bison, table of
 
-@table @code
-@item @@$
+@deffn {Variable} @@$
 In an action, the location of the left-hand side of the rule.
 @xref{Locations, , Locations Overview}.
+@end deffn
 
-@item @@@var{n}
+@deffn {Variable} @@@var{n}
 In an action, the location of the @var{n}-th symbol of the right-hand
 side of the rule.  @xref{Locations, , Locations Overview}.
+@end deffn
 
-@item $$
+@deffn {Variable} $$
 In an action, the semantic value of the left-hand side of the rule.
 @xref{Actions}.
+@end deffn
 
-@item $@var{n}
+@deffn {Variable} $@var{n}
 In an action, the semantic value of the @var{n}-th symbol of the
 right-hand side of the rule.  @xref{Actions}.
+@end deffn
 
-@item $accept
+@deffn {Symbol} $accept
 The predefined nonterminal whose only rule is @samp{$accept: @var{start}
 $end}, where @var{start} is the start symbol.  @xref{Start Decl, , The
 Start-Symbol}.  It cannot be used in the grammar.
+@end deffn
 
-@item $end
+@deffn {Symbol} $end
 The predefined token marking the end of the token stream.  It cannot be
 used in the grammar.
+@end deffn
 
-@item $undefined
+@deffn {Symbol} $undefined
 The predefined token onto which all undefined values returned by
 @code{yylex} are mapped.  It cannot be used in the grammar, rather, use
 @code{error}.
+@end deffn
 
-@item error
+@deffn {Symbol} error
 A token name reserved for error recovery.  This token may be used in
 grammar rules so as to allow the Bison parser to recognize an error in
 the grammar without halting the process.  In effect, a sentence
@@ -6240,267 +6280,312 @@ token @code{error} becomes the current look-ahead token.  Actions
 corresponding to @code{error} are then executed, and the look-ahead
 token is reset to the token that originally caused the violation.
 @xref{Error Recovery}.
+@end deffn
 
-@item YYABORT
+@deffn {Macro} YYABORT
 Macro to pretend that an unrecoverable syntax error has occurred, by
 making @code{yyparse} return 1 immediately.  The error reporting
 function @code{yyerror} is not called.  @xref{Parser Function, ,The
 Parser Function @code{yyparse}}.
+@end deffn
 
-@item YYACCEPT
+@deffn {Macro} YYACCEPT
 Macro to pretend that a complete utterance of the language has been
 read, by making @code{yyparse} return 0 immediately.
 @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+@end deffn
 
-@item YYBACKUP
+@deffn {Macro} YYBACKUP
 Macro to discard a value from the parser stack and fake a look-ahead
 token.  @xref{Action Features, ,Special Features for Use in Actions}.
+@end deffn
 
-@item YYDEBUG
+@deffn {Macro} YYDEBUG
 Macro to define to equip the parser with tracing code.  @xref{Tracing,
 ,Tracing Your Parser}.
+@end deffn
 
-@item YYERROR
+@deffn {Macro} YYERROR
 Macro to pretend that a syntax error has just been detected: call
 @code{yyerror} and then perform normal error recovery if possible
 (@pxref{Error Recovery}), or (if recovery is impossible) make
 @code{yyparse} return 1.  @xref{Error Recovery}.
+@end deffn
 
-@item YYERROR_VERBOSE
+@deffn {Macro} YYERROR_VERBOSE
 An obsolete macro that you define with @code{#define} in the Bison
 declarations section to request verbose, specific error message strings
 when @code{yyerror} is called.  It doesn't matter what definition you
 use for @code{YYERROR_VERBOSE}, just whether you define it.  Using
 @code{%error-verbose} is preferred.
+@end deffn
 
-@item YYINITDEPTH
+@deffn {Macro} YYINITDEPTH
 Macro for specifying the initial size of the parser stack.
 @xref{Stack Overflow}.
+@end deffn
 
-@item YYLEX_PARAM
+@deffn {Macro} YYLEX_PARAM
 An obsolete macro for specifying an extra argument (or list of extra
 arguments) for @code{yyparse} to pass to @code{yylex}.  he use of this
 macro is deprecated, and is supported only for Yacc like parsers.
 @xref{Pure Calling,, Calling Conventions for Pure Parsers}.
+@end deffn
 
-@item YYLTYPE
+@deffn {Macro} YYLTYPE
 Macro for the data type of @code{yylloc}; a structure with four
 members.  @xref{Location Type, , Data Types of Locations}.
+@end deffn
 
-@item yyltype
+@deffn {Type} yyltype
 Default value for YYLTYPE.
+@end deffn
 
-@item YYMAXDEPTH
-Macro for specifying the maximum size of the parser stack.
-@xref{Stack Overflow}.
+@deffn {Macro} YYMAXDEPTH
+Macro for specifying the maximum size of the parser stack.  @xref{Stack
+Overflow}.
+@end deffn
 
-@item YYPARSE_PARAM
+@deffn {Macro} YYPARSE_PARAM
 An obsolete macro for specifying the name of a parameter that
 @code{yyparse} should accept.  The use of this macro is deprecated, and
 is supported only for Yacc like parsers.  @xref{Pure Calling,, Calling
 Conventions for Pure Parsers}.
+@end deffn
 
-@item YYRECOVERING
+@deffn {Macro} YYRECOVERING
 Macro whose value indicates whether the parser is recovering from a
 syntax error.  @xref{Action Features, ,Special Features for Use in Actions}.
+@end deffn
 
-@item YYSTACK_USE_ALLOCA
+@deffn {Macro} YYSTACK_USE_ALLOCA
 Macro used to control the use of @code{alloca}.  If defined to @samp{0},
 the parser will not use @code{alloca} but @code{malloc} when trying to
 grow its internal stacks.  Do @emph{not} define @code{YYSTACK_USE_ALLOCA}
 to anything else.
+@end deffn
 
-@item YYSTYPE
+@deffn {Macro} YYSTYPE
 Macro for the data type of semantic values; @code{int} by default.
 @xref{Value Type, ,Data Types of Semantic Values}.
+@end deffn
 
-@item yychar
+@deffn {Variable} yychar
 External integer variable that contains the integer value of the current
 look-ahead token.  (In a pure parser, it is a local variable within
 @code{yyparse}.)  Error-recovery rule actions may examine this variable.
 @xref{Action Features, ,Special Features for Use in Actions}.
+@end deffn
 
-@item yyclearin
+@deffn {Variable} yyclearin
 Macro used in error-recovery rule actions.  It clears the previous
 look-ahead token.  @xref{Error Recovery}.
+@end deffn
 
-@item yydebug
+@deffn {Variable} yydebug
 External integer variable set to zero by default.  If @code{yydebug}
 is given a nonzero value, the parser will output information on input
 symbols and parser action.  @xref{Tracing, ,Tracing Your Parser}.
+@end deffn
 
-@item yyerrok
+@deffn {Macro} yyerrok
 Macro to cause parser to recover immediately to its normal mode
 after a parse error.  @xref{Error Recovery}.
+@end deffn
 
-@item yyerror
+@deffn {Function} yyerror
 User-supplied function to be called by @code{yyparse} on error.  The
 function receives one argument, a pointer to a character string
 containing an error message.  @xref{Error Reporting, ,The Error
 Reporting Function @code{yyerror}}.
+@end deffn
 
-@item yylex
+@deffn {Function} yylex
 User-supplied lexical analyzer function, called with no arguments to get
 the next token.  @xref{Lexical, ,The Lexical Analyzer Function
 @code{yylex}}.
+@end deffn
 
-@item yylval
+@deffn {Variable} yylval
 External variable in which @code{yylex} should place the semantic
 value associated with a token.  (In a pure parser, it is a local
 variable within @code{yyparse}, and its address is passed to
 @code{yylex}.)  @xref{Token Values, ,Semantic Values of Tokens}.
+@end deffn
 
-@item yylloc
+@deffn {Variable} yylloc
 External variable in which @code{yylex} should place the line and column
 numbers associated with a token.  (In a pure parser, it is a local
 variable within @code{yyparse}, and its address is passed to
 @code{yylex}.)  You can ignore this variable if you don't use the
 @samp{@@} feature in the grammar actions.  @xref{Token Positions,
 ,Textual Positions of Tokens}.
+@end deffn
 
-@item yynerrs
+@deffn {Variable} yynerrs
 Global variable which Bison increments each time there is a parse error.
 (In a pure parser, it is a local variable within @code{yyparse}.)
 @xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
+@end deffn
 
-@item yyparse
+@deffn {Function} yyparse
 The parser function produced by Bison; call this function to start
 parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+@end deffn
 
-@item %debug
+@deffn {Directive} %debug
 Equip the parser for debugging.  @xref{Decl Summary}.
+@end deffn
 
-@item %defines
+@deffn {Directive} %defines
 Bison declaration to create a header file meant for the scanner.
 @xref{Decl Summary}.
+@end deffn
 
-@item %destructor
+@deffn {Directive} %destructor
 Specifying how the parser should reclaim the memory associated to
 discarded symbols. @xref{Destructor Decl, , Freeing Discarded Symbols}.
+@end deffn
 
-@item %dprec
+@deffn {Directive} %dprec
 Bison declaration to assign a precedence to a rule that is used at parse
 time to resolve reduce/reduce conflicts.  @xref{GLR Parsers, ,Writing
 @acronym{GLR} Parsers}.
+@end deffn
 
-@item %error-verbose
+@deffn {Directive} %error-verbose
 Bison declaration to request verbose, specific error message strings
 when @code{yyerror} is called.
+@end deffn
 
-@item %file-prefix="@var{prefix}"
+@deffn {Directive} %file-prefix="@var{prefix}"
 Bison declaration to set the prefix of the output files.  @xref{Decl
 Summary}.
+@end deffn
 
-@item %glr-parser
+@deffn {Directive} %glr-parser
 Bison declaration to produce a @acronym{GLR} parser.  @xref{GLR
 Parsers, ,Writing @acronym{GLR} Parsers}.
+@end deffn
 
-@c @item %source-extension
-@c Bison declaration to specify the generated parser output file extension.
-@c @xref{Decl Summary}.
-@c
-@c @item %header-extension
-@c Bison declaration to specify the generated parser header file extension
-@c if required.  @xref{Decl Summary}.
-
-@item %left
+@deffn {Directive} %left
 Bison declaration to assign left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
+@end deffn
 
-@item %lex-param "@var{argument-declaration}" "@var{argument-name}"
+@deffn {Directive} %lex-param "@var{argument-declaration}" "@var{argument-name}"
 Bison declaration to specifying an additional parameter that
 @code{yylex} should accept.  @xref{Pure Calling,, Calling Conventions
 for Pure Parsers}.
+@end deffn
 
-@item %merge
+@deffn {Directive} %merge
 Bison declaration to assign a merging function to a rule.  If there is a
 reduce/reduce conflict with a rule having the same merging function, the
 function is applied to the two semantic values to get a single result.
 @xref{GLR Parsers, ,Writing @acronym{GLR} Parsers}.
+@end deffn
 
-@item %name-prefix="@var{prefix}"
+@deffn {Directive} %name-prefix="@var{prefix}"
 Bison declaration to rename the external symbols.  @xref{Decl Summary}.
+@end deffn
 
-@item %no-lines
+@deffn {Directive} %no-lines
 Bison declaration to avoid generating @code{#line} directives in the
 parser file.  @xref{Decl Summary}.
+@end deffn
 
-@item %nonassoc
+@deffn {Directive} %nonassoc
 Bison declaration to assign non-associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
+@end deffn
 
-@item %output="@var{filename}"
+@deffn {Directive} %output="@var{filename}"
 Bison declaration to set the name of the parser file.  @xref{Decl
 Summary}.
+@end deffn
 
-@item %parse-param "@var{argument-declaration}" "@var{argument-name}"
+@deffn {Directive} %parse-param "@var{argument-declaration}" "@var{argument-name}"
 Bison declaration to specifying an additional parameter that
 @code{yyparse} should accept.  @xref{Parser Function,, The Parser
 Function @code{yyparse}}.
+@end deffn
 
-@item %prec
+@deffn {Directive} %prec
 Bison declaration to assign a precedence to a specific rule.
 @xref{Contextual Precedence, ,Context-Dependent Precedence}.
+@end deffn
 
-@item %pure-parser
+@deffn {Directive} %pure-parser
 Bison declaration to request a pure (reentrant) parser.
 @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
+@end deffn
 
-@item %right
+@deffn {Directive} %right
 Bison declaration to assign right associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
+@end deffn
 
-@item %start
+@deffn {Directive} %start
 Bison declaration to specify the start symbol.  @xref{Start Decl, ,The
 Start-Symbol}.
+@end deffn
 
-@item %token
+@deffn {Directive} %token
 Bison declaration to declare token(s) without specifying precedence.
 @xref{Token Decl, ,Token Type Names}.
+@end deffn
 
-@item %token-table
+@deffn {Directive} %token-table
 Bison declaration to include a token name table in the parser file.
 @xref{Decl Summary}.
+@end deffn
 
-@item %type
+@deffn {Directive} %type
 Bison declaration to declare nonterminals.  @xref{Type Decl,
 ,Nonterminal Symbols}.
+@end deffn
 
-@item %union
+@deffn {Directive} %union
 Bison declaration to specify several possible data types for semantic
 values.  @xref{Union Decl, ,The Collection of Value Types}.
-@end table
+@end deffn
 
 @sp 1
 
 These are the punctuation and delimiters used in Bison input:
 
-@table @samp
-@item %%
+@deffn {Delimiter} %%
 Delimiter used to separate the grammar rule section from the
 Bison declarations section or the epilogue.
 @xref{Grammar Layout, ,The Overall Layout of a Bison Grammar}.
+@end deffn
 
-@item %@{ %@}
+@c Don't insert spaces, or check the DVI output.
+@deffn {Delimiter} %@{@var{code}%@}
 All code listed between @samp{%@{} and @samp{%@}} is copied directly to
 the output file uninterpreted.  Such code forms the prologue of the input
 file.  @xref{Grammar Outline, ,Outline of a Bison
 Grammar}.
+@end deffn
 
-@item /*@dots{}*/
+@deffn {Construct} /*@dots{}*/
 Comment delimiters, as in C.
+@end deffn
 
-@item :
+@deffn {Delimiter} :
 Separates a rule's result from its components.  @xref{Rules, ,Syntax of
 Grammar Rules}.
+@end deffn
 
-@item ;
+@deffn {Delimiter} ;
 Terminates a rule.  @xref{Rules, ,Syntax of Grammar Rules}.
+@end deffn
 
-@item |
+@deffn {Delimiter} |
 Separates alternate rules for the same result nonterminal.
 @xref{Rules, ,Syntax of Grammar Rules}.
-@end table
+@end deffn
 
 @node Glossary
 @appendix Glossary
