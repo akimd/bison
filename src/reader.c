@@ -711,6 +711,13 @@ parse_union_decl (void)
 {
   int c;
   int count = 0;
+  const char *prologue = "\
+#ifndef YYSTYPE\n\
+typedef union";
+  const char *epilogue = "\
+ yystype;\n\
+# define YYSTYPE yystype\n\
+#endif\n";
 
   if (typed)
     complain (_("multiple %s declarations"), "%union");
@@ -723,9 +730,9 @@ parse_union_decl (void)
   else
     obstack_1grow (&attrs_obstack, '\n');
 
-  obstack_sgrow (&attrs_obstack, "typedef union");
+  obstack_sgrow (&attrs_obstack, prologue);
   if (defines_flag)
-    obstack_sgrow (&defines_obstack, "typedef union");
+    obstack_sgrow (&defines_obstack, prologue);
 
   c = getc (finput);
 
@@ -760,9 +767,9 @@ parse_union_decl (void)
 	  count--;
 	  if (count <= 0)
 	    {
-	      obstack_sgrow (&attrs_obstack, " YYSTYPE;\n");
+	      obstack_sgrow (&attrs_obstack, epilogue);
 	      if (defines_flag)
-		obstack_sgrow (&defines_obstack, " YYSTYPE;\n");
+		obstack_sgrow (&defines_obstack, epilogue);
 	      /* JF don't choke on trailing semi */
 	      c = skip_white_space ();
 	      if (c != ';')
@@ -1955,7 +1962,6 @@ reader (void)
   /* Read the declaration section.  Copy %{ ... %} groups to
      TABLE_OBSTACK and FDEFINES file.  Also notice any %token, %left,
      etc. found there.  */
-  obstack_1grow (&table_obstack, '\n');
   obstack_fgrow3 (&table_obstack, "\
 /* %s, made from %s\n\
    by GNU bison %s.  */\n\

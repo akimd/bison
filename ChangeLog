@@ -1,3 +1,10 @@
+2001-11-05  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (parse_union_decl): Output yystype/YYSTYPE as we do
+	with yyltype/YYLTYPE.  This allows inclusion of the generated
+	header within the parser if the compiler, such as GGC, accepts
+	multiple equivalent #defines.
+
 2001-11-04  Akim Demaille  <akim@epita.fr>
 
 	* src/getargs.c (longopts): Support `--output'.  getopt is now

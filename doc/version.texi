@@ -1,4 +1,4 @@
-@set UPDATED 4 November 2001
+@set UPDATED 5 November 2001
 @set UPDATED-MONTH November 2001
 @set EDITION 1.30a
 @set VERSION 1.30a
