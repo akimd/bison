@@ -75,10 +75,10 @@ Unlike
 .IR yacc ,
 the generated files do not have fixed names, but instead use the prefix
 of the input file.
-Moreover, if you need to put 
-.IR C++
+Moreover, if you need to put
+.I C++
 code in the input file, you can end his name by a C++-like extension
-(.ypp or .y++), then bison will follow your extension to name the 
+(.ypp or .y++), then bison will follow your extension to name the
 output file (.cpp or .c++).
 For instance, a grammar description file named
 .B parse.yxx
@@ -86,10 +86,10 @@ would produce the generated parser in a file named
 .BR parse.tab.cxx ,
 instead of
 .IR yacc 's
-.BR y.tab.c 
-or old 
-.IR Bison
-versions
+.B y.tab.c
+or old
+.I Bison
+version's
 .BR parse.tab.c .
 .PP
 This description of the options that can be given to
@@ -122,7 +122,7 @@ Specify a prefix to use for all
 .I bison
 output file names.  The names are
 chosen as if the input file were named
-\fIfile-prefix\fB.c\fR.
+\fIfile-prefix\fP\fB.c\fP.
 .TP
 .B \-d
 .br
@@ -135,10 +135,10 @@ as well as a few
 variable declarations.
 .sp
 If the parser output file is named
-\fIname\fB.c\fR
+.IB name .c
 then this file
 is named
-\fIname\fB.h\fR.
+\fIname\fP\fB.h\fP.
 .sp
 This output file is essential if you wish to put the definition of
 .B yylex
@@ -148,29 +148,29 @@ needs to be able to refer to token type codes and the variable
 .BR yylval .
 .TP
 .BI \-\-defines= defines-file
-The behaviour of
-.BI \-\-defines 
-is the same than 
-.BI \-d 
-option. 
-The only difference is that it has an optionnal argument which is 
+The behavior of
+.B \-\-defines
+is the same than
+.B \-d
+option.
+The only difference is that it has an optional argument which is
 the name of the output filename.
 .TP
 .BI \-g
 .br
 .ns
 Output a VCG definition of the LALR(1) grammar automaton computed by
-Bison. If the grammar file is 
+Bison.  If the grammar file is
 .BR foo.y
 , the VCG output file will be
 .BR foo.vcg .
 .TP
 .BI \-\-graph= graph-file
-The behaviour of 
-.BI \-\-graph 
+The behavior of
+.BI \-\-graph
 is the same than
 .BI \-g
-option. The only difference is that it has an optionnal argument which 
+option.  The only difference is that it has an optional argument which
 is the name of the output graph filename.
 .TP
 .B \-k
@@ -178,8 +178,10 @@ is the name of the output graph filename.
 .ns
 .TP
 .B \-\-token-table
-This switch causes the \fIname\fB.tab.c\fR output to include a list of
-token names in order by their token numbers;  this is defined in the array
+This switch causes the
+.IB name .tab.c
+output to include a list of
+token names in order by their token numbers; this is defined in the array
 .IR yytname .
 Also generated
 are #defines for
@@ -209,9 +211,13 @@ parser file, treating it an independent source file in its own right.
 .ns
 .TP
 .B \-\-no-parser
-Do not generate the parser code into the output;  generate only
-declarations.  The generated \fIname\fB.tab.c\fR file will have only
-constant declarations.  In addition, a \fIname\fB.act\fR file is
+Do not generate the parser code into the output; generate only
+declarations.  The generated
+.IB name .tab.c
+file will have only
+constant declarations.  In addition, a
+.IB name .act
+file is
 generated containing a switch statement body containing all the
 translated actions.
 .TP
