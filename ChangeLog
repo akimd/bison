@@ -1,3 +1,10 @@
+2001-09-25  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/output.c (output_master_parser): Don't finish action_obstack.
+	(output_parser): Don't care about the muscle action, here.
+	(prepare): Copy the action_obstack in the action muscle.
+	(output): Free action_obstack.
+
 2001-09-23  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/reader.c (parse_union_decl): Add new obstack union_obstack.  Which

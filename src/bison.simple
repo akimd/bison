@@ -761,7 +761,7 @@ yyreduce:
 #endif
   switch (yyn)
     {
-      %%action /* The action file replaces this line.  */
+      %%action
     }
 #line %%line "%%skeleton"
 
