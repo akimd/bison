@@ -42,6 +42,9 @@ typedef struct bucket
   struct bucket *link;
   struct bucket *next;
 
+  /* The line it was found in. */
+  short line;
+
   /* The key, name of the symbol. */
   char *tag;
   /* Its type. */

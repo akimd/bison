@@ -1,5 +1,12 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/symtab.h, src/symtab.c: `line' is a new member of `bucket'.
+	* src/reader.c (record_rule_lines, rline, rline_allocated): Remove.
+	* src/output.c: Adjust.
+
+	
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (rprec, rprecsym, rassoc): Remove, now part of...
 	(rule_t): this.
 	* src/conflicts.c, src/reader.c, src/reduce.c: Adjust.
