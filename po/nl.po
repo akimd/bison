@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-06-20 13:40+0200\n"
+"POT-Creation-Date: 2002-06-27 13:54+0200\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -109,16 +109,16 @@ msgid "cannot close file"
 msgstr "kan bestand niet sluiten"
 
 # Dank U, Akim :-)
-#: src/getargs.c:99
+#: src/getargs.c:100
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genereert parsers voor LALR(1) grammatica's.\n"
 
-#: src/getargs.c:103
+#: src/getargs.c:104
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Gebruik: %s [OPTIE]... BESTAND\n"
 
-#: src/getargs.c:107
+#: src/getargs.c:108
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -128,7 +128,7 @@ msgstr ""
 "optionele argumenten geldt dezelfde regel.\n"
 
 # Misschien beter 'een POSIX-compatibele yacc'?
-#: src/getargs.c:113
+#: src/getargs.c:114
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -142,7 +142,7 @@ msgstr ""
 
 # Correcte vervoeging van 'voorvoegen'?
 # Betere vertaling voor 'directives'?
-#: src/getargs.c:120
+#: src/getargs.c:121
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -162,7 +162,7 @@ msgstr ""
 "  -n, --no-parser            genereer alleen de tabellen\n"
 "  -k, --token-table          genereer ook een tabel van tokennamen\n"
 
-#: src/getargs.c:132
+#: src/getargs.c:133
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -182,7 +182,7 @@ msgstr ""
 "  -g, --graph                genereer ook een VCG beschrijving van de "
 "automaat\n"
 
-#: src/getargs.c:143
+#: src/getargs.c:144
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -193,29 +193,29 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:154
+#: src/getargs.c:155
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Meld bugs aan <bug-bison@gnu.org>.\n"
 "Meld fouten in de vertaling aan <vertaling@nl.linux.org>.\n"
 
-#: src/getargs.c:168
+#: src/getargs.c:169
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:170
+#: src/getargs.c:171
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:174
+#: src/getargs.c:175
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:176
+#: src/getargs.c:177
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -224,17 +224,17 @@ msgstr ""
 "garantie; zelfs niet voor VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD\n"
 "DOEL.\n"
 
-#: src/getargs.c:279
+#: src/getargs.c:280
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Probeer `%s --help' voor meer informatie.\n"
 
-#: src/getargs.c:288
+#: src/getargs.c:289
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: geen grammaticabestand opgegeven\n"
 
-#: src/getargs.c:292
+#: src/getargs.c:293
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: extra argumenten na `%s' worden genegeerd\n"
