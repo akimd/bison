@@ -87,7 +87,7 @@ AC_CHECK_DECLS([free, getenv, getopt,
                 stpcpy, strchr, strspn, strnlen,
                 malloc, memchr, memrchr])
 AC_REPLACE_FUNCS(memchr memrchr \
-                 strchr stpcpy strrchr strspn strtol)
+                 strchr stpcpy strrchr strspn strtol strtoul)
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 jm_PREREQ_MBSWIDTH
