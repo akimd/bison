@@ -1,5 +1,4 @@
 *_.c
 .deps
 Makefile
-ansi2knr ansi2knr.*
 Makefile.in
