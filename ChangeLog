@@ -1,3 +1,10 @@
+2001-11-26  Akim Demaille  <akim@epita.fr>
+
+	* src/conflicts.c (conflicts_print): Don't complain at all when
+	there are no reduce/reduce conflicts, and as many shift/reduce
+	conflicts as expected.
+	* tests/regression.at (%expect right): Adjust.
+
 2001-11-25  Marc Autret  <autret_m@epita.fr>
 
 	* doc/bison.texinfo (Mystery Conflicts): Hint '-v' use.

@@ -3,6 +3,10 @@ Bison News
 
 Changes in version 1.30e:
 
+* %expect
+  When the number of shift/reduce conflicts is correct, don't issue
+  any warning.
+
 * The verbose report includes the rule line numbers.
 
 * Rule line numbers are fixed in traces.
