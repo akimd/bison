@@ -1,5 +1,13 @@
 2001-09-18  Marc Autret  <autret_m@epita.fr>
 
+	* doc/bison.1: Update.
+	* doc/bison.texinfo (Bison Options): Update --defines and --graph
+	descriptions.
+	(Option Cross Key): Update.
+	Add --graph.
+
+2001-09-18  Marc Autret  <autret_m@epita.fr>
+
 	* tests/regression.at: New test (comment in %union).
 
 2001-09-18  Marc Autret  <autret_m@epita.fr>

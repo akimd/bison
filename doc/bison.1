@@ -10,11 +10,11 @@ bison \- GNU Project parser generator (yacc replacement)
 ] [
 .B \-d
 ] [
-.B \-\-defines
+.BI \-\-defines= defines-file
 ] [
 .B \-g
 ] [
-.B \-\-graph
+.BI \-\-graph= graph-file
 ] [
 .B \-k
 ] [
@@ -127,8 +127,6 @@ chosen as if the input file were named
 .B \-d
 .br
 .ns
-.TP
-.B \-\-defines
 Write an extra output file containing macro definitions for the token
 type names defined in the grammar and the semantic value type
 .BR YYSTYPE ,
@@ -149,16 +147,31 @@ in a separate source file, because
 needs to be able to refer to token type codes and the variable
 .BR yylval .
 .TP
+.BI \-\-defines= defines-file
+The behaviour of
+.BI \-\-defines 
+is the same than 
+.BI \-d 
+option. 
+The only difference is that it has an optionnal argument which is 
+the name of the output filename.
+.TP
 .BI \-g
 .br
 .ns
-.TP
-.BI \-\-graph
 Output a VCG definition of the LALR(1) grammar automaton computed by
 Bison. If the grammar file is 
 .BR foo.y
 , the VCG output file will be
 .BR foo.vcg .
+.TP
+.BI \-\-graph= graph-file
+The behaviour of 
+.BI \-\-graph 
+is the same than
+.BI \-g
+option. The only difference is that it has an optionnal argument which 
+is the name of the output graph filename.
 .TP
 .B \-k
 .br

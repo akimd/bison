@@ -5085,11 +5085,15 @@ Adjust the output:
 
 @table @option
 @item -d
-@itemx --defines
 Pretend that @code{%verbose} was specified, i.e., write an extra output
 file containing macro definitions for the token type names defined in
 the grammar and the semantic value type @code{YYSTYPE}, as well as a few
 @code{extern} variable declarations.  @xref{Decl Summary}.
+
+@item --defines=@var{defines-file}
+The behaviour of @var{--defines} is the same than @samp{-d}. The only 
+difference is that it has an optionnal argument which is the name of
+the output filename.
 
 @item -b @var{file-prefix}
 @itemx --file-prefix=@var{prefix}
@@ -5110,10 +5114,14 @@ The other output files' names are constructed from @var{outfile}
 as described under the @samp{-v} and @samp{-d} options.
 
 @item -g
-@itemx --graph
 Output a VCG definition of the LALR(1) grammar automaton computed by
 Bison. If the grammar file is @file{foo.y}, the VCG output file will
 be @file{foo.vcg}.
+
+@item --graph=@var{graph-file}
+The behaviour of @var{--graph} is the same than @samp{-g}. The only 
+difference is that it has an optionnal argument which is the name of
+the output graph filename.
 @end table
 
 @node Environment Variables
@@ -5171,9 +5179,10 @@ the corresponding short option.
 @ifinfo
 @example
 --debug                               -t
---defines                             -d
+--defines=@var{defines-file}          -d
 --file-prefix=@var{prefix}                  -b @var{file-prefix}
 --fixed-output-files --yacc           -y
+--graph=@var{graph-file}              -d
 --help                                -h
 --name-prefix=@var{prefix}                  -p @var{name-prefix}
 --no-lines                            -l
