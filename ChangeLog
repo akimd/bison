@@ -1,5 +1,12 @@
 2001-09-10  Akim Demaille  <akim@epita.fr>
 
+	* tests/output.at (AT_CHECK_BISON_FLAGS, AT_CHECK_BISON_PERCENT):
+	(AT_CHECK_BISON_PERCENT_FLAGS): Merge into...
+	(AT_CHECK_OUTPUT): this.
+	Merely check ls' exit status, its output is useless.
+
+2001-09-10  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at: Use m4_match.
 	(_AT_DATA_CALC_Y): Check `yyin != NULL', not `stdin != NULL'.
 
