@@ -1,3 +1,10 @@
+2002-11-03  Paul Eggert  <eggert@twinsun.com>
+
+	* src/reader.c (get_merge_function, grammar_current_rule_check):
+	Use consistent diagnostics for reporting type name clashes.
+	Quote the types with <>, for consistency with Yacc.
+	* tests/input.at (Type Clashes): Adjust to diagnostic changes.
+
 2002-11-03  Akim Demaille  <akim@epita.fr>
 
 	* data/c.m4 (b4_identification, b4_user_args, b4_parse_param):
