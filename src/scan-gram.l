@@ -124,12 +124,15 @@ blanks   [ \t\f]+
   "%define"               return PERCENT_DEFINE;
   "%defines"              return PERCENT_DEFINES;
   "%destructor"           return PERCENT_DESTRUCTOR;
+  "%dprec"		  return PERCENT_DPREC;
   "%error"[-_]"verbose"   return PERCENT_ERROR_VERBOSE;
   "%expect"               return PERCENT_EXPECT;
   "%file-prefix"          return PERCENT_FILE_PREFIX;
   "%fixed"[-_]"output"[-_]"files"   return PERCENT_YACC;
+  "%glr"[-_]"parser"	  return PERCENT_GLR_PARSER;
   "%left"                 return PERCENT_LEFT;
   "%locations"            return PERCENT_LOCATIONS;
+  "%merge"		  return PERCENT_MERGE;
   "%name"[-_]"prefix"     return PERCENT_NAME_PREFIX;
   "%no"[-_]"lines"        return PERCENT_NO_LINES;
   "%nonassoc"             return PERCENT_NONASSOC;

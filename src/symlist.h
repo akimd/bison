@@ -35,6 +35,8 @@ typedef struct symbol_list_s
   location_t action_location;
 
   symbol_t *ruleprec;
+  int dprec;
+  int merger;
 } symbol_list_t;
 
 

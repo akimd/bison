@@ -49,7 +49,8 @@ TESTSUITE_AT = \
 	output.at sets.at reduce.at \
 	synclines.at headers.at actions.at conflicts.at \
 	calc.at \
-        torture.at existing.at regression.at
+        torture.at existing.at regression.at \
+	cxx-type.at
 
 TESTSUITE = $(srcdir)/testsuite
 

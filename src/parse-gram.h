@@ -23,30 +23,33 @@
      PERCENT_EXPECT = 270,
      PERCENT_START = 271,
      PERCENT_PREC = 272,
-     PERCENT_VERBOSE = 273,
-     PERCENT_ERROR_VERBOSE = 274,
-     PERCENT_OUTPUT = 275,
-     PERCENT_FILE_PREFIX = 276,
-     PERCENT_NAME_PREFIX = 277,
-     PERCENT_DEFINE = 278,
-     PERCENT_PURE_PARSER = 279,
-     PERCENT_DEFINES = 280,
-     PERCENT_YACC = 281,
-     PERCENT_DEBUG = 282,
-     PERCENT_LOCATIONS = 283,
-     PERCENT_NO_LINES = 284,
-     PERCENT_SKELETON = 285,
-     PERCENT_TOKEN_TABLE = 286,
-     TYPE = 287,
-     EQUAL = 288,
-     SEMICOLON = 289,
-     COLON = 290,
-     PIPE = 291,
-     ID = 292,
-     PERCENT_PERCENT = 293,
-     PROLOGUE = 294,
-     EPILOGUE = 295,
-     BRACED_CODE = 296
+     PERCENT_DPREC = 273,
+     PERCENT_MERGE = 274,
+     PERCENT_VERBOSE = 275,
+     PERCENT_ERROR_VERBOSE = 276,
+     PERCENT_OUTPUT = 277,
+     PERCENT_FILE_PREFIX = 278,
+     PERCENT_NAME_PREFIX = 279,
+     PERCENT_DEFINE = 280,
+     PERCENT_PURE_PARSER = 281,
+     PERCENT_GLR_PARSER = 282,
+     PERCENT_DEFINES = 283,
+     PERCENT_YACC = 284,
+     PERCENT_DEBUG = 285,
+     PERCENT_LOCATIONS = 286,
+     PERCENT_NO_LINES = 287,
+     PERCENT_SKELETON = 288,
+     PERCENT_TOKEN_TABLE = 289,
+     TYPE = 290,
+     EQUAL = 291,
+     SEMICOLON = 292,
+     COLON = 293,
+     PIPE = 294,
+     ID = 295,
+     PERCENT_PERCENT = 296,
+     PROLOGUE = 297,
+     EPILOGUE = 298,
+     BRACED_CODE = 299
    };
 # endif
   /* POSIX requires `int' for tokens in interfaces.  */
@@ -68,30 +71,33 @@
 #define PERCENT_EXPECT 270
 #define PERCENT_START 271
 #define PERCENT_PREC 272
-#define PERCENT_VERBOSE 273
-#define PERCENT_ERROR_VERBOSE 274
-#define PERCENT_OUTPUT 275
-#define PERCENT_FILE_PREFIX 276
-#define PERCENT_NAME_PREFIX 277
-#define PERCENT_DEFINE 278
-#define PERCENT_PURE_PARSER 279
-#define PERCENT_DEFINES 280
-#define PERCENT_YACC 281
-#define PERCENT_DEBUG 282
-#define PERCENT_LOCATIONS 283
-#define PERCENT_NO_LINES 284
-#define PERCENT_SKELETON 285
-#define PERCENT_TOKEN_TABLE 286
-#define TYPE 287
-#define EQUAL 288
-#define SEMICOLON 289
-#define COLON 290
-#define PIPE 291
-#define ID 292
-#define PERCENT_PERCENT 293
-#define PROLOGUE 294
-#define EPILOGUE 295
-#define BRACED_CODE 296
+#define PERCENT_DPREC 273
+#define PERCENT_MERGE 274
+#define PERCENT_VERBOSE 275
+#define PERCENT_ERROR_VERBOSE 276
+#define PERCENT_OUTPUT 277
+#define PERCENT_FILE_PREFIX 278
+#define PERCENT_NAME_PREFIX 279
+#define PERCENT_DEFINE 280
+#define PERCENT_PURE_PARSER 281
+#define PERCENT_GLR_PARSER 282
+#define PERCENT_DEFINES 283
+#define PERCENT_YACC 284
+#define PERCENT_DEBUG 285
+#define PERCENT_LOCATIONS 286
+#define PERCENT_NO_LINES 287
+#define PERCENT_SKELETON 288
+#define PERCENT_TOKEN_TABLE 289
+#define TYPE 290
+#define EQUAL 291
+#define SEMICOLON 292
+#define COLON 293
+#define PIPE 294
+#define ID 295
+#define PERCENT_PERCENT 296
+#define PROLOGUE 297
+#define EPILOGUE 298
+#define BRACED_CODE 299
 
 
 
@@ -105,8 +111,8 @@ typedef union {
   char *string;
   associativity assoc;
 } yystype;
-/* Line 1331 of /usr/local/share/bison/bison.simple.  */
-#line 110 "y.tab.h"
+/* Line 1343 of /home/cs/hilfingr/work/grammars/glr2/install/share/bison/yacc.c.  */
+#line 116 "y.tab.h"
 # define YYSTYPE yystype
 #endif
 

@@ -1,4 +1,123 @@
-2002-06-27  Akim Demaille  <akim@epita.fr>
+2002-06-27  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	Accumulated changelog for new GLR parsing features.
+
+        * src/conflicts.c (count_total_conflicts): Change name to 
+	conflicts_total_count.
+	* src/conflicts.h: Ditto.
+	* src/output.c (token_actions): Use the new name.
+	(output_conflicts): Change conflp => conflict_list_heads, and
+	confl => conflict_list for better readability.
+	* data/glr.c: Use the new names.
+	* NEWS: Add self to GLR announcement.
+	
+	* src/reader.c (free_merger_functions): Cleanup: XFREE->free.
+
+	* doc/bison.texinfo (GLR Parsers): Make corrections suggested by
+	Akim Demaille.
+
+	* data/bison.glr: Change name to glr.c
+	* data/glr.c: Renamed from bison.glr.
+	* data/Makefile.am: Add glr.c
+	
+	* src/getargs.c: 
+	
+	* src/symlist.h:  Add dprec and merger fields to symbol_list_s.
+	* src/symlist.c	(symbol_list_new): Initialize dprec and merger fields.
+	
+	Originally 2002-06-16  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* data/bison.glr: Be sure to restore the
+	current #line when returning to the skeleton contents after having
+	exposed the input file's #line.
+
+	Originally 2002-06-13  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* data/bison.glr: Bring up to date with changes to bison.simple.
+
+	Originally 2002-06-03  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* data/bison.glr: Correct definitions that use b4_prefix.
+	Various reformatting.
+	(GLRStack): Make yychar (in YYPURE case) and yytokenp as part of stack.
+	(yyreportParseError, yyrecoverParseError, yyprocessOneStack): remove
+	yytokenp argument; now part of stack.
+	(yychar): Define to behave as documented.
+	(yyclearin): Ditto.
+	
+	Originally 2002-05-14  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* src/reader.h: Add declaration for free_merger_functions.
+
+	* src/reader.c (merge_functions): New variable.
+	(get_merge_function): New function.
+	(free_merger_functions): New function.
+	(readgram): Check for %prec that is not followed by a symbol.
+	Handle %dprec and %merge declarations.
+	(packgram): Initialize dprec and merger fields in rules array.
+
+	* src/output.c (conflict_tos, conflrow, conflict_table, conflict_list,
+	conflict_list_cnt, conflict_list_free): New variables.
+	(table_grow): Also grow conflict_table.
+	(prepare_rules): Output dprec and merger tables.  
+	(conflict_row): New function.
+	(action_row): Output conflict lists for GLR parser.  Don't use 
+	default reduction in conflicted states for GLR parser so that there
+	are spaces for the conflict lists.
+	(save_row): Also save conflict information.
+	(token_actions): Allocate conflict list.
+	(merger_output): New function.
+	(pack_vector): Pack conflict table, too.
+	(output_conflicts): New function to output yyconflp and yyconfl.
+	(output_check): Allocate conflict_tos.
+	(output_actions): Output conflict tables, also.
+	(output_skeleton): Output b4_mergers definition.
+	(prepare): Output b4_max_rhs_length definition.
+	Use 'bison.glr' as default skeleton for GLR parsers.
+
+	* src/gram.c (glr_parser): New flag.
+	(grammar_free): Call free_merger_functions.
+
+	* src/conflicts.c (count_rr_conflicts): Augment to optionally count
+	all pairs of conflicting reductions, rather than just all tokens
+	causing conflicts.  Needed to size conflict tables.
+	(conflicts_output): Modify call to count_rr_conflicts for new 
+	interface.
+	(conflicts_print): Ditto.
+	(count_total_conflicts): New function.
+
+	* src/reader.h (merger_list): New type.
+	(merge_functions): New variable.
+
+	* src/lex.h (tok_dprec, tok_merge): New token types.
+
+	* src/gram.h (rule_s): Add dprec and merger fields.
+	(glr_parser): New flag.
+
+	* src/conflicts.h (count_total_conflicts): New function.
+
+	* src/options.c (option_table): Add %dprec, %merge, and %glr-parser.
+
+	* doc/bison.texinfo (Generalized LR Parsing): New section.
+	(GLR Parsers): New section.
+	(Language and Grammar): Mention GLR parsing.
+	(Table of Symbols): Add %dprec, %glr-parser, %merge, GLR
+	Correct typo ("tge" -> "the").
+
+	* data/bison.glr: New skeleton for GLR parsing.
+
+	* tests/cxx-gram.at: New tests for GLR parsing.
+
+	* tests/testsuite.at: Include cxx-gram.at.
+
+	* tests/Makefile.am: Add cxx-gram.at.
+	
+	* src/parse-gram.y:
+
+	* src/scan-gram.l: Add %dprec, %glr-parser, %merge.
+
+	* src/parse-gram.y: Grammar for %dprec, %merge, %glr-parser.
+	2002-06-27  Akim Demaille  <akim@epita.fr>
 
 	* src/options.h, src/options.c: Remove.
 	* src/getargs.c (short_options, long_options): New.

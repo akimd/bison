@@ -3,6 +3,14 @@ Bison News
 
 Changes in version 1.49b:
 
+* GLR parsing
+  The declaration
+     %glr-parser
+  causes Bison to produce a Generalized LR (GLR) parser, capable of handling
+  almost any context-free grammar, ambiguous or not.  The new declarations
+  %dprec and %merge on grammar rules allow parse-time resolution of 
+  ambiguities.  Contributed by Paul Hilfinger.
+
 * Output Directory
   When not in Yacc compatibility mode, when the output file was not
   specified, runnning `bison foo/bar.y' created `foo/bar.c'.  It

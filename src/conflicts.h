@@ -24,6 +24,7 @@
 
 void conflicts_solve PARAMS ((void));
 void conflicts_print PARAMS ((void));
+int conflicts_total_count PARAMS ((void));
 void conflicts_output PARAMS ((FILE *out));
 void conflicts_free PARAMS ((void));
 

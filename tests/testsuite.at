@@ -61,3 +61,6 @@ m4_include([existing.at])
 
 # Some old bugs.
 m4_include([regression.at])
+
+# GLR tests: C++ types, simplified
+m4_include([cxx-type.at])

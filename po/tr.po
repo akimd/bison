@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34\n"
-"POT-Creation-Date: 2002-06-27 14:17+0200\n"
+"POT-Creation-Date: 2002-06-27 17:56-0700\n"
 "PO-Revision-Date: 2002-03-14 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -53,49 +53,49 @@ msgstr ""
 "%d durumu içinde %d kuralý ve %s andaçý arasýndaki çeliþki %s olarak\n"
 "çözümlendi.\n"
 
-#: src/conflicts.c:375
+#: src/conflicts.c:378
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d öteleme/indirgeme çeliþkisi"
 msgstr[1] "%d öteleme/indirgeme çeliþkisi"
 
-#: src/conflicts.c:382
+#: src/conflicts.c:385
 msgid "and"
 msgstr "ve"
 
-#: src/conflicts.c:388
+#: src/conflicts.c:391
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d indirgeme/indirgeme çeliþkisi"
 msgstr[1] "%d indirgeme/indirgeme çeliþkisi"
 
-#: src/conflicts.c:413
+#: src/conflicts.c:416
 #, c-format
 msgid "State %d contains "
 msgstr "%d durumu içerir"
 
-#: src/conflicts.c:460
+#: src/conflicts.c:487
 msgid "conflicts: "
 msgstr "çeliþkiler: "
 
-#: src/conflicts.c:462
+#: src/conflicts.c:489
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d öteleme/indirgeme"
 
-#: src/conflicts.c:466
+#: src/conflicts.c:493
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d indirgeme/indirgeme"
 
-#: src/conflicts.c:471
+#: src/conflicts.c:498
 #, c-format
 msgid "%s contains "
 msgstr "%s içerir"
 
-#: src/conflicts.c:478
+#: src/conflicts.c:505
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -111,16 +111,16 @@ msgstr "`%s' dosyasý açýlamadý"
 msgid "cannot close file"
 msgstr "dosya kapatýlamýyor"
 
-#: src/getargs.c:99
+#: src/getargs.c:100
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison LALR(1) gramerler için ayrýþtýrýcýlar üretir.\n"
 
-#: src/getargs.c:103
+#: src/getargs.c:104
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Kullaným: %s [SEÇENEK]... DOSYA\n"
 
-#: src/getargs.c:107
+#: src/getargs.c:108
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -130,7 +130,7 @@ msgstr ""
 "seçenek için de geçerlidir.  Bu durum, seçimli argümanlar için de "
 "geçerlidir.\n"
 
-#: src/getargs.c:113
+#: src/getargs.c:114
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -142,7 +142,7 @@ msgstr ""
 "  -V, --version   sürüm bilgisini ver ve çýk\n"
 "  -y, --yacc      POSIX yacc öykünmesi\n"
 
-#: src/getargs.c:120
+#: src/getargs.c:121
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -162,7 +162,7 @@ msgstr ""
 "  -n, --no-parser            sadece tablolarý üret\n"
 "  -k, --token-table          andaç isimlerinin bir tablosunu içer\n"
 
-#: src/getargs.c:132
+#: src/getargs.c:133
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -181,7 +181,7 @@ msgstr ""
 "  -o, --output=DOSYA        çýktýyý dosyaya býrakýr\n"
 "  -g, --graph                otomatýn bir VCG grafik açýklamasýný da üretir\n"
 
-#: src/getargs.c:143
+#: src/getargs.c:144
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -192,29 +192,29 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:154
+#: src/getargs.c:155
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr ""
 "Hatalarý <bug-bison@gnu.org>'a,\n"
 "çeviri hatalarýný <gnu-tr-u12a@lists.sourceforge.net>'e bildir.\n"
 
-#: src/getargs.c:168
+#: src/getargs.c:169
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:170
+#: src/getargs.c:171
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:174
+#: src/getargs.c:175
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Kopyahakký 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:176
+#: src/getargs.c:177
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -223,17 +223,17 @@ msgstr ""
 "Hiçbir garantisi yoktur; hatta SATILABÝLÝRLÝÐÝ veya ÞAHSÝ KULLANIMINIZA\n"
 "UYGUNLUÐU için bile garanti verilmez.\n"
 
-#: src/getargs.c:333
+#: src/getargs.c:334
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Daha fazla bilgi için `%s --help' yazýn.\n"
 
-#: src/getargs.c:340
+#: src/getargs.c:341
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: gramer dosyasý verilmemiþ\n"
 
-#: src/getargs.c:344
+#: src/getargs.c:345
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: '%s' den sonraki argümanlar yoksayýldý\n"
@@ -321,35 +321,65 @@ msgstr " solda:"
 msgid " on right:"
 msgstr " saðda:"
 
-#: src/reader.c:52
+#: src/reader.c:53
 #, c-format
 msgid "multiple %s declarations"
 msgstr "çoklu %s bildirimleri"
 
-#: src/reader.c:202
+#: src/reader.c:139
+#, c-format
+msgid "result type clash on merge function %s: `%s' vs. `%s'"
+msgstr ""
+
+#: src/reader.c:257
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "bir andaç olan %s için verilen kural"
 
-#: src/reader.c:227
+#: src/reader.c:282
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "öntanýmlý eylem üzerinde (`%s' `%s') tip çatýþmasý"
 
-#: src/reader.c:235
+#: src/reader.c:290
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "Tipli deðiþken simge için boþ kural tanýmlanmýþ, ve eylem belirtilmemiþ"
 
-#: src/reader.c:306
+#: src/reader.c:361
 msgid "two @prec's in a row"
 msgstr "bir satýrda iki @prec"
 
-#: src/reader.c:447
+#: src/reader.c:371
+#, c-format
+msgid "%%dprec affects only GLR parsers"
+msgstr ""
+
+#: src/reader.c:373
+#, c-format
+msgid "%%dprec must be followed by positive number"
+msgstr ""
+
+#: src/reader.c:375
+#, c-format
+msgid "only one %%dprec allowed per rule"
+msgstr ""
+
+#: src/reader.c:386
+#, c-format
+msgid "%%merge affects only GLR parsers"
+msgstr ""
+
+#: src/reader.c:388
+#, c-format
+msgid "only one %%merge allowed per rule"
+msgstr ""
+
+#: src/reader.c:531
 msgid "no rules in the input grammar"
 msgstr "girdi grameri içinde kurallar yok"
 
-#: src/reader.c:479
+#: src/reader.c:563
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "çok fazla simge var (andaçlar ve deðiþken simgeler); en fazla %d"
@@ -412,22 +442,22 @@ msgstr[1] "%d yararsýz kural"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Baþlangýç simgesi %s herhangi bir cümleden türemez"
 
-#: scan-gram.l:556
+#: scan-gram.l:559
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s''in $$'ý bildirilmiþ tip deðil"
 
-#: scan-gram.l:573 scan-gram.l:660
+#: scan-gram.l:576 scan-gram.l:663
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "geçersiz @ deðeri"
 
-#: scan-gram.l:580
+#: scan-gram.l:583
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "`%2$s''in %1$d'i bildirilmiþ tip deðil"
 
-#: scan-gram.l:591 scan-gram.l:608 scan-gram.l:667 scan-gram.l:684
+#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:670 scan-gram.l:687
 #, c-format
 msgid "%s is invalid"
 msgstr "%s geçersizdir"

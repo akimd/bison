@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-06-27 14:17+0200\n"
+"POT-Creation-Date: 2002-06-27 17:56-0700\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -49,49 +49,49 @@ msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr ""
 "Conflitto nello stato %d tra la regola %d e il token %s risolto come %s.\n"
 
-#: src/conflicts.c:375
+#: src/conflicts.c:378
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d conflitto shift/riduzione"
 msgstr[1] "%d conflitti shift/riduzione"
 
-#: src/conflicts.c:382
+#: src/conflicts.c:385
 msgid "and"
 msgstr "e"
 
-#: src/conflicts.c:388
+#: src/conflicts.c:391
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d conflitto riduzione/riduzione"
 msgstr[1] "%d conflitti riduzione/riduzione"
 
-#: src/conflicts.c:413
+#: src/conflicts.c:416
 #, c-format
 msgid "State %d contains "
 msgstr "Lo stato %d contiene"
 
-#: src/conflicts.c:460
+#: src/conflicts.c:487
 msgid "conflicts: "
 msgstr "conflitti: "
 
-#: src/conflicts.c:462
+#: src/conflicts.c:489
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d shift/riduzione"
 
-#: src/conflicts.c:466
+#: src/conflicts.c:493
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d riduzione/riduzione"
 
-#: src/conflicts.c:471
+#: src/conflicts.c:498
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
 
-#: src/conflicts.c:478
+#: src/conflicts.c:505
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -107,16 +107,16 @@ msgstr "impossibile aprire il file `%s'"
 msgid "cannot close file"
 msgstr "impossibile chiudere il file `%s'"
 
-#: src/getargs.c:99
+#: src/getargs.c:100
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genera parser per grammatiche LALR(1).\n"
 
-#: src/getargs.c:103
+#: src/getargs.c:104
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Utilizzo: %s [OPZIONE]... FILE\n"
 
-#: src/getargs.c:107
+#: src/getargs.c:108
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -125,7 +125,7 @@ msgstr ""
 "è obbligatorio anche per l'equivalente opzione corta.  Analogamente per\n"
 "gli argomenti opzionali.\n"
 
-#: src/getargs.c:113
+#: src/getargs.c:114
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -137,7 +137,7 @@ msgstr ""
 "  -V, --version   mostra informazioni sulla versione ed esce\n"
 "  -y, --yacc      emula il comportamento di POSIX yacc\n"
 
-#: src/getargs.c:120
+#: src/getargs.c:121
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -156,7 +156,7 @@ msgstr ""
 "  -n, --no-parser            genera le sole tabelle\n"
 "  -k, --token-table          include una tabella di nomi dei token\n"
 
-#: src/getargs.c:132
+#: src/getargs.c:133
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -175,7 +175,7 @@ msgstr ""
 "  -o, --output=FILE          lascia l'output in FILE\n"
 "  -g, --graph                produce anche una descrizione VCG dell'automa\n"
 
-#: src/getargs.c:143
+#: src/getargs.c:144
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -186,26 +186,26 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:154
+#: src/getargs.c:155
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Segnalare eventuali bug a <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:168
+#: src/getargs.c:169
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:170
+#: src/getargs.c:171
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:174
+#: src/getargs.c:175
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:176
+#: src/getargs.c:177
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -214,17 +214,17 @@ msgstr ""
 "sottoposta la copia. NON c'è ALCUNA garanzia, neanche di\n"
 "COMMERCIABILITA` o di ADEGUATEZZA AD UN PARTICOLARE SCOPO.\n"
 
-#: src/getargs.c:333
+#: src/getargs.c:334
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Provare `%s --help' per ulteriori informazioni.\n"
 
-#: src/getargs.c:340
+#: src/getargs.c:341
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: nessun file grammatica specificato\n"
 
-#: src/getargs.c:344
+#: src/getargs.c:345
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: ignorati gli argomenti successivi a `%s'\n"
@@ -312,34 +312,64 @@ msgstr " nel primo membro:"
 msgid " on right:"
 msgstr " nel secondo membro:"
 
-#: src/reader.c:52
+#: src/reader.c:53
 #, c-format
 msgid "multiple %s declarations"
 msgstr "dichiarazioni multiple per %s"
 
-#: src/reader.c:202
+#: src/reader.c:139
+#, c-format
+msgid "result type clash on merge function %s: `%s' vs. `%s'"
+msgstr ""
+
+#: src/reader.c:257
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "fornita una regola per il token %s"
 
-#: src/reader.c:227
+#: src/reader.c:282
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflitto di tipo (`%s' e `%s') nell'azione di default"
 
-#: src/reader.c:235
+#: src/reader.c:290
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regola vuota e nessuna azione per un nonterminale con tipo"
 
-#: src/reader.c:306
+#: src/reader.c:361
 msgid "two @prec's in a row"
 msgstr "due @prec di seguito"
 
-#: src/reader.c:447
+#: src/reader.c:371
+#, c-format
+msgid "%%dprec affects only GLR parsers"
+msgstr ""
+
+#: src/reader.c:373
+#, c-format
+msgid "%%dprec must be followed by positive number"
+msgstr ""
+
+#: src/reader.c:375
+#, c-format
+msgid "only one %%dprec allowed per rule"
+msgstr ""
+
+#: src/reader.c:386
+#, c-format
+msgid "%%merge affects only GLR parsers"
+msgstr ""
+
+#: src/reader.c:388
+#, c-format
+msgid "only one %%merge allowed per rule"
+msgstr ""
+
+#: src/reader.c:531
 msgid "no rules in the input grammar"
 msgstr "nessuna regola nella grammatica di input"
 
-#: src/reader.c:479
+#: src/reader.c:563
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "troppi simboli (token e nonterminali); il massimo è %d"
@@ -402,22 +432,22 @@ msgstr[1] "%d regole inutili"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
 
-#: scan-gram.l:556
+#: scan-gram.l:559
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $$ di `%s'"
 
-#: scan-gram.l:573 scan-gram.l:660
+#: scan-gram.l:576 scan-gram.l:663
 #, c-format
 msgid "invalid value: %s%d"
 msgstr "valore non valido: %s%d"
 
-#: scan-gram.l:580
+#: scan-gram.l:583
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "Manca una dichiarazione di tipo per $%d di `%s'"
 
-#: scan-gram.l:591 scan-gram.l:608 scan-gram.l:667 scan-gram.l:684
+#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:670 scan-gram.l:687
 #, c-format
 msgid "%s is invalid"
 msgstr "%s non è valido"

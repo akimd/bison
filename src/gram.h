@@ -68,6 +68,10 @@
 
    RULES[R].assoc -- the associativity of R.
 
+   RULES[R].dprec -- the dynamic precedence level of R (for GLR parsing).
+
+   RULES[R].merger -- index of merging function for R (for GLR parsing).
+
    RULES[R].line -- the line where R was defined.
 
    RULES[R].useful -- TRUE iff the rule is used (i.e., FALSE if thrown
@@ -141,6 +145,9 @@ typedef struct rule_s
   /* This symbol provides both the associativity, and the precedence. */
   symbol_t *prec;
 
+  short dprec;
+  short merger;
+
   /* This symbol was attached to the rule via %prec. */
   symbol_t *precsym;
 
@@ -162,6 +169,12 @@ extern symbol_t **symbols;
 extern symbol_number_t *token_translations;
 extern int max_user_token_number;
 
+
+/* GLR_PARSER is nonzero if the input file says to use the GLR
+   (Generalized LR) parser, and to output some additional
+   information used by the GLR algorithm. */
+
+extern int glr_parser;
 
 /* PURE_PARSER is nonzero if should generate a parser that is all pure
    and reentrant.  */

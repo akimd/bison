@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-06-27 14:17+0200\n"
+"POT-Creation-Date: 2002-06-27 17:56-0700\n"
 "PO-Revision-Date: 2002-03-05 16:27+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -46,49 +46,49 @@ msgstr "Konflikt olekus %d reegli %d ja märgi %s vahel lahendatud, kui %s.\n"
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr "Konflikt olekus %d reegli %d ja märgi %s vahel lahendatud, kui %s.\n"
 
-#: src/conflicts.c:375
+#: src/conflicts.c:378
 #, c-format
 msgid "%d shift/reduce conflict"
 msgid_plural "%d shift/reduce conflicts"
 msgstr[0] "%d nihutamine/redutseerimine konflikt"
 msgstr[1] "%d nihutamine/redutseerimine konflikti"
 
-#: src/conflicts.c:382
+#: src/conflicts.c:385
 msgid "and"
 msgstr "ja"
 
-#: src/conflicts.c:388
+#: src/conflicts.c:391
 #, c-format
 msgid "%d reduce/reduce conflict"
 msgid_plural "%d reduce/reduce conflicts"
 msgstr[0] "%d redutseerimine/redutseerimine konflikt"
 msgstr[1] "%d redutseerimine/redutseerimine konflikti"
 
-#: src/conflicts.c:413
+#: src/conflicts.c:416
 #, c-format
 msgid "State %d contains "
 msgstr "Olek %d sisaldab "
 
-#: src/conflicts.c:460
+#: src/conflicts.c:487
 msgid "conflicts: "
 msgstr "konfliktid: "
 
-#: src/conflicts.c:462
+#: src/conflicts.c:489
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d nihutamine/redutseerimine"
 
-#: src/conflicts.c:466
+#: src/conflicts.c:493
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d redutseerimine/redutseerimine"
 
-#: src/conflicts.c:471
+#: src/conflicts.c:498
 #, c-format
 msgid "%s contains "
 msgstr "%s sisaldab "
 
-#: src/conflicts.c:478
+#: src/conflicts.c:505
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
@@ -104,16 +104,16 @@ msgstr "faili `%s' ei saa avada"
 msgid "cannot close file"
 msgstr "faili ei õnnestu sulgeda"
 
-#: src/getargs.c:99
+#: src/getargs.c:100
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison genereerib parsereid LALR(1) grammatikatele.\n"
 
-#: src/getargs.c:103
+#: src/getargs.c:104
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Kasuta: %s [VÕTI]...FAIL\n"
 
-#: src/getargs.c:107
+#: src/getargs.c:108
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -121,7 +121,7 @@ msgstr ""
 "Kui pikk võti näitab, et argument on kohustuslik, siis on see kohustuslik \n"
 "ka lühikese võtme korral. Sama ka vabalt valitavate võtmete korral.\n"
 
-#: src/getargs.c:113
+#: src/getargs.c:114
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -133,7 +133,7 @@ msgstr ""
 "  -V, --version   esita versiooniinfo ja lõpeta töö\n"
 "  -y, --yacc      emuleeri POSIX yacc\n"
 
-#: src/getargs.c:120
+#: src/getargs.c:121
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -153,7 +153,7 @@ msgstr ""
 "  -n, --no-parser            genereeri ainult tabelid\n"
 "  -k, --token-table          lisa ka sümbolite nimede tabel\n"
 
-#: src/getargs.c:132
+#: src/getargs.c:133
 #, fuzzy
 msgid ""
 "Output:\n"
@@ -172,7 +172,7 @@ msgstr ""
 "  -o, --output-file=FAIL     jäta väljund FAILi\n"
 "  -g, --graph                loo automaadi kirjeldus VCG graafina\n"
 
-#: src/getargs.c:143
+#: src/getargs.c:144
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
 "  `state'        describe the states\n"
@@ -183,27 +183,27 @@ msgid ""
 "  `none'         disable the report\n"
 msgstr ""
 
-#: src/getargs.c:154
+#: src/getargs.c:155
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Teatage palun vigadest aadressil <bug-bison@gnu.org>.\n"
 
-#: src/getargs.c:168
+#: src/getargs.c:169
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:170
+#: src/getargs.c:171
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr ""
 
-#: src/getargs.c:174
+#: src/getargs.c:175
 #, fuzzy, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr ""
 "Autoriõigus 1984, 1986, 1989, 1992, 2000, 2001, 2002\n"
 "Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:176
+#: src/getargs.c:177
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -211,17 +211,17 @@ msgstr ""
 "See on vaba tarkvara; kopeerimistingimused leiate lähtetekstidest. Garantii\n"
 "PUUDUB; ka müügiks või mingil eesmärgil kasutamiseks.\n"
 
-#: src/getargs.c:333
+#: src/getargs.c:334
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Lisainfo saamiseks proovige `%s --help'.\n"
 
-#: src/getargs.c:340
+#: src/getargs.c:341
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: puudub grammatikafail\n"
 
-#: src/getargs.c:344
+#: src/getargs.c:345
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: ignoreerin lisaargumente peale `%s'\n"
@@ -309,34 +309,64 @@ msgstr " vasakul:"
 msgid " on right:"
 msgstr " paremal:"
 
-#: src/reader.c:52
+#: src/reader.c:53
 #, c-format
 msgid "multiple %s declarations"
 msgstr "korduvad %s deklaratsioonid"
 
-#: src/reader.c:202
+#: src/reader.c:139
+#, c-format
+msgid "result type clash on merge function %s: `%s' vs. `%s'"
+msgstr ""
+
+#: src/reader.c:257
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s jaoks on antud reegel, aga see on märk"
 
-#: src/reader.c:227
+#: src/reader.c:282
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "vaikimisi tegevuse tüübikonflikt (`%s' `%s')"
 
-#: src/reader.c:235
+#: src/reader.c:290
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tüübiga mitteterminalil on tühi reegel ja puudub tegevus"
 
-#: src/reader.c:306
+#: src/reader.c:361
 msgid "two @prec's in a row"
 msgstr "kaks @prec ühel real"
 
-#: src/reader.c:447
+#: src/reader.c:371
+#, c-format
+msgid "%%dprec affects only GLR parsers"
+msgstr ""
+
+#: src/reader.c:373
+#, c-format
+msgid "%%dprec must be followed by positive number"
+msgstr ""
+
+#: src/reader.c:375
+#, c-format
+msgid "only one %%dprec allowed per rule"
+msgstr ""
+
+#: src/reader.c:386
+#, c-format
+msgid "%%merge affects only GLR parsers"
+msgstr ""
+
+#: src/reader.c:388
+#, c-format
+msgid "only one %%merge allowed per rule"
+msgstr ""
+
+#: src/reader.c:531
 msgid "no rules in the input grammar"
 msgstr "sisendgrammatikas pole reegleid"
 
-#: src/reader.c:479
+#: src/reader.c:563
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "liiga palju sümboleid (märgid ja mitteterminalid); maksimaalne on %d"
@@ -399,22 +429,22 @@ msgstr[1] "%d kasutamata reeglit"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Stardisümbolist %s ei tuletata ühtegi lauset"
 
-#: scan-gram.l:556
+#: scan-gram.l:559
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s' $$ ei oma deklareeritud tüüpi"
 
-#: scan-gram.l:573 scan-gram.l:660
+#: scan-gram.l:576 scan-gram.l:663
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "vigane @ väärtus"
 
-#: scan-gram.l:580
+#: scan-gram.l:583
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d `%s' ei oma deklareeritud tüüpi"
 
-#: scan-gram.l:591 scan-gram.l:608 scan-gram.l:667 scan-gram.l:684
+#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:670 scan-gram.l:687
 #, c-format
 msgid "%s is invalid"
 msgstr "%s on vigane"

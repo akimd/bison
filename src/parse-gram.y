@@ -114,6 +114,8 @@ braced_code_t current_braced_code = action_braced_code;
 %token PERCENT_EXPECT "%expect"
 %token PERCENT_START "%start"
 %token PERCENT_PREC     "%prec"
+%token PERCENT_DPREC    "%dprec"
+%token PERCENT_MERGE    "%merge"
 %token PERCENT_VERBOSE  "%verbose"
 %token PERCENT_ERROR_VERBOSE "%error-verbose"
 
@@ -123,6 +125,7 @@ braced_code_t current_braced_code = action_braced_code;
 
 %token PERCENT_DEFINE "%define"
 %token PERCENT_PURE_PARSER "%pure-parser"
+%token PERCENT_GLR_PARSER "%glr-parser"
 
 %token PERCENT_DEFINES "%defines"
 
@@ -184,6 +187,7 @@ declaration:
 | "%no-lines"                              { no_lines_flag = 1; }
 | "%output" "=" string_content             { spec_outfile = $3; }
 | "%pure-parser"                           { pure_parser = 1; }
+| "%glr-parser" 			   { glr_parser = 1; }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = 1; }
 | "%verbose"                               { report_flag = 1; }
@@ -355,6 +359,10 @@ rhs:
     { grammar_current_rule_action_append ($2, @2); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3, @3); }
+| rhs "%dprec" INT
+    { grammar_current_rule_dprec_set ($3, @3); }
+| rhs "%merge" TYPE
+    { grammar_current_rule_merge_set ($3, @3); }
 ;
 
 symbol:

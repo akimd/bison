@@ -282,6 +282,7 @@ The Bison Parser Algorithm
 * Parser States::     The parser is a finite-state-machine with stack.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
 * Mystery Conflicts::  Reduce/reduce conflicts that look unjustified.
+* Generalized LR Parsing::  Parsing arbitrary context-free grammars.
 * Stack Overflow::    What happens when stack gets full.  How to avoid it.
 
 Operator Precedence
@@ -388,6 +389,7 @@ use Bison or Yacc, we suggest you start by reading this chapter carefully.
                         a semantic value (the value of an integer,
                         the name of an identifier, etc.).
 * Semantic Actions::  Each rule can have an action containing C code.
+* GLR Parsers::       Writing parsers for general context-free languages
 * Locations Overview::    Tracking Locations.
 * Bison Parser::      What are Bison's input and output,
                         how is the output used?
@@ -418,14 +420,36 @@ specify the language Algol 60.  Any grammar expressed in BNF is a
 context-free grammar.  The input to Bison is essentially machine-readable
 BNF.
 
-Not all context-free languages can be handled by Bison, only those
-that are LALR(1).  In brief, this means that it must be possible to
+@cindex LALR(1) grammars
+@cindex LR(1) grammars
+There are various important subclasses of context-free grammar.  Although it
+can handle almost all context-free grammars, Bison is optimized for what
+are called LALR(1) grammars.
+In brief, in these grammars, it must be possible to
 tell how to parse any portion of an input string with just a single
 token of look-ahead.  Strictly speaking, that is a description of an
 LR(1) grammar, and LALR(1) involves additional restrictions that are
 hard to explain simply; but it is rare in actual practice to find an
 LR(1) grammar that fails to be LALR(1).  @xref{Mystery Conflicts, ,
 Mysterious Reduce/Reduce Conflicts}, for more information on this.
+
+@cindex GLR parsing
+@cindex generalized LR (GLR) parsing
+@cindex ambiguous grammars
+@cindex non-deterministic parsing
+Parsers for LALR(1) grammars are @dfn{deterministic}, meaning roughly that
+the next grammar rule to apply at any point in the input is uniquely 
+determined by the preceding input and a fixed, finite portion (called
+a @dfn{look-ahead}) of the remaining input.
+A context-free grammar can be @dfn{ambiguous}, meaning that 
+there are multiple ways to apply the grammar rules to get the some inputs.
+Even unambiguous grammars can be @dfn{non-deterministic}, meaning that no
+fixed look-ahead always suffices to determine the next grammar rule to apply.
+With the proper declarations, Bison is also able to parse these more general 
+context-free grammars, using a technique known as GLR parsing (for 
+Generalized LR).  Bison's GLR parsers are able to handle any context-free 
+grammar for which the number of possible parses of any given string 
+is finite.  
 
 @cindex symbols (abstract)
 @cindex token
@@ -631,6 +655,180 @@ expr: expr '+' expr   @{ $$ = $1 + $3; @}
 @noindent
 The action says how to produce the semantic value of the sum expression
 from the values of the two subexpressions.
+
+@node GLR Parsers
+@section Writing GLR Parsers
+@cindex GLR parsing
+@cindex generalized LR (GLR) parsing
+@findex %glr-parser
+@cindex conflicts
+@cindex shift/reduce conflicts
+
+In some grammars, there will be cases where Bison's standard LALR(1)
+parsing algorithm cannot decide whether to apply a certain grammar rule
+at a given point.  That is, it may not be able to decide (on the basis
+of the input read so far) which of two possible reductions (applications
+of a grammar rule) applies, or whether to apply a reduction or read more
+of the input and apply a reduction later in the input.  These are known
+respectively as @dfn{reduce/reduce} conflicts (@pxref{Reduce/Reduce}),
+and @dfn{shift/reduce} conflicts (@pxref{Shift/Reduce}).
+
+To use a grammar that is not easily modified to be LALR(1), a more
+general parsing algorithm is sometimes necessary.  If you include
+@code{%glr-parser} among the Bison declarations in your file
+(@pxref{Grammar Outline}), the result will be a Generalized LR (GLR)
+parser.  These parsers handle Bison grammars that contain no unresolved
+conflicts (i.e., after applying precedence declarations) identically to
+LALR(1) parsers.  However, when faced with unresolved shift/reduce and
+reduce/reduce conflicts, GLR parsers use the simple expedient of doing
+both, effectively cloning the parser to follow both possibilities.  Each
+of the resulting parsers can again split, so that at any given time,
+there can be any number of possible parses being explored.  The parsers
+proceed in lockstep; that is, all of them consume (shift) a given input
+symbol before any of them proceed to the next.  Each of the cloned
+parsers eventually meets one of two possible fates: either it runs into
+a parsing error, in which case it simply vanishes, or it merges with
+another parser, because the two of them have reduced the input to an
+identical set of symbols.
+
+During the time that there are multiple parsers, semantic actions are
+recorded, but not performed.  When a parser disappears, its recorded
+semantic actions disappear as well, and are never performed.  When a
+reduction makes two parsers identical, causing them to merge, Bison
+records both sets of semantic actions.  Whenever the last two parsers
+merge, reverting to the single-parser case, Bison resolves all the
+outstanding actions either by precedences given to the grammar rules
+involved, or by performing both actions, and then calling a designated
+user-defined function on the resulting values to produce an arbitrary
+merged result.
+
+Let's consider an example, vastly simplified from C++.  
+
+@example
+%@{
+  #define YYSTYPE const char*
+%@}
+
+%token TYPENAME ID
+
+%right '='
+%left '+'
+
+%glr-parser
+
+%%
+
+prog : 
+     | prog stmt   @{ printf ("\n"); @}
+     ;
+
+stmt : expr ';'  %dprec 1
+     | decl      %dprec 2
+     ;
+
+expr : ID 		@{ printf ("%s ", $$); @}
+     | TYPENAME '(' expr ')'  
+			@{ printf ("%s <cast> ", $1); @}
+     | expr '+' expr	@{ printf ("+ "); @}
+     | expr '=' expr	@{ printf ("= "); @}
+     ;
+
+decl : TYPENAME declarator ';' 
+			@{ printf ("%s <declare> ", $1); @}
+     | TYPENAME declarator '=' expr ';'
+			@{ printf ("%s <init-declare> ", $1); @}
+     ;
+
+declarator : ID		@{ printf ("\"%s\" ", $1); @}
+     | '(' declarator ')'
+     ;
+@end example
+
+@noindent
+This models a problematic part of the C++ grammar---the ambiguity between
+certain declarations and statements.  For example,
+
+@example
+T (x) = y+z;
+@end example
+
+@noindent
+parses as either an @code{expr} or a @code{stmt}
+(assuming that @samp{T} is recognized as a TYPENAME and @samp{x} as an ID).
+Bison detects this as a reduce/reduce conflict between the rules
+@code{expr : ID} and @code{declarator : ID}, which it cannot resolve at the 
+time it encounters @code{x} in the example above.  The two @code{%dprec} 
+declarations, however, give precedence to interpreting the example as a 
+@code{decl}, which implies that @code{x} is a declarator.
+The parser therefore prints
+
+@example
+"x" y z + T <init-declare> 
+@end example
+
+Consider a different input string for this parser:
+
+@example
+T (x) + y;
+@end example
+
+@noindent
+Here, there is no ambiguity (this cannot be parsed as a declaration).
+However, at the time the Bison parser encounters @code{x}, it does not
+have enough information to resolve the reduce/reduce conflict (again,
+between @code{x} as an @code{expr} or a @code{declarator}).  In this
+case, no precedence declaration is used.  Instead, the parser splits
+into two, one assuming that @code{x} is an @code{expr}, and the other
+assuming @code{x} is a @code{declarator}.  The second of these parsers
+then vanishes when it sees @code{+}, and the parser prints
+
+@example
+x T <cast> y + 
+@end example
+
+Suppose that instead of resolving the ambiguity, you wanted to see all
+the possibilities.  For this purpose, we must @dfn{merge} the semantic
+actions of the two possible parsers, rather than choosing one over the
+other.  To do so, you could change the declaration of @code{stmt} as
+follows:
+
+@example
+stmt : expr ';'  %merge <stmtMerge>
+     | decl      %merge <stmtMerge>
+     ;
+@end example
+
+@noindent
+
+and define the @code{stmtMerge} function as:
+
+@example
+static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1)
+@{
+  printf ("<OR> ");
+  return "";
+@}
+@end example
+
+@noindent
+with an accompanying forward declaration
+in the C declarations at the beginning of the file:
+
+@example
+%@{
+  #define YYSTYPE const char*
+  static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
+%@}
+@end example
+
+@noindent
+With these declarations, the resulting parser will parse the first example
+as both an @code{expr} and a @code{decl}, and print
+
+@example
+"x" y z + T <init-declare> x T <cast> y z + = <OR> 
+@end example
+
 
 @node Locations Overview
 @section Locations
@@ -2913,7 +3111,7 @@ the location of the grouping (the result of the computation). The second one
 is an array holding locations of all right hand side elements of the rule
 being matched. The last one is the size of the right hand side rule.
 
-By default, it is defined this way:
+By default, it is defined this way for simple LALR(1) parsers:
 
 @example
 @group
@@ -2922,6 +3120,19 @@ By default, it is defined this way:
   Current.first_column = Rhs[1].first_column;    \
   Current.last_line    = Rhs[N].last_line;       \
   Current.last_column  = Rhs[N].last_column;
+@end group
+@end example
+
+@noindent
+and like this for GLR parsers:
+
+@example
+@group
+#define YYLLOC_DEFAULT(Current, Rhs, N)          \
+  Current.first_line   = YYRHSLOC(Rhs,1).first_line;      \
+  Current.first_column = YYRHSLOC(Rhs,1).first_column;    \
+  Current.last_line    = YYRHSLOC(Rhs,N).last_line;       \
+  Current.last_column  = YYRHSLOC(Rhs,N).last_column;
 @end group
 @end example
 
@@ -3890,6 +4101,7 @@ Return immediately from @code{yyparse}, indicating success.
 @findex YYBACKUP
 Unshift a token.  This macro is allowed only for rules that reduce
 a single value, and only when there is no look-ahead token.
+It is also disallowed in GLR parsers.
 It installs a look-ahead token with token type @var{token} and
 semantic value @var{value}; then it discards the value that was
 going to be reduced by this rule.
@@ -4030,6 +4242,7 @@ This kind of parser is known in the literature as a bottom-up parser.
 * Parser States::     The parser is a finite-state-machine with stack.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
 * Mystery Conflicts::  Reduce/reduce conflicts that look unjustified.
+* Generalized LR Parsing::  Parsing arbitrary context-free grammars.
 * Stack Overflow::    What happens when stack gets full.  How to avoid it.
 @end menu
 
@@ -4623,6 +4836,82 @@ return_spec:
         |    ID ':' type
         ;
 @end example
+
+@node Generalized LR Parsing 
+@section Generalized LR (GLR) Parsing
+@cindex GLR parsing
+@cindex generalized LR (GLR) parsing
+@cindex ambiguous grammars
+@cindex non-deterministic parsing
+
+Bison produces @emph{deterministic} parsers that choose uniquely 
+when to reduce and which reduction to apply 
+based on a summary of the preceding input and on one extra token of lookahead.
+As a result, normal Bison handles a proper subset of the family of
+context-free languages.
+Ambiguous grammars, since they have strings with more than one possible 
+sequence of reductions cannot have deterministic parsers in this sense.
+The same is true of languages that require more than one symbol of
+lookahead, since the parser lacks the information necessary to make a
+decision at the point it must be made in a shift-reduce parser.
+Finally, as previously mentioned (@pxref{Mystery Conflicts}), 
+there are languages where Bison's particular choice of how to
+summarize the input seen so far loses necessary information.
+
+When you use the @samp{%glr-parser} declaration in your grammar file,
+Bison generates a parser that uses a different algorithm, called
+Generalized LR (or GLR).  A Bison GLR parser uses the same basic
+algorithm for parsing as an ordinary Bison parser, but behaves
+differently in cases where there is a shift-reduce conflict that has not
+been resolved by precedence rules (@pxref{Precedence}) or a 
+reduce-reduce conflict.  When a GLR parser encounters such a situation, it
+effectively @emph{splits} into a several parsers, one for each possible 
+shift or reduction.  These parsers then proceed as usual, consuming
+tokens in lock-step.  Some of the stacks may encounter other conflicts
+and split further, with the result that instead of a sequence of states, 
+a Bison GLR parsing stack is what is in effect a tree of states.  
+
+In effect, each stack represents a guess as to what the proper parse
+is.  Additional input may indicate that a guess was wrong, in which case
+the appropriate stack silently disappears.  Otherwise, the semantics
+actions generated in each stack are saved, rather than being executed 
+immediately.  When a stack disappears, its saved semantic actions never
+get executed.  When a reduction causes two stacks to become equivalent, 
+their sets of semantic actions are both saved with the state that
+results from the reduction.  We say that two stacks are equivalent
+when they both represent the same sequence of states, 
+and each pair of corresponding states represents a
+grammar symbol that produces the same segment of the input token
+stream.
+
+Whenever the parser makes a transition from having multiple
+states to having one, it reverts to the normal LALR(1) parsing
+algorithm, after resolving and executing the saved-up actions.
+At this transition, some of the states on the stack will have semantic
+values that are sets (actually multisets) of possible actions.  The
+parser tries to pick one of the actions by first finding one whose rule
+has the highest dynamic precedence, as set by the @samp{%dprec}
+declaration.  Otherwise, if the alternative actions are not ordered by 
+precedence, but there the same merging function is declared for both
+rules by the @samp{%merge} declaration, 
+Bison resolves and evaluates both and then calls the merge function on
+the result.  Otherwise, it reports an ambiguity.
+
+It is possible to use a data structure for the GLR parsing tree that
+permits the processing of any LALR(1) grammar in linear time (in the
+size of the input), any unambiguous (not necessarily LALR(1)) grammar in
+quadratic worst-case time, and any general (possibly ambiguous) 
+context-free grammar in cubic worst-case time.  However, Bison currently
+uses a simpler data structure that requires time proportional to the
+length of the input times the maximum number of stacks required for any
+prefix of the input.  Thus, really ambiguous or non-deterministic
+grammars can require exponential time and space to process.  Such badly
+behaving examples, however, are not generally of practical interest.
+Usually, non-determinism in a grammar is local---the parser is ``in
+doubt'' only for a few tokens at a time.  Therefore, the current data
+structure should generally be adequate.  On LALR(1) portions of a
+grammar, in particular, it is only slightly slower than with the default
+Bison parser.
 
 @node Stack Overflow
 @section Stack Overflow, and How to Avoid It
@@ -5912,9 +6201,16 @@ Equip the parser for debugging.  @xref{Decl Summary}.
 Bison declaration to create a header file meant for the scanner.
 @xref{Decl Summary}.
 
+@item %dprec 
+Bison declaration to assign a precedence to a rule that is used at parse
+time to resolve reduce/reduce conflicts.  @xref{GLR Parsers}.
+
 @item %file-prefix="@var{prefix}"
-Bison declaration to set tge prefix of the output files. @xref{Decl
+Bison declaration to set the prefix of the output files. @xref{Decl
 Summary}.
+
+@item %glr-parser
+Bison declaration to produce a GLR parser.  @xref{GLR Parsers}.
 
 @c @item %source-extension
 @c Bison declaration to specify the generated parser output file extension.
@@ -5927,6 +6223,12 @@ Summary}.
 @item %left
 Bison declaration to assign left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
+
+@item %merge
+Bison declaration to assign a merging function to a rule.  If there is a
+reduce/reduce conflict with a rule having the same merging function, the 
+function is applied to the two semantic values to get a single result.
+@xref{GLR Parsers}.
 
 @item %name-prefix="@var{prefix}"
 Bison declaration to rename the external symbols. @xref{Decl Summary}.
@@ -6039,6 +6341,13 @@ machine moves from state to state as specified by the logic of the
 machine.  In the case of the parser, the input is the language being
 parsed, and the states correspond to various stages in the grammar
 rules.  @xref{Algorithm, ,The Bison Parser Algorithm }.
+
+@item Generalized LR (GLR)
+A parsing algorithm that can handle all context-free grammars, including those
+that are not LALR(1).  It resolves situations that Bison's usual LALR(1) 
+algorithm cannot by effectively splitting off multiple parsers, trying all
+possible parsers, and discarding those that fail in the light of additional
+right context.  @xref{Generalized LR Parsing, ,Generalized LR Parsing}.
 
 @item Grouping
 A language construct that is (in general) grammatically divisible;

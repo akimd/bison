@@ -24,6 +24,14 @@
 # include "symlist.h"
 # include "parse-gram.h"
 
+typedef struct merger_list
+{
+  struct merger_list* next;
+  const char* name;
+  const char* type;
+} 
+merger_list;
+
 typedef struct gram_control_s
 {
   int errcode;
@@ -70,12 +78,21 @@ void grammar_rule_end PARAMS ((location_t l));
 void grammar_midrule_action PARAMS ((void));
 void grammar_current_rule_prec_set PARAMS ((symbol_t *precsym,
 					    location_t l));
+void grammar_current_rule_dprec_set PARAMS ((int dprec,
+					    location_t l));
+void grammer_current_rule_merge_set PARAMS ((const char* name,
+					    location_t l));
+
 void grammar_current_rule_symbol_append PARAMS ((symbol_t *symbol,
 						 location_t l));
 void grammar_current_rule_action_append PARAMS ((const char *action,
 						 location_t l));
 extern symbol_list_t *current_rule;
 void reader PARAMS ((void));
+void free_merger_functions PARAMS ((void));
+
+extern merger_list *merge_functions;
+
 extern int typed;
 
 #endif /* !READER_H_ */
