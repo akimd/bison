@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2002-01-03 10:25+0100\n"
+"POT-Creation-Date: 2002-01-04 17:16+0100\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -91,18 +91,18 @@ msgstr " %d Reduziere/Reduziere"
 msgid "%s contains "
 msgstr "%s enthält "
 
-#: src/conflicts.c:405
+#: src/conflicts.c:412
 #, fuzzy, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] " %d Schiebe/Reduziere Konflikte"
 
-#: src/conflicts.c:456 src/conflicts.c:533
+#: src/conflicts.c:463 src/conflicts.c:540
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduziere mit Regel %d (%s)]\n"
 
-#: src/conflicts.c:460 src/print.c:154
+#: src/conflicts.c:467 src/print.c:154
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -111,22 +111,22 @@ msgstr ""
 "    $default\treduziere mit Regel %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:514 src/conflicts.c:527
+#: src/conflicts.c:521 src/conflicts.c:534
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduziere mit Tegel %d (%s)\n"
 
-#: src/conflicts.c:543
+#: src/conflicts.c:550
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
 
-#: src/files.c:144
+#: src/files.c:145
 #, c-format
 msgid "cannot open file `%s'"
 msgstr ""
 
-#: src/files.c:163
+#: src/files.c:164
 msgid "cannot close file"
 msgstr ""
 

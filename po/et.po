@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30f\n"
-"POT-Creation-Date: 2002-01-03 10:25+0100\n"
+"POT-Creation-Date: 2002-01-04 17:16+0100\n"
 "PO-Revision-Date: 2001-12-05 20:35+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -91,19 +91,19 @@ msgstr " %d redutseerimine/redutseerimine"
 msgid "%s contains "
 msgstr "%s sisaldab "
 
-#: src/conflicts.c:405
+#: src/conflicts.c:412
 #, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
 msgstr[0] "eeldasime %d nihutamine/redutseerimine konflikti\n"
 msgstr[1] "eeldasime %d nihutamine/redutseerimine konflikti\n"
 
-#: src/conflicts.c:456 src/conflicts.c:533
+#: src/conflicts.c:463 src/conflicts.c:540
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[redutseerin, kasutades reeglit %d (%s)]\n"
 
-#: src/conflicts.c:460 src/print.c:154
+#: src/conflicts.c:467 src/print.c:154
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -112,22 +112,22 @@ msgstr ""
 "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:514 src/conflicts.c:527
+#: src/conflicts.c:521 src/conflicts.c:534
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tredutseerin kasutades reeglit %d (%s)\n"
 
-#: src/conflicts.c:543
+#: src/conflicts.c:550
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 
-#: src/files.c:144
+#: src/files.c:145
 #, c-format
 msgid "cannot open file `%s'"
 msgstr "faili `%s' ei saa avada"
 
-#: src/files.c:163
+#: src/files.c:164
 msgid "cannot close file"
 msgstr "faili ei õnnestu sulgeda"
 
