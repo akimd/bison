@@ -1,5 +1,9 @@
 2001-08-03  Akim Demaille  <akim@epita.fr>
 
+	Version 1.28b.
+
+2001-08-03  Akim Demaille  <akim@epita.fr>
+
 	* tests/Makefile.am (check-local): Ship testsuite.
 	* tests/calc.at (_AT_DATA_CALC_Y): Prototype all the functions.
 	Include `string.h'.
