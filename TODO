@@ -170,11 +170,22 @@ Are there any Texinfo standards for bibliography?
 
 * Java, Fortran, etc.
 
-  Add support for languages other than C and C++.  Here is a proposed
-  patch for Java:
 
+** Java
+
+There are a couple of proposed outputs:
+
+- BYACC/J
+  which is based on Byacc.
+  <http://troi.lincom-asg.com/~rjamison/byacc/>
+
+- Bison Java
+  which is based on Bison.
   <http://www.goice.co.jp/member/mo/hack-progs/bison-java.html>
 
+Sébastien Serrurier (serrur_s@epita.fr) is working on this: he is
+expected to contact the authors, design the output, and implement it
+into Bison.
 
 
 * Coding system independence

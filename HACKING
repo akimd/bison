@@ -4,6 +4,11 @@ This file attempts to describe the rules to use when hacking Bison.
 Don't put this file into the distribution.  Don't mention it in the
 ChangeLog.
 
+Everything related to the development of Bison is on Savannah:
+
+	http://savannah.gnu.org/projects/bison/
+
+
 * Administrivia
 
 ** If you incorporate a change from somebody on the net:
@@ -20,6 +25,7 @@ and in the test case you write.  Put him into THANKS.
 The correct response to most actual bugs is to write a new test case
 which demonstrates the bug.  Then fix the bug, re-run the test suite,
 and check everything in.
+
 
 * Hacking
 
