@@ -27,6 +27,7 @@ quote.m4
 quotearg.m4
 stdbool.m4
 stpcpy.m4
+strdup.m4
 strerror_r.m4
 strndup.m4
 strnlen.m4
