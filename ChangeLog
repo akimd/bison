@@ -1,3 +1,11 @@
+2002-03-20  Paul Eggert  <eggert@twinsun.com>
+
+	Merge fixes from Debian bison_1.34-1.diff.
+
+	* configure.in (AC_PREREQ): 2.53.
+	* po/es.po ("Conflict in state %d between rule %d and token %s
+	resolved as %s.\n"): Fix typo by replacing "%s" with "%d'.
+
 2002-03-20  Akim Demaille  <akim@epita.fr>
 
 	Version 1.34a.
