@@ -65,9 +65,6 @@ extern struct obstack guard_obstack;
 /* The verbose output. */
 extern struct obstack output_obstack;
 
-/* The VCG graph output. */
-extern struct obstack graph_obstack;
-
 extern char *infile;
 extern char *attrsfile;
 

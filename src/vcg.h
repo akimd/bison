@@ -1004,16 +1004,16 @@ void add_colorentry PARAMS ((graph_t *g, int color_idx, int red_cp,
 void add_classname PARAMS ((graph_t *g, int val, const char *name));
 void add_infoname PARAMS ((graph_t *g, int val, const char *name));
 
-void open_node PARAMS ((struct obstack *os));
-void output_node PARAMS ((node_t *node, struct obstack *os));
-void close_node PARAMS ((struct obstack *os));
+void open_node PARAMS ((FILE *fout));
+void output_node PARAMS ((node_t *node, FILE *fout));
+void close_node PARAMS ((FILE *fout));
 
-void open_edge PARAMS ((edge_t *edge, struct obstack *os));
-void output_edge PARAMS ((edge_t *edge, struct obstack *os));
-void close_edge PARAMS ((struct obstack *os));
+void open_edge PARAMS ((edge_t *edge, FILE *fout));
+void output_edge PARAMS ((edge_t *edge, FILE *fout));
+void close_edge PARAMS ((FILE *fout));
 
-void open_graph PARAMS ((struct obstack *os));
-void output_graph PARAMS ((graph_t *graph, struct obstack *os));
-void close_graph PARAMS ((graph_t *graph, struct obstack *os));
+void open_graph PARAMS ((FILE *fout));
+void output_graph PARAMS ((graph_t *graph, FILE *fout));
+void close_graph PARAMS ((graph_t *graph, FILE *fout));
 
 #endif /* VCG_H_ */

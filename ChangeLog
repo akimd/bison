@@ -1,5 +1,19 @@
 2001-09-24  Marc Autret  <autret_m@epita.fr>
 
+	* src/vcg.c (open_edge, close_edge, open_node, close_node): Change
+	to output informations in fout (FILE*).
+	(open_graph, close_graph): Likewise.
+	(output_graph, output_edge, output_node): Likewise.
+	* src/vcg.h: Update function prototypes.
+	* src/print_graph.c (print_graph): Open output graph file.
+	(print_actions): Adjust.
+	* src/files.h: Remove extern declaration.
+	* src/files.c: Remove graph_obstack declaration.
+	(open_files): Remove graph_obstack initialization.
+	(output_files): Remove graph_obstack saving.
+
+2001-09-24  Marc Autret  <autret_m@epita.fr>
+
 	* src/files.c (compute_output_file_names): Fix.
 
 2001-09-24  Marc Autret  <autret_m@epita.fr>, Akim Demaille  <akim@epita.fr>
