@@ -1,5 +1,17 @@
 2002-11-13  Paul Eggert  <eggert@twinsun.com>
 
+	Fix some bugs reported by Albert Chin-A-Young in
+	<http://mail.gnu.org/pipermail/bug-bison/2002-November/001881.html>.
+	
+	* tests/input.at (Torturing the Scanner): Don't invoke "cc a.c b.c
+	-o c"; the HP-UX 11i C compiler chatters during compilation.
+	Instead, invoke "cc -c a.c -o a.o; cc -c b.c -o b.o; cc a.o b.o -o c".
+	* tests/headers.at (export YYLTYPE): Likewise.
+
+	* tests/input.at (Torturing the Scanner): Remove lines containing
+	solitary backslashes, as they tickle a bug in the HP-UX 11i C
+	compiler.
+
 	* tests/glr-regr1.at (Badly Collapsed GLR States): Avoid //
 	comments, since they're not portable.  Use GNU coding style.
 
