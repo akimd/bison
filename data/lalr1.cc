@@ -889,8 +889,8 @@ yy::]b4_parser_class_name[::rline_[] =
 void
 yy::]b4_parser_class_name[::stack_print_ ()
 {
-  cdebug_ << "state stack now";
-  for (StateStack::ConstIterator i = state_stack_.begin ();
+  cdebug_ << "Stack now";
+  for (StateStack::const_iterator i = state_stack_.begin ();
        i != state_stack_.end (); ++i)
     cdebug_ << ' ' << *i;
   cdebug_ << std::endl;
@@ -903,7 +903,7 @@ yy::]b4_parser_class_name[::reduce_print_ (int yyrule)
 {
   unsigned int yylno = rline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
-  cdebug_ << "Reducing via rule " << n_ - 1 << " (line " << yylno << "), ";
+  cdebug_ << "Reducing stack by rule " << n_ - 1 << " (line " << yylno << "), ";
   for (]b4_int_type_for([b4_prhs])[ i = prhs_[n_];
        0 <= rhs_[i]; ++i)
     cdebug_ << name_[rhs_[i]] << ' ';
@@ -956,8 +956,9 @@ namespace yy
   {
   public:
 
-    typedef typename S::iterator Iterator;
-    typedef typename S::const_iterator ConstIterator;
+    // Hide our reversed order.
+    typedef typename S::reverse_iterator iterator;
+    typedef typename S::const_reverse_iterator const_iterator;
 
     Stack () : seq_ ()
     {
@@ -1003,8 +1004,8 @@ namespace yy
       return seq_.size ();
     }
 
-    inline ConstIterator begin () const { return seq_.begin (); }
-    inline ConstIterator end () const { return seq_.end (); }
+    inline const_iterator begin () const { return seq_.rbegin (); }
+    inline const_iterator end () const { return seq_.rend (); }
 
   private:
 

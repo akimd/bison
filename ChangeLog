@@ -1,5 +1,15 @@
 2004-09-16  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (Stack::Iterator, Stack::ConstIterator): Rename as...
+	(iterator, const_iterator): these, to be more in the C++ spirit.
+	Also, return reverse iterators so that when displaying the stack
+	we display its bottom first.
+	(Parser::stack_print_, Parser::reduce_print_): Match the messages
+	from yacc.c.
+	We should probably use vector here though.
+
+2004-09-16  Akim Demaille  <akim@epita.fr>
+
 	Have more complete shift traces.
 
 	* data/yacc.c, data/lalr1.c, data/glr.c: Use YY_SYMBOL_PRINT
