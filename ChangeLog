@@ -1,3 +1,13 @@
+2003-07-25  Paul Eggert  <eggert@twinsun.com>
+
+	Let the user specify how to allocate and free memory.
+	Derived from a suggestion by Frank Heckenbach in
+	<http://mail.gnu.org/archive/html/bison-patches/2003-06/msg00041.html>.
+	* data/glr.c (YYFREE, YYMALLOC, YYREALLOC): New macros.
+	All uses of free, malloc, realloc changed to use these macros,
+	and unnecessary casts removed.
+	* data/yacc.c (YYFREE, YYMALLOC): Likewise.
+
 2003-07-06  Matthias Mann  <MatthiasMann@gmx.de>
 
 	* data/lalr1.cc (operator<<(std::ostream&, const Position&)):
@@ -122,7 +132,7 @@
 	Allow states with only a default reduction, rather than failing
 	(I can't quite reconstruct why these were not allowed before).
 
-        Fixes to avoid problem that $-N rules in GLR parsers can cause
+	Fixes to avoid problem that $-N rules in GLR parsers can cause
 	buffer overruns, corrupting state.
 
 	* src/output.c (prepare_rules): Output max_left_semantic_context
