@@ -57,22 +57,15 @@ do {							\
   }							\
 } while (0)
 
-/* Pass the control structure to YYPARSE and YYLEX. */
-#define YYPARSE_PARAM gram_control
-#define YYLEX_PARAM gram_control
-/* YYPARSE receives GRAM_CONTROL as a void *.  Provide a
-   correctly typed access to it.  */
-#define yycontrol ((gram_control_t *) gram_control)
-
 /* Request detailed syntax error messages, and pass them to GRAM_ERROR.
-   FIXME: depends on the undocumented availability of YYLLOC.t */
+   FIXME: depends on the undocumented availability of YYLLOC.  */
 #undef  yyerror
 #define yyerror(Msg) \
         gram_error (&yylloc, Msg)
 
 #define YYPRINT(File, Type, Value) \
-        yyprint (File, Type, &Value)
-static void yyprint (FILE *file, int type, const yystype *value);
+	print_token_value (File, Type, &Value)
+static void print_token_value (FILE *file, int type, YYSTYPE const *value);
 
 symbol_class current_class = unknown_sym;
 struniq_t current_type = 0;
@@ -169,9 +162,6 @@ braced_code_t current_braced_code = action_braced_code;
 
 input:
   declarations "%%" grammar epilogue.opt
-    {
-      yycontrol->errcode = 0;
-    }
 ;
 
 
@@ -450,8 +440,7 @@ semi_colon.opt:
 `------------------------------------------------------------------*/
 
 static void
-yyprint (FILE *file,
-         int type, const yystype *value)
+print_token_value (FILE *file, int type, YYSTYPE const *value)
 {
   fputc (' ', file);
   switch (type)
@@ -485,7 +474,7 @@ yyprint (FILE *file,
 }
 
 void
-gram_error (location_t *yylloc, const char *msg)
+gram_error (location_t const *loc, char const *msg)
 {
-  complain_at (*yylloc, "%s", msg);
+  complain_at (*loc, "%s", msg);
 }
