@@ -23,3 +23,24 @@
 #include <strings.h>
 /* memory.h and strings.h conflict on some systems.  */
 #endif /* not STDC_HEADERS and not HAVE_STRING_H */
+
+#if HAVE_LOCALE_H
+# include <locale.h>
+#endif
+#if !HAVE_SETLOCALE
+# define setlocale(Category, Locale)
+#endif
+
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define bindtextdomain(Domain, Directory)
+# define textdomain(Domain)
+# define _(Text) Text
+#endif
+#define N_(Text) Text
+
+/* In the meantime, waiting for Automake.  */
+#define PACKAGE "bison"
+#define LOCALEDIR "/usr/local/share/locale"
