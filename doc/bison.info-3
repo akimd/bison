@@ -29,6 +29,150 @@ included in translations approved by the Free Software Foundation
 instead of in the original English.
 
 
+File: bison.info,  Node: Value Type,  Next: Multiple Types,  Up: Semantics
+
+Data Types of Semantic Values
+-----------------------------
+
+   In a simple program it may be sufficient to use the same data type
+for the semantic values of all language constructs.  This was true in
+the RPN and infix calculator examples (*note Reverse Polish Notation
+Calculator: RPN Calc.).
+
+   Bison's default is to use type `int' for all semantic values.  To
+specify some other type, define `YYSTYPE' as a macro, like this:
+
+     #define YYSTYPE double
+
+This macro definition must go in the C declarations section of the
+grammar file (*note Outline of a Bison Grammar: Grammar Outline.).
+
+
+File: bison.info,  Node: Multiple Types,  Next: Actions,  Prev: Value Type,  Up: Semantics
+
+More Than One Value Type
+------------------------
+
+   In most programs, you will need different data types for different
+kinds of tokens and groupings.  For example, a numeric constant may
+need type `int' or `long', while a string constant needs type `char *',
+and an identifier might need a pointer to an entry in the symbol table.
+
+   To use more than one data type for semantic values in one parser,
+Bison requires you to do two things:
+
+   * Specify the entire collection of possible data types, with the
+     `%union' Bison declaration (*note The Collection of Value Types:
+     Union Decl.).
+
+   * Choose one of those types for each symbol (terminal or
+     nonterminal) for which semantic values are used.  This is done for
+     tokens with the `%token' Bison declaration (*note Token Type
+     Names: Token Decl.)  and for groupings with the `%type' Bison
+     declaration (*note Nonterminal Symbols: Type Decl.).
+
+
+File: bison.info,  Node: Actions,  Next: Action Types,  Prev: Multiple Types,  Up: Semantics
+
+Actions
+-------
+
+   An action accompanies a syntactic rule and contains C code to be
+executed each time an instance of that rule is recognized.  The task of
+most actions is to compute a semantic value for the grouping built by
+the rule from the semantic values associated with tokens or smaller
+groupings.
+
+   An action consists of C statements surrounded by braces, much like a
+compound statement in C.  It can be placed at any position in the rule;
+it is executed at that position.  Most rules have just one action at
+the end of the rule, following all the components.  Actions in the
+middle of a rule are tricky and used only for special purposes (*note
+Actions in Mid-Rule: Mid-Rule Actions.).
+
+   The C code in an action can refer to the semantic values of the
+components matched by the rule with the construct `$N', which stands for
+the value of the Nth component.  The semantic value for the grouping
+being constructed is `$$'.  (Bison translates both of these constructs
+into array element references when it copies the actions into the parser
+file.)
+
+   Here is a typical example:
+
+     exp:    ...
+             | exp '+' exp
+                 { $$ = $1 + $3; }
+
+This rule constructs an `exp' from two smaller `exp' groupings
+connected by a plus-sign token.  In the action, `$1' and `$3' refer to
+the semantic values of the two component `exp' groupings, which are the
+first and third symbols on the right hand side of the rule.  The sum is
+stored into `$$' so that it becomes the semantic value of the
+addition-expression just recognized by the rule.  If there were a
+useful semantic value associated with the `+' token, it could be
+referred to as `$2'.
+
+   If you don't specify an action for a rule, Bison supplies a default:
+`$$ = $1'.  Thus, the value of the first symbol in the rule becomes the
+value of the whole rule.  Of course, the default rule is valid only if
+the two data types match.  There is no meaningful default action for an
+empty rule; every empty rule must have an explicit action unless the
+rule's value does not matter.
+
+   `$N' with N zero or negative is allowed for reference to tokens and
+groupings on the stack _before_ those that match the current rule.
+This is a very risky practice, and to use it reliably you must be
+certain of the context in which the rule is applied.  Here is a case in
+which you can use this reliably:
+
+     foo:      expr bar '+' expr  { ... }
+             | expr bar '-' expr  { ... }
+             ;
+     
+     bar:      /* empty */
+             { previous_expr = $0; }
+             ;
+
+   As long as `bar' is used only in the fashion shown here, `$0' always
+refers to the `expr' which precedes `bar' in the definition of `foo'.
+
+
+File: bison.info,  Node: Action Types,  Next: Mid-Rule Actions,  Prev: Actions,  Up: Semantics
+
+Data Types of Values in Actions
+-------------------------------
+
+   If you have chosen a single data type for semantic values, the `$$'
+and `$N' constructs always have that data type.
+
+   If you have used `%union' to specify a variety of data types, then
+you must declare a choice among these types for each terminal or
+nonterminal symbol that can have a semantic value.  Then each time you
+use `$$' or `$N', its data type is determined by which symbol it refers
+to in the rule.  In this example,
+
+     exp:    ...
+             | exp '+' exp
+                 { $$ = $1 + $3; }
+
+`$1' and `$3' refer to instances of `exp', so they all have the data
+type declared for the nonterminal symbol `exp'.  If `$2' were used, it
+would have the data type declared for the terminal symbol `'+'',
+whatever that might be.
+
+   Alternatively, you can specify the data type when you refer to the
+value, by inserting `<TYPE>' after the `$' at the beginning of the
+reference.  For example, if you have defined types as shown here:
+
+     %union {
+       int itype;
+       double dtype;
+     }
+
+then you can write `$<itype>1' to refer to the first subunit of the
+rule as an integer, or `$<dtype>1' to refer to it as a double.
+
+
 File: bison.info,  Node: Mid-Rule Actions,  Prev: Action Types,  Up: Semantics
 
 Actions in Mid-Rule
@@ -1170,111 +1314,4 @@ useful in actions.
      Acts like a structure variable containing information on the
      textual position of the Nth component of the current rule.  *Note
      Tracking Locations: Locations.
-
-
-File: bison.info,  Node: Algorithm,  Next: Error Recovery,  Prev: Interface,  Up: Top
-
-The Bison Parser Algorithm
-**************************
-
-   As Bison reads tokens, it pushes them onto a stack along with their
-semantic values.  The stack is called the "parser stack".  Pushing a
-token is traditionally called "shifting".
-
-   For example, suppose the infix calculator has read `1 + 5 *', with a
-`3' to come.  The stack will have four elements, one for each token
-that was shifted.
-
-   But the stack does not always have an element for each token read.
-When the last N tokens and groupings shifted match the components of a
-grammar rule, they can be combined according to that rule.  This is
-called "reduction".  Those tokens and groupings are replaced on the
-stack by a single grouping whose symbol is the result (left hand side)
-of that rule.  Running the rule's action is part of the process of
-reduction, because this is what computes the semantic value of the
-resulting grouping.
-
-   For example, if the infix calculator's parser stack contains this:
-
-     1 + 5 * 3
-
-and the next input token is a newline character, then the last three
-elements can be reduced to 15 via the rule:
-
-     expr: expr '*' expr;
-
-Then the stack contains just these three elements:
-
-     1 + 15
-
-At this point, another reduction can be made, resulting in the single
-value 16.  Then the newline token can be shifted.
-
-   The parser tries, by shifts and reductions, to reduce the entire
-input down to a single grouping whose symbol is the grammar's
-start-symbol (*note Languages and Context-Free Grammars: Language and
-Grammar.).
-
-   This kind of parser is known in the literature as a bottom-up parser.
-
-* Menu:
-
-* Look-Ahead::        Parser looks one token ahead when deciding what to do.
-* Shift/Reduce::      Conflicts: when either shifting or reduction is valid.
-* Precedence::        Operator precedence works by resolving conflicts.
-* Contextual Precedence::  When an operator's precedence depends on context.
-* Parser States::     The parser is a finite-state-machine with stack.
-* Reduce/Reduce::     When two rules are applicable in the same situation.
-* Mystery Conflicts::  Reduce/reduce conflicts that look unjustified.
-* Stack Overflow::    What happens when stack gets full.  How to avoid it.
-
-
-File: bison.info,  Node: Look-Ahead,  Next: Shift/Reduce,  Up: Algorithm
-
-Look-Ahead Tokens
-=================
-
-   The Bison parser does _not_ always reduce immediately as soon as the
-last N tokens and groupings match a rule.  This is because such a
-simple strategy is inadequate to handle most languages.  Instead, when a
-reduction is possible, the parser sometimes "looks ahead" at the next
-token in order to decide what to do.
-
-   When a token is read, it is not immediately shifted; first it
-becomes the "look-ahead token", which is not on the stack.  Now the
-parser can perform one or more reductions of tokens and groupings on
-the stack, while the look-ahead token remains off to the side.  When no
-more reductions should take place, the look-ahead token is shifted onto
-the stack.  This does not mean that all possible reductions have been
-done; depending on the token type of the look-ahead token, some rules
-may choose to delay their application.
-
-   Here is a simple case where look-ahead is needed.  These three rules
-define expressions which contain binary addition operators and postfix
-unary factorial operators (`!'), and allow parentheses for grouping.
-
-     expr:     term '+' expr
-             | term
-             ;
-     
-     term:     '(' expr ')'
-             | term '!'
-             | NUMBER
-             ;
-
-   Suppose that the tokens `1 + 2' have been read and shifted; what
-should be done?  If the following token is `)', then the first three
-tokens must be reduced to form an `expr'.  This is the only valid
-course, because shifting the `)' would produce a sequence of symbols
-`term ')'', and no rule allows this.
-
-   If the following token is `!', then it must be shifted immediately so
-that `2 !' can be reduced to make a `term'.  If instead the parser were
-to reduce before shifting, `1 + 2' would become an `expr'.  It would
-then be impossible to shift the `!' because doing so would produce on
-the stack the sequence of symbols `expr '!''.  No rule allows that
-sequence.
-
-   The current look-ahead token is stored in the variable `yychar'.
-*Note Special Features for Use in Actions: Action Features.
 

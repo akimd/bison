@@ -29,6 +29,113 @@ included in translations approved by the Free Software Foundation
 instead of in the original English.
 
 
+File: bison.info,  Node: Algorithm,  Next: Error Recovery,  Prev: Interface,  Up: Top
+
+The Bison Parser Algorithm
+**************************
+
+   As Bison reads tokens, it pushes them onto a stack along with their
+semantic values.  The stack is called the "parser stack".  Pushing a
+token is traditionally called "shifting".
+
+   For example, suppose the infix calculator has read `1 + 5 *', with a
+`3' to come.  The stack will have four elements, one for each token
+that was shifted.
+
+   But the stack does not always have an element for each token read.
+When the last N tokens and groupings shifted match the components of a
+grammar rule, they can be combined according to that rule.  This is
+called "reduction".  Those tokens and groupings are replaced on the
+stack by a single grouping whose symbol is the result (left hand side)
+of that rule.  Running the rule's action is part of the process of
+reduction, because this is what computes the semantic value of the
+resulting grouping.
+
+   For example, if the infix calculator's parser stack contains this:
+
+     1 + 5 * 3
+
+and the next input token is a newline character, then the last three
+elements can be reduced to 15 via the rule:
+
+     expr: expr '*' expr;
+
+Then the stack contains just these three elements:
+
+     1 + 15
+
+At this point, another reduction can be made, resulting in the single
+value 16.  Then the newline token can be shifted.
+
+   The parser tries, by shifts and reductions, to reduce the entire
+input down to a single grouping whose symbol is the grammar's
+start-symbol (*note Languages and Context-Free Grammars: Language and
+Grammar.).
+
+   This kind of parser is known in the literature as a bottom-up parser.
+
+* Menu:
+
+* Look-Ahead::        Parser looks one token ahead when deciding what to do.
+* Shift/Reduce::      Conflicts: when either shifting or reduction is valid.
+* Precedence::        Operator precedence works by resolving conflicts.
+* Contextual Precedence::  When an operator's precedence depends on context.
+* Parser States::     The parser is a finite-state-machine with stack.
+* Reduce/Reduce::     When two rules are applicable in the same situation.
+* Mystery Conflicts::  Reduce/reduce conflicts that look unjustified.
+* Stack Overflow::    What happens when stack gets full.  How to avoid it.
+
+
+File: bison.info,  Node: Look-Ahead,  Next: Shift/Reduce,  Up: Algorithm
+
+Look-Ahead Tokens
+=================
+
+   The Bison parser does _not_ always reduce immediately as soon as the
+last N tokens and groupings match a rule.  This is because such a
+simple strategy is inadequate to handle most languages.  Instead, when a
+reduction is possible, the parser sometimes "looks ahead" at the next
+token in order to decide what to do.
+
+   When a token is read, it is not immediately shifted; first it
+becomes the "look-ahead token", which is not on the stack.  Now the
+parser can perform one or more reductions of tokens and groupings on
+the stack, while the look-ahead token remains off to the side.  When no
+more reductions should take place, the look-ahead token is shifted onto
+the stack.  This does not mean that all possible reductions have been
+done; depending on the token type of the look-ahead token, some rules
+may choose to delay their application.
+
+   Here is a simple case where look-ahead is needed.  These three rules
+define expressions which contain binary addition operators and postfix
+unary factorial operators (`!'), and allow parentheses for grouping.
+
+     expr:     term '+' expr
+             | term
+             ;
+     
+     term:     '(' expr ')'
+             | term '!'
+             | NUMBER
+             ;
+
+   Suppose that the tokens `1 + 2' have been read and shifted; what
+should be done?  If the following token is `)', then the first three
+tokens must be reduced to form an `expr'.  This is the only valid
+course, because shifting the `)' would produce a sequence of symbols
+`term ')'', and no rule allows this.
+
+   If the following token is `!', then it must be shifted immediately so
+that `2 !' can be reduced to make a `term'.  If instead the parser were
+to reduce before shifting, `1 + 2' would become an `expr'.  It would
+then be impossible to shift the `!' because doing so would produce on
+the stack the sequence of symbols `expr '!''.  No rule allows that
+sequence.
+
+   The current look-ahead token is stored in the variable `yychar'.
+*Note Special Features for Use in Actions: Action Features.
+
+
 File: bison.info,  Node: Shift/Reduce,  Next: Precedence,  Prev: Look-Ahead,  Up: Algorithm
 
 Shift/Reduce Conflicts

@@ -184,6 +184,7 @@ Examples
 * Infix Calc::        Infix (algebraic) notation calculator.
                         Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
+* Location Tracking Calc:: Demonstrating the use of @@@var{n} and @@$.
 * Multi-function Calc::    Calculator with memory and trig functions.
                         It uses multiple data-types for semantic values.
 * Exercises::         Ideas for improving the multi-function calculator.
@@ -203,6 +204,12 @@ Grammar Rules for @code{rpcalc}
 * Rpcalc Input::
 * Rpcalc Line::
 * Rpcalc Expr::
+
+Location Tracking Calculator: @code{ltcalc}
+
+* Decls: Ltcalc Decls.  Bison and C declarations for ltcalc.
+* Rules: Ltcalc Rules.  Grammar rules for ltcalc, with explanations.
+* Lexer: Ltcalc Lexer.  The lexical analyzer.
 
 Multi-Function Calculator: @code{mfcalc}
 
@@ -794,6 +801,7 @@ to try them.
 * Infix Calc::        Infix (algebraic) notation calculator.
                         Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
+* Location Tracking Calc:: Demonstrating the use of @@@var{n} and @@$.
 * Multi-function Calc::  Calculator with memory and trig functions.
                            It uses multiple data-types for semantic values.
 * Exercises::         Ideas for improving the multi-function calculator.
@@ -1357,6 +1365,204 @@ signal and use @code{longjmp} to return to @code{main} and resume parsing
 input lines; it would also have to discard the rest of the current line of
 input.  We won't discuss this issue further because it is not specific to
 Bison programs.
+
+@node Location Tracking Calc
+@section Location Tracking Calculator: @code{ltcalc}
+@cindex location tracking calculator
+@cindex @code{ltcalc}
+@cindex calculator, location tracking
+
+This example extends the infix notation calculator with location tracking.
+This feature will be used to improve error reporting, and provide better
+error messages.
+
+For the sake of clarity, we will switch for this example to an integer
+calculator, since most of the work needed to use locations will be done
+in the lexical analyser.
+
+@menu
+* Decls: Ltcalc Decls.  Bison and C declarations for ltcalc.
+* Rules: Ltcalc Rules.  Grammar rules for ltcalc, with explanations.
+* Lexer: Ltcalc Lexer.  The lexical analyzer.
+@end menu
+
+@node Ltcalc Decls
+@subsection Declarations for @code{ltcalc}
+
+The C and Bison declarations for the location tracking calculator are the same
+as the declarations for the infix notation calculator.
+
+@example
+/* Location tracking calculator.  */
+
+%@{
+#define YYSTYPE int
+#include <math.h>
+%@}
+
+/* Bison declarations.  */
+%token NUM
+
+%left '-' '+'
+%left '*' '/'
+%left NEG
+%right '^'
+
+%% /* Grammar follows */
+@end example
+
+In the code above, there are no declarations specific to locations.  Defining
+a data type for storing locations is not needed: we will use the type provided
+by default (@pxref{Location Type, ,Data Types of Locations}), which is a four
+member structure with the following integer fields: @code{first_line},
+@code{first_column}, @code{last_line} and @code{last_column}.
+
+@node Ltcalc Rules
+@subsection Grammar Rules for @code{ltcalc}
+
+Whether you choose to handle locations or not has no effect on the syntax of
+your language.  Therefore, grammar rules for this example will be very close to
+those of the previous example: we will only modify them to benefit from the new
+informations we will have.
+
+Here, we will use locations to report divisions by zero, and locate the wrong
+expressions or subexpressions.
+
+@example
+@group
+input   : /* empty */
+        | input line
+;
+@end group
+
+@group
+line    : '\n'
+        | exp '\n' @{ printf ("%d\n", $1); @}
+;
+@end group
+
+@group
+exp     : NUM           @{ $$ = $1; @}
+        | exp '+' exp   @{ $$ = $1 + $3; @}
+        | exp '-' exp   @{ $$ = $1 - $3; @}
+        | exp '*' exp   @{ $$ = $1 * $3; @}
+@end group
+        | exp '/' exp
+@group
+            @{
+              if ($3)
+                $$ = $1 / $3;
+              else
+                @{
+                  $$ = 1;
+                  printf("Division by zero, l%d,c%d-l%d,c%d",
+                         @@3.first_line, @@3.first_column,
+                         @@3.last_line, @@3.last_column);
+                @}
+            @}
+@end group
+@group
+        | '-' exp %preg NEG     @{ $$ = -$2; @}
+        | exp '^' exp           @{ $$ = pow ($1, $3); @}
+        | '(' exp ')'           @{ $$ = $2; @}
+@end group
+@end example
+
+This code shows how to reach locations inside of semantic actions, by
+using the pseudo-variables @code{@@@var{n}} for rule components, and the
+pseudo-variable @code{@@$} for groupings.
+
+In this example, we never assign a value to @code{@@$}, because the
+output parser can do this automatically.  By default, before executing
+the C code of each action, @code{@@$} is set to range from the beginning
+of @code{@@1} to the end of @code{@@@var{n}}, for a rule with @var{n}
+components.
+
+Of course, this behavior can be redefined (@pxref{Location Default
+Action, , Default Action for Locations}), and for very specific rules,
+@code{@@$} can be computed by hand.
+
+@node Ltcalc Lexer
+@subsection The @code{ltcalc} Lexical Analyzer.
+
+Until now, we relied on Bison's defaults to enable location tracking. The next
+step is to rewrite the lexical analyser, and make it able to feed the parser
+with locations of tokens, as he already does for semantic values.
+
+To do so, we must take into account every single character of the input text,
+to avoid the computed locations of being fuzzy or wrong:
+
+@example
+@group
+int
+yylex (void)
+@{
+  int c;
+
+  /* skip white space */
+  while ((c = getchar ()) == ' ' || c == '\t')
+    ++yylloc.last_column;
+
+  /* step */
+  yylloc.first_line = yylloc.last_line;
+  yylloc.first_column = yylloc.last_column;
+@end group
+
+@group
+  /* process numbers */
+  if (isdigit (c))
+    @{
+      yylval = c - '0';
+      ++yylloc.last_column;
+      while (isdigit (c = getchar ()))
+        @{
+          ++yylloc.last_column;
+          yylval = yylval * 10 + c - '0';
+        @}
+      ungetc (c, stdin);
+      return NUM;
+    @}
+@end group
+
+  /* return end-of-file */
+  if (c == EOF)
+    return 0;
+
+  /* return single chars and update location */
+  if (c == '\n')
+    @{
+      ++yylloc.last_line;
+      yylloc.last_column = 0;
+    @}
+  else
+    ++yylloc.last_column;
+  return c;
+@}
+@end example
+
+Basically, the lexical analyzer does the same processing as before: it skips
+blanks and tabs, and reads numbers or single-character tokens.  In addition
+to this, it updates the @code{yylloc} global variable (of type @code{YYLTYPE}),
+where the location of tokens is stored.
+
+Now, each time this function returns a token, the parser has it's number as
+well as it's semantic value, and it's position in the text. The last needed
+change is to initialize @code{yylloc}, for example in the controlling
+function:
+
+@example
+int
+main (void)
+@{
+  yylloc.first_line = yylloc.last_line = 1;
+  yylloc.first_column = yylloc.last_column = 0;
+  return yyparse ();
+@}
+@end example
+
+Remember that computing locations is not a matter of syntax.  Every character
+must be associated to a location update, whether it is in valid input, in
+comments, in literal strings, and so on...
 
 @node Multi-function Calc
 @section Multi-Function Calculator: @code{mfcalc}

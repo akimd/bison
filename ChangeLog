@@ -1,3 +1,7 @@
+2001-08-29  Robert Anisko  <anisko_r@epita.fr>
+
+	* doc/bison.texinfo (Location Tracking Calc): New node.
+
 2001-08-29  Paul Eggert  <eggert@twinsun.com>
 
 	* src/output.c (output): Do not define const, as this now

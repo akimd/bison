@@ -855,6 +855,7 @@ Index
 * C-language interface:                  Interface.
 * calc:                                  Infix Calc.
 * calculator, infix notation:            Infix Calc.
+* calculator, location tracking:         Location Tracking Calc.
 * calculator, multi-function:            Multi-function Calc.
 * calculator, simple:                    RPN Calc.
 * character token:                       Symbols.
@@ -925,8 +926,10 @@ Index
 * location <1>:                          Locations.
 * location:                              Locations Overview.
 * location actions:                      Actions and Locations.
+* location tracking calculator:          Location Tracking Calc.
 * look-ahead token:                      Look-Ahead.
 * LR(1):                                 Mystery Conflicts.
+* ltcalc:                                Location Tracking Calc.
 * main function in simple example:       Rpcalc Main.
 * mfcalc:                                Multi-function Calc.
 * mid-rule actions:                      Mid-Rule Actions.

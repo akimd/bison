@@ -83,6 +83,7 @@ Examples
 * Infix Calc::        Infix (algebraic) notation calculator.
                         Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
+* Location Tracking Calc:: Demonstrating the use of @N and @$.
 * Multi-function Calc::    Calculator with memory and trig functions.
                         It uses multiple data-types for semantic values.
 * Exercises::         Ideas for improving the multi-function calculator.
@@ -102,6 +103,12 @@ Grammar Rules for `rpcalc'
 * Rpcalc Input::
 * Rpcalc Line::
 * Rpcalc Expr::
+
+Location Tracking Calculator: `ltcalc'
+
+* Decls: Ltcalc Decls.  Bison and C declarations for ltcalc.
+* Rules: Ltcalc Rules.  Grammar rules for ltcalc, with explanations.
+* Lexer: Ltcalc Lexer.  The lexical analyzer.
 
 Multi-Function Calculator: `mfcalc'
 
@@ -1036,6 +1043,7 @@ the Info file and into a source file to try them.
 * Infix Calc::        Infix (algebraic) notation calculator.
                         Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
+* Location Tracking Calc:: Demonstrating the use of @N and @$.
 * Multi-function Calc::  Calculator with memory and trig functions.
                            It uses multiple data-types for semantic values.
 * Exercises::         Ideas for improving the multi-function calculator.
