@@ -4,6 +4,10 @@
 @settitle Bison 1.20
 @setchapternewpage odd
 
+@iftex
+@finalout
+@end iftex
+
 @c SMALL BOOK version   
 @c This edition has been formatted so that you can format and print it in
 @c the smallbook format. 
