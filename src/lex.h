@@ -1,5 +1,5 @@
 /* Token type definitions for bison's input reader,
-   Copyright (C) 1984, 1989, 1992, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 1992, 2000 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 

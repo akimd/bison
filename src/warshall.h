@@ -1,5 +1,5 @@
 /* Generate transitive closure of a matrix,
-   Copyright (C) 1984, 1989, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 2000 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -24,7 +24,7 @@
 void RTC PARAMS ((unsigned *, int));
 #endif /* !WARSHALL_H_ */
 /* Generate transitive closure of a matrix,
-   Copyright (C) 1984, 1989, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 2000 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 

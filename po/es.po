@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2000-11-03 17:45+0100\n"
+"POT-Creation-Date: 2000-11-07 17:07+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -230,8 +230,7 @@ msgid "bison (GNU Bison) %s"
 msgstr ""
 
 #: src/getargs.c:134
-msgid ""
-"Copyright (C) 1984, 1986, 1989, 1992, 2000 Free Software Foundation, Inc.\n"
+msgid "Copyright 1984, 1986, 1989, 1992, 2000 Free Software Foundation, Inc.\n"
 msgstr ""
 
 #: src/getargs.c:138
