@@ -1,5 +1,22 @@
 2002-07-30  Akim Demaille  <akim@epita.fr>
 
+	Report rules which are never reduced by the parser: those hidden
+	by conflicts.
+
+	* src/LR0.c (save_reductions): Don't make the final state too
+	different: save its reduction (accept) instead of having a state
+	without any action (no shift or goto, no reduce).
+	Note: the final state is now a ``regular'' state, i.e., the
+	parsers now contain `reduce 0' as default reduction.
+	Nevertheless, since they decide to `accept' when yystate =
+	final_state, they still will not reduce rule 0.
+	* src/print.c (print_actions, print_reduction): Adjust.
+	* src/output.c (action_row): Track reduced rules.
+	(token_actions): Report rules never reduced.
+	* tests/conflicts.at, tests/regression.at: Adjust.
+
+2002-07-30  Akim Demaille  <akim@epita.fr>
+
 	`stage' was accidently included in a previous patch.
 	Initiate its autoconfiscation.
 

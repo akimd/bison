@@ -8,7 +8,7 @@ Changes in version 1.49b:
      %glr-parser
   causes Bison to produce a Generalized LR (GLR) parser, capable of handling
   almost any context-free grammar, ambiguous or not.  The new declarations
-  %dprec and %merge on grammar rules allow parse-time resolution of 
+  %dprec and %merge on grammar rules allow parse-time resolution of
   ambiguities.  Contributed by Paul Hilfinger.
 
 * Output Directory
@@ -57,6 +57,10 @@ Changes in version 1.49b:
 
 * Useless rules, useless nonterminals
   They are now reported, as a warning, with their locations.
+
+* Rules never reduced
+  Rules that can never be reduced because of conflicts are now
+  reported.
 
 * Incorrect `Token not used'
   On a grammar such as

@@ -228,7 +228,7 @@ state 5
 
     0 $accept: expr $end .
 
-    $default	accept
+    $default  accept
 
 
 state 6
@@ -456,7 +456,7 @@ state 5
 
     0 $accept: CONST_DEC_PART $end .
 
-    $default	accept
+    $default  accept
 
 
 state 6
@@ -601,7 +601,7 @@ static const unsigned char yyr2[] =
 };
 static const unsigned char yydefact[] =
 {
-       3,     0,     0,     2,     0,     0,     0,     3,     4,     3,
+       3,     0,     0,     2,     0,     0,     1,     3,     4,     3,
        6,     5
 };
 static const signed char yydefgoto[] =

@@ -37,7 +37,9 @@ exp: e 'e';
 e: 'e' | /* Nothing. */;
 ]])
 
-AT_CHECK([bison input.y -o input.c])
+AT_CHECK([bison input.y -o input.c], 0, [],
+[[input.y:4.8: warning: rule never reduced because of conflicts: e: /* empty */
+]])
 
 AT_CLEANUP
 
@@ -203,7 +205,7 @@ state 3
 
     0 $accept: exp $end .
 
-    $default	accept
+    $default  accept
 
 
 state 4
@@ -306,7 +308,7 @@ state 3
 
     0 $accept: exp $end .
 
-    $default	accept
+    $default  accept
 
 
 state 4
@@ -369,8 +371,9 @@ id : '0';
 ]])
 
 AT_CHECK([bison input.y -o input.c --report=all], 0, [],
-[input.y contains 1 reduce/reduce conflict.
-])
+[[input.y contains 1 reduce/reduce conflict.
+input.y:4.4-8: warning: rule never reduced because of conflicts: id: '0'
+]])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
@@ -458,7 +461,7 @@ state 5
 
     0 $accept: exp $end .
 
-    $default	accept
+    $default  accept
 ]])
 
 AT_CLEANUP
