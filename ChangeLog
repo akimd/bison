@@ -1,3 +1,8 @@
+2002-06-28  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* data/glr.c: Correct typo in Emacs-mode directive.  Slightly 
+	reorganize first lines parallel to yacc.c.
+
 2002-06-28  Akim Demaille  <akim@epita.fr>
 
 	* data/c.m4 (b4_copyright, b4_sint_type, b4_uint_type, b4_token_define)
