@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.50\n"
-"POT-Creation-Date: 2002-10-11 11:58+0200\n"
+"POT-Creation-Date: 2002-10-14 14:47+0200\n"
 "PO-Revision-Date: 2002-10-07 00:30-0300\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -288,23 +288,23 @@ msgstr "$padrão"
 msgid "state %d"
 msgstr "estado %d"
 
-#: src/print.c:453
+#: src/print.c:456
 msgid "Terminals, with rules where they appear"
 msgstr "Terminais, com as regras onde eles aparecem"
 
-#: src/print.c:480
+#: src/print.c:483
 msgid "Nonterminals, with rules where they appear"
 msgstr "Não-terminais com as regras onde eles aparecem"
 
-#: src/print.c:509
+#: src/print.c:512
 msgid " on left:"
 msgstr " à esquerda:"
 
-#: src/print.c:524
+#: src/print.c:527
 msgid " on right:"
 msgstr " à direita:"
 
-#: src/print.c:552
+#: src/print.c:555
 msgid "Rules never reduced"
 msgstr "Regras nunca reduzidas"
 
@@ -323,49 +323,49 @@ msgstr "tipo de resultado conflita na fução de mescla %s: `%s' vs. `%s'"
 msgid "rule given for %s, which is a token"
 msgstr "regra fornecida para %s, que é um token"
 
-#: src/reader.c:264
+#: src/reader.c:268
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "os tipos (`%s' `%s') não concordam na ação padrão"
 
-#: src/reader.c:272
+#: src/reader.c:274
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "regra vazia para um não-terminal com tipo, e não há ações"
 
-#: src/reader.c:343
+#: src/reader.c:344
 msgid "two @prec's in a row"
 msgstr "dois @prec em uma linha"
 
-#: src/reader.c:353
+#: src/reader.c:354
 #, c-format
 msgid "%%dprec affects only GLR parsers"
 msgstr "%%dprec afeta apenas analisadores GLR"
 
-#: src/reader.c:355
+#: src/reader.c:356
 #, c-format
 msgid "%%dprec must be followed by positive number"
 msgstr "%%dprec deve ser seguido por um número positivo"
 
-#: src/reader.c:357
+#: src/reader.c:358
 #, c-format
 msgid "only one %%dprec allowed per rule"
 msgstr "apenas um %%dprec é permitido por regra"
 
-#: src/reader.c:368
+#: src/reader.c:369
 #, c-format
 msgid "%%merge affects only GLR parsers"
 msgstr "%%merge afeta apenas analisadores GLR"
 
-#: src/reader.c:370
+#: src/reader.c:371
 #, c-format
 msgid "only one %%merge allowed per rule"
 msgstr "apenas um %%merge é permitido por regra"
 
-#: src/reader.c:513
+#: src/reader.c:514
 msgid "no rules in the input grammar"
 msgstr "não há regras na gramática de entrada"
 
-#: src/reader.c:545
+#: src/reader.c:546
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "muitos símbolos (terminais e não-terminais); máximo %d"
@@ -420,57 +420,57 @@ msgstr[1] "%d regras inúteis"
 msgid "start symbol %s does not derive any sentence"
 msgstr "símbolo de início %s não deriva nenhuma sentença"
 
-#: scan-gram.l:202
+#: scan-gram.l:211
 #, c-format
 msgid ": invalid character: `%c'\n"
 msgstr ": caractere inválido: `%c'\n"
 
-#: scan-gram.l:246
+#: scan-gram.l:255
 msgid ": unexpected end of file in a comment\n"
 msgstr ": fim de arquivo inesperado em um comentário\n"
 
-#: scan-gram.l:274 scan-gram.l:412
+#: scan-gram.l:284 scan-gram.l:423
 msgid ": unexpected end of file in a string\n"
 msgstr ": fim de arquivo inesperado em uma string\n"
 
-#: scan-gram.l:311 scan-gram.l:383
+#: scan-gram.l:322 scan-gram.l:394
 msgid ": unexpected end of file in a character\n"
 msgstr ": fim de arquivo inesperado em um caractere\n"
 
-#: scan-gram.l:332
+#: scan-gram.l:343
 #, c-format
 msgid ": invalid escape: %s\n"
 msgstr ": escape inválido: %s\n"
 
-#: scan-gram.l:353
+#: scan-gram.l:364
 #, c-format
 msgid ": unrecognized escape: %s\n"
 msgstr ": escape não reconhecido: %s\n"
 
-#: scan-gram.l:473
+#: scan-gram.l:485
 msgid ": unexpected end of file in a braced code\n"
 msgstr ": fim de arquivo inesperado em código entre chaves\n"
 
-#: scan-gram.l:502
+#: scan-gram.l:514
 msgid ": unexpected end of file in a prologue\n"
 msgstr ": fim de arquivo inesperado em um prólogo\n"
 
-#: scan-gram.l:560
+#: scan-gram.l:572
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' não tem tipo declarado"
 
-#: scan-gram.l:577 scan-gram.l:664
+#: scan-gram.l:584 scan-gram.l:666
 #, c-format
 msgid "invalid value: %s%d"
 msgstr "valor inválido: %s%d"
 
-#: scan-gram.l:584
+#: scan-gram.l:591
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d de `%s' não tem tipo declarado"
 
-#: scan-gram.l:595 scan-gram.l:612 scan-gram.l:671 scan-gram.l:688
+#: scan-gram.l:602 scan-gram.l:619 scan-gram.l:673 scan-gram.l:690
 #, c-format
 msgid "%s is invalid"
 msgstr "%s é inválido"
@@ -696,7 +696,7 @@ msgstr "`"
 msgid "'"
 msgstr "'"
 
-#: lib/timevar.c:466
+#: lib/timevar.c:476
 msgid ""
 "\n"
 "Execution times (seconds)\n"
@@ -704,11 +704,11 @@ msgstr ""
 "\n"
 "Tempos de execução (segundos)\n"
 
-#: lib/timevar.c:516
+#: lib/timevar.c:526
 msgid " TOTAL                 :"
 msgstr " TOTAL                 :"
 
-#: lib/timevar.c:552
+#: lib/timevar.c:562
 #, c-format
 msgid "time in %s: %ld.%06ld (%ld%%)\n"
 msgstr "tempo em  %s: %ld.%06ld (%ld%%)\n"
