@@ -35,9 +35,17 @@
    */
 #undef HAVE_DECL_MEMCHR
 
+/* Define to 1 if you have the declaration of `memrchr', and to 0 if you
+   don't. */
+#undef HAVE_DECL_MEMRCHR
+
 /* Define to 1 if you have the declaration of `stpcpy', and to 0 if you don't.
    */
 #undef HAVE_DECL_STPCPY
+
+/* Define to 1 if you have the declaration of `strchr', and to 0 if you don't.
+   */
+#undef HAVE_DECL_STRCHR
 
 /* Define to 1 if you have the declaration of `strerror', and to 0 if you
    don't. */
@@ -47,13 +55,13 @@
    don't. */
 #undef HAVE_DECL_STRERROR_R
 
-/* Define to 1 if you have the declaration of `strndup', and to 0 if you
-   don't. */
-#undef HAVE_DECL_STRNDUP
-
 /* Define to 1 if you have the declaration of `strnlen', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRNLEN
+
+/* Define to 1 if you have the declaration of `strspn', and to 0 if you don't.
+   */
+#undef HAVE_DECL_STRSPN
 
 /* Define if the malloc check has been performed. */
 #undef HAVE_DONE_WORKING_MALLOC_CHECK
@@ -133,6 +141,9 @@
 /* Define to 1 if you have the `mempcpy' function. */
 #undef HAVE_MEMPCPY
 
+/* Define to 1 if you have the `memrchr' function. */
+#undef HAVE_MEMRCHR
+
 /* Define to 1 if you have the `mkstemp' function. */
 #undef HAVE_MKSTEMP
 
@@ -190,9 +201,6 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
-/* Define to 1 if you have the `strndup' function. */
-#undef HAVE_STRNDUP
-
 /* Define to 1 if you have the `strnlen' function. */
 #undef HAVE_STRNLEN
 
@@ -240,6 +248,21 @@
 
 /* Name of package */
 #undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
 
 /* Define if compiler has function prototypes */
 #undef PROTOTYPES

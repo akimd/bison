@@ -384,7 +384,7 @@ compute_base_names (void)
       /* If the initial segment of extension contains a 'y' or a 'Y', I assume
          that it is a yacc or bison grammar file.  */
       if (ext_index)
-	ext_index = (strspn (infile + ext_index + 1, "yY")) ? ext_index : 0;
+	ext_index = strspn (infile + ext_index + 1, "yY") ? ext_index : 0;
       if (ext_index)
 	compute_exts_from_gf (infile + ext_index);
 
@@ -407,7 +407,7 @@ compute_base_names (void)
     /* If the initial segment of extension contains a 'y' or a 'Y', I assume
        that it is a yacc or bison grammar file.  */
     if (ext_index)
-      ext_index = (strspn (name_base + ext_index + 1, "yY")) ? ext_index : 0;
+      ext_index = strspn (name_base + ext_index + 1, "yY") ? ext_index : 0;
     if (ext_index)
       {
 	base_length -= strlen (name_base + ext_index);

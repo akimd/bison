@@ -253,6 +253,13 @@ SHELL=${CONFIG_SHELL-/bin/sh}
 # only ac_max_sed_lines should be used.
 : ${ac_max_here_lines=38}
 
+# Identity of this package.
+PACKAGE_NAME='GNU Bison'
+PACKAGE_TARNAME='bison'
+PACKAGE_VERSION='1.30j'
+PACKAGE_STRING='GNU Bison 1.30j'
+PACKAGE_BUGREPORT='bug-bison@gnu.org'
+
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -328,13 +335,6 @@ includedir='${prefix}/include'
 oldincludedir='/usr/include'
 infodir='${prefix}/info'
 mandir='${prefix}/man'
-
-# Identity of this package.
-PACKAGE_NAME='GNU Bison'
-PACKAGE_TARNAME='bison'
-PACKAGE_VERSION='1.30j'
-PACKAGE_STRING='GNU Bison 1.30j'
-PACKAGE_BUGREPORT='bug-bison@gnu.org'
 
 ac_prev=
 for ac_option
@@ -1070,6 +1070,33 @@ rm -rf conftest* confdefs.h
 # AIX cpp loses on an empty file, so make sure it contains at least a newline.
 echo >confdefs.h
 
+# Predefined preprocessor variables.
+
+cat >>confdefs.h <<_ACEOF
+#define PACKAGE_NAME "$PACKAGE_NAME"
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define PACKAGE_TARNAME "$PACKAGE_TARNAME"
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define PACKAGE_VERSION "$PACKAGE_VERSION"
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define PACKAGE_STRING "$PACKAGE_STRING"
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define PACKAGE_BUGREPORT "$PACKAGE_BUGREPORT"
+_ACEOF
+
+
 # Let the site file select an alternate cache file if it wants to.
 # Prefer explicitly selected file to automatically selected ones.
 if test -z "$CONFIG_SITE"; then
@@ -1520,9 +1547,6 @@ ac_config_headers="$ac_config_headers config.h:config.hin"
 
 
 # Initialize the test suite.
-ac_config_commands="$ac_config_commands tests/package.m4"
-
-
 ac_config_commands="$ac_config_commands tests/atconfig"
 
 
@@ -5131,9 +5155,9 @@ _ACEOF
 
 
 fi
-echo "$as_me:$LINENO: checking whether strndup is declared" >&5
-echo $ECHO_N "checking whether strndup is declared... $ECHO_C" >&6
-if test "${ac_cv_have_decl_strndup+set}" = set; then
+echo "$as_me:$LINENO: checking whether strchr is declared" >&5
+echo $ECHO_N "checking whether strchr is declared... $ECHO_C" >&6
+if test "${ac_cv_have_decl_strchr+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
@@ -5149,8 +5173,8 @@ $ac_includes_default
 int
 main ()
 {
-#ifndef strndup
-  char *p = (char *) strndup;
+#ifndef strchr
+  char *p = (char *) strchr;
 #endif
 
   ;
@@ -5169,26 +5193,88 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_cv_have_decl_strndup=yes
+  ac_cv_have_decl_strchr=yes
 else
   echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
-ac_cv_have_decl_strndup=no
+ac_cv_have_decl_strchr=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
 fi
-echo "$as_me:$LINENO: result: $ac_cv_have_decl_strndup" >&5
-echo "${ECHO_T}$ac_cv_have_decl_strndup" >&6
-if test $ac_cv_have_decl_strndup = yes; then
+echo "$as_me:$LINENO: result: $ac_cv_have_decl_strchr" >&5
+echo "${ECHO_T}$ac_cv_have_decl_strchr" >&6
+if test $ac_cv_have_decl_strchr = yes; then
 
 cat >>confdefs.h <<_ACEOF
-#define HAVE_DECL_STRNDUP 1
+#define HAVE_DECL_STRCHR 1
 _ACEOF
 
 
 else
   cat >>confdefs.h <<_ACEOF
-#define HAVE_DECL_STRNDUP 0
+#define HAVE_DECL_STRCHR 0
+_ACEOF
+
+
+fi
+echo "$as_me:$LINENO: checking whether strspn is declared" >&5
+echo $ECHO_N "checking whether strspn is declared... $ECHO_C" >&6
+if test "${ac_cv_have_decl_strspn+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+#include "confdefs.h"
+$ac_includes_default
+#ifdef F77_DUMMY_MAIN
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int F77_DUMMY_MAIN() { return 1; }
+#endif
+int
+main ()
+{
+#ifndef strspn
+  char *p = (char *) strspn;
+#endif
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_have_decl_strspn=yes
+else
+  echo "$as_me: failed program was:" >&5
+cat conftest.$ac_ext >&5
+ac_cv_have_decl_strspn=no
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $ac_cv_have_decl_strspn" >&5
+echo "${ECHO_T}$ac_cv_have_decl_strspn" >&6
+if test $ac_cv_have_decl_strspn = yes; then
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_STRSPN 1
+_ACEOF
+
+
+else
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_STRSPN 0
 _ACEOF
 
 
@@ -5317,6 +5403,68 @@ _ACEOF
 
 
 fi
+echo "$as_me:$LINENO: checking whether memrchr is declared" >&5
+echo $ECHO_N "checking whether memrchr is declared... $ECHO_C" >&6
+if test "${ac_cv_have_decl_memrchr+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+#include "confdefs.h"
+$ac_includes_default
+#ifdef F77_DUMMY_MAIN
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int F77_DUMMY_MAIN() { return 1; }
+#endif
+int
+main ()
+{
+#ifndef memrchr
+  char *p = (char *) memrchr;
+#endif
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_have_decl_memrchr=yes
+else
+  echo "$as_me: failed program was:" >&5
+cat conftest.$ac_ext >&5
+ac_cv_have_decl_memrchr=no
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $ac_cv_have_decl_memrchr" >&5
+echo "${ECHO_T}$ac_cv_have_decl_memrchr" >&6
+if test $ac_cv_have_decl_memrchr = yes; then
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_MEMRCHR 1
+_ACEOF
+
+
+else
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_MEMRCHR 0
+_ACEOF
+
+
+fi
 
 
 
@@ -5324,7 +5472,8 @@ fi
 
 
 
-for ac_func in stpcpy strndup strnlen strspn memchr
+
+for ac_func in stpcpy strchr strnlen strspn memchr memrchr
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $ac_func" >&5
@@ -9304,12 +9453,6 @@ cat >>$CONFIG_STATUS <<_ACEOF
 # INIT-COMMANDS section.
 #
 
-PACKAGE_NAME='$PACKAGE_NAME'
-PACKAGE_TARNAME='$PACKAGE_TARNAME'
-PACKAGE_VERSION='$PACKAGE_VERSION'
-PACKAGE_STRING='$PACKAGE_STRING'
-PACKAGE_BUGREPORT='$PACKAGE_BUGREPORT'
-
 AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"
 
 
@@ -9333,7 +9476,6 @@ do
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "doc/Makefile" ) CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
   "m4/Makefile" ) CONFIG_FILES="$CONFIG_FILES m4/Makefile" ;;
-  "tests/package.m4" ) CONFIG_COMMANDS="$CONFIG_COMMANDS tests/package.m4" ;;
   "tests/atconfig" ) CONFIG_COMMANDS="$CONFIG_COMMANDS tests/atconfig" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
@@ -9392,6 +9534,11 @@ if test -n "\$CONFIG_FILES"; then
    s/@@/,@/; s/@@/@,/; s/@;t t\$/,;t t/' >\$tmp/subs.sed <<\\CEOF
 s,@SHELL@,$SHELL,;t t
 s,@PATH_SEPARATOR@,$PATH_SEPARATOR,;t t
+s,@PACKAGE_NAME@,$PACKAGE_NAME,;t t
+s,@PACKAGE_TARNAME@,$PACKAGE_TARNAME,;t t
+s,@PACKAGE_VERSION@,$PACKAGE_VERSION,;t t
+s,@PACKAGE_STRING@,$PACKAGE_STRING,;t t
+s,@PACKAGE_BUGREPORT@,$PACKAGE_BUGREPORT,;t t
 s,@exec_prefix@,$exec_prefix,;t t
 s,@prefix@,$prefix,;t t
 s,@program_transform_name@,$program_transform_name,;t t
@@ -9407,11 +9554,6 @@ s,@includedir@,$includedir,;t t
 s,@oldincludedir@,$oldincludedir,;t t
 s,@infodir@,$infodir,;t t
 s,@mandir@,$mandir,;t t
-s,@PACKAGE_NAME@,$PACKAGE_NAME,;t t
-s,@PACKAGE_TARNAME@,$PACKAGE_TARNAME,;t t
-s,@PACKAGE_VERSION@,$PACKAGE_VERSION,;t t
-s,@PACKAGE_STRING@,$PACKAGE_STRING,;t t
-s,@PACKAGE_BUGREPORT@,$PACKAGE_BUGREPORT,;t t
 s,@build_alias@,$build_alias,;t t
 s,@host_alias@,$host_alias,;t t
 s,@target_alias@,$target_alias,;t t
@@ -9971,15 +10113,6 @@ ac_abs_top_srcdir=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
   { echo "$as_me:$LINENO: executing $ac_dest commands" >&5
 echo "$as_me: executing $ac_dest commands" >&6;}
   case $ac_dest in
-    tests/package.m4 ) cat >tests/package.m4 <<ATEOF
-# Signature of the current package.
-m4_define([PACKAGE_NAME],      [$PACKAGE_NAME])
-m4_define([PACKAGE_TARNAME],   [$PACKAGE_TARNAME])
-m4_define([PACKAGE_VERSION],   [$PACKAGE_VERSION])
-m4_define([PACKAGE_STRING],    [$PACKAGE_STRING])
-m4_define([PACKAGE_BUGREPORT], [$PACKAGE_BUGREPORT])
-ATEOF
- ;;
     tests/atconfig ) cat >tests/atconfig <<ATEOF
 # Configurable variable values for building test suites.
 # Generated by $0.

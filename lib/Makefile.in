@@ -115,6 +115,7 @@ INCLUDES = -I.. -I$(srcdir) -I../intl
 EXTRA_DIST = malloc.c realloc.c
 
 libbison_a_SOURCES = \
+  basename.c dirname.h dirname.c \
   getopt.h getopt.c getopt1.c \
   quote.h quote.c quotearg.h quotearg.c \
   xalloc.h xmalloc.c xstrdup.c
@@ -129,9 +130,9 @@ CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
 libbison_a_AR = $(AR) cru
-am_libbison_a_OBJECTS = getopt$U.$(OBJEXT) getopt1$U.$(OBJEXT) \
-	quote$U.$(OBJEXT) quotearg$U.$(OBJEXT) xmalloc$U.$(OBJEXT) \
-	xstrdup$U.$(OBJEXT)
+am_libbison_a_OBJECTS = basename$U.$(OBJEXT) dirname$U.$(OBJEXT) \
+	getopt$U.$(OBJEXT) getopt1$U.$(OBJEXT) quote$U.$(OBJEXT) \
+	quotearg$U.$(OBJEXT) xmalloc$U.$(OBJEXT) xstrdup$U.$(OBJEXT)
 libbison_a_OBJECTS = $(am_libbison_a_OBJECTS)
 
 DEFS = @DEFS@
@@ -140,22 +141,24 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/alloca.Po $(DEPDIR)/error.Po \
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/alloca.Po $(DEPDIR)/basename$U.Po \
+@AMDEP_TRUE@	$(DEPDIR)/dirname$U.Po $(DEPDIR)/error.Po \
 @AMDEP_TRUE@	$(DEPDIR)/getopt$U.Po $(DEPDIR)/getopt1$U.Po \
 @AMDEP_TRUE@	$(DEPDIR)/malloc.Po $(DEPDIR)/memchr.Po \
-@AMDEP_TRUE@	$(DEPDIR)/obstack.Po $(DEPDIR)/quote$U.Po \
-@AMDEP_TRUE@	$(DEPDIR)/quotearg$U.Po $(DEPDIR)/realloc.Po \
-@AMDEP_TRUE@	$(DEPDIR)/stpcpy.Po $(DEPDIR)/strndup.Po \
-@AMDEP_TRUE@	$(DEPDIR)/strnlen.Po $(DEPDIR)/strspn.Po \
-@AMDEP_TRUE@	$(DEPDIR)/xmalloc$U.Po $(DEPDIR)/xstrdup$U.Po
+@AMDEP_TRUE@	$(DEPDIR)/memrchr.Po $(DEPDIR)/obstack.Po \
+@AMDEP_TRUE@	$(DEPDIR)/quote$U.Po $(DEPDIR)/quotearg$U.Po \
+@AMDEP_TRUE@	$(DEPDIR)/realloc.Po $(DEPDIR)/stpcpy.Po \
+@AMDEP_TRUE@	$(DEPDIR)/strchr.Po $(DEPDIR)/strnlen.Po \
+@AMDEP_TRUE@	$(DEPDIR)/strspn.Po $(DEPDIR)/xmalloc$U.Po \
+@AMDEP_TRUE@	$(DEPDIR)/xstrdup$U.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libbison_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in alloca.c ansi2knr.1 ansi2knr.c \
-	error.c error.h malloc.c memchr.c obstack.c obstack.h realloc.c \
-	stpcpy.c strndup.c strnlen.c strspn.c
+	error.c error.h malloc.c memchr.c memrchr.c obstack.c obstack.h \
+	realloc.c stpcpy.c strchr.c strnlen.c strspn.c
 SOURCES = $(libbison_a_SOURCES)
 
 all: all-am
@@ -195,17 +198,20 @@ mostlyclean-kr:
 	-test "$U" = "" || rm -f *_.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/alloca.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/basename$U.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/dirname$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/error.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/getopt$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/getopt1$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/malloc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/memchr.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/memrchr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/obstack.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/quote$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/quotearg$U.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/realloc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/stpcpy.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/strndup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/strchr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/strnlen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/strspn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/xmalloc$U.Po@am__quote@
@@ -228,6 +234,10 @@ distclean-depend:
 CCDEPMODE = @CCDEPMODE@
 alloca_.c: alloca.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/alloca.c; then echo $(srcdir)/alloca.c; else echo alloca.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > alloca_.c || rm -f alloca_.c
+basename_.c: basename.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/basename.c; then echo $(srcdir)/basename.c; else echo basename.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > basename_.c || rm -f basename_.c
+dirname_.c: dirname.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/dirname.c; then echo $(srcdir)/dirname.c; else echo dirname.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > dirname_.c || rm -f dirname_.c
 error_.c: error.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/error.c; then echo $(srcdir)/error.c; else echo error.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > error_.c || rm -f error_.c
 getopt_.c: getopt.c $(ANSI2KNR)
@@ -238,6 +248,8 @@ malloc_.c: malloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/malloc.c; then echo $(srcdir)/malloc.c; else echo malloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > malloc_.c || rm -f malloc_.c
 memchr_.c: memchr.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/memchr.c; then echo $(srcdir)/memchr.c; else echo memchr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > memchr_.c || rm -f memchr_.c
+memrchr_.c: memrchr.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/memrchr.c; then echo $(srcdir)/memrchr.c; else echo memrchr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > memrchr_.c || rm -f memrchr_.c
 obstack_.c: obstack.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/obstack.c; then echo $(srcdir)/obstack.c; else echo obstack.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > obstack_.c || rm -f obstack_.c
 quote_.c: quote.c $(ANSI2KNR)
@@ -248,8 +260,8 @@ realloc_.c: realloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/realloc.c; then echo $(srcdir)/realloc.c; else echo realloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > realloc_.c || rm -f realloc_.c
 stpcpy_.c: stpcpy.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/stpcpy.c; then echo $(srcdir)/stpcpy.c; else echo stpcpy.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > stpcpy_.c || rm -f stpcpy_.c
-strndup_.c: strndup.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strndup.c; then echo $(srcdir)/strndup.c; else echo strndup.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strndup_.c || rm -f strndup_.c
+strchr_.c: strchr.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strchr.c; then echo $(srcdir)/strchr.c; else echo strchr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strchr_.c || rm -f strchr_.c
 strnlen_.c: strnlen.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strnlen.c; then echo $(srcdir)/strnlen.c; else echo strnlen.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strnlen_.c || rm -f strnlen_.c
 strspn_.c: strspn.c $(ANSI2KNR)
@@ -258,11 +270,12 @@ xmalloc_.c: xmalloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xmalloc.c; then echo $(srcdir)/xmalloc.c; else echo xmalloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xmalloc_.c || rm -f xmalloc_.c
 xstrdup_.c: xstrdup.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrdup.c; then echo $(srcdir)/xstrdup.c; else echo xstrdup.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrdup_.c || rm -f xstrdup_.c
-alloca_.$(OBJEXT) error_.$(OBJEXT) getopt_.$(OBJEXT) getopt1_.$(OBJEXT) \
-malloc_.$(OBJEXT) memchr_.$(OBJEXT) obstack_.$(OBJEXT) quote_.$(OBJEXT) \
-quotearg_.$(OBJEXT) realloc_.$(OBJEXT) stpcpy_.$(OBJEXT) \
-strndup_.$(OBJEXT) strnlen_.$(OBJEXT) strspn_.$(OBJEXT) \
-xmalloc_.$(OBJEXT) xstrdup_.$(OBJEXT) : $(ANSI2KNR)
+alloca_.$(OBJEXT) basename_.$(OBJEXT) dirname_.$(OBJEXT) \
+error_.$(OBJEXT) getopt_.$(OBJEXT) getopt1_.$(OBJEXT) malloc_.$(OBJEXT) \
+memchr_.$(OBJEXT) memrchr_.$(OBJEXT) obstack_.$(OBJEXT) \
+quote_.$(OBJEXT) quotearg_.$(OBJEXT) realloc_.$(OBJEXT) \
+stpcpy_.$(OBJEXT) strchr_.$(OBJEXT) strnlen_.$(OBJEXT) \
+strspn_.$(OBJEXT) xmalloc_.$(OBJEXT) xstrdup_.$(OBJEXT) : $(ANSI2KNR)
 uninstall-info-am:
 
 tags: TAGS

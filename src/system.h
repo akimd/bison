@@ -110,12 +110,24 @@ char *alloca ();
 char *stpcpy PARAMS ((char *dest, const char *src));
 #endif
 
-#if !HAVE_DECL_STRNDUP
-char *strndup PARAMS ((const char *s, size_t size));
+#if !HAVE_DECL_STRCHR
+char *strchr(const char *s, int c);
+#endif
+
+#if !HAVE_DECL_STRSPN
+size_t strspn(const char *s, const char *accept);
 #endif
 
 #if !HAVE_DECL_STRNLEN
 size_t strnlen PARAMS ((const char *s, size_t maxlen));
+#endif
+
+#if !HAVE_DECL_MEMCHR
+void *memchr PARAMS ((const void *s, int c, size_t n));
+#endif
+
+#if !HAVE_DECL_MEMRCHR
+void *memrchr PARAMS ((const void *s, int c, size_t n));
 #endif
 
 

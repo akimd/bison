@@ -1,4 +1,4 @@
-## Copyright 2001 Free Software Foundation, Inc.
+## Copyright 2001, 2002 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ INCLUDES = -I.. -I$(srcdir) -I../intl
 EXTRA_DIST = malloc.c realloc.c
 
 libbison_a_SOURCES = \
+  basename.c dirname.h dirname.c \
   getopt.h getopt.c getopt1.c \
   quote.h quote.c quotearg.h quotearg.c \
   xalloc.h xmalloc.c xstrdup.c

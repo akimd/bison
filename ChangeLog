@@ -1,3 +1,14 @@
+2002-01-08  Akim Demaille  <akim@epita.fr>
+
+	* lib/basename.c, lib/dirname.h, lib/dirname.c, lib/memrchr.c,
+	* lib/xstrndup.c, lib/strchr.c:
+	New, stolen from the Fileutils 4.1.
+	* lib/Makefile.am (libbison_a_SOURCES): Adjust.
+	* configure.in: Check for the presence of memrchr, strchr,
+	strnlen, and of their prototypes.
+	Don't check for strndup: we no longer use it.
+	* src/system.h: Adjust the prototypes.
+
 2002-01-07  Akim Demaille  <akim@epita.fr>
 
 	* src/conflicts.c (count_rr_conflicts): The previous RR conflicts
