@@ -1,5 +1,10 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/symtab.c (symbol_new): Initialize the `printer' member.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (save_reductions): Remove, replaced by...
 	* src/state.h, src/state.c (state_reductions_set): New.
 	(reductions, errs): Rename as...
