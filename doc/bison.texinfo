@@ -2730,8 +2730,8 @@ The mid-rule action can also have a semantic value.  The action can set
 its value with an assignment to @code{$$}, and actions later in the rule
 can refer to the value using @code{$@var{n}}.  Since there is no symbol
 to name the action, there is no way to declare a data type for the value
-in advance, so you must use the @samp{$<@dots{}>} construct to specify a
-data type each time you refer to this value.
+in advance, so you must use the @samp{$<@dots{}>@var{n}} construct to
+specify a data type each time you refer to this value.
 
 There is no way to set the value of the entire rule with a mid-rule
 action, because assignments to @code{$$} do not have that effect.  The

@@ -1,8 +1,10 @@
 Bison was originally written by Robert Corbett.  It would not be what
 it is today without the invaluable help of these people:
 
+Akim Demaille		akim@lrde.epita.fr
 Daniel Hagerty  	hag@gnu.org
 David J. MacKenzie  	djm@gnu.org
+Fabrice Bauzac		noon@cote-dazur.com
 Hans Aberg		haberg@matematik.su.se
 Jesse Thilo  		jthilo@gnu.org
 Jim Meyering  		meyering@gnu.org
