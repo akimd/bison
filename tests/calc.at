@@ -536,6 +536,7 @@ AT_CHECK_CALC_LALR([%verbose])
 AT_CHECK_CALC_LALR([%yacc])
 AT_CHECK_CALC_LALR([%error-verbose])
 
+AT_CHECK_CALC_LALR([%pure-parser %locations])
 AT_CHECK_CALC_LALR([%error-verbose %locations])
 
 AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix="calc" %verbose %yacc])
@@ -571,6 +572,7 @@ AT_CHECK_CALC_GLR([%verbose])
 AT_CHECK_CALC_GLR([%yacc])
 AT_CHECK_CALC_GLR([%error-verbose])
 
+AT_CHECK_CALC_GLR([%pure-parser %locations])
 AT_CHECK_CALC_GLR([%error-verbose %locations])
 
 AT_CHECK_CALC_GLR([%error-verbose %locations %defines %name-prefix="calc" %verbose %yacc])
@@ -607,6 +609,7 @@ AT_CHECK_CALC_LALR1_CC([%defines])
 # AT_CHECK_CALC_LALR1_CC([%yacc])
 # AT_CHECK_CALC_LALR1_CC([%error-verbose])
 
+# AT_CHECK_CALC_LALR1_CC([%pure-parser %locations])
 # AT_CHECK_CALC_LALR1_CC([%error-verbose %locations])
 
 AT_CHECK_CALC_LALR1_CC([%error-verbose %locations %defines %name-prefix="calc" %verbose %yacc])
