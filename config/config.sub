@@ -3,7 +3,7 @@
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 #   Free Software Foundation, Inc.
 
-timestamp='2001-12-03'
+timestamp='2001-12-10'
 
 # This file is (in principle) common to ALL GNU software.
 # The presence of a machine in this file suggests that SOME GNU software
@@ -418,6 +418,14 @@ case $basic_machine in
 		;;
 	decstation | decstation-3100 | pmax | pmax-* | pmin | dec3100 | decstatn)
 		basic_machine=mips-dec
+		;;
+	decsystem10* | dec10*)
+		basic_machine=pdp10-dec
+		os=-tops10
+		;;
+	decsystem20* | dec20*)
+		basic_machine=pdp10-dec
+		os=-tops20
 		;;
 	delta | 3300 | motorola-3300 | motorola-delta \
 	      | 3300-motorola | delta-motorola)
@@ -882,6 +890,10 @@ case $basic_machine in
 	tx39el)
 		basic_machine=mipstx39el-unknown
 		;;
+	toad1)
+		basic_machine=pdp10-xkl
+		os=-tops20
+		;;
 	tower | tower-32)
 		basic_machine=m68k-ncr
 		;;
@@ -1210,6 +1222,7 @@ case $basic_machine in
 	arm*-semi)
 		os=-aout
 		;;
+	# This must come before the *-dec entry.
 	pdp10-*)
 		os=-tops20
 		;;

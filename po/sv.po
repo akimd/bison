@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.30e\n"
-"POT-Creation-Date: 2001-12-12 16:14+0100\n"
-"PO-Revision-Date: 2001-11-27 11:16+0100\n"
+"Project-Id-Version: bison 1.30f\n"
+"POT-Creation-Date: 2001-12-13 11:59+0100\n"
+"PO-Revision-Date: 2001-12-06 22:33+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -309,7 +309,7 @@ msgstr "\"%s\" stödjer inga argument: %s"
 msgid "`%s' requires an argument"
 msgstr "\"%s\" behöver ett argument"
 
-#: src/output.c:949
+#: src/output.c:951
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "maximal tabellstorlek (%d) överskriden"
@@ -648,29 +648,29 @@ msgid "Useless rules:"
 msgstr "Oanvändbara regler:"
 
 #: src/reduce.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
-msgstr[0] "%d regler reduceras aldrig\n"
+msgstr[0] "%d regel reduceras aldrig\n"
+msgstr[1] "%d regler reduceras aldrig\n"
 
-# Jag har anmält att det är fel att anta att "s" är en universell pluraländelse.
-# Jag föreslog också att de använder ngettext istället.
-# "Vad göras skall är redan gjort."
 #: src/reduce.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
-msgstr[0] "%d oanvändbara icketerminaler%.0s"
+msgstr[0] "%d oanvändbar icketerminal"
+msgstr[1] "%d oanvändbara icketerminaler"
 
 #: src/reduce.c:517
 msgid " and "
 msgstr " och "
 
 #: src/reduce.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
-msgstr[0] "%d oanvändbara regler%.0s"
+msgstr[0] "%d oanvändbar regel"
+msgstr[1] "%d oanvändbara regler"
 
 #: src/reduce.c:551
 #, c-format
@@ -766,36 +766,3 @@ msgstr "\""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "\""
-
-#~ msgid "%s: internal error: %s\n"
-#~ msgstr "%s: internt fel: %s\n"
-
-#~ msgid ""
-#~ "Variables\n"
-#~ "---------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Variabler\n"
-#~ "---------\n"
-#~ "\n"
-
-#~ msgid "Value  Sprec    Sassoc    Tag\n"
-#~ msgstr "Värde  Sprec    Sassoc    Tagg\n"
-
-#~ msgid ""
-#~ "Rules\n"
-#~ "-----\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Regler\n"
-#~ "------\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Rules interpreted\n"
-#~ "-----------------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Tolkade regler\n"
-#~ "--------------\n"
-#~ "\n"

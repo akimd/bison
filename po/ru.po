@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-12-12 16:14+0100\n"
+"POT-Creation-Date: 2001-12-13 11:59+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -307,7 +307,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: ключ `%s' должен использоваться с аргументом\n"
 
-#: src/output.c:949
+#: src/output.c:951
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "превышен максимальный размер таблицы (%d)"

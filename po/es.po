@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-12-12 16:14+0100\n"
+"POT-Creation-Date: 2001-12-13 11:59+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -67,7 +67,7 @@ msgstr "error grave: %s\n"
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
-"El conflicto en el estado %d entre la regla %d y el terminal %s se resuelve "
+"El conflicto en el estado %s entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
 #: src/conflicts.c:94 src/conflicts.c:119
@@ -348,7 +348,7 @@ msgstr "%s: la opción `%s' requiere un argumento\n"
 # en inglés era así, pero quizás en español sea mejor como dices
 # ngp
 #
-#: src/output.c:949
+#: src/output.c:951
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "excedido el tamaño máximo de la tabla (%s)"

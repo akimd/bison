@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.30e\n"
-"POT-Creation-Date: 2001-12-12 16:14+0100\n"
-"PO-Revision-Date: 2001-11-27 08:00-0500\n"
+"Project-Id-Version: GNU bison 1.30f\n"
+"POT-Creation-Date: 2001-12-13 11:59+0100\n"
+"PO-Revision-Date: 2001-12-05 13:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -306,7 +306,7 @@ msgstr "`%s' ne supporte aucun argument: %s"
 msgid "`%s' requires an argument"
 msgstr "`%s': requiert un argument"
 
-#: src/output.c:949
+#: src/output.c:951
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "taille maximale de la table (%d) dépassée"
@@ -646,26 +646,29 @@ msgid "Useless rules:"
 msgstr "Règles inutiles:"
 
 #: src/reduce.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
-msgstr[0] "%d règles jamais réduites\n"
+msgstr[0] "%d règle qui n'a jamais été réduite\n"
+msgstr[1] "%d règles qui n'ont jamais été réduites\n"
 
 #: src/reduce.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
-msgstr[0] "%d catégories non productives%s"
+msgstr[0] "%d nonterminal inutilisable"
+msgstr[1] "%d nonterminals inutilisables"
 
 #: src/reduce.c:517
 msgid " and "
 msgstr " et "
 
 #: src/reduce.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
-msgstr[0] "%d règle(s) non productive(s)%s"
+msgstr[0] "%d règle inutilisable"
+msgstr[1] "%d règles inutilisables"
 
 #: src/reduce.c:551
 #, c-format

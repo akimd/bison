@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.30e\n"
-"POT-Creation-Date: 2001-12-12 16:14+0100\n"
-"PO-Revision-Date: 2001-11-26 22:45+0200\n"
+"Project-Id-Version: bison 1.30f\n"
+"POT-Creation-Date: 2001-12-13 11:59+0100\n"
+"PO-Revision-Date: 2001-12-05 20:35+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -303,7 +303,7 @@ msgstr "`%s' ei toeta argumente: %s"
 msgid "`%s' requires an argument"
 msgstr "võti `%s' nõuab argumenti"
 
-#: src/output.c:949
+#: src/output.c:951
 #, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "ületati maksimaalset tabelisuurust (%d)"
@@ -642,26 +642,29 @@ msgid "Useless rules:"
 msgstr "Kasutamata reeglid:"
 
 #: src/reduce.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
-msgstr[0] "%d reeglit ei redutseeritud\n"
+msgstr[0] "%d reegel ei redutseeru\n"
+msgstr[1] "%d reeglit ei redutseeru\n"
 
 #: src/reduce.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
-msgstr[0] "%d kasutamata mitteterminali%s"
+msgstr[0] "%d kasutamata mitteterminal"
+msgstr[1] "%d kasutamata mitteterminali"
 
 #: src/reduce.c:517
 msgid " and "
 msgstr " ja "
 
 #: src/reduce.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
-msgstr[0] "%d kasutamata reeglit%s"
+msgstr[0] "%d kasutamata reegel"
+msgstr[1] "%d kasutamata reeglit"
 
 #: src/reduce.c:551
 #, c-format
@@ -754,36 +757,3 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
-
-#~ msgid "%s: internal error: %s\n"
-#~ msgstr "%s: sisemine viga: %s\n"
-
-#~ msgid ""
-#~ "Variables\n"
-#~ "---------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Muutujad\n"
-#~ "--------\n"
-#~ "\n"
-
-#~ msgid "Value  Sprec    Sassoc    Tag\n"
-#~ msgstr "Value  Sprec    Sassoc    Tag\n"
-
-#~ msgid ""
-#~ "Rules\n"
-#~ "-----\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Reeglid\n"
-#~ "-------\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Rules interpreted\n"
-#~ "-----------------\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Interpreteeritud reeglid\n"
-#~ "------------------------\n"
-#~ "\n"
