@@ -1,5 +1,11 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/derives.c (print_derives): Fix and enrich.
+	* src/closure.c (print_fderives): Likewise.
+
+	
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.c (itemsetend): Remove, replaced with...
 	(itemsetsize): new.
 
