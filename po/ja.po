@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2002-03-19 09:29+0100\n"
+"POT-Creation-Date: 2002-04-07 18:07+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -649,7 +649,7 @@ msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d 個の不使用規則%.0s"
 
-#: src/reduce.c:500
+#: src/reduce.c:499
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"

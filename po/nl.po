@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2002-03-19 09:29+0100\n"
+"POT-Creation-Date: 2002-04-07 18:07+0200\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -650,7 +650,7 @@ msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d onbruikbare regels%s"
 
-#: src/reduce.c:500
+#: src/reduce.c:499
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Start symbool %s is niet afkomstig uit een zin"
