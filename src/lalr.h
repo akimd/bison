@@ -49,12 +49,6 @@ extern short *goto_map;
 extern short *from_state;
 extern short *to_state;
 
-/* CONSISTENT[S] is nonzero if no lookahead is needed to decide what
-   to do in state S.  */
-
-extern char *consistent;
-
-
 /* LARULENO is a vector which records the rules that need lookahead in
    various states.  The elements of LARULENO that apply to state S are
    those from LOOKAHEADS[S] through LOOKAHEADS[S+1]-1.  Each element
@@ -85,6 +79,10 @@ typedef struct state_s
 
   shifts *shift_table;
   reductions *reduction_table;
+
+  /* Nonzero if no lookahead is needed to decide what to do in state
+     S.  */
+  char consistent;
 } state_t;
 
 /* All the decorated states, indexed by the state number.  Warning:
