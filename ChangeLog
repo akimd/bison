@@ -1,5 +1,14 @@
 2004-12-15  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc: Normalize /** \brief ... */ to ///.
+	Add more Doxygen comments.
+	(symprint_, stack_print_, reduce_print_, destruct_, pop)
+	(report_syntax_error_, translate_): Rename as...
+	(yysymprint_, yystack_print_, yyreduce_print_, yydestruct_)
+	(yypop_, yyreport_syntax_error_, yytranslate_): this.
+
+2004-12-15  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc (lex_): Rename as...
 	(yylex_): this.
 	Move the trace here.
