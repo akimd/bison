@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# commit version 0.9.3
+# clcommit version 0.9.5
 
 # Copyright (C) 1999, 2000, Free Software Foundation
 
@@ -9,7 +9,7 @@
 # its license can be downloaded from http://www.gnu.org/copyleft/gpl.html
 
 # Originally by Gary V. Vaughan <gvaughan@oranda.demon.co.uk>
-# Heavily modified by Alexandre Oliva <oliva@dcc.unicamp.br>
+# Pretty much rewritten by Alexandre Oliva <aoliva@redhat.com>
 
 # This scripts eases checking in changes to CVS-maintained projects
 # with ChangeLog files.  It will check that there have been no
@@ -30,23 +30,26 @@
 # are checked in, unless `-n' was specified, in which case nothing is
 # checked in.
 
-# usage: commit [-v] [-h] [-f] [-l] [-n] [-q] [-z N] [-C ChangeLog_file]
-#               [-m msg|-F msg_file] [--] [file|dir ...]
+# usage: clcommit [-v] [-h] [-f] [-l] [-n] [-q] [-z N] [-C ChangeLog_file]
+#                 [-m msg|-F msg_file|-1] [--] [file|dir ...]
 
-# -f      --fast        don't check (unless *followed* by -n), and just 
-#         --force       display commit message instead of running $PAGER
+# -f      --force       don't check (unless *followed* by -n), and just
+#                       display commit message instead of running $PAGER
 # -l      --local       don't descend into subdirectories
 # -m msg  --message=msg set commit message
 #         --msg=msg     same as -m
 # -F file --file=file   read commit message from file
+# -1      --first       extract first entry from ChangeLog, no cvs diff
 # -C file --changelog=file extract commit message from specified ChangeLog
+#         --fast        same as --force --first
 # -n      --dry-run     don't commit anything
 # -q      --quiet       run cvs in quiet mode
 # -zN     --compress=N  set compression level (0-9, 0=none, 9=max)
 # -v      --version     print version information
 # -h,-?   --help        print short or long help message
 
-name=commit
+name=clcommit
+: ${CVS=cvs}
 cvsopt=
 updateopt=
 commitopt=
@@ -54,6 +57,7 @@ dry_run=false
 commit=:
 update=:
 log_file="${TMPDIR-/tmp}/commitlog.$$"
+first=false
 
 rm -f "$log_file"
 trap 'rm -f "$log_file"; exit 1' 1 2 15
@@ -65,7 +69,12 @@ while $main_repeat; do
 repeat="test $# -gt 0"
 while $repeat; do
     case "$1" in
-    -f|--force|--fast)
+    --fast)
+        shift
+	set fnord --force --first ${1+"$@"}
+	shift
+	;;
+    -f|--force)
 	update=false
 	PAGER=cat
 	shift
@@ -80,8 +89,8 @@ while $repeat; do
 	    echo "$name: missing argument for $1" >&2
 	    break
 	fi
-	if test -f "$log_file"; then
-	    echo "$name: you can have at most one of -m and -F" >&2
+	if $first || test -f "$log_file"; then
+	    echo "$name: you can have at most one of -m, -F and -1" >&2
 	    break
 	fi
 	shift
@@ -89,8 +98,8 @@ while $repeat; do
 	shift
 	;;
     -F|--file)
-	if test -f "$log_file"; then
-	    echo "$name: you can have at most one of -m and -F" >&2
+	if $first || test -f "$log_file"; then
+	    echo "$name: you can have at most one of -m, -F and -1" >&2
 	    break
 	fi
 	if test $# = 1; then
@@ -101,6 +110,14 @@ while $repeat; do
 	if cat < "$1" > "$log_file"; then :; else
 	    break
 	fi
+	shift
+	;;
+    -1|--first)
+        if test -f "$log_File"; then
+	    echo "$name: you can have at most one of -m, -F and -1" >&2
+	    break
+	fi
+	first=:
 	shift
 	;;
     -C|--[cC]hange[lL]og)
@@ -114,6 +131,7 @@ while $repeat; do
 	    break
 	fi
 	ChangeLog="$1"
+	shift
 	;;
     -n|--dry-run)
 	commit=false
@@ -122,6 +140,10 @@ while $repeat; do
 	;;
     -q|--quiet)
 	cvsopt="$cvsopt -q"
+	shift
+	;;
+    -v|--verbose)
+	cvsopt="$cvsopt -t"
 	shift
 	;;
     -z|--compress)
@@ -185,7 +207,7 @@ $repeat && break
 
 $update && \
 if echo "$name: checking for conflicts..." >&2
-   (cvs $cvsopt -q -n update $updateopt ${1+"$@"} 2>/dev/null \
+   ($CVS $cvsopt -q -n update $updateopt ${1+"$@"} 2>/dev/null \
     | while read line; do
 	echo "$line"
 	echo "$line" >&3
@@ -211,9 +233,24 @@ if test ! -f "$log_file"; then
   fi
 
   echo "$name: checking commit message..." >&2
-  cvs $cvsopt diff -u $ChangeLog \
-  | while read line; do
+  if $first; then
+    skipping=:
+    sed 's,^,+,' < ${ChangeLog-ChangeLog} |
+    while read line; do
       case "$line" in
+      "+2"*) if $skipping; then skipping=false; else break; fi;;
+      "+ "*)
+	echo "$name: *** Warning: lines should start with tabs, not spaces; ignoring line:" >&2
+	echo "$line" | sed 's/^.//' >&2;;
+      "+	"*)
+        $skipping || echo "$line" ;;
+      esac
+    done |
+    sed 's,^\+	,,' > "$log_file" || break
+  else
+    $CVS $cvsopt diff -u ${ChangeLog-ChangeLog} |
+    while read line; do
+      case $line in
       "--- "*) :;;
       "-"*)
 	echo "$name: *** Warning: the following line in ChangeLog diff is suspicious:" >&2
@@ -224,9 +261,10 @@ if test ! -f "$log_file"; then
       "+") echo;;
       "+	"*) echo "$line";;
       esac
-    done \
-  | sed -e 's,\+	,,' -e '/./p' -e '/./d' -e '1d' -e '$d' > "$log_file" \
-  || break
+    done |
+    sed -e 's,\+	,,' -e '/./p' -e '/./d' -e '1d' -e '$d' > "$log_file" \
+    || break
+  fi
 # The sed script above removes "+TAB" from the beginning of a line, then
 # deletes the first and/or the last line, when they happen to be empty
 fi
@@ -237,7 +275,7 @@ if grep '[^ 	]' < "$log_file" > /dev/null; then :; else
 fi
 
 if grep '^$' < "$log_file" > /dev/null; then
-  echo "$name: *** Warning: blank lines should not appear within a commit messages." >&2
+  echo "$name: *** Warning: blank lines should not appear within commit messages." >&2
   echo "$name: *** They should be used to separate distinct commits." >&2
 fi
 
@@ -249,7 +287,7 @@ sleep 1 # give the user some time for a ^C
 # zeroed it out.  If s/he did, it was probably intentional.
 
 if $commit; then
-  cvs $cvsopt commit $commitopt -F $log_file ${1+"$@"} || break
+  $CVS $cvsopt commit $commitopt -F $log_file ${1+"$@"} || break
 fi
 
 main_repeat=false
