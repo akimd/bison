@@ -46,7 +46,6 @@ AT_DATA_GRAMMAR([calc.y],
 # include <string.h>
 #endif
 #include <ctype.h>
-#include <assert.h>
 
 extern void perror (const char *s);
 
@@ -308,8 +307,10 @@ main (int argc, const char **argv)
   yydebug = 1;
 #endif
   status = yyparse (]AT_PARAM_IF([&result, &count])[);
-  assert (global_result == result);
-  assert (global_count  == count);
+  if (global_result != result)
+    abort ();
+  if (global_count != count)
+    abort ();
   return status;
 }
 ]])
