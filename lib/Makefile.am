@@ -17,36 +17,20 @@
 
 AM_CFLAGS = $(WARNING_CFLAGS)
 
+BUILT_SOURCES =
+EXTRA_DIST =
+MOSTLYCLEANFILES =
+
 lib_LIBRARIES = $(YACC_LIBRARY)
 EXTRA_LIBRARIES = liby.a
 noinst_LIBRARIES = libbison.a
 
 liby_a_SOURCES = main.c yyerror.c
 
-# Heck, we are still using an old version of Automake which does not
-# understand inner AC_LIBOBJ (i.e., from Autoconf itself, not from
-# configure.in).
-EXTRA_DIST = malloc.c realloc.c stdbool_.h strnlen.c
-MOSTLYCLEANFILES = stdbool.h stdbool.h-t
-
-# We need the following in order to create an <stdbool.h> when the system
-# doesn't have one that works.
-$(libbison_a_OBJECTS): $(STDBOOL_H)
-stdbool.h: stdbool_.h
-	sed -e 's/@''HAVE__BOOL''@/$(HAVE__BOOL)/g' <$(srcdir)/stdbool_.h >$@-t
-	mv $@-t $@
-
-libbison_a_SOURCES = \
-  gettext.h \
-  argmatch.c argmatch.h \
-  basename.c dirname.h dirname.c \
+libbison_a_SOURCES = $(lib_SOURCES)
+lib_SOURCES = \
   get-errno.h get-errno.c \
-  getopt.h getopt.c getopt1.c \
-  hash.h hash.c \
-  mbswidth.h mbswidth.c \
-  quote.h quote.c quotearg.h quotearg.c \
-  subpipe.h subpipe.c unlocked-io.h \
-  xalloc.h xmalloc.c xstrdup.c xstrndup.c \
+  subpipe.h subpipe.c \
   $(bitsets_sources) $(additional_bitsets_sources) $(timevars_sources)
 
 # Implementation of bitsets
@@ -65,3 +49,5 @@ timevars_sources = \
 
 libbison_a_LIBADD = $(LIBOBJS) $(ALLOCA)
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)
+
+include gnulib.mk

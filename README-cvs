@@ -6,15 +6,13 @@ Bison.
 * Requirements
 
 Only the sources are installed in the CVS repository (to ease the
-maintenance, merges etc.), therefore you will have to the maintainer
-tools we depend upon:
+maintenance, merges etc.), therefore you will have to get the latest
+stable versions of the maintainer tools we depend upon, including:
 
-- Automake 1.7
-
-- Autoconf 2.57
-
-- Gettext 0.12.1
-
+- Automake
+- Autoconf
+- Flex
+- Gettext
 - CVS Bison itself
 
 Only building the initial full source tree will be a bit painful,
@@ -55,19 +53,19 @@ If you experience problems, I suggest the following:
 1. Do a regular CVS checkout
 
 2. Fetch a recent tarball in:
-   http://www.lrde.epita.fr/~akim/download/
+   ftp://alpha.gnu.org/gnu/bison/
 
 3. Extract it
 
 4. Override the content of your checkout with the content of this
    tarball, i.e.:
-   cp -r bison-1.49b/* bison-cvs
+   cp -r bison-1.875c/* bison-cvs
 
 5. Proceed on ./configure && make etc.
 
 -----
 
-Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 

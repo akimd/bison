@@ -1,3 +1,148 @@
+2004-04-28  Paul Eggert  <eggert@twinsun.com>
+
+	Get files from the gnulib and po repositories, instead of relying
+	on them being in our CVS.  Upgrade to latest versions of gnulib
+	and Automake.
+
+	* Makefile.am (SUBDIRS): Remove m4; Automake now does m4.
+	* bootstrap: Bootstrap from gnulib and po repositories.
+	Much of this code was stolen from GNU diff and GNU tar's bootstrap.
+	* README-cvs: Document these changes.  Remove version numbers from
+	mentions of build tools, since they change so often.  Mention Flex.
+
+	* configure.ac (AC_CONFIG_MACRO_DIR): Add, with m4 as arg.
+	(gl_USE_SYSTEM_EXTENSIONS): Add.
+	(AC_GNU_SOURCE): Remove; no longer needed, as gl_USE_SYSTEM_EXTENSIONS
+	does this for us.
+	(AC_ISC_POSIX, AC_MINIX): Remove; we no longer support these
+	ancient OSes, as they get in the way of latest Autoconf & gnulib.
+	(AC_HEADER_STDC): Remove: we now assume C89 or better.
+	(AC_CHECK_HEADERS_ONCE): Use instead of AC_CHECK_HEADERS.
+	Do not check for C89 headers, except for locale.h which is used
+	by the Yacc library and must port to K&R hosts.
+	(AC_CHECK_FUNCS_ONCE): Use instead of AC_CHECK_FUNCS.
+	Do not check for C89 functions, except for setlocale which is
+	used by the Yacc library.
+	(AC_CHECK_DECLS, AC_REPLACE_FUNCS): Remove; no longer needed.
+	(gl_DIRNAME, gl_ERROR, gl_FUNC_ALLOCA, gl_FUNC_MEMCHR,
+	gl_FUNC_MEMRCHR, gl_FUNC_STPCPY, gl_FUNC_STRNLEN, gl_FUNC_STRTOL,
+	gl_GETOPT, gl_HASH, gl_MBSWIDTH, gl_OBSTACK, gl_QUOTE,
+	gl_QUOTEARG, gl_XALLOC, jm_FUNC_GLIBC_UNLOCKED_IO, jm_FUNC_MALLOC,
+	AM_GNU_GETTEXT): Remove; now done by:
+	(GNULIB_AUTOCONF_SNIPPET): Add.  "bootstrap" builds this for us.
+	(AC_CONFIG_FILES): Remove m4/Makefile, as Automake now does this
+	for us.
+
+	* lib/Makefile.am: Include gnulib.mk, built for us by "bootstrap".
+	(BUILT_SOURCES, EXTRA_DIST, MOSTLYCLEANFILES):
+	Define to empty, as gnulib.mk will do the rest for us.
+	($(libbison_a_OBJECTS), stdbool.h): Remove, as gnulib.mk does this
+	for us.
+	(libbison_a_SOURCES): Define to $(lib_SOURCES) now.
+	(lib_SOURCES): New symbol, containing only the non-gnulib libs.
+
+	* src/files.c: Include gnulib's xstrndup.h.
+
+	* src/system.h (MALLOC): Use xnmalloc, for better overflow checking.
+	(REALLOC): Use xnrealloc, for likewise.
+	(xstrndup, stpcpy): Remove decls, as gnulib does this for us now.
+	(strnlen, memrchr): Remove decls; functions no longer used.
+	Include <stpcpy.h>.
+
+	* config/depcomp, config/install-sh, lib/alloca.c, lib/argmatch.c,
+	lib/argmatch.h, lib/basename.c, lib/dirname.c, lib/dirname.h,
+	lib/error.c, lib/error.h, lib/getopt.c, lib/getopt.h,
+	lib/getopt1.c, lib/gettext.h, lib/hash.c, lib/hash.h,
+	lib/malloc.c, lib/mbswidth.c, lib/mbswidth.h, lib/memchr.c,
+	lib/memcmp.c, lib/memrchr.c, lib/obstack.c, lib/obstack.h,
+	lib/quote.c, lib/quote.h, lib/quotearg.c, lib/quotearg.h,
+	lib/realloc.c, lib/stdbool_.h, lib/stpcpy.c, lib/strcasecmp.c,
+	lib/strchr.c, lib/strncasecmp.c, lib/strnlen.c, lib/strrchr.c,
+	lib/strspn.c, lib/strtol.c, lib/strtoul.c, lib/unlocked-io.h,
+	lib/xalloc.h, lib/xmalloc.c, lib/xstrdup.c, lib/xstrndup.c,
+	m4/Makefile.am, m4/alloca.m4, m4/dirname.m4, m4/dos.m4,
+	m4/error.m4, m4/getopt.m4, m4/hash.m4, m4/malloc.m4,
+	m4/mbrtowc.m4, m4/mbswidth.m4, m4/memchr.m4, m4/memcmp.m4,
+	m4/memrchr.m4, m4/obstack.m4, m4/onceonly.m4, m4/prereq.m4,
+	m4/quote.m4, m4/quotearg.m4, m4/realloc.m4, m4/stdbool.m4,
+	m4/stpcpy.m4, m4/strnlen.m4, m4/strtol.m4, m4/strtoul.m4,
+	m4/unlocked-io.m4, m4/xalloc.m4, po/LINGUAS, po/Makefile.in.in,
+	po/Makevars, po/da.po, po/de.po, po/es.po, po/et.po, po/fr.po,
+	po/hr.po, po/id.po, po/it.po, po/ja.po, po/ms.po, po/nl.po,
+	po/pt_BR.po, po/ro.po, po/ru.po, po/sv.po, po/tr.po:
+	Remove, as these files are now generated automatically
+	by bootstrap or automake.
+
+	* po/ChangeLog: Remove: all but one entry was a duplicate
+	of this file, and I moved that 2000-11-02 entry here.
+
+	* config/.cvsignore: Add Makefile, depcomp, install-sh.
+	* lib/.cvsignore: Add alloca.c, alloca.h, alloca_.h, argmatch.c,
+	argmatch.h, basename.c, dirname.c, dirname.h, error.c, error.h,
+	exit.h, exitfail.c, exitfail.h, getopt.c, getopt.h, getopt1.c,
+	getopt_int.h, gettext.h, gnulib.mk, hard-locale.c, hard-locale.h,
+	hash.c, hash.h, malloc.c, mbswidth.c, mbswidth.h, memchr.c,
+	memcmp.c, memrchr.c, obstack.c, obstack.h, quote.c, quote.h,
+	quotearg.c, quotearg.h, realloc.c, stdbool_.h, stpcpy.c, stpcpy.h,
+	strcasecmp.c, strchr.c, stripslash.c, strncasecmp.c, strndup.c,
+	strnlen.c, strrchr.c, strspn.c, strtol.c, strtoul.c,
+	unlocked-io.h, xalloc.h, xmalloc.c, xstrdup.c, xstrndup.c,
+	xstrndup.h.
+	* m4/.cvsignore: Remove Makefile, Makefile.in.  Add alloca.m4,
+	dirname.m4, dos.m4, error.m4, getopt.m4, hash.m4, mbrtowc.m4,
+	mbswidth.m4, obstack.m4, onceonly.m4, quote.m4, quotearg.m4,
+	stdbool.m4, stpcpy.m4, strnlen.m4, unlocked-io.m4, xalloc.m4.
+	* po/.cvsignore: Add *.po, LINGUAS, Makefile.in.in, Makevars.
+	* src/.cvsignore: Remove *_.c.
+
+
+	* Makefile.maint (GZIP_ENV): Don't use --rsyncable if gzip doesn't
+	support it.  (The latest stable gzip doesn't.)
+
+2004-04-27  Paul Eggert  <eggert@twinsun.com>
+
+	* data/lalr1.cc (Parser::stos_) [! YYDEBUG]: Define even in this
+	case, as stos_ is now used by destructors due to the 2004-02-09
+	change.
+
+	Remove more K&R C support.
+	* lib/libiberty.y (PARAMS): Remove.  All uses removed.
+	* lib/subpipe.c (errno): Remove decl.
+	Include <stdlib.h> unconditionally.
+	(EXIT_FAILURE): Remove macro.
+	* src/complain.c (vfprintf, strerror): Remove.
+	* src/system.h: Include limits.h, stdlib.h, string.h, locale.h
+	unconditionally.
+	(EXIT_FAILURE, EXIT_SUCCESS, setlocale): Remove defns.
+	Use latest Autoconf recommendations for including inttypes.h, stdint.h.
+	(strchr, strspn, memchr): Remove decls.
+	* tests/calc.at (_AT_DATA_CALC_Y): Include stdlib.h, string.h
+	unconditionally.  Do not declare perror.
+	* tests/conflicts.at (%nonassoc and eof): Include stdlib.h
+	unconditionally.
+
+	* src/complain.c (_): Remove useless defn, as system.h defines this.
+
+	* lib/bitset.h (__INT_TO_PTR): Remove; workaround no longer needed
+	with latest obstack.h.
+	* lib/ebitset.c (ebitset_elt_alloc): Don't bother to cast args
+	to procedure types, as obstack.h now does that for us.
+	* lib/lbitset.c (lbitset_elt_alloc): Likewise.
+
+	* lib/subpipe.h [HAVE_SYS_TYPES_H]: Include <sys/types.h>,
+	so that this include file can stand alone.
+	* lib/subpipe.c: Do not include <sys/types.h>, as subpipe.h
+	does this now.  Include subpipe.h first after config.h, to
+	test whether it can stand alone.
+
+	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR): Don't
+	declare yyerror when using lalr.cc, as GCC 3.4.0 warns about the
+	unused declaration.
+
+	* tests/synclines.at (%union synch line): Put a dummy member in
+	the union, because empty unions aren't allowed in C.  Caught
+	by GCC 3.4.0.
+
 2004-04-13  Jim Meyering  <jim@meyering.net>
 
 	* src/conflicts.c (conflicts_print): Correct format string typo:
@@ -10179,6 +10324,7 @@
 	obstacks.
 	(output_token_defines, reader_output_yylsp): Use obstacks.
 	* src/system.h (obstack_fgrow3): New.
+	* po/POTFILES.in: Adjust.
 
 2000-11-01  Akim Demaille  <akim@epita.fr>
 

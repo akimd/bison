@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = config po lib data src doc m4 tests
+SUBDIRS = config po lib data src doc tests
 
 EXTRA_DIST = REFERENCES OChangeLog Makefile.maint GNUmakefile Makefile.cfg
 

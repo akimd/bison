@@ -1,10 +1,9 @@
-*_.c
+*.flc
+*.log
 .deps
 Makefile
-bison
-*.log
-*.flc
 Makefile.in
+bison
 scan-gram.c
 scan-skel.c
 yacc

@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,17 +21,16 @@
 AC_PREREQ(2.57)
 
 AC_INIT([GNU Bison], [1.875c], [bug-bison@gnu.org])
-AC_CONFIG_AUX_DIR(config)
+AC_CONFIG_AUX_DIR([config])
+AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([1.7 check-news readme-alpha dist-bzip2])
 AC_CONFIG_HEADERS([config.h:config.hin])
 
+gl_USE_SYSTEM_EXTENSIONS
+
 # Checks for the compiler.
 AC_PROG_CC
-# Remove with Automake 1.8.
-AC_ISC_POSIX
-AC_GNU_SOURCE
-AC_MINIX
 AM_PROG_CC_STDC
 AC_ARG_ENABLE(gcc-warnings,
 [  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended)],
@@ -87,8 +86,7 @@ fi
 AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
 
 # Checks for header files.
-AC_HEADER_STDC
-AC_CHECK_HEADERS([ctype.h locale.h memory.h stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS_ONCE([locale.h])
 AM_STDBOOL_H
 
 # Checks for compiler characteristics.
@@ -98,36 +96,14 @@ AC_C_INLINE
 AC_CHECK_TYPES([uintptr_t])
 
 # Checks for library functions.
-AC_CHECK_FUNCS(setlocale)
-AC_CHECK_DECLS([free, getenv, getopt,
-                stpcpy, strchr, strspn, strnlen,
-                malloc, memchr, memrchr])
-AC_REPLACE_FUNCS(strchr strrchr strspn)
+AC_CHECK_FUNCS_ONCE([setlocale])
 AM_WITH_DMALLOC
 BISON_PREREQ_SUBPIPE
 BISON_PREREQ_TIMEVAR
-gl_DIRNAME
-gl_ERROR
-gl_FUNC_ALLOCA
-gl_FUNC_MEMCHR
-gl_FUNC_MEMRCHR
-gl_FUNC_STPCPY
-gl_FUNC_STRNLEN
-gl_FUNC_STRTOL
-gl_GETOPT
-gl_HASH
-gl_MBSWIDTH
-gl_OBSTACK
-gl_QUOTE
-gl_QUOTEARG
-gl_XALLOC
-jm_FUNC_GLIBC_UNLOCKED_IO
-jm_FUNC_MALLOC
-jm_FUNC_REALLOC
 
-# Gettext.
-AM_GNU_GETTEXT([external], [need-ngettext])
-AM_GNU_GETTEXT_VERSION(0.12.1)
+# gnulib and gettext.
+GNULIB_AUTOCONF_SNIPPET
+AM_GNU_GETTEXT_VERSION([0.14.1])
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
@@ -145,6 +121,5 @@ AC_CONFIG_FILES([Makefile
                  config/Makefile
                  po/Makefile.in
                  data/Makefile
-                 lib/Makefile src/Makefile doc/Makefile
-                 m4/Makefile])
+                 lib/Makefile src/Makefile doc/Makefile])
 AC_OUTPUT

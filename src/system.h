@@ -55,29 +55,15 @@ typedef size_t uintptr_t;
 
 #include <xalloc.h>
 #define CALLOC(P, N) ((P) = xcalloc (N, sizeof *(P)))
-#define MALLOC(P, N) ((P) = xmalloc ((N) * sizeof *(P)))
-#define REALLOC(P, N) ((P) = xrealloc (P, (N) * sizeof *(P)))
-
-/* From xstrndup.c.  */
-char *xstrndup (const char *str, size_t size);
+#define MALLOC(P, N) ((P) = xnmalloc (N, sizeof *(P)))
+#define REALLOC(P, N) ((P) = xnrealloc (P, N, sizeof *(P)))
 
 
 /*---------------------.
 | Missing prototypes.  |
 `---------------------*/
 
-#if defined HAVE_DECL_STPCPY && !HAVE_DECL_STPCPY
-char *stpcpy (char *dest, const char *src);
-#endif
-
-#if defined HAVE_DECL_STRNLEN && !HAVE_DECL_STRNLEN
-size_t strnlen (const char *str, size_t maxlen);
-#endif
-
-#if defined HAVE_DECL_MEMRCHR && !HAVE_DECL_MEMRCHR
-void *memrchr (const void *str, int ch, size_t size);
-#endif
-
+#include <stpcpy.h>
 
 
 /*-----------------.
