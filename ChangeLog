@@ -1,3 +1,8 @@
+2004-12-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Location Default Action): Mention that n must
+	be zero when k is zero.  Suggested by Frank Heckenbach.
+
 2004-12-22  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (parser::token_number_type, parser::rhs_number_type)
