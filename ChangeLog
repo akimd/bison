@@ -1,3 +1,10 @@
+2002-07-29  Akim Demaille  <akim@epita.fr>
+
+	* src/reduce.c (reduce_grammar): When the language is empty,
+	complain about the start symbol, not the axiom.
+	Use its location.
+	* tests/reduce.at (Empty Language): New.
+
 2002-07-26  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.h, src/reader.c (gram_error): ... can't get
