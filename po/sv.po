@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.33b\n"
-"POT-Creation-Date: 2002-05-02 17:01+0200\n"
+"POT-Creation-Date: 2002-05-02 18:42+0200\n"
 "PO-Revision-Date: 2002-03-05 10:18+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -510,7 +510,7 @@ msgstr "felaktig text (%s) - tal skulle följa efter identifierare"
 msgid "unexpected item: %s"
 msgstr "oväntat objekt: %s"
 
-#: src/reader.c:956 src/reader.c:1314
+#: src/reader.c:956 src/reader.c:1316
 #, c-format
 msgid "unmatched %s"
 msgstr "ensam %s"
@@ -544,60 +544,60 @@ msgstr "ingen ingrammatik"
 msgid "unknown character: %s"
 msgstr "okänt tecken: %s"
 
-#: src/reader.c:1417
+#: src/reader.c:1411
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "felskriven regel: första symbolen följs inte av ett kolon"
 
-#: src/reader.c:1424
+#: src/reader.c:1418
 msgid "grammar starts with vertical bar"
 msgstr "grammatiken startar med ett vertikalt streck"
 
-#: src/reader.c:1452
+#: src/reader.c:1446
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "regel given för %s, som är ett element"
 
-#: src/reader.c:1482 src/reader.c:1592
+#: src/reader.c:1476 src/reader.c:1586
 msgid "previous rule lacks an ending `;'"
 msgstr "föregående regel saknar ett avslutande \";\""
 
-#: src/reader.c:1560
+#: src/reader.c:1554
 msgid "two @prec's in a row"
 msgstr "två @prec i rad"
 
-#: src/reader.c:1570
+#: src/reader.c:1564
 msgid "two actions at end of one rule"
 msgstr "två åtgärder vid slutet av en regel"
 
-#: src/reader.c:1584
+#: src/reader.c:1578
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "typkonflikt (\"%s\" \"%s\") för standardåtgärd"
 
-#: src/reader.c:1590
+#: src/reader.c:1584
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "tom regel för typad icketerminal, och ingen åtgärd"
 
-#: src/reader.c:1598
+#: src/reader.c:1592
 #, c-format
 msgid "invalid input: %s"
 msgstr "felaktig indata: %s"
 
-#: src/reader.c:1605
+#: src/reader.c:1599
 msgid "no rules in the input grammar"
 msgstr "inga regler i ingrammatiken"
 
-#: src/reader.c:1626
+#: src/reader.c:1620
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
 
-#: src/reader.c:1728
+#: src/reader.c:1722
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "startsymbolen %s är odefinierad"
 
-#: src/reader.c:1730
+#: src/reader.c:1724
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"
