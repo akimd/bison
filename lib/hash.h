@@ -1,6 +1,6 @@
-/* hash.h -- decls for hash table
-   Copyright 1995, 2001  Free Software Foundation, Inc.
-   Written by Greg McGary <gkm@gnu.ai.mit.edu>
+/* hash - hashing table processing.
+   Copyright (C) 1998, 1999 Free Software Foundation, Inc.
+   Written by Jim Meyering <meyering@ascend.com>, 1998.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,141 +13,108 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. */
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
-#ifndef _hash_h_
-#define _hash_h_
+/* A generic hash table package.  */
 
-#include <stdio.h>
+/* Make sure USE_OBSTACK is defined to 1 if you want the allocator to use
+   obstacks instead of malloc, and recompile `hash.c' with same setting.  */
 
 #ifndef PARAMS
-# if defined PROTOTYPES || defined __STDC__
+# if PROTOTYPES || __STDC__
 #  define PARAMS(Args) Args
 # else
 #  define PARAMS(Args) ()
 # endif
 #endif
 
-typedef unsigned long (*hash_func_t) PARAMS((void const *key));
-typedef int (*hash_cmp_func_t) PARAMS((void const *x, void const *y));
-typedef void (*hash_map_func_t) PARAMS((void const *item));
+typedef unsigned (*Hash_hasher) PARAMS ((const void *, unsigned));
+typedef bool (*Hash_comparator) PARAMS ((const void *, const void *));
+typedef void (*Hash_data_freer) PARAMS ((void *));
+typedef bool (*Hash_processor) PARAMS ((void *, void *));
+
+struct hash_entry
+  {
+    void *data;
+    struct hash_entry *next;
+  };
+
+struct hash_tuning
+  {
+    /* This structure is mainly used for `hash_initialize', see the block
+       documentation of `hash_reset_tuning' for more complete comments.  */
+
+    float shrink_threshold;	/* ratio of used buckets to trigger a shrink */
+    float shrink_factor;	/* ratio of new smaller size to original size */
+    float growth_threshold;	/* ratio of used buckets to trigger a growth */
+    float growth_factor;	/* ratio of new bigger size to original size */
+    bool is_n_buckets;		/* if CANDIDATE really means table size */
+  };
+
+typedef struct hash_tuning Hash_tuning;
 
 struct hash_table
-{
-  void **ht_vec;
-  unsigned long ht_size;	/* total number of slots (power of 2) */
-  unsigned long ht_capacity;	/* usable slots, limited by loading-factor */
-  unsigned long ht_fill;	/* items in table */
-  unsigned long ht_collisions;	/* # of failed calls to comparison function */
-  unsigned long ht_lookups;	/* # of queries */
-  unsigned int ht_rehashes;	/* # of times we've expanded table */
-  hash_func_t ht_hash_1;	/* primary hash function */
-  hash_func_t ht_hash_2;	/* secondary hash function */
-  hash_cmp_func_t ht_compare;	/* comparison function */
-};
+  {
+    /* The array of buckets starts at BUCKET and extends to BUCKET_LIMIT-1,
+       for a possibility of N_BUCKETS.  Among those, N_BUCKETS_USED buckets
+       are not empty, there are N_ENTRIES active entries in the table.  */
+    struct hash_entry *bucket;
+    struct hash_entry *bucket_limit;
+    unsigned n_buckets;
+    unsigned n_buckets_used;
+    unsigned n_entries;
 
-typedef int (*qsort_cmp_t) PARAMS((void const *, void const *));
+    /* Tuning arguments, kept in a physicaly separate structure.  */
+    const Hash_tuning *tuning;
 
-void hash_init PARAMS((struct hash_table *ht, unsigned long size,
-		       hash_func_t hash_1, hash_func_t hash_2, hash_cmp_func_t hash_cmp));
-void hash_load PARAMS((struct hash_table *ht, void *item_table,
-		       unsigned long cardinality, unsigned long size));
-void **hash_find_slot PARAMS((struct hash_table *ht, void const *key));
-void *hash_find_item PARAMS((struct hash_table *ht, void const *key));
-const void *hash_insert PARAMS((struct hash_table *ht, void *item));
-const void *hash_insert_at PARAMS((struct hash_table *ht, void *item, void const *slot));
-const void *hash_delete PARAMS((struct hash_table *ht, void const *item));
-const void *hash_delete_at PARAMS((struct hash_table *ht, void const *slot));
-void hash_delete_items PARAMS((struct hash_table *ht));
-void hash_free_items PARAMS((struct hash_table *ht));
-void hash_free PARAMS((struct hash_table *ht, int free_items));
-void hash_map PARAMS((struct hash_table *ht, hash_map_func_t map));
-void hash_print_stats PARAMS((struct hash_table *ht, FILE *out_FILE));
-void **hash_dump PARAMS((struct hash_table *ht, void **vector_0, qsort_cmp_t compare));
+    /* Three functions are given to `hash_initialize', see the documentation
+       block for this function.  In a word, HASHER randomizes a user entry
+       into a number up from 0 up to some maximum minus 1; COMPARATOR returns
+       true if two user entries compare equally; and DATA_FREER is the cleanup
+       function for a user entry.  */
+    Hash_hasher hasher;
+    Hash_comparator comparator;
+    Hash_data_freer data_freer;
 
-extern void *hash_deleted_item;
-#define HASH_VACANT(item) \
-   ((item) == 0 || (const void *) (item) == hash_deleted_item)
+    /* A linked list of freed struct hash_entry structs.  */
+    struct hash_entry *free_entry_list;
 
-
-/* hash and comparison macros for string keys. */
+#if USE_OBSTACK
+    /* Whenever obstacks are used, it is possible to allocate all overflowed
+       entries into a single stack, so they all can be freed in a single
+       operation.  It is not clear if the speedup is worth the trouble.  */
+    struct obstack entry_stack;
+#endif
+  };
 
-#define STRING_HASH_1(_key_, _result_) { \
-  unsigned char const *kk = (unsigned char const *) (_key_) - 1; \
-  while (*++kk) \
-    (_result_) += (*kk << (kk[1] & 0xf)); \
-} while (0)
-#define return_STRING_HASH_1(_key_) do { \
-  unsigned long result = 0; \
-  STRING_HASH_1 ((_key_), result); \
-  return result; \
-} while (0)
+typedef struct hash_table Hash_table;
 
-#define STRING_HASH_2(_key_, _result_) do { \
-  unsigned char const *kk = (unsigned char const *) (_key_) - 1; \
-  while (*++kk) \
-    (_result_) += (*kk << (kk[1] & 0x7)); \
-} while (0)
-#define return_STRING_HASH_2(_key_) do { \
-  unsigned long result = 0; \
-  STRING_HASH_2 ((_key_), result); \
-  return result; \
-} while (0)
+/* Information and lookup.  */
+unsigned hash_get_n_buckets PARAMS ((const Hash_table *));
+unsigned hash_get_n_buckets_used PARAMS ((const Hash_table *));
+unsigned hash_get_n_entries PARAMS ((const Hash_table *));
+unsigned hash_get_max_bucket_length PARAMS ((const Hash_table *));
+bool hash_table_ok PARAMS ((const Hash_table *));
+void hash_print_statistics PARAMS ((const Hash_table *, FILE *));
+void *hash_lookup PARAMS ((const Hash_table *, const void *));
 
-#define STRING_COMPARE(_x_, _y_, _result_) do { \
-  unsigned char const *xx = (unsigned char const *) (_x_) - 1; \
-  unsigned char const *yy = (unsigned char const *) (_y_) - 1; \
-  do { \
-    if (*++xx == '\0') { \
-      yy++; \
-      break; \
-    } \
-  } while (*xx == *++yy); \
-  (_result_) = *xx - *yy; \
-} while (0)
-#define return_STRING_COMPARE(_x_, _y_) do { \
-  int result; \
-  STRING_COMPARE (_x_, _y_, result); \
-  return result; \
-} while (0)
+/* Walking.  */
+void *hash_get_first PARAMS ((const Hash_table *));
+void *hash_get_next PARAMS ((const Hash_table *, const void *));
+unsigned hash_get_entries PARAMS ((const Hash_table *, void **, unsigned));
+unsigned hash_do_for_each PARAMS ((const Hash_table *, Hash_processor, void *));
 
-/* hash and comparison macros for integer keys. */
+/* Allocation and clean-up.  */
+unsigned hash_string PARAMS ((const char *, unsigned));
+void hash_reset_tuning PARAMS ((Hash_tuning *));
+Hash_table *hash_initialize PARAMS ((unsigned, const Hash_tuning *,
+				     Hash_hasher, Hash_comparator,
+				     Hash_data_freer));
+void hash_clear PARAMS ((Hash_table *));
+void hash_free PARAMS ((Hash_table *));
 
-#define INTEGER_HASH_1(_key_, _result_) do { \
-  (_result_) += ((unsigned long)(_key_)); \
-} while (0)
-#define return_INTEGER_HASH_1(_key_) do { \
-  unsigned long result = 0; \
-  INTEGER_HASH_1 ((_key_), result); \
-  return result; \
-} while (0)
-
-#define INTEGER_HASH_2(_key_, _result_) do { \
-  (_result_) += ~((unsigned long)(_key_)); \
-} while (0)
-#define return_INTEGER_HASH_2(_key_) do { \
-  unsigned long result = 0; \
-  INTEGER_HASH_2 ((_key_), result); \
-  return result; \
-} while (0)
-
-#define INTEGER_COMPARE(_x_, _y_, _result_) do { \
-  (_result_) = _x_ - _y_; \
-} while (0)
-#define return_INTEGER_COMPARE(_x_, _y_) do { \
-  int result; \
-  INTEGER_COMPARE (_x_, _y_, result); \
-  return result; \
-} while (0)
-
-/* hash and comparison macros for address keys. */
-
-#define ADDRESS_HASH_1(_key_, _result_) INTEGER_HASH_1 (((unsigned long)(_key_)) >> 3, (_result_))
-#define ADDRESS_HASH_2(_key_, _result_) INTEGER_HASH_2 (((unsigned long)(_key_)) >> 3, (_result_))
-#define ADDRESS_COMPARE(_x_, _y_, _result_) INTEGER_COMPARE ((_x_), (_y_), (_result_))
-#define return_ADDRESS_HASH_1(_key_) return_INTEGER_HASH_1 (((unsigned long)(_key_)) >> 3)
-#define return_ADDRESS_HASH_2(_key_) return_INTEGER_HASH_2 (((unsigned long)(_key_)) >> 3)
-#define return_ADDRESS_COMPARE(_x_, _y_) return_INTEGER_COMPARE ((_x_), (_y_))
-
-#endif /* not _hash_h_ */
+/* Insertion and deletion.  */
+bool hash_rehash PARAMS ((Hash_table *, unsigned));
+void *hash_insert PARAMS ((Hash_table *, const void *));
+void *hash_delete PARAMS ((Hash_table *, const void *));

@@ -1,5 +1,12 @@
 2002-02-05  Akim Demaille  <akim@epita.fr>
 
+	* lib/hash.c, lib/hash.h: Replace with Fileutils 4.1's version.
+	* configure.in: Check for the declarations of free and malloc.
+	* src/muscle_tab.c: Adjust.
+
+	
+2002-02-05  Akim Demaille  <akim@epita.fr>
+
 	* src/muscle_tab.c (muscle_init): Don't default to NULL muscle
 	which have no values.
 
