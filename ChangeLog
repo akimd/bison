@@ -1,3 +1,10 @@
+2001-08-31  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/reader.c (reader): Delete obsolete call to function 
+	output_trailers and output_headers.
+	* src/output.h: Remove obsolete functions prototypes of output_headers
+	and output_trailers.
+
 2001-08-30  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/main.c: Include macrotab.h.

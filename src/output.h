@@ -21,12 +21,6 @@
 #ifndef OUTPUT_H_
 # define OUTPUT_H_
 
-/* Output constant strings to the beginning of certain files.  */
-void output_headers PARAMS ((void));
-
-/* Output constant strings to the ends of certain files.  */
-void output_trailers PARAMS ((void));
-
 /* Output the parsing tables and the parser code to FTABLE.  */
 void output PARAMS ((void));
 
