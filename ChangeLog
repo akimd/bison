@@ -1,5 +1,15 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* configure.in: Check the protos of strchr ans strspn.
+	Replace strchr if needed.
+	* src/system.h: Provide the protos of strchr, strspn and memchr if
+	missing.
+	* lib/strchr.c: New.
+	* src/reader.c (symbols_save): Use strchr.
+
+	
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	* src/print.c, src/print_graph.c (escape): New.
 	Use it to quote the TAGS outputs.
 	* src/print_graph.c (print_state): Now errors are in red, and
