@@ -1,4 +1,4 @@
 @set UPDATED 5 January 2002
 @set UPDATED-MONTH January 2002
-@set EDITION 1.30k
-@set VERSION 1.30k
+@set EDITION 1.30l
+@set VERSION 1.30l

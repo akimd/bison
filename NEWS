@@ -1,6 +1,11 @@
 Bison News
 ----------
 
+Changes in version 1.30l:
+
+* Package fixes
+  Missing portability files.
+
 Changes in version 1.30k:
 
 * Portability
