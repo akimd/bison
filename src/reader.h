@@ -21,25 +21,7 @@
 #ifndef READER_H_
 # define READER_H_
 
-# include "location.h"
-
-typedef struct symbol_list
-{
-  struct symbol_list *next;
-  symbol_t *sym;
-  location_t location;
-
-  /* The action is attached to the LHS of a rule. */
-  const char *action;
-  location_t action_location;
-
-  symbol_t *ruleprec;
-} symbol_list;
-
-symbol_list *symbol_list_new PARAMS ((symbol_t *sym, location_t location));
-symbol_list *symbol_list_prepend PARAMS ((symbol_list *list,
-					  symbol_t *sym, location_t location));
-
+# include "symlist.h"
 # include "parse-gram.h"
 
 typedef struct gram_control_s
@@ -66,7 +48,6 @@ void gram_error (gram_control_t *control,
 		 location_t *loc, const char *msg);
 int gram_parse (void *control);
 
-char *get_type_name PARAMS ((int n, symbol_list *rule));
 extern int typed;
 
 /* From reader.c. */
@@ -82,7 +63,7 @@ void grammar_current_rule_symbol_append PARAMS ((symbol_t *symbol,
 						 location_t l));
 void grammar_current_rule_action_append PARAMS ((const char *action,
 						 location_t l));
-extern symbol_list *current_rule;
+extern symbol_list_t *current_rule;
 void reader PARAMS ((void));
 
 #endif /* !READER_H_ */

@@ -34,6 +34,7 @@
 #include "files.h"
 #include "getargs.h"
 #include "output.h"
+#include "symlist.h"
 #include "gram.h"
 #include "reader.h"
 #include "conflicts.h"
@@ -88,7 +89,7 @@ int current_prec = 0;
 %union
 {
   symbol_t *symbol;
-  symbol_list *list;
+  symbol_list_t *list;
   int integer;
   char *string;
   associativity assoc;
@@ -214,24 +215,24 @@ symbol_declaration:
     }
 | "%type" TYPE symbols.1
     {
-      symbol_list *list;
+      symbol_list_t *list;
       for (list = $3; list; list = list->next)
 	symbol_type_set (list->sym, list->location, $2);
-      LIST_FREE (symbol_list, $3);
+      LIST_FREE (symbol_list_t, $3);
     }
 ;
 
 precedence_declaration:
   precedence_declarator type.opt symbols.1
     {
-      symbol_list *list;
+      symbol_list_t *list;
       ++current_prec;
       for (list = $3; list; list = list->next)
 	{
 	  symbol_type_set (list->sym, list->location, current_type);
 	  symbol_precedence_set (list->sym, list->location, current_prec, $1);
 	}
-      LIST_FREE (symbol_list, $3);
+      LIST_FREE (symbol_list_t, $3);
       current_type = NULL;
     }
 ;

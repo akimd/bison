@@ -1,5 +1,17 @@
 2002-06-17  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.h, src/reader.c (symbol_list, symbol_list_new)
+	(symbol_list_prepend, get_type_name): Move to...
+	* src/symlist.h, src/symlist.c (symbol_list_t, symbol_list_new)
+	(symbol_list_prepend, symbol_list_n_type_name_get): here.
+	Adjust all callers.
+	(symbol_list_free): New.
+	* src/scan-gram.l (handle_dollar): Takes a location.
+	* tests/input.at (Invalid $n): Adjust.
+
+	
+2002-06-17  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.h, src/reader.c (symbol_list_new): Export it.
 	(symbol_list_prepend): New.
 	* src/parse-gram.y (%union): `list' is a new member.

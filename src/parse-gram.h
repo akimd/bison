@@ -93,10 +93,10 @@
 
 
 #ifndef YYSTYPE
-#line 89 "parse-gram.y"
+#line 90 "parse-gram.y"
 typedef union {
   symbol_t *symbol;
-  symbol_list *list;
+  symbol_list_t *list;
   int integer;
   char *string;
   associativity assoc;
