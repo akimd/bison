@@ -58,7 +58,6 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 AMTAR = @AMTAR@
-AT_TESTPATH = @AT_TESTPATH@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
@@ -67,9 +66,6 @@ CC = @CC@
 CPP = @CPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
-ECHO_C = @ECHO_C@
-ECHO_N = @ECHO_N@
-ECHO_T = @ECHO_T@
 EXEEXT = @EXEEXT@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
@@ -158,7 +154,7 @@ $(top_builddir)/config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure:  $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-$(ACLOCAL_M4):  configure.in m4/atconfig.m4 m4/c-bs-a.m4 m4/codeset.m4 m4/error.m4 m4/gettext.m4 m4/glibc21.m4 m4/iconv.m4 m4/isc-posix.m4 m4/lcmessage.m4 m4/m4.m4 m4/malloc.m4 m4/mbstate_t.m4 m4/prereq.m4 m4/progtest.m4 m4/realloc.m4 m4/strerror_r.m4 m4/warning.m4
+$(ACLOCAL_M4):  configure.in m4/c-bs-a.m4 m4/codeset.m4 m4/error.m4 m4/gettext.m4 m4/glibc21.m4 m4/iconv.m4 m4/isc-posix.m4 m4/lcmessage.m4 m4/m4.m4 m4/malloc.m4 m4/mbstate_t.m4 m4/prereq.m4 m4/progtest.m4 m4/realloc.m4 m4/strerror_r.m4 m4/warning.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 config.h: stamp-h
 	@if test ! -f $@; then \
@@ -297,7 +293,7 @@ distdir: $(DISTFILES)
 	fi
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/intl $(distdir)/po $(distdir)/tests
+	$(mkinstalldirs) $(distdir)/intl $(distdir)/po
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

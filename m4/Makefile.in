@@ -58,7 +58,6 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 AMTAR = @AMTAR@
-AT_TESTPATH = @AT_TESTPATH@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
@@ -67,9 +66,6 @@ CC = @CC@
 CPP = @CPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
-ECHO_C = @ECHO_C@
-ECHO_N = @ECHO_N@
-ECHO_T = @ECHO_T@
 EXEEXT = @EXEEXT@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
@@ -101,7 +97,6 @@ am__quote = @am__quote@
 install_sh = @install_sh@
 
 EXTRA_DIST = \
-atconfig.m4					\
 c-bs-a.m4					\
 codeset.m4					\
 error.m4					\

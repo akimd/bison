@@ -13,8 +13,6 @@
 
 @SET_MAKE@
 
-# Distribute the testsuite since GNU M4 is needed to build it.
-
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -60,7 +58,6 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 AMTAR = @AMTAR@
-AT_TESTPATH = @AT_TESTPATH@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
@@ -69,9 +66,6 @@ CC = @CC@
 CPP = @CPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
-ECHO_C = @ECHO_C@
-ECHO_N = @ECHO_N@
-ECHO_T = @ECHO_T@
 EXEEXT = @EXEEXT@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
@@ -102,23 +96,25 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_SCRIPTS = testsuite
+EXTRA_DIST = atlocal.in bison $(TESTSUITE_AT) testsuite
 
-SUITE = calc.at regression.at
+DISTCLEANFILES = atconfig atlocal
+MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
-EXTRA_DIST = atgeneral.m4 suite.at $(SUITE) $(noinst_SCRIPTS)
+TESTSUITE_AT = \
+	testsuite.at \
+	output.at calc.at regression.at
 
-CLEANFILES = debug-*.sh empty
-DISTCLEANFILES = atconfig
-MAINTAINERCLEANFILES = testsuite
+TESTSUITE = $(srcdir)/testsuite
+
+AUTOM4TE = autom4te
+AUTOTEST = $(AUTOM4TE) --language=autotest
 subdir = tests
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = atconfig
-SCRIPTS = $(noinst_SCRIPTS)
-
+CONFIG_CLEAN_FILES =
 DIST_SOURCES =
-DIST_COMMON = Makefile.am Makefile.in atconfig.in
+DIST_COMMON = Makefile.am Makefile.in
 all: all-am
 
 .SUFFIXES:
@@ -129,8 +125,6 @@ Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
-atconfig: $(top_builddir)/config.status atconfig.in
-	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 uninstall-info-am:
 tags: TAGS
 TAGS:
@@ -160,7 +154,7 @@ distdir: $(DISTFILES)
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: check-am
-all-am: Makefile $(SCRIPTS)
+all-am: Makefile
 
 installdirs:
 
@@ -180,7 +174,6 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
-	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
@@ -192,7 +185,7 @@ maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-am
 
-clean-am: clean-generic mostlyclean-am
+clean-am: clean-generic clean-local mostlyclean-am
 
 distclean: distclean-am
 
@@ -214,7 +207,7 @@ install-info: install-info-am
 
 install-man:
 
-installcheck-am:
+installcheck-am: installcheck-local
 
 maintainer-clean: maintainer-clean-am
 
@@ -227,23 +220,33 @@ mostlyclean-am: mostlyclean-generic
 uninstall-am: uninstall-info-am
 
 .PHONY: all all-am check check-am check-local clean clean-generic \
-	distclean distclean-generic distdir dvi dvi-am info info-am \
-	install install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic uninstall uninstall-am uninstall-info-am
+	clean-local distclean distclean-generic distdir dvi dvi-am info \
+	info-am install install-am install-data install-data-am \
+	install-exec install-exec-am install-info install-info-am \
+	install-man install-strip installcheck installcheck-am \
+	installcheck-local installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	uninstall uninstall-am uninstall-info-am
 
+$(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
+	$(AUTOTEST) -I $(srcdir) testsuite.at -o $@.tmp
+	mv $@.tmp $@
 
-check-local: atconfig $(srcdir)/testsuite
-	$(SHELL) $(srcdir)/testsuite
+atconfig: $(top_builddir)/config.status
+	cd $(top_builddir) && ./config.status tests/$@
 
-testsuite: atgeneral.m4 suite.at $(SUITE)
-	$(M4) -I $(srcdir) atgeneral.m4 suite.at | \
-          sed -e 's/[ 	]*$$//' | \
-	  sed -e '/^$$/N;/\n$$/D' > $@-tmp
-	chmod +x $@-tmp
-	mv $@-tmp $@
+atlocal: $(srcdir)/atlocal.in $(top_builddir)/config.status
+	cd $(top_builddir) && ./config.status tests/$@
+
+clean-local:
+	$(SHELL) $(TESTSUITE) --clean
+
+check-local: atconfig atlocal $(TESTSUITE)
+	$(SHELL) $(TESTSUITE)
+
+# Run the test suite on the *installed* tree.
+installcheck-local:
+	$(SHELL) $(TESTSUITE) AUTOTEST_PATH=$(exec_prefix)/bin
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
