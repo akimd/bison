@@ -251,29 +251,37 @@ yyparse(YYPARSE_PARAM_ARG)
 {
   register int yystate;
   register int yyn;
-  register short *yyssp;
-  register YYSTYPE *yyvsp;
   /* Number of tokens to shift before error messages enabled.  */
   int yyerrstatus;
   /* Lookahead token as an internal (translated) token number.  */
   int yychar1 = 0;
 
+  /* Three stacks and their tools:
+     `yyss': related to states,
+     `yysv': related to semantic values,
+     `yyls': related to locations.
+
+     Refer to the stacks thru separate pointers, to allow yyoverflow
+     to reallocate them elsewhere.  */
+
   /* The state stack. */
   short	yyssa[YYINITDEPTH];
+  short *yyss = yyssa;
+  register short *yyssp;
+
   /* The semantic value stack.  */
   YYSTYPE yyvsa[YYINITDEPTH];
-
-  /* Refer to the stacks thru separate pointers.  */
-  short *yyss = yyssa;
-  /* To allow yyoverflow to reallocate them elsewhere.  */
   YYSTYPE *yyvs = yyvsa;
+  register YYSTYPE *yyvsp;
 
 #ifdef YYLSP_NEEDED
   /* The location stack.  */
   YYLTYPE yylsa[YYINITDEPTH];
   YYLTYPE *yyls = yylsa;
   YYLTYPE *yylsp;
+#endif
 
+#ifdef YYLSP_NEEDED
 # define YYPOPSTACK   (yyvsp--, yyssp--, yylsp--)
 #else
 # define YYPOPSTACK   (yyvsp--, yyssp--)
@@ -291,9 +299,10 @@ yyparse(YYPARSE_PARAM_ARG)
 # endif
 #endif
 
-  YYSTYPE yyval;		/*  the variable used to return		*/
-				/*  semantic values from the action	*/
-				/*  routines				*/
+
+  /* The variable used to return semantic values from the action
+     routines.  */
+  YYSTYPE yyval;
 
   int yylen;
 
@@ -344,16 +353,16 @@ yynewstate:
 # ifdef YYLSP_NEEDED
       /* This used to be a conditional around just the two extra args,
 	 but that might be undefined if yyoverflow is a macro.  */
-      yyoverflow("parser stack overflow",
-		 &yyss1, size * sizeof (*yyssp),
-		 &yyvs1, size * sizeof (*yyvsp),
-		 &yyls1, size * sizeof (*yylsp),
-		 &yystacksize);
+      yyoverflow ("parser stack overflow",
+		  &yyss1, size * sizeof (*yyssp),
+		  &yyvs1, size * sizeof (*yyvsp),
+		  &yyls1, size * sizeof (*yylsp),
+		  &yystacksize);
 # else
-      yyoverflow("parser stack overflow",
-		 &yyss1, size * sizeof (*yyssp),
-		 &yyvs1, size * sizeof (*yyvsp),
-		 &yystacksize);
+      yyoverflow ("parser stack overflow",
+		  &yyss1, size * sizeof (*yyssp),
+		  &yyvs1, size * sizeof (*yyvsp),
+		  &yystacksize);
 # endif
 
       yyss = yyss1; yyvs = yyvs1;

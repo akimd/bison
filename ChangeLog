@@ -1,5 +1,10 @@
 2000-03-16  Akim Demaille  <akim@epita.fr>
 
+	* src/bison.s1 (yyparse): Reorganize the definitions of the stacks
+	and related variables so that the similarities are highlighted.
+
+2000-03-16  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.s1: Properly indent CPP directives.
 
 2000-03-16  Akim Demaille  <akim@epita.fr>
