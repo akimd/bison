@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-06-30 19:37+0200\n"
+"POT-Creation-Date: 2002-07-01 18:45+0200\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -419,22 +419,22 @@ msgstr[1] "%d nutteloze regels"
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Startsymbool %s wordt vanuit geen enkele zin bereikt"
 
-#: scan-gram.l:559
+#: scan-gram.l:560
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ van `%s' heeft geen gedeclareerd type"
 
-#: scan-gram.l:576 scan-gram.l:663
+#: scan-gram.l:577 scan-gram.l:664
 #, fuzzy, c-format
 msgid "invalid value: %s%d"
 msgstr "ongeldige @-waarde"
 
-#: scan-gram.l:583
+#: scan-gram.l:584
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d van `%s' heeft geen gedeclareerd type"
 
-#: scan-gram.l:594 scan-gram.l:611 scan-gram.l:670 scan-gram.l:687
+#: scan-gram.l:595 scan-gram.l:612 scan-gram.l:671 scan-gram.l:688
 #, c-format
 msgid "%s is invalid"
 msgstr "%s is ongeldig"
