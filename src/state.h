@@ -1,5 +1,5 @@
 /* Type definitions for nondeterministic finite state machine for bison,
-   Copyright 1984, 1989, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 2000, 2001 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -123,6 +123,9 @@ typedef struct shifts
 #define SHIFTS_ALLOC(Nshifts)						\
   (shifts *) xcalloc ((unsigned) (sizeof (shifts) 			\
                                   + (Nshifts - 1) * sizeof (short)), 1)
+
+shifts * shifts_new PARAMS ((int n));
+
 
 /* What is the symbol which is shifted by SHIFTS->shifts[Shift]?  Can
    be a token (amongst which the error token), or non terminals in
