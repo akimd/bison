@@ -5182,6 +5182,13 @@ structure should generally be adequate.  On @acronym{LALR}(1) portions of a
 grammar, in particular, it is only slightly slower than with the default
 Bison parser.
 
+For a more detailed exposition of GLR parsers, please see: Elizabeth
+Scott, Adrian Johnstone and Shamsa Sadaf Hussain, Tomita-Style
+Generalised @acronym{LR} Parsers, Royal Holloway, University of
+London, Department of Computer Science, TR-00-12,
+@uref{http://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_1.ps},
+(2000-12-24).
+
 @node Stack Overflow
 @section Stack Overflow, and How to Avoid It
 @cindex stack overflow
