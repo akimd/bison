@@ -8,16 +8,17 @@ Check and cleanup for CPP-out code.	[]
 Remove %%verbose which is useless.	[ok]
 
 * Broken options.
-%no-lines	[]
-%no-parser	[]
-%pure-parser ?	[]
-%semantic-parser	[]
-%token-table	[]
-** which could use parse_dquoted_param ().
-%skeleton	[ok]
-%output		[]
-%file-prefix	[]
-%name-prefix	[]
+** %no-lines		[]
+** %no-parser		[]
+** %pure-parser ?	[]
+** %semantic-parser	[]
+** %token-table		[]
+** Options which could use parse_dquoted_param ().
+Maybe transfered in lex.c.
+*** %skeleton		[ok]
+*** %output		[]
+*** %file-prefix	[]
+*** %name-prefix	[]
 
 Cleanup dirty CPP-out code.	[]
 ** Output sub-skeleton files.	[]
@@ -36,9 +37,10 @@ Add explainations about skeleton muscles.	[]
 Add explainations about %skeleton.	[]
 
 * testsuite.
+** tests/reduce.at	[]
 ** tests/calc.at
-Remove --yyerror-verbose.	[]
+Remove --yyerror-verbose.	[ok]
 ** tests/torture.at
 Remove --yyerror-verbose.	[ok]
 ** tests/calc.at
-Test --error-verbose.	[]
+Test --error-verbose.	[ok]
