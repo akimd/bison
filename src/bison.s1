@@ -192,6 +192,7 @@ __yy_bcopy (char *from, char *to, int count)
 #define YYPARSE_PARAM_DECL void *YYPARSE_PARAM;
 #else
 #define YYPARSE_PARAM
+#define YYPARSE_PARAM_DECL
 #endif
 
 int
@@ -475,7 +476,7 @@ yyreduce:
 #endif
 
 $   /* the action file gets copied in in place of this dollarsign */
-#line 479 "bison.simple"
+#line 480 "bison.simple"
 
   yyvsp -= yylen;
   yyssp -= yylen;
