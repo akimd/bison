@@ -123,6 +123,9 @@ state 4
 
     OP  	shift, and go to state 3
 
+    OP  	[reduce using rule 1 (exp)]
+    $default	reduce using rule 1 (exp)
+
 
 
 state 5

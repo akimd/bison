@@ -1,5 +1,12 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (print_reductions): Accept OUT as argument.
+	Output to it, not to output_obstack.
+	* src/print.c (print_actions): Adjust.
+
+	
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	* src/conflicts.c (count_sr_conflicts, count_rr_conflicts): Return
 	the result instead of using...
 	(src_total, rrc_total, src_count, rrc_count): Remove.
