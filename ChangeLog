@@ -1,3 +1,7 @@
+2003-01-01  Paul Eggert  <eggert@twinsun.com>
+
+	* Version 1.875.
+
 2002-12-30  Paul Eggert  <eggert@twinsun.com>
 
 	* src/scan-gram.l (<INITIAL,SC_AFTER_IDENTIFIER,SC_PRE_CODE>","):
@@ -5,7 +9,7 @@
 	(<INITIAL>","): Here.  This causes stray "," to be treated
 	more uniformly.
 
-	* src/scan-gram.l (<SC_BRACED_CODE>"}"): Append ";" before the
+	* src/scan-gram.l (<SC_BRACED_CODE>"}"): Output ";" before the
 	last brace in braced code when not in Yacc mode, for compatibility
 	with Bison 1.35.  This resurrects the 2001-12-15 patch to
 	src/reader.c.
@@ -174,7 +178,7 @@
 	(token_type): New local var, to keep track of which token type
 	to return when scanning braced code.
 	(<INITIAL>"%destructor", <INITIAL>"%lex-param",
-	<INITIAL>"%parse-param", <INITIAL>"%printer,
+	<INITIAL>"%parse-param", <INITIAL>"%printer",
 	<INITIAL>"%union"): Set token type and BEGIN SC_PRE_CODE
 	instead of returning a token type immediately.
 	(<INITIAL>"{"): Set token type.
@@ -10607,10 +10611,11 @@
 1987-12-16  Richard Stallman  <rms@gnu.org>
 
 	* REFERENCES: entered into RCS
+
 -----
 
 Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
-1998, 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+1998, 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 

@@ -1,105 +1,93 @@
 Bison News
 ----------
 
-Changes in version 1.75f, 2002-12-28:
-
-* In Yacc-style parsers YYLLOC_DEFAULT is now used to compute error
-  locations too.  This fixes bugs in error-location computation.
-
-* Bison now uses a Yacc-style format for conflict reports, e.g.,
-  "conflicts: 2 shift/reduce, 1 reduce/reduce".
-
-* Bison now warns if it detects conflicting outputs to the same file,
-  e.g., it generates a warning for "bison -d -o foo.h foo.y" since
-  that command outputs both code and header to foo.h.
-
-Changes in version 1.75e, 2002-12-24:
-
-* If the user does not define YYSTYPE as a macro, Bison now declares it
-  using typedef instead of defining it as a macro.  POSIX requires this.
-  For consistency, YYLTYPE is also declared instead of defined.
-
-* %union directives can now have a tag before the `{', e.g., the
-  directive `%union foo {...}' now generates the C code
-  `typedef union foo { ... } YYSTYPE;'; this is for Yacc compatibility.
-  The default union tag is `YYSTYPE', for compatibility with Solaris 9 Yacc.
-  For consistency, YYLTYPE's struct tag is now `YYLTYPE' instead of `yyltype'.
-
-* `yystype' and `yyltype' are now obsolescent macros instead of being
-  typedefs or tags; they are no longer documented and will be
-  withdrawn in a future release.
-
-* References to the experimental %lex-param and %parse-param directives
-  have been temporarily removed from the manual, since we don't want
-  users to rely upon these features quite yet.
-
-Changes in version 1.75d, 2002-12-13:
-
-* Semicolons are once again optional at the end of grammar rules.
-  This reverts to the behavior of Bison 1.33 and earlier, and improves
-  compatibility with Yacc.
-
-* Type clashes now generate warnings, not errors.
-
-* Yacc command and library now available
-  The Bison distribution now installs a yacc command, as POSIX requires.
-  Also, Bison now installs a small library liby.a containing
-  implementations of Yacc-compatible yyerror and main functions.
-  This library is normally not useful, but POSIX requires it.
-
-* %lex-param, %parse-param
-  These now take just one operand, not two.
-
-* The documentation now emphasizes that yylex and yyerror must be
-  declared before use.  C99 requires this.
+Changes in version 1.875, 2003-01-01:
 
 * The documentation license has been upgraded to version 1.2
   of the GNU Free Documentation License.
 
-Changes in version 1.75c, 2002-11-25:
+* syntax error processing
 
-* "parse error" -> "syntax error"
-  Bison now uniformly uses the term "syntax error"; formerly, the code
-  and manual sometimes used the term "parse error" instead.  POSIX
-  requires "syntax error" in diagnostics, and it was thought better to
-  be consistent.
+  - In Yacc-style parsers YYLLOC_DEFAULT is now used to compute error
+    locations too.  This fixes bugs in error-location computation.
 
-* "parsing stack overflow..." -> "parser stack overflow"
-  GLR parsers now report "parser stack overflow" as per the Bison manual.
+  - %destructor
+    It is now possible to reclaim the memory associated to symbols
+    discarded during error recovery.  This feature is still experimental.
 
-* GLR and inline
-  Users of Bison have to decide how they handle the portability of the
-  C keyword `inline'.
+  - %error-verbose
+    This new directive is preferred over YYERROR_VERBOSE.
 
-Changes in version 1.75b, 2002-11-13:
+  - #defining yyerror to steal internal variables is discouraged.
+    It is not guaranteed to work forever.
 
-* %destructor
-  It is now possible to reclaim the memory associated to symbols
-  discarded during error recovery.  This feature is still experimental.
+* POSIX conformance
 
-* Bison now parses C99 lexical constructs like UCNs and
-  backslash-newline within C escape sequences, as POSIX 1003.1-2001 requires.
+  - Semicolons are once again optional at the end of grammar rules.
+    This reverts to the behavior of Bison 1.33 and earlier, and improves
+    compatibility with Yacc.
 
-* --no-line works properly.
+  - `parse error' -> `syntax error'
+    Bison now uniformly uses the term `syntax error'; formerly, the code
+    and manual sometimes used the term `parse error' instead.  POSIX
+    requires `syntax error' in diagnostics, and it was thought better to
+    be consistent.
 
-* %error-verbose
-  This new directive is preferred over YYERROR_VERBOSE.
+  - The documentation now emphasizes that yylex and yyerror must be
+    declared before use.  C99 requires this.
 
-* %lex-param, %parse-param
-  These new directives are preferred over PARSE_PARAM and LEX_PARAM.
-  In addition, they provide a means for yyerror to remain pure, and
-  to access to the current location.
+  - Bison now parses C99 lexical constructs like UCNs and
+    backslash-newline within C escape sequences, as POSIX 1003.1-2001 requires.
 
-  #defining yyerror to steal internal variables is strongly
-  discouraged.  It is not guaranteed to work for ever.
+  - File names are properly escaped in C output.  E.g., foo\bar.y is
+    output as "foo\\bar.y".
 
-* #line
-  Bison now recognizes #line in its input, and forwards them.
+  - Yacc command and library now available
+    The Bison distribution now installs a `yacc' command, as POSIX requires.
+    Also, Bison now installs a small library liby.a containing
+    implementations of Yacc-compatible yyerror and main functions.
+    This library is normally not useful, but POSIX requires it.
 
-* #line
-  File names are properly escaped. E.g. foo\bar.y give #line 123 "foo\\bar.y".
+  - Type clashes now generate warnings, not errors.
 
-Changes in version 1.75a, 2002-10-24:
+  - If the user does not define YYSTYPE as a macro, Bison now declares it
+    using typedef instead of defining it as a macro.
+    For consistency, YYLTYPE is also declared instead of defined.
+
+* Other compatibility issues
+
+  - %union directives can now have a tag before the `{', e.g., the
+    directive `%union foo {...}' now generates the C code
+    `typedef union foo { ... } YYSTYPE;'; this is for Yacc compatibility.
+    The default union tag is `YYSTYPE', for compatibility with Solaris 9 Yacc.
+    For consistency, YYLTYPE's struct tag is now `YYLTYPE' not `yyltype'.
+    This is for compatibility with both Yacc and Bison 1.35.
+
+  - `;' is output before the terminating `}' of an action, for
+    compatibility with Bison 1.35.
+
+  - Bison now uses a Yacc-style format for conflict reports, e.g.,
+    `conflicts: 2 shift/reduce, 1 reduce/reduce'.
+
+  - `yystype' and `yyltype' are now obsolescent macros instead of being
+    typedefs or tags; they are no longer documented and are planned to be
+    withdrawn in a future release.
+
+* GLR parser notes
+
+  - GLR and inline
+    Users of Bison have to decide how they handle the portability of the
+    C keyword `inline'.
+
+  - `parsing stack overflow...' -> `parser stack overflow'
+    GLR parsers now report `parser stack overflow' as per the Bison manual.
+
+* Bison now warns if it detects conflicting outputs to the same file,
+  e.g., it generates a warning for `bison -d -o foo.h foo.y' since
+  that command outputs both code and header to foo.h.
+
+* #line in output files
+  - --no-line works properly.
 
 * Bison can no longer be built by a K&R C compiler; it requires C89 or
   later to be built.  This change originally took place a few versions
@@ -540,8 +528,8 @@ End:
 
 -----
 
-Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002 Free
-Software Foundation, Inc.
+Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
+Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 
