@@ -1,6 +1,7 @@
 Makefile
-at-check-line
-at-setup-line
+Makefile.in
+at-*
+debug-*
 atconfig
 empty
 experr
@@ -8,5 +9,6 @@ expout
 stderr
 stdout
 testsuite
-calc.[ch]
+calc.[chy]
+calc.c.*
 calc

@@ -1,5 +1,10 @@
 2000-12-20  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (open_files): Fix the computation of short_base_name
+	in the case of `-o foo.tab.c'.
+
+2000-12-20  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (copy_string, copy_comment, copy_comment2, copy_at)
 	(copy_dollar): Now that everything uses obstacks, get rid of the
 	FILE * parameters.
