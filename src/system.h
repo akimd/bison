@@ -149,7 +149,7 @@ size_t strnlen PARAMS ((const char *s, size_t maxlen));
 # define setlocale(Category, Locale)
 #endif
 
-#include "intl/libgettext.h"
+#include "libgettext.h"
 #define _(Msgid)  gettext (Msgid)
 #define N_(Msgid) (Msgid)
 

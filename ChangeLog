@@ -1,3 +1,11 @@
+2001-12-12  Akim Demaille  <akim@epita.fr>
+
+	Some hosts don't like `/' in includes.
+
+	* src/system.h: Include libgettext.h without qualifying the path.
+	* src/Makefile.am (INCLUDES): Add $(top_srcdir)/intl, remove
+	$(top_srcdir).
+
 2001-12-11  Marc Autret  <autret_m@epita.fr>
 
 	* src/output.c (output_parser): Remove useless muscle.
