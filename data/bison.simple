@@ -70,19 +70,39 @@ m4_define_default([b4_header_guard],
                                 [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
 
 
-# b4_token_defines(TOKEN-NAME, TOKEN-NUMBER)
-# ------------------------------------------
+# b4_token_define(TOKEN-NAME, TOKEN-NUMBER)
+# -----------------------------------------
 # Output the definition of this token as #define.
 m4_define([b4_token_define],
 [#define $1 $2
 ])
 
 
+# b4_token_enum(TOKEN-NAME, TOKEN-NUMBER)
+# ---------------------------------------
+# Output the definition of this token as an enum.
+m4_define([b4_token_enum],
+[enum $1 = $2])
+
+
 # b4_token_defines(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
 # -------------------------------------------------------
 # Output the definition of the tokens as #define.
 m4_define([b4_token_defines],
-[m4_map([b4_token_define], [$@])])
+[#ifndef YYTOKENTYPE
+# if defined (__STDC__) || defined (__cplusplus)
+   /* Put the tokens into the symbol table, so that GDB and other debuggers
+      know about them.  */
+   enum yytokentype {
+m4_map_sep([     b4_token_enum], [,
+],
+           [$@])
+   };
+   /* POSIX requires `int' for tokens in interfaces.  */
+#  define YYTOKENTYPE int
+# endif
+#endif
+m4_map([b4_token_define], [$@])])
 
 
 m4_divert(0)dnl

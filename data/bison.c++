@@ -50,8 +50,8 @@ m4_define([b4_rhs_location],
 [location_stack_@<:@m4_eval([$1 - $2])@:>@])
 
 
-# b4_token_defines(TOKEN-NAME, TOKEN-NUMBER)
-# ------------------------------------------
+# b4_token_define(TOKEN-NAME, TOKEN-NUMBER)
+# -----------------------------------------
 # Output the definition of this token as #define.
 m4_define([b4_token_define],
 [#define $1 $2

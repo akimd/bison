@@ -1,5 +1,14 @@
 2002-05-03  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.simple (b4_token_enum): New.
+	(b4_token_defines): Use it to output tokens both as #define and
+	enums.
+	Suggested by Paul Eggert.
+	* src/output.c (token_definitions_output): Don't output spurious
+	white spaces.
+
+2002-05-03  Akim Demaille  <akim@epita.fr>
+
 	* data/m4sugar/m4sugar.m4: Update from CVS Autoconf.
 
 2002-05-02  Robert Anisko  <robert@lrde.epita.fr>
