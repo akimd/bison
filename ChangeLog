@@ -1,3 +1,38 @@
+2002-10-19  Paul Eggert  <eggert@twinsun.com>
+
+	Do not create a temporary file, as that involves security and
+	cleanup headaches.  Instead, use a pair of pipes.
+	Derived from a suggestion by Florian Krohm.
+	* lib/subpipe.c, lib/subpipe.h, m4/subpipe.m4: New files.
+	* lib/mkstemp.c, lib/readpipe.c, lib/tempname.c, m4/mkstemp.m4: Remove.
+	* configure.ac (UTILS_FUNC_MKSTEMP, jm_PREREQ_TEMPNAME): Remove.
+	(BISON_PREREQ_SUBPIPE): Add.
+	* lib/Makefile.am (libbison_a_SOURCES): Remove readpipe.c.
+	Add subpipe.h, subpipe.c.
+	* m4/Makefile.am (EXTRA_DIST): Remove mkstemp.m4.  Add subpipe.m4.
+	* po/POTFILES.in: Add lib/subpipe.c.
+	* src/output.c: Include "subpipe.h".
+	(m4_invoke): Remove decl.
+	(scan_skel): New decl.
+	(output_skeleton): Use pipe rather than temporary file for m4 input.
+	Check that m4sugar.m4 is readable, to avoid deadlock.
+	Check for pipe I/O error.
+	* src/scan-skel.l (readpipe): Remove decl.
+	(scan_skel): New function, to be used in place of m4_invoke.
+	Read from stream rather than file.
+	
+	* lib/timevar.c (TICKS_TO_MSEC, CLOCKS_TO_MSEC): Do not cast to
+	float, as this generates a warning on Solaris 8 + GCC 3.2 with
+	--enable-gcc-warnings.  Instead, divide into 1.0 rather than 1;
+	this generates a more-accurate value anyway.
+
+	* lib/timevar.c (timervar_accumulate): Rename locals to
+	avoid confusion with similarly-named more-global.
+	* src/muscle_tab.c (muscle_pair_list_grow): Likewise.
+
+	* src/output.c (prepare): Use xstrdup to convert char const *
+	to char *, to avoid GCC warning.
+
 2002-10-19  Akim Demaille  <akim@epita.fr>
 
 	* tests/calc.at (_AT_DATA_CALC_Y): Define VAL, LOC, LEX_FORMALS,
