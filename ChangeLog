@@ -1,5 +1,10 @@
 2003-03-31  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (prepare_symbols): Avoid trailing spaces in the
+	output.
+
+2003-03-31  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo (Strings are Destroyed): s/losses/loses/.
 	From Paul Hilfinger.
 
