@@ -1,5 +1,13 @@
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
+	Be kind to translators, save some useless translations.
+
+	* main.c (banner): New function.
+	(fatal_banner): Use it.
+	(warn_banner): Use it.
+
+2000-03-17  Akim Demaille  <akim@epita.fr>
+
 	* reader.c (copy_definition): Use copy_string and copy_comment.
 	Removed now unused `match', `ended', `cplus_comment'.
 	(copy_comment, copy_string): Moved, to be visible from
