@@ -5,7 +5,7 @@
    by GNU bison b4_version.  */
 
 /* Skeleton output parser for bison,
-   Copyright 1984, 1989, 1990, 2000, 2001 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,6 +32,11 @@
 
 #include <string>
 
+/* Using locations.  */
+#define YYLSP_NEEDED b4_locations_flag
+
+b4_prologue
+
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG b4_debug
@@ -41,11 +46,6 @@
 #ifndef YYERROR_VERBOSE
 # define YYERROR_VERBOSE b4_error_verbose
 #endif
-
-/* Using locations.  */
-#define YYLSP_NEEDED b4_locations_flag
-
-b4_prologue
 
 // FIXME: This should be defined in traits, not here.
 typedef b4_stype yystype;
