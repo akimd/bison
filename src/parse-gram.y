@@ -64,11 +64,11 @@ do {							\
    correctly typed access to it.  */
 #define yycontrol ((gram_control_t *) gram_control)
 
-/* Request detailed parse error messages, and pass them to
-   GRAM_ERROR. */
+/* Request detailed parse error messages, and pass them to GRAM_ERROR.
+   FIXME: depends on the undocumented availability of YYLLOC.t */
 #undef  yyerror
 #define yyerror(Msg) \
-        gram_error (yycontrol, &yylloc, Msg)
+        gram_error (&yylloc, Msg)
 
 #define YYPRINT(File, Type, Value) \
         yyprint (File, Type, &Value)
@@ -459,8 +459,7 @@ yyprint (FILE *file,
 }
 
 void
-gram_error (gram_control_t *control ATTRIBUTE_UNUSED,
-	    location_t *yylloc, const char *msg)
+gram_error (location_t *yylloc, const char *msg)
 {
   complain_at (*yylloc, "%s", msg);
 }

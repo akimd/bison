@@ -52,8 +52,7 @@ YY_DECL;
 
 /* From the parser.  */
 extern int gram_debug;
-void gram_error (gram_control_t *control,
-		 location_t *loc, const char *msg);
+void gram_error (location_t *loc, const char *msg);
 int gram_parse (void *control);
 
 /* The sort of braced code we are in.  */

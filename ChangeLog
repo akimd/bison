@@ -1,3 +1,15 @@
+2002-07-26  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.h, src/reader.c (gram_error): ... can't get
+	yycontrol without making too strong assumptions on the parser
+	itself.
+	* src/output.c (prepare_tokens): Use the real 0th value of
+	token_translations instead of `0'.
+	* src/parse-gram.y (yyerror): Don't rely on yycontrol being
+	visible here.
+	* data/yacc.c (yyreport_parse_error): Rename yylocation as yylloc
+	for the time being: %locations ought to provide it to yyerror.
+
 2002-07-25  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (prepare_tokens): Go up to ntokens, not ntokens + 1.
