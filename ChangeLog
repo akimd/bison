@@ -1,3 +1,19 @@
+2003-05-14  Alexandre Duret-Lutz  <adl@gnu.org>
+
+	%parse-param support for lalr1.cc.
+
+	* data/lalr1.cc (b4_parse_param_decl, b4_parse_param_cons,
+	b4_cc_constructor_calls, b4_cc_constructor_call,
+	b4_parse_param_vars, b4_cc_var_decls, b4_cc_var_decl): New m4
+	definitions.
+	(yy::b4_parser_class_name::b4_parser_class_name): Take extra
+	parse-param arguments.
+	(yy::b4_parser_class_name): Declare instance variables to
+	hold parse-param arguments.
+	* tests/calc.at: s/value/semantic_value/ because value clashes
+	with a member of yy::b4_parser_class_name.  Adjust C++ code
+	to handle %parse-param.  Enable %parse-param test in C++.
+
 2003-05-12  Paul Eggert  <eggert@twinsun.com>
 
 	* doc/bison.texinfo (How Can I Reset @code{yyparse}): Reword the

@@ -81,6 +81,39 @@ m4_define([b4_constructor],
 		    [])])
 
 
+# b4_parse_param_decl
+# -------------------
+#  Constructor's extra arguments.
+m4_define([b4_parse_param_decl],
+          [m4_ifset([b4_parse_param], [, b4_c_ansi_formals(b4_parse_param)])])
+
+# b4_parse_param_cons
+# -------------------
+#  constructor's extra initialisations.
+m4_define([b4_parse_param_cons],
+          [m4_ifset([b4_parse_param],
+		    [,
+      b4_cc_constructor_calls(b4_parse_param)])])
+m4_define([b4_cc_constructor_calls],
+	  [m4_map_sep([b4_cc_constructor_call], [,
+      ], [$@])])
+m4_define([b4_cc_constructor_call],
+	  [$2($2)])
+
+# b4_parse_param_vars
+# -------------------
+#  Extra instance variables.
+m4_define([b4_parse_param_vars],
+          [m4_ifset([b4_parse_param],
+		    [
+    /* User arguments.  */
+b4_cc_var_decls(b4_parse_param)])])
+m4_define([b4_cc_var_decls],
+	  [m4_map_sep([b4_cc_var_decl], [
+], [$@])])
+m4_define([b4_cc_var_decl],
+	  [    $1;])
+
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
 m4_divert(0)dnl
@@ -178,14 +211,14 @@ namespace yy
 
 #if YYLSP_NEEDED
     ]b4_parser_class_name[ (bool debug,
-	    LocationType initlocation][]b4_param[) :
+	    LocationType initlocation][]b4_param[]b4_parse_param_decl[) :
       ]b4_constructor[][debug_ (debug),
       cdebug_ (std::cerr),
-      initlocation_ (initlocation)
+      initlocation_ (initlocation)]b4_parse_param_cons[
 #else
-    ]b4_parser_class_name[ (bool debug][]b4_param[) :
+    ]b4_parser_class_name[ (bool debug][]b4_param[]b4_parse_param_decl[) :
       ]b4_constructor[][debug_ (debug),
-      cdebug_ (std::cerr)
+      cdebug_ (std::cerr)]b4_parse_param_cons[
 #endif
     {
     }
@@ -274,6 +307,7 @@ namespace yy
 
     /* Initial location.  */
     LocationType initlocation_;
+]b4_parse_param_vars[
   };
 }
 
