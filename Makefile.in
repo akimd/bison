@@ -45,7 +45,7 @@ LIBS = @LIBS@
 ALLOCA = @ALLOCA@
 
 prefix = @prefix@
-exec_prefix = @prefix@
+exec_prefix = @exec_prefix@
 
 # where the installed binary goes
 bindir = $(exec_prefix)/bin
