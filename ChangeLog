@@ -1,5 +1,12 @@
 2001-08-27  Marc Autret  <autret_m@epita.fr>
 
+	* src/vcg.h (classname_s, infoname_s, node_s): Constify the 
+	char * members.
+	Echo modifications to the functions prototypes.
+	* src/vcg.c (add_classname, add_infoname): Adjust arguments.
+
+2001-08-27  Marc Autret  <autret_m@epita.fr>
+
 	* src/vcg.c: Include `xalloc.h'.
 	(add_colorentry): New.
 	(add_classname): New.

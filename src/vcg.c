@@ -427,7 +427,7 @@ add_edge (graph_t *graph, edge_t *edge)
 }
 
 void
-add_classname (graph_t *g, int val, char *name)
+add_classname (graph_t *g, int val, const char *name)
 {
   struct classname_s *classname;
   
@@ -439,7 +439,7 @@ add_classname (graph_t *g, int val, char *name)
 }
 
 void
-add_infoname (graph_t *g, int integer, char *string)
+add_infoname (graph_t *g, int integer, const char *string)
 {
   struct infoname_s *infoname;
   

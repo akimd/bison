@@ -89,7 +89,7 @@ struct colorentry_s
 struct classname_s
 {
   int no; /* Class number */
-  char *name; /* Name associated to the class no. */
+  const char *name; /* Name associated to the class no. */
   struct classname_s *next; /* next name class association. */
 };
 
@@ -97,7 +97,7 @@ struct classname_s
 struct infoname_s
 {
   int integer;
-  char *string;
+  const char *string;
   struct infoname_s *next;
 };
 
@@ -179,13 +179,13 @@ struct node_s
 {
   /* Title the unique string identifying the node. This attribute is
      mandatory. */
-  char *title;
+  const char *title;
 
   /* Label the text displayed inside the node. If no label is specified
      then the title of the node will be used. Note that this text may
      contain control characters like NEWLINE that influences the size of
      the node. */
-  char *label;
+  const char *label;
 
   /* loc is the location as x, y position relatively to the system of
      coordinates of the graph. Locations are specified in the form
@@ -295,7 +295,7 @@ struct node_s
   /* info2, info3 can be selected from the menu. The corresponding text
      labels can be shown by mouse clicks on nodes.
      Default are null strings. */
-  char *infos[3];
+  const char *infos[3];
 
   /* Node border color.
      Default is textcolor. */
@@ -1001,8 +1001,8 @@ void add_edge PARAMS ((graph_t *graph, edge_t *edge));
 
 void add_colorentry PARAMS ((graph_t *g, int color_idx, int red_cp, 
 			     int green_cp, int blue_cp));
-void add_classname PARAMS ((graph_t *g, int val, char *name));
-void add_infoname PARAMS ((graph_t *g, int val, char *name));
+void add_classname PARAMS ((graph_t *g, int val, const char *name));
+void add_infoname PARAMS ((graph_t *g, int val, const char *name));
 
 void open_node PARAMS ((struct obstack *os));
 void output_node PARAMS ((node_t *node, struct obstack *os));
