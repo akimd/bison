@@ -1,3 +1,11 @@
+2000-09-20  Akim Demaille  <akim@epita.fr>
+
+	* tests/atgeneral.m4: Update from Autoconf.
+	* tests/calc.m4 (_AT_DATA_CALC_Y, AT_DATA_CALC_Y, _AT_CHECK_CALC)
+	(AT_CHECK_CALC): New macros.
+	Use these macros to test bison with options `', `--raw',
+	`--debug', `--yacc', `--yacc --debug'.
+
 2000-09-19  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c: Formatting changes.

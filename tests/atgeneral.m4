@@ -1,4 +1,4 @@
-divert(-1)						-*- shell-script -*-
+divert(-1)						    -*- Autoconf -*-
 # `m4' macros used in building test suites.
 # Copyright (C) 2000 Free Software Foundation, Inc.
 
@@ -45,14 +45,15 @@ divert(-1)						-*- shell-script -*-
 # any notice of this special exception to the GPL from your modified
 # version.
 
+changequote()
 changequote([, ])
 
-define(AT_DEFINE, defn([define]))
-define(AT_EVAL, defn([eval]))
-define(AT_FORMAT, defn([format]))
-define(AT_INCLUDE, defn([include]))
-define(AT_SHIFT, defn([shift]))
-define(AT_UNDEFINE, defn([undefine]))
+define([AT_DEFINE], defn([define]))
+define([AT_EVAL], defn([eval]))
+define([AT_FORMAT], defn([format]))
+define([AT_INCLUDE], defn([include]))
+define([AT_SHIFT], defn([shift]))
+define([AT_UNDEFINE], defn([undefine]))
 
 undefine([define])
 undefine([eval])
@@ -61,8 +62,9 @@ undefine([include])
 undefine([shift])
 undefine([undefine])
 
-# AT_CASE(SWITCH, VAL1, IF-VAL1, VAL2, IF-VAL2, ..., DEFAULT)
 
+# AT_CASE(SWITCH, VAL1, IF-VAL1, VAL2, IF-VAL2, ..., DEFAULT)
+# -----------------------------------------------------------
 # m4 equivalent of
 # switch (SWITCH)
 # {
@@ -79,7 +81,7 @@ undefine([undefine])
 # }.
 # All the values are optional, and the macro is robust to active
 # symbols properly quoted.
-AT_DEFINE(AT_CASE,
+AT_DEFINE([AT_CASE],
 [ifelse([$#], 0, [],
 	[$#], 1, [],
 	[$#], 2, [$2],
@@ -94,23 +96,24 @@ AT_DEFINE(AT_CASE,
 
 
 # AT_LINE
-
+# -------
 # Return the current file sans directory, a colon, and the current line.
 
-AT_DEFINE(AT_LINE,
+AT_DEFINE([AT_LINE],
 [patsubst(__file__, ^.*/\(.*\), \1):__line__])
 
-# AT_INIT(PROGRAM)
 
+# AT_INIT(PROGRAM)
+# ----------------
 # Begin testing suite, using PROGRAM to check version.  The search path
 # should be already preset so the proper executable will be selected.
 
-AT_DEFINE(AT_INIT,
+AT_DEFINE([AT_INIT],
 [AT_DEFINE(AT_ordinal, 0)
 . ./atconfig
 # Snippet (3
 
-at_usage="Usage: [$]0 [OPTION]...
+at_usage="Usage: $[0] [OPTION]...
 
   -e  Abort the full suite and inhibit normal clean up if a test fails
   -n  Do not redirect stdout and stderr and do not test their contents
@@ -118,16 +121,16 @@ at_usage="Usage: [$]0 [OPTION]...
   -v  Force more detailed output, default for debugging scripts unless -s
   -x  Have the shell to trace command execution; also implies option -n"
 
-while test [$][#] -gt 0; do
-  case "[$]1" in
+while test $[#] -gt 0; do
+  case "$[1]" in
     --help) echo "$at_usage"; exit 0 ;;
-    --version) echo "[$]0 ($at_package) $at_version"; exit 0 ;;
+    --version) echo "$[0] ($at_package) $at_version"; exit 0 ;;
     -e) at_stop_on_error=1; shift ;;
     -n) at_no_redirs=1; shift ;;
     -s) at_verbose=; at_silent=1; shift ;;
     -v) at_verbose=1; at_silent=; shift ;;
     -x) at_traceon='set -vx'; at_traceoff='set +vx'; at_no_redirs=1; shift ;;
-    *) echo 1>&2 "Try \`[$]0 --help' for more information."; exit 1 ;;
+    *) echo 1>&2 "Try \`$[0] --help' for more information."; exit 1 ;;
   esac
 done
 
@@ -197,13 +200,13 @@ else
       sed -n '/^[#] Snippet (1/,/^[#] Snippet )1/p' atconfig
       test -z "$at_silent" && echo 'at_verbose=1'
       sed -n '/^[#] Snippet (2/,/^[#] Snippet )2/p' atconfig
-      sed -n "/^[#] Snippet (3/,/^[#] Snippet )3/p" [$]0
-      sed -n "/^[#] Snippet (c$at_group(/,/^[#] Snippet )c$at_group)/p" [$]0
+      sed -n "/^[#] Snippet (3/,/^[#] Snippet )3/p" $[0]
+      sed -n "/^[#] Snippet (c$at_group(/,/^[#] Snippet )c$at_group)/p" $[0]
       at_desc="`sed -n \
-        '/^[#] Snippet (d'$at_group'(/,/^[#] Snippet )d'$at_group')/p' [$]0 \
+        '/^[#] Snippet (d'$at_group'(/,/^[#] Snippet )d'$at_group')/p' $[0] \
         | sed -n '2s/^[#] //p'`"
       echo 'if test -n "$at_verbose"; then'
-      echo '  at_banner="[$]0: '$at_desc'"'
+      echo '  at_banner="$[0]: '$at_desc'"'
       echo '  at_dashes=`echo $at_banner | sed s/./=/g`'
       echo '  echo'
       echo '  echo "$at_dashes"'
@@ -211,8 +214,8 @@ else
       echo '  echo "$at_dashes"'
       echo 'fi'
       echo
-      sed -n "/^[#] Snippet (d$at_group(/,/^[#] Snippet )d$at_group)/p" [$]0
-      sed -n "/^[#] Snippet (s$at_group(/,/^[#] Snippet )s$at_group)/p" [$]0
+      sed -n "/^[#] Snippet (d$at_group(/,/^[#] Snippet )d$at_group)/p" $[0]
+      sed -n "/^[#] Snippet (s$at_group(/,/^[#] Snippet )s$at_group)/p" $[0]
       echo 'exit 0'
     ) | grep -v '^[#] Snippet' > debug-$at_group.sh
     chmod +x debug-$at_group.sh
@@ -250,10 +253,12 @@ fi
 
 exit 0
 divert[]dnl
-])
+])# AT_INIT
+
+
 
 # AT_SETUP(DESCRIPTION)
-
+# ---------------------
 # Start a group of related tests, all to be executed in the same subshell.
 # The group is testing what DESCRIPTION says.
 
@@ -283,16 +288,16 @@ $at_traceon
 
 
 # AT_CLEANUP(FILES)
-
+# -----------------
 # Complete a group of related tests, recursively remove those FILES
 # created within the test.  There is no need to list stdout, stderr,
 # nor files created with AT_DATA.
 
-AT_DEFINE(AT_CLEANUP,
+AT_DEFINE([AT_CLEANUP],
 $at_traceoff
 [[#] Snippet )s[]AT_ordinal[])
     )
-    case [$]? in
+    case $? in
       0) echo ok
 	 ;;
       77) echo "ignored near \``cat at-check-line`'"
@@ -320,25 +325,26 @@ fi
 popdef([AT_data_experr])
 popdef([AT_data_expout])
 popdef([AT_data_files])
-popdef([AT_group_description])])
+popdef([AT_group_description])[]dnl
+])# AT_CLEANUP
 
 
 # AT_DATA(FILE, CONTENTS)
-
+# -----------------------
 # Initialize an input data FILE with given CONTENTS, which should end with
 # an end of line.
 # This macro is not robust to active symbols in CONTENTS *on purpose*.
 # If you don't want CONTENT to be evaluated, quote it twice.
 
-AT_DEFINE(AT_DATA,
+AT_DEFINE([AT_DATA],
 [AT_DEFINE([AT_data_files], AT_data_files[ ]$1)
-cat > $1 <<'EOF'
-$2[]EOF
+cat >$1 <<'_ATEOF'
+$2[]_ATEOF
 ])
 
 
 # AT_CHECK(COMMANDS, [STATUS], STDOUT, STDERR)
-
+# --------------------------------------------
 # Execute a test by performing given shell COMMANDS.  These commands
 # should normally exit with STATUS, while producing expected STDOUT and
 # STDERR contents.  The special word `expout' for STDOUT means that file
@@ -349,7 +355,7 @@ $2[]EOF
 # STDOUT and STDERR can be the special value `ignore', in which case
 # their content is not checked.
 
-AT_DEFINE(AT_CHECK,
+AT_DEFINE([AT_CHECK],
 [$at_traceoff
 test -n "$at_verbose" \
   && echo "$srcdir/AT_LINE: testing..."
@@ -383,6 +389,6 @@ $at_diff experr stderr || exit 1],
           [echo $at_n "patsubst([$4], [\([\"`$]\)], \\\1)$at_c" | $at_diff - stderr || exit 1])
 fi
 $at_traceon
-])
+])# AT_CHECK
 
 divert(0)dnl

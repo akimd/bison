@@ -6,14 +6,25 @@ Simple Calculator.
 
 EOF
 
+
 ## ---------------------------------------------------- ##
 ## Compile the grammar described in the documentation.  ##
 ## ---------------------------------------------------- ##
 
-# We use integers to avoid dependencies upon the precision of doubles.
-AT_SETUP(Compiling a grammar)
 
-AT_DATA([calc.y],
+# ------------------------- #
+# Helping Autotest macros.  #
+# ------------------------- #
+
+
+# _AT_DATA_CALC_Y($1, $2, $3)
+# ---------------------------
+# Produce `calc.y'.  Don't call this macro directly, because it contains
+# some occurrences of `$1' etc. which will be interpreted by m4.  So
+# you should call it with $1, $2, and $3 as arguments, which is what
+# AT_DATA_CALC_Y does.
+AT_DEFINE([_AT_DATA_CALC_Y],
+[AT_DATA([calc.y],
 [[/* Infix notation calculator--calc */
 
 %{
@@ -140,34 +151,79 @@ main (int argn, const char **argv)
       perror (argv[1]);
       exit (1);
     }
+
+#if YYDEBUG
+  yydebug = 1;
+#endif
   yyparse ();
   return 0;
 }
 ]])
+])# _AT_DATA_CALC_Y
+
+
+# AT_DATA_CALC_Y
+# --------------
+# Produce `calc.y'.
+AT_DEFINE([AT_DATA_CALC_Y],
+[_AT_DATA_CALC_Y($[1], $[2], $[3])])
+
+
+# _AT_CHECK_CALC(INPUT, OUTPUT, [STDERR])
+# ---------------------------------------
+# Run `calc' on INPUT, and expect OUTPUT and STDERR.
+AT_DEFINE([_AT_CHECK_CALC],
+[AT_CHECK([echo "$1" | calc], 0, [$2], [$3])])
+
+
+# AT_CHECK_CALC(TITLE, [BISON-OPTIONS], [PARSER-EXPECTED-STDERR])
+# ---------------------------------------------------------------
+# Start a testing chunk named TITLE which compiles `calc' grammar with
+# BISON-OPTIONS, and performs several tests over the parser.
+AT_DEFINE([AT_CHECK_CALC],
+[# We use integers to avoid dependencies upon the precision of doubles.
+AT_SETUP([$1])
+
+AT_DATA_CALC_Y
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison calc.y -o calc.c], 0, [], [])
+AT_CHECK([bison calc.y -o calc.c $2], 0, [], [])
 AT_CHECK([$CC $CFLAGS calc.c -o calc], 0, [], [])
 
-# AT_CHECK_CALC(INPUT, OUTPUT)
-# ----------------------------
-# Run `calc' on INPUT, and expect OUTPUT.
-AT_DEFINE([AT_CHECK_CALC],
-[AT_CHECK([echo "$1" | calc], 0, [$2], [])])
-
 # Test the priorities.
-AT_CHECK_CALC([1 + 2 * 3],   [7])
-AT_CHECK_CALC([1 + 2 * -3], [-5])
+_AT_CHECK_CALC([1 + 2 * 3],   [7], [$3])
+_AT_CHECK_CALC([1 + 2 * -3], [-5], [$3])
 
-AT_CHECK_CALC([-1^2],  [-1])
-AT_CHECK_CALC([(-1)^2], [1])
+_AT_CHECK_CALC([-1^2],  [-1], [$3])
+_AT_CHECK_CALC([(-1)^2], [1], [$3])
 
-AT_CHECK_CALC([---1], [-1])
+_AT_CHECK_CALC([---1], [-1], [$3])
 
-AT_CHECK_CALC([1 - 2 - 3],  [-4])
-AT_CHECK_CALC([1 - (2 - 3)], [2])
+_AT_CHECK_CALC([1 - 2 - 3],  [-4], [$3])
+_AT_CHECK_CALC([1 - (2 - 3)], [2], [$3])
 
-AT_CHECK_CALC([2^2^3],  [256])
-AT_CHECK_CALC([(2^2)^3], [64])
+_AT_CHECK_CALC([2^2^3],  [256], [$3])
+_AT_CHECK_CALC([(2^2)^3], [64], [$3])
 
 AT_CLEANUP(calc calc.c)
+])# AT_CHECK_CALC
+
+
+# -------------- #
+# Actual tests.  #
+# -------------- #
+
+
+AT_CHECK_CALC([Simple calculator])
+
+AT_CHECK_CALC([Simple Yacc compatible calculator],
+              [--yacc])
+
+AT_CHECK_CALC([Simple calculator whose tokens are numbered from 3],
+              [--raw])
+
+AT_CHECK_CALC([Simple debugging calculator],
+              [--debug], ignore)
+
+AT_CHECK_CALC([Simple Yacc compatible debugging calculator],
+              [--debug --yacc], ignore)
