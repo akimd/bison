@@ -485,44 +485,40 @@ parse_percent_token (void)
   obstack_1grow (&token_obstack, '%');
   obstack_1grow (&token_obstack, c);
 
-  switch (c)
-    {
-    case '%':
-      token_buffer = obstack_finish (&token_obstack);
-      return tok_two_percents;
-
-    case '{':
-      token_buffer = obstack_finish (&token_obstack);
-      return tok_percent_left_curly;
-
-      /* The following guys are here for backward compatibility with
-	 very ancient Yacc versions.  The paper of Johnson mentions
-	 them (as ancient :).  */
-    case '<':
-      token_buffer = obstack_finish (&token_obstack);
-      return tok_left;
-
-    case '>':
-      token_buffer = obstack_finish (&token_obstack);
-      return tok_right;
-
-    case '2':
-      token_buffer = obstack_finish (&token_obstack);
-      return tok_nonassoc;
-
-    case '0':
-      token_buffer = obstack_finish (&token_obstack);
-      return tok_token;
-
-    case '=':
-      token_buffer = obstack_finish (&token_obstack);
-      return tok_prec;
-    }
-
   if (!isalpha (c))
     {
+      obstack_1grow (&token_obstack, '\0');
       token_buffer = obstack_finish (&token_obstack);
-      return tok_illegal;
+
+      switch (c)
+	{
+	case '%':
+	  return tok_two_percents;
+
+	case '{':
+	  return tok_percent_left_curly;
+
+	  /* The following guys are here for backward compatibility with
+	     very ancient Yacc versions.  The paper of Johnson mentions
+	     them (as ancient :).  */
+	case '<':
+	  return tok_left;
+
+	case '>':
+	  return tok_right;
+
+	case '2':
+	  return tok_nonassoc;
+
+	case '0':
+	  return tok_token;
+
+	case '=':
+	  return tok_prec;
+
+	default:
+	  return tok_illegal;
+	}
     }
 
   while (c = getc (finput), isalpha (c) || c == '_' || c == '-')

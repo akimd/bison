@@ -1,5 +1,11 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/lex.c (parse_percent_token): Be sure to 0-end token_buffer
+	before returning.
+	Reported by Benoit Perrot.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	Use bitset operations when possible, not loops over bits.
 
 	* src/conflicts.c (set_conflicts, count_sr_conflicts): Use
