@@ -53,7 +53,7 @@ a sample text exhibiting the (LALR) ambiguity.  See the paper from
 DeRemer and Penello: they already provide the algorithm.
 
 
-* Extentions
+* Extensions
 
 ** yyerror, yysymprint interface
 It should be improved, in particular when using Bison features such as
@@ -108,6 +108,14 @@ Are there any Texinfo standards for bibliography?
 
 
 
+* Java, Fortran, etc.
+
+  Add support for languages other than C and C++.  Here is a proposed
+  patch for Java:
+
+  <http://www.goice.co.jp/member/mo/hack-progs/bison-java.html>
+
+
 
 * Coding system independence
 Paul notes:
@@ -133,7 +141,7 @@ Show reductions.	[]
 ** %pure-parser		[]
 ** %token-table		[]
 ** Options which could use parse_dquoted_param ().
-Maybe transfered in lex.c.
+Maybe transferred in lex.c.
 *** %skeleton		[ok]
 *** %output		[]
 *** %file-prefix	[]
@@ -150,7 +158,7 @@ Find the best graph parameters.	[]
 * doc/bison.texinfo
 ** Update
 informations about ERROR_VERBOSE.	[]
-** Add explainations about
+** Add explanations about
 skeleton muscles.	[]
 %skeleton.		[]
 
@@ -171,7 +179,7 @@ First, analyze the differences between byacc and btyacc (I'm referring
 to the executables).  Find where the conflicts are preserved.
 
 ** Compare with the GLR tables
-See how isomorphic the way BTYacc and the way the GLR adjustements in
+See how isomorphic the way BTYacc and the way the GLR adjustments in
 Bison are compatible.  *As much as possible* one should try to use the
 same implementation in the Bison executables.  I insist: it should be
 very feasible to use the very same conflict tables.
