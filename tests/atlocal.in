@@ -6,8 +6,5 @@
 CC='@CC@'
 CFLAGS='@CFLAGS@ @WARNING_CFLAGS@'
 
-# We need to know if the compiler is GCC.
-GCC='@GCC@'
-
 # We need `config.h'.
-CPPFLAGS="-I$top_buildpath @CPPFLAGS@"
+CPPFLAGS="-I$abs_top_builddir @CPPFLAGS@"

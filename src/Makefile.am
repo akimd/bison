@@ -45,7 +45,7 @@ bison_SOURCES = LR0.c closure.c complain.c conflicts.c	\
     muscle_tab.h muscle_tab.c \
     options.h options.c \
     print.c reader.c reduce.c symtab.c warshall.c vcg.c \
-    parse-skel.y scan-skel.l
+    skeleton.h parse-skel.h parse-skel.y scan-skel.l
 
 EXTRA_bison_SOURCES = vmsgetargs.c
 

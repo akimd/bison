@@ -1,8 +1,17 @@
+2002-01-06  Akim Demaille  <akim@epita.fr>
+
+	* src/Makefile.am (bison_SOURCES): Add parse-skel.h and
+	skeleton.h.
+
 2002-01-04  Paul Eggert  <eggert@twinsun.com>
 
 	* doc/bison.texinfo (Debugging):
 	Remove YYSTDERR; it's no longer defined or used.
 	Also, s/cstdio.h/cstdio/.
+
+2002-01-03  Akim Demaille  <akim@epita.fr>
+
+	* tests/bison.in, tests/atlocal.in: Adjust to CVS Autoconf.
 
 2002-01-03  Akim Demaille  <akim@epita.fr>
 
