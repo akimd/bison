@@ -1,3 +1,11 @@
+2004-05-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/muscle_tab.c (hash_muscle): Accept and return size_t, not
+	unsigned int, for compatibility with latest gnulib hash module.
+	* src/state.c (state_hash, state_hasher): Likewise.
+	* src/symtab.c (hash_symbol, hash_symbol_hasher): Likewise.
+	* src/uniqstr.c (hash_uniqstr): Likewise.
+	
 2004-05-03  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Unescaped newlines are no longer allowed in char & strings.
