@@ -1,5 +1,12 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (rule_s): prec and precsym are now pointers
+	to the bucket giving the priority/associativity.
+	Member `associativity' removed: useless.
+	* src/reduce.c, src/conflicts.c: Adjust.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c, src/LR0.c, src/closure.c, src/gram.c, src/reduce.c:
 	Properly escape the symbols' TAG when outputting them.
 

@@ -54,23 +54,24 @@
 
    RULES is an array of struct rule_s, which members are:
 
-   RULES[R].lhs -- the symbol number of the left hand side of rule R.
-   If -1, the rule has been thrown out by reduce.c and should be
-   ignored.
+   RULES[R].lhs -- the symbol of the left hand side of rule R.
 
    RULES[R].rhs -- the index in RITEM of the beginning of the portion
    for rule R.
 
-   RULES[R].prec -- the precedence level of R.
+   RULES[R].prec -- the symbol providing the precedence level of R.
 
-   RULES[R].precsym -- the symbol-number of the symbol in %prec for R
-   (if any).
+   RULES[R].precsym -- the symbol attached (via %prec) to give its
+   precedence to R.  Of course, if set, it is equal to `prec', but we
+   need to distinguish one from the other when reducing: a symbol used
+   in a %prec is not useless.
 
    RULES[R].assoc -- the associativity of R.
 
    RULES[R].line -- the line where R was defined.
 
-   RULES[R].useful -- TRUE iff the rule is used.
+   RULES[R].useful -- TRUE iff the rule is used (i.e., FALSE if thrown
+   away by reduce).
 
    The right hand side is stored as symbol numbers in a portion of
    RITEM.
@@ -126,9 +127,13 @@ typedef struct rule_s
 
   bucket *lhs;
   short *rhs;
-  short prec;
-  short precsym;
-  associativity assoc;
+
+  /* This symbol provides both the associativity, and the precedence. */
+  bucket *prec;
+
+  /* This symbol was attached to the rule via %prec. */
+  bucket *precsym;
+
   short line;
   bool useful;
 
