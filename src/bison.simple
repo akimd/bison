@@ -118,7 +118,7 @@ typedef struct yyltype
 # define YYERROR_VERBOSE %%verbose
 #endif
 
-/* Tokens. */
+/* Tokens.  */
 %%tokendef
 
 #define YYFINAL		%%final
@@ -160,8 +160,8 @@ static const short yyrline[] =
 #endif
 
 #if YYDEBUG || YYERROR_VERBOSE
-/* YYTNAME[TOKEN_NUM] -- String name of the token TOKEN_NUM. */
-static const char* const yytname[] =
+/* YYTNME[TOKEN_NUM] -- String name of the token TOKEN_NUM.  */
+static const char *const yytname[] =
 {
   %%tname
 };
@@ -390,7 +390,7 @@ int %%yyparse (void);
 /* The lookahead symbol.  */				\
 int %%yychar;						\
 							\
-/* The semantic value of the lookahead symbol. */	\
+/* The semantic value of the lookahead symbol.  */	\
 YYSTYPE %%yylval;					\
 							\
 /* Number of parse errors so far.  */			\
@@ -407,7 +407,7 @@ YYLTYPE yylloc;
 _YY_DECL_VARIABLES
 #endif
 
-/* If nonreentrant, generate the variables here. */
+/* If nonreentrant, generate the variables here.  */
 
 #if !YYPURE
 YY_DECL_VARIABLES
@@ -417,7 +417,7 @@ int
 %%yyparse (YYPARSE_PARAM_ARG)
      YYPARSE_PARAM_DECL
 {
-  /* If reentrant, generate the variables here. */
+  /* If reentrant, generate the variables here.  */
 #if YYPURE
   YY_DECL_VARIABLES
 #endif  /* !YYPURE */
@@ -437,7 +437,7 @@ int
      Refer to the stacks thru separate pointers, to allow yyoverflow
      to reallocate them elsewhere.  */
 
-  /* The state stack. */
+  /* The state stack.  */
   short	yyssa[YYINITDEPTH];
   short *yyss = yyssa;
   register short *yyssp;
@@ -471,7 +471,7 @@ int
 # endif
 
   /* When reducing, the number of symbols on the RHS of the reduced
-     rule. */
+     rule.  */
   int yylen;
 
   YYDPRINTF ((stderr, "Starting parse\n"));
@@ -617,12 +617,12 @@ yybackup:
       %%yychar = YYLEX;
     }
 
-  /* Convert token to internal form (in yychar1) for indexing tables with */
+  /* Convert token to internal form (in yychar1) for indexing tables with.  */
 
-  if (%%yychar <= 0)		/* This means end of input. */
+  if (%%yychar <= 0)		/* This means end of input.  */
     {
       yychar1 = 0;
-      %%yychar = YYEOF;		/* Don't call YYLEX any more */
+      %%yychar = YYEOF;		/* Don't call YYLEX any more.  */
 
       YYDPRINTF ((stderr, "Now at end of input.\n"));
     }
@@ -745,7 +745,7 @@ yyreduce:
 #endif
   switch (yyn)
     {
-      %%action /* The action file replaces this line. */
+      %%action /* The action file replaces this line.  */
     }
 #line %%line "%%filename"
 
@@ -845,16 +845,16 @@ yyerrlab:
   goto yyerrlab1;
 
 
-/*--------------------------------------------------.
-| yyerrlab1 -- error raised explicitly by an action |
-`--------------------------------------------------*/
+/*----------------------------------------------------.
+| yyerrlab1 -- error raised explicitly by an action.  |
+`----------------------------------------------------*/
 yyerrlab1:
   if (yyerrstatus == 3)
     {
       /* If just tried and failed to reuse lookahead token after an
 	 error, discard it.  */
 
-      /* return failure if at end of input */
+      /* Return failure if at end of input.  */
       if (%%yychar == YYEOF)
 	YYABORT;
       YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
@@ -865,7 +865,7 @@ yyerrlab1:
   /* Else will try to reuse lookahead token after shifting the error
      token.  */
 
-  yyerrstatus = 3;		/* Each real token shifted decrements this */
+  yyerrstatus = 3;		/* Each real token shifted decrements this.  */
 
   goto yyerrhandle;
 
@@ -888,7 +888,7 @@ yyerrdefault:
 
 /*---------------------------------------------------------------.
 | yyerrpop -- pop the current state because it cannot handle the |
-| error token                                                    |
+| error token.                                                   |
 `---------------------------------------------------------------*/
 yyerrpop:
   if (yyssp == yyss)

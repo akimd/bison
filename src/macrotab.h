@@ -25,12 +25,12 @@
 
 typedef struct macro_entry_s
 {
-  const char* key;
-  const char* value;
+  const char *key;
+  const char *value;
 } macro_entry_t;
 
 void macro_init PARAMS ((void));
 void macro_insert PARAMS ((const char *key, const char *value));
-const char* macro_find PARAMS ((const char *key));
+const char *macro_find PARAMS ((const char *key));
 
 #endif /* not MACROTAB_H_ */
