@@ -1,5 +1,11 @@
 2000-12-12  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (copy_definition, parse_union_decl, copy_action)
+	(copy_guard): Quote the file names.
+	Reported by Laurent Mascherpa.
+
+2000-12-12  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output_headers, output_program, output): Be sure
 	to escape special characters when outputting filenames.
 	(ACTSTR_PROLOGUE, ACTSTR_EPILOGUE): Remove.
