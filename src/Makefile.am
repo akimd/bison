@@ -24,11 +24,8 @@ DEFS = @DEFS@ \
 CFLAGS = @CFLAGS@ $(WARNING_CFLAGS) $(WERROR_CFLAGS)
 YFLAGS = "-dv"
 
-# libintl.h in is build/intl, intl/libgettext.h in src/,
-# config.h in build/.
-INCLUDES = -I$(top_builddir)/intl \
-           -I$(top_builddir)      \
-           -I$(top_srcdir)/intl \
+# config.h is in build/.
+INCLUDES = -I$(top_builddir)      \
            -I$(top_srcdir)/lib
 
 LDADD = $(INTLLIBS) ../lib/libbison.a
