@@ -1,5 +1,11 @@
 2004-12-16  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (yyreport_syntax_error_): Catch up with glr.c and
+	yacc.c: be sure to stay within yycheck_.
+	* tests/actions.at: Re-enable C++ tests.
+
+2004-12-16  Akim Demaille  <akim@epita.fr>
+
 	* src/print_graph.c (print_graph): Remove layoutalgorithm uses for
 	real.
 

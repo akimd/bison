@@ -810,24 +810,30 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
       yyn_ = yypact_[yystate_];
       if (yypact_ninf_ < yyn_ && yyn_ < yylast_)
 	{
+	  /* Start YYX at -YYN if negative to avoid negative indexes in
+	     YYCHECK.  */
+	  int yyxbegin = yyn_ < 0 ? -yyn_ : 0;
+
+	  /* Stay within bounds of both yycheck and yytname.  */
+	  int yychecklim = yylast_ - yyn_;
+	  int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+          int count = 0;
+          for (int x = yyxbegin; x < yyxend; ++x)
+            if (yycheck_[x + yyn_] == x && x != yyterror_)
+              ++count;
+
 	  message = "syntax error, unexpected ";
 	  message += yyname_[yyilooka_];
-	  {
-	    int count = 0;
-	    for (int x = (yyn_ < 0 ? -yyn_ : 0); x < yyntokens_ + yynnts_; ++x)
-	      if (yycheck_[x + yyn_] == x && x != yyterror_)
-		++count;
-	    if (count < 5)
-	      {
-		count = 0;
-		for (int x = (yyn_ < 0 ? -yyn_ : 0); x < yyntokens_ + yynnts_; ++x)
-		  if (yycheck_[x + yyn_] == x && x != yyterror_)
-		    {
-		      message += (!count++) ? ", expecting " : " or ";
-		      message += yyname_[x];
-		    }
-	      }
-	  }
+          if (count < 5)
+            {
+              count = 0;
+              for (int x = yyxbegin; x < yyxend; ++x)
+                if (yycheck_[x + yyn_] == x && x != yyterror_)
+                  {
+                    message += (!count++) ? ", expecting " : " or ";
+                    message += yyname_[x];
+ 	          }
+            }
 	}
       else
 #endif
