@@ -164,16 +164,16 @@ b4_syncline([@oline@], [@ofile@])[
 # define YYERROR_VERBOSE ]b4_error_verbose[
 #endif
 
-#ifdef YYSTYPE
-typedef YYSTYPE yystype;
-#else
+#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
 ]m4_ifdef([b4_stype],
 [b4_syncline([b4_stype_line], [b4_filename])
-typedef union b4_stype yystype;
+union YYSTYPE b4_stype;
 /* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])],
-[typedef int yystype;])[
-# define YYSTYPE yystype
+[typedef int YYSTYPE;])[
+# define yystype YYSTYPE /* obsolescent; will be withdrawn */
+# define YYSTYPE_IS_DECLARED 1
+# define YYSTYPE_IS_TRIVIAL 1
 #endif
 
 /* Copy the second part of user declarations.  */
@@ -215,7 +215,7 @@ namespace yy
     typedef ]b4_int_type_for([b4_translate])[ TokenNumberType;
     typedef ]b4_int_type_for([b4_rhs])[       RhsNumberType;
     typedef int StateType;
-    typedef yystype SemanticType;
+    typedef YYSTYPE SemanticType;
     typedef ]b4_location_type[ LocationType;
   };
 }

@@ -1,3 +1,10 @@
+2004-11-23  Akim Demaille  <akim@epita.fr>
+
+	* data/lalr1.cc (YYSTYPE): Define it as is done for C, instead
+	of #defining from yystype.
+	Don't typedef yystype, C++ does not need it.
+	This lets it possible to forward declare it as union.
+
 2004-11-23  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap (gnulib_modules): Add extensions.
