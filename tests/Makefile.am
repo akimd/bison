@@ -30,7 +30,7 @@ TESTSUITE = $(srcdir)/testsuite
 
 AUTOM4TE = autom4te
 AUTOTEST = $(AUTOM4TE) --language=autotest
-$(srcdir)/$(TESTSUITE): package.m4 $(TESTSUITE_AT)
+$(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
 	{					\
 	  echo '# Signature of the current package.'; \
 	  echo 'm4_define([PACKAGE_NAME],      [@PACKAGE_NAME@])'; \

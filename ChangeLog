@@ -3,6 +3,8 @@
 	Version 1.29a.
 	* Makefile.maint, config/config.guess, config/config.sub,
 	* config/missing: Update from masters.
+	* tests/Makefile.am ($(srcdir)/$(TESTSUITE)): No longer depend
+	upon package.m4.
 
 2001-09-21  Akim Demaille  <akim@epita.fr>
 

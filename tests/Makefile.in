@@ -228,7 +228,7 @@ uninstall-am: uninstall-info-am
 	maintainer-clean-generic mostlyclean mostlyclean-generic \
 	uninstall uninstall-am uninstall-info-am
 
-$(srcdir)/$(TESTSUITE): package.m4 $(TESTSUITE_AT)
+$(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
 	{					\
 	  echo '# Signature of the current package.'; \
 	  echo 'm4_define([PACKAGE_NAME],      [@PACKAGE_NAME@])'; \
