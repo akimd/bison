@@ -1,3 +1,10 @@
+2003-02-17  Paul Eggert  <eggert@twinsun.com>
+
+	* tests/atlocal.in (LDFLAGS, LIBS): New vars.
+	* tests/testsuite.at (AT_COMPILE): Use them.
+	This fixes the testsuite problem reported by Robert Lentz in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-02/msg00011.html>.
+
 2003-02-12  Paul Eggert  <eggert@twinsun.com>
 
 	* data/yacc.c (yyerrlab) [YYERROR_VERBOSE]:
