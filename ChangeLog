@@ -1,5 +1,17 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (new_state, get_state): Complete TRACE code.
+	* src/closure.c: Include `reader.h' to get `tags', needed by the
+	trace code.
+	Rename the conditional DEBUG as TRACE.
+	Output consistently TRACEs to stderr, not stdout.
+	* src/derives.c: Likewise.
+	* src/reduce.c: (inaccessable_symbols): Using if is better style
+	than goto.
+	Use `#if TRACE' instead of `#if 0' for tracing code.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/system.h (LIST_FREE, shortcpy): New.
 	* src/LR0.c: Use them.
 	* src/output.c (free_itemsets, free_reductions, free_shifts):

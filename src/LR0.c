@@ -242,7 +242,8 @@ get_state (int symbol)
   int n;
 
 #if TRACE
-  fprintf (stderr, "Entering get_state, symbol = %d\n", symbol);
+  fprintf (stderr, "Entering get_state, state = %d, symbol = %d\n",
+	   nstates, symbol);
 #endif
 
   isp1 = kernel_base[symbol];
