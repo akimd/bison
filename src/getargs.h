@@ -45,6 +45,7 @@ enum trace_e
     trace_tools     = 1 << 3,
     trace_automaton = 1 << 4,
     trace_grammar   = 1 << 5,
+    trace_time      = 1 << 6,
     trace_all       = ~0
   };
 extern int trace_flag;

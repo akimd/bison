@@ -110,10 +110,12 @@ char *xstrndup PARAMS ((const char *s, size_t n));
 #endif
 
 
-/* Find `times' where available.  */
-#if HAVE_SYS_TIMES_H
-# include <sys/times.h>
-#endif
+/*----------------.
+| Using timevar.  |
+`----------------*/
+
+#include "timevar.h"
+extern int time_report;
 
 
 /*---------------------.

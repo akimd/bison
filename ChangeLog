@@ -1,5 +1,21 @@
 2002-07-31  Akim Demaille  <akim@epita.fr>
 
+	Steal GCC's --time-report support.
+
+	* lib/timevar.c, lib/timevar.h, lib/timevar.def: New,
+	stolen/adjusted from GCC.
+	* m4/stage.m4: Remove time related checks.
+	* m4/timevar.m4: New.
+	* configure.in: Adjust.
+	* src/system.h: Adjust to using timevar.h.
+	* src/getargs.h, src/getargs.c: Support trace_time for
+	--trace=time.
+	* src/main.c (stage): Remove.
+	(main): Replace `stage' invocations with timevar calls.
+	* src/output.c: Insert pertinent timevar calls.
+
+2002-07-31  Akim Demaille  <akim@epita.fr>
+
 	Let --trace have arguments.
 
 	* src/getargs.h (enum trace_e): New.

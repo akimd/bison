@@ -20,14 +20,28 @@
 
 # serial 1
 
-AC_DEFUN([BISON_PREREQ_STAGE],
-[AC_CHECK_HEADERS([malloc.h])
-AC_CHECK_FUNCS([mallinfo])
+AC_DEFUN([BISON_PREREQ_TIMEVAR],
+[AC_CHECK_HEADERS([sys/resource.h sys/times.h])
 
-AC_CHECK_TYPES([struct mallinfo], [], [],
+AC_CHECK_FUNCS([times])
+
+AC_CHECK_DECLS([getrusage, times, clock, sysconf], [], [],
 [$ac_includes_default
-#if HAVE_MALLOC_H
-# include <malloc.h>
+#if HAVE_SYS_RESOURCE_H
+# include <sys/resource.h>
+#endif
+#if HAVE_SYS_TIMES_H
+# include <sys/times.h>
+#endif
+])
+
+AC_CHECK_TYPES([clock_t, struct tms], [], [],
+[$ac_includes_default
+#if HAVE_SYS_RESOURCE_H
+# include <sys/resource.h>
+#endif
+#if HAVE_SYS_TIMES_H
+# include <sys/times.h>
 #endif
 ])
 ])

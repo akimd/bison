@@ -19,4 +19,5 @@ progtest.m4					\
 realloc.m4					\
 stage.m4					\
 strerror_r.m4					\
+timevar.m4					\
 warning.m4

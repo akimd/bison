@@ -55,5 +55,9 @@ bbitset.h  bitset_stats.c  bitsetv.h       lbitset.c
 libbison_a_SOURCES += \
 	bitsetv-print.h bitsetv-print.c
 
+# timevars, stolen from GCC.
+libbison_a_SOURCES += \
+	timevar.h timevar.c timevar.def
+
 libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)
