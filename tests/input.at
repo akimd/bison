@@ -1,7 +1,5 @@
-# Process this file with autom4te to create testsuite. -*- Autotest -*-
-
-# Test suite for GNU Bison.
-# Copyright 2000, 2001 Free Software Foundation, Inc.
+# Checking the output filenames.                    -*- Autotest -*-
+# Copyright 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,17 +16,43 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
-# We need a recent Autotest.
-m4_version_prereq([2.52g])
+AT_BANNER([[Input Processing.]])
 
-AT_INIT
+# Mostly test that we are robust to mistakes.
 
-AT_TESTED([bison])
+## ------------ ##
+## Invalid $n.  ##
+## ------------ ##
 
-m4_include([input.at])
-m4_include([output.at])
-m4_include([sets.at])
-m4_include([reduce.at])
-m4_include([calc.at])
-m4_include([torture.at])
-m4_include([regression.at])
+
+AT_SETUP([Invalid $n])
+
+AT_DATA([input.y],
+[[%%
+exp: { $$ = $1 ; }
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:2: invalid $ value
+]])
+
+AT_CLEANUP
+
+
+## ------------ ##
+## Invalid @n.  ##
+## ------------ ##
+
+
+AT_SETUP([Invalid @n])
+
+AT_DATA([input.y],
+[[%%
+exp: { @$ = @1 ; }
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:2: invalid @ value
+]])
+
+AT_CLEANUP

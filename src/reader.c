@@ -304,13 +304,15 @@ copy_comment (FILE *fin, struct obstack *oout)
 /*-----------------------------------------------------------------.
 | FIN is pointing to a location (i.e., a `@').  Output to OOUT a   |
 | reference to this location. STACK_OFFSET is the number of values |
-| in the current rule so far, which says where to find `$0' with   |
+| in the current rule so far, which says where to find `@0' with   |
 | respect to the top of the stack.                                 |
 `-----------------------------------------------------------------*/
 
 static inline void
-copy_at (FILE *fin, struct obstack *oout, int stack_offset)
+copy_at (FILE *fin, struct obstack *oout,
+	 struct symbol_list *rule, int stack_offset)
 {
+  symbol_list *rp;
   int c;
 
   c = getc (fin);
@@ -321,10 +323,24 @@ copy_at (FILE *fin, struct obstack *oout, int stack_offset)
     }
   else if (isdigit (c) || c == '-')
     {
-      int n;
+      int n, i;
 
       ungetc (c, fin);
       n = read_signed_integer (fin);
+
+      rp = rule;
+      i = 0;
+
+      while (i < n)
+	{
+	  rp = rp->next;
+	  if (rp == NULL)
+	    {
+	      complain (_("invalid @ value"));
+	      return;
+	    }
+	  i++;
+	}
 
       obstack_fgrow1 (oout, "yylsp[%d]", n - stack_offset);
       locations_flag = 1;
@@ -1103,7 +1119,7 @@ copy_action (symbol_list *rule, int stack_offset)
 
 	    case '@':
 	      copy_at (finput, &action_obstack,
-		       stack_offset);
+		       rule, stack_offset);
 	      break;
 
 	    case EOF:
@@ -1203,7 +1219,7 @@ copy_guard (symbol_list *rule, int stack_offset)
 	  break;
 
 	case '@':
-	  copy_at (finput, &guard_obstack, stack_offset);
+	  copy_at (finput, &guard_obstack, rule, stack_offset);
 	  break;
 
 	case EOF:

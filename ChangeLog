@@ -1,3 +1,7 @@
+2002-02-07  Akim Demaille  <akim@epita.fr>
+
+	* tests/input.at: New.
+
 2002-01-29  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (YYSIZE_T): Do not define merely because

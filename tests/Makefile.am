@@ -45,7 +45,7 @@ EXTRA_DIST += package.m4
 
 TESTSUITE_AT = \
 	testsuite.at \
-	output.at sets.at reduce.at calc.at torture.at regression.at
+	input.at output.at sets.at reduce.at calc.at torture.at regression.at
 TESTSUITE = $(srcdir)/testsuite
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
