@@ -1,3 +1,8 @@
+2002-02-11  Akim Demaille  <akim@epita.fr>
+
+	* tests/regression.at (%nonassoc and eof): Don't include
+	nonportable headers.
+
 2002-02-08  Robert Anisko  <robert@lrde.epita.fr>
 
 	* data/bison.c++: Correct error recovery.  Make the user able to

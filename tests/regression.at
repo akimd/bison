@@ -29,9 +29,7 @@ AT_DATA([input.y],
 [[
 %{
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <error.h>
+
 #define YYERROR_VERBOSE 1
 #define yyerror(Msg) \
 do { \
