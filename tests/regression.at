@@ -109,6 +109,45 @@ input.y:3: fatal error: no rules in the input grammar
 AT_CLEANUP
 
 
+## ----------------- ##
+## Invalid input 1.  ##
+## ----------------- ##
+
+
+AT_SETUP([Invalid input: 1])
+
+AT_DATA([input.y],
+[[%%
+?
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[input.y:2: invalid input: `?'
+input.y:3: fatal error: no rules in the input grammar
+])
+
+AT_CLEANUP
+
+
+## ----------------- ##
+## Invalid input 2.  ##
+## ----------------- ##
+
+
+AT_SETUP([Invalid input: 2])
+
+AT_DATA([input.y],
+[[%%
+default: 'a' }
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[input.y:2: invalid input: `}'
+])
+
+AT_CLEANUP
+
+
 ## --------------------- ##
 ## Invalid CPP headers.  ##
 ## --------------------- ##
