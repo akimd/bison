@@ -31,11 +31,11 @@ extern int defines_flag;    	/* for -d */
 extern int locations_flag;
 extern int no_lines_flag;    	/* for -l */
 extern int no_parser_flag;	/* for -n */
-extern int statistics_flag;
 extern int token_table_flag;   	/* for -k */
 extern int verbose_flag;	/* for -v */
 extern int graph_flag;		/* for -g */
 extern int yacc_flag;  		/* for -y */
+extern int trace_flag;
 
 void getargs PARAMS ((int argc, char *argv[]));
 
