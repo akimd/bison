@@ -1,3 +1,8 @@
+2001-09-10  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at: Use m4_match.
+	(_AT_DATA_CALC_Y): Check `yyin != NULL', not `stdin != NULL'.
+
 2001-09-10  Marc Autret   <autret_m@epita.fr>, Akim Demaille  <akim@epita.fr>
 
 	* src/vcg.h (graph_s): color, textcolor, bordercolor are now

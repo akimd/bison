@@ -220,14 +220,16 @@ power (int base, int exponent)
 }
 
 int
-main (int argn, const char **argv)
+main (int argc, const char **argv)
 {
-  if (argn == 2)
+  yyin = NULL;
+
+  if (argc == 2)
     yyin = fopen (argv[1], "r");
   else
     yyin = stdin;
 
-  if (!stdin)
+  if (!yyin)
     {
       perror (argv[1]);
       exit (1);
@@ -252,9 +254,8 @@ main (int argn, const char **argv)
 # Produce `calc.y'.
 m4_define([AT_DATA_CALC_Y],
 [_AT_DATA_CALC_Y($[1], $[2], $[3],
-                 [m4_if(m4_regexp([$1], [--yyerror-verbose]),
-                        [-1], [],
-                        [[#define YYERROR_VERBOSE]])])])
+                 [m4_match([$1], [--yyerror-verbose],
+                           [[#define YYERROR_VERBOSE]])])])
 
 
 
@@ -268,12 +269,12 @@ m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
 [[$2
 ]])
-m4_if(m4_regexp([$1], [--debug]),
-  [-1],
-     [AT_CHECK([./calc <input],
-               [0], [], [])],
-     [AT_CHECK([calc ./input 2>&1 >/dev/null | grep 'parse error' >&2],
-               [1], [], [])])])
+m4_match([$1], [--debug],
+          [AT_CHECK([calc ./input 2>&1 >/dev/null | grep 'parse error' >&2],
+                    [1], [], [])],
+          [AT_CHECK([./calc <input],
+               [0], [], [])])dnl
+])
 
 
 # _AT_CHECK_CALC_ERROR(BISON-OPTIONS, INPUT,
@@ -286,12 +287,10 @@ m4_define([_AT_CHECK_CALC_ERROR],
 ]])
 
 AT_CHECK([./calc <input 2>&1 >/dev/null | grep 'parse error' >&2], 0,
-          [],
-[m4_if(m4_regexp([$1], [--location]),
-       [-1], [], [$3: ])[]dnl
+         [],
+[m4_match([$1], [--location], [$3: ])[]dnl
 parse error[]dnl
-m4_if(m4_regexp([$1], [--yyerror-verbose]),
-      [-1], [], [$4])[]dnl
+m4_match([$1], [--yyerror-verbose], [$4])[]dnl
 
 ])])
 
