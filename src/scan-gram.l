@@ -347,7 +347,7 @@ blanks   [ \t\f]+
   \\r	obstack_1grow (&string_obstack, '\r');
   \\t	obstack_1grow (&string_obstack, '\t');
   \\v	obstack_1grow (&string_obstack, '\v');
-  \\[\\""]   obstack_1grow (&string_obstack, yytext[1]);
+  \\[\\""'']   obstack_1grow (&string_obstack, yytext[1]);
   \\(.|\n)	{
     LOCATION_PRINT (stderr, *yylloc);
     fprintf (stderr, _(": unrecognized escape: %s\n"), quote (yytext));

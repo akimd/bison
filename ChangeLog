@@ -1,5 +1,12 @@
 2002-10-11  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at Characters Escapes): New.
+	* src/scan-gram.l (SC_ESCAPED_CHARACTER): Accept \' in strings and
+	characters.
+	Reported by Jan Nieuwenhuizen.
+
+2002-10-11  Akim Demaille  <akim@epita.fr>
+
 	* po/id.po: New.
 
 2002-10-10  Paul Eggert  <eggert@twinsun.com>
