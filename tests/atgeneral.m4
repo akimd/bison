@@ -98,7 +98,6 @@ AT_DEFINE([AT_CASE],
 # AT_LINE
 # -------
 # Return the current file sans directory, a colon, and the current line.
-
 AT_DEFINE([AT_LINE],
 [patsubst(__file__, ^.*/\(.*\), \1):__line__])
 
@@ -107,11 +106,18 @@ AT_DEFINE([AT_LINE],
 # ----------------
 # Begin testing suite, using PROGRAM to check version.  The search path
 # should be already preset so the proper executable will be selected.
-
 AT_DEFINE([AT_INIT],
 [AT_DEFINE(AT_ordinal, 0)
 . ./atconfig
 # Snippet (3
+# -e sets to true
+at_stop_on_error=false;
+# Shall we save and check stdout and stderr?
+# -n sets to false
+at_check_stds=true;
+# Shall we
+# -s sets to false, and -v to true
+at_verbose=false
 
 at_usage="Usage: $[0] [OPTION]...
 
@@ -121,17 +127,21 @@ at_usage="Usage: $[0] [OPTION]...
   -v  Force more detailed output, default for debugging scripts unless -s
   -x  Have the shell to trace command execution; also implies option -n"
 
+# Snippet )3
+
+# Snippet (4
 while test $[#] -gt 0; do
   case "$[1]" in
     --help) echo "$at_usage"; exit 0 ;;
     --version) echo "$[0] ($at_package) $at_version"; exit 0 ;;
-    -e) at_stop_on_error=1; shift ;;
-    -n) at_no_redirs=1; shift ;;
-    -s) at_verbose=; at_silent=1; shift ;;
-    -v) at_verbose=1; at_silent=; shift ;;
-    -x) at_traceon='set -vx'; at_traceoff='set +vx'; at_no_redirs=1; shift ;;
+    -e) at_stop_on_error=:;;
+    -n) at_check_stds=false;;
+    -s) at_verbose=false; at_silent=1;;
+    -v) at_verbose=:; at_silent=;;
+    -x) at_traceon='set -vx'; at_traceoff='set +vx'; at_check_stds=false;;
     *) echo 1>&2 "Try \`$[0] --help' for more information."; exit 1 ;;
   esac
+  shift
 done
 
 
@@ -159,7 +169,7 @@ fi
 # up files at the beginning only, not at the end.  This is so we can repeat
 # the script many times and browse left over files.  To cope with such left
 # over files, the full test suite cleans up both before and after test groups.
-# Snippet )3
+# Snippet )4
 
 if test -n "`$1 --version | sed -n s/$at_package.*$at_version/OK/p`"; then
   at_banner="Testing suite for $at_package, version $at_version"
@@ -198,14 +208,15 @@ else
     echo $at_n " $at_group$at_c"
     ( echo '#!/bin/sh'
       sed -n '/^[#] Snippet (1/,/^[#] Snippet )1/p' atconfig
-      test -z "$at_silent" && echo 'at_verbose=1'
       sed -n '/^[#] Snippet (2/,/^[#] Snippet )2/p' atconfig
       sed -n "/^[#] Snippet (3/,/^[#] Snippet )3/p" $[0]
+      test -z "$at_silent" && echo 'at_verbose=:'
+      sed -n "/^[#] Snippet (4/,/^[#] Snippet )4/p" $[0]
       sed -n "/^[#] Snippet (c$at_group(/,/^[#] Snippet )c$at_group)/p" $[0]
       at_desc="`sed -n \
         '/^[#] Snippet (d'$at_group'(/,/^[#] Snippet )d'$at_group')/p' $[0] \
         | sed -n '2s/^[#] //p'`"
-      echo 'if test -n "$at_verbose"; then'
+      echo 'if $at_verbose; then'
       echo '  at_banner="$[0]: '$at_desc'"'
       echo '  at_dashes=`echo $at_banner | sed s/./=/g`'
       echo '  echo'
@@ -222,7 +233,7 @@ else
     at_fail_count=`expr $at_fail_count + 1`
   done
   echo ', done'
-  if test -n "$at_stop_on_error"; then
+  if $at_stop_on_error; then
     at_banner='ERROR: One of the tests failed, inhibiting subsequent tests'
   else
     at_banner="ERROR: Suite unsuccessful, $at_fail_count of $at_test_count tests failed"
@@ -261,17 +272,16 @@ divert[]dnl
 # ---------------------
 # Start a group of related tests, all to be executed in the same subshell.
 # The group is testing what DESCRIPTION says.
-
-AT_DEFINE(AT_SETUP,
+AT_DEFINE([AT_SETUP],
 [AT_DEFINE([AT_ordinal], AT_EVAL(AT_ordinal + 1))
 pushdef([AT_group_description], [$1])
 pushdef([AT_data_files], )
 pushdef([AT_data_expout], )
 pushdef([AT_data_experr], )
-if test -z "$at_stop_on_error" || test -z "$at_failed_list"; then
+if $at_stop_on_error && test -n "$at_failed_list"; then :; else
 divert(1)[]dnl
   echo AT_LINE > at-check-line
-  if test -n "$at_verbose"; then
+  if $at_verbose; then
     echo 'testing AT_group_description'
     echo $at_n "     $at_c"
   fi
@@ -292,7 +302,6 @@ $at_traceon
 # Complete a group of related tests, recursively remove those FILES
 # created within the test.  There is no need to list stdout, stderr,
 # nor files created with AT_DATA.
-
 AT_DEFINE([AT_CLEANUP],
 $at_traceoff
 [[#] Snippet )s[]AT_ordinal[])
@@ -312,7 +321,7 @@ $at_traceoff
      at_ignore_count=`expr $at_ignore_count + 1`
   fi
   at_test_count=AT_ordinal
-  if test -z "$at_stop_on_error" || test -z "$at_failed_list"; then
+  if $at_stop_on_error && test -n "$at_failed_list"; then :; else
 divert(0)[]dnl
 [#] Snippet (c[]AT_ordinal[](
 
@@ -335,7 +344,6 @@ popdef([AT_group_description])[]dnl
 # an end of line.
 # This macro is not robust to active symbols in CONTENTS *on purpose*.
 # If you don't want CONTENT to be evaluated, quote it twice.
-
 AT_DEFINE([AT_DATA],
 [AT_DEFINE([AT_data_files], AT_data_files[ ]$1)
 cat >$1 <<'_ATEOF'
@@ -354,41 +362,45 @@ $2[]_ATEOF
 # STATUS is not checked if it is empty.
 # STDOUT and STDERR can be the special value `ignore', in which case
 # their content is not checked.
-
 AT_DEFINE([AT_CHECK],
 [$at_traceoff
-test -n "$at_verbose" \
-  && echo "$srcdir/AT_LINE: testing..."
+$at_verbose && echo "$srcdir/AT_LINE: testing..."
 echo AT_LINE > at-check-line
-test -z "$at_no_redirs" && exec 5>&1 6>&2 1>stdout 2>stderr
+$at_check_stds && exec 5>&1 6>&2 1>stdout 2>stderr
 $at_traceon
 $1
-ifelse([$2],,,
+ifelse([$2], [], [],
 [at_status=$?
 if test $at_status != $2; then
 dnl Maybe there was an important message to read before it died.
-  test -n "$at_verbose" && test -z "$at_no_redirs" && cat stderr >&6
+  $at_verbose && $at_check_stds && cat stderr >&6
 dnl Exit with the same code, at least to preserve 77.
   exit $at_status
 fi
 ])dnl
 $at_traceoff
-if test -z "$at_no_redirs"; then
+if $at_check_stds; then
+dnl Restore stdout to fd1 and stderr to fd2.
   exec 1>&5 2>&6
+dnl If not verbose, neutralize the output of diff.
+  $at_verbose || exec 1>/dev/null 2>/dev/null
+  at_failed=false;
   AT_CASE([$3],
-          ignore, [test -n "$at_verbose" && cat stdout;:],
+          ignore, [$at_verbose && cat stdout;:],
           expout, [AT_DEFINE([AT_data_expout], [ expout])dnl
-$at_diff expout stdout || exit 1],
-          [], [$at_diff empty stdout || exit 1],
-          [echo $at_n "patsubst([$3], [\([\"`$]\)], \\\1)$at_c" | $at_diff - stdout || exit 1])
+$at_diff expout stdout || at_failed=:],
+          [], [$at_diff empty stdout || at_failed=:],
+          [echo $at_n "patsubst([$3], [\([\"`$]\)], \\\1)$at_c" | $at_diff - stdout || at_failed=:])
   AT_CASE([$4],
-          ignore, [test -n "$at_verbose" && cat stderr;:],
+          ignore, [$at_verbose && cat stderr;:],
           experr, [AT_DEFINE([AT_data_experr], [ experr])dnl
-$at_diff experr stderr || exit 1],
-          [], [$at_diff empty stderr || exit 1],
-          [echo $at_n "patsubst([$4], [\([\"`$]\)], \\\1)$at_c" | $at_diff - stderr || exit 1])
+$at_diff experr stderr || at_failed=:],
+          [], [$at_diff empty stderr || at_failed=:],
+          [echo $at_n "patsubst([$4], [\([\"`$]\)], \\\1)$at_c" | $at_diff - stderr || at_failed=:])
+  $at_failed && exit 1
 fi
 $at_traceon
 ])# AT_CHECK
+
 
 divert(0)dnl

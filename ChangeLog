@@ -1,5 +1,9 @@
 2000-09-21  Akim Demaille  <akim@epita.fr>
 
+	* src/atgeneral.m4: Update from Autoconf.
+
+2000-09-21  Akim Demaille  <akim@epita.fr>
+
 	* src/closure.h: New file.
 	* src/closure.c: Formatting changes, topological sort over the
 	functions, use of closure.h.
