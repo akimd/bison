@@ -1,3 +1,9 @@
+2002-05-06  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (packgram): No longer end `ritem' with a 0
+	sentinel: it is not used.
+
+	
 2002-05-05  Akim Demaille  <akim@epita.fr>
 
 	New experimental feature: display the lookaheads in the report and
@@ -30,7 +36,6 @@
 	* data/bison.simple, data/bison.c++: b4_token_number_max is now
 	b4_translate_max.
 
-	
 2002-05-05  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_unsigned_int_table): New.
@@ -43,7 +48,6 @@
 	to compute types instead of constant types.
 	* tests/regression.at (Web2c Actions): Adjust.
 
-	
 2002-05-04  Akim Demaille  <akim@epita.fr>
 
 	* src/symtab.h (SALIAS, SUNDEF): Rename as...

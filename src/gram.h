@@ -81,11 +81,9 @@
    contains minus R, which identifies it as the end of a portion and
    says which rule it is for.
 
-   The portions of RITEM come in order of increasing rule number and
-   are followed by an element which is zero to mark the end.  nritems
-   is the total length of ritem, not counting the final zero.  Each
-   element of RITEM is called an "item" and its index in RITEM is an
-   item number.
+   The portions of RITEM come in order of increasing rule number.
+   NRITEMS is the total length of RITEM.  Each element of RITEM is
+   called an "item" and its index in RITEM is an item number.
 
    Item numbers are used in the finite state machine to represent
    places that parsing can get to.
