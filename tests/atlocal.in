@@ -4,7 +4,7 @@
 
 # We need a C compiler.
 CC='@CC@'
-CFLAGS='@CFLAGS@'
+CFLAGS='@CFLAGS@ @WARNING_CFLAGS@'
 
 # We need to know if the compiler is GCC.
 GCC='@GCC@'
