@@ -1,3 +1,12 @@
+2002-10-19  Akim Demaille  <akim@epita.fr>
+
+	* src/getargs.c (usage): Take status as argument and exit
+	accordingly.
+	Report the traditional `Try ... --help' message when status != 0.
+	(usage, version): Don't take a FILE * as arg, it is pointless.
+	(getargs): When there is an incorrect number of arguments, make it
+	an error, and report it GNUlically thanks to `usage ()'.
+
 2002-10-18  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (yyreportParseError): Don't assume that sprintf
