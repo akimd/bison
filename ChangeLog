@@ -1,3 +1,8 @@
+2001-08-27  Akim Demaille  <akim@epita.fr>
+
+	* Makefile.am (AUTOMAKE_OPTIONS): 1.5.
+	* Makefile.maint: Sync. with CVS Autoconf.
+
 2001-08-27  Marc Autret  <autret_m@epita.fr>
 
 	* src/vcg.h (struct infoname_s): New.
@@ -12,7 +17,7 @@
 	* src/vcg.c (output_graph): Add output of {vertical,horizontal}_order.
 	Add output of `infoname'.
 	Add output of `colorentry'.
-	
+
 2001-08-27  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (parse_dquoted_param): Rename variable `index' to `i'.
@@ -20,7 +25,7 @@
 
 2001-08-24  Marc Autret  <autret_m@epita.fr>
 
-	* src/print_graph.c (node_output_size): Declared POSIX `size_t' type, 
+	* src/print_graph.c (node_output_size): Declared POSIX `size_t' type,
 	instead of `unsigned'.
 	(print_state): Do not call obstack_object_size () in obstack_grow ()
 	to avoid macro variables shadowing.
@@ -36,7 +41,7 @@
 	* tests/suite.at: Exercise %header_extension and %source_extension.
 
 2001-08-16  Marc Autret  <autret_m@epita.fr>
-	
+
 	* src/reader.c (parse_dquoted_param): New.
 	(parse_header_extension_decl): Use it.
 	(parse_source_extension_decl): Likewise.

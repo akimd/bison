@@ -51,7 +51,9 @@ release_archive_dir ?= ../release
 ## --------------- ##
 
 # Checks that don't require cvs.
-local-check: changelog-check po-check writable-files copyright-check
+# Run `changelog-check' as previous test may reveal problems requiring
+# new ChangeLog entries.
+local-check: po-check copyright-check writable-files changelog-check
 
 changelog-check:
 	if head ChangeLog | grep 'Version $(VERSION)' >/dev/null; then \
@@ -120,7 +122,7 @@ maintainer-distcheck: changelog-check
 # Tag before making distribution.  Also, don't make a distribution if
 # checks fail.  Also, make sure the NEWS file is up-to-date.
 # FIXME: use dist-hook/my-dist like distcheck-hook/my-distcheck.
-cvs-dist: cvs-check maintainer-distcheck
+cvs-dist: local-check cvs-check maintainer-distcheck
 	$(CVS) update po
 	$(CVS) tag -c $(this-cvs-tag)
 	$(MAKE) dist
@@ -266,7 +268,7 @@ wget-update: $(get-targets)
 	for f in depcomp missing; do                                    \
 	  test -f $$f || continue;					\
 	  echo checking out $$f...;                                     \
-	  $(CVS) -d $(automake_repo) co -p automake/lib/$$f > $$f.t        \
+	  $(CVS) -d $(automake_repo) co -p automake/lib/$$f > $$f.t     \
 	    && $(move_if_change) $$f.t $$f;                             \
 	done
 
@@ -284,7 +286,7 @@ endef
 $(xd-delta): $(release_archive_dir)/$(prev-tgz) $(distdir).tar.gz
 	xdelta delta -9 $^ $@ || :
 
-alpha: local-check
+alpha:
 	$(MAKE) cvs-dist
 	$(MAKE) $(xd-delta)
 	$(MAKE) -s announcement > /tmp/announce-$(my_distdir)

@@ -1069,6 +1069,12 @@ Adjust the output:
      The other output files' names are constructed from OUTFILE as
      described under the `-v' and `-d' options.
 
+`-g'
+`--graph'
+     Output a VCG definition of the LALR(1) grammar automaton computed
+     by Bison. If the grammar file is `foo.y', the VCG output file will
+     be `foo.vcg'.
+
 
 File: bison.info,  Node: Environment Variables,  Next: Option Cross Key,  Prev: Bison Options,  Up: Invocation
 
