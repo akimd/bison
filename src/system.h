@@ -129,6 +129,14 @@ void *memrchr (const void *s, int c, size_t n);
 | GCC extensions.  |
 `-----------------*/
 
+/* Use this to suppress gcc's `...may be used before initialized'
+   warnings.  */
+#ifdef lint
+# define IF_LINT(Code) Code
+#else
+# define IF_LINT(Code) /* empty */
+#endif
+
 #ifndef __attribute__
 /* This feature is available in gcc versions 2.5 and later.  */
 # if !defined (__GNUC__) || __GNUC__ < 2 || \
