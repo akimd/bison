@@ -1,6 +1,11 @@
 2002-06-19  Akim Demaille  <akim@epita.fr>
 
-	* data/bison.simple (m4_location_if): New.
+	* data/bison.simple (b4_pure_if): New.
+	Use it instead of #ifdef YYPURE.
+
+2002-06-19  Akim Demaille  <akim@epita.fr>
+
+	* data/bison.simple (b4_location_if): New.
 	Use it instead of #ifdef YYLSP_NEEDED.
 
 2002-06-19  Akim Demaille  <akim@epita.fr>

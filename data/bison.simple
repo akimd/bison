@@ -63,6 +63,19 @@ m4_define([b4_rhs_location],
 
 
 
+## -------------- ##
+## %pure-parser.  ##
+## -------------- ##
+
+# b4_pure_if(IF-TRUE, IF-FALSE)
+# -----------------------------
+# Expand IF-TRUE, if %pure-parser, IF-FALSE otherwise.
+m4_define([b4_pure_if],
+[m4_if(b4_pure, [1],
+       [$1],
+       [$2])])
+
+
 ## ------------------- ##
 ## Output file names.  ##
 ## ------------------- ##
@@ -522,15 +535,13 @@ while (0)
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
-#if YYPURE
-# ifdef YYLEX_PARAM
-#  define YYLEX		yylex (&yylval, b4_location_if([&yylloc, ])YYLEX_PARAM)
-# else
-#  define YYLEX		yylex (&yylval, b4_location_if([&yylloc, ]))
-# endif
-#else /* !YYPURE */
-# define YYLEX		yylex ()
-#endif /* !YYPURE */
+b4_pure_if(
+[#ifdef YYLEX_PARAM
+# define YYLEX	yylex (&yylval, b4_location_if([&yylloc, ])YYLEX_PARAM)
+#else
+# define YYLEX	yylex (&yylval, b4_location_if([&yylloc, ]))
+#endif],
+[#define YYLEX	yylex ()])
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
@@ -658,37 +669,33 @@ int yyparse (void);
 #endif
 static void yydestructor (int symbol_type, YYSTYPE symbol_value);
 
-/* YY_DECL_VARIABLES -- depending whether we use a pure parser,
-   variables are global, or local to YYPARSE.  */
+m4_divert_push([KILL])# ======================== M4 code.
+# b4_declare_parser_variables
+# ---------------------------
+# Declare the variables that are global, or local to YYPARSE if
+#  pure-parser
+m4_define([b4_declare_parser_variables],
+[/* The lookahead symbol.  */
+int yychar;
 
-#define YY_DECL_VARIABLES				\
-/* The lookahead symbol.  */				\
-int yychar;						\
-							\
-/* The semantic value of the lookahead symbol.  */	\
-YYSTYPE yylval;						\
-							\
-/* Number of parse errors so far.  */			\
-int yynerrs;b4_location_if([				\
-/* Location data for the lookahead symbol.  */		\
+/* The semantic value of the lookahead symbol.  */
+YYSTYPE yylval;
+
+/* Number of parse errors so far.  */
+int yynerrs;b4_location_if([
+/* Location data for the lookahead symbol.  */
 YYLTYPE yylloc;])
+])
+m4_divert_pop([KILL])dnl# ====================== End of M4 code.
 
-
-/* If nonreentrant, generate the variables here.  */
-
-#if !YYPURE
-YY_DECL_VARIABLES
-#endif  /* !YYPURE */
+b4_pure_if([],
+           [b4_declare_parser_variables])
 
 int
 yyparse (YYPARSE_PARAM_ARG)
      YYPARSE_PARAM_DECL
 {[
-  /* If reentrant, generate the variables here.  */
-#if YYPURE
-  YY_DECL_VARIABLES
-#endif  /* !YYPURE */
-
+  ]b4_pure_if([b4_declare_parser_variables])[
   register int yystate;
   register int yyn;
   int yyresult;
@@ -1284,7 +1291,7 @@ typedef union b4_stype yystype;
 # define YYSTYPE yystype
 #endif
 
-m4_if(b4_pure, [0],
+b4_pure_if([],
 [extern YYSTYPE b4_prefix[]lval;])
 
 b4_location_if(
