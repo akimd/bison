@@ -97,6 +97,22 @@ AT_DATA([input.y],
 /* This is seen in GCC: a %{ and %} in middle of a comment. */
 const char *foo = "So %{ and %} can be here too.";
 
+#ifdef __STDC__
+/\
+* A comment with backslash-newlines in it. %{ %} *\
+\
+/
+
+char str[] = "\\
+" A string with backslash-newlines in it %{ %} \\
+"";
+
+char apostrophe = '\\
+\
+'\
+';
+#endif
+
 #include <stdio.h>
 %}
 /* %{ and %} can be here too. */
@@ -128,14 +144,14 @@ static void yyerror (const char *s);
 static int yylex (void);
 %}
 
-%type <ival> '1'
+%type <ival> '@<:@'
 
 /* Exercise quotes in strings.  */
-%token FAKE "fake @<:@@:>@,"
+%token FAKE "fake @<:@@:>@ \a\b\f\n\r\t\v\"\'\?\\\u005B\U0000005c ??!??'??(??)??-??/??<??=??> \x0\0"
 
 %%
-/* Exercise M4 quoting: '@:>@@:>@', 1.  */
-exp: '1'
+/* Exercise M4 quoting: '@:>@@:>@', @<:@, 1.  */
+exp: '@<:@' '\1' '\x000000000000000000000000000000000000000000000000002'
   {
     /* Exercise quotes in braces.  */
     char tmp[] = "@<:@%c@:>@,\n";
@@ -143,7 +159,7 @@ exp: '1'
   }
 ;
 %%
-/* Exercise M4 quoting: '@:>@@:>@', 2.  */
+/* Exercise M4 quoting: '@:>@@:>@', @<:@, 2.  */
 
 static YYSTYPE
 value_t_as_yystype (value_t val)
@@ -156,7 +172,7 @@ value_t_as_yystype (value_t val)
 static int
 yylex (void)
 {
-  static const char *input = "1";
+  static const char *input = "@<:@\1\2";
   yylval = value_t_as_yystype (*input);
   return *input++;
 }
@@ -184,7 +200,7 @@ main (void)
 AT_CHECK([bison -d -v -o input.c input.y])
 AT_COMPILE([input], [input.c main.c])
 AT_PARSER_CHECK([./input], 0,
-[[[1],
+[[[@<:@],
 ]])
 
 AT_CLEANUP
