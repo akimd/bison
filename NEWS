@@ -1,6 +1,8 @@
 Bison News
 ----------
 
+Changes in version 1.875b:
+
 Changes in version 1.875a, 2003-02-01:
 
 * For now, %expect-count violations are now just warnings, not errors.
