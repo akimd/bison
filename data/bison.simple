@@ -1,11 +1,36 @@
-%%{section} %%{output-prefix} %%{output-infix} %%".c"
-/* -*- C -*- */
+m4_divert(-1)
 
-/* A Bison parser, made from %%{filename}
-   by GNU bison %%{version}.  */
+# m4_define_default(MACRO, VALUE)
+# -------------------------------
+# Define MACRO to VALUE, unless already defined.
+m4_define([m4_define_default],
+[m4_ifdef([$1], [], [m4_define($@)])])
 
-/* Skeleton output parser for bison,
+m4_define_default([b4_input_suffix], [.y])
 
+m4_define_default([b4_output_parser_suffix],
+[m4_translit(b4_input_suffix, [yY], [cC])])
+
+m4_define_default([b4_output_parser_name],
+[b4_output_prefix[]b4_output_infix[]b4_output_parser_suffix[]])
+
+
+m4_define_default([b4_output_header_suffix],
+[m4_translit(b4_input_suffix, [yY], [hH])])
+
+m4_define_default([b4_output_header_name],
+[b4_output_prefix[]b4_output_infix[]b4_output_header_suffix[]])
+
+m4_define_default([b4_header_guard],
+                  [m4_bpatsubst(m4_toupper([BISON_]b4_output_header_name),
+                                [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
+
+m4_divert(0)dnl
+#output "b4_output_parser_name"
+/* A Bison parser, made from b4_filename
+   by GNU bison b4_version.  */
+
+/* Skeleton output parser for Bison,
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software
    Foundation, Inc.
 
@@ -38,31 +63,32 @@
 #define YYBISON	1
 
 /* Pure parsers.  */
-#define YYPURE	%%{pure}
+#define YYPURE	b4_pure
 
 /* Using locations.  */
-#define YYLSP_NEEDED %%{locations-flag}
+#define YYLSP_NEEDED b4_locations_flag
 
-/* If NAME_PREFIX is specified substitute the variables and functions
+m4_if(b4_prefix[], [yy], [],
+[/* If NAME_PREFIX is specified substitute the variables and functions
    names.  */
-#define yyparse %%{prefix}parse
-#define yylex   %%{prefix}lex
-#define yyerror %%{prefix}error
-#define yylval  %%{prefix}lval
-#define yychar  %%{prefix}char
-#define yydebug %%{prefix}debug
-#define yynerrs %%{prefix}nerrs
+#define yyparse b4_prefix[]parse
+#define yylex   b4_prefix[]lex
+#define yyerror b4_prefix[]error
+#define yylval  b4_prefix[]lval
+#define yychar  b4_prefix[]char
+#define yydebug b4_prefix[]debug
+#define yynerrs b4_prefix[]nerrs
 #if YYLSP_NEEDED
-# define yylloc %%{prefix}lloc
+# define yylloc b4_prefix[]lloc
 #endif
-
+])
 
 /* Copy the user declarations.  */
-%%{prologue}
+b4_prologue
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG %%{debug}
+# define YYDEBUG b4_debug
 #endif
 
 /* Enabling verbose error messages.  */
@@ -70,11 +96,11 @@
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE %%{error-verbose}
+# define YYERROR_VERBOSE b4_error_verbose
 #endif
 
 #ifndef YYSTYPE
-typedef %%{stype} yystype;
+typedef b4_stype yystype;
 # define YYSTYPE yystype
 #endif
 
@@ -86,11 +112,11 @@ typedef struct yyltype
   int last_line;
   int last_column;
 } yyltype;
-# define YYLTYPE %%{ltype}
+# define YYLTYPE b4_ltype
 #endif
 
-/* Line %%{skeleton-line} of %%{skeleton}.  */
-#line %%{line} "%%{parser-file-name}"
+/* Line __line__ of __file__.  */
+#line __oline__ "b4_output_parser_name"
 
 /* All symbols defined below should begin with yy or YY, to avoid
    infringing on user name space.  This should be done even for local
@@ -185,118 +211,118 @@ union yyalloc
 #endif /* ! defined (yyoverflow) || YYERROR_VERBOSE */
 
 /* Tokens.  */
-%%{tokendef}
+b4_tokendef
 
 /* YYFINAL -- State number of the termination state. */
-#define YYFINAL  %%{final}
-#define YYFLAG	 %%{flag}
-#define YYLAST   %%{last}
+#define YYFINAL  b4_final
+#define YYFLAG	 b4_flag
+#define YYLAST   b4_last
 
 /* YYNTOKENS -- Number of terminals. */
-#define YYNTOKENS  %%{ntokens}
+#define YYNTOKENS  b4_ntokens
 /* YYNNTS -- Number of nonterminals. */
-#define YYNNTS  %%{nnts}
+#define YYNNTS  b4_nnts
 /* YYNRULES -- Number of rules. */
-#define YYNRULES  %%{nrules}
+#define YYNRULES  b4_nrules
 /* YYNRULES -- Number of states. */
-#define YYNSTATES  %%{nstates}
-#define YYMAXUTOK  %%{maxtok}
+#define YYNSTATES  b4_nstates
+#define YYMAXUTOK  b4_maxtok
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-#define YYTRANSLATE(x) ((unsigned)(x) <= %%{maxtok} ? yytranslate[x] : %%{nsym})
+#define YYTRANSLATE(x) ((unsigned)(x) <= b4_maxtok ? yytranslate[[x]] : b4_nsym)
 
-/* YYTRANSLATE[YYLEX] -- Bison symbol number corresponding to YYLEX.  */
-static const char yytranslate[] =
+/* YYTRANSLATE[[YYLEX]] -- Bison symbol number corresponding to YYLEX.  */
+static const char yytranslate[[]] =
 {
-  %%{translate}
+  b4_translate
 };
 
 #if YYDEBUG
-/* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
+/* YYPRHS[[YYN]] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-static const short yyprhs[] =
+static const short yyprhs[[]] =
 {
-  %%{prhs}
+  b4_prhs
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-static const short yyrhs[] =
+static const short yyrhs[[]] =
 {
-  %%{rhs}
+  b4_rhs
 };
 
-/* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const short yyrline[] =
+/* YYRLINE[[YYN]] -- source line where rule number YYN was defined.  */
+static const short yyrline[[]] =
 {
-  %%{rline}
+  b4_rline
 };
 #endif
 
 #if (YYDEBUG) || YYERROR_VERBOSE
-/* YYTNME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+/* YYTNME[[SYMBOL-NUM]] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
-static const char *const yytname[] =
+static const char *const yytname[[]] =
 {
-  %%{tname}
+  b4_tname
 };
 #endif
 
-/* YYTOKNUM[YYN] -- Index in YYTNAME corresponding to YYLEX.  */
-static const short yytoknum[] =
+/* YYTOKNUM[[YYN]] -- Index in YYTNAME corresponding to YYLEX.  */
+static const short yytoknum[[]] =
 {
-  %%{toknum}
+  b4_toknum
 };
 
-/* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const short yyr1[] =
+/* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
+static const short yyr1[[]] =
 {
-  %%{r1}
+  b4_r1
 };
 
-/* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-static const short yyr2[] =
+/* YYR2[[YYN]] -- Number of symbols composing right hand side of rule YYN.  */
+static const short yyr2[[]] =
 {
-  %%{r2}
+  b4_r2
 };
 
-/* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
+/* YYDEFACT[[S]] -- default rule to reduce with in state S when YYTABLE
    doesn't specify something else to do.  Zero means the default is an
    error.  */
-static const short yydefact[] =
+static const short yydefact[[]] =
 {
-  %%{defact}
+  b4_defact
 };
 
-/* YYPGOTO[NTERM-NUM]. */
-static const short yydefgoto[] =
+/* YYPGOTO[[NTERM-NUM]]. */
+static const short yydefgoto[[]] =
 {
-  %%{defgoto}
+  b4_defgoto
 };
 
-/* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
+/* YYPACT[[STATE-NUM]] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-static const short yypact[] =
+static const short yypact[[]] =
 {
-  %%{pact}
+  b4_pact
 };
 
-/* YYPGOTO[NTERM-NUM].  */
-static const short yypgoto[] =
+/* YYPGOTO[[NTERM-NUM]].  */
+static const short yypgoto[[]] =
 {
-  %%{pgoto}
+  b4_pgoto
 };
 
-/* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
+/* YYTABLE[[YYPACT[STATE-NUM]]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.  */
-static const short yytable[] =
+static const short yytable[[]] =
 {
-  %%{table}
+  b4_table
 };
 
-static const short yycheck[] =
+static const short yycheck[[]] =
 {
-  %%{check}
+  b4_check
 };
 
 
@@ -367,8 +393,8 @@ while (0)
 
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N)       	\
-   Current.last_line   = Rhs[N].last_line;	\
-   Current.last_column = Rhs[N].last_column;
+   Current.last_line   = Rhs[[N]].last_line;	\
+   Current.last_column = Rhs[[N]].last_column;
 #endif
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
@@ -408,10 +434,8 @@ do {						\
   if (yydebug)					\
     YYFPRINTF Args;				\
 } while (0)
-/* Nonzero means print parse trace. [The following comment makes no
-   sense to me.  Could someone clarify it?  --akim] Since this is
-   uninitialized, it does not stop multiple parsers from coexisting.
-   */
+/* Nonzero means print parse trace.  Since this is uninitialized, it
+   does not stop multiple parsers from coexisting.  */
 int yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
@@ -419,7 +443,7 @@ int yydebug;
 
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
 #ifndef	YYINITDEPTH
-# define YYINITDEPTH %%{initdepth}
+# define YYINITDEPTH b4_initdepth
 #endif
 
 /* YYMAXDEPTH -- maximum size the stacks can grow to (effective only
@@ -434,7 +458,7 @@ int yydebug;
 #endif
 
 #ifndef YYMAXDEPTH
-# define YYMAXDEPTH %%{maxdepth}
+# define YYMAXDEPTH b4_maxdepth
 #endif
 
 
@@ -582,7 +606,7 @@ YY_DECL_VARIABLES
 int
 yyparse (YYPARSE_PARAM_ARG)
      YYPARSE_PARAM_DECL
-{
+{[
   /* If reentrant, generate the variables here.  */
 #if YYPURE
   YY_DECL_VARIABLES
@@ -902,14 +926,14 @@ yyreduce:
     }
 #endif
   switch (yyn)
-    {
-      %%{actions}
+    ]{
+      b4_actions
     }
 
-/* Line %%{skeleton-line} of %%{skeleton}.  */
-#line %%{line} "%%{parser-file-name}"
+/* Line __line__ of __file__.  */
+#line __oline__ "b4_output_parser_name"
 
-  yyvsp -= yylen;
+[  yyvsp -= yylen;
   yyssp -= yylen;
 #if YYLSP_NEEDED
   yylsp -= yylen;
@@ -1136,6 +1160,39 @@ yyreturn:
     YYSTACK_FREE (yyss);
 #endif
   return yyresult;
-}
+]}
 
-%%{epilogue}
+b4_epilogue
+m4_if(b4_defines_flag, 0, [],
+[#output "b4_output_header_name"
+#ifndef b4_header_guard
+# define b4_header_guard
+
+b4_tokendef
+
+#ifndef YYSTYPE
+typedef b4_stype
+yystype;
+# define YYSTYPE yystype
+#endif
+
+m4_if(b4_pure, [0],
+[extern YYSTYPE b4_prefix[]lval;])
+
+m4_if(b4_locations_flag, [0], [],
+[#ifndef YYLTYPE
+typedef struct yyltype
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} yyltype;
+# define YYLTYPE yyltype
+#endif
+
+m4_if(b4_pure, [0],
+[extern YYLTYPE b4_prefix[]lloc;])
+])
+#endif /* not b4_header_guard */
+])

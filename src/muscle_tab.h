@@ -1,5 +1,5 @@
 /* Definitions for macrotab.c and callers, part of bison,
-   Copyright 2001 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -54,5 +54,8 @@ const char *muscle_find PARAMS ((const char *key));
   obstack_1grow (&muscle_obstack, 0);					\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	       	\
 }
+
+
+void muscles_m4_output PARAMS ((FILE *out));
 
 #endif /* not MUSCLE_TAB_H_ */

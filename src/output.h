@@ -28,9 +28,9 @@ void output PARAMS ((void));
 
 size_t get_lines_number PARAMS ((const char *s));
 
-void actions_output PARAMS ((FILE *out, size_t *line));
-void guards_output PARAMS ((FILE *out, size_t *line));
-void token_definitions_output PARAMS ((FILE *out, size_t *line));
+void actions_output PARAMS ((FILE *out));
+void guards_output PARAMS ((FILE *out));
+void token_definitions_output PARAMS ((FILE *out));
 
 extern struct obstack muscle_obstack;
 

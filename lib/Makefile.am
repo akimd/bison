@@ -1,4 +1,4 @@
-## Copyright 2001, 2002 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -39,7 +39,8 @@ libbison_a_SOURCES = \
   getopt.h getopt.c getopt1.c \
   hash.h hash.c \
   quote.h quote.c quotearg.h quotearg.c \
-  xalloc.h xmalloc.c xstrdup.c xstrndup.c
+  xalloc.h xmalloc.c xstrdup.c xstrndup.c \
+  readpipe.c
 
 libbison_a_LIBADD = @LIBOBJS@ @ALLOCA@
 libbison_a_DEPENDENCIES = $(libbison_a_LIBADD)

@@ -20,7 +20,7 @@
 
 EXTRA_DIST = $(TESTSUITE_AT) testsuite
 
-DISTCLEANFILES       = atconfig bison
+DISTCLEANFILES       = atconfig $(check_SCRIPTS)
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 ## ------------ ##
@@ -65,6 +65,8 @@ clean-local:
 
 check-local: atconfig atlocal $(TESTSUITE)
 	$(SHELL) $(TESTSUITE)
+
+check_SCRIPTS = bison
 
 # Run the test suite on the *installed* tree.
 installcheck-local:

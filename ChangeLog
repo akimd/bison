@@ -1,5 +1,43 @@
 2002-02-05  Akim Demaille  <akim@epita.fr>
 
+	Give a try to M4 as a back end.
+
+	* lib/readpipe.c: New, from wdiff.
+	* src/Makefile.am (DEFS): Define PKGDATADIR, not BISON_SIMPLE and
+	BISON_HAIRY.
+	* src/system.h (BISON_HAIRY, BISON_SIMPLE): Remove the DOS and VMS
+	specific values.  Now it is m4 that performs the lookup.
+	* src/parse-skel.y: Remove.
+	* src/muscle_tab.c, src/muscle_tab.h (muscles_m4_output): New.
+	* src/output.c (actions_output, guards_output)
+	(token_definitions_output): No longer keeps track of the output
+	line number, hence remove the second argument.
+	(guards_output): Check against the guard member of a rule, not the
+	action member.
+	Adjust callers.
+	(output_skeleton): Don't look for the skeleton location, let m4 do
+	that.
+	Create `/tmp/muscles.m4'.  This is temporary, a proper temporary
+	file will be used.
+	Invoke `m4' on m4sugar.m4, muscles.m4, and the skeleton.
+	(prepare): Given that for the time being changesyntax is not
+	usable in M4, rename the muscles using `-' to `_'.
+	Define `defines_flag', `output_parser_name' and `output_header_name'.
+	* src/output.h (actions_output, guards_output)
+	(token_definitions_output): Adjust prototypes.
+	* src/scan-skel.l: Instead of scanning the skeletons, it now
+	processes the output of m4: `__oline__' and `#output'.
+	* data/bison.simple: Adjust to be used by M4(sugar).
+	* tests/Makefile.am: Use check_SCRIPTS to make sure `bison' is up
+	to date.
+	* tests/bison.in: Use the secrete envvar `BISON_PKGDATADIR'
+	instead of the dead `BISON_SIMPLE' and `BISON_HAIRY'.
+	* data/m4sugar/m4sugar.m4, data/m4sugar/version.m4: New,
+	shamelessly stolen from CVS Autoconf.
+
+	
+2002-02-05  Akim Demaille  <akim@epita.fr>
+
 	* lib/hash.c, lib/hash.h: Replace with Fileutils 4.1's version.
 	* configure.in: Check for the declarations of free and malloc.
 	* src/muscle_tab.c: Adjust.

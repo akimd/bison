@@ -1,4 +1,4 @@
-## Copyright 2001 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,8 +18,7 @@
 AUTOMAKE_OPTIONS = ../lib/ansi2knr
 
 DEFS = @DEFS@ \
-  -DBISON_SIMPLE=\"$(pkgdatadir)/bison.simple\" \
-  -DBISON_HAIRY=\"$(pkgdatadir)/bison.hairy\" \
+  -DPKGDATADIR=\"$(pkgdatadir)\" \
   -DLOCALEDIR=\"$(datadir)/locale\"
 
 CFLAGS = @CFLAGS@ $(WARNING_CFLAGS) $(WERROR_CFLAGS)
@@ -45,9 +44,9 @@ bison_SOURCES = LR0.c closure.c complain.c conflicts.c	\
     muscle_tab.h muscle_tab.c \
     options.h options.c \
     print.c reader.c reduce.c symtab.c warshall.c vcg.c \
-    skeleton.h parse-skel.h parse-skel.y scan-skel.l
+    scan-skel.l
 
-BUILT_SOURCES = parse-skel.c scan-skel.c
+BUILT_SOURCES = scan-skel.c
 
 EXTRA_bison_SOURCES = vmsgetargs.c
 
