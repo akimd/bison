@@ -1,5 +1,17 @@
 2002-04-22  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (token_translations_init): 256 is now the default
+	value for the error token, i.e., it will be assigned another
+	number if the user assigned 256 to one of her tokens.
+	(reader): Don't force 256 to error.
+	* doc/bison.texinfo (Symbols): Adjust.
+	* tests/torture.at (AT_DATA_HORIZONTAL_GRAMMAR)
+	(AT_DATA_TRIANGULAR_GRAMMAR): Number the tokens as 1, 2, 3
+	etc. instead of 10, 20, 30 (which was used to `jump' over error
+	(256) and undefined (2)).
+
+2002-04-22  Akim Demaille  <akim@epita.fr>
+
 	Propagate more token_number_t.
 
 	* src/gram.h (token_number_as_item_number)

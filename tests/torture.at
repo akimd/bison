@@ -60,7 +60,7 @@ EOF
 
 for my $size (1 .. $max)
   {
-    print "%token \"$size\" ", $size * 10, "\n";
+    print "%token \"$size\" ", $size, "\n";
   };
 
 print <<EOF;
@@ -100,7 +100,7 @@ yylex (void)
       ++outer;
       return END;
     }
-  return inner++ * 10;
+  return inner++;
 }
 
 static void
@@ -170,7 +170,7 @@ EOF
 
 for my $size (1 .. $max)
   {
-    print "%token \"$size\" ", $size * 10, "\n";
+    print "%token \"$size\" ", $size, "\n";
   };
 
 print <<EOF;
@@ -192,7 +192,7 @@ yylex (void)
   if (counter > $max)
     return 0;
   else
-  return counter++ * 10;
+  return counter++;
 }
 
 static void

@@ -11,6 +11,12 @@ Changes in version 1.49a:
   If yylex returned a code out of range, yyparse could die.  This is
   no longer the case.
 
+* Error token
+  According to POSIX, the error token should be numbered as 256.
+  Bison extends this requirement by making it a preference: *if* the
+  user specified that one of her tokens is numbered 256, then error
+  will be mapped onto another number.
+
 * Large grammars
   Are now supported (large token numbers, large grammar size (= sum of
   the LHS and RHS lengths).
@@ -19,11 +25,11 @@ Changes in version 1.49a:
   Bison used to play hacks with the initial rule, which the user does
   not write.  It is now explicit, and visible in the reports and
   graphs as rule 0.
-      
+
 * Useless rules are actually removed.
   Before, Bison reported the useless rules, but, although not used,
   included them in the parsers.
-	 
+
 * False `Token not used' report fixed.
   On a grammar such as
 

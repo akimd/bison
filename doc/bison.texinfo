@@ -2218,11 +2218,9 @@ files before compiling them.
 
 The symbol @code{error} is a terminal symbol reserved for error recovery
 (@pxref{Error Recovery}); you shouldn't use it for any other purpose.
-In particular, @code{yylex} should never return this value.
-The default value of the error token is 256, so in the
-unlikely event that you need to use a character token with numeric
-value 256 you must reassign the error token's value with a
-@code{%token} declaration.
+In particular, @code{yylex} should never return this value.  The default
+value of the error token is 256, unless you explicitly assigned 256 to
+one of your tokens with a @code{%token} declaration.
 
 @node Rules
 @section Syntax of Grammar Rules
