@@ -341,6 +341,12 @@ $<type_name>$ = $<type_name>1. I therefore think that one should implement
 a Bison option where every typed default rule is explicitly written out
 (same typed ruled can of course be grouped together).
 
+* Warnings
+It would be nice to have warning support.  See how Autoconf handles
+them, it is fairly well described there.  It would be very nice to
+implement this in such a way that other programs could use
+lib/warnings.[ch].
+
 * Pre and post actions.
 From: Florian Krohm <florian@edamail.fishkill.ibm.com>
 Subject: YYACT_EPILOGUE
