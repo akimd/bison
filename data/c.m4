@@ -300,3 +300,15 @@ m4_define([b4_c_args],
 
 m4_define([b4_c_arg],
 [$2])
+
+
+## ----------- ##
+## Synclines.  ##
+## ----------- ##
+
+
+# b4_syncline(LINE, FILE)
+# -----------------------
+m4_define([b4_syncline],
+[m4_if(b4_synclines_flag, 1,
+       [[#]line $1 "$2"])])

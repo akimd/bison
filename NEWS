@@ -6,6 +6,8 @@ Changes in version 1.75b:
 * Bison now parses C99 lexical constructs like digraphs, UCNs, and
   backslash-newline within C escape sequences, as POSIX now requires.
 
+* --no-line works properly.
+
 Changes in version 1.75a, 2002-10-24:
 
 * Bison can no longer be built by a K&R C compiler; it requires C89 or

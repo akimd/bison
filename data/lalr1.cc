@@ -129,7 +129,7 @@ b4_token_defines(b4_tokens)
 b4_pre_prologue
 
 /* Line __line__ of __file__.  */
-#line __oline__ "__ofile__"
+b4_syncline([__oline__], [__ofile__])
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -143,10 +143,10 @@ b4_pre_prologue
 
 #ifndef YYSTYPE
 m4_ifdef([b4_stype],
-[#line b4_stype_line "b4_filename"
+[b4_syncline([b4_stype_line], [b4_filename])
 typedef union b4_stype yystype;
 /* Line __line__ of __file__.  */
-#line __oline__ "__ofile__"],
+b4_syncline([__oline__], [__ofile__])],
 [typedef int yystype;])
 # define YYSTYPE yystype
 #endif
@@ -155,7 +155,7 @@ typedef union b4_stype yystype;
 b4_post_prologue
 
 /* Line __line__ of __file__.  */
-#line __oline__  "__ofile__"
+b4_syncline([__oline__], [__ofile__])
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N) \
    Current.last_line = Rhs[[N]].last_line; \
@@ -463,7 +463,7 @@ yy::b4_parser_class_name::parse ()
     }
 
 /* Line __line__ of __file__.  */
-#line __oline__ "__ofile__"
+b4_syncline([__oline__], [__ofile__])
 
   state_stack_.pop (len_);
   semantic_stack_.pop (len_);

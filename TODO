@@ -155,21 +155,11 @@ Paul notes:
 Show reductions.	[]
 
 * Broken options ?
-** %no-lines		[ok]
 ** %no-parser		[]
-** %pure-parser		[]
 ** %token-table		[]
-** Options which could use parse_dquoted_param ().
-Maybe transferred in lex.c.
-*** %skeleton		[ok]
-*** %output		[]
-*** %file-prefix	[]
-*** %name-prefix	[]
-
 ** Skeleton strategy.	[]
 Must we keep %no-parser?
 	     %token-table?
-*** New skeletons.	[]
 
 * src/print_graph.c
 Find the best graph parameters.	[]
