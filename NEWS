@@ -1,9 +1,14 @@
 Bison News
 ----------
 
-Changes in version 1.875b:
+Changes in version 1.875b, 2003-06-17:
 
-* Semicolons are now allowed before "|" in grammar rules, as POSIX requires.
+* GLR grammars now support locations.
+
+* Semicolon changes:
+  - Semicolons are now allowed before "|" in grammar rules, as POSIX requires.
+  - Stray semicolons are no longer allowed at the start of a grammar.
+  - Semicolons are now required after in-grammar declarations.
 
 Changes in version 1.875a, 2003-02-01:
 
