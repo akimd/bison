@@ -1,5 +1,31 @@
 2002-07-31  Akim Demaille  <akim@epita.fr>
 
+	Separate parser tables computation and output.
+
+	* src/output.c (nvectors, base_t, base, base_ninf, conflict_table)
+	(conflict_list, conflict_list_cnt, table, check, table_ninf)
+	(yydefgoto, yydefact, high): Move to...
+	* src/tables.h, src/tables.c: here.
+	* src/output.c (vector_number_t, VECTOR_NUMBER_MAX)
+	(VECTOR_NUMBER_MIN, state_number_to_vector_number)
+	(symbol_number_to_vector_number, nvectors, BASE_MAX, BASE_MIN)
+	(froms, tos, conflict_tos, tally, width, action_t, ACTION_MAX)
+	(ACTION_MIN, actrow, order, nentries, pos, conflrow)
+	(conflict_list_free, table_size, lowzero, table_grow, conflict_row)
+	(action_row, save_row, token_actions, save_column, default_goto)
+	(goto_actions, sort_actions, matching_state, pack_vector)
+	(table_ninf_remap, pack_table, prepare_actions): Move to...
+	* src/tables.c: here.
+	* src/tables.h, src/tables.c(tables_generate, tables_free): New.
+	* src/output.c (token_actions, output_base, output_conflicts)
+	(output_check): Merge into...
+	(prepare_actions): this.
+	(actions_output): Rename as...
+	(user_actions_output): this.
+	* src/main.c (main): Call tables_generate and tables_free.
+
+2002-07-31  Akim Demaille  <akim@epita.fr>
+
 	Steal GCC's --time-report support.
 
 	* lib/timevar.c, lib/timevar.h, lib/timevar.def: New,

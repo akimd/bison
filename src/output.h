@@ -26,7 +26,4 @@ extern int error_verbose;
 /* Output the parsing tables and the parser code to FTABLE.  */
 void output PARAMS ((void));
 
-void actions_output PARAMS ((FILE *out));
-void token_definitions_output PARAMS ((FILE *out));
-
 #endif /* !OUTPUT_H_ */

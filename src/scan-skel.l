@@ -80,7 +80,7 @@ m4_invoke (const char *definitions)
     sprintf (full_skeleton, "%s%s", bison_pkgdatadir, skeleton);
   else
     sprintf (full_skeleton, "%s/%s", bison_pkgdatadir, skeleton);
-  if (trace_flag)
+  if (trace_flag & trace_tools)
     fprintf (stderr,
 	     "running: %s -I %s m4sugar/m4sugar.m4 %s %s\n",
 	     m4, bison_pkgdatadir, definitions, full_skeleton);
