@@ -26,6 +26,9 @@ Changes in version 1.49b:
   and has long been required by POSIX.  For more details, please see
   <http://mail.gnu.org/pipermail/bug-bison/2002-May/001452.html>.
 
+* Traces
+  Popped tokens and nonterminals are now reported.
+
 * Large grammars
   Large grammars are now supported (large token numbers, large grammar
   size (= sum of the LHS and RHS lengths), large LALR tables).

@@ -1,3 +1,12 @@
+2002-05-26  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at (AT_CHECK_CALC): Adjust: there are now additional
+	`Error:' lines.
+	* data/bison.simple (yystos) [YYDEBUG]: New.
+	(yyparse) [YYDEBUG]: Display the symbols which are popped during
+	error recovery.
+	* tests/regression.at (Web2c Actions): Adjust: yystos is output now.
+
 2002-05-25  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (Debugging): Split into...

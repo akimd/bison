@@ -1,5 +1,5 @@
 # Checking the output filenames.                         -*- Autotest -*-
-# Copyright 2000, 2001 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -406,18 +406,18 @@ _AT_CHECK_CALC([$1],
 (2^2)^3 = 64], [486])
 
 # Some parse errors.
-_AT_CHECK_CALC_ERROR([$1], [0 0], [10],
+_AT_CHECK_CALC_ERROR([$1], [0 0], [11],
                      [1.3-1.4: parse error, unexpected "number"])
-_AT_CHECK_CALC_ERROR([$1], [1//2], [13],
+_AT_CHECK_CALC_ERROR([$1], [1//2], [15],
                      [1.3-1.4: parse error, unexpected '/', expecting "number" or '-' or '('])
 _AT_CHECK_CALC_ERROR([$1], [error], [4],
                      [1.1-1.2: parse error, unexpected $undefined., expecting "number" or '-' or '\n' or '('])
-_AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3], [19],
+_AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3], [22],
                      [1.7-1.8: parse error, unexpected '='])
 _AT_CHECK_CALC_ERROR([$1],
                      [
 +1],
-                     [13],
+                     [14],
                      [2.1-2.2: parse error, unexpected '+'])
 # Exercise error messages with EOF: work on an empty file.
 _AT_CHECK_CALC_ERROR([$1],
@@ -430,7 +430,7 @@ _AT_CHECK_CALC_ERROR([$1],
 # associated to `error'.
 _AT_CHECK_CALC_ERROR([$1],
                      [(1 ++ 2) + (0 0) = 1],
-                     [76],
+                     [82],
 [1.5-1.6: parse error, unexpected '+', expecting "number" or '-' or '('
 1.15-1.16: parse error, unexpected "number"
 calc: error: 0 != 1])

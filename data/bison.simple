@@ -362,7 +362,7 @@ static const b4_uint_type(b4_rline_max) yyrline[[]] =
 };
 #endif
 
-#if (YYDEBUG) || YYERROR_VERBOSE
+#if YYDEBUG || YYERROR_VERBOSE
 /* YYTNME[[SYMBOL-NUM]] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 static const char *const yytname[[]] =
@@ -389,9 +389,9 @@ static const b4_uint_type(b4_r2_max) yyr2[[]] =
   b4_r2
 };
 
-/* YYDEFACT[[S]] -- default rule to reduce with in state S when YYTABLE
-   doesn't specify something else to do.  Zero means the default is an
-   error.  */
+/* YYDEFACT[[STATE-NAME]] -- Default rule to reduce with in state
+   STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
+   means the default is an error.  */
 static const short yydefact[[]] =
 {
   b4_defact
@@ -429,6 +429,14 @@ static const short yycheck[[]] =
   b4_check
 };
 
+#if YYDEBUG
+/* YYSTOS[[STATE-NUM]] -- The (internal number of the) accessing
+   symbol of state STATE-NUM.  */
+static const b4_uint_type(b4_stos_max) yystos[[]] =
+{
+  b4_stos
+};
+#endif
 
 #if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
 # define YYSIZE_T __SIZE_TYPE__
@@ -1137,6 +1145,27 @@ yyerrlab1:
       /* Pop the current state because it cannot handle the error token.  */
       if (yyssp == yyss)
 	YYABORT;
+
+#if YYDEBUG
+      if (yydebug)
+	{
+	  if (yystos[yystate] < YYNTOKENS)
+	    {
+	      YYFPRINTF (stderr, "Error: popping token %d (%s",
+			 yytoknum[yystos[yystate]], yytname[yystos[yystate]]);
+# ifdef YYPRINT
+	      YYPRINT (stderr, yytoknum[yystos[yystate]], *yyvsp);
+# endif
+	      YYFPRINTF (stderr, ")\n");
+	    }
+	  else
+	    {
+	      YYFPRINTF (stderr, "Error: popping nonterminal (%s)\n",
+			 yytname[yystos[yystate]]);
+	    }
+	}
+#endif
+
       yyvsp--;
       yystate = *--yyssp;
 #if YYLSP_NEEDED

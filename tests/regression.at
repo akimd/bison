@@ -1,5 +1,5 @@
 # Bison Regressions.                               -*- Autotest -*-
-# Copyright 2001, 2002 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -548,6 +548,11 @@ static const short yytable[] =
 static const short yycheck[] =
 {
        7,     3,     9,     4,     0,    -1,     6,     5
+};
+static const unsigned char yystos[] =
+{
+       0,     3,     8,     9,    10,     4,     0,     6,    11,     5,
+       8,     8
 };
 ]])
 
