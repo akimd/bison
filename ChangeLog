@@ -1,5 +1,8 @@
 2004-05-25  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* README: Mention GNU m4 1.4 bugs and Akim's patched version.
+	* README-alpha: Don't tell people not to package this.
+
 	* bootstrap: Don't assume $(...) works; use `...` instead.
 	Problem reported by Paul Hilfinger.  Also, diagnose non-GNU
 	gettext better.

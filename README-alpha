@@ -7,18 +7,12 @@ The documentation still needs more work.  Suggestions welcome.
 Patches even more welcome.
 
 Please send comments and problem reports about this test release to
-bug-bison@gnu.org.  This program will get better only if you report
+<bug-bison@gnu.org>.  This program will get better only if you report
 the problems you encounter.
-
-Please, *do not package this*, *do not distribute it* widely, it is
-not ready for full scale use.  Because it is not fully functional, if
-you distribute this package, we will be buried under bug reports from
-panicked users.  We don't have time to spend on this, and nor do the
-users.
 
 -----
 
-Copyright (C) 2002 Free Software Foundation, Inc.
+Copyright (C) 2002, 2004 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 
