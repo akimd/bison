@@ -105,8 +105,7 @@
 
 # define G_BMAX			100
 # define G_CMIN			0
-/* computes the max value of an int ... */
-# define G_CMAX			((unsigned) 1 << (sizeof(int) * 8 - 1)) - 1
+# define G_CMAX			INT_MAX
 # define G_PMIN			0
 # define G_PMAX			100
 # define G_RMIN			0
