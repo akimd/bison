@@ -1,5 +1,12 @@
 2002-07-09  Akim Demaille  <akim@epita.fr>
 
+	* src/parse-gram.y (rules_or_grammar_declaration): Add an error
+	recovery rule, and forbid extensions when --yacc.
+	(gram_error): Use complain_at.
+	* src/reader.c (reader): Exit if there were parse errors.
+
+2002-07-09  Akim Demaille  <akim@epita.fr>
+
 	* tests/synclines.at (AT_SYNCLINES_COMPILE): New.
 	(AT_TEST_SYNCLINE): Adjust to unusual GCC outputs.
 	Reported by R Blake <blakers@mac.com>.

@@ -30,6 +30,7 @@
 
 %{
 #include "system.h"
+#include "complain.h"
 #include "muscle_tab.h"
 #include "files.h"
 #include "getargs.h"
@@ -338,6 +339,14 @@ grammar:
 rules_or_grammar_declaration:
   rules
 | grammar_declaration ";"
+    {
+      if (yacc_flag)
+	complain_at (@$, _("POSIX forbids declarations in the grammar"));
+    }
+| error ";"
+    {
+      yyerrok;
+    }
 ;
 
 rules:
@@ -453,6 +462,5 @@ void
 gram_error (gram_control_t *control ATTRIBUTE_UNUSED,
 	    location_t *yylloc, const char *msg)
 {
-  LOCATION_PRINT (stderr, *yylloc);
-  fprintf (stderr, ": %s\n", msg);
+  complain_at (*yylloc, "%s", msg);
 }
