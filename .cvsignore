@@ -1,3 +1,17 @@
+.deps
+ChangeLog
+Makefile
+Makefile.in
 aclocal.m4
+bison
+bison.info
+bison.info-[0-9]*
+bison.simple
+config.cache
+config.h
 config.hin
+config.log
+config.status
 configure
+stamp-h
+version.c
