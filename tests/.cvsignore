@@ -1,15 +1,8 @@
 Makefile
 Makefile.in
-at-*
 atconfig
-empty
-experr
-expout
-stderr
-stdout
 testsuite
-testsuite.[0-9]
-testsuite.[0-9][0-9]
+testsuite.dir
 package.m4
 calc.[chy]
 calc.tab.*

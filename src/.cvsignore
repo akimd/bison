@@ -5,3 +5,5 @@ bison
 *.log
 *.flc
 Makefile.in
+parse-skel.[ch] parse-skel.output
+scan-skel.c
