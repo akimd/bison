@@ -4,5 +4,7 @@ config.h
 config.log
 config.status
 stamp-h
-bison-*.tar.gz
-patches update-log
+bison-*
+patches
+*.patch *.log
+*.prj
