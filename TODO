@@ -1,39 +1,38 @@
 -*- outline -*-
 
 * src/reader.c
-** Complete parse_skel_decl () with parse_dquoted_param (). []
-** Check and cleanup for CPP-out code. []
+** Complete parse_skel_decl () with parse_dquoted_param ().	[]
+** Check and cleanup for CPP-out code.	[]
 
 * src/output.c
-<<<<<<< TODO
-** Output sub-skeleton files. []
-** Cleanup dirty CPP-out code. []
-*** Useful for %no_parser. []
-**** New skeleton. []
-** s/definitions/prologue/  s/user_code/epilogue/ [ok].
-** s/macro/muscle/ [ok]
-** Synchronize `#line' directive with user file. []
+** Output sub-skeleton files.	[]
+** Cleanup dirty CPP-out code.	[]
+*** Useful for %no_parser.	[]
+**** New skeleton.	[]
+** s/definitions/prologue/  s/user_code/epilogue/.	[ok]
+** s/macro/muscle/.	[ok]
+** Synchronize `#line' directive with user file.	[]
 
 * src/getargs.c src/lex.c
-** Synchronize percent and command line options. []
+** Synchronize percent and command line options.	[]
 
 * src/macrotab.[ch]
-** Removing warnings when compiling. (gcc-warnings) [ok].
-** s/macro/muscle/ [ok]
-*** Rename files. []
-*** Rename functions []
+** Removing warnings when compiling. (gcc-warnings).	[ok]
+** s/macro/muscle/.	[ok]
+*** Rename files.	[]
+*** Rename functions	[]
 *** Echo modifications src/Makefile src/output.c src/reader.c
-***		       src/main.c src/macrotab.c []
+***		       src/main.c src/macrotab.c.	[]
 
 * src/print_graph.c
-** Find the best graph parameters. []
+** Find the best graph parameters.	[]
 
 * doc/bison.texinfo
-** Echo modifications of prologue and epilogue. []
-** Add informations about YYERROR_VERBOSE. []
-** Add explainations about skeleton muscles. []
-** Add explainations about %skeleton. []
+** Echo modifications of prologue and epilogue.	[]
+** Add informations about YYERROR_VERBOSE.	[]
+** Add explainations about skeleton muscles.	[]
+** Add explainations about %skeleton.	[]
 
 * tests/
-** Repair Bison to success tests. [ok]
+** Repair Bison to success tests.	[ok]
 
