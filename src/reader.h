@@ -1,5 +1,5 @@
 /* Input parser for bison
-   Copyright 2000, 2001  Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002  Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -27,8 +27,10 @@
    function (YYGUARD or YYACTION) which contains a switch statement to
    decide which guard or action to execute.  */
 
-extern void reader PARAMS ((void));
+void reader PARAMS ((void));
 
+/* Free the packed grammar. */
+void grammar_free PARAMS ((void));
 
 extern int lineno;
 

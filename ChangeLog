@@ -1,5 +1,11 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (output): Don't free the grammar.
+	* src/reader.c (grammar_free): New.
+	* src/main.c (main): Call it and don't free symtab here.
+
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* src/lex.c (parse_percent_token): Be sure to 0-end token_buffer
 	before returning.
 	Reported by Benoit Perrot.
