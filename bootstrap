@@ -32,9 +32,9 @@ do
     echo "$0: usage: $0 [--gnulib-srcdir=DIR] [--cvs-user=USERNAME] [--skip-po]"
     exit;;
   --gnulib-srcdir=*)
-    GNULIB_SRCDIR=`expr "$1" : '--gnulib-srcdir=\(.*\)'`;;
+    GNULIB_SRCDIR=`expr "$option" : '--gnulib-srcdir=\(.*\)'`;;
   --cvs-user=*)
-    CVS_USER=`expr "$1" : '--cvs-user=\(.*\)'`;;
+    CVS_USER=`expr "$option" : '--cvs-user=\(.*\)'`;;
   --skip-po)
     SKIP_PO=t;;
   *)
@@ -169,10 +169,44 @@ esac
 echo "$0: autoreconf --verbose --install --force ..."
 autoreconf --verbose --install --force || exit
 
-# We don't need intl, so remove it.
-echo "$0: rm -fr intl ..."
-rm -fr intl || exit
 
+# We don't need intl, so remove it.
+# Remove aclocal.m4 too, so that it gets rebuilt.
+intl_files_to_remove='
+  aclocal.m4
+  intl
+  m4/codeset.m4
+  m4/glibc21.m4
+  m4/intdiv0.m4
+  m4/intmax.m4
+  m4/inttypes_h.m4
+  m4/inttypes.m4
+  m4/inttypes-pri.m4
+  m4/isc-posix.m4
+  m4/lcmessage.m4
+  m4/longdouble.m4
+  m4/longlong.m4
+  m4/printf-posix.m4
+  m4/signed.m4
+  m4/size_max.m4
+  m4/stdint_h.m4
+  m4/uintmax_t.m4
+  m4/ulonglong.m4
+  m4/wchar_t.m4
+  m4/wint_t.m4
+  m4/xsize.m4
+'
+echo $0: rm -fr $intl_files_to_remove ...
+rm -fr $intl_files_to_remove || exit
+
+echo "$0: patching m4/gettext.m4 so that AM_INTL_SUBDIR is empty ..."
+sed '
+  /^AC_DEFUN(\[AM_INTL_SUBDIR],/,/^]/c\
+    AC_DEFUN([AM_INTL_SUBDIR], [])
+' m4/gettext.m4 >m4/gettext.m4t &&
+mv m4/gettext.m4t m4/gettext.m4 || exit
+
+echo 'AC_DEFUN([AM_INTL_SUBDIR],[])' >>m4/gettext.m4 || exit
 
 # Patch what appears to be a bug in gettext 0.14.1;
 # remove this once the bug is fixed.

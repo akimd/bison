@@ -1,5 +1,6 @@
 *.flc
 *.log
+*.output
 .deps
 Makefile
 Makefile.in

@@ -1,4 +1,3 @@
-*_.c
 .deps
 Makefile
 Makefile.in
@@ -28,9 +27,6 @@ hash.h
 malloc.c
 mbswidth.c
 mbswidth.h
-memchr.c
-memcmp.c
-memrchr.c
 obstack.c
 obstack.h
 quote.c
@@ -42,16 +38,11 @@ stdbool.h
 stdbool_.h
 stpcpy.c
 stpcpy.h
-strcasecmp.c
-strchr.c
 stripslash.c
 strncasecmp.c
 strndup.c
+strndup.h
 strnlen.c
-strrchr.c
-strspn.c
-strtol.c
-strtoul.c
 unlocked-io.h
 xalloc.h
 xmalloc.c
