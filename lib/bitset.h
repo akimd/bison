@@ -167,7 +167,8 @@ do   								\
   bitset_windex _offset = _index - (bset)->b.cindex;		\
   								\
   if (_offset < (bset)->b.csize)				\
-    (bset)->b.cdata[_offset] &= ~(1 << (_bitno % BITSET_WORD_BITS)); 	\
+    (bset)->b.cdata[_offset] &=					\
+       ~((bitset_word) 1 << (_bitno % BITSET_WORD_BITS)); 	\
   else  							\
     BITSET_RESET_ ((bset), _bitno);				\
 } while (0)
