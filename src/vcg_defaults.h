@@ -22,11 +22,11 @@
 # define VCG_DEFAULTS_H_
 
 /* Graph defaults. */
-# define G_TITLE		0
-# define G_LABEL		0
-# define G_INFOS1		0
-# define G_INFOS2		0
-# define G_INFOS3		0
+# define G_TITLE		NULL
+# define G_LABEL		NULL
+# define G_INFOS1		NULL
+# define G_INFOS2		NULL
+# define G_INFOS3		NULL
 
 # define G_COLOR		white
 # define G_TEXTCOLOR		black
@@ -63,7 +63,7 @@
 
 # define G_HIDDEN		-1		/* No default value. */
 
-# define G_CLASSNAME		0		/* No class name association */
+# define G_CLASSNAME		NULL		/* No class name association */
 # define G_LAYOUTALGORITHM	normal
 # define G_LAYOUT_DOWNFACTOR	1
 # define G_LAYOUT_UPFACTOR	1
@@ -106,12 +106,12 @@
 # define G_RMAX			100
 # define G_SMAX			100
 
-# define G_NODE_LIST		0
-# define G_EDGE_LIST		0
+# define G_NODE_LIST		NULL
+# define G_EDGE_LIST		NULL
 
 /* Nodes defaults. */
-# define N_TITLE		0
-# define N_LABEL		0
+# define N_TITLE		NULL
+# define N_LABEL		NULL
 
 # define N_LOCX			-1	/* Default unspcified */
 # define N_LOCY			-1	/* Default unspcified */
@@ -135,18 +135,18 @@
 # define N_TEXTCOLOR		black
 # define N_BORDERCOLOR		N_TEXTCOLOR
 
-# define N_INFOS1		0
-# define N_INFOS2		0
-# define N_INFOS3		0
+# define N_INFOS1		NULL
+# define N_INFOS2		NULL
+# define N_INFOS3		NULL
 
-# define N_NEXT			0
+# define N_NEXT			NULL
 
 /* Edge defaults. */
 # define E_EDGE_TYPE		normal_edge
 
-# define E_SOURCENAME		0	/* Mandatory. */
-# define E_TARGETNAME		0	/* Mandatory. */
-# define E_LABEL		0
+# define E_SOURCENAME		NULL	/* Mandatory. */
+# define E_TARGETNAME		NULL	/* Mandatory. */
+# define E_LABEL		NULL
 
 # define E_LINESTYLE		continuous
 # define E_THICKNESS		2
@@ -170,6 +170,6 @@
 
 # define E_HORIZONTAL_ORDER	-1
 
-# define E_NEXT			0
+# define E_NEXT			NULL
 
 #endif /* not VCG_DEFAULTS_H_ */
