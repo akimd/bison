@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.30f\n"
 "POT-Creation-Date: 2002-01-21 20:34+0100\n"
-"PO-Revision-Date: 2001-12-05 13:00-0500\n"
+"PO-Revision-Date: 2002-01-22 15:33+0100\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr[0] "attendu %d conflits décalage/réduction\n"
 #: src/conflicts.c:463 src/conflicts.c:540
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
-msgstr "    %-4s\t[réduction par la règle %d (%s)\n"
+msgstr "    %-4s\t[réduction par la règle %d (%s)]\n"
 
 #: src/conflicts.c:467 src/print.c:154
 #, c-format
