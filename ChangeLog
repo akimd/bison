@@ -1,5 +1,9 @@
 2001-03-16  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo: ANSIfy the examples.
+
+2001-03-16  Akim Demaille  <akim@epita.fr>
+
 	* getargs.c (skeleton): New variable.
 	(longopts): --skeleton is a new option.
 	(shortopts, getargs): -S is a new option.

@@ -1859,17 +1859,20 @@ The symbol table itself consists of a linked list of records.  Its
 definition, which is kept in the header @file{calc.h}, is as follows.  It
 provides for either functions or variables to be placed in the table.
 
-@c FIXME: ANSIfy the prototypes for FNCTPTR etc.
 @smallexample
 @group
+/* Fonctions type.                                   */
+typedef double (*func_t) (double);
+
 /* Data type for links in the chain of symbols.      */
 struct symrec
 @{
   char *name;  /* name of symbol                     */
   int type;    /* type of symbol: either VAR or FNCT */
-  union @{
-    double var;           /* value of a VAR          */
-    double (*fnctptr)();  /* value of a FNCT         */
+  union
+  @{
+    double var;                  /* value of a VAR   */
+    func_t fnctptr;              /* value of a FNCT  */
   @} value;
   struct symrec *next;    /* link field              */
 @};
@@ -1881,8 +1884,8 @@ typedef struct symrec symrec;
 /* The symbol table: a chain of `struct symrec'.     */
 extern symrec *sym_table;
 
-symrec *putsym ();
-symrec *getsym ();
+symrec *putsym (const char *, func_t);
+symrec *getsym (const char *);
 @end group
 @end smallexample
 
@@ -1912,24 +1915,24 @@ yyerror (const char *s)  /* Called by yyparse on error */
 struct init
 @{
   char *fname;
-  double (*fnct)();
+  double (*fnct)(double);
 @};
 @end group
 
 @group
 struct init arith_fncts[] =
 @{
-  "sin", sin,
-  "cos", cos,
+  "sin",  sin,
+  "cos",  cos,
   "atan", atan,
-  "ln", log,
-  "exp", exp,
+  "ln",   log,
+  "exp",  exp,
   "sqrt", sqrt,
   0, 0
 @};
 
 /* The symbol table: a chain of `struct symrec'.  */
-symrec *sym_table = (symrec *)0;
+symrec *sym_table = (symrec *) 0;
 @end group
 
 @group
