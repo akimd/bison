@@ -163,7 +163,6 @@ scanner_last_string_free (void)
 }
 
 
-static int braces_level = 0;
 static int percent_percent_count = 0;
 
 /* Within well-formed rules, RULE_LENGTH is the number of values in
@@ -202,6 +201,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
 %%
 %{
+  int braces_level IF_LINT (= 0);
+
   /* At each yylex invocation, mark the current position as the
      start of the next token.  */
   YY_STEP;
@@ -294,7 +295,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%{"        yy_push_state (SC_PROLOGUE);
 
   /* Code in between braces.  */
-  "{"         YY_OBS_GROW; ++braces_level; yy_push_state (SC_BRACED_CODE);
+  "{"         YY_OBS_GROW; braces_level = 0; yy_push_state (SC_BRACED_CODE);
 
   /* A type. */
   "<"{tag}">" {
@@ -583,9 +584,12 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_BRACED_CODE>
 {
+  "{"|"<"{splice}"%"  YY_OBS_GROW; braces_level++;
+  "%"{splice}">"      YY_OBS_GROW; braces_level--;
   "}" {
     YY_OBS_GROW;
-    if (--braces_level == 0)
+    braces_level--;
+    if (braces_level < 0)
       {
 	yy_pop_state ();
 	YY_OBS_FINISH;
@@ -595,17 +599,14 @@ splice	 (\\[ \f\t\v]*\n)*
       }
   }
 
-  "{"  	        YY_OBS_GROW; braces_level++;
-
   "$"("<"{tag}">")?(-?[0-9]+|"$") { handle_dollar (current_braced_code,
 						   yytext, *yylloc); }
   "@"(-?[0-9]+|"$")               { handle_at (current_braced_code,
 					       yytext, *yylloc); }
 
-  [^$@\[\]/\'\"\{\}]+	YY_OBS_GROW;
-
-  /* A stray $, or /, or etc. */
-  .             YY_OBS_GROW;
+  /* `"<"{splice}"<"' tokenizes `<<%' correctly (as `<<' `%') rather
+     than incorrrectly (as `<' `<%').  */
+  [^\"$%\'/<@\[\]\{\}]+|[$%/<@]|"<"{splice}"<"  YY_OBS_GROW;
 
   <<EOF>> {
     complain_at (*yylloc, _("unexpected end of file in a braced code"));
