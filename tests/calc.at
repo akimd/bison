@@ -419,7 +419,7 @@ calc: error: 0 != 1])
 # Add a studid example demonstrating that Bison can further improve the
 # error message.  FIXME: Fix this ridiculous message.
 _AT_CHECK_CALC_ERROR([$1], [()], [21],
-[1.2-1.3: parse error, unexpected ')', expecting error or "number" or '-' or '('])
+[1.2-1.3: parse error, unexpected ')', expecting "number" or '-' or '('])
 
 AT_CLEANUP
 ])# AT_CHECK_CALC

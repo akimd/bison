@@ -500,13 +500,13 @@ yy::b4_name::parse ()
 	  {
 	    int count = 0;
 	    for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
-	      if (check_[[x + n_]] == x)
+	      if (check_[[x + n_]] == x && x != terror_)
 		++count;
 	    if (count < 5)
 	      {
 		count = 0;
 		for (int x = (n_ < 0 ? -n_ : 0); x < ntokens_ + nnts_; ++x)
-		  if (check_[[x + n_]] == x)
+		  if (check_[[x + n_]] == x && x != terror_)
 		    {
 		      message += (!count++) ? ", expecting " : " or ";
 		      message += name_[[x]];

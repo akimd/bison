@@ -1,5 +1,15 @@
 2002-07-30  Akim Demaille  <akim@epita.fr>
 
+	In verbose parse error message, don't report `error' as an
+	expected token.
+	* tests/actions.at (Printers and Destructors): Adjust.
+	* tests/calc.at (Calculator $1): Adjust.
+	* data/yacc.c, data/glr.c, data/lalr1.c: When making the verbose
+	error message, do not report the parser accepts the error token in
+	that state.
+
+2002-07-30  Akim Demaille  <akim@epita.fr>
+
 	Normalize conflict related messages.
 
 	* src/complain.h, src/complain.c (warn, complain): New.

@@ -30,6 +30,13 @@ Changes in version 1.49b:
   user specified that one of her tokens is numbered 256, then error
   will be mapped onto another number.
 
+* Verbose error messages
+  They no longer report `..., expecting error or...' for state where
+  error recovery is possible.
+
+* End token
+  Defaults to `$end' instead of `$'.
+
 * Error recovery now conforms to documentation and to POSIX
   When a Bison-generated parser encounters a syntax error, it now pops
   the stack until it finds a state that allows shifting the error
@@ -84,7 +91,7 @@ Changes in version 1.49b:
 * Token end-of-file
   The token end of file may be specified by the user, in which case,
   the user symbol is used in the reports, the graphs, and the verbose
-  error messages instead of `$', which remains being the defaults.
+  error messages instead of `$end', which remains being the defaults.
   For instance
      %token YYEOF 0
   or
