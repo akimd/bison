@@ -228,6 +228,7 @@ Bison Declarations
 * Precedence Decl::   Declaring terminals with precedence and associativity.
 * Union Decl::        Declaring the set of all semantic value types.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
+* Initial Action Decl::  Code run before parsing starts.
 * Destructor Decl::   Declaring how symbols are freed.
 * Expect Decl::       Suppressing warnings about parsing conflicts.
 * Start Decl::        Specifying the start symbol.
@@ -3520,6 +3521,7 @@ Grammars}).
 * Precedence Decl::   Declaring terminals with precedence and associativity.
 * Union Decl::        Declaring the set of all semantic value types.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
+* Initial Action Decl::  Code run before parsing starts.
 * Destructor Decl::   Declaring how symbols are freed.
 * Expect Decl::       Suppressing warnings about parsing conflicts.
 * Start Decl::        Specifying the start symbol.
@@ -3728,6 +3730,22 @@ You can also declare the value type of a terminal symbol.  To do this,
 use the same @code{<@var{type}>} construction in a declaration for the
 terminal symbol.  All kinds of token declarations allow
 @code{<@var{type}>}.
+
+@node Initial Action Decl
+@subsection Performing Actions before Parsing
+@findex %initial-action
+
+Sometimes your parser needs to perform some initializations before
+parsing.  The @code{%initial-action} directive allows for such arbitrary
+code.
+
+@deffn {Directive} %initial-action @{ @var{code} @}
+@findex %initial-action
+Declare that the @var{code} must be invoked before parsing each time
+@code{yyparse} is called.  The @var{code} may use @code{@@$} to
+designate the initial location, and the @code{%parse-param}.
+@end deffn
+
 
 @node Destructor Decl
 @subsection Freeing Discarded Symbols
@@ -7142,6 +7160,10 @@ discarded symbols.  @xref{Destructor Decl, , Freeing Discarded Symbols}.
 Bison declaration to assign a precedence to a rule that is used at parse
 time to resolve reduce/reduce conflicts.  @xref{GLR Parsers, ,Writing
 @acronym{GLR} Parsers}.
+@end deffn
+
+@deffn {Directive} %initial-action
+Run user code before parsing.  @xref{Initial Action Decl, , Performing Actions before Parsing}.
 @end deffn
 
 @deffn {Directive} %error-verbose

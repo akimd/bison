@@ -1,5 +1,9 @@
 2004-09-20  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo (Initial Action Decl): New.
+
+2004-09-20  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.c (YY_LOCATION_PRINT): Use YYLTYPE_IS_TRIVIAL as a
 	clearer criterion to define it.
 	(parse): Initialize the initial location when YYLTYPE_IS_TRIVIAL.

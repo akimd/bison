@@ -3,6 +3,10 @@ Bison News
 
 Changes in version 1.875e:
 
+* New directive: %initial-action.
+  This directive allows the user to run arbitrary code (including
+  initializing @$) from yyparse before parsing starts.
+
 * The option `--report=lookahead' was changed to `--report=look-ahead'.
   The old spelling still works, but is not documented and will be removed.
 
