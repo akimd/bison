@@ -42,7 +42,6 @@ do {						\
 #define YY_LINES        LOCATION_LINES (*yylloc, yyleng); lineno += yyleng;
 #define YY_STEP         LOCATION_STEP (*yylloc)
 
-
 /* STRING_OBSTACK -- Used to store all the characters that we need to
    keep (to construct ID, STRINGS etc.).  Use the following macros to
    use it.
@@ -731,4 +730,6 @@ void
 scanner_free (void)
 {
   obstack_free (&string_obstack, 0);
+  /* Reclaim Flex's buffers.  */
+  yy_delete_buffer (YY_CURRENT_BUFFER);
 }
