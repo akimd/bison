@@ -1,5 +1,11 @@
 2002-03-04  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (ruleset): Be a bitset.
+	(rulesetsize): Remove.
+
+	
+2002-03-04  Akim Demaille  <akim@epita.fr>
+
 	* lib/bitset-int.h, lib/bitset.c, lib/bitset.h, lib/bitsetv.c,
 	* lib/bitsetv.h, lib/ebitset.c, lib/ebitset.h, lib/lbitset.c,
 	* lib/lbitset.h, lib/sbitset.c, lib/sbitset.h: New.
