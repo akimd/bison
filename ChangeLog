@@ -1,5 +1,12 @@
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (action_row, save_column, default_goto)
+	(sort_actions, matching_state, pack_vector): Better variable
+	locality.
+
+	
+2001-12-17  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c: Various formatting changes.
 
 	
