@@ -58,13 +58,17 @@ move_if_change ?= move-if-change
 # ------------------- #
 
 po_repo = http://www.iro.umontreal.ca/contrib/po/maint/$(PACKAGE)
-.PHONY po-update:
-po-update:
+.PHONY: do-po-update po-update
+do-po-update:
 	cd $(srcdir)/po && wget -r -l1 -nd --no-parent -A '*.po' $(po_repo)
 	rm $(srcdir)/po/index.html
-	cd po && make update-po
-	make po-check
+	cd po && $(MAKE) update-po
+	$(MAKE) po-check
 
+po-update:
+	if test -d "po"; then \
+	  $(MAKE) do-po-update; \
+	fi
 
 # -------------------------- #
 # Updating GNU build tools.  #
