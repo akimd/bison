@@ -1,3 +1,7 @@
+2002-05-02  Akim Demaille  <akim@epita.fr>
+
+	Version 1.49a.
+
 2002-05-01  Akim Demaille  <akim@epita.fr>
 
 	* src/skeleton.h: Remove.
