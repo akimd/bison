@@ -268,7 +268,6 @@ Invoking Bison
 * Bison Options::     All the options described in detail,
                         in alphabetical order by short options.
 * Option Cross Key::  Alphabetical list of long options.
-* VMS Invocation::    Bison command syntax on @acronym{VMS}.
 
 Frequently Asked Questions
 
@@ -5906,7 +5905,6 @@ will produce @file{output.c++} and @file{outfile.h++}.
 * Bison Options::     All the options described in detail,
                         in alphabetical order by short options.
 * Option Cross Key::  Alphabetical list of long options.
-* VMS Invocation::    Bison command syntax on @acronym{VMS}.
 @end menu
 
 @node Bison Options
@@ -6097,34 +6095,6 @@ the corresponding short option.
 --yacc                                -y
 @end example
 @end ifinfo
-
-@node VMS Invocation
-@section Invoking Bison under @acronym{VMS}
-@cindex invoking Bison under @acronym{VMS}
-@cindex @acronym{VMS}
-
-The command line syntax for Bison on @acronym{VMS} is a variant of the usual
-Bison command syntax---adapted to fit @acronym{VMS} conventions.
-
-To find the @acronym{VMS} equivalent for any Bison option, start with the long
-option, and substitute a @samp{/} for the leading @samp{--}, and
-substitute a @samp{_} for each @samp{-} in the name of the long option.
-For example, the following invocation under @acronym{VMS}:
-
-@example
-bison /debug/name_prefix=bar foo.y
-@end example
-
-@noindent
-is equivalent to the following command under @acronym{POSIX}.
-
-@example
-bison --debug --name-prefix=bar foo.y
-@end example
-
-The @acronym{VMS} file system does not permit filenames such as
-@file{foo.tab.c}.  In the above example, the output file
-would instead be named @file{foo_tab.c}.
 
 @c ================================================= Invoking Bison
 

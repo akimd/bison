@@ -1,5 +1,13 @@
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
+	* src/getargs.c (long_options): Remove duplicates.
+	* src/vmsgetargs.c, src/build.com, src/bison.cld, src/vmshlp.mar:
+	Remove.
+	* doc/bison.rnh: Remove.
+	* doc/bison.texinfo (VMS Invocation): Remove.
+
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
 	* src/struniq.h, src/struniq.c (struniq_t): Is const.
 	(STRUNIQ_EQ, struniq_assert, struniq_assert_p): New.
 

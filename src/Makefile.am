@@ -65,9 +65,5 @@ bison_SOURCES = 				  \
 
 BUILT_SOURCES = scan-skel.c scan-gram.c parse-gram.c parse-gram.h
 
-EXTRA_bison_SOURCES = vmsgetargs.c
-
-EXTRA_DIST = build.com bison.cld vmshlp.mar
-
 echo:
 	echo $(bison_SOURCES) $(noinst_HEADERS)
