@@ -1,5 +1,12 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (token_actions): Introduce a temporary array,
+	YYDEFACT, that makes it possible for this function to use
+	output_short_table.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	`user_toknums' is output as a `short[]' in `output.c', while it is
 	defined as a `int[]' in `reader.c'.  For consistency with the
 	other output tables, `user_toknums' is now defined as a table of
