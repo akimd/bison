@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875\n"
-"POT-Creation-Date: 2003-02-03 18:24+0100\n"
+"POT-Creation-Date: 2003-03-02 15:28+0100\n"
 "PO-Revision-Date: 2003-01-01 23:03+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -397,56 +397,56 @@ msgstr[1] "%d oanvändbara regler"
 msgid "start symbol %s does not derive any sentence"
 msgstr "startsymbolen %s genererar inga meningar"
 
-#: src/scan-gram.l:157
+#: src/scan-gram.l:159
 msgid "stray `,' treated as white space"
 msgstr "vilsekommet \",\" hanterat som blank"
 
-#: src/scan-gram.l:216
+#: src/scan-gram.l:218
 #, c-format
 msgid "invalid directive: %s"
 msgstr "ogiltigt direktiv: %s"
 
-#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
+#: src/scan-gram.l:238 src/scan-gram.l:784 src/scan-gram.l:852
 #, c-format
 msgid "integer out of range: %s"
 msgstr "heltal utanför intervall: %s"
 
-#: src/scan-gram.l:281
+#: src/scan-gram.l:280
 #, c-format
 msgid "invalid character: %s"
 msgstr "ogiltigt tecken: %s"
 
-#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
+#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "ogiltig specialsekvens: %s"
 
-#: src/scan-gram.l:439
+#: src/scan-gram.l:438
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "okänd specialsekvens: %s"
 
-#: src/scan-gram.l:524
+#: src/scan-gram.l:523
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "saknad \"{\" i \"%s\""
 
-#: src/scan-gram.l:757
+#: src/scan-gram.l:756
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ för \"%s\" har ingen deklarerad typ"
 
-#: src/scan-gram.l:776
+#: src/scan-gram.l:775
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d för \"%s\" har ingen deklarerad typ"
 
-#: src/scan-gram.l:820 src/scan-gram.l:887
+#: src/scan-gram.l:819 src/scan-gram.l:886
 #, c-format
 msgid "invalid value: %s"
 msgstr "felaktigt värde: %s"
 
-#: src/scan-gram.l:978
+#: src/scan-gram.l:977
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "saknat \"%s\" vid filslut"

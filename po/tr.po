@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.49a\n"
-"POT-Creation-Date: 2003-02-03 18:24+0100\n"
+"POT-Creation-Date: 2003-03-02 15:28+0100\n"
 "PO-Revision-Date: 2002-06-25 11:03GMT +02:00\n"
 "Last-Translator: Altuð Bayram <altugbayram_2000@yahoo.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -407,56 +407,56 @@ msgstr[1] "%d yararsýz kural"
 msgid "start symbol %s does not derive any sentence"
 msgstr "Baþlangýç simgesi %s herhangi bir cümleden türemez"
 
-#: src/scan-gram.l:157
+#: src/scan-gram.l:159
 msgid "stray `,' treated as white space"
 msgstr ""
 
-#: src/scan-gram.l:216
+#: src/scan-gram.l:218
 #, fuzzy, c-format
 msgid "invalid directive: %s"
 msgstr "geçersiz girdi: %s"
 
-#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
+#: src/scan-gram.l:238 src/scan-gram.l:784 src/scan-gram.l:852
 #, c-format
 msgid "integer out of range: %s"
 msgstr ""
 
-#: src/scan-gram.l:281
+#: src/scan-gram.l:280
 #, fuzzy, c-format
 msgid "invalid character: %s"
 msgstr "bilinmeyen karakter: %s"
 
-#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
+#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
 #, fuzzy, c-format
 msgid "invalid escape sequence: %s"
 msgstr "geçersiz deðer: %s%d"
 
-#: src/scan-gram.l:439
+#: src/scan-gram.l:438
 #, fuzzy, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "tanýnmayan: %s"
 
-#: src/scan-gram.l:524
+#: src/scan-gram.l:523
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr ""
 
-#: src/scan-gram.l:757
+#: src/scan-gram.l:756
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "`%s''in $$'ý bildirilmiþ tip deðil"
 
-#: src/scan-gram.l:776
+#: src/scan-gram.l:775
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "`%2$s''in %1$d'i bildirilmiþ tip deðil"
 
-#: src/scan-gram.l:820 src/scan-gram.l:887
+#: src/scan-gram.l:819 src/scan-gram.l:886
 #, fuzzy, c-format
 msgid "invalid value: %s"
 msgstr "geçersiz deðer: %s%d"
 
-#: src/scan-gram.l:978
+#: src/scan-gram.l:977
 #, fuzzy, c-format
 msgid "missing `%s' at end of file"
 msgstr "dosyanýn sonunda sonlandýrýlmamýþ dizge"

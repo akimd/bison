@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.875\n"
-"POT-Creation-Date: 2003-02-03 18:24+0100\n"
+"POT-Creation-Date: 2003-03-02 15:28+0100\n"
 "PO-Revision-Date: 2003-01-02 12:47+0100\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -460,56 +460,56 @@ msgstr[1] "%d reglas sin uso"
 msgid "start symbol %s does not derive any sentence"
 msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
 
-#: src/scan-gram.l:157
+#: src/scan-gram.l:159
 msgid "stray `,' treated as white space"
 msgstr "`,' perdido se trato como un espacio en blanco"
 
-#: src/scan-gram.l:216
+#: src/scan-gram.l:218
 #, c-format
 msgid "invalid directive: %s"
 msgstr "directiva no válida: %s"
 
-#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
+#: src/scan-gram.l:238 src/scan-gram.l:784 src/scan-gram.l:852
 #, c-format
 msgid "integer out of range: %s"
 msgstr "entero fuera de rango: %s"
 
-#: src/scan-gram.l:281
+#: src/scan-gram.l:280
 #, c-format
 msgid "invalid character: %s"
 msgstr "carácter no válido: %s"
 
-#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
+#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "secuencia de escape no válida: %s"
 
-#: src/scan-gram.l:439
+#: src/scan-gram.l:438
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "secuencia de escape no reconocida: %s"
 
-#: src/scan-gram.l:524
+#: src/scan-gram.l:523
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "falta `{' en `%s'"
 
-#: src/scan-gram.l:757
+#: src/scan-gram.l:756
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ de `%s' no tiene tipo declarado"
 
-#: src/scan-gram.l:776
+#: src/scan-gram.l:775
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d de `%s' no tiene tipo declarado"
 
-#: src/scan-gram.l:820 src/scan-gram.l:887
+#: src/scan-gram.l:819 src/scan-gram.l:886
 #, c-format
 msgid "invalid value: %s"
 msgstr "valor no válido: %s"
 
-#: src/scan-gram.l:978
+#: src/scan-gram.l:977
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "falta cadena `%s' al final del fichero"

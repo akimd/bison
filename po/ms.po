@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.875\n"
-"POT-Creation-Date: 2003-02-03 18:24+0100\n"
+"POT-Creation-Date: 2003-03-02 15:28+0100\n"
 "PO-Revision-Date: 2003-01-26 22:43GMT+8\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -398,56 +398,56 @@ msgstr[1] "%d hukum tidak berguna"
 msgid "start symbol %s does not derive any sentence"
 msgstr "simbol permulaan %s tidak menghasilkan sebarang perkataan"
 
-#: src/scan-gram.l:157
+#: src/scan-gram.l:159
 msgid "stray `,' treated as white space"
 msgstr "`,' sesat dianggap sebagai ruang"
 
-#: src/scan-gram.l:216
+#: src/scan-gram.l:218
 #, c-format
 msgid "invalid directive: %s"
 msgstr "arahan tidak sah: %s"
 
-#: src/scan-gram.l:236 src/scan-gram.l:785 src/scan-gram.l:853
+#: src/scan-gram.l:238 src/scan-gram.l:784 src/scan-gram.l:852
 #, c-format
 msgid "integer out of range: %s"
 msgstr "integer diluar julat: %s"
 
-#: src/scan-gram.l:281
+#: src/scan-gram.l:280
 #, c-format
 msgid "invalid character: %s"
 msgstr "aksara tidak sah: %s"
 
-#: src/scan-gram.l:405 src/scan-gram.l:415 src/scan-gram.l:434
+#: src/scan-gram.l:404 src/scan-gram.l:414 src/scan-gram.l:433
 #, c-format
 msgid "invalid escape sequence: %s"
 msgstr "turutan escape tidak sah: %s"
 
-#: src/scan-gram.l:439
+#: src/scan-gram.l:438
 #, c-format
 msgid "unrecognized escape sequence: %s"
 msgstr "turutan escape tidak dikenali: %s"
 
-#: src/scan-gram.l:524
+#: src/scan-gram.l:523
 #, c-format
 msgid "missing `{' in `%s'"
 msgstr "`(' hilang dalam `%s'"
 
-#: src/scan-gram.l:757
+#: src/scan-gram.l:756
 #, c-format
 msgid "$$ of `%s' has no declared type"
 msgstr "$$ dari `%s' tiada jenis diisytiharkan"
 
-#: src/scan-gram.l:776
+#: src/scan-gram.l:775
 #, c-format
 msgid "$%d of `%s' has no declared type"
 msgstr "$%d dari `%s' tiada jenis diisytiharkan"
 
-#: src/scan-gram.l:820 src/scan-gram.l:887
+#: src/scan-gram.l:819 src/scan-gram.l:886
 #, c-format
 msgid "invalid value: %s"
 msgstr "nilai tidak sah: %s"
 
-#: src/scan-gram.l:978
+#: src/scan-gram.l:977
 #, c-format
 msgid "missing `%s' at end of file"
 msgstr "`%s' hilang pada penghujung fail"

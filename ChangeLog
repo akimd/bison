@@ -1,3 +1,7 @@
+2003-03-03  Akim Demaille  <akim@epita.fr>
+
+	* ro.po: New.
+
 2003-03-02  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (Table of Symbols): Reactivate the
