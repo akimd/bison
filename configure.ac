@@ -71,6 +71,7 @@ AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([ctype.h locale.h memory.h stdlib.h string.h unistd.h])
+AC_HEADER_STDBOOL
 
 # Checks for compiler characteristics.
 AC_C_INLINE
