@@ -79,21 +79,12 @@ char *alloca ();
 /* memory.h and strings.h conflict on some systems.  */
 #endif /* not STDC_HEADERS and not HAVE_STRING_H */
 
-#include <errno.h>
 #include <limits.h>
 
-# include "xalloc.h"
+#include <xalloc.h>
 
 /* From xstrndup.c.  */
 char *xstrndup (const char *s, size_t n);
-
-
-/*----------------.
-| Using timevar.  |
-`----------------*/
-
-#include "timevar.h"
-extern int time_report;
 
 
 /*---------------------.
@@ -172,7 +163,7 @@ void *memrchr (const void *s, int c, size_t n);
 # define setlocale(Category, Locale)
 #endif
 
-#include "gettext.h"
+#include <gettext.h>
 #define _(Msgid)  gettext (Msgid)
 #define N_(Msgid) (Msgid)
 
@@ -203,7 +194,7 @@ typedef enum {false = 0, true = 1} bool;
 
 # define obstack_chunk_alloc xmalloc
 # define obstack_chunk_free  free
-# include "obstack.h"
+# include <obstack.h>
 
 #define obstack_sgrow(Obs, Str) \
   obstack_grow (Obs, Str, strlen (Str))
@@ -244,17 +235,17 @@ do {								\
 
 #ifdef VMS
   /* VMS. */
-# define EXT_TAB	"_tab"
-# define EXT_OUTPUT	".output"
+# define TAB_EXT	"_tab"
+# define OUTPUT_EXT	".output"
 #else /* ! VMS */
 # ifdef MSDOS
    /* MS DOS. */
-#  define EXT_TAB	"_tab"
-#  define EXT_OUTPUT	".out"
+#  define TAB_EXT	"_tab"
+#  define OUTPUT_EXT	".out"
 # else /* ! MSDOS */
   /* Standard. */
-#  define EXT_TAB	".tab"
-#  define EXT_OUTPUT	".output"
+#  define TAB_EXT	".tab"
+#  define OUTPUT_EXT	".output"
 # endif /* ! MSDOS */
 #endif /* ! VMS */
 
