@@ -1340,15 +1340,6 @@ output (void)
   if (!no_parser_flag)
     obstack_sgrow (&table_obstack, "#include <stdio.h>\n\n");
 
-  /* Make "const" do nothing if not in ANSI C.  */
-  obstack_sgrow (&table_obstack, "\
-#ifndef __cplusplus\n\
-# ifndef __STDC__\n\
-#  define const\n\
-# endif\n\
-#endif\n\
-\n");
-
   free_itemsets ();
   output_defines ();
   output_token_translations ();

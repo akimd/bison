@@ -1,3 +1,8 @@
+2001-08-29  Paul Eggert  <eggert@twinsun.com>
+
+	* src/output.c (output): Do not define const, as this now
+	causes more problems than it cures.
+
 2001-08-29  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo: Modernize `@node' and `@top' use: just name
