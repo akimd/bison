@@ -1,5 +1,9 @@
 2002-05-01  Akim Demaille  <akim@epita.fr>
 
+	* src/skeleton.h: Remove.
+
+2002-05-01  Akim Demaille  <akim@epita.fr>
+
 	* src/skeleton.h: Fix the #endif.
 	Reported by Magnus Fromreide.
 
