@@ -1,3 +1,13 @@
+2004-12-14  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (struct yyGLRStack): yyerror_range now has 3 items,
+	not 2, since it's not portable to subtract 1 from the start of an
+	array.  The new item 0 is never set or used.  All uses changed.
+
+	(yyrecoverSyntaxError): Use YYLLOC_DEFAULT instead of assuming
+	the default definition of YYLLOC_DEFAULT.  Problem reported
+	by Frank Heckenbach.
+
 2004-12-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (YYRHSLOC): Don't have two definitions, one for
