@@ -1,3 +1,8 @@
+2002-10-22  Akim Demaille  <akim@epita.fr>
+
+	* src/system.h: Include sys/types.
+	Reported by Bert Deknuydt.
+
 2002-10-23  Paul Eggert  <eggert@twinsun.com>
 
 	* configure.ac (AC_PROG_LEX): Use instead of AM_PROG_LEX.
@@ -18,7 +23,7 @@
 	http://mail.gnu.org/pipermail/bug-bison/2002-October/001769.html
 	and I hope it also fixes this bug report:
 	http://mail.gnu.org/pipermail/bug-bison/2002-October/001748.html
-	
+
 	* doc/bison.texinfo: Minor spelling and typographical fixes.  Use
 	@acronym consistently.  Standardize on "Yacc" instead of "YACC",
 	"Algol" instead of "ALGOL".  Give a bit more history about BNF.
@@ -45,7 +50,7 @@
 	(complaint_issued): Renamed from complain_message_count; likewise.
 
 	* src/main.c (main): Use exit to exit with failure.
-	
+
 	* src/complain.c (fatal_at, fatal): Use EXIT_FAILURE and EXIT_SUCCESS
 	rather than 1 and 0.
 	* src/main.c (main): Likewise.

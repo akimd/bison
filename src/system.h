@@ -43,6 +43,10 @@ char *alloca ();
 
 #include <assert.h>
 
+#if HAVE_SYS_TYPES_H
+# include <sys/types.h>
+#endif
+
 #if HAVE_STDLIB_H
 # include <stdlib.h>
 #endif
