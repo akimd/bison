@@ -57,9 +57,6 @@ void compute_output_file_names PARAMS((void));
 FILE *xfopen PARAMS ((const char *name, const char *mode));
 int xfclose PARAMS ((FILE *ptr));
 
-/* Compute the double inclusion guard's name. */
-char *compute_header_macro PARAMS ((void));
-
 const char *skeleton_find PARAMS ((const char *envvar,
 				   const char *skeleton_name));
 
