@@ -1,5 +1,6 @@
 /* Data definitions for internal representation of bison's input,
-   Copyright 1984, 1986, 1989, 1992, 2001  Free Software Foundation, Inc.
+   Copyright 1984, 1986, 1989, 1992, 2001, 2002
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -124,7 +125,7 @@ typedef enum
 typedef struct rule_s
 {
   short lhs;
-  short rhs;
+  short *rhs;
   short prec;
   short precsym;
   associativity assoc;
