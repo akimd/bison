@@ -39,7 +39,7 @@
 This manual is for @acronym{GNU} Bison (version @value{VERSION},
 @value{UPDATED}), the @acronym{GNU} parser generator.
 
-Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998, 2003,
+Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
 
 @quotation
@@ -286,6 +286,8 @@ Frequently Asked Questions
 * Parser Stack Overflow::      Breaking the Stack Limits
 * How Can I Reset @code{yyparse}::    @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
+* C++ Parsers::                Compiling Parsers with C++ Compilers
+* Implementing Loops::         Control Flow in the Calculator
 
 Copying This Manual
 
@@ -3495,7 +3497,7 @@ is called when a symbol is thrown away.
 Declare that the @var{code} must be invoked for each of the
 @var{symbols} that will be discarded by the parser.  The @var{code}
 should use @code{$$} to designate the semantic value associated to the
-@var{symbols}.  The additional parser parameters are also avaible
+@var{symbols}.  The additional parser parameters are also available
 (@pxref{Parser Function, , The Parser Function @code{yyparse}}).
 
 @strong{Warning:} as of Bison 1.875, this feature is still considered as
@@ -6356,6 +6358,8 @@ are addressed.
 * Parser Stack Overflow::      Breaking the Stack Limits
 * How Can I Reset @code{yyparse}::    @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
+* C++ Parsers::                Compiling Parsers with C++ Compilers
+* Implementing Loops::         Control Flow in the Calculator
 @end menu
 
 @node Parser Stack Overflow
@@ -6509,6 +6513,59 @@ $ @kbd{gcc     -osplit-lines   split-lines.c -ll}
 $ @kbd{printf 'one\ntwo\n' | ./split-lines}
 "two", "two"
 @end example
+
+
+@node C++ Parsers
+@section C++ Parsers
+
+@display
+How can I generate parsers in C++?
+@end display
+
+We are working on a C++ output for Bison, but unfortunately, for lack
+of time, the skeleton is not finished.  It is functional, but in
+numerous respects, it will require additional work which @emph{might}
+break backward compatibility.  Since the skeleton for C++ is not
+documented, we do not consider ourselves bound to this interface,
+nevertheless, as much as possible we will try to keep compatibility.
+
+Another possibility is to use the regular C parsers, and to compile
+them with a C++ compiler.  This works properly, provided that you bear
+some simple C++ rules in mind, such as not including ``real classes''
+(i.e., structure with constructors) in unions.  Therefore, in the
+@code{%union}, use pointers to classes, or better yet, a single
+pointer type to the root of your lexical/syntactic hierarchy.
+
+
+@node Implementing Loops
+@section Implementing Loops
+
+@display
+My simple calculator supports variables, assignments, and functions,
+but how can I implement loops?
+@end display
+
+Although very pedagogical, the examples included in the document blur
+the distinction to make between the parser ---whose job is to recover
+the structure of a text and to transmit it to subsequent modules of
+the program--- and the processing (such as the execution) of this
+structure.  This works well with so called straight line programs,
+i.e., precisely those that have a straightforward execution model:
+execute simple instructions one after the others.
+
+@cindex abstract syntax tree
+@cindex @acronym{AST}
+If you want a richer model, you will probably need to use the parser
+to construct a tree that does represent the structure it has
+recovered; this tree is usually called the @dfn{abstract syntax tree},
+or @dfn{@acronym{AST}} for short.  Then, walking through this tree,
+traversing it in various ways, will enable treatments such as its
+execution or its translation, which will result in an interpreter or a
+compiler.
+
+This topic is way beyond the scope of this manual, and the reader is
+invited to consult the dedicated literature.
+
 
 
 @c ================================================= Table of Symbols
@@ -7052,3 +7109,33 @@ grammatically indivisible.  The piece of text it represents is a token.
 @printindex cp
 
 @bye
+
+@c LocalWords: texinfo setfilename settitle setchapternewpage finalout
+@c LocalWords: ifinfo smallbook shorttitlepage titlepage GPL FIXME iftex
+@c LocalWords: akim fn cp syncodeindex vr tp synindex dircategory direntry
+@c LocalWords: ifset vskip pt filll insertcopying sp ISBN Etienne Suvasa
+@c LocalWords: ifnottex yyparse detailmenu GLR RPN Calc var Decls Rpcalc
+@c LocalWords: rpcalc Lexer Gen Comp Expr ltcalc mfcalc Decl Symtab yylex
+@c LocalWords: yyerror pxref LR yylval cindex dfn LALR samp gpl BNF xref
+@c LocalWords: const int paren ifnotinfo AC noindent emph expr stmt findex
+@c LocalWords: glr YYSTYPE TYPENAME prog dprec printf decl init stmtMerge
+@c LocalWords: pre STDC GNUC endif yy YY alloca lf stddef stdlib YYDEBUG
+@c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit
+@c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok
+@c LocalWords: longjmp fprintf stderr preg yylloc YYLTYPE cos ln
+@c LocalWords: smallexample symrec val tptr FNCT fnctptr func struct sym
+@c LocalWords: fnct putsym getsym fname arith fncts atan ptr malloc sizeof
+@c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum
+@c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype
+@c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless typefull yynerrs
+@c LocalWords: yychar yydebug msg YYNTOKENS YYNNTS YYNRULES YYNSTATES
+@c LocalWords: cparse clex deftypefun NE defmac YYACCEPT YYABORT param
+@c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP
+@c LocalWords: YYEMPTY YYRECOVERING yyclearin GE def UMINUS maybeword
+@c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH
+@c LocalWords: YYINITDEPTH stmnts ref stmnt initdcl maybeasm VCG notype
+@c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args
+@c LocalWords: YYPRINTF infile ypp yxx outfile itemx vcg tex leaderfill
+@c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll
+@c LocalWords: yyrestart nbar yytext fst snd osplit ntwo strdup AST
+@c LocalWords: YYSTACK DVI fdl printindex

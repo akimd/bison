@@ -1,5 +1,9 @@
 2003-04-29  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo (C++ Parsers, Implementing Loops): New.
+
+2003-04-29  Akim Demaille  <akim@epita.fr>
+
 	* tests/calc.at: Also test yacc.c and glr.c (but not lalr1.cc yet)
 	with %pure-parser and %locations to exercise the patch from Yakov
 	Markovitch below.
