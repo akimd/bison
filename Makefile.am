@@ -26,3 +26,5 @@ bison.simple: bison.s1 Makefile
 	-rm -f $@
 	sed -e "/^#line/ s|bison|$(datadir)/bison|" -e "s/@bison_version@/$(VERSION)/" < $(srcdir)/bison.s1 > $@-tmp
 	mv $@-tmp $@
+
+DISTCLEANFILES = bison.simple
