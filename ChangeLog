@@ -1,5 +1,10 @@
 2002-06-14  Akim Demaille  <akim@epita.fr>
 
+	* src/main.c (main): Invoke scanner_free.
+
+	
+2002-06-14  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (m4_invoke): Extracted from...
 	(output_skeleton): here.
 	Free tempfile.
