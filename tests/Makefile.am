@@ -20,7 +20,8 @@
 
 EXTRA_DIST = $(TESTSUITE_AT) testsuite
 
-DISTCLEANFILES       = atconfig bison
+check_SCRIPTS        = bison
+DISTCLEANFILES       = atconfig $(check_SCRIPTS)
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 ## ------------ ##

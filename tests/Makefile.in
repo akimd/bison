@@ -105,7 +105,8 @@ install_sh = @install_sh@
 
 EXTRA_DIST = $(TESTSUITE_AT) testsuite package.m4
 
-DISTCLEANFILES = atconfig bison
+check_SCRIPTS = bison
+DISTCLEANFILES = atconfig $(check_SCRIPTS)
 MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 
 TESTSUITE_AT = \
@@ -162,6 +163,7 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) $(check_SCRIPTS)
 	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: check-am
 all-am: Makefile
