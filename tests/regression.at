@@ -485,7 +485,7 @@ static const short yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,    -1
 };
-static const short yyr1[] =
+static const yy_token_number_type yyr1[] =
 {
        0,     7,     8,     9,     9,    10,    11
 };

@@ -1,5 +1,11 @@
 2002-04-22  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.simple (yyr1): Its type is that of a token number.
+	* data/bison.c++ (r1_): Likewise.
+	* tests/regression.at (Web2c Actions): Adjust.
+
+2002-04-22  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (token_translations_init): 256 is now the default
 	value for the error token, i.e., it will be assigned another
 	number if the user assigned 256 to one of her tokens.

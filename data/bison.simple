@@ -318,7 +318,7 @@ static const short yytoknum[[]] =
 };
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
-static const short yyr1[[]] =
+static const yy_token_number_type yyr1[[]] =
 {
   b4_r1
 };

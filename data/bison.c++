@@ -228,7 +228,7 @@ namespace yy
     static const short defgoto_[[]];
     static const short table_[[]];
     static const short check_[[]];
-    static const short r1_[[]];
+    static const TokenNumberType r1_[[]];
     static const short r2_[[]];
 
 #if YYDEBUG || YYERROR_VERBOSE
@@ -666,7 +666,7 @@ yy::b4_name::check_[[]] =
 };
 
 /* YYR1[[YYN]] -- Symbol number of symbol that rule YYN derives.  */
-const short
+const yy::b4_name::TokenNumberType
 yy::b4_name::r1_[[]] =
 {
   b4_r1
