@@ -1,24 +1,29 @@
 /* Bitset vectors.
-   Copyright (C) 2001, 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+This file is part of GCC.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+GCC is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2, or (at your option) any later
+version.
 
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+GCC is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+for more details.
 
-#include <config.h>
+You should have received a copy of the GNU General Public License
+along with GCC; see the file COPYING.  If not, write to the Free
+Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+02111-1307, USA.  */
 
-#include "bitsetv.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <stdlib.h>
+#include "bitsetv.h"
 
 
 /* Create a vector of N_VECS bitsets, each of N_BITS, and of
@@ -42,7 +47,7 @@ bitsetv_alloc (bitset_bindex n_vecs, bitset_bindex n_bits,
   /* Allocate vector table at head of bitset array.  */
   vector_bytes = (n_vecs + 1) * sizeof (bitset) + bytes - 1;
   vector_bytes -= vector_bytes % bytes;
-  bsetv = xcalloc (1, vector_bytes + bytes * n_vecs);
+  bsetv = (bitset *) xcalloc (1, vector_bytes + bytes * n_vecs);
 
   for (i = 0; i < n_vecs; i++)
     {
@@ -144,7 +149,7 @@ bitsetv_dump (FILE *file, char const *title, char const *subtitle,
   fprintf (file, "%s\n", title);
   for (i = 0; bsetv[i]; i++)
     {
-      fprintf (file, "%s %lu\n", subtitle, (unsigned long int) i);
+      fprintf (file, "%s %lu\n", subtitle, (unsigned long) i);
       bitset_dump (file, bsetv[i]);
     }
 
@@ -159,7 +164,7 @@ debug_bitsetv (bitsetv bsetv)
 
   for (i = 0; bsetv[i]; i++)
     {
-      fprintf (stderr, "%lu: ", (unsigned long int) i);
+      fprintf (stderr, "%lu: ", (unsigned long) i);
       debug_bitset (bsetv[i]);
     }
 
