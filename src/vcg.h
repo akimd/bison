@@ -489,7 +489,7 @@ struct graph
      folded graph. info1, info2, info3 can be selected from the menu
      interactively. The corresponding text labels can be shown by mouse
      clicks on nodes.
-     Defalut values are empty strings (here NULL pointers) */
+     Default values are empty strings (here NULL pointers) */
   const char *infos[3];
 
   /* Background color and summary node colors
@@ -505,26 +505,26 @@ struct graph
   enum color color;
 
   /* Textcolor.
-     need explainations ???
-     defalut is black for summary nodes. */
+     need explanations ???
+     default is black for summary nodes. */
   enum color textcolor;
 
   /* Bordercolor is the color of the summary node's border. Default color
      is the textcolor. width, height are width and height of the
      displayed part of the window of the outermost graph in pixels, or
      width and height of the summary node of inner subgraphs.
-     Default is the defalut of the textcolor. */
+     Default is the default of the textcolor. */
   enum color bordercolor;
 
   /* Width, height are width and height of the displayed part of the
      window of the outermost graph in pixels, or width and height of the
      summary node of inner subgraphs.
-     Defalut value is 100. */
+     Default value is 100. */
   int width;
   int height;
 
   /* Specify the thickness if summary node's border in pixels.
-     defalut value is 2. */
+     default value is 2. */
   int borderwidth;
 
   /* x, y are the x-position and y-position of the graph's window in
@@ -539,7 +539,7 @@ struct graph
   /* folding of a subgraph is 1, if the subgraph is fused, and 0, if the
      subgraph is visualized explicitly. There are commands to unfold such
      summary nodes.
-     Defalut value is 0 */
+     Default value is 0 */
   int folding;
 
   /* Shrink, expand gives the shrinking and expanding factor for the
@@ -575,7 +575,7 @@ struct graph
      algorithm for downward laid out trees is used, the horizontal order
      influences only the order of the child nodes at a node, but not the
      order of the whole level.
-     Defalut is box, other: rhomb, ellipse, triangle. */
+     Default is box, other: rhomb, ellipse, triangle. */
   enum shape shape;
 
   /* Vertical order is the level position (rank) of the summary node of an 
@@ -631,7 +631,7 @@ struct graph
      the nodes. The center of a node is aligned to this raster. xlraster
      is the horizontal raster for the positions of the line control
      points (the dummy nodes). It should be a divisor of xraster.
-     defaluts are 1,1. */
+     defaults are 1,1. */
   int xraster;
   int yraster;
 
@@ -718,7 +718,7 @@ struct graph
      layout.nearfactor is large, then the positions of the nodes is
      mainly determined by the edges pointing sidewards. These attributes
      have no effect, if the method for downward laid out trees is used.
-     Defalut is normal. */
+     Default is normal. */
   int layout_downfactor;
   int layout_upfactor;
   int layout_nearfactor;
@@ -907,7 +907,7 @@ struct graph
      are recognizable. With pfish the self adaptable polar fisheye is
      selected that shows the whole graph, and with fpfish the fixed
      radius polar fisheye is selected.
-     Defalut is normal view. */
+     Default is normal view.  */
   enum view view;
 
   /* Edges no suppresses the drawing of edges.
