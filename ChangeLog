@@ -1,3 +1,9 @@
+2005-03-18  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/glr-regression.at (glr-regr2a.y): Try to dump core
+	immediately if a data overrun has occurred; this may help us track
+	down what may be a spurious failure on MacOS.
+
 2005-03-17  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Respond to problems reported by twlevo@xs4all.nl.
