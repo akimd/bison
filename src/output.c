@@ -1,5 +1,7 @@
 /* Output the generated parsing program for bison,
-   Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.
+
+   Copyright (C) 1984, 1986, 1989, 1992, 2000, 2001 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -1276,9 +1278,6 @@ output (void)
   if (semantic_parser)
     obstack_fgrow1 (&table_obstack, "#include %s\n",
 		    quotearg_style (c_quoting_style, attrsfile));
-
-  if (!no_parser_flag)
-    obstack_sgrow (&table_obstack, "#include <stdio.h>\n\n");
 
   LIST_FREE (core, first_state);
   output_defines ();
