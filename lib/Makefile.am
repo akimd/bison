@@ -35,7 +35,7 @@ libbison_a_SOURCES = \
   getopt.h getopt.c getopt1.c \
   hash.h hash.c \
   quote.h quote.c quotearg.h quotearg.c \
-  readpipe.c unlocked-io.h \
+  subpipe.h subpipe.c unlocked-io.h \
   xalloc.h xmalloc.c xstrdup.c xstrndup.c \
   $(bitsets_sources) $(additional_bitsets_sources) $(timevars_sources)
 
