@@ -77,5 +77,8 @@ m4_include([existing.at])
 # Some old bugs.
 m4_include([regression.at])
 
-# GLR tests: C++ types, simplified
+# GLR tests: 
+# C++ types, simplified
 m4_include([cxx-type.at])
+# Regression test for state-folding optimization
+m4_include([glr-regr1.at])
