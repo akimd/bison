@@ -1,7 +1,7 @@
 \input texinfo @c -*-texinfo-*-
 @comment %**start of header
 @setfilename bison.info
-@settitle Bison 1.23
+@settitle Bison 1.24
 @setchapternewpage odd
 
 @iftex
@@ -39,7 +39,7 @@
 @ifinfo
 This file documents the Bison parser generator.
 
-Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993 Free Software Foundation, Inc.
+Copyright (C) 1988, 89, 90, 91, 92, 93, 1995 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -73,13 +73,13 @@ instead of in the original English.
 @titlepage
 @title Bison
 @subtitle The YACC-compatible Parser Generator
-@subtitle December 1993, Bison Version 1.23
+@subtitle May 1995, Bison Version 1.24
 
 @author by Charles Donnelly and Richard Stallman
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993 Free Software
+Copyright @copyright{} 1988, 89, 90, 91, 92, 93, 1995 Free Software
 Foundation 
 
 @sp 2
@@ -121,7 +121,7 @@ Cover art by Etienne Suvasa.
 @node Top, Introduction, (dir), (dir)
 
 @ifinfo
-This manual documents version 1.23 of Bison.
+This manual documents version 1.24 of Bison.
 @end ifinfo
 
 @menu
@@ -307,45 +307,35 @@ don't know Bison or Yacc, start by reading these chapters.  Reference
 chapters follow which describe specific aspects of Bison in detail.
 
 Bison was written primarily by Robert Corbett; Richard Stallman made
-it Yacc-compatible.  This edition corresponds to version 1.23 of Bison.
+it Yacc-compatible.  This edition corresponds to version 1.24 of Bison.
 
 @node Conditions, Copying, Introduction, Top
 @unnumbered Conditions for Using Bison
 
-Bison grammars can be used only in programs that are free software.  This
-is in contrast to what happens with the GNU C compiler and the other
-GNU programming tools.
+As of Bison version 1.24, we have changed the distribution terms for
+@code{yyparse} to permit using Bison's output in non-free programs.
+Formerly, Bison parsers could be used only in programs that were free
+software.
 
-The reason Bison is special is that the output of the Bison utility---the
-Bison parser file---contains a verbatim copy of a sizable piece of Bison,
-which is the code for the @code{yyparse} function.  (The actions from your
-grammar are inserted into this function at one point, but the rest of the
-function is not changed.)
+The other GNU programming tools, such as the GNU C compiler, have never
+had such a requirement.  They could always be used for non-free
+software.  The reason Bison was different was not due to a special
+policy decision; it resulted from applying the usual General Public
+License to all of the Bison source code.
 
-As a result, the Bison parser file is covered by the same copying
-conditions that cover Bison itself and the rest of the GNU system: any
-program containing it has to be distributed under the standard GNU copying
-conditions.
+The output of the Bison utility---the Bison parser file---contains a
+verbatim copy of a sizable piece of Bison, which is the code for the
+@code{yyparse} function.  (The actions from your grammar are inserted
+into this function at one point, but the rest of the function is not
+changed.)  When we applied the GPL terms to the code for @code{yyparse},
+the effect was to restrict the use of Bison output to free software.
 
-Occasionally people who would like to use Bison to develop proprietary
-programs complain about this.
-
-We don't particularly sympathize with their complaints.  The purpose of the
-GNU project is to promote the right to share software and the practice of
-sharing software; it is a means of changing society.  The people who
-complain are planning to be uncooperative toward the rest of the world; why
-should they deserve our help in doing so?
-
-However, it's possible that a change in these conditions might encourage
-computer companies to use and distribute the GNU system.  If so, then we
-might decide to change the terms on @code{yyparse} as a matter of the
-strategy of promoting the right to share.  Such a change would be
-irrevocable.  Since we stand by the copying permissions we have announced,
-we cannot withdraw them once given.
-
-We mustn't make an irrevocable change hastily.  We have to wait until there
-is a complete GNU system and there has been time to learn how this issue
-affects its reception.
+We didn't change the terms because of sympathy for people who want to
+make software proprietary.  @strong{Software should be free.}  But we
+concluded that limiting Bison's use to free software was doing little to
+encourage people to make other software free.  So we decided to make the
+practical conditions for using Bison match the practical conditions for
+using the other GNU tools.
 
 @node Copying, Concepts, Conditions, Top
 @unnumbered GNU GENERAL PUBLIC LICENSE
