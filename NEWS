@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 1.29:
+Changes in version 1.29a:
 
 * Output file does not redefine const; that is now config.h's job.
 
