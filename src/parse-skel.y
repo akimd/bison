@@ -21,6 +21,7 @@
 
 %debug
 %defines
+%verbose
 %error-verbose
 
 %{
@@ -47,8 +48,8 @@ static int yyerror PARAMS ((const char* error));
 
 %union
 {
-  char* muscle;
-  char* string;
+  char *muscle;
+  char *string;
   char character;
   int yacc;
 }

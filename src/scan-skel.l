@@ -20,11 +20,9 @@
    02111-1307, USA.  */
 
 %{
-
 #include "system.h"
 #include "skeleton.h"
 #include "parse-skel.h"
-
 %}
 
 %option nounput
@@ -49,31 +47,25 @@
 "%%{actions}"  { return ACTIONS; }
 "%%{tokendef}" { return TOKENS; }
 
-"%%{"[a-zA-Z][0-9a-zA-Z_-]+"}" { /* Muscle.  */
-  size_t len = strlen (yytext);
-  yylval.string = (char*) malloc (len - 3);
-  strncpy (yylval.string, yytext + 3, len - 4);
-  yylval.string[len - 4] = 0;
+  /* Muscle.  */
+"%%{"[a-zA-Z][0-9a-zA-Z_-]+"}" {
+  yylval.muscle = xstrndup (yytext + 3, yyleng - 4);
   return MUSCLE;
 }
 
-"%%\"".*"\"" { /* String.  */
-  size_t len = strlen (yytext);
-  yylval.string = (char*) malloc (len - 3);
-  strncpy (yylval.string, yytext + 3, len - 4);
-  yylval.string[len - 4] = 0;
+  /* String.  */
+"%%\"".*"\"" {
+  yylval.string = xstrndup (yytext + 3, yyleng - 4);
   return STRING;
 }
 
-<<EOF>> { /* End of file.  */
-  return 0;
-}
-
-"\n" { /* End of line.  */
+  /* End of line.  */
+"\n" {
   return '\n';
 }
 
-. { /* Character.  */
+  /* Plain Character.  */
+. {
   yylval.character = *yytext;
   return CHARACTER;
 }

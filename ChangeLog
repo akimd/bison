@@ -1,5 +1,19 @@
 2001-12-30  Akim Demaille  <akim@epita.fr>
 
+	* src/system.h: We don't need nor want bcopy.
+	Throw away MS-DOS crap: we don't need getpid.
+	* configure.in: We don't need strndup.  It was even causing
+	problems: because Flex includes the headers *before* us,
+	_GNU_SOURCE is not defined by config.h, and therefore strndup was
+	not visible.
+	* lib/xstrndup.c: New.
+	* src/scan-skel.l: Use it.
+	Be sure to initialize yylval.muscle member when scanning a MUSCLE.
+	* src/parse-skel.y: Use %directives instead of #defines.
+
+	
+2001-12-30  Akim Demaille  <akim@epita.fr>
+
 	* src/skeleton.h: New.
 	* src/output.c (output_parser, output_master_parser): Remove, dead
 	code.

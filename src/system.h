@@ -26,16 +26,6 @@
 
 #include <assert.h>
 
-#ifdef MSDOS
-# include <io.h>
-#endif
-
-#ifdef _MSC_VER
-# include <stdlib.h>
-# include <process.h>
-# define getpid _getpid
-#endif
-
 #if HAVE_STDLIB_H
 # include <stdlib.h>
 #endif
@@ -62,9 +52,6 @@
 # if !defined(STDC_HEADERS) && defined(HAVE_MEMORY_H)
 #  include <memory.h>
 # endif /* not STDC_HEADERS and HAVE_MEMORY_H */
-# ifndef bcopy
-#  define bcopy(src, dst, num) memcpy((dst), (src), (num))
-# endif
 #else /* not STDC_HEADERS and not HAVE_STRING_H */
 # include <strings.h>
 /* memory.h and strings.h conflict on some systems.  */
@@ -101,6 +88,9 @@ char *alloca ();
 #endif
 
 # include "xalloc.h"
+
+/* From xstrndup.c.  */
+char *xstrndup PARAMS ((const char *s, size_t n));
 
 /*---------------------.
 | Missing prototypes.  |
@@ -319,4 +309,4 @@ do {						\
 #  include <dmalloc.h>
 # endif /* WITH_DMALLOC */
 
-#endif  /* BISON_SYSTEM_H */
+#endif  /* ! BISON_SYSTEM_H */
