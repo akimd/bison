@@ -1,6 +1,8 @@
 Bison News
 ----------
 
+Changes in version 1.30j:
+
 Changes in version 1.30i:
 
 * Use of alloca in parsers

@@ -1,5 +1,13 @@
 2002-01-03  Akim Demaille  <akim@epita.fr>
 
+	* tests/bison.in: Adjust to CVS Autoconf.
+	* tests/calc.at (exp): We no longer need to special case GCC as
+	the warning flags are passed by configure.
+	* tests/atlocal.in: Adjust.
+	* configure.in: Bump to 1.30j.
+
+2002-01-03  Akim Demaille  <akim@epita.fr>
+
 	Version 1.30i.
 
 2002-01-03  Akim Demaille  <akim@epita.fr>
