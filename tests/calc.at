@@ -331,8 +331,6 @@ AT_CLEANUP(calc calc.c calc.h calc.output)
 # ------------------ #
 
 AT_CHECK_CALC()
-# This one is very suspicious.  The test fails, but it might be normal.
-AT_CHECK_CALC([--raw])
 
 AT_CHECK_CALC([--defines])
 AT_CHECK_CALC([--locations])

@@ -1,3 +1,11 @@
+2001-07-05  Pascal Bart  <pascal.bart@epita.fr>
+
+	* src/getargs.h (raw_flag): Remove.
+	* src/getargs.c: Die on `-r'/`--raw'.
+	* src/lex.c (parse_percent_token): Die on `%raw'.
+	* src/reader.c (output_token_defines): Suppress call to `raw_flag'.
+	* tests/calc.at: Suppress test with option `--raw'.
+
 2001-07-14  Akim Demaille  <akim@epita.fr>
 
 	* config/: New.

@@ -1,5 +1,5 @@
 /* Token type definitions for bison's input reader,
-   Copyright 1984, 1989, 1992, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -49,7 +49,8 @@ typedef enum token_e
     tok_thong,
     tok_noop,
     tok_setopt,
-    tok_illegal
+    tok_illegal,
+    tok_obsolete
   } token_t;
 
 extern char *token_buffer;

@@ -1,4 +1,5 @@
-This is bison.info, produced by makeinfo version 4.0 from bison.texinfo.
+Ceci est le fichier Info bison.info, produit par Makeinfo version 4.0 à
+partir bison.texinfo.
 
 START-INFO-DIR-ENTRY
 * bison: (bison).	GNU Project parser generator (yacc replacement).
@@ -884,10 +885,6 @@ Tuning the parser:
 `--no-parser'
      Pretend that `%no_parser' was specified.  *Note Decl Summary::.
 
-`-r'
-`--raw'
-     Pretend that `%raw' was specified.  *Note Decl Summary::.
-
 `-k'
 `--token-table'
      Pretend that `%token_table' was specified.  *Note Decl Summary::.
@@ -959,7 +956,6 @@ find the corresponding short option.
      --no-lines                            -l
      --no-parser                           -n
      --output-file=OUTFILE                 -o OUTFILE
-     --raw                                 -r
      --token-table                         -k
      --verbose                             -v
      --version                             -V
@@ -1145,11 +1141,6 @@ Bison Symbols
 `%pure_parser'
      Bison declaration to request a pure (reentrant) parser.  *Note A
      Pure (Reentrant) Parser: Pure Decl.
-
-`%raw'
-     Bison declaration to use Bison internal token code numbers in token
-     tables instead of the usual Yacc-compatible token code numbers.
-     *Note Decl Summary::.
 
 `%right'
      Bison declaration to assign right associativity to token(s).

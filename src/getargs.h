@@ -31,7 +31,6 @@ extern int defines_flag;    	/* for -d */
 extern int locations_flag;
 extern int no_lines_flag;    	/* for -l */
 extern int no_parser_flag;	/* for -n */
-extern int raw_flag;		/* for -r */
 extern int statistics_flag;
 extern int token_table_flag;   	/* for -k */
 extern int verbose_flag;	/* for -v */

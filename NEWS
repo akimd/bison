@@ -13,6 +13,8 @@ Changes in version 1.28a:
 
 * Added `-S' and `--skeleton'.
 
+* `%raw', `-r', `--raw' is disabled.
+
 * Special characters are escaped when output.  This solves the problems
   of the #line lines with path names including backslashes.
 

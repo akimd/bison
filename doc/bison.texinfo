@@ -3258,13 +3258,6 @@ Therefore, if the input file is @file{foo.y}, then the parser file is
 called @file{foo.tab.c} by default.  As a consequence, the verbose
 output file is called @file{foo.output}.@refill
 
-@item %raw
-The output file @file{@var{name}.h} normally defines the tokens with
-Yacc-compatible token numbers.  If this option is specified, the
-internal Bison numbers are used instead.  (Yacc-compatible numbers start
-at 257 except for single-character tokens; Bison assigns token numbers
-sequentially for all tokens starting at 3.)
-
 @item %token_table
 Generate an array of token names in the parser file.  The name of the
 array is @code{yytname}; @code{yytname[@var{i}]} is the name of the
@@ -5025,10 +5018,6 @@ parser file, treating it as an independent source file in its own right.
 @itemx --no-parser
 Pretend that @code{%no_parser} was specified.  @xref{Decl Summary}.
 
-@item -r
-@itemx --raw
-Pretend that @code{%raw} was specified.  @xref{Decl Summary}.
-
 @item -k
 @itemx --token-table
 Pretend that @code{%token_table} was specified.  @xref{Decl Summary}.
@@ -5108,7 +5097,6 @@ the corresponding short option.
 \line{ --no-lines \leaderfill -l}
 \line{ --no-parser \leaderfill -n}
 \line{ --output-file \leaderfill -o}
-\line{ --raw \leaderfill -r}
 \line{ --token-table \leaderfill -k}
 \line{ --verbose \leaderfill -v}
 \line{ --version \leaderfill -V}
@@ -5127,7 +5115,6 @@ the corresponding short option.
 --no-lines                            -l
 --no-parser                           -n
 --output-file=@var{outfile}                 -o @var{outfile}
---raw                                 -r
 --token-table                         -k
 --verbose                             -v
 --version                             -V
@@ -5314,11 +5301,6 @@ Bison declaration to assign a precedence to a specific rule.
 @item %pure_parser
 Bison declaration to request a pure (reentrant) parser.
 @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
-
-@item %raw
-Bison declaration to use Bison internal token code numbers in token
-tables instead of the usual Yacc-compatible token code numbers.
-@xref{Decl Summary}.
 
 @item %right
 Bison declaration to assign right associativity to token(s).
