@@ -89,7 +89,16 @@ exp: useful;
 ]])
 
 AT_CHECK([[bison input.y]], 0, [],
-[[input.y contains 9 useless nonterminals
+[[input.y: warning: 9 useless nonterminals
+input.y:4.8-15: warning: useless nonterminal: useless1
+input.y:5.8-15: warning: useless nonterminal: useless2
+input.y:6.8-15: warning: useless nonterminal: useless3
+input.y:7.8-15: warning: useless nonterminal: useless4
+input.y:8.8-15: warning: useless nonterminal: useless5
+input.y:9.8-15: warning: useless nonterminal: useless6
+input.y:10.8-15: warning: useless nonterminal: useless7
+input.y:11.8-15: warning: useless nonterminal: useless8
+input.y:12.8-15: warning: useless nonterminal: useless9
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
@@ -133,7 +142,25 @@ useless9: '9';
 ]])
 
 AT_CHECK([[bison input.y]], 0, [],
-[[input.y contains 9 useless nonterminals and 9 useless rules
+[[input.y: warning: 9 useless nonterminals and 9 useless rules
+input.y:6.1-8: warning: useless nonterminal: useless1
+input.y:7.1-8: warning: useless nonterminal: useless2
+input.y:8.1-8: warning: useless nonterminal: useless3
+input.y:9.1-8: warning: useless nonterminal: useless4
+input.y:10.1-8: warning: useless nonterminal: useless5
+input.y:11.1-8: warning: useless nonterminal: useless6
+input.y:12.1-8: warning: useless nonterminal: useless7
+input.y:13.1-8: warning: useless nonterminal: useless8
+input.y:14.1-8: warning: useless nonterminal: useless9
+input.y:6.9-13: warning: useless rule: useless1: '1'
+input.y:7.9-13: warning: useless rule: useless2: '2'
+input.y:8.9-13: warning: useless rule: useless3: '3'
+input.y:9.9-13: warning: useless rule: useless4: '4'
+input.y:10.9-13: warning: useless rule: useless5: '5'
+input.y:11.9-13: warning: useless rule: useless6: '6'
+input.y:12.9-13: warning: useless rule: useless7: '7'
+input.y:13.9-13: warning: useless rule: useless8: '8'
+input.y:14.9-13: warning: useless rule: useless9: '9'
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
@@ -208,7 +235,12 @@ non_productive: non_productive useless_token
 ]])
 
 AT_CHECK([[bison not-reduced.y]], 0, [],
-[[not-reduced.y contains 2 useless nonterminals and 3 useless rules
+[[not-reduced.y: warning: 2 useless nonterminals and 3 useless rules
+not-reduced.y:14.1-13: warning: useless nonterminal: not_reachable
+not-reduced.y:11.6-19: warning: useless nonterminal: non_productive
+not-reduced.y:11.4-57: warning: useless rule: exp: non_productive
+not-reduced.y:14.14-56: warning: useless rule: not_reachable: useful
+not-reduced.y:17.15-18.63: warning: useless rule: non_productive: non_productive useless_token
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' not-reduced.output]], 0,
@@ -275,7 +307,12 @@ indirection: underivable;
 ]])
 
 AT_CHECK([[bison input.y]], 0, [],
-[[input.y contains 2 useless nonterminals and 3 useless rules
+[[input.y: warning: 2 useless nonterminals and 3 useless rules
+input.y:5.15-25: warning: useless nonterminal: underivable
+input.y:6.14-24: warning: useless nonterminal: indirection
+input.y:5.13-25: warning: useless rule: exp: underivable
+input.y:6.12-24: warning: useless rule: underivable: indirection
+input.y:7.12-24: warning: useless rule: indirection: underivable
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,

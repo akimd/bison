@@ -130,6 +130,8 @@ AT_CLEANUP
 
 AT_SETUP([Unresolved SR Conflicts])
 
+AT_KEYWORDS([report])
+
 AT_DATA([input.y],
 [[%token NUM OP
 %%
@@ -147,10 +149,10 @@ AT_CHECK([cat input.output], [],
 
 Grammar
 
-  Number, Line, Rule
-    0   3 $axiom -> exp $
-    1   3 exp -> exp OP exp
-    2   3 exp -> NUM
+    0 $axiom: exp $
+
+    1 exp: exp OP exp
+    2    | NUM
 
 
 Terminals, with rules where they appear
@@ -241,6 +243,8 @@ AT_CLEANUP
 
 AT_SETUP([Solved SR Conflicts])
 
+AT_KEYWORDS([report])
+
 AT_DATA([input.y],
 [[%token NUM OP
 %right OP
@@ -254,10 +258,10 @@ AT_CHECK([bison input.y -o input.c --report=all], 0, [], [])
 AT_CHECK([cat input.output], [],
 [[Grammar
 
-  Number, Line, Rule
-    0   4 $axiom -> exp $
-    1   4 exp -> exp OP exp
-    2   4 exp -> NUM
+    0 $axiom: exp $
+
+    1 exp: exp OP exp
+    2    | NUM
 
 
 Terminals, with rules where they appear

@@ -87,6 +87,17 @@ struct symbol_s
 #define NUMBER_UNDEFINED ((symbol_number_t) -1)
 
 
+/* Return the tag of this SYMBOL in a printable form.  Warning: uses
+   the QUOTEARG slot 0.  */
+const char *symbol_tag_get PARAMS ((symbol_t *symbol));
+
+/* Return the tag of this SYMBOL in a printable form.  Use the
+   QUOTEARG slot number N.  */
+const char *symbol_tag_get_n PARAMS ((symbol_t *symbol, int n));
+
+/* Print the tag of this SYMBOL.  */
+void symbol_tag_print PARAMS ((symbol_t *symbol, FILE *out));
+
 /* Fetch (or create) the symbol associated to KEY.  */
 symbol_t *getsym PARAMS ((const char *key, location_t location));
 

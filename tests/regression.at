@@ -112,6 +112,8 @@ AT_CLEANUP
 
 AT_SETUP([Rule Line Numbers])
 
+AT_KEYWORDS([report])
+
 AT_DATA([input.y],
 [[%%
 expr:
@@ -148,12 +150,15 @@ AT_CHECK([bison input.y -o input.c -v])
 AT_CHECK([cat input.output], [],
 [[Grammar
 
-  Number, Line, Rule
-    0   5 $axiom -> expr $
-    1   5 @1 -> /* empty */
-    2   2 expr -> 'a' @1 'b'
-    3  18 @2 -> /* empty */
-    4  15 expr -> @2 'c'
+    0 $axiom: expr $
+
+    1 @1: /* empty */
+
+    2 expr: 'a' @1 'b'
+
+    3 @2: /* empty */
+
+    4 expr: @2 'c'
 
 
 Terminals, with rules where they appear
@@ -349,6 +354,8 @@ AT_CLEANUP
 
 AT_SETUP([Web2c Report])
 
+AT_KEYWORDS([report])
+
 AT_DATA([input.y],
 [[%token	undef_id_tok const_id_tok
 
@@ -375,13 +382,12 @@ AT_CHECK([bison -v input.y])
 
 AT_CHECK([sed -n 's/  *$//;/^$/!p' input.output], 0,
 [[Grammar
-  Number, Line, Rule
-    0   6 $axiom -> CONST_DEC_PART $
-    1   6 CONST_DEC_PART -> CONST_DEC_LIST
-    2  10 CONST_DEC_LIST -> CONST_DEC
-    3  12 CONST_DEC_LIST -> CONST_DEC_LIST CONST_DEC
-    4  16 @1 -> /* empty */
-    5  15 CONST_DEC -> @1 undef_id_tok '=' const_id_tok ';'
+    0 $axiom: CONST_DEC_PART $
+    1 CONST_DEC_PART: CONST_DEC_LIST
+    2 CONST_DEC_LIST: CONST_DEC
+    3               | CONST_DEC_LIST CONST_DEC
+    4 @1: /* empty */
+    5 CONST_DEC: @1 undef_id_tok '=' const_id_tok ';'
 Terminals, with rules where they appear
 $ (0) 0
 ';' (59) 5
@@ -469,6 +475,8 @@ AT_CLEANUP
 
 
 AT_SETUP([Web2c Actions])
+
+AT_KEYWORDS([report])
 
 AT_DATA([input.y],
 [[%%

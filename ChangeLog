@@ -1,5 +1,36 @@
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
+	Copy BYacc's nice way to report the grammar.
+
+	* src/gram.h, src/gram.c (grammar_rhs_print, grammar_rules_print):
+	New.
+	Don't print the rules' location, it is confusing and useless.
+	(rule_print): Use grammar_rhs_print.
+	* src/print.c (print_grammar): Use grammar_rules_print.
+
+	
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
+	Complete and rationalize `useless thing' warnings.
+
+	* src/symtab.h, src/symtab.c (symbol_tag_get, symbol_tag_get_n)
+	(symbol_tag_print): New.
+	Use them everywhere in place of accessing directly the tag member.
+	* src/gram.h, src/gram.c (rule_print): New.
+	Use it where a rule used to be printed `by hand'.
+	* src/reduce.c (nonterminals_reduce): Report the use nonterminals.
+	(reduce_grammar_tables): Report the useless rules.
+	(reduce_print): Useless things are a warning, not an error.
+	Report it as such.
+	* tests/reduce.at (Useless Nonterminals, Useless Rules):
+	(Reduced Automaton, Underivable Rules): Adjust.
+	* tests/regression.at (Web2c Report, Web2c Report): Adjust.
+	* tests/conflicts.at (Unresolved SR Conflicts)
+	(Solved SR Conflicts): Adjust.
+
+	
+2002-06-15  Akim Demaille  <akim@epita.fr>
+
 	Let symbols have a location.
 
 	* src/symtab.h, src/symtab.c (symbol_t): Location is a new member.

@@ -42,6 +42,9 @@ Changes in version 1.49b:
   Before, Bison reported the useless rules, but, although not used,
   included them in the parsers.  They are now actually removed.
 
+* Useless rules, useless nonterminals
+  They are now reported, as a warning, with their locations.
+
 * Incorrect `Token not used'
   On a grammar such as
 

@@ -168,14 +168,23 @@ extern int max_user_token_number;
 
 extern int pure_parser;
 
-/* Report the length of the RHS. */
+/* Return the length of the RHS.  */
 int rule_rhs_length PARAMS ((rule_t *rule));
+
+/* Print this RULE's RHS on OUT.  */
+void rule_rhs_print PARAMS ((rule_t *rule, FILE *out));
+
+/* Print this RULE on OUT.  */
+void rule_print PARAMS ((rule_t *rule, FILE *out));
 
 /* Dump RITEM for traces. */
 void ritem_print PARAMS ((FILE *out));
 
 /* Return the size of the longest rule RHS.  */
 size_t ritem_longest_rhs PARAMS ((void));
+
+/* Print the grammar's rules on OUT.  */
+void grammar_rules_print PARAMS ((FILE *out));
 
 /* Dump the grammar. */
 void grammar_dump PARAMS ((FILE *out, const char *title));
