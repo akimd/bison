@@ -1,3 +1,11 @@
+2002-10-23  Paul Eggert  <eggert@twinsun.com>
+
+	* src/main.c (main): With --trace=time, report times even if a
+	non-fatal error occurs.  Formerly, the times were reported in some
+	such cases but not in others.
+	* src/reader.c (reader): Just return if a complaint has been issued,
+	instead of exiting, so that 'main' can report times.
+
 2002-10-22  Akim Demaille  <akim@epita.fr>
 
 	* src/system.h: Include sys/types.
