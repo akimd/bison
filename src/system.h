@@ -1,6 +1,6 @@
 /* System-dependent definitions for Bison.
 
-   Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 # include <config.h>
 #endif
 
+#include <limits.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* Verify a requirement at compile-time (unlike assert, which is runtime).  */
 #define verify(name, assertion) struct name {char name[(assertion) ? 1 : -1];}
@@ -33,48 +36,18 @@
 # include <sys/types.h>
 #endif
 
-#if HAVE_STDLIB_H
-# include <stdlib.h>
-#endif
-
-/* The following test is to work around the gross typo in
-   systems like Sony NEWS-OS Release 4.0C, whereby EXIT_FAILURE
-   is defined to 0, not 1.  */
-#if !EXIT_FAILURE
-# undef EXIT_FAILURE
-# define EXIT_FAILURE 1
-#endif
-
-#ifndef EXIT_SUCCESS
-# define EXIT_SUCCESS 0
-#endif
-
 #if HAVE_UNISTD_H
 # include <unistd.h>
 #endif
 
-#if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
-# include <string.h>
-/* An ANSI string.h and pre-ANSI memory.h might conflict.  */
-# if !defined(STDC_HEADERS) && defined(HAVE_MEMORY_H)
-#  include <memory.h>
-# endif /* not STDC_HEADERS and HAVE_MEMORY_H */
-#else /* not STDC_HEADERS and not HAVE_STRING_H */
-# include <strings.h>
-/* memory.h and strings.h conflict on some systems.  */
-#endif /* not STDC_HEADERS and not HAVE_STRING_H */
+#if HAVE_INTTYPES_H
+# include <inttypes.h>
+#endif
+#if HAVE_STDINT_H
+# include <stdint.h>
+#endif
 
-#include <limits.h>
-
-#if HAVE_UINTPTR_T
-# if HAVE_INTTYPES_H
-#  include <inttypes.h>
-# else
-#  if HAVE_STDINT_H
-#   include <stdint.h>
-#  endif
-# endif
-#else
+#if ! HAVE_UINTPTR_T
 /* This isn't perfect, but it's good enough for Bison, which needs
    only to hash pointers.  */
 typedef size_t uintptr_t;
@@ -97,20 +70,8 @@ char *xstrndup (const char *str, size_t size);
 char *stpcpy (char *dest, const char *src);
 #endif
 
-#if defined HAVE_DECL_STRCHR && !HAVE_DECL_STRCHR
-char *strchr (const char *str, int ch);
-#endif
-
-#if defined HAVE_DECL_STRSPN && !HAVE_DECL_STRSPN
-size_t strspn (const char *str, const char *accept);
-#endif
-
 #if defined HAVE_DECL_STRNLEN && !HAVE_DECL_STRNLEN
 size_t strnlen (const char *str, size_t maxlen);
-#endif
-
-#if defined HAVE_DECL_MEMCHR && !HAVE_DECL_MEMCHR
-void *memchr (const void *str, int ch, size_t size);
 #endif
 
 #if defined HAVE_DECL_MEMRCHR && !HAVE_DECL_MEMRCHR
@@ -158,12 +119,7 @@ void *memrchr (const void *str, int ch, size_t size);
 | NLS.  |
 `------*/
 
-#if HAVE_LOCALE_H
-# include <locale.h>
-#endif
-#if !HAVE_SETLOCALE
-# define setlocale(Category, Locale)
-#endif
+#include <locale.h>
 
 #include <gettext.h>
 #define _(Msgid)  gettext (Msgid)
