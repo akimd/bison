@@ -1,5 +1,11 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (symbols_output): New, extracted from...
+	(packsymbols): Here.
+	(reader): Call it.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/lalr.c (set_maxrhs, maxrhs): Remove, replaced with...
 	(maxrhs): this new function.
 
