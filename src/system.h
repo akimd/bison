@@ -81,10 +81,12 @@ char *alloca ();
 # endif
 #endif
 
-#if PROTOTYPES
-# define PARAMS(p) p
-#else
-# define PARAMS(p) ()
+#ifndef PARAMS
+# if defined PROTOTYPES || defined __STDC__
+#  define PARAMS(Args) Args
+# else
+#  define PARAMS(Args) ()
+# endif
 #endif
 
 # include "xalloc.h"
