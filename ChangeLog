@@ -1,3 +1,17 @@
+2001-11-04  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (Decl Summary): Split the list into
+	`directives for grammars' and `directives for bison'.
+	Sort'em.
+	Add description of `%name-prefix', `file-prefix', and `output'.
+	Promote `-' over `_' in directive names.
+	(Bison Options): s/%locactions/%locations/.  Nice Freudian slip.
+	Simplify the description of `--name-prefix'.
+	Promote `-' over `_' in directive names.
+	Promote `--output' over `--output-file'.
+	Fix the description of `--defines'.
+	* tests/output.at: Exercise %file-prefix and %output.
+
 2001-11-02  Akim Demaille  <akim@epita.fr>
 
 	* doc/refcard.tex: Update.
