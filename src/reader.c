@@ -745,6 +745,7 @@ typedef union";
   const char *epilogue = "\
  yystype;\n\
 # define YYSTYPE yystype\n\
+# define YYSTYPE_IS_TRIVIAL 1\n\
 #endif\n";
 
   if (typed)
@@ -1617,12 +1618,16 @@ readgram (void)
       /* We used to use `unsigned long' as YYSTYPE on MSDOS,
          but it seems better to be consistent.
          Most programs should declare their own type anyway.  */
-      obstack_sgrow (&attrs_obstack,
-			   "#ifndef YYSTYPE\n#define YYSTYPE int\n#endif\n");
+      obstack_sgrow (&attrs_obstack, "\
+#ifndef YYSTYPE\n\
+# define YYSTYPE int\n\
+# define YYSTYPE_IS_TRIVIAL 1\n\
+#endif\n");
       if (defines_flag)
 	obstack_sgrow (&defines_obstack, "\
 # ifndef YYSTYPE\n\
 #  define YYSTYPE int\n\
+#  define YYSTYPE_IS_TRIVIAL 1\n\
 # endif\n");
     }
 
@@ -2043,6 +2048,7 @@ typedef struct yyltype\n\
 } yyltype;\n\
 \n\
 # define YYLTYPE yyltype\n\
+# define YYLTYPE_IS_TRIVIAL 1\n\
 #endif\n\
 \n");
 }
