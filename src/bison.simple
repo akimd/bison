@@ -23,6 +23,11 @@
    This special exception was added by the Free Software Foundation
    in version 1.24 of Bison.  */
 
+/* This is the parser code that is written into each bison parser
+  when the %semantic_parser declaration is not specified in the grammar.
+  It was written by Richard Stallman by simplifying the hairy parser
+  used when %semantic_parser is specified.  */
+
 #ifndef alloca
 #ifdef __GNUC__
 #define alloca __builtin_alloca
@@ -53,11 +58,6 @@ void *alloca ();
 #endif /* not sparc.  */
 #endif /* not GNU C.  */
 #endif /* alloca not defined.  */
-
-/* This is the parser code that is written into each bison parser
-  when the %semantic_parser declaration is not specified in the grammar.
-  It was written by Richard Stallman by simplifying the hairy parser
-  used when %semantic_parser is specified.  */
 
 /* Note: there must be only one dollar sign in this file.
    It is replaced by the list of actions, each action
