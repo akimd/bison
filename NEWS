@@ -3,6 +3,11 @@ Bison News
 
 Changes in version 1.30g:
 
+* Bug fixes
+
+* Better C++ compliance
+  The output parsers try to respect C++ namespaces.
+
 Changes in version 1.30f:
 
 * Reduced Grammars
