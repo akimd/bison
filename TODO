@@ -316,6 +316,53 @@ move to partial orders.
 * Parsing grammars
 Rewrite the reader in Bison.
 
+* Problems with aliases
+From: "Baum, Nathan I" <s0009525@chelt.ac.uk>
+Subject: Token Alias Bug
+To: "'bug-bison@gnu.org'" <bug-bison@gnu.org>
+
+I've noticed a bug in bison. Sadly, our eternally wise sysadmins won't let
+us use CVS, so I can't find out if it's been fixed already...
+
+Basically, I made a program (in flex) that went through a .y file looking
+for "..."-tokens, and then outputed a %token
+line for it. For single-character ""-tokens, I reasoned, I could just use
+[%token 'A' "A"]. However, this causes Bison to output a [#define 'A' 65],
+which cppp chokes on, not unreasonably. (And even if cppp didn't choke, I
+obviously wouldn't want (char)'A' to be replaced with (int)65 throughout my
+code.
+
+Bison normally forgoes outputing a #define for a character token. However,
+it always outputs an aliased token -- even if the token is an alias for a
+character token. We don't want that. The problem is in /output.c/, as I
+recall. When it outputs the token definitions, it checks for a character
+token, and then checks for an alias token. If the character token check is
+placed after the alias check, then it works correctly.
+
+Alias tokens seem to be something of a kludge. What about an [%alias "..."]
+command...
+
+	%alias T_IF "IF"
+
+Hmm. I can't help thinking... What about a --generate-lex option that
+creates an .l file for the alias tokens used... (Or an option to make a
+gperf file, etc...)
+
+* Presentation of the report file
+From: "Baum, Nathan I" <s0009525@chelt.ac.uk>
+Subject: Token Alias Bug
+To: "'bug-bison@gnu.org'" <bug-bison@gnu.org>
+
+I've also noticed something, that whilst not *wrong*, is inconvienient: I
+use the verbose mode to help find the causes of unresolved shift/reduce
+conflicts. However, this mode insists on starting the .output file with a
+list of *resolved* conflicts, something I find quite useless. Might it be
+possible to define a -v mode, and a -vv mode -- Where the -vv mode shows
+everything, but the -v mode only tells you what you need for examining
+conflicts? (Or, perhaps, a "*** This state has N conflicts ***" marker above
+each state with conflicts.)
+
+
 -----
 
 Copyright (C) 2001, 2002 Free Software Foundation, Inc.
