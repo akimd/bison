@@ -1,3 +1,8 @@
+2002-03-09  Robert Anisko  <robert@lrde.epita.fr>
+
+	* data/bison.c++: Make the user able to add members to the generated
+	parser by subclassing.
+
 2002-03-05  Robert Anisko  <robert@lrde.epita.fr>
 
 	* src/reader.c (read_additionnal_code): `c' should be an integer, not

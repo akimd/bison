@@ -25,6 +25,24 @@ m4_define_default([b4_header_guard],
                   [m4_bpatsubst(m4_toupper([BISON_]b4_output_header_name),
                                 [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
 
+m4_define([b4_inherit],
+          [m4_ifdef([b4_root], 
+		    [: public b4_root
+],
+		    [])])
+
+m4_define([b4_param],
+	  [m4_ifdef([b4_root],
+	            [,
+            const Param& param],
+		    [])])
+
+m4_define([b4_constructor],
+	  [m4_ifdef([b4_root],
+		    [b4_root (param),
+      ],
+		    [])])
+
 m4_define([b4_copyright],
           [/* -*- C++ -*- */
 /* A Bison parser, made from b4_filename,
@@ -126,7 +144,7 @@ namespace yy
 
 namespace yy
 {
-  class b4_name
+  class b4_name b4_inherit
   {
   public:
 
@@ -140,10 +158,12 @@ namespace yy
 
 #if YYLSP_NEEDED
     b4_name (bool debug,
-	     LocationType initlocation) : debug_ (debug),
-					  initlocation_ (initlocation)
+	    LocationType initlocation[]b4_param) : 
+      b4_constructor[]debug_ (debug),
+      initlocation_ (initlocation)
 #else
-    b4_name (bool debug) : debug_ (debug)
+    b4_name (bool debug[]b4_param) :
+      b4_constructor[]debug_ (debug)
 #endif
     {
     }
