@@ -44,10 +44,6 @@
    Each core contains a vector of NITEMS items which are the indices
    in the RITEMS vector of the items that are selected in this state.
 
-   The link field is used for chaining symbols that hash states by
-   their itemsets.  This is for recognizing equivalent states and
-   combining them when the states are generated.
-
    The two types of transitions are shifts (push the lookahead token
    and read another) and reductions (combine the last n things on the
    stack via a rule, replace them with the symbol that the rule
@@ -180,7 +176,6 @@ reductions *reductions_new PARAMS ((int n));
 typedef struct state_s
 {
   struct state_s *next;
-  struct state_s *link;
 
   state_number_t number;
   symbol_number_t accessing_symbol;
@@ -220,4 +215,20 @@ state_t *state_new PARAMS ((symbol_number_t accessing_symbol,
 void state_rule_lookaheads_print PARAMS ((state_t *state, rule_t *rule,
 					  FILE *out));
 
+/* Create/destroy the states hash table.  */
+void state_hash_new PARAMS ((void));
+void state_hash_free PARAMS ((void));
+
+/* Find the state associated to the CORE, and return it.  If it does
+   not exist yet, return NULL.  */
+state_t *state_hash_lookup PARAMS ((size_t core_size, item_number_t *core));
+
+/* Insert STATE in the state hash table.  */
+void state_hash_insert PARAMS ((state_t *state));
+
+/* All the states, indexed by the state number.  */
+extern state_t **states;
+
+/* Free all the states.  */
+void states_free PARAMS ((void));
 #endif /* !STATE_H_ */

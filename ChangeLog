@@ -1,5 +1,26 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	Use hash.h for the state hash table.
+
+	* src/LR0.c (STATE_HASH_SIZE, state_hash): Remove.
+	(allocate_storage): Use state_hash_new.
+	(free_storage): Use state_hash_free.
+	(new_state, get_state): Adjust.
+	* src/lalr.h, src/lalr.c (states): Move to...
+	* src/states.h (state_t): Remove the `link' member, no longer
+	used.
+	* src/states.h, src/states.c: here.
+	(state_hash_new, state_hash_free, state_hash_lookup)
+	(state_hash_insert, states_free): New.
+	* src/states.c (state_table, state_compare, state_hash): New.
+	* src/output.c (output_actions): Do not free states now, since we
+	still need to know the final_state number in `prepare', called
+	afterwards.  Do it...
+	* src/main.c (main): here: call states_free after `output'.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/state.h, src/state.c (state_new): New, extracted from...
 	* src/LR0.c (new_state): here.
 	* src/state.h (STATE_ALLOC): Move to...

@@ -71,7 +71,4 @@ extern rule_t **LArule;
 extern bitsetv LA;
 
 
-/* All the states, indexed by the state number.  */
-extern state_t **states;
-
 #endif /* !LALR_H_ */
