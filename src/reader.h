@@ -23,15 +23,15 @@
 
 # include "location.h"
 # include "symlist.h"
+
 # include "parse-gram.h"
 
 typedef struct merger_list
 {
   struct merger_list* next;
-  struniq_t name;
-  struniq_t type;
-}
-merger_list;
+  uniqstr name;
+  uniqstr type;
+} merger_list;
 
 /* From the scanner.  */
 extern FILE *gram_in;
@@ -41,7 +41,7 @@ void scanner_initialize (void);
 void scanner_free (void);
 void scanner_last_string_free (void);
 
-# define YY_DECL int gram_lex (yystype *val, location_t *loc)
+# define YY_DECL int gram_lex (yystype *val, location *loc)
 YY_DECL;
 
 
@@ -50,32 +50,32 @@ extern int gram_debug;
 int gram_parse (void);
 
 /* The sort of braced code we are in.  */
-typedef enum braced_code_e
+typedef enum
   {
     action_braced_code,
     destructor_braced_code,
     printer_braced_code
-  } braced_code_t;
+  } braced_code;
 /* FIXME: This is really a dirty hack which demonstrates that we
    should probably not try to parse the actions now.  */
-extern braced_code_t current_braced_code;
+extern braced_code current_braced_code;
 
 
 /* From reader.c. */
-void grammar_start_symbol_set (symbol_t *s, location_t l);
-void prologue_augment (const char *prologue, location_t location);
-void epilogue_augment (const char *epilogue, location_t location);
-void grammar_symbol_append (symbol_t *s, location_t l);
-void grammar_rule_begin (symbol_t *lhs, location_t l);
-void grammar_rule_end (location_t l);
+void grammar_start_symbol_set (symbol *s, location loc);
+void prologue_augment (const char *prologue, location loc);
+void epilogue_augment (const char *epilogue, location loc);
+void grammar_symbol_append (symbol *s, location loc);
+void grammar_rule_begin (symbol *lhs, location loc);
+void grammar_rule_end (location loc);
 void grammar_midrule_action (void);
-void grammar_current_rule_prec_set (symbol_t *precsym, location_t l);
-void grammar_current_rule_dprec_set (int dprec, location_t l);
-void grammar_current_rule_merge_set (struniq_t name, location_t l);
+void grammar_current_rule_prec_set (symbol *precsym, location loc);
+void grammar_current_rule_dprec_set (int dprec, location loc);
+void grammar_current_rule_merge_set (uniqstr name, location loc);
 
-void grammar_current_rule_symbol_append (symbol_t *symbol, location_t l);
-void grammar_current_rule_action_append (const char *action, location_t l);
-extern symbol_list_t *current_rule;
+void grammar_current_rule_symbol_append (symbol *sym, location loc);
+void grammar_current_rule_action_append (const char *action, location loc);
+extern symbol_list *current_rule;
 void reader (void);
 void free_merger_functions (void);
 
