@@ -1,3 +1,10 @@
+2001-11-14  Akim Demaille  <akim@epita.fr>
+
+	* src/system.h (EXIT_SUCCESS, EXIT_FAILURE): Ensure a proper
+	definition.
+	* src/main.c (main): Use them.
+	Suggested by Hans Aberg.
+
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
 	* src/system.h (ngettext): Now that we use ngettext, be sure to
@@ -60,7 +67,7 @@
 	(conflicts_print, conflicts_output): New.
 	* src/conflicts.h: Adjust.
 	* src/main.c (main): Invoke both conflicts_output and conflicts_print.
-	* src/print.c (print_grammar): Issue `\n' between to rule outputs.
+	* src/print.c (print_grammar): Issue `\n' between two rules.
 	* tests/regression.at (Conflicts): New.
 	Reported by Tom Lane.
 
@@ -79,7 +86,7 @@
 
 	* src/bison.simple (YYSTACK_REALLOC): New.
 	(yyparse) [!yyoverflow]: Use it and free the old stack.
-	Reported by FIXME: Who.
+	Reported by Per Allansson.
 
 2001-11-12  Pascal Bart  <pascal.bart@epita.fr>
 
