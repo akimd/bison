@@ -1,5 +1,12 @@
 2001-12-17  Akim Demaille  <akim@epita.fr>
 
+	* src/conflicts.c (flush_shift): Also adjust lookaheadset.
+	(flush_reduce): New.
+	(resolve_sr_conflict): Adjust.
+
+	
+2001-12-17  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (output_obstack): Be static and rename as...
 	(format_obstack): this, to avoid any confusion with files.c's
 	output_obstack.
