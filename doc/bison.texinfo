@@ -356,7 +356,7 @@ encourage people to make other software free.  So we decided to make the
 practical conditions for using Bison match the practical conditions for
 using the other @acronym{GNU} tools.
 
-This exception applies only when Bison is generating C code for a
+This exception applies only when Bison is generating C code for an
 @acronym{LALR}(1) parser; otherwise, the @acronym{GPL} terms operate
 as usual.  You can
 tell whether the exception applies to your @samp{.c} output file by
