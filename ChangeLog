@@ -1,5 +1,8 @@
 2005-01-24  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* configure.ac (O0CFLAGS, O0CXXFLAGS): Fix quoting bug.
+	Problem reported by twlevo@xs4all.nl.
+
 	* doc/bison.texinfo: Change @dircategory from "GNU programming
 	tools" to "Software development".  Requested by Richard Stallman
 	via Karl Berry.
