@@ -1,3 +1,9 @@
+2003-02-28  Paul Eggert  <eggert@twinsun.com>
+
+	* lib/mbswidth.c: Include <wchar.h> before "mbswidth.h", to work
+	around a UnixWare 7.1.1 porting bug reported by John Hughes in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-02/msg00030.html>.
+
 2003-02-26  Paul Eggert  <eggert@twinsun.com>
 
 	* README: Mention compiler bug in Sun Forte Developer 6 update 2.
