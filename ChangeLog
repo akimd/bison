@@ -1,5 +1,14 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (save_reductions): Remove, replaced by...
+	* src/state.h, src/state.c (state_reductions_set): New.
+	(reductions, errs): Rename as...
+	(reductions_t, errs_t): these.
+	Adjust all dependencies.
+
+	
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (state_list_t, state_list_append): New.
 	(first_state, last_state): Now symbol_list_t.
 	(this_state): Remove.

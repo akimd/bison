@@ -144,27 +144,26 @@ typedef struct shifts_s
 | Errs.  |
 `-------*/
 
-typedef struct errs
+typedef struct errs_s
 {
   short nerrs;
   short errs[1];
-} errs;
+} errs_t;
 
-errs *errs_new PARAMS ((int n));
-errs *errs_dup PARAMS ((errs *src));
+errs_t *errs_new PARAMS ((int n));
+errs_t *errs_dup PARAMS ((errs_t *src));
 
 
 /*-------------.
 | Reductions.  |
 `-------------*/
 
-typedef struct reductions
+typedef struct reductions_s
 {
   short nreds;
   short rules[1];
-} reductions;
+} reductions_t;
 
-reductions *reductions_new PARAMS ((int n));
 
 
 /*----------.
@@ -176,8 +175,8 @@ typedef struct state_s
   state_number_t number;
   symbol_number_t accessing_symbol;
   shifts_t     *shifts;
-  reductions *reductions;
-  errs       *errs;
+  reductions_t *reductions;
+  errs_t       *errs;
 
   /* Nonzero if no lookahead is needed to decide what to do in state S.  */
   char consistent;
@@ -207,6 +206,10 @@ state_t *state_new PARAMS ((symbol_number_t accessing_symbol,
 /* Set the shifts of STATE.  */
 void state_shifts_set PARAMS ((state_t *state,
 			       int nshifts, state_number_t *shifts));
+
+/* Set the reductions of STATE.  */
+void state_reductions_set PARAMS ((state_t *state,
+				   int nreductions, short *reductions));
 
 /* Print on OUT all the lookaheads such that this STATE wants to
    reduce this RULE.  */
