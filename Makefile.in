@@ -44,8 +44,8 @@ LIBS = @LIBS@
 # the GNU alloca.o here.
 ALLOCA = @ALLOCA@
 
-prefix = /usr/local
-exec_prefix = $(prefix)
+prefix = @prefix@
+exec_prefix = @prefix@
 
 # where the installed binary goes
 bindir = $(exec_prefix)/bin
