@@ -82,6 +82,9 @@ typedef struct state_s
 
   /* Its accessing symbol. */
   short accessing_symbol;
+
+  shifts *shift_table;
+  reductions *reduction_table;
 } state_t;
 
 /* All the decorated states, indexed by the state number.  Warning:
@@ -91,8 +94,7 @@ extern state_t *state_table;
 
 extern int tokensetsize;
 extern short *lookaheads;
-extern shifts **shift_table;
-extern reductions **reduction_table;
+
 
 
 
