@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-11-05 11:08+0100\n"
+"POT-Creation-Date: 2001-11-12 10:34+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -30,78 +30,79 @@ msgstr "предупреждение: "
 msgid "fatal error: "
 msgstr "фатальная ошибка: "
 
-#: src/conflicts.c:48
+#: src/conflicts.c:45
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "Конфликт в состоянии %d между правилом %d и лексемой %s разрешен как %s.\n"
 
-#: src/conflicts.c:114 src/conflicts.c:137
+#: src/conflicts.c:111 src/conflicts.c:134
 msgid "reduce"
 msgstr "вывод"
 
-#: src/conflicts.c:120 src/conflicts.c:133
+#: src/conflicts.c:117 src/conflicts.c:130
 msgid "shift"
 msgstr "сдвиг"
 
-#: src/conflicts.c:141
+#: src/conflicts.c:138
 msgid "an error"
 msgstr "ошибка"
 
-#: src/conflicts.c:421
-msgid " 1 shift/reduce conflict"
-msgstr " 1 конфликт сдвига/вывода"
+#: src/conflicts.c:411
+#, fuzzy, c-format
+msgid "%d shift/reduce conflict"
+msgid_plural "%d shift/reduce conflicts"
+msgstr[0] " %d конфликтов сдвига/вывода"
 
-#: src/conflicts.c:426
-#, c-format
-msgid " %d shift/reduce conflicts"
-msgstr " %d конфликтов сдвига/вывода"
-
-#: src/conflicts.c:432
-msgid " and"
+#: src/conflicts.c:418
+#, fuzzy
+msgid "and"
 msgstr " и"
 
-#: src/conflicts.c:438
-msgid " 1 reduce/reduce conflict"
-msgstr " 1 конфликт вывода/вывода"
+#: src/conflicts.c:424
+#, fuzzy, c-format
+msgid "%d reduce/reduce conflict"
+msgid_plural "%d reduce/reduce conflicts"
+msgstr[0] " %d конфликтов вывода/вывода"
 
-#: src/conflicts.c:443
-#, c-format
-msgid " %d reduce/reduce conflicts"
-msgstr " %d конфликтов вывода/вывода"
-
-#: src/conflicts.c:480
-#, c-format
-msgid "State %d contains"
+#: src/conflicts.c:448
+#, fuzzy, c-format
+msgid "State %d contains "
 msgstr "Состояние %d содержит"
 
 #. If invoked with `--yacc', use the output format specified by
 #. POSIX.
-#: src/conflicts.c:491
+#: src/conflicts.c:481
 msgid "conflicts: "
 msgstr "конфликты: "
 
-#: src/conflicts.c:493
+#: src/conflicts.c:483
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d сдвиг/вывод"
 
-#: src/conflicts.c:497
+#: src/conflicts.c:487
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d вывод/вывод"
 
-#: src/conflicts.c:502
+#: src/conflicts.c:492 src/reduce.c:497
 #, c-format
-msgid "%s contains"
-msgstr "%s содержит"
+msgid "%s contains "
+msgstr "%s содержит "
 
-#: src/conflicts.c:588 src/conflicts.c:709
+#: src/conflicts.c:500
+#, fuzzy, c-format
+msgid "expected %d shift/reduce conflict"
+msgid_plural "expected %d shift/reduce conflicts"
+msgstr[0] " %d конфликтов сдвига/вывода"
+
+#: src/conflicts.c:587 src/conflicts.c:707
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[вывод с использованием правила %d (%s)]\n"
 
-#: src/conflicts.c:600 src/print.c:171
+#: src/conflicts.c:598 src/print.c:171
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -110,12 +111,12 @@ msgstr ""
 "    $default\tвывод с использованием правила %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:689 src/conflicts.c:703
+#: src/conflicts.c:687 src/conflicts.c:701
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tвывод с использованием правила %d (%s)\n"
 
-#: src/conflicts.c:730
+#: src/conflicts.c:727
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tвывод с использованием правила %d (%s)\n"
@@ -315,7 +316,7 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: ключ `%s' должен использоваться с аргументом\n"
 
-#: src/main.c:125
+#: src/main.c:128
 #, c-format
 msgid "%s: internal error: %s\n"
 msgstr "%s: внутренняя ошибка: %s\n"
@@ -387,19 +388,19 @@ msgid "empty"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:244
+#: src/print.c:245
 msgid "Terminals, with rules where they appear"
 msgstr "Терминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:268
+#: src/print.c:269
 msgid "Nonterminals, with rules where they appear"
 msgstr "Нетерминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:294
+#: src/print.c:295
 msgid " on left:"
 msgstr " налево:"
 
-#: src/print.c:309
+#: src/print.c:310
 msgid " on right:"
 msgstr " направо:"
 
@@ -636,19 +637,19 @@ msgstr "начальный символ %s неопределен"
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
 
-#: src/reduce.c:401
+#: src/reduce.c:405
 msgid "Useless nonterminals:"
 msgstr "Бесполезные нетерминалы:"
 
-#: src/reduce.c:416
+#: src/reduce.c:419
 msgid "Terminals which are not used:"
 msgstr "Неиспользованные терминалы:"
 
-#: src/reduce.c:427
+#: src/reduce.c:430
 msgid "Useless rules:"
 msgstr "Бесполезные правила:"
 
-#: src/reduce.c:456
+#: src/reduce.c:458
 msgid ""
 "Variables\n"
 "---------\n"
@@ -658,7 +659,7 @@ msgstr ""
 "----------\n"
 "\n"
 
-#: src/reduce.c:458
+#: src/reduce.c:459
 msgid "Value  Sprec    Sassoc    Tag\n"
 msgstr "Знач   Приор    Ассоц     Тег\n"
 
@@ -672,7 +673,7 @@ msgstr ""
 "-------\n"
 "\n"
 
-#: src/reduce.c:474
+#: src/reduce.c:473
 msgid ""
 "Rules interpreted\n"
 "-----------------\n"
@@ -682,36 +683,31 @@ msgstr ""
 "--------------------------\n"
 "\n"
 
-#: src/reduce.c:491
+#: src/reduce.c:495
 #, c-format
 msgid "%d rules never reduced\n"
 msgstr "%d правил не сведено\n"
 
-#: src/reduce.c:493
-#, c-format
-msgid "%s contains "
-msgstr "%s содержит "
-
-#: src/reduce.c:497
+#: src/reduce.c:501
 #, c-format
 msgid "%d useless nonterminal%s"
 msgstr "%d бесполезных нетерминалов%s"
 
-#: src/reduce.c:502
+#: src/reduce.c:506
 msgid " and "
 msgstr " и "
 
-#: src/reduce.c:506
+#: src/reduce.c:510
 #, c-format
 msgid "%d useless rule%s"
 msgstr "%d бесполезных правил%s"
 
-#: src/reduce.c:539
+#: src/reduce.c:540
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Начальный символ %s не выводит ни одного предложения"
 
-#: src/reduce.c:552
+#: src/reduce.c:553
 #, c-format
 msgid ""
 "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
@@ -805,6 +801,15 @@ msgstr "`"
 #: lib/quotearg.c:269
 msgid "'"
 msgstr "'"
+
+#~ msgid " 1 shift/reduce conflict"
+#~ msgstr " 1 конфликт сдвига/вывода"
+
+#~ msgid " 1 reduce/reduce conflict"
+#~ msgstr " 1 конфликт вывода/вывода"
+
+#~ msgid "%s contains"
+#~ msgstr "%s содержит"
 
 #~ msgid "\t\t/* empty */"
 #~ msgstr "\t\t/* пусто */"

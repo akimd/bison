@@ -1,5 +1,11 @@
 2001-11-12  Akim Demaille  <akim@epita.fr>
 
+	Version 1.30b.
+
+	* config/config.guess, config/config.sub, po/*.po: Update.
+
+2001-11-12  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo: Use `$' as shell prompt, not `%'.
 	Use @kbd to denote user input.
 	(Language and Grammar): ANSIfy the example.
