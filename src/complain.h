@@ -25,28 +25,28 @@
 extern "C" {
 # endif
 
-/* Informative messages, but we proceed. */
+/* Informative messages, but we proceed.  */
 
-void warn (const char *format, ...)
+void warn (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
 
-void warn_at (location_t location, const char *format, ...)
+void warn_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
-/* Something bad happen, but let's continue and die later. */
+/* Something bad happen, but let's continue and die later.  */
 
-void complain (const char *format, ...)
+void complain (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
 
-void complain_at (location_t location, const char *format, ...)
+void complain_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
-/* Something bad happen and we die now. */
+/* Something bad happen and we die now.  */
 
-void fatal (const char *format, ...)
+void fatal (char const *format, ...)
   __attribute__ ((__noreturn__, __format__ (__printf__, 1, 2)));
 
-void fatal_at (location_t location, const char *format, ...)
+void fatal_at (location loc, char const *format, ...)
   __attribute__ ((__noreturn__, __format__ (__printf__, 2, 3)));
 
 /* This variable is set each time `warn' is called.  */
