@@ -1,5 +1,16 @@
 2004-09-20  Akim Demaille  <akim@epita.fr>
 
+	* data/yacc.c (YY_LOCATION_PRINT): Use YYLTYPE_IS_TRIVIAL as a
+	clearer criterion to define it.
+	(parse): Initialize the initial location when YYLTYPE_IS_TRIVIAL.
+	When reducing on an empty RHS, use the latest stacked location as
+	location.
+	yylloc is not always available.
+	* data/glr.c: Likewise.
+	Also, honor initial-actions.
+
+2004-09-20  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.c (YY_LOCATION_PRINT): New.
 	Define when we know YYLTYPE's structure, i.e., when the default
 	YYLLOC_DEFAULT is used.
