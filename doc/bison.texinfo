@@ -3796,8 +3796,8 @@ for (i = 0; i < YYNTOKENS; i++)
   @{
     if (yytname[i] != 0
         && yytname[i][0] == '"'
-        && strncmp (yytname[i] + 1, token_buffer,
-                    strlen (token_buffer))
+        && ! strncmp (yytname[i] + 1, token_buffer,
+                      strlen (token_buffer))
         && yytname[i][strlen (token_buffer) + 1] == '"'
         && yytname[i][strlen (token_buffer) + 2] == 0)
       break;
