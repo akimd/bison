@@ -1,0 +1,20 @@
+# List of files which contain translatable strings.
+# Copyright (C) 1996 Free Software Foundation, Inc.
+
+# Package source files
+allocate.c
+closure.c
+conflicts.c
+derives.c
+getargs.c
+lalr.c
+lex.c
+main.c
+nullable.c
+output.c
+print.c
+reader.c
+reduce.c
+
+# Common library files
+getopt.c
