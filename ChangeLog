@@ -1,5 +1,15 @@
 2000-12-19  Akim Demaille  <akim@epita.fr>
 
+	* src/files.c (strsuffix): New.
+	(stringappend): Be just like strcat but allocate.
+	(base_names): Eve out from open_files.
+	Try to simplify the rather hairy computation of base_name and
+	short_base_name.
+	(open_files): Use it.
+	* tests/suite.at (Checking output file names): New test.
+
+2000-12-19  Akim Demaille  <akim@epita.fr>
+
 	* src/system.h (obstack_grow_literal_string): Rename as...
 	(obstack_grow_string): this.
 	* src/output.c (output_parser): Recognize `%% actions' instead of

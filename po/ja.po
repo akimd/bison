@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2000-12-14 11:46+0100\n"
+"POT-Creation-Date: 2000-12-19 15:49+0100\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -262,7 +262,7 @@ msgstr "%s: 内部エラー: %s\n"
 msgid "Entering set_nullable"
 msgstr "set_nullable に入ります"
 
-#: src/output.c:1002
+#: src/output.c:990
 #, fuzzy, c-format
 msgid "maximum table size (%d) exceeded"
 msgstr "最大テーブルサイズ (%s) を超えました"
@@ -415,7 +415,7 @@ msgstr ""
 msgid "symbol %s redefined"
 msgstr "シンボル %s が再定義されました"
 
-#: src/reader.c:592 src/reader.c:671 src/reader.c:732 src/reader.c:1296
+#: src/reader.c:592 src/reader.c:671 src/reader.c:732 src/reader.c:1293
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "%s の型が再定義されました"
@@ -430,7 +430,7 @@ msgstr "%2$s 内の `%1$s' は無効です"
 msgid "multiple %s declarations"
 msgstr "複数の %start が宣言されました"
 
-#: src/reader.c:621 src/reader.c:1274
+#: src/reader.c:621 src/reader.c:1271
 #, fuzzy, c-format
 msgid "invalid %s declaration"
 msgstr "無効な %start が宣言されました"
@@ -459,7 +459,7 @@ msgstr "無効なテキスト (%s) - 数値は識別子の後ろにあるべきです"
 msgid "unexpected item: %s"
 msgstr "予期せぬアイテム: %s"
 
-#: src/reader.c:817 src/reader.c:1104 src/reader.c:1176
+#: src/reader.c:817 src/reader.c:1102 src/reader.c:1173
 #, fuzzy, c-format
 msgid "unmatched %s"
 msgstr "対応のない `{' です"
@@ -479,102 +479,102 @@ msgstr "認識できないアイテム %s、ここでは識別子が期待されます"
 msgid "expected string constant instead of %s"
 msgstr "ここでは %s ではなく文字列定数が期待されます"
 
-#: src/reader.c:1020
+#: src/reader.c:1018
 #, c-format
 msgid "unrecognized: %s"
 msgstr "認識できない: %s"
 
-#: src/reader.c:1025
+#: src/reader.c:1023
 msgid "no input grammar"
 msgstr "文法の入力が無い"
 
-#: src/reader.c:1030
+#: src/reader.c:1028
 #, c-format
 msgid "unknown character: %s"
 msgstr "未知の文字: %s"
 
-#: src/reader.c:1199
+#: src/reader.c:1196
 #, fuzzy, c-format
 msgid "unterminated %guard clause"
 msgstr "閉じられていない %%guard 節です"
 
-#: src/reader.c:1361
+#: src/reader.c:1358
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "邪悪な規則: 初期化シンボルにコロン (:) が続いていません"
 
-#: src/reader.c:1368
+#: src/reader.c:1365
 msgid "grammar starts with vertical bar"
 msgstr "文法は縦棒 (|) で始めます"
 
-#: src/reader.c:1399
+#: src/reader.c:1396
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "%s に規則が与えられ、それはトークンとなります"
 
-#: src/reader.c:1501
+#: src/reader.c:1498
 msgid "two @prec's in a row"
 msgstr "@prec のもの二つが同列になっています"
 
-#: src/reader.c:1509
+#: src/reader.c:1506
 #, fuzzy
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard がありますが %%semantic_parser が指定されていません"
 
-#: src/reader.c:1518
+#: src/reader.c:1515
 msgid "two actions at end of one rule"
 msgstr "一つの規則の終りに二つの動作を指定しています"
 
-#: src/reader.c:1532
+#: src/reader.c:1529
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "初期状態の動作では型 (`%s' `%s') が衝突します"
 
-#: src/reader.c:1538
+#: src/reader.c:1535
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "空の型付き非終端アイテム用規則であり、動作が起りません"
 
-#: src/reader.c:1582
+#: src/reader.c:1579
 #, c-format
 msgid "invalid input: %s"
 msgstr "無効な入力: %s"
 
-#: src/reader.c:1590
+#: src/reader.c:1587
 #, fuzzy, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークンと非終端アイテム) -- 最大 %s"
 
-#: src/reader.c:1593
+#: src/reader.c:1590
 msgid "no rules in the input grammar"
 msgstr "入力した文法に規則が定義されていません"
 
-#: src/reader.c:1617
+#: src/reader.c:1614
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "シンボル %s "
 "が使われていますが、トークンとして定義されておらず、規則を持ちません"
 
-#: src/reader.c:1723
+#: src/reader.c:1720
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "先行している %s と %s で競合が生じています"
 
-#: src/reader.c:1735
+#: src/reader.c:1732
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "非結合値 %s と %s で競合が生じています"
 
-#: src/reader.c:1786
+#: src/reader.c:1783
 #, fuzzy, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "トークン %s と %s の双方が番号 %s に割り当てられました"
 
-#: src/reader.c:1799
+#: src/reader.c:1796
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "開始シンボル %s は定義されていません"
 
-#: src/reader.c:1801
+#: src/reader.c:1798
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"

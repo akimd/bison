@@ -87,7 +87,7 @@ FILE *yyin;
 static void
 yyerror (const char *s)
 {
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   fprintf (stderr, "%d.%d:%d.%d: ",
 	   yylloc.first_line, yylloc.first_column,
 	   yylloc.last_line, yylloc.last_column);
@@ -99,7 +99,7 @@ static int
 yygetc ()
 {
   int res = getc (yyin);
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   if (res == '\n')
     {
       yylloc.last_line++;
@@ -115,7 +115,7 @@ yygetc ()
 static void
 yyungetc (int c)
 {
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   /* Wrong when C == `\n'. */
   yylloc.last_column--;
 #endif
@@ -159,7 +159,7 @@ yylex (void)
 {
   int c;
 
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   yylloc.first_column = yylloc.last_column;
   yylloc.first_line = yylloc.last_line;
 #endif
@@ -167,7 +167,7 @@ yylex (void)
   /* Skip white space.  */
   while ((c = yygetc ()) == ' ' || c == '\t')
     {
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
       yylloc.first_column = yylloc.last_column;
       yylloc.first_line = yylloc.last_line;
 #endif
@@ -217,7 +217,7 @@ main (int argn, const char **argv)
 #if YYDEBUG
   yydebug = 1;
 #endif
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   yylloc.last_column = 0;
   yylloc.last_line = 1;
 #endif
