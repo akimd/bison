@@ -1,5 +1,13 @@
 2001-12-10  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (augment_automaton): Better variable locality.
+	Remove an impossible branch: if there is a state corresponding to
+	the start symbol being shifted, then there is shift for the start
+	symbol from the initial state.
+
+	
+2001-12-10  Akim Demaille  <akim@epita.fr>
+
 	* src/LR0.c (augment_automaton): Call `insert_eof_shifting_state'
 	only when appropriate: when insert_start_shifting_state' is not
 	invoked.
