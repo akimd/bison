@@ -1,5 +1,5 @@
 /* Compute look-ahead criteria for bison,
-   Copyright 1984, 1986, 1989, 2000 Free Software Foundation, Inc.
+   Copyright 1984, 1986, 1989, 2000, 2002 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -21,6 +21,7 @@
 #ifndef LALR_H_
 # define LALR_H_
 
+#include "bitset.h"
 
 /* Import the definition of CORE, SHIFTS and REDUCTIONS. */
 # include "state.h"
@@ -65,8 +66,7 @@ extern short *LAruleno;
    token is symbol i.  If LA[l, i] and LA[l, j] are both 1 for i != j,
    it is a conflict.  */
 
-extern unsigned *LA;
-#define LA(Rule) (LA + (Rule) * tokensetsize)
+extern bitset *LA;
 
 
 /* All the states, indexed by the state number.  */
