@@ -71,7 +71,7 @@ DISTFILES = COPYING ChangeLog Makefile.in configure configure.in \
     warshall.c files.h gram.h lex.h machine.h new.h state.h \
     symtab.h system.h types.h bison.cld build.com vmsgetargs.c \
     vmshlp.mar README INSTALL bison.texinfo bison.info* texinfo.tex \
-    getopt.c getopt.h getopt1.c alloca.c
+    getopt.c getopt.h getopt1.c alloca.c mkinstalldirs
 
 
 SHELL = /bin/sh
@@ -135,17 +135,7 @@ install: all bison.1 $(srcdir)/$(PFILE) $(srcdir)/$(PFILE1) installdirs uninstal
 # Make sure all installation directories, e.g. $(bindir) actually exist by
 # making them if necessary.
 installdirs:
-	for file in $(bindir) $(datadir) $(libdir) $(infodir) $(mandir) ; do \
-	   oIFS="$${IFS}"; IFS='/'; set - $${file}; IFS="$${oIFS}"; \
-	   pathcomp=''; test ".$${1}" = "." && shift; \
-	   while test $$# -ne 0 ; do \
-	     pathcomp="$${pathcomp}/$${1}"; shift; \
-	     if test ! -d "$${pathcomp}"; then \
-	        echo "making directory $$pathcomp" 1>&2 ; \
-	        mkdir "$${pathcomp}"; \
-	     fi; \
-	   done; \
-	done
+	-sh $(srcdir)/mkinstalldirs $(bindir) $(datadir) $(libdir) $(infodir) $(mandir)
 
 uninstall:
 	rm -f $(bindir)/bison
