@@ -178,18 +178,16 @@ state 0
     1 exp: . exp OP exp
     2    | . NUM
 
-    NUM 	shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp 	go to state 2
-
+    exp  go to state 2
 
 
 state 1
 
     2 exp: NUM .
 
-    $default	reduce using rule 2 (exp)
-
+    $default  reduce using rule 2 (exp)
 
 
 state 2
@@ -197,9 +195,8 @@ state 2
     0 $axiom: exp . $
     1 exp: exp . OP exp
 
-    $   	shift, and go to state 3
-    OP  	shift, and go to state 4
-
+    $   shift, and go to state 3
+    OP  shift, and go to state 4
 
 
 state 3
@@ -215,10 +212,9 @@ state 4
     1    | exp OP . exp
     2    | . NUM
 
-    NUM 	shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp 	go to state 5
-
+    exp  go to state 5
 
 
 state 5
@@ -226,13 +222,10 @@ state 5
     1 exp: exp . OP exp  [$, OP]
     1    | exp OP exp .  [$, OP]
 
-    OP  	shift, and go to state 4
+    OP  shift, and go to state 4
 
-    OP  	[reduce using rule 1 (exp)]
-    $default	reduce using rule 1 (exp)
-
-
-
+    OP        [reduce using rule 1 (exp)]
+    $default  reduce using rule 1 (exp)
 ]])
 
 AT_CLEANUP
@@ -288,18 +281,16 @@ state 0
     1 exp: . exp OP exp
     2    | . NUM
 
-    NUM 	shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp 	go to state 2
-
+    exp  go to state 2
 
 
 state 1
 
     2 exp: NUM .
 
-    $default	reduce using rule 2 (exp)
-
+    $default  reduce using rule 2 (exp)
 
 
 state 2
@@ -307,9 +298,8 @@ state 2
     0 $axiom: exp . $
     1 exp: exp . OP exp
 
-    $   	shift, and go to state 3
-    OP  	shift, and go to state 4
-
+    $   shift, and go to state 3
+    OP  shift, and go to state 4
 
 
 state 3
@@ -325,10 +315,9 @@ state 4
     1    | exp OP . exp
     2    | . NUM
 
-    NUM 	shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp 	go to state 5
-
+    exp  go to state 5
 
 
 state 5
@@ -336,12 +325,8 @@ state 5
     1 exp: exp . OP exp  [$, OP]
     1    | exp OP exp .  [$, OP]
 
-
-    $default	reduce using rule 1 (exp)
-
+    $default  reduce using rule 1 (exp)
     Conflict between rule 2 and token OP resolved as shift (%left OP).
-
-
 ]])
 
 AT_CLEANUP
@@ -431,12 +416,11 @@ state 0
     3 num: . '0'
     4 id: . '0'
 
-    '0' 	shift, and go to state 1
+    '0'  shift, and go to state 1
 
-    exp 	go to state 2
-    num 	go to state 3
-    id  	go to state 4
-
+    exp  go to state 2
+    num  go to state 3
+    id   go to state 4
 
 
 state 1
@@ -444,34 +428,30 @@ state 1
     3 num: '0' .  [$]
     4 id: '0' .  [$]
 
-    $   	reduce using rule 3 (num)
-    $   	[reduce using rule 4 (id)]
-    $default	reduce using rule 3 (num)
-
+    $         reduce using rule 3 (num)
+    $         [reduce using rule 4 (id)]
+    $default  reduce using rule 3 (num)
 
 
 state 2
 
     0 $axiom: exp . $
 
-    $   	shift, and go to state 5
-
+    $  shift, and go to state 5
 
 
 state 3
 
     1 exp: num .
 
-    $default	reduce using rule 1 (exp)
-
+    $default  reduce using rule 1 (exp)
 
 
 state 4
 
     2 exp: id .
 
-    $default	reduce using rule 2 (exp)
-
+    $default  reduce using rule 2 (exp)
 
 
 state 5
@@ -479,8 +459,6 @@ state 5
     0 $axiom: exp $ .
 
     $default	accept
-
-
 ]])
 
 AT_CLEANUP

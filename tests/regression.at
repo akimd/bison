@@ -186,47 +186,42 @@ state 0
 
     0 $axiom: . expr $
 
-    'a' 	shift, and go to state 1
+    'a'  shift, and go to state 1
 
-    $default	reduce using rule 3 (@2)
+    $default  reduce using rule 3 (@2)
 
-    expr	go to state 2
-    @2  	go to state 3
-
+    expr  go to state 2
+    @2    go to state 3
 
 
 state 1
 
     2 expr: 'a' . @1 'b'
 
-    $default	reduce using rule 1 (@1)
+    $default  reduce using rule 1 (@1)
 
-    @1  	go to state 4
-
+    @1  go to state 4
 
 
 state 2
 
     0 $axiom: expr . $
 
-    $   	shift, and go to state 5
-
+    $  shift, and go to state 5
 
 
 state 3
 
     4 expr: @2 . 'c'
 
-    'c' 	shift, and go to state 6
-
+    'c'  shift, and go to state 6
 
 
 state 4
 
     2 expr: 'a' @1 . 'b'
 
-    'b' 	shift, and go to state 7
-
+    'b'  shift, and go to state 7
 
 
 state 5
@@ -240,18 +235,14 @@ state 6
 
     4 expr: @2 'c' .
 
-    $default	reduce using rule 4 (expr)
-
+    $default  reduce using rule 4 (expr)
 
 
 state 7
 
     2 expr: 'a' @1 'b' .
 
-    $default	reduce using rule 2 (expr)
-
-
-
+    $default  reduce using rule 2 (expr)
 ]])
 
 AT_CLEANUP
@@ -378,23 +369,33 @@ CONST_DEC:
 ]])
 
 AT_CHECK([bison -v input.y])
-sed -n 's/  *$//;/^$/!p' input.output >input.report
-AT_CHECK([cat input.report], 0,
+AT_CHECK([cat input.output], 0,
 [[Grammar
+
     0 $axiom: CONST_DEC_PART $
+
     1 CONST_DEC_PART: CONST_DEC_LIST
+
     2 CONST_DEC_LIST: CONST_DEC
     3               | CONST_DEC_LIST CONST_DEC
+
     4 @1: /* empty */
+
     5 CONST_DEC: @1 undef_id_tok '=' const_id_tok ';'
+
+
 Terminals, with rules where they appear
+
 $ (0) 0
 ';' (59) 5
 '=' (61) 5
 error (256)
 undef_id_tok (258) 5
 const_id_tok (259) 5
+
+
 Nonterminals, with rules where they appear
+
 $axiom (7)
     on left: 0
 CONST_DEC_PART (8)
@@ -405,47 +406,93 @@ CONST_DEC (10)
     on left: 5, on right: 2 3
 @1 (11)
     on left: 4, on right: 5
+
+
 state 0
+
     0 $axiom: . CONST_DEC_PART $
-    $default	reduce using rule 4 (@1)
-    CONST_DEC_PART	go to state 1
-    CONST_DEC_LIST	go to state 2
-    CONST_DEC	go to state 3
-    @1  	go to state 4
+
+    $default  reduce using rule 4 (@1)
+
+    CONST_DEC_PART  go to state 1
+    CONST_DEC_LIST  go to state 2
+    CONST_DEC       go to state 3
+    @1              go to state 4
+
+
 state 1
+
     0 $axiom: CONST_DEC_PART . $
-    $   	shift, and go to state 5
+
+    $  shift, and go to state 5
+
+
 state 2
+
     1 CONST_DEC_PART: CONST_DEC_LIST .
     3 CONST_DEC_LIST: CONST_DEC_LIST . CONST_DEC
-    undef_id_tok	reduce using rule 4 (@1)
-    $default	reduce using rule 1 (CONST_DEC_PART)
-    CONST_DEC	go to state 6
-    @1  	go to state 4
+
+    undef_id_tok  reduce using rule 4 (@1)
+    $default      reduce using rule 1 (CONST_DEC_PART)
+
+    CONST_DEC  go to state 6
+    @1         go to state 4
+
+
 state 3
+
     2 CONST_DEC_LIST: CONST_DEC .
-    $default	reduce using rule 2 (CONST_DEC_LIST)
+
+    $default  reduce using rule 2 (CONST_DEC_LIST)
+
+
 state 4
+
     5 CONST_DEC: @1 . undef_id_tok '=' const_id_tok ';'
-    undef_id_tok	shift, and go to state 7
+
+    undef_id_tok  shift, and go to state 7
+
+
 state 5
+
     0 $axiom: CONST_DEC_PART $ .
+
     $default	accept
+
+
 state 6
+
     3 CONST_DEC_LIST: CONST_DEC_LIST CONST_DEC .
-    $default	reduce using rule 3 (CONST_DEC_LIST)
+
+    $default  reduce using rule 3 (CONST_DEC_LIST)
+
+
 state 7
+
     5 CONST_DEC: @1 undef_id_tok . '=' const_id_tok ';'
-    '=' 	shift, and go to state 8
+
+    '='  shift, and go to state 8
+
+
 state 8
+
     5 CONST_DEC: @1 undef_id_tok '=' . const_id_tok ';'
-    const_id_tok	shift, and go to state 9
+
+    const_id_tok  shift, and go to state 9
+
+
 state 9
+
     5 CONST_DEC: @1 undef_id_tok '=' const_id_tok . ';'
-    ';' 	shift, and go to state 10
+
+    ';'  shift, and go to state 10
+
+
 state 10
+
     5 CONST_DEC: @1 undef_id_tok '=' const_id_tok ';' .
-    $default	reduce using rule 5 (CONST_DEC)
+
+    $default  reduce using rule 5 (CONST_DEC)
 ]])
 
 AT_CLEANUP

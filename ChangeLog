@@ -1,5 +1,19 @@
 2002-06-30  Akim Demaille  <akim@epita.fr>
 
+	* src/print.c (print_shifts, print_gotos): Merge into...
+	(print_transitions): this.
+	(print_transitions, print_errs, print_reductions): Align the
+	lookaheads columns.
+	(print_core, print_transitions, print_errs, print_state,
+	print_grammar): Output empty lines separator before, not after.
+	(state_default_rule_compute): Rename as...
+	(state_default_rule): this.
+	* tests/conflicts.at (Defaulted Conflicted Reduction),
+	(Unresolved SR Conflicts, Resolved SR Conflicts): Adjust.
+	* tests/regression.at (Rule Line Numbers, Web2c Report): Adjust.
+
+2002-06-30  Akim Demaille  <akim@epita.fr>
+
 	Display items as we display rules.
 
 	* src/gram.h, src/gram.c (rule_lhs_print): New.
