@@ -54,11 +54,13 @@ exp:      NUM                { $$ = $1;             }
         | '(' exp ')'        { $$ = $2;             }
 ;
 %%
+FILE *yyin = stdin;
+
 int
 main (int argn, const char **argv)
 {
   if (argn == 2)
-    stdin = fopen (argv[1], "r");
+    yyin = fopen (argv[1], "r");
   if (!stdin)
     {
       perror (argv[1]);
@@ -110,13 +112,13 @@ yylex ()
   int c;
 
   /* Skip white space.  */
-  while ((c = getchar ()) == ' ' || c == '\t')
+  while ((c = getc (yyin)) == ' ' || c == '\t')
     ;
   /* process numbers   */
   if (c == '.' || isdigit (c))
     {
-      ungetc (c, stdin);
-      yylval = read_signed_integer (stdin);
+      ungetc (c, yyin);
+      yylval = read_signed_integer (yyin);
       return NUM;
     }
   /* Return end-of-file.  */

@@ -1,3 +1,8 @@
+2000-09-19  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.m4 (calc.y): Do not assign to stdin, as it's not
+	portable.
+
 2000-09-18  Akim Demaille  <akim@epita.fr>
 
 	* configure.in: Append WARNING_CFLAGS to CFLAGS.
