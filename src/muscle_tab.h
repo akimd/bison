@@ -21,12 +21,6 @@
 #ifndef MUSCLE_TAB_H_
 # define MUSCLE_TAB_H_
 
-typedef struct muscle_entry_s
-{
-  const char *key;
-  char *value;
-} muscle_entry_t;
-
 void muscle_init (void);
 void muscle_insert (const char *key, char *value);
 char *muscle_find (const char *key);
