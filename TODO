@@ -81,7 +81,6 @@ we should be able to have:
 
 Or something like this.
 
-
 ** yysymprint interface
 It should be improved, in particular when using Bison features such as
 locations, and YYPARSE_PARAMS.  For the time being, it is almost
@@ -118,6 +117,20 @@ to avoid falling into another CPP mistake.
 ** -D, --define-muscle NAME=VALUE
 To define muscles via cli.  Or maybe support directly NAME=VALUE?
 
+** XML Output
+There are couple of available extensions of Bison targeting some XML
+output.  Some day we should consider including them.  One issue is
+that they seem to be quite orthogonal to the parsing technique, and
+seem to depend mostly on the possibility to have some code triggered
+for each reduction.  As a matter of fact, such hooks could also be
+used to generate the yydebug traces.  Some generic scheme probably
+exists in there.
+
+XML output for GNU Bison and gcc
+   http://www.cs.may.ie/~jpower/Research/bisonXML/
+
+XML output for GNU Bison
+   http://yaxx.sourceforge.net/
 
 * Unit rules
 Maybe we could expand unit rules, i.e., transform
