@@ -400,7 +400,8 @@ yy::]b4_parser_class_name[::symprint_ (int yytype,
   (void) yylocationp;
 
   cdebug_ << (yytype < ntokens_ ? "token" : "nterm")
-	  << ' ' << name_[yytype] << " (";
+	  << ' ' << name_[yytype] << " ("
+          << *yylocationp << ": ";
   switch (yytype)
     {
 ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
@@ -419,8 +420,6 @@ yy::]b4_parser_class_name[::destruct_ (const char *yymsg,
   (void) yyvaluep;
   (void) yylocationp;
 
-  if (!yymsg)
-    yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
   switch (yytype)
@@ -520,10 +519,7 @@ yybackup:
     goto yyacceptlab;
 
   /* Shift the look-ahead token.  */
-#if YYDEBUG
-  YYCDEBUG << "Shifting token " << looka_
-           << " (" << name_[ilooka_] << "), ";
-#endif
+  YY_SYMBOL_PRINT ("Shifting", ilooka_, &value, &location);
 
   /* Discard the token being shifted unless it is eof.  */
   if (looka_ != eof_)
@@ -697,8 +693,6 @@ yyerrlab1:
   if (n_ == final_)
     goto yyacceptlab;
 
-  YYCDEBUG << "Shifting error token, ";
-
   {
     Location errloc;
     errloc.begin = error_start_;
@@ -706,6 +700,10 @@ yyerrlab1:
     semantic_stack_.push (value);
     location_stack_.push (errloc);
   }
+
+  /* Shift the error token. */
+  YY_SYMBOL_PRINT ("Shifting", stos_[n_],
+		   &semantic_stack_[0], &location_stack_[0]);
 
   state_ = n_;
   goto yynewstate;
