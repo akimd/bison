@@ -1,6 +1,12 @@
 Bison News
 ----------
 
+Changes in version 1.30k:
+
+* Portability
+  The AIX portability issue seems to be solved: strnlen was the
+  culprit.
+
 Changes in version 1.30j:
 
 * GNU Gettext and %expect
