@@ -1,6 +1,6 @@
 /* Input parser for Bison
 
-   Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -53,10 +53,10 @@ char const *token_name (int);
 
 
 /* From reader.c. */
-void grammar_start_symbol_set (symbol *s, location loc);
+void grammar_start_symbol_set (symbol *sym, location loc);
 void prologue_augment (const char *prologue, location loc);
 void epilogue_augment (const char *epilogue, location loc);
-void grammar_symbol_append (symbol *s, location loc);
+void grammar_symbol_append (symbol *sym, location loc);
 void grammar_rule_begin (symbol *lhs, location loc);
 void grammar_rule_end (location loc);
 void grammar_midrule_action (void);

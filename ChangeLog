@@ -1,3 +1,56 @@
+2003-02-03  Paul Eggert  <eggert@twinsun.com>
+
+	* src/gram.h (start_symbol): Remove unused decl.
+
+	Use more-consistent naming conventions for local vars.
+
+	* src/derives.c (derives_compute): Change type of local var from
+	int to rule_number.
+	* src/gram.c (grammar_rules_partial_print): Likewise.
+	* src/print.c (print_core): Likewise.
+	* src/reduce.c (reduce_grammar_tables): Likewise.
+
+	* src/gram.c (grammar_dump): Change name of item_number *
+	local var from r to rp.
+	* src/nullable.c (nullable_compute): Likewise.
+
+	* src/gram.h (ISTOKEN, ISVAR): Use i, not s, for int var.
+
+	* src/gram.h (symbol_number_as_item_number): Use sym, not s,
+	for symbol or symbol_number var.
+	* src/reader.c (grammar_start_symbol_set): Likewise.
+	* src/reader.h (grammar_start_symbol_set, grammar_symbol_append):
+	Likewise.
+	* src/state.c (transitions_to): Likewise.
+	* src/state.h: Likewise.
+	* src/tables.c (symbol_number_to_vector_number): Likewise.
+
+	* src/muscle_tab.h (MUSCLE_OBSTACK_SGROW): Use p, not s, for
+	char * var.
+
+	* src/parse-gram.y (lloc_default): Use loc, not r, for YYLTYPE
+	var.
+
+	* src/scan-gram.l (no_cr_read): Use bytes_read, not s, for size
+	var.
+
+	* src/system.h (xstrndup, strchr, strspn, strnlen, memchr, memrchr):
+	Use str, not s, for char * var.  Use ch, not c, for character var.
+	Use size for size var.
+
+	* src/uniqstr.c (uniqstr_new, uniqstr_assert): Use str, not s, for
+	char * var.
+	(uniqstr_print, uniqst_print_processor): Use ustr, not s, for
+	uniqstr var.
+	* src/uniqstr.h: Likewise.
+
+	* src/vcg.c (get_color_str, get_textmode_str, get_shape_str,
+	get_layoutalgorithm_str, get_decision_str, get_orientation_str,
+	get_node_alignment_str, get_arrow_mode_str, get_crossing_type_str,
+	get_view_str, get_linestyle_str, get_arrowstyle_str): Rename
+	param to have same name as that of enum, so that we don't use
+	"s" to stand for a non-state.
+
 2003-02-02  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-skel.l: Scan more than one inert character per yylex

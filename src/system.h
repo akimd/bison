@@ -86,7 +86,7 @@ typedef size_t uintptr_t;
 #define REALLOC(P, N) ((P) = xrealloc (P, (N) * sizeof *(P)))
 
 /* From xstrndup.c.  */
-char *xstrndup (const char *s, size_t n);
+char *xstrndup (const char *str, size_t size);
 
 
 /*---------------------.
@@ -98,23 +98,23 @@ char *stpcpy (char *dest, const char *src);
 #endif
 
 #if defined HAVE_DECL_STRCHR && !HAVE_DECL_STRCHR
-char *strchr (const char *s, int c);
+char *strchr (const char *str, int ch);
 #endif
 
 #if defined HAVE_DECL_STRSPN && !HAVE_DECL_STRSPN
-size_t strspn (const char *s, const char *accept);
+size_t strspn (const char *str, const char *accept);
 #endif
 
 #if defined HAVE_DECL_STRNLEN && !HAVE_DECL_STRNLEN
-size_t strnlen (const char *s, size_t maxlen);
+size_t strnlen (const char *str, size_t maxlen);
 #endif
 
 #if defined HAVE_DECL_MEMCHR && !HAVE_DECL_MEMCHR
-void *memchr (const void *s, int c, size_t n);
+void *memchr (const void *str, int ch, size_t size);
 #endif
 
 #if defined HAVE_DECL_MEMRCHR && !HAVE_DECL_MEMRCHR
-void *memrchr (const void *s, int c, size_t n);
+void *memrchr (const void *str, int ch, size_t size);
 #endif
 
 

@@ -1,6 +1,6 @@
 /* Type definitions for nondeterministic finite state machine for Bison.
 
-   Copyright (C) 1984, 1989, 2000, 2001, 2002 Free Software
+   Copyright (C) 1984, 1989, 2000, 2001, 2002, 2003 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -160,9 +160,9 @@ typedef struct
     if (!TRANSITION_IS_DISABLED (Transitions, Iter))
 
 
-/* Return the state such SHIFTS contain a shift/goto to it on S.
+/* Return the state such SHIFTS contain a shift/goto to it on SYM.
    Abort if none found.  */
-struct state *transitions_to (transitions *shifts, symbol_number s);
+struct state *transitions_to (transitions *shifts, symbol_number sym);
 
 
 /*-------.

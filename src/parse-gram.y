@@ -1,5 +1,6 @@
 /* Bison Grammar Parser                             -*- C -*-
-   Copyright (C) 2002 Free Software Foundation, Inc.
+
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -413,8 +414,8 @@ static YYLTYPE
 lloc_default (YYLTYPE const *rhs, int n)
 {
   int i;
-  YYLTYPE r;
-  r.start = r.end = rhs[n].end;
+  YYLTYPE loc;
+  loc.start = loc.end = rhs[n].end;
 
   /* Ignore empty nonterminals the start of the the right-hand side.
      Do not bother to ignore them at the end of the right-hand side,
@@ -422,11 +423,11 @@ lloc_default (YYLTYPE const *rhs, int n)
   for (i = 1; i <= n; i++)
     if (! equal_boundaries (rhs[i].start, rhs[i].end))
       {
-	r.start = rhs[i].start;
+	loc.start = rhs[i].start;
 	break;
       }
 
-  return r;
+  return loc;
 }
 
 

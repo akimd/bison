@@ -1,5 +1,6 @@
 /* Keeping a unique copy of strings.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -27,11 +28,11 @@
 
 typedef char const *uniqstr;
 
-/* Return the uniqstr for S.  */
-uniqstr uniqstr_new (char const *s);
+/* Return the uniqstr for STR.  */
+uniqstr uniqstr_new (char const *str);
 
-/* Two uniqstr have the same value iff they are the same.  */
-#define UNIQSTR_EQ(S1, S2) ((S1) == (S2))
+/* Two uniqstr values have the same value iff they are the same.  */
+#define UNIQSTR_EQ(USTR1, USTR2) ((USTR1) == (USTR2))
 
 /*--------------------------------------.
 | Initializing, destroying, debugging.  |
@@ -40,8 +41,8 @@ uniqstr uniqstr_new (char const *s);
 /* Create the string table.  */
 void uniqstrs_new (void);
 
-/* Die if S is not a uniqstr.  */
-void uniqstr_assert (char const *s);
+/* Die if STR is not a uniqstr.  */
+void uniqstr_assert (char const *str);
 
 /* Free all the memory allocated for symbols.  */
 void uniqstrs_free (void);

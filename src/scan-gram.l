@@ -1,6 +1,6 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -682,14 +682,14 @@ adjust_location (location *loc, char const *token, size_t size)
 static size_t
 no_cr_read (FILE *fp, char *buf, size_t size)
 {
-  size_t s = fread (buf, 1, size, fp);
-  if (s)
+  size_t bytes_read = fread (buf, 1, size, fp);
+  if (bytes_read)
     {
-      char *w = memchr (buf, '\r', s);
+      char *w = memchr (buf, '\r', bytes_read);
       if (w)
 	{
 	  char const *r = ++w;
-	  char const *lim = buf + s;
+	  char const *lim = buf + bytes_read;
 
 	  for (;;)
 	    {
@@ -718,7 +718,7 @@ no_cr_read (FILE *fp, char *buf, size_t size)
 	}
     }
 
-  return s;
+  return bytes_read;
 }
 
 
