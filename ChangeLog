@@ -1,3 +1,78 @@
+2002-11-03  Paul Eggert  <eggert@twinsun.com>
+
+	* src/scan-gram.l: Revamp to fix POSIX incompatibilities,
+	to count columns correctly, and to check for invalid inputs.
+	
+	Use mbsnwidth to count columns correctly.  Account for tabs, too.
+	Include mbswidth.h.
+	(YY_USER_ACTION): Invoke extend_location rather than LOCATION_COLUMNS.
+	(extend_location): New function.
+	(YY_LINES): Remove.
+
+	Handle CRLF in C code rather than in Lex code.
+	(YY_INPUT): New macro.
+	(no_cr_read): New function.
+
+	Scan UCNs, even though we don't fully handle them yet.
+	(convert_ucn_to_byte): New function.
+
+	Handle backslash-newline correctly in C code.
+	(SC_LINE_COMMENT, SC_YACC_COMMENT): New states.
+	(eols, blanks): Remove.  YY_USER_ACTION now counts newlines etc.;
+	all uses changed.
+	(tag, splice): New EREs.  Do not allow NUL or newline in tags.
+	Use {splice} wherever C allows backslash-newline.
+	YY_STEP after space, newline, vertical-tab.
+	("/*"): BEGIN SC_YACC_COMMENT, not yy_push_state (SC_COMMENT).
+	
+	(letter, id): Don't assume ASCII; e.g., spell out a-z.
+
+	({int}, handle_action_dollar, handle_action_at): Check for integer
+	overflow.
+	
+	(YY_STEP): Omit trailing semicolon, so that it's more like C.
+
+	(<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>): Allow \0 and \00
+	as well as \000.  Check for UCHAR_MAX, not 255.
+	Allow \x with an arbitrary positive number of digits, as in C.
+	Check for overflow here.
+	Allow \? and UCNs, for compatibility with C.
+
+	(handle_symbol_code_dollar): Use quote_n slot 1 to avoid collision
+	with quote slot used by complain_at.
+
+	* tests/input.at: Add tests for backslash-newline, m4 quotes
+	in symbols, long literals, and funny escapes in strings.
+
+	* configure.ac (jm_PREREQ_MBSWIDTH): Add.
+	* lib/Makefile.am (libbison_a_SOURCES): Add mbswidth.h, mbswidth.c.
+	* lib/mbswidth.h, lib/mbswidth.c: New files, from GNU gettext.
+	* m4/Makefile.am (EXTRA_DIST): Add mbswidth.m4.
+	* m4/mbswidth.m4: New file, from GNU coreutils.
+
+	* doc/bison.texinfo (Grammar Outline): Document // comments.
+	(Symbols): Document that trigraphs have no special meaning in Bison,
+	nor is backslash-newline allowed.
+	(Actions): Document that trigraphs have no special meaning.
+
+	* src/location.h (LOCATION_COLUMNS, LOCATION_LINES): Remove;
+	no longer used.
+
+2002-11-02  Paul Eggert  <eggert@twinsun.com>
+
+	* src/reader.c: Don't include quote.h; not needed.
+	(get_merge_function): Reword warning to be consistent with
+	type clash diagnostic in grammar_current_rule_check.
+
+	* lib/quotearg.c (quotearg_buffer_restyled): Fix off-by-two
+	bug in trigraph handling.
+
+	* src/output.c (prepare_symbols): When printing token names,
+	escape "[" as "@<:@" and likewise for "]".
+
+	* src/system.h (errno): Remove declaration, as we are now
+	assuming C89 or better, and C89 guarantees errno.
+
 2002-10-30  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/bitset_stats.c (bitset_stats_read, bitset_stats_write):
