@@ -1,3 +1,7 @@
+2001-10-14  Marc Autret  <autret_m@epita.fr>
+
+	* src/options.c (create_long_option_table): Fix.
+
 2001-10-10  Akim Demaille  <akim@epita.fr>
 
 	* src/bison.simple: Be sure to set YYSTACK_USE_ALLOCA.
