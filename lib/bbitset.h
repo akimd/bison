@@ -63,7 +63,10 @@ typedef size_t bitset_windex;
 /* Maximum values for commonly-used unsigned types.  BITSET_SIZE_MAX
    always equals SIZE_MAX, but some older systems lack SIZE_MAX.  */
 #define BITSET_BINDEX_MAX ((bitset_bindex) -1)
-#define BITSET_WINDEX_MAX ((bitset_windex) -1)
+
+/* Limit max word index to the maximum value of a signed integer
+   to simplify cache disabling.  */
+#define BITSET_WINDEX_MAX (((bitset_windex) -1) >> 1)
 #define BITSET_SIZE_MAX ((size_t) -1)
 
 #define BITSET_MSB ((bitset_word) 1 << (BITSET_WORD_BITS - 1))
