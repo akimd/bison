@@ -480,7 +480,7 @@ Here is a simple C function subdivided into tokens:
 @ifinfo
 @example
 int             /* @r{keyword `int'} */
-square (int x)  /* @r{identifier, open-paren, identifier,}
+square (int x)  /* @r{identifier, open-paren, keyword `int',}
                    @r{identifier, close-paren} */
 @{               /* @r{open-brace} */
   return x * x; /* @r{keyword `return', identifier, asterisk,
@@ -491,7 +491,7 @@ square (int x)  /* @r{identifier, open-paren, identifier,}
 @ifnotinfo
 @example
 int             /* @r{keyword `int'} */
-square (int x)  /* @r{identifier, open-paren, identifier, identifier, close-paren} */
+square (int x)  /* @r{identifier, open-paren, keyword `int', identifier, close-paren} */
 @{               /* @r{open-brace} */
   return x * x; /* @r{keyword `return', identifier, asterisk, identifier, semicolon} */
 @}               /* @r{close-brace} */
