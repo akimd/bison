@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-09-20 17:44+0200\n"
+"POT-Creation-Date: 2000-09-21 10:30+0200\n"
 "PO-Revision-Date: 1996-08-27 15:34 MET DST\n"
 "Last-Translator: Erick Branderhorst <branderh@debian.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -23,77 +23,77 @@ msgstr ""
 msgid "%s: memory exhausted\n"
 msgstr "%s: geen geheugen meer beschikbaar\n"
 
-#: src/conflicts.c:198 src/conflicts.c:222
-msgid "reduce"
-msgstr "reduceer"
-
-#: src/conflicts.c:204 src/conflicts.c:218
-msgid "shift"
-msgstr "verschuif"
-
-#: src/conflicts.c:226
-msgid "an error"
-msgstr "een fout"
-
-#: src/conflicts.c:298
+#: src/conflicts.c:64
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr "Conflict in stadium %d tussen regel %d en teken %s opgelost als %s.\n"
 
-#: src/conflicts.c:343
-#, c-format
-msgid "State %d contains"
-msgstr "Stadium %d bevat"
+#: src/conflicts.c:130 src/conflicts.c:153
+msgid "reduce"
+msgstr "reduceer"
 
-#: src/conflicts.c:346 src/conflicts.c:391
-msgid " 1 shift/reduce conflict"
-msgstr " 1 verschuif/reduceer conflict"
+#: src/conflicts.c:136 src/conflicts.c:149
+msgid "shift"
+msgstr "verschuif"
 
-#: src/conflicts.c:348 src/conflicts.c:393
-#, c-format
-msgid " %d shift/reduce conflicts"
-msgstr " %d verschuif/reduceer conflicten"
-
-#: src/conflicts.c:351 src/conflicts.c:396
-msgid " and"
-msgstr " en"
-
-#: src/conflicts.c:354 src/conflicts.c:399
-msgid " 1 reduce/reduce conflict"
-msgstr " 1 reduceer/reduceer conflict"
-
-#: src/conflicts.c:356 src/conflicts.c:401
-#, c-format
-msgid " %d reduce/reduce conflicts"
-msgstr " %d reduceer/reduceer conflicten"
+#: src/conflicts.c:157
+msgid "an error"
+msgstr "een fout"
 
 #. If invoked under the name `yacc', use the output format
 #. specified by POSIX.
-#: src/conflicts.c:377
+#: src/conflicts.c:446
 msgid "conflicts: "
 msgstr "conflictueerd: "
 
-#: src/conflicts.c:379
+#: src/conflicts.c:448
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d vershuif/reduceer"
 
-#: src/conflicts.c:383
+#: src/conflicts.c:452
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reduceer/reduceer"
 
-#: src/conflicts.c:388
+#: src/conflicts.c:457
 #, c-format
 msgid "%s contains"
 msgstr "%s bevat"
 
-#: src/conflicts.c:597 src/conflicts.c:711
+#: src/conflicts.c:460 src/conflicts.c:525
+msgid " 1 shift/reduce conflict"
+msgstr " 1 verschuif/reduceer conflict"
+
+#: src/conflicts.c:462 src/conflicts.c:527
+#, c-format
+msgid " %d shift/reduce conflicts"
+msgstr " %d verschuif/reduceer conflicten"
+
+#: src/conflicts.c:465 src/conflicts.c:530
+msgid " and"
+msgstr " en"
+
+#: src/conflicts.c:468 src/conflicts.c:533
+msgid " 1 reduce/reduce conflict"
+msgstr " 1 reduceer/reduceer conflict"
+
+#: src/conflicts.c:470 src/conflicts.c:535
+#, c-format
+msgid " %d reduce/reduce conflicts"
+msgstr " %d reduceer/reduceer conflicten"
+
+#: src/conflicts.c:522
+#, c-format
+msgid "State %d contains"
+msgstr "Stadium %d bevat"
+
+#: src/conflicts.c:629 src/conflicts.c:749
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduceer gebruikt regel %d (%s)]\n"
 
-#: src/conflicts.c:608 src/print.c:221
+#: src/conflicts.c:640 src/print.c:222
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -102,12 +102,12 @@ msgstr ""
 "    $default\treduce using rule %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:694 src/conflicts.c:706
+#: src/conflicts.c:729 src/conflicts.c:743
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr ""
 
-#: src/conflicts.c:732
+#: src/conflicts.c:770
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr ""
@@ -271,12 +271,12 @@ msgstr "Inkomende set nullable"
 msgid "maximum table size (%d) exceeded"
 msgstr "maximale tabel grootte (%s) overschreden"
 
-#: src/print.c:88
+#: src/print.c:84
 #, c-format
 msgid " type %d is %s\n"
 msgstr ""
 
-#: src/print.c:96
+#: src/print.c:92
 #, c-format
 msgid ""
 "\n"
@@ -289,26 +289,26 @@ msgstr ""
 "stadium %d\n"
 "\n"
 
-#: src/print.c:140
+#: src/print.c:137
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regel %d)"
 
-#: src/print.c:167
+#: src/print.c:164
 msgid "    $default\taccept\n"
 msgstr ""
 
-#: src/print.c:169
+#: src/print.c:166
 msgid "    NO ACTIONS\n"
 msgstr "    GEEN AKTIES\n"
 
 #. I.e. strcmp(tags[symbol],"$")==0
-#: src/print.c:185
+#: src/print.c:184
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr ""
 
-#: src/print.c:187
+#: src/print.c:186
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr ""
@@ -318,13 +318,13 @@ msgstr ""
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr ""
 
-#: src/print.c:236
+#: src/print.c:238
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr ""
 
 #. rule # : LHS -> RHS
-#: src/print.c:261
+#: src/print.c:264
 msgid ""
 "\n"
 "Grammar\n"
@@ -332,17 +332,17 @@ msgstr ""
 "\n"
 "Grammatica\n"
 
-#: src/print.c:266
+#: src/print.c:269
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "regel %-4d %s ->"
 
-#: src/print.c:272
+#: src/print.c:275
 msgid "\t\t/* empty */"
 msgstr ""
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:277
+#: src/print.c:280
 msgid ""
 "\n"
 "Terminals, with rules where they appear\n"
@@ -352,7 +352,7 @@ msgstr ""
 "Terminals, met regels waar ze voorkomen\n"
 "\n"
 
-#: src/print.c:325
+#: src/print.c:328
 msgid ""
 "\n"
 "Nonterminals, with rules where they appear\n"
@@ -362,11 +362,11 @@ msgstr ""
 "Geen terminals, met regels waar ze voorkomen\n"
 "\n"
 
-#: src/print.c:351
+#: src/print.c:354
 msgid " on left:"
 msgstr " links:"
 
-#: src/print.c:366
+#: src/print.c:369
 msgid " on right:"
 msgstr " rechts:"
 

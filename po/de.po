@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-09-20 17:44+0200\n"
+"POT-Creation-Date: 2000-09-21 10:30+0200\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -23,77 +23,77 @@ msgstr ""
 msgid "%s: memory exhausted\n"
 msgstr "%s: Hauptspeicher erschöpft\n"
 
-#: src/conflicts.c:198 src/conflicts.c:222
-msgid "reduce"
-msgstr "durch Reduzierung gelöst"
-
-#: src/conflicts.c:204 src/conflicts.c:218
-msgid "shift"
-msgstr "durch Schieben gelöst"
-
-#: src/conflicts.c:226
-msgid "an error"
-msgstr "als Fehler betrachtet"
-
-#: src/conflicts.c:298
+#: src/conflicts.c:64
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr "Konflikt in Zustand %d zwischen Regel %d and Token %s wurde %s.\n"
 
-#: src/conflicts.c:343
-#, c-format
-msgid "State %d contains"
-msgstr "Zustand %d enthält"
+#: src/conflicts.c:130 src/conflicts.c:153
+msgid "reduce"
+msgstr "durch Reduzierung gelöst"
 
-#: src/conflicts.c:346 src/conflicts.c:391
-msgid " 1 shift/reduce conflict"
-msgstr " 1 Schiebe/Reduziere Konflikt"
+#: src/conflicts.c:136 src/conflicts.c:149
+msgid "shift"
+msgstr "durch Schieben gelöst"
 
-#: src/conflicts.c:348 src/conflicts.c:393
-#, c-format
-msgid " %d shift/reduce conflicts"
-msgstr " %d Schiebe/Reduziere Konflikte"
-
-#: src/conflicts.c:351 src/conflicts.c:396
-msgid " and"
-msgstr " und"
-
-#: src/conflicts.c:354 src/conflicts.c:399
-msgid " 1 reduce/reduce conflict"
-msgstr " 1 Reduziere/Reduziere Konflikt"
-
-#: src/conflicts.c:356 src/conflicts.c:401
-#, c-format
-msgid " %d reduce/reduce conflicts"
-msgstr " %d Reduziere/Reduziere Konflikte"
+#: src/conflicts.c:157
+msgid "an error"
+msgstr "als Fehler betrachtet"
 
 #. If invoked under the name `yacc', use the output format
 #. specified by POSIX.
-#: src/conflicts.c:377
+#: src/conflicts.c:446
 msgid "conflicts: "
 msgstr "Konflikte: "
 
-#: src/conflicts.c:379
+#: src/conflicts.c:448
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d Schiebe/Reduziere"
 
-#: src/conflicts.c:383
+#: src/conflicts.c:452
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d Reduziere/Reduziere"
 
-#: src/conflicts.c:388
+#: src/conflicts.c:457
 #, c-format
 msgid "%s contains"
 msgstr "%s enthält"
 
-#: src/conflicts.c:597 src/conflicts.c:711
+#: src/conflicts.c:460 src/conflicts.c:525
+msgid " 1 shift/reduce conflict"
+msgstr " 1 Schiebe/Reduziere Konflikt"
+
+#: src/conflicts.c:462 src/conflicts.c:527
+#, c-format
+msgid " %d shift/reduce conflicts"
+msgstr " %d Schiebe/Reduziere Konflikte"
+
+#: src/conflicts.c:465 src/conflicts.c:530
+msgid " and"
+msgstr " und"
+
+#: src/conflicts.c:468 src/conflicts.c:533
+msgid " 1 reduce/reduce conflict"
+msgstr " 1 Reduziere/Reduziere Konflikt"
+
+#: src/conflicts.c:470 src/conflicts.c:535
+#, c-format
+msgid " %d reduce/reduce conflicts"
+msgstr " %d Reduziere/Reduziere Konflikte"
+
+#: src/conflicts.c:522
+#, c-format
+msgid "State %d contains"
+msgstr "Zustand %d enthält"
+
+#: src/conflicts.c:629 src/conflicts.c:749
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduziere mit Regel %d (%s)]\n"
 
-#: src/conflicts.c:608 src/print.c:221
+#: src/conflicts.c:640 src/print.c:222
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -102,12 +102,12 @@ msgstr ""
 "    $default\treduziere mit Regel %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:694 src/conflicts.c:706
+#: src/conflicts.c:729 src/conflicts.c:743
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduziere mit Tegel %d (%s)\n"
 
-#: src/conflicts.c:732
+#: src/conflicts.c:770
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduziere mit Regel %d (%s)\n"
@@ -267,12 +267,12 @@ msgstr "Führe »set_nullable« aus"
 msgid "maximum table size (%d) exceeded"
 msgstr "maximale Tabellengröße (%s) überschritten"
 
-#: src/print.c:88
+#: src/print.c:84
 #, c-format
 msgid " type %d is %s\n"
 msgstr " Typ %d ist %s\n"
 
-#: src/print.c:96
+#: src/print.c:92
 #, c-format
 msgid ""
 "\n"
@@ -285,26 +285,26 @@ msgstr ""
 "Zustand %d\n"
 "\n"
 
-#: src/print.c:140
+#: src/print.c:137
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (Regel %d)"
 
-#: src/print.c:167
+#: src/print.c:164
 msgid "    $default\taccept\n"
 msgstr "    $default\takzeptiere\n"
 
-#: src/print.c:169
+#: src/print.c:166
 msgid "    NO ACTIONS\n"
 msgstr "    KEINE AKTIONEN\n"
 
 #. I.e. strcmp(tags[symbol],"$")==0
-#: src/print.c:185
+#: src/print.c:184
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \tgehe zu Zustand %d über\n"
 
-#: src/print.c:187
+#: src/print.c:186
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tSchiebe und gehe zu Zustand %d über\n"
@@ -314,13 +314,13 @@ msgstr "    %-4s\tSchiebe und gehe zu Zustand %d über\n"
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tFehler (nicht assoziativ)\n"
 
-#: src/print.c:236
+#: src/print.c:238
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tgehe zu Zustand %d über\n"
 
 #. rule # : LHS -> RHS
-#: src/print.c:261
+#: src/print.c:264
 msgid ""
 "\n"
 "Grammar\n"
@@ -328,17 +328,17 @@ msgstr ""
 "\n"
 "Grammatik\n"
 
-#: src/print.c:266
+#: src/print.c:269
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "Regel %-4d %s ->"
 
-#: src/print.c:272
+#: src/print.c:275
 msgid "\t\t/* empty */"
 msgstr "\t\t/* leer */"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:277
+#: src/print.c:280
 msgid ""
 "\n"
 "Terminals, with rules where they appear\n"
@@ -348,7 +348,7 @@ msgstr ""
 "Terminale und die Regeln un denen sie verwendet werden\n"
 "\n"
 
-#: src/print.c:325
+#: src/print.c:328
 msgid ""
 "\n"
 "Nonterminals, with rules where they appear\n"
@@ -358,11 +358,11 @@ msgstr ""
 "Nicht-Terminal und die Regeln in denen sie verwendet werden\n"
 "\n"
 
-#: src/print.c:351
+#: src/print.c:354
 msgid " on left:"
 msgstr " auf der linken Seite:"
 
-#: src/print.c:366
+#: src/print.c:369
 msgid " on right:"
 msgstr " auf der rechten Seite:"
 

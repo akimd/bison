@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-09-20 17:44+0200\n"
+"POT-Creation-Date: 2000-09-21 10:30+0200\n"
 "PO-Revision-Date: 2000-04-11 22:19+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -23,77 +23,77 @@ msgstr "liiga palju olekuid (maks %d)"
 msgid "%s: memory exhausted\n"
 msgstr "%s: mälu on otsas\n"
 
-#: src/conflicts.c:198 src/conflicts.c:222
-msgid "reduce"
-msgstr "redutseerimine"
-
-#: src/conflicts.c:204 src/conflicts.c:218
-msgid "shift"
-msgstr "nihutamine"
-
-#: src/conflicts.c:226
-msgid "an error"
-msgstr "viga"
-
-#: src/conflicts.c:298
+#: src/conflicts.c:64
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr "Konflikt olekus %d reegli %d ja märgi %s vahel lahendatud, kui %s.\n"
 
-#: src/conflicts.c:343
-#, c-format
-msgid "State %d contains"
-msgstr "Olek %d sisaldab"
+#: src/conflicts.c:130 src/conflicts.c:153
+msgid "reduce"
+msgstr "redutseerimine"
 
-#: src/conflicts.c:346 src/conflicts.c:391
-msgid " 1 shift/reduce conflict"
-msgstr " 1 nihutamine/redutseerimine konflikt"
+#: src/conflicts.c:136 src/conflicts.c:149
+msgid "shift"
+msgstr "nihutamine"
 
-#: src/conflicts.c:348 src/conflicts.c:393
-#, c-format
-msgid " %d shift/reduce conflicts"
-msgstr " %d nihutamine/redutseerimine konflikti"
-
-#: src/conflicts.c:351 src/conflicts.c:396
-msgid " and"
-msgstr " ja"
-
-#: src/conflicts.c:354 src/conflicts.c:399
-msgid " 1 reduce/reduce conflict"
-msgstr " 1 redutseerimine/redutseerimine konflikt"
-
-#: src/conflicts.c:356 src/conflicts.c:401
-#, c-format
-msgid " %d reduce/reduce conflicts"
-msgstr " %d redutseerimine/redutseerimine konflikti"
+#: src/conflicts.c:157
+msgid "an error"
+msgstr "viga"
 
 #. If invoked under the name `yacc', use the output format
 #. specified by POSIX.
-#: src/conflicts.c:377
+#: src/conflicts.c:446
 msgid "conflicts: "
 msgstr "konfliktid: "
 
-#: src/conflicts.c:379
+#: src/conflicts.c:448
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d nihutamine/redutseerimine"
 
-#: src/conflicts.c:383
+#: src/conflicts.c:452
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d redutseerimine/redutseerimine"
 
-#: src/conflicts.c:388
+#: src/conflicts.c:457
 #, c-format
 msgid "%s contains"
 msgstr "%s sisaldab"
 
-#: src/conflicts.c:597 src/conflicts.c:711
+#: src/conflicts.c:460 src/conflicts.c:525
+msgid " 1 shift/reduce conflict"
+msgstr " 1 nihutamine/redutseerimine konflikt"
+
+#: src/conflicts.c:462 src/conflicts.c:527
+#, c-format
+msgid " %d shift/reduce conflicts"
+msgstr " %d nihutamine/redutseerimine konflikti"
+
+#: src/conflicts.c:465 src/conflicts.c:530
+msgid " and"
+msgstr " ja"
+
+#: src/conflicts.c:468 src/conflicts.c:533
+msgid " 1 reduce/reduce conflict"
+msgstr " 1 redutseerimine/redutseerimine konflikt"
+
+#: src/conflicts.c:470 src/conflicts.c:535
+#, c-format
+msgid " %d reduce/reduce conflicts"
+msgstr " %d redutseerimine/redutseerimine konflikti"
+
+#: src/conflicts.c:522
+#, c-format
+msgid "State %d contains"
+msgstr "Olek %d sisaldab"
+
+#: src/conflicts.c:629 src/conflicts.c:749
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[redutseerin, kasutades reeglit %d (%s)]\n"
 
-#: src/conflicts.c:608 src/print.c:221
+#: src/conflicts.c:640 src/print.c:222
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -102,12 +102,12 @@ msgstr ""
 "    $default\tredutseerin kasutades reeglit %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:694 src/conflicts.c:706
+#: src/conflicts.c:729 src/conflicts.c:743
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tredutseerin kasutades reeglit %d (%s)\n"
 
-#: src/conflicts.c:732
+#: src/conflicts.c:770
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\tredutseerin kasutades reeglit %d (%s)\n"
@@ -288,12 +288,12 @@ msgstr "Entering set_nullable"
 msgid "maximum table size (%d) exceeded"
 msgstr "ületati maksimaalset tabelisuurust (%d)"
 
-#: src/print.c:88
+#: src/print.c:84
 #, c-format
 msgid " type %d is %s\n"
 msgstr " tüüp %d on %s\n"
 
-#: src/print.c:96
+#: src/print.c:92
 #, c-format
 msgid ""
 "\n"
@@ -306,26 +306,26 @@ msgstr ""
 "olek %d\n"
 "\n"
 
-#: src/print.c:140
+#: src/print.c:137
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (reegel %d)"
 
-#: src/print.c:167
+#: src/print.c:164
 msgid "    $default\taccept\n"
 msgstr "    $default\taktsepteerin\n"
 
-#: src/print.c:169
+#: src/print.c:166
 msgid "    NO ACTIONS\n"
 msgstr "    TEGEVUSI POLE\n"
 
 #. I.e. strcmp(tags[symbol],"$")==0
-#: src/print.c:185
+#: src/print.c:184
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \tliigu olekule %d\n"
 
-#: src/print.c:187
+#: src/print.c:186
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tnihuta ja liigu olekule %d\n"
@@ -335,13 +335,13 @@ msgstr "    %-4s\tnihuta ja liigu olekule %d\n"
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\tviga (mitteassotsiatiivne)\n"
 
-#: src/print.c:236
+#: src/print.c:238
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tliigu olekule %d\n"
 
 #. rule # : LHS -> RHS
-#: src/print.c:261
+#: src/print.c:264
 msgid ""
 "\n"
 "Grammar\n"
@@ -349,17 +349,17 @@ msgstr ""
 "\n"
 "Grammatika\n"
 
-#: src/print.c:266
+#: src/print.c:269
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "reegel %-4d %s ->"
 
-#: src/print.c:272
+#: src/print.c:275
 msgid "\t\t/* empty */"
 msgstr "\t\t/* tühi */"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:277
+#: src/print.c:280
 msgid ""
 "\n"
 "Terminals, with rules where they appear\n"
@@ -369,7 +369,7 @@ msgstr ""
 "Terminalid, koos reeglitega, kus nad ilmuvad\n"
 "\n"
 
-#: src/print.c:325
+#: src/print.c:328
 msgid ""
 "\n"
 "Nonterminals, with rules where they appear\n"
@@ -379,11 +379,11 @@ msgstr ""
 "Mitteterminalid, koos reeglitega, kus nad ilmuvad\n"
 "\n"
 
-#: src/print.c:351
+#: src/print.c:354
 msgid " on left:"
 msgstr " vasakul:"
 
-#: src/print.c:366
+#: src/print.c:369
 msgid " on right:"
 msgstr " paremal:"
 

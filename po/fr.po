@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2000-09-20 17:44+0200\n"
+"POT-Creation-Date: 2000-09-21 10:30+0200\n"
 "PO-Revision-Date: 1996-03-19 20:05 EST\n"
 "Last-Translator: Dominique Boucher <boucherd@IRO.UMontreal.CA>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -23,78 +23,78 @@ msgstr ""
 msgid "%s: memory exhausted\n"
 msgstr "%s: mémoire épuisée\n"
 
-#: src/conflicts.c:198 src/conflicts.c:222
-msgid "reduce"
-msgstr "réduction"
-
-#: src/conflicts.c:204 src/conflicts.c:218
-msgid "shift"
-msgstr "décalage"
-
-#: src/conflicts.c:226
-msgid "an error"
-msgstr "une erreur"
-
-#: src/conflicts.c:298
+#: src/conflicts.c:64
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "Conflit à l'état %d entre la règle %d et le terminal %s résolu par %s.\n"
 
-#: src/conflicts.c:343
-#, c-format
-msgid "State %d contains"
-msgstr "L'état %d contient"
+#: src/conflicts.c:130 src/conflicts.c:153
+msgid "reduce"
+msgstr "réduction"
 
-#: src/conflicts.c:346 src/conflicts.c:391
-msgid " 1 shift/reduce conflict"
-msgstr " 1 conflit décalage/réduction"
+#: src/conflicts.c:136 src/conflicts.c:149
+msgid "shift"
+msgstr "décalage"
 
-#: src/conflicts.c:348 src/conflicts.c:393
-#, c-format
-msgid " %d shift/reduce conflicts"
-msgstr " %d conflits décalage/réduction"
-
-#: src/conflicts.c:351 src/conflicts.c:396
-msgid " and"
-msgstr " et"
-
-#: src/conflicts.c:354 src/conflicts.c:399
-msgid " 1 reduce/reduce conflict"
-msgstr "1 conflit réduction/réduction"
-
-#: src/conflicts.c:356 src/conflicts.c:401
-#, c-format
-msgid " %d reduce/reduce conflicts"
-msgstr " %d conflits réduction/réduction"
+#: src/conflicts.c:157
+msgid "an error"
+msgstr "une erreur"
 
 #. If invoked under the name `yacc', use the output format
 #. specified by POSIX.
-#: src/conflicts.c:377
+#: src/conflicts.c:446
 msgid "conflicts: "
 msgstr "conflits: "
 
-#: src/conflicts.c:379
+#: src/conflicts.c:448
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d décalage/réduction"
 
-#: src/conflicts.c:383
+#: src/conflicts.c:452
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d réduction/réduction"
 
-#: src/conflicts.c:388
+#: src/conflicts.c:457
 #, c-format
 msgid "%s contains"
 msgstr "%s contient"
 
-#: src/conflicts.c:597 src/conflicts.c:711
+#: src/conflicts.c:460 src/conflicts.c:525
+msgid " 1 shift/reduce conflict"
+msgstr " 1 conflit décalage/réduction"
+
+#: src/conflicts.c:462 src/conflicts.c:527
+#, c-format
+msgid " %d shift/reduce conflicts"
+msgstr " %d conflits décalage/réduction"
+
+#: src/conflicts.c:465 src/conflicts.c:530
+msgid " and"
+msgstr " et"
+
+#: src/conflicts.c:468 src/conflicts.c:533
+msgid " 1 reduce/reduce conflict"
+msgstr "1 conflit réduction/réduction"
+
+#: src/conflicts.c:470 src/conflicts.c:535
+#, c-format
+msgid " %d reduce/reduce conflicts"
+msgstr " %d conflits réduction/réduction"
+
+#: src/conflicts.c:522
+#, c-format
+msgid "State %d contains"
+msgstr "L'état %d contient"
+
+#: src/conflicts.c:629 src/conflicts.c:749
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[réduction par la règle %d (%s)\n"
 
-#: src/conflicts.c:608 src/print.c:221
+#: src/conflicts.c:640 src/print.c:222
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -103,12 +103,12 @@ msgstr ""
 "    $défaut\tréduction par la règle %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:694 src/conflicts.c:706
+#: src/conflicts.c:729 src/conflicts.c:743
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\tréduction par la règle %d (%s)\n"
 
-#: src/conflicts.c:732
+#: src/conflicts.c:770
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $défaut\tréduction par la règle %d (%s)\n"
@@ -272,12 +272,12 @@ msgstr "Entré dans set_nullable"
 msgid "maximum table size (%d) exceeded"
 msgstr "taille maximum des tables (%s) dépassée"
 
-#: src/print.c:88
+#: src/print.c:84
 #, c-format
 msgid " type %d is %s\n"
 msgstr " le type %d est %s\n"
 
-#: src/print.c:96
+#: src/print.c:92
 #, c-format
 msgid ""
 "\n"
@@ -290,26 +290,26 @@ msgstr ""
 "état %d\n"
 "\n"
 
-#: src/print.c:140
+#: src/print.c:137
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (règle %d)"
 
-#: src/print.c:167
+#: src/print.c:164
 msgid "    $default\taccept\n"
 msgstr "    $défaut\taccepter\n"
 
-#: src/print.c:169
+#: src/print.c:166
 msgid "    NO ACTIONS\n"
 msgstr "    PAS D'ACTION\n"
 
 #. I.e. strcmp(tags[symbol],"$")==0
-#: src/print.c:185
+#: src/print.c:184
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \taller à l'état %d\n"
 
-#: src/print.c:187
+#: src/print.c:186
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tdécalage et aller à l'état %d\n"
@@ -319,13 +319,13 @@ msgstr "    %-4s\tdécalage et aller à l'état %d\n"
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\terreur (non-associatif)\n"
 
-#: src/print.c:236
+#: src/print.c:238
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\taller à l'état %d\n"
 
 #. rule # : LHS -> RHS
-#: src/print.c:261
+#: src/print.c:264
 msgid ""
 "\n"
 "Grammar\n"
@@ -333,17 +333,17 @@ msgstr ""
 "\n"
 "Grammaire\n"
 
-#: src/print.c:266
+#: src/print.c:269
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "règle %-4d %s ->"
 
-#: src/print.c:272
+#: src/print.c:275
 msgid "\t\t/* empty */"
 msgstr "\t\t/* epsilon */"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:277
+#: src/print.c:280
 msgid ""
 "\n"
 "Terminals, with rules where they appear\n"
@@ -353,7 +353,7 @@ msgstr ""
 "Terminaux, suivis des règles où ils apparaissent\n"
 "\n"
 
-#: src/print.c:325
+#: src/print.c:328
 msgid ""
 "\n"
 "Nonterminals, with rules where they appear\n"
@@ -363,11 +363,11 @@ msgstr ""
 "Catégories, suivis des règles où elles apparaissent\n"
 "\n"
 
-#: src/print.c:351
+#: src/print.c:354
 msgid " on left:"
 msgstr " à gauche:"
 
-#: src/print.c:366
+#: src/print.c:369
 msgid " on right:"
 msgstr " à droite:"
 

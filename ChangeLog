@@ -1,4 +1,4 @@
-2000-09-20  Akim Demaille  <akim@epita.fr>
+2000-09-21  Akim Demaille  <akim@epita.fr>
 
 	* src/closure.h: New file.
 	* src/closure.c: Formatting changes, topological sort over the

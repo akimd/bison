@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2000-09-20 17:44+0200\n"
+"POT-Creation-Date: 2000-09-21 10:30+0200\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -48,55 +48,28 @@ msgstr ""
 msgid "%s: memory exhausted\n"
 msgstr "%s: memoria agotada\n"
 
-#: src/conflicts.c:198 src/conflicts.c:222
-msgid "reduce"
-msgstr "reduce"
-
-#: src/conflicts.c:204 src/conflicts.c:218
-msgid "shift"
-msgstr "desplaza"
-
-#: src/conflicts.c:226
-msgid "an error"
-msgstr "un error"
-
-#: src/conflicts.c:298
+#: src/conflicts.c:64
 #, c-format
 msgid "Conflict in state %d between rule %d and token %s resolved as %s.\n"
 msgstr ""
 "El conflicto en el estado %s entre la regla %d y el terminal %s se resuelve "
 "como %s.\n"
 
-#: src/conflicts.c:343
-#, c-format
-msgid "State %d contains"
-msgstr "El estado %d contiene"
+#: src/conflicts.c:130 src/conflicts.c:153
+msgid "reduce"
+msgstr "reduce"
 
-#: src/conflicts.c:346 src/conflicts.c:391
-msgid " 1 shift/reduce conflict"
-msgstr " 1 conflicto desplazamiento/reducción"
+#: src/conflicts.c:136 src/conflicts.c:149
+msgid "shift"
+msgstr "desplaza"
 
-#: src/conflicts.c:348 src/conflicts.c:393
-#, c-format
-msgid " %d shift/reduce conflicts"
-msgstr " %d conflictos desplazamiento/reducción"
-
-#: src/conflicts.c:351 src/conflicts.c:396
-msgid " and"
-msgstr " y"
-
-#: src/conflicts.c:354 src/conflicts.c:399
-msgid " 1 reduce/reduce conflict"
-msgstr " 1 conflicto reducción/reducción"
-
-#: src/conflicts.c:356 src/conflicts.c:401
-#, c-format
-msgid " %d reduce/reduce conflicts"
-msgstr " %d conflictos reducción/reducción"
+#: src/conflicts.c:157
+msgid "an error"
+msgstr "un error"
 
 #. If invoked under the name `yacc', use the output format
 #. specified by POSIX.
-#: src/conflicts.c:377
+#: src/conflicts.c:446
 msgid "conflicts: "
 msgstr "conflictos: "
 
@@ -112,7 +85,7 @@ msgstr "conflictos: "
 # ok
 # ngp
 #
-#: src/conflicts.c:379
+#: src/conflicts.c:448
 #, c-format
 msgid " %d shift/reduce"
 msgstr " %d desplazamiento(s)/reducción(ones)"
@@ -129,22 +102,49 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 #
 # ok
 # ngp
-#: src/conflicts.c:383
+#: src/conflicts.c:452
 #, c-format
 msgid " %d reduce/reduce"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:388
+#: src/conflicts.c:457
 #, c-format
 msgid "%s contains"
 msgstr "%s contiene"
 
-#: src/conflicts.c:597 src/conflicts.c:711
+#: src/conflicts.c:460 src/conflicts.c:525
+msgid " 1 shift/reduce conflict"
+msgstr " 1 conflicto desplazamiento/reducción"
+
+#: src/conflicts.c:462 src/conflicts.c:527
+#, c-format
+msgid " %d shift/reduce conflicts"
+msgstr " %d conflictos desplazamiento/reducción"
+
+#: src/conflicts.c:465 src/conflicts.c:530
+msgid " and"
+msgstr " y"
+
+#: src/conflicts.c:468 src/conflicts.c:533
+msgid " 1 reduce/reduce conflict"
+msgstr " 1 conflicto reducción/reducción"
+
+#: src/conflicts.c:470 src/conflicts.c:535
+#, c-format
+msgid " %d reduce/reduce conflicts"
+msgstr " %d conflictos reducción/reducción"
+
+#: src/conflicts.c:522
+#, c-format
+msgid "State %d contains"
+msgstr "El estado %d contiene"
+
+#: src/conflicts.c:629 src/conflicts.c:749
 #, c-format
 msgid "    %-4s\t[reduce using rule %d (%s)]\n"
 msgstr "    %-4s\t[reduce usando la regla  %d (%s)]\n"
 
-#: src/conflicts.c:608 src/print.c:221
+#: src/conflicts.c:640 src/print.c:222
 #, c-format
 msgid ""
 "    $default\treduce using rule %d (%s)\n"
@@ -153,12 +153,12 @@ msgstr ""
 "    $default\treduce usando la regla %d (%s)\n"
 "\n"
 
-#: src/conflicts.c:694 src/conflicts.c:706
+#: src/conflicts.c:729 src/conflicts.c:743
 #, c-format
 msgid "    %-4s\treduce using rule %d (%s)\n"
 msgstr "    %-4s\treduce usando la regla  %d (%s)\n"
 
-#: src/conflicts.c:732
+#: src/conflicts.c:770
 #, c-format
 msgid "    $default\treduce using rule %d (%s)\n"
 msgstr "    $default\treduce usando la regla %d (%s)\n"
@@ -332,12 +332,12 @@ msgstr "Entrando set_nullable"
 msgid "maximum table size (%d) exceeded"
 msgstr "excedido el tamaño máximo de la tabla (%s)"
 
-#: src/print.c:88
+#: src/print.c:84
 #, c-format
 msgid " type %d is %s\n"
 msgstr " el tipo %d es %s\n"
 
-#: src/print.c:96
+#: src/print.c:92
 #, c-format
 msgid ""
 "\n"
@@ -350,26 +350,26 @@ msgstr ""
 "estado %d\n"
 "\n"
 
-#: src/print.c:140
+#: src/print.c:137
 #, c-format
 msgid "   (rule %d)"
 msgstr "   (regla %d)"
 
-#: src/print.c:167
+#: src/print.c:164
 msgid "    $default\taccept\n"
 msgstr "    $default\taceptar\n"
 
-#: src/print.c:169
+#: src/print.c:166
 msgid "    NO ACTIONS\n"
 msgstr "    SIN ACCIONES\n"
 
 #. I.e. strcmp(tags[symbol],"$")==0
-#: src/print.c:185
+#: src/print.c:184
 #, c-format
 msgid "    $   \tgo to state %d\n"
 msgstr "    $   \tir al estado %d\n"
 
-#: src/print.c:187
+#: src/print.c:186
 #, c-format
 msgid "    %-4s\tshift, and go to state %d\n"
 msgstr "    %-4s\tdesplazar e ir al estado %d\n"
@@ -379,13 +379,13 @@ msgstr "    %-4s\tdesplazar e ir al estado %d\n"
 msgid "    %-4s\terror (nonassociative)\n"
 msgstr "    %-4s\terror (no asociativo)\n"
 
-#: src/print.c:236
+#: src/print.c:238
 #, c-format
 msgid "    %-4s\tgo to state %d\n"
 msgstr "    %-4s\tir al estado %d\n"
 
 #. rule # : LHS -> RHS
-#: src/print.c:261
+#: src/print.c:264
 msgid ""
 "\n"
 "Grammar\n"
@@ -393,7 +393,7 @@ msgstr ""
 "\n"
 "Gramática\n"
 
-#: src/print.c:266
+#: src/print.c:269
 #, c-format
 msgid "rule %-4d %s ->"
 msgstr "regla %-4d %s ->"
@@ -403,12 +403,12 @@ msgstr "regla %-4d %s ->"
 # como `vacía/o' - cll
 # según el código indica reglas vacías por eso lo puse así
 # ngp
-#: src/print.c:272
+#: src/print.c:275
 msgid "\t\t/* empty */"
 msgstr "\t\t/* vacía */"
 
 #. TERMINAL (type #) : rule #s terminal is on RHS
-#: src/print.c:277
+#: src/print.c:280
 msgid ""
 "\n"
 "Terminals, with rules where they appear\n"
@@ -418,7 +418,7 @@ msgstr ""
 "Terminales con las reglas donde aparecen\n"
 "\n"
 
-#: src/print.c:325
+#: src/print.c:328
 msgid ""
 "\n"
 "Nonterminals, with rules where they appear\n"
@@ -427,11 +427,11 @@ msgstr ""
 "\n"
 "No terminales con las reglas donde aparecen\n"
 
-#: src/print.c:351
+#: src/print.c:354
 msgid " on left:"
 msgstr " en la izquierda:"
 
-#: src/print.c:366
+#: src/print.c:369
 msgid " on right:"
 msgstr " en la derecha:"
 
