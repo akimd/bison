@@ -3,6 +3,16 @@ Bison News
 
 Changes in version 1.49a:
 
+* False `Token not used' report fixed.
+  On a grammar such as
+
+           %token useless useful
+           %%
+           exp: '0' %prec useful;
+
+  where a token was used to set the precedence of the last rule,
+  bison reported both `useful' and `useless' as useless tokens.
+
 * Revert the C++ namespace changes introduced in 1.31, as they caused too
   many portability hassles.
 
