@@ -1,5 +1,12 @@
 2001-10-10  Akim Demaille  <akim@epita.fr>
 
+	* m4/m4.m4: Remove.
+	* configure.in: M4 is no longer needed, but autom4te is.
+	* tests/Makefile.am (AUTOTEST): Don't define AUTOM4TE, let
+	AC_SUBST do it.
+
+2001-10-10  Akim Demaille  <akim@epita.fr>
+
 	Bump to 1.29e.
 
 2001-10-10  Akim Demaille  <akim@epita.fr>

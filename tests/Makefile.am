@@ -28,7 +28,6 @@ TESTSUITE_AT = \
 	output.at calc.at regression.at
 TESTSUITE = $(srcdir)/testsuite
 
-AUTOM4TE = autom4te
 AUTOTEST = $(AUTOM4TE) --language=autotest
 $(srcdir)/$(TESTSUITE): $(TESTSUITE_AT)
 	$(AUTOTEST) -I $(srcdir) testsuite.at -o $@.tmp
