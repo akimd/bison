@@ -3098,24 +3098,32 @@ for example, a nonreentrant program may not be safe to call from a signal
 handler.  In systems with multiple threads of control, a nonreentrant
 program must be called only within interlocks.
 
-The Bison parser is not normally a reentrant program, because it uses
-statically allocated variables for communication with @code{yylex}.  These
-variables include @code{yylval} and @code{yylloc}.
+Normally, Bison generates a parser which is not reentrant.  This is
+suitable for most uses, and it permits compatibility with YACC.  (The
+standard YACC interfaces are inherently nonreentrant, because they use
+statically allocated variables for communication with @code{yylex},
+including @code{yylval} and @code{yylloc}.)
 
-The Bison declaration @code{%pure_parser} says that you want the parser
-to be reentrant.  It looks like this:
+Alternatively, you can generate a pure, reentrant parser.  The Bison
+declaration @code{%pure_parser} says that you want the parser to be
+reentrant.  It looks like this:
 
 @example
 %pure_parser
 @end example
 
-The effect is that the two communication variables become local
-variables in @code{yyparse}, and a different calling convention is used
-for the lexical analyzer function @code{yylex}.  @xref{Pure Calling,
-,Calling Conventions for Pure Parsers}, for the details of this.  The
-variable @code{yynerrs} also becomes local in @code{yyparse}
-(@pxref{Error Reporting, ,The Error Reporting Function @code{yyerror}}).
-The convention for calling @code{yyparse} itself is unchanged.
+The result is that the communication variables @code{yylval} and
+@code{yylloc} become local variables in @code{yyparse}, and a different
+calling convention is used for the lexical analyzer function
+@code{yylex}.  @xref{Pure Calling, ,Calling Conventions for Pure
+Parsers}, for the details of this.  The variable @code{yynerrs} also
+becomes local in @code{yyparse} (@pxref{Error Reporting, ,The Error
+Reporting Function @code{yyerror}}).  The convention for calling
+@code{yyparse} itself is unchanged.
+
+Whether the parser is pure has nothing to do with the grammar rules.
+You can generate either a pure parser or a nonreentrant parser from any
+valid grammar.
 
 @node Decl Summary,  , Pure Decl, Declarations
 @subsection Bison Declaration Summary
