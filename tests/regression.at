@@ -380,9 +380,9 @@ AT_DATA([input.y],
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[input.y:2: invalid input: `?'
+[[input.y:2: invalid input: `?'
 input.y:3: fatal error: no rules in the input grammar
-])
+]])
 
 AT_CLEANUP
 
@@ -400,8 +400,29 @@ default: 'a' }
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[input.y:2: invalid input: `}'
-])
+[[input.y:2: invalid input: `}'
+]])
+
+AT_CLEANUP
+
+
+
+## -------------------- ##
+## Invalid %directive.  ##
+## -------------------- ##
+
+
+AT_SETUP([Invalid %directive])
+
+AT_DATA([input.y],
+[[%invalid
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:1: unrecognized: %invalid
+input.y:1:    Skipping to next %
+input.y:2: fatal error: no input grammar
+]])
 
 AT_CLEANUP
 
