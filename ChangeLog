@@ -1,3 +1,56 @@
+2003-06-01  Paul Eggert  <eggert@twinsun.com>
+
+	Don't pass C-only warning optins (e.g., -Wmissing-declarations)
+	to g++, as GCC 3.3 complains if you do it.
+	* configure.ac (WARNING_CXXFLAGS): New subst.  Set it to
+	everything that WARNING_CFLAGS has, except omit warnings
+	not suitable for C++.
+	(AC_PROG_CXX): Use this instead of AC_CHECK_PROGS([CXX], [g++]).
+	* tests/atlocal.in (CXXFLAGS): New var.
+	* tests/local.at (AT_COMPILE_CXX): Use it instead of CFLAGS.
+
+	Fix a GLR parser bug I reported in February; see
+	<http://mail.gnu.org/archive/html/bison-patches/2003-02/msg00008.html>.
+	The problem was that GLR parsers did not conform to the C standard,
+	because actions like { $1 = $2 + $3; } expanded to expressions
+	that invoked YYFILL in separate subexpressions, and YYFILL assigned
+	to a local variable.  The C standard says that expressions
+	like (var = f ()) + (var = f ()) have undefined behavior.
+	Another problem was that GCC sometimes issues warnings that
+	yyfill and its parameters are unused.
+
+	* data/glr.c (yyfillin): Renamed from the old yyfill.  Mark
+	as possibly unused.
+	(yyfill): New function.
+	(YYFILL): Use it.
+	(yyuserAction): Change type of yynormal to bool, so that it matches
+	the new yyfill signature.  Mark it as possibly unused.
+
+
+	Follow up on a bug I reported in February, where a Bison-generated
+	parser can loop.  Provide a test case and a fix for yacc.c.  I
+	don't have a fix for lalr1.cc or for glr.c, unfortunately.
+	The original bug report is in:
+	<http://mail.gnu.org/archive/html/bison-patches/2003-02/msg00044.html>
+
+	* data/yacc.c (YYERROR): Now just 'goto yyerrorlab', since the
+	macro's size was becoming unwieldy.
+	(yyerrlab): Do not discard an empty lookahead symbol, as this
+	might destroy garbage.
+	(yyerrorlab): New label, with the old contents of YYERROR,
+	plus the following change: pop the stack of rhs corresponding
+	to the production that invoked YYERROR.  That is how Yacc
+	behaves, and POSIX requires this behavior.
+	(yyerrlab1): Use YYPOPSTACK instead of its definiens.
+	* tests/calc.at (_AT_DATA_CALC_Y): Include unistd.h if available.
+	Define 'alarm' to do nothing if unistd.h is not available.
+	Add a new rule "exp: '-' error;" to test the above change to
+	data/yacc.c.  Use 'alarm' to abort any test taking longer than
+	10 seconds, as it's probably looping.
+	(AT_CHECK_CALC): Test recovery from error in new grammar rule.
+	Also, the new yacc.c generates two fewer diagnostics for an
+	existing test.
+
 2003-05-24  Paul Eggert  <eggert@twinsun.com>
 
 	* data/glr.c (YYSTACKEXPANDABLE): Do not evaluate
@@ -7,7 +60,7 @@
 	-ansi -Wall -gall).
 	* data/yacc.c (union yyalloc): Likewise.
 	(YYCOPY): Do not evaluate __GNUC__ unless it is defined.
-	
+
 	Switch from 'int' to 'bool' where that makes sense.
 
 	* lib/abitset.c (abitset_test, abitset_empty_p, abitset_equal_p,
