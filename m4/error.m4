@@ -1,12 +1,10 @@
-#serial 5
+#serial 6
 
 AC_DEFUN([gl_ERROR],
 [
   AC_FUNC_ERROR_AT_LINE
   dnl Note: AC_FUNC_ERROR_AT_LINE does AC_LIBSOURCES([error.h, error.c]).
-  if test $ac_cv_lib_error_at_line = no; then
-    jm_PREREQ_ERROR
-  fi
+  jm_PREREQ_ERROR
 ])
 
 # Prerequisites of lib/error.c.

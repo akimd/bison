@@ -1,5 +1,10 @@
 2003-03-29  Akim Demaille  <akim@epita.fr>
 
+	* m4/error.m4: Do not put under dynamic conditions some code which
+	expansion is under static control.
+
+2003-03-29  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo (How Can I Reset @code{yyparse}): New.
 
 2003-03-29  Akim Demaille  <akim@epita.fr>
