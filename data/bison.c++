@@ -30,7 +30,7 @@
 #include "stack.hh"
 #include "location.hh"
 
-b4_prologue
+#include <string>
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -44,6 +44,8 @@ b4_prologue
 
 /* Using locations.  */
 #define YYLSP_NEEDED b4_locations_flag
+
+b4_prologue
 
 // FIXME: This should be defined in traits, not here.
 typedef b4_stype yystype;
@@ -80,7 +82,13 @@ namespace yy
     typedef Stack< SemanticType > SemanticStack;
     typedef Stack< LocationType > LocationStack;
 
+#if YYLSP_NEEDED
+    b4_name (bool debug,
+	     LocationType initlocation) : debug_ (debug),
+					  initlocation_ (initlocation)
+#else
     b4_name (bool debug) : debug_ (debug)
+#endif
     {
     }
 
@@ -155,6 +163,9 @@ namespace yy
     /* @$ and $$.  */
     SemanticType value;
     LocationType location;
+
+    /* Initial location.  */
+    LocationType initlocation_;
   };
 }
 
@@ -197,6 +208,9 @@ yy::b4_name::parse ()
   /* Start.  */
   state_ = 0;
   looka_ = empty_;
+#if YYLSP_NEEDED
+  location = initlocation_;
+#endif
   YYDPRINTF ((stderr, "Starting parse\n"));
 
   /* New state.  */
@@ -272,6 +286,12 @@ yy::b4_name::parse ()
 
   semantic_stack_.push (value);
   location_stack_.push (location);
+
+  /* Count tokens shifted since error; after three, turn off error
+     status.  */
+  if (errstatus)
+    --errstatus;
+
   state_ = n_;
   goto yynewstate;
 
@@ -379,8 +399,8 @@ yy::b4_name::parse ()
       else
 #endif
 	message = "parse error";
+      error_ ();
     }
-  error_ ();
   goto yyerrlab1;
   
   /* Error raised explicitly by an action.  */

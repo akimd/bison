@@ -1,3 +1,8 @@
+2002-02-08  Robert Anisko  <robert@lrde.epita.fr>
+
+	* data/bison.c++: Correct error recovery.  Make the user able to
+	initialize the starting location.
+
 2002-02-07  Akim Demaille  <akim@epita.fr>
 
 	* tests/input.at: New.
