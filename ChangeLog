@@ -1,12 +1,16 @@
 2002-11-12  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo (Destructor Decl): New.
+
+2002-11-12  Akim Demaille  <akim@epita.fr>
+
 	* src/tables.c (tables_generate): Use free for pointers that
 	cannot be NULL, not XFREE.
 	(pack_vector): Use assert, not fatal, for bound violations.
 	* src/state.c (state_new): Likewise.
 	* src/reader.c (reader): Likewise.
 	* src/lalr.c (set_goto_map): Likewise.
-	* src/location.h (LOCATION_PRINT): If first_line is 0, just issue 
+	* src/location.h (LOCATION_PRINT): If first_line is 0, just issue
 	the file name.
 
 2002-11-12  Akim Demaille  <akim@epita.fr>

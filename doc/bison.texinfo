@@ -208,6 +208,7 @@ Bison Declarations
 * Precedence Decl::   Declaring terminals with precedence and associativity.
 * Union Decl::        Declaring the set of all semantic value types.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
+* Destructor Decl::   Declaring how symbols are freed.
 * Expect Decl::       Suppressing warnings about shift/reduce conflicts.
 * Start Decl::        Specifying the start symbol.
 * Pure Decl::         Requesting a reentrant parser.
@@ -1851,7 +1852,6 @@ symrec  *tptr;   /* For returning symbol-table pointers      */
 %right '^'    /* Exponentiation        */
 
 /* Grammar follows */
-
 %%
 @end smallexample
 
@@ -1928,7 +1928,9 @@ provides for either functions or variables to be placed in the table.
 @group
 /* Function type.                                    */
 typedef double (*func_t) (double);
+@end group
 
+@group
 /* Data type for links in the chain of symbols.      */
 struct symrec
 @{
@@ -2748,11 +2750,11 @@ a-or-b: 'a'|'b'   @{ a_or_b_found = 1; @};
 
 @cindex default action
 If you don't specify an action for a rule, Bison supplies a default:
-@w{@code{$$ = $1}.}  Thus, the value of the first symbol in the rule becomes
-the value of the whole rule.  Of course, the default rule is valid only
-if the two data types match.  There is no meaningful default action for
-an empty rule; every empty rule must have an explicit action unless the
-rule's value does not matter.
+@w{@code{$$ = $1}.}  Thus, the value of the first symbol in the rule
+becomes the value of the whole rule.  Of course, the default action is
+valid only if the two data types match.  There is no meaningful default
+action for an empty rule; every empty rule must have an explicit action
+unless the rule's value does not matter.
 
 @code{$@var{n}} with @var{n} zero or negative is allowed for reference
 to tokens and groupings on the stack @emph{before} those that match the
@@ -3174,6 +3176,7 @@ Grammars}).
 * Precedence Decl::   Declaring terminals with precedence and associativity.
 * Union Decl::        Declaring the set of all semantic value types.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
+* Destructor Decl::   Declaring how symbols are freed.
 * Expect Decl::       Suppressing warnings about shift/reduce conflicts.
 * Start Decl::        Specifying the start symbol.
 * Pure Decl::         Requesting a reentrant parser.
@@ -3364,6 +3367,72 @@ use the same @code{<@var{type}>} construction in a declaration for the
 terminal symbol.  All kinds of token declarations allow
 @code{<@var{type}>}.
 
+@node Destructor Decl
+@subsection Freeing Discarded Symbols
+@cindex freeing discarded symbols
+@findex %destructor
+
+Some symbols can be discarded by the parser, typically during error
+recovery (@pxref{Error Recovery}).  Basically, during error recovery,
+embarrassing symbols already pushed on the stack, and embarrassing
+tokens coming from the rest of the file are thrown away until the parser
+falls on its feet.  If these symbols convey heap based information, this
+memory is lost.  While this behavior is tolerable for batch parsers,
+such as in compilers, it is unacceptable for parsers that can
+possibility ``never end'' such as shells, or implementations of
+communication protocols.
+
+The @code{%destructor} directive allows for the definition of code that
+is called when a symbol is thrown away.
+
+@deffn {Directive} %destructor @{ @var{code} @} @var{symbols}
+@findex %destructor
+Declare that the @var{code} must be invoked for each of the
+@var{symbols} that will be discarded by the parser.  The @var{code}
+should use @code{$$} to designate the semantic value associated to the
+@var{symbols}.  The additional parser parameters are also avaible
+(@pxref{Parser Function, , The Parser Function @code{yyparse}}).
+
+@strong{Warning:} as of Bison 1.875, this feature is still considered as
+experimental, as there was not enough users feedback.  In particular,
+the syntax might still change, and for the time being, only the default
+@acronym{LALR}(1) skeleton supports this feature.
+@end deffn
+
+For instance:
+
+@smallexample
+%union
+@{
+  char *string;
+@}
+%token <string> STRING
+%type  <string> string
+%destructor @{ free ($$); @} STRING string
+@end smallexample
+
+@noindent
+guarantees that when a @code{STRING} or a @code{string} will be discarded,
+its associated memory will be freed.
+
+Note that in the future, Bison might also consider that right hand side
+members that are not mentioned in the action can be destroyed.  For
+instance, in:
+
+@smallexample
+comment: "/*" STRING "*/";
+@end smallexample
+
+@noindent
+the parser is entitled to destroy the semantic value of the
+@code{string}.  Of course, this will not apply to the default action;
+compare:
+
+@smallexample
+typeless: string;  // $$ = $1 does not apply; $1 is destroyed.
+typefull: string;  // $$ = $1 applies, $1 is not destroyed.
+@end smallexample
+
 @node Expect Decl
 @subsection Suppressing Conflict Warnings
 @cindex suppressing conflict warnings
@@ -3535,6 +3604,10 @@ This output file is essential if you wish to put the definition of
 be able to refer to token type codes and the variable
 @code{yylval}.  @xref{Token Values, ,Semantic Values of Tokens}.
 
+@item %destructor
+Specifying how the parser should reclaim the memory associated to
+discarded symbols. @xref{Destructor Decl, , Freeing Discarded Symbols}.
+
 @item %file-prefix="@var{prefix}"
 Specify a prefix to use for all Bison output file names.  The names are
 chosen as if the input file were named @file{@var{prefix}.y}.
@@ -3633,8 +3706,6 @@ Write an extra output file containing verbose descriptions of the
 parser states and what is done for each type of look-ahead token in
 that state.  @xref{Understanding, , Understanding Your Parser}, for more
 information.
-
-
 
 @item %yacc
 Pretend the option @option{--yacc} was given, i.e., imitate Yacc,
@@ -5069,15 +5140,17 @@ will be tokens to read before the next newline.  So the rule is not
 applicable in the ordinary way.
 
 But Bison can force the situation to fit the rule, by discarding part of
-the semantic context and part of the input.  First it discards states and
-objects from the stack until it gets back to a state in which the
+the semantic context and part of the input.  First it discards states
+and objects from the stack until it gets back to a state in which the
 @code{error} token is acceptable.  (This means that the subexpressions
-already parsed are discarded, back to the last complete @code{stmnts}.)  At
-this point the @code{error} token can be shifted.  Then, if the old
+already parsed are discarded, back to the last complete @code{stmnts}.)
+At this point the @code{error} token can be shifted.  Then, if the old
 look-ahead token is not acceptable to be shifted next, the parser reads
 tokens and discards them until it finds a token which is acceptable.  In
-this example, Bison reads and discards input until the next newline
-so that the fourth rule can apply.
+this example, Bison reads and discards input until the next newline so
+that the fourth rule can apply.  Note that discarded symbols are
+possible sources of memory leaks, see @ref{Destructor Decl, , Freeing
+Discarded Symbols}, for a means to reclaim this memory.
 
 The choice of error rules in the grammar is a choice of strategies for
 error recovery.  A simple and useful strategy is simply to skip the rest of
@@ -6301,6 +6374,10 @@ Equip the parser for debugging.  @xref{Decl Summary}.
 @item %defines
 Bison declaration to create a header file meant for the scanner.
 @xref{Decl Summary}.
+
+@item %destructor
+Specifying how the parser should reclaim the memory associated to
+discarded symbols. @xref{Destructor Decl, , Freeing Discarded Symbols}.
 
 @item %dprec
 Bison declaration to assign a precedence to a rule that is used at parse

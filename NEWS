@@ -3,6 +3,10 @@ Bison News
 
 Changes in version 1.75b:
 
+* %destructor
+  It is now possible to reclaim the memory associated to symbols
+  discarded during error recovery.  This feature is still experimental.
+
 * Bison now parses C99 lexical constructs like digraphs, UCNs, and
   backslash-newline within C escape sequences, as POSIX now requires.
 
