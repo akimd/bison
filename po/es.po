@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2001-12-12 12:59+0100\n"
+"POT-Creation-Date: 2001-12-12 16:14+0100\n"
 "PO-Revision-Date: 1998-09-21 10:19+0200\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -43,11 +43,11 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr ""
 
-#: lib/error.c:128 lib/error.c:156 src/complain.c:96
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr ""
 
-#: src/complain.c:147
+#: src/complain.c:150
 msgid "warning: "
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 # La verdad es que a mi lo de error fatal me suena fatal
 # ngp
 #
-#: src/complain.c:235
+#: src/complain.c:238
 #, fuzzy
 msgid "fatal error: "
 msgstr "error grave: %s\n"

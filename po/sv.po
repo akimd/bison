@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30e\n"
-"POT-Creation-Date: 2001-12-12 12:59+0100\n"
+"POT-Creation-Date: 2001-12-12 16:14+0100\n"
 "PO-Revision-Date: 2001-11-27 11:16+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -20,15 +20,15 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "för många tillstånd (max %d)"
 
-#: lib/error.c:128 lib/error.c:156 src/complain.c:96
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr "Okänt systemfel"
 
-#: src/complain.c:147
+#: src/complain.c:150
 msgid "warning: "
 msgstr "varning: "
 
-#: src/complain.c:235
+#: src/complain.c:238
 msgid "fatal error: "
 msgstr "ödesdigert fel: "
 

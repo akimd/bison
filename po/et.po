@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30e\n"
-"POT-Creation-Date: 2001-12-12 12:59+0100\n"
+"POT-Creation-Date: 2001-12-12 16:14+0100\n"
 "PO-Revision-Date: 2001-11-26 22:45+0200\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 msgid "too many states (max %d)"
 msgstr "liiga palju olekuid (maks %d)"
 
-#: lib/error.c:128 lib/error.c:156 src/complain.c:96
+#: lib/error.c:128 lib/error.c:156 src/complain.c:99
 msgid "Unknown system error"
 msgstr "Tundmatu süsteemi viga"
 
-#: src/complain.c:147
+#: src/complain.c:150
 msgid "warning: "
 msgstr "hoiatus: "
 
-#: src/complain.c:235
+#: src/complain.c:238
 msgid "fatal error: "
 msgstr "fataalne viga: "
 
