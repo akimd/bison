@@ -7,6 +7,9 @@
 	(copy_at, copy_dollar): Instead of outputting the hard coded
 	values of $$, $n and so forth, output invocation to b4_lhs_value,
 	b4_lhs_location, b4_rhs_value, and b4_rhs_location.
+	Note: this patch partially drops `semantic-parser' support: it
+	always does `rule_length - n', where semantic parsers ought to
+	always use `-n'.
 	* data/bison.simple, data/bison.c++ (b4_lhs_value)
 	(b4_lhs_location, b4_rhs_value, and b4_rhs_location: New.
 
