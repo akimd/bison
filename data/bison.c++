@@ -81,6 +81,7 @@ namespace yy
   private:
 
     virtual void error_ ();
+    virtual void print_ ();
 
     /* Call to lexical analyser.  */
     virtual
@@ -229,6 +230,7 @@ yy::b4_name::parse ()
       if (debug_)
 	{
 	  YYFPRINTF (stderr, "Next token is %d (%s", looka, name_[[ilooka]]);
+	  print_ ();
 	  YYFPRINTF (stderr, ")\n");
 	}
 #endif

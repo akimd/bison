@@ -1,5 +1,11 @@
 2002-02-07  Robert Anisko  <robert@lrde.epita.fr>
 
+	* data/bison.c++ (yy::b4_name::print_): New method, replaces yyprint in
+	C++ parsers.
+	(yy::b4_name::parse): Use print_.
+
+2002-02-07  Robert Anisko  <robert@lrde.epita.fr>
+
 	* data/bison.c++ (yy::b4_name::parse): Error recovery is back.
 
 2002-02-07  Robert Anisko  <robert@lrde.epita.fr>
