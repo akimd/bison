@@ -1,5 +1,11 @@
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
+	* reader.c (copy_string): New function, factored out from:
+	(copy_action): Use it.
+	(copy_guard): Likewise.
+
+2000-03-17  Akim Demaille  <akim@epita.fr>
+
 	Change the handling of @s so that they behave exactly like $s.
 	There is now a pseudo variable @$ (readble and writable), location
 	of the lhs of the rule (by default ranging from the location of
