@@ -236,7 +236,7 @@ union yyalloc
 	{					\
 	  register YYSIZE_T yyi;		\
 	  for (yyi = 0; yyi < (Count); yyi++)	\
-	    (To)[yyi] = (From)[yyi];		\
+	    (To)[[yyi]] = (From)[[yyi]];	\
 	}					\
       while (0)
 #  endif
