@@ -1,3 +1,115 @@
+2002-12-12  Paul Eggert  <eggert@twinsun.com>
+
+	Remove unportable casts and storage allocation tricks.
+	While we're at it, remove almost all casts, since they
+	usually aren't needed and are a sign of trouble.
+
+	* configure.ac (AC_CHECK_TYPES): Check for uintptr_t.
+
+	* src/derives.c (derives_compute): Do not subtract NTOKENS from
+	the pointer DSET returned by malloc; this isn't portable.
+	Instead, always use DSET[i - NTOKENS] rather than DSET[i].
+	Similarly for DERIVES.
+	* src/lalr.c (set_goto_map): Likewise, for GOTO_MAP and TEMP_MAP.
+	* src/nullable.c (nullable_compute): Likewise, for RSETS and NULLABLE.
+	* src/reduce.c (reduce_grammar_tables): Likewise, for nontermmap
+
+	* src/derives.c (derives_compute): Do not bother invoking
+	int_of_rule_number, since rule numbers are integers.
+
+	* src/files.c (concat2, tr, compute_base_name): Use xmalloc (N)
+	rather than XMALLOC (char, N).
+
+	* src/files.c (filename_split): Rewrite to avoid cast.
+
+	* src/gram.h (symbol_number_as_item_number,
+	item_number_as_symbol_number, rule_number_as_item_number,
+	item_number_as_rule_number):
+	Now inline functions rather than macros, to avoid casts.
+	* src/state.h (state_number_as_int): Likewise.
+	* src/tables.c (state_number_to_vector_number,
+	symbol_number_to_vector_number): Likewise.
+
+	* src/gram.h (int_of_rule_number): Remove; no longer used.
+
+	* src/lalr.c (add_lookback_edge): Use malloc rather than calloc,
+	since the resulting storage is always stored into.
+
+	* src/main.c (alloca) [C_ALLOCA]: Add decl here, the only place
+	where it's needed.
+
+	* src/muscle_tab.c (muscle_m4_output):
+	Now inline.  Return bool, not int.
+	* src/state.c (state_compare): Likewise.
+	* src/symtab.c (symbol_check_defined,
+	symbol_check_alias_consistency, symbol_pack, symbol_translation,
+	hash_compare_symbol, hash_symbol):
+	Likewise.
+	* src/uniqstr.c (uniqstr_print): Likewise.
+	* src/muscle_tab.c (muscle_m4_output_processor):
+	New function, to avoid casts.
+	* src/state.c (state_comparator, stage_hasher): Likewise.
+	* src/symtab.c (symbol_check_defined_processor,
+	symbol_check_alias_consistency_processor, symbol_pack_processor,
+	symbol_translation_processor, hash_symbol_comparator,
+	hash_symbol_hasher): Likewise.
+	* src/uniqstr.c (uniqstr_print_processor): Likewise.
+	* src/muscle_tab.c (muscles_m4_output):
+	Use new functions instead of casting old functions unportably.
+	* src/state.c (state_hash_new): Likewise.
+	* src/symtab.c (symbols_new, symbols_do, symbols_check_defined,
+	symbols_token_translations_init):
+	Likewise.
+	* src/uniqstr.c (uniqstrs_new, hash_initialize, uniqstrs_do): Likewise.
+
+	* src/output.c (GENERATE_MUSCLE_INSERT_TABLE): Use long local
+	var instead of casting to long, to avoid casts.
+	(prepare_states): Use MALLOC rather than alloca, so that we don't
+	have to worry about alloca.
+	* src/state.c (state_hash_lookup): Likewise.
+
+	* src/scan-gram.l (<SC_ESCAPED_CHARACTER>"'"): Use unsigned char
+	local var instead of casting to unsigned char, to avoid casts.
+
+	* src/state.c (TRANSITIONS_ALLOC, ERRS_ALLOC, REDUCTIONS_ALLOC,
+	STATE_ALLOC): Remove.
+	(transitions_new, errs_new, reductions_new, state_new): Use malloc
+	rather than calloc, and use offsetof to avoid allocating slightly
+	too much storage.
+	(state_new): Initialize all members.
+
+	* src/state.c (state_hash): Use unsigned accumulator, not signed.
+
+	* src/symtab.c (symbol_free): Remove; unused.
+	(symbol_get): Remove cast in lhs of assignment.
+	(symbols_do): Now static.  Accept generic arguments, not
+	hashing-related ones.
+
+	* src/symtab.h: (NUMBER_UNDEFINED): Remove unnecessary cast.
+	(symbol_processor): Remove.
+	(symbols_do): Remove decl; now static.
+
+	* src/system.h (alloca): Remove; decl no longer needed.
+	(<stddef.h>): Include, for offsetof.
+	(<inttypes.>, <stdint.h>): Include if available.
+	(uintptr_t): New type, if system lacks it.
+	(CALLOC, MALLOC, REALLOC): New macros.
+	All uses of XCALLOC, XMALLOC, and XREALLOC changed to use these
+	new macros.
+
+	* src/tables.c (table_size): Now int, to pacify GCC.
+	(table_grow, table_ninf_remap): Use signed table size.
+	(save_row): Don't bother initializing locals when not needed.
+	(default_goto, goto_actions, pack_vector): Remove unnecessary casts.
+	* src/uniqstr.c (hash_compare_uniqstr):  Likewise.
+
+	* src/vcg.h: Correct misspellings.
+
+	* src/vcg_defaults.h (G_CMAX): Now INT_MAX.
+
+
+	* src/getargs.c (getargs): Don't assume EOF == -1.
+
 2002-12-09  Paul Eggert  <eggert@twinsun.com>
 
 	Change identifier spellings to avoid collisions with names
