@@ -1,5 +1,15 @@
 2001-12-29  Akim Demaille  <akim@epita.fr>
 
+	* src/LR0.c (generate_states): Use nritems, not nitems, nor using
+	the 0-sentinel.
+	* src/gram.c (ritem_longest_rhs): Likewise.
+	* src/reduce.c (nonterminals_reduce): Likewise.
+	* src/print_graph.c (print_graph): Likewise.
+	* src/output.c (output_rule_data): Likewise.
+	* src/nullable.c (set_nullable):  Likewise.
+
+2001-12-29  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c: Comment changes.
 
 2001-12-27  Paul Eggert  <eggert@twinsun.com>
