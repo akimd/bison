@@ -1,5 +1,9 @@
 2001-11-22  Marc Autret  <autret_m@epita.fr>
 
+	* src/bison.simple [YYERROR_VERBOSE]: Force its value to be 1 or 0.
+
+2001-11-22  Marc Autret  <autret_m@epita.fr>
+
 	* src/muscle_tab.c (muscle_init): Remove initialization of
 	skeleton muscle.
 	* src/output.c (output_master_parser): Do it here.

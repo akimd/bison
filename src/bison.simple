@@ -151,6 +151,9 @@ typedef struct yyltype
 
 #ifndef YYERROR_VERBOSE
 # define YYERROR_VERBOSE %%verbose
+#else
+# undef YYERROR_VERBOSE
+# define YYERROR_VERBOSE 1
 #endif
 
 /* Tokens.  */
