@@ -1,5 +1,11 @@
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
+	* src/getopt1.c: Updated from textutils 2.0e
+	* src/getopt.c: Likewise.
+	* src/getopt.h: Likewise.
+
+2000-03-17  Akim Demaille  <akim@epita.fr>
+
 	* src/Makefile.am (bison.simple): Fix the awk program: quote only
 	the file name, not the whole `#line LINE FILE'.
 
