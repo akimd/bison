@@ -1,6 +1,18 @@
 Bison News
 ----------
 
+Change in version 1.26:
+
+* Bison now uses automake.
+
+* New mailing lists: <bug-bison@gnu.org> and <help-bison@gnu.org>.
+
+* Token numbers now start at 257 as previously documented, not 258.
+
+* Bison honors the TMPDIR environment variable.
+
+* A couple of buffer overruns have been fixed.
+
 Change in version 1.25:
 
 * Errors in the input grammar are not fatal; Bison keeps reading
