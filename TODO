@@ -192,7 +192,9 @@ Paul notes:
 	PDP-10 ports :-) but they should probably be documented
 	somewhere.
 
-
+	More importantly, Bison does not currently allow NUL bytes in
+	tokens, either via escapes (e.g., "x\0y") or via a NUL byte in
+	the source code.  This should get fixed.
 
 * --graph
 Show reductions.	[]
