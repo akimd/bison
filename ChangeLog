@@ -1,3 +1,8 @@
+2002-11-15  Tim Van Holder  <tim.van.holder@pandora.be>
+
+	* m4/prereq.m4: Removed the commented jm_PREREQ_HASH
+	definition; avoids potential autoreconf problems.
+
 2002-11-15  Akim Demaille  <akim@epita.fr>
 
 	Always check the value returned by yyparse.

@@ -94,13 +94,6 @@ AC_DEFUN([jm_PREREQ_HARD_LOCALE],
   AM_C_PROTOTYPES
 ])
 
-# AC_DEFUN([jm_PREREQ_HASH],
-# [
-#   AC_CHECK_HEADERS(stdlib.h)
-#   AC_HEADER_STDBOOL
-#   AC_REQUIRE([jm_CHECK_DECLS])
-# ])
-
 # If you use human.c, you need the following files:
 # inttypes.m4 ulonglong.m4
 AC_DEFUN([jm_PREREQ_HUMAN],
