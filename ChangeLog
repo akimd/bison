@@ -1,3 +1,10 @@
+2003-05-03  Paul Eggert  <eggert@twinsun.com>
+
+	* lib/bitset.h (BITSET_FOR_EACH, BITSET_FOR_EACH_REVERSE):
+	Do not overrun array bounds.
+	This should fix a bug reported today by Olatunji Oluwabukunmi in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-05/msg00004.html>.
+
 2003-04-29  Akim Demaille  <akim@epita.fr>
 
 	* src/gram.h, src/gram.c (pure_parser, glr_parser): Move to...
