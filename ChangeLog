@@ -34,11 +34,6 @@
 	conflicts as expected.
 	* tests/regression.at (%expect right): Adjust.
 
-2001-11-25  Marc Autret  <autret_m@epita.fr>
-
-	* doc/bison.texinfo (Mystery Conflicts): Hint '-v' use.
-	From Golubev I. N.
-
 2001-11-23  Akim Demaille  <akim@epita.fr>
 
 	* lib/alloca.c: Update, from fileutils.
