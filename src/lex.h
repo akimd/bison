@@ -48,8 +48,6 @@ typedef enum token_e
     tok_number,
     tok_expect,
     tok_thong,
-    tok_hdrext,
-    tok_srcext,
     tok_noop,
     tok_setopt,
     tok_illegal,
