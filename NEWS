@@ -21,8 +21,8 @@ Changes in version 1.28c:
   of the #line lines with path names including backslashes.
 
 * New directives.
-  `%yacc', `%fixed_output_files', `%defines', `%no_parser', `%verbose' and
-  `%debug'.
+  `%yacc', `%fixed_output_files', `%defines', `%no_parser', `%verbose',
+  `%debug', `%source_extension' and `%header_extension'.
 
 Changes in version 1.28:
 

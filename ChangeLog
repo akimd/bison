@@ -1,5 +1,15 @@
 2001-08-14  Marc Autret  <autret_m@epita.fr>
 
+	Turn on %{source,header}_extension features.
+
+	* src/lex.c (percent_table): Un-CPP out header_extension and 
+	source_extension.
+	* src/files.c (compute_exts_from_gf): Compare pointers with NULL.
+	(compute_exts_from_src): Remove conditions. It restores priorities 
+	between options.
+
+2001-08-14  Marc Autret  <autret_m@epita.fr>
+
 	* src/files.c (compute_base_names): Add extensions computing when
 	`--file-prefix' used.
 	Standardize function calls.
