@@ -120,7 +120,7 @@ while (0)
 /* YYLEX -- calling `yylex' with the right arguments. */
 
 #if YYPURE
-# ifdef YYLSP_NEEDED
+# if YYLSP_NEEDED
 #  ifdef YYLEX_PARAM
 #   define YYLEX		yylex (&yylval, &yylloc, YYLEX_PARAM)
 #  else
@@ -147,7 +147,7 @@ int yychar;
 /* The semantic value of the lookahead symbol. */
 YYSTYPE yylval;
 
-# ifdef YYLSP_NEEDED
+# if YYLSP_NEEDED
 /* Location data for the lookahead symbol.  */
 YYLTYPE yylloc;
 # endif
@@ -291,14 +291,14 @@ yyparse (YYPARSE_PARAM_ARG)
   YYSTYPE *yyvs = yyvsa;
   register YYSTYPE *yyvsp;
 
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   /* The location stack.  */
   YYLTYPE yylsa[YYINITDEPTH];
   YYLTYPE *yyls = yylsa;
   YYLTYPE *yylsp;
 #endif
 
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
 # define YYPOPSTACK   (yyvsp--, yyssp--, yylsp--)
 #else
 # define YYPOPSTACK   (yyvsp--, yyssp--)
@@ -311,7 +311,7 @@ yyparse (YYPARSE_PARAM_ARG)
   int yychar;
   YYSTYPE yylval;
   int yynerrs;
-# ifdef YYLSP_NEEDED
+# if YYLSP_NEEDED
   YYLTYPE yylloc;
 # endif
 #endif /* !YYPURE */
@@ -320,7 +320,7 @@ yyparse (YYPARSE_PARAM_ARG)
   /* The variables used to return semantic value and location from the
      action routines.  */
   YYSTYPE yyval;
-# ifdef YYLSP_NEEDED
+# if YYLSP_NEEDED
   YYLTYPE yyloc;
 # endif
 
@@ -342,7 +342,7 @@ yyparse (YYPARSE_PARAM_ARG)
 
   yyssp = yyss - 1;
   yyvsp = yyvs;
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   yylsp = yyls;
 #endif
 
@@ -363,7 +363,7 @@ yynewstate:
 	 */
       YYSTYPE *yyvs1 = yyvs;
       short *yyss1 = yyss;
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
       YYLTYPE *yyls1 = yyls;
 #endif
 
@@ -373,7 +373,7 @@ yynewstate:
 #ifdef yyoverflow
       /* Each stack pointer address is followed by the size of
 	 the data in use in that stack, in bytes.  */
-# ifdef YYLSP_NEEDED
+# if YYLSP_NEEDED
       /* This used to be a conditional around just the two extra args,
 	 but that might be undefined if yyoverflow is a macro.  */
       yyoverflow ("parser stack overflow",
@@ -389,7 +389,7 @@ yynewstate:
 # endif
 
       yyss = yyss1; yyvs = yyvs1;
-# ifdef YYLSP_NEEDED
+# if YYLSP_NEEDED
       yyls = yyls1;
 # endif
 #else /* no yyoverflow */
@@ -401,7 +401,7 @@ yynewstate:
 	    {
 	      free (yyss);
 	      free (yyvs);
-# ifdef YYLSP_NEEDED
+# if YYLSP_NEEDED
 	      free (yyls);
 # endif
 	    }
@@ -419,7 +419,7 @@ yynewstate:
       yyvs = (YYSTYPE *) YYSTACK_ALLOC (yystacksize * sizeof (*yyvsp));
       __yy_memcpy ((char *)yyvs, (char *)yyvs1,
 		   size * (unsigned int) sizeof (*yyvsp));
-# ifdef YYLSP_NEEDED
+# if YYLSP_NEEDED
       yyls = (YYLTYPE *) YYSTACK_ALLOC (yystacksize * sizeof (*yylsp));
       __yy_memcpy ((char *)yyls, (char *)yyls1,
 		   size * (unsigned int) sizeof (*yylsp));
@@ -428,7 +428,7 @@ yynewstate:
 
       yyssp = yyss + size - 1;
       yyvsp = yyvs + size - 1;
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
       yylsp = yyls + size - 1;
 #endif
 
@@ -532,7 +532,7 @@ yybackup:
     yychar = YYEMPTY;
 
   *++yyvsp = yylval;
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   *++yylsp = yylloc;
 #endif
 
@@ -571,7 +571,7 @@ yyreduce:
      unconditionally makes the parser a bit smaller, and it avoids a
      GCC warning that YYVAL may be used uninitialized.  */
   yyval = yyvsp[1-yylen];
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   /* Implement default location.  If the rhs is empty, extend YYLOC to
      YYLLOC, which corresponds to the current token, otherwise
      implement `@{dollar} = Starts at @1, ends at @YYLEN'.  */
@@ -610,7 +610,7 @@ $ /* The action file replaces this line marked with this dollarsign. */
 
   yyvsp -= yylen;
   yyssp -= yylen;
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   yylsp -= yylen;
 #endif
 
@@ -626,7 +626,7 @@ $ /* The action file replaces this line marked with this dollarsign. */
 #endif
 
   *++yyvsp = yyval;
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   *++yylsp = yyloc;
 #endif
 
@@ -754,7 +754,7 @@ yyerrpop:
     YYABORT;
   yyvsp--;
   yystate = *--yyssp;
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   yylsp--;
 #endif
 
@@ -798,7 +798,7 @@ yyerrhandle:
   YYDPRINTF ((stderr, "Shifting error token, "));
 
   *++yyvsp = yylval;
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
   *++yylsp = yylloc;
 #endif
 
@@ -814,7 +814,7 @@ yyacceptlab:
     {
       free (yyss);
       free (yyvs);
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
       free (yyls);
 #endif
     }
@@ -829,7 +829,7 @@ yyabortlab:
     {
       free (yyss);
       free (yyvs);
-#ifdef YYLSP_NEEDED
+#if YYLSP_NEEDED
       free (yyls);
 #endif
     }

@@ -1,5 +1,11 @@
 2000-11-07  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (reader): #define YYLSP_NEEDED to 1 instead of just
+	defining.
+	* src/bison.s1: s/#ifdef YYLSP_NEEDED/#if YYLSP_NEEDED/.
+
+2000-11-07  Akim Demaille  <akim@epita.fr>
+
 	* src/bison.s1 (YYLEX): Use #if instead of #ifdef.
 	Merge in a single CPP if/else.
 
