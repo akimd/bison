@@ -1,3 +1,7 @@
+2001-08-07  Pascal Bart  <pascal.bart@epita.fr>
+
+	* tests/atconfig.in (CPPFLAGS): Fix.
+
 2001-08-07  Akim Demaille  <akim@epita.fr>
 
 	* src/print_graph.c (quote): New.
