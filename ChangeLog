@@ -1,3 +1,17 @@
+2003-04-17  Paul Eggert  <eggert@twinsun.com>
+
+	* src/conflicts.c (set_conflicts): Resolve all conflicts, not just
+	the first one.  This change is from Paul Hilfinger, and it fixes
+	regression reported by Werner Lemberg in
+	<http://mail.gnu.org/archive/html/bug-bison/2003-04/msg00026.html>.
+
+	(resolve_sr_conflict): Don't invoke state_errs_set
+	unless one or more tokens have been explicitly made errors.
+	Otherwise, the above change causes Bison to abort.
+
+	* tests/existing.at (GNU pic Grammar): New test case, taken from
+	Lemberg's email.
+
 2003-03-31  Akim Demaille  <akim@epita.fr>
 
 	* doc/Makefile.am (AM_MAKEINFOFLAGS): Don't split the info file.
