@@ -36,6 +36,10 @@ typedef struct symbol_list
   symbol_t *ruleprec;
 } symbol_list;
 
+symbol_list *symbol_list_new PARAMS ((symbol_t *sym, location_t location));
+symbol_list *symbol_list_prepend PARAMS ((symbol_list *list,
+					  symbol_t *sym, location_t location));
+
 # include "parse-gram.h"
 
 typedef struct gram_control_s

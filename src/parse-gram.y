@@ -88,6 +88,7 @@ int current_prec = 0;
 %union
 {
   symbol_t *symbol;
+  symbol_list *list;
   int integer;
   char *string;
   associativity assoc;
@@ -144,7 +145,7 @@ int current_prec = 0;
 %type <integer> INT
 %type <symbol> ID symbol string_as_id
 %type <assoc> precedence_declarator
-
+%type <list>  symbols.1
 %%
 
 input:
@@ -211,17 +212,28 @@ symbol_declaration:
       current_class = unknown_sym;
       current_type = NULL;
     }
-| "%type" TYPE {current_type = $2; } nterms_to_type.1
+| "%type" TYPE symbols.1
     {
-      current_type = NULL;
+      symbol_list *list;
+      for (list = $3; list; list = list->next)
+	symbol_type_set (list->sym, list->location, $2);
+      LIST_FREE (symbol_list, $3);
     }
 ;
 
 precedence_declaration:
-  precedence_declarator type.opt
-    { current_assoc = $1; ++current_prec; }
-  terms_to_prec.1
-    { current_assoc = non_assoc; current_type = NULL; }
+  precedence_declarator type.opt symbols.1
+    {
+      symbol_list *list;
+      ++current_prec;
+      for (list = $3; list; list = list->next)
+	{
+	  symbol_type_set (list->sym, list->location, current_type);
+	  symbol_precedence_set (list->sym, list->location, current_prec, $1);
+	}
+      LIST_FREE (symbol_list, $3);
+      current_type = NULL;
+    }
 ;
 
 precedence_declarator:
@@ -236,23 +248,10 @@ type.opt:
 ;
 
 /* One or more nonterminals to be %typed. */
-nterms_to_type.1:
-  ID                   { symbol_type_set ($1, current_type); }
-| nterms_to_type.1 ID  { symbol_type_set ($2, current_type); }
-;
 
-/* One or more symbols to be given a precedence/associativity.  */
-terms_to_prec.1:
-  symbol
-    {
-      symbol_type_set ($1, current_type);
-      symbol_precedence_set ($1, current_prec, current_assoc);
-    }
-| terms_to_prec.1 symbol
-    {
-      symbol_type_set ($2, current_type);
-      symbol_precedence_set ($2, current_prec, current_assoc);
-    }
+symbols.1:
+  symbol            { $$ = symbol_list_new ($1, @1); }
+| symbols.1 symbol  { $$ = symbol_list_prepend ($1, $2, @2); }
 ;
 
 /* One token definition.  */
@@ -264,24 +263,24 @@ symbol_def:
 | ID
      {
        symbol_class_set ($1, current_class);
-       symbol_type_set ($1, current_type);
+       symbol_type_set ($1, @1, current_type);
      }
 | ID INT
     {
       symbol_class_set ($1, current_class);
-      symbol_type_set ($1, current_type);
+      symbol_type_set ($1, @1, current_type);
       symbol_user_token_number_set ($1, $2);
     }
 | ID string_as_id
     {
       symbol_class_set ($1, current_class);
-      symbol_type_set ($1, current_type);
+      symbol_type_set ($1, @1, current_type);
       symbol_make_alias ($1, $2);
     }
 | ID INT string_as_id
     {
       symbol_class_set ($1, current_class);
-      symbol_type_set ($1, current_type);
+      symbol_type_set ($1, @1, current_type);
       symbol_user_token_number_set ($1, $2);
       symbol_make_alias ($1, $3);
     }

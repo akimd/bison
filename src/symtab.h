@@ -54,12 +54,13 @@ typedef short symbol_number_t;
 typedef struct symbol_s symbol_t;
 struct symbol_s
 {
-  /* The key, name of the symbol. */
+  /* The key, name of the symbol.  */
   char *tag;
-  /* Its type. */
+
+  /* Its %type.  */
   char *type_name;
 
-  /* The location of its first occurence. */
+  /* The location of its first occurence.  */
   location_t location;
 
   symbol_number_t number;
@@ -106,11 +107,12 @@ void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval));
 
 /* Set the TYPE_NAME associated to SYMBOL. Does nothing if passed 0 as
    TYPE_NAME.  */
-void symbol_type_set PARAMS ((symbol_t *symbol, char *type_name));
+void symbol_type_set PARAMS ((symbol_t *symbol, location_t location,
+			      char *type_name));
 
 /* Set the PRECEDENCE associated to SYMBOL.  Ensures that SYMBOL is a
    terminal.  Does nothing if invoked with UNDEF_ASSOC as ASSOC.  */
-void symbol_precedence_set PARAMS ((symbol_t *symbol,
+void symbol_precedence_set PARAMS ((symbol_t *symbol, location_t location,
 				    int prec, associativity assoc));
 
 /* Set the CLASS associated to SYMBOL.  */

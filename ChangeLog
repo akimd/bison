@@ -1,3 +1,14 @@
+2002-06-17  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.h, src/reader.c (symbol_list_new): Export it.
+	(symbol_list_prepend): New.
+	* src/parse-gram.y (%union): `list' is a new member.
+	(symbols.1): New, replaces...
+	(terms_to_prec.1, nterms_to_type.1): these.
+	* src/symtab.h, src/symtab.c (symbol_type_set, symbol_precedence_set)
+	Take a location as additional argument.
+	Adjust all callers.
+
 2002-06-15  Akim Demaille  <akim@epita.fr>
 
 	* src/parse-gram.y: Move %token in the declaration section so that

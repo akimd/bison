@@ -96,12 +96,13 @@
 #line 89 "parse-gram.y"
 typedef union {
   symbol_t *symbol;
+  symbol_list *list;
   int integer;
   char *string;
   associativity assoc;
 } yystype;
 /* Line 1271 of /usr/local/share/bison/bison.simple.  */
-#line 105 "y.tab.h"
+#line 106 "y.tab.h"
 # define YYSTYPE yystype
 #endif
 
