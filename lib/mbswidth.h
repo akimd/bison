@@ -1,5 +1,5 @@
 /* Determine the number of screen columns needed for a string.
-   Copyright (C) 2000-2001 Free Software Foundation, Inc.
+   Copyright (C) 2000-2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,14 +17,6 @@
 
 #include <stddef.h>
 
-#ifndef PARAMS
-# if __STDC__ || defined __GNUC__ || defined __SUNPRO_C || defined __cplusplus || __PROTOTYPES
-#  define PARAMS(Args) Args
-# else
-#  define PARAMS(Args) ()
-# endif
-#endif
-
 /* Optional flags to influence mbswidth/mbsnwidth behavior.  */
 
 /* If this bit is set, return -1 upon finding an invalid or incomplete
@@ -38,8 +30,8 @@
 
 /* Returns the number of screen columns needed for STRING.  */
 #define mbswidth gnu_mbswidth  /* avoid clash with UnixWare 7.1.1 function */
-extern int mbswidth PARAMS ((const char *string, int flags));
+extern int mbswidth (const char *string, int flags);
 
 /* Returns the number of screen columns needed for the NBYTES bytes
    starting at BUF.  */
-extern int mbsnwidth PARAMS ((const char *buf, size_t nbytes, int flags));
+extern int mbsnwidth (const char *buf, size_t nbytes, int flags);

@@ -22,6 +22,8 @@
 #ifndef QUOTEARG_H_
 # define QUOTEARG_H_ 1
 
+# include <stddef.h>
+
 /* Basic quoting styles.  */
 enum quoting_style
   {
@@ -45,37 +47,27 @@ extern enum quoting_style const quoting_style_vals[];
 
 struct quoting_options;
 
-# ifndef PARAMS
-#  if defined PROTOTYPES || defined __STDC__
-#   define PARAMS(Args) Args
-#  else
-#   define PARAMS(Args) ()
-#  endif
-# endif
-
 /* The functions listed below set and use a hidden variable
    that contains the default quoting style options.  */
 
 /* Allocate a new set of quoting options, with contents initially identical
    to O if O is not null, or to the default if O is null.
    It is the caller's responsibility to free the result.  */
-struct quoting_options *clone_quoting_options
-   PARAMS ((struct quoting_options *o));
+struct quoting_options *clone_quoting_options (struct quoting_options *o);
 
 /* Get the value of O's quoting style.  If O is null, use the default.  */
-enum quoting_style get_quoting_style PARAMS ((struct quoting_options *o));
+enum quoting_style get_quoting_style (struct quoting_options *o);
 
 /* In O (or in the default if O is null),
    set the value of the quoting style to S.  */
-void set_quoting_style PARAMS ((struct quoting_options *o,
-				enum quoting_style s));
+void set_quoting_style (struct quoting_options *o, enum quoting_style s);
 
 /* In O (or in the default if O is null),
    set the value of the quoting options for character C to I.
    Return the old value.  Currently, the only values defined for I are
    0 (the default) and 1 (which means to quote the character even if
    it would not otherwise be quoted).  */
-int set_char_quoting PARAMS ((struct quoting_options *o, char c, int i));
+int set_char_quoting (struct quoting_options *o, char c, int i);
 
 /* Place into buffer BUFFER (of size BUFFERSIZE) a quoted version of
    argument ARG (of size ARGSIZE), using O to control quoting.
@@ -85,38 +77,38 @@ int set_char_quoting PARAMS ((struct quoting_options *o, char c, int i));
    If BUFFERSIZE is too small to store the output string, return the
    value that would have been returned had BUFFERSIZE been large enough.
    If ARGSIZE is -1, use the string length of the argument for ARGSIZE.  */
-size_t quotearg_buffer PARAMS ((char *buffer, size_t buffersize,
-				char const *arg, size_t argsize,
-				struct quoting_options const *o));
+size_t quotearg_buffer (char *buffer, size_t buffersize,
+			char const *arg, size_t argsize,
+			struct quoting_options const *o);
 
 /* Use storage slot N to return a quoted version of the string ARG.
    Use the default quoting options.
    The returned value points to static storage that can be
    reused by the next call to this function with the same value of N.
    N must be nonnegative.  */
-char *quotearg_n PARAMS ((int n, char const *arg));
+char *quotearg_n (int n, char const *arg);
 
 /* Equivalent to quotearg_n (0, ARG).  */
-char *quotearg PARAMS ((char const *arg));
+char *quotearg (char const *arg);
 
 /* Use style S and storage slot N to return a quoted version of the string ARG.
    This is like quotearg_n (N, ARG), except that it uses S with no other
    options to specify the quoting method.  */
-char *quotearg_n_style PARAMS ((int n, enum quoting_style s, char const *arg));
+char *quotearg_n_style (int n, enum quoting_style s, char const *arg);
 
 /* Use style S and storage slot N to return a quoted version of the
    argument ARG of size ARGSIZE.  This is like quotearg_n_style
    (N, S, ARG), except it can quote null bytes.  */
-char *quotearg_n_style_mem PARAMS ((int n, enum quoting_style s,
-				    char const *arg, size_t argsize));
+char *quotearg_n_style_mem (int n, enum quoting_style s,
+			    char const *arg, size_t argsize);
 
 /* Equivalent to quotearg_n_style (0, S, ARG).  */
-char *quotearg_style PARAMS ((enum quoting_style s, char const *arg));
+char *quotearg_style (enum quoting_style s, char const *arg);
 
 /* Like quotearg (ARG), except also quote any instances of CH.  */
-char *quotearg_char PARAMS ((char const *arg, char ch));
+char *quotearg_char (char const *arg, char ch);
 
 /* Equivalent to quotearg_char (ARG, ':').  */
-char *quotearg_colon PARAMS ((char const *arg));
+char *quotearg_colon (char const *arg);
 
 #endif /* !QUOTEARG_H_ */
