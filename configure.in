@@ -96,7 +96,7 @@ jm_PREREQ_QUOTEARG
 jm_PREREQ_ERROR
 AM_WITH_DMALLOC
 
-ALL_LINGUAS="de es et fr ja nl ru sv tr"
+ALL_LINGUAS="de es et fr it ja nl ru sv tr"
 AM_GNU_GETTEXT(, need-ngettext)
 
 # This is necessary so that .o files in LIBOBJS are also built via

@@ -1,6 +1,7 @@
 Makefile Makefile.in
 *.aux *.dvi *.log *.info* *.pdf *.ps
 stamp-*
+auto
 bison.cp
 bison.cps
 bison.fn
