@@ -1,5 +1,14 @@
 2002-06-10  Akim Demaille  <akim@epita.fr>
 
+	* src/symtab.c (symbol_user_token_number_set): Don't complain when
+	assigning twice the same user number to a token, so that we can
+	use it in...
+	* src/lex.c (lex): here.
+	Also use `symbol_class_set' instead of hand written code.
+	* src/reader.c (parse_assoc_decl): Likewise.
+
+2002-06-10  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.c, src/symtab.c (symbol_class_set)
 	(symbol_user_token_number_set): New.
 	* src/reader.c (parse_token_decl): Use them.
