@@ -48,7 +48,16 @@ void gram_error (gram_control_t *control,
 		 location_t *loc, const char *msg);
 int gram_parse (void *control);
 
-extern int typed;
+/* The sort of braced code we are in.  */
+typedef enum braced_code_e
+  {
+    action_braced_code,
+    destructor_braced_code
+  } braced_code_t;
+/* FIXME: This is really a dirty hack which demonstrates that we
+   should probably not try to parse the actions now.  */
+extern braced_code_t current_braced_code;
+
 
 /* From reader.c. */
 void grammar_start_symbol_set PARAMS ((symbol_t *s, location_t l));
@@ -65,5 +74,6 @@ void grammar_current_rule_action_append PARAMS ((const char *action,
 						 location_t l));
 extern symbol_list_t *current_rule;
 void reader PARAMS ((void));
+extern int typed;
 
 #endif /* !READER_H_ */

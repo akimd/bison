@@ -432,7 +432,8 @@ m4_define([m4_bmatch],
 # of LIST (which can be lists themselves, for multiple arguments MACROs).
 m4_define([m4_fst], [$1])
 m4_define([m4_map],
-[m4_if([$2], [[]], [],
+[m4_if([$2], [], [],
+       [$2], [[]], [],
        [$1(m4_fst($2))[]dnl
 m4_map([$1], m4_cdr($2))])])
 

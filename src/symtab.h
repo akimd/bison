@@ -57,8 +57,9 @@ struct symbol_s
   /* The key, name of the symbol.  */
   char *tag;
 
-  /* Its %type.  */
+  /* Its %type and associated destructor.  */
   char *type_name;
+  char *destructor;
 
   /* The location of its first occurence.  */
   location_t location;
@@ -109,6 +110,10 @@ void symbol_make_alias PARAMS ((symbol_t *symbol, symbol_t *symval));
    TYPE_NAME.  */
 void symbol_type_set PARAMS ((symbol_t *symbol, location_t location,
 			      char *type_name));
+
+/* Set the DESTRUCTOR associated to SYMBOL.  */
+void symbol_destructor_set PARAMS ((symbol_t *symbol, location_t location,
+				    char *destructor));
 
 /* Set the PRECEDENCE associated to SYMBOL.  Ensures that SYMBOL is a
    terminal.  Does nothing if invoked with UNDEF_ASSOC as ASSOC.  */

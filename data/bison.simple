@@ -68,6 +68,10 @@ m4_define_default([b4_header_guard],
                                 [[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]], [_])])
 
 
+## ------------------------- ##
+## Assigning token numbers.  ##
+## ------------------------- ##
+
 # b4_token_define(TOKEN-NAME, TOKEN-NUMBER)
 # -----------------------------------------
 # Output the definition of this token as #define.
@@ -432,14 +436,12 @@ static const short yycheck[[]] =
   b4_check
 };
 
-#if YYDEBUG
 /* YYSTOS[[STATE-NUM]] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const b4_uint_type(b4_stos_max) yystos[[]] =
 {
   b4_stos
 };
-#endif
 
 #if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
 # define YYSIZE_T __SIZE_TYPE__
@@ -649,6 +651,7 @@ int yyparse (void *);
 int yyparse (void);
 # endif
 #endif
+static void yydestructor (int symbol_type, YYSTYPE symbol_value);
 
 /* YY_DECL_VARIABLES -- depending whether we use a pure parser,
    variables are global, or local to YYPARSE.  */
@@ -1123,6 +1126,7 @@ yyerrlab1:
 	YYABORT;
       YYDPRINTF ((stderr, "Discarding token %d (%s).\n",
 		  yychar, yytname[yychar1]));
+      yydestructor (yychar1, yylval);
       yychar = YYEMPTY;
     }
 
@@ -1169,6 +1173,7 @@ yyerrlab1:
 	}
 #endif
 
+      yydestructor (yystos[yystate], *yyvsp);
       yyvsp--;
       yystate = *--yyssp;
 #if YYLSP_NEEDED
@@ -1230,6 +1235,39 @@ yyreturn:
 #endif
   return yyresult;
 ]}
+
+/* Release the memory associated to SYMBOL-NUMBER. */
+m4_divert_push([KILL])# M4 code.
+# b4_eval
+# -------
+# FIXME: This is really wrong, we no longer guarantee we don't evaluate
+# the user's input.  This demonstrates that decoding actions (BRACED_CODE)
+# ought to be done when output, not when read.
+m4_define([b4_eval],
+[$*])
+
+# b4_symbol_destructor(SYMBOL-NUMBER, DESTRUCTOR, TYPE-NAME)
+# ----------------------------------------------------------
+m4_define([b4_symbol_destructor],
+[m4_pushdef([b4_dollar_dollar], [symbol_value.$3])dnl
+      case $1:
+        b4_eval($2);
+        break;
+m4_popdef([b4_dollar_dollar])])
+
+m4_divert_pop([KILL])dnl# End of M4 code.
+static void
+yydestructor (int symbol_type, YYSTYPE symbol_value)
+{
+  switch (symbol_type)
+    {
+m4_map([b4_symbol_destructor], m4_defn([b4_symbol_destructors]))dnl
+      default:
+        YYDPRINTF ((stderr, "yydestructor: unknown symbol type: %s\n",
+		    yytname[[symbol_type]]));
+        break;
+    }
+}
 
 b4_epilogue
 m4_if(b4_defines_flag, 0, [],

@@ -354,7 +354,16 @@ m4_bmatch([$1], [--debug],
 # Normalize the observed and expected error messages, depending upon the
 # options.
 # 1. Remove the traces from observed.
-egrep -v '^((Start|Enter|Read|Reduc|Shift)ing|state|Error:|Next|Discarding) ' stderr >at-stderr
+sed '/^Starting/d
+/^Entering/d
+/^Reading/d
+/^Reducing/d
+/^Shifting/d
+/^state/d
+/^Error:/d
+/^Next/d
+/^Discarding/d
+/^yydestructor:/d' stderr >at-stderr
 mv at-stderr stderr
 # 2. Create the reference error message.
 AT_DATA([[expout]],
@@ -406,18 +415,18 @@ _AT_CHECK_CALC([$1],
 (2^2)^3 = 64], [486])
 
 # Some parse errors.
-_AT_CHECK_CALC_ERROR([$1], [0 0], [11],
+_AT_CHECK_CALC_ERROR([$1], [0 0], [12],
                      [1.3-1.4: parse error, unexpected "number"])
-_AT_CHECK_CALC_ERROR([$1], [1//2], [15],
+_AT_CHECK_CALC_ERROR([$1], [1//2], [17],
                      [1.3-1.4: parse error, unexpected '/', expecting "number" or '-' or '('])
 _AT_CHECK_CALC_ERROR([$1], [error], [4],
                      [1.1-1.2: parse error, unexpected $undefined., expecting "number" or '-' or '\n' or '('])
-_AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3], [22],
+_AT_CHECK_CALC_ERROR([$1], [1 = 2 = 3], [25],
                      [1.7-1.8: parse error, unexpected '='])
 _AT_CHECK_CALC_ERROR([$1],
                      [
 +1],
-                     [14],
+                     [15],
                      [2.1-2.2: parse error, unexpected '+'])
 # Exercise error messages with EOF: work on an empty file.
 _AT_CHECK_CALC_ERROR([$1],
@@ -430,7 +439,7 @@ _AT_CHECK_CALC_ERROR([$1],
 # associated to `error'.
 _AT_CHECK_CALC_ERROR([$1],
                      [(1 ++ 2) + (0 0) = 1],
-                     [82],
+                     [91],
 [1.5-1.6: parse error, unexpected '+', expecting "number" or '-' or '('
 1.15-1.16: parse error, unexpected "number"
 calc: error: 0 != 1])

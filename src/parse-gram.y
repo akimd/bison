@@ -82,6 +82,7 @@ symbol_t *current_lhs;
 location_t current_lhs_location;
 associativity current_assoc;
 int current_prec = 0;
+braced_code_t current_braced_code = action_braced_code;
 %}
 
 
@@ -100,13 +101,14 @@ int current_prec = 0;
 %token STRING CHARACTER
 %token INT
 
-%token PERCENT_TOKEN "%token"
-%token PERCENT_NTERM "%nterm"
-%token PERCENT_TYPE  "%type"
-%token PERCENT_UNION "%union"
-%token PERCENT_LEFT     "%left"
-%token PERCENT_RIGHT    "%right"
-%token PERCENT_NONASSOC "%nonassoc"
+%token PERCENT_TOKEN       "%token"
+%token PERCENT_NTERM       "%nterm"
+%token PERCENT_TYPE        "%type"
+%token PERCENT_DESTRUCTOR  "%destructor"
+%token PERCENT_UNION       "%union"
+%token PERCENT_LEFT        "%left"
+%token PERCENT_RIGHT       "%right"
+%token PERCENT_NONASSOC    "%nonassoc"
 
 %token PERCENT_EXPECT "%expect"
 %token PERCENT_START "%start"
@@ -199,6 +201,16 @@ grammar_declaration:
       typed = 1;
       MUSCLE_INSERT_INT ("stype_line", @2.first_line);
       muscle_insert ("stype", $2);
+    }
+| "%destructor"
+    { current_braced_code = destructor_braced_code; }
+  BRACED_CODE symbols.1
+    {
+      symbol_list_t *list;
+      for (list = $4; list; list = list->next)
+	symbol_destructor_set (list->sym, list->location, $3);
+      symbol_list_free ($4);
+      current_braced_code = action_braced_code;
     }
 ;
 

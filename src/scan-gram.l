@@ -80,7 +80,8 @@ scanner_last_string_free (void)
 static int braces_level = 0;
 static int percent_percent_count = 0;
 
-static void handle_dollar PARAMS ((char *cp, location_t location));
+static void handle_action_dollar PARAMS ((char *cp, location_t location));
+static void handle_destructor_dollar PARAMS ((char *cp, location_t location));
 static void handle_at PARAMS ((char *cp));
 
 %}
@@ -122,6 +123,7 @@ blanks   [ \t\f]+
   "%debug"                return PERCENT_DEBUG;
   "%define"               return PERCENT_DEFINE;
   "%defines"              return PERCENT_DEFINES;
+  "%destructor"           return PERCENT_DESTRUCTOR;
   "%error"[-_]"verbose"   return PERCENT_ERROR_VERBOSE;
   "%expect"               return PERCENT_EXPECT;
   "%file-prefix"          return PERCENT_FILE_PREFIX;
@@ -441,8 +443,19 @@ blanks   [ \t\f]+
 
   "{"  	        YY_OBS_GROW; braces_level++;
 
-  "$"("<"[^>]+">")?(-?[0-9]+|"$") { handle_dollar (yytext, *yylloc); }
-  "@"(-?[0-9]+|"$")            { handle_at (yytext); }
+  "$"("<"[^>]+">")?(-?[0-9]+|"$") {
+    switch (current_braced_code)
+      {
+      case action_braced_code:
+	handle_action_dollar (yytext, *yylloc);
+	break;
+
+      case destructor_braced_code:
+	handle_destructor_dollar (yytext, *yylloc);
+	break;
+      }
+  }
+  "@"(-?[0-9]+|"$")               { handle_at (yytext); }
 
   [^$@\[\]/\'\"\{\}\n\r]+ YY_OBS_GROW;
   {eols}	YY_OBS_GROW; YY_LINES;
@@ -520,7 +533,7 @@ blanks   [ \t\f]+
 `------------------------------------------------------------------*/
 
 static void
-handle_dollar (char *cp, location_t location)
+handle_action_dollar (char *cp, location_t location)
 {
   const char *type_name = NULL;
 
@@ -578,7 +591,32 @@ handle_dollar (char *cp, location_t location)
     {
       char buf[] = "$c";
       buf[1] = *cp;
-      complain (_("%s is invalid"), quote (buf));
+      complain_at (location, _("%s is invalid"), quote (buf));
+    }
+}
+
+
+/*---------------------------------------------------------------.
+| CP is pointing to $$ in a destructor.  This should probably be |
+| done once the grammar completely parsed, instead of during its |
+| parsing, since that means %type must be specified before       |
+| %destructor.                                                   |
+`---------------------------------------------------------------*/
+
+static void
+handle_destructor_dollar (char *cp, location_t location)
+{
+  ++cp;
+  if (*cp == '$')
+    {
+      /* FIXME: We should find something more robust.  */
+      obstack_sgrow (&string_obstack, "b4_dollar_dollar");
+    }
+  else
+    {
+      char buf[] = "$c";
+      buf[1] = *cp;
+      complain_at (location, _("%s is invalid"), quote (buf));
     }
 }
 

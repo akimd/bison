@@ -88,8 +88,6 @@ AT_CLEANUP
 
 AT_SETUP([Exotic Dollars])
 
-# Make sure complex $n work.
-
 AT_DATA([[input.y]],
 [[%{
 # include <stdio.h>
@@ -149,6 +147,136 @@ AT_CHECK([bison input.y -d -v -o input.c])
 AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
 AT_CHECK([./input], 0,
 [[15
+]])
+
+AT_CLEANUP
+
+
+
+## ------------- ##
+## Destructors.  ##
+## ------------- ##
+
+AT_SETUP([Destructors])
+
+# Make sure complex $n work.
+
+AT_DATA([[input.y]],
+[[%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+#define YYERROR_VERBOSE 1
+#define YYDEBUG 1
+/* #define YYPRINT yyprint */
+
+static int yylex (void);
+static void yyerror (const char *msg);
+static void yyprint (FILE *out, int toknum, int tokval);
+%}
+
+%union
+{
+  int ival;
+}
+%type <ival> thing 'x'
+%destructor { printf ("Freeing thing %d\n", $$); } thing
+%destructor { printf ("Freeing 'x' %d\n", $$); } 'x'
+
+%%
+input:
+  /* Nothing. */
+| input line
+;
+
+line:
+  thing thing thing ';'
+    { printf ("input: thing(%d) thing(%d) thing(%d) ';'\n", $1, $2, $3); }
+| thing thing ';'
+    { printf ("input: thing(%d) thing(%d) ';'\n", $1, $2); }
+| thing ';'
+    { printf ("input: thing(%d) ';'\n", $1); }
+| error ';'
+    { printf ("input: error ';'\n"); }
+;
+
+thing:
+  'x'  { printf ("thing: 'x' (%d)\n", $1); $$ = $1; }
+;
+%%
+static int
+yylex (void)
+{
+  static const int input[] =
+    {
+      'x', 'x', 'x', 'x', 'x', 'x', ';',
+      'x', 'x', ';',
+      'x', ';',
+      'x', 'y', ';'
+    };
+  static int counter = 0;
+
+  if (counter < (sizeof(input) / sizeof (input[0])))
+    {
+       yylval.ival = counter;
+       return input[counter++];
+    }
+  else
+    return EOF;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stdout, "%s\n", msg);
+}
+
+static void
+yyprint (FILE *out, int toknum, int tokval)
+{
+  if (0 < toknum && toknum < 256)
+    fprintf (out, " = %d", tokval);
+}
+
+int
+main (void)
+{
+  yydebug = !!getenv ("YYDEBUG");
+  if (yyparse ())
+    {
+      fprintf (stdout, "Parsing FAILED.\n");
+      exit (1);
+    }
+  fprintf (stdout, "Successful parse.\n");
+  return 0;
+}
+]])
+
+AT_CHECK([bison input.y -d -v -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
+AT_CHECK([./input], 0,
+[[thing: 'x' (0)
+thing: 'x' (1)
+thing: 'x' (2)
+parse error, unexpected 'x', expecting ';'
+Freeing thing 2
+Freeing thing 1
+Freeing thing 0
+Freeing 'x' 3
+Freeing 'x' 4
+Freeing 'x' 5
+input: error ';'
+thing: 'x' (7)
+thing: 'x' (8)
+input: thing(7) thing(8) ';'
+thing: 'x' (10)
+input: thing(10) ';'
+thing: 'x' (12)
+parse error, unexpected $undefined., expecting 'x' or ';'
+Freeing thing 12
+input: error ';'
+Successful parse.
 ]])
 
 AT_CLEANUP

@@ -1,5 +1,25 @@
 2002-06-17  Akim Demaille  <akim@epita.fr>
 
+	* data/m4sugar/m4sugar.m4 (m4_map): Recognize when the list of
+	arguments is really empty, not only equal to `[]'.
+	* src/symtab.h, src/symtab.c (symbol_t): `destructor' is a new
+	member.
+	(symbol_destructor_set): New.
+	* src/output.c (symbol_destructors_output): New.
+	* src/reader.h (brace_code_t, current_braced_code): New.
+	* src/scan-gram.l (BRACED_CODE): Use it to branch on...
+	(handle_dollar): Rename as...
+	(handle_action_dollar): this.
+	(handle_destructor_dollar): New.
+	* src/parse-gram.y (PERCENT_DESTRUCTOR): New.
+	(grammar_declaration): Use it.
+	* data/bison.simple (yystos): Is always defined.
+	(yydestructor): New.
+	* tests/actions.at (Destructors): New.
+	* tests/calc.at (_AT_CHECK_CALC_ERROR): Don't rely on egrep.
+
+2002-06-17  Akim Demaille  <akim@epita.fr>
+
 	* src/symlist.h, src/symlist.c (symbol_list_length): New.
 	* src/scan-gram.l (handle_dollar, handle_at): Compute the
 	rule_length only when needed.
@@ -9,7 +29,6 @@
 	symbol_tag_get.
 	* src/parse-gram.y: Use symbol_list_free.
 
-	
 2002-06-17  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.h, src/reader.c (symbol_list, symbol_list_new)
@@ -21,7 +40,6 @@
 	* src/scan-gram.l (handle_dollar): Takes a location.
 	* tests/input.at (Invalid $n): Adjust.
 
-	
 2002-06-17  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.h, src/reader.c (symbol_list_new): Export it.
