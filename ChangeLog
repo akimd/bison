@@ -1,5 +1,11 @@
 2000-10-02  Akim Demaille  <akim@epita.fr>
 
+	* src/getargs.c (getargs): Don't dump `--help' on unrecognized
+	options.
+
+	
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
 	* src/derives.c, src/print.c, src/reduce.c: To ease the
 	translation, move some `\n' out of the translated strings.
 

@@ -8,6 +8,8 @@ Changes in version 1.28a:
 * NLS support updated; should hopefully be less troublesome.
 
 * Added the old Bison reference card.
+
+* Added `--locations' and `%locations'.
 
 Changes in version 1.28:
 
