@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.30c\n"
-"POT-Creation-Date: 2002-04-10 13:04+0200\n"
+"POT-Creation-Date: 2002-04-22 10:39+0200\n"
 "PO-Revision-Date: 2001-11-18 15:17+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -87,7 +87,7 @@ msgstr " %d skifta/reducera"
 msgid " %d reduce/reduce"
 msgstr " %d reducera/reducera"
 
-#: src/conflicts.c:380 src/reduce.c:442
+#: src/conflicts.c:380 src/reduce.c:391
 #, c-format
 msgid "%s contains "
 msgstr "%s innehåller "
@@ -283,11 +283,6 @@ msgstr "\"%s\" stödjer inga argument: %s"
 msgid "`%s' requires an argument"
 msgstr "\"%s\" behöver ett argument"
 
-#: src/output.c:834
-#, c-format
-msgid "maximum table size (%d) exceeded"
-msgstr "maximal tabellstorlek (%d) överskriden"
-
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -350,36 +345,36 @@ msgstr "    INGA ÅTGÄRDER\n"
 msgid "state %d"
 msgstr "tillstånd %d"
 
-#: src/print.c:369
+#: src/print.c:370
 msgid "Grammar"
 msgstr "Grammatik"
 
-#: src/print.c:370
+#: src/print.c:371
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:373
+#: src/print.c:374
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "regel %-4d %s ->"
 
-#: src/print.c:380
+#: src/print.c:381
 msgid "empty"
 msgstr "tom"
 
-#: src/print.c:387
+#: src/print.c:388
 msgid "Terminals, with rules where they appear"
 msgstr "Terminaler, med regler där de förekommer"
 
-#: src/print.c:410
+#: src/print.c:411
 msgid "Nonterminals, with rules where they appear"
 msgstr "Icketerminaler, med regler där de förekommer"
 
-#: src/print.c:436
+#: src/print.c:437
 msgid " on left:"
 msgstr " till vänster:"
 
-#: src/print.c:451
+#: src/print.c:452
 msgid " on right:"
 msgstr " till höger:"
 
@@ -602,12 +597,12 @@ msgstr "inga regler i ingrammatiken"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "för många symboler (element plus icketerminaler); max %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1743
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "startsymbolen %s är odefinierad"
 
-#: src/reader.c:1724
+#: src/reader.c:1745
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "startsymbolen %s är ett element"
@@ -624,7 +619,7 @@ msgstr "Terminaler som inte används:"
 msgid "Useless rules:"
 msgstr "Oanvändbara regler:"
 
-#: src/reduce.c:437
+#: src/reduce.c:386
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
@@ -633,23 +628,23 @@ msgstr[0] "%d regler reduceras aldrig\n"
 # Jag har anmält att det är fel att anta att "s" är en universell pluraländelse.
 # Jag föreslog också att de använder ngettext istället.
 # "Vad göras skall är redan gjort."
-#: src/reduce.c:445
+#: src/reduce.c:394
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d oanvändbara icketerminaler%.0s"
 
-#: src/reduce.c:451
+#: src/reduce.c:400
 msgid " and "
 msgstr " och "
 
-#: src/reduce.c:454
+#: src/reduce.c:403
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d oanvändbara regler%.0s"
 
-#: src/reduce.c:484
+#: src/reduce.c:433
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Startsymbolen %s genererar inga meningar"
@@ -723,6 +718,9 @@ msgstr "\""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "\""
+
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "maximal tabellstorlek (%d) överskriden"
 
 #, fuzzy
 #~ msgid "too many items (max %d)"

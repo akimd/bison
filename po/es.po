@@ -30,7 +30,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.25\n"
-"POT-Creation-Date: 2002-04-10 13:04+0200\n"
+"POT-Creation-Date: 2002-04-22 10:39+0200\n"
 "PO-Revision-Date: 2002-03-14 19:34+0100\n"
 "Last-Translator: Nicolás García-Pedrajas <ngarcia-pedrajas@acm.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -142,7 +142,7 @@ msgstr " %d desplazamiento(s)/reducción(ones)"
 msgid " %d reduce/reduce"
 msgstr " %d reducción(ones)/reducción(ones)"
 
-#: src/conflicts.c:380 src/reduce.c:442
+#: src/conflicts.c:380 src/reduce.c:391
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
@@ -317,16 +317,6 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: la opción `%s' requiere un argumento\n"
 
-# Únicamente cambio la posición del adjetivo `máximo'. En vez de después
-# de `tabla', después de `tamaño' - cll
-# en inglés era así, pero quizás en español sea mejor como dices
-# ngp
-#
-#: src/output.c:834
-#, fuzzy, c-format
-msgid "maximum table size (%d) exceeded"
-msgstr "excedido el tamaño máximo de la tabla (%s)"
-
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -393,27 +383,27 @@ msgstr ""
 "estado %d\n"
 "\n"
 
-#: src/print.c:369
+#: src/print.c:370
 #, fuzzy
 msgid "Grammar"
 msgstr ""
 "\n"
 "Gramática\n"
 
-#: src/print.c:370
+#: src/print.c:371
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:373
+#: src/print.c:374
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "regla %-4d %s ->"
 
-#: src/print.c:380
+#: src/print.c:381
 msgid "empty"
 msgstr ""
 
-#: src/print.c:387
+#: src/print.c:388
 #, fuzzy
 msgid "Terminals, with rules where they appear"
 msgstr ""
@@ -421,18 +411,18 @@ msgstr ""
 "Terminales con las reglas donde aparecen\n"
 "\n"
 
-#: src/print.c:410
+#: src/print.c:411
 #, fuzzy
 msgid "Nonterminals, with rules where they appear"
 msgstr ""
 "\n"
 "No terminales con las reglas donde aparecen\n"
 
-#: src/print.c:436
+#: src/print.c:437
 msgid " on left:"
 msgstr " en la izquierda:"
 
-#: src/print.c:451
+#: src/print.c:452
 msgid " on right:"
 msgstr " en la derecha:"
 
@@ -676,12 +666,12 @@ msgstr "no hay reglas en la gramática de entrada"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "demasiados símbolos (terminales y no terminales); máximo %s"
 
-#: src/reader.c:1722
+#: src/reader.c:1743
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "el símbolo de inicio (axioma) %s no está definido"
 
-#: src/reader.c:1724
+#: src/reader.c:1745
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "el símbolo de inicio (axioma) %s es un terminal"
@@ -711,29 +701,29 @@ msgstr ""
 "Reglas sin uso:\n"
 "\n"
 
-#: src/reduce.c:437
+#: src/reduce.c:386
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d reglas que nunca se han reducido\n"
 
-#: src/reduce.c:445
+#: src/reduce.c:394
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d no terminales %s sin uso"
 
-#: src/reduce.c:451
+#: src/reduce.c:400
 msgid " and "
 msgstr " y "
 
-#: src/reduce.c:454
+#: src/reduce.c:403
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d regla%s sin uso"
 
-#: src/reduce.c:484
+#: src/reduce.c:433
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "El símbolo de inicio (axioma) %s no deriva ninguna sentencia"
@@ -829,6 +819,15 @@ msgstr ""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr ""
+
+# Únicamente cambio la posición del adjetivo `máximo'. En vez de después
+# de `tabla', después de `tamaño' - cll
+# en inglés era así, pero quizás en español sea mejor como dices
+# ngp
+#
+#, fuzzy
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "excedido el tamaño máximo de la tabla (%s)"
 
 #, fuzzy
 #~ msgid "%-4s\terror (nonassociative)"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.31\n"
-"POT-Creation-Date: 2002-04-10 13:04+0200\n"
+"POT-Creation-Date: 2002-04-22 10:39+0200\n"
 "PO-Revision-Date: 2002-01-18 12:40 CET\n"
 "Last-Translator: Paolo Bonzini <bonzini@gnu.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -86,7 +86,7 @@ msgstr " %d shift/riduzione"
 msgid " %d reduce/reduce"
 msgstr " %d riduzione/riduzione"
 
-#: src/conflicts.c:380 src/reduce.c:442
+#: src/conflicts.c:380 src/reduce.c:391
 #, c-format
 msgid "%s contains "
 msgstr "%s contiene "
@@ -280,11 +280,6 @@ msgstr "`%s' non supporta argomenti: %s"
 msgid "`%s' requires an argument"
 msgstr "`%s' richiede un argomento"
 
-#: src/output.c:834
-#, c-format
-msgid "maximum table size (%d) exceeded"
-msgstr "ecceduta la dimensione massima di una tabella (%d)"
-
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -347,36 +342,36 @@ msgstr "    NESSUNA AZIONE\n"
 msgid "state %d"
 msgstr "stato %d"
 
-#: src/print.c:369
+#: src/print.c:370
 msgid "Grammar"
 msgstr "Grammatica"
 
-#: src/print.c:370
+#: src/print.c:371
 msgid "Number, Line, Rule"
 msgstr "Numero, Linea, Regola"
 
-#: src/print.c:373
+#: src/print.c:374
 #, c-format
 msgid "  %3d %3d %s ->"
 msgstr "  %3d %3d %s ->"
 
-#: src/print.c:380
+#: src/print.c:381
 msgid "empty"
 msgstr "vuoto"
 
-#: src/print.c:387
+#: src/print.c:388
 msgid "Terminals, with rules where they appear"
 msgstr "Simboli terminali e regole in cui appaiono"
 
-#: src/print.c:410
+#: src/print.c:411
 msgid "Nonterminals, with rules where they appear"
 msgstr "Simboli nonterminali e regole in cui appaiono"
 
-#: src/print.c:436
+#: src/print.c:437
 msgid " on left:"
 msgstr " nel primo membro:"
 
-#: src/print.c:451
+#: src/print.c:452
 msgid " on right:"
 msgstr " nel secondo membro:"
 
@@ -597,12 +592,12 @@ msgstr "nessuna regola nella grammatica di input"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "troppi simboli (token e nonterminali); il massimo è %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1743
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "simbolo iniziale %s non definito"
 
-#: src/reader.c:1724
+#: src/reader.c:1745
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "specificato il token %s come simbolo iniziale"
@@ -619,32 +614,32 @@ msgstr "Simboli terminali inutilizzati:"
 msgid "Useless rules:"
 msgstr "Regole inutili:"
 
-#: src/reduce.c:437
+#: src/reduce.c:386
 #, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d regola non applicata\n"
 msgstr[1] "%d regole non applicate\n"
 
-#: src/reduce.c:445
+#: src/reduce.c:394
 #, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d simbolo nonterminale inutilizzato"
 msgstr[1] "%d simboli nonterminali inutilizzati"
 
-#: src/reduce.c:451
+#: src/reduce.c:400
 msgid " and "
 msgstr " e "
 
-#: src/reduce.c:454
+#: src/reduce.c:403
 #, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d regola inutile"
 msgstr[1] "%d regole inutili"
 
-#: src/reduce.c:484
+#: src/reduce.c:433
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "dal simbolo iniziale %s non deriva alcuna frase"
@@ -715,6 +710,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "ecceduta la dimensione massima di una tabella (%d)"
 
 #~ msgid "too many items (max %d)"
 #~ msgstr "troppi elementi (max %d)"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.28\n"
-"POT-Creation-Date: 2002-04-10 13:04+0200\n"
+"POT-Creation-Date: 2002-04-22 10:39+0200\n"
 "PO-Revision-Date: 1999-09-28 21:10+0900\n"
 "Last-Translator: Daisuke Yamashita <yamad@mb.infoweb.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -84,7 +84,7 @@ msgstr " %d シフト/還元"
 msgid " %d reduce/reduce"
 msgstr " %d 還元/還元"
 
-#: src/conflicts.c:380 src/reduce.c:442
+#: src/conflicts.c:380 src/reduce.c:391
 #, c-format
 msgid "%s contains "
 msgstr "%s には"
@@ -253,11 +253,6 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: オプション `%s' は引数を要求します\n"
 
-#: src/output.c:834
-#, fuzzy, c-format
-msgid "maximum table size (%d) exceeded"
-msgstr "最大テーブルサイズ (%s) を超えました"
-
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -324,27 +319,27 @@ msgstr ""
 "状態 %d\n"
 "\n"
 
-#: src/print.c:369
+#: src/print.c:370
 #, fuzzy
 msgid "Grammar"
 msgstr ""
 "\n"
 "文法\n"
 
-#: src/print.c:370
+#: src/print.c:371
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:373
+#: src/print.c:374
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "規則 %-4d %s ->"
 
-#: src/print.c:380
+#: src/print.c:381
 msgid "empty"
 msgstr ""
 
-#: src/print.c:387
+#: src/print.c:388
 #, fuzzy
 msgid "Terminals, with rules where they appear"
 msgstr ""
@@ -352,7 +347,7 @@ msgstr ""
 "終端トークン、およびそこに現れた規則\n"
 "\n"
 
-#: src/print.c:410
+#: src/print.c:411
 #, fuzzy
 msgid "Nonterminals, with rules where they appear"
 msgstr ""
@@ -360,11 +355,11 @@ msgstr ""
 "非終端トークン、およびそこに現れた規則\n"
 "\n"
 
-#: src/print.c:436
+#: src/print.c:437
 msgid " on left:"
 msgstr " 左辺:"
 
-#: src/print.c:451
+#: src/print.c:452
 msgid " on right:"
 msgstr " 右辺:"
 
@@ -587,12 +582,12 @@ msgstr "入力した文法に規則が定義されていません"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "シンボルが多すぎます (トークンと非終端アイテム) -- 最大 %s"
 
-#: src/reader.c:1722
+#: src/reader.c:1743
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "開始シンボル %s は定義されていません"
 
-#: src/reader.c:1724
+#: src/reader.c:1745
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "開始シンボル %s はトークンです"
@@ -622,29 +617,29 @@ msgstr ""
 "不使用規則:\n"
 "\n"
 
-#: src/reduce.c:437
+#: src/reduce.c:386
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d 個の規則は決して還元されません\n"
 
-#: src/reduce.c:445
+#: src/reduce.c:394
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d 個の不使用非終端子%.0s"
 
-#: src/reduce.c:451
+#: src/reduce.c:400
 msgid " and "
 msgstr "および"
 
-#: src/reduce.c:454
+#: src/reduce.c:403
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d 個の不使用規則%.0s"
 
-#: src/reduce.c:484
+#: src/reduce.c:433
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "開始シンボル %s はどの文にも由来しません"
@@ -716,6 +711,10 @@ msgstr ""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr ""
+
+#, fuzzy
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "最大テーブルサイズ (%s) を超えました"
 
 #, fuzzy
 #~ msgid "too many items (max %d)"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.28d\n"
-"POT-Creation-Date: 2002-04-10 13:04+0200\n"
+"POT-Creation-Date: 2002-04-22 10:39+0200\n"
 "PO-Revision-Date: 2001-08-29 17:06+02:00\n"
 "Last-Translator: Toomas Soome <tsoome@ut.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -83,7 +83,7 @@ msgstr " %d nihutamine/redutseerimine"
 msgid " %d reduce/reduce"
 msgstr " %d redutseerimine/redutseerimine"
 
-#: src/conflicts.c:380 src/reduce.c:442
+#: src/conflicts.c:380 src/reduce.c:391
 #, c-format
 msgid "%s contains "
 msgstr "%s sisaldab "
@@ -276,11 +276,6 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: võti `%s' nõuab argumenti\n"
 
-#: src/output.c:834
-#, c-format
-msgid "maximum table size (%d) exceeded"
-msgstr "ületati maksimaalset tabelisuurust (%d)"
-
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -343,36 +338,36 @@ msgstr "    TEGEVUSI POLE\n"
 msgid "state %d"
 msgstr "olek %d"
 
-#: src/print.c:369
+#: src/print.c:370
 msgid "Grammar"
 msgstr "Grammatika"
 
-#: src/print.c:370
+#: src/print.c:371
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:373
+#: src/print.c:374
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "reegel %-4d %s ->"
 
-#: src/print.c:380
+#: src/print.c:381
 msgid "empty"
 msgstr ""
 
-#: src/print.c:387
+#: src/print.c:388
 msgid "Terminals, with rules where they appear"
 msgstr "Terminalid, koos reeglitega, kus nad ilmuvad"
 
-#: src/print.c:410
+#: src/print.c:411
 msgid "Nonterminals, with rules where they appear"
 msgstr "Mitteterminalid, koos reeglitega, kus nad ilmuvad"
 
-#: src/print.c:436
+#: src/print.c:437
 msgid " on left:"
 msgstr " vasakul:"
 
-#: src/print.c:451
+#: src/print.c:452
 msgid " on right:"
 msgstr " paremal:"
 
@@ -595,12 +590,12 @@ msgstr "sisendgrammatikas pole reegleid"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "liiga palju sümboleid (märgid ja mitteterminalid); maksimaalne on %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1743
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "stardisümbol %s ei ole defineeritud"
 
-#: src/reader.c:1724
+#: src/reader.c:1745
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "stardisümbol %s on märk"
@@ -617,29 +612,29 @@ msgstr "Terminalid, mida ei kasutatud:"
 msgid "Useless rules:"
 msgstr "Kasutamata reeglid:"
 
-#: src/reduce.c:437
+#: src/reduce.c:386
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d reeglit ei redutseeritud\n"
 
-#: src/reduce.c:445
+#: src/reduce.c:394
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d kasutamata mitteterminali%s"
 
-#: src/reduce.c:451
+#: src/reduce.c:400
 msgid " and "
 msgstr " ja "
 
-#: src/reduce.c:454
+#: src/reduce.c:403
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d kasutamata reeglit%s"
 
-#: src/reduce.c:484
+#: src/reduce.c:433
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Stardisümbolist %s ei tuletata ühtegi lauset"
@@ -710,6 +705,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "ületati maksimaalset tabelisuurust (%d)"
 
 #, fuzzy
 #~ msgid "too many items (max %d)"

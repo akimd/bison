@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2002-04-10 13:04+0200\n"
+"POT-Creation-Date: 2002-04-22 10:39+0200\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -84,7 +84,7 @@ msgstr " %d сдвиг/вывод"
 msgid " %d reduce/reduce"
 msgstr " %d вывод/вывод"
 
-#: src/conflicts.c:380 src/reduce.c:442
+#: src/conflicts.c:380 src/reduce.c:391
 #, c-format
 msgid "%s contains "
 msgstr "%s содержит "
@@ -281,11 +281,6 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: ключ `%s' должен использоваться с аргументом\n"
 
-#: src/output.c:834
-#, c-format
-msgid "maximum table size (%d) exceeded"
-msgstr "превышен максимальный размер таблицы (%d)"
-
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -348,36 +343,36 @@ msgstr "    НЕТ ДЕЙСТВИЙ\n"
 msgid "state %d"
 msgstr "состояние %d"
 
-#: src/print.c:369
+#: src/print.c:370
 msgid "Grammar"
 msgstr "Грамматика"
 
-#: src/print.c:370
+#: src/print.c:371
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:373
+#: src/print.c:374
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "правило %-4d %s ->"
 
-#: src/print.c:380
+#: src/print.c:381
 msgid "empty"
 msgstr ""
 
-#: src/print.c:387
+#: src/print.c:388
 msgid "Terminals, with rules where they appear"
 msgstr "Терминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:410
+#: src/print.c:411
 msgid "Nonterminals, with rules where they appear"
 msgstr "Нетерминальные символы с правилами, в которых они появляются"
 
-#: src/print.c:436
+#: src/print.c:437
 msgid " on left:"
 msgstr " налево:"
 
-#: src/print.c:451
+#: src/print.c:452
 msgid " on right:"
 msgstr " направо:"
 
@@ -599,12 +594,12 @@ msgstr "отсутствуют правила во входной грамматике"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"
 
-#: src/reader.c:1722
+#: src/reader.c:1743
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "начальный символ %s неопределен"
 
-#: src/reader.c:1724
+#: src/reader.c:1745
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
@@ -621,29 +616,29 @@ msgstr "Неиспользованные терминалы:"
 msgid "Useless rules:"
 msgstr "Бесполезные правила:"
 
-#: src/reduce.c:437
+#: src/reduce.c:386
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d правил не сведено\n"
 
-#: src/reduce.c:445
+#: src/reduce.c:394
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d бесполезных нетерминалов%s"
 
-#: src/reduce.c:451
+#: src/reduce.c:400
 msgid " and "
 msgstr " и "
 
-#: src/reduce.c:454
+#: src/reduce.c:403
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d бесполезных правил%s"
 
-#: src/reduce.c:484
+#: src/reduce.c:433
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "Начальный символ %s не выводит ни одного предложения"
@@ -714,6 +709,9 @@ msgstr "`"
 #: lib/quotearg.c:275
 msgid "'"
 msgstr "'"
+
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "превышен максимальный размер таблицы (%d)"
 
 #, fuzzy
 #~ msgid "too many items (max %d)"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.25\n"
-"POT-Creation-Date: 2002-04-10 13:04+0200\n"
+"POT-Creation-Date: 2002-04-22 10:39+0200\n"
 "PO-Revision-Date: 1996-10-10 17:54 MET DST\n"
 "Last-Translator: Ulrich Drepper <drepper@gnu.ai.mit.edu>\n"
 "Language-Team: German <de@li.org>\n"
@@ -84,7 +84,7 @@ msgstr " %d Schiebe/Reduziere"
 msgid " %d reduce/reduce"
 msgstr " %d Reduziere/Reduziere"
 
-#: src/conflicts.c:380 src/reduce.c:442
+#: src/conflicts.c:380 src/reduce.c:391
 #, c-format
 msgid "%s contains "
 msgstr "%s enthält "
@@ -254,11 +254,6 @@ msgstr ""
 msgid "`%s' requires an argument"
 msgstr "%s: die Option »%s« erfordert ein Argument\n"
 
-#: src/output.c:834
-#, fuzzy, c-format
-msgid "maximum table size (%d) exceeded"
-msgstr "maximale Tabellengröße (%s) überschritten"
-
 #: src/print.c:46
 #, c-format
 msgid " type %d is %s\n"
@@ -325,27 +320,27 @@ msgstr ""
 "Zustand %d\n"
 "\n"
 
-#: src/print.c:369
+#: src/print.c:370
 #, fuzzy
 msgid "Grammar"
 msgstr ""
 "\n"
 "Grammatik\n"
 
-#: src/print.c:370
+#: src/print.c:371
 msgid "Number, Line, Rule"
 msgstr ""
 
-#: src/print.c:373
+#: src/print.c:374
 #, fuzzy, c-format
 msgid "  %3d %3d %s ->"
 msgstr "Regel %-4d %s ->"
 
-#: src/print.c:380
+#: src/print.c:381
 msgid "empty"
 msgstr ""
 
-#: src/print.c:387
+#: src/print.c:388
 #, fuzzy
 msgid "Terminals, with rules where they appear"
 msgstr ""
@@ -353,7 +348,7 @@ msgstr ""
 "Terminale und die Regeln un denen sie verwendet werden\n"
 "\n"
 
-#: src/print.c:410
+#: src/print.c:411
 #, fuzzy
 msgid "Nonterminals, with rules where they appear"
 msgstr ""
@@ -361,11 +356,11 @@ msgstr ""
 "Nicht-Terminal und die Regeln in denen sie verwendet werden\n"
 "\n"
 
-#: src/print.c:436
+#: src/print.c:437
 msgid " on left:"
 msgstr " auf der linken Seite:"
 
-#: src/print.c:451
+#: src/print.c:452
 msgid " on right:"
 msgstr " auf der rechten Seite:"
 
@@ -591,12 +586,12 @@ msgstr "Eingabegrammatik enthält keine Regeln"
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "zu viele Symbols (Token plus Nicht-Terminal); Maximum %s"
 
-#: src/reader.c:1722
+#: src/reader.c:1743
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "das Startsymbol %s ist undefiniert"
 
-#: src/reader.c:1724
+#: src/reader.c:1745
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "das Startsymbol %s ist ein Token"
@@ -626,29 +621,29 @@ msgstr ""
 "Ungenutzte Regeln:\n"
 "\n"
 
-#: src/reduce.c:437
+#: src/reduce.c:386
 #, fuzzy, c-format
 msgid "%d rule never reduced\n"
 msgid_plural "%d rules never reduced\n"
 msgstr[0] "%d wurde niemals reduziert\n"
 
-#: src/reduce.c:445
+#: src/reduce.c:394
 #, fuzzy, c-format
 msgid "%d useless nonterminal"
 msgid_plural "%d useless nonterminals"
 msgstr[0] "%d ungenutzte Nicht-Terminal"
 
-#: src/reduce.c:451
+#: src/reduce.c:400
 msgid " and "
 msgstr " und "
 
-#: src/reduce.c:454
+#: src/reduce.c:403
 #, fuzzy, c-format
 msgid "%d useless rule"
 msgid_plural "%d useless rules"
 msgstr[0] "%d ungenutzte Regel"
 
-#: src/reduce.c:484
+#: src/reduce.c:433
 #, c-format
 msgid "Start symbol %s does not derive any sentence"
 msgstr "es lassen sich keine Sätze vom Startsymbol %s ableiten"
@@ -720,6 +715,10 @@ msgstr ""
 #: lib/quotearg.c:275
 msgid "'"
 msgstr ""
+
+#, fuzzy
+#~ msgid "maximum table size (%d) exceeded"
+#~ msgstr "maximale Tabellengröße (%s) überschritten"
 
 #, fuzzy
 #~ msgid "%-4s\terror (nonassociative)"

@@ -43,7 +43,6 @@
 	* src/print_graph.c, src/reader.c, src/reduce.c, src/state.h,
 	* src/symtab.c, src/symtab.h: Use token_number_t instead of shorts.
 
-	
 2002-04-22  Akim Demaille  <akim@epita.fr>
 
 	* src/output.h, src/output.c (get_lines_number): Remove.
