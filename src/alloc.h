@@ -24,7 +24,7 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #ifdef __STDC__
 #define	FREE(x)		(x ? (void) free((char *) (x)) : (void)0)
 #else
-#define	FREE(x)		(x && free((char *) (x)))
+#define FREE(x) 	((x) != 0 && (free ((char *) (x)), 0))
 #endif
 
 extern	char *xmalloc();
