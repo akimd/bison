@@ -42,6 +42,7 @@ $(srcdir)/package.m4: $(top_srcdir)/configure.ac
 ## ------------ ##
 
 TESTSUITE_AT = \
+	local.at \
 	testsuite.at \
 	input.at \
 	output.at sets.at reduce.at \

@@ -54,8 +54,6 @@ typedef int value;
 
 static value global_result = 0;
 static int global_count = 0;
-
-]AT_LALR1_CC_IF([typedef yy::Location YYLTYPE;])[
 %}
 
 /* Exercise %union. */
@@ -66,8 +64,8 @@ static int global_count = 0;
 
 %{
 static int power (int base, int exponent);
-]AT_LALR1_CC_IF([], [
-/* yyerror receives the location if:
+]AT_LALR1_CC_IF([typedef yy::Location YYLTYPE;],
+[/* yyerror receives the location if:
    - %location & %pure & %glr
    - %location & %pure & %yacc & %parse-param. */
 static void yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])
@@ -143,8 +141,7 @@ yy::Parser::error_ ()
 int
 yyparse (void)
 {
-  yy::Parser parser = yy::Parser (!!YYDEBUG[]AT_LOCATION_IF([,
-                                  yy::Location::Location ()]));
+  yy::Parser parser (!!YYDEBUG[]AT_LOCATION_IF([, yy::Location::Location ()]));
   return parser.parse ();
 }
 ],
@@ -426,100 +423,6 @@ AT_CHECK([cat stderr], 0, [expout])
 ])
 
 
-# AT_CALC_PUSHDEFS($1, $2, [BISON-OPTIONS])
-# -----------------------------------------
-# This macro works around the impossibility to define macros
-# inside macros, because issuing `[$1]' is not possible in M4 :(.
-# This sucks hard, GNU M4 should really provide M5 like $$1.
-m4_define([AT_CHECK_PUSHDEFS],
-[m4_if([$1$2], $[1]$[2], [],
-       [m4_fatal([$0: Invalid arguments: $@])])dnl
-m4_pushdef([AT_LALR1_CC_IF],
-[m4_bmatch([$3], ["lalr1.cc"], [$1], [$2])])
-m4_pushdef([AT_GLR_IF],
-[m4_bmatch([$3], [%glr-parser], [$1], [$2])])
-# Using yacc.c?
-m4_pushdef([AT_YACC_IF],
-[m4_bmatch([$3], [%glr-parser\|%skeleton], [$2], [$1])])
-m4_pushdef([AT_PARAM_IF],
-[m4_bmatch([$3], [%parse-param], [$1], [$2])])
-m4_pushdef([AT_LOCATION_IF],
-[m4_bmatch([$3], [%locations], [$1], [$2])])
-m4_pushdef([AT_PURE_IF],
-[m4_bmatch([$3], [%pure-parser], [$1], [$2])])
-m4_pushdef([AT_PURE_AND_LOC_IF],
-[m4_bmatch([$3], [%locations.*%pure-parser\|%pure-parser.*%locations],
-           [$1], [$2])])
-m4_pushdef([AT_GLR_OR_PARAM_IF],
-[m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
-
-# yyerror receives the location if %location & %pure & (%glr or %parse-param).
-m4_pushdef([AT_YYERROR_ARG_LOC_IF],
-[AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
-                    [$2])])
-# yyerror always sees the locations (when activated), except if
-# yacc & pure & !param.
-m4_pushdef([AT_YYERROR_SEES_LOC_IF],
-[AT_LOCATION_IF([AT_YACC_IF([AT_PURE_IF([AT_PARAM_IF([$1], [$2])],
-                                        [$1])],
-                            [$1])],
-                [$2])])
-
-# The interface is pure: either because %pure-parser, or because we
-# are using the C++ parsers.
-m4_pushdef([AT_PURE_LEX_IF],
-[AT_PURE_IF([$1],
-            [AT_LALR1_CC_IF([$1], [$2])])])
-
-AT_PURE_LEX_IF(
-[m4_pushdef([AT_LOC], [(*yylloc)])
- m4_pushdef([AT_VAL], [(*yylval)])
- m4_pushdef([AT_LEX_FORMALS],
-            [YYSTYPE *yylval[]AT_LOCATION_IF([, YYLTYPE *yylloc])])
- m4_pushdef([AT_LEX_ARGS],
-            [yylval[]AT_LOCATION_IF([, yylloc])])
- m4_pushdef([AT_USE_LEX_ARGS],
-            [(void) yylval;AT_LOCATION_IF([(void) yylloc])])
- m4_pushdef([AT_LEX_PRE_FORMALS],
-            [AT_LEX_FORMALS, ])
- m4_pushdef([AT_LEX_PRE_ARGS],
-            [AT_LEX_ARGS, ])
-],
-[m4_pushdef([AT_LOC], [(yylloc)])
- m4_pushdef([AT_VAL], [(yylval)])
- m4_pushdef([AT_LEX_FORMALS],     [void])
- m4_pushdef([AT_LEX_ARGS],        [])
- m4_pushdef([AT_USE_LEX_ARGS],    [])
- m4_pushdef([AT_LEX_PRE_FORMALS], [])
- m4_pushdef([AT_LEX_PRE_ARGS],    [])
-])
-])# AT_CALC_PUSHDEFS
-
-
-# AT_CALC_POPDEFS
-# ---------------
-m4_define([AT_CHECK_POPDEFS],
-[m4_popdef([AT_LEX_PRE_ARGS])
-m4_popdef([AT_LEX_PRE_FORMALS])
-m4_popdef([AT_USE_LEX_ARGS])
-m4_popdef([AT_LEX_ARGS])
-m4_popdef([AT_LEX_FORMALS])
-m4_popdef([AT_VAL])
-m4_popdef([AT_LOC])
-m4_popdef([AT_PURE_LEX_IF])
-m4_popdef([AT_YYERROR_SEES_LOC_IF])
-m4_popdef([AT_YYERROR_ARG_LOC_IF])
-m4_popdef([AT_GLR_OR_PARAM_IF])
-m4_popdef([AT_PURE_AND_LOC_IF])
-m4_popdef([AT_LOCATION_IF])
-m4_popdef([AT_PARAM_IF])
-m4_popdef([AT_YACC_IF])
-m4_popdef([AT_GLR_IF])
-m4_popdef([AT_LALR1_CC_IF])
-])
-
-
-
 # AT_CHECK_CALC([BISON-OPTIONS])
 # ------------------------------
 # Start a testing chunk which compiles `calc' grammar with
@@ -528,18 +431,15 @@ m4_define([AT_CHECK_CALC],
 [# We use integers to avoid dependencies upon the precision of doubles.
 AT_SETUP([Calculator $1])
 
-AT_CHECK_PUSHDEFS($[1], $[2], [$1])
+AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison -o calc.c calc.y],
-         [0], [], [])
+AT_CHECK([bison -o calc.c calc.y])
 
-AT_LALR1_CC_IF(
-[AT_CHECK([$CXX --version || exit 77], 0, ignore, ignore)
-AT_COMPILE_CXX([calc])],
-[AT_COMPILE([calc])])
+AT_LALR1_CC_IF([AT_COMPILE_CXX([calc])],
+               [AT_COMPILE([calc])])
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],
@@ -606,7 +506,7 @@ calc: error: 4444 != 1])
 _AT_CHECK_CALC_ERROR([$1], [0], [(!) + (0 0) = 1], [64],
 [1.9: syntax error, unexpected "number"
 calc: error: 2222 != 1])
-AT_CHECK_POPDEFS
+AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
 ])# AT_CHECK_CALC

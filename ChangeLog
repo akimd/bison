@@ -1,3 +1,17 @@
+2003-03-02  Akim Demaille  <akim@epita.fr>
+
+	Create tests/local.at for Bison generic testing macros.
+
+	* tests/calc.at (AT_CHECK_PUSHDEFS, AT_CHECK_POPDEFS): Move to...
+	* tests/local.at (AT_BISON_OPTION_PUSHDEFS, AT_BISON_OPTION_POPDEFS):
+	This new file.
+	* tests/calc.at (AT_CHECK_CALC): Adjust.
+	* tests/testsuite.at (AT_DATA_GRAMMAR_PROLOGUE, AT_DATA_GRAMMAR)
+	(AT_COMPILE, AT_COMPILE_CXX, AT_PARSER_CHECK): Move to...
+	* tests/local.at: here.
+	(AT_COMPILE_CXX): Tags the tests using it as c++.
+	Ignore the test if CXX is not functional.
+
 2003-03-01  Paul Eggert  <eggert@twinsun.com>
 
 	* src/scan-gram.l (code_start): Initialize it to scanner_cursor,

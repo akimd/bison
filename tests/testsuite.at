@@ -18,58 +18,11 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 
-# We need a recent Autotest.
-m4_version_prereq([2.52g])
+# We want a recent Autotest.
+m4_version_prereq([2.57])
 
-
-# AT_DATA_GRAMMAR_PROLOGUE
-# ------------------------
-# The prologue that should be included in any grammar which parser is
-# meant to be compiled.
-m4_define([AT_DATA_GRAMMAR_PROLOGUE],
-[[%{
-#if HAVE_CONFIG_H
-# include <config.h>
-  /* We don't need perfect functions for these tests. */
-# undef malloc
-# undef memcmp
-# undef realloc
-#endif
-%}]
-])
-
-
-# AT_DATA_GRAMMAR(NAME, CONTENT)
-# ------------------------------
-# Generate the file NAME, which CONTENT is preceded by
-# AT_DATA_GRAMMAR_PROLOGUE.
-m4_define([AT_DATA_GRAMMAR],
-[AT_DATA([$1],
-[AT_DATA_GRAMMAR_PROLOGUE
-$2])
-])
-
-
-# AT_COMPILE(OUTPUT, [SOURCES = OUTPUT.c])
-# ----------------------------------------
-# Compile SOURCES into OUTPUT.  If OUTPUT does not contain '.',
-# assume that we are linking too; this is a hack.
-m4_define([AT_COMPILE],
-[AT_CHECK([$CC $CFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])m4_default([$2], [$1.c]) m4_bmatch([$1], [[.]], [], [$LIBS ])-o $1],
-	   0, [], [ignore])])
-
-# AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.c])
-# --------------------------------------------
-m4_define([AT_COMPILE_CXX],
-[AT_CHECK([$CXX $CFLAGS $CPPFLAGS m4_default([$2], [$1.c]) -o $1], 0,
-          [], [ignore])])
-
-
-# AT_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR)
-# -----------------------------------------------------
-# So that we can run `./testsuite PREPARSER='valgrind -q' for instance.
-m4_define([AT_PARSER_CHECK],
-[AT_CHECK([$PREPARSER $1], [$2], [$3], [$4])])
+# Helping macros.
+m4_include([local.at])
 
 AT_INIT
 
