@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.29\n"
-"POT-Creation-Date: 2001-11-02 18:54+0100\n"
+"POT-Creation-Date: 2001-11-05 10:24+0100\n"
 "PO-Revision-Date: 2001-09-09 13:49+04:00\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -140,16 +140,16 @@ msgstr "не удается закрыть файл"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:83
+#: src/getargs.c:84
 msgid "GNU bison generates parsers for LALR(1) grammars.\n"
 msgstr "GNU bison генерирует анализаторы для грамматик LALR(1).\n"
 
-#: src/getargs.c:87
+#: src/getargs.c:88
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Использование: %s [КЛЮЧИ]... ФАЙЛ\n"
 
-#: src/getargs.c:91
+#: src/getargs.c:92
 msgid ""
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
@@ -158,7 +158,7 @@ msgstr ""
 "является обязательным для короткой формы.  То же касается необязательных\n"
 "аргументов.\n"
 
-#: src/getargs.c:97
+#: src/getargs.c:98
 msgid ""
 "Operation modes:\n"
 "  -h, --help      display this help and exit\n"
@@ -170,7 +170,7 @@ msgstr ""
 "  -V, --version   вывести информацию о версии и выйти\n"
 "  -y, --yacc      эмулировать POSIX yacc\n"
 
-#: src/getargs.c:104
+#: src/getargs.c:105
 msgid ""
 "Parser:\n"
 "  -S, --skeleton=FILE        specify the skeleton to use\n"
@@ -190,14 +190,15 @@ msgstr ""
 "  -n, --no-parser            генерировать только таблицы\n"
 "  -k, --token-table          включить таблицу имен лексем\n"
 
-#: src/getargs.c:116
+#: src/getargs.c:117
+#, fuzzy
 msgid ""
 "Output:\n"
 "  -d, --defines              also produce a header file\n"
 "  -v, --verbose              also produce an explanation of the automaton\n"
 "  -b, --file-prefix=PREFIX   specify a PREFIX for output files\n"
-"  -o, --output-file=FILE     leave output to FILE\n"
-"  -g, --graph                also produce a VCG graph description of the "
+"  -o, --output=FILE          leave output to FILE\n"
+"  -g, --graph                also produce a VCG description of the "
 "automaton\n"
 msgstr ""
 "Вывод:\n"
@@ -208,24 +209,24 @@ msgstr ""
 "  -g, --graph                создать также пояснения к автомату в виде \n"
 "VCG-графа\n"
 
-#: src/getargs.c:126
+#: src/getargs.c:127
 msgid "Report bugs to <bug-bison@gnu.org>.\n"
 msgstr "Ошибки сообщайте по адресу <bug-bison@gnu.org>.\n"
 
 #. Some efforts were made to ease the translators' task, please
 #. continue.
-#: src/getargs.c:140
+#: src/getargs.c:141
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:145
+#: src/getargs.c:146
 msgid ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 msgstr ""
 "Copyright 1984, 1986, 1989, 1992, 2000, 2001 Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:149
+#: src/getargs.c:150
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -236,22 +237,22 @@ msgstr ""
 "ПРИГОДНОСТИ\n"
 "ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ.\n"
 
-#: src/getargs.c:214 src/lex.c:651
+#: src/getargs.c:215 src/lex.c:693
 #, c-format
 msgid "`%s' is no longer supported"
 msgstr "`%s' больше не поддерживается"
 
-#: src/getargs.c:238
+#: src/getargs.c:239
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Используйте `%s --help' для дополнительной информации.\n"
 
-#: src/getargs.c:245
+#: src/getargs.c:246
 #, c-format
 msgid "%s: no grammar file given\n"
 msgstr "%s: не задан файл с грамматикой\n"
 
-#: src/getargs.c:249
+#: src/getargs.c:250
 #, c-format
 msgid "%s: extra arguments ignored after `%s'\n"
 msgstr "%s: лишние аргументы после `%s' игнорированы\n"
@@ -261,48 +262,58 @@ msgstr "%s: лишние аргументы после `%s' игнорированы\n"
 msgid "too many gotos (max %d)"
 msgstr "слишком много goto (максимально %d)"
 
-#: src/lex.c:77
+#: src/lex.c:76
 msgid "unexpected `/' found and ignored"
 msgstr "встречен и проигнорирован неожиданный символ `/'"
 
-#: src/lex.c:106 src/reader.c:269
+#: src/lex.c:105 src/reader.c:269
 msgid "unterminated comment"
 msgstr "незаконченный комментарий"
 
-#: src/lex.c:138
+#: src/lex.c:137
 msgid "unexpected end of file"
 msgstr "неожиданный конец файла"
 
-#: src/lex.c:167
+#: src/lex.c:166
 msgid "unescaped newline in constant"
 msgstr "неэкранированный перевод строки в константе"
 
-#: src/lex.c:209
+#: src/lex.c:208
 #, c-format
 msgid "octal value outside range 0...255: `\\%o'"
 msgstr "восьмеричная величина за пределами диапазона 0...255: `\\%o'"
 
-#: src/lex.c:234
+#: src/lex.c:233
 #, c-format
 msgid "hexadecimal value above 255: `\\x%x'"
 msgstr "шестнадцатеричная величина превышает 255: `\\x%x'"
 
-#: src/lex.c:246
+#: src/lex.c:245
 #, c-format
 msgid "unknown escape sequence: `\\' followed by `%s'"
 msgstr "неизвестная escape-последовательность: `%s' после `\\'"
 
-#: src/lex.c:343
+#: src/lex.c:342
 msgid "unterminated type name at end of file"
 msgstr "незаконченное имя типа в конце файла"
 
-#: src/lex.c:346
+#: src/lex.c:345
 msgid "unterminated type name"
 msgstr "незаконченное имя типа"
 
 #: src/lex.c:438
 msgid "use \"...\" for multi-character literal tokens"
 msgstr "используйте \"...\" для многосимвольных литеральных лексем"
+
+#: src/lex.c:666
+#, c-format
+msgid "`%s' supports no argument: %s"
+msgstr ""
+
+#: src/lex.c:682
+#, fuzzy, c-format
+msgid "`%s' requires an argument"
+msgstr "%s: ключ `%s' должен использоваться с аргументом\n"
 
 #: src/main.c:125
 #, c-format
@@ -462,7 +473,7 @@ msgstr ""
 msgid "symbol %s redefined"
 msgstr "повторное определение символа %s"
 
-#: src/reader.c:532 src/reader.c:610 src/reader.c:671 src/reader.c:1283
+#: src/reader.c:532 src/reader.c:610 src/reader.c:671 src/reader.c:1294
 #, c-format
 msgid "type redeclaration for %s"
 msgstr "повторное описание типа для %s"
@@ -472,12 +483,12 @@ msgstr "повторное описание типа для %s"
 msgid "`%s' is invalid in %s"
 msgstr "`%s' неверно в %s"
 
-#: src/reader.c:558 src/reader.c:716
+#: src/reader.c:558 src/reader.c:723
 #, c-format
 msgid "multiple %s declarations"
 msgstr "множественное описание %s"
 
-#: src/reader.c:560 src/reader.c:895 src/reader.c:920 src/reader.c:1261
+#: src/reader.c:560 src/reader.c:902 src/reader.c:927 src/reader.c:1272
 #, c-format
 msgid "invalid %s declaration"
 msgstr "неверное описание %s"
@@ -506,121 +517,121 @@ msgstr "неверный текст (%s) - число должно следовать за идентификатором"
 msgid "unexpected item: %s"
 msgstr "неожиданный элемент: %s"
 
-#: src/reader.c:759 src/reader.c:1087 src/reader.c:1158
+#: src/reader.c:766 src/reader.c:1098 src/reader.c:1169
 #, c-format
 msgid "unmatched %s"
 msgstr "непарная %s"
 
-#: src/reader.c:791
+#: src/reader.c:798
 #, c-format
 msgid "argument of %%expect is not an integer"
 msgstr "аргумент %%expect не является целым числом"
 
-#: src/reader.c:837
+#: src/reader.c:844
 #, c-format
 msgid "unrecognized item %s, expected an identifier"
 msgstr "нераспознанный элемент %s, ожидался идентификатор"
 
-#: src/reader.c:859
+#: src/reader.c:866
 #, c-format
 msgid "expected string constant instead of %s"
 msgstr "вместо %s ожидалась строковая постоянная"
 
-#: src/reader.c:1003
+#: src/reader.c:1014
 #, c-format
 msgid "unrecognized: %s"
 msgstr "нераспознано: %s"
 
-#: src/reader.c:1008
+#: src/reader.c:1019
 msgid "no input grammar"
 msgstr "нет входной грамматики"
 
-#: src/reader.c:1013
+#: src/reader.c:1024
 #, c-format
 msgid "unknown character: %s"
 msgstr "неизвестный символ: %s"
 
-#: src/reader.c:1181
+#: src/reader.c:1192
 #, c-format
 msgid "unterminated %guard clause"
 msgstr "незаконченный оператор %guard"
 
-#: src/reader.c:1348
+#: src/reader.c:1359
 msgid "ill-formed rule: initial symbol not followed by colon"
 msgstr "неверное правило: двоеточие не следует за начальным символом"
 
-#: src/reader.c:1355
+#: src/reader.c:1366
 msgid "grammar starts with vertical bar"
 msgstr "грамматика начинается с вертикальной черты"
 
-#: src/reader.c:1386
+#: src/reader.c:1397
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "правило задано для %s, который является лексемой"
 
-#: src/reader.c:1488
+#: src/reader.c:1499
 msgid "two @prec's in a row"
 msgstr "два @prec подряд"
 
-#: src/reader.c:1496
+#: src/reader.c:1507
 #, c-format
 msgid "%%guard present but %%semantic_parser not specified"
 msgstr "%%guard присутствует, а %%semantic_parser не задан"
 
-#: src/reader.c:1505
+#: src/reader.c:1516
 msgid "two actions at end of one rule"
 msgstr "два действия в конце одного правила"
 
-#: src/reader.c:1519
+#: src/reader.c:1530
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "конфликт типов (`%s' `%s') на действии по умолчанию"
 
-#: src/reader.c:1525
+#: src/reader.c:1536
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "пустое правило для типизированного нетерминального символа, и нет действия"
 
-#: src/reader.c:1569
+#: src/reader.c:1580
 #, c-format
 msgid "invalid input: %s"
 msgstr "неверные входные данные: %s"
 
-#: src/reader.c:1577
+#: src/reader.c:1588
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"
 
-#: src/reader.c:1580
+#: src/reader.c:1591
 msgid "no rules in the input grammar"
 msgstr "отсутствуют правила во входной грамматике"
 
-#: src/reader.c:1604
+#: src/reader.c:1615
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr "символ %s используется, но не определен как лексема и не имеет правил"
 
-#: src/reader.c:1696
+#: src/reader.c:1707
 #, c-format
 msgid "tokens %s and %s both assigned number %d"
 msgstr "обеим лексемам %s и %s присвоен номер %d"
 
-#: src/reader.c:1749
+#: src/reader.c:1760
 #, c-format
 msgid "conflicting precedences for %s and %s"
 msgstr "противоречивые приоритеты для %s и %s"
 
-#: src/reader.c:1761
+#: src/reader.c:1772
 #, c-format
 msgid "conflicting assoc values for %s and %s"
 msgstr "противоречивые значения ассоциативности для %s и %s"
 
-#: src/reader.c:1800
+#: src/reader.c:1811
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "начальный символ %s неопределен"
 
-#: src/reader.c:1802
+#: src/reader.c:1813
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "начальный символ %s является лексемой"
