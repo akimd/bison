@@ -1,5 +1,12 @@
 2002-04-07  Akim Demaille  <akim@epita.fr>
 
+	As a result of the previous patch, it is no longer needed
+	to reorder ritem itself.
+
+	* src/reduce.c (reduce_grammar_tables): Don't sort RITEM.
+
+2002-04-07  Akim Demaille  <akim@epita.fr>
+
 	Be sure never to walk through RITEMS, but use only data related to
 	the rules themselves. RITEMS should be banished.
 
