@@ -1,5 +1,15 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	* src/reduce.c (reduce_grammar_tables): No longer disable the
+	removal of useless rules via CPP but via `if (0)', so that the
+	compiler still check the code is valid.
+	For instance, it should have noticed `rline' no longer exists: use
+	the `line' member of rule_t.
+	* src/gram.c (dummy, rline): Remove, unused.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/output.c (pack_vector): Use assert, not berror.
 	* src/main.c (berror): Remove, unused.
 
