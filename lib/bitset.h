@@ -36,12 +36,42 @@ enum bitset_attr {BITSET_FIXED = 1,    /* Bitset size fixed.  */
 
 typedef unsigned int bitset_attrs;
 
-/* The contents of the structure should be considered to be private.
-   While I would like to make this structure opaque, it needs to be
-   visible for the inline bit set/test functions.  */
-struct bitset_struct
+/* The contents of the union should be considered to be private.
+   While I would like to make this union opaque, it needs to be
+   visible for the inline bit set/test functions, and for delegation
+   to the proper implementation.  */
+union bitset_union
 {
+  /* This must be the first member of every other structure that is a
+     member of this union.  */
   struct bbitset_struct b;
+
+  struct abitset_struct
+  {
+    struct bbitset_struct b;
+    bitset_bindex n_bits;		/* Number of bits.  */
+    bitset_word words[1];		/* The array of bits.  */
+  } a;
+
+  struct ebitset_struct
+  {
+    struct bbitset_struct b;
+    bitset_windex size;			/* Number of elements.  */
+    struct ebitset_elt_struct **elts;	/* Expanding array of ptrs to elts.  */
+  } e;
+
+  struct lbitset_struct
+  {
+    struct bbitset_struct b;
+    struct lbitset_elt_struct *head;	/* First element in linked list.  */
+    struct lbitset_elt_struct *tail;	/* Last element in linked list.  */
+  } l;
+
+  struct bitset_stats_struct
+  {
+    struct bbitset_struct b;
+    bitset bset;
+  } s;
 };
 
 
@@ -57,10 +87,10 @@ typedef struct
 
 
 /* Return bytes required for bitset of desired type and size.  */
-extern size_t bitset_bytes PARAMS ((enum bitset_type, bitset_bindex));
+extern size_t bitset_bytes PARAMS ((enum_bitset_type, bitset_bindex));
 
 /* Initialise a bitset with desired type and size.  */
-extern bitset bitset_init PARAMS ((bitset, bitset_bindex, enum bitset_type));
+extern bitset bitset_init PARAMS ((bitset, bitset_bindex, enum_bitset_type));
 
 /* Select an implementation type based on the desired bitset size
    and attributes.  */
@@ -68,7 +98,7 @@ extern enum bitset_type bitset_type_choose PARAMS ((bitset_bindex,
 						    bitset_attrs));
 
 /* Create a bitset of desired type and size.  The bitset is zeroed.  */
-extern bitset bitset_alloc PARAMS ((bitset_bindex, enum bitset_type));
+extern bitset bitset_alloc PARAMS ((bitset_bindex, enum_bitset_type));
 
 /* Free bitset.  */
 extern void bitset_free PARAMS ((bitset));
@@ -76,7 +106,7 @@ extern void bitset_free PARAMS ((bitset));
 /* Create a bitset of desired type and size using an obstack.  The
    bitset is zeroed.  */
 extern bitset bitset_obstack_alloc PARAMS ((struct obstack *bobstack,
-					    bitset_bindex, enum bitset_type));
+					    bitset_bindex, enum_bitset_type));
 
 /* Free bitset allocated on obstack.  */
 extern void bitset_obstack_free PARAMS ((bitset));
@@ -287,11 +317,20 @@ do   								\
  BITSET_LIST_REVERSE_ (BSET, LIST, NUM, NEXT) 
 
 
+/* Find next set bit.  */
+extern bitset_bindex bitset_next PARAMS ((bitset, bitset_bindex));
+
+/* Find previous set bit.  */
+extern bitset_bindex bitset_prev PARAMS ((bitset, bitset_bindex));
+
 /* Find first set bit.  */
 extern bitset_bindex bitset_first PARAMS ((bitset));
 
 /* Find last set bit.  */
 extern bitset_bindex bitset_last PARAMS ((bitset));
+
+/* Return nonzero if this is the only set bit.  */
+extern int bitset_only_set_p PARAMS ((bitset, bitset_bindex));
 
 /* Dump bitset.  */
 extern void bitset_dump PARAMS ((FILE *, bitset));
