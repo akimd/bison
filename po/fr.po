@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU bison 1.30c\n"
+"Project-Id-Version: GNU bison 1.30d\n"
 "POT-Creation-Date: 2001-11-26 16:23+0100\n"
-"PO-Revision-Date: 2001-11-19 12:00-0500\n"
+"PO-Revision-Date: 2001-11-21 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -92,10 +92,10 @@ msgid "%s contains "
 msgstr "%s contient "
 
 #: src/conflicts.c:488
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
-msgstr[0] "attendu %d conflits décalage/réduction"
+msgstr[0] "attendu %d conflits décalage/réduction\n"
 
 #: src/conflicts.c:575 src/conflicts.c:696
 #, c-format

@@ -1,5 +1,9 @@
 2001-11-26  Akim Demaille  <akim@epita.fr>
 
+	Version 1.30e.
+
+2001-11-26  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (readgram): Make sure rules for mid-rule actions
 	have a lineno equal to that of their host rule.
 	Reported by Hans Aberg.

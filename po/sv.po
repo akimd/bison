@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 1.30c\n"
+"Project-Id-Version: bison 1.30d\n"
 "POT-Creation-Date: 2001-11-26 16:23+0100\n"
-"PO-Revision-Date: 2001-11-18 15:17+0100\n"
+"PO-Revision-Date: 2001-11-21 22:10+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -95,11 +95,11 @@ msgid "%s contains "
 msgstr "%s innehåller "
 
 #: src/conflicts.c:488
-#, fuzzy, c-format
+#, c-format
 msgid "expected %d shift/reduce conflict\n"
 msgid_plural "expected %d shift/reduce conflicts\n"
-msgstr[0] "förväntade %d skifta/reducerakonflikt"
-msgstr[1] "förväntade %d skifta/reducerakonflikter"
+msgstr[0] "förväntade %d skifta/reducerakonflikt\n"
+msgstr[1] "förväntade %d skifta/reducerakonflikter\n"
 
 #: src/conflicts.c:575 src/conflicts.c:696
 #, c-format
@@ -802,18 +802,3 @@ msgstr "\""
 #: lib/quotearg.c:269
 msgid "'"
 msgstr "\""
-
-#~ msgid "DERIVES"
-#~ msgstr "HÄRLEDER"
-
-#~ msgid "%s derives"
-#~ msgstr "%s härleder"
-
-#~ msgid "Entering set_nullable"
-#~ msgstr "Påbörjar set_nullable"
-
-#~ msgid ""
-#~ "reduced %s defines %d terminal%s, %d nonterminal%s, and %d production%s.\n"
-#~ msgstr ""
-#~ "reducerad %s definierar %d terminaler%.0s, %d icketerminaler%.0s och %d "
-#~ "produktioner%.0s.\n"
