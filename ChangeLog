@@ -1,5 +1,10 @@
 2000-12-19  Akim Demaille  <akim@epita.fr>
 
+	* src/file.h (BISON_SIMPLE, BISON_HAIRY): Move from here...
+	* src/system.h (BISON_SIMPLE, BISON_HAIRY): ... to here.
+
+2000-12-19  Akim Demaille  <akim@epita.fr>
+
 	* src/files.c (open_files): Yipee!  We no longer need all the code
 	looking for `/tmp' since we have no tmp file.
 
