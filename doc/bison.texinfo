@@ -1727,7 +1727,7 @@ to create named variables, store values in them, and use them later.
 Here is a sample session with the multi-function calculator:
 
 @example
-% acalc
+% mfcalc
 pi = 3.141592653589
 3.1415926536
 sin(pi)
