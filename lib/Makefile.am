@@ -17,7 +17,7 @@
 
 AUTOMAKE_OPTIONS = ansi2knr
 
-CFLAGS = @CFLAGS@ $(WARNING_CFLAGS)
+AM_CFLAGS = $(WARNING_CFLAGS)
 
 noinst_LIBRARIES = libbison.a
 
