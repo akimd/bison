@@ -149,6 +149,12 @@ typedef struct yyltype
 # define YYLTYPE %%ltype
 #endif
 
+#ifdef YYERROR_VERBOSE
+# undef YYERROR_VERBOSE
+#endif
+
+#define YYERROR_VERBOSE %%error_verbose
+
 /* Tokens.  */
 %%tokendef
 
@@ -190,7 +196,7 @@ static const short yyrline[] =
 };
 #endif
 
-#if %%error_verbose
+#if YYDEBUG || YYERROR_VERBOSE
 /* YYTNME[TOKEN_NUM] -- String name of the token TOKEN_NUM.  */
 static const char *const yytname[] =
 {
@@ -819,7 +825,7 @@ yyerrlab:
     {
       ++yynerrs;
 
-#if %%error_verbose
+#if YYERROR_VERBOSE
       yyn = yypact[yystate];
 
       if (yyn > YYFLAG && yyn < YYLAST)
@@ -862,7 +868,7 @@ yyerrlab:
 	    yyerror ("parse error; also virtual memory exhausted");
         }
       else
-#endif /* %%ERROR_VERBOSE */
+#endif /* YYERROR_VERBOSE */
         yyerror ("parse error");
     }
   goto yyerrlab1;

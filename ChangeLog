@@ -1,3 +1,8 @@
+2001-11-28  Marc Autret  <autret_m@epita.fr>
+
+	* src/bison.simple: Fix debug.
+	[YYERROR_VERBOSE]: Re-integrate as an internal macro.
+
 2001-11-28  Akim Demaille  <akim@epita.fr>
 
 	* src/LR0.c (shifts_new): New.
