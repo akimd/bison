@@ -1,3 +1,12 @@
+2000-10-02  Akim Demaille  <akim@epita.fr>
+
+	* src/output.c (output): Topological sort of the functions, in
+	order to get rid of the `static' prototypes.
+	No longer use `register'.
+	* src/output.h: New file.
+	Propagate its inclusion in files explicitly prototyping functions
+	from output.c.
+
 2000-09-21  Akim Demaille  <akim@epita.fr>
 
 	* src/atgeneral.m4: Update from Autoconf.

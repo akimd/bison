@@ -21,7 +21,7 @@ EXTRA_bison_SOURCES = vmsgetargs.c
 noinst_HEADERS = alloc.h closure.h complain.h \
  derives.h \
  files.h getargs.h gram.h lex.h \
- state.h	\
+ output.h state.h	\
  symtab.h system.h types.h
 
 data_DATA = bison.simple bison.hairy
