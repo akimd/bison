@@ -1,3 +1,11 @@
+2001-08-31  Marc Autret  <autret_m@epita.fr>
+
+	* src/reader.c (readgram): CleanUp.
+	(output_token_defines): Likewise.
+	(packsymbols): Likewise.
+	(reader): Likewise.
+	* src/output.c (output): CPP-out useless code.
+
 2001-08-31  Pascal Bart  <pascal.bart@epita.fr>
 
 	* src/reader.c (reader): Delete obsolete call to function 
