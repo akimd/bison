@@ -40,6 +40,23 @@ $1
   #define YYINITDEPTH 10
   static char* format (const char*,  ...);
 
+  struct YYLTYPE;
+#if YYPURE
+# if YYLSP_NEEDED
+#  define LEX_PARAMETERS YYSTYPE *lvalp, struct YYLTYPE *llocp
+#  define ERROR_PARAMETERS struct YYLTYPE *llocp, char const *s
+# else
+#  define LEX_PARAMETERS YYSTYPE *lvalp
+# endif
+#endif
+#ifndef LEX_PARAMETERS
+# define LEX_PARAMETERS void
+#endif
+#ifndef ERROR_PARAMETERS
+# define ERROR_PARAMETERS char const *s
+#endif
+  int yylex (LEX_PARAMETERS);
+  int yyerror (ERROR_PARAMETERS);
 %}
 
 %token TYPENAME ID
@@ -101,13 +118,7 @@ main (int argc, char** argv)
 }
 
 int
-#if YYPURE && YYLSP_NEEDED
-  yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
-#elif YYPURE
-  yylex (YYSTYPE *lvalp)
-#else
-  yylex ()
-#endif
+yylex (LEX_PARAMETERS)
 {
   char buffer[256];
   int c;
@@ -180,13 +191,13 @@ int
 }
 
 int
-yyerror (
-#if YYPURE && YYLSP_NEEDED
-         YYLTYPE *llocp,
-#endif
-         const char *s
-        )
+yyerror (ERROR_PARAMETERS)
 {
+#if YYPURE && YYLSP_NEEDED
+  /* Pacify GCC by using llocp.  */
+  if (! llocp)
+    abort ();
+#endif
   fprintf (stderr, "%s\n", s);
   return 0;
 }
