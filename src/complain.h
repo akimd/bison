@@ -29,10 +29,16 @@ extern "C" {
 
 /* Informative messages, but we proceed. */
 
+void warn (const char *format, ...)
+  __attribute__ ((__format__ (__printf__, 1, 2)));
+
 void warn_at (location_t location, const char *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
 /* Something bad happen, but let's continue and die later. */
+
+void complain (const char *format, ...)
+  __attribute__ ((__format__ (__printf__, 1, 2)));
 
 void complain_at (location_t location, const char *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
@@ -46,7 +52,9 @@ void fatal_at (location_t location, const char *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
 # else
+void warn ();
 void warn_at ();
+void complain ();
 void complain_at ();
 void fatal ();
 void fatal_at ();

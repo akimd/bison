@@ -1,5 +1,15 @@
 2002-07-30  Akim Demaille  <akim@epita.fr>
 
+	Normalize conflict related messages.
+
+	* src/complain.h, src/complain.c (warn, complain): New.
+	* src/conflicts.c (conflicts_print): Use them.
+	(conflict_report_yacc): New, extracted from...
+	(conflicts_print): here.
+	* tests/conflicts.at, tests/existing.at: Adjust.
+
+2002-07-30  Akim Demaille  <akim@epita.fr>
+
 	Report rules which are never reduced by the parser: those hidden
 	by conflicts.
 

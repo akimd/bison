@@ -142,7 +142,7 @@ exp: exp OP exp | NUM;
 ]])
 
 AT_CHECK([bison input.y -o input.c --report=all], 0, [],
-[input.y contains 1 shift/reduce conflict.
+[input.y: warning: 1 shift/reduce conflict
 ])
 
 # Check the contents of the report.
@@ -371,7 +371,7 @@ id : '0';
 ]])
 
 AT_CHECK([bison input.y -o input.c --report=all], 0, [],
-[[input.y contains 1 reduce/reduce conflict.
+[[input.y: warning: 1 reduce/reduce conflict
 input.y:4.4-8: warning: rule never reduced because of conflicts: id: '0'
 ]])
 
@@ -483,8 +483,8 @@ exp: exp OP exp | NUM;
 ]])
 
 AT_CHECK([bison input.y -o input.c], 1, [],
-[input.y contains 1 shift/reduce conflict.
-expected 0 shift/reduce conflicts
+[input.y: warning: 1 shift/reduce conflict
+input.y: expected 0 shift/reduce conflicts
 ])
 AT_CLEANUP
 
@@ -520,7 +520,7 @@ exp: exp OP exp | NUM;
 ]])
 
 AT_CHECK([bison input.y -o input.c], 1, [],
-[input.y contains 1 shift/reduce conflict.
-expected 2 shift/reduce conflicts
+[input.y: warning: 1 shift/reduce conflict
+input.y: expected 2 shift/reduce conflicts
 ])
 AT_CLEANUP
