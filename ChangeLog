@@ -1,5 +1,42 @@
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
 
+	* src/output.c (prepare): Add prefixed names.
+	(output_parser): Output semantic actions.
+	(output_parser): Fix bug on '%%line' directives.
+	
+	* src/output.c (output_headers): Remove. The C code printed by this
+	function should now be in the skeletons.
+	(output_trailers): Remove.
+	(output): Disable call to 'reader_output_yylsp'.
+	(output_rule_data): Do not output tables to the table obstack.
+
+	* src/output.c: Remove some C dedicated output.
+	Improve the use of macro and output obstacks.
+	(output_defines): Remove.
+	
+	* src/output.c (output_token_translations): Associate 'translate'
+	table with a macro. No output to the table obstack.
+	(output_gram): Same for 'rhs' and 'prhs'.
+	(output_stos): Same for 'stos'.
+	(output_rule_data): Same for 'r1' and 'r2'.
+	(token_actions): Same for 'defact'.
+	(goto_actions): Same for 'defgoto'.
+	(output_base): Same for 'pact' and 'pgoto'.
+	(output_table): Same for 'table'.
+	(output_check): Same for 'check'.
+	
+	* src/output.c (output_table_data): New function.
+	(output_short_table): Remove.
+	(output_short_or_char_table): Remove.
+	
+	* src/output.c (output_parser): Replace most of the skeleton copy code
+	with something new. Skeletons are now processed character by character
+	rather than line by line, and Bison looks for '%%' macros. This is the
+	first step in making Bison's output process (a lot) more flexible.
+	(output_parser): Use the macro table.
+
+2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
+
 	* src/main.c (main): Initialize the macro table.
 
 2001-08-25  Robert Anisko  <robert.anisko@epita.fr>
