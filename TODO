@@ -1,5 +1,65 @@
 -*- outline -*-
 
+* Header guards
+
+En rentrant chez moi, je relance un `make' sur un projet que j'ai avancé
+ailleurs durant la semaine.  Le système que j'utilise ici est un peu plus
+à jour que l'autre, et le Bison est probablement plus récent itou.  Ici,
+c'est la version 1.33.  J'obtiens, en montrant un peu plus que nécessaire:
+
+---------------------------------------------------------------------->
+cd ~/fpub/pyrexpp/Pyrexpp/
+LANGUAGE= /usr/bin/make MAKEFLAGS='-k -j2'
+/usr/bin/make -C .. install
+make[1]: Entre dans le répertoire `/bpi/titan/home/pinard/fpub/pyrexpp'
+install -g bpi -m 2775 -d Prépare-titan
+chmod g+sw Prépare-titan
+touch Prépare-titan/.estampille
+/usr/bin/gcc  -fPIC -I/usr/include/python2.2 -IPrépare-titan -g -c -o Prépare-titan/ctools.o ctools.c
+bison -d -o Prépare-titan/c-parser.c c-parser.y
+/usr/bin/gcc  -fPIC -I/usr/include/python2.2 -IPrépare-titan -g -c -o Prépare-titan/c-parser.o Prépare-titan/c-parser.c
+flex -t c-scanner.l | grep -v '^#line' > Prépare-titan/c-scanner.c
+/usr/bin/gcc  -fPIC -I/usr/include/python2.2 -IPrépare-titan -g -c -o Prépare-titan/c-scanner.o Prépare-titan/c-scanner.c
+In file included from Prépare-titan/c-scanner.c:547:
+Prépare-titan/c-parser.h:1: warning: garbage at end of `#ifndef' argument
+Prépare-titan/c-parser.h:2: warning: missing white space after `#define BISON_PR'
+/usr/bin/gcc -o Prépare-titan/ctools.so Prépare-titan/ctools.o Prépare-titan/c-scanner.o -shared -lm
+python setup.py --quiet build
+install -g bpi -m 664 Prépare-titan/ctools.so /bpi/titan/local/lib/python2.2/site-packages/Pyrexpp
+python setup.py --quiet install
+make[1]: Quitte le répertoire `/bpi/titan/home/pinard/fpub/pyrexpp'
+[...]
+----------------------------------------------------------------------<
+
+Diagnostics que je n'avais sûrement pas, plus tôt en journée, sur l'autre
+système.  En allant voir, je trouve:
+
+---------------------------------------------------------------------->
+#ifndef BISON_PRÉPARE_TITAN_C_PARSER_H
+# define BISON_PRÉPARE_TITAN_C_PARSER_H
+
+# ifndef YYSTYPE
+#  define YYSTYPE int
+# endif
+# define	IDENTIFIER	257
+[...]
+
+extern YYSTYPE yylval;
+
+#endif /* not BISON_PRÉPARE_TITAN_C_PARSER_H */
+----------------------------------------------------------------------<
+
+Le pré-processeur de C n'est pas à l'aise avec les caractères accentués
+dans les identificateurs.
+
+Bon, de mon expérience, il n'a jamais été nécessaire de protéger un fichier
+`.h' de Bison ou Yacc contre de multiples inclusions, mais si ça été
+fait, je présume qu'il y avait un problème réel et convaincant à régler,
+et qu'il ne s'agit pas d'une simple fantaisie: je ne mettrai donc pas
+ça en doute.  Mais le choix du nom de l'identificateur laisse à désirer,
+tu en conviendras :-).  Et faut-il vraiment y inclure le répertoire?
+
+
 * URGENT: Documenting C++ output
 Write a first documentation for C++ output.
 
