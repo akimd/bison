@@ -295,25 +295,17 @@ output_token_translations (void)
 \n\
 /* YYTRANSLATE(YYLEX) -- Bison token number corresponding to YYLEX. */\n");
 
-  if (translations)
-    {
-      obstack_fgrow2 (&table_obstack,
+  obstack_fgrow2 (&table_obstack,
       "#define YYTRANSLATE(x) ((unsigned)(x) <= %d ? yytranslate[x] : %d)\
 \n\
 \n",
-	       max_user_token_number, nsyms);
+		  max_user_token_number, nsyms);
 
-      output_short_or_char_table (&table_obstack,
+  output_short_or_char_table (&table_obstack,
 	     "YYTRANSLATE[YYLEX] -- Bison token number corresponding to YYLEX",
-		    ntokens < 127 ? "char" : "short",
-		    "yytranslate", token_translations,
-		    0, 1, max_user_token_number + 1);
-    }
-  else
-    {
-      obstack_sgrow (&table_obstack,
-			   "\n#define YYTRANSLATE(x) (x)\n");
-    }
+			      ntokens < 127 ? "char" : "short",
+			      "yytranslate", token_translations,
+			      0, 1, max_user_token_number + 1);
 }
 
 

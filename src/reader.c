@@ -512,7 +512,6 @@ parse_token_decl (symbol_class what_is, symbol_class what_is_not)
 	      /* symbol and symval combined are only one symbol */
 	      nsyms--;
 	    }
-	  translations = 1;
  	  symbol = NULL;
 	}
       else if (token == tok_identifier)
@@ -537,7 +536,6 @@ parse_token_decl (symbol_class what_is, symbol_class what_is_not)
       else if (symbol && token == tok_number)
 	{
 	  symbol->user_token_number = numval;
-	  translations = 1;
 	}
       else
 	{
@@ -679,7 +677,6 @@ parse_assoc_decl (associativity assoc)
 	  if (prev == tok_identifier)
 	    {
 	      symval->user_token_number = numval;
-	      translations = 1;
 	    }
 	  else
 	    {
@@ -736,7 +733,7 @@ parse_union_decl (void)
 
   while (c != EOF)
     {
-      
+
       /* If C contains '/', it is output by copy_comment ().  */
       if (c != '/')
 	{
@@ -744,7 +741,7 @@ parse_union_decl (void)
 	  if (defines_flag)
 	    obstack_1grow (&defines_obstack, c);
 	}
-      
+
       switch (c)
 	{
 	case '\n':
@@ -827,7 +824,6 @@ parse_thong_decl (void)
   char *typename = 0;
   int usrtoknum;
 
-  translations = 1;
   token = lex ();		/* fetch typename or first token */
   if (token == tok_typename)
     {
@@ -1657,9 +1653,10 @@ output_token_defines (struct obstack *oout)
 	continue;
 
       obstack_fgrow2 (oout, "# define\t%s\t%d\n",
-		      symbol,
-		      (translations ? bp->user_token_number : bp->value));
+		      symbol, bp->user_token_number);
       if (semantic_parser)
+	/* FIXME: This is certainly dead wrong, and should be just as
+	   above. --akim.  */
 	obstack_fgrow2 (oout, "# define\tT%s\t%d\n", symbol, bp->value);
     }
 
@@ -1676,9 +1673,9 @@ output_token_defines (struct obstack *oout)
 static void
 packsymbols (void)
 {
-  bucket *bp;
+  bucket *bp = NULL;
   int tokno = 1;
-  int i;
+  int i, j;
   int last_user_token_number;
   static char DOLLAR[] = "$";
 
@@ -1744,7 +1741,7 @@ packsymbols (void)
 
       if (bp->class == token_sym)
 	{
-	  if (translations && !(bp->user_token_number))
+	  if (!bp->user_token_number)
 	    bp->user_token_number = ++last_user_token_number;
 	  if (bp->user_token_number > max_user_token_number)
 	    max_user_token_number = bp->user_token_number;
@@ -1757,30 +1754,25 @@ packsymbols (void)
 
     }
 
-  if (translations)
+  token_translations = XCALLOC (short, max_user_token_number + 1);
+
+  /* initialize all entries for literal tokens to 2, the internal
+     token number for $undefined., which represents all invalid
+     inputs.  */
+  for (j = 0; j <= max_user_token_number; j++)
+    token_translations[j] = 2;
+
+  for (bp = firstsymbol; bp; bp = bp->next)
     {
-      int j;
-
-      token_translations = XCALLOC (short, max_user_token_number + 1);
-
-      /* initialize all entries for literal tokens to 2, the internal
-         token number for $undefined., which represents all invalid
-         inputs.  */
-      for (j = 0; j <= max_user_token_number; j++)
-	token_translations[j] = 2;
-
-      for (bp = firstsymbol; bp; bp = bp->next)
-	{
-	  if (bp->value >= ntokens)
-	    continue;		/* non-terminal */
-	  if (bp->user_token_number == SALIAS)
-	    continue;
-	  if (token_translations[bp->user_token_number] != 2)
-	    complain (_("tokens %s and %s both assigned number %d"),
-		      tags[token_translations[bp->user_token_number]],
-		      bp->tag, bp->user_token_number);
-	  token_translations[bp->user_token_number] = bp->value;
-	}
+      if (bp->value >= ntokens)
+	continue;		/* non-terminal */
+      if (bp->user_token_number == SALIAS)
+	continue;
+      if (token_translations[bp->user_token_number] != 2)
+	complain (_("tokens %s and %s both assigned number %d"),
+		  tags[token_translations[bp->user_token_number]],
+		  bp->tag, bp->user_token_number);
+      token_translations[bp->user_token_number] = bp->value;
     }
 
   error_token_number = errtoken->value;
@@ -1905,15 +1897,6 @@ reader (void)
 {
   start_flag = 0;
   startval = NULL;		/* start symbol not specified yet. */
-
-#if 0
-  /* initially assume token number translation not needed.  */
-  translations = 0;
-#endif
-  /* Nowadays translations is always set to 1, since we give `error' a
-     user-token-number to satisfy the Posix demand for YYERRCODE==256.
-   */
-  translations = 1;
 
   nsyms = 1;
   nvars = 0;

@@ -31,20 +31,18 @@ int nsyms;
 int ntokens;
 int nvars;
 
-short *ritem;
-short *rlhs;
-short *rrhs;
-short *rprec;
-short *rprecsym;
-short *sprec;
-short *rassoc;
-short *sassoc;
-short *token_translations;
-short *rline;
+short *ritem = NULL;
+short *rlhs = NULL;
+short *rrhs = NULL;
+short *rprec = NULL;
+short *rprecsym = NULL;
+short *sprec = NULL;
+short *rassoc = NULL;
+short *sassoc = NULL;
+short *token_translations = NULL;
+short *rline = NULL;
 
 int start_symbol;
-
-int translations;
 
 int max_user_token_number;
 
@@ -54,10 +52,10 @@ int pure_parser;
 
 int error_token_number;
 
-/* This is to avoid linker problems which occur on VMS when using GCC,
-   when the file in question contains data definitions only.  */
+/* Free all the memory associated to these pointers. */
 
 void
-dummy (void)
+gram_free (void)
 {
+
 }

@@ -253,49 +253,26 @@ print_grammar (void)
 		 _("Terminals, with rules where they appear"));
   obstack_sgrow (&output_obstack, "\n\n");
   obstack_fgrow1 (&output_obstack, "%s (-1)\n", tags[0]);
-  if (translations)
-    {
-      for (i = 0; i <= max_user_token_number; i++)
-	if (token_translations[i] != 2)
-	  {
-	    buffer[0] = 0;
-	    column = strlen (tags[token_translations[i]]);
-	    obstack_sgrow (&output_obstack, tags[token_translations[i]]);
-	    END_TEST (50);
-	    sprintf (buffer, " (%d)", i);
 
-	    for (j = 1; j <= nrules; j++)
-	      for (rule = &ritem[rrhs[j]]; *rule > 0; rule++)
-		if (*rule == token_translations[i])
-		  {
-		    END_TEST (65);
-		    sprintf (buffer + strlen (buffer), " %d", j);
-		    break;
-		  }
-	    obstack_fgrow1 (&output_obstack, "%s\n", buffer);
-	  }
-    }
-  else
-    {
-      for (i = 1; i < ntokens; i++)
-	{
-	  buffer[0] = 0;
-	  column = strlen (tags[i]);
-	  obstack_sgrow (&output_obstack, tags[i]);
-	  END_TEST (50);
-	  sprintf (buffer, " (%d)", i);
+  for (i = 0; i <= max_user_token_number; i++)
+    if (token_translations[i] != 2)
+      {
+	buffer[0] = 0;
+	column = strlen (tags[token_translations[i]]);
+	obstack_sgrow (&output_obstack, tags[token_translations[i]]);
+	END_TEST (50);
+	sprintf (buffer, " (%d)", i);
 
-	  for (j = 1; j <= nrules; j++)
-	    for (rule = &ritem[rrhs[j]]; *rule > 0; rule++)
-	      if (*rule == i)
-		{
-		  END_TEST (65);
-		  sprintf (buffer + strlen (buffer), " %d", j);
-		  break;
-		}
-	  obstack_fgrow1 (&output_obstack, "%s\n", buffer);
-	}
-    }
+	for (j = 1; j <= nrules; j++)
+	  for (rule = &ritem[rrhs[j]]; *rule > 0; rule++)
+	    if (*rule == token_translations[i])
+	      {
+		END_TEST (65);
+		sprintf (buffer + strlen (buffer), " %d", j);
+		break;
+	      }
+	obstack_fgrow1 (&output_obstack, "%s\n", buffer);
+      }
 
   obstack_sgrow (&output_obstack, "\n");
   obstack_sgrow (&output_obstack,

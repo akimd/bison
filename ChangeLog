@@ -1,5 +1,18 @@
 2001-09-22  Akim Demaille  <akim@epita.fr>
 
+	Remove `translations' as it is always set to true.
+
+	* src/gram.h: Adjust.
+	* src/reader.c (packsymbols, parse_token_decl): Adjust
+	* src/print.c (print_grammar): Adjust.
+	* src/output.c (output_token_translations): Adjust.
+	* src/lex.c (lex): Adjust.
+	* src/gram.c: Be sure the set pointers to NULL.
+	(dummy): Rename as...
+	(gram_free): this.
+
+2001-09-22  Akim Demaille  <akim@epita.fr>
+
 	* configure.in: Invoke AM_LIB_DMALLOC.
 	* src/system.h: Use dmalloc.
 	* src/LR0.c: Be sure to have pointers initialized to NULL.

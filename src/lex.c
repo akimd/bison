@@ -419,7 +419,6 @@ lex (void)
     case '\'':
       /* parse the literal token and compute character code in  code  */
 
-      translations = -1;
       {
 	int code, discode;
 
@@ -447,7 +446,6 @@ lex (void)
     case '\"':
       /* parse the literal string token and treat as an identifier */
 
-      translations = -1;
       {
 	int code;		/* ignored here */
 
