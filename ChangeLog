@@ -1,5 +1,9 @@
 2002-10-20  Akim Demaille  <akim@epita.fr>
 
+	* src/tables.h, src/tables.c, src/output.c: Comment changes.
+
+2002-10-20  Akim Demaille  <akim@epita.fr>
+
 	* data/yacc.c, data/yacc.c (b4_location_if, b4_pure_if): Move to...
 	* data/c.m4: here.
 
