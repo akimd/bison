@@ -1,5 +1,16 @@
 2000-10-04  Akim Demaille  <akim@epita.fr>
 
+	When a literal string is used to define two different tokens,
+	`bison -v' segfaults.
+	Reported by Piotr Gackiewicz, and fixed by Neil Booth.
+
+	* tests/regression.m4: New file.
+	Include the core of the sample provided by Piotr Gackiewicz.
+	* src/reader.c (parse_token_decl): Diagnose bad cases, and proceed
+	properly.
+
+2000-10-04  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (parse_expect_decl): Keep `count' within the size
 	of `buffer'.
 	From Neil Booth.

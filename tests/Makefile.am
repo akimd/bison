@@ -21,7 +21,7 @@
 # Distribute the testsuite since GNU M4 is needed to build it.
 noinst_SCRIPTS = testsuite
 
-SUITE = calc.m4
+SUITE = calc.m4 regression.m4
 
 EXTRA_DIST = atgeneral.m4 suite.m4 $(SUITE)
 
