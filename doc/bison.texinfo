@@ -6546,9 +6546,9 @@ but how can I implement loops?
 @end display
 
 Although very pedagogical, the examples included in the document blur
-the distinction to make between the parser ---whose job is to recover
+the distinction to make between the parser---whose job is to recover
 the structure of a text and to transmit it to subsequent modules of
-the program--- and the processing (such as the execution) of this
+the program---and the processing (such as the execution) of this
 structure.  This works well with so called straight line programs,
 i.e., precisely those that have a straightforward execution model:
 execute simple instructions one after the others.
