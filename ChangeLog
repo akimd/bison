@@ -1,5 +1,12 @@
 2002-06-20  Akim Demaille  <akim@epita.fr>
 
+	* data/bison.simple (b4_symbol_actions): New, replaces...
+	(b4_symbol_destructor, b4_symbol_printer): these.
+	(yysymprint): Be sure to call YYPRINT only for tokens, and using
+	user token numbers.
+
+2002-06-20  Akim Demaille  <akim@epita.fr>
+
 	* data/bison.simple (yydestructor): Rename as...
 	(yydestruct): this.
 

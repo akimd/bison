@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU bison 1.34a\n"
-"POT-Creation-Date: 2002-06-20 11:03+0200\n"
+"POT-Creation-Date: 2002-06-20 13:40+0200\n"
 "PO-Revision-Date: 2002-03-21 15:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -328,24 +328,24 @@ msgstr "multiples déclarations %s"
 msgid "rule given for %s, which is a token"
 msgstr "la règle pour %s, qui est un terminal"
 
-#: src/reader.c:227
+#: src/reader.c:228
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "conflit de type (« %s » « %s ») pour l'action par défaut"
 
-#: src/reader.c:234
+#: src/reader.c:236
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "règle vide pour une catégorie typée et aucune action"
 
-#: src/reader.c:305
+#: src/reader.c:307
 msgid "two @prec's in a row"
 msgstr "deux @prec de suite"
 
-#: src/reader.c:446
+#: src/reader.c:448
 msgid "no rules in the input grammar"
 msgstr "la grammaire n'a pas de règles"
 
-#: src/reader.c:478
+#: src/reader.c:480
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "trop de symboles (jeton plus non terminaux); maximum %d"

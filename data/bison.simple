@@ -143,6 +143,28 @@ m4_map([b4_token_define], [$@])
 ])
 
 
+## --------------------------------------------------------- ##
+## Defining symbol actions, e.g., printers and destructors.  ##
+## --------------------------------------------------------- ##
+
+# b4_symbol_actions(FILENAME, LINENO,
+#                   SYMBOL-TAG, SYMBOL-NUM,
+#                   SYMBOL-ACTION, SYMBOL-TYPENAME)
+# -------------------------------------------------
+m4_define([b4_symbol_actions],
+[m4_pushdef([b4_dollar_dollar], [yyvalue.$6])dnl
+m4_pushdef([b4_at_dollar], [yylocation])dnl
+      case $4: /* $3 */
+#line $2 "$1"
+        $5;
+#line __oline__ "__ofile__"
+        break;
+m4_popdef([b4_at_dollar])dnl
+m4_popdef([b4_dollar_dollar])dnl
+])
+
+
+
 m4_divert(0)dnl
 #output "b4_output_parser_name"
 /* A Bison parser, made from b4_filename
@@ -1221,28 +1243,13 @@ yyreturn:
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
 
-m4_divert_push([KILL])# M4 code.
-# b4_symbol_destructor(SYMBOL-NUMBER, DESTRUCTOR, TYPE-NAME)
-# ----------------------------------------------------------
-m4_define([b4_symbol_destructor],
-[m4_pushdef([b4_dollar_dollar], [yyvalue.$6])dnl
-m4_pushdef([b4_at_dollar], [yylocation])dnl
-      case $4: /* $3 */
-#line $2 "$1"
-        $5;
-#line __oline__ "__ofile__"
-        break;
-m4_popdef([b4_at_dollar])dnl
-m4_popdef([b4_dollar_dollar])])
-
-m4_divert_pop([KILL])dnl# End of M4 code.
 static void
 yydestruct (int yytype,
 	    YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]))
 {
   switch (yytype)
     {
-m4_map([b4_symbol_destructor], m4_defn([b4_symbol_destructors]))dnl
+m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))dnl
       default:
         break;
     }
@@ -1254,39 +1261,26 @@ m4_map([b4_symbol_destructor], m4_defn([b4_symbol_destructors]))dnl
 | Print this symbol on YYOUT.  |
 `-----------------------------*/
 
-m4_divert_push([KILL])# M4 code.
-# b4_symbol_printer(SYMBOL-NUMBER, PRINTER, TYPE-NAME)
-# ----------------------------------------------------------
-m4_define([b4_symbol_printer],
-[m4_pushdef([b4_dollar_dollar], [yyvalue.$6])dnl
-m4_pushdef([b4_at_dollar], [yylocation])dnl
-      case $4: /* $3 */
-#line $2 "$1"
-        $5;
-#line __oline__ "__ofile__"
-        break;
-m4_popdef([b4_at_dollar])dnl
-m4_popdef([b4_dollar_dollar])])
-
-m4_divert_pop([KILL])dnl# End of M4 code.
 static void
 yysymprint (FILE* yyout, int yytype,
 	    YYSTYPE yyvalue[]b4_location_if([, YYLTYPE yylocation]))
 {
   if (yytype < YYNTOKENS)
-    YYFPRINTF (yyout, "token %s (", yytname[[yytype]]);
+    {
+      YYFPRINTF (yyout, "token %s (", yytname[[yytype]]);
+# ifdef YYPRINT
+      YYPRINT (yyout, yytoknum[[yytype]], yyvalue);
+# endif
+    }
   else
     YYFPRINTF (yyout, "nterm %s (", yytname[[yytype]]);
-# ifdef YYPRINT
-  YYPRINT (yyout, yytype, yyvalue);
-# else
+
   switch (yytype)
     {
-m4_map([b4_symbol_printer], m4_defn([b4_symbol_printers]))dnl
+m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
       default:
         break;
     }
-# endif /* !defined YYPRINT. */
   YYFPRINTF (yyout, ")");
 }
 #endif /* YYDEBUG. */

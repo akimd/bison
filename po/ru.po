@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.32\n"
-"POT-Creation-Date: 2002-06-20 11:03+0200\n"
+"POT-Creation-Date: 2002-06-20 13:40+0200\n"
 "PO-Revision-Date: 2002-01-25 12:19+0300\n"
 "Last-Translator: Dmitry S. Sivachenko <dima@Chg.RU>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -331,25 +331,25 @@ msgstr "множественное описание %s"
 msgid "rule given for %s, which is a token"
 msgstr "правило задано для %s, который является лексемой"
 
-#: src/reader.c:227
+#: src/reader.c:228
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "конфликт типов (`%s' `%s') на действии по умолчанию"
 
-#: src/reader.c:234
+#: src/reader.c:236
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "пустое правило для типизированного нетерминального символа, и нет действия"
 
-#: src/reader.c:305
+#: src/reader.c:307
 msgid "two @prec's in a row"
 msgstr "два @prec подряд"
 
-#: src/reader.c:446
+#: src/reader.c:448
 msgid "no rules in the input grammar"
 msgstr "отсутствуют правила во входной грамматике"
 
-#: src/reader.c:478
+#: src/reader.c:480
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "слишком много символов (лексемы плюс нетерминалы); максимально %d"

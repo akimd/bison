@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-06-20 11:03+0200\n"
+"POT-Creation-Date: 2002-06-20 13:40+0200\n"
 "PO-Revision-Date: 2002-04-10 22:20+01\n"
 "Last-Translator: Denis Lackovic <delacko@fly.srk.fer.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -322,24 +322,24 @@ msgstr "vi¹estruke %s deklaracije"
 msgid "rule given for %s, which is a token"
 msgstr "pravilo dato za %s, a to je znak"
 
-#: src/reader.c:227
+#: src/reader.c:228
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "sudar tipova (`%s' `%s') na deaultnoj akciji"
 
-#: src/reader.c:234
+#: src/reader.c:236
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "prazno pravilo za nezavr¹ni znak, i nema akcije"
 
-#: src/reader.c:305
+#: src/reader.c:307
 msgid "two @prec's in a row"
 msgstr "dva @prec's u retku"
 
-#: src/reader.c:446
+#: src/reader.c:448
 msgid "no rules in the input grammar"
 msgstr "nema pravila u ulaznoj gramatici"
 
-#: src/reader.c:478
+#: src/reader.c:480
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "previ¹e simbola (znakovi plus nezavr¹ni znakovi); maksimalno %d"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bison 1.34a\n"
-"POT-Creation-Date: 2002-06-20 11:03+0200\n"
+"POT-Creation-Date: 2002-06-20 13:40+0200\n"
 "PO-Revision-Date: 2002-03-20 12:54+0100\n"
 "Last-Translator: Tim Van Holder <tim.van.holder@pandora.be>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -333,24 +333,24 @@ msgstr "meerdere %s declaraties"
 msgid "rule given for %s, which is a token"
 msgstr "regel opgegeven voor token (%s)"
 
-#: src/reader.c:227
+#: src/reader.c:228
 #, c-format
 msgid "type clash (`%s' `%s') on default action"
 msgstr "type-conflict (`%s' `%s') bij standaardaktie"
 
-#: src/reader.c:234
+#: src/reader.c:236
 msgid "empty rule for typed nonterminal, and no action"
 msgstr "lege regel voor niet-eindsymbool met type, en geen actie"
 
-#: src/reader.c:305
+#: src/reader.c:307
 msgid "two @prec's in a row"
 msgstr "twee @prec's na elkaar"
 
-#: src/reader.c:446
+#: src/reader.c:448
 msgid "no rules in the input grammar"
 msgstr "invoergrammatica bevat geen regels"
 
-#: src/reader.c:478
+#: src/reader.c:480
 #, c-format
 msgid "too many symbols (tokens plus nonterminals); maximum %d"
 msgstr "teveel symbolen (tokens plus niet-eindsymbolen); het maximum is %d"
