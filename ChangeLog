@@ -1,5 +1,8 @@
 2003-10-07  Paul Eggert  <eggert@twinsun.com>
 
+	* tests/Makefile.am (clean-local): Don't run 'testsuite --clean'
+	if testsuite doesn't exist.
+
 	* doc/bison.texinfo (Symbols): NUL bytes are not allowed in string
 	literals, unfortunately.
 	* src/scan-gram.l (<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>):
