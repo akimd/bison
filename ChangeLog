@@ -1,5 +1,15 @@
 2001-01-19  Akim Demaille  <akim@epita.fr>
 
+	Get rid of the ad hoc handling of token_buffer in the scanner: use
+	the obstacks.
+
+	* src/lex.c (token_obstack): New.
+	(init_lex): Initialize it.  No longer call...
+	(grow_token_buffer): this.  Remove it.
+	Adjust all the places which used it to use the obstack.
+
+2001-01-19  Akim Demaille  <akim@epita.fr>
+
 	* src/lex.h: Rename all the tokens:
 	s/\bENDFILE\b/tok_eof/g;
 	s/\bIDENTIFIER\b/tok_identifier/g;
