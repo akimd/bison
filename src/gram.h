@@ -50,6 +50,13 @@
    RULE_TABLE[R].rhs -- the index in RITEM of the beginning of the
    portion for rule R.
 
+   RULE_TABLE[R].prec -- the precedence level of R.
+
+   RULE_TABLE[R].precsym -- the symbol-number of the symbol in %prec
+   for R (if any).
+
+   RULE_TABLE[R].assoc -- the associativity of the rule.
+
    The right hand side is stored as symbol numbers in a portion of
    RITEM.
 
@@ -67,10 +74,7 @@
    Item numbers are used in the finite state machine to represent
    places that parsing can get to.
 
-   Precedence levels are recorded in the vectors sprec and rprec.
-   sprec records the precedence level of each symbol, rprec the
-   precedence level of each rule.  rprecsym is the symbol-number of
-   the symbol in %prec for this rule (if any).
+   SPREC records the precedence level of each symbol.
 
    Precedence levels are assigned in increasing order starting with 1
    so that numerically higher precedence values mean tighter binding
@@ -91,22 +95,11 @@ extern int nvars;
 
 extern short *ritem;
 
-extern short *rprec;
-extern short *rprecsym;
 extern short *sprec;
-extern short *rassoc;
 extern short *sassoc;
 extern short *rline;		/* Source line number of each rule */
 
 extern int start_symbol;
-
-typedef struct rule_s
-{
-  short lhs;
-  short rhs;
-} rule_t;
-
-extern struct rule_s *rule_table;
 
 /* associativity values in elements of rassoc, sassoc.  */
 typedef enum
@@ -116,6 +109,17 @@ typedef enum
   non_assoc
 } associativity;
 
+
+typedef struct rule_s
+{
+  short lhs;
+  short rhs;
+  short prec;
+  short precsym;
+  short assoc;
+} rule_t;
+
+extern struct rule_s *rule_table;
 
 /* token translation table: indexed by a token number as returned by
    the user's yylex routine, it yields the internal token number used

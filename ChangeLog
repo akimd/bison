@@ -1,5 +1,11 @@
 2001-11-19  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (rprec, rprecsym, rassoc): Remove, now part of...
+	(rule_t): this.
+	* src/conflicts.c, src/reader.c, src/reduce.c: Adjust.
+
+2001-11-19  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h (rule_t): New.
 	(rule_table): New.
 	(rrhs, rlhs): Remove, part of state_t.
