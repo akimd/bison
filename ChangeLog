@@ -1,5 +1,28 @@
 2001-12-05  Akim Demaille  <akim@epita.fr>
 
+	Because useless nonterminals are now kept alive (instead of being
+	`destroyed'), we now sometimes examine them, and store information
+	related to them.  Hence we need to know their number, and adjust
+	memory allocations.
+
+	* src/reduce.c, src/reduce.h (nuseless_nonterminals): No longer
+	static.
+	* src/LR0.c (allocate_itemsets): The memory allocated to
+	`symbol_count' was used for two different purpose: once to count
+	the number of occurrences of each symbol, and later reassigned to
+	`shift_symbol', containing the symbol that can be shifted from a
+	given state.
+	Deobfuscate, i.e., allocate, use and free `symbol_count' here
+	only, and...
+	(new_itemsets): Allocate `shift_symbol' here.
+	(allocate_itemsets): symbol_count includes useless nonterminals.
+	Make room for them.
+	(free_storage): Use `free', not `XFREE', for pointers that cannot
+	be null.
+
+	
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
 	* src/nullable.c (set_nullable): Deobfuscate the handling of
 	ritem.
 	`symbol >= 0' is wrong now, use `rule_table[ruleno].useful'.

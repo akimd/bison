@@ -24,4 +24,6 @@
 void reduce_grammar PARAMS ((void));
 void reduce_output PARAMS ((FILE *out));
 void reduce_free PARAMS ((void));
+
+extern int nuseless_nonterminals;
 #endif /* !REDUCE_H_ */
