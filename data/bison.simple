@@ -286,7 +286,8 @@ static const short yyprhs[[]] =
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-static const short yyrhs[[]] =
+typedef b4_sint_type(b4_rhs_number_max) yyrhs_t;
+static const yyrhs_t yyrhs[[]] =
 {
   b4_rhs
 };

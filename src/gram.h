@@ -109,10 +109,13 @@ extern int nsyms;
 extern int ntokens;
 extern int nvars;
 
-extern short *ritem;
+#define ITEM_NUMBER_MAX INT_MAX
+typedef int item_number_t;
+extern item_number_t *ritem;
 extern int nritems;
 
 extern int start_symbol;
+
 
 typedef struct rule_s
 {
@@ -125,7 +128,7 @@ typedef struct rule_s
   short number;
 
   symbol_t *lhs;
-  short *rhs;
+  item_number_t *rhs;
 
   /* This symbol provides both the associativity, and the precedence. */
   symbol_t *prec;
@@ -133,14 +136,14 @@ typedef struct rule_s
   /* This symbol was attached to the rule via %prec. */
   symbol_t *precsym;
 
-  short line;
+  int line;
   bool useful;
 
   const char *action;
-  short action_line;
+  int action_line;
 
   const char *guard;
-  short guard_line;
+  int guard_line;
 } rule_t;
 
 extern struct rule_s *rules;

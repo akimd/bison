@@ -53,7 +53,7 @@ struct symbol_s
   short number;
   short prec;
   associativity assoc;
-  short user_token_number;
+  int user_token_number;
 
   /* Points to the other in the identifier-symbol pair for an
      alias. Special value SALIAS in the identifier half of the

@@ -186,11 +186,11 @@ typedef struct state_s
 
   /* Its items. */
   short nitems;
-  short items[1];
+  item_number_t items[1];
 } state_t;
 
 #define STATE_ALLOC(Nitems)						\
   (state_t *) xcalloc ((unsigned) (sizeof (state_t) 			\
-                                  + (Nitems - 1) * sizeof (short)), 1)
+                                  + (Nitems - 1) * sizeof (item_number_t)), 1)
 
 #endif /* !STATE_H_ */

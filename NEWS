@@ -4,7 +4,8 @@ Bison News
 Changes in version 1.49a:
 
 * Large grammars
-  Are now supported.
+  Are now supported (large token numbers, large grammar size (= sum of
+  the LHS and RHS lengths).
 
 * The initial rule is explicit.
   Bison used to play hacks with the initial rule, which the user does

@@ -1,5 +1,33 @@
 2002-04-08  Akim Demaille  <akim@epita.fr>
 
+	* src/gram.h (item_number_t): New, the type of item numbers in
+	RITEM.  Note that it must be able to code symbol numbers as
+	positive number, and the negation of rule numbers as negative
+	numbers.
+	Adjust all dependencies (pretty many).
+	* src/reduce.c (rule): Remove this `short *' pointer: use
+	item_number_t.
+	* src/system.h (MINSHORT, MAXSHORT): Remove.
+	Include `limits.h'.
+	Adjust dependencies to using SHRT_MAX and SHRT_MIN.
+	(shortcpy): Remove.
+	(MAXTABLE): Move to...
+	* src/output.c (MAXTABLE): here.
+	(prepare_rules): Use output_int_table to output rhs.
+	* data/bison.simple, data/bison.c++: Adjust.
+	* tests/torture.at (Big triangle): Move the limit from 254 to
+	500.
+	* tests/regression.at (Web2c Actions): Ajust.
+
+	Trying with bigger grammars shows various phenomena: at 3000 (28Mb
+	of grammar file) bison is killed by my system, at 2000 (12Mb) bison
+	passes, but produces negative #line number, once fixed, GCC is
+	killed while compiling 14Mb, at 1500 (6.7 Mb of grammar, 8.2Mb of
+	C), it passes.
+	* src/state.h (state_h): Code input lines on ints, not shorts.
+
+2002-04-08  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c (reduce_grammar): First reduce the nonterminals,
 	and then the grammar.
 

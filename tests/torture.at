@@ -140,6 +140,108 @@ AT_CLEANUP
 
 
 
+# AT_DATA_HORIZONTAL_GRAMMAR(FILE-NAME, SIZE)
+# -------------------------------------------
+# Create FILE-NAME, containing a self checking parser for a huge
+# horizontal grammar.
+# FIXME: The `10 *' below are there to avoid clashes with predefined
+# tokens.  These clashes should be exercised, I'm afraid something
+# is broken wrt previous Bisons.
+m4_define([AT_DATA_HORIZONTAL_GRAMMAR],
+[AT_DATA([[gengram.pl]],
+[[#! /usr/bin/perl -w
+
+use strict;
+my $max = $ARGV[0] || 10;
+
+print <<EOF;
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+#define YYERROR_VERBOSE 1
+#define YYDEBUG 1
+
+static int yylex (void);
+static void yyerror (const char *msg);
+%}
+EOF
+
+for my $size (1 .. $max)
+  {
+    print "%token \"$size\" ", $size * 10, "\n";
+  };
+
+print <<EOF;
+%%
+EOF
+
+use Text::Wrap;
+print
+  wrap ("exp: ", "  ",
+	(map { "\"$_\"" } (1 .. $max)), ";"),
+  "\n";
+
+print <<EOF;
+%%
+static int
+yylex (void)
+{
+  static int counter = 1;
+  if (counter > $max)
+    return 0;
+  else
+  return counter++ * 10;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\\n", msg);
+}
+
+int
+main (void)
+{
+  yydebug = !!getenv ("YYDEBUG");
+  return yyparse ();
+}
+EOF
+]])
+
+AT_CHECK([perl -w ./gengram.pl $2 || exit 77], 0, [stdout])
+mv stdout $1
+])
+
+
+## ---------------- ##
+## Big horizontal.  ##
+## ---------------- ##
+
+AT_SETUP([Big horizontal])
+
+# I have been able to go up to 10000 on my machine, but I had to
+# increase the maximum stack size (* 100).  It gave:
+#
+# input.y      263k
+# input.tab.c  1.3M
+# input        453k
+#
+# gengram.pl 10000                 0.70s user 0.01s sys  99% cpu    0.711 total
+# bison input.y                  730.56s user 0.53s sys  99% cpu 12:12.34 total
+# gcc -Wall input.tab.c -o input   5.81s user 0.20s sys 100% cpu     6.01 total
+# ./input                          0.00s user 0.01s sys 108% cpu     0.01 total
+#
+AT_DATA_HORIZONTAL_GRAMMAR([input.y], [1000])
+AT_CHECK([bison input.y -v -o input.c])
+AT_CHECK([$CC $CFLAGS $CPPFLAGS input.c -o input], 0, [], [ignore])
+AT_CHECK([./input])
+
+AT_CLEANUP
+
+
+
 # AT_DATA_STACK_TORTURE(C-PROLOGUE)
 # ---------------------------------
 # A parser specialized in torturing the stack size.

@@ -89,6 +89,9 @@ char *alloca ();
 # endif
 #endif
 
+/* FIXME: Autoconfiscate. */
+#include <limits.h>
+
 # include "xalloc.h"
 
 /* From xstrndup.c.  */
@@ -219,23 +222,6 @@ do {								\
 } while (0)
 
 
-/*---------------------------------.
-| Machine-dependencies for Bison.  |
-`---------------------------------*/
-
-#ifdef	eta10
-# define	MAXSHORT	2147483647
-# define	MINSHORT	-2147483648
-#else
-# define	MAXSHORT	32767
-# define	MINSHORT	-32768
-#endif
-
-#if defined (MSDOS) && !defined (__GO32__)
-# define MAXTABLE	16383
-#else
-# define MAXTABLE	32767
-#endif
 
 /*-----------------------------------------.
 | Extensions to use for the output files.  |
@@ -268,13 +254,6 @@ do {								\
 #endif
 
 
-
-/*----------------------------.
-| As memcpy, but for shorts.  |
-`----------------------------*/
-
-#define shortcpy(Dest, Src, Num) \
-  memcpy (Dest, Src, Num * sizeof (short))
 
 /*---------------------.
 | Free a linked list.  |

@@ -168,6 +168,7 @@ namespace yy
   struct Traits< b4_name >
   {
     typedef typedef b4_uint_type(b4_token_number_max) TokenNumberType;
+    typedef typedef b4_sint_type(b4_item_number_max)  RhsNumberType;
     typedef int      StateType;
     typedef yystype  SemanticType;
     typedef b4_ltype LocationType;
@@ -181,8 +182,9 @@ namespace yy
   public:
 
     typedef Traits< b4_name >::TokenNumberType TokenNumberType;
+    typedef Traits< b4_name >::RhsNumberType   TokenNumberType;
     typedef Traits< b4_name >::StateType       StateType;
-    typedef Traits< b4_name >::SemanticType     SemanticType;
+    typedef Traits< b4_name >::SemanticType    SemanticType;
     typedef Traits< b4_name >::LocationType    LocationType;
 
     typedef Stack< StateType >    StateStack;
@@ -684,7 +686,7 @@ const yy::b4_name::name_[[]] =
 
 #if YYDEBUG
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-const short
+const RhsNumberType
 yy::b4_name::rhs_[[]] =
 {
   b4_rhs

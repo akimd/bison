@@ -467,7 +467,7 @@ static const short yyprhs[] =
 {
        0,     0,     3,     5,     6,     9,    14
 };
-static const short yyrhs[] =
+static const yyrhs_t yyrhs[] =
 {
        8,     0,    -1,     9,    -1,    -1,    10,    11,    -1,     3,
        4,     5,     8,    -1,     6,     8,    -1
