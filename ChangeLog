@@ -1,5 +1,10 @@
 2002-02-25  Akim Demaille  <akim@epita.fr>
 
+	* src/output.c (header_output): Remove, now handled completely via
+	M4.
+
+2002-02-25  Akim Demaille  <akim@epita.fr>
+
 	* m4/m4.m4: New, from CVS Autoconf.
 	* configure.in: Invoke it.
 	* src/output.c (output_skeleton): Use its result instead of the
