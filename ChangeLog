@@ -1,3 +1,12 @@
+2001-12-05  Akim Demaille  <akim@epita.fr>
+
+	* src/gram.c, src/gram.h (ritem_print): New.
+	* src/gram.c (dummy): Remove, now there is actual code in gram.c.
+	(This useless function was defined only to work around VMS linkers
+	that can't handle compilation units with variables only).
+	* src/reduce.c (dump_grammar): Use it to trace the construction of
+	ritem.
+
 2001-12-04  Paul Eggert  <eggert@twinsun.com>
 
 	* src/bison.simple (union yyalloc): Change member names

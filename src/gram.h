@@ -147,4 +147,8 @@ extern int pure_parser;
 /* ERROR_TOKEN_NUMBER is the token number of the error token.  */
 
 extern int error_token_number;
+
+
+/* Dump RITEM for traces. */
+void ritem_print (FILE *out);
 #endif /* !GRAM_H_ */
