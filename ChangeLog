@@ -1,5 +1,10 @@
 2001-12-27  Akim Demaille  <akim@epita.fr>
 
+	* src/reader.c (symbol_list_new): Be sure to initialize all the
+	fields.
+
+2001-12-27  Akim Demaille  <akim@epita.fr>
+
 	All the hacks using a final pseudo state are now useless.
 
 	* src/LR0.c (set_state_table): state_table holds exactly nstates.
