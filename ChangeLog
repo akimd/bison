@@ -1,4 +1,4 @@
-2001-08-29  Marc Autret  <autret_m@epita.fr>
+2001-08-30  Marc Autret  <autret_m@epita.fr>
 
 	* src/reader.c (parse_skel_decl): New.
 	(read_declarations): Add case `tok_skel', call parse_skel_decl (). 
