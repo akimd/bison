@@ -284,7 +284,7 @@ AT_DATA([input.y],
 ?
 default: 'a' }
 %&
-%a
+%a-does-not-exist
 %-
 %{
 ]])
@@ -294,10 +294,10 @@ AT_CHECK([bison input.y], [1], [],
 input.y:3.14: invalid character: `}'
 input.y:4.1: invalid character: `%'
 input.y:4.2: invalid character: `&'
-input.y:5.1: invalid character: `%'
+input.y:5.1-17: invalid directive: `%a-does-not-exist'
 input.y:6.1: invalid character: `%'
 input.y:6.2: invalid character: `-'
-input.y:7.1-8.0: unexpected end of file in a prologue
+input.y:7.1-8.0: unexpected end of file in `%{ ... %}'
 input.y:7.1-8.0: parse error, unexpected "%{...%}", expecting ";" or "|"
 ]])
 

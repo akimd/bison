@@ -1,5 +1,10 @@
 2002-11-06  Akim Demaille  <akim@epita.fr>
 
+	* tests/regression.at (Invalid inputs): Adjust to the recent
+	messages.
+
+2002-11-06  Akim Demaille  <akim@epita.fr>
+
 	Restore --no-lines.
 	Reported by Jim Kent.
 
@@ -8,6 +13,7 @@
 	* src/reader.c (prologue_augment, epilogue_set): Use b4_syncline.
 	* src/output.c (user_actions_output): Likewise.
 	(prepare): Define 'b4_synclines_flag'.
+	* src/muscle_tab.c (muscle_init): Don't define b4_linef.
 
 2002-11-06  Akim Demaille  <akim@epita.fr>
 
