@@ -106,10 +106,6 @@ char *stpcpy PARAMS ((char *dest, const char *src));
 char *strchr(const char *s, int c);
 #endif
 
-#if !HAVE_DECL_STRNDUP
-char *strndup PARAMS ((const char *s, size_t size));
-#endif
-
 #if !HAVE_DECL_STRSPN
 size_t strspn(const char *s, const char *accept);
 #endif
