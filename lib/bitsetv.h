@@ -26,7 +26,7 @@ typedef bitset * bitsetv;
 /* Create a vector of N_VECS bitsets, each of N_BITS, and of
    type TYPE.  */
 extern bitsetv bitsetv_alloc PARAMS ((bitset_bindex, bitset_bindex,
-				      enum_bitset_type));
+				      enum bitset_type));
 
 /* Create a vector of N_VECS bitsets, each of N_BITS, and with
    attribute hints specified by ATTR.  */
@@ -47,7 +47,7 @@ extern void bitsetv_ones PARAMS ((bitsetv));
 extern void bitsetv_transitive_closure PARAMS ((bitsetv));
 
 /* Given a vector BSETV of N bitsets of size N, modify its contents to
-   be the reflexive transitive closure of what was given.  This is 
+   be the reflexive transitive closure of what was given.  This is
    the same as transitive closure but with all bits on the diagonal
    of the bit matrix set.  */
 extern void bitsetv_reflexive_transitive_closure PARAMS ((bitsetv));
