@@ -1,5 +1,10 @@
 2001-11-28  Akim Demaille  <akim@epita.fr>
 
+	* src/closure.c (closure): `r' and `c' are new variables, used to
+	de-obfuscate accesses to RULESET and CORE.
+
+2001-11-28  Akim Demaille  <akim@epita.fr>
+
 	* src/reduce.c (reduce_print): Use ngettext.
 	(dump_grammar): Improve the trace accuracy.
 
