@@ -1,3 +1,11 @@
+2004-12-15  Akim Demaille  <akim@epita.fr>
+
+	Remove b4_root related material: failure experiment
+	(which goal was to allow to derive from an class).
+
+	* data/lalr1.cc (b4_root, b4_param, b4_constructor): Remove
+	definitions and uses.
+
 2004-12-14  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (struct yyGLRStack): yyerror_range now has 3 items,

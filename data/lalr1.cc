@@ -62,25 +62,6 @@ m4_define([b4_rhs_location],
 [location_stack_@{m4_eval([$1 - $2])@}])
 
 
-m4_define([b4_inherit],
-          [m4_ifdef([b4_root],
-		    [: public b4_root
-],
-		    [])])
-
-m4_define([b4_param],
-	  [m4_ifdef([b4_root],
-	            [,
-            const Param& param],
-		    [])])
-
-m4_define([b4_constructor],
-	  [m4_ifdef([b4_root],
-		    [b4_root (param),
-      ],
-		    [])])
-
-
 # b4_parse_param_decl
 # -------------------
 # Extra formal arguments of the constructor.
@@ -222,7 +203,7 @@ namespace yy
 
 namespace yy
 {
-  class ]b4_parser_class_name b4_inherit[
+  class ]b4_parser_class_name[
   {
   public:
 
@@ -236,15 +217,15 @@ namespace yy
     typedef Stack<SemanticType> SemanticStack;
     typedef Stack<LocationType> LocationStack;
 
-    ]b4_parser_class_name[ (bool debug][]b4_param[]b4_parse_param_decl[) :
-      ]b4_constructor[][debug_ (debug),
+    ]b4_parser_class_name[ (bool debug]b4_parse_param_decl[) :
+      debug_ (debug),
       yycdebug_ (&std::cerr)]b4_parse_param_cons[
     {
     }
 
     ]b4_parser_class_name[ (bool debug,
-	    LocationType][]b4_param[]b4_parse_param_decl[) :
-      ]b4_constructor[][debug_ (debug),
+	    LocationType]b4_parse_param_decl[) :
+      debug_ (debug),
       yycdebug_ (&std::cerr)]b4_parse_param_cons[
     {
       *yycdebug_ << __FILE__ << ':' << __LINE__
