@@ -1,5 +1,18 @@
 2002-04-09  Akim Demaille  <akim@epita.fr>
 
+	* tests/calc.at (_AT_CHECK_CALC_ERROR): Receive as argument the
+	full stderr, and strip it according to the bison options, instead
+	of composing the error message from different bits.
+	This makes it easier to check for several error messages.
+	Adjust all the invocations.
+	Add an invocation exercising the error token.
+	Add an invocation demonstrating a stupid error message.
+	(_AT_DATA_CALC_Y): Follow the GCS: initial column is 1, not 0.
+	Adjust the tests.
+	Error message are for stderr, not stdout.
+
+2002-04-09  Akim Demaille  <akim@epita.fr>
+
 	* src/gram.h, src/gram.c (error_token_number): Remove, use
 	errtoken->number.
 	* src/reader.c (reader): Don't specify the user token number (2)

@@ -14,10 +14,29 @@ into
 when there are no actions.  This can significantly speed up some
 grammars.
 
-* Huge Grammars
-Currently, not only is Bison unable to handle huge grammars because of
-internal limitations (see test `big triangle').  Push the limit beyond
-253.  Be my guest: fix this!
+* Stupid error messages
+An example shows it easily:
+
+src/bison/tests % ./testsuite -k calc,location,error-verbose -l
+GNU Bison 1.49a test suite test groups:
+
+ NUM: FILENAME:LINE      TEST-GROUP-NAME
+      KEYWORDS
+
+  51: calc.at:440        Calculator --locations --yyerror-verbose
+  52: calc.at:442        Calculator --defines --locations --name-prefix=calc --verbose --yacc --yyerror-verbose
+  54: calc.at:445        Calculator --debug --defines --locations --name-prefix=calc --verbose --yacc --yyerror-verbose
+src/bison/tests % ./testsuite 51 -d
+## --------------------------- ##
+## GNU Bison 1.49a test suite. ##
+## --------------------------- ##
+ 51: calc.at:440       ok
+## ---------------------------- ##
+## All 1 tests were successful. ##
+## ---------------------------- ##
+src/bison/tests % cd ./testsuite.dir/51
+tests/testsuite.dir/51 % echo "()" | ./calc
+1.2-1.3: parse error, unexpected ')', expecting error or "number" or '-' or '('
 
 * read_pipe.c
 This is not portable to DOS for instance.  Implement a more portable
