@@ -1,3 +1,12 @@
+2002-03-19  Paul Eggert  <eggert@twinsun.com>
+
+	* Makefile.am (AUTOMAKE_OPTIONS): 1.6.
+	* doc/Makefile.am (AUTOMAKE_OPTIONS): Remove.
+	* Makefile.in, aclocal.m4, config.hin, configure,
+	config/Makefile.in, config/depcomp, config/install-sh,
+	doc/Makefile.am, lib/Makefile.in, m4/Makefile.in, src/Makefile.in,
+	tests/Makefile.in: Regenerate using Automake 1.6.
+
 2002-03-18  Paul Eggert  <eggert@twinsun.com>
 
 	Fix the problem with union yyalloc and C++.
