@@ -263,7 +263,6 @@ namespace yy
 
     virtual void lex_ ();
     virtual void error_ ();
-    virtual void print_ ();
     virtual void report_syntax_error_ ();
 #if YYDEBUG
     virtual void symprint_ (int yytype,

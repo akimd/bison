@@ -126,15 +126,7 @@ exp:
 static FILE *yyin;
 
 ]AT_LALR1_CC_IF(
-[/* Currently, print_ is required in C++. */
-void
-yy::Parser::print_ ()
-{
-AT_LOCATION_IF([
-  std::cerr << location;])
-}
-
-/* A C++ error reporting function. */
+[/* A C++ error reporting function. */
 void
 yy::Parser::error_ ()
 {

@@ -725,13 +725,7 @@ member: STRING
    ;
 %%
 AT_LALR1_CC_IF(
-[/* Currently, print_ is required in C++. */
-void
-yy::Parser::print_ ()
-{
-}
-
-/* A C++ error reporting function. */
+[/* A C++ error reporting function. */
 void
 yy::Parser::error_ ()
 {
