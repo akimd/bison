@@ -305,9 +305,9 @@ This edition corresponds to version @value{VERSION} of Bison.
 @unnumbered Conditions for Using Bison
 
 As of Bison version 1.24, we have changed the distribution terms for
-@code{yyparse} to permit using Bison's output in nonfree programs.
-Formerly, Bison parsers could be used only in programs that were free
-software.
+@code{yyparse} to permit using Bison's output in nonfree programs when
+Bison is generating C code for LALR(1) parsers.  Formerly, these
+parsers could be used only in programs that were free software.
 
 The other GNU programming tools, such as the GNU C compiler, have never
 had such a requirement.  They could always be used for nonfree
@@ -328,6 +328,13 @@ concluded that limiting Bison's use to free software was doing little to
 encourage people to make other software free.  So we decided to make the
 practical conditions for using Bison match the practical conditions for
 using the other GNU tools.
+
+This exception applies only when Bison is generating C code for a
+LALR(1) parser; otherwise, the GPL terms operate as usual.  You can
+tell whether the exception applies to your @samp{.c} output file by
+inspecting it to see whether it says ``As a special exception, when
+this file is copied by Bison into a Bison output file, you may use
+that output file without restriction.''
 
 @include gpl.texi
 
