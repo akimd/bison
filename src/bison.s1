@@ -309,10 +309,15 @@ yyparse(YYPARSE_PARAM_ARG)
 #endif
 
 
-  /* The variable used to return semantic values from the action
-     routines.  */
+  /* The variables used to return semantic value and location from the
+     action routines.  */
   YYSTYPE yyval;
+# ifdef YYLSP_NEEDED
+  YYLTYPE yyloc;
+# endif
 
+  /* When reducing, the number of symbols on the RHS of the reduced
+     rule. */
   int yylen;
 
   if (yydebug)
@@ -533,8 +538,27 @@ yydefault:
 /* Do a reduction.  yyn is the number of a rule to reduce with.  */
 yyreduce:
   yylen = yyr2[yyn];
+  /* Implement default value of the action:
+     `{dollar}{dollar} = {dollar}1'. */
   if (yylen > 0)
-    yyval = yyvsp[1-yylen]; /* implement default value of the action */
+      yyval = yyvsp[1-yylen];
+#ifdef YYLSP_NEEDED
+  /* Implement default location.  If the rhs is empty, extend YYLOC to
+     YYLLOC, which corresponds to the current token, otherwise
+     implement `@{dollar} = Starts at @1, ends at @YYLEN'.  */
+  if (yylen > 0)
+    {
+      yyloc = yylsp[1-yylen];
+      yyloc.last_line = yylsp[0].last_line;
+      yyloc.last_column = yylsp[0].last_column;
+    }
+  else
+    {
+      yyloc.last_line = yylsp[0].last_line;
+      yyloc.last_column = yylsp[0].last_column;
+      yyloc.text = 0;
+    }
+#endif
 
 #if YYDEBUG
   /* We have to keep this `#if YYDEBUG', since we use variables which
@@ -571,22 +595,8 @@ $   /* the action file gets copied in in place of this dollarsign */
     }
 
   *++yyvsp = yyval;
-
 #ifdef YYLSP_NEEDED
-  yylsp++;
-  if (yylen == 0)
-    {
-      yylsp->first_line = yylloc.first_line;
-      yylsp->first_column = yylloc.first_column;
-      yylsp->last_line = (yylsp-1)->last_line;
-      yylsp->last_column = (yylsp-1)->last_column;
-      yylsp->text = 0;
-    }
-  else
-    {
-      yylsp->last_line = (yylsp+yylen-1)->last_line;
-      yylsp->last_column = (yylsp+yylen-1)->last_column;
-    }
+  *++yylsp = yyloc;
 #endif
 
   /* Now `shift' the result of the reduction.  Determine what state

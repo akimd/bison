@@ -1,5 +1,25 @@
 2000-03-17  Akim Demaille  <akim@epita.fr>
 
+	Change the handling of @s so that they behave exactly like $s.
+	There is now a pseudo variable @$ (readble and writable), location
+	of the lhs of the rule (by default ranging from the location of
+	the first symbol of the rhs, to the location of the last symbol,
+	or, if the rhs is empty, YYLLOC).
+
+	* src/bison.s1 [YYLSP_NEEDED] (yyloc): New variable, twin of
+	yyval.
+	(yyparse): When providing a default semantic action, provide a
+	default location action.
+	(after the $): No longer change `*YYLSP', just stack YYLOC the
+	same way you stack YYVAL.
+	* src/reader.c (read_declarations): Use warns.
+	(copy_guard, case '@'): Also recognize `@$', expanded as `YYLOC'.
+	(copy_action, case '@'): Likewise.
+	Use a standard error message, to save useless work from
+	translators.
+
+2000-03-17  Akim Demaille  <akim@epita.fr>
+
 	* bison.s1: Formatting and cosmetics changes.
 	* reader.c: Likewise.
 	Update the Copyright notice.
