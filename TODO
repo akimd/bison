@@ -5,11 +5,11 @@ Check and cleanup for CPP-out code.	[ok]
 
 * src/output.c
 Check and cleanup for CPP-out code.	[ok]
-** %%input-line is not correct at this time.
+** %%input-line is not correct at this time.	[ok]
 Rely with bison.simple.
 
 * Broken options ?.
-** %no-lines		[]
+** %no-lines		[ok]
 ** %no-parser		[]
 ** %pure-parser		[]
 ** %semantic-parser	[]
