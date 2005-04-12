@@ -1,3 +1,11 @@
+2005-04-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/symtab.c (symbol_make_alias): Call symbol_type_set,
+	reverting the 2004-10-11 change to this function.
+	(symbol_check_alias_consistency): Don't call symbol_type_set
+	if the type name is already correct.
+	* tests/input.at (Typed symbol aliases): New test, from Tim Van Holder.
+
 2005-03-25  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/regression.at (Token definitions): Don't use a token named
