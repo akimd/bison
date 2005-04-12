@@ -272,3 +272,28 @@ AT_PARSER_CHECK([./input], 0,
 ]])
 
 AT_CLEANUP
+
+
+## ---------------------- ##
+## Typed symbol aliases.  ##
+## ---------------------- ##
+
+AT_SETUP([Typed symbol aliases])
+
+# Bison 2.0 broke typed symbol aliases - ensure they work.
+
+AT_DATA_GRAMMAR([input.y],
+[[%union
+{
+  int val;
+};
+%token <val> MY_TOKEN "MY TOKEN"
+%type <val> exp
+%%
+exp: "MY TOKEN";
+%%
+]])
+
+AT_CHECK([bison -o input.c input.y])
+
+AT_CLEANUP
