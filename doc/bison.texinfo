@@ -1166,7 +1166,14 @@ start with a function called @code{main}; you have to provide this, and
 arrange for it to call @code{yyparse} or the parser will never run.
 @xref{Interface, ,Parser C-Language Interface}.
 
-Aside from the token type names and the symbols in the actions you
+If your code defines a C preprocessor macro @code{_} (a single
+underscore), Bison assumes that it can be used to translate
+English-language strings to the user's preferred language using a
+function-like syntax, e.g., @code{_("syntax error")}.  Otherwise,
+Bison defines a no-op macro by that name that merely returns its
+argument, so strings are not translated.
+
+Aside from @code{_} and the token type names and the symbols in the actions you
 write, all symbols defined in the Bison parser file itself
 begin with @samp{yy} or @samp{YY}.  This includes interface functions
 such as the lexical analyzer function @code{yylex}, the error reporting

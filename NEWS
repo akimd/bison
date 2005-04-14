@@ -1,6 +1,12 @@
 Bison News
 ----------
 
+Changes in version 2.0a, ????-??-??:
+
+* Bison-generated C parsers use the _ macro to translate strings from
+  English to the user's language, e.g., _("syntax error").  By default,
+  _ is defined to be a no-op macro so the strings are not translated.
+
 Changes in version 2.0, 2004-12-25:
 
 * Possibly-incompatible changes
@@ -593,7 +599,7 @@ End:
 
 -----
 
-Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.

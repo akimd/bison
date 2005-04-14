@@ -1,3 +1,13 @@
+2005-04-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Bison-generated C parsers now use the _ macro to
+	translate strings.
+	* data/yacc.c (_) [!defined _]: New macro.
+	All English strings wrapped inside this macro.
+	* doc/bison.texinfo (Bison Parser): Document _.
+	* po/POTFILES.in: Include src/parse-gram.c, since it now
+	includes translateable strings that parse-gram.y doesn't.
+
 2005-04-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/symtab.c (symbol_make_alias): Call symbol_type_set,
