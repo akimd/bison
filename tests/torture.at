@@ -1,5 +1,5 @@
 # Torturing Bison.                                    -*- Autotest -*-
-# Copyright (C) 2001, 2002, 2004 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2004, 2005 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,13 +20,14 @@ AT_BANNER([[Torture Tests.]])
 
 
 # AT_INCREASE_DATA_SIZE(SIZE)
-# -------------------------------------------
+# ---------------------------
 # Try to increase the data size to SIZE KiB if possible.
 m4_define([AT_INCREASE_DATA_SIZE],
 [data_limit=`(ulimit -S -d) 2>/dev/null`
 case $data_limit in
 [[0-9]]*)
   if test "$data_limit" -lt $1; then
+    AT_CHECK([ulimit -S -d $1 || exit 77])
     ulimit -S -d $1
   fi
 esac])
