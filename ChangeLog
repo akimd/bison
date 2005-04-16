@@ -1,3 +1,9 @@
+2005-04-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/torture.at (AT_INCREASE_DATA_SIZE): Skip the test if
+	the data size is known to be too small and we can't increase it.
+	This works around an HP-UX 11.00 glitch reported by Andrew Benham.
+
 2005-04-15  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/parse-gram.y: Include quotearg.h.
