@@ -1,6 +1,6 @@
 %{/* Bison Grammar Parser                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -29,6 +29,7 @@
 #include "gram.h"
 #include "muscle_tab.h"
 #include "output.h"
+#include "quotearg.h"
 #include "reader.h"
 #include "symlist.h"
 
@@ -403,25 +404,23 @@ symbol:
 
 action:
   BRACED_CODE
-   { $$ = $1; }
+    { $$ = $1; }
 ;
 
-/* A string used as an ID: we have to keep the quotes. */
+/* A string used as an ID: quote it.  */
 string_as_id:
   STRING
     {
-      $$ = symbol_get ($1, @1);
+      $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
       symbol_class_set ($$, token_sym, @1);
     }
 ;
 
-/* A string used for its contents.  Strip the quotes. */
+/* A string used for its contents.  Don't quote it.  */
 string_content:
   STRING
-    {
-      $$ = $1 + 1;
-      $$[strlen ($$) - 1] = '\0';
-    };
+    { $$ = $1; }
+;
 
 
 epilogue.opt:

@@ -314,20 +314,44 @@ AT_SETUP([Token definitions])
 # Bison managed, when fed with `%token 'f' "f"' to #define 'f'!
 AT_DATA_GRAMMAR([input.y],
 [%{
+#include <stdio.h>
 void yyerror (const char *s);
 int yylex (void);
 %}
-[%token MYEOF 0 "end of file"
+[%error-verbose
+%token MYEOF 0 "end of file"
 %token 'a' "a"
 %token B_TOKEN "b"
 %token C_TOKEN 'c'
 %token 'd' D_TOKEN
+%token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\377\x001\x0000ff"
 %%
-exp: "a";
+exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\377\x001\x0000ff";
+%%
+void
+yyerror (char const *s)
+{
+  fprintf (stderr, "%s\n", s);
+}
+
+int
+yylex (void)
+{
+  return SPECIAL;
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
 ]])
 
 AT_CHECK([bison -o input.c input.y])
-AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([input])
+AT_PARSER_CHECK([./input], 1, [],
+[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\377\001\377", expecting "a"
+])
 AT_CLEANUP
 
 

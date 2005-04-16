@@ -1,3 +1,25 @@
+2005-04-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/parse-gram.y: Include quotearg.h.
+	(string_as_id): Quote $1 before using it as a key, since the
+	lexer no longer quotes it for us.
+	(string_content): Don't strip quotes, since lexer no longer
+	quotes it for us.
+	* src/scan-gram.l: Include quotearg.h.
+	("\""): Omit quote.
+	("'"<SC_ESCAPED_CHARACTER>): Quote symbol before using it as
+	a key, since the rest of the lexer doesn't quote it.
+	* src/symtab.c (symbol_get): Don't quote symbol; caller does it now.
+	* tests/regression.at (Token definitions): Check for backslashes
+	in token strings.
+
+	* data/yacc.c (YYSTACK_ALLOC_MAXIMUM): New macro.
+	(YYSIZE_T): Define to unsigned long int when using an older compiler.
+	(yyparse): Revamp code to generate long syntax error message, to
+	make it easier to translate, and to avoid problems with arithmetic
+	overflow.  Change "virtual memory" to "memory" in diagnostic, since
+	we don't know whether the memory is virtual.
+
 2005-04-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Bison-generated C parsers now use the _ macro to

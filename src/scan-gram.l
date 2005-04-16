@@ -34,6 +34,7 @@
 #include "files.h"
 #include "getargs.h"
 #include "gram.h"
+#include "quotearg.h"
 #include "reader.h"
 #include "uniqstr.h"
 
@@ -249,7 +250,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "'"	      STRING_GROW; token_start = loc->start; BEGIN SC_ESCAPED_CHARACTER;
 
   /* Strings. */
-  "\""	      STRING_GROW; token_start = loc->start; BEGIN SC_ESCAPED_STRING;
+  "\""	      token_start = loc->start; BEGIN SC_ESCAPED_STRING;
 
   /* Prologue. */
   "%{"        code_start = loc->start; BEGIN SC_PROLOGUE;
@@ -360,7 +361,6 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_STRING>
 {
   "\"" {
-    STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
     val->chars = last_string;
@@ -384,7 +384,9 @@ splice	 (\\[ \f\t\v]*\n)*
     STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
-    val->symbol = symbol_get (last_string, *loc);
+    val->symbol = symbol_get (quotearg_style (escape_quoting_style,
+					      last_string),
+			      *loc);
     symbol_class_set (val->symbol, token_sym, *loc);
     last_string_1 = last_string[1];
     symbol_user_token_number_set (val->symbol, last_string_1, *loc);
