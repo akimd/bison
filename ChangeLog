@@ -6,6 +6,7 @@
 	since users don't want to see C escapes.
 	* tests/calc.at (AT_CHECK_CALC): Adjust to lack of quotes
 	in diagnostics.
+	* tests/input.at (Torturing the Scanner): Likewise.
 	* tests/regression.at (Token definitions, Web2c Actions): Likewise.
 
 2005-04-16  Paul Eggert  <eggert@cs.ucla.edu>
