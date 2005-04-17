@@ -467,9 +467,9 @@ _AT_CHECK_CALC([$1],
 
 # Some syntax errors.
 _AT_CHECK_CALC_ERROR([$1], [1], [0 0], [13],
-                     [1.2: syntax error, unexpected "number"])
+                     [1.2: syntax error, unexpected number])
 _AT_CHECK_CALC_ERROR([$1], [1], [1//2], [18],
-                     [1.2: syntax error, unexpected '/', expecting "number" or '-' or '(' or '!'])
+                     [1.2: syntax error, unexpected '/', expecting number or '-' or '(' or '!'])
 _AT_CHECK_CALC_ERROR([$1], [1], [error], [5],
                      [1.0: syntax error, unexpected $undefined])
 _AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3], [26],
@@ -481,7 +481,7 @@ _AT_CHECK_CALC_ERROR([$1], [1],
                      [2.0: syntax error, unexpected '+'])
 # Exercise error messages with EOF: work on an empty file.
 _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [5],
-                     [1.0: syntax error, unexpected "end of input"])
+                     [1.0: syntax error, unexpected end of input])
 
 # Exercise the error token: without it, we die at the first error,
 # hence be sure to
@@ -502,20 +502,20 @@ _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [5],
 _AT_CHECK_CALC_ERROR([$1], [0],
                      [() + (1 + 1 + 1 +) + (* * *) + (1 * 2 * *) = 1],
                      [188],
-[1.1: syntax error, unexpected ')', expecting "number" or '-' or '(' or '!'
-1.17: syntax error, unexpected ')', expecting "number" or '-' or '(' or '!'
-1.22: syntax error, unexpected '*', expecting "number" or '-' or '(' or '!'
-1.40: syntax error, unexpected '*', expecting "number" or '-' or '(' or '!'
+[1.1: syntax error, unexpected ')', expecting number or '-' or '(' or '!'
+1.17: syntax error, unexpected ')', expecting number or '-' or '(' or '!'
+1.22: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
+1.40: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
 calc: error: 4444 != 1])
 
 # The same, but this time exercising explicitly triggered syntax errors.
 # POSIX says the look-ahead causing the error should not be discarded.
 _AT_CHECK_CALC_ERROR([$1], [0], [(!) + (0 0) = 1], [75],
-[1.9: syntax error, unexpected "number"
+[1.9: syntax error, unexpected number
 calc: error: 2222 != 1])
 _AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (0 0) = 1], [85],
-[1.3: syntax error, unexpected '*', expecting "number" or '-' or '(' or '!'
-1.11: syntax error, unexpected "number"
+[1.3: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
+1.11: syntax error, unexpected number
 calc: error: 2222 != 1])
 AT_BISON_OPTION_POPDEFS
 

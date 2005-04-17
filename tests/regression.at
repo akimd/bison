@@ -324,9 +324,9 @@ int yylex (void);
 %token B_TOKEN "b"
 %token C_TOKEN 'c'
 %token 'd' D_TOKEN
-%token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\377\x001\x0000ff"
+%token SPECIAL "\\\'\?\"\n\t??!"
 %%
-exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\377\x001\x0000ff";
+exp: "a" "\\\'\?\"\n\t??!";
 %%
 void
 yyerror (char const *s)
@@ -350,7 +350,8 @@ main (void)
 AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1, [],
-[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\377\001\377", expecting "a"
+[syntax error, unexpected \'?"
+	??!, expecting a
 ])
 AT_CLEANUP
 
@@ -634,8 +635,8 @@ static const unsigned char yyrline[] =
 };
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "\"if\"", "\"const\"", "\"then\"",
-  "\"else\"", "$accept", "statement", "struct_stat", "if", "else", 0
+  "$end", "error", "$undefined", "if", "const", "then", "else", "$accept",
+  "statement", "struct_stat", "if", "else", 0
 };
 static const unsigned short int yytoknum[] =
 {
