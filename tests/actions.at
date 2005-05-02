@@ -1,5 +1,5 @@
 # Executing Actions.                               -*- Autotest -*-
-# Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -174,6 +174,9 @@ AT_DATA_GRAMMAR([[input.y]],
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+
+#define YYINITDEPTH 10
+#define YYMAXDEPTH 10
 ]AT_LALR1_CC_IF(
   [#define RANGE(Location) (Location).begin.line, (Location).end.line],
   [#define RANGE(Location) (Location).first_line, (Location).last_line])
@@ -441,6 +444,58 @@ Freeing nterm input (2@0-129)
 Freeing token 'y' (13@130-139)
 Parsing FAILED.
 ]])
+
+# Check destruction upon stack overflow
+# -------------------------------------
+# Upon stack overflow, all symbols on the stack should be destroyed.
+# Only check for yacc.c.
+AT_YACC_IF([
+AT_PARSER_CHECK([./input '(x)(x)(x)(x)(x)(x)(x)'], 1,
+[[sending: '(' (0@0-9)
+sending: 'x' (1@10-19)
+thing (1@10-19): 'x' (1@10-19)
+sending: ')' (2@20-29)
+line (0@0-29): '(' (0@0-9) thing (1@10-19) ')' (2@20-29)
+sending: '(' (3@30-39)
+sending: 'x' (4@40-49)
+thing (4@40-49): 'x' (4@40-49)
+sending: ')' (5@50-59)
+line (3@30-59): '(' (3@30-39) thing (4@40-49) ')' (5@50-59)
+sending: '(' (6@60-69)
+sending: 'x' (7@70-79)
+thing (7@70-79): 'x' (7@70-79)
+sending: ')' (8@80-89)
+line (6@60-89): '(' (6@60-69) thing (7@70-79) ')' (8@80-89)
+sending: '(' (9@90-99)
+sending: 'x' (10@100-109)
+thing (10@100-109): 'x' (10@100-109)
+sending: ')' (11@110-119)
+line (9@90-119): '(' (9@90-99) thing (10@100-109) ')' (11@110-119)
+sending: '(' (12@120-129)
+sending: 'x' (13@130-139)
+thing (13@130-139): 'x' (13@130-139)
+sending: ')' (14@140-149)
+line (12@120-149): '(' (12@120-129) thing (13@130-139) ')' (14@140-149)
+sending: '(' (15@150-159)
+sending: 'x' (16@160-169)
+thing (16@160-169): 'x' (16@160-169)
+sending: ')' (17@170-179)
+line (15@150-179): '(' (15@150-159) thing (16@160-169) ')' (17@170-179)
+sending: '(' (18@180-189)
+sending: 'x' (19@190-199)
+thing (19@190-199): 'x' (19@190-199)
+sending: ')' (20@200-209)
+200-209: parser stack overflow
+Freeing nterm thing (19@190-199)
+Freeing nterm line (15@150-179)
+Freeing nterm line (12@120-149)
+Freeing nterm line (9@90-119)
+Freeing nterm line (6@60-89)
+Freeing nterm line (3@30-59)
+Freeing nterm line (0@0-29)
+Parsing FAILED.
+]])
+])
 
 ])
 

@@ -1,3 +1,18 @@
+2005-05-01  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/actions.at: Test that stack overflow invokes destructors.
+	From Marcus Holland-Moritz.
+	* data/yacc.c (yyerrlab): Move the code that destroys the stack
+	from here....
+	(yyreturn): to here.  That way, destructors are called properly
+	even if the stack overflows, or the user calls YYACCEPT or
+	YYABORT.  Stack-overflow problem reported by Marcus Holland-Moritz.
+	(yyoverflowlab): Destroy the lookahead.
+
+2005-04-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/yacc.c (YYSTACK_ALLOC_MAXIMUM): Add more-descriptive comment.
+
 2005-04-17  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Bison-generated C parsers no longer quote literal strings
