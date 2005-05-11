@@ -1,3 +1,8 @@
+2005-05-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/local.at (AT_COMPILE_CXX): Treat LDFLAGS like AT_COMPILE does.
+	Problem reported by Ralf Menzel.
+
 2005-05-01  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/actions.at: Test that stack overflow invokes destructors.

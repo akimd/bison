@@ -175,11 +175,13 @@ m4_define([AT_COMPILE],
 
 # AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.cc])
 # --------------------------------------------
+# Compile SOURCES into OUTPUT.  If OUTPUT does not contain '.',
+# assume that we are linking too; this is a hack.
 # If the C++ compiler does not work, ignore the test.
 m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS(c++)
 AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
-AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS -o $1 m4_default([$2], [$1.cc])],
+AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.cc])],
          0, [ignore], [ignore])])
 
 
