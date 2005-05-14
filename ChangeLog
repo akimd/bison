@@ -1,3 +1,41 @@
+2005-05-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* COPYING, ChangeLog, GNUmakefile, HACKING, Makefile.am,
+	Makefile.cfg, Makefile.maint, NEWS, README, README-alpha,
+	README-cvs, TODO, bootstrap, configure.ac, data/Makefile.am,
+	data/README, data/c.m4, data/glr.c, data/lalr1.cc, data/yacc.c,
+	data/m4sugar/m4sugar.m4, doc/Makefile.am, doc/bison.texinfo,
+	doc/fdl.texi, doc/gpl.texi, doc/refcard.tex, lib/Makefile.am,
+	lib/abitset.c, lib/abitset.h, lib/bbitset.h, lib/bitset.c,
+	lib/bitset.h, lib/bitset_stats.c, lib/bitset_stats.h,
+	lib/bitsetv-print.c, lib/bitsetv-print.h, lib/bitsetv.c,
+	lib/bitsetv.h, lib/ebitset.c, lib/ebitset.h, lib/get-errno.c,
+	lib/get-errno.h, lib/lbitset.c, lib/lbitset.h, lib/libiberty.h,
+	lib/main.c, lib/subpipe.c, lib/subpipe.h, lib/timevar.c,
+	lib/timevar.def, lib/timevar.h, lib/vbitset.c, lib/vbitset.h,
+	lib/yyerror.c, m4/cxx.m4, m4/m4.m4, m4/subpipe.m4, m4/timevar.m4,
+	m4/warning.m4, src/LR0.c, src/LR0.h, src/Makefile.am, src/assoc.c,
+	src/assoc.h, src/closure.c, src/closure.h, src/complain.c,
+	src/complain.h, src/conflicts.c, src/conflicts.h, src/derives.c,
+	src/derives.h, src/files.c, src/files.h, src/getargs.c,
+	src/getargs.h, src/gram.c, src/gram.h, src/lalr.c, src/lalr.h,
+	src/location.c, src/location.h, src/main.c, src/muscle_tab.c,
+	src/muscle_tab.h, src/nullable.c, src/nullable.h, src/output.c,
+	src/output.h, src/parse-gram.c, src/parse-gram.h,
+	src/parse-gram.y, src/print.c, src/print.h, src/print_graph.c,
+	src/print_graph.h, src/reader.c, src/reader.h, src/reduce.c,
+	src/reduce.h, src/relation.c, src/relation.h, src/scan-gram.l,
+	src/scan-skel.l, src/state.c, src/state.h, src/symlist.c,
+	src/symlist.h, src/symtab.c, src/symtab.h, src/system.h,
+	src/tables.c, src/tables.h, src/uniqstr.c, src/uniqstr.h,
+	src/vcg.c, src/vcg.h, src/vcg_defaults.h, tests/Makefile.am,
+	tests/actions.at, tests/c++.at, tests/calc.at, tests/conflicts.at,
+	tests/cxx-type.at, tests/existing.at, tests/glr-regression.at,
+	tests/headers.at, tests/input.at, tests/local.at, tests/output.at,
+	tests/reduce.at, tests/regression.at, tests/sets.at,
+	tests/synclines.at, tests/testsuite.at, tests/torture.at:
+	Update FSF postal mail address.
+
 2005-05-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/local.at (AT_COMPILE_CXX): Treat LDFLAGS like AT_COMPILE does.
@@ -13316,5 +13354,5 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Bison; see the file COPYING.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.
+the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.
