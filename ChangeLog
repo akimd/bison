@@ -1,3 +1,21 @@
+2005-05-20  Paul Hilfinger  <hilfingr@CS.Berkeley.EDU>
+
+	* data/glr.c (YY_SYMBOL_PRINT): Don't print newline at end to
+	fix a small glitch in debugging output.
+	(yyprocessOneStack, yyrecoverSyntaxError, yyparse): Print newline
+	after YY_SYMBOL_PRINT where needed.
+
+	(struct yyGLRState): Add some comments.
+	(struct yySemanticOption): Add some comments.
+	(union yyGLRStackItem): Add comment.
+
+	(yymergeOptionSets): Correct this to properly perform the union,
+	avoiding infinite reported by Michael Rosien.
+	Update comment.
+
+	* tests/glr-regression.at: Add test for GLR merging error reported
+	by M. Rosien.
+	
 2005-05-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* COPYING, ChangeLog, GNUmakefile, HACKING, Makefile.am,
