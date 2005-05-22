@@ -1,3 +1,15 @@
+2005-05-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix a destructor bug reported by Wolfgang Spraul in
+	<http://lists.gnu.org/archive/html/bug-bison/2005-05/msg00042.html>.
+	* data/yacc.c (yyabortlab): Don't call destructor, and
+	don't set yychar to EMPTY.
+	(yyoverflowlab): Don't call destructor.
+	(yyreturn): Call destructor, if yychar is neither YYEOF nor YYEMPTY.
+	* tests/calc.at (AT_CHECK_CALC): Expect one fewer output lines,
+	since we no longer output the message "discarding lookahead token
+	end of input ()".
+
 2005-05-20  Paul Hilfinger  <hilfingr@CS.Berkeley.EDU>
 
 	* data/glr.c (YY_SYMBOL_PRINT): Don't print newline at end to
@@ -15,7 +27,7 @@
 
 	* tests/glr-regression.at: Add test for GLR merging error reported
 	by M. Rosien.
-	
+
 2005-05-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* COPYING, ChangeLog, GNUmakefile, HACKING, Makefile.am,

@@ -480,7 +480,7 @@ _AT_CHECK_CALC_ERROR([$1], [1],
                      [16],
                      [2.0: syntax error, unexpected '+'])
 # Exercise error messages with EOF: work on an empty file.
-_AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [5],
+_AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
                      [1.0: syntax error, unexpected end of input])
 
 # Exercise the error token: without it, we die at the first error,
