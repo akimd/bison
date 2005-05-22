@@ -7,9 +7,15 @@ INSTALL
 Makefile
 Makefile.in
 _*
+a.exe
+a.out
 aclocal.m4
 autom4te.cache
+b.out
 bison-*
+build-aux
+conf[0-9]*
+confdefs*
 config.cache
 config.h
 config.hin
@@ -17,6 +23,7 @@ config.log
 config.status
 configure
 configure.lineno
+conftest*
 intl
 patches
 releases

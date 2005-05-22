@@ -1,5 +1,27 @@
 2005-05-22  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Various maintainer cleanups.
+	* .cvsignore: Add a.exe, a.out, b.out,, conf[0-9]*, confdefs*,
+	conftest*, for benefit of CVS commands run at the same time as
+	"configure".  Add build-aux, since "bootstrap" now creates it and
+	its subfiles.
+	* Makefile.cfg (move_if_change): Remove.
+	* Makefile.maint: Remove the update stuff; we now use "bootstrap".
+	(ftp-gnu, www-gnu, move_if_change, local_updates, update):
+	(po_repo, do-po-update, po-update, wget_files, get-targets):
+	(config.guess-url_prefix, config.sub-url_prefix):
+	(ansi2knr.c-url_prefix, texinfo.tex-url_prefix):
+	(standards.texi-url_prefix, make-stds.texi-url_prefix, taget, url):
+	($(get-targets), cvs-files, automake_repo, wget-update, cvs-update):
+	Remove.
+	* configure.ac (AC_CONFIG_AUX_DIR): Change from config to build-aux;
+	this is now the recommended name.
+	* config/.cvsignore: Remove config.guess, config.rpath, config.sub,
+	depcomp, install-sh, mdate-sh, missing, mkinstalldirs, texinfo.tex,
+	ylwrap.  These files now go into build-aux.
+	* config/move-if-change: Remove.
+	* config/prev-version.txt: Bump from 1.75 to 2.0.
+
 	* bootstrap: Add stdio-safer, unistd-safer modules.
 	Remove m4/glibc2.m4 (introduced by latest gnulib, but
 	we don't need it).

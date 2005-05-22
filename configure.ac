@@ -24,7 +24,7 @@
 AC_PREREQ(2.59)
 
 AC_INIT([GNU Bison], [2.0a], [bug-bison@gnu.org])
-AC_CONFIG_AUX_DIR([config])
+AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
 # We don't have a file m4/Makefile.am, so we need Automake 1.8 or later.
