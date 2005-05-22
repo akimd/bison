@@ -26,11 +26,13 @@ progtest.m4
 quote.m4
 quotearg.m4
 stdbool.m4
+stdio-safer.m4
 stpcpy.m4
 strdup.m4
 strerror_r.m4
 strndup.m4
 strnlen.m4
+unistd-safer.m4
 unlocked-io.m4
 xalloc.m4
 xstrndup.m4

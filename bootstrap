@@ -105,7 +105,9 @@ obstack
 quote
 quotearg
 stdbool
+stdio-safer
 stpcpy
+unistd-safer
 xalloc
 xalloc-die
 xstrndup
@@ -197,6 +199,7 @@ intl_files_to_remove='
   intl
   m4/codeset.m4
   m4/gettext.m4
+  m4/glibc2.m4
   m4/glibc21.m4
   m4/intdiv0.m4
   m4/intmax.m4

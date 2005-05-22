@@ -1,9 +1,23 @@
 2005-05-22  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* bootstrap: Add stdio-safer, unistd-safer modules.
+	Remove m4/glibc2.m4 (introduced by latest gnulib, but
+	we don't need it).
+	* lib/.cvsignore: Add dup-safer.c, fd-safer.c,
+	fopen-safer.c, stdio-safer.h, unistd-safer.h.
+	* lib/subpipe.c: Include "unistd-safer.h".
+	(create_subpipe): Make sure all the newly-created
+	file descriptors are > 2, so that diagnostics don't
+	get sent down them (which might cause Bison to hang, in theory).
+	* m4/.cvsignore: Add stdio-safer.m4, unistd-safer.m4.
+	* src/files.c (xfopen): Use fopen_safer, not fopen.
+
 	* data/lalr1.cc (yy::]b4_parser_class_name[::parse): Port
 	yesterday's yacc.c fix.
 
 2005-05-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c, data/lalr1.cc: Update copyright date.
 
 	Fix a destructor bug reported by Wolfgang Spraul in
 	<http://lists.gnu.org/archive/html/bug-bison/2005-05/msg00042.html>.

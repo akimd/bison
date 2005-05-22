@@ -9,11 +9,14 @@ argmatch.h
 basename.c
 dirname.c
 dirname.h
+dup-safer.c
 error.c
 error.h
 exit.h
 exitfail.c
 exitfail.h
+fd-safer.c
+fopen-safer.c
 getopt.c
 getopt.h
 getopt1.c
@@ -37,6 +40,7 @@ quotearg.h
 realloc.c
 stdbool.h
 stdbool_.h
+stdio-safer.h
 stpcpy.c
 stpcpy.h
 strdup.c
@@ -46,6 +50,7 @@ strncasecmp.c
 strndup.c
 strndup.h
 strnlen.c
+unistd-safer.h
 unlocked-io.h
 xalloc-die.c
 xalloc.h
