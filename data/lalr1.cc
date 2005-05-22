@@ -544,6 +544,8 @@ yy::]b4_parser_class_name[::set_debug_level (debug_level_type l)
 int
 yy::]b4_parser_class_name[::parse ()
 {
+  int yyresult_;
+
   YYCDEBUG << "Starting parse" << std::endl;
 
   yynerrs_ = 0;
@@ -813,14 +815,18 @@ yyerrlab1:
 
   /* Accept.  */
 yyacceptlab:
-  return 0;
+  yyresult_ = 0;
+  goto yyreturn;
 
   /* Abort.  */
 yyabortlab:
-  /* Free the lookahead. */
-  yydestruct_ ("Error: discarding lookahead", yyilooka_, &yylval, &yylloc);
-  yylooka_ = yyempty_;
-  return 1;
+  yyresult_ = 1;
+  goto yyreturn;
+
+yyreturn:
+  if (yylooka_ != yyeof_ && yylooka_ != yyempty_)
+    yydestruct_ ("Error: discarding lookahead", yyilooka_, &yylval, &yylloc);
+  return yyresult_;
 }
 
 void
