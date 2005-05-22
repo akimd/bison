@@ -1,5 +1,8 @@
 2005-05-22  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* src/files.c: Include "stdio-safer.h"; this fixes a typo in
+	the previous change.
+
 	Various maintainer cleanups.
 	* .cvsignore: Add a.exe, a.out, b.out,, conf[0-9]*, confdefs*,
 	conftest*, for benefit of CVS commands run at the same time as
