@@ -115,7 +115,7 @@ m4_divert(0)dnl
 m4_if(b4_defines_flag, 0, [],
 [@output @output_header_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003, 2004])[
+             [2002, 2003, 2004, 2005])[
 /* FIXME: This is wrong, we want computed header guards.
    I don't know why the macros are missing now. :( */
 #ifndef PARSER_HEADER_H
@@ -408,7 +408,7 @@ namespace yy
 ])dnl
 @output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003, 2004])
+             [2002, 2003, 2004, 2005])
 m4_if(b4_prefix[], [yy], [],
 [
 // Take the name prefix into account.
@@ -1051,7 +1051,7 @@ const yy::]b4_parser_class_name[::token_number_type yy::]b4_parser_class_name[::
 ]b4_epilogue
 dnl
 @output stack.hh
-b4_copyright([stack handling for Bison C++ parsers], [2002, 2003, 2004])[
+b4_copyright([stack handling for Bison C++ parsers], [2002, 2003, 2004, 2005])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
@@ -1150,7 +1150,7 @@ namespace yy
 #endif // not BISON_STACK_HH]
 dnl
 @output position.hh
-b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004])[
+b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004, 2005])[
 
 /**
  ** \file position.hh
@@ -1263,7 +1263,7 @@ namespace yy
 }
 #endif // not BISON_POSITION_HH]
 @output location.hh
-b4_copyright([Location class for Bison C++ parsers], [2002, 2003, 2004])[
+b4_copyright([Location class for Bison C++ parsers], [2002, 2003, 2004, 2005])[
 
 /**
  ** \file location.hh
