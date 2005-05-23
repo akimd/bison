@@ -1,5 +1,8 @@
 2005-05-23  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* README: Mention m4 1.4.3.  Remove obsolete advice about
+	Sun Forte Developer 6 update 2, VMS, and MS-DOS.
+
 	* bootstrap: Remove workaround for problem I encountered with
 	gettext 0.14.1; it seems to be fixed now.
 
