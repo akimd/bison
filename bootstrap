@@ -226,17 +226,6 @@ intl_files_to_remove='
 echo $0: rm -fr $intl_files_to_remove ...
 rm -fr $intl_files_to_remove || exit
 
-# Patch what appears to be a bug in gettext 0.14.1;
-# remove this once the bug is fixed.
-grep @top_builddir@ po/Makefile.in.in >/dev/null || {
-  echo "$0: prepending 'top_builddir=@top_builddir@' to po/Makefile.in.in ... "
-  old_contents=`cat po/Makefile.in.in` || exit
-  cat >po/Makefile.in.in <<EOF
-top_builddir=@top_builddir@
-$old_contents
-EOF
-}
-
 # Put bug-reporting address into po/Makevars.
 echo "$0: sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >po/Makevars ..."
 sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >po/Makevars
