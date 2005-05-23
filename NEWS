@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 2.0a, ????-??-??:
+Changes in version 2.0a, 2005-05-22:
 
 * Bison-generated C parsers use the _ macro to translate strings from
   English to the user's language, e.g., _("syntax error").  By default,

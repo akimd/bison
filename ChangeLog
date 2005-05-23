@@ -1,5 +1,7 @@
 2005-05-22  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Version 2.0a.
+
 	* src/files.c: Include "stdio-safer.h"; this fixes a typo in
 	the previous change.
 
