@@ -1,3 +1,18 @@
+2005-05-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix BeOS, FreeBSD, MacOS porting problems reported by Bruno Haible.
+	* lib/bitset.c (bitset_print): Don't assume size_t can be printed
+	with %d format.
+	* lib/ebitset.c (min, max): Undef before defining.
+	* lib/vbitset.c (min, max): Likewise.
+	* lib/subpipe.c (create_subpipe): Save local variables in case
+	vfork clobbers them.
+
+2005-05-24  Bruno Haible  <bruno@clisp.org>
+
+	* tests/synclines.at (AT_SYNCLINES_COMPILE): Add support for the
+	error message syntax used by gcc-4.0.
+
 2005-05-23  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* README: Mention m4 1.4.3.  Remove obsolete advice about

@@ -1,5 +1,5 @@
 # Executing Actions.                               -*- Autotest -*-
-# Copyright (C) 2002, 2004 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004, 2005 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,11 +29,13 @@ m4_define([AT_SYNCLINES_COMPILE],
 [AT_CHECK([$CC $CFLAGS $CPPFLAGS -c $1], [ignore], [], [stderr])
 # In case GCC displays column information, strip it down.
 #
-#   input.y:4:2: #error "4"    or input.y:4.2: #error "4"
+#   input.y:4:2: #error "4"    or
+#   input.y:4.2: #error "4"    or
+#   input.y:4:2: error: #error "4"
 # =>
 #   input.y:4: #error "4"
 #
-AT_CHECK([[sed 's/^\([^:]*:[^:.]*\)[.:][^:]*:\(.*\)$/\1:\2/' stderr]], 0, [stdout])
+AT_CHECK([[sed -e 's/^\([^:]*:[^:.]*\)[.:][^:]*:\(.*\)$/\1:\2/' -e 's/^\([^:]*:[^:]*:\)[^@%:@]*\( @%:@error\)/\1\2/' stderr]], 0, [stdout])
 ])
 
 # AT_TEST_SYNCLINE(TITLE, INPUT, ERROR-MSG)
