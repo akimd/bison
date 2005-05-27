@@ -1,3 +1,14 @@
+2005-05-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix infringement on user name space reported by Bruno Haible.
+	* data/yacc.c (YYSIZE_T): Define first, so that later decls can use it.
+	Prefer GCC's __SIZE_TYPE__ if available, so that we don't infringe on
+	the user's name space.
+	(alloca): Include <stdlib.h> to get it, if it's not built in.
+	(YYMALLOC, YYFREE): Define only if needed.
+	(malloc, free): Declare, but only if needed, as this infringes on
+	the user name space.
+
 2005-05-25  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix BeOS, FreeBSD, MacOS porting problems reported by Bruno Haible.
