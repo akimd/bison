@@ -417,6 +417,11 @@ m4_if(b4_defines_flag, 0, [],
 [
 #include @output_header_name@])[
 
+/* INFRINGES ON USER NAME SPACE */
+#ifndef _
+# define _(msgid) msgid
+#endif
+
 /* A pseudo ostream that takes yydebug_ into account. */
 # define YYCDEBUG							\
   for (bool yydebugcond_ = yydebug_; yydebugcond_; yydebugcond_ = false)	\
@@ -546,7 +551,7 @@ yy::]b4_parser_class_name[::parse ()
 {
   int yyresult_;
 
-  YYCDEBUG << "Starting parse" << std::endl;
+  YYCDEBUG << _("Starting parse") << std::endl;
 
   yynerrs_ = 0;
   yyerrstatus_ = 0;
@@ -578,7 +583,7 @@ b4_syncline([@oline@], [@ofile@])])dnl
   /* New state.  */
 yynewstate:
   yystate_stack_.push (yystate_);
-  YYCDEBUG << "Entering state " << yystate_ << std::endl;
+  YYCDEBUG << _("Entering state ") << yystate_ << std::endl;
   goto yybackup;
 
   /* Backup.  */
@@ -597,12 +602,12 @@ yybackup:
   if (yylooka_ <= yyeof_)
     {
       yylooka_ = yyilooka_ = yyeof_;
-      YYCDEBUG << "Now at end of input." << std::endl;
+      YYCDEBUG << _("Now at end of input.") << std::endl;
     }
   else
     {
       yyilooka_ = yytranslate_ (yylooka_);
-      YY_SYMBOL_PRINT ("Next token is", yyilooka_, &yylval, &yylloc);
+      YY_SYMBOL_PRINT (_("Next token is"), yyilooka_, &yylval, &yylloc);
     }
 
   /* If the proper action on seeing token ILOOKA_ is to reduce or to
@@ -631,7 +636,7 @@ yybackup:
     goto yyacceptlab;
 
   /* Shift the look-ahead token.  */
-  YY_SYMBOL_PRINT ("Shifting", yyilooka_, &yylval, &yylloc);
+  YY_SYMBOL_PRINT (_("Shifting"), yyilooka_, &yylval, &yylloc);
 
   /* Discard the token being shifted unless it is eof.  */
   if (yylooka_ != yyeof_)
@@ -729,7 +734,7 @@ yyerrlab:
                  yypop_ ();
 		 if (yystate_stack_.height () == 1)
 		   YYABORT;
-                 yydestruct_ ("Error: popping",
+                 yydestruct_ (_("Error: popping"),
                               yystos_[yystate_stack_[0]],
                               &yysemantic_stack_[0],
                               &yylocation_stack_[0]);
@@ -737,7 +742,7 @@ yyerrlab:
         }
       else
         {
-          yydestruct_ ("Error: discarding", yyilooka_, &yylval, &yylloc);
+          yydestruct_ (_("Error: discarding"), yyilooka_, &yylval, &yylloc);
           yylooka_ = yyempty_;
         }
     }
@@ -788,7 +793,7 @@ yyerrlab1:
 	YYABORT;
 
       yyerror_range_[0] = yylocation_stack_[0];
-      yydestruct_ ("Error: popping",
+      yydestruct_ (_("Error: popping"),
                    yystos_[yystate_],
                    &yysemantic_stack_[0], &yylocation_stack_[0]);
       yypop_ ();
@@ -807,7 +812,7 @@ yyerrlab1:
   yylocation_stack_.push (yyloc);
 
   /* Shift the error token. */
-  YY_SYMBOL_PRINT ("Shifting", yystos_[yyn_],
+  YY_SYMBOL_PRINT (_("Shifting"), yystos_[yyn_],
 		   &yysemantic_stack_[0], &yylocation_stack_[0]);
 
   yystate_ = yyn_;
@@ -825,14 +830,14 @@ yyabortlab:
 
 yyreturn:
   if (yylooka_ != yyeof_ && yylooka_ != yyempty_)
-    yydestruct_ ("Error: discarding lookahead", yyilooka_, &yylval, &yylloc);
+    yydestruct_ (_("Error: discarding lookahead"), yyilooka_, &yylval, &yylloc);
   return yyresult_;
 }
 
 void
 yy::]b4_parser_class_name[::yylex_ ()
 {
-  YYCDEBUG << "Reading a token: ";
+  YYCDEBUG << _("Reading a token: ");
 #if YYLSP_NEEDED
   yylooka_ = yylex (&yylval, &yylloc);
 #else
@@ -865,7 +870,7 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
             if (yycheck_[x + yyn_] == x && x != yyterror_)
               ++count;
 
-	  message = "syntax error, unexpected ";
+	  message = _("syntax error, unexpected ");
 	  message += yyname_[yyilooka_];
           if (count < 5)
             {
@@ -873,14 +878,14 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
               for (int x = yyxbegin; x < yyxend; ++x)
                 if (yycheck_[x + yyn_] == x && x != yyterror_)
                   {
-                    message += (!count++) ? ", expecting " : " or ";
+                    message += (!count++) ? _(", expecting ") : _(" or ");
                     message += yyname_[x];
  	          }
             }
 	}
       else
 #endif
-	message = "syntax error";
+	message = _("syntax error");
       error (yylloc, message);
     }
 }
@@ -1004,7 +1009,7 @@ yy::]b4_parser_class_name[::yyrline_[] =
 void
 yy::]b4_parser_class_name[::yystack_print_ ()
 {
-  *yycdebug_ << "Stack now";
+  *yycdebug_ << _("Stack now");
   for (state_stack_type::const_iterator i = yystate_stack_.begin ();
        i != yystate_stack_.end (); ++i)
     *yycdebug_ << ' ' << *i;
@@ -1017,8 +1022,8 @@ yy::]b4_parser_class_name[::yyreduce_print_ (int yyrule)
 {
   unsigned int yylno = yyrline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
-    *yycdebug_ << "Reducing stack by rule " << yyn_ - 1
-               << " (line " << yylno << "), ";
+    *yycdebug_ << _("Reducing stack by rule ") << yyn_ - 1
+               << " (" << _("line") << ' ' << yylno << "), ";
   for (]b4_int_type_for([b4_prhs])[ i = yyprhs_[yyn_];
        0 <= yyrhs_[i]; ++i)
     *yycdebug_ << yyname_[yyrhs_[i]] << ' ';
