@@ -1,3 +1,8 @@
+2005-05-30  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix infringement on user name space reported by Janos Zoltan Szabo.
+	* data/yacc.c (yyparse): strlen -> yystrlen.
+
 2005-05-30  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (_): New.
