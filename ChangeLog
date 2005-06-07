@@ -1,3 +1,8 @@
+2005-06-06  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* data/glr.c: Modify treatment of unused parameters to permit use
+	of g++ (which doesn't allow __attribute__ ((unused)) for parameters).
+
 2005-05-30  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix infringement on user name space reported by Janos Zoltan Szabo.
