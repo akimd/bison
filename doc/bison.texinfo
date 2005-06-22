@@ -117,9 +117,10 @@ Reference sections:
                         messy for Bison to handle straightforwardly.
 * Debugging::         Understanding or debugging Bison parsers.
 * Invocation::        How to run Bison (to produce the parser source file).
+* C++ Language Interface::  Creating C++ parser objects.
+* FAQ::               Frequently Asked Questions
 * Table of Symbols::  All the keywords of the Bison language are explained.
 * Glossary::          Basic concepts are explained.
-* FAQ::               Frequently Asked Questions
 * Copying This Manual::  License for copying this manual.
 * Index::             Cross-references to the text.
 
@@ -292,12 +293,32 @@ Invoking Bison
 * Option Cross Key::  Alphabetical list of long options.
 * Yacc Library::      Yacc-compatible @code{yylex} and @code{main}.
 
+C++ Language Interface
+
+* C++ Parsers::                 The interface to generate C++ parser classes
+* A Complete C++ Example::      Demonstrating their use
+
+C++ Parsers
+
+* C++ Bison Interface::         Asking for C++ parser generation
+* C++ Semantic Values::         %union vs. C++
+* C++ Location Values::         The position and location classes
+* C++ Parser Interface::        Instantiating and running the parser
+* C++ Scanner Interface::       Exchanges between yylex and parse
+
+A Complete C++ Example
+
+* Calc++ --- C++ Calculator::   The specifications
+* Calc++ Parsing Driver::       An active parsing context
+* Calc++ Parser::               A parser class
+* Calc++ Scanner::              A pure C++ Flex scanner
+* Calc++ Top Level::            Conducting the band
+
 Frequently Asked Questions
 
 * Parser Stack Overflow::      Breaking the Stack Limits
 * How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
-* C++ Parsers::                Compiling Parsers with C++ Compilers
 * Implementing Gotos/Loops::   Control Flow in the Calculator
 
 Copying This Manual
@@ -6737,7 +6758,650 @@ If you use the Yacc library's @code{main} function, your
 int yyparse (void);
 @end example
 
-@c ================================================= Invoking Bison
+@c ================================================= C++ Bison
+
+@node C++ Language Interface
+@chapter C++ Language Interface
+
+@menu
+* C++ Parsers::                 The interface to generate C++ parser classes
+* A Complete C++ Example::      Demonstrating their use
+@end menu
+
+@node C++ Parsers
+@section C++ Parsers
+
+@menu
+* C++ Bison Interface::         Asking for C++ parser generation
+* C++ Semantic Values::         %union vs. C++
+* C++ Location Values::         The position and location classes
+* C++ Parser Interface::        Instantiating and running the parser
+* C++ Scanner Interface::       Exchanges between yylex and parse
+@end menu
+
+@node C++ Bison Interface
+@subsection C++ Bison Interface
+@c - %skeleton "lalr1.cc"
+@c - Always pure
+@c - initial action
+
+The C++ parser LALR(1) skeleton is named @file{lalr1.cc}.  To select
+it, you may either pass the option @option{--skeleton=lalr1.cc} to
+Bison, or include the directive @samp{%skeleton "lalr1.cc"} in the
+grammar preamble.  When run, @command{bison} will create several
+files:
+@table @file
+@item position.hh
+@itemx location.hh
+The definition of the classes @code{position} and @code{location},
+used for location tracking.  @xref{C++ Location Values}.
+
+@item stack.hh
+An auxiliary class @code{stack} used by the parser.
+
+@item @var{filename}.hh
+@itemx @var{filename}.cc
+The declaration and implementation of the C++ parser class.
+@var{filename} is the name of the output file.  It follows the same
+rules as with regular C parsers.
+
+Note that @file{@var{filename}.hh} is @emph{mandatory}, the C++ cannot
+work without the parser class declaration.  Therefore, you must either
+pass @option{-d}/@option{--defines} to @command{bison}, or use the
+@samp{%defines} directive.
+@end table
+
+All these files are documented using Doxygen; run @command{doxygen}
+for a complete and accurate documentation.
+
+@node C++ Semantic Values
+@subsection C++ Semantic Values
+@c - No objects in unions
+@c - YSTYPE
+@c - Printer and destructor
+
+The @code{%union} directive works as for C, see @ref{Union Decl, ,The
+Collection of Value Types}.  In particular it produces a genuine
+@code{union}@footnote{In the future techniques to allow complex types
+within pseudo-unions (variants) might be implemented to alleviate
+these issues.}, which have a few specific features in C++.
+@itemize @minus
+@item
+The name @code{YYSTYPE} also denotes @samp{union YYSTYPE}.  You may
+forward declare it just with @samp{union YYSTYPE;}.
+@item
+Non POD (Plain Old Data) types cannot be used.  C++ forbids any
+instance of classes with constructors in unions: only @emph{pointers}
+to such objects are allowed.
+@end itemize
+
+Because objects have to be stored via pointers, memory is not
+reclaimed automatically: using the @code{%destructor} directive is the
+only means to avoid leaks.  @xref{Destructor Decl, , Freeing Discarded
+Symbols}.
+
+
+@node C++ Location Values
+@subsection C++ Location Values
+@c - %locations
+@c - class Position
+@c - class Location
+@c - %define "filename_type" "const symbol::Symbol"
+
+When the directive @code{%locations} is used, the C++ parser supports
+location tracking, see @ref{Locations, , Locations Overview}.  Two
+auxiliary classes define a @code{position}, a single point in a file,
+and a @code{location}, a range composed of a pair of
+@code{position}s (possibly spanning several files).
+
+@deftypemethod {position} {std::string*} filename
+The name of the file.  It will always be handled as a pointer, the
+parser will never duplicate nor deallocate it.  As an experimental
+feature you may change it to @samp{@var{type}*} using @samp{%define
+"filename_type" "@var{type}"}.
+@end deftypemethod
+
+@deftypemethod {position} {unsigned int} line
+The line, starting at 1.
+@end deftypemethod
+
+@deftypemethod {position} {unsigned int} lines (int @var{height} = 1)
+Advance by @var{height} lines, resetting the column number.
+@end deftypemethod
+
+@deftypemethod {position} {unsigned int} column
+The column, starting at 0.
+@end deftypemethod
+
+@deftypemethod {position} {unsigned int} columns (int @var{width} = 1)
+Advance by @var{width} columns, without changing the line number.
+@end deftypemethod
+
+@deftypemethod {position} {position&} operator+= (position& @var{pos}, int @var{width})
+@deftypemethodx {position} {position} operator+ (const position& @var{pos}, int @var{width})
+@deftypemethodx {position} {position&} operator-= (const position& @var{pos}, int @var{width})
+@deftypemethodx {position} {position} operator- (position& @var{pos}, int @var{width})
+Various forms of syntactic sugar for @code{columns}.
+@end deftypemethod
+
+@deftypemethod {position} {position} operator<< (std::ostream @var{o}, const position& @var{p})
+Report @var{p} on @var{o} like this:
+@samp{@var{filename}:@var{line}.@var{column}}, or
+@samp{@var{line}.@var{column}} if @var{filename} is null.
+@end deftypemethod
+
+@deftypemethod {location} {position} begin
+@deftypemethodx {location} {position} end
+The first, inclusive, position of the range, and the first beyond.
+@end deftypemethod
+
+@deftypemethod {location} {unsigned int} columns (int @var{width} = 1)
+@deftypemethodx {location} {unsigned int} lines (int @var{height} = 1)
+Advance the @code{end} position.
+@end deftypemethod
+
+@deftypemethod {location} {location} operator+ (const location& @var{begin}, const location& @var{end})
+@deftypemethodx {location} {location} operator+ (const location& @var{begin}, int @var{width})
+@deftypemethodx {location} {location} operator+= (const location& @var{loc}, int @var{width})
+Various forms of syntactic sugar.
+@end deftypemethod
+
+@deftypemethod {location} {void} step ()
+Move @code{begin} onto @code{end}.
+@end deftypemethod
+
+
+@node C++ Parser Interface
+@subsection C++ Parser Interface
+@c - define parser_class_name
+@c - Ctor
+@c - parse, error, set_debug_level, debug_level, set_debug_stream,
+@c   debug_stream.
+@c - Reporting errors
+
+The output files @file{@var{output}.hh} and @file{@var{output}.cc}
+declare and define the parser class in the namespace @code{yy}.  The
+class name defaults to @code{parser}, but may be changed using
+@samp{%define "parser_class_name" "@var{name}"}.  The interface of
+this class is detailled below.  It can be extended using the
+@code{%parse-param} feature: its semantics is slightly changed since
+it describes an additional member of the parser class, and an
+additional argument for its constructor.
+
+@deftypemethod {parser} {semantic_value_type}
+@deftypemethodx {parser} {location_value_type}
+The types for semantics value and locations.
+@c FIXME: deftypemethod pour des types ???
+@end deftypemethod
+
+@deftypemethod {parser} {} parser (@var{type1} @var{arg1}, ...)
+Build a new parser object.  There are no arguments by default, unless
+@samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
+@end deftypemethod
+
+@deftypemethod {parser} {int} parse ()
+Run the syntactic analysis, and return 0 on success, 1 otherwise.
+@end deftypemethod
+
+@deftypemethod {parser} {std::ostream&} debug_stream ()
+@deftypemethodx {parser} {void} set_debug_stream (std::ostream& @var{o})
+Get or set the stream used for tracing the parsing.  It defaults to
+@code{std::cerr}.
+@end deftypemethod
+
+@deftypemethod {parser} {debug_level_type} debug_level ()
+@deftypemethodx {parser} {void} set_debug_level (debug_level @var{l})
+Get or set the tracing level.  Currently its value is either 0, no trace,
+or non-zero, full tracing.
+@end deftypemethod
+
+@deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
+The definition for this member function must be supplied by the user:
+the parser uses it to report a parser error occurring at @var{l},
+described by @var{m}.
+@end deftypemethod
+
+
+@node C++ Scanner Interface
+@subsection C++ Scanner Interface
+@c - prefix for yylex.
+@c - Pure interface to yylex
+@c - %lex-param
+
+The parser invokes the scanner by calling @code{yylex}.  Contrary to C
+parsers, C++ parsers are always pure: there is no point in using the
+@code{%pure-parser} directive.  Therefore the interface is as follows.
+
+@deftypemethod {parser} {int} yylex (semantic_value_type& @var{yylval}, location_type& @var{yylloc}, @var{type1} @var{arg1}, ...)
+Return the next token.  Its type is the return value, its semantic
+value and location being @var{yylval} and @var{yylloc}.  Invocations of
+@samp{%lex-param @{@var{type1} @var{arg1}@}} yield additional arguments.
+@end deftypemethod
+
+
+@node A Complete C++ Example
+@section A Complete C++ Example
+
+This section demonstrates the use of a C++ parser with a simple but
+complete example.  This example should be available on your system,
+ready to compile, in the directory @dfn{../bison/examples/calc++}.  It
+focuses on the use of Bison, therefore the design of the various C++
+classes is very naive: no accessors, no encapsulation of members etc.
+We will use a Lex scanner, and more precisely, a Flex scanner, to
+demonstrate the various interaction.  A hand written scanner is
+actually easier to interface with.
+
+@menu
+* Calc++ --- C++ Calculator::   The specifications
+* Calc++ Parsing Driver::       An active parsing context
+* Calc++ Parser::               A parser class
+* Calc++ Scanner::              A pure C++ Flex scanner
+* Calc++ Top Level::            Conducting the band
+@end menu
+
+@node Calc++ --- C++ Calculator
+@subsection Calc++ --- C++ Calculator
+
+Of course the grammar is dedicated to arithmetics, a single
+expression, possibily preceded by variable assignments.  An
+environment containing possibly predefined variables such as
+@code{one} and @code{two}, is exchanged with the parser.  An example
+of valid input follows.
+
+@example
+three := 3
+seven := one + two * three
+seven * seven
+@end example
+
+@node Calc++ Parsing Driver
+@subsection Calc++ Parsing Driver
+@c - An env
+@c - A place to store error messages
+@c - A place for the result
+
+To support a pure interface with the parser (and the scanner) the
+technique of the ``parsing context'' is convenient: a structure
+containing all the data to exchange.  Since, in addition to simply
+launch the parsing, there are several auxiliary tasks to execute (open
+the file for parsing, instantiate the parser etc.), we recommend
+transforming the simple parsing context structure into a fully blown
+@dfn{parsing driver} class.
+
+The declaration of this driver class, @file{calc++-driver.hh}, is as
+follows.  The first part includes the CPP guard and imports the
+required standard library components.
+
+@example
+#ifndef CALCXX_DRIVER_HH
+# define CALCXX_DRIVER_HH
+# include <string>
+# include <map>
+@end example
+
+@noindent
+Then come forward declarations.  Because the parser uses the parsing
+driver and reciprocally, simple inclusions of header files will not
+do.  Because the driver's declaration is the one that will be imported
+by the rest of the project, it is saner to forward declare the
+parser's information here.
+
+@example
+// Forward declarations.
+union YYSTYPE;
+namespace yy @{ class calcxx_parser; @}
+class calcxx_driver;
+@end example
+
+@noindent
+Then comes the declaration of the scanning function.  Flex expects
+the signature of @code{yylex} to be defined in the macro
+@code{YY_DECL}, and the C++ parser expects it to be declared.  We can
+factor both as follows.
+@example
+// Announce to Flex the prototype we want for lexing function, ...
+# define YY_DECL						\
+  int yylex (YYSTYPE* yylval, yy::location* yylloc, calcxx_driver& driver)
+// ... and declare it for the parser's sake.
+YY_DECL;
+@end example
+
+@noindent
+The @code{calcxx_driver} class is then declared with its most obvious
+members.
+
+@example
+// Conducting the whole scanning and parsing of Calc++.
+class calcxx_driver
+@{
+public:
+  calcxx_driver ();
+  virtual ~calcxx_driver ();
+
+  std::map<std::string, int> variables;
+
+  int result;
+@end example
+
+@noindent
+To encapsulate the coordination with the Flex scanner, it is useful to
+have two members function to open and close the scanning phase.
+members.
+
+@example
+  // Handling the scanner.
+  void scan_begin ();
+  void scan_end ();
+  bool trace_scanning;
+@end example
+
+@noindent
+Similarly for the parser itself.
+
+@example
+  // Handling the parser.
+  void parse (const std::string& f);
+  std::string file;
+  bool trace_parsing;
+@end example
+
+@noindent
+To demonstrate pure handling of parse errors, instead of simply
+dumping them on the standard error output, we will pass them to the
+compiler driver using the following two member functions.  Finally, we
+close the class declaration and CPP guard.
+
+@example
+  // Error handling.
+  void error (const yy::location& l, const std::string& m);
+  void error (const std::string& m);
+@};
+#endif // ! CALCXX_DRIVER_HH
+@end example
+
+The implementation of the driver is straightforward.  The @code{parse}
+member function deserves some attention.  The @code{error} functions
+are simple stubs, they should actually register the located error
+messages and set error state.
+
+@example
+#include "calc++-driver.hh"
+#include "calc++-parser.hh"
+
+calcxx_driver::calcxx_driver ()
+  : trace_scanning (false), trace_parsing (false)
+@{
+  variables["one"] = 1;
+  variables["two"] = 2;
+@}
+
+calcxx_driver::~calcxx_driver ()
+@{
+@}
+
+void
+calcxx_driver::parse (const std::string &f)
+@{
+  file = f;
+  scan_begin ();
+  yy::calcxx_parser parser (*this);
+  parser.set_debug_level (trace_parsing);
+  parser.parse ();
+  scan_end ();
+@}
+
+void
+calcxx_driver::error (const yy::location& l, const std::string& m)
+@{
+  std::cerr << l << ": " << m << std::endl;
+@}
+
+void
+calcxx_driver::error (const std::string& m)
+@{
+  std::cerr << m << std::endl;
+@}
+@end example
+
+@node Calc++ Parser
+@subsection Calc++ Parser
+
+The parser definition file @file{calc++-parser.yy} starts by asking
+for the C++ skeleton, the creation of the parser header file, and
+specifies the name of the parser class.  It then includes the required
+headers.
+@example
+%skeleton "lalr1.cc"                          /*  -*- C++ -*- */
+%define "parser_class_name" "calcxx_parser"
+%defines
+%@{
+# include <string>
+# include "calc++-driver.hh"
+%@}
+@end example
+
+@noindent
+The driver is passed by reference to the parser and to the scanner.
+This provides a simple but effective pure interface, not relying on
+global variables.
+
+@example
+// The parsing context.
+%parse-param @{ calcxx_driver& driver @}
+%lex-param   @{ calcxx_driver& driver @}
+@end example
+
+@noindent
+Then we request the location tracking feature, and initialize the
+first location's file name.  Afterwards new locations are computed
+relatively to the previous locations: the file name will be
+automatically propagated.
+
+@example
+%locations
+%initial-action
+@{
+  // Initialize the initial location.
+  @@$.begin.filename = @@$.end.filename = &driver.file;
+@};
+@end example
+
+@noindent
+Use the two following directives to enable parser tracing and verbose
+error messages.
+
+@example
+%debug
+%error-verbose
+@end example
+
+@noindent
+Semantic values cannot use ``real'' objects, but only pointers to
+them.
+
+@example
+// Symbols.
+%union
+@{
+  int          ival;
+  std::string *sval;
+@};
+@end example
+
+@noindent
+The token numbered as 0 corresponds to end of file; the following line
+allows for nicer error messages referring to ``end of file'' instead
+of ``$end''.  Similarly user friendly named are provided for each
+symbol.  Note that the tokens names are prefixed by @code{TOKEN_} to
+avoid name clashes.
+
+@example
+%token        YYEOF          0 "end of file"
+%token        TOKEN_ASSIGN     ":="
+%token <sval> TOKEN_IDENTIFIER "identifier"
+%token <ival> TOKEN_NUMBER     "number"
+%type  <ival> exp              "expression"
+@end example
+
+@noindent
+To enable memory deallocation during error recovery, use
+@code{%destructor}.
+
+@example
+%printer    @{ debug_stream () << *$$; @} "identifier"
+%destructor @{ delete $$; @} "identifier"
+
+%printer    @{ debug_stream () << $$; @} "number" "expression"
+@end example
+
+@noindent
+The grammar itself is straightforward.
+
+@example
+%%
+%start unit;
+unit: assignments exp  @{ driver.result = $2; @};
+
+assignments: assignments assignment @{@}
+           | /* Nothing. */         @{@};
+
+assignment: TOKEN_IDENTIFIER ":=" exp @{ driver.variables[*$1] = $3; @};
+
+%left '+' '-';
+%left '*' '/';
+exp: exp '+' exp   @{ $$ = $1 + $3; @}
+   | exp '-' exp   @{ $$ = $1 - $3; @}
+   | exp '*' exp   @{ $$ = $1 * $3; @}
+   | exp '/' exp   @{ $$ = $1 / $3; @}
+   | TOKEN_IDENTIFIER  @{ $$ = driver.variables[*$1]; @}
+   | TOKEN_NUMBER      @{ $$ = $1; @};
+%%
+@end example
+
+@noindent
+Finally the @code{error} member function registers the errors to the
+driver.
+
+@example
+void
+yy::calcxx_parser::error (const location_type& l, const std::string& m)
+@{
+  driver.error (l, m);
+@}
+@end example
+
+@node Calc++ Scanner
+@subsection Calc++ Scanner
+
+The Flex scanner first includes the driver declaration, then the
+parser's to get the set of defined tokens.
+
+@example
+%@{                                            /* -*- C++ -*- */
+# include <string>
+# include "calc++-driver.hh"
+# include "calc++-parser.hh"
+%@}
+@end example
+
+@noindent
+Because there is no @code{#include}-like feature we don't need
+@code{yywrap}, we don't need @code{unput} either, and we parse an
+actual file, this is not an interactive session with the user.
+Finally we enable the scanner tracing features.
+
+@example
+%option noyywrap nounput batch debug
+@end example
+
+@noindent
+Abbreviations allow for more readable rules.
+
+@example
+id    [a-zA-Z][a-zA-Z_0-9]*
+int   [0-9]+
+blank [ \t]
+@end example
+
+@noindent
+The following paragraph suffices to track locations acurately.  Each
+time @code{yylex} is invoked, the begin position is moved onto the end
+position.  Then when a pattern is matched, the end position is
+advanced of its width.  In case it matched ends of lines, the end
+cursor is adjusted, and each time blanks are matched, the begin cursor
+is moved onto the end cursor to effectively ignore the blanks
+preceding tokens.  Comments would be treated equally.
+
+@example
+%%
+%@{
+  yylloc->step ();
+# define YY_USER_ACTION  yylloc->columns (yyleng);
+%@}
+@{blank@}+   yylloc->step ();
+[\n]+      yylloc->lines (yyleng); yylloc->step ();
+@end example
+
+@noindent
+The rules are simple, just note the use of the driver to report
+errors.
+
+@example
+[-+*/]     return yytext[0];
+":="       return TOKEN_ASSIGN;
+@{int@}      yylval->ival = atoi (yytext); return TOKEN_NUMBER;
+@{id@}       yylval->sval = new std::string (yytext); return TOKEN_IDENTIFIER;
+.          driver.error (*yylloc, "invalid character");
+%%
+@end example
+
+@noindent
+Finally, because the scanner related driver's member function depend
+on the scanner's data, it is simpler to implement them in this file.
+
+@example
+void
+calcxx_driver::scan_begin ()
+@{
+  yy_flex_debug = trace_scanning;
+  if (!(yyin = fopen (file.c_str (), "r")))
+    error (std::string ("cannot open ") + file);
+@}
+
+void
+calcxx_driver::scan_end ()
+@{
+  fclose (yyin);
+@}
+@end example
+
+@node Calc++ Top Level
+@subsection Calc++ Top Level
+
+The top level file, @file{calc++.cc}, poses no problem.
+
+@example
+#include <iostream>
+#include "calc++-driver.hh"
+
+int
+main (int argc, const char* argv[])
+@{
+  calcxx_driver driver;
+  for (++argv; argv[0]; ++argv)
+    if (*argv == std::string ("-p"))
+      driver.trace_parsing = true;
+    else if (*argv == std::string ("-s"))
+      driver.trace_scanning = true;
+    else
+      @{
+	driver.parse (*argv);
+	std::cout << driver.result << std::endl;
+      @}
+@}
+@end example
+
+@c ================================================= FAQ
 
 @node FAQ
 @chapter Frequently Asked Questions
@@ -6751,7 +7415,6 @@ are addressed.
 * Parser Stack Overflow::      Breaking the Stack Limits
 * How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
-* C++ Parsers::                Compiling Parsers with C++ Compilers
 * Implementing Gotos/Loops::   Control Flow in the Calculator
 @end menu
 
@@ -6914,27 +7577,6 @@ $ @kbd{gcc     -osplit-lines   split-lines.c -ll}
 $ @kbd{printf 'one\ntwo\n' | ./split-lines}
 "two", "two"
 @end example
-
-
-@node C++ Parsers
-@section C++ Parsers
-
-@display
-How can I generate parsers in C++?
-@end display
-
-We are working on a C++ output for Bison, but unfortunately, for lack of
-time, the skeleton is not finished.  It is functional, but in numerous
-respects, it will require additional work which @emph{might} break
-backward compatibility.  Since the skeleton for C++ is not documented,
-we do not consider ourselves bound to this interface, nevertheless, as
-much as possible we will try to keep compatibility.
-
-Another possibility is to use the regular C parsers, and to compile them
-with a C++ compiler.  This works properly, provided that you bear some
-simple C++ rules in mind, such as not including ``real classes'' (i.e.,
-structure with constructors) in unions.  Therefore, in the
-@code{%union}, use pointers to classes.
 
 
 @node Implementing Gotos/Loops
