@@ -1,5 +1,9 @@
 2005-06-22  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (yylex_): Honor %lex-param.
+
+2005-06-22  Akim Demaille  <akim@epita.fr>
+
 	Start a set of simple examples.
 	* examples/calc++/Makefile, examples/calc++/calc++-driver.cc,
 	* examples/calc++/calc++-driver.hh,

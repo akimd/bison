@@ -838,11 +838,10 @@ void
 yy::]b4_parser_class_name[::yylex_ ()
 {
   YYCDEBUG << _("Reading a token: ");
-#if YYLSP_NEEDED
-  yylooka_ = yylex (&yylval, &yylloc);
-#else
-  yylooka_ = yylex (&yylval);
-#endif
+  yylooka_ = ]b4_c_function_call([yylex], [int],
+[[YYSTYPE*], [&yylval]][]dnl
+b4_location_if([, [[location*], [&yylloc]]])dnl
+m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 }
 
 // Generate an error message, and invoke error.
