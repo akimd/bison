@@ -1,3 +1,12 @@
+2005-06-22  Akim Demaille  <akim@epita.fr>
+
+	Start a set of simple examples.
+	* examples/calc++/Makefile, examples/calc++/calc++-driver.cc,
+	* examples/calc++/calc++-driver.hh,
+	* examples/calc++/calc++-parser.yy,
+	* examples/calc++/calc++-scanner.ll, examples/calc++/calc++.cc,
+	* examples/calc++/compile, examples/calc++/test: New.
+
 2005-06-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/yacc.c (malloc, free) [defined __cplusplus]: Wrap inside
@@ -7653,7 +7662,7 @@
 
 	* tests/atlocal.at (GCC): New.
 	* tests/synclines.at (AT_TEST_SYNCLINE): New macro.
-	(Prologue synch line, ,%union synch line, Postprologue synch line)
+	(Prologue synch line, %union synch line, Postprologue synch line)
 	(Action synch line, Epilogue synch line): New tests.
 	* src/reader.c (parse_union_decl): Define the muscle stype_line.
 	* data/bison.simple, data/bison.c++: Use it.

@@ -1,0 +1,26 @@
+#! /bin/sh
+set +e
+cat >input <<EOF
+a := 1
+b := 2
+c := 3
+d := a + b * c
+d
+EOF
+
+./calc++ input
+./calc++ -p input
+
+cat >input <<EOF
+a := 1
+d := a + b * c
+EOF
+./calc++ input
+
+set -x
+echo toto
+cat >input <<EOF
+toto := 1
+toto
+EOF
+./calc++ -s input
