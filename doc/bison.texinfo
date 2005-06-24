@@ -6928,11 +6928,10 @@ this class is detailled below.  It can be extended using the
 it describes an additional member of the parser class, and an
 additional argument for its constructor.
 
-@deftypemethod {parser} {semantic_value_type}
-@deftypemethodx {parser} {location_value_type}
+@defcv {Type} {parser} {semantic_value_type}
+@defcvx {Type} {parser} {location_value_type}
 The types for semantics value and locations.
-@c FIXME: deftypemethod pour des types ???
-@end deftypemethod
+@end defcv
 
 @deftypemethod {parser} {} parser (@var{type1} @var{arg1}, ...)
 Build a new parser object.  There are no arguments by default, unless

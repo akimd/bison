@@ -1,3 +1,8 @@
+2005-06-24  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (C++ Parser Interface): Use defcv to define
+	class typedefs.
+
 2005-06-22  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (C++ Language Interface): First stab.
