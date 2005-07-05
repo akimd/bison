@@ -1,33 +1,28 @@
-%{                                                            /* -*- C++ -*- */
-
+%{                                            /* -*- C++ -*- */
 # include <string>
-# include <cerrno>
 # include "calc++-driver.hh"
 # include "calc++-parser.hh"
 %}
 
-%option noyywrap nounput debug batch
+%option noyywrap nounput batch debug
 
 id    [a-zA-Z][a-zA-Z_0-9]*
 int   [0-9]+
 blank [ \t]
 
 %%
-
 %{
-# define YY_USER_ACTION  yylloc->columns (yyleng);
   yylloc->step ();
+# define YY_USER_ACTION  yylloc->columns (yyleng);
 %}
 {blank}+   yylloc->step ();
 [\n]+      yylloc->lines (yyleng); yylloc->step ();
-
 
 [-+*/]     return yytext[0];
 ":="       return TOKEN_ASSIGN;
 {int}      yylval->ival = atoi (yytext); return TOKEN_NUMBER;
 {id}       yylval->sval = new std::string (yytext); return TOKEN_IDENTIFIER;
 .          driver.error (*yylloc, "invalid character");
-
 %%
 
 void

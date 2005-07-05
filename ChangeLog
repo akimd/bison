@@ -1,3 +1,11 @@
+2005-07-05  Akim Demaille  <akim@epita.fr>
+
+	Extract calc++ from the documentation.
+	* doc/bison.texinfo (Calc++): Add the extraction marks.
+	* examples/extexi: New, from the aborted GNU Programming 2E.
+	Separate the different paragraph of a file with empty lines.
+	* examples/Makefile: Use it to extract the whole calc++ example.
+
 2005-06-24  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (C++ Parser Interface): Use defcv to define

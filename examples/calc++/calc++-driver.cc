@@ -1,9 +1,9 @@
+#line 7140 "../../doc/bison.texinfo"
 #include "calc++-driver.hh"
 #include "calc++-parser.hh"
 
 calcxx_driver::calcxx_driver ()
-  : trace_scanning (false),
-    trace_parsing (false)
+  : trace_scanning (false), trace_parsing (false)
 {
   variables["one"] = 1;
   variables["two"] = 2;
