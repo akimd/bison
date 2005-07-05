@@ -1,3 +1,36 @@
+2005-07-05  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Rewrite GLR parser to catch more buffer overrun, storage exhaustion,
+	and size overflow errors.
+	* data/glr.c: Include <stdio.h> etc. after user prolog, not before,
+	in case the user prolog sets feature-test macros like _GNU_SOURCE.
+	(YYSIZEMAX): New macro.
+	(yystpcpy): New function, taken from yacc.c.
+	(struct yyGLRStack.yyspaceLeft): Now size_t, not int.
+	(yyinitGLRStack, yyfreeGLRstack): Remove unnecessary forward decls,
+	so that we don't have to maintain their signatures.
+	(yyFail): Check for buffer overflow, by using vsnprintf rather
+	than vsprintf.  Allocate a bigger buffer if possible.
+	Report an error if buffer allocation fails.
+	(yyStackOverflow): New function.
+	(yyinitStateSet, yyinitGLRStack): Return a boolean indicating whether
+	the initialization was successful.  It might fail if storage was
+	exhausted.
+	(yyexpandGLRStack): Add more checks for storage allocation failure.
+	Use yyStackOverflow to report failures.
+	(yymarkStackDeleted, yyglrShift, yyglrShiftDefer, yydoAction):
+	(yysplitStack, yyprocessOneStack, yyparse, yypstack):
+	Don't assume stack number fits in int.
+	(yysplitStack): Check for storage allocation failure.
+	(yysplitStack, yyprocessOneStack): Add pure_formals, so that we
+	can print diagnostics on storage allocation failure.  All callers
+	changed.
+	(yyresolveValue): Use yybool for boolean.
+	(yyreportSyntaxError): Check for size-calculation overflow.
+	This code is taken from yacc.c.
+	(yyparse): Check for storage allocation errors when allocating
+	the initial stack.
+
 2005-07-05  Akim Demaille  <akim@epita.fr>
 
 	Extract calc++ from the documentation.
