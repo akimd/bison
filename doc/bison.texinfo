@@ -7360,10 +7360,12 @@ preceding tokens.  Comments would be treated equally.
 
 @comment file: calc++-scanner.ll
 @example
+%@{
+# define YY_USER_ACTION  yylloc->columns (yyleng);
+%@}
 %%
 %@{
   yylloc->step ();
-# define YY_USER_ACTION  yylloc->columns (yyleng);
 %@}
 @{blank@}+   yylloc->step ();
 [\n]+      yylloc->lines (yyleng); yylloc->step ();

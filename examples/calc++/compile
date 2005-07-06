@@ -1,9 +1,0 @@
-#! /bin/sh
-
-set -ex
-BISON_PKGDATADIR=$HOME/src/bison/data
-export BISON_PKGDATADIR
-
-flex -ocalc++-scanner.cc calc++-scanner.ll
-bison -o calc++-parser.cc calc++-parser.yy
-g++ -o calc++ calc++.cc calc++-driver.cc calc++-parser.cc calc++-scanner.cc

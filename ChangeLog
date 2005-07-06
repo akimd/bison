@@ -1,3 +1,14 @@
+2005-07-06  Akim Demaille  <akim@epita.fr>
+
+	Bind examples/calc++ to the package.
+	* examples/calc++/Makefile: Remove, replaced by...
+	* examples/calc++/Makefile.am: ... this new file.
+	* examples/calc++/test: Remove input.
+	* examples/calc++/compile: Remove.
+	* examples/Makefile.am: New.
+	* configure.ac, Makefile.am: Adjust.
+	* doc/Makefile.am (clean-local): New, for more recent texi2dvis.
+
 2005-07-05  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (yyFail): Drastically simplify; since the format argument

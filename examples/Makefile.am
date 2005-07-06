@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+## Copyright (C) 2005 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -16,12 +16,6 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ## 02110-1301  USA
 
-ACLOCAL_AMFLAGS = -I m4
+SUBDIRS = calc++
 
-SUBDIRS = config po lib data src doc tests examples
-
-EXTRA_DIST = REFERENCES OChangeLog Makefile.maint GNUmakefile Makefile.cfg
-
-.PHONY: maintainer-check
-maintainer-check:
-	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
+dist_noinst_SCRIPTS = extexi

@@ -1,4 +1,5 @@
 #! /bin/sh
+
 set +e
 cat >input <<EOF
 a := 1
@@ -24,3 +25,5 @@ toto := 1
 toto
 EOF
 ./calc++ -s input
+
+rm input

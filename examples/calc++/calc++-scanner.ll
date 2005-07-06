@@ -10,10 +10,12 @@ id    [a-zA-Z][a-zA-Z_0-9]*
 int   [0-9]+
 blank [ \t]
 
+%{
+# define YY_USER_ACTION  yylloc->columns (yyleng);
+%}
 %%
 %{
   yylloc->step ();
-# define YY_USER_ACTION  yylloc->columns (yyleng);
 %}
 {blank}+   yylloc->step ();
 [\n]+      yylloc->lines (yyleng); yylloc->step ();

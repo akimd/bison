@@ -129,5 +129,7 @@ AC_CONFIG_FILES([Makefile
                  config/Makefile
                  po/Makefile.in
                  data/Makefile
+		 examples/Makefile
+		    examples/calc++/Makefile
                  lib/Makefile src/Makefile doc/Makefile])
 AC_OUTPUT
