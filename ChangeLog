@@ -1,5 +1,11 @@
 2005-07-05  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/glr.c (yyFail): Drastically simplify; since the format argument
+	never had any % directives, we can simply pass it to yyerror.
+	(yyparse): Use "t a; a=b;" rather than "t a = b;" when a will
+	be modified later, as that is the usual style in glr.c.
+	Problems reported by Paul Hilfinger.
+
 	Rewrite GLR parser to catch more buffer overrun, storage exhaustion,
 	and size overflow errors.
 	* data/glr.c: Include <stdio.h> etc. after user prolog, not before,
