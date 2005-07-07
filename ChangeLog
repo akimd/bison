@@ -1,5 +1,25 @@
 2005-07-07  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* examples/calc++/calc++-driver.cc, examples/calc++/calc++-driver.hh:
+	* examples/calc++/calc++-scanner.ll, examples/calc++/calc++.cc:
+	Remove from CVS.  These files are automatically generated.
+	* examples/extexi: Clarify that this file is now part of Bison,
+	not GNU M4, and that it works with any POSIX-compatible Awk.
+	* examples/calc++/Makefile.am (run_extexi): Remove; not used.
+	($(calc_extracted)): Renamed from $(calc_sources_extracted),
+	so that we also get calc++-parser.yy.  Geneate it.
+	Use $(AWK), not gawk, since any conforming Awk will do.
+	Put comment before action, since older 'make' can't handle comment
+	in action.
+	$(BUILT_SOURCES): List all built sources, not just some of them.
+	$(MAINTAINERCLEANFILES): Remove *.stamp, and all built sources.
+	$($(srcdir)/calc++-parser.stamp): Work even if POSIXLY_CORRECT.
+	$($(calc_sources_generated)): Remove unnecessary test for existence
+	of target.  (This had a shell syntax error anyway; a stray "x".)
+	(calc_extracted): List $(srcdir)/calc++-parser.yy, not
+	calc++-parser.yy.
+	* examples/.cvsignore, examples/calc++/.cvsignore: New files.
+
 	* bootstrap (gnulib_modules): Add gettext, now that it's no longer
 	implied by the other modules.
 

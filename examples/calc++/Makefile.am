@@ -32,11 +32,11 @@ $(BISON): $(BISON_IN)
 
 doc = $(top_srcdir)/doc/bison.texinfo
 extexi = $(top_srcdir)/examples/extexi
-run_extexi = gawk -f $(extexi)
-$(calc_sources_extracted): $(doc) $(extexi)
 # Extract in src.
+$(calc_extracted): $(doc) $(extexi)
 	cd $(srcdir) && \
-	   gawk -f ../extexi ../../doc/bison.texinfo -- \
+	   $(AWK) -f ../extexi ../../doc/bison.texinfo -- \
+	     calc++-parser.yy \
 	     calc++-scanner.ll calc++.cc calc++-driver.hh calc++-driver.cc
 
 
@@ -44,9 +44,9 @@ $(calc_sources_extracted): $(doc) $(extexi)
 ## Parser generation.  ##
 ## ------------------- ##
 
-# We do not use Automake features here.
-BUILT_SOURCES = $(calc_sources_generated)
-MAINTAINERCLEANFILES = $(calc_sources_generated)
+BUILT_SOURCES = $(calc_extracted) $(calc_sources_generated)
+CLEANFILES = $(srcdir)/*.output *.tmp
+MAINTAINERCLEANFILES = $(srcdir)/*.stamp $(BUILT_SOURCES)
 
 # Compile the parser and save cycles.
 # This code comes from "Handling Tools that Produce Many Outputs",
@@ -57,15 +57,13 @@ EXTRA_DIST = $(srcdir)/calc++-parser.stamp $(srcdir)/calc++-parser.yy
 $(srcdir)/calc++-parser.stamp: $(srcdir)/calc++-parser.yy $(BISON_IN)
 	@rm -f calc++-parser.tmp
 	@touch calc++-parser.tmp
-	$(BISON) -S lalr1.cc $(srcdir)/calc++-parser.yy -o $(srcdir)/calc++-parser.cc -d -ra
+	$(BISON) -d -ra -S lalr1.cc -o $(srcdir)/calc++-parser.cc \
+	  $(srcdir)/calc++-parser.yy
 	@mv -f calc++-parser.tmp $@
 
 $(calc_sources_generated): $(srcdir)/calc++-parser.stamp
-	@if test -f $@; then :; else x\
-	  rm -f $(srcdir)/calc++-parser.stamp; \
-	  $(MAKE) $(AM_MAKEFLAGS) $(srcdir)/calc++-parser.stamp; \
-	fi
-
+	rm -f $(srcdir)/calc++-parser.stamp
+	$(MAKE) $(AM_MAKEFLAGS) $(srcdir)/calc++-parser.stamp
 
 ## --------------------------- ##
 ## Building & testing calc++.  ##
@@ -74,8 +72,8 @@ $(calc_sources_generated): $(srcdir)/calc++-parser.stamp
 noinst_PROGRAMS = calc++
 
 calc_sources_extracted = $(srcdir)/calc++-scanner.ll $(srcdir)/calc++.cc \
-$(srcdir)/calc++-driver.hh $(srcdir)/calc++-driver.cc
-calc_extracted = $(calc_sources_extracted) calc++-parser.yy
+	$(srcdir)/calc++-driver.hh $(srcdir)/calc++-driver.cc
+calc_extracted = $(calc_sources_extracted) $(srcdir)/calc++-parser.yy
 calc_sources_generated = \
 	$(srcdir)/stack.hh $(srcdir)/position.hh $(srcdir)/location.hh \
 	$(srcdir)/calc++-parser.hh $(srcdir)/calc++-parser.cc

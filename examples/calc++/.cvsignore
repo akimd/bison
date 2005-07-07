@@ -1,0 +1,9 @@
+*.cc
+*.hh
+*.output
+*.stamp
+*.tmp
+.deps
+Makefile
+Makefile.in
+calc++
