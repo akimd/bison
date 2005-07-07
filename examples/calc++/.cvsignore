@@ -1,5 +1,6 @@
 *.cc
 *.hh
+*.ll
 *.output
 *.stamp
 *.tmp
