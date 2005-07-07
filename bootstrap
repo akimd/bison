@@ -97,6 +97,7 @@ dirname
 error
 extensions
 getopt
+gettext
 hard-locale
 hash
 malloc

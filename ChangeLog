@@ -1,3 +1,8 @@
+2005-07-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (gnulib_modules): Add gettext, now that it's no longer
+	implied by the other modules.
+
 2005-07-06  Akim Demaille  <akim@epita.fr>
 
 	Bind examples/calc++ to the package.
