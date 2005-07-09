@@ -1,3 +1,10 @@
+2005-07-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/yacc.c (yyparse): In the initial action, set
+	yylsp[0] and yyvsp[0] rather than yylloc and yylval.
+	This avoids the use of undefined variables if the initial
+	action does not set yylloc and/or yylval.
+
 2005-07-07  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* examples/calc++/calc++-driver.cc, examples/calc++/calc++-driver.hh:
