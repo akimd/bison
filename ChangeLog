@@ -1,3 +1,8 @@
+2005-07-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Mystery Conflicts): Add reference to DeRemer
+	and Pennello's paper.
+
 2005-07-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/yacc.c (yyparse): Undo previous patch.  Instead,

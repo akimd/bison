@@ -5496,6 +5496,13 @@ return_spec:
         ;
 @end example
 
+For a more detailed exposition of @acronym{LALR}(1) parsers and parser
+generators, please see:
+Frank DeRemer and Thomas Pennello, Efficient Computation of
+@acronym{LALR}(1) Look-Ahead Sets, @cite{@acronym{ACM} Transactions on
+Programming Languages and Systems}, Vol.@: 4, No.@: 4 (October 1982),
+pp.@: 615--649 @uref{http://doi.acm.org/10.1145/69622.357187}.
+
 @node Generalized LR Parsing
 @section Generalized @acronym{LR} (@acronym{GLR}) Parsing
 @cindex @acronym{GLR} parsing
@@ -6785,7 +6792,7 @@ int yyparse (void);
 @c - Always pure
 @c - initial action
 
-The C++ parser LALR(1) skeleton is named @file{lalr1.cc}.  To select
+The C++ parser @acronym{LALR}(1) skeleton is named @file{lalr1.cc}.  To select
 it, you may either pass the option @option{--skeleton=lalr1.cc} to
 Bison, or include the directive @samp{%skeleton "lalr1.cc"} in the
 grammar preamble.  When run, @command{bison} will create several
