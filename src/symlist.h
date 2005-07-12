@@ -45,7 +45,7 @@ typedef struct symbol_list
 symbol_list *symbol_list_new (symbol *sym, location loc);
 
 /* Print it.  */
-void symbol_list_print (FILE *f, symbol_list *l);
+void symbol_list_print (symbol_list *l, FILE *f);
 
 /* Prepend SYM at LOC to the LIST.  */
 symbol_list *symbol_list_prepend (symbol_list *list,

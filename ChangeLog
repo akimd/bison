@@ -1,5 +1,12 @@
 2005-07-12  Akim Demaille  <akim@epita.fr>
 
+	* src/symtab.h, src/symtab.c (symbol_print): Swap the arguments,
+	for consistency with the rest of the code.
+	* src/symlist.h, src/symlist.c (symbol_list_print): Ditto.
+	Add separators.
+
+2005-07-12  Akim Demaille  <akim@epita.fr>
+
 	* src/parse-gram.y: Use %printer instead of YYPRINT.
 
 2005-07-12  Akim Demaille  <akim@epita.fr>

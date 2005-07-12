@@ -92,7 +92,7 @@ struct symbol
 #define NUMBER_UNDEFINED (-1)
 
 /* Print a symbol (for debugging). */
-void symbol_print (FILE *f, symbol *s);
+void symbol_print (symbol *s, FILE *f);
 
 /* Fetch (or create) the symbol associated to KEY.  */
 symbol *symbol_get (const char *key, location loc);
