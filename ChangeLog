@@ -1,5 +1,9 @@
 2005-07-12  Akim Demaille  <akim@epita.fr>
 
+	* src/parse-gram.y: Use %printer instead of YYPRINT.
+
+2005-07-12  Akim Demaille  <akim@epita.fr>
+
 	* src/symtab.h, src/symtab.c (symbol_print): New.
 	* src/symlist.h, src/symlist.c (symbol_list_print): New.
 	* src/symlist.c (symbol_list_n_type_name_get): Report the culprit.

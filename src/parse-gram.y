@@ -46,10 +46,6 @@ static YYLTYPE lloc_default (YYLTYPE const *, int);
         gram_error (&yylloc, Msg)
 static void gram_error (location const *, char const *);
 
-#define YYPRINT(File, Type, Value) \
-	print_token_value (File, Type, &Value)
-static void print_token_value (FILE *, int, YYSTYPE const *);
-
 static void add_param (char const *, char *, location);
 
 symbol_class current_class = unknown_sym;
@@ -61,6 +57,7 @@ int current_prec = 0;
 %}
 
 %debug
+%verbose
 %defines
 %locations
 %pure-parser
@@ -164,9 +161,25 @@ int current_prec = 0;
 	      "%union {...}"
 	      BRACED_CODE action
 	      PROLOGUE EPILOGUE
+%printer { fprintf (stderr, "\"%s\"", $$); }
+              STRING string_content
+%printer { fprintf (stderr, "{\n%s\n}", $$); }
+	      "%destructor {...}"
+	      "%initial-action {...}"
+	      "%lex-param {...}"
+	      "%parse-param {...}"
+	      "%printer {...}"
+	      "%union {...}"
+	      BRACED_CODE action
+	      PROLOGUE EPILOGUE
 %type <uniqstr> TYPE
+%printer { fprintf (stderr, "<%s>", $$); } TYPE
 %type <integer> INT
-%type <symbol> ID ID_COLON symbol string_as_id
+%printer { fprintf (stderr, "%d", $$); } INT
+%type <symbol> ID symbol string_as_id
+%printer { fprintf (stderr, "%s", $$->tag); } ID symbol string_as_id
+%type <symbol> ID_COLON
+%printer { fprintf (stderr, "%s:", $$->tag); } ID_COLON
 %type <assoc> precedence_declarator
 %type <list>  symbols.1
 %%
@@ -514,49 +527,6 @@ add_param (char const *type, char *decl, location loc)
     }
 
   scanner_last_string_free ();
-}
-
-/*----------------------------------------------------.
-| When debugging the parser, display tokens' values.  |
-`----------------------------------------------------*/
-
-static void
-print_token_value (FILE *file, int type, YYSTYPE const *value)
-{
-  fputc (' ', file);
-  switch (type)
-    {
-    case ID:
-      fprintf (file, " = %s", value->symbol->tag);
-      break;
-
-    case INT:
-      fprintf (file, " = %d", value->integer);
-      break;
-
-    case STRING:
-      fprintf (file, " = \"%s\"", value->chars);
-      break;
-
-    case TYPE:
-      fprintf (file, " = <%s>", value->uniqstr);
-      break;
-
-    case BRACED_CODE:
-    case PERCENT_DESTRUCTOR:
-    case PERCENT_LEX_PARAM:
-    case PERCENT_PARSE_PARAM:
-    case PERCENT_PRINTER:
-    case PERCENT_UNION:
-    case PROLOGUE:
-    case EPILOGUE:
-      fprintf (file, " = {{ %s }}", value->chars);
-      break;
-
-    default:
-      fprintf (file, "unknown token type");
-      break;
-    }
 }
 
 static void
