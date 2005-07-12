@@ -1,3 +1,8 @@
+2005-07-12  Akim Demaille  <akim@epita.fr>
+
+	* data/glr.c (b4_syncline): Fix (swap) the definition of
+	b4_at_dollar and b4_dollar_dollar.
+
 2005-07-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Mystery Conflicts): Add reference to DeRemer
