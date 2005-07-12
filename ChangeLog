@@ -1,5 +1,6 @@
 2005-07-12  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Document recent i18n improvements.
 	* bootstrap: Get runtime translations into runtime-po.
 	Create runtime-po files automatically, if possible.
 	* configure.ac: Invoke BISON_I18N, so that we eat our own dog food.
