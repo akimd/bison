@@ -1,6 +1,6 @@
 /* Lists of symbols for Bison
 
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2005 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -43,6 +43,9 @@ typedef struct symbol_list
 
 /* Create a list containing SYM at LOC.  */
 symbol_list *symbol_list_new (symbol *sym, location loc);
+
+/* Print it.  */
+void symbol_list_print (FILE *f, symbol_list *l);
 
 /* Prepend SYM at LOC to the LIST.  */
 symbol_list *symbol_list_prepend (symbol_list *list,

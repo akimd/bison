@@ -1,6 +1,12 @@
 2005-07-12  Akim Demaille  <akim@epita.fr>
 
-	* data/glr.c (b4_syncline): Fix (swap) the definition of
+	* src/symtab.h, src/symtab.c (symbol_print): New.
+	* src/symlist.h, src/symlist.c (symbol_list_print): New.
+	* src/symlist.c (symbol_list_n_type_name_get): Report the culprit.
+
+2005-07-12  Akim Demaille  <akim@epita.fr>
+
+	* data/glr.c (b4_syncline): Fix (swap) the definitions of
 	b4_at_dollar and b4_dollar_dollar.
 
 2005-07-11  Paul Eggert  <eggert@cs.ucla.edu>
