@@ -4,7 +4,6 @@ src/files.c
 src/getargs.c
 src/gram.c
 src/main.c
-src/parse-gram.c
 src/parse-gram.y
 src/print.c
 src/reader.c

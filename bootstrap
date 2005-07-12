@@ -170,7 +170,18 @@ case $SKIP_PO in
    wget -nv -nd -r -l 1 -A .po -C off \
      http://www.iro.umontreal.ca/translation/maint/$package/ &&
    ls *.po | sed 's/\.po$//' >LINGUAS
-  ) || exit;;
+  ) || exit
+
+  case $package in
+  bison)
+    echo "$0: getting translations into po (please ignore the robots.txt ERROR 404)..."
+    (cd runtime-po &&
+     rm -f dummy `ls | sed -n '/\.gmo$/p; /\.po$/p'` &&
+     wget -nv -nd -r -l 1 -A .po -C off \
+       http://www.iro.umontreal.ca/translation/maint/$package-runtime/ &&
+     ls *.po | sed 's/\.po$//' >LINGUAS
+    ) || exit
+  esac;;
 esac
 
 
@@ -231,6 +242,15 @@ rm -fr $intl_files_to_remove || exit
 echo "$0: sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >po/Makevars ..."
 sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >po/Makevars
 
+# Likewise for runtime-po/Makevars, except also change a few other parameters.
+sed '
+  s/^\(DOMAIN\) *=.*/\1 = bison-runtime/
+  s/^\(subdir\) *=.*/\1 = runtime-po/
+  s/^\(XGETTEXT_OPTIONS\) *=.*/\1 = --keyword=YYI18N/
+' <po/Makevars >runtime-po/Makevars
+
+# Copy identical files from po to runtime-po.
+(cd po && cp -p *-quot *.header *.sed *.sin ../runtime-po)
 
 # if src/parse-gram.[ch] are out of date, rebuild them.
 parse_gram_y=`find src/parse-gram.y \

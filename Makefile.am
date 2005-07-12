@@ -18,7 +18,11 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = config po lib data src doc tests examples
+SUBDIRS = config po runtime-po lib data src doc tests
+
+# Files installed for use by Automake.
+aclocaldir = @aclocaldir@
+aclocal_DATA = m4/bison-i18n.m4
 
 EXTRA_DIST = REFERENCES OChangeLog Makefile.maint GNUmakefile Makefile.cfg
 

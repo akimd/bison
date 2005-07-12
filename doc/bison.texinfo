@@ -243,6 +243,8 @@ Parser C-Language Interface
                         which reads tokens.
 * Error Reporting::   You must supply a function @code{yyerror}.
 * Action Features::   Special features for use in actions.
+* Internationalization::  How to let the parser speak in the user's
+                        native language.
 
 The Lexical Analyzer Function @code{yylex}
 
@@ -1187,14 +1189,7 @@ start with a function called @code{main}; you have to provide this, and
 arrange for it to call @code{yyparse} or the parser will never run.
 @xref{Interface, ,Parser C-Language Interface}.
 
-If your code defines a C preprocessor macro @code{_} (a single
-underscore), Bison assumes that it can be used to translate
-English-language strings to the user's preferred language using a
-function-like syntax, e.g., @code{_("syntax error")}.  Otherwise,
-Bison defines a no-op macro by that name that merely returns its
-argument, so strings are not translated.
-
-Aside from @code{_} and the token type names and the symbols in the actions you
+Aside from the token type names and the symbols in the actions you
 write, all symbols defined in the Bison parser file itself
 begin with @samp{yy} or @samp{YY}.  This includes interface functions
 such as the lexical analyzer function @code{yylex}, the error reporting
@@ -4250,6 +4245,8 @@ in the grammar file, you are likely to run into trouble.
                         which reads tokens.
 * Error Reporting::   You must supply a function @code{yyerror}.
 * Action Features::   Special features for use in actions.
+* Internationalization::  How to let the parser speak in the user's
+                        native language.
 @end menu
 
 @node Parser Function
@@ -4811,6 +4808,84 @@ Acts like a structure variable containing information on the textual location
 of the @var{n}th component of the current rule.  @xref{Locations, ,
 Tracking Locations}.
 @end deffn
+
+@node Internationalization
+@section Parser Internationalization
+@cindex internationalization
+@cindex i18n
+@cindex NLS
+@cindex gettext
+@cindex bison-po
+
+A Bison-generated parser can print diagnostics, including error and
+tracing messages.  By default, they appear in English.  However, Bison
+also supports outputting diagnostics in the user's native language.
+To make this work, the user should set the usual environment
+variables.  @xref{Using gettextized software, , User influence on
+@code{gettext}, libc, The GNU C Library Reference Manual}.  For
+example, the shell command @samp{export LC_ALL=fr_CA.UTF-8} might set
+the user's locale to French Canadian using the @acronym{UTF}-8
+encoding.  The exact set of available locales depends on the user's
+installation.
+
+The maintainer of a package that uses a Bison-generated parser enables
+the internationalization of the parser's output through the following
+steps.  Here we assume a package that uses @acronym{GNU} Autoconf and
+@acronym{GNU} Automake.
+
+@enumerate
+@item
+Into the directory containing the @acronym{GNU} Autoconf macros used
+by the package---often called @file{m4}---copy the
+@file{bison-i18n.m4} file installed by Bison under
+@samp{share/aclocal/bison-i18n.m4} in Bison's installation directory.
+For example:
+
+@example
+cp /usr/local/share/aclocal/bison-i18n.m4 m4/bison-i18n.m4
+@end example
+
+@item
+In the top-level @file{configure.ac}, after the @code{AM_GNU_GETTEXT}
+invocation, add an invocation of @code{BISON_I18N}.  This macro is
+defined in the file @file{bison-i18n.m4} that you copied earlier.  It
+causes @samp{configure} to find the value of the
+@code{BISON_LOCALEDIR} variable.
+
+@item
+In the @code{main} function of your program, designate the directory
+containing Bison's runtime message catalog, through a call to
+@samp{bindtextdomain} with domain name @samp{bison-runtime}.
+For example:
+
+@example
+bindtextdomain ("bison-runtime", BISON_LOCALEDIR);
+@end example
+
+Typically this appears after any other call @code{bindtextdomain
+(PACKAGE, LOCALEDIR)} that your package already has.  Here we rely on
+@samp{BISON_LOCALEDIR} to be defined as a string through the
+@file{Makefile}.
+
+@item
+In the @file{Makefile.am} that controls the compilation of the @code{main}
+function, make @samp{BISON_LOCALEDIR} available as a C preprocessor macro,
+either in @samp{DEFS} or in @samp{AM_CPPFLAGS}.  For example:
+
+@example
+DEFS = @@DEFS@@ -DBISON_LOCALEDIR='"$(BISON_LOCALEDIR)"'
+@end example
+
+or:
+
+@example
+AM_CPPFLAGS = -DBISON_LOCALEDIR='"$(BISON_LOCALEDIR)"'
+@end example
+
+@item
+Finally, invoke the command @command{autoreconf} to generate the build
+infrastructure.
+@end enumerate
 
 
 @node Algorithm
@@ -6575,6 +6650,9 @@ Print a summary of the command-line options to Bison and exit.
 @itemx --version
 Print the version number of Bison and exit.
 
+@item --print-localedir
+Print the name of the directory containing locale-dependent data.
+
 @need 1750
 @item -y
 @itemx --yacc
@@ -6714,6 +6792,7 @@ the corresponding short option.
 \line{ --no-lines \leaderfill -l}
 \line{ --no-parser \leaderfill -n}
 \line{ --output \leaderfill -o}
+\line{ --print-localedir}
 \line{ --token-table \leaderfill -k}
 \line{ --verbose \leaderfill -v}
 \line{ --version \leaderfill -V}
@@ -6732,6 +6811,7 @@ the corresponding short option.
 --no-lines                            -l
 --no-parser                           -n
 --output=@var{outfile}                      -o @var{outfile}
+--print-localedir
 --token-table                         -k
 --verbose                             -v
 --version                             -V

@@ -107,8 +107,15 @@ BISON_PREREQ_TIMEVAR
 
 # gnulib and gettext.
 GNULIB_AUTOCONF_SNIPPET
-# We use po/Makevars.template, so we need at least gettext 0.12.
+# We use po/Makevars, so we need at least gettext 0.12.
 AM_GNU_GETTEXT_VERSION([0.12])
+BISON_I18N
+
+# Internationalized parsers.
+AC_CONFIG_FILES([runtime-po/Makefile.in])
+# Autoconf macros for packages using internationalized parsers.
+aclocaldir='${datadir}/aclocal'
+AC_SUBST([aclocaldir])
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
