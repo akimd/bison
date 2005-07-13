@@ -3,7 +3,7 @@ Bison News
 
 Changes in the next version (not yet released):
 
-* Bison-generated C parsers now support the translation of diagnostics like
+* Bison-generated parsers now support the translation of diagnostics like
   "syntax error" into languages other than English.  The default
   language is still English.  For details, please see the new
   Internationalization section of the Bison manual.  Thanks to Bruno
@@ -11,7 +11,7 @@ Changes in the next version (not yet released):
 
 The following change was also in version 2.0a, 2005-05-22:
 
-* When generating verbose diagnostics, Bison-generated C parsers no longer
+* When generating verbose diagnostics, Bison-generated parsers no longer
   quote the literal strings associated with tokens.  For example, for
   a syntax error associated with '%token NUM "number"' they might
   print 'syntax error, unexpected number' instead of 'syntax error,
