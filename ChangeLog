@@ -1,3 +1,10 @@
+2005-07-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* PACKAGING: New file, suggested by Bruno Haible and taken from
+	similar wording in gettext's PACKAGING file.
+	* NEWS: Mention PACKAGING.
+	* Makefile.am (EXTRA_DIST): Add PACKAGING.
+
 2005-07-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Document recent i18n improvements.
@@ -25,7 +32,7 @@
 	* runtime-po/LINGUAS: Likewise.
 	* runtime-po/de.po: Likewise; we will rely on the translation project
 	to maintain this, so "bootstrap" should get it.
-	* src/getarg.s (PRINT_LOCALEDIR_OPTION): Let the C compiler determine
+	* src/getarg.c (PRINT_LOCALEDIR_OPTION): Let the C compiler determine
 	its value.
 	* src/main.c (main): Bind the bison-runtime domain, too.
 

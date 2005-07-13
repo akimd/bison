@@ -24,7 +24,8 @@ SUBDIRS = config po runtime-po lib data src doc tests
 aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
-EXTRA_DIST = REFERENCES OChangeLog Makefile.maint GNUmakefile Makefile.cfg
+EXTRA_DIST = GNUmakefile Makefile.cfg Makefile.maint \
+  OChangeLog PACKAGING REFERENCES
 
 .PHONY: maintainer-check
 maintainer-check:

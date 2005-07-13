@@ -6,8 +6,9 @@ Changes in the next version (not yet released):
 * Bison-generated parsers now support the translation of diagnostics like
   "syntax error" into languages other than English.  The default
   language is still English.  For details, please see the new
-  Internationalization section of the Bison manual.  Thanks to Bruno
-  Haible for this new feature.
+  Internationalization section of the Bison manual.  Software
+  distributors should also see the new PACKAGING file.  Thanks to
+  Bruno Haible for this new feature.
 
 The following change was also in version 2.0a, 2005-05-22:
 
