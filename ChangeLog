@@ -1,3 +1,8 @@
+2005-07-13  Paul Hilfinger  <hilfingr@CS.Berkeley.EDU>
+
+	* data/glr.c (yyuserAction): Fix uninitialized variable that caused
+	a valgrind failure.  Problem reported by twlevo@xs4all.nl.
+
 2005-07-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* PACKAGING: New file, suggested by Bruno Haible and taken from
