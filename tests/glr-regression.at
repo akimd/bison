@@ -121,7 +121,7 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
 /* Reported by S. Eken */
 
 %{
-  #define YYSTYPE char *
+  #define YYSTYPE char const *
   #define yyfalse 0
   #define yytrue 1
 
@@ -156,10 +156,11 @@ var_list:
     { $$ = $1; }
   | var ',' var_list
     {
-      $$ = malloc (strlen ($1) + 1 + strlen ($3) + 1);
-      strcpy ($$, $1);
-      strcat ($$, ",");
-      strcat ($$, $3);
+      char *s = (char *) malloc (strlen ($1) + 1 + strlen ($3) + 1);
+      strcpy (s, $1);
+      strcat (s, ",");
+      strcat (s, $3);
+      $$ = s;
     }
   ;
 
@@ -174,6 +175,7 @@ int
 yylex (void)
 {
   char buf[50];
+  char *s;
   switch (fscanf (yyin, " %1[a-z,]", buf)) {
   case 1:
     return buf[0];
@@ -186,8 +188,9 @@ yylex (void)
     abort ();
   if (sizeof buf - 1 <= strlen (buf))
     abort ();
-  yylval = malloc (strlen (buf) + 1);
-  strcpy (yylval, buf);
+  s = (char *) malloc (strlen (buf) + 1);
+  strcpy (s, buf);
+  yylval = s;
   return 'V';
 }
 
