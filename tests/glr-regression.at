@@ -121,7 +121,7 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
 /* Reported by S. Eken */
 
 %{
-  #define YYSTYPE char const *
+  #define YYSTYPE char *
   #define yyfalse 0
   #define yytrue 1
 

@@ -1,6 +1,12 @@
 2005-07-14  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix problems reported by twlevo@xs4all.nl.
+	* data/glr.c (YYSTACKEXPANDABLE): Don't define if already defined.
+	(yyuserMerge): Provide a default case if b4_mergers is empty.
+	* tests/cxx-type.at (_AT_TEST_GLR_CXXTYPES): Define YYSTACKEXPANDABLE.
+	* tests/glr-regression.at
+	(Improper handling of embedded actions and dollar(-N) in GLR parsers):
+	YYSTYPE is char *, not char const *, so that strcpy ($$, ...) works.
 	* tests/glr-regression.at (Improper merging of GLR delayed action
 	sets): Declare yylex before using it.
 	* tests/Makefile.am (maintainer-check-g++): Fix a stray

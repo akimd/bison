@@ -38,6 +38,7 @@ $1
 ]m4_bmatch([$2], [stmtMerge],
 [ static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);])[
   #define YYINITDEPTH 10
+  #define YYSTACKEXPANDABLE 1
   static char *format (char const *, ...);
   struct YYLTYPE;
 #if YYPURE
