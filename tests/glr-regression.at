@@ -239,6 +239,7 @@ AT_DATA_GRAMMAR([glr-regr3.y],
 
 static int MergeRule (int x0, int x1);
 static void yyerror(char const * s);
+int yylex (void);
 
 #define RULE(x) (1 << (x))
 
@@ -298,7 +299,7 @@ int yylex (void)
   char inp[3];
   if (fscanf (yyin, "%2s", inp) == EOF)
     return 0;
-  switch (inp[0]) 
+  switch (inp[0])
     {
     case 'p': return P[inp[1] - '1'];
     case 't': return T[inp[1] - '1'];

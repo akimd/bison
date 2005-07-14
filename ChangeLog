@@ -1,6 +1,8 @@
 2005-07-14  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix problems reported by twlevo@xs4all.nl.
+	* tests/glr-regression.at (Improper merging of GLR delayed action
+	sets): Declare yylex before using it.
 	* tests/Makefile.am (maintainer-check-g++): Fix a stray
 	$(GXX) that escaped the renaming of GXX to CXX.  Remove bogus
 	test for valgrind; valgrind is independent of g++.
