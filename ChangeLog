@@ -1,3 +1,9 @@
+2005-07-14  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/Makefile.am (maintainer-check-g++): Fix a stray
+	$(GXX) that escaped the renaming of GXX to CXX.  Problem
+	reported by twlevo@xs4all.nl.
+
 2005-07-13  Paul Hilfinger  <hilfingr@CS.Berkeley.EDU>
 
 	* data/glr.c (yyuserAction): Fix uninitialized variable that caused
