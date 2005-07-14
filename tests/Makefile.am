@@ -78,7 +78,7 @@ installcheck-local:
 .PHONY: maintainer-check-g++
 maintainer-check-g++: $(TESTSUITE)
 	if test -n "$(VALGRIND)"; then		\
-	   $(TESTSUITE) CC='$(GXX)';		\
+	   $(TESTSUITE) CC='$(CXX)';		\
 	else					\
 	  true;					\
 	fi
