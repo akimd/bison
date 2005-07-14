@@ -1,5 +1,5 @@
 # Checking GLR Parsing.                         -*- Autotest -*-
-# Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ $1
 
 %{
   #include <stdio.h>
-  #define YYSTYPE char const *
+  #define YYSTYPE char *
 ]m4_bmatch([$2], [stmtMerge],
 [ static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);])[
   #define YYINITDEPTH 10
@@ -64,6 +64,8 @@ $1
 %left '+'
 
 %glr-parser
+
+%destructor { free ($$); } TYPENAME ID
 
 %%
 
@@ -171,7 +173,7 @@ yylex (LEX_PARAMETERS)
 		ungetc (c, stdin);
 		buffer[i++] = 0;
 		tok = isupper ((unsigned char) buffer[0]) ? TYPENAME : ID;
-		yylval = strcpy (malloc (i), buffer);
+		yylval = strcpy ((char *) malloc (i), buffer);
 	      }
 	    else
 	      {
@@ -209,7 +211,7 @@ format (char const *form, ...)
    va_start (args, form);
    vsprintf (buffer, form, args);
    va_end (args);
-   return strcpy (malloc (strlen (buffer) + 1), buffer);
+   return strcpy ((char *) malloc (strlen (buffer) + 1), buffer);
 }
 
 ]]

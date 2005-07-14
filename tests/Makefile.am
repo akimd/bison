@@ -79,15 +79,11 @@ installcheck-local:
 # Be real mean with it.
 .PHONY: maintainer-check-g++
 maintainer-check-g++: $(TESTSUITE)
-	if test -n "$(VALGRIND)"; then		\
-	   $(TESTSUITE) CC='$(CXX)';		\
-	else					\
-	  true;					\
-	fi
+	$(TESTSUITE) CC='$(CXX)'
 
 .PHONY: maintainer-check-posix
 maintainer-check-posix: $(TESTSUITE)
-	$(TESTSUITE) POSIXLY_CORRECT=1
+	$(TESTSUITE) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
 
 .PHONY: maintainer-check-valgrind
 maintainer-check-valgrind: $(TESTSUITE)

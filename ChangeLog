@@ -1,8 +1,14 @@
 2005-07-14  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Fix problems reported by twlevo@xs4all.nl.
 	* tests/Makefile.am (maintainer-check-g++): Fix a stray
-	$(GXX) that escaped the renaming of GXX to CXX.  Problem
-	reported by twlevo@xs4all.nl.
+	$(GXX) that escaped the renaming of GXX to CXX.  Remove bogus
+	test for valgrind; valgrind is independent of g++.
+	(maintainer-check-posix): Add _POSIX2_VERSION=200112, to check
+	for compatibility with POSIX 1003.1-2001 (if running coreutils).
+	* tests/cxx-type.at (_AT_TEST_GLR_CXXTYPES): Port to stricter C++.
+	Use a destructor, so that we can expand the stack.  Change
+	YYSTYPE to char * so that we can free it.  Cast result of malloc.
 
 2005-07-13  Paul Hilfinger  <hilfingr@CS.Berkeley.EDU>
 
