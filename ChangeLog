@@ -1,3 +1,11 @@
+2005-07-17  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (yyparse): Don't assume that the initial calls
+	to YYMALLOC succeed; in that case, yyparse incorrectly returned 0.
+	Print a stack-overflow message and fail instead.
+	Initialize the line-number information before creating the stack,
+	so that the stack-overflow message can report line zero safely.
+
 2005-07-14  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix problems reported by twlevo@xs4all.nl.
