@@ -115,8 +115,8 @@ main (int argc, char **argv)
   if (argc != 2)
     abort ();
   if (!freopen (argv[1], "r", stdin))
-    abort ();
-  exit (yyparse ());
+    return 3;
+  return yyparse ();
 }
 
 int

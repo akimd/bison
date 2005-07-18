@@ -202,7 +202,7 @@ int
 main (int argc, char **argv)
 {
   yyin = stdin;
-  if (argc == 2 && !(yyin = fopen (argv[1], "r"))) return 1;
+  if (argc == 2 && !(yyin = fopen (argv[1], "r"))) return 3;
   return yyparse ();
 }
 ]])
@@ -312,7 +312,7 @@ int yylex (void)
 
 int main(int argc, char* argv[]) {
   yyin = stdin;
-  if (argc == 2 && !(yyin = fopen (argv[1], "r"))) return 1;
+  if (argc == 2 && !(yyin = fopen (argv[1], "r"))) return 3;
   return yyparse ();
 }
 ]])

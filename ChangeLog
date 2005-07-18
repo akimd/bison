@@ -1,3 +1,25 @@
+2005-07-18  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Improve tests for stack overflow in GLR parser.
+	Problem reported by twlevo@xs4all.nl.
+	* data/glr.c (struct yyGLRStack): Remove yyerrflag member.
+	All uses removed.
+	(yyStackOverflow): Just longjmp, but with value 2 so that caller
+	can handle the problem.
+	(YYCHK1): Use goto (a la yacc.c) rather than setting a flag.
+	(yyparse): New local variable yyresult to record the result.
+	Use result of setjmp to set it, rather than storing itinto
+	struct.
+	(yyDone): Remove label.
+	(yyacceptlab, yyabortlab, yyoverflowlab, yyreturn): New labels,
+	to mimic yacc.c.  Do not discard lookahead if it's EOF (possible
+	if YYABORT is used).
+	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR): Exit with
+	yyparse status; put status > 1 into diagnostic.
+	Check that status==2 works.
+	* tests/calc.at, tests/cxx-type.at, tests/glr-regression.at:
+	Use exit status 3 for failure to open (which shouldn't happen).
+
 2005-07-17  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/conflicts.at (%nonassoc and eof):  Don't exit with status

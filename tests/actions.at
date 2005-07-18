@@ -337,16 +337,18 @@ yyerror (const char *msg)
 int
 main (int argc, const char *argv[])
 {
+  int status;
   yydebug = !!getenv ("YYDEBUG");
   assert (argc == 2);
   yysource = argv[1];
-  if (yyparse ())
+  status = yyparse ();
+  switch (status)
     {
-      printf ("Parsing FAILED.\n");
-      exit (1);
+      case 0: printf ("Successful parse.\n"); break;
+      case 1: printf ("Parsing FAILED.\n"); break;
+      default: printf ("Parsing FAILED (status %d).\n", status); break;
     }
-  printf ("Successful parse.\n");
-  return 0;
+  return status;
 }
 ]])
 
@@ -450,7 +452,7 @@ Parsing FAILED.
 # Upon stack overflow, all symbols on the stack should be destroyed.
 # Only check for yacc.c.
 AT_YACC_IF([
-AT_PARSER_CHECK([./input '(x)(x)(x)(x)(x)(x)(x)'], 1,
+AT_PARSER_CHECK([./input '(x)(x)(x)(x)(x)(x)(x)'], 2,
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
@@ -493,7 +495,7 @@ Freeing nterm line (9@90-119)
 Freeing nterm line (6@60-89)
 Freeing nterm line (3@30-59)
 Freeing nterm line (0@0-29)
-Parsing FAILED.
+Parsing FAILED (status 2).
 ]])
 ])
 

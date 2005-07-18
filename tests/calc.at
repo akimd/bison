@@ -288,7 +288,7 @@ power (int base, int exponent)
 {
   int res = 1;
   if (exponent < 0)
-    exit (1);
+    exit (3);
   for (/* Niente */; exponent; --exponent)
     res *= base;
   return res;
@@ -315,7 +315,7 @@ main (int argc, const char **argv)
   if (!yyin)
     {
       perror (argv[1]);
-      exit (1);
+      return 3;
     }
 
 ]AT_LALR1_CC_IF([], [m4_bmatch([$4], [%debug],
