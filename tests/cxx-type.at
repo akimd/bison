@@ -56,7 +56,7 @@ $1
 # define ERROR_PARAMETERS char const *s
 #endif
   int yylex (LEX_PARAMETERS);
-  int yyerror (ERROR_PARAMETERS);
+  void yyerror (ERROR_PARAMETERS);
 %}
 
 %token TYPENAME ID
@@ -191,7 +191,7 @@ yylex (LEX_PARAMETERS)
     }
 }
 
-int
+void
 yyerror (ERROR_PARAMETERS)
 {
 #if YYPURE && YYLSP_NEEDED

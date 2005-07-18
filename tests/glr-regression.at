@@ -34,7 +34,7 @@ AT_DATA_GRAMMAR([glr-regr1.y],
 #define YYSTYPE int
 static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
 int yylex (void);
-int yyerror (char const *msg);
+void yyerror (char const *msg);
 %}
 
 
@@ -70,7 +70,7 @@ main (void)
   return yyparse ();
 }
 
-int
+void
 yyerror (char const *msg)
 {
   fprintf (stderr, "%s\n", msg);
@@ -184,7 +184,7 @@ yylex (void)
     break;
   }
   if (fscanf (yyin, "%49s", buf) != 1)
-    abort ();
+    return 0;
   if (sizeof buf - 1 <= strlen (buf))
     abort ();
   s = (char *) malloc (strlen (buf) + 1);

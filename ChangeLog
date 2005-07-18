@@ -1,5 +1,13 @@
 2005-07-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Fix yyerror / yylex test glitches noted by twlevo@xs4all.nl.
+	* tests/cxx-type.at (_AT_TEST_GLR_CXXTYPES): Have yyerror return
+	void, not int.
+	* tests/glr-regression.at (Badly Collapsed GLR States):
+	Likewise.
+	(Improper handling of embedded actions and dollar(-N) in GLR parsers):
+	yylex should return 0 at EOF rather than aborting.
+
 	Improve tests for stack overflow in GLR parser.
 	Problem reported by twlevo@xs4all.nl.
 	* data/glr.c (struct yyGLRStack): Remove yyerrflag member.
