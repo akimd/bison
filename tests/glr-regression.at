@@ -74,7 +74,6 @@ int
 yyerror (char const *msg)
 {
   fprintf (stderr, "%s\n", msg);
-  exit (4);
 }
 
 

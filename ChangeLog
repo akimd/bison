@@ -1,5 +1,14 @@
 2005-07-17  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* tests/conflicts.at (%nonassoc and eof):  Don't exit with status
+	1 on syntax error; just let yyparse do its thing.
+	* tests/glr-regression.at (Badly Collapsed GLR States): Likewise.
+	* tests/torture.at (AT_DATA_STACK_TORTURE): Likewise.
+	(Exploding the Stack Size with Alloca):
+	(Exploding the Stack Size with Malloc):
+	Expect exit status 2, not 1, since the parser is supposed to blow
+	its stack.  Problem reported by twlevo@xs4all.nl.
+
 	* data/glr.c (yyparse): Don't assume that the initial calls
 	to YYMALLOC succeed; in that case, yyparse incorrectly returned 0.
 	Print a stack-overflow message and fail instead.
