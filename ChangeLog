@@ -1,5 +1,7 @@
 2005-07-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/c.m4 (b4_yysymprint_generate): Use YYFPRINTF, not fprintf.
+
 	Add i18n support to the GLR skeleton.  Partially fix the C++
 	skeleton; a C++ expert needs to finish this.  Remove debugging
 	msgids; there's little point to having them translated, since they
