@@ -3,6 +3,7 @@
 LINGUAS
 Makefile
 Makefile.in
+Makefile.in.in
 Makevars
 POTFILES
 Rules-quot
