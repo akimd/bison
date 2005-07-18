@@ -1,5 +1,44 @@
 2005-07-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Add i18n support to the GLR skeleton.  Partially fix the C++
+	skeleton; a C++ expert needs to finish this.  Remove debugging
+	msgids; there's little point to having them translated, since they
+	can be understood only by someone who can read the
+	(English-language) source code.
+
+	Generate runtime-po/bison-runtime.pot automatically, so that we
+	don't have to worry about garbage getting in that file.  We'll
+	make sure after the next official release that old msgids don't
+	get lost.  See
+	<http://lists.gnu.org/archive/html/bison-patches/2005-07/msg00119.html>.
+
+	* runtime-po/Makefile.in.in, runtime-po/bison-runtime.pot: Remove.
+	Now auto-generated.
+	* PACKAGING: Don't claim that Gawk, GCC, Perl use this method yet.
+	Fix typos in explanations of the runtime file.
+	* bootstrap: Change gettext keyword from YYI18N to YY_.
+	Use standard Makefile.in.in in runtime-po, since we'll arrange
+	for backward-compatible bison-runtime.po files in a different way.
+	* data/glr.c (YY_): New macro, from yacc.c.
+	(yyuserAction, yyreportAmbiguity, yyreportSyntaxError, yyparse):
+	Translate messages intended for users.
+	(yyreportSyntaxError): Change "virtual memory" to "memory" to match
+	the wording in the other skeletons.  We don't know that the memory
+	is virtual.
+	* data/lalr1.cc (YY_): Renamed from _.  All uses changed.
+	Use same method that yacc.c uses.
+	Don't translate debugging messages.
+	(yy::yyreport_syntax_error): Put in a FIXME for the i18n stuff;
+	it doesn't work (yet), and requires C++ expertise to fix.
+	* data/yacc.c (YY_): Renamed from YY18N.  All uses changed.
+	Move defn to a more logical place, to be consistent with other
+	skeletons.
+	Don't translate debugging messages.
+	Don't assume line numbers fit in unsigned int; use unsigned long fmts.
+	* doc/bison.texinfo: Mention <libintl.h>.  Change glibc cross reference
+	to gettext cross reference.  Add indexing terms.  Mention YYENABLE_NLS.
+	* runtime-po/POTFILES.in: Add data/glr.c, data/lalr1.cc.
+
 	Fix yyerror / yylex test glitches noted by twlevo@xs4all.nl.
 	* tests/cxx-type.at (_AT_TEST_GLR_CXXTYPES): Have yyerror return
 	void, not int.

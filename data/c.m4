@@ -403,7 +403,7 @@ b4_location_if([  (void) yylocationp;
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
 ]b4_location_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
-  fprintf (yyoutput, ": ");
+  YYFPRINTF (yyoutput, ": ");
 ])dnl
 [
 # ifdef YYPRINT

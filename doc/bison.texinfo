@@ -1203,7 +1203,9 @@ In some cases the Bison parser file includes system headers, and in
 those cases your code should respect the identifiers reserved by those
 headers.  On some non-@acronym{GNU} hosts, @code{<alloca.h>},
 @code{<stddef.h>}, and @code{<stdlib.h>} are included as needed to
-declare memory allocators and related types.  Other system headers may
+declare memory allocators and related types.  @code{<libintl.h>} is
+included if message translation is in use
+(@pxref{Internationalization}).  Other system headers may
 be included if you define @code{YYDEBUG} to a nonzero value
 (@pxref{Tracing, ,Tracing Your Parser}).
 
@@ -4821,8 +4823,8 @@ A Bison-generated parser can print diagnostics, including error and
 tracing messages.  By default, they appear in English.  However, Bison
 also supports outputting diagnostics in the user's native language.
 To make this work, the user should set the usual environment
-variables.  @xref{Using gettextized software, , User influence on
-@code{gettext}, libc, The GNU C Library Reference Manual}.  For
+variables.  @xref{Users, , The User's View, gettext, GNU
+@code{gettext} utilities}.  For
 example, the shell command @samp{export LC_ALL=fr_CA.UTF-8} might set
 the user's locale to French Canadian using the @acronym{UTF}-8
 encoding.  The exact set of available locales depends on the user's
@@ -4835,6 +4837,7 @@ steps.  Here we assume a package that uses @acronym{GNU} Autoconf and
 
 @enumerate
 @item
+@cindex bison-i18n.m4
 Into the directory containing the @acronym{GNU} Autoconf macros used
 by the package---often called @file{m4}---copy the
 @file{bison-i18n.m4} file installed by Bison under
@@ -4846,11 +4849,16 @@ cp /usr/local/share/aclocal/bison-i18n.m4 m4/bison-i18n.m4
 @end example
 
 @item
+@findex BISON_I18N
+@vindex BISON_LOCALEDIR
+@vindex YYENABLE_NLS
 In the top-level @file{configure.ac}, after the @code{AM_GNU_GETTEXT}
 invocation, add an invocation of @code{BISON_I18N}.  This macro is
 defined in the file @file{bison-i18n.m4} that you copied earlier.  It
 causes @samp{configure} to find the value of the
-@code{BISON_LOCALEDIR} variable.
+@code{BISON_LOCALEDIR} variable, and it defines the source-language
+symbol @code{YYENABLE_NLS} to enable translations in the
+Bison-generated parser.
 
 @item
 In the @code{main} function of your program, designate the directory

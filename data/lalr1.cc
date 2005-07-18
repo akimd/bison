@@ -417,9 +417,16 @@ m4_if(b4_defines_flag, 0, [],
 [
 #include @output_header_name@])[
 
-/* INFRINGES ON USER NAME SPACE */
-#ifndef _
-# define _(msgid) msgid
+#ifndef YY_
+# if YYENABLE_NLS
+#  if ENABLE_NLS
+#   include <libintl.h> /* FIXME: INFRINGES ON USER NAME SPACE */
+#   define YY_(msgid) dgettext ("bison-runtime", msgid)
+#  endif
+# endif
+# ifndef YY_
+#  define YY_(msgid) msgid
+# endif
 #endif
 
 /* A pseudo ostream that takes yydebug_ into account. */
@@ -551,7 +558,7 @@ yy::]b4_parser_class_name[::parse ()
 {
   int yyresult_;
 
-  YYCDEBUG << _("Starting parse") << std::endl;
+  YYCDEBUG << "Starting parse" << std::endl;
 
   yynerrs_ = 0;
   yyerrstatus_ = 0;
@@ -583,7 +590,7 @@ b4_syncline([@oline@], [@ofile@])])dnl
   /* New state.  */
 yynewstate:
   yystate_stack_.push (yystate_);
-  YYCDEBUG << _("Entering state ") << yystate_ << std::endl;
+  YYCDEBUG << "Entering state " << yystate_ << std::endl;
   goto yybackup;
 
   /* Backup.  */
@@ -602,12 +609,12 @@ yybackup:
   if (yylooka_ <= yyeof_)
     {
       yylooka_ = yyilooka_ = yyeof_;
-      YYCDEBUG << _("Now at end of input.") << std::endl;
+      YYCDEBUG << "Now at end of input." << std::endl;
     }
   else
     {
       yyilooka_ = yytranslate_ (yylooka_);
-      YY_SYMBOL_PRINT (_("Next token is"), yyilooka_, &yylval, &yylloc);
+      YY_SYMBOL_PRINT ("Next token is", yyilooka_, &yylval, &yylloc);
     }
 
   /* If the proper action on seeing token ILOOKA_ is to reduce or to
@@ -636,7 +643,7 @@ yybackup:
     goto yyacceptlab;
 
   /* Shift the look-ahead token.  */
-  YY_SYMBOL_PRINT (_("Shifting"), yyilooka_, &yylval, &yylloc);
+  YY_SYMBOL_PRINT ("Shifting", yyilooka_, &yylval, &yylloc);
 
   /* Discard the token being shifted unless it is eof.  */
   if (yylooka_ != yyeof_)
@@ -734,7 +741,7 @@ yyerrlab:
                  yypop_ ();
 		 if (yystate_stack_.height () == 1)
 		   YYABORT;
-                 yydestruct_ (_("Error: popping"),
+                 yydestruct_ ("Error: popping",
                               yystos_[yystate_stack_[0]],
                               &yysemantic_stack_[0],
                               &yylocation_stack_[0]);
@@ -742,7 +749,7 @@ yyerrlab:
         }
       else
         {
-          yydestruct_ (_("Error: discarding"), yyilooka_, &yylval, &yylloc);
+          yydestruct_ ("Error: discarding", yyilooka_, &yylval, &yylloc);
           yylooka_ = yyempty_;
         }
     }
@@ -793,7 +800,7 @@ yyerrlab1:
 	YYABORT;
 
       yyerror_range_[0] = yylocation_stack_[0];
-      yydestruct_ (_("Error: popping"),
+      yydestruct_ ("Error: popping",
                    yystos_[yystate_],
                    &yysemantic_stack_[0], &yylocation_stack_[0]);
       yypop_ ();
@@ -812,7 +819,7 @@ yyerrlab1:
   yylocation_stack_.push (yyloc);
 
   /* Shift the error token. */
-  YY_SYMBOL_PRINT (_("Shifting"), yystos_[yyn_],
+  YY_SYMBOL_PRINT ("Shifting", yystos_[yyn_],
 		   &yysemantic_stack_[0], &yylocation_stack_[0]);
 
   yystate_ = yyn_;
@@ -830,14 +837,14 @@ yyabortlab:
 
 yyreturn:
   if (yylooka_ != yyeof_ && yylooka_ != yyempty_)
-    yydestruct_ (_("Error: discarding lookahead"), yyilooka_, &yylval, &yylloc);
+    yydestruct_ ("Error: discarding lookahead", yyilooka_, &yylval, &yylloc);
   return yyresult_;
 }
 
 void
 yy::]b4_parser_class_name[::yylex_ ()
 {
-  YYCDEBUG << _("Reading a token: ");
+  YYCDEBUG << "Reading a token: ";
   yylooka_ = ]b4_c_function_call([yylex], [int],
 [[YYSTYPE*], [&yylval]][]dnl
 b4_location_if([, [[location*], [&yylloc]]])dnl
@@ -869,7 +876,15 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
             if (yycheck_[x + yyn_] == x && x != yyterror_)
               ++count;
 
-	  message = _("syntax error, unexpected ");
+	  // FIXME: This method of building the message is not compatible
+	  // with internationalization.  It should work like yacc.c does it.
+	  // That is, first build a string that looks like this:
+	  // "syntax error, unexpected %s or %s or %s"
+	  // Then, invoke YY_ on this string.
+	  // Finally, use the string as a format to output
+	  // yyname_[yyilooka_], etc.
+	  // Until this gets fixed, this message appears in English only.
+	  message = "syntax error, unexpected ";
 	  message += yyname_[yyilooka_];
           if (count < 5)
             {
@@ -877,14 +892,14 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
               for (int x = yyxbegin; x < yyxend; ++x)
                 if (yycheck_[x + yyn_] == x && x != yyterror_)
                   {
-                    message += (!count++) ? _(", expecting ") : _(" or ");
+                    message += (!count++) ? ", expecting " : " or ";
                     message += yyname_[x];
  	          }
             }
 	}
       else
 #endif
-	message = _("syntax error");
+	message = YY_("syntax error");
       error (yylloc, message);
     }
 }
@@ -1008,7 +1023,7 @@ yy::]b4_parser_class_name[::yyrline_[] =
 void
 yy::]b4_parser_class_name[::yystack_print_ ()
 {
-  *yycdebug_ << _("Stack now");
+  *yycdebug_ << "Stack now";
   for (state_stack_type::const_iterator i = yystate_stack_.begin ();
        i != yystate_stack_.end (); ++i)
     *yycdebug_ << ' ' << *i;
@@ -1021,8 +1036,8 @@ yy::]b4_parser_class_name[::yyreduce_print_ (int yyrule)
 {
   unsigned int yylno = yyrline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
-    *yycdebug_ << _("Reducing stack by rule ") << yyn_ - 1
-               << " (" << _("line") << ' ' << yylno << "), ";
+  *yycdebug_ << "Reducing stack by rule " << yyn_ - 1
+             << " (line " << yylno << "), ";
   for (]b4_int_type_for([b4_prhs])[ i = yyprhs_[yyn_];
        0 <= yyrhs_[i]; ++i)
     *yycdebug_ << yyname_[yyrhs_[i]] << ' ';

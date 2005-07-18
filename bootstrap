@@ -246,11 +246,11 @@ sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >p
 sed '
   s/^\(DOMAIN\) *=.*/\1 = bison-runtime/
   s/^\(subdir\) *=.*/\1 = runtime-po/
-  s/^\(XGETTEXT_OPTIONS\) *=.*/\1 = --keyword=YYI18N/
+  s/^\(XGETTEXT_OPTIONS\) *=.*/\1 = --keyword=YY_/
 ' <po/Makevars >runtime-po/Makevars
 
 # Copy identical files from po to runtime-po.
-(cd po && cp -p *-quot *.header *.sed *.sin ../runtime-po)
+(cd po && cp -p Makefile.in.in *-quot *.header *.sed *.sin ../runtime-po)
 
 # if src/parse-gram.[ch] are out of date, rebuild them.
 parse_gram_y=`find src/parse-gram.y \
