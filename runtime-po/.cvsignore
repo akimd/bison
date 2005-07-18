@@ -7,7 +7,7 @@ Makefile.in.in
 Makevars
 POTFILES
 Rules-quot
-bison-runtime.old.pot
+bison-runtime.pot
 boldquot.sed
 en@boldquot.header
 en@quot.header
