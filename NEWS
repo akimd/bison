@@ -10,6 +10,11 @@ Changes in the next version (not yet released):
   distributors should also see the new PACKAGING file.  Thanks to
   Bruno Haible for this new feature.
 
+* Wording in the Bison-generated parsers has been changed slightly to
+  simplify translation.  In particular, the message "memory exhausted"
+  has replaced "parser stack overflow", as the old message was not
+  always accurate for modern Bison-generated parsers.
+
 The following change was also in version 2.0a, 2005-05-22:
 
 * When generating verbose diagnostics, Bison-generated parsers no longer

@@ -1,5 +1,21 @@
 2005-07-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Document minor wording changes in diagnostics of
+	Bison-generated parsers.
+	* data/glr.c (yyMemoryExhausted): Renamed from yyStackOverflow.
+	Remove unused formals.  All uses changed.
+	(yyreportAmbiguity): "ambiguity detected" -> "syntax is ambiguous".
+	(yyparse): Rename yyoverflowlab to yyexhaustedlab.
+	* data/yacc.c (yyparse): "parser stack overflow" -> "memory exhausted".
+	Rename yyoverflowab to yyexhaustedlab.
+	When memory exhaustion occurs during syntax-error reporting,
+	report it separately rather than in a single diagnostic; this
+	eases translation.
+	* doc/bison.texinfo (Memory Management): Renamed from Stack Overflow.
+	(Memory Exhausted): Renamed from Parser Stack Overflow.
+	Revamp wording slightly to prefer "memory exhaustion".
+	* tests/actions.at: "parser stack overflow" -> "memory exhausted".
+
 	* data/c.m4 (b4_yysymprint_generate): Use YYFPRINTF, not fprintf.
 
 	Add i18n support to the GLR skeleton.  Partially fix the C++

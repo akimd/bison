@@ -267,7 +267,7 @@ The Bison Parser Algorithm
 * Reduce/Reduce::     When two rules are applicable in the same situation.
 * Mystery Conflicts::  Reduce/reduce conflicts that look unjustified.
 * Generalized LR Parsing::  Parsing arbitrary context-free grammars.
-* Stack Overflow::    What happens when stack gets full.  How to avoid it.
+* Memory Management:: What happens when memory is exhausted.  How to avoid it.
 
 Operator Precedence
 
@@ -318,7 +318,7 @@ A Complete C++ Example
 
 Frequently Asked Questions
 
-* Parser Stack Overflow::      Breaking the Stack Limits
+* Memory Exhausted::           Breaking the Stack Limits
 * How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 * Implementing Gotos/Loops::   Control Flow in the Calculator
@@ -4592,13 +4592,16 @@ declarations section (@pxref{Bison Declarations, ,The Bison Declarations
 Section}), then Bison provides a more verbose and specific error message
 string instead of just plain @w{@code{"syntax error"}}.
 
-The parser can detect one other kind of error: stack overflow.  This
-happens when the input contains constructions that are very deeply
+The parser can detect one other kind of error: memory exhaustion.  This
+can happen when the input contains constructions that are very deeply
 nested.  It isn't likely you will encounter this, since the Bison
-parser extends its stack automatically up to a very large limit.  But
-if overflow happens, @code{yyparse} calls @code{yyerror} in the usual
-fashion, except that the argument string is @w{@code{"parser stack
-overflow"}}.
+parser normally extends its stack automatically up to a very large limit.  But
+if memory is exhausted, @code{yyparse} calls @code{yyerror} in the usual
+fashion, except that the argument string is @w{@code{"memory exhausted"}}.
+
+In some cases diagnostics like @w{@code{"syntax error"}} are
+translated automatically from English to some other language before
+they are passed to @code{yyerror}.  @xref{Internationalization}.
 
 The following definition suffices in simple programs:
 
@@ -4961,7 +4964,7 @@ This kind of parser is known in the literature as a bottom-up parser.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
 * Mystery Conflicts::  Reduce/reduce conflicts that look unjustified.
 * Generalized LR Parsing::  Parsing arbitrary context-free grammars.
-* Stack Overflow::    What happens when stack gets full.  How to avoid it.
+* Memory Management:: What happens when memory is exhausted.  How to avoid it.
 @end menu
 
 @node Look-Ahead
@@ -5672,16 +5675,17 @@ London, Department of Computer Science, TR-00-12,
 @uref{http://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_1.ps},
 (2000-12-24).
 
-@node Stack Overflow
-@section Stack Overflow, and How to Avoid It
+@node Memory Management
+@section Memory Management, and How to Avoid Memory Exhaustion
+@cindex memory exhaustion
+@cindex memory management
 @cindex stack overflow
 @cindex parser stack overflow
 @cindex overflow of parser stack
 
-The Bison parser stack can overflow if too many tokens are shifted and
+The Bison parser stack can run out of memory if too many tokens are shifted and
 not reduced.  When this happens, the parser function @code{yyparse}
-returns a nonzero value, pausing only to call @code{yyerror} to report
-the overflow.
+calls @code{yyerror} and then returns 2.
 
 Because Bison parsers have growing stacks, hitting the upper limit
 usually results from using a right recursion instead of a left
@@ -5689,12 +5693,12 @@ recursion, @xref{Recursion, ,Recursive Rules}.
 
 @vindex YYMAXDEPTH
 By defining the macro @code{YYMAXDEPTH}, you can control how deep the
-parser stack can become before a stack overflow occurs.  Define the
+parser stack can become before memory is exhausted.  Define the
 macro with a value that is an integer.  This value is the maximum number
 of tokens that can be shifted (and not reduced) before overflow.
 
 The stack space allowed is not necessarily allocated.  If you specify a
-large value for @code{YYMAXDEPTH}, the parser actually allocates a small
+large value for @code{YYMAXDEPTH}, the parser normally allocates a small
 stack at first, and then makes it bigger by stages as needed.  This
 increasing allocation happens automatically and silently.  Therefore,
 you do not need to make @code{YYMAXDEPTH} painfully small merely to save
@@ -5716,17 +5720,14 @@ macro @code{YYINITDEPTH} to a positive integer.  For the C
 unless you are assuming C99 or some other target language or compiler
 that allows variable-length arrays.  The default is 200.
 
-Do not allow @code{YYINITDEPTH} to be a value so large that arithmetic
-overflow would occur when calculating the size of the stack space.
-Also, do not allow @code{YYINITDEPTH} to be greater than
-@code{YYMAXDEPTH}.
+Do not allow @code{YYINITDEPTH} to be greater than @code{YYMAXDEPTH}.
 
 @c FIXME: C++ output.
 Because of semantical differences between C and C++, the
-@acronym{LALR}(1) parsers in C produced by Bison by compiled as C++
-cannot grow.  In this precise case (compiling a C parser as C++) you are
-suggested to grow @code{YYINITDEPTH}.  In the near future, a C++ output
-output will be provided which addresses this issue.
+@acronym{LALR}(1) parsers in C produced by Bison cannot grow when compiled
+by C++ compilers.  In this precise case (compiling a C parser as C++) you are
+suggested to grow @code{YYINITDEPTH}.  The Bison maintainers hope to fix
+this deficiency in a future release.
 
 @node Error Recovery
 @chapter Error Recovery
@@ -7539,17 +7540,17 @@ Several questions about Bison come up occasionally.  Here some of them
 are addressed.
 
 @menu
-* Parser Stack Overflow::      Breaking the Stack Limits
+* Memory Exhausted::           Breaking the Stack Limits
 * How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 * Implementing Gotos/Loops::   Control Flow in the Calculator
 @end menu
 
-@node Parser Stack Overflow
-@section Parser Stack Overflow
+@node Memory Exhausted
+@section Memory Exhausted
 
 @display
-My parser returns with error with a @samp{parser stack overflow}
+My parser returns with error with a @samp{memory exhausted}
 message.  What can I do?
 @end display
 
@@ -8031,7 +8032,7 @@ use for @code{YYERROR_VERBOSE}, just whether you define it.  Using
 
 @deffn {Macro} YYINITDEPTH
 Macro for specifying the initial size of the parser stack.
-@xref{Stack Overflow}.
+@xref{Memory Management}.
 @end deffn
 
 @deffn {Function} yylex
@@ -8069,8 +8070,8 @@ variable within @code{yyparse}, and its address is passed to
 @end deffn
 
 @deffn {Macro} YYMAXDEPTH
-Macro for specifying the maximum size of the parser stack.  @xref{Stack
-Overflow}.
+Macro for specifying the maximum size of the parser stack.  @xref{Memory
+Management}.
 @end deffn
 
 @deffn {Variable} yynerrs

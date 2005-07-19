@@ -487,7 +487,7 @@ sending: '(' (18@180-189)
 sending: 'x' (19@190-199)
 thing (19@190-199): 'x' (19@190-199)
 sending: ')' (20@200-209)
-200-209: parser stack overflow
+200-209: memory exhausted
 Freeing nterm thing (19@190-199)
 Freeing nterm line (15@150-179)
 Freeing nterm line (12@120-149)
