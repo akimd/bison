@@ -15,6 +15,10 @@ Changes in the next version (not yet released):
   has replaced "parser stack overflow", as the old message was not
   always accurate for modern Bison-generated parsers.
 
+* Destructors are now called when the parser aborts, for all symbols left
+  behind on the stack.  Also, the start symbol is now destroyed after a
+  successful parse.  In both cases, the behavior was formerly inconsistent.
+
 The following change was also in version 2.0a, 2005-05-22:
 
 * When generating verbose diagnostics, Bison-generated parsers no longer

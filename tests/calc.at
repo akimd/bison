@@ -463,7 +463,7 @@ _AT_CHECK_CALC([$1],
 
 2^2^3 = 256
 (2^2)^3 = 64],
-               [570])
+               [571])
 
 # Some syntax errors.
 _AT_CHECK_CALC_ERROR([$1], [1], [0 0], [13],
@@ -501,7 +501,7 @@ _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
 #
 _AT_CHECK_CALC_ERROR([$1], [0],
                      [() + (1 + 1 + 1 +) + (* * *) + (1 * 2 * *) = 1],
-                     [188],
+                     [189],
 [1.1: syntax error, unexpected ')', expecting number or '-' or '(' or '!'
 1.17: syntax error, unexpected ')', expecting number or '-' or '(' or '!'
 1.22: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
@@ -510,10 +510,10 @@ calc: error: 4444 != 1])
 
 # The same, but this time exercising explicitly triggered syntax errors.
 # POSIX says the look-ahead causing the error should not be discarded.
-_AT_CHECK_CALC_ERROR([$1], [0], [(!) + (0 0) = 1], [75],
+_AT_CHECK_CALC_ERROR([$1], [0], [(!) + (0 0) = 1], [76],
 [1.9: syntax error, unexpected number
 calc: error: 2222 != 1])
-_AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (0 0) = 1], [85],
+_AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (0 0) = 1], [86],
 [1.3: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
 1.11: syntax error, unexpected number
 calc: error: 2222 != 1])

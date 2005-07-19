@@ -3792,28 +3792,31 @@ For instance, if your locations use a file name, you may use
 @cindex freeing discarded symbols
 @findex %destructor
 
-Some symbols can be discarded by the parser.  For instance, during error
-recovery (@pxref{Error Recovery}), embarrassing symbols already pushed
-on the stack, and embarrassing tokens coming from the rest of the file
-are thrown away until the parser falls on its feet.  If these symbols
-convey heap based information, this memory is lost.  While this behavior
-can be tolerable for batch parsers, such as in compilers, it is not for
-possibly ``never ending'' parsers such as shells, or implementations of
-communication protocols.
+Some symbols can be discarded by the parser.  During error
+recovery (@pxref{Error Recovery}), symbols already pushed
+on the stack and tokens coming from the rest of the file
+are discarded until the parser falls on its feet.  If the parser
+runs out of memory, all the symbols on the stack must be discarded.
+Even if the parser succeeds, it must discard the start symbol.
 
-The @code{%destructor} directive allows for the definition of code that
-is called when a symbol is thrown away.
+When discarded symbols convey heap based information, this memory is
+lost.  While this behavior can be tolerable for batch parsers, such as
+in traditional compilers, it is unacceptable for programs like shells
+or protocol implementations that may parse and execute indefinitely.
+
+The @code{%destructor} directive defines code that
+is called when a symbol is discarded.
 
 @deffn {Directive} %destructor @{ @var{code} @} @var{symbols}
 @findex %destructor
-Declare that the @var{code} must be invoked for each of the
-@var{symbols} that will be discarded by the parser.  The @var{code}
-should use @code{$$} to designate the semantic value associated to the
-@var{symbols}.  The additional parser parameters are also available
+Invoke @var{code} whenever the parser discards one of the
+@var{symbols}.  Within @var{code}, @code{$$} designates the semantic
+value associated with the discarded symbol.  The additional
+parser parameters are also available
 (@pxref{Parser Function, , The Parser Function @code{yyparse}}).
 
-@strong{Warning:} as of Bison 1.875, this feature is still considered as
-experimental, as there was not enough user feedback.  In particular,
+@strong{Warning:} as of Bison 2.1, this feature is still
+experimental, as there has not been enough user feedback.  In particular,
 the syntax might still change.
 @end deffn
 
@@ -3830,7 +3833,7 @@ For instance:
 @end smallexample
 
 @noindent
-guarantees that when a @code{STRING} or a @code{string} will be discarded,
+guarantees that when a @code{STRING} or a @code{string} is discarded,
 its associated memory will be freed.
 
 Note that in the future, Bison might also consider that right hand side
@@ -3862,8 +3865,11 @@ stacked symbols popped during the first phase of error recovery,
 @item
 incoming terminals during the second phase of error recovery,
 @item
-the current look-ahead when the parser aborts (either via an explicit
-call to @code{YYABORT}, or as a consequence of a failed error recovery).
+the current look-ahead and the entire stack when the parser aborts
+(either via an explicit call to @code{YYABORT}, or as a consequence of
+a failed error recovery or of memory exhaustion), and
+@item
+the start symbol, when the parser succeeds.
 @end itemize
 
 
@@ -4085,7 +4091,7 @@ above-mentioned declarations and to the token type codes.
 @end deffn
 
 @deffn {Directive} %destructor
-Specifying how the parser should reclaim the memory associated to
+Specify how the parser should reclaim the memory associated to
 discarded symbols.  @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
@@ -7821,7 +7827,7 @@ Bison declaration to create a header file meant for the scanner.
 @end deffn
 
 @deffn {Directive} %destructor
-Specifying how the parser should reclaim the memory associated to
+Specify how the parser should reclaim the memory associated to
 discarded symbols.  @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 

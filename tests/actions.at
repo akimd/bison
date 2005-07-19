@@ -373,6 +373,7 @@ line (0@0-29): '(' (0@0-9) thing (1@10-19) ')' (2@20-29)
 sending: EOF (3@30-39)
 input (0@29-29): /* Nothing */
 input (2@0-29): line (0@0-29) input (0@29-29)
+Freeing nterm input (2@0-29)
 Successful parse.
 ]])
 
@@ -391,6 +392,7 @@ line (-1@0-29): '(' (0@0-9) error (@10-19) ')' (2@20-29)
 sending: EOF (3@30-39)
 input (0@29-29): /* Nothing */
 input (2@0-29): line (-1@0-29) input (0@29-29)
+Freeing nterm input (2@0-29)
 Successful parse.
 ]])
 

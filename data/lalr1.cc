@@ -729,23 +729,11 @@ yyerrlab:
       /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
-      /* Return failure if at end of input.  */
       if (yylooka_ <= yyeof_)
         {
-          /* If at end of input, pop the error token,
-	     then the rest of the stack, then return failure.  */
+	  /* Return failure if at end of input.  */
 	  if (yylooka_ == yyeof_)
-	     for (;;)
-	       {
-                 yyerror_range_[0] = yylocation_stack_[0];
-                 yypop_ ();
-		 if (yystate_stack_.height () == 1)
-		   YYABORT;
-                 yydestruct_ ("Error: popping",
-                              yystos_[yystate_stack_[0]],
-                              &yysemantic_stack_[0],
-                              &yylocation_stack_[0]);
-	       }
+	    YYABORT;
         }
       else
         {
@@ -768,7 +756,7 @@ yyerrorlab:
      YYERROR and the label yyerrorlab therefore never appears in user
      code.  */
   if (false)
-     goto yyerrorlab;
+    goto yyerrorlab;
 
   yyerror_range_[0] = yylocation_stack_[yylen_ - 1];
   yypop_ (yylen_);
@@ -838,6 +826,16 @@ yyabortlab:
 yyreturn:
   if (yylooka_ != yyeof_ && yylooka_ != yyempty_)
     yydestruct_ ("Error: discarding lookahead", yyilooka_, &yylval, &yylloc);
+
+  while (yystate_stack_.height () != 1)
+    {
+      yydestruct_ ("Error: popping",
+		   yystos_[yystate_stack_[0]],
+		   &yysemantic_stack_[0],
+		   &yylocation_stack_[0]);
+      yypop_ ();
+    }
+
   return yyresult_;
 }
 
