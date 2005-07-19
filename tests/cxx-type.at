@@ -200,7 +200,6 @@ yyerror (ERROR_PARAMETERS)
     abort ();
 #endif
   fprintf (stderr, "%s\n", s);
-  return 0;
 }
 
 
