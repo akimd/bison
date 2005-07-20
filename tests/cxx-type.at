@@ -82,7 +82,7 @@ prog :
 
 stmt : expr ';'  $2	{ $$ = ]$[1; }
      | decl      $3
-     | error ';'	{ $$ = "<error>"; }
+     | error ';'	{ static char error_msg[] = "<error>"; $$ = error_msg; }
      | '@'  		{ YYACCEPT; }
      ;
 
@@ -178,9 +178,10 @@ yylex (LEX_PARAMETERS)
 	      }
 	    else
 	      {
+		static char empty_string[] = "";
 		colNum += 1;
 		tok = c;
-		yylval = "";
+		yylval = empty_string;
 	      }
 #if YYLSP_NEEDED
 	    yylloc.last_column = colNum-1;
