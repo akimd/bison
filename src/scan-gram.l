@@ -48,6 +48,19 @@
     }							\
   while (0)
 
+/* Pacify "gcc -Wmissing-prototypes" when flex 2.5.31 is used.  */
+int gram_get_lineno (void);
+FILE *gram_get_in (void);
+FILE *gram_get_out (void);
+int gram_get_leng (void);
+char *gram_get_text (void);
+void gram_set_lineno (int);
+void gram_set_in (FILE *);
+void gram_set_out (FILE *);
+int gram_get_debug (void);
+void gram_set_debug (int);
+int gram_lex_destroy (void);
+
 /* Location of scanner cursor.  */
 boundary scanner_cursor;
 

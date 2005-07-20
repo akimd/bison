@@ -34,6 +34,19 @@
 
 int skel_lex (void);
 
+/* Pacify "gcc -Wmissing-prototypes" when flex 2.5.31 is used.  */
+int skel_get_lineno (void);
+FILE *skel_get_in (void);
+FILE *skel_get_out (void);
+int skel_get_leng (void);
+char *skel_get_text (void);
+void skel_set_lineno (int);
+void skel_set_in (FILE *);
+void skel_set_out (FILE *);
+int skel_get_debug (void);
+void skel_set_debug (int);
+int skel_lex_destroy (void);
+
 #define QPUTS(String) \
    fputs (quotearg_style (c_quoting_style, (String)), yyout)
 
