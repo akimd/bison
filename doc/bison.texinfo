@@ -4164,15 +4164,14 @@ three elements of @code{yytname} correspond to the predefined tokens
 @code{"error"}, and @code{"$undefined"}; after these come the symbols
 defined in the grammar file.
 
-For single-character literal tokens and literal string tokens, the name
-in the table includes the single-quote or double-quote characters: for
-example, @code{"'+'"} is a single-character literal and @code{"\"<=\""}
-is a literal string token.  All the characters of the literal string
-token appear verbatim in the string found in the table; even
-double-quote characters are not escaped.  For example, if the token
-consists of three characters @samp{*"*}, its string in @code{yytname}
-contains @samp{"*"*"}.  (In C, that would be written as
-@code{"\"*\"*\""}).
+The name in the table includes all the characters needed to represent
+the token in Bison.  For single-character literals and literal
+strings, this includes the surrounding quoting characters and any
+escape sequences.  For example, the Bison single-character literal
+@code{'+'} corresponds to a three-character name, represented in C as
+@code{"'+'"}; and the Bison two-character literal string @code{"\\/"}
+corresponds to a five-character name, represented in C as
+@code{"\"\\\\/\""}.
 
 When you specify @code{%token-table}, Bison also generates macro
 definitions for macros @code{YYNTOKENS}, @code{YYNNTS}, and
@@ -4413,11 +4412,13 @@ the grammar file has no effect on @code{yylex}.
 table.  The index of the token in the table is the token type's code.
 The name of a multicharacter token is recorded in @code{yytname} with a
 double-quote, the token's characters, and another double-quote.  The
-token's characters are not escaped in any way; they appear verbatim in
-the contents of the string in the table.
+token's characters are escaped as necessary to be suitable as input
+to Bison.
 
-Here's code for looking up a token in @code{yytname}, assuming that the
-characters of the token are stored in @code{token_buffer}.
+Here's code for looking up a multicharacter token in @code{yytname},
+assuming that the characters of the token are stored in
+@code{token_buffer}, and assuming that the token does not contain any
+characters like @samp{"} that require escaping.
 
 @smallexample
 for (i = 0; i < YYNTOKENS; i++)

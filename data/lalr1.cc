@@ -323,7 +323,12 @@ namespace yy
 
 #if YYDEBUG || YYERROR_VERBOSE
     /// For a symbol, its name in clear.
-    static const char* const yyname_[];
+    static const char* const yytname_[];
+#endif
+
+#if YYERROR_VERBOSE
+    /// Convert the symbol name \a n to a form suitable for a diagnostic.
+    virtual std::string yytnamerr_ (const char *n);
 #endif
 
 #if YYDEBUG
@@ -471,6 +476,47 @@ do {					\
 #define YYABORT		goto yyabortlab
 #define YYERROR		goto yyerrorlab
 
+#if YYERROR_VERBOSE
+
+/* Return YYSTR after stripping away unnecessary quotes and
+   backslashes, so that it's suitable for yyerror.  The heuristic is
+   that double-quoting is unnecessary unless the string contains an
+   apostrophe, a comma, or backslash (other than backslash-backslash).
+   YYSTR is taken from yytname.  */
+std::string
+yy::]b4_parser_class_name[::yytnamerr_ (const char *yystr)
+{
+  if (*yystr == '"')
+    {
+      std::string yyr = "";
+      char const *yyp = yystr;
+
+      for (;;)
+	switch (*++yyp)
+	  {
+	  case '\'':
+	  case ',':
+	    goto do_not_strip_quotes;
+
+	  case '\\':
+	    if (*++yyp != '\\')
+	      goto do_not_strip_quotes;
+	    /* Fall through.  */
+	  default:
+	    yyr += *yyp;
+	    break;
+
+	  case '"':
+	    return yyr;
+	  }
+    do_not_strip_quotes: ;
+    }
+
+  return yystr;
+}
+
+#endif
+
 #if YYDEBUG
 /*--------------------------------.
 | Print this symbol on YYOUTPUT.  |
@@ -488,7 +534,7 @@ yy::]b4_parser_class_name[::yysymprint_ (int yytype,
   (void) cdebug_;
 
   *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
-	     << ' ' << yyname_[yytype] << " ("
+	     << ' ' << yytname_[yytype] << " ("
              << *yylocationp << ": ";
   switch (yytype)
     {
@@ -880,10 +926,10 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
 	  // "syntax error, unexpected %s or %s or %s"
 	  // Then, invoke YY_ on this string.
 	  // Finally, use the string as a format to output
-	  // yyname_[yyilooka_], etc.
+	  // yytname_[yyilooka_], etc.
 	  // Until this gets fixed, this message appears in English only.
 	  message = "syntax error, unexpected ";
-	  message += yyname_[yyilooka_];
+	  message += yytnamerr_ (yytname_[yyilooka_]);
           if (count < 5)
             {
               count = 0;
@@ -891,7 +937,7 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
                 if (yycheck_[x + yyn_] == x && x != yyterror_)
                   {
                     message += (!count++) ? ", expecting " : " or ";
-                    message += yyname_[x];
+		    message += yytnamerr_ (yytname_[x]);
  	          }
             }
 	}
@@ -988,7 +1034,7 @@ yy::]b4_parser_class_name[::yyr2_[] =
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at \a yyntokens_, nonterminals. */
 const char*
-const yy::]b4_parser_class_name[::yyname_[] =
+const yy::]b4_parser_class_name[::yytname_[] =
 {
   ]b4_tname[
 };
@@ -1038,8 +1084,8 @@ yy::]b4_parser_class_name[::yyreduce_print_ (int yyrule)
              << " (line " << yylno << "), ";
   for (]b4_int_type_for([b4_prhs])[ i = yyprhs_[yyn_];
        0 <= yyrhs_[i]; ++i)
-    *yycdebug_ << yyname_[yyrhs_[i]] << ' ';
-  *yycdebug_ << "-> " << yyname_[yyr1_[yyn_]] << std::endl;
+    *yycdebug_ << yytname_[yyrhs_[i]] << ' ';
+  *yycdebug_ << "-> " << yytname_[yyr1_[yyn_]] << std::endl;
 }
 #endif // YYDEBUG
 
