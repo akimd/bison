@@ -4,6 +4,7 @@
 *.output
 *.stamp
 *.tmp
+*.yy
 .deps
 Makefile
 Makefile.in
