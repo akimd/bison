@@ -149,9 +149,17 @@ b4_syncline([@oline@], [@ofile@])[
 # define YYDEBUG ]b4_debug[
 #endif
 
-/* Enabling verbose error message.  */
-#ifndef YYERROR_VERBOSE
+/* Enabling verbose error messages.  */
+#ifdef YYERROR_VERBOSE
+# undef YYERROR_VERBOSE
+# define YYERROR_VERBOSE 1
+#else
 # define YYERROR_VERBOSE ]b4_error_verbose[
+#endif
+
+/* Enabling the token table.  */
+#ifndef YYTOKEN_TABLE
+# define YYTOKEN_TABLE ]b4_token_table[
 #endif
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
@@ -321,7 +329,7 @@ namespace yy
     /// For a rule, its RHS length.
     static const ]b4_int_type_for([b4_r2])[ yyr2_[];
 
-#if YYDEBUG || YYERROR_VERBOSE
+#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
 #endif
@@ -1030,7 +1038,7 @@ yy::]b4_parser_class_name[::yyr2_[] =
   ]b4_r2[
 };
 
-#if YYDEBUG || YYERROR_VERBOSE
+#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at \a yyntokens_, nonterminals. */
 const char*
