@@ -179,6 +179,34 @@ case $SKIP_PO in
      rm -f dummy `ls | sed -n '/\.gmo$/p; /\.po$/p'` &&
      wget -nv -nd -r -l 1 -A .po -C off \
        http://www.iro.umontreal.ca/translation/maint/$package-runtime/ &&
+
+     # For translations that have not yet been upgraded to the new
+     # runtime-po domain, prime the pump by extracting the relevant
+     # strings from the obsolete translations.
+     # This code can be removed once the bison-runtime domain
+     # has been translated by each team.
+     for po in ../po/*.po; do
+       test -f "$po" || continue
+       runpo=`basename $po`
+       test -f $runpo || {
+	 msggrep -K \
+	     -e 'memory exhausted' \
+	     -e 'syntax error' \
+	     $po 2>/dev/null |
+	   sed '
+	     s/^#~ //
+	     /^msgid "syntax error; also memory exhausted"$/,/^$/d
+	     /^$/,${ /^#/d; }
+	   ' >$runpo-
+	 if cmp -s $runpo- $runpo; then
+	   rm $runpo-
+	 else
+	   mv $runpo- $runpo
+	 fi
+	 test -s $runpo || rm -f $runpo
+       } || exit
+     done &&
+
      ls *.po | sed 's/\.po$//' >LINGUAS
     ) || exit
   esac;;
