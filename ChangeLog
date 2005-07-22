@@ -1,3 +1,61 @@
+2005-07-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (yyinitGLRStack, yyreturn): Don't call malloc
+	again if the first call fails.
+
+	* data/glr.c (yytnamerr): New function.
+	(yyreportSyntaxError): Use it to dequote most string literals.
+	* data/lalr1.c (yytname_): Renamed from yyname_, for compatibility
+	with other skeletons.  All uses changed.
+	(yytnameerr_): New function.
+	(yyreport_syntax_error): Use it to dequote most string literals.
+	* data/yacc.c (yytnamerr): New function.
+	(yyerrlab): Use it to decode most string literals.
+	* doc/bison.texinfo (Decl Summary, Calling Convention):
+	Clarify quoting convention of yytname.
+	* src/output.c (prepare_symbols): Quote all names.  This undoes
+	the 2005-04-17 change, which is now accomplished (mostly) via
+	changes in the parsers as described above.
+	* tests/regression.at (Token definitions, Web2c Actions):
+	Undo most 2005-04-17 change here, too.
+
+2005-07-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix more problems reported by twlevo@xs4all.nl.
+	* tests/cxx-type.at: Don't pipe output of ./types through sed to
+	remove trailing spaces.  This loses the exit status of ./types,
+	and isn't needed since ./types shouldn't be emitting trailing
+	spaces.
+	* data/glr.c (yyreturn): Don't pop stack if yyinitStateSet failed,
+	as the stack isn't valid in that case.
+
+	* src/scan-gram.l (gram_get_lineno, gram_get_in, gram_get_out):
+	(gram_get_leng, gram_get_text, gram_set_lineno, gram_set_in):
+	(gram_set_out, gram_get_debug, gram_set_debug, gram_lex_destroy):
+	Add declarations to pacify "gcc -Wmissing-prototypes" when flex 2.5.31
+	is used.
+	* src/scan-skel.l (skel_get_lineno, skel_get_in, skel_get_out):
+	(skel_get_leng, skel_get_text, skel_set_lineno, skel_set_in):
+	(skel_set_out, skel_get_debug, skel_set_debug, skel_lex_destroy):
+	Likewise.
+
+	* tests/cxx-type.at (_AT_TEST_GLR_CXXTYPES): Work even with
+	overly-picky compilers that reject 'char *foo = "bar";'.
+
+	* src/symtab.c (SYMBOL_ATTR_PRINT, symbol_print): Direct output
+	to FILE * parameter, not to stderr.  This fixes a typo introduced
+	in the 2005-07-12 change.
+
+	* lib/subpipe.c (create_subpipe): Rewrite slightly to avoid
+	warnings from GCC 4.
+
+	* data/glr.c (yyexpandGLRStack, yyaddDeferredAction, yyexpandGLRStack):
+	(yyglrShiftDefer, yysplitStack):
+	Remove unused parameters b4_pure_formals.  All uses changed.
+	(yyglrShift): Remove unused parameters b4_user_formals.
+	All uses changed.
+	(yyglrReduce): Removed unused parameter yylocp.  All uses changed.
+
 2005-07-18  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Destructor cleanups and regularization among the three skeletons.
