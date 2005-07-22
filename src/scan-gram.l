@@ -549,7 +549,7 @@ splice	 (\\[ \f\t\v]*\n)*
       }
     else
       {
-	complain_at (*loc, _("missing `{' in `%s'"),
+	complain_at (*loc, _("missing `{' in %s"),
 		     token_name (token_type));
 	obstack_sgrow (&obstack_for_string, "{}");
 	STRING_FINISH;
