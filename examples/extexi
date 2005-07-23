@@ -123,8 +123,11 @@ function normalize(contents,    i, lines, n, line, res) {
 
 
 function message(msg) {
-  # FNR starts at 0 instead of 1 for line numbers.
-  print "extexi: " FILENAME ":" (FNR + 1) ": " msg > "/dev/stderr";
+  if (! message_printed[msg])
+    {
+      print "extexi: " msg > "/dev/stderr";
+      message_printed[msg] = 1;
+    }
 }
 
 function fatal(msg) {
