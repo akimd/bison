@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  
    BITSET_TABLE:  Expandable table of pointers to arrays of bits
 		  (variable size, less storage for large sparse sets).
                   Faster than BITSET_LIST for random access.
-   BITSET_VARRAY: Variable array of bits (variable size, fast for 
+   BITSET_VARRAY: Variable array of bits (variable size, fast for
                   dense bitsets).
    BITSET_STATS:  Wrapper bitset for internal use only.  Used for gathering
                   statistics and/or better run-time checking.

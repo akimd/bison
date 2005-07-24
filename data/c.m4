@@ -119,7 +119,7 @@ m4_define([b4_int_type],
 
        m4_eval([0 <= $1]),                [1], [unsigned int],
 
- 	                                       [int])])
+	                                       [int])])
 
 
 # b4_int_type_for(NAME)

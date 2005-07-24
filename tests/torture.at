@@ -388,6 +388,8 @@ m4_define([AT_DATA_STACK_TORTURE],
 # exp:
 AT_DATA([input.y],
 [[%{
+#include <errno.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 ]$1[
@@ -406,9 +408,6 @@ yyerror (const char *msg)
   fprintf (stderr, "%s\n", msg);
 }
 
-/* There are YYLVAL_MAX of WAIT_FOR_EOFs. */
-unsigned int yylval_max;
-
 static int
 yylex (void)
 {
@@ -421,9 +420,14 @@ yylex (void)
 int
 main (int argc, const char **argv)
 {
+  char *endp;
   if (argc != 2)
     abort ();
-  yylval = atoi (argv[1]);
+  yylval = strtol (argv[1], &endp, 10);
+  if (! (argv[1] != endp
+	 && 0 <= yylval && yylval <= INT_MAX
+	 && errno != ERANGE))
+    abort ();
   yydebug = 1;
   return yyparse ();
 }

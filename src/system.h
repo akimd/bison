@@ -130,9 +130,9 @@ typedef size_t uintptr_t;
 | Obstacks.  |
 `-----------*/
 
-# define obstack_chunk_alloc xmalloc
-# define obstack_chunk_free  free
-# include <obstack.h>
+#define obstack_chunk_alloc xmalloc
+#define obstack_chunk_free  free
+#include <obstack.h>
 
 #define obstack_sgrow(Obs, Str) \
   obstack_grow (Obs, Str, strlen (Str))

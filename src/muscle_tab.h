@@ -40,14 +40,14 @@ extern struct obstack muscle_obstack;
 
 #define MUSCLE_INSERT_INT(Key, Value)				\
 {								\
-  obstack_fgrow1 (&muscle_obstack, "%d", Value);	       	\
+  obstack_fgrow1 (&muscle_obstack, "%d", Value);		\
   obstack_1grow (&muscle_obstack, 0);				\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 }
 
 #define MUSCLE_INSERT_LONG_INT(Key, Value)			\
 {								\
-  obstack_fgrow1 (&muscle_obstack, "%ld", Value);	       	\
+  obstack_fgrow1 (&muscle_obstack, "%ld", Value);		\
   obstack_1grow (&muscle_obstack, 0);				\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 }

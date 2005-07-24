@@ -43,6 +43,11 @@ void scanner_initialize (void);
 void scanner_free (void);
 void scanner_last_string_free (void);
 
+/* These are declared by the scanner, but not used.  We put them here
+   to pacify "make syntax-check".  */
+extern FILE *gram_out;
+extern int gram_lineno;
+
 # define YY_DECL int gram_lex (YYSTYPE *val, location *loc)
 YY_DECL;
 

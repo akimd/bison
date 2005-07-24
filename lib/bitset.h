@@ -309,8 +309,8 @@ extern void bitset_dump (FILE *, bitset);
 */
 #define BITSET_FOR_EACH(ITER, BSET, INDEX, MIN)				      \
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;			      \
-       (ITER.num == BITSET_LIST_SIZE) 					      \
-       && (ITER.num = bitset_list (BSET, ITER.list, 			      \
+       (ITER.num == BITSET_LIST_SIZE)					      \
+       && (ITER.num = bitset_list (BSET, ITER.list,			      \
 				   BITSET_LIST_SIZE, &ITER.next));)	      \
     for (ITER.i = 0;							      \
 	 ITER.i < ITER.num && ((INDEX) = ITER.list[ITER.i], 1);		      \
@@ -331,7 +331,7 @@ extern void bitset_dump (FILE *, bitset);
 */
 #define BITSET_FOR_EACH_REVERSE(ITER, BSET, INDEX, MIN)			      \
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;			      \
-       (ITER.num == BITSET_LIST_SIZE) 					      \
+       (ITER.num == BITSET_LIST_SIZE)					      \
        && (ITER.num = bitset_list_reverse (BSET, ITER.list,		      \
 					   BITSET_LIST_SIZE, &ITER.next));)   \
     for (ITER.i = 0;							      \
@@ -386,4 +386,3 @@ extern void debug_bitset (bitset);
 extern void debug_bitset_stats (void);
 
 #endif /* _BITSET_H  */
-

@@ -83,7 +83,7 @@ prog :
 stmt : expr ';'  $2	{ $$ = ]$[1; }
      | decl      $3
      | error ';'	{ static char error_msg[] = "<error>"; $$ = error_msg; }
-     | '@'  		{ YYACCEPT; }
+     | '@'		{ YYACCEPT; }
      ;
 
 expr : ID
@@ -145,7 +145,7 @@ yylex (LEX_PARAMETERS)
 	  break;
 	case ' ': case '\f':
 	  colNum += 1;
- 	  break;
+	  break;
 	case '\n':
 	  lineNum += 1;
 	  colNum = 0;

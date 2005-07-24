@@ -48,12 +48,12 @@ static void gram_error (location const *, char const *);
 
 static void add_param (char const *, char *, location);
 
-symbol_class current_class = unknown_sym;
-uniqstr current_type = 0;
+static symbol_class current_class = unknown_sym;
+static uniqstr current_type = 0;
 symbol *current_lhs;
 location current_lhs_location;
 assoc current_assoc;
-int current_prec = 0;
+static int current_prec = 0;
 %}
 
 %debug
@@ -206,7 +206,7 @@ declaration:
 | "%defines"                               { defines_flag = true; }
 | "%error-verbose"                         { error_verbose = true; }
 | "%expect" INT                            { expected_sr_conflicts = $2; }
-| "%expect-rr" INT 			   { expected_rr_conflicts = $2; }
+| "%expect-rr" INT			   { expected_rr_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
 | "%glr-parser"
   {
@@ -221,7 +221,7 @@ declaration:
 | "%locations"                             { locations_flag = true; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
 | "%no-lines"                              { no_lines_flag = true; }
-| "%nondeterministic-parser" 		   { nondeterministic_parser = true; }
+| "%nondeterministic-parser"		   { nondeterministic_parser = true; }
 | "%output" "=" string_content             { spec_outfile = $3; }
 | "%parse-param {...}"			   { add_param ("parse_param", $1, @1); }
 | "%pure-parser"                           { pure_parser = true; }

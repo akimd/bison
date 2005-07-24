@@ -946,7 +946,7 @@ yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
                   {
                     message += (!count++) ? ", expecting " : " or ";
 		    message += yytnamerr_ (yytname_[x]);
- 	          }
+	          }
             }
 	}
       else

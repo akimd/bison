@@ -7425,6 +7425,9 @@ parser's to get the set of defined tokens.
 @comment file: calc++-scanner.ll
 @example
 %@{                                            /* -*- C++ -*- */
+# include <cstdlib>
+# include <errno.h>
+# include <limits.h>
 # include <string>
 # include "calc++-driver.hh"
 # include "calc++-parser.hh"
@@ -7482,7 +7485,14 @@ errors.
 @example
 [-+*/]     return yytext[0];
 ":="       return TOKEN_ASSIGN;
-@{int@}      yylval->ival = atoi (yytext); return TOKEN_NUMBER;
+@{int@}      @{
+  errno = 0;
+  long n = strtol (yytext, NULL, 10);
+  if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
+    driver.error (*yylloc, "integer is out of range");
+  yylval->ival = n;
+  return TOKEN_NUMBER;
+@}
 @{id@}       yylval->sval = new std::string (yytext); return TOKEN_IDENTIFIER;
 .          driver.error (*yylloc, "invalid character");
 %%

@@ -48,11 +48,11 @@
 # define G_TEXTMODE		centered
 # define G_SHAPE		box
 
-# define G_VERTICAL_ORDER	0      	/* Unspecified for subgraphs. */
-# define G_HORIZONTAL_ORDER	0      	/* Unspecified for subgraphs. */
+# define G_VERTICAL_ORDER	0	/* Unspecified for subgraphs.  */
+# define G_HORIZONTAL_ORDER	0	/* Unspecified for subgraphs.  */
 
-# define G_XMAX			90     	/* Not output */
-# define G_YMAX			90     	/* Not output */
+# define G_XMAX			90	/* Not output.  */
+# define G_YMAX			90	/* Not output.  */
 
 # define G_XBASE		5
 # define G_YBASE		5
@@ -65,9 +65,9 @@
 # define G_YRASTER		1
 # define G_XLRASTER		1
 
-# define G_HIDDEN		(-1)   	/* No default value. */
+# define G_HIDDEN		(-1)	/* No default value.  */
 
-# define G_CLASSNAME		NULL   	/* No class name association */
+# define G_CLASSNAME		NULL	/* No class name association.  */
 # define G_INFONAME		NULL
 # define G_COLORENTRY		NULL
 

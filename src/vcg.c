@@ -203,7 +203,7 @@ new_edge (edge *e)
 }
 
 /*----------------------------------------------.
-| Get functions.       	                        |
+| Get functions.	                        |
 | Return string corresponding to an enum value. |
 `----------------------------------------------*/
 
@@ -374,7 +374,7 @@ get_arrowstyle_str (enum arrowstyle arrowstyle)
 }
 
 /*------------------------------.
-| Add functions.       	        |
+| Add functions.	        |
 | Edge and nodes into a graph.  |
 `------------------------------*/
 

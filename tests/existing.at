@@ -408,7 +408,7 @@ AT_DATA([[input.y]],
         HBEGPAR HENDPAR
         HEQR HNER
         HADD HSUB HMUL HDIV HINTDIV HEXP
-  	HDOTDOTDOT
+	HDOTDOTDOT
 
 %token <ident> HIDENTIFIER
 %token <ival> HBOOLEANKONST HINTEGERKONST HCHARACTERKONST
@@ -450,7 +450,7 @@ AT_DATA([[input.y]],
 MAIN_MODULE     :       {	  categ=CLOCAL; mout(MBLOCK);
                                   beginBlock(KBLOKK);separat_comp=FALSE;}
 			MODULS	{ endBlock(NULL,CCNO);   mout(MENDBLOCK);}
-  		|	error HSTATEMENTSEPARATOR MBEE_DECLSTMS
+		|	error HSTATEMENTSEPARATOR MBEE_DECLSTMS
 		;
 EXT_DECLARATION	:	HEXTERNAL
 			MBEE_TYPE
@@ -548,7 +548,7 @@ MBEE_ELSE_PART  :       /*EMPT*/
 /*		|	HELSE
 			HIF
                         EXPRESSION
-                        HTHEN   { 		  mout(MELSE);
+                        HTHEN   {		  mout(MELSE);
 						  mout(MIF);
                                   OBSBLOCK();}
                         BLOCK   { MBEEENDBLOCK();}
@@ -588,7 +588,7 @@ WHEN_CLAUSE_LIST:       HWHEN
                         HIDENTIFIER
                         HDO    {   beginBlock(KCON);  mout(MIDENTIFIER);
                                    OBSBLOCK();     moutId($2);
-				   		   mout(MWHEN);}
+						   mout(MWHEN);}
                         BLOCK  {   endBlock(NULL,CCNO);
                               MBEEENDBLOCK(); mout(MENDWHEN);}
                 |       WHEN_CLAUSE_LIST
@@ -596,7 +596,7 @@ WHEN_CLAUSE_LIST:       HWHEN
                         HIDENTIFIER
                         HDO    { beginBlock(KCON);	   mout(MIDENTIFIER);
                                  OBSBLOCK();       moutId($3);
-				 		   mout(MWHEN);}
+						   mout(MWHEN);}
                         BLOCK  { endBlock(NULL,CCNO);
                               MBEEENDBLOCK();    mout(MENDWHEN);}
                 ;
@@ -645,8 +645,8 @@ MODULSTATEMENT  :       HWHILE
                         HDO     { STOPOBSBLOCK(); mout(MWHILE);
                                   OBSBLOCK();}
                         BLOCK   { MBEEENDBLOCK(); mout(MENDWHILE);
-					  	          $$=STATEMENT;}
-	    	|       HIF
+						          $$=STATEMENT;}
+		|       HIF
                         EXPRESSION
                         HTHEN   { STOPOBSBLOCK(); mout(MIF);
                                   OBSBLOCK();}
@@ -709,7 +709,7 @@ MODULSTATEMENT  :       HWHILE
                                 { STOPOBSBLOCK();         $$=STATEMENT;
                                                   mout(MENDASSIGN);}
 		|	ACTIVATOR EXPRESSION SCHEDULE
-						{      	  $$=STATEMENT;
+						{ $$=STATEMENT;
 						  mout(MENDSEP);
 						  mout(MARGUMENTSEP);
 						  mout(MARGUMENTSEP);
@@ -836,10 +836,10 @@ MBEE_DECLSTMSU  :       DECLSTATEMENT   { $$=$1;}
 MODULS		:	MODULSTATEMENT	{ if($1==DECLARATION)
 					  {separat_comp=TRUE;gettimestamp();}
                                           $$=$1;}
-  		|	MODULS HSTATEMENTSEPARATOR MODULSTATEMENT
+		|	MODULS HSTATEMENTSEPARATOR MODULSTATEMENT
 					{ if($1>=STATEMENT && $3<=DECLARATION)
                                             yerror (26);else
-       					  if($1>=STATEMENT
+					  if($1>=STATEMENT
 					     && $3!=EMPTYSTATEMENT)yerror (25);
                                           if(separat_comp && $3==STATEMENT)
                                              yerror (25);
@@ -939,7 +939,7 @@ FPP_CATEG       :       HNAME HLABELSEPARATOR
                 ;
 FPP_PROC_DECL_IN_SPEC:	MBEE_TYPE HPROCEDURE
                         HIDENTIFIER
-                                	{ $<ival>$=categ;
+					{ $<ival>$=categ;
                                           regDecl($3, type, KPROC, categ);
                                           beginBlock(KPROC);}
                         FPP_HEADING
@@ -1008,7 +1008,7 @@ SPECIFIER       :       TYPE            { kind=KSIMPLE;}
                 ;
 PROC_DECL_IN_SPEC:	MBEE_TYPE HPROCEDURE
                         HIDENTIFIER
-                                	{ $<ival>$=categ;
+					{ $<ival>$=categ;
                                           regDecl($3, type, KPROC, categ);
                                           beginBlock(KPROC);}
                         HEADING
@@ -1292,7 +1292,7 @@ AT_DATA([[input.y]],
 %token AND
 %token HERE
 %token DOT_N
-%token DOT_E	
+%token DOT_E
 %token DOT_W
 %token DOT_S
 %token DOT_NE
@@ -1378,7 +1378,7 @@ parses properly. */
 %left CHOP SOLID DASHED DOTTED UP DOWN FILL COLORED OUTLINED
 %left LABEL
 
-%left VARIABLE NUMBER '(' SIN COS ATAN2 LOG EXP SQRT K_MAX K_MIN INT RAND SRAND LAST 
+%left VARIABLE NUMBER '(' SIN COS ATAN2 LOG EXP SQRT K_MAX K_MIN INT RAND SRAND LAST
 %left ORDINAL HERE '`'
 
 %left BOX CIRCLE ELLIPSE ARC LINE ARROW SPLINE '[' /* ] */
@@ -1518,7 +1518,7 @@ placeless_element:
 		}
 	| COPY TEXT THRU
 		{ delim_flag = 2; }
-	  DELIMITED 
+	  DELIMITED
 		{ delim_flag = 0; }
 	  until
 		{
@@ -1542,13 +1542,13 @@ placeless_element:
 		  a_delete $6;
 		}
 	| FOR VARIABLE '=' expr TO expr optional_by DO
-	  	{ delim_flag = 1; }
+		{ delim_flag = 1; }
 	  DELIMITED
-	  	{
+		{
 		  delim_flag = 0;
 		  if (yychar < 0)
 		    do_lookahead();
-		  do_for($2, $4, $6, $7.is_multiplicative, $7.val, $10); 
+		  do_for($2, $4, $6, $7.is_multiplicative, $7.val, $10);
 		}
 	| simple_if
 		{
@@ -1617,7 +1617,7 @@ print_args:
 	;
 
 print_arg:
-  	expr							%prec ','
+	expr							%prec ','
 		{
 		  $$.str = new char[GDIGITS + 1];
 		  sprintf($$.str, "%g", $1);
@@ -1652,14 +1652,14 @@ until:
 	| UNTIL TEXT
 		{ $$ = $2.str; }
 	;
-	
+
 any_expr:
 	expr
 		{ $$ = $1; }
 	| text_expr
 		{ $$ = $1; }
 	;
-	
+
 text_expr:
 	text EQUALEQUAL text
 		{
@@ -1831,7 +1831,7 @@ object_spec:
 					   $3.filename, $3.lineno);
 		  a_delete $3.str;
 		}
-	| '[' 
+	| '['
 		{
 		  saved_state *p = new saved_state;
 		  $<pstate>$ = p;
@@ -2014,7 +2014,7 @@ object_spec:
 		  $$->segment_pos.y += $3.y;
 		}
 	| object_spec THEN
-  		{
+		{
 		  $$ = $1;
 		  if ($$->flags & HAS_SEGMENT) {
 		    $$->segment_list = new segment($$->segment_pos,
@@ -2088,7 +2088,7 @@ object_spec:
 		  strcpy($$->outlined, $3.str);
 		}
 	| object_spec CHOP
-  		{
+		{
 		  $$ = $1;
 		  // line chop chop means line chop 0 chop 0
 		  if ($$->flags & IS_DEFAULT_CHOPPED) {
@@ -2258,10 +2258,10 @@ sprintf_args:
 	;
 
 position:
-  	position_not_place
+	position_not_place
 		{ $$ = $1; }
 	| place
-  		{
+		{
 		  position pos = $1;
 		  $$.x = pos.x;
 		  $$.y = pos.y;
@@ -2377,7 +2377,7 @@ ordinal:
 optional_ordinal_last:
 	LAST
 		{ $$ = 1; }
-  	| ordinal LAST
+	| ordinal LAST
 		{ $$ = $1; }
 	;
 
@@ -2416,7 +2416,7 @@ nth_primitive:
 
 object_type:
 	BOX
-  		{ $$ = BOX_OBJECT; }
+		{ $$ = BOX_OBJECT; }
 	| CIRCLE
 		{ $$ = CIRCLE_OBJECT; }
 	| ELLIPSE
@@ -2436,7 +2436,7 @@ object_type:
 	;
 
 label_path:
- 	'.' LABEL
+	'.' LABEL
 		{ $$ = new path($2); }
 	| label_path '.' LABEL
 		{
@@ -2450,7 +2450,7 @@ relative_path:
 		{ $$ = new path($1); }
 	/* give this a lower precedence than LEFT and RIGHT so that
 	   [A: box] with .A left == [A: box] with (.A left) */
-  	| label_path						%prec TEXT
+	| label_path						%prec TEXT
 		{ $$ = $1; }
 	| label_path corner
 		{
@@ -2497,7 +2497,7 @@ path:
 corner:
 	DOT_N
 		{ $$ = &object::north; }
-	| DOT_E	
+	| DOT_E
 		{ $$ = &object::east; }
 	| DOT_W
 		{ $$ = &object::west; }
@@ -2517,7 +2517,7 @@ corner:
 		{ $$ = &object::start; }
 	| DOT_END
 		{ $$ = &object::end; }
-  	| TOP
+	| TOP
 		{ $$ = &object::north; }
 	| BOTTOM
 		{ $$ = &object::south; }
@@ -2573,12 +2573,12 @@ expr:
 	| NUMBER
 		{ $$ = $1; }
 	| place DOT_X
-  		{
+		{
 		  if ($1.obj != 0)
 		    $$ = $1.obj->origin().x;
 		  else
 		    $$ = $1.x;
-		}			
+		}
 	| place DOT_Y
 		{
 		  if ($1.obj != 0)
