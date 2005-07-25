@@ -303,6 +303,27 @@ input.y:7.1-8.0: missing `%}' at end of file
 AT_CLEANUP
 
 
+AT_SETUP([Invalid inputs with {}])
+
+AT_DATA([input.y],
+[[
+%destructor
+%initial-action
+%lex-param
+%parse-param
+%printer
+%union
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:3.1: missing `{' in "%destructor {...}"
+input.y:4.1: missing `{' in "%initial-action {...}"
+input.y:4.1: syntax error, unexpected %initial-action {...}, expecting string or identifier
+]])
+
+AT_CLEANUP
+
+
 
 ## ------------------- ##
 ## Token definitions.  ##
