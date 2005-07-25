@@ -2,6 +2,14 @@
 
 	* NEWS: Version 2.0b.
 
+	* tests/regression.at (Token definitions): Don't rely on
+	AT_PARSER_CHECK for data that contains backslashes.  It currently
+	uses 'echo', and 'echo' isn't portable if its argument contains
+	backslashes.  Problem found on OpenBSD 3.4.  Also, do not assume
+	that the byte '\0xff' is not printable in the C locale; it is,
+	under OpenBSD 3.4 (!).  Luckily, '\0x80' through '\0x9e' are
+	not printable, so use '\0x81' to test.
+
 	* data/glr.c (YYOPTIONAL_LOC): Define even if it's not a recent
 	version of GCC, since the macro is used with non-GCC compilers.
 
