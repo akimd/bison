@@ -2,6 +2,9 @@
 
 	* NEWS: Version 2.0b.
 
+	* Makefile.am (SUBDIRS): Put examples before tests, so that
+	"make check" doesn't finish with "All 1 tests passed".
+
 	* tests/regression.at (Token definitions): Don't rely on
 	AT_PARSER_CHECK for data that contains backslashes.  It currently
 	uses 'echo', and 'echo' isn't portable if its argument contains

@@ -18,7 +18,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = config po runtime-po lib data src doc tests examples
+SUBDIRS = config po runtime-po lib data src doc examples tests
 
 # Files installed for use by Automake.
 aclocaldir = @aclocaldir@
