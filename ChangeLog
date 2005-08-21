@@ -1,3 +1,16 @@
+2005-08-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (yyresolveValue): Fix redundant parse tree problem
+	reported by Joel E. Denny in
+	<http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00004.html>
+	(trivial change).
+	* tests/glr-regression.at (Duplicate representation of merged trees):
+	New test, from Joel E. Denny in:
+	<http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.
+	* THANKS: Add Joel E. Denny.
+
+	* configure.ac (AC_INIT): Bump to 2.0c.
+
 2005-07-24  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Version 2.0b.

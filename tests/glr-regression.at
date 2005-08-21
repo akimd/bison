@@ -327,3 +327,96 @@ AT_CHECK([[echo p1 t4 o2 p1 p1 t1 o1 t2 p2 o1 t3 p2 p2 | ./glr-regr3]], 0,
 ]], [])
 
 AT_CLEANUP
+
+
+## ---------------------------------------------------------------------- ##
+## Duplicate representation of merged trees                               ##
+## Thanks to Joel E. Denny for this test; see                             ##
+## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.  ##
+## ---------------------------------------------------------------------- ##
+
+AT_SETUP([Duplicate representation of merged trees])
+
+AT_DATA_GRAMMAR([glr-regr4.y],
+[[%union { char *ptr; }
+%type <ptr> S A A1 A2 B
+%glr-parser
+
+%{
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+  static char *merge (YYSTYPE, YYSTYPE);
+  static char *make_value (char *, char *);
+  static void yyerror (char const *);
+  static int yylex (void);
+%}
+
+%%
+
+tree: S { printf ("%s\n", $1); } ;
+
+S:
+  A   %merge<merge> { $$ = make_value ("S", $1); }
+  | B %merge<merge> { $$ = make_value ("S", $1); }
+  ;
+
+A:
+  A1   %merge<merge> { $$ = make_value ("A", $1); }
+  | A2 %merge<merge> { $$ = make_value ("A", $1); }
+  ;
+
+A1: 'a' { $$ = make_value ("A1", "'a'"); } ;
+A2: 'a' { $$ = make_value ("A2", "'a'"); } ;
+B:  'a' { $$ = make_value ("B", "'a'");  } ;
+
+%%
+
+static int
+yylex (void)
+{
+  static char const *input = "a";
+  return *input++;
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+
+static char *
+make_value (char *parent, char *child)
+{
+  char const format[] = "%s <- %s";
+  char *value = malloc (strlen (parent) + strlen (child) + sizeof format);
+  sprintf (value, format, parent, child);
+  return value;
+}
+
+static char *
+merge (YYSTYPE s1, YYSTYPE s2)
+{
+  char const format[] = "merge{ %s and %s }";
+  char *value = malloc (strlen (s1.ptr) + strlen (s2.ptr) + sizeof format);
+  sprintf (value, format, s1.ptr, s2.ptr);
+  return value;
+}
+
+static void
+yyerror (char const *msg)
+{
+  printf ("%s\n", msg);
+}
+]])
+
+AT_CHECK([[bison -o glr-regr4.c glr-regr4.y]], 0, [],
+[glr-regr4.y: conflicts: 1 reduce/reduce
+])
+AT_COMPILE([glr-regr4])
+
+AT_CHECK([[./glr-regr4]], 0,
+[[merge{ S <- merge{ A <- A1 <- 'a' and A <- A2 <- 'a' } and S <- B <- 'a' }
+]], [])
+
+AT_CLEANUP
