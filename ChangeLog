@@ -1,5 +1,10 @@
 2005-08-21  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* lib/.cvsignore: Remove realloc.c, strncasecmp.c, xstrdup.c.
+	Add strnlen.c.
+	* m4/.cvsignore: Remove codeset.m4, gettext.m4, lib-ld.m4,
+	lib-prefix.m4, po.m4.
+
 	* data/glr.c (yyreturn): Use "Cleanup:" rather than "Error:"
 	in yydestruct diagnostic, since it might not be an error.
 	Problem reported by Joel Denny near end of

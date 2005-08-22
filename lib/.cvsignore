@@ -37,7 +37,6 @@ quote.c
 quote.h
 quotearg.c
 quotearg.h
-realloc.c
 stdbool.h
 stdbool_.h
 stdio-safer.h
@@ -46,15 +45,14 @@ stpcpy.h
 strdup.c
 strdup.h
 stripslash.c
-strncasecmp.c
 strndup.c
 strndup.h
 strnlen.c
+strnlen.h
 unistd-safer.h
 unlocked-io.h
 xalloc-die.c
 xalloc.h
 xmalloc.c
-xstrdup.c
 xstrndup.c
 xstrndup.h
