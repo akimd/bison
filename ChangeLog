@@ -4,7 +4,7 @@
 	in yydestruct diagnostic, since it might not be an error.
 	Problem reported by Joel Denny near end of
 	<http://lists.gnu.org/archive/html/help-bison/2005-07/msg00040.html>.
-	* data/lalr1cc (yyerturn): Likewise.
+	* data/lalr1.cc (yyerturn): Likewise.
 	* data/yacc.c (yyreturn): Likewise.
 	* tests/calc.at (_AT_CHECK_CALC_ERROR): Adjust to the above change.
 
