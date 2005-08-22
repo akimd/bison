@@ -405,6 +405,7 @@ sed '/^Starting/d
 /^Reducing/d
 /^Shifting/d
 /^state/d
+/^Cleanup:/d
 /^Error:/d
 /^Next/d
 /^Discarding/d

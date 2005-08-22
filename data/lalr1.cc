@@ -879,11 +879,11 @@ yyabortlab:
 
 yyreturn:
   if (yylooka_ != yyeof_ && yylooka_ != yyempty_)
-    yydestruct_ ("Error: discarding lookahead", yyilooka_, &yylval, &yylloc);
+    yydestruct_ ("Cleanup: discarding lookahead", yyilooka_, &yylval, &yylloc);
 
   while (yystate_stack_.height () != 1)
     {
-      yydestruct_ ("Error: popping",
+      yydestruct_ ("Cleanup: popping",
 		   yystos_[yystate_stack_[0]],
 		   &yysemantic_stack_[0],
 		   &yylocation_stack_[0]);
