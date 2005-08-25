@@ -1,5 +1,9 @@
 2005-08-25  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* README-cvs: Give URLs for recommended tools.
+	Mention Gzip version problem, and bootstrapping issues.
+	Remove troubleshooting section, as it's somewhat obsolete.
+
 	* bootstrap (no_cache): New var, to accommodate different wget
 	variants.  Use it instead of '-C off'.  Problem reported by
 	twlevo@xs4all.nl.
