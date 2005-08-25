@@ -25,6 +25,7 @@ package=bison
 
 # Ensure file names are sorted consistently across platforms;
 # e.g., m4/ulonglong_gl.m4 should follow m4/ulonglong.m4.
+# Also, ensure diagnostics are in English, e.g., "wget --help" below.
 LC_ALL=C
 export LC_ALL
 
@@ -164,10 +165,19 @@ sed '
 
 case $SKIP_PO in
 '')
+  case `wget --help` in
+  *'--no-cache'*)
+    no_cache='--no-cache';;
+  *'--cache=on/off'*)
+    no_cache='--cache=off';;
+  *)
+    no_cache='';;
+  esac
+
   echo "$0: getting translations into po (please ignore the robots.txt ERROR 404)..."
   (cd po &&
    rm -f dummy `ls | sed -n '/\.gmo$/p; /\.po/p'` &&
-   wget -nv -nd -r -l 1 -A .po -C off \
+   wget -nv -nd -r -l 1 -A .po $no_cache \
      http://www.iro.umontreal.ca/translation/maint/$package/ &&
    ls *.po | sed 's/\.po$//' >LINGUAS
   ) || exit
@@ -177,7 +187,7 @@ case $SKIP_PO in
     echo "$0: getting translations into po (please ignore the robots.txt ERROR 404)..."
     (cd runtime-po &&
      rm -f dummy `ls | sed -n '/\.gmo$/p; /\.po$/p'` &&
-     wget -nv -nd -r -l 1 -A .po -C off \
+     wget -nv -nd -r -l 1 -A .po $no_cache \
        http://www.iro.umontreal.ca/translation/maint/$package-runtime/ &&
 
      # For translations that have not yet been upgraded to the new

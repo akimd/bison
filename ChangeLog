@@ -1,5 +1,9 @@
 2005-08-25  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* bootstrap (no_cache): New var, to accommodate different wget
+	variants.  Use it instead of '-C off'.  Problem reported by
+	twlevo@xs4all.nl.
+
 	* data/glr.c (yydestroyStackItem): New function.
 	(yyrecoverSyntaxError, yyreturn): Use it to improve quality of
 	debugging information.  Problem reported by Joel E. Denny.
