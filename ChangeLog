@@ -1,3 +1,7 @@
+2005-08-25  Akim Demaille  <akim@epita.fr>
+
+	* tests/local.at (AT_COMPILE_CXX): Pass $LINKS too.
+
 2005-08-24  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (yyrecoverSyntaxError, yyreturn):
