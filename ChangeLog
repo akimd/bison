@@ -1,3 +1,12 @@
+2005-08-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (yyrecoverSyntaxError, yyreturn):
+	Don't invoke destructor on unresolved entries.
+	* tests/glr-regression.at
+	(User destructor for unresolved GLR semantic value): New test case.
+	Problem reported by Joel E. Denny in:
+	http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00016.html
+
 2005-08-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* lib/.cvsignore: Remove realloc.c, strncasecmp.c, xstrdup.c.

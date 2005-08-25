@@ -420,3 +420,73 @@ AT_CHECK([[./glr-regr4]], 0,
 ]], [])
 
 AT_CLEANUP
+
+
+## ---------------------------------------------------------------------- ##
+## User destructor for unresolved GLR semantic value                      ##
+## Thanks to Joel E. Denny for this test; see                             ##
+## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.  ##
+## ---------------------------------------------------------------------- ##
+
+AT_SETUP([User destructor for unresolved GLR semantic value])
+
+AT_DATA_GRAMMAR([glr-regr5.y],
+[[%{
+  #include <stdio.h>
+  #include <stdlib.h>
+  static void yyerror (char const *);
+  static int yylex (void);
+  enum { MAGIC_VALUE = -1057808125 }; /* originally chosen at random */
+%}
+
+%glr-parser
+%union { int value; }
+%type <value> start
+
+%destructor {
+  if ($$ != MAGIC_VALUE)
+    {
+      fprintf (stderr, "Bad destructor call.\n");
+      exit (EXIT_FAILURE);
+    }
+} start
+
+%%
+
+start:
+   'a' { $$ = MAGIC_VALUE; }
+   | 'a' { $$ = MAGIC_VALUE; }
+   ;
+
+%%
+
+static int
+yylex (void)
+{
+  static char const *input = "a";
+  return *input++;
+}
+
+static void
+yyerror (char const *msg)
+{
+  printf ("%s\n", msg);
+}
+
+int
+main (void)
+{
+  return yyparse () != 1;
+}
+]])
+
+AT_CHECK([[bison -o glr-regr5.c glr-regr5.y]], 0, [],
+[glr-regr5.y: conflicts: 1 reduce/reduce
+])
+AT_COMPILE([glr-regr5])
+
+AT_CHECK([[./glr-regr5]], 0,
+[syntax is ambiguous
+])
+
+AT_CLEANUP
