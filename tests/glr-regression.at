@@ -389,7 +389,8 @@ static char *
 make_value (char *parent, char *child)
 {
   char const format[] = "%s <- %s";
-  char *value = malloc (strlen (parent) + strlen (child) + sizeof format);
+  char *value =
+    (char *) malloc (strlen (parent) + strlen (child) + sizeof format);
   sprintf (value, format, parent, child);
   return value;
 }
@@ -398,7 +399,8 @@ static char *
 merge (YYSTYPE s1, YYSTYPE s2)
 {
   char const format[] = "merge{ %s and %s }";
-  char *value = malloc (strlen (s1.ptr) + strlen (s2.ptr) + sizeof format);
+  char *value =
+    (char *) malloc (strlen (s1.ptr) + strlen (s2.ptr) + sizeof format);
   sprintf (value, format, s1.ptr, s2.ptr);
   return value;
 }
