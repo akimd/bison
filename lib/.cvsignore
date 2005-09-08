@@ -33,12 +33,14 @@ mbswidth.c
 mbswidth.h
 obstack.c
 obstack.h
+pipe-safer.c
 quote.c
 quote.h
 quotearg.c
 quotearg.h
 stdbool.h
 stdbool_.h
+stdio--.h
 stdio-safer.h
 stpcpy.c
 stpcpy.h
@@ -49,6 +51,7 @@ strndup.c
 strndup.h
 strnlen.c
 strnlen.h
+unistd--.h
 unistd-safer.h
 unlocked-io.h
 xalloc-die.c
