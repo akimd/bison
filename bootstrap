@@ -154,6 +154,14 @@ for gnulib_file in $gnulib_files; do
   cp -p $GNULIB_SRCDIR/$gnulib_file $dest || exit
 done
 
+# This suppresses a bogus diagnostic
+# "warning: macro `AM_LANGINFO_CODESET' not found in library".
+echo "$0: patching m4/gettext.m4 so that AM_INTL_SUBDIR is empty ..."
+sed '
+  /^AC_DEFUN(\[AM_INTL_SUBDIR],/,/^]/c\
+    AC_DEFUN([AM_INTL_SUBDIR], [])
+' m4/gettext.m4 >m4/gettext_gl.m4 || exit
+
 
 # Get translations.
 
