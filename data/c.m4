@@ -53,6 +53,9 @@ m4_define([b4_identification],
 [/* Identify Bison output.  */
 [#]define YYBISON 1
 
+/* Bison version.  */
+[#]define YYBISON_VERSION "b4_version"
+
 /* Skeleton name.  */
 [#]define YYSKELETON_NAME b4_skeleton
 
