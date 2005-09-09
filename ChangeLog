@@ -1,3 +1,23 @@
+2005-09-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo: Don't use "filename", as per GNU coding
+	standards.  Use "file name" or "file" or "name", depending on
+	the context.
+	(Invocation): The output of "bison hack/foo.y" goes to foo.tab.c,
+	not to hack/foo.tab.c.
+	(Calc++ Top Level): 2nd arg of main is not const.
+
+2005-09-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* lib/.cvsignore: Add pipe-safer.c, stdio--.h, unistd--.h,
+	to accommodate latest gnulib.
+
+	* tests/glr-regression.at (Duplicate representation of merged trees):
+	Add casts to pacify g++.  Problem reported by twlevo@xs4all.nl.
+
+	* bootstrap: Add comment as to why the AM_LANGINFO_CODESET hack is
+	needed.
+
 2005-08-26  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (yydestroyGLRState): Renamed from yydestroyStackItem.
