@@ -1716,12 +1716,12 @@ With all the source in a single file, you use the following command to
 convert it into a parser file:
 
 @example
-bison @var{file_name}.y
+bison @var{file}.y
 @end example
 
 @noindent
 In this example the file was called @file{rpcalc.y} (for ``Reverse Polish
-@sc{calc}ulator'').  Bison produces a file named @file{@var{file_name}.tab.c},
+@sc{calc}ulator'').  Bison produces a file named @file{@var{file}.tab.c},
 removing the @samp{.y} from the original file name.  The file output by
 Bison contains the source code for @code{yyparse}.  The additional
 functions in the input file (@code{yylex}, @code{yyerror} and @code{main})
@@ -3779,10 +3779,10 @@ Declare that the @var{code} must be invoked before parsing each time
 For instance, if your locations use a file name, you may use
 
 @example
-%parse-param @{ const char *filename @};
+%parse-param @{ const char *file @};
 %initial-action
 @{
-  @@$.begin.filename = @@$.end.filename = filename;
+  @@$.begin.file = @@$.end.file = file;
 @};
 @end example
 
@@ -4133,7 +4133,7 @@ parser file contains just @code{#define} directives and static variable
 declarations.
 
 This option also tells Bison to write the C code for the grammar actions
-into a file named @file{@var{filename}.act}, in the form of a
+into a file named @file{@var{file}.act}, in the form of a
 brace-surrounded body fit for a @code{switch} statement.
 @end deffn
 
@@ -4146,8 +4146,8 @@ associate errors with the parser file, treating it an independent source
 file in its own right.
 @end deffn
 
-@deffn {Directive} %output="@var{filename}"
-Specify the @var{filename} for the parser file.
+@deffn {Directive} %output="@var{file}"
+Specify @var{file} for the parser file.
 @end deffn
 
 @deffn {Directive} %pure-parser
@@ -6605,14 +6605,15 @@ bison @var{infile}
 
 Here @var{infile} is the grammar file name, which usually ends in
 @samp{.y}.  The parser file's name is made by replacing the @samp{.y}
-with @samp{.tab.c}.  Thus, the @samp{bison foo.y} filename yields
-@file{foo.tab.c}, and the @samp{bison hack/foo.y} filename yields
-@file{hack/foo.tab.c}.  It's also possible, in case you are writing
+with @samp{.tab.c} and removing any leading directory.  Thus, the
+@samp{bison foo.y} file name yields
+@file{foo.tab.c}, and the @samp{bison hack/foo.y} file name yields
+@file{foo.tab.c}.  It's also possible, in case you are writing
 C++ code instead of C in your grammar file, to name it @file{foo.ypp}
 or @file{foo.y++}.  Then, the output files will take an extension like
 the given one as input (respectively @file{foo.tab.cpp} and
 @file{foo.tab.c++}).
-This feature takes effect with all options that manipulate filenames like
+This feature takes effect with all options that manipulate file names like
 @samp{-o} or @samp{-d}.
 
 For example :
@@ -6770,11 +6771,11 @@ Pretend that @code{%verbose} was specified, i.e, write an extra output
 file containing verbose descriptions of the grammar and
 parser.  @xref{Decl Summary}.
 
-@item -o @var{filename}
-@itemx --output=@var{filename}
-Specify the @var{filename} for the parser file.
+@item -o @var{file}
+@itemx --output=@var{file}
+Specify the @var{file} for the parser file.
 
-The other output files' names are constructed from @var{filename} as
+The other output files' names are constructed from @var{file} as
 described under the @samp{-v} and @samp{-d} options.
 
 @item -g
@@ -6786,7 +6787,7 @@ be @file{foo.vcg}.
 @item --graph=@var{graph-file}
 The behavior of @var{--graph} is the same than @samp{-g}.  The only
 difference is that it has an optional argument which is the name of
-the output graph filename.
+the output graph file.
 @end table
 
 @node Option Cross Key
@@ -6902,13 +6903,13 @@ used for location tracking.  @xref{C++ Location Values}.
 @item stack.hh
 An auxiliary class @code{stack} used by the parser.
 
-@item @var{filename}.hh
-@itemx @var{filename}.cc
+@item @var{file}.hh
+@itemx @var{file}.cc
 The declaration and implementation of the C++ parser class.
-@var{filename} is the name of the output file.  It follows the same
+@var{file} is the name of the output file.  It follows the same
 rules as with regular C parsers.
 
-Note that @file{@var{filename}.hh} is @emph{mandatory}, the C++ cannot
+Note that @file{@var{file}.hh} is @emph{mandatory}, the C++ cannot
 work without the parser class declaration.  Therefore, you must either
 pass @option{-d}/@option{--defines} to @command{bison}, or use the
 @samp{%defines} directive.
@@ -6949,7 +6950,7 @@ Symbols}.
 @c - %locations
 @c - class Position
 @c - class Location
-@c - %define "filename_type" "const symbol::Symbol"
+@c - %define "file_type" "const symbol::Symbol"
 
 When the directive @code{%locations} is used, the C++ parser supports
 location tracking, see @ref{Locations, , Locations Overview}.  Two
@@ -6957,11 +6958,11 @@ auxiliary classes define a @code{position}, a single point in a file,
 and a @code{location}, a range composed of a pair of
 @code{position}s (possibly spanning several files).
 
-@deftypemethod {position} {std::string*} filename
+@deftypemethod {position} {std::string*} file
 The name of the file.  It will always be handled as a pointer, the
 parser will never duplicate nor deallocate it.  As an experimental
 feature you may change it to @samp{@var{type}*} using @samp{%define
-"filename_type" "@var{type}"}.
+"file_type" "@var{type}"}.
 @end deftypemethod
 
 @deftypemethod {position} {unsigned int} line
@@ -6989,8 +6990,8 @@ Various forms of syntactic sugar for @code{columns}.
 
 @deftypemethod {position} {position} operator<< (std::ostream @var{o}, const position& @var{p})
 Report @var{p} on @var{o} like this:
-@samp{@var{filename}:@var{line}.@var{column}}, or
-@samp{@var{line}.@var{column}} if @var{filename} is null.
+@samp{@var{file}:@var{line}.@var{column}}, or
+@samp{@var{line}.@var{column}} if @var{file} is null.
 @end deftypemethod
 
 @deftypemethod {location} {position} begin
@@ -7321,7 +7322,7 @@ automatically propagated.
 %initial-action
 @{
   // Initialize the initial location.
-  @@$.begin.filename = @@$.end.filename = &driver.file;
+  @@$.begin.file = @@$.end.file = &driver.file;
 @};
 @end example
 
@@ -7530,7 +7531,7 @@ The top level file, @file{calc++.cc}, poses no problem.
 #include "calc++-driver.hh"
 
 int
-main (int argc, const char* argv[])
+main (int argc, char *argv[])
 @{
   calcxx_driver driver;
   for (++argv; argv[0]; ++argv)
@@ -7923,7 +7924,7 @@ Bison declaration to assign non-associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
-@deffn {Directive} %output="@var{filename}"
+@deffn {Directive} %output="@var{file}"
 Bison declaration to set the name of the parser file.  @xref{Decl
 Summary}.
 @end deffn
