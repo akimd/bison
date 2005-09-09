@@ -1,5 +1,9 @@
 2005-09-09  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/glr.c (YYCHK1): Do not assume YYE is in range.
+	This avoids a diagnostic from gcc -Wswitch-enum.
+	Problem reported by twlevo@xs4all.nl.
+
 	* doc/bison.texinfo: Don't use "filename", as per GNU coding
 	standards.  Use "file name" or "file" or "name", depending on
 	the context.
