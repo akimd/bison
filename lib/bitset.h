@@ -371,10 +371,10 @@ extern void bitset_stats_enable (void);
 extern void bitset_stats_disable (void);
 
 /* Read bitset stats file of accummulated stats.  */
-void bitset_stats_read (const char *filename);
+void bitset_stats_read (const char *file_name);
 
 /* Write bitset stats file of accummulated stats.  */
-void bitset_stats_write (const char *filename);
+void bitset_stats_write (const char *file_name);
 
 /* Dump bitset stats.  */
 extern void bitset_stats_dump (FILE *);

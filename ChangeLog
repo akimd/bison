@@ -6,6 +6,17 @@
 	(Invocation): The output of "bison hack/foo.y" goes to foo.tab.c,
 	not to hack/foo.tab.c.
 	(Calc++ Top Level): 2nd arg of main is not const.
+	* data/glr.c: b4_filename -> b4_file_name.
+	* data/lalr1.cc: Likewise.  Also, b4_filename_type -> b4_file_name_type.
+	All uses changed.
+	(class position): filename -> file_name.  All uses changed.
+	* data/yacc.c: b4_filename -> b4_file_name.
+	* lib/bitset.h: filename -> file_name in local vars.
+	* lib/bitset_stats.c: Likewise.
+	* src/files.c: Likewise.
+	* src/scan-skel.l ("@output ".*\n): Likewise.
+	* src/files.c (file_name_split): Renamed from filename_split.
+	* src/muscle_tab.c (muscle_init): Output b4_file_name, not b4_filename.
 
 2005-09-08  Paul Eggert  <eggert@cs.ucla.edu>
 

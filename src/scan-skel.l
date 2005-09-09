@@ -45,15 +45,15 @@
 %}
 
 "@output ".*\n {
-  char const *filename = yytext + sizeof "@output " - 1;
+  char const *file_name = yytext + sizeof "@output " - 1;
   yytext[yyleng - 1] = '\0';
 
-  if (*filename == '@')
+  if (*file_name == '@')
     {
-      if (strcmp (filename, "@output_header_name@") == 0)
-	filename = spec_defines_file;
-      else if (strcmp (filename, "@output_parser_name@") == 0)
-	filename = parser_file_name;
+      if (strcmp (file_name, "@output_header_name@") == 0)
+	file_name = spec_defines_file;
+      else if (strcmp (file_name, "@output_parser_name@") == 0)
+	file_name = parser_file_name;
       else
 	fatal ("invalid token in skeleton: %s", yytext);
     }
@@ -63,7 +63,7 @@
       free (outname);
       xfclose (yyout);
     }
-  outname = xstrdup (filename);
+  outname = xstrdup (file_name);
   yyout = xfopen (outname, "w");
   lineno = 1;
 }
