@@ -25,7 +25,7 @@ aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
 EXTRA_DIST = GNUmakefile Makefile.cfg Makefile.maint \
-  OChangeLog PACKAGING REFERENCES
+  OChangeLog PACKAGING
 
 .PHONY: maintainer-check
 maintainer-check:
