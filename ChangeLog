@@ -1,4 +1,18 @@
+2005-09-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* Makefile.am (EXTRA_DIST): Do not distribute REFERENCES; it
+	contains obsolete information and isn't worth distributing as a
+	separate file anyway.
+	* data/glr.c [defined YYSETJMP]: Don't include <setjmp.h>.
+	(YYJMP_BUF, YYSETJMP, YYLONGJMP) [!defined YYSETJMP]: New macros.
+	All uses of jmp_buf, setjmp, longjmp changed to use these instead.
+	(yyparse): Abort if user code uses longjmp to throw an unexpected
+	value.
+
 2005-09-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/c.m4 (b4_identification): Define YYBISON_VERSION.
+	Suggested by twlevo@xs4all.nl.
 
 	* data/glr.c (YYCHK1): Do not assume YYE is in range.
 	This avoids a diagnostic from gcc -Wswitch-enum.
