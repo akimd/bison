@@ -62,8 +62,11 @@ $(srcdir)/calc++-parser.stamp: $(srcdir)/calc++-parser.yy $(BISON_IN)
 	@mv -f calc++-parser.tmp $@
 
 $(calc_sources_generated): $(srcdir)/calc++-parser.stamp
-	rm -f $(srcdir)/calc++-parser.stamp
-	$(MAKE) $(AM_MAKEFLAGS) $(srcdir)/calc++-parser.stamp
+	@if test -f $@; then :; else \
+	  rm -f $(srcdir)/calc++-parser.stamp && \
+	  $(MAKE) $(AM_MAKEFLAGS) $(srcdir)/calc++-parser.stamp; \
+	fi
+
 
 ## --------------------------- ##
 ## Building & testing calc++.  ##
