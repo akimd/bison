@@ -1,3 +1,20 @@
+2005-09-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Document when yyparse started to return 2.
+	* doc/bison.texinfo (Parser Function): Document when yyparse
+	returns 2.
+
+	* data/lalr1.cc: Revert part of previous change, as it's incompatible.
+	(b4_filename_type): Renamed back from b4_file_name_type.  All uses
+	changed.
+	(class position): file_name -> filename (reverting).  All uses changed.
+
+2005-09-14  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* examples/calc++/Makefile.am ($(calc_sources_generated)): Don't
+	do anything if $@ exists.  This reverts part of the 2005-07-07
+	patch.
+
 2005-09-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* Makefile.am (EXTRA_DIST): Do not distribute REFERENCES; it

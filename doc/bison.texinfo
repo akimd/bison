@@ -3782,8 +3782,7 @@ For instance, if your locations use a file name, you may use
 %parse-param @{ char const *file_name @};
 %initial-action
 @{
-  @@$.begin.file_name = @@$.end.file_name = file_name;
-  @@$.begin.file_name = @@$.end.file_name = file_name;
+  @@$.begin.filename = @@$.end.filename = file_name;
 @};
 @end example
 
@@ -4272,7 +4271,11 @@ without reading further.
 The value returned by @code{yyparse} is 0 if parsing was successful (return
 is due to end-of-input).
 
-The value is 1 if parsing failed (return is due to a syntax error).
+The value is 1 if parsing failed because of invalid input, i.e., input
+that contains a syntax error or that causes @code{YYABORT} to be
+invoked.
+
+The value is 2 if parsing failed due to memory exhaustion.
 @end deftypefun
 
 In an action, you can cause immediate return from @code{yyparse} by using
@@ -6951,7 +6954,7 @@ Symbols}.
 @c - %locations
 @c - class Position
 @c - class Location
-@c - %define "file_name_type" "const symbol::Symbol"
+@c - %define "filename_type" "const symbol::Symbol"
 
 When the directive @code{%locations} is used, the C++ parser supports
 location tracking, see @ref{Locations, , Locations Overview}.  Two
@@ -6963,7 +6966,7 @@ and a @code{location}, a range composed of a pair of
 The name of the file.  It will always be handled as a pointer, the
 parser will never duplicate nor deallocate it.  As an experimental
 feature you may change it to @samp{@var{type}*} using @samp{%define
-"file_name_type" "@var{type}"}.
+"filename_type" "@var{type}"}.
 @end deftypemethod
 
 @deftypemethod {position} {unsigned int} line
@@ -7323,7 +7326,7 @@ automatically propagated.
 %initial-action
 @{
   // Initialize the initial location.
-  @@$.begin.file_name = @@$.end.file_name = &driver.file;
+  @@$.begin.filename = @@$.end.filename = &driver.file;
 @};
 @end example
 

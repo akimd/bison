@@ -428,6 +428,8 @@ Changes in version 1.31, 2002-01-14:
   alloca is used only when compiled with GCC, to avoid portability
   problems as on AIX.
 
+* yyparse now returns 2 if memory is exhausted; formerly it dumped core.
+
 * When the generated parser lacks debugging code, YYDEBUG is now 0
   (as POSIX requires) instead of being undefined.
 

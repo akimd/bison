@@ -48,7 +48,7 @@ m4_define([b4_rhs_value],
 [(yysemantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3]))])
 
 m4_define_default([b4_location_type], [location])
-m4_define_default([b4_file_name_type], [std::string])
+m4_define_default([b4_filename_type], [std::string])
 
 # b4_lhs_location()
 # -----------------
@@ -1256,7 +1256,7 @@ namespace yy
   public:
     /// Construct a position.
     position () :
-      file_name (0),
+      filename (0),
       line (initial_line),
       column (initial_column)
     {
@@ -1288,7 +1288,7 @@ namespace yy
 
   public:
     /// File name to which this position refers.
-    ]b4_file_name_type[* file_name;
+    ]b4_filename_type[* filename;
     /// Current line number.
     unsigned int line;
     /// Current column number.
@@ -1332,8 +1332,8 @@ namespace yy
   inline std::ostream&
   operator<< (std::ostream& ostr, const position& pos)
   {
-    if (pos.file_name)
-      ostr << *pos.file_name << ':';
+    if (pos.filename)
+      ostr << *pos.filename << ':';
     return ostr << pos.line << '.' << pos.column;
   }
 
@@ -1435,9 +1435,9 @@ namespace yy
   {
     position last = loc.end - 1;
     ostr << loc.begin;
-    if (last.file_name
-	&& (!loc.begin.file_name
-	    || *loc.begin.file_name != *last.file_name))
+    if (last.filename
+	&& (!loc.begin.filename
+	    || *loc.begin.filename != *last.filename))
       ostr << '-' << last;
     else if (loc.begin.line != last.line)
       ostr << '-' << last.line  << '.' << last.column;
