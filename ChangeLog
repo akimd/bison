@@ -1,5 +1,8 @@
 2005-09-15  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/glr.c (yyresolveValue): Add default case to pacify
+	gcc -Wswitch-default.  Problem reported by twlevo@xs4all.nl.
+
 	* NEWS: Document when yyparse started to return 2.
 	* doc/bison.texinfo (Parser Function): Document when yyparse
 	returns 2.
