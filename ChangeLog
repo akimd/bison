@@ -1,3 +1,14 @@
+2005-09-16  Akim  <akim@epita.fr>
+
+	* data/c.m4 (b4_token_enums): New.
+	(b4_token_defines): Rename as...
+	(b4_token_enums_defines): this.
+	(b4_token_defines): New, output only the #defines.
+	* data/yacc.c, data/glr.c: Adjust.
+	* data/lalr1.cc: Use b4_token_enums instead of b4_token_enums_defines.
+	* data/c.m4 (b4_yydestruct_generate, b4_yysymprint_generate): Define
+	as default values.
+
 2005-09-16  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc (yylex_): Remove, inline its code.
