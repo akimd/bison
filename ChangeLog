@@ -1,5 +1,12 @@
 2005-09-16  Akim  <akim@epita.fr>
 
+	* src/symtab.h (struct symbol): Declare the printer and destructor
+	as const, to avoid accidental calls to free.
+	(symbol_destructor_set, symbol_printer_set): Adjust.
+	* src/symtab.c: Adjust.
+
+2005-09-16  Akim  <akim@epita.fr>
+
 	* data/c.m4 (b4_token_enums): New.
 	(b4_token_defines): Rename as...
 	(b4_token_enums_defines): this.

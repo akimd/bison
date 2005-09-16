@@ -60,10 +60,12 @@ struct symbol
   uniqstr type_name;
   location type_location;
 
-  char *destructor;
+  /* Does not own the memory. */
+  const char *destructor;
   location destructor_location;
 
-  char *printer;
+  /* Does not own the memory. */
+  const char *printer;
   location printer_location;
 
   symbol_number number;
@@ -109,10 +111,10 @@ void symbol_make_alias (symbol *sym, symbol *symval, location loc);
 void symbol_type_set (symbol *sym, uniqstr type_name, location loc);
 
 /* Set the DESTRUCTOR associated with SYM.  */
-void symbol_destructor_set (symbol *sym, char *destructor, location loc);
+void symbol_destructor_set (symbol *sym, const char *destructor, location loc);
 
 /* Set the PRINTER associated with SYM.  */
-void symbol_printer_set (symbol *sym, char *printer, location loc);
+void symbol_printer_set (symbol *sym, const char *printer, location loc);
 
 /* Set the PRECEDENCE associated with SYM.  Ensure that SYMBOL is a
    terminal.  Do nothing if invoked with UNDEF_ASSOC as ASSOC.  */
