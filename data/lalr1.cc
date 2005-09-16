@@ -257,17 +257,14 @@ namespace yy
     void set_debug_level (debug_level_type l);
 
   private:
-
-    /// Call the scanner.
-    virtual void yylex_ ();
-
     /// Report a syntax error.
     /// \param loc    where the syntax error is found.
     /// \param msg    a description of the syntax error.
     virtual void error (const location_type& loc, const std::string& msg);
 
-    /// Generate an error message, and invoke error.
-    virtual void yyreport_syntax_error_ ();
+    /// Generate an error message.
+    /// \param tok    the look-ahead token.
+    virtual std::string yysyntax_error_ (int tok);
 
 #if YYDEBUG
     /// \brief Report a symbol on the debug stream.
@@ -398,21 +395,6 @@ namespace yy
     int yydebug_;
     std::ostream* yycdebug_;
 
-    /* Look-ahead and look-ahead in internal form.  */
-    int yylooka_;
-    int yyilooka_;
-
-    /// Semantic value of the look-ahead.
-    semantic_type yylval;
-    /// Location of the look-ahead.
-    location_type yylloc;
-    /// The locations where the error started and ended.
-    location yyerror_range_[2];
-
-    /// $$.
-    semantic_type yyval;
-    /// @@$.
-    location_type yyloc;
 ]b4_parse_param_vars[
   };
 }
@@ -610,6 +592,22 @@ yy::]b4_parser_class_name[::set_debug_level (debug_level_type l)
 int
 yy::]b4_parser_class_name[::parse ()
 {
+  /* Look-ahead and look-ahead in internal form.  */
+  int yylooka;
+  int yyilooka;
+
+  /// Semantic value of the look-ahead.
+  semantic_type yylval;
+  /// Location of the look-ahead.
+  location_type yylloc;
+  /// The locations where the error started and ended.
+  location yyerror_range[2];
+
+  /// $$.
+  semantic_type yyval;
+  /// @@$.
+  location_type yyloc;
+
   int yyresult_;
 
   YYCDEBUG << "Starting parse" << std::endl;
@@ -619,7 +617,7 @@ yy::]b4_parser_class_name[::parse ()
 
   /* Start.  */
   yystate_ = 0;
-  yylooka_ = yyempty_;
+  yylooka = yyempty_;
 
 ]m4_ifdef([b4_initial_action], [
 m4_pushdef([b4_at_dollar],     [yylloc])dnl
@@ -656,25 +654,32 @@ yybackup:
     goto yydefault;
 
   /* Read a look-ahead token.  */
-  if (yylooka_ == yyempty_)
-    yylex_ ();
+  if (yylooka == yyempty_)
+    {
+      YYCDEBUG << "Reading a token: ";
+      yylooka = ]b4_c_function_call([yylex], [int],
+[[YYSTYPE*], [&yylval]][]dnl
+b4_location_if([, [[location*], [&yylloc]]])dnl
+m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
+    }
+
 
   /* Convert token to internal form.  */
-  if (yylooka_ <= yyeof_)
+  if (yylooka <= yyeof_)
     {
-      yylooka_ = yyilooka_ = yyeof_;
+      yylooka = yyilooka = yyeof_;
       YYCDEBUG << "Now at end of input." << std::endl;
     }
   else
     {
-      yyilooka_ = yytranslate_ (yylooka_);
-      YY_SYMBOL_PRINT ("Next token is", yyilooka_, &yylval, &yylloc);
+      yyilooka = yytranslate_ (yylooka);
+      YY_SYMBOL_PRINT ("Next token is", yyilooka, &yylval, &yylloc);
     }
 
   /* If the proper action on seeing token ILOOKA_ is to reduce or to
      detect an error, take that action.  */
-  yyn_ += yyilooka_;
-  if (yyn_ < 0 || yylast_ < yyn_ || yycheck_[yyn_] != yyilooka_)
+  yyn_ += yyilooka;
+  if (yyn_ < 0 || yylast_ < yyn_ || yycheck_[yyn_] != yyilooka)
     goto yydefault;
 
   /* Reduce or error.  */
@@ -697,11 +702,11 @@ yybackup:
     goto yyacceptlab;
 
   /* Shift the look-ahead token.  */
-  YY_SYMBOL_PRINT ("Shifting", yyilooka_, &yylval, &yylloc);
+  YY_SYMBOL_PRINT ("Shifting", yyilooka, &yylval, &yylloc);
 
   /* Discard the token being shifted unless it is eof.  */
-  if (yylooka_ != yyeof_)
-    yylooka_ = yyempty_;
+  if (yylooka != yyeof_)
+    yylooka = yyempty_;
 
   yysemantic_stack_.push (yylval);
   yylocation_stack_.push (yylloc);
@@ -775,24 +780,28 @@ b4_syncline([@oline@], [@ofile@])[
 `------------------------------------*/
 yyerrlab:
   /* If not already recovering from an error, report this error.  */
-  yyreport_syntax_error_ ();
+  if (!yyerrstatus_)
+    {
+      ++yynerrs_;
+      error (yylloc, yysyntax_error_ (yyilooka));
+    }
 
-  yyerror_range_[0] = yylloc;
+  yyerror_range[0] = yylloc;
   if (yyerrstatus_ == 3)
     {
       /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
-      if (yylooka_ <= yyeof_)
+      if (yylooka <= yyeof_)
         {
 	  /* Return failure if at end of input.  */
-	  if (yylooka_ == yyeof_)
+	  if (yylooka == yyeof_)
 	    YYABORT;
         }
       else
         {
-          yydestruct_ ("Error: discarding", yyilooka_, &yylval, &yylloc);
-          yylooka_ = yyempty_;
+          yydestruct_ ("Error: discarding", yyilooka, &yylval, &yylloc);
+          yylooka = yyempty_;
         }
     }
 
@@ -812,7 +821,7 @@ yyerrorlab:
   if (false)
     goto yyerrorlab;
 
-  yyerror_range_[0] = yylocation_stack_[yylen_ - 1];
+  yyerror_range[0] = yylocation_stack_[yylen_ - 1];
   yypop_ (yylen_);
   yystate_ = yystate_stack_[0];
   goto yyerrlab1;
@@ -841,7 +850,7 @@ yyerrlab1:
       if (yystate_stack_.height () == 1)
 	YYABORT;
 
-      yyerror_range_[0] = yylocation_stack_[0];
+      yyerror_range[0] = yylocation_stack_[0];
       yydestruct_ ("Error: popping",
                    yystos_[yystate_],
                    &yysemantic_stack_[0], &yylocation_stack_[0]);
@@ -853,10 +862,10 @@ yyerrlab1:
   if (yyn_ == yyfinal_)
     goto yyacceptlab;
 
-  yyerror_range_[1] = yylloc;
+  yyerror_range[1] = yylloc;
   // Using YYLLOC is tempting, but would change the location of
   // the look-ahead.  YYLOC is available though.
-  YYLLOC_DEFAULT (yyloc, yyerror_range_ - 1, 2);
+  YYLLOC_DEFAULT (yyloc, yyerror_range - 1, 2);
   yysemantic_stack_.push (yylval);
   yylocation_stack_.push (yyloc);
 
@@ -878,8 +887,8 @@ yyabortlab:
   goto yyreturn;
 
 yyreturn:
-  if (yylooka_ != yyeof_ && yylooka_ != yyempty_)
-    yydestruct_ ("Cleanup: discarding lookahead", yyilooka_, &yylval, &yylloc);
+  if (yylooka != yyeof_ && yylooka != yyempty_)
+    yydestruct_ ("Cleanup: discarding lookahead", yyilooka, &yylval, &yylloc);
 
   while (yystate_stack_.height () != 1)
     {
@@ -893,67 +902,52 @@ yyreturn:
   return yyresult_;
 }
 
-void
-yy::]b4_parser_class_name[::yylex_ ()
+// Generate an error message.
+std::string
+yy::]b4_parser_class_name[::yysyntax_error_ (int tok)
 {
-  YYCDEBUG << "Reading a token: ";
-  yylooka_ = ]b4_c_function_call([yylex], [int],
-[[YYSTYPE*], [&yylval]][]dnl
-b4_location_if([, [[location*], [&yylloc]]])dnl
-m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
-}
-
-// Generate an error message, and invoke error.
-void
-yy::]b4_parser_class_name[::yyreport_syntax_error_ ()
-{
-  /* If not already recovering from an error, report this error.  */
-  if (!yyerrstatus_)
-    {
-      ++yynerrs_;
-      std::string message;
+  std::string res;
 #if YYERROR_VERBOSE
-      yyn_ = yypact_[yystate_];
-      if (yypact_ninf_ < yyn_ && yyn_ < yylast_)
-	{
-	  /* Start YYX at -YYN if negative to avoid negative indexes in
-	     YYCHECK.  */
-	  int yyxbegin = yyn_ < 0 ? -yyn_ : 0;
+  yyn_ = yypact_[yystate_];
+  if (yypact_ninf_ < yyn_ && yyn_ < yylast_)
+    {
+      /* Start YYX at -YYN if negative to avoid negative indexes in
+         YYCHECK.  */
+      int yyxbegin = yyn_ < 0 ? -yyn_ : 0;
 
-	  /* Stay within bounds of both yycheck and yytname.  */
-	  int yychecklim = yylast_ - yyn_;
-	  int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-          int count = 0;
+      /* Stay within bounds of both yycheck and yytname.  */
+      int yychecklim = yylast_ - yyn_;
+      int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+      int count = 0;
+      for (int x = yyxbegin; x < yyxend; ++x)
+        if (yycheck_[x + yyn_] == x && x != yyterror_)
+          ++count;
+
+      // FIXME: This method of building the message is not compatible
+      // with internationalization.  It should work like yacc.c does it.
+      // That is, first build a string that looks like this:
+      // "syntax error, unexpected %s or %s or %s"
+      // Then, invoke YY_ on this string.
+      // Finally, use the string as a format to output
+      // yytname_[tok], etc.
+      // Until this gets fixed, this message appears in English only.
+      res = "syntax error, unexpected ";
+      res += yytnamerr_ (yytname_[tok]);
+      if (count < 5)
+        {
+          count = 0;
           for (int x = yyxbegin; x < yyxend; ++x)
             if (yycheck_[x + yyn_] == x && x != yyterror_)
-              ++count;
-
-	  // FIXME: This method of building the message is not compatible
-	  // with internationalization.  It should work like yacc.c does it.
-	  // That is, first build a string that looks like this:
-	  // "syntax error, unexpected %s or %s or %s"
-	  // Then, invoke YY_ on this string.
-	  // Finally, use the string as a format to output
-	  // yytname_[yyilooka_], etc.
-	  // Until this gets fixed, this message appears in English only.
-	  message = "syntax error, unexpected ";
-	  message += yytnamerr_ (yytname_[yyilooka_]);
-          if (count < 5)
-            {
-              count = 0;
-              for (int x = yyxbegin; x < yyxend; ++x)
-                if (yycheck_[x + yyn_] == x && x != yyterror_)
-                  {
-                    message += (!count++) ? ", expecting " : " or ";
-		    message += yytnamerr_ (yytname_[x]);
-	          }
-            }
-	}
-      else
-#endif
-	message = YY_("syntax error");
-      error (yylloc, message);
+              {
+                res += (!count++) ? ", expecting " : " or ";
+                res += yytnamerr_ (yytname_[x]);
+              }
+        }
     }
+  else
+#endif
+    res = YY_("syntax error");
+  return res;
 }
 
 

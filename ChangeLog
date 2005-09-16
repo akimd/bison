@@ -1,5 +1,16 @@
 2005-09-16  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (yylex_): Remove, inline its code.
+	(yyreport_syntax_error_): Remove, replaced by...
+	(yysyntax_error_): this which returns a string and leaves to the
+	caller the call to the users' error function.
+	(yylooka_, yyilooka_, yylval, yylloc, yyerror_range_, yyval, yyloc):
+	Move from members of the parser object...
+	(yylooka, yyilooka, yylval, yylloc, yyerror_range, yyval, yyloc):
+	to local variables of the parse function.
+
+2005-09-16  Akim Demaille  <akim@epita.fr>
+
 	* doc/bison.texinfo (Calc++ Parser): Don't promote defining YYEOF
 	since it's in Bison's name space.
 
