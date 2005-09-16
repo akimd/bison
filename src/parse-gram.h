@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.0c.  */
+/* A Bison parser, made by GNU Bison 2.1.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -80,6 +80,7 @@
      BRACED_CODE = 305
    };
 #endif
+/* Tokens.  */
 #define GRAM_EOF 0
 #define STRING 258
 #define INT 259
@@ -144,7 +145,7 @@ typedef union YYSTYPE {
   uniqstr uniqstr;
 } YYSTYPE;
 /* Line 1447 of yacc.c.  */
-#line 148 "parse-gram.h"
+#line 149 "parse-gram.h"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
