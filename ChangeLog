@@ -1,11 +1,29 @@
-2005-09-16  Akim  <akim@epita.fr>
+2005-09-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Version 2.1.
+
+	* NEWS: Remove notice of yytname change, since it was never in an
+	official release.
+	* data/glr.c (yydestroyGLRState): Rename local var to avoid shadowing
+	diagnostic.
+	* src/output.c (prepare): Likewise.
+	* data/lalr1.cc (YYERROR_VERBOSE_IF): New macro.
+	(yysyntax_error_): Use it to avoid GCC warning when YYERROR_VERBOSE
+	is not defined.  This is an awful hack, but it's enough for now.
+	All callers changed.
+	* tests/glr-regression-at (make_value): Args are const pointers now,
+	to avoid GCC warning.
+	(Duplicated user destructor for lookahead): New test.  Currently
+	skipped.  It fails on my host but I'm not sure it'll always fail.
+
+2005-09-16  Akim Demaille  <akim@epita.fr>
 
 	* src/symtab.h (struct symbol): Declare the printer and destructor
 	as const, to avoid accidental calls to free.
 	(symbol_destructor_set, symbol_printer_set): Adjust.
 	* src/symtab.c: Adjust.
 
-2005-09-16  Akim  <akim@epita.fr>
+2005-09-16  Akim Demaille  <akim@epita.fr>
 
 	* data/c.m4 (b4_token_enums): New.
 	(b4_token_defines): Rename as...

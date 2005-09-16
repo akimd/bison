@@ -69,6 +69,12 @@ b4_syncline([@oline@], [@ofile@])[
 # define YYERROR_VERBOSE ]b4_error_verbose[
 #endif
 
+#if YYERROR_VERBOSE
+# define YYERROR_VERBOSE_IF(x) x
+#else
+# define YYERROR_VERBOSE_IF(x) /* empty */
+#endif
+
 /* Enabling the token table.  */
 #ifndef YYTOKEN_TABLE
 # define YYTOKEN_TABLE ]b4_token_table[
@@ -176,7 +182,7 @@ namespace yy
 
     /// Generate an error message.
     /// \param tok    the look-ahead token.
-    virtual std::string yysyntax_error_ (int tok);
+    virtual std::string yysyntax_error_ (YYERROR_VERBOSE_IF (int tok));
 
 #if YYDEBUG
     /// \brief Report a symbol on the debug stream.
@@ -695,7 +701,7 @@ yyerrlab:
   if (!yyerrstatus_)
     {
       ++yynerrs_;
-      error (yylloc, yysyntax_error_ (yyilooka));
+      error (yylloc, yysyntax_error_ (YYERROR_VERBOSE_IF (yyilooka)));
     }
 
   yyerror_range[0] = yylloc;
@@ -816,7 +822,7 @@ yyreturn:
 
 // Generate an error message.
 std::string
-yy::]b4_parser_class_name[::yysyntax_error_ (int tok)
+yy::]b4_parser_class_name[::yysyntax_error_ (YYERROR_VERBOSE_IF (int tok))
 {
   std::string res;
 #if YYERROR_VERBOSE
