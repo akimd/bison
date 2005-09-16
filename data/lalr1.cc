@@ -133,7 +133,7 @@ namespace yy
   class location;
 }
 
-]b4_token_defines(b4_tokens)[
+]b4_token_enums(b4_tokens)[
 
 /* Copy the first part of user declarations.  */
 ]b4_pre_prologue[
