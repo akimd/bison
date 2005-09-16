@@ -7363,7 +7363,7 @@ avoid name clashes.
 
 @comment file: calc++-parser.yy
 @example
-%token        YYEOF          0 "end of file"
+%token        TOKEN_EOF      0 "end of file"
 %token        TOKEN_ASSIGN     ":="
 %token <sval> TOKEN_IDENTIFIER "identifier"
 %token <ival> TOKEN_NUMBER     "number"

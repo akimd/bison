@@ -1,3 +1,8 @@
+2005-09-16  Akim Demaille  <akim@epita.fr>
+
+	* doc/bison.texinfo (Calc++ Parser): Don't promote defining YYEOF
+	since it's in Bison's name space.
+
 2005-09-15  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (yyresolveValue): Add default case to pacify
