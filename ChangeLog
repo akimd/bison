@@ -1,5 +1,10 @@
 2005-09-19  Akim Demaille  <akim@epita.fr>
 
+	* tests/atlocal.in (LIBS): Pass INTLLIBS to address failures on at
+	least Mac OSX with a /usr/local install of gettext.
+
+2005-09-19  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc (yyparse): Rename yylooka and yyilooka as yychar
 	and yytoken for similarity with the other skeletons.
 
