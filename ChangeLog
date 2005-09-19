@@ -1,5 +1,14 @@
 2005-09-19  Akim Demaille  <akim@epita.fr>
 
+	Remove the traits, failed experiment.
+	It never proved useful, and anyway because of the current
+	definition, it was not possible to have several specialization of
+	this traits, making it useless.
+	* data/lalr1.cc (yy:traits): Remove.
+	Inline its definitions in the parser class.
+
+2005-09-19  Akim Demaille  <akim@epita.fr>
+
 	* tests/atlocal.in (LIBS): Pass INTLLIBS to address failures on at
 	least Mac OSX with a /usr/local install of gettext.
 

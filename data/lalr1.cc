@@ -118,33 +118,14 @@ do {							\
 
 namespace yy
 {
-  class ]b4_parser_class_name[;
 
-  template <typename P>
-  struct traits
-  {
-  };
-
-  template <>
-  struct traits<]b4_parser_class_name[>
-  {
-    typedef ]b4_int_type_for([b4_translate])[ token_number_type;
-    typedef ]b4_int_type_for([b4_rhs])[       rhs_number_type;
-    typedef int state_type;
-    typedef YYSTYPE semantic_type;
-    typedef ]b4_location_type[ location_type;
-  };
-}
-
-namespace yy
-{
   /// A Bison parser.
   class ]b4_parser_class_name[
   {
     /// Symbol semantic values.
-    typedef traits<]b4_parser_class_name[>::semantic_type semantic_type;
+    typedef YYSTYPE semantic_type;
     /// Symbol locations.
-    typedef traits<]b4_parser_class_name[>::location_type location_type;
+    typedef ]b4_location_type[ location_type;
 
   public:
     /// Build a parser object.
@@ -196,7 +177,7 @@ namespace yy
 
 
     /// State numbers.
-    typedef traits<]b4_parser_class_name[>::state_type state_type;
+    typedef int state_type;
     /// State stack type.
     typedef stack<state_type>    state_stack_type;
     /// Semantic value stack type.
@@ -212,7 +193,7 @@ namespace yy
     location_stack_type yylocation_stack_;
 
     /// Internal symbol numbers.
-    typedef traits<]b4_parser_class_name[>::token_number_type token_number_type;
+    typedef ]b4_int_type_for([b4_translate])[ token_number_type;
     /* Tables.  */
     /// For a state, the index in \a yytable_ of its portion.
     static const ]b4_int_type_for([b4_pact])[ yypact_[];
@@ -256,7 +237,7 @@ namespace yy
 
 #if YYDEBUG
     /// A type to store symbol numbers and -1.
-    typedef traits<]b4_parser_class_name[>::rhs_number_type rhs_number_type;
+    typedef ]b4_int_type_for([b4_rhs])[ rhs_number_type;
     /// A `-1'-separated list of the rules' RHS.
     static const rhs_number_type yyrhs_[];
     /// For each rule, the index of the first RHS symbol in \a yyrhs_.
