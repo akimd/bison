@@ -77,8 +77,8 @@ static void yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])
                      const char *s
                      );])[
 static int yylex (]AT_LEX_FORMALS[);
-static int yygetc (]AT_LEX_FORMALS[);
-static void yyungetc (]AT_LEX_PRE_FORMALS[ int c);
+static int get_char (]AT_LEX_FORMALS[);
+static void unget_char (]AT_LEX_PRE_FORMALS[ int c);
 %}
 
 /* Bison Declarations */
@@ -125,7 +125,7 @@ exp:
 ;
 %%
 /* The input. */
-static FILE *yyin;
+static FILE *input;
 
 ]AT_LALR1_CC_IF(
 [/* A C++ error reporting function. */
@@ -168,9 +168,9 @@ AT_YYERROR_SEES_LOC_IF([
 static YYLTYPE last_yylloc;
 ])[
 static int
-yygetc (]AT_LEX_FORMALS[)
+get_char (]AT_LEX_FORMALS[)
 {
-  int res = getc (yyin);
+  int res = getc (input);
   ]AT_USE_LEX_ARGS[;
 ]AT_LOCATION_IF([
   last_yylloc = AT_LOC;
@@ -192,37 +192,37 @@ AT_LALR1_CC_IF(
 
 
 static void
-yyungetc (]AT_LEX_PRE_FORMALS[ int c)
+unget_char (]AT_LEX_PRE_FORMALS[ int c)
 {
   ]AT_USE_LEX_ARGS[;
 ]AT_LOCATION_IF([
   /* Wrong when C == `\n'. */
   AT_LOC = last_yylloc;
 ])[
-  ungetc (c, yyin);
+  ungetc (c, input);
 }
 
 static int
 read_signed_integer (]AT_LEX_FORMALS[)
 {
-  int c = yygetc (]AT_LEX_ARGS[);
+  int c = get_char (]AT_LEX_ARGS[);
   int sign = 1;
   int n = 0;
 
   ]AT_USE_LEX_ARGS[;
   if (c == '-')
     {
-      c = yygetc (]AT_LEX_ARGS[);
+      c = get_char (]AT_LEX_ARGS[);
       sign = -1;
     }
 
   while (isdigit (c))
     {
       n = 10 * n + (c - '0');
-      c = yygetc (]AT_LEX_ARGS[);
+      c = get_char (]AT_LEX_ARGS[);
     }
 
-  yyungetc (]AT_LEX_PRE_ARGS[ c);
+  unget_char (]AT_LEX_PRE_ARGS[ c);
 
   return sign * n;
 }
@@ -258,7 +258,7 @@ yylex (]AT_LEX_FORMALS[)
 ])])[
 
   /* Skip white space.  */
-  while ((c = yygetc (]AT_LEX_ARGS[)) == ' ' || c == '\t')
+  while ((c = get_char (]AT_LEX_ARGS[)) == ' ' || c == '\t')
     {
 ]AT_LOCATION_IF([AT_LALR1_CC_IF(
 [     AT_LOC.begin = AT_LOC.end;],
@@ -270,7 +270,7 @@ yylex (]AT_LEX_FORMALS[)
   /* process numbers   */
   if (c == '.' || isdigit (c))
     {
-      yyungetc (]AT_LEX_PRE_ARGS[ c);
+      unget_char (]AT_LEX_PRE_ARGS[ c);
       ]AT_VAL[.ival = read_signed_integer (]AT_LEX_ARGS[);
       return NUM;
     }
@@ -308,11 +308,11 @@ main (int argc, const char **argv)
   alarm (100);
 
   if (argc == 2)
-    yyin = fopen (argv[1], "r");
+    input = fopen (argv[1], "r");
   else
-    yyin = stdin;
+    input = stdin;
 
-  if (!yyin)
+  if (!input)
     {
       perror (argv[1]);
       return 3;

@@ -1,3 +1,11 @@
+2005-09-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/glr-regression.at (Duplicated user destructor for lookahead):
+	Mark it as expected to fail.
+	Cast result of malloc; problem reported by twlevo@xs4all.nl.
+	* tests/actions.at, tests/calc.at, tests/glr-regression.at:
+	Don't start user-code symbols with "yy", to avoid name space problems.
+
 2005-09-19  Akim Demaille  <akim@epita.fr>
 
 	Remove the traits, failed experiment.

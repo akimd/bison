@@ -286,7 +286,7 @@ thing:
 ;
 %%
 /* Alias to ARGV[1]. */
-const char *yysource = 0;
+const char *source = 0;
 
 static int
 yylex (]AT_LEX_FORMALS[)
@@ -303,12 +303,12 @@ yylex (]AT_LEX_FORMALS[)
   AT_LOC.last_line = AT_LOC.last_column = AT_LOC.first_line + 9;
 ])[
 
-  if (yysource[c])
-    printf ("sending: '%c'", yysource[c]);
+  if (source[c])
+    printf ("sending: '%c'", source[c]);
   else
     printf ("sending: EOF");
   printf (" (%d@%d-%d)\n", c, RANGE (]AT_LOC[));
-  return yysource[c];
+  return source[c];
 }
 
 ]AT_LALR1_CC_IF(
@@ -340,7 +340,7 @@ main (int argc, const char *argv[])
   int status;
   yydebug = !!getenv ("YYDEBUG");
   assert (argc == 2);
-  yysource = argv[1];
+  source = argv[1];
   status = yyparse ();
   switch (status)
     {

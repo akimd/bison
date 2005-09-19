@@ -121,8 +121,6 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
 
 %{
   #define YYSTYPE char const *
-  #define yyfalse 0
-  #define yytrue 1
 
   #include <ctype.h>
   #include <stdio.h>
@@ -168,14 +166,14 @@ var_printer: 'v'
 
 %%
 
-FILE *yyin = NULL;
+FILE *input = NULL;
 
 int
 yylex (void)
 {
   char buf[50];
   char *s;
-  switch (fscanf (yyin, " %1[a-z,]", buf)) {
+  switch (fscanf (input, " %1[a-z,]", buf)) {
   case 1:
     return buf[0];
   case EOF:
@@ -183,7 +181,7 @@ yylex (void)
   default:
     break;
   }
-  if (fscanf (yyin, "%49s", buf) != 1)
+  if (fscanf (input, "%49s", buf) != 1)
     return 0;
   if (sizeof buf - 1 <= strlen (buf))
     abort ();
@@ -201,8 +199,8 @@ yyerror (char const *s)
 int
 main (int argc, char **argv)
 {
-  yyin = stdin;
-  if (argc == 2 && !(yyin = fopen (argv[1], "r"))) return 3;
+  input = stdin;
+  if (argc == 2 && !(input = fopen (argv[1], "r"))) return 3;
   return yyparse ();
 }
 ]])
@@ -290,7 +288,7 @@ static void yyerror(char const * s) {
   fprintf(stderr,"error: %s\n",s);
 }
 
-FILE *yyin = NULL;
+FILE *input = NULL;
 
 int P[] = { P1, P2 };
 int O[] = { O1, O2 };
@@ -299,7 +297,7 @@ int T[] = { T1, T2, T3, T4 };
 int yylex (void)
 {
   char inp[3];
-  if (fscanf (yyin, "%2s", inp) == EOF)
+  if (fscanf (input, "%2s", inp) == EOF)
     return 0;
   switch (inp[0])
     {
@@ -311,8 +309,8 @@ int yylex (void)
 }
 
 int main(int argc, char* argv[]) {
-  yyin = stdin;
-  if (argc == 2 && !(yyin = fopen (argv[1], "r"))) return 3;
+  input = stdin;
+  if (argc == 2 && !(input = fopen (argv[1], "r"))) return 3;
   return yyparse ();
 }
 ]])
@@ -603,7 +601,7 @@ stack2: 'a' ;
 static int
 yylex (void)
 {
-  yylval.count = malloc (sizeof (int));
+  yylval.count = (int *) malloc (sizeof (int));
   if (!yylval.count)
     {
       fprintf (stderr, "Test inconclusive.\n");
@@ -631,8 +629,10 @@ AT_CHECK([[bison -o glr-regr7.c glr-regr7.y]], 0, [],
 ])
 AT_COMPILE([glr-regr7])
 
-AT_CHECK([[exit 77; ./glr-regr7]], 2, [],
+AT_CHECK([[./glr-regr7]], 2, [],
 [memory exhausted
 ])
+
+AT_XFAIL_IF(:)
 
 AT_CLEANUP
