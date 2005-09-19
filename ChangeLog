@@ -1,3 +1,7 @@
+2005-09-19  Akim Demaille  <akim@epita.fr>
+
+	* NEWS, configure.ac: Bump to 2.1a.
+
 2005-09-16  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Version 2.1.

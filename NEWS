@@ -1,6 +1,8 @@
 Bison News
 ----------
 
+Changes in version 2.1a:
+
 Changes in version 2.1, 2005-09-16:
 
 * Bison-generated parsers now support the translation of diagnostics like
