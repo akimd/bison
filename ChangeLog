@@ -1,5 +1,10 @@
 2005-09-19  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc (yyparse): Rename yylooka and yyilooka as yychar
+	and yytoken for similarity with the other skeletons.
+
+2005-09-19  Akim Demaille  <akim@epita.fr>
+
 	* NEWS, configure.ac: Bump to 2.1a.
 
 2005-09-16  Paul Eggert  <eggert@cs.ucla.edu>

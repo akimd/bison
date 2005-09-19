@@ -510,9 +510,9 @@ yy::]b4_parser_class_name[::set_debug_level (debug_level_type l)
 int
 yy::]b4_parser_class_name[::parse ()
 {
-  /* Look-ahead and look-ahead in internal form.  */
-  int yylooka;
-  int yyilooka;
+  /// Look-ahead and look-ahead in internal form.
+  int yychar;
+  int yytoken;
 
   /// Semantic value of the look-ahead.
   semantic_type yylval;
@@ -535,7 +535,7 @@ yy::]b4_parser_class_name[::parse ()
 
   /* Start.  */
   yystate_ = 0;
-  yylooka = yyempty_;
+  yychar = yyempty_;
 
 ]m4_ifdef([b4_initial_action], [
 m4_pushdef([b4_at_dollar],     [yylloc])dnl
@@ -572,10 +572,10 @@ yybackup:
     goto yydefault;
 
   /* Read a look-ahead token.  */
-  if (yylooka == yyempty_)
+  if (yychar == yyempty_)
     {
       YYCDEBUG << "Reading a token: ";
-      yylooka = ]b4_c_function_call([yylex], [int],
+      yychar = ]b4_c_function_call([yylex], [int],
 [[YYSTYPE*], [&yylval]][]dnl
 b4_location_if([, [[location*], [&yylloc]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
@@ -583,21 +583,21 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
 
   /* Convert token to internal form.  */
-  if (yylooka <= yyeof_)
+  if (yychar <= yyeof_)
     {
-      yylooka = yyilooka = yyeof_;
+      yychar = yytoken = yyeof_;
       YYCDEBUG << "Now at end of input." << std::endl;
     }
   else
     {
-      yyilooka = yytranslate_ (yylooka);
-      YY_SYMBOL_PRINT ("Next token is", yyilooka, &yylval, &yylloc);
+      yytoken = yytranslate_ (yychar);
+      YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
     }
 
   /* If the proper action on seeing token ILOOKA_ is to reduce or to
      detect an error, take that action.  */
-  yyn_ += yyilooka;
-  if (yyn_ < 0 || yylast_ < yyn_ || yycheck_[yyn_] != yyilooka)
+  yyn_ += yytoken;
+  if (yyn_ < 0 || yylast_ < yyn_ || yycheck_[yyn_] != yytoken)
     goto yydefault;
 
   /* Reduce or error.  */
@@ -620,11 +620,11 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     goto yyacceptlab;
 
   /* Shift the look-ahead token.  */
-  YY_SYMBOL_PRINT ("Shifting", yyilooka, &yylval, &yylloc);
+  YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
 
   /* Discard the token being shifted unless it is eof.  */
-  if (yylooka != yyeof_)
-    yylooka = yyempty_;
+  if (yychar != yyeof_)
+    yychar = yyempty_;
 
   yysemantic_stack_.push (yylval);
   yylocation_stack_.push (yylloc);
@@ -701,7 +701,7 @@ yyerrlab:
   if (!yyerrstatus_)
     {
       ++yynerrs_;
-      error (yylloc, yysyntax_error_ (YYERROR_VERBOSE_IF (yyilooka)));
+      error (yylloc, yysyntax_error_ (YYERROR_VERBOSE_IF (yytoken)));
     }
 
   yyerror_range[0] = yylloc;
@@ -710,16 +710,16 @@ yyerrlab:
       /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
-      if (yylooka <= yyeof_)
+      if (yychar <= yyeof_)
         {
 	  /* Return failure if at end of input.  */
-	  if (yylooka == yyeof_)
+	  if (yychar == yyeof_)
 	    YYABORT;
         }
       else
         {
-          yydestruct_ ("Error: discarding", yyilooka, &yylval, &yylloc);
-          yylooka = yyempty_;
+          yydestruct_ ("Error: discarding", yytoken, &yylval, &yylloc);
+          yychar = yyempty_;
         }
     }
 
@@ -805,8 +805,8 @@ yyabortlab:
   goto yyreturn;
 
 yyreturn:
-  if (yylooka != yyeof_ && yylooka != yyempty_)
-    yydestruct_ ("Cleanup: discarding lookahead", yyilooka, &yylval, &yylloc);
+  if (yychar != yyeof_ && yychar != yyempty_)
+    yydestruct_ ("Cleanup: discarding lookahead", yytoken, &yylval, &yylloc);
 
   while (yystate_stack_.height () != 1)
     {
