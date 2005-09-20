@@ -4693,7 +4693,7 @@ preferable since it more accurately describes the return type for
 
 @vindex yynerrs
 The variable @code{yynerrs} contains the number of syntax errors
-encountered so far.  Normally this variable is global; but if you
+reported so far.  Normally this variable is global; but if you
 request a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser})
 then it is a local variable which only the actions can access.
 
@@ -8097,7 +8097,7 @@ Management}.
 @end deffn
 
 @deffn {Variable} yynerrs
-Global variable which Bison increments each time there is a syntax error.
+Global variable which Bison increments each time it reports a syntax error.
 (In a pure parser, it is a local variable within @code{yyparse}.)
 @xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
 @end deffn
