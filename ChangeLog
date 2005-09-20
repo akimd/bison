@@ -1,5 +1,18 @@
 2005-09-20  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/yacc.c (YYSIZE_T): Reindent to make it clearer.  This
+	doesn't affect behavior.
+	(YYSTACK_ALLOC) [YYSTACK_USE_ALLOCA]: Improve support for
+	Solaris, AIX, MSC.
+	(_STDLIB_H): Renamed from YYINCLUDED_STDLIB_H.  All uses changed.
+	This works a bit better with glibc, if user code has already included
+	stdlib.h.
+	* doc/bison.texinfo (Bison Parser): Document that users can't
+	arbitrarily use malloc and free for other purposes.  Document
+	that <alloca.h> and <malloc.h> might be included.
+	(Table of Symbols): Under YYSTACK_USE_ALLOCA, Don't claim that the
+	user must declare alloca.
+
 	* HACKING (release): Forwarn the Translation Project about
 	stable releses.
 
