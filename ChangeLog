@@ -1,5 +1,19 @@
 2005-09-19  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/yacc.c (YYSIZE_MAXIMUM): New macro.
+	(YYSTACK_ALLOC_MAXIMUM): Use it.
+	(yysyntax_error): New function.
+	(yyparse) [YYERROR_VERBOSE]: Don't leak memory indefinitely if
+	multiple syntax errors are reported, and alloca is being used.
+	Instead, reallocate buffers twice as big each time, so that
+	we waste at most half the allocated memory.  Start with a small
+	(128-byte) buffer that will suffice in most cases anyway.
+	Use yysyntax_error to do most of the work.
+
+	* doc/bison.texinfo (Error Reporting, Table of Symbols):
+	yynerrs is the number of errors reported, not the number of
+	errors encountered.
+
 	* tests/glr-regression.at (Duplicated user destructor for lookahead):
 	Mark it as expected to fail.
 	Cast result of malloc; problem reported by twlevo@xs4all.nl.
