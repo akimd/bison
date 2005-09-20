@@ -1,3 +1,8 @@
+2005-09-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* HACKING (release): Forwarn the Translation Project about
+	stable releses.
+
 2005-09-20  Akim Demaille  <akim@epita.fr>
 
 	* data/glr.c: Use b4_token_enums, not b4_token_enums_defines.
