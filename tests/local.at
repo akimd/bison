@@ -79,14 +79,14 @@ m4_pushdef([AT_PURE_LEX_IF],
             [AT_LALR1_CC_IF([$1], [$2])])])
 
 AT_PURE_LEX_IF(
-[m4_pushdef([AT_LOC], [(*yylloc)])
- m4_pushdef([AT_VAL], [(*yylval)])
+[m4_pushdef([AT_LOC], [(*llocp)])
+ m4_pushdef([AT_VAL], [(*lvalp)])
  m4_pushdef([AT_LEX_FORMALS],
-            [YYSTYPE *yylval[]AT_LOCATION_IF([, YYLTYPE *yylloc])])
+            [YYSTYPE *lvalp[]AT_LOCATION_IF([, YYLTYPE *llocp])])
  m4_pushdef([AT_LEX_ARGS],
-            [yylval[]AT_LOCATION_IF([, yylloc])])
+            [lvalp[]AT_LOCATION_IF([, llocp])])
  m4_pushdef([AT_USE_LEX_ARGS],
-            [(void) yylval;AT_LOCATION_IF([(void) yylloc])])
+            [(void) lvalp;AT_LOCATION_IF([(void) llocp])])
  m4_pushdef([AT_LEX_PRE_FORMALS],
             [AT_LEX_FORMALS, ])
  m4_pushdef([AT_LEX_PRE_ARGS],

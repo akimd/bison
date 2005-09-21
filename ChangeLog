@@ -1,5 +1,10 @@
 2005-09-21  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Do not use
+	local variables whose names begin with 'yy'.
+	* tests/calc.at (_AT_DATA_CALC_Y): Likewise.
+	Trivial changes from Joel E. Denny.
+
 	* bootstrap (gnulib_modules): Remove alloca.  Bison doesn't need
 	it itself.
 	* src/main.c (main) [C_ALLOCA]: Don't flush alloca'ed memory; we

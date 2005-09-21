@@ -72,7 +72,7 @@ static int power (int base, int exponent);
 [/* yyerror receives the location if:
    - %location & %pure & %glr
    - %location & %pure & %yacc & %parse-param. */
-static void yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])
+static void yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])
                      AT_PARAM_IF([semantic_value *result, int *count, ])
                      const char *s
                      );])[
@@ -145,7 +145,7 @@ yyparse (AT_PARAM_IF([semantic_value *result, int *count]))
 }
 ],
 [static void
-yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *yylloc, ])
+yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])
          AT_PARAM_IF([semantic_value *result, int *count, ])
          const char *s)
 {
