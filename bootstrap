@@ -92,7 +92,6 @@ esac
 <$GNULIB_SRCDIR/gnulib-tool || exit
 
 gnulib_modules='
-alloca
 argmatch
 dirname
 error

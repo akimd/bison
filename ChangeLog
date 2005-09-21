@@ -1,3 +1,17 @@
+2005-09-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (gnulib_modules): Remove alloca.  Bison doesn't need
+	it itself.
+	* src/main.c (main) [C_ALLOCA]: Don't flush alloca'ed memory; we
+	don't use alloca any more.
+
+	* data/yacc.c [YYSTACK_USE_ALLOCA && !defined __GNUC__ && ! defined
+	__BUILTIN_VA_ARG_INCR && ! defined _AIX && ! defined _MSC_VER &&
+	(defined alloca || defined _ALLOCA_H)]: Don't include <stdlib.h>;
+	not needed in this case.
+	* tests/torture.at (Exploding the Stack Size with Alloca): Adjust
+	to match yacc.c, to test more hosts.
+
 2005-09-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/yacc.c (YYSIZE_T): Reindent to make it clearer.  This
