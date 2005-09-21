@@ -445,7 +445,7 @@ AT_SETUP([Exploding the Stack Size with Alloca])
 
 AT_DATA_STACK_TORTURE([[
 #if (defined __GNUC__ || defined __BUILTIN_VA_ARG_INCR \
-     || defined _AIX || defined _MSC_VER || defined alloca || defined _ALLOCA_H)
+     || defined _AIX || defined _MSC_VER || defined _ALLOCA_H)
 # define YYSTACK_USE_ALLOCA 1
 #endif
 ]])

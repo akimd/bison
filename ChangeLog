@@ -7,8 +7,7 @@
 
 	* data/yacc.c [YYSTACK_USE_ALLOCA && !defined __GNUC__ && ! defined
 	__BUILTIN_VA_ARG_INCR && ! defined _AIX && ! defined _MSC_VER &&
-	(defined alloca || defined _ALLOCA_H)]: Don't include <stdlib.h>;
-	not needed in this case.
+	defined _ALLOCA_H]: Don't include <stdlib.h>; not needed in this case.
 	* tests/torture.at (Exploding the Stack Size with Alloca): Adjust
 	to match yacc.c, to test more hosts.
 
