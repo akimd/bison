@@ -30,9 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Verify a requirement at compile-time (unlike assert, which is runtime).  */
-#define verify(name, assertion) struct name {char name[(assertion) ? 1 : -1];}
-
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>
 #endif
@@ -54,6 +51,7 @@
 typedef size_t uintptr_t;
 #endif
 
+#include <verify.h>
 #include <xalloc.h>
 
 

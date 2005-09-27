@@ -109,6 +109,7 @@ stdbool
 stdio-safer
 stpcpy
 unistd-safer
+verify
 xalloc
 xalloc-die
 xstrndup

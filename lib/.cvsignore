@@ -54,6 +54,7 @@ strnlen.h
 unistd--.h
 unistd-safer.h
 unlocked-io.h
+verify.h
 xalloc-die.c
 xalloc.h
 xmalloc.c
