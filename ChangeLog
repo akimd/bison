@@ -1,3 +1,11 @@
+2005-09-29  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Port to SunOS 4.1.4, which lacks strtoul and strerror.
+	Ah, the good old days!  Problem reported by Peter Klein.
+	* bootstrap (gnulib_modules): Add strerror, strtoul.
+	* lib/.cvsignore: Add strerror.c, strtol.c, strtoul.c
+	* m4/.cvsignore: Add strerror.m4, strtol.m4, strtoul.m4.
+
 2005-09-29  Akim  <akim@epita.fr>
 
 	* data/c.m4 (b4_error_verbose_if): New.

@@ -46,11 +46,14 @@ stpcpy.c
 stpcpy.h
 strdup.c
 strdup.h
+strerror.c
 stripslash.c
 strndup.c
 strndup.h
 strnlen.c
 strnlen.h
+strtol.c
+strtoul.c
 unistd--.h
 unistd-safer.h
 unlocked-io.h

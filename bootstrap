@@ -108,6 +108,8 @@ quotearg
 stdbool
 stdio-safer
 stpcpy
+strerror
+strtoul
 unistd-safer
 verify
 xalloc
