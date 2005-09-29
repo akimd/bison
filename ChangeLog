@@ -1,3 +1,16 @@
+2005-09-29  Akim  <akim@epita.fr>
+
+	* data/c.m4 (b4_error_verbose_if): New.
+	* data/lalr1.cc: Use it.
+	(YYERROR_VERBOSE_IF): Remove.
+	(yyn_, yylen_, yystate_, yynerrs_, yyerrstatus_): Remove as
+	parser members, replaced by...
+	(yyn, yylen, yystate, yynerss, yyerrstatus): these parser::parse
+	local variables.
+	(yysyntax_error_): Takes the state number as argument.
+	(yyreduce_print_): Use the argument yyrule, not the former
+	attribute yyn_.
+
 2005-09-26  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap (gnulib_modules): Add verify.

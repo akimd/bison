@@ -69,12 +69,6 @@ b4_syncline([@oline@], [@ofile@])[
 # define YYERROR_VERBOSE ]b4_error_verbose[
 #endif
 
-#if YYERROR_VERBOSE
-# define YYERROR_VERBOSE_IF(x) x
-#else
-# define YYERROR_VERBOSE_IF(x) /* empty */
-#endif
-
 /* Enabling the token table.  */
 #ifndef YYTOKEN_TABLE
 # define YYTOKEN_TABLE ]b4_token_table[
@@ -162,8 +156,10 @@ namespace yy
     virtual void error (const location_type& loc, const std::string& msg);
 
     /// Generate an error message.
-    /// \param tok    the look-ahead token.
-    virtual std::string yysyntax_error_ (YYERROR_VERBOSE_IF (int tok));
+    /// \param state   the state where the error occurred.
+    /// \param tok     the look-ahead token.
+    virtual std::string yysyntax_error_ (int yystate]dnl
+b4_error_verbose_if([, int tok])[);
 
 #if YYDEBUG
     /// \brief Report a symbol on the debug stream.
@@ -280,15 +276,6 @@ namespace yy
     static const int yyntokens_;
     static const unsigned int yyuser_token_number_max_;
     static const token_number_type yyundef_token_;
-
-    /* State.  */
-    int yyn_;
-    int yylen_;
-    int yystate_;
-
-    /* Error handling. */
-    int yynerrs_;
-    int yyerrstatus_;
 
     /* Debugging.  */
     int yydebug_;
@@ -492,8 +479,17 @@ int
 yy::]b4_parser_class_name[::parse ()
 {
   /// Look-ahead and look-ahead in internal form.
-  int yychar;
-  int yytoken;
+  int yychar = yyempty_;
+  int yytoken = 0;
+
+  /* State.  */
+  int yyn;
+  int yylen;
+  int yystate = 0;
+
+  /* Error handling. */
+  int yynerrs_ = 0;
+  int yyerrstatus_ = 0;
 
   /// Semantic value of the look-ahead.
   semantic_type yylval;
@@ -510,13 +506,6 @@ yy::]b4_parser_class_name[::parse ()
   int yyresult_;
 
   YYCDEBUG << "Starting parse" << std::endl;
-
-  yynerrs_ = 0;
-  yyerrstatus_ = 0;
-
-  /* Start.  */
-  yystate_ = 0;
-  yychar = yyempty_;
 
 ]m4_ifdef([b4_initial_action], [
 m4_pushdef([b4_at_dollar],     [yylloc])dnl
@@ -540,16 +529,16 @@ b4_syncline([@oline@], [@ofile@])])dnl
 
   /* New state.  */
 yynewstate:
-  yystate_stack_.push (yystate_);
-  YYCDEBUG << "Entering state " << yystate_ << std::endl;
+  yystate_stack_.push (yystate);
+  YYCDEBUG << "Entering state " << yystate << std::endl;
   goto yybackup;
 
   /* Backup.  */
 yybackup:
 
   /* Try to take a decision without look-ahead.  */
-  yyn_ = yypact_[yystate_];
-  if (yyn_ == yypact_ninf_)
+  yyn = yypact_[yystate];
+  if (yyn == yypact_ninf_)
     goto yydefault;
 
   /* Read a look-ahead token.  */
@@ -575,29 +564,24 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
     }
 
-  /* If the proper action on seeing token ILOOKA_ is to reduce or to
+  /* If the proper action on seeing token YYTOKEN is to reduce or to
      detect an error, take that action.  */
-  yyn_ += yytoken;
-  if (yyn_ < 0 || yylast_ < yyn_ || yycheck_[yyn_] != yytoken)
+  yyn += yytoken;
+  if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yytoken)
     goto yydefault;
 
   /* Reduce or error.  */
-  yyn_ = yytable_[yyn_];
-  if (yyn_ < 0)
+  yyn = yytable_[yyn];
+  if (yyn <= 0)
     {
-      if (yyn_ == yytable_ninf_)
+      if (yyn == 0 || yyn == yytable_ninf_)
 	goto yyerrlab;
-      else
-	{
-	  yyn_ = -yyn_;
-	  goto yyreduce;
-	}
+      yyn = -yyn;
+      goto yyreduce;
     }
-  else if (yyn_ == 0)
-    goto yyerrlab;
 
   /* Accept?  */
-  if (yyn_ == yyfinal_)
+  if (yyn == yyfinal_)
     goto yyacceptlab;
 
   /* Shift the look-ahead token.  */
@@ -615,15 +599,15 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
   if (yyerrstatus_)
     --yyerrstatus_;
 
-  yystate_ = yyn_;
+  yystate = yyn;
   goto yynewstate;
 
 /*-----------------------------------------------------------.
 | yydefault -- do the default action for the current state.  |
 `-----------------------------------------------------------*/
 yydefault:
-  yyn_ = yydefact_[yystate_];
-  if (yyn_ == 0)
+  yyn = yydefact_[yystate];
+  if (yyn == 0)
     goto yyerrlab;
   goto yyreduce;
 
@@ -631,24 +615,24 @@ yydefault:
 | yyreduce -- Do a reduction.  |
 `-----------------------------*/
 yyreduce:
-  yylen_ = yyr2_[yyn_];
+  yylen = yyr2_[yyn];
   /* If LEN_ is nonzero, implement the default value of the action:
      `$$ = $1'.  Otherwise, use the top of the stack.
 
      Otherwise, the following line sets YYVAL to garbage.
      This behavior is undocumented and Bison
      users should not rely upon it.  */
-  if (yylen_)
-    yyval = yysemantic_stack_[yylen_ - 1];
+  if (yylen)
+    yyval = yysemantic_stack_[yylen - 1];
   else
     yyval = yysemantic_stack_[0];
 
   {
-    slice<location_type, location_stack_type> slice (yylocation_stack_, yylen_);
-    YYLLOC_DEFAULT (yyloc, slice, yylen_);
+    slice<location_type, location_stack_type> slice (yylocation_stack_, yylen);
+    YYLLOC_DEFAULT (yyloc, slice, yylen);
   }
-  YY_REDUCE_PRINT (yyn_);
-  switch (yyn_)
+  YY_REDUCE_PRINT (yyn);
+  switch (yyn)
     {
       ]b4_actions[
       default: break;
@@ -657,7 +641,7 @@ yyreduce:
 ]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
 
-  yypop_ (yylen_);
+  yypop_ (yylen);
 
   YY_STACK_PRINT ();
 
@@ -665,13 +649,13 @@ b4_syncline([@oline@], [@ofile@])[
   yylocation_stack_.push (yyloc);
 
   /* Shift the result of the reduction.  */
-  yyn_ = yyr1_[yyn_];
-  yystate_ = yypgoto_[yyn_ - yyntokens_] + yystate_stack_[0];
-  if (0 <= yystate_ && yystate_ <= yylast_
-      && yycheck_[yystate_] == yystate_stack_[0])
-    yystate_ = yytable_[yystate_];
+  yyn = yyr1_[yyn];
+  yystate = yypgoto_[yyn - yyntokens_] + yystate_stack_[0];
+  if (0 <= yystate && yystate <= yylast_
+      && yycheck_[yystate] == yystate_stack_[0])
+    yystate = yytable_[yystate];
   else
-    yystate_ = yydefgoto_[yyn_ - yyntokens_];
+    yystate = yydefgoto_[yyn - yyntokens_];
   goto yynewstate;
 
 /*------------------------------------.
@@ -682,7 +666,8 @@ yyerrlab:
   if (!yyerrstatus_)
     {
       ++yynerrs_;
-      error (yylloc, yysyntax_error_ (YYERROR_VERBOSE_IF (yytoken)));
+      error (yylloc, yysyntax_error_ (yystate]dnl
+b4_error_verbose_if([, yytoken])[));
     }
 
   yyerror_range[0] = yylloc;
@@ -720,9 +705,9 @@ yyerrorlab:
   if (false)
     goto yyerrorlab;
 
-  yyerror_range[0] = yylocation_stack_[yylen_ - 1];
-  yypop_ (yylen_);
-  yystate_ = yystate_stack_[0];
+  yyerror_range[0] = yylocation_stack_[yylen - 1];
+  yypop_ (yylen);
+  yystate = yystate_stack_[0];
   goto yyerrlab1;
 
 /*-------------------------------------------------------------.
@@ -733,14 +718,14 @@ yyerrlab1:
 
   for (;;)
     {
-      yyn_ = yypact_[yystate_];
-      if (yyn_ != yypact_ninf_)
+      yyn = yypact_[yystate];
+      if (yyn != yypact_ninf_)
 	{
-	  yyn_ += yyterror_;
-	  if (0 <= yyn_ && yyn_ <= yylast_ && yycheck_[yyn_] == yyterror_)
+	  yyn += yyterror_;
+	  if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
 	    {
-	      yyn_ = yytable_[yyn_];
-	      if (0 < yyn_)
+	      yyn = yytable_[yyn];
+	      if (0 < yyn)
 		break;
 	    }
 	}
@@ -751,14 +736,14 @@ yyerrlab1:
 
       yyerror_range[0] = yylocation_stack_[0];
       yydestruct_ ("Error: popping",
-                   yystos_[yystate_],
+                   yystos_[yystate],
                    &yysemantic_stack_[0], &yylocation_stack_[0]);
       yypop_ ();
-      yystate_ = yystate_stack_[0];
+      yystate = yystate_stack_[0];
       YY_STACK_PRINT ();
     }
 
-  if (yyn_ == yyfinal_)
+  if (yyn == yyfinal_)
     goto yyacceptlab;
 
   yyerror_range[1] = yylloc;
@@ -769,10 +754,10 @@ yyerrlab1:
   yylocation_stack_.push (yyloc);
 
   /* Shift the error token. */
-  YY_SYMBOL_PRINT ("Shifting", yystos_[yyn_],
+  YY_SYMBOL_PRINT ("Shifting", yystos_[yyn],
 		   &yysemantic_stack_[0], &yylocation_stack_[0]);
 
-  yystate_ = yyn_;
+  yystate = yyn;
   goto yynewstate;
 
   /* Accept.  */
@@ -803,23 +788,24 @@ yyreturn:
 
 // Generate an error message.
 std::string
-yy::]b4_parser_class_name[::yysyntax_error_ (YYERROR_VERBOSE_IF (int tok))
+yy::]b4_parser_class_name[::
+yysyntax_error_ (int yystate]b4_error_verbose_if([, int tok])[)
 {
   std::string res;
 #if YYERROR_VERBOSE
-  yyn_ = yypact_[yystate_];
-  if (yypact_ninf_ < yyn_ && yyn_ < yylast_)
+  int yyn = yypact_[yystate];
+  if (yypact_ninf_ < yyn && yyn < yylast_)
     {
       /* Start YYX at -YYN if negative to avoid negative indexes in
          YYCHECK.  */
-      int yyxbegin = yyn_ < 0 ? -yyn_ : 0;
+      int yyxbegin = yyn < 0 ? -yyn : 0;
 
       /* Stay within bounds of both yycheck and yytname.  */
-      int yychecklim = yylast_ - yyn_;
+      int yychecklim = yylast_ - yyn;
       int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
       int count = 0;
       for (int x = yyxbegin; x < yyxend; ++x)
-        if (yycheck_[x + yyn_] == x && x != yyterror_)
+        if (yycheck_[x + yyn] == x && x != yyterror_)
           ++count;
 
       // FIXME: This method of building the message is not compatible
@@ -836,7 +822,7 @@ yy::]b4_parser_class_name[::yysyntax_error_ (YYERROR_VERBOSE_IF (int tok))
         {
           count = 0;
           for (int x = yyxbegin; x < yyxend; ++x)
-            if (yycheck_[x + yyn_] == x && x != yyterror_)
+            if (yycheck_[x + yyn] == x && x != yyterror_)
               {
                 res += (!count++) ? ", expecting " : " or ";
                 res += yytnamerr_ (yytname_[x]);
@@ -981,12 +967,12 @@ yy::]b4_parser_class_name[::yyreduce_print_ (int yyrule)
 {
   unsigned int yylno = yyrline_[yyrule];
   /* Print the symbols being reduced, and their result.  */
-  *yycdebug_ << "Reducing stack by rule " << yyn_ - 1
+  *yycdebug_ << "Reducing stack by rule " << yyrule - 1
              << " (line " << yylno << "), ";
-  for (]b4_int_type_for([b4_prhs])[ i = yyprhs_[yyn_];
+  for (]b4_int_type_for([b4_prhs])[ i = yyprhs_[yyrule];
        0 <= yyrhs_[i]; ++i)
     *yycdebug_ << yytname_[yyrhs_[i]] << ' ';
-  *yycdebug_ << "-> " << yytname_[yyr1_[yyn_]] << std::endl;
+  *yycdebug_ << "-> " << yytname_[yyr1_[yyrule]] << std::endl;
 }
 #endif // YYDEBUG
 

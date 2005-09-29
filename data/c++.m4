@@ -1,4 +1,4 @@
-m4_divert(-1)
+m4_divert(-1)                                               -*- Autoconf -*-
 
 # C++ skeleton for Bison
 

@@ -138,6 +138,15 @@ m4_define([b4_int_type_for],
 ## ------------------ ##
 
 
+# b4_error_verbose_if(IF-TRUE, IF-FALSE)
+# --------------------------------------
+# Expand IF-TRUE, if errors are verbose, IF-FALSE otherwise.
+m4_define([b4_error_verbose_if],
+[m4_if(b4_error_verbose, [1],
+       [$1],
+       [$2])])
+
+
 # b4_location_if(IF-TRUE, IF-FALSE)
 # ---------------------------------
 # Expand IF-TRUE, if locations are used, IF-FALSE otherwise.
