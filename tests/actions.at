@@ -187,6 +187,7 @@ m4_ifval([$6], [%union
 {
   int ival;
 }])
+AT_LALR1_CC_IF([%define "global_tokens_and_yystype"])
 [
 %{
 ]AT_LALR1_CC_IF([typedef yy::location YYLTYPE;

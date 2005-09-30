@@ -27,34 +27,26 @@ m4_divert(0)dnl
 m4_if(b4_defines_flag, 0, [],
 [@output @output_header_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003, 2004, 2005])[
-/* FIXME: This is wrong, we want computed header guards.
-   I don't know why the macros are missing now. :( */
+             [2002, 2003, 2004, 2005])
+dnl FIXME: This is wrong, we want computed header guards.
+dnl FIXME: I don\'t know why the macros are missing now. :(
+[
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
 #include <string>
 #include <iostream>
+#include "stack.hh"
+#include "location.hh"
 
 /* Using locations.  */
 #define YYLSP_NEEDED ]b4_locations_flag[
 
-namespace yy
-{
-  class position;
-  class location;
-}
-
-]b4_token_enums(b4_tokens)[
-
-/* Copy the first part of user declarations.  */
+/* First part of user declarations.  */
 ]b4_pre_prologue[
 
 ]/* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
-
-#include "stack.hh"
-#include "location.hh"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -74,23 +66,6 @@ b4_syncline([@oline@], [@ofile@])[
 # define YYTOKEN_TABLE ]b4_token_table[
 #endif
 
-#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-]m4_ifdef([b4_stype],
-[b4_syncline([b4_stype_line], [b4_file_name])
-union YYSTYPE b4_stype;
-/* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])],
-[typedef int YYSTYPE;])[
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
-# define YYSTYPE_IS_TRIVIAL 1
-#endif
-
-/* Copy the second part of user declarations.  */
-]b4_post_prologue[
-
-]/* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])[
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
    If N is 0, then set CURRENT to the empty location which ends
    the previous symbol: RHS[0] (always defined).  */
@@ -116,12 +91,26 @@ namespace yy
   /// A Bison parser.
   class ]b4_parser_class_name[
   {
+  public:
     /// Symbol semantic values.
+#if ! defined (YYSTYPE)
+]m4_ifdef([b4_stype],
+[b4_syncline([b4_stype_line], [b4_file_name])
+    union semantic_type b4_stype;
+/* Line __line__ of lalr1.cc.  */
+b4_syncline([@oline@], [@ofile@])],
+[    typedef int semantic_type;])[
+#else
     typedef YYSTYPE semantic_type;
+#endif
     /// Symbol locations.
     typedef ]b4_location_type[ location_type;
+    /// Tokens.
+    struct token
+    {
+      ]b4_token_enums(b4_tokens)[
+    };
 
-  public:
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[) :
       yydebug_ (false),
@@ -285,6 +274,14 @@ b4_error_verbose_if([, int tok])[);
   };
 }
 
+]m4_ifset([b4_global_tokens_and_yystype],
+[b4_token_defines(b4_tokens)
+
+#ifndef YYSTYPE
+ /* Redirection for backward compatibility. */
+# define YYSTYPE yy::b4_parser_class_name::semantic_type
+#endif
+])[
 #endif /* ! defined PARSER_HEADER_H */]
 ])dnl
 @output @output_parser_name@
@@ -297,6 +294,12 @@ m4_if(b4_prefix[], [yy], [],
 m4_if(b4_defines_flag, 0, [],
 [
 #include @output_header_name@])[
+
+/* User implementation prologue.  */
+]b4_post_prologue[
+
+]/* Line __line__ of lalr1.cc.  */
+b4_syncline([@oline@], [@ofile@])[
 
 #ifndef YY_
 # if YYENABLE_NLS
@@ -788,8 +791,8 @@ yyreturn:
 
 // Generate an error message.
 std::string
-yy::]b4_parser_class_name[::
-yysyntax_error_ (int yystate]b4_error_verbose_if([, int tok])[)
+yy::]b4_parser_class_name[::yysyntax_error_ (int yystate]dnl
+b4_error_verbose_if([, int tok])[)
 {
   std::string res;
 #if YYERROR_VERBOSE

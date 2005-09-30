@@ -202,6 +202,7 @@ declaration:
   grammar_declaration
 | PROLOGUE                                 { prologue_augment ($1, @1); }
 | "%debug"                                 { debug_flag = true; }
+| "%define" string_content                 { muscle_insert ($2, "1"); }
 | "%define" string_content string_content  { muscle_insert ($2, $3); }
 | "%defines"                               { defines_flag = true; }
 | "%error-verbose"                         { error_verbose = true; }

@@ -6933,12 +6933,13 @@ for a complete and accurate documentation.
 The @code{%union} directive works as for C, see @ref{Union Decl, ,The
 Collection of Value Types}.  In particular it produces a genuine
 @code{union}@footnote{In the future techniques to allow complex types
-within pseudo-unions (variants) might be implemented to alleviate
-these issues.}, which have a few specific features in C++.
+within pseudo-unions (similar to Boost variants) might be implemented to
+alleviate these issues.}, which have a few specific features in C++.
 @itemize @minus
 @item
-The name @code{YYSTYPE} also denotes @samp{union YYSTYPE}.  You may
-forward declare it just with @samp{union YYSTYPE;}.
+The type @code{YYSTYPE} is defined but its use is discouraged: rather
+you should refer to the parser's encapsulated type
+@code{yy::parser::semantic_type}.
 @item
 Non POD (Plain Old Data) types cannot be used.  C++ forbids any
 instance of classes with constructors in unions: only @emph{pointers}
@@ -7139,7 +7140,8 @@ transforming the simple parsing context structure into a fully blown
 
 The declaration of this driver class, @file{calc++-driver.hh}, is as
 follows.  The first part includes the CPP guard and imports the
-required standard library components.
+required standard library components, and the declaration of the parser
+class.
 
 @comment file: calc++-driver.hh
 @example
@@ -7147,26 +7149,9 @@ required standard library components.
 # define CALCXX_DRIVER_HH
 # include <string>
 # include <map>
+# include "calc++-parser.hh"
 @end example
 
-@noindent
-Then come forward declarations.  Because the parser uses the parsing
-driver and reciprocally, simple inclusions of header files will not
-do.  Because the driver's declaration is the one that will be imported
-by the rest of the project, it is saner to forward declare the
-parser's information here.
-
-@comment file: calc++-driver.hh
-@example
-// Forward declarations.
-union YYSTYPE;
-namespace yy
-@{
-  class location;
-  class calcxx_parser;
-@}
-class calcxx_driver;
-@end example
 
 @noindent
 Then comes the declaration of the scanning function.  Flex expects
@@ -7178,7 +7163,9 @@ factor both as follows.
 @example
 // Announce to Flex the prototype we want for lexing function, ...
 # define YY_DECL						 \
-  int yylex (YYSTYPE* yylval, yy::location* yylloc, calcxx_driver& driver)
+  int yylex (yy::calcxx_parser::semantic_type* yylval,           \
+             yy::calcxx_parser::location_type* yylloc,           \
+             calcxx_driver& driver)
 // ... and declare it for the parser's sake.
 YY_DECL;
 @end example
@@ -7289,18 +7276,29 @@ calcxx_driver::error (const std::string& m)
 @subsection Calc++ Parser
 
 The parser definition file @file{calc++-parser.yy} starts by asking
-for the C++ skeleton, the creation of the parser header file, and
-specifies the name of the parser class.  It then includes the required
-headers.
+for the C++ LALR(1) skeleton, the creation of the parser header file, and
+specifies the name of the parser class.
 
 @comment file: calc++-parser.yy
 @example
 %skeleton "lalr1.cc"                          /*  -*- C++ -*- */
-%define "parser_class_name" "calcxx_parser"
 %defines
+%define "parser_class_name" "calcxx_parser"
+@end example
+
+@noindent
+Then come the declarations/inclusions needed to define the
+@code{%union}.  Because the parser uses the parsing driver and
+reciprocally, both cannot include the header of the other.  Because the
+driver's header needs detailed knowledge about the parser class (in
+particular its inner types), it is the parser's header which will simply
+use a forward declaration of the driver.
+
+@comment file: calc++-parser.yy
+@example
 %@{
 # include <string>
-# include "calc++-driver.hh"
+class calcxx_driver;
 %@}
 @end example
 
@@ -7357,6 +7355,19 @@ them.
 @end example
 
 @noindent
+The code between @samp{%@{} and @samp{%@}} after the introduction of the
+@samp{%union} is output in the @file{*.cc} file; it needs detailed
+knowledge about the driver.
+
+@comment file: calc++-parser.yy
+@example
+%@{
+# include "calc++-driver.hh"
+%@}
+@end example
+
+
+@noindent
 The token numbered as 0 corresponds to end of file; the following line
 allows for nicer error messages referring to ``end of file'' instead
 of ``$end''.  Similarly user friendly named are provided for each
@@ -7365,11 +7376,11 @@ avoid name clashes.
 
 @comment file: calc++-parser.yy
 @example
-%token        TOKEN_EOF      0 "end of file"
-%token        TOKEN_ASSIGN     ":="
-%token <sval> TOKEN_IDENTIFIER "identifier"
-%token <ival> TOKEN_NUMBER     "number"
-%type  <ival> exp              "expression"
+%token        END      0 "end of file"
+%token        ASSIGN     ":="
+%token <sval> IDENTIFIER "identifier"
+%token <ival> NUMBER     "number"
+%type  <ival> exp        "expression"
 @end example
 
 @noindent
@@ -7396,7 +7407,7 @@ unit: assignments exp  @{ driver.result = $2; @};
 assignments: assignments assignment @{@}
            | /* Nothing. */         @{@};
 
-assignment: TOKEN_IDENTIFIER ":=" exp @{ driver.variables[*$1] = $3; @};
+assignment: "identifier" ":=" exp @{ driver.variables[*$1] = $3; @};
 
 %left '+' '-';
 %left '*' '/';
@@ -7404,8 +7415,8 @@ exp: exp '+' exp   @{ $$ = $1 + $3; @}
    | exp '-' exp   @{ $$ = $1 - $3; @}
    | exp '*' exp   @{ $$ = $1 * $3; @}
    | exp '/' exp   @{ $$ = $1 / $3; @}
-   | TOKEN_IDENTIFIER  @{ $$ = driver.variables[*$1]; @}
-   | TOKEN_NUMBER      @{ $$ = $1; @};
+   | "identifier"  @{ $$ = driver.variables[*$1]; @}
+   | "number"      @{ $$ = $1; @};
 %%
 @end example
 
@@ -7485,22 +7496,28 @@ preceding tokens.  Comments would be treated equally.
 @end example
 
 @noindent
-The rules are simple, just note the use of the driver to report
-errors.
+The rules are simple, just note the use of the driver to report errors.
+It is convenient to use a typedef to shorten
+@code{yy::calcxx_parser::token::identifier} into
+@code{token::identifier} for isntance.
 
 @comment file: calc++-scanner.ll
 @example
+%@{
+  typedef yy::calcxx_parser::token token;
+%@}
+
 [-+*/]     return yytext[0];
-":="       return TOKEN_ASSIGN;
+":="       return token::ASSIGN;
 @{int@}      @{
   errno = 0;
   long n = strtol (yytext, NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
     driver.error (*yylloc, "integer is out of range");
   yylval->ival = n;
-  return TOKEN_NUMBER;
+  return token::NUMBER;
 @}
-@{id@}       yylval->sval = new std::string (yytext); return TOKEN_IDENTIFIER;
+@{id@}       yylval->sval = new std::string (yytext); return token::IDENTIFIER;
 .          driver.error (*yylloc, "invalid character");
 %%
 @end example

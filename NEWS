@@ -3,6 +3,17 @@ Bison News
 
 Changes in version 2.1a:
 
+* lalr1.cc: The token and value types are now class members.
+  The tokens where defined as free form enums and cpp macros.  YYSTYPE
+  was defined as a free form union.  Both are now class members:
+  tokens are enumerations of the `yy::parser::token' struct, and the
+  semantic values have the `yy::parser::semantic_type' type.
+
+  If you do not want or can update to this scheme, the directive
+  `%define "global_tokens_and_yystype" "1"' triggers the global
+  definition of tokens and YYSTYPE.
+
+
 Changes in version 2.1, 2005-09-16:
 
 * Bison-generated parsers now support the translation of diagnostics like

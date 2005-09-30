@@ -1,3 +1,21 @@
+2005-09-30  Akim Demaille  <akim@epita.fr>,
+	    Alexandre Duret-Lutz <adl@gnu.org>
+
+	Move the token type and YYSTYPE in the parser class.
+	* data/lalr1.cc (stack.hh, location.hh): Include earlier.
+	(parser::token): New, from the moved free definition of tokens.
+	(parser::semantic_value): Now a full definition instead of an
+	indirection to YYSTYPE.
+	(b4_post_prologue): No longer included in the header file, but
+	in the implementation file.
+	* doc/bison.texi (C+ Language Interface): Update.
+	* src/parse-gram.y: Support unary %define.
+	* tests/actions.at: Define global_tokens_and_yystype for backward
+	compatibility until we update the tests.
+	* tests/calc.at: Idem.
+	(first_line, first_column, last_line, last_column): Define for lalr1.cc
+	to simplify the code.
+
 2005-09-29  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Port to SunOS 4.1.4, which lacks strtoul and strerror.
@@ -6,7 +24,7 @@
 	* lib/.cvsignore: Add strerror.c, strtol.c, strtoul.c
 	* m4/.cvsignore: Add strerror.m4, strtol.m4, strtoul.m4.
 
-2005-09-29  Akim  <akim@epita.fr>
+2005-09-29  Akim Demaille  <akim@epita.fr>
 
 	* data/c.m4 (b4_error_verbose_if): New.
 	* data/lalr1.cc: Use it.

@@ -39,7 +39,9 @@ m4_define([_AT_DATA_CALC_Y],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 AT_DATA_GRAMMAR([calc.y],
 [[/* Infix notation calculator--calc */
-]$4[
+]$4
+AT_LALR1_CC_IF(
+[%define "global_tokens_and_yystype"])[
 %{
 #include <stdio.h>
 
@@ -68,7 +70,13 @@ static int global_count = 0;
 
 %{
 static int power (int base, int exponent);
-]AT_LALR1_CC_IF([typedef yy::location YYLTYPE;],
+]AT_LALR1_CC_IF(
+[typedef yy::location YYLTYPE;
+#define first_line   begin.line
+#define first_column begin.column
+#define last_line    end.line
+#define last_column  end.column
+],
 [/* yyerror receives the location if:
    - %location & %pure & %glr
    - %location & %pure & %yacc & %parse-param. */
@@ -176,16 +184,11 @@ get_char (]AT_LEX_FORMALS[)
   last_yylloc = AT_LOC;
   if (res == '\n')
     {
-AT_LALR1_CC_IF(
-[     AT_LOC.end.line++;
-      AT_LOC.end.column = 0;],
-[     AT_LOC.last_line++;
-      AT_LOC.last_column = 0;])
+      AT_LOC.last_line++;
+      AT_LOC.last_column = 0;
     }
   else
-AT_LALR1_CC_IF(
-[    AT_LOC.end.column++;],
-[    AT_LOC.last_column++;])
+    AT_LOC.last_column++;
 ])[
   return res;
 }
@@ -244,27 +247,24 @@ yylex (]AT_LEX_FORMALS[)
   if (init)
     {
       init = 0;
-]AT_LALR1_CC_IF([],
-[AT_LOCATION_IF([
+]AT_LOCATION_IF([
       AT_LOC.last_column = 0;
       AT_LOC.last_line = 1;
-])])[
+])[
     }
 
-]AT_LOCATION_IF([AT_LALR1_CC_IF(
-[ AT_LOC.begin = AT_LOC.end;],
-[ AT_LOC.first_column = AT_LOC.last_column;
+]AT_LOCATION_IF([
+ AT_LOC.first_column = AT_LOC.last_column;
   AT_LOC.first_line   = AT_LOC.last_line;
-])])[
+])[
 
   /* Skip white space.  */
   while ((c = get_char (]AT_LEX_ARGS[)) == ' ' || c == '\t')
     {
-]AT_LOCATION_IF([AT_LALR1_CC_IF(
-[     AT_LOC.begin = AT_LOC.end;],
+]AT_LOCATION_IF(
 [     AT_LOC.first_column = AT_LOC.last_column;
       AT_LOC.first_line   = AT_LOC.last_line;
-])])[
+])[
     }
 
   /* process numbers   */
@@ -428,8 +428,8 @@ AT_CHECK([cat stderr], 0, [expout])
 ])
 
 
-# AT_CHECK_CALC([BISON-OPTIONS [, EXPECTED-TO-FAIL]])
-# ------------------------------
+# AT_CHECK_CALC([BISON-OPTIONS, [EXPECTED-TO-FAIL]])
+# --------------------------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
 # However, if EXPECTED-TO-FAIL is nonempty, this test is expected to fail.
