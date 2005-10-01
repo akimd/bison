@@ -64,6 +64,8 @@ BEGIN {
       # #line report the line number of the *next* line.
       # => + 2.
       # Note that recent Bison support it, but not Flex.
+      if (file ~ /\.[chy]*$/)
+	input = "#line " (FNR + 1) " \"" FILENAME "\"\n";
       next;
     }
 

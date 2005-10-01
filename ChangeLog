@@ -1,3 +1,7 @@
+2005-10-01  Akim  <akim@epita.fr>
+
+	* examples/extexi: Restore the #line generation.
+
 2005-09-30  Akim Demaille  <akim@epita.fr>,
 	    Alexandre Duret-Lutz <adl@gnu.org>
 
