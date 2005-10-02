@@ -1,3 +1,32 @@
+2005-10-02  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
+
+	* lib/subpipe.c: New function end_of_output_subpipe() added
+	to allow support for non-posix systems. This is a no-op function
+	for posix systems.
+
+	* lib/subpipe.h: New function end_of_output_subpipe() added
+	to allow support for non-posix systems. This is a no-op function
+	for posix systems.
+
+	* src/output.c (output_skeleton): Use end_of_output_subpipe() to
+	handle the lack of pipe/fork functionality on non-posix systems.
+
+	* djgpp/Makefile.maint: DJGPP specific file.
+
+	* djgpp/README.in: DJGPP specific file.
+
+	* djgpp/config.bat: DJGPP specific configuration file.
+
+	* djgpp/config.sed: DJGPP specific configuration file.
+
+	* djgpp/config.site: DJGPP specific configuration file.
+
+	* djgpp/config_h.sed: DJGPP specific configuration file.
+
+	* djgpp/subpipe.c: DJGPP specific replacement file for lib/subpipe.c.
+
+	* djgpp/subpipe.h: DJGPP specific replacement file for lib/subpipe.h.
+
 2005-10-02  Akim Demaille  <akim@epita.fr>
 
 	* data/location.cc: New, extract from...

@@ -3,6 +3,8 @@ Bison News
 
 Changes in version 2.1a:
 
+* DJGPP support added.
+
 * lalr1.cc: The token and value types are now class members.
   The tokens where defined as free form enums and cpp macros.  YYSTYPE
   was defined as a free form union.  Both are now class members:
