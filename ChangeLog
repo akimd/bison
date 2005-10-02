@@ -1,4 +1,15 @@
-2005-10-01  Akim  <akim@epita.fr>
+2005-10-02  Akim Demaille  <akim@epita.fr>
+
+	* data/location.cc: New, extract from...
+	* data/lalr1.cc: here.
+	(location.hh): Include it after the user prologue, in case the
+	filename type is defined by the user.
+	Forward declation location and position before the pre-prologue.
+	(yyresult_): Rename as...
+	(yyresult): this, it's a local variable, not an attribute.
+	* data/Makefile.am (dist_pkgdata_DATA): Adjust.
+
+2005-10-01  Akim Demaille  <akim@epita.fr>
 
 	* examples/extexi: Restore the #line generation.
 
