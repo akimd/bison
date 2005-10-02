@@ -112,6 +112,7 @@ strerror
 strtoul
 strverscmp
 unistd-safer
+unlocked-io
 verify
 xalloc
 xalloc-die

@@ -1,5 +1,31 @@
 2005-10-02  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Use unlocked I/O for a minor performance improvement on hosts like
+	GNU/Linux and Solaris that support unlocked I/O.  The basic idea
+	is to use the gnlib unlocked-io module, and to prefer putc and
+	puts to printf when either will work (since the latter doesn't
+	come in an unlocked flavor).
+	* bootstrap (gnulib_modules): Add unlocked-io.
+	* data/c.m4 (yysymprint): Prefer puts and putc to printf.
+	* data/glr.c (YYFPUTC, YYFPUTS, YYDPUTS): New macros.
+	Prefer them to YYFPRINTF and YYDPRINTF if either will do,
+	and similarly for puts and putc and printf.
+	* data/yacc.c: Likewise.
+	* lib/bitset.c (bitset_print): Likewise.
+	* lib/bitset.h [USE_UNLOCKED_IO]: Include unlocked-io.h.
+	* lib/bitsetv.c (bitsetv_dump, debug-bitsetv): Prefer putc and puts
+	to printf.
+	* lib/lbitset.c (debug_lbitset): Likewise.
+	* src/closure.c (print_firsts, print_fderives): Likewise.
+	* src/gram.c (grammar_dump): Likewise.
+	* src/lalr.c (look_ahead_tokens_print): Likewise.
+	* src/output.c (escaped_output): Likewise.
+	(user_actions_output): Coalesce two printfs.
+	* src/parse-gram.h (%printer): Prefer putc and puts to printf.
+	* src/reduce.c (reduce_print): Likewise.
+	* src/state.c (state_rule_look_ahead_tokens_print): Likewise.
+	* src/system.h: Include unlocked-io.h rathe than stdio.h.
+
 	* data/lalr1.cc: Don't put an unmatched ' in a dnl comment, as
 	this confuses xgettext.
 

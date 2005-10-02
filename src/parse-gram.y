@@ -181,7 +181,7 @@ static int current_prec = 0;
 %type <integer> INT
 %printer { fprintf (stderr, "%d", $$); } INT
 %type <symbol> ID symbol string_as_id
-%printer { fprintf (stderr, "%s", $$->tag); } ID symbol string_as_id
+%printer { fputs ($$->tag, stderr); } ID symbol string_as_id
 %type <symbol> ID_COLON
 %printer { fprintf (stderr, "%s:", $$->tag); } ID_COLON
 %type <assoc> precedence_declarator
