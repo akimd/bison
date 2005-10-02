@@ -1,3 +1,7 @@
+2005-10-02  Akim Demaille  <akim@epita.fr>
+
+	* data/location.cc: New.
+
 2005-10-02  Paul Eggert  <eggert@cs.ucla.edu>,
 	    Akim Demaille  <akim@epita.fr>
 
