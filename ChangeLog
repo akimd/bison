@@ -1,5 +1,18 @@
 2005-10-02  Akim Demaille  <akim@epita.fr>
 
+	* bootstrap (gnulib_modules): Add strverscmp.
+	* lib/.cvsignore: Add strverscmp.c, strverscmp.h.
+	* m4/.cvsignore: Add strverscmp.m4.
+	* src/parse-gram.y (%require): New token, new rule.
+	(version_check): New.
+	* src/scan-gram.l (%require): Adjust.
+	* tests/input.at (AT_REQUIRE): New.
+	Use it.
+	* doc/bison.texinfo (Require Decl): New.
+	(Calc++ Parser): Use %require.
+
+2005-10-02  Akim Demaille  <akim@epita.fr>
+
 	* data/location.cc: New.
 
 2005-10-02  Paul Eggert  <eggert@cs.ucla.edu>,

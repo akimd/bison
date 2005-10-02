@@ -110,6 +110,7 @@ stdio-safer
 stpcpy
 strerror
 strtoul
+strverscmp
 unistd-safer
 verify
 xalloc

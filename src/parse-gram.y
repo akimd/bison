@@ -32,12 +32,15 @@
 #include "quotearg.h"
 #include "reader.h"
 #include "symlist.h"
+#include "strverscmp.h"
 
 #define YYLLOC_DEFAULT(Current, Rhs, N)  (Current) = lloc_default (Rhs, N)
 static YYLTYPE lloc_default (YYLTYPE const *, int);
 
 #define YY_LOCATION_PRINT(File, Loc) \
           location_print (File, Loc)
+
+static void version_check (location const *loc, char const *version);
 
 /* Request detailed syntax error messages, and pass them to GRAM_ERROR.
    FIXME: depends on the undocumented availability of YYLLOC.  */
@@ -133,6 +136,7 @@ static int current_prec = 0;
   PERCENT_OUTPUT          "%output"
   PERCENT_PARSE_PARAM     "%parse-param {...}"
   PERCENT_PURE_PARSER     "%pure-parser"
+  PERCENT_REQUIRE 	  "%require"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
   PERCENT_TOKEN_TABLE     "%token-table"
@@ -226,6 +230,7 @@ declaration:
 | "%output" "=" string_content             { spec_outfile = $3; }
 | "%parse-param {...}"			   { add_param ("parse_param", $1, @1); }
 | "%pure-parser"                           { pure_parser = true; }
+| "%require" string_content                { version_check (&@2, $2); }
 | "%skeleton" string_content               { skeleton = $2; }
 | "%token-table"                           { token_table_flag = true; }
 | "%verbose"                               { report_flag = report_states; }
@@ -528,6 +533,14 @@ add_param (char const *type, char *decl, location loc)
     }
 
   scanner_last_string_free ();
+}
+
+static void
+version_check (location const *loc, char const *version)
+{
+  if (strverscmp (version, PACKAGE_VERSION) > 0)
+    complain_at (*loc, "require bison %s, but have %s",
+		 version, PACKAGE_VERSION);
 }
 
 static void

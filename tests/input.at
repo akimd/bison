@@ -297,3 +297,24 @@ exp: "MY TOKEN";
 AT_CHECK([bison -o input.c input.y])
 
 AT_CLEANUP
+
+
+## --------- ##
+## Require.  ##
+## --------- ##
+
+m4_define([AT_CHECK_REQUIRE],
+[AT_SETUP([Require $1])
+AT_DATA_GRAMMAR([input.y],
+[[%require "$1";
+%%
+empty_file:;
+]])
+AT_CHECK([bison -o input.c input.y], $2, [], ignore)
+AT_CLEANUP
+])
+
+AT_CHECK_REQUIRE(1.0, 0)
+AT_CHECK_REQUIRE(AT_PACKAGE_VERSION, 0)
+## FIXME: Some day augment this version number.
+AT_CHECK_REQUIRE(100.0, 1)

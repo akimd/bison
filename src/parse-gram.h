@@ -63,21 +63,22 @@
      PERCENT_OUTPUT = 288,
      PERCENT_PARSE_PARAM = 289,
      PERCENT_PURE_PARSER = 290,
-     PERCENT_SKELETON = 291,
-     PERCENT_START = 292,
-     PERCENT_TOKEN_TABLE = 293,
-     PERCENT_VERBOSE = 294,
-     PERCENT_YACC = 295,
-     TYPE = 296,
-     EQUAL = 297,
-     SEMICOLON = 298,
-     PIPE = 299,
-     ID = 300,
-     ID_COLON = 301,
-     PERCENT_PERCENT = 302,
-     PROLOGUE = 303,
-     EPILOGUE = 304,
-     BRACED_CODE = 305
+     PERCENT_REQUIRE = 291,
+     PERCENT_SKELETON = 292,
+     PERCENT_START = 293,
+     PERCENT_TOKEN_TABLE = 294,
+     PERCENT_VERBOSE = 295,
+     PERCENT_YACC = 296,
+     TYPE = 297,
+     EQUAL = 298,
+     SEMICOLON = 299,
+     PIPE = 300,
+     ID = 301,
+     ID_COLON = 302,
+     PERCENT_PERCENT = 303,
+     PROLOGUE = 304,
+     EPILOGUE = 305,
+     BRACED_CODE = 306
    };
 #endif
 /* Tokens.  */
@@ -115,27 +116,28 @@
 #define PERCENT_OUTPUT 288
 #define PERCENT_PARSE_PARAM 289
 #define PERCENT_PURE_PARSER 290
-#define PERCENT_SKELETON 291
-#define PERCENT_START 292
-#define PERCENT_TOKEN_TABLE 293
-#define PERCENT_VERBOSE 294
-#define PERCENT_YACC 295
-#define TYPE 296
-#define EQUAL 297
-#define SEMICOLON 298
-#define PIPE 299
-#define ID 300
-#define ID_COLON 301
-#define PERCENT_PERCENT 302
-#define PROLOGUE 303
-#define EPILOGUE 304
-#define BRACED_CODE 305
+#define PERCENT_REQUIRE 291
+#define PERCENT_SKELETON 292
+#define PERCENT_START 293
+#define PERCENT_TOKEN_TABLE 294
+#define PERCENT_VERBOSE 295
+#define PERCENT_YACC 296
+#define TYPE 297
+#define EQUAL 298
+#define SEMICOLON 299
+#define PIPE 300
+#define ID 301
+#define ID_COLON 302
+#define PERCENT_PERCENT 303
+#define PROLOGUE 304
+#define EPILOGUE 305
+#define BRACED_CODE 306
 
 
 
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 79 "../../src/parse-gram.y"
+#line 82 "../../src/parse-gram.y"
 typedef union YYSTYPE {
   symbol *symbol;
   symbol_list *list;
@@ -145,7 +147,7 @@ typedef union YYSTYPE {
   uniqstr uniqstr;
 } YYSTYPE;
 /* Line 1505 of yacc.c.  */
-#line 149 "../../src/parse-gram.h"
+#line 151 "../../src/parse-gram.h"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

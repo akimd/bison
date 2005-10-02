@@ -145,9 +145,9 @@ The Concepts of Bison
 
 Writing @acronym{GLR} Parsers
 
-* Simple GLR Parsers::          Using @acronym{GLR} parsers on unambiguous grammars
-* Merging GLR Parses::          Using @acronym{GLR} parsers to resolve ambiguities
-* Compiler Requirements::       @acronym{GLR} parsers require a modern C compiler
+* Simple GLR Parsers::       Using @acronym{GLR} parsers on unambiguous grammars
+* Merging GLR Parses::       Using @acronym{GLR} parsers to resolve ambiguities
+* Compiler Requirements::    @acronym{GLR} parsers require a modern C compiler
 
 Examples
 
@@ -225,6 +225,7 @@ Tracking Locations
 
 Bison Declarations
 
+* Require Decl::      Requiring a Bison version.
 * Token Decl::        Declaring terminal symbols.
 * Precedence Decl::   Declaring terminals with precedence and associativity.
 * Union Decl::        Declaring the set of all semantic value types.
@@ -732,9 +733,9 @@ user-defined function on the resulting values to produce an arbitrary
 merged result.
 
 @menu
-* Simple GLR Parsers::          Using @acronym{GLR} parsers on unambiguous grammars
-* Merging GLR Parses::          Using @acronym{GLR} parsers to resolve ambiguities
-* Compiler Requirements::       @acronym{GLR} parsers require a modern C compiler
+* Simple GLR Parsers::       Using @acronym{GLR} parsers on unambiguous grammars
+* Merging GLR Parses::       Using @acronym{GLR} parsers to resolve ambiguities
+* Compiler Requirements::    @acronym{GLR} parsers require a modern C compiler
 @end menu
 
 @node Simple GLR Parsers
@@ -3548,6 +3549,7 @@ it explicitly (@pxref{Language and Grammar, ,Languages and Context-Free
 Grammars}).
 
 @menu
+* Require Decl::      Requiring a Bison version.
 * Token Decl::        Declaring terminal symbols.
 * Precedence Decl::   Declaring terminals with precedence and associativity.
 * Union Decl::        Declaring the set of all semantic value types.
@@ -3559,6 +3561,19 @@ Grammars}).
 * Pure Decl::         Requesting a reentrant parser.
 * Decl Summary::      Table of all Bison declarations.
 @end menu
+
+@node Require Decl
+@subsection Require a Version of Bison
+@cindex version requirement
+@cindex requiring a version of Bison
+@findex %require
+
+You may require the minimum version of Bison to process the grammar.  If
+the requirement is not met, @command{bison} exits with an error.
+
+@example
+%require "@var{version}"
+@end example
 
 @node Token Decl
 @subsection Token Type Names
@@ -4155,6 +4170,12 @@ Specify @var{file} for the parser file.
 @deffn {Directive} %pure-parser
 Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 (Reentrant) Parser}).
+@end deffn
+
+@deffn {Directive} %require "@var{version}"
+Specify that version @var{version} or higher of Bison required for the
+grammar.
+@xref{Require Decl, , Require a Version of Bison}.
 @end deffn
 
 @deffn {Directive} %token-table
@@ -7275,13 +7296,16 @@ calcxx_driver::error (const std::string& m)
 @node Calc++ Parser
 @subsection Calc++ Parser
 
-The parser definition file @file{calc++-parser.yy} starts by asking
-for the C++ LALR(1) skeleton, the creation of the parser header file, and
-specifies the name of the parser class.
+The parser definition file @file{calc++-parser.yy} starts by asking for
+the C++ LALR(1) skeleton, the creation of the parser header file, and
+specifies the name of the parser class.  Because the C++ skeleton
+changed several times, it is safer to require the version you designed
+the grammar for.
 
 @comment file: calc++-parser.yy
 @example
 %skeleton "lalr1.cc"                          /*  -*- C++ -*- */
+%require "2.1a"
 %defines
 %define "parser_class_name" "calcxx_parser"
 @end example
@@ -7966,6 +7990,12 @@ Bison declaration to assign a precedence to a specific rule.
 @deffn {Directive} %pure-parser
 Bison declaration to request a pure (reentrant) parser.
 @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
+@end deffn
+
+@deffn {Directive} %require "@var{version}"
+Specify that version @var{version} or higher of Bison required for the
+grammar.
+@xref{Require Decl, , Require a Version of Bison}.
 @end deffn
 
 @deffn {Directive} %right

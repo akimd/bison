@@ -224,6 +224,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%prec"                 rule_length--; return PERCENT_PREC;
   "%printer"              token_type = PERCENT_PRINTER; BEGIN SC_PRE_CODE;
   "%pure"[-_]"parser"     return PERCENT_PURE_PARSER;
+  "%require"              return PERCENT_REQUIRE;
   "%right"                return PERCENT_RIGHT;
   "%skeleton"             return PERCENT_SKELETON;
   "%start"                return PERCENT_START;
