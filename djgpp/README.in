@@ -1,0 +1,143 @@
+This is a port of GNU Bison @VERSION@ to MSDOS/DJGPP.
+
+
+1.:     DJGPP specific changes.
+        =======================
+
+        The DJGPP port of Bison offers LFN and SFN support depending on which
+        OS it is running. If LFN support is available or not is determinated at
+        run time. If LFN support is available (DOS session under Win9X), the
+        standard posix file name extensions will be used. These are: y.tab.c,
+        y.tab.c++, y.tab.h, y.output, etc. If only SFN support is available
+        (plain DOS), then the standard MSDOS short file names will be used.
+        These are: y_tab.c, y_tab.h, y.out, etc.
+        It should be noticed that this bison version needs the m4 program as
+        back end to generate the parser file (y.tab.c etc.) from the skeleton
+        files. This implies that m4 must always be installed to get bison
+        working. m4 will use a couple of m4 scripts that will be installed in
+        /dev/env/DJDIR/share/bison and shall not be removed.
+        It should also be noticed that the skeleton files bison.simple and
+        bison.hairy are no longer supported. This applies also to the environ-
+        ment variables BISON_HAIRY and BISON_SIMPLE. Those variables are *no*
+        longer honored at all.
+        The kind of skeleton file bison.hairy is no longer supported at all.
+        The skeleton file bison.simple is now called yacc.c and is an m4 script.
+        The other two skeleton files supported by this bison version are glr.c
+        and lalr1.cc. The first one is a generalized LR C parser based on
+        Bison's LALR(1) tables and the second one is a experimental C++ parser
+        class.
+        As has been told before, bison uses m4 to generate the parser file.
+        This is done by forking and using pipes for the IPC. MSDOS does not
+        support this functionality so this has been reproduced in the usual
+        way by redirecting stdin and stdout of bison and m4 to temporary files
+        and processing these files in sequence. All the changes to the sources
+        are documented in the djgpp/diffs file.
+
+        Please **read** the docs.
+
+
+2.:     Installing the binary package.
+        ==============================
+
+2.1.:   Copy the binary distribution into the top DJGPP installation directory,
+        just unzip it preserving the directory structure running *ONE* of the
+        following commands:
+          unzip32 bsn@PACKAGE_VERSION@b.zip      or
+          djtarx bsn@PACKAGE_VERSION@b.zip       or
+          pkunzip -d bsn@PACKAGE_VERSION@b.zip
+
+
+
+3.:     Building the binaries from sources.
+        ===================================
+
+3.1.:   To build the binaries you will need the following binary packages:
+          djdev203.zip (or a later but NOT a prior version)
+          bsh204b.zip  (or a later but NOT a prior version)
+          gcc400b.zip, gpp400b.zip, bnu215b.zip, mak3791b.zip,
+          fil40b.zip, shl20jb.zip, txt20b.zip,
+          txi48b.zip, grep24b.zip, sed414b.zip,
+          m4-143b.zip.
+
+        If you want to run the check you will need also:
+          dif281b.zip
+
+        All this packages can be found in the v2gnu directory of any
+        ftp.delorie.com mirror.
+        You will need bsh203b.zip or later and *NOT* a prior version or
+        the build will fail. The same applies to djdev203.zip. Please note
+        that Bison requires m4-143b.zip or later to work properly. All the
+        other packages are the ones I have used to build the binaries
+        from this source. Previuos versions of this packages may do the
+        job as well but I have not tested this.
+
+3.2.:   Create a temporary directory and copy the source package into the
+        directory. If you download the source distribution from one of the
+        DJGPP archives, just unzip it preserving the directory structure
+        running *ONE* of the following commands:
+          unzip32 bsn@PACKAGE_VERSION@s.zip      or
+          djtarx bsn@PACKAGE_VERSION@s.zip       or
+          pkunzip -d bsn@PACKAGE_VERSION@s.zip
+
+3.3.:   If for some reason you want to reconfigure the package cd into the top
+        srcdir (bison-@TREE_VERSION@) and run the following commands:
+          del djgpp\config.cache
+          make clean
+          djgpp\config
+
+        Please note that you *MUST* delete the config.cache file in the djgpp
+        subdir or you will not really reconfigure the sources because the
+        configuration informations will be read from the cache file instead
+        of being newly computed.
+        To build the programs in a directory other than where the sources are,
+        you must add the parameter that specifies the source directory,
+        e.g:
+          x:\src\gnu\bison-@TREE_VERSION@\djgpp\config x:/src/gnu/bison-@TREE_VERSION@
+
+        Lets assume you want to build the binaries in a directory placed on a
+        different drive (z:\build in this case) from where the sources are,
+        then you will run the following commands:
+          z:
+          md \build
+          cd \build
+          x:\src\gnu\bison-@TREE_VERSION@\djgpp\config x:/src/gnu/bison-@TREE_VERSION@
+
+        The order of the options and the srcdir option does not matter. You
+        *MUST* use forward slashes to specify the source directory.
+
+        The batch file will set same environment variables, make MSDOS specific
+        modifications to the Makefile.in's and supply all other needed options
+        to the configure script.
+
+
+3.4.:   To compile the package run from the top srcdir the command:
+          make
+
+3.5.:   Now you can run the tests if you like. From the top srcdir run the
+        command:
+          make check
+
+        No test should fail.
+        Please note that the testsuite only works with LFN available. On plain
+        DOS, most of the tests will fail due to invalid DOS names.
+
+3.6.:   To install the binaries, header, library, catalogs, and info docs
+        run the following command from the top srcdir:
+          make install
+
+        This will install the products into your DJGPP installation tree given
+        by the default prefix "/dev/env/DJDIR". If you prefer to install them
+        into some other directory you will have to set prefix to the appropiate
+        value:
+          make install prefix=z:/some/other/place
+
+
+
+        Send GNU bison specific bug reports to <bug-bison@gnu.org>.
+        Send suggestions and bug reports concerning the DJGPP port to
+        comp.os.msdos.djgpp or <djgpp@delorie.com>.
+
+
+Enjoy.
+
+        Guerrero, Juan Manuel <juan.guerrero@gmx.de>
