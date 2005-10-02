@@ -27,4 +27,5 @@
 
 void init_subpipe (void);
 pid_t create_subpipe (char const * const *, int[2]);
+void end_of_output_subpipe (pid_t, int[2]);
 void reap_subpipe (pid_t, char const *);
