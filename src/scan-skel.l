@@ -74,6 +74,7 @@
 
 "@oline@"  fprintf (yyout, "%d", lineno + 1);
 "@ofile@"  QPUTS (outname);
+"@dir_prefix@" QPUTS (dir_prefix);
 "@output_parser_name@"	QPUTS (parser_file_name);
 "@output_header_name@"	QPUTS (spec_defines_file);
 

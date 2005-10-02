@@ -1015,7 +1015,7 @@ const yy::]b4_parser_class_name[::token_number_type yy::]b4_parser_class_name[::
 
 ]b4_epilogue
 dnl
-@output stack.hh
+@output b4_dir_prefix[]stack.hh
 b4_copyright([stack handling for Bison C++ parsers], [2002, 2003, 2004, 2005])[
 
 #ifndef BISON_STACK_HH

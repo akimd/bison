@@ -1,3 +1,26 @@
+2005-10-02  Paul Eggert  <eggert@cs.ucla.edu>,
+	    Akim Demaille  <akim@epita.fr>
+
+	Make sure -odir/foo.cc creates dir/location.hh etc.
+	* src/files.h (spec_outfile, parser_file_name, spec_name_prefix)
+	(spec_file_prefix, spec_verbose_file, spec_graph_file)
+	(spec_defines_file): Now const.
+	(dir_prefix): New.
+	(short_base_name): Remove.
+	* src/files.c: Adjust.
+	(dirname.h): Include.
+	(base_name): Don't prototype it.
+	(finput): Remove, duplicates gram_in.
+	(full_base_name, short_base_name): Replace by...
+	(all_but_ext, all_but_tab_ext): these.
+	(compute_base_names): Rename as...
+	(compute_file_name_parts): this.
+	Update to compute the new variables, including dir_prefix.
+	Adjust dependencies.
+	* src/output.c (prepare): Output them.
+	* src/reader.c: Adjust to use gram_in, not finput.
+	* src/scan-skel.l (@dir_prefix@): New.
+
 2005-10-02  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	* lib/subpipe.c: New function end_of_output_subpipe() added
