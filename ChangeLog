@@ -1,3 +1,8 @@
+2005-10-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/lalr1.cc: Don't put an unmatched ' in a dnl comment, as
+	this confuses xgettext.
+
 2005-10-02  Akim Demaille  <akim@epita.fr>
 
 	* bootstrap (gnulib_modules): Add strverscmp.
