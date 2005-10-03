@@ -1,3 +1,7 @@
+2005-10-03  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
+
+	* Makefile.am: DJGPP specific files added to EXTRA_DIST.
+
 2005-10-02  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Use unlocked I/O for a minor performance improvement on hosts like
