@@ -26,9 +26,9 @@ aclocal_DATA = m4/bison-i18n.m4
 
 EXTRA_DIST = GNUmakefile Makefile.cfg Makefile.maint \
   OChangeLog PACKAGING \
-  djgpp/CVS djgpp/Makefile.maint djgpp/README.in \
-  djgpp/config.bat djgpp/config.sed djgpp/config.site \
-  djgpp/config_h.sed djgpp/subpipe.c djgpp/subpipe.h
+  djgpp/Makefile.maint djgpp/README.in djgpp/config.bat \
+  djgpp/config.sed djgpp/config.site djgpp/config_h.sed \
+  djgpp/subpipe.c djgpp/subpipe.h
 
 
 .PHONY: maintainer-check
