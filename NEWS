@@ -6,7 +6,8 @@ Changes in version 2.1a:
 * DJGPP support added.
 
 * %require "VERSION"
-  To specify the youngest version of Bison accepted by the grammar file.
+  To specify that the grammar file depends on features implemented in
+  Bison version VERSION or higher.
 
 * lalr1.cc: The token and value types are now class members.
   The tokens where defined as free form enums and cpp macros.  YYSTYPE
