@@ -1,3 +1,11 @@
+2005-10-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (yyuserMerge, yyreportAmbiguity, yyreportSyntaxError):
+	Use assignments rather than casts-to-void to suppress
+	unused-variable warnings.  This pacifies 'lint'.
+	* data/lalr1.cc (yysymprint_, yydestruct_): Use a call to suppress
+	unused-variable warnings.
+
 2005-10-03  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	* Makefile.am: DJGPP specific files added to EXTRA_DIST.

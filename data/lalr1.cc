@@ -411,12 +411,12 @@ void
 yy::]b4_parser_class_name[::yysymprint_ (int yytype,
                          const semantic_type* yyvaluep, const location_type* yylocationp)
 {
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yyvaluep;
-  (void) yylocationp;
   /* Backward compatibility, but should be removed eventually. */
   std::ostream& cdebug_ = *yycdebug_;
-  (void) cdebug_;
+
+  /* Suppress unused-variable warnings.  */
+  if (false)
+    yysymprint_ (yytype + !&cdebug_, yyvaluep, yylocationp);
 
   *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
 	     << ' ' << yytname_[yytype] << " ("
@@ -435,10 +435,9 @@ void
 yy::]b4_parser_class_name[::yydestruct_ (const char* yymsg,
                          int yytype, semantic_type* yyvaluep, location_type* yylocationp)
 {
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yymsg;
-  (void) yyvaluep;
-  (void) yylocationp;
+  /* Suppress unused-variable warnings.  */
+  if (false)
+    yydestruct_ (yymsg, yytype, yyvaluep, yylocationp);
 
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
