@@ -1,3 +1,8 @@
+2005-10-05  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/m4sugar/m4sugar.m4 (_m4_map): New macro.
+	(m4_map, m4_map_sep): Use it.  Handle the empty list correctly.
+
 2005-10-04  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Undo the parts of the unlocked-I/O change that substituted
