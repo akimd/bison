@@ -1,5 +1,26 @@
 2005-10-04  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Undo the parts of the unlocked-I/O change that substituted
+	putc or puts for printf.  This might hurt performance a bit,
+	but some people prefer the printf style.
+	* data/c.m4 (yysymprint): Prefer printf to puts and putc.
+	* data/glr.c (YYFPUTC, YYFPUTS, YYDPUTS): Remove.
+	All uses replaced by YYFPRINTF and YYDPRINTF.
+	* data/yacc.c: Likewise.
+	* lib/bitset.c (bitset_print): Likewise.
+	* lib/bitsetv.c (bitsetv_dump, debug-bitsetv): Prefer printf to
+	putc and puts.
+	* lib/lbitset.c (debug_lbitset): Likewise.
+	* src/closure.c (print_firsts, print_fderives): Likewise.
+	* src/gram.c (grammar_dump): Likewise.
+	* src/lalr.c (look_ahead_tokens_print): Likewise.
+	* src/output.c (escaped_output): Likewise.
+	(user_actions_output): Break apart two printfs.
+	* src/parse-gram.y (%printer): Prefer printf to putc and puts.
+	* src/reduce.c (reduce_print): Likewise.
+	* src/state.c (state_rule_look_ahead_tokens_print): Likewise.
+	* src/system.h: Include unlocked-io.h rathe than stdio.h.
+
 	* data/glr.c (yyuserMerge, yyreportAmbiguity, yyreportSyntaxError):
 	Use assignments rather than casts-to-void to suppress
 	unused-variable warnings.  This pacifies 'lint'.
@@ -33,10 +54,10 @@
 	* src/lalr.c (look_ahead_tokens_print): Likewise.
 	* src/output.c (escaped_output): Likewise.
 	(user_actions_output): Coalesce two printfs.
-	* src/parse-gram.h (%printer): Prefer putc and puts to printf.
+	* src/parse-gram.y (%printer): Prefer putc and puts to printf.
 	* src/reduce.c (reduce_print): Likewise.
 	* src/state.c (state_rule_look_ahead_tokens_print): Likewise.
-	* src/system.h: Include unlocked-io.h rathe than stdio.h.
+	* src/system.h: Include unlocked-io.h rather than stdio.h.
 
 	* data/lalr1.cc: Don't put an unmatched ' in a dnl comment, as
 	this confuses xgettext.
