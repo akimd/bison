@@ -88,7 +88,7 @@ do {							\
     {							\
       (Current).begin = (Current).end = (Rhs)[0].end;	\
     }							\
-} while (0)
+} while (false)
 #endif
 
 namespace yy
@@ -319,6 +319,9 @@ b4_syncline([@oline@], [@ofile@])[
 # endif
 #endif
 
+/* Suppress unused-variable warnings by "using" E.  */
+#define YYUSE(e) do {;} while (false && (e))
+
 /* A pseudo ostream that takes yydebug_ into account. */
 # define YYCDEBUG							\
   for (bool yydebugcond_ = yydebug_; yydebugcond_; yydebugcond_ = false)	\
@@ -335,19 +338,19 @@ do {							\
       yysymprint_ ((Type), (Value), (Location));	\
       *yycdebug_ << std::endl;				\
     }							\
-} while (0)
+} while (false)
 
 # define YY_REDUCE_PRINT(Rule)		\
 do {					\
   if (yydebug_)				\
     yyreduce_print_ (Rule);		\
-} while (0)
+} while (false)
 
 # define YY_STACK_PRINT()		\
 do {					\
   if (yydebug_)				\
     yystack_print_ ();			\
-} while (0)
+} while (false)
 
 #else /* !YYDEBUG */
 
@@ -414,9 +417,9 @@ yy::]b4_parser_class_name[::yysymprint_ (int yytype,
   /* Backward compatibility, but should be removed eventually. */
   std::ostream& cdebug_ = *yycdebug_;
 
-  /* Suppress unused-variable warnings.  */
-  if (false)
-    yysymprint_ (yytype + !&cdebug_, yyvaluep, yylocationp);
+  YYUSE (!&cdebug_);
+  YYUSE (yylocationp);
+  YYUSE (yyvaluep);
 
   *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
 	     << ' ' << yytname_[yytype] << " ("
@@ -435,9 +438,9 @@ void
 yy::]b4_parser_class_name[::yydestruct_ (const char* yymsg,
                          int yytype, semantic_type* yyvaluep, location_type* yylocationp)
 {
-  /* Suppress unused-variable warnings.  */
-  if (false)
-    yydestruct_ (yymsg, yytype, yyvaluep, yylocationp);
+  YYUSE (yylocationp);
+  YYUSE (yymsg);
+  YYUSE (yyvaluep);
 
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 

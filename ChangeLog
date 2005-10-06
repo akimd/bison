@@ -1,5 +1,23 @@
 2005-10-05  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/c.m4 (yydestruct, yysymprint):
+	Use YYUSE instead of casting to void.
+	* data/glr.c (YYUSE): New macro.
+	(yyuserMerge, yyreportAmbiguity, yyreportSyntaxError):
+	Use it instead of rolling our own.
+	(YYLLOC_DEFAULT, YYCHK, YYDPRINTF, YY_SYMBOL_PRINT, YY_REDUCE_PRINT):
+	(YYCHK1):
+	Use /*CONSTCOND*/ to suppress lint warnings.
+	* data/lalr1.cc (YYLLOC_DEFAULT, YY_SYMBOL_PRINT, YY_REDUCE_PRINT):
+	(YY_STACK_PRINT): Use 'false' not '0'.
+	(YYUSE): New macro.
+	(yysymprint_, yydestruct_): Use it instead of rolling our own.
+	* data/yacc.c (YYUSE): New macro.
+	(YYCOPY, YYSTACK_RELOCATE, YYBACKUP, YYLLOC_DEFAULT):
+	(YYDPRINTF, YY_SYMBOL_PRINT, YY_STACK_PRINT, YY_REDUCE_PRINT):
+	(yyerrorlab): Use /*CONSTCOND*/ to suppress lint warnings.
+
+
 	* data/m4sugar/m4sugar.m4 (_m4_map): New macro.
 	(m4_map, m4_map_sep): Use it.  Handle the empty list correctly.
 

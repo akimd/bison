@@ -385,9 +385,8 @@ m4_define_default([b4_yydestruct_generate],
     [[YYSTYPE *yyvaluep],    [yyvaluep]]b4_location_if([,
     [[YYLTYPE *yylocationp], [yylocationp]]]))[
 {
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yyvaluep;
-]b4_location_if([  (void) yylocationp;
+  YYUSE (yyvaluep);
+]b4_location_if([  YYUSE (yylocationp);
 ])[
   if (!yymsg)
     yymsg = "Deleting";
@@ -420,9 +419,8 @@ m4_define_default([b4_yysymprint_generate],
     [[YYSTYPE *yyvaluep],    [yyvaluep]]b4_location_if([,
     [[YYLTYPE *yylocationp], [yylocationp]]]))
 {
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yyvaluep;
-b4_location_if([  (void) yylocationp;
+  YYUSE (yyvaluep);
+b4_location_if([  YYUSE (yylocationp);
 ])dnl
 [
   if (yytype < YYNTOKENS)
