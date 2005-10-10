@@ -1,3 +1,7 @@
+2005-10-10  Akim Demaille  <akim@epita.fr>
+
+	* examples/calc++/test: Be quiet unless VERBOSE.
+
 2005-10-05  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/c.m4 (yydestruct, yysymprint):
