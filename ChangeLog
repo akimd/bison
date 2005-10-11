@@ -7,6 +7,11 @@
 	* src/scan-gram.l (gram_wrap): Redefine to avoid bug in flex 2.5.31
 	that xlc complains about.
 	* src/scan-skel.l (skel_wrap): Likewise.
+	* data/c.m4 (b4_c_function_def): Look at __STDC_VERSION__ as well
+	as __STDC__, as IBM cc defines the former but not the latter.
+	* data/yacc.c (YYMODERN_C): New macro, which also looks at
+	__STDC_VERSION__.  Use it everywhere instead of looking at
+	__STDC__ and __cplusplus.
 
 2005-10-10  Akim Demaille  <akim@epita.fr>
 
