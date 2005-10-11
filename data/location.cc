@@ -43,20 +43,14 @@ namespace yy
   /// Abstract a position.
   class position
   {
-  public:
-    /// Initial column number.
-    static const unsigned int initial_column = 0;
-    /// Initial line number.
-    static const unsigned int initial_line = 1;
-
     /** \name Ctor & dtor.
      ** \{ */
   public:
     /// Construct a position.
     position () :
       filename (0),
-      line (initial_line),
-      column (initial_column)
+      line (1),
+      column (0)
     {
     }
     /** \} */
@@ -68,19 +62,19 @@ namespace yy
     /// (line related) Advance to the COUNT next lines.
     inline void lines (int count = 1)
     {
-      column = initial_column;
+      column = 0;
       line += count;
     }
 
     /// (column related) Advance to the COUNT next columns.
     inline void columns (int count = 1)
     {
-      int leftmost = initial_column;
+      int leftmost = 0;
       int current  = column;
       if (leftmost <= current + count)
 	column += count;
       else
-	column = initial_column;
+	column = 0;
     }
     /** \} */
 

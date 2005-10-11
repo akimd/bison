@@ -23,6 +23,11 @@
 %option prefix="skel_" outfile="lex.yy.c"
 
 %{
+/* Work around a bug in flex 2.5.31.  See Debian bug 333231
+   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+#undef skel_wrap
+#define skel_wrap() 1
+
 #include "system.h"
 
 #include <error.h>

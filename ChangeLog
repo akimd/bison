@@ -1,3 +1,13 @@
+2005-10-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Work around portability problems with Visual Age C compiler
+	(xlc and xlC_r) reported by John P. Hartmann.
+	* data/location.cc (initial_column, initial_line): Remove.
+	All uses replaced by 0 and 1.
+	* src/scan-gram.l (gram_wrap): Redefine to avoid bug in flex 2.5.31
+	that xlc complains about.
+	* src/scan-skel.l (skel_wrap): Likewise.
+
 2005-10-10  Akim Demaille  <akim@epita.fr>
 
 	* examples/calc++/test: Be quiet unless VERBOSE.
