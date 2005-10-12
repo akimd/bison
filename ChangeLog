@@ -1,3 +1,9 @@
+2005-10-12  Akim Demaille  <akim@epita.fr>
+
+	* src/parse-gram.y (version_check): Exit 63 to please missing
+	(stands for "version mismatch).
+	* tests/input.at, doc/bison.texinfo: Adjust.
+
 2005-10-10  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Work around portability problems with Visual Age C compiler

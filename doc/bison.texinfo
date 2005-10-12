@@ -3569,7 +3569,8 @@ Grammars}).
 @findex %require
 
 You may require the minimum version of Bison to process the grammar.  If
-the requirement is not met, @command{bison} exits with an error.
+the requirement is not met, @command{bison} exits with an error (exit
+status 63).
 
 @example
 %require "@var{version}"
@@ -4173,9 +4174,8 @@ Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 @end deffn
 
 @deffn {Directive} %require "@var{version}"
-Specify that version @var{version} or higher of Bison required for the
-grammar.
-@xref{Require Decl, , Require a Version of Bison}.
+Require version @var{version} or higher of Bison.  @xref{Require Decl, ,
+Require a Version of Bison}.
 @end deffn
 
 @deffn {Directive} %token-table
@@ -7993,9 +7993,8 @@ Bison declaration to request a pure (reentrant) parser.
 @end deffn
 
 @deffn {Directive} %require "@var{version}"
-Specify that version @var{version} or higher of Bison required for the
-grammar.
-@xref{Require Decl, , Require a Version of Bison}.
+Require version @var{version} or higher of Bison.  @xref{Require Decl, ,
+Require a Version of Bison}.
 @end deffn
 
 @deffn {Directive} %right
