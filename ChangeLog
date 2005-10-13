@@ -1,3 +1,12 @@
+2005-10-13  Akim Demaille  <akim@epita.fr>
+
+	* src/scan-skel.l: Output the base name parts of the parser and
+	header file names.
+	* tests/output.at (AT_CHECK_OUTPUT): Support subdirectorioes, and
+	additional checks.
+	Use this to exercise C++ outputs in subdirs.
+	Reported by Oleg Smolsky.
+
 2005-10-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/c.m4 (b4_c_function_def): Look at __C99_FUNC__, not at

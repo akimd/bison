@@ -62,6 +62,9 @@ typedef size_t uintptr_t;
 
 #include <stpcpy.h>
 
+/* From lib/basename.c. */
+char *base_name (char const *name);
+
 
 /*-----------------.
 | GCC extensions.  |

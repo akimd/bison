@@ -53,6 +53,10 @@
   char const *file_name = yytext + sizeof "@output " - 1;
   yytext[yyleng - 1] = '\0';
 
+  /* Decode special file names.  They include the directory part,
+     contrary to their "free" occurrences, used for issuing #includes,
+     which must not include the directory part.  */
+
   if (*file_name == '@')
     {
       if (strcmp (file_name, "@output_header_name@") == 0)
@@ -80,8 +84,8 @@
 "@oline@"  fprintf (yyout, "%d", lineno + 1);
 "@ofile@"  QPUTS (outname);
 "@dir_prefix@" QPUTS (dir_prefix);
-"@output_parser_name@"	QPUTS (parser_file_name);
-"@output_header_name@"	QPUTS (spec_defines_file);
+"@output_parser_name@"	QPUTS (base_name (parser_file_name));
+"@output_header_name@"	QPUTS (base_name (spec_defines_file));
 
   /* This pattern must not match more than the previous @ patterns. */
 @[^{}@\n]* fatal ("invalid @ in skeleton: %s", yytext);

@@ -30,7 +30,6 @@ m4_if(b4_defines_flag, 0, [],
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
              [2002, 2003, 2004, 2005])
 dnl FIXME: This is wrong, we want computed header guards.
-dnl FIXME: I do not know why the macros are missing now. :(
 [
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
