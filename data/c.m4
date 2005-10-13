@@ -232,7 +232,7 @@ m4_define([b4_token_enums_defines],
 # ----------------------------------------------------------
 # Declare the function NAME.
 m4_define([b4_c_function_def],
-[#if defined (__STDC__) || defined (__STDC_VERSION__) || defined (__cplusplus)
+[#if defined (__STDC__) || defined (__C99__FUNC__) || defined (__cplusplus)
 b4_c_ansi_function_def($@)
 #else
 $2

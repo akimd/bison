@@ -1,3 +1,11 @@
+2005-10-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/c.m4 (b4_c_function_def): Look at __C99_FUNC__, not at
+	__STDC_VERSION__, as IBM cc 7.0 doesn't define the latter either.
+	Problem reported by John P. Hartmann.
+	* data/yacc.c (YYMODERN_C): Likewise.  Don't define if the user has
+	already defined it.
+
 2005-10-12  Akim Demaille  <akim@epita.fr>
 
 	* src/parse-gram.y (version_check): Exit 63 to please missing
@@ -14,7 +22,7 @@
 	that xlc complains about.
 	* src/scan-skel.l (skel_wrap): Likewise.
 	* data/c.m4 (b4_c_function_def): Look at __STDC_VERSION__ as well
-	as __STDC__, as IBM cc defines the former but not the latter.
+	as __STDC__.
 	* data/yacc.c (YYMODERN_C): New macro, which also looks at
 	__STDC_VERSION__.  Use it everywhere instead of looking at
 	__STDC__ and __cplusplus.
@@ -5919,7 +5927,7 @@
 	Reported by Charles-Henry de Boysson.
 
 	* tests/calc.at (_AT_CHECK_CALC, _AT_CHECK_CALC_ERROR): Don't
-	check the length of the	traces when %glr.
+	check the length of the traces when %glr.
 	(_AT_CHECK_CALC_ERROR): Also skip `^Stack' lines, coming from
 	GLR's traces.
 	(AT_CHECK_CALC_LALR, AT_CHECK_CALC_GLR): New.
@@ -6064,7 +6072,7 @@
 	struct lbitset_struct, struct bitset_stats_struct): New types.
 	All uses of struct bitset_struct changed to union bitset_union,
 	etc.
-	* lib/abitset.c	(struct abitset_struct, abitset,
+	* lib/abitset.c (struct abitset_struct, abitset,
 	struct bitset_struct): Remove.
 	* lib/bitset_stats.c (struct bitset_stats_struct, bitset_stats,
 	struct bitset_struct): Remove.
@@ -7150,7 +7158,7 @@
 
 2002-06-28  Akim Demaille  <akim@epita.fr>
 
-	* src/reader.h:	s/grammer_current_rule_merge_set/grammar_.../.
+	* src/reader.h: s/grammer_current_rule_merge_set/grammar_.../.
 	* src/conflicts.c (conflicts_total_count): `i' is unsigned, to
 	pacify GCC.
 	* src/output.c (save_row): Initialize all the variables to pacify GCC.
@@ -7180,7 +7188,7 @@
 	* src/getargs.c:
 
 	* src/symlist.h:  Add dprec and merger fields to symbol_list_s.
-	* src/symlist.c	(symbol_list_new): Initialize dprec and merger fields.
+	* src/symlist.c (symbol_list_new): Initialize dprec and merger fields.
 
 	Originally 2002-06-16  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
 
@@ -9187,8 +9195,8 @@
 
 2002-01-20  Marc Autret  <marc@gnu.org>
 
-	* src/system.h: Need to	define __attribute__ away for non-GCC
-	compilers as well (i.e.	the vendor C compiler).
+	* src/system.h: Need to define __attribute__ away for non-GCC
+	compilers as well (i.e., the vendor C compiler).
 	Suggested by Albert Chin-A-Young.
 
 2002-01-11  Tim Van Holder  <tim.van.holder@pandora.be>
@@ -10358,7 +10366,7 @@
 
 	* src/warshall.c (bitmatrix_print): New.
 	(TC): Use it.
-	When performing a transitive closure R(i, j) && R(j, k) => R(i,	k),
+	When performing a transitive closure R(i, j) && R(j, k) => R(i, k),
 	j must be the outer loop.
 	* tests/regression.at (Broken Closure): New.
 
@@ -11943,7 +11951,7 @@
 
 	* src/output.c (output): Delete call to reader_output_yylsp.
 	* src/reader.c (reader): Likewise.
-	* src/reader.h:	Delete declaration of reader_output_yylsp.
+	* src/reader.h: Delete declaration of reader_output_yylsp.
 
 2001-09-02  Marc Autret  <autret_m@epita.fr>
 
