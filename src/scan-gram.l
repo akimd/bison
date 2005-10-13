@@ -618,6 +618,15 @@ splice	 (\\[ \f\t\v]*\n)*
   "$"("<"{tag}">")?(-?[0-9]+|"$")  handle_dollar (token_type, yytext, *loc);
   "@"(-?[0-9]+|"$")		   handle_at (token_type, yytext, *loc);
 
+  "$"  {
+    warn_at (*loc, _("stray `$'"));
+    obstack_sgrow (&obstack_for_string, "$][");
+  }
+  "@"  {
+    warn_at (*loc, _("stray `@'"));
+    obstack_sgrow (&obstack_for_string, "@@");
+  }
+
   <<EOF>>  unexpected_eof (code_start, "}"); BEGIN INITIAL;
 }
 

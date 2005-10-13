@@ -3,7 +3,7 @@ Bison News
 
 Changes in version 2.1a:
 
-* DJGPP support added.
+* Bison now warns if it finds a stray `$' or `@' in an action.
 
 * %require "VERSION"
   To specify that the grammar file depends on features implemented in
@@ -22,6 +22,8 @@ Changes in version 2.1a:
 
   If you wish to update, then make sure older version of Bison will
   fail using `%require "2.1a"'.
+
+* DJGPP support added.
 
 Changes in version 2.1, 2005-09-16:
 

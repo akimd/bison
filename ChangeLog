@@ -1,8 +1,13 @@
+2005-10-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Bison now warns if it finds a stray `$' or `@' in an action.
+	* src/scan-gram.l (<SC_BRACED_CODE>[$@]): Implement this.
+
 2005-10-13  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-skel.l: Output the base name parts of the parser and
 	header file names.
-	* tests/output.at (AT_CHECK_OUTPUT): Support subdirectorioes, and
+	* tests/output.at (AT_CHECK_OUTPUT): Support subdirectories, and
 	additional checks.
 	Use this to exercise C++ outputs in subdirs.
 	Reported by Oleg Smolsky.
