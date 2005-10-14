@@ -1,3 +1,7 @@
+2005-10-14  Akim Demaille  <akim@epita.fr>
+
+	* examples/calc++/test: Use set -x only when VERBOSE.
+
 2005-10-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Bison now warns if it finds a stray `$' or `@' in an action.
