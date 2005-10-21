@@ -1,3 +1,12 @@
+2005-10-21  Akim Demaille  <akim@epita.fr>
+
+	Finish the transition config -> build-aux.
+	* configure.ac, Makefile.am: Use build-aux.
+	* config/prev-version, config/announce-gen, config/Makefile.am:
+	Move to...
+	* build-aux/prev-version, build-aux/announce-gen,
+	* build-aux/Makefile.am: here.
+
 2005-10-14  Akim Demaille  <akim@epita.fr>
 
 	* examples/calc++/test: Use set -x only when VERBOSE.

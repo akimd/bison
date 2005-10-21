@@ -1,0 +1,13 @@
+*.t
+Makefile
+Makefile.in
+config.guess
+config.rpath
+config.sub
+depcomp
+install-sh
+mdate-sh
+missing
+mkinstalldirs
+texinfo.tex
+ylwrap

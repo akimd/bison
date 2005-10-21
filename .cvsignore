@@ -13,7 +13,6 @@ aclocal.m4
 autom4te.cache
 b.out
 bison-*
-build-aux
 conf[0-9]*
 confdefs*
 config.cache

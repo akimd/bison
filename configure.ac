@@ -133,7 +133,7 @@ O0CXXFLAGS=`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`
 AC_SUBST([O0CXXFLAGS])
 
 AC_CONFIG_FILES([Makefile
-                 config/Makefile
+                 build-aux/Makefile
                  po/Makefile.in
                  data/Makefile
 		 examples/Makefile
