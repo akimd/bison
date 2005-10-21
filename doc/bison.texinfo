@@ -3810,28 +3810,28 @@ For instance, if your locations use a file name, you may use
 @cindex freeing discarded symbols
 @findex %destructor
 
-Some symbols can be discarded by the parser.  During error
-recovery (@pxref{Error Recovery}), symbols already pushed
-on the stack and tokens coming from the rest of the file
-are discarded until the parser falls on its feet.  If the parser
-runs out of memory, all the symbols on the stack must be discarded.
-Even if the parser succeeds, it must discard the start symbol.
+Some symbols can be discarded by the parser.  During error recovery
+(@pxref{Error Recovery}), symbols already pushed on the stack and tokens
+coming from the rest of the file are discarded until the parser falls on
+its feet.  If the parser runs out of memory, all the symbols on the
+stack must be discarded.  Even if the parser succeeds, it must discard
+the start symbol.
 
 When discarded symbols convey heap based information, this memory is
 lost.  While this behavior can be tolerable for batch parsers, such as
-in traditional compilers, it is unacceptable for programs like shells
-or protocol implementations that may parse and execute indefinitely.
+in traditional compilers, it is unacceptable for programs like shells or
+protocol implementations that may parse and execute indefinitely.
 
 The @code{%destructor} directive defines code that
 is called when a symbol is discarded.
 
 @deffn {Directive} %destructor @{ @var{code} @} @var{symbols}
 @findex %destructor
-Invoke @var{code} whenever the parser discards one of the
-@var{symbols}.  Within @var{code}, @code{$$} designates the semantic
-value associated with the discarded symbol.  The additional
-parser parameters are also available
-(@pxref{Parser Function, , The Parser Function @code{yyparse}}).
+Invoke @var{code} whenever the parser discards one of the @var{symbols}.
+Within @var{code}, @code{$$} designates the semantic value associated
+with the discarded symbol.  The additional parser parameters are also
+available (@pxref{Parser Function, , The Parser Function
+@code{yyparse}}).
 
 @strong{Warning:} as of Bison 2.1, this feature is still
 experimental, as there has not been enough user feedback.  In particular,

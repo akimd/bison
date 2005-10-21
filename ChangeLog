@@ -1,5 +1,15 @@
 2005-10-21  Akim Demaille  <akim@epita.fr>
 
+	* data/c.m4 (b4_yydestruct_generate, b4_yysymprint_generate): Pass
+	the %parse-params.
+	* data/glr.c (YY_SYMBOL_PRINT, yydestroyGLRState): Adjust.
+	* data/yacc.c (b4_Pure_if): Rename as...
+	(b4_yacc_pure_if): this.
+	(YY_SYMBOL_PRINT, yyparse): Adjust.
+	* doc/bison.texinfo: Formatting changes.
+
+2005-10-21  Akim Demaille  <akim@epita.fr>
+
 	Finish the transition config -> build-aux.
 	* configure.ac, Makefile.am: Use build-aux.
 	* config/prev-version, config/announce-gen, config/Makefile.am:

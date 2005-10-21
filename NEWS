@@ -3,6 +3,10 @@ Bison News
 
 Changes in version 2.1a:
 
+* GLR, YACC parsers.
+  The %parse-params are available in the %destructor's (and the
+  experimental %printer's) as per the documentation.
+
 * Bison now warns if it finds a stray `$' or `@' in an action.
 
 * %require "VERSION"

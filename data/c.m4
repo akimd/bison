@@ -96,7 +96,6 @@ m4_define([b4_parse_param],
 b4_parse_param))
 
 
-
 ## ------------ ##
 ## Data Types.  ##
 ## ------------ ##
@@ -342,7 +341,6 @@ m4_define([b4_c_arg],
 ## Synclines.  ##
 ## ----------- ##
 
-
 # b4_syncline(LINE, FILE)
 # -----------------------
 m4_define([b4_syncline],
@@ -382,8 +380,9 @@ m4_define_default([b4_yydestruct_generate],
     [static void],
     [[const char *yymsg],    [yymsg]],
     [[int yytype],           [yytype]],
-    [[YYSTYPE *yyvaluep],    [yyvaluep]]b4_location_if([,
-    [[YYLTYPE *yylocationp], [yylocationp]]]))[
+    [[YYSTYPE *yyvaluep],    [yyvaluep]][]dnl
+b4_location_if(            [, [[YYLTYPE *yylocationp], [yylocationp]]])[]dnl
+m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   YYUSE (yyvaluep);
 ]b4_location_if([  YYUSE (yylocationp);
@@ -416,11 +415,12 @@ m4_define_default([b4_yysymprint_generate],
     [static void],
     [[FILE *yyoutput],       [yyoutput]],
     [[int yytype],           [yytype]],
-    [[YYSTYPE *yyvaluep],    [yyvaluep]]b4_location_if([,
-    [[YYLTYPE *yylocationp], [yylocationp]]]))
+    [[YYSTYPE *yyvaluep],    [yyvaluep]][]dnl
+b4_location_if(            [, [[YYLTYPE *yylocationp], [yylocationp]]])[]dnl
+m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   YYUSE (yyvaluep);
-b4_location_if([  YYUSE (yylocationp);
+]b4_location_if([  YYUSE (yylocationp);
 ])dnl
 [
   if (yytype < YYNTOKENS)
@@ -443,5 +443,5 @@ b4_location_if([  YYUSE (yylocationp);
         break;
     }
   YYFPRINTF (yyoutput, ")");
-}
-]])
+}]dnl
+])
