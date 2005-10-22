@@ -1,3 +1,8 @@
+2005-10-22  Akim  <akim@epita.fr>
+
+	* Makefile.cfg: Adjust to config -> build-aux.
+	Reported by twledo.
+
 2005-10-21  Akim Demaille  <akim@epita.fr>
 
 	* data/c.m4 (b4_yydestruct_generate, b4_yysymprint_generate): Pass
