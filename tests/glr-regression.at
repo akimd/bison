@@ -636,3 +636,100 @@ AT_CHECK([[./glr-regr7]], 2, [],
 AT_XFAIL_IF(:)
 
 AT_CLEANUP
+
+
+## ------------------------------------------------------------------------- ##
+## Incorrect default location for empty right-hand sides.  Adapted from bug  ##
+## report by Claudia Hermann.						     ##
+## See http://lists.gnu.org/archive/html/bug-bison/2005-10/msg00069.html and ##
+## http://lists.gnu.org/archive/html/bug-bison/2005-10/msg00072.html         ##
+## ------------------------------------------------------------------------- ##
+
+AT_SETUP([Incorrectly initialized location for empty right-hand side in GLR])
+
+AT_DATA_GRAMMAR([glr-regr8.y],
+[[
+%{
+  #include <stdio.h>
+  #include <stdlib.h>
+  static void yyerror (char const *);
+  static int yylex (void);
+  static void yyerror(const char *msg);
+%}
+
+%token T_CONSTANT
+%token T_PORT
+%token T_SIGNAL
+
+%glr-parser
+
+%%
+
+
+PortClause	: T_PORT InterfaceDeclaration T_PORT
+		{ printf("%d/%d - %d/%d - %d/%d\n", 
+			 @1.first_column, @1.last_column, 
+			 @2.first_column, @2.last_column, 
+			 @3.first_column, @3.last_column); }
+	;
+
+InterfaceDeclaration	: OptConstantWord	%dprec 1
+	| OptSignalWord	%dprec 2
+	;
+
+OptConstantWord	: /* empty */
+	| T_CONSTANT
+	;
+
+OptSignalWord	: /* empty */
+		{ printf("empty: %d/%d\n", @$.first_column, @$.last_column); }
+	| T_SIGNAL
+	;
+
+%%
+
+void yyerror(const char *msg)
+{
+  fprintf (stderr, "error\n");
+}
+
+static int lexIndex;
+
+int yylex() 
+{
+  lexIndex += 1;
+  switch (lexIndex)
+    {
+    case 1:
+      yylloc.first_column = 1;
+      yylloc.last_column = 9;
+      return T_PORT;
+    case 2:
+      yylloc.first_column = 13;
+      yylloc.last_column = 17;
+      return T_PORT;
+    default:
+      return 0;
+    }
+}
+
+int
+main (void) 
+{
+  yyparse();
+  return 0;
+}
+]])
+
+AT_CHECK([[bison -o glr-regr8.c glr-regr8.y]], 0, [],
+[glr-regr8.y: conflicts: 1 reduce/reduce
+])
+AT_COMPILE([glr-regr8])
+
+AT_CHECK([[./glr-regr8]], 0, 
+[empty: 9/9
+1/9 - 9/9 - 13/17
+],
+[])
+
+AT_CLEANUP

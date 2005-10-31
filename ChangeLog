@@ -1,3 +1,14 @@
+2005-10-30  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* data/glr.c (yyfill): Adjust comment.
+	(yyresolveAction): Initialize default location properly 
+	for empty right-hand sides.
+	(yydoAction): Ditto.
+	Add comment explaining apparently dead code.
+	* tests/glr-regression.at 
+	(Incorrectly initialized location for empty right-hand side in GLR): 
+	New test.
+	
 2005-10-30  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap (cleanup_gnulib): New function.  Use it to clean up
