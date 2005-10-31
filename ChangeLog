@@ -1,3 +1,10 @@
+2005-10-30  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (cleanup_gnulib): New function.  Use it to clean up
+	gnulib when interrupted.  This fixes some race conditions and
+	works around some portability problems (one noted by Paul
+	Hilfinger).
+
 2005-10-22  Akim  <akim@epita.fr>
 
 	* Makefile.cfg: Adjust to config -> build-aux.
