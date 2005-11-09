@@ -1,3 +1,7 @@
+2005-11-09  Akim Demaille  <akim@epita.fr>
+
+	* src/scan-skel.l: Use a couple of asserts.
+
 2005-11-03  Akim Demaille  <akim@epita.fr>
 
 	In some (weird) cases, the final state number is incorrect.

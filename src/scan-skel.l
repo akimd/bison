@@ -41,6 +41,9 @@
 #define QPUTS(String) \
    fputs (quotearg_style (c_quoting_style, (String)), yyout)
 
+#define BASE_QPUTS(File) \
+   assert (File), QPUTS (base_name (File))
+
 %}
 %%
 
@@ -60,13 +63,18 @@
   if (*file_name == '@')
     {
       if (strcmp (file_name, "@output_header_name@") == 0)
-	file_name = spec_defines_file;
+	{
+	  assert (spec_defines_file);
+	  file_name = spec_defines_file;
+	}
       else if (strcmp (file_name, "@output_parser_name@") == 0)
-	file_name = parser_file_name;
+	{
+	  assert (parser_file_name);
+	  file_name = parser_file_name;
+	}
       else
 	fatal ("invalid token in skeleton: %s", yytext);
     }
-
   if (outname)
     {
       free (outname);
@@ -84,8 +92,8 @@
 "@oline@"  fprintf (yyout, "%d", lineno + 1);
 "@ofile@"  QPUTS (outname);
 "@dir_prefix@" QPUTS (dir_prefix);
-"@output_parser_name@"	QPUTS (base_name (parser_file_name));
-"@output_header_name@"	QPUTS (base_name (spec_defines_file));
+"@output_parser_name@"	BASE_QPUTS (parser_file_name);
+"@output_header_name@"	BASE_QPUTS (spec_defines_file);
 
   /* This pattern must not match more than the previous @ patterns. */
 @[^{}@\n]* fatal ("invalid @ in skeleton: %s", yytext);
