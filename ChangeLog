@@ -1,14 +1,29 @@
+2005-11-03  Akim Demaille  <akim@epita.fr>
+
+	In some (weird) cases, the final state number is incorrect.
+	Reported by Alexandre Duret-Lutz.
+	* src/LR0.c (state_list_append): Remove the computation of
+	final_state.
+	(save_reductions): Do it here.
+	(get_state): Alpha conversion.
+	(generate_states): Use a for loop.
+	* src/gram.h (item_number_is_rule_number)
+	(item_number_is_symbol_number): New.
+	* src/state.c: Use assert.
+	* src/system.h: Include assert.h.
+	* tests/sets.at (Accept): New.
+
 2005-10-30  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* data/glr.c (yyfill): Adjust comment.
-	(yyresolveAction): Initialize default location properly 
+	(yyresolveAction): Initialize default location properly
 	for empty right-hand sides.
 	(yydoAction): Ditto.
 	Add comment explaining apparently dead code.
-	* tests/glr-regression.at 
-	(Incorrectly initialized location for empty right-hand side in GLR): 
+	* tests/glr-regression.at
+	(Incorrectly initialized location for empty right-hand side in GLR):
 	New test.
-	
+
 2005-10-30  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap (cleanup_gnulib): New function.  Use it to clean up

@@ -52,6 +52,8 @@
 typedef size_t uintptr_t;
 #endif
 
+#include <assert.h>
+
 #include <verify.h>
 #include <xalloc.h>
 
