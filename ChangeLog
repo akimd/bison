@@ -1,3 +1,8 @@
+2005-11-09  Albert Chin-A-Young  <china@thewrittenword.com>
+
+	* m4/cxx.m4, examples/Makefile.am: Don't build
+	examples/calc++ if no C++ compiler is available.  (trivial change)
+
 2005-11-09  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-skel.l: Use a couple of asserts.

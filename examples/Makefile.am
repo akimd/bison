@@ -16,6 +16,8 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ## 02110-1301  USA
 
+if BISON_CXX_WORKS
 SUBDIRS = calc++
+endif
 
 dist_noinst_SCRIPTS = extexi
