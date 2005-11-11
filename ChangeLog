@@ -1,4 +1,8 @@
-2005-11-11  Akim  <akim@epita.fr>
+2005-11-11  Akim Demaille  <akim@epita.fr>
+
+	* data/glr.c: Comment changes.
+
+2005-11-11  Akim Demaille  <akim@epita.fr>
 
 	When yydebug, report semantic and location values for reductions.
 	* data/glr.c (yy_reduce_print): Report the semantic values and the
