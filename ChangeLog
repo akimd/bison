@@ -1,3 +1,9 @@
+2005-11-10  Akim Demaille  <akim@epita.fr>
+
+	* data/glr.c (yynewGLRStackItem, YY_RESERVE_GLRSTACK): New.
+	(yyaddDeferredAction, yyglrShift, yyglrShiftDefer): Use them.
+	(yyexpandGLRStack, YYRELOC): Define only when YYSTACKEXPANDABLE.
+
 2005-11-09  Albert Chin-A-Young  <china@thewrittenword.com>
 
 	* m4/cxx.m4, examples/Makefile.am: Don't build
