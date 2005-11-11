@@ -409,6 +409,7 @@ sed '/^Starting/d
 /^Error:/d
 /^Next/d
 /^Discarding/d
+/ \$[[0-9$]]* = /d
 /^yydestructor:/d' stderr >at-stderr
 mv at-stderr stderr
 # 2. Create the reference error message.

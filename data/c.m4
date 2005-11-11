@@ -413,10 +413,10 @@ m4_define_default([b4_yysymprint_generate],
 
 ]$1([yysymprint],
     [static void],
-    [[FILE *yyoutput],       [yyoutput]],
-    [[int yytype],           [yytype]],
-    [[YYSTYPE *yyvaluep],    [yyvaluep]][]dnl
-b4_location_if(            [, [[YYLTYPE *yylocationp], [yylocationp]]])[]dnl
+               [[FILE *yyoutput],                       [yyoutput]],
+               [[int yytype],                           [yytype]],
+               [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
+b4_location_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   YYUSE (yyvaluep);

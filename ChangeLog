@@ -1,3 +1,15 @@
+2005-11-11  Akim  <akim@epita.fr>
+
+	When yydebug, report semantic and location values for reductions.
+	* data/glr.c (yy_reduce_print): Report the semantic values and the
+	locations.
+	(YY_REDUCE_PRINT): Adjust.
+	(yyglrReduce): Use them.
+	(b4_rhs_value, b4_rhs_location): Remove m4_eval invocations.
+	* data/c.m4 (b4_yysymprint_generate): Specify the const arguments.
+	* tests/calc.at (_AT_CHECK_CALC_ERROR): Remove the reduction
+	traces.
+
 2005-11-10  Akim Demaille  <akim@epita.fr>
 
 	* data/glr.c (yynewGLRStackItem, YY_RESERVE_GLRSTACK): New.
