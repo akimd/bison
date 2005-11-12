@@ -1,4 +1,14 @@
-2005-11-12  Akim  <akim@epita.fr>
+2005-11-12  Akim Demaille  <akim@epita.fr>
+
+	Let position and location be PODs.
+	* data/location.cc (position::initialize, location::initialize): New.
+	(position::position, location::location): Define only if
+	b4_location_constructors is defined.
+	* data/lalr1.cc (b4_location_constructors): Define it for backward
+	compatibility.
+	* doc/bison.texinfo (Initial Action Decl): Use initialize.
+
+2005-11-12  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc: Move the body of the ctor and dtor into the
 	parser file (instead of the header).

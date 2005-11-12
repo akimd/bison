@@ -3800,7 +3800,7 @@ For instance, if your locations use a file name, you may use
 %parse-param @{ char const *file_name @};
 %initial-action
 @{
-  @@$.begin.filename = @@$.end.filename = file_name;
+  @@$.initialize (file_name);
 @};
 @end example
 

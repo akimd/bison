@@ -29,7 +29,7 @@ b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004, 2005])[
 
 /**
  ** \file position.hh
- ** Define the position class.
+ ** Define the yy::position class.
  */
 
 #ifndef BISON_POSITION_HH
@@ -43,18 +43,22 @@ namespace yy
   /// Abstract a position.
   class position
   {
-    /** \name Ctor & dtor.
-     ** \{ */
   public:
+]m4_ifdef([b4_location_constructors], [
     /// Construct a position.
-    position () :
-      filename (0),
-      line (1),
-      column (0)
+    position ()
+      : filename (0), line (1), column (0)
     {
     }
-    /** \} */
 
+])[
+    /// Initialization.
+    inline void initialize (]b4_filename_type[* fn)
+    {
+      filename = fn;
+      line = 1;
+      column = 0;
+    }
 
     /** \name Line and Column related manipulators
      ** \{ */
@@ -136,7 +140,7 @@ b4_copyright([Location class for Bison C++ parsers], [2002, 2003, 2004, 2005])[
 
 /**
  ** \file location.hh
- ** Define the location class.
+ ** Define the yy::location class.
  */
 
 #ifndef BISON_LOCATION_HH
@@ -152,17 +156,21 @@ namespace yy
   /// Abstract a location.
   class location
   {
-    /** \name Ctor & dtor.
-     ** \{ */
   public:
+]m4_ifdef([b4_location_constructors], [
     /// Construct a location.
-    location () :
-      begin (),
-      end ()
+    location ()
+      : begin (), end ()
     {
     }
-    /** \} */
 
+])[
+    /// Initialization.
+    inline void initialize (]b4_filename_type[* fn)
+    {
+      begin.initialize (fn);
+      end = begin;
+    }
 
     /** \name Line and Column related manipulators
      ** \{ */

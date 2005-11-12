@@ -20,6 +20,8 @@ m4_divert(-1)
 # 02110-1301  USA
 
 m4_include(b4_pkgdatadir/[c++.m4])
+# Backward compatibility.
+m4_define([b4_location_constructors])
 m4_include(b4_pkgdatadir/[location.cc])
 
 # We do want M4 expansion after # for CPP macros.
