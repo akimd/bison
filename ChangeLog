@@ -1,3 +1,16 @@
+2005-11-12  Akim  <akim@epita.fr>
+
+	* data/lalr1.cc: Move the body of the ctor and dtor into the
+	parser file (instead of the header).
+	Wrap the implementations in a "namespace yy".
+
+2005-11-12  Akim Demaille  <akim@epita.fr>
+
+	Have glr.c include its header file when created.
+	* data/glr.c (b4_shared_declarations): New.
+	Output them verbatim in the parser if !%defines, otherwise
+	output then in the header file, and include it instead.
+
 2005-11-11  Akim Demaille  <akim@epita.fr>
 
 	* data/glr.c: Comment changes.
