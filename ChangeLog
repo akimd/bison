@@ -1,5 +1,11 @@
 2005-11-14  Akim Demaille  <akim@epita.fr>
 
+	* data/glr.c (yy_reduce_print): The loop was quite wrong: type are
+	from 1 to N, while values and location start at 0.
+	(b4_rhs_location, b4_rhs_value): Add parens around $1 and $2.
+
+2005-11-14  Akim Demaille  <akim@epita.fr>
+
 	* data/glr.c (yy_reduce_print): Fix the $ number.
 
 2005-11-14  Akim Demaille  <akim@epita.fr>
