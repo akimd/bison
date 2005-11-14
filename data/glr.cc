@@ -53,7 +53,9 @@ b4_location_if([,
                              [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-  (void) yyoutput;
+  YYUSE (yyoutput);
+]b4_parse_param_use[]dnl
+[
   yyparser.yysymprint_ (yytype, yyvaluep]b4_location_if([, yylocationp])[);
 }
 ]])
@@ -70,6 +72,8 @@ m4_prepend([b4_epilogue],
     b4_parse_param,
     [[const char* msg], [msg]])[
 {
+]b4_parse_param_use[]dnl
+[
   yyparser.error (*yylocationp, msg);
 }
 
@@ -106,11 +110,11 @@ m4_popdef([b4_parse_param])dnl
                            const semantic_type* yyvaluep, const location_type* yylocationp)
   {
     /* Pacify ``unused variable'' warnings.  */
-    (void) yyvaluep;
-    (void) yylocationp;
+    YYUSE (yyvaluep);
+    YYUSE (yylocationp);
     /* Backward compatibility, but should be removed eventually. */
     std::ostream& cdebug_ = *yycdebug_;
-    (void) cdebug_;
+    YYUSE (cdebug_);
 
     *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
   	       << ' ' << yytname[yytype] << " ("

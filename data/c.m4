@@ -95,6 +95,27 @@ m4_define_default([b4_parse_param])
 m4_define([b4_parse_param],
 b4_parse_param))
 
+# b4_parse_param_for(DECL, FORMAL, BODY)
+# ---------------------------------------
+# Iterate over the user parameters, binding the declaration to DECL,
+# the formal name to FORMAL, and evaluating the BODY.
+m4_define([b4_parse_param_for],
+[m4_foreach([$1_$2], m4_defn([b4_parse_param]),
+[m4_pushdef([$1], m4_fst($1_$2))dnl
+m4_pushdef([$2], m4_shift($1_$2))dnl
+$3[]dnl
+m4_popdef([$2])dnl
+m4_popdef([$1])dnl
+])])
+
+# b4_parse_param_use
+# ------------------
+# `YYUSE' all the parse-params.
+# WARNING: Ends with a dnl, there must be nothing behind it.
+m4_define([b4_parse_param_use],
+[b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
+])dnl
+])
 
 ## ------------ ##
 ## Data Types.  ##
@@ -348,6 +369,11 @@ m4_define([b4_syncline],
        [[#]line $1 $2])])
 
 
+
+## -------------- ##
+## User actions.  ##
+## -------------- ##
+
 # b4_symbol_actions(FILENAME, LINENO,
 #                   SYMBOL-TAG, SYMBOL-NUM,
 #                   SYMBOL-ACTION, SYMBOL-TYPENAME)
@@ -386,7 +412,9 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   YYUSE (yyvaluep);
 ]b4_location_if([  YYUSE (yylocationp);
-])[
+])dnl
+b4_parse_param_use[]dnl
+[
   if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
@@ -422,8 +450,8 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
   YYUSE (yyvaluep);
 ]b4_location_if([  YYUSE (yylocationp);
 ])dnl
-[
-  if (yytype < YYNTOKENS)
+b4_parse_param_use[]dnl
+[  if (yytype < YYNTOKENS)
     YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
   else
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
