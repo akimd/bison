@@ -1515,6 +1515,12 @@ m4_define([m4_append],
 [m4_define([$1],
 	   m4_ifdef([$1], [m4_defn([$1])$3])[$2])])
 
+# m4_prepend(MACRO-NAME, STRING, [SEPARATOR])
+# -------------------------------------------
+# Same, but prepend.
+m4_define([m4_prepend],
+[m4_define([$1],
+	   [$2]m4_ifdef([$1], [$3[]m4_defn([$1])]))])
 
 # m4_append_uniq(MACRO-NAME, STRING, [SEPARATOR])
 # -----------------------------------------------

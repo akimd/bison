@@ -1,9 +1,7 @@
 2005-11-14  Akim Demaille  <akim@epita.fr>
 
-	Have glr.c include its header file when created.
-	* data/glr.c (b4_shared_declarations): New.
-	Output them verbatim in the parser if !%defines, otherwise
-	output then in the header file, and include it instead.
+	* data/glr.cc: New.
+	* data/m4sugar/m4sugar.m4 (m4_prepend): New.
 
 2005-11-12  Akim Demaille  <akim@epita.fr>
 
