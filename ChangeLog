@@ -1,3 +1,10 @@
+2005-11-14  Akim Demaille  <akim@epita.fr>
+
+	Have glr.c include its header file when created.
+	* data/glr.c (b4_shared_declarations): New.
+	Output them verbatim in the parser if !%defines, otherwise
+	output then in the header file, and include it instead.
+
 2005-11-12  Akim Demaille  <akim@epita.fr>
 
 	Let position and location be PODs.
