@@ -1,5 +1,9 @@
 2005-11-14  Akim Demaille  <akim@epita.fr>
 
+	* data/glr.c (yy_reduce_print): Fix the $ number.
+
+2005-11-14  Akim Demaille  <akim@epita.fr>
+
 	"Use" parse parameters.
 	* data/c.m4 (b4_parse_param_for, b4_parse_param_use): New.
 	* data/glr.c, data/glr.cc: Use them.
