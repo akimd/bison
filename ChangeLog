@@ -1,5 +1,9 @@
 2005-11-14  Akim Demaille  <akim@epita.fr>
 
+	* data/glr.c (yyexpandGLRStack): Declare only if defined.
+
+2005-11-14  Akim Demaille  <akim@epita.fr>
+
 	* data/glr.cc: New.
 	* data/m4sugar/m4sugar.m4 (m4_prepend): New.
 
