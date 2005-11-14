@@ -111,7 +111,6 @@ m4_popdef([$1])dnl
 # b4_parse_param_use
 # ------------------
 # `YYUSE' all the parse-params.
-# WARNING: Ends with a dnl, there must be nothing behind it.
 m4_define([b4_parse_param_use],
 [b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
 ])dnl
