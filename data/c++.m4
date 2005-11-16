@@ -61,7 +61,7 @@ m4_define([b4_lhs_value],
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
 m4_define([b4_rhs_value],
-[(yysemantic_stack_@{m4_eval([$1 - $2])@}m4_ifval([$3], [.$3]))])
+[(yysemantic_stack_@{($1) - ($2)@}m4_ifval([$3], [.$3]))])
 
 # b4_lhs_location()
 # -----------------
@@ -75,7 +75,7 @@ m4_define([b4_lhs_location],
 # Expansion of @NUM, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[(yylocation_stack_@{m4_eval([$1 - $2])@})])
+[(yylocation_stack_@{($1) - ($2)@})])
 
 
 # b4_parse_param_decl

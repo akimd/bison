@@ -232,7 +232,7 @@ b4_error_verbose_if([, int tok])[);
     /// For each scanner token number, its symbol number.
     static const ]b4_int_type_for([b4_toknum])[ yytoken_number_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
-    virtual void yyreduce_print_ (int r);
+    virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
     virtual void yystack_print_ ();
 #endif
@@ -328,7 +328,7 @@ b4_syncline([@oline@], [@ofile@])[
 do {							\
   if (yydebug_)						\
     {							\
-      *yycdebug_ << (Title) << ' ';			\
+      *yycdebug_ << Title << ' ';			\
       yysymprint_ ((Type), (Value), (Location));	\
       *yycdebug_ << std::endl;				\
     }							\
@@ -337,7 +337,7 @@ do {							\
 # define YY_REDUCE_PRINT(Rule)		\
 do {					\
   if (yydebug_)				\
-    yyreduce_print_ (Rule);		\
+    yy_reduce_print_ (Rule);		\
 } while (false)
 
 # define YY_STACK_PRINT()		\
@@ -655,9 +655,9 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
         ]b4_actions[
         default: break;
       }
-
-  ]/* Line __line__ of lalr1.cc.  */
-  b4_syncline([@oline@], [@ofile@])[
+    YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], &yyval, &yyloc);
+    /* Line __line__ of lalr1.cc.  */
+]b4_syncline([@oline@], [@ofile@])[
 
     yypop_ (yylen);
 
@@ -981,16 +981,19 @@ b4_error_verbose_if([, int tok])[)
 
   // Report on the debug stream that the rule \a yyrule is going to be reduced.
   void
-  ]b4_parser_class_name[::yyreduce_print_ (int yyrule)
+  ]b4_parser_class_name[::yy_reduce_print_ (int yyrule)
   {
     unsigned int yylno = yyrline_[yyrule];
+    int yynrhs = yyr2_[yyrule];
     /* Print the symbols being reduced, and their result.  */
     *yycdebug_ << "Reducing stack by rule " << yyrule - 1
                << " (line " << yylno << "), ";
-    for (]b4_int_type_for([b4_prhs])[ i = yyprhs_[yyrule];
-         0 <= yyrhs_[i]; ++i)
-      *yycdebug_ << yytname_[yyrhs_[i]] << ' ';
-    *yycdebug_ << "-> " << yytname_[yyr1_[yyrule]] << std::endl;
+    /* The symbols being reduced.  */
+    for (int yyi = 0; yyi < yynrhs; yyi++)
+      YY_SYMBOL_PRINT ("   $" << yyi + 1 << " =",
+                       yyrhs_[yyprhs_[yyrule] + yyi],
+                       &]b4_rhs_value(yynrhs, yyi + 1)[,
+                       &]b4_rhs_location(yynrhs, yyi + 1)[);
   }
 #endif // YYDEBUG
 

@@ -1,3 +1,18 @@
+2005-11-16  Akim Demaille  <akim@epita.fr>
+
+	Generalize the display of semantic values and locations in traces.
+	* data/glr.c (yy_reduce_print): Fix indices (again).
+	* data/c++.m4 (b4_rhs_value, b4_rhs_location): Don't expect
+	literal integers.
+	* data/lalr1.cc (yyreduce_print): Rename as...
+	(yy_reduce_print): this.
+	Display values and locations.
+	* data/yacc.c (yy_reduce_print): Likewise.
+	(YY_REDUCE_PRINT): Adjust to pass the required arguments.
+	(yysymprint): Move higher to be visible from yy_reduce_print).
+	(yyparse): Adjust.
+	* tests/calc.at: Adjust the expected length of the traces.
+
 2005-11-14  Akim Demaille  <akim@epita.fr>
 
 	* data/glr.c (yy_reduce_print): The loop was quite wrong: type are
