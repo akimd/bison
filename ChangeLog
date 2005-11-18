@@ -1,5 +1,13 @@
 2005-11-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/yacc.c (yy_reduce_print, YY_REDUCE_PRINT):
+	Fix typos in previous change that broke 'make check'.
+	YY_REDUCE_PRINT cannot be a pseudo-varargs macro; that isn't
+	supported in C.
+	* tests/calc.at (_AT_CHECK_CALC,_AT_CHECK_CALC_ERROR):
+	Don't check NUM-STDERR-LINES, since the output format is fluctuating.
+	We can revert this once things settle down.
+
 	* src/conflicts.c (conflicts_print): Don't print file name twice
 	when %expect fails because there were no conflicts.
 	* doc/bison.texinfo (Expect Decl): Tighten up wording in previous

@@ -340,12 +340,14 @@ m4_define([AT_DATA_CALC_Y],
 
 
 
-# _AT_CHECK_CALC(BISON-OPTIONS, INPUT, [NUM-STDERR-LINES = 0])
-# ------------------------------------------------------------
+# _AT_CHECK_CALC(BISON-OPTIONS, INPUT, [NUM-STDERR-LINES])
+# --------------------------------------------------------
 # Run `calc' on INPUT and expect no STDOUT nor STDERR.
 #
 # If BISON-OPTIONS contains `%debug' but not `%glr-parser', then
+#
 # NUM-STDERR-LINES is the number of expected lines on stderr.
+# Currently this is ignored, though, since the output format is fluctuating.
 #
 # We don't count GLR's traces yet, since its traces are somewhat
 # different from LALR's.
@@ -354,23 +356,20 @@ m4_define([_AT_CHECK_CALC],
 [[$2
 ]])
 AT_PARSER_CHECK([./calc input], 0, [], [stderr])
-m4_bmatch([$1],
-  [%debug.*%glr\|%glr.*%debug],
-     [],
-  [%debug],
-     [AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0, [$3
-])])
 ])
 
 
 # _AT_CHECK_CALC_ERROR(BISON-OPTIONS, EXIT-STATUS, INPUT,
-#                      [NUM-DEBUG-LINES],
+#                      [NUM-STDERR-LINES],
 #                      [VERBOSE-AND-LOCATED-ERROR-MESSAGE])
 # ---------------------------------------------------------
 # Run `calc' on INPUT, and expect a `syntax error' message.
 #
 # If INPUT starts with a slash, it is used as absolute input file name,
 # otherwise as contents.
+#
+# NUM-STDERR-LINES is the number of expected lines on stderr.
+# Currently this is ignored, though, since the output format is fluctuating.
 #
 # If BISON-OPTIONS contains `%location', then make sure the ERROR-LOCATION
 # is correctly output on stderr.
@@ -388,12 +387,6 @@ m4_define([_AT_CHECK_CALC_ERROR],
 [[$3
 ]])
 AT_PARSER_CHECK([./calc input], $2, [], [stderr])])
-m4_bmatch([$1],
-  [%debug.*%glr\|%glr.*%debug],
-     [],
-  [%debug],
-     [AT_CHECK([wc -l <stderr | sed 's/[[^0-9]]//g'], 0, [$4
-])])
 
 # Normalize the observed and expected error messages, depending upon the
 # options.
