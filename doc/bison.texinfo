@@ -3913,19 +3913,18 @@ The declaration looks like this:
 %expect @var{n}
 @end example
 
-Here @var{n} is a decimal integer.  The declaration says there should be
-no warning if there are @var{n} shift/reduce conflicts and no
-reduce/reduce conflicts.  The usual warning is
-given if there are either more or fewer conflicts, or if there are any
-reduce/reduce conflicts.
+Here @var{n} is a decimal integer.  The declaration says there should
+be @var{n} shift/reduce conflicts and no reduce/reduce conflicts.
+Bison reports an error if the number of shift/reduce conflicts differs
+from @var{n}, or if there are any reduce/reduce conflicts.
 
-For normal @acronym{LALR}(1) parsers, reduce/reduce conflicts are more serious,
-and should be eliminated entirely.  Bison will always report
-reduce/reduce conflicts for these parsers.  With @acronym{GLR} parsers, however,
-both shift/reduce and reduce/reduce are routine (otherwise, there
-would be no need to use @acronym{GLR} parsing).  Therefore, it is also possible
-to specify an expected number of reduce/reduce conflicts in @acronym{GLR}
-parsers, using the declaration:
+For normal @acronym{LALR}(1) parsers, reduce/reduce conflicts are more
+serious, and should be eliminated entirely.  Bison will always report
+reduce/reduce conflicts for these parsers.  With @acronym{GLR}
+parsers, however, both kinds of conflicts are routine; otherwise,
+there would be no need to use @acronym{GLR} parsing.  Therefore, it is
+also possible to specify an expected number of reduce/reduce conflicts
+in @acronym{GLR} parsers, using the declaration:
 
 @example
 %expect-rr @var{n}
@@ -3946,12 +3945,12 @@ go back to the beginning.
 
 @item
 Add an @code{%expect} declaration, copying the number @var{n} from the
-number which Bison printed.
+number which Bison printed.  With @acronym{GLR} parsers, add an
+@code{%expect-rr} declaration as well.
 @end itemize
 
-Now Bison will stop annoying you if you do not change the number of
-conflicts, but it will warn you again if changes in the grammar result
-in more or fewer conflicts.
+Now Bison will warn you if you introduce an unexpected conflict, but
+will keep silent otherwise.
 
 @node Start Decl
 @subsection The Start-Symbol

@@ -1,3 +1,19 @@
+2005-11-18  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/conflicts.c (conflicts_print): Don't print file name twice
+	when %expect fails because there were no conflicts.
+	* doc/bison.texinfo (Expect Decl): Tighten up wording in previous
+	change.
+	* tests/conflicts.at (%expect not enough, %expect too much):
+	(%expect with reduce conflicts): Adjust to new behavior.
+
+2005-11-18  Akim Demaille  <akim@epita.fr>
+
+	* src/conflicts.c (conflicts_print): Unsatisfied %expectation are
+	errors.
+	* NEWS: Document this.
+	* doc/bison.texinfo (Expect Decl): Likewise.
+
 2005-11-16  Akim Demaille  <akim@epita.fr>
 
 	Generalize the display of semantic values and locations in traces.
