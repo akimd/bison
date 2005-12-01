@@ -1,5 +1,6 @@
 2005-12-01  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Document the following change.
 	* data/yacc.c: Say "parser skeleton" rather than "file", since
 	it's no longer just a file.
 	* data/glr.c: Grant a special exception for C GLR parsers, that
