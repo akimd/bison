@@ -25,7 +25,11 @@ m4_include(b4_pkgdatadir/[c++.m4])
 m4_changecom()
 m4_divert(0)dnl
 @output b4_dir_prefix[]position.hh
-b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004, 2005])[
+b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004, 2005])dnl
+[/* As a special exception, when this parser skeleton is copied by
+   Bison into a Bison output file, you may use that output file
+   without restriction.  This special exception was added by the Free
+   Software Foundation for C++ parsers in version 2.2 of Bison.  */
 
 /**
  ** \file position.hh
