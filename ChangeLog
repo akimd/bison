@@ -1,3 +1,13 @@
+2005-12-06  "Joel E. Denny" <jdenny@ces.clemson.edu>
+
+	* data/glr.c (yyprocessOneStack): Synchronize the shift for all
+	stacks, and iterate another stack in order to call user
+	destructors.
+	* tests/glr-regression.at (No users destructors if stack 0 deleted):
+	New test case.
+	(Duplicated user destructor for lookahead): This test now is expected
+	to succeed.
+
 2005-12-01  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Document the following change.
