@@ -120,7 +120,7 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
 /* Reported by S. Eken */
 
 %{
-  #define YYSTYPE char const *
+  #define YYSTYPE char *
 
   #include <ctype.h>
   #include <stdio.h>
@@ -138,9 +138,11 @@ command:
     's' var 't'
        { printf ("Variable: '%s'\n", $2); }
     'v' 'x' 'q'
+       { free ($2); }
   | 's' var_list 't' 'e'
-       { printf ("Varlist: '%s'\n", $2); }
+       { printf ("Varlist: '%s'\n", $2); free ($2); }
   | 's' var 't' var_printer 'x'
+       { free ($2); }
   ;
 
 var:
@@ -153,10 +155,10 @@ var_list:
     { $$ = $1; }
   | var ',' var_list
     {
-      char *s = (char *) malloc (strlen ($1) + 1 + strlen ($3) + 1);
-      strcpy (s, $1);
+      char *s = (char *) realloc ($1, strlen ($1) + 1 + strlen ($3) + 1);
       strcat (s, ",");
       strcat (s, $3);
+      free ($3);
       $$ = s;
     }
   ;

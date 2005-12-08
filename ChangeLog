@@ -1,3 +1,9 @@
+2005-12-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/glr-regression.at
+	(Improper handling of embedded actions and dollar(-N) in GLR parsers):
+	Close memory leak reported by twlevo.
+
 2005-12-06  "Joel E. Denny" <jdenny@ces.clemson.edu>
 
 	* data/glr.c (yyprocessOneStack, yyparse): Synchronize the shift for
