@@ -53,9 +53,8 @@ static void add_param (char const *, char *, location);
 
 static symbol_class current_class = unknown_sym;
 static uniqstr current_type = 0;
-symbol *current_lhs;
-location current_lhs_location;
-assoc current_assoc;
+static symbol *current_lhs;
+static location current_lhs_location;
 static int current_prec = 0;
 %}
 

@@ -1,3 +1,27 @@
+2005-12-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/parse-gram.y: Fix minor problems uncovered by lint.
+	(current_lhs, current_lhs_location): Now static.
+	(current_assoc): Remove unused variable.
+
+	Cleanups so that Bison-generated parsers have less lint.
+	* data/c.m4 (b4_yydestruct_generate, b4_yysymprint_generate):
+	Prepend /*ARGSUSED*/, for lint's sake.
+	* data/glr.c (YYUSE): Properly parenthesize, and use an alternate
+	definition if 'lint' is defined.
+	(YYID): New macro (or function, if lint).
+	All uses of /*CONSTCOND*/0 replaced by YYID(0).
+	* data/yacc.c: Likewise.
+	* data/glr.c (yyuserAction, yyuserMerge, yy_reduce_print):
+	(yyrecoverSyntaxError): Prepend /*ARGSUSED*/.
+	* data/glr.cc (YYLLOC_DEFAULT): Omit /*CONSTCOND*/ since this code
+	is C++ only.
+	* data/lalr1.cc (YYUSE): Just use a cast, since this code is C++ only.
+	* data/yacc.c (YYSTACK_FREE) [defined YYSTACK_ALLOC]:
+	Use YYID(0) rather than 0, for lint.
+	(yystrlen): Rewrite to avoid lint warning about ptrdiff_t overflow.
+	(yysyntax_error): Rewrite to avoid lint warnings about parenthesization.
+
 2005-12-07  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/glr-regression.at
