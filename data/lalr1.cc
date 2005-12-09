@@ -321,7 +321,7 @@ b4_syncline([@oline@], [@ofile@])[
 #endif
 
 /* Suppress unused-variable warnings by "using" E.  */
-#define YYUSE(e) do {;} while (false && (e))
+#define YYUSE(e) ((void) (e))
 
 /* A pseudo ostream that takes yydebug_ into account. */
 # define YYCDEBUG							\

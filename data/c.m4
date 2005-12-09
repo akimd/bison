@@ -401,6 +401,7 @@ m4_define_default([b4_yydestruct_generate],
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
 
+/*ARGSUSED*/
 ]$1([yydestruct],
     [static void],
     [[const char *yymsg],    [yymsg]],
@@ -438,6 +439,7 @@ m4_define_default([b4_yysymprint_generate],
 | Print this symbol on YYOUTPUT.  |
 `--------------------------------*/
 
+/*ARGSUSED*/
 ]$1([yysymprint],
     [static void],
                [[FILE *yyoutput],                       [yyoutput]],

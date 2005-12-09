@@ -243,7 +243,7 @@ b4_syncline([@oline@], [@ofile@])[
 	{								\
 	  (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;	\
 	}								\
-    while (/*CONSTCOND*/ 0)
+    while (0)
 #endif
 
 namespace yy
