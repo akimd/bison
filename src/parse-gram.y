@@ -20,6 +20,7 @@
    02110-1301  USA
 */
 
+#include <config.h>
 #include "system.h"
 
 #include "complain.h"

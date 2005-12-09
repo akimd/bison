@@ -1,5 +1,45 @@
 2005-12-09  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Work around portability problem on Solaris 10: flex-generated
+	files include <stdio.h> before <config.h>, which messes up
+	because the latter defines __EXTENSIONS__.  Address the problem
+	by creating two new little files that include <config.h> first,
+	then include the flex-generated files.  Rewrite everyone else
+	to include <config.h> first, as well.
+	* lib/timevar.c: Always include "config.h".
+	* src/Makefile.am (bison_SOURCES): Replace scan-gram.l with
+	scan-gram-c.c, and scan-skel.l with scan-skel-c.c.
+	(EXTRA_bison_SOURCES): New macro.
+	* src/scan-gram-c.c, src/scan-skel-c.c: New files.
+	* src/system.h: Don't include config.h.
+	* src/LR0.c: Include <config.h> first.
+	* src/assoc.c: Likewise.
+	* src/closure.c: Likewise.
+	* src/complain.c: Likewise.
+	* src/conflicts.c: Likewise.
+	* src/derives.c: Likewise.
+	* src/files.c: Likewise.
+	* src/getargs.c: Likewise.
+	* src/gram.c: Likewise.
+	* src/lalr.c: Likewise.
+	* src/location.c: Likewise.
+	* src/main.c: Likewise.
+	* src/muscle_tab.c: Likewise.
+	* src/nullable.c: Likewise.
+	* src/output.c: Likewise.
+	* src/parse-gram.y: Likewise.
+	* src/print.c: Likewise.
+	* src/print_graph.c: Likewise.
+	* src/reader.c: Likewise.
+	* src/reduce.c: Likewise.
+	* src/relation.c: Likewise.
+	* src/state.c: Likewise.
+	* src/symlist.c: Likewise.
+	* src/symtab.c: Likewise.
+	* src/tables.c: Likewise.
+	* src/uniqstr.c: Likewise.
+	* src/vcg.c: Likewise.
+
 	* src/parse-gram.y: Fix minor problems uncovered by lint.
 	(current_lhs, current_lhs_location): Now static.
 	(current_assoc): Remove unused variable.

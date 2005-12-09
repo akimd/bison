@@ -20,10 +20,6 @@
 #ifndef BISON_SYSTEM_H
 #define BISON_SYSTEM_H
 
-#if HAVE_CONFIG_H
-# include <config.h>
-#endif
-
 #include <limits.h>
 #include <stddef.h>
 #include <stdlib.h>
