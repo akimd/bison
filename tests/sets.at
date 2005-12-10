@@ -281,7 +281,7 @@ input:
 AT_CHECK([[bison -v -o input.c input.y]])
 
 # Get the final state in the parser.
-AT_CHECK([sed -n 's/.*define YYFINAL *\([0-9][0-9]\)*/final state \1/p' input.c],
+AT_CHECK([[sed -n 's/.*define YYFINAL *\([0-9][0-9]*\)/final state \1/p' input.c]],
          0, [stdout])
 mv stdout expout
 

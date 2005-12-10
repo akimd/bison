@@ -1,5 +1,8 @@
 2005-12-09  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* tests/sets.at (Accept): Fix typos in regular expression used to
+	sed out the final state number.
+
 	Work around portability problem on Solaris 10: flex-generated
 	files include <stdio.h> before <config.h>, which messes up
 	because the latter defines __EXTENSIONS__.  Address the problem
