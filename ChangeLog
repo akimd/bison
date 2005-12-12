@@ -1,3 +1,22 @@
+2005-12-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (build_cvs_prefix): Remove; unused.
+	(CVS_PREFIX): Adjust to yesterday's Savannah reorganization
+	when getting gnulib.
+
+2005-12-12  "Joel E. Denny" <jdenny@ces.clemson.edu>
+
+	* data/glr.c: Reorder typedef declarations for structs to match order
+	of struct declarations.
+	Rename yystack everywhere to yystackp except in yyparse where it's not
+	a pointer.
+	(yyglrShift): Change parameter YYSTYPE yysval to YYSTYPE* yyvalp for
+	consistency.
+	(yyis_table_ninf): Change 0 to YYID (0) to pacify lint.
+	(yyreportSyntaxError): Add /*ARGSUSED*/ to pacify lint.
+	(yyparse): Change while (yytrue) to while ( YYID (yytrue)) to pacify
+	lint.
+
 2005-12-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/sets.at (Accept): Fix typos in regular expression used to
