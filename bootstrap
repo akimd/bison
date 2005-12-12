@@ -51,13 +51,6 @@ done
 
 echo "$0: Bootstrapping CVS $package..."
 
-build_cvs_prefix() {
-  CVS_PREFIX=:${1}:
-  if [ "${2}" != - ]; then
-    CVS_PREFIX=${CVS_PREFIX}${2}@
-  fi
-}
-
 cleanup_gnulib() {
   status=$?
   rm -fr gnulib
@@ -71,9 +64,9 @@ case ${GNULIB_SRCDIR--} in
   if [ ! -d gnulib ]; then
     echo "$0: getting gnulib files..."
 
-    case ${CVS_AUTH-anoncvs} in
-    anoncvs)
-      CVS_PREFIX='anoncvs@';;
+    case ${CVS_AUTH-pserver} in
+    pserver)
+      CVS_PREFIX=':pserver:anonymous@';;
     ssh)
       CVS_PREFIX="$CVS_USER${CVS_USER+@}";;
     *)
@@ -87,7 +80,7 @@ case ${GNULIB_SRCDIR--} in
 
     trap cleanup_gnulib 1 2 13 15
 
-    cvs -z3 -q -d ${CVS_PREFIX}subversions.gnu.org:/cvsroot/gnulib co gnulib ||
+    cvs -z3 -q -d ${CVS_PREFIX}cvs.savannah.gnu.org:/cvsroot/gnulib co gnulib ||
       cleanup_gnulib
 
     trap - 1 2 13 15
