@@ -9,7 +9,7 @@ SHELL = /bin/sh
 all: README
 
 README: README.in $(top_srcdir)/configure
-	PACKAGE=`grep "^[ 	]*PACKAGE=" $(top_srcdir)/configure | sed -e 's/^[ 	]*PACKAGE=//'`; \
+	PACKAGE=`grep "^[ 	]*PACKAGE=" $(top_srcdir)/configure | sed -e 's/^[ 	]*PACKAGE=//' -e s/[\"\']//g`; \
 	VERSION=`grep "^[ 	]*VERSION=" $(top_srcdir)/configure | sed -e 's/^[ 	]*VERSION=//' -e s/[\"\']//g`; \
 	package_version=`echo "$${VERSION}" | sed 's/\.//g'`; \
 	tree_version=`echo "$${VERSION}" | sed 's/\.//2g'`; \
