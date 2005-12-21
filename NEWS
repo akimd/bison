@@ -24,8 +24,8 @@ Changes in version 2.1a:
   Bison version VERSION or higher.
 
 * lalr1.cc: The token and value types are now class members.
-  The tokens where defined as free form enums and cpp macros.  YYSTYPE
-  was defined as a free form union.  Both are now class members:
+  The tokens were defined as free form enums and cpp macros.  YYSTYPE
+  was defined as a free form union.  They are now class members:
   tokens are enumerations of the `yy::parser::token' struct, and the
   semantic values have the `yy::parser::semantic_type' type.
 
@@ -40,6 +40,8 @@ Changes in version 2.1a:
 * DJGPP support added.
 
 Changes in version 2.1, 2005-09-16:
+
+* The C++ lalr1.cc skeleton supports %lex-param.
 
 * Bison-generated parsers now support the translation of diagnostics like
   "syntax error" into languages other than English.  The default
