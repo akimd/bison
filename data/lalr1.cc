@@ -509,7 +509,7 @@ namespace yy
 
     /* State.  */
     int yyn;
-    int yylen;
+    int yylen = 0;
     int yystate = 0;
 
     /* Error handling. */
@@ -641,7 +641,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
   `-----------------------------*/
   yyreduce:
     yylen = yyr2_[yyn];
-    /* If LEN_ is nonzero, implement the default value of the action:
+    /* If YYLEN is nonzero, implement the default value of the action:
        `$$ = $1'.  Otherwise, use the top of the stack.
 
        Otherwise, the following line sets YYVAL to garbage.
@@ -659,15 +659,15 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     YY_REDUCE_PRINT (yyn);
     switch (yyn)
       {
-        ]b4_actions[
+        ]b4_actions
+    /* Line __line__ of lalr1.cc.  */
+b4_syncline([@oline@], [@ofile@])[
         default: break;
       }
     YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], &yyval, &yyloc);
-    /* Line __line__ of lalr1.cc.  */
-]b4_syncline([@oline@], [@ofile@])[
 
     yypop_ (yylen);
-
+    yylen = 0;
     YY_STACK_PRINT ();
 
     yysemantic_stack_.push (yyval);
@@ -731,7 +731,10 @@ b4_error_verbose_if([, yytoken])[));
       goto yyerrorlab;
 
     yyerror_range[0] = yylocation_stack_[yylen - 1];
+    /* Do not reclaim the symbols of the rule which action triggered
+       this YYERROR. */
     yypop_ (yylen);
+    yylen = 0;
     yystate = yystate_stack_[0];
     goto yyerrlab1;
 
@@ -799,6 +802,9 @@ b4_error_verbose_if([, yytoken])[));
     if (yychar != yyeof_ && yychar != yyempty_)
       yydestruct_ ("Cleanup: discarding lookahead", yytoken, &yylval, &yylloc);
 
+    /* Do not reclaim the symbols of the rule which action triggered
+       this YYABORT or YYACCEPT. */
+    yypop_ (yylen);
     while (yystate_stack_.height () != 1)
       {
         yydestruct_ ("Cleanup: popping",

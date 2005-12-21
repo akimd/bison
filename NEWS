@@ -3,6 +3,11 @@ Bison News
 
 Changes in version 2.1a:
 
+* %destructor vs. YYACCEPT, YYERROR, and YYABORT.
+  When the parsing/action is cut by the user using one of these
+  special actions, the stack is freed except the right-hand side
+  symbols of the current rule.
+
 * GLR, C++ LALR(1) parsers.
   These parser skeletons are now distributed with the same special
   license exception that the C LALR(1) parser skeleton has had since

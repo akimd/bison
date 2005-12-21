@@ -3810,20 +3810,20 @@ For instance, if your locations use a file name, you may use
 @cindex freeing discarded symbols
 @findex %destructor
 
-Some symbols can be discarded by the parser.  During error recovery
-(@pxref{Error Recovery}), symbols already pushed on the stack and tokens
-coming from the rest of the file are discarded until the parser falls on
-its feet.  If the parser runs out of memory, all the symbols on the
-stack must be discarded.  Even if the parser succeeds, it must discard
-the start symbol.
+During error recovery (@pxref{Error Recovery}), symbols already pushed
+on the stack and tokens coming from the rest of the file are discarded
+until the parser falls on its feet.  If the parser runs out of memory,
+or if the parsing is cut by @code{YYACCEPT} or @code{YYABORT}, all the
+symbols on the stack must be discarded.  Even if the parser succeeds, it
+must discard the start symbol.
 
 When discarded symbols convey heap based information, this memory is
 lost.  While this behavior can be tolerable for batch parsers, such as
 in traditional compilers, it is unacceptable for programs like shells or
 protocol implementations that may parse and execute indefinitely.
 
-The @code{%destructor} directive defines code that
-is called when a symbol is discarded.
+The @code{%destructor} directive defines code that is called when a
+symbol is automatically discarded.
 
 @deffn {Directive} %destructor @{ @var{code} @} @var{symbols}
 @findex %destructor
@@ -3832,10 +3832,6 @@ Within @var{code}, @code{$$} designates the semantic value associated
 with the discarded symbol.  The additional parser parameters are also
 available (@pxref{Parser Function, , The Parser Function
 @code{yyparse}}).
-
-@strong{Warning:} as of Bison 2.1, this feature is still
-experimental, as there has not been enough user feedback.  In particular,
-the syntax might still change.
 @end deffn
 
 For instance:
@@ -3854,24 +3850,6 @@ For instance:
 guarantees that when a @code{STRING} or a @code{string} is discarded,
 its associated memory will be freed.
 
-Note that in the future, Bison might also consider that right hand side
-members that are not mentioned in the action can be destroyed.  For
-instance, in:
-
-@smallexample
-comment: "/*" STRING "*/";
-@end smallexample
-
-@noindent
-the parser is entitled to destroy the semantic value of the
-@code{string}.  Of course, this will not apply to the default action;
-compare:
-
-@smallexample
-typeless: string;  // $$ = $1 does not apply; $1 is destroyed.
-typefull: string;  // $$ = $1 applies, $1 is not destroyed.
-@end smallexample
-
 @sp 1
 
 @cindex discarded symbols
@@ -3883,13 +3861,18 @@ stacked symbols popped during the first phase of error recovery,
 @item
 incoming terminals during the second phase of error recovery,
 @item
-the current look-ahead and the entire stack when the parser aborts
-(either via an explicit call to @code{YYABORT}, or as a consequence of
-a failed error recovery or of memory exhaustion), and
+the current look-ahead and the entire stack (except the current
+right-hand side symbols) when the parser aborts (either via an explicit
+call to @code{YYABORT} or @code{YYACCEPT}, or as a consequence of a
+failed error recovery or of memory exhaustion), and
 @item
 the start symbol, when the parser succeeds.
 @end itemize
 
+Note that right-hand size symbols of a rule that explicitly triggers a
+syntax error via @code{YYERROR} are not reclaimed.  As a thumb rule,
+destructors are invoked only when you do not have other means to manage
+the memory.
 
 @node Expect Decl
 @subsection Suppressing Conflict Warnings

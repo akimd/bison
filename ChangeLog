@@ -1,3 +1,19 @@
+2005-12-21  Akim Demaille  <akim@epita.fr>
+
+	YYACCEPT, YYERROR, and YYABORT, as user actions, should not
+	destroy the RHS symbols of a rule.
+	* data/yacc.c (yylen): Initialize to 0.
+	Keep its value to the number of items to possibly shift.
+	In particular, a regular successful parse that ends on YYFINAL by
+	a (internal) YYACCEPT must not have yylen != 0.
+	(yyerrorlab, yyreturn): Pop the RHS.
+	Reorder a bit to emphasize the `shifting' bits of code.
+	(YYPOPSTACK): Now accept a number of items to pop.
+	* data/lalr1.cc: Likewise.
+	* data/glr.c: Formatting changes.
+	Use goto instead of fall through.
+	* doc/bison.texinfo (Destructor Decl): Complete.
+
 2005-12-20  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	* Makefile.am: DJGPP specific files added to EXTRA_DIST.
