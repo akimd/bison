@@ -1,5 +1,11 @@
 2005-12-21  Joel E. Denny  <address@hidden>
 
+	* tests/cxx-type.at: Construct a tree, count the parents of shared
+	nodes, and free each node once and only once.  Previously, the memory
+	for semantic values was leaked instead.
+
+2005-12-21  Joel E. Denny  <address@hidden>
+
 	* data/glr.c (struct yyGLRStack): If pure, add yyval and yyloc members.
 	(yylval, yylloc): If pure, #define to yystackp->yyval and
 	yystackp->yyloc similar to yychar and yynerrs.
