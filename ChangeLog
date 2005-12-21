@@ -1,3 +1,22 @@
+2005-12-21  Joel E. Denny  <address@hidden>
+
+	* data/glr.c (struct yyGLRStack): If pure, add yyval and yyloc members.
+	(yylval, yylloc): If pure, #define to yystackp->yyval and
+	yystackp->yyloc similar to yychar and yynerrs.
+	(yyparse): If pure, remove local yylval and yylloc. Add local
+	yystackp to accommodate pure definitions of yylval and yylloc.
+	(b4_lex_param, b4_lyyerror_args, b4_lpure_args): If pure, change
+	yylvalp and yyllocp to &yylval and &yylloc.
+	(nerrs, char, lval, lloc): If pure, add #define's for b4_prefix[]
+	namespace. Previously, nerrs and char were missing, but lval and lloc
+	weren't necessary.
+	(yyprocessOneStack, yyreportSyntaxError, yyrecoverSyntaxError): Remove
+	yylvalp and yyllocp parameters since, if pure, these are now always
+	accessible through yystackp.  If not pure, they are still accessible
+	globally.
+	* data/glr.c, data/yacc.c (YYLLOC_DEFAULT): Change `if (N)' to
+	`if (YYID (N))' to pacify lint.
+
 2005-12-21  Akim Demaille  <akim@epita.fr>
 
 	YYACCEPT, YYERROR, and YYABORT, as user actions, should not
