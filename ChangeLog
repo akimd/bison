@@ -1,3 +1,19 @@
+2005-12-20  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
+
+	* Makefile.am: DJGPP specific files added to EXTRA_DIST.
+	* djgpp/Makefile.maint: Fix PACKAGE variable computation.
+	* djgpp/config.bat: Replace every occurence of the file name
+	scan-gram-c.c with c-scan-gram.c. The same for scan-skel-c.c with
+	c-scan-skel.c to conform with the 8.3 file name restriction on MSDOS.
+	* djgpp/config.sed: Replace every occurence of the file name
+	scan-gram-c.c with c-scan-gram.c. The same for scan-skel-c.c with
+	c-scan-skel.c to conform with the 8.3 file name restriction on MSDOS.
+	* djgpp/djunpack.bat: DJGPP specific file.
+	* djgpp/fnchange.lst: DJGPP specific file.
+	* djgpp/README.in: Add new information about how to unpack the bison
+	source on MSDOS and other systems which have 8.3 file name restrictions
+	using djunpack.bat and fnchange.lst.
+
 2005-12-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap (build_cvs_prefix): Remove; unused.
