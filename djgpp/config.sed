@@ -10,6 +10,8 @@
   s,c++\\.at,cxx.at,g;t t\
   s,c++\\.m4,cxx.m4,g;t t\
   s,calc++,calcxx,g;t t\
+  s,scan-gram-c,c-scan-gram,g;t t\
+  s,scan-skel-c,c-scan-skel,g;t t\
   s,Makefile\\.in\\.in,Makefile.in-in,g;t t\
   s,Makefile\\.am\\.in,Makefile.am-in,g;t t\
   s,(MAKEINFOFLAGS),& --no-split,\

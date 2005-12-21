@@ -1,4 +1,7 @@
 @echo off
+Rem WARNING WARNING WARNING: This file needs to have DOS CRLF end-of-line
+Rem format, or else stock DOS/Windows shells will refuse to run it.
+
 echo Configuring GNU Bison for DJGPP v2.x...
 
 Rem The SmallEnv tests protect against fixed and too small size
@@ -169,7 +172,18 @@ test -f %XSRC%/data/c++.m4
 if not errorlevel 1 mv -f %XSRC%/data/c++.m4 %XSRC%/data/cxx.m4
 test -f %XSRC%/data/cxx.m4
 if errorlevel 1 mv -f %XSRC%/data/cpp.m4 %XSRC%/data/cxx.m4
+:scan_gram_c_Test
+test -f %XSRC%/src/c-scan-gram.c
+if not errorlevel 1 goto scan_skel_c_Test
+test -f %XSRC%/src/scan-gram-c.c
+if not errorlevel 1 mv -f %XSRC%/src/scan-gram-c.c %XSRC%/src/c-scan-gram.c
+:scan_skel_c_Test
+test -f %XSRC%/src/c-scan-skel.c
+if not errorlevel 1 goto FixFiles
+test -f %XSRC%/src/scan-skel-c.c
+if not errorlevel 1 mv -f %XSRC%/src/scan-skel-c.c %XSRC%/src/c-scan-skel.c
 
+:FixFiles
 Rem Fix data/lalr1.cc and data/location.cc to reflect the renaming of c++.m4
 sed "s/c++\.m4/cxx.m4/" %XSRC%/data/lalr1.cc > lalr1.cc
 if errorlevel 1 goto lalr1_ccFileError
