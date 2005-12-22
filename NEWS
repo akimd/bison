@@ -3,10 +3,10 @@ Bison News
 
 Changes in version 2.1a:
 
-* %destructor vs. YYACCEPT, YYERROR, and YYABORT.
-  When the parsing/action is cut by the user using one of these
-  special actions, the stack is freed except the right-hand side
-  symbols of the current rule.
+* %destructor vs. YYABORT, YYACCEPT, and YYERROR.
+  Destructors are now called when user code invokes YYABORT, YYACCEPT,
+  and YYERROR, for all objects on the stack, other than objects
+  corresponding to the right-hand side of the current rule.
 
 * GLR, C++ LALR(1) parsers.
   These parser skeletons are now distributed with the same special

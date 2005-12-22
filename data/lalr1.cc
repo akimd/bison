@@ -285,7 +285,7 @@ b4_error_verbose_if([, int tok])[);
 [b4_token_defines(b4_tokens)
 
 #ifndef YYSTYPE
- /* Redirection for backward compatibility. */
+ /* Redirection for backward compatibility.  */
 # define YYSTYPE yy::b4_parser_class_name::semantic_type
 #endif
 ])[
@@ -323,7 +323,7 @@ b4_syncline([@oline@], [@ofile@])[
 /* Suppress unused-variable warnings by "using" E.  */
 #define YYUSE(e) ((void) (e))
 
-/* A pseudo ostream that takes yydebug_ into account. */
+/* A pseudo ostream that takes yydebug_ into account.  */
 # define YYCDEBUG							\
   for (bool yydebugcond_ = yydebug_; yydebugcond_; yydebugcond_ = false)	\
     (*yycdebug_)
@@ -428,7 +428,7 @@ namespace yy
   ]b4_parser_class_name[::yysymprint_ (int yytype,
                            const semantic_type* yyvaluep, const location_type* yylocationp)
   {
-    /* Backward compatibility, but should be removed eventually. */
+    /* Backward compatibility, but should be removed eventually.  */
     std::ostream& cdebug_ = *yycdebug_;
 
     YYUSE (!&cdebug_);
@@ -512,7 +512,7 @@ namespace yy
     int yylen = 0;
     int yystate = 0;
 
-    /* Error handling. */
+    /* Error handling.  */
     int yynerrs_ = 0;
     int yyerrstatus_ = 0;
 
@@ -535,7 +535,7 @@ namespace yy
 ]m4_ifdef([b4_initial_action], [
 m4_pushdef([b4_at_dollar],     [yylloc])dnl
 m4_pushdef([b4_dollar_dollar], [yylval])dnl
-    /* User initialization code. */
+    /* User initialization code.  */
     b4_initial_action
 m4_popdef([b4_dollar_dollar])dnl
 m4_popdef([b4_at_dollar])dnl
@@ -732,7 +732,7 @@ b4_error_verbose_if([, yytoken])[));
 
     yyerror_range[0] = yylocation_stack_[yylen - 1];
     /* Do not reclaim the symbols of the rule which action triggered
-       this YYERROR. */
+       this YYERROR.  */
     yypop_ (yylen);
     yylen = 0;
     yystate = yystate_stack_[0];
@@ -781,7 +781,7 @@ b4_error_verbose_if([, yytoken])[));
     yysemantic_stack_.push (yylval);
     yylocation_stack_.push (yyloc);
 
-    /* Shift the error token. */
+    /* Shift the error token.  */
     YY_SYMBOL_PRINT ("Shifting", yystos_[yyn],
   		   &yysemantic_stack_[0], &yylocation_stack_[0]);
 
@@ -803,7 +803,7 @@ b4_error_verbose_if([, yytoken])[));
       yydestruct_ ("Cleanup: discarding lookahead", yytoken, &yylval, &yylloc);
 
     /* Do not reclaim the symbols of the rule which action triggered
-       this YYABORT or YYACCEPT. */
+       this YYABORT or YYACCEPT.  */
     yypop_ (yylen);
     while (yystate_stack_.height () != 1)
       {
@@ -950,7 +950,7 @@ b4_error_verbose_if([, int tok])[)
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-     First, the terminals, then, starting at \a yyntokens_, nonterminals. */
+     First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   const char*
   const ]b4_parser_class_name[::yytname_[] =
   {
@@ -959,7 +959,7 @@ b4_error_verbose_if([, int tok])[)
 #endif
 
 #if YYDEBUG
-  /* YYRHS -- A `-1'-separated list of the rules' RHS. */
+  /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
   const ]b4_parser_class_name[::rhs_number_type
   ]b4_parser_class_name[::yyrhs_[] =
   {

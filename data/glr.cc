@@ -112,7 +112,7 @@ m4_popdef([b4_parse_param])dnl
     /* Pacify ``unused variable'' warnings.  */
     YYUSE (yyvaluep);
     YYUSE (yylocationp);
-    /* Backward compatibility, but should be removed eventually. */
+    /* Backward compatibility, but should be removed eventually.  */
     std::ostream& cdebug_ = *yycdebug_;
     YYUSE (cdebug_);
 

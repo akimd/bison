@@ -1,3 +1,16 @@
+2005-12-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Reword %destructor vs YYABORT etc.
+	* data/glr.c: Use American spacing, for consistency.
+	* data/glr.cc: Likewise.
+	* data/lalr1.cc: Likewise.
+	* data/yacc.c: Likewise.
+	* data/yacc.c: Reformat comments slightly.
+	* doc/bison.texinfo: Replace "non-" with "non" when that makes sense,
+	for consistency.  Fix some spelling errors and reword recently-included
+	text slightly.
+	* tests/cxx-type.at: Cast results of malloc, for C++.
+
 2005-12-21  Joel E. Denny  <address@hidden>
 
 	* tests/cxx-type.at: Construct a tree, count the parents of shared

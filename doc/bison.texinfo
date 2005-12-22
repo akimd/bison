@@ -461,7 +461,7 @@ more information on this.
 @cindex @acronym{GLR} parsing
 @cindex generalized @acronym{LR} (@acronym{GLR}) parsing
 @cindex ambiguous grammars
-@cindex non-deterministic parsing
+@cindex nondeterministic parsing
 
 Parsers for @acronym{LALR}(1) grammars are @dfn{deterministic}, meaning
 roughly that the next grammar rule to apply at any point in the input is
@@ -469,7 +469,7 @@ uniquely determined by the preceding input and a fixed, finite portion
 (called a @dfn{look-ahead}) of the remaining input.  A context-free
 grammar can be @dfn{ambiguous}, meaning that there are multiple ways to
 apply the grammar rules to get the same inputs.  Even unambiguous
-grammars can be @dfn{non-deterministic}, meaning that no fixed
+grammars can be @dfn{nondeterministic}, meaning that no fixed
 look-ahead always suffices to determine the next grammar rule to apply.
 With the proper declarations, Bison is also able to parse these more
 general context-free grammars, using a technique known as @acronym{GLR}
@@ -2126,7 +2126,7 @@ as @code{sin}, @code{cos}, etc.
 
 It is easy to add new operators to the infix calculator as long as they are
 only single-character literals.  The lexical analyzer @code{yylex} passes
-back all nonnumber characters as tokens, so new grammar rules suffice for
+back all nonnumeric characters as tokens, so new grammar rules suffice for
 adding a new operator.  But we want something more flexible: built-in
 functions whose syntax has this form:
 
@@ -2411,7 +2411,7 @@ getsym (char const *sym_name)
 
 The function @code{yylex} must now recognize variables, numeric values, and
 the single-character arithmetic operators.  Strings of alphanumeric
-characters with a leading non-digit are recognized as either variables or
+characters with a leading letter are recognized as either variables or
 functions depending on what the symbol table says about them.
 
 The string is passed to @code{getsym} for look up in the symbol table.  If
@@ -2782,7 +2782,7 @@ into a separate header file @file{@var{name}.tab.h} which you can include
 in the other source files that need it.  @xref{Invocation, ,Invoking Bison}.
 
 If you want to write a grammar that is portable to any Standard C
-host, you must use only non-null character tokens taken from the basic
+host, you must use only nonnull character tokens taken from the basic
 execution character set of Standard C@.  This set consists of the ten
 digits, the 52 lower- and upper-case English letters, and the
 characters in the following C-language string:
@@ -3813,7 +3813,7 @@ For instance, if your locations use a file name, you may use
 During error recovery (@pxref{Error Recovery}), symbols already pushed
 on the stack and tokens coming from the rest of the file are discarded
 until the parser falls on its feet.  If the parser runs out of memory,
-or if the parsing is cut by @code{YYACCEPT} or @code{YYABORT}, all the
+or if it returns via @code{YYABORT} or @code{YYACCEPT}, all the
 symbols on the stack must be discarded.  Even if the parser succeeds, it
 must discard the start symbol.
 
@@ -3862,16 +3862,18 @@ stacked symbols popped during the first phase of error recovery,
 incoming terminals during the second phase of error recovery,
 @item
 the current look-ahead and the entire stack (except the current
-right-hand side symbols) when the parser aborts (either via an explicit
-call to @code{YYABORT} or @code{YYACCEPT}, or as a consequence of a
-failed error recovery or of memory exhaustion), and
+right-hand side symbols) when the parser returns immediately, and
 @item
 the start symbol, when the parser succeeds.
 @end itemize
 
-Note that right-hand size symbols of a rule that explicitly triggers a
-syntax error via @code{YYERROR} are not reclaimed.  As a thumb rule,
-destructors are invoked only when you do not have other means to manage
+The parser can @dfn{return immediately} because of an explicit call to
+@code{YYABORT} or @code{YYACCEPT}, or failed error recovery, or memory
+exhaustion.
+
+Right-hand size symbols of a rule that explicitly triggers a syntax
+error via @code{YYERROR} are not discarded automatically.  As a rule
+of thumb, destructors are invoked only when user actions cannot manage
 the memory.
 
 @node Expect Decl
@@ -3959,8 +3961,8 @@ may override this restriction with the @code{%start} declaration as follows:
 A @dfn{reentrant} program is one which does not alter in the course of
 execution; in other words, it consists entirely of @dfn{pure} (read-only)
 code.  Reentrancy is important whenever asynchronous execution is possible;
-for example, a non-reentrant program may not be safe to call from a signal
-handler.  In systems with multiple threads of control, a non-reentrant
+for example, a nonreentrant program may not be safe to call from a signal
+handler.  In systems with multiple threads of control, a nonreentrant
 program must be called only within interlocks.
 
 Normally, Bison generates a parser which is not reentrant.  This is
@@ -4450,7 +4452,7 @@ The @code{yytname} table is generated only if you use the
 @subsection Semantic Values of Tokens
 
 @vindex yylval
-In an ordinary (non-reentrant) parser, the semantic value of the token must
+In an ordinary (nonreentrant) parser, the semantic value of the token must
 be stored into the global variable @code{yylval}.  When you are using
 just one data type for semantic values, @code{yylval} has that type.
 Thus, if the type is @code{int} (the default), you might write this in
@@ -5610,7 +5612,7 @@ pp.@: 615--649 @uref{http://doi.acm.org/10.1145/69622.357187}.
 @cindex @acronym{GLR} parsing
 @cindex generalized @acronym{LR} (@acronym{GLR}) parsing
 @cindex ambiguous grammars
-@cindex non-deterministic parsing
+@cindex nondeterministic parsing
 
 Bison produces @emph{deterministic} parsers that choose uniquely
 when to reduce and which reduction to apply
@@ -5675,10 +5677,10 @@ quadratic worst-case time, and any general (possibly ambiguous)
 context-free grammar in cubic worst-case time.  However, Bison currently
 uses a simpler data structure that requires time proportional to the
 length of the input times the maximum number of stacks required for any
-prefix of the input.  Thus, really ambiguous or non-deterministic
+prefix of the input.  Thus, really ambiguous or nondeterministic
 grammars can require exponential time and space to process.  Such badly
 behaving examples, however, are not generally of practical interest.
-Usually, non-determinism in a grammar is local---the parser is ``in
+Usually, nondeterminism in a grammar is local---the parser is ``in
 doubt'' only for a few tokens at a time.  Therefore, the current data
 structure should generally be adequate.  On @acronym{LALR}(1) portions of a
 grammar, in particular, it is only slightly slower than with the default
@@ -7037,7 +7039,7 @@ The output files @file{@var{output}.hh} and @file{@var{output}.cc}
 declare and define the parser class in the namespace @code{yy}.  The
 class name defaults to @code{parser}, but may be changed using
 @samp{%define "parser_class_name" "@var{name}"}.  The interface of
-this class is detailled below.  It can be extended using the
+this class is detailed below.  It can be extended using the
 @code{%parse-param} feature: its semantics is slightly changed since
 it describes an additional member of the parser class, and an
 additional argument for its constructor.
@@ -7065,7 +7067,7 @@ Get or set the stream used for tracing the parsing.  It defaults to
 @deftypemethod {parser} {debug_level_type} debug_level ()
 @deftypemethodx {parser} {void} set_debug_level (debug_level @var{l})
 Get or set the tracing level.  Currently its value is either 0, no trace,
-or non-zero, full tracing.
+or nonzero, full tracing.
 @end deftypemethod
 
 @deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
@@ -7116,7 +7118,7 @@ actually easier to interface with.
 @subsection Calc++ --- C++ Calculator
 
 Of course the grammar is dedicated to arithmetics, a single
-expression, possibily preceded by variable assignments.  An
+expression, possibly preceded by variable assignments.  An
 environment containing possibly predefined variables such as
 @code{one} and @code{two}, is exchanged with the parser.  An example
 of valid input follows.
@@ -7411,7 +7413,7 @@ The grammar itself is straightforward.
 unit: assignments exp  @{ driver.result = $2; @};
 
 assignments: assignments assignment @{@}
-           | /* Nothing. */         @{@};
+           | /* Nothing.  */        @{@};
 
 assignment: "identifier" ":=" exp @{ driver.variables[*$1] = $3; @};
 
@@ -7480,7 +7482,7 @@ blank [ \t]
 @end example
 
 @noindent
-The following paragraph suffices to track locations acurately.  Each
+The following paragraph suffices to track locations accurately.  Each
 time @code{yylex} is invoked, the begin position is moved onto the end
 position.  Then when a pattern is matched, the end position is
 advanced of its width.  In case it matched ends of lines, the end
@@ -7505,7 +7507,7 @@ preceding tokens.  Comments would be treated equally.
 The rules are simple, just note the use of the driver to report errors.
 It is convenient to use a typedef to shorten
 @code{yy::calcxx_parser::token::identifier} into
-@code{token::identifier} for isntance.
+@code{token::identifier} for instance.
 
 @comment file: calc++-scanner.ll
 @example
@@ -7949,7 +7951,7 @@ parser file.  @xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %nonassoc
-Bison declaration to assign non-associativity to token(s).
+Bison declaration to assign nonassociativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 

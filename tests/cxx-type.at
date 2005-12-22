@@ -231,7 +231,7 @@ yyerror (ERROR_PARAMETERS)
 static Node *
 new_nterm (char const *form, Node *child0, Node *child1, Node *child2)
 {
-  Node *node = malloc (sizeof (Node));
+  Node *node = (Node *) malloc (sizeof (Node));
   node->nterm.type = 1;
   node->nterm.parents = 0;
   node->nterm.form = form;
@@ -250,7 +250,7 @@ new_nterm (char const *form, Node *child0, Node *child1, Node *child2)
 static Node *
 new_term (char *text)
 {
-  Node *node = malloc (sizeof (Node));
+  Node *node = (Node *) malloc (sizeof (Node));
   node->term.type = 0;
   node->term.parents = 0;
   node->term.text = text;
@@ -286,7 +286,7 @@ node_to_string (Node *node)
   char *buffer;
   if (!node)
     {
-      buffer = malloc (1);
+      buffer = (char *) malloc (1);
       buffer[0] = 0;
     }
   else if (node->node_info.type == 1)
@@ -294,8 +294,8 @@ node_to_string (Node *node)
       child0 = node_to_string (node->nterm.children[0]);
       child1 = node_to_string (node->nterm.children[1]);
       child2 = node_to_string (node->nterm.children[2]);
-      buffer = malloc (strlen (node->nterm.form) + strlen (child0)
-                      + strlen (child1) + strlen (child2) + 1);
+      buffer = (char *) malloc (strlen (node->nterm.form) + strlen (child0)
+				+ strlen (child1) + strlen (child2) + 1);
       sprintf (buffer, node->nterm.form, child0, child1, child2);
       free (child0);
       free (child1);
