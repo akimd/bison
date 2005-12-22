@@ -1,5 +1,16 @@
 2005-12-21  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Undo 2005-12-01 tentative license wording change.  The wording is
+	still being reviewed by the lawyers, and we don't want to wait for
+	them before publishing a test release.  For now, revert to the
+	previous wording.
+	* NEWS: Undo 2005-12-01 change.
+	* data/glr.c: Revert to previous license wording.
+	* data/glr.cc: Likewise.
+	* data/lalr1.cc: Likewise.
+	* data/location.cc: Likewise.
+	* data/yacc.c: Likewise.
+
 	* NEWS: Reword %destructor vs YYABORT etc.
 	* data/glr.c: Use American spacing, for consistency.
 	* data/glr.cc: Likewise.

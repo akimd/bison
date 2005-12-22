@@ -8,12 +8,6 @@ Changes in version 2.1a:
   and YYERROR, for all objects on the stack, other than objects
   corresponding to the right-hand side of the current rule.
 
-* GLR, C++ LALR(1) parsers.
-  These parser skeletons are now distributed with the same special
-  license exception that the C LALR(1) parser skeleton has had since
-  Bison 1.24.  Hence the FSF imposes no copyright restriction on the
-  output of Bison when it is generating such parsers.
-
 * %expect, %expect-rr
   Incorrect numbers of expected conflicts are now actual errors,
   instead of warnings.

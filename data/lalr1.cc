@@ -32,12 +32,7 @@ m4_if(b4_defines_flag, 0, [],
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
              [2002, 2003, 2004, 2005])
 dnl FIXME: This is wrong, we want computed header guards.
-[/* As a special exception, when this parser skeleton is copied by
-   Bison into a Bison output file, you may use that output file
-   without restriction.  This special exception was added by the Free
-   Software Foundation for C++ LALR(1) parsers in version 2.2 of
-   Bison.  */
-
+[
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
 
 #ifndef PARSER_HEADER_H

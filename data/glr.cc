@@ -168,12 +168,6 @@ m4_include(b4_pkgdatadir/[glr.c])
 b4_copyright([C++ Skeleton parser for GLALR(1) parsing with Bison],
              [2002, 2003, 2004, 2005])[
 
-/* As a special exception, when this parser skeleton is copied by
-   Bison into a Bison output file, you may use that output file
-   without restriction.  This special exception was added by the Free
-   Software Foundation for C++ GLR parsers in version 2.2 of
-   Bison.  */
-
 /* C++ GLR parser skeleton written by Akim Demaille.  */
 
 #ifndef PARSER_HEADER_H
