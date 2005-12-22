@@ -1,5 +1,13 @@
 2005-12-22  Akim Demaille  <akim@epita.fr>
 
+	* data/lalr1.cc, data/yacc.c, data/glr.c, data/c.m4
+	(b4_yysymprint_generate): Rename as...
+	(b4_yy_symbol_print_generate): this.
+	Generate yy_symbol_print instead of yysymprint.
+	Generate also yy_symbol_value_print, and use it.
+
+2005-12-22  Akim Demaille  <akim@epita.fr>
+
 	Warn about unused values.
 	* src/symlist.h, src/symlist.c (symbol_list, symbol_list_new): Add
 	a `used' member.

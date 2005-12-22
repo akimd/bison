@@ -153,13 +153,20 @@ b4_syncline([@oline@], [@ofile@])],
 b4_error_verbose_if([, int tok])[);
 
 #if YYDEBUG
+    /// \brief Report a symbol value on the debug stream.
+    /// \param yytype       The token type.
+    /// \param yyvaluep     Its semantic value.
+    /// \param yylocationp  Its location.
+    virtual void yy_symbol_value_print_ (int yytype,
+			                 const semantic_type* yyvaluep,
+  			                 const location_type* yylocationp);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
-    virtual void yysymprint_ (int yytype,
-			      const semantic_type* yyvaluep,
-			      const location_type* yylocationp);
+    virtual void yy_symbol_print_ (int yytype,
+			           const semantic_type* yyvaluep,
+			           const location_type* yylocationp);
 #endif /* ! YYDEBUG */
 
 
@@ -331,7 +338,7 @@ do {							\
   if (yydebug_)						\
     {							\
       *yycdebug_ << Title << ' ';			\
-      yysymprint_ ((Type), (Value), (Location));	\
+      yy_symbol_print_ ((Type), (Value), (Location));	\
       *yycdebug_ << std::endl;				\
     }							\
 } while (false)
@@ -419,26 +426,29 @@ namespace yy
   | Print this symbol on YYOUTPUT.  |
   `--------------------------------*/
 
-  void
-  ]b4_parser_class_name[::yysymprint_ (int yytype,
+  inline void
+  ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
                            const semantic_type* yyvaluep, const location_type* yylocationp)
   {
-    /* Backward compatibility, but should be removed eventually.  */
-    std::ostream& cdebug_ = *yycdebug_;
-
-    YYUSE (!&cdebug_);
     YYUSE (yylocationp);
     YYUSE (yyvaluep);
-
-    *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
-  	     << ' ' << yytname_[yytype] << " ("
-               << *yylocationp << ": ";
     switch (yytype)
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [       default:
           break;
       }
+  }
+
+
+  void
+  ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
+                           const semantic_type* yyvaluep, const location_type* yylocationp)
+  {
+    *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
+  	       << ' ' << yytname_[yytype] << " ("
+               << *yylocationp << ": ";
+    yy_symbol_value_print_ (yytype, yyvaluep, yylocationp);
     *yycdebug_ << ')';
   }
 #endif /* ! YYDEBUG */

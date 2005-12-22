@@ -429,18 +429,19 @@ b4_parse_param_use[]dnl
 ])
 
 
-# b4_yysymprint_generate(FUNCTION-DECLARATOR)
-# -------------------------------------------
-# Generate the "yysymprint" function, which declaration is issued using
+# b4_yy_symbol_print_generate(FUNCTION-DECLARATOR)
+# ------------------------------------------------
+# Generate the "yy_symbol_print" function, which declaration is issued using
 # FUNCTION-DECLARATOR, which may be "b4_c_ansi_function_def" for ISO C
 # or "b4_c_function_def" for K&R.
-m4_define_default([b4_yysymprint_generate],
-[[/*--------------------------------.
+m4_define_default([b4_yy_symbol_print_generate],
+[[
+/*--------------------------------.
 | Print this symbol on YYOUTPUT.  |
 `--------------------------------*/
 
 /*ARGSUSED*/
-]$1([yysymprint],
+]$1([yy_symbol_value_print],
     [static void],
                [[FILE *yyoutput],                       [yyoutput]],
                [[int yytype],                           [yytype]],
@@ -452,16 +453,7 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 ]b4_location_if([  YYUSE (yylocationp);
 ])dnl
 b4_parse_param_use[]dnl
-[  if (yytype < YYNTOKENS)
-    YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
-  else
-    YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
-
-]b4_location_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
-  YYFPRINTF (yyoutput, ": ");
-])dnl
-[
-# ifdef YYPRINT
+[# ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
 # endif
@@ -471,6 +463,31 @@ b4_parse_param_use[]dnl
 [      default:
         break;
     }
+}
+
+
+/*--------------------------------.
+| Print this symbol on YYOUTPUT.  |
+`--------------------------------*/
+
+]$1([yy_symbol_print],
+    [static void],
+               [[FILE *yyoutput],                       [yyoutput]],
+               [[int yytype],                           [yytype]],
+               [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
+b4_location_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
+m4_ifset([b4_parse_param], [, b4_parse_param]))[
+{
+  if (yytype < YYNTOKENS)
+    YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
+  else
+    YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
+
+]b4_location_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
+  YYFPRINTF (yyoutput, ": ");
+])dnl
+[  yy_symbol_value_print (yyoutput, yytype, yyvaluep]dnl
+b4_location_if([, yylocationp])[]b4_user_args[);
   YYFPRINTF (yyoutput, ")");
 }]dnl
 ])
