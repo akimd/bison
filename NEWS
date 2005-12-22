@@ -3,6 +3,24 @@ Bison News
 
 Changes in version 2.1a:
 
+* New warning: unused values
+  Typed right-hand side symbols whose value are not used are reported.
+  For instance
+
+       exp: exp "?" exp ":" exp { $$ = $1 + $3; }
+          | exp "+" exp
+	  ;
+
+  will trigger a warning about $5 of the first rule, and $3 in the
+  second ($1 is copied to $$ by the default rule).  To avoid this
+  warning, let Bison believe the value is used, e.g.
+
+       exp: exp "?" exp ":" exp { $$ = $1 + $3; $5; }
+          | exp "+" exp         { $$ = $1; $3; }
+
+  This helps catching lost values and memory leaks: if a value is
+  ignored, its associated memory will never be reclaimed.
+
 * %destructor vs. YYABORT, YYACCEPT, and YYERROR.
   Destructors are now called when user code invokes YYABORT, YYACCEPT,
   and YYERROR, for all objects on the stack, other than objects

@@ -98,6 +98,7 @@ AT_DATA_GRAMMAR([[input.y]],
   static int yylex (void);
 # define YYDEBUG         1
 # define YYERROR_VERBOSE 1
+# define USE(Var)
 %}
 
 %union
@@ -112,6 +113,7 @@ AT_DATA_GRAMMAR([[input.y]],
 exp: a_1 a_2 { $<val>$ = 3; } { $<val>$ = $<val>3 + 1; } a_5
      sum_of_the_five_previous_values
     {
+       USE (($1, $2, $5));
        printf ("%d\n", $6);
     }
 ;

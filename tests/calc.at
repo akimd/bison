@@ -54,6 +54,7 @@ AT_LALR1_CC_IF(
 # define alarm(seconds) /* empty */
 #endif
 #include <ctype.h>
+#define USE(Var)
 
 /* Exercise pre-prologue dependency to %union.  */
 typedef int semantic_value;
@@ -109,7 +110,7 @@ input:
 
 line:
   '\n'
-| exp '\n'           { ]AT_PARAM_IF([*result = global_result = $1;])[ }
+| exp '\n'           { ]AT_PARAM_IF([*result = global_result = $1], [USE ($1)])[; }
 ;
 
 exp:

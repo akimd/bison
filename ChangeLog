@@ -1,3 +1,26 @@
+2005-12-22  Akim Demaille  <akim@epita.fr>
+
+	Warn about unused values.
+	* src/symlist.h, src/symlist.c (symbol_list, symbol_list_new): Add
+	a `used' member.
+	(symbol_list_n_get, symbol_list_n_used_set): New.
+	(symbol_list_n_type_name_get): Use symbol_list_n_get.
+	* src/scan-gram.l (handle_action_dollar): Flag used symbols.
+	* src/reader.c (grammar_current_rule_check): Check that values are
+	used.
+	* src/symtab.c (symbol_print): Accept 0.
+	* tests/existing.at: Remove the type information.
+	Empty the actions.
+	Remove useless actions (beware of mid-rule actions: perl -000
+	-pi -e 's/\s*\{\}(?=[\n\s]*[|;])//g').
+	* tests/actions.at (Exotic Dollars): Use unused values.
+	* tests/calc.at: Likewise.
+	* tests/glr-regression.at (No users destructors if stack 0 deleted):
+	Likewise.
+
+	* src/gram.c (rule_useful_p, rule_never_reduced_p): Use
+	rule_useful_p.
+
 2005-12-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Undo 2005-12-01 tentative license wording change.  The wording is

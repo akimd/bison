@@ -825,9 +825,9 @@ handle_action_dollar (char *text, location loc)
       if (INT_MIN <= num && num <= rule_length && ! get_errno ())
 	{
 	  int n = num;
-	  if (1-n > max_left_semantic_context)
-	    max_left_semantic_context = 1-n;
-	  if (!type_name && n > 0)
+	  if (max_left_semantic_context < 1 - n)
+	    max_left_semantic_context = 1 - n;
+	  if (!type_name && 0 < n)
 	    type_name = symbol_list_n_type_name_get (current_rule, loc, n);
 	  if (!type_name && typed)
 	    complain_at (loc, _("$%d of `%s' has no declared type"),
@@ -837,6 +837,8 @@ handle_action_dollar (char *text, location loc)
 	  obstack_fgrow3 (&obstack_for_string,
 			  "]b4_rhs_value(%d, %d, [%s])[",
 			  rule_length, n, type_name);
+	  if (typed)
+	    symbol_list_n_used_set (current_rule, n, true);
 	}
       else
 	complain_at (loc, _("integer out of range: %s"), quote (text));

@@ -746,13 +746,14 @@ AT_SETUP([No users destructors if stack 0 deleted])
 AT_DATA_GRAMMAR([glr-regr9.y],
 [[
 %{
-  #include <stdio.h>
-  #include <stdlib.h>
+# include <stdio.h>
+# include <stdlib.h>
   static void yyerror (char const *);
   static int yylex (void);
-  #define YYSTACKEXPANDABLE 0
+# define YYSTACKEXPANDABLE 0
   static int tokens = 0;
   static int destructors = 0;
+# define USE(Var)
 %}
 
 %glr-parser
@@ -766,7 +767,7 @@ AT_DATA_GRAMMAR([glr-regr9.y],
 %%
 
 start:
-  ambig0 'a' { destructors += 2; }
+    ambig0 'a'   { destructors += 2; USE ($2); }
   | ambig1 start { destructors += 1; }
   | ambig2 start { destructors += 1; }
   ;

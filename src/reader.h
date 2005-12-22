@@ -77,7 +77,10 @@ void free_merger_functions (void);
 
 extern merger_list *merge_functions;
 
+/* Was %union seen?  */
 extern bool typed;
+
+/* Should rules have a default precedence?  */
 extern bool default_prec;
 
 #endif /* !READER_H_ */
