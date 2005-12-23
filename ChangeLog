@@ -1,3 +1,7 @@
+2005-12-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Improve wording for unused-value warnings.
+
 2005-12-22  Akim Demaille  <akim@epita.fr>
 
 	* data/lalr1.cc, data/yacc.c, data/glr.c, data/c.m4
@@ -8,7 +12,7 @@
 
 2005-12-22  Akim Demaille  <akim@epita.fr>
 
-	Warn about unused values.
+	* NEWS: Warn about unused values.
 	* src/symlist.h, src/symlist.c (symbol_list, symbol_list_new): Add
 	a `used' member.
 	(symbol_list_n_get, symbol_list_n_used_set): New.
