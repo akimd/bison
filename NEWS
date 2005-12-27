@@ -7,13 +7,13 @@ Changes in version 2.1a:
   Typed right-hand side symbols whose value are not used are reported.
   For instance:
 
-     exp: exp "?" exp ":" exp { $$ = $1 ? $1 : $3; }
+     exp: exp "?" exp ":" exp { $1 ? $1 : $3; }
 	| exp "+" exp
 	;
 
-  will trigger a warning about $5 of the first rule, and $3 in the
-  second ($1 is copied to $$ by the default rule).  This example
-  most likely contains two errors, and should be rewritten as:
+  will trigger a warning about $$ and $5 in the first rule, and $3 in
+  the second ($1 is copied to $$ by the default rule).  This example
+  most likely contains three errors, and should be rewritten as:
 
      exp: exp "?" exp ":" exp { $$ = $1 ? $3 : $5; }
 	| exp "+" exp         { $$ = $1 + $3; }
@@ -22,7 +22,7 @@ Changes in version 2.1a:
   However, if the original actions were really intended, the warnings
   can be suppressed by letting Bison believe the values are used, e.g.:
 
-     exp: exp "?" exp ":" exp { $$ = $1 ? $1 : $3; (void) $5; }
+     exp: exp "?" exp ":" exp { $1 ? $1 : $3; (void) ($$, $5); }
 	| exp "+" exp         { $$ = $1; (void) $3; }
 	;
 

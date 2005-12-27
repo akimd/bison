@@ -815,6 +815,7 @@ handle_action_dollar (char *text, location loc)
 	type_name = "";
       obstack_fgrow1 (&obstack_for_string,
 		      "]b4_lhs_value([%s])[", type_name);
+      current_rule->used = true;
     }
   else
     {
@@ -837,8 +838,7 @@ handle_action_dollar (char *text, location loc)
 	  obstack_fgrow3 (&obstack_for_string,
 			  "]b4_rhs_value(%d, %d, [%s])[",
 			  rule_length, n, type_name);
-	  if (typed)
-	    symbol_list_n_used_set (current_rule, n, true);
+	  symbol_list_n_used_set (current_rule, n, true);
 	}
       else
 	complain_at (loc, _("integer out of range: %s"), quote (text));

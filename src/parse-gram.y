@@ -396,14 +396,14 @@ rules:
 ;
 
 rhses.1:
-  rhs                { grammar_rule_end (@1); }
-| rhses.1 "|" rhs    { grammar_rule_end (@3); }
+  rhs                { grammar_current_rule_end (@1); }
+| rhses.1 "|" rhs    { grammar_current_rule_end (@3); }
 | rhses.1 ";"
 ;
 
 rhs:
   /* Nothing.  */
-    { grammar_rule_begin (current_lhs, current_lhs_location); }
+    { grammar_current_rule_begin (current_lhs, current_lhs_location); }
 | rhs symbol
     { grammar_current_rule_symbol_append ($2, @2); }
 | rhs action

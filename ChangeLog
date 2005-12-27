@@ -1,3 +1,20 @@
+2005-12-27  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (grammar_current_rule_check): Also check that $$
+	is used.
+	Take the rule to check as argument, hence rename as...
+	(grammar_rule_check): this.
+	* src/reader.h, src/reader.c (grammar_rule_begin, grammar_rule_end):
+	Rename as...
+	(grammar_rule_begin, grammar_rule_end): these, for consistency.
+	(grammar_midrule_action, grammar_symbol_append): Now static.
+	* tests/torture.at (input): Don't rely on the default action
+	being always performed.
+	* tests/calc.at: "Set" $$ even when the action is "cut" with
+	YYERROR or other.
+	* tests/actions.at (Exotic Dollars): Instead of using unused
+	values, check that the warning is issued.
+
 2005-12-22  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Improve wording for unused-value warnings.

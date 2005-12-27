@@ -129,15 +129,15 @@ exp:
 | exp '^' exp        { $$ = power ($1, $3); }
 | '(' exp ')'        { $$ = $2;             }
 | '(' error ')'      { $$ = 1111;           }
-| '!'                { YYERROR;             }
-| '-' error          { YYERROR;             }
+| '!'                { $$ = 0; YYERROR;     }
+| '-' error          { $$ = 0; YYERROR;     }
 ;
 %%
-/* The input. */
+/* The input.  */
 static FILE *input;
 
 ]AT_LALR1_CC_IF(
-[/* A C++ error reporting function. */
+[/* A C++ error reporting function.  */
 void
 yy::parser::error (const location& l, const std::string& m)
 {
