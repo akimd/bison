@@ -1,3 +1,8 @@
+2005-12-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/reader.c (grammar_midrule_action, grammar_symbol_append):
+	Remove unnecessary forward static decls.
+
 2005-12-27  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c (grammar_current_rule_check): Also check that $$
