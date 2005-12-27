@@ -910,29 +910,27 @@ parser recognizes all valid declarations, according to the
 limited syntax above, transparently.  In fact, the user does not even
 notice when the parser splits.
 
-So here we have a case where we can use the benefits of @acronym{GLR}, almost
-without disadvantages.  Even in simple cases like this, however, there
-are at least two potential problems to beware.
-First, always analyze the conflicts reported by
-Bison to make sure that @acronym{GLR} splitting is only done where it is
-intended.  A @acronym{GLR} parser splitting inadvertently may cause
-problems less obvious than an @acronym{LALR} parser statically choosing the
-wrong alternative in a conflict.
-Second, consider interactions with the lexer (@pxref{Semantic Tokens})
-with great care.  Since a split parser consumes tokens
-without performing any actions during the split, the lexer cannot
-obtain information via parser actions.  Some cases of
-lexer interactions can be eliminated by using @acronym{GLR} to
-shift the complications from the lexer to the parser.  You must check
-the remaining cases for correctness.
+So here we have a case where we can use the benefits of @acronym{GLR},
+almost without disadvantages.  Even in simple cases like this, however,
+there are at least two potential problems to beware.  First, always
+analyze the conflicts reported by Bison to make sure that @acronym{GLR}
+splitting is only done where it is intended.  A @acronym{GLR} parser
+splitting inadvertently may cause problems less obvious than an
+@acronym{LALR} parser statically choosing the wrong alternative in a
+conflict.  Second, consider interactions with the lexer (@pxref{Semantic
+Tokens}) with great care.  Since a split parser consumes tokens without
+performing any actions during the split, the lexer cannot obtain
+information via parser actions.  Some cases of lexer interactions can be
+eliminated by using @acronym{GLR} to shift the complications from the
+lexer to the parser.  You must check the remaining cases for
+correctness.
 
-In our example, it would be safe for the lexer to return tokens
-based on their current meanings in some symbol table, because no new
-symbols are defined in the middle of a type declaration.  Though it
-is possible for a parser to define the enumeration
-constants as they are parsed, before the type declaration is
-completed, it actually makes no difference since they cannot be used
-within the same enumerated type declaration.
+In our example, it would be safe for the lexer to return tokens based on
+their current meanings in some symbol table, because no new symbols are
+defined in the middle of a type declaration.  Though it is possible for
+a parser to define the enumeration constants as they are parsed, before
+the type declaration is completed, it actually makes no difference since
+they cannot be used within the same enumerated type declaration.
 
 @node Merging GLR Parses
 @subsection Using @acronym{GLR} to Resolve Ambiguities
@@ -2585,13 +2583,13 @@ continues until end of line.
 @cindex Prologue
 @cindex declarations
 
-The @var{Prologue} section contains macro definitions and
-declarations of functions and variables that are used in the actions in the
-grammar rules.  These are copied to the beginning of the parser file so
-that they precede the definition of @code{yyparse}.  You can use
-@samp{#include} to get the declarations from a header file.  If you don't
-need any C declarations, you may omit the @samp{%@{} and @samp{%@}}
-delimiters that bracket this section.
+The @var{Prologue} section contains macro definitions and declarations
+of functions and variables that are used in the actions in the grammar
+rules.  These are copied to the beginning of the parser file so that
+they precede the definition of @code{yyparse}.  You can use
+@samp{#include} to get the declarations from a header file.  If you
+don't need any C declarations, you may omit the @samp{%@{} and
+@samp{%@}} delimiters that bracket this section.
 
 You may have more than one @var{Prologue} section, intermixed with the
 @var{Bison declarations}.  This allows you to have C and Bison
@@ -2661,10 +2659,10 @@ even if you define them in the Epilogue.
 If the last section is empty, you may omit the @samp{%%} that separates it
 from the grammar rules.
 
-The Bison parser itself contains many macros and identifiers whose
-names start with @samp{yy} or @samp{YY}, so it is a
-good idea to avoid using any such names (except those documented in this
-manual) in the epilogue of the grammar file.
+The Bison parser itself contains many macros and identifiers whose names
+start with @samp{yy} or @samp{YY}, so it is a good idea to avoid using
+any such names (except those documented in this manual) in the epilogue
+of the grammar file.
 
 @node Symbols
 @section Symbols, Terminal and Nonterminal
@@ -2680,13 +2678,13 @@ A @dfn{terminal symbol} (also known as a @dfn{token type}) represents a
 class of syntactically equivalent tokens.  You use the symbol in grammar
 rules to mean that a token in that class is allowed.  The symbol is
 represented in the Bison parser by a numeric code, and the @code{yylex}
-function returns a token type code to indicate what kind of token has been
-read.  You don't need to know what the code value is; you can use the
-symbol to stand for it.
+function returns a token type code to indicate what kind of token has
+been read.  You don't need to know what the code value is; you can use
+the symbol to stand for it.
 
-A @dfn{nonterminal symbol} stands for a class of syntactically equivalent
-groupings.  The symbol name is used in writing grammar rules.  By convention,
-it should be all lower case.
+A @dfn{nonterminal symbol} stands for a class of syntactically
+equivalent groupings.  The symbol name is used in writing grammar rules.
+By convention, it should be all lower case.
 
 Symbol names can contain letters, digits (not at the beginning),
 underscores and periods.  Periods make sense only in nonterminals.
@@ -2791,17 +2789,17 @@ characters in the following C-language string:
 "\a\b\t\n\v\f\r !\"#%&'()*+,-./:;<=>?[\\]^_@{|@}~"
 @end example
 
-The @code{yylex} function and Bison must use a consistent character
-set and encoding for character tokens.  For example, if you run Bison in an
-@acronym{ASCII} environment, but then compile and run the resulting program
-in an environment that uses an incompatible character set like
-@acronym{EBCDIC}, the resulting program may not work because the
-tables generated by Bison will assume @acronym{ASCII} numeric values for
-character tokens.  It is standard
-practice for software distributions to contain C source files that
-were generated by Bison in an @acronym{ASCII} environment, so installers on
-platforms that are incompatible with @acronym{ASCII} must rebuild those
-files before compiling them.
+The @code{yylex} function and Bison must use a consistent character set
+and encoding for character tokens.  For example, if you run Bison in an
+@acronym{ASCII} environment, but then compile and run the resulting
+program in an environment that uses an incompatible character set like
+@acronym{EBCDIC}, the resulting program may not work because the tables
+generated by Bison will assume @acronym{ASCII} numeric values for
+character tokens.  It is standard practice for software distributions to
+contain C source files that were generated by Bison in an
+@acronym{ASCII} environment, so installers on platforms that are
+incompatible with @acronym{ASCII} must rebuild those files before
+compiling them.
 
 The symbol @code{error} is a terminal symbol reserved for error recovery
 (@pxref{Error Recovery}); you shouldn't use it for any other purpose.
@@ -2908,10 +2906,10 @@ with no components.
 @section Recursive Rules
 @cindex recursive rule
 
-A rule is called @dfn{recursive} when its @var{result} nonterminal appears
-also on its right hand side.  Nearly all Bison grammars need to use
-recursion, because that is the only way to define a sequence of any number
-of a particular thing.  Consider this recursive definition of a
+A rule is called @dfn{recursive} when its @var{result} nonterminal
+appears also on its right hand side.  Nearly all Bison grammars need to
+use recursion, because that is the only way to define a sequence of any
+number of a particular thing.  Consider this recursive definition of a
 comma-separated sequence of one or more expressions:
 
 @example
@@ -3025,8 +3023,9 @@ This macro definition must go in the prologue of the grammar file
 
 In most programs, you will need different data types for different kinds
 of tokens and groupings.  For example, a numeric constant may need type
-@code{int} or @code{long int}, while a string constant needs type @code{char *},
-and an identifier might need a pointer to an entry in the symbol table.
+@code{int} or @code{long int}, while a string constant needs type
+@code{char *}, and an identifier might need a pointer to an entry in the
+symbol table.
 
 To use more than one data type for semantic values in one parser, Bison
 requires you to do two things:
@@ -4068,13 +4067,12 @@ is named @file{@var{name}.h}.
 
 Unless @code{YYSTYPE} is already defined as a macro, the output header
 declares @code{YYSTYPE}.  Therefore, if you are using a @code{%union}
-(@pxref{Multiple Types, ,More Than One Value Type}) with components
-that require other definitions, or if you have defined a
-@code{YYSTYPE} macro (@pxref{Value Type, ,Data Types of Semantic
-Values}), you need to arrange for these definitions to be propagated to
-all modules, e.g., by putting them in a
-prerequisite header that is included both by your parser and by any
-other module that needs @code{YYSTYPE}.
+(@pxref{Multiple Types, ,More Than One Value Type}) with components that
+require other definitions, or if you have defined a @code{YYSTYPE} macro
+(@pxref{Value Type, ,Data Types of Semantic Values}), you need to
+arrange for these definitions to be propagated to all modules, e.g., by
+putting them in a prerequisite header that is included both by your
+parser and by any other module that needs @code{YYSTYPE}.
 
 Unless your parser is pure, the output header declares @code{yylval}
 as an external variable.  @xref{Pure Decl, ,A Pure (Reentrant)
@@ -4085,11 +4083,11 @@ If you have also used locations, the output header declares
 @code{YYSTYPE} and @code{yylval}.  @xref{Locations, ,Tracking
 Locations}.
 
-This output file is normally essential if you wish to put the
-definition of @code{yylex} in a separate source file, because
-@code{yylex} typically needs to be able to refer to the
-above-mentioned declarations and to the token type codes.
-@xref{Token Values, ,Semantic Values of Tokens}.
+This output file is normally essential if you wish to put the definition
+of @code{yylex} in a separate source file, because @code{yylex}
+typically needs to be able to refer to the above-mentioned declarations
+and to the token type codes.  @xref{Token Values, ,Semantic Values of
+Tokens}.
 @end deffn
 
 @deffn {Directive} %destructor
@@ -4500,12 +4498,11 @@ then the code in @code{yylex} might look like this:
 
 @vindex yylloc
 If you are using the @samp{@@@var{n}}-feature (@pxref{Locations, ,
-Tracking Locations}) in actions to keep track of the
-textual locations of tokens and groupings, then you must provide this
-information in @code{yylex}.  The function @code{yyparse} expects to
-find the textual location of a token just parsed in the global variable
-@code{yylloc}.  So @code{yylex} must store the proper data in that
-variable.
+Tracking Locations}) in actions to keep track of the textual locations
+of tokens and groupings, then you must provide this information in
+@code{yylex}.  The function @code{yyparse} expects to find the textual
+location of a token just parsed in the global variable @code{yylloc}.
+So @code{yylex} must store the proper data in that variable.
 
 By default, the value of @code{yylloc} is a structure and you need only
 initialize the members that are going to be used by the actions.  The
@@ -4842,12 +4839,11 @@ Tracking Locations}.
 
 A Bison-generated parser can print diagnostics, including error and
 tracing messages.  By default, they appear in English.  However, Bison
-also supports outputting diagnostics in the user's native language.
-To make this work, the user should set the usual environment
-variables.  @xref{Users, , The User's View, gettext, GNU
-@code{gettext} utilities}.  For
-example, the shell command @samp{export LC_ALL=fr_CA.UTF-8} might set
-the user's locale to French Canadian using the @acronym{UTF}-8
+also supports outputting diagnostics in the user's native language.  To
+make this work, the user should set the usual environment variables.
+@xref{Users, , The User's View, gettext, GNU @code{gettext} utilities}.
+For example, the shell command @samp{export LC_ALL=fr_CA.UTF-8} might
+set the user's locale to French Canadian using the @acronym{UTF}-8
 encoding.  The exact set of available locales depends on the user's
 installation.
 
