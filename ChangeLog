@@ -1,3 +1,25 @@
+2005-12-28  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/location.h (boundary): Note that a line or column equal
+	to INT_MAX indicates an overflow.
+	* src/scan-gram.l: Include verify.h.  Don't include get-errno.h.
+	(rule_length_overflow, increment_rule_length, add_column_width):
+	New functions.
+	(<INITIAL>{id}, <SC_ESCAPED_STRING>"\"", <SC_ESCAPED_CHARACTER>"'"):
+	(<SC_BRACED_CODE>"}"):
+	Use increment_rule_length rather than incrementing it by hand.
+	(adjust_location, handle_syncline): Diagnose overflow.
+	(handle_action_dollar, handle_action_at):
+	Fix bug with monstrosities like $-2147483648.
+	Remove now-unnecessary checks.
+	(scan_integer): Verify assumptions and remove now-unnecessary checks.
+	(convert_ucn_to_byte): Verify assumptions.
+	(handle_syncline): New arg LOC.  All callers changed.
+	Don't store through a value derived from char const * pointer.
+
+	* src/reader.c (grammar_rule_check): Rewrite slightly to avoid
+	GCC warnings.
+
 2005-12-27  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/reader.c (grammar_midrule_action, grammar_symbol_append):

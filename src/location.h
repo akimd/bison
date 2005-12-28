@@ -29,11 +29,13 @@ typedef struct
   /* The name of the file that contains the boundary.  */
   uniqstr file;
 
-  /* The (origin-1) line that contains the boundary.  */
+  /* The (origin-1) line that contains the boundary.
+     If this is INT_MAX, the line number has overflowed.  */
   int line;
 
   /* The (origin-1) column just after the boundary.  This is neither a
-     byte count, nor a character count; it is a column count.  */
+     byte count, nor a character count; it is a column count.
+     If this is INT_MAX, the column number has overflowed.  */
   int column;
 
 } boundary;
