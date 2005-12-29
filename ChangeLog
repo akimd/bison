@@ -1,3 +1,10 @@
+2005-12-29  Akim  <akim@sulaco.local>
+
+	Let glr.cc catch up with symbol_value_print.
+	* data/glr.cc (b4_yysymprint_generate): Replace by...
+	(b4_yy_symbol_print_generate): this.
+	(yy_symbol_print, yy_symbol_value_print): Declare them.
+
 2005-12-28  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/location.h (boundary): Note that a line or column equal

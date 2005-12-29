@@ -26,25 +26,24 @@ m4_include(b4_pkgdatadir/[c++.m4])
 m4_include(b4_pkgdatadir/[location.cc])
 
 
-# b4_yysymprint_generate(FUNCTION-DECLARATOR)
-# -------------------------------------------
-# Generate the "yysymprint" function, which declaration is issued using
-# FUNCTION-DECLARATOR, which may be "b4_c_ansi_function_def" for ISO C
-# or "b4_c_function_def" for K&R.
-m4_define([b4_yysymprint_generate],
+# b4_yy_symbol_print_generate
+# ---------------------------
+# Bypass the default implementation to generate the "yy_symbol_print"
+# and "yy_symbol_value_print" functions.
+m4_define([b4_yy_symbol_print_generate],
 [b4_c_ansi_function_decl([yyerror],
     [static void],
     [[yy::b4_parser_class_name::location_type *yylocationp], [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])[
 
-/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
+/*--------------------.
+| Print this symbol.  |
+`--------------------*/
 
-]$1([yysymprint],
+]b4_c_ansi_function_def([yy_symbol_print],
     [static void],
-    [[FILE *yyoutput],       [yyoutput]],
+    [[FILE *],               []],
     [[int yytype],           [yytype]],
     [[const yy::b4_parser_class_name::semantic_type *yyvaluep],
                              [yyvaluep]][]dnl
@@ -53,10 +52,8 @@ b4_location_if([,
                              [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-  YYUSE (yyoutput);
 ]b4_parse_param_use[]dnl
-[
-  yyparser.yysymprint_ (yytype, yyvaluep]b4_location_if([, yylocationp])[);
+[  yyparser.yy_symbol_print_ (yytype, yyvaluep]b4_location_if([, yylocationp])[);
 }
 ]])
 
@@ -73,8 +70,7 @@ m4_prepend([b4_epilogue],
     [[const char* msg], [msg]])[
 {
 ]b4_parse_param_use[]dnl
-[
-  yyparser.error (*yylocationp, msg);
+[  yyparser.error (*yylocationp, msg);
 }
 
 
@@ -100,31 +96,34 @@ m4_popdef([b4_parse_param])dnl
   }
 
 #if YYDEBUG
+  /*--------------------.
+  | Print this symbol.  |
+  `--------------------*/
 
-  /*--------------------------------.
-  | Print this symbol on YYOUTPUT.  |
-  `--------------------------------*/
-
-  void
-  ]b4_parser_class_name[::yysymprint_ (int yytype,
+  inline void
+  ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
                            const semantic_type* yyvaluep, const location_type* yylocationp)
   {
     /* Pacify ``unused variable'' warnings.  */
     YYUSE (yyvaluep);
     YYUSE (yylocationp);
-    /* Backward compatibility, but should be removed eventually.  */
-    std::ostream& cdebug_ = *yycdebug_;
-    YYUSE (cdebug_);
-
-    *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
-  	       << ' ' << yytname[yytype] << " ("
-               << *yylocationp << ": ";
     switch (yytype)
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [        default:
           break;
       }
+  }
+
+
+  void
+  ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
+                           const semantic_type* yyvaluep, const location_type* yylocationp)
+  {
+    *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
+  	       << ' ' << yytname[yytype] << " ("
+               << *yylocationp << ": ";
+    yy_symbol_value_print_ (yytype, yyvaluep, yylocationp);
     *yycdebug_ << ')';
   }
 
@@ -237,7 +236,7 @@ b4_syncline([@oline@], [@ofile@])[
 	{								\
 	  (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;	\
 	}								\
-    while (0)
+    while (/*CONSTCOND*/ 0)
 #endif
 
 namespace yy
@@ -296,13 +295,20 @@ b4_syncline([@oline@], [@ofile@])],
 
 #if YYDEBUG
   public:
+    /// \brief Report a symbol value on the debug stream.
+    /// \param yytype       The token type.
+    /// \param yyvaluep     Its semantic value.
+    /// \param yylocationp  Its location.
+    virtual void yy_symbol_value_print_ (int yytype,
+			                 const semantic_type* yyvaluep,
+  			                 const location_type* yylocationp);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
-    virtual void yysymprint_ (int yytype,
-			      const semantic_type* yyvaluep,
-			      const location_type* yylocationp);
+    virtual void yy_symbol_print_ (int yytype,
+			           const semantic_type* yyvaluep,
+			           const location_type* yylocationp);
   private:
 #endif /* ! YYDEBUG */
 
