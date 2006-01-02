@@ -1,3 +1,11 @@
+2006-01-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/glr.c: Reformat whitespace with tabs.
+	(b4_lpure_formals): Remove this unused m4 macro.
+	* tests/cxx-type.at: Reformat whitespace with tabs.
+	(_AT_TEST_GLR_CXXTYPES): In union Node, rename node_info to nodeInfo
+	since it's a member.  Rename type to isNterm for clarity.
+
 2005-12-29  Akim  <akim@sulaco.local>
 
 	Let glr.cc catch up with symbol_value_print.
