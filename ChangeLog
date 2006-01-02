@@ -2,7 +2,7 @@
 
 	* src/output.c (output_skeleton): Don't hard wire the inclusion of
 	c.m4.
-	* data/c++.m4: Include c.m4.
+	* data/c++.m4, data/glr.c, data/yacc.c: Include c.m4.
 	* data/glr.cc: Do not include stack.hh.
 
 2006-01-02  Joel E. Denny  <jdenny@ces.clemson.edu>
