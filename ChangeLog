@@ -1,5 +1,13 @@
 2006-01-03  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* doc/bison.texinfo (Bison Options): Say more accurately what
+	--yacc does.
+	* src/parse-gram.y (rules_or_grammar_declaration): Don't complain
+	about declarations in the grammar when in Yacc mode, as POSIX does
+	not require a diagnostic when the grammar uses extensions.
+
+	* src/reduce.c (reduce_grammar): Remove unnecessary cast to bool.
+
 	Warn about dubious constructions like "%token T T".
 	Reported by twlevo.
 	* src/symtab.h (struct symbol.declared): New member.

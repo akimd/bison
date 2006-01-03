@@ -6677,13 +6677,14 @@ Print the version number of Bison and exit.
 @item --print-localedir
 Print the name of the directory containing locale-dependent data.
 
-@need 1750
 @item -y
 @itemx --yacc
-Equivalent to @samp{-o y.tab.c}; the parser output file is called
+Act more like the traditional Yacc command.  This can cause
+different diagnostics to be generated, and may change behavior in
+other minor ways.  Most importantly, imitate Yacc's output
+file name conventions, so that the parser output file is called
 @file{y.tab.c}, and the other outputs are called @file{y.output} and
-@file{y.tab.h}.  The purpose of this option is to imitate Yacc's output
-file name conventions.  Thus, the following shell script can substitute
+@file{y.tab.h}.  Thus, the following shell script can substitute
 for Yacc, and the Bison distribution contains such a script for
 compatibility with @acronym{POSIX}:
 
@@ -6691,6 +6692,12 @@ compatibility with @acronym{POSIX}:
 #! /bin/sh
 bison -y "$@@"
 @end example
+
+The @option{-y}/@option{--yacc} option is intended for use with
+traditional Yacc grammars.  If your grammar uses a Bison extension
+like @samp{%glr-parser}, Bison might not be Yacc-compatible even if
+this option is specified.
+
 @end table
 
 @noindent

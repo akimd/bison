@@ -391,10 +391,6 @@ grammar:
 rules_or_grammar_declaration:
   rules
 | grammar_declaration ";"
-    {
-      if (yacc_flag)
-	complain_at (@$, _("POSIX forbids declarations in the grammar"));
-    }
 | error ";"
     {
       yyerrok;
