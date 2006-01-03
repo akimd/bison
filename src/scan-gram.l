@@ -1,6 +1,6 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -420,7 +420,7 @@ splice	 (\\[ \f\t\v]*\n)*
     val->symbol = symbol_get (quotearg_style (escape_quoting_style,
 					      last_string),
 			      *loc);
-    symbol_class_set (val->symbol, token_sym, *loc);
+    symbol_class_set (val->symbol, token_sym, *loc, false);
     last_string_1 = last_string[1];
     symbol_user_token_number_set (val->symbol, last_string_1, *loc);
     STRING_FREE;

@@ -1,6 +1,6 @@
 %{/* Bison Grammar Parser                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -346,24 +346,24 @@ symbol_def:
      }
 | ID
      {
-       symbol_class_set ($1, current_class, @1);
+       symbol_class_set ($1, current_class, @1, true);
        symbol_type_set ($1, current_type, @1);
      }
 | ID INT
     {
-      symbol_class_set ($1, current_class, @1);
+      symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_user_token_number_set ($1, $2, @2);
     }
 | ID string_as_id
     {
-      symbol_class_set ($1, current_class, @1);
+      symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_make_alias ($1, $2, @$);
     }
 | ID INT string_as_id
     {
-      symbol_class_set ($1, current_class, @1);
+      symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_user_token_number_set ($1, $2, @2);
       symbol_make_alias ($1, $3, @$);
@@ -441,7 +441,7 @@ string_as_id:
   STRING
     {
       $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
-      symbol_class_set ($$, token_sym, @1);
+      symbol_class_set ($$, token_sym, @1, false);
     }
 ;
 

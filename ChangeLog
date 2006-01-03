@@ -1,5 +1,13 @@
 2006-01-03  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Warn about dubious constructions like "%token T T".
+	Reported by twlevo.
+	* src/symtab.h (struct symbol.declared): New member.
+	* src/symtab.c (symbol_new): Initialize it to false.
+	(symbol_class_set): New arg DECLARING, specifying whether
+	this is a declaration that we want to warn about, if there
+	is more than one of them.  All uses changed.
+
 	* data/glr.c, data/glr.cc, data/lalr1.cc, data/yacc.c:
 	Allow multiple %union directives, whose contents concatenate.
 	* src/parse-gram.y (grammar_declaration): Likewise.
