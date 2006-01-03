@@ -1,7 +1,7 @@
 /* A Bison parser, made by GNU Bison 2.1a.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -137,17 +137,19 @@
 
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 82 "../../src/parse-gram.y"
-typedef union YYSTYPE {
+typedef union YYSTYPE 
+#line 82 "parse-gram.y"
+{
   symbol *symbol;
   symbol_list *list;
   int integer;
   char *chars;
   assoc assoc;
   uniqstr uniqstr;
-} YYSTYPE;
-/* Line 1541 of yacc.c.  */
-#line 151 "../../src/parse-gram.h"
+}
+/* Line 1543 of yacc.c.  */
+#line 152 "parse-gram.h"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
