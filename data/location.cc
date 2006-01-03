@@ -23,7 +23,8 @@ m4_divert(-1)
 m4_changecom()
 m4_divert(0)dnl
 @output b4_dir_prefix[]position.hh
-b4_copyright([Position class for Bison C++ parsers], [2002, 2003, 2004, 2005])[
+b4_copyright([Position class for Bison C++ parsers],
+  [2002, 2003, 2004, 2005, 2006])[
 
 /**
  ** \file position.hh
@@ -134,7 +135,8 @@ namespace yy
 }
 #endif // not BISON_POSITION_HH]
 @output b4_dir_prefix[]location.hh
-b4_copyright([Location class for Bison C++ parsers], [2002, 2003, 2004, 2005])[
+b4_copyright([Location class for Bison C++ parsers],
+  [2002, 2003, 2004, 2005, 2006])[
 
 /**
  ** \file location.hh

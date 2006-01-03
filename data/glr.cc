@@ -214,7 +214,7 @@ m4_popdef([b4_parse_param])
 
 @output @output_header_name@
 b4_copyright([C++ Skeleton parser for GLALR(1) parsing with Bison],
-             [2002, 2003, 2004, 2005])[
+             [2002, 2003, 2004, 2005, 2006])[
 
 /* C++ GLR parser skeleton written by Akim Demaille.  */
 

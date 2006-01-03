@@ -1,3 +1,9 @@
+2006-01-03  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* ChangeLog, data/c.m4, data/glr.c, data/glr.cc, data/location.cc:
+	* data/yacc.c, src/getargs.c, src/output.c, tests/cxx-type.at:
+	Update copyright year to 2006.
+
 2006-01-03  Akim Demaille  <akim@epita.fr>
 
 	Have glr.cc pass (some of) the calc.at tests.
@@ -15095,8 +15101,8 @@
 	-----
 
 	Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996,
-	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software
-	Foundation, Inc.
+	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free
+	Software Foundation, Inc.
 
 	Copying and distribution of this file, with or without
 	modification, are permitted provided the copyright notice and this
