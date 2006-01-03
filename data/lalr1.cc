@@ -2,7 +2,7 @@ m4_divert(-1)
 
 # C++ skeleton for Bison
 
-# Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ m4_divert(0)dnl
 m4_if(b4_defines_flag, 0, [],
 [@output @output_header_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003, 2004, 2005])
+             [2002, 2003, 2004, 2005, 2006])
 dnl FIXME: This is wrong, we want computed header guards.
 [
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
@@ -104,10 +104,11 @@ namespace yy
     /// Symbol semantic values.
 #if ! defined (YYSTYPE)
 ]m4_ifdef([b4_stype],
-[b4_syncline([b4_stype_line], [b4_file_name])
-    union semantic_type b4_stype;
+[    union semantic_type
+b4_stype
 /* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])],
+b4_syncline([@oline@], [@ofile@])
+	;],
 [    typedef int semantic_type;])[
 #else
     typedef YYSTYPE semantic_type;
@@ -295,7 +296,7 @@ b4_error_verbose_if([, int tok])[);
 ])dnl
 @output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003, 2004, 2005])
+             [2002, 2003, 2004, 2005, 2006])
 m4_if(b4_prefix[], [yy], [],
 [
 // Take the name prefix into account.
@@ -1048,7 +1049,8 @@ b4_error_verbose_if([, int tok])[)
 ]b4_epilogue
 dnl
 @output b4_dir_prefix[]stack.hh
-b4_copyright([stack handling for Bison C++ parsers], [2002, 2003, 2004, 2005])[
+b4_copyright([stack handling for Bison C++ parsers],
+  [2002, 2003, 2004, 2005, 2006])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH

@@ -296,10 +296,11 @@ namespace yy
     /// Symbol semantic values.
 #if ! defined (YYSTYPE)
 ]m4_ifdef([b4_stype],
-[b4_syncline([b4_stype_line], [b4_file_name])
-    union semantic_type b4_stype;
+[    union semantic_type
+b4_stype
 /* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])],
+b4_syncline([@oline@], [@ofile@])
+	;],
 [    typedef int semantic_type;])[
 #else
     typedef YYSTYPE semantic_type;

@@ -247,9 +247,19 @@ grammar_declaration:
     }
 | "%union {...}"
     {
+      char const *body = $1;
+
+      if (typed)
+	{
+	  /* Concatenate the union bodies, turning the first one's
+	     trailing '}' into '\n', and omitting the second one's '{'.  */
+	  char *code = muscle_find ("stype");
+	  code[strlen (code) - 1] = '\n';
+	  body++;
+	}
+
       typed = true;
-      MUSCLE_INSERT_INT ("stype_line", @1.start.line);
-      muscle_insert ("stype", $1);
+      muscle_code_grow ("stype", body, @1);
     }
 | "%destructor {...}" symbols.1
     {

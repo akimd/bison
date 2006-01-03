@@ -1,5 +1,13 @@
 2006-01-03  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/glr.c, data/glr.cc, data/lalr1.cc, data/yacc.c:
+	Allow multiple %union directives, whose contents concatenate.
+	* src/parse-gram.y (grammar_declaration): Likewise.
+	Use muscle_code_grow, so that we don't need stype_line any more.
+	All uses changed.
+
+	* src/muscle_tab.c (muscle_grow): Fix comment.
+
 	* ChangeLog, data/c.m4, data/glr.c, data/glr.cc, data/location.cc:
 	* data/yacc.c, src/getargs.c, src/output.c, tests/cxx-type.at:
 	Update copyright year to 2006.
