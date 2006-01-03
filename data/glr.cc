@@ -18,6 +18,35 @@ m4_divert(-1)                                                       -*- C -*-
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301  USA
 
+
+# This skeleton produces a C++ class that encapsulates a C glr parser.
+# This is in order to reduce the maintenance burden.  The glr.c
+# skeleton is clean and pure enough so that there are no real
+# problems.  The C++ interface is the same as that of lalr1.cc.  In
+# fact, glr.c can replace yacc.c without the user noticing any
+# difference, and similarly for glr.cc replacing lalr1.cc.
+#
+# The passing of parse-params
+#
+#   The additional arguments are stored as members of the parser
+#   object, yyparser.  The C routines need to carry yyparser
+#   throughout the C parser; that easy: just let yyparser become an
+#   additional parse-param.  But because the C++ skeleton needs to
+#   know the "real" original parse-param, we save them
+#   (b4_parse_param_orig).  Note that b4_parse_param is overquoted
+#   (and c.m4 strips one level of quotes).  This is a PITA, and
+#   explains why there are so many levels of quotes.
+#
+# The locations
+#
+#   We use location.cc just like lalr1.cc, but because glr.c stores
+#   the locations in a (C++) union, the position and location classes
+#   must not have a constructor.  Therefore, contrary to lalr1.cc, we
+#   must not define "b4_location_constructors".  As a consequence the
+#   user must initialize the first positions (in particular the
+#   filename member).
+
+
 # We require a pure interface using locations.
 m4_define([b4_location_flag], [1])
 m4_define([b4_pure],          [1])
@@ -26,17 +55,16 @@ m4_include(b4_pkgdatadir/[c++.m4])
 m4_include(b4_pkgdatadir/[location.cc])
 
 
+# Save the parse parameters.
+m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))
+
+
 # b4_yy_symbol_print_generate
 # ---------------------------
 # Bypass the default implementation to generate the "yy_symbol_print"
 # and "yy_symbol_value_print" functions.
 m4_define([b4_yy_symbol_print_generate],
-[b4_c_ansi_function_decl([yyerror],
-    [static void],
-    [[yy::b4_parser_class_name::location_type *yylocationp], [yylocationp]],
-    b4_parse_param,
-    [[const char* msg], [msg]])[
-
+[[
 /*--------------------.
 | Print this symbol.  |
 `--------------------*/
@@ -46,19 +74,33 @@ m4_define([b4_yy_symbol_print_generate],
     [[FILE *],               []],
     [[int yytype],           [yytype]],
     [[const yy::b4_parser_class_name::semantic_type *yyvaluep],
-                             [yyvaluep]][]dnl
-b4_location_if([,
+                             [yyvaluep]],
     [[const yy::b4_parser_class_name::location_type *yylocationp],
-                             [yylocationp]]])[]dnl
-m4_ifset([b4_parse_param], [, b4_parse_param]))[
+                             [yylocationp]],
+    b4_parse_param)[
 {
 ]b4_parse_param_use[]dnl
 [  yyparser.yy_symbol_print_ (yytype, yyvaluep]b4_location_if([, yylocationp])[);
 }
 ]])
 
-m4_prepend([b4_epilogue],
-[[
+
+# Declare yyerror.
+m4_append([b4_post_prologue],
+[/* Line __line__ of glr.cc.  */
+b4_syncline([@oline@], [@ofile@])
+
+b4_c_ansi_function_decl([yyerror],
+    [static void],
+    [[yy::b4_parser_class_name::location_type *yylocationp], [yylocationp]],
+    b4_parse_param,
+    [[const char* msg], [msg]])])
+
+
+# Define yyerror.
+m4_append([b4_epilogue],
+[/* Line __line__ of glr.cc.  */
+b4_syncline([@oline@], [@ofile@])[
 /*------------------.
 | Report an error.  |
 `------------------*/
@@ -76,10 +118,9 @@ m4_prepend([b4_epilogue],
 
 namespace yy
 {
-]dnl Restore the actual parser params.
-m4_popdef([b4_parse_param])dnl
-[
-  /// Build a parser object.
+]dnl In this section, the parse param are the original parse_params.
+m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
+[  /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)
     : yycdebug_ (&std::cerr)]b4_parse_param_cons[
   {
@@ -153,16 +194,24 @@ m4_popdef([b4_parse_param])dnl
   }
 
 #endif /* ! YYDEBUG */
-
-} // namespace yy
+]m4_popdef([b4_parse_param])dnl
+[} // namespace yy
 
 ]])
 
-# Let glr.c believe that the user arguments are only the parser itself.
-m4_pushdef([b4_parse_param],
-	   [[yy::b4_parser_class_name& yyparser, yyparser],]
-           m4_defn([b4_parse_param]))
+
+# Let glr.c believe that the user arguments include the parser itself.
+m4_ifset([b4_parse_param],
+[m4_pushdef([b4_parse_param],
+            m4_dquote([[[yy::b4_parser_class_name& yyparser], [[yyparser]]],]
+m4_defn([b4_parse_param])))],
+[m4_pushdef([b4_parse_param],
+            [[[[yy::b4_parser_class_name& yyparser], [[yyparser]]]]])
+])
 m4_include(b4_pkgdatadir/[glr.c])
+m4_popdef([b4_parse_param])
+
+
 @output @output_header_name@
 b4_copyright([C++ Skeleton parser for GLALR(1) parsing with Bison],
              [2002, 2003, 2004, 2005])[
@@ -328,8 +377,15 @@ b4_syncline([@oline@], [@ofile@])],
   };
 
 ]dnl Redirections for glr.c.
-[#define YYSTYPE yy::]b4_parser_class_name[::semantic_type
-#define YYLTYPE yy::]b4_parser_class_name[::location_type
+m4_ifset([b4_global_tokens_and_yystype],
+[b4_token_defines(b4_tokens)])
+[
+#ifndef YYSTYPE
+# define YYSTYPE yy::]b4_parser_class_name[::semantic_type
+#endif
+#ifndef YYLTYPE
+# define YYLTYPE yy::]b4_parser_class_name[::location_type
+#endif
 
 }
 

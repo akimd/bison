@@ -95,6 +95,7 @@ m4_define_default([b4_parse_param])
 m4_define([b4_parse_param],
 b4_parse_param))
 
+
 # b4_parse_param_for(DECL, FORMAL, BODY)
 # ---------------------------------------
 # Iterate over the user parameters, binding the declaration to DECL,

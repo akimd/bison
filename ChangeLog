@@ -1,3 +1,25 @@
+2006-01-03  Akim Demaille  <akim@epita.fr>
+
+	Have glr.cc pass (some of) the calc.at tests.
+	* data/glr.cc (b4_parse_param_orig): New.
+	(b4_parse_param): Improve its definition, and bound it more
+	clearly in the skeleton.
+	(b4_epilogue): Append, instead of prepending, in order to keep
+	#line consistency.
+	Simplify the generation of auxiliary functions: locations and
+	purity are mandated.
+	(b4_global_tokens_and_yystype): Honor it.
+	* data/location.cc (c++.m4): Don't include it.
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Define AT_GLR_CC_IF
+	and AT_SKEL_CC_IF.
+	* tests/calc.at (AT_CHECK_CALC): Rely on AT_SKEL_CC_IF instead of
+	AT_LALR1_CC_IF.
+	Be sure to initialize the first position's filename.
+	(AT_CHECK_CALC_LALR1_CC): Add %location and %defines, they are
+	mandated anyway.
+	(AT_CHECK_CALC_GLR_CC): New.
+	Use it to exercise glr.cc as a lalr1.cc drop-in replacement.
+
 2006-01-02  Akim Demaille  <akim@epita.fr>
 
 	* src/output.c (output_skeleton): Don't hard wire the inclusion of
