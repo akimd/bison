@@ -1,3 +1,13 @@
+2006-01-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/c.m4 (b4_c_modern): New macro, with a new provision for
+	_MSC_VER.  Problem reported by Cenzato Marco.
+	(b4_c_function_def): Use it.
+	* data/yacc.c (YYMODERN_C): Remove.  All uses replaced by
+	b4_c_modern.
+	(yystrlen, yystpcpy, yyparse): Use b4_c_function... macros rather
+	than rolling our own.
+
 2006-01-04  Akim Demaille  <akim@epita.fr>
 
 	Also warn about non-used mid-rule values.

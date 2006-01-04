@@ -248,11 +248,25 @@ m4_define([b4_token_enums_defines],
 ## --------------------------------------------- ##
 
 
+# b4_modern_c
+# -----------
+# A predicate useful in #if to determine whether C is ancient or modern.
+#
+# If __STDC__ is defined, the compiler is modern.  IBM xlc 7.0 when run
+# as 'cc' doesn't define __STDC__ (or __STDC_VERSION__) for pedantic
+# reasons, but it defines __C99__FUNC__ so check that as well.
+# Microsoft C normally doesn't define these macros, but it defines _MSC_VER.
+# Consider a C++ compiler to be modern if it defines __cplusplus.  */
+#
+m4_define([b4_c_modern],
+  [[defined (__STDC__) || defined (__C99__FUNC__) || \
+	defined (__cplusplus) || defined (_MSC_VER)]])
+
 # b4_c_function_def(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
 # ----------------------------------------------------------
 # Declare the function NAME.
 m4_define([b4_c_function_def],
-[#if defined (__STDC__) || defined (__C99__FUNC__) || defined (__cplusplus)
+[#if b4_c_modern
 b4_c_ansi_function_def($@)
 #else
 $2
