@@ -256,7 +256,7 @@ m4_define([b4_token_enums_defines],
 # as 'cc' doesn't define __STDC__ (or __STDC_VERSION__) for pedantic
 # reasons, but it defines __C99__FUNC__ so check that as well.
 # Microsoft C normally doesn't define these macros, but it defines _MSC_VER.
-# Consider a C++ compiler to be modern if it defines __cplusplus.  */
+# Consider a C++ compiler to be modern if it defines __cplusplus.
 #
 m4_define([b4_c_modern],
   [[(defined (__STDC__) || defined (__C99__FUNC__) \
