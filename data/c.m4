@@ -259,8 +259,8 @@ m4_define([b4_token_enums_defines],
 # Consider a C++ compiler to be modern if it defines __cplusplus.  */
 #
 m4_define([b4_c_modern],
-  [[defined (__STDC__) || defined (__C99__FUNC__) || \
-	defined (__cplusplus) || defined (_MSC_VER)]])
+  [[(defined (__STDC__) || defined (__C99__FUNC__) || \
+	defined (__cplusplus) || defined (_MSC_VER))]])
 
 # b4_c_function_def(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
 # ----------------------------------------------------------
