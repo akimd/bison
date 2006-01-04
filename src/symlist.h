@@ -53,7 +53,7 @@ typedef struct symbol_list
 symbol_list *symbol_list_new (symbol *sym, location loc);
 
 /* Print it.  */
-void symbol_list_print (symbol_list *l, FILE *f);
+void symbol_list_print (const symbol_list *l, FILE *f);
 
 /* Prepend SYM at LOC to the LIST.  */
 symbol_list *symbol_list_prepend (symbol_list *l,
@@ -64,7 +64,7 @@ symbol_list *symbol_list_prepend (symbol_list *l,
 void symbol_list_free (symbol_list *l);
 
 /* Return its length. */
-unsigned int symbol_list_length (symbol_list *l);
+unsigned int symbol_list_length (const symbol_list *l);
 
 /* Get symbol N in symbol list L.  */
 symbol_list *symbol_list_n_get (symbol_list *l, int n);

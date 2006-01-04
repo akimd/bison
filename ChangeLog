@@ -1,3 +1,10 @@
+2006-01-04  Akim Demaille  <akim@epita.fr>
+
+	* src/reader.c (grammar_midrule_action): If $$ is set in a
+	mid-rule, move the `used' bit to its lhs.
+	* tests/input.at (Unused values): New.
+	* tests/actions.at (Exotic Dollars): Adjust: exp is not typed.
+
 2006-01-03  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Bison Options): Say more accurately what
