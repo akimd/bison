@@ -26,6 +26,17 @@ Changes in version 2.1a:
 	| exp "+" exp         { $$ = $1; (void) $3; }
 	;
 
+  If there are mid-rule actions, the warning is issued if no action
+  uses it.  The following triggers no warning: $1 and $3 are used.
+
+     exp: exp { push ($1); } '+' exp { push ($3); sum (); };
+
+  Mid-rule actions that use $$ cause the corresponding value to be
+  set, therefore the following action must use it.  The following rule
+  triggers a warning about $2.
+
+     exp: '1' { $$ = 1; } '+' exp { $$ = $1 + $4; };
+
   The warning is intended to help catching lost values and memory leaks.
   If a value is ignored, its associated memory typically is not reclaimed.
 

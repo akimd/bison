@@ -32,6 +32,10 @@ typedef struct symbol_list
   symbol *sym;
   location location;
 
+  /* If this symbol is the generated lhs for a mid-rule, a pointer to
+     that mid-rule.  */
+  struct symbol_list *mid_rule;
+
   /* The action is attached to the LHS of a rule. */
   const char *action;
   location action_location;

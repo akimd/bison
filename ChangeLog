@@ -1,5 +1,19 @@
 2006-01-04  Akim Demaille  <akim@epita.fr>
 
+	Also warn about non-used mid-rule values.
+	* src/symlist.h, src/symlist.c (symbol_list): Add a mid_rule
+	member.
+	(symbol_list_new): Adjust.
+	* src/reader.c (symbol_typed_p): New.
+	(grammar_rule_check): Use it.
+	(grammar_midrule_action): Bind a mid-rule LHS to its rule.
+	Check its rule.
+	* tests/input.at (AT_CHECK_UNUSED_VALUES): New.
+	Use it.
+	* tests/actions.at (Exotic Dollars): Adjust.
+
+2006-01-04  Akim Demaille  <akim@epita.fr>
+
 	* src/reader.c (grammar_midrule_action): If $$ is set in a
 	mid-rule, move the `used' bit to its lhs.
 	* tests/input.at (Unused values): New.

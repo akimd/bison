@@ -113,6 +113,7 @@ AT_DATA_GRAMMAR([[input.y]],
 exp: a_1 a_2 { $<val>$ = 3; } { $<val>$ = $<val>3 + 1; } a_5
      sum_of_the_five_previous_values
     {
+       USE (($1, $2, $<foo>3, $<foo>4, $5));
        printf ("%d\n", $6);
     }
 ;
@@ -146,11 +147,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -d -v -o input.c input.y], 0, [],
-[input.y:30.6-34.5: warning: unused value: $1
-input.y:30.6-34.5: warning: unused value: $2
-input.y:30.6-34.5: warning: unused value: $5
-])
+AT_CHECK([bison -d -v -o input.c input.y], 0)
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 0,
 [[15
