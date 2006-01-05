@@ -34,7 +34,7 @@ typedef struct symbol_list
 
   /* If this symbol is the generated lhs for a mid-rule, a pointer to
      that mid-rule.  */
-  struct symbol_list *mid_rule;
+  struct symbol_list *midrule;
 
   /* The action is attached to the LHS of a rule. */
   const char *action;
