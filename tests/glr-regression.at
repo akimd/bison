@@ -815,3 +815,203 @@ AT_CHECK([[./glr-regr9]], 0, [],
 ])
 
 AT_CLEANUP
+
+
+## ------------------------------------------------------------------------- ##
+## Corrupted semantic options if user action cuts parse.	             ##
+## ------------------------------------------------------------------------- ##
+
+AT_SETUP([Corrupted semantic options if user action cuts parse.])
+
+AT_DATA_GRAMMAR([glr-regr10.y],
+[[
+%{
+# include <stdio.h>
+  static void yyerror (char const *);
+  static int yylex (void);
+  #define GARBAGE_SIZE 50
+  static char garbage[GARBAGE_SIZE];
+%}
+
+%glr-parser
+%union { char *ptr; }
+%type <ptr> start
+
+%%
+
+start:
+    %dprec 2 { $$ = garbage; YYACCEPT; }
+  | %dprec 1 { $$ = garbage; YYACCEPT; }
+  ;
+
+%%
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex (void)
+{
+  return 0;
+}
+
+int
+main (void)
+{
+  int index;
+  for (index = 0; index < GARBAGE_SIZE; index+=1)
+    garbage[index] = 132;
+  return yyparse ();
+}
+]])
+
+AT_CHECK([[bison -t -o glr-regr10.c glr-regr10.y]], 0, [],
+[glr-regr10.y: conflicts: 1 reduce/reduce
+])
+AT_COMPILE([glr-regr10])
+
+AT_CHECK([[./glr-regr10]], 0, [], [])
+
+AT_CLEANUP
+
+
+## ------------------------------------------------------------------------- ##
+## Undesirable destructors if user action cuts parse.			     ##
+## ------------------------------------------------------------------------- ##
+
+AT_SETUP([Undesirable destructors if user action cuts parse.])
+
+AT_DATA_GRAMMAR([glr-regr11.y],
+[[
+%{
+# include <stdlib.h>
+  static void yyerror (char const *);
+  static int yylex (void);
+  static int destructors = 0;
+# define USE(val)
+%}
+
+%glr-parser
+%union { int dummy; }
+%type <int> 'a'
+%destructor { destructors += 1; } 'a'
+
+%%
+
+start:
+    'a' %dprec 2 { USE ($1); destructors += 1; YYACCEPT; }
+  | 'a' %dprec 1 { USE ($1); destructors += 1; YYACCEPT; }
+  ;
+
+%%
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex (void)
+{
+  static char const *input = "a";
+  return *input++;
+}
+
+int
+main (void)
+{
+  int exit_status = yyparse ();
+  if (destructors != 1)
+    {
+      fprintf (stderr, "Destructor calls: %d\n", destructors);
+      return 1;
+    }
+  return exit_status;
+}
+]])
+
+AT_CHECK([[bison -t -o glr-regr11.c glr-regr11.y]], 0, [],
+[glr-regr11.y: conflicts: 1 reduce/reduce
+])
+AT_COMPILE([glr-regr11])
+
+AT_CHECK([[./glr-regr11]], 0, [], [])
+
+AT_CLEANUP
+
+
+## ------------------------------------------------------------------------- ##
+## Leaked merged semantic value if user action cuts parse.		     ##
+## ------------------------------------------------------------------------- ##
+
+AT_SETUP([Leaked merged semantic value if user action cuts parse.])
+
+AT_DATA_GRAMMAR([glr-regr12.y],
+[[
+%glr-parser
+%union { int dummy; }
+%type <dummy> start
+%destructor { has_value = 0; } start
+
+%{
+# include <stdlib.h>
+  static int merge (YYSTYPE, YYSTYPE);
+  static void yyerror (char const *);
+  static int yylex (void);
+  static int has_value = 0;
+# define USE(val)
+%}
+
+%%
+
+start:
+    %merge<merge> { has_value = 1; USE ($$); }
+  | %merge<merge> { USE ($$); YYACCEPT; }
+  ;
+
+%%
+
+static int
+merge (YYSTYPE s1, YYSTYPE s2)
+{
+  /* Not invoked. */
+  return 0;
+}
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex (void)
+{
+  return 0;
+}
+
+int
+main (void)
+{
+  int exit_status = yyparse ();
+  if (has_value)
+    {
+      fprintf (stderr, "Destructor not called.\n");
+      return 1;
+    }
+  return exit_status;
+}
+]])
+
+AT_CHECK([[bison -t -o glr-regr12.c glr-regr12.y]], 0, [],
+[glr-regr12.y: conflicts: 1 reduce/reduce
+])
+AT_COMPILE([glr-regr12])
+
+AT_CHECK([[./glr-regr12]], 0, [], [])
+
+AT_CLEANUP

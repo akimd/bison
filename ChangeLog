@@ -1,3 +1,22 @@
+2006-01-05  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/glr.c (yyresolveValue): When merging semantic options, if at
+	least one user action succeeds but a later one cuts the parse, then
+	destroy the semantic value before returning rather than leaking it.
+	(yyresolveStates): If a user action cuts the parse and thus
+	yyresolveValue fails, ignore the (unset) semantic value rather than
+	corrupting the yyGLRState, and empty the semantic options list since
+	the user actions should have called all necessary destructors.
+	Simplify code with YYCHK.
+	* tests/glr-regression.at (Corrupted semantic options if user action
+	cuts parse): New test case.
+	(Undesirable destructors if user action cuts parse): New test case.
+	Before applying any of this patch, this test case never actually failed
+	for me... but only because the corrupted semantic options usually
+	masked this bug.
+	(Leaked merged semantic value if user action cuts parse): New test
+	case.
+
 2006-01-05  Akim Demaille  <akim@epita.fr>
 
 	* src/reader.c, src/symlist.h, src/symlist.c: s/mid_rule/midrule/.
