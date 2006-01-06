@@ -816,7 +816,7 @@ AT_CLEANUP
 ## Corrupted semantic options if user action cuts parse.	             ##
 ## ------------------------------------------------------------------------- ##
 
-AT_SETUP([Corrupted semantic options if user action cuts parse.])
+AT_SETUP([Corrupted semantic options if user action cuts parse])
 
 AT_DATA_GRAMMAR([glr-regr10.y],
 [[
@@ -858,7 +858,7 @@ main (void)
 {
   int index;
   for (index = 0; index < GARBAGE_SIZE; index+=1)
-    garbage[index] = 132;
+    garbage[index] = 108;
   return yyparse ();
 }
 ]])
@@ -877,7 +877,7 @@ AT_CLEANUP
 ## Undesirable destructors if user action cuts parse.			     ##
 ## ------------------------------------------------------------------------- ##
 
-AT_SETUP([Undesirable destructors if user action cuts parse.])
+AT_SETUP([Undesirable destructors if user action cuts parse])
 
 AT_DATA_GRAMMAR([glr-regr11.y],
 [[
@@ -943,7 +943,7 @@ AT_CLEANUP
 ## Leaked merged semantic value if user action cuts parse.		     ##
 ## ------------------------------------------------------------------------- ##
 
-AT_SETUP([Leaked merged semantic value if user action cuts parse.])
+AT_SETUP([Leaked merged semantic value if user action cuts parse])
 
 AT_DATA_GRAMMAR([glr-regr12.y],
 [[
@@ -974,7 +974,8 @@ static int
 merge (YYSTYPE s1, YYSTYPE s2)
 {
   /* Not invoked. */
-  return 0;
+  char dummy = s1.dummy + s2.dummy;
+  return dummy;
 }
 
 static void
@@ -1008,5 +1009,352 @@ AT_CHECK([[bison -t -o glr-regr12.c glr-regr12.y]], 0, [],
 AT_COMPILE([glr-regr12])
 
 AT_CHECK([[./glr-regr12]], 0, [], [])
+
+AT_CLEANUP
+
+
+## ------------------------------------------------------------------------- ##
+## Incorrect lookahead during deterministic GLR.  See			     ##
+## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00017.html>.     ##
+## ------------------------------------------------------------------------- ##
+
+AT_SETUP([Incorrect lookahead during deterministic GLR])
+
+AT_DATA_GRAMMAR([glr-regr13.y],
+[[
+/* Tests:
+     - Defaulted state with initial yychar: yychar == YYEMPTY.
+     - Nondefaulted state: yychar != YYEMPTY.
+     - Defaulted state after lookahead: yychar != YYEMPTY.
+     - Defaulted state after shift: yychar == YYEMPTY.  */
+
+%{
+  #include <stdio.h>
+  static void yyerror (char const *);
+  static int yylex (void);
+  static void print_look_ahead (char const *);
+  #define USE(value)
+%}
+
+%union { char value; }
+%type <value> 'a' 'b'
+%glr-parser
+%locations
+
+%%
+
+start:
+  defstate_init defstate_shift 'b' {
+    USE ($3);
+    print_look_ahead ("start <- defstate_init defstate_shift 'b'");
+  }
+  ;
+defstate_init:
+  {
+    print_look_ahead ("defstate_init <- empty string");
+  }
+  ;
+defstate_shift:
+  nondefstate defstate_look 'a' {
+    USE ($3);
+    print_look_ahead ("defstate_shift <- nondefstate defstate_look 'a'");
+  }
+  ;
+defstate_look:
+  {
+    print_look_ahead ("defstate_look <- empty string");
+  }
+  ;
+nondefstate:
+  {
+    print_look_ahead ("nondefstate <- empty string");
+  }
+  | 'b' {
+    USE ($1);
+    print_look_ahead ("nondefstate <- 'b'");
+  }
+  ;
+
+%%
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex (void)
+{
+  static char const *input = "ab";
+  static int index = 0;
+  yylloc.first_line = yylloc.last_line = 1;
+  yylloc.first_column = yylloc.last_column = index+1;
+  yylval.value = input[index] + 'A' - 'a';
+  return input[index++];
+}
+
+static void
+print_look_ahead (char const *reduction)
+{
+  printf ("%s:\n  yychar=", reduction);
+  if (yychar == YYEMPTY)
+    printf ("YYEMPTY");
+  else if (yychar == YYEOF)
+    printf ("YYEOF");
+  else
+    {
+      printf ("'%c', yylval='", yychar);
+      if (yylval.value > ' ')
+	printf ("%c", yylval.value);
+      printf ("', yylloc=(%d,%d),(%d,%d)",
+	      yylloc.first_line, yylloc.first_column,
+	      yylloc.last_line, yylloc.last_column);
+    }
+  printf ("\n");
+}
+
+int
+main (void)
+{
+  yychar = '#'; /* Not a token in the grammar.  */
+  yylval.value = '!';
+  return yyparse ();
+}
+]])
+
+AT_CHECK([[bison -t -o glr-regr13.c glr-regr13.y]], 0, [], [])
+AT_COMPILE([glr-regr13])
+
+AT_CHECK([[./glr-regr13]], 0,
+[defstate_init <- empty string:
+  yychar=YYEMPTY
+nondefstate <- empty string:
+  yychar='a', yylval='A', yylloc=(1,1),(1,1)
+defstate_look <- empty string:
+  yychar='a', yylval='A', yylloc=(1,1),(1,1)
+defstate_shift <- nondefstate defstate_look 'a':
+  yychar=YYEMPTY
+start <- defstate_init defstate_shift 'b':
+  yychar=YYEMPTY
+], [])
+
+AT_CLEANUP
+
+
+## ------------------------------------------------------------------------- ##
+## Incorrect lookahead during nondeterministic GLR.			     ##
+## ------------------------------------------------------------------------- ##
+
+AT_SETUP([Incorrect lookahead during nondeterministic GLR])
+
+AT_DATA_GRAMMAR([glr-regr14.y],
+[[
+/* Tests:
+     - Conflicting actions (split-off parse, which copies lookahead status,
+       which is necessarily yytrue) and nonconflicting actions (non-split-off
+       parse) for nondefaulted state: yychar != YYEMPTY.
+     - Merged deferred actions (lookahead status and RHS from different stack
+       than the target state) and nonmerged deferred actions (same stack).
+     - Defaulted state after lookahead: yychar != YYEMPTY.
+     - Defaulted state after shift: yychar == YYEMPTY.
+     - yychar != YYEMPTY but lookahead status is yyfalse (a previous stack has
+       seen the lookahead but current stack has not).
+     - Exceeding stack capacity (stack explosion), and thus reallocating
+       lookahead status array.
+   Note that it does not seem possible to see the initial yychar value during
+   nondeterministic operation since:
+     - In order to preserve the initial yychar, only defaulted states may be
+       entered.
+     - If only defaulted states are entered, there are no conflicts, so
+       nondeterministic operation does not start.  */
+
+%union { char value; }
+
+%{
+  #include <stdio.h>
+  static void yyerror (char const *);
+  static int yylex (void);
+  static void print_look_ahead (char const *);
+  static char merge (union YYSTYPE, union YYSTYPE);
+  #define USE(value)
+%}
+
+%type <value> 'a' 'b' 'c' 'd' stack_explosion
+%glr-parser
+%locations
+
+%%
+
+start:
+  merge 'c' stack_explosion {
+    USE ($2); USE ($3);
+    print_look_ahead ("start <- merge 'c' stack_explosion");
+  }
+  ;
+
+/* When merging the 2 deferred actions, the lookahead statuses are
+   different.  */
+merge:
+  nonconflict1 'a' 'b' nonconflict2 %dprec 1 {
+    USE ($2); USE ($3);
+    print_look_ahead ("merge <- nonconflict1 'a' 'b' nonconflict2");
+  }
+  | conflict defstate_look 'a' nonconflict2 'b' defstate_shift %dprec 2 {
+    USE ($3); USE ($5);
+    print_look_ahead ("merge <- conflict defstate_look 'a' nonconflict2 'b'"
+		      " defstate_shift");
+  }
+  ;
+
+nonconflict1:
+  {
+    print_look_ahead ("nonconflict1 <- empty string");
+  }
+  ;
+nonconflict2:
+  {
+    print_look_ahead ("nonconflict2 <- empty string");
+  }
+  | 'a' {
+    USE ($1);
+    print_look_ahead ("nonconflict2 <- 'a'");
+  }
+  ;
+conflict:
+  {
+    print_look_ahead ("conflict <- empty string");
+  }
+  ;
+defstate_look:
+  {
+    print_look_ahead ("defstate_look <- empty string");
+  }
+  ;
+
+/* yychar != YYEMPTY but lookahead status is yyfalse.  */
+defstate_shift:
+  {
+    print_look_ahead ("defstate_shift <- empty string");
+  }
+  ;
+
+stack_explosion:
+  { $$ = '\0'; }
+  | alt1 stack_explosion %merge<merge> { $$ = $2; }
+  | alt2 stack_explosion %merge<merge> { $$ = $2; }
+  | alt3 stack_explosion %merge<merge> { $$ = $2; }
+  ;
+alt1:
+  'd' no_look {
+    USE ($1);
+    if (yychar != 'd' && yychar != YYEOF)
+      {
+	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+      }
+  }
+  ;
+alt2:
+  'd' no_look {
+    USE ($1);
+    if (yychar != 'd' && yychar != YYEOF)
+      {
+	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+      }
+  }
+  ;
+alt3:
+  'd' no_look {
+    USE ($1);
+    if (yychar != 'd' && yychar != YYEOF)
+      {
+	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+      }
+  }
+  ;
+no_look:
+  {
+    if (yychar != YYEMPTY)
+      {
+	fprintf (stderr,
+		 "Found lookahead where shouldn't during stack explosion.\n");
+      }
+  }
+  ;
+
+%%
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex (void)
+{
+  static char const *input = "abcdddd";
+  static int index = 0;
+  yylloc.first_line = yylloc.last_line = 1;
+  yylloc.first_column = yylloc.last_column = index+1;
+  yylval.value = input[index] + 'A' - 'a';
+  return input[index++];
+}
+
+static void
+print_look_ahead (char const *reduction)
+{
+  printf ("%s:\n  yychar=", reduction);
+  if (yychar == YYEMPTY)
+    printf ("YYEMPTY");
+  else if (yychar == YYEOF)
+    printf ("YYEOF");
+  else
+    {
+      printf ("'%c', yylval='", yychar);
+      if (yylval.value > ' ')
+	printf ("%c", yylval.value);
+      printf ("', yylloc=(%d,%d),(%d,%d)",
+	      yylloc.first_line, yylloc.first_column,
+	      yylloc.last_line, yylloc.last_column);
+    }
+  printf ("\n");
+}
+
+static char
+merge (union YYSTYPE s1, union YYSTYPE s2)
+{
+  char dummy = s1.value + s2.value;
+  return dummy;
+}
+
+int
+main (void)
+{
+  yychar = '#'; /* Not a token in the grammar.  */
+  yylval.value = '!';
+  return yyparse ();
+}
+]])
+
+AT_CHECK([[bison -t -o glr-regr14.c glr-regr14.y]], 0, [],
+[glr-regr14.y: conflicts: 3 reduce/reduce
+])
+AT_COMPILE([glr-regr14])
+
+AT_CHECK([[./glr-regr14]], 0,
+[conflict <- empty string:
+  yychar='a', yylval='A', yylloc=(1,1),(1,1)
+defstate_look <- empty string:
+  yychar='a', yylval='A', yylloc=(1,1),(1,1)
+nonconflict2 <- empty string:
+  yychar='b', yylval='B', yylloc=(1,2),(1,2)
+defstate_shift <- empty string:
+  yychar=YYEMPTY
+merge <- conflict defstate_look 'a' nonconflict2 'b' defstate_shift:
+  yychar=YYEMPTY
+start <- merge 'c' stack_explosion:
+  yychar=YYEOF
+], [])
 
 AT_CLEANUP

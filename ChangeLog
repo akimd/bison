@@ -1,5 +1,36 @@
 2006-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* data/glr.c (yyGLRStateSet): Add yybool* yylookaheadStatuses member to
+	use during nondeterministic operation to track which stacks have
+	actually needed the current lookahead.
+	(yyinitStateSet, yyfreeStateSet, yyremoveDeletes, yysplitStack):
+	Allocate, deallocate, resize, and otherwise shuffle space for
+	yylookaheadStatuses in parallel with yystates member of yyGLRStateSet.
+	(yysplitStack, yyprocessOneStack, yyparse): Set lookahead status
+	appropriately during nondeterministic operation.
+	(yySemanticOption): Add int yyrawchar, YYSTYPE yyval, and YYLTYPE yyloc
+	members to store the current lookahead to be used by the deferred
+	user action.
+	(yyaddDeferredAction): Add size_t yyk parameter specifying the stack
+	from which the RHS is taken.  Set the lookahead members of the new
+	yySemanticOption according to the lookahead status for stack yyk.
+	(yyglrShiftDefer, yyglrReduce): Pass yyk parameter on to
+	yyaddDeferredAction.
+	(yyresolveAction): Set yychar, yylval, and yylloc to the lookahead
+	members of yySemanticOption before invoking yyuserAction, and then set
+	them back to their current values afterward.
+	(yyparse): Set yychar = YYEMPTY where yytoken = YYEMPTY.
+	(yyreportAmbiguity): Add /*ARGSUSED*/ to pacify lint.
+	* tests/glr-regression.at: Remove `.' from the ends of recent test case
+	titles for consistency.
+	(Leaked merged semantic value if user action cuts parse): In order to
+	suppress lint warnings, use arguments in merge function, and assign
+	char value < 128 in main.
+	(Incorrect lookahead during deterministic GLR): New test case.
+	(Incorrect lookahead during nondeterministic GLR): New test case.
+
+2006-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* data/c.m4 (b4_yy_symbol_print_generate): In yy_symbol_print, accept   
 	!yyvaluep as signal that no semantic value is available to print.
 	* data/glr.c (yydestroyGLRState): If state is not resolved, don't try
