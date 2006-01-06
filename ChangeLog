@@ -1,5 +1,12 @@
 2006-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* data/c.m4 (b4_yy_symbol_print_generate): In yy_symbol_print, accept   
+	!yyvaluep as signal that no semantic value is available to print.
+	* data/glr.c (yydestroyGLRState): If state is not resolved, don't try
+	to print a semantic value.
+
+2006-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* tests/glr-regression.at: For consistency with my newer test cases,
 	don't thank myself.
 
