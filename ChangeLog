@@ -1,4 +1,5 @@
 2006-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* tests/glr-regression.at: For consistency with my newer test cases,
 	don't thank myself.
 
