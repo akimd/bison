@@ -329,11 +329,10 @@ AT_CHECK([[echo p1 t4 o2 p1 p1 t1 o1 t2 p2 o1 t3 p2 p2 | ./glr-regr3]], 0,
 AT_CLEANUP
 
 
-## ---------------------------------------------------------------------- ##
-## Duplicate representation of merged trees                               ##
-## Thanks to Joel E. Denny for this test; see                             ##
-## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.  ##
-## ---------------------------------------------------------------------- ##
+## ------------------------------------------------------------------------- ##
+## Duplicate representation of merged trees.  See			     ##
+## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.     ##
+## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Duplicate representation of merged trees])
 
@@ -425,11 +424,10 @@ AT_CHECK([[./glr-regr4]], 0,
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## User destructor for unresolved GLR semantic value                         ##
-## Thanks to Joel E. Denny for this test; see                                ##
-## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00016.html>.  ##
-## ------------------------------------------------------------------------- ##
+## -------------------------------------------------------------------------- ##
+## User destructor for unresolved GLR semantic value.  See		      ##
+## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00016.html>.   ##
+## -------------------------------------------------------------------------- ##
 
 AT_SETUP([User destructor for unresolved GLR semantic value])
 
@@ -496,11 +494,10 @@ AT_CHECK([[./glr-regr5]], 0, [],
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## User destructor after an error during a split parse                       ##
-## Thanks to Joel E. Denny for this test; see                                ##
-## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00029.html>.  ##
-## ------------------------------------------------------------------------- ##
+## -------------------------------------------------------------------------- ##
+## User destructor after an error during a split parse.  See		      ##
+## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00029.html>.   ##
+## -------------------------------------------------------------------------- ##
 
 AT_SETUP([User destructor after an error during a split parse])
 
@@ -562,8 +559,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Duplicated user destructor for lookahead                                  ##
-## Thanks to Joel E. Denny for this test; see                                ##
+## Duplicated user destructor for lookahead.  See			     ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00035.html>.  ##
 ## ------------------------------------------------------------------------- ##
 
@@ -736,8 +732,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## No users destructors if stack 0 deleted                                   ##
-## Thanks to Joel E. Denny for this test; see                                ##
+## No users destructors if stack 0 deleted.  See			     ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2005-09/msg00109.html>.  ##
 ## ------------------------------------------------------------------------- ##
 
