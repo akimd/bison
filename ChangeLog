@@ -1,3 +1,7 @@
+2006-01-11  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* data/glr.c (yyaddDeferredAction): Flesh out the comment.
+
 2006-01-11  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* doc/bison.texinfo: Fix some typos.
