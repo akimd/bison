@@ -1,3 +1,29 @@
+2006-01-11  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* doc/bison.texinfo: Fix some typos.
+	(GLR Semantic Actions): New subsection discussing special
+	considerations because GLR semantic actions might be deferred.
+	(Actions): Mention look-ahead usage of yylval.
+	(Actions and Locations): Mention look-ahead usage of yylloc.
+	(Special Features for Use in Actions): Add YYEOF entry and mention it
+	in the yychar entry.
+	In the yychar entry, remove mention of the local yychar case (pure
+	parser) since this is irrelevant information when writing semantic
+	actions and since it's already discussed in `Bison Symbols' where
+	yychar is otherwise described as an external variable.
+	In the yychar entry, don't call it the `current' look-ahead since it
+	isn't when semantic actions are deferred.
+	In the yychar and yyclearin entries, add note about deferred semantic
+	actions.
+	Add yylloc and yylval entries discussing look-ahead usage.
+	(Look-Ahead Tokens): When discussing yychar, don't call it the
+	`current' look-ahead, and do mention yylval and yylloc.
+	(Error Recovery): Cross-reference `Action Features' when mentioning
+	yyclearin.
+	(Bison Symbols): In the yychar entry, don't call it the `current'
+	look-ahead.
+	In the yylloc and yylval entries, mention look-ahead usage.
+
 2006-01-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* tests/glr-regression.at: Update copyright year to 2006.

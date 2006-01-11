@@ -44,7 +44,7 @@ This manual is for @acronym{GNU} Bison (version @value{VERSION},
 @value{UPDATED}), the @acronym{GNU} parser generator.
 
 Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
-1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -145,9 +145,10 @@ The Concepts of Bison
 
 Writing @acronym{GLR} Parsers
 
-* Simple GLR Parsers::       Using @acronym{GLR} parsers on unambiguous grammars
-* Merging GLR Parses::       Using @acronym{GLR} parsers to resolve ambiguities
-* Compiler Requirements::    @acronym{GLR} parsers require a modern C compiler
+* Simple GLR Parsers::      Using @acronym{GLR} parsers on unambiguous grammars.
+* Merging GLR Parses::      Using @acronym{GLR} parsers to resolve ambiguities.
+* GLR Semantic Actions::    Deferred semantic actions have special concerns.
+* Compiler Requirements::   @acronym{GLR} parsers require a modern C compiler.
 
 Examples
 
@@ -733,9 +734,10 @@ user-defined function on the resulting values to produce an arbitrary
 merged result.
 
 @menu
-* Simple GLR Parsers::       Using @acronym{GLR} parsers on unambiguous grammars
-* Merging GLR Parses::       Using @acronym{GLR} parsers to resolve ambiguities
-* Compiler Requirements::    @acronym{GLR} parsers require a modern C compiler
+* Simple GLR Parsers::      Using @acronym{GLR} parsers on unambiguous grammars.
+* Merging GLR Parses::      Using @acronym{GLR} parsers to resolve ambiguities.
+* GLR Semantic Actions::    Deferred semantic actions have special concerns.
+* Compiler Requirements::   @acronym{GLR} parsers require a modern C compiler.
 @end menu
 
 @node Simple GLR Parsers
@@ -1093,6 +1095,52 @@ productions that participate in any particular merge have identical
 @samp{%merge} clauses.  Otherwise, the ambiguity would be unresolvable,
 and the parser will report an error during any parse that results in
 the offending merge.
+
+@node GLR Semantic Actions
+@subsection GLR Semantic Actions
+
+@cindex deferred semantic actions
+By definition, a deferred semantic action is not performed at the same time as
+the associated reduction.
+This raises caveats for several Bison features you might use in a semantic
+action in a @acronym{GLR} parser.
+
+@vindex yychar
+@cindex @acronym{GLR} parsers and @code{yychar}
+@vindex yylval
+@cindex @acronym{GLR} parsers and @code{yylval}
+@vindex yylloc
+@cindex @acronym{GLR} parsers and @code{yylloc}
+In any semantic action, you can examine @code{yychar} to determine the type of
+the look-ahead token present at the time of the associated reduction.
+After checking that @code{yychar} is not set to @code{YYEMPTY} or @code{YYEOF},
+you can then examine @code{yylval} and @code{yylloc} to determine the
+look-ahead token's semantic value and location, if any.
+In a nondeferred semantic action, you can also modify any of these variables to
+influence syntax analysis.
+@xref{Look-Ahead, ,Look-Ahead Tokens}.
+
+@findex yyclearin
+@cindex @acronym{GLR} parsers and @code{yyclearin}
+In a deferred semantic action, it's too late to influence syntax analysis.
+In this case, @code{yychar}, @code{yylval}, and @code{yylloc} are set to
+shallow copies of the values they had at the time of the associated reduction.
+For this reason alone, modifying them is dangerous.
+Moreover, the result of modifying them is undefined and subject to change with
+future versions of Bison.
+For example, if a semantic action might be deferred, you should never write it
+to invoke @code{yyclearin} (@pxref{Action Features}) or to attempt to free
+memory referenced by @code{yylval}.
+
+@findex YYERROR
+@cindex @acronym{GLR} parsers and @code{YYERROR}
+Another Bison feature requiring special consideration is @code{YYERROR}
+(@pxref{Action Features}), which you can invoke in any semantic action to
+initiate error recovery.
+During deterministic @acronym{GLR} operation, the effect of @code{YYERROR} is
+the same as its effect in an @acronym{LALR}(1) parser.
+In a deferred semantic action, its effect is undefined.
+@c The effect is probably a syntax error at the split point.
 
 @node Compiler Requirements
 @subsection Considerations when Compiling @acronym{GLR} Parsers
@@ -3140,6 +3188,12 @@ As long as @code{bar} is used only in the fashion shown here, @code{$0}
 always refers to the @code{expr} which precedes @code{bar} in the
 definition of @code{foo}.
 
+@vindex yylval
+It is also possible to access the semantic value of the look-ahead token, if
+any, from a semantic action.
+This semantic value is stored in @code{yylval}.
+@xref{Action Features, ,Special Features for Use in Actions}.
+
 @node Action Types
 @subsection Data Types of Values in Actions
 @cindex action data types
@@ -3456,6 +3510,12 @@ exp:    @dots{}
             @}
 @end group
 @end example
+
+@vindex yylloc
+It is also possible to access the location of the look-ahead token, if any,
+from a semantic action.
+This location is stored in @code{yylloc}.
+@xref{Action Features, ,Special Features for Use in Actions}.
 
 @node Location Default Action
 @subsection Default Action for Locations
@@ -4763,6 +4823,12 @@ In either case, the rest of the action is not executed.
 Value stored in @code{yychar} when there is no look-ahead token.
 @end deffn
 
+@deffn {Macro} YYEOF
+@vindex YYEOF
+Value stored in @code{yychar} when the look-ahead is the end of the input
+stream.
+@end deffn
+
 @deffn {Macro} YYERROR;
 @findex YYERROR
 Cause an immediate syntax error.  This statement initiates error
@@ -4779,21 +4845,42 @@ is recovering from a syntax error, and 0 the rest of the time.
 @end deffn
 
 @deffn {Variable} yychar
-Variable containing the current look-ahead token.  (In a pure parser,
-this is actually a local variable within @code{yyparse}.)  When there is
-no look-ahead token, the value @code{YYEMPTY} is stored in the variable.
+Variable containing either the look-ahead token, or @code{YYEOF} when the
+look-ahead is the end of the input stream, or @code{YYEMPTY} when no look-ahead
+has been performed so the next token is not yet known.
+Do not modify @code{yychar} in a deferred semantic action (@pxref{GLR Semantic
+Actions}).
 @xref{Look-Ahead, ,Look-Ahead Tokens}.
 @end deffn
 
 @deffn {Macro} yyclearin;
 Discard the current look-ahead token.  This is useful primarily in
-error rules.  @xref{Error Recovery}.
+error rules.
+Do not invoke @code{yyclearin} in a deferred semantic action (@pxref{GLR
+Semantic Actions}).
+@xref{Error Recovery}.
 @end deffn
 
 @deffn {Macro} yyerrok;
 Resume generating error messages immediately for subsequent syntax
 errors.  This is useful primarily in error rules.
 @xref{Error Recovery}.
+@end deffn
+
+@deffn {Variable} yylloc
+Variable containing the look-ahead token location when @code{yychar} is not set
+to @code{YYEMPTY} or @code{YYEOF}.
+Do not modify @code{yylloc} in a deferred semantic action (@pxref{GLR Semantic
+Actions}).
+@xref{Actions and Locations, ,Actions and Locations}.
+@end deffn
+
+@deffn {Variable} yylval
+Variable containing the look-ahead token semantic value when @code{yychar} is
+not set to @code{YYEMPTY} or @code{YYEOF}.
+Do not modify @code{yylval} in a deferred semantic action (@pxref{GLR Semantic
+Actions}).
+@xref{Actions, ,Actions}.
 @end deffn
 
 @deffn {Value} @@$
@@ -5033,7 +5120,11 @@ doing so would produce on the stack the sequence of symbols @code{expr
 '!'}.  No rule allows that sequence.
 
 @vindex yychar
-The current look-ahead token is stored in the variable @code{yychar}.
+@vindex yylval
+@vindex yylloc
+The look-ahead token is stored in the variable @code{yychar}.
+Its semantic value and location, if any, are stored in the variables
+@code{yylval} and @code{yylloc}.
 @xref{Action Features, ,Special Features for Use in Actions}.
 
 @node Shift/Reduce
@@ -5850,6 +5941,7 @@ The previous look-ahead token is reanalyzed immediately after an error.  If
 this is unacceptable, then the macro @code{yyclearin} may be used to clear
 this token.  Write the statement @samp{yyclearin;} in the error rule's
 action.
+@xref{Action Features, ,Special Features for Use in Actions}.
 
 For example, suppose that on a syntax error, an error handling routine is
 called that advances the input stream to some point where parsing should
@@ -8039,7 +8131,7 @@ token.  @xref{Action Features, ,Special Features for Use in Actions}.
 @end deffn
 
 @deffn {Variable} yychar
-External integer variable that contains the integer value of the current
+External integer variable that contains the integer value of the
 look-ahead token.  (In a pure parser, it is a local variable within
 @code{yyparse}.)  Error-recovery rule actions may examine this variable.
 @xref{Action Features, ,Special Features for Use in Actions}.
@@ -8100,7 +8192,7 @@ the next token.  @xref{Lexical, ,The Lexical Analyzer Function
 
 @deffn {Macro} YYLEX_PARAM
 An obsolete macro for specifying an extra argument (or list of extra
-arguments) for @code{yyparse} to pass to @code{yylex}.  he use of this
+arguments) for @code{yyparse} to pass to @code{yylex}.  The use of this
 macro is deprecated, and is supported only for Yacc like parsers.
 @xref{Pure Calling,, Calling Conventions for Pure Parsers}.
 @end deffn
@@ -8109,9 +8201,12 @@ macro is deprecated, and is supported only for Yacc like parsers.
 External variable in which @code{yylex} should place the line and column
 numbers associated with a token.  (In a pure parser, it is a local
 variable within @code{yyparse}, and its address is passed to
-@code{yylex}.)  You can ignore this variable if you don't use the
-@samp{@@} feature in the grammar actions.  @xref{Token Locations,
-,Textual Locations of Tokens}.
+@code{yylex}.)
+You can ignore this variable if you don't use the @samp{@@} feature in the
+grammar actions.
+@xref{Token Locations, ,Textual Locations of Tokens}.
+In semantic actions, it stores the location of the look-ahead token.
+@xref{Actions and Locations, ,Actions and Locations}.
 @end deffn
 
 @deffn {Type} YYLTYPE
@@ -8123,7 +8218,10 @@ members.  @xref{Location Type, , Data Types of Locations}.
 External variable in which @code{yylex} should place the semantic
 value associated with a token.  (In a pure parser, it is a local
 variable within @code{yyparse}, and its address is passed to
-@code{yylex}.)  @xref{Token Values, ,Semantic Values of Tokens}.
+@code{yylex}.)
+@xref{Token Values, ,Semantic Values of Tokens}.
+In semantic actions, it stores the semantic value of the look-ahead token.
+@xref{Actions, ,Actions}.
 @end deffn
 
 @deffn {Macro} YYMAXDEPTH
@@ -8384,7 +8482,7 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: yychar yydebug msg YYNTOKENS YYNNTS YYNRULES YYNSTATES
 @c LocalWords: cparse clex deftypefun NE defmac YYACCEPT YYABORT param
 @c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP
-@c LocalWords: YYEMPTY YYRECOVERING yyclearin GE def UMINUS maybeword
+@c LocalWords: YYEMPTY YYEOF YYRECOVERING yyclearin GE def UMINUS maybeword
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH
 @c LocalWords: YYINITDEPTH stmnts ref stmnt initdcl maybeasm VCG notype
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args
