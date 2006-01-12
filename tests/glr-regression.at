@@ -1151,17 +1151,17 @@ AT_SETUP([Incorrect lookahead during nondeterministic GLR])
 AT_DATA_GRAMMAR([glr-regr14.y],
 [[
 /* Tests:
-     - Conflicting actions (split-off parse, which copies lookahead status,
+     - Conflicting actions (split-off parse, which copies lookahead need,
        which is necessarily yytrue) and nonconflicting actions (non-split-off
        parse) for nondefaulted state: yychar != YYEMPTY.
-     - Merged deferred actions (lookahead status and RHS from different stack
+     - Merged deferred actions (lookahead need and RHS from different stack
        than the target state) and nonmerged deferred actions (same stack).
      - Defaulted state after lookahead: yychar != YYEMPTY.
      - Defaulted state after shift: yychar == YYEMPTY.
-     - yychar != YYEMPTY but lookahead status is yyfalse (a previous stack has
+     - yychar != YYEMPTY but lookahead need is yyfalse (a previous stack has
        seen the lookahead but current stack has not).
      - Exceeding stack capacity (stack explosion), and thus reallocating
-       lookahead status array.
+       lookahead need array.
    Note that it does not seem possible to see the initial yychar value during
    nondeterministic operation since:
      - In order to preserve the initial yychar, only defaulted states may be
@@ -1193,8 +1193,7 @@ start:
   }
   ;
 
-/* When merging the 2 deferred actions, the lookahead statuses are
-   different.  */
+/* When merging the 2 deferred actions, the lookahead needs are different.  */
 merge:
   nonconflict1 'a' 'b' nonconflict2 %dprec 1 {
     USE ($2); USE ($3);
@@ -1232,7 +1231,7 @@ defstate_look:
   }
   ;
 
-/* yychar != YYEMPTY but lookahead status is yyfalse.  */
+/* yychar != YYEMPTY but lookahead need is yyfalse.  */
 defstate_shift:
   {
     print_look_ahead ("defstate_shift <- empty string");

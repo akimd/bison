@@ -1,3 +1,12 @@
+2006-01-12  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/glr.c (yyGLRStateSet): Rename yylookaheadStatuses to
+	yylookaheadNeeds.  All uses updated.
+	(yysplitStack): Rename local yynewLookaheadStatuses to
+	yynewLookaheadNeeds.
+	* data/glr-regression.at (Incorrect lookahead during nondeterministic
+	GLR): In comments, change `lookahead status' to `lookahead need'.
+
 2006-01-11  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* data/glr.c (yysplitStack): A little stylistic rewrite.
