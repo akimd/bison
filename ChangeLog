@@ -1,3 +1,11 @@
+2006-01-18  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Avoid undefined behavior that accessed just before the start of an
+	array.  Problem reported by twlevo.
+	* src/reader.c (packgram): Prepend a new sentinel before ritem.
+	* src/lalr.c (build_relations): Rely on new sentinel.
+	* src/gram.c (gram_free): Adjust to new sentinel.
+
 2006-01-12  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/glr.c (yyGLRStateSet): Rename yylookaheadStatuses to
