@@ -1,3 +1,22 @@
+# DJGPP specific configuration file.
+
+# Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301  USA
+
 # Additional editing of Makefiles
 /(echo[ 	]*':t/ a\
 # DJGPP specific Makefile changes.\
@@ -45,7 +64,7 @@ yacc.bat:\\\
 /CONFIG_FILES=/ s|po/Makefile\.in|&:po/Makefile.in-in|2
 
 # We always use _deps and _libs instead of .deps and .libs, because
-# the latter is an invalid name on 8+3 MS-DOS filesystem.  This makes
+# the latter is an invalid name on 8+3 MS-DOS file system.  This makes
 # the generated Makefiles good for every DJGPP installation, not only
 # the one where the package was configured (which could happen to be
 # a Windows box, where leading dots in file names are allowed).
@@ -125,7 +144,7 @@ ac_abs_srcdir=`echo "$ac_abs_srcdir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A
  /^esac$/ a\
 ac_abs_top_srcdir=`echo "$ac_abs_top_srcdir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%"`
 }
- 
+
 # Add DJGPP version information.
 /^#define VERSION/ s/\$VERSION/&  (DJGPP port (r1))/
 
