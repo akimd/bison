@@ -3,6 +3,9 @@ Bison News
 
 Changes in version 2.1a:
 
+* Bison now allows multiple %union declarations, and concatenates
+  their contents together.
+
 * New warning: unused values
   Typed right-hand side symbols whose value are not used are reported.
   For instance:
@@ -695,8 +698,8 @@ End:
 
 -----
 
-Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
-Free Software Foundation, Inc.
+Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+2004, 2005, 2006 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 

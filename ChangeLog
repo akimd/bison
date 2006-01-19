@@ -1,5 +1,8 @@
 2006-01-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Document the fact that multiple %unions are now allowed.
+	* doc/bison.texinfo (Union Decl): Likewise.
+
 	* Makefile.maint: Merge with coreutils Makefile.maint.
 	(CVS_LIST): Use build-aux version if available.
 	(VERSION_REGEXP): New macro.

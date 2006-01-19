@@ -3802,9 +3802,14 @@ As an extension to @acronym{POSIX}, a tag is allowed after the
 @end group
 @end example
 
+@noindent
 specifies the union tag @code{value}, so the corresponding C type is
 @code{union value}.  If you do not specify a tag, it defaults to
 @code{YYSTYPE}.
+
+As another extension to @acronym{POSIX}, you may specify multiple
+@code{%union} declarations; their contents are concatenated.  However,
+only the first @code{%union} declaration can specify a tag.
 
 Note that, unlike making a @code{union} declaration in C, you need not write
 a semicolon after the closing brace.
