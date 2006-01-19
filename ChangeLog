@@ -19,7 +19,7 @@
 	* djgpp/config.sed: Add copyright notice, and replace "filesystem"
 	with "file system".
 
-	Avoid undefined behavior that accessed just before the start of an
+	Avoid undefined behavior that addressed just before the start of an
 	array.  Problem reported by twlevo.
 	* src/reader.c (packgram): Prepend a new sentinel before ritem.
 	* src/lalr.c (build_relations): Rely on new sentinel.
