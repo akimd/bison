@@ -1,3 +1,8 @@
+2006-01-19  Akim Demaille  <akim@epita.fr>
+
+	* tests/calc.at (_AT_DATA_CALC_Y): Initialize the whole initial
+	location, not just parts of it.
+
 2006-01-18  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Document the fact that multiple %unions are now allowed.

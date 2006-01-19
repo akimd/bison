@@ -99,7 +99,7 @@ static void unget_char (]AT_LEX_PRE_FORMALS[ int c);
    are stored in a union, from which objects with constructors are
    excluded in C++. */
 %initial-action {
-  @$.begin.filename = @$.end.filename = 0;
+  @$.initialize (0);
 }
 ])[
 
