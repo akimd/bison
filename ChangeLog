@@ -1,5 +1,24 @@
 2006-01-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* Makefile.maint: Merge with coreutils Makefile.maint.
+	(CVS_LIST): Use build-aux version if available.
+	(VERSION_REGEXP): New macro.
+	(syntax-check-rules): Add sc_no_if_have_config_h,
+	sc_prohibit_assert_without_use, sc_require_config_h,
+	sc_useless_cpp_parens.
+	(sc_obsolete_symbols): Check for O_NDELAY.
+	(sc_dd_max_sym_length): Track coreutils.
+	(sc_unmarked_diagnostics): Look in all files, not just *.c.
+	(sc_useless_cpp_parens): New rule.
+	(news-date-check): Look for version or today's date.
+	(changelog-check): Don't require version number near head.
+	(copyright-check): Use current year instead of hardwiring 2005.
+	(my-distcheck): Depend on $(release_archive_dir)/$(prev-tgz).
+	(announcement): Add --gpg-key-ID.
+
+	* djgpp/config.sed: Add copyright notice, and replace "filesystem"
+	with "file system".
+
 	Avoid undefined behavior that accessed just before the start of an
 	array.  Problem reported by twlevo.
 	* src/reader.c (packgram): Prepend a new sentinel before ritem.
@@ -1032,7 +1051,7 @@
 
 2005-09-19  Akim Demaille  <akim@epita.fr>
 
-	* NEWS, configure.ac: Bump to 2.1a.
+	* NEWS, configure.ac: Version 2.1a.
 
 2005-09-16  Paul Eggert  <eggert@cs.ucla.edu>
 
