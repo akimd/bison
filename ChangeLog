@@ -2,6 +2,8 @@
 
 	* NEWS: Document the fact that multiple %unions are now allowed.
 	* doc/bison.texinfo (Union Decl): Likewise.
+	* TODO: This feature is now implemented, so remove it from
+	the wishlist.
 
 	* Makefile.maint: Merge with coreutils Makefile.maint.
 	(CVS_LIST): Use build-aux version if available.
