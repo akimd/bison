@@ -2,7 +2,7 @@
 
 # Bootstrap this package from CVS.
 
-# Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -280,6 +280,15 @@ intl_files_to_remove='
 '
 echo $0: rm -fr $intl_files_to_remove ...
 rm -fr $intl_files_to_remove || exit
+
+# Undo changes to gnulib files that autoreconf made.
+for gnulib_file in $gnulib_files; do
+  test ! -f $gnulib_file || cmp -s $gnulib_file $GNULIB_SRCDIR/$gnulib_file || {
+    rm -f $gnulib_file &&
+    echo "$0: Copying file $GNULIB_SRCDIR/$gnulib_file again" &&
+    cp -p $GNULIB_SRCDIR/$gnulib_file $gnulib_file || exit
+  }
+done
 
 # Put bug-reporting address into po/Makevars.
 echo "$0: sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >po/Makevars ..."
