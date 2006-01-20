@@ -240,7 +240,7 @@ AT_DATA_GRAMMAR([glr-regr3.y],
 #include <stdarg.h>
 
 static int MergeRule (int x0, int x1);
-static void yyerror(char const * s);
+static void yyerror (char const * s);
 int yylex (void);
 
 #define RULE(x) (1 << (x))
@@ -650,7 +650,7 @@ AT_DATA_GRAMMAR([glr-regr8.y],
   #include <stdlib.h>
   static void yyerror (char const *);
   static int yylex (void);
-  static void yyerror(const char *msg);
+  static void yyerror (char const *msg);
 %}
 
 %token T_CONSTANT
@@ -684,9 +684,10 @@ OptSignalWord	: /* empty */
 
 %%
 
-void yyerror(const char *msg)
+void
+yyerror (char const *msg)
 {
-  fprintf (stderr, "error\n");
+  fprintf (stderr, "%s\n", msg);
 }
 
 static int lexIndex;
@@ -856,9 +857,9 @@ yylex (void)
 int
 main (void)
 {
-  int index;
-  for (index = 0; index < GARBAGE_SIZE; index+=1)
-    garbage[index] = 108;
+  int i;
+  for (i = 0; i < GARBAGE_SIZE; i+=1)
+    garbage[i] = 108;
   return yyparse ();
 }
 ]])
@@ -1087,11 +1088,11 @@ static int
 yylex (void)
 {
   static char const *input = "ab";
-  static int index = 0;
+  static int i = 0;
   yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = index+1;
-  yylval.value = input[index] + 'A' - 'a';
-  return input[index++];
+  yylloc.first_column = yylloc.last_column = i + 1;
+  yylval.value = input[i] + 'A' - 'a';
+  return input[i++];
 }
 
 static void
@@ -1293,11 +1294,11 @@ static int
 yylex (void)
 {
   static char const *input = "abcdddd";
-  static int index = 0;
+  static int i = 0;
   yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = index+1;
-  yylval.value = input[index] + 'A' - 'a';
-  return input[index++];
+  yylloc.first_column = yylloc.last_column = i + 1;
+  yylval.value = input[i] + 'A' - 'a';
+  return input[i++];
 }
 
 static void

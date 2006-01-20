@@ -155,7 +155,9 @@ yylex (LEX_PARAMETERS)
   static int colNum = 0;
 
 #if YYPURE
+# undef yylloc
 # define yylloc (*llocp)
+# undef yylval
 # define yylval (*lvalp)
 #endif
 

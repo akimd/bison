@@ -206,7 +206,11 @@ declaration:
   grammar_declaration
 | PROLOGUE                                 { prologue_augment ($1, @1); }
 | "%debug"                                 { debug_flag = true; }
-| "%define" string_content                 { muscle_insert ($2, "1"); }
+| "%define" string_content
+    {
+      static char one[] = "1";
+      muscle_insert ($2, one);
+    }
 | "%define" string_content string_content  { muscle_insert ($2, $3); }
 | "%defines"                               { defines_flag = true; }
 | "%error-verbose"                         { error_verbose = true; }
@@ -214,14 +218,14 @@ declaration:
 | "%expect-rr" INT			   { expected_rr_conflicts = $2; }
 | "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
 | "%glr-parser"
-  {
-    nondeterministic_parser = true;
-    glr_parser = true;
-  }
+    {
+      nondeterministic_parser = true;
+      glr_parser = true;
+    }
 | "%initial-action {...}"
-  {
-    muscle_code_grow ("initial_action", $1, @1);
-  }
+    {
+      muscle_code_grow ("initial_action", $1, @1);
+    }
 | "%lex-param {...}"			   { add_param ("lex_param", $1, @1); }
 | "%locations"                             { locations_flag = true; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }

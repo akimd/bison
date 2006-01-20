@@ -1,6 +1,7 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Free Software
+# Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -58,7 +59,6 @@ if test "${enableval}" = yes; then
   BISON_WARNING(-Wbad-function-cast)
   BISON_WARNING(-Wmissing-declarations)
   BISON_WARNING(-Wmissing-prototypes)
-  BISON_WARNING(-Wnested-externs)
   BISON_WARNING(-Wshadow)
   BISON_WARNING(-Wstrict-prototypes)
   AC_DEFINE([lint], 1, [Define to 1 if the compiler is checking for lint.])

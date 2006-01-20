@@ -472,6 +472,8 @@ b4_parse_param_use[]dnl
 [# ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+# else
+  YYUSE (yyoutput);
 # endif
   switch (yytype)
     {

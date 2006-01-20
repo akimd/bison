@@ -1,3 +1,27 @@
+2006-01-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Minor fixups to get 'make maintainer-check' to work.
+	* configure.ac: Don't use -Wnested-externs, as it's incompatible
+	with the new verify.h implementation.
+	* data/c.m4 (b4_yy_symbol_print_generate): YYUSE (yyoutput).
+	* data/glr.c (YYUSE): Depend on __GNUC__ as well.
+	* data/yacc.c (YYUSE): Likewise.
+	* data/lalr1.cc (yysyntax_error_): YYUSE (yystate).
+	* lib/subpipe.c (end_of_output_subpipe): The args are unused.
+	* src/parse-gram.y (declaration): Don't pass a string constant
+	to a function that expects char *, since GCC might complain
+	about the constant value.
+	* src/reader.c (symbol_typed_p): Add parens to pacify GCC.
+	* tests/cxx-type.at (_AT_TEST_GLR_CXXTYPES): #undef yylloc and yylval
+	before #defining them.
+	* tests/glr-regression.at
+	(Incorrectly initialized location for empty right-hand side in GLR):
+	In yyerror, use the msg arg.
+	(Corrupted semantic options if user action cuts parse):
+	(Incorrect lookahead during deterministic GLR):
+	(Incorrect lookahead during nondeterministic GLR):
+	Don't name a local var 'index'; it shadows string.h's 'index'.
+
 2006-01-19  Akim Demaille  <akim@epita.fr>
 
 	* tests/calc.at (_AT_DATA_CALC_Y): Initialize the whole initial

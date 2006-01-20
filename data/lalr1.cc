@@ -829,6 +829,7 @@ b4_error_verbose_if([, yytoken])[));
 b4_error_verbose_if([, int tok])[)
   {
     std::string res;
+    YYUSE (yystate);
 #if YYERROR_VERBOSE
     int yyn = yypact_[yystate];
     if (yypact_ninf_ < yyn && yyn < yylast_)
