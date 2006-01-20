@@ -1,5 +1,7 @@
 2006-01-19  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* bootstrap: Undo changes to gnulib files that autoreconf made.
+
 	Minor fixups to get 'make maintainer-check' to work.
 	* configure.ac: Don't use -Wnested-externs, as it's incompatible
 	with the new verify.h implementation.
