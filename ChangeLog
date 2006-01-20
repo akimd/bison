@@ -1,5 +1,16 @@
 2006-01-19  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Fix some porting glitches found by Nelson H. F. Beebe.
+	* lib/abitset.c (abitset_resize): Rewrite to avoid warnings from
+	compilers that don't understand that abort () does not return.
+	* src/state.c (transitions_to): Likewise.
+	* m4/cxx.m4 (BISON_TEST_FOR_WORKING_CXX_COMPILER): Check
+	that '#include <cstdlib>' works.
+	* src/system.h (INT8_MIN, INT16_MIN, INT32_MIN, INT8_MAX):
+	(INT16_MAX, UINT8_MAX, INT32_MAX, UINT16_MAX, UINT32_MAX):
+	#undef if ! defined __STDC_VERSION__ || __STDC_VERSION__ < 199901,
+	for the benefit of some pre-C99 compilers.
+
 	* bootstrap: Undo changes to gnulib files that autoreconf made.
 
 	Minor fixups to get 'make maintainer-check' to work.

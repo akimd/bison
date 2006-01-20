@@ -1,7 +1,7 @@
 # -*- Autoconf -*-
 # Sanity-test a C++ compiler.
 #
-# Copyright (C) 2004 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2006 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301  USA
 
-# Written by Paul Eggert <eggert@cs.ucla.edu>.
+# Written by Paul Eggert.
 
 AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
 [
@@ -27,7 +27,8 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
    [AC_LANG_PUSH([C++])
     AC_RUN_IFELSE(
       [AC_LANG_PROGRAM(
-	 [#include <iostream>
+	 [#include <cstdlib>
+	  #include <iostream>
 	  using namespace std;],
          [std::cerr << "";
           cout << "";])],

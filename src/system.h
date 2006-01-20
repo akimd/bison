@@ -1,7 +1,7 @@
 /* System-dependent definitions for Bison.
 
-   Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 Free Software
-   Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free
+   Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,22 @@
 
 #ifndef BISON_SYSTEM_H
 #define BISON_SYSTEM_H
+
+/* flex 2.5.31 gratutiously defines macros like INT8_MIN.  But this
+   runs afoul of pre-C99 compilers that have <inttypes.h> or
+   <stdint.h>, which are included below if available.  It also runs
+   afoul of pre-C99 compilers that define these macros in <limits.h>.  */
+#if ! defined __STDC_VERSION__ || __STDC_VERSION__ < 199901
+# undef INT8_MIN
+# undef INT16_MIN
+# undef INT32_MIN
+# undef INT8_MAX
+# undef INT16_MAX
+# undef UINT8_MAX
+# undef INT32_MAX
+# undef UINT16_MAX
+# undef UINT32_MAX
+#endif
 
 #include <limits.h>
 #include <stddef.h>
