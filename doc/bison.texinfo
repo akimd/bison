@@ -2639,6 +2639,10 @@ they precede the definition of @code{yyparse}.  You can use
 don't need any C declarations, you may omit the @samp{%@{} and
 @samp{%@}} delimiters that bracket this section.
 
+The @var{Prologue} section is terminated by the the first occurrence
+of @samp{%@}} that is outside a comment, a string literal, or a
+character constant.
+
 You may have more than one @var{Prologue} section, intermixed with the
 @var{Bison declarations}.  This allows you to have C and Bison
 declarations that refer to each other.  For example, the @code{%union}
@@ -2899,6 +2903,22 @@ the semantics of the rule.  An action looks like this:
 @end example
 
 @noindent
+@cindex braced code
+This is an example of @dfn{braced code}, that is, C code surrounded by
+braces, much like a compound statement in C@.  Braced code can contain
+any sequence of C tokens, so long as its braces are balanced.  Bison
+does not check the braced code for correctness directly; it merely
+copies the code to the output file, where the C compiler can check it.
+
+Within braced code, the balanced-brace count is not affected by braces
+within comments, string literals, or character constants, but it is
+affected by the C digraphs @samp{<%} and @samp{%>} that represent
+braces.  At the top level braced code must be terminated by @samp{@}}
+and not by a digraph.  Bison does not look for trigraphs, so if braced
+code uses trigraphs you should ensure that they do not affect the
+nesting of braces or the boundaries of comments, string literals, or
+character constants.
+
 Usually there is only one action and it follows the components.
 @xref{Actions}.
 
@@ -3103,14 +3123,8 @@ each time an instance of that rule is recognized.  The task of most actions
 is to compute a semantic value for the grouping built by the rule from the
 semantic values associated with tokens or smaller groupings.
 
-An action consists of C statements surrounded by braces, much like a
-compound statement in C@.  An action can contain any sequence of C
-statements.  Bison does not look for trigraphs, though, so if your C
-code uses trigraphs you should ensure that they do not affect the
-nesting of braces or the boundaries of comments, strings, or character
-literals.
-
-An action can be placed at any position in the rule;
+An action consists of braced code containing C statements, and can be
+placed at any position in the rule;
 it is executed at that position.  Most rules have just one action at the
 end of the rule, following all the components.  Actions in the middle of
 a rule are tricky and used only for special purposes (@pxref{Mid-Rule
@@ -3768,10 +3782,10 @@ the one declared later has the higher precedence and is grouped first.
 @cindex value types, declaring
 @findex %union
 
-The @code{%union} declaration specifies the entire collection of possible
-data types for semantic values.  The keyword @code{%union} is followed by a
-pair of braces containing the same thing that goes inside a @code{union} in
-C.
+The @code{%union} declaration specifies the entire collection of
+possible data types for semantic values.  The keyword @code{%union} is
+followed by braced code containing the same thing that goes inside a
+@code{union} in C@.
 
 For example:
 
@@ -3852,7 +3866,7 @@ code.
 
 @deffn {Directive} %initial-action @{ @var{code} @}
 @findex %initial-action
-Declare that the @var{code} must be invoked before parsing each time
+Declare that the braced @var{code} must be invoked before parsing each time
 @code{yyparse} is called.  The @var{code} may use @code{$$} and
 @code{@@$} --- initial value and location of the look-ahead --- and the
 @code{%parse-param}.
@@ -3891,7 +3905,8 @@ symbol is automatically discarded.
 
 @deffn {Directive} %destructor @{ @var{code} @} @var{symbols}
 @findex %destructor
-Invoke @var{code} whenever the parser discards one of the @var{symbols}.
+Invoke the braced @var{code} whenever the parser discards one of the
+@var{symbols}.
 Within @var{code}, @code{$$} designates the semantic value associated
 with the discarded symbol.  The additional parser parameters are also
 available (@pxref{Parser Function, , The Parser Function
@@ -4367,8 +4382,8 @@ declaration @code{%parse-param}:
 
 @deffn {Directive} %parse-param @{@var{argument-declaration}@}
 @findex %parse-param
-Declare that an argument declared by @code{argument-declaration} is an
-additional @code{yyparse} argument.
+Declare that an argument declared by the braced-code
+@var{argument-declaration} is an additional @code{yyparse} argument.
 The @var{argument-declaration} is used when declaring
 functions or prototypes.  The last identifier in
 @var{argument-declaration} must be the argument name.
@@ -4612,8 +4627,8 @@ Function}).
 
 @deffn {Directive} lex-param @{@var{argument-declaration}@}
 @findex %lex-param
-Declare that @code{argument-declaration} is an additional @code{yylex}
-argument declaration.
+Declare that the braced-code @var{argument-declaration} is an
+additional @code{yylex} argument declaration.
 @end deffn
 
 For instance:
@@ -7495,6 +7510,7 @@ avoid name clashes.
 To enable memory deallocation during error recovery, use
 @code{%destructor}.
 
+@c FIXME: Document %printer, and mention that it takes a braced-code operand.
 @comment file: calc++-parser.yy
 @example
 %printer    @{ debug_stream () << *$$; @} "identifier"

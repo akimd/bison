@@ -1,3 +1,24 @@
+2006-01-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Prologue, Rules, Actions, Union Decl, Action Decl):
+	(Destructor Decl, Parser Function, Pure Calling):
+	Describe rules for braces inside C code more carefully.
+
+	Be a bit more systematic about using 'abort'.
+	* lib/abitset.c (abitset_test): Remove ATTRIBUTE_UNUSED; not needed.
+	* lib/bitset.c (bitset_bytes, bitset_init, bitset_op4_cmp):
+	Put 'default: abort ();' before some other case, to satisfy older
+	pedantic compilers.
+	* lib/bitset_stats.c (bitset_stats_init): Likewise.
+	* lib/ebitset.c (ebitset_elt_find, ebitset_op3_cmp): Likewise.
+	* lib/lbitset.c (lbitset_elt_find, lbitset_op3_cmp): Likewise.
+	* src/conflicts.c (resolve_sr_conflict): Likewise.
+	* src/LR0.c (save_reductions): Use "if (!FOO) abort ();" rather than
+	"assert (FOO);".
+	* src/state.c (state_transitions_set, state_reductions_set): Likewise.
+	* src/scan-skel.l (QPUTS): Remove unnecessary parens.
+	(BASE_QPUTS, "@output ".*\n): Remove unnecessary asserts.
+
 2006-01-19  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix some porting glitches found by Nelson H. F. Beebe.
