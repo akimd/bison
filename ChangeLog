@@ -1,9 +1,5 @@
 2006-01-20  Paul Eggert  <eggert@cs.ucla.edu>
 
-	* doc/bison.texinfo (Prologue, Rules, Actions, Union Decl, Action Decl):
-	(Destructor Decl, Parser Function, Pure Calling):
-	Describe rules for braces inside C code more carefully.
-
 	Be a bit more systematic about using 'abort'.
 	* lib/abitset.c (abitset_test): Remove ATTRIBUTE_UNUSED; not needed.
 	* lib/bitset.c (bitset_bytes, bitset_init, bitset_op4_cmp):
@@ -13,11 +9,31 @@
 	* lib/ebitset.c (ebitset_elt_find, ebitset_op3_cmp): Likewise.
 	* lib/lbitset.c (lbitset_elt_find, lbitset_op3_cmp): Likewise.
 	* src/conflicts.c (resolve_sr_conflict): Likewise.
-	* src/LR0.c (save_reductions): Use "if (!FOO) abort ();" rather than
-	"assert (FOO);".
-	* src/state.c (state_transitions_set, state_reductions_set): Likewise.
+	* src/vcg.c (get_color_str, get_textmode_str, get_shape_str):
+	(get_decision_str, get_orientation_str, get_node_alignment_str):
+	(get_arrow_mode_str, get_crossing_type_str, get_view_str):
+	(get_linestyle_str, get_arrowstyle_str): Likewise.
+	* src/conflicts.c (resolve_sr_conflict):
+	Use a default case rather than one for the one remaining enum
+	value, to catch invalid enum values as well.
+	* src/lalr.c (set_goto_map, map_goto):
+	Prefer "assert (FOO);" to "if (!FOO) abort ();".
+	* src/nullable.c (nullable_compute, token_definitions_output):
+	Likewise.
+	* src/reader.c (packgram, reader): Likewise.
+	* src/state.c (transitions_to, state_new, state_reduction_find):
+	Likewise.
+	* src/symtab.c (symbol_user_token_number_set, symbol_make_alias):
+	(symbol_pack): Likewise.
+	* src/tables.c (conflict_row, pack_vector): Likewise.
 	* src/scan-skel.l (QPUTS): Remove unnecessary parens.
 	(BASE_QPUTS, "@output ".*\n): Remove unnecessary asserts.
+	* src/system.h: Don't include <assert.h>.
+	(assert): New macro.
+
+	* doc/bison.texinfo (Prologue, Rules, Actions, Union Decl, Action Decl):
+	(Destructor Decl, Parser Function, Pure Calling):
+	Describe rules for braces inside C code more carefully.
 
 2006-01-19  Paul Eggert  <eggert@cs.ucla.edu>
 

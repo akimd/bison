@@ -64,8 +64,6 @@
 typedef size_t uintptr_t;
 #endif
 
-#include <assert.h>
-
 #include <verify.h>
 #include <xalloc.h>
 
@@ -214,6 +212,11 @@ do {						\
       free (_node);				\
     }						\
 } while (0)
+
+
+/* Assertions.  <assert.h>'s assertions are too heavyweight, and can
+   be disabled too easily, so implement it separately here.  */
+#define assert(x) ((void) ((x) || (abort (), 0)))
 
 
 /*---------------------------------------------.
