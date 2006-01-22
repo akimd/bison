@@ -98,7 +98,7 @@ prog :
 			     @2.first_line, @2.first_column,
 			     @2.last_line, @2.last_column);])[
 			output = node_to_string (]$[2);
-		 	printf ("%s\n", output);
+			printf ("%s\n", output);
 			free (output);
 			free_node (]$[2);
 		   }

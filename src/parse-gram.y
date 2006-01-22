@@ -39,7 +39,7 @@
 static YYLTYPE lloc_default (YYLTYPE const *, int);
 
 #define YY_LOCATION_PRINT(File, Loc) \
-          location_print (File, Loc)
+	  location_print (File, Loc)
 
 static void version_check (location const *loc, char const *version);
 
@@ -47,7 +47,7 @@ static void version_check (location const *loc, char const *version);
    FIXME: depends on the undocumented availability of YYLLOC.  */
 #undef  yyerror
 #define yyerror(Msg) \
-        gram_error (&yylloc, Msg)
+	gram_error (&yylloc, Msg)
 static void gram_error (location const *, char const *);
 
 static void add_param (char const *, char *, location);
@@ -132,11 +132,11 @@ static int current_prec = 0;
   PERCENT_NO_DEFAULT_PREC "%no-default-prec"
   PERCENT_NO_LINES        "%no-lines"
   PERCENT_NONDETERMINISTIC_PARSER
-                          "%nondeterministic-parser"
+			  "%nondeterministic-parser"
   PERCENT_OUTPUT          "%output"
   PERCENT_PARSE_PARAM     "%parse-param {...}"
   PERCENT_PURE_PARSER     "%pure-parser"
-  PERCENT_REQUIRE 	  "%require"
+  PERCENT_REQUIRE	  "%require"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
   PERCENT_TOKEN_TABLE     "%token-table"
@@ -166,7 +166,7 @@ static int current_prec = 0;
 	      BRACED_CODE action
 	      PROLOGUE EPILOGUE
 %printer { fprintf (stderr, "\"%s\"", $$); }
-              STRING string_content
+	      STRING string_content
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
 	      "%destructor {...}"
 	      "%initial-action {...}"
