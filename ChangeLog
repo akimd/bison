@@ -1,3 +1,18 @@
+2006-01-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/assoc.c (assoc_to_string): Use a default: abort (); case
+	to pacify gcc -Wswitch-default.
+	* src/scan-gram.l (adjust_location): Use a default: break; case
+	to pacify gcc -Wswitch-default.
+	* src/scan-skel.h (skel_get_lineno, skel_get_in, skel_get_out):
+	(skel_get_leng, skel_get_text, skel_set_lineno, skel_set_in):
+	(skel_set_out, skel_get_debug, skel_set_debug, skel_lex_destroy):
+	Move these decls to scan-skel.l, since they don't need to be
+	visible elsewhere.
+	* src/scan-skel.l: Accept the above decls.
+	(skel_lex): New decl, to pacify GCC when unpatched flex 2.5.31
+	is used.
+
 2006-01-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* Makefile.cfg (local-checks-to-skip): Add changelog-check,

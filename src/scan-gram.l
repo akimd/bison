@@ -752,12 +752,13 @@ adjust_location (location *loc, char const *token, size_t size)
 	break;
 
       case '\t':
-	{
-	  column = add_column_width (column, p0, p - p0);
-	  column = add_column_width (column, NULL, 8 - ((column - 1) & 7));
-	  p0 = p + 1;
-	  break;
-	}
+	column = add_column_width (column, p0, p - p0);
+	column = add_column_width (column, NULL, 8 - ((column - 1) & 7));
+	p0 = p + 1;
+	break;
+
+      default:
+	break;
       }
 
   scanner_cursor.line = line;
