@@ -74,9 +74,9 @@ m4_define([b4_yy_symbol_print_generate],
     [[FILE *],               []],
     [[int yytype],           [yytype]],
     [[const yy::b4_parser_class_name::semantic_type *yyvaluep],
-                             [yyvaluep]],
+			     [yyvaluep]],
     [[const yy::b4_parser_class_name::location_type *yylocationp],
-                             [yylocationp]],
+			     [yylocationp]],
     b4_parse_param)[
 {
 ]b4_parse_param_use[]dnl
@@ -143,7 +143,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   inline void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
-                           const semantic_type* yyvaluep, const location_type* yylocationp)
+			   const semantic_type* yyvaluep, const location_type* yylocationp)
   {
     /* Pacify ``unused variable'' warnings.  */
     YYUSE (yyvaluep);
@@ -152,18 +152,18 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [        default:
-          break;
+	  break;
       }
   }
 
 
   void
   ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
-                           const semantic_type* yyvaluep, const location_type* yylocationp)
+			   const semantic_type* yyvaluep, const location_type* yylocationp)
   {
     *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
-  	       << ' ' << yytname[yytype] << " ("
-               << *yylocationp << ": ";
+	       << ' ' << yytname[yytype] << " ("
+	       << *yylocationp << ": ";
     yy_symbol_value_print_ (yytype, yyvaluep, yylocationp);
     *yycdebug_ << ')';
   }
@@ -203,10 +203,10 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 # Let glr.c believe that the user arguments include the parser itself.
 m4_ifset([b4_parse_param],
 [m4_pushdef([b4_parse_param],
-            m4_dquote([[[yy::b4_parser_class_name& yyparser], [[yyparser]]],]
+	    m4_dquote([[[yy::b4_parser_class_name& yyparser], [[yyparser]]],]
 m4_defn([b4_parse_param])))],
 [m4_pushdef([b4_parse_param],
-            [[[[yy::b4_parser_class_name& yyparser], [[yyparser]]]]])
+	    [[[[yy::b4_parser_class_name& yyparser], [[yyparser]]]]])
 ])
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])
@@ -214,7 +214,7 @@ m4_popdef([b4_parse_param])
 
 @output @output_header_name@
 b4_copyright([C++ Skeleton parser for GLALR(1) parsing with Bison],
-             [2002, 2003, 2004, 2005, 2006])[
+	     [2002, 2003, 2004, 2005, 2006])[
 
 /* C++ GLR parser skeleton written by Akim Demaille.  */
 
@@ -294,7 +294,7 @@ namespace yy
   {
   public:
     /// Symbol semantic values.
-#if ! defined (YYSTYPE)
+#ifndef YYSTYPE
 ]m4_ifdef([b4_stype],
 [    union semantic_type
 b4_stype
@@ -349,15 +349,15 @@ b4_syncline([@oline@], [@ofile@])
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     virtual void yy_symbol_value_print_ (int yytype,
-			                 const semantic_type* yyvaluep,
-  			                 const location_type* yylocationp);
+					 const semantic_type* yyvaluep,
+					 const location_type* yylocationp);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     virtual void yy_symbol_print_ (int yytype,
-			           const semantic_type* yyvaluep,
-			           const location_type* yylocationp);
+				   const semantic_type* yyvaluep,
+				   const location_type* yylocationp);
   private:
 #endif /* ! YYDEBUG */
 
@@ -368,9 +368,9 @@ b4_syncline([@oline@], [@ofile@])
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     inline void yydestruct_ (const char* yymsg,
-                             int yytype,
-                             semantic_type* yyvaluep,
-                             location_type* yylocationp);
+			     int yytype,
+			     semantic_type* yyvaluep,
+			     location_type* yylocationp);
 
     /* Debugging.  */
     std::ostream* yycdebug_;

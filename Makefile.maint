@@ -113,7 +113,7 @@ syntax-check-rules = \
   sc_sun_os_names \
   sc_system_h_headers \
   sc_tight_scope \
-  sc_trailing_space \
+  sc_trailing_blank \
   sc_unmarked_diagnostics \
   sc_useless_cpp_parens
 
@@ -174,10 +174,32 @@ sc_file_system:
 	    'rewrite to use "file system"' 1>&2;			\
 	    exit 1; } || :
 
+sc_no_if_have_config_h:
+	@grep -n '^# *if HAVE_CONFIG_H' $$($(CVS_LIST_EXCEPT)) &&	\
+	  { echo '$(ME): found use of #if HAVE_CONFIG_H; use #ifdef'	\
+		1>&2; exit 1; } || :
+
+# Nearly all .c files must include <config.h>.
+sc_require_config_h:
+	@grep -L '^# *include <config\.h>'				\
+		$$($(CVS_LIST_EXCEPT) | grep '\.c$$')			\
+	    | grep . &&							\
+	  { echo '$(ME): the above files do not include <config.h>'	\
+		1>&2; exit 1; } || :
+
+# Prohibit the inclusion of assert.h without an actual use of assert.
+sc_prohibit_assert_without_use:
+	@files=$$(grep -l '# *include <assert\.h>'			\
+		    $$($(CVS_LIST_EXCEPT) | grep '\.c$$')) &&		\
+	grep -L '\<assert (' $$files					\
+	    | grep . &&							\
+	  { echo "$(ME): the above files include <assert.h> but don't use it" \
+		1>&2; exit 1; } || :
+
 sc_obsolete_symbols:
-	@grep -nE '\<(\<(HAVE_FCNTL_H|O_NDELAY)\>'			\
+	@grep -nE '\<(HAVE''_FCNTL_H|O''_NDELAY)\>'			\
 	     $$($(CVS_LIST_EXCEPT)) &&					\
-	  { echo '$(ME): do not use HAVE_FCNTL_H or O_NDELAY'		\
+	  { echo '$(ME): do not use HAVE''_FCNTL_H or O''_NDELAY'	\
 		1>&2; exit 1; } || :
 
 # FIXME: warn about definitions of EXIT_FAILURE, EXIT_SUCCESS, STREQ
@@ -197,7 +219,7 @@ ifneq ($(wildcard $(dd_c)),)
 	len=$$( (sed -n '/conversions\[\] =$$/,/^};/p' $(dd_c);	\
 		 sed -n '/flags\[\] =$$/,/^};/p' $(dd_c) )	\
 		|sed -n '/"/s/^[^"]*"\([^"]*\)".*/\1/p'		\
-              | wc --max-line-length);				\
+	      | wc --max-line-length);				\
 	max=$$(sed -n '/^#define LONGEST_SYMBOL /s///p' $(dd_c)	\
 	      |tr -d '"' | wc --max-line-length);		\
 	if test "$$len" = "$$max"; then :; else			\
@@ -239,7 +261,7 @@ sc_root_tests:
 # Files in src/ should not include directly any of
 # the headers already included via system.h.
 sc_system_h_headers: .re-list
-	if test -f $(srcdir)/src/system.h; then			\
+	@if test -f $(srcdir)/src/system.h; then			\
 	  trap 'rc=$$?; rm -f .re-list; exit $$rc' 0 1 2 3 15;		\
 	  grep -nE -f .re-list						\
 	      $$($(CVS_LIST) src |					\
@@ -258,9 +280,9 @@ sc_sun_os_names:
 sc_tight_scope:
 	$(MAKE) -C src $@
 
-sc_trailing_space:
+sc_trailing_blank:
 	@grep -n '[	 ]$$' $$($(CVS_LIST_EXCEPT)) &&			\
-	  { echo '$(ME): found trailing space(s)'			\
+	  { echo '$(ME): found trailing blank(s)'			\
 		1>&2; exit 1; } || :
 
 # Look for diagnostics that aren't marked for translation.
@@ -275,7 +297,7 @@ sc_unmarked_diagnostics:
 # Avoid useless parentheses like those in this example:
 # #if defined (SYMBOL) || defined (SYM2)
 sc_useless_cpp_parens:
-	@grep '^# *if .*defined *(' $$($(CVS_LIST_EXCEPT)) &&		\
+	@grep -n '^# *if .*defined *(' $$($(CVS_LIST_EXCEPT)) &&	\
 	  { echo '$(ME): found useless parentheses in cpp directive'	\
 		1>&2; exit 1; } || :
 
@@ -312,7 +334,7 @@ news-date-check: NEWS
 	fi
 
 changelog-check:
-	if grep 'Version $(VERSION_REGEXP)\.$$' ChangeLog \
+	if head ChangeLog | grep 'Version $(VERSION_REGEXP)\.$$' \
 	    >/dev/null; then \
 	  :; \
 	else \
@@ -321,7 +343,7 @@ changelog-check:
 	fi
 
 m4-check:
-	@grep 'AC_DEFUN([^[]' m4/*.m4 \
+	@grep -n 'AC_DEFUN([^[]' m4/*.m4 \
 	  && { echo 'Makefile.maint: quote the first arg to AC_DEFUN' 1>&2; \
 	       exit 1; } || :
 

@@ -1,6 +1,6 @@
 /* Subprocesses with pipes.
 
-   Copyright (C) 2005 Free Software Foundation, Inc.
+   Copyright (C) 2005, 2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 /* Written by Juan Manuel Guerrero <juan.guerrero@gmx.de>. */
 
 
-#if HAVE_CONFIG_H
+#ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
 
@@ -77,7 +77,7 @@ init_subpipe(void)
   if (fd < 0)
     error(EXIT_FAILURE, 0, _("creation of a temporary file failed"));
   close (fd);
-  
+
   strcpy(tmp_file_name[1], "/dev/env/TMPDIR/bnXXXXXX");
   fd = mkstemp(tmp_file_name[1]);
   if (fd < 0)
@@ -230,10 +230,10 @@ end_of_output_subpipe(pid_t pid, int fd[2])
     remove_tmp_file(STDIN_FILENO, tmp_file_name[0]);
     remove_tmp_file(STDOUT_FILENO, tmp_file_name[1]);
     error(EXIT_FAILURE, 0, _(errno == ENOENT
-                             ? "subsidiary program `%s' not found"
-                             : status < 1
-                             ? "subsidiary program `%s' failed"
-                             : "subsidiary program `%s' failed (status=%i, errno=%i)"), program, status, errno);
+			     ? "subsidiary program `%s' not found"
+			     : status < 1
+			     ? "subsidiary program `%s' failed"
+			     : "subsidiary program `%s' failed (status=%i, errno=%i)"), program, status, errno);
   }
 
 

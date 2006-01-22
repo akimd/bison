@@ -1,3 +1,61 @@
+2006-01-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* Makefile.cfg (local-checks-to-skip): Add changelog-check,
+	since we don't want to insist on a version number at the start
+	of the changelog every time.
+	* Makefile.maint: Sync from coreutils a bit better.
+	(sc_trailing_blank): Renamed from sc_trailing_space.
+	All uses changed.
+	(sc_no_if_have_config_h, sc_require_config_h):
+	(sc_prohibit_assert_without_use): New rules.
+	(sc_obsolete_symbols): Don't catch Makefile.maint itself.
+	(sc_dd_max_sym_length): Fix leading spaces in rule.
+	(sc_system_h_headers): Prefix with @.
+	(sc_useless_cpp_parens, m4-check): Output line numbers.
+	(changelog-check): Allow version only in head.
+	* data/c.m4: Use "defined FOO" instead of "defined (FOO)", to
+	satisfy new Makefile.maint rule.
+	* data/glr.c: Likewise.
+	* data/glr.cc: Likewise.
+	* data/lalr1.cc: Likewise.
+	* data/yacc.c: Likewise.
+	* lib/ebitsetv.c: Likewise.
+	* lib/lbitset.c: Likewise.
+	* lib/subpipe.c: Likewise.
+	* lib/timevar.c: Likewise.
+	* src/system.h: Likewise.
+	* data/yacc.c (YYSTYPE): Don't generate trailing spaces in output.
+	* djgpp/Makefile.maint: Add copyright notice.
+	* djgpp/README.in: Likewise.
+	* djgpp/config.bat: Likewise.
+	* djgpp/config.site: Likewise.
+	* djgpp/config_h.sed: Likewise.
+	* djgpp/djunpack.bat: Likewise.
+	* djgpp/config.sed: Fix copyright notice to match standard format.
+	* djgpp/subpipe.h: Likewise.
+	* lib/bitsetv-print.c: Likewise.
+	* lib/bitsetv.c: Likewise.
+	* lib/subpipe.h: Likewise.
+	* lib/timevar.c: Likewise.
+	* lib/timevar.h: Likewise.
+	* djgpp/subpipe.c: Use standard recipe for config.h.
+	* lib/abitset.c: Likewise.
+	* lib/bitset.c: Likewise.
+	* lib/bitset_stats.c: Likewise.
+	* lib/bitsetv-print.c: Likewise.
+	* lib/bitsetv.c: Likewise.
+	* lib/ebitsetv.c: Likewise.
+	* lib/get-errno.c: Likewise.
+	* lib/lbitset.c: Likewise.
+	* lib/subpipe.c: Likewise.
+	* lib/timevar.c: Likewise.
+	* lib/vbitset.c: Likewise.
+	* tests/local.at: Likewise.
+	* src/scan-gram.l: Don't include verify.h, since system.h does
+	that for us.
+	* .x-sc_require_config_h: New file.
+	* .x-sc_unmarked_diagnostics: New file.
+
 2006-01-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Be a bit more systematic about using 'abort'.

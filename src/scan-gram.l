@@ -40,7 +40,6 @@
 #include "gram.h"
 #include "quotearg.h"
 #include "reader.h"
-#include "verify.h"
 #include "uniqstr.h"
 
 #define YY_USER_INIT					\

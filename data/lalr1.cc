@@ -30,7 +30,7 @@ m4_divert(0)dnl
 m4_if(b4_defines_flag, 0, [],
 [@output @output_header_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003, 2004, 2005, 2006])
+	     [2002, 2003, 2004, 2005, 2006])
 dnl FIXME: This is wrong, we want computed header guards.
 [
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
@@ -102,7 +102,7 @@ namespace yy
   {
   public:
     /// Symbol semantic values.
-#if ! defined (YYSTYPE)
+#ifndef YYSTYPE
 ]m4_ifdef([b4_stype],
 [    union semantic_type
 b4_stype
@@ -159,15 +159,15 @@ b4_error_verbose_if([, int tok])[);
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     virtual void yy_symbol_value_print_ (int yytype,
-			                 const semantic_type* yyvaluep,
-  			                 const location_type* yylocationp);
+					 const semantic_type* yyvaluep,
+					 const location_type* yylocationp);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     virtual void yy_symbol_print_ (int yytype,
-			           const semantic_type* yyvaluep,
-			           const location_type* yylocationp);
+				   const semantic_type* yyvaluep,
+				   const location_type* yylocationp);
 #endif /* ! YYDEBUG */
 
 
@@ -256,9 +256,9 @@ b4_error_verbose_if([, int tok])[);
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     inline void yydestruct_ (const char* yymsg,
-                             int yytype,
-                             semantic_type* yyvaluep,
-                             location_type* yylocationp);
+			     int yytype,
+			     semantic_type* yyvaluep,
+			     location_type* yylocationp);
 
     /// Pop \a n symbols the three stacks.
     inline void yypop_ (unsigned int n = 1);
@@ -296,7 +296,7 @@ b4_error_verbose_if([, int tok])[);
 ])dnl
 @output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-             [2002, 2003, 2004, 2005, 2006])
+	     [2002, 2003, 2004, 2005, 2006])
 m4_if(b4_prefix[], [yy], [],
 [
 // Take the name prefix into account.
@@ -429,7 +429,7 @@ namespace yy
 
   inline void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
-                           const semantic_type* yyvaluep, const location_type* yylocationp)
+			   const semantic_type* yyvaluep, const location_type* yylocationp)
   {
     YYUSE (yylocationp);
     YYUSE (yyvaluep);
@@ -437,18 +437,18 @@ namespace yy
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [       default:
-          break;
+	  break;
       }
   }
 
 
   void
   ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
-                           const semantic_type* yyvaluep, const location_type* yylocationp)
+			   const semantic_type* yyvaluep, const location_type* yylocationp)
   {
     *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
-  	       << ' ' << yytname_[yytype] << " ("
-               << *yylocationp << ": ";
+	       << ' ' << yytname_[yytype] << " ("
+	       << *yylocationp << ": ";
     yy_symbol_value_print_ (yytype, yyvaluep, yylocationp);
     *yycdebug_ << ')';
   }
@@ -456,7 +456,7 @@ namespace yy
 
   void
   ]b4_parser_class_name[::yydestruct_ (const char* yymsg,
-                           int yytype, semantic_type* yyvaluep, location_type* yylocationp)
+			   int yytype, semantic_type* yyvaluep, location_type* yylocationp)
   {
     YYUSE (yylocationp);
     YYUSE (yymsg);
@@ -467,8 +467,8 @@ namespace yy
     switch (yytype)
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
-        default:
-          break;
+	default:
+	  break;
       }
   }
 
@@ -575,9 +575,9 @@ b4_syncline([@oline@], [@ofile@])])dnl
     /* Read a look-ahead token.  */
     if (yychar == yyempty_)
       {
-        YYCDEBUG << "Reading a token: ";
-        yychar = ]b4_c_function_call([yylex], [int],
-                                     [[YYSTYPE*], [&yylval]][]dnl
+	YYCDEBUG << "Reading a token: ";
+	yychar = ]b4_c_function_call([yylex], [int],
+				     [[YYSTYPE*], [&yylval]][]dnl
 b4_location_if([, [[location*], [&yylloc]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
@@ -586,13 +586,13 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     /* Convert token to internal form.  */
     if (yychar <= yyeof_)
       {
-        yychar = yytoken = yyeof_;
-        YYCDEBUG << "Now at end of input." << std::endl;
+	yychar = yytoken = yyeof_;
+	YYCDEBUG << "Now at end of input." << std::endl;
       }
     else
       {
-        yytoken = yytranslate_ (yychar);
-        YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
+	yytoken = yytranslate_ (yychar);
+	YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
       }
 
     /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -605,10 +605,10 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     yyn = yytable_[yyn];
     if (yyn <= 0)
       {
-        if (yyn == 0 || yyn == yytable_ninf_)
-  	goto yyerrlab;
-        yyn = -yyn;
-        goto yyreduce;
+	if (yyn == 0 || yyn == yytable_ninf_)
+	goto yyerrlab;
+	yyn = -yyn;
+	goto yyreduce;
       }
 
     /* Accept?  */
@@ -665,10 +665,10 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     YY_REDUCE_PRINT (yyn);
     switch (yyn)
       {
-        ]b4_actions
+	]b4_actions
     /* Line __line__ of lalr1.cc.  */
 b4_syncline([@oline@], [@ofile@])[
-        default: break;
+	default: break;
       }
     YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], &yyval, &yyloc);
 
@@ -683,7 +683,7 @@ b4_syncline([@oline@], [@ofile@])[
     yyn = yyr1_[yyn];
     yystate = yypgoto_[yyn - yyntokens_] + yystate_stack_[0];
     if (0 <= yystate && yystate <= yylast_
-        && yycheck_[yystate] == yystate_stack_[0])
+	&& yycheck_[yystate] == yystate_stack_[0])
       yystate = yytable_[yystate];
     else
       yystate = yydefgoto_[yyn - yyntokens_];
@@ -696,28 +696,28 @@ b4_syncline([@oline@], [@ofile@])[
     /* If not already recovering from an error, report this error.  */
     if (!yyerrstatus_)
       {
-        ++yynerrs_;
-        error (yylloc, yysyntax_error_ (yystate]dnl
+	++yynerrs_;
+	error (yylloc, yysyntax_error_ (yystate]dnl
 b4_error_verbose_if([, yytoken])[));
       }
 
     yyerror_range[0] = yylloc;
     if (yyerrstatus_ == 3)
       {
-        /* If just tried and failed to reuse look-ahead token after an
-  	 error, discard it.  */
+	/* If just tried and failed to reuse look-ahead token after an
+	 error, discard it.  */
 
-        if (yychar <= yyeof_)
-          {
-  	  /* Return failure if at end of input.  */
-  	  if (yychar == yyeof_)
-  	    YYABORT;
-          }
-        else
-          {
-            yydestruct_ ("Error: discarding", yytoken, &yylval, &yylloc);
-            yychar = yyempty_;
-          }
+	if (yychar <= yyeof_)
+	  {
+	  /* Return failure if at end of input.  */
+	  if (yychar == yyeof_)
+	    YYABORT;
+	  }
+	else
+	  {
+	    yydestruct_ ("Error: discarding", yytoken, &yylval, &yylloc);
+	    yychar = yyempty_;
+	  }
       }
 
     /* Else will try to reuse look-ahead token after shifting the error
@@ -752,29 +752,29 @@ b4_error_verbose_if([, yytoken])[));
 
     for (;;)
       {
-        yyn = yypact_[yystate];
-        if (yyn != yypact_ninf_)
-  	{
-  	  yyn += yyterror_;
-  	  if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
-  	    {
-  	      yyn = yytable_[yyn];
-  	      if (0 < yyn)
-  		break;
-  	    }
-  	}
+	yyn = yypact_[yystate];
+	if (yyn != yypact_ninf_)
+	{
+	  yyn += yyterror_;
+	  if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
+	    {
+	      yyn = yytable_[yyn];
+	      if (0 < yyn)
+		break;
+	    }
+	}
 
-        /* Pop the current state because it cannot handle the error token.  */
-        if (yystate_stack_.height () == 1)
-  	YYABORT;
+	/* Pop the current state because it cannot handle the error token.  */
+	if (yystate_stack_.height () == 1)
+	YYABORT;
 
-        yyerror_range[0] = yylocation_stack_[0];
-        yydestruct_ ("Error: popping",
-                     yystos_[yystate],
-                     &yysemantic_stack_[0], &yylocation_stack_[0]);
-        yypop_ ();
-        yystate = yystate_stack_[0];
-        YY_STACK_PRINT ();
+	yyerror_range[0] = yylocation_stack_[0];
+	yydestruct_ ("Error: popping",
+		     yystos_[yystate],
+		     &yysemantic_stack_[0], &yylocation_stack_[0]);
+	yypop_ ();
+	yystate = yystate_stack_[0];
+	YY_STACK_PRINT ();
       }
 
     if (yyn == yyfinal_)
@@ -789,7 +789,7 @@ b4_error_verbose_if([, yytoken])[));
 
     /* Shift the error token.  */
     YY_SYMBOL_PRINT ("Shifting", yystos_[yyn],
-  		   &yysemantic_stack_[0], &yylocation_stack_[0]);
+		   &yysemantic_stack_[0], &yylocation_stack_[0]);
 
     yystate = yyn;
     goto yynewstate;
@@ -813,11 +813,11 @@ b4_error_verbose_if([, yytoken])[));
     yypop_ (yylen);
     while (yystate_stack_.height () != 1)
       {
-        yydestruct_ ("Cleanup: popping",
-  		   yystos_[yystate_stack_[0]],
-  		   &yysemantic_stack_[0],
-  		   &yylocation_stack_[0]);
-        yypop_ ();
+	yydestruct_ ("Cleanup: popping",
+		   yystos_[yystate_stack_[0]],
+		   &yysemantic_stack_[0],
+		   &yylocation_stack_[0]);
+	yypop_ ();
       }
 
     return yyresult;
@@ -834,38 +834,38 @@ b4_error_verbose_if([, int tok])[)
     int yyn = yypact_[yystate];
     if (yypact_ninf_ < yyn && yyn < yylast_)
       {
-        /* Start YYX at -YYN if negative to avoid negative indexes in
-           YYCHECK.  */
-        int yyxbegin = yyn < 0 ? -yyn : 0;
+	/* Start YYX at -YYN if negative to avoid negative indexes in
+	   YYCHECK.  */
+	int yyxbegin = yyn < 0 ? -yyn : 0;
 
-        /* Stay within bounds of both yycheck and yytname.  */
-        int yychecklim = yylast_ - yyn;
-        int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-        int count = 0;
-        for (int x = yyxbegin; x < yyxend; ++x)
-          if (yycheck_[x + yyn] == x && x != yyterror_)
-            ++count;
+	/* Stay within bounds of both yycheck and yytname.  */
+	int yychecklim = yylast_ - yyn;
+	int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+	int count = 0;
+	for (int x = yyxbegin; x < yyxend; ++x)
+	  if (yycheck_[x + yyn] == x && x != yyterror_)
+	    ++count;
 
-        // FIXME: This method of building the message is not compatible
-        // with internationalization.  It should work like yacc.c does it.
-        // That is, first build a string that looks like this:
-        // "syntax error, unexpected %s or %s or %s"
-        // Then, invoke YY_ on this string.
-        // Finally, use the string as a format to output
-        // yytname_[tok], etc.
-        // Until this gets fixed, this message appears in English only.
-        res = "syntax error, unexpected ";
-        res += yytnamerr_ (yytname_[tok]);
-        if (count < 5)
-          {
-            count = 0;
-            for (int x = yyxbegin; x < yyxend; ++x)
-              if (yycheck_[x + yyn] == x && x != yyterror_)
-                {
-                  res += (!count++) ? ", expecting " : " or ";
-                  res += yytnamerr_ (yytname_[x]);
-                }
-          }
+	// FIXME: This method of building the message is not compatible
+	// with internationalization.  It should work like yacc.c does it.
+	// That is, first build a string that looks like this:
+	// "syntax error, unexpected %s or %s or %s"
+	// Then, invoke YY_ on this string.
+	// Finally, use the string as a format to output
+	// yytname_[tok], etc.
+	// Until this gets fixed, this message appears in English only.
+	res = "syntax error, unexpected ";
+	res += yytnamerr_ (yytname_[tok]);
+	if (count < 5)
+	  {
+	    count = 0;
+	    for (int x = yyxbegin; x < yyxend; ++x)
+	      if (yycheck_[x + yyn] == x && x != yyterror_)
+		{
+		  res += (!count++) ? ", expecting " : " or ";
+		  res += yytnamerr_ (yytname_[x]);
+		}
+	  }
       }
     else
 #endif
@@ -994,7 +994,7 @@ b4_error_verbose_if([, int tok])[)
   {
     *yycdebug_ << "Stack now";
     for (state_stack_type::const_iterator i = yystate_stack_.begin ();
-         i != yystate_stack_.end (); ++i)
+	 i != yystate_stack_.end (); ++i)
       *yycdebug_ << ' ' << *i;
     *yycdebug_ << std::endl;
   }
@@ -1007,13 +1007,13 @@ b4_error_verbose_if([, int tok])[)
     int yynrhs = yyr2_[yyrule];
     /* Print the symbols being reduced, and their result.  */
     *yycdebug_ << "Reducing stack by rule " << yyrule - 1
-               << " (line " << yylno << "), ";
+	       << " (line " << yylno << "), ";
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
       YY_SYMBOL_PRINT ("   $" << yyi + 1 << " =",
-                       yyrhs_[yyprhs_[yyrule] + yyi],
-                       &]b4_rhs_value(yynrhs, yyi + 1)[,
-                       &]b4_rhs_location(yynrhs, yyi + 1)[);
+		       yyrhs_[yyprhs_[yyrule] + yyi],
+		       &]b4_rhs_value(yynrhs, yyi + 1)[,
+		       &]b4_rhs_location(yynrhs, yyi + 1)[);
   }
 #endif // YYDEBUG
 

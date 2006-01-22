@@ -13,12 +13,11 @@
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301  USA
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 # Additional editing of Makefiles
-/(echo[ 	]*':t/ a\
+/(echo[	 ]*':t/ a\
 # DJGPP specific Makefile changes.\
   /^aliaspath *	*=/s,:,";",g;t t\
   /TEXINPUTS=/s,:,";",g;t t\
@@ -70,7 +69,7 @@ yacc.bat:\\\
 # a Windows box, where leading dots in file names are allowed).
 s,\.deps,_deps,g
 s,\.libs,_libs,g
-/^rmdir[ 	]*\.tst/ i\
+/^rmdir[	 ]*\.tst/ i\
 am__leading_dot=_
 
 # Replace (command) > /dev/null with `command > /dev/null`, since
@@ -79,10 +78,10 @@ am__leading_dot=_
 /if ([^|;`]*null/{
   s,(,`,
   s,),,
-  /null[ 	]*2>&1/ s,2>&1,&`,
+  /null[	 ]*2>&1/ s,2>&1,&`,
   /null.*null/ s,null.*null,&`,
   /null.*null/ !{
-    /null[ 	]*2>&1/ !s,null,&`,
+    /null[	 ]*2>&1/ !s,null,&`,
   }
 }
 
@@ -105,7 +104,7 @@ am__leading_dot=_
 # and compiling across partitions.
 # 1) The given srcdir value is always translated from the
 #    "x:" syntax into "/dev/x" syntax while we run configure.
-/^[ 	]*-srcdir=\*.*$/ a\
+/^[	 ]*-srcdir=\*.*$/ a\
     ac_optarg=`echo "$ac_optarg" | sed "s,^\\([A-Za-z]\\):,/dev/\\1,"`
 /set X `ls -Lt \$srcdir/ i\
    if `echo $srcdir | grep "^/dev/" - > /dev/null`; then\
@@ -128,19 +127,19 @@ install_sh=`echo "$install_sh" | sed 's%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*%$
 #   ${top_srcdir}/tests/testsuite.dir
 # holds. The explicit names are of no importance.
 #   ../../. == ${top_srcdir}
-/\.)[ 	]*ac_abs_builddir=/,/^esac$/ {
+/\.)[	 ]*ac_abs_builddir=/,/^esac$/ {
  /^esac$/ a\
 ac_abs_builddir=`echo "$ac_abs_builddir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%"`
 }
-/\.)[ 	]*ac_abs_top_builddir=/,/^esac$/ {
+/\.)[	 ]*ac_abs_top_builddir=/,/^esac$/ {
  /^esac$/ a\
 ac_abs_top_builddir=`echo "$ac_abs_top_builddir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%"`
 }
-/\.)[ 	]*ac_abs_srcdir=/,/^esac$/ {
+/\.)[	 ]*ac_abs_srcdir=/,/^esac$/ {
  /^esac$/ a\
 ac_abs_srcdir=`echo "$ac_abs_srcdir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%"`
 }
-/\.)[ 	]*ac_abs_top_srcdir=/,/^esac$/ {
+/\.)[	 ]*ac_abs_top_srcdir=/,/^esac$/ {
  /^esac$/ a\
 ac_abs_top_srcdir=`echo "$ac_abs_top_srcdir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%"`
 }
@@ -149,7 +148,7 @@ ac_abs_top_srcdir=`echo "$ac_abs_top_srcdir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\
 /^#define VERSION/ s/\$VERSION/&  (DJGPP port (r1))/
 
 # We need makeinfo to make the html formated docs.
-/\$am_missing_run[ 	]*makeinfo/ s,\$am_missing_run,,
+/\$am_missing_run[	 ]*makeinfo/ s,\$am_missing_run,,
 
 # The path to the FORTRAN compiler and libraries
 # shall contain no absolute path reference so it

@@ -142,7 +142,7 @@ m4_define([b4_int_type],
 
        m4_eval([0 <= $1]),                [1], [unsigned int],
 
-	                                       [int])])
+					       [int])])
 
 
 # b4_int_type_for(NAME)
@@ -228,7 +228,7 @@ m4_define([b4_token_enums],
    enum yytokentype {
 m4_map_sep([     b4_token_enum], [,
 ],
-           [$@])
+	   [$@])
    };
 #endif
 ])])
@@ -259,8 +259,8 @@ m4_define([b4_token_enums_defines],
 # Consider a C++ compiler to be modern if it defines __cplusplus.
 #
 m4_define([b4_c_modern],
-  [[(defined (__STDC__) || defined (__C99__FUNC__) \
-     || defined (__cplusplus) || defined (_MSC_VER))]])
+  [[(defined __STDC__ || defined __C99__FUNC__ \
+     || defined __cplusplus || defined _MSC_VER)]])
 
 # b4_c_function_def(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
 # ----------------------------------------------------------
@@ -290,9 +290,9 @@ $1 (b4_c_ansi_formals(m4_shiftn(2, $@)))[]dnl
 # Output the arguments ANSI-C definition.
 m4_define([b4_c_ansi_formals],
 [m4_case([$@],
-         [],   [void],
-         [[]], [void],
-               [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
+	 [],   [void],
+	 [[]], [void],
+	       [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
 
 m4_define([b4_c_ansi_formal],
 [$1])
@@ -313,9 +313,9 @@ m4_define([b4_c_knr_formal_name],
 # Output the K&R argument declarations.
 m4_define([b4_c_knr_formal_decls],
 [m4_map_sep([b4_c_knr_formal_decl],
-            [
+	    [
 ],
-            [$@])])
+	    [$@])])
 
 m4_define([b4_c_knr_formal_decl],
 [    $1;])
@@ -331,7 +331,7 @@ m4_define([b4_c_knr_formal_decl],
 # -----------------------------------------------------------
 # Declare the function NAME.
 m4_define([b4_c_function_decl],
-[#if defined (__STDC__) || defined (__cplusplus)
+[#if defined __STDC__ || defined __cplusplus
 b4_c_ansi_function_decl($@)
 #else
 $2 $1 ();
@@ -398,9 +398,9 @@ m4_define([b4_symbol_actions],
 m4_pushdef([b4_at_dollar], [(*yylocationp)])dnl
       case $4: /* $3 */
 b4_syncline([$2], [$1])
-        $5;
+	$5;
 b4_syncline([@oline@], [@ofile@])
-        break;
+	break;
 m4_popdef([b4_at_dollar])dnl
 m4_popdef([b4_dollar_dollar])dnl
 ])
@@ -438,7 +438,7 @@ b4_parse_param_use[]dnl
     {
 ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
       default:
-        break;
+	break;
     }
 }]dnl
 ])
@@ -458,9 +458,9 @@ m4_define_default([b4_yy_symbol_print_generate],
 /*ARGSUSED*/
 ]$1([yy_symbol_value_print],
     [static void],
-               [[FILE *yyoutput],                       [yyoutput]],
-               [[int yytype],                           [yytype]],
-               [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
+	       [[FILE *yyoutput],                       [yyoutput]],
+	       [[int yytype],                           [yytype]],
+	       [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
 b4_location_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
@@ -479,7 +479,7 @@ b4_parse_param_use[]dnl
     {
 ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [      default:
-        break;
+	break;
     }
 }
 
@@ -490,9 +490,9 @@ b4_parse_param_use[]dnl
 
 ]$1([yy_symbol_print],
     [static void],
-               [[FILE *yyoutput],                       [yyoutput]],
-               [[int yytype],                           [yytype]],
-               [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
+	       [[FILE *yyoutput],                       [yyoutput]],
+	       [[int yytype],                           [yytype]],
+	       [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
 b4_location_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {

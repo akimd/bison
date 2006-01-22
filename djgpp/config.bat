@@ -1,8 +1,26 @@
 @echo off
+Rem Configure Bison for DJGPP.
+
 Rem WARNING WARNING WARNING: This file needs to have DOS CRLF end-of-line
 Rem format, or else stock DOS/Windows shells will refuse to run it.
 
-echo Configuring GNU Bison for DJGPP v2.x...
+Rem Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+
+Rem This program is free software; you can redistribute it and/or modify
+Rem it under the terms of the GNU General Public License as published by
+Rem the Free Software Foundation; either version 2, or (at your option)
+Rem any later version.
+
+Rem This program is distributed in the hope that it will be useful,
+Rem but WITHOUT ANY WARRANTY; without even the implied warranty of
+Rem MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Rem GNU General Public License for more details.
+
+Rem You should have received a copy of the GNU General Public License
+Rem along with this program; if not, write to the Free Software Foundation,
+Rem Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+echo Configuring Bison for DJGPP v2.x...
 
 Rem The SmallEnv tests protect against fixed and too small size
 Rem of the environment in stock DOS shell.
@@ -248,28 +266,28 @@ test -f %XSRC%/examples/calcxx/calcxx.cc
 if errorlevel 1 mv -f %XSRC%/examples/calcxx/calcpp.cc %XSRC%/examples/calcxx/calcxx.cc
 
 Rem Fixing #include lines in calcxx files.
-sed "/#[ 	]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx.cc > calcxx.cc
+sed "/#[	 ]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx.cc > calcxx.cc
 if errorlevel 1 goto calcxxFileError
 mv ./calcxx.cc %XSRC%/examples/calcxx/calcxx.cc
-sed "/#[ 	]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-driver.cc > calcxx-driver.cc
+sed "/#[	 ]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-driver.cc > calcxx-driver.cc
 if errorlevel 1 goto calcxxFileError
 mv ./calcxx-driver.cc %XSRC%/examples/calcxx/calcxx-driver.cc
-sed "/#[ 	]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-driver.hh > calcxx-driver.hh
+sed "/#[	 ]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-driver.hh > calcxx-driver.hh
 if errorlevel 1 goto calcxxFileError
 mv ./calcxx-driver.hh %XSRC%/examples/calcxx/calcxx-driver.hh
-sed "/#[ 	]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-parser.cc > calcxx-parser.cc
+sed "/#[	 ]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-parser.cc > calcxx-parser.cc
 if errorlevel 1 goto calcxxFileError
 mv ./calcxx-parser.cc %XSRC%/examples/calcxx/calcxx-parser.cc
-sed "/#[ 	]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-parser.hh > calcxx-parser.hh
+sed "/#[	 ]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-parser.hh > calcxx-parser.hh
 if errorlevel 1 goto calcxxFileError
 mv ./calcxx-parser.hh %XSRC%/examples/calcxx/calcxx-parser.hh
-:sed "/#[ 	]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-parser.yy > calcxx-parser.yy
+:sed "/#[	 ]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-parser.yy > calcxx-parser.yy
 :if errorlevel 1 goto calcxxFileError
 :mv ./calcxx-parser.yy %XSRC%/examples/calcxx/calcxx-parser.yy
-sed "/#[ 	]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-scanner.cc > calcxx-scanner.cc
+sed "/#[	 ]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-scanner.cc > calcxx-scanner.cc
 if errorlevel 1 goto calcxxFileError
 mv ./calcxx-scanner.cc %XSRC%/examples/calcxx/calcxx-scanner.cc
-:sed "/#[ 	]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-scanner.ll > calcxx-scanner.ll
+:sed "/#[	 ]*include/s/++/xx/" %XSRC%/examples/calcxx/calcxx-scanner.ll > calcxx-scanner.ll
 :if errorlevel 1 goto calcxxFileError
 :mv ./calcxx-scanner.ll %XSRC%/examples/calcxx/calcxx-scanner.ll
 sed "s/calc++/calcxx/" %XSRC%/examples/calcxx/test > test
