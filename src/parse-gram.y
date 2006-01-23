@@ -57,6 +57,19 @@ static uniqstr current_type = 0;
 static symbol *current_lhs;
 static location current_lhs_location;
 static int current_prec = 0;
+
+#ifdef UINT_FAST8_MAX
+# define YYTYPE_UINT8 uint_fast8_t
+#endif
+#ifdef INT_FAST8_MAX
+# define YYTYPE_INT8 int_fast8_t
+#endif
+#ifdef UINT_FAST16_MAX
+# define YYTYPE_UINT16 uint_fast16_t
+#endif
+#ifdef INT_FAST16_MAX
+# define YYTYPE_INT16 int_fast16_t
+#endif
 %}
 
 %debug
