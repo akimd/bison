@@ -136,9 +136,9 @@
 
 
 
-#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-typedef union YYSTYPE 
-#line 82 "parse-gram.y"
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+typedef union YYSTYPE
+#line 95 "parse-gram.y"
 {
   symbol *symbol;
   symbol_list *list;
@@ -147,7 +147,7 @@ typedef union YYSTYPE
   assoc assoc;
   uniqstr uniqstr;
 }
-/* Line 1511 of yacc.c.  */
+/* Line 1536 of yacc.c.  */
 #line 152 "parse-gram.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -157,7 +157,7 @@ typedef union YYSTYPE
 
 
 
-#if ! defined (YYLTYPE) && ! defined (YYLTYPE_IS_DECLARED)
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
 typedef struct YYLTYPE
 {
   int first_line;
