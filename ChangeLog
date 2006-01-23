@@ -1,4 +1,30 @@
+2006-01-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Work around a bug in bro 0.8, which underparenthesizes its
+	definition of YYLLOC_DEFAULT.
+	* data/glr.c: Change all uses of YYLLOC_DEFAULT to parenthesize
+	their arguments.
+	* data/lalr1.cc: Likewise.
+	* data/yacc.cc: Likewise.
+
 2006-01-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Work around a bug in Pike 7.0, and give the Pike folks a
+	better way to override the usual int widths.
+	* data/yacc.c (b4_int_type): Use yytype_uint8, etc., so that the
+	user can override the types.
+	(short): #undef, to work around a bug in Pike 7.0.
+	(yytype_uint8, yytype_int8, yytype_uint16, yytype_int16): New types.
+	(union yyalloc.yyss): Use yytype_int16 rather than short.
+	All uses changed.
+	(yysigned_char): Remove.
+	* src/parse-gram.y (YYTYPE_UINT8, YYTYPE_INT8, YYTYPE_UINT16):
+	(YYTYPE_INT16): New macros, to test the new facility in yacc.c.
+	* tests/regression.at (Web2c Actions): Adjust to above changes.
+
+	* src/reader.c (check_and_convert_grammar): New function.
+	(reader): Close the input file even if something went wrong during
+	parsing.  Minor file descriptor leak reported by twlevo.
 
 	* src/assoc.c (assoc_to_string): Use a default: abort (); case
 	to pacify gcc -Wswitch-default.

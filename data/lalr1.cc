@@ -783,7 +783,7 @@ b4_error_verbose_if([, yytoken])[));
     yyerror_range[1] = yylloc;
     // Using YYLLOC is tempting, but would change the location of
     // the look-ahead.  YYLOC is available though.
-    YYLLOC_DEFAULT (yyloc, yyerror_range - 1, 2);
+    YYLLOC_DEFAULT (yyloc, (yyerror_range - 1), 2);
     yysemantic_stack_.push (yylval);
     yylocation_stack_.push (yyloc);
 
