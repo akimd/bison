@@ -1,3 +1,12 @@
+2006-01-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/reader.c (symbol_should_be_used): Renamed from symbol_typed_p.
+	All used changed.  Check whether the symbol has a destructor,
+	not whether it is typed.
+	* tests/input.at (AT_CHECK_UNUSED_VALUES): Add a destructor, so
+	that the values are still reported as unused.  All line numbers
+	adjusted.
+
 2006-01-23  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Work around a bug in bro 0.8, which underparenthesizes its

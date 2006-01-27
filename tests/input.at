@@ -92,6 +92,7 @@ m4_define([AT_CHECK_UNUSED_VALUES],
 AT_DATA([input.y],
 [[%token <integer> INT
 %type <integer> exp
+%destructor { destroy ($$); } INT exp
 %%
 exp:
   $1
@@ -106,56 +107,56 @@ AT_CLEANUP
 ])
 
 AT_CHECK_UNUSED_VALUES([INT { } INT { } INT { }],
-[input.y:5.3-25: warning: unset value: $$
-input.y:5.3-25: warning: unused value: $1
-input.y:5.3-25: warning: unused value: $3
-input.y:5.3-25: warning: unused value: $5
+[input.y:6.3-25: warning: unset value: $$
+input.y:6.3-25: warning: unused value: $1
+input.y:6.3-25: warning: unused value: $3
+input.y:6.3-25: warning: unused value: $5
 ])
 
 AT_CHECK_UNUSED_VALUES([INT { $1 } INT { } INT { }],
-[input.y:5.3-28: warning: unset value: $$
-input.y:5.3-28: warning: unused value: $3
-input.y:5.3-28: warning: unused value: $5
+[input.y:6.3-28: warning: unset value: $$
+input.y:6.3-28: warning: unused value: $3
+input.y:6.3-28: warning: unused value: $5
 ])
 
 AT_CHECK_UNUSED_VALUES([INT { } INT { $1 } INT { }],
-[input.y:5.3-28: warning: unset value: $$
-input.y:5.3-28: warning: unused value: $3
-input.y:5.3-28: warning: unused value: $5
+[input.y:6.3-28: warning: unset value: $$
+input.y:6.3-28: warning: unused value: $3
+input.y:6.3-28: warning: unused value: $5
 ])
 
 AT_CHECK_UNUSED_VALUES([INT { } INT {  } INT { $1 }],
-[input.y:5.3-29: warning: unset value: $$
-input.y:5.3-29: warning: unused value: $3
-input.y:5.3-29: warning: unused value: $5
+[input.y:6.3-29: warning: unset value: $$
+input.y:6.3-29: warning: unused value: $3
+input.y:6.3-29: warning: unused value: $5
 ])
 
 AT_CHECK_UNUSED_VALUES([INT { } INT {  } INT { $$ = $1 + $3 + $5; }])
 
 # Checking mid-rule values.
 AT_CHECK_UNUSED_VALUES([INT { $$ } INT { $$ } INT { }],
-[input.y:5.3-31: warning: unset value: $$
-input.y:5.3-31: warning: unused value: $1
-input.y:5.3-31: warning: unused value: $2
-input.y:5.3-31: warning: unused value: $3
-input.y:5.3-31: warning: unused value: $4
-input.y:5.3-31: warning: unused value: $5
+[input.y:6.3-31: warning: unset value: $$
+input.y:6.3-31: warning: unused value: $1
+input.y:6.3-31: warning: unused value: $2
+input.y:6.3-31: warning: unused value: $3
+input.y:6.3-31: warning: unused value: $4
+input.y:6.3-31: warning: unused value: $5
 ])
 
 AT_CHECK_UNUSED_VALUES([INT { $$ } INT { $$ = $2 } INT { }],
-[input.y:5.3-36: warning: unset value: $$
-input.y:5.3-36: warning: unused value: $1
-input.y:5.3-36: warning: unused value: $3
-input.y:5.3-36: warning: unused value: $4
-input.y:5.3-36: warning: unused value: $5
+[input.y:6.3-36: warning: unset value: $$
+input.y:6.3-36: warning: unused value: $1
+input.y:6.3-36: warning: unused value: $3
+input.y:6.3-36: warning: unused value: $4
+input.y:6.3-36: warning: unused value: $5
 ])
 
 # AT_CHECK_UNUSED_VALUES([INT { $$ } { $$ = $2 } { }],
-# [input.y:5.3-36: warning: unset value: $$
-# input.y:5.3-36: warning: unused value: $1
-# input.y:5.3-36: warning: unused value: $3
-# input.y:5.3-36: warning: unused value: $4
-# input.y:5.3-36: warning: unused value: $5
+# [input.y:6.3-36: warning: unset value: $$
+# input.y:6.3-36: warning: unused value: $1
+# input.y:6.3-36: warning: unused value: $3
+# input.y:6.3-36: warning: unused value: $4
+# input.y:6.3-36: warning: unused value: $5
 # ])
 
 AT_CHECK_UNUSED_VALUES([INT { $$ = $1 } INT { $$ = $2 + $3 } INT { $$ = $4 + $5 }])
