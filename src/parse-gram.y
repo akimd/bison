@@ -176,7 +176,6 @@ static int current_prec = 0;
 	      "%parse-param {...}"
 	      "%printer {...}"
 	      "%union {...}"
-	      BRACED_CODE action
 	      PROLOGUE EPILOGUE
 %printer { fprintf (stderr, "\"%s\"", $$); }
 	      STRING string_content
@@ -187,7 +186,6 @@ static int current_prec = 0;
 	      "%parse-param {...}"
 	      "%printer {...}"
 	      "%union {...}"
-	      BRACED_CODE action
 	      PROLOGUE EPILOGUE
 %type <uniqstr> TYPE
 %printer { fprintf (stderr, "<%s>", $$); } TYPE
@@ -430,7 +428,6 @@ rhs:
 | rhs symbol
     { grammar_current_rule_symbol_append ($2, @2); }
 | rhs action
-    { grammar_current_rule_action_append ($2, @2); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3, @3); }
 | rhs "%dprec" INT
@@ -444,9 +441,21 @@ symbol:
 | string_as_id    { $$ = $1; }
 ;
 
+/* Handle the semantics of an action specially, with a mid-rule
+   action, so that grammar_current_rule_action_append is invoked
+   immediately after the braced code is read by the scanner.
+
+   This implementation relies on the LALR(1) parsing algorithm.
+   If grammar_current_rule_action_append were executed in a normal
+   action for this rule, then when the input grammar contains two
+   successive actions, the scanner would have to read both actions
+   before reducing this rule.  That wouldn't work, since the scanner
+   relies on all preceding input actions being processed by
+   grammar_current_rule_action_append before it scans the next
+   action.  */
 action:
+    { grammar_current_rule_action_append (last_string, last_braced_code_loc); }
   BRACED_CODE
-    { $$ = $1; }
 ;
 
 /* A string used as an ID: quote it.  */

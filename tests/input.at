@@ -151,15 +151,21 @@ input.y:6.3-36: warning: unused value: $4
 input.y:6.3-36: warning: unused value: $5
 ])
 
-# AT_CHECK_UNUSED_VALUES([INT { $$ } { $$ = $2 } { }],
-# [input.y:6.3-36: warning: unset value: $$
-# input.y:6.3-36: warning: unused value: $1
-# input.y:6.3-36: warning: unused value: $3
-# input.y:6.3-36: warning: unused value: $4
-# input.y:6.3-36: warning: unused value: $5
-# ])
+AT_CHECK_UNUSED_VALUES([INT INT { } { $$ = $1 + $2; }])
 
-AT_CHECK_UNUSED_VALUES([INT { $$ = $1 } INT { $$ = $2 + $3 } INT { $$ = $4 + $5 }])
+AT_CHECK_UNUSED_VALUES([INT INT { $<integer>$ = 1; } { $$ = $1 + $2; }],
+[input.y:6.3-48: warning: unused value: $3
+])
+
+AT_CHECK_UNUSED_VALUES([INT INT { $$; } { $$ = $3; } { }],
+[input.y:6.3-34: warning: unset value: $$
+input.y:6.3-34: warning: unused value: $1
+input.y:6.3-34: warning: unused value: $2
+input.y:6.3-34: warning: unused value: $4
+])
+
+AT_CHECK_UNUSED_VALUES(
+  [INT { $$ = $1; } INT { $$ = $2 + $3; } INT { $$ = $4 + $5; }])
 
 
 

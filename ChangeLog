@@ -1,3 +1,28 @@
+2006-01-29  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix a longstanding bug uncovered by bro-0.9a9/src/parse.y, which I
+	got from <http://bro-ids.org/download.html>.  The bug is that
+	when two actions appeared in succession, the second one was
+	scanned before the first one was added to the grammar rule
+	as a midrule action.  Bison then output the incorrect warning
+	"parse.y:905.17-906.36: warning: unused value: $3".
+	* src/parse-gram.y (BRACED_CODE, action): These are no longer
+	associated with a value.
+	(rhs): Don't invoke grammar_current_rule_action_append.
+	(action): Invoke it here instead.
+	* src/reader.c (grammar_midrule_action): Now extern.
+	(grammar_current_rule_action_append): Don't invoke
+	grammar_midrule_action; that is now the scanner's job.
+	* src/reader.h (last_string, last_braced_code_loc):
+	(grammar_midrule_action): New decls.
+	* src/scan-gram.l (last_string): Now extern, sigh.
+	(last_braced_code_loc): New extern variable.
+	(<INITIAL>"{"): Invoke grammar_midrule_action if the current
+	rule already has an action.
+	(<SC_BRACED_CODE>"}"): Set last_braced_code_loc before returning.
+	* tests/input.at (AT_CHECK_UNUSED_VALUES):
+	Add some tests to check that the above changes fixed the bug.
+
 2006-01-27  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/reader.c (symbol_should_be_used): Renamed from symbol_typed_p.

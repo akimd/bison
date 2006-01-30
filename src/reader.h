@@ -1,6 +1,7 @@
 /* Input parser for Bison
 
-   Copyright (C) 2000, 2001, 2002, 2003, 2005 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002, 2003, 2005, 2006 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -38,6 +39,8 @@ typedef struct merger_list
 extern FILE *gram_in;
 extern int gram__flex_debug;
 extern boundary scanner_cursor;
+extern char *last_string;
+extern location last_braced_code_loc;
 extern int max_left_semantic_context;
 void scanner_initialize (void);
 void scanner_free (void);
@@ -63,6 +66,7 @@ void grammar_start_symbol_set (symbol *sym, location loc);
 void prologue_augment (const char *prologue, location loc);
 void grammar_current_rule_begin (symbol *lhs, location loc);
 void grammar_current_rule_end (location loc);
+void grammar_midrule_action (void);
 void grammar_current_rule_prec_set (symbol *precsym, location loc);
 void grammar_current_rule_dprec_set (int dprec, location loc);
 void grammar_current_rule_merge_set (uniqstr name, location loc);

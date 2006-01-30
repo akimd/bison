@@ -87,8 +87,11 @@ static size_t no_cr_read (FILE *, char *, size_t);
 static struct obstack obstack_for_string;
 
 /* A string representing the most recently saved token.  */
-static char *last_string;
+char *last_string;
 
+/* The location of the most recently saved token, if it was a
+   BRACED_CODE token; otherwise, this has an unspecified value.  */
+location last_braced_code_loc;
 
 #define STRING_GROW   \
   obstack_grow (&obstack_for_string, yytext, yyleng)
@@ -289,6 +292,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
   /* Code in between braces.  */
   "{" {
+    if (current_rule->action)
+      grammar_midrule_action ();
     STRING_GROW;
     token_type = BRACED_CODE;
     braces_level = 0;
@@ -618,6 +623,7 @@ splice	 (\\[ \f\t\v]*\n)*
 	loc->start = code_start;
 	val->chars = last_string;
 	increment_rule_length (*loc);
+	last_braced_code_loc = *loc;
 	BEGIN INITIAL;
 	return token_type;
       }
