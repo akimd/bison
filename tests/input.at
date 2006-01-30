@@ -178,7 +178,7 @@ AT_CHECK([bison input.y], [1], [],
 input.y:3.7-11: first declaration
 input.y:10.13-17: %destructor redeclaration for foo
 input.y:5.13-17: first declaration
-input.y:9.19-23: %printer redeclaration for foo
+input.y:9.10-14: %printer redeclaration for foo
 input.y:10.13-17: first declaration
 input.y:11.1-5: %left redeclaration for foo
 input.y:6.1-5: first declaration

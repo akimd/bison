@@ -1,3 +1,9 @@
+2006-01-30  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/parse-gram.y (grammar_declaration): Location of printer
+	symbol is @1, not list->location.  Bug reported by twlevo.
+	* tests/input.at (Incompatible Aliases): Adjust to above change.
+
 2006-01-29  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/input.at (AT_CHECK_UNUSED_VALUES): Remove.  Instead, do

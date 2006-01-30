@@ -287,7 +287,7 @@ grammar_declaration:
     {
       symbol_list *list;
       for (list = $2; list; list = list->next)
-	symbol_printer_set (list->sym, $1, list->location);
+	symbol_printer_set (list->sym, $1, @1);
       symbol_list_free ($2);
     }
 | "%default-prec"
