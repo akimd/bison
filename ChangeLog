@@ -1,5 +1,9 @@
 2006-01-29  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* tests/input.at (AT_CHECK_UNUSED_VALUES): Remove.  Instead, do
+	all the test at once.  This makes the output easier to read in the
+	normal case.
+
 	Fix a longstanding bug uncovered by bro-0.9a9/src/parse.y, which I
 	got from <http://bro-ids.org/download.html>.  The bug is that
 	when two actions appeared in succession, the second one was
