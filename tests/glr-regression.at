@@ -1016,7 +1016,8 @@ AT_CLEANUP
 
 ## ------------------------------------------------------------------------- ##
 ## Incorrect lookahead during deterministic GLR.  See			     ##
-## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00017.html>.     ##
+## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00017.html> and  ##
+## <http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00060.html>.  ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Incorrect lookahead during deterministic GLR])
@@ -1027,7 +1028,8 @@ AT_DATA_GRAMMAR([glr-regr13.y],
      - Defaulted state with initial yychar: yychar == YYEMPTY.
      - Nondefaulted state: yychar != YYEMPTY.
      - Defaulted state after lookahead: yychar != YYEMPTY.
-     - Defaulted state after shift: yychar == YYEMPTY.  */
+     - Defaulted state after shift: yychar == YYEMPTY.
+     - User action changing the lookahead.  */
 
 %{
   #include <stdio.h>
@@ -1045,7 +1047,7 @@ AT_DATA_GRAMMAR([glr-regr13.y],
 %%
 
 start:
-  defstate_init defstate_shift 'b' {
+  defstate_init defstate_shift 'b' change_lookahead 'a' {
     USE ($3);
     print_look_ahead ("start <- defstate_init defstate_shift 'b'");
   }
@@ -1073,6 +1075,11 @@ nondefstate:
   | 'b' {
     USE ($1);
     print_look_ahead ("nondefstate <- 'b'");
+  }
+  ;
+change_lookahead:
+  {
+    yychar = 'a';
   }
   ;
 

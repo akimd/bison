@@ -1,3 +1,23 @@
+2006-01-30  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	During deterministic GLR operation, user actions should be able to
+	influence the parse by changing yychar.  To make this easier to fix and
+	to make glr.c easier to evolve in general, don't maintain yytoken in
+	parallel with yychar; just compute yytoken when needed.
+	* tests/glr-regression.at (Incorrect lookahead during deterministic
+	GLR): Check that setting yychar in a user action has the intended
+	effect.
+	* data/glr.c (yyGLRStack): Remove yytokenp member.
+	(yyclearin): Don't set *yytokenp.
+	(yyprocessOneStack, yyreportSyntaxError, yyrecoverSyntaxError): Examine
+	yychar rather than *yytokenp to determine the current lookahead.
+	Compute yytoken locally when needed.
+	(yyparse): Likewise.  Remove the local yytoken that yytokenp used to
+	point to.
+
+	* doc/bison.texinfo (Bison Options): Remove stray sentence fragment
+	after `--report' documentation.
+
 2006-01-30  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/parse-gram.y (grammar_declaration): Location of printer

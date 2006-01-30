@@ -6889,8 +6889,6 @@ Implies @code{state} and augments the description of the automaton with
 the full set of items for each state, instead of its core only.
 @end table
 
-For instance, on the following grammar
-
 @item -v
 @itemx --verbose
 Pretend that @code{%verbose} was specified, i.e, write an extra output

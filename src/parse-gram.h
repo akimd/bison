@@ -148,7 +148,7 @@ typedef union YYSTYPE
   uniqstr uniqstr;
 }
 /* Line 1536 of yacc.c.  */
-#line 152 "parse-gram.h"
+#line 152 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
