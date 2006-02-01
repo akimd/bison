@@ -1,3 +1,10 @@
+2006-02-01  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/headers.at (AT_TEST_CPP_GUARD_H): Don't assume that "$CC
+	-E" works; it apparently doesn't work with PathScale EKO Compiler
+	Suite Version 2.0, according to the Nelson H. F. Beebe tests summarized in
+	<http://lists.gnu.org/archive/html/bug-bison/2005-09/msg00021.html>.
+
 2006-01-30  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	During deterministic GLR operation, user actions should be able to
