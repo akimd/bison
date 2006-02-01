@@ -1,9 +1,17 @@
 2006-02-01  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Work around portability problems summarized by Nelson H. F. Beebe in
+	<http://lists.gnu.org/archive/html/bug-bison/2005-09/msg00021.html>.
+
+	* lib/bbitset.h (struct bitset_vtable): Rename members not, and,
+	or, xor to not_, and_, or_, and xor_, respectively.  This works
+	around a bug in GCC 3.4.3 on Irix 6.5, which apparently has a
+	random system header somewhere that includes the equivalent of
+	<iso646.h>.
+
 	* tests/headers.at (AT_TEST_CPP_GUARD_H): Don't assume that "$CC
 	-E" works; it apparently doesn't work with PathScale EKO Compiler
-	Suite Version 2.0, according to the Nelson H. F. Beebe tests summarized in
-	<http://lists.gnu.org/archive/html/bug-bison/2005-09/msg00021.html>.
+	Suite Version 2.0.
 
 2006-01-30  Joel E. Denny  <jdenny@ces.clemson.edu>
 
