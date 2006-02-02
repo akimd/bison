@@ -248,7 +248,7 @@ b4_error_verbose_if([, int tok])[);
 #endif
 
     /// Convert a scanner token number to a symbol number.
-    inline token_number_type yytranslate_ (int token);
+    token_number_type yytranslate_ (int token);
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.

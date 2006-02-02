@@ -3,6 +3,12 @@
 	Work around portability problems summarized by Nelson H. F. Beebe in
 	<http://lists.gnu.org/archive/html/bug-bison/2005-09/msg00021.html>.
 
+	* data/lalr1.cc (yytranslate_): No longer inline, to work around a
+	porting problem to g++ 3.4.3 on Darwin 7.9.0, where g++ complained
+	"warning: sorry: semantics of inline function static data `const
+	unsigned char translate_table[262]' are wrong (you'll wind up with
+	multiple copies)".
+
 	* lib/bbitset.h (struct bitset_vtable): Rename members not, and,
 	or, xor to not_, and_, or_, and xor_, respectively.  This works
 	around a bug in GCC 3.4.3 on Irix 6.5, which apparently has a
