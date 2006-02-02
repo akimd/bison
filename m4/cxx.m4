@@ -29,6 +29,7 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
       [AC_LANG_PROGRAM(
 	 [#include <cstdlib>
 	  #include <iostream>
+	  #include <string>
 	  using namespace std;],
          [std::cerr << "";
           cout << "";])],

@@ -3,6 +3,9 @@
 	Work around portability problems summarized by Nelson H. F. Beebe in
 	<http://lists.gnu.org/archive/html/bug-bison/2005-09/msg00021.html>.
 
+	* m4/cxx.m4 (BISON_TEST_FOR_WORKING_CXX_COMPILER): Check
+	that '#include <string>' works.
+
 	* data/lalr1.cc (yytranslate_): No longer inline, to work around a
 	porting problem to g++ 3.4.3 on Darwin 7.9.0, where g++ complained
 	"warning: sorry: semantics of inline function static data `const
