@@ -29,10 +29,18 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
       [AC_LANG_PROGRAM(
 	 [#include <cstdlib>
 	  #include <iostream>
+	  #include <map>
 	  #include <string>
 	  using namespace std;],
          [std::cerr << "";
-          cout << "";])],
+          cout << "";
+	  typedef std::pair<unsigned int, int> uipair;
+	  std::map<unsigned int, int> m;
+	  std::map<unsigned int, int>::iterator i;
+	  m.insert (uipair (4, -4));
+	  for (i = m.begin (); i != m.end (); ++i)
+	    if (i->first != 4)
+	      return 1;])],
       [bison_cv_cxx_works=yes],
       [bison_cv_cxx_works=no],
       [bison_cv_cxx_works=cross])

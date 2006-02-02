@@ -1,3 +1,10 @@
+2006-02-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	More portability fixes for problems summarized by Nelson H. F. Beebe.
+
+	* m4/cxx.m4 (BISON_TEST_FOR_WORKING_CXX_COMPILER): Check that
+	'#include <map>' works and that you can apply ++ to iterators.
+
 2006-02-01  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Work around portability problems summarized by Nelson H. F. Beebe in
