@@ -3,7 +3,7 @@
 # This is the config.site file for configuring GNU packages
 # which are to be built with DJGPP tools.
 
-# Copyright (C) 2005 Free Software Foundation, Inc.
+# Copyright (C) 2005, 2006 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 
 
 # Include the djgpp subdirectory in PATH, so that getconf is found
-PATH="$srcdir/djgpp;$PATH"
+PATH="$srcdir/djgpp:$PATH"
 
 # These two variables are required, otherwise looking for
 # programs along the PATH will not work.
