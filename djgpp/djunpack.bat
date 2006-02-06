@@ -7,7 +7,7 @@ Rem This batch file unpacks the Bison distribution while simultaneously
 Rem renaming some of the files whose names are invalid on DOS or conflict
 Rem with other file names after truncation to DOS 8+3 namespace.
 Rem
-Rem Copyright (C) 2005 Free Software Foundation, Inc.
+Rem Copyright (C) 2005, 2006 Free Software Foundation, Inc.
 Rem
 Rem This program is free software; you can redistribute it and/or modify
 Rem it under the terms of the GNU General Public License as published by
@@ -26,19 +26,20 @@ Rem
 Rem
 Rem Invoke like this:
 Rem
-Rem     djunpack bison-XYZ.tar
+Rem     djunpack bison-XYZ.tar.gz
+Rem or
+Rem     djunpack bison-XYZ.tar.bz2
 Rem
 Rem where XYZ is the version number.  If the argument includes leading
 Rem directories, it MUST use backslashes, not forward slashes.
 Rem
-Rem The following 2 lines need to be changed with each new Bison release, to
-Rem be identical to the name of the top-level directory where the Bison
-Rem distribution unpacks itself.
+
 set ENVIRONMENT_SIZE_TEST_STRING=ENVIRONMENT_SIZE_TEST_STRING
 if "%ENVIRONMENT_SIZE_TEST_STRING%"=="ENVIRONMENT_SIZE_TEST_STRING" GoTo EnvOk
 Rem If their environment space is too small, re-exec with a larger one
 command.com /e:4096 /c %0 %1
 GoTo End
+
 :EnvOk
 set ENVIRONMENT_SIZE_TEST_STRING=
 if "%1" == "" GoTo NoArgument
@@ -68,6 +69,7 @@ Rem unpack the source distribution
 djtar -x -n fnchange.lst %1
 del fnchange.lst
 GoTo End
+
 :NoSed
 del junk.tmp
 echo FAIL: Sed is not available.
