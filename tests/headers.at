@@ -57,17 +57,17 @@ AS_MKDIR_P([$dirname])
 
 AT_DATA_GRAMMAR([$1.y],
 [%{
-#include "$1.h"
+#include <$1.h>
 %}
 %%
 dummy:;
 %%
-#include "$1.h"
+#include <$1.h>
 ])
 
 AT_CHECK([bison --defines=$1.h --output=y.tab.c $1.y])
 
-AT_COMPILE([y.tab.o], [-c y.tab.c])
+AT_COMPILE([y.tab.o], [-I. -c y.tab.c])
 
 AT_CLEANUP
 ])

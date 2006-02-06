@@ -1,3 +1,13 @@
+2006-02-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	More portability fixes for problems summarized by Nelson H. F. Beebe.
+
+	* tests/headers.at (AT_TEST_CPP_GUARD_H): Use #include <...> rather
+	than #include "...", and compile with -I'.'.  The old method was
+	not portable, according to Posix and the C standard, and it does
+	not work with Sun C 5.7, where previous #line directives affect
+	the working directory used in later #include "..." directives.
+
 2006-02-06  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	Various DJGGP specific issues in /djgpp
