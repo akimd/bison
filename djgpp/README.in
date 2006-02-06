@@ -1,6 +1,6 @@
 This is a port of GNU Bison @VERSION@ to MSDOS/DJGPP.
 
-Copyright (C) 2005 Free Software Foundation, Inc.
+Copyright (C) 2005, 2006 Free Software Foundation, Inc.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,11 +22,11 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 	The DJGPP port of Bison offers LFN and SFN support depending on which
 	OS it is running. If LFN support is available or not is determinated at
-	run time.  If LFN support is available (DOS session under Win9X), the
-	standard posix file name extensions will be used.  These are: y.tab.c,
-	y.tab.c++, y.tab.h, y.output, etc.  If only SFN support is available
-	(plain DOS), then the standard MSDOS short file names will be used.
-	These are: y_tab.c, y_tab.h, y.out, etc.
+	run time.  If LFN support is available (DOS session under Win9X, Win2K,
+	WinXP, etc.) the standard posix file name extensions will be used.
+	These are: y.tab.c, y.tab.c++, y.tab.h, y.output, etc.  If only SFN
+	support is available (plain DOS), then the standard MSDOS short file
+	names will be used. These are: y_tab.c, y_tab.h, y.out, etc.
 	It should be noticed that this bison version needs the m4 program as
 	back end to generate the parser file (y.tab.c etc.) from the skeleton
 	files.  This implies that m4 must always be installed to get bison
@@ -34,7 +34,7 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	/dev/env/DJDIR/share/bison and shall not be removed.
 	It should also be noticed that the skeleton files bison.simple and
 	bison.hairy are no longer supported.  This applies also to the environ-
-	ment variables BISON_HAIRY and BISON_SIMPLE. Those variables are *no*
+	ment variables BISON_HAIRY and BISON_SIMPLE.  Those variables are *no*
 	longer honored at all.
 	The kind of skeleton file bison.hairy is no longer supported at all.
 	The skeleton file bison.simple is now called yacc.c and is an m4 script.
@@ -91,12 +91,12 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	with the necessary mappings.  So you need first to retrieve that batch
 	file, and then invoke it to unpack the distribution.  Here's how:
 
-	  djtar -x -p -o bison-2.1/djgpp/djunpack.bat bison-2.1.tar.gz > djunpack.bat
-	  djunpack bison-2.1.tar.gz
+	  djtar -x -p -o bison-@VERSION@/djgpp/djunpack.bat bison-@VERSION@.tar.gz > djunpack.bat
+	  djunpack bison-@VERSION@.tar.gz
 
 	(The name of the distribution archive and the leading directory of the
 	path to `djunpack.bat' in the distribution will be different for
-	versions of Bison other than 2.1.)
+	versions of Bison other than @VERSION@.)
 
 	If the argument to `djunpack.bat' include leading directories, it MUST
 	be given with the DOS-style backslashes; Unix-style forward slashes
@@ -106,9 +106,9 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	`djtar' doesn't support bzip2 decompression, you need to unpack it as
 	follows:
 
-	  bnzip2 bison-2.1.tar.bz2
-	  djtar -x -p -o bison-2.1/djgpp/djunpack.bat bison-2.1.tar > djunpack.bat
-	  djunpack bison-2.1.tar
+	  bnzip2 bison-@VERSION@.tar.bz2
+	  djtar -x -p -o bison-@VERSION@/djgpp/djunpack.bat bison-@VERSION@.tar > djunpack.bat
+	  djunpack bison-@VERSION@.tar
 
 3.3.:   To build the binaries you will need the following binary packages:
 	  djdev203.zip (or a later but NOT a prior version)
