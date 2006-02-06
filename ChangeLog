@@ -1,3 +1,7 @@
+2006-02-06  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
+
+	Various DJGGP specific issues in /djgpp
+
 2006-02-02  Paul Eggert  <eggert@cs.ucla.edu>
 
 	More portability fixes for problems summarized by Nelson H. F. Beebe.
