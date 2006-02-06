@@ -209,6 +209,9 @@ mv ./lalr1.cc %XSRC%/data/lalr1.cc
 sed "s/c++\.m4/cxx.m4/" %XSRC%/data/location.cc > location.cc
 if errorlevel 1 goto location.ccFileError
 mv ./location.cc %XSRC%/data/location.cc
+sed "s/c++\.m4/cxx.m4/" %XSRC%/data/glr.cc > glr.cc
+if errorlevel 1 goto glr.ccFileError
+mv ./glr.cc %XSRC%/data/glr.cc
 
 Rem Define DJGPP specific defs in config.hin
 echo Editing config.hin...
@@ -414,6 +417,10 @@ goto End
 
 :lalr1_ccFileError
 echo ./data/lalr1.cc file editing failed!
+goto End
+
+:glr_ccFileError
+echo ./data/glr.cc file editing failed!
 goto End
 
 :location_ccFileError
