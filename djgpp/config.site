@@ -38,9 +38,6 @@ test "x$prefix" = xNONE && prefix='/dev/env/DJDIR'
 # ./configure runs it by invoking ${CONFIG_SHELL-/bin/sh}
 CONFIG_SHELL=${CONFIG_SHELL='sh'}
 
-# A sane defualt for emacs.
-ac_cv_path_EMACS=${EMACS='/dev/env/DJDIR/gnu/emacs/bin/emacs'}
-
 # These are set here so the generated Makefile's will be good
 # for every DJGPP installation, not only the one where the
 # package was configured.
@@ -51,6 +48,7 @@ RANLIB=${RANLIB='ranlib'}
 GMSGFMT=${GMSGFMT='/dev/env/DJDIR/bin/msgfmt'}
 MSGFMT=${MSGFMT='/dev/env/DJDIR/bin/msgfmt'}
 XGETTEXT=${XGETTEXT='/dev/env/DJDIR/bin/xgettext'}
+AWK=${AWK='gawk'}
 
 # A sane default for emacs.
 ac_cv_path_EMACS=${EMACS='/dev/env/DJDIR/gnu/emacs/bin/emacs'}
