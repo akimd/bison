@@ -7571,6 +7571,10 @@ parser's to get the set of defined tokens.
 # include <string>
 # include "calc++-driver.hh"
 # include "calc++-parser.hh"
+/* Work around a bug in flex 2.5.31.  See Debian bug 333231
+  <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+# undef yywrap
+# define yywrap() 1
 %@}
 @end example
 

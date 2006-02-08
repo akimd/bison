@@ -2,6 +2,9 @@
 
 	More portability fixes for problems summarized by Nelson H. F. Beebe.
 
+	* doc/bison.texinfo (Calc++ Scanner): Work around a bug in flex
+	2.5.31.  This resembles the 2005-10-10 patch to src/scan-skel.l.
+
 	* examples/calc++/Makefile.am (check_PROGRAMS): Renamed from
 	nodist_PROGRAMS, since we don't need to actually compile the
 	example if we're just doing a plain 'make'.  This avoids bothering
