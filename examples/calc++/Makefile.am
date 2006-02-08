@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2005 Free Software Foundation, Inc.
+## Copyright (C) 2005, 2006 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ $(calc_sources_generated): $(srcdir)/calc++-parser.stamp
 ## Building & testing calc++.  ##
 ## --------------------------- ##
 
-noinst_PROGRAMS = calc++
+check_PROGRAMS = calc++
 
 calc_sources_extracted = $(srcdir)/calc++-scanner.ll $(srcdir)/calc++.cc \
 	$(srcdir)/calc++-driver.hh $(srcdir)/calc++-driver.cc

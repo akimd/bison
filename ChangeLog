@@ -1,3 +1,13 @@
+2006-02-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	More portability fixes for problems summarized by Nelson H. F. Beebe.
+
+	* examples/calc++/Makefile.am (check_PROGRAMS): Renamed from
+	nodist_PROGRAMS, since we don't need to actually compile the
+	example if we're just doing a plain 'make'.  This avoids bothering
+	the installer unnecessarily about problems due to weird C++
+	compilers.
+
 2006-02-06  Paul Eggert  <eggert@cs.ucla.edu>
 
 	More portability fixes for problems summarized by Nelson H. F. Beebe.
