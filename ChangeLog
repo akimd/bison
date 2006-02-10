@@ -1,3 +1,14 @@
+2006-02-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	More portability fixes for problems summarized by Nelson H. F. Beebe.
+
+	* m4/cxx.m4 (BISON_TEST_FOR_WORKING_CXX_COMPILER): Catch a
+	configuration screwup "./configure CC=/opt/SUNWspro/bin/c89
+	CFLAGS="-xarch=generic64" CXX=/opt/SUNWspro/bin/CC
+	LDFLAGS="-xarch=generic64" with Sun C 5.7 on Solaris 10; this
+	messes up because C++ code is compiled in 32-bit mode but linked
+	in 64-bit mode.
+
 2006-02-08  Paul Eggert  <eggert@cs.ucla.edu>
 
 	More portability fixes for problems summarized by Nelson H. F. Beebe.

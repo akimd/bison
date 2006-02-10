@@ -25,7 +25,8 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
  AC_CACHE_CHECK([whether $CXX builds executables that work],
    bison_cv_cxx_works,
    [AC_LANG_PUSH([C++])
-    AC_RUN_IFELSE(
+    bison_cv_cxx_works=no
+    AC_COMPILE_IFELSE(
       [AC_LANG_PROGRAM(
 	 [#include <cstdlib>
 	  #include <iostream>
@@ -41,9 +42,12 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
 	  for (i = m.begin (); i != m.end (); ++i)
 	    if (i->first != 4)
 	      return 1;])],
-      [bison_cv_cxx_works=yes],
-      [bison_cv_cxx_works=no],
-      [bison_cv_cxx_works=cross])
+      [AS_IF([AC_TRY_COMMAND([$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_objext $LIBS >&AS_MESSAGE_LOG_FD])],
+	 [AS_IF([test "$cross_compiling" = yes],
+	    [bison_cv_cxx_works=cross],
+	    [AS_IF([AC_TRY_COMMAND(./conftest$ac_exeext)],
+	       [bison_cv_cxx_works=yes])])])
+       rm -f conftest$ac_exeext])
     AC_LANG_POP([C++])])
 
  case $bison_cv_cxx_works in
