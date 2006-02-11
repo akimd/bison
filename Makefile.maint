@@ -25,12 +25,9 @@ ME := Makefile.maint
 
 # Do not save the original name or timestamp in the .tar.gz file.
 # Use --rsyncable if available.
-GZIP_ENV = \
-  "--no-name --best$$( \
-    case $$(gzip --help) in \
-    (*--rsyncable*) echo ' --rsyncable';; \
-    esac \
-  )"
+gzip_rsyncable := \
+  $(shell gzip --help|grep rsyncable >/dev/null && echo --rsyncable)
+GZIP_ENV = '--no-name --best $(gzip_rsyncable)'
 
 CVS = cvs
 
@@ -87,7 +84,8 @@ export LC_ALL = C
 # new ChangeLog entries.
 local-checks-available = \
   po-check copyright-check writable-files m4-check author_mark_check \
-  changelog-check strftime-check syntax-check makefile_path_separator_check \
+  changelog-check strftime-check $(syntax-check-rules) \
+  makefile_path_separator_check \
   makefile-check
 .PHONY: $(local-checks-available)
 
@@ -114,6 +112,7 @@ syntax-check-rules = \
   sc_system_h_headers \
   sc_tight_scope \
   sc_trailing_blank \
+  sc_two_space_separator_in_usage \
   sc_unmarked_diagnostics \
   sc_useless_cpp_parens
 
@@ -156,7 +155,7 @@ sc_space_tab:
 # They provide no error checking mechanism.
 # Instead, use strto* functions.
 sc_prohibit_atoi_atof:
-	@grep -nE '\<(ato[filq]|ato''ll)\>' $$($(CVS_LIST_EXCEPT)) &&	\
+	@grep -nE '\<ato([filq]|ll)\>' $$($(CVS_LIST_EXCEPT)) &&	\
 	  { echo '$(ME): do not use ato''f, ato''i, ato''l, ato''ll, or ato''q'	\
 		1>&2; exit 1; } || :
 
@@ -215,8 +214,7 @@ sc_changelog:
 dd_c = $(srcdir)/src/dd.c
 sc_dd_max_sym_length:
 ifneq ($(wildcard $(dd_c)),)
-	@test -f $(dd_c) || exit 0;				\
-	len=$$( (sed -n '/conversions\[\] =$$/,/^};/p' $(dd_c);	\
+	@len=$$( (sed -n '/conversions\[\] =$$/,/^};/p' $(dd_c);\
 		 sed -n '/flags\[\] =$$/,/^};/p' $(dd_c) )	\
 		|sed -n '/"/s/^[^"]*"\([^"]*\)".*/\1/p'		\
 	      | wc --max-line-length);				\
@@ -285,12 +283,19 @@ sc_trailing_blank:
 	  { echo '$(ME): found trailing blank(s)'			\
 		1>&2; exit 1; } || :
 
+sc_two_space_separator_in_usage:
+	@grep -n '^   *--[a-z][0-9A-Za-z-]* [^ ].*\\$$'			\
+	    $$($(CVS_LIST_EXCEPT)) &&					\
+	  { echo "$(ME): help2man requires at least two spaces between"; \
+	    echo "$(ME): an option and its description"; \
+		1>&2; exit 1; } || :
+
 # Look for diagnostics that aren't marked for translation.
 # This won't find any for which error's format string is on a separate line.
 sc_unmarked_diagnostics:
 	@grep -nE							\
 	    '\<error \([^"]*"[^"]*[a-z]{3}' $$($(CVS_LIST_EXCEPT))	\
-	  | grep -v '_(' &&						\
+	  | grep -v '_''(' &&						\
 	  { echo '$(ME): found unmarked diagnostic(s)' 1>&2;		\
 	    exit 1; } || :
 
@@ -348,13 +353,16 @@ m4-check:
 	       exit 1; } || :
 
 # Verify that all source files using _() are listed in po/POTFILES.in.
-# FIXME: don't hard-code src/false.c below; use a more general mechanism.
+# FIXME: don't hard-code file names below; use a more general mechanism.
 po-check:
 	if test -f po/POTFILES.in; then					\
 	  grep -E -v '^(#|$$)' po/POTFILES.in				\
 	    | grep -v '^src/false\.c$$' | sort > $@-1;			\
 	  files=;							\
-	  for file in lib/*.[chly] src/*.[chly]; do \
+	  for file in $$($(CVS_LIST_EXCEPT)) lib/*.[ch]; do		\
+	    case $$file in						\
+	    djgpp/* | man/*) continue;;					\
+	    esac;							\
 	    case $$file in						\
 	    *.[ch])							\
 	      base=`expr " $$file" : ' \(.*\)\..'`;			\
@@ -362,7 +370,7 @@ po-check:
 	    esac;							\
 	    files="$$files $$file";					\
 	  done;								\
-	  grep -E -l '\bN?_\([^)"]*("|$$)' $$files | sort > $@-2;	\
+	  grep -E -l '\bN?_\([^)"]*("|$$)' $$files | sort -u > $@-2;	\
 	  diff -u $@-1 $@-2 || exit 1;					\
 	  rm -f $@-1 $@-2;						\
 	fi
@@ -481,16 +489,6 @@ my-distcheck: $(local-check) $(release_archive_dir)/$(prev-tgz)
 
 WGET = wget
 WGETFLAGS = -C off
-
-tgz-md5 = $(shell md5sum < $(my_distdir).tar.gz|sed 's/  -//')
-tgz-sha1 = $(shell sha1sum < $(my_distdir).tar.gz|sed 's/  -//')
-bz2-md5 = $(shell md5sum < $(my_distdir).tar.bz2|sed 's/  -//')
-bz2-sha1 = $(shell sha1sum < $(my_distdir).tar.bz2|sed 's/  -//')
-xdelta-md5 = $(shell md5sum < $(xd-delta)|sed 's/  -//')
-xdelta-sha1 = $(shell sha1sum < $(xd-delta)|sed 's/  -//')
-tgz-size = $(shell du --human $(my_distdir).tar.gz|sed 's/\([MkK]\).*/ \1B/')
-bz2-size = $(shell du --human $(my_distdir).tar.bz2|sed 's/\([MkK]\).*/ \1B/')
-xd-size = $(shell du --human $(xd-delta)|sed 's/\([MkK]\).*/ \1B/')
 
 rel-check:
 	tarz=/tmp/rel-check-tarz-$$$$; \

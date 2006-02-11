@@ -1,3 +1,7 @@
+2006-02-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* Makefile.maint: Merge from coreutils.
+
 2006-02-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	More portability fixes for problems summarized by Nelson H. F. Beebe.
