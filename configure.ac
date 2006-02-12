@@ -64,6 +64,8 @@ if test "${enableval}" = yes; then
   AC_DEFINE([lint], 1, [Define to 1 if the compiler is checking for lint.])
 fi
 
+BISON_TEST_FOR_WORKING_C_COMPILER
+
 AC_ARG_ENABLE([yacc],
   [AC_HELP_STRING([--disable-yacc],
      [do not build a yacc command or an -ly library])],

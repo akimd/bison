@@ -1,3 +1,8 @@
+2006-02-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* m4/c-working.m4: New file.
+	* configure.ac (BISON_TEST_FOR_WORKING_C_COMPILER): Use it.
+
 2006-02-10  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* Makefile.maint: Merge from coreutils.
