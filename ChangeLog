@@ -1,5 +1,9 @@
 2006-02-13  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* configure.ac (AC_INIT): Bump version number.
+
+2006-02-13  Paul Eggert  <eggert@cs.ucla.edu>
+
 	* NEWS: Version 2.1a.
 	* tests/headers.at (AT_TEST_CPP_GUARD_H): Declare yyerror and yylex,
 	since C99 requires this.
