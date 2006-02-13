@@ -1,3 +1,9 @@
+2006-02-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Version 2.1a.
+	* tests/headers.at (AT_TEST_CPP_GUARD_H): Declare yyerror and yylex,
+	since C99 requires this.
+
 2006-02-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* m4/c-working.m4: New file.
@@ -1376,7 +1382,7 @@
 
 2005-09-19  Akim Demaille  <akim@epita.fr>
 
-	* NEWS, configure.ac: Version 2.1a.
+	* NEWS, configure.ac: update version number to 2.1a.
 
 2005-09-16  Paul Eggert  <eggert@cs.ucla.edu>
 

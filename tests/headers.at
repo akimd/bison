@@ -58,6 +58,8 @@ AS_MKDIR_P([$dirname])
 AT_DATA_GRAMMAR([$1.y],
 [%{
 #include <$1.h>
+void yyerror (const char *);
+int yylex (void);
 %}
 %%
 dummy:;
