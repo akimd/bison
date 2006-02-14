@@ -1,5 +1,7 @@
 2006-02-13  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Clarify symbols versus types in unused-value warnings.
+
 	* configure.ac (AC_INIT): Bump version number.
 
 2006-02-13  Paul Eggert  <eggert@cs.ucla.edu>

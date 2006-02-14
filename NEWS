@@ -7,8 +7,8 @@ Changes in version 2.1a, 2006-02-13:
   their contents together.
 
 * New warning: unused values
-  Typed right-hand side symbols whose values are not used are reported,
-  if the associated types have destructors.  For instance:
+  Right-hand side symbols whose values are not used are reported,
+  if the symbols have destructors.  For instance:
 
      exp: exp "?" exp ":" exp { $1 ? $1 : $3; }
 	| exp "+" exp
