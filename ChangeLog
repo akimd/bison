@@ -1,3 +1,16 @@
+2006-02-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/yacc.c [(! defined yyoverflow || YYERROR_VERBOSE) && !
+	YYSTACK_USE_ALLOCA && ! defined YYSTACK_ALLOC && defined
+	__cplusplus && ! defined _STDLIB_H && !
+	((defined YYMALLOC || defined malloc) && (defined YYFREE ||
+	defined free))]: Include <stdlib.h> rather than rolling our own
+	declarations of malloc and free, to avoid problems with
+	incompatible declarations (using 'throw') C++'s stdlib.h.  This
+	should fix Debian bug 340012
+	<http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=340012>,
+	reported by Guillaume Melquiond.
+
 2006-02-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Clarify symbols versus types in unused-value warnings.
