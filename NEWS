@@ -1,6 +1,10 @@
 Bison News
 ----------
 
+Changes in version 2.1b:
+
+* No user-visible changes.
+
 Changes in version 2.1a, 2006-02-13:
 
 * Bison now allows multiple %union declarations, and concatenates
