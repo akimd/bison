@@ -1,3 +1,9 @@
+2006-02-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* doc/bison.texinfo (Mid-Rule Actions): Explain how to bury a
+	mid-rule action inside a nonterminal symbol in order to declare a
+	destructor for its semantic value.
+
 2006-02-16  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/yacc.c [(! defined yyoverflow || YYERROR_VERBOSE) && !

@@ -3317,6 +3317,46 @@ earlier action is used to restore the prior list of variables.  This
 removes the temporary @code{let}-variable from the list so that it won't
 appear to exist while the rest of the program is parsed.
 
+@findex %destructor
+@cindex discarded symbols, mid-rule actions
+@cindex error recovery, mid-rule actions
+In the above example, if the parser initiates error recovery (@pxref{Error
+Recovery}) while parsing the tokens in the embedded statement @code{stmt},
+it might discard the previous semantic context @code{$<context>5} without
+restoring it.
+Thus, @code{$<context>5} needs a destructor (@pxref{Destructor Decl, , Freeing
+Discarded Symbols}).
+However, Bison currently provides no means to declare a destructor for a
+mid-rule action's semantic value.
+
+One solution is to bury the mid-rule action inside a nonterminal symbol and to
+declare a destructor for that symbol:
+
+@example
+@group
+%type <context> let
+%destructor @{ pop_context ($$); @} let
+
+%%
+
+stmt:  let stmt
+               @{ $$ = $2;
+                 pop_context ($1); @}
+       ;
+
+let:   LET '(' var ')'
+               @{ $$ = push_context ();
+                 declare_variable ($3); @}
+       ;
+
+@end group
+@end example
+
+@noindent
+Note that the action is now at the end of its rule.
+Any mid-rule action can be converted to an end-of-rule action in this way, and
+this is what Bison actually does to implement mid-rule actions.
+
 Taking action before a rule is completely recognized often leads to
 conflicts since the parser must commit to a parse in order to execute the
 action.  For example, the following two rules, without mid-rule actions,
@@ -3410,10 +3450,7 @@ compound: subroutine
 
 @noindent
 Now Bison can execute the action in the rule for @code{subroutine} without
-deciding which rule for @code{compound} it will eventually use.  Note that
-the action is now at the end of its rule.  Any mid-rule action can be
-converted to an end-of-rule action in this way, and this is what Bison
-actually does to implement mid-rule actions.
+deciding which rule for @code{compound} it will eventually use.
 
 @node Locations
 @section Tracking Locations
