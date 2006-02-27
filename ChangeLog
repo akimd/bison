@@ -1,3 +1,9 @@
+2006-02-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c (yyexpandGLRStack): Catch an off-by-one error that
+	led to a segmentation fault in GNU Pascal.  Problem reported
+	by Waldek Hebisch.
+
 2006-02-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* doc/bison.texinfo (Mid-Rule Actions): Explain how to bury a
