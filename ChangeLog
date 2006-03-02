@@ -1,10 +1,24 @@
 2006-03-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Avoid memory leaks by not invoking longjmp in yyreportAmbiguity.
+	* tests/glr-regression.at (Leaked semantic values when reporting
+	ambiguity): New test case.
+	* data/glr.c (yyreportAmbiguity): Invoke yyyerror directly and return
+	yyabort rather than invoking yyFail, which invokes longjmp.  Remove the
+	now unnecessary yystackp parameter.
+	(yyresolveValue): Return yyreportAmbiguity's result.  Now the necessary
+	destructors can be called.
+
+	* tests/glr-regression.at: Don't invoke bison with `-t' unnecessarily
+	in existing testcases.
+
+2006-03-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Don't leak semantic values for parent RHS when a user action cuts the
 	parser, and clean up related code a bit.
 	* tests/glr-regression.at (Leaked merged semantic value if user action
-	cuts parse) Rename to...
-	(Leaked semantic values if user action cuts parse) ... this.  Add check
+	cuts parse): Rename to...
+	(Leaked semantic values if user action cuts parse): ... this.  Add check
 	for leaked parent RHS values.
 	* data/glr.c (yydestroyGLRState): In debugging output, distinguish
 	between an unresolved state (non-empty chain of semantic options) and
