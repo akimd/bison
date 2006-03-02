@@ -1,3 +1,27 @@
+2006-03-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't leak semantic values for parent RHS when a user action cuts the
+	parser, and clean up related code a bit.
+	* tests/glr-regression.at (Leaked merged semantic value if user action
+	cuts parse) Rename to...
+	(Leaked semantic values if user action cuts parse) ... this.  Add check
+	for leaked parent RHS values.
+	* data/glr.c (yydestroyGLRState): In debugging output, distinguish
+	between an unresolved state (non-empty chain of semantic options) and
+	an incomplete one (signaled by an empty chain).
+	(yyresolveStates): Document the interface.  Move all manipulation of an
+	successfully or unsuccessfully resolved yyGLRState to...
+	(yyresolveValue): ... here so that yyresolveValue always leaves a
+	yyGLRState with consistent data and thus is easier to understand.
+	Remove the yyvalp and yylocp parameters since they are always just
+	taken from the yys parameter.  When reporting a discarded merged value
+	in debugging output, note that it is incompletely merged.  Document the
+	interface.
+	(yyresolveAction): If resolving any of the RHS states fails, destroy
+	them all rather than leaking them.  Thus, as long as user actions are
+	written to clean up the RHS correctly, yyresolveAction always cleans up
+	the RHS of a semantic option.  Document the interface.
+
 2006-02-27  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (yyexpandGLRStack): Catch an off-by-one error that

@@ -941,33 +941,74 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Leaked merged semantic value if user action cuts parse.		     ##
+## Leaked semantic values if user action cuts parse.			     ##
 ## ------------------------------------------------------------------------- ##
 
-AT_SETUP([Leaked merged semantic value if user action cuts parse])
+AT_SETUP([Leaked semantic values if user action cuts parse])
 
 AT_DATA_GRAMMAR([glr-regr12.y],
 [[
 %glr-parser
 %union { int dummy; }
-%type <dummy> start
-%destructor { has_value = 0; } start
+%token PARENT_RHS_AFTER
+%type <dummy> parent_rhs_before merged PARENT_RHS_AFTER
+%destructor { parent_rhs_before_value = 0; } parent_rhs_before
+%destructor { merged_value = 0; } merged
+%destructor { parent_rhs_after_value = 0; } PARENT_RHS_AFTER
 
 %{
 # include <stdlib.h>
   static int merge (YYSTYPE, YYSTYPE);
   static void yyerror (char const *);
   static int yylex (void);
-  static int has_value = 0;
+  static int parent_rhs_before_value = 0;
+  static int merged_value = 0;
+  static int parent_rhs_after_value = 0;
 # define USE(val)
 %}
 
 %%
 
 start:
-    %merge<merge> { has_value = 1; USE ($$); }
-  | %merge<merge> { USE ($$); YYACCEPT; }
+  alt1 %dprec 1
+  | alt2 %dprec 2
+  ; 
+
+alt1:
+  PARENT_RHS_AFTER {
+    USE ($1);
+    parent_rhs_after_value = 0;
+  }
   ;
+
+alt2:
+  parent_rhs_before merged PARENT_RHS_AFTER {
+    USE (($1, $2, $3));
+    parent_rhs_before_value = 0;
+    merged_value = 0;
+    parent_rhs_after_value = 0;
+  }
+  ;
+
+parent_rhs_before:
+  {
+    USE ($$);
+    parent_rhs_before_value = 1;
+  }
+  ;
+
+merged:
+  %merge<merge> {
+    USE ($$);
+    merged_value = 1;
+  }
+  | cut %merge<merge> {
+    USE ($$);
+    merged_value = 1;
+  }
+  ;
+
+cut: { YYACCEPT; } ;
 
 %%
 
@@ -988,24 +1029,38 @@ yyerror (char const *msg)
 static int
 yylex (void)
 {
-  return 0;
+  static int const input[] = { PARENT_RHS_AFTER, 0 };
+  static const int *inputp = input;
+  if (*inputp == PARENT_RHS_AFTER)
+    parent_rhs_after_value = 1;
+  return *inputp++;
 }
 
 int
 main (void)
 {
   int exit_status = yyparse ();
-  if (has_value)
+  if (parent_rhs_before_value)
     {
-      fprintf (stderr, "Destructor not called.\n");
-      return 1;
+      fprintf (stderr, "`parent_rhs_before' destructor not called.\n");
+      exit_status = 1;
+    }
+  if (merged_value)
+    {
+      fprintf (stderr, "`merged' destructor not called.\n");
+      exit_status = 1;
+    }
+  if (parent_rhs_after_value)
+    {
+      fprintf (stderr, "`PARENT_RHS_AFTER' destructor not called.\n");
+      exit_status = 1;
     }
   return exit_status;
 }
 ]])
 
 AT_CHECK([[bison -t -o glr-regr12.c glr-regr12.y]], 0, [],
-[glr-regr12.y: conflicts: 1 reduce/reduce
+[glr-regr12.y: conflicts: 1 shift/reduce, 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr12])
 
