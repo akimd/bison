@@ -1431,8 +1431,6 @@ AT_SETUP([Leaked semantic values when reporting ambiguity])
 AT_DATA_GRAMMAR([glr-regr15.y],
 [[
 %glr-parser
-%union { int dummy; }
-%type <dummy> parent_rhs_before
 %destructor { parent_rhs_before_value = 0; } parent_rhs_before
 
 %{
@@ -1509,6 +1507,72 @@ AT_COMPILE([glr-regr15])
 
 AT_CHECK([[./glr-regr15]], 0, [],
 [syntax is ambiguous
+])
+
+AT_CLEANUP
+
+
+## ------------------------------------------------------------------------- ##
+## Leaked lookahead after nondeterministic parse syntax error.		     ##
+## ------------------------------------------------------------------------- ##
+
+AT_SETUP([Leaked lookahead after nondeterministic parse syntax error])
+AT_DATA_GRAMMAR([glr-regr16.y],
+[[
+%glr-parser
+%destructor { lookahead_value = 0; } 'b'
+
+%{
+# include <stdlib.h>
+  static void yyerror (char const *);
+  static int yylex (void);
+  static int lookahead_value = 0;
+# define USE(val)
+%}
+
+%%
+
+start: alt1 'a' | alt2 'a' ;
+alt1: ;
+alt2: ;
+
+%%
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex (void)
+{
+  static const char *input = "ab";
+  if (*input == 'b')
+    lookahead_value = 1;
+  return *input++;
+}
+
+int
+main (void)
+{
+  int exit_status = yyparse () != 1;
+  if (lookahead_value)
+    {
+      fprintf (stderr, "Lookahead destructor not called.\n");
+      exit_status = 1;
+    }
+  return exit_status;
+}
+]])
+
+AT_CHECK([[bison -o glr-regr16.c glr-regr16.y]], 0, [],
+[glr-regr16.y: conflicts: 1 reduce/reduce
+])
+AT_COMPILE([glr-regr16])
+
+AT_CHECK([[./glr-regr16]], 0, [],
+[syntax error
 ])
 
 AT_CLEANUP
