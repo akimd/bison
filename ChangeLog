@@ -1,3 +1,9 @@
+2006-03-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/Makefile.am ($(srcdir)/package.m4, maintainer-check-valgrind):
+	Don't use tabs inside commands; it messes up 'ps'.
+	Problem reported by twlevo.
+
 2006-03-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* tests/glr-regression.at (Uninitialized location when reporting

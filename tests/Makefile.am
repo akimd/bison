@@ -2,7 +2,7 @@
 
 ## Makefile for Bison testsuite.
 
-## Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 Free Software
+## Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
 ## Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@ MAINTAINERCLEANFILES = Makefile.in $(TESTSUITE)
 ## ------------ ##
 
 $(srcdir)/package.m4: $(top_srcdir)/configure.ac
-	{					\
+	{ \
 	  echo '# Signature of the current package.'; \
 	  echo 'm4_define([AT_PACKAGE_NAME],      [$(PACKAGE_NAME)])'; \
 	  echo 'm4_define([AT_PACKAGE_TARNAME],   [$(PACKAGE_TARNAME)])'; \
@@ -87,11 +87,8 @@ maintainer-check-posix: $(TESTSUITE)
 
 .PHONY: maintainer-check-valgrind
 maintainer-check-valgrind: $(TESTSUITE)
-	if test -n "$(VALGRIND)"; then					    \
-	   $(TESTSUITE) PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'; \
-	else								    \
-	  true;								    \
-	fi
+	test -z '$(VALGRIND)' || \
+	   $(TESTSUITE) PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'
 
 .PHONY: maintainer-check
 maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++
