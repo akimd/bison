@@ -1,3 +1,15 @@
+2006-03-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* tests/glr-regression.at (Uninitialized location when reporting
+	ambiguity): New test case.
+	* data/glr.c (yyresolveLocations): New function, which uses
+	YYLLOC_DEFAULT.
+	(yyresolveValue): Invoke yyresolveLocations before reporting an
+	ambiguity.
+	* doc/bison.texinfo (Default Action for Locations): Note
+	YYLLOC_DEFAULT's usage for ambiguity locations.
+	(GLR Semantic Actions): Cross-reference those notes.
+
 2006-03-04  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* tests/glr-regression.at (Leaked semantic values when reporting

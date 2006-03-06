@@ -1576,3 +1576,82 @@ AT_CHECK([[./glr-regr16]], 0, [],
 ])
 
 AT_CLEANUP
+
+
+## ------------------------------------------------------------------------- ##
+## Uninitialized location when reporting ambiguity.			     ##
+## ------------------------------------------------------------------------- ##
+
+AT_SETUP([Uninitialized location when reporting ambiguity])
+AT_DATA_GRAMMAR([glr-regr17.y],
+[[
+%glr-parser
+%locations
+%pure-parser
+%error-verbose
+
+%union { int dummy; }
+
+%{
+  static void yyerror (YYLTYPE *, char const *);
+  static int yylex (YYSTYPE *, YYLTYPE *);
+%}
+
+%initial-action {
+  @$.first_line = 1;
+  @$.first_column = 1;
+  @$.last_line = 1;
+  @$.last_column = 1;
+}
+
+%%
+
+/* Tests multiple levels of yyresolveLocations recursion.  */
+start: ambig1 | ambig2 ;
+ambig1: sub_ambig1 | sub_ambig2 ;
+ambig2: sub_ambig1 | sub_ambig2 ;
+
+/* Tests non-empty RHS as well as empty RHS with either initial location or
+   location of previous token.  Both empty RHS locations are printed in the
+   error message.  */
+sub_ambig1: empty 'a' 'b' empty ;
+sub_ambig2: empty 'a' 'b' empty ;
+empty: ;
+
+%%
+
+static void
+yyerror (YYLTYPE *locp, char const *msg)
+{
+  fprintf (stderr, "Error at %d.%d-%d.%d: %s.\n", locp->first_line,
+	   locp->first_column, locp->last_line, locp->last_column, msg);
+}
+
+/*ARGSUSED*/ static int
+yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
+{
+  static const char input[] = "ab";
+  static const char *inputp = input;
+  llocp->first_line = llocp->last_line = 2;
+  llocp->first_column = inputp - input + 1;
+  llocp->last_column = llocp->first_column + 1;
+  return *inputp++;
+}
+
+int
+main (void)
+{
+  return yyparse () != 1;
+}
+]])
+
+AT_CHECK([[bison -o glr-regr17.c glr-regr17.y]], 0, [],
+[glr-regr17.y: conflicts: 3 reduce/reduce
+])
+AT_COMPILE([glr-regr17])
+
+AT_CHECK([[./glr-regr17]], 0, [],
+[Error at 1.1-2.3: syntax is ambiguous.
+])
+
+AT_CLEANUP

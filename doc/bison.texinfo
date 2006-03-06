@@ -1135,12 +1135,15 @@ memory referenced by @code{yylval}.
 @findex YYERROR
 @cindex @acronym{GLR} parsers and @code{YYERROR}
 Another Bison feature requiring special consideration is @code{YYERROR}
-(@pxref{Action Features}), which you can invoke in any semantic action to
+(@pxref{Action Features}), which you can invoke in a semantic action to
 initiate error recovery.
 During deterministic @acronym{GLR} operation, the effect of @code{YYERROR} is
 the same as its effect in an @acronym{LALR}(1) parser.
 In a deferred semantic action, its effect is undefined.
 @c The effect is probably a syntax error at the split point.
+
+Also, see @ref{Location Default Action, ,Default Action for Locations}, which
+describes a special usage of @code{YYLLOC_DEFAULT} in @acronym{GLR} parsers.
 
 @node Compiler Requirements
 @subsection Considerations when Compiling @acronym{GLR} Parsers
@@ -3571,6 +3574,7 @@ This location is stored in @code{yylloc}.
 @node Location Default Action
 @subsection Default Action for Locations
 @vindex YYLLOC_DEFAULT
+@cindex @acronym{GLR} parsers and @code{YYLLOC_DEFAULT}
 
 Actually, actions are not the best place to compute locations.  Since
 locations are much more general than semantic values, there is room in
@@ -3578,6 +3582,9 @@ the output parser to redefine the default action to take for each
 rule.  The @code{YYLLOC_DEFAULT} macro is invoked each time a rule is
 matched, before the associated action is run.  It is also invoked
 while processing a syntax error, to compute the error's location.
+Before reporting an unresolvable syntactic ambiguity, a @acronym{GLR}
+parser invokes @code{YYLLOC_DEFAULT} recursively to compute the location
+of that ambiguity.
 
 Most of the time, this macro is general enough to suppress location
 dedicated code from semantic actions.
@@ -3586,9 +3593,11 @@ The @code{YYLLOC_DEFAULT} macro takes three parameters.  The first one is
 the location of the grouping (the result of the computation).  When a
 rule is matched, the second parameter identifies locations of
 all right hand side elements of the rule being matched, and the third
-parameter is the size of the rule's right hand side.  When processing
-a syntax error, the second parameter identifies locations of
-the symbols that were discarded during error processing, and the third
+parameter is the size of the rule's right hand side.
+When a @acronym{GLR} parser reports an ambiguity, which of multiple candidate
+right hand sides it passes to @code{YYLLOC_DEFAULT} is undefined.
+When processing a syntax error, the second parameter identifies locations
+of the symbols that were discarded during error processing, and the third
 parameter is the number of discarded symbols.
 
 By default, @code{YYLLOC_DEFAULT} is defined this way:
