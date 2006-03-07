@@ -1,5 +1,13 @@
 2006-03-06  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/glr.c (yyresolveLocations): Rename local variables to avoid
+	shadowing warnings.  Use usual patter for iterating through RHS.
+	* tests/glr-regression.at
+	(Uninitialized location when reporting ambiguity):
+	Modify yylex so that it uses its argument, rather than trying
+	to rely on ARGSUSED (which doesn't work for gcc with warnings).
+	const char -> char const.
+
 	* tests/Makefile.am ($(srcdir)/package.m4, maintainer-check-valgrind):
 	Don't use tabs inside commands; it messes up 'ps'.
 	Problem reported by twlevo.

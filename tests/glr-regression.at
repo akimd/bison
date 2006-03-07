@@ -972,7 +972,7 @@ AT_DATA_GRAMMAR([glr-regr12.y],
 start:
   alt1 %dprec 1
   | alt2 %dprec 2
-  ; 
+  ;
 
 alt1:
   PARENT_RHS_AFTER {
@@ -1547,7 +1547,7 @@ yyerror (char const *msg)
 static int
 yylex (void)
 {
-  static const char *input = "ab";
+  static char const *input = "ab";
   if (*input == 'b')
     lookahead_value = 1;
   return *input++;
@@ -1627,11 +1627,12 @@ yyerror (YYLTYPE *locp, char const *msg)
 	   locp->first_column, locp->last_line, locp->last_column, msg);
 }
 
-/*ARGSUSED*/ static int
+static int
 yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 {
-  static const char input[] = "ab";
-  static const char *inputp = input;
+  static char const input[] = "ab";
+  static char const *inputp = input;
+  lvalp->dummy = 0;
   llocp->first_line = llocp->last_line = 2;
   llocp->first_column = inputp - input + 1;
   llocp->last_column = llocp->first_column + 1;
