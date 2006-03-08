@@ -1,3 +1,13 @@
+2006-03-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix some nits reported by twlevo.
+	* doc/FAQ: Remove ancient Y2K FAQ, replacing it with "secure"
+	and "POSIX".  Use more-modern syntax for URLs.  Mention C++
+	and ask for Java.  Don't hardwire OS version numbers.  Add
+	copyright notice.
+	* m4/.cvsignore: Add unistd_h.m4, for latest gnulib.
+	* src/conflicts.c (solved_conflicts_obstack): Now static.
+
 2006-03-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* doc/bison.texinfo (Introduction): Mention GLR and C++ as on the web

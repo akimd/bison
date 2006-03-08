@@ -2,13 +2,12 @@ Frequently Asked Questions about Bison:
 
 ----------------------------------------------------------------------
 
-Q1.  Is Bison Y2K compliant?
+Q1.  Is Bison secure?  Does it conform to POSIX?
 
-A1.  If you're looking for a guarantee or certification, I can't
-     provide it.  With a little thought you can answer this one for
-     yourself, though.  (Hint: does a parser generator rely on the
-     date or time for anything?)  If you're still confused, see
-     http://www.gnu.org/software/year2000.html for more information.
+A1.  If you're looking for a guarantee or certification, we don't
+     provide it.  However, Bison is intended to be a reliable program
+     that conforms to the POSIX specification for Yacc.  If you run
+     into problems, please send us a bug report.
 
 ----------------------------------------------------------------------
 
@@ -20,7 +19,7 @@ A2.  Like most GNU packages with internationalization support, that
      in the "po" subdirectory, it indicates that your system's
      internationalization support is lacking.  You can re-configure
      Bison with "--disable-nls" to turn off this support, or you can
-     install GNU gettext from ftp://ftp.gnu.org/gnu/gettext/ and
+     install GNU gettext from <ftp://ftp.gnu.org/gnu/gettext/> and
      re-configure Bison.  See the file "ABOUT-NLS" for more
      information.
 
@@ -44,7 +43,7 @@ A3.  First, read the fine manual which comes with bison.  Beyond that,
 Q4.  I found a bug.  What should I include in the bug report?
 
 A4.  Before you send a bug report, make sure you are using the latest
-     version.  Check ftp://ftp.gnu.org/pub/gnu/bison/ or one of its
+     version.  Check <ftp://ftp.gnu.org/pub/gnu/bison/> or one of its
      mirrors.  Be sure to include the version number in your bug
      report.  If the bug is present in the latest version but not in a
      previous version, try to determine the most recent version which
@@ -72,14 +71,11 @@ A4.  Before you send a bug report, make sure you are using the latest
 
 ----------------------------------------------------------------------
 
-Q5.  Will Bison ever have C++ support?
+Q5.  Will Bison ever have C++ support?  How about Java or
+     <insert your favorite language here>?
 
-A5.  Yes, it's in the works.  Things are very chaotic right now, but
-     what little information floats around is posted to the bug-bison
-     mailing list.  If you're interested in testing C++ support when
-     it becomes available, please consider subscribing to the list,
-     especially if you are willing to beta test other releases as
-     well.
+A5.  C++ support is there now, and is documented in the manual.
+     We'd love to add other languages; contributions are welcome.
 
 ----------------------------------------------------------------------
 
@@ -94,16 +90,33 @@ A6.  It's not terribly involved.  Basically, you would download a test
      tested.  If no one tests, development is essentially halted.
 
      Beta testers are particularly needed for operating systems to
-     which I do not have access.  I currently have easy access to
-     Linux (x86 glibc 2.1), Solaris (SPARC) 2.6 and 2.7, and HP-UX
-     10.20.  Reports about other operating systems are especially
-     welcome.
+     which the developers do not have easy access.  They currently
+     have easy access to recent GNU/Linux and Solaris versions.
+     Reports about other operating systems are especially welcome.
 
 ----------------------------------------------------------------------
 
 Q7.  How do I join the help-bison and bug-bison mailing lists?
 
-A7.  See http://www.gnu.org/ (the section about "GNU mailing lists")
-     for more information.
+A7.  See <http://lists.gnu.org/>.
 
 ----------------------------------------------------------------------
+
+Copyright (C) 1999, 2002, 2006 Free Software Foundation, Inc.
+
+This file is part of Bison, the GNU Compiler Compiler.
+
+Bison is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+Bison is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with autoconf; see the file COPYING.  If not, write to
+the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.

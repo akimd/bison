@@ -32,6 +32,7 @@ strtol.m4
 strtoul.m4
 strverscmp.m4
 unistd-safer.m4
+unistd_h.m4
 unlocked-io.m4
 xalloc.m4
 xstrndup.m4
