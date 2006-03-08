@@ -336,16 +336,16 @@ Copying This Manual
 @unnumbered Introduction
 @cindex introduction
 
-@dfn{Bison} is a general-purpose parser generator that converts a
-grammar description for an @acronym{LALR}(1) context-free grammar into a C
-program to parse that grammar.  Once you are proficient with Bison,
-you may use it to develop a wide range of language parsers, from those
+@dfn{Bison} is a general-purpose parser generator that converts a grammar
+description for an @acronym{LALR}(1) or @acronym{GLR} context-free grammar
+into a C or C++ program to parse that grammar.  Once you are proficient with
+Bison, you can use it to develop a wide range of language parsers, from those
 used in simple desk calculators to complex programming languages.
 
 Bison is upward compatible with Yacc: all properly-written Yacc grammars
 ought to work with Bison with no change.  Anyone familiar with Yacc
 should be able to use Bison with little trouble.  You need to be fluent in
-C programming in order to use Bison or to understand this manual.
+C or C++ programming in order to use Bison or to understand this manual.
 
 We begin with tutorial chapters that explain the basic concepts of using
 Bison and show three explained examples, each building on the last.  If you

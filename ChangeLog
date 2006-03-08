@@ -1,3 +1,9 @@
+2006-03-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* doc/bison.texinfo (Introduction): Mention GLR and C++ as on the web
+	page.  Say "you can use it" not "you may use it" as on the web page;
+	we're describing capabilities not granting permission.
+
 2006-03-06  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (yyresolveLocations): Rename local variables to avoid
