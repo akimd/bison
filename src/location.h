@@ -1,5 +1,5 @@
 /* Locations for Bison
-   Copyright (C) 2002, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -64,6 +64,6 @@ typedef struct
 
 extern location const empty_location;
 
-void location_print (FILE *, location);
+void location_print (FILE *out, location loc);
 
 #endif /* ! defined LOCATION_H_ */

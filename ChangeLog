@@ -1,3 +1,13 @@
+2006-03-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix two nits reported by twlevo, plus one more that I discovered.
+
+	* src/assoc.h (assoc_to_string): Give a name to the arg, as
+	this is the usual Bison style.
+	* src/location.h (location_print): Likewise.
+
+	* src/reader.h (token_name): Likewise.
+
 2006-03-08  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix some nits reported by twlevo.

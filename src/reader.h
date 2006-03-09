@@ -58,7 +58,7 @@ YY_DECL;
 /* From the parser.  */
 extern int gram_debug;
 int gram_parse (void);
-char const *token_name (int);
+char const *token_name (int type);
 
 
 /* From reader.c. */
