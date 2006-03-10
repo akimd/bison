@@ -324,6 +324,13 @@ Frequently Asked Questions
 * How Can I Reset the Parser:: @code{yyparse} Keeps some State
 * Strings are Destroyed::      @code{yylval} Loses Track of Strings
 * Implementing Gotos/Loops::   Control Flow in the Calculator
+* Secure?  Conform?::          Is Bison @acronym{POSIX} safe?
+* I can't build Bison::        Troubleshooting
+* Where can I find help?::     Troubleshouting
+* Bug Reports::                Troublereporting
+* Other Languages::            Parsers in Java and others
+* Beta Testing::               Experimenting development versions
+* Mailing Lists::              Meeting other Bison users
 
 Copying This Manual
 
@@ -7758,10 +7765,17 @@ Several questions about Bison come up occasionally.  Here some of them
 are addressed.
 
 @menu
-* Memory Exhausted::           Breaking the Stack Limits
-* How Can I Reset the Parser:: @code{yyparse} Keeps some State
-* Strings are Destroyed::      @code{yylval} Loses Track of Strings
-* Implementing Gotos/Loops::   Control Flow in the Calculator
+* Memory Exhausted::            Breaking the Stack Limits
+* How Can I Reset the Parser::  @code{yyparse} Keeps some State
+* Strings are Destroyed::       @code{yylval} Loses Track of Strings
+* Implementing Gotos/Loops::    Control Flow in the Calculator
+* Secure?  Conform?::           Is Bison @acronym{POSIX} safe?
+* I can't build Bison::         Troubleshooting
+* Where can I find help?::      Troubleshouting
+* Bug Reports::                 Troublereporting
+* Other Languages::             Parsers in Java and others
+* Beta Testing::                Experimenting development versions
+* Mailing Lists::               Meeting other Bison users
 @end menu
 
 @node Memory Exhausted
@@ -7955,6 +7969,122 @@ This topic is way beyond the scope of this manual, and the reader is
 invited to consult the dedicated literature.
 
 
+@node Secure?  Conform?
+@section Secure?  Conform?
+
+@display
+Is Bison secure?  Does it conform to POSIX?
+@end display
+
+If you're looking for a guarantee or certification, we don't provide it.
+However, Bison is intended to be a reliable program that conforms to the
+@acronym{POSIX} specification for Yacc.  If you run into problems,
+please send us a bug report.
+
+@node I can't build Bison
+@section I can't build Bison
+
+@display
+I can't build Bison because "make" complains that "msgfmt" is not found.
+What should I do?
+@end display
+
+Like most GNU packages with internationalization support, that feature
+is turned on by default.  If you have problems building in the @file{po}
+subdirectory, it indicates that your system's internationalization
+support is lacking.  You can re-configure Bison with
+@option{--disable-nls} to turn off this support, or you can install GNU
+gettext from @url{ftp://ftp.gnu.org/gnu/gettext/} and re-configure
+Bison.  See the file @file{ABOUT-NLS} for more information.
+
+
+@node Where can I find help?
+@section Where can I find help?
+
+@display
+I'm having trouble using Bison.  Where can I find help?
+@end display
+
+First, read this fine manual.  Beyond that, you can send mail to
+@email{help-bison@@gnu.org}.  This mailing list is intended to be
+populated with people who are willing to answer questions about using
+and installing Bison.  Please keep in mind that (most of) the people on
+the list have aspects of their lives which are not related to Bison (!),
+so you may not receive an answer to your question right away.  This can
+be frustrating, but please try not to honk them off; remember that any
+help they provide is purely voluntary and out of the kindness of their
+hearts.
+
+@node Bug Reports
+@section Bug Reports
+
+@display
+I found a bug.  What should I include in the bug report?
+@end display
+
+Before you send a bug report, make sure you are using the latest
+version.  Check @url{ftp://ftp.gnu.org/pub/gnu/bison/} or one of its
+mirrors.  Be sure to include the version number in your bug report.  If
+the bug is present in the latest version but not in a previous version,
+try to determine the most recent version which did not contain the bug.
+
+If the bug is parser-related, you should include the smallest grammar
+you can which demonstrates the bug.  The grammar file should also be
+complete (i.e., I should be able to run it through Bison without having
+to edit or add anything).  The smaller and simpler the grammar, the
+easier it will be to fix the bug.
+
+Include information about your compilation environment, including your
+operating system's name and version and your compiler's name and
+version.  If you have trouble compiling, you should also include a
+transcript of the build session, starting with the invocation of
+`configure'.  Depending on the nature of the bug, you may be asked to
+send additional files as well (such as `config.h' or `config.cache').
+
+Patches are most welcome, but not required.  That is, do not hesitate to
+send a bug report just because you can not provide a fix.
+
+Send bug reports to @email{bug-bison@@gnu.org}.
+
+@node Other Languages
+@section Other Languages
+
+@display
+Will Bison ever have C++ support?  How about Java or @var{insert your
+favorite language here}?
+@end display
+
+C++ support is there now, and is documented.  We'd love to add other
+languages; contributions are welcome.
+
+@node Beta Testing
+@section Beta Testing
+
+@display
+What is involved in being a beta tester?
+@end display
+
+It's not terribly involved.  Basically, you would download a test
+release, compile it, and use it to build and run a parser or two.  After
+that, you would submit either a bug report or a message saying that
+everything is okay.  It is important to report successes as well as
+failures because test releases eventually become mainstream releases,
+but only if they are adequately tested.  If no one tests, development is
+essentially halted.
+
+Beta testers are particularly needed for operating systems to which the
+developers do not have easy access.  They currently have easy access to
+recent GNU/Linux and Solaris versions.  Reports about other operating
+systems are especially welcome.
+
+@node Mailing Lists
+@section Mailing Lists
+
+@display
+How do I join the help-bison and bug-bison mailing lists?
+@end display
+
+See @url{http://lists.gnu.org/}.
 
 @c ================================================= Table of Symbols
 
