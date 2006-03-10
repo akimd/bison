@@ -87,11 +87,6 @@ we should be able to have:
 
 Or something like this.
 
-** yysymprint interface
-It should be improved, in particular when using Bison features such as
-locations, and YYPARSE_PARAMS.  For the time being, it is almost
-recommended to yyprint to steal internal variables...
-
 ** %if and the like
 It should be possible to have %if/%else/%endif.  The implementation is
 not clear: should it be lexical or syntactic.  Vadim Maslow thinks it
@@ -182,28 +177,16 @@ Paul notes:
 	the source code.  This should get fixed.
 
 * --graph
-Show reductions.	[]
+Show reductions.
 
 * Broken options ?
-** %no-parser		[]
-** %token-table		[]
-** Skeleton strategy.	[]
-Must we keep %no-parser?
-	     %token-table?
+** %no-parser
+** %token-table
+** Skeleton strategy
+Must we keep %no-parser?  %token-table?
 
 * src/print_graph.c
-Find the best graph parameters.	[]
-
-* doc/bison.texinfo
-** Update
-informations about ERROR_VERBOSE.	[]
-** Add explanations about
-skeleton muscles.	[]
-%skeleton.		[]
-
-* testsuite
-** tests/pure-parser.at	[]
-New tests.
+Find the best graph parameters.
 
 * BTYacc
 See if we can integrate backtracking in Bison.  Charles-Henri de

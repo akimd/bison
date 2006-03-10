@@ -1,5 +1,9 @@
 2006-03-10  Akim Demaille  <akim@lrde.epita.fr>
 
+	* TODO: Remove dead items.
+
+2006-03-10  Akim Demaille  <akim@lrde.epita.fr>
+
 	* doc/FAQ: Remove, merged into...
 	* doc/bison.texinfo (FAQ): this.
 	* doc/Makefile.am (EXTRA_DIST): Adjust.
