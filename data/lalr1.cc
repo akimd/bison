@@ -120,6 +120,8 @@ b4_syncline([@oline@], [@ofile@])
     {
       ]b4_token_enums(b4_tokens)[
     };
+    /// Token type.
+    typedef token::yytokentype token_type;
 
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);

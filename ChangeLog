@@ -1,3 +1,10 @@
+2006-03-10  Akim Demaille  <akim@lrde.epita.fr>
+
+	* data/c.m4 (b4_token_enum): Always define the enum of tokens,
+	even if empty.
+	* data/lalrl1.cc, data/glr.cc (parser::token_type): New.
+	* doc/bison.texinfo (Calc++ Scanner): Use it.
+
 2006-03-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix two nits reported by twlevo, plus one more that I discovered.

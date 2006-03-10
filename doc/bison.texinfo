@@ -7326,10 +7326,11 @@ factor both as follows.
 @comment file: calc++-driver.hh
 @example
 // Announce to Flex the prototype we want for lexing function, ...
-# define YY_DECL						 \
-  int yylex (yy::calcxx_parser::semantic_type* yylval,           \
-             yy::calcxx_parser::location_type* yylloc,           \
-             calcxx_driver& driver)
+# define YY_DECL					\
+  yy::calcxx_parser::token_type                         \
+  yylex (yy::calcxx_parser::semantic_type* yylval,      \
+         yy::calcxx_parser::location_type* yylloc,      \
+         calcxx_driver& driver)
 // ... and declare it for the parser's sake.
 YY_DECL;
 @end example
@@ -7621,6 +7622,10 @@ parser's to get the set of defined tokens.
   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
 # undef yywrap
 # define yywrap() 1
+/* By default yylex returns int, we use token_type.
+   Unfortunately yyterminate by default returns 0, which is
+   not of token_type.  */
+#define yyterminate() return token::END 
 %@}
 @end example
 
@@ -7678,8 +7683,8 @@ It is convenient to use a typedef to shorten
 %@{
   typedef yy::calcxx_parser::token token;
 %@}
-
-[-+*/]     return yytext[0];
+           /* Convert ints to the actual type of tokens. */
+[-+*/]     return yy::calcxx_parser::token_type (yytext[0]);
 ":="       return token::ASSIGN;
 @{int@}      @{
   errno = 0;

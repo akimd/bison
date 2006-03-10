@@ -34,16 +34,15 @@ m4_define_default([b4_filename_type], [std::string])
 
 # b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
 # -----------------------------------------------------
-# Output the definition of the tokens (if there are) as enums.
+# Output the definition of the tokens as enums.
 m4_define([b4_token_enums],
-[m4_if([$@], [[]], [],
 [/* Tokens.  */
    enum yytokentype {
 m4_map_sep([     b4_token_enum], [,
 ],
            [$@])
    };
-])])
+])
 
 
 ## ----------------- ##
