@@ -1,5 +1,10 @@
 2006-03-12  Akim Demaille  <akim@lrde.epita.fr>
 
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Fix the definition
+	of AT_NAME_PREFIX when %name-prefix is not used.
+
+2006-03-12  Akim Demaille  <akim@lrde.epita.fr>
+
 	Apply --prefix to C++ skeletons too: they change the namespace.
 	The test suite already exercize these cases.
 	* data/c++.m4 (b4_namespace): New.
