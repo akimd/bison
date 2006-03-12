@@ -42,7 +42,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 #include <iostream>
 #include "stack.hh"
 
-namespace yy
+namespace ]b4_namespace[
 {
   class position;
   class location;
@@ -94,7 +94,7 @@ do {							\
 } while (false)
 #endif
 
-namespace yy
+namespace ]b4_namespace[
 {
 
   /// A Bison parser.
@@ -291,7 +291,7 @@ b4_error_verbose_if([, int tok])[);
 
 #ifndef YYSTYPE
  /* Redirection for backward compatibility.  */
-# define YYSTYPE yy::b4_parser_class_name::semantic_type
+# define YYSTYPE b4_namespace::b4_parser_class_name::semantic_type
 #endif
 ])[
 #endif /* ! defined PARSER_HEADER_H */]
@@ -299,7 +299,7 @@ b4_error_verbose_if([, int tok])[);
 @output @output_parser_name@
 b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
 	     [2002, 2003, 2004, 2005, 2006])
-m4_if(b4_prefix[], [yy], [],
+m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
 #define yylex   b4_prefix[]lex])
@@ -370,49 +370,49 @@ do {					\
 #define YYABORT		goto yyabortlab
 #define YYERROR		goto yyerrorlab
 
+namespace ]b4_namespace[
+{
 #if YYERROR_VERBOSE
 
-/* Return YYSTR after stripping away unnecessary quotes and
-   backslashes, so that it's suitable for yyerror.  The heuristic is
-   that double-quoting is unnecessary unless the string contains an
-   apostrophe, a comma, or backslash (other than backslash-backslash).
-   YYSTR is taken from yytname.  */
-std::string
-yy::]b4_parser_class_name[::yytnamerr_ (const char *yystr)
-{
-  if (*yystr == '"')
-    {
-      std::string yyr = "";
-      char const *yyp = yystr;
-
-      for (;;)
-	switch (*++yyp)
-	  {
-	  case '\'':
-	  case ',':
-	    goto do_not_strip_quotes;
-
-	  case '\\':
-	    if (*++yyp != '\\')
-	      goto do_not_strip_quotes;
-	    /* Fall through.  */
-	  default:
-	    yyr += *yyp;
-	    break;
-
-	  case '"':
-	    return yyr;
-	  }
-    do_not_strip_quotes: ;
-    }
-
-  return yystr;
-}
+  /* Return YYSTR after stripping away unnecessary quotes and
+     backslashes, so that it's suitable for yyerror.  The heuristic is
+     that double-quoting is unnecessary unless the string contains an
+     apostrophe, a comma, or backslash (other than backslash-backslash).
+     YYSTR is taken from yytname.  */
+  std::string
+  ]b4_parser_class_name[::yytnamerr_ (const char *yystr)
+  {
+    if (*yystr == '"')
+      {
+        std::string yyr = "";
+        char const *yyp = yystr;
+  
+        for (;;)
+          switch (*++yyp)
+            {
+            case '\'':
+            case ',':
+              goto do_not_strip_quotes;
+  
+            case '\\':
+              if (*++yyp != '\\')
+                goto do_not_strip_quotes;
+              /* Fall through.  */
+            default:
+              yyr += *yyp;
+              break;
+  
+            case '"':
+              return yyr;
+            }
+      do_not_strip_quotes: ;
+      }
+  
+    return yystr;
+  }
 
 #endif
 
-namespace yy
-{
   /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)
     : yydebug_ (false),
@@ -1047,7 +1047,7 @@ b4_error_verbose_if([, int tok])[)
   const unsigned int ]b4_parser_class_name[::yyuser_token_number_max_ = ]b4_user_token_number_max[;
   const ]b4_parser_class_name[::token_number_type ]b4_parser_class_name[::yyundef_token_ = ]b4_undef_token_number[;
 
-} // namespace yy
+} // namespace ]b4_namespace[
 
 ]b4_epilogue
 dnl
@@ -1060,7 +1060,7 @@ b4_copyright([stack handling for Bison C++ parsers],
 
 #include <deque>
 
-namespace yy
+namespace ]b4_namespace[
 {
   template <class T, class S = std::deque<T> >
   class stack

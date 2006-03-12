@@ -1,3 +1,19 @@
+2006-03-12  Akim Demaille  <akim@lrde.epita.fr>
+
+	Apply --prefix to C++ skeletons too: they change the namespace.
+	The test suite already exercize these cases.
+	* data/c++.m4 (b4_namespace): New.
+	* data/lalr1.cc, data/glr.cc, data/location.cc: Use it instead of `yy'.
+	* data/lalr1.cc (yytnameerr_): Move its definition into the namespace.
+	* data/yacc.c, data/glr.c: Remove a useless `[]'.
+	* doc/bison.texinfo: Document it.
+	(Option Cross Key): Use @multitable in all formats.  It looks
+	nicer, even in TeX outputs.
+	(Rules): Use the same code whatever the output type is.
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS)
+	(_AT_BISON_OPTION_POPDEFS): Support AT_NAME_PREFIX.
+	* tests/calc.at: Use it, instead of hard coding `yy'.
+	
 2006-03-10  Akim Demaille  <akim@lrde.epita.fr>
 
 	* TODO: Remove dead items.

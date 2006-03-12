@@ -28,7 +28,7 @@ b4_copyright([Position class for Bison C++ parsers],
 
 /**
  ** \file position.hh
- ** Define the yy::position class.
+ ** Define the ]b4_namespace[::position class.
  */
 
 #ifndef BISON_POSITION_HH
@@ -37,7 +37,7 @@ b4_copyright([Position class for Bison C++ parsers],
 # include <iostream>
 # include <string>
 
-namespace yy
+namespace ]b4_namespace[
 {
   /// Abstract a position.
   class position
@@ -140,7 +140,7 @@ b4_copyright([Location class for Bison C++ parsers],
 
 /**
  ** \file location.hh
- ** Define the yy::location class.
+ ** Define the ]b4_namespace[::location class.
  */
 
 #ifndef BISON_LOCATION_HH
@@ -150,7 +150,7 @@ b4_copyright([Location class for Bison C++ parsers],
 # include <string>
 # include "position.hh"
 
-namespace yy
+namespace ]b4_namespace[
 {
 
   /// Abstract a location.

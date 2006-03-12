@@ -515,8 +515,8 @@ int             /* @r{keyword `int'} */
 square (int x)  /* @r{identifier, open-paren, keyword `int',}
                    @r{identifier, close-paren} */
 @{               /* @r{open-brace} */
-  return x * x; /* @r{keyword `return', identifier, asterisk,
-                   identifier, semicolon} */
+  return x * x; /* @r{keyword `return', identifier, asterisk,}
+                   @r{identifier, semicolon} */
 @}               /* @r{close-brace} */
 @end example
 @end ifinfo
@@ -1368,11 +1368,8 @@ under BSD Unix 4.3; each produces a usable, though limited, interactive
 desk-top calculator.
 
 These examples are simple, but Bison grammars for real programming
-languages are written the same way.
-@ifinfo
-You can copy these examples out of the Info file and into a source file
-to try them.
-@end ifinfo
+languages are written the same way.  You can copy these examples into a
+source file to try them.
 
 @menu
 * RPN Calc::          Reverse polish notation calculator;
@@ -2936,15 +2933,6 @@ Usually there is only one action and it follows the components.
 Multiple rules for the same @var{result} can be written separately or can
 be joined with the vertical-bar character @samp{|} as follows:
 
-@ifinfo
-@example
-@var{result}:   @var{rule1-components}@dots{}
-        | @var{rule2-components}@dots{}
-        @dots{}
-        ;
-@end example
-@end ifinfo
-@iftex
 @example
 @group
 @var{result}:    @var{rule1-components}@dots{}
@@ -2953,7 +2941,6 @@ be joined with the vertical-bar character @samp{|} as follows:
         ;
 @end group
 @end example
-@end iftex
 
 @noindent
 They are still considered distinct rules even when joined in this way.
@@ -4244,12 +4231,14 @@ accurate syntax error messages.
 @deffn {Directive} %name-prefix="@var{prefix}"
 Rename the external symbols used in the parser so that they start with
 @var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
+in C parsers
 is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
 @code{yylval}, @code{yylloc}, @code{yychar}, @code{yydebug}, and
 possible @code{yylloc}.  For example, if you use
 @samp{%name-prefix="c_"}, the names become @code{c_parse}, @code{c_lex},
-and so on.  @xref{Multiple Parsers, ,Multiple Parsers in the Same
-Program}.
+and so on.  In C++ parsers, it is only the surrounding namespace which is
+named @var{prefix} instead of @samp{yy}.
+@xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
 @end deffn
 
 @ifset defaultprec
@@ -6920,7 +6909,7 @@ Same as above, but save in the file @var{defines-file}.
 
 @item -b @var{file-prefix}
 @itemx --file-prefix=@var{prefix}
-Pretend that @code{%verbose} was specified, i.e, specify prefix to use
+Pretend that @code{%file-prefix} was specified, i.e, specify prefix to use
 for all Bison output file names.  @xref{Decl Summary}.
 
 @item -r @var{things}
@@ -6970,48 +6959,27 @@ the output graph file.
 @node Option Cross Key
 @section Option Cross Key
 
+@c FIXME: How about putting the directives too?
 Here is a list of options, alphabetized by long option, to help you find
 the corresponding short option.
 
-@tex
-\def\leaderfill{\leaders\hbox to 1em{\hss.\hss}\hfill}
-
-{\tt
-\line{ --debug \leaderfill -t}
-\line{ --defines \leaderfill -d}
-\line{ --file-prefix \leaderfill -b}
-\line{ --graph \leaderfill -g}
-\line{ --help \leaderfill -h}
-\line{ --name-prefix \leaderfill -p}
-\line{ --no-lines \leaderfill -l}
-\line{ --no-parser \leaderfill -n}
-\line{ --output \leaderfill -o}
-\line{ --print-localedir}
-\line{ --token-table \leaderfill -k}
-\line{ --verbose \leaderfill -v}
-\line{ --version \leaderfill -V}
-\line{ --yacc \leaderfill -y}
-}
-@end tex
-
-@ifinfo
-@example
---debug                               -t
---defines=@var{defines-file}          -d
---file-prefix=@var{prefix}                  -b @var{file-prefix}
---graph=@var{graph-file}              -d
---help                                -h
---name-prefix=@var{prefix}                  -p @var{name-prefix}
---no-lines                            -l
---no-parser                           -n
---output=@var{outfile}                      -o @var{outfile}
---print-localedir
---token-table                         -k
---verbose                             -v
---version                             -V
---yacc                                -y
-@end example
-@end ifinfo
+@multitable {@option{--defines=@var{defines-file}}} {@option{-b @var{file-prefix}XXX}}
+@headitem Long Option @tab Short Option
+@item @option{--debug}                      @tab @option{-t}
+@item @option{--defines=@var{defines-file}} @tab @option{-d}
+@item @option{--file-prefix=@var{prefix}}   @tab @option{-b @var{file-prefix}}
+@item @option{--graph=@var{graph-file}}     @tab @option{-d}
+@item @option{--help}                       @tab @option{-h}
+@item @option{--name-prefix=@var{prefix}}   @tab @option{-p @var{name-prefix}}
+@item @option{--no-lines}                   @tab @option{-l}
+@item @option{--no-parser}                  @tab @option{-n}
+@item @option{--output=@var{outfile}}       @tab @option{-o @var{outfile}}
+@item @option{--print-localedir}            @tab
+@item @option{--token-table}                @tab @option{-k}
+@item @option{--verbose}                    @tab @option{-v}
+@item @option{--version}                    @tab @option{-V}
+@item @option{--yacc}                       @tab @option{-y}
+@end multitable
 
 @node Yacc Library
 @section Yacc Library
@@ -7066,11 +7034,14 @@ int yyparse (void);
 @c - Always pure
 @c - initial action
 
-The C++ parser @acronym{LALR}(1) skeleton is named @file{lalr1.cc}.  To select
-it, you may either pass the option @option{--skeleton=lalr1.cc} to
-Bison, or include the directive @samp{%skeleton "lalr1.cc"} in the
+The C++ parser @acronym{LALR}(1) skeleton is named @file{lalr1.cc}.  To
+select it, you may either pass the option @option{--skeleton=lalr1.cc}
+to Bison, or include the directive @samp{%skeleton "lalr1.cc"} in the
 grammar preamble.  When run, @command{bison} will create several
-files:
+entities in the @samp{yy} namespace.  Use the @samp{%name-prefix}
+directive to change the namespace name, see @ref{Decl Summary}.  The
+various classes are generated in the following files:
+
 @table @file
 @item position.hh
 @itemx location.hh

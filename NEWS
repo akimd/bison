@@ -3,7 +3,9 @@ Bison News
 
 Changes in version 2.1b:
 
-* No user-visible changes.
+* %name-prefix changes the namespace name in C++ outputs.
+
+* The C++ parsers export their token_type.
 
 Changes in version 2.1a, 2006-02-13:
 
