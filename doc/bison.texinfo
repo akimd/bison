@@ -12,25 +12,15 @@
 @c the smallbook format.
 @c @smallbook
 
-@c Set following if you have the new `shorttitlepage' command
-@c @clear shorttitlepage-enabled
-@c @set shorttitlepage-enabled
-
 @c Set following if you want to document %default-prec and %no-default-prec.
 @c This feature is experimental and may change in future Bison versions.
 @c @set defaultprec
 
-@c ISPELL CHECK: done, 14 Jan 1993 --bob
-
-@c Check COPYRIGHT dates.  should be updated in the titlepage, ifinfo
-@c titlepage; should NOT be changed in the GPL.  --mew
-
-@c FIXME: I don't understand this `iftex'.  Obsolete? --akim.
-@iftex
+@ifnotinfo
 @syncodeindex fn cp
 @syncodeindex vr cp
 @syncodeindex tp cp
-@end iftex
+@end ifnotinfo
 @ifinfo
 @synindex fn cp
 @synindex vr cp
@@ -67,9 +57,6 @@ Copies published by the Free Software Foundation raise funds for
 * bison: (bison).       @acronym{GNU} parser generator (Yacc replacement).
 @end direntry
 
-@ifset shorttitlepage-enabled
-@shorttitlepage Bison
-@end ifset
 @titlepage
 @title Bison
 @subtitle The Yacc-compatible Parser Generator
@@ -1488,7 +1475,7 @@ exp:      NUM           @{ $$ = $1;           @}
 The groupings of the rpcalc ``language'' defined here are the expression
 (given the name @code{exp}), the line of input (@code{line}), and the
 complete input transcript (@code{input}).  Each of these nonterminal
-symbols has several alternate rules, joined by the @samp{|} punctuator
+symbols has several alternate rules, joined by the vertical bar @samp{|}
 which is read as ``or''.  The following sections explain what these rules
 mean.
 
@@ -7603,7 +7590,7 @@ parser's to get the set of defined tokens.
 /* By default yylex returns int, we use token_type.
    Unfortunately yyterminate by default returns 0, which is
    not of token_type.  */
-#define yyterminate() return token::END 
+#define yyterminate() return token::END
 %@}
 @end example
 
@@ -7661,7 +7648,7 @@ It is convenient to use a typedef to shorten
 %@{
   typedef yy::calcxx_parser::token token;
 %@}
-           /* Convert ints to the actual type of tokens. */
+           /* Convert ints to the actual type of tokens.  */
 [-+*/]     return yy::calcxx_parser::token_type (yytext[0]);
 ":="       return token::ASSIGN;
 @{int@}      @{
@@ -7862,7 +7849,7 @@ them.  Instead of reporting @samp{"foo", "bar"}, it reports
 
 This error is probably the single most frequent ``bug report'' sent to
 Bison lists, but is only concerned with a misunderstanding of the role
-of scanner.  Consider the following Lex code:
+of the scanner.  Consider the following Lex code:
 
 @verbatim
 %{
@@ -7956,7 +7943,8 @@ please send us a bug report.
 @section I can't build Bison
 
 @display
-I can't build Bison because "make" complains that "msgfmt" is not found.
+I can't build Bison because @command{make} complains that
+@code{msgfmt} is not found.
 What should I do?
 @end display
 
