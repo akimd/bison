@@ -157,6 +157,9 @@ if not "%ARGS%" == ""                    echo %ARGS% >> arguments
 set ARGS=
 set CACHING=
 set DEPENDENCY_TRACKING=
+set LIBICONV_PREFIX=
+set LIBINTL_PREFIX=
+set HTML=
 
 if "%XSRC%" == "." goto InPlace
 
@@ -459,10 +462,7 @@ if not errorlevel 1 mv -f %XSRC%/install-sh %XSRC%/install-sh.sh
 :NoRen1
 if "%SHELL%" == "/bin/sh" set SHELL=
 if "%HOME%" == "%XSRC%/djgpp" set HOME=
-set ARGS=
 set CONFIG_SITE=
 set HOSTNAME=
 set NLS=
-set CACHING=
-set DEPENDENCY_TRACKING=
 set XSRC=
