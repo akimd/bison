@@ -1,3 +1,15 @@
+2006-03-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Decl Summary): Don't mention yylloc twice.
+	Problem reported by Bob Rossi.
+
+2006-03-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo: Remove @shorttitlepage stuff; it wasn't used
+	and didn't really work.
+	For the index, use @ifnotinfo, not @iftex.
+	Minor cleanups of spacing and terminology.
+
 2006-03-12  Akim Demaille  <akim@lrde.epita.fr>
 
 	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Fix the definition
@@ -18,7 +30,7 @@
 	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS)
 	(_AT_BISON_OPTION_POPDEFS): Support AT_NAME_PREFIX.
 	* tests/calc.at: Use it, instead of hard coding `yy'.
-	
+
 2006-03-10  Akim Demaille  <akim@lrde.epita.fr>
 
 	* TODO: Remove dead items.

@@ -4220,8 +4220,8 @@ Rename the external symbols used in the parser so that they start with
 @var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
 in C parsers
 is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
-@code{yylval}, @code{yylloc}, @code{yychar}, @code{yydebug}, and
-possible @code{yylloc}.  For example, if you use
+@code{yylval}, @code{yychar}, @code{yydebug}, and
+(if locations are used) @code{yylloc}.  For example, if you use
 @samp{%name-prefix="c_"}, the names become @code{c_parse}, @code{c_lex},
 and so on.  In C++ parsers, it is only the surrounding namespace which is
 named @var{prefix} instead of @samp{yy}.
