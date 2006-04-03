@@ -1,3 +1,10 @@
+2006-04-03  Akim Demaille  <akim@lrde.epita.fr>
+
+	* src/scan-gram.l: Be robust to BRACED_CODE appearing before any
+	rule.
+	Reported by Mickael Labau.
+	* tests/input.at (Torturing the Scanner): Test it.
+
 2006-03-16  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Decl Summary): Don't mention yylloc twice.

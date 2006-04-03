@@ -204,6 +204,14 @@ AT_CHECK([bison input.y], [1], [],
 ]])
 
 
+AT_DATA([input.y], 
+[{}
+])
+AT_CHECK([bison input.y], [1], [],
+[[input.y:1.1-2: syntax error, unexpected {...}
+]])
+
+
 AT_DATA_GRAMMAR([input.y],
 [[%{
 /* This is seen in GCC: a %{ and %} in middle of a comment. */
