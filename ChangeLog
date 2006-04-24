@@ -1,3 +1,7 @@
+2006-04-24  Akim Demaille  <akim@lrde.epita.fr>
+
+	* etc/README, etc/bench.pl: New.
+
 2006-04-03  Akim Demaille  <akim@lrde.epita.fr>
 
 	* src/scan-gram.l: Be robust to BRACED_CODE appearing before any
