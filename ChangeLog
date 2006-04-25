@@ -1,3 +1,9 @@
+2006-04-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap: Comment out the AM_CPPFLAGS line, since we don't use
+	that variable and the line breaks the bootstrap.  Problem reported
+	by Juan M. Guerrero.
+
 2006-04-24  Akim Demaille  <akim@lrde.epita.fr>
 
 	* doc/bison.texinfo (Multiple start-symbols): New.

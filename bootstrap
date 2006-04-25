@@ -237,7 +237,8 @@ esac
 ) >m4/gnulib.m4 || exit
 
 (echo '# This file is generated automatically by "bootstrap".' &&
- $GNULIB_SRCDIR/gnulib-tool --extract-automake-snippet $gnulib_modules
+ $GNULIB_SRCDIR/gnulib-tool --extract-automake-snippet $gnulib_modules |
+ sed 's/^[	 ]*AM_CPPFLAGS[	 ]*+=/# (commented out by bootstrap) &/'
 ) >lib/gnulib.mk || exit
 
 
