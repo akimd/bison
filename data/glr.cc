@@ -259,15 +259,6 @@ b4_syncline([@oline@], [@ofile@])[
 # define YYTOKEN_TABLE ]b4_token_table[
 #endif
 
-#if 0
-/* Copy the second part of user declarations.  */
-]b4_post_prologue[
-
-]/* Line __line__ of glr.cc.  */
-
-b4_syncline([@oline@], [@ofile@])[
-#endif
-
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
    If N is 0, then set CURRENT to the empty location which ends
    the previous symbol: RHS[0] (always defined).  */

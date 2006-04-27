@@ -1,3 +1,7 @@
+2006-04-27  Akim Demaille  <akim@lrde.epita.fr>
+
+	* data/glr.cc: Remove dead code.
+
 2006-04-25  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap: Comment out the AM_CPPFLAGS line, since we don't use
