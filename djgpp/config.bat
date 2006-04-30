@@ -185,10 +185,22 @@ test -f %XSRC%/po/Makefile.in.in
 if not errorlevel 1 mv -f %XSRC%/po/Makefile.in.in %XSRC%/po/Makefile.in-in
 test -f %XSRC%/po/Makefile.in-in
 if errorlevel 1 mv -f %XSRC%/po/Makefile.in %XSRC%/po/Makefile.in-in
+test -f %XSRC%/po/Makefile.in-in
+if errorlevel 1 mv -f %XSRC%/po/Makefile.inin %XSRC%/po/Makefile.in-in
+test -f %XSRC%/po/Makefile.in-in
+if errorlevel 1 mv -f %XSRC%/po/Makefile.in_in %XSRC%/po/Makefile.in-in
+test -f %XSRC%/po/Makefile.in-in
+if errorlevel 1 mv -f %XSRC%/po/Makefile_in.in %XSRC%/po/Makefile.in-in
 test -f %XSRC%/runtime-po/Makefile.in.in
 if not errorlevel 1 mv -f %XSRC%/runtime-po/Makefile.in.in %XSRC%/runtime-po/Makefile.in-in
 test -f %XSRC%/runtime-po/Makefile.in-in
 if errorlevel 1 mv -f %XSRC%/runtime-po/Makefile.in %XSRC%/runtime-po/Makefile.in-in
+test -f %XSRC%/runtime-po/Makefile.in-in
+if errorlevel 1 mv -f %XSRC%/runtime-po/Makefile.inin %XSRC%/runtime-po/Makefile.in-in
+test -f %XSRC%/runtime-po/Makefile.in-in
+if errorlevel 1 mv -f %XSRC%/runtime-po/Makefile.in_in %XSRC%/runtime-po/Makefile.in-in
+test -f %XSRC%/runtime-po/Makefile.in-in
+if errorlevel 1 mv -f %XSRC%/runtime-po/Makefile_in.in %XSRC%/runtime-po/Makefile.in-in
 test -f %XSRC%/data/c++.m4
 if not errorlevel 1 mv -f %XSRC%/data/c++.m4 %XSRC%/data/cxx.m4
 test -f %XSRC%/data/cxx.m4
