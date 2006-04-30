@@ -117,10 +117,10 @@ am__leading_dot=_
 # which the package has not been configured for.
 /MISSING=/,/^$/ {
   /^fi$/ a\
-am_missing_run=`echo "$am_missing_run" | sed 's%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*%${top_srcdir}%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*%${top_srcdir}%'`
+am_missing_run=`echo "$am_missing_run" | sed 's%/dev.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*%${top_srcdir}%;s%.:.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*%${top_srcdir}%'`
 }
 /^install_sh=/a\
-install_sh=`echo "$install_sh" | sed 's%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*%${top_srcdir}%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*%${top_srcdir}%'`
+install_sh=`echo "$install_sh" | sed 's%/dev.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*%${top_srcdir}%;s%.:.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*%${top_srcdir}%'`
 
 # This will only work if the assumption that the
 # testsuite is ran from the following path:
@@ -129,19 +129,19 @@ install_sh=`echo "$install_sh" | sed 's%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*%$
 #   ../../. == ${top_srcdir}
 /\.)[	 ]*ac_abs_builddir=/,/^esac$/ {
  /^esac$/ a\
-ac_abs_builddir=`echo "$ac_abs_builddir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%"`
+ac_abs_builddir=`echo "$ac_abs_builddir" | sed "s%/dev.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%;s%.:.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%"`
 }
 /\.)[	 ]*ac_abs_top_builddir=/,/^esac$/ {
  /^esac$/ a\
-ac_abs_top_builddir=`echo "$ac_abs_top_builddir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%"`
+ac_abs_top_builddir=`echo "$ac_abs_top_builddir" | sed "s%/dev.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%;s%.:.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%"`
 }
 /\.)[	 ]*ac_abs_srcdir=/,/^esac$/ {
  /^esac$/ a\
-ac_abs_srcdir=`echo "$ac_abs_srcdir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%"`
+ac_abs_srcdir=`echo "$ac_abs_srcdir" | sed "s%/dev.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%;s%.:.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../.%"`
 }
 /\.)[	 ]*ac_abs_top_srcdir=/,/^esac$/ {
  /^esac$/ a\
-ac_abs_top_srcdir=`echo "$ac_abs_top_srcdir" | sed "s%/dev.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%;s%.:.*/bison-[0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%"`
+ac_abs_top_srcdir=`echo "$ac_abs_top_srcdir" | sed "s%/dev.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%;s%.:.*/bison[-_0-9]\\{1,1\\}[-.0-9A-z]*/[^/]*%../../../%"`
 }
 
 # Add DJGPP version information.
