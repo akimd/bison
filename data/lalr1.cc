@@ -29,10 +29,23 @@ m4_changecom()
 m4_divert(0)dnl
 m4_if(b4_defines_flag, 0, [],
 [@output @output_header_name@
-b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-	     [2002, 2003, 2004, 2005, 2006])
+b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
+  [2002, 2003, 2004, 2005, 2006])
 dnl FIXME: This is wrong, we want computed header guards.
 [
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
+
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
 
 #ifndef PARSER_HEADER_H
@@ -297,8 +310,22 @@ b4_error_verbose_if([, int tok])[);
 #endif /* ! defined PARSER_HEADER_H */]
 ])dnl
 @output @output_parser_name@
-b4_copyright([C++ Skeleton parser for LALR(1) parsing with Bison],
-	     [2002, 2003, 2004, 2005, 2006])
+b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
+  [2002, 2003, 2004, 2005, 2006])
+[
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
+]
 m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
@@ -386,14 +413,14 @@ namespace ]b4_namespace[
       {
         std::string yyr = "";
         char const *yyp = yystr;
-  
+
         for (;;)
           switch (*++yyp)
             {
             case '\'':
             case ',':
               goto do_not_strip_quotes;
-  
+
             case '\\':
               if (*++yyp != '\\')
                 goto do_not_strip_quotes;
@@ -401,13 +428,13 @@ namespace ]b4_namespace[
             default:
               yyr += *yyp;
               break;
-  
+
             case '"':
               return yyr;
             }
       do_not_strip_quotes: ;
       }
-  
+
     return yystr;
   }
 
@@ -1052,8 +1079,21 @@ b4_error_verbose_if([, int tok])[)
 ]b4_epilogue
 dnl
 @output b4_dir_prefix[]stack.hh
-b4_copyright([stack handling for Bison C++ parsers],
-  [2002, 2003, 2004, 2005, 2006])[
+b4_copyright([Stack handling for Bison parsers in C++],
+  [2002, 2003, 2004, 2005, 2006])
+[
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH

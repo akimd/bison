@@ -356,9 +356,10 @@ This edition corresponds to version @value{VERSION} of Bison.
 @node Conditions
 @unnumbered Conditions for Using Bison
 
-As of Bison version 1.24, we have changed the distribution terms for
-@code{yyparse} to permit using Bison's output in nonfree programs when
-Bison is generating C code for @acronym{LALR}(1) parsers.  Formerly, these
+The distribution terms for Bison-generated parsers permit using the
+parsers in nonfree programs.  Before Bison version 2.2, these extra
+permissions applied only when Bison was generating @acronym{LALR}(1)
+parsers in C@.  And before Bison version 1.24, Bison-generated
 parsers could be used only in programs that were free software.
 
 The other @acronym{GNU} programming tools, such as the @acronym{GNU} C
@@ -370,10 +371,10 @@ License to all of the Bison source code.
 
 The output of the Bison utility---the Bison parser file---contains a
 verbatim copy of a sizable piece of Bison, which is the code for the
-@code{yyparse} function.  (The actions from your grammar are inserted
-into this function at one point, but the rest of the function is not
-changed.)  When we applied the @acronym{GPL} terms to the code for
-@code{yyparse},
+parser's implementation.  (The actions from your grammar are inserted
+into this implementation at one point, but most of the rest of the
+implementation is not changed.)  When we applied the @acronym{GPL}
+terms to the skeleton code for the parser's implementation,
 the effect was to restrict the use of Bison output to free software.
 
 We didn't change the terms because of sympathy for people who want to
@@ -383,13 +384,11 @@ encourage people to make other software free.  So we decided to make the
 practical conditions for using Bison match the practical conditions for
 using the other @acronym{GNU} tools.
 
-This exception applies only when Bison is generating C code for an
-@acronym{LALR}(1) parser; otherwise, the @acronym{GPL} terms operate
-as usual.  You can
-tell whether the exception applies to your @samp{.c} output file by
-inspecting it to see whether it says ``As a special exception, when
-this file is copied by Bison into a Bison output file, you may use
-that output file without restriction.''
+This exception applies when Bison is generating code for a parser.
+You can tell whether the exception applies to a Bison output file by
+inspecting the file for text beginning with ``As a special
+exception@dots{}''.  The text spells out the exact terms of the
+exception.
 
 @include gpl.texi
 
