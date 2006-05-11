@@ -1,5 +1,11 @@
 2006-05-11  Akim Demaille  <akim@lrde.epita.fr>
 
+	* examples/extexi: Enforce the precedence of concatenation over
+	>>.
+	Reported by   tommy.nordgren@chello.se
+
+2006-05-11  Akim Demaille  <akim@lrde.epita.fr>
+
 	* data/lalr1.cc (yytranslate_): Rename token as t to avoid clashes
 	with the member "token".
 	Reported by Martin Nylin.
