@@ -1,3 +1,9 @@
+2006-05-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Calc++ Scanner): The flex behavior is an
+	incompatibility, not a bug.  Mention that it wasn't fixed as of
+	flex 2.5.33.
+
 2006-05-11  Akim Demaille  <akim@lrde.epita.fr>
 
 	* examples/extexi: Enforce the precedence of concatenation over
@@ -9,6 +15,17 @@
 	* data/lalr1.cc (yytranslate_): Rename token as t to avoid clashes
 	with the member "token".
 	Reported by Martin Nylin.
+
+2006-05-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.c: Switch to Bison 2.2 special-exception language in
+	the copyright notice.  Use more-regular format for titles and
+	copyright notices.
+	* data/glr.cc: Likewise.
+	* data/location.cc: Likewise.
+	* data/yacc.cc: Likewise.
+	* doc/bison.texinfo (Conditions): Document this.
+	* NEWS: likewise.  Upgrade version to 2.2.
 
 2006-04-27  Akim Demaille  <akim@lrde.epita.fr>
 
