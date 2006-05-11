@@ -2,6 +2,7 @@
 
 	* data/lalr1.cc (yytranslate_): Rename token as t to avoid clashes
 	with the member "token".
+	Reported by Martin Nylin.
 
 2006-04-27  Akim Demaille  <akim@lrde.epita.fr>
 
