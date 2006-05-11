@@ -262,8 +262,8 @@ b4_error_verbose_if([, int tok])[);
     virtual void yystack_print_ ();
 #endif
 
-    /// Convert a scanner token number to a symbol number.
-    token_number_type yytranslate_ (int token);
+    /// Convert a scanner token number \a t to a symbol number.
+    token_number_type yytranslate_ (int t);
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
@@ -1048,7 +1048,7 @@ b4_error_verbose_if([, int tok])[)
 
   /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
   ]b4_parser_class_name[::token_number_type
-  ]b4_parser_class_name[::yytranslate_ (int token)
+  ]b4_parser_class_name[::yytranslate_ (int t)
   {
     static
     const token_number_type
@@ -1056,8 +1056,8 @@ b4_error_verbose_if([, int tok])[)
     {
       ]b4_translate[
     };
-    if ((unsigned int) token <= yyuser_token_number_max_)
-      return translate_table[token];
+    if ((unsigned int) t <= yyuser_token_number_max_)
+      return translate_table[t];
     else
       return yyundef_token_;
   }
