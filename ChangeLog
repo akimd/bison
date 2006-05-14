@@ -1,5 +1,11 @@
 2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
 
+	* doc/bison.texinfo (C++ Bison Interface): Clarify the naming
+	scheme.
+	Reported by Steve Murphy.
+
+2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
+
 	* data/glr.cc, data/lalr1.cc: Using %defines is mandatory.
 	* data/glr.cc: b4_location_flag is now b4_locations_flag.
 

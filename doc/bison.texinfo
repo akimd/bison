@@ -7040,13 +7040,13 @@ An auxiliary class @code{stack} used by the parser.
 
 @item @var{file}.hh
 @itemx @var{file}.cc
-The declaration and implementation of the C++ parser class.
-@var{file} is the name of the output file.  It follows the same
-rules as with regular C parsers.
+(Assuming the extension of the input file was @samp{.yy}.)  The
+declaration and implementation of the C++ parser class.  The basename
+and extension of these two files follow the same rules as with regular C
+parsers (@pxref{Invocation}).
 
-Note that @file{@var{file}.hh} is @emph{mandatory}, the C++ cannot
-work without the parser class declaration.  Therefore, you must either
-pass @option{-d}/@option{--defines} to @command{bison}, or use the
+The header is @emph{mandatory}; you must either pass
+@option{-d}/@option{--defines} to @command{bison}, or use the
 @samp{%defines} directive.
 @end table
 
