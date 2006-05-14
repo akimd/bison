@@ -371,9 +371,9 @@ sub bench_grammar ($)
      "push-yacc" => '%skeleton "push.c"',
      "push-pure" => '%skeleton "push.c" %pure-parser',
      "push-push" => '%skeleton "push.c" %push-parser',
-     "push-opt-yacc" => '%skeleton "push_opt.c"',
-     "push-opt-pure" => '%skeleton "push_opt.c" %pure-parser',
-     "push-opt-push" => '%skeleton "push_opt.c" %push-parser',
+     "popt-yacc" => '%skeleton "push_opt.c"',
+     "popt-pure" => '%skeleton "push_opt.c" %pure-parser',
+     "popt-push" => '%skeleton "push_opt.c" %push-parser',
     );
   
   my %bench;

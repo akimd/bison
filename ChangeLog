@@ -1,5 +1,9 @@
 2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
 
+	* etc/bench.pm: Shorten bench names.
+
+2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
+
 	* src/output.h, src/output.c (error_verbose): Move to...
 	* src/getargs.h, src/getargs.c: here.
 	Sort the flags.
