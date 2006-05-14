@@ -1,3 +1,10 @@
+2006-05-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/c.m4 (b4_copyright): Put the special exception for Bison
+	skeletons here, so we don't have to put it in each skeleton.  All
+	uses changed.  Wrap the copyright notice, in case it is longer
+	than 80 columns.  Replace comma by newline after title.
+
 2006-05-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Calc++ Scanner): The flex behavior is an

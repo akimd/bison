@@ -24,20 +24,7 @@ m4_changecom()
 m4_divert(0)dnl
 @output b4_dir_prefix[]position.hh
 b4_copyright([Positions for Bison parsers in C++],
-  [2002, 2003, 2004, 2005, 2006])
-[
-/* As a special exception, you may create a larger work that contains
-   part or all of the Bison parser skeleton and distribute that work
-   under terms of your choice, so long as that work isn't itself a
-   parser generator using the skeleton or a modified version thereof
-   as a parser skeleton.  Alternatively, if you modify or redistribute
-   the parser skeleton itself, you may (at your option) remove this
-   special exception, which will cause the skeleton and the resulting
-   Bison output files to be licensed under the GNU General Public
-   License without this special exception.
-
-   This special exception was added by the Free Software Foundation in
-   version 2.2 of Bison.  */
+  [2002, 2003, 2004, 2005, 2006])[
 
 /**
  ** \file position.hh
@@ -149,20 +136,7 @@ namespace ]b4_namespace[
 #endif // not BISON_POSITION_HH]
 @output b4_dir_prefix[]location.hh
 b4_copyright([Locations for Bison parsers in C++],
-  [2002, 2003, 2004, 2005, 2006])
-[
-/* As a special exception, you may create a larger work that contains
-   part or all of the Bison parser skeleton and distribute that work
-   under terms of your choice, so long as that work isn't itself a
-   parser generator using the skeleton or a modified version thereof
-   as a parser skeleton.  Alternatively, if you modify or redistribute
-   the parser skeleton itself, you may (at your option) remove this
-   special exception, which will cause the skeleton and the resulting
-   Bison output files to be licensed under the GNU General Public
-   License without this special exception.
-
-   This special exception was added by the Free Software Foundation in
-   version 2.2 of Bison.  */
+  [2002, 2003, 2004, 2005, 2006])[
 
 /**
  ** \file location.hh
