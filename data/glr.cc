@@ -46,10 +46,13 @@ m4_divert(-1)                                                       -*- C -*-
 #   user must initialize the first positions (in particular the
 #   filename member).
 
-
 # We require a pure interface using locations.
-m4_define([b4_location_flag], [1])
-m4_define([b4_pure_flag],     [1])
+m4_define([b4_locations_flag], [1])
+m4_define([b4_pure_flag],      [1])
+
+# The header is mandatory.
+b4_defines_if([],
+              [m4_fatal(b4_skeleton[: using %defines is mandatory])])
 
 m4_include(b4_pkgdatadir/[c++.m4])
 m4_include(b4_pkgdatadir/[location.cc])

@@ -20,6 +20,11 @@ m4_divert(-1)
 # 02110-1301  USA
 
 m4_include(b4_pkgdatadir/[c++.m4])
+
+# The header is mandatory.
+b4_defines_if([],
+              [m4_fatal(b4_skeleton[: using %defines is mandatory])])
+
 # Backward compatibility.
 m4_define([b4_location_constructors])
 m4_include(b4_pkgdatadir/[location.cc])

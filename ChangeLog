@@ -1,5 +1,10 @@
 2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
 
+	* data/glr.cc, data/lalr1.cc: Using %defines is mandatory.
+	* data/glr.cc: b4_location_flag is now b4_locations_flag.
+
+2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
+
 	Implement --trace=m4.
 	* src/getargs.c (trace_types, trace_args): Accept trace_m4.
 	* src/output.c (output_skeleton): When set, pass -dV to m4.
