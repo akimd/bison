@@ -1,3 +1,10 @@
+2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
+
+	* src/output.h, src/output.c (error_verbose): Move to...
+	* src/getargs.h, src/getargs.c: here.
+	Sort the flags.
+	Adjust dependencies.
+
 2006-05-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/c.m4 (b4_copyright): Put the special exception for Bison
