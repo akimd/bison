@@ -27,7 +27,7 @@ m4_include(b4_pkgdatadir/[location.cc])
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
 m4_divert(0)dnl
-m4_if(b4_defines_flag, 0, [],
+b4_defines_if(
 [@output @output_header_name@
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
   [2002, 2003, 2004, 2005, 2006])
@@ -59,7 +59,7 @@ b4_syncline([@oline@], [@ofile@])[
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG ]b4_debug[
+# define YYDEBUG ]b4_debug_flag[
 #endif
 
 /* Enabling verbose error messages.  */
@@ -67,7 +67,7 @@ b4_syncline([@oline@], [@ofile@])[
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE ]b4_error_verbose[
+# define YYERROR_VERBOSE ]b4_error_verbose_flag[
 #endif
 
 /* Enabling the token table.  */
@@ -303,8 +303,7 @@ m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
 #define yylex   b4_prefix[]lex])
-m4_if(b4_defines_flag, 0, [],
-[
+b4_defines_if([
 #include @output_header_name@])[
 
 /* User implementation prologue.  */
@@ -580,7 +579,7 @@ b4_syncline([@oline@], [@ofile@])])dnl
 	YYCDEBUG << "Reading a token: ";
 	yychar = ]b4_c_function_call([yylex], [int],
 				     [[YYSTYPE*], [&yylval]][]dnl
-b4_location_if([, [[location*], [&yylloc]]])dnl
+b4_locations_if([, [[location*], [&yylloc]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
 

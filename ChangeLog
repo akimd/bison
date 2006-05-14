@@ -1,5 +1,21 @@
 2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
 
+	Implement --trace=m4.
+	* src/getargs.c (trace_types, trace_args): Accept trace_m4.
+	* src/output.c (output_skeleton): When set, pass -dV to m4.
+
+	Factor the handling of flags in m4.
+	* src/output.c (prepare): Rename the muscle names debug, defines,
+	error_verbose to debug_flag, defines_flag, error_verbose_flag.
+	* data/c.m4: Adjust.
+	(_b4_define_flag_if, b4_define_flag_if, b4_defines_if): New.
+	Use b4_define_flag_if to define other b4_FLAG_if macros.
+	(b4_location_if): As a consequence, rename as...
+	(b4_locations_if): this, for consistency.
+	Adjust all the skeletons.
+
+2006-05-14  Akim Demaille  <akim@lrde.epita.fr>
+
 	* etc/bench.pm: Shorten bench names.
 
 2006-05-14  Akim Demaille  <akim@lrde.epita.fr>

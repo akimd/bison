@@ -74,7 +74,7 @@ m4_define([b4_identification],
 [#]define YYSKELETON_NAME b4_skeleton
 
 /* Pure parsers.  */
-[#]define YYPURE b4_pure
+[#]define YYPURE b4_pure_flag
 
 /* Using locations.  */
 [#]define YYLSP_NEEDED b4_locations_flag
@@ -171,32 +171,42 @@ m4_define([b4_int_type_for],
 ## Decoding options.  ##
 ## ------------------ ##
 
-
-# b4_error_verbose_if(IF-TRUE, IF-FALSE)
-# --------------------------------------
-# Expand IF-TRUE, if errors are verbose, IF-FALSE otherwise.
-m4_define([b4_error_verbose_if],
-[m4_if(b4_error_verbose, [1],
-       [$1],
-       [$2])])
-
-
-# b4_location_if(IF-TRUE, IF-FALSE)
-# ---------------------------------
-# Expand IF-TRUE, if locations are used, IF-FALSE otherwise.
-m4_define([b4_location_if],
-[m4_if(b4_locations_flag, [1],
-       [$1],
-       [$2])])
+# b4_flag_if(FLAG, IF-TRUE, IF-FALSE)
+# -----------------------------------
+# Run IF-TRUE if b4_FLAG_flag is 1, IF-FALSE if FLAG is 0, otherwise fail.
+m4_define([b4_flag_if],
+[m4_case(b4_$1_flag,
+         [0], [$3],
+	 [1], [$2],
+	 [m4_fatal([invalid $1 value: ]$1)])])
 
 
-# b4_pure_if(IF-TRUE, IF-FALSE)
+# b4_define_flag_if(FLAG)
+# -----------------------
+# Define "b4_FLAG_if(IF-TRUE, IF-FALSE)" that depends on the
+# value of the Boolean FLAG.
+m4_define([b4_define_flag_if],
+[_b4_define_flag_if($[1], $[2], [$1])])
+
+# _b4_define_flag_if($1, $2, FLAG)
+# --------------------------------
+# This macro works around the impossibility to define macros
+# inside macros, because issuing `[$1]' is not possible in M4 :(.
+# This sucks hard, GNU M4 should really provide M5 like $$1.
+m4_define([_b4_define_flag_if],
+[m4_if([$1$2], $[1]$[2], [],
+       [m4_fatal([$0: Invalid arguments: $@])])dnl
+m4_define([b4_$3_if], 
+          [b4_flag_if([$3], [$1], [$2])])])
+
+
+# b4_FLAG_if(IF-TRUE, IF-FALSE)
 # -----------------------------
-# Expand IF-TRUE, if %pure-parser, IF-FALSE otherwise.
-m4_define([b4_pure_if],
-[m4_if(b4_pure, [1],
-       [$1],
-       [$2])])
+# Expand IF-TRUE, if FLAG is true, IF-FALSE otherwise.
+b4_define_flag_if([defines])        # Whether headers are requested.
+b4_define_flag_if([error_verbose])  # Wheter error are verbose.
+b4_define_flag_if([locations])      # Whether locations are tracked.
+b4_define_flag_if([pure])           # Whether the interface is pure.
 
 
 
@@ -393,8 +403,7 @@ m4_define([b4_c_arg],
 # b4_syncline(LINE, FILE)
 # -----------------------
 m4_define([b4_syncline],
-[m4_if(b4_synclines_flag, 1,
-       [[#]line $1 $2])])
+[b4_flag_if([synclines], [[#]line $1 $2])])
 
 
 
@@ -436,11 +445,11 @@ m4_define_default([b4_yydestruct_generate],
     [[const char *yymsg],    [yymsg]],
     [[int yytype],           [yytype]],
     [[YYSTYPE *yyvaluep],    [yyvaluep]][]dnl
-b4_location_if(            [, [[YYLTYPE *yylocationp], [yylocationp]]])[]dnl
+b4_locations_if(            [, [[YYLTYPE *yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   YYUSE (yyvaluep);
-]b4_location_if([  YYUSE (yylocationp);
+]b4_locations_if([  YYUSE (yylocationp);
 ])dnl
 b4_parse_param_use[]dnl
 [
@@ -475,12 +484,12 @@ m4_define_default([b4_yy_symbol_print_generate],
 	       [[FILE *yyoutput],                       [yyoutput]],
 	       [[int yytype],                           [yytype]],
 	       [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
-b4_location_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
+b4_locations_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   if (!yyvaluep)
     return;
-]b4_location_if([  YYUSE (yylocationp);
+]b4_locations_if([  YYUSE (yylocationp);
 ])dnl
 b4_parse_param_use[]dnl
 [# ifdef YYPRINT
@@ -507,7 +516,7 @@ b4_parse_param_use[]dnl
 	       [[FILE *yyoutput],                       [yyoutput]],
 	       [[int yytype],                           [yytype]],
 	       [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
-b4_location_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
+b4_locations_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   if (yytype < YYNTOKENS)
@@ -515,11 +524,11 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
   else
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
-]b4_location_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
+]b4_locations_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
   YYFPRINTF (yyoutput, ": ");
 ])dnl
 [  yy_symbol_value_print (yyoutput, yytype, yyvaluep]dnl
-b4_location_if([, yylocationp])[]b4_user_args[);
+b4_locations_if([, yylocationp])[]b4_user_args[);
   YYFPRINTF (yyoutput, ")");
 }]dnl
 ])

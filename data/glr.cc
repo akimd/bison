@@ -49,7 +49,7 @@ m4_divert(-1)                                                       -*- C -*-
 
 # We require a pure interface using locations.
 m4_define([b4_location_flag], [1])
-m4_define([b4_pure],          [1])
+m4_define([b4_pure_flag],     [1])
 
 m4_include(b4_pkgdatadir/[c++.m4])
 m4_include(b4_pkgdatadir/[location.cc])
@@ -80,7 +80,7 @@ m4_define([b4_yy_symbol_print_generate],
     b4_parse_param)[
 {
 ]b4_parse_param_use[]dnl
-[  yyparser.yy_symbol_print_ (yytype, yyvaluep]b4_location_if([, yylocationp])[);
+[  yyparser.yy_symbol_print_ (yytype, yyvaluep]b4_locations_if([, yylocationp])[);
 }
 ]])
 
@@ -243,7 +243,7 @@ b4_syncline([@oline@], [@ofile@])[
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG ]b4_debug[
+# define YYDEBUG ]b4_debug_flag[
 #endif
 
 /* Enabling verbose error messages.  */
@@ -251,7 +251,7 @@ b4_syncline([@oline@], [@ofile@])[
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE ]b4_error_verbose[
+# define YYERROR_VERBOSE ]b4_error_verbose_flag[
 #endif
 
 /* Enabling the token table.  */

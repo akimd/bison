@@ -73,6 +73,7 @@ enum trace
     trace_grammar   = 1 << 7,
     trace_time      = 1 << 8,
     trace_skeleton  = 1 << 9,
+    trace_m4        = 1 << 10,
     trace_all       = ~0
   };
 extern int trace_flag;
