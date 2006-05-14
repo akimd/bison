@@ -16,7 +16,7 @@
 
 	* examples/extexi: Enforce the precedence of concatenation over
 	>>.
-	Reported by   tommy.nordgren@chello.se
+	Reported by Tommy Nordgren.
 
 2006-05-11  Akim Demaille  <akim@lrde.epita.fr>
 
