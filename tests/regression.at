@@ -21,6 +21,32 @@
 AT_BANNER([[Regression tests.]])
 
 
+## ------------------ ##
+## Trivial grammars.  ##
+## ------------------ ##
+
+AT_SETUP([Trivial grammars])
+
+AT_DATA_GRAMMAR([input.y],
+[[%{
+void yyerror (char const *);
+int yylex (void);
+%}
+
+%error-verbose
+
+%%
+
+program: 'x';
+]])
+
+AT_CHECK([bison -o input.c input.y])
+AT_COMPILE([input.o], [-c input.c])
+
+AT_CLEANUP
+
+
+
 ## ------------------------- ##
 ## Early token definitions.  ##
 ## ------------------------- ##
