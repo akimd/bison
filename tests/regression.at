@@ -824,7 +824,7 @@ static int
 yylex (AT_LALR1_CC_IF([int *lval], [void]))
 [{
   static int toknum = 0;
-  int tokens[] =
+  static int tokens[] =
     {
       ':', -1
     };
@@ -864,3 +864,100 @@ AT_CLEANUP
 AT_CHECK_DANCER()
 AT_CHECK_DANCER([%glr-parser])
 AT_CHECK_DANCER([%skeleton "lalr1.cc"])
+
+
+## ------------------------------------------ ##
+## Diagnostic that expects two alternatives.  ##
+## ------------------------------------------ ##
+
+
+# _AT_DATA_EXPECT2_Y(BISON-OPTIONS)
+# --------------------------------
+m4_define([_AT_DATA_EXPECT2_Y],
+[AT_DATA_GRAMMAR([expect2.y],
+[%{
+static int yylex (AT_LALR1_CC_IF([int *], [void]));
+AT_LALR1_CC_IF([],
+[#include <stdio.h>
+static void yyerror (const char *);])
+%}
+$1
+%defines
+%error-verbose
+%token A 1000
+%token B
+
+%%
+program: /* empty */
+ | program e ';'
+ | program error ';';
+
+e: e '+' t | t;
+t: A | B;
+
+%%
+AT_LALR1_CC_IF(
+[/* A C++ error reporting function. */
+void
+yy::parser::error (const location&, const std::string& m)
+{
+  std::cerr << m << std::endl;
+}
+
+int
+yyparse ()
+{
+  yy::parser parser;
+  return parser.parse ();
+}
+],
+[static void
+yyerror (const char *s)
+{
+  fprintf (stderr, "%s\n", s);
+}])
+
+static int
+yylex (AT_LALR1_CC_IF([int *lval], [void]))
+[{
+  static int toknum = 0;
+  static int tokens[] =
+    {
+      1000, '+', '+', -1
+    };
+  ]AT_LALR1_CC_IF([*lval = 0; /* Pacify GCC.  */])[
+  return tokens[toknum++];
+}]
+
+int
+main (void)
+{
+  return yyparse ();
+}
+])
+])# _AT_DATA_EXPECT2_Y
+
+
+# AT_CHECK_EXPECT2(BISON-OPTIONS)
+# ------------------------------
+# Generate the grammar, compile it, run it.
+m4_define([AT_CHECK_EXPECT2],
+[AT_SETUP([Expecting two tokens $1])
+AT_BISON_OPTION_PUSHDEFS([$1])
+_AT_DATA_EXPECT2_Y([$1])
+AT_CHECK([bison -o expect2.c expect2.y])
+AT_LALR1_CC_IF(
+  [AT_CHECK([bison -o expect2.cc expect2.y])
+   AT_COMPILE_CXX([expect2])],
+  [AT_CHECK([bison -o expect2.c expect2.y])
+   AT_COMPILE([expect2])])
+AT_PARSER_CHECK([./expect2], 1, [],
+[syntax error, unexpected '+', expecting A or B
+])
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+])
+
+AT_CHECK_EXPECT2()
+AT_CHECK_EXPECT2([%glr-parser])
+AT_CHECK_EXPECT2([%skeleton "lalr1.cc"])

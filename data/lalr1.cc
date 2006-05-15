@@ -838,14 +838,14 @@ b4_error_verbose_if([, int tok])[)
     YYUSE (yystate);
 #if YYERROR_VERBOSE
     int yyn = yypact_[yystate];
-    if (yypact_ninf_ < yyn && yyn < yylast_)
+    if (yypact_ninf_ < yyn && yyn <= yylast_)
       {
 	/* Start YYX at -YYN if negative to avoid negative indexes in
 	   YYCHECK.  */
 	int yyxbegin = yyn < 0 ? -yyn : 0;
 
 	/* Stay within bounds of both yycheck and yytname.  */
-	int yychecklim = yylast_ - yyn;
+	int yychecklim = yylast_ - yyn + 1;
 	int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
 	int count = 0;
 	for (int x = yyxbegin; x < yyxend; ++x)
