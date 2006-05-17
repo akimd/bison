@@ -1,3 +1,16 @@
+2006-05-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/glr.c (yyreportTree): Make room in yystates for the state
+	preceding the RHS.  This fixes the segmentation fault reported by Derek
+	M. Jones in
+	<http://lists.gnu.org/archive/html/help-bison/2006-05/msg00035.html>.
+	(yyreportTree, yypdumpstack): Subtract 1 from yyrule before printing
+	to the user.  Reported for yyreportTree by Derek M. Jones later in the
+	same thread.
+	* THANKS: Add Derek M. Jones.
+	Update my email address.
+	Fix typo in Steve Murphy's name.
+
 2006-05-14  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (yyreportSyntaxError): Fix off-by-one error in
