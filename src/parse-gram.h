@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.1b.  */
+/* A Bison parser, made by GNU Bison 2.2.  */
 
 /* Skeleton interface for Bison's Yacc-like parsers in C
 
@@ -148,7 +148,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 94 "../../src/parse-gram.y"
+#line 94 "parse-gram.y"
 {
   symbol *symbol;
   symbol_list *list;
@@ -158,7 +158,7 @@ typedef union YYSTYPE
   uniqstr uniqstr;
 }
 /* Line 1528 of yacc.c.  */
-#line 162 "../../src/parse-gram.h"
+#line 162 "parse-gram.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -179,7 +179,5 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_DECLARED 1
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
-
-
 
 
