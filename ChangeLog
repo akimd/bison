@@ -1,6 +1,6 @@
 2006-05-19  Paul Eggert  <eggert@cs.ucla.edu>
 
-	* NEWS: Version 2.1.
+	* NEWS: Version 2.2.
 	* configure.ac (AC_INIT): Likewise.
 
 2006-05-17  Joel E. Denny  <jdenny@ces.clemson.edu>
