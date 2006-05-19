@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 2.2, 2006-05-09:
+Changes in version 2.2, 2006-05-19:
 
 * The distribution terms for all Bison-generated parsers now permit
   using the parsers in nonfree programs.  Previously, this permission
@@ -79,7 +79,7 @@ Changes in version 2.2, 2006-05-09:
   for previous releases of Bison, and this one.
 
   If you wish to update, then make sure older version of Bison will
-  fail using `%require "2.1a"'.
+  fail using `%require "2.2"'.
 
 * DJGPP support added.
 
