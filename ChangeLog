@@ -1,5 +1,14 @@
 2006-05-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* data/yacc.c (yyparse): Wrap the final return from yyparse inside YYID
+	to make sure that YYID will never be unused.  This fixes a 'make
+	maintainer-check' failure caused by the recent changes to the 'Trivial
+	grammars' test case, which caused g++ 4.1.0 to complain that YYID was
+	not used.
+	* data/glr.c (yyparse): Wrap yyparse's return inside YYID just in case.
+
+2006-05-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* data/glr.c (yyresolveLocations): Remove bogus YYASSERT that the
 	state before an empty RHS is always resolved here.  Only the location
 	of that state is guaranteed to be resolved, and that's enough.  This
