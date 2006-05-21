@@ -483,8 +483,8 @@ m4_define_default([b4_yy_symbol_print_generate],
     [static void],
 	       [[FILE *yyoutput],                       [yyoutput]],
 	       [[int yytype],                           [yytype]],
-	       [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
-b4_locations_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
+	       [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
+b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   if (!yyvaluep)
@@ -515,8 +515,8 @@ b4_parse_param_use[]dnl
     [static void],
 	       [[FILE *yyoutput],                       [yyoutput]],
 	       [[int yytype],                           [yytype]],
-	       [[const YYSTYPE * const yyvaluep],       [yyvaluep]][]dnl
-b4_locations_if([, [[const YYLTYPE * const yylocationp], [yylocationp]]])[]dnl
+	       [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
+b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   if (yytype < YYNTOKENS)

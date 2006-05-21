@@ -3067,6 +3067,8 @@ specify some other type, define @code{YYSTYPE} as a macro, like this:
 @end example
 
 @noindent
+@code{YYSTYPE}'s replacement list should be a type name
+that does not contain parentheses or square brackets.
 This macro definition must go in the prologue of the grammar file
 (@pxref{Grammar Outline, ,Outline of a Bison Grammar}).
 
@@ -3463,7 +3465,9 @@ actions to take when rules are matched.
 Defining a data type for locations is much simpler than for semantic values,
 since all tokens and groupings always use the same type.
 
-The type of locations is specified by defining a macro called @code{YYLTYPE}.
+You can specify the type of locations by defining a macro called
+@code{YYLTYPE}, just as you can specify the semantic value type by
+defining @code{YYSTYPE} (@pxref{Value Type}).
 When @code{YYLTYPE} is not defined, Bison uses a default structure type with
 four members:
 

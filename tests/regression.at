@@ -31,6 +31,7 @@ AT_DATA_GRAMMAR([input.y],
 [[%{
 void yyerror (char const *);
 int yylex (void);
+#define YYSTYPE int *
 %}
 
 %error-verbose
@@ -42,6 +43,7 @@ program: 'x';
 
 AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([input.o], [-DYYDEBUG -c input.c])
 
 AT_CLEANUP
 
