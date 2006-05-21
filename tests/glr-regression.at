@@ -1606,17 +1606,22 @@ AT_DATA_GRAMMAR([glr-regr17.y],
 
 %%
 
+/* Tests the case of an empty RHS that has inherited the location of the
+   previous nonterminal, which is unresolved.  That location is reported as the
+   last position of the ambiguity.  */
+start: ambig1 empty1 | ambig2 empty2 ;
+
 /* Tests multiple levels of yyresolveLocations recursion.  */
-start: ambig1 | ambig2 ;
 ambig1: sub_ambig1 | sub_ambig2 ;
 ambig2: sub_ambig1 | sub_ambig2 ;
 
-/* Tests non-empty RHS as well as empty RHS with either initial location or
-   location of previous token.  Both empty RHS locations are printed in the
-   error message.  */
-sub_ambig1: empty 'a' 'b' empty ;
-sub_ambig2: empty 'a' 'b' empty ;
-empty: ;
+/* Tests the case of a non-empty RHS as well as the case of an empty RHS that
+   has inherited the initial location.  The empty RHS's location is reported as
+   the first position in the ambiguity.  */
+sub_ambig1: empty1 'a' 'b' ;
+sub_ambig2: empty2 'a' 'b' ;
+empty1: ;
+empty2: ;
 
 %%
 

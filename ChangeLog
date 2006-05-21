@@ -1,3 +1,18 @@
+2006-05-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/glr.c (yyresolveLocations): Remove bogus YYASSERT that the
+	state before an empty RHS is always resolved here.  Only the location
+	of that state is guaranteed to be resolved, and that's enough.  This
+	fixes the remaining bug reported by Derek M. Jones in
+	<http://lists.gnu.org/archive/html/bug-bison/2006-05/msg00027.html>.
+	* tests/glr-regression.at (Uninitialized location when reporting
+	ambiguity): Test the above case.
+	Also, the embedded comments in this test case claim it checks the case
+	of an empty RHS that has inherited the initial location.  However, the
+	corresponding LHS was already resolved, so yyresolveLocations didn't
+	actually have reason to modify it.  Fix this by forcing
+	nondeterministic operation at the beginning of the parse.
+
 2006-05-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/c.m4 (b4_yy_symbol_print_generate):
