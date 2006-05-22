@@ -1,3 +1,12 @@
+2006-05-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* Makefile.maint (gzip_rsyncable, GZIP_ENV): Compute within the
+	shell, not within 'make', so that 'make' by an ordinary builder
+	(using GNU make) does not worry about configuring gzip.  This also
+	works around a bug reported independently by Keith Thompson and by
+	Georg Schwarz, whereby gzip 1.2.4 --help would output usage on
+	stderr rather than stdout, messing up the build logs.
+
 2006-05-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/yacc.c (yyparse): Wrap the final return from yyparse inside YYID
