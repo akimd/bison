@@ -113,17 +113,17 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 3.3.:   To build the binaries you will need the following binary packages:
 	  djdev203.zip (or a later but NOT a prior version)
 	  bsh204b.zip  (or a later but NOT a prior version)
-	  gcc400b.zip, gpp400b.zip, bnu215b.zip, mak3791b.zip,
+	  gcc410b.zip, gpp410b.zip, bnu2161b.zip, mak3791b.zip,
 	  fil40b.zip, shl20jb.zip, txt20b.zip,
-	  txi48b.zip, grep24b.zip, sed414b.zip,
+	  txi48b.zip, grep24b.zip, sed415b.zip,
 	  m4-144b.zip.
 
 	If you want to run the check you will need also:
-	  dif281b.zip
+	  dif287b.zip
 
 	All this packages can be found in the v2gnu directory of any
 	ftp.delorie.com mirror.
-	You will need bsh203b.zip or later and *NOT* a prior version or
+	You will need bsh204b.zip or later and *NOT* a prior version or
 	the build will fail.  The same applies to djdev203.zip.  Please note
 	that Bison requires m4-144b.zip or later to work properly.  All the
 	other packages are the ones I have used to build the binaries
@@ -167,9 +167,10 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	command:
 	  make check
 
-	No test should fail.
-	Please note that the testsuite only works with LFN available.  On plain
-	DOS, most of the tests will fail due to invalid DOS names.
+	No test should fail but the tests #131 (Doxygen Public Documentation)
+	and #132 (Doxygen Private Documentation) will be skipped.  Please note
+	that the testsuite only works with LFN available.  On plain DOS, most
+	of the tests will fail due to invalid DOS names.
 
 3.7.:   To install the binaries, header, library, catalogs, and info docs
 	run the following command from the top srcdir:
