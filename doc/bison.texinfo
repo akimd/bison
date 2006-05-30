@@ -331,9 +331,9 @@ Copying This Manual
 @unnumbered Introduction
 @cindex introduction
 
-@dfn{Bison} is a general-purpose parser generator that converts a grammar
-description for an @acronym{LALR}(1) or @acronym{GLR} context-free grammar
-into a C or C++ program to parse that grammar.  Once you are proficient with
+@dfn{Bison} is a general-purpose parser generator that converts an
+annotated context-free grammar into an @acronym{LALR}(1) or
+@acronym{GLR} parser for that grammar.  Once you are proficient with
 Bison, you can use it to develop a wide range of language parsers, from those
 used in simple desk calculators to complex programming languages.
 

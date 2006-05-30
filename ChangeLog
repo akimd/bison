@@ -1,3 +1,8 @@
+2006-05-29  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Introduction): Don't say "GLR grammar".
+	Problem reported by Akim Demaille.
+
 2006-05-29  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/getargs.c (usage): Mention GLR not just LALR(1) in --help output.
