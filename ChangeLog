@@ -1,3 +1,9 @@
+2006-05-30  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/getargs.c (usage): Back out yesterday's modification of the
+	--help output so that we don't have to wait for translation before
+	releasing 2.3.
+
 2006-05-29  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo (Introduction): Don't say "GLR grammar".
