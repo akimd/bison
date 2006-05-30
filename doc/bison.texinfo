@@ -4892,8 +4892,9 @@ the @samp{YYERROR;} statement.  @xref{Error Recovery}.
 @end deffn
 
 @deffn {Macro} YYRECOVERING
-This macro stands for an expression that has the value 1 when the parser
-is recovering from a syntax error, and 0 the rest of the time.
+@findex YYRECOVERING
+The expression @code{YYRECOVERING ()} yields 1 when the parser
+is recovering from a syntax error, and 0 otherwise.
 @xref{Error Recovery}.
 @end deffn
 
@@ -6003,10 +6004,10 @@ probably correct.  The previous look-ahead token ought to be discarded
 with @samp{yyclearin;}.
 
 @vindex YYRECOVERING
-The macro @code{YYRECOVERING} stands for an expression that has the
-value 1 when the parser is recovering from a syntax error, and 0 the
-rest of the time.  A value of 1 indicates that error messages are
-currently suppressed for new syntax errors.
+The expression @code{YYRECOVERING ()} yields 1 when the parser
+is recovering from a syntax error, and 0 otherwise.
+Syntax error diagnostics are suppressed while recovering from a syntax
+error.
 
 @node Context Dependency
 @chapter Handling Context Dependencies
@@ -8469,8 +8470,9 @@ Conventions for Pure Parsers}.
 @end deffn
 
 @deffn {Macro} YYRECOVERING
-Macro whose value indicates whether the parser is recovering from a
-syntax error.  @xref{Action Features, ,Special Features for Use in Actions}.
+The expression @code{YYRECOVERING ()} yields 1 when the parser
+is recovering from a syntax error, and 0 otherwise.
+@xref{Action Features, ,Special Features for Use in Actions}.
 @end deffn
 
 @deffn {Macro} YYSTACK_USE_ALLOCA
