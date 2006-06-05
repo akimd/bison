@@ -1,3 +1,8 @@
+2006-06-05  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Version 2.3.
+	* configure.ac (AC_INIT): Likewise.
+
 2006-05-30  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (YYRECOVERING): Define to be a function-like macro

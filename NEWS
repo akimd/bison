@@ -1,6 +1,14 @@
 Bison News
 ----------
 
+Changes in version 2.3, 2006-06-05:
+
+* GLR grammars should now use `YYRECOVERING ()' instead of `YYRECOVERING',
+  for compatibility with LALR(1) grammars.
+
+* It is now documented that any definition of YYSTYPE or YYLTYPE should
+  be to a type name that does not contain parentheses or brackets.
+
 Changes in version 2.2, 2006-05-19:
 
 * The distribution terms for all Bison-generated parsers now permit
