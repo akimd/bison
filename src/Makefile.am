@@ -52,6 +52,7 @@ bison_SOURCES =					  \
 	print_graph.c print_graph.h		  \
 	reader.c reader.h			  \
 	reduce.c reduce.h			  \
+	revision.c revision.h			  \
 	relation.c relation.h			  \
 	scan-gram-c.c				  \
 	scan-skel-c.c scan-skel.h		  \
@@ -66,7 +67,7 @@ bison_SOURCES =					  \
 
 EXTRA_bison_SOURCES = scan-skel.l scan-gram.l
 
-BUILT_SOURCES = scan-skel.c scan-gram.c parse-gram.c parse-gram.h
+BUILT_SOURCES = revision.c scan-skel.c scan-gram.c parse-gram.c parse-gram.h
 
 MOSTLYCLEANFILES = yacc
 
@@ -77,6 +78,16 @@ yacc:
 
 echo:
 	echo $(bison_SOURCES) $(noinst_HEADERS)
+
+revision.c: $(top_srcdir)/configure $(top_srcdir)/ChangeLog
+	case "$(VERSION)" in \
+	  *+*) sed -n \
+	    's/^\$$\(Id.*\)\$$$$/const char *revision = "\1\\n";/p' \
+	    $(top_srcdir)/ChangeLog \
+	    ;; \
+	  *) echo 'const char *revision = "";' \
+	    ;; \
+	esac >$@
 
 # The following rule is not designed to be portable,
 # and relies on tools that not everyone has.

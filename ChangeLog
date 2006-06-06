@@ -1,3 +1,22 @@
+$Id$
+
+2006-06-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Between Bison releases, manually append `+' to the previous Bison
+	release number, and use that as a signal to automatically print the
+	ChangeLog's CVS Id keyword from --version.  Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-05/msg00028.html>.
+	* ChangeLog: Add Id header.
+	* configure.ac (AC_INIT): Append `+' to `2.3'.
+	* src/.cvsignore: Add revision.c.
+	* src/Makefile.am (bison_SOURCES): Add revision.c and revision.h.
+	(BUILT_SOURCES): Add revision.c.
+	(revision.c): New target rule.  This file defines a new global variable
+	named revision.  It initializes it with either the Id from ChangeLog
+	or, if VERSION doesn't contain `+', with the empty string.
+	* src/getargs.c (version): Print the value of revision.
+	* src/revision.h: Extern revision.
+
 2006-06-05  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Version 2.3.

@@ -5,6 +5,7 @@
 Makefile
 Makefile.in
 bison
+revision.c
 scan-gram.c
 scan-skel.c
 yacc
