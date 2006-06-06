@@ -2,6 +2,12 @@ $Id$
 
 2006-06-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* src/getargs.c (usage): Mention GLR not just LALR(1) in --help output.
+	Use Akim's wording from
+	<http://lists.gnu.org/archive/html/bison-patches/2006-05/msg00056.html>.
+
+2006-06-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Between Bison releases, manually append `+' to the previous Bison
 	release number, and use that as a signal to automatically print the
 	ChangeLog's CVS Id keyword from --version.  Discussed starting at
