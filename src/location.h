@@ -40,6 +40,15 @@ typedef struct
 
 } boundary;
 
+/* Set the position of \a a. */
+static inline void
+boundary_set (boundary *b, const char *f, int l, int c)
+{
+  b->file = f;	
+  b->line = l;		
+  b->column = c;		
+}
+
 /* Return nonzero if A and B are equal boundaries.  */
 static inline bool
 equal_boundaries (boundary a, boundary b)
@@ -63,6 +72,11 @@ typedef struct
 #define YYLTYPE location
 
 extern location const empty_location;
+
+/* Set *LOC and adjust scanner cursor to account for token TOKEN of
+   size SIZE.  */
+void location_compute (location *loc,
+		       boundary *cur, char const *token, size_t size);
 
 void location_print (FILE *out, location loc);
 

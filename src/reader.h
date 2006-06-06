@@ -35,26 +35,6 @@ typedef struct merger_list
   uniqstr type;
 } merger_list;
 
-/* From the scanner.  */
-extern FILE *gram_in;
-extern int gram__flex_debug;
-extern boundary scanner_cursor;
-extern char *last_string;
-extern location last_braced_code_loc;
-extern int max_left_semantic_context;
-void scanner_initialize (void);
-void scanner_free (void);
-void scanner_last_string_free (void);
-
-/* These are declared by the scanner, but not used.  We put them here
-   to pacify "make syntax-check".  */
-extern FILE *gram_out;
-extern int gram_lineno;
-
-# define YY_DECL int gram_lex (YYSTYPE *val, location *loc)
-YY_DECL;
-
-
 /* From the parser.  */
 extern int gram_debug;
 int gram_parse (void);

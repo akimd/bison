@@ -1,4 +1,4 @@
-## Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ bison_SOURCES =					  \
 	conflicts.c conflicts.h			  \
 	derives.c derives.h			  \
 	files.c files.h				  \
+	flex-scanner.h				  \
 	getargs.c getargs.h			  \
 	gram.c gram.h				  \
 	lalr.h lalr.c				  \
@@ -54,8 +55,9 @@ bison_SOURCES =					  \
 	reduce.c reduce.h			  \
 	revision.c revision.h			  \
 	relation.c relation.h			  \
-	scan-gram-c.c				  \
-	scan-skel-c.c scan-skel.h		  \
+	scan-code.h scan-code-c.c		  \
+	scan-gram.h scan-gram-c.c		  \
+	scan-skel.h scan-skel-c.c		  \
 	state.c state.h				  \
 	symlist.c symlist.h			  \
 	symtab.c symtab.h			  \
@@ -65,15 +67,20 @@ bison_SOURCES =					  \
 	vcg.c vcg.h				  \
 	vcg_defaults.h
 
-EXTRA_bison_SOURCES = scan-skel.l scan-gram.l
+EXTRA_bison_SOURCES = scan-code.l scan-skel.l scan-gram.l
 
-BUILT_SOURCES = revision.c scan-skel.c scan-gram.c parse-gram.c parse-gram.h
+BUILT_SOURCES =					\
+parse-gram.c parse-gram.h			\
+revision.c					\
+scan-code.c					\
+scan-skel.c					\
+scan-gram.c 					\
 
 MOSTLYCLEANFILES = yacc
 
 yacc:
 	echo '#! /bin/sh' >$@
-	echo 'exec $(bindir)/bison -y "$$@"' >>$@
+	echo "exec '$(bindir)/bison' -y \"$$@\"" >>$@
 	chmod a+x $@
 
 echo:

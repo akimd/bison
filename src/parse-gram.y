@@ -32,6 +32,8 @@
 #include "quotearg.h"
 #include "reader.h"
 #include "symlist.h"
+#include "scan-gram.h"
+#include "scan-code.h"
 #include "strverscmp.h"
 
 #define YYLLOC_DEFAULT(Current, Rhs, N)  (Current) = lloc_default (Rhs, N)
@@ -84,9 +86,8 @@ static int current_prec = 0;
 {
   /* Bison's grammar can initial empty locations, hence a default
      location is needed. */
-  @$.start.file   = @$.end.file   = current_file;
-  @$.start.line   = @$.end.line   = 1;
-  @$.start.column = @$.end.column = 0;
+  boundary_set (&@$.start, current_file, 1, 0);
+  boundary_set (&@$.end, current_file, 1, 0);
 }
 
 /* Only NUMBERS have a value.  */
@@ -109,8 +110,8 @@ static int current_prec = 0;
 %token PERCENT_NTERM       "%nterm"
 
 %token PERCENT_TYPE        "%type"
-%token PERCENT_DESTRUCTOR  "%destructor {...}"
-%token PERCENT_PRINTER     "%printer {...}"
+%token PERCENT_DESTRUCTOR  "%destructor"
+%token PERCENT_PRINTER     "%printer"
 
 %token PERCENT_UNION       "%union {...}"
 
@@ -137,8 +138,8 @@ static int current_prec = 0;
   PERCENT_EXPECT_RR	  "%expect-rr"
   PERCENT_FILE_PREFIX     "%file-prefix"
   PERCENT_GLR_PARSER      "%glr-parser"
-  PERCENT_INITIAL_ACTION  "%initial-action {...}"
-  PERCENT_LEX_PARAM       "%lex-param {...}"
+  PERCENT_INITIAL_ACTION  "%initial-action"
+  PERCENT_LEX_PARAM       "%lex-param"
   PERCENT_LOCATIONS       "%locations"
   PERCENT_NAME_PREFIX     "%name-prefix"
   PERCENT_NO_DEFAULT_PREC "%no-default-prec"
@@ -146,7 +147,7 @@ static int current_prec = 0;
   PERCENT_NONDETERMINISTIC_PARSER
 			  "%nondeterministic-parser"
   PERCENT_OUTPUT          "%output"
-  PERCENT_PARSE_PARAM     "%parse-param {...}"
+  PERCENT_PARSE_PARAM     "%parse-param"
   PERCENT_PURE_PARSER     "%pure-parser"
   PERCENT_REQUIRE	  "%require"
   PERCENT_SKELETON        "%skeleton"
@@ -167,23 +168,14 @@ static int current_prec = 0;
 %token EPILOGUE        "epilogue"
 %token BRACED_CODE     "{...}"
 
-
 %type <chars> STRING string_content
-	      "%destructor {...}"
-	      "%initial-action {...}"
-	      "%lex-param {...}"
-	      "%parse-param {...}"
-	      "%printer {...}"
+	      "{...}"
 	      "%union {...}"
 	      PROLOGUE EPILOGUE
 %printer { fprintf (stderr, "\"%s\"", $$); }
 	      STRING string_content
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
-	      "%destructor {...}"
-	      "%initial-action {...}"
-	      "%lex-param {...}"
-	      "%parse-param {...}"
-	      "%printer {...}"
+	      "{...}"
 	      "%union {...}"
 	      PROLOGUE EPILOGUE
 %type <uniqstr> TYPE
@@ -214,7 +206,8 @@ declarations:
 
 declaration:
   grammar_declaration
-| PROLOGUE                                 { prologue_augment ($1, @1); }
+| PROLOGUE                         { prologue_augment (translate_code ($1, @1),
+						       @1); }
 | "%debug"                                 { debug_flag = true; }
 | "%define" string_content
     {
@@ -232,17 +225,17 @@ declaration:
       nondeterministic_parser = true;
       glr_parser = true;
     }
-| "%initial-action {...}"
+| "%initial-action" "{...}"
     {
-      muscle_code_grow ("initial_action", $1, @1);
+      muscle_code_grow ("initial_action", translate_symbol_action ($2, @2), @2);
     }
-| "%lex-param {...}"			   { add_param ("lex_param", $1, @1); }
+| "%lex-param" "{...}"			   { add_param ("lex_param", $2, @2); }
 | "%locations"                             { locations_flag = true; }
 | "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
 | "%no-lines"                              { no_lines_flag = true; }
 | "%nondeterministic-parser"		   { nondeterministic_parser = true; }
 | "%output" "=" string_content             { spec_outfile = $3; }
-| "%parse-param {...}"			   { add_param ("parse_param", $1, @1); }
+| "%parse-param" "{...}"		   { add_param ("parse_param", $2, @2); }
 | "%pure-parser"                           { pure_parser = true; }
 | "%require" string_content                { version_check (&@2, $2); }
 | "%skeleton" string_content               { skeleton = $2; }
@@ -275,19 +268,21 @@ grammar_declaration:
       typed = true;
       muscle_code_grow ("stype", body, @1);
     }
-| "%destructor {...}" symbols.1
+| "%destructor" "{...}" symbols.1
     {
       symbol_list *list;
-      for (list = $2; list; list = list->next)
-	symbol_destructor_set (list->sym, $1, @1);
-      symbol_list_free ($2);
+      const char *action = translate_symbol_action ($2, @2);
+      for (list = $3; list; list = list->next)
+ 	symbol_destructor_set (list->sym, action, @2);
+      symbol_list_free ($3);
     }
-| "%printer {...}" symbols.1
+| "%printer" "{...}" symbols.1
     {
       symbol_list *list;
-      for (list = $2; list; list = list->next)
-	symbol_printer_set (list->sym, $1, @1);
-      symbol_list_free ($2);
+      const char *action = translate_symbol_action ($2, @2);
+      for (list = $3; list; list = list->next)
+	symbol_printer_set (list->sym, action, @2);
+      symbol_list_free ($3);
     }
 | "%default-prec"
     {
@@ -346,7 +341,6 @@ type.opt:
 ;
 
 /* One or more nonterminals to be %typed. */
-
 symbols.1:
   symbol            { $$ = symbol_list_new ($1, @1); }
 | symbols.1 symbol  { $$ = symbol_list_prepend ($1, $2, @2); }
@@ -426,7 +420,9 @@ rhs:
     { grammar_current_rule_begin (current_lhs, current_lhs_location); }
 | rhs symbol
     { grammar_current_rule_symbol_append ($2, @2); }
-| rhs action
+| rhs "{...}"
+    { grammar_current_rule_action_append (gram_last_string,
+					  gram_last_braced_code_loc); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3, @3); }
 | rhs "%dprec" INT
@@ -438,23 +434,6 @@ rhs:
 symbol:
   ID              { $$ = $1; }
 | string_as_id    { $$ = $1; }
-;
-
-/* Handle the semantics of an action specially, with a mid-rule
-   action, so that grammar_current_rule_action_append is invoked
-   immediately after the braced code is read by the scanner.
-
-   This implementation relies on the LALR(1) parsing algorithm.
-   If grammar_current_rule_action_append were executed in a normal
-   action for this rule, then when the input grammar contains two
-   successive actions, the scanner would have to read both actions
-   before reducing this rule.  That wouldn't work, since the scanner
-   relies on all preceding input actions being processed by
-   grammar_current_rule_action_append before it scans the next
-   action.  */
-action:
-    { grammar_current_rule_action_append (last_string, last_braced_code_loc); }
-  BRACED_CODE
 ;
 
 /* A string used as an ID: quote it.  */
@@ -477,8 +456,8 @@ epilogue.opt:
   /* Nothing.  */
 | "%%" EPILOGUE
     {
-      muscle_code_grow ("epilogue", $2, @2);
-      scanner_last_string_free ();
+      muscle_code_grow ("epilogue", translate_code ($2, @2), @2);
+      gram_scanner_last_string_free ();
     }
 ;
 
@@ -563,7 +542,7 @@ add_param (char const *type, char *decl, location loc)
       free (name);
     }
 
-  scanner_last_string_free ();
+  gram_scanner_last_string_free ();
 }
 
 static void

@@ -113,6 +113,8 @@ char *base_name (char const *name);
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
 
+#define FUNCTION_PRINT() fprintf (stderr, "%s: ", __func__)
+
 /*------.
 | NLS.  |
 `------*/

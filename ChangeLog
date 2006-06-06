@@ -1,4 +1,65 @@
-$Id$
+2006-06-06  Akim Demaille  <akim@epita.fr>
+
+	Extract the parsing of user actions from the grammar scanner.
+	As a consequence, the relation between the grammar scanner and
+	parser is much simpler.  We can also split "composite tokens" back
+	into simple tokens.
+	* src/gram.h (ITEM_NUMBER_MAX, RULE_NUMBER_MAX): New.
+	* src/scan-gram.l (add_column_width, adjust_location): Move to and
+	rename as...
+	* src/location.h, src/location.c (add_column_width)
+	(location_compute): these.
+	Fix the column count: the initial column is 0.
+	(location_print): Be robust to ending column being 0.
+	* src/location.h (boundary_set): New.
+	* src/main.c: Adjust to scanner_free being renamed as
+	gram_scanner_free.
+	* src/output.c: Include scan-code.h.
+	* src/parse-gram.y: Include scan-gram.h and scan-code.h.
+	Use boundary_set.
+	(PERCENT_DESTRUCTOR, PERCENT_PRINTER, PERCENT_INITIAL_ACTION)
+	(PERCENT_LEX_PARAM, PERCENT_PARSE_PARAM): Remove the {...} part,
+	which is now, again, a separate token.
+	Adjust all dependencies.
+	Whereever actions with $ and @ are used, use translate_code.
+	(action): Remove this nonterminal which is now useless.
+	* src/reader.c: Include assert.h, scan-gram.h and scan-code.h.
+	(grammar_current_rule_action_append): Use translate_code.
+	(packgram): Bound check ruleno, itemno, and rule_length.
+	* src/reader.h (gram_in, gram__flex_debug, scanner_cursor)
+	(last_string, last_braced_code_loc, max_left_semantic_context)
+	(scanner_initialize, scanner_free, scanner_last_string_free)
+	(gram_out, gram_lineno, YY_DECL_): Move to...
+	* src/scan-gram.h: this new file.
+	(YY_DECL): Rename as...
+	(GRAM_DECL): this.
+	* src/scan-code.h, src/scan-code.l, src/scan-code-c.c: New.
+	* src/scan-gram.l (gram_get_lineno, gram_get_in, gram_get_out):
+	(gram_get_leng, gram_get_text, gram_set_lineno, gram_set_in):
+	(gram_set_out, gram_get_debug, gram_set_debug, gram_lex_destroy):
+	Move these declarations, and...
+	(obstack_for_string, STRING_GROW, STRING_FINISH, STRING_FREE):
+	these to...
+	* src/flex-scanner.h: this new file.
+	* src/scan-gram.l (rule_length, rule_length_overflow)
+	(increment_rule_length): Remove.
+	(last_braced_code_loc): Rename as...
+	(gram_last_braced_code_loc): this.
+	Adjust to the changes of the parser.
+	Move all the handling of $ and @ into...
+	* src/scan-code.l: here.
+	* src/scan-gram.l (handle_dollar, handle_at): Remove.
+	(handle_action_dollar, handle_action_at): Move to...
+	* src/scan-code.l: here.
+	* src/Makefile.am (bison_SOURCES): Add flex-scanner.h,
+	scan-code.h, scan-code-c.c, scan-gram.h.
+	(EXTRA_bison_SOURCES): Add scan-code.l.
+	(BUILT_SOURCES): Add scan-code.c.
+	(yacc): Be robust to white spaces.
+
+	* tests/conflicts.at, tests/input.at, tests/reduce.at,
+	* tests/regression.at: Adjust the column numbers.
+	* tests/regression.at: Adjust the error message.
 
 2006-06-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
@@ -16057,3 +16118,5 @@ $Id$
 	Copying and distribution of this file, with or without
 	modification, are permitted provided the copyright notice and this
 	notice are preserved.
+
+$Id$
