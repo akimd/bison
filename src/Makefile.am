@@ -74,7 +74,7 @@ parse-gram.c parse-gram.h			\
 revision.c					\
 scan-code.c					\
 scan-skel.c					\
-scan-gram.c 					\
+scan-gram.c
 
 MOSTLYCLEANFILES = yacc
 

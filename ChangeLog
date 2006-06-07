@@ -1,3 +1,7 @@
+2006-06-07  Akim Demaille  <akim@epita.fr>
+
+	* src/Makefile.am (BUILT_SOURCES): Fix the trailing backslash.
+
 2006-06-06  Akim Demaille  <akim@epita.fr>
 
 	Extract the parsing of user actions from the grammar scanner.
