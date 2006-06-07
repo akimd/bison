@@ -24,6 +24,9 @@
 %option prefix="gram_" outfile="lex.yy.c"
 
 %{
+#include <config.h>
+#include "system.h"
+
 /* Work around a bug in flex 2.5.31.  See Debian bug 333231
    <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
 #undef gram_wrap

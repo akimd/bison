@@ -1,5 +1,14 @@
 2006-06-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* src/flex-scanner.h: For the sake of Flex 2.5.4, don't #define yyleng
+	and yytext if they're already #define'd.
+	* src/flex-scanner.h, src/location.h: Move #include "system.h" to...
+	* src/scan-code-c.c: ... here.
+	* src/scan-code.l, src/scan-gram.l: ... and here.  Also #include
+	<config.h>.
+
+2006-06-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Get Bison to build again when configured with --enable-gcc-warnings.
 	* src/location.c, src/location.h, src/main.c, src/scan-code.l: Add some
 	missing #include's.

@@ -24,8 +24,6 @@
 # error "FLEX_PREFIX not defined"
 #endif
 
-#include "system.h"
-
 /* Pacify "gcc -Wmissing-prototypes" when flex 2.5.31 is used.  */
 int   FLEX_PREFIX (get_lineno) (void);
 FILE *FLEX_PREFIX (get_in) (void);
@@ -44,9 +42,13 @@ int   FLEX_PREFIX (lex_destroy) (void);
 /* It seems to be a nice "feature" of Flex that one cannot use yytext,
    yyleng etc. when a prefix is given, since there is no longer a
    #define, but rather the token is actually changed in the output.
-   */
-#define yyleng  FLEX_PREFIX (leng)
-#define yytext  FLEX_PREFIX (text)
+   However, this is not true for Flex 2.5.4.  */
+#ifndef yyleng
+# define yyleng  FLEX_PREFIX (leng)
+#endif
+#ifndef yytext
+# define yytext  FLEX_PREFIX (text) */
+#endif
 
 /* OBSTACK_FOR_STRING -- Used to store all the characters that we need to
    keep (to construct ID, STRINGS etc.).  Use the following macros to
