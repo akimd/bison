@@ -192,7 +192,7 @@ AT_DATA([input.y],
 [{}
 ])
 AT_CHECK([bison input.y], [1], [],
-[[input.y:1.1-2: syntax error, unexpected {...}
+[[input.y:1.0-1: syntax error, unexpected {...}
 ]])
 
 

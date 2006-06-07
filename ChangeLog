@@ -1,5 +1,13 @@
 2006-06-07  Akim Demaille  <akim@epita.fr>
 
+	* src/scan-gram.l: Move the "add a trailing ; to actions" code
+	to...
+	* src/scan-code.l: here.
+	* tests/input.at (Torturing the Scanner): Fix another location
+	error.
+
+2006-06-07  Akim Demaille  <akim@epita.fr>
+
 	* src/Makefile.am (BUILT_SOURCES): Fix the trailing backslash.
 
 2006-06-06  Akim Demaille  <akim@epita.fr>
