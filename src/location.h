@@ -21,7 +21,7 @@
 #ifndef LOCATION_H_
 # define LOCATION_H_
 
-# include <stdbool.h>
+# include "system.h"
 # include "uniqstr.h"
 
 /* A boundary between two characters.  */
