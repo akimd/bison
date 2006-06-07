@@ -1,3 +1,15 @@
+2006-06-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Get Bison to build again when configured with --enable-gcc-warnings.
+	* src/location.c, src/location.h, src/main.c, src/scan-code.l: Add some
+	missing #include's.
+	* src/scan-code.l (handle_action_dollar, handle_action_at): Rename
+	loc argument as it shadows a global.
+	* src/scan-gram.l: Remove stray comma that prevents boundary_set
+	invocation.
+
+	* src/.cvsignore: Add scan-code.c.
+
 2006-06-07  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-gram.l: Move the "add a trailing ; to actions" code

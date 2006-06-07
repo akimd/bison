@@ -30,6 +30,7 @@
 #define code_wrap() 1
 
 #define FLEX_PREFIX(Id) code_ ## Id
+#include "complain.h"
 #include "flex-scanner.h"
 #include "reader.h"
 #include "getargs.h"
@@ -46,8 +47,8 @@ YY_DECL;
 
 #define YY_USER_ACTION  location_compute (loc, &loc->end, yytext, yyleng);
 
-static void handle_action_dollar (char *cp, location loc);
-static void handle_action_at (char *cp, location loc);
+static void handle_action_dollar (char *cp, location dollar_loc);
+static void handle_action_at (char *cp, location at_loc);
 static location the_location;
 static location *loc = &the_location;
 
@@ -234,7 +235,7 @@ int max_left_semantic_context = 0;
 `------------------------------------------------------------------*/
 
 static void
-handle_action_dollar (char *text, location loc)
+handle_action_dollar (char *text, location dollar_loc)
 {
   const char *type_name = NULL;
   char *cp = text + 1;
@@ -253,9 +254,9 @@ handle_action_dollar (char *text, location loc)
   if (*cp == '$')
     {
       if (!type_name)
-	type_name = symbol_list_n_type_name_get (current_rule, loc, 0);
+	type_name = symbol_list_n_type_name_get (current_rule, dollar_loc, 0);
       if (!type_name && typed)
-	complain_at (loc, _("$$ of `%s' has no declared type"),
+	complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
 		     current_rule->sym->tag);
       if (!type_name)
 	type_name = "";
@@ -274,9 +275,10 @@ handle_action_dollar (char *text, location loc)
 	  if (1-n > max_left_semantic_context)
 	    max_left_semantic_context = 1-n;
 	  if (!type_name && n > 0)
-	    type_name = symbol_list_n_type_name_get (current_rule, loc, n);
+	    type_name =
+	      symbol_list_n_type_name_get (current_rule, dollar_loc, n);
 	  if (!type_name && typed)
-	    complain_at (loc, _("$%d of `%s' has no declared type"),
+	    complain_at (dollar_loc, _("$%d of `%s' has no declared type"),
 			 n, current_rule->sym->tag);
 	  if (!type_name)
 	    type_name = "";
@@ -286,7 +288,7 @@ handle_action_dollar (char *text, location loc)
 	  symbol_list_n_used_set (current_rule, n, true);
 	}
       else
-	complain_at (loc, _("integer out of range: %s"), quote (text));
+	complain_at (dollar_loc, _("integer out of range: %s"), quote (text));
     }
 }
 
@@ -297,7 +299,7 @@ handle_action_dollar (char *text, location loc)
 `------------------------------------------------------*/
 
 static void
-handle_action_at (char *text, location loc)
+handle_action_at (char *text, location at_loc)
 {
   char *cp = text + 1;
   int rule_length = symbol_list_length (current_rule->next);
@@ -318,7 +320,7 @@ handle_action_at (char *text, location loc)
 			  rule_length, n);
 	}
       else
-	complain_at (loc, _("integer out of range: %s"), quote (text));
+	complain_at (at_loc, _("integer out of range: %s"), quote (text));
     }
 }
 

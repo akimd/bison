@@ -751,7 +751,7 @@ handle_syncline (char *args, location loc)
       lineno = INT_MAX;
     }
   current_file = uniqstr_new (file);
-  boundary_set, (&scanner_cursor, current_file, lineno, 1);
+  boundary_set (&scanner_cursor, current_file, lineno, 1);
 }
 
 
