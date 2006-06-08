@@ -12,6 +12,15 @@ They should not: it is not documented.  But if they need to, let's
 find something clean (not like YYLSP_NEEDED...).
 
 
+* Installation
+
+** Disable installation of yacc.
+
+Add an option to 'configure' that allows people to install Bison
+without installing the yacc wrapper script or the rarely-used little
+yacc library required by Posix.  This is for people who prefer some
+other implementation of yacc.
+
 * Documentation
 Before releasing, make sure the documentation ("Understanding your
 parser") refers to the current `output' format.

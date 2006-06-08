@@ -1,3 +1,8 @@
+2006-06-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* TODO: Add request from Nelson H. F. Beebe to be able to install
+	Bison without installing the yacc script.
+
 2006-06-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/flex-scanner.h: For the sake of Flex 2.5.4, don't #define yyleng
