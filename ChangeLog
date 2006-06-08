@@ -1,3 +1,7 @@
+2006-06-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/flex-scanner.h (yytext): Remove stray `*/' in #define.
+
 2006-06-07  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* TODO: Add request from Nelson H. F. Beebe to be able to install

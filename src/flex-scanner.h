@@ -47,7 +47,7 @@ int   FLEX_PREFIX (lex_destroy) (void);
 # define yyleng  FLEX_PREFIX (leng)
 #endif
 #ifndef yytext
-# define yytext  FLEX_PREFIX (text) */
+# define yytext  FLEX_PREFIX (text)
 #endif
 
 /* OBSTACK_FOR_STRING -- Used to store all the characters that we need to
