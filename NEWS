@@ -1,6 +1,11 @@
 Bison News
 ----------
 
+Changes in version 2.3+:
+
+* The option `--report=look-ahead' has been changed to `--report=lookahead'.
+  The old spelling still works but is not documented and will be removed.
+
 Changes in version 2.3, 2006-06-05:
 
 * GLR grammars should now use `YYRECOVERING ()' instead of `YYRECOVERING',

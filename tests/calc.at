@@ -503,8 +503,8 @@ _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
 #
 # - test the action associated to `error'
 #
-# - check the look-ahead that triggers an error is not discarded
-#   when we enter error recovery.  Below, the look-ahead causing the
+# - check the lookahead that triggers an error is not discarded
+#   when we enter error recovery.  Below, the lookahead causing the
 #   first error is ")", which is needed to recover from the error and
 #   produce the "0" that triggers the "0 != 1" error.
 #
@@ -518,7 +518,7 @@ _AT_CHECK_CALC_ERROR([$1], [0],
 calc: error: 4444 != 1])
 
 # The same, but this time exercising explicitly triggered syntax errors.
-# POSIX says the look-ahead causing the error should not be discarded.
+# POSIX says the lookahead causing the error should not be discarded.
 _AT_CHECK_CALC_ERROR([$1], [0], [(!) + (0 0) = 1], [102],
 [1.9: syntax error, unexpected number
 calc: error: 2222 != 1])

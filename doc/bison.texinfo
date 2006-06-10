@@ -248,7 +248,7 @@ The Lexical Analyzer Function @code{yylex}
 
 The Bison Parser Algorithm
 
-* Look-Ahead::        Parser looks one token ahead when deciding what to do.
+* Lookahead::         Parser looks one token ahead when deciding what to do.
 * Shift/Reduce::      Conflicts: when either shifting or reduction is valid.
 * Precedence::        Operator precedence works by resolving conflicts.
 * Contextual Precedence::  When an operator's precedence depends on context.
@@ -445,7 +445,7 @@ can handle almost all context-free grammars, Bison is optimized for what
 are called @acronym{LALR}(1) grammars.
 In brief, in these grammars, it must be possible to
 tell how to parse any portion of an input string with just a single
-token of look-ahead.  Strictly speaking, that is a description of an
+token of lookahead.  Strictly speaking, that is a description of an
 @acronym{LR}(1) grammar, and @acronym{LALR}(1) involves additional
 restrictions that are
 hard to explain simply; but it is rare in actual practice to find an
@@ -461,11 +461,11 @@ more information on this.
 Parsers for @acronym{LALR}(1) grammars are @dfn{deterministic}, meaning
 roughly that the next grammar rule to apply at any point in the input is
 uniquely determined by the preceding input and a fixed, finite portion
-(called a @dfn{look-ahead}) of the remaining input.  A context-free
+(called a @dfn{lookahead}) of the remaining input.  A context-free
 grammar can be @dfn{ambiguous}, meaning that there are multiple ways to
 apply the grammar rules to get the same inputs.  Even unambiguous
 grammars can be @dfn{nondeterministic}, meaning that no fixed
-look-ahead always suffices to determine the next grammar rule to apply.
+lookahead always suffices to determine the next grammar rule to apply.
 With the proper declarations, Bison is also able to parse these more
 general context-free grammars, using a technique known as @acronym{GLR}
 parsing (for Generalized @acronym{LR}).  Bison's @acronym{GLR} parsers
@@ -746,7 +746,7 @@ merged result.
 
 In the simplest cases, you can use the @acronym{GLR} algorithm
 to parse grammars that are unambiguous, but fail to be @acronym{LALR}(1).
-Such grammars typically require more than one symbol of look-ahead,
+Such grammars typically require more than one symbol of lookahead,
 or (in rare cases) fall into the category of grammars in which the
 @acronym{LALR}(1) algorithm throws away too much information (they are in
 @acronym{LR}(1), but not @acronym{LALR}(1), @ref{Mystery Conflicts}).
@@ -786,7 +786,7 @@ type enum = (a);
 valid, and more-complicated cases can come up in practical programs.)
 
 These two declarations look identical until the @samp{..} token.
-With normal @acronym{LALR}(1) one-token look-ahead it is not
+With normal @acronym{LALR}(1) one-token lookahead it is not
 possible to decide between the two forms when the identifier
 @samp{a} is parsed.  It is, however, desirable
 for a parser to decide this, since in the latter case
@@ -825,7 +825,7 @@ reports a syntax error as usual.
 
 The effect of all this is that the parser seems to ``guess'' the
 correct branch to take, or in other words, it seems to use more
-look-ahead than the underlying @acronym{LALR}(1) algorithm actually allows
+lookahead than the underlying @acronym{LALR}(1) algorithm actually allows
 for.  In this example, @acronym{LALR}(2) would suffice, but also some cases
 that are not @acronym{LALR}(@math{k}) for any @math{k} can be handled this way.
 
@@ -1106,13 +1106,13 @@ action in a @acronym{GLR} parser.
 @vindex yylloc
 @cindex @acronym{GLR} parsers and @code{yylloc}
 In any semantic action, you can examine @code{yychar} to determine the type of
-the look-ahead token present at the time of the associated reduction.
+the lookahead token present at the time of the associated reduction.
 After checking that @code{yychar} is not set to @code{YYEMPTY} or @code{YYEOF},
 you can then examine @code{yylval} and @code{yylloc} to determine the
-look-ahead token's semantic value and location, if any.
+lookahead token's semantic value and location, if any.
 In a nondeferred semantic action, you can also modify any of these variables to
 influence syntax analysis.
-@xref{Look-Ahead, ,Look-Ahead Tokens}.
+@xref{Lookahead, ,Lookahead Tokens}.
 
 @findex yyclearin
 @cindex @acronym{GLR} parsers and @code{yyclearin}
@@ -3189,7 +3189,7 @@ always refers to the @code{expr} which precedes @code{bar} in the
 definition of @code{foo}.
 
 @vindex yylval
-It is also possible to access the semantic value of the look-ahead token, if
+It is also possible to access the semantic value of the lookahead token, if
 any, from a semantic action.
 This semantic value is stored in @code{yylval}.
 @xref{Action Features, ,Special Features for Use in Actions}.
@@ -3377,8 +3377,8 @@ Now the parser is forced to decide whether to run the mid-rule action
 when it has read no farther than the open-brace.  In other words, it
 must commit to using one rule or the other, without sufficient
 information to do it correctly.  (The open-brace token is what is called
-the @dfn{look-ahead} token at this time, since the parser is still
-deciding what to do about it.  @xref{Look-Ahead, ,Look-Ahead Tokens}.)
+the @dfn{lookahead} token at this time, since the parser is still
+deciding what to do about it.  @xref{Lookahead, ,Lookahead Tokens}.)
 
 You might think that you could correct the problem by putting identical
 actions into the two rules, like this:
@@ -3551,7 +3551,7 @@ exp:    @dots{}
 @end example
 
 @vindex yylloc
-It is also possible to access the location of the look-ahead token, if any,
+It is also possible to access the location of the lookahead token, if any,
 from a semantic action.
 This location is stored in @code{yylloc}.
 @xref{Action Features, ,Special Features for Use in Actions}.
@@ -3899,7 +3899,7 @@ code.
 @findex %initial-action
 Declare that the braced @var{code} must be invoked before parsing each time
 @code{yyparse} is called.  The @var{code} may use @code{$$} and
-@code{@@$} --- initial value and location of the look-ahead --- and the
+@code{@@$} --- initial value and location of the lookahead --- and the
 @code{%parse-param}.
 @end deffn
 
@@ -3971,7 +3971,7 @@ stacked symbols popped during the first phase of error recovery,
 @item
 incoming terminals during the second phase of error recovery,
 @item
-the current look-ahead and the entire stack (except the current
+the current lookahead and the entire stack (except the current
 right-hand side symbols) when the parser returns immediately, and
 @item
 the start symbol, when the parser succeeds.
@@ -4309,7 +4309,7 @@ The number of parser states (@pxref{Parser States}).
 
 @deffn {Directive} %verbose
 Write an extra output file containing verbose descriptions of the
-parser states and what is done for each type of look-ahead token in
+parser states and what is done for each type of lookahead token in
 that state.  @xref{Understanding, , Understanding Your Parser}, for more
 information.
 @end deffn
@@ -4857,14 +4857,14 @@ Return immediately from @code{yyparse}, indicating success.
 @deffn {Macro} YYBACKUP (@var{token}, @var{value});
 @findex YYBACKUP
 Unshift a token.  This macro is allowed only for rules that reduce
-a single value, and only when there is no look-ahead token.
+a single value, and only when there is no lookahead token.
 It is also disallowed in @acronym{GLR} parsers.
-It installs a look-ahead token with token type @var{token} and
+It installs a lookahead token with token type @var{token} and
 semantic value @var{value}; then it discards the value that was
 going to be reduced by this rule.
 
 If the macro is used when it is not valid, such as when there is
-a look-ahead token already, then it reports a syntax error with
+a lookahead token already, then it reports a syntax error with
 a message @samp{cannot back up} and performs ordinary error
 recovery.
 
@@ -4873,12 +4873,12 @@ In either case, the rest of the action is not executed.
 
 @deffn {Macro} YYEMPTY
 @vindex YYEMPTY
-Value stored in @code{yychar} when there is no look-ahead token.
+Value stored in @code{yychar} when there is no lookahead token.
 @end deffn
 
 @deffn {Macro} YYEOF
 @vindex YYEOF
-Value stored in @code{yychar} when the look-ahead is the end of the input
+Value stored in @code{yychar} when the lookahead is the end of the input
 stream.
 @end deffn
 
@@ -4899,16 +4899,16 @@ is recovering from a syntax error, and 0 otherwise.
 @end deffn
 
 @deffn {Variable} yychar
-Variable containing either the look-ahead token, or @code{YYEOF} when the
-look-ahead is the end of the input stream, or @code{YYEMPTY} when no look-ahead
+Variable containing either the lookahead token, or @code{YYEOF} when the
+lookahead is the end of the input stream, or @code{YYEMPTY} when no lookahead
 has been performed so the next token is not yet known.
 Do not modify @code{yychar} in a deferred semantic action (@pxref{GLR Semantic
 Actions}).
-@xref{Look-Ahead, ,Look-Ahead Tokens}.
+@xref{Lookahead, ,Lookahead Tokens}.
 @end deffn
 
 @deffn {Macro} yyclearin;
-Discard the current look-ahead token.  This is useful primarily in
+Discard the current lookahead token.  This is useful primarily in
 error rules.
 Do not invoke @code{yyclearin} in a deferred semantic action (@pxref{GLR
 Semantic Actions}).
@@ -4922,7 +4922,7 @@ errors.  This is useful primarily in error rules.
 @end deffn
 
 @deffn {Variable} yylloc
-Variable containing the look-ahead token location when @code{yychar} is not set
+Variable containing the lookahead token location when @code{yychar} is not set
 to @code{YYEMPTY} or @code{YYEOF}.
 Do not modify @code{yylloc} in a deferred semantic action (@pxref{GLR Semantic
 Actions}).
@@ -4930,7 +4930,7 @@ Actions}).
 @end deffn
 
 @deffn {Variable} yylval
-Variable containing the look-ahead token semantic value when @code{yychar} is
+Variable containing the lookahead token semantic value when @code{yychar} is
 not set to @code{YYEMPTY} or @code{YYEOF}.
 Do not modify @code{yylval} in a deferred semantic action (@pxref{GLR Semantic
 Actions}).
@@ -5111,7 +5111,7 @@ to a single grouping whose symbol is the grammar's start-symbol
 This kind of parser is known in the literature as a bottom-up parser.
 
 @menu
-* Look-Ahead::        Parser looks one token ahead when deciding what to do.
+* Lookahead::         Parser looks one token ahead when deciding what to do.
 * Shift/Reduce::      Conflicts: when either shifting or reduction is valid.
 * Precedence::        Operator precedence works by resolving conflicts.
 * Contextual Precedence::  When an operator's precedence depends on context.
@@ -5122,9 +5122,9 @@ This kind of parser is known in the literature as a bottom-up parser.
 * Memory Management:: What happens when memory is exhausted.  How to avoid it.
 @end menu
 
-@node Look-Ahead
-@section Look-Ahead Tokens
-@cindex look-ahead token
+@node Lookahead
+@section Lookahead Tokens
+@cindex lookahead token
 
 The Bison parser does @emph{not} always reduce immediately as soon as the
 last @var{n} tokens and groupings match a rule.  This is because such a
@@ -5133,15 +5133,15 @@ reduction is possible, the parser sometimes ``looks ahead'' at the next
 token in order to decide what to do.
 
 When a token is read, it is not immediately shifted; first it becomes the
-@dfn{look-ahead token}, which is not on the stack.  Now the parser can
+@dfn{lookahead token}, which is not on the stack.  Now the parser can
 perform one or more reductions of tokens and groupings on the stack, while
-the look-ahead token remains off to the side.  When no more reductions
-should take place, the look-ahead token is shifted onto the stack.  This
+the lookahead token remains off to the side.  When no more reductions
+should take place, the lookahead token is shifted onto the stack.  This
 does not mean that all possible reductions have been done; depending on the
-token type of the look-ahead token, some rules may choose to delay their
+token type of the lookahead token, some rules may choose to delay their
 application.
 
-Here is a simple case where look-ahead is needed.  These three rules define
+Here is a simple case where lookahead is needed.  These three rules define
 expressions which contain binary addition operators and postfix unary
 factorial operators (@samp{!}), and allow parentheses for grouping.
 
@@ -5176,7 +5176,7 @@ doing so would produce on the stack the sequence of symbols @code{expr
 @vindex yychar
 @vindex yylval
 @vindex yylloc
-The look-ahead token is stored in the variable @code{yychar}.
+The lookahead token is stored in the variable @code{yychar}.
 Its semantic value and location, if any, are stored in the variables
 @code{yylval} and @code{yylloc}.
 @xref{Action Features, ,Special Features for Use in Actions}.
@@ -5204,7 +5204,7 @@ if_stmt:
 Here we assume that @code{IF}, @code{THEN} and @code{ELSE} are
 terminal symbols for specific keyword tokens.
 
-When the @code{ELSE} token is read and becomes the look-ahead token, the
+When the @code{ELSE} token is read and becomes the lookahead token, the
 contents of the stack (assuming the input is valid) are just right for
 reduction by the first rule.  But it is also legitimate to shift the
 @code{ELSE}, because that would lead to eventual reduction by the second
@@ -5338,7 +5338,7 @@ operators we prefer the former, which is called @dfn{left association}.
 The latter alternative, @dfn{right association}, is desirable for
 assignment operators.  The choice of left or right association is a
 matter of whether the parser chooses to shift or reduce when the stack
-contains @w{@samp{1 - 2}} and the look-ahead token is @samp{-}: shifting
+contains @w{@samp{1 - 2}} and the lookahead token is @samp{-}: shifting
 makes right-associativity.
 
 @node Using Precedence
@@ -5399,7 +5399,7 @@ specify explicitly the precedence of a rule.  @xref{Contextual
 Precedence, ,Context-Dependent Precedence}.)
 
 Finally, the resolution of conflicts works by comparing the precedence
-of the rule being considered with that of the look-ahead token.  If the
+of the rule being considered with that of the lookahead token.  If the
 token's precedence is higher, the choice is to shift.  If the rule's
 precedence is higher, the choice is to reduce.  If they have equal
 precedence, the choice is made based on the associativity of that
@@ -5408,7 +5408,7 @@ precedence level.  The verbose output file made by @samp{-v}
 resolved.
 
 Not all rules and not all tokens have precedence.  If either the rule or
-the look-ahead token has no precedence, then the default is to shift.
+the lookahead token has no precedence, then the default is to shift.
 
 @node Contextual Precedence
 @section Context-Dependent Precedence
@@ -5502,9 +5502,9 @@ represent the entire sequence of terminal and nonterminal symbols at or
 near the top of the stack.  The current state collects all the information
 about previous input which is relevant to deciding what to do next.
 
-Each time a look-ahead token is read, the current parser state together
-with the type of look-ahead token are looked up in a table.  This table
-entry can say, ``Shift the look-ahead token.''  In this case, it also
+Each time a lookahead token is read, the current parser state together
+with the type of lookahead token are looked up in a table.  This table
+entry can say, ``Shift the lookahead token.''  In this case, it also
 specifies the new parser state, which is pushed onto the top of the
 parser stack.  Or it can say, ``Reduce using rule number @var{n}.''
 This means that a certain number of tokens or groupings are taken off
@@ -5512,7 +5512,7 @@ the top of the stack, and replaced by one grouping.  In other words,
 that number of states are popped from the stack, and one new state is
 pushed.
 
-There is one other alternative: the table can say that the look-ahead token
+There is one other alternative: the table can say that the lookahead token
 is erroneous in the current state.  This causes error processing to begin
 (@pxref{Error Recovery}).
 
@@ -5670,7 +5670,7 @@ name_list:
 @end example
 
 It would seem that this grammar can be parsed with only a single token
-of look-ahead: when a @code{param_spec} is being read, an @code{ID} is
+of lookahead: when a @code{param_spec} is being read, an @code{ID} is
 a @code{name} if a comma or colon follows, or a @code{type} if another
 @code{ID} follows.  In other words, this grammar is @acronym{LR}(1).
 
@@ -5684,7 +5684,7 @@ a @code{return_spec}, are similar enough that Bison assumes they are the
 same.  They appear similar because the same set of rules would be
 active---the rule for reducing to a @code{name} and that for reducing to
 a @code{type}.  Bison is unable to determine at that stage of processing
-that the rules would require different look-ahead tokens in the two
+that the rules would require different lookahead tokens in the two
 contexts, so it makes a single parser state for them both.  Combining
 the two contexts causes a conflict later.  In parser terminology, this
 occurrence means that the grammar is not @acronym{LALR}(1).
@@ -5757,13 +5757,13 @@ pp.@: 615--649 @uref{http://doi.acm.org/10.1145/69622.357187}.
 
 Bison produces @emph{deterministic} parsers that choose uniquely
 when to reduce and which reduction to apply
-based on a summary of the preceding input and on one extra token of look-ahead.
+based on a summary of the preceding input and on one extra token of lookahead.
 As a result, normal Bison handles a proper subset of the family of
 context-free languages.
 Ambiguous grammars, since they have strings with more than one possible
 sequence of reductions cannot have deterministic parsers in this sense.
 The same is true of languages that require more than one symbol of
-look-ahead, since the parser lacks the information necessary to make a
+lookahead, since the parser lacks the information necessary to make a
 decision at the point it must be made in a shift-reduce parser.
 Finally, as previously mentioned (@pxref{Mystery Conflicts}),
 there are languages where Bison's particular choice of how to
@@ -5940,7 +5940,7 @@ and objects from the stack until it gets back to a state in which the
 @code{error} token is acceptable.  (This means that the subexpressions
 already parsed are discarded, back to the last complete @code{stmnts}.)
 At this point the @code{error} token can be shifted.  Then, if the old
-look-ahead token is not acceptable to be shifted next, the parser reads
+lookahead token is not acceptable to be shifted next, the parser reads
 tokens and discards them until it finds a token which is acceptable.  In
 this example, Bison reads and discards input until the next newline so
 that the fourth rule can apply.  Note that discarded symbols are
@@ -5991,7 +5991,7 @@ error messages will be suppressed.  This macro requires no arguments;
 @samp{yyerrok;} is a valid C statement.
 
 @findex yyclearin
-The previous look-ahead token is reanalyzed immediately after an error.  If
+The previous lookahead token is reanalyzed immediately after an error.  If
 this is unacceptable, then the macro @code{yyclearin} may be used to clear
 this token.  Write the statement @samp{yyclearin;} in the error rule's
 action.
@@ -6000,7 +6000,7 @@ action.
 For example, suppose that on a syntax error, an error handling routine is
 called that advances the input stream to some point where parsing should
 once again commence.  The next symbol returned by the lexical scanner is
-probably correct.  The previous look-ahead token ought to be discarded
+probably correct.  The previous lookahead token ought to be discarded
 with @samp{yyclearin;}.
 
 @vindex YYRECOVERING
@@ -6388,16 +6388,16 @@ beginning of the parsing, in the initial rule, right before the start
 symbol (here, @code{exp}).  When the parser returns to this state right
 after having reduced a rule that produced an @code{exp}, the control
 flow jumps to state 2.  If there is no such transition on a nonterminal
-symbol, and the look-ahead is a @code{NUM}, then this token is shifted on
+symbol, and the lookahead is a @code{NUM}, then this token is shifted on
 the parse stack, and the control flow jumps to state 1.  Any other
-look-ahead triggers a syntax error.''
+lookahead triggers a syntax error.''
 
 @cindex core, item set
 @cindex item set core
 @cindex kernel, item set
 @cindex item set core
 Even though the only active rule in state 0 seems to be rule 0, the
-report lists @code{NUM} as a look-ahead token because @code{NUM} can be
+report lists @code{NUM} as a lookahead token because @code{NUM} can be
 at the beginning of any rule deriving an @code{exp}.  By default Bison
 reports the so-called @dfn{core} or @dfn{kernel} of the item set, but if
 you want to see more detail you can invoke @command{bison} with
@@ -6431,7 +6431,7 @@ state 1
 @end example
 
 @noindent
-the rule 5, @samp{exp: NUM;}, is completed.  Whatever the look-ahead token
+the rule 5, @samp{exp: NUM;}, is completed.  Whatever the lookahead token
 (@samp{$default}), the parser will reduce it.  If it was coming from
 state 0, then, after this reduction it will return to state 0, and will
 jump to state 2 (@samp{exp: go to state 2}).
@@ -6454,7 +6454,7 @@ state 2
 
 @noindent
 In state 2, the automaton can only shift a symbol.  For instance,
-because of the item @samp{exp -> exp . '+' exp}, if the look-ahead if
+because of the item @samp{exp -> exp . '+' exp}, if the lookahead if
 @samp{+}, it will be shifted on the parse stack, and the automaton
 control will jump to state 4, corresponding to the item @samp{exp -> exp
 '+' . exp}.  Since there is no default action, any other token than
@@ -6531,7 +6531,7 @@ state 8
     $default    reduce using rule 1 (exp)
 @end example
 
-Indeed, there are two actions associated to the look-ahead @samp{/}:
+Indeed, there are two actions associated to the lookahead @samp{/}:
 either shifting (and going to state 7), or reducing rule 1.  The
 conflict means that either the grammar is ambiguous, or the parser lacks
 information to make the right decision.  Indeed the grammar is
@@ -6549,14 +6549,14 @@ Note that all the previous states had a single possible action: either
 shifting the next token and going to the corresponding state, or
 reducing a single rule.  In the other cases, i.e., when shifting
 @emph{and} reducing is possible or when @emph{several} reductions are
-possible, the look-ahead is required to select the action.  State 8 is
-one such state: if the look-ahead is @samp{*} or @samp{/} then the action
+possible, the lookahead is required to select the action.  State 8 is
+one such state: if the lookahead is @samp{*} or @samp{/} then the action
 is shifting, otherwise the action is reducing rule 1.  In other words,
 the first two items, corresponding to rule 1, are not eligible when the
-look-ahead token is @samp{*}, since we specified that @samp{*} has higher
+lookahead token is @samp{*}, since we specified that @samp{*} has higher
 precedence than @samp{+}.  More generally, some items are eligible only
-with some set of possible look-ahead tokens.  When run with
-@option{--report=look-ahead}, Bison specifies these look-ahead tokens:
+with some set of possible lookahead tokens.  When run with
+@option{--report=lookahead}, Bison specifies these lookahead tokens:
 
 @example
 state 8
@@ -6914,9 +6914,9 @@ separated list of @var{things} among:
 Description of the grammar, conflicts (resolved and unresolved), and
 @acronym{LALR} automaton.
 
-@item look-ahead
+@item lookahead
 Implies @code{state} and augments the description of the automaton with
-each rule's look-ahead set.
+each rule's lookahead set.
 
 @item itemset
 Implies @code{state} and augments the description of the automaton with
@@ -8207,8 +8207,8 @@ A token name reserved for error recovery.  This token may be used in
 grammar rules so as to allow the Bison parser to recognize an error in
 the grammar without halting the process.  In effect, a sentence
 containing an error may be recognized as valid.  On a syntax error, the
-token @code{error} becomes the current look-ahead token.  Actions
-corresponding to @code{error} are then executed, and the look-ahead
+token @code{error} becomes the current lookahead token.  Actions
+corresponding to @code{error} are then executed, and the lookahead
 token is reset to the token that originally caused the violation.
 @xref{Error Recovery}.
 @end deffn
@@ -8348,20 +8348,20 @@ read, by making @code{yyparse} return 0 immediately.
 @end deffn
 
 @deffn {Macro} YYBACKUP
-Macro to discard a value from the parser stack and fake a look-ahead
+Macro to discard a value from the parser stack and fake a lookahead
 token.  @xref{Action Features, ,Special Features for Use in Actions}.
 @end deffn
 
 @deffn {Variable} yychar
 External integer variable that contains the integer value of the
-look-ahead token.  (In a pure parser, it is a local variable within
+lookahead token.  (In a pure parser, it is a local variable within
 @code{yyparse}.)  Error-recovery rule actions may examine this variable.
 @xref{Action Features, ,Special Features for Use in Actions}.
 @end deffn
 
 @deffn {Variable} yyclearin
 Macro used in error-recovery rule actions.  It clears the previous
-look-ahead token.  @xref{Error Recovery}.
+lookahead token.  @xref{Error Recovery}.
 @end deffn
 
 @deffn {Macro} YYDEBUG
@@ -8427,7 +8427,7 @@ variable within @code{yyparse}, and its address is passed to
 You can ignore this variable if you don't use the @samp{@@} feature in the
 grammar actions.
 @xref{Token Locations, ,Textual Locations of Tokens}.
-In semantic actions, it stores the location of the look-ahead token.
+In semantic actions, it stores the location of the lookahead token.
 @xref{Actions and Locations, ,Actions and Locations}.
 @end deffn
 
@@ -8442,7 +8442,7 @@ value associated with a token.  (In a pure parser, it is a local
 variable within @code{yyparse}, and its address is passed to
 @code{yylex}.)
 @xref{Token Values, ,Semantic Values of Tokens}.
-In semantic actions, it stores the semantic value of the look-ahead token.
+In semantic actions, it stores the semantic value of the lookahead token.
 @xref{Actions, ,Actions}.
 @end deffn
 
@@ -8582,8 +8582,8 @@ tokens are parsed.  @xref{Lexical Tie-ins}.
 @item Literal string token
 A token which consists of two or more fixed characters.  @xref{Symbols}.
 
-@item Look-ahead token
-A token already read but not yet shifted.  @xref{Look-Ahead, ,Look-Ahead
+@item Lookahead token
+A token already read but not yet shifted.  @xref{Lookahead, ,Lookahead
 Tokens}.
 
 @item @acronym{LALR}(1)
@@ -8593,7 +8593,7 @@ Conflicts, ,Mysterious Reduce/Reduce Conflicts}.
 
 @item @acronym{LR}(1)
 The class of context-free grammars in which at most one token of
-look-ahead is needed to disambiguate the parsing of any piece of input.
+lookahead is needed to disambiguate the parsing of any piece of input.
 
 @item Nonterminal symbol
 A grammar symbol standing for a grammatical construct that can

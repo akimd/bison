@@ -36,7 +36,7 @@ Catch up with yacc.c.
 
 **  GLR
 How would Paul like to display the conflicted actions?  In particular,
-what when two reductions are possible on a given look-ahead token, but one is
+what when two reductions are possible on a given lookahead token, but one is
 part of $default.  Should we make the two reductions explicit, or just
 keep $default?  See the following point.
 

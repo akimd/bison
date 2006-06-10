@@ -1,4 +1,4 @@
-/* Compute look-ahead criteria for bison,
+/* Compute lookahead criteria for bison,
 
    Copyright (C) 1984, 1986, 1989, 2000, 2002, 2004 Free Software
    Foundation, Inc.
@@ -33,12 +33,12 @@
 # include "state.h"
 
 /* Compute how to make the finite state machine deterministic; find
-   which rules need look-ahead in each state, and which look-ahead
+   which rules need lookahead in each state, and which lookahead
    tokens they accept.  */
 
 void lalr (void);
 
-/* Release the information related to look-ahead tokens.  Can be performed
+/* Release the information related to lookahead tokens.  Can be performed
    once the action tables are computed.  */
 
 void lalr_free (void);

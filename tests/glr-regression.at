@@ -1090,7 +1090,7 @@ AT_DATA_GRAMMAR([glr-regr13.y],
   #include <stdio.h>
   static void yyerror (char const *);
   static int yylex (void);
-  static void print_look_ahead (char const *);
+  static void print_lookahead (char const *);
   #define USE(value)
 %}
 
@@ -1104,32 +1104,32 @@ AT_DATA_GRAMMAR([glr-regr13.y],
 start:
   defstate_init defstate_shift 'b' change_lookahead 'a' {
     USE ($3);
-    print_look_ahead ("start <- defstate_init defstate_shift 'b'");
+    print_lookahead ("start <- defstate_init defstate_shift 'b'");
   }
   ;
 defstate_init:
   {
-    print_look_ahead ("defstate_init <- empty string");
+    print_lookahead ("defstate_init <- empty string");
   }
   ;
 defstate_shift:
   nondefstate defstate_look 'a' {
     USE ($3);
-    print_look_ahead ("defstate_shift <- nondefstate defstate_look 'a'");
+    print_lookahead ("defstate_shift <- nondefstate defstate_look 'a'");
   }
   ;
 defstate_look:
   {
-    print_look_ahead ("defstate_look <- empty string");
+    print_lookahead ("defstate_look <- empty string");
   }
   ;
 nondefstate:
   {
-    print_look_ahead ("nondefstate <- empty string");
+    print_lookahead ("nondefstate <- empty string");
   }
   | 'b' {
     USE ($1);
-    print_look_ahead ("nondefstate <- 'b'");
+    print_lookahead ("nondefstate <- 'b'");
   }
   ;
 change_lookahead:
@@ -1158,7 +1158,7 @@ yylex (void)
 }
 
 static void
-print_look_ahead (char const *reduction)
+print_lookahead (char const *reduction)
 {
   printf ("%s:\n  yychar=", reduction);
   if (yychar == YYEMPTY)
@@ -1238,7 +1238,7 @@ AT_DATA_GRAMMAR([glr-regr14.y],
   #include <stdio.h>
   static void yyerror (char const *);
   static int yylex (void);
-  static void print_look_ahead (char const *);
+  static void print_lookahead (char const *);
   static char merge (union YYSTYPE, union YYSTYPE);
   #define USE(value)
 %}
@@ -1252,7 +1252,7 @@ AT_DATA_GRAMMAR([glr-regr14.y],
 start:
   merge 'c' stack_explosion {
     USE ($2); USE ($3);
-    print_look_ahead ("start <- merge 'c' stack_explosion");
+    print_lookahead ("start <- merge 'c' stack_explosion");
   }
   ;
 
@@ -1260,44 +1260,44 @@ start:
 merge:
   nonconflict1 'a' 'b' nonconflict2 %dprec 1 {
     USE ($2); USE ($3);
-    print_look_ahead ("merge <- nonconflict1 'a' 'b' nonconflict2");
+    print_lookahead ("merge <- nonconflict1 'a' 'b' nonconflict2");
   }
   | conflict defstate_look 'a' nonconflict2 'b' defstate_shift %dprec 2 {
     USE ($3); USE ($5);
-    print_look_ahead ("merge <- conflict defstate_look 'a' nonconflict2 'b'"
+    print_lookahead ("merge <- conflict defstate_look 'a' nonconflict2 'b'"
 		      " defstate_shift");
   }
   ;
 
 nonconflict1:
   {
-    print_look_ahead ("nonconflict1 <- empty string");
+    print_lookahead ("nonconflict1 <- empty string");
   }
   ;
 nonconflict2:
   {
-    print_look_ahead ("nonconflict2 <- empty string");
+    print_lookahead ("nonconflict2 <- empty string");
   }
   | 'a' {
     USE ($1);
-    print_look_ahead ("nonconflict2 <- 'a'");
+    print_lookahead ("nonconflict2 <- 'a'");
   }
   ;
 conflict:
   {
-    print_look_ahead ("conflict <- empty string");
+    print_lookahead ("conflict <- empty string");
   }
   ;
 defstate_look:
   {
-    print_look_ahead ("defstate_look <- empty string");
+    print_lookahead ("defstate_look <- empty string");
   }
   ;
 
 /* yychar != YYEMPTY but lookahead need is yyfalse.  */
 defstate_shift:
   {
-    print_look_ahead ("defstate_shift <- empty string");
+    print_lookahead ("defstate_shift <- empty string");
   }
   ;
 
@@ -1364,7 +1364,7 @@ yylex (void)
 }
 
 static void
-print_look_ahead (char const *reduction)
+print_lookahead (char const *reduction)
 {
   printf ("%s:\n  yychar=", reduction);
   if (yychar == YYEMPTY)

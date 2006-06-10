@@ -56,7 +56,7 @@
    something else to do.
 
    YYPACT[S] = index in YYTABLE of the portion describing state S.
-   The look-ahead token's type is used to index that portion to find
+   The lookahead token's type is used to index that portion to find
    out what to do.
 
    If the value in YYTABLE is positive, we shift the token and go to

@@ -1,3 +1,76 @@
+2006-06-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	For consistency, use `lookahead' instead of `look-ahead' or
+	`look_ahead'.  Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00049.html>
+	and then at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00017.html>.
+	* NEWS: For the next release, note the change to `--report'.
+	* TODO, doc/bison.1: Update English.
+	* doc/bison.texinfo: Update English.
+	(Understanding Your Parser, Bison Options): Document as
+	`--report=lookahead' rather than `--report=look-ahead'.
+	* src/conflicts.c: Update English in comments.
+	(lookahead_set): Rename from look_ahead_set.
+	(flush_reduce): Rename argument look_ahead_tokens to lookahead_tokens.
+	(resolve_sr_conflict): Rename local look_ahead_tokens to
+	lookahead_tokens, and update other uses.
+	(flush_shift, set_conflicts, conflicts_solve, count_sr_conflicts,
+	count_rr_conflicts, conflicts_free): Update uses.
+	* src/getargs.c (report_args): Move "lookahead" before alternate
+	spellings.
+	(report_types): Update uses.
+	(usage): For `--report' usage description, state `lookahead' spelling
+	rather than `look-ahead'.
+	* src/getargs.h (report.report_lookahead_tokens): Rename from
+	report_look_ahead_tokens.
+	* src/lalr.c: Update English in comments.
+	(compute_lookahead_tokens): Rename from compute_look_ahead_tokens.
+	(state_lookahead_tokens_count): Rename from
+	state_look_ahead_tokens_count.
+	Rename local n_look_ahead_tokens to n_lookahead_tokens.
+	(lookahead_tokens_print): Rename from look_ahead_tokens_print.
+	Rename local n_look_ahead_tokens to n_lookahead_tokens.
+	Update other uses.
+	Update English in output.
+	(add_lookback_edge, initialize_LA, lalr, lalr_free): Update uses.
+	* src/print.c: Update English in comments.
+	(lookahead_set): Rename from look_ahead_set.
+	(print_reduction): Rename argument lookahead_token from
+	look_ahead_token.
+	(print_core, state_default_rule, print_reductions, print_results):
+	Update uses.
+	* src/print_graph.c: Update English in comments.
+	(print_core): Update uses.
+	* src/state.c: Update English in comments.
+	(reductions_new): Update uses.
+	(state_rule_lookahead_tokens_print): Rename from
+	state_rule_look_ahead_tokens_print, and update other uses.
+	* src/state.h: Update English in comments.
+	(reductions.lookahead_tokens): Rename from look_ahead_tokens.
+	(state_rule_lookahead_tokens_print): Rename from
+	state_rule_look_ahead_tokens_print.
+	* src/tables.c: Update English in comments.
+	(conflict_row, action_row): Update uses.
+	* tests/glr-regression.at
+	(Incorrect lookahead during deterministic GLR,
+	Incorrect lookahead during nondeterministic GLR): Rename
+	print_look_ahead to print_lookahead.
+	* tests/torture.at: Update English in comments.
+	(AT_DATA_LOOKAHEAD_TOKENS_GRAMMAR): Rename from
+	AT_DATA_LOOK_AHEAD_TOKENS_GRAMMAR.
+	(Many lookahead tokens): Update uses.
+	* data/glr.c: Update English in comments.
+	* lalr1.cc: Likewise.
+	* yacc.c: Likewise.
+	* src/conflicts.h: Likewise.
+	* src/lalr.h: Likewise.
+	* src/main.c: Likewise.
+	* src/output.c: Likewise.
+	* src/parse-gram.c: Likewise.
+	* src/tables.h: Likewise.
+	* tests/calc.at: Likewise.
+
 2006-06-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/flex-scanner.h (yytext): Remove stray `*/' in #define.
