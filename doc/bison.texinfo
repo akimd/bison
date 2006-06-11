@@ -6830,9 +6830,12 @@ different diagnostics to be generated, and may change behavior in
 other minor ways.  Most importantly, imitate Yacc's output
 file name conventions, so that the parser output file is called
 @file{y.tab.c}, and the other outputs are called @file{y.output} and
-@file{y.tab.h}.  Thus, the following shell script can substitute
-for Yacc, and the Bison distribution contains such a script for
-compatibility with @acronym{POSIX}:
+@file{y.tab.h}.
+Also, if generating an @acronym{LALR}(1) parser in C, generate @code{#define}
+statements in addition to an @code{enum} to associate token numbers with token
+names.
+Thus, the following shell script can substitute for Yacc, and the Bison
+distribution contains such a script for compatibility with @acronym{POSIX}:
 
 @example
 #! /bin/sh

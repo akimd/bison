@@ -49,12 +49,12 @@ AT_CLEANUP
 
 
 
-## ------------------------- ##
-## Early token definitions.  ##
-## ------------------------- ##
+## ------------------------------------- ##
+## Early token definitions with --yacc.  ##
+## ------------------------------------- ##
 
 
-AT_SETUP([Early token definitions])
+AT_SETUP([Early token definitions with --yacc])
 
 # Found in GCJ: they expect the tokens to be defined before the user
 # prologue, so that they can use the token definitions in it.
@@ -63,17 +63,56 @@ AT_DATA_GRAMMAR([input.y],
 [[%{
 void yyerror (const char *s);
 int yylex (void);
+#ifndef MY_TOKEN
+# error "MY_TOKEN not defined."
+#endif
 %}
 
 %union
 {
   int val;
 };
-%{
-#ifndef MY_TOKEN
-# error "MY_TOKEN not defined."
-#endif
+%token MY_TOKEN
+%%
+exp: MY_TOKEN;
+%%
+]])
+
+AT_CHECK([bison -y -o input.c input.y])
+AT_COMPILE([input.o], [-c input.c])
+
+AT_CLEANUP
+
+
+
+## ---------------------------------------- ##
+## Early token definitions without --yacc.  ##
+## ---------------------------------------- ##
+
+
+AT_SETUP([Early token definitions without --yacc])
+
+# Found in GCJ: they expect the tokens to be defined before the user
+# prologue, so that they can use the token definitions in it.
+
+AT_DATA_GRAMMAR([input.y],
+[[%{
+#include <stdio.h>
+void yyerror (const char *s);
+int yylex (void);
+void print_my_token (void);
+void
+print_my_token (void)
+{
+  enum yytokentype my_token = MY_TOKEN;
+  printf ("%d\n", my_token);
+}
 %}
+
+%union
+{
+  int val;
+};
 %token MY_TOKEN
 %%
 exp: MY_TOKEN;

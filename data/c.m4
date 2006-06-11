@@ -207,6 +207,7 @@ b4_define_flag_if([defines])        # Whether headers are requested.
 b4_define_flag_if([error_verbose])  # Wheter error are verbose.
 b4_define_flag_if([locations])      # Whether locations are tracked.
 b4_define_flag_if([pure])           # Whether the interface is pure.
+b4_define_flag_if([yacc])           # Whether POSIX Yacc is emulated.
 
 
 
@@ -260,9 +261,10 @@ m4_map_sep([     b4_token_enum], [,
 
 # b4_token_enums_defines(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
 # -------------------------------------------------------------
-# Output the definition of the tokens (if there are) as enums and #defines.
+# Output the definition of the tokens (if there are any) as enums and, if POSIX
+# Yacc is enabled, as #defines.
 m4_define([b4_token_enums_defines],
-[b4_token_enums($@)b4_token_defines($@)
+[b4_token_enums($@)b4_yacc_if([b4_token_defines($@)], [])
 ])
 
 
