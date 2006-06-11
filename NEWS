@@ -4,7 +4,8 @@ Bison News
 Changes in version 2.3+:
 
 * The option `--report=look-ahead' has been changed to `--report=lookahead'.
-  The old spelling still works but is not documented and will be removed.
+  The old spelling still works, but is not documented and may be removed
+  in a future release.
 
 Changes in version 2.3, 2006-06-05:
 
@@ -164,8 +165,7 @@ Changes in version 2.0, 2004-12-25:
     This is a GNU extension.
 
   - The option `--report=lookahead' was changed to `--report=look-ahead'.
-    The old spelling still works, but is not documented and will be
-    removed.
+    [However, this was changed back after 2.3.]
 
   - Experimental %destructor support has been added to lalr1.cc.
 
@@ -432,8 +432,8 @@ Changes in version 1.50, 2002-10-04:
   produces additional information:
   - itemset
     complete the core item sets with their closure
-  - lookahead [changed to `look-ahead' in 1.875e and later]
-    explicitly associate look-ahead tokens to items
+  - lookahead [changed to `look-ahead' in 1.875e through 2.3, but changed back]
+    explicitly associate lookahead tokens to items
   - solved
     describe shift/reduce conflicts solving.
     Bison used to systematically output this information on top of

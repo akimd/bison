@@ -1,3 +1,13 @@
+2006-06-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: Reword the post-2.3 change to not be so optimistic about
+	removing the old "look-ahead" spelling.
+	Update previous look-ahead/lookahead change reports.
+	* REFERENCES: look-ahead -> lookahead (since that's
+	what he actually wrote).
+	* doc/refcard.tex: look ahead -> lookahead,
+	look-ahead -> lookahead
+
 2006-06-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	For consistency, use `lookahead' instead of `look-ahead' or

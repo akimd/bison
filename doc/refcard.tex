@@ -458,7 +458,7 @@ as either {\tt first_column} or {\tt last_column}.
 \section {Variables and Types}
 %*****************************
 
-\key{Current look ahead token.}                {yychar}
+\key{Current lookahead token.}                 {yychar}
 \key{Debug mode flag.}                         {yydebug}
 \key{Data associated with the current token.}  {yylval}
 \key{Source position of current token.}        {yylloc}
@@ -489,8 +489,8 @@ as either {\tt first_column} or {\tt last_column}.
 \key{Quit parsing immediately. Return 1.}           {YYABORT}
 \key{Quit parsing immediately. Return 0.}           {YYACCEPT}
 \key{Pretend a syntax error occurred.}              {YYERROR}
-\key{Value in {\tt yychar} if no look-ahead token.} {YYEMPTY}
-\key{Clear previous look ahead token.}              {yyclearin}
+\key{Value in {\tt yychar} if no lookahead token.}  {YYEMPTY}
+\key{Clear previous lookahead token.}               {yyclearin}
 \key{Recover normally from an error.}               {yyerrok}
 
 % **************
