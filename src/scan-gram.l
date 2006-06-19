@@ -88,9 +88,6 @@ static void unexpected_newline (boundary, char const *);
  /* A identifier was just read in directives/rules.  Special state
     to capture the sequence `identifier :'. */
 %x SC_AFTER_IDENTIFIER
- /* A keyword that should be followed by some code was read (e.g.
-    %printer). */
-%x SC_PRE_CODE
 
  /* Three types of user code:
     - prologue (code between `%{' `%}' in the first section, before %%);
@@ -124,9 +121,6 @@ splice	 (\\[ \f\t\v]*\n)*
   /* Parent context state, when applicable.  */
   int context_state IF_LINT (= 0);
 
-  /* Token type to return, when applicable.  */
-  int token_type IF_LINT (= 0);
-
   /* Location of most recent identifier, when applicable.  */
   location id_loc IF_LINT (= empty_location);
 
@@ -145,7 +139,7 @@ splice	 (\\[ \f\t\v]*\n)*
   | Scanning white space.  |
   `-----------------------*/
 
-<INITIAL,SC_AFTER_IDENTIFIER,SC_PRE_CODE>
+<INITIAL,SC_AFTER_IDENTIFIER>
 {
   /* Comments and white space.  */
   ","	       warn_at (*loc, _("stray `,' treated as white space"));
@@ -170,46 +164,46 @@ splice	 (\\[ \f\t\v]*\n)*
   `----------------------------*/
 <INITIAL>
 {
-  "%binary"               return PERCENT_NONASSOC;
-  "%debug"                return PERCENT_DEBUG;
-  "%default"[-_]"prec"    return PERCENT_DEFAULT_PREC;
-  "%define"               return PERCENT_DEFINE;
-  "%defines"              return PERCENT_DEFINES;
-  "%destructor"		  /* FIXME: Remove once %union handled differently.  */ token_type = BRACED_CODE; return PERCENT_DESTRUCTOR;
-  "%dprec"		  return PERCENT_DPREC;
-  "%error"[-_]"verbose"   return PERCENT_ERROR_VERBOSE;
-  "%expect"               return PERCENT_EXPECT;
-  "%expect"[-_]"rr"	  return PERCENT_EXPECT_RR;
-  "%file-prefix"          return PERCENT_FILE_PREFIX;
+  "%binary"               	    return PERCENT_NONASSOC;
+  "%debug"                	    return PERCENT_DEBUG;
+  "%default"[-_]"prec"    	    return PERCENT_DEFAULT_PREC;
+  "%define"               	    return PERCENT_DEFINE;
+  "%defines"              	    return PERCENT_DEFINES;
+  "%destructor"		  	    return PERCENT_DESTRUCTOR;
+  "%dprec"		  	    return PERCENT_DPREC;
+  "%error"[-_]"verbose"   	    return PERCENT_ERROR_VERBOSE;
+  "%expect"               	    return PERCENT_EXPECT;
+  "%expect"[-_]"rr"	  	    return PERCENT_EXPECT_RR;
+  "%file-prefix"          	    return PERCENT_FILE_PREFIX;
   "%fixed"[-_]"output"[-_]"files"   return PERCENT_YACC;
-  "%initial-action"       /* FIXME: Remove once %union handled differently.  */ token_type = BRACED_CODE; return PERCENT_INITIAL_ACTION;
-  "%glr-parser"           return PERCENT_GLR_PARSER;
-  "%left"                 return PERCENT_LEFT;
-  "%lex-param"		  /* FIXME: Remove once %union handled differently.  */ token_type = BRACED_CODE; return PERCENT_LEX_PARAM;
-  "%locations"            return PERCENT_LOCATIONS;
-  "%merge"		  return PERCENT_MERGE;
-  "%name"[-_]"prefix"     return PERCENT_NAME_PREFIX;
-  "%no"[-_]"default"[-_]"prec"	return PERCENT_NO_DEFAULT_PREC;
-  "%no"[-_]"lines"        return PERCENT_NO_LINES;
-  "%nonassoc"             return PERCENT_NONASSOC;
-  "%nondeterministic-parser"   return PERCENT_NONDETERMINISTIC_PARSER;
-  "%nterm"                return PERCENT_NTERM;
-  "%output"               return PERCENT_OUTPUT;
-  "%parse-param"	  /* FIXME: Remove once %union handled differently.  */ token_type = BRACED_CODE; return PERCENT_PARSE_PARAM;
-  "%prec"                 return PERCENT_PREC;
-  "%printer"              /* FIXME: Remove once %union handled differently.  */ token_type = BRACED_CODE; return PERCENT_PRINTER;
-  "%pure"[-_]"parser"     return PERCENT_PURE_PARSER;
-  "%require"              return PERCENT_REQUIRE;
-  "%right"                return PERCENT_RIGHT;
-  "%skeleton"             return PERCENT_SKELETON;
-  "%start"                return PERCENT_START;
-  "%term"                 return PERCENT_TOKEN;
-  "%token"                return PERCENT_TOKEN;
-  "%token"[-_]"table"     return PERCENT_TOKEN_TABLE;
-  "%type"                 return PERCENT_TYPE;
-  "%union"		  token_type = PERCENT_UNION; BEGIN SC_PRE_CODE;
-  "%verbose"              return PERCENT_VERBOSE;
-  "%yacc"                 return PERCENT_YACC;
+  "%initial-action"       	    return PERCENT_INITIAL_ACTION;
+  "%glr-parser"           	    return PERCENT_GLR_PARSER;
+  "%left"                 	    return PERCENT_LEFT;
+  "%lex-param"		  	    return PERCENT_LEX_PARAM;
+  "%locations"            	    return PERCENT_LOCATIONS;
+  "%merge"		  	    return PERCENT_MERGE;
+  "%name"[-_]"prefix"     	    return PERCENT_NAME_PREFIX;
+  "%no"[-_]"default"[-_]"prec"	    return PERCENT_NO_DEFAULT_PREC;
+  "%no"[-_]"lines"        	    return PERCENT_NO_LINES;
+  "%nonassoc"             	    return PERCENT_NONASSOC;
+  "%nondeterministic-parser"   	    return PERCENT_NONDETERMINISTIC_PARSER;
+  "%nterm"                	    return PERCENT_NTERM;
+  "%output"               	    return PERCENT_OUTPUT;
+  "%parse-param"	  	    return PERCENT_PARSE_PARAM;
+  "%prec"                 	    return PERCENT_PREC;
+  "%printer"              	    return PERCENT_PRINTER;
+  "%pure"[-_]"parser"     	    return PERCENT_PURE_PARSER;
+  "%require"              	    return PERCENT_REQUIRE;
+  "%right"                	    return PERCENT_RIGHT;
+  "%skeleton"             	    return PERCENT_SKELETON;
+  "%start"                	    return PERCENT_START;
+  "%term"                 	    return PERCENT_TOKEN;
+  "%token"                	    return PERCENT_TOKEN;
+  "%token"[-_]"table"     	    return PERCENT_TOKEN_TABLE;
+  "%type"                 	    return PERCENT_TYPE;
+  "%union"		  	    return PERCENT_UNION;
+  "%verbose"              	    return PERCENT_VERBOSE;
+  "%yacc"                 	    return PERCENT_YACC;
 
   {directive} {
     complain_at (*loc, _("invalid directive: %s"), quote (yytext));
@@ -220,7 +214,7 @@ splice	 (\\[ \f\t\v]*\n)*
   ";"                     return SEMICOLON;
 
   {id} {
-    val->symbol = symbol_get (yytext, *loc);
+    val->uniqstr = uniqstr_new (yytext);
     id_loc = *loc;
     BEGIN SC_AFTER_IDENTIFIER;
   }
@@ -248,7 +242,6 @@ splice	 (\\[ \f\t\v]*\n)*
     if (current_rule && current_rule->action)
       grammar_midrule_action ();
     STRING_GROW;
-    token_type = BRACED_CODE;
     braces_level = 0;
     code_start = loc->start;
     BEGIN SC_BRACED_CODE;
@@ -372,15 +365,10 @@ splice	 (\\[ \f\t\v]*\n)*
     STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
-    val->symbol = symbol_get (quotearg_style (escape_quoting_style,
-					      last_string),
-			      *loc);
-    symbol_class_set (val->symbol, token_sym, *loc, false);
-    last_string_1 = last_string[1];
-    symbol_user_token_number_set (val->symbol, last_string_1, *loc);
+    val->character = last_string[1];
     STRING_FREE;
     BEGIN INITIAL;
-    return ID;
+    return CHAR;
   }
   \n		unexpected_newline (token_start, "'");	BEGIN INITIAL;
   <<EOF>>	unexpected_eof (token_start, "'");	BEGIN INITIAL;
@@ -501,45 +489,11 @@ splice	 (\\[ \f\t\v]*\n)*
 }
 
 
-  /*---------------------------------------------------------------.
-  | Scanning after %union etc., possibly followed by white space.  |
-  | For %union only, allow arbitrary C code to appear before the   |
-  | following brace, as an extension to POSIX.			   |
-  `---------------------------------------------------------------*/
 
-<SC_PRE_CODE>
-{
-  . {
-    bool valid = yytext[0] == '{' || token_type == PERCENT_UNION;
-    scanner_cursor.column -= mbsnwidth (yytext, yyleng, 0);
-    yyless (0);
-
-    if (valid)
-      {
-	braces_level = -1;
-	code_start = loc->start;
-	BEGIN SC_BRACED_CODE;
-      }
-    else
-      {
-	complain_at (*loc, _("missing `{' in %s"),
-		     token_name (token_type));
-	obstack_sgrow (&obstack_for_string, "{}");
-	STRING_FINISH;
-	val->chars = last_string;
-	BEGIN INITIAL;
-	return token_type;
-      }
-  }
-
-  <<EOF>>  unexpected_eof (scanner_cursor, "{}"); BEGIN INITIAL;
-}
-
-
-  /*---------------------------------------------------------------.
-  | Scanning some code in braces (%union and actions). The initial |
-  | "{" is already eaten.                                          |
-  `---------------------------------------------------------------*/
+  /*-----------------------------------------------------------.
+  | Scanning some code in braces (actions). The initial "{" is |
+  | already eaten.                                             |
+  `-----------------------------------------------------------*/
 
 <SC_BRACED_CODE>
 {
@@ -556,7 +510,7 @@ splice	 (\\[ \f\t\v]*\n)*
 	val->chars = last_string;
 	gram_last_braced_code_loc = *loc;
 	BEGIN INITIAL;
-	return token_type;
+	return BRACED_CODE;
       }
   }
 

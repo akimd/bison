@@ -1,3 +1,21 @@
+2006-06-19  Akim Demaille  <akim@epita.fr>
+
+	* src/scan-gram.l: No longer "parse" things after `%union' until
+	`{'.  Rather, return a single "%union" token.
+	No longer make symbols: return strings, and leave the conversion
+	to symbols to the parser.
+	(SC_PRE_CODE, token_type): Remove.
+	* src/parse-gram.y (%union): New field `character'.
+	Sort tokens.
+	(CHAR): New token.
+	(ID, ID_COLON): Now that the scanner no longer makes them
+	identifiers, adjust all uses to invoke symbol_get.
+	(id_colon): New, wraps the conversion from string to symbol.
+	(%union): Accept a possible union_name.
+	(symbol): Now can be a char.
+	* data/c.m4 (b4_union_name): Leave a default value.
+	* data/glr.c, data/yacc.c: Use it.
+
 2006-06-11  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	For associating token numbers with token names for "yacc.c", don't use

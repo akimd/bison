@@ -99,6 +99,7 @@ static int current_prec = 0;
   char *chars;
   assoc assoc;
   uniqstr uniqstr;
+  unsigned char character;
 };
 
 /* Define the tokens together with their human representation.  */
@@ -112,8 +113,6 @@ static int current_prec = 0;
 %token PERCENT_TYPE        "%type"
 %token PERCENT_DESTRUCTOR  "%destructor"
 %token PERCENT_PRINTER     "%printer"
-
-%token PERCENT_UNION       "%union {...}"
 
 %token PERCENT_LEFT        "%left"
 %token PERCENT_RIGHT       "%right"
@@ -157,35 +156,37 @@ static int current_prec = 0;
   PERCENT_YACC            "%yacc"
 ;
 
-%token TYPE            "type"
+%token BRACED_CODE     "{...}"
+%token CHAR            "char"
+%token EPILOGUE        "epilogue"
 %token EQUAL           "="
-%token SEMICOLON       ";"
-%token PIPE            "|"
 %token ID              "identifier"
 %token ID_COLON        "identifier:"
 %token PERCENT_PERCENT "%%"
+%token PIPE            "|"
 %token PROLOGUE        "%{...%}"
-%token EPILOGUE        "epilogue"
-%token BRACED_CODE     "{...}"
+%token SEMICOLON       ";"
+%token TYPE            "type"
 
-%type <chars> STRING string_content
-	      "{...}"
-	      "%union {...}"
-	      PROLOGUE EPILOGUE
-%printer { fprintf (stderr, "\"%s\"", $$); }
-	      STRING string_content
-%printer { fprintf (stderr, "{\n%s\n}", $$); }
-	      "{...}"
-	      "%union {...}"
-	      PROLOGUE EPILOGUE
-%type <uniqstr> TYPE
+%type <character> CHAR
+%printer { fprintf (stderr, "'%c' (%d)", $$, $$); } CHAR
+
+%type <chars> STRING string_content "{...}" PROLOGUE EPILOGUE
+%printer { fprintf (stderr, "\"%s\"", $$); } STRING string_content
+%printer { fprintf (stderr, "{\n%s\n}", $$); } "{...}" PROLOGUE EPILOGUE
+
+%type <uniqstr> TYPE ID ID_COLON
 %printer { fprintf (stderr, "<%s>", $$); } TYPE
+%printer { fprintf (stderr, "%s", $$); } ID
+%printer { fprintf (stderr, "%s:", $$); } ID_COLON
+
 %type <integer> INT
 %printer { fprintf (stderr, "%d", $$); } INT
-%type <symbol> ID symbol string_as_id
-%printer { fprintf (stderr, "%s", $$->tag); } ID symbol string_as_id
-%type <symbol> ID_COLON
-%printer { fprintf (stderr, "%s:", $$->tag); } ID_COLON
+
+%type <symbol> id id_colon symbol string_as_id
+%printer { fprintf (stderr, "%s", $$->tag); } id symbol string_as_id
+%printer { fprintf (stderr, "%s:", $$->tag); } id_colon
+
 %type <assoc> precedence_declarator
 %type <list>  symbols.1
 %%
@@ -252,22 +253,6 @@ grammar_declaration:
     {
       grammar_start_symbol_set ($2, @2);
     }
-| "%union {...}"
-    {
-      char const *body = $1;
-
-      if (typed)
-	{
-	  /* Concatenate the union bodies, turning the first one's
-	     trailing '}' into '\n', and omitting the second one's '{'.  */
-	  char *code = muscle_find ("stype");
-	  code[strlen (code) - 1] = '\n';
-	  body++;
-	}
-
-      typed = true;
-      muscle_code_grow ("stype", body, @1);
-    }
 | "%destructor" "{...}" symbols.1
     {
       symbol_list *list;
@@ -293,6 +278,40 @@ grammar_declaration:
       default_prec = false;
     }
 ;
+
+
+/*----------*
+ | %union.  |
+ *----------*/
+
+%token PERCENT_UNION "%union";
+
+union_name:
+  /* Nothing. */ {}
+| ID             { muscle_code_grow ("union_name", $1, @1); }
+;
+
+grammar_declaration:
+  "%union" union_name "{...}"
+    {
+      char const *body = $3;
+
+      if (typed)
+	{
+	  /* Concatenate the union bodies, turning the first one's
+	     trailing '}' into '\n', and omitting the second one's '{'.  */
+	  char *code = muscle_find ("stype");
+	  code[strlen (code) - 1] = '\n';
+	  body++;
+	}
+
+      typed = true;
+      muscle_code_grow ("stype", body, @3);
+    }
+;
+
+
+
 
 symbol_declaration:
   "%nterm" { current_class = nterm_sym; } symbol_defs.1
@@ -352,24 +371,24 @@ symbol_def:
      {
        current_type = $1;
      }
-| ID
+| id
      {
        symbol_class_set ($1, current_class, @1, true);
        symbol_type_set ($1, current_type, @1);
      }
-| ID INT
+| id INT
     {
       symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_user_token_number_set ($1, $2, @2);
     }
-| ID string_as_id
+| id string_as_id
     {
       symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_make_alias ($1, $2, @$);
     }
-| ID INT string_as_id
+| id INT string_as_id
     {
       symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
@@ -406,7 +425,7 @@ rules_or_grammar_declaration:
 ;
 
 rules:
-  ID_COLON { current_lhs = $1; current_lhs_location = @1; } rhses.1
+  id_colon { current_lhs = $1; current_lhs_location = @1; } rhses.1
 ;
 
 rhses.1:
@@ -431,9 +450,32 @@ rhs:
     { grammar_current_rule_merge_set ($3, @3); }
 ;
 
+
+/*---------------*
+ | Identifiers.  |
+ *---------------*/
+
+/* Identifiers are return as uniqstr by the scanner.  Depending on
+   their use, we may need to make them genuine symbols.  */
+
+id:
+  ID              { $$ = symbol_get ($1, @1); }
+| CHAR            { char cp[4] = { '\'', $1, '\'', 0 };
+                    $$ = symbol_get (quotearg_style (escape_quoting_style, cp),
+				     @1);
+		    symbol_class_set ($$, token_sym, @1, false);
+		    symbol_user_token_number_set ($$, $1, @1);
+                  }
+;
+
+id_colon:
+  ID_COLON { $$ = symbol_get ($1, @1); }
+;
+
+
 symbol:
-  ID              { $$ = $1; }
-| string_as_id    { $$ = $1; }
+  id
+| string_as_id
 ;
 
 /* A string used as an ID: quote it.  */
