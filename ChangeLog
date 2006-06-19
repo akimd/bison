@@ -1,5 +1,11 @@
 2006-06-19  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* src/parse-gram.y (char_name): New function.
+	(CHAR, STRING, string_content): For %printer, properly escape.
+	(ID): Prefer fputs to fprintf.
+	(id): Reindent to be consistent with other rules.
+	Properly quote char.
+
 	The Translation Project changed its way of publishing translations
 	to maintainers.  I haven't received any responses to my request
 	for supporting the old way, or for documenting the new way.  I

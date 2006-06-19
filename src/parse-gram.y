@@ -51,6 +51,8 @@ static void version_check (location const *loc, char const *version);
 	gram_error (&yylloc, Msg)
 static void gram_error (location const *, char const *);
 
+static char const *char_name (char);
+
 static void add_param (char const *, char *, location);
 
 static symbol_class current_class = unknown_sym;
@@ -169,15 +171,16 @@ static int current_prec = 0;
 %token TYPE            "type"
 
 %type <character> CHAR
-%printer { fprintf (stderr, "'%c' (%d)", $$, $$); } CHAR
+%printer { fputs (char_name ($$), stderr); } CHAR
 
 %type <chars> STRING string_content "{...}" PROLOGUE EPILOGUE
-%printer { fprintf (stderr, "\"%s\"", $$); } STRING string_content
+%printer { fputs (quotearg_style (c_quoting_style, $$), stderr); }
+         STRING string_content
 %printer { fprintf (stderr, "{\n%s\n}", $$); } "{...}" PROLOGUE EPILOGUE
 
 %type <uniqstr> TYPE ID ID_COLON
 %printer { fprintf (stderr, "<%s>", $$); } TYPE
-%printer { fprintf (stderr, "%s", $$); } ID
+%printer { fputs ($$, stderr); } ID
 %printer { fprintf (stderr, "%s:", $$); } ID_COLON
 
 %type <integer> INT
@@ -455,17 +458,18 @@ rhs:
  | Identifiers.  |
  *---------------*/
 
-/* Identifiers are return as uniqstr by the scanner.  Depending on
-   their use, we may need to make them genuine symbols.  */
+/* Identifiers are returned as uniqstr values by the scanner.
+   Depending on their use, we may need to make them genuine symbols.  */
 
 id:
-  ID              { $$ = symbol_get ($1, @1); }
-| CHAR            { char cp[4] = { '\'', $1, '\'', 0 };
-                    $$ = symbol_get (quotearg_style (escape_quoting_style, cp),
-				     @1);
-		    symbol_class_set ($$, token_sym, @1, false);
-		    symbol_user_token_number_set ($$, $1, @1);
-                  }
+  ID
+    { $$ = symbol_get ($1, @1); }
+| CHAR
+    {
+      $$ = symbol_get (char_name ($1), @1);
+      symbol_class_set ($$, token_sym, @1, false);
+      symbol_user_token_number_set ($$, $1, @1);
+    }
 ;
 
 id_colon:
@@ -608,4 +612,17 @@ char const *
 token_name (int type)
 {
   return yytname[YYTRANSLATE (type)];
+}
+
+static char const *
+char_name (char c)
+{
+  if (c == '\'')
+    return "'\\''";
+  else
+    {
+      char buf[4];
+      buf[0] = '\''; buf[1] = c; buf[2] = '\''; buf[3] = '\0';
+      return quotearg_style (escape_quoting_style, buf);
+    }
 }
