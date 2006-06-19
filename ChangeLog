@@ -1,3 +1,18 @@
+2006-06-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	The Translation Project changed its way of publishing translations
+	to maintainers.  I haven't received any responses to my request
+	for supporting the old way, or for documenting the new way.  I
+	have modified 'bootstrap' to use screen scraping
+	(in this case, HTML scraping).  This is unreliable and inelegant,
+	but I don't see any better way.  Yuck.
+	* bootstrap (TP_URL, WGET_COMMAND): New vars.
+	(get_translations): New function, which uses HTML scraping to
+	deduce locations of latest translations.
+	Use this function to grab both bison and bison-runtime .po files.
+	Don't bother priming the pump for the runtime-po domain any more,
+	as it's now translated better than bison is.
+
 2006-06-19  Akim Demaille  <akim@epita.fr>
 
 	* src/scan-gram.l: No longer "parse" things after `%union' until
