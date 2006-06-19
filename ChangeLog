@@ -1,3 +1,8 @@
+2006-06-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/scan-gram.l: Remove unused declaration of last_string_1 so the
+	build succeeds when configured with --enable-gcc-warnings.
+
 2006-06-19  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/parse-gram.y (char_name): New function.

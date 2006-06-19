@@ -361,7 +361,6 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_CHARACTER>
 {
   "'" {
-    unsigned char last_string_1;
     STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
