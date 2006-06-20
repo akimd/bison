@@ -463,7 +463,7 @@ rhs:
 
 id:
   ID
-    { $$ = symbol_get ($1, @1); }
+    { $$ = symbol_from_uniqstr ($1, @1); }
 | CHAR
     {
       $$ = symbol_get (char_name ($1), @1);
@@ -473,7 +473,7 @@ id:
 ;
 
 id_colon:
-  ID_COLON { $$ = symbol_get ($1, @1); }
+  ID_COLON { $$ = symbol_from_uniqstr ($1, @1); }
 ;
 
 

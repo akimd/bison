@@ -1,3 +1,9 @@
+2006-06-20  Akim Demaille  <akim@epita.fr>
+
+	* src/symtab.h, src/symtab.c (symbol_from_uniqstr): New.
+	(symbol_get): Use it.
+	* src/parse-gram.y: Use it.
+
 2006-06-19  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/scan-gram.l: Remove unused declaration of last_string_1 so the

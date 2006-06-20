@@ -98,6 +98,9 @@ struct symbol
 void symbol_print (symbol *s, FILE *f);
 
 /* Fetch (or create) the symbol associated to KEY.  */
+symbol *symbol_from_uniqstr (const uniqstr key, location loc);
+
+/* Fetch (or create) the symbol associated to KEY.  */
 symbol *symbol_get (const char *key, location loc);
 
 /* Generate a dummy nonterminal, whose name cannot conflict with the
