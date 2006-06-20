@@ -88,7 +88,8 @@ m4_define([b4_identification],
 
 m4_define_default([b4_epilogue], [])
 
-
+# If the %union is not named, its name is YYSTYPE.
+m4_define_default([b4_union_name], [YYSTYPE])
 
 ## ------------------------ ##
 ## Pure/impure interfaces.  ##
@@ -196,7 +197,7 @@ m4_define([b4_define_flag_if],
 m4_define([_b4_define_flag_if],
 [m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
-m4_define([b4_$3_if], 
+m4_define([b4_$3_if],
           [b4_flag_if([$3], [$1], [$2])])])
 
 
