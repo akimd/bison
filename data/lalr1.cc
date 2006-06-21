@@ -53,11 +53,12 @@ namespace ]b4_namespace[
   class location;
 }
 
-/* First part of user declarations.  */
-]b4_pre_prologue[
+]m4_ifdef([b4_before_definitions],
+[[/* Copy the %before-definitions blocks.  */
+]b4_before_definitions])[]dnl
 
-]/* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])[
+[/* Line __line__ of lalr1.cc.  */
+]b4_syncline([@oline@], [@ofile@])[
 
 ]dnl Include location.hh here: it might depend on headers included above.
 [#include "location.hh"
@@ -298,8 +299,12 @@ b4_error_verbose_if([, int tok])[);
  /* Redirection for backward compatibility.  */
 # define YYSTYPE b4_namespace::b4_parser_class_name::semantic_type
 #endif
-])[
-#endif /* ! defined PARSER_HEADER_H */]
+])
+m4_ifdef([b4_after_definitions],
+[[/* Copy the %after-definitions blocks.  */
+]b4_after_definitions])[]dnl
+
+[#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
 @output @output_parser_name@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
@@ -307,7 +312,11 @@ b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
 m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
-#define yylex   b4_prefix[]lex])
+#define yylex   b4_prefix[]lex])[
+
+/* First part of user declarations.  */
+]b4_pre_prologue
+
 b4_defines_if([
 #include @output_header_name@])[
 

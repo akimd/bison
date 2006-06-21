@@ -2664,6 +2664,34 @@ can be done with two @var{Prologue} blocks, one before and one after the
 @dots{}
 @end smallexample
 
+@findex %before-definitions
+If you've instructed Bison to generate a header file (@pxref{Table of Symbols,
+,%defines}), you probably want @code{#include "ptypes.h"} to appear
+in that header file as well.
+In that case, use @code{%before-definitions} instead of a @var{Prologue}
+section (@pxref{Table of Symbols, ,%before-definitions}):
+
+@smallexample
+%@{
+  #include <stdio.h>
+%@}
+
+%before-definitions @{
+  #include "ptypes.h"
+@}
+%union @{
+  long int n;
+  tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
+@}
+
+%@{
+  static void print_token_value (FILE *, int, YYSTYPE);
+  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+%@}
+
+@dots{}
+@end smallexample
+
 @node Bison Declarations
 @subsection The Bison Declarations Section
 @cindex Bison declarations (introduction)
@@ -4199,6 +4227,12 @@ of @code{yylex} in a separate source file, because @code{yylex}
 typically needs to be able to refer to the above-mentioned declarations
 and to the token type codes.  @xref{Token Values, ,Semantic Values of
 Tokens}.
+
+@findex %before-definitions
+@findex %after-definitions
+If you have declared @code{%before-definitions} or @code{%after-definitions},
+the output header also contains their code.
+@xref{Table of Symbols, ,%before-definitions}.
 @end deffn
 
 @deffn {Directive} %destructor
@@ -7428,19 +7462,21 @@ the grammar for.
 @end example
 
 @noindent
+@findex %before-definitions
 Then come the declarations/inclusions needed to define the
 @code{%union}.  Because the parser uses the parsing driver and
 reciprocally, both cannot include the header of the other.  Because the
 driver's header needs detailed knowledge about the parser class (in
 particular its inner types), it is the parser's header which will simply
 use a forward declaration of the driver.
+@xref{Table of Symbols, ,%before-definitions}.
 
 @comment file: calc++-parser.yy
 @example
-%@{
+%before-definitions @{
 # include <string>
 class calcxx_driver;
-%@}
+@}
 @end example
 
 @noindent
@@ -8170,6 +8206,61 @@ Separates alternate rules for the same result nonterminal.
 The predefined nonterminal whose only rule is @samp{$accept: @var{start}
 $end}, where @var{start} is the start symbol.  @xref{Start Decl, , The
 Start-Symbol}.  It cannot be used in the grammar.
+@end deffn
+
+@deffn {Directive} %after-definitions @{@var{code}@}
+Specifies code to be inserted both into the header file (if generated;
+@pxref{Table of Symbols, ,%defines}) and into the code file after any
+Bison-generated definitions.
+For details, @xref{Table of Symbols, ,%before-definitions}.
+@end deffn
+
+@deffn {Directive} %before-definitions @{@var{code}@}
+Specifies code to be inserted both into the header file (if generated;
+@pxref{Table of Symbols, ,%defines}) and into the code file before any
+Bison-generated definitions.
+
+@cindex Prologue
+@findex %after-definitions
+@findex %union
+For example, in your grammar file:
+
+@smallexample
+%@{
+  /* A pre-prologue block.  For Yacc portability, Bison does not put
+   * this in the header file.  In the code file, Bison inserts it
+   * before any %before-definitions blocks.  */
+%@}
+%before-definitions @{
+  /* Bison inserts this into both the header file and code file.  In
+   * both files, the point of insertion is before any Bison-generated
+   * token, semantic type, location type, and class definitions.
+   * This is a good place to define %union dependencies, for
+   * example.  */
+@}
+%union @{
+  /* The first %union, %before-definitions, or %after-definitions
+   * in your grammar file separates the pre-prologue blocks from the
+   * post-prologue blocks.  */
+@}
+%after-definitions @{
+  /* If you want something in the header file and in the code file
+   * and it depends on any of the Bison-generated definitions in the
+   * header file, put it here.  */
+@}
+%@{
+  /* A post-prologue block.  If you want something in the code file
+   * but not in the header file and it depends on Bison-generated
+   * definitions, put it here.  In the code file, Bison inserts it
+   * after any %after-definitions blocks.  */
+%@}
+@end smallexample
+
+@xref{Prologue, ,The Prologue}.
+@end deffn
+
+@deffn {Directive} %debug
+Equip the parser for debugging.  @xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %debug

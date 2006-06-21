@@ -172,7 +172,7 @@ m4_if([$1$2$3], $[1]$[2]$[3], [],
 # helping macros.  So don't put any directly in the Bison file.
 AT_BISON_OPTION_PUSHDEFS([$5])
 AT_DATA_GRAMMAR([[input.y]],
-[[%{
+[[%before-definitions {
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -182,7 +182,7 @@ AT_DATA_GRAMMAR([[input.y]],
 ]AT_LALR1_CC_IF(
   [#define RANGE(Location) (Location).begin.line, (Location).end.line],
   [#define RANGE(Location) (Location).first_line, (Location).last_line])
-[%}
+[}
 
 $5]
 m4_ifval([$6], [%union
@@ -190,13 +190,12 @@ m4_ifval([$6], [%union
   int ival;
 }])
 AT_LALR1_CC_IF([%define "global_tokens_and_yystype"])
-[
-%{
-]AT_LALR1_CC_IF([typedef yy::location YYLTYPE;
+m4_ifval([$6], [[%after-definitions {]], [[%before-definitions {]])
+AT_LALR1_CC_IF([typedef yy::location YYLTYPE;
                 m4_ifval([$6], , [#define YYSTYPE int])])
 [static int yylex (]AT_LEX_FORMALS[);
 ]AT_LALR1_CC_IF([], [static void yyerror (const char *msg);])
-[%}
+[}
 
 ]m4_ifval([$6], [%type <ival> '(' 'x' 'y' ')' ';' thing line input])[
 

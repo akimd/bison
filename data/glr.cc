@@ -214,7 +214,6 @@ m4_defn([b4_parse_param])))],
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])
 
-
 @output @output_header_name@
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
   [2002, 2003, 2004, 2005, 2006])[
@@ -236,11 +235,12 @@ namespace ]b4_namespace[
   class location;
 }
 
-/* Copy the first part of user declarations.  */
-]b4_pre_prologue[
+]m4_ifdef([b4_before_definitions],
+[[/* Copy the %before-definitions blocks.  */
+]b4_before_definitions])[]dnl
 
-]/* Line __line__ of glr.cc.  */
-b4_syncline([@oline@], [@ofile@])[
+[/* Line __line__ of glr.cc.  */
+]b4_syncline([@oline@], [@ofile@])[
 
 #include "location.hh"
 
@@ -386,4 +386,8 @@ m4_ifset([b4_global_tokens_and_yystype],
 
 }
 
-#endif /* ! defined PARSER_HEADER_H */]
+]m4_ifdef([b4_after_definitions],
+[[/* Copy the %after-definitions blocks.  */
+]b4_after_definitions])[]dnl
+
+[#endif /* ! defined PARSER_HEADER_H */]

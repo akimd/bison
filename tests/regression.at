@@ -63,15 +63,17 @@ AT_DATA_GRAMMAR([input.y],
 [[%{
 void yyerror (const char *s);
 int yylex (void);
-#ifndef MY_TOKEN
-# error "MY_TOKEN not defined."
-#endif
 %}
 
 %union
 {
   int val;
 };
+%{
+#ifndef MY_TOKEN
+# error "MY_TOKEN not defined."
+#endif
+%}
 %token MY_TOKEN
 %%
 exp: MY_TOKEN;
@@ -101,6 +103,13 @@ AT_DATA_GRAMMAR([input.y],
 void yyerror (const char *s);
 int yylex (void);
 void print_my_token (void);
+%}
+
+%union
+{
+  int val;
+};
+%{
 void
 print_my_token (void)
 {
@@ -108,11 +117,6 @@ print_my_token (void)
   printf ("%d\n", my_token);
 }
 %}
-
-%union
-{
-  int val;
-};
 %token MY_TOKEN
 %%
 exp: MY_TOKEN;

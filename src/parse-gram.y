@@ -130,6 +130,10 @@ static int current_prec = 0;
 `----------------------*/
 
 %token
+  PERCENT_AFTER_DEFINITIONS
+			  "%after-definitions"
+  PERCENT_BEFORE_DEFINITIONS
+			  "%before-definitions"
   PERCENT_DEBUG           "%debug"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
@@ -212,6 +216,20 @@ declaration:
   grammar_declaration
 | PROLOGUE                         { prologue_augment (translate_code ($1, @1),
 						       @1); }
+| "%after-definitions" "{...}"
+    {
+      after_definitions = true;
+      /* Remove the '{', and replace the '}' with '\n'.  */
+      $2[strlen ($2) - 1] = '\n';
+      muscle_code_grow ("after_definitions", $2+1, @2);
+    }
+| "%before-definitions" "{...}"
+    {
+      before_definitions = true;
+      /* Remove the '{', and replace the '}' with '\n'.  */
+      $2[strlen ($2) - 1] = '\n';
+      muscle_code_grow ("before_definitions", $2+1, @2);
+    }
 | "%debug"                                 { debug_flag = true; }
 | "%define" string_content
     {

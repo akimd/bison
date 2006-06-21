@@ -58,8 +58,10 @@ void free_merger_functions (void);
 
 extern merger_list *merge_functions;
 
-/* Was %union seen?  */
+/* Was %union, %before-definitions, or %after-definitions seen?  */
 extern bool typed;
+extern bool before_definitions;
+extern bool after_definitions;
 
 /* Should rules have a default precedence?  */
 extern bool default_prec;

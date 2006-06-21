@@ -164,6 +164,8 @@ splice	 (\\[ \f\t\v]*\n)*
   `----------------------------*/
 <INITIAL>
 {
+  "%after-definitions"              return PERCENT_AFTER_DEFINITIONS;
+  "%before-definitions"             return PERCENT_BEFORE_DEFINITIONS;
   "%binary"               	    return PERCENT_NONASSOC;
   "%debug"                	    return PERCENT_DEBUG;
   "%default"[-_]"prec"    	    return PERCENT_DEFAULT_PREC;
