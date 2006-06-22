@@ -30,6 +30,8 @@ m4_define_default([b4_parser_class_name], [parser])
 m4_define_default([b4_location_type], [location])
 m4_define_default([b4_filename_type], [std::string])
 m4_define_default([b4_namespace], m4_defn([b4_prefix]))
+m4_define_default([b4_define_location_comparison],
+		  m4_if(b4_filename_type, [std::string], [1], [0]))
 
 
 # b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)

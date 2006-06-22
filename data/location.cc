@@ -119,7 +119,24 @@ namespace ]b4_namespace[
   {
     return begin + -width;
   }
+]m4_if(b4_define_location_comparison, [1], [[
+  /// Compare two position objects.
+  inline bool
+  operator== (const position& pos1, const position& pos2)
+  {
+    return
+      (pos1.filename == pos2.filename
+       || pos1.filename && pos2.filename && *pos1.filename == *pos2.filename)
+      && pos1.line == pos2.line && pos1.column == pos2.column;
+  }
 
+  /// Compare two position objects.
+  inline bool
+  operator!= (const position& pos1, const position& pos2)
+  {
+    return !(pos1 == pos2);
+  }
+]])[
   /** \brief Intercept output stream redirection.
    ** \param ostr the destination output stream
    ** \param pos a reference to the position to redirect
@@ -224,7 +241,21 @@ namespace ]b4_namespace[
     res.columns (width);
     return res;
   }
+]m4_if(b4_define_location_comparison, [1], [[
+  /// Compare two location objects.
+  inline bool
+  operator== (const location& loc1, const location& loc2)
+  {
+    return loc1.begin == loc2.begin && loc1.end == loc2.end;
+  }
 
+  /// Compare two location objects.
+  inline bool
+  operator!= (const location& loc1, const location& loc2)
+  {
+    return !(loc1 == loc2);
+  }
+]])[
   /** \brief Intercept output stream redirection.
    ** \param ostr the destination output stream
    ** \param loc a reference to the location to redirect

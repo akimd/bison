@@ -64,7 +64,7 @@ struct symbol
   const char *destructor;
   location destructor_location;
 
-  /* Does not own the memory. */
+  /* Printer. */
   const char *printer;
   location printer_location;
 

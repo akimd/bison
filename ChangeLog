@@ -1,3 +1,22 @@
+2006-06-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Add comparison operators for C++ location classes.  Discussed at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00092.html>.
+	* data/c++.m4 (b4_define_location_comparison): New boolean %define
+	declaration indicating whether filename_type has an operator==.  If
+	filename_type is `std::string', it defaults to `1', `0' otherwise.
+	* data/location.cc: Iff b4_define_location_comparison is `1', add
+	operator== and operator!= for class position and for class location.
+
+	Some minor fixes.
+	* src/scan-action.l: Remove unused file.
+	* src/symtab.c (symbol_printer_set): Use printer_location not
+	destructor_location.
+	* src/symtab.h (struct symbol): Replace incorrect source comment for
+	printer members.
+	* tests/input.at (Incompatible Aliases): Update output with correct
+	printer location.
+
 2006-06-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't put the pre-prologue in the header file.  For the yacc.c code
