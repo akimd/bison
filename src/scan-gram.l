@@ -164,8 +164,8 @@ splice	 (\\[ \f\t\v]*\n)*
   `----------------------------*/
 <INITIAL>
 {
-  "%after-definitions"              return PERCENT_AFTER_DEFINITIONS;
-  "%before-definitions"             return PERCENT_BEFORE_DEFINITIONS;
+  "%after-header"                   return PERCENT_AFTER_HEADER;
+  "%before-header"                  return PERCENT_BEFORE_HEADER;
   "%binary"               	    return PERCENT_NONASSOC;
   "%debug"                	    return PERCENT_DEBUG;
   "%default"[-_]"prec"    	    return PERCENT_DEFAULT_PREC;
@@ -173,6 +173,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%defines"              	    return PERCENT_DEFINES;
   "%destructor"		  	    return PERCENT_DESTRUCTOR;
   "%dprec"		  	    return PERCENT_DPREC;
+  "%end-header"                     return PERCENT_END_HEADER;
   "%error"[-_]"verbose"   	    return PERCENT_ERROR_VERBOSE;
   "%expect"               	    return PERCENT_EXPECT;
   "%expect"[-_]"rr"	  	    return PERCENT_EXPECT_RR;
@@ -199,6 +200,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%right"                	    return PERCENT_RIGHT;
   "%skeleton"             	    return PERCENT_SKELETON;
   "%start"                	    return PERCENT_START;
+  "%start-header"                   return PERCENT_START_HEADER;
   "%term"                 	    return PERCENT_TOKEN;
   "%token"                	    return PERCENT_TOKEN;
   "%token"[-_]"table"     	    return PERCENT_TOKEN_TABLE;

@@ -9,18 +9,16 @@ Changes in version 2.3+:
   helps to sanitize the global namespace during preprocessing, but POSIX Yacc
   requires them.  Bison still generates an enum for token names in all cases.
 
-* Handling of prologue blocks is now more consistent but potentially backward
-  incompatible.
+* Handling of traditional Yacc prologue blocks is now more consistent but
+  potentially incompatible with previous releases of Bison.
 
   As before, you declare prologue blocks in your grammar file with the
   `%{ ... %}' syntax.  To generate the pre-prologue, Bison concatenates all
-  prologue blocks that you've declared before any %union.  If you've declared a
-  %union, Bison concatenates all prologue blocks that you've declared after it
-  to generate the post-prologue.  (The new %before-definitions and
-  %after-definitions have a similar effect as %union on the prologues.  See
-  below.)
+  prologue blocks that you've declared before the first %union.  To generate
+  the post-prologue, Bison concatenates all prologue blocks that you've
+  declared after the first %union.  
 
-  Previous versions of Bison inserted the pre-prologue into both the header
+  Previous releases of Bison inserted the pre-prologue into both the header
   file and the code file in all cases except for LALR(1) parsers in C.  In the
   latter case, Bison inserted it only into the code file.  For parsers in C++,
   the point of insertion was before any token definitions (which associate
@@ -30,38 +28,50 @@ Changes in version 2.3+:
   Now, Bison never inserts the pre-prologue into the header file.  In the code
   file, it always inserts it before the token definitions.
 
-* Bison now provides the %before-definitions and %after-definitions directives.
+* Bison now provides a more flexible alternative to the traditional Yacc
+  prologue blocks: %before-header, %start-header, %end-header, and
+  %after-header.
 
-  For example, in your grammar file:
+  For example, the following declaration order in the grammar file reflects the
+  order in which Bison will output these code blocks.  However, you are free to
+  declare these code blocks in your grammar file in whatever order is most
+  convenient for you:
 
-    %{
-      /* A pre-prologue block.  For Yacc portability, Bison no longer puts this
-       * in the header file.  In the code file, Bison inserts it before any
-       * %before-definitions blocks.  */
-    %}
-    %before-definitions {
-      /* Bison inserts this into both the header file and code file.  In both
-       * files, the point of insertion is before any Bison-generated token,
-       * semantic type, location type, and class definitions.  This is a good
-       * place to define %union dependencies, for example.  */
+    %before-header {
+      /* Bison treats this block like a pre-prologue block: it inserts it into
+       * the code file before the contents of the header file.  It does *not*
+       * insert it into the header file.  This is a good place to put
+       * #include's that you want at the top of your code file.  A common
+       * example is `#include "system.h"'.  */
+    }
+    %start-header {
+      /* Bison inserts this block into both the header file and the code file.
+       * In both files, the point of insertion is before any Bison-generated
+       * token, semantic type, location type, and class definitions.  This is a
+       * good place to define %union dependencies, for example.  */
     }
     %union {
-      /* With previous versions of Bison, the first %union in your grammar file
-       * separated the pre-prologue blocks from the post-prologue blocks.  Now,
-       * the first %union, %before-definitions, or %after-definitions does
-       * that.  */
+      /* Unlike the traditional Yacc prologue blocks, the output order for the
+       * new %*-header blocks is not affected by their declaration position
+       * relative to any %union in the grammar file.  */
     }
-    %after-definitions {
-      /* If you want something in the header file and in the code file and it
-       * depends on any of the Bison-generated definitions in the header file,
-       * put it here.  */
+    %end-header {
+      /* Bison inserts this block into both the header file and the code file.
+       * In both files, the point of insertion is after the Bison-generated
+       * definitions.  This is a good place to declare or define public
+       * functions or data structures that depend on the Bison-generated
+       * definitions.  */
     }
-    %{
-      /* A post-prologue block.  If you want something in the code file but not
-       * in the header file and it depends on Bison-generated definitions, put
-       * it here.  In the code file, Bison inserts it after any
-       * %after-definitions blocks.  */
-    %}
+    %after-header {
+      /* Bison treats this block like a post-prologue block: it inserts it into
+       * the code file after the contents of the header file.  It does *not*
+       * insert it into the header file.  This is a good place to declare or
+       * define internal functions or data structures that depend on the
+       * Bison-generated definitions.  */
+    }
+
+  If you have multiple occurrences of any one of the above declarations, Bison
+  will concatenate the contents in declaration order.
 
 * The option `--report=look-ahead' has been changed to `--report=lookahead'.
   The old spelling still works, but is not documented and may be removed

@@ -2664,19 +2664,22 @@ can be done with two @var{Prologue} blocks, one before and one after the
 @dots{}
 @end smallexample
 
-@findex %before-definitions
+@findex %before-header
+@findex %start-header
+@findex %after-header
 If you've instructed Bison to generate a header file (@pxref{Table of Symbols,
 ,%defines}), you probably want @code{#include "ptypes.h"} to appear
 in that header file as well.
-In that case, use @code{%before-definitions} instead of a @var{Prologue}
-section (@pxref{Table of Symbols, ,%before-definitions}):
+In that case, use @code{%before-header}, @code{%start-header}, and
+@code{%after-header} instead of @var{Prologue} sections
+(@pxref{Table of Symbols, ,%start-header}):
 
 @smallexample
-%@{
+%before-header @{
   #include <stdio.h>
-%@}
+@}
 
-%before-definitions @{
+%start-header @{
   #include "ptypes.h"
 @}
 %union @{
@@ -2684,10 +2687,10 @@ section (@pxref{Table of Symbols, ,%before-definitions}):
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 
-%@{
+%after-header @{
   static void print_token_value (FILE *, int, YYSTYPE);
   #define YYPRINT(F, N, L) print_token_value (F, N, L)
-%@}
+@}
 
 @dots{}
 @end smallexample
@@ -4228,11 +4231,11 @@ typically needs to be able to refer to the above-mentioned declarations
 and to the token type codes.  @xref{Token Values, ,Semantic Values of
 Tokens}.
 
-@findex %before-definitions
-@findex %after-definitions
-If you have declared @code{%before-definitions} or @code{%after-definitions},
-the output header also contains their code.
-@xref{Table of Symbols, ,%before-definitions}.
+@findex %start-header
+@findex %end-header
+If you have declared @code{%start-header} or @code{%end-header}, the output
+header also contains their code.
+@xref{Table of Symbols, ,%start-header}.
 @end deffn
 
 @deffn {Directive} %destructor
@@ -7462,18 +7465,18 @@ the grammar for.
 @end example
 
 @noindent
-@findex %before-definitions
+@findex %start-header
 Then come the declarations/inclusions needed to define the
 @code{%union}.  Because the parser uses the parsing driver and
 reciprocally, both cannot include the header of the other.  Because the
 driver's header needs detailed knowledge about the parser class (in
 particular its inner types), it is the parser's header which will simply
 use a forward declaration of the driver.
-@xref{Table of Symbols, ,%before-definitions}.
+@xref{Table of Symbols, ,%start-header}.
 
 @comment file: calc++-parser.yy
 @example
-%before-definitions @{
+%start-header @{
 # include <string>
 class calcxx_driver;
 @}
@@ -7532,15 +7535,15 @@ them.
 @end example
 
 @noindent
-The code between @samp{%@{} and @samp{%@}} after the introduction of the
-@samp{%union} is output in the @file{*.cc} file; it needs detailed
-knowledge about the driver.
+@findex %after-header
+The code between @samp{%after-header @{} and @samp{@}} is output in the
+@file{*.cc} file; it needs detailed knowledge about the driver.
 
 @comment file: calc++-parser.yy
 @example
-%@{
+%after-header @{
 # include "calc++-driver.hh"
-%@}
+@}
 @end example
 
 
@@ -8208,53 +8211,78 @@ $end}, where @var{start} is the start symbol.  @xref{Start Decl, , The
 Start-Symbol}.  It cannot be used in the grammar.
 @end deffn
 
-@deffn {Directive} %after-definitions @{@var{code}@}
+@deffn {Directive} %after-header @{@var{code}@}
+Specifies code to be inserted into the code file after the contents of the
+header file.
+@xref{Table of Symbols, ,%start-header}.
+@end deffn
+
+@deffn {Directive} %before-header @{@var{code}@}
+Specifies code to be inserted into the code file before the contents of the
+header file.
+@xref{Table of Symbols, ,%start-header}.
+@end deffn
+
+@deffn {Directive} %end-header @{@var{code}@}
 Specifies code to be inserted both into the header file (if generated;
 @pxref{Table of Symbols, ,%defines}) and into the code file after any
 Bison-generated definitions.
-For details, @xref{Table of Symbols, ,%before-definitions}.
+@xref{Table of Symbols, ,%start-header}.
 @end deffn
 
-@deffn {Directive} %before-definitions @{@var{code}@}
+@deffn {Directive} %start-header @{@var{code}@}
 Specifies code to be inserted both into the header file (if generated;
 @pxref{Table of Symbols, ,%defines}) and into the code file before any
 Bison-generated definitions.
 
 @cindex Prologue
-@findex %after-definitions
+@findex %before-header
 @findex %union
-For example, in your grammar file:
+@findex %end-header
+@findex %after-header
+For example, the following declaration order in the grammar file reflects the
+order in which Bison will output these code blocks.  However, you are free to
+declare these code blocks in your grammar file in whatever order is most
+convenient for you:
 
 @smallexample
-%@{
-  /* A pre-prologue block.  For Yacc portability, Bison does not put
-   * this in the header file.  In the code file, Bison inserts it
-   * before any %before-definitions blocks.  */
-%@}
-%before-definitions @{
-  /* Bison inserts this into both the header file and code file.  In
-   * both files, the point of insertion is before any Bison-generated
-   * token, semantic type, location type, and class definitions.
-   * This is a good place to define %union dependencies, for
-   * example.  */
+%before-header @{
+  /* Bison treats this block like a pre-prologue block: it inserts it
+   * into the code file before the contents of the header file.  It
+   * does *not* insert it into the header file.  This is a good place
+   * to put #include's that you want at the top of your code file.  A
+   * common example is `#include "system.h"'.  */
+@}
+%start-header @{
+  /* Bison inserts this block into both the header file and the code
+   * file.  In both files, the point of insertion is before any
+   * Bison-generated token, semantic type, location type, and class
+   * definitions.  This is a good place to define %union
+   * dependencies, for example.  */
 @}
 %union @{
-  /* The first %union, %before-definitions, or %after-definitions
-   * in your grammar file separates the pre-prologue blocks from the
-   * post-prologue blocks.  */
+  /* Unlike the traditional Yacc prologue blocks, the output order
+   * for the %*-header blocks is not affected by their declaration
+   * position relative to any %union in the grammar file.  */
 @}
-%after-definitions @{
-  /* If you want something in the header file and in the code file
-   * and it depends on any of the Bison-generated definitions in the
-   * header file, put it here.  */
+%end-header @{
+  /* Bison inserts this block into both the header file and the code
+   * file.  In both files, the point of insertion is after the
+   * Bison-generated definitions.  This is a good place to declare or
+   * define public functions or data structures that depend on the
+   * Bison-generated definitions.  */
 @}
-%@{
-  /* A post-prologue block.  If you want something in the code file
-   * but not in the header file and it depends on Bison-generated
-   * definitions, put it here.  In the code file, Bison inserts it
-   * after any %after-definitions blocks.  */
-%@}
+%after-header @{
+  /* Bison treats this block like a post-prologue block: it inserts
+   * it into the code file after the contents of the header file.  It
+   * does *not* insert it into the header file.  This is a good place
+   * to declare or define internal functions or data structures that
+   * depend on the Bison-generated definitions.  */
+@}
 @end smallexample
+
+If you have multiple occurrences of any one of the above declarations, Bison
+will concatenate the contents in declaration order.
 
 @xref{Prologue, ,The Prologue}.
 @end deffn

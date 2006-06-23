@@ -130,14 +130,13 @@ static int current_prec = 0;
 `----------------------*/
 
 %token
-  PERCENT_AFTER_DEFINITIONS
-			  "%after-definitions"
-  PERCENT_BEFORE_DEFINITIONS
-			  "%before-definitions"
+  PERCENT_AFTER_HEADER    "%after-header"
+  PERCENT_BEFORE_HEADER   "%before-header"
   PERCENT_DEBUG           "%debug"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
+  PERCENT_END_HEADER      "%end-header"
   PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR	  "%expect-rr"
@@ -157,6 +156,7 @@ static int current_prec = 0;
   PERCENT_REQUIRE	  "%require"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
+  PERCENT_START_HEADER    "%start-header"
   PERCENT_TOKEN_TABLE     "%token-table"
   PERCENT_VERBOSE         "%verbose"
   PERCENT_YACC            "%yacc"
@@ -214,21 +214,21 @@ declarations:
 
 declaration:
   grammar_declaration
-| PROLOGUE                         { prologue_augment (translate_code ($1, @1),
-						       @1); }
-| "%after-definitions" "{...}"
+| PROLOGUE
     {
-      after_definitions = true;
-      /* Remove the '{', and replace the '}' with '\n'.  */
-      $2[strlen ($2) - 1] = '\n';
-      muscle_code_grow ("after_definitions", $2+1, @2);
+      prologue_augment (translate_code ($1, @1), @1, typed);
     }
-| "%before-definitions" "{...}"
+| "%after-header" "{...}"
     {
-      before_definitions = true;
       /* Remove the '{', and replace the '}' with '\n'.  */
       $2[strlen ($2) - 1] = '\n';
-      muscle_code_grow ("before_definitions", $2+1, @2);
+      prologue_augment (translate_code ($2+1, @2), @2, true);
+    }
+| "%before-header" "{...}"
+    {
+      /* Remove the '{', and replace the '}' with '\n'.  */
+      $2[strlen ($2) - 1] = '\n';
+      prologue_augment (translate_code ($2+1, @2), @2, false);
     }
 | "%debug"                                 { debug_flag = true; }
 | "%define" string_content
@@ -238,6 +238,12 @@ declaration:
     }
 | "%define" string_content string_content  { muscle_insert ($2, $3); }
 | "%defines"                               { defines_flag = true; }
+| "%end-header" "{...}"
+    {
+      /* Remove the '{', and replace the '}' with '\n'.  */
+      $2[strlen ($2) - 1] = '\n';
+      muscle_code_grow ("end_header", translate_code ($2+1, @2), @2);
+    }
 | "%error-verbose"                         { error_verbose = true; }
 | "%expect" INT                            { expected_sr_conflicts = $2; }
 | "%expect-rr" INT			   { expected_rr_conflicts = $2; }
@@ -261,6 +267,12 @@ declaration:
 | "%pure-parser"                           { pure_parser = true; }
 | "%require" string_content                { version_check (&@2, $2); }
 | "%skeleton" string_content               { skeleton = $2; }
+| "%start-header" "{...}"
+    {
+      /* Remove the '{', and replace the '}' with '\n'.  */
+      $2[strlen ($2) - 1] = '\n';
+      muscle_code_grow ("start_header", translate_code ($2+1, @2), @2);
+    }
 | "%token-table"                           { token_table_flag = true; }
 | "%verbose"                               { report_flag = report_states; }
 | "%yacc"                                  { yacc_flag = true; }

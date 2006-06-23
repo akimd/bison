@@ -53,9 +53,9 @@ namespace ]b4_namespace[
   class location;
 }
 
-]m4_ifdef([b4_before_definitions],
-[[/* Copy the %before-definitions blocks.  */
-]b4_before_definitions])[]dnl
+]m4_ifdef([b4_start_header],
+[[/* Copy the %start-header blocks.  */
+]b4_start_header])[]dnl
 
 [/* Line __line__ of lalr1.cc.  */
 ]b4_syncline([@oline@], [@ofile@])[
@@ -300,9 +300,9 @@ b4_error_verbose_if([, int tok])[);
 # define YYSTYPE b4_namespace::b4_parser_class_name::semantic_type
 #endif
 ])
-m4_ifdef([b4_after_definitions],
-[[/* Copy the %after-definitions blocks.  */
-]b4_after_definitions])[]dnl
+m4_ifdef([b4_end_header],
+[[/* Copy the %end-header blocks.  */
+]b4_end_header])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl

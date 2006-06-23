@@ -1,3 +1,47 @@
+2006-06-23  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Rename %before-definitions to %start-header and %after-definitions to
+	%end-header.  Don't use these declarations to separate pre-prologue
+	blocks from post-prologue blocks.  Add new order-independent
+	declarations %before-header and %after-header as alternatives to the
+	traditional Yacc pre-prologue and post-prologue blocks.  Discussed at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00110.html>.
+	* NEWS (2.3+): Update for these changes.
+	* data/glr.c (b4_before_definitions): Update to...
+	(b4_start_header): ... this.
+	(b4_after_definitions): Update to...
+	(b4_end_header): ... this.
+	* data/glr.cc: Likewise.
+	* data/lalr1.cc: Likewise.
+	* data/yacc.c: Likewise.
+	* doc/bison.texinfo (The prologue): Update names, and replace remaining
+	prologue blocks with %*-header declarations.
+	(Calc++ Parser): Likewise.
+	(Bison Declaration Summary): Update names.
+	(Bison Symbols): Update description.
+	* src/parse-gram.y (PERCENT_AFTER_DEFINITIONS): Update to...
+	(PERCENT_END_HEADER): ... this.
+	(PERCENT_BEFORE_DEFINITIONS): Update to...
+	(PERCENT_START_HEADER): ... this.
+	(PERCENT_AFTER_HEADER, PERCENT_BEFORE_HEADER): New tokens.
+	(declaration): Update token names and m4 macro names.
+	When parsing %end-header and %start-header, invoke translate_code
+	before muscle_code_grow, and no longer set global booleans to remember
+	whether these declarations have been seen.
+	Parse new %after-header and %before-header.
+	* src/reader.c (before_definitions, after_definitions): Remove.
+	(prologue_augment): Accept a new bool argument to specify whether to
+	augment the pre-prologue or post-prologue.
+	* src/reader.h (before_definitions, after_definitions): Remove these
+	extern's.
+	(prologue_augment): Add new bool argument.
+	* src/scan-gram.l (PERCENT_AFTER_DEFINITIONS): Update to...
+	(PERCENT_END_HEADER): ... this.
+	(PERCENT_BEFORE_DEFINITIONS): Update to...
+	(PERCENT_START_HEADER): ... this.
+	(PERCENT_AFTER_HEADER, PERCENT_BEFORE_HEADER): New tokens.
+	* tests/actions.at (Printers and Destructors): Update names.
+
 2006-06-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Add comparison operators for C++ location classes.  Discussed at

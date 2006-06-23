@@ -43,7 +43,7 @@ char const *token_name (int type);
 
 /* From reader.c. */
 void grammar_start_symbol_set (symbol *sym, location loc);
-void prologue_augment (const char *prologue, location loc);
+void prologue_augment (const char *prologue, location loc, bool post);
 void grammar_current_rule_begin (symbol *lhs, location loc);
 void grammar_current_rule_end (location loc);
 void grammar_midrule_action (void);
@@ -58,10 +58,8 @@ void free_merger_functions (void);
 
 extern merger_list *merge_functions;
 
-/* Was %union, %before-definitions, or %after-definitions seen?  */
+/* Was %union seen?  */
 extern bool typed;
-extern bool before_definitions;
-extern bool after_definitions;
 
 /* Should rules have a default precedence?  */
 extern bool default_prec;

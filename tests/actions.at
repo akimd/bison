@@ -172,7 +172,7 @@ m4_if([$1$2$3], $[1]$[2]$[3], [],
 # helping macros.  So don't put any directly in the Bison file.
 AT_BISON_OPTION_PUSHDEFS([$5])
 AT_DATA_GRAMMAR([[input.y]],
-[[%before-definitions {
+[[%start-header {
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -190,7 +190,7 @@ m4_ifval([$6], [%union
   int ival;
 }])
 AT_LALR1_CC_IF([%define "global_tokens_and_yystype"])
-m4_ifval([$6], [[%after-definitions {]], [[%before-definitions {]])
+m4_ifval([$6], [[%end-header {]], [[%start-header {]])
 AT_LALR1_CC_IF([typedef yy::location YYLTYPE;
                 m4_ifval([$6], , [#define YYSTYPE int])])
 [static int yylex (]AT_LEX_FORMALS[);
