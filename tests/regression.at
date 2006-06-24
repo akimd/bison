@@ -1004,3 +1004,79 @@ AT_CLEANUP
 AT_CHECK_EXPECT2()
 AT_CHECK_EXPECT2([%glr-parser])
 AT_CHECK_EXPECT2([%skeleton "lalr1.cc"])
+
+
+
+## --------------------------------------------- ##
+## Braced code in declaration in rules section.  ##
+## --------------------------------------------- ##
+
+AT_SETUP([Braced code in declaration in rules section])
+
+# Bison once mistook braced code in a declaration in the rules section to be a
+# rule action.
+
+AT_DATA_GRAMMAR([input.y],
+[[%{
+#include <stdio.h>
+void yyerror (char const *msg);
+int yylex (void);
+%}
+
+%error-verbose
+
+%%
+
+start:
+  {
+    printf ("Bison would once convert this action to a midrule because of the"
+	    " subsequent braced code.\n");
+  }
+  ;
+
+%destructor { fprintf (stderr, "DESTRUCTOR\n"); } 'a';
+%printer { fprintf (yyoutput, "PRINTER"); } 'a';
+
+%%
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+yylex (void)
+{
+  return 'a';
+}
+
+int
+main (void)
+{
+  yydebug = 1;
+  return !yyparse ();
+}
+]])
+
+AT_CHECK([bison -t -o input.c input.y])
+AT_COMPILE([input])
+AT_PARSER_CHECK([./input], 0,
+[[Bison would once convert this action to a midrule because of the subsequent braced code.
+]],
+[[Starting parse
+Entering state 0
+Reducing stack by rule 1 (line 22):
+-> $$ = nterm start ()
+Stack now 0
+Entering state 1
+Reading a token: Next token is token 'a' (PRINTER)
+syntax error, unexpected 'a', expecting $end
+Error: popping nterm start ()
+Stack now 0
+Cleanup: discarding lookahead token 'a' (PRINTER)
+DESTRUCTOR
+Stack now 0
+]])
+
+AT_CLEANUP

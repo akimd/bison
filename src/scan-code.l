@@ -45,18 +45,16 @@
 
 /* The current calling start condition: SC_RULE_ACTION or
    SC_SYMBOL_ACTION. */
-# define YY_DECL const char *code_lex (int sc_context)
+# define YY_DECL const char *code_lex (int sc_context, symbol_list *rule)
 YY_DECL;
 
 #define YY_USER_ACTION  location_compute (loc, &loc->end, yytext, yyleng);
 
-static void handle_action_dollar (char *cp, location dollar_loc);
-static void handle_action_at (char *cp, location at_loc);
+static void handle_action_dollar (symbol_list *rule, char *cp,
+				  location dollar_loc);
+static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
 static location the_location;
 static location *loc = &the_location;
-
-/* The rule being processed. */
-symbol_list *current_rule;
 %}
  /* C and C++ comments in code. */
 %x SC_COMMENT SC_LINE_COMMENT
@@ -153,8 +151,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_RULE_ACTION>
 {
-  "$"("<"{tag}">")?(-?[0-9]+|"$")   handle_action_dollar (yytext, *loc);
-  "@"(-?[0-9]+|"$")		    handle_action_at (yytext, *loc);
+  "$"("<"{tag}">")?(-?[0-9]+|"$")   handle_action_dollar (rule, yytext, *loc);
+  "@"(-?[0-9]+|"$")		    handle_action_at (rule, yytext, *loc);
 
   "$"  {
     warn_at (*loc, _("stray `$'"));
@@ -238,11 +236,11 @@ int max_left_semantic_context = 0;
 `------------------------------------------------------------------*/
 
 static void
-handle_action_dollar (char *text, location dollar_loc)
+handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 {
   const char *type_name = NULL;
   char *cp = text + 1;
-  int rule_length = symbol_list_length (current_rule->next);
+  int rule_length = symbol_list_length (rule->next);
 
   /* Get the type name if explicit. */
   if (*cp == '<')
@@ -257,15 +255,15 @@ handle_action_dollar (char *text, location dollar_loc)
   if (*cp == '$')
     {
       if (!type_name)
-	type_name = symbol_list_n_type_name_get (current_rule, dollar_loc, 0);
+	type_name = symbol_list_n_type_name_get (rule, dollar_loc, 0);
       if (!type_name && typed)
 	complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
-		     current_rule->sym->tag);
+		     rule->sym->tag);
       if (!type_name)
 	type_name = "";
       obstack_fgrow1 (&obstack_for_string,
 		      "]b4_lhs_value([%s])[", type_name);
-      current_rule->used = true;
+      rule->used = true;
     }
   else
     {
@@ -279,16 +277,16 @@ handle_action_dollar (char *text, location dollar_loc)
 	    max_left_semantic_context = 1-n;
 	  if (!type_name && n > 0)
 	    type_name =
-	      symbol_list_n_type_name_get (current_rule, dollar_loc, n);
+	      symbol_list_n_type_name_get (rule, dollar_loc, n);
 	  if (!type_name && typed)
 	    complain_at (dollar_loc, _("$%d of `%s' has no declared type"),
-			 n, current_rule->sym->tag);
+			 n, rule->sym->tag);
 	  if (!type_name)
 	    type_name = "";
 	  obstack_fgrow3 (&obstack_for_string,
 			  "]b4_rhs_value(%d, %d, [%s])[",
 			  rule_length, n, type_name);
-	  symbol_list_n_used_set (current_rule, n, true);
+	  symbol_list_n_used_set (rule, n, true);
 	}
       else
 	complain_at (dollar_loc, _("integer out of range: %s"), quote (text));
@@ -302,10 +300,10 @@ handle_action_dollar (char *text, location dollar_loc)
 `------------------------------------------------------*/
 
 static void
-handle_action_at (char *text, location at_loc)
+handle_action_at (symbol_list *rule, char *text, location at_loc)
 {
   char *cp = text + 1;
-  int rule_length = symbol_list_length (current_rule->next);
+  int rule_length = symbol_list_length (rule->next);
   locations_flag = true;
 
   if (*cp == '$')
@@ -337,7 +335,7 @@ handle_action_at (char *text, location at_loc)
    INITIAL), the processing is different.  */
 
 static const char *
-translate_action (int sc_context, const char *a, location l)
+translate_action (int sc_context, symbol_list *rule, const char *a, location l)
 {
   const char *res;
   static bool initialized = false;
@@ -352,29 +350,28 @@ translate_action (int sc_context, const char *a, location l)
 
   loc->start = loc->end = l.start;
   yy_switch_to_buffer (yy_scan_string (a));
-  res = code_lex (sc_context);
+  res = code_lex (sc_context, rule);
   yy_delete_buffer (YY_CURRENT_BUFFER);
 
   return res;
 }
 
 const char *
-translate_rule_action (symbol_list *r, const char *a, location l)
+translate_rule_action (symbol_list *rule, const char *a, location l)
 {
-  current_rule = r;
-  return translate_action (SC_RULE_ACTION, a, l);
+  return translate_action (SC_RULE_ACTION, rule, a, l);
 }
 
 const char *
 translate_symbol_action (const char *a, location l)
 {
-  return translate_action (SC_SYMBOL_ACTION, a, l);
+  return translate_action (SC_SYMBOL_ACTION, NULL, a, l);
 }
 
 const char *
 translate_code (const char *a, location l)
 {
-  return translate_action (INITIAL, a, l);
+  return translate_action (INITIAL, NULL, a, l);
 }
 
 /*-----------------------------------------------.

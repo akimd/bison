@@ -243,8 +243,6 @@ splice	 (\\[ \f\t\v]*\n)*
 
   /* Code in between braces.  */
   "{" {
-    if (current_rule && current_rule->action)
-      grammar_midrule_action ();
     STRING_GROW;
     braces_level = 0;
     code_start = loc->start;

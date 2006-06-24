@@ -1,3 +1,28 @@
+2006-06-24  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix bug that mistakes braced code in a declaration in the rules section
+	to be a rule action.  Mentioned at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00105.html>.
+	* src/scan-gram.l: Move midrule action detection from the start of the
+	scanning of any braced code to...
+	* src/parse-gram.y (rhs): ... the parsing of braced code as a rule
+	action.  For readability, use $2 and @2 rather than the equivalent
+	global variables.
+	* tests/regression.at (Braced code in declaration in rules section):
+	New test to catch the error fixed by the above patch.
+
+	Work on code readability some.
+	* src/scan-code.l (current_rule): Get rid of this misleading and
+	redundant declaration: it's actually extern'ed in reader.h.
+	(YY_DECL, code_lex, handle_action_dollar, handle_action_at,
+	translate_action): Add a rule argument and use it instead of the global
+	current_rule.
+	(translate_rule_action): This already receives current_rule through an
+	argument, so pass it on to translate_action instead of assigning
+	current_rule to current_rule.
+	(translate_symbol_action, translate_code): Pass rule = NULL to
+	translate_action.
+
 2006-06-23  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Rename %before-definitions to %start-header and %after-definitions to
