@@ -1,3 +1,13 @@
+2006-06-25  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Clean up yesterday's patch.
+	* parse-gram.y (rhs): Move grammar_midrule_action invocation from here
+	to...
+	* src/reader.c (grammar_current_rule_action_append): ... here for
+	consistency with grammar_current_rule_symbol_append.
+	* tests/regression.at (Braced code in declaration in rules section):
+	Make yyerror and yylex static as usual.
+
 2006-06-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix bug that mistakes braced code in a declaration in the rules section

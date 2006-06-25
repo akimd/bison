@@ -1019,8 +1019,8 @@ AT_SETUP([Braced code in declaration in rules section])
 AT_DATA_GRAMMAR([input.y],
 [[%{
 #include <stdio.h>
-void yyerror (char const *msg);
-int yylex (void);
+static void yyerror (char const *msg);
+static int yylex (void);
 %}
 
 %error-verbose
@@ -1039,13 +1039,13 @@ start:
 
 %%
 
-void
+static void
 yyerror (char const *msg)
 {
   fprintf (stderr, "%s\n", msg);
 }
 
-int
+static int
 yylex (void)
 {
   return 'a';

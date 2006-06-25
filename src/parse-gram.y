@@ -473,11 +473,7 @@ rhs:
 | rhs symbol
     { grammar_current_rule_symbol_append ($2, @2); }
 | rhs "{...}"
-    {
-      if (current_rule && current_rule->action)
-	grammar_midrule_action ();
-      grammar_current_rule_action_append ($2, @2);
-    }
+    { grammar_current_rule_action_append ($2, @2); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3, @3); }
 | rhs "%dprec" INT
