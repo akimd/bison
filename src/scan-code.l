@@ -269,17 +269,17 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       if (!type_name)
 	type_name = symbol_list_n_type_name_get (rule, dollar_loc, 0);
       if (!type_name && typed)
-       {
-	 if (rule->midrule_parent_rule)
-	   complain_at (dollar_loc,
-			_("$$ for the midrule at $%d of `%s' has no declared"
-			  " type"),
-			rule->midrule_parent_rhs_index,
-			effective_rule->sym->tag);
-	 else
-	   complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
-			rule->sym->tag);
-       }
+	{
+	  if (rule->midrule_parent_rule)
+	    complain_at (dollar_loc,
+			 _("$$ for the midrule at $%d of `%s' has no declared"
+			   " type"),
+			 rule->midrule_parent_rhs_index,
+			 effective_rule->sym->tag);
+	  else
+	    complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
+			 rule->sym->tag);
+	}
       if (!type_name)
 	type_name = "";
       obstack_fgrow1 (&obstack_for_string,
