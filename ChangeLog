@@ -1,5 +1,24 @@
 2006-06-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Don't miss %merge result type warnings just because the LHS types are
+	declared after the %merge.
+	* src/reader.c (get_merge_function): Don't set the merger type yet.
+	(record_merge_function_type): New function for setting the merger type
+	and checking for clashes.
+	(grammar_current_rule_merge_set): Set the location of the %merge for
+	the current rule.
+	(packgram): Invoke record_merge_function_type for each rule now that
+	all symbol type declarations have been parsed.
+	* src/reader.h (merger_list.type_declaration_location): New member
+	storing the location of the first %merge from which the type for this
+	merging function was derived.
+	* src/symlist.h (symbol_list.merger_declaration_location): New member
+	storing the location of a rule's %merge, if any.
+	* tests/glr-regression.at (Missed %merge type warnings when LHS type is
+	declared later): New test to catch the error fixed by the above patch.
+
+2006-06-26  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Get action warnings (grammar_rule_check) right even when symbol
 	declarations appear after the rules.  Don't mistake the type of $$ in
 	a midrule to be that of its parent rule's $$.

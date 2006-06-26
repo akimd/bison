@@ -54,6 +54,7 @@ typedef struct symbol_list
   symbol *ruleprec;
   int dprec;
   int merger;
+  location merger_declaration_location;
 
   /* The list.  */
   struct symbol_list *next;

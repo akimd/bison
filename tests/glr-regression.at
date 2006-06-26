@@ -1661,3 +1661,58 @@ AT_CHECK([[./glr-regr17]], 0, [],
 ])
 
 AT_CLEANUP
+
+
+## -------------------------------------------------------------##
+## Missed %merge type warnings when LHS type is declared later. ##
+## -------------------------------------------------------------##
+
+AT_SETUP([Missed %merge type warnings when LHS type is declared later])
+AT_DATA_GRAMMAR([glr-regr18.y],
+[[%glr-parser
+
+%{
+  static void yyerror (char const *);
+  static int yylex ();
+%}
+
+%union {
+  int type1;
+  int type2;
+}
+
+%%
+
+sym1: sym2 %merge<merge> { $$ = $1; } ;
+sym2: %merge<merge> { $$ = 0; } ;
+
+%type <type1> sym1;
+%type <type2> sym2;
+
+%%
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex ()
+{
+  return 0;
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_CHECK([[bison -o glr-regr18.c glr-regr18.y]], 0, [],
+[glr-regr18.y:26.13-19: warning: result type clash on merge function `merge': <type2> != <type1>
+glr-regr18.y:25.18-24: warning: first declaration
+])
+
+AT_CLEANUP
