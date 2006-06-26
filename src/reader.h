@@ -52,7 +52,6 @@ void grammar_current_rule_dprec_set (int dprec, location loc);
 void grammar_current_rule_merge_set (uniqstr name, location loc);
 void grammar_current_rule_symbol_append (symbol *sym, location loc);
 void grammar_current_rule_action_append (const char *action, location loc);
-extern symbol_list *current_rule;
 void reader (void);
 void free_merger_functions (void);
 

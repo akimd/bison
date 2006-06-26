@@ -33,9 +33,9 @@ extern int max_left_semantic_context;
 
 void code_scanner_free (void);
 
-/* The action A contains $$, $1 etc. referring to the values
+/* The action of the rule R contains $$, $1 etc. referring to the values
    of the rule R. */
-const char *translate_rule_action (symbol_list *r, const char *a, location l);
+const char *translate_rule_action (symbol_list *r);
 
 /* The action A refers to $$ and @$ only, referring to a symbol. */
 const char *translate_symbol_action (const char *a, location l);

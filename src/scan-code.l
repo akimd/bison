@@ -357,9 +357,10 @@ translate_action (int sc_context, symbol_list *rule, const char *a, location l)
 }
 
 const char *
-translate_rule_action (symbol_list *rule, const char *a, location l)
+translate_rule_action (symbol_list *rule)
 {
-  return translate_action (SC_RULE_ACTION, rule, a, l);
+  return translate_action (SC_RULE_ACTION, rule, rule->action,
+			   rule->action_location);
 }
 
 const char *
