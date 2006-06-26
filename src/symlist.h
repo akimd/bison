@@ -32,9 +32,16 @@ typedef struct symbol_list
   symbol *sym;
   location location;
 
-  /* If this symbol is the generated lhs for a mid-rule, a pointer to
-     that mid-rule.  */
+  /* If this symbol is the generated lhs for a midrule but this is the rule in
+     whose rhs it appears, MIDRULE = a pointer to that midrule.  */
   struct symbol_list *midrule;
+
+  /* If this symbol is the generated lhs for a midrule and this is that
+     midrule, MIDRULE_PARENT_RULE = a pointer to the rule in whose rhs it
+     appears, and MIDRULE_PARENT_RHS_INDEX = its rhs index (1-origin) in the
+     parent rule.  */
+  struct symbol_list *midrule_parent_rule;
+  int midrule_parent_rhs_index;
 
   /* The action is attached to the LHS of a rule. */
   const char *action;

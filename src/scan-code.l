@@ -240,7 +240,19 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 {
   const char *type_name = NULL;
   char *cp = text + 1;
-  int rule_length = symbol_list_length (rule->next);
+  symbol_list *effective_rule;
+  int effective_rule_length;
+
+  if (rule->midrule_parent_rule)
+    {
+      effective_rule = rule->midrule_parent_rule;
+      effective_rule_length = rule->midrule_parent_rhs_index - 1;
+    }
+  else
+    {
+      effective_rule = rule;
+      effective_rule_length = symbol_list_length (rule->next);
+    }
 
   /* Get the type name if explicit. */
   if (*cp == '<')
@@ -257,8 +269,17 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       if (!type_name)
 	type_name = symbol_list_n_type_name_get (rule, dollar_loc, 0);
       if (!type_name && typed)
-	complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
-		     rule->sym->tag);
+       {
+	 if (rule->midrule_parent_rule)
+	   complain_at (dollar_loc,
+			_("$$ for the midrule at $%d of `%s' has no declared"
+			  " type"),
+			rule->midrule_parent_rhs_index,
+			effective_rule->sym->tag);
+	 else
+	   complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
+			rule->sym->tag);
+       }
       if (!type_name)
 	type_name = "";
       obstack_fgrow1 (&obstack_for_string,
@@ -270,23 +291,23 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       long int num;
       set_errno (0);
       num = strtol (cp, 0, 10);
-      if (INT_MIN <= num && num <= rule_length && ! get_errno ())
+      if (INT_MIN <= num && num <= effective_rule_length && ! get_errno ())
 	{
 	  int n = num;
 	  if (1-n > max_left_semantic_context)
 	    max_left_semantic_context = 1-n;
 	  if (!type_name && n > 0)
 	    type_name =
-	      symbol_list_n_type_name_get (rule, dollar_loc, n);
+	      symbol_list_n_type_name_get (effective_rule, dollar_loc, n);
 	  if (!type_name && typed)
 	    complain_at (dollar_loc, _("$%d of `%s' has no declared type"),
-			 n, rule->sym->tag);
+			 n, effective_rule->sym->tag);
 	  if (!type_name)
 	    type_name = "";
 	  obstack_fgrow3 (&obstack_for_string,
 			  "]b4_rhs_value(%d, %d, [%s])[",
-			  rule_length, n, type_name);
-	  symbol_list_n_used_set (rule, n, true);
+			  effective_rule_length, n, type_name);
+	  symbol_list_n_used_set (effective_rule, n, true);
 	}
       else
 	complain_at (dollar_loc, _("integer out of range: %s"), quote (text));
@@ -303,8 +324,13 @@ static void
 handle_action_at (symbol_list *rule, char *text, location at_loc)
 {
   char *cp = text + 1;
-  int rule_length = symbol_list_length (rule->next);
   locations_flag = true;
+  int effective_rule_length;
+
+  if (rule->midrule_parent_rule)
+    effective_rule_length = rule->midrule_parent_rhs_index - 1;
+  else
+    effective_rule_length = symbol_list_length (rule->next);
 
   if (*cp == '$')
     obstack_sgrow (&obstack_for_string, "]b4_lhs_location[");
@@ -314,11 +340,11 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
       set_errno (0);
       num = strtol (cp, 0, 10);
 
-      if (INT_MIN <= num && num <= rule_length && ! get_errno ())
+      if (INT_MIN <= num && num <= effective_rule_length && ! get_errno ())
 	{
 	  int n = num;
 	  obstack_fgrow2 (&obstack_for_string, "]b4_rhs_location(%d, %d)[",
-			  rule_length, n);
+			  effective_rule_length, n);
 	}
       else
 	complain_at (at_loc, _("integer out of range: %s"), quote (text));

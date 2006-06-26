@@ -1,5 +1,49 @@
 2006-06-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Get action warnings (grammar_rule_check) right even when symbol
+	declarations appear after the rules.  Don't mistake the type of $$ in
+	a midrule to be that of its parent rule's $$.
+	* src/reader.c (grammar_current_rule_end): Don't invoke
+	grammar_rule_check yet since not all symbol declarations may have been
+	parsed yet.
+	(grammar_midrule_action): Likewise.
+	Don't record whether the midrule's $$ has been used yet since actions
+	haven't been translated yet.
+	Record the midrule's parent rule and its RHS index within the parent
+	rule.
+	(grammar_current_rule_action_append): Don't translate the action yet
+	since not all symbol declarations may have been parsed yet and, thus,
+	warnings about types for $$, $n, @$, and @n can't be reported yet.
+	(packgram): Translate the action and invoke grammar_rule_check now that
+	all symbol declarations have been parsed.
+	* src/scan-code.l (handle_action_dollar): Now that this is invoked
+	after parsing the entire grammar file, the symbol list here in the case
+	of a midrule is actually the midrule's empty RHS, so reference its
+	parent rule's RHS where necessary.
+	On the other hand, now that you can already know it's a midrule, you
+	aren't forced to think $$ has the same type as its parent rule's $$.
+	(handle_action_at): In the case of a midrule, reference the parent rule
+	where necessary.
+	* src/symlist.c (symbol_list_new): Initialize new midrule-related
+	members.
+	(symbol_list_length): Now that this is invoked after all rules have
+	been parsed, a NULL symbol (rather than a NULL symbol list node)
+	terminates a rule.  symbol_list_print already does this correctly.
+	* src/symlist.h (symbol_list.midrule_parent_rule,
+	symbol_list.midrule_parent_rhs_index): New members so that midrules can
+	remember their relationships with their parents.
+	* tests/input.at (Type Clashes): Extend to catch the midrule $$ error
+	fixed by the above patch.
+	(_AT_UNUSED_VALUES_DECLARATIONS, AT_CHECK_UNUSED_VALUES): New m4 macros
+	implementing...
+	(Unused values): ... this old test case and...
+	(Unused values before symbol declarations): ... this new test case.
+	This one is the same as `Unused values' except that all symbol
+	declarations appear after the rules in order to catch the rest of the
+	errors fixed by the above patch.
+
+2006-06-26  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	More cleanup.
 	* src/reader.c (current_rule): Declare it static since it's no longer
 	used outside this file.
