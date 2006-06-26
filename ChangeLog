@@ -1,13 +1,13 @@
 2006-06-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
-        More cleanup.
-        * src/reader.c (current_rule): Declare it static since it's no longer
-        used outside this file.
-        (grammar_current_rule_action_append): Remove redundant arguments from
-        translate_rule_action invocation.
-        * src/reader.h (current_rule): Remove this unused extern.
-        * src/scan-code.h (translate_rule_action): Remove redundant arguments.
-        * src/scan-code.l (translate_rule_action): Likewise.
+	More cleanup.
+	* src/reader.c (current_rule): Declare it static since it's no longer
+	used outside this file.
+	(grammar_current_rule_action_append): Remove redundant arguments from
+	translate_rule_action invocation.
+	* src/reader.h (current_rule): Remove this unused extern.
+	* src/scan-code.h (translate_rule_action): Remove redundant arguments.
+	* src/scan-code.l (translate_rule_action): Likewise.
 
 2006-06-25  Joel E. Denny  <jdenny@ces.clemson.edu>
 
