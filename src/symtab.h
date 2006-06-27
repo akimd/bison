@@ -20,6 +20,11 @@
    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
 
+/**
+ * \file symtab.h
+ * \brief Manipulating ::symbol.
+ */
+
 #ifndef SYMTAB_H_
 # define SYMTAB_H_
 
@@ -31,16 +36,16 @@
 | Symbols.  |
 `----------*/
 
-/* Symbol classes.  */
+/** Symbol classes.  */
 typedef enum
 {
-  unknown_sym,
-  token_sym,		/* terminal symbol */
-  nterm_sym		/* non-terminal */
+  unknown_sym,          /**< Undefined.  */
+  token_sym,		/**< Terminal. */
+  nterm_sym		/**< Non-terminal. */
 } symbol_class;
 
 
-/* Internal token numbers. */
+/** Internal token numbers. */
 typedef int symbol_number;
 #define SYMBOL_NUMBER_MAXIMUM INT_MAX
 
@@ -51,20 +56,20 @@ typedef struct symbol symbol;
    symbol_check_alias_consistency.  */
 struct symbol
 {
-  /* The key, name of the symbol.  */
+  /** The key, name of the symbol.  */
   uniqstr tag;
-  /* The location of its first occurrence.  */
+  /** The location of its first occurrence.  */
   location location;
 
-  /* Its %type and associated printer and destructor.  */
+  /** Its %type and associated printer and destructor.  */
   uniqstr type_name;
   location type_location;
 
-  /* Does not own the memory. */
+  /** Does not own the memory. */
   const char *destructor;
   location destructor_location;
 
-  /* Printer. */
+  /** Printer. */
   const char *printer;
   location printer_location;
 
@@ -82,7 +87,8 @@ struct symbol
   bool declared;
 };
 
-/* Undefined user number.  */
+
+/** Undefined user number.  */
 #define USER_NUMBER_UNDEFINED -1
 
 /* `symbol->user_token_number == USER_NUMBER_ALIAS' means this symbol
@@ -94,52 +100,62 @@ struct symbol
 /* Undefined internal token number.  */
 #define NUMBER_UNDEFINED (-1)
 
-/* Print a symbol (for debugging). */
+/** Print a symbol (for debugging). */
 void symbol_print (symbol *s, FILE *f);
 
-/* Fetch (or create) the symbol associated to KEY.  */
+/** Fetch (or create) the symbol associated to KEY.  */
 symbol *symbol_from_uniqstr (const uniqstr key, location loc);
 
-/* Fetch (or create) the symbol associated to KEY.  */
+/** Fetch (or create) the symbol associated to KEY.  */
 symbol *symbol_get (const char *key, location loc);
 
-/* Generate a dummy nonterminal, whose name cannot conflict with the
-   user's names.  */
+/** Generate a dummy nonterminal.
+
+   Its name cannot conflict with the user's names.  */
 symbol *dummy_symbol_get (location loc);
 
-/* Declare the new symbol SYM.  Make it an alias of SYMVAL.  */
+/** Declare the new symbol \c sym.  Make it an alias of \c symval.  */
 void symbol_make_alias (symbol *sym, symbol *symval, location loc);
 
-/* Set the TYPE_NAME associated with SYM.  Do nothing if passed 0 as
-   TYPE_NAME.  */
+/** Set the \c type_name associated with \c sym.
+
+    Do nothing if passed 0 as \c type_name.  */
 void symbol_type_set (symbol *sym, uniqstr type_name, location loc);
 
-/* Set the DESTRUCTOR associated with SYM.  */
+/** Set the \c destructor associated with \c sym.  */
 void symbol_destructor_set (symbol *sym, const char *destructor, location loc);
 
-/* Set the PRINTER associated with SYM.  */
+/** Set the \c printer associated with \c sym.  */
 void symbol_printer_set (symbol *sym, const char *printer, location loc);
 
-/* Set the PRECEDENCE associated with SYM.  Ensure that SYMBOL is a
-   terminal.  Do nothing if invoked with UNDEF_ASSOC as ASSOC.  */
+/* Set the \c precedence associated with \c sym.
+
+   Ensure that \a symbol is a terminal.
+   Do nothing if invoked with \c undef_assoc as \c assoc.  */
 void symbol_precedence_set (symbol *sym, int prec, assoc a, location loc);
 
-/* Set the CLASS associated with SYM.  */
+/** Set the \c class associated with \c sym.  */
 void symbol_class_set (symbol *sym, symbol_class class, location loc,
 		       bool declaring);
 
-/* Set the USER_TOKEN_NUMBER associated with SYM.  */
+/** Set the \c user_token_number associated with \c sym.  */
 void symbol_user_token_number_set (symbol *sym, int user_number, location loc);
 
 
-/* Distinguished symbols.  AXIOM is the real start symbol, that used
-   by the automaton.  STARTSYMBOL is the one specified by the user.
-   */
+/** The error token. */
 extern symbol *errtoken;
+/** The token for unknown tokens.  */
 extern symbol *undeftoken;
+/** The end of input token.  */
 extern symbol *endtoken;
+/** The genuine start symbol.
+
+   $accept: start-symbol $end */
 extern symbol *accept;
+
+/** The user start symbol. */
 extern symbol *startsymbol;
+/** The location of the \c %start declaration.  */
 extern location startsymbol_location;
 
 
@@ -148,18 +164,21 @@ extern location startsymbol_location;
 `---------------*/
 
 
-/* Create the symbol table.  */
+/** Create the symbol table.  */
 void symbols_new (void);
 
-/* Free all the memory allocated for symbols.  */
+/** Free all the memory allocated for symbols.  */
 void symbols_free (void);
 
-/* Check that all the symbols are defined.  Report any undefined
-   symbols and consider them nonterminals.  */
+/** Check that all the symbols are defined.
+
+    Report any undefined symbols and consider them nonterminals.  */
 void symbols_check_defined (void);
 
-/* Perform various sanity checks, assign symbol numbers, and set up
-   TOKEN_TRANSLATIONS.  */
+/** Sanity checks and #token_translations construction.
+
+   Perform various sanity checks, assign symbol numbers, and set up
+   #token_translations.  */
 void symbols_pack (void);
 
 #endif /* !SYMTAB_H_ */

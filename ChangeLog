@@ -1,3 +1,9 @@
+2006-06-27  Akim Demaille  <akim@epita.fr>
+
+	* doc/Doxyfile.in: New.
+	* doc/Makefile.am: Use it.
+	* src/lalr.h, src/symtab.h: Initial doxygenation.
+
 2006-06-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't miss %merge result type warnings just because the LHS types are

@@ -1,6 +1,6 @@
 /* Compute lookahead criteria for bison,
 
-   Copyright (C) 1984, 1986, 1989, 2000, 2002, 2004 Free Software
+   Copyright (C) 1984, 1986, 1989, 2000, 2002, 2004, 2006 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -32,35 +32,41 @@
 /* Import the definition of CORE, TRANSITIONS and REDUCTIONS. */
 # include "state.h"
 
-/* Compute how to make the finite state machine deterministic; find
-   which rules need lookahead in each state, and which lookahead
-   tokens they accept.  */
 
+/** Build the LALR(1) automaton.
+
+   Compute how to make the finite state machine deterministic; find
+   which rules need lookahead in each state, and which lookahead
+   tokens they accept.
+
+   Builds:
+   - #goto_map
+   - #from_state
+   - #to_state
+*/
 void lalr (void);
 
-/* Release the information related to lookahead tokens.  Can be performed
-   once the action tables are computed.  */
 
+/** Release the information related to lookahead tokens.
+
+   Can be performed once the action tables are computed.  */
 void lalr_free (void);
 
-
-/* lalr() builds these data structures. */
-
-/* GOTO_MAP, FROM_STATE and TO_STATE -- record each shift transition
-   which accepts a variable (a nonterminal).
-
-   FROM_STATE[T] -- state number which a transition leads from.
-   TO_STATE[T] -- state number it leads to.
-
-   All the transitions that accept a particular variable are grouped
-   together and GOTO_MAP[I - NTOKENS] is the index in FROM_STATE and
-   TO_STATE of the first of them.  */
 
 typedef size_t goto_number;
 # define GOTO_NUMBER_MAXIMUM ((goto_number) -1)
 
+/** Index into #from_state and #to_state.
+
+   All the transitions that accept a particular variable are grouped
+   together and GOTO_MAP[I - NTOKENS] is the index in FROM_STATE and
+   TO_STATE of the first of them.  */
 extern goto_number *goto_map;
+
+/** State number which a transition leads from. */
 extern state_number *from_state;
+
+/** State number it leads to.  */
 extern state_number *to_state;
 
 
