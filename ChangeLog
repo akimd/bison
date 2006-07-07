@@ -1,3 +1,15 @@
+2006-07-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	In warnings, say "previous declaration" rather than "first
+	declaration".
+	* src/symtab.c (redeclaration): Do that here.
+	* src/reader.c (record_merge_function_type): In the case of a result
+	type clash, report the previous declaration rather than the very first
+	one in the grammar file.
+	* tests/glr-regression.at (Missed %merge type warnings when LHS type is
+	declared later): Add a third declaration to check this behavior.
+	* tests/input.at (Incompatible Aliases): Update output.
+
 2006-06-27  Akim Demaille  <akim@epita.fr>
 
 	* doc/Doxyfile.in: New.

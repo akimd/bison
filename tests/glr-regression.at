@@ -1679,15 +1679,18 @@ AT_DATA_GRAMMAR([glr-regr18.y],
 %union {
   int type1;
   int type2;
+  int type3;
 }
 
 %%
 
 sym1: sym2 %merge<merge> { $$ = $1; } ;
-sym2: %merge<merge> { $$ = 0; } ;
+sym2: sym3 %merge<merge> { $$ = $1; } ;
+sym3: %merge<merge> { $$ = 0; } ;
 
 %type <type1> sym1;
 %type <type2> sym2;
+%type <type3> sym3;
 
 %%
 
@@ -1711,8 +1714,10 @@ main (void)
 ]])
 
 AT_CHECK([[bison -o glr-regr18.c glr-regr18.y]], 0, [],
-[glr-regr18.y:26.13-19: warning: result type clash on merge function `merge': <type2> != <type1>
-glr-regr18.y:25.18-24: warning: first declaration
+[glr-regr18.y:27.18-24: warning: result type clash on merge function `merge': <type2> != <type1>
+glr-regr18.y:26.18-24: warning: previous declaration
+glr-regr18.y:28.13-19: warning: result type clash on merge function `merge': <type3> != <type2>
+glr-regr18.y:27.18-24: warning: previous declaration
 ])
 
 AT_CLEANUP
