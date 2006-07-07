@@ -7,7 +7,8 @@
 2006-06-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't miss %merge result type warnings just because the LHS types are
-	declared after the %merge.
+	declared after the %merge.  This continues the effort of the previous
+	patch.
 	* src/reader.c (get_merge_function): Don't set the merger type yet.
 	(record_merge_function_type): New function for setting the merger type
 	and checking for clashes.
@@ -26,8 +27,12 @@
 2006-06-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Get action warnings (grammar_rule_check) right even when symbol
-	declarations appear after the rules.  Don't mistake the type of $$ in
-	a midrule to be that of its parent rule's $$.
+	declarations appear after the rules.  Discussed at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00108.html>
+	and
+	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00151.html>.
+	Don't mistake the type of $$ in a midrule to be that of its parent
+	rule's $$.
 	* src/reader.c (grammar_current_rule_end): Don't invoke
 	grammar_rule_check yet since not all symbol declarations may have been
 	parsed yet.
