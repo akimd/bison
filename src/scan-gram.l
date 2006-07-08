@@ -54,7 +54,7 @@
    code_start = scanner_cursor = loc->start;		\
 
 /* Location of scanner cursor.  */
-boundary scanner_cursor;
+static boundary scanner_cursor;
 
 #define YY_USER_ACTION  location_compute (loc, &scanner_cursor, yytext, yyleng);
 

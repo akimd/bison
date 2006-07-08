@@ -88,8 +88,8 @@ static int current_prec = 0;
 {
   /* Bison's grammar can initial empty locations, hence a default
      location is needed. */
-  boundary_set (&@$.start, current_file, 1, 0);
-  boundary_set (&@$.end, current_file, 1, 0);
+  boundary_set (&@$.start, current_file, 1, 1);
+  boundary_set (&@$.end, current_file, 1, 1);
 }
 
 /* Only NUMBERS have a value.  */

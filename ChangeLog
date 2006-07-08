@@ -1,5 +1,14 @@
 2006-07-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	In the grammar file, the first column is 1 not 0 on the first line as
+	on every other line.
+	* src/parse-gram.y (%initial-action): Initialize @$ correctly.
+	* tests/input.at (Torturing the Scanner): Update output.
+
+	* src/scan-gram.l (scanner_cursor): Declare it static.
+
+2006-07-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	In warnings, say "previous declaration" rather than "first
 	declaration".
 	* src/symtab.c (redeclaration): Do that here.
