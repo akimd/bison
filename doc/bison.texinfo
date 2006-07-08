@@ -1998,7 +1998,9 @@ type for storing locations is not needed: we will use the type provided
 by default (@pxref{Location Type, ,Data Types of Locations}), which is a
 four member structure with the following integer fields:
 @code{first_line}, @code{first_column}, @code{last_line} and
-@code{last_column}.
+@code{last_column}.  By conventions, and in accordance with the GNU
+Coding Standards and common practice, the line and column count both
+start at 1.
 
 @node Ltcalc Rules
 @subsection Grammar Rules for @code{ltcalc}
@@ -3511,6 +3513,9 @@ typedef struct YYLTYPE
   int last_column;
 @} YYLTYPE;
 @end example
+
+At the beginning of the parsing, Bison initializes all these fields to 1
+for @code{yylloc}.
 
 @node Actions and Locations
 @subsection Actions and Locations

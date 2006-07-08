@@ -3,6 +3,9 @@ Bison News
 
 Changes in version 2.3+:
 
+* Locations columns and lines start at 1.
+  In accordance with the GNU Coding Standards and Emacs.
+
 * Except for LALR(1) parsers in C with POSIX Yacc emulation enabled (with `-y',
   `--yacc', or `%yacc'), Bison no longer generates #define statements for
   associating token numbers with token names.  Removing the #define statements

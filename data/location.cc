@@ -36,6 +36,7 @@ b4_copyright([Positions for Bison parsers in C++],
 
 # include <iostream>
 # include <string>
+# include <algorithm>
 
 namespace ]b4_namespace[
 {
@@ -46,7 +47,7 @@ namespace ]b4_namespace[
 ]m4_ifdef([b4_location_constructors], [
     /// Construct a position.
     position ()
-      : filename (0), line (1), column (0)
+      : filename (0), line (]b4_location_initial_line[), column (]b4_location_initial_column[)
     {
     }
 
@@ -55,8 +56,8 @@ namespace ]b4_namespace[
     inline void initialize (]b4_filename_type[* fn)
     {
       filename = fn;
-      line = 1;
-      column = 0;
+      line = ]b4_location_initial_line[;
+      column = ]b4_location_initial_column[;
     }
 
     /** \name Line and Column related manipulators
@@ -65,19 +66,14 @@ namespace ]b4_namespace[
     /// (line related) Advance to the COUNT next lines.
     inline void lines (int count = 1)
     {
-      column = 0;
+      column = ]b4_location_initial_column[;
       line += count;
     }
 
     /// (column related) Advance to the COUNT next columns.
     inline void columns (int count = 1)
     {
-      int leftmost = 0;
-      int current  = column;
-      if (leftmost <= current + count)
-	column += count;
-      else
-	column = 0;
+      column = std::max (]b4_location_initial_column[u, column + count);
     }
     /** \} */
 

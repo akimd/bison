@@ -91,6 +91,11 @@ m4_define_default([b4_epilogue], [])
 # If the %union is not named, its name is YYSTYPE.
 m4_define_default([b4_union_name], [YYSTYPE])
 
+# The initial column and line.
+m4_define_default([b4_location_initial_column], [1])
+m4_define_default([b4_location_initial_line],   [1])
+
+
 ## ------------------------ ##
 ## Pure/impure interfaces.  ##
 ## ------------------------ ##

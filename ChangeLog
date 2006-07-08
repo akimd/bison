@@ -1,5 +1,14 @@
 2006-07-08  Akim Demaille  <akim@lrde.epita.fr>
 
+	* data/c.m4 (b4_location_initial_column, b4_location_initial_line):
+	New, default to 1.
+	* data/yacc.c, data/glr.c, data/location.cc: Use them.
+	* NEWS, doc/bison.texinfo: The initial column and line are 1 by
+	default.
+	* tests/calc.at: Adjust.
+
+2006-07-08  Akim Demaille  <akim@lrde.epita.fr>
+
 	* data/c.m4 (b4_dirname): New.
 	(b4_syncline): Also output the location of its invocation (from
 	the skeleton).
