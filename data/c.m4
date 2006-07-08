@@ -403,11 +403,51 @@ m4_define([b4_c_arg],
 ## Synclines.  ##
 ## ----------- ##
 
+# b4_basename(NAME)
+# -----------------
+# Beware that NAME is not evaluated.
+m4_define([b4_basename],
+[m4_case([$1],
+         [/], [/],
+	      [m4_bpatsubst([$1], [^.*/\([^/]+\)/?$], [\1])])])
+	 
+
 # b4_syncline(LINE, FILE)
 # -----------------------
 m4_define([b4_syncline],
-[b4_flag_if([synclines], [[#]line $1 $2])])
+[b4_flag_if([synclines], 
+[/* Line __line__ of b4_basename(m4_quote(__file__)).  */
+[#]line $1 $2])])
 
+
+# b4_user_code(USER-CODE)
+# -----------------------
+# Emit code from the user, ending it with synclines.
+m4_define([b4_user_code],
+[$1
+b4_syncline([@oline@], [@ofile@])])
+
+
+# b4_define_user_code(MACRO)
+# --------------------------
+# From b4_MACRO, build b4_user_MACRO that includes the synclines.
+m4_define([b4_define_user_code],
+[m4_define([b4_user_$1],
+[b4_user_code([b4_$1])])])
+
+
+# b4_user_actions
+# b4_user_initial_action
+# b4_user_post_prologue
+# b4_user_start_header
+# b4_user_stype
+# ----------------------
+# Macros that issue user code, ending with synclines.
+b4_define_user_code([actions])
+b4_define_user_code([initial_action])
+b4_define_user_code([post_prologue])
+b4_define_user_code([start_header])
+b4_define_user_code([stype])
 
 
 ## -------------- ##

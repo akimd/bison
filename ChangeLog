@@ -1,3 +1,13 @@
+2006-07-08  Akim Demaille  <akim@lrde.epita.fr>
+
+	* data/c.m4 (b4_dirname): New.
+	(b4_syncline): Also output the location of its invocation (from
+	the skeleton).
+	(b4_user_action, b4_define_user_action, b4_user_actions)
+	(b4_user_initial_action, b4_user_post_prologue,	b4_user_start_header)
+	(b4_user_stype): New.
+	* data/yacc.c, data/glr.c, data/lalr1.cc, data/glr.cc: Use them.
+
 2006-07-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	In the grammar file, the first column is 1 not 0 on the first line as

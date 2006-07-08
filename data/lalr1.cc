@@ -55,10 +55,7 @@ namespace ]b4_namespace[
 
 ]m4_ifdef([b4_start_header],
 [[/* Copy the %start-header blocks.  */
-]b4_start_header])[]dnl
-
-[/* Line __line__ of lalr1.cc.  */
-]b4_syncline([@oline@], [@ofile@])[
+]b4_user_start_header])[
 
 ]dnl Include location.hh here: it might depend on headers included above.
 [#include "location.hh"
@@ -111,9 +108,7 @@ namespace ]b4_namespace[
 #ifndef YYSTYPE
 ]m4_ifdef([b4_stype],
 [    union semantic_type
-b4_stype
-/* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])
+b4_user_stype
 	;],
 [    typedef int semantic_type;])[
 #else
@@ -321,10 +316,7 @@ b4_defines_if([
 #include @output_header_name@])[
 
 /* User implementation prologue.  */
-]b4_post_prologue[
-
-]/* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])[
+]b4_user_post_prologue[
 
 #ifndef YY_
 # if YYENABLE_NLS
@@ -557,11 +549,9 @@ namespace ]b4_namespace[
 m4_pushdef([b4_at_dollar],     [yylloc])dnl
 m4_pushdef([b4_dollar_dollar], [yylval])dnl
     /* User initialization code.  */
-    b4_initial_action
+    b4_user_initial_action
 m4_popdef([b4_dollar_dollar])dnl
-m4_popdef([b4_at_dollar])dnl
-  /* Line __line__ of yacc.c.  */
-b4_syncline([@oline@], [@ofile@])])dnl
+m4_popdef([b4_at_dollar])])dnl
 
   [  /* Initialize the stacks.  The initial state will be pushed in
        yynewstate, since the latter expects the semantical and the
@@ -680,9 +670,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     YY_REDUCE_PRINT (yyn);
     switch (yyn)
       {
-	]b4_actions
-    /* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])[
+	]b4_user_actions[
 	default: break;
       }
     YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], &yyval, &yyloc);

@@ -90,8 +90,7 @@ m4_define([b4_yy_symbol_print_generate],
 
 # Declare yyerror.
 m4_append([b4_post_prologue],
-[/* Line __line__ of glr.cc.  */
-b4_syncline([@oline@], [@ofile@])
+[b4_syncline([@oline@], [@ofile@])
 
 b4_c_ansi_function_decl([yyerror],
     [static void],
@@ -102,8 +101,7 @@ b4_c_ansi_function_decl([yyerror],
 
 # Define yyerror.
 m4_append([b4_epilogue],
-[/* Line __line__ of glr.cc.  */
-b4_syncline([@oline@], [@ofile@])[
+[b4_syncline([@oline@], [@ofile@])[
 /*------------------.
 | Report an error.  |
 `------------------*/
@@ -237,10 +235,7 @@ namespace ]b4_namespace[
 
 ]m4_ifdef([b4_start_header],
 [[/* Copy the %start-header blocks.  */
-]b4_start_header])[]dnl
-
-[/* Line __line__ of glr.cc.  */
-]b4_syncline([@oline@], [@ofile@])[
+]b4_user_start_header])[
 
 #include "location.hh"
 
@@ -291,9 +286,7 @@ namespace ]b4_namespace[
 #ifndef YYSTYPE
 ]m4_ifdef([b4_stype],
 [    union semantic_type
-b4_stype
-/* Line __line__ of lalr1.cc.  */
-b4_syncline([@oline@], [@ofile@])
+b4_user_stype
 	;],
 [    typedef int semantic_type;])[
 #else
