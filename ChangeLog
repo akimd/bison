@@ -1,3 +1,9 @@
+2006-07-09  Akim Demaille  <akim@lrde.epita.fr>
+
+	* src/getargs.h, src/getargs.c: Swap --report and --trace handling
+	to be in alphabetical order.
+	(trace_args): Spelling fixes.
+
 2006-07-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/yacc.c (YYID, yy_stack_print): Prefix local vars with "yy"

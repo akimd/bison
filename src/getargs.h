@@ -59,25 +59,6 @@ extern bool pure_parser;
 
 extern bool nondeterministic_parser;
 
-/* --trace.  */
-enum trace
-  {
-    trace_none      = 0,
-    trace_scan      = 1 << 0,
-    trace_parse     = 1 << 1,
-    trace_resource  = 1 << 2,
-    trace_sets      = 1 << 3,
-    trace_bitsets   = 1 << 4,
-    trace_tools     = 1 << 5,
-    trace_automaton = 1 << 6,
-    trace_grammar   = 1 << 7,
-    trace_time      = 1 << 8,
-    trace_skeleton  = 1 << 9,
-    trace_m4        = 1 << 10,
-    trace_all       = ~0
-  };
-extern int trace_flag;
-
 /* --report.  */
 enum report
   {
@@ -88,7 +69,28 @@ enum report
     report_solved_conflicts = 1 << 3,
     report_all              = ~0
   };
+/** What appears in the *.output file.  */
 extern int report_flag;
+
+/* --trace.  */
+enum trace
+  {
+    trace_none      = 0,       /**< No traces. */
+    trace_scan      = 1 << 0,  /**< Grammar scanner traces. */
+    trace_parse     = 1 << 1,  /**< Grammar parser traces. */
+    trace_resource  = 1 << 2,  /**< Memory allocation. */
+    trace_sets      = 1 << 3,  /**< Grammar sets: firsts, nullable etc. */
+    trace_bitsets   = 1 << 4,  /**< Use of bitsets. */
+    trace_tools     = 1 << 5,  /**< m4 invocation. */
+    trace_automaton = 1 << 6,  /**< Construction of the automaton. */
+    trace_grammar   = 1 << 7,  /**< Reading, reducing the grammar. */
+    trace_time      = 1 << 8,  /**< Time consumption. */
+    trace_skeleton  = 1 << 9,  /**< Skeleton postprocessing. */
+    trace_m4        = 1 << 10, /**< M4 traces. */
+    trace_all       = ~0       /**< All of the above.  */
+  };
+/** What debug items bison displays during its run.  */
+extern int trace_flag;
 
 void getargs (int argc, char *argv[]);
 
