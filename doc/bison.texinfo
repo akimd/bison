@@ -3092,7 +3092,8 @@ the semantic values of all language constructs.  This was true in the
 @acronym{RPN} and infix calculator examples (@pxref{RPN Calc, ,Reverse Polish
 Notation Calculator}).
 
-Bison's default is to use type @code{int} for all semantic values.  To
+Bison normally uses the type @code{int} for semantic values if your
+program uses the same data type for all language constructs.  To
 specify some other type, define @code{YYSTYPE} as a macro, like this:
 
 @example
@@ -3119,9 +3120,11 @@ requires you to do two things:
 
 @itemize @bullet
 @item
-Specify the entire collection of possible data types, with the
+Specify the entire collection of possible data types, either by using the
 @code{%union} Bison declaration (@pxref{Union Decl, ,The Collection of
-Value Types}).
+Value Types}), or by using a @code{typedef} or a @code{#define} to
+define @code{YYSTYPE} to be a union type whose member names are
+the type tags.
 
 @item
 Choose one of those types for each symbol (terminal or nonterminal) for
@@ -3500,7 +3503,7 @@ since all tokens and groupings always use the same type.
 
 You can specify the type of locations by defining a macro called
 @code{YYLTYPE}, just as you can specify the semantic value type by
-defining @code{YYSTYPE} (@pxref{Value Type}).
+defining a @code{YYSTYPE} macro (@pxref{Value Type}).
 When @code{YYLTYPE} is not defined, Bison uses a default structure type with
 four members:
 
@@ -3895,6 +3898,35 @@ only the first @code{%union} declaration can specify a tag.
 Note that, unlike making a @code{union} declaration in C, you need not write
 a semicolon after the closing brace.
 
+Instead of @code{%union}, you can define and use your own union type
+@code{YYSTYPE} if your grammar contains at least one
+@samp{<@var{type}>} tag.  For example, you can put the following into
+a header file @file{parser.h}:
+
+@example
+@group
+union YYSTYPE @{
+  double val;
+  symrec *tptr;
+@};
+typedef union YYSTYPE YYSTYPE;
+@end group
+@end example
+
+@noindent
+and then your grammar can use the following
+instead of @code{%union}:
+
+@example
+@group
+%@{
+#include "parser.h"
+%@}
+%type <val> expr
+%token <tptr> ID
+@end group
+@end example
+
 @node Type Decl
 @subsection Nonterminal Symbols
 @cindex declaring value types, nonterminals
@@ -4212,10 +4244,13 @@ names defined in the grammar as well as a few other declarations.
 If the parser output file is named @file{@var{name}.c} then this file
 is named @file{@var{name}.h}.
 
-Unless @code{YYSTYPE} is already defined as a macro, the output header
-declares @code{YYSTYPE}.  Therefore, if you are using a @code{%union}
+For C parsers, the output header declares @code{YYSTYPE} unless unless
+@code{YYSTYPE} is already defined as a macro or you have used a
+@code{<@var{type}>} tag without using @code{%union}.
+Therefore, if you are using a @code{%union}
 (@pxref{Multiple Types, ,More Than One Value Type}) with components that
 require other definitions, or if you have defined a @code{YYSTYPE} macro
+or type definition
 (@pxref{Value Type, ,Data Types of Semantic Values}), you need to
 arrange for these definitions to be propagated to all modules, e.g., by
 putting them in a prerequisite header that is included both by your
@@ -4227,7 +4262,7 @@ Parser}.
 
 If you have also used locations, the output header declares
 @code{YYLTYPE} and @code{yylloc} using a protocol similar to that of
-@code{YYSTYPE} and @code{yylval}.  @xref{Locations, ,Tracking
+the @code{YYSTYPE} macro and @code{yylval}.  @xref{Locations, ,Tracking
 Locations}.
 
 This output file is normally essential if you wish to put the definition

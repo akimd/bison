@@ -288,7 +288,9 @@ namespace ]b4_namespace[
 [    union semantic_type
 b4_user_stype
 	;],
-[    typedef int semantic_type;])[
+[m4_if(b4_tag_seen_flag, 0,
+[[    typedef int semantic_type;]],
+[[    typedef YYSTYPE semantic_type;]])])[
 #else
     typedef YYSTYPE semantic_type;
 #endif

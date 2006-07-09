@@ -55,6 +55,9 @@ static void handle_action_dollar (symbol_list *rule, char *cp,
 static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
 static location the_location;
 static location *loc = &the_location;
+
+/* True if an untyped $$ or $n was seen.  */
+static bool untyped_var_seen;
 %}
  /* C and C++ comments in code. */
 %x SC_COMMENT SC_LINE_COMMENT
@@ -262,48 +265,62 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 	++cp;
       *cp = '\0';
       ++cp;
+      if (untyped_var_seen)
+	complain_at (dollar_loc, _("explicit type given in untyped grammar"));
+      tag_seen = true;
     }
 
   if (*cp == '$')
     {
       if (!type_name)
 	type_name = symbol_list_n_type_name_get (rule, dollar_loc, 0);
-      if (!type_name && typed)
-	{
-	  if (rule->midrule_parent_rule)
-	    complain_at (dollar_loc,
-			 _("$$ for the midrule at $%d of `%s' has no declared"
-			   " type"),
-			 rule->midrule_parent_rhs_index,
-			 effective_rule->sym->tag);
-	  else
-	    complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
-			 rule->sym->tag);
-	}
+
       if (!type_name)
-	type_name = "";
+	{
+	  if (union_seen | tag_seen)
+	    {
+	      if (rule->midrule_parent_rule)
+		complain_at (dollar_loc,
+			     _("$$ for the midrule at $%d of `%s'"
+			       " has no declared type"),
+			     rule->midrule_parent_rhs_index,
+			     effective_rule->sym->tag);
+	      else
+		complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
+			     rule->sym->tag);
+	    }
+	  else
+	    untyped_var_seen = true;
+	  type_name = "";
+	}
+
       obstack_fgrow1 (&obstack_for_string,
 		      "]b4_lhs_value([%s])[", type_name);
       rule->used = true;
     }
   else
     {
-      long int num;
-      set_errno (0);
-      num = strtol (cp, 0, 10);
-      if (INT_MIN <= num && num <= effective_rule_length && ! get_errno ())
+      long int num = strtol (cp, NULL, 10);
+
+      if (1 - INT_MAX + effective_rule_length <= num
+	  && num <= effective_rule_length)
 	{
 	  int n = num;
-	  if (1-n > max_left_semantic_context)
-	    max_left_semantic_context = 1-n;
-	  if (!type_name && n > 0)
+	  if (max_left_semantic_context < 1 - n)
+	    max_left_semantic_context = 1 - n;
+	  if (!type_name && 0 < n)
 	    type_name =
 	      symbol_list_n_type_name_get (effective_rule, dollar_loc, n);
-	  if (!type_name && typed)
-	    complain_at (dollar_loc, _("$%d of `%s' has no declared type"),
-			 n, effective_rule->sym->tag);
 	  if (!type_name)
-	    type_name = "";
+	    {
+	      if (union_seen | tag_seen)
+		complain_at (dollar_loc, _("$%d of `%s' has no declared type"),
+			     n, effective_rule->sym->tag);
+	      else
+		untyped_var_seen = true;
+	      type_name = "";
+	    }
+
 	  obstack_fgrow3 (&obstack_for_string,
 			  "]b4_rhs_value(%d, %d, [%s])[",
 			  effective_rule_length, n, type_name);
@@ -336,11 +353,10 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
     obstack_sgrow (&obstack_for_string, "]b4_lhs_location[");
   else
     {
-      long int num;
-      set_errno (0);
-      num = strtol (cp, 0, 10);
+      long int num = strtol (cp, NULL, 10);
 
-      if (INT_MIN <= num && num <= effective_rule_length && ! get_errno ())
+      if (1 - INT_MAX + effective_rule_length <= num
+	  && num <= effective_rule_length)
 	{
 	  int n = num;
 	  obstack_fgrow2 (&obstack_for_string, "]b4_rhs_location(%d, %d)[",
@@ -356,9 +372,9 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
 | Initialize the scanner.  |
 `-------------------------*/
 
-/* Translate the dollars and ats in \a a, whose location is l.
-   Depending on the \a sc_context (SC_RULE_ACTION, SC_SYMBOL_ACTION,
-   INITIAL), the processing is different.  */
+/* Translate the dollars and ats in \a a, whose location is \a l.  The
+   translation is for \a rule, in the context \a sc_context
+   (SC_RULE_ACTION, SC_SYMBOL_ACTION, INITIAL).  */
 
 static const char *
 translate_action (int sc_context, symbol_list *rule, const char *a, location l)

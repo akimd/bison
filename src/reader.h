@@ -59,7 +59,10 @@ void free_merger_functions (void);
 extern merger_list *merge_functions;
 
 /* Was %union seen?  */
-extern bool typed;
+extern bool union_seen;
+
+/* Was a tag seen?  */
+extern bool tag_seen;
 
 /* Should rules have a default precedence?  */
 extern bool default_prec;

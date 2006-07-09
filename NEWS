@@ -3,6 +3,12 @@ Bison News
 
 Changes in version 2.3+:
 
+* Instead of %union, you can define and use your own union type
+  YYSTYPE if your grammar contains at least one <type> tag.
+  Your YYSTYPE need not be a macro; it can be a typedef.
+  This change is for compatibility with other Yacc implementations,
+  and is required by POSIX.
+
 * Locations columns and lines start at 1.
   In accordance with the GNU Coding Standards and Emacs.
 
@@ -19,7 +25,7 @@ Changes in version 2.3+:
   `%{ ... %}' syntax.  To generate the pre-prologue, Bison concatenates all
   prologue blocks that you've declared before the first %union.  To generate
   the post-prologue, Bison concatenates all prologue blocks that you've
-  declared after the first %union.  
+  declared after the first %union.
 
   Previous releases of Bison inserted the pre-prologue into both the header
   file and the code file in all cases except for LALR(1) parsers in C.  In the

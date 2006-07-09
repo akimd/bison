@@ -49,6 +49,33 @@ AT_CLEANUP
 
 
 
+## ----------------- ##
+## YYSTYPE typedef.  ##
+## ----------------- ##
+
+AT_SETUP([YYSTYPE typedef])
+
+AT_DATA_GRAMMAR([input.y],
+[[%{
+void yyerror (char const *);
+int yylex (void);
+typedef union { char const *val; } YYSTYPE;
+%}
+
+%type <val> program
+
+%%
+
+program: { $$ = ""; };
+]])
+
+AT_CHECK([bison -o input.c input.y])
+AT_COMPILE([input.o], [-c input.c])
+
+AT_CLEANUP
+
+
+
 ## ------------------------------------- ##
 ## Early token definitions with --yacc.  ##
 ## ------------------------------------- ##

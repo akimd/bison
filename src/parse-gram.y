@@ -57,7 +57,7 @@ static char const *char_name (char);
 static void add_param (char const *, char *, location);
 
 static symbol_class current_class = unknown_sym;
-static uniqstr current_type = 0;
+static uniqstr current_type = NULL;
 static symbol *current_lhs;
 static location current_lhs_location;
 static int current_prec = 0;
@@ -209,7 +209,7 @@ declaration:
   grammar_declaration
 | PROLOGUE
     {
-      prologue_augment (translate_code ($1, @1), @1, typed);
+      prologue_augment (translate_code ($1, @1), @1, union_seen);
     }
 | "%after-header" "{...}"
     {
@@ -322,7 +322,7 @@ grammar_declaration:
     {
       char const *body = $3;
 
-      if (typed)
+      if (union_seen)
 	{
 	  /* Concatenate the union bodies, turning the first one's
 	     trailing '}' into '\n', and omitting the second one's '{'.  */
@@ -331,7 +331,7 @@ grammar_declaration:
 	  body++;
 	}
 
-      typed = true;
+      union_seen = true;
       muscle_code_grow ("stype", body, @3);
     }
 ;
@@ -352,6 +352,7 @@ symbol_declaration:
     }
 | "%type" TYPE symbols.1
     {
+      tag_seen = true;
       symbol_list *list;
       for (list = $3; list; list = list->next)
 	symbol_type_set (list->sym, $2, @2);
@@ -382,7 +383,7 @@ precedence_declarator:
 
 type.opt:
   /* Nothing. */ { current_type = NULL; }
-| TYPE           { current_type = $1; }
+| TYPE           { current_type = $1; tag_seen = true; }
 ;
 
 /* One or more nonterminals to be %typed. */
@@ -396,6 +397,7 @@ symbol_def:
   TYPE
      {
        current_type = $1;
+       tag_seen = true;
      }
 | id
      {
