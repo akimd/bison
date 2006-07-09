@@ -41,8 +41,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "unlocked-io.h"
-
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>
 #endif
@@ -54,28 +52,24 @@
 #if HAVE_INTTYPES_H
 # include <inttypes.h>
 #endif
-#if HAVE_STDINT_H
-# include <stdint.h>
-#endif
 
-#if ! HAVE_UINTPTR_T
+#include <stdint.h>
+
+#ifndef UINTPTR_MAX
 /* This isn't perfect, but it's good enough for Bison, which needs
    only to hash pointers.  */
 typedef size_t uintptr_t;
 #endif
 
-#include <verify.h>
-#include <xalloc.h>
 
-
-/*---------------------.
-| Missing prototypes.  |
-`---------------------*/
+/*---------.
+| Gnulib.  |
+`---------*/
 
 #include <stpcpy.h>
-
-/* From lib/basename.c. */
-char *base_name (char const *name);
+#include <unlocked-io.h>
+#include <verify.h>
+#include <xalloc.h>
 
 
 /*-----------------.

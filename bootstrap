@@ -109,6 +109,7 @@ quote
 quotearg
 stdbool
 stdio-safer
+stdint
 stpcpy
 strerror
 strtoul
@@ -145,7 +146,6 @@ for gnulib_file in $gnulib_files; do
   dest=$gnulib_file
 
   case $gnulib_file in
-  m4/onceonly_2_57.m4) dest=m4/onceonly.m4;;
   # These will be overwritten by autopoint, which still uses
   # old jm_.* macro names, so we have to keep both copies.
   # m4/gettext.m4 isn't mentioned here, since it's patched below.
@@ -261,7 +261,6 @@ intl_files_to_remove='
   m4/lib-ld.m4
   m4/lib-prefix.m4
   m4/longdouble.m4
-  m4/longlong.m4
   m4/po.m4
   m4/printf-posix.m4
   m4/signed.m4
@@ -269,7 +268,6 @@ intl_files_to_remove='
   m4/stdint_h.m4
   m4/uintmax_t.m4
   m4/ulonglong.m4
-  m4/wchar_t.m4
   m4/wint_t.m4
   m4/xsize.m4
 '
@@ -295,6 +293,12 @@ sed '
   s/^\(subdir\) *=.*/\1 = runtime-po/
   s/^\(XGETTEXT_OPTIONS\) *=.*/\1 = --keyword=YY_/
 ' <po/Makevars >runtime-po/Makevars
+
+# Append 'datarootdir = $(prefix)/share' to po/Makefile.in.in to work
+# around an incompatibility between Autoconf 2.60 and gettext 0.14.6.
+# This hack can be removed once we assume gettext 0.15 or later.
+grep datarootdir po/Makefile.in.in >/dev/null ||
+  echo 'datarootdir = @datarootdir@' >>po/Makefile.in.in
 
 # Copy identical files from po to runtime-po.
 (cd po && cp -p Makefile.in.in *-quot *.header *.sed *.sin ../runtime-po)

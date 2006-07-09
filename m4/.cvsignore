@@ -1,7 +1,8 @@
 *_gl.m4
-alloca.m4
+absolute-header.m4
 dirname.m4
 dos.m4
+double-slash-root.m4
 error.m4
 exitfail.m4
 extensions.m4
@@ -11,16 +12,17 @@ hard-locale.m4
 hash.m4
 iconv.m4
 lib-link.m4
+longlong.m4
 mbrtowc.m4
 mbstate_t.m4
 mbswidth.m4
 nls.m4
 obstack.m4
-onceonly.m4
 progtest.m4
 quote.m4
 quotearg.m4
 stdbool.m4
+stdint.m4
 stdio-safer.m4
 stpcpy.m4
 strdup.m4
@@ -34,5 +36,7 @@ strverscmp.m4
 unistd-safer.m4
 unistd_h.m4
 unlocked-io.m4
+wchar_t.m4
+wcwidth.m4
 xalloc.m4
 xstrndup.m4

@@ -18,11 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301  USA
 
-# This file uses AC_CONFIG_MACRO_DIR, so we need Autoconf 2.58 or better.
-# But Autoconf 2.58 has a bug in the way that it generates tests: it
-# puts the wrong absolute path names in the tests.  So we need at
-# least Autoconf 2.59.
-AC_PREREQ(2.59)
+# We use macros like AC_CHECK_HEADERS_ONCE, so we need Autoconf 2.60 or better.
+AC_PREREQ(2.60)
 
 AC_INIT([GNU Bison], [2.3+], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -97,9 +94,6 @@ AM_STDBOOL_H
 
 # Checks for compiler characteristics.
 AC_C_INLINE
-
-# Checks for types.
-AC_CHECK_TYPES([uintptr_t])
 
 # Checks for library functions.
 AC_CHECK_FUNCS_ONCE([setlocale])

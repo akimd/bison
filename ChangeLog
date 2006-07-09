@@ -1,3 +1,41 @@
+2006-07-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Adjust to Autoconf 2.60 and today's gnulib.
+	* bootstrap (gnulib_modules): Add stdint.
+	Remove special case for m4/onceonly_2_57.m4, since gnulib-tool
+	no longer copies it.
+	(intl_files_to_remove): Remove m4/longlong.m4 and m4/wchar_t.m4,
+	since stdint needs the former and wcwidth (which is now required
+	by mbswidth) needs the latter.
+	Append 'datarootdir = @datarootdir@' to po/Makefile.in.in, to
+	work around a compatibility glitch between gettext 0.14.6 and
+	Autoconf 2.60.
+	* configure.ac (AC_PREREQ): Require Autoconf 2.60.
+	Do not check for uintptr_t, since new stdint module does the right
+	thing.
+	* lib/.cvsignore: Remove alloca.c, alloca.h, alloca_.h.
+	Add stdint.h, stdint_.h, wcwidth.h.
+	* m4/.cvsignore: Remove alloca.m4, onceonly.m4.
+	Add absolute-header.m4, double-slash-root.m4, longlong.m4,
+	stdint.m4, wchar_t.m4, wcwidth.m4.
+	* src/files.c: Include <dirname.h> and <stdio-safer.h> in the
+	usual order for ../lib/*.h files.
+	(file_name_split): Use last_component, not base_name, to adjust
+	to gnulib changes.
+	* src/parse-gram.h: Include <strverscmp.h> in the usual order
+	for ../lib/*.h files.
+	(YYTYPE_INT16, YYTYPE_INT8, YYTYPE_UINT16, YYTYPE_UINT8):
+	Define unconditionally, since we now assume the stdint module.
+	* src/scan-skel.l: Include <dirname.h>.
+	(BASE_QPUTS): Use last_component, not base_name.
+	* src/system.h: Include <unlocked-io.h> in the usual order
+	for ../lib/*.h files.  Include <stdint.h> unconditionally,
+	since we now use the stdint module.
+	(uintptr_t): Declare if UINTPTR_MAX is not defined, not
+	HAVE_UINTPTR_T, since we now use the stdint module.
+	(base_name): Remove decl, since files now include <dirname.h>
+	to get the decl.
+
 2006-07-08  Akim Demaille  <akim@lrde.epita.fr>
 
 	* data/c.m4 (b4_location_initial_column, b4_location_initial_line):

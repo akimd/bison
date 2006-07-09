@@ -23,6 +23,8 @@
 #include <config.h>
 #include "system.h"
 
+#include <strverscmp.h>
+
 #include "complain.h"
 #include "conflicts.h"
 #include "files.h"
@@ -34,7 +36,6 @@
 #include "symlist.h"
 #include "scan-gram.h"
 #include "scan-code.h"
-#include "strverscmp.h"
 
 #define YYLLOC_DEFAULT(Current, Rhs, N)  (Current) = lloc_default (Rhs, N)
 static YYLTYPE lloc_default (YYLTYPE const *, int);
@@ -61,18 +62,10 @@ static symbol *current_lhs;
 static location current_lhs_location;
 static int current_prec = 0;
 
-#ifdef UINT_FAST8_MAX
-# define YYTYPE_UINT8 uint_fast8_t
-#endif
-#ifdef INT_FAST8_MAX
-# define YYTYPE_INT8 int_fast8_t
-#endif
-#ifdef UINT_FAST16_MAX
-# define YYTYPE_UINT16 uint_fast16_t
-#endif
-#ifdef INT_FAST16_MAX
-# define YYTYPE_INT16 int_fast16_t
-#endif
+#define YYTYPE_INT16 int_fast16_t
+#define YYTYPE_INT8 int_fast8_t
+#define YYTYPE_UINT16 uint_fast16_t
+#define YYTYPE_UINT8 uint_fast8_t
 %}
 
 %debug

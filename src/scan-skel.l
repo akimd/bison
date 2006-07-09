@@ -31,6 +31,7 @@
 
 #include "system.h"
 
+#include <dirname.h>
 #include <error.h>
 #include <quotearg.h>
 
@@ -57,7 +58,7 @@ int skel_lex_destroy (void);
    fputs (quotearg_style (c_quoting_style, String), yyout)
 
 #define BASE_QPUTS(File) \
-   QPUTS (base_name (File))
+   QPUTS (last_component (File))
 
 %}
 %%

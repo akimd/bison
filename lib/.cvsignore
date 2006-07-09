@@ -1,9 +1,6 @@
 .deps
 Makefile
 Makefile.in
-alloca.c
-alloca.h
-alloca_.h
 argmatch.c
 argmatch.h
 basename.c
@@ -40,6 +37,8 @@ quotearg.c
 quotearg.h
 stdbool.h
 stdbool_.h
+stdint.h
+stdint_.h
 stdio--.h
 stdio-safer.h
 stpcpy.c
@@ -60,6 +59,7 @@ unistd--.h
 unistd-safer.h
 unlocked-io.h
 verify.h
+wcwidth.h
 xalloc-die.c
 xalloc.h
 xmalloc.c
