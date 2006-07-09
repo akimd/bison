@@ -1,6 +1,6 @@
 /* Lists of symbols for Bison
 
-   Copyright (C) 2002, 2005 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2005, 2006 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -47,7 +47,7 @@ typedef struct symbol_list
   const char *action;
   location action_location;
 
-  /* Whether this symbol's value is used in the current action. */
+  /* Whether this symbol's value is used in the current action.  */
   bool used;
 
   /* Precedence/associativity.  */
@@ -76,7 +76,7 @@ symbol_list *symbol_list_prepend (symbol_list *l,
 void symbol_list_free (symbol_list *l);
 
 /* Return its length. */
-unsigned int symbol_list_length (const symbol_list *l);
+int symbol_list_length (symbol_list const *l);
 
 /* Get symbol N in symbol list L.  */
 symbol_list *symbol_list_n_get (symbol_list *l, int n);
