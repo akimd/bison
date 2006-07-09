@@ -1,5 +1,9 @@
 2006-07-08  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* data/c.m4 (b4_basename): Simplify a bit, since we don't
+	need the full POSIX semantics (and weren't implementing them
+	anyway).
+
 	Adjust to Autoconf 2.60 and today's gnulib.
 	* bootstrap (gnulib_modules): Add stdint.
 	Remove special case for m4/onceonly_2_57.m4, since gnulib-tool
@@ -47,7 +51,7 @@
 
 2006-07-08  Akim Demaille  <akim@lrde.epita.fr>
 
-	* data/c.m4 (b4_dirname): New.
+	* data/c.m4 (b4_basename): New.
 	(b4_syncline): Also output the location of its invocation (from
 	the skeleton).
 	(b4_user_action, b4_define_user_action, b4_user_actions)

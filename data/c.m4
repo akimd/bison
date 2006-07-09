@@ -410,17 +410,16 @@ m4_define([b4_c_arg],
 
 # b4_basename(NAME)
 # -----------------
+# Similar to POSIX basename; the differences don't matter here.
 # Beware that NAME is not evaluated.
 m4_define([b4_basename],
-[m4_case([$1],
-         [/], [/],
-	      [m4_bpatsubst([$1], [^.*/\([^/]+\)/?$], [\1])])])
-	 
+[m4_bpatsubst([$1], [^.*/\([^/]+\)/*$], [\1])])
+
 
 # b4_syncline(LINE, FILE)
 # -----------------------
 m4_define([b4_syncline],
-[b4_flag_if([synclines], 
+[b4_flag_if([synclines],
 [/* Line __line__ of b4_basename(m4_quote(__file__)).  */
 [#]line $1 $2])])
 
