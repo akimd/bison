@@ -26,7 +26,6 @@
 /* From the scanner.  */
 extern FILE *gram_in;
 extern int gram__flex_debug;
-extern boundary gram_scanner_cursor;
 extern char *gram_last_string;
 extern location gram_last_braced_code_loc;
 void gram_scanner_initialize (void);
