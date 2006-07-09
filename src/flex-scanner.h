@@ -71,4 +71,4 @@ static struct obstack obstack_for_string;
   } while (0)
 
 #define STRING_FREE \
-  obstack_free (&obstack_for_string, FLEX_PREFIX (last_string))
+  obstack_free (&obstack_for_string, last_string)
