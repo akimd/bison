@@ -59,7 +59,11 @@ extern bool pure_parser;
 
 extern bool nondeterministic_parser;
 
-/* --report.  */
+
+/*-----------.
+| --report.  |
+`-----------*/
+
 enum report
   {
     report_none             = 0,
@@ -72,7 +76,9 @@ enum report
 /** What appears in the *.output file.  */
 extern int report_flag;
 
-/* --trace.  */
+/*----------.
+| --trace.  |
+`----------*/
 enum trace
   {
     trace_none      = 0,       /**< No traces. */
@@ -92,6 +98,26 @@ enum trace
 /** What debug items bison displays during its run.  */
 extern int trace_flag;
 
+/*-------------.
+| --warnings.  |
+`-------------*/
+
+enum warnings
+  {
+    warnings_none             = 0,      /**< Issue no warnings.  */
+    warnings_error            = 1 << 0, /**< Warnings are treated as errors.  */
+    warnings_yacc             = 1 << 1, /**< POSIXME.  */
+    warnings_all              = ~0      /**< All of the above.  */
+  };
+/** What warnings are issued.  */
+extern int warnings_flag;
+
+
+/** Process the command line arguments.
+ *
+ *  \param argc   size of \a argv
+ *  \param argv   list of arguments.
+ */
 void getargs (int argc, char *argv[]);
 
 #endif /* !GETARGS_H_ */

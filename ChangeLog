@@ -1,3 +1,16 @@
+2006-07-09  Akim Demaille  <akim@lrde.epita.fr>
+
+	Implement --warnings/-W.
+	* src/getargs.c (report_argmatch, trace_argmatch): Remove,
+	replaced by...
+	(flags_argmatch, FLAGS_ARGMATCH): this new function and macro.
+	Adjust callers.
+	* src/getargs.h, src/getargs.c (warnings, warnings_flags)
+	(warnings_args, warnings_types): New.
+	(getargs, short_options, long_options): Accept -W/--warnings.
+	Sort the options by alphabetical order, upper case letter right
+	before its lower case.
+
 2006-07-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Change %merge result type clash warnings to errors.  Discussed at
