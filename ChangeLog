@@ -1,3 +1,11 @@
+2006-07-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/yacc.c (YYID, yy_stack_print): Prefix local vars with "yy"
+	so they don't collide with user-defined macros.
+	(yy_stack_print): Don't assume that yytype_int16 promotes to int;
+	this was never guaranteed, and now that we're using gnulib stdint,
+	which defines int_fast16_t to long int, the problem is exposed.
+
 2006-07-08  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/c.m4 (b4_basename): Simplify a bit, since we don't
