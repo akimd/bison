@@ -97,69 +97,12 @@
      PERCENT_UNION = 311
    };
 #endif
-/* Tokens.  */
-#define GRAM_EOF 0
-#define STRING 258
-#define INT 259
-#define PERCENT_TOKEN 260
-#define PERCENT_NTERM 261
-#define PERCENT_TYPE 262
-#define PERCENT_DESTRUCTOR 263
-#define PERCENT_PRINTER 264
-#define PERCENT_LEFT 265
-#define PERCENT_RIGHT 266
-#define PERCENT_NONASSOC 267
-#define PERCENT_PREC 268
-#define PERCENT_DPREC 269
-#define PERCENT_MERGE 270
-#define PERCENT_AFTER_HEADER 271
-#define PERCENT_BEFORE_HEADER 272
-#define PERCENT_DEBUG 273
-#define PERCENT_DEFAULT_PREC 274
-#define PERCENT_DEFINE 275
-#define PERCENT_DEFINES 276
-#define PERCENT_END_HEADER 277
-#define PERCENT_ERROR_VERBOSE 278
-#define PERCENT_EXPECT 279
-#define PERCENT_EXPECT_RR 280
-#define PERCENT_FILE_PREFIX 281
-#define PERCENT_GLR_PARSER 282
-#define PERCENT_INITIAL_ACTION 283
-#define PERCENT_LEX_PARAM 284
-#define PERCENT_LOCATIONS 285
-#define PERCENT_NAME_PREFIX 286
-#define PERCENT_NO_DEFAULT_PREC 287
-#define PERCENT_NO_LINES 288
-#define PERCENT_NONDETERMINISTIC_PARSER 289
-#define PERCENT_OUTPUT 290
-#define PERCENT_PARSE_PARAM 291
-#define PERCENT_PURE_PARSER 292
-#define PERCENT_REQUIRE 293
-#define PERCENT_SKELETON 294
-#define PERCENT_START 295
-#define PERCENT_START_HEADER 296
-#define PERCENT_TOKEN_TABLE 297
-#define PERCENT_VERBOSE 298
-#define PERCENT_YACC 299
-#define BRACED_CODE 300
-#define CHAR 301
-#define EPILOGUE 302
-#define EQUAL 303
-#define ID 304
-#define ID_COLON 305
-#define PERCENT_PERCENT 306
-#define PIPE 307
-#define PROLOGUE 308
-#define SEMICOLON 309
-#define TYPE 310
-#define PERCENT_UNION 311
-
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-/* Line 1532 of yacc.c.  */
+/* Line 1535 of yacc.c.  */
 #line 90 "parse-gram.y"
 {
   symbol *symbol;
@@ -170,8 +113,8 @@ typedef union YYSTYPE
   uniqstr uniqstr;
   unsigned char character;
 }
-/* Line 1532 of yacc.c.  */
-#line 175 "parse-gram.h"
+/* Line 1535 of yacc.c.  */
+#line 118 "parse-gram.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
