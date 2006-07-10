@@ -4244,7 +4244,7 @@ names defined in the grammar as well as a few other declarations.
 If the parser output file is named @file{@var{name}.c} then this file
 is named @file{@var{name}.h}.
 
-For C parsers, the output header declares @code{YYSTYPE} unless unless
+For C parsers, the output header declares @code{YYSTYPE} unless
 @code{YYSTYPE} is already defined as a macro or you have used a
 @code{<@var{type}>} tag without using @code{%union}.
 Therefore, if you are using a @code{%union}
