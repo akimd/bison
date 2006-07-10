@@ -1,3 +1,10 @@
+2006-07-10  Akim Demaille  <akim@lrde.epita.fr>
+
+	* src/complain.c (error_message, ERROR_MESSAGE): New.
+	To factor...
+	(fatal_at, fatal, warn_at, warn, complain_at, complain): these.
+	* src/complain.h, src/complain.c (warning_issued): Remove, unused.
+
 2006-07-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Instead of %union, you can define and use your own union type

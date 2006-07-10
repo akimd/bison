@@ -1,5 +1,5 @@
 /* Declaration for error-reporting function for Bison.
-   Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002, 2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the
@@ -25,7 +25,7 @@
 extern "C" {
 # endif
 
-/* Informative messages, but we proceed.  */
+/** Informative messages, but we proceed.  */
 
 void warn (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
@@ -33,7 +33,7 @@ void warn (char const *format, ...)
 void warn_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
-/* Something bad happened, but let's continue and die later.  */
+/** An error, but we continue and die later.  */
 
 void complain (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
@@ -41,7 +41,7 @@ void complain (char const *format, ...)
 void complain_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
-/* Something bad happened, and let's die now.  */
+/** A fatal error, causing immediate exit.  */
 
 void fatal (char const *format, ...)
   __attribute__ ((__noreturn__, __format__ (__printf__, 1, 2)));
@@ -49,10 +49,7 @@ void fatal (char const *format, ...)
 void fatal_at (location loc, char const *format, ...)
   __attribute__ ((__noreturn__, __format__ (__printf__, 2, 3)));
 
-/* This variable is set each time `warn' is called.  */
-extern bool warning_issued;
-
-/* This variable is set each time `complain' is called.  */
+/** Whether an error was reported.  */
 extern bool complaint_issued;
 
 # ifdef	__cplusplus
