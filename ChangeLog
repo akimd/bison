@@ -1,3 +1,13 @@
+2006-07-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/lalr1.cc (YYCDEBUG): Use 'if (yydebug_) (*yycdebug_)'
+	rather than a for-loop that declares a local bool variable.  This
+	should work around a compatibility problem with a Cray x1e C++
+	compiler reported by Hung Nguyen in
+	<http://lists.gnu.org/archive/html/help-bison/2006-07/msg00022.html>.
+	The for-loop was introduced in the 2004-11-17 change but I don't
+	know why it was needed.
+
 2006-07-12  Akim Demaille  <akim@epita.fr>
 
 	* data/c.m4: Comment changes.
@@ -4073,7 +4083,7 @@
 
 	* data/lalr1.cc (symprint_): Use cdebug_ to avoid warnings.
 
-2004-10-28  Akim Demaille  <akim@epita.fr>,
+2004-11-17  Akim Demaille  <akim@epita.fr>,
 	    Alexandre Duret-Lutz <adl@gnu.org>
 
 	* data/lalr1.cc (Parser::yycdebug_): New, a pointer, to allow

@@ -336,9 +336,7 @@ b4_defines_if([
 #define YYUSE(e) ((void) (e))
 
 /* A pseudo ostream that takes yydebug_ into account.  */
-# define YYCDEBUG							\
-  for (bool yydebugcond_ = yydebug_; yydebugcond_; yydebugcond_ = false)	\
-    (*yycdebug_)
+# define YYCDEBUG if (yydebug_) (*yycdebug_)
 
 /* Enable debugging if requested.  */
 #if YYDEBUG
