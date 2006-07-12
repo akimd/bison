@@ -210,7 +210,7 @@ m4_define([b4_$3_if],
 # -----------------------------
 # Expand IF-TRUE, if FLAG is true, IF-FALSE otherwise.
 b4_define_flag_if([defines])        # Whether headers are requested.
-b4_define_flag_if([error_verbose])  # Wheter error are verbose.
+b4_define_flag_if([error_verbose])  # Whether error are verbose.
 b4_define_flag_if([locations])      # Whether locations are tracked.
 b4_define_flag_if([pure])           # Whether the interface is pure.
 b4_define_flag_if([yacc])           # Whether POSIX Yacc is emulated.
