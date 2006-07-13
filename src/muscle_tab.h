@@ -82,9 +82,9 @@ extern struct obstack muscle_obstack;
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 }
 
-/* Insert (KEY, VALUE).  If KEY already existed, overwrite the
-   previous value.  Uses MUSCLE_OBSTACK.  De-allocates the previously
-   associated value.  VALUE and SEPARATOR are copied.  */
+/* Append VALUE to the current value of KEY.  If KEY did not already
+   exist, create it.  Use MUSCLE_OBSTACK.  De-allocate the previously
+   associated value.  Copy VALUE and SEPARATOR.  */
 
 void muscle_grow (const char *key, const char *value, const char *separator);
 

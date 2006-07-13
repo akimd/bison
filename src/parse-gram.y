@@ -304,14 +304,20 @@ grammar_declaration:
     {
       char const *body = $3;
 
-      if (union_seen)
+      /* Concatenate the %union bodies.  If this is the first %union, make sure
+	 the synchronization line appears after the opening '{' so as not to
+	 confuse Doxygen.  Otherwise, turn the previous %union's trailing '}'
+	 into '\n', and omit the new %union's leading '{'.  */
+      if (!union_seen)
 	{
-	  /* Concatenate the union bodies, turning the first one's
-	     trailing '}' into '\n', and omitting the second one's '{'.  */
+	  muscle_grow ("stype", "{", "");
+	}
+      else
+	{
 	  char *code = muscle_find ("stype");
 	  code[strlen (code) - 1] = '\n';
-	  body++;
 	}
+      body++;
 
       union_seen = true;
       muscle_code_grow ("stype", body, @3);

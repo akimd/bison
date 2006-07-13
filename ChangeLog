@@ -1,3 +1,11 @@
+2006-07-13  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/parse-gram.y (grammar_declaration): Don't confuse Doxygen (at
+	least 1.4.7 and 1.4.4) by putting a #line between `typedef union
+	YYSTYPE' and `{'.
+	* src/muscle_tab.h (muscle_grow): Replace the header comments with
+	those from muscle_tab.c since the old ones are misleading.
+
 2006-07-13  Akim Demaille  <akim@epita.fr>
 
 	Support %define "KEY" {VALUE}.
