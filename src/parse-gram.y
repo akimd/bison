@@ -54,7 +54,14 @@ static void gram_error (location const *, char const *);
 
 static char const *char_name (char);
 
-static void add_param (char const *, char *, location);
+/** Add a lex-param or a parse-param.
+ *
+ * \param type  \a lex_param or \a parse_param
+ * \param decl  the formal argument
+ * \param loc   the location in the source.
+ */
+static void add_param (char const *type, char *decl, location loc);
+
 
 static symbol_class current_class = unknown_sym;
 static uniqstr current_type = NULL;
@@ -170,10 +177,13 @@ static int current_prec = 0;
 %type <character> CHAR
 %printer { fputs (char_name ($$), stderr); } CHAR
 
-%type <chars> STRING string_content "{...}" PROLOGUE EPILOGUE
+/* braceless is not to be used for rule or symbol actions, as it
+   calls translate_code. */
+%type <chars> STRING "{...}" "%{...%}" EPILOGUE braceless content content.opt
 %printer { fputs (quotearg_style (c_quoting_style, $$), stderr); }
-         STRING string_content
-%printer { fprintf (stderr, "{\n%s\n}", $$); } "{...}" PROLOGUE EPILOGUE
+         STRING
+%printer { fprintf (stderr, "{\n%s\n}", $$); }
+         braceless content content.opt "{...}" "%{...%}" EPILOGUE
 
 %type <uniqstr> TYPE ID ID_COLON
 %printer { fprintf (stderr, "<%s>", $$); } TYPE
@@ -192,7 +202,7 @@ static int current_prec = 0;
 %%
 
 input:
-  declarations "%%" grammar epilogue.opt
+  prologue_declarations "%%" grammar epilogue.opt
 ;
 
 
@@ -200,47 +210,24 @@ input:
 	| Declarations: before the first %%.  |
 	`------------------------------------*/
 
-declarations:
+prologue_declarations:
   /* Nothing */
-| declarations declaration
+| prologue_declarations prologue_declaration
 ;
 
-declaration:
+prologue_declaration:
   grammar_declaration
-| PROLOGUE
-    {
-      prologue_augment (translate_code ($1, @1), @1, union_seen);
-    }
-| "%after-header" "{...}"
-    {
-      /* Remove the '{', and replace the '}' with '\n'.  */
-      $2[strlen ($2) - 1] = '\n';
-      prologue_augment (translate_code ($2+1, @2), @2, true);
-    }
-| "%before-header" "{...}"
-    {
-      /* Remove the '{', and replace the '}' with '\n'.  */
-      $2[strlen ($2) - 1] = '\n';
-      prologue_augment (translate_code ($2+1, @2), @2, false);
-    }
-| "%debug"                                 { debug_flag = true; }
-| "%define" string_content
-    {
-      static char one[] = "1";
-      muscle_insert ($2, one);
-    }
-| "%define" string_content string_content  { muscle_insert ($2, $3); }
-| "%defines"                               { defines_flag = true; }
-| "%end-header" "{...}"
-    {
-      /* Remove the '{', and replace the '}' with '\n'.  */
-      $2[strlen ($2) - 1] = '\n';
-      muscle_code_grow ("end_header", translate_code ($2+1, @2), @2);
-    }
-| "%error-verbose"                         { error_verbose = true; }
-| "%expect" INT                            { expected_sr_conflicts = $2; }
-| "%expect-rr" INT			   { expected_rr_conflicts = $2; }
-| "%file-prefix" "=" string_content        { spec_file_prefix = $3; }
+| "%{...%}"     { prologue_augment (translate_code ($1, @1), @1, union_seen); }
+| "%after-header" braceless        { prologue_augment ($2, @2, true); }
+| "%before-header" braceless       { prologue_augment ($2, @2, false); }
+| "%debug"                         { debug_flag = true; }
+| "%define" STRING content.opt     { muscle_insert ($2, $3); }
+| "%defines"                       { defines_flag = true; }
+| "%end-header" braceless          { muscle_code_grow ("end_header", $2, @2); }
+| "%error-verbose"                 { error_verbose = true; }
+| "%expect" INT                    { expected_sr_conflicts = $2; }
+| "%expect-rr" INT		   { expected_rr_conflicts = $2; }
+| "%file-prefix" "=" STRING        { spec_file_prefix = $3; }
 | "%glr-parser"
     {
       nondeterministic_parser = true;
@@ -250,25 +237,20 @@ declaration:
     {
       muscle_code_grow ("initial_action", translate_symbol_action ($2, @2), @2);
     }
-| "%lex-param" "{...}"			   { add_param ("lex_param", $2, @2); }
-| "%locations"                             { locations_flag = true; }
-| "%name-prefix" "=" string_content        { spec_name_prefix = $3; }
-| "%no-lines"                              { no_lines_flag = true; }
-| "%nondeterministic-parser"		   { nondeterministic_parser = true; }
-| "%output" "=" string_content             { spec_outfile = $3; }
-| "%parse-param" "{...}"		   { add_param ("parse_param", $2, @2); }
-| "%pure-parser"                           { pure_parser = true; }
-| "%require" string_content                { version_check (&@2, $2); }
-| "%skeleton" string_content               { skeleton = $2; }
-| "%start-header" "{...}"
-    {
-      /* Remove the '{', and replace the '}' with '\n'.  */
-      $2[strlen ($2) - 1] = '\n';
-      muscle_code_grow ("start_header", translate_code ($2+1, @2), @2);
-    }
-| "%token-table"                           { token_table_flag = true; }
-| "%verbose"                               { report_flag = report_states; }
-| "%yacc"                                  { yacc_flag = true; }
+| "%lex-param" "{...}"		{ add_param ("lex_param", $2, @2); }
+| "%locations"                  { locations_flag = true; }
+| "%name-prefix" "=" STRING     { spec_name_prefix = $3; }
+| "%no-lines"                   { no_lines_flag = true; }
+| "%nondeterministic-parser"	{ nondeterministic_parser = true; }
+| "%output" "=" STRING          { spec_outfile = $3; }
+| "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
+| "%pure-parser"                { pure_parser = true; }
+| "%require" STRING             { version_check (&@2, $2); }
+| "%skeleton" STRING            { skeleton = $2; }
+| "%start-header" braceless     { muscle_code_grow ("start_header", $2, @2); }
+| "%token-table"                { token_table_flag = true; }
+| "%verbose"                    { report_flag = report_states; }
+| "%yacc"                       { yacc_flag = true; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
 
@@ -478,6 +460,35 @@ rhs:
 ;
 
 
+/*-----------*
+ | content.  |
+ *-----------*/
+
+content:
+  STRING
+| braceless
+;
+
+/* Some content or "1" by default. */
+content.opt:
+  /* Nothing. */
+    {
+      static char one[] = "1";
+      $$ = one;
+    }
+| content
+;
+
+
+braceless:
+  "{...}"
+    {
+      $1[strlen ($1) - 1] = '\n';
+      $$ = translate_code ($1 + 1, @1);
+    }
+;
+
+
 /*---------------*
  | Identifiers.  |
  *---------------*/
@@ -514,13 +525,6 @@ string_as_id:
       symbol_class_set ($$, token_sym, @1, false);
     }
 ;
-
-/* A string used for its contents.  Don't quote it.  */
-string_content:
-  STRING
-    { $$ = $1; }
-;
-
 
 epilogue.opt:
   /* Nothing.  */
@@ -614,6 +618,7 @@ add_param (char const *type, char *decl, location loc)
 
   gram_scanner_last_string_free ();
 }
+
 
 static void
 version_check (location const *loc, char const *version)

@@ -1,3 +1,18 @@
+2006-07-13  Akim Demaille  <akim@epita.fr>
+
+	Support %define "KEY" {VALUE}.
+	* src/scan-code.h, src/scan-code.l (translate_action)
+	(translate_rule_action, translate_symbol_action, translate_code):
+	Return char *, not const char *.
+	* src/parse-gram.y (declaration): Rename as...
+	(prologue_declaration): this.
+	(string_content): Remove this nonterminal, use STRING.
+	(braceless, content, content.opt): New nonterminal.
+	Use them.
+	(%define): Now accept content.opt, i.e., accept also BRACED_CODE
+	as value.
+	* src/scan-gram.l (getargs.h): Don't include it.
+
 2006-07-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/lalr1.cc (YYCDEBUG): Use 'if (yydebug_) (*yycdebug_)'

@@ -45,7 +45,7 @@
 
 /* The current calling start condition: SC_RULE_ACTION or
    SC_SYMBOL_ACTION. */
-# define YY_DECL const char *code_lex (int sc_context, symbol_list *rule)
+# define YY_DECL char *code_lex (int sc_context, symbol_list *rule)
 YY_DECL;
 
 #define YY_USER_ACTION  location_compute (loc, &loc->end, yytext, yyleng);
@@ -376,10 +376,10 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
    translation is for \a rule, in the context \a sc_context
    (SC_RULE_ACTION, SC_SYMBOL_ACTION, INITIAL).  */
 
-static const char *
+static char *
 translate_action (int sc_context, symbol_list *rule, const char *a, location l)
 {
-  const char *res;
+  char *res;
   static bool initialized = false;
   if (!initialized)
     {
@@ -398,20 +398,20 @@ translate_action (int sc_context, symbol_list *rule, const char *a, location l)
   return res;
 }
 
-const char *
+char *
 translate_rule_action (symbol_list *rule)
 {
   return translate_action (SC_RULE_ACTION, rule, rule->action,
 			   rule->action_location);
 }
 
-const char *
+char *
 translate_symbol_action (const char *a, location l)
 {
   return translate_action (SC_SYMBOL_ACTION, NULL, a, l);
 }
 
-const char *
+char *
 translate_code (const char *a, location l)
 {
   return translate_action (INITIAL, NULL, a, l);

@@ -37,7 +37,6 @@
 
 #include "complain.h"
 #include "files.h"
-#include "getargs.h"    /* yacc_flag */
 #include "gram.h"
 #include "quotearg.h"
 #include "reader.h"
