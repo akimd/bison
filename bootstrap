@@ -92,6 +92,7 @@ case ${GNULIB_SRCDIR--} in
 esac
 
 <$GNULIB_SRCDIR/gnulib-tool || exit
+gnulib_tool="$GNULIB_SRCDIR/gnulib-tool --assume-autoconf=latest-stable"
 
 gnulib_modules='
 argmatch
@@ -128,14 +129,14 @@ while [ "$gnulib_modules" != "$previous_gnulib_modules" ]; do
   gnulib_modules=`
     (echo "$gnulib_modules"
      for gnulib_module in $gnulib_modules; do
-       $GNULIB_SRCDIR/gnulib-tool --extract-dependencies $gnulib_module
+       $gnulib_tool --extract-dependencies $gnulib_module
      done) | sort -u
   `
 done
 
 gnulib_files=`
   (for gnulib_module in $gnulib_modules; do
-     $GNULIB_SRCDIR/gnulib-tool --extract-filelist $gnulib_module
+     $gnulib_tool --extract-filelist $gnulib_module
    done) | sort -u
 `
 
@@ -226,12 +227,12 @@ esac
 
 (echo '# This file is generated automatically by "bootstrap".' &&
  echo 'AC_DEFUN([GNULIB_AUTOCONF_SNIPPET],[' &&
- $GNULIB_SRCDIR/gnulib-tool --extract-autoconf-snippet $gnulib_modules &&
+ $gnulib_tool --extract-autoconf-snippet $gnulib_modules &&
  echo '])'
 ) >m4/gnulib.m4 || exit
 
 (echo '# This file is generated automatically by "bootstrap".' &&
- $GNULIB_SRCDIR/gnulib-tool --extract-automake-snippet $gnulib_modules |
+ $gnulib_tool --extract-automake-snippet $gnulib_modules |
  sed 's/^[	 ]*AM_CPPFLAGS[	 ]*+=/# (commented out by bootstrap) &/'
 ) >lib/gnulib.mk || exit
 
