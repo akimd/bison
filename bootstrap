@@ -26,8 +26,7 @@ package=bison
 # Translation Project URL, for the registry of all projects.
 TP_URL='http://www.iro.umontreal.ca/translation/registry.cgi?domain='
 
-# Ensure file names are sorted consistently across platforms;
-# e.g., m4/ulonglong_gl.m4 should follow m4/ulonglong.m4.
+# Ensure file names are sorted consistently across platforms.
 # Also, ensure diagnostics are in English, e.g., "wget --help" below.
 LC_ALL=C
 export LC_ALL
@@ -99,9 +98,9 @@ argmatch
 dirname
 error
 extensions
+fopen-safer
 getopt
 gettext
-hard-locale
 hash
 malloc
 mbswidth
@@ -109,7 +108,6 @@ obstack
 quote
 quotearg
 stdbool
-stdio-safer
 stdint
 stpcpy
 strerror
@@ -135,7 +133,8 @@ while [ "$gnulib_modules" != "$previous_gnulib_modules" ]; do
 done
 
 gnulib_files=`
-  (for gnulib_module in $gnulib_modules; do
+  (echo m4/warning.m4
+   for gnulib_module in $gnulib_modules; do
      $gnulib_tool --extract-filelist $gnulib_module
    done) | sort -u
 `
@@ -145,17 +144,6 @@ mkdir -p $gnulib_dirs || exit
 
 for gnulib_file in $gnulib_files; do
   dest=$gnulib_file
-
-  case $gnulib_file in
-  # These will be overwritten by autopoint, which still uses
-  # old jm_.* macro names, so we have to keep both copies.
-  # m4/gettext.m4 isn't mentioned here, since it's patched below.
-  m4/glibc21.m4 | m4/inttypes_h.m4 | m4/lib-ld.m4 | \
-  m4/lib-prefix.m4 | m4/po.m4 | m4/stdint_h.m4 | m4/uintmax_t.m4 | \
-  m4/ulonglong.m4)
-    dest=`expr $gnulib_file : '\(.*\).m4'`_gl.m4;;
-  esac
-
   rm -f $dest &&
   echo "$0: Copying file $GNULIB_SRCDIR/$gnulib_file" &&
   cp -p $GNULIB_SRCDIR/$gnulib_file $dest || exit
@@ -163,10 +151,12 @@ done
 
 # This suppresses a bogus diagnostic
 # "warning: macro `AM_LANGINFO_CODESET' not found in library".
-echo "$0: patching m4/gettext.m4 so that AM_INTL_SUBDIR is empty ..."
+echo "$0: patching m4/gettext.m4 to remove need for intl/* ..."
 sed '
   /^AC_DEFUN(\[AM_INTL_SUBDIR],/,/^]/c\
     AC_DEFUN([AM_INTL_SUBDIR], [])
+  /^AC_DEFUN(\[gt_INTL_SUBDIR_CORE],/,/^]/c\
+    AC_DEFUN([gt_INTL_SUBDIR_CORE], [])
 ' m4/gettext.m4 >m4/gettext_gl.m4 || exit
 
 
@@ -190,6 +180,11 @@ get_translations() {
   ' | awk -v domain="$domain" -v subdir="$subdir" '
     {
       lang = $1
+
+      # Work around bugs in Bison 2.3 translations uncovered by gettext 0.15.
+      # This workaround can be removed once the translations are fixed.
+      if (lang == "id" || lang == "ms" || lang == "tr") next
+
       ver = $2
       urlfmt = ""
       printf "$WGET_COMMAND -O %s/%s.po 'http://www.iro.umontreal.ca/translation/teams/PO/%s/%s-%s.%s.po' &&\n", subdir, lang, lang, domain, ver, lang
@@ -239,14 +234,11 @@ esac
 
 # Reconfigure, getting other files.
 
-echo "$0: autoreconf --verbose --install --force ..."
-autoreconf --verbose --install --force || exit
-
+echo "$0: autopoint --force ..."
+autopoint --force
 
 # We don't need intl, so remove it.
-# Remove aclocal.m4 too, so that it gets rebuilt.
 intl_files_to_remove='
-  aclocal.m4
   intl
   m4/codeset.m4
   m4/gettext.m4
@@ -254,26 +246,21 @@ intl_files_to_remove='
   m4/glibc21.m4
   m4/intdiv0.m4
   m4/intmax.m4
-  m4/inttypes_h.m4
-  m4/inttypes.m4
+  m4/inttypes-h.m4
   m4/inttypes-pri.m4
-  m4/isc-posix.m4
   m4/lcmessage.m4
-  m4/lib-ld.m4
-  m4/lib-prefix.m4
+  m4/lock.m4
   m4/longdouble.m4
-  m4/po.m4
   m4/printf-posix.m4
   m4/signed.m4
   m4/size_max.m4
-  m4/stdint_h.m4
-  m4/uintmax_t.m4
-  m4/ulonglong.m4
+  m4/visibility.m4
   m4/wint_t.m4
   m4/xsize.m4
 '
 echo $0: rm -fr $intl_files_to_remove ...
 rm -fr $intl_files_to_remove || exit
+
 
 # Undo changes to gnulib files that autoreconf made.
 for gnulib_file in $gnulib_files; do
@@ -283,6 +270,20 @@ for gnulib_file in $gnulib_files; do
     cp -p $GNULIB_SRCDIR/$gnulib_file $gnulib_file || exit
   }
 done
+
+# Make sure aclocal.m4 is not older than input files.
+sleep 1
+
+for command in \
+  'aclocal --force -I m4' \
+  'autoconf --force' \
+  'autoheader --force' \
+  'automake --add-missing --copy --force-missing';
+do
+  echo "$0: $command ..."
+  $command || exit
+done
+
 
 # Put bug-reporting address into po/Makevars.
 echo "$0: sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >po/Makevars ..."
@@ -294,12 +295,6 @@ sed '
   s/^\(subdir\) *=.*/\1 = runtime-po/
   s/^\(XGETTEXT_OPTIONS\) *=.*/\1 = --keyword=YY_/
 ' <po/Makevars >runtime-po/Makevars
-
-# Append 'datarootdir = $(prefix)/share' to po/Makefile.in.in to work
-# around an incompatibility between Autoconf 2.60 and gettext 0.14.6.
-# This hack can be removed once we assume gettext 0.15 or later.
-grep datarootdir po/Makefile.in.in >/dev/null ||
-  echo 'datarootdir = @datarootdir@' >>po/Makefile.in.in
 
 # Copy identical files from po to runtime-po.
 (cd po && cp -p Makefile.in.in *-quot *.header *.sed *.sin ../runtime-po)

@@ -1,3 +1,28 @@
+2006-07-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Update to latest gnulib and gettext versions.
+	* bootstrap (gnulib-modules): Remove hard-locale, stdio-safer.
+	Add fopen-safer.
+	(gnulib_files): Add m4/warning.m4.  Don't worry about files
+	overwritten by autopoint.
+	Replace gt_INTL_SUBDIR_CORE with an empty body in m4/gettext_gl.m4.
+	Suppress "id", "ms", "tr" translations for now, since gettext 0.15
+	rejects them.
+	Don't use autoreconf; instead, invoke autopoint etc. by hand,
+	so that we can remove the intl files at a better time.
+	(intl_files_to_remove): Remove aclocal.m4, since it gets
+	rebuilt anyway.  Remove m4/inttypes_h.m4, m4/inttypes.m4,
+	m4/isc-posix.m4, m4/lib-ld.m4, m4/lib-prefix.m4, m4/po.m4,
+	m4/stdint_h.m4, m4/uintmax_t.m4, m4/ulonglong.m4.
+	Add m4/inttypes-h.m4, m4/lock.m4, m4/visibility.m4.
+	Remove datarootdir hack; no longer needed.
+	* configure.ac: Use gl_WARNING_CFLAGS rather than BISON_WARNING.
+	(AM_GNU_GETTEXT_VERSION): Bump from 0.12 to 0.15.
+	* lib/.cvsignore: Remove hard-locale.c, hard-locale.h, strdup.c,
+	strdup.h.
+	* m4/.cvsignore: Remove hard-locale.m4, strdup.m4.
+	* m4/warning.m4: Remove from CVS, since we now use gnulib's version.
+
 2006-07-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap: Adjust to today's change to gnulib-tool by invoking

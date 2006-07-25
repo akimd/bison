@@ -42,22 +42,22 @@ AC_ARG_ENABLE(gcc-warnings,
  esac],
               [enableval=no])
 if test "${enableval}" = yes; then
-  BISON_WARNING(-Werror)
+  gl_WARNING_CFLAGS([-Werror])
   AC_SUBST([WERROR_CFLAGS], [$WARNING_CFLAGS])
   WARNING_CFLAGS=
-  BISON_WARNING(-W)
-  BISON_WARNING(-Wall)
-  BISON_WARNING(-Wcast-align)
-  BISON_WARNING(-Wcast-qual)
-  BISON_WARNING(-Wformat)
-  BISON_WARNING(-Wwrite-strings)
+  gl_WARNING_CFLAGS([-W])
+  gl_WARNING_CFLAGS([-Wall])
+  gl_WARNING_CFLAGS([-Wcast-align])
+  gl_WARNING_CFLAGS([-Wcast-qual])
+  gl_WARNING_CFLAGS([-Wformat])
+  gl_WARNING_CFLAGS([-Wwrite-strings])
   AC_SUBST([WARNING_CXXFLAGS], [$WARNING_CFLAGS])
   # The following warnings are not suitable for C++.
-  BISON_WARNING(-Wbad-function-cast)
-  BISON_WARNING(-Wmissing-declarations)
-  BISON_WARNING(-Wmissing-prototypes)
-  BISON_WARNING(-Wshadow)
-  BISON_WARNING(-Wstrict-prototypes)
+  gl_WARNING_CFLAGS([-Wbad-function-cast])
+  gl_WARNING_CFLAGS([-Wmissing-declarations])
+  gl_WARNING_CFLAGS([-Wmissing-prototypes])
+  gl_WARNING_CFLAGS([-Wshadow])
+  gl_WARNING_CFLAGS([-Wstrict-prototypes])
   AC_DEFINE([lint], 1, [Define to 1 if the compiler is checking for lint.])
 fi
 
@@ -103,8 +103,8 @@ BISON_PREREQ_TIMEVAR
 
 # gnulib and gettext.
 GNULIB_AUTOCONF_SNIPPET
-# We use po/Makevars, so we need at least gettext 0.12.
-AM_GNU_GETTEXT_VERSION([0.12])
+# We've never tested with gettext versions before 0.15, so play it safe.
+AM_GNU_GETTEXT_VERSION([0.15])
 BISON_I18N
 
 # Internationalized parsers.

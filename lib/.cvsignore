@@ -21,8 +21,6 @@ getopt_.h
 getopt_int.h
 gettext.h
 gnulib.mk
-hard-locale.c
-hard-locale.h
 hash.c
 hash.h
 malloc.c
@@ -43,8 +41,6 @@ stdio--.h
 stdio-safer.h
 stpcpy.c
 stpcpy.h
-strdup.c
-strdup.h
 strerror.c
 stripslash.c
 strndup.c

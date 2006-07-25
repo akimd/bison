@@ -8,7 +8,6 @@ exitfail.m4
 extensions.m4
 getopt.m4
 gnulib.m4
-hard-locale.m4
 hash.m4
 iconv.m4
 lib-link.m4
@@ -25,7 +24,6 @@ stdbool.m4
 stdint.m4
 stdio-safer.m4
 stpcpy.m4
-strdup.m4
 strerror.m4
 strerror_r.m4
 strndup.m4
