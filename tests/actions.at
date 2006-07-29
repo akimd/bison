@@ -197,8 +197,9 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;
 ]AT_LALR1_CC_IF([], [static void yyerror (const char *msg);])
 [}
 
-]m4_ifval([$6], [%type <ival> '(' 'x' 'y' ')' ';' thing line input])[
+]m4_ifval([$6], [%type <ival> '(' 'x' 'y' ')' ';' thing line input END])[
 
+/* FIXME: This %printer isn't actually tested.  */
 %printer
   {
     ]AT_LALR1_CC_IF([debug_stream () << $$;],
@@ -226,6 +227,11 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;
   { printf ("Freeing token 'y' (%d@%d-%d)\n", $$, RANGE (@$)); }
   'y'
 
+%token END 0
+%destructor
+  { printf ("Freeing token END (%d@%d-%d)\n", $$, RANGE (@$)); }
+  END
+
 %%
 /*
    This grammar is made to exercise error recovery.
@@ -241,7 +247,7 @@ input:
       printf ("input (%d@%d-%d): /* Nothing */\n", $$, RANGE (@$));
     }
 | line input /* Right recursive to load the stack so that popping at
-		EOF can	be exercised.  */
+		END can	be exercised.  */
     {
       $$ = 2;
       printf ("input (%d@%d-%d): line (%d@%d-%d) input (%d@%d-%d)\n",
@@ -308,7 +314,7 @@ yylex (]AT_LEX_FORMALS[)
   if (source[c])
     printf ("sending: '%c'", source[c]);
   else
-    printf ("sending: EOF");
+    printf ("sending: END");
   printf (" (%d@%d-%d)\n", c, RANGE (]AT_LOC[));
   return source[c];
 }
@@ -372,9 +378,10 @@ sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
 sending: ')' (2@20-29)
 line (0@0-29): '(' (0@0-9) thing (1@10-19) ')' (2@20-29)
-sending: EOF (3@30-39)
+sending: END (3@30-39)
 input (0@29-29): /* Nothing */
 input (2@0-29): line (0@0-29) input (0@29-29)
+Freeing token END (3@30-39)
 Freeing nterm input (2@0-29)
 Successful parse.
 ]])
@@ -391,9 +398,10 @@ sending: 'y' (1@10-19)
 Freeing token 'y' (1@10-19)
 sending: ')' (2@20-29)
 line (-1@0-29): '(' (0@0-9) error (@10-19) ')' (2@20-29)
-sending: EOF (3@30-39)
+sending: END (3@30-39)
 input (0@29-29): /* Nothing */
 input (2@0-29): line (-1@0-29) input (0@29-29)
+Freeing token END (3@30-39)
 Freeing nterm input (2@0-29)
 Successful parse.
 ]])
@@ -445,11 +453,44 @@ input (0@129-129): /* Nothing */
 input (2@100-129): line (10@100-129) input (0@129-129)
 input (2@70-129): line (7@70-99) input (2@100-129)
 input (2@0-129): line (-1@0-69) input (2@70-129)
-130-139: syntax error, unexpected 'y', expecting $end
+130-139: syntax error, unexpected 'y', expecting END
 Freeing nterm input (2@0-129)
 Freeing token 'y' (13@130-139)
 Parsing FAILED.
 ]])
+
+
+# Syntax error caught by the parser where lookahead = END
+# --------------------------------------------------------
+# Load the stack and provoke an error that cannot be caught by the
+# grammar, to check that the stack is cleared.  And make sure the
+# lookahead is freed.
+#
+#     '(', 'x', ')',
+#     '(', 'x', ')',
+#     'x'
+AT_PARSER_CHECK([./input '(x)(x)x'], 1,
+[[sending: '(' (0@0-9)
+sending: 'x' (1@10-19)
+thing (1@10-19): 'x' (1@10-19)
+sending: ')' (2@20-29)
+line (0@0-29): '(' (0@0-9) thing (1@10-19) ')' (2@20-29)
+sending: '(' (3@30-39)
+sending: 'x' (4@40-49)
+thing (4@40-49): 'x' (4@40-49)
+sending: ')' (5@50-59)
+line (3@30-59): '(' (3@30-39) thing (4@40-49) ')' (5@50-59)
+sending: 'x' (6@60-69)
+thing (6@60-69): 'x' (6@60-69)
+sending: END (7@70-79)
+70-79: syntax error, unexpected END, expecting 'x'
+Freeing nterm thing (6@60-69)
+Freeing nterm line (3@30-59)
+Freeing nterm line (0@0-29)
+Freeing token END (7@70-79)
+Parsing FAILED.
+]])
+
 
 # Check destruction upon stack overflow
 # -------------------------------------

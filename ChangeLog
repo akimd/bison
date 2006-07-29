@@ -1,3 +1,32 @@
+2006-07-29  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Clean up handling of %destructor for the end token (token 0).
+	Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-07/msg00019.html>
+	and
+	<http://lists.gnu.org/archive/html/help-bison/2006-07/msg00013.html>.
+
+	Make the skeletons consistent in how they pop the end token and invoke
+	its %destructor.
+	* data/glr.c (yyrecoverSyntaxError, yyparse): Don't pop the start
+	state, which has token number 0, since this would invoke the
+	%destructor for the end token.
+	* data/lalr1.cc (yy::parser::parse): Don't check for the final state
+	until after shifting the end token, or else it won't be popped.
+	* data/yacc.c (yyparse): Likewise.
+
+	* data/glr.c (yyparse): Clear the lookahead after shifting it even when
+	it's the end token.  Upon termination, destroy an unshifted lookahead
+	even when it's the end token.
+	* data/lalr1.cc (yy::parser::parse): Likewise.
+	* data/yacc.c (yyparse): Likewise.
+
+	* src/reader.c (packgram): Don't check rule 0.  This suppresses unused
+	value warnings for the end token when the user gives the end token a
+	%destructor.
+
+	* tests/actions.at (Printers and Destructors): Test all the above.
+
 2006-07-24  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Update to latest gnulib and gettext versions.
