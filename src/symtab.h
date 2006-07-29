@@ -61,16 +61,35 @@ struct symbol
   /** The location of its first occurrence.  */
   location location;
 
-  /** Its %type and associated printer and destructor.  */
+  /** Its \c \%type.  */
   uniqstr type_name;
+  /** Its \c \%type's location.  */
   location type_location;
 
-  /** Does not own the memory. */
+  /** Any \c \%destructor declared specifically for this symbol.
+
+     Access this field only through <tt>symbol</tt>'s interface functions.  For
+     example, if <tt>symbol::destructor = NULL</tt>, the default
+     \c \%destructor or a per-type \c \%destructor might be appropriate, and
+     \c symbol_destructor_get will compute the correct one.  */
   const char *destructor;
+
+  /** The location of \c symbol::destructor.
+
+     Access this field only through <tt>symbol</tt>'s interface functions.
+     \sa symbol::destructor  */
   location destructor_location;
 
-  /** Printer. */
+  /** Any \c \%printer declared specifically for this symbol.
+
+     Access this field only through <tt>symbol</tt>'s interface functions.
+     \sa symbol::destructor  */
   const char *printer;
+
+  /** The location of \c symbol::printer.
+
+     Access this field only through <tt>symbol</tt>'s interface functions.
+     \sa symbol::destructor  */
   location printer_location;
 
   symbol_number number;
@@ -125,8 +144,24 @@ void symbol_type_set (symbol *sym, uniqstr type_name, location loc);
 /** Set the \c destructor associated with \c sym.  */
 void symbol_destructor_set (symbol *sym, const char *destructor, location loc);
 
+/** Get the computed \c \%destructor for \c sym, or \c NULL if none.   */
+const char *symbol_destructor_get (symbol *sym);
+
+/** Get the grammar location of the computed \c \%destructor for \c sym.
+ 
+  \pre <tt>symbol_destructor_get (sym) != NULL</tt> */
+location symbol_destructor_location_get (symbol *sym);
+
 /** Set the \c printer associated with \c sym.  */
 void symbol_printer_set (symbol *sym, const char *printer, location loc);
+
+/** Get the computed \c \%printer for \c sym, or \c NULL if none.  */
+const char *symbol_printer_get (symbol *sym);
+
+/** Get the grammar location of the computed \c \%printer for \c sym.
+
+  \pre <tt>symbol_printer_get (sym) != NULL</tt> */
+location symbol_printer_location_get (symbol *sym);
 
 /* Set the \c precedence associated with \c sym.
 
@@ -155,7 +190,7 @@ extern symbol *accept;
 
 /** The user start symbol. */
 extern symbol *startsymbol;
-/** The location of the \c %start declaration.  */
+/** The location of the \c \%start declaration.  */
 extern location startsymbol_location;
 
 
@@ -180,5 +215,16 @@ void symbols_check_defined (void);
    Perform various sanity checks, assign symbol numbers, and set up
    #token_translations.  */
 void symbols_pack (void);
+
+
+/*-----------------------------------.
+| Default %destructor and %printer.  |
+`-----------------------------------*/
+
+/** Set the default \c \%destructor.  */
+void default_destructor_set (const char *destructor, location loc);
+
+/** Set the default \c \%printer.  */
+void default_printer_set (const char *printer, location loc);
 
 #endif /* !SYMTAB_H_ */

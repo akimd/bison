@@ -261,6 +261,10 @@ grammar_declaration:
     {
       grammar_start_symbol_set ($2, @2);
     }
+| "%destructor" "{...}"
+    {
+      default_destructor_set (translate_symbol_action ($2, @2), @2);
+    }
 | "%destructor" "{...}" symbols.1
     {
       symbol_list *list;
@@ -276,6 +280,10 @@ grammar_declaration:
       for (list = $3; list; list = list->next)
 	symbol_printer_set (list->sym, action, @2);
       symbol_list_free ($3);
+    }
+| "%printer" "{...}"
+    {
+      default_printer_set (translate_symbol_action ($2, @2), @2);
     }
 | "%default-prec"
     {

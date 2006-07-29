@@ -1,5 +1,49 @@
 2006-07-29  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Enable declaration of default %printer/%destructor.  Make the parser
+	use these for all user-declared grammar symbols for which the user does
+	not declare a specific %printer/%destructor.  Thus, the parser uses it
+	for token 0 if the user declares it but not if Bison generates it as
+	$end.  Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-02/msg00064.html>,
+	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00091.html>,
+	and
+	<http://lists.gnu.org/archive/html/bison-patches/2006-07/msg00019.html>.
+	* NEWS (2.3+): Mention.
+	* doc/bison.texinfo (Actions in Mid-Rule): It's no longer impossible to
+	declare a %destructor for a mid-rule's semantic value.  It's just
+	impossible to declare one specific to it.
+	(Freeing Discarded Symbols): Mention that @$ can be used in %destructor
+	code.  Describe default %destructor form.
+	* src/parse-gram.y (grammar_declaration): Parse default
+	%printer/%destructor declarations.
+	* src/output.c (symbol_destructors_output): Use symbol_destructor_get
+	and symbol_destructor_location_get rather than accessing the destructor
+	and destructor_location members of struct symbol.
+	(symbol_printers_output): Likewise but for %printer's.
+	* src/reader.c (symbol_should_be_used): Likewise but for %destructor's
+	again.
+	* src/symtab.c (default_destructor, default_destructor_location,
+	default_printer, default_printer_location): New static global
+	variables to record the default %destructor and %printer.
+	(symbol_destructor_get, symbol_destructor_location_get,
+	symbol_printer_get, symbol_printer_location_get): New functions to
+	compute the appropriate %destructor and %printer for a symbol.
+	(default_destructor_set, default_printer_set): New functions to set the
+	default %destructor and %printer.
+	* src/symtab.h: Prototype all those new functions.
+	* tests/actions.at (Default %printer and %destructor): New test to
+	check that the right %printer and %destructor are called, that they're
+	not called for $end, and that $$ and @$ work correctly.
+	(Default %printer and %destructor for user-declared end token): New
+	test to check that the default %printer and %destructor are called for
+	a user-declared end token.
+	* tests/input.at (Default %printer and %destructor redeclared, Unused
+	values with default %destructor): New tests to check related grammar
+	warnings and errors.
+
+2006-07-29  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Clean up handling of %destructor for the end token (token 0).
 	Discussed starting at
 	<http://lists.gnu.org/archive/html/bison-patches/2006-07/msg00019.html>

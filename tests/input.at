@@ -168,6 +168,65 @@ AT_CHECK_UNUSED_VALUES([1])
 AT_CLEANUP
 
 
+## --------------------------------------------- ##
+## Default %printer and %destructor redeclared.  ##
+## --------------------------------------------- ##
+
+AT_SETUP([Default %printer and %destructor redeclared])
+
+AT_DATA([[input.y]],
+[[%destructor { destroy ($$); }
+%printer { destroy ($$); }
+
+%destructor { destroy ($$); }
+%printer { destroy ($$); }
+
+%%
+
+start: ;
+
+%destructor { destroy ($$); };
+%printer { destroy ($$); };
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:4.13-29: redeclaration for default %destructor
+input.y:1.13-29: previous declaration
+input.y:5.10-26: redeclaration for default %printer
+input.y:2.10-26: previous declaration
+input.y:11.13-29: redeclaration for default %destructor
+input.y:4.13-29: previous declaration
+input.y:12.10-26: redeclaration for default %printer
+input.y:5.10-26: previous declaration
+]])
+
+AT_CLEANUP
+
+
+## ---------------------------------------- ##
+## Unused values with default %destructor.  ##
+## ---------------------------------------- ##
+
+AT_SETUP([Unused values with default %destructor])
+
+AT_DATA([[input.y]],
+[[%destructor { destroy ($$); }
+
+%%
+
+start: end end { $1; } ;
+end: { }  ;
+]])
+
+AT_CHECK([bison input.y], [0], [],
+[[input.y:5.8-22: warning: unset value: $$
+input.y:5.8-22: warning: unused value: $2
+input.y:6.6-8: warning: unset value: $$
+]])
+
+AT_CLEANUP
+
+
 ## ---------------------- ##
 ## Incompatible Aliases.  ##
 ## ---------------------- ##

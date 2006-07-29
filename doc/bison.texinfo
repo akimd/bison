@@ -3348,8 +3348,8 @@ it might discard the previous semantic context @code{$<context>5} without
 restoring it.
 Thus, @code{$<context>5} needs a destructor (@pxref{Destructor Decl, , Freeing
 Discarded Symbols}).
-However, Bison currently provides no means to declare a destructor for a
-mid-rule action's semantic value.
+However, Bison currently provides no means to declare a destructor specific to
+a particular mid-rule action's semantic value.
 
 One solution is to bury the mid-rule action inside a nonterminal symbol and to
 declare a destructor for that symbol:
@@ -4007,26 +4007,40 @@ symbol is automatically discarded.
 Invoke the braced @var{code} whenever the parser discards one of the
 @var{symbols}.
 Within @var{code}, @code{$$} designates the semantic value associated
-with the discarded symbol.  The additional parser parameters are also
-available (@pxref{Parser Function, , The Parser Function
-@code{yyparse}}).
+with the discarded symbol, and @code{@@$} designates its location.
+The additional parser parameters are also available (@pxref{Parser Function, ,
+The Parser Function @code{yyparse}}).
+@end deffn
+
+@deffn {Directive} %destructor @{ @var{code} @}
+@cindex default %destructor
+Invoke the braced @var{code} whenever the parser discards any user-declared
+grammar symbol for which the user has not specifically declared any
+@code{%destructor}.
+This is known as the default @code{%destructor}.
+As in the previous form, @code{$$}, @code{@@$}, and the additional parser
+parameters are available.
 @end deffn
 
 For instance:
 
 @smallexample
-%union
-@{
-  char *string;
-@}
-%token <string> STRING
-%type  <string> string
-%destructor @{ free ($$); @} STRING string
+%union @{ char *string; @}
+%token <string> STRING1
+%token <string> STRING2
+%type  <string> string1
+%type  <string> string2
+%destructor @{ free ($$); @}
+%destructor @{ free ($$); printf ("%d", @@$.first_line); @} STRING1 string1
 @end smallexample
 
 @noindent
-guarantees that when a @code{STRING} or a @code{string} is discarded,
-its associated memory will be freed.
+guarantees that, when the parser discards any user-declared symbol, it passes
+its semantic value to @code{free}.
+However, when the parser discards a @code{STRING1} or a @code{string1}, it also
+prints its line number to @code{stdout}.
+It performs only the second @code{%destructor} in this case, so it invokes
+@code{free} only once.
 
 @sp 1
 

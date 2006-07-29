@@ -12,6 +12,23 @@ Changes in version 2.3+:
 * Locations columns and lines start at 1.
   In accordance with the GNU Coding Standards and Emacs.
 
+* You may now declare a default %destructor and %printer:
+
+  For example:
+
+     %union { char *string; }
+     %token <string> STRING1
+     %token <string> STRING2
+     %type  <string> string1
+     %type  <string> string2
+     %destructor { free ($$); }
+     %destructor { free ($$); printf ("%d", @$.first_line); } STRING1 string1
+
+  guarantees that, when the parser discards any user-declared symbol, it passes
+  its semantic value to `free'.  However, when the parser discards a `STRING1'
+  or a `string1', it also prints its line number to `stdout'.  It performs only
+  the second `%destructor' in this case, so it invokes `free' only once.
+
 * Except for LALR(1) parsers in C with POSIX Yacc emulation enabled (with `-y',
   `--yacc', or `%yacc'), Bison no longer generates #define statements for
   associating token numbers with token names.  Removing the #define statements
