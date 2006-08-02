@@ -90,8 +90,8 @@ case ${GNULIB_SRCDIR--} in
   GNULIB_SRCDIR=gnulib
 esac
 
-<$GNULIB_SRCDIR/gnulib-tool || exit
-gnulib_tool="$GNULIB_SRCDIR/gnulib-tool --assume-autoconf=latest-stable"
+gnulib_tool=$GNULIB_SRCDIR/gnulib-tool
+<$gnulib_tool || exit
 
 gnulib_modules='
 argmatch
@@ -183,7 +183,7 @@ get_translations() {
 
       # Work around bugs in Bison 2.3 translations uncovered by gettext 0.15.
       # This workaround can be removed once the translations are fixed.
-      if (lang == "id" || lang == "ms" || lang == "tr") next
+      if (lang == "id" || lang == "tr") next
 
       ver = $2
       urlfmt = ""

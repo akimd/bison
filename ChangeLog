@@ -1,3 +1,13 @@
+2006-08-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* m4/.cvsignore: Add inttypes_h.m4,lib-ld.m4, lib-prefix.m4,
+	po.m4, stdint_h.m4, uintmax_t.m4, ulonglong.m4, warning.m4.
+
+	* bootstrap (gnulib_tool): Stop using --assume-autoconf;
+	the latest gnulib does this a different way.
+	(get_translations): Sharuzzaman Ahmat Raslan reported that the ms
+	translation was patched, so stop omitting it.
+
 2006-07-29  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Enable declaration of default %printer/%destructor.  Make the parser
