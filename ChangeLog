@@ -1,3 +1,7 @@
+2006-08-09  Ralf Wildenhues <Ralf.Wildenhues@gmx.de>  (tiny change)
+
+	* doc/bison.texinfo: Fix some typos.
+
 2006-08-02  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* m4/.cvsignore: Add inttypes_h.m4,lib-ld.m4, lib-prefix.m4,

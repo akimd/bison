@@ -2635,7 +2635,7 @@ they precede the definition of @code{yyparse}.  You can use
 don't need any C declarations, you may omit the @samp{%@{} and
 @samp{%@}} delimiters that bracket this section.
 
-The @var{Prologue} section is terminated by the the first occurrence
+The @var{Prologue} section is terminated by the first occurrence
 of @samp{%@}} that is outside a comment, a string literal, or a
 character constant.
 
@@ -6764,7 +6764,7 @@ The trace facility outputs messages with macro calls of the form
 @var{format} and @var{args} are the usual @code{printf} format and
 arguments.  If you define @code{YYDEBUG} to a nonzero value but do not
 define @code{YYFPRINTF}, @code{<stdio.h>} is automatically included
-and @code{YYPRINTF} is defined to @code{fprintf}.
+and @code{YYFPRINTF} is defined to @code{fprintf}.
 
 Once you have compiled the program with trace facilities, the way to
 request a trace is to store a nonzero value in the variable @code{yydebug}.
@@ -6995,7 +6995,7 @@ Same as above, but save in the file @var{defines-file}.
 
 @item -b @var{file-prefix}
 @itemx --file-prefix=@var{prefix}
-Pretend that @code{%file-prefix} was specified, i.e, specify prefix to use
+Pretend that @code{%file-prefix} was specified, i.e., specify prefix to use
 for all Bison output file names.  @xref{Decl Summary}.
 
 @item -r @var{things}
@@ -7019,7 +7019,7 @@ the full set of items for each state, instead of its core only.
 
 @item -v
 @itemx --verbose
-Pretend that @code{%verbose} was specified, i.e, write an extra output
+Pretend that @code{%verbose} was specified, i.e., write an extra output
 file containing verbose descriptions of the grammar and
 parser.  @xref{Decl Summary}.
 
@@ -7420,7 +7420,6 @@ public:
 @noindent
 To encapsulate the coordination with the Flex scanner, it is useful to
 have two members function to open and close the scanning phase.
-members.
 
 @comment file: calc++-driver.hh
 @example
@@ -8885,7 +8884,7 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH
 @c LocalWords: YYINITDEPTH stmnts ref stmnt initdcl maybeasm VCG notype
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args
-@c LocalWords: YYPRINTF infile ypp yxx outfile itemx vcg tex leaderfill
+@c LocalWords: infile ypp yxx outfile itemx vcg tex leaderfill
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll
 @c LocalWords: yyrestart nbar yytext fst snd osplit ntwo strdup AST
 @c LocalWords: YYSTACK DVI fdl printindex
