@@ -1,3 +1,13 @@
+2006-08-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Suppress signed/unsigned comparison warnings for yycheck.
+	* data/c.m4 (b4_safest_int_type): New macro.
+	* data/glr.c, data/lalr1.cc: Wherever you compare yycheck[i] against
+	a signed int type, cast it to b4_safest_int_type first.
+	* data/yacc.c: Likewise.
+	(b4_safest_int_type): Overwrite the one from c.m4 since b4_int_type is
+	also overwritten.
+
 2006-08-09  Ralf Wildenhues <Ralf.Wildenhues@gmx.de>  (tiny change)
 
 	* doc/bison.texinfo: Fix some typos.

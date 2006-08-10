@@ -608,7 +608,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     /* If the proper action on seeing token YYTOKEN is to reduce or to
        detect an error, take that action.  */
     yyn += yytoken;
-    if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yytoken)
+    if (yyn < 0 || yylast_ < yyn
+        || (]b4_safest_int_type[)yycheck_[yyn] != yytoken)
       goto yydefault;
 
     /* Reduce or error.  */
@@ -686,7 +687,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     yyn = yyr1_[yyn];
     yystate = yypgoto_[yyn - yyntokens_] + yystate_stack_[0];
     if (0 <= yystate && yystate <= yylast_
-	&& yycheck_[yystate] == yystate_stack_[0])
+	&& (]b4_safest_int_type[)yycheck_[yystate] == yystate_stack_[0])
       yystate = yytable_[yystate];
     else
       yystate = yydefgoto_[yyn - yyntokens_];
@@ -759,7 +760,8 @@ b4_error_verbose_if([, yytoken])[));
 	if (yyn != yypact_ninf_)
 	{
 	  yyn += yyterror_;
-	  if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
+	  if (0 <= yyn && yyn <= yylast_
+              && (]b4_safest_int_type[)yycheck_[yyn] == yyterror_)
 	    {
 	      yyn = yytable_[yyn];
 	      if (0 < yyn)
@@ -843,7 +845,7 @@ b4_error_verbose_if([, int tok])[)
 	int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
 	int count = 0;
 	for (int x = yyxbegin; x < yyxend; ++x)
-	  if (yycheck_[x + yyn] == x && x != yyterror_)
+	  if ((]b4_safest_int_type[)yycheck_[x + yyn] == x && x != yyterror_)
 	    ++count;
 
 	// FIXME: This method of building the message is not compatible
@@ -860,7 +862,8 @@ b4_error_verbose_if([, int tok])[)
 	  {
 	    count = 0;
 	    for (int x = yyxbegin; x < yyxend; ++x)
-	      if (yycheck_[x + yyn] == x && x != yyterror_)
+	      if ((]b4_safest_int_type[)yycheck_[x + yyn] == x
+                  && x != yyterror_)
 		{
 		  res += (!count++) ? ", expecting " : " or ";
 		  res += yytnamerr_ (yytname_[x]);
