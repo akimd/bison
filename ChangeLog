@@ -1,3 +1,15 @@
+2006-08-10  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Clean up scanners a bit.
+	* src/flex-scanner.h (FLEX_NO_OBSTACK): New macro that blocks obstack
+	definitions so gcc won't warn when obstack_for_string is unused.
+	* src/scan-code.l: config.h and system.h are already #include'd by
+	scan-code-c.c, so get rid of them here.
+	* src/scan-gram.l: Likewise.
+	* src/scan-skel.l: Likewise, and use flex-scanner.h without obstack
+	definitions rather than duplicating the rest of it.
+	* src/scan-gram-c.c, scan-skel-c.c: #include "system.h".
+
 2006-08-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Suppress signed/unsigned comparison warnings for yycheck.

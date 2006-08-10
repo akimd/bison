@@ -1,4 +1,4 @@
-/* Common parts between scan-code.l and scan-gram.l.
+/* Common parts between scan-code.l, scan-gram.l, and scan-skel.l.
 
    Copyright (C) 2006 Free Software Foundation, Inc.
 
@@ -59,6 +59,8 @@ int   FLEX_PREFIX (lex_destroy) (void);
    STRING_FINISH also stores this string in LAST_STRING, which can be
    used, and which is used by STRING_FREE to free the last string.  */
 
+#ifndef FLEX_NO_OBSTACK
+
 static struct obstack obstack_for_string;
 
 #define STRING_GROW   \
@@ -72,3 +74,5 @@ static struct obstack obstack_for_string;
 
 #define STRING_FREE \
   obstack_free (&obstack_for_string, last_string)
+
+#endif

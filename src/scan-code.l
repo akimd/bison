@@ -24,17 +24,15 @@
 %option prefix="code_" outfile="lex.yy.c"
 
 %{
-#include <config.h>
-#include "system.h"
-
 /* Work around a bug in flex 2.5.31.  See Debian bug 333231
    <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
 #undef code_wrap
 #define code_wrap() 1
 
 #define FLEX_PREFIX(Id) code_ ## Id
-#include "complain.h"
 #include "flex-scanner.h"
+
+#include "complain.h"
 #include "reader.h"
 #include "getargs.h"
 #include <assert.h>
