@@ -222,7 +222,8 @@ esac
 
 (echo '# This file is generated automatically by "bootstrap".' &&
  echo 'AC_DEFUN([GNULIB_AUTOCONF_SNIPPET],[' &&
- $gnulib_tool --extract-autoconf-snippet $gnulib_modules &&
+ $gnulib_tool --extract-autoconf-snippet $gnulib_modules |
+   sed 's/AM_GNU_GETTEXT(\[external]/&, [need-ngettext]/' &&
  echo '])'
 ) >m4/gnulib.m4 || exit
 
@@ -235,7 +236,7 @@ esac
 # Reconfigure, getting other files.
 
 echo "$0: autopoint --force ..."
-autopoint --force
+autopoint --force || exit
 
 # We don't need intl, so remove it.
 intl_files_to_remove='
@@ -286,8 +287,20 @@ done
 
 
 # Put bug-reporting address into po/Makevars.
-echo "$0: sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >po/Makevars ..."
-sed '/^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/' po/Makevars.template >po/Makevars
+echo "$0: Creating po/Makevars from po/Makevars.template ..."
+sed '
+  /^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/
+  /^XGETTEXT_OPTIONS *=/{
+    s/$/ \\/
+    a\
+	--flag=_:1:pass-c-format \\\
+	--flag=N_:1:pass-c-format \\\
+	--flag=error:3:c-format --flag=error_at_line:5:c-format \\\
+	--flag=warn:1:c-format --flag=warn_at:2:c-format \\\
+	--flag=complain:1:c-format --flag=complain_at:2:c-format \\\
+	--flag=fatal:1:c-format --flag=fatal_at:2:c-format
+  }
+' po/Makevars.template >po/Makevars
 
 # Likewise for runtime-po/Makevars, except also change a few other parameters.
 sed '

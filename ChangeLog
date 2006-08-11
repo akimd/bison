@@ -1,3 +1,22 @@
+2006-08-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap: Put in need-ngettext argument to AM_GNU_GETTEXT,
+	to prevent failures when building on older platforms.
+	Check for autopoint failure.
+	Set XGETTEXT_OPTIONS to values that check for C format strings,
+	so that translators are warned about them (this also helps
+	prevent core dumps).
+
+	* lib/subpipe.c (create_subpipe): Use new gnulib pipe_safer
+	function, since it simplifies our code a bit.
+
+	* configure.ac (AC_ARG_ENABLE): Use -Wextra -Wno-sign-compare
+	rather than -W, so we don't get bogus warnings about sign comparisons.
+	Add -Wpointer-arith, since that warning is useful (it reports code
+	that does not conform to C89 and that some compilers reject).
+	* data/c.m4, data/glr.c, data/lalr1.cc, data/yacc.c: Undo latest change,
+	since it's no longer needed.
+
 2006-08-10  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Clean up scanners a bit.
