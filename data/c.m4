@@ -164,11 +164,6 @@ m4_define([b4_int_type],
 
 					       [int])])
 
-# b4_safest_int_type
-# ------------------
-# The safest int type to cast to when it's necessary to compare a signed int
-# type against an int type set by b4_int_type.
-m4_define([b4_safest_int_type],[int])
 
 # b4_int_type_for(NAME)
 # ---------------------
