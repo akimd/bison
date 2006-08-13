@@ -1,3 +1,7 @@
+2006-08-12  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/parse-gram.y: Add `%expect 0' so we don't overlook conflicts.
+
 2006-08-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap: Put in need-ngettext argument to AM_GNU_GETTEXT,

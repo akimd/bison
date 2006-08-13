@@ -83,6 +83,7 @@ static int current_prec = 0;
 %error-verbose
 %defines
 %name-prefix="gram_"
+%expect 0
 
 %initial-action
 {
