@@ -108,10 +108,10 @@ splice	 (\\[ \f\t\v]*\n)*
 %%
 %{
   /* Nesting level of the current code in braces.  */
-  static int braces_level IF_LINT (= 0);
+  int braces_level IF_LINT (= 0);
 
   /* Parent context state, when applicable.  */
-  static int context_state IF_LINT (= 0);
+  int context_state IF_LINT (= 0);
 
   /* Location of most recent identifier, when applicable.  */
   location id_loc IF_LINT (= empty_location);
