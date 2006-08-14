@@ -66,10 +66,6 @@ gram_scanner_last_string_free (void)
   STRING_FREE;
 }
 
-/* The location of the most recently saved token, if it was a
-   BRACED_CODE token; otherwise, this has an unspecified value.  */
-location gram_last_braced_code_loc;
-
 static void handle_syncline (char *, location);
 static unsigned long int scan_integer (char const *p, int base, location loc);
 static int convert_ucn_to_byte (char const *hex_text);
@@ -340,15 +336,23 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_ESCAPED_STRING>
 {
-  "\"" {
+  "\""|"\n" {
+    if (yytext[0] == '\n')
+      unexpected_newline (token_start, "\"");
     STRING_FINISH;
     loc->start = token_start;
     val->chars = last_string;
     BEGIN INITIAL;
     return STRING;
   }
-  \n		unexpected_newline (token_start, "\"");	BEGIN INITIAL;
-  <<EOF>>	unexpected_eof (token_start, "\"");	BEGIN INITIAL;
+  <<EOF>> {
+    unexpected_eof (token_start, "\"");
+    STRING_FINISH;
+    loc->start = token_start;
+    val->chars = last_string;
+    BEGIN INITIAL;
+    return STRING;
+  }
 }
 
   /*----------------------------------------------------------.
@@ -358,7 +362,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_ESCAPED_CHARACTER>
 {
-  "'" {
+  "'"|"\n" {
+    if (yytext[0] == '\n')
+      unexpected_newline (token_start, "'");
     STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
@@ -367,8 +373,18 @@ splice	 (\\[ \f\t\v]*\n)*
     BEGIN INITIAL;
     return CHAR;
   }
-  \n		unexpected_newline (token_start, "'");	BEGIN INITIAL;
-  <<EOF>>	unexpected_eof (token_start, "'");	BEGIN INITIAL;
+  <<EOF>> {
+    unexpected_eof (token_start, "'");
+    STRING_FINISH;
+    loc->start = token_start;
+    if (strlen(last_string) > 1)
+      val->character = last_string[1];
+    else
+      val->character = last_string[0];
+    STRING_FREE;
+    BEGIN INITIAL;
+    return CHAR;
+  }
 }
 
 <SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING>
@@ -505,7 +521,6 @@ splice	 (\\[ \f\t\v]*\n)*
 	STRING_FINISH;
 	loc->start = code_start;
 	val->chars = last_string;
-	gram_last_braced_code_loc = *loc;
 	BEGIN INITIAL;
 	return BRACED_CODE;
       }
@@ -515,7 +530,14 @@ splice	 (\\[ \f\t\v]*\n)*
      (as `<' `<%').  */
   "<"{splice}"<"  STRING_GROW;
 
-  <<EOF>>  unexpected_eof (code_start, "}"); BEGIN INITIAL;
+  <<EOF>> {
+    unexpected_eof (code_start, "}");
+    STRING_FINISH;
+    loc->start = code_start;
+    val->chars = last_string;
+    BEGIN INITIAL;
+    return BRACED_CODE;
+  }
 }
 
 
@@ -533,7 +555,14 @@ splice	 (\\[ \f\t\v]*\n)*
     return PROLOGUE;
   }
 
-  <<EOF>>  unexpected_eof (code_start, "%}"); BEGIN INITIAL;
+  <<EOF>> {
+    unexpected_eof (code_start, "%}");
+    STRING_FINISH;
+    loc->start = code_start;
+    val->chars = last_string;
+    BEGIN INITIAL;
+    return PROLOGUE;
+  }
 }
 
 

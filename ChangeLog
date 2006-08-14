@@ -1,3 +1,16 @@
+2006-08-14  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	In the grammar scanner, STRING_FINISH unclosed constructs and return
+	them to the parser in order to improve error messages.
+	* src/scan-gram.l (SC_ESCAPED_STRING, SC_ESCAPED_CHARACTER,
+	SC_BRACED_CODE, SC_PROLOGUE): Implement.
+	* tests/input.at (Unclosed constructs): New test case.
+	* tests/regression.at (Invalid inputs): Update now that unclosed %{ is
+	seen.
+
+	* src/scan-gram.h, src/scan-gram.l (gram_last_braced_code_loc): Remove
+	unused global.
+
 2006-08-13  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Handle string aliases for character tokens correctly.

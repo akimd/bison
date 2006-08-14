@@ -27,7 +27,6 @@
 extern FILE *gram_in;
 extern int gram__flex_debug;
 extern char *gram_last_string;
-extern location gram_last_braced_code_loc;
 void gram_scanner_initialize (void);
 void gram_scanner_free (void);
 void gram_scanner_last_string_free (void);

@@ -492,3 +492,48 @@ start: 'a';
 AT_CHECK([bison -o input.c input.y])
 
 AT_CLEANUP
+
+
+## --------------------- ##
+## Unclosed constructs.  ##
+## --------------------- ##
+
+AT_SETUP([Unclosed constructs])
+
+# Bison's scan-gram.l once forgot to STRING_FINISH some unclosed constructs, so
+# they were prepended to whatever it STRING_GROW'ed next.  It also threw them
+# away rather than returning them to the parser.  The effect was confusing
+# subsequent error messages.
+
+AT_DATA([input.y],
+[[%token A "a
+%token B "b"
+%token AB "ab" // Used to complain that "ab" was already used.
+%token C '1
+%token TWO "2"
+%token TICK_TWELVE "'12" // Used to complain that "'12" was already used.
+
+%%
+
+start: ;
+
+// Used to report a syntax error because it didn't see any kind of symbol
+// identifier.
+%type <f> 'a
+;
+%type <f> "a
+;
+// Used to report a syntax error because it didn't see braced code.
+%destructor { free ($$)
+]])
+
+AT_CHECK([bison -o input.c input.y], 1, [],
+[[input.y:1.10-2.0: missing `"' at end of line
+input.y:4.10-5.0: missing `'' at end of line
+input.y:14.11-15.0: missing `'' at end of line
+input.y:16.11-17.0: missing `"' at end of line
+input.y:19.13-20.0: missing `}' at end of file
+input.y:20.1: syntax error, unexpected end of file, expecting ;
+]])
+
+AT_CLEANUP
