@@ -471,3 +471,24 @@ AT_CHECK_REQUIRE(1.0, 0)
 AT_CHECK_REQUIRE(AT_PACKAGE_VERSION, 0)
 ## FIXME: Some day augment this version number.
 AT_CHECK_REQUIRE(100.0, 63)
+
+
+## ------------------------------------- ##
+## String aliases for character tokens.  ##
+## ------------------------------------- ##
+
+AT_SETUP([String aliases for character tokens])
+
+# Bison once thought a character token and its alias were different symbols
+# with the same user token number.
+
+AT_DATA_GRAMMAR([input.y],
+[[%token 'a' "a"
+%%
+start: 'a';
+%%
+]])
+
+AT_CHECK([bison -o input.c input.y])
+
+AT_CLEANUP

@@ -1,3 +1,13 @@
+2006-08-13  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Handle string aliases for character tokens correctly.
+	* src/symtab.c (symbol_user_token_number_set): If the token has an
+	alias, check and set its alias's user token number instead of its own,
+	which is set to indicate the alias.  Previously, every occurrence of
+	the character token in the grammar overwrote that alias indicator with
+	the character code.
+	* tests/input.at (String aliases for character tokens): New test.
+
 2006-08-12  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/parse-gram.y: Add `%expect 0' so we don't overlook conflicts.
