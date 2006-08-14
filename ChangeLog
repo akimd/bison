@@ -1,5 +1,10 @@
 2006-08-14  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* src/scan-gram.l (braces_level, context_state): Make these globals
+	static.
+
+2006-08-14  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	In the grammar scanner, STRING_FINISH unclosed constructs and return
 	them to the parser in order to improve error messages.
 	* src/scan-gram.l (SC_ESCAPED_STRING, SC_ESCAPED_CHARACTER,
