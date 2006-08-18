@@ -489,7 +489,9 @@ AT_DATA_GRAMMAR([input.y],
 void yyerror (const char *s);
 int yylex (void);
 %}
-[%%
+[%token QUOTES "\""
+%token TICK "'"
+%%
 exp:
   '\'' "\'"
 | '\"' "\""
@@ -700,6 +702,10 @@ statement:  struct_stat;
 struct_stat:  /* empty. */ | if else;
 if: "if" "const" "then" statement;
 else: "else" statement;
+%token IF "if";
+%token CONST "const";
+%token THEN "then";
+%token ELSE "else";
 %%
 ]])
 
@@ -1105,6 +1111,51 @@ Stack now 0
 Cleanup: discarding lookahead token 'a' (PRINTER)
 DESTRUCTOR
 Stack now 0
+]])
+
+AT_CLEANUP
+
+
+
+## --------------------------------- ##
+## String alias declared after use.  ##
+## --------------------------------- ##
+
+AT_SETUP([String alias declared after use])
+
+# Bison once incorrectly asserted that the symbol number for either a token or
+# its alias was the highest symbol number so far at the point of the alias
+# declaration.  That was true unless the declaration appeared after their first
+# uses.
+
+AT_DATA([input.y],
+[[%%
+start: 'a' "A" 'b';
+%token 'a' "A";
+]])
+
+AT_CHECK([bison -t -o input.c input.y])
+
+AT_CLEANUP
+
+
+
+## --------------------------- ##
+## Undeclared string literal.  ##
+## --------------------------- ##
+
+AT_SETUP([Undeclared string literal])
+
+# Bison once allowed a string literal to be used in the grammar without any
+# declaration assigning it as an alias of another token.
+
+AT_DATA([input.y],
+[[%%
+start: "abc";
+]])
+
+AT_CHECK([bison -t -o input.c input.y], [1], [],
+[[input.y:2.8-12: "abc" undeclared
 ]])
 
 AT_CLEANUP

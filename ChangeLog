@@ -1,3 +1,28 @@
+2006-08-18  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't allow an undeclared string literal, but allow a string literal to
+	be used before its declaration.
+	* src/reader.c (check_and_convert_grammar): Don't invoke packgram if
+	symbols_pack complained.
+	* src/symtab.c (symbol_new): Don't count a string literal as a new
+	symbol.
+	(symbol_class_set): Don't count a string literal as a new token, and
+	don't assign it a symbol number since symbol_make_alias does that.
+	(symbol_make_alias): It's not necessary to decrement the symbol and
+	token counts anymore.  Don't assume that an alias declaration occurs
+	before any uses of the identifier or string, and thus don't assert that
+	one of them has the highest symbol number so far.
+	(symbol_check_alias_consistency): Complain if there's a string literal
+	that wasn't declared as an alias.
+	(symbols_pack): Bail if symbol_check_alias_consistency failed since
+	symbol_pack asserts that every token has been assigned a symbol number
+	although undeclared string literals have not.
+	* tests/regression.at (String alias declared after use, Undeclared
+	string literal): New test case.
+	(Characters Escapes, Web2c Actions): Declare string literals as
+	aliases.
+	* tests/sets.at (Firsts): Likewise.
+
 2006-08-14  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	In the grammar scanner, STRING_FINISH unclosed constructs and return
