@@ -196,7 +196,6 @@ AT_DATA([input.y],
 [[%nonassoc '<' '>'
 %left '+' '-'
 %right '^' '='
-%token EXP "exp"
 %%
 exp:
    exp '<' exp

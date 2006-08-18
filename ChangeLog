@@ -1,5 +1,27 @@
 2006-08-18  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Redo some of the previous commit: add back the ability to use
+	non-aliased/undeclared string literals since it might be useful to
+	those declaring %token-table.
+	* src/reader.c (check_and_convert_grammar): Undo changes in previous
+	commit: don't worry about complaints from symbols_pack.
+	* src/symtab.c (symbol_new, symbol_class_set,
+	symbol_check_alias_consistency): Undo changes in previous commit: count
+	each string literal as a new symbol and token, assign it a symbol
+	number, and don't complain about non-aliased string literals.
+	(symbols_pack): Since symbol_make_alias still does not decrement symbol
+	and token counts but does still set aliased tokens to the same number,
+	symbol_pack_processor now leaves empty slots in the symbols array.
+	Remove those slots.
+	* tests/regression.at (Undeclared string literal): Remove test case
+	added in previous commit since non-aliased string literals are allowed
+	again.
+	(Characters Escapes, Web2c Actions): Undo changes in previous commit:
+	remove unnecessary string literal declarations.
+	* tests/sets.at (Firsts): Likewise.
+
+2006-08-18  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Don't allow an undeclared string literal, but allow a string literal to
 	be used before its declaration.
 	* src/reader.c (check_and_convert_grammar): Don't invoke packgram if
@@ -18,7 +40,7 @@
 	symbol_pack asserts that every token has been assigned a symbol number
 	although undeclared string literals have not.
 	* tests/regression.at (String alias declared after use, Undeclared
-	string literal): New test case.
+	string literal): New test cases.
 	(Characters Escapes, Web2c Actions): Declare string literals as
 	aliases.
 	* tests/sets.at (Firsts): Likewise.
