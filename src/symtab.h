@@ -133,6 +133,9 @@ symbol *symbol_get (const char *key, location loc);
    Its name cannot conflict with the user's names.  */
 symbol *dummy_symbol_get (location loc);
 
+/** Is this a dummy nonterminal?  */
+bool symbol_is_dummy (const symbol *sym);
+
 /** Declare the new symbol \c sym.  Make it an alias of \c symval.  */
 void symbol_make_alias (symbol *sym, symbol *symval, location loc);
 

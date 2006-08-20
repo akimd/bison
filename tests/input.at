@@ -537,3 +537,24 @@ input.y:20.1: syntax error, unexpected end of file, expecting ;
 ]])
 
 AT_CLEANUP
+
+
+## ------------------------- ##
+## %start after first rule.  ##
+## ------------------------- ##
+
+AT_SETUP([%start after first rule])
+
+# Bison once complained that a %start after the first rule was a redeclaration
+# of the start symbol.
+
+AT_DATA([input.y],
+[[%%
+false_start: ;
+start: false_start ;
+%start start;
+]])
+
+AT_CHECK([bison -o input.c input.y])
+
+AT_CLEANUP

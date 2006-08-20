@@ -1,3 +1,15 @@
+2006-08-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Allow %start after the first rule.
+	* src/reader.c (grammar_current_rule_begin): Don't set the start symbol
+	when parsing the first rule.
+	(check_and_convert_grammar): Search for it here after all grammar
+	declarations have been parsed.  Skip midrules, which have dummy LHS
+	nonterminals.
+	* src/symtab.c (symbol_is_dummy): New function.
+	* src/symtab.h (symbol_is_dummy): Declare it.
+	* tests/input.at (%start after first rule): New test.
+
 2006-08-18  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Redo some of the previous commit: add back the ability to use
