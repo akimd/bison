@@ -578,8 +578,6 @@ AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [with union])
 
 
 
-
-
 ## --------------------------------- ##
 ## Default %printer and %destructor. ##
 ## --------------------------------- ##
@@ -691,8 +689,6 @@ AT_CLEANUP
 
 
 
-
-
 ## ------------------------------------------------------------- ##
 ## Default %printer and %destructor for user-declared end token. ##
 ## ------------------------------------------------------------- ##
@@ -772,5 +768,184 @@ Stack now 0 1 2
 Cleanup: popping token END (1.1-1.1: Default printer for 'E' @ 1)
 Cleanup: popping nterm start (1.1-1.1: Default printer for 'S' @ 1)
 ]])
+
+AT_CLEANUP
+
+
+
+## ------------------------------------------------------------------ ##
+## Default %printer and %destructor are not for error or $undefined.  ##
+## ------------------------------------------------------------------ ##
+
+AT_SETUP([Default %printer and %destructor are not for error or \$undefined])
+
+# If Bison were to apply the default %printer and %destructor to the error
+# token or to $undefined:
+#   - For the error token:
+#     - It would generate warnings for unused $n.
+#     - It would invoke the %printer and %destructor on the error token's
+#       semantic value, which would be initialized from the lookahead, which
+#       would be destroyed separately.
+#   - For $undefined, who knows what the semantic value would be.
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%debug
+
+%{
+# include <stdio.h>
+  static void yyerror (const char *msg);
+  static int yylex (void);
+# define USE(SYM)
+%}
+
+%printer {
+  fprintf (yyoutput, "'%c'", $$);
+}
+%destructor {
+  fprintf (stderr, "DESTROY '%c'\n", $$);
+}
+
+%%
+
+start:
+  { $$ = 'S'; }
+  /* In order to reveal the problems that this bug caused during parsing, add
+   * $2 to USE.  */
+  | 'a' error 'b' 'c' { USE(($1, $3, $4)); $$ = 'S'; }
+  ;
+
+%%
+
+static int
+yylex (void)
+{
+  static const char *input = "abd";
+  yylval = *input++;
+  return yylval;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  yydebug = 1;
+  return yyparse ();
+}
+]])
+
+AT_CHECK([bison -o input.c input.y])
+AT_COMPILE([input])
+AT_PARSER_CHECK([./input], [1], [],
+[[Starting parse
+Entering state 0
+Reading a token: Next token is token 'a' ('a')
+Shifting token 'a' ('a')
+Entering state 1
+Reading a token: Next token is token 'b' ('b')
+syntax error
+Shifting token error ()
+Entering state 3
+Next token is token 'b' ('b')
+Shifting token 'b' ('b')
+Entering state 5
+Reading a token: Next token is token $undefined ()
+Error: popping token 'b' ('b')
+DESTROY 'b'
+Stack now 0 1 3
+Error: popping token error ()
+Stack now 0 1
+Shifting token error ()
+Entering state 3
+Next token is token $undefined ()
+Error: discarding token $undefined ()
+Error: popping token error ()
+Stack now 0 1
+Shifting token error ()
+Entering state 3
+Reading a token: Now at end of input.
+Cleanup: discarding lookahead token $end ()
+Stack now 0 1 3
+Cleanup: popping token error ()
+Cleanup: popping token 'a' ('a')
+DESTROY 'a'
+]])
+
+AT_CLEANUP
+
+
+
+## ------------------------------------------------------ ##
+## Default %printer and %destructor are not for $accept.  ##
+## ------------------------------------------------------ ##
+
+AT_SETUP([Default %printer and %destructor are not for \$accept])
+
+# If YYSTYPE is a union and Bison were to apply the default %printer and
+# %destructor to $accept:
+#   - The %printer and %destructor code generated for $accept would always be
+#     dead code because $accept is currently never shifted onto the stack.
+#   - $$ for $accept would always be of type YYSTYPE because it's not possible
+#     to declare `%type <field> $accept'.  (Also true for $undefined.)
+#   - Thus, the compiler might complain that the user code assumes the wrong
+#     type for $$ since the code might assume the type associated with a
+#     specific union field, which is especially reasonable in C++ since that
+#     type may be a base type.  This test case checks for this problem.  (Also
+#     true for $undefined and the error token, so there are three warnings for
+#     %printer and three for %destructor.)
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%debug /* So that %printer is actually compiled.  */
+
+%{
+# include <stdio.h>
+  static void yyerror (const char *msg);
+  static int yylex (void);
+# define USE(SYM)
+%}
+
+%printer {
+  char chr = $$;
+  fprintf (yyoutput, "'%c'", chr);
+}
+%destructor {
+  char chr = $$;
+  fprintf (stderr, "DESTROY '%c'\n", chr);
+}
+
+%union { char chr; }
+%type <chr> start
+
+%%
+
+start: { USE($$); } ;
+
+%%
+
+static int
+yylex (void)
+{
+  return 0;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_CHECK([bison -o input.c input.y])
+AT_COMPILE([input])
 
 AT_CLEANUP

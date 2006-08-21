@@ -1,3 +1,15 @@
+2006-08-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't apply the default %destructor or %printer to the error token,
+	$undefined, or $accept.  This change fits the general rule that the
+	default %destructor and %printer are only for user-declared symbols,
+	and it solves several difficulties that are described in the new test
+	cases listed below.
+	* src/symtab.c (symbol_destructor_get, symbol_printer_get): Implement.
+	* tests/actions.at (Default %printer and %destructor are not for error
+	or $undefined, Default %printer and %destructor are not for $accept):
+	New test cases.
+
 2006-08-19  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Allow %start after the first rule.
