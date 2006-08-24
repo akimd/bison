@@ -24,7 +24,7 @@ Changes in version 2.3+:
      %destructor { free ($$); }
      %destructor { free ($$); printf ("%d", @$.first_line); } STRING1 string1
 
-  guarantees that, when the parser discards any user-declared symbol, it passes
+  guarantees that, when the parser discards any user-defined symbol, it passes
   its semantic value to `free'.  However, when the parser discards a `STRING1'
   or a `string1', it also prints its line number to `stdout'.  It performs only
   the second `%destructor' in this case, so it invokes `free' only once.

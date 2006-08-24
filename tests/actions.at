@@ -690,10 +690,10 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------- ##
-## Default %printer and %destructor for user-declared end token. ##
+## Default %printer and %destructor for user-defined end token. ##
 ## ------------------------------------------------------------- ##
 
-AT_SETUP([Default %printer and %destructor for user-declared end token])
+AT_SETUP([Default %printer and %destructor for user-defined end token])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%error-verbose

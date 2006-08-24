@@ -1,3 +1,26 @@
+2006-08-23  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Whether the default %destructor/%printer applies to a particular symbol
+	isn't a question of whether the user *declares* that symbol (in %token,
+	for example).  It's a question of whether the user by any means
+	*defines* the symbol at all (by simply using a char token, for
+	example).  $end is defined by Bison whereas any other token with token
+	number 0 is defined by the user.  The error token is always defined by
+	Bison regardless of whether the user declares it with %token, but we
+	may one day let the user define error as a nonterminal instead.
+	* NEWS (2.3+): Say "user-defined" instead of "user-declared".
+	* doc/bison.texinfo (Freeing Discarded Symbols): Likewise, and document
+	the meaning of "user-defined".
+	* tests/actions.at (Default %printer and %destructor for user-declared
+	end token): Rename to...
+	(Default %printer and %destructor for user-defined end token): ...
+	this.
+
+	* src/symtab.c (symbol_destructor_get, symbol_printer_get): In the
+	computation of whether to apply the default, don't maintain a list of
+	every Bison-defined symbol.  Instead, just check for a first character
+	of '$', which a user symbol cannot have, and check for the error token.
+
 2006-08-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't apply the default %destructor or %printer to the error token,

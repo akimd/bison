@@ -4014,7 +4014,7 @@ The Parser Function @code{yyparse}}).
 
 @deffn {Directive} %destructor @{ @var{code} @}
 @cindex default %destructor
-Invoke the braced @var{code} whenever the parser discards any user-declared
+Invoke the braced @var{code} whenever the parser discards any user-defined
 grammar symbol for which the user has not specifically declared any
 @code{%destructor}.
 This is known as the default @code{%destructor}.
@@ -4035,12 +4035,34 @@ For instance:
 @end smallexample
 
 @noindent
-guarantees that, when the parser discards any user-declared symbol, it passes
+guarantees that, when the parser discards any user-defined symbol, it passes
 its semantic value to @code{free}.
 However, when the parser discards a @code{STRING1} or a @code{string1}, it also
 prints its line number to @code{stdout}.
 It performs only the second @code{%destructor} in this case, so it invokes
 @code{free} only once.
+
+Notice that a Bison-generated parser invokes the default @code{%destructor}
+only for user-defined as opposed to Bison-defined symbols.
+For example, the parser will not invoke it for the special Bison-defined
+symbols @code{$accept}, @code{$undefined}, or @code{$end} (@pxref{Table of
+Symbols, ,Bison Symbols}), none of which you can reference in your grammar.
+It also will not invoke it for the @code{error} token (@pxref{Table of Symbols,
+,error}), which is always defined by Bison regardless of whether you reference
+it in your grammar.
+However, it will invoke it for the end token (token 0) if you redefine it from
+@code{$end} to, for example, @code{END}:
+
+@smallexample
+%token END 0
+@end smallexample
+
+@ignore
+@noindent
+In the future, it may be possible to redefine the @code{error} token as a
+nonterminal that captures the discarded symbols.
+In that case, the parser will invoke the default destructor for it as well.
+@end ignore
 
 @sp 1
 
