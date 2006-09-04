@@ -689,6 +689,132 @@ AT_CLEANUP
 
 
 
+## ----------------------------------- ##
+## Per-type %printer and %destructor.  ##
+## ----------------------------------- ##
+
+AT_SETUP([Per-type %printer and %destructor])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%error-verbose
+%debug
+
+%{
+# include <stdio.h>
+# include <stdlib.h>
+  static void yyerror (const char *msg);
+  static int yylex (void);
+# define USE(SYM)
+%}
+
+%union { int field0; int field1; int field2; }
+%type <field0> start 'a' 'g'
+%type <field1> 'e'
+%type <field2> 'f'
+%printer {
+  fprintf (yyoutput, "%%symbol-default/<field2>/e printer");
+} %symbol-default 'e' <field2>
+%destructor {
+  fprintf (stdout, "%%symbol-default/<field2>/e destructor.\n");
+} %symbol-default 'e' <field2>
+
+%type <field1> 'b'
+%printer { fprintf (yyoutput, "<field1> printer"); } <field1>
+%destructor { fprintf (stdout, "<field1> destructor.\n"); } <field1>
+
+%type <field0> 'c'
+%printer { fprintf (yyoutput, "'c' printer"); } 'c'
+%destructor { fprintf (stdout, "'c' destructor.\n"); } 'c'
+
+%type <field1> 'd'
+%printer { fprintf (yyoutput, "'d' printer"); } 'd'
+%destructor { fprintf (stdout, "'d' destructor.\n"); } 'd'
+
+%%
+
+start:
+  'a' 'b' 'c' 'd' 'e' 'f' 'g'
+    {
+      USE(($1, $2, $3, $4, $5, $6, $7));
+      $$ = 'S';
+    }
+  ;
+
+%%
+
+static int
+yylex (void)
+{
+  static const char *input = "abcdef";
+  return *input++;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  yydebug = 1;
+  return yyparse ();
+}
+]])
+
+AT_CHECK([bison -o input.c input.y])
+AT_COMPILE([input])
+AT_PARSER_CHECK([./input], 1,
+[[%symbol-default/<field2>/e destructor.
+%symbol-default/<field2>/e destructor.
+'d' destructor.
+'c' destructor.
+<field1> destructor.
+%symbol-default/<field2>/e destructor.
+]],
+[[Starting parse
+Entering state 0
+Reading a token: Next token is token 'a' (%symbol-default/<field2>/e printer)
+Shifting token 'a' (%symbol-default/<field2>/e printer)
+Entering state 1
+Reading a token: Next token is token 'b' (<field1> printer)
+Shifting token 'b' (<field1> printer)
+Entering state 3
+Reading a token: Next token is token 'c' ('c' printer)
+Shifting token 'c' ('c' printer)
+Entering state 5
+Reading a token: Next token is token 'd' ('d' printer)
+Shifting token 'd' ('d' printer)
+Entering state 6
+Reading a token: Next token is token 'e' (%symbol-default/<field2>/e printer)
+Shifting token 'e' (%symbol-default/<field2>/e printer)
+Entering state 7
+Reading a token: Next token is token 'f' (%symbol-default/<field2>/e printer)
+Shifting token 'f' (%symbol-default/<field2>/e printer)
+Entering state 8
+Reading a token: Now at end of input.
+syntax error, unexpected $end, expecting 'g'
+Error: popping token 'f' (%symbol-default/<field2>/e printer)
+Stack now 0 1 3 5 6 7
+Error: popping token 'e' (%symbol-default/<field2>/e printer)
+Stack now 0 1 3 5 6
+Error: popping token 'd' ('d' printer)
+Stack now 0 1 3 5
+Error: popping token 'c' ('c' printer)
+Stack now 0 1 3
+Error: popping token 'b' (<field1> printer)
+Stack now 0 1
+Error: popping token 'a' (%symbol-default/<field2>/e printer)
+Stack now 0
+Cleanup: discarding lookahead token $end ()
+Stack now 0
+]])
+
+AT_CLEANUP
+
+
+
 ## ------------------------------------------------------------- ##
 ## Default %printer and %destructor for user-defined end token. ##
 ## ------------------------------------------------------------- ##

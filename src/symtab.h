@@ -106,7 +106,6 @@ struct symbol
   bool declared;
 };
 
-
 /** Undefined user number.  */
 #define USER_NUMBER_UNDEFINED -1
 
@@ -197,15 +196,51 @@ extern symbol *startsymbol;
 extern location startsymbol_location;
 
 
-/*---------------.
-| Symbol table.  |
-`---------------*/
+/*-----------------.
+| Semantic types.  |
+`-----------------*/
 
+/** A semantic type and its associated \c \%destructor and \c \%printer.
+   
+   Access the fields of this struct only through the interface functions in
+   this file.  \sa symbol::destructor  */
+typedef struct semantic_type {
+  /** The key, name of the semantic type.  */
+  uniqstr tag;
 
-/** Create the symbol table.  */
+  /** Any \c %destructor declared for this semantic type.  */
+  const char *destructor;
+  /** The location of \c semantic_type::destructor.  */
+  location destructor_location;
+
+  /** Any \c %printer declared for this semantic type.  */
+  const char *printer;
+  /** The location of \c semantic_type::printer.  */
+  location printer_location;
+} semantic_type;
+
+/** Fetch (or create) the semantic type associated to KEY.  */
+semantic_type *semantic_type_from_uniqstr (const uniqstr key);
+
+/** Fetch (or create) the semantic type associated to KEY.  */
+semantic_type *semantic_type_get (const char *key);
+
+/** Set the \c destructor associated with \c type.  */
+void semantic_type_destructor_set (semantic_type *type, const char *destructor,
+                                   location loc);
+
+/** Set the \c printer associated with \c type.  */
+void semantic_type_printer_set (semantic_type *type, const char *printer,
+                                location loc);
+
+/*----------------------------------.
+| Symbol and semantic type tables.  |
+`----------------------------------*/
+
+/** Create the symbol and semantic type tables.  */
 void symbols_new (void);
 
-/** Free all the memory allocated for symbols.  */
+/** Free all the memory allocated for symbols and semantic types.  */
 void symbols_free (void);
 
 /** Check that all the symbols are defined.

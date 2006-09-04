@@ -175,8 +175,8 @@ AT_CLEANUP
 AT_SETUP([Default %printer and %destructor redeclared])
 
 AT_DATA([[input.y]],
-[[%destructor { destroy ($$); } %symbol-default
-%printer { destroy ($$); } %symbol-default
+[[%destructor { destroy ($$); } %symbol-default %symbol-default
+%printer { destroy ($$); } %symbol-default %symbol-default
 
 %destructor { destroy ($$); } %symbol-default
 %printer { destroy ($$); } %symbol-default
@@ -190,13 +190,60 @@ start: ;
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:4.13-29: redeclaration for default %destructor
+[[input.y:1.13-29: redeclaration for default %destructor
+input.y:1.13-29: previous declaration
+input.y:2.10-26: redeclaration for default %printer
+input.y:2.10-26: previous declaration
+input.y:4.13-29: redeclaration for default %destructor
 input.y:1.13-29: previous declaration
 input.y:5.10-26: redeclaration for default %printer
 input.y:2.10-26: previous declaration
 input.y:11.13-29: redeclaration for default %destructor
 input.y:4.13-29: previous declaration
 input.y:12.10-26: redeclaration for default %printer
+input.y:5.10-26: previous declaration
+]])
+
+AT_CLEANUP
+
+
+## ---------------------------------------------- ##
+## Per-type %printer and %destructor redeclared.  ##
+## ---------------------------------------------- ##
+
+AT_SETUP([Per-type %printer and %destructor redeclared])
+
+AT_DATA([[input.y]],
+[[%destructor { destroy ($$); } <field1> <field2>
+%printer { destroy ($$); } <field1> <field2>
+
+%destructor { destroy ($$); } <field1> <field1>
+%printer { destroy ($$); } <field2> <field2>
+
+%%
+
+start: ;
+
+%destructor { destroy ($$); } <field2> <field1>;
+%printer { destroy ($$); } <field2> <field1>;
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:4.13-29: %destructor redeclaration for <field1>
+input.y:1.13-29: previous declaration
+input.y:4.13-29: %destructor redeclaration for <field1>
+input.y:4.13-29: previous declaration
+input.y:5.10-26: %printer redeclaration for <field2>
+input.y:2.10-26: previous declaration
+input.y:5.10-26: %printer redeclaration for <field2>
+input.y:5.10-26: previous declaration
+input.y:11.13-29: %destructor redeclaration for <field1>
+input.y:4.13-29: previous declaration
+input.y:11.13-29: %destructor redeclaration for <field2>
+input.y:1.13-29: previous declaration
+input.y:12.10-26: %printer redeclaration for <field1>
+input.y:2.10-26: previous declaration
+input.y:12.10-26: %printer redeclaration for <field2>
 input.y:5.10-26: previous declaration
 ]])
 
@@ -222,6 +269,31 @@ AT_CHECK([bison input.y], [0], [],
 [[input.y:5.8-22: warning: unset value: $$
 input.y:5.8-22: warning: unused value: $2
 input.y:6.6-8: warning: unset value: $$
+]])
+
+AT_CLEANUP
+
+
+## ----------------------------------------- ##
+## Unused values with per-type %destructor.  ##
+## ----------------------------------------- ##
+
+AT_SETUP([Unused values with per-type %destructor])
+
+AT_DATA([[input.y]],
+[[%destructor { destroy ($$); } <field1>
+%type <field1> start end
+
+%%
+
+start: end end { $1; } ;
+end: { }  ;
+]])
+
+AT_CHECK([bison input.y], [0], [],
+[[input.y:6.8-22: warning: unset value: $$
+input.y:6.8-22: warning: unused value: $2
+input.y:7.6-8: warning: unset value: $$
 ]])
 
 AT_CLEANUP

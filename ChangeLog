@@ -1,5 +1,34 @@
 2006-09-04  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Finish implementation of per-type %destructor/%printer.  Discussed
+	starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-02/msg00064.html>
+	and
+	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00091.html>.
+	* NEWS (2.3+): Add a description of this feature to the default
+	%destructor/%printer description.
+	* doc/bison.texinfo (Freeing Discarded Symbols): Likewise.
+	* src/symlist.c (symbol_list_destructor_set, symbol_list_printer_set):
+	Invoke semantic_type_destructor_set or semantic_type_printer_set when a
+	list node contains a semantic type.
+	* src/symtab.c, src/symtab.h: Extend with a table that associates
+	semantic types with their %destructor's and %printer's.
+	(semantic_type_from_uniqstr, semantic_type_get,
+	semantic_type_destructor_set, semantic_type_printer_set): New functions
+	composing the public interface of that table.
+	(symbol_destructor_get, symbol_destructor_location_get,
+	symbol_printer_get, symbol_printer_location_get):  If there's no
+	per-symbol %destructor/%printer, look up the per-type before trying
+	the default.
+	* tests/actions.at (Per-type %printer and %destructor): New test case.
+	* tests/input.at (Default %printer and %destructor redeclared):
+	Extend to check that multiple occurrences of %symbol-default in a
+	single %destructor/%printer declaration is an error.
+	(Per-type %printer and %destructor redeclared, Unused values with
+	per-type %destructor): New test cases.
+
+2006-09-04  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Require default %destructor/%printer to be declared using
 	%symbol-default instead of an empty symbol list, and start working on
 	new per-type %destructor/%printer.  Discussed at
