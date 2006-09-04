@@ -193,6 +193,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%skeleton"             	    return PERCENT_SKELETON;
   "%start"                	    return PERCENT_START;
   "%start-header"                   return PERCENT_START_HEADER;
+  "%symbol-default"                 return PERCENT_SYMBOL_DEFAULT;
   "%term"                 	    return PERCENT_TOKEN;
   "%token"                	    return PERCENT_TOKEN;
   "%token"[-_]"table"     	    return PERCENT_TOKEN_TABLE;

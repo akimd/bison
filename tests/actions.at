@@ -606,10 +606,10 @@ AT_DATA_GRAMMAR([[input.y]],
 
 %printer {
   fprintf (yyoutput, "Default printer for '%c' @ %d", $$, @$.first_column);
-}
+} %symbol-default
 %destructor {
   fprintf (stdout, "Default destructor for '%c' @ %d.\n", $$, @$.first_column);
-}
+} %symbol-default
 
 %printer {
   fprintf (yyoutput, "'b'/'c' printer for '%c' @ %d", $$, @$.first_column);
@@ -715,10 +715,10 @@ AT_DATA_GRAMMAR([[input.y]],
 %token END 0
 %printer {
   fprintf (yyoutput, "Default printer for '%c' @ %d", $$, @$.first_column);
-}
+} %symbol-default
 %destructor {
   fprintf (stdout, "Default destructor for '%c' @ %d.\n", $$, @$.first_column);
-}
+} %symbol-default
 
 %%
 
@@ -800,10 +800,10 @@ AT_DATA_GRAMMAR([[input.y]],
 
 %printer {
   fprintf (yyoutput, "'%c'", $$);
-}
+} %symbol-default
 %destructor {
   fprintf (stderr, "DESTROY '%c'\n", $$);
-}
+} %symbol-default
 
 %%
 
@@ -911,11 +911,11 @@ AT_DATA_GRAMMAR([[input.y]],
 %printer {
   char chr = $$;
   fprintf (yyoutput, "'%c'", chr);
-}
+} %symbol-default
 %destructor {
   char chr = $$;
   fprintf (stderr, "DESTROY '%c'\n", chr);
-}
+} %symbol-default
 
 %union { char chr; }
 %type <chr> start

@@ -28,8 +28,17 @@
 /* A list of symbols, used during the parsing to store the rules.  */
 typedef struct symbol_list
 {
-  /* The symbol.  */
-  symbol *sym;
+  /**
+   * Whether this node contains a symbol, a semantic type, or a
+   * \c \%symbol-default.
+   */
+  enum { SYMLIST_SYMBOL, SYMLIST_TYPE, SYMLIST_DEFAULT } content_type;
+  union {
+    /** The symbol or \c NULL iff <tt>node_type = SYMLIST_SYMBOL</tt>.  */
+    symbol *sym;
+    /** The semantic type iff <tt>node_type = SYMLIST_TYPE</tt>.  */
+    uniqstr type_name;
+  } content;
   location location;
 
   /* If this symbol is the generated lhs for a midrule but this is the rule in
@@ -61,31 +70,46 @@ typedef struct symbol_list
 } symbol_list;
 
 
-/* Create a list containing SYM at LOC.  */
-symbol_list *symbol_list_new (symbol *sym, location loc);
+/** Create a list containing \c sym at \c loc.  */
+symbol_list *symbol_list_sym_new (symbol *sym, location loc);
 
-/* Print it.  */
-void symbol_list_print (const symbol_list *l, FILE *f);
+/** Create a list containing \c type_name at \c loc.  */
+symbol_list *symbol_list_type_new (uniqstr type_name, location loc);
 
-/* Prepend SYM at LOC to the LIST.  */
-symbol_list *symbol_list_prepend (symbol_list *l,
-				  symbol *sym,
-				  location loc);
+/** Create a list containing a \c \%symbol-default at \c loc.  */
+symbol_list *symbol_list_default_new (location loc);
 
-/* Free the LIST, but not the symbols it contains.  */
-void symbol_list_free (symbol_list *l);
+/** Print this list.
 
-/* Return its length. */
+  \pre For every node \c n in the list, <tt>n->content_type =
+  SYMLIST_SYMBOL</tt>.  */
+void symbol_list_syms_print (const symbol_list *l, FILE *f);
+
+/** Prepend \c node to \c list.  */
+symbol_list *symbol_list_prepend (symbol_list *list, symbol_list *node);
+
+/** Free \c list, but not the items it contains.  */
+void symbol_list_free (symbol_list *list);
+
+/** Return the length of \c l. */
 int symbol_list_length (symbol_list const *l);
 
-/* Get symbol N in symbol list L.  */
+/** Get item \c n in symbol list \c l.  */
 symbol_list *symbol_list_n_get (symbol_list *l, int n);
 
 /* Get the data type (alternative in the union) of the value for
    symbol N in rule RULE.  */
 uniqstr symbol_list_n_type_name_get (symbol_list *l, location loc, int n);
 
-/* The symbol N in symbol list L is USED.  */
+/** The item \c n in symbol list \c l is \c used.  */
 void symbol_list_n_used_set (symbol_list *l, int n, bool used);
+
+/** Set the \c \%destructor for \c node as \c destructor at \c loc.  */
+void symbol_list_destructor_set (symbol_list *node, const char *destructor,
+                                 location loc);
+
+/** Set the \c \%printer for \c node as \c printer at \c loc.  */
+void symbol_list_printer_set (symbol_list *node, const char *printer,
+                              location loc);
 
 #endif /* !SYMLIST_H_ */

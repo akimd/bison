@@ -116,6 +116,8 @@ static int current_prec = 0;
 %token PERCENT_TYPE        "%type"
 %token PERCENT_DESTRUCTOR  "%destructor"
 %token PERCENT_PRINTER     "%printer"
+%token PERCENT_SYMBOL_DEFAULT
+                           "%symbol-default"
 
 %token PERCENT_LEFT        "%left"
 %token PERCENT_RIGHT       "%right"
@@ -199,7 +201,7 @@ static int current_prec = 0;
 %printer { fprintf (stderr, "%s:", $$->tag); } id_colon
 
 %type <assoc> precedence_declarator
-%type <list>  symbols.1
+%type <list>  symbols.1 generic_symlist generic_symlist_item
 %%
 
 input:
@@ -262,29 +264,21 @@ grammar_declaration:
     {
       grammar_start_symbol_set ($2, @2);
     }
-| "%destructor" "{...}"
-    {
-      default_destructor_set (translate_symbol_action ($2, @2), @2);
-    }
-| "%destructor" "{...}" symbols.1
+| "%destructor" "{...}" generic_symlist
     {
       symbol_list *list;
       const char *action = translate_symbol_action ($2, @2);
       for (list = $3; list; list = list->next)
- 	symbol_destructor_set (list->sym, action, @2);
+        symbol_list_destructor_set (list, action, @2);
       symbol_list_free ($3);
     }
-| "%printer" "{...}" symbols.1
+| "%printer" "{...}" generic_symlist
     {
       symbol_list *list;
       const char *action = translate_symbol_action ($2, @2);
       for (list = $3; list; list = list->next)
-	symbol_printer_set (list->sym, action, @2);
+        symbol_list_printer_set (list, action, @2);
       symbol_list_free ($3);
-    }
-| "%printer" "{...}"
-    {
-      default_printer_set (translate_symbol_action ($2, @2), @2);
     }
 | "%default-prec"
     {
@@ -352,7 +346,7 @@ symbol_declaration:
       tag_seen = true;
       symbol_list *list;
       for (list = $3; list; list = list->next)
-	symbol_type_set (list->sym, $2, @2);
+	symbol_type_set (list->content.sym, $2, @2);
       symbol_list_free ($3);
     }
 ;
@@ -364,8 +358,8 @@ precedence_declaration:
       ++current_prec;
       for (list = $3; list; list = list->next)
 	{
-	  symbol_type_set (list->sym, current_type, @2);
-	  symbol_precedence_set (list->sym, current_prec, $1, @1);
+	  symbol_type_set (list->content.sym, current_type, @2);
+	  symbol_precedence_set (list->content.sym, current_prec, $1, @1);
 	}
       symbol_list_free ($3);
       current_type = NULL;
@@ -383,10 +377,23 @@ type.opt:
 | TYPE           { current_type = $1; tag_seen = true; }
 ;
 
-/* One or more nonterminals to be %typed. */
+/* One or more symbols to be %typed. */
 symbols.1:
-  symbol            { $$ = symbol_list_new ($1, @1); }
-| symbols.1 symbol  { $$ = symbol_list_prepend ($1, $2, @2); }
+  symbol
+    { $$ = symbol_list_sym_new ($1, @1); }
+| symbols.1 symbol
+    { $$ = symbol_list_prepend ($1, symbol_list_sym_new ($2, @2)); }
+;
+
+generic_symlist:
+  generic_symlist_item { $$ = $1; }
+| generic_symlist generic_symlist_item { $$ = symbol_list_prepend ($1, $2); }
+;
+
+generic_symlist_item:
+  symbol            { $$ = symbol_list_sym_new ($1, @1); }
+| TYPE              { $$ = symbol_list_type_new ($1, @1); }
+| "%symbol-default" { $$ = symbol_list_default_new (@1); }
 ;
 
 /* One token definition.  */

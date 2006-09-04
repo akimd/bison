@@ -3986,6 +3986,7 @@ For instance, if your locations use a file name, you may use
 @subsection Freeing Discarded Symbols
 @cindex freeing discarded symbols
 @findex %destructor
+@findex %symbol-default
 
 During error recovery (@pxref{Error Recovery}), symbols already pushed
 on the stack and tokens coming from the rest of the file are discarded
@@ -4012,8 +4013,9 @@ The additional parser parameters are also available (@pxref{Parser Function, ,
 The Parser Function @code{yyparse}}).
 @end deffn
 
-@deffn {Directive} %destructor @{ @var{code} @}
+@deffn {Directive} %destructor @{ @var{code} @} %symbol-default
 @cindex default %destructor
+@findex %symbol-default
 Invoke the braced @var{code} whenever the parser discards any user-defined
 grammar symbol for which the user has not specifically declared any
 @code{%destructor}.
@@ -4030,7 +4032,7 @@ For instance:
 %token <string> STRING2
 %type  <string> string1
 %type  <string> string2
-%destructor @{ free ($$); @}
+%destructor @{ free ($$); @} %symbol-default
 %destructor @{ free ($$); printf ("%d", @@$.first_line); @} STRING1 string1
 @end smallexample
 
@@ -8503,6 +8505,11 @@ Bison declaration to assign right associativity to token(s).
 @deffn {Directive} %start
 Bison declaration to specify the start symbol.  @xref{Start Decl, ,The
 Start-Symbol}.
+@end deffn
+
+@deffn {Directive} %symbol-default
+Used to declare a default @code{%destructor} or default @code{%printer}.
+@xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
 @deffn {Directive} %token

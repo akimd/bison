@@ -21,7 +21,7 @@ Changes in version 2.3+:
      %token <string> STRING2
      %type  <string> string1
      %type  <string> string2
-     %destructor { free ($$); }
+     %destructor { free ($$); } %symbol-default
      %destructor { free ($$); printf ("%d", @$.first_line); } STRING1 string1
 
   guarantees that, when the parser discards any user-defined symbol, it passes

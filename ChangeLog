@@ -1,3 +1,30 @@
+2006-09-04  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Require default %destructor/%printer to be declared using
+	%symbol-default instead of an empty symbol list, and start working on
+	new per-type %destructor/%printer.  Discussed at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00007.html>.
+	* NEWS (2.3+): Add %symbol-default to example.
+	* bison.texinfo (Freeing Discarded Symbols): Likewise.
+	(Bison Symbols): Add entry for %symbol-default.
+	* src/parse-gram.y (PERCENT_SYMBOL_DEFAULT): New token.
+	(generic_symlist, generic_symlist_item): New nonterminals for creating
+	a list in which each item is a symbol, semantic type, or
+	%symbol-default.
+	(grammar_declaration): Use generic_symlist in %destructor and %printer
+	declarations instead of symbols.1 or an empty list.
+	(symbol_declaration, precedence_declaration, symbols.1): Update actions
+	for changes to symbol_list.
+	* src/reader.c: Update for changes to symbol_list.
+	* src/scan-code.l: Likewise.
+	* src/scan-gram.l: Scan new PERCENT_SYMBOL_DEFAULT token.
+	* src/symlist.c, src/symlist.h: Extend such that a list node may
+	represent a semantic type or a %symbol-default in addition to just an
+	ordinary symbol.  Add switched functions for setting %destructor's and
+	%printer's.
+	* tests/actions.at, tests/input.at: Add %symbol-default to all default
+	%destructor/%printer declarations.
+
 2006-08-23  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Whether the default %destructor/%printer applies to a particular symbol
