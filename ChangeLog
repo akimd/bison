@@ -1,3 +1,10 @@
+2006-09-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo (Calc++ Parser): Fix memory leak reported by
+	Sander Brandenburg in
+	<http://lists.gnu.org/archive/html/bug-bison/2006-09/msg00002.html>.
+	Also, fix minor white space and comment issues.
+
 2006-09-04  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Finish implementation of per-type %destructor/%printer.  Discussed
