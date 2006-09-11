@@ -1,5 +1,6 @@
 *_gl.m4
 absolute-header.m4
+argmatch.m4
 dirname.m4
 dos.m4
 double-slash-root.m4
@@ -19,7 +20,6 @@ mbrtowc.m4
 mbstate_t.m4
 mbswidth.m4
 nls.m4
-obstack.m4
 po.m4
 progtest.m4
 quote.m4
@@ -30,7 +30,6 @@ stdint_h.m4
 stdio-safer.m4
 stpcpy.m4
 strerror.m4
-strerror_r.m4
 strndup.m4
 strnlen.m4
 strtol.m4
