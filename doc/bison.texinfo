@@ -2649,6 +2649,7 @@ can be done with two @var{Prologue} blocks, one before and one after the
 
 @smallexample
 %@{
+  #define _GNU_SOURCE
   #include <stdio.h>
   #include "ptypes.h"
 %@}
@@ -2665,6 +2666,13 @@ can be done with two @var{Prologue} blocks, one before and one after the
 
 @dots{}
 @end smallexample
+
+When in doubt, it is usually safer to put prologue code before all
+Bison declarations, rather than after.  For example, any definitions
+of feature test macros like @code{_GNU_SOURCE} or
+@code{_POSIX_C_SOURCE} should appear before all Bison declarations, as
+feature test macros can affect the behavior of Bison-generated
+@code{#include} directives.
 
 @findex %before-header
 @findex %start-header

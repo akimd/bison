@@ -43,6 +43,10 @@ dnl FIXME: This is wrong, we want computed header guards.
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
+]m4_ifdef([b4_start_header],
+[[/* Copy the %start-header blocks.  */
+]b4_user_start_header])[
+
 #include <string>
 #include <iostream>
 #include "stack.hh"
@@ -53,12 +57,7 @@ namespace ]b4_namespace[
   class location;
 }
 
-]m4_ifdef([b4_start_header],
-[[/* Copy the %start-header blocks.  */
-]b4_user_start_header])[
-
-]dnl Include location.hh here: it might depend on headers included above.
-[#include "location.hh"
+#include "location.hh"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG

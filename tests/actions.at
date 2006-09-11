@@ -190,7 +190,7 @@ m4_ifval([$6], [%union
   int ival;
 }])
 AT_LALR1_CC_IF([%define "global_tokens_and_yystype"])
-m4_ifval([$6], [[%end-header {]], [[%start-header {]])
+m4_ifval([$6], [[%end-header {]], [[%after-header {]])
 AT_LALR1_CC_IF([typedef yy::location YYLTYPE;
                 m4_ifval([$6], , [#define YYSTYPE int])])
 [static int yylex (]AT_LEX_FORMALS[);

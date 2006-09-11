@@ -221,6 +221,10 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
+]m4_ifdef([b4_start_header],
+[[/* Copy the %start-header blocks.  */
+]b4_user_start_header])[
+
 #include <string>
 #include <iostream>
 
@@ -232,10 +236,6 @@ namespace ]b4_namespace[
   class position;
   class location;
 }
-
-]m4_ifdef([b4_start_header],
-[[/* Copy the %start-header blocks.  */
-]b4_user_start_header])[
 
 #include "location.hh"
 
