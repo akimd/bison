@@ -30,7 +30,7 @@ out-of-date version of the C code, but the process is not foolproof.
 Also, you may run into similar problems yourself if you modify Bison.
 
 Only building the initial full source tree will be a bit painful,
-later, a plain `cvs update -P & make' should be sufficient.
+later, a plain `cvs update -P && make' should be sufficient.
 
 * First CVS checkout
 
@@ -59,7 +59,7 @@ Enjoy!
 
 -----
 
-Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 
