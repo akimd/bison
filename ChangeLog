@@ -1,3 +1,11 @@
+2006-09-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/glr.cc (YYERROR_VERBOSE, YYTOKEN_TABLE): Remove.
+	We don't need them in glr.cc, and glr.c defines them.
+	Defining YYERROR_VERBOSE to 0 here breaks glr.c, since glr.c
+	assumes that defining it to anything is the same as defining
+	it to 1.  Problem reported by Paolo Bonzini.
+
 2006-09-12  Paolo Bonzini  <bonzini@gnu.org>  (tiny change)
 
 	* data/c.m4 (b4_null, b4_case): Define.
