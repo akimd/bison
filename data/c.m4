@@ -81,7 +81,6 @@ m4_define([b4_identification],
 ])
 
 
-
 ## ---------------- ##
 ## Default values.  ##
 ## ---------------- ##
@@ -99,7 +98,6 @@ m4_define_default([b4_location_initial_line],   [1])
 ## ------------------------ ##
 ## Pure/impure interfaces.  ##
 ## ------------------------ ##
-
 
 # b4_user_args
 # ------------
@@ -137,10 +135,10 @@ m4_define([b4_parse_param_use],
 ])dnl
 ])
 
+
 ## ------------ ##
 ## Data Types.  ##
 ## ------------ ##
-
 
 # b4_ints_in(INT1, INT2, LOW, HIGH)
 # ---------------------------------
@@ -171,6 +169,17 @@ m4_define([b4_int_type],
 # `NAME_min' to `NAME_max' (included).
 m4_define([b4_int_type_for],
 [b4_int_type($1_min, $1_max)])
+
+
+## ---------##
+## Values.  ##
+## ---------##
+
+# b4_null
+---------
+# Return a null pointer constant.  NULL infringes on the user name
+# space in C, so use 0 rather than NULL.
+m4_define([b4_null], [0])
 
 
 ## ------------------ ##
@@ -457,6 +466,13 @@ b4_define_user_code([stype])
 ## -------------- ##
 ## User actions.  ##
 ## -------------- ##
+
+# b4_case(LABEL, STATEMENTS)
+# --------------------------
+m4_define([b4_case],
+[  case $1:
+$2
+    break;])
 
 # b4_symbol_actions(FILENAME, LINENO,
 #                   SYMBOL-TAG, SYMBOL-NUM,

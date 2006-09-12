@@ -1,3 +1,9 @@
+2006-09-12  Paolo Bonzini  <bonzini@gnu.org>  (tiny change)
+
+	* data/c.m4 (b4_null, b4_case): Define.
+	* src/output.c (prepare_symbols): Use b4_null.
+	(user_actions_output): Use b4_case.
+
 2006-09-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.c (b4_shared_declarations): Put start-header first,
