@@ -881,7 +881,9 @@ int
 yyparse ()
 {
   yy::parser parser;
-  parser.set_debug_level (!!YYDEBUG);
+#if YYDEBUG
+  parser.set_debug_level (YYDEBUG);
+#endif
   return parser.parse ();
 }
 ],

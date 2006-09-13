@@ -122,8 +122,12 @@ namespace ]b4_namespace[
 ]dnl In this section, the parse param are the original parse_params.
 m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 [  /// Build a parser object.
-  ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)
-    : yycdebug_ (&std::cerr)]b4_parse_param_cons[
+  ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
+    :])[
+#if YYDEBUG
+    ]m4_ifset([b4_parse_param], [  ], [ :])[yydebug_ (false),
+      yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
+#endif]b4_parse_param_cons[
   {
   }
 
@@ -185,16 +189,16 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   ]b4_parser_class_name[::debug_level_type
   ]b4_parser_class_name[::debug_level () const
   {
-    return ::yydebug;
+    return yydebug_;
   }
 
   void
   ]b4_parser_class_name[::set_debug_level (debug_level_type l)
   {
-    ::yydebug = l;
+    yydebug_ = l;
   }
 
-#endif /* ! YYDEBUG */
+#endif
 ]m4_popdef([b4_parse_param])dnl
 [} // namespace ]b4_namespace[
 
@@ -337,7 +341,10 @@ b4_user_stype
 				   const semantic_type* yyvaluep,
 				   const location_type* yylocationp);
   private:
-#endif /* ! YYDEBUG */
+    /* Debugging.  */
+    int yydebug_;
+    std::ostream* yycdebug_;
+#endif
 
 
     /// \brief Reclaim the memory associated to a symbol.
@@ -350,8 +357,6 @@ b4_user_stype
 			     semantic_type* yyvaluep,
 			     location_type* yylocationp);
 
-    /* Debugging.  */
-    std::ostream* yycdebug_;
 ]b4_parse_param_vars[
   };
 

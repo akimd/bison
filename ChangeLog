@@ -1,3 +1,27 @@
+2006-09-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix glr.cc and lalr1.cc's use of YYDEBUG so that there's zero
+	runtime cost when YYDEBUG is not defined, and so that some tests
+	that used to fail now work.  Problem and initial suggestion by
+	Paolo Bonzini.
+	* data/c++.m4 (b4_parse_param_cons): Omit leading ','.
+	* data/glr.cc (b4_parser_class_name):
+	Initialize yycdebug_ only if YYDEBUG.  Also, initialize yydebug_.
+	(debug_level, set_debug_level): Affect yydebug_, not ::yydebug.
+	(yydebug_) [YYDEBUG]: New member.
+	(yycdebug_): Now defined only if YYDEBUG.
+	* data/lalr1.cc (yydebug_, yycdebug_): Now defined only if YYDEBUG.
+	(YYCDEBUG) [!YYDEBUG]: Don't use yydebug_ and yycdebug_.
+	(b4_parser_class_name): Initialize yydebug_ and yycdebug_ only
+	if YYYDEBUG.
+	(debug_stream, set_debug_stream, debug_level, set_debug_level):
+	Define only if YYDEBUG.
+	* tests/calc.at (_AT_DATA_CALC_Y) [!YYDEBUG]: Omit call to
+	set_debug_level.
+	* tests/regression.at (_AT_DATA_DANCER_Y) [!YYDEBUG]: Likewise.
+	* tests/calc.at (AT_CHECK_CALC_GLR_CC): Uncomment calls to
+	AT_CHECK_CALC_GLR_CC that are working now.
+
 2006-09-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/glr.cc (YYERROR_VERBOSE, YYTOKEN_TABLE): Remove.

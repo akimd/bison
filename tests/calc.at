@@ -162,7 +162,9 @@ int
 yyparse (AT_PARAM_IF([semantic_value *result, int *count]))
 {
   AT_NAME_PREFIX::parser parser[]AT_PARAM_IF([ (result, count)]);
-  parser.set_debug_level (!!YYDEBUG);
+#if YYDEBUG
+  parser.set_debug_level (1);
+#endif
   return parser.parse ();
 }
 ],
@@ -642,11 +644,11 @@ AT_BANNER([[Simple GLR C++ Calculator.]])
 m4_define([AT_CHECK_CALC_GLR_CC],
 [AT_CHECK_CALC([%skeleton "glr.cc" %defines %locations] $@)])
 
-#AT_CHECK_CALC_GLR_CC([])
-#AT_CHECK_CALC_GLR_CC([%error-verbose %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR_CC([])
+AT_CHECK_CALC_GLR_CC([%error-verbose %name-prefix="calc" %verbose %yacc])
 
-# AT_CHECK_CALC_GLR_CC([%debug])
-#AT_CHECK_CALC_GLR_CC([%error-verbose %debug %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR_CC([%debug])
+AT_CHECK_CALC_GLR_CC([%error-verbose %debug %name-prefix="calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR_CC([%pure-parser %error-verbose %debug %name-prefix="calc" %verbose %yacc])
 

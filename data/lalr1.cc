@@ -172,7 +172,7 @@ b4_error_verbose_if([, int tok])[);
     virtual void yy_symbol_print_ (int yytype,
 				   const semantic_type* yyvaluep,
 				   const location_type* yylocationp);
-#endif /* ! YYDEBUG */
+#endif
 
 
     /// State numbers.
@@ -249,6 +249,10 @@ b4_error_verbose_if([, int tok])[);
     virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
     virtual void yystack_print_ ();
+
+    /* Debugging.  */
+    int yydebug_;
+    std::ostream* yycdebug_;
 #endif
 
     /// Convert a scanner token number \a t to a symbol number.
@@ -279,11 +283,6 @@ b4_error_verbose_if([, int tok])[);
     static const int yyntokens_;
     static const unsigned int yyuser_token_number_max_;
     static const token_number_type yyundef_token_;
-
-    /* Debugging.  */
-    int yydebug_;
-    std::ostream* yycdebug_;
-
 ]b4_parse_param_vars[
   };
 }
@@ -334,11 +333,11 @@ b4_defines_if([
 /* Suppress unused-variable warnings by "using" E.  */
 #define YYUSE(e) ((void) (e))
 
-/* A pseudo ostream that takes yydebug_ into account.  */
-# define YYCDEBUG if (yydebug_) (*yycdebug_)
-
 /* Enable debugging if requested.  */
 #if YYDEBUG
+
+/* A pseudo ostream that takes yydebug_ into account.  */
+# define YYCDEBUG if (yydebug_) (*yycdebug_)
 
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)	\
 do {							\
@@ -370,6 +369,7 @@ do {					\
 
 #endif /* !YYDEBUG */
 
+#define YYCDEBUG	if (false) std::cerr
 #define YYACCEPT	goto yyacceptlab
 #define YYABORT		goto yyabortlab
 #define YYERROR		goto yyerrorlab
@@ -418,9 +418,12 @@ namespace ]b4_namespace[
 #endif
 
   /// Build a parser object.
-  ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)
-    : yydebug_ (false),
-      yycdebug_ (&std::cerr)]b4_parse_param_cons[
+  ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
+    :])[
+#if YYDEBUG
+    ]m4_ifset([b4_parse_param], [  ], [ :])[yydebug_ (false),
+      yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
+#endif]b4_parse_param_cons[
   {
   }
 
@@ -458,7 +461,7 @@ namespace ]b4_namespace[
     yy_symbol_value_print_ (yytype, yyvaluep, yylocationp);
     *yycdebug_ << ')';
   }
-#endif /* ! YYDEBUG */
+#endif
 
   void
   ]b4_parser_class_name[::yydestruct_ (const char* yymsg,
@@ -486,6 +489,7 @@ namespace ]b4_namespace[
     yylocation_stack_.pop (n);
   }
 
+#if YYDEBUG
   std::ostream&
   ]b4_parser_class_name[::debug_stream () const
   {
@@ -510,7 +514,7 @@ namespace ]b4_namespace[
   {
     yydebug_ = l;
   }
-
+#endif
 
   int
   ]b4_parser_class_name[::parse ()
