@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-Changes in version 2.3+:
+Changes in version 2.3a, 2006-09-13:
 
 * Instead of %union, you can define and use your own union type
   YYSTYPE if your grammar contains at least one <type> tag.
