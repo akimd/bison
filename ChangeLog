@@ -1,5 +1,45 @@
 2006-09-15  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Use some of gnulib's new modules, taken from coreutils.
+
+	* bootstrap: Sync from coreutils, except add support for gnulib_files.
+	* bootstrap.conf: New file.
+	(gnulib_modules): Add configmake, inttypes, unistd.
+	(XGETTEXT_OPTIONS): Add complain, complain_at,
+	fatal, fatal_at, warn, warn_at, unexpected_end.
+	* configure.ac (AC_CONFIG_HEADERS): config.h is now in lib, not here.
+	(gl_USE_SYSTEM_EXTENSIONS): Remove; gl_EARLY now does this.
+	(gl_EARLY): Add.
+	(AM_STDBOOL_H): Remove; gl_INIT now dows this.
+	(gl_INIT): Add
+	(GNULIB_AUTOCONF_SNIPPET): Remove.
+	(AM_GNU_GETTEXT): Add; require formatstring macros since that's
+	the pickiest.
+	* lib/.cvsignore: Add inttypes_.h.
+	* lib/Makefile.am: Include gnulib.mk first so we can append to it.
+	(AM_CFLAGS): Add WERROR_CFLAGS, to be more like coreutils.
+	(BUILT_SOURCES, EXTRA_DIST, MOSTLYCLEANFILES): Remove
+	no-longer-necessary initializations.
+	(lib_SOURCES): Remove, replacing by libbison_a_SOURCES.
+	* lib/subpipe.c: Include <unistd.h> unconditionally, now that we
+	use the unistd module.
+	* src/system.h: Likewise.
+	* m4/.cvsignore: Remove *_gl.m4, gnulib.m4, inttypes_h.m4, uintmax_t.m4,
+	ulonglong.m4.  Add gettext.m4, gnulib-cache.m4, gnulib-comp.m4,
+	gnulib-tool.m4, inttypes-h.m4, inttypes-pri.m4, inttypes.m4.
+	* src/Makefile.am (DEFS): Remove, since configmake does this for us.
+	(AM_CPPFLAGS): Remove -I../lib, since Automake does that for us.
+	* src/system.h: Include inttypes.h unconditionally, now that we
+	use the inttypes module.  Don't bother to include stdint.h, since
+	inttypes.h now does that for us.
+	(LOCALEDIR): Remove, now that we use the configmake module.
+	* src/getargs.c: Include configmake.h.
+	* src/main.c: Likewise.
+	* src/output.c: Likewise.
+	* tests/atlocal.in (CPPFLAGS): Include from $abs_top_builddir/lib,
+	not from $abs_top_builddir, since config.h moved.
+
+
 	Port to GCC 2.95.  First two problems reported by Michael Deutschmann in
 	<http://lists.gnu.org/archive/html/bug-bison/2006-09/msg00018.html>.
 

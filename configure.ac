@@ -27,13 +27,15 @@ AC_CONFIG_MACRO_DIR([m4])
 
 # We don't have a file m4/Makefile.am, so we need Automake 1.8 or later.
 AM_INIT_AUTOMAKE([1.8 check-news readme-alpha dist-bzip2])
-AC_CONFIG_HEADERS([config.h:config.hin])
-
-gl_USE_SYSTEM_EXTENSIONS
+AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
 
 # Checks for the compiler.
 AC_PROG_CC
 AM_PROG_CC_STDC
+
+# Gnulib (early checks).
+gl_EARLY
+
 AC_ARG_ENABLE(gcc-warnings,
 [  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended)],
 [case "${enableval}" in
@@ -91,10 +93,13 @@ AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
 
 # Checks for header files.
 AC_CHECK_HEADERS_ONCE([locale.h])
-AM_STDBOOL_H
 
 # Checks for compiler characteristics.
 AC_C_INLINE
+
+# Gnulib (later checks).  Putting them here rather than right after
+# gl_EARLY avoids some redundant checks.
+gl_INIT
 
 # Checks for library functions.
 AC_CHECK_FUNCS_ONCE([setlocale])
@@ -102,9 +107,9 @@ AM_WITH_DMALLOC
 BISON_PREREQ_SUBPIPE
 BISON_PREREQ_TIMEVAR
 
-# gnulib and gettext.
-GNULIB_AUTOCONF_SNIPPET
+# Gettext.
 # We've never tested with gettext versions before 0.15, so play it safe.
+AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.15])
 BISON_I18N
 

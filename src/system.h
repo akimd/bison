@@ -45,15 +45,8 @@
 # include <sys/types.h>
 #endif
 
-#if HAVE_UNISTD_H
-# include <unistd.h>
-#endif
-
-#if HAVE_INTTYPES_H
-# include <inttypes.h>
-#endif
-
-#include <stdint.h>
+#include <unistd.h>
+#include <inttypes.h>
 
 #ifndef UINTPTR_MAX
 /* This isn't perfect, but it's good enough for Bison, which needs
@@ -118,15 +111,6 @@ typedef size_t uintptr_t;
 #include <gettext.h>
 #define _(Msgid)  gettext (Msgid)
 #define N_(Msgid) (Msgid)
-
-
-/*-------------------------------.
-| Fix broken compilation flags.  |
-`-------------------------------*/
-
-#ifndef LOCALEDIR
-# define LOCALEDIR "/usr/local/share/locale"
-#endif
 
 
 /*-----------.

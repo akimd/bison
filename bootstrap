@@ -21,15 +21,75 @@
 
 # Written by Paul Eggert.
 
-package=bison
-
-# Translation Project URL, for the registry of all projects.
-TP_URL='http://www.iro.umontreal.ca/translation/registry.cgi?domain='
+nl='
+'
 
 # Ensure file names are sorted consistently across platforms.
 # Also, ensure diagnostics are in English, e.g., "wget --help" below.
 LC_ALL=C
 export LC_ALL
+
+
+# Configuration.
+
+# List of gnulib modules needed.
+gnulib_modules=
+
+# Any gnulib files needed that are not in modules.
+gnulib_files=
+
+# Translation Project URL, for the registry of all projects
+# and for the translation-team master directory.
+TP_URL='http://www.iro.umontreal.ca/translation/registry.cgi?domain='
+TP_PO_URL='http://www.iro.umontreal.ca/translation/teams/PO/'
+
+extract_package_name='
+  /^AC_INIT(/{
+     /.*,.*,.*,/{
+       s///
+       s/[][]//g
+       p
+       q
+     }
+     s/AC_INIT(\[*//
+     s/]*,.*//
+     s/^GNU //
+     y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/
+     s/[^A-Za-z0-9_]/-/g
+     p
+  }
+'
+package=`sed -n "$extract_package_name" configure.ac` || exit
+
+# Extra files from gnulib, which override files from other sources.
+gnulib_extra_files='
+	build-aux/install-sh
+	build-aux/missing
+	build-aux/mdate-sh
+	build-aux/texinfo.tex
+	build-aux/depcomp
+	build-aux/config.guess
+	build-aux/config.sub
+	doc/INSTALL
+'
+
+# Other locale categories that need message catalogs.
+EXTRA_LOCALE_CATEGORIES=
+
+# Additional xgettext options to use.  Use "\\\newline" to break lines.
+XGETTEXT_OPTIONS='\\\
+ --flag=_:1:pass-c-format\\\
+ --flag=N_:1:pass-c-format\\\
+ --flag=error:3:c-format --flag=error_at_line:5:c-format\\\
+'
+
+# Files we don't want to import.
+excluded_files=
+
+# Override the default configuration, if necessary.
+test -r bootstrap.conf && . ./bootstrap.conf
+
+# Translate configuration into internal form.
 
 # Parse options.
 
@@ -77,7 +137,7 @@ case ${GNULIB_SRCDIR--} in
     esac
 
     case $CVS_RSH in
-    '') export CVS_RSH=ssh;;
+    '') CVS_RSH=ssh; export CVS_RSH;;
     esac
 
     trap cleanup_gnulib 1 2 13 15
@@ -93,187 +153,176 @@ esac
 gnulib_tool=$GNULIB_SRCDIR/gnulib-tool
 <$gnulib_tool || exit
 
-gnulib_modules='
-argmatch
-dirname
-error
-extensions
-fopen-safer
-getopt
-gettext
-hash
-malloc
-mbswidth
-obstack
-quote
-quotearg
-stdbool
-stdint
-stpcpy
-strerror
-strtoul
-strverscmp
-unistd-safer
-unlocked-io
-verify
-xalloc
-xalloc-die
-xstrndup
-'
-
-previous_gnulib_modules=
-while [ "$gnulib_modules" != "$previous_gnulib_modules" ]; do
-  previous_gnulib_modules=$gnulib_modules
-  gnulib_modules=`
-    (echo "$gnulib_modules"
-     for gnulib_module in $gnulib_modules; do
-       $gnulib_tool --extract-dependencies $gnulib_module
-     done) | sort -u
-  `
-done
-
-gnulib_files=`
-  (echo m4/warning.m4
-   for gnulib_module in $gnulib_modules; do
-     $gnulib_tool --extract-filelist $gnulib_module
-   done) | sort -u
-`
-
-gnulib_dirs=`echo "$gnulib_files" | sed 's,/[^/]*$,,' | sort -u`
-mkdir -p $gnulib_dirs || exit
-
-for gnulib_file in $gnulib_files; do
-  dest=$gnulib_file
-  rm -f $dest &&
-  echo "$0: Copying file $GNULIB_SRCDIR/$gnulib_file" &&
-  cp -p $GNULIB_SRCDIR/$gnulib_file $dest || exit
-done
-
-# This suppresses a bogus diagnostic
-# "warning: macro `AM_LANGINFO_CODESET' not found in library".
-echo "$0: patching m4/gettext.m4 to remove need for intl/* ..."
-sed '
-  /^AC_DEFUN(\[AM_INTL_SUBDIR],/,/^]/c\
-    AC_DEFUN([AM_INTL_SUBDIR], [])
-  /^AC_DEFUN(\[gt_INTL_SUBDIR_CORE],/,/^]/c\
-    AC_DEFUN([gt_INTL_SUBDIR_CORE], [])
-' m4/gettext.m4 >m4/gettext_gl.m4 || exit
-
-
 # Get translations.
 
 get_translations() {
   subdir=$1
   domain=$2
 
-  echo "$0: getting translations into $subdir for $domain..."
-  (cd $subdir && rm -f dummy `ls | sed -n '/\.gmo$/p; /\.po/p'`) &&
+  case $WGET_COMMAND in
+  '')
+    echo "$0: wget not available; skipping translations";;
+  ?*)
+    echo "$0: getting translations into $subdir for $domain..." &&
 
-  $WGET_COMMAND -O "$subdir/$domain.html" "$TP_URL$domain" &&
+    (cd $subdir && rm -f dummy `ls | sed -n '/\.gmo$/p; /\.po/p'`) &&
+    $WGET_COMMAND -O "$subdir/$domain.html" "$TP_URL$domain" &&
 
-  sed -n 's|.*"http://[^"]*/translation/teams/PO/\([^/"]*\)/'"$domain"'-\([^/"]*\)\.[^."]*\.po".*|\1.\2|p' <"$subdir/$domain.html" |
-  sort -k 1,1 -k 2,2n -k2,2 -k3,3n -k3,3 -k4,4n -k4,4 -k5,5n -k5.5 |
-  awk -F. '
-    { if (lang && $1 != lang) print lang, ver }
-    { lang = $1; ver = substr($0, index($0, ".") + 1) }
-    END { if (lang) print lang, ver }
-  ' | awk -v domain="$domain" -v subdir="$subdir" '
-    {
-      lang = $1
-
-      # Work around bugs in Bison 2.3 translations uncovered by gettext 0.15.
-      # This workaround can be removed once the translations are fixed.
-      if (lang == "id" || lang == "tr") next
-
-      ver = $2
-      urlfmt = ""
-      printf "$WGET_COMMAND -O %s/%s.po 'http://www.iro.umontreal.ca/translation/teams/PO/%s/%s-%s.%s.po' &&\n", subdir, lang, lang, domain, ver, lang
-    }
-    END { print ":" }
-  ' | sh &&
-  ls "$subdir"/*.po | sed 's|.*/||; s|\.po$||' >"$subdir/LINGUAS" &&
-  rm "$subdir/$domain.html"
+    sed -n 's|.*"http://[^"]*/translation/teams/PO/\([^/"]*\)/'"$domain"'-\([^/"]*\)\.[^."]*\.po".*|\1.\2|p' <"$subdir/$domain.html" |
+    sort -k 1,1 -k 2,2n -k2,2 -k3,3n -k3,3 -k4,4n -k4,4 -k5,5n -k5.5 |
+    awk -F. '
+      { if (lang && $1 != lang) print lang, ver }
+      { lang = $1; ver = substr($0, index($0, ".") + 1) }
+      END { if (lang) print lang, ver }
+    ' | awk -v domain="$domain" -v subdir="$subdir" '
+      {
+	lang = $1
+	ver = $2
+	urlfmt = ""
+	printf "{ $WGET_COMMAND -O %s/%s.po '\'"$TP_PO_URL"'/%s/%s-%s.%s.po'\'' &&\n", subdir, lang, lang, domain, ver, lang
+	printf "  msgfmt -c -o /dev/null %s/%s.po || {\n", subdir, lang
+	printf "    echo >&2 '\'"$0"': omitting translation for %s'\''\n", lang
+	printf "    rm -f %s/%s.po; }; } &&\n", subdir, lang
+      }
+      END { print ":" }
+    ' | WGET_COMMAND="$WGET_COMMAND" sh;;
+  esac &&
+  ls "$subdir"/*.po 2>/dev/null |
+    sed 's|.*/||; s|\.po$||' >"$subdir/LINGUAS" &&
+  rm -f "$subdir/$domain.html"
 }
 
 case $SKIP_PO in
 '')
   case `wget --help` in
   *'--no-cache'*)
-    no_cache='--no-cache';;
+    WGET_COMMAND='wget -nv --no-cache';;
   *'--cache=on/off'*)
-    no_cache='--cache=off';;
+    WGET_COMMAND='wget -nv --cache=off';;
+  *'--non-verbose'*)
+    WGET_COMMAND='wget -nv';;
   *)
-    no_cache='';;
+    WGET_COMMAND='';;
   esac
-
-  WGET_COMMAND="wget -nv $no_cache"
-  export WGET_COMMAND
 
   get_translations po $package || exit
 
-  case $package in
-  bison)
+  if test -d runtime-po; then
     get_translations runtime-po $package-runtime || exit
-  esac;;
+  fi;;
 esac
 
+cp_mark_as_generated()
+{
+  cp_src=$1
+  cp_dst=$2
+  case $cp_dst in
+    *.[ch])             c1='/* '; c2=' */';;
+    *.texi)             c1='@c '; c2=     ;;
+    *.m4|*/Make*|Make*) c1='# ' ; c2=     ;;
+    *)                  c1=     ; c2=     ;;
+  esac
 
-# Generate autoconf and automake snippets.
+  if test -z "$c1"; then
+    cp "$cp_src" "$cp_dst"
+    return
+  fi
 
-(echo '# This file is generated automatically by "bootstrap".' &&
- echo 'AC_DEFUN([GNULIB_AUTOCONF_SNIPPET],[' &&
- $gnulib_tool --extract-autoconf-snippet $gnulib_modules |
-   sed 's/AM_GNU_GETTEXT(\[external]/&, [need-ngettext]/' &&
- echo '])'
-) >m4/gnulib.m4 || exit
+  (
+    echo "$c1-*- buffer-read-only: t -*- vi: set ro:$c2"
+    echo "${c1}DO NOT EDIT! GENERATED AUTOMATICALLY!$c2"
+    cat "$cp_src"
+  ) >> "$cp_dst"
+}
 
-(echo '# This file is generated automatically by "bootstrap".' &&
- $gnulib_tool --extract-automake-snippet $gnulib_modules |
- sed 's/^[	 ]*AM_CPPFLAGS[	 ]*+=/# (commented out by bootstrap) &/'
-) >lib/gnulib.mk || exit
+slurp() {
+  for dir in . `(cd $1 && find * -type d -print)`; do
+    copied=
+    sep=
+    for file in `ls $1/$dir`; do
+      test -d $1/$dir/$file && continue
+      for excluded_file in $excluded_files; do
+	test "$dir/$file" = "$excluded_file" && continue 2
+      done
+      if test $file = Makefile.am; then
+	copied=$copied${sep}gnulib.mk; sep=$nl
+	echo "$0: Copying $1/$dir/$file to $dir/gnulib.mk ..." &&
+	rm -f $dir/gnulib.mk
+	sed '/^[^#].*\/intl/s/^/#/' $1/$dir/$file >$dir/gnulib.mk
+      elif test -r ${2-no/such/dir}/$dir/$file ||
+	   grep -F "/$file/" $dir/CVS/Entries 2>/dev/null |
+	     grep -q '^/[^/]*/[0-9]'; then
+	echo "$0: $dir/$file overrides $1/$dir/$file"
+      else
+	copied=$copied$sep$file; sep=$nl
+	if test $file = gettext.m4; then
+	  echo "$0: patching m4/gettext.m4 to remove need for intl/* ..."
+	  rm -f $dir/$file
+	  sed '
+	    /^AC_DEFUN(\[AM_INTL_SUBDIR],/,/^]/c\
+	      AC_DEFUN([AM_INTL_SUBDIR], [
+	    /^AC_DEFUN(\[gt_INTL_SUBDIR_CORE],/,/^]/c\
+	      AC_DEFUN([gt_INTL_SUBDIR_CORE], [])
+	    $a\
+	      AC_DEFUN([gl_LOCK_EARLY], [])
+	  ' $1/$dir/$file >$dir/$file
+	else
+	  rm -f $dir/$file
+	  cp_mark_as_generated $1/$dir/$file $dir/$file
+	fi
+      fi || exit
+    done
+
+    ig=$dir/.cvsignore
+    if test -n "$copied" && test -f $ig; then
+      echo "$copied" | sort -u - $ig | cmp -s - $ig ||
+      echo "$copied" | sort -u - $ig -o $ig || exit
+    fi
+  done
+}
+
+
+# Create boot temporary directories to import from gnulib and gettext.
+
+bt='.#bootmp'
+bt2=${bt}2
+rm -fr $bt $bt2 &&
+mkdir $bt $bt2 || exit
+
+# Import from gnulib.
+
+gnulib_tool_options="\
+ --import\
+ --no-changelog\
+ --aux-dir $bt/build-aux\
+ --doc-base $bt/doc\
+ --lib lib$package\
+ --m4-base $bt/m4/\
+ --source-base $bt/lib/\
+ --tests-base $bt/tests\
+"
+echo "$0: $gnulib_tool $gnulib_tool_options --import ..."
+$gnulib_tool $gnulib_tool_options --import $gnulib_modules &&
+slurp $bt || exit
+
+for file in $gnulib_files; do
+  src=$GNULIB_SRCDIR/$file
+  echo "$0: cp -fp $src $file" &&
+  cp -fp $src $file || exit
+done
+
+
+# Import from gettext.
+
+echo "$0: (cd $bt2; autopoint) ..."
+cp configure.ac $bt2 &&
+(cd $bt2 && autopoint && rm configure.ac) &&
+slurp $bt2 $bt || exit
+
+rm -fr $bt $bt2 || exit
 
 
 # Reconfigure, getting other files.
-
-echo "$0: autopoint --force ..."
-autopoint --force || exit
-
-# We don't need intl, so remove it.
-intl_files_to_remove='
-  intl
-  m4/codeset.m4
-  m4/gettext.m4
-  m4/glibc2.m4
-  m4/glibc21.m4
-  m4/intdiv0.m4
-  m4/intmax.m4
-  m4/inttypes-h.m4
-  m4/inttypes-pri.m4
-  m4/lcmessage.m4
-  m4/lock.m4
-  m4/longdouble.m4
-  m4/printf-posix.m4
-  m4/signed.m4
-  m4/size_max.m4
-  m4/visibility.m4
-  m4/wint_t.m4
-  m4/xsize.m4
-'
-echo $0: rm -fr $intl_files_to_remove ...
-rm -fr $intl_files_to_remove || exit
-
-
-# Undo changes to gnulib files that autoreconf made.
-for gnulib_file in $gnulib_files; do
-  test ! -f $gnulib_file || cmp -s $gnulib_file $GNULIB_SRCDIR/$gnulib_file || {
-    rm -f $gnulib_file &&
-    echo "$0: Copying file $GNULIB_SRCDIR/$gnulib_file again" &&
-    cp -p $GNULIB_SRCDIR/$gnulib_file $gnulib_file || exit
-  }
-done
-
-# Make sure aclocal.m4 is not older than input files.
-sleep 1
 
 for command in \
   'aclocal --force -I m4' \
@@ -286,60 +335,43 @@ do
 done
 
 
-# Put bug-reporting address into po/Makevars.
+# Get some extra files from gnulib, overriding existing files.
+
+for file in $gnulib_extra_files; do
+  src=$GNULIB_SRCDIR/$file
+  case $file in
+  */INSTALL) dest=.;;
+  *) dest=$file;;
+  esac
+  echo "$0: cp -fp $src $dest" &&
+  cp -fp $src $dest || exit
+done
+
+
+# Create gettext configuration.
 echo "$0: Creating po/Makevars from po/Makevars.template ..."
+rm -f po/Makevars
 sed '
-  /^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-bison@gnu.org/
+  /^EXTRA_LOCALE_CATEGORIES *=/s/=.*/= '"$EXTRA_LOCALE_CATEGORIES"'/
+  /^MSGID_BUGS_ADDRESS *=/s/=.*/= bug-'"$package"'@gnu.org/
   /^XGETTEXT_OPTIONS *=/{
     s/$/ \\/
     a\
-	--flag=_:1:pass-c-format \\\
-	--flag=N_:1:pass-c-format \\\
-	--flag=error:3:c-format --flag=error_at_line:5:c-format \\\
-	--flag=warn:1:c-format --flag=warn_at:2:c-format \\\
-	--flag=complain:1:c-format --flag=complain_at:2:c-format \\\
-	--flag=fatal:1:c-format --flag=fatal_at:2:c-format
+	'"$XGETTEXT_OPTIONS"' $${end_of_xgettext_options+}
   }
 ' po/Makevars.template >po/Makevars
 
-# Likewise for runtime-po/Makevars, except also change a few other parameters.
-sed '
-  s/^\(DOMAIN\) *=.*/\1 = bison-runtime/
-  s/^\(subdir\) *=.*/\1 = runtime-po/
-  s/^\(XGETTEXT_OPTIONS\) *=.*/\1 = --keyword=YY_/
-' <po/Makevars >runtime-po/Makevars
+if test -d runtime-po; then
+  # Likewise for runtime-po/Makevars, except also change a few other parameters.
+  rm -f runtime-po/Makevars
+  sed '
+    s/^\(DOMAIN\) *=.*/\1 = '"$package"'-runtime/
+    s/^\(subdir\) *=.*/\1 = runtime-po/
+    s/^\(XGETTEXT_OPTIONS\) *=.*/\1 = '"$XGETTEXT_OPTIONS_RUNTIME"'/
+  ' <po/Makevars >runtime-po/Makevars
 
-# Copy identical files from po to runtime-po.
-(cd po && cp -p Makefile.in.in *-quot *.header *.sed *.sin ../runtime-po)
-
-# if src/parse-gram.[ch] are out of date, rebuild them.
-parse_gram_y=`find src/parse-gram.y \
-		 '(' -newer src/parse-gram.c -o -newer src/parse-gram.h ')' \
-		 -print` || exit
-case $parse_gram_y in
-?*)
-  echo "$0: warning: bootstrapping with old src/parse-gram.[ch] files."
-
-  echo "$0: touch -c src/parse-gram.[ch] ... "
-  touch -c src/parse-gram.[ch] || exit
-
-  echo "$0: ./configure --disable-nls ..."
-  ./configure --disable-nls || exit
-
-  echo "$0: (cd lib && make) ..."
-  (cd lib && make) || exit
-
-  echo "$0: (cd src && make) ..."
-  (cd src && make) || exit
-
-  echo "$0: rm -f src/parse-gram.c src/parse-gram.h ..."
-  rm -f src/parse-gram.c src/parse-gram.h || exit
-
-  echo "$0: (cd src && make parse-gram.c parse-gram.h) ..."
-  (cd src && make parse-gram.c parse-gram.h) || exit
-
-  echo "$0: make distclean ..."
-  make distclean || exit;;
-esac
+  # Copy identical files from po to runtime-po.
+  (cd po && cp -p Makefile.in.in *-quot *.header *.sed *.sin ../runtime-po)
+fi
 
 echo "$0: done.  Now you can run './configure'."

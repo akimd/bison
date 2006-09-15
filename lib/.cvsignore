@@ -23,6 +23,7 @@ gettext.h
 gnulib.mk
 hash.c
 hash.h
+inttypes_.h
 malloc.c
 mbswidth.c
 mbswidth.h
