@@ -412,11 +412,13 @@ sed '/^Starting/d
 /^Stack/d
 /^Reading/d
 /^Reducing/d
+/^Return/d
 /^Shifting/d
 /^state/d
 /^Cleanup:/d
 /^Error:/d
 /^Next/d
+/^Now/d
 /^Discarding/d
 / \$[[0-9$]]* = /d
 /^yydestructor:/d' stderr >at-stderr
@@ -559,6 +561,7 @@ AT_CHECK_CALC_LALR([%yacc])
 AT_CHECK_CALC_LALR([%error-verbose])
 
 AT_CHECK_CALC_LALR([%pure-parser %locations])
+AT_CHECK_CALC_LALR([%push-parser %locations])
 AT_CHECK_CALC_LALR([%error-verbose %locations])
 
 AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix="calc" %verbose %yacc])
@@ -567,6 +570,7 @@ AT_CHECK_CALC_LALR([%debug])
 AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%push-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 

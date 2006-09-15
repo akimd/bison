@@ -156,6 +156,7 @@ static int current_prec = 0;
   PERCENT_OUTPUT          "%output"
   PERCENT_PARSE_PARAM     "%parse-param"
   PERCENT_PURE_PARSER     "%pure-parser"
+  PERCENT_PUSH_PARSER     "%push-parser"
   PERCENT_REQUIRE	  "%require"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
@@ -248,6 +249,7 @@ prologue_declaration:
 | "%output" "=" STRING          { spec_outfile = $3; }
 | "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
 | "%pure-parser"                { pure_parser = true; }
+| "%push-parser"                { push_parser = true; }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING            { skeleton = $2; }
 | "%start-header" braceless     { muscle_code_grow ("start_header", $2, @2); }

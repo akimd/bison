@@ -76,6 +76,9 @@ m4_define([b4_identification],
 /* Pure parsers.  */
 [#]define YYPURE b4_pure_flag
 
+/* Push parsers.  */
+[#]define YYPUSH b4_push_flag
+
 /* Using locations.  */
 [#]define YYLSP_NEEDED b4_locations_flag
 ])
@@ -223,6 +226,15 @@ b4_define_flag_if([error_verbose])  # Whether error are verbose.
 b4_define_flag_if([locations])      # Whether locations are tracked.
 b4_define_flag_if([pure])           # Whether the interface is pure.
 b4_define_flag_if([yacc])           # Whether POSIX Yacc is emulated.
+
+
+# b4_push_if(IF-TRUE, IF-FALSE)
+# -----------------------------
+# Expand IF-TRUE, if %push-parser, IF-FALSE otherwise.
+m4_define([b4_push_if],
+[m4_if(b4_push_flag, [1],
+       [$1],
+       [$2])])
 
 
 

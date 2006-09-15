@@ -53,6 +53,11 @@ extern bool glr_parser;
 
 extern bool pure_parser;
 
+/* PUSH_PARSER is true if should generate a parser that is capable of being
+   called asynchronously.  Is must be pure and reentrant.  */
+
+extern bool push_parser;
+
 /* NONDETERMINISTIC_PARSER is true iff conflicts are accepted.  This
    is used by the GLR parser, and might be used in BackTracking
    parsers too.  */

@@ -1,3 +1,18 @@
+2006-09-15  Bob Rossi  <bob@brasko.net>
+
+	* data/Makefile.am (dist_pkgdata_DATA): Add push.c.
+	* data/c.m4 (YYPUSH): New.
+	(b4_push_if): New macro.  Use it instead of #ifdef YYPUSH.
+	* src/getargs.c (push_parser): New var.
+	* src/getargs.h (push_parser): New declaration.
+	* src/output.c (prepare): Add macro insertion of `push_flag'.
+	* src/parse-gram.y (PERCENT_PUSH_PARSER): New token.
+	(prologue_declaration): Parse %push-parser.
+	* src/scan-gram.l: Scan new PERCENT_PUSH_PARSER token.
+	* tests/calc.at (_AT_CHECK_CALC_ERROR): Add "Return" and "Now" to
+	list of removed lines from the traces observed.
+	(AT_CHECK_CALC_LALR): Added push parser tests.
+
 2006-09-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Version 2.3a.
