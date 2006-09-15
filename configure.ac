@@ -21,7 +21,7 @@
 # We use macros like AC_CHECK_HEADERS_ONCE, so we need Autoconf 2.60 or better.
 AC_PREREQ(2.60)
 
-AC_INIT([GNU Bison], [2.3a], [bug-bison@gnu.org])
+AC_INIT([GNU Bison], [2.3a+], [bug-bison@gnu.org])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
