@@ -345,8 +345,8 @@ symbol_declaration:
     }
 | "%type" TYPE symbols.1
     {
-      tag_seen = true;
       symbol_list *list;
+      tag_seen = true;
       for (list = $3; list; list = list->next)
 	symbol_type_set (list->content.sym, $2, @2);
       symbol_list_free ($3);

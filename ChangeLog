@@ -1,3 +1,26 @@
+2006-09-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Port to GCC 2.95.  First two problems reported by Michael Deutschmann in
+	<http://lists.gnu.org/archive/html/bug-bison/2006-09/msg00018.html>.
+
+	* src/parse-gram.y (symbol_declaration): Don't put statements
+	before declarations; it's not portable to C89.
+	* src/scan-code.l (handle_action_at): Likewise.
+
+	* src/scan-code.l: Always initialize braces_level; the old code
+	left it uninitialized and therefore had undefined behavior.
+
+	Don't attempt to redefine 'assert', since it runs afoul of
+	systems where standard headers (mistakenly) include <assert.h>.
+	Instead, define and use our own alternative, called 'aver'.
+	* src/reader.c: Don't include assert.h, since we no longer
+	use assert.
+	* src/scan-code.l: Likewise.
+	* src/system.h (assert): Remove, replacing with....
+	(aver): New function, taking a bool arg.  All uses changed.
+	* src/tables.c (pack_vector): Ensure that aver arg is bool,
+	not merely an integer.
+
 2006-09-15  Bob Rossi  <bob@brasko.net>
 
 	* data/Makefile.am (dist_pkgdata_DATA): Add push.c.

@@ -35,7 +35,6 @@
 #include "complain.h"
 #include "reader.h"
 #include "getargs.h"
-#include <assert.h>
 #include <get-errno.h>
 #include <quote.h>
 
@@ -79,14 +78,14 @@ splice	 (\\[ \f\t\v]*\n)*
 
 %{
   /* Nesting level of the current code in braces.  */
-  int braces_level IF_LINT (= 0);
+  int braces_level = 0;
 
   /* This scanner is special: it is invoked only once, henceforth
      is expected to return only once.  This initialization is
      therefore done once per action to translate. */
-  assert (sc_context == SC_SYMBOL_ACTION
-	  || sc_context == SC_RULE_ACTION
-	  || sc_context == INITIAL);
+  aver (sc_context == SC_SYMBOL_ACTION
+	|| sc_context == SC_RULE_ACTION
+	|| sc_context == INITIAL);
   BEGIN sc_context;
 %}
 
@@ -339,13 +338,12 @@ static void
 handle_action_at (symbol_list *rule, char *text, location at_loc)
 {
   char *cp = text + 1;
-  locations_flag = true;
-  int effective_rule_length;
+  int effective_rule_length =
+    (rule->midrule_parent_rule
+     ? rule->midrule_parent_rhs_index - 1
+     : symbol_list_length (rule->next));
 
-  if (rule->midrule_parent_rule)
-    effective_rule_length = rule->midrule_parent_rhs_index - 1;
-  else
-    effective_rule_length = symbol_list_length (rule->next);
+  locations_flag = true;
 
   if (*cp == '$')
     obstack_sgrow (&obstack_for_string, "]b4_lhs_location[");

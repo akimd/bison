@@ -136,6 +136,21 @@ typedef size_t uintptr_t;
 #include <stdbool.h>
 
 
+
+/*-------------.
+| Assertions.  |
+`-------------*/
+
+/* <assert.h>'s assertions are too heavyweight, and can be disabled
+   too easily, so use aver rather than assert.  */
+static inline void
+aver (bool assertion)
+{
+  if (! assertion)
+    abort ();
+}
+
+
 /*-----------.
 | Obstacks.  |
 `-----------*/
@@ -208,11 +223,6 @@ do {						\
       free (_node);				\
     }						\
 } while (0)
-
-
-/* Assertions.  <assert.h>'s assertions are too heavyweight, and can
-   be disabled too easily, so implement it separately here.  */
-#define assert(x) ((void) ((x) || (abort (), 0)))
 
 
 /*---------------------------------------------.
