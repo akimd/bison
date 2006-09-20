@@ -1,3 +1,9 @@
+2006-09-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/getargs.c (usage): Rework to use conventions similar to
+	coreutils, to make translation a bit easier and the code a bit
+	smaller.  Problem reported by Tim Van Holder.
+
 2006-09-15  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Use some of gnulib's new modules, taken from coreutils.
