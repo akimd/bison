@@ -1,5 +1,24 @@
 2006-09-20  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* stamp-h.in: Remove; no longer needed.
+	* .cvsignore: Replace autom4te.cache and config.cache with *.cache.
+	Remove config.h, config.hin, intl (no longer created).
+	* lib/.cvsignore: Add config.h, config.hin, configmake.h, inttypes.h,
+	stamp-h1.
+
+	Sync bootstrap from coreutils, as follows:
+
+	2006-09-18  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (symlink_to_gnulib): New function.
+	(cp_mark_as_generated): Use it, to prefer symlinks-to-gnulib
+	to copies-of-gnulib.
+	(cp_mark_as_generated, slurp, gnulib_files):
+	Avoid making a copy if it's the same as the old version.
+	(gnulib_files): Add support for this variable (used by Bison).
+
+2006-09-20  Paul Eggert  <eggert@cs.ucla.edu>
+
 	* src/getargs.c (usage): Rework to use conventions similar to
 	coreutils, to make translation a bit easier and the code a bit
 	smaller.  Problem reported by Tim Van Holder.

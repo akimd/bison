@@ -4,6 +4,9 @@ Makefile.in
 argmatch.c
 argmatch.h
 basename.c
+config.h
+config.hin
+configmake.h
 dirname.c
 dirname.h
 dup-safer.c
@@ -23,6 +26,7 @@ gettext.h
 gnulib.mk
 hash.c
 hash.h
+inttypes.h
 inttypes_.h
 malloc.c
 mbswidth.c
@@ -34,6 +38,7 @@ quote.c
 quote.h
 quotearg.c
 quotearg.h
+stamp-h1
 stdbool.h
 stdbool_.h
 stdint.h

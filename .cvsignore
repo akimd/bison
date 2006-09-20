@@ -1,3 +1,4 @@
+*.cache
 *.flc
 *.patch *.log log patches applied
 *.prj
@@ -10,20 +11,15 @@ _*
 a.exe
 a.out
 aclocal.m4
-autom4te.cache
 b.out
 bison-*
 conf[0-9]*
 confdefs*
-config.cache
-config.h
-config.hin
 config.log
 config.status
 configure
 configure.lineno
 conftest*
-intl
 patches
 releases
 stamp-h*
