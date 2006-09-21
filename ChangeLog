@@ -1,3 +1,9 @@
+2006-09-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/push.c (YYPUSH_MORE): Make it an enum instead.
+	(yypushparse): Use YYPUSH_MORE instead of the mystery constant.
+	Adjust white space and comments to match GNU style better.
+
 2006-09-20  Bob Rossi  <bob@brasko.net>
 
 	* data/push.c (yyresult_get): Remove function.
