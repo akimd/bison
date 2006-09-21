@@ -1,3 +1,9 @@
+2006-09-20  Bob Rossi  <bob@brasko.net>
+
+	* data/push.c (yyresult_get): Remove function.
+	(YYPUSH_MORE): Add #define.
+	(yypushparse): Modify return value.
+
 2006-09-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* stamp-h.in: Remove; no longer needed.
