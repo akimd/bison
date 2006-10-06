@@ -30,6 +30,7 @@ AT_DATA_GRAMMAR([glr-regr1.y],
 
 %{
 #include <stdio.h>
+#include <stdlib.h>
 
 #define YYSTYPE int
 static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
@@ -82,7 +83,10 @@ yylex (void)
 {
   for (;;)
     {
-      int ch = getchar ();
+      int ch;
+      if (feof (stdin))
+	abort ();
+      ch = getchar ();
       if (ch == EOF)
 	return 0;
       else if (ch == 'B' || ch == 'P')
@@ -168,13 +172,15 @@ var_printer: 'v'
 
 %%
 
-FILE *input = NULL;
+FILE *input;
 
 int
 yylex (void)
 {
   char buf[50];
   char *s;
+  if (feof (stdin))
+    abort ();
   switch (fscanf (input, " %1[a-z,]", buf)) {
   case 1:
     return buf[0];
@@ -237,6 +243,7 @@ AT_DATA_GRAMMAR([glr-regr3.y],
 
 %{
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 
 static int MergeRule (int x0, int x1);
@@ -299,6 +306,8 @@ int T[] = { T1, T2, T3, T4 };
 int yylex (void)
 {
   char inp[3];
+  if (feof (stdin))
+    abort ();
   if (fscanf (input, "%2s", inp) == EOF)
     return 0;
   switch (inp[0])
@@ -375,8 +384,11 @@ B:  'a' { $$ = make_value ("B", "'a'");  } ;
 static int
 yylex (void)
 {
-  static char const *input = "a";
-  return *input++;
+  static char const input[] = "a";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  return input[toknum++];
 }
 
 int
@@ -465,8 +477,11 @@ start:
 static int
 yylex (void)
 {
-  static char const *input = "a";
-  return *input++;
+  static char const input[] = "a";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  return input[toknum++];
 }
 
 static void
@@ -527,8 +542,11 @@ start: 'a' | 'a' ;
 static int
 yylex (void)
 {
-  static char const *input = "a";
-  return *input++;
+  static char const input[] = "a";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  return input[toknum++];
 }
 
 static void
@@ -697,6 +715,8 @@ int yylex (void)
   lexIndex += 1;
   switch (lexIndex)
     {
+    default:
+      abort ();
     case 1:
       yylloc.first_column = 1;
       yylloc.last_column = 9;
@@ -705,7 +725,7 @@ int yylex (void)
       yylloc.first_column = 13;
       yylloc.last_column = 17;
       return T_PORT;
-    default:
+    case 3:
       return 0;
     }
 }
@@ -822,6 +842,7 @@ AT_SETUP([Corrupted semantic options if user action cuts parse])
 AT_DATA_GRAMMAR([glr-regr10.y],
 [[
 %{
+# include <stdlib.h>
 # include <stdio.h>
   static void yyerror (char const *);
   static int yylex (void);
@@ -851,6 +872,9 @@ yyerror (char const *msg)
 static int
 yylex (void)
 {
+  static int called;
+  if (called++)
+    abort ();
   return 0;
 }
 
@@ -913,8 +937,11 @@ yyerror (char const *msg)
 static int
 yylex (void)
 {
-  static char const *input = "a";
-  return *input++;
+  static char const input[] = "a";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  return input[toknum++];
 }
 
 int
@@ -1030,10 +1057,12 @@ static int
 yylex (void)
 {
   static int const input[] = { PARENT_RHS_AFTER, 0 };
-  static const int *inputp = input;
-  if (*inputp == PARENT_RHS_AFTER)
+  static size_t toknum;
+  if (! (toknum < sizeof input / sizeof *input))
+    abort ();
+  if (input[toknum] == PARENT_RHS_AFTER)
     parent_rhs_after_value = 1;
-  return *inputp++;
+  return input[toknum++];
 }
 
 int
@@ -1149,12 +1178,14 @@ yyerror (char const *msg)
 static int
 yylex (void)
 {
-  static char const *input = "ab";
-  static int i = 0;
+  static char const input[] = "ab";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
   yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = i + 1;
-  yylval.value = input[i] + 'A' - 'a';
-  return input[i++];
+  yylloc.first_column = yylloc.last_column = toknum + 1;
+  yylval.value = input[toknum] + 'A' - 'a';
+  return input[toknum++];
 }
 
 static void
@@ -1235,6 +1266,7 @@ AT_DATA_GRAMMAR([glr-regr14.y],
 %union { char value; }
 
 %{
+  #include <stdlib.h>
   #include <stdio.h>
   static void yyerror (char const *);
   static int yylex (void);
@@ -1355,12 +1387,14 @@ yyerror (char const *msg)
 static int
 yylex (void)
 {
-  static char const *input = "abcdddd";
-  static int i = 0;
+  static char const input[] = "abcdddd";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
   yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = i + 1;
-  yylval.value = input[i] + 'A' - 'a';
-  return input[i++];
+  yylloc.first_column = yylloc.last_column = toknum + 1;
+  yylval.value = input[toknum] + 'A' - 'a';
+  return input[toknum++];
 }
 
 static void
@@ -1484,6 +1518,9 @@ yyerror (char const *msg)
 static int
 yylex (void)
 {
+  static int called;
+  if (called++)
+    abort ();
   return 0;
 }
 
@@ -1547,10 +1584,13 @@ yyerror (char const *msg)
 static int
 yylex (void)
 {
-  static char const *input = "ab";
-  if (*input == 'b')
+  static char const input[] = "ab";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  if (input[toknum] == 'b')
     lookahead_value = 1;
-  return *input++;
+  return input[toknum++];
 }
 
 int
@@ -1636,12 +1676,14 @@ static int
 yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 {
   static char const input[] = "ab";
-  static char const *inputp = input;
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
   lvalp->dummy = 0;
   llocp->first_line = llocp->last_line = 2;
-  llocp->first_column = inputp - input + 1;
+  llocp->first_column = toknum + 1;
   llocp->last_column = llocp->first_column + 1;
-  return *inputp++;
+  return input[toknum++];
 }
 
 int
@@ -1672,6 +1714,7 @@ AT_DATA_GRAMMAR([glr-regr18.y],
 [[%glr-parser
 
 %{
+  #include <stdlib.h>
   static void yyerror (char const *);
   static int yylex ();
 %}
@@ -1703,6 +1746,9 @@ yyerror (char const *msg)
 static int
 yylex ()
 {
+  static int called;
+  if (called++)
+    abort ();
   return 0;
 }
 
@@ -1714,10 +1760,10 @@ main (void)
 ]])
 
 AT_CHECK([[bison -o glr-regr18.c glr-regr18.y]], 1, [],
-[glr-regr18.y:27.18-24: result type clash on merge function `merge': <type2> != <type1>
-glr-regr18.y:26.18-24: previous declaration
-glr-regr18.y:28.13-19: result type clash on merge function `merge': <type3> != <type2>
+[glr-regr18.y:28.18-24: result type clash on merge function `merge': <type2> != <type1>
 glr-regr18.y:27.18-24: previous declaration
+glr-regr18.y:29.13-19: result type clash on merge function `merge': <type3> != <type2>
+glr-regr18.y:28.18-24: previous declaration
 ])
 
 AT_CLEANUP

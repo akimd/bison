@@ -55,8 +55,11 @@ exp:     { putchar ('0'); }
 static int
 yylex (void)
 {
-  static const char *input = "123456789";
-  return *input++;
+  static char const input[] = "123456789";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  return input[toknum++];
 }
 
 static void
@@ -131,6 +134,9 @@ sum_of_the_five_previous_values:
 static int
 yylex (void)
 {
+  static int called;
+  if (called++)
+    abort ();
   return EOF;
 }
 
@@ -175,6 +181,7 @@ AT_DATA_GRAMMAR([[input.y]],
 [[%start-header {
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 #define YYINITDEPTH 10
@@ -310,6 +317,8 @@ yylex (]AT_LEX_FORMALS[)
   AT_LOC.last_line = AT_LOC.last_column = AT_LOC.first_line + 9;
 ])[
 
+  if (! (0 <= c && c <= strlen (source)))
+    abort ();
   if (source[c])
     printf ("sending: '%c'", source[c]);
   else
@@ -623,11 +632,13 @@ start: 'a' 'b' 'c' 'd' 'e' { $$ = 'S'; USE(($1, $2, $3, $4, $5)); } ;
 static int
 yylex (void)
 {
-  static const char *input = "abcd";
-  static int column = 1;
-  yylval = *input++;
+  static char const input[] = "abcd";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  yylval = input[toknum++];
   yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = column++;
+  yylloc.first_column = yylloc.last_column = toknum;
   return yylval;
 }
 
@@ -741,8 +752,11 @@ start:
 static int
 yylex (void)
 {
-  static const char *input = "abcdef";
-  return *input++;
+  static char const input[] = "abcdef";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  return input[toknum++];
 }
 
 static void
@@ -851,6 +865,9 @@ start: { $$ = 'S'; } ;
 static int
 yylex (void)
 {
+  static int called;
+  if (called++)
+    abort ();
   yylval = 'E';
   yylloc.first_line = yylloc.last_line = 1;
   yylloc.first_column = yylloc.last_column = 1;
@@ -915,6 +932,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 %{
 # include <stdio.h>
+# include <stdlib.h>
   static void yyerror (const char *msg);
   static int yylex (void);
 # define USE(SYM)
@@ -941,8 +959,11 @@ start:
 static int
 yylex (void)
 {
-  static const char *input = "abd";
-  yylval = *input++;
+  static char const input[] = "abd";
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  yylval = input[toknum++];
   return yylval;
 }
 
@@ -1025,6 +1046,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 %{
 # include <stdio.h>
+# include <stdlib.h>
   static void yyerror (const char *msg);
   static int yylex (void);
 # define USE(SYM)
@@ -1051,6 +1073,9 @@ start: { USE($$); } ;
 static int
 yylex (void)
 {
+  static int called;
+  if (called++)
+    abort ();
   return 0;
 }
 

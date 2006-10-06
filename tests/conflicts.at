@@ -56,6 +56,7 @@ AT_DATA_GRAMMAR([input.y],
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define YYERROR_VERBOSE 1
 static void
@@ -65,16 +66,15 @@ yyerror (const char *msg)
 }
 
 /* The current argument. */
-static const char *input = NULL;
+static const char *input;
 
 static int
 yylex (void)
 {
-  /* No token stands for end of file. */
-  if (input && *input)
-    return *input++;
-  else
-    return 0;
+  static size_t toknum;
+  if (! (toknum <= strlen (input)))
+    abort ();
+  return input[toknum++];
 }
 
 %}
@@ -90,8 +90,7 @@ expr: expr '<' expr
 int
 main (int argc, const char *argv[])
 {
-  if (argc > 1)
-    input = argv[1];
+  input = argc <= 1 ? "" : argv[1];	
   return yyparse ();
 }
 ]])

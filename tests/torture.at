@@ -199,10 +199,11 @@ static int
 yylex (void)
 {
   static int counter = 1;
-  if (counter > $max)
-    return 0;
-  else
-  return counter++;
+  if (counter <= $max)
+    return counter++;
+  if (counter++ != $max + 1)
+    abort ();
+  return 0;
 }
 
 static void
@@ -331,7 +332,11 @@ yylex (void)
   static int return_token = 1;
   static int counter = 1;
   if (counter > $max)
-    return 0;
+    {
+      if (counter++ != $max + 1)
+	abort ();
+      return 0;
+    }
   if (return_token)
     {
       return_token = 0;
@@ -412,6 +417,8 @@ yyerror (const char *msg)
 static int
 yylex (void)
 {
+  if (yylval < 0)
+    abort ();
   if (yylval--)
     return WAIT_FOR_EOF;
   else

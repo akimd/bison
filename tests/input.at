@@ -459,11 +459,14 @@ value_as_yystype (value val)
 static int
 yylex (void)
 {
-  static const char *input = "@<:@\1\2$@{@oline@__@&t@oline__\
+  static char const input[] = "@<:@\1\2$@{@oline@__@&t@oline__\
 #output "; /* "
   */
-  yylval = value_as_yystype (*input);
-  return *input++;
+  static size_t toknum;
+  if (! (toknum < sizeof input))
+    abort ();
+  yylval = value_as_yystype (input[toknum]);
+  return input[toknum++];
 }
 
 static void

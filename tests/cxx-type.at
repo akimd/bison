@@ -163,6 +163,8 @@ yylex (LEX_PARAMETERS)
 
   while (1)
     {
+      if (feof (stdin))
+	abort ();
       c = getchar ();
       switch (c)
 	{
