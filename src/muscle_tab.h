@@ -33,34 +33,34 @@ void muscle_free (void);
 extern struct obstack muscle_obstack;
 
 #define MUSCLE_INSERT_BOOL(Key, Value)				\
-{								\
+do {								\
   int v = Value;						\
   MUSCLE_INSERT_INT (Key, v);					\
-}
+} while(0)
 
 #define MUSCLE_INSERT_INT(Key, Value)				\
-{								\
+do {								\
   obstack_fgrow1 (&muscle_obstack, "%d", Value);		\
   obstack_1grow (&muscle_obstack, 0);				\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
-}
+} while(0)
 
 #define MUSCLE_INSERT_LONG_INT(Key, Value)			\
-{								\
+do {								\
   obstack_fgrow1 (&muscle_obstack, "%ld", Value);		\
   obstack_1grow (&muscle_obstack, 0);				\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
-}
+} while(0)
 
 #define MUSCLE_INSERT_STRING(Key, Value)			\
-{								\
+do {								\
   obstack_sgrow (&muscle_obstack, Value);			\
   obstack_1grow (&muscle_obstack, 0);				\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
-}
+} while(0)
 
 #define MUSCLE_OBSTACK_SGROW(Obstack, Value)			\
-{								\
+do {								\
   char const *p;						\
   for (p = Value; *p; p++)					\
     switch (*p)							\
@@ -71,16 +71,16 @@ extern struct obstack muscle_obstack;
       case ']':	obstack_sgrow (Obstack, "@}" ); break;		\
       default: obstack_1grow (Obstack, *p); break;		\
       }								\
-}
+} while(0)
 
 #define MUSCLE_INSERT_C_STRING(Key, Value)			\
-{								\
+do {								\
   MUSCLE_OBSTACK_SGROW (&muscle_obstack,			\
 			quotearg_style (c_quoting_style,	\
 					Value));		\
   obstack_1grow (&muscle_obstack, 0);				\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
-}
+} while(0)
 
 /* Append VALUE to the current value of KEY.  If KEY did not already
    exist, create it.  Use MUSCLE_OBSTACK.  De-allocate the previously

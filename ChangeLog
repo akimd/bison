@@ -1,3 +1,16 @@
+2006-10-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* data/c.m4 (b4_copyright, b4_epilogue, b4_location_initial_column,
+	b4_location_initial_line, p4_parse_param, b4_ints_in, b4_flag_if,
+	b4_define_flag_if and uses, b4_basename, b4_syncline, b4_user_code,
+	b4_define_user_cde and uses): Remove.
+	(b4_comment, b4_prefix, b4_sync_start): New.
+	* data/bison.m4: New file, with most of the content removed from c.m4.
+	* src/muscle_tab.h: Use "do {...} while(0)" throughout.
+	* src/output.c (output_skeleton): Pass bison.m4.
+	(prepare): Pass glr_flag and nondeterministic_flag.  Pass prefix
+	only if specified.
+
 2006-10-05  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix test failure reported by Tom Lane in
