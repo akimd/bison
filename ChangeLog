@@ -1,3 +1,15 @@
+2006-10-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/push.c (yypushparse): Fix memory leak if yymsg is malloced
+	in a push parser.  Reindent slightly to match yacc.c better.
+
+2006-10-11  Bob Rossi  <bob@brasko.net>
+
+        * data/push.c (struct yypvars): Remove yymsgbuf, yymsgbuf_ptr, yymsg,
+        yymsg_alloc fields.
+        (yypvarsinit, yypushparse): Remove init of removed fields.
+        (yypushparse): Use yymsgbuf instead of yymsgbuf_ptr.
+
 2006-10-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* THANKS: Add Paolo Bonzini and Bob Rossi.
