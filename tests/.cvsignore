@@ -1,4 +1,5 @@
-*.output *.vcg
+*.dot
+*.output
 atconfig
 atlocal
 autom4te.cache

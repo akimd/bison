@@ -310,9 +310,8 @@ at the proper place to bison.simple. Ditto for YYACT_PROLOGUE.
 I was wondering what you think about adding YYACT_PROLOGUE/EPILOGUE
 to bison. If you're interested, I'll work on a patch.
 
-* Move to Graphviz
-Well, VCG seems really dead.  Move to Graphviz instead.  Also, equip
-the parser with a means to create the (visual) parse tree.
+* Better graphics
+Equip the parser with a means to create the (visual) parse tree.
 
 -----
 

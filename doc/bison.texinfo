@@ -6374,8 +6374,7 @@ As documented elsewhere (@pxref{Algorithm, ,The Bison Parser Algorithm})
 Bison parsers are @dfn{shift/reduce automata}.  In some cases (much more
 frequent than one would hope), looking at this automaton is required to
 tune or simply fix a parser.  Bison provides two different
-representation of it, either textually or graphically (as a @acronym{VCG}
-file).
+representation of it, either textually or graphically (as a DOT file).
 
 The textual file is generated when the options @option{--report} or
 @option{--verbose} are specified, see @xref{Invocation, , Invoking
@@ -7073,10 +7072,11 @@ The other output files' names are constructed from @var{file} as
 described under the @samp{-v} and @samp{-d} options.
 
 @item -g
-Output a @acronym{VCG} definition of the @acronym{LALR}(1) grammar
-automaton computed by Bison.  If the grammar file is @file{foo.y}, the
-@acronym{VCG} output file will
-be @file{foo.vcg}.
+Output a graphical representation of the @acronym{LALR}(1) grammar
+automaton computed by Bison, in @uref{http://www.graphviz.org/, Graphviz}
+@uref{http://www.graphviz.org/doc/info/lang.html, @acronym{DOT}} format.
+If the grammar file is @file{foo.y}, the output file will
+be @file{foo.dot}.
 
 @item --graph=@var{graph-file}
 The behavior of @var{--graph} is the same than @samp{-g}.  The only
@@ -8931,9 +8931,9 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP
 @c LocalWords: YYEMPTY YYEOF YYRECOVERING yyclearin GE def UMINUS maybeword
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH
-@c LocalWords: YYINITDEPTH stmnts ref stmnt initdcl maybeasm VCG notype
+@c LocalWords: YYINITDEPTH stmnts ref stmnt initdcl maybeasm notype
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args
-@c LocalWords: infile ypp yxx outfile itemx vcg tex leaderfill
+@c LocalWords: infile ypp yxx outfile itemx tex leaderfill
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll
 @c LocalWords: yyrestart nbar yytext fst snd osplit ntwo strdup AST
 @c LocalWords: YYSTACK DVI fdl printindex

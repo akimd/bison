@@ -1,5 +1,27 @@
 2006-10-12  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: The -g and --graph options now output graphs in Graphviz
+	DOT format, not VCG format.
+	* doc/bison.1: Likewise.
+	* doc/bison.texinfo (Understanding, Bison Options): Likewise.
+	* TODO: Remove Graphviz entry.
+	* src/Makefile.am (bison_SOURCES): Add graphviz.c and graphviz.h;
+	remove vcg.c, vcg.h, vcg_defaults.h.
+	* src/vcg.c, src/vcg.h, src/vcg_defaults.h: Remove.
+	* src/graphviz.c, src/graphviz.h: New files.
+	* src/files.c (compute_output_file_names): Output .dot, not .vcg.
+	* src/files.h: Make comment more generic.
+	* src/main.c (main): Likewise.
+	* src/print_graph.h: Likewise.
+	* src/getargs.c (usage): Make usage description more generic.
+	* src/print_graph.c: Include graphviz.h rather than vcg.h.
+	(static_graph, fgraph): Remove.  All uses changed to pass
+	arguments instead of sharing a static var.
+	(print_core, print_actions, print_state, print_graph):
+	Output graphviz format rather than VCG format.
+	* tests/.cvsignore: Remove *.vcg; add *.dot.
+	* tests/output.at: Expect *.dot files, not *.vcg files.
+
 	* data/Makefile.am (dist_pkgdata_DATA): Add bison.m4; this
 	accommodates the 2006-10-08 change.
 

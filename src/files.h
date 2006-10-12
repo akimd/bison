@@ -1,5 +1,7 @@
 /* File names and variables for bison,
-   Copyright (C) 1984, 1989, 2000, 2001, 2002 Free Software Foundation, Inc.
+
+   Copyright (C) 1984, 1989, 2000, 2001, 2002, 2006 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -38,7 +40,7 @@ extern char const *spec_file_prefix;
 /* --verbose. */
 extern char const *spec_verbose_file;
 
-/* File name specified for the output VCG graph.  */
+/* File name specified for the output graph.  */
 extern char const *spec_graph_file;
 
 /* File name specified with --defines.  */

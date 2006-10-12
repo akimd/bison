@@ -1,5 +1,6 @@
-/* Output a VCG description on generated parser, for bison,
-   Copyright 2000 Free Software Foundation, Inc.
+/* Output a graph of the generated parser, for Bison.
+
+   Copyright 2000, 2006 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 

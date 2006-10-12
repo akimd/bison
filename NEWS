@@ -1,6 +1,11 @@
 Bison News
 ----------
 
+Changes in version 2.3a+ (????-??-??):
+
+* The -g and --graph options now output graphs in Graphviz DOT format,
+  not VCG format.
+
 Changes in version 2.3a, 2006-09-13:
 
 * Instead of %union, you can define and use your own union type
