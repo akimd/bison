@@ -4,6 +4,9 @@
 	DOT format, not VCG format.
 	* doc/bison.1: Likewise.
 	* doc/bison.texinfo (Understanding, Bison Options): Likewise.
+	* THANKS: Add Satya Kiran Popuri, who proposed the initial version
+	of this change in
+	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00158.html>.
 	* TODO: Remove Graphviz entry.
 	* src/Makefile.am (bison_SOURCES): Add graphviz.c and graphviz.h;
 	remove vcg.c, vcg.h, vcg_defaults.h.
