@@ -15,7 +15,7 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ## 02110-1301  USA
 
-dist_pkgdata_DATA = README \
+dist_pkgdata_DATA = README bison.m4 \
    c.m4 yacc.c glr.c push.c \
    c++.m4 location.cc lalr1.cc glr.cc
 

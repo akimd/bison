@@ -1,3 +1,8 @@
+2006-10-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/Makefile.am (dist_pkgdata_DATA): Add bison.m4; this
+	accommodates the 2006-10-08 change.
+
 2006-10-11  Bob Rossi  <bob@brasko.net>
 
 	* data/push.c (yypushparse, yypvarsinit, yypvars): Wrap in b4_push_if.
