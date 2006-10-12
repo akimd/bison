@@ -1,3 +1,11 @@
+2006-10-11  Bob Rossi  <bob@brasko.net>
+
+	* data/push.c (yypushparse, yypvarsinit, yypvars): Wrap in b4_push_if.
+	(b4_yyssa, b4_yyerror_range): New macros.
+	(struct yypvars): Remove yyssa_ptr and yyerror_range_ptr fields.
+	(yypvarsinit): Remove init of removed fields.
+	(yypushparse): Remove use of removed fields; use new macros instead.
+
 2006-10-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/push.c (yypushparse): Fix memory leak if yymsg is malloced
