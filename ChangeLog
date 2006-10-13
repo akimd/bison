@@ -1,5 +1,25 @@
 2006-10-12  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* bootstrap: Sync from coreutils, as follows:
+
+	2006-10-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (symlink_to_gnulib): Fix bug: the dot_dots shell
+	variable was sometimes used without being initialized.  This
+	messed up the installation of the INSTALL file in some cases.
+
+	2006-10-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (usage, main program, symlink_to_gnulib): Add option
+	--copy.  Inspired by a suggestion from Bruno Haible.
+
+	2006-10-03  Jim Meyering  <jim@meyering.net>
+
+	* bootstrap: Undo last change to this file, since now gnulib-tool
+	sticks with the automake default in generating dependencies.
+
+2006-10-12  Paul Eggert  <eggert@cs.ucla.edu>
+
 	* configure.ac: Use AC_PROG_CC_STDC; this is more modern than
 	the old AC_PROG_CC / AM_PROG_CC_STDC combination.
 
@@ -50,10 +70,10 @@
 
 2006-10-11  Bob Rossi  <bob@brasko.net>
 
-        * data/push.c (struct yypvars): Remove yymsgbuf, yymsgbuf_ptr, yymsg,
-        yymsg_alloc fields.
-        (yypvarsinit, yypushparse): Remove init of removed fields.
-        (yypushparse): Use yymsgbuf instead of yymsgbuf_ptr.
+	* data/push.c (struct yypvars): Remove yymsgbuf, yymsgbuf_ptr, yymsg,
+	yymsg_alloc fields.
+	(yypvarsinit, yypushparse): Remove init of removed fields.
+	(yypushparse): Use yymsgbuf instead of yymsgbuf_ptr.
 
 2006-10-09  Paul Eggert  <eggert@cs.ucla.edu>
 
