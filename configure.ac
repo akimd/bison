@@ -30,8 +30,7 @@ AM_INIT_AUTOMAKE([1.8 check-news readme-alpha dist-bzip2])
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
 
 # Checks for the compiler.
-AC_PROG_CC
-AM_PROG_CC_STDC
+AC_PROG_CC_STDC
 
 # Gnulib (early checks).
 gl_EARLY

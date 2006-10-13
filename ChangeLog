@@ -1,5 +1,12 @@
 2006-10-12  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* configure.ac: Use AC_PROG_CC_STDC; this is more modern than
+	the old AC_PROG_CC / AM_PROG_CC_STDC combination.
+
+	* doc/bison.1: Add copyright notice.
+
+	* data/glr.c: Don't include <stdarg.h>; not used.
+
 	* NEWS: The -g and --graph options now output graphs in Graphviz
 	DOT format, not VCG format.
 	* doc/bison.1: Likewise.
