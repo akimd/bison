@@ -1,5 +1,6 @@
 absolute-header.m4
 argmatch.m4
+config-h.m4
 dirname.m4
 dos.m4
 double-slash-root.m4

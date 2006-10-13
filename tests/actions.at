@@ -896,7 +896,7 @@ Default destructor for 'S' @ 1.
 ]],
 [[Starting parse
 Entering state 0
-Reducing stack by rule 1 (line 37):
+Reducing stack by rule 1 (line 35):
 -> $$ = nterm start (1.1-1.1: Default printer for 'S' @ 1)
 Stack now 0
 Entering state 1

@@ -11,7 +11,7 @@ CC='@CC@'
 CFLAGS='@O0CFLAGS@ @WARNING_CFLAGS@ @WERROR_CFLAGS@'
 
 # We need `config.h'.
-CPPFLAGS="-DHAVE_CONFIG_H=1 -I$abs_top_builddir/lib @CPPFLAGS@"
+CPPFLAGS="-I$abs_top_builddir/lib @CPPFLAGS@"
 
 # Is the compiler GCC?
 GCC='@GCC@'

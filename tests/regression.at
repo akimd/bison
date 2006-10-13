@@ -1105,7 +1105,7 @@ AT_PARSER_CHECK([./input], 0,
 ]],
 [[Starting parse
 Entering state 0
-Reducing stack by rule 1 (line 22):
+Reducing stack by rule 1 (line 20):
 -> $$ = nterm start ()
 Stack now 0
 Entering state 1

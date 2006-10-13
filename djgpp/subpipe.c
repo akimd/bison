@@ -19,9 +19,7 @@
 /* Written by Juan Manuel Guerrero <juan.guerrero@gmx.de>. */
 
 
-#ifdef HAVE_CONFIG_H
-# include <config.h>
-#endif
+#include <config.h>
 
 #include "subpipe.h"
 

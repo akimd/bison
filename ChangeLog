@@ -1,5 +1,36 @@
 2006-10-12  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* bootstrap.conf (gnulib_modules): Add config-h.
+	* djgpp/subpipe.c: Include <config.h> unconditionally; don't
+	worry about HAVE_CONFIG_H.
+	* lib/abitset.c: Likewise.
+	* lib/bitset.c: Likewise.
+	* lib/bitset_stats.c: Likewise.
+	* lib/bitsetv-print.c: Likewise.
+	* lib/bitsetv.c: Likewise.
+	* lib/ebitset.c: Likewise.
+	* lib/get-errno.c: Likewise.
+	* lib/lbitset.c: Likewise.
+	* lib/subpipe.c: Likewise.
+	* lib/timevar.c: Likewise.
+	* lib/vbitset.c: Likewise.
+	* lib/bitset.c: Include "bitset.h" first, to test interface.
+	* lib/bitset_stats.c: Include "bitset_stats.h" first.
+	* lib/bitsetv-print.c: Include "bitsetv-print.h" first.
+	* lib/bitsetv.c: Include "bitsetv.h" first.
+	* lib/get-errno.c: Include "get-errno.h" first.
+	* m4/.cvsignore: Add config-h.m4.
+	* tests/actions.at (Default %printer and %destructor for ...):
+	Adjust expected line numbers in output to reflect removal of #if
+	HAVE_CONFIG_H lines.
+	* tests/glr-regression.at (Missed %merge type warnings when ...):
+	Likewise.
+	* tests/regression.at (Braced code in declaration in rules section):
+	Likewise.
+	* tests/atlocal.in (CPPFLAGS): Don't define HAVE_CONFIG_H.
+	* tests/local.at (AT_DATA_GRAMMAR_PROLOGUE):
+	Include <config.h> unconditionally.
+
 	* bootstrap: Sync from coreutils, as follows:
 
 	2006-10-11  Paul Eggert  <eggert@cs.ucla.edu>
