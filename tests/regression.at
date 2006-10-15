@@ -959,6 +959,7 @@ m4_define([_AT_DATA_EXPECT2_Y],
 static int yylex (AT_LALR1_CC_IF([int *], [void]));
 AT_LALR1_CC_IF([],
 [#include <stdio.h>
+#include <stdlib.h>
 static void yyerror (const char *);])
 %}
 $1

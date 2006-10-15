@@ -1,3 +1,13 @@
+2006-10-14  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix testsuite for ./configure --enable-gcc-warnings:
+	* configure.ac (gcc-warnings): Move -Wall before -Wno-sign-compare.
+	Otherwise, gcc 4.1.0 (at least) warns about sign comparisons in
+	__AT_CHECK_PRINTER_AND_DESTRUCTOR in tests/actions.at.
+	* test/input.at (Torturing the Scanner): #include <stdlib.h> for abort.
+	* test/regression.at (Diagnostic that expects two alternatives):
+	Likewise.
+
 2006-10-12  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap.conf (gnulib_modules): Add config-h.

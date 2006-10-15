@@ -46,8 +46,8 @@ if test "${enableval}" = yes; then
   gl_WARNING_CFLAGS([-Werror])
   AC_SUBST([WERROR_CFLAGS], [$WARNING_CFLAGS])
   WARNING_CFLAGS=
-  gl_WARNING_CFLAGS([-Wextra -Wno-sign-compare])
   gl_WARNING_CFLAGS([-Wall])
+  gl_WARNING_CFLAGS([-Wextra -Wno-sign-compare])
   gl_WARNING_CFLAGS([-Wcast-align])
   gl_WARNING_CFLAGS([-Wcast-qual])
   gl_WARNING_CFLAGS([-Wformat])

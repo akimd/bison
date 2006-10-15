@@ -396,6 +396,7 @@ char apostrophe = '\'';
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 %}
 /* %{ and %} can be here too. */
 
