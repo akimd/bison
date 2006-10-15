@@ -1,5 +1,8 @@
 2006-10-16  Paolo Bonzini  <bonzini@gnu.org>
 
+	Replace %*-header with %provides, %requires, %code.  See discussion at
+	http://lists.gnu.org/archive/html/bison-patches/2006-10/msg00002.html
+
 	* data/bison.m4 (b4_user_requires, b4_user_provides): New.
 	(b4_user_start_header): Remove.
 	* data/glr.c: Use new macros instead of b4_*start_header
