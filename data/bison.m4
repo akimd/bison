@@ -178,14 +178,18 @@ m4_define([b4_define_user_code],
 # b4_user_actions
 # b4_user_initial_action
 # b4_user_post_prologue
-# b4_user_start_header
+# b4_user_pre_prologue
+# b4_user_provides
+# b4_user_requires
 # b4_user_stype
 # ----------------------
 # Macros that issue user code, ending with synclines.
 b4_define_user_code([actions])
 b4_define_user_code([initial_action])
 b4_define_user_code([post_prologue])
-b4_define_user_code([start_header])
+b4_define_user_code([pre_prologue])
+b4_define_user_code([provides])
+b4_define_user_code([requires])
 b4_define_user_code([stype])
 
 

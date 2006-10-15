@@ -133,13 +133,11 @@ static int current_prec = 0;
 `----------------------*/
 
 %token
-  PERCENT_AFTER_HEADER    "%after-header"
-  PERCENT_BEFORE_HEADER   "%before-header"
+  PERCENT_CODE            "%code"
   PERCENT_DEBUG           "%debug"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
-  PERCENT_END_HEADER      "%end-header"
   PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR	  "%expect-rr"
@@ -155,12 +153,13 @@ static int current_prec = 0;
 			  "%nondeterministic-parser"
   PERCENT_OUTPUT          "%output"
   PERCENT_PARSE_PARAM     "%parse-param"
+  PERCENT_PROVIDES        "%provides"
   PERCENT_PURE_PARSER     "%pure-parser"
   PERCENT_PUSH_PARSER     "%push-parser"
   PERCENT_REQUIRE	  "%require"
+  PERCENT_REQUIRES        "%requires"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
-  PERCENT_START_HEADER    "%start-header"
   PERCENT_TOKEN_TABLE     "%token-table"
   PERCENT_VERBOSE         "%verbose"
   PERCENT_YACC            "%yacc"
@@ -222,12 +221,10 @@ prologue_declarations:
 prologue_declaration:
   grammar_declaration
 | "%{...%}"     { prologue_augment (translate_code ($1, @1), @1, union_seen); }
-| "%after-header" braceless        { prologue_augment ($2, @2, true); }
-| "%before-header" braceless       { prologue_augment ($2, @2, false); }
+| "%code" braceless                { prologue_augment ($2, @2, true); }
 | "%debug"                         { debug_flag = true; }
 | "%define" STRING content.opt     { muscle_insert ($2, $3); }
 | "%defines"                       { defines_flag = true; }
-| "%end-header" braceless          { muscle_code_grow ("end_header", $2, @2); }
 | "%error-verbose"                 { error_verbose = true; }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT		   { expected_rr_conflicts = $2; }
@@ -248,11 +245,12 @@ prologue_declaration:
 | "%nondeterministic-parser"	{ nondeterministic_parser = true; }
 | "%output" "=" STRING          { spec_outfile = $3; }
 | "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
+| "%provides" braceless         { muscle_code_grow ("provides", $2, @2); }
 | "%pure-parser"                { pure_parser = true; }
 | "%push-parser"                { push_parser = true; }
 | "%require" STRING             { version_check (&@2, $2); }
+| "%requires" braceless         { muscle_code_grow ("requires", $2, @2); }
 | "%skeleton" STRING            { skeleton = $2; }
-| "%start-header" braceless     { muscle_code_grow ("start_header", $2, @2); }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag = report_states; }
 | "%yacc"                       { yacc_flag = true; }

@@ -225,9 +225,9 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
-]m4_ifdef([b4_start_header],
-[[/* Copy the %start-header blocks.  */
-]b4_user_start_header])[
+]m4_ifdef([b4_requires],
+[[/* Copy the %requires blocks.  */
+]b4_user_requires])[
 
 #include <string>
 #include <iostream>
@@ -373,8 +373,8 @@ m4_ifset([b4_global_tokens_and_yystype],
 
 }
 
-]m4_ifdef([b4_end_header],
-[[/* Copy the %end-header blocks.  */
-]b4_end_header])[]dnl
+]m4_ifdef([b4_provides],
+[[/* Copy the %provides blocks.  */
+]b4_user_provides])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]

@@ -156,16 +156,14 @@ splice	 (\\[ \f\t\v]*\n)*
   `----------------------------*/
 <INITIAL>
 {
-  "%after-header"                   return PERCENT_AFTER_HEADER;
-  "%before-header"                  return PERCENT_BEFORE_HEADER;
   "%binary"               	    return PERCENT_NONASSOC;
+  "%code"                           return PERCENT_CODE;
   "%debug"                	    return PERCENT_DEBUG;
   "%default"[-_]"prec"    	    return PERCENT_DEFAULT_PREC;
   "%define"               	    return PERCENT_DEFINE;
   "%defines"              	    return PERCENT_DEFINES;
   "%destructor"		  	    return PERCENT_DESTRUCTOR;
   "%dprec"		  	    return PERCENT_DPREC;
-  "%end-header"                     return PERCENT_END_HEADER;
   "%error"[-_]"verbose"   	    return PERCENT_ERROR_VERBOSE;
   "%expect"               	    return PERCENT_EXPECT;
   "%expect"[-_]"rr"	  	    return PERCENT_EXPECT_RR;
@@ -187,13 +185,14 @@ splice	 (\\[ \f\t\v]*\n)*
   "%parse-param"	  	    return PERCENT_PARSE_PARAM;
   "%prec"                 	    return PERCENT_PREC;
   "%printer"              	    return PERCENT_PRINTER;
+  "%provides"                       return PERCENT_PROVIDES;
   "%pure"[-_]"parser"     	    return PERCENT_PURE_PARSER;
   "%push"[-_]"parser"		    return PERCENT_PUSH_PARSER;
   "%require"              	    return PERCENT_REQUIRE;
+  "%requires"                       return PERCENT_REQUIRES;
   "%right"                	    return PERCENT_RIGHT;
   "%skeleton"             	    return PERCENT_SKELETON;
   "%start"                	    return PERCENT_START;
-  "%start-header"                   return PERCENT_START_HEADER;
   "%symbol-default"                 return PERCENT_SYMBOL_DEFAULT;
   "%term"                 	    return PERCENT_TOKEN;
   "%token"                	    return PERCENT_TOKEN;

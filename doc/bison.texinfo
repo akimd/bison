@@ -2674,22 +2674,17 @@ of feature test macros like @code{_GNU_SOURCE} or
 feature test macros can affect the behavior of Bison-generated
 @code{#include} directives.
 
-@findex %before-header
-@findex %start-header
-@findex %after-header
+@findex %requires
+@findex %code
 If you've instructed Bison to generate a header file (@pxref{Table of Symbols,
 ,%defines}), you probably want @code{#include "ptypes.h"} to appear
 in that header file as well.
-In that case, use @code{%before-header}, @code{%start-header}, and
-@code{%after-header} instead of @var{Prologue} sections
-(@pxref{Table of Symbols, ,%start-header}):
+In that case, use @code{%requires}, @code{%provides}, and
+@code{%code} instead of @var{Prologue} sections
+(@pxref{Table of Symbols, ,%requires}):
 
 @smallexample
-%before-header @{
-  #include <stdio.h>
-@}
-
-%start-header @{
+%requires @{
   #include "ptypes.h"
 @}
 %union @{
@@ -2697,7 +2692,9 @@ In that case, use @code{%before-header}, @code{%start-header}, and
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 
-%after-header @{
+%code @{
+  #include <stdio.h>
+
   static void print_token_value (FILE *, int, YYSTYPE);
   #define YYPRINT(F, N, L) print_token_value (F, N, L)
 @}
@@ -4327,11 +4324,11 @@ typically needs to be able to refer to the above-mentioned declarations
 and to the token type codes.  @xref{Token Values, ,Semantic Values of
 Tokens}.
 
-@findex %start-header
-@findex %end-header
-If you have declared @code{%start-header} or @code{%end-header}, the output
+@findex %requires
+@findex %provides
+If you have declared @code{%requires} or @code{%provides}, the output
 header also contains their code.
-@xref{Table of Symbols, ,%start-header}.
+@xref{Table of Symbols, ,%requires}.
 @end deffn
 
 @deffn {Directive} %destructor
@@ -7560,18 +7557,18 @@ the grammar for.
 @end example
 
 @noindent
-@findex %start-header
+@findex %requires
 Then come the declarations/inclusions needed to define the
 @code{%union}.  Because the parser uses the parsing driver and
 reciprocally, both cannot include the header of the other.  Because the
 driver's header needs detailed knowledge about the parser class (in
 particular its inner types), it is the parser's header which will simply
 use a forward declaration of the driver.
-@xref{Table of Symbols, ,%start-header}.
+@xref{Table of Symbols, ,%requires}.
 
 @comment file: calc++-parser.yy
 @example
-%start-header @{
+%requires @{
 # include <string>
 class calcxx_driver;
 @}
@@ -7630,13 +7627,13 @@ them.
 @end example
 
 @noindent
-@findex %after-header
-The code between @samp{%after-header @{} and @samp{@}} is output in the
+@findex %code
+The code between @samp{%code @{} and @samp{@}} is output in the
 @file{*.cc} file; it needs detailed knowledge about the driver.
 
 @comment file: calc++-parser.yy
 @example
-%after-header @{
+%code @{
 # include "calc++-driver.hh"
 @}
 @end example
@@ -8308,49 +8305,35 @@ $end}, where @var{start} is the start symbol.  @xref{Start Decl, , The
 Start-Symbol}.  It cannot be used in the grammar.
 @end deffn
 
-@deffn {Directive} %after-header @{@var{code}@}
+@deffn {Directive} %code @{@var{code}@}
 Specifies code to be inserted into the code file after the contents of the
 header file.
-@xref{Table of Symbols, ,%start-header}.
+@xref{Table of Symbols, ,%requires}.
 @end deffn
 
-@deffn {Directive} %before-header @{@var{code}@}
-Specifies code to be inserted into the code file before the contents of the
-header file.
-@xref{Table of Symbols, ,%start-header}.
-@end deffn
-
-@deffn {Directive} %end-header @{@var{code}@}
+@deffn {Directive} %provides @{@var{code}@}
 Specifies code to be inserted both into the header file (if generated;
 @pxref{Table of Symbols, ,%defines}) and into the code file after any
 Bison-generated definitions.
-@xref{Table of Symbols, ,%start-header}.
+@xref{Table of Symbols, ,%requires}.
 @end deffn
 
-@deffn {Directive} %start-header @{@var{code}@}
+@deffn {Directive} %requires @{@var{code}@}
 Specifies code to be inserted both into the header file (if generated;
 @pxref{Table of Symbols, ,%defines}) and into the code file before any
 Bison-generated definitions.
 
 @cindex Prologue
-@findex %before-header
 @findex %union
-@findex %end-header
-@findex %after-header
+@findex %provides
+@findex %code
 For example, the following declaration order in the grammar file reflects the
 order in which Bison will output these code blocks.  However, you are free to
 declare these code blocks in your grammar file in whatever order is most
 convenient for you:
 
 @smallexample
-%before-header @{
-  /* Bison treats this block like a pre-prologue block: it inserts it
-   * into the code file before the contents of the header file.  It
-   * does *not* insert it into the header file.  This is a good place
-   * to put #include's that you want at the top of your code file.  A
-   * common example is `#include "system.h"'.  */
-@}
-%start-header @{
+%requires @{
   /* Bison inserts this block into both the header file and the code
    * file.  In both files, the point of insertion is before any
    * Bison-generated token, semantic type, location type, and class
@@ -8359,17 +8342,17 @@ convenient for you:
 @}
 %union @{
   /* Unlike the traditional Yacc prologue blocks, the output order
-   * for the %*-header blocks is not affected by their declaration
-   * position relative to any %union in the grammar file.  */
+   * for %requires, %provides or %code blocks is not affected by their
+   * declaration position relative to any %union in the grammar file.  */
 @}
-%end-header @{
+%provides @{
   /* Bison inserts this block into both the header file and the code
    * file.  In both files, the point of insertion is after the
    * Bison-generated definitions.  This is a good place to declare or
    * define public functions or data structures that depend on the
    * Bison-generated definitions.  */
 @}
-%after-header @{
+%code @{
   /* Bison treats this block like a post-prologue block: it inserts
    * it into the code file after the contents of the header file.  It
    * does *not* insert it into the header file.  This is a good place

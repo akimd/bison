@@ -1,3 +1,21 @@
+2006-10-16  Paolo Bonzini  <bonzini@gnu.org>
+
+	* data/bison.m4 (b4_user_requires, b4_user_provides): New.
+	(b4_user_start_header): Remove.
+	* data/glr.c: Use new macros instead of b4_*start_header
+	and b4_*end_header.
+	* data/glr.cc: Likewise.
+	* data/lalr1.cc: Likewise.
+	* data/push.c: Likewise.
+	* data/yacc.c: Likewise.
+
+	* doc/bison.texinfo: Remove %before-header, rename
+	%{start,end,after}-header to %requires, %provides, %code.
+
+	* src/parse-gram.y: Likewise (also rename token names accordingly).
+	* src/scan-gram.l: Likewise.
+	* tests/actions.at: Likewise.
+
 2006-10-14  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* lib/Makefile.am (AM_CFLAGS): Remove $(WERROR_CFLAGS).

@@ -43,9 +43,9 @@ dnl FIXME: This is wrong, we want computed header guards.
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
-]m4_ifdef([b4_start_header],
-[[/* Copy the %start-header blocks.  */
-]b4_user_start_header])[
+]m4_ifdef([b4_requires],
+[[/* Copy the %requires blocks.  */
+]b4_user_requires])[
 
 #include <string>
 #include <iostream>
@@ -295,9 +295,9 @@ b4_error_verbose_if([, int tok])[);
 # define YYSTYPE b4_namespace::b4_parser_class_name::semantic_type
 #endif
 ])
-m4_ifdef([b4_end_header],
-[[/* Copy the %end-header blocks.  */
-]b4_end_header])[]dnl
+m4_ifdef([b4_provides],
+[[/* Copy the %provides blocks.  */
+]b4_user_provides])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
@@ -310,7 +310,7 @@ m4_if(b4_prefix, [yy], [],
 #define yylex   b4_prefix[]lex])[
 
 /* First part of user declarations.  */
-]b4_pre_prologue
+]b4_user_pre_prologue
 
 b4_defines_if([
 #include @output_header_name@])[
