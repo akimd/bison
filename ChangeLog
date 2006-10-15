@@ -1,3 +1,12 @@
+2006-10-16  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
+
+	DJGPP specific issues.
+
+	* djgpp/config.bat: config.hin has been moved to lib. Adjust
+	config.bat accordingly.
+	* djgpp/config.sed: Adjust config.sed for the use of autoconf 2.60.
+	* djgpp/config.site: Likewise.
+
 2006-10-16  Paolo Bonzini  <bonzini@gnu.org>
 
 	Replace %*-header with %provides, %requires, %code.  See discussion at
