@@ -1,3 +1,21 @@
+2006-10-14  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* lib/Makefile.am (AM_CFLAGS): Remove $(WERROR_CFLAGS).
+	Problem reported by Joel E. Denny.
+
+2006-10-14  Jim Meyering  <jim@meyering.net>
+
+	(Sync from coreutils.)
+	Work also when the working directory (with e.g. coreutils sources)
+	is version controlled with git, rather than CVS.
+	* bootstrap (CVS_only_file): Test for the existence of README-cvs,
+	rather than CVS.
+	In messages and comments, say e.g., "checked-out sources",
+	rather than "CVS sources".
+	(version_controlled_file): New function.  Work for git as well as
+	for CVS.  Don't use grep's -q option.
+	(slurp): Call it here, in place of CVS-specific code.
+
 2006-10-14  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix testsuite for ./configure --enable-gcc-warnings:

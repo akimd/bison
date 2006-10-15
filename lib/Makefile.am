@@ -19,7 +19,7 @@
 
 include gnulib.mk
 
-AM_CFLAGS = $(WARNING_CFLAGS) $(WERROR_CFLAGS)
+AM_CFLAGS = $(WARNING_CFLAGS)
 
 # Implementation of bitsets.
 bitsets_sources = \
