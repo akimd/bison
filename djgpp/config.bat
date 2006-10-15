@@ -230,11 +230,11 @@ mv ./glr.cc %XSRC%/data/glr.cc
 
 Rem Define DJGPP specific defs in config.hin
 echo Editing config.hin...
-test -f %XSRC%/config_h.orig
-if errorlevel 1 update %XSRC%/config.hin %XSRC%/config_h.orig
-sed -f %XSRC%/djgpp/config_h.sed %XSRC%/config_h.orig > config.hin
+test -f %XSRC%/lib/config_h.orig
+if errorlevel 1 update %XSRC%/lib/config.hin %XSRC%/lib/config_h.orig
+sed -f %XSRC%/djgpp/config_h.sed %XSRC%/lib/config_h.orig > config.hin
 if errorlevel 1 goto SedError2
-mv -f config.hin %XSRC%/config.hin
+mv -f config.hin %XSRC%/lib/config.hin
 
 
 Rem Fixing ilicit testsuite file name.
