@@ -2782,7 +2782,7 @@ The first two lines need to appear in the parser code file.
 The fourth line is required by @code{YYSTYPE} and thus also needs to appear in
 the parser code file.
 However, if you've instructed Bison to generate a parser header file
-(@pxref{Table of Symbols, ,%defines}), you probably want the third line to
+(@pxref{Table of Symbols, ,%defines}), you probably want the fourth line to
 appear before the @code{YYSTYPE} definition in that header file as well.
 Also, the @code{YYLTYPE} definition should appear in the parser header file to
 override the default @code{YYLTYPE} definition there.
