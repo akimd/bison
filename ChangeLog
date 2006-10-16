@@ -1,3 +1,23 @@
+2006-10-16  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Similar to the recently removed %before-header, add %code-top as the
+	alternative to the pre-prologue.  Mentioned at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-10/msg00063.html>.
+	Also, let the prologue alternatives appear in the grammar section.
+	* src/parse-gram.y (PERCENT_CODE_TOP): New token.
+	(prologue_declaration): Move the existing prologue alternatives to...
+	(grammar_declaration): ... here and add %code-top.
+	* src/scan-gram.l (PERCENT_CODE_TOP): New token.
+
+	Clean up and extend documentation for the prologue alternatives.
+	* NEWS (2.3a+): Describe prologue alternatives.
+	* doc/bison.texinfo (Prologue): Move discussion of prologue
+	alternatives to...
+	(Prologue Alternatives): ... this new section, and extend it to discuss
+	all 4 directives in detail.
+	(Bison Symbols): Clean up discussion of prologue alternatives and add
+	%code-top.
+
 2006-10-16  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	DJGPP specific issues.

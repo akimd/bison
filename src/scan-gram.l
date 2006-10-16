@@ -158,6 +158,7 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "%binary"               	    return PERCENT_NONASSOC;
   "%code"                           return PERCENT_CODE;
+  "%code-top"                       return PERCENT_CODE_TOP;
   "%debug"                	    return PERCENT_DEBUG;
   "%default"[-_]"prec"    	    return PERCENT_DEFAULT_PREC;
   "%define"               	    return PERCENT_DEFINE;

@@ -191,6 +191,7 @@ Bison Grammar Files
 Outline of a Bison Grammar
 
 * Prologue::          Syntax and usage of the prologue.
+* Prologue Alternatives:: Syntax and usage of alternatives to the prologue.
 * Bison Declarations::  Syntax and usage of the Bison declarations section.
 * Grammar Rules::     Syntax and usage of the grammar rules section.
 * Epilogue::          Syntax and usage of the epilogue.
@@ -2616,6 +2617,7 @@ continues until end of line.
 
 @menu
 * Prologue::          Syntax and usage of the prologue.
+* Prologue Alternatives:: Syntax and usage of alternatives to the prologue.
 * Bison Declarations::  Syntax and usage of the Bison declarations section.
 * Grammar Rules::     Syntax and usage of the grammar rules section.
 * Epilogue::          Syntax and usage of the epilogue.
@@ -2674,16 +2676,128 @@ of feature test macros like @code{_GNU_SOURCE} or
 feature test macros can affect the behavior of Bison-generated
 @code{#include} directives.
 
-@findex %requires
+@node Prologue Alternatives
+@subsection Prologue Alternatives
+@cindex Prologue Alternatives
+
 @findex %code
-If you've instructed Bison to generate a header file (@pxref{Table of Symbols,
-,%defines}), you probably want @code{#include "ptypes.h"} to appear
-in that header file as well.
-In that case, use @code{%requires}, @code{%provides}, and
-@code{%code} instead of @var{Prologue} sections
-(@pxref{Table of Symbols, ,%requires}):
+@findex %requires
+@findex %provides
+@findex %code-top
+The functionality of @var{Prologue} sections can often be subtle and
+inflexible.
+As an alternative, Bison provides a set of more explicit directives:
+@code{%code-top}, @code{%requires}, @code{%provides}, and @code{%code}.
+@xref{Table of Symbols}.
+
+Look again at the example of the previous section:
 
 @smallexample
+%@{
+  #define _GNU_SOURCE
+  #include <stdio.h>
+  #include "ptypes.h"
+%@}
+
+%union @{
+  long int n;
+  tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
+@}
+
+%@{
+  static void print_token_value (FILE *, int, YYSTYPE);
+  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+%@}
+
+@dots{}
+@end smallexample
+
+@noindent
+Notice that there are two @var{Prologue} sections here, but there's a subtle
+distinction between their functionality.
+For example, if you decide to override Bison's default definition for
+@code{YYLTYPE}, in which @var{Prologue} section should you write your new
+definition?
+You should write it in the first since Bison will insert that code into the
+parser code file @emph{before} the default @code{YYLTYPE} definition.
+In which @var{Prologue} section should you prototype an internal function,
+@code{trace_token}, that accepts @code{YYLTYPE} and @code{yytokentype} as
+arguments?
+You should prototype it in the second since Bison will insert that code
+@emph{after} the @code{YYLTYPE} and @code{yytokentype} definitions.
+
+This distinction in functionality between the two @var{Prologue} sections is
+established by the appearance of the @code{%union} between them.
+This behavior raises several questions.
+First, why should the position of a @code{%union} affect definitions related to
+@code{YYLTYPE} and @code{yytokentype}?
+Second, what if there is no @code{%union}?
+In that case, the second kind of @var{Prologue} section is not available.
+This behavior is not intuitive.
+
+To avoid this subtle @code{%union} dependency, rewrite the example using
+@code{%code-top} and @code{%code}.
+Let's go ahead and add the new @code{YYLTYPE} definition and the
+@code{trace_token} prototype at the same time:
+
+@smallexample
+%code-top @{
+  #define _GNU_SOURCE
+  #include <stdio.h>
+  /* The following code really belongs in a %requires; see below.  */
+  #include "ptypes.h"
+  #define YYLTYPE YYLTYPE
+  typedef struct YYLTYPE
+  @{
+    int first_line;
+    int first_column;
+    int last_line;
+    int last_column;
+    char *filename;
+  @} YYLTYPE;
+@}
+
+%union @{
+  long int n;
+  tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
+@}
+
+%code @{
+  static void print_token_value (FILE *, int, YYSTYPE);
+  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+  static void trace_token (enum yytokentype token, YYLTYPE loc);
+@}
+
+@dots{}
+@end smallexample
+
+@noindent
+In this way, @code{%code-top} and @code{%code} achieve the same functionality
+as the two kinds of @var{Prologue} sections, but it's always explicit which
+kind you intend.
+Moreover, both kinds are always available even in the absence of @code{%union}.
+
+The first @var{Prologue} section above now logically contains two parts.
+The first two lines need to appear in the parser code file.
+The fourth line is required by @code{YYSTYPE} and thus also needs to appear in
+the parser code file.
+However, if you've instructed Bison to generate a parser header file
+(@pxref{Table of Symbols, ,%defines}), you probably want the third line to
+appear before the @code{YYSTYPE} definition in that header file as well.
+Also, the @code{YYLTYPE} definition should appear in the parser header file to
+override the default @code{YYLTYPE} definition there.
+
+In other words, in the first @var{Prologue} section, all but the first two
+lines are dependency code for externally exposed definitions (@code{YYSTYPE}
+and @code{YYLTYPE}) required by Bison.
+Thus, they belong in one or more @code{%requires}:
+
+@smallexample
+%code-top @{
+  #define _GNU_SOURCE
+  #include <stdio.h>
+@}
+
 %requires @{
   #include "ptypes.h"
 @}
@@ -2692,15 +2806,125 @@ In that case, use @code{%requires}, @code{%provides}, and
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 
-%code @{
-  #include <stdio.h>
+%requires @{
+  #define YYLTYPE YYLTYPE
+  typedef struct YYLTYPE
+  @{
+    int first_line;
+    int first_column;
+    int last_line;
+    int last_column;
+    char *filename;
+  @} YYLTYPE;
+@}
 
+%code @{
+  static void print_token_value (FILE *, int, YYSTYPE);
+  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+  static void trace_token (enum yytokentype token, YYLTYPE loc);
+@}
+
+@dots{}
+@end smallexample
+
+@noindent
+Now Bison will insert @code{#include "ptypes.h"} and the new @code{YYLTYPE}
+definition before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE}
+definitions in both the parser code file and the parser header file.
+(By the same reasoning, @code{%requires} would also be the appropriate place to
+write your own definition for @code{YYSTYPE}.)
+
+At some point while developing your parser, you might decide to provide
+@code{trace_token} to modules that are external to your parser.
+Thus, you might wish for Bison to insert the prototype into both the parser
+header file and the parser code file.
+Since this function is not a dependency of any Bison-required definition (such
+as @code{YYSTYPE}), it doesn't make sense to move its prototype to a
+@code{%requires}.
+More importantly, since it depends upon @code{YYLTYPE} and @code{yytokentype},
+@code{%requires} is not sufficient.
+Instead, move its prototype from the @code{%code} to a @code{%provides}:
+
+@smallexample
+%code-top @{
+  #define _GNU_SOURCE
+  #include <stdio.h>
+@}
+
+%requires @{
+  #include "ptypes.h"
+@}
+%union @{
+  long int n;
+  tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
+@}
+
+%requires @{
+  #define YYLTYPE YYLTYPE
+  typedef struct YYLTYPE
+  @{
+    int first_line;
+    int first_column;
+    int last_line;
+    int last_column;
+    char *filename;
+  @} YYLTYPE;
+@}
+
+%provides @{
+  void trace_token (enum yytokentype token, YYLTYPE loc);
+@}
+
+%code @{
   static void print_token_value (FILE *, int, YYSTYPE);
   #define YYPRINT(F, N, L) print_token_value (F, N, L)
 @}
 
 @dots{}
 @end smallexample
+
+@noindent
+Bison will insert the @code{trace_token} prototype into both the parser header
+file and the parser code file after the definitions for @code{yytokentype},
+@code{YYLTYPE}, and @code{YYSTYPE}.
+
+The above examples are careful to write directives in an order that reflects
+the layout of the generated parser code and header files:
+@code{%code-top}, @code{%requires}, @code{%provides}, and then @code{%code}.
+While your grammar files will generally be easier to read if you also follow
+this order, Bison does not require it.
+Instead, Bison lets you choose an organization that makes sense to you.
+
+Any of these directives may be declared multiple times in the grammar file.
+In that case, Bison concatenates the contained code in declaration order.
+This is the only way in which the position of one of these directives within
+the grammar file affects its functionality.
+
+The result of the previous two properties is greater flexibility in how you may
+organize your grammar file.
+For example, you may organize semantic-type-related directives by semantic
+type:
+
+@smallexample
+%requires @{ #include "type1.h" @}
+%union @{ type1 field1; @}
+%destructor @{ type1_free ($$); @} <field1>
+%printer @{ type1_print ($$); @} <field1>
+
+%requires @{ #include "type2.h" @}
+%union @{ type2 field2; @}
+%destructor @{ type2_free ($$); @} <field2>
+%printer @{ type2_print ($$); @} <field2>
+@end smallexample
+
+@noindent
+You could even place each of the above directive groups in the rules section of
+the grammar file next to the set of rules that uses the associated semantic
+type.
+And you don't have to worry that some directive (like a @code{%union}) in the
+definitions section is going to adversely affect their functionality in some
+counter-intuitive manner just because it comes first.
+Such an organization is not possible using @var{Prologue} sections.
 
 @node Bison Declarations
 @subsection The Bison Declarations Section
@@ -8306,65 +8530,51 @@ Start-Symbol}.  It cannot be used in the grammar.
 @end deffn
 
 @deffn {Directive} %code @{@var{code}@}
-Specifies code to be inserted into the code file after the contents of the
-header file.
-@xref{Table of Symbols, ,%requires}.
-@end deffn
-
-@deffn {Directive} %provides @{@var{code}@}
-Specifies code to be inserted both into the header file (if generated;
-@pxref{Table of Symbols, ,%defines}) and into the code file after any
-Bison-generated definitions.
-@xref{Table of Symbols, ,%requires}.
-@end deffn
-
-@deffn {Directive} %requires @{@var{code}@}
-Specifies code to be inserted both into the header file (if generated;
-@pxref{Table of Symbols, ,%defines}) and into the code file before any
-Bison-generated definitions.
+Other than semantic actions, this is probably the most common place you should
+write verbatim code for the parser implementation.
+For C/C++, it replaces the traditional Yacc prologue,
+@code{%@{@var{code}%@}}, for most purposes.
+For Java, it inserts code into the parser class.
 
 @cindex Prologue
 @findex %union
-@findex %provides
-@findex %code
-For example, the following declaration order in the grammar file reflects the
-order in which Bison will output these code blocks.  However, you are free to
-declare these code blocks in your grammar file in whatever order is most
-convenient for you:
+Compare with @code{%@{@var{code}%@}} (@pxref{Prologue, ,The Prologue})
+appearing after the first @code{%union @{@var{code}@}} in a C/C++ based grammar
+file.
+While Bison will continue to support @code{%@{@var{code}%@}} for backward
+compatibility, @code{%code @{@var{code}@}} is cleaner as its functionality does
+not depend on its position in the grammar file relative to any
+@code{%union @{@var{code}@}}.
+Specifically, @code{%code @{@var{code}@}} always inserts your @var{code} into
+the parser code file after the usual contents of the parser header file.
+
+@xref{Prologue Alternatives}.
+@end deffn
+
+@deffn {Directive} %code-top @{@var{code}@}
+Occasionally for C/C++ it is desirable to insert code near the top of the
+parser code file.
+For example:
 
 @smallexample
-%requires @{
-  /* Bison inserts this block into both the header file and the code
-   * file.  In both files, the point of insertion is before any
-   * Bison-generated token, semantic type, location type, and class
-   * definitions.  This is a good place to define %union
-   * dependencies, for example.  */
-@}
-%union @{
-  /* Unlike the traditional Yacc prologue blocks, the output order
-   * for %requires, %provides or %code blocks is not affected by their
-   * declaration position relative to any %union in the grammar file.  */
-@}
-%provides @{
-  /* Bison inserts this block into both the header file and the code
-   * file.  In both files, the point of insertion is after the
-   * Bison-generated definitions.  This is a good place to declare or
-   * define public functions or data structures that depend on the
-   * Bison-generated definitions.  */
-@}
-%code @{
-  /* Bison treats this block like a post-prologue block: it inserts
-   * it into the code file after the contents of the header file.  It
-   * does *not* insert it into the header file.  This is a good place
-   * to declare or define internal functions or data structures that
-   * depend on the Bison-generated definitions.  */
+%code-top @{
+  #define _GNU_SOURCE
+  #include <stdio.h>
 @}
 @end smallexample
 
-If you have multiple occurrences of any one of the above declarations, Bison
-will concatenate the contents in declaration order.
+@noindent
+For Java, @code{%code-top @{@var{code}@}} is currently unused.
 
-@xref{Prologue, ,The Prologue}.
+@cindex Prologue
+@findex %union
+Compare with @code{%@{@var{code}%@}} appearing before the first
+@code{%union @{@var{code}@}} in a C/C++ based grammar file.
+@code{%code-top @{@var{code}@}} is cleaner as its functionality does not depend
+on its position in the grammar file relative to any
+@code{%union @{@var{code}@}}.
+
+@xref{Prologue Alternatives}.
 @end deffn
 
 @deffn {Directive} %debug
@@ -8490,6 +8700,18 @@ Bison declaration to assign a precedence to a specific rule.
 @xref{Contextual Precedence, ,Context-Dependent Precedence}.
 @end deffn
 
+@deffn {Directive} %provides @{@var{code}@}
+This is the right place to write additional definitions you would like Bison to
+expose externally.
+For C/C++, this directive inserts your @var{code} both into the parser header
+file (if generated; @pxref{Table of Symbols, ,%defines}) and into the parser
+code file after Bison's required definitions.
+For Java, it inserts your @var{code} into the parser java file after the parser
+class.
+
+@xref{Prologue Alternatives}.
+@end deffn
+
 @deffn {Directive} %pure-parser
 Bison declaration to request a pure (reentrant) parser.
 @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
@@ -8498,6 +8720,29 @@ Bison declaration to request a pure (reentrant) parser.
 @deffn {Directive} %require "@var{version}"
 Require version @var{version} or higher of Bison.  @xref{Require Decl, ,
 Require a Version of Bison}.
+@end deffn
+
+@deffn {Directive} %requires @{@var{code}@}
+This is the right place to write dependency code for externally exposed
+definitions required by Bison.
+For C/C++, such exposed definitions are those usually appearing in the parser
+header file.
+Thus, this is the right place to define types referenced in
+@code{%union @{@var{code}@}} directives, and it is the right place to override
+Bison's default @code{YYSTYPE} and @code{YYLTYPE} definitions.
+For Java, this is the right place to write import directives.
+
+@cindex Prologue
+@findex %union
+Compare with @code{%@{@var{code}%@}} (@pxref{Prologue, ,The Prologue})
+appearing before the first @code{%union @{@var{code}@}} in a C/C++ based
+grammar file.
+Unlike @code{%@{@var{code}%@}}, @code{%requires @{@var{code}@}} inserts your
+@var{code} both into the parser code file and into the parser header file (if
+generated; @pxref{Table of Symbols, ,%defines}) since Bison's required
+definitions should depend on it in both places.
+
+@xref{Prologue Alternatives}.
 @end deffn
 
 @deffn {Directive} %right

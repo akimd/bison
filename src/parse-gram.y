@@ -134,6 +134,7 @@ static int current_prec = 0;
 
 %token
   PERCENT_CODE            "%code"
+  PERCENT_CODE_TOP        "%code-top"
   PERCENT_DEBUG           "%debug"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
@@ -221,7 +222,6 @@ prologue_declarations:
 prologue_declaration:
   grammar_declaration
 | "%{...%}"     { prologue_augment (translate_code ($1, @1), @1, union_seen); }
-| "%code" braceless                { prologue_augment ($2, @2, true); }
 | "%debug"                         { debug_flag = true; }
 | "%define" STRING content.opt     { muscle_insert ($2, $3); }
 | "%defines"                       { defines_flag = true; }
@@ -245,11 +245,9 @@ prologue_declaration:
 | "%nondeterministic-parser"	{ nondeterministic_parser = true; }
 | "%output" "=" STRING          { spec_outfile = $3; }
 | "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
-| "%provides" braceless         { muscle_code_grow ("provides", $2, @2); }
 | "%pure-parser"                { pure_parser = true; }
 | "%push-parser"                { push_parser = true; }
 | "%require" STRING             { version_check (&@2, $2); }
-| "%requires" braceless         { muscle_code_grow ("requires", $2, @2); }
 | "%skeleton" STRING            { skeleton = $2; }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag = report_states; }
@@ -288,6 +286,10 @@ grammar_declaration:
     {
       default_prec = false;
     }
+| "%code" braceless      { prologue_augment ($2, @2, true); }
+| "%code-top" braceless  { prologue_augment ($2, @2, false); }
+| "%provides" braceless  { muscle_code_grow ("provides", $2, @2); }
+| "%requires" braceless  { muscle_code_grow ("requires", $2, @2); }
 ;
 
 
