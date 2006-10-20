@@ -1,3 +1,12 @@
+2006-10-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	More improvements to the documentation of the prologue alternatives:
+	* NEWS (2.3a+): Mention the new `Prologue Alternatives' section in the
+	Bison manual.
+	* doc/bison.texinfo (Prologue Alternatives): Correct some errors.  Add
+	some text to clarify the relative importance of the new directives and
+	to show how these directives may be viewed as code labels.
+
 2006-10-16  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Similar to the recently removed %before-header, add %code-top as the

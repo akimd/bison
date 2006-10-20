@@ -74,6 +74,8 @@ Changes in version 2.3a+ (????-??-??):
   Bison will concatenate the contents in the order they appear in the grammar
   file.
 
+  Also see the new section `Prologue Alternatives' in the Bison manual.
+
 Changes in version 2.3a, 2006-09-13:
 
 * Instead of %union, you can define and use your own union type

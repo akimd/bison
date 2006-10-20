@@ -2687,8 +2687,8 @@ feature test macros can affect the behavior of Bison-generated
 The functionality of @var{Prologue} sections can often be subtle and
 inflexible.
 As an alternative, Bison provides a set of more explicit directives:
-@code{%code-top}, @code{%requires}, @code{%provides}, and @code{%code}.
-@xref{Table of Symbols}.
+@code{%code}, @code{%requires}, @code{%provides}, and @code{%code-top}.
+@xref{Table of Symbols,,Bison Symbols}.
 
 Look again at the example of the previous section:
 
@@ -2728,7 +2728,7 @@ You should prototype it in the second since Bison will insert that code
 
 This distinction in functionality between the two @var{Prologue} sections is
 established by the appearance of the @code{%union} between them.
-This behavior raises several questions.
+This behavior raises a few questions.
 First, why should the position of a @code{%union} affect definitions related to
 @code{YYLTYPE} and @code{yytokentype}?
 Second, what if there is no @code{%union}?
@@ -2777,7 +2777,7 @@ as the two kinds of @var{Prologue} sections, but it's always explicit which
 kind you intend.
 Moreover, both kinds are always available even in the absence of @code{%union}.
 
-The first @var{Prologue} section above now logically contains two parts.
+The @code{%code-top} block above logically contains two parts.
 The first two lines need to appear in the parser code file.
 The fourth line is required by @code{YYSTYPE} and thus also needs to appear in
 the parser code file.
@@ -2787,7 +2787,7 @@ appear before the @code{YYSTYPE} definition in that header file as well.
 Also, the @code{YYLTYPE} definition should appear in the parser header file to
 override the default @code{YYLTYPE} definition there.
 
-In other words, in the first @var{Prologue} section, all but the first two
+In other words, in the @code{%code-top} block above, all but the first two
 lines are dependency code for externally exposed definitions (@code{YYSTYPE}
 and @code{YYLTYPE}) required by Bison.
 Thus, they belong in one or more @code{%requires}:
@@ -2833,6 +2833,18 @@ definition before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE}
 definitions in both the parser code file and the parser header file.
 (By the same reasoning, @code{%requires} would also be the appropriate place to
 write your own definition for @code{YYSTYPE}.)
+
+When you are writing dependency code for @code{YYSTYPE} and @code{YYLTYPE}, you
+should prefer @code{%requires} over @code{%code-top} regardless of whether you
+instruct Bison to generate a parser header file.
+When you are writing code that you need Bison to insert only into the parser
+code file and that has no special need to appear at the top of the code file,
+you should prefer @code{%code} over @code{%code-top}.
+These practices will make the purpose of each block of your code explicit to
+Bison and to other developers reading your grammar file.
+Following these practices, we expect @code{%code} and @code{%requires} to be
+the most important of the four @var{Prologue} alternative directives discussed
+in this section.
 
 At some point while developing your parser, you might decide to provide
 @code{trace_token} to modules that are external to your parser.
@@ -2891,11 +2903,11 @@ file and the parser code file after the definitions for @code{yytokentype},
 The above examples are careful to write directives in an order that reflects
 the layout of the generated parser code and header files:
 @code{%code-top}, @code{%requires}, @code{%provides}, and then @code{%code}.
-While your grammar files will generally be easier to read if you also follow
+While your grammar files may generally be easier to read if you also follow
 this order, Bison does not require it.
 Instead, Bison lets you choose an organization that makes sense to you.
 
-Any of these directives may be declared multiple times in the grammar file.
+You may declare any of these directives multiple times in the grammar file.
 In that case, Bison concatenates the contained code in declaration order.
 This is the only way in which the position of one of these directives within
 the grammar file affects its functionality.
@@ -2925,6 +2937,15 @@ And you don't have to worry that some directive (like a @code{%union}) in the
 definitions section is going to adversely affect their functionality in some
 counter-intuitive manner just because it comes first.
 Such an organization is not possible using @var{Prologue} sections.
+
+This section has been concerned with explaining the advantages of the four
+@var{Prologue} alternative directives over the original Yacc @var{Prologue}.
+However, in most cases when using these directives, you shouldn't need to
+think about all the low-level ordering issues discussed here.
+Instead, you should simply use these directives to label each block of your
+code according to its purpose and let Bison handle the ordering.
+@code{%code} is the most generic label.
+Move code to @code{%requires}, @code{%provides}, or @code{%code-top} as needed.
 
 @node Bison Declarations
 @subsection The Bison Declarations Section
