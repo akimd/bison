@@ -1,3 +1,19 @@
+2006-10-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't apply the default %destructor/%printer to an unreferenced midrule
+	value.  Mentioned at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00104.html>.
+	* src/symtab.c (dummy_symbol_get): Name all dummy symbols initially
+	like $@n instead of just @n so that the default %destructor/%printer
+	logic doesn't see them as user-defined symbols.
+	(symbol_is_dummy): Check for both forms of the name.
+	* src/reader.c (packgram): Remove the `$' from each midrule symbol
+	name for which the midrule value is referenced in any action.
+	* tests/actions.at (Default %printer and %destructor for mid-rule
+	values): New test.
+	* tests/regression.at (Rule Line Numbers, Web2c Report): Update output
+	for change to dummy symbol names.
+
 2006-10-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Warn about unset midrule $$ if the corresponding $n is used.

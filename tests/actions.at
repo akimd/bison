@@ -1096,3 +1096,108 @@ AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 
 AT_CLEANUP
+
+
+
+## ------------------------------------------------------ ##
+## Default %printer and %destructor for mid-rule values.  ##
+## ------------------------------------------------------ ##
+
+AT_SETUP([Default %printer and %destructor for mid-rule values])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%debug /* So that %printer is actually compiled.  */
+
+%{
+# include <stdio.h>
+# include <stdlib.h>
+  static void yyerror (const char *msg);
+  static int yylex (void);
+# define USE(SYM)
+# define YYLTYPE int
+# define YYLLOC_DEFAULT(Current, Rhs, N)
+# define YY_LOCATION_PRINT(File, Loc)
+%}
+
+%printer { fprintf (yyoutput, "%d", @$); } %symbol-default
+%destructor { fprintf (stderr, "DESTROY %d\n", @$); } %symbol-default
+
+%%
+
+start:
+  {           @$ = 1; } // Not set or used.
+  { USE ($$); @$ = 2; } // Both set and used.
+  { USE ($$); @$ = 3; } // Only set.
+  {           @$ = 4; } // Only used.
+  'c'
+  { USE (($$, $2, $4, $5)); @$ = 0; }
+  ;
+
+%%
+
+static int
+yylex (void)
+{
+  static int called;
+  if (called++)
+    abort ();
+  return 0;
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  yydebug = 1;
+  return yyparse ();
+}
+]])
+
+AT_CHECK([bison -o input.c input.y], 0,,
+[[input.y:31.3-23: warning: unset value: $$
+input.y:28.3-33.37: warning: unused value: $3
+]])
+
+AT_COMPILE([input])
+AT_PARSER_CHECK([./input], 1,,
+[[Starting parse
+Entering state 0
+Reducing stack by rule 1 (line 28):
+-> $$ = nterm $@1 (: )
+Stack now 0
+Entering state 2
+Reducing stack by rule 2 (line 29):
+-> $$ = nterm @2 (: 2)
+Stack now 0 2
+Entering state 4
+Reducing stack by rule 3 (line 30):
+-> $$ = nterm @3 (: 3)
+Stack now 0 2 4
+Entering state 5
+Reducing stack by rule 4 (line 31):
+-> $$ = nterm @4 (: 4)
+Stack now 0 2 4 5
+Entering state 6
+Reading a token: Now at end of input.
+syntax error
+Error: popping nterm @4 (: 4)
+DESTROY 4
+Stack now 0 2 4 5
+Error: popping nterm @3 (: 3)
+DESTROY 3
+Stack now 0 2 4
+Error: popping nterm @2 (: 2)
+DESTROY 2
+Stack now 0 2
+Error: popping nterm $@1 (: )
+Stack now 0
+Cleanup: discarding lookahead token $end (: )
+Stack now 0
+]])
+
+AT_CLEANUP
