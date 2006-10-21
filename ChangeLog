@@ -1,5 +1,18 @@
 2006-10-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Warn about unset midrule $$ if the corresponding $n is used.
+	* src/reader.c (symbol_should_be_used): Check midrule parent rule for
+	$n usage.
+	(packgram): Before invoking grammar_rule_check on any rule, make sure
+	all actions have already been scanned in order to set `used' flags.
+	Otherwise, checking that a midrule's $$ is set will not always work
+	properly because the midrule check must forward-reference the midrule's
+	parent rule.
+	* tests/input.at (AT_CHECK_UNUSED_VALUES): Extend to check the new
+	warning.
+
+2006-10-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	More improvements to the documentation of the prologue alternatives:
 	* NEWS (2.3a+): Mention the new `Prologue Alternatives' section in the
 	Bison manual.

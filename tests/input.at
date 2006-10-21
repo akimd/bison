@@ -103,8 +103,8 @@ start:
 
 a: INT | INT { } INT { } INT { };
 b: INT | /* empty */;
-c: INT | INT { $]1[ } INT { } INT { };
-d: INT | INT { } INT { $]1[ } INT { };
+c: INT | INT { $]1[ } INT { $<integer>2 } INT { $<integer>4 };
+d: INT | INT { } INT { $]1[ } INT { $<integer>2 };
 e: INT | INT { } INT {  } INT { $]1[ };
 f: INT | INT { } INT {  } INT { $]$[ = $]1[ + $]3[ + $]5[; };
 g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
@@ -122,12 +122,15 @@ input.y:11.10-32: warning: unused value: $]1[
 input.y:11.10-32: warning: unused value: $]3[
 input.y:11.10-32: warning: unused value: $]5[
 input.y:12.9: warning: empty rule for typed nonterminal, and no action
-input.y:13.10-35: warning: unset value: $]$[
-input.y:13.10-35: warning: unused value: $]3[
-input.y:13.10-35: warning: unused value: $]5[
-input.y:14.10-35: warning: unset value: $]$[
-input.y:14.10-35: warning: unused value: $]3[
-input.y:14.10-35: warning: unused value: $]5[
+input.y:13.14-19: warning: unset value: $$
+input.y:13.25-39: warning: unset value: $$
+input.y:13.10-59: warning: unset value: $]$[
+input.y:13.10-59: warning: unused value: $]3[
+input.y:13.10-59: warning: unused value: $]5[
+input.y:14.14-16: warning: unset value: $$
+input.y:14.10-47: warning: unset value: $]$[
+input.y:14.10-47: warning: unused value: $]3[
+input.y:14.10-47: warning: unused value: $]5[
 input.y:15.10-36: warning: unset value: $]$[
 input.y:15.10-36: warning: unused value: $]3[
 input.y:15.10-36: warning: unused value: $]5[
