@@ -178,33 +178,54 @@ AT_CLEANUP
 AT_SETUP([Default %printer and %destructor redeclared])
 
 AT_DATA([[input.y]],
-[[%destructor { destroy ($$); } %symbol-default %symbol-default
-%printer { destroy ($$); } %symbol-default %symbol-default
+[[%destructor { destroy ($$); } <*> <*>
+%printer { destroy ($$); } <*> <*>
 
-%destructor { destroy ($$); } %symbol-default
-%printer { destroy ($$); } %symbol-default
+%destructor { destroy ($$); } <*>
+%printer { destroy ($$); } <*>
+
+%destructor { destroy ($$); } <!> <!>
+%printer { destroy ($$); } <!> <!>
+
+%destructor { destroy ($$); } <!>
+%printer { destroy ($$); } <!>
 
 %%
 
 start: ;
 
-%destructor { destroy ($$); } %symbol-default;
-%printer { destroy ($$); } %symbol-default;
+%destructor { destroy ($$); } <*>;
+%printer { destroy ($$); } <*>;
+
+%destructor { destroy ($$); } <!>;
+%printer { destroy ($$); } <!>;
 ]])
 
 AT_CHECK([bison input.y], [1], [],
-[[input.y:1.13-29: redeclaration for default %destructor
+[[input.y:1.13-29: redeclaration for default tagged %destructor
 input.y:1.13-29: previous declaration
-input.y:2.10-26: redeclaration for default %printer
+input.y:2.10-26: redeclaration for default tagged %printer
 input.y:2.10-26: previous declaration
-input.y:4.13-29: redeclaration for default %destructor
+input.y:4.13-29: redeclaration for default tagged %destructor
 input.y:1.13-29: previous declaration
-input.y:5.10-26: redeclaration for default %printer
+input.y:5.10-26: redeclaration for default tagged %printer
 input.y:2.10-26: previous declaration
-input.y:11.13-29: redeclaration for default %destructor
+input.y:7.13-29: redeclaration for default tagless %destructor
+input.y:7.13-29: previous declaration
+input.y:8.10-26: redeclaration for default tagless %printer
+input.y:8.10-26: previous declaration
+input.y:10.13-29: redeclaration for default tagless %destructor
+input.y:7.13-29: previous declaration
+input.y:11.10-26: redeclaration for default tagless %printer
+input.y:8.10-26: previous declaration
+input.y:17.13-29: redeclaration for default tagged %destructor
 input.y:4.13-29: previous declaration
-input.y:12.10-26: redeclaration for default %printer
+input.y:18.10-26: redeclaration for default tagged %printer
 input.y:5.10-26: previous declaration
+input.y:20.13-29: redeclaration for default tagless %destructor
+input.y:10.13-29: previous declaration
+input.y:21.10-26: redeclaration for default tagless %printer
+input.y:11.10-26: previous declaration
 ]])
 
 AT_CLEANUP
@@ -260,18 +281,36 @@ AT_CLEANUP
 AT_SETUP([Unused values with default %destructor])
 
 AT_DATA([[input.y]],
-[[%destructor { destroy ($$); } %symbol-default
+[[%destructor { destroy ($$); } <!>
+%type <tag> tagged
 
 %%
 
-start: end end { $1; } ;
-end: { }  ;
+start: end end tagged tagged { $<tag>1; $3; } ;
+end: { } ;
+tagged: { } ;
 ]])
 
 AT_CHECK([bison input.y], [0], [],
-[[input.y:5.8-22: warning: unset value: $$
-input.y:5.8-22: warning: unused value: $2
-input.y:6.6-8: warning: unset value: $$
+[[input.y:6.8-45: warning: unset value: $$
+input.y:6.8-45: warning: unused value: $2
+input.y:7.6-8: warning: unset value: $$
+]])
+
+AT_DATA([[input.y]],
+[[%destructor { destroy ($$); } <*>
+%type <tag> tagged
+
+%%
+
+start: end end tagged tagged { $<tag>1; $3; } ;
+end: { } ;
+tagged: { } ;
+]])
+
+AT_CHECK([bison input.y], [0], [],
+[[input.y:6.8-45: warning: unused value: $4
+input.y:8.9-11: warning: unset value: $$
 ]])
 
 AT_CLEANUP

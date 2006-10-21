@@ -1,5 +1,51 @@
 2006-10-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Split the default %destructor/%printer into two kinds: <*> and <!>.
+	Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00060.html>.
+	* NEWS (2.3a+): Mention.
+	* doc/bison.texinfo (Freeing Discarded Symbols): Document this and the
+	previous change today related to mid-rules.
+	(Bison Symbols): Remove %symbol-default and add <*> and <!>.
+	* src/parser-gram.y (PERCENT_SYMBOL_DEFAULT): Remove.
+	(TYPE_TAG_ANY): Add as <*>.
+	(TYPE_TAG_NONE): Add as <!>.
+	(generic_symlist_item): Remove RHS for %symbol-default and add RHS's
+	for <*> and <!>.
+	* src/scan-gram.l (PERCENT_SYMBOL_DEFAULT): Remove.
+	(TYPE_TAG_ANY, TYPE_TAG_NONE): Add.
+	* src/symlist.c (symbol_list_default_new): Split into tagged and
+	tagless versions.
+	(symbol_list_destructor_set, symbol_list_printer_set): Split
+	SYMLIST_DEFAULT case into SYMLIST_DEFAULT_TAGGED and
+	SYMLIST_DEFAULT_TAGLESS.
+	* src/symlist.h: Update symbol_list_default*_new prototypes.
+	(symbol_list.content_type): Split enum value SYMLIST_DEFAULT into
+	SYMLIST_DEFAULT_TAGGED and SYMLIST_DEFAULT_TAGLESS.
+	* src/symtab.c (default_destructor, default_destructor_location,
+	default_printer, default_printer_location): Split each into tagged and
+	tagless versions.
+	(symbol_destructor_get, symbol_destructor_location_get,
+	symbol_printer_get, symbol_printer_location_get): Implement tagged
+	default and tagless default cases.
+	(default_destructor_set, default_printer_set): Split each into tagged
+	and tagless versions.
+	* src/symtab.h: Update prototypes.
+	* tests/actions.at (Default %printer and %destructor): Rename to...
+	(Default tagless %printer and %destructor): ... this, and extend.
+	(Per-type %printer and %destructor): Rename to...
+	(Default tagged and per-type %printer and %destructor): ... this, and
+	extend.
+	(Default %printer and %destructor for user-defined end token): Extend.
+	(Default %printer and %destructor are not for error or $undefined):
+	Update.
+	(Default %printer and %destructor are not for $accept): Update.
+	(Default %printer and %destructor for mid-rule values): Extend.
+	* tests/input.at (Default %printer and %destructor redeclared): Extend.
+	(Unused values with default %destructor): Extend.
+
+2006-10-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Don't apply the default %destructor/%printer to an unreferenced midrule
 	value.  Mentioned at
 	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00104.html>.

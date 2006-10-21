@@ -29,10 +29,13 @@
 typedef struct symbol_list
 {
   /**
-   * Whether this node contains a symbol, a semantic type, or a
-   * \c \%symbol-default.
+   * Whether this node contains a symbol, a semantic type, a \c <*>, or a
+   * \c <!>.
    */
-  enum { SYMLIST_SYMBOL, SYMLIST_TYPE, SYMLIST_DEFAULT } content_type;
+  enum {
+    SYMLIST_SYMBOL, SYMLIST_TYPE,
+    SYMLIST_DEFAULT_TAGGED, SYMLIST_DEFAULT_TAGLESS
+  } content_type;
   union {
     /** The symbol or \c NULL iff <tt>node_type = SYMLIST_SYMBOL</tt>.  */
     symbol *sym;
@@ -76,8 +79,10 @@ symbol_list *symbol_list_sym_new (symbol *sym, location loc);
 /** Create a list containing \c type_name at \c loc.  */
 symbol_list *symbol_list_type_new (uniqstr type_name, location loc);
 
-/** Create a list containing a \c \%symbol-default at \c loc.  */
-symbol_list *symbol_list_default_new (location loc);
+/** Create a list containing a \c <*> at \c loc.  */
+symbol_list *symbol_list_default_tagged_new (location loc);
+/** Create a list containing a \c <!> at \c loc.  */
+symbol_list *symbol_list_default_tagless_new (location loc);
 
 /** Print this list.
 

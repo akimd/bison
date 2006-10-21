@@ -116,8 +116,6 @@ static int current_prec = 0;
 %token PERCENT_TYPE        "%type"
 %token PERCENT_DESTRUCTOR  "%destructor"
 %token PERCENT_PRINTER     "%printer"
-%token PERCENT_SYMBOL_DEFAULT
-                           "%symbol-default"
 
 %token PERCENT_LEFT        "%left"
 %token PERCENT_RIGHT       "%right"
@@ -177,6 +175,8 @@ static int current_prec = 0;
 %token PROLOGUE        "%{...%}"
 %token SEMICOLON       ";"
 %token TYPE            "type"
+%token TYPE_TAG_ANY    "<*>"
+%token TYPE_TAG_NONE   "<!>"
 
 %type <character> CHAR
 %printer { fputs (char_name ($$), stderr); } CHAR
@@ -395,7 +395,8 @@ generic_symlist:
 generic_symlist_item:
   symbol            { $$ = symbol_list_sym_new ($1, @1); }
 | TYPE              { $$ = symbol_list_type_new ($1, @1); }
-| "%symbol-default" { $$ = symbol_list_default_new (@1); }
+| "<*>"             { $$ = symbol_list_default_tagged_new (@1); }
+| "<!>"             { $$ = symbol_list_default_tagless_new (@1); }
 ;
 
 /* One token definition.  */

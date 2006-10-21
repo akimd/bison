@@ -583,14 +583,14 @@ AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [with union])
 
 
 
-## --------------------------------- ##
-## Default %printer and %destructor. ##
-## --------------------------------- ##
+## ----------------------------------------- ##
+## Default tagless %printer and %destructor. ##
+## ----------------------------------------- ##
 
 # Check that the right %printer and %destructor are called, that they're not
 # called for $end, and that $$ and @$ work correctly.
 
-AT_SETUP([Default %printer and %destructor])
+AT_SETUP([Default tagless %printer and %destructor])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%error-verbose
@@ -610,11 +610,15 @@ AT_DATA_GRAMMAR([[input.y]],
 %}
 
 %printer {
-  fprintf (yyoutput, "Default printer for '%c' @ %d", $$, @$.first_column);
-} %symbol-default
+  fprintf (yyoutput, "<*> printer should not be called.\n");
+} <*>
+
+%printer {
+  fprintf (yyoutput, "<!> printer for '%c' @ %d", $$, @$.first_column);
+} <!>
 %destructor {
-  fprintf (stdout, "Default destructor for '%c' @ %d.\n", $$, @$.first_column);
-} %symbol-default
+  fprintf (stdout, "<!> destructor for '%c' @ %d.\n", $$, @$.first_column);
+} <!>
 
 %printer {
   fprintf (yyoutput, "'b'/'c' printer for '%c' @ %d", $$, @$.first_column);
@@ -622,6 +626,10 @@ AT_DATA_GRAMMAR([[input.y]],
 %destructor {
   fprintf (stdout, "'b'/'c' destructor for '%c' @ %d.\n", $$, @$.first_column);
 } 'b' 'c'
+
+%destructor {
+  fprintf (yyoutput, "<*> destructor should not be called.\n");
+} <*>
 
 %%
 
@@ -659,15 +667,15 @@ main (void)
 AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
-[[Default destructor for 'd' @ 4.
+[[<!> destructor for 'd' @ 4.
 'b'/'c' destructor for 'c' @ 3.
 'b'/'c' destructor for 'b' @ 2.
-Default destructor for 'a' @ 1.
+<!> destructor for 'a' @ 1.
 ]],
 [[Starting parse
 Entering state 0
-Reading a token: Next token is token 'a' (1.1-1.1: Default printer for 'a' @ 1)
-Shifting token 'a' (1.1-1.1: Default printer for 'a' @ 1)
+Reading a token: Next token is token 'a' (1.1-1.1: <!> printer for 'a' @ 1)
+Shifting token 'a' (1.1-1.1: <!> printer for 'a' @ 1)
 Entering state 1
 Reading a token: Next token is token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
 Shifting token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
@@ -675,18 +683,18 @@ Entering state 3
 Reading a token: Next token is token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
 Shifting token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
 Entering state 5
-Reading a token: Next token is token 'd' (1.4-1.4: Default printer for 'd' @ 4)
-Shifting token 'd' (1.4-1.4: Default printer for 'd' @ 4)
+Reading a token: Next token is token 'd' (1.4-1.4: <!> printer for 'd' @ 4)
+Shifting token 'd' (1.4-1.4: <!> printer for 'd' @ 4)
 Entering state 6
 Reading a token: Now at end of input.
 syntax error, unexpected $end, expecting 'e'
-Error: popping token 'd' (1.4-1.4: Default printer for 'd' @ 4)
+Error: popping token 'd' (1.4-1.4: <!> printer for 'd' @ 4)
 Stack now 0 1 3 5
 Error: popping token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
 Stack now 0 1 3
 Error: popping token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
 Stack now 0 1
-Error: popping token 'a' (1.1-1.1: Default printer for 'a' @ 1)
+Error: popping token 'a' (1.1-1.1: <!> printer for 'a' @ 1)
 Stack now 0
 Cleanup: discarding lookahead token $end (1.5-1.5: )
 Stack now 0
@@ -696,11 +704,11 @@ AT_CLEANUP
 
 
 
-## ----------------------------------- ##
-## Per-type %printer and %destructor.  ##
-## ----------------------------------- ##
+## ------------------------------------------------------ ##
+## Default tagged and per-type %printer and %destructor.  ##
+## ------------------------------------------------------ ##
 
-AT_SETUP([Per-type %printer and %destructor])
+AT_SETUP([Default tagged and per-type %printer and %destructor])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%error-verbose
@@ -714,16 +722,20 @@ AT_DATA_GRAMMAR([[input.y]],
 # define USE(SYM)
 %}
 
+%printer {
+  fprintf (yyoutput, "<!> printer should not be called.\n");
+} <!>
+
 %union { int field0; int field1; int field2; }
 %type <field0> start 'a' 'g'
 %type <field1> 'e'
 %type <field2> 'f'
 %printer {
-  fprintf (yyoutput, "%%symbol-default/<field2>/e printer");
-} %symbol-default 'e' <field2>
+  fprintf (yyoutput, "<*>/<field2>/e printer");
+} <*> 'e' <field2>
 %destructor {
-  fprintf (stdout, "%%symbol-default/<field2>/e destructor.\n");
-} %symbol-default 'e' <field2>
+  fprintf (stdout, "<*>/<field2>/e destructor.\n");
+} <*> 'e' <field2>
 
 %type <field1> 'b'
 %printer { fprintf (yyoutput, "<field1> printer"); } <field1>
@@ -736,6 +748,10 @@ AT_DATA_GRAMMAR([[input.y]],
 %type <field1> 'd'
 %printer { fprintf (yyoutput, "'d' printer"); } 'd'
 %destructor { fprintf (stdout, "'d' destructor.\n"); } 'd'
+
+%destructor {
+  fprintf (yyoutput, "<!> destructor should not be called.\n");
+} <!>
 
 %%
 
@@ -776,17 +792,17 @@ main (void)
 AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
-[[%symbol-default/<field2>/e destructor.
-%symbol-default/<field2>/e destructor.
+[[<*>/<field2>/e destructor.
+<*>/<field2>/e destructor.
 'd' destructor.
 'c' destructor.
 <field1> destructor.
-%symbol-default/<field2>/e destructor.
+<*>/<field2>/e destructor.
 ]],
 [[Starting parse
 Entering state 0
-Reading a token: Next token is token 'a' (%symbol-default/<field2>/e printer)
-Shifting token 'a' (%symbol-default/<field2>/e printer)
+Reading a token: Next token is token 'a' (<*>/<field2>/e printer)
+Shifting token 'a' (<*>/<field2>/e printer)
 Entering state 1
 Reading a token: Next token is token 'b' (<field1> printer)
 Shifting token 'b' (<field1> printer)
@@ -797,17 +813,17 @@ Entering state 5
 Reading a token: Next token is token 'd' ('d' printer)
 Shifting token 'd' ('d' printer)
 Entering state 6
-Reading a token: Next token is token 'e' (%symbol-default/<field2>/e printer)
-Shifting token 'e' (%symbol-default/<field2>/e printer)
+Reading a token: Next token is token 'e' (<*>/<field2>/e printer)
+Shifting token 'e' (<*>/<field2>/e printer)
 Entering state 7
-Reading a token: Next token is token 'f' (%symbol-default/<field2>/e printer)
-Shifting token 'f' (%symbol-default/<field2>/e printer)
+Reading a token: Next token is token 'f' (<*>/<field2>/e printer)
+Shifting token 'f' (<*>/<field2>/e printer)
 Entering state 8
 Reading a token: Now at end of input.
 syntax error, unexpected $end, expecting 'g'
-Error: popping token 'f' (%symbol-default/<field2>/e printer)
+Error: popping token 'f' (<*>/<field2>/e printer)
 Stack now 0 1 3 5 6 7
-Error: popping token 'e' (%symbol-default/<field2>/e printer)
+Error: popping token 'e' (<*>/<field2>/e printer)
 Stack now 0 1 3 5 6
 Error: popping token 'd' ('d' printer)
 Stack now 0 1 3 5
@@ -815,7 +831,7 @@ Error: popping token 'c' ('c' printer)
 Stack now 0 1 3
 Error: popping token 'b' (<field1> printer)
 Stack now 0 1
-Error: popping token 'a' (%symbol-default/<field2>/e printer)
+Error: popping token 'a' (<*>/<field2>/e printer)
 Stack now 0
 Cleanup: discarding lookahead token $end ()
 Stack now 0
@@ -826,12 +842,19 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------- ##
-## Default %printer and %destructor for user-defined end token. ##
+## Default %printer and %destructor for user-defined end token.  ##
 ## ------------------------------------------------------------- ##
 
 AT_SETUP([Default %printer and %destructor for user-defined end token])
 
-AT_DATA_GRAMMAR([[input.y]],
+# _AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN(TYPED)
+# -----------------------------------------------------------------------------
+m4_define([_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN],
+[m4_if($1, 0,
+  [m4_pushdef([kind], [!]) m4_pushdef([not_kind], [*])],
+  [m4_pushdef([kind], [*]) m4_pushdef([not_kind], [!])])
+
+AT_DATA_GRAMMAR([[input]]$1[[.y]],
 [[%error-verbose
 %debug
 %locations
@@ -848,13 +871,26 @@ AT_DATA_GRAMMAR([[input.y]],
 # define USE(SYM)
 %}
 
+%destructor {
+  fprintf (yyoutput, "<]]not_kind[[> destructor should not be called.\n");
+} <]]not_kind[[>
+
 %token END 0
 %printer {
-  fprintf (yyoutput, "Default printer for '%c' @ %d", $$, @$.first_column);
-} %symbol-default
+  fprintf (yyoutput, "<]]kind[[> for '%c' @ %d", $$, @$.first_column);
+} <]]kind[[>
 %destructor {
-  fprintf (stdout, "Default destructor for '%c' @ %d.\n", $$, @$.first_column);
-} %symbol-default
+  fprintf (stdout, "<]]kind[[> for '%c' @ %d.\n", $$, @$.first_column);
+} <]]kind[[>
+
+%printer {
+  fprintf (yyoutput, "<]]not_kind[[> printer should not be called.\n");
+} <]]not_kind[[>
+
+]]m4_if($1, 0, [[[
+]]],
+[[[%union { char tag; }
+%type <tag> start END]]])[[
 
 %%
 
@@ -868,7 +904,7 @@ yylex (void)
   static int called;
   if (called++)
     abort ();
-  yylval = 'E';
+  yylval]]m4_if($1, 0,, [[[.tag]]])[[ = 'E';
   yylloc.first_line = yylloc.last_line = 1;
   yylloc.first_column = yylloc.last_column = 1;
   return 0;
@@ -888,25 +924,32 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input.c input.y])
-AT_COMPILE([input])
-AT_PARSER_CHECK([./input], 0,
-[[Default destructor for 'E' @ 1.
-Default destructor for 'S' @ 1.
+AT_CHECK([bison -o input$1.c input$1.y])
+AT_COMPILE([input$1])
+AT_PARSER_CHECK([./input$1], 0,
+[[<]]kind[[> for 'E' @ 1.
+<]]kind[[> for 'S' @ 1.
 ]],
 [[Starting parse
 Entering state 0
-Reducing stack by rule 1 (line 35):
--> $$ = nterm start (1.1-1.1: Default printer for 'S' @ 1)
+Reducing stack by rule 1 (line 46):
+-> $$ = nterm start (1.1-1.1: <]]kind[[> for 'S' @ 1)
 Stack now 0
 Entering state 1
 Reading a token: Now at end of input.
-Shifting token END (1.1-1.1: Default printer for 'E' @ 1)
+Shifting token END (1.1-1.1: <]]kind[[> for 'E' @ 1)
 Entering state 2
 Stack now 0 1 2
-Cleanup: popping token END (1.1-1.1: Default printer for 'E' @ 1)
-Cleanup: popping nterm start (1.1-1.1: Default printer for 'S' @ 1)
+Cleanup: popping token END (1.1-1.1: <]]kind[[> for 'E' @ 1)
+Cleanup: popping nterm start (1.1-1.1: <]]kind[[> for 'S' @ 1)
 ]])
+
+m4_popdef([kind])
+m4_popdef([not_kind])
+])
+
+_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN(0)
+_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN(1)
 
 AT_CLEANUP
 
@@ -940,10 +983,10 @@ AT_DATA_GRAMMAR([[input.y]],
 
 %printer {
   fprintf (yyoutput, "'%c'", $$);
-} %symbol-default
+} <!> <*>
 %destructor {
   fprintf (stderr, "DESTROY '%c'\n", $$);
-} %symbol-default
+} <!> <*>
 
 %%
 
@@ -1055,11 +1098,11 @@ AT_DATA_GRAMMAR([[input.y]],
 %printer {
   char chr = $$;
   fprintf (yyoutput, "'%c'", chr);
-} %symbol-default
+} <!> <*>
 %destructor {
   char chr = $$;
   fprintf (stderr, "DESTROY '%c'\n", chr);
-} %symbol-default
+} <!> <*>
 
 %union { char chr; }
 %type <chr> start
@@ -1119,8 +1162,10 @@ AT_DATA_GRAMMAR([[input.y]],
 # define YY_LOCATION_PRINT(File, Loc)
 %}
 
-%printer { fprintf (yyoutput, "%d", @$); } %symbol-default
-%destructor { fprintf (stderr, "DESTROY %d\n", @$); } %symbol-default
+%printer { fprintf (yyoutput, "%d", @$); } <!>
+%destructor { fprintf (stderr, "DESTROY %d\n", @$); } <!>
+%printer { fprintf (yyoutput, "<*> printer should not be called"); } <*>
+%destructor { fprintf (yyoutput, "<*> destructor should not be called"); } <*>
 
 %%
 
@@ -1159,27 +1204,27 @@ main (void)
 ]])
 
 AT_CHECK([bison -o input.c input.y], 0,,
-[[input.y:31.3-23: warning: unset value: $$
-input.y:28.3-33.37: warning: unused value: $3
+[[input.y:33.3-23: warning: unset value: $$
+input.y:30.3-35.37: warning: unused value: $3
 ]])
 
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,,
 [[Starting parse
 Entering state 0
-Reducing stack by rule 1 (line 28):
+Reducing stack by rule 1 (line 30):
 -> $$ = nterm $@1 (: )
 Stack now 0
 Entering state 2
-Reducing stack by rule 2 (line 29):
+Reducing stack by rule 2 (line 31):
 -> $$ = nterm @2 (: 2)
 Stack now 0 2
 Entering state 4
-Reducing stack by rule 3 (line 30):
+Reducing stack by rule 3 (line 32):
 -> $$ = nterm @3 (: 3)
 Stack now 0 2 4
 Entering state 5
-Reducing stack by rule 4 (line 31):
+Reducing stack by rule 4 (line 33):
 -> $$ = nterm @4 (: 4)
 Stack now 0 2 4 5
 Entering state 6

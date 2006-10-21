@@ -4236,8 +4236,8 @@ For instance, if your locations use a file name, you may use
 @subsection Freeing Discarded Symbols
 @cindex freeing discarded symbols
 @findex %destructor
-@findex %symbol-default
-
+@findex <*>
+@findex <!>
 During error recovery (@pxref{Error Recovery}), symbols already pushed
 on the stack and tokens coming from the rest of the file are discarded
 until the parser falls on its feet.  If the parser runs out of memory,
@@ -4265,21 +4265,26 @@ The Parser Function @code{yyparse}}).
 When a symbol is listed among @var{symbols}, its @code{%destructor} is called a
 per-symbol @code{%destructor}.
 You may also define a per-type @code{%destructor} by listing a semantic type
-among @var{symbols}.
+tag among @var{symbols}.
 In that case, the parser will invoke this @var{code} whenever it discards any
-grammar symbol that has that semantic type unless that symbol has its own
+grammar symbol that has that semantic type tag unless that symbol has its own
 per-symbol @code{%destructor}.
 
-Finally, you may define a default @code{%destructor} by placing
-@code{%symbol-default} in the @var{symbols} list of exactly one
-@code{%destructor} declaration in your grammar file.
-In that case, the parser will invoke the associated @var{code} whenever it
-discards any user-defined grammar symbol for which there is no per-type or
-per-symbol @code{%destructor}.
+Finally, you can define two different kinds of default @code{%destructor}s.
+You can place each of @code{<*>} and @code{<!>} in the @var{symbols} list of
+exactly one @code{%destructor} declaration in your grammar file.
+The parser will invoke the @var{code} associated with one of these whenever it
+discards any user-defined grammar symbol that has no per-symbol and no per-type
+@code{%destructor}.
+The parser uses the @var{code} for @code{<*>} in the case of such a grammar
+symbol for which you have formally declared a semantic type tag (@code{%type}
+counts as such a declaration, but @code{$<tag>$} does not).
+The parser uses the @var{code} for @code{<!>} in the case of such a grammar
+symbol that has no declared semantic type tag.
 @end deffn
 
 @noindent
-For instance:
+For example:
 
 @smallexample
 %union @{ char *string; @}
@@ -4290,34 +4295,51 @@ For instance:
 %union @{ char character; @}
 %token <character> CHR
 %type  <character> chr
-%destructor @{ free ($$); @} %symbol-default
-%destructor @{ free ($$); printf ("%d", @@$.first_line); @} STRING1 string1
+%token TAGLESS
+
 %destructor @{ @} <character>
+%destructor @{ free ($$); @} <*>
+%destructor @{ free ($$); printf ("%d", @@$.first_line); @} STRING1 string1
+%destructor @{ printf ("Discarding tagless symbol.\n"); @} <!>
 @end smallexample
 
 @noindent
 guarantees that, when the parser discards any user-defined symbol that has a
 semantic type tag other than @code{<character>}, it passes its semantic value
-to @code{free}.
+to @code{free} by default.
 However, when the parser discards a @code{STRING1} or a @code{string1}, it also
 prints its line number to @code{stdout}.
 It performs only the second @code{%destructor} in this case, so it invokes
 @code{free} only once.
+Finally, the parser merely prints a message whenever it discards any symbol,
+such as @code{TAGLESS}, that has no semantic type tag.
 
-Notice that a Bison-generated parser invokes the default @code{%destructor}
-only for user-defined as opposed to Bison-defined symbols.
-For example, the parser will not invoke it for the special Bison-defined
-symbols @code{$accept}, @code{$undefined}, or @code{$end} (@pxref{Table of
-Symbols, ,Bison Symbols}), none of which you can reference in your grammar.
-It also will not invoke it for the @code{error} token (@pxref{Table of Symbols,
-,error}), which is always defined by Bison regardless of whether you reference
-it in your grammar.
-However, it will invoke it for the end token (token 0) if you redefine it from
-@code{$end} to, for example, @code{END}:
+A Bison-generated parser invokes the default @code{%destructor}s only for
+user-defined as opposed to Bison-defined symbols.
+For example, the parser will not invoke either kind of default
+@code{%destructor} for the special Bison-defined symbols @code{$accept},
+@code{$undefined}, or @code{$end} (@pxref{Table of Symbols, ,Bison Symbols}),
+none of which you can reference in your grammar.
+It also will not invoke either for the @code{error} token (@pxref{Table of
+Symbols, ,error}), which is always defined by Bison regardless of whether you
+reference it in your grammar.
+However, it may invoke one of them for the end token (token 0) if you
+redefine it from @code{$end} to, for example, @code{END}:
 
 @smallexample
 %token END 0
 @end smallexample
+
+@cindex actions in mid-rule
+@cindex mid-rule actions
+Finally, Bison will never invoke a @code{%destructor} for an unreferenced
+mid-rule semantic value (@pxref{Mid-Rule Actions,,Actions in Mid-Rule}).
+That is, Bison does not consider a mid-rule to have a semantic value if you do
+not reference @code{$$} in the mid-rule's action or @code{$@var{n}} (where
+@var{n} is the RHS symbol position of the mid-rule) in any later action in that
+rule.
+However, if you do reference either, the Bison-generated parser will invoke the
+@code{<!>} @code{%destructor} whenever it discards the mid-rule symbol.
 
 @ignore
 @noindent
@@ -8544,6 +8566,18 @@ Separates alternate rules for the same result nonterminal.
 @xref{Rules, ,Syntax of Grammar Rules}.
 @end deffn
 
+@deffn {Directive} <*>
+Used to define a default tagged @code{%destructor} or default tagged
+@code{%printer}.
+@xref{Destructor Decl, , Freeing Discarded Symbols}.
+@end deffn
+
+@deffn {Directive} <!>
+Used to define a default tagless @code{%destructor} or default tagless
+@code{%printer}.
+@xref{Destructor Decl, , Freeing Discarded Symbols}.
+@end deffn
+
 @deffn {Symbol} $accept
 The predefined nonterminal whose only rule is @samp{$accept: @var{start}
 $end}, where @var{start} is the start symbol.  @xref{Start Decl, , The
@@ -8774,11 +8808,6 @@ Bison declaration to assign right associativity to token(s).
 @deffn {Directive} %start
 Bison declaration to specify the start symbol.  @xref{Start Decl, ,The
 Start-Symbol}.
-@end deffn
-
-@deffn {Directive} %symbol-default
-Used to declare a default @code{%destructor} or default @code{%printer}.
-@xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
 @deffn {Directive} %token

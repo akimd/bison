@@ -194,7 +194,6 @@ splice	 (\\[ \f\t\v]*\n)*
   "%right"                	    return PERCENT_RIGHT;
   "%skeleton"             	    return PERCENT_SKELETON;
   "%start"                	    return PERCENT_START;
-  "%symbol-default"                 return PERCENT_SYMBOL_DEFAULT;
   "%term"                 	    return PERCENT_TOKEN;
   "%token"                	    return PERCENT_TOKEN;
   "%token"[-_]"table"     	    return PERCENT_TOKEN_TABLE;
@@ -210,6 +209,8 @@ splice	 (\\[ \f\t\v]*\n)*
   "="                     return EQUAL;
   "|"                     return PIPE;
   ";"                     return SEMICOLON;
+  "<*>"                   return TYPE_TAG_ANY;
+  "<!>"                   return TYPE_TAG_NONE;
 
   {id} {
     val->uniqstr = uniqstr_new (yytext);

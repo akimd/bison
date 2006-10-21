@@ -69,8 +69,8 @@ struct symbol
   /** Any \c \%destructor declared specifically for this symbol.
 
      Access this field only through <tt>symbol</tt>'s interface functions.  For
-     example, if <tt>symbol::destructor = NULL</tt>, the default
-     \c \%destructor or a per-type \c \%destructor might be appropriate, and
+     example, if <tt>symbol::destructor = NULL</tt>, a default \c \%destructor
+     or a per-type \c \%destructor might be appropriate, and
      \c symbol_destructor_get will compute the correct one.  */
   const char *destructor;
 
@@ -255,14 +255,18 @@ void symbols_check_defined (void);
 void symbols_pack (void);
 
 
-/*-----------------------------------.
-| Default %destructor and %printer.  |
-`-----------------------------------*/
+/*---------------------------------------.
+| Default %destructor's and %printer's.  |
+`---------------------------------------*/
 
-/** Set the default \c \%destructor.  */
-void default_destructor_set (const char *destructor, location loc);
+/** Set the default \c \%destructor for tagged values.  */
+void default_tagged_destructor_set (const char *destructor, location loc);
+/** Set the default \c \%destructor for tagless values.  */
+void default_tagless_destructor_set (const char *destructor, location loc);
 
-/** Set the default \c \%printer.  */
-void default_printer_set (const char *printer, location loc);
+/** Set the default \c \%printer for tagged values.  */
+void default_tagged_printer_set (const char *printer, location loc);
+/** Set the default \c \%printer for tagless values.  */
+void default_tagless_printer_set (const char *printer, location loc);
 
 #endif /* !SYMTAB_H_ */
