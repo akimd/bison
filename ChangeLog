@@ -1,5 +1,10 @@
 2006-10-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* data/push.c, data/yacc.c: Make sure there's a newline at the end of
+	the parser header file so that gcc doesn't warn.
+
+2006-10-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Split the default %destructor/%printer into two kinds: <*> and <!>.
 	Discussed starting at
 	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00060.html>.
