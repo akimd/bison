@@ -1,3 +1,8 @@
+2006-10-31  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/getargs.c (flags_argmatch): Don't cause segmentation fault for
+	empty subargument list.  For example: `bison  --warnings=  parser.y'.
+
 2006-10-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/push.c, data/yacc.c: Make sure there's a newline at the end of
