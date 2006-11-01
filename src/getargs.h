@@ -112,7 +112,7 @@ enum warnings
     warnings_none             = 0,      /**< Issue no warnings.  */
     warnings_error            = 1 << 0, /**< Warnings are treated as errors.  */
     warnings_yacc             = 1 << 1, /**< POSIXME.  */
-    warnings_all              = ~0      /**< All of the above.  */
+    warnings_all              = ~warnings_error /**< All above warnings.  */
   };
 /** What warnings are issued.  */
 extern int warnings_flag;

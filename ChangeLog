@@ -1,5 +1,21 @@
 2006-10-31  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Finish implementing --warnings=error, which should not be implied by
+	--warnings=all (or by its synonyms -W and --warnings without
+	subarguments).
+	* src/complain.c (set_warning_issued): New function to report that
+	warnings are being treated as errors and to record an error if so.
+	Invoke...
+	(warn_at, warn): ... here.
+	* src/getargs.c (warnings_args, warnings_types): Reorder so that
+	"error - warnings are errors" does not appear above "all - all of the
+	above".
+	(getargs): For -W and --warnings without subarguments, don't let
+	FLAGS_ARGMATCH set warnings_error in warnings_flag.
+	* src/getargs.h (enum warnings): Unset warnings_error in warnings_all.
+
+2006-10-31  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* src/getargs.c (flags_argmatch): Don't cause segmentation fault for
 	empty subargument list.  For example: `bison  --warnings=  parser.y'.
 
