@@ -1,5 +1,22 @@
 2006-10-31  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Disable unset/unused mid-rule value warnings by default, and recognize
+	--warnings=midrule-values to enable them.  Discussed starting at
+	<http://lists.gnu.org/archive/html/help-bison/2006-10/msg00030.html>.
+	* NEWS (2.3a+): Mention.
+	* src/getargs.c, src/getargs.h (warnings_args, warnings_types, enum
+	warnings): Add entry for midrule-values subargument.
+	* src/reader.c (symbol_should_be_used): Don't return true just because
+	the value is a set/used mid-rule value unless
+	--warnings=midrule-values was specified.
+	* tests/input.at (Unused values, Unused values before symbol
+	declarations): Run tests with and without --warnings=midrule-values.
+
+	* src/reader.c (check_and_convert_grammar): Use symbol_list_free rather
+	than LIST_FREE directly.
+
+2006-10-31  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Finish implementing --warnings=error, which should not be implied by
 	--warnings=all (or by its synonyms -W and --warnings without
 	subarguments).

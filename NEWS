@@ -6,6 +6,26 @@ Changes in version 2.3a+ (????-??-??):
 * The -g and --graph options now output graphs in Graphviz DOT format,
   not VCG format.
 
+* Revised warning: unset or unused mid-rule values
+
+  Since Bison 2.2, Bison has warned about mid-rule values that are set but not
+  used within any of the actions of the parent rule.  For example, Bison warns
+  about unused $2 in:
+
+    exp: '1' { $$ = 1; } '+' exp { $$ = $1 + $4; };
+
+  Now, Bison also warns about mid-rule values that are used but not set.  For
+  example, Bison warns about unset $$ in the mid-rule action in:
+
+    exp: '1' { $1 = 1; } '+' exp { $$ = $2 + $4; };
+
+  However, Bison now disables both of these warnings by default since they
+  sometimes prove to be false alarms in existing grammars employing the Yacc
+  constructs $0 or $-N (where N is some positive integer).
+
+  To enable these warnings, specify the flag `--warnings=midrule-values' or
+  `-W', which is a synonym for `--warnings=all'.
+
 * Bison now recognizes two separate kinds of default %destructor's and
   %printer's:
 

@@ -111,7 +111,8 @@ enum warnings
   {
     warnings_none             = 0,      /**< Issue no warnings.  */
     warnings_error            = 1 << 0, /**< Warnings are treated as errors.  */
-    warnings_yacc             = 1 << 1, /**< POSIXME.  */
+    warnings_midrule_values   = 1 << 1, /**< Unset or unused midrule values.  */
+    warnings_yacc             = 1 << 2, /**< POSIXME.  */
     warnings_all              = ~warnings_error /**< All above warnings.  */
   };
 /** What warnings are issued.  */
