@@ -14,6 +14,7 @@ gnulib-comp.m4
 gnulib-tool.m4
 hash.m4
 iconv.m4
+inline.m4
 inttypes-h.m4
 inttypes-pri.m4
 inttypes.m4
@@ -46,5 +47,6 @@ unlocked-io.m4
 warning.m4
 wchar_t.m4
 wcwidth.m4
+wint_t.m4
 xalloc.m4
 xstrndup.m4

@@ -1,3 +1,11 @@
+2006-11-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap.conf (excluded_files): Exclude m4/codeset.m4 (undoing
+	the earlier change today), m4/intl.m4, m4/intldir.m4.  This gives
+	us a slightly cleaner distribution, and also works.
+	* m4/.cvsignore: Add inline.m4, wint_t.m4 to accommodate recent
+	gnulib changes.
+
 2006-11-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 	and Paul Eggert  <eggert@cs.ucla.edu>
 
