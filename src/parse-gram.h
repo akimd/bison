@@ -167,19 +167,20 @@
 typedef union YYSTYPE
 {
 /* Line 1535 of yacc.c  */
-#line 98 "parse-gram.y"
+#line 97 "parse-gram.y"
 
   symbol *symbol;
   symbol_list *list;
   int integer;
-  char *chars;
+  char const *chars;
+  char *code;
   assoc assoc;
   uniqstr uniqstr;
   unsigned char character;
 }
 
 /* Line 1535 of yacc.c  */
-#line 183 "parse-gram.h"
+#line 184 "parse-gram.h"
 	YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -200,6 +201,7 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_DECLARED 1
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
+
 
 
 
