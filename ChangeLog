@@ -1,3 +1,56 @@
+2006-11-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+	and Paul Eggert  <eggert@cs.ucla.edu>
+
+	Don't let Bison leak memory except when it complains.
+	* src/files.h (parser_file_name, spec_verbose_file, spec_graph_file):
+	(spec_defines_file, dir_prefix): Now char *, not const char *,
+	since they are freed.
+	* src/files.c: Likewise.
+	(all_but_ext, all_but_tab_ext, src_extension, header_extension):
+	Likewise.
+	(tr): Now operates in-place.  All uses changed.
+	(compute_exts_from_gf, compute_exts_from_src): Don't leak temporary
+	values.
+	(compute_file_name_parts, compute_output_file_names): Don't store
+	read-only data in variables that will be freed.
+	(compute_output_file_names): Free all_but_ext, all_but_tab_ext,
+	src_extension, and header_extension.
+	(output_file_names_free): New public function to free
+	spec_verbose_file, spec_graph_file, spec_defines_file,
+	parser_file_name, and dir_prefix.
+	* src/getargs.c (getargs): Don't store read-only data in variables that
+	will be freed.
+	* src/main.c (main): Invoke output_file_names_free, code_scanner_free
+	(which previously existed but was unused), and quotearg_free.
+	* src/muscle_tab.h (muscle_insert): value arg is now a `char const *'.
+	* src/muscle_tab.c: Likewise.
+	(muscle_entry): Make the value char const *,
+	and add a new storage member that is char * and can be freed.
+	(muscle_entry_free): New private function.
+	(muscle_init): Use it instead of free.
+	(muscle_insert, muscle_grow): Update and use new storage member.
+	(muscle_code_grow): Free the string passed to muscle_grow
+	since it's not needed anymore.
+	* src/parse-gram.y (%union): Make `chars' member a `char const *', and
+	add a new `char *code' member.
+	("{...}"): Declare semantic type as code.
+	* src/scan-code.h (translate_rule_action):
+	(translate_symbol_action, translate_code, translate_action): Return
+	`char const *' rather than `char *' since external code should not free
+	these strings.
+	* src/scan-code.l: Likewise.
+	* src/scan-gram.l (<SC_BRACED_CODE>): Use val->code for BRACED_CODE,
+	which is "{...}" in the parser.
+	* tests/Makefile.am (maintainer-check-valgrind): Set
+	VALGRIND_OPTS='--leak-check=full --show-reacheable=yes' before invoking
+	Valgrind.
+	* tests/calc.at (_AT_DATA_CALC_Y): fclose the FILE* so Valgrind doesn't
+	complain.
+	* tests/testsuite.at (AT_CHECK): Redefine so that running Bison and
+	expecting a non-zero exit status sets --leak-check=summary and
+	--show-reachable=no for Valgrind.  Bison unabashedly leaks memory in
+	this case, and we don't want to hear about it.
+
 2006-11-08  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap (runtime-po/Makevars): Derive from po/Makevars

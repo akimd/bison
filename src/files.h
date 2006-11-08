@@ -29,7 +29,7 @@
 extern char const *spec_outfile;
 
 /* File name for the parser (i.e., the one above, or its default.) */
-extern char const *parser_file_name;
+extern char *parser_file_name;
 
 /* Symbol prefix specified with -p, or 0 if no -p.  */
 extern const char *spec_name_prefix;
@@ -38,16 +38,16 @@ extern const char *spec_name_prefix;
 extern char const *spec_file_prefix;
 
 /* --verbose. */
-extern char const *spec_verbose_file;
+extern char *spec_verbose_file;
 
 /* File name specified for the output graph.  */
-extern char const *spec_graph_file;
+extern char *spec_graph_file;
 
 /* File name specified with --defines.  */
-extern char const *spec_defines_file;
+extern char *spec_defines_file;
 
 /* Directory prefix of output file names.  */
-extern char const *dir_prefix;
+extern char *dir_prefix;
 
 
 /* If semantic parser, output a .h file that defines YYSTYPE... */
@@ -63,6 +63,7 @@ extern uniqstr grammar_file;
 extern uniqstr current_file;
 
 void compute_output_file_names (void);
+void output_file_names_free (void);
 
 FILE *xfopen (const char *name, const char *mode);
 void xfclose (FILE *ptr);

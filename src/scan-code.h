@@ -35,13 +35,13 @@ void code_scanner_free (void);
 
 /* The action of the rule R contains $$, $1 etc. referring to the values
    of the rule R. */
-char *translate_rule_action (symbol_list *r);
+char const *translate_rule_action (symbol_list *r);
 
 /* The action A refers to $$ and @$ only, referring to a symbol. */
-char *translate_symbol_action (const char *a, location l);
+char const *translate_symbol_action (char const *a, location l);
 
 /* The action contains no special escapes, just protect M4 special
    symbols.  */
-char *translate_code (const char *a, location l);
+char const *translate_code (char const *a, location l);
 
 #endif /* !SCAN_CODE_H_ */

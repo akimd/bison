@@ -523,7 +523,7 @@ splice	 (\\[ \f\t\v]*\n)*
       {
 	STRING_FINISH;
 	loc->start = code_start;
-	val->chars = last_string;
+	val->code = last_string;
 	BEGIN INITIAL;
 	return BRACED_CODE;
       }
@@ -537,7 +537,7 @@ splice	 (\\[ \f\t\v]*\n)*
     unexpected_eof (code_start, "}");
     STRING_FINISH;
     loc->start = code_start;
-    val->chars = last_string;
+    val->code = last_string;
     BEGIN INITIAL;
     return BRACED_CODE;
   }

@@ -1,7 +1,7 @@
-# Process this file with autom4te to create testsuite. -*- Autotest -*-
+# Test suite for GNU Bison.				-*- Autotest -*-
 
-# Test suite for GNU Bison.
-# Copyright (C) 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2006 Free Software
+# Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,6 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+
+# Bison often leaks memory when its exit status is non-zero, so set
+# --leak-check=summary for Valgrind in that case.
+m4_pushdef([ORIGINAL_AT_CHECK], m4_defn([AT_CHECK]))
+m4_pushdef([AT_CHECK],
+[ORIGINAL_AT_CHECK(
+   m4_if(m4_quote(m4_substr(m4_quote($1), 0, 5)), [bison],
+	 m4_if([$2], [0], [],
+	       [[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS; ]]))$@)])
 
 # Testing resistance to user bugs.
 m4_include([input.at])
@@ -64,3 +73,6 @@ m4_include([c++.at])
 m4_include([cxx-type.at])
 # Regression tests
 m4_include([glr-regression.at])
+
+m4_popdef([AT_CHECK])
+m4_popdef([ORIGINAL_AT_CHECK])

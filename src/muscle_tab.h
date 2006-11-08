@@ -1,5 +1,5 @@
 /* Muscle table manager for Bison,
-   Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002, 2003, 2006 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -24,8 +24,8 @@
 # include "location.h"
 
 void muscle_init (void);
-void muscle_insert (const char *key, char *value);
-char *muscle_find (const char *key);
+void muscle_insert (char const *key, char const *value);
+char *muscle_find (char const *key);
 void muscle_free (void);
 
 

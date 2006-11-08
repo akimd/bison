@@ -93,13 +93,13 @@ static int current_prec = 0;
   boundary_set (&@$.end, current_file, 1, 1);
 }
 
-/* Only NUMBERS have a value.  */
 %union
 {
   symbol *symbol;
   symbol_list *list;
   int integer;
-  char *chars;
+  char const *chars;
+  char *code;
   assoc assoc;
   uniqstr uniqstr;
   unsigned char character;
@@ -183,11 +183,12 @@ static int current_prec = 0;
 
 /* braceless is not to be used for rule or symbol actions, as it
    calls translate_code. */
-%type <chars> STRING "{...}" "%{...%}" EPILOGUE braceless content content.opt
+%type <chars> STRING "%{...%}" EPILOGUE braceless content content.opt
+%type <code> "{...}"
 %printer { fputs (quotearg_style (c_quoting_style, $$), stderr); }
-         STRING
+	 STRING
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
-         braceless content content.opt "{...}" "%{...%}" EPILOGUE
+	 braceless content content.opt "{...}" "%{...%}" EPILOGUE
 
 %type <uniqstr> TYPE ID ID_COLON
 %printer { fprintf (stderr, "<%s>", $$); } TYPE
@@ -267,7 +268,7 @@ grammar_declaration:
       symbol_list *list;
       const char *action = translate_symbol_action ($2, @2);
       for (list = $3; list; list = list->next)
-        symbol_list_destructor_set (list, action, @2);
+	symbol_list_destructor_set (list, action, @2);
       symbol_list_free ($3);
     }
 | "%printer" "{...}" generic_symlist
@@ -275,7 +276,7 @@ grammar_declaration:
       symbol_list *list;
       const char *action = translate_symbol_action ($2, @2);
       for (list = $3; list; list = list->next)
-        symbol_list_printer_set (list, action, @2);
+	symbol_list_printer_set (list, action, @2);
       symbol_list_free ($3);
     }
 | "%default-prec"

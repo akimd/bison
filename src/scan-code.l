@@ -372,8 +372,8 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
    translation is for \a rule, in the context \a sc_context
    (SC_RULE_ACTION, SC_SYMBOL_ACTION, INITIAL).  */
 
-static char *
-translate_action (int sc_context, symbol_list *rule, const char *a, location l)
+static char const *
+translate_action (int sc_context, symbol_list *rule, char const *a, location l)
 {
   char *res;
   static bool initialized = false;
@@ -394,21 +394,21 @@ translate_action (int sc_context, symbol_list *rule, const char *a, location l)
   return res;
 }
 
-char *
+char const *
 translate_rule_action (symbol_list *rule)
 {
   return translate_action (SC_RULE_ACTION, rule, rule->action,
 			   rule->action_location);
 }
 
-char *
-translate_symbol_action (const char *a, location l)
+char const *
+translate_symbol_action (char const *a, location l)
 {
   return translate_action (SC_SYMBOL_ACTION, NULL, a, l);
 }
 
-char *
-translate_code (const char *a, location l)
+char const *
+translate_code (char const *a, location l)
 {
   return translate_action (INITIAL, NULL, a, l);
 }
