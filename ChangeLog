@@ -1,3 +1,10 @@
+2006-11-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap (runtime-po/Makevars): Derive from po/Makevars
+	instead of from the template, to simplify configuration a bit.
+	* bootstrap.conf (excluded_files): Don't exclude m4/codeset.m4
+	and m4/wint_t.m4, as they are needed with the latest gnulib.
+
 2006-10-31  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Disable unset/unused mid-rule value warnings by default, and recognize
