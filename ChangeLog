@@ -1,3 +1,15 @@
+2006-11-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/files.c (tr): Change return type to void.
+	* src/muscle_tab.c (muscle_insert): Free storage in case muscle_grow
+	has been called previously for the same key.
+	(muscle_find): Return storage instead of value so that
+	--enable-gcc-warnings doesn't produce warnings that the return discards
+	const.  aver that the value and storage are the same since storage
+	could potentially be NULL when value is not.
+	* tests/testsuite.at (AT_CHECK): Treat an unspecified exit value the
+	same as 0.
+
 2006-11-08  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* bootstrap.conf (excluded_files): Exclude m4/codeset.m4 (undoing

@@ -25,7 +25,7 @@ m4_pushdef([ORIGINAL_AT_CHECK], m4_defn([AT_CHECK]))
 m4_pushdef([AT_CHECK],
 [ORIGINAL_AT_CHECK(
    m4_if(m4_quote(m4_substr(m4_quote($1), 0, 5)), [bison],
-	 m4_if([$2], [0], [],
+	 m4_if([$2], [0], [], [$2], [], [],
 	       [[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS; ]]))$@)])
 
 # Testing resistance to user bugs.
