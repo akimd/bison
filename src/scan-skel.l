@@ -121,5 +121,5 @@ scan_skel (FILE *in)
   skel__flex_debug = trace_flag & trace_skeleton;
   skel_lex ();
   /* Reclaim Flex's buffers.  */
-  yy_delete_buffer (YY_CURRENT_BUFFER);
+  yylex_destroy ();
 }

@@ -380,8 +380,6 @@ translate_action (int sc_context, symbol_list *rule, char const *a, location l)
   if (!initialized)
     {
       obstack_init (&obstack_for_string);
-      /* The initial buffer, never used. */
-      yy_delete_buffer (YY_CURRENT_BUFFER);
       yy_flex_debug = 0;
       initialized = true;
     }
@@ -422,5 +420,5 @@ code_scanner_free (void)
 {
   obstack_free (&obstack_for_string, 0);
   /* Reclaim Flex's buffers.  */
-  yy_delete_buffer (YY_CURRENT_BUFFER);
+  yylex_destroy ();
 }

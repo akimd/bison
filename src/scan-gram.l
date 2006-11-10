@@ -800,5 +800,5 @@ gram_scanner_free (void)
 {
   obstack_free (&obstack_for_string, 0);
   /* Reclaim Flex's buffers.  */
-  yy_delete_buffer (YY_CURRENT_BUFFER);
+  yylex_destroy ();
 }
