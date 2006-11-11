@@ -58,7 +58,7 @@ static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
 
 /* A string representing the most recently saved token.  */
-char *last_string;
+static char *last_string;
 
 void
 gram_scanner_last_string_free (void)

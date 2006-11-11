@@ -1,5 +1,81 @@
 2006-11-10  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Encapsulate code properties and related functionality for the various
+	destructors, printers, and actions into a code_props structure and
+	interface.
+	* src/location.h (EMPTY_LOCATION_INIT): Define so that it's easier to
+	consistently initialize const structs that have an empty location field.
+	* src/location.c (empty_location): Initialize with EMPTY_LOCATION_INIT
+	to ensure consistency.
+	* src/output.c (symbol_destructors_output, symbol_printers_output):
+	Replace with...
+	(symbol_code_props_output): ... this to eliminate duplicate code.
+	(output_skeleton): Update to use symbol_code_props_output.
+	* src/parse-gram.y (prologue_declaration, braceless, epilogue.opt):
+	Update all uses of translate_* functions to use the new code_props
+	interface and to use gram_scanner_last_string_free and
+	code_scanner_last_string_free where possible.
+	(grammar_declaration): symbol_list_destructor_set and
+	symbol_list_printer_set now perform the translation, so don't do it
+	here.  Use gram_scanner_last_string_free where possible.
+	* src/reader.c: Update to use code_props interface for destructors and
+	rule actions.
+	* src/scan-code.h (code_props): New structure.
+	(code_props_none_init, CODE_PROPS_NONE_INIT, code_props_none): New
+	function, macro, and const global variable for initializing a
+	code_props with no code.
+	(code_props_plain_init, code_props_symbol_action_init,
+	code_props_rule_action_init, code_props_translate_code,
+	code_props_code_get, code_props_location_get,
+	code_props_is_value_used): The rest of the new code_props interface.
+	(translate_rule_action, translate_symbol_action, translate_code):
+	Remove as these are now just special cases within
+	code_props_translate_code, which is switched on the code_props kind.
+	(code_scanner_last_string_free): New function similar to
+	gram_scanner_last_string_free.
+	* src/scan-code.l: Implement the new interface.
+	(last_string): New static global similar to the one in scan-gram.l.
+	(SC_SYMBOL_ACTION): For $$, set the is_value_used member of the
+	code_props since Bison will one day use this information for
+	destructors and printers.
+	(<*><<EOF>>): Use STRING_FINISH so that last_string is set.
+	(handle_action_dollar): Update to use the code_props interface of rule
+	actions.  Use symbol_list_n_get and set is_value_used directly since
+	symbol_list_n_used_set is removed.
+	* src/symlist.h, src/symlist.c (symbol_list): Replace action,
+	action_location, and used members with a code_props member, and update
+	all uses.
+	(symbol_list_n_used_set): Remove since it would need to break the
+	encapsulation of code_props.
+	(symbol_list_destructor_set, symbol_list_printer_set): Perform code
+	translation here rather than depending on the caller to do so.
+	* src/symtab.h (symbol, semantic_type): Remove destructor_location and
+	printer_location members and change the type of the destructor and
+	printer members to code_props.
+	(symbol_destructor_location_get, symbol_printer_location_get): Remove
+	unneeded.
+	(symbol_destructor_set, symbol_destructor_get, symbol_printer_set,
+	symbol_printer_get, semantic_type_destructor_set,
+	semantic_type_printer_set, default_tagged_destructor_set,
+	default_tagless_destructor_set, default_tagged_printer_set,
+	default_tagless_printer_set): Use code_props in arguments and return
+	types in place of const char * and location.
+	* src/symtab.c: Update implementation for interface and struct changes.
+	(default_tagged_destructor_location,
+	default_tagless_destructor_location, default_tagged_printer_location,
+	default_tagless_printer_location): Remove since we...
+	(default_tagged_destructor, default_tagless_destructor,
+	default_tagged_printer, default_tagless_printer): ... change the type
+	of these to code_props.
+	(SYMBOL_CODE_PRINT): New similar to SYMBOL_ATTR_PRINT but for
+	code_props members.
+	(symbol_print): Use SYMBOL_CODE_PRINT.
+
+	* src/scan-gram.h (gram_last_string): Remove declaration.
+	* src/scan-gram.l (last_string): Declare it static.
+
+2006-11-10  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* tests/testsuite.at (AT_CHECK): Don't miss an exit value of 0 because
 	it was double-quoted.
 	* src/Makefile.am (YACC): Use --warnings=all,error so that Bison's own

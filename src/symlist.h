@@ -22,6 +22,7 @@
 #ifndef SYMLIST_H_
 # define SYMLIST_H_
 
+# include "scan-code.h"
 # include "location.h"
 # include "symtab.h"
 
@@ -55,12 +56,9 @@ typedef struct symbol_list
   struct symbol_list *midrule_parent_rule;
   int midrule_parent_rhs_index;
 
-  /* The action is attached to the LHS of a rule. */
-  const char *action;
-  location action_location;
-
-  /* Whether this symbol's value is used in the current action.  */
-  bool used;
+  /* The action is attached to the LHS of a rule, but action properties for
+   * each RHS are also stored here.  */
+  code_props action_props;
 
   /* Precedence/associativity.  */
   symbol *ruleprec;
@@ -106,15 +104,12 @@ symbol_list *symbol_list_n_get (symbol_list *l, int n);
    symbol N in rule RULE.  */
 uniqstr symbol_list_n_type_name_get (symbol_list *l, location loc, int n);
 
-/** The item \c n in symbol list \c l is \c used.  */
-void symbol_list_n_used_set (symbol_list *l, int n, bool used);
-
 /** Set the \c \%destructor for \c node as \c destructor at \c loc.  */
-void symbol_list_destructor_set (symbol_list *node, const char *destructor,
+void symbol_list_destructor_set (symbol_list *node, const char *code,
                                  location loc);
 
 /** Set the \c \%printer for \c node as \c printer at \c loc.  */
-void symbol_list_printer_set (symbol_list *node, const char *printer,
+void symbol_list_printer_set (symbol_list *node, const char *code,
                               location loc);
 
 #endif /* !SYMLIST_H_ */
