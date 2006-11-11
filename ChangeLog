@@ -1,5 +1,7 @@
 2006-11-10  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* tests/testsuite.at (AT_CHECK): Don't miss an exit value of 0 because
+	it was double-quoted.
 	* src/Makefile.am (YACC): Use --warnings=all,error so that Bison's own
 	grammar is maintained with Bison's highest standards.
 	* src/getargs.c: Fix some typos in Doxygen comments.
