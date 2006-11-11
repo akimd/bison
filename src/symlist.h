@@ -38,9 +38,14 @@ typedef struct symbol_list
     SYMLIST_DEFAULT_TAGGED, SYMLIST_DEFAULT_TAGLESS
   } content_type;
   union {
-    /** The symbol or \c NULL iff <tt>node_type = SYMLIST_SYMBOL</tt>.  */
+    /**
+     * The symbol or \c NULL iff
+     * <tt>symbol_list::content_type = SYMLIST_SYMBOL</tt>.
+     */
     symbol *sym;
-    /** The semantic type iff <tt>node_type = SYMLIST_TYPE</tt>.  */
+    /**
+     * The semantic type iff <tt>symbol_list::content_type = SYMLIST_TYPE</tt>.
+     */
     uniqstr type_name;
   } content;
   location location;
