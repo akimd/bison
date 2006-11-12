@@ -22,7 +22,6 @@
 #ifndef SYMLIST_H_
 # define SYMLIST_H_
 
-# include "scan-code.h"
 # include "location.h"
 # include "symtab.h"
 
@@ -38,14 +37,9 @@ typedef struct symbol_list
     SYMLIST_DEFAULT_TAGGED, SYMLIST_DEFAULT_TAGLESS
   } content_type;
   union {
-    /**
-     * The symbol or \c NULL iff
-     * <tt>symbol_list::content_type = SYMLIST_SYMBOL</tt>.
-     */
+    /** The symbol or \c NULL iff <tt>node_type = SYMLIST_SYMBOL</tt>.  */
     symbol *sym;
-    /**
-     * The semantic type iff <tt>symbol_list::content_type = SYMLIST_TYPE</tt>.
-     */
+    /** The semantic type iff <tt>node_type = SYMLIST_TYPE</tt>.  */
     uniqstr type_name;
   } content;
   location location;
@@ -61,9 +55,12 @@ typedef struct symbol_list
   struct symbol_list *midrule_parent_rule;
   int midrule_parent_rhs_index;
 
-  /* The action is attached to the LHS of a rule, but action properties for
-   * each RHS are also stored here.  */
-  code_props action_props;
+  /* The action is attached to the LHS of a rule. */
+  const char *action;
+  location action_location;
+
+  /* Whether this symbol's value is used in the current action.  */
+  bool used;
 
   /* Precedence/associativity.  */
   symbol *ruleprec;
@@ -109,12 +106,15 @@ symbol_list *symbol_list_n_get (symbol_list *l, int n);
    symbol N in rule RULE.  */
 uniqstr symbol_list_n_type_name_get (symbol_list *l, location loc, int n);
 
+/** The item \c n in symbol list \c l is \c used.  */
+void symbol_list_n_used_set (symbol_list *l, int n, bool used);
+
 /** Set the \c \%destructor for \c node as \c destructor at \c loc.  */
-void symbol_list_destructor_set (symbol_list *node, const char *code,
+void symbol_list_destructor_set (symbol_list *node, const char *destructor,
                                  location loc);
 
 /** Set the \c \%printer for \c node as \c printer at \c loc.  */
-void symbol_list_printer_set (symbol_list *node, const char *code,
+void symbol_list_printer_set (symbol_list *node, const char *printer,
                               location loc);
 
 #endif /* !SYMLIST_H_ */

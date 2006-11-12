@@ -30,7 +30,6 @@
 
 # include "assoc.h"
 # include "location.h"
-# include "scan-code.h"
 # include "uniqstr.h"
 
 /*----------.
@@ -73,13 +72,25 @@ struct symbol
      example, if <tt>symbol::destructor = NULL</tt>, a default \c \%destructor
      or a per-type \c \%destructor might be appropriate, and
      \c symbol_destructor_get will compute the correct one.  */
-  code_props destructor;
+  const char *destructor;
+
+  /** The location of \c symbol::destructor.
+
+     Access this field only through <tt>symbol</tt>'s interface functions.
+     \sa symbol::destructor  */
+  location destructor_location;
 
   /** Any \c \%printer declared specifically for this symbol.
 
      Access this field only through <tt>symbol</tt>'s interface functions.
      \sa symbol::destructor  */
-  code_props printer;
+  const char *printer;
+
+  /** The location of \c symbol::printer.
+
+     Access this field only through <tt>symbol</tt>'s interface functions.
+     \sa symbol::destructor  */
+  location printer_location;
 
   symbol_number number;
   location prec_location;
@@ -133,18 +144,26 @@ void symbol_make_alias (symbol *sym, symbol *symval, location loc);
 void symbol_type_set (symbol *sym, uniqstr type_name, location loc);
 
 /** Set the \c destructor associated with \c sym.  */
-void symbol_destructor_set (symbol *sym, code_props destructor);
+void symbol_destructor_set (symbol *sym, const char *destructor, location loc);
 
-/** Get the computed \c \%destructor for \c sym, which was initialized with
-    \c code_props_none_init if there's no \c \%destructor.  */
-code_props symbol_destructor_get (symbol *sym);
+/** Get the computed \c \%destructor for \c sym, or \c NULL if none.   */
+const char *symbol_destructor_get (symbol *sym);
+
+/** Get the grammar location of the computed \c \%destructor for \c sym.
+ 
+  \pre <tt>symbol_destructor_get (sym) != NULL</tt> */
+location symbol_destructor_location_get (symbol *sym);
 
 /** Set the \c printer associated with \c sym.  */
-void symbol_printer_set (symbol *sym, code_props printer);
+void symbol_printer_set (symbol *sym, const char *printer, location loc);
 
-/** Get the computed \c \%printer for \c sym, which was initialized with
-    \c code_props_none_init if there's no \c \%printer.  */
-code_props symbol_printer_get (symbol *sym);
+/** Get the computed \c \%printer for \c sym, or \c NULL if none.  */
+const char *symbol_printer_get (symbol *sym);
+
+/** Get the grammar location of the computed \c \%printer for \c sym.
+
+  \pre <tt>symbol_printer_get (sym) != NULL</tt> */
+location symbol_printer_location_get (symbol *sym);
 
 /* Set the \c precedence associated with \c sym.
 
@@ -190,9 +209,14 @@ typedef struct semantic_type {
   uniqstr tag;
 
   /** Any \c %destructor declared for this semantic type.  */
-  code_props destructor;
+  const char *destructor;
+  /** The location of \c semantic_type::destructor.  */
+  location destructor_location;
+
   /** Any \c %printer declared for this semantic type.  */
-  code_props printer;
+  const char *printer;
+  /** The location of \c semantic_type::printer.  */
+  location printer_location;
 } semantic_type;
 
 /** Fetch (or create) the semantic type associated to KEY.  */
@@ -202,10 +226,12 @@ semantic_type *semantic_type_from_uniqstr (const uniqstr key);
 semantic_type *semantic_type_get (const char *key);
 
 /** Set the \c destructor associated with \c type.  */
-void semantic_type_destructor_set (semantic_type *type, code_props destructor);
+void semantic_type_destructor_set (semantic_type *type, const char *destructor,
+                                   location loc);
 
 /** Set the \c printer associated with \c type.  */
-void semantic_type_printer_set (semantic_type *type, code_props printer);
+void semantic_type_printer_set (semantic_type *type, const char *printer,
+                                location loc);
 
 /*----------------------------------.
 | Symbol and semantic type tables.  |
@@ -234,13 +260,13 @@ void symbols_pack (void);
 `---------------------------------------*/
 
 /** Set the default \c \%destructor for tagged values.  */
-void default_tagged_destructor_set (code_props destructor);
+void default_tagged_destructor_set (const char *destructor, location loc);
 /** Set the default \c \%destructor for tagless values.  */
-void default_tagless_destructor_set (code_props destructor);
+void default_tagless_destructor_set (const char *destructor, location loc);
 
 /** Set the default \c \%printer for tagged values.  */
-void default_tagged_printer_set (code_props printer);
+void default_tagged_printer_set (const char *printer, location loc);
 /** Set the default \c \%printer for tagless values.  */
-void default_tagless_printer_set (code_props printer);
+void default_tagless_printer_set (const char *printer, location loc);
 
 #endif /* !SYMTAB_H_ */

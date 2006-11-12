@@ -182,7 +182,7 @@ static int current_prec = 0;
 %printer { fputs (char_name ($$), stderr); } CHAR
 
 /* braceless is not to be used for rule or symbol actions, as it
-   calls code_props_plain_init. */
+   calls translate_code. */
 %type <chars> STRING "%{...%}" EPILOGUE braceless content content.opt
 %type <code> "{...}"
 %printer { fputs (quotearg_style (c_quoting_style, $$), stderr); }
@@ -222,14 +222,7 @@ prologue_declarations:
 
 prologue_declaration:
   grammar_declaration
-| "%{...%}" {
-   code_props plain_code;
-   code_props_plain_init (&plain_code, $1, @1);
-   code_props_translate_code (&plain_code);
-   gram_scanner_last_string_free ();
-   prologue_augment (code_props_code_get (plain_code), @1, union_seen);
-   code_scanner_last_string_free ();
-}
+| "%{...%}"     { prologue_augment (translate_code ($1, @1), @1, union_seen); }
 | "%debug"                         { debug_flag = true; }
 | "%define" STRING content.opt     { muscle_insert ($2, $3); }
 | "%defines"                       { defines_flag = true; }
@@ -244,12 +237,7 @@ prologue_declaration:
     }
 | "%initial-action" "{...}"
     {
-      code_props action;
-      code_props_symbol_action_init (&action, $2, @2);
-      code_props_translate_code (&action);
-      gram_scanner_last_string_free ();
-      muscle_code_grow ("initial_action", code_props_code_get (action), @2);
-      code_scanner_last_string_free ();
+      muscle_code_grow ("initial_action", translate_symbol_action ($2, @2), @2);
     }
 | "%lex-param" "{...}"		{ add_param ("lex_param", $2, @2); }
 | "%locations"                  { locations_flag = true; }
@@ -278,15 +266,17 @@ grammar_declaration:
 | "%destructor" "{...}" generic_symlist
     {
       symbol_list *list;
+      const char *action = translate_symbol_action ($2, @2);
       for (list = $3; list; list = list->next)
-	symbol_list_destructor_set (list, $2, @2);
+	symbol_list_destructor_set (list, action, @2);
       symbol_list_free ($3);
     }
 | "%printer" "{...}" generic_symlist
     {
       symbol_list *list;
+      const char *action = translate_symbol_action ($2, @2);
       for (list = $3; list; list = list->next)
-	symbol_list_printer_set (list, $2, @2);
+	symbol_list_printer_set (list, action, @2);
       symbol_list_free ($3);
     }
 | "%default-prec"
@@ -337,7 +327,6 @@ grammar_declaration:
 
       union_seen = true;
       muscle_code_grow ("stype", body, @3);
-      gram_scanner_last_string_free ();
     }
 ;
 
@@ -520,12 +509,8 @@ content.opt:
 braceless:
   "{...}"
     {
-      code_props plain_code;
       $1[strlen ($1) - 1] = '\n';
-      code_props_plain_init (&plain_code, $1+1, @1);
-      code_props_translate_code (&plain_code);
-      gram_scanner_last_string_free ();
-      $$ = code_props_code_get (plain_code);
+      $$ = translate_code ($1 + 1, @1);
     }
 ;
 
@@ -571,12 +556,8 @@ epilogue.opt:
   /* Nothing.  */
 | "%%" EPILOGUE
     {
-      code_props plain_code;
-      code_props_plain_init (&plain_code, $2, @2);
-      code_props_translate_code (&plain_code);
+      muscle_code_grow ("epilogue", translate_code ($2, @2), @2);
       gram_scanner_last_string_free ();
-      muscle_code_grow ("epilogue", code_props_code_get (plain_code), @2);
-      code_scanner_last_string_free ();
     }
 ;
 
