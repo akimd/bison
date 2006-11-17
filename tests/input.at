@@ -680,3 +680,24 @@ start: false_start ;
 AT_CHECK([bison -o input.c input.y])
 
 AT_CLEANUP
+
+
+## --------------------- ##
+## %prec takes a token.  ##
+## --------------------- ##
+
+AT_SETUP([%prec takes a token])
+
+# Bison once allowed %prec sym where sym was a nonterminal.
+
+AT_DATA([input.y],
+[[%%
+start: PREC %prec PREC ;
+PREC: ;
+]])
+
+AT_CHECK([bison input.y], [1], [],
+[[input.y:3.1-4: rule given for PREC, which is a token
+]])
+
+AT_CLEANUP

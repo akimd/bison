@@ -1,3 +1,11 @@
+2006-11-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't let %prec take a nonterminal.
+	* src/reader.c (grammar_current_rule_prec_set): Make the %prec symbol a
+	token.
+	* tests/input.at (%prec takes a token): New test checking that %prec
+	won't take a nonterminal.
+
 2006-11-10  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* tests/testsuite.at (AT_CHECK): Don't miss an exit value of 0 because
