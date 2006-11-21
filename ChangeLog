@@ -1,3 +1,12 @@
+2006-11-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't escape $ in test case titles since Autoconf 2.61 now does that
+	correctly.
+	* tests/actions.at (Default %printer and %destructor are not for error
+	or $undefined): Here.
+	(Default %printer and %destructor are not for $accept): Here.
+	* tests/input.at (Invalid $n and @n): Here.
+
 2006-11-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Rename <!> to <>.  Discussed starting at

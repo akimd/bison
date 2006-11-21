@@ -959,7 +959,7 @@ AT_CLEANUP
 ## Default %printer and %destructor are not for error or $undefined.  ##
 ## ------------------------------------------------------------------ ##
 
-AT_SETUP([Default %printer and %destructor are not for error or \$undefined])
+AT_SETUP([Default %printer and %destructor are not for error or $undefined])
 
 # If Bison were to apply the default %printer and %destructor to the error
 # token or to $undefined:
@@ -1069,7 +1069,7 @@ AT_CLEANUP
 ## Default %printer and %destructor are not for $accept.  ##
 ## ------------------------------------------------------ ##
 
-AT_SETUP([Default %printer and %destructor are not for \$accept])
+AT_SETUP([Default %printer and %destructor are not for $accept])
 
 # If YYSTYPE is a union and Bison were to apply the default %printer and
 # %destructor to $accept:
