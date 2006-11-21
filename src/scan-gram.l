@@ -210,7 +210,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "|"                     return PIPE;
   ";"                     return SEMICOLON;
   "<*>"                   return TYPE_TAG_ANY;
-  "<!>"                   return TYPE_TAG_NONE;
+  "<>"                    return TYPE_TAG_NONE;
 
   {id} {
     val->uniqstr = uniqstr_new (yytext);

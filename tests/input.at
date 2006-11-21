@@ -188,11 +188,11 @@ AT_DATA([[input.y]],
 %destructor { destroy ($$); } <*>
 %printer { destroy ($$); } <*>
 
-%destructor { destroy ($$); } <!> <!>
-%printer { destroy ($$); } <!> <!>
+%destructor { destroy ($$); } <> <>
+%printer { destroy ($$); } <> <>
 
-%destructor { destroy ($$); } <!>
-%printer { destroy ($$); } <!>
+%destructor { destroy ($$); } <>
+%printer { destroy ($$); } <>
 
 %%
 
@@ -201,8 +201,8 @@ start: ;
 %destructor { destroy ($$); } <*>;
 %printer { destroy ($$); } <*>;
 
-%destructor { destroy ($$); } <!>;
-%printer { destroy ($$); } <!>;
+%destructor { destroy ($$); } <>;
+%printer { destroy ($$); } <>;
 ]])
 
 AT_CHECK([bison input.y], [1], [],
@@ -285,7 +285,7 @@ AT_CLEANUP
 AT_SETUP([Unused values with default %destructor])
 
 AT_DATA([[input.y]],
-[[%destructor { destroy ($$); } <!>
+[[%destructor { destroy ($$); } <>
 %type <tag> tagged
 
 %%

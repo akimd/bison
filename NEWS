@@ -33,12 +33,12 @@ Changes in version 2.3a+ (????-??-??):
        %destructor/%printer for all grammar symbols for which you have formally
        declared semantic type tags.
 
-    2. Place `<!>' in a %destructor/%printer symbol list to define a default
+    2. Place `<>' in a %destructor/%printer symbol list to define a default
        %destructor/%printer for all grammar symbols without declared semantic
        type tags.
 
   Bison no longer supports the `%symbol-default' notation from Bison 2.3a.
-  `<*>' and `<!>' combined achieve the same effect with one exception: Bison no
+  `<*>' and `<>' combined achieve the same effect with one exception: Bison no
   longer applies any %destructor to a mid-rule value if that mid-rule value is
   not actually ever referenced using either $$ or $n in a semantic action.
 

@@ -614,11 +614,11 @@ AT_DATA_GRAMMAR([[input.y]],
 } <*>
 
 %printer {
-  fprintf (yyoutput, "<!> printer for '%c' @ %d", $$, @$.first_column);
-} <!>
+  fprintf (yyoutput, "<> printer for '%c' @ %d", $$, @$.first_column);
+} <>
 %destructor {
-  fprintf (stdout, "<!> destructor for '%c' @ %d.\n", $$, @$.first_column);
-} <!>
+  fprintf (stdout, "<> destructor for '%c' @ %d.\n", $$, @$.first_column);
+} <>
 
 %printer {
   fprintf (yyoutput, "'b'/'c' printer for '%c' @ %d", $$, @$.first_column);
@@ -667,15 +667,15 @@ main (void)
 AT_CHECK([bison -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
-[[<!> destructor for 'd' @ 4.
+[[<> destructor for 'd' @ 4.
 'b'/'c' destructor for 'c' @ 3.
 'b'/'c' destructor for 'b' @ 2.
-<!> destructor for 'a' @ 1.
+<> destructor for 'a' @ 1.
 ]],
 [[Starting parse
 Entering state 0
-Reading a token: Next token is token 'a' (1.1-1.1: <!> printer for 'a' @ 1)
-Shifting token 'a' (1.1-1.1: <!> printer for 'a' @ 1)
+Reading a token: Next token is token 'a' (1.1-1.1: <> printer for 'a' @ 1)
+Shifting token 'a' (1.1-1.1: <> printer for 'a' @ 1)
 Entering state 1
 Reading a token: Next token is token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
 Shifting token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
@@ -683,18 +683,18 @@ Entering state 3
 Reading a token: Next token is token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
 Shifting token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
 Entering state 5
-Reading a token: Next token is token 'd' (1.4-1.4: <!> printer for 'd' @ 4)
-Shifting token 'd' (1.4-1.4: <!> printer for 'd' @ 4)
+Reading a token: Next token is token 'd' (1.4-1.4: <> printer for 'd' @ 4)
+Shifting token 'd' (1.4-1.4: <> printer for 'd' @ 4)
 Entering state 6
 Reading a token: Now at end of input.
 syntax error, unexpected $end, expecting 'e'
-Error: popping token 'd' (1.4-1.4: <!> printer for 'd' @ 4)
+Error: popping token 'd' (1.4-1.4: <> printer for 'd' @ 4)
 Stack now 0 1 3 5
 Error: popping token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
 Stack now 0 1 3
 Error: popping token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
 Stack now 0 1
-Error: popping token 'a' (1.1-1.1: <!> printer for 'a' @ 1)
+Error: popping token 'a' (1.1-1.1: <> printer for 'a' @ 1)
 Stack now 0
 Cleanup: discarding lookahead token $end (1.5-1.5: )
 Stack now 0
@@ -723,8 +723,8 @@ AT_DATA_GRAMMAR([[input.y]],
 %}
 
 %printer {
-  fprintf (yyoutput, "<!> printer should not be called.\n");
-} <!>
+  fprintf (yyoutput, "<> printer should not be called.\n");
+} <>
 
 %union { int field0; int field1; int field2; }
 %type <field0> start 'a' 'g'
@@ -750,8 +750,8 @@ AT_DATA_GRAMMAR([[input.y]],
 %destructor { fprintf (stdout, "'d' destructor.\n"); } 'd'
 
 %destructor {
-  fprintf (yyoutput, "<!> destructor should not be called.\n");
-} <!>
+  fprintf (yyoutput, "<> destructor should not be called.\n");
+} <>
 
 %%
 
@@ -851,8 +851,8 @@ AT_SETUP([Default %printer and %destructor for user-defined end token])
 # -----------------------------------------------------------------------------
 m4_define([_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN],
 [m4_if($1, 0,
-  [m4_pushdef([kind], [!]) m4_pushdef([not_kind], [*])],
-  [m4_pushdef([kind], [*]) m4_pushdef([not_kind], [!])])
+  [m4_pushdef([kind], []) m4_pushdef([not_kind], [*])],
+  [m4_pushdef([kind], [*]) m4_pushdef([not_kind], [])])
 
 AT_DATA_GRAMMAR([[input]]$1[[.y]],
 [[%error-verbose
@@ -983,10 +983,10 @@ AT_DATA_GRAMMAR([[input.y]],
 
 %printer {
   fprintf (yyoutput, "'%c'", $$);
-} <!> <*>
+} <> <*>
 %destructor {
   fprintf (stderr, "DESTROY '%c'\n", $$);
-} <!> <*>
+} <> <*>
 
 %%
 
@@ -1098,11 +1098,11 @@ AT_DATA_GRAMMAR([[input.y]],
 %printer {
   char chr = $$;
   fprintf (yyoutput, "'%c'", chr);
-} <!> <*>
+} <> <*>
 %destructor {
   char chr = $$;
   fprintf (stderr, "DESTROY '%c'\n", chr);
-} <!> <*>
+} <> <*>
 
 %union { char chr; }
 %type <chr> start
@@ -1162,8 +1162,8 @@ AT_DATA_GRAMMAR([[input.y]],
 # define YY_LOCATION_PRINT(File, Loc)
 %}
 
-%printer { fprintf (yyoutput, "%d", @$); } <!>
-%destructor { fprintf (stderr, "DESTROY %d\n", @$); } <!>
+%printer { fprintf (yyoutput, "%d", @$); } <>
+%destructor { fprintf (stderr, "DESTROY %d\n", @$); } <>
 %printer { fprintf (yyoutput, "<*> printer should not be called"); } <*>
 %destructor { fprintf (yyoutput, "<*> destructor should not be called"); } <*>
 

@@ -4237,7 +4237,7 @@ For instance, if your locations use a file name, you may use
 @cindex freeing discarded symbols
 @findex %destructor
 @findex <*>
-@findex <!>
+@findex <>
 During error recovery (@pxref{Error Recovery}), symbols already pushed
 on the stack and tokens coming from the rest of the file are discarded
 until the parser falls on its feet.  If the parser runs out of memory,
@@ -4271,7 +4271,7 @@ grammar symbol that has that semantic type tag unless that symbol has its own
 per-symbol @code{%destructor}.
 
 Finally, you can define two different kinds of default @code{%destructor}s.
-You can place each of @code{<*>} and @code{<!>} in the @var{symbols} list of
+You can place each of @code{<*>} and @code{<>} in the @var{symbols} list of
 exactly one @code{%destructor} declaration in your grammar file.
 The parser will invoke the @var{code} associated with one of these whenever it
 discards any user-defined grammar symbol that has no per-symbol and no per-type
@@ -4279,7 +4279,7 @@ discards any user-defined grammar symbol that has no per-symbol and no per-type
 The parser uses the @var{code} for @code{<*>} in the case of such a grammar
 symbol for which you have formally declared a semantic type tag (@code{%type}
 counts as such a declaration, but @code{$<tag>$} does not).
-The parser uses the @var{code} for @code{<!>} in the case of such a grammar
+The parser uses the @var{code} for @code{<>} in the case of such a grammar
 symbol that has no declared semantic type tag.
 @end deffn
 
@@ -4300,7 +4300,7 @@ For example:
 %destructor @{ @} <character>
 %destructor @{ free ($$); @} <*>
 %destructor @{ free ($$); printf ("%d", @@$.first_line); @} STRING1 string1
-%destructor @{ printf ("Discarding tagless symbol.\n"); @} <!>
+%destructor @{ printf ("Discarding tagless symbol.\n"); @} <>
 @end smallexample
 
 @noindent
@@ -4339,7 +4339,7 @@ not reference @code{$$} in the mid-rule's action or @code{$@var{n}} (where
 @var{n} is the RHS symbol position of the mid-rule) in any later action in that
 rule.
 However, if you do reference either, the Bison-generated parser will invoke the
-@code{<!>} @code{%destructor} whenever it discards the mid-rule symbol.
+@code{<>} @code{%destructor} whenever it discards the mid-rule symbol.
 
 @ignore
 @noindent
@@ -8572,7 +8572,7 @@ Used to define a default tagged @code{%destructor} or default tagged
 @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
-@deffn {Directive} <!>
+@deffn {Directive} <>
 Used to define a default tagless @code{%destructor} or default tagless
 @code{%printer}.
 @xref{Destructor Decl, , Freeing Discarded Symbols}.

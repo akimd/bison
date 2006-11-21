@@ -176,7 +176,7 @@ static int current_prec = 0;
 %token SEMICOLON       ";"
 %token TYPE            "type"
 %token TYPE_TAG_ANY    "<*>"
-%token TYPE_TAG_NONE   "<!>"
+%token TYPE_TAG_NONE   "<>"
 
 %type <character> CHAR
 %printer { fputs (char_name ($$), stderr); } CHAR
@@ -397,7 +397,7 @@ generic_symlist_item:
   symbol            { $$ = symbol_list_sym_new ($1, @1); }
 | TYPE              { $$ = symbol_list_type_new ($1, @1); }
 | "<*>"             { $$ = symbol_list_default_tagged_new (@1); }
-| "<!>"             { $$ = symbol_list_default_tagless_new (@1); }
+| "<>"             { $$ = symbol_list_default_tagless_new (@1); }
 ;
 
 /* One token definition.  */
