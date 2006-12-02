@@ -89,7 +89,7 @@ AT_SETUP([export YYLTYPE])
 AT_DATA_GRAMMAR([input.y],
 [%locations
 
-%name-prefix="my_"
+%name-prefix "my_"
 %{
 #include <stdio.h>
 #include <stdlib.h>

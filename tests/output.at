@@ -64,13 +64,13 @@ AT_CHECK_OUTPUT([foo.y], [%defines %verbose %yacc],[],
 AT_CHECK_OUTPUT([foo.yy], [%defines %verbose %yacc],[],
 		[y.output y.tab.c y.tab.h])
 
-# Exercise %output and %file-prefix
-AT_CHECK_OUTPUT([foo.y], [%file-prefix="bar" %defines %verbose],      [],
+# Exercise %output and %file-prefix including deprecated `='
+AT_CHECK_OUTPUT([foo.y], [%file-prefix "bar" %defines %verbose],      [],
 		[bar.output bar.tab.c bar.tab.h])
 AT_CHECK_OUTPUT([foo.y], [%output="bar.c" %defines %verbose %yacc],[],
 		[bar.output bar.c bar.h])
 AT_CHECK_OUTPUT([foo.y],
-		[%file-prefix="baz" %output="bar.c" %defines %verbose %yacc],
+		[%file-prefix="baz" %output "bar.c" %defines %verbose %yacc],
 		[],
 		[bar.output bar.c bar.h])
 
@@ -84,6 +84,10 @@ AT_CHECK_OUTPUT([foo.yy], [%defines %verbose ], [-o foo.c],
 
 AT_CHECK_OUTPUT([foo.yy], [],
 		[--defines=foo.hpp -o foo.c++],
+		[foo.c++ foo.hpp])
+
+AT_CHECK_OUTPUT([foo.yy], [%defines "foo.hpp"],
+		[-o foo.c++],
 		[foo.c++ foo.hpp])
 
 AT_CHECK_OUTPUT([foo.yy], [],

@@ -226,10 +226,16 @@ prologue_declaration:
 | "%debug"                         { debug_flag = true; }
 | "%define" STRING content.opt     { muscle_insert ($2, $3); }
 | "%defines"                       { defines_flag = true; }
+| "%defines" STRING
+    {
+      defines_flag = true;
+      spec_defines_file = xstrdup ($2);
+    }
 | "%error-verbose"                 { error_verbose = true; }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT		   { expected_rr_conflicts = $2; }
-| "%file-prefix" "=" STRING        { spec_file_prefix = $3; }
+| "%file-prefix" STRING            { spec_file_prefix = $2; }
+| "%file-prefix" "=" STRING        { spec_file_prefix = $3; } /* deprecated */
 | "%glr-parser"
     {
       nondeterministic_parser = true;
@@ -241,10 +247,12 @@ prologue_declaration:
     }
 | "%lex-param" "{...}"		{ add_param ("lex_param", $2, @2); }
 | "%locations"                  { locations_flag = true; }
-| "%name-prefix" "=" STRING     { spec_name_prefix = $3; }
+| "%name-prefix" STRING         { spec_name_prefix = $2; }
+| "%name-prefix" "=" STRING     { spec_name_prefix = $3; } /* deprecated */
 | "%no-lines"                   { no_lines_flag = true; }
 | "%nondeterministic-parser"	{ nondeterministic_parser = true; }
-| "%output" "=" STRING          { spec_outfile = $3; }
+| "%output" STRING              { spec_outfile = $2; }
+| "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
 | "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
 | "%pure-parser"                { pure_parser = true; }
 | "%push-parser"                { push_parser = true; }

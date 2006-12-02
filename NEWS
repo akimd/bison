@@ -6,6 +6,18 @@ Changes in version 2.3a+ (????-??-??):
 * The -g and --graph options now output graphs in Graphviz DOT format,
   not VCG format.
 
+* The grammar file may now specify the name of the parser header file using
+  %defines.  For example:
+
+    %defines "parser.h"
+
+* The `=' that used to be required in the following declarations is now
+  deprecated:
+
+    %file-prefix "parser"
+    %name-prefix "c_"
+    %output "parser.c"
+
 * Revised warning: unset or unused mid-rule values
 
   Since Bison 2.2, Bison has warned about mid-rule values that are set but not

@@ -27,7 +27,7 @@ AT_SETUP([Useless Terminals])
 
 AT_DATA([[input.y]],
 [[%verbose
-%output="input.c"
+%output "input.c"
 
 %token useless1
 %token useless2
@@ -71,7 +71,7 @@ AT_SETUP([Useless Nonterminals])
 
 AT_DATA([[input.y]],
 [[%verbose
-%output="input.c"
+%output "input.c"
 
 %nterm useless1
 %nterm useless2
@@ -128,7 +128,7 @@ AT_KEYWORDS([report])
 
 AT_DATA([[input.y]],
 [[%verbose
-%output="input.c"
+%output "input.c"
 %token useful
 %%
 exp: useful;
@@ -221,7 +221,7 @@ AT_DATA([[not-reduced.y]],
 /* A useful one. */
 %token useful
 %verbose
-%output="not-reduced.c"
+%output "not-reduced.c"
 
 %%
 
@@ -267,7 +267,7 @@ AT_DATA([[reduced.y]],
 /* A useful one. */
 %token useful
 %verbose
-%output="reduced.c"
+%output "reduced.c"
 
 %%
 
@@ -304,7 +304,7 @@ AT_KEYWORDS([report])
 
 AT_DATA([[input.y]],
 [[%verbose
-%output="input.c"
+%output "input.c"
 %token useful
 %%
 exp: useful | underivable;
@@ -342,7 +342,7 @@ AT_CLEANUP
 AT_SETUP([Empty Language])
 
 AT_DATA([[input.y]],
-[[%output="input.c"
+[[%output "input.c"
 %%
 exp: exp;
 ]])

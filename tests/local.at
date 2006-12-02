@@ -64,8 +64,8 @@ m4_pushdef([AT_PURE_AND_LOC_IF],
 m4_pushdef([AT_GLR_OR_PARAM_IF],
 [m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
 m4_pushdef([AT_NAME_PREFIX],
-[m4_bmatch([$3], [%name-prefix=".*"],
-           [m4_bregexp([$3], [name-prefix="\([^"]*\)"], [\1])],
+[m4_bmatch([$3], [%name-prefix ".*"],
+           [m4_bregexp([$3], [name-prefix "\([^"]*\)"], [\1])],
            [yy])])
 # yyerror receives the location if %location & %pure & (%glr or %parse-param).
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],

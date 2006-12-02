@@ -556,7 +556,7 @@ AT_CHECK_CALC_LALR()
 
 AT_CHECK_CALC_LALR([%defines])
 AT_CHECK_CALC_LALR([%locations])
-AT_CHECK_CALC_LALR([%name-prefix="calc"])
+AT_CHECK_CALC_LALR([%name-prefix="calc"]) dnl test deprecated `='
 AT_CHECK_CALC_LALR([%verbose])
 AT_CHECK_CALC_LALR([%yacc])
 AT_CHECK_CALC_LALR([%error-verbose])
@@ -565,15 +565,15 @@ AT_CHECK_CALC_LALR([%pure-parser %locations])
 AT_CHECK_CALC_LALR([%push-parser %locations])
 AT_CHECK_CALC_LALR([%error-verbose %locations])
 
-AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%debug])
-AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
-AT_CHECK_CALC_LALR([%push-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%push-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
 
 # ----------------------- #
@@ -594,7 +594,7 @@ AT_CHECK_CALC_GLR()
 
 AT_CHECK_CALC_GLR([%defines])
 AT_CHECK_CALC_GLR([%locations])
-AT_CHECK_CALC_GLR([%name-prefix="calc"])
+AT_CHECK_CALC_GLR([%name-prefix "calc"])
 AT_CHECK_CALC_GLR([%verbose])
 AT_CHECK_CALC_GLR([%yacc])
 AT_CHECK_CALC_GLR([%error-verbose])
@@ -602,14 +602,14 @@ AT_CHECK_CALC_GLR([%error-verbose])
 AT_CHECK_CALC_GLR([%pure-parser %locations])
 AT_CHECK_CALC_GLR([%error-verbose %locations])
 
-AT_CHECK_CALC_GLR([%error-verbose %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR([%error-verbose %locations %defines %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR([%debug])
-AT_CHECK_CALC_GLR([%error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR([%error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix="calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_GLR([%pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
 
 # ----------------------------- #
@@ -626,13 +626,13 @@ m4_define([AT_CHECK_CALC_LALR1_CC],
 [AT_CHECK_CALC([%skeleton "lalr1.cc" %defines %locations] $@)])
 
 AT_CHECK_CALC_LALR1_CC([])
-AT_CHECK_CALC_LALR1_CC([%error-verbose %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%error-verbose %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR1_CC([%error-verbose %debug %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%error-verbose %debug %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR1_CC([%pure-parser %error-verbose %debug %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR1_CC([%pure-parser %error-verbose %debug %name-prefix="calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_LALR1_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
 
 
@@ -650,11 +650,11 @@ m4_define([AT_CHECK_CALC_GLR_CC],
 [AT_CHECK_CALC([%skeleton "glr.cc" %defines %locations] $@)])
 
 AT_CHECK_CALC_GLR_CC([])
-AT_CHECK_CALC_GLR_CC([%error-verbose %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR_CC([%error-verbose %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR_CC([%debug])
-AT_CHECK_CALC_GLR_CC([%error-verbose %debug %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR_CC([%error-verbose %debug %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_GLR_CC([%pure-parser %error-verbose %debug %name-prefix="calc" %verbose %yacc])
+AT_CHECK_CALC_GLR_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_GLR_CC([%pure-parser %error-verbose %debug %name-prefix="calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_GLR_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])

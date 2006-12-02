@@ -4598,12 +4598,16 @@ header also contains their code.
 @xref{Table of Symbols, ,%requires}.
 @end deffn
 
+@deffn {Directive} %defines @var{defines-file}
+Same as above, but save in the file @var{defines-file}.
+@end deffn
+
 @deffn {Directive} %destructor
 Specify how the parser should reclaim the memory associated to
 discarded symbols.  @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
-@deffn {Directive} %file-prefix="@var{prefix}"
+@deffn {Directive} %file-prefix "@var{prefix}"
 Specify a prefix to use for all Bison output file names.  The names are
 chosen as if the input file were named @file{@var{prefix}.y}.
 @end deffn
@@ -4616,14 +4620,14 @@ grammar does not use it, using @samp{%locations} allows for more
 accurate syntax error messages.
 @end deffn
 
-@deffn {Directive} %name-prefix="@var{prefix}"
+@deffn {Directive} %name-prefix "@var{prefix}"
 Rename the external symbols used in the parser so that they start with
 @var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
 in C parsers
 is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
 @code{yylval}, @code{yychar}, @code{yydebug}, and
 (if locations are used) @code{yylloc}.  For example, if you use
-@samp{%name-prefix="c_"}, the names become @code{c_parse}, @code{c_lex},
+@samp{%name-prefix "c_"}, the names become @code{c_parse}, @code{c_lex},
 and so on.  In C++ parsers, it is only the surrounding namespace which is
 named @var{prefix} instead of @samp{yy}.
 @xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
@@ -4656,7 +4660,7 @@ associate errors with the parser file, treating it an independent source
 file in its own right.
 @end deffn
 
-@deffn {Directive} %output="@var{file}"
+@deffn {Directive} %output "@var{file}"
 Specify @var{file} for the parser file.
 @end deffn
 
@@ -7265,7 +7269,7 @@ Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
 
 @item -p @var{prefix}
 @itemx --name-prefix=@var{prefix}
-Pretend that @code{%name-prefix="@var{prefix}"} was specified.
+Pretend that @code{%name-prefix "@var{prefix}"} was specified.
 @xref{Decl Summary}.
 
 @item -l
@@ -8653,6 +8657,11 @@ Bison declaration to create a header file meant for the scanner.
 @xref{Decl Summary}.
 @end deffn
 
+@deffn {Directive} %defines @var{defines-file}
+Same as above, but save in the file @var{defines-file}.
+@xref{Decl Summary}.
+@end deffn
+
 @deffn {Directive} %destructor
 Specify how the parser should reclaim the memory associated to
 discarded symbols.  @xref{Destructor Decl, , Freeing Discarded Symbols}.
@@ -8685,7 +8694,7 @@ Bison declaration to request verbose, specific error message strings
 when @code{yyerror} is called.
 @end deffn
 
-@deffn {Directive} %file-prefix="@var{prefix}"
+@deffn {Directive} %file-prefix "@var{prefix}"
 Bison declaration to set the prefix of the output files.  @xref{Decl
 Summary}.
 @end deffn
@@ -8717,7 +8726,7 @@ function is applied to the two semantic values to get a single result.
 @xref{GLR Parsers, ,Writing @acronym{GLR} Parsers}.
 @end deffn
 
-@deffn {Directive} %name-prefix="@var{prefix}"
+@deffn {Directive} %name-prefix "@var{prefix}"
 Bison declaration to rename the external symbols.  @xref{Decl Summary}.
 @end deffn
 
@@ -8739,7 +8748,7 @@ Bison declaration to assign nonassociativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
-@deffn {Directive} %output="@var{file}"
+@deffn {Directive} %output "@var{file}"
 Bison declaration to set the name of the parser file.  @xref{Decl
 Summary}.
 @end deffn
