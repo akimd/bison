@@ -2684,6 +2684,10 @@ feature test macros can affect the behavior of Bison-generated
 @findex %requires
 @findex %provides
 @findex %code-top
+(The prologue alternatives described here are experimental.
+More user feedback will help to determine whether they should become permanent
+features.)
+
 The functionality of @var{Prologue} sections can often be subtle and
 inflexible.
 As an alternative, Bison provides a set of more explicit directives:
@@ -4271,6 +4275,9 @@ grammar symbol that has that semantic type tag unless that symbol has its own
 per-symbol @code{%destructor}.
 
 Finally, you can define two different kinds of default @code{%destructor}s.
+(These default forms are experimental.
+More user feedback will help to determine whether they should become permanent
+features.)
 You can place each of @code{<*>} and @code{<>} in the @var{symbols} list of
 exactly one @code{%destructor} declaration in your grammar file.
 The parser will invoke the @var{code} associated with one of these whenever it
@@ -8573,12 +8580,22 @@ Separates alternate rules for the same result nonterminal.
 @deffn {Directive} <*>
 Used to define a default tagged @code{%destructor} or default tagged
 @code{%printer}.
+
+This feature is experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.
+
 @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
 @deffn {Directive} <>
 Used to define a default tagless @code{%destructor} or default tagless
 @code{%printer}.
+
+This feature is experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.
+
 @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
@@ -8591,9 +8608,10 @@ Start-Symbol}.  It cannot be used in the grammar.
 @deffn {Directive} %code @{@var{code}@}
 Other than semantic actions, this is probably the most common place you should
 write verbatim code for the parser implementation.
-For C/C++, it replaces the traditional Yacc prologue,
+It replaces the traditional Yacc prologue,
+@comment For C/C++, it replaces the traditional Yacc prologue,
 @code{%@{@var{code}%@}}, for most purposes.
-For Java, it inserts code into the parser class.
+@comment For Java, it inserts code into the parser class.
 
 @cindex Prologue
 @findex %union
@@ -8607,11 +8625,17 @@ not depend on its position in the grammar file relative to any
 Specifically, @code{%code @{@var{code}@}} always inserts your @var{code} into
 the parser code file after the usual contents of the parser header file.
 
+(Like all the Yacc prologue alternative directives, this directive is
+experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.)
+
 @xref{Prologue Alternatives}.
 @end deffn
 
 @deffn {Directive} %code-top @{@var{code}@}
-Occasionally for C/C++ it is desirable to insert code near the top of the
+Occasionally it is desirable to insert code near the top of the
+@comment Occasionally for C/C++ it is desirable to insert code near the top of the
 parser code file.
 For example:
 
@@ -8622,8 +8646,8 @@ For example:
 @}
 @end smallexample
 
-@noindent
-For Java, @code{%code-top @{@var{code}@}} is currently unused.
+@comment @noindent
+@comment For Java, @code{%code-top @{@var{code}@}} is currently unused.
 
 @cindex Prologue
 @findex %union
@@ -8632,6 +8656,11 @@ Compare with @code{%@{@var{code}%@}} appearing before the first
 @code{%code-top @{@var{code}@}} is cleaner as its functionality does not depend
 on its position in the grammar file relative to any
 @code{%union @{@var{code}@}}.
+
+(Like all the Yacc prologue alternative directives, this directive is
+experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.)
 
 @xref{Prologue Alternatives}.
 @end deffn
@@ -8767,11 +8796,17 @@ Bison declaration to assign a precedence to a specific rule.
 @deffn {Directive} %provides @{@var{code}@}
 This is the right place to write additional definitions you would like Bison to
 expose externally.
-For C/C++, this directive inserts your @var{code} both into the parser header
+That is, this directive inserts your @var{code} both into the parser header
+@comment For C/C++, this directive inserts your @var{code} both into the parser header
 file (if generated; @pxref{Table of Symbols, ,%defines}) and into the parser
 code file after Bison's required definitions.
-For Java, it inserts your @var{code} into the parser java file after the parser
-class.
+@comment For Java, it inserts your @var{code} into the parser java file after the parser
+@comment class.
+
+(Like all the Yacc prologue alternative directives, this directive is
+experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.)
 
 @xref{Prologue Alternatives}.
 @end deffn
@@ -8789,12 +8824,13 @@ Require a Version of Bison}.
 @deffn {Directive} %requires @{@var{code}@}
 This is the right place to write dependency code for externally exposed
 definitions required by Bison.
-For C/C++, such exposed definitions are those usually appearing in the parser
+Such exposed definitions are those usually appearing in the parser
+@comment For C/C++, such exposed definitions are those usually appearing in the parser
 header file.
 Thus, this is the right place to define types referenced in
 @code{%union @{@var{code}@}} directives, and it is the right place to override
 Bison's default @code{YYSTYPE} and @code{YYLTYPE} definitions.
-For Java, this is the right place to write import directives.
+@comment For Java, this is the right place to write import directives.
 
 @cindex Prologue
 @findex %union
@@ -8805,6 +8841,11 @@ Unlike @code{%@{@var{code}%@}}, @code{%requires @{@var{code}@}} inserts your
 @var{code} both into the parser code file and into the parser header file (if
 generated; @pxref{Table of Symbols, ,%defines}) since Bison's required
 definitions should depend on it in both places.
+
+(Like all the Yacc prologue alternative directives, this directive is
+experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.)
 
 @xref{Prologue Alternatives}.
 @end deffn
