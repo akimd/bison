@@ -336,7 +336,17 @@ main (int argc, const char **argv)
 
 ]AT_SKEL_CC_IF([], [m4_bmatch([$4], [%debug],
 [  yydebug = 1;])])[
-  status = yyparse (]AT_PARAM_IF([&result, &count])[);
+]AT_PUSH_IF([
+  {
+    struct yypvars *ctx = yypvarsinit ();
+    YYSTYPE my_lval;
+    ]AT_LOCATION_IF([YYLTYPE my_lloc;])[
+    do {
+      status = yypushparse (ctx, yylex (&my_lval]AT_LOCATION_IF([[, &my_lloc]])[), &my_lval]AT_LOCATION_IF([[, &my_lloc]])[);
+    } while (status == YYPUSH_MORE);
+    free (ctx);
+  }],[
+  status = yyparse (]AT_PARAM_IF([[&result, &count]])[);])[
   fclose (input);
   if (global_result != result)
     abort ();
@@ -562,7 +572,7 @@ AT_CHECK_CALC_LALR([%yacc])
 AT_CHECK_CALC_LALR([%error-verbose])
 
 AT_CHECK_CALC_LALR([%pure-parser %locations])
-AT_CHECK_CALC_LALR([%push-parser %locations])
+AT_CHECK_CALC_LALR([%push-parser %locations %skeleton "push.c"])
 AT_CHECK_CALC_LALR([%error-verbose %locations])
 
 AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix "calc" %verbose %yacc])
@@ -571,7 +581,7 @@ AT_CHECK_CALC_LALR([%debug])
 AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
-AT_CHECK_CALC_LALR([%push-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%push-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc %skeleton "push.c"])
 
 AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 

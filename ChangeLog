@@ -1,3 +1,23 @@
+2006-12-05  Bob Rossi  <bob@brasko.net>
+
+	* data/push.c (yychar_set, yylval_set, yylloc_set): Delete.
+	(yypushparse): Add yynchar, yynlval, yynlloc parameters.
+	(b4_declare_parser_variables): Do not declare yynerrs for push mode.
+	(struct yypvars): Remove b4_declare_parser_variables.
+	(yypvarsinit): Remove init code for removed variables.
+	(global scope): Do not declare b4_declare_parser_variables if
+	push or pure mode.
+	(yypushparse): Add b4_declare_parser_variables.
+	Init new local variables, and remove init code for removed
+	yypvars variables.
+	(yyparse): Delete.
+	* tests/calc.at (_AT_DATA_CALC_Y): Call yypushparse for push mode
+	and yyparse for other modes.
+	(AT_CHECK_CALC_LALR): Added '%skeleton "push.c"' for push tests.
+	* tests/local.at (AT_PUSH_IF, AT_PURE_OR_PUSH_IF): Added.
+	(AT_YYERROR_SEES_LOC_IF): push-parser makes this false.
+	(AT_PURE_LEX_IF): True if pure or push parser.
+
 2006-12-05  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Document Yacc prologue alternatives and default %destructor's and

@@ -58,6 +58,10 @@ m4_pushdef([AT_LOCATION_IF],
 [m4_bmatch([$3], [%locations], [$1], [$2])])
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%pure-parser], [$1], [$2])])
+m4_pushdef([AT_PUSH_IF],
+[m4_bmatch([$3], [%push-parser], [$1], [$2])])
+m4_pushdef([AT_PURE_OR_PUSH_IF],
+[m4_bmatch([$3], [%pure-parser\|%push-parser], [$1], [$2])])
 m4_pushdef([AT_PURE_AND_LOC_IF],
 [m4_bmatch([$3], [%locations.*%pure-parser\|%pure-parser.*%locations],
 	   [$1], [$2])])
@@ -72,17 +76,17 @@ m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
 		    [$2])])
 # yyerror always sees the locations (when activated), except if
-# yacc & pure & !param.
+# push or (yacc & pure & !param).
 m4_pushdef([AT_YYERROR_SEES_LOC_IF],
-[AT_LOCATION_IF([AT_YACC_IF([AT_PURE_IF([AT_PARAM_IF([$1], [$2])],
+[AT_PUSH_IF([$2],[AT_LOCATION_IF([AT_YACC_IF([AT_PURE_IF([AT_PARAM_IF([$1], [$2])],
 					[$1])],
 			    [$1])],
-		[$2])])
+		[$2])])])
 
 # The interface is pure: either because %pure-parser, or because we
 # are using the C++ parsers.
 m4_pushdef([AT_PURE_LEX_IF],
-[AT_PURE_IF([$1],
+[AT_PURE_OR_PUSH_IF([$1],
 	    [AT_SKEL_CC_IF([$1], [$2])])])
 
 AT_PURE_LEX_IF(
