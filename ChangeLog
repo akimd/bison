@@ -1,3 +1,15 @@
+2006-12-08  Bob Rossi  <bob@brasko.net>                                     
+
+	* data/push.c: (yypvarsinit, yypvars, struct yypvars, yypushparse):
+	Rename to...
+	(yypstate_init, yypstate, struct yypstate, yypush_parse): ... these and
+	update all uses.
+	(b4_yyssa, b4_yyerror_range, yypstate_init): Rename pv to yyps.
+	(yypush_parse): Rename yypvars argument to yyps and remove redundant
+	local pv.
+	(yypstate_init, yypush_parse): Declare in Bison-generated header file.
+	* tests/calc.at (_AT_DATA_CALC_Y): Use newly named functions.
+
 2006-12-07  Bob Rossi  <bob@brasko.net>
 	and Joel Denny  <jdenny@ces.clemson.edu>
 

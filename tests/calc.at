@@ -338,13 +338,13 @@ main (int argc, const char **argv)
 [  yydebug = 1;])])[
 ]AT_PUSH_IF([
   {
-    struct yypvars *ctx = yypvarsinit ();
+    struct yypstate *pstate = yypstate_init ();
     YYSTYPE my_lval;
     ]AT_LOCATION_IF([YYLTYPE my_lloc;])[
     do {
-      status = yypushparse (ctx, yylex (&my_lval]AT_LOCATION_IF([[, &my_lloc]])[), &my_lval]AT_LOCATION_IF([[, &my_lloc]])[);
+      status = yypush_parse (pstate, yylex (&my_lval]AT_LOCATION_IF([[, &my_lloc]])[), &my_lval]AT_LOCATION_IF([[, &my_lloc]])[);
     } while (status == YYPUSH_MORE);
-    free (ctx);
+    free (pstate);
   }],[
   status = yyparse (]AT_PARAM_IF([[&result, &count]])[);])[
   fclose (input);
