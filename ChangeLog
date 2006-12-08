@@ -1,3 +1,12 @@
+2006-12-07  Bob Rossi  <bob@brasko.net>
+	and Joel Denny  <jdenny@ces.clemson.edu>
+
+	* data/push.c (yypvarsinit): Change return type from void* to struct
+	yypvars*. No longer cast to void* on return.
+	(struct yypvars): Remove yylen since it need not be remembered between
+	yypushparse invocations.
+	(yypushparse): Don't copy between yylen and pv->yylen.
+
 2006-12-05  Bob Rossi  <bob@brasko.net>
 
 	* data/push.c (yychar_set, yylval_set, yylloc_set): Delete.
