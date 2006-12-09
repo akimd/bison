@@ -2048,7 +2048,7 @@ exp     : NUM           @{ $$ = $1; @}
             @}
 @end group
 @group
-        | '-' exp %preg NEG     @{ $$ = -$2; @}
+        | '-' exp %prec NEG     @{ $$ = -$2; @}
         | exp '^' exp           @{ $$ = pow ($1, $3); @}
         | '(' exp ')'           @{ $$ = $2; @}
 @end group
@@ -7472,7 +7472,7 @@ for a complete and accurate documentation.
 @node C++ Semantic Values
 @subsection C++ Semantic Values
 @c - No objects in unions
-@c - YSTYPE
+@c - YYSTYPE
 @c - Printer and destructor
 
 The @code{%union} directive works as for C, see @ref{Union Decl, ,The
@@ -9248,12 +9248,12 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: pre STDC GNUC endif yy YY alloca lf stddef stdlib YYDEBUG
 @c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit
 @c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok
-@c LocalWords: longjmp fprintf stderr preg yylloc YYLTYPE cos ln
+@c LocalWords: longjmp fprintf stderr yylloc YYLTYPE cos ln
 @c LocalWords: smallexample symrec val tptr FNCT fnctptr func struct sym
 @c LocalWords: fnct putsym getsym fname arith fncts atan ptr malloc sizeof
 @c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum
 @c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype
-@c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless typefull yynerrs
+@c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless yynerrs
 @c LocalWords: yychar yydebug msg YYNTOKENS YYNNTS YYNRULES YYNSTATES
 @c LocalWords: cparse clex deftypefun NE defmac YYACCEPT YYABORT param
 @c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP
@@ -9263,5 +9263,5 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args
 @c LocalWords: infile ypp yxx outfile itemx tex leaderfill
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll
-@c LocalWords: yyrestart nbar yytext fst snd osplit ntwo strdup AST
+@c LocalWords: nbar yytext fst snd osplit ntwo strdup AST
 @c LocalWords: YYSTACK DVI fdl printindex
