@@ -64,6 +64,7 @@ extern uniqstr current_file;
 
 void compute_output_file_names (void);
 void output_file_names_free (void);
+void output_file_name_check (char const *file_name);
 
 FILE *xfopen (const char *name, const char *mode);
 void xfclose (FILE *ptr);

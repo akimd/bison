@@ -116,3 +116,36 @@ AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose],
 		[-o subdir/foo.cc],
 		[subdir/foo.cc subdir/foo.hh subdir/foo.output subdir/location.hh subdir/stack.hh subdir/position.hh],
 		[], [AT_CHECK_NO_SUBDIR_PART([subdir/foo])])
+
+
+# AT_CHECK_CONFLICTING_OUTPUT(INPUT-FILE, DIRECTIVES, FLAGS, STDERR)
+# -----------------------------------------------------------------------------
+m4_define([AT_CHECK_CONFLICTING_OUTPUT],
+[AT_SETUP([Conflicting output files: $2 $3])
+case "$1" in
+  */*) mkdir `echo "$1" | sed 's,/.*,,'`;;
+esac
+AT_DATA([$1],
+[[$2
+%%
+foo: {};
+]])
+
+AT_CHECK([bison $3 $1], 0, [], [$4])
+AT_CLEANUP
+])
+
+AT_CHECK_CONFLICTING_OUTPUT([foo.y],
+[], [--graph="foo.tab.c"],
+[foo.y: warning: conflicting outputs to file `foo.tab.c'
+])
+
+AT_CHECK_CONFLICTING_OUTPUT([foo.y],
+[%defines "foo.output"], [-v],
+[foo.y: warning: conflicting outputs to file `foo.output'
+])
+
+AT_CHECK_CONFLICTING_OUTPUT([foo.y],
+[%skeleton "lalr1.cc" %defines], [--graph="location.hh"],
+[foo.y: warning: conflicting outputs to file `location.hh'
+])

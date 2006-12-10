@@ -81,6 +81,7 @@ int skel_lex (void);
       xfclose (yyout);
     }
   outname = xstrdup (file_name);
+  output_file_name_check (file_name);
   yyout = xfopen (outname, "w");
   lineno = 1;
 }
