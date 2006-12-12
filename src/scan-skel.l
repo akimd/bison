@@ -47,9 +47,7 @@ int skel_lex (void);
 #define QPUTS(String) \
    fputs (quotearg_style (c_quoting_style, String), yyout)
 
-#define BASE_QPUTS(File) \
-   QPUTS (last_component (File))
-
+static char *decode_at_digraphs (char *in);
 %}
 %%
 
@@ -59,29 +57,15 @@ int skel_lex (void);
 %}
 
 "@output ".*\n {
-  char const *file_name = yytext + sizeof "@output " - 1;
+  char *file_name = yytext + sizeof "@output " - 1;
   yytext[yyleng - 1] = '\0';
-
-  /* Decode special file names.  They include the directory part,
-     contrary to their "free" occurrences, used for issuing #includes,
-     which must not include the directory part.  */
-
-  if (*file_name == '@')
-    {
-      if (strcmp (file_name, "@output_header_name@") == 0)
-	file_name = spec_defines_file;
-      else if (strcmp (file_name, "@output_parser_name@") == 0)
-	file_name = parser_file_name;
-      else
-	fatal ("invalid token in skeleton: %s", yytext);
-    }
   if (outname)
     {
       free (outname);
       xfclose (yyout);
     }
-  outname = xstrdup (file_name);
-  output_file_name_check (file_name);
+  outname = decode_at_digraphs (file_name);
+  output_file_name_check (outname);
   yyout = xfopen (outname, "w");
   lineno = 1;
 }
@@ -93,8 +77,14 @@ int skel_lex (void);
 "@oline@"  fprintf (yyout, "%d", lineno + 1);
 "@ofile@"  QPUTS (outname);
 "@dir_prefix@" QPUTS (dir_prefix);
-"@output_parser_name@"	BASE_QPUTS (parser_file_name);
-"@output_header_name@"	BASE_QPUTS (spec_defines_file);
+
+"@basename(".*"@)" {
+  char *file_name = yytext + sizeof "@basename " - 1;
+  yytext[yyleng - 2] = '\0';
+  file_name = decode_at_digraphs (file_name);
+  fputs (last_component (file_name), yyout);
+  free (file_name);
+}
 
   /* This pattern must not match more than the previous @ patterns. */
 @[^{}@\n]* fatal ("invalid @ in skeleton: %s", yytext);
@@ -123,4 +113,32 @@ scan_skel (FILE *in)
   skel_lex ();
   /* Reclaim Flex's buffers.  */
   yylex_destroy ();
+}
+
+static char *
+decode_at_digraphs (char *in)
+{
+  char *out_start = xnmalloc (strlen (in)+1, sizeof *out_start);
+  char *out;
+  for (out = out_start; *in != '\0'; ++in, ++out)
+    {
+      if (*in == '@')
+        {
+          switch (*++in)
+            {
+              case '@': *out = '@'; break;
+              case '{': *out = '['; break;
+              case '}': *out = ']'; break;
+              default:
+                if (*in != '\0')
+                  in[1] = '\0';
+                fatal ("invalid @ in skeleton: %s", in-1);
+                break;
+            }
+        }
+      else
+        *out = *in;
+    }
+  *out = '\0';
+  return out_start;
 }

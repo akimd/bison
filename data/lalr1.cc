@@ -33,7 +33,7 @@ m4_include(b4_pkgdatadir/[location.cc])
 m4_changecom()
 m4_divert(0)dnl
 b4_defines_if(
-[@output @output_header_name@
+[@output b4_spec_defines_file
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
   [2002, 2003, 2004, 2005, 2006])
 dnl FIXME: This is wrong, we want computed header guards.
@@ -301,7 +301,7 @@ m4_ifdef([b4_provides],
 
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
-@output @output_parser_name@
+@output b4_parser_file_name
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
   [2002, 2003, 2004, 2005, 2006])
 m4_if(b4_prefix, [yy], [],
@@ -312,8 +312,8 @@ m4_if(b4_prefix, [yy], [],
 /* First part of user declarations.  */
 ]b4_user_pre_prologue
 
-b4_defines_if([
-#include @output_header_name@])[
+b4_defines_if([[
+#include "@basename(]b4_spec_defines_file[@)"]])[
 
 /* User implementation prologue.  */
 ]b4_user_post_prologue[

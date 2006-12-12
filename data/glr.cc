@@ -216,7 +216,7 @@ m4_defn([b4_parse_param])))],
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])
 
-@output @output_header_name@
+@output b4_spec_defines_file
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
   [2002, 2003, 2004, 2005, 2006])[
 

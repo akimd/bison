@@ -52,9 +52,16 @@ do {								\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 } while(0)
 
-#define MUSCLE_INSERT_STRING(Key, Value)			\
+#define MUSCLE_INSERT_STRING_RAW(Key, Value)			\
 do {								\
   obstack_sgrow (&muscle_obstack, Value);			\
+  obstack_1grow (&muscle_obstack, 0);				\
+  muscle_insert (Key, obstack_finish (&muscle_obstack));	\
+} while(0)
+
+#define MUSCLE_INSERT_STRING(Key, Value)			\
+do {								\
+  MUSCLE_OBSTACK_SGROW (&muscle_obstack, Value);                \
   obstack_1grow (&muscle_obstack, 0);				\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 } while(0)

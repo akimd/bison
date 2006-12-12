@@ -62,6 +62,9 @@ extern uniqstr grammar_file;
 /* The current file name.  Might change with %include, or with #line.  */
 extern uniqstr current_file;
 
+/* The computed base for output file names.  */
+extern char *all_but_ext;
+
 void compute_output_file_names (void);
 void output_file_names_free (void);
 void output_file_name_check (char const *file_name);
