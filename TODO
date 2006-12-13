@@ -56,6 +56,9 @@ Provide better assistance for understanding the conflicts by providing
 a sample text exhibiting the (LALR) ambiguity.  See the paper from
 DeRemer and Penello: they already provide the algorithm.
 
+** Statically check for potential ambiguities in GLR grammars.  See
+<http://www.i3s.unice.fr/~schmitz/papers.html#expamb> for an approach.
+
 
 * Extensions
 
