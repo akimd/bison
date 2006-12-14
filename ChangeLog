@@ -1,3 +1,12 @@
+2006-12-13  Bob Rossi  <bob@brasko.net>
+
+	* data/push.c (yypstate_init): Rename to...
+	(yypstate_new): ... this and use b4_c_function_def.
+	(yypstate_delete): New.
+	(yypush_parse): Change parameters yynval and yynlloc to be const.
+	* tests/calc.at (_AT_DATA_CALC_Y): Use new yypstate_new and
+	yypstate_delete functions.
+
 2006-12-13  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* configure.ac (AC_PREREQ): Require Autoconf 2.61 because of our
