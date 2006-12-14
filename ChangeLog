@@ -1,3 +1,8 @@
+2006-12-14  Bob Rossi  <bob@brasko.net>
+
+	* data/push.c (yyparse): Remove the prototype and the #define when in
+	push-parser mode.
+
 2006-12-13  Bob Rossi  <bob@brasko.net>
 
 	* data/push.c (yypstate_init): Rename to...
