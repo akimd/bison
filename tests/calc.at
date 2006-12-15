@@ -338,7 +338,7 @@ main (int argc, const char **argv)
 [  yydebug = 1;])])[
 ]AT_PUSH_IF([
   {
-    struct yypstate *pstate = yypstate_new ();
+    yypstate *pstate = yypstate_new ();
     YYSTYPE my_lval;
     ]AT_LOCATION_IF([YYLTYPE my_lloc;])[
     do {
