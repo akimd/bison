@@ -1,5 +1,10 @@
 2006-12-14  Bob Rossi  <bob@brasko.net>
 
+	* data/push.c (yypush_parse): Declare prototype regardless of
+	%locations option.
+
+2006-12-14  Bob Rossi  <bob@brasko.net>
+
 	* data/push.c (yyparse): Remove the prototype and the #define when in
 	push-parser mode.
 
