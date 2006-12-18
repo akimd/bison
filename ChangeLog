@@ -1,3 +1,11 @@
+2006-12-18  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* bootstrap: Sync from coreutils.
+	(gnulib_extra_files): Add build-aux/announce.gen.
+	(slurp): Adjust .gitignore files like .cvsignore files.
+	* build-aux/announce-gen: Remove from CVS, since bootstrap
+	now creates this.
+
 2006-12-16  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Make %push-parser imply %pure-parser.  This fixes several bugs; see
