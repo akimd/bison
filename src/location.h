@@ -44,9 +44,9 @@ typedef struct
 static inline void
 boundary_set (boundary *b, const char *f, int l, int c)
 {
-  b->file = f;	
-  b->line = l;		
-  b->column = c;		
+  b->file = f;
+  b->line = l;
+  b->column = c;
 }
 
 /* Return nonzero if A and B are equal boundaries.  */

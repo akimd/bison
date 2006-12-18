@@ -150,7 +150,7 @@ void symbol_destructor_set (symbol *sym, const char *destructor, location loc);
 const char *symbol_destructor_get (symbol *sym);
 
 /** Get the grammar location of the computed \c \%destructor for \c sym.
- 
+
   \pre <tt>symbol_destructor_get (sym) != NULL</tt> */
 location symbol_destructor_location_get (symbol *sym);
 
@@ -201,10 +201,10 @@ extern location startsymbol_location;
 `-----------------*/
 
 /** A semantic type and its associated \c \%destructor and \c \%printer.
-   
+
    Access the fields of this struct only through the interface functions in
    this file.  \sa symbol::destructor  */
-typedef struct semantic_type {
+typedef struct {
   /** The key, name of the semantic type.  */
   uniqstr tag;
 
