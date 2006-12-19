@@ -35,8 +35,8 @@ extexi = $(top_srcdir)/examples/extexi
 # Extract in src.
 $(calc_extracted): $(doc) $(extexi)
 	cd $(srcdir) && \
-	   $(AWK) -f ../extexi ../../doc/bison.texinfo -- \
-	     calc++-parser.yy \
+	   $(AWK) -f ../extexi -v VERSION="@VERSION@" \
+	     ../../doc/bison.texinfo -- calc++-parser.yy \
 	     calc++-scanner.ll calc++.cc calc++-driver.hh calc++-driver.cc
 
 

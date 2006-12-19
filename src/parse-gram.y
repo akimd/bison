@@ -143,6 +143,7 @@ static int current_prec = 0;
   PERCENT_FILE_PREFIX     "%file-prefix"
   PERCENT_GLR_PARSER      "%glr-parser"
   PERCENT_INITIAL_ACTION  "%initial-action"
+  PERCENT_LANGUAGE        "%language"
   PERCENT_LEX_PARAM       "%lex-param"
   PERCENT_LOCATIONS       "%locations"
   PERCENT_NAME_PREFIX     "%name-prefix"
@@ -245,6 +246,7 @@ prologue_declaration:
     {
       muscle_code_grow ("initial_action", translate_symbol_action ($2, @2), @2);
     }
+| "%language" STRING		{ language_argmatch ($2, 1, &@1); }
 | "%lex-param" "{...}"		{ add_param ("lex_param", $2, @2); }
 | "%locations"                  { locations_flag = true; }
 | "%name-prefix" STRING         { spec_name_prefix = $2; }
@@ -257,7 +259,7 @@ prologue_declaration:
 | "%pure-parser"                { pure_parser = true; }
 | "%push-parser"                { push_parser = true; pure_parser = true; }
 | "%require" STRING             { version_check (&@2, $2); }
-| "%skeleton" STRING            { skeleton = $2; }
+| "%skeleton" STRING            { skeleton_arg ($2, 1, &@1); }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag = report_states; }
 | "%yacc"                       { yacc_flag = true; }

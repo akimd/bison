@@ -1,5 +1,54 @@
 2006-12-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* src/getargs.c (skeleton_arg): Last arg is now location const *.
+	Rewrite to simplify the logic.
+	(language_argmatch): Likewise.
+
+	* doc/bison.texinfo (Decl Summary, Bison Options): Don't claim
+	Java is supported.
+	* src/complain.c (program_name): Remove decl; no longer needed.
+	* src/main.c (program_name): Remove; now belongs to getargs.
+
+2006-12-18  Paolo Bonzini  <bonzini@gnu.org>
+
+	* NEWS: Document %language.
+
+	* data/Makefile.am (dist_pkgdata_DATA): Add c-skel.m4, c++-skel.m4.
+
+	* data/c-skel.m4, data/c++-skel.m4: New files.
+	* data/glr.c: Complain on push parsers.
+
+	* doc/bison.texinfo (C++ Parser Interface): Prefer %language
+	over %skeleton.
+	(Directives): Document %language and %skeleton.
+	(Command line): Document -L.
+
+	* examples/extexi: Rewrite %require directive.
+	* examples/calc++/Makefile.am: Pass VERSION to extexi.
+
+	* src/files.c (compute_exts_from_gc): Look in language structure
+	for .y extension.
+	(compute_file_name_parts): Check whether .tab should be added.
+	* src/getargs.c (valid_languages, skeleton_prio, language_prio):
+	(language, skeleton_arg, language_argmatch): New.
+	(long_options): Add --language.
+	(getargs): Use skeleton_arg, add -L/--language.
+	* src/getargs.h: Include location.h.
+	(struct bison_language, language, skeleton_arg, language_argmatch): New.
+	* src/output.c (prepare): Pick default skeleton from struct language.
+	Don't dispatch C skeletons here.
+	* src/parse-gram.y (PERCENT_LANGUAGE): New.
+	(prologue_declaration): Add "%language" rule, use skeleton_arg.
+	* src/scan-gram.l ("%language"): New rule.
+
+	* tests/calc.at: Test %skeleton and %language.
+	* tests/local.at (AT_SKEL_CC_IF): Look for %language.
+	(AT_GLR_IF): Look for %skeleton "glr.cc".
+	(AT_LALR1_CC_IF, AT_GLR_CC_IF): Rewrite.
+	(AT_YACC_IF): Reject %language.
+
+2006-12-18  Paul Eggert  <eggert@cs.ucla.edu>
+
 	* src/symtab.h (struct semantic_type): Remove the tag 'semantic_type',
 	since it wasn't used; only the typedef name 'semantic_type' is needed.
 	Also, omit trailing white space.

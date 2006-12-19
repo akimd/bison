@@ -172,6 +172,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%fixed"[-_]"output"[-_]"files"   return PERCENT_YACC;
   "%initial-action"       	    return PERCENT_INITIAL_ACTION;
   "%glr-parser"           	    return PERCENT_GLR_PARSER;
+  "%language"                 	    return PERCENT_LANGUAGE;
   "%left"                 	    return PERCENT_LEFT;
   "%lex-param"		  	    return PERCENT_LEX_PARAM;
   "%locations"            	    return PERCENT_LOCATIONS;

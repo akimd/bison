@@ -22,6 +22,10 @@
 #ifndef GETARGS_H_
 # define GETARGS_H_
 
+#include "location.h"
+
+extern char *program_name;
+
 /* flags set by % directives */
 
 /* for -S */
@@ -64,6 +68,18 @@ extern bool push_parser;
 
 extern bool nondeterministic_parser;
 
+
+/* --language.  */
+struct bison_language
+{
+  char language[sizeof "c++"];
+  char skeleton[sizeof "c++-skel.m4"];
+  char src_extension[sizeof ".cc"];
+  char header_extension[sizeof ".hh"];
+  bool add_tab;
+};
+
+extern struct bison_language const *language;
 
 /*-----------.
 | --report.  |
@@ -125,5 +141,9 @@ extern int warnings_flag;
  *  \param argv   list of arguments.
  */
 void getargs (int argc, char *argv[]);
+
+/* Used by parse-gram.y.  */
+void language_argmatch (char const *arg, int prio, location const *loc);
+void skeleton_arg (const char *arg, int prio, location const *loc);
 
 #endif /* !GETARGS_H_ */

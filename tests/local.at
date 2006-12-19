@@ -41,17 +41,17 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
 [m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
-m4_pushdef([AT_LALR1_CC_IF],
-[m4_bmatch([$3], ["lalr1.cc"], [$1], [$2])])
-m4_pushdef([AT_GLR_CC_IF],
-[m4_bmatch([$3], ["glr.cc"], [$1], [$2])])
 m4_pushdef([AT_SKEL_CC_IF],
-[m4_bmatch([$3], ["\(glr\|lalr1\).cc"], [$1], [$2])])
+[m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
 m4_pushdef([AT_GLR_IF],
-[m4_bmatch([$3], [%glr-parser], [$1], [$2])])
+[m4_bmatch([$3], [%glr-parser\|%skeleton "glr\.], [$1], [$2])])
+m4_pushdef([AT_LALR1_CC_IF],
+[AT_SKEL_CC_IF([AT_GLR_IF([$2], [$1])], [$2])])
+m4_pushdef([AT_GLR_CC_IF],
+[AT_SKEL_CC_IF([AT_GLR_IF([$1], [$2])], [$2])])
 # Using yacc.c?
 m4_pushdef([AT_YACC_IF],
-[m4_bmatch([$3], [%glr-parser\|%skeleton], [$2], [$1])])
+[m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
 m4_pushdef([AT_PARAM_IF],
 [m4_bmatch([$3], [%parse-param], [$1], [$2])])
 m4_pushdef([AT_LOCATION_IF],

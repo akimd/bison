@@ -6,6 +6,11 @@ Changes in version 2.3a+ (????-??-??):
 * The -g and --graph options now output graphs in Graphviz DOT format,
   not VCG format.
 
+* An experimental directive %language specifies the language of the
+  generated parser, which can be C (the default) or C++.  This
+  directive affects the skeleton used, and the names of the generated
+  files if the grammar file's name ends in ".y".
+
 * The grammar file may now specify the name of the parser header file using
   %defines.  For example:
 
@@ -96,7 +101,7 @@ Changes in version 2.3a+ (????-??-??):
          - `%start-header {CODE}', which only Bison 2.3a supported.
 
     3. %provides {CODE}
-    
+
        This is the right place to write additional definitions you would like
        Bison to expose externally.  That is, this directive inserts your CODE
        both into the parser header file and into the parser code file after

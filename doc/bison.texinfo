@@ -4619,6 +4619,11 @@ Specify a prefix to use for all Bison output file names.  The names are
 chosen as if the input file were named @file{@var{prefix}.y}.
 @end deffn
 
+@deffn {Directive} %language="@var{language}"
+Specify the programming language for the generated parser.  Currently
+supported languages include C and C++.
+@end deffn
+
 @deffn {Directive} %locations
 Generate the code processing the locations (@pxref{Action Features,
 ,Special Features for Use in Actions}).  This mode is enabled as soon as
@@ -4679,6 +4684,11 @@ Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 @deffn {Directive} %require "@var{version}"
 Require version @var{version} or higher of Bison.  @xref{Require Decl, ,
 Require a Version of Bison}.
+@end deffn
+
+@deffn {Directive} %skeleton "@var{file}"
+Specify the skeleton to use.  You probably don't need this option unless
+you are developing Bison.
 @end deffn
 
 @deffn {Directive} %token-table
@@ -7262,14 +7272,21 @@ Tuning the parser:
 @table @option
 @item -S @var{file}
 @itemx --skeleton=@var{file}
-Specify the skeleton to use.  You probably don't need this option unless
-you are developing Bison.
+Specify the skeleton to use, as if @code{%skeleton} was specified
+(@pxref{Decl Summary, , Bison Declaration Summary}).  You probably
+don't need this option unless you are developing Bison.
 
 @item -t
 @itemx --debug
 In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
 already defined, so that the debugging facilities are compiled.
 @xref{Tracing, ,Tracing Your Parser}.
+
+@item -L @var{language}
+@itemx --language=@var{language}
+Specify the programming language for the generated parser, as if
+@code{%language} was specified (@pxref{Decl Summary, , Bison Declaration
+Summary}).  Currently supported languages include C and C++.
 
 @item --locations
 Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
@@ -7433,14 +7450,24 @@ int yyparse (void);
 
 @node C++ Bison Interface
 @subsection C++ Bison Interface
-@c - %skeleton "lalr1.cc"
+@c - %language "C++"
 @c - Always pure
 @c - initial action
 
-The C++ parser @acronym{LALR}(1) skeleton is named @file{lalr1.cc}.  To
-select it, you may either pass the option @option{--skeleton=lalr1.cc}
-to Bison, or include the directive @samp{%skeleton "lalr1.cc"} in the
-grammar preamble.  When run, @command{bison} will create several
+The C++ parser @acronym{LALR}(1) skeleton is selected using a
+language directive, @samp{%language "C++"}, or the synonymous
+command-line option @option{--language=c++}@footnote{For both
+the grammar directive and the command-line option, the
+language name is case-insensitive}.  These were introduced
+in Bison 2.3b; for compatibility with earlier versions, you
+may also pass the option @option{--skeleton=lalr1.cc} to Bison
+or include the directive @samp{%skeleton "lalr1.cc"} in the
+grammar preamble.  Specifying the language is however preferred,
+because it is clearer and because it will automatically choose the
+correct skeleton for @acronym{GLR} parsers (the C++ @acronym{GLR}
+skeleton is still under development).
+
+When run, @command{bison} will create several
 entities in the @samp{yy} namespace.  Use the @samp{%name-prefix}
 directive to change the namespace name, see @ref{Decl Summary}.  The
 various classes are generated in the following files:
@@ -7828,8 +7855,8 @@ the grammar for.
 
 @comment file: calc++-parser.yy
 @example
-%skeleton "lalr1.cc"                          /*  -*- C++ -*- */
-%require "2.1a"
+%language "C++"                          /*  -*- C++ -*- */
+%require "2.3b"
 %defines
 %define "parser_class_name" "calcxx_parser"
 @end example
