@@ -1,8 +1,13 @@
 2006-12-18  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* NEWS: Reword the %language news a bit, and put it earlier.
+
 	* src/getargs.c (skeleton_arg): Last arg is now location const *.
 	Rewrite to simplify the logic.
 	(language_argmatch): Likewise.
+	(program_name): We now own this var.
+	* src/getargs.h (struct bison_language): Use char[] rather than
+	const char *.
 
 	* doc/bison.texinfo (Decl Summary, Bison Options): Don't claim
 	Java is supported.
