@@ -1,3 +1,25 @@
+2006-12-19  Paolo Bonzini  <bonzini@gnu.org>
+	and Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* doc/bison.texinfo (Decl Summary): In the %language entry, mention
+	that the argument is case-insensitive, and there's no `=' here.
+	For the %skeleton entry, mention that %language is better.
+	(Bison Options): Likewise for --language and --skeleton.  Move the
+	--skeleton entry so that the `Tuning the parser' section is sorted
+	alphabetically on long options.
+	(C++ Bison Interface): Don't use the word skeleton.  Don't explain the
+	%language directive in detail here; cross-reference the %language
+	documentation instead.
+	(Calc++ Parser): Use `%require "@value{VERSION}"' rather than
+	`%require "2.3b"' so that the example is always up-to-date.
+	(Bison Symbols): Add entries for %language and %skeleton.
+	* examples/extexi (normalize): Instead of replacing every %require
+	argument with the current Bison version, just substitute for
+	`@value{VERSION}'.  This guarantees that we're testing what actually
+	appears in the documentation.
+	* examples/calc++/Makefile.am ($(calc_extracted)): Use `$(VERSION)'
+	rather than `@VERSION@'.
+
 2006-12-18  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* NEWS: Reword the %language news a bit, and put it earlier.

@@ -4619,9 +4619,10 @@ Specify a prefix to use for all Bison output file names.  The names are
 chosen as if the input file were named @file{@var{prefix}.y}.
 @end deffn
 
-@deffn {Directive} %language="@var{language}"
+@deffn {Directive} %language "@var{language}"
 Specify the programming language for the generated parser.  Currently
 supported languages include C and C++.
+@var{language} is case-insensitive.
 @end deffn
 
 @deffn {Directive} %locations
@@ -4688,7 +4689,10 @@ Require a Version of Bison}.
 
 @deffn {Directive} %skeleton "@var{file}"
 Specify the skeleton to use.  You probably don't need this option unless
-you are developing Bison.
+you are developing Bison; you should use @code{%language} if you want to
+specify the skeleton for a different language, because it is clearer and
+because it will always choose the correct skeleton for non-deterministic
+or push parsers.
 @end deffn
 
 @deffn {Directive} %token-table
@@ -7270,12 +7274,6 @@ this option is specified.
 Tuning the parser:
 
 @table @option
-@item -S @var{file}
-@itemx --skeleton=@var{file}
-Specify the skeleton to use, as if @code{%skeleton} was specified
-(@pxref{Decl Summary, , Bison Declaration Summary}).  You probably
-don't need this option unless you are developing Bison.
-
 @item -t
 @itemx --debug
 In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
@@ -7287,6 +7285,7 @@ already defined, so that the debugging facilities are compiled.
 Specify the programming language for the generated parser, as if
 @code{%language} was specified (@pxref{Decl Summary, , Bison Declaration
 Summary}).  Currently supported languages include C and C++.
+@var{language} is case-insensitive.
 
 @item --locations
 Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
@@ -7307,6 +7306,16 @@ parser file, treating it as an independent source file in its own right.
 @item -n
 @itemx --no-parser
 Pretend that @code{%no-parser} was specified.  @xref{Decl Summary}.
+
+@item -S @var{file}
+@itemx --skeleton=@var{file}
+Specify the skeleton to use, as if @code{%skeleton} was specified
+(@pxref{Decl Summary, , Bison Declaration Summary}).
+
+You probably don't need this option unless you are developing Bison;
+you should use @option{--language} if you want to specify the skeleton for a
+different language, because it is clearer and because it will always
+choose the correct skeleton for non-deterministic or push parsers.
 
 @item -k
 @itemx --token-table
@@ -7454,18 +7463,10 @@ int yyparse (void);
 @c - Always pure
 @c - initial action
 
-The C++ parser @acronym{LALR}(1) skeleton is selected using a
-language directive, @samp{%language "C++"}, or the synonymous
-command-line option @option{--language=c++}@footnote{For both
-the grammar directive and the command-line option, the
-language name is case-insensitive}.  These were introduced
-in Bison 2.3b; for compatibility with earlier versions, you
-may also pass the option @option{--skeleton=lalr1.cc} to Bison
-or include the directive @samp{%skeleton "lalr1.cc"} in the
-grammar preamble.  Specifying the language is however preferred,
-because it is clearer and because it will automatically choose the
-correct skeleton for @acronym{GLR} parsers (the C++ @acronym{GLR}
-skeleton is still under development).
+The C++ @acronym{LALR}(1) parser is selected using the language directive,
+@samp{%language "C++"}, or the synonymous command-line option
+@option{--language=c++}.
+@xref{Decl Summary}.
 
 When run, @command{bison} will create several
 entities in the @samp{yy} namespace.  Use the @samp{%name-prefix}
@@ -7856,7 +7857,7 @@ the grammar for.
 @comment file: calc++-parser.yy
 @example
 %language "C++"                          /*  -*- C++ -*- */
-%require "2.3b"
+%require "@value{VERSION}"
 %defines
 %define "parser_class_name" "calcxx_parser"
 @end example
@@ -8764,6 +8765,11 @@ Parsers, ,Writing @acronym{GLR} Parsers}.
 Run user code before parsing.  @xref{Initial Action Decl, , Performing Actions before Parsing}.
 @end deffn
 
+@deffn {Directive} %language
+Specify the programming language for the generated parser.
+@xref{Decl Summary}.
+@end deffn
+
 @deffn {Directive} %left
 Bison declaration to assign left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
@@ -8880,6 +8886,11 @@ feature.)
 @deffn {Directive} %right
 Bison declaration to assign right associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
+@end deffn
+
+@deffn {Directive} %skeleton
+Specify the skeleton to use; usually for development.
+@xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %start

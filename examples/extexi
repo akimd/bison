@@ -111,7 +111,7 @@ function normalize(contents,    i, lines, n, line, res) {
 	else
 	  line = "";
 
-      gsub (/^%require "[^"]*"$/, "%require \"" VERSION "\"", line);
+      gsub (/"@value\{VERSION\}"/, "\"" VERSION "\"", line)
       gsub (/^@result\{\}/, "", line);
       gsub (/^@error\{\}/,  "", line);
       gsub ("@[{]", "{", line);
