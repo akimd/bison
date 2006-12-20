@@ -1,5 +1,19 @@
 2006-12-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Remove some unnecessary differences between the pull parser code and
+	the push parser code.  This patch enables yynerrs in push mode.
+	* data/push.c: Reformat M4 a little.
+	(b4_yyerror_range): Remove and convert all uses to just yyerror_range.
+	(b4_declare_scanner_communication_variables): Don't omit yynerrs just
+	because push mode is on.  Instead, if pure mode is on, move yynerrs
+	to...
+	(b4_declare_parser_state_variables): ... here.
+	(yynerrs, yyerror_range): For push mode, #define each NAME in this list
+	to yyps->NAME so it can be used in yypush_parse.
+	(yypush_parse): Don't omit uses of yynerrs in push mode.
+
+2006-12-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Fix bug such that the first pushed token's value and location are
 	sometimes overwritten (sometimes by %initial-action) before being used.
 	* data/push.c (yypush_parse): Rename arguments yynchar, yynlval, and
