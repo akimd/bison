@@ -1,3 +1,29 @@
+2006-12-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Rearrange initialization of the parser state variables so that the
+	skeleton doesn't have to have a copy for pull mode and another for push
+	mode.  This patch also fixes at least a bug such that yylloc was not
+	initialized (with b4_location_initial_line and
+	b4_location_initial_column) upon calling yypush_parse.  However, that
+	initialization now overwrites the first token's location;
+	%initial-action assigning @$ already did the same thing, and both bugs
+	will be fixed in a later patch.
+	* data/push.c (b4_yyssa): Remove and convert all uses to just yyssa.
+	(b4_declare_parser_state_variables): Remove initialization of yytoken,
+	yyss, yyvs, yyls, and yystacksize.
+	(yypstate_new): Remove initialization of some yypstate fields: yystate,
+	yyerrstatus, yytoken, yyss, yyvs, yyls, yystacksize, yyssp, yyvsp, and
+	yylsp.
+	(yyssa, yyvsa, yylsa): For push mode, #define each NAME in this list to
+	yyps->NAME so it can be used in yypush_parse.
+	(yyparse or yypush_parse): For yypush_parse, don't print the
+	"Starting parse" diagnostic for invocations after the first.
+	Add initialization of yytoken, yyss, yyvs, yyls, and yystacksize; for
+	yypush_parse, only do it for the first invocation.
+	Allow yystate, yyerrstatus, yyssp, yyvsp, yylsp, and yylloc
+	initialization to occur in yypush_parse but only on the first
+	invocation.
+
 2006-12-19  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/push.c: Add CPP guards around push parser declarations in both
