@@ -1,5 +1,14 @@
 2006-12-19  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* data/push.c: Add CPP guards around push parser declarations in both
+	the header and the code file.
+	In the code file, move the push parser declarations to the same place
+	they appear in the header file.
+	Clean up the M4 some, especially the inconsistent underquoting in
+	some b4_c_function_def and b4_c_function_decl uses.
+
+2006-12-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Encapsulate the push parser state variables into an M4 macro so the
 	push skeleton doesn't have to list them again for pull mode's yyparse.
 	For push mode, remove yypush_parse's local equivalents of these
