@@ -1,5 +1,35 @@
 2006-12-19  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Encapsulate the push parser state variables into an M4 macro so the
+	push skeleton doesn't have to list them again for pull mode's yyparse.
+	For push mode, remove yypush_parse's local equivalents of these
+	variables to eliminate unnecessary copying between the two sets at
+	run-time.  This patch also fixes at least a bug related to multiple
+	%initial-action invocations in push mode.
+	* data/push.c (b4_declare_parser_variables): Rename to...
+	(b4_declare_scanner_communication_variables): ... this for clarity and
+	update both uses.
+	(b4_declare_yyparse_variables): Remove and move its contents to the one
+	spot where it was invoked.
+	(b4_declare_parser_state_variables): New macro containing the parser
+	state variables required by push mode.
+	(struct yypstate): Replace all fields but yynew with
+	b4_declare_parser_state_variables.
+	(yystate, yyn, yyresult, yyerrstatus, yytoken, yyss, yyssp, yyvs,
+	yyvsp, yyls, yylsp, yystacksize, yyval, yyloc): For push mode, #define
+	each NAME in this list to yyps->NAME so it can be used in yypush_parse.
+	(yyparse or yypush_parse): For yyparse in pull mode, replace local
+	parser state variable declarations with
+	b4_declare_parser_state_variables.
+	Don't initialize parser state variables when calling yypush_parse since
+	yypstate_new already does that.
+	Invoke the user's initial action only upon the first yypush_parse
+	invocation.
+	Remove all code that copies between the local parser state variables
+	and the yypstate.
+
+2006-12-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* data/push.c (union yyalloc): Rename yyss, yyvs, and yyls fields to
 	prevent a name collision in a future patch where these names will
 	sometimes be #define'd.
