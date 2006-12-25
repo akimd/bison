@@ -1,5 +1,18 @@
 2006-12-25  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	For push mode, add pull wrappers around yypush_parse.
+	* data/push.c: (b4_generate_macro_args, b4_parenthesize): New macros.
+	(yypull_parse): New function wrapping yypush_parse.
+	(yyparse): New #define wrapping yypull_parse.
+	* tests/calc.at (_AT_DATA_CALC_Y): Call yyparse even when %push-parser
+	is declared.
+	* tests/headers.at (export YYLTYPE): Make yylex global.  For push mode,
+	prototype yylex in the module that calls yyparse, and don't prototype
+	yyparse there.  Otherwise, the yyparse expansion won't compile.
+	* tests/input.at (Torturing the Scanner): Likewise.
+
+2006-12-25  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Enable push parsers to operate in impure mode.  Thus, %push-parser no
 	longer implies %pure-parser.  The point of this change is to move
 	towards being able to test the push parser code by running the entire

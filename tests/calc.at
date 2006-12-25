@@ -336,17 +336,7 @@ main (int argc, const char **argv)
 
 ]AT_SKEL_CC_IF([], [m4_bmatch([$4], [%debug],
 [  yydebug = 1;])])[
-]AT_PUSH_IF([
-  {
-    yypstate *pstate = yypstate_new ();
-    YYSTYPE my_lval;
-    ]AT_LOCATION_IF([YYLTYPE my_lloc;])[
-    do {
-      status = yypush_parse (pstate, yylex (&my_lval]AT_LOCATION_IF([[, &my_lloc]])[), &my_lval]AT_LOCATION_IF([[, &my_lloc]])[);
-    } while (status == YYPUSH_MORE);
-    yypstate_delete (pstate);
-  }],[
-  status = yyparse (]AT_PARAM_IF([[&result, &count]])[);])[
+  status = yyparse (]AT_PARAM_IF([[&result, &count]])[);
   fclose (input);
   if (global_result != result)
     abort ();
