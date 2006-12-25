@@ -1,3 +1,29 @@
+2006-12-25  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Enable push parsers to operate in impure mode.  Thus, %push-parser no
+	longer implies %pure-parser.  The point of this change is to move
+	towards being able to test the push parser code by running the entire
+	test suite as if %push-parser had been declared.
+	* data/push.c (yypush_parse): For impure mode, remove the
+	yypushed_char, yypushed_val, and yypushed_loc arguments.
+	Instead, declare these as local variables initialized to the global
+	yychar, yylval, and yylloc.
+	For the first yypush_parse invocation only, restore the initial values
+	of these global variables when it's time to read a token since they
+	have been overwritten.
+	* src/parse-gram.y (prologue_declaration): Don't set pure_parser for
+	%push-parser.
+	* tests/calc.at (Simple LALR(1) Calculator): Always declare
+	%pure-parser along with %push-parser since this test case was designed
+	for pure push parsers.
+	* tests/local.at (AT_PURE_OR_PUSH_IF): Remove unused.
+	(AT_YACC_OR_PUSH_IF): New.
+	(AT_YYERROR_SEES_LOC_IF): Fix enough that the test suite passes, but
+	add a note that it's still wrong for some cases (as it has been for a
+	while).
+	(AT_PURE_LEX_IF): Use AT_PURE_IF instead of AT_PURE_OR_PUSH_IF since
+	%push-parser no longer implies %pure-parser.
+
 2006-12-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Remove some unnecessary differences between the pull parser code and

@@ -257,7 +257,7 @@ prologue_declaration:
 | "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
 | "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
 | "%pure-parser"                { pure_parser = true; }
-| "%push-parser"                { push_parser = true; pure_parser = true; }
+| "%push-parser"                { push_parser = true; }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING            { skeleton_arg ($2, 1, &@1); }
 | "%token-table"                { token_table_flag = true; }
