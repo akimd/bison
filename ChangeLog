@@ -1,3 +1,28 @@
+2006-12-26  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Update etc/bench.pl.  Optimize push mode a little (the yyn change
+	deserves most of the credit).
+	* Makefile.am (SUBDIRS): Add etc subdirectory.
+	* configure.ac (AC_CONFIG_FILES): Add etc/bench.pl and etc/Makefile.
+	* data/push.c (b4_declare_parser_state_variables): Move yyn, yyresult,
+	yytoken, yyval, and yyloc declarations to...
+	(yyparse or yypush_parse): ... here to improve performance.  For
+	yypush_parse invocations after the first, be sure to assign yyn its old
+	value again.
+	(yypstate_new): Don't bother initializing the yyresult field since the
+	initial value isn't used.
+	(yyn, yyresult, yytoken, yyval, yyloc): For each NAME in this list,
+	remove the #define that, in push mode, set it to yyps->NAME.
+	* etc/Makefile.am: New.
+	* etc/bench.pl: Remove and build it instead from...
+	* etc/bench.pl.in: ... this new file.  Use @abs_top_builddir@ to invoke
+	"tests/bison" from the build directory by default rather than just
+	invoking "bison" from $PATH.
+	(calc_grammar): Update push parser code: don't declare yylval globally,
+	don't define yyparse_wrapper, and don't #define yyparse.
+	(bench_grammar): Update to check all working combinations of yacc.c,
+	push.c, impure, pure, pull, and push.
+
 2006-12-25  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	For push mode, add pull wrappers around yypush_parse.

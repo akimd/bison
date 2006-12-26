@@ -118,6 +118,9 @@ AC_CONFIG_FILES([runtime-po/Makefile.in])
 aclocaldir='${datadir}/aclocal'
 AC_SUBST([aclocaldir])
 
+# Create the benchmark script.
+AC_CONFIG_FILES([etc/bench.pl], [chmod +x etc/bench.pl])
+
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_FILES([tests/Makefile tests/atlocal])
@@ -137,6 +140,7 @@ AC_CONFIG_FILES([Makefile
                  build-aux/Makefile
                  po/Makefile.in
                  data/Makefile
+                 etc/Makefile
 		 examples/Makefile
 		    examples/calc++/Makefile
                  lib/Makefile src/Makefile doc/Makefile])

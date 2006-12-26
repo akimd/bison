@@ -22,7 +22,7 @@
 use IO::File;
 use Benchmark qw (:all);
 
-my $bison = $ENV{'BISON'} || 'bison';
+my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
 
 ##################################################################
@@ -260,12 +260,6 @@ read_signed_integer (void)
   return sign * n;
 }
 
-#if YYPUSH
-#ifndef HAVE_YYSTYPE
-static YYSTYPE yylval;
-#endif
-#endif
-
 static int
 #if YYPURE
 # define yylval (*yylvalp)
@@ -310,21 +304,6 @@ power (int base, int exponent)
 }
 
 
-#if YYPUSH
-static int 
-yyparse_wrapper ()
-{
-  struct yypvars *ctx = yypvarsinit ();
-  do {                                                                          
-    set_yychar (ctx, yylex ());                                                 
-    ctx->yylval = yylval;
-    yyparse (ctx);                                                              
-  } while (get_yyresult (ctx) != 0);                                            
-  free (ctx);                 
-}                                                  
-#define yyparse yyparse_wrapper
-#endif
-
 int
 main (int argc, const char **argv)
 {
@@ -366,14 +345,12 @@ sub bench_grammar ($)
   my ($gram) = @_;
   my %test =
     (
-     "yacc-yacc" => '',
-     "yacc-pure" => '%pure-parser',
-     "push-yacc" => '%skeleton "push.c"',
-     "push-pure" => '%skeleton "push.c" %pure-parser',
-     "push-push" => '%skeleton "push.c" %push-parser',
-     "popt-yacc" => '%skeleton "push_opt.c"',
-     "popt-pure" => '%skeleton "push_opt.c" %pure-parser',
-     "popt-push" => '%skeleton "push_opt.c" %push-parser',
+     "yacc.c-pull-impure" => '',
+     "yacc.c-pull-pure" => '%pure-parser',
+     "push.c-pull-impure" => '%skeleton "push.c"',
+     "push.c-pull-pure" => '%skeleton "push.c" %pure-parser',
+     "push.c-push-impure" => '%skeleton "push.c" %push-parser',
+     "push.c-push-pure" => '%skeleton "push.c" %push-parser %pure-parser',
     );
   
   my %bench;
