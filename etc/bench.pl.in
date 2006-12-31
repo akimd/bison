@@ -349,8 +349,8 @@ sub bench_grammar ($)
      "yacc.c-pull-pure" => '%pure-parser',
      "push.c-pull-impure" => '%skeleton "push.c"',
      "push.c-pull-pure" => '%skeleton "push.c" %pure-parser',
-     "push.c-push-impure" => '%skeleton "push.c" %push-parser',
-     "push.c-push-pure" => '%skeleton "push.c" %push-parser %pure-parser',
+     "push.c-push-impure" => '%skeleton "push.c" %push-pull-parser',
+     "push.c-push-pure" => '%skeleton "push.c" %push-pull-parser %pure-parser',
     );
   
   my %bench;

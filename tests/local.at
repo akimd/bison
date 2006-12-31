@@ -59,7 +59,7 @@ m4_pushdef([AT_LOCATION_IF],
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%pure-parser], [$1], [$2])])
 m4_pushdef([AT_PUSH_IF],
-[m4_bmatch([$3], [%push-parser], [$1], [$2])])
+[m4_bmatch([$3], [%push-parser\|%push-pull-parser], [$1], [$2])])
 m4_pushdef([AT_YACC_OR_PUSH_IF],
 [AT_YACC_IF([$1], [AT_PUSH_IF([$1], [$2])])])
 m4_pushdef([AT_PURE_AND_LOC_IF],

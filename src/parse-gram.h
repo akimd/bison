@@ -78,27 +78,28 @@
      PERCENT_PROVIDES = 292,
      PERCENT_PURE_PARSER = 293,
      PERCENT_PUSH_PARSER = 294,
-     PERCENT_REQUIRE = 295,
-     PERCENT_REQUIRES = 296,
-     PERCENT_SKELETON = 297,
-     PERCENT_START = 298,
-     PERCENT_TOKEN_TABLE = 299,
-     PERCENT_VERBOSE = 300,
-     PERCENT_YACC = 301,
-     BRACED_CODE = 302,
-     CHAR = 303,
-     EPILOGUE = 304,
-     EQUAL = 305,
-     ID = 306,
-     ID_COLON = 307,
-     PERCENT_PERCENT = 308,
-     PIPE = 309,
-     PROLOGUE = 310,
-     SEMICOLON = 311,
-     TYPE = 312,
-     TYPE_TAG_ANY = 313,
-     TYPE_TAG_NONE = 314,
-     PERCENT_UNION = 315
+     PERCENT_PUSH_PULL_PARSER = 295,
+     PERCENT_REQUIRE = 296,
+     PERCENT_REQUIRES = 297,
+     PERCENT_SKELETON = 298,
+     PERCENT_START = 299,
+     PERCENT_TOKEN_TABLE = 300,
+     PERCENT_VERBOSE = 301,
+     PERCENT_YACC = 302,
+     BRACED_CODE = 303,
+     CHAR = 304,
+     EPILOGUE = 305,
+     EQUAL = 306,
+     ID = 307,
+     ID_COLON = 308,
+     PERCENT_PERCENT = 309,
+     PIPE = 310,
+     PROLOGUE = 311,
+     SEMICOLON = 312,
+     TYPE = 313,
+     TYPE_TAG_ANY = 314,
+     TYPE_TAG_NONE = 315,
+     PERCENT_UNION = 316
    };
 #endif
 /* Tokens.  */
@@ -140,27 +141,28 @@
 #define PERCENT_PROVIDES 292
 #define PERCENT_PURE_PARSER 293
 #define PERCENT_PUSH_PARSER 294
-#define PERCENT_REQUIRE 295
-#define PERCENT_REQUIRES 296
-#define PERCENT_SKELETON 297
-#define PERCENT_START 298
-#define PERCENT_TOKEN_TABLE 299
-#define PERCENT_VERBOSE 300
-#define PERCENT_YACC 301
-#define BRACED_CODE 302
-#define CHAR 303
-#define EPILOGUE 304
-#define EQUAL 305
-#define ID 306
-#define ID_COLON 307
-#define PERCENT_PERCENT 308
-#define PIPE 309
-#define PROLOGUE 310
-#define SEMICOLON 311
-#define TYPE 312
-#define TYPE_TAG_ANY 313
-#define TYPE_TAG_NONE 314
-#define PERCENT_UNION 315
+#define PERCENT_PUSH_PULL_PARSER 295
+#define PERCENT_REQUIRE 296
+#define PERCENT_REQUIRES 297
+#define PERCENT_SKELETON 298
+#define PERCENT_START 299
+#define PERCENT_TOKEN_TABLE 300
+#define PERCENT_VERBOSE 301
+#define PERCENT_YACC 302
+#define BRACED_CODE 303
+#define CHAR 304
+#define EPILOGUE 305
+#define EQUAL 306
+#define ID 307
+#define ID_COLON 308
+#define PERCENT_PERCENT 309
+#define PIPE 310
+#define PROLOGUE 311
+#define SEMICOLON 312
+#define TYPE 313
+#define TYPE_TAG_ANY 314
+#define TYPE_TAG_NONE 315
+#define PERCENT_UNION 316
 
 
 
@@ -182,7 +184,7 @@ typedef union YYSTYPE
 }
 
 /* Line 1535 of yacc.c  */
-#line 186 "parse-gram.h"
+#line 188 "parse-gram.h"
 	YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

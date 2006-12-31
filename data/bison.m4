@@ -127,8 +127,9 @@ b4_define_flag_if([error_verbose])	# Whether error are verbose.
 b4_define_flag_if([glr])		# Whether a GLR parser is requested.
 b4_define_flag_if([locations])	        # Whether locations are tracked.
 b4_define_flag_if([nondeterministic])	# Whether conflicts should be handled.
+b4_define_flag_if([pull])	        # Whether pull parsing is requested.
 b4_define_flag_if([pure])	        # Whether the interface is pure.
-b4_define_flag_if([push])	        # Whether push parsing is supported.
+b4_define_flag_if([push])	        # Whether push parsing is requested.
 b4_define_flag_if([yacc])	        # Whether POSIX Yacc is emulated.
 
 

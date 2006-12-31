@@ -156,6 +156,8 @@ static int current_prec = 0;
   PERCENT_PROVIDES        "%provides"
   PERCENT_PURE_PARSER     "%pure-parser"
   PERCENT_PUSH_PARSER     "%push-parser"
+  PERCENT_PUSH_PULL_PARSER
+                          "%push-pull-parser"
   PERCENT_REQUIRE	  "%require"
   PERCENT_REQUIRES        "%requires"
   PERCENT_SKELETON        "%skeleton"
@@ -257,7 +259,8 @@ prologue_declaration:
 | "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
 | "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
 | "%pure-parser"                { pure_parser = true; }
-| "%push-parser"                { push_parser = true; }
+| "%push-parser"                { push_parser = true; pull_parser = false; }
+| "%push-pull-parser"           { push_parser = true; pull_parser = true; }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING            { skeleton_arg ($2, 1, &@1); }
 | "%token-table"                { token_table_flag = true; }

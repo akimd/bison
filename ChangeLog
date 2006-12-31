@@ -1,3 +1,43 @@
+2006-12-31  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	For push mode, convert yyparse from a macro to a function, invoke yylex
+	instead of passing a yylexp argument to yypull_parse, and don't
+	generate yypull_parse or yyparse unless %push-pull-parser is declared.
+	Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-12/msg00163.html>.
+	* data/bison.m4 (b4_pull_if): New.
+	* data/c.m4 (b4_identification): Define YYPULL similar to YYPUSH.
+	* data/push.c: Improve M4 quoting a little.
+	(b4_generate_macro_args, b4_parenthesize): Remove.
+	(yyparse): If there's a b4_prefix, #define this to b4_prefix[parse]
+	any time a pull parser is requested.
+	Don't #define this as a wrapper around yypull_parse.  Instead, when
+	both push and pull are requested, make it a function that does that
+	same thing.
+	(yypull_parse): If there's a b4_prefix, #define this to
+	b4_prefix[pull_parse] when both push and pull are requested.
+	Don't define this as a function unless both push and pull are
+	requested.
+	Remove the yylexp argument and hard-code yylex invocation instead.
+	* etc/bench.pl.in (bench_grammar): Use %push-pull-parser instead of
+	%push-parser.
+	* src/getargs.c (pull_parser): New global initialized to true.
+	* getargs.h (pull_parser): extern it.
+	* src/output.c (prepare): Insert pull_flag muscle.
+	* src/parse-gram.y (PERCENT_PUSH_PULL_PARSER): New token.
+	(prologue_declaration): Set both push_parser and pull_parser = true for
+	%push-pull-parser.  Set push_parser = true and pull_parser = false for
+	%push-parser.
+	* src/scan-gram.l: Don't accept %push_parser as an alternative to
+	%push-parser since there's no backward-compatibility concern here.
+	Scan %push-pull-parser.
+	* tests/calc.at (Simple LALR(1) Calculator): Use %push-pull-parser
+	instead of %push-parser.
+	* tests/headers.at (export YYLTYPE): Make yylex static, and don't
+	prototype it in the module that calls yyparse.
+	* tests/input.at (Torturing the Scanner): Likewise.
+	* tests/local.at (AT_PUSH_IF): Check for %push-pull-parser as well.
+
 2006-12-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Update etc/bench.pl.  Optimize push mode a little (the yyn change

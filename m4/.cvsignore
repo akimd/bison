@@ -46,6 +46,7 @@ unistd_h.m4
 unlocked-io.m4
 warning.m4
 wchar_t.m4
+wctype.m4
 wcwidth.m4
 wint_t.m4
 xalloc.m4

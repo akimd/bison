@@ -61,6 +61,7 @@ unistd--.h
 unistd-safer.h
 unlocked-io.h
 verify.h
+wctype_.h
 wcwidth.h
 xalloc-die.c
 xalloc.h

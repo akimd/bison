@@ -470,7 +470,7 @@ char quote[] = "@:>@@:>@,";
 
 %{
 static void yyerror (const char *s);
-int yylex (void);
+static int yylex (void);
 %}
 
 %type <ival> '@<:@'
@@ -503,7 +503,7 @@ value_as_yystype (value val)
   return res;
 }
 
-int
+static int
 yylex (void)
 {
   static char const input[] = "@<:@\1\2$@{@oline@__@&t@oline__\
@@ -531,8 +531,6 @@ AT_DATA([main.c],
 
 #ifndef YYPUSH_DECLS
 int yyparse (void);
-#else
-int yylex (void);
 #endif
 
 int

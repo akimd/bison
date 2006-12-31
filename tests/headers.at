@@ -94,9 +94,7 @@ AT_DATA_GRAMMAR([input.y],
 #include <stdio.h>
 #include <stdlib.h>
 
-int my_lex (void);
-
-int
+static int
 my_lex (void)
 {
   return EOF;
@@ -122,8 +120,6 @@ YYLTYPE *my_llocp = &my_lloc;
 
 #ifndef YYPUSH_DECLS
 int my_parse (void);
-#else
-int my_lex (void);
 #endif
 
 int
