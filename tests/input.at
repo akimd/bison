@@ -529,9 +529,7 @@ AT_DATA([main.c],
 [[typedef int value;
 #include "input.h"
 
-#ifndef YYPUSH_DECLS
 int yyparse (void);
-#endif
 
 int
 main (void)

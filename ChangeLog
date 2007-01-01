@@ -1,5 +1,29 @@
 2006-12-31  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* data/push.c (yypush_parse): Set yynew = 1 at the end of a parse
+	(whether successful or failed) so that yypush_parse can be invoked
+	again to start a new parse using the same yypstate.
+	* tests/torture.at (AT_DATA_STACK_TORTURE): For push mode, extend to
+	check multiple yypull_parse invocations on the same yypstate.  For pull
+	mode, extend to check multiple yyparse invocations.
+	(Exploding the Stack Size with Alloca): Extend to try with
+	%push-pull-parser.
+	(Exploding the Stack Size with Malloc): Likewise.
+
+	* tests/calc.at (Simple LALR Calculator): Don't specify
+	%skeleton "push.c" since %push-pull-parser implies that now.
+	* tests/headers.at (export YYLTYPE): Don't check for the push
+	declarations.  Otherwise, this test case can't be used to see if push
+	mode can truly emulate pull mode.
+	* tests/input.at (Torturing the Scanner): Likewise.
+	* tests/local.at (AT_YACC_OR_PUSH_IF, AT_PUSH_IF): Remove.
+	(AT_YYERROR_SEES_LOC_IF): Rather than AT_YACC_OR_PUSH_IF, use
+	AT_YACC_IF, which now includes the case of push mode since %skeleton
+	need not be used for push mode.  This will be more intuitive once
+	push.c is renamed to yacc.c.
+
+2006-12-31  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	For push mode, convert yyparse from a macro to a function, invoke yylex
 	instead of passing a yylexp argument to yypull_parse, and don't
 	generate yypull_parse or yyparse unless %push-pull-parser is declared.

@@ -118,9 +118,7 @@ AT_DATA([caller.c],
 [[#include "input.h"
 YYLTYPE *my_llocp = &my_lloc;
 
-#ifndef YYPUSH_DECLS
 int my_parse (void);
-#endif
 
 int
 main (void)

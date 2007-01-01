@@ -562,7 +562,7 @@ AT_CHECK_CALC_LALR([%yacc])
 AT_CHECK_CALC_LALR([%error-verbose])
 
 AT_CHECK_CALC_LALR([%pure-parser %locations])
-AT_CHECK_CALC_LALR([%push-pull-parser %pure-parser %locations %skeleton "push.c"])
+AT_CHECK_CALC_LALR([%push-pull-parser %pure-parser %locations])
 AT_CHECK_CALC_LALR([%error-verbose %locations])
 
 AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix "calc" %verbose %yacc])
@@ -571,7 +571,7 @@ AT_CHECK_CALC_LALR([%debug])
 AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
-AT_CHECK_CALC_LALR([%push-pull-parser %pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc %skeleton "push.c"])
+AT_CHECK_CALC_LALR([%push-pull-parser %pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%pure-parser %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
