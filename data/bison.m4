@@ -1,7 +1,7 @@
 m4_divert(-1)                                               -*- Autoconf -*-
 
 # Language-independent M4 Macros for Bison.
-# Copyright (C) 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -130,6 +130,10 @@ b4_define_flag_if([nondeterministic])	# Whether conflicts should be handled.
 b4_define_flag_if([pull])	        # Whether pull parsing is requested.
 b4_define_flag_if([pure])	        # Whether the interface is pure.
 b4_define_flag_if([push])	        # Whether push parsing is requested.
+b4_define_flag_if([use_push_for_pull])  # Whether push parsing should be used
+                                        # in place of pull parsing (where
+                                        # available) for the sake of the test
+                                        # suite.
 b4_define_flag_if([yacc])	        # Whether POSIX Yacc is emulated.
 
 

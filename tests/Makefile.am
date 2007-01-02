@@ -2,7 +2,7 @@
 
 ## Makefile for Bison testsuite.
 
-## Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
+## Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software
 ## Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
@@ -93,3 +93,7 @@ maintainer-check-valgrind: $(TESTSUITE)
 
 .PHONY: maintainer-check
 maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++
+
+.PHONY: maintainer-push-check
+maintainer-push-check:
+	BISON_USE_PUSH_FOR_PULL=1 $(MAKE) $(AM_MAKEFLAGS) maintainer-check

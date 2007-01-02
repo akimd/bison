@@ -1,3 +1,19 @@
+2007-01-01  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Add maintainer-push-check to run maintainer-check using push parsing in
+	place of pull parsing where available.
+	* Makefile.am (maintainer-push-check): New.
+	* data/bison.m4 (b4_use_push_for_pull_if): New.
+	* data/push.c: Redefine b4_push_if and b4_use_push_for_pull_if
+	appropriately based on their existing values.
+	(yypush_parse): Don't print push-parser-specific diagnostics if push
+	parsing is being used in place of pull parsing.
+	* data/yacc.c: If push parsing should replace pull parsing, redirect to
+	push.c.
+	* src/output.c (prepare): Check BISON_USE_PUSH_FOR_PULL environment
+	variable, and insert b4_use_push_for_pull_flag into muscles.
+	* tests/Makefile.am (maintainer-push-check): New.
+
 2006-12-31  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/push.c (yypush_parse): Set yynew = 1 at the end of a parse
