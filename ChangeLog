@@ -1,5 +1,9 @@
 2007-01-01  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* etc/.cvsignore: New.
+
+2007-01-01  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Add maintainer-push-check to run maintainer-check using push parsing in
 	place of pull parsing where available.
 	* Makefile.am (maintainer-push-check): New.
