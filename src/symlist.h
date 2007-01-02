@@ -1,6 +1,6 @@
 /* Lists of symbols for Bison
 
-   Copyright (C) 2002, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2005, 2006, 2007 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -105,9 +105,6 @@ symbol_list *symbol_list_n_get (symbol_list *l, int n);
 /* Get the data type (alternative in the union) of the value for
    symbol N in rule RULE.  */
 uniqstr symbol_list_n_type_name_get (symbol_list *l, location loc, int n);
-
-/** The item \c n in symbol list \c l is \c used.  */
-void symbol_list_n_used_set (symbol_list *l, int n, bool used);
 
 /** Set the \c \%destructor for \c node as \c destructor at \c loc.  */
 void symbol_list_destructor_set (symbol_list *node, const char *destructor,

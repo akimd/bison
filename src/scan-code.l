@@ -1,6 +1,6 @@
 /* Bison Action Scanner                             -*- C -*-
 
-   Copyright (C) 2006 Free Software Foundation, Inc.
+   Copyright (C) 2006, 2007 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -39,10 +39,11 @@
 #include <quote.h>
 
 #include "scan-code.h"
+#include "symlist.h"
 
 /* The current calling start condition: SC_RULE_ACTION or
    SC_SYMBOL_ACTION. */
-# define YY_DECL char *code_lex (int sc_context, symbol_list *rule)
+# define YY_DECL static char *code_lex (code_props *self, int sc_context)
 YY_DECL;
 
 #define YY_USER_ACTION  location_compute (loc, &loc->end, yytext, yyleng);
@@ -52,6 +53,9 @@ static void handle_action_dollar (symbol_list *rule, char *cp,
 static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
 static location the_location;
 static location *loc = &the_location;
+
+/* A string representing the most recent translation.  */
+static char *last_string;
 
 /* True if an untyped $$ or $n was seen.  */
 static bool untyped_var_seen;
@@ -151,8 +155,12 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_RULE_ACTION>
 {
-  "$"("<"{tag}">")?(-?[0-9]+|"$")   handle_action_dollar (rule, yytext, *loc);
-  "@"(-?[0-9]+|"$")		    handle_action_at (rule, yytext, *loc);
+  "$"("<"{tag}">")?(-?[0-9]+|"$")  {
+    handle_action_dollar (self->rule, yytext, *loc);
+  }
+  "@"(-?[0-9]+|"$") {
+    handle_action_at (self->rule, yytext, *loc);
+  }
 
   "$"  {
     warn_at (*loc, _("stray `$'"));
@@ -190,7 +198,10 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_SYMBOL_ACTION>
 {
-  "$$"   obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar[");
+  "$$" {
+    obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar[");
+    self->is_value_used = true;
+  }
   "@$"   obstack_sgrow (&obstack_for_string, "]b4_at_dollar[");
 }
 
@@ -215,8 +226,8 @@ splice	 (\\[ \f\t\v]*\n)*
 
  /* End of processing. */
 <*><<EOF>>	 {
-                   obstack_1grow (&obstack_for_string, '\0');
-		   return obstack_finish (&obstack_for_string);
+                   STRING_FINISH;
+                   return last_string;
                  }
 
 %%
@@ -238,7 +249,7 @@ int max_left_semantic_context = 0;
 static void
 handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 {
-  const char *type_name = NULL;
+  char const *type_name = NULL;
   char *cp = text + 1;
   symbol_list *effective_rule;
   int effective_rule_length;
@@ -321,7 +332,8 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 	  obstack_fgrow3 (&obstack_for_string,
 			  "]b4_rhs_value(%d, %d, [%s])[",
 			  effective_rule_length, n, type_name);
-	  symbol_list_n_used_set (effective_rule, n, true);
+          if (n > 0)
+            symbol_list_n_get (effective_rule, n)->used = true;
 	}
       else
 	complain_at (dollar_loc, _("integer out of range: %s"), quote (text));
@@ -368,12 +380,11 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
 | Initialize the scanner.  |
 `-------------------------*/
 
-/* Translate the dollars and ats in \a a, whose location is \a l.  The
-   translation is for \a rule, in the context \a sc_context
+/* Translate the dollars and ats in \a self, in the context \a sc_context
    (SC_RULE_ACTION, SC_SYMBOL_ACTION, INITIAL).  */
 
 static char const *
-translate_action (int sc_context, symbol_list *rule, char const *a, location l)
+translate_action (code_props *self, int sc_context)
 {
   char *res;
   static bool initialized = false;
@@ -384,36 +395,82 @@ translate_action (int sc_context, symbol_list *rule, char const *a, location l)
       initialized = true;
     }
 
-  loc->start = loc->end = l.start;
-  yy_switch_to_buffer (yy_scan_string (a));
-  res = code_lex (sc_context, rule);
+  loc->start = loc->end = self->location.start;
+  yy_switch_to_buffer (yy_scan_string (self->code));
+  res = code_lex (self, sc_context);
   yy_delete_buffer (YY_CURRENT_BUFFER);
 
   return res;
 }
 
-char const *
-translate_rule_action (symbol_list *rule)
+/*------------------------------------------------------------------------.
+| Implementation of the public interface as documented in "scan-code.h".  |
+`------------------------------------------------------------------------*/
+
+void
+code_props_none_init (code_props *self)
 {
-  return translate_action (SC_RULE_ACTION, rule, rule->action,
-			   rule->action_location);
+  *self = code_props_none;
 }
 
-char const *
-translate_symbol_action (char const *a, location l)
+code_props const code_props_none = CODE_PROPS_NONE_INIT;
+
+void
+code_props_plain_init (code_props *self, char const *code, location code_loc)
 {
-  return translate_action (SC_SYMBOL_ACTION, NULL, a, l);
+  self->kind = CODE_PROPS_PLAIN;
+  self->code = code;
+  self->location = code_loc;
+  self->is_value_used = false;
+  self->rule = NULL;
 }
 
-char const *
-translate_code (char const *a, location l)
+void
+code_props_symbol_action_init (code_props *self, char const *code,
+                               location code_loc)
 {
-  return translate_action (INITIAL, NULL, a, l);
+  self->kind = CODE_PROPS_SYMBOL_ACTION;
+  self->code = code;
+  self->location = code_loc;
+  self->is_value_used = false;
+  self->rule = NULL;
 }
 
-/*-----------------------------------------------.
-| Free all the memory allocated to the scanner.  |
-`-----------------------------------------------*/
+void
+code_props_rule_action_init (code_props *self, char const *code,
+                             location code_loc, symbol_list *rule)
+{
+  self->kind = CODE_PROPS_RULE_ACTION;
+  self->code = code;
+  self->location = code_loc;
+  self->is_value_used = false;
+  self->rule = rule;
+}
+
+void
+code_props_translate_code (code_props *self)
+{
+  switch (self->kind)
+    {
+      case CODE_PROPS_NONE:
+        break;
+      case CODE_PROPS_PLAIN:
+        self->code = translate_action (self, INITIAL);
+        break;
+      case CODE_PROPS_SYMBOL_ACTION:
+        self->code = translate_action (self, SC_SYMBOL_ACTION);
+        break;
+      case CODE_PROPS_RULE_ACTION:
+        self->code = translate_action (self, SC_RULE_ACTION);
+        break;
+    }
+}
+
+void
+code_scanner_last_string_free (void)
+{
+  STRING_FREE;
+}
 
 void
 code_scanner_free (void)
@@ -421,4 +478,31 @@ code_scanner_free (void)
   obstack_free (&obstack_for_string, 0);
   /* Reclaim Flex's buffers.  */
   yylex_destroy ();
+}
+
+char const *
+translate_rule_action (symbol_list *rule)
+{
+  code_props cp;
+  code_props_rule_action_init (&cp, rule->action, rule->action_location, rule);
+  code_props_translate_code (&cp);
+  return cp.code;
+}
+
+char const *
+translate_symbol_action (char const *a, location l)
+{
+  code_props cp;
+  code_props_symbol_action_init (&cp, a, l);
+  code_props_translate_code (&cp);
+  return cp.code;
+}
+
+char const *
+translate_code (char const *a, location l)
+{
+  code_props cp;
+  code_props_plain_init (&cp, a, l);
+  code_props_translate_code (&cp);
+  return cp.code;
 }

@@ -1,3 +1,50 @@
+2007-01-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Encapsulate code properties and related functionality for the various
+	destructors, printers, and actions into a code_props structure and
+	interface.  This patch merely implements code_props in scan-code.h and
+	scan-code.l.  Future patches will rewrite other modules to use it.
+	Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-11/msg00020.html>.
+	* src/location.h (EMPTY_LOCATION_INIT): Define so that it's easier to
+	consistently initialize const structs that have an empty location
+	field.
+	* src/location.c (empty_location): Initialize with EMPTY_LOCATION_INIT
+	to ensure consistency.
+	* src/scan-code.h (code_props): New structure.
+	(code_props_none_init, CODE_PROPS_NONE_INIT, code_props_none): New
+	function, macro, and const global variable for initializing a
+	code_props with no code.
+	(code_props_plain_init, code_props_symbol_action_init,
+	code_props_rule_action_init, code_props_translate_code): The rest of
+	the new code_props functional interface.  Among other things, the init
+	functions set the code_props kind field so that
+	code_props_translate_code will know whether to behave like
+	translate_symbol_action, translate_rule_action, or translate_code.
+	These old translate functions must remain until all other modules are
+	updated to use the new code_props interface.
+	(code_scanner_last_string_free): New function similar to
+	gram_scanner_last_string_free.
+	(code_scanner_free): Add documentation.
+	* src/scan-code.l: Implement the new interface.
+	(code_lex): Make it static, add a code_props* argument, and remove the
+	rule argument.
+	(last_string): New static global similar to the one in scan-gram.l.
+	(SC_RULE_ACTION): Update to use the code_props* argument to code_lex
+	instead of rule.
+	(SC_SYMBOL_ACTION): For $$, set the is_value_used member of the
+	code_props since Bison may one day use this information for destructors
+	and printers.
+	(<*><<EOF>>): Use STRING_FINISH so that last_string is set.
+	(handle_action_dollar): Use symbol_list_n_get and set used flag
+	directly since symbol_list_n_used_set is removed.
+	(translate_action): Add a code_props* argument and remove the rule,
+	action, and location arguments.  Pass the code_props* on to code_lex.
+	(translate_rule_action, translate_symbol_action, translate_code):
+	Rewrite as wrappers around the new code_props interface.
+	* src/symlist.h, src/symlist.c (symbol_list_n_used_set): Remove since
+	it would eventually need to break the encapsulation of code_props.
+
 2007-01-01  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* etc/.cvsignore: New.
