@@ -1,6 +1,7 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation,
+   Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -58,7 +59,7 @@ static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
 
 /* A string representing the most recently saved token.  */
-char *last_string;
+static char *last_string;
 
 void
 gram_scanner_last_string_free (void)

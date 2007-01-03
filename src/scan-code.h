@@ -162,22 +162,14 @@ void code_scanner_last_string_free (void);
  * \pre
  *   - None.
  * \post
- *   - All dynamic memory allocated during any previous invocations of
- *     \c code_props_translate_code, \c translate_rule_action,
- *     \c translate_symbol_action, and \c translate_code has been freed.  All
- *     \c code_props instances may now be invalid.
+ *   - All dynamic memory allocated during invocations of
+ *     \c code_props_translate_code or \c translate_rule_action (if any) has
+ *     been freed.  All \c code_props instances may now be invalid.
  */
 void code_scanner_free (void);
 
 /* The action of the rule R contains $$, $1 etc. referring to the values
    of the rule R. */
-char const *translate_rule_action (symbol_list *r);
-
-/* The action A refers to $$ and @$ only, referring to a symbol. */
-char const *translate_symbol_action (char const *a, location l);
-
-/* The action contains no special escapes, just protect M4 special
-   symbols.  */
-char const *translate_code (char const *a, location l);
+char const *translate_rule_action (struct symbol_list *r);
 
 #endif /* !SCAN_CODE_H_ */

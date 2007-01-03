@@ -488,21 +488,3 @@ translate_rule_action (symbol_list *rule)
   code_props_translate_code (&cp);
   return cp.code;
 }
-
-char const *
-translate_symbol_action (char const *a, location l)
-{
-  code_props cp;
-  code_props_symbol_action_init (&cp, a, l);
-  code_props_translate_code (&cp);
-  return cp.code;
-}
-
-char const *
-translate_code (char const *a, location l)
-{
-  code_props cp;
-  code_props_plain_init (&cp, a, l);
-  code_props_translate_code (&cp);
-  return cp.code;
-}

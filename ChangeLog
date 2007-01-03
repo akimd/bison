@@ -1,5 +1,25 @@
 2007-01-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Use the new code_props interface in parse-gram.y.
+	* src/parse-gram.y (prologue_declaration, braceless, epilogue.opt):
+	Update all uses of translate_* functions to use the new code_props
+	interface and to use gram_scanner_last_string_free and
+	code_scanner_last_string_free where possible.
+	(grammar_declaration): symbol_list_destructor_set and
+	symbol_list_printer_set now perform the translation, so don't do it
+	here.  Use gram_scanner_last_string_free where possible.
+	* src/scan-code.h, src/scan-code.l (translate_symbol_action,
+	translate_code): Remove, no longer used.
+	* src/symlist.h, src/symlist.c (symbol_list_destructor_set,
+	symbol_list_printer_set): Perform code translation here rather than
+	depending on the caller to do so.
+
+	* src/symlist.h (struct symbol_list): Correct some documentation typos.
+	* src/scan-gram.h (gram_last_string): Remove declaration.
+	* src/scan-gram.l (last_string): Declare it static.
+
+2007-01-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Encapsulate code properties and related functionality for the various
 	destructors, printers, and actions into a code_props structure and
 	interface.  This patch merely implements code_props in scan-code.h and

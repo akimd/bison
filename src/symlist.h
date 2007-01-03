@@ -23,6 +23,7 @@
 # define SYMLIST_H_
 
 # include "location.h"
+# include "scan-code.h"
 # include "symtab.h"
 
 /* A list of symbols, used during the parsing to store the rules.  */
@@ -37,9 +38,14 @@ typedef struct symbol_list
     SYMLIST_DEFAULT_TAGGED, SYMLIST_DEFAULT_TAGLESS
   } content_type;
   union {
-    /** The symbol or \c NULL iff <tt>node_type = SYMLIST_SYMBOL</tt>.  */
+    /**
+     * The symbol or \c NULL iff
+     * <tt>symbol_list::content_type = SYMLIST_SYMBOL</tt>.
+     */
     symbol *sym;
-    /** The semantic type iff <tt>node_type = SYMLIST_TYPE</tt>.  */
+    /**
+     * The semantic type iff <tt>symbol_list::content_type = SYMLIST_TYPE</tt>.
+     */
     uniqstr type_name;
   } content;
   location location;
@@ -106,12 +112,12 @@ symbol_list *symbol_list_n_get (symbol_list *l, int n);
    symbol N in rule RULE.  */
 uniqstr symbol_list_n_type_name_get (symbol_list *l, location loc, int n);
 
-/** Set the \c \%destructor for \c node as \c destructor at \c loc.  */
-void symbol_list_destructor_set (symbol_list *node, const char *destructor,
+/** Set the \c \%destructor for \c node as \c code at \c loc.  */
+void symbol_list_destructor_set (symbol_list *node, char const *code,
                                  location loc);
 
-/** Set the \c \%printer for \c node as \c printer at \c loc.  */
-void symbol_list_printer_set (symbol_list *node, const char *printer,
+/** Set the \c \%printer for \c node as \c code at \c loc.  */
+void symbol_list_printer_set (symbol_list *node, char const *code,
                               location loc);
 
 #endif /* !SYMLIST_H_ */

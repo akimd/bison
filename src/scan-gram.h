@@ -1,6 +1,6 @@
 /* Bison Grammar Scanner
 
-   Copyright (C) 2006 Free Software Foundation, Inc.
+   Copyright (C) 2006, 2007 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -26,7 +26,6 @@
 /* From the scanner.  */
 extern FILE *gram_in;
 extern int gram__flex_debug;
-extern char *gram_last_string;
 void gram_scanner_initialize (void);
 void gram_scanner_free (void);
 void gram_scanner_last_string_free (void);
