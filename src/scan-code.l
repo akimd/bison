@@ -304,7 +304,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 
       obstack_fgrow1 (&obstack_for_string,
 		      "]b4_lhs_value([%s])[", type_name);
-      rule->used = true;
+      rule->action_props.is_value_used = true;
     }
   else
     {
@@ -333,7 +333,8 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 			  "]b4_rhs_value(%d, %d, [%s])[",
 			  effective_rule_length, n, type_name);
           if (n > 0)
-            symbol_list_n_get (effective_rule, n)->used = true;
+            symbol_list_n_get (effective_rule, n)->action_props.is_value_used =
+              true;
 	}
       else
 	complain_at (dollar_loc, _("integer out of range: %s"), quote (text));
@@ -478,13 +479,4 @@ code_scanner_free (void)
   obstack_free (&obstack_for_string, 0);
   /* Reclaim Flex's buffers.  */
   yylex_destroy ();
-}
-
-char const *
-translate_rule_action (symbol_list *rule)
-{
-  code_props cp;
-  code_props_rule_action_init (&cp, rule->action, rule->action_location, rule);
-  code_props_translate_code (&cp);
-  return cp.code;
 }

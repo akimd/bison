@@ -61,12 +61,9 @@ typedef struct symbol_list
   struct symbol_list *midrule_parent_rule;
   int midrule_parent_rhs_index;
 
-  /* The action is attached to the LHS of a rule. */
-  const char *action;
-  location action_location;
-
-  /* Whether this symbol's value is used in the current action.  */
-  bool used;
+  /* The action is attached to the LHS of a rule, but action properties for
+   * each RHS are also stored here.  */
+  code_props action_props;
 
   /* Precedence/associativity.  */
   symbol *ruleprec;

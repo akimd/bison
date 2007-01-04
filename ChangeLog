@@ -1,3 +1,16 @@
+2007-01-03  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Use the new code_props interface for rule actions.
+	* src/symlist.h (symbol_list): Replace action, action_location, and
+	used members with a code_props action_props member.
+	* src/reader.c (symbol_should_be_used, grammar_rule_check,
+	grammar_midrule_action, grammar_current_rule_merge_set,
+	grammar_current_rule_symbol_append, packgram): Update.
+	* src/scan-code.h (translate_rule_action): Remove, no longer used.
+	* src/scan-code.l (handle_action_dollar): Update.
+	(translate_rule_action): Remove, no longer used.
+	* src/symlist.c (symbol_list_sym_new, symbol_list_syms_print): Update.
+
 2007-01-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Use the new code_props interface in parse-gram.y.
