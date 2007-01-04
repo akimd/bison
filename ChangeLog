@@ -1,5 +1,45 @@
 2007-01-03  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Use the new code_props interface for destructors and printers.
+	* src/symtab.h (symbol, semantic_type): Remove destructor_location and
+	printer_location members, and change the type of the destructor and
+	printer members to code_props.
+	(symbol_destructor_set, symbol_destructor_get, symbol_printer_set,
+	symbol_printer_get, semantic_type_destructor_set,
+	semantic_type_printer_set, default_tagged_destructor_set,
+	default_tagless_destructor_set, default_tagged_printer_set,
+	default_tagless_printer_set): Use code_props in arguments and return
+	types in place of char const * and location.
+	(symbol_destructor_location_get, symbol_printer_location_get): Remove
+	since the locations are now contained in the return of
+	symbol_destructor_get and symbol_printer_get.
+	* src/output.c (symbol_destructors_output, symbol_printers_output):
+	Replace with...
+	(symbol_code_props_output): ... this to eliminate duplicate code.
+	(output_skeleton): Update to use symbol_code_props_output.
+	* src/reader.c (symbol_should_be_used): Update use of
+	symbol_destructor_get.
+	* src/symlist.c (symbol_list_destructor_set, symbol_list_printer_set):
+	Update uses of the various _destructor_set and _printer_set functions.
+	* src/symtab.c: (default_tagged_destructor_location,
+	default_tagless_destructor_location, default_tagged_printer_location,
+	default_tagless_printer_location): Remove since we...
+	(default_tagged_destructor, default_tagless_destructor,
+	default_tagged_printer, default_tagless_printer): ... change the type
+	of these to code_props.
+	(symbol_new, semantic_type_new, symbol_destructor_set,
+	semantic_type_destructor_set, symbol_destructor_get,
+	symbol_printer_set, semantic_type_printer_set, symbol_printer_get,
+	symbol_check_alias_consistency, default_tagged_destructor_set,
+	default_tagless_destructor_set, default_tagged_printer_set,
+	default_tagless_printer_set): Update.
+	(symbol_destructor_location_get, symbol_printer_location_get): Remove.
+	(SYMBOL_CODE_PRINT): New similar to SYMBOL_ATTR_PRINT but for
+	code_props members.
+	(symbol_print): Use SYMBOL_CODE_PRINT.
+
+2007-01-03  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Use the new code_props interface for rule actions.
 	* src/symlist.h (symbol_list): Replace action, action_location, and
 	used members with a code_props action_props member.
@@ -18400,8 +18440,8 @@
 	-----
 
 	Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996,
-	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free
-	Software Foundation, Inc.
+	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
+	Free Software Foundation, Inc.
 
 	Copying and distribution of this file, with or without
 	modification, are permitted provided the copyright notice and this
