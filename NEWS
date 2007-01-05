@@ -23,6 +23,25 @@ Changes in version 2.3a+ (????-??-??):
     %name-prefix "c_"
     %output "parser.c"
 
+* Bison 2.3a provided a new set of directives as a more flexible alternative to
+  the traditional Yacc prologue blocks.  Those have now been consolidated into
+  a single %code directive with an optional qualifier field, which identifies
+  the purpose of the code and thus the location(s) where Bison should generate
+  it:
+
+    1. `%code            {CODE}' replaces `%after-header  {CODE}'
+    2. `%code "requires" {CODE}' replaces `%start-header  {CODE}'
+    3. `%code "provides" {CODE}' replaces `%end-header    {CODE}'
+    4. `%code "top"      {CODE}' replaces `%before-header {CODE}'
+
+  See the %code entries in `Appendix A Bison Symbols' in the Bison manual for a
+  summary of the new functionality.  See the new section `Prologue
+  Alternatives' for a detailed discussion including the advantages of %code
+  over the traditional Yacc prologues.
+
+  The prologue alternatives are experimental.  More user feedback will help to
+  determine whether they should become permanent features.
+
 * Revised warning: unset or unused mid-rule values
 
   Since Bison 2.2, Bison has warned about mid-rule values that are set but not
@@ -65,76 +84,6 @@ Changes in version 2.3a+ (????-??-??):
 
   See the section `Freeing Discarded Symbols' in the Bison manual for further
   details.
-
-* The Yacc prologue alternatives from Bison 2.3a have been rewritten as the
-  following directives:
-
-    1. %code {CODE}
-
-       Other than semantic actions, this is probably the most common place you
-       should write verbatim code for the parser implementation.  It replaces
-       the traditional Yacc prologue, `%{CODE%}', for most purposes.  Compare
-       with:
-
-         - `%{CODE%}' appearing after the first `%union {CODE}' in a grammar
-	   file.  While Bison will continue to support `%{CODE%}' for backward
-	   compatibility, `%code {CODE}' is cleaner as its functionality does
-	   not depend on its position in the grammar file relative to any
-	   `%union {CODE}'.  Specifically, `%code {CODE}' always inserts your
-	   CODE into the parser code file after the usual contents of the
-	   parser header file.
-         - `%after-header {CODE}', which only Bison 2.3a supported.
-
-    2. %requires {CODE}
-
-       This is the right place to write dependency code for externally exposed
-       definitions required by Bison.  Such exposed definitions are those
-       usually appearing in the parser header file.  Thus, this is the right
-       place to define types referenced in `%union {CODE}' directives, and it
-       is the right place to override Bison's default YYSTYPE and YYLTYPE
-       definitions.  Compare with:
-
-         - `%{CODE%}' appearing before the first `%union {CODE}' in a grammar
-           file.  Unlike `%{CODE%}', `%requires {CODE}' inserts your CODE both
-           into the parser code file and into the parser header file since
-           Bison's required definitions should depend on it in both places.
-         - `%start-header {CODE}', which only Bison 2.3a supported.
-
-    3. %provides {CODE}
-
-       This is the right place to write additional definitions you would like
-       Bison to expose externally.  That is, this directive inserts your CODE
-       both into the parser header file and into the parser code file after
-       Bison's required definitions.  Compare with:
-
-         - `%end-header {CODE}', which only Bison 2.3a supported.
-
-    4. %code-top {CODE}
-
-       Occasionally it is desirable to insert code near the top of the parser
-       code file.  For example:
-
-         %code-top {
-           #define _GNU_SOURCE
-           #include <stdio.h>
-         }
-
-       Compare with:
-
-         - `%{CODE%}' appearing before the first `%union {CODE}' in a grammar
-           file.  `%code-top {CODE}' is cleaner as its functionality does not
-           depend on its position in the grammar file relative to any
-           `%union {CODE}'.
-         - `%before-header {CODE}', which only Bison 2.3a supported.
-
-  If you have multiple occurrences of any one of the above four directives,
-  Bison will concatenate the contents in the order they appear in the grammar
-  file.
-
-  The prologue alternatives are experimental.  More user feedback will help to
-  determine whether they should become permanent features.
-
-  Also see the new section `Prologue Alternatives' in the Bison manual.
 
 Changes in version 2.3a, 2006-09-13:
 

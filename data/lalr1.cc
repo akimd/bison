@@ -20,6 +20,7 @@ m4_divert(-1)
 # 02110-1301  USA
 
 m4_include(b4_pkgdatadir/[c++.m4])
+b4_check_percent_code_qualifiers([[requires]], [[provides]], [[top]])
 
 # The header is mandatory.
 b4_defines_if([],
@@ -43,9 +44,9 @@ dnl FIXME: This is wrong, we want computed header guards.
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
-]m4_ifdef([b4_requires],
-[[/* Copy the %requires blocks.  */
-]b4_user_requires])[
+]m4_ifdef([b4_percent_code_requires],
+[[/* Copy the %code "requires" blocks.  */
+]b4_user_code([b4_percent_code_requires])])[
 
 #include <string>
 #include <iostream>
@@ -295,15 +296,18 @@ b4_error_verbose_if([, int tok])[);
 # define YYSTYPE b4_namespace::b4_parser_class_name::semantic_type
 #endif
 ])
-m4_ifdef([b4_provides],
-[[/* Copy the %provides blocks.  */
-]b4_user_provides])[]dnl
+m4_ifdef([b4_percent_code_provides],
+[[/* Copy the %code "provides" blocks.  */
+]b4_user_code([b4_percent_code_provides])])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
 @output b4_parser_file_name
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
   [2002, 2003, 2004, 2005, 2006])
+m4_ifdef([b4_percent_code_top],
+[[/* Copy the %code "top" blocks.  */
+]b4_user_code([b4_percent_code_top])])[]dnl
 m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
@@ -316,9 +320,13 @@ b4_defines_if([[
 #include "@basename(]b4_spec_defines_file[@)"]])[
 
 /* User implementation prologue.  */
-]b4_user_post_prologue[
+]b4_user_post_prologue
+m4_ifdef([b4_percent_code],
+[[/* Copy the unqualified %code blocks.  */
+]b4_user_code([b4_percent_code])
+])[]dnl
 
-#ifndef YY_
+[#ifndef YY_
 # if YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* FIXME: INFRINGES ON USER NAME SPACE */

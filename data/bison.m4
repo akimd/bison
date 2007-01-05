@@ -184,8 +184,6 @@ m4_define([b4_define_user_code],
 # b4_user_initial_action
 # b4_user_post_prologue
 # b4_user_pre_prologue
-# b4_user_provides
-# b4_user_requires
 # b4_user_stype
 # ----------------------
 # Macros that issue user code, ending with synclines.
@@ -193,8 +191,38 @@ b4_define_user_code([actions])
 b4_define_user_code([initial_action])
 b4_define_user_code([post_prologue])
 b4_define_user_code([pre_prologue])
-b4_define_user_code([provides])
-b4_define_user_code([requires])
 b4_define_user_code([stype])
 
-
+# b4_check_percent_code_qualifiers([VAILD_QUALIFIER], [VALID_QUALIFIER], ...)
+# ---------------------------------------------------------------------------
+# Complain if any %code qualifier used in the grammar is not a valid qualifier.
+#
+# b4_used_percent_code_qualifiers must expand to a comma-delimited list of the
+# %code qualifiers used in the grammar.  The list as a whole must be quoted,
+# but individual qualifiers in it must not be.  Qualifiers will not be
+# M4-expanded.  Whitespace will not be stripped from the qualifiers.  Any
+# qualifier that is the empty string will be correctly parsed as such.  If
+# b4_used_percent_code_qualifiers expands to the empty string, then the list
+# contains one qualifier that is the empty string.  If
+# b4_used_percent_code_qualifiers is undefined, then the list contains no
+# qualifiers.  Multiple occurrences of the same qualifier are fine.
+#
+# Each VALID_QUALIFIER will be M4-expanded once to define a valid qualifier.  A
+# VALID_QUALIFIER that expands to the empty string will correctly define the
+# empty string as a valid qualifier.  If b4_used_percent_code_qualifiers is
+# invoked with empty parens, then there is one valid qualifier and it is the
+# empty string.  To specify that there are no valid qualifiers, invoke
+# b4_check_percent_code_qualifiers without parens.  Multiple occurrences of the
+# same valid qualifier are fine.
+#
+# Qualifiers and valid qualifiers must not contain the characters `,' or `&'.
+m4_define([b4_check_percent_code_qualifiers],
+[m4_ifdef([b4_used_percent_code_qualifiers], [
+m4_foreach([b4_qualifier],
+           m4_dquote(m4_substr(m4_split(m4_translit(m4_dquote([,]b4_used_percent_code_qualifiers), [,], [&]), [[&]]), 4)),
+           [m4_if(m4_index(m4_if($#, 0, [], [[,]m4_quote($*)[,]]),
+                           [,]m4_defn([b4_qualifier])[,]),
+                  [-1],
+                  [m4_fatal([`]m4_defn([b4_qualifier])[' is not a recognized %code qualifier.])])
+           ])
+])])

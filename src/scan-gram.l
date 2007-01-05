@@ -159,7 +159,6 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "%binary"               	    return PERCENT_NONASSOC;
   "%code"                           return PERCENT_CODE;
-  "%code-top"                       return PERCENT_CODE_TOP;
   "%debug"                	    return PERCENT_DEBUG;
   "%default"[-_]"prec"    	    return PERCENT_DEFAULT_PREC;
   "%define"               	    return PERCENT_DEFINE;
@@ -188,12 +187,10 @@ splice	 (\\[ \f\t\v]*\n)*
   "%parse-param"	  	    return PERCENT_PARSE_PARAM;
   "%prec"                 	    return PERCENT_PREC;
   "%printer"              	    return PERCENT_PRINTER;
-  "%provides"                       return PERCENT_PROVIDES;
   "%pure"[-_]"parser"     	    return PERCENT_PURE_PARSER;
   "%push-parser"		    return PERCENT_PUSH_PARSER;
   "%push-pull-parser"		    return PERCENT_PUSH_PULL_PARSER;
   "%require"              	    return PERCENT_REQUIRE;
-  "%requires"                       return PERCENT_REQUIRES;
   "%right"                	    return PERCENT_RIGHT;
   "%skeleton"             	    return PERCENT_SKELETON;
   "%start"                	    return PERCENT_START;

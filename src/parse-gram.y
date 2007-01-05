@@ -133,7 +133,6 @@ static int current_prec = 0;
 
 %token
   PERCENT_CODE            "%code"
-  PERCENT_CODE_TOP        "%code-top"
   PERCENT_DEBUG           "%debug"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
@@ -154,13 +153,11 @@ static int current_prec = 0;
 			  "%nondeterministic-parser"
   PERCENT_OUTPUT          "%output"
   PERCENT_PARSE_PARAM     "%parse-param"
-  PERCENT_PROVIDES        "%provides"
   PERCENT_PURE_PARSER     "%pure-parser"
   PERCENT_PUSH_PARSER     "%push-parser"
   PERCENT_PUSH_PULL_PARSER
                           "%push-pull-parser"
   PERCENT_REQUIRE	  "%require"
-  PERCENT_REQUIRES        "%requires"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
   PERCENT_TOKEN_TABLE     "%token-table"
@@ -312,10 +309,22 @@ grammar_declaration:
     {
       default_prec = false;
     }
-| "%code" braceless      { prologue_augment ($2, @2, true); }
-| "%code-top" braceless  { prologue_augment ($2, @2, false); }
-| "%provides" braceless  { muscle_code_grow ("provides", $2, @2); }
-| "%requires" braceless  { muscle_code_grow ("requires", $2, @2); }
+| "%code" braceless
+    {
+      muscle_code_grow ("percent_code", $2, @2);
+      code_scanner_last_string_free ();
+    }
+| "%code" STRING braceless
+    {
+      char const name_prefix[] = "percent_code_";
+      char *name = xmalloc (sizeof name_prefix + strlen ($2));
+      strcpy (name, name_prefix);
+      strcpy (name + sizeof name_prefix - 1, $2);
+      muscle_code_grow (uniqstr_new (name), $3, @3);
+      free (name);
+      code_scanner_last_string_free ();
+      muscle_grow ("used_percent_code_qualifiers", $2, ",");
+    }
 ;
 
 
