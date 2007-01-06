@@ -1,4 +1,4 @@
-m4_divert(-1)                                               -*- Autoconf -*-
+                                                            -*- Autoconf -*-
 
 # Language-independent M4 Macros for Bison.
 # Copyright (C) 2002, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
@@ -59,6 +59,71 @@ License without this special exception.
 
 This special exception was added by the Free Software Foundation in
 version 2.2 of Bison.])])
+
+
+## ---------------- ##
+## Error handling.  ##
+## ---------------- ##
+
+# b4_error(KIND, FORMAT, [ARG1], [ARG2], ...)
+# ---------------------------------------------------------------
+# Write @KIND(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+m4_define([b4_error],
+[m4_divert_push(0)[@]$1[(]$2[]m4_if([$#], [2], [],
+[m4_foreach([b4_arg],
+            m4_dquote(m4_shift(m4_shift($@))), 
+            [[@,]b4_arg])])[@)]m4_divert_pop(0)])
+
+# b4_warn(FORMAT, [ARG1], [ARG2], ...)
+# --------------------------------------------------------
+# Write @warn(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+#
+# As a simple test suite, this:
+#
+#   m4_define([asdf], [ASDF])
+#   m4_define([fsa], [FSA])
+#   m4_define([fdsa], [FDSA])
+#   b4_warn([[[asdf), asdf]]], [[[fsa), fsa]]], [[[fdsa), fdsa]]])
+#   m4_divert(0)
+#   b4_warn([[asdf), asdf]], [[fsa), fsa]], [[fdsa), fdsa]])
+#   m4_divert(0)
+#   b4_warn([asdf), asdf], [fsa), fsa], [fdsa), fdsa])
+#   m4_divert(0)
+#   b4_warn
+#   m4_divert(0)
+#   b4_warn()
+#   m4_divert(0)
+#   b4_warn(1)
+#   m4_divert(0)
+#   b4_warn(1, 2)
+#
+# Should produce this:
+#
+#   @warn([asdf), asdf]@,[fsa), fsa]@,[fdsa), fdsa]@)
+#   @warn(asdf), asdf@,fsa), fsa@,fdsa), fdsa@)
+#   @warn(ASDF), ASDF@,FSA), FSA@,FDSA), FDSA@)
+#   @warn(@)
+#   @warn(@)
+#   @warn(1@)
+#   @warn(1@,2@)
+m4_define([b4_warn],
+[b4_error([[warn]], $@)])
+
+# b4_complain(FORMAT, [ARG1], [ARG2], ...)
+# ------------------------------------------------------------
+# Write @complain(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+#
+# See the test suite for b4_warn above.
+m4_define([b4_complain],
+[b4_error([[complain]], $@)])
+
+# b4_fatal(FORMAT, [ARG1], [ARG2], ...)
+# ---------------------------------------------------------
+# Write @fatal(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+#
+# See the test suite for b4_warn above.
+m4_define([b4_fatal],
+[b4_error([[fatal]], $@)])
 
 
 ## ---------------- ##
@@ -223,6 +288,8 @@ m4_foreach([b4_qualifier],
            [m4_if(m4_index(m4_if($#, 0, [], [[,]m4_quote($*)[,]]),
                            [,]m4_defn([b4_qualifier])[,]),
                   [-1],
-                  [m4_fatal([`]m4_defn([b4_qualifier])[' is not a recognized %code qualifier.])])
+                  [b4_complain([[`%s' is not a recognized %%code qualifier]],
+                               [m4_defn([b4_qualifier])])
+                  ])
            ])
 ])])

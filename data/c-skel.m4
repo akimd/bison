@@ -1,4 +1,4 @@
-m4_divert(-1)                                               -*- Autoconf -*-
+                                                            -*- Autoconf -*-
 
 # C skeleton dispatching for Bison.
 # Copyright (C) 2006 Free Software Foundation, Inc.

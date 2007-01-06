@@ -1,5 +1,3 @@
-m4_divert(-1)
-
 # C++ skeleton for Bison
 
 # Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
@@ -21,8 +19,8 @@ m4_divert(-1)
 
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
-m4_divert(0)dnl
-@output b4_dir_prefix[]position.hh
+m4_divert_push(0)dnl
+@output(b4_dir_prefix[]position.hh@)
 b4_copyright([Positions for Bison parsers in C++],
   [2002, 2003, 2004, 2005, 2006])[
 
@@ -147,7 +145,7 @@ namespace ]b4_namespace[
 
 }
 #endif // not BISON_POSITION_HH]
-@output b4_dir_prefix[]location.hh
+@output(b4_dir_prefix[]location.hh@)
 b4_copyright([Locations for Bison parsers in C++],
   [2002, 2003, 2004, 2005, 2006])[
 
@@ -276,5 +274,5 @@ namespace ]b4_namespace[
 }
 
 #endif // not BISON_LOCATION_HH]
-m4_divert(-1)
+m4_divert_pop(0)
 m4_changecom([#])

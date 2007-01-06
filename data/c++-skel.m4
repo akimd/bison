@@ -1,4 +1,4 @@
-m4_divert(-1)                                               -*- Autoconf -*-
+                                                            -*- Autoconf -*-
 
 # C++ skeleton dispatching for Bison.
 # Copyright (C) 2006 Free Software Foundation, Inc.
@@ -21,7 +21,7 @@ m4_divert(-1)                                               -*- Autoconf -*-
 b4_glr_if(             [m4_define([b4_used_skeleton], [b4_pkgdatadir/[glr.cc]])])
 b4_nondeterministic_if([m4_define([b4_used_skeleton], [b4_pkgdatadir/[glr.cc]])])
 
-b4_push_if([m4_fatal([%push-parser is not supported by C++])])
+b4_push_if([b4_complain([[C++ push parsers are not supported]])])
 
 m4_define_default([b4_used_skeleton], [b4_pkgdatadir/[lalr1.cc]])
 m4_define_default([b4_skeleton], ["b4_basename(b4_used_skeleton)"])

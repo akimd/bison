@@ -29,7 +29,6 @@
 #undef skel_wrap
 #define skel_wrap() 1
 
-#define FLEX_NO_OBSTACK
 #define FLEX_PREFIX(Id) skel_ ## Id
 #include "flex-scanner.h"
 
@@ -42,33 +41,34 @@
 #include "files.h"
 #include "scan-skel.h"
 
-int skel_lex (void);
+#define YY_DECL static int skel_lex (void)
+YY_DECL;
 
 #define QPUTS(String) \
    fputs (quotearg_style (c_quoting_style, String), yyout)
 
-static char *decode_at_digraphs (char *in);
+static void fail_for_at_directive_too_many_args (void);
+static void fail_for_invalid_at (char const *at);
+
+/* In SC_AT_DIRECTIVE_ARG context, the name of the directive.  */
+static char *at_directive_name;
+
+/* Currently, only the @warn, @complain, and @fatal directives take multiple
+   arguments, and they already can't take more than 5.  */
+#define AT_DIRECTIVE_ARGC_MAX 5
+static int at_directive_argc = 0;
+static char *at_directive_argv[AT_DIRECTIVE_ARGC_MAX];
 %}
+
+%x SC_AT_DIRECTIVE_ARG
+%x SC_AT_DIRECTIVE_SKIP_WS
+
 %%
 
 %{
   int lineno IF_LINT (= 0);
   char *outname = NULL;
 %}
-
-"@output ".*\n {
-  char *file_name = yytext + sizeof "@output " - 1;
-  yytext[yyleng - 1] = '\0';
-  if (outname)
-    {
-      free (outname);
-      xfclose (yyout);
-    }
-  outname = decode_at_digraphs (file_name);
-  output_file_name_check (outname);
-  yyout = xfopen (outname, "w");
-  lineno = 1;
-}
 
 "@@"	   fputc ('@', yyout);
 "@{"	   fputc ('[', yyout);
@@ -78,20 +78,18 @@ static char *decode_at_digraphs (char *in);
 "@ofile@"  QPUTS (outname);
 "@dir_prefix@" QPUTS (dir_prefix);
 
-"@basename(".*"@)" {
-  char *file_name = yytext + sizeof "@basename " - 1;
-  yytext[yyleng - 2] = '\0';
-  file_name = decode_at_digraphs (file_name);
-  fputs (last_component (file_name), yyout);
-  free (file_name);
+@[a-z_]+"(" {
+  yytext[yyleng-1] = '\0';
+  at_directive_name = xstrdup (yytext);
+  BEGIN SC_AT_DIRECTIVE_ARG;
 }
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^{}@\n]* fatal ("invalid @ in skeleton: %s", yytext);
+@[^@{}(\n]* fail_for_invalid_at (yytext);
 \n	   lineno++; ECHO;
 [^@\n]+	   ECHO;
 
-<<EOF>> {
+<INITIAL><<EOF>> {
   if (outname)
     {
       free (outname);
@@ -99,6 +97,113 @@ static char *decode_at_digraphs (char *in);
     }
   return EOF;
 }
+
+<SC_AT_DIRECTIVE_ARG>{
+  [^@\n]+ { STRING_GROW; }
+  \n      { ++lineno; STRING_GROW; }
+
+  "@@" { obstack_1grow (&obstack_for_string, '@'); }
+  "@{" { obstack_1grow (&obstack_for_string, '['); }
+  "@}" { obstack_1grow (&obstack_for_string, ']'); }
+  "@`" /* Emtpy.  Useful for starting an argument
+          that begins with whitespace. */
+
+  @[,)] {
+    if (at_directive_argc >= AT_DIRECTIVE_ARGC_MAX)
+      fail_for_at_directive_too_many_args ();
+
+    obstack_1grow (&obstack_for_string, '\0');
+    at_directive_argv[at_directive_argc++] =
+      obstack_finish (&obstack_for_string);
+
+    /* Like M4, skip whitespace after a comma.  */
+    if (yytext[1] == ',')
+      BEGIN SC_AT_DIRECTIVE_SKIP_WS;
+    else
+      {
+        if (0 == strcmp (at_directive_name, "@basename"))
+          {
+            if (at_directive_argc > 1)
+              fail_for_at_directive_too_many_args ();
+            fputs (last_component (at_directive_argv[0]), yyout);
+          }
+        else if (0 == strcmp (at_directive_name, "@warn")
+                 || 0 == strcmp (at_directive_name, "@complain")
+                 || 0 == strcmp (at_directive_name, "@fatal"))
+          {
+            void (*func)(char const *, ...);
+            switch (at_directive_name[1])
+              {
+                case 'w': func = warn; break;
+                case 'c': func = complain; break;
+                case 'f': func = fatal; break;
+                default: aver (false); func = NULL; break;
+              }
+            switch (at_directive_argc)
+              {
+                case 1:
+                  func (_(at_directive_argv[0]));
+                  break;
+                case 2:
+                  func (_(at_directive_argv[0]), at_directive_argv[1]);
+                  break;
+                case 3:
+                  func (_(at_directive_argv[0]), at_directive_argv[1],
+                        at_directive_argv[2]);
+                  break;
+                case 4:
+                  func (_(at_directive_argv[0]), at_directive_argv[1],
+                        at_directive_argv[2], at_directive_argv[3]);
+                  break;
+                case 5:
+                  func (_(at_directive_argv[0]), at_directive_argv[1],
+                        at_directive_argv[2], at_directive_argv[3],
+                        at_directive_argv[4]);
+                  break;
+                default:
+                  fail_for_at_directive_too_many_args ();
+                  break;
+              }
+          }
+        else if (0 == strcmp (at_directive_name, "@output"))
+          {
+            if (at_directive_argc > 1)
+              fail_for_at_directive_too_many_args ();
+            if (outname)
+              {
+                free (outname);
+                xfclose (yyout);
+              }
+            outname = xstrdup (at_directive_argv[0]);
+            output_file_name_check (outname);
+            yyout = xfopen (outname, "w");
+            lineno = 1;
+          }
+        else
+          fail_for_invalid_at (at_directive_name);
+        
+        obstack_free (&obstack_for_string, at_directive_argv[0]);
+        at_directive_argc = 0;
+        free (at_directive_name);
+        BEGIN INITIAL;
+      }
+  }
+
+  @.? { fail_for_invalid_at (yytext); }
+}
+
+<SC_AT_DIRECTIVE_SKIP_WS>{
+  [ \t\r]
+  \n { ++lineno; }
+  . { yyless (0); BEGIN SC_AT_DIRECTIVE_ARG; }
+}
+
+<SC_AT_DIRECTIVE_ARG,SC_AT_DIRECTIVE_SKIP_WS>{
+  <<EOF>> {
+    fatal (_("unclosed %s directive in skeleton"), at_directive_name);
+  }
+}
+
 %%
 
 /*------------------------.
@@ -108,6 +213,12 @@ static char *decode_at_digraphs (char *in);
 void
 scan_skel (FILE *in)
 {
+  static bool initialized = false;
+  if (!initialized)
+    {
+      initialized = true;
+      obstack_init (&obstack_for_string);
+    }
   skel_in = in;
   skel__flex_debug = trace_flag & trace_skeleton;
   skel_lex ();
@@ -115,30 +226,21 @@ scan_skel (FILE *in)
   yylex_destroy ();
 }
 
-static char *
-decode_at_digraphs (char *in)
+static void
+fail_for_at_directive_too_many_args (void)
 {
-  char *out_start = xnmalloc (strlen (in)+1, sizeof *out_start);
-  char *out;
-  for (out = out_start; *in != '\0'; ++in, ++out)
-    {
-      if (*in == '@')
-        {
-          switch (*++in)
-            {
-              case '@': *out = '@'; break;
-              case '{': *out = '['; break;
-              case '}': *out = ']'; break;
-              default:
-                if (*in != '\0')
-                  in[1] = '\0';
-                fatal ("invalid @ in skeleton: %s", in-1);
-                break;
-            }
-        }
-      else
-        *out = *in;
-    }
-  *out = '\0';
-  return out_start;
+  fatal (_("too many arguments for %s directive in skeleton"),
+         at_directive_name);
+}
+
+static void
+fail_for_invalid_at (char const *at)
+{
+  fatal ("invalid @ in skeleton: %s", at);
+}
+
+void
+skel_scanner_free (void)
+{
+  obstack_free (&obstack_for_string, 0);
 }

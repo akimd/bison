@@ -1,4 +1,4 @@
-m4_divert(-1)                                                       -*- C -*-
+                                                                    -*- C -*-
 
 # C++ GLR skeleton for Bison
 # Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
@@ -52,7 +52,7 @@ m4_define([b4_pure_flag],      [1])
 
 # The header is mandatory.
 b4_defines_if([],
-              [m4_fatal(b4_skeleton[: using %defines is mandatory])])
+              [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
 
 m4_include(b4_pkgdatadir/[c++.m4])
 m4_include(b4_pkgdatadir/[location.cc])
@@ -216,7 +216,8 @@ m4_defn([b4_parse_param])))],
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])
 
-@output b4_spec_defines_file
+m4_divert_push(0)
+@output(b4_spec_defines_file@)
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
   [2002, 2003, 2004, 2005, 2006])[
 
@@ -378,3 +379,4 @@ m4_ifset([b4_global_tokens_and_yystype],
 ]b4_user_code([b4_percent_code_provides])])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
+m4_divert_pop(0)

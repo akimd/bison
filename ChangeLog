@@ -1,3 +1,65 @@
+2007-01-05  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't use m4_divert since it makes m4_divert_push and m4_divert_pop
+	unreliable -- especially when they're hidden inside another macro.
+	* data/bison.m4, data/c++-skel.m4, data/c++.m4, data/c-skel.m4,
+	data/c.m4: Remove m4_divert(-1).
+	* data/glr.c, data/glr.cc, data/lalr1.cc, data/location.cc,
+	data/push.c, data/yacc.c: Likewise, and replace m4_divert(0) with
+	m4_divert_push(0) and m4_divert_pop(0).
+	* data/output.c (output_skeleton): Don't add an m4_divert_push(0) and
+	an m4_wrap([m4_divert_pop(0)]) to the M4.  Diversion -1, which is
+	pushed and popped by m4sugar, should be first on the stack.
+
+	Provide warn, complain, and fatal function callbacks to the skeletons.
+	This provides more flexibility than m4_fatal, improves the error
+	message format, and captures messages for translation.  Discussed
+	starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2006-12/msg00063.html>.
+	* data/bison.m4 (b4_error): New, invoked by...
+	(b4_warn, b4_complain, b4_fatal): ... these new macros to wrap the
+	skeleton scanner's new @warn(...@), @complain(...@), and @fatal(...@)
+	directives.  Because these M4 macros might be called when the current
+	diversion is -1 or 0, m4_divert_push and m4_divert_pop is used; thus
+	the previous removal of uses of m4_divert, which caused trouble.
+	(b4_check_percent_code_qualifiers): Use b4_complain instead of
+	m4_fatal to report unrecognized %code qualifiers.
+	* data/c++-skel.m4: Use b4_complain instead of m4_fatal to report C++
+	push parser requests.
+	* data/glr.c: Use b4_complain instead of m4_fatal to report
+	non-deterministic push parser requests.
+	Update @output usage to @output(...@) form.
+	* data/glr.cc, data/lalr1.cc: Use b4_fatal instead of m4_fatal to
+	report missing %defines.  Update @output usage to @output(...@) form.
+	* data/location.cc, data/push.c, data/yacc.c: Update @output usage to
+	@output(...@) form.
+	* src/main.c (main): Invoke skel_scanner_free.
+	* src/scan-skel.h (skel_scanner_free): Prototype new function.
+	* src/scan-skel.l (FLEX_NO_OBSTACK): Don't define; we now need the
+	obstack_for_string from flex-scanner.h.
+	(YY_DECL): Use to declare skel_lex static.
+	(decode_at_digraphs): Remove; now handled in the new
+	SC_AT_DIRECTIVE_ARG start condition.
+	(fail_for_at_directive_too_many_args, fail_for_invalid_at): New static
+	functions.
+	(at_directive_name, AT_DIRECTIVE_ARGC_MAX, at_directive_argc,
+	at_directive_argv): New static globals.
+	(INITIAL): Use fail_for_invalid_at.
+	Don't parse `@output file_name\n' or `@basename(...@)'.  Instead,
+	recognize the start of a generalized `@directive(...@)' form and
+	start...
+	(SC_AT_DIRECTIVE_ARG): ... this new start condition to parse the
+	directive args (using the new obstack_for_string), to decode the
+	contained @ diagraphs, and to perform the directive.  It recognizes
+	@basename(...@), @warn(...@), @complain(...@), @fatal(...@), and
+	@output(...@).
+	(SC_AT_DIRECTIVE_SKIP_WS): New start condition started by
+	SC_AT_DIRECTIVE_ARG to skip whitespace after the argument delimiter,
+	`@,'.
+	(scan_skel): Initialize obstack_for_string on the first call.
+	(skel_scanner_free): New function to free obstack_for_string.
+	* tests/input.at (Reject bad %code qualifiers): Update test output.
+
 2007-01-04  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Consolidate the 4 prologue alternative directives (%code, %requires,

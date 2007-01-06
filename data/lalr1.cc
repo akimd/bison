@@ -1,5 +1,3 @@
-m4_divert(-1)
-
 # C++ skeleton for Bison
 
 # Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
@@ -24,7 +22,7 @@ b4_check_percent_code_qualifiers([[requires]], [[provides]], [[top]])
 
 # The header is mandatory.
 b4_defines_if([],
-              [m4_fatal(b4_skeleton[: using %defines is mandatory])])
+              [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
 
 # Backward compatibility.
 m4_define([b4_location_constructors])
@@ -32,9 +30,9 @@ m4_include(b4_pkgdatadir/[location.cc])
 
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
-m4_divert(0)dnl
+m4_divert_push(0)dnl
 b4_defines_if(
-[@output b4_spec_defines_file
+[@output(b4_spec_defines_file@)
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
   [2002, 2003, 2004, 2005, 2006])
 dnl FIXME: This is wrong, we want computed header guards.
@@ -302,7 +300,7 @@ m4_ifdef([b4_percent_code_provides],
 
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
-@output b4_parser_file_name
+@output(b4_parser_file_name@)
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
   [2002, 2003, 2004, 2005, 2006])
 m4_ifdef([b4_percent_code_top],
@@ -1060,7 +1058,7 @@ b4_error_verbose_if([, int tok])[)
 
 ]b4_epilogue
 dnl
-@output b4_dir_prefix[]stack.hh
+@output(b4_dir_prefix[]stack.hh@)
 b4_copyright([Stack handling for Bison parsers in C++],
   [2002, 2003, 2004, 2005, 2006])[
 
@@ -1159,4 +1157,4 @@ namespace ]b4_namespace[
 }
 
 #endif // not BISON_STACK_HH]
-m4_divert(-1)
+m4_divert_pop(0)

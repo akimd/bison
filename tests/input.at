@@ -714,27 +714,35 @@ AT_DATA([input-c.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c.y 2>&1 | grep 'error: `'"' is not a recognized" > /dev/null]])
+AT_CHECK([[bison input-c.y]], [1], [],
+[[input-c.y: `' is not a recognized %code qualifier
+]])
 
 AT_DATA([input-c-glr.y],
 [[%code "bad" {}
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c-glr.y 2>&1 | grep 'error: `bad'"' is not a recognized" > /dev/null]])
+AT_CHECK([[bison input-c-glr.y]], [1], [],
+[[input-c-glr.y: `bad' is not a recognized %code qualifier
+]])
 
 AT_DATA([input-c++.y],
 [[%code "bad" {}
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c++.y 2>&1 | grep 'error: `bad'"' is not a recognized" > /dev/null]])
+AT_CHECK([[bison input-c++.y]], [1], [],
+[[input-c++.y: `bad' is not a recognized %code qualifier
+]])
 
 AT_DATA([input-c++-glr.y],
 [[%code "bad" {}
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c++-glr.y 2>&1 | grep 'error: `bad'"' is not a recognized" > /dev/null]])
+AT_CHECK([[bison input-c++-glr.y]], [1], [],
+[[input-c++-glr.y: `bad' is not a recognized %code qualifier
+]])
 
 AT_CLEANUP
