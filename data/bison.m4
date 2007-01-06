@@ -71,7 +71,7 @@ version 2.2 of Bison.])])
 m4_define([b4_error],
 [m4_divert_push(0)[@]$1[(]$2[]m4_if([$#], [2], [],
 [m4_foreach([b4_arg],
-            m4_dquote(m4_shift(m4_shift($@))), 
+            m4_dquote(m4_shift(m4_shift($@))),
             [[@,]b4_arg])])[@)]m4_divert_pop(0)])
 
 # b4_warn(FORMAT, [ARG1], [ARG2], ...)
@@ -258,38 +258,47 @@ b4_define_user_code([post_prologue])
 b4_define_user_code([pre_prologue])
 b4_define_user_code([stype])
 
+
 # b4_check_percent_code_qualifiers([VAILD_QUALIFIER], [VALID_QUALIFIER], ...)
 # ---------------------------------------------------------------------------
 # Complain if any %code qualifier used in the grammar is not a valid qualifier.
 #
-# b4_used_percent_code_qualifiers must expand to a comma-delimited list of the
-# %code qualifiers used in the grammar.  The list as a whole must be quoted,
-# but individual qualifiers in it must not be.  Qualifiers will not be
-# M4-expanded.  Whitespace will not be stripped from the qualifiers.  Any
-# qualifier that is the empty string will be correctly parsed as such.  If
-# b4_used_percent_code_qualifiers expands to the empty string, then the list
-# contains one qualifier that is the empty string.  If
-# b4_used_percent_code_qualifiers is undefined, then the list contains no
-# qualifiers.  Multiple occurrences of the same qualifier are fine.
+# If no %code qualifiers are used in the grammar,
+# b4_used_percent_code_qualifiers must be undefined or expand to the empty
+# string.  Otherwise, it must expand to a comma-delimited list specifying all
+# %code qualifiers used in the grammar.   Each item in the list must expand to
+# text that expands to one of those qualifiers.  For example, to define
+# b4_used_percent_code_qualifiers with two qualifiers with correct quoting:
 #
-# Each VALID_QUALIFIER will be M4-expanded once to define a valid qualifier.  A
-# VALID_QUALIFIER that expands to the empty string will correctly define the
-# empty string as a valid qualifier.  If b4_used_percent_code_qualifiers is
-# invoked with empty parens, then there is one valid qualifier and it is the
-# empty string.  To specify that there are no valid qualifiers, invoke
-# b4_check_percent_code_qualifiers without parens.  Multiple occurrences of the
-# same valid qualifier are fine.
+#   m4_define([b4_used_percent_code_qualifiers],
+#             [[[[requires]], [[provides]]]])
 #
-# Qualifiers and valid qualifiers must not contain the characters `,' or `&'.
+# Multiple occurrences of the same qualifier are fine.  Empty string qualifiers
+# are fine.
+#
+# Each VALID_QUALIFIER must expand to a valid qualifier.  For example,
+# b4_check_percent_code_qualifiers might be invoked with:
+#
+#   b4_check_percent_code_qualifiers([[requires]], [[provides]])
+#
+# Multiple occurrences of the same valid qualifier are fine.  A VALID_QUALIFIER
+# that expands to the empty string will correctly define the empty string as a
+# valid qualifier, but it would be ugly for a Bison skeleton to actually use
+# that.  If b4_used_percent_code_qualifiers is invoked with empty parens, then
+# there is one valid qualifier and it is the empty string.  To specify that
+# there are no valid qualifiers, invoke b4_check_percent_code_qualifiers
+# without parens.
+#
+# Qualifiers and valid qualifiers must not contain the character `,'.
 m4_define([b4_check_percent_code_qualifiers],
 [m4_ifdef([b4_used_percent_code_qualifiers], [
 m4_foreach([b4_qualifier],
-           m4_dquote(m4_substr(m4_split(m4_translit(m4_dquote([,]b4_used_percent_code_qualifiers), [,], [&]), [[&]]), 4)),
+           b4_used_percent_code_qualifiers,
            [m4_if(m4_index(m4_if($#, 0, [], [[,]m4_quote($*)[,]]),
-                           [,]m4_defn([b4_qualifier])[,]),
+                           [,]b4_qualifier[,]),
                   [-1],
                   [b4_complain([[`%s' is not a recognized %%code qualifier]],
-                               [m4_defn([b4_qualifier])])
+                               [b4_qualifier])
                   ])
            ])
 ])])

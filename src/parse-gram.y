@@ -323,7 +323,9 @@ grammar_declaration:
       muscle_code_grow (uniqstr_new (name), $3, @3);
       free (name);
       code_scanner_last_string_free ();
-      muscle_grow ("used_percent_code_qualifiers", $2, ",");
+      muscle_grow ("used_percent_code_qualifiers", "[[", ",");
+      muscle_grow ("used_percent_code_qualifiers", $2, "");
+      muscle_grow ("used_percent_code_qualifiers", "]]", "");
     }
 ;
 

@@ -1,3 +1,12 @@
+2007-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Clean up b4_check_percent_code_qualifiers a little.
+	* data/bison.m4 (b4_check_percent_code_qualifiers): Expect qualifiers
+	in b4_used_percent_code_qualifiers to be double-M4-quoted.  Rewrite
+	documentation and add examples.
+	* src/parse-gram.y (grammar_declaration): Double-M4-quote those
+	qualifiers here.
+
 2007-01-05  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't use m4_divert since it makes m4_divert_push and m4_divert_pop
