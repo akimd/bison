@@ -66,7 +66,7 @@ version 2.2 of Bison.])])
 ## ---------------- ##
 
 # b4_error(KIND, FORMAT, [ARG1], [ARG2], ...)
-# -----------------------------------------------------
+# -------------------------------------------
 # Write @KIND(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 m4_define([b4_error],
 [m4_divert_push(0)[@]$1[(]$2[]m4_if([$#], [2], [],
@@ -75,7 +75,7 @@ m4_define([b4_error],
             [[@,]b4_arg])])[@)]m4_divert_pop(0)])
 
 # b4_error_at(KIND, START, END, FORMAT, [ARG1], [ARG2], ...)
-# -----------------------------------------------------------------
+# ----------------------------------------------------------
 # Write @KIND(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 m4_define([b4_error_at],
 [m4_divert_push(0)[@]$1[_at(]$2[@,]$3[@,]$4[]m4_if([$#], [4], [],
@@ -84,7 +84,7 @@ m4_define([b4_error_at],
             [[@,]b4_arg])])[@)]m4_divert_pop(0)])
 
 # b4_warn(FORMAT, [ARG1], [ARG2], ...)
-# -----------------------------------------------------
+# ------------------------------------
 # Write @warn(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 #
 # As a simple test suite, this:
@@ -116,13 +116,13 @@ m4_define([b4_warn],
 [b4_error([[warn]], $@)])
 
 # b4_warn_at(START, END, FORMAT, [ARG1], [ARG2], ...)
-# -----------------------------------------------------------------
+# ---------------------------------------------------
 # Write @warn(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 m4_define([b4_warn_at],
 [b4_error_at([[warn]], $@)])
 
 # b4_complain(FORMAT, [ARG1], [ARG2], ...)
-# ---------------------------------------------------------
+# ----------------------------------------
 # Write @complain(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 #
 # See the test suite for b4_warn above.
@@ -130,13 +130,13 @@ m4_define([b4_complain],
 [b4_error([[complain]], $@)])
 
 # b4_complain_at(START, END, FORMAT, [ARG1], [ARG2], ...)
-# ---------------------------------------------------------------------
+# -------------------------------------------------------
 # Write @complain(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 m4_define([b4_complain_at],
 [b4_error_at([[complain]], $@)])
 
 # b4_fatal(FORMAT, [ARG1], [ARG2], ...)
-# ------------------------------------------------------
+# -------------------------------------
 # Write @fatal(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 #
 # See the test suite for b4_warn above.
@@ -144,7 +144,7 @@ m4_define([b4_fatal],
 [b4_error([[fatal]], $@)])
 
 # b4_fatal_at(START, END, FORMAT, [ARG1], [ARG2], ...)
-# ------------------------------------------------------------------
+# ----------------------------------------------------
 # Write @fatal(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 m4_define([b4_fatal_at],
 [b4_error_at([[fatal]], $@)])
@@ -283,57 +283,81 @@ b4_define_user_code([pre_prologue])
 b4_define_user_code([stype])
 
 
+# b4_check_for_unrecognized_names(WHAT, LIST, [VALID_NAME], [VALID_NAME])
+# -----------------------------------------------------------------------
+# Complain if any name of type WHAT is used in the grammar (as recorded in
+# LIST) but is not a VALID_NAME.
+#
+# LIST must expand to a list specifying all grammar occurrences of all names of
+# type WHAT.   Each item in the list is a triplet specifying one occurrence:
+# name, start boundary, and end boundary.  Empty string names are fine.  An
+# empty list is fine.
+#
+# For example, to define b4_foo_list to be used for LIST with three name
+# occurrences and with correct quoting:
+#
+#   m4_define([b4_foo_list],
+#             [[[[[[bar]], [[parser.y:1.7]], [[parser.y:1.16]]]],
+#               [[[[bar]], [[parser.y:5.7]], [[parser.y:5.16]]]],
+#               [[[[baz]], [[parser.y:8.7]], [[parser.y:8.16]]]]]])
+#
+# Each VALID_NAME must expand to a valid name of type WHAT.  Multiple
+# occurrences of the same valid name are fine.  A VALID_NAME that expands to
+# the empty string will correctly define the empty string as a valid name, but
+# it would be ugly for a Bison skeleton to actually use that.
+#
+# For example, to invoke b4_check_for_unrecognized_names with TYPE foo, with
+# LIST b4_foo_list, with two valid names, and with correct quoting:
+#
+#   b4_check_for_unrecognized_names([[foo]], [b4_foo_list],
+#                                   [[bar]], [[baz]])
+#
+# Names and valid names must not contain the character `,'.
+m4_define([b4_check_for_unrecognized_names],
+[m4_foreach([b4_occurrence],
+            $2,
+            [m4_pushdef([b4_occurrence], b4_occurrence)
+             m4_pushdef([b4_name], m4_car(b4_occurrence))
+             m4_pushdef([b4_start], m4_car(m4_shift(b4_occurrence)))
+             m4_pushdef([b4_end], m4_shift(m4_shift(b4_occurrence)))
+             m4_if(m4_index(m4_if($#, 2, [],
+                                  [[,]m4_quote(m4_shift(m4_shift($*)))[,]]),
+                            [,]b4_name[,]),
+                   [-1],
+                   [b4_complain_at([b4_start], [b4_end],
+                                   [[`%s' is not a recognized %s]],
+                                   [b4_name], [$1])
+                   ])
+             m4_popdef([b4_occurrence])
+             m4_popdef([b4_name])
+             m4_popdef([b4_start])
+             m4_popdef([b4_end])
+            ])
+])
+
+# b4_check_percent_define_variables([VAILD_VARIABLE], [VALID_VARIABLE], ...)
+# --------------------------------------------------------------------------
+# Wrapper around b4_check_for_unrecognized_names for %define variables.
+#
+# b4_used_percent_define_variables must contain a list of all %define variables
+# used in the grammar similar to b4_foo_list from the
+# b4_check_for_unrecognized_names documentation's example.  If
+# b4_used_percent_define_variables is undefined, it's treated the same as an
+# empty list.
+#
+# Invoking b4_check_percent_define_variables with empty parens specifies one
+# valid variable that is an empty string.  Invoke it without parens to specify
+# that there are no valid variables.
+m4_define([b4_check_percent_define_variables],
+[m4_ifdef([b4_used_percent_define_variables],
+[b4_check_for_unrecognized_names([[%define variable]],
+[b4_used_percent_define_variables]m4_if([$#], [0], [], [, $@]))])])
+
 # b4_check_percent_code_qualifiers([VAILD_QUALIFIER], [VALID_QUALIFIER], ...)
 # ---------------------------------------------------------------------------
-# Complain if any %code qualifier used in the grammar is not a valid qualifier.
-#
-# If no %code qualifiers are used in the grammar,
-# b4_used_percent_code_qualifiers must be undefined or must expand to the empty
-# string.  Otherwise, it must expand to a list specifying all occurrences of
-# all %code qualifiers used in the grammar.   Each item in the list is a
-# triplet specifying one occurrence: qualifier, start boundary, and end
-# boundary.  For example, to define b4_used_percent_code_qualifiers with three
-# qualifier occurrences with correct quoting:
-#
-#   m4_define([b4_used_percent_code_qualifiers],
-#             [[[[[[requires]], [[parser.y:1.7]], [[parser.y:1.16]]]],
-#               [[[[provides]], [[parser.y:5.7]], [[parser.y:5.16]]]],
-#               [[[[provides]], [[parser.y:8.7]], [[parser.y:8.16]]]]]])
-#
-# Empty string qualifiers are fine.
-#
-# Each VALID_QUALIFIER must expand to a valid qualifier.  For example,
-# b4_check_percent_code_qualifiers might be invoked with:
-#
-#   b4_check_percent_code_qualifiers([[requires]], [[provides]])
-#
-# Multiple occurrences of the same valid qualifier are fine.  A VALID_QUALIFIER
-# that expands to the empty string will correctly define the empty string as a
-# valid qualifier, but it would be ugly for a Bison skeleton to actually use
-# that.  If b4_used_percent_code_qualifiers is invoked with empty parens, then
-# there is one valid qualifier and it is the empty string.  To specify that
-# there are no valid qualifiers, invoke b4_check_percent_code_qualifiers
-# without parens.
-#
-# Qualifiers and valid qualifiers must not contain the character `,'.
+# Same as b4_check_percent_define_variables but for %code qualifiers using
+# b4_used_percent_code_qualifiers.
 m4_define([b4_check_percent_code_qualifiers],
-[m4_ifdef([b4_used_percent_code_qualifiers], [
-m4_foreach([b4_occurrence],
-           b4_used_percent_code_qualifiers,
-           [m4_pushdef([b4_occurrence], b4_occurrence)
-            m4_pushdef([b4_qualifier], m4_car(b4_occurrence))
-            m4_pushdef([b4_start], m4_car(m4_shift(b4_occurrence)))
-            m4_pushdef([b4_end], m4_shift(m4_shift(b4_occurrence)))
-            m4_if(m4_index(m4_if($#, 0, [], [[,]m4_quote($*)[,]]),
-                           [,]b4_qualifier[,]),
-                  [-1],
-                  [b4_complain_at([b4_start], [b4_end],
-                                  [[`%s' is not a recognized %%code qualifier]],
-                                  [b4_qualifier])
-                  ])
-            m4_popdef([b4_occurrence])
-            m4_popdef([b4_qualifier])
-            m4_popdef([b4_start])
-            m4_popdef([b4_end])
-           ])
-])])
+[m4_ifdef([b4_used_percent_code_qualifiers],
+[b4_check_for_unrecognized_names([[%code qualifier]],
+[b4_used_percent_code_qualifiers]m4_if([$#], [0], [], [, $@]))])])

@@ -165,8 +165,8 @@
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 1546 of yacc.c  */
-#line 98 "parse-gram.y"
+/* Line 1551 of yacc.c  */
+#line 97 "parse-gram.y"
 
   symbol *symbol;
   symbol_list *list;
@@ -178,7 +178,7 @@ typedef union YYSTYPE
   unsigned char character;
 }
 
-/* Line 1546 of yacc.c  */
+/* Line 1551 of yacc.c  */
 #line 183 "parse-gram.h"
 	YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1

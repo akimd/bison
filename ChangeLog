@@ -1,3 +1,29 @@
+2007-01-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Check for unrecognized %define variables similar to checking for
+	unrecognized %code qualifiers.  Check for redefined %define variables.
+	* data/bison.m4 (b4_check_for_unrecognized_names): New macro that
+	generalizes...
+	(b4_check_percent_code_qualifiers): ... this, which now wraps it.
+	(b4_check_percent_define_variables): New, also wraps it.
+	* data/glr.c: Unless glr.cc is wrapping glr.c, declare no valid %define
+	variables using b4_check_percent_define_variables.
+	* data/glr.cc, data/lalr1.cc: Declare the valid %define variables as
+	all those exercised in the test suite and all those listed in the
+	`Default values' section of c++.m4.  Are there others?
+	* data/push.c, data/yacc.c: Declare no valid %define variables.
+	* src/muscle_tab.c, src/muscle_tab.h (muscle_find_const): New function,
+	similar to muscle_find, but it works even when the muscle stores a
+	const value.
+	(muscle_grow_used_name_list): New function for constructing the used
+	name list muscles that b4_check_for_unrecognized_names requires.
+	* src/parse-gram.y (prologue_declaration): Warn if a variable is
+	%define'd more than once.  Define the b4_used_percent_define_variables
+	muscle with muscle_grow_used_name_list.
+	(grammar_declaration): Abbreviate %code code with
+	muscle_grow_used_name_list.
+	* tests/input.at (%define errors): New.
+
 2007-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Provide warn_at, complain_at, and fatal_at function callbacks to the

@@ -57,6 +57,12 @@ b4_defines_if([],
 m4_include(b4_pkgdatadir/[c++.m4])
 m4_include(b4_pkgdatadir/[location.cc])
 
+b4_check_percent_define_variables([[global_tokens_and_yystype]],
+                                  [[parser_class_name]],
+                                  [[location_type]],
+                                  [[filename_type]],
+                                  [[b4_namespace]],
+                                  [[b4_define_location_comparison]])
 
 # Save the parse parameters.
 m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))

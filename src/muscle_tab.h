@@ -26,6 +26,7 @@
 void muscle_init (void);
 void muscle_insert (char const *key, char const *value);
 char *muscle_find (char const *key);
+char const *muscle_find_const (char const *key);
 void muscle_free (void);
 
 
@@ -115,5 +116,13 @@ void muscles_m4_output (FILE *out);
 /* In the format `file_name:line.column', append BOUND to MUSCLE.  Use digraphs
    for special characters in the file name.  */
 void muscle_boundary_grow (char const *key, boundary bound);
+
+/* Grow KEY for the occurrence of the name USED_NAME at LOC appropriately for
+   use with b4_check_for_unrecognized_names in ../data/bison.m4.  USED_NAME
+   is not escaped with digraphs, so it must not contain `[' or `]'.  As a
+   precondition on b4_check_for_unrecognized_names, it can't contain `,'
+   either.  */
+void muscle_grow_used_name_list (char const *key, char const *used_name,
+                                 location loc);
 
 #endif /* not MUSCLE_TAB_H_ */

@@ -18,7 +18,17 @@
 # 02110-1301  USA
 
 m4_include(b4_pkgdatadir/[c++.m4])
-b4_check_percent_code_qualifiers([[requires]], [[provides]], [[top]])
+
+b4_check_percent_define_variables([[global_tokens_and_yystype]],
+                                  [[parser_class_name]],
+                                  [[location_type]],
+                                  [[filename_type]],
+                                  [[b4_namespace]],
+                                  [[b4_define_location_comparison]])
+
+b4_check_percent_code_qualifiers([[requires]],
+                                 [[provides]],
+                                 [[top]])
 
 # The header is mandatory.
 b4_defines_if([],

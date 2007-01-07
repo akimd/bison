@@ -82,7 +82,6 @@ static int current_prec = 0;
 %locations
 %pure-parser
 %error-verbose
-%defines
 %name-prefix="gram_"
 %expect 0
 
@@ -233,7 +232,15 @@ prologue_declaration:
       code_scanner_last_string_free ();
     }
 | "%debug"                         { debug_flag = true; }
-| "%define" STRING content.opt     { muscle_insert ($2, $3); }
+| "%define" STRING content.opt
+    {
+      /* FIXME: Special characters in $2 may break %define.
+         For example: `['.  */
+      if (muscle_find_const ($2))
+        warn_at (@2, _("%s: `%s' redefined"), "%define", $2);
+      muscle_insert ($2, $3);
+      muscle_grow_used_name_list ("used_percent_define_variables", $2, @2);
+    }
 | "%defines"                       { defines_flag = true; }
 | "%defines" STRING
     {
@@ -316,6 +323,8 @@ grammar_declaration:
     }
 | "%code" STRING braceless
     {
+      /* FIXME: Special characters in $2 may break %code.
+         For example: `['.  */
       char const name_prefix[] = "percent_code_";
       char *name = xmalloc (sizeof name_prefix + strlen ($2));
       strcpy (name, name_prefix);
@@ -323,13 +332,7 @@ grammar_declaration:
       muscle_code_grow (uniqstr_new (name), $3, @3);
       free (name);
       code_scanner_last_string_free ();
-      muscle_grow ("used_percent_code_qualifiers", "[[[[", ",");
-      muscle_grow ("used_percent_code_qualifiers", $2, "");
-      muscle_grow ("used_percent_code_qualifiers", "]], [[", "");
-      muscle_boundary_grow ("used_percent_code_qualifiers", @2.start);
-      muscle_grow ("used_percent_code_qualifiers", "]], [[", "");
-      muscle_boundary_grow ("used_percent_code_qualifiers", @2.end);
-      muscle_grow ("used_percent_code_qualifiers", "]]]]", "");
+      muscle_grow_used_name_list ("used_percent_code_qualifiers", $2, @2);
     }
 ;
 
