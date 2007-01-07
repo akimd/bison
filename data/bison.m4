@@ -66,7 +66,7 @@ version 2.2 of Bison.])])
 ## ---------------- ##
 
 # b4_error(KIND, FORMAT, [ARG1], [ARG2], ...)
-# ---------------------------------------------------------------
+# -----------------------------------------------------
 # Write @KIND(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 m4_define([b4_error],
 [m4_divert_push(0)[@]$1[(]$2[]m4_if([$#], [2], [],
@@ -74,8 +74,17 @@ m4_define([b4_error],
             m4_dquote(m4_shift(m4_shift($@))),
             [[@,]b4_arg])])[@)]m4_divert_pop(0)])
 
+# b4_error_at(KIND, START, END, FORMAT, [ARG1], [ARG2], ...)
+# -----------------------------------------------------------------
+# Write @KIND(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+m4_define([b4_error_at],
+[m4_divert_push(0)[@]$1[_at(]$2[@,]$3[@,]$4[]m4_if([$#], [4], [],
+[m4_foreach([b4_arg],
+            m4_dquote(m4_shift(m4_shift(m4_shift(m4_shift($@))))),
+            [[@,]b4_arg])])[@)]m4_divert_pop(0)])
+
 # b4_warn(FORMAT, [ARG1], [ARG2], ...)
-# --------------------------------------------------------
+# -----------------------------------------------------
 # Write @warn(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 #
 # As a simple test suite, this:
@@ -89,8 +98,6 @@ m4_define([b4_error],
 #   m4_divert(0)
 #   b4_warn([asdf), asdf], [fsa), fsa], [fdsa), fdsa])
 #   m4_divert(0)
-#   b4_warn
-#   m4_divert(0)
 #   b4_warn()
 #   m4_divert(0)
 #   b4_warn(1)
@@ -103,27 +110,44 @@ m4_define([b4_error],
 #   @warn(asdf), asdf@,fsa), fsa@,fdsa), fdsa@)
 #   @warn(ASDF), ASDF@,FSA), FSA@,FDSA), FDSA@)
 #   @warn(@)
-#   @warn(@)
 #   @warn(1@)
 #   @warn(1@,2@)
 m4_define([b4_warn],
 [b4_error([[warn]], $@)])
 
+# b4_warn_at(START, END, FORMAT, [ARG1], [ARG2], ...)
+# -----------------------------------------------------------------
+# Write @warn(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+m4_define([b4_warn_at],
+[b4_error_at([[warn]], $@)])
+
 # b4_complain(FORMAT, [ARG1], [ARG2], ...)
-# ------------------------------------------------------------
+# ---------------------------------------------------------
 # Write @complain(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 #
 # See the test suite for b4_warn above.
 m4_define([b4_complain],
 [b4_error([[complain]], $@)])
 
+# b4_complain_at(START, END, FORMAT, [ARG1], [ARG2], ...)
+# ---------------------------------------------------------------------
+# Write @complain(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+m4_define([b4_complain_at],
+[b4_error_at([[complain]], $@)])
+
 # b4_fatal(FORMAT, [ARG1], [ARG2], ...)
-# ---------------------------------------------------------
+# ------------------------------------------------------
 # Write @fatal(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
 #
 # See the test suite for b4_warn above.
 m4_define([b4_fatal],
 [b4_error([[fatal]], $@)])
+
+# b4_fatal_at(START, END, FORMAT, [ARG1], [ARG2], ...)
+# ------------------------------------------------------------------
+# Write @fatal(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+m4_define([b4_fatal_at],
+[b4_error_at([[fatal]], $@)])
 
 
 ## ---------------- ##
@@ -264,17 +288,19 @@ b4_define_user_code([stype])
 # Complain if any %code qualifier used in the grammar is not a valid qualifier.
 #
 # If no %code qualifiers are used in the grammar,
-# b4_used_percent_code_qualifiers must be undefined or expand to the empty
-# string.  Otherwise, it must expand to a comma-delimited list specifying all
-# %code qualifiers used in the grammar.   Each item in the list must expand to
-# text that expands to one of those qualifiers.  For example, to define
-# b4_used_percent_code_qualifiers with two qualifiers with correct quoting:
+# b4_used_percent_code_qualifiers must be undefined or must expand to the empty
+# string.  Otherwise, it must expand to a list specifying all occurrences of
+# all %code qualifiers used in the grammar.   Each item in the list is a
+# triplet specifying one occurrence: qualifier, start boundary, and end
+# boundary.  For example, to define b4_used_percent_code_qualifiers with three
+# qualifier occurrences with correct quoting:
 #
 #   m4_define([b4_used_percent_code_qualifiers],
-#             [[[[requires]], [[provides]]]])
+#             [[[[[[requires]], [[parser.y:1.7]], [[parser.y:1.16]]]],
+#               [[[[provides]], [[parser.y:5.7]], [[parser.y:5.16]]]],
+#               [[[[provides]], [[parser.y:8.7]], [[parser.y:8.16]]]]]])
 #
-# Multiple occurrences of the same qualifier are fine.  Empty string qualifiers
-# are fine.
+# Empty string qualifiers are fine.
 #
 # Each VALID_QUALIFIER must expand to a valid qualifier.  For example,
 # b4_check_percent_code_qualifiers might be invoked with:
@@ -292,13 +318,22 @@ b4_define_user_code([stype])
 # Qualifiers and valid qualifiers must not contain the character `,'.
 m4_define([b4_check_percent_code_qualifiers],
 [m4_ifdef([b4_used_percent_code_qualifiers], [
-m4_foreach([b4_qualifier],
+m4_foreach([b4_occurrence],
            b4_used_percent_code_qualifiers,
-           [m4_if(m4_index(m4_if($#, 0, [], [[,]m4_quote($*)[,]]),
+           [m4_pushdef([b4_occurrence], b4_occurrence)
+            m4_pushdef([b4_qualifier], m4_car(b4_occurrence))
+            m4_pushdef([b4_start], m4_car(m4_shift(b4_occurrence)))
+            m4_pushdef([b4_end], m4_shift(m4_shift(b4_occurrence)))
+            m4_if(m4_index(m4_if($#, 0, [], [[,]m4_quote($*)[,]]),
                            [,]b4_qualifier[,]),
                   [-1],
-                  [b4_complain([[`%s' is not a recognized %%code qualifier]],
-                               [b4_qualifier])
+                  [b4_complain_at([b4_start], [b4_end],
+                                  [[`%s' is not a recognized %%code qualifier]],
+                                  [b4_qualifier])
                   ])
+            m4_popdef([b4_occurrence])
+            m4_popdef([b4_qualifier])
+            m4_popdef([b4_start])
+            m4_popdef([b4_end])
            ])
 ])])

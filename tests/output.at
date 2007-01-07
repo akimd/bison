@@ -193,8 +193,5 @@ AT_CHECK_OUTPUT_FILE_NAME([[#]])
 AT_CHECK_OUTPUT_FILE_NAME([[@@]])
 AT_CHECK_OUTPUT_FILE_NAME([[@{]])
 AT_CHECK_OUTPUT_FILE_NAME([[@}]])
-
-# Bison isn't M4-quoting file names before inserting them into muscles, so
-# these tests currently fail.
 AT_CHECK_OUTPUT_FILE_NAME([[@<:@]])
 AT_CHECK_OUTPUT_FILE_NAME([[@:>@]])

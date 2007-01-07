@@ -711,38 +711,80 @@ AT_SETUP([Reject bad %code qualifiers])
 
 AT_DATA([input-c.y],
 [[%code "" {}
+%code "bad" {}
+%code "bad" {}
 %%
 start: ;
 ]])
 AT_CHECK([[bison input-c.y]], [1], [],
-[[input-c.y: `' is not a recognized %code qualifier
+[[input-c.y:1.7-8: `' is not a recognized %code qualifier
+input-c.y:2.7-11: `bad' is not a recognized %code qualifier
+input-c.y:3.7-11: `bad' is not a recognized %code qualifier
 ]])
 
 AT_DATA([input-c-glr.y],
-[[%code "bad" {}
+[[%code "" {}
+%code "bad" {}
+ %code "bad" {}
 %%
 start: ;
 ]])
 AT_CHECK([[bison input-c-glr.y]], [1], [],
-[[input-c-glr.y: `bad' is not a recognized %code qualifier
+[[input-c-glr.y:1.7-8: `' is not a recognized %code qualifier
+input-c-glr.y:2.7-11: `bad' is not a recognized %code qualifier
+input-c-glr.y:3.8-12: `bad' is not a recognized %code qualifier
 ]])
 
 AT_DATA([input-c++.y],
-[[%code "bad" {}
+[[%code "" {}
+%code "bad" {}
+ %code "" {}
 %%
 start: ;
 ]])
 AT_CHECK([[bison input-c++.y]], [1], [],
-[[input-c++.y: `bad' is not a recognized %code qualifier
+[[input-c++.y:1.7-8: `' is not a recognized %code qualifier
+input-c++.y:2.7-11: `bad' is not a recognized %code qualifier
+input-c++.y:3.8-9: `' is not a recognized %code qualifier
 ]])
 
 AT_DATA([input-c++-glr.y],
 [[%code "bad" {}
+%code "" {}
+%code "" {}
 %%
 start: ;
 ]])
 AT_CHECK([[bison input-c++-glr.y]], [1], [],
-[[input-c++-glr.y: `bad' is not a recognized %code qualifier
+[[input-c++-glr.y:1.7-11: `bad' is not a recognized %code qualifier
+input-c++-glr.y:2.7-8: `' is not a recognized %code qualifier
+input-c++-glr.y:3.7-8: `' is not a recognized %code qualifier
+]])
+
+AT_DATA([special-char-@@.y],
+[[%code "bad" {}
+%code "" {}
+%code "" {}
+%%
+start: ;
+]])
+AT_CHECK([[bison special-char-@@.y]], [1], [],
+[[special-char-@@.y:1.7-11: `bad' is not a recognized %code qualifier
+special-char-@@.y:2.7-8: `' is not a recognized %code qualifier
+special-char-@@.y:3.7-8: `' is not a recognized %code qualifier
+]])
+
+AT_DATA([special-char-@:>@.y],
+[[%code "bad" {}
+%code "" {}
+%code "" {}
+%%
+start: ;
+]])
+AT_CHECK([[bison special-char-@:>@.y]], [1], [],
+[[special-char-@:>@.y:1.7-11: `bad' is not a recognized %code qualifier
+special-char-@:>@.y:2.7-8: `' is not a recognized %code qualifier
+special-char-@:>@.y:3.7-8: `' is not a recognized %code qualifier
 ]])
 
 AT_CLEANUP

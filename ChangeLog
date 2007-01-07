@@ -1,5 +1,39 @@
 2007-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Provide warn_at, complain_at, and fatal_at function callbacks to the
+	skeletons, and use this for %code qualifier complaints.
+	* data/bison.m4 (b4_error_at): New, invoked by...
+	(b4_warn_at, b4_complain_at, b4_fatal_at): ... these new macros to wrap
+	the skeleton scanner's new @warn_at(...@), @complain_at(...@), and
+	@fatal_at(...@) directives.
+	(b4_check_percent_code_qualifiers): Rewrite to expect locations for
+	qualifiers in b4_used_percent_code_qualifiers and to use
+	b4_complain_at.
+	* src/location.c, src/location.h (boundary_set_from_string): New global
+	function.
+	* src/muscle_tab.c, src/muscle_tab.h (muscle_boundary_grow): New global
+	function.
+	* src/parse-gram.y (grammar_declaration): Add locations for qualifiers
+	to b4_used_percent_code_qualifiers.
+	* src/scan-skel.l (fail_for_at_directive_too_few_args): New static
+	function.
+	(AT_DIRECTIVE_ARGC_MAX): Increase for boundary arguments.
+	(lineno): Rename to...
+	(out_lineno): ... this so I don't misunderstand it again.
+	(SC_AT_DIRECTIVE_SKIP_WS): Don't increment out_lineno for newlines
+	here; these newlines are in the input but not the output file.
+	(SC_AT_DIRECTIVE_ARG): Likewise.  Extract directive execution to...
+	(at_directive_perform): ... this new static function, and add handling
+	of new @warn_at(...@), @complain_at(...@), and @fatal_at(...@)
+	directives.
+	* tests/input.at (Reject bad %code qualifiers): Update test output with
+	locations and extend.
+
+	* tests/output.at (Output file name: [, Output file name: ]): Remove
+	bogus comment about these tests failing.
+
+2007-01-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Clean up b4_check_percent_code_qualifiers a little.
 	* data/bison.m4 (b4_check_percent_code_qualifiers): Expect qualifiers
 	in b4_used_percent_code_qualifiers to be double-M4-quoted.  Rewrite

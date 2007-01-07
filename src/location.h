@@ -81,4 +81,7 @@ void location_compute (location *loc,
 
 void location_print (FILE *out, location loc);
 
+/* LOC_STR must be formatted as `file:line.column', it will be modified.  */
+void boundary_set_from_string (boundary *bound, char *loc_str);
+
 #endif /* ! defined LOCATION_H_ */

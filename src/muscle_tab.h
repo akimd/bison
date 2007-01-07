@@ -112,4 +112,8 @@ void muscle_pair_list_grow (const char *muscle,
 
 void muscles_m4_output (FILE *out);
 
+/* In the format `file_name:line.column', append BOUND to MUSCLE.  Use digraphs
+   for special characters in the file name.  */
+void muscle_boundary_grow (char const *key, boundary bound);
+
 #endif /* not MUSCLE_TAB_H_ */
