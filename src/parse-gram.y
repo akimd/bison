@@ -183,12 +183,12 @@ static int current_prec = 0;
 
 /* braceless is not to be used for rule or symbol actions, as it
    calls code_props_plain_init.  */
-%type <chars> STRING "%{...%}" EPILOGUE braceless content content.opt
+%type <chars> STRING "%{...%}" EPILOGUE braceless content.opt
 %type <code> "{...}"
 %printer { fputs (quotearg_style (c_quoting_style, $$), stderr); }
 	 STRING
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
-	 braceless content content.opt "{...}" "%{...%}" EPILOGUE
+	 braceless content.opt "{...}" "%{...%}" EPILOGUE
 
 %type <uniqstr> TYPE ID ID_COLON
 %printer { fprintf (stderr, "<%s>", $$); } TYPE
@@ -236,10 +236,15 @@ prologue_declaration:
     {
       /* FIXME: Special characters in $2 may break %define.
          For example: `['.  */
-      if (muscle_find_const ($2))
-        warn_at (@2, _("%s: `%s' redefined"), "%define", $2);
-      muscle_insert ($2, $3);
-      muscle_grow_used_name_list ("used_percent_define_variables", $2, @2);
+      char const name_prefix[] = "percent_define_";
+      char *name = xmalloc (sizeof name_prefix + strlen ($2));
+      strcpy (name, name_prefix);
+      strcpy (name + sizeof name_prefix - 1, $2);
+      if (muscle_find_const (name))
+        warn_at (@2, _("%s `%s' redefined"), "%define variable", $2);
+      muscle_insert (uniqstr_new (name), $3);
+      free (name);
+      muscle_grow_user_name_list ("user_percent_define_variables", $2, @2);
     }
 | "%defines"                       { defines_flag = true; }
 | "%defines" STRING
@@ -332,7 +337,7 @@ grammar_declaration:
       muscle_code_grow (uniqstr_new (name), $3, @3);
       free (name);
       code_scanner_last_string_free ();
-      muscle_grow_used_name_list ("used_percent_code_qualifiers", $2, @2);
+      muscle_grow_user_name_list ("user_percent_code_qualifiers", $2, @2);
     }
 ;
 
@@ -530,14 +535,9 @@ rhs:
 ;
 
 
-/*-----------*
- | content.  |
- *-----------*/
-
-content:
-  STRING
-| braceless
-;
+/*---------------*
+ | content.opt.  |
+ *--------------*/
 
 /* Some content or "1" by default. */
 content.opt:
@@ -546,9 +546,13 @@ content.opt:
       static char one[] = "1";
       $$ = one;
     }
-| content
+| STRING
 ;
 
+
+/*-------------*
+ | braceless.  |
+ *-------------*/
 
 braceless:
   "{...}"

@@ -26,7 +26,7 @@ b4_copyright([Positions for Bison parsers in C++],
 
 /**
  ** \file position.hh
- ** Define the ]b4_namespace[::position class.
+ ** Define the ]b4_get_percent_define([[namespace]])[::position class.
  */
 
 #ifndef BISON_POSITION_HH
@@ -36,7 +36,7 @@ b4_copyright([Positions for Bison parsers in C++],
 # include <string>
 # include <algorithm>
 
-namespace ]b4_namespace[
+namespace ]b4_get_percent_define([[namespace]])[
 {
   /// Abstract a position.
   class position
@@ -51,7 +51,7 @@ namespace ]b4_namespace[
 
 ])[
     /// Initialization.
-    inline void initialize (]b4_filename_type[* fn)
+    inline void initialize (]b4_get_percent_define([[filename_type]])[* fn)
     {
       filename = fn;
       line = ]b4_location_initial_line[;
@@ -77,7 +77,7 @@ namespace ]b4_namespace[
 
   public:
     /// File name to which this position refers.
-    ]b4_filename_type[* filename;
+    ]b4_get_percent_define([[filename_type]])[* filename;
     /// Current line number.
     unsigned int line;
     /// Current column number.
@@ -113,7 +113,7 @@ namespace ]b4_namespace[
   {
     return begin + -width;
   }
-]m4_if(b4_define_location_comparison, [1], [[
+]m4_if(b4_get_percent_define([[define_location_comparison]]), [1], [[
   /// Compare two position objects.
   inline bool
   operator== (const position& pos1, const position& pos2)
@@ -151,7 +151,7 @@ b4_copyright([Locations for Bison parsers in C++],
 
 /**
  ** \file location.hh
- ** Define the ]b4_namespace[::location class.
+ ** Define the ]b4_get_percent_define([[namespace]])[::location class.
  */
 
 #ifndef BISON_LOCATION_HH
@@ -161,7 +161,7 @@ b4_copyright([Locations for Bison parsers in C++],
 # include <string>
 # include "position.hh"
 
-namespace ]b4_namespace[
+namespace ]b4_get_percent_define([[namespace]])[
 {
 
   /// Abstract a location.
@@ -177,7 +177,7 @@ namespace ]b4_namespace[
 
 ])[
     /// Initialization.
-    inline void initialize (]b4_filename_type[* fn)
+    inline void initialize (]b4_get_percent_define([[filename_type]])[* fn)
     {
       begin.initialize (fn);
       end = begin;
@@ -235,7 +235,7 @@ namespace ]b4_namespace[
     res.columns (width);
     return res;
   }
-]m4_if(b4_define_location_comparison, [1], [[
+]m4_if(b4_get_percent_define([[define_location_comparison]]), [1], [[
   /// Compare two location objects.
   inline bool
   operator== (const location& loc1, const location& loc2)

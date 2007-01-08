@@ -703,11 +703,11 @@ AT_CHECK([bison input.y], [1], [],
 AT_CLEANUP
 
 
-## ----------------------------- ##
-## Reject bad %code qualifiers.  ##
-## ----------------------------- ##
+## -------------------------------- ##
+## Reject unused %code qualifiers.  ##
+## -------------------------------- ##
 
-AT_SETUP([Reject bad %code qualifiers])
+AT_SETUP([Reject unused %code qualifiers])
 
 AT_DATA([input-c.y],
 [[%code "" {}
@@ -716,10 +716,10 @@ AT_DATA([input-c.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c.y]], [1], [],
-[[input-c.y:1.7-8: `' is not a recognized %code qualifier
-input-c.y:2.7-11: `bad' is not a recognized %code qualifier
-input-c.y:3.7-11: `bad' is not a recognized %code qualifier
+AT_CHECK([[bison input-c.y]], [0], [],
+[[input-c.y:1.7-8: warning: %code qualifier `' is not used
+input-c.y:2.7-11: warning: %code qualifier `bad' is not used
+input-c.y:3.7-11: warning: %code qualifier `bad' is not used
 ]])
 
 AT_DATA([input-c-glr.y],
@@ -729,10 +729,10 @@ AT_DATA([input-c-glr.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c-glr.y]], [1], [],
-[[input-c-glr.y:1.7-8: `' is not a recognized %code qualifier
-input-c-glr.y:2.7-11: `bad' is not a recognized %code qualifier
-input-c-glr.y:3.8-12: `bad' is not a recognized %code qualifier
+AT_CHECK([[bison input-c-glr.y]], [0], [],
+[[input-c-glr.y:1.7-8: warning: %code qualifier `' is not used
+input-c-glr.y:2.7-11: warning: %code qualifier `bad' is not used
+input-c-glr.y:3.8-12: warning: %code qualifier `bad' is not used
 ]])
 
 AT_DATA([input-c++.y],
@@ -742,10 +742,10 @@ AT_DATA([input-c++.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c++.y]], [1], [],
-[[input-c++.y:1.7-8: `' is not a recognized %code qualifier
-input-c++.y:2.7-11: `bad' is not a recognized %code qualifier
-input-c++.y:3.8-9: `' is not a recognized %code qualifier
+AT_CHECK([[bison input-c++.y]], [0], [],
+[[input-c++.y:1.7-8: warning: %code qualifier `' is not used
+input-c++.y:2.7-11: warning: %code qualifier `bad' is not used
+input-c++.y:3.8-9: warning: %code qualifier `' is not used
 ]])
 
 AT_DATA([input-c++-glr.y],
@@ -755,10 +755,10 @@ AT_DATA([input-c++-glr.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c++-glr.y]], [1], [],
-[[input-c++-glr.y:1.7-11: `bad' is not a recognized %code qualifier
-input-c++-glr.y:2.7-8: `' is not a recognized %code qualifier
-input-c++-glr.y:3.7-8: `' is not a recognized %code qualifier
+AT_CHECK([[bison input-c++-glr.y]], [0], [],
+[[input-c++-glr.y:1.7-11: warning: %code qualifier `bad' is not used
+input-c++-glr.y:2.7-8: warning: %code qualifier `' is not used
+input-c++-glr.y:3.7-8: warning: %code qualifier `' is not used
 ]])
 
 AT_DATA([special-char-@@.y],
@@ -768,10 +768,10 @@ AT_DATA([special-char-@@.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison special-char-@@.y]], [1], [],
-[[special-char-@@.y:1.7-11: `bad' is not a recognized %code qualifier
-special-char-@@.y:2.7-8: `' is not a recognized %code qualifier
-special-char-@@.y:3.7-8: `' is not a recognized %code qualifier
+AT_CHECK([[bison special-char-@@.y]], [0], [],
+[[special-char-@@.y:1.7-11: warning: %code qualifier `bad' is not used
+special-char-@@.y:2.7-8: warning: %code qualifier `' is not used
+special-char-@@.y:3.7-8: warning: %code qualifier `' is not used
 ]])
 
 AT_DATA([special-char-@:>@.y],
@@ -781,10 +781,10 @@ AT_DATA([special-char-@:>@.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison special-char-@:>@.y]], [1], [],
-[[special-char-@:>@.y:1.7-11: `bad' is not a recognized %code qualifier
-special-char-@:>@.y:2.7-8: `' is not a recognized %code qualifier
-special-char-@:>@.y:3.7-8: `' is not a recognized %code qualifier
+AT_CHECK([[bison special-char-@:>@.y]], [0], [],
+[[special-char-@:>@.y:1.7-11: warning: %code qualifier `bad' is not used
+special-char-@:>@.y:2.7-8: warning: %code qualifier `' is not used
+special-char-@:>@.y:3.7-8: warning: %code qualifier `' is not used
 ]])
 
 AT_CLEANUP
@@ -804,12 +804,12 @@ AT_DATA([input.y],
 start: ;
 ]])
 
-AT_CHECK([[bison input.y]], [1], [],
-[[input.y:2.9-13: warning: %define: `var' redefined
-input.y:3.10-14: warning: %define: `var' redefined
-input.y:1.9-13: `var' is not a recognized %define variable
-input.y:2.9-13: `var' is not a recognized %define variable
-input.y:3.10-14: `var' is not a recognized %define variable
+AT_CHECK([[bison input.y]], [0], [],
+[[input.y:2.9-13: warning: %define variable `var' redefined
+input.y:3.10-14: warning: %define variable `var' redefined
+input.y:1.9-13: warning: %define variable `var' is not used
+input.y:2.9-13: warning: %define variable `var' is not used
+input.y:3.10-14: warning: %define variable `var' is not used
 ]])
 
 AT_CLEANUP

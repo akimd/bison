@@ -117,12 +117,10 @@ void muscles_m4_output (FILE *out);
    for special characters in the file name.  */
 void muscle_boundary_grow (char const *key, boundary bound);
 
-/* Grow KEY for the occurrence of the name USED_NAME at LOC appropriately for
-   use with b4_check_for_unrecognized_names in ../data/bison.m4.  USED_NAME
-   is not escaped with digraphs, so it must not contain `[' or `]'.  As a
-   precondition on b4_check_for_unrecognized_names, it can't contain `,'
-   either.  */
-void muscle_grow_used_name_list (char const *key, char const *used_name,
+/* Grow KEY for the occurrence of the name USER_NAME at LOC appropriately for
+   use with b4_check_user_names in ../data/bison.m4.  USER_NAME is not escaped
+   with digraphs, so it must not contain `[' or `]'.  */
+void muscle_grow_user_name_list (char const *key, char const *user_name,
                                  location loc);
 
 #endif /* not MUSCLE_TAB_H_ */

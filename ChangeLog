@@ -1,3 +1,63 @@
+2007-01-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Instead of having skeletons declare all valid %define variables and
+	%code qualifiers, provide macros that retrieve the associated values
+	and build these lists automatically.  Thus Bison will now warn when a
+	variable or qualifier is not used by the skeleton in the current
+	invocation regardless of whether it might sometimes be used by that
+	skeleton in other invocations.  Also, move all %define value macros to
+	the b4_percent_define_ namespace, and remove the %define "NAME" {CODE}
+	form, which is replaced by %code.
+	* data/bison.m4 (b4_check_for_unrecognized_names): Rename to...
+	(b4_check_user_names): ... this, and change the series of valid name
+	arguments to a single list argument for names used in the skeleton
+	similar to the existing list argument for names used in the grammar.
+	Warn instead of complaining.
+	(b4_get_percent_define, b4_get_percent_code): New to retrieve %define
+	values and %code code, to format %code code properly, and to build
+	lists of all %define variables and %code qualifiers used in the
+	skeleton: b4_skeleton_percent_define_variables and
+	b4_skeleton_percent_code_qualifiers.
+	(b4_check_percent_define_variables, b4_check_percent_code_qualifiers):
+	Remove, and...
+	(m4_wrap): ... m4_wrap b4_check_user_names invocations instead so that
+	the skeleton names lists can finish building first.  In place of
+	b4_used_percent_define_variables and b4_used_percent_code_qualifiers,
+	expect the lists b4_user_percent_define_variables and
+	b4_user_percent_code_qualifiers.
+	* data/c++.m4: Where setting default values for b4_parser_class_name,
+	b4_location_type, b4_filename_type, b4_namespace, and
+	b4_define_location_comparison, update their names to the
+	b4_percent_define_ namespace.
+	* data/glr.c: Don't use b4_check_percent_define_variables and
+	b4_check_percent_code_qualifiers.  Use b4_get_percent_code.
+	* data/glr.cc, data/lalr1.cc: Likewise, and use b4_get_percent_define.
+	(b4_parser_class_name, b4_namespace): Define these using
+	b4_get_percent_define for parser_class_name and namespace.  Normally
+	this would be a bad idea since there might be cases when the variables
+	aren't used, but these variables are too pervasive in these skeletons
+	for that to be a problem.
+	* data/location.cc: Use b4_get_percent_define.
+	* data/push.c: Don't use b4_check_percent_define_variables and
+	b4_check_percent_code_qualifiers.  Use b4_get_percent_code.
+	* data/yacc.c: Likewise, and don't call m4_exit in
+	b4_use_push_for_pull_if or m4_wrap code will never execute.
+	* src/muscle_tab.c, src/muscle_tab.h (muscle_grow_used_name_list):
+	Rename to...
+	(muscle_grow_user_name_list): ... this for consistency with the
+	terminology used in bison.m4.
+	* src/parse-gram.y (prologue_declaration): Prepend "percent_define_" to
+	%define variable names, and rename muscle used_percent_define_variables
+	to user_percent_define_variables.
+	(grammar_declaration): Rename muscle used_percent_code_qualifiers to
+	user_percent_code_qualifiers.
+	(content): Remove.
+	(content.opt): Replace content RHS with STRING RHS so %define "NAME"
+	{CODE} form is no longer accepted.
+	* tests/input.at (Reject bad %code qualifiers): Rename to...
+	(Reject unused %code qualifiers): ... this, and update test output.
+	(%define error): Update test output.
+
 2007-01-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Check for unrecognized %define variables similar to checking for

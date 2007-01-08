@@ -283,81 +283,107 @@ b4_define_user_code([pre_prologue])
 b4_define_user_code([stype])
 
 
-# b4_check_for_unrecognized_names(WHAT, LIST, [VALID_NAME], [VALID_NAME])
-# -----------------------------------------------------------------------
-# Complain if any name of type WHAT is used in the grammar (as recorded in
-# LIST) but is not a VALID_NAME.
+# b4_check_user_names(WHAT, USER-LIST, SKELETON-LIST)
+# ---------------------------------------------------
+# Warn if any name of type WHAT is used by the user (as recorded in USER-LIST)
+# but is not used by the skeleton (as recorded in SKELETON-LIST).
 #
-# LIST must expand to a list specifying all grammar occurrences of all names of
-# type WHAT.   Each item in the list is a triplet specifying one occurrence:
-# name, start boundary, and end boundary.  Empty string names are fine.  An
-# empty list is fine.
+# USER-LIST must expand to a list specifying all grammar occurrences of all
+# names of type WHAT.   Each item in the list is a triplet specifying one
+# occurrence: name, start boundary, and end boundary.  Empty string names are
+# fine.  An empty list is fine.
 #
-# For example, to define b4_foo_list to be used for LIST with three name
-# occurrences and with correct quoting:
+# For example, to define b4_user_foo_names to be used for USER-LIST with three
+# name occurrences and with correct quoting:
 #
-#   m4_define([b4_foo_list],
+#   m4_define([b4_user_foo_names],
 #             [[[[[[bar]], [[parser.y:1.7]], [[parser.y:1.16]]]],
 #               [[[[bar]], [[parser.y:5.7]], [[parser.y:5.16]]]],
 #               [[[[baz]], [[parser.y:8.7]], [[parser.y:8.16]]]]]])
 #
-# Each VALID_NAME must expand to a valid name of type WHAT.  Multiple
-# occurrences of the same valid name are fine.  A VALID_NAME that expands to
-# the empty string will correctly define the empty string as a valid name, but
-# it would be ugly for a Bison skeleton to actually use that.
+# SKELETON-LIST must expand to a list specifying all names of type WHAT that
+# are used by the skeleton.  Multiple occurrences of the same name are fine.
+# Empty string names are fine, but it would be ugly for a Bison skeleton to
+# actually use one.  An empty list is fine.
 #
-# For example, to invoke b4_check_for_unrecognized_names with TYPE foo, with
-# LIST b4_foo_list, with two valid names, and with correct quoting:
+# For example, to define b4_skeleton_foo_names to be used for SKELETON-LIST
+# with two names and with correct quoting:
 #
-#   b4_check_for_unrecognized_names([[foo]], [b4_foo_list],
-#                                   [[bar]], [[baz]])
+#   m4_define([b4_skeleton_foo_names],
+#             [[[[bar]], [[baz]]]])
 #
-# Names and valid names must not contain the character `,'.
-m4_define([b4_check_for_unrecognized_names],
-[m4_foreach([b4_occurrence],
-            $2,
-            [m4_pushdef([b4_occurrence], b4_occurrence)
-             m4_pushdef([b4_name], m4_car(b4_occurrence))
-             m4_pushdef([b4_start], m4_car(m4_shift(b4_occurrence)))
-             m4_pushdef([b4_end], m4_shift(m4_shift(b4_occurrence)))
-             m4_if(m4_index(m4_if($#, 2, [],
-                                  [[,]m4_quote(m4_shift(m4_shift($*)))[,]]),
-                            [,]b4_name[,]),
-                   [-1],
-                   [b4_complain_at([b4_start], [b4_end],
-                                   [[`%s' is not a recognized %s]],
-                                   [b4_name], [$1])
-                   ])
-             m4_popdef([b4_occurrence])
-             m4_popdef([b4_name])
-             m4_popdef([b4_start])
-             m4_popdef([b4_end])
-            ])
+# To invoke b4_check_user_names with TYPE foo, with USER-LIST
+# b4_user_foo_names, with SKELETON-LIST b4_skeleton_foo_names, and with correct
+# quoting:
+#
+#   b4_check_user_names([[foo]], [b4_user_foo_names], [b4_skeleton_foo_names])
+m4_define([b4_check_user_names],
+[m4_foreach([b4_occurrence], $2,
+[m4_pushdef([b4_occurrence], b4_occurrence)dnl
+m4_pushdef([b4_user_name], m4_car(b4_occurrence))dnl
+m4_pushdef([b4_start], m4_car(m4_shift(b4_occurrence)))dnl
+m4_pushdef([b4_end], m4_shift(m4_shift(b4_occurrence)))dnl
+m4_pushdef([b4_found], [[0]])dnl
+m4_foreach([b4_skeleton_name], $3,
+           [m4_if(m4_quote(b4_user_name),
+                  m4_quote(b4_skeleton_name),
+                  [m4_define([b4_found], [[1]])])])dnl
+m4_if(b4_found, [0], [b4_warn_at([b4_start], [b4_end],
+                                 [[%s `%s' is not used]],
+                                 [$1], [b4_user_name])])[]dnl
+m4_popdef([b4_found])dnl
+m4_popdef([b4_occurrence])dnl
+m4_popdef([b4_user_name])dnl
+m4_popdef([b4_start])dnl
+m4_popdef([b4_end])dnl
+])])
+
+# b4_get_percent_define(VARIABLE)
+# --------------------------------
+# If the %define variable VARIABLE is defined, emit it.  Also, record VARIABLE
+# in b4_skeleton_percent_define_variables.
+m4_define([b4_get_percent_define],
+[m4_append([b4_skeleton_percent_define_variables], [[$1]], [[, ]])dnl
+m4_ifdef([b4_percent_define_]$1, [b4_percent_define_]$1)])
+
+# b4_get_percent_code([QUALIFIER])
+# --------------------------------
+# If any %code blocks for QUALIFIER are defined, emit them beginning with a
+# comment and ending with synclines and a newline.  If QUALIFIER is not
+# specified (thus, b4_get_percent_code is invoked without parens), do this for
+# the unqualified %code blocks.  Also, record QUALIFIER (if specified) in
+# b4_skeleton_percent_code_qualifiers.
+m4_define([b4_get_percent_code],
+[m4_pushdef([b4_macro_name], [[b4_percent_code]]m4_if([$#], [1], [[[_]$1]]))dnl
+m4_if([$#], [1],
+      [m4_append([b4_skeleton_percent_code_qualifiers], [[$1]], [[, ]])])dnl
+m4_ifdef(b4_macro_name,
+[b4_comment([m4_if([$#], [0], [[Unqualified %code]],
+                   [[%code "]$1["]])[ blocks.]])
+b4_user_code(b4_macro_name)])dnl
+m4_popdef([b4_macro_name])])
+
+
+## --------------------------------------------------------- ##
+## After processing the skeletons, check that all the user's ##
+## %define variables and %code qualifiers were used.         ##
+## --------------------------------------------------------- ##
+
+m4_wrap([
+m4_pushdef([b4_check_user_names_wrap],
+[m4_ifdef([b4_skeleton_percent_$1],
+          [m4_define([b4_skeleton_percent_$1],
+                     m4_dquote(m4_dquote(b4_skeleton_percent_$1)))],
+          [m4_define([b4_skeleton_percent_$1], [[]])])
+
+m4_ifdef([b4_user_percent_$1],
+         [b4_check_user_names([$2],
+                              [b4_user_percent_$1],
+                              [b4_skeleton_percent_$1])])
 ])
 
-# b4_check_percent_define_variables([VAILD_VARIABLE], [VALID_VARIABLE], ...)
-# --------------------------------------------------------------------------
-# Wrapper around b4_check_for_unrecognized_names for %define variables.
-#
-# b4_used_percent_define_variables must contain a list of all %define variables
-# used in the grammar similar to b4_foo_list from the
-# b4_check_for_unrecognized_names documentation's example.  If
-# b4_used_percent_define_variables is undefined, it's treated the same as an
-# empty list.
-#
-# Invoking b4_check_percent_define_variables with empty parens specifies one
-# valid variable that is an empty string.  Invoke it without parens to specify
-# that there are no valid variables.
-m4_define([b4_check_percent_define_variables],
-[m4_ifdef([b4_used_percent_define_variables],
-[b4_check_for_unrecognized_names([[%define variable]],
-[b4_used_percent_define_variables]m4_if([$#], [0], [], [, $@]))])])
+b4_check_user_names_wrap([define_variables], [[%define variable]])
+b4_check_user_names_wrap([code_qualifiers], [[%code qualifier]])
 
-# b4_check_percent_code_qualifiers([VAILD_QUALIFIER], [VALID_QUALIFIER], ...)
-# ---------------------------------------------------------------------------
-# Same as b4_check_percent_define_variables but for %code qualifiers using
-# b4_used_percent_code_qualifiers.
-m4_define([b4_check_percent_code_qualifiers],
-[m4_ifdef([b4_used_percent_code_qualifiers],
-[b4_check_for_unrecognized_names([[%code qualifier]],
-[b4_used_percent_code_qualifiers]m4_if([$#], [0], [], [, $@]))])])
+m4_popdef([b4_check_user_names_wrap])
+])

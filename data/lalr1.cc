@@ -19,16 +19,10 @@
 
 m4_include(b4_pkgdatadir/[c++.m4])
 
-b4_check_percent_define_variables([[global_tokens_and_yystype]],
-                                  [[parser_class_name]],
-                                  [[location_type]],
-                                  [[filename_type]],
-                                  [[b4_namespace]],
-                                  [[b4_define_location_comparison]])
-
-b4_check_percent_code_qualifiers([[requires]],
-                                 [[provides]],
-                                 [[top]])
+m4_define([b4_parser_class_name],
+          [b4_get_percent_define([[parser_class_name]])])
+m4_define([b4_namespace],
+          [b4_get_percent_define([[namespace]])])
 
 # The header is mandatory.
 b4_defines_if([],
@@ -52,9 +46,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
-]m4_ifdef([b4_percent_code_requires],
-[[/* Copy the %code "requires" blocks.  */
-]b4_user_code([b4_percent_code_requires])])[
+]b4_get_percent_code([[requires]])[
 
 #include <string>
 #include <iostream>
@@ -125,7 +117,7 @@ b4_user_stype
     typedef YYSTYPE semantic_type;
 #endif
     /// Symbol locations.
-    typedef ]b4_location_type[ location_type;
+    typedef ]b4_get_percent_define([[location_type]])[ location_type;
     /// Tokens.
     struct token
     {
@@ -296,7 +288,7 @@ b4_error_verbose_if([, int tok])[);
   };
 }
 
-]m4_ifset([b4_global_tokens_and_yystype],
+]m4_ifval(b4_get_percent_define([[global_tokens_and_yystype]]),
 [b4_token_defines(b4_tokens)
 
 #ifndef YYSTYPE
@@ -304,18 +296,14 @@ b4_error_verbose_if([, int tok])[);
 # define YYSTYPE b4_namespace::b4_parser_class_name::semantic_type
 #endif
 ])
-m4_ifdef([b4_percent_code_provides],
-[[/* Copy the %code "provides" blocks.  */
-]b4_user_code([b4_percent_code_provides])])[]dnl
+b4_get_percent_code([[provides]])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
 @output(b4_parser_file_name@)
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
   [2002, 2003, 2004, 2005, 2006])
-m4_ifdef([b4_percent_code_top],
-[[/* Copy the %code "top" blocks.  */
-]b4_user_code([b4_percent_code_top])])[]dnl
+b4_get_percent_code([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
@@ -329,10 +317,7 @@ b4_defines_if([[
 
 /* User implementation prologue.  */
 ]b4_user_post_prologue
-m4_ifdef([b4_percent_code],
-[[/* Copy the unqualified %code blocks.  */
-]b4_user_code([b4_percent_code])
-])[]dnl
+b4_get_percent_code[]dnl
 
 [#ifndef YY_
 # if YYENABLE_NLS
