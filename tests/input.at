@@ -800,6 +800,8 @@ AT_DATA([input.y],
 [[%define "var" "value1"
 %define "var" "value1"
  %define "var" "value2"
+%define "special1" "@:>@"
+%define "special2" "@<:@"
 %%
 start: ;
 ]])
@@ -810,6 +812,8 @@ input.y:3.10-14: warning: %define variable `var' redefined
 input.y:1.9-13: warning: %define variable `var' is not used
 input.y:2.9-13: warning: %define variable `var' is not used
 input.y:3.10-14: warning: %define variable `var' is not used
+input.y:4.9-18: warning: %define variable `special1' is not used
+input.y:5.9-18: warning: %define variable `special2' is not used
 ]])
 
 AT_CLEANUP

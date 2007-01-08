@@ -242,7 +242,7 @@ prologue_declaration:
       strcpy (name + sizeof name_prefix - 1, $2);
       if (muscle_find_const (name))
         warn_at (@2, _("%s `%s' redefined"), "%define variable", $2);
-      muscle_insert (uniqstr_new (name), $3);
+      MUSCLE_INSERT_STRING (uniqstr_new (name), $3);
       free (name);
       muscle_grow_user_name_list ("user_percent_define_variables", $2, @2);
     }

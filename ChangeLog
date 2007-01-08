@@ -1,5 +1,12 @@
 2007-01-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* src/parse-gram.y (prologue_declaration): Use MUSCLE_INSERT_STRING
+	instead of muscle_insert for %define values so that M4-special
+	characters are replaced with digraphs.
+	* tests/input.at (%define errors): Extend to check weird values.
+
+2007-01-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Instead of having skeletons declare all valid %define variables and
 	%code qualifiers, provide macros that retrieve the associated values
 	and build these lists automatically.  Thus Bison will now warn when a
