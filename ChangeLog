@@ -1,5 +1,32 @@
 2007-01-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Remove quotes from variables names in %define directives and from
+	qualifiers in %code directives, and restrict the characters that are
+	allowed in them to M4-friendly ones.  For %define, continue to support
+	the quoted form as a deprecated feature.  Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2007-01/msg00023.html>.
+	* NEWS (2.3a+): Add entry for the change to %define.  Update entry for
+	%code.
+	* doc/bison.texinfo (Prologue Alternatives): Update.
+	(Bison Declaration Summary): In %defines entry, update mention of
+	`%code requires' and `%code provides'.
+	(C++ Location Values): Update %define uses.
+	(Calc++ Parser Interface): Likewise.
+	(Calc++ Parser): Likewise, and update `%code requires' uses.
+	(Bison Symbols): Update %code documentation.
+	* src/parse-gram.y (prologue_declaration): For %define variables, use
+	`variable' instead of `STRING'.
+	(grammar_declaration): For %code qualifiers, use `ID' instead of
+	`STRING'.
+	(variable): New nonterminal that takes an `ID' or a `STRING'.
+	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR): Update %code
+	and %define uses.
+	* tests/calc.at (_AT_DATA_CALC_Y): Update %define use.
+	* tests/input.at (Reject unused %code qualifiers): Update %code uses.
+	(%define errors): Update %define uses.
+
+2007-01-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* src/parse-gram.y (prologue_declaration): Use MUSCLE_INSERT_STRING
 	instead of muscle_insert for %define values so that M4-special
 	characters are replaced with digraphs.

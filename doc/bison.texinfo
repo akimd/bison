@@ -2681,9 +2681,9 @@ feature test macros can affect the behavior of Bison-generated
 @cindex Prologue Alternatives
 
 @findex %code
-@findex %code "requires"
-@findex %code "provides"
-@findex %code "top"
+@findex %code requires
+@findex %code provides
+@findex %code top
 (The prologue alternatives described here are experimental.
 More user feedback will help to determine whether they should become permanent
 features.)
@@ -2694,7 +2694,7 @@ As an alternative, Bison provides a %code directive with an explicit qualifier
 field, which identifies the purpose of the code and thus the location(s) where
 Bison should generate it.
 For C/C++, the qualifier can be omitted for the default location, or it can be
-"requires", "provides", or "top".
+@code{requires}, @code{provides}, or @code{top}.
 @xref{Table of Symbols,,Bison Symbols}.
 
 Look again at the example of the previous section:
@@ -2743,17 +2743,17 @@ In that case, the second kind of @var{Prologue} section is not available.
 This behavior is not intuitive.
 
 To avoid this subtle @code{%union} dependency, rewrite the example using a
-@code{%code "top"} and an unqualified @code{%code}.
+@code{%code top} and an unqualified @code{%code}.
 Let's go ahead and add the new @code{YYLTYPE} definition and the
 @code{trace_token} prototype at the same time:
 
 @smallexample
-%code "top" @{
+%code top @{
   #define _GNU_SOURCE
   #include <stdio.h>
 
   /* WARNING: The following code really belongs
-   * in a %code "requires"; see below.  */
+   * in a `%code requires'; see below.  */
 
   #include "ptypes.h"
   #define YYLTYPE YYLTYPE
@@ -2782,12 +2782,12 @@ Let's go ahead and add the new @code{YYLTYPE} definition and the
 @end smallexample
 
 @noindent
-In this way, @code{%code "top"} and the unqualified @code{%code} achieve the
-same functionality as the two kinds of @var{Prologue} sections, but it's always
+In this way, @code{%code top} and the unqualified @code{%code} achieve the same
+functionality as the two kinds of @var{Prologue} sections, but it's always
 explicit which kind you intend.
 Moreover, both kinds are always available even in the absence of @code{%union}.
 
-The @code{%code "top"} block above logically contains two parts.
+The @code{%code top} block above logically contains two parts.
 The first two lines before the warning need to appear near the top of the
 parser source code file.
 The first line after the warning is required by @code{YYSTYPE} and thus also
@@ -2798,18 +2798,18 @@ before the @code{YYSTYPE} definition in that header file as well.
 The @code{YYLTYPE} definition should also appear in the parser header file to
 override the default @code{YYLTYPE} definition there.
 
-In other words, in the @code{%code "top"} block above, all but the first two
+In other words, in the @code{%code top} block above, all but the first two
 lines are dependency code required by the @code{YYSTYPE} and @code{YYLTYPE}
 definitions.
-Thus, they belong in one or more @code{%code "requires"}:
+Thus, they belong in one or more @code{%code requires}:
 
 @smallexample
-%code "top" @{
+%code top @{
   #define _GNU_SOURCE
   #include <stdio.h>
 @}
 
-%code "requires" @{
+%code requires @{
   #include "ptypes.h"
 @}
 %union @{
@@ -2817,7 +2817,7 @@ Thus, they belong in one or more @code{%code "requires"}:
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 
-%code "requires" @{
+%code requires @{
   #define YYLTYPE YYLTYPE
   typedef struct YYLTYPE
   @{
@@ -2842,20 +2842,20 @@ Thus, they belong in one or more @code{%code "requires"}:
 Now Bison will insert @code{#include "ptypes.h"} and the new @code{YYLTYPE}
 definition before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE}
 definitions in both the parser source code file and the parser header file.
-(By the same reasoning, @code{%code "requires"} would also be the appropriate
+(By the same reasoning, @code{%code requires} would also be the appropriate
 place to write your own definition for @code{YYSTYPE}.)
 
 When you are writing dependency code for @code{YYSTYPE} and @code{YYLTYPE}, you
-should prefer @code{%code "requires"} over @code{%code "top"} regardless of
-whether you instruct Bison to generate a parser header file.
+should prefer @code{%code requires} over @code{%code top} regardless of whether
+you instruct Bison to generate a parser header file.
 When you are writing code that you need Bison to insert only into the parser
 source code file and that has no special need to appear at the top of that
-file, you should prefer the unqualified @code{%code} over @code{%code "top"}.
+file, you should prefer the unqualified @code{%code} over @code{%code top}.
 These practices will make the purpose of each block of your code explicit to
 Bison and to other developers reading your grammar file.
 Following these practices, we expect the unqualified @code{%code} and
-@code{%code "requires"} to be the most important of the four @var{Prologue}
-alternatives discussed in this section.
+@code{%code requires} to be the most important of the four @var{Prologue}
+alternatives.
 
 At some point while developing your parser, you might decide to provide
 @code{trace_token} to modules that are external to your parser.
@@ -2863,19 +2863,19 @@ Thus, you might wish for Bison to insert the prototype into both the parser
 header file and the parser source code file.
 Since this function is not a dependency required by @code{YYSTYPE} or
 @code{YYLTYPE}, it doesn't make sense to move its prototype to a
-@code{%code "requires"}.
+@code{%code requires}.
 More importantly, since it depends upon @code{YYLTYPE} and @code{yytokentype},
-@code{%code "requires"} is not sufficient.
+@code{%code requires} is not sufficient.
 Instead, move its prototype from the unqualified @code{%code} to a
-@code{%code "provides"}:
+@code{%code provides}:
 
 @smallexample
-%code "top" @{
+%code top @{
   #define _GNU_SOURCE
   #include <stdio.h>
 @}
 
-%code "requires" @{
+%code requires @{
   #include "ptypes.h"
 @}
 %union @{
@@ -2883,7 +2883,7 @@ Instead, move its prototype from the unqualified @code{%code} to a
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 
-%code "requires" @{
+%code requires @{
   #define YYLTYPE YYLTYPE
   typedef struct YYLTYPE
   @{
@@ -2895,7 +2895,7 @@ Instead, move its prototype from the unqualified @code{%code} to a
   @} YYLTYPE;
 @}
 
-%code "provides" @{
+%code provides @{
   void trace_token (enum yytokentype token, YYLTYPE loc);
 @}
 
@@ -2914,7 +2914,7 @@ file and the parser source code file after the definitions for
 
 The above examples are careful to write directives in an order that reflects
 the layout of the generated parser source code and header files:
-@code{%code "top"}, @code{%code "requires"}, @code{%code "provides"}, and then
+@code{%code top}, @code{%code requires}, @code{%code provides}, and then
 @code{%code}.
 While your grammar files may generally be easier to read if you also follow
 this order, Bison does not require it.
@@ -2931,12 +2931,12 @@ For example, you may organize semantic-type-related directives by semantic
 type:
 
 @smallexample
-%code "requires" @{ #include "type1.h" @}
+%code requires @{ #include "type1.h" @}
 %union @{ type1 field1; @}
 %destructor @{ type1_free ($$); @} <field1>
 %printer @{ type1_print ($$); @} <field1>
 
-%code "requires" @{ #include "type2.h" @}
+%code requires @{ #include "type2.h" @}
 %union @{ type2 field2; @}
 %destructor @{ type2_free ($$); @} <field2>
 %printer @{ type2_print ($$); @} <field2>
@@ -2958,8 +2958,8 @@ think about all the low-level ordering issues discussed here.
 Instead, you should simply use these directives to label each block of your
 code according to its purpose and let Bison handle the ordering.
 @code{%code} is the most generic label.
-Move code to @code{%code "requires"}, @code{%code "provides"}, or
-@code{%code "top"} as needed.
+Move code to @code{%code requires}, @code{%code provides}, or @code{%code top}
+as needed.
 
 @node Bison Declarations
 @subsection The Bison Declarations Section
@@ -4608,10 +4608,10 @@ typically needs to be able to refer to the above-mentioned declarations
 and to the token type codes.  @xref{Token Values, ,Semantic Values of
 Tokens}.
 
-@findex %code "requires"
-@findex %code "provides"
-If you have declared @code{%code "requires"} or @code{%code "provides"}, the
-output header also contains their code.
+@findex %code requires
+@findex %code provides
+If you have declared @code{%code requires} or @code{%code provides}, the output
+header also contains their code.
 @xref{Table of Symbols, ,%code}.
 @end deffn
 
@@ -7540,7 +7540,7 @@ Symbols}.
 @c - %locations
 @c - class Position
 @c - class Location
-@c - %define "filename_type" "const symbol::Symbol"
+@c - %define filename_type "const symbol::Symbol"
 
 When the directive @code{%locations} is used, the C++ parser supports
 location tracking, see @ref{Locations, , Locations Overview}.  Two
@@ -7552,7 +7552,7 @@ and a @code{location}, a range composed of a pair of
 The name of the file.  It will always be handled as a pointer, the
 parser will never duplicate nor deallocate it.  As an experimental
 feature you may change it to @samp{@var{type}*} using @samp{%define
-"filename_type" "@var{type}"}.
+filename_type "@var{type}"}.
 @end deftypemethod
 
 @deftypemethod {position} {unsigned int} line
@@ -7616,7 +7616,7 @@ Move @code{begin} onto @code{end}.
 The output files @file{@var{output}.hh} and @file{@var{output}.cc}
 declare and define the parser class in the namespace @code{yy}.  The
 class name defaults to @code{parser}, but may be changed using
-@samp{%define "parser_class_name" "@var{name}"}.  The interface of
+@samp{%define parser_class_name "@var{name}"}.  The interface of
 this class is detailed below.  It can be extended using the
 @code{%parse-param} feature: its semantics is slightly changed since
 it describes an additional member of the parser class, and an
@@ -7869,11 +7869,11 @@ the grammar for.
 %language "C++"                          /*  -*- C++ -*- */
 %require "@value{VERSION}"
 %defines
-%define "parser_class_name" "calcxx_parser"
+%define parser_class_name "calcxx_parser"
 @end example
 
 @noindent
-@findex %code "requires"
+@findex %code requires
 Then come the declarations/inclusions needed to define the
 @code{%union}.  Because the parser uses the parsing driver and
 reciprocally, both cannot include the header of the other.  Because the
@@ -7884,7 +7884,7 @@ use a forward declaration of the driver.
 
 @comment file: calc++-parser.yy
 @example
-%code "requires" @{
+%code requires @{
 # include <string>
 class calcxx_driver;
 @}
@@ -8664,7 +8664,7 @@ More user feedback will help to determine whether it should become a permanent
 feature.)
 @end deffn
 
-@deffn {Directive} %code "@var{qualifier}" @{@var{code}@}
+@deffn {Directive} %code @var{qualifier} @{@var{code}@}
 This is the qualified form of the @code{%code} directive.
 If you need to specify location-sensitive verbatim @var{code} that does not
 belong at the default location selected by the unqualified @code{%code} form,
@@ -8675,8 +8675,8 @@ where Bison should generate it.
 Not all values of @var{qualifier} are available for all target languages:
 
 @itemize @bullet
-@findex %code "requires"
-@item "requires"
+@findex %code requires
+@item requires
 
 @itemize @bullet
 @item Language(s): C, C++
@@ -8691,8 +8691,8 @@ and @code{YYLTYPE} definitions.
 before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE} definitions.
 @end itemize
 
-@item "provides"
-@findex %code "provides"
+@item provides
+@findex %code provides
 
 @itemize @bullet
 @item Language(s): C, C++
@@ -8704,20 +8704,20 @@ declarations that should be provided to other modules.
 the Bison-generated @code{YYSTYPE}, @code{YYLTYPE}, and token definitions.
 @end itemize
 
-@item "top"
-@findex %code "top"
+@item top
+@findex %code top
 
 @itemize @bullet
 @item Language(s): C, C++
 
-@item Purpose: The unqualified @code{%code} or @code{%code "requires"} should
-usually be more appropriate than @code{%code "top"}.
+@item Purpose: The unqualified @code{%code} or @code{%code requires} should
+usually be more appropriate than @code{%code top}.
 However, occasionally it is necessary to insert code much nearer the top of the
 parser source code file.
 For example:
 
 @smallexample
-%code "top" @{
+%code top @{
   #define _GNU_SOURCE
   #include <stdio.h>
 @}
@@ -8726,8 +8726,8 @@ For example:
 @item Location(s): Near the top of the parser source code file.
 @end itemize
 @ignore
-@item "imports"
-@findex %code "imports"
+@item imports
+@findex %code imports
 
 @itemize @bullet
 @item Language(s): Java

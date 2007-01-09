@@ -190,9 +190,9 @@ static int current_prec = 0;
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
 	 braceless content.opt "{...}" "%{...%}" EPILOGUE
 
-%type <uniqstr> TYPE ID ID_COLON
+%type <uniqstr> TYPE ID ID_COLON variable
 %printer { fprintf (stderr, "<%s>", $$); } TYPE
-%printer { fputs ($$, stderr); } ID
+%printer { fputs ($$, stderr); } ID variable
 %printer { fprintf (stderr, "%s:", $$); } ID_COLON
 
 %type <integer> INT
@@ -232,10 +232,8 @@ prologue_declaration:
       code_scanner_last_string_free ();
     }
 | "%debug"                         { debug_flag = true; }
-| "%define" STRING content.opt
+| "%define" variable content.opt
     {
-      /* FIXME: Special characters in $2 may break %define.
-         For example: `['.  */
       char const name_prefix[] = "percent_define_";
       char *name = xmalloc (sizeof name_prefix + strlen ($2));
       strcpy (name, name_prefix);
@@ -326,10 +324,8 @@ grammar_declaration:
       muscle_code_grow ("percent_code", $2, @2);
       code_scanner_last_string_free ();
     }
-| "%code" STRING braceless
+| "%code" ID braceless
     {
-      /* FIXME: Special characters in $2 may break %code.
-         For example: `['.  */
       char const name_prefix[] = "percent_code_";
       char *name = xmalloc (sizeof name_prefix + strlen ($2));
       strcpy (name, name_prefix);
@@ -535,9 +531,14 @@ rhs:
 ;
 
 
-/*---------------*
- | content.opt.  |
- *--------------*/
+/*----------------------------*
+ | variable and content.opt.  |
+ *---------------------------*/
+
+variable:
+  ID
+  | STRING { $$ = uniqstr_new ($1); } /* deprecated and not M4-friendly */
+  ;
 
 /* Some content or "1" by default. */
 content.opt:

@@ -16,12 +16,17 @@ Changes in version 2.3a+ (????-??-??):
 
     %defines "parser.h"
 
-* The `=' that used to be required in the following declarations is now
+* The `=' that used to be required in the following directives is now
   deprecated:
 
     %file-prefix "parser"
     %name-prefix "c_"
     %output "parser.c"
+
+* The quotes around NAME that used to be required in the following directive
+  are now deprecated:
+
+    %define NAME "VALUE"
 
 * Bison 2.3a provided a new set of directives as a more flexible alternative to
   the traditional Yacc prologue blocks.  Those have now been consolidated into
@@ -29,10 +34,10 @@ Changes in version 2.3a+ (????-??-??):
   the purpose of the code and thus the location(s) where Bison should generate
   it:
 
-    1. `%code            {CODE}' replaces `%after-header  {CODE}'
-    2. `%code "requires" {CODE}' replaces `%start-header  {CODE}'
-    3. `%code "provides" {CODE}' replaces `%end-header    {CODE}'
-    4. `%code "top"      {CODE}' replaces `%before-header {CODE}'
+    1. `%code          {CODE}' replaces `%after-header  {CODE}'
+    2. `%code requires {CODE}' replaces `%start-header  {CODE}'
+    3. `%code provides {CODE}' replaces `%end-header    {CODE}'
+    4. `%code top      {CODE}' replaces `%before-header {CODE}'
 
   See the %code entries in `Appendix A Bison Symbols' in the Bison manual for a
   summary of the new functionality.  See the new section `Prologue

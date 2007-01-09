@@ -41,7 +41,7 @@ AT_DATA_GRAMMAR([calc.y],
 [[/* Infix notation calculator--calc */
 ]$4
 AT_SKEL_CC_IF(
-[%define "global_tokens_and_yystype"])[
+[%define global_tokens_and_yystype])[
 %{
 #include <stdio.h>
 
