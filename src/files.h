@@ -49,11 +49,6 @@ extern char *spec_defines_file;
 /* Directory prefix of output file names.  */
 extern char *dir_prefix;
 
-
-/* If semantic parser, output a .h file that defines YYSTYPE... */
-extern struct obstack pre_prologue_obstack;
-extern struct obstack post_prologue_obstack;
-
 /* The file name as given on the command line.
    Not named "input_file" because Flex uses this name for an argument,
    and therefore GCC warns about a name clash. */

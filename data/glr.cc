@@ -280,8 +280,9 @@ namespace ]b4_namespace[
 #ifndef YYSTYPE
 ]m4_ifdef([b4_stype],
 [    union semantic_type
+    {
 b4_user_stype
-	;],
+    };],
 [m4_if(b4_tag_seen_flag, 0,
 [[    typedef int semantic_type;]],
 [[    typedef YYSTYPE semantic_type;]])])[

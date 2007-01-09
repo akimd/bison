@@ -44,7 +44,6 @@ char const *token_name (int type);
 
 /* From reader.c. */
 void grammar_start_symbol_set (symbol *sym, location loc);
-void prologue_augment (const char *prologue, location loc, bool post);
 void grammar_current_rule_begin (symbol *lhs, location loc);
 void grammar_current_rule_end (location loc);
 void grammar_midrule_action (void);

@@ -155,6 +155,8 @@ m4_define([b4_fatal_at],
 ## ---------------- ##
 
 # m4_define_default([b4_lex_param], [])   dnl breaks other skeletons
+m4_define_default([b4_pre_prologue], [])
+m4_define_default([b4_post_prologue], [])
 m4_define_default([b4_epilogue], [])
 m4_define_default([b4_parse_param], [])
 

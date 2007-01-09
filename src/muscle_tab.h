@@ -104,10 +104,9 @@ void muscle_code_grow (const char *key, const char *value, location loc);
 
 
 /* MUSCLE is an M4 list of pairs.  Create or extend it with the pair
-   (A1, A2).  Note that because the muscle values are output *double*
-   quoted, one needs to strip the first level of quotes to reach the
-   list itself.  */
-
+   (A1, A2) after escaping both values with digraphs.  Note that because the
+   muscle values are output *double* quoted, one needs to strip the first level
+   of quotes to reach the list itself.  */
 void muscle_pair_list_grow (const char *muscle,
 			    const char *a1, const char *a2);
 

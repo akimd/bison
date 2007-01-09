@@ -228,7 +228,8 @@ prologue_declaration:
       code_props_plain_init (&plain_code, $1, @1);
       code_props_translate_code (&plain_code);
       gram_scanner_last_string_free ();
-      prologue_augment (plain_code.code, @1, union_seen);
+      muscle_code_grow (union_seen ? "post_prologue" : "pre_prologue",
+                        plain_code.code, @1);
       code_scanner_last_string_free ();
     }
 | "%debug"                         { debug_flag = true; }
@@ -350,28 +351,11 @@ union_name:
 ;
 
 grammar_declaration:
-  "%union" union_name "{...}"
+  "%union" union_name braceless
     {
-      char const *body = $3;
-
-      /* Concatenate the %union bodies.  If this is the first %union, make sure
-	 the synchronization line appears after the opening '{' so as not to
-	 confuse Doxygen.  Otherwise, turn the previous %union's trailing '}'
-	 into '\n', and omit the new %union's leading '{'.  */
-      if (!union_seen)
-	{
-	  muscle_grow ("stype", "{", "");
-	}
-      else
-	{
-	  char *code = muscle_find ("stype");
-	  code[strlen (code) - 1] = '\n';
-	}
-      body++;
-
       union_seen = true;
-      muscle_code_grow ("stype", body, @3);
-      gram_scanner_last_string_free ();
+      muscle_code_grow ("stype", $3, @3);
+      code_scanner_last_string_free ();
     }
 ;
 

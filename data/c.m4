@@ -79,7 +79,7 @@ m4_define([b4_user_args],
 # If defined, b4_parse_param arrives double quoted, but below we prefer
 # it to be single quoted.
 m4_define([b4_parse_param],
-b4_parse_param))
+b4_parse_param)
 
 
 # b4_parse_param_for(DECL, FORMAL, BODY)

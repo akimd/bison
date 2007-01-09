@@ -1,3 +1,35 @@
+2007-01-09  Paolo Bonzini  <bonzini@gnu.org>
+	and Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Simplify union and prologue handling, and escape union and lex/parse
+	params with digraphs.
+	* data/bison.m4 (b4_pre_prologue, b4_post_prologue): Set their default
+	values to the empty string since these are no longer guaranteed
+	initialized by the front-end.
+	* data/glr.c, data/glr.cc, data/lalr1.cc, data/push.c, data/yacc.c: Add
+	braces around b4_user_stype since this is no longer done by the
+	front-end.
+	* src/files.c, src/files.h (pre_prologue_obstack,
+	post_prologue_obstack): Remove.
+	* src/muscle_tab.c (muscle_pair_list_grow): Don't duplicate header
+	comments here.  Use MUSCLE_OBSTACK_SGROW so that values are escaped
+	with digraphs.  This fixes lex params and parse params.
+	* src/muscle_tab.h (muscle_pair_list_grow): Update comments.
+	* src/output.c (prepare): Remove muscle insertion of the prologues.
+	(output): Remove freeing of pre_prologue_obstack and
+	post_prologue_obstack.
+	* src/parse-gram.y (prologue_declaration): Use muscle_code_grow rather
+	than prologue_augment for prologue parsing so you don't need prologue
+	obstacks.
+	(grammar_declaration): Use `braceless' instead of "{...}" so that
+	braces are already stripped and code is escaped with digraphs.
+	* src/reader.c (prologue_augment): Remove.
+	(reader): Remove initialization of pre_prologue_obstack and
+	post_prologue_obstack.
+	* src/reader.h (prologue_augment): Remove.
+
+	* data/c.m4: Remove stray parenthesis.
+
 2007-01-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Remove quotes from variables names in %define directives and from
