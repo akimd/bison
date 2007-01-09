@@ -21,8 +21,9 @@
 	* src/parse-gram.y (prologue_declaration): Use muscle_code_grow rather
 	than prologue_augment for prologue parsing so you don't need prologue
 	obstacks.
-	(grammar_declaration): Use `braceless' instead of "{...}" so that
-	braces are already stripped and code is escaped with digraphs.
+	(grammar_declaration): For %union RHS, use `braceless' instead of
+	"{...}" so that braces are already stripped and code is escaped with
+	digraphs.
 	* src/reader.c (prologue_augment): Remove.
 	(reader): Remove initialization of pre_prologue_obstack and
 	post_prologue_obstack.
