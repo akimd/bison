@@ -99,7 +99,7 @@ AT_CHECK([[bison -o glr-regr1.c glr-regr1.y]], 0, [],
 [glr-regr1.y: conflicts: 1 shift/reduce
 ])
 AT_COMPILE([glr-regr1])
-AT_CHECK([[echo BPBPB | ./glr-regr1]], 0,
+AT_PARSER_CHECK([[echo BPBPB | ./glr-regr1]], 0,
 [[E -> 'B'
 E -> 'B'
 E -> E 'P' E
@@ -218,13 +218,14 @@ AT_CHECK([[bison -o glr-regr2a.c glr-regr2a.y]], 0, [],
 ])
 AT_COMPILE([glr-regr2a])
 
-AT_CHECK([[echo s VARIABLE_1 t v x q | ./glr-regr2a]], 0,
+AT_PARSER_CHECK([[echo s VARIABLE_1 t v x q | ./glr-regr2a]], 0,
 [[Variable: 'VARIABLE_1'
 ]], [])
-AT_CHECK([[echo s VARIABLE_1 , ANOTHER_VARIABLE_2 t e | ./glr-regr2a]], 0,
+AT_PARSER_CHECK([[echo s VARIABLE_1 , ANOTHER_VARIABLE_2 t e | ./glr-regr2a]],
+0,
 [[Varlist: 'VARIABLE_1,ANOTHER_VARIABLE_2'
 ]])
-AT_CHECK([[echo s VARIABLE_3 t v x | ./glr-regr2a]], 0,
+AT_PARSER_CHECK([[echo s VARIABLE_3 t v x | ./glr-regr2a]], 0,
 [[Variable: 'VARIABLE_3'
 ]], [])
 
@@ -331,7 +332,8 @@ AT_CHECK([[bison -o glr-regr3.c glr-regr3.y]], 0, [],
 ])
 AT_COMPILE([glr-regr3])
 
-AT_CHECK([[echo p1 t4 o2 p1 p1 t1 o1 t2 p2 o1 t3 p2 p2 | ./glr-regr3]], 0,
+AT_PARSER_CHECK([[echo p1 t4 o2 p1 p1 t1 o1 t2 p2 o1 t3 p2 p2 | ./glr-regr3]],
+0,
 [[Result: 1c04
 ]], [])
 
@@ -359,6 +361,8 @@ AT_DATA_GRAMMAR([glr-regr4.y],
   static char *make_value (char const *, char const *);
   static void yyerror (char const *);
   static int yylex (void);
+  static char *ptrs[100];
+  static char **ptrs_next = ptrs;
 %}
 
 %%
@@ -394,14 +398,17 @@ yylex (void)
 int
 main (void)
 {
-  return yyparse ();
+  int status = yyparse ();
+  while (ptrs_next != ptrs)
+    free (*--ptrs_next);
+  return status;
 }
 
 static char *
 make_value (char const *parent, char const *child)
 {
   char const format[] = "%s <- %s";
-  char *value =
+  char *value = *ptrs_next++ =
     (char *) malloc (strlen (parent) + strlen (child) + sizeof format);
   sprintf (value, format, parent, child);
   return value;
@@ -411,7 +418,7 @@ static char *
 merge (YYSTYPE s1, YYSTYPE s2)
 {
   char const format[] = "merge{ %s and %s }";
-  char *value =
+  char *value = *ptrs_next++ =
     (char *) malloc (strlen (s1.ptr) + strlen (s2.ptr) + sizeof format);
   sprintf (value, format, s1.ptr, s2.ptr);
   return value;
@@ -429,7 +436,7 @@ AT_CHECK([[bison -o glr-regr4.c glr-regr4.y]], 0, [],
 ])
 AT_COMPILE([glr-regr4])
 
-AT_CHECK([[./glr-regr4]], 0,
+AT_PARSER_CHECK([[./glr-regr4]], 0,
 [[merge{ S <- merge{ A <- A1 <- 'a' and A <- A2 <- 'a' } and S <- B <- 'a' }
 ]], [])
 
@@ -502,7 +509,7 @@ AT_CHECK([[bison -o glr-regr5.c glr-regr5.y]], 0, [],
 ])
 AT_COMPILE([glr-regr5])
 
-AT_CHECK([[./glr-regr5]], 0, [],
+AT_PARSER_CHECK([[./glr-regr5]], 0, [],
 [syntax is ambiguous
 ])
 
@@ -567,7 +574,7 @@ AT_CHECK([[bison -o glr-regr6.c glr-regr6.y]], 0, [],
 ])
 AT_COMPILE([glr-regr6])
 
-AT_CHECK([[./glr-regr6]], 0,
+AT_PARSER_CHECK([[./glr-regr6]], 0,
 [Destructor called.
 ],
 [syntax is ambiguous
@@ -591,14 +598,19 @@ AT_DATA_GRAMMAR([glr-regr7.y],
   static void yyerror (char const *);
   static int yylex (void);
   #define YYSTACKEXPANDABLE 0
+  typedef struct count_node {
+    int count;
+    struct count_node *prev;
+  } count_node;
+  static count_node *tail;
 %}
 
 %glr-parser
-%union { int *count; }
-%type <count> 'a'
+%union { count_node *node; }
+%type <node> 'a'
 
 %destructor {
-  if ((*$$)++)
+  if ($$->count++)
     fprintf (stderr, "Destructor called on same value twice.\n");
 } 'a'
 
@@ -617,13 +629,15 @@ stack2: 'a' ;
 static int
 yylex (void)
 {
-  yylval.count = (int *) malloc (sizeof (int));
-  if (!yylval.count)
+  yylval.node = (count_node*) malloc (sizeof *yylval.node);
+  if (!yylval.node)
     {
       fprintf (stderr, "Test inconclusive.\n");
       exit (EXIT_FAILURE);
     }
-  *yylval.count = 0;
+  yylval.node->count = 0;
+  yylval.node->prev = tail;
+  tail = yylval.node;
   return 'a';
 }
 
@@ -636,7 +650,14 @@ yyerror (char const *msg)
 int
 main (void)
 {
-  return yyparse ();
+  int status = yyparse ();
+  while (tail)
+    {
+      count_node *prev = tail->prev;
+      free (tail);
+      tail = prev;
+    }
+  return status;
 }
 ]])
 
@@ -645,7 +666,7 @@ AT_CHECK([[bison -o glr-regr7.c glr-regr7.y]], 0, [],
 ])
 AT_COMPILE([glr-regr7])
 
-AT_CHECK([[./glr-regr7]], 2, [],
+AT_PARSER_CHECK([[./glr-regr7]], 2, [],
 [memory exhausted
 ])
 
@@ -743,7 +764,7 @@ AT_CHECK([[bison -o glr-regr8.c glr-regr8.y]], 0, [],
 ])
 AT_COMPILE([glr-regr8])
 
-AT_CHECK([[./glr-regr8]], 0,
+AT_PARSER_CHECK([[./glr-regr8]], 0,
 [empty: 9/9
 1/9 - 9/9 - 13/17
 ],
@@ -826,7 +847,7 @@ AT_CHECK([[bison -o glr-regr9.c glr-regr9.y]], 0, [],
 ])
 AT_COMPILE([glr-regr9])
 
-AT_CHECK([[./glr-regr9]], 0, [],
+AT_PARSER_CHECK([[./glr-regr9]], 0, [],
 [memory exhausted
 ])
 
@@ -893,7 +914,7 @@ AT_CHECK([[bison -o glr-regr10.c glr-regr10.y]], 0, [],
 ])
 AT_COMPILE([glr-regr10])
 
-AT_CHECK([[./glr-regr10]], 0, [], [])
+AT_PARSER_CHECK([[./glr-regr10]], 0, [], [])
 
 AT_CLEANUP
 
@@ -962,7 +983,7 @@ AT_CHECK([[bison -o glr-regr11.c glr-regr11.y]], 0, [],
 ])
 AT_COMPILE([glr-regr11])
 
-AT_CHECK([[./glr-regr11]], 0, [], [])
+AT_PARSER_CHECK([[./glr-regr11]], 0, [], [])
 
 AT_CLEANUP
 
@@ -1093,7 +1114,7 @@ AT_CHECK([[bison -o glr-regr12.c glr-regr12.y]], 0, [],
 ])
 AT_COMPILE([glr-regr12])
 
-AT_CHECK([[./glr-regr12]], 0, [], [])
+AT_PARSER_CHECK([[./glr-regr12]], 0, [], [])
 
 AT_CLEANUP
 
@@ -1220,7 +1241,7 @@ main (void)
 AT_CHECK([[bison -o glr-regr13.c glr-regr13.y]], 0, [], [])
 AT_COMPILE([glr-regr13])
 
-AT_CHECK([[./glr-regr13]], 0,
+AT_PARSER_CHECK([[./glr-regr13]], 0,
 [defstate_init <- empty string:
   yychar=YYEMPTY
 nondefstate <- empty string:
@@ -1438,7 +1459,7 @@ AT_CHECK([[bison -o glr-regr14.c glr-regr14.y]], 0, [],
 ])
 AT_COMPILE([glr-regr14])
 
-AT_CHECK([[./glr-regr14]], 0,
+AT_PARSER_CHECK([[./glr-regr14]], 0,
 [conflict <- empty string:
   yychar='a', yylval='A', yylloc=(1,1),(1,1)
 defstate_look <- empty string:
@@ -1542,7 +1563,7 @@ AT_CHECK([[bison -o glr-regr15.c glr-regr15.y]], 0, [],
 ])
 AT_COMPILE([glr-regr15])
 
-AT_CHECK([[./glr-regr15]], 0, [],
+AT_PARSER_CHECK([[./glr-regr15]], 0, [],
 [syntax is ambiguous
 ])
 
@@ -1611,7 +1632,7 @@ AT_CHECK([[bison -o glr-regr16.c glr-regr16.y]], 0, [],
 ])
 AT_COMPILE([glr-regr16])
 
-AT_CHECK([[./glr-regr16]], 0, [],
+AT_PARSER_CHECK([[./glr-regr16]], 0, [],
 [syntax error
 ])
 
@@ -1698,7 +1719,7 @@ AT_CHECK([[bison -o glr-regr17.c glr-regr17.y]], 0, [],
 ])
 AT_COMPILE([glr-regr17])
 
-AT_CHECK([[./glr-regr17]], 0, [],
+AT_PARSER_CHECK([[./glr-regr17]], 0, [],
 [Error at 1.1-2.3: syntax is ambiguous.
 ])
 

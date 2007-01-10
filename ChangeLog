@@ -1,5 +1,13 @@
 2007-01-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* tests/glr-regression.at: Use AT_PARSER_CHECK rather than AT_CHECK to
+	run parsers in all tests so that Valgrind is invoked during
+	maintainer-check-valgrind.
+	(Duplicate representation of merged trees): Free all semantic values.
+	(Duplicated user destructor for lookahead): Likewise.
+
+2007-01-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* tests/local.at (AT_PARSER_CHECK): Add a PRE argument to specify a
 	command-line prefix.
 	* tests/torture.at (Exploding the Stack Size with Alloca): Stderr is
