@@ -490,6 +490,9 @@ AT_PARSER_CHECK([./input 900], 0, [], [ignore])
 # multiply by two starting at 200 => 5120 is the last possible).
 AT_PARSER_CHECK([./input 10000], 2, [], [ignore])
 
+# The push parser can't use alloca since the stacks can't be locals.  This test
+# just helps guarantee we don't let the YYSTACK_USE_ALLOCA feature affect
+# push parsers.
 AT_DATA_STACK_TORTURE([AT_USE_ALLOCA],
 [[%push-pull-parser
 ]])

@@ -1,3 +1,13 @@
+2007-01-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Ignore YYSTACK_USE_ALLOCA for push parsers since the stacks can't be
+	locals.  Reported by Juan Manuel Guerrero at
+	<http://lists.gnu.org/archive/html/bug-bison/2007-01/msg00000.html>.
+	* data/push.c: Enclose the #ifdef YYSTACK_USE_ALLOCA in b4_push_if.
+	Fix some indentation also.
+	* tests/torture.at (Exploding the Stack Size with Alloca): Add comment
+	explaining this issue.
+
 2007-01-09  Paolo Bonzini  <bonzini@gnu.org>
 	and Joel E. Denny  <jdenny@ces.clemson.edu>
 
