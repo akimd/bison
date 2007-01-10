@@ -198,11 +198,11 @@ AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 
 ## Running a generated parser.  ##
 ## ---------------------------- ##
 
-# AT_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR)
-# -----------------------------------------------------
+# AT_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR, [PRE])
+# ------------------------------------------------------------
 # So that we can run `./testsuite PREPARSER='valgrind -q' for instance.
 m4_define([AT_PARSER_CHECK],
-[AT_CHECK([$PREPARSER $1], [$2], [$3], [$4])])
+[AT_CHECK([$5 $PREPARSER $1], [$2], [$3], [$4])])
 
 
 

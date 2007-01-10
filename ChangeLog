@@ -1,5 +1,14 @@
 2007-01-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* tests/local.at (AT_PARSER_CHECK): Add a PRE argument to specify a
+	command-line prefix.
+	* tests/torture.at (Exploding the Stack Size with Alloca): Stderr is
+	ignored, so use that PRE to set --log-fd=1 in VALGRIND_OPTS so we don't
+	miss Valgrind messages.
+	(Exploding the Stack Size with Malloc): Likewise.
+
+2007-01-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Ignore YYSTACK_USE_ALLOCA for push parsers since the stacks can't be
 	locals.  Reported by Juan Manuel Guerrero at
 	<http://lists.gnu.org/archive/html/bug-bison/2007-01/msg00000.html>.
