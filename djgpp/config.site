@@ -68,6 +68,9 @@ ac_cv_path_FGREP=${FGREP='/dev/env/DJDIR/bin/fgrep'}
 # A sane default for sed.
 ac_cv_path_SED=${SED='/dev/env/DJDIR/bin/sed'}
 
+# A sane default for mkdir.
+ac_cv_path_mkdir=${MKDIR_P='/dev/env/DJDIR/bin/mkdir'}
+
 # These are set here so the generated libtool will be good
 # for every DJGPP installation, not only the one where the
 # package was configured.
@@ -79,6 +82,7 @@ LD=${LD='ld'}
 # package was configured.
 gl_cv_absolute_stdint_h=${gl_cv_absolute_stdint_h='/dev/env/DJDIR/include/stdint.h'}
 gl_cv_absolute_inttypes_h=${gl_cv_absolute_inttypes_h='/dev/env/DJDIR/include/inttypes.h'}
+gl_cv_absolute_wctype_h=${gl_cv_absolute_wctype_h='/dev/env/DJDIR/include/wctype.h'}
 
 # Force the test for 'ln -s' to report 'cp -pf'.
 ac_cv_prog_LN_S='cp -pf'

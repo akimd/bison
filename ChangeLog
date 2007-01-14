@@ -1,3 +1,10 @@
+2007-01-14  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
+
+	DJGPP specific issues.
+
+	* djgpp/config.site: Set ac_cv_path_mkdir to a sane DJGPP specific
+	default.  Set gl_cv_absolute_wctype_h to a sane DJGPP specific default.
+
 2007-01-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* tests/glr-regression.at: Use AT_PARSER_CHECK rather than AT_CHECK to
