@@ -1,5 +1,15 @@
 2007-01-16  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo (Calc++ Parsing Driver): Let "parse" return an
+	error code.
+	(Calc++ Scanner): Exit with failure if we can't open the input
+	file.
+	Accept "-" standing for stdin.
+	(Calc++ Top Level): Print the result only if the parsing was
+	successful.
+
+2007-01-16  Akim Demaille  <akim@epita.fr>
+
 	* data/lalr1.cc (yy_reduce_print_): Add a missing end-of-line.
 
 2007-01-15  Paolo Bonzini  <bonzini@gnu.org>

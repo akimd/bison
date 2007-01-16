@@ -34,7 +34,7 @@ This manual is for @acronym{GNU} Bison (version @value{VERSION},
 @value{UPDATED}), the @acronym{GNU} parser generator.
 
 Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
-1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -7789,8 +7789,8 @@ Similarly for the parser itself.
 
 @comment file: calc++-driver.hh
 @example
-  // Handling the parser.
-  void parse (const std::string& f);
+  // Run the parser.  Return 0 on success.
+  int parse (const std::string& f);
   std::string file;
   bool trace_parsing;
 @end example
@@ -7831,15 +7831,16 @@ calcxx_driver::~calcxx_driver ()
 @{
 @}
 
-void
+int
 calcxx_driver::parse (const std::string &f)
 @{
   file = f;
   scan_begin ();
   yy::calcxx_parser parser (*this);
   parser.set_debug_level (trace_parsing);
-  parser.parse ();
+  int res = parser.parse ();
   scan_end ();
+  return res;
 @}
 
 void
@@ -8135,8 +8136,13 @@ void
 calcxx_driver::scan_begin ()
 @{
   yy_flex_debug = trace_scanning;
-  if (!(yyin = fopen (file.c_str (), "r")))
-    error (std::string ("cannot open ") + file);
+  if (file == "-")
+    yyin = stdin;
+  else if (!(yyin = fopen (file.c_str (), "r")))
+    @{
+      error (std::string ("cannot open ") + file);
+      exit (1);
+    @}
 @}
 
 void
@@ -8165,11 +8171,8 @@ main (int argc, char *argv[])
       driver.trace_parsing = true;
     else if (*argv == std::string ("-s"))
       driver.trace_scanning = true;
-    else
-      @{
-        driver.parse (*argv);
-        std::cout << driver.result << std::endl;
-      @}
+    else if (!driver.parse (*argv))
+      std::cout << driver.result << std::endl;
 @}
 @end example
 
