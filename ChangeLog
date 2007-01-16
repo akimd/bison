@@ -1,3 +1,42 @@
+2007-01-15  Paolo Bonzini  <bonzini@gnu.org>
+	and Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Clean up %define and %code implementation in M4 some.  Most
+	importantly, rename all related macros to be in the b4_percent_define
+	and b4_percent_code namespaces.  Also, complete support for `.' in
+	%define variable names and %code qualifiers.
+	* data/bison.m4 (b4_check_user_names): Check for special
+	"SKELETON-NAMESPACE(name)" macros instead of using two nested
+	m4_foreach loops.
+	(b4_get_percent_define, b4_get_percent_code): Rename to...
+	(b4_percent_define_get, b4_percent_code_get): ... these.
+	Extend documentation with examples.
+	For SKELETON-NAMESPACE (as documented for b4_check_user_names), use
+	b4_percent_define_skeleton_variables and
+	b4_percent_code_skeleton_qualifiers.
+	Expect any value for the %define variable `foo' to be stored in the
+	macro named `b4_percent_define(foo)'; expect any %code blocks for the
+	qualifier `foo' to be stored in a macro named `b4_percent_code(foo)';
+	expect any unqualified %code blocks to be stored in a macro named
+	`b4_percent_code_unqualified'.
+	Use m4_indir so that %define variable names and %code qualifiers can
+	contain `.', which is allowed by the grammar parser.
+	(b4_percent_define_default): New macro to set a default value for a
+	%define variable.
+	(m4_wrap): Update wrapped code, and fix some underquoting.
+	(b4_check_user_names_wrap): Update and define outside the m4_wrap.
+	Expect grammar uses of %define variables and %code qualifiers to be
+	defined in b4_percent_define_user_variables and
+	b4_percent_code_user_qualifiers.
+	* data/c++.m4: Use b4_percent_define_default rather than
+	m4_define_default.  Fix some underquoting.  Skeleton usage of %define
+	variable define_location_comparison now implies skeleton usage of
+	%define variable filename_type.
+	* data/glr.c, data/glr.cc, data/lalr1.cc, data/location.cc,
+	data/push.c, data/yacc.c: Update macro names.
+	* src/parse-gram.y (prologue_declaration, grammar_declaration): Update
+	muscle names.
+
 2007-01-14  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	DJGPP specific issues.
@@ -134,10 +173,7 @@
 	b4_check_percent_code_qualifiers.  Use b4_get_percent_code.
 	* data/glr.cc, data/lalr1.cc: Likewise, and use b4_get_percent_define.
 	(b4_parser_class_name, b4_namespace): Define these using
-	b4_get_percent_define for parser_class_name and namespace.  Normally
-	this would be a bad idea since there might be cases when the variables
-	aren't used, but these variables are too pervasive in these skeletons
-	for that to be a problem.
+	b4_get_percent_define for parser_class_name and namespace.
 	* data/location.cc: Use b4_get_percent_define.
 	* data/push.c: Don't use b4_check_percent_define_variables and
 	b4_check_percent_code_qualifiers.  Use b4_get_percent_code.

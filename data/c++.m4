@@ -26,13 +26,13 @@ m4_include(b4_pkgdatadir/[c.m4])
 ## ---------------- ##
 
 # Default parser class name.
-m4_define_default([b4_percent_define_parser_class_name], [parser])
-m4_define_default([b4_percent_define_location_type], [location])
-m4_define_default([b4_percent_define_filename_type], [std::string])
-m4_define_default([b4_percent_define_namespace], m4_defn([b4_prefix]))
-m4_define_default([b4_percent_define_define_location_comparison],
-                  m4_if(b4_percent_define_filename_type, [std::string],
-                        [1], [0]))
+b4_percent_define_default([[parser_class_name]], [[parser]])
+b4_percent_define_default([[location_type]], [[location]])
+b4_percent_define_default([[filename_type]], [[std::string]])
+b4_percent_define_default([[namespace]], m4_defn([b4_prefix]))
+b4_percent_define_default([[define_location_comparison]],
+                          [m4_if(b4_percent_define_get([[filename_type]]),
+                                 [std::string], [[1]], [[0]])])
 
 
 # b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)

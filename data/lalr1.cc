@@ -20,9 +20,9 @@
 m4_include(b4_pkgdatadir/[c++.m4])
 
 m4_define([b4_parser_class_name],
-          [b4_get_percent_define([[parser_class_name]])])
+          [b4_percent_define_get([[parser_class_name]])])
 m4_define([b4_namespace],
-          [b4_get_percent_define([[namespace]])])
+          [b4_percent_define_get([[namespace]])])
 
 # The header is mandatory.
 b4_defines_if([],
@@ -46,7 +46,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
-]b4_get_percent_code([[requires]])[
+]b4_percent_code_get([[requires]])[
 
 #include <string>
 #include <iostream>
@@ -118,7 +118,7 @@ b4_user_stype
     typedef YYSTYPE semantic_type;
 #endif
     /// Symbol locations.
-    typedef ]b4_get_percent_define([[location_type]])[ location_type;
+    typedef ]b4_percent_define_get([[location_type]])[ location_type;
     /// Tokens.
     struct token
     {
@@ -289,7 +289,7 @@ b4_error_verbose_if([, int tok])[);
   };
 }
 
-]m4_ifval(b4_get_percent_define([[global_tokens_and_yystype]]),
+]m4_ifval(b4_percent_define_get([[global_tokens_and_yystype]]),
 [b4_token_defines(b4_tokens)
 
 #ifndef YYSTYPE
@@ -297,14 +297,14 @@ b4_error_verbose_if([, int tok])[);
 # define YYSTYPE b4_namespace::b4_parser_class_name::semantic_type
 #endif
 ])
-b4_get_percent_code([[provides]])[]dnl
+b4_percent_code_get([[provides]])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
 @output(b4_parser_file_name@)
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
   [2002, 2003, 2004, 2005, 2006])
-b4_get_percent_code([[top]])[]dnl
+b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
@@ -318,7 +318,7 @@ b4_defines_if([[
 
 /* User implementation prologue.  */
 ]b4_user_post_prologue
-b4_get_percent_code[]dnl
+b4_percent_code_get[]dnl
 
 [#ifndef YY_
 # if YYENABLE_NLS

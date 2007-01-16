@@ -285,84 +285,103 @@ b4_define_user_code([pre_prologue])
 b4_define_user_code([stype])
 
 
-# b4_check_user_names(WHAT, USER-LIST, SKELETON-LIST)
-# ---------------------------------------------------
+# b4_check_user_names(WHAT, USER-LIST, SKELETON-NAMESPACE)
+# --------------------------------------------------------
 # Warn if any name of type WHAT is used by the user (as recorded in USER-LIST)
-# but is not used by the skeleton (as recorded in SKELETON-LIST).
+# but is not used by the skeleton (as recorded by macros in the namespace
+# SKELETON-NAMESPACE).
 #
 # USER-LIST must expand to a list specifying all grammar occurrences of all
-# names of type WHAT.   Each item in the list is a triplet specifying one
+# names of type WHAT.   Each item in the list must be a triplet specifying one
 # occurrence: name, start boundary, and end boundary.  Empty string names are
 # fine.  An empty list is fine.
 #
-# For example, to define b4_user_foo_names to be used for USER-LIST with three
+# For example, to define b4_foo_user_names to be used for USER-LIST with three
 # name occurrences and with correct quoting:
 #
-#   m4_define([b4_user_foo_names],
+#   m4_define([b4_foo_user_names],
 #             [[[[[[bar]], [[parser.y:1.7]], [[parser.y:1.16]]]],
 #               [[[[bar]], [[parser.y:5.7]], [[parser.y:5.16]]]],
 #               [[[[baz]], [[parser.y:8.7]], [[parser.y:8.16]]]]]])
 #
-# SKELETON-LIST must expand to a list specifying all names of type WHAT that
-# are used by the skeleton.  Multiple occurrences of the same name are fine.
-# Empty string names are fine, but it would be ugly for a Bison skeleton to
-# actually use one.  An empty list is fine.
+# The macro SKELETON-NAMESPACE(bar) must be defined iff the name bar of type
+# WHAT is used in the skeleton.  Empty string names are fine, but it would be
+# ugly for a Bison skeleton to actually use one.
 #
-# For example, to define b4_skeleton_foo_names to be used for SKELETON-LIST
-# with two names and with correct quoting:
+# For example, to use b4_foo_skeleton_names for SKELETON-NAMESPACE and define
+# that the names bar and baz are used in the skeleton:
 #
-#   m4_define([b4_skeleton_foo_names],
-#             [[[[bar]], [[baz]]]])
+#   m4_define([b4_foo_skeleton_names(bar)])
+#   m4_define([b4_foo_skeleton_names(baz)])
 #
 # To invoke b4_check_user_names with TYPE foo, with USER-LIST
-# b4_user_foo_names, with SKELETON-LIST b4_skeleton_foo_names, and with correct
-# quoting:
+# b4_foo_user_names, with SKELETON-NAMESPACE b4_foo_skeleton_names, and with
+# correct quoting:
 #
-#   b4_check_user_names([[foo]], [b4_user_foo_names], [b4_skeleton_foo_names])
+#   b4_check_user_names([[foo]], [b4_foo_user_names],
+#                       [[b4_foo_skeleton_names]])
 m4_define([b4_check_user_names],
 [m4_foreach([b4_occurrence], $2,
 [m4_pushdef([b4_occurrence], b4_occurrence)dnl
 m4_pushdef([b4_user_name], m4_car(b4_occurrence))dnl
 m4_pushdef([b4_start], m4_car(m4_shift(b4_occurrence)))dnl
 m4_pushdef([b4_end], m4_shift(m4_shift(b4_occurrence)))dnl
-m4_pushdef([b4_found], [[0]])dnl
-m4_foreach([b4_skeleton_name], $3,
-           [m4_if(m4_quote(b4_user_name),
-                  m4_quote(b4_skeleton_name),
-                  [m4_define([b4_found], [[1]])])])dnl
-m4_if(b4_found, [0], [b4_warn_at([b4_start], [b4_end],
-                                 [[%s `%s' is not used]],
-                                 [$1], [b4_user_name])])[]dnl
-m4_popdef([b4_found])dnl
+m4_ifndef($3[(]m4_quote(b4_user_name)[)],
+          [b4_warn_at([b4_start], [b4_end],
+                      [[%s `%s' is not used]],
+                      [$1], [b4_user_name])])[]dnl
 m4_popdef([b4_occurrence])dnl
 m4_popdef([b4_user_name])dnl
 m4_popdef([b4_start])dnl
 m4_popdef([b4_end])dnl
 ])])
 
-# b4_get_percent_define(VARIABLE)
-# --------------------------------
-# If the %define variable VARIABLE is defined, emit it.  Also, record VARIABLE
-# in b4_skeleton_percent_define_variables.
-m4_define([b4_get_percent_define],
-[m4_append([b4_skeleton_percent_define_variables], [[$1]], [[, ]])dnl
-m4_ifdef([b4_percent_define_]$1, [b4_percent_define_]$1)])
+# b4_percent_define_get(VARIABLE)
+# -------------------------------
+# If the %define variable VARIABLE is defined, emit its value.  Also, record
+# the skeleton's usage of VARIABLE by defining
+# b4_percent_define_skeleton_variables(VARIABLE).
+#
+# For example:
+#
+#   b4_percent_define_get([[foo]])
+m4_define([b4_percent_define_get],
+[m4_define([b4_percent_define_skeleton_variables(]$1[)])dnl
+m4_ifdef([b4_percent_define(]$1[)], [m4_indir([b4_percent_define(]$1[)])])])
 
-# b4_get_percent_code([QUALIFIER])
+# b4_percent_define_default(VARIABLE, DEFAULT)
+# --------------------------------------------
+# If the %define variable VARIABLE is undefined, set its value to DEFAULT.
+#
+# For example:
+#
+#   b4_percent_define_default([[foo]], [[default value]])
+m4_define([b4_percent_define_default],
+[m4_ifndef([b4_percent_define(]$1[)],
+           [m4_define([b4_percent_define(]$1[)], [$2])])])
+
+# b4_percent_code_get([QUALIFIER])
 # --------------------------------
 # If any %code blocks for QUALIFIER are defined, emit them beginning with a
 # comment and ending with synclines and a newline.  If QUALIFIER is not
-# specified (thus, b4_get_percent_code is invoked without parens), do this for
-# the unqualified %code blocks.  Also, record QUALIFIER (if specified) in
-# b4_skeleton_percent_code_qualifiers.
-m4_define([b4_get_percent_code],
-[m4_pushdef([b4_macro_name], [[b4_percent_code]]m4_if([$#], [1], [[[_]$1]]))dnl
-m4_if([$#], [1],
-      [m4_append([b4_skeleton_percent_code_qualifiers], [[$1]], [[, ]])])dnl
+# specified (thus, b4_percent_code_get is invoked without parens), do this for
+# the unqualified %code blocks.  Also, record the skeleton's usage of QUALIFIER
+# (if specified) by defining b4_percent_code_skeleton_qualifiers(QUALIFIER).
+#
+# For example, to emit any unqualified %code blocks followed by any %code
+# blocks for the qualifier foo:
+#
+#   b4_percent_code_get
+#   b4_percent_code_get([[foo]])
+m4_define([b4_percent_code_get],
+[m4_pushdef([b4_macro_name], [[b4_percent_code]]m4_if([$#], [1], [[[(]$1[)]]],
+                                                      [[[_unqualified]]]))dnl
+m4_if([$#], [1], [m4_define([b4_percent_code_skeleton_qualifiers(]$1[)])])dnl
 m4_ifdef(b4_macro_name,
 [b4_comment([m4_if([$#], [0], [[Unqualified %code]],
                    [[%code "]$1["]])[ blocks.]])
-b4_user_code(b4_macro_name)])dnl
+b4_user_code([m4_indir(b4_macro_name)])
+])dnl
 m4_popdef([b4_macro_name])])
 
 
@@ -371,21 +390,13 @@ m4_popdef([b4_macro_name])])
 ## %define variables and %code qualifiers were used.         ##
 ## --------------------------------------------------------- ##
 
+m4_define([b4_check_user_names_wrap],
+[m4_ifdef([b4_percent_]$1[_user_]$2[s],
+          [b4_check_user_names([[%]$1 $2],
+                               [b4_percent_]$1[_user_]$2[s],
+                               [[b4_percent_]$1[_skeleton_]$2[s]])])])
+
 m4_wrap([
-m4_pushdef([b4_check_user_names_wrap],
-[m4_ifdef([b4_skeleton_percent_$1],
-          [m4_define([b4_skeleton_percent_$1],
-                     m4_dquote(m4_dquote(b4_skeleton_percent_$1)))],
-          [m4_define([b4_skeleton_percent_$1], [[]])])
-
-m4_ifdef([b4_user_percent_$1],
-         [b4_check_user_names([$2],
-                              [b4_user_percent_$1],
-                              [b4_skeleton_percent_$1])])
-])
-
-b4_check_user_names_wrap([define_variables], [[%define variable]])
-b4_check_user_names_wrap([code_qualifiers], [[%code qualifier]])
-
-m4_popdef([b4_check_user_names_wrap])
+b4_check_user_names_wrap([[define]], [[variable]])
+b4_check_user_names_wrap([[code]], [[qualifier]])
 ])

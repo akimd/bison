@@ -58,9 +58,9 @@ m4_include(b4_pkgdatadir/[c++.m4])
 m4_include(b4_pkgdatadir/[location.cc])
 
 m4_define([b4_parser_class_name],
-          [b4_get_percent_define([[parser_class_name]])])
+          [b4_percent_define_get([[parser_class_name]])])
 m4_define([b4_namespace],
-          [b4_get_percent_define([[namespace]])])
+          [b4_percent_define_get([[namespace]])])
 
 # Save the parse parameters.
 m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))
@@ -230,7 +230,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 #ifndef PARSER_HEADER_H
 # define PARSER_HEADER_H
 
-]b4_get_percent_code([[requires]])[
+]b4_percent_code_get([[requires]])[
 
 #include <string>
 #include <iostream>
@@ -290,7 +290,7 @@ b4_user_stype
     typedef YYSTYPE semantic_type;
 #endif
     /// Symbol locations.
-    typedef ]b4_get_percent_define([[location_type]])[ location_type;
+    typedef ]b4_percent_define_get([[location_type]])[ location_type;
     /// Tokens.
     struct token
     {
@@ -365,7 +365,7 @@ b4_user_stype
   };
 
 ]dnl Redirections for glr.c.
-m4_ifval(b4_get_percent_define([[global_tokens_and_yystype]]),
+m4_ifval(b4_percent_define_get([[global_tokens_and_yystype]]),
 [b4_token_defines(b4_tokens)])
 [
 #ifndef YYSTYPE
@@ -377,7 +377,7 @@ m4_ifval(b4_get_percent_define([[global_tokens_and_yystype]]),
 
 }
 
-]b4_get_percent_code([[provides]])[]dnl
+]b4_percent_code_get([[provides]])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
 m4_divert_pop(0)
