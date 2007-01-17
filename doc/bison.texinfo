@@ -7969,7 +7969,7 @@ avoid name clashes.
 %token        ASSIGN     ":="
 %token <sval> IDENTIFIER "identifier"
 %token <ival> NUMBER     "number"
-%type  <ival> exp        "expression"
+%type  <ival> exp
 @end example
 
 @noindent
@@ -7982,7 +7982,7 @@ To enable memory deallocation during error recovery, use
 %printer    @{ debug_stream () << *$$; @} "identifier"
 %destructor @{ delete $$; @} "identifier"
 
-%printer    @{ debug_stream () << $$; @} "number" "expression"
+%printer    @{ debug_stream () << $$; @} <ival>
 @end example
 
 @noindent
