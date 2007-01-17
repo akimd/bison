@@ -1,3 +1,13 @@
+2007-01-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS, data/c++-skel.m4, data/c++.m4, data/c-skel.m4, data/c.m4,
+	data/glr.c, data/glr.cc, data/lalr1.cc, data/location.cc,
+	djgpp/config.site, src/files.c, src/files.h, src/main.c,
+	src/muscle_tab.c, src/muscle_tab.h, src/parse-gram.y, src/reader.h,
+	src/scan-skel.h, src/scan-skel.l, tests/actions.at, tests/calc.at,
+	tests/glr-regression.at, tests/input.at, tests/local.at,
+	tests/output.at, tests/torture.at: Update copyright to 2007.
+
 2007-01-16  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (Calc++ Parsing Driver): Let "parse" return an
@@ -287,7 +297,7 @@
 	* data/glr.c, data/glr.cc, data/lalr1.cc, data/location.cc,
 	data/push.c, data/yacc.c: Likewise, and replace m4_divert(0) with
 	m4_divert_push(0) and m4_divert_pop(0).
-	* data/output.c (output_skeleton): Don't add an m4_divert_push(0) and
+	* src/output.c (output_skeleton): Don't add an m4_divert_push(0) and
 	an m4_wrap([m4_divert_pop(0)]) to the M4.  Diversion -1, which is
 	pushed and popped by m4sugar, should be first on the stack.
 

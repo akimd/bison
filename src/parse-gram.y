@@ -589,7 +589,9 @@ string_as_id:
   STRING
     {
       $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
-      symbol_class_set ($$, token_sym, @1, false);
+      symbol_class_set ($$,
+                        current_class == unknown_sym
+                        ? token_sym : current_class, @1, false);
     }
 ;
 
