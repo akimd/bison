@@ -315,7 +315,7 @@ cp_mark_as_generated()
     if test -z "$c1"; then
       cmp -s "$cp_src" "$cp_dst" || {
 	echo "$0: cp -f $cp_src $cp_dst" &&
-	cp -f "$cp_src" "$cp_dst"
+	sed 's/\.#bootmp\///g' "$cp_src" > "$cp_dst"
       }
     else
       # Copy the file first to get proper permissions if it
@@ -324,7 +324,7 @@ cp_mark_as_generated()
       (
 	echo "$c1-*- buffer-read-only: t -*- vi: set ro:$c2" &&
 	echo "${c1}DO NOT EDIT! GENERATED AUTOMATICALLY!$c2" &&
-	cat "$cp_src"
+	sed 's/\.#bootmp\///g' "$cp_src"
       ) > $cp_dst-t &&
       if cmp -s "$cp_dst-t" "$cp_dst"; then
 	rm -f "$cp_dst-t"
