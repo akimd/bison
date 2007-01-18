@@ -4698,11 +4698,18 @@ Require a Version of Bison}.
 @end deffn
 
 @deffn {Directive} %skeleton "@var{file}"
-Specify the skeleton to use.  You probably don't need this option unless
-you are developing Bison; you should use @code{%language} if you want to
-specify the skeleton for a different language, because it is clearer and
-because it will always choose the correct skeleton for non-deterministic
-or push parsers.
+Specify the skeleton to use.
+
+You probably don't need this option unless you are developing Bison.
+You should use @code{%language} if you want to specify the skeleton for a
+different language, because it is clearer and because it will always choose the
+correct skeleton for non-deterministic or push parsers.
+
+If @var{file} does not contain a @code{/}, @var{file} is the name of a skeleton
+file in the Bison installation directory.
+If it does, @var{file} is an absolute file name or a file name relative to the
+directory of the grammar file.
+This is similar to how most shells resolve commands.
 @end deffn
 
 @deffn {Directive} %token-table
@@ -7319,13 +7326,19 @@ Pretend that @code{%no-parser} was specified.  @xref{Decl Summary}.
 
 @item -S @var{file}
 @itemx --skeleton=@var{file}
-Specify the skeleton to use, as if @code{%skeleton} was specified
+Specify the skeleton to use, similar to @code{%skeleton}
 (@pxref{Decl Summary, , Bison Declaration Summary}).
 
-You probably don't need this option unless you are developing Bison;
-you should use @option{--language} if you want to specify the skeleton for a
+You probably don't need this option unless you are developing Bison.
+You should use @option{--language} if you want to specify the skeleton for a
 different language, because it is clearer and because it will always
 choose the correct skeleton for non-deterministic or push parsers.
+
+If @var{file} does not contain a @code{/}, @var{file} is the name of a skeleton
+file in the Bison installation directory.
+If it does, @var{file} is an absolute file name or a file name relative to the
+current working directory.
+This is similar to how most shells resolve commands.
 
 @item -k
 @itemx --token-table

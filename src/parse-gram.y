@@ -286,7 +286,30 @@ prologue_declaration:
 | "%push-parser"                { push_parser = true; pull_parser = false; }
 | "%push-pull-parser"           { push_parser = true; pull_parser = true; }
 | "%require" STRING             { version_check (&@2, $2); }
-| "%skeleton" STRING            { skeleton_arg ($2, 1, &@1); }
+| "%skeleton" STRING
+    {
+      char const *skeleton_user = $2;
+      if (strchr (skeleton_user, '/'))
+        {
+          size_t dir_length = strlen (current_file);
+          char *skeleton_build;
+          while (dir_length && current_file[dir_length - 1] != '/')
+            --dir_length;
+          while (dir_length && current_file[dir_length - 1] == '/')
+            --dir_length;
+          skeleton_build =
+            xmalloc (dir_length + 1 + strlen (skeleton_user) + 1);
+          if (dir_length > 0)
+            {
+              strncpy (skeleton_build, current_file, dir_length);
+              skeleton_build[dir_length++] = '/';
+            }
+          strcpy (skeleton_build + dir_length, skeleton_user);
+          skeleton_user = uniqstr_new (skeleton_build);
+          free (skeleton_build);
+        }
+      skeleton_arg (skeleton_user, 1, &@1);
+    }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag = report_states; }
 | "%yacc"                       { yacc_flag = true; }

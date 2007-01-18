@@ -47,7 +47,7 @@ TESTSUITE_AT = \
 	local.at \
 	testsuite.at \
 	input.at \
-	output.at sets.at reduce.at \
+	output.at sets.at reduce.at skeletons.at \
 	synclines.at headers.at actions.at conflicts.at \
 	calc.at \
         torture.at existing.at regression.at \

@@ -1,0 +1,143 @@
+# Checking skeleton support.                     -*- Autotest -*-
+# Copyright (C) 2007 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
+
+AT_BANNER([[Skeletons Support.]])
+
+## ------------------------------ ##
+## relative skeleton file names.  ##
+## ------------------------------ ##
+
+AT_SETUP([[relative skeleton file names]])
+
+AT_CHECK([[mkdir tmp]])
+
+AT_DATA([[tmp/skel.c]],
+[[m4@&t@_divert_push(0)d@&t@nl
+@output(b4_parser_file_name@)d@&t@nl
+b4_percent_define_get([[test]])
+m4@&t@_divert_pop(0)
+]])
+
+AT_DATA([[skel.c]],
+[[m4@&t@_divert_push(0)d@&t@nl
+@output(b4_parser_file_name@)d@&t@nl
+b4_percent_define_get([[test]]) -- Local
+m4@&t@_divert_pop(0)
+]])
+
+AT_DATA([[tmp/input-gram.y]],
+[[%skeleton "./skel.c"
+%define test "Hello World"
+%%
+start: ;
+]])
+
+AT_DATA([[input-gram.y]],
+[[%skeleton "./skel.c"
+%define test "Hello World"
+%%
+start: ;
+]])
+
+AT_DATA([[tmp/input-cmd-line.y]],
+[[%define test "Hello World"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison tmp/input-gram.y]])
+AT_CHECK([[cat input-gram.tab.c]], [[0]],
+[[Hello World
+]])
+
+AT_CHECK([[bison input-gram.y]])
+AT_CHECK([[cat input-gram.tab.c]], [[0]],
+[[Hello World -- Local
+]])
+
+AT_CHECK([[bison --skeleton=tmp/skel.c tmp/input-cmd-line.y]])
+AT_CHECK([[cat input-cmd-line.tab.c]], [[0]],
+[[Hello World
+]])
+
+AT_CLEANUP
+
+
+## ------------------------------ ##
+## installed skeleton file name.  ##
+## ------------------------------ ##
+
+AT_SETUP([[installed skeleton file name]])
+
+m4_pushdef([AT_GRAM],
+[[%{
+  #include <stdio.h>
+  void yyerror (char const *msg);
+  int yylex (void);
+%}
+
+%error-verbose
+%token 'a'
+
+%%
+
+start: ;
+
+%%
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+yylex (void)
+{
+  return 'a';
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_DATA([[input-cmd-line.y]],
+[AT_GRAM])
+
+AT_DATA([[input-gram.y]],
+[[%skeleton "yacc.c"]
+AT_GRAM])
+
+AT_CHECK([[bison --skeleton=yacc.c -o input-cmd-line.c input-cmd-line.y]])
+AT_COMPILE([[input-cmd-line]])
+AT_PARSER_CHECK([[./input-cmd-line]], [[1]], [],
+[[syntax error, unexpected 'a', expecting $end
+]])
+
+AT_CHECK([[bison -o input-gram.c input-gram.y]])
+AT_COMPILE([[input-gram]])
+AT_PARSER_CHECK([[./input-gram]], [[1]], [],
+[[syntax error, unexpected 'a', expecting $end
+]])
+
+m4_popdef([AT_GRAM])
+
+AT_CLEANUP

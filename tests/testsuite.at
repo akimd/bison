@@ -1,6 +1,6 @@
 # Test suite for GNU Bison.				-*- Autotest -*-
 
-# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2006 Free Software
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2006, 2007 Free Software
 # Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
@@ -33,6 +33,9 @@ m4_include([input.at])
 
 # Testing output file names.
 m4_include([output.at])
+
+# Testing skeleton support.
+m4_include([skeletons.at])
 
 # Testing the part of the engine that computes FOLLOW etc.
 m4_include([sets.at])
