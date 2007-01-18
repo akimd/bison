@@ -1,27 +1,3 @@
-2007-01-18  Joel E. Denny  <jdenny@ces.clemson.edu>
-
-	Implement @gettext<...@> directive to call gettext from skeletons.  It
-	can be used anywhere including inside arguments of directives of the
-	form @foo(...@).  Eventually, it should be possible to write an
-	xgettext-like utility to extract @gettext<...@> text from skeletons.
-	* data/bison.m4 (b4_check_user_names): Use @gettext<...@> when invoking
-	b4_warn_at since b4_warn_at doesn't invoke gettext anymore.
-	* data/glr.cc, data/lalr1.cc: Likewise but for b4_fatal and
-	b4_complain reporting a push-parsing request or a missing %defines.
-	* src/scan-skel.l (INITIAL): Recognize `@gettext<' to start...
-	(SC_AT_GETTEXT_ARG): ... this new start condition where gettext is
-	invoked.
-	(SC_AT_DIRECTIVE_ARG): Rename to...
-	(SC_AT_DIRECTIVE_ARGS): ... this, and recognize `@gettext<' to start
-	SC_AT_GETTEXT_ARG.
-	(at_directive_perform): Don't invoke gettext for @warn(...@),
-	@warn_at(...@), etc.  Instead, let the skeletons decide what should be
-	passed to @gettext<...@>.
-	* tests/skeletons.at (@gettext<...@>): New test case.
-
-	* tests/skeletons.at (installed skeleton file name): Rename to...
-	(installed skeleton file names): ... this.
-
 2007-01-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Implement support for relative and absolute skeleton file names.
