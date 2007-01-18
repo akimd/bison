@@ -53,7 +53,7 @@ m4_define([b4_pure_flag],      [1])
 
 # The header is mandatory.
 b4_defines_if([],
-              [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
+              [b4_fatal([b4_skeleton[: @gettext<using %%defines is mandatory@>]])])
 
 m4_include(b4_pkgdatadir/[c++.m4])
 m4_include(b4_pkgdatadir/[location.cc])

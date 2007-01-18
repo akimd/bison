@@ -27,7 +27,7 @@ m4_define([b4_namespace],
 
 # The header is mandatory.
 b4_defines_if([],
-              [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
+              [b4_fatal([b4_skeleton[: @gettext<using %%defines is mandatory@>]])])
 
 # Backward compatibility.
 m4_define([b4_location_constructors])

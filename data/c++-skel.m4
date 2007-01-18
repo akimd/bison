@@ -21,7 +21,7 @@
 b4_glr_if(             [m4_define([b4_used_skeleton], [b4_pkgdatadir/[glr.cc]])])
 b4_nondeterministic_if([m4_define([b4_used_skeleton], [b4_pkgdatadir/[glr.cc]])])
 
-b4_push_if([b4_complain([[C++ push parsers are not supported]])])
+b4_push_if([b4_complain([[@gettext<C++ push parsers are not supported@>]])])
 
 m4_define_default([b4_used_skeleton], [b4_pkgdatadir/[lalr1.cc]])
 m4_define_default([b4_skeleton], ["b4_basename(b4_used_skeleton)"])

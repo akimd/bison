@@ -53,7 +53,7 @@ static void fail_for_at_directive_too_few_args (void);
 static void fail_for_invalid_at (char const *at);
 
 /* In SC_AT_DIRECTIVE_ARG context, the name of the directive.  */
-static char *at_directive_name;
+static char *at_directive_name = NULL;
 
 /* Currently, only the @warn, @complain, @fatal, @warn_at, @complain_at, and
    @fatal_at directives take multiple arguments, and the last three already
@@ -63,7 +63,8 @@ static int at_directive_argc = 0;
 static char *at_directive_argv[AT_DIRECTIVE_ARGC_MAX];
 %}
 
-%x SC_AT_DIRECTIVE_ARG
+%x SC_AT_GETTEXT_ARG
+%x SC_AT_DIRECTIVE_ARGS
 %x SC_AT_DIRECTIVE_SKIP_WS
 
 %%
@@ -81,14 +82,16 @@ static char *at_directive_argv[AT_DIRECTIVE_ARGC_MAX];
 "@ofile@"  QPUTS (outname);
 "@dir_prefix@" QPUTS (dir_prefix);
 
+"@gettext<" BEGIN SC_AT_GETTEXT_ARG;
+
 @[a-z_]+"(" {
   yytext[yyleng-1] = '\0';
   at_directive_name = xstrdup (yytext);
-  BEGIN SC_AT_DIRECTIVE_ARG;
+  BEGIN SC_AT_DIRECTIVE_ARGS;
 }
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^@{}(\n]* fail_for_invalid_at (yytext);
+@[^<@{}(\n]* fail_for_invalid_at (yytext);
 \n	   out_lineno++; ECHO;
 [^@\n]+	   ECHO;
 
@@ -101,14 +104,47 @@ static char *at_directive_argv[AT_DIRECTIVE_ARGC_MAX];
   return EOF;
 }
 
-<SC_AT_DIRECTIVE_ARG>{
-  [^@]+ { STRING_GROW; }
+<SC_AT_GETTEXT_ARG>{
+  "@>" {
+    char *arg;
+    obstack_1grow (&obstack_for_string, '\0');
+    arg = obstack_finish (&obstack_for_string);
+    if (!at_directive_name)
+      {
+        fprintf (yyout, "%s", _(arg));
+        obstack_free (&obstack_for_string, arg);
+        BEGIN INITIAL;
+      }
+    else
+      {
+        char const *translated = _(arg);
+        size_t parent_size = strlen (at_directive_argv[at_directive_argc]);
+        size_t translated_size = strlen (translated);
+        char *copy = xmalloc (parent_size + translated_size + 1);
+        strcpy (copy, at_directive_argv[at_directive_argc]);
+        strcpy (copy + parent_size, translated);
+        obstack_free (&obstack_for_string,
+                      at_directive_argv[at_directive_argc]);
+        obstack_grow (&obstack_for_string, copy,
+                      parent_size + translated_size);
+        free (copy);
+        BEGIN SC_AT_DIRECTIVE_ARGS;
+      }
+  }
+}
 
-  "@@" { obstack_1grow (&obstack_for_string, '@'); }
-  "@{" { obstack_1grow (&obstack_for_string, '['); }
-  "@}" { obstack_1grow (&obstack_for_string, ']'); }
+<SC_AT_DIRECTIVE_ARGS>{
   "@`" /* Emtpy.  Useful for starting an argument
           that begins with whitespace. */
+
+  "@gettext<" {
+    if (at_directive_argc >= AT_DIRECTIVE_ARGC_MAX)
+      fail_for_at_directive_too_many_args ();
+    obstack_1grow (&obstack_for_string, '\0');
+    at_directive_argv[at_directive_argc] =
+      obstack_finish (&obstack_for_string);
+    BEGIN SC_AT_GETTEXT_ARG;
+  }
 
   @[,)] {
     if (at_directive_argc >= AT_DIRECTIVE_ARGC_MAX)
@@ -127,21 +163,29 @@ static char *at_directive_argv[AT_DIRECTIVE_ARGC_MAX];
         obstack_free (&obstack_for_string, at_directive_argv[0]);
         at_directive_argc = 0;
         free (at_directive_name);
+        at_directive_name = NULL;
         BEGIN INITIAL;
       }
   }
+}
 
+<SC_AT_GETTEXT_ARG,SC_AT_DIRECTIVE_ARGS>{
+  [^@]+ { STRING_GROW; }
+  "@@" { obstack_1grow (&obstack_for_string, '@'); }
+  "@{" { obstack_1grow (&obstack_for_string, '['); }
+  "@}" { obstack_1grow (&obstack_for_string, ']'); }
   @.? { fail_for_invalid_at (yytext); }
 }
 
 <SC_AT_DIRECTIVE_SKIP_WS>{
   [ \t\r\n]
-  . { yyless (0); BEGIN SC_AT_DIRECTIVE_ARG; }
+  . { yyless (0); BEGIN SC_AT_DIRECTIVE_ARGS; }
 }
 
-<SC_AT_DIRECTIVE_ARG,SC_AT_DIRECTIVE_SKIP_WS>{
+<SC_AT_GETTEXT_ARG,SC_AT_DIRECTIVE_ARGS,SC_AT_DIRECTIVE_SKIP_WS>{
   <<EOF>> {
-    fatal (_("unclosed %s directive in skeleton"), at_directive_name);
+    fatal (_("unclosed %s directive in skeleton"),
+           at_directive_name ? at_directive_name : "@gettext");
   }
 }
 
@@ -197,21 +241,21 @@ void at_directive_perform (char **outnamep, int *out_linenop)
       switch (at_directive_argc)
         {
           case 1:
-            func (_(at_directive_argv[0]));
+            func (at_directive_argv[0]);
             break;
           case 2:
-            func (_(at_directive_argv[0]), at_directive_argv[1]);
+            func (at_directive_argv[0], at_directive_argv[1]);
             break;
           case 3:
-            func (_(at_directive_argv[0]), at_directive_argv[1],
+            func (at_directive_argv[0], at_directive_argv[1],
                   at_directive_argv[2]);
             break;
           case 4:
-            func (_(at_directive_argv[0]), at_directive_argv[1],
+            func (at_directive_argv[0], at_directive_argv[1],
                   at_directive_argv[2], at_directive_argv[3]);
             break;
           case 5:
-            func (_(at_directive_argv[0]), at_directive_argv[1],
+            func (at_directive_argv[0], at_directive_argv[1],
                   at_directive_argv[2], at_directive_argv[3],
                   at_directive_argv[4]);
             break;
@@ -240,21 +284,21 @@ void at_directive_perform (char **outnamep, int *out_linenop)
       switch (at_directive_argc)
         {
           case 3:
-            func (loc, _(at_directive_argv[2]));
+            func (loc, at_directive_argv[2]);
             break;
           case 4:
-            func (loc, _(at_directive_argv[2]), at_directive_argv[3]);
+            func (loc, at_directive_argv[2], at_directive_argv[3]);
             break;
           case 5:
-            func (loc, _(at_directive_argv[2]), at_directive_argv[3],
+            func (loc, at_directive_argv[2], at_directive_argv[3],
                   at_directive_argv[4]);
             break;
           case 6:
-            func (loc, _(at_directive_argv[2]), at_directive_argv[3],
+            func (loc, at_directive_argv[2], at_directive_argv[3],
                   at_directive_argv[4], at_directive_argv[5]);
             break;
           case 7:
-            func (loc, _(at_directive_argv[2]), at_directive_argv[3],
+            func (loc, at_directive_argv[2], at_directive_argv[3],
                   at_directive_argv[4], at_directive_argv[5],
                   at_directive_argv[6]);
             break;

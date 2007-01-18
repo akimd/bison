@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-AT_BANNER([[Skeletons Support.]])
+AT_BANNER([[Skeleton Support.]])
 
 ## ------------------------------ ##
 ## relative skeleton file names.  ##
@@ -78,11 +78,11 @@ AT_CHECK([[cat input-cmd-line.tab.c]], [[0]],
 AT_CLEANUP
 
 
-## ------------------------------ ##
-## installed skeleton file name.  ##
-## ------------------------------ ##
+## ------------------------------- ##
+## installed skeleton file names.  ##
+## ------------------------------- ##
 
-AT_SETUP([[installed skeleton file name]])
+AT_SETUP([[installed skeleton file names]])
 
 m4_pushdef([AT_GRAM],
 [[%{
@@ -139,5 +139,37 @@ AT_PARSER_CHECK([[./input-gram]], [[1]], [],
 ]])
 
 m4_popdef([AT_GRAM])
+
+AT_CLEANUP
+
+
+## ---------------- ##
+## @gettext<...@>.  ##
+## ---------------- ##
+
+AT_SETUP([[@gettext<...@>]])
+
+AT_DATA([[skel.c]],
+[[m4@&t@_divert_push(0)d@&t@nl
+@output(b4_parser_file_name@)d@&t@nl
+b4_warn([[@gettext<cannot close file@>]])d@&t@nl
+`@gettext<cannot close file@>'
+m4@&t@_divert_pop(0)
+]])
+
+AT_DATA([[input.y]],
+[[%skeleton "./skel.c"
+%%
+start: ;
+]])
+
+AT_CHECK([[LC_ALL= LC_MESSAGES= LANGUAGE=fr LANG=fr_FR bison input.y]], [[0]],
+[],
+[[input.y: AVERTISSEMENT: ne peut fermer le fichier
+]])
+
+AT_CHECK([[cat input.tab.c]], [[0]],
+[[`ne peut fermer le fichier'
+]])
 
 AT_CLEANUP
