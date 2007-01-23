@@ -347,7 +347,7 @@ grammar_declaration:
     }
 | "%code" braceless
     {
-      muscle_code_grow ("percent_code_unqualified", $2, @2);
+      muscle_code_grow ("percent_code()", $2, @2);
       code_scanner_last_string_free ();
     }
 | "%code" ID braceless
@@ -551,12 +551,11 @@ variable:
   | STRING { $$ = uniqstr_new ($1); } /* deprecated and not M4-friendly */
   ;
 
-/* Some content or "1" by default. */
+/* Some content or empty by default. */
 content.opt:
   /* Nothing. */
     {
-      static char one[] = "1";
-      $$ = one;
+      $$ = "";
     }
 | STRING
 ;

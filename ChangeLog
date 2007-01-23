@@ -1,3 +1,20 @@
+2007-01-23  Paolo Bonzini  <bonzini@gnu.org>
+
+	Simplify implementation of unqualified %code, implement macros for
+	uniform treatment of boolean %define flags.  Document %define.
+	* data/bison.m4 (b4_percent_define_ifdef, b4_percent_define_flag_if,
+	b4_percent_code_ifdef): New.
+	(b4_percent_code_get): Map unqualified %code to b4_percent_code().
+	* data/c++.m4: Define default value for global_tokens_and_yystype.
+	* data/glr.cc: Likewise.
+	* data/location.cc: Use b4_percent_define_flag_if.
+
+	* doc/bison.texinfo (Directives): Document %define.
+
+	* src/parse-gram.y (Unqualified %code): Change muscle name to
+	b4_percent_code().
+	(content.opt): Default to empty.
+
 2007-01-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Implement support for relative and absolute skeleton file names.

@@ -349,6 +349,30 @@ m4_define([b4_percent_define_get],
 [m4_define([b4_percent_define_skeleton_variables(]$1[)])dnl
 m4_ifdef([b4_percent_define(]$1[)], [m4_indir([b4_percent_define(]$1[)])])])
 
+# b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
+# ------------------------------------------------------
+# If the %define variable VARIABLE is defined, expand IF-TRUE, else expand
+# IF-FALSE.  Also, record the skeleton's usage of VARIABLE by defining
+# b4_percent_define_skeleton_variables(VARIABLE).
+m4_define([b4_percent_define_ifdef],
+[m4_ifdef([b4_percent_define(]$1[)],
+	  [m4_define([b4_percent_define_skeleton_variables(]$1[)])$2],
+	  [$3])])
+
+# b4_percent_define_flag_if(VARIABLE, IF-TRUE, [IF-FALSE])
+# --------------------------------------------------------
+# If the %define variable VARIABLE is defined to anything but "0" or "false",
+# expand IF-TRUE. If it is defined to "0" or "false", expand IF-FALSE.  If
+# it is undefined, raise an error (this macro should be preceded by
+# b4_percent_define_default).  Also, record the skeleton's usage of VARIABLE by
+# defining b4_percent_define_skeleton_variables(VARIABLE).
+m4_define([b4_percent_define_flag_if],
+[b4_percent_define_ifdef([$1],
+			 [m4_case(b4_percent_define_get([$1]),
+			          [0], [$3], [false], [$3],
+				  [$2])],
+		         [m4_fatal([invalid %define variable passed to b4_percent_define_flag_if: ]$1)])])
+
 # b4_percent_define_default(VARIABLE, DEFAULT)
 # --------------------------------------------
 # If the %define variable VARIABLE is undefined, set its value to DEFAULT.
@@ -364,9 +388,9 @@ m4_define([b4_percent_define_default],
 # --------------------------------
 # If any %code blocks for QUALIFIER are defined, emit them beginning with a
 # comment and ending with synclines and a newline.  If QUALIFIER is not
-# specified (thus, b4_percent_code_get is invoked without parens), do this for
-# the unqualified %code blocks.  Also, record the skeleton's usage of QUALIFIER
-# (if specified) by defining b4_percent_code_skeleton_qualifiers(QUALIFIER).
+# specified or empty, do this for the unqualified %code blocks.  Also, record
+# the skeleton's usage of QUALIFIER (if specified) by defining
+# b4_percent_code_skeleton_qualifiers(QUALIFIER).
 #
 # For example, to emit any unqualified %code blocks followed by any %code
 # blocks for the qualifier foo:
@@ -374,15 +398,25 @@ m4_define([b4_percent_define_default],
 #   b4_percent_code_get
 #   b4_percent_code_get([[foo]])
 m4_define([b4_percent_code_get],
-[m4_pushdef([b4_macro_name], [[b4_percent_code]]m4_if([$#], [1], [[[(]$1[)]]],
-                                                      [[[_unqualified]]]))dnl
-m4_if([$#], [1], [m4_define([b4_percent_code_skeleton_qualifiers(]$1[)])])dnl
+[m4_pushdef([b4_macro_name], [[b4_percent_code(]$1[)]])dnl
+m4_ifval([$1], [m4_define([b4_percent_code_skeleton_qualifiers(]$1[)])])dnl
 m4_ifdef(b4_macro_name,
 [b4_comment([m4_if([$#], [0], [[Unqualified %code]],
                    [[%code "]$1["]])[ blocks.]])
 b4_user_code([m4_indir(b4_macro_name)])
 ])dnl
 m4_popdef([b4_macro_name])])
+
+# b4_percent_code_ifdef(QUALIFIER, IF-TRUE, [IF-FALSE])
+# -----------------------------------------------------
+# If any %code blocks for QUALIFIER (or unqualified %code blocks if
+# QUALIFIER is empty) are defined, expand IF-TRUE, else expand IF-FALSE.
+# Also, record the skeleton's usage of QUALIFIER (if specified) by defining
+# b4_percent_code_skeleton_qualifiers(QUALIFIER).
+m4_define([b4_percent_code_ifdef],
+[m4_ifdef([b4_percent_code(]$1[)],
+          [m4_ifval([$1], [m4_define([b4_percent_code_skeleton_qualifiers(]$1[)])])$2],
+	  [$3])])
 
 
 ## --------------------------------------------------------- ##

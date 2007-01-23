@@ -114,7 +114,7 @@ namespace ]b4_percent_define_get([[namespace]])[
   {
     return begin + -width;
   }
-]m4_if(b4_percent_define_get([[define_location_comparison]]), [1], [[
+]b4_percent_define_flag_if([[define_location_comparison]], [[
   /// Compare two position objects.
   inline bool
   operator== (const position& pos1, const position& pos2)
@@ -236,7 +236,7 @@ namespace ]b4_percent_define_get([[namespace]])[
     res.columns (width);
     return res;
   }
-]m4_if(b4_percent_define_get([[define_location_comparison]]), [1], [[
+]b4_percent_define_flag_if([[define_location_comparison]], [[
   /// Compare two location objects.
   inline bool
   operator== (const location& loc1, const location& loc2)

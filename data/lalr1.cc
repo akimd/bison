@@ -290,7 +290,7 @@ b4_error_verbose_if([, int tok])[);
   };
 }
 
-]m4_ifval(b4_percent_define_get([[global_tokens_and_yystype]]),
+]b4_percent_define_flag_if([[global_tokens_and_yystype]],
 [b4_token_defines(b4_tokens)
 
 #ifndef YYSTYPE

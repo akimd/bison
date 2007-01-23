@@ -4615,6 +4615,15 @@ header also contains their code.
 @xref{Table of Symbols, ,%code}.
 @end deffn
 
+@deffn {Directive} %define @var{define-variable}
+@deffnx {Directive} %define @var{define-variable} @var{value}
+Define a variable to be used by the skeleton in order to adjust its
+behavior.  The @var{value} can be omitted for boolean variables; for
+boolean variables, the skeletons will treat a @var{value} of @samp{0}
+or @samp{false} as the boolean variable being false, and anything else
+as true.
+@end deffn
+
 @deffn {Directive} %defines @var{defines-file}
 Same as above, but save in the file @var{defines-file}.
 @end deffn
