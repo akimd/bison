@@ -1,6 +1,6 @@
 /* System-dependent definitions for Bison.
 
-   Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free
+   Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free
    Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -59,7 +59,6 @@ typedef size_t uintptr_t;
 | Gnulib.  |
 `---------*/
 
-#include <stpcpy.h>
 #include <unlocked-io.h>
 #include <verify.h>
 #include <xalloc.h>

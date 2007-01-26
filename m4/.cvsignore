@@ -10,6 +10,7 @@ extensions.m4
 getopt.m4
 gettext.m4
 gnulib-cache.m4
+gnulib-common.m4
 gnulib-comp.m4
 gnulib-tool.m4
 hash.m4
@@ -36,6 +37,7 @@ stdint_h.m4
 stdio-safer.m4
 stpcpy.m4
 strerror.m4
+string_h.m4
 strndup.m4
 strnlen.m4
 strtol.m4
@@ -45,6 +47,7 @@ unistd-safer.m4
 unistd_h.m4
 unlocked-io.m4
 warning.m4
+wchar.m4
 wchar_t.m4
 wctype.m4
 wcwidth.m4

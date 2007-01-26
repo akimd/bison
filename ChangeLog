@@ -1,3 +1,12 @@
+2007-01-26  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Adjust to recent gnulib changes.
+	* lib/.cvsignore: Remove stpcpy.h, strndup.h, strnlen.h.
+	Add string.h, string_.h, unistd_.h, wchar_.h.
+	* m4/.cvsignore: Add gnulib-common.m4, string_h.m4, wchar.m4.
+	* src/system.h: Don't include <stpcpy.h>; this is now done by
+	<string.h>.
+
 2007-01-23  Paolo Bonzini  <bonzini@gnu.org>
 
 	Simplify implementation of unqualified %code, implement macros for
