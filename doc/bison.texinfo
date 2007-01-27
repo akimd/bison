@@ -2695,7 +2695,7 @@ field, which identifies the purpose of the code and thus the location(s) where
 Bison should generate it.
 For C/C++, the qualifier can be omitted for the default location, or it can be
 @code{requires}, @code{provides}, or @code{top}.
-@xref{Table of Symbols,,Bison Symbols}.
+@xref{Decl Summary,,%code}.
 
 Look again at the example of the previous section:
 
@@ -2793,8 +2793,8 @@ parser source code file.
 The first line after the warning is required by @code{YYSTYPE} and thus also
 needs to appear in the parser source code file.
 However, if you've instructed Bison to generate a parser header file
-(@pxref{Table of Symbols, ,%defines}), you probably want that line to appear
-before the @code{YYSTYPE} definition in that header file as well.
+(@pxref{Decl Summary, ,%defines}), you probably want that line to appear before
+the @code{YYSTYPE} definition in that header file as well.
 The @code{YYLTYPE} definition should also appear in the parser header file to
 override the default @code{YYLTYPE} definition there.
 
@@ -4569,11 +4569,128 @@ Declare the expected number of shift-reduce conflicts
 In order to change the behavior of @command{bison}, use the following
 directives:
 
+@deffn {Directive} %code @{@var{code}@}
+@findex %code
+This is the unqualified form of the @code{%code} directive.
+It inserts @var{code} verbatim at the default location in the output.
+That default location is determined by the selected target language and/or
+parser skeleton.
+
+@cindex Prologue
+For the current C/C++ skeletons, the default location is the parser source code
+file after the usual contents of the parser header file.
+Thus, @code{%code} replaces the traditional Yacc prologue,
+@code{%@{@var{code}%@}}, for most purposes.
+For a detailed discussion, see @ref{Prologue Alternatives}.
+
+@comment For Java, the default location is inside the parser class.
+
+(Like all the Yacc prologue alternatives, this directive is experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.)
+@end deffn
+
+@deffn {Directive} %code @var{qualifier} @{@var{code}@}
+This is the qualified form of the @code{%code} directive.
+If you need to specify location-sensitive verbatim @var{code} that does not
+belong at the default location selected by the unqualified @code{%code} form,
+use this form instead.
+
+@var{qualifier} identifies the purpose of @var{code} and thus the location(s)
+where Bison should generate it.
+Not all values of @var{qualifier} are available for all target languages:
+
+@itemize @bullet
+@findex %code requires
+@item requires
+
+@itemize @bullet
+@item Language(s): C, C++
+
+@item Purpose: This is the best place to write dependency code required for
+@code{YYSTYPE} and @code{YYLTYPE}.
+In other words, it's the best place to define types referenced in @code{%union}
+directives, and it's the best place to override Bison's default @code{YYSTYPE}
+and @code{YYLTYPE} definitions.
+
+@item Location(s): The parser header file and the parser source code file
+before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE} definitions.
+@end itemize
+
+@item provides
+@findex %code provides
+
+@itemize @bullet
+@item Language(s): C, C++
+
+@item Purpose: This is the best place to write additional definitions and
+declarations that should be provided to other modules.
+
+@item Location(s): The parser header file and the parser source code file after
+the Bison-generated @code{YYSTYPE}, @code{YYLTYPE}, and token definitions.
+@end itemize
+
+@item top
+@findex %code top
+
+@itemize @bullet
+@item Language(s): C, C++
+
+@item Purpose: The unqualified @code{%code} or @code{%code requires} should
+usually be more appropriate than @code{%code top}.
+However, occasionally it is necessary to insert code much nearer the top of the
+parser source code file.
+For example:
+
+@smallexample
+%code top @{
+  #define _GNU_SOURCE
+  #include <stdio.h>
+@}
+@end smallexample
+
+@item Location(s): Near the top of the parser source code file.
+@end itemize
+@ignore
+@item imports
+@findex %code imports
+
+@itemize @bullet
+@item Language(s): Java
+
+@item Purpose: This is the best place to write Java import directives.
+
+@item Location(s): The parser Java file after any Java package directive and
+before any class definitions.
+@end itemize
+@end ignore
+@end itemize
+
+(Like all the Yacc prologue alternatives, this directive is experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.)
+
+@cindex Prologue
+For a detailed discussion of how to use @code{%code} in place of the
+traditional Yacc prologue for C/C++, see @ref{Prologue Alternatives}.
+@end deffn
+
 @deffn {Directive} %debug
 In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
 already defined, so that the debugging facilities are compiled.
 @end deffn
 @xref{Tracing, ,Tracing Your Parser}.
+
+@deffn {Directive} %define @var{define-variable}
+@deffnx {Directive} %define @var{define-variable} @var{value}
+Define a variable to adjust Bison's behavior.
+The list of available variables and their meanings depends on the selected
+target language and/or the parser skeleton (@pxref{Decl Summary,,%language}).
+The @var{value} can be omitted for boolean variables; for
+boolean variables, the skeletons will treat a @var{value} of @samp{0}
+or @samp{false} as the boolean variable being false, and anything else
+as true.
+@end deffn
 
 @deffn {Directive} %defines
 Write a header file containing macro definitions for the token type
@@ -4612,16 +4729,7 @@ Tokens}.
 @findex %code provides
 If you have declared @code{%code requires} or @code{%code provides}, the output
 header also contains their code.
-@xref{Table of Symbols, ,%code}.
-@end deffn
-
-@deffn {Directive} %define @var{define-variable}
-@deffnx {Directive} %define @var{define-variable} @var{value}
-Define a variable to be used by the skeleton in order to adjust its
-behavior.  The @var{value} can be omitted for boolean variables; for
-boolean variables, the skeletons will treat a @var{value} of @samp{0}
-or @samp{false} as the boolean variable being false, and anything else
-as true.
+@xref{Decl Summary, ,%code}.
 @end deffn
 
 @deffn {Directive} %defines @var{defines-file}
@@ -7903,7 +8011,7 @@ reciprocally, both cannot include the header of the other.  Because the
 driver's header needs detailed knowledge about the parser class (in
 particular its inner types), it is the parser's header which will simply
 use a forward declaration of the driver.
-@xref{Table of Symbols, ,%code}.
+@xref{Decl Summary, ,%code}.
 
 @comment file: calc++-parser.yy
 @example
@@ -8669,109 +8777,9 @@ Start-Symbol}.  It cannot be used in the grammar.
 @end deffn
 
 @deffn {Directive} %code @{@var{code}@}
-@findex %code
-This is the unqualified form of the @code{%code} directive.
-It inserts @var{code} verbatim at the default location in the output.
-That default location is determined by the selected target language and/or
-parser skeleton.
-
-@cindex Prologue
-For the current C/C++ skeletons, the default location is the parser source code
-file after the usual contents of the parser header file.
-Thus, @code{%code} replaces the traditional Yacc prologue,
-@code{%@{@var{code}%@}}, for most purposes.
-For a detailed discussion, see @ref{Prologue Alternatives}.
-
-@comment For Java, the default location is inside the parser class.
-
-(Like all the Yacc prologue alternatives, this directive is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.)
-@end deffn
-
-@deffn {Directive} %code @var{qualifier} @{@var{code}@}
-This is the qualified form of the @code{%code} directive.
-If you need to specify location-sensitive verbatim @var{code} that does not
-belong at the default location selected by the unqualified @code{%code} form,
-use this form instead.
-
-@var{qualifier} identifies the purpose of @var{code} and thus the location(s)
-where Bison should generate it.
-Not all values of @var{qualifier} are available for all target languages:
-
-@itemize @bullet
-@findex %code requires
-@item requires
-
-@itemize @bullet
-@item Language(s): C, C++
-
-@item Purpose: This is the best place to write dependency code required for
-@code{YYSTYPE} and @code{YYLTYPE}.
-In other words, it's the best place to define types referenced in @code{%union}
-directives, and it's the best place to override Bison's default @code{YYSTYPE}
-and @code{YYLTYPE} definitions.
-
-@item Location(s): The parser header file and the parser source code file
-before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE} definitions.
-@end itemize
-
-@item provides
-@findex %code provides
-
-@itemize @bullet
-@item Language(s): C, C++
-
-@item Purpose: This is the best place to write additional definitions and
-declarations that should be provided to other modules.
-
-@item Location(s): The parser header file and the parser source code file after
-the Bison-generated @code{YYSTYPE}, @code{YYLTYPE}, and token definitions.
-@end itemize
-
-@item top
-@findex %code top
-
-@itemize @bullet
-@item Language(s): C, C++
-
-@item Purpose: The unqualified @code{%code} or @code{%code requires} should
-usually be more appropriate than @code{%code top}.
-However, occasionally it is necessary to insert code much nearer the top of the
-parser source code file.
-For example:
-
-@smallexample
-%code top @{
-  #define _GNU_SOURCE
-  #include <stdio.h>
-@}
-@end smallexample
-
-@item Location(s): Near the top of the parser source code file.
-@end itemize
-@ignore
-@item imports
-@findex %code imports
-
-@itemize @bullet
-@item Language(s): Java
-
-@item Purpose: This is the best place to write Java import directives.
-
-@item Location(s): The parser Java file after any Java package directive and
-before any class definitions.
-@end itemize
-@end ignore
-@end itemize
-
-(Like all the Yacc prologue alternatives, this directive is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.)
-
-@cindex Prologue
-For a detailed discussion of how to use @code{%code} in place of the
-traditional Yacc prologue for C/C++, see @ref{Prologue Alternatives}.
+@deffnx {Directive} %code @var{qualifier} @{@var{code}@}
+Insert @var{code} verbatim into output parser source.
+@xref{Decl Summary,,%code}.
 @end deffn
 
 @deffn {Directive} %debug
@@ -8789,6 +8797,12 @@ modifier.  @xref{Contextual Precedence, ,Context-Dependent
 Precedence}.
 @end deffn
 @end ifset
+
+@deffn {Directive} %define @var{define-variable}
+@deffnx {Directive} %define @var{define-variable} @var{value}
+Define a variable to adjust Bison's behavior.
+@xref{Decl Summary,,%define}.
+@end deffn
 
 @deffn {Directive} %defines
 Bison declaration to create a header file meant for the scanner.

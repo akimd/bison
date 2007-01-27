@@ -1,3 +1,20 @@
+2007-01-27  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* ChangeLog: For changes in doc/bison.texinfo, consistently reference
+	node names: say "Table of Symbols" not "Bison Symbols", and say "Decl
+	Summary" not "Directives".
+	* doc/bison.texinfo (Decl Summary, Calc++ Parser): Cross-reference the
+	%code entry in "Decl Summary" rather than the one in "Table of Symbols"
+	since the former is now the more complete one.
+	(Prologue Alternatives): Likewise and do the same for %defines.
+	(Table of Symbols): Add summary of %code, add summary of %define, and
+	move full %code documentation to...
+	(Decl Summary): ... here for consistency with other entries in these
+	sections.
+	Move %define entry in order to keep this list alphabetized.
+	Reword %define entry a little to put less emphasis on the skeleton
+	concept, which most users shouldn't have to think about.
+
 2007-01-26  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Adjust to recent gnulib changes.
@@ -18,7 +35,7 @@
 	* data/glr.cc: Likewise.
 	* data/location.cc: Use b4_percent_define_flag_if.
 
-	* doc/bison.texinfo (Directives): Document %define.
+	* doc/bison.texinfo (Decl Summary): Document %define.
 
 	* src/parse-gram.y (Unqualified %code): Change muscle name to
 	b4_percent_code().
@@ -200,7 +217,7 @@
 	(C++ Location Values): Update %define uses.
 	(Calc++ Parser Interface): Likewise.
 	(Calc++ Parser): Likewise, and update `%code requires' uses.
-	(Bison Symbols): Update %code documentation.
+	(Table of Symbols): Update %code documentation.
 	* src/parse-gram.y (prologue_declaration): For %define variables, use
 	`variable' instead of `STRING'.
 	(grammar_declaration): For %code qualifiers, use `ID' instead of
@@ -418,7 +435,7 @@
 	* doc/bison.texinfo (Prologue Alternatives): Update.
 	(Decl Summary): Update to %code "requires" and %code "provides".
 	(Calc++ Parser): Update to %code "requires".
-	(Bison Symbols): Remove entries for %requires, %provides, and
+	(Table of Symbols): Remove entries for %requires, %provides, and
 	%code-top.  Rewrite %code entry, and add a %code "QUALIFIER" entry.
 	* data/bison.m4 (b4_user_provides, b4_user_requires): Remove as these
 	are replaced by b4_percent_code_provides and b4_percent_code_requires,
@@ -831,7 +848,7 @@
 	documentation instead.
 	(Calc++ Parser): Use `%require "@value{VERSION}"' rather than
 	`%require "2.3b"' so that the example is always up-to-date.
-	(Bison Symbols): Add entries for %language and %skeleton.
+	(Table of Symbols): Add entries for %language and %skeleton.
 	* examples/extexi (normalize): Instead of replacing every %require
 	argument with the current Bison version, just substitute for
 	`@value{VERSION}'.  This guarantees that we're testing what actually
@@ -866,7 +883,7 @@
 
 	* doc/bison.texinfo (C++ Parser Interface): Prefer %language
 	over %skeleton.
-	(Directives): Document %language and %skeleton.
+	(Decl Summary): Document %language and %skeleton.
 	(Command line): Document -L.
 
 	* examples/extexi: Rewrite %require directive.
@@ -1067,7 +1084,7 @@
 	(2.3a): Annotate this entry to say the old forms of these features were
 	also experimental.
 	* doc/bison.texinfo (Prologue Alternatives, Freeing Discarded Symbols,
-	Bison Symbols): Say they're experimental.  Comment out any mention
+	Table of Symbols): Say they're experimental.  Comment out any mention
 	of Java (we'll want this back eventually).
 
 2006-12-01  Joel E. Denny  <jdenny@ces.clemson.edu>
@@ -1076,7 +1093,7 @@
 	%file-prefix, %name-prefix, and %output.  Discussed at
 	<http://lists.gnu.org/archive/html/help-bison/2006-09/msg00001.html>.
 	* NEWS (2.3a+): Mention.
-	* doc/bison.texinfo (Decl Summary, Bison Symbols): Add entry for new
+	* doc/bison.texinfo (Decl Summary, Table of Symbols): Add entry for new
 	form of %defines, and remove `=' from entries for %file-prefix,
 	%name-prefix, and %output.
 	* src/parse-gram.y (prologue_declaration): Implement.
@@ -1106,7 +1123,7 @@
 	Rename <!> to <>.  Discussed starting at
 	<http://lists.gnu.org/archive/html/bison-patches/2006-11/msg00039.html>.
 	* NEWS (2.3a+): Update.
-	* doc/bison.texinfo (Freeing Discarded Symbols, Bison Symbols):
+	* doc/bison.texinfo (Freeing Discarded Symbols, Table of Symbols):
 	Update.
 	* src/parse-gram.y (TYPE_TAG_NONE, generic_symlist_item): Implement.
 	* src/scan-gram.l (INITIAL): Implement.
@@ -1282,7 +1299,7 @@
 	* NEWS (2.3a+): Mention.
 	* doc/bison.texinfo (Freeing Discarded Symbols): Document this and the
 	previous change today related to mid-rules.
-	(Bison Symbols): Remove %symbol-default and add <*> and <!>.
+	(Table of Symbols): Remove %symbol-default and add <*> and <!>.
 	* src/parse-gram.y (PERCENT_SYMBOL_DEFAULT): Remove.
 	(TYPE_TAG_ANY): Add as <*>.
 	(TYPE_TAG_NONE): Add as <!>.
@@ -1375,8 +1392,8 @@
 	alternatives to...
 	(Prologue Alternatives): ... this new section, and extend it to discuss
 	all 4 directives in detail.
-	(Bison Symbols): Clean up discussion of prologue alternatives and add
-	%code-top.
+	(Table of Symbols): Clean up discussion of prologue alternatives and
+	add %code-top.
 
 2006-10-16  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
@@ -1832,7 +1849,7 @@
 	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00007.html>.
 	* NEWS (2.3+): Add %symbol-default to example.
 	* bison.texinfo (Freeing Discarded Symbols): Likewise.
-	(Bison Symbols): Add entry for %symbol-default.
+	(Table of Symbols): Add entry for %symbol-default.
 	* src/parse-gram.y (PERCENT_SYMBOL_DEFAULT): New token.
 	(generic_symlist, generic_symlist_item): New nonterminals for creating
 	a list in which each item is a symbol, semantic type, or
@@ -2474,7 +2491,7 @@
 	prologue blocks with %*-header declarations.
 	(Calc++ Parser): Likewise.
 	(Bison Declaration Summary): Update names.
-	(Bison Symbols): Update description.
+	(Table of Symbols): Update description.
 	* src/parse-gram.y (PERCENT_AFTER_DEFINITIONS): Update to...
 	(PERCENT_END_HEADER): ... this.
 	(PERCENT_BEFORE_DEFINITIONS): Update to...
@@ -2555,7 +2572,7 @@
 	file.
 	(Calc++ Parser): Forward declare driver in a %before-definitions rather
 	than in the pre-prologue so that make check succeeds.
-	(Bison Symbols): Add entries for %before-definitions and
+	(Table of Symbols): Add entries for %before-definitions and
 	%after-definitions.
 	* src/parse-gram.y (PERCENT_BEFORE_DEFINITIONS): New token for
 	%before-definitions.
@@ -3645,7 +3662,7 @@
 	in the yychar entry.
 	In the yychar entry, remove mention of the local yychar case (pure
 	parser) since this is irrelevant information when writing semantic
-	actions and since it's already discussed in `Bison Symbols' where
+	actions and since it's already discussed in `Table of Symbols' where
 	yychar is otherwise described as an external variable.
 	In the yychar entry, don't call it the `current' look-ahead since it
 	isn't when semantic actions are deferred.
@@ -3656,7 +3673,7 @@
 	`current' look-ahead, and do mention yylval and yylloc.
 	(Error Recovery): Cross-reference `Action Features' when mentioning
 	yyclearin.
-	(Bison Symbols): In the yychar entry, don't call it the `current'
+	(Table of Symbols): In the yychar entry, don't call it the `current'
 	look-ahead.
 	In the yylloc and yylval entries, mention look-ahead usage.
 
