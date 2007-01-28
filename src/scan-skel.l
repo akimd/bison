@@ -199,21 +199,21 @@ void at_directive_perform (int at_directive_argc,
         }
       switch (at_directive_argc)
         {
-          case 1:
+          case 2:
             func (_(at_directive_argv[1]));
             break;
-          case 2:
-            func (_(at_directive_argv[1]), at_directive_argv[2]);
-            break;
           case 3:
-            func (_(at_directive_argv[1]), at_directive_argv[2],
-                  at_directive_argv[3]);
+            func (_(at_directive_argv[1]), at_directive_argv[2]);
             break;
           case 4:
             func (_(at_directive_argv[1]), at_directive_argv[2],
-                  at_directive_argv[3], at_directive_argv[4]);
+                  at_directive_argv[3]);
             break;
           case 5:
+            func (_(at_directive_argv[1]), at_directive_argv[2],
+                  at_directive_argv[3], at_directive_argv[4]);
+            break;
+          case 6:
             func (_(at_directive_argv[1]), at_directive_argv[2],
                   at_directive_argv[3], at_directive_argv[4],
                   at_directive_argv[5]);
@@ -242,21 +242,21 @@ void at_directive_perform (int at_directive_argc,
       boundary_set_from_string (&loc.end, at_directive_argv[2]);
       switch (at_directive_argc)
         {
-          case 3:
+          case 4:
             func (loc, _(at_directive_argv[3]));
             break;
-          case 4:
-            func (loc, _(at_directive_argv[3]), at_directive_argv[4]);
-            break;
           case 5:
-            func (loc, _(at_directive_argv[3]), at_directive_argv[4],
-                  at_directive_argv[5]);
+            func (loc, _(at_directive_argv[3]), at_directive_argv[4]);
             break;
           case 6:
             func (loc, _(at_directive_argv[3]), at_directive_argv[4],
-                  at_directive_argv[5], at_directive_argv[6]);
+                  at_directive_argv[5]);
             break;
           case 7:
+            func (loc, _(at_directive_argv[3]), at_directive_argv[4],
+                  at_directive_argv[5], at_directive_argv[6]);
+            break;
+          case 8:
             func (loc, _(at_directive_argv[3]), at_directive_argv[4],
                   at_directive_argv[5], at_directive_argv[6],
                   at_directive_argv[7]);
