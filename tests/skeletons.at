@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-AT_BANNER([[Skeletons Support.]])
+AT_BANNER([[Skeleton Support.]])
 
 ## ------------------------------ ##
 ## relative skeleton file names.  ##
@@ -78,11 +78,11 @@ AT_CHECK([[cat input-cmd-line.tab.c]], [[0]],
 AT_CLEANUP
 
 
-## ------------------------------ ##
-## installed skeleton file name.  ##
-## ------------------------------ ##
+## ------------------------------- ##
+## installed skeleton file names.  ##
+## ------------------------------- ##
 
-AT_SETUP([[installed skeleton file name]])
+AT_SETUP([[installed skeleton file names]])
 
 m4_pushdef([AT_GRAM],
 [[%{

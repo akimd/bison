@@ -1,3 +1,26 @@
+2007-01-28  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Clean up.
+	* src/scan-skel.l (at_directive_perform): Add at_directive_argc and
+	at_directive_argv arguments so these no longer have to be global
+	variables.  Also, update the implementation for the following changes.
+	(fail_for_at_directive_too_many_args,
+	fail_for_at_directive_too_few_args): Add at_directive_name argument.
+	(at_directive_name): Remove as at_directive_argv[0] will be used for
+	this now.
+	(AT_DIRECTIVE_ARGC_MAX): Increment to make space in at_directive_argv
+	for the directive name.
+	(at_directive_argc, at_directive_argv): Make these local within
+	skel_lex instead of global.
+	(INITIAL): Update directive start action for above changes.
+	(SC_AT_DIRECTIVE_ARG): Rename to...
+	(SC_AT_DIRECTIVE_ARGS): ... this, and update for above changes.
+	(SC_AT_DIRECTIVE_SKIP_WS): Update.
+	(scan_skel): Move yylex_destroy to...
+	(skel_scanner_free): ... here.
+	* tests/skeletons.at (installed skeleton file name): Rename to...
+	(installed skeleton file names): ... this.
+
 2007-01-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* ChangeLog: For changes in doc/bison.texinfo, consistently reference
