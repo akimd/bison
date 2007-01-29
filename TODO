@@ -14,13 +14,6 @@ find something clean (not like YYLSP_NEEDED...).
 
 * Installation
 
-** Disable installation of yacc.
-
-Add an option to 'configure' that allows people to install Bison
-without installing the yacc wrapper script or the rarely-used little
-yacc library required by Posix.  This is for people who prefer some
-other implementation of yacc.
-
 * Documentation
 Before releasing, make sure the documentation ("Understanding your
 parser") refers to the current `output' format.
@@ -154,23 +147,6 @@ Are there any Texinfo standards for bibliography?
 * Java, Fortran, etc.
 
 
-** Java
-
-There are a couple of proposed outputs:
-
-- BYACC/J
-  which is based on Byacc.
-  <http://troi.lincom-asg.com/~rjamison/byacc/>
-
-- Bison Java
-  which is based on Bison.
-  <http://www.goice.co.jp/member/mo/hack-progs/bison-java.html>
-
-Sebastien Serrurier (serrur_s@epita.fr) is working on this: he is
-expected to contact the authors, design the output, and implement it
-into Bison.
-
-
 * Coding system independence
 Paul notes:
 
@@ -230,9 +206,6 @@ Have them support yysymprint, yydestruct and so forth.
 It is unfortunate that there is a total order for precedence.  It
 makes it impossible to have modular precedence information.  We should
 move to partial orders (sounds like series/parallel orders to me).
-
-This will be possible with a Bison parser for the grammar, as it will
-make it much easier to extend the grammar.
 
 ** Correlation b/w precedence and associativity
 Also, I fail to understand why we have to assign the same

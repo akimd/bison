@@ -104,7 +104,7 @@ Reference sections:
                         messy for Bison to handle straightforwardly.
 * Debugging::         Understanding or debugging Bison parsers.
 * Invocation::        How to run Bison (to produce the parser source file).
-* C++ Language Interface::  Creating C++ parser objects.
+* Other Languages::   Creating C++ and Java parsers.
 * FAQ::               Frequently Asked Questions
 * Table of Symbols::  All the keywords of the Bison language are explained.
 * Glossary::          Basic concepts are explained.
@@ -285,10 +285,10 @@ Invoking Bison
 * Option Cross Key::  Alphabetical list of long options.
 * Yacc Library::      Yacc-compatible @code{yylex} and @code{main}.
 
-C++ Language Interface
+Parsers Written In Other Languages
 
 * C++ Parsers::                 The interface to generate C++ parser classes
-* A Complete C++ Example::      Demonstrating their use
+* Java Parsers::                The interface to generate Java parser classes
 
 C++ Parsers
 
@@ -297,6 +297,7 @@ C++ Parsers
 * C++ Location Values::         The position and location classes
 * C++ Parser Interface::        Instantiating and running the parser
 * C++ Scanner Interface::       Exchanges between yylex and parse
+* A Complete C++ Example::      Demonstrating their use
 
 A Complete C++ Example
 
@@ -305,6 +306,15 @@ A Complete C++ Example
 * Calc++ Parser::               A parser class
 * Calc++ Scanner::              A pure C++ Flex scanner
 * Calc++ Top Level::            Conducting the band
+
+Java Parsers
+
+* Java Bison Interface::         Asking for Java parser generation
+* Java Semantic Values::         %type and %token vs. Java
+* Java Location Values::         The position and location classes
+* Java Parser Interface::        Instantiating and running the parser
+* Java Scanner Interface::       Java scanners, and pure parsers
+* Java Differences::             Differences between C/C++ and Java Grammars
 
 Frequently Asked Questions
 
@@ -2694,7 +2704,7 @@ As an alternative, Bison provides a %code directive with an explicit qualifier
 field, which identifies the purpose of the code and thus the location(s) where
 Bison should generate it.
 For C/C++, the qualifier can be omitted for the default location, or it can be
-@code{requires}, @code{provides}, or @code{top}.
+one of @code{requires}, @code{provides}, @code{top}.
 @xref{Decl Summary,,%code}.
 
 Look again at the example of the previous section:
@@ -4572,18 +4582,19 @@ directives:
 @deffn {Directive} %code @{@var{code}@}
 @findex %code
 This is the unqualified form of the @code{%code} directive.
-It inserts @var{code} verbatim at the default location in the output.
-That default location is determined by the selected target language and/or
-parser skeleton.
+It inserts @var{code} verbatim at a language-dependent default location in the
+output@footnote{The default location is actually skeleton-dependent;
+  writers of non-standard skeletons however should choose the default location
+  consistently with the behavior of the standard Bison skeletons.}.
 
 @cindex Prologue
-For the current C/C++ skeletons, the default location is the parser source code
+For C/C++, the default location is the parser source code
 file after the usual contents of the parser header file.
 Thus, @code{%code} replaces the traditional Yacc prologue,
 @code{%@{@var{code}%@}}, for most purposes.
 For a detailed discussion, see @ref{Prologue Alternatives}.
 
-@comment For Java, the default location is inside the parser class.
+For Java, the default location is inside the parser class.
 
 (Like all the Yacc prologue alternatives, this directive is experimental.
 More user feedback will help to determine whether it should become a permanent
@@ -4651,7 +4662,7 @@ For example:
 
 @item Location(s): Near the top of the parser source code file.
 @end itemize
-@ignore
+
 @item imports
 @findex %code imports
 
@@ -4663,7 +4674,6 @@ For example:
 @item Location(s): The parser Java file after any Java package directive and
 before any class definitions.
 @end itemize
-@end ignore
 @end itemize
 
 (Like all the Yacc prologue alternatives, this directive is experimental.
@@ -7578,12 +7588,12 @@ int yyparse (void);
 
 @c ================================================= C++ Bison
 
-@node C++ Language Interface
-@chapter C++ Language Interface
+@node Other Languages
+@chapter Parsers Written In Other Languages
 
 @menu
 * C++ Parsers::                 The interface to generate C++ parser classes
-* A Complete C++ Example::      Demonstrating their use
+* Java Parsers::                The interface to generate Java parser classes
 @end menu
 
 @node C++ Parsers
@@ -7595,6 +7605,7 @@ int yyparse (void);
 * C++ Location Values::         The position and location classes
 * C++ Parser Interface::        Instantiating and running the parser
 * C++ Scanner Interface::       Exchanges between yylex and parse
+* A Complete C++ Example::      Demonstrating their use
 @end menu
 
 @node C++ Bison Interface
@@ -7803,7 +7814,7 @@ value and location being @var{yylval} and @var{yylloc}.  Invocations of
 
 
 @node A Complete C++ Example
-@section A Complete C++ Example
+@subsection A Complete C++ Example
 
 This section demonstrates the use of a C++ parser with a simple but
 complete example.  This example should be available on your system,
@@ -7823,7 +7834,7 @@ actually easier to interface with.
 @end menu
 
 @node Calc++ --- C++ Calculator
-@subsection Calc++ --- C++ Calculator
+@subsubsection Calc++ --- C++ Calculator
 
 Of course the grammar is dedicated to arithmetics, a single
 expression, possibly preceded by variable assignments.  An
@@ -7838,7 +7849,7 @@ seven * seven
 @end example
 
 @node Calc++ Parsing Driver
-@subsection Calc++ Parsing Driver
+@subsubsection Calc++ Parsing Driver
 @c - An env
 @c - A place to store error messages
 @c - A place for the result
@@ -7987,7 +7998,7 @@ calcxx_driver::error (const std::string& m)
 @end example
 
 @node Calc++ Parser
-@subsection Calc++ Parser
+@subsubsection Calc++ Parser
 
 The parser definition file @file{calc++-parser.yy} starts by asking for
 the C++ LALR(1) skeleton, the creation of the parser header file, and
@@ -8157,7 +8168,7 @@ yy::calcxx_parser::error (const yy::calcxx_parser::location_type& l,
 @end example
 
 @node Calc++ Scanner
-@subsection Calc++ Scanner
+@subsubsection Calc++ Scanner
 
 The Flex scanner first includes the driver declaration, then the
 parser's to get the set of defined tokens.
@@ -8283,7 +8294,7 @@ calcxx_driver::scan_end ()
 @end example
 
 @node Calc++ Top Level
-@subsection Calc++ Top Level
+@subsubsection Calc++ Top Level
 
 The top level file, @file{calc++.cc}, poses no problem.
 
@@ -8306,6 +8317,321 @@ main (int argc, char *argv[])
 @}
 @end example
 
+@node Java Parsers
+@section Java Parsers
+
+@menu
+* Java Bison Interface::         Asking for Java parser generation
+* Java Semantic Values::         %type and %token vs. Java
+* Java Location Values::         The position and location classes
+* Java Parser Interface::        Instantiating and running the parser
+* Java Scanner Interface::       Java scanners, and pure parsers
+* Java Differences::             Differences between C/C++ and Java Grammars
+@end menu
+
+@node Java Bison Interface
+@subsection Java Bison Interface
+@c - %language "Java"
+@c - initial action
+
+The Java parser skeletons are selected using a language directive,
+@samp{%language "Java"}, or the synonymous command-line option
+@option{--language=java}.
+
+When run, @command{bison} will create several entities whose name
+starts with @samp{YY}.  Use the @samp{%name-prefix} directive to
+change the prefix, see @ref{Decl Summary}; classes can be placed
+in an arbitrary Java package using a @samp{%define package} section.
+
+The parser class defines an inner class, @code{Location}, that is used
+for location tracking.  If the parser is pure, it also defines an
+inner interface, @code{Lexer}; see~@ref{Java Scanner Interface} for the
+meaning of pure parsers when the Java language is chosen.  Other than
+these inner class/interface, and the members described in~@ref{Java
+Parser Interface}, all the other members and fields are preceded
+with a @code{yy} prefix to avoid clashes with user code.
+
+No header file can be generated for Java parsers; you must not pass
+@option{-d}/@option{--defines} to @command{bison}, nor use the
+@samp{%defines} directive.
+
+By default, the @samp{YYParser} class has package visibility.  A
+declaration @samp{%define "public"} will change to public visibility.
+Remember that, according to the Java language specification, the name
+of the @file{.java} file should match the name of the class in this
+case.
+
+All these files are documented using Javadoc.
+
+@node Java Semantic Values
+@subsection Java Semantic Values
+@c - No %union, specify type in %type/%token.
+@c - YYSTYPE
+@c - Printer and destructor
+
+There is no @code{%union} directive in Java parsers.  Instead, the
+semantic values' types (class names) should be specified in the
+@code{%type} or @code{%token} directive:
+
+@example
+%type <Expression> expr assignment_expr term factor
+%type <Integer> number
+@end example
+
+By default, the semantic stack is declared to have @code{Object} members,
+which means that the class types you specify can be of any class.
+To improve the type safety of the parser, you can declare the common
+superclass of all the semantic values using the @samp{%define} directive.
+For example, after the following declaration:
+
+@example
+%define "union_name" "ASTNode"
+@end example
+
+@noindent
+any @code{%type} or @code{%token} specifying a semantic type which
+is not a subclass of ASTNode, will cause a compile-time error.
+
+Types used in the directives may be qualified with a package name.
+Primitive data types are accepted for Java version 1.5 or later.  Note
+that in this case the autoboxing feature of Java 1.5 will be used.
+
+Java parsers do not support @code{%destructor}, since the language
+adopts garbage collection.  The parser will try to hold references
+to semantic values for as little time as needed.
+
+Java parsers do not support @code{%printer}, as @code{toString()}
+can be used to print the semantic values.  This however may change
+(in a backwards-compatible way) in future versions of Bison.
+
+
+@node Java Location Values
+@subsection Java Location Values
+@c - %locations
+@c - class Position
+@c - class Location
+
+When the directive @code{%locations} is used, the Java parser
+supports location tracking, see @ref{Locations, , Locations Overview}.
+An auxiliary user-defined class defines a @dfn{position}, a single point
+in a file; Bison itself defines a class representing a @dfn{location},
+a range composed of a pair of positions (possibly spanning several
+files).  The location class is an inner class of the parser; the name
+is @code{Location} by default, may also be renamed using @code{%define
+"location_type" "@var{class-name}}.
+
+The location class treats the position as a completely opaque value.
+By default, the class name is @code{Position}, but this can be changed
+with @code{%define "position_type" "@var{class-name}"}.
+
+
+@deftypemethod {Location} {Position} begin
+@deftypemethodx {Location} {Position} end
+The first, inclusive, position of the range, and the first beyond.
+@end deftypemethod
+
+@deftypemethod {Location} {void} toString ()
+Prints the range represented by the location.  For this to work
+properly, the position class should override the @code{equals} and
+@code{toString} methods appropriately.
+@end deftypemethod
+
+
+@node Java Parser Interface
+@subsection Java Parser Interface
+@c - define parser_class_name
+@c - Ctor
+@c - parse, error, set_debug_level, debug_level, set_debug_stream,
+@c   debug_stream.
+@c - Reporting errors
+
+The output file defines the parser class in the package optionally
+indicated in the @code{%define package} section.  The class name defaults
+to @code{YYParser}.  The @code{YY} prefix may be changed using
+@samp{%name-prefix}; alternatively, you can use @samp{%define
+"parser_class_name" "@var{name}"} to give a custom name to the class.
+The interface of this class is detailed below.  It can be extended using
+the @code{%parse-param} directive; each occurrence of the directive will
+add a field to the parser class, and an argument to its constructor.
+
+@deftypemethod {YYParser} {} YYParser (@var{type1} @var{arg1}, ...)
+Build a new parser object.  There are no arguments by default, unless
+@samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
+@end deftypemethod
+
+@deftypemethod {YYParser} {boolean} parse ()
+Run the syntactic analysis, and return @code{true} on success,
+@code{false} otherwise.
+@end deftypemethod
+
+@deftypemethod {YYParser} {boolean} yyrecovering ()
+During the syntactic analysis, return @code{true} if recovering
+from a syntax error.  @xref{Error Recovery}.
+@end deftypemethod
+
+@deftypemethod {YYParser} {java.io.PrintStream} getDebugStream ()
+@deftypemethodx {YYParser} {void} setDebugStream (java.io.printStream @var{o})
+Get or set the stream used for tracing the parsing.  It defaults to
+@code{System.err}.
+@end deftypemethod
+
+@deftypemethod {YYParser} {int} getDebugLevel ()
+@deftypemethodx {YYParser} {void} setDebugLevel (int @var{l})
+Get or set the tracing level.  Currently its value is either 0, no trace,
+or nonzero, full tracing.
+@end deftypemethod
+
+@deftypemethod {YYParser} {void} error (Location @var{l}, String @var{m})
+The definition for this member function must be supplied by the user
+in the same way as the scanner interface (@pxref{Java Scanner
+Interface}); the parser uses it to report a parser error occurring at
+@var{l}, described by @var{m}.
+@end deftypemethod
+
+
+@node Java Scanner Interface
+@subsection Java Scanner Interface
+@c - prefix for yylex.
+@c - Pure interface to yylex
+@c - %lex-param
+
+There are two possible ways to interface a Bison-generated Java parser
+with a scanner.
+
+@cindex pure parser, in Java
+Contrary to C parsers, Java parsers do not use global variables; the
+state of the parser is always local to an instance of the parser class.
+Therefore, all Java parsers are ``pure'' in the C sense.  The
+@code{%pure-parser} directive can still be used in Java, and it
+will control whether the lexer resides in a separate class than the
+Bison-generated parser (therefore, Bison generates a class that is
+``purely'' a parser), or in the same class.  The interface to the scanner
+is similar, though the two cases present a slightly different naming.
+
+For the @code{%pure-parser} case, the scanner implements an interface
+called @code{Lexer} and defined within the parser class (e.g.,
+@code{YYParser.Lexer}.  The constructor of the parser object accepts
+an object implementing the interface.  The interface specifies
+the following methods.
+
+@deftypemethod {Lexer} {void} error (Location @var{l}, String @var{m})
+As explained in @pxref{Java Parser Interface}, this method is defined
+by the user to emit an error message.  The first parameter is not used
+unless location tracking is active.  Its type can be changed using
+@samp{%define "location_type" "@var{class-name}".}
+@end deftypemethod
+
+@deftypemethod {Lexer} {int} yylex (@var{type1} @var{arg1}, ...)
+Return the next token.  Its type is the return value, its semantic
+value and location are saved and returned by the ther methods in the
+interface.  Invocations of @samp{%lex-param @{@var{type1}
+@var{arg1}@}} yield additional arguments.
+@end deftypemethod
+
+@deftypemethod {Lexer} {Position} getStartPos ()
+@deftypemethodx {Lexer} {Position} getEndPos ()
+Return respectively the first position of the last token that yylex
+returned, and the first position beyond it.  These methods are not
+needed unless location tracking is active.
+
+The return type can be changed using @samp{%define "position_type"
+"@var{class-name}".}
+@end deftypemethod
+
+@deftypemethod {Lexer} {Object} getLVal ()
+Return respectively the first position of the last token that yylex
+returned, and the first position beyond it.
+
+The return type can be changed using @samp{%define "union_name"
+"@var{class-name}".}
+@end deftypemethod
+
+
+If @code{%pure-parser} is not specified, the lexer interface
+resides in the same class (@code{YYParser}) as the Bison-generated
+parser. The fields and methods that are provided to
+this end are as follows.
+
+@deftypemethod {YYParser} {void} error (Location @var{l}, String @var{m})
+As explained in @pxref{Java Parser Interface}, this method is defined
+by the user to emit an error message.  The first parameter is not used
+unless location tracking is active.  Its type can be changed using
+@samp{%define "location_type" "@var{class-name}".}
+@end deftypemethod
+
+@deftypemethod {YYParser} {int} yylex (@var{type1} @var{arg1}, ...)
+Return the next token.  Its type is the return value, its semantic
+value and location are saved into @code{yylval}, @code{yystartpos},
+@code{yyendpos}.  Invocations of @samp{%lex-param @{@var{type1}
+@var{arg1}@}} yield additional arguments.
+@end deftypemethod
+
+@deftypecv {Field} {YYParser} Position yystartpos
+@deftypecvx {Field} {YYParser} Position yyendpos
+Contain respectively the first position of the last token that yylex
+returned, and the first position beyond it.  These methods are not
+needed unless location tracking is active.
+
+The field's type can be changed using @samp{%define "position_type"
+"@var{class-name}".}
+@end deftypecv
+
+@deftypecv {Field} {YYParser} Object yylval
+Return respectively the first position of the last token that yylex
+returned, and the first position beyond it.
+
+The field's type can be changed using @samp{%define "union_name"
+"@var{class-name}".}
+@end deftypecv
+
+By default the class generated for a non-pure Java parser is abstract,
+and the methods @code{yylex} and @code{yyerror} shall be placed in a
+subclass (possibly defined in the additional code section).  It is
+also possible, using the @code{%define "single_class"} declaration, to
+define the scanner in the same class as the parser; when this
+declaration is present, the class is not declared as abstract.
+In order to place the declarations for the scanner inside the
+parser class, you should use @code{%code} sections.
+
+@node Java Differences
+@subsection Differences between C/C++ and Java Grammars
+
+The different structure of the Java language forces several differences
+between C/C++ grammars, and grammars designed for Java parsers.  This
+section summarizes this differences.
+
+@itemize
+@item
+Since Java lacks a preprocessor, the @code{YYERROR}, @code{YYACCEPT},
+@code{YYABORT} symbols (@pxref{Table of Symbols}) cannot obviously be
+macros.  Instead, they should be preceded in an action with
+@code{return}.  The actual definition of these symbols should be
+opaque to the Bison grammar, and it might change in the future.  The
+only meaningful operation that you can do, is to return them.
+
+Note that of these three symbols, only @code{YYACCEPT} and
+@code{YYABORT} will cause a return from the @code{yyparse}
+method@footnote{Java parsers include the actions in a separate
+method than @code{yyparse} in order to have an intuitive syntax that
+corresponds to these C macros.}.
+
+@item
+The prolog declarations have a different meaning than in C/C++ code.
+@table @code
+@item %code
+@code{%code imports} blocks are placed at the beginning of the Java
+source code.  They may include copyright notices.  For a @code{package}
+declarations, it is suggested to use @code{%define package} instead.
+
+@code{%code} blocks are placed inside the parser class.  If @code{%define
+single_class} is being used, the definitions of @code{yylex} and
+@code{yyerror} should be placed here.  Subroutines for the parser actions
+may be included in this kind of block.
+
+Other @code{%code} blocks are not supported in Java parsers.
+@end table
+@end itemize
+
 @c ================================================= FAQ
 
 @node FAQ
@@ -8326,7 +8652,7 @@ are addressed.
 * I can't build Bison::         Troubleshooting
 * Where can I find help?::      Troubleshouting
 * Bug Reports::                 Troublereporting
-* Other Languages::             Parsers in Java and others
+* More Languages::              Parsers in C++, Java, and so on
 * Beta Testing::                Experimenting development versions
 * Mailing Lists::               Meeting other Bison users
 @end menu
@@ -8649,15 +8975,15 @@ send a bug report just because you can not provide a fix.
 
 Send bug reports to @email{bug-bison@@gnu.org}.
 
-@node Other Languages
-@section Other Languages
+@node More Languages
+@section More Languages
 
 @display
-Will Bison ever have C++ support?  How about Java or @var{insert your
+Will Bison ever have C++ and Java support?  How about @var{insert your
 favorite language here}?
 @end display
 
-C++ support is there now, and is documented.  We'd love to add other
+C++ and Java support is there now, and is documented.  We'd love to add other
 languages; contributions are welcome.
 
 @node Beta Testing
@@ -8977,12 +9303,18 @@ Macro to pretend that an unrecoverable syntax error has occurred, by
 making @code{yyparse} return 1 immediately.  The error reporting
 function @code{yyerror} is not called.  @xref{Parser Function, ,The
 Parser Function @code{yyparse}}.
+
+For Java parsers, this functionality is invoked using @code{return YYABORT;}
+instead.
 @end deffn
 
 @deffn {Macro} YYACCEPT
 Macro to pretend that a complete utterance of the language has been
 read, by making @code{yyparse} return 0 immediately.
 @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+
+For Java parsers, this functionality is invoked using @code{return YYACCEPT;}
+instead.
 @end deffn
 
 @deffn {Macro} YYBACKUP
@@ -9023,6 +9355,9 @@ Macro to pretend that a syntax error has just been detected: call
 @code{yyerror} and then perform normal error recovery if possible
 (@pxref{Error Recovery}), or (if recovery is impossible) make
 @code{yyparse} return 1.  @xref{Error Recovery}.
+
+For Java parsers, this functionality is invoked using @code{return YYERROR;}
+instead.
 @end deffn
 
 @deffn {Function} yyerror

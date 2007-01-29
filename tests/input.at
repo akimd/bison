@@ -714,6 +714,7 @@ AT_DATA([input-c.y],
 [[%code q {}
 %code bad {}
 %code bad {}
+%code format {}
 %%
 start: ;
 ]])
@@ -721,6 +722,7 @@ AT_CHECK([[bison input-c.y]], [0], [],
 [[input-c.y:1.7: warning: %code qualifier `q' is not used
 input-c.y:2.7-9: warning: %code qualifier `bad' is not used
 input-c.y:3.7-9: warning: %code qualifier `bad' is not used
+input-c.y:4.7-12: warning: %code qualifier `format' is not used
 ]])
 
 AT_DATA([input-c-glr.y],

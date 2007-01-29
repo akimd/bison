@@ -136,6 +136,9 @@ AC_SUBST([O0CFLAGS])
 O0CXXFLAGS=`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`
 AC_SUBST([O0CXXFLAGS])
 
+gt_JAVACOMP([1.3], [1.3])
+gt_JAVAEXEC
+
 AC_CONFIG_FILES([Makefile
                  build-aux/Makefile
                  po/Makefile.in

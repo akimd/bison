@@ -19,6 +19,8 @@ inline.m4
 inttypes-h.m4
 inttypes-pri.m4
 inttypes.m4
+javacomp.m4
+javaexec.m4
 lib-ld.m4
 lib-link.m4
 lib-prefix.m4

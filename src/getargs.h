@@ -1,6 +1,7 @@
 /* Parse command line arguments for bison.
-   Copyright (C) 1984, 1986, 1989, 1992, 2000, 2001, 2002, 2003, 2004, 2005, 2006
-   Free Software Foundation, Inc.
+
+   Copyright (C) 1984, 1986, 1989, 1992, 2000, 2001, 2002, 2003, 2004,
+   2005, 2006, 2007 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -75,10 +76,10 @@ extern bool nondeterministic_parser;
 /* --language.  */
 struct bison_language
 {
-  char language[sizeof "c++"];
-  char skeleton[sizeof "c++-skel.m4"];
-  char src_extension[sizeof ".cc"];
-  char header_extension[sizeof ".hh"];
+  char language[sizeof "Java"];
+  char skeleton[sizeof "java-skel.m4"];
+  char src_extension[sizeof ".java"];
+  char header_extension[sizeof ".java"];
   bool add_tab;
 };
 

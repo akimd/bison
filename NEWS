@@ -92,6 +92,9 @@ Changes in version 2.3a+ (????-??-??):
 
 Changes in version 2.3a, 2006-09-13:
 
+* Bison now supports generating Java parsers.  Grammars written for
+  the Java language should include the `%language "Java"' directive.
+
 * Instead of %union, you can define and use your own union type
   YYSTYPE if your grammar contains at least one <type> tag.
   Your YYSTYPE need not be a macro; it can be a typedef.

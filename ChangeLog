@@ -1,3 +1,27 @@
+2007-01-29  Paolo Bonzini  <bonzini@gnu.org>
+
+	* NEWS: Mention java.
+	* TODO: Remove things that are done.
+	* bootstrap.conf: Add javacomp-script and javaexec-script.
+	* configure.ac: Invoke gt_JAVACOMP and gt_JAVAEXEC.
+
+	* data/Makefile.am: Add new files.
+	* data/java-skel.m4: New.
+	* data/java.m4: New.
+	* data/lalr1.java: New.
+
+	* doc/bison.texinfo: Put "A Complete C++ Example" under
+	C++ Parsers.  Add Java Parsers.  Put C++ Parsers and Java Parsers
+	under Other Languages.
+
+	* src/getargs.c (valid_languages): Add Java.
+	* src/getargs.h (struct bison_language): Update size of string fields.
+
+	* tests/Makefile.am: Add java.at.
+	* tests/atlocal.in: Add CONF_JAVA and CONF_JAVAC.
+	* tests/java.at: New.
+	* tests/testsuite.at: Include it.
+
 2007-01-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Clean up.

@@ -71,6 +71,9 @@ m4_include([regression.at])
 # Some C++ specific tests.
 m4_include([c++.at])
 
+# And some Java specific tests.
+m4_include([java.at])
+
 # GLR tests:
 # C++ types, simplified
 m4_include([cxx-type.at])
