@@ -34,13 +34,13 @@ m4_define([b4_flag_value], [b4_flag_if([$1], [true], [false])])
 
 # b4_public_if(TRUE, FALSE)
 # -------------------------
-b4_percent_define_default([public], 0)
+b4_percent_define_default([[public]], [[false]])
 m4_define([b4_public_if],
 [b4_percent_define_flag_if([public], [$1], [$2])])
 
 # b4_single_class_if(TRUE, FALSE)
 # -------------------------------
-b4_percent_define_default([single_class], 0)
+b4_percent_define_default([[single_class]], [[false]])
 m4_define([b4_single_class_if],
 [b4_percent_define_flag_if([single_class], [$1], [$2])])
 

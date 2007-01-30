@@ -369,9 +369,11 @@ m4_define([b4_percent_define_ifdef],
 m4_define([b4_percent_define_flag_if],
 [b4_percent_define_ifdef([$1],
 			 [m4_case(b4_percent_define_get([$1]),
-			          [0], [$3], [false], [$3],
-				  [$2])],
-		         [m4_fatal([invalid %define variable passed to b4_percent_define_flag_if: ]$1)])])
+			          [], [$2], [true], [$2], [false], [$3],
+				  [m4_expand_once(
+				   [b4_complain([[invalid value for %%define variable `%s']], [$1])],
+				   [[b4_percent_define_flag_if($1)]])])],
+		         [b4_fatal([[invalid %%define variable `%s' passed to b4_percent_define_flag_if]], [$1])])])
 
 # b4_percent_define_default(VARIABLE, DEFAULT)
 # --------------------------------------------

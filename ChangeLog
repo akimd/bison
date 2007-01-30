@@ -1,3 +1,13 @@
+2007-01-30  Paolo Bonzini  <bonzini@gnu.org>
+
+	* data/bison.m4 (b4_percent_define_flag_if): Don't treat 0 as false.
+	Complain if the value does not match empty, "true" or "false".
+	* data/c++.m4: Adjust default definitions of %define variables.
+	* data/java.m4: Adjust default definitions of %define variables.
+	* doc/bison.texinfo (Decl Summary): Adjust the %define entry according
+	to above behavior.
+	* tests/input.at (Boolean %define variables): Test new behavior.
+
 2007-01-29  Paolo Bonzini  <bonzini@gnu.org>
 
 	* NEWS: Mention java.

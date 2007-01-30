@@ -820,3 +820,23 @@ input.y:5.9-16: warning: %define variable `special2' is not used
 ]])
 
 AT_CLEANUP
+
+## --------------------------- ##
+## Boolean %define variables.  ##
+## --------------------------- ##
+
+AT_SETUP([Boolean %define variables])
+
+AT_DATA([Input.y],
+[[%language "Java"
+%define public "maybe"
+%define parser_class_name "Input"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison Input.y]], [1], [],
+[[Input.y: invalid value for %define variable `public'
+]])
+
+AT_CLEANUP

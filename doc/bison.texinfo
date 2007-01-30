@@ -4691,15 +4691,16 @@ already defined, so that the debugging facilities are compiled.
 @end deffn
 @xref{Tracing, ,Tracing Your Parser}.
 
-@deffn {Directive} %define @var{define-variable}
-@deffnx {Directive} %define @var{define-variable} @var{value}
-Define a variable to adjust Bison's behavior.
-The list of available variables and their meanings depends on the selected
-target language and/or the parser skeleton (@pxref{Decl Summary,,%language}).
-The @var{value} can be omitted for boolean variables; for
-boolean variables, the skeletons will treat a @var{value} of @samp{0}
-or @samp{false} as the boolean variable being false, and anything else
-as true.
+@deffn {Directive} %define @var{variable}
+@deffnx {Directive} %define @var{variable} "@var{value}"
+Define a variable to adjust Bison's behavior.  The possible choices for
+@var{variable}, as well as their meanings, depends on the selected target
+language and/or the parser skeleton (@pxref{Decl Summary,,%language}).
+
+Some @var{variable}s may be used as boolean values: in this case, the
+skeleton will conventionally treat a @var{value} of @samp{false} as the
+boolean variable being false; a @var{value} of @samp{true}, or @var{value}
+being omitted altogether, will conversely define the variable as true.
 @end deffn
 
 @deffn {Directive} %defines
