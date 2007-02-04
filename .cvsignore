@@ -20,6 +20,8 @@ config.status
 configure
 configure.lineno
 conftest*
+javacomp.sh
+javaexec.sh
 patches
 releases
 stamp-h*

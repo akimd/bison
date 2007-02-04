@@ -4,6 +4,11 @@ Makefile.in
 argmatch.c
 argmatch.h
 basename.c
+c-ctype.c
+c-ctype.h
+c-strcase.h
+c-strcasecmp.c
+c-strncasecmp.c
 config.h
 config.hin
 configmake.h
