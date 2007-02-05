@@ -224,8 +224,8 @@ b4_token_enums(b4_tokens)
     ]b4_locations_if([[private ]b4_location_type[[] locStack = new ]b4_location_type[[16];]])[
     private ]b4_union_name[[] valueStack = new ]b4_union_name[[16];
 
-    private int size = 16;
-    private int height = -1;
+    public int size = 16;
+    public int height = -1;
     
     public final void push (int state, ]b4_union_name[ value]dnl
     	   	      	    b4_locations_if([, ]b4_location_type[ loc])[) {
@@ -278,7 +278,7 @@ b4_token_enums(b4_tokens)
     }
 
     // Print the state stack on the debug stream.
-    private void print (java.io.PrintStream out)
+    public void print (java.io.PrintStream out)
     {
       out.print ("Stack now");
       
