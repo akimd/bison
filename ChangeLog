@@ -1,3 +1,18 @@
+2007-02-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Undo most of the 2007-02-03 change, switching to the strcase module
+	now that gnulib strcase has been fixed.
+	* bootstrap.conf (gnulib_modules): Remove c-strcase.  Add strcase.
+	* lib/.cvsignore: Remove c-ctype.c, c-ctype.h, c-strcase.h,
+	c-strcasecomp.c, c-strncasecmp.c.  Add strcasecmp.c, strncasecmp.c
+	* m4/.cvsignore: Add strcase.m4.
+	* src/getargs.c: Revert 2007-02-03 change, as follows.
+	Don't include c-strcase.h.
+	(language_argmatch): Use strcasecmp rather than c_strcasecmp.
+	strcasecmp has "unspecified behavior" outside the POSIX locale,
+	but it works fine in practice if at least one argument is ASCII,
+	as is the case in Bison.
+
 2007-02-07  Paolo Bonzini  <bonzini@gnu.org>
 
 	* tests/java.at: Skip tests if only one of javac/java is present.
