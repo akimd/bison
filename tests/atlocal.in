@@ -1,7 +1,7 @@
 # @configure_input@					-*- shell-script -*-
 # Configurable variable values for Bison test suite.
 
-# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software
 # Foundation, Inc.
 
 # We need a C compiler.

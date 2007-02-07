@@ -1,7 +1,6 @@
-# Simple calculator.                         -*- Autotest -*-
+# Java tests for simple calculator.           -*- Autotest -*-
 
-# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
-# Foundation, Inc.
+# Copyright (C) 2007 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -149,7 +148,8 @@ m4_define([AT_DATA_JAVA_CALC_Y],
 # Compile SOURCES into Java class files.  Skip the test if java or javac is
 # not installed.
 m4_define([AT_JAVA_COMPILE],
-[AT_CHECK([test -n "$CONF_JAVA$CONF_JAVAC" || exit 77])
+[AT_CHECK([test -n "$CONF_JAVA" || exit 77
+test -n "$CONF_JAVAC" || exit 77])
 AT_CHECK([$SHELL ../../../javacomp.sh $1],
          0, [ignore], [ignore])])
 

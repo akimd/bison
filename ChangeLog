@@ -1,3 +1,16 @@
+2007-02-07  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/java.at: Skip tests if only one of javac/java is present.
+	Reported by Joel E. Denny.
+	* tests/atlocal.in: Adjust copyright years.
+
+2007-02-05  Paolo Bonzini  <bonzini@gnu.org>
+
+	* data/lalr1.java (Stack): Work around old verifiers that disallow
+	access to the private fields of an inner class, from the outer class.
+	We can make Stack's fields public because user code doesn't have access
+	to the instance of Stack used by parse().  Reported by Paul Eggert.
+
 2007-02-03  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* .cvsignore: Add javacomp.sh, javaexec.sh.  Is this really
