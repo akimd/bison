@@ -202,7 +202,10 @@ splice	 (\\[ \f\t\v]*\n)*
     obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar[");
     self->is_value_used = true;
   }
-  "@$"   obstack_sgrow (&obstack_for_string, "]b4_at_dollar[");
+  "@$" {
+    obstack_sgrow (&obstack_for_string, "]b4_at_dollar[");
+    locations_flag = true;
+  }
 }
 
 

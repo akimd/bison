@@ -1,3 +1,14 @@
+2007-02-10  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	As in semantic actions, make @$ in %initial-action, %destructor, and
+	%printer imply %locations.
+	* src/scan-code.l (SC_SYMBOL_ACTION): Set locations_flag = true when
+	scanning @$.
+	* tests/actions.at (AT_CHECK_ACTION_LOCATIONS): New macro supporting...
+	(@$ in %initial-action implies %locations,
+	@$ in %destructor implies %locations,
+	@$ in %printer implies %locations): ... these new test cases.
+
 2007-02-07  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Undo most of the 2007-02-03 change, switching to the strcase module

@@ -1247,3 +1247,62 @@ Stack now 0
 ]])
 
 AT_CLEANUP
+
+
+## ----------------------- ##
+## @$ implies %locations.  ##
+## ----------------------- ##
+
+# Bison once forgot to check for @$ in actions other than semantic actions.
+
+# AT_CHECK_ACTION_LOCATIONS(ACTION-DIRECTIVE)
+# -------------------------------------------------------
+m4_define([AT_CHECK_ACTION_LOCATIONS],
+[AT_SETUP([[@$ in ]$1[ implies %locations]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%code {
+  #include <stdio.h>
+  static int yylex (void);
+  static void yyerror (char const *msg);
+}
+
+%debug
+
+]$1[ {
+  printf ("%d\n", @$.first_line);
+} ]m4_if($1, [%initial-action], [], [[start]])[
+
+%%
+
+start:  ;
+
+%%
+
+static int
+yylex (void)
+{
+  return 0;
+}
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_CHECK([[bison -o input.c input.y]])
+AT_COMPILE([[input]])
+
+AT_CLEANUP])
+
+AT_CHECK_ACTION_LOCATIONS([[%initial-action]])
+AT_CHECK_ACTION_LOCATIONS([[%destructor]])
+AT_CHECK_ACTION_LOCATIONS([[%printer]])
