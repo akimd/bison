@@ -38,7 +38,6 @@ stdint.m4
 stdint_h.m4
 stdio-safer.m4
 stpcpy.m4
-strcase.m4
 strerror.m4
 string_h.m4
 strndup.m4
