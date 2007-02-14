@@ -164,16 +164,16 @@ set HTML=
 if "%XSRC%" == "." goto InPlace
 
 :NotInPlace
-redir -e /dev/null update %XSRC%/configure.orig ./configure
+redir -e /dev/null update %XSRC%/configure.org ./configure
 test -f ./configure
 if errorlevel 1 update %XSRC%/configure ./configure
 
 :InPlace
 Rem Update configuration files
 echo Updating configuration scripts...
-test -f ./configure.orig
-if errorlevel 1 update configure configure.orig
-sed -f %XSRC%/djgpp/config.sed configure.orig > configure
+test -f ./configure.org
+if errorlevel 1 update configure configure.org
+sed -f %XSRC%/djgpp/config.sed configure.org > configure
 if errorlevel 1 goto SedError
 
 Rem Make sure they have a config.site file
@@ -230,9 +230,9 @@ mv ./glr.cc %XSRC%/data/glr.cc
 
 Rem Define DJGPP specific defs in config.hin
 echo Editing config.hin...
-test -f %XSRC%/lib/config_h.orig
-if errorlevel 1 update %XSRC%/lib/config.hin %XSRC%/lib/config_h.orig
-sed -f %XSRC%/djgpp/config_h.sed %XSRC%/lib/config_h.orig > config.hin
+test -f %XSRC%/lib/config_h.org
+if errorlevel 1 update %XSRC%/lib/config.hin %XSRC%/lib/config_h.org
+sed -f %XSRC%/djgpp/config_h.sed %XSRC%/lib/config_h.org > config.hin
 if errorlevel 1 goto SedError2
 mv -f config.hin %XSRC%/lib/config.hin
 
