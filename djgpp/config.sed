@@ -22,11 +22,8 @@
 
 # Additional editing of Makefiles
 /^".*ac_file_inputs.*tmp\/out$/ a\
-cat > "$tmp/subs-3.sed" << eof_djgpp\
+cat > "$tmp/subs-djgpp.sed" << eof_djgpp\
 # DJGPP specific Makefile changes.\
-/^aliaspath *	*=/s,:,";",g\
-/TEXINPUTS=/s,:,";",g\
-/PATH=/s,:,";",g\
 s,\\.deps,_deps,g\
 s,\\.libs,_libs,g\
 s,\\.new\\.,_new.,g\
@@ -56,7 +53,7 @@ yacc.bat:\\\\\
 /^bin_SCRIPTS =/s/$/ yacc.bat/\
 /^MOSTLYCLEANFILES = yacc/s/$/ yacc.bat/\
 eof_djgpp\
-sed -f "\$tmp/subs-3.sed" \$tmp/out > \$tmp/out.djgpp\
+sed -f "\$tmp/subs-djgpp.sed" \$tmp/out > \$tmp/out.djgpp\
 mv -f \$tmp/out.djgpp \$tmp/out
 
 
@@ -149,6 +146,16 @@ done
 /^FLIBS="\$ac_cv_flibs"/ i\
 ac_djgpp_path=`echo "$DJDIR" | sed 's%\\\\\\%/%g' | tr $as_cr_LETTERS $as_cr_letters`\
 ac_cv_flibs=`echo "$ac_cv_flibs" | sed "s%-L$ac_djgpp_path%-L/dev/env/DJDIR%g"`
+
+# Autoconf generated configure scripts write absolute
+# paths of certain header files into Makefiles making
+# them useless for DJGPP installations for which the
+# package has not been configured for.
+/^.*echo "\$as_me:\$LINENO: result: \$gl_cv_absolute_.*$/ {
+h
+s,^.*\(gl_cv_absolute_\)\([a-z0-9_]*\)\(_h\).*$,\1\2\3=`echo $\1\2\3 | sed "s%[^:]:.*/include/%/dev/env/DJDIR/include/%"`,
+G
+}
 
 # The following is not a valid DOS file name
 s/calc++/calcxx/g
