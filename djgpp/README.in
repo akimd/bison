@@ -46,8 +46,13 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	This is done by forking and using pipes for the IPC.  MSDOS does not
 	support this functionality so this has been reproduced in the usual
 	way by redirecting stdin and stdout of bison and m4 to temporary files
-	and processing these files in sequence.  All the changes to the sources
-	are documented in the djgpp/diffs file.
+	and processing these files in sequence.
+	It should be noticed that due to the great amount of file names that do
+	not cleanly map to 8.3 file names, you will need an OS with LFN support
+	to configure and compile the sources. On Win98 this implies that the
+	generation of numeric tails for 8.3 file name aliases must be enabled
+	or the compilation will fail.
+
 
 	Please **read** the docs.
 
@@ -113,22 +118,19 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 3.3.:   To build the binaries you will need the following binary packages:
 	  djdev203.zip (or a later but NOT a prior version)
 	  bsh204b.zip  (or a later but NOT a prior version)
-	  gcc410b.zip, gpp410b.zip, bnu2161b.zip, mak3791b.zip,
-	  fil40b.zip, shl20jb.zip, txt20b.zip,
-	  txi48b.zip, grep24b.zip, sed415b.zip,
-	  m4-144b.zip.
+          gccNNNb.zip, gppNNN.zip, bnuNNNb.zip, makNNNb.zip, filNNNb.zip,
+          shlNNNb.zip, txtNNNb.zip, txiNNNb.zip, grepNNNb.zip, sedNNNb.zip,
+          and m4NNN.zip
 
 	If you want to run the check you will need also:
-	  dif287b.zip
+	  difNNNb.zip
 
-	All this packages can be found in the v2gnu directory of any
+	NNN represents the latest version number of the binary packages. All
+	this packages can be found in the /v2gnu directory of any
 	ftp.delorie.com mirror.
 	You will need bsh204b.zip or later and *NOT* a prior version or
 	the build will fail.  The same applies to djdev203.zip.  Please note
-	that Bison requires m4-144b.zip or later to work properly.  All the
-	other packages are the ones I have used to build the binaries
-	from this source.  Previuos versions of this packages may do the
-	job as well but I have not tested this.
+	that Bison requires m4-144b.zip or later to work properly.
 
 3.4.:   If for some reason you want to reconfigure the package cd into the top
 	srcdir (bison-@TREE_VERSION@) and run the following commands:
