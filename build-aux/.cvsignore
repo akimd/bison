@@ -8,6 +8,7 @@ depcomp
 install-sh
 javacomp.sh.in
 javaexec.sh.in
+link-warning.h
 mdate-sh
 missing
 mkinstalldirs

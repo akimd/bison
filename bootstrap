@@ -362,7 +362,10 @@ slurp() {
       done
       if test $file = Makefile.am; then
         copied=$copied${sep}gnulib.mk; sep=$nl
-	remove_intl='/^[^#].*\/intl/s/^/#/'
+	remove_intl='
+          /^[^#].*\/intl/s/^/#/
+          s,\.#bootmp/,,g
+        '
         sed "$remove_intl" $1/$dir/$file | cmp -s - $dir/gnulib.mk || {
 	  echo "$0: Copying $1/$dir/$file to $dir/gnulib.mk ..." &&
 	  rm -f $dir/gnulib.mk &&
