@@ -50,6 +50,7 @@ stdint.h
 stdint_.h
 stdio--.h
 stdio-safer.h
+stdlib.h
 stdlib_.h
 stpcpy.c
 strerror.c
@@ -62,6 +63,7 @@ strtol.c
 strtoul.c
 strverscmp.c
 strverscmp.h
+unistd.h
 unistd--.h
 unistd-safer.h
 unistd_.h
