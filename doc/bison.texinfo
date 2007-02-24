@@ -7236,7 +7236,7 @@ always possible.
 
 The trace facility outputs messages with macro calls of the form
 @code{YYFPRINTF (stderr, @var{format}, @var{args})} where
-@var{format} and @var{args} are the usual @code{printf} format and
+@var{format} and @var{args} are the usual @code{printf} format and variadic
 arguments.  If you define @code{YYDEBUG} to a nonzero value but do not
 define @code{YYFPRINTF}, @code{<stdio.h>} is automatically included
 and @code{YYFPRINTF} is defined to @code{fprintf}.
