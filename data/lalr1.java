@@ -95,7 +95,7 @@ b4_locations_if([[
 b4_token_enums(b4_tokens)
 
   b4_locations_if([[
-  private ]b4_location_type[ yylloc (Stack rhs, int n)
+  private ]b4_location_type[ yylloc (YYStack rhs, int n)
   {
     if (n > 0)
       return new ]b4_location_type[ (rhs.locationAt (1).begin, rhs.locationAt (n).end);
@@ -170,19 +170,19 @@ b4_token_enums(b4_tokens)
     b4_parse_param_cons[
   }
 
-  private java.io.PrintStream debugStream = System.err;
+  private java.io.PrintStream yyDebugStream = System.err;
 
   /**
    * Return the <tt>PrintStream</tt> on which the debugging output is
    * printed.
    */
-  public final java.io.PrintStream getDebugStream () { return debugStream; }
+  public final java.io.PrintStream getDebugStream () { return yyDebugStream; }
 
   /**
    * Set the <tt>PrintStream</tt> on which the debug output is printed.
    * @@param s The stream that is used for debugging output.
    */
-  public final void setDebugStream(java.io.PrintStream s) { debugStream = s; }
+  public final void setDebugStream(java.io.PrintStream s) { yyDebugStream = s; }
 
   private int yydebug = 0;
 
@@ -216,10 +216,10 @@ b4_token_enums(b4_tokens)
 
   [protected final void yycdebug (String s) {
     if (yydebug > 0)
-      debugStream.println (s);
+      yyDebugStream.println (s);
   }
 
-  private final class Stack {
+  private final class YYStack {
     private int[] stateStack = new int[16];
     ]b4_locations_if([[private ]b4_location_type[[] locStack = new ]b4_location_type[[16];]])[
     private ]b4_union_name[[] valueStack = new ]b4_union_name[[16];
@@ -323,12 +323,12 @@ b4_token_enums(b4_tokens)
    * Return whether error recovery is being done.  In this state, the parser
    * reads token until it reaches a known state, and then restarts normal
    * operation.  */
-  public final boolean yyrecovering ()
+  public final boolean recovering ()
   {
     return yyerrstatus_ == 0;
   }
 
-  private int yyaction (int yyn, Stack yystack, int yylen)
+  private int yyaction (int yyn, YYStack yystack, int yylen)
   {
     ]b4_union_name[ yyval;
     ]b4_locations_if([b4_location_type[ yyloc = yylloc (yystack, yylen);]])[
@@ -438,7 +438,7 @@ b4_token_enums(b4_tokens)
     int yylen = 0;
     int yystate = 0;
 
-    Stack yystack = new Stack ();
+    YYStack yystack = new YYStack ();
 
     /* Error handling.  */
     int yynerrs_ = 0;
@@ -479,7 +479,7 @@ m4_popdef([b4_at_dollar])])dnl
       case YYNEWSTATE:
         yycdebug ("Entering state " + yystate + "\n");
         if (yydebug > 0)
-          yystack.print (debugStream);
+          yystack.print (yyDebugStream);
     
         /* Accept?  */
         if (yystate == yyfinal_)
@@ -651,7 +651,7 @@ m4_popdef([b4_at_dollar])])dnl
 	    yystack.pop ();
 	    yystate = yystack.stateAt (0);
 	    if (yydebug > 0)
-	      yystack.print (debugStream);
+	      yystack.print (yyDebugStream);
           }
     
 	]b4_locations_if([
@@ -827,7 +827,7 @@ m4_popdef([b4_at_dollar])])dnl
   };
 
   // Report on the debug stream that the rule yyrule is going to be reduced.
-  private void yy_reduce_print (int yyrule, Stack yystack)
+  private void yy_reduce_print (int yyrule, YYStack yystack)
   {
     if (yydebug == 0)
       return;
