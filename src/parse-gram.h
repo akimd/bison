@@ -167,7 +167,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1537 of yacc.c  */
-#line 97 "../../src/parse-gram.y"
+#line 97 "parse-gram.y"
 
   symbol *symbol;
   symbol_list *list;
@@ -181,7 +181,7 @@ typedef union YYSTYPE
 
 
 /* Line 1537 of yacc.c  */
-#line 185 "../../src/parse-gram.h"
+#line 185 "parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
