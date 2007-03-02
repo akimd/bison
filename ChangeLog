@@ -1,3 +1,57 @@
+2007-03-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Miscellaneous %define and %code cleanup.
+	* data/bison.m4 (b4_percent_define_flag_if): Correct comments on how
+	values are interpreted.
+	* doc/bison.texinfo (Decl Summary): Clean up and extend %define
+	documentation a little more.
+	* src/muscle_tab.c (MUSCLE_USER_NAME_CONVERT,
+	muscle_percent_define_insert, muscle_percent_code_grow): New
+	functions/macros.
+	* src/muscle_tab.h (muscle_percent_define_insert,
+	muscle_percent_code_grow): Prototype.
+	* src/parse-gram.y (prologue_declaration): Use
+	muscle_percent_define_insert and muscle_percent_code_grow when parsing
+	%define and %code directives.
+
+	Make it easy to share %define boolean variables between the front-end
+	and back-end.  Though not used yet, this will be useful in the future.
+	* data/bison.m4 (b4_check_user_names): Rewrite comments to talk about
+	Bison uses of names rather than just skeleton uses of names.
+	(b4_percent_define_get, b4_percent_define_ifdef): Rename
+	b4_percent_define_skeleton_variables(VARIABLE) to
+	b4_percent_define_bison_variables(VARIABLE).
+	(b4_percent_code_get, b4_percent_code_ifdef): Rename
+	b4_percent_code_skeleton_qualifiers(QUALIFIER) to
+	b4_percent_code_bison_qualifiers(QUALIFIER).
+	(b4_check_user_names_wrap): Update for renames.
+	* src/muscle_tab.c, src/muscle_tab.h (muscle_percent_define_flag_if,
+	muscle_percent_define_default): New functions mimicking
+	b4_percent_define_flag_if and b4_percent_define_default.
+
+	For %define variables, report locations for invalid values and
+	redefinitions.  
+	* data/bison.m4 (b4_percent_define_flag_if): Read
+	b4_percent_define_loc(VARIABLE) to report the location of an invalid
+	value for VARIABLE.
+	(b4_percent_define_default): Save a special location in
+	b4_percent_define_loc(VARIABLE) in case the default value for VARIABLE
+	must later be reported as invalid.
+	* src/muscle_tab.c (muscle_location_grow, muscle_location_decode): New
+	functions.
+	(muscle_percent_define_insert): Record the location of VARIABLE in
+	muscle percent_define_loc(VARIABLE), and use it to report the previous
+	location for a redefinition.
+	(muscle_percent_define_flag_if): Update like b4_percent_define_flag_if.
+	(muscle_percent_define_default): Update like b4_percent_define_default.
+	(muscle_grow_user_name_list): Rename to...
+	(muscle_user_name_list_grow): ... this for consistency and use
+	muscle_location_grow.
+	* src/muscle_tab.h (muscle_location_grow): Prototype.
+	* tests/input.at (%define errors): Update expected output.
+	* tests/skeletons.at (%define boolean variables: invalid skeleton
+	defaults): New test case.
+
 2007-02-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/print.c (lookahead_set, state_default_rule): Remove.

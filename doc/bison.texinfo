@@ -4693,14 +4693,32 @@ already defined, so that the debugging facilities are compiled.
 
 @deffn {Directive} %define @var{variable}
 @deffnx {Directive} %define @var{variable} "@var{value}"
-Define a variable to adjust Bison's behavior.  The possible choices for
-@var{variable}, as well as their meanings, depend on the selected target
-language and/or the parser skeleton (@pxref{Decl Summary,,%language}).
+Define a variable to adjust Bison's behavior.
+The possible choices for @var{variable}, as well as their meanings, depend on
+the selected target language and/or the parser skeleton (@pxref{Decl
+Summary,,%language}).
 
-Some @var{variable}s may be used as boolean values: in this case, the
-skeleton will conventionally treat a @var{value} of @samp{false} as the
-boolean variable being false; a @var{value} of @samp{true}, or @var{value}
-being omitted altogether, will conversely define the variable as true.
+Bison will warn if a @var{variable} is defined multiple times.
+
+Omitting @code{"@var{value}"} is always equivalent to specifying it as
+@code{""}.
+
+Some @var{variable}s may be used as booleans.
+In this case, Bison will complain if the variable definition does not meet one
+of the following four conditions:
+
+@enumerate
+@item @code{"@var{value}"} is @code{"true"}
+
+@item @code{"@var{value}"} is omitted (or is @code{""}).
+This is equivalent to @code{"true"}.
+
+@item @code{"@var{value}"} is @code{"false"}.
+
+@item @var{variable} is never defined.
+In this case, Bison selects a default value, which may depend on the selected
+target language and/or parser skeleton.
+@end enumerate
 @end deffn
 
 @deffn {Directive} %defines

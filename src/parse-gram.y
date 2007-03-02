@@ -235,17 +235,7 @@ prologue_declaration:
 | "%debug"                         { debug_flag = true; }
 | "%define" variable content.opt
     {
-      char const name_prefix[] = "percent_define(";
-      size_t length = strlen ($2);
-      char *name = xmalloc (sizeof name_prefix + length + 1);
-      strcpy (name, name_prefix);
-      strcpy (name + sizeof name_prefix - 1, $2);
-      strcpy (name + sizeof name_prefix - 1 + length, ")");
-      if (muscle_find_const (name))
-        warn_at (@2, _("%s `%s' redefined"), "%define variable", $2);
-      MUSCLE_INSERT_STRING (uniqstr_new (name), $3);
-      free (name);
-      muscle_grow_user_name_list ("percent_define_user_variables", $2, @2);
+      muscle_percent_define_insert ($2, @2, $3);
     }
 | "%defines"                       { defines_flag = true; }
 | "%defines" STRING
@@ -347,21 +337,15 @@ grammar_declaration:
     }
 | "%code" braceless
     {
+      /* Do not invoke muscle_percent_code_grow here since it invokes
+         muscle_user_name_list_grow.  */
       muscle_code_grow ("percent_code()", $2, @2);
       code_scanner_last_string_free ();
     }
 | "%code" ID braceless
     {
-      char const name_prefix[] = "percent_code(";
-      size_t length = strlen ($2);
-      char *name = xmalloc (sizeof name_prefix + length + 1);
-      strcpy (name, name_prefix);
-      strcpy (name + sizeof name_prefix - 1, $2);
-      strcpy (name + sizeof name_prefix - 1 + length, ")");
-      muscle_code_grow (uniqstr_new (name), $3, @3);
-      free (name);
+      muscle_percent_code_grow ($2, @2, $3, @3);
       code_scanner_last_string_free ();
-      muscle_grow_user_name_list ("percent_code_user_qualifiers", $2, @2);
     }
 ;
 

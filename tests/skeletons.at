@@ -19,10 +19,10 @@
 AT_BANNER([[Skeleton Support.]])
 
 ## ------------------------------ ##
-## relative skeleton file names.  ##
+## Relative skeleton file names.  ##
 ## ------------------------------ ##
 
-AT_SETUP([[relative skeleton file names]])
+AT_SETUP([[Relative skeleton file names]])
 
 AT_CHECK([[mkdir tmp]])
 
@@ -79,10 +79,10 @@ AT_CLEANUP
 
 
 ## ------------------------------- ##
-## installed skeleton file names.  ##
+## Installed skeleton file names.  ##
 ## ------------------------------- ##
 
-AT_SETUP([[installed skeleton file names]])
+AT_SETUP([[Installed skeleton file names]])
 
 m4_pushdef([AT_GRAM],
 [[%{
@@ -141,3 +141,31 @@ AT_PARSER_CHECK([[./input-gram]], [[1]], [],
 m4_popdef([AT_GRAM])
 
 AT_CLEANUP
+
+
+## ------------------------------------------------------ ##
+## %define boolean variables: invalid skeleton defaults.  ##
+## ------------------------------------------------------ ##
+
+AT_SETUP([[%define boolean variables: invalid skeleton defaults]])
+
+AT_CHECK([[mkdir tmp]])
+
+AT_DATA([[skel.c]],
+[[b4_percent_define_default([[foo]], [[bogus value]])
+b4_percent_define_flag_if([[foo]])
+]])
+
+AT_DATA([[input.y]],
+[[%skeleton "./skel.c"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input.y]], [[1]], [[]],
+[[[Bison:b4_percent_define_default]:0.0: invalid value for %define boolean variable `foo'
+]])
+
+AT_CLEANUP
+
+

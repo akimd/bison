@@ -285,11 +285,11 @@ b4_define_user_code([pre_prologue])
 b4_define_user_code([stype])
 
 
-# b4_check_user_names(WHAT, USER-LIST, SKELETON-NAMESPACE)
+# b4_check_user_names(WHAT, USER-LIST, BISON-NAMESPACE)
 # --------------------------------------------------------
 # Warn if any name of type WHAT is used by the user (as recorded in USER-LIST)
-# but is not used by the skeleton (as recorded by macros in the namespace
-# SKELETON-NAMESPACE).
+# but is not used by Bison (as recorded by macros in the namespace
+# BISON-NAMESPACE).
 #
 # USER-LIST must expand to a list specifying all grammar occurrences of all
 # names of type WHAT.   Each item in the list must be a triplet specifying one
@@ -304,22 +304,22 @@ b4_define_user_code([stype])
 #               [[[[bar]], [[parser.y:5.7]], [[parser.y:5.16]]]],
 #               [[[[baz]], [[parser.y:8.7]], [[parser.y:8.16]]]]]])
 #
-# The macro SKELETON-NAMESPACE(bar) must be defined iff the name bar of type
-# WHAT is used in the skeleton.  Empty string names are fine, but it would be
-# ugly for a Bison skeleton to actually use one.
+# The macro BISON-NAMESPACE(bar) must be defined iff the name bar of type WHAT
+# is used by Bison (in the front-end or in the skeleton).  Empty string names
+# are fine, but it would be ugly for Bison to actually use one.
 #
-# For example, to use b4_foo_skeleton_names for SKELETON-NAMESPACE and define
-# that the names bar and baz are used in the skeleton:
+# For example, to use b4_foo_bison_names for BISON-NAMESPACE and define that
+# the names bar and baz are used by Bison:
 #
-#   m4_define([b4_foo_skeleton_names(bar)])
-#   m4_define([b4_foo_skeleton_names(baz)])
+#   m4_define([b4_foo_bison_names(bar)])
+#   m4_define([b4_foo_bison_names(baz)])
 #
 # To invoke b4_check_user_names with TYPE foo, with USER-LIST
-# b4_foo_user_names, with SKELETON-NAMESPACE b4_foo_skeleton_names, and with
-# correct quoting:
+# b4_foo_user_names, with BISON-NAMESPACE b4_foo_bison_names, and with correct
+# quoting:
 #
 #   b4_check_user_names([[foo]], [b4_foo_user_names],
-#                       [[b4_foo_skeleton_names]])
+#                       [[b4_foo_bison_names]])
 m4_define([b4_check_user_names],
 [m4_foreach([b4_occurrence], $2,
 [m4_pushdef([b4_occurrence], b4_occurrence)dnl
@@ -339,60 +339,79 @@ m4_popdef([b4_end])dnl
 # b4_percent_define_get(VARIABLE)
 # -------------------------------
 # If the %define variable VARIABLE is defined, emit its value.  Also, record
-# the skeleton's usage of VARIABLE by defining
-# b4_percent_define_skeleton_variables(VARIABLE).
+# Bison's usage of VARIABLE by defining
+# b4_percent_define_bison_variables(VARIABLE).
 #
 # For example:
 #
 #   b4_percent_define_get([[foo]])
 m4_define([b4_percent_define_get],
-[m4_define([b4_percent_define_skeleton_variables(]$1[)])dnl
+[m4_define([b4_percent_define_bison_variables(]$1[)])dnl
 m4_ifdef([b4_percent_define(]$1[)], [m4_indir([b4_percent_define(]$1[)])])])
 
 # b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
 # If the %define variable VARIABLE is defined, expand IF-TRUE, else expand
-# IF-FALSE.  Also, record the skeleton's usage of VARIABLE by defining
-# b4_percent_define_skeleton_variables(VARIABLE).
+# IF-FALSE.  Also, record Bison's usage of VARIABLE by defining
+# b4_percent_define_bison_variables(VARIABLE).
+#
+# For example:
+#
+#   b4_percent_define_ifdef([[foo]], [[it's defined]], [[it's undefined]])
 m4_define([b4_percent_define_ifdef],
 [m4_ifdef([b4_percent_define(]$1[)],
-	  [m4_define([b4_percent_define_skeleton_variables(]$1[)])$2],
+	  [m4_define([b4_percent_define_bison_variables(]$1[)])$2],
 	  [$3])])
 
 # b4_percent_define_flag_if(VARIABLE, IF-TRUE, [IF-FALSE])
 # --------------------------------------------------------
-# If the %define variable VARIABLE is defined to anything but "0" or "false",
-# expand IF-TRUE. If it is defined to "0" or "false", expand IF-FALSE.  If
-# it is undefined, raise an error (this macro should be preceded by
-# b4_percent_define_default).  Also, record the skeleton's usage of VARIABLE by
-# defining b4_percent_define_skeleton_variables(VARIABLE).
+# Mimic muscle_percent_define_flag_if in ../src/muscle_tab.h exactly.  That is,
+# if the %define variable VARIABLE is defined to "" or "true", expand IF-TRUE.
+# If it is defined to "false", expand IF-FALSE.  Complain if it is undefined
+# (a Bison or skeleton error since the default value should have been set
+# already) or defined to any other value (possibly a user error).  Also, record
+# Bison's usage of VARIABLE by defining
+# b4_percent_define_bison_variables(VARIABLE).
+#
+# For example:
+#
+#   b4_percent_define_flag_if([[foo]], [[it's true]], [[it's false]])
 m4_define([b4_percent_define_flag_if],
 [b4_percent_define_ifdef([$1],
-			 [m4_case(b4_percent_define_get([$1]),
-			          [], [$2], [true], [$2], [false], [$3],
-				  [m4_expand_once(
-				   [b4_complain([[invalid value for %%define variable `%s']], [$1])],
-				   [[b4_percent_define_flag_if($1)]])])],
-		         [b4_fatal([[invalid %%define variable `%s' passed to b4_percent_define_flag_if]], [$1])])])
+  [m4_case(b4_percent_define_get([$1]),
+           [], [$2], [true], [$2], [false], [$3],
+           [m4_expand_once([dnl
+             m4_pushdef([b4_loc], m4_indir([b4_percent_define_loc(]$1[)]))dnl
+             b4_complain_at(b4_loc,
+                            [[invalid value for %%define boolean variable `%s']],
+                            [$1])dnl
+             m4_popdef([b4_loc])],
+             [[b4_percent_define_flag_if($1)]])])],
+  [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_flag_if]], [$1])])])
 
 # b4_percent_define_default(VARIABLE, DEFAULT)
 # --------------------------------------------
-# If the %define variable VARIABLE is undefined, set its value to DEFAULT.
+# Mimic muscle_percent_define_default in ../src/muscle_tab.h exactly.  That is,
+# if the %define variable VARIABLE is undefined, set its value to DEFAULT.
+# Don't record this as a Bison usage of VARIABLE as there's no reason to
+# suspect that the value has yet influenced the output.
 #
 # For example:
 #
 #   b4_percent_define_default([[foo]], [[default value]])
 m4_define([b4_percent_define_default],
 [m4_ifndef([b4_percent_define(]$1[)],
-           [m4_define([b4_percent_define(]$1[)], [$2])])])
+           [m4_define([b4_percent_define(]$1[)], [$2])dnl
+            m4_define([b4_percent_define_loc(]$1[)],
+                      [[[[[Bison:b4_percent_define_default]:0.0]], [[[Bison:b4_percent_define_default]:0.0]]]])])])
 
 # b4_percent_code_get([QUALIFIER])
 # --------------------------------
 # If any %code blocks for QUALIFIER are defined, emit them beginning with a
 # comment and ending with synclines and a newline.  If QUALIFIER is not
 # specified or empty, do this for the unqualified %code blocks.  Also, record
-# the skeleton's usage of QUALIFIER (if specified) by defining
-# b4_percent_code_skeleton_qualifiers(QUALIFIER).
+# Bison's usage of QUALIFIER (if specified) by defining
+# b4_percent_code_bison_qualifiers(QUALIFIER).
 #
 # For example, to emit any unqualified %code blocks followed by any %code
 # blocks for the qualifier foo:
@@ -401,7 +420,7 @@ m4_define([b4_percent_define_default],
 #   b4_percent_code_get([[foo]])
 m4_define([b4_percent_code_get],
 [m4_pushdef([b4_macro_name], [[b4_percent_code(]$1[)]])dnl
-m4_ifval([$1], [m4_define([b4_percent_code_skeleton_qualifiers(]$1[)])])dnl
+m4_ifval([$1], [m4_define([b4_percent_code_bison_qualifiers(]$1[)])])dnl
 m4_ifdef(b4_macro_name,
 [b4_comment([m4_if([$#], [0], [[Unqualified %code]],
                    [[%code "]$1["]])[ blocks.]])
@@ -413,24 +432,24 @@ m4_popdef([b4_macro_name])])
 # -----------------------------------------------------
 # If any %code blocks for QUALIFIER (or unqualified %code blocks if
 # QUALIFIER is empty) are defined, expand IF-TRUE, else expand IF-FALSE.
-# Also, record the skeleton's usage of QUALIFIER (if specified) by defining
-# b4_percent_code_skeleton_qualifiers(QUALIFIER).
+# Also, record Bison's usage of QUALIFIER (if specified) by defining
+# b4_percent_code_bison_qualifiers(QUALIFIER).
 m4_define([b4_percent_code_ifdef],
 [m4_ifdef([b4_percent_code(]$1[)],
-          [m4_ifval([$1], [m4_define([b4_percent_code_skeleton_qualifiers(]$1[)])])$2],
+          [m4_ifval([$1], [m4_define([b4_percent_code_bison_qualifiers(]$1[)])])$2],
 	  [$3])])
 
 
-## --------------------------------------------------------- ##
-## After processing the skeletons, check that all the user's ##
-## %define variables and %code qualifiers were used.         ##
-## --------------------------------------------------------- ##
+## ----------------------------------------------------------- ##
+## After processing the skeletons, check that all the user's   ##
+## %define variables and %code qualifiers were used by Bison.  ##
+## ----------------------------------------------------------- ##
 
 m4_define([b4_check_user_names_wrap],
 [m4_ifdef([b4_percent_]$1[_user_]$2[s],
           [b4_check_user_names([[%]$1 $2],
                                [b4_percent_]$1[_user_]$2[s],
-                               [[b4_percent_]$1[_skeleton_]$2[s]])])])
+                               [[b4_percent_]$1[_bison_]$2[s]])])])
 
 m4_wrap([
 b4_check_user_names_wrap([[define]], [[variable]])

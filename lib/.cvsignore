@@ -63,9 +63,9 @@ strtol.c
 strtoul.c
 strverscmp.c
 strverscmp.h
-unistd.h
 unistd--.h
 unistd-safer.h
+unistd.h
 unistd_.h
 unlocked-io.h
 verify.h

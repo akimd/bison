@@ -25,8 +25,8 @@
 
 void muscle_init (void);
 void muscle_insert (char const *key, char const *value);
-char *muscle_find (char const *key);
 char const *muscle_find_const (char const *key);
+char *muscle_find (char const *key);
 void muscle_free (void);
 
 
@@ -110,7 +110,9 @@ void muscle_code_grow (const char *key, const char *value, location loc);
 void muscle_pair_list_grow (const char *muscle,
 			    const char *a1, const char *a2);
 
-void muscles_m4_output (FILE *out);
+/* In the format `[[file_name:line.column]], [[file_name:line.column]]', append
+   LOC to MUSCLE.  Use digraphs for special characters in each file name.  */
+void muscle_location_grow (char const *key, location loc);
 
 /* In the format `file_name:line.column', append BOUND to MUSCLE.  Use digraphs
    for special characters in the file name.  */
@@ -119,7 +121,36 @@ void muscle_boundary_grow (char const *key, boundary bound);
 /* Grow KEY for the occurrence of the name USER_NAME at LOC appropriately for
    use with b4_check_user_names in ../data/bison.m4.  USER_NAME is not escaped
    with digraphs, so it must not contain `[' or `]'.  */
-void muscle_grow_user_name_list (char const *key, char const *user_name,
+void muscle_user_name_list_grow (char const *key, char const *user_name,
                                  location loc);
+
+/* Define the muscle for the %define variable VARIABLE appearing at
+   VARIABLE_LOC in the grammar file with value VALUE.  Warn if VARIABLE is
+   already defined.  Record this as a grammar occurrence of VARIABLE by
+   invoking muscle_user_name_list_grow.  */
+void muscle_percent_define_insert (char const *variable, location variable_loc,
+                                   char const *value);
+
+/* Mimic b4_percent_define_flag_if in ../data/bison.m4 exactly.  That is, if
+   the %define variable VARIABLE is defined to "" or "true", return true.  If
+   it is defined to "false", return false.  Complain if it is undefined (a
+   Bison error since the default value should have been set already) or defined
+   to any other value (possibly a user error).  Also, record Bison's usage of
+   VARIABLE by defining b4_percent_define_bison_variables(VARIABLE).  */
+bool muscle_percent_define_flag_if (char const *variable);
+
+/* Mimic b4_percent_define_default in ../data/bison.m4 exactly.  That is, if
+   the %define variable VARIABLE is undefined, set its value to VALUE.
+   Don't record this as a Bison usage of VARIABLE as there's no reason to
+   suspect that the value has yet influenced the output.  */
+void muscle_percent_define_default (char const *variable, char const *value);
+
+/* Grow the muscle for the %code qualifier QUALIFIER appearing at QUALIFIER_LOC
+   in the grammar file with code CODE appearing at CODE_LOC.  Record this as a
+   grammar occurrence of VARIABLE by invoking muscle_user_name_list_grow.  */
+void muscle_percent_code_grow (char const *qualifier, location qualifier_loc,
+                               char const *code, location code_loc);
+
+void muscles_m4_output (FILE *out);
 
 #endif /* not MUSCLE_TAB_H_ */

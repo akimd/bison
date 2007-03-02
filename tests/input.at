@@ -811,7 +811,9 @@ start: ;
 
 AT_CHECK([[bison input.y]], [0], [],
 [[input.y:2.9-11: warning: %define variable `var' redefined
+input.y:1.9-11: warning: previous definition
 input.y:3.10-12: warning: %define variable `var' redefined
+input.y:2.9-11: warning: previous definition
 input.y:1.9-11: warning: %define variable `var' is not used
 input.y:2.9-11: warning: %define variable `var' is not used
 input.y:3.10-12: warning: %define variable `var' is not used
@@ -836,7 +838,7 @@ start: ;
 ]])
 
 AT_CHECK([[bison Input.y]], [1], [],
-[[Input.y: invalid value for %define variable `public'
+[[Input.y:2.9-14: invalid value for %define boolean variable `public'
 ]])
 
 AT_CLEANUP
