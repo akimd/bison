@@ -245,6 +245,12 @@ Rem Fixing ilicit testsuite file name.
 test -f %XSRC%/tests/c++.at
 if not errorlevel 1 mv -f %XSRC%/tests/c++.at %XSRC%/tests/cxx.at
 
+test -f %XSRC%/tests/testsuite.org
+if errorlevel 1 update %XSRC%/tests/testsuite %XSRC%/tests/testsuite.org
+sed -f %XSRC%/djgpp/testsuite.sed %XSRC%/tests/testsuite.org > testsuite.tmp
+if errorlevel 1 goto SedError3
+mv -f ./testsuite.tmp %XSRC%/tests/testsuite
+
 Rem Fixing ilicit calc++ file names in the calc++ directory.
 test -d %XSRC%/examples/calc++
 if not errorlevel 1 mv -f %XSRC%/examples/calc++ %XSRC%/examples/calcxx
@@ -459,7 +465,11 @@ echo ./configure script editing failed!
 goto End
 
 :SedError2
-echo ./config.hin editing failed!
+echo ./lib/config.hin editing failed!
+goto End
+
+:SedError3
+echo ./tests/testsuite editing failed!
 goto End
 
 :CfgError
