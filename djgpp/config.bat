@@ -180,6 +180,10 @@ Rem Make sure they have a config.site file
 set CONFIG_SITE=%XSRC%/djgpp/config.site
 if not "%CONFIG_SITE%" == "%XSRC%/djgpp/config.site" goto SmallEnv
 
+Rem inttypes_.h and inttypes.h map to the same 8.3 alias.
+test -f %XSRC%/lib/inttypes_.h
+if not errorlevel 1 mv -f %XSRC%/lib/inttypes_.h %XSRC%/lib/_inttypes.h
+
 Rem Make sure crucial file names are not munged by unpacking
 test -f %XSRC%/po/Makefile.in.in
 if not errorlevel 1 mv -f %XSRC%/po/Makefile.in.in %XSRC%/po/Makefile.in-in
