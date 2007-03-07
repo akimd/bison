@@ -30,7 +30,7 @@ EXTRA_DIST = GNUmakefile Makefile.cfg Makefile.maint \
   djgpp/Makefile.maint djgpp/README.in djgpp/config.bat \
   djgpp/config.sed djgpp/config.site djgpp/config_h.sed \
   djgpp/subpipe.c djgpp/subpipe.h djgpp/djunpack.bat \
-  djgpp/fnchange.lst
+  djgpp/fnchange.lst djgpp/testsuite.sed
 
 
 .PHONY: maintainer-check
