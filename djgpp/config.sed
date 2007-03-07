@@ -34,6 +34,7 @@ s,c++\\.m4,cxx.m4,g\
 s,calc++,calcxx,g\
 s,scan-gram-c,c-scan-gram,g\
 s,scan-skel-c,c-scan-skel,g\
+s,inttypes_,_inttypes,g\
 s,Makefile\\.am\\.in,Makefile.am-in,g\
 s,Makefile\\.in\\.in,Makefile.in-in,g\
 /^\\.y\\.c:/,/^$/ {\
@@ -154,6 +155,11 @@ ac_cv_flibs=`echo "$ac_cv_flibs" | sed "s%-L$ac_djgpp_path%-L/dev/env/DJDIR%g"`
 /^.*echo "\$as_me:\$LINENO: result: \$gl_cv_absolute_.*$/ {
 h
 s,^.*\(gl_cv_absolute_\)\([a-z0-9_]*\)\(_h\).*$,\1\2\3=`echo $\1\2\3 | sed "s%[^:]:.*/include/%/dev/env/DJDIR/include/%"`,
+G
+}
+/^.*echo "\$as_me:\$LINENO: result: \$gl_cv_full_.*$/ {
+h
+s,^.*\(gl_cv_full_\)\([a-z0-9_]*\)\(_h\).*$,\1\2\3=`echo $\1\2\3 | sed "s%[^:]:.*/include/%/dev/env/DJDIR/include/%"`,
 G
 }
 
