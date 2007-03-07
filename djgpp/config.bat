@@ -143,17 +143,17 @@ shift
 if not "%1" == "" goto ArgLoop
 
 Rem Create an arguments file for the configure script.
-echo --srcdir=%XSRC% > arguments
-if "%CACHING%" == "enabled"              echo --cache-file=%XSRC%/djgpp/config.cache >> arguments
-if "%DEPENDENCY_TRACKING%" == "enabled"  echo --enable-dependency-tracking >> arguments
-if "%DEPENDENCY_TRACKING%" == "disabled" echo --disable-dependency-tracking >> arguments
-if "%LIBICONV_PREFIX%" == "enabled"      echo --with-libiconv-prefix >> arguments
-if "%LIBICONV_PREFIX%" == "disabled"     echo --without-libiconv-prefix >> arguments
-if "%LIBINTL_PREFIX%" == "enabled"       echo --with-libintl-prefix >> arguments
-if "%LIBINTL_PREFIX%" == "disabled"      echo --without-libintl-prefix >> arguments
-if "%HTML%" == "enabled"                 echo --enable-html >> arguments
-if "%HTML%" == "disabled"                echo --disable-html >> arguments
-if not "%ARGS%" == ""                    echo %ARGS% >> arguments
+echo --srcdir=%XSRC% > args
+if "%CACHING%" == "enabled"              echo --cache-file=%XSRC%/djgpp/config.cache >> args
+if "%DEPENDENCY_TRACKING%" == "enabled"  echo --enable-dependency-tracking >> args
+if "%DEPENDENCY_TRACKING%" == "disabled" echo --disable-dependency-tracking >> args
+if "%LIBICONV_PREFIX%" == "enabled"      echo --with-libiconv-prefix >> args
+if "%LIBICONV_PREFIX%" == "disabled"     echo --without-libiconv-prefix >> args
+if "%LIBINTL_PREFIX%" == "enabled"       echo --with-libintl-prefix >> args
+if "%LIBINTL_PREFIX%" == "disabled"      echo --without-libintl-prefix >> args
+if "%HTML%" == "enabled"                 echo --enable-html >> args
+if "%HTML%" == "disabled"                echo --disable-html >> args
+if not "%ARGS%" == ""                    echo %ARGS% >> args
 set ARGS=
 set CACHING=
 set DEPENDENCY_TRACKING=
@@ -417,20 +417,20 @@ redir -e /dev/null rm %XSRC%/po/stamp-cat-id
 Rem Update the arguments file for the configure script.
 Rem We prefer without-included-gettext because libintl.a from gettext package
 Rem is the only one that is garanteed to have been ported to DJGPP.
-echo --enable-nls --without-included-gettext >> arguments
+echo --enable-nls --without-included-gettext >> args
 goto ConfigurePackage
 
 :MissingNLSTools
 echo Needed libs/tools for NLS not found. Configuring without NLS.
 :WithoutNLS
 Rem Update the arguments file for the configure script.
-echo --disable-nls >> arguments
+echo --disable-nls >> args
 
 :ConfigurePackage
 echo Running the ./configure script...
-sh ./configure @arguments
+sh ./configure @args
 if errorlevel 1 goto CfgError
-rm arguments
+rm args
 echo Done.
 goto End
 
