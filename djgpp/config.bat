@@ -209,6 +209,11 @@ test -f %XSRC%/data/c++.m4
 if not errorlevel 1 mv -f %XSRC%/data/c++.m4 %XSRC%/data/cxx.m4
 test -f %XSRC%/data/cxx.m4
 if errorlevel 1 mv -f %XSRC%/data/cpp.m4 %XSRC%/data/cxx.m4
+test -f %XSRC%/data/c++-skel.m4
+if not errorlevel 1 mv -f %XSRC%/data/c++-skel.m4 %XSRC%/data/cxx-skel.m4
+test -f %XSRC%/data/cxx-skel.m4
+if errorlevel 1 mv -f %XSRC%/data/cpp-skel.m4 %XSRC%/data/cxx-skel.m4
+
 :scan_gram_c_Test
 test -f %XSRC%/src/c-scan-gram.c
 if not errorlevel 1 goto scan_skel_c_Test
@@ -226,11 +231,16 @@ sed "s/c++\.m4/cxx.m4/" %XSRC%/data/lalr1.cc > lalr1.cc
 if errorlevel 1 goto lalr1_ccFileError
 mv ./lalr1.cc %XSRC%/data/lalr1.cc
 sed "s/c++\.m4/cxx.m4/" %XSRC%/data/location.cc > location.cc
-if errorlevel 1 goto location.ccFileError
+if errorlevel 1 goto location_ccFileError
 mv ./location.cc %XSRC%/data/location.cc
 sed "s/c++\.m4/cxx.m4/" %XSRC%/data/glr.cc > glr.cc
-if errorlevel 1 goto glr.ccFileError
+if errorlevel 1 goto glr_ccFileError
 mv ./glr.cc %XSRC%/data/glr.cc
+
+Rem Fix src/getargs.c to reflect the renaming of c++-skel.m4
+sed "s/c++-skel\.m4/cxx-skel.m4/" %XSRC%/src/getargs.c > getargs.c
+if errorlevel 1 goto getargs_cFileError
+mv ./getargs.c %XSRC%/src/getargs.c
 
 Rem Define DJGPP specific defs in config.hin
 echo Editing config.hin...
@@ -446,6 +456,10 @@ goto End
 
 :glr_ccFileError
 echo ./data/glr.cc file editing failed!
+goto End
+
+:getargs_cFileError
+echo ./src/getargs.c file editing failed!
 goto End
 
 :location_ccFileError
