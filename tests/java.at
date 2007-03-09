@@ -25,7 +25,7 @@ AT_BANNER([[Java Calculator.]])
 # ------------------------- #
 
 
-# _AT_DATA_JAVA_CALC_Y($1, $2, $3, [BISON-DIRECTIVES], [BISON-EPILOGUE])
+# _AT_DATA_JAVA_CALC_Y($1, $2, $3, [BISON-DIRECTIVES])
 # ----------------------------------------------------------------------
 # Produce `calc.y'.  Don't call this macro directly, because it contains
 # some occurrences of `$1' etc. which will be interpreted by m4.  So
@@ -37,11 +37,12 @@ m4_define([_AT_DATA_JAVA_CALC_Y],
 AT_DATA([Calc.y],
 [[/* Infix notation calculator--calc */
 %language "Java"
-%name-prefix "Calc"]
+%name-prefix "Calc"
 %define parser_class_name "Calc"
 %define public
 
-$4[
+]$4[
+
 %code imports {
   import java.io.StreamTokenizer;
   import java.io.InputStream;
@@ -93,52 +94,130 @@ exp:
 | '!'                { $$ = new Integer (0); return YYERROR;                }
 | '-' error          { $$ = new Integer (0); return YYERROR;                }
 ;
+
+]AT_LEXPARAM_IF([[
+%code lexer {
+]],
+[[
 %%
+class CalcLexer implements Calc.Lexer {
+]])[
+  StreamTokenizer st;
 
-  class Position {
-    public int line;
-
-    public Position ()
-    {
-      line = 0;
-    }
-
-    public Position (int l)
-    {
-      line = l;
-    }
-
-    public long getHashCode ()
-    {
-      return line;
-    }
-
-    public boolean equals (Position l)
-    {
-      return l.line == line;
-    }
-
-    public String toString ()
-    {
-      return Integer.toString (line);
-    }
-
-    public int lineno ()
-    {
-      return line;
-    }
+  public ]AT_LEXPARAM_IF([[YYLexer]], [[CalcLexer]]) (InputStream is)
+  {
+    st = new StreamTokenizer (new InputStreamReader (is));
+    st.resetSyntax ();
+    st.eolIsSignificant (true);
+    st.whitespaceChars (9, 9);
+    st.whitespaceChars (32, 32);
+    st.wordChars (48, 57);
   }
 
-]$5
-])
+AT_LOCATION_IF([[
+  Position yystartpos;
+  Position yyendpos = new Position (1);
+
+  public Position getStartPos() {
+    return yystartpos;
+  }
+
+  public Position getEndPos() {
+    return yyendpos;
+  }
+
+  public void yyerror (Calc.Location l, String s)
+  {
+    if (l == null)
+      System.err.println (s);
+    else
+      System.err.println (l.begin + ": " + s);
+  }
+]], [[
+  public void yyerror (String s)
+  {
+    System.err.println (s); 
+  }
+]])[
+
+  Integer yylval;
+
+  public Object getLVal() {
+    return yylval;
+  }
+
+  public int yylex () throws IOException {
+    int ttype = st.nextToken ();
+    ]AT_LOCATION_IF([[yystartpos = yyendpos;]])[
+    if (ttype == st.TT_EOF)
+      return Calc.EOF;
+
+    else if (ttype == st.TT_EOL)
+      {
+        ]AT_LOCATION_IF([[yyendpos = new Position (yyendpos.lineno () + 1);]])[
+        return (int) '\n';
+      }
+
+    else if (ttype == st.TT_WORD)
+      {
+        yylval = new Integer (st.sval);
+        return Calc.NUM;
+      }
+
+    else
+      return st.ttype;
+  }
+
+
+]AT_LEXPARAM_IF([[
+};
+%%]], [[
+}]])
+
+[
+class Position {
+  public int line;
+
+  public Position ()
+  {
+    line = 0;
+  }
+
+  public Position (int l)
+  {
+    line = l;
+  }
+
+  public long getHashCode ()
+  {
+    return line;
+  }
+
+  public boolean equals (Position l)
+  {
+    return l.line == line;
+  }
+
+  public String toString ()
+  {
+    return Integer.toString (line);
+  }
+
+  public int lineno ()
+  {
+    return line;
+  }
+}
+
+]])
 ])# _AT_DATA_JAVA_CALC_Y
 
 
-# AT_DATA_CALC_Y([BISON-OPTIONS], [BISON-EPILOGUE])
+# AT_DATA_CALC_Y([BISON-OPTIONS])
 # -------------------------------------------------
 # Produce `calc.y'.
 m4_define([AT_DATA_JAVA_CALC_Y],
-[_AT_DATA_JAVA_CALC_Y($[1], $[2], $[3], [$1], [$2])
+[_AT_DATA_JAVA_CALC_Y($[1], $[2], $[3], [$1])
 ])
 
 
@@ -196,7 +275,7 @@ mv at-expout expout]])
 AT_CHECK([cat stderr], 0, [expout])
 ])
 
-# _AT_CHECK_JAVA_CALC([BISON-DIRECTIVES], [BISON-CODE], [BISON-EPILOGUE])
+# _AT_CHECK_JAVA_CALC([BISON-DIRECTIVES], [BISON-CODE])
 # -----------------------------------------------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-DIRECTIVES, and performs several tests over the parser.
@@ -209,7 +288,7 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_JAVA_CALC_Y([$1
 %code {
 $2
-}], [$3])
+}])
 
 AT_CHECK([bison -o Calc.java Calc.y])
 AT_JAVA_COMPILE([Calc.java])
@@ -288,14 +367,16 @@ AT_CLEANUP
 ])# _AT_CHECK_JAVA_CALC
 
 
-# AT_CHECK_JAVA_CALC([BISON-DIRECTIVES], [BISON-EPILOGUE])
+# AT_CHECK_JAVA_CALC([BISON-DIRECTIVES])
 # --------------------------------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-DIRECTIVES, and performs several tests over the parser.
 # Run the test with and without %error-verbose.
 m4_define([AT_CHECK_JAVA_CALC],
-[_AT_CHECK_JAVA_CALC([$1], [$2], [$3])
-_AT_CHECK_JAVA_CALC([%error-verbose $1], [$2], [$3])
+[_AT_CHECK_JAVA_CALC([$1], [$2])
+_AT_CHECK_JAVA_CALC([%error-verbose $1], [$2])
+_AT_CHECK_JAVA_CALC([%locations $1], [$2])
+_AT_CHECK_JAVA_CALC([%error-verbose %locations $1], [$2])
 ])# AT_CHECK_JAVA_CALC
 
 
@@ -303,113 +384,18 @@ _AT_CHECK_JAVA_CALC([%error-verbose $1], [$2], [$3])
 # Simple LALR Calculator.  #
 # ------------------------ #
 
-dnl AT_CHECK_JAVA_CALC([], [])
-
-AT_CHECK_JAVA_CALC([%define single_class %locations], [[
-  StreamTokenizer st;
-
-  public Calc (InputStream is)
-  {
-    Reader r = new InputStreamReader (is);
-    st = new StreamTokenizer(r);
-    st.resetSyntax ();
-    st.eolIsSignificant (true);
-    st.whitespaceChars (9, 9);
-    st.whitespaceChars (32, 32);
-    st.wordChars (48, 57);
-
-    yyendpos = new Position (1);
-  }
-
-  public int yylex () throws IOException {
-    int ttype = st.nextToken ();
-    yystartpos = yyendpos;
-    if (ttype == st.TT_EOF)
-      return EOF;
-
-    else if (ttype == st.TT_EOL)
-      {
-        yyendpos = new Position (yyendpos.lineno () + 1);
-        return (int) '\n';
-      }
-
-    else if (ttype == st.TT_WORD)
-      {
-        yylval = new Integer (st.sval);
-        return NUM;
-      }
-
-    else
-      return st.ttype;
-  }
-
-  public void yyerror (Location l, String s)
-  {
-    if (l == null)
-      System.err.println (s);
-    else
-      System.err.println (l.begin + ": " + s);
-  }
-
-  public static void main (String args[]) throws IOException
-  {
-    new Calc (System.in).parse ();
-  }
-]])
-
-AT_CHECK_JAVA_CALC([%pure-parser], [[
+AT_CHECK_JAVA_CALC([], [[
   public static void main (String args[]) throws IOException
   {
     CalcLexer l = new CalcLexer (System.in);
     Calc p = new Calc (l);
     p.parse ();
   }
-]], [[
-class CalcLexer implements Calc.Lexer {
-  Integer yylval;
-
-  StreamTokenizer st;
-  
-  public Object getLVal ()
-  {
-    return yylval;
-  }
-  
-  public CalcLexer (InputStream is)
-  {
-    Reader r = new InputStreamReader (is);
-    st = new StreamTokenizer(r);
-    st.resetSyntax ();
-    st.eolIsSignificant (true);
-    st.whitespaceChars (9, 9);
-    st.whitespaceChars (32, 32);
-    st.wordChars (48, 57);
-  }
-  
-  public int yylex () throws IOException {
-    int ttype = st.nextToken ();
-    if (ttype == st.TT_EOF)
-      return Calc.EOF;
-        
-    else if (ttype == st.TT_EOL)
-      return (int) '\n';
-        
-    else if (ttype == st.TT_WORD)
-      {
-        yylval = new Integer (st.sval);
-        return Calc.NUM;
-      }
-        
-    else
-      return st.ttype;
-  }
-
-  
-  public void yyerror (String s)
-  {
-    System.err.println (s); 
-  }
-}
 ]])
 
-dnl AT_CHECK_JAVA_CALC([%pure-parser %locations], [])
+AT_CHECK_JAVA_CALC([%lex-param { InputStream is } ], [[
+  public static void main (String args[]) throws IOException
+  {
+    new Calc (System.in).parse ();
+  }
+]])

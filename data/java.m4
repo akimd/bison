@@ -38,17 +38,18 @@ b4_percent_define_default([[public]], [[false]])
 m4_define([b4_public_if],
 [b4_percent_define_flag_if([public], [$1], [$2])])
 
-# b4_single_class_if(TRUE, FALSE)
-# -------------------------------
-b4_percent_define_default([[single_class]], [[false]])
-m4_define([b4_single_class_if],
-[b4_percent_define_flag_if([single_class], [$1], [$2])])
-
 
 # b4_abstract_if(TRUE, FALSE)
 # ---------------------------
+b4_percent_define_default([[abstract]], [[false]])
 m4_define([b4_abstract_if],
-[b4_pure_if([$2], [b4_single_class_if([$2], [$1])])])
+[b4_percent_define_flag_if([abstract], [$1], [$2])])
+
+
+# b4_lexer_if(TRUE, FALSE)
+# ------------------------
+m4_define([b4_lexer_if],
+[b4_percent_code_ifdef([[lexer]], [$1], [$2])])
 
 
 # b4_identification
@@ -126,8 +127,8 @@ m4_define([b4_case], [  case $1:
 ## Default values.  ##
 ## ---------------- ##
 
-m4_define([b4_union_name], [b4_percent_define_get([[union_name]])])
-b4_percent_define_default([[union_name]], [[Object]])])
+m4_define([b4_yystype], [b4_percent_define_get([[stype]])])
+b4_percent_define_default([[stype]], [[Object]])])
 
 m4_define_default([[b4_prefix]], [[YY]])])
 b4_percent_define_default([[parser_class_name]], [b4_prefix[]Parser])])
@@ -165,7 +166,7 @@ m4_define([b4_lhs_value], [yyval])
 # In this simple implementation, %token and %type have class names
 # between the angle brackets.
 m4_define([b4_rhs_value],
-[(m4_ifval([$3], [($3)])[](yystack.valueAt ($1-($2))))])
+[(m4_ifval($3, [($3)])[](yystack.valueAt ($1-($2))))])
 
 # b4_lhs_location()
 # -----------------
@@ -199,25 +200,14 @@ m4_define([b4_parse_param], b4_parse_param))
 m4_define([b4_lex_param_decl],
 [m4_ifset([b4_lex_param],
           [b4_remove_comma([$1],
-			   [m4_map([b4_lex_param_decl_1], [b4_lex_param])])],
+			   b4_param_decls(b4_lex_param))],
 	  [$1])])
 
-m4_define([b4_lex_param_decl_1], [, $1])
-m4_define([b4_remove_comma], [m4_ifval([$1], [$1, ], [])m4_cdr([m4_cdr($@)])])
+m4_define([b4_param_decls],
+	  [m4_map([b4_param_decl], [$@])])
+m4_define([b4_param_decl], [, $1])
 
-
-
-# b4_lex_param_call
-# -------------------
-# Extra initialisations of the constructor.
-m4_define([b4_lex_param_call],
-          [m4_ifset([b4_lex_param],
-	            [b4_remove_comma([$1],
-				     [b4_lex_param_calls(b4_lex_param)])],
-	            [$1])])
-m4_define([b4_lex_param_calls],
-	  [m4_map([b4_lex_param_call_1], [$@])])
-m4_define([b4_lex_param_call_1], [, $2])
+m4_define([b4_remove_comma], [m4_ifval($1, [$1, ], [])m4_shiftn(2, $@)])
 
 
 
@@ -227,11 +217,22 @@ m4_define([b4_lex_param_call_1], [, $2])
 m4_define([b4_parse_param_decl],
 [m4_ifset([b4_parse_param],
           [b4_remove_comma([$1],
-		           [m4_map([b4_parse_param_decl_1],
-				   [b4_parse_param])])],
+			   b4_param_decls(b4_parse_param))],
 	  [$1])])
 
-m4_define([b4_parse_param_decl_1], [, $1])
+
+
+# b4_lex_param_call
+# -------------------
+# Delegating the lexer parameters to the lexer constructor.
+m4_define([b4_lex_param_call],
+          [m4_ifset([b4_lex_param],
+	            [b4_remove_comma([$1],
+				     b4_param_calls(b4_lex_param))],
+	            [$1])])
+m4_define([b4_param_calls],
+	  [m4_map([b4_param_call], [$@])])
+m4_define([b4_param_call], [, $2])
 
 
 
@@ -241,11 +242,14 @@ m4_define([b4_parse_param_decl_1], [, $1])
 m4_define([b4_parse_param_cons],
           [m4_ifset([b4_parse_param],
 		    [b4_constructor_calls(b4_parse_param)])])
+
 m4_define([b4_constructor_calls],
 	  [m4_map([b4_constructor_call], [$@])])
 m4_define([b4_constructor_call],
 	  [this.$2 = $2;
 	  ])
+
+
 
 # b4_parse_param_vars
 # -------------------
@@ -255,14 +259,17 @@ m4_define([b4_parse_param_vars],
 		    [
     /* User arguments.  */
 b4_var_decls(b4_parse_param)])])
+
 m4_define([b4_var_decls],
 	  [m4_map_sep([b4_var_decl], [
 ], [$@])])
 m4_define([b4_var_decl],
 	  [    protected final $1;])
 
+
+
 # b4_maybe_throws(THROWS)
 # -----------------------
 # Expand to either an empty string or "throws THROWS".
 m4_define([b4_maybe_throws],
-	  [m4_ifval([$1], [throws $1])])
+	  [m4_ifval($1, [throws $1])])

@@ -8380,7 +8380,10 @@ Remember that, according to the Java language specification, the name
 of the @file{.java} file should match the name of the class in this
 case.
 
-All these files are documented using Javadoc.
+Similarly, a declaration @samp{%define "abstract"} will make your
+class abstract.
+
+You can create documentation for generated parsers using Javadoc.
 
 @node Java Semantic Values
 @subsection Java Semantic Values
@@ -8404,7 +8407,7 @@ superclass of all the semantic values using the @samp{%define} directive.
 For example, after the following declaration:
 
 @example
-%define "union_name" "ASTNode"
+%define "stype" "ASTNode"
 @end example
 
 @noindent
@@ -8483,7 +8486,7 @@ Run the syntactic analysis, and return @code{true} on success,
 @code{false} otherwise.
 @end deftypemethod
 
-@deftypemethod {YYParser} {boolean} yyrecovering ()
+@deftypemethod {YYParser} {boolean} recovering ()
 During the syntactic analysis, return @code{true} if recovering
 from a syntax error.  @xref{Error Recovery}.
 @end deftypemethod
@@ -8510,33 +8513,39 @@ Interface}); the parser uses it to report a parser error occurring at
 
 @node Java Scanner Interface
 @subsection Java Scanner Interface
-@c - prefix for yylex.
-@c - Pure interface to yylex
+@c - %code lexer
 @c - %lex-param
+@c - Lexer interface
 
-There are two possible ways to interface a Bison-generated Java parser
-with a scanner.
-
-@cindex pure parser, in Java
 Contrary to C parsers, Java parsers do not use global variables; the
 state of the parser is always local to an instance of the parser class.
-Therefore, all Java parsers are ``pure'' in the C sense.  The
-@code{%pure-parser} directive can still be used in Java, and it
-will control whether the lexer resides in a separate class than the
-Bison-generated parser (therefore, Bison generates a class that is
-``purely'' a parser), or in the same class.  The interface to the scanner
-is similar, though the two cases present a slightly different naming.
+Therefore, all Java parsers are ``pure'', and the @code{%pure-parser}
+directive does not do anything when used in Java.
 
-For the @code{%pure-parser} case, the scanner implements an interface
-called @code{Lexer} and defined within the parser class (e.g.,
-@code{YYParser.Lexer}.  The constructor of the parser object accepts
-an object implementing the interface.  The interface specifies
-the following methods.
+The scanner always resides in a separate class than the parser.
+Still, Java also two possible ways to interface a Bison-generated Java
+parser with a scanner, that is, the scanner may reside in a separate file
+than the Bison grammar, or in the same file.  The interface
+to the scanner is similar in the two cases.
 
-@deftypemethod {Lexer} {void} error (Location @var{l}, String @var{m})
+In the first case, where the scanner in the same file as the grammar, the
+scanner code has to be placed in @code{%code lexer} blocks.  If you want
+to pass parameters from the parser constructor to the scanner constructor,
+specify them with @code{%lex-param}; they are passed before
+@code{%parse-param}s to the constructor.
+
+In the second case, the scanner has to implement interface @code{Lexer},
+which is defined within the parser class (e.g., @code{YYParser.Lexer}).
+The constructor of the parser object will then accept an object
+implementing the interface; @code{%lex-param} is not used in this
+case.
+
+In both cases, the scanner has to implement the following methods.
+
+@deftypemethod {Lexer} {void} yyerror (Location @var{l}, String @var{m})
 As explained in @pxref{Java Parser Interface}, this method is defined
-by the user to emit an error message.  The first parameter is not used
-unless location tracking is active.  Its type can be changed using
+by the user to emit an error message.  The first parameter is omitted
+if location tracking is not active.  Its type can be changed using
 @samp{%define "location_type" "@var{class-name}".}
 @end deftypemethod
 
@@ -8549,9 +8558,9 @@ interface.  Invocations of @samp{%lex-param @{@var{type1}
 
 @deftypemethod {Lexer} {Position} getStartPos ()
 @deftypemethodx {Lexer} {Position} getEndPos ()
-Return respectively the first position of the last token that yylex
-returned, and the first position beyond it.  These methods are not
-needed unless location tracking is active.
+Return respectively the first position of the last token that
+@code{yylex} returned, and the first position beyond it.  These
+methods are not needed unless location tracking is active.
 
 The return type can be changed using @samp{%define "position_type"
 "@var{class-name}".}
@@ -8561,7 +8570,7 @@ The return type can be changed using @samp{%define "position_type"
 Return respectively the first position of the last token that yylex
 returned, and the first position beyond it.
 
-The return type can be changed using @samp{%define "union_name"
+The return type can be changed using @samp{%define "stype"
 "@var{class-name}".}
 @end deftypemethod
 
@@ -8599,18 +8608,9 @@ The field's type can be changed using @samp{%define "position_type"
 Return respectively the first position of the last token that yylex
 returned, and the first position beyond it.
 
-The field's type can be changed using @samp{%define "union_name"
+The field's type can be changed using @samp{%define "stype"
 "@var{class-name}".}
 @end deftypecv
-
-By default the class generated for a non-pure Java parser is abstract,
-and the methods @code{yylex} and @code{yyerror} shall be placed in a
-subclass (possibly defined in the additional code section).  It is
-also possible, using the @code{%define "single_class"} declaration, to
-define the scanner in the same class as the parser; when this
-declaration is present, the class is not declared as abstract.
-In order to place the declarations for the scanner inside the
-parser class, you should use @code{%code} sections.
 
 @node Java Differences
 @subsection Differences between C/C++ and Java Grammars
@@ -8621,10 +8621,10 @@ section summarizes this differences.
 
 @itemize
 @item
-Since Java lacks a preprocessor, the @code{YYERROR}, @code{YYACCEPT},
+Java lacks a preprocessor, so the @code{YYERROR}, @code{YYACCEPT},
 @code{YYABORT} symbols (@pxref{Table of Symbols}) cannot obviously be
-macros.  Instead, they should be preceded in an action with
-@code{return}.  The actual definition of these symbols should be
+macros.  Instead, they should be preceded by @code{return} when they
+appear in an action.  The actual definition of these symbols is
 opaque to the Bison grammar, and it might change in the future.  The
 only meaningful operation that you can do, is to return them.
 
@@ -8636,19 +8636,25 @@ corresponds to these C macros.}.
 
 @item
 The prolog declarations have a different meaning than in C/C++ code.
-@table @code
-@item %code
-@code{%code imports} blocks are placed at the beginning of the Java
-source code.  They may include copyright notices.  For a @code{package}
-declarations, it is suggested to use @code{%define package} instead.
+@table @asis
+@item @code{%code imports}
+blocks are placed at the beginning of the Java source code.  They may
+include copyright notices.  For a @code{package} declarations, it is
+suggested to use @code{%define package} instead.
 
-@code{%code} blocks are placed inside the parser class.  If @code{%define
-single_class} is being used, the definitions of @code{yylex} and
-@code{yyerror} should be placed here.  Subroutines for the parser actions
-may be included in this kind of block.
+@item unqualified @code{%code}
+blocks are placed inside the parser class.
+
+@item @code{%code lexer}
+blocks, if specified, should include the implementation of the
+scanner.  If there is no such block, the scanner can be any class
+that implements the appropriate interface (see @pxref{Java Scanner
+Interface}).
+@end item
 
 Other @code{%code} blocks are not supported in Java parsers.
-@end table
+The epilogue has the same meaning as in C/C++ code and it can
+be used to define other classes used by the parser.
 @end itemize
 
 @c ================================================= FAQ

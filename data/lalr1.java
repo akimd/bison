@@ -103,7 +103,7 @@ b4_token_enums(b4_tokens)
       return new ]b4_location_type[ (rhs.locationAt (0).end);
   }]])
 
-  b4_pure_if([[/**
+  /**
    * Communication interface between the scanner and the Bison-generated
    * parser <tt>]b4_parser_class_name[</tt>.
    */
@@ -121,30 +121,15 @@ b4_token_enums(b4_tokens)
     /**
      * Method to retrieve the semantic value of the last scanned token.
      * @@return the semantic value of the last scanned token.  */
-    ]b4_union_name[ getLVal ();]], [[
+    ]b4_yystype[ getLVal ();]
 
     /**
-     * A place where the scanner can store the beginning position of the
-     * last scanned token.  */
-    ]b4_locations_if([b4_position_type[ yystartpos;]])[
-
-    /**
-     * A place where the scanner can store the ending position of the last
-     * scanned token, i.e. the first position beyond the last scanned token.  */
-    ]b4_locations_if([b4_position_type[ yyendpos;]])[
-
-    /**
-     * A place where the scanner can store the semantic value of the
-     * last scanned token.  */
-    protected ]b4_union_name[ yylval;]])
-
-    b4_single_class_if([], [[/**
      * Entry point for the scanner.  Returns the token identifier corresponding
      * to the next token and ]b4_pure_if([prepares to return], [stores])[
      * the semantic value]b4_locations_if([ and beginning/ending positions])[
      * of the token. 
      * @@return the token identifier corresponding to the next token. */
-    abstract int yylex (]b4_lex_param_decl) b4_maybe_throws([b4_lex_throws])[;
+    int yylex () ]b4_maybe_throws([b4_lex_throws])[;
 
     /**
      * Entry point for error reporting.  Emits an error
@@ -154,20 +139,35 @@ b4_token_enums(b4_tokens)
      * ]b4_locations_if([loc], [[The location of the element to which the
      *                error message is related]])[
      * @@param s The string for the error message.  */
-     abstract void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String s);]])
-  b4_pure_if([}
+     void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String s);]
+  }
 
-  /** The object doing lexical analysis for us.  */
-  private Lexer yylex;])
-  b4_parse_param_vars[
+  b4_lexer_if([[private class YYLexer implements Lexer {
+]b4_percent_code_get([[lexer]])[
+  }
+
+  ]])[/** The object doing lexical analysis for us.  */
+  private Lexer yylexer;
+  ]
+  b4_parse_param_vars
+
+b4_lexer_if([[
+  /**
+   * Instantiates the Bison-generated parser.
+   */
+  public ]b4_parser_class_name (b4_parse_param_decl([b4_lex_param_decl])[) {
+    this.yylexer = new YYLexer(]b4_lex_param_call[);
+    ]b4_parse_param_cons[
+  }
+]])
 
   /**
-   * Instantiates the Bison-generated parser.  ]b4_pure_if([
-   * @@param yylex The scanner that will supply tokens to the parser.])[
+   * Instantiates the Bison-generated parser.
+   * @@param yylex The scanner that will supply tokens to the parser.
    */
-  public ]b4_parser_class_name[ (]b4_parse_param_decl([b4_pure_if([Lexer yylex])])[) {
-    ]b4_pure_if(this.yylex = yylex;)
-    b4_parse_param_cons[
+  b4_lexer_if([[protected]], [[public]]) b4_parser_class_name[ (]b4_parse_param_decl([[Lexer yylexer]])[) {
+    this.yylexer = yylexer;
+    ]b4_parse_param_cons[
   }
 
   private java.io.PrintStream yyDebugStream = System.err;
@@ -199,19 +199,19 @@ b4_token_enums(b4_tokens)
    */
   public final void setDebugLevel(int level) { yydebug = level; }
 
-  ]b4_pure_if([[
-  private final int yylex (]b4_lex_param_decl) b4_maybe_throws([b4_lex_throws]) [{
-    return yylex.yylex (]b4_lex_param_call[);
+  private final int yylex () ]b4_maybe_throws([b4_lex_throws]) [{
+    return yylexer.yylex ();
   }
   protected final void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String s) {
-    yylex.yyerror (]b4_locations_if([loc, ])[s);
-  }]])
-  b4_locations_if([
+    yylexer.yyerror (]b4_locations_if([loc, ])[s);
+  }
+
+  ]b4_locations_if([
   protected final void yyerror (String s) {
-    yyerror ((Location)null, s);
+    yylexer.yyerror ((Location)null, s);
   }
   protected final void yyerror (]b4_position_type[ loc, String s) {
-    yyerror (new ]b4_location_type[ (loc), s);
+    yylexer.yyerror (new ]b4_location_type[ (loc), s);
   }])
 
   [protected final void yycdebug (String s) {
@@ -222,12 +222,12 @@ b4_token_enums(b4_tokens)
   private final class YYStack {
     private int[] stateStack = new int[16];
     ]b4_locations_if([[private ]b4_location_type[[] locStack = new ]b4_location_type[[16];]])[
-    private ]b4_union_name[[] valueStack = new ]b4_union_name[[16];
+    private ]b4_yystype[[] valueStack = new ]b4_yystype[[16];
 
     public int size = 16;
     public int height = -1;
     
-    public final void push (int state, ]b4_union_name[ value]dnl
+    public final void push (int state, ]b4_yystype[ value]dnl
     	   	      	    b4_locations_if([, ]b4_location_type[ loc])[) {
       height++;
       if (size == height) 
@@ -240,7 +240,7 @@ b4_token_enums(b4_tokens)
 	  System.arraycopy (locStack, 0, newLocStack, 0, height);
 	  locStack = newLocStack;]])
 	  
-	  b4_union_name[[] newValueStack = new ]b4_union_name[[size * 2];
+	  b4_yystype[[] newValueStack = new ]b4_yystype[[size * 2];
 	  System.arraycopy (valueStack, 0, newValueStack, 0, height);
 	  valueStack = newValueStack;
 
@@ -273,7 +273,7 @@ b4_token_enums(b4_tokens)
       return locStack[height - i];
     }
 
-    ]])[public final ]b4_union_name[ valueAt (int i) {
+    ]])[public final ]b4_yystype[ valueAt (int i) {
       return valueStack[height - i];
     }
 
@@ -330,7 +330,7 @@ b4_token_enums(b4_tokens)
 
   private int yyaction (int yyn, YYStack yystack, int yylen)
   {
-    ]b4_union_name[ yyval;
+    ]b4_yystype[ yyval;
     ]b4_locations_if([b4_location_type[ yyloc = yylloc (yystack, yylen);]])[
 
     /* If YYLEN is nonzero, implement the default value of the action:
@@ -410,7 +410,7 @@ b4_token_enums(b4_tokens)
   `--------------------------------*/
 
   private void yy_symbol_print (String s, int yytype,
-			         ]b4_union_name[ yyvaluep]dnl
+			         ]b4_yystype[ yyvaluep]dnl
 				 b4_locations_if([, Object yylocationp])[)
   {
     if (yydebug > 0)
@@ -452,7 +452,7 @@ b4_token_enums(b4_tokens)
     ]b4_location_type[ yyloc;])
 
     /// Semantic value of the lookahead.
-    b4_union_name[ yylval = null;
+    b4_yystype[ yylval = null;
 
     int yyresult;
 
@@ -497,13 +497,11 @@ m4_popdef([b4_at_dollar])])dnl
         if (yychar == yyempty_)
           {
 	    yycdebug ("Reading a token: ");
-	    yychar = yylex (]b4_lex_param_call[);]
-            b4_locations_if([
-	    b4_pure_if([yylloc = new ]b4_location_type[(yylex.getStartPos (),
-	    		       	     	                yylex.getEndPos ());],
-		       [yylloc = new ]b4_location_type[(this.yystartpos,
-					                this.yyendpos);]);])
-            b4_pure_if([yylval = yylex.getLVal ()], [yylval = this.yylval]);[
+	    yychar = yylex ();]
+            b4_locations_if([[
+	    yylloc = new ]b4_location_type[(yylexer.getStartPos (),
+	    		   	            yylexer.getEndPos ());]])
+            yylval = yylexer.getLVal ();[
           }
     
         /* Convert token to internal form.  */
