@@ -4396,7 +4396,7 @@ The parser can @dfn{return immediately} because of an explicit call to
 @code{YYABORT} or @code{YYACCEPT}, or failed error recovery, or memory
 exhaustion.
 
-Right-hand size symbols of a rule that explicitly triggers a syntax
+Right-hand side symbols of a rule that explicitly triggers a syntax
 error via @code{YYERROR} are not discarded automatically.  As a rule
 of thumb, destructors are invoked only when user actions cannot manage
 the memory.
@@ -8617,7 +8617,7 @@ The field's type can be changed using @samp{%define "stype"
 
 The different structure of the Java language forces several differences
 between C/C++ grammars, and grammars designed for Java parsers.  This
-section summarizes this differences.
+section summarizes these differences.
 
 @itemize
 @item
@@ -8650,7 +8650,7 @@ blocks, if specified, should include the implementation of the
 scanner.  If there is no such block, the scanner can be any class
 that implements the appropriate interface (see @pxref{Java Scanner
 Interface}).
-@end item
+@end table
 
 Other @code{%code} blocks are not supported in Java parsers.
 The epilogue has the same meaning as in C/C++ code and it can

@@ -1,3 +1,10 @@
+2007-03-10  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* doc/bison.texinfo (Destructor Decl): Fix typo reported by Sebastian
+	Setzer.
+	(Java Differences): Fix some typos.
+	* THANKS: Add Sebastian Setzer.
+
 2007-03-07  Paolo Bonzini  <bonzini@gnu.org>
 
         * data/java.m4 (b4_single_class_if): Remove.
