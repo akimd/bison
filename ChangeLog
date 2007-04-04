@@ -1,5 +1,8 @@
 2007-04-04  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* THANKS: Use ASCII for Sebastien Fricker's name.  Bison source
+	still sticks to ASCII.  Sorry!
+
 	* README-hacking: New file, taken mostly from coreutils, with changes
 	for Bison.  Contains much of the contents of:
 	* README-cvs: Remove.
@@ -127,9 +130,9 @@
 2007-02-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Use YYFPRINTF instead of fprintf where appropriate.  Reported by
-	Sébastien Fricker at
+	Sebastien Fricker at
 	<http://lists.gnu.org/archive/html/bug-bison/2007-02/msg00035.html>.
-	* THANKS: Add Sébastien Fricker.
+	* THANKS: Add Sebastien Fricker.
 	* data/glr.c, data/push.c, data/yacc.c (yy_reduce_print): Implement.
 	* doc/bison.texinfo (Tracing): Make it clearer that YYFPRINTF must
 	accept a variable number of arguments.
