@@ -1,3 +1,12 @@
+2007-04-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* README-hacking: New file, taken mostly from coreutils, with changes
+	for Bison.  Contains much of the contents of:
+	* README-cvs: Remove.
+	* bootstrap: Sync from gnulib.
+	* build-aux/.cvsignore: Remove *.t, mkinstalldirs.
+	* lib/.cvsignore: Add wchar.h, wctype.h.  Remove exit.h.
+
 2007-03-10  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* doc/bison.texinfo (Destructor Decl): Fix typo reported by Sebastian
@@ -81,7 +90,7 @@
 	b4_percent_define_flag_if and b4_percent_define_default.
 
 	For %define variables, report locations for invalid values and
-	redefinitions.  
+	redefinitions.
 	* data/bison.m4 (b4_percent_define_flag_if): Read
 	b4_percent_define_loc(VARIABLE) to report the location of an invalid
 	value for VARIABLE.

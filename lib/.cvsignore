@@ -17,7 +17,6 @@ dirname.h
 dup-safer.c
 error.c
 error.h
-exit.h
 exitfail.c
 exitfail.h
 fd-safer.c
@@ -69,7 +68,9 @@ unistd.h
 unistd_.h
 unlocked-io.h
 verify.h
+wchar.h
 wchar_.h
+wctype.h
 wctype_.h
 wcwidth.h
 xalloc-die.c
