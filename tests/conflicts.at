@@ -617,3 +617,201 @@ e:   e '+' e
 
 AT_CHECK([bison -o input.c input.y])
 AT_CLEANUP
+
+
+## ---------------------------------------------- ##
+## Unreachable States After Conflict Resolution.  ##
+## ---------------------------------------------- ##
+
+AT_SETUP([[Unreachable States After Conflict Resolution]])
+
+# If conflict resolution makes states unreachable, remove those states, report
+# rules that are then unused, and don't report conflicts in those states.  Test
+# what happens when a nonterminal becomes useless as a result of state removal
+# since that causes lalr.o's goto map to be rewritten.
+
+AT_DATA([[input.y]],
+[[%output "input.c"
+%left 'a'
+
+%%
+
+start: resolved_conflict 'a' reported_conflicts 'a' ;
+
+/* S/R conflict resolved as shift, so the state with item
+ * (resolved_conflict: 'a' . unreachable1) and all it transition successors are
+ * unreachable, and the associated production is useless.  */
+resolved_conflict:
+    'a' unreachable1
+  | %prec 'a'
+  ;
+
+/* S/R conflict that need not be reported since it is unreachable because of
+ * the previous conflict resolution.  Nonterminal unreachable1 and all its
+ * productions are useless.  */
+unreachable1:
+    'a' unreachable2
+  |
+  ;
+
+/* Likewise for a R/R conflict and nonterminal unreachable2.  */
+unreachable2: | ;
+
+/* Make sure remaining S/R and R/R conflicts are still reported correctly even
+ * when their states are renumbered due to state removal.  */
+reported_conflicts:
+    'a'
+  | 'a'
+  |
+  ;
+
+]])
+
+AT_CHECK([[bison --report=all input.y]], 0, [],
+[[input.y: conflicts: 1 shift/reduce, 1 reduce/reduce
+input.y:12.5-20: warning: rule never reduced because of conflicts: resolved_conflict: 'a' unreachable1
+input.y:20.5-20: warning: rule never reduced because of conflicts: unreachable1: 'a' unreachable2
+input.y:21.4: warning: rule never reduced because of conflicts: unreachable1: /* empty */
+input.y:25.13: warning: rule never reduced because of conflicts: unreachable2: /* empty */
+input.y:25.16: warning: rule never reduced because of conflicts: unreachable2: /* empty */
+input.y:31.5-7: warning: rule never reduced because of conflicts: reported_conflicts: 'a'
+input.y:32.4: warning: rule never reduced because of conflicts: reported_conflicts: /* empty */
+]])
+
+AT_CHECK([[cat input.output]], 0,
+[[Rules never reduced
+
+    2 resolved_conflict: 'a' unreachable1
+
+    4 unreachable1: 'a' unreachable2
+    5             | /* empty */
+
+    6 unreachable2: /* empty */
+    7             | /* empty */
+
+    9 reported_conflicts: 'a'
+   10                   | /* empty */
+
+
+State 4 conflicts: 1 shift/reduce
+State 5 conflicts: 1 reduce/reduce
+
+
+Grammar
+
+    0 $accept: start $end
+
+    1 start: resolved_conflict 'a' reported_conflicts 'a'
+
+    2 resolved_conflict: 'a' unreachable1
+    3                  | /* empty */
+
+    4 unreachable1: 'a' unreachable2
+    5             | /* empty */
+
+    6 unreachable2: /* empty */
+    7             | /* empty */
+
+    8 reported_conflicts: 'a'
+    9                   | 'a'
+   10                   | /* empty */
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'a' (97) 1 2 4 8 9
+error (256)
+
+
+Nonterminals, with rules where they appear
+
+$accept (4)
+    on left: 0
+start (5)
+    on left: 1, on right: 0
+resolved_conflict (6)
+    on left: 2 3, on right: 1
+unreachable1 (7)
+    on left: 4 5, on right: 2
+unreachable2 (8)
+    on left: 6 7, on right: 4
+reported_conflicts (9)
+    on left: 8 9 10, on right: 1
+
+
+state 0
+
+    0 $accept: . start $end
+    1 start: . resolved_conflict 'a' reported_conflicts 'a'
+    2 resolved_conflict: . 'a' unreachable1
+    3                  | .  ['a']
+
+    $default  reduce using rule 3 (resolved_conflict)
+
+    start              go to state 1
+    resolved_conflict  go to state 2
+
+    Conflict between rule 3 and token 'a' resolved as reduce (%left 'a').
+
+
+state 1
+
+    0 $accept: start . $end
+
+    $end  shift, and go to state 3
+
+
+state 2
+
+    1 start: resolved_conflict . 'a' reported_conflicts 'a'
+
+    'a'  shift, and go to state 4
+
+
+state 3
+
+    0 $accept: start $end .
+
+    $default  accept
+
+
+state 4
+
+    1 start: resolved_conflict 'a' . reported_conflicts 'a'
+    8 reported_conflicts: . 'a'
+    9                   | . 'a'
+   10                   | .  ['a']
+
+    'a'  shift, and go to state 5
+
+    'a'  [reduce using rule 10 (reported_conflicts)]
+
+    reported_conflicts  go to state 6
+
+
+state 5
+
+    8 reported_conflicts: 'a' .  ['a']
+    9                   | 'a' .  ['a']
+
+    'a'       reduce using rule 8 (reported_conflicts)
+    'a'       [reduce using rule 9 (reported_conflicts)]
+    $default  reduce using rule 8 (reported_conflicts)
+
+
+state 6
+
+    1 start: resolved_conflict 'a' reported_conflicts . 'a'
+
+    'a'  shift, and go to state 7
+
+
+state 7
+
+    1 start: resolved_conflict 'a' reported_conflicts 'a' .
+ 
+    $default  reduce using rule 1 (start)
+]])
+
+AT_CLEANUP

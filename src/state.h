@@ -209,6 +209,11 @@ struct state
      a human readable description of the resolution.  */
   const char *solved_conflicts;
 
+  /* Conflict resolution sometimes makes states unreachable.  Initialized to 0
+     in state_new and then used by state_remove_unreachable_states after
+     conflicts_solve.  */
+  bool reachable;
+
   /* Its items.  Must be last, since ITEMS can be arbitrarily large.
      */
   size_t nitems;
@@ -248,9 +253,16 @@ state *state_hash_lookup (size_t core_size, item_number *core);
 /* Insert STATE in the state hash table.  */
 void state_hash_insert (state *s);
 
+/* Remove unreachable states, renumber remaining states, update NSTATES, and
+   write to OLD_TO_NEW a mapping of old state numbers to new state numbers such
+   that the old value of NSTATES is written as the new state number for removed
+   states.  The size of OLD_TO_NEW must be the old value of NSTATES.  */
+void state_remove_unreachable_states (state_number old_to_new[]);
+
 /* All the states, indexed by the state number.  */
 extern state **states;
 
 /* Free all the states.  */
 void states_free (void);
+
 #endif /* !STATE_H_ */

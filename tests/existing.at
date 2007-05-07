@@ -1520,6 +1520,8 @@ expr:
 # Pass plenty of options, to exercise plenty of code, even if we
 # don't actually check the output.  But SEGV is watching us, and
 # so might do dmalloc.
-AT_CHECK([[bison --verbose --defines input.y]], 0, [], [])
+AT_CHECK([[bison --verbose --defines input.y]], 0, [],
+[[input.y:453.11-48: warning: rule never reduced because of conflicts: path: ORDINAL LAST object_type relative_path
+]])
 
 AT_CLEANUP

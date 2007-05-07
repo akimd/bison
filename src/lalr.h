@@ -46,6 +46,18 @@
 */
 void lalr (void);
 
+/**
+ * Update state numbers recorded in #goto_map, #from_state, and #to_state such
+ * that:
+ *   - \c nstates_old is the old number of states.
+ *   - Where \c i is the old state number, <tt>old_to_new[i]</tt> is either:
+ *     - \c nstates_old if state \c i is removed because it is unreachable.
+ *       Thus, remove all goto entries involving this state.
+ *     - The new state number.
+ */
+void lalr_update_state_numbers (state_number old_to_new[],
+                                state_number nstates_old);
+
 
 /** Release the information related to lookahead tokens.
 

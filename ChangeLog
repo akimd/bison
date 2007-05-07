@@ -1,5 +1,27 @@
 2007-05-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	If conflict resolution makes states unreachable, remove those states,
+	report rules that are then unused, and don't report conflicts in those
+	states.
+	* src/conflicts.c, src/conflicts.h (conflicts_update_state_numbers):
+	New global function.
+	* src/lalr.c, src/lalr.h (lalr_update_state_numbers): New global
+	function.
+	* src/main.c (main): After conflict resolution, remove the unreachable
+	states and update all data structures that reference states by number.
+	* src/state.c (state_new): Initialize each state's reachable member to
+	false.
+	(state_mark_reachable_states): New static function.
+	(state_remove_unreachable_states): New global function.
+	* src/state.h (struct state): Add member bool reachable.
+	(state_remove_unreachable_states): Prototype.
+	* tests/conflicts.at (Unreachable States After Conflict Resolution):
+	New test case.
+	* tests/existing.at (GNU pic Grammar): Update test case output now that
+	an unused rule is discovered.
+
+2007-05-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Minor code cleanup in parser table construction.
 	* src/LR0.c (new_itemsets): Use item_number_is_symbol_number.
 	(new_itemsets, save_reductions): Update for rename to nitemset.
