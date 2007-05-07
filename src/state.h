@@ -44,7 +44,7 @@
    ACCESSING_SYMBOL of the core.
 
    Each core contains a vector of NITEMS items which are the indices
-   in the RITEMS vector of the items that are selected in this state.
+   in the RITEM vector of the items that are selected in this state.
 
    The two types of actions are shifts/gotos (push the lookahead token
    and read another/goto to the state designated by a nterm) and
@@ -63,9 +63,8 @@
    deletes transitions by having them point to zero.
 
    Each reductions structure describes the possible reductions at the
-   state whose number is in the number field.  The data is a list of
-   nreds rules, represented by their rule numbers.  first_reduction
-   points to the list of these structures.
+   state whose number is in the number field.  rules is an array of
+   num rules.  lookahead_tokens is an array of bitsets, one per rule.
 
    Conflict resolution can decide that certain tokens in certain
    states should explicitly be errors (for implementing %nonassoc).

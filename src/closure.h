@@ -54,6 +54,6 @@ void closure (item_number *items, size_t n);
 void free_closure (void);
 
 extern item_number *itemset;
-extern size_t nritemset;
+extern size_t nitemset;
 
 #endif /* !CLOSURE_H_ */

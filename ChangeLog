@@ -1,3 +1,19 @@
+2007-05-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Minor code cleanup in parser table construction.
+	* src/LR0.c (new_itemsets): Use item_number_is_symbol_number.
+	(new_itemsets, save_reductions): Update for rename to nitemset.
+	* src/closure.c (nritemset): Rename to...
+	(nitemset): ... this since the "r" appears to meaningless and isn't
+	used in the comments.
+	(closure): Update for rename.
+	* src/closure.h (nritemset): Update extern to...
+	(nitemset): ... this.
+	* src/lalr.c (LA): Fix a typo in comments.
+	* src/print.c (print_core): Update for rename to nitemset.
+	* src/print_graph.c (print_graph): Likewise.
+	* src/state.h: Fix some typos in header comments.
+
 2007-04-04  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* THANKS: Use ASCII for Sebastien Fricker's name.  Bison source
