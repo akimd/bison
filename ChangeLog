@@ -1,3 +1,12 @@
+2007-05-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS (2.3a+): Mention yesterday's state-removal change.
+	(2.3a): Remove the %language entry, which was added after 2.3a.
+	* src/LR0.c, src/closure.c, src/closure.h, src/conflicts.c,
+	src/conflicts.h, src/lalr.c, src/lalr.h, src/print.c,
+	src/print_graph.c, src/state.c, src/state.h, tests/conflicts.at,
+	tests/existing.at: Update copyright date.
+
 2007-05-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	If conflict resolution makes states unreachable, remove those states,

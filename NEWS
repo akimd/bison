@@ -3,6 +3,18 @@ Bison News
 
 Changes in version 2.3a+ (????-??-??):
 
+* Previously, Bison sometimes generated parser tables with states that were
+  unreachable due to conflicts in predecessor states.  Bison now:
+
+    1. Removes unreachable states.
+
+    2. Does not report any conflicts that appeared in unreachable states.
+       WARNING: As a result, you may need to update %expect and %expect-rr
+       directives in existing grammar files.
+
+    3. For any rule used only in such states, Bison now reports the rule as
+       "never reduced because of conflicts".
+
 * The -g and --graph options now output graphs in Graphviz DOT format,
   not VCG format.
 
@@ -91,9 +103,6 @@ Changes in version 2.3a+ (????-??-??):
   details.
 
 Changes in version 2.3a, 2006-09-13:
-
-* Bison now supports generating Java parsers.  Grammars written for
-  the Java language should include the `%language "Java"' directive.
 
 * Instead of %union, you can define and use your own union type
   YYSTYPE if your grammar contains at least one <type> tag.
