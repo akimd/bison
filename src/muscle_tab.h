@@ -131,6 +131,19 @@ void muscle_user_name_list_grow (char const *key, char const *user_name,
 void muscle_percent_define_insert (char const *variable, location variable_loc,
                                    char const *value);
 
+/* Mimic b4_percent_define_get in ../data/bison.m4 exactly.  That is, if the
+   %define variable VARIABLE is defined, return its value.  Otherwise, return
+   the empty string.  Also, record Bison's usage of VARIABLE by defining
+   b4_percent_define_bison_variables(VARIABLE).  The caller is responsible for
+   freeing the memory of the returned string.  */
+char *muscle_percent_define_get (char const *variable);
+
+/* Mimic b4_percent_define_ifdef in ../data/bison.m4 exactly.  That is, if the
+   %define variable VARIABLE is defined, return true.  Otherwise, return false.
+   Also, record Bison's usage of VARIABLE by defining
+   b4_percent_define_bison_variables(VARIABLE).  */
+bool muscle_percent_define_ifdef (char const *variable);
+
 /* Mimic b4_percent_define_flag_if in ../data/bison.m4 exactly.  That is, if
    the %define variable VARIABLE is defined to "" or "true", return true.  If
    it is defined to "false", return false.  Complain if it is undefined (a
@@ -144,6 +157,10 @@ bool muscle_percent_define_flag_if (char const *variable);
    Don't record this as a Bison usage of VARIABLE as there's no reason to
    suspect that the value has yet influenced the output.  */
 void muscle_percent_define_default (char const *variable, char const *value);
+
+/* Complain that the value set for the %define variable VARIABLE is
+   invalid.  */
+void muscle_percent_define_invalid_value (char const *variable);
 
 /* Grow the muscle for the %code qualifier QUALIFIER appearing at QUALIFIER_LOC
    in the grammar file with code CODE appearing at CODE_LOC.  Record this as a

@@ -1,3 +1,24 @@
+2007-05-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Extend the front-end API for %define variables to more completely
+	mirror the back-end.  This will be useful in the future.
+	* data/bison.m4 (b4_percent_define_get, b4_percent_define_ifdef):
+	Update comments to mention the new front-end counterparts of these
+	macros.
+	* src/muscle_tab.c (MUSCLE_COMMON_DECODE): New macro with common code
+	for muscle_string_decode and muscle_location_decode.
+	(muscle_string_decode): New static function.
+	(muscle_location_decode): Use MUSCLE_COMMON_DECODE.
+	(muscle_percent_define_get, muscle_percent_define_ifdef): New
+	functions.
+	(muscle_percent_define_flag_if): Use muscle_percent_define_ifdef and
+	muscle_percent_define_get to mimic the b4_percent_define_flag_if
+	implementation more closely.
+	(muscle_percent_define_invalid_value): New function.
+	* src/muscle_tab.h (muscle_percent_define_get,
+	muscle_percent_define_ifdef, muscle_percent_define_invalid_value):
+	Prototype.
+
 2007-05-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* NEWS (2.3a+): Mention yesterday's state-removal change.

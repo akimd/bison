@@ -338,7 +338,8 @@ m4_popdef([b4_end])dnl
 
 # b4_percent_define_get(VARIABLE)
 # -------------------------------
-# If the %define variable VARIABLE is defined, emit its value.  Also, record
+# Mimic muscle_percent_define_get in ../src/muscle_tab.h exactly.  That is, if
+# the %define variable VARIABLE is defined, emit its value.  Also, record
 # Bison's usage of VARIABLE by defining
 # b4_percent_define_bison_variables(VARIABLE).
 #
@@ -351,7 +352,8 @@ m4_ifdef([b4_percent_define(]$1[)], [m4_indir([b4_percent_define(]$1[)])])])
 
 # b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
-# If the %define variable VARIABLE is defined, expand IF-TRUE, else expand
+# Mimic muscle_percent_define_ifdef in ../src/muscle_tab.h exactly.  That is,
+# if the %define variable VARIABLE is defined, expand IF-TRUE, else expand
 # IF-FALSE.  Also, record Bison's usage of VARIABLE by defining
 # b4_percent_define_bison_variables(VARIABLE).
 #
