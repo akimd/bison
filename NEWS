@@ -51,8 +51,8 @@ Changes in version 2.3a+ (????-??-??):
     3. `%code provides {CODE}' replaces `%end-header    {CODE}'
     4. `%code top      {CODE}' replaces `%before-header {CODE}'
 
-  See the %code entries in `Appendix A Bison Symbols' in the Bison manual for a
-  summary of the new functionality.  See the new section `Prologue
+  See the %code entries in section `Bison Declaration Summary' in the Bison
+  manual for a summary of the new functionality.  See the new section `Prologue
   Alternatives' for a detailed discussion including the advantages of %code
   over the traditional Yacc prologues.
 

@@ -2956,6 +2956,8 @@ type:
 You could even place each of the above directive groups in the rules section of
 the grammar file next to the set of rules that uses the associated semantic
 type.
+(In the rules section, you must terminate each of those directives with a
+semicolon.)
 And you don't have to worry that some directive (like a @code{%union}) in the
 definitions section is going to adversely affect their functionality in some
 counter-intuitive manner just because it comes first.

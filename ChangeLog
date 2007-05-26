@@ -9,6 +9,12 @@
 	<http://lists.gnu.org/archive/html/help-bison/2007-05/msg00018.html>.
 	* THANKS: Add Frans Englich.
 
+	* NEWS (2.3a+): In the %code entry, reference section `Bison
+	Declaration Summary' from the manual now since the %code summary has
+	moved there.
+	* doc/bison.texinfo (Prologue Alternatives): Mention that directives
+	in the rules section must be terminated by semicolons.
+
 2007-05-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Extend the front-end API for %define variables to more completely
