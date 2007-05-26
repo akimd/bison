@@ -80,7 +80,7 @@ MOSTLYCLEANFILES = yacc
 
 yacc:
 	echo '#! /bin/sh' >$@
-	echo "exec '$(bindir)/bison' -y \"$$@\"" >>$@
+	echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@
 	chmod a+x $@
 
 echo:

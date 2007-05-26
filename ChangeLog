@@ -1,3 +1,9 @@
+2007-05-26  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/Makefile.am (yacc): Quote target action commands properly so
+	that the yacc script isn't corrupt.  Reported by Hans Aberg at
+	<http://lists.gnu.org/archive/html/bug-bison/2007-05/msg00003.html>.
+
 2007-05-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Extend the front-end API for %define variables to more completely
