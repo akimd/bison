@@ -1,3 +1,27 @@
+2007-05-28  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/lalr.c (state_lookahead_tokens_count): For code readability,
+	move the check for disabled transitions to an aver since conflict
+	resolution hasn't happened yet.
+
+	* src/lalr.c (state_lookahead_tokens_count): Remove the check that
+	labels a state as inconsistent just because it has error transitions.
+	The original form of this check appeared in revision 1.1 of lalr.c,
+	which was committed on 1991-12-21.  Now (at least), changing the
+	consistency label on such a state appears to have no useful effect in
+	any of the places it is examined, which I enumerate below.  The key
+	point to understanding each item in this enumeration is that a state
+	with an error transition is labelled consistent in the first place only
+	if it has no rules, so the check cannot matter for states that have
+	rules.  (1) Labelling a state as inconsistent will cause set_conflicts
+	to try to identify its conflicts, and a state must have *rules* to have
+	conflicts.  (2) Labelling a state as inconsistent will affect how
+	action_row sets the default *rule* for the state.  (3) Labelling a
+	state as inconsistent will cause build_relations to add lookback edges
+	to *rules* in that state.
+	* src/state.h (struct state): Word the comment for member consistent
+	more carefully.
+
 2007-05-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't depend on C99 features.

@@ -202,7 +202,8 @@ struct state
   reductions *reductions;
   errs *errs;
 
-  /* Nonzero if no lookahead is needed to decide what to do in state S.  */
+  /* If non-zero, then no lookahead sets on reduce actions are needed to
+     decide what to do in state S.  */
   char consistent;
 
   /* If some conflicts were solved thanks to precedence/associativity,
