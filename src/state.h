@@ -209,11 +209,6 @@ struct state
      a human readable description of the resolution.  */
   const char *solved_conflicts;
 
-  /* Conflict resolution sometimes makes states unreachable.  Initialized to 0
-     in state_new and then used by state_remove_unreachable_states after
-     conflicts_solve.  */
-  bool reachable;
-
   /* Its items.  Must be last, since ITEMS can be arbitrarily large.
      */
   size_t nitems;

@@ -1,3 +1,20 @@
+2007-05-27  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't depend on C99 features.
+	* src/conflicts.c (conflicts_update_state_numbers): Fix for-loop.
+	* src/lalr.c (lalr_update_state_numbers): Fix for-loop.
+	* src/reader.c (check_and_convert_grammar): Fix for-loop.
+	* src/state.c (state_mark_reachable_states): Fix for-loop.
+	(state_remove_unreachable_states): Fix for-loop.
+
+	Don't widen struct state with member reachable just to temporarily
+	record reachability.  Instead, use a local bitset.
+	* src/state.h (struct state): Remove member.
+	* src/state.c (state_new): Don't initialize it.
+	(state_mark_reachable_states): Rename to...
+	(state_record_reachable_states): ... this, and use bitset.
+	(state_remove_unreachable_states): Use bitset.
+
 2007-05-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/Makefile.am (yacc): Quote target action commands properly so
