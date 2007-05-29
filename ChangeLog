@@ -6,6 +6,13 @@
 	Again, it's not used yet, but it will be.
 	* src/muscle_tab.h: Likewise.
 
+	Improve some comments in parser table construction.
+	* src/LR0.c (new_itemsets): Explain sorting of itemset and kernel_base.
+	(generate_states): Don't mention ruleset, which is internal to closure.
+	* src/closure.c (closure): Explain sorting of core and itemset, which
+	is required for this function to behave correctly.
+	* src/closure.h (closure): Mention sorting.
+
 2007-05-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/lalr.c (state_lookahead_tokens_count): For code readability,
