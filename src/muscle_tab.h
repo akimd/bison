@@ -158,9 +158,16 @@ bool muscle_percent_define_flag_if (char const *variable);
    suspect that the value has yet influenced the output.  */
 void muscle_percent_define_default (char const *variable, char const *value);
 
-/* Complain that the value set for the %define variable VARIABLE is
-   invalid.  */
-void muscle_percent_define_invalid_value (char const *variable);
+/* VALUES points to a sequence of strings that is partitioned into
+   subsequences by NULL's, one terminating each subsequence.  The last
+   subsequence is followed by a second NULL.  For each subsequence, the first
+   string is the name of a %define variable, and all remaining strings in that
+   subsequence are the valid values for that variable.  Complain if such a
+   variable is undefined (a Bison error since the default value should have
+   been set already) or defined to any other value (possibly a user error).
+   Don't record this as a Bison usage of the variable as there's no reason to
+   suspect that the value has yet influenced the output.  */
+void muscle_percent_define_check_values (char const * const *values);
 
 /* Grow the muscle for the %code qualifier QUALIFIER appearing at QUALIFIER_LOC
    in the grammar file with code CODE appearing at CODE_LOC.  Record this as a
