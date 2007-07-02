@@ -1,3 +1,10 @@
+2007-07-01  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/glr.c (yy_yypstack, yypstates, yypdumpstack): Use YYFPRINTF
+	instead of fprintf.  Guard these functions with #if YYDEBUG instead of
+	#ifdef YYDEBUG for consistency with all other uses of YYDEBUG in Bison
+	and so that YYFPRINTF is guaranteed to be defined here.
+
 2007-05-29  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/muscle_tab.c (muscle_percent_define_invalid_value): Replace

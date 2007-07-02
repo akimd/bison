@@ -15,7 +15,9 @@ gnulib-comp.m4
 gnulib-tool.m4
 hash.m4
 iconv.m4
+include_next.m4
 inline.m4
+intlmacosx.m4
 inttypes-h.m4
 inttypes-pri.m4
 inttypes.m4
