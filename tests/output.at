@@ -157,7 +157,7 @@ AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 m4_define([AT_CHECK_OUTPUT_FILE_NAME],
 [AT_SETUP([Output file name: $1])
 
-AT_DATA([glr.y],
+AT_DATA_GRAMMAR([glr.y],
 [[%glr-parser
 %code {
   int yylex (void);
@@ -171,7 +171,7 @@ AT_CHECK([ls "AS_ESCAPE([$1.c])" "AS_ESCAPE([$1.h])"], [], [ignore])
 AT_COMPILE([glr.o], [-c "AS_ESCAPE([$1.c])"])
 $2
 
-AT_DATA([cxx.y],
+AT_DATA_GRAMMAR([cxx.y],
 [[%skeleton "lalr1.cc"
 %code { int yylex (yy::parser::semantic_type*); }
 %%

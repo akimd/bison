@@ -44,6 +44,7 @@ $(calc_extracted): $(doc) $(extexi)
 ## Parser generation.  ##
 ## ------------------- ##
 
+DEFAULT_INCLUDES = -I. -I$(srcdir)
 BUILT_SOURCES = $(calc_extracted) $(calc_sources_generated)
 CLEANFILES = $(srcdir)/*.output *.tmp
 MAINTAINERCLEANFILES = $(srcdir)/*.stamp $(BUILT_SOURCES)
