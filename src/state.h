@@ -185,6 +185,7 @@ typedef struct
 {
   int num;
   bitset *lookahead_tokens;
+  /* Sorted ascendingly on rule number.  */
   rule *rules[1];
 } reductions;
 
@@ -210,8 +211,8 @@ struct state
      a human readable description of the resolution.  */
   const char *solved_conflicts;
 
-  /* Its items.  Must be last, since ITEMS can be arbitrarily large.
-     */
+  /* Its items.  Must be last, since ITEMS can be arbitrarily large.  Sorted
+     ascendingly on item index in RITEM, which is sorted on rule number.  */
   size_t nitems;
   item_number items[1];
 };

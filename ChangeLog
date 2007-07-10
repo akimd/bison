@@ -1,3 +1,11 @@
+2007-07-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* LR0.c (new_itemsets): Fix wording in comments: say item index rather
+	than item number.
+	* closure.c (closure): Likewise.
+	* state.h (reductions): Comment sorting of rules.
+	(state): Comment sorting of items.
+
 2007-07-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix C++ test cases after recent Gnulib changes.  Discussed starting at
