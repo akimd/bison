@@ -1,3 +1,8 @@
+2007-07-16  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* build-aux/.cvsignore: Add compile.
+	* lib/.cvsignore: Add ref-add.sed, ref-del.sed, and uniwidth.
+
 2007-07-10  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* bootstrap (slurp): Create target directories that don't exist.

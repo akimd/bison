@@ -45,7 +45,9 @@ quote.c
 quote.h
 quotearg.c
 quotearg.h
+ref-add.sed
 ref-add.sin
+ref-del.sed
 ref-del.sin
 stamp-h1
 stdbool.h
@@ -73,6 +75,7 @@ unistd-safer.h
 unistd.h
 unistd_.h
 unitypes.h
+uniwidth
 uniwidth.h
 unlocked-io.h
 verify.h
