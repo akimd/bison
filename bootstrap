@@ -395,7 +395,12 @@ slurp() {
     copied=
     sep=
     for file in `ls $1/$dir`; do
-      test -d $1/$dir/$file && continue
+      if test -d $1/$dir/$file; then
+        if test ! -d $dir/$file; then
+          echo "$0: mkdir $dir/$file" && mkdir $dir/$file || exit
+        fi
+        continue
+      fi
       for excluded_file in $excluded_files; do
 	test "$dir/$file" = "$excluded_file" && continue 2
       done

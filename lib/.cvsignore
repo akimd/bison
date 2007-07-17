@@ -9,6 +9,7 @@ c-ctype.h
 c-strcase.h
 c-strcasecmp.c
 c-strncasecmp.c
+config.charset
 config.h
 config.hin
 configmake.h
@@ -32,6 +33,8 @@ hash.c
 hash.h
 inttypes.h
 inttypes_.h
+localcharset.c
+localcharset.h
 malloc.c
 mbswidth.c
 mbswidth.h
@@ -42,6 +45,8 @@ quote.c
 quote.h
 quotearg.c
 quotearg.h
+ref-add.sin
+ref-del.sin
 stamp-h1
 stdbool.h
 stdbool_.h
@@ -52,6 +57,7 @@ stdio-safer.h
 stdlib.h
 stdlib_.h
 stpcpy.c
+streq.h
 strerror.c
 string.h
 string_.h
@@ -66,12 +72,15 @@ unistd--.h
 unistd-safer.h
 unistd.h
 unistd_.h
+unitypes.h
+uniwidth.h
 unlocked-io.h
 verify.h
 wchar.h
 wchar_.h
 wctype.h
 wctype_.h
+wcwidth.c
 wcwidth.h
 xalloc-die.c
 xalloc.h

@@ -26,6 +26,7 @@ javaexec.m4
 lib-ld.m4
 lib-link.m4
 lib-prefix.m4
+localcharset.m4
 longlong.m4
 mbrtowc.m4
 mbstate_t.m4
