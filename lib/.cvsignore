@@ -9,6 +9,7 @@ c-ctype.h
 c-strcase.h
 c-strcasecmp.c
 c-strncasecmp.c
+charset.alias
 config.charset
 config.h
 config.hin
