@@ -90,7 +90,7 @@ expr: expr '<' expr
 int
 main (int argc, const char *argv[])
 {
-  input = argc <= 1 ? "" : argv[1];	
+  input = argc <= 1 ? "" : argv[1];
   return yyparse ();
 }
 ]])
@@ -810,8 +810,157 @@ state 6
 state 7
 
     1 start: resolved_conflict 'a' reported_conflicts 'a' .
- 
+
     $default  reduce using rule 1 (start)
 ]])
 
+AT_CLEANUP
+
+
+## ------------------------------------------------------------ ##
+## Solved conflicts report for multiple reductions in a state.  ##
+## ------------------------------------------------------------ ##
+
+AT_SETUP([[Solved conflicts report for multiple reductions in a state]])
+
+# Used to lose earlier solved conflict messages even within a single S/R/R.
+
+AT_DATA([[input.y]],
+[[%left 'a'
+%right 'b'
+%right 'c'
+%right 'd'
+%%
+start:
+    'a'
+  | empty_a 'a'
+  | 'b'
+  | empty_b 'b'
+  | 'c'
+  | empty_c1 'c'
+  | empty_c2 'c'
+  | empty_c3 'c'
+  ;
+empty_a: %prec 'a' ;
+empty_b: %prec 'b' ;
+empty_c1: %prec 'c' ;
+empty_c2: %prec 'c' ;
+empty_c3: %prec 'd' ;
+]])
+AT_CHECK([[bison --report=all -o input.c input.y]], 0, [], [ignore])
+AT_CHECK([[cat input.output | sed -n '/^state 0$/,/^state 1$/p']], 0,
+[[state 0
+
+    0 $accept: . start $end
+    1 start: . 'a'
+    2      | . empty_a 'a'
+    3      | . 'b'
+    4      | . empty_b 'b'
+    5      | . 'c'
+    6      | . empty_c1 'c'
+    7      | . empty_c2 'c'
+    8      | . empty_c3 'c'
+    9 empty_a: .  ['a']
+   10 empty_b: .  []
+   11 empty_c1: .  []
+   12 empty_c2: .  []
+   13 empty_c3: .  ['c']
+
+    'b'  shift, and go to state 1
+ 
+    'c'       reduce using rule 13 (empty_c3)
+    $default  reduce using rule 9 (empty_a)
+
+    start     go to state 2
+    empty_a   go to state 3
+    empty_b   go to state 4
+    empty_c1  go to state 5
+    empty_c2  go to state 6
+    empty_c3  go to state 7
+
+    Conflict between rule 9 and token 'a' resolved as reduce (%left 'a').
+    Conflict between rule 10 and token 'b' resolved as shift (%right 'b').
+    Conflict between rule 11 and token 'c' resolved as shift (%right 'c').
+    Conflict between rule 12 and token 'c' resolved as shift (%right 'c').
+    Conflict between rule 13 and token 'c' resolved as reduce ('c' < 'd').
+
+
+state 1
+]])
+
+AT_CLEANUP
+
+
+## ------------------------------------------------------------ ##
+## %nonassoc error actions for multiple reductions in a state.  ##
+## ------------------------------------------------------------ ##
+
+# Used to abort when trying to resolve conflicts as %nonassoc error actions for
+# multiple reductions in a state.
+
+# For a %nonassoc error action token, used to print the first remaining
+# reduction on that token without brackets.
+
+AT_SETUP([[%nonassoc error actions for multiple reductions in a state]])
+
+AT_DATA([[input.y]],
+[[%nonassoc 'a' 'b' 'c'
+%%
+start:
+    'a'
+  | empty_a 'a'
+  | 'b'
+  | empty_b 'b'
+  | 'c'
+  | empty_c1 'c'
+  | empty_c2 'c'
+  | empty_c3 'c'
+  ;
+empty_a: %prec 'a' ;
+empty_b: %prec 'b' ;
+empty_c1: %prec 'c' ;
+empty_c2: %prec 'c' ;
+empty_c3: %prec 'c' ;
+]])
+
+AT_CHECK([[bison --report=all -o input.c input.y]], 0, [], [ignore])
+AT_CHECK([[cat input.output | sed -n '/^state 0$/,/^state 1$/p']], 0,
+[[state 0
+
+    0 $accept: . start $end
+    1 start: . 'a'
+    2      | . empty_a 'a'
+    3      | . 'b'
+    4      | . empty_b 'b'
+    5      | . 'c'
+    6      | . empty_c1 'c'
+    7      | . empty_c2 'c'
+    8      | . empty_c3 'c'
+    9 empty_a: .  []
+   10 empty_b: .  []
+   11 empty_c1: .  []
+   12 empty_c2: .  ['c']
+   13 empty_c3: .  ['c']
+
+    'a'  error (nonassociative)
+    'b'  error (nonassociative)
+    'c'  error (nonassociative)
+
+    'c'  [reduce using rule 12 (empty_c2)]
+    'c'  [reduce using rule 13 (empty_c3)]
+
+    start     go to state 1
+    empty_a   go to state 2
+    empty_b   go to state 3
+    empty_c1  go to state 4
+    empty_c2  go to state 5
+    empty_c3  go to state 6
+
+    Conflict between rule 9 and token 'a' resolved as an error (%nonassoc 'a').
+    Conflict between rule 10 and token 'b' resolved as an error (%nonassoc 'b').
+    Conflict between rule 11 and token 'c' resolved as an error (%nonassoc 'c').
+
+
+state 1
+]])
 AT_CLEANUP

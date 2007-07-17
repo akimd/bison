@@ -1,3 +1,29 @@
+2007-07-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Improve handling of multiple S/R conflicts in the same state and of S/R
+	conflicts involving multiple reductions.
+	* src/conflicts.c (resolve_sr_conflict): Don't assign the error action
+	set for a state here or Bison will abort if it is reassigned on a
+	later conflicted reduction in the same state.
+	Similarly, don't finalize and assign the solved conflicts report here
+	or it will be lost if it is reassigned on a later conflicted reduction
+	in the same state.
+	(set_conflicts): Instead, assign them both here after all S/R conflicts
+	in the state have been fully examined.
+	* src/print.c (shift_set): Rename to...
+	(no_reduce_set): ... this.
+	(print_reductions): Update for rename, and add %nonassoc error action
+	tokens to no_reduce_set so that, when printing the first remaining
+	reduction on an error action token, the reduction is enclosed in
+	brackets.
+	(print_results): Update for rename.
+	* tests/conflicts.at (Solved conflicts report for multiple reductions
+	in a state): New test case.
+	(%nonassoc error actions for multiple reductions in a state): New test
+	case.
+
+	* src/main.c (main): Don't depend on C99 features.
+
 2007-07-16  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* build-aux/.cvsignore: Add compile.
