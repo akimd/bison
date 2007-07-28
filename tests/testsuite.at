@@ -80,5 +80,8 @@ m4_include([cxx-type.at])
 # Regression tests
 m4_include([glr-regression.at])
 
+# Push parsing specific tests.
+m4_include([push.at])
+
 m4_popdef([AT_CHECK])
 m4_popdef([ORIGINAL_AT_CHECK])

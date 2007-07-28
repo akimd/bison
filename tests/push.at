@@ -1,0 +1,82 @@
+# Checking Push Parsing.                            -*- Autotest -*-
+# Copyright (C) 2007 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
+
+AT_BANNER([[Push Parsing Tests]])
+
+## ---------------------------------------------- ##
+## Push Parsing: Memory Leak for Early Deletion.  ##
+## ---------------------------------------------- ##
+
+AT_SETUP([[Push Parsing: Memory Leak for Early Deletion]])
+
+# Requires Valgrind.
+
+AT_DATA_GRAMMAR([[input.y]],
+[[
+%{
+  #include <assert.h>
+  #include <stdio.h>
+  #define YYINITDEPTH 1
+  void yyerror (char const *msg);
+%}
+
+%pure-parser %push-parser
+
+%%
+
+start: 'a' 'b' 'c' ;
+
+%%
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  yypstate *yyps;
+  YYSTYPE yylval;
+
+  /* Make sure we don't try to free yyps->yyss in this case.  */
+  yyps = yypstate_new ();
+  yypstate_delete (yyps);
+
+  /* yypstate_delete used to leak yyps->yyss if the stack was reallocated but
+     the parse did not return on success, syntax error, or memory
+     exhaustion.  */
+  yyps = yypstate_new ();
+  assert (yypush_parse (yyps, 'a', &yylval) == YYPUSH_MORE);
+  yypstate_delete (yyps);
+
+  yyps = yypstate_new ();
+  assert (yypush_parse (yyps, 'a', &yylval) == YYPUSH_MORE);
+  assert (yypush_parse (yyps, 'b', &yylval) == YYPUSH_MORE);
+  yypstate_delete (yyps);
+
+  return 0;
+}
+]])
+
+AT_CHECK([[bison -o input.c input.y]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]])
+
+AT_CLEANUP

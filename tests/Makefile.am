@@ -53,7 +53,8 @@ TESTSUITE_AT = \
         torture.at existing.at regression.at \
         c++.at \
         java.at \
-	cxx-type.at glr-regression.at
+	cxx-type.at glr-regression.at \
+	push.at
 
 TESTSUITE = $(srcdir)/testsuite
 
