@@ -1,3 +1,11 @@
+2007-07-28  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/muscle_tab.c (muscle_percent_define_flag_if): In order to
+	determine whether this function has already complained about an invalid
+	value for a %define boolean variable, don't check whether Bison has
+	ever examined the value.  As written, the check was a tautology.
+	Instead, record and check for this complaint using a separate muscle.
+
 2007-07-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix push parsing memory leak reported by Brandon Lucia at
