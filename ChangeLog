@@ -6,6 +6,9 @@
 	<http://lists.gnu.org/archive/html/bug-bison/2007-07/msg00031.html>.
 	* THANKS: Add Christian Burger.
 
+	* ChangeLog: For changes in doc/bison.texinfo, consistently reference
+	node names: say "Decl Summary" not "Bison Declaration Summary".
+
 2007-07-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/muscle_tab.c (muscle_percent_define_flag_if): In order to
@@ -737,8 +740,8 @@
 	* NEWS (2.3a+): Add entry for the change to %define.  Update entry for
 	%code.
 	* doc/bison.texinfo (Prologue Alternatives): Update.
-	(Bison Declaration Summary): In %defines entry, update mention of
-	`%code requires' and `%code provides'.
+	(Decl Summary): In %defines entry, update mention of `%code requires'
+	and `%code provides'.
 	(C++ Location Values): Update %define uses.
 	(Calc++ Parser Interface): Likewise.
 	(Calc++ Parser): Likewise, and update `%code requires' uses.
@@ -3015,7 +3018,7 @@
 	* doc/bison.texinfo (The prologue): Update names, and replace remaining
 	prologue blocks with %*-header declarations.
 	(Calc++ Parser): Likewise.
-	(Bison Declaration Summary): Update names.
+	(Decl Summary): Update names.
 	(Table of Symbols): Update description.
 	* src/parse-gram.y (PERCENT_AFTER_DEFINITIONS): Update to...
 	(PERCENT_END_HEADER): ... this.
@@ -3092,9 +3095,8 @@
 	header and code file.
 	* doc/bison.texinfo (Prologue): Show use of %before-definitions instead
 	of prologues for %union dependencies.
-	(Bison Declaration Summary): In %defines description, mention the
-	effect of %before-definitions and %after-definitions on the header
-	file.
+	(Decl Summary): In %defines description, mention the effect of
+	%before-definitions and %after-definitions on the header file.
 	(Calc++ Parser): Forward declare driver in a %before-definitions rather
 	than in the pre-prologue so that make check succeeds.
 	(Table of Symbols): Add entries for %before-definitions and
