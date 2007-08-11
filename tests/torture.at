@@ -444,13 +444,13 @@ main (int argc, const char **argv)
     int count;
     int status;
 ]m4_bmatch([$2], [%push-],
-[[    yypstate *yyps = yypstate_new ();
+[[    yypstate *ps = yypstate_new ();
 ]])[    for (count = 0; count < 2; ++count)
       {
         int new_status;
         yylval = yylval_init;
 ]m4_bmatch([$2], [%push-],
-[[        new_status = yypull_parse (yyps);
+[[        new_status = yypull_parse (ps);
 ]],
 [[        new_status = yyparse ();
 ]])[        if (count > 0 && new_status != status)
@@ -458,7 +458,7 @@ main (int argc, const char **argv)
         status = new_status;
       }
 ]m4_bmatch([$2], [%push-],
-[[    yypstate_delete (yyps);
+[[    yypstate_delete (ps);
 ]])[    return status;
   }
 }

@@ -1,3 +1,11 @@
+2007-08-11  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* tests/push.at (Push Parsing: Memory Leak for Early Deletion): Do not
+	name user variables starting with `yy'.  Just pass NULL instead of a
+	dummy local &yylval to yypush_parse.
+	* tests/torture.at (AT_DATA_STACK_TORTURE): Do not name user variables
+	starting with `yy'.
+
 2007-08-03  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/yacc.c (yyexhaustedlab): Define it when YYERROR_VERBOSE is

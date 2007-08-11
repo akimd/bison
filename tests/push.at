@@ -52,24 +52,22 @@ yyerror (char const *msg)
 int
 main (void)
 {
-  yypstate *yyps;
-  YYSTYPE yylval;
+  yypstate *ps;
 
-  /* Make sure we don't try to free yyps->yyss in this case.  */
-  yyps = yypstate_new ();
-  yypstate_delete (yyps);
+  /* Make sure we don't try to free ps->yyss in this case.  */
+  ps = yypstate_new ();
+  yypstate_delete (ps);
 
-  /* yypstate_delete used to leak yyps->yyss if the stack was reallocated but
-     the parse did not return on success, syntax error, or memory
-     exhaustion.  */
-  yyps = yypstate_new ();
-  assert (yypush_parse (yyps, 'a', &yylval) == YYPUSH_MORE);
-  yypstate_delete (yyps);
+  /* yypstate_delete used to leak ps->yyss if the stack was reallocated but the
+     parse did not return on success, syntax error, or memory exhaustion.  */
+  ps = yypstate_new ();
+  assert (yypush_parse (ps, 'a', NULL) == YYPUSH_MORE);
+  yypstate_delete (ps);
 
-  yyps = yypstate_new ();
-  assert (yypush_parse (yyps, 'a', &yylval) == YYPUSH_MORE);
-  assert (yypush_parse (yyps, 'b', &yylval) == YYPUSH_MORE);
-  yypstate_delete (yyps);
+  ps = yypstate_new ();
+  assert (yypush_parse (ps, 'a', NULL) == YYPUSH_MORE);
+  assert (yypush_parse (ps, 'b', NULL) == YYPUSH_MORE);
+  yypstate_delete (ps);
 
   return 0;
 }
