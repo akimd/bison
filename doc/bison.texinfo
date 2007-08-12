@@ -4812,16 +4812,6 @@ Precedence}).
 @end deffn
 @end ifset
 
-@deffn {Directive} %no-parser
-Do not include any C code in the parser file; generate tables only.  The
-parser file contains just @code{#define} directives and static variable
-declarations.
-
-This option also tells Bison to write the C code for the grammar actions
-into a file named @file{@var{file}.act}, in the form of a
-brace-surrounded body fit for a @code{switch} statement.
-@end deffn
-
 @deffn {Directive} %no-lines
 Don't generate any @code{#line} preprocessor commands in the parser
 file.  Ordinarily Bison writes these commands in the parser file so that
@@ -7468,10 +7458,6 @@ and debuggers will associate errors with your source file, the
 grammar file.  This option causes them to associate errors with the
 parser file, treating it as an independent source file in its own right.
 
-@item -n
-@itemx --no-parser
-Pretend that @code{%no-parser} was specified.  @xref{Decl Summary}.
-
 @item -S @var{file}
 @itemx --skeleton=@var{file}
 Specify the skeleton to use, similar to @code{%skeleton}
@@ -7572,7 +7558,6 @@ the corresponding short option.
 @item @option{--help}                       @tab @option{-h}
 @item @option{--name-prefix=@var{prefix}}   @tab @option{-p @var{name-prefix}}
 @item @option{--no-lines}                   @tab @option{-l}
-@item @option{--no-parser}                  @tab @option{-n}
 @item @option{--output=@var{outfile}}       @tab @option{-o @var{outfile}}
 @item @option{--print-localedir}            @tab
 @item @option{--token-table}                @tab @option{-k}

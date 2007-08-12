@@ -24,10 +24,6 @@ bison \- GNU Project parser generator (yacc replacement)
 ] [
 .B \-\-no-lines
 ] [
-.B \-n
-] [
-.B \-\-no-parser
-] [
 .BI \-o " outfile"
 ] [
 .BI \-\-output-file= outfile
@@ -210,21 +206,6 @@ puts them in the parser file so that the C compiler
 and debuggers will associate errors with your source file, the
 grammar file.  This option causes them to associate errors with the
 parser file, treating it an independent source file in its own right.
-.TP
-.B \-n
-.br
-.ns
-.TP
-.B \-\-no-parser
-Do not generate the parser code into the output; generate only
-declarations.  The generated
-.IB name .tab.c
-file will have only
-constant declarations.  In addition, a
-.IB name .act
-file is
-generated containing a switch statement body containing all the
-translated actions.
 .TP
 .BI \-o " outfile"
 .br

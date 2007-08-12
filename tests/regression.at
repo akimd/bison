@@ -709,8 +709,7 @@ else: "else" statement;
 
 AT_CHECK([bison -v -o input.c input.y])
 
-# Check only the tables.  We don't use --no-parser, because it is
-# still to be implemented in the experimental branch of Bison.
+# Check only the tables.
 [sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c >tables.c]
 
 AT_CHECK([[cat tables.c]], 0,

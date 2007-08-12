@@ -168,10 +168,9 @@ Paul notes:
 Show reductions.
 
 * Broken options ?
-** %no-parser
 ** %token-table
 ** Skeleton strategy
-Must we keep %no-parser?  %token-table?
+Must we keep %token-table?
 
 * src/print_graph.c
 Find the best graph parameters.

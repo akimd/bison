@@ -1,5 +1,22 @@
 2007-08-11  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Get rid of broken %no-parser, -n, and --no-parser implementation and
+	documentation.
+	* TODO: Don't mention them.
+	* doc/bison.1: Likewise.
+	* doc/bison.texinfo (Decl Summary): Likewise.
+	(Bison Options): Likewise.
+	(Option Cross Key): Likewise.
+	* src/getargs.c (no_parser_flag): Remove global variable.
+	(usage): Don't print description of -n and --no-parser.
+	(long_options): Remove --no-parser entry here.
+	(getargs): Remove -n case in the switch here.
+	* src/getargs.h (no_parser_flag): Remove extern.
+	* tests/regression.at (Web2c Actions): Remove comment that mentions
+	--no-parser.
+
+2007-08-11  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* tests/push.at (Push Parsing: Memory Leak for Early Deletion): Do not
 	name user variables starting with `yy'.  Just pass NULL instead of a
 	dummy local &yylval to yypush_parse.
