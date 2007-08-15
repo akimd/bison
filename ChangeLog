@@ -1,3 +1,60 @@
+2007-08-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Update to GPLv3.
+	* doc/gpl-3.0.texi: New file.
+	* doc/gpl.texi: Remove.
+	* COPYING, GNUmakefile, HACKING, Makefile.am, Makefile.cfg:
+	* Makefile.maint, NEWS, PACKAGING, README, README-alpha:
+	* README-hacking, TODO, bootstrap, bootstrap.conf:
+	* configure.ac, data/Makefile.am, data/README, data/bison.m4:
+	* data/c++-skel.m4, data/c++.m4, data/c-skel.m4, data/c.m4:
+	* data/glr.c, data/glr.cc, data/java-skel.m4, data/java.m4:
+	* data/lalr1.cc, data/lalr1.java, data/location.cc:
+	* data/push.c, data/yacc.c, data/m4sugar/m4sugar.m4:
+	* djgpp/Makefile.maint, djgpp/README.in, djgpp/config.bat:
+	* djgpp/config.sed, djgpp/config.site, djgpp/config_h.sed:
+	* djgpp/djunpack.bat, djgpp/subpipe.c, djgpp/subpipe.h:
+	* djgpp/testsuite.sed, doc/Makefile.am, doc/bison.texinfo:
+	* doc/fdl.texi, doc/refcard.tex, etc/Makefile.am, etc/README:
+	* etc/bench.pl.in, examples/Makefile.am, examples/extexi:
+	* examples/calc++/Makefile.am, lib/Makefile.am, lib/abitset.c:
+	* lib/abitset.h, lib/bbitset.h, lib/bitset.c, lib/bitset.h:
+	* lib/bitset_stats.c, lib/bitset_stats.h, lib/bitsetv-print.c:
+	* lib/bitsetv-print.h, lib/bitsetv.c, lib/bitsetv.h:
+	* lib/ebitset.c, lib/ebitset.h, lib/get-errno.c:
+	* lib/get-errno.h, lib/lbitset.c, lib/lbitset.h:
+	* lib/libiberty.h, lib/main.c, lib/subpipe.c, lib/subpipe.h:
+	* lib/timevar.c, lib/timevar.def, lib/timevar.h:
+	* lib/vbitset.c, lib/vbitset.h, lib/yyerror.c:
+	* m4/c-working.m4, m4/cxx.m4, m4/m4.m4, m4/subpipe.m4:
+	* m4/timevar.m4, src/LR0.c, src/LR0.h, src/Makefile.am:
+	* src/assoc.c, src/assoc.h, src/closure.c, src/closure.h:
+	* src/complain.c, src/complain.h, src/conflicts.c:
+	* src/conflicts.h, src/derives.c, src/derives.h, src/files.c:
+	* src/files.h, src/flex-scanner.h, src/getargs.c:
+	* src/getargs.h, src/gram.c, src/gram.h, src/graphviz.c:
+	* src/lalr.c, src/lalr.h, src/location.c, src/location.h:
+	* src/main.c, src/muscle_tab.c, src/muscle_tab.h:
+	* src/nullable.c, src/nullable.h, src/output.c, src/output.h:
+	* src/parse-gram.c, src/parse-gram.h, src/parse-gram.y:
+	* src/print.c, src/print.h, src/print_graph.c:
+	* src/print_graph.h, src/reader.c, src/reader.h, src/reduce.c:
+	* src/reduce.h, src/relation.c, src/relation.h:
+	* src/revision.h, src/scan-code.h, src/scan-code.l:
+	* src/scan-gram.h, src/scan-gram.l, src/scan-skel.h:
+	* src/scan-skel.l, src/state.c, src/state.h, src/symlist.c:
+	* src/symlist.h, src/symtab.c, src/symtab.h, src/system.h:
+	* src/tables.c, src/tables.h, src/uniqstr.c, src/uniqstr.h:
+	* tests/Makefile.am, tests/actions.at, tests/c++.at:
+	* tests/calc.at, tests/conflicts.at, tests/cxx-type.at:
+	* tests/existing.at, tests/glr-regression.at:
+	* tests/headers.at, tests/input.at, tests/java.at:
+	* tests/local.at, tests/output.at, tests/push.at:
+	* tests/reduce.at, tests/regression.at, tests/sets.at:
+	* tests/skeletons.at, tests/synclines.at, tests/testsuite.at:
+	* tests/torture.at:
+	Update to GPLv3.
+
 2007-08-11  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Get rid of broken %no-parser, -n, and --no-parser implementation and
