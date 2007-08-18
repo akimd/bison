@@ -1,3 +1,15 @@
+2007-08-17  Bob Rossi  <bob@brasko.net>
+
+	* doc/bison.texinfo (Push Decl): Document the push parser.
+	(Table of Symbols): Ditto.
+	(Pure Decl): Ditto.
+	(Decl Summary): Ditto.
+	(Multiple Parsers, Push Parser Function, Pull Parser Function,
+	Parser Create Function, Parser Delete Function):
+	Add new push parser symbols.
+	(Table of Symbols): Document push-parser, push-pull-parser,
+	yypush_parse, yypull_parse, yypstate_new and yypstate_delete.
+
 2007-08-15  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Update to GPLv3.

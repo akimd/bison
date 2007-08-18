@@ -224,6 +224,7 @@ Bison Declarations
 * Expect Decl::       Suppressing warnings about parsing conflicts.
 * Start Decl::        Specifying the start symbol.
 * Pure Decl::         Requesting a reentrant parser.
+* Push Decl::         Requesting a push parser.
 * Decl Summary::      Table of all Bison declarations.
 
 Parser C-Language Interface
@@ -3980,6 +3981,7 @@ Grammars}).
 * Expect Decl::       Suppressing warnings about parsing conflicts.
 * Start Decl::        Specifying the start symbol.
 * Pure Decl::         Requesting a reentrant parser.
+* Push Decl::         Requesting a push parser.
 * Decl Summary::      Table of all Bison declarations.
 @end menu
 
@@ -4512,14 +4514,121 @@ The result is that the communication variables @code{yylval} and
 @code{yylloc} become local variables in @code{yyparse}, and a different
 calling convention is used for the lexical analyzer function
 @code{yylex}.  @xref{Pure Calling, ,Calling Conventions for Pure
-Parsers}, for the details of this.  The variable @code{yynerrs} also
-becomes local in @code{yyparse} (@pxref{Error Reporting, ,The Error
+Parsers}, for the details of this.  The variable @code{yynerrs} 
+becomes local in @code{yyparse} in pull mode but it becomes a member 
+of yypstate in push mode.  (@pxref{Error Reporting, ,The Error
 Reporting Function @code{yyerror}}).  The convention for calling
 @code{yyparse} itself is unchanged.
 
 Whether the parser is pure has nothing to do with the grammar rules.
 You can generate either a pure parser or a nonreentrant parser from any
 valid grammar.
+
+@node Push Decl
+@subsection A Push Parser
+@cindex push parser
+@cindex push parser
+@findex %push-parser
+
+A pull parser is called once and it takes control until all its input 
+is completely parsed.  A push parser, on the other hand, is called 
+each time a new token is made available.
+
+A push parser is typically useful when the parser is part of a 
+main event loop in the client's application.  This is typically
+a requirement of a GUI, when the main event loop needs to be triggered 
+within a certain time period.  
+
+Normally, Bison generates a pull parser.  The Bison declaration 
+@code{%push-parser} says that you want the parser to be a push parser.
+It looks like this:
+
+@example
+%push-parser
+@end example
+
+In almost all cases, you want to ensure that your push parser is also
+a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).  The only
+time you should create an impure push parser is to have backwards 
+compatibility with the impure Yacc pull mode interface.  Unless you know
+what you are doing, your declarations should look like this:
+
+@example
+%pure-parser
+%push-parser
+@end example
+
+There is a major notable functional difference between the pure push parser 
+and the impure push parser.  It is acceptable for a pure push parser to have 
+many parser instances, of the same type of parser, in memory at the same time.
+An impure push parser should only use one parser at a time.
+
+When a push parser is selected, Bison will generate some new symbols in
+the generated parser.  @code{yypstate} is a structure that the generated 
+parser uses to store the parser's state.  @code{yypstate_new} is the 
+function that will create a new parser instance.  @code{yypstate_delete}
+will free the resources associated with the corresponding parser instance.
+Finally, @code{yypush_parse} is the function that should be called whenever a 
+token is available to provide the parser.  A trivial example
+of using a pure push parser would look like this:
+
+@example
+int status;
+yypstate *ps = yypstate_new ();
+do @{
+  status = yypush_parse (ps, yylex (), NULL);
+@} while (status == YYPUSH_MORE);
+yypstate_delete (ps);
+@end example
+
+If the user decided to use an impure push parser, a few things about
+the generated parser will change.  The @code{yychar} variable becomes 
+a global variable instead of a variable in the @code{yypush_parse} function.
+For this reason, the signature of the @code{yypush_parse} function is
+changed to remove the token as a parameter.  A nonreentrant push parser 
+example would thus look like this:
+
+@example
+extern int yychar;
+int status;
+yypstate *ps = yypstate_new ();
+do @{
+  yychar = yylex ();
+  status = yypush_parse (ps);
+@} while (status == YYPUSH_MORE);
+yypstate_delete (ps);
+@end example
+
+That's it. Notice the next token is put into the global variable @code{yychar} 
+for use by the next invocation of the @code{yypush_parse} function.
+
+Bison also supports both the push parser interface along with the pull parser 
+interface in the same generated parser.  In order to get this functionality,
+you should replace the @code{%push-parser} declaration with the 
+@code{%push-pull-parser} declaration.  Doing this will create all of the 
+symbols mentioned earlier along with the two extra symbols, @code{yyparse} 
+and @code{yypull_parse}.  @code{yyparse} can be used exactly as it normally 
+would be used.  However, the user should note that it is implemented in the 
+generated parser by calling @code{yypull_parse}.  This makes the 
+@code{yyparse} function that is generated with the @code{%push-pull-parser} 
+declaration slower than the normal @code{yyparse} function.  If the user 
+calls the @code{yypull_parse} function it will parse the rest of the input 
+stream.  It is possible to @code{yypush_parse} tokens to select a subgrammar 
+and then @code{yypull_parse} the rest of the input stream.  If you would like 
+to switch back and forth between between parsing styles, you would have to 
+write your own @code{yypull_parse} function that knows when to quit looking 
+for input.  An example of using the @code{yypull_parse} function would look 
+like this:
+
+@example
+yypstate *ps = yypstate_new ();
+yypull_parse (ps); /* Will call the lexer */
+yypstate_delete (ps);
+@end example
+
+Adding the @code{%pure-parser} declaration does exactly the same thing to the 
+generated parser with @code{%push-pull-parser} as it did for 
+@code{%push-parser}.
 
 @node Decl Summary
 @subsection Bison Declaration Summary
@@ -4799,10 +4908,13 @@ Rename the external symbols used in the parser so that they start with
 in C parsers
 is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
 @code{yylval}, @code{yychar}, @code{yydebug}, and
-(if locations are used) @code{yylloc}.  For example, if you use
-@samp{%name-prefix "c_"}, the names become @code{c_parse}, @code{c_lex},
-and so on.  In C++ parsers, it is only the surrounding namespace which is
-named @var{prefix} instead of @samp{yy}.
+(if locations are used) @code{yylloc}.  If you use a push parser, 
+@code{yypush_parse}, @code{yypull_parse}, @code{yypstate}, 
+@code{yypstate_new} and @code{yypstate_delete} will 
+also be renamed.  For example, if you use @samp{%name-prefix "c_"}, the 
+names become @code{c_parse}, @code{c_lex}, and so on.  In C++ parsers, 
+it is only the surrounding namespace which is named @var{prefix} instead 
+of @samp{yy}.
 @xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
 @end deffn
 
@@ -4830,6 +4942,16 @@ Specify @var{file} for the parser file.
 @deffn {Directive} %pure-parser
 Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
 (Reentrant) Parser}).
+@end deffn
+
+@deffn {Directive} %push-parser
+Bison declaration to request a push parser.
+@xref{Push Decl, ,A Push Parser}.
+@end deffn
+
+@deffn {Directive} %push-pull-parser
+Bison declaration to request a push and a pull parser.
+@xref{Push Decl, ,A Push Parser}.
 @end deffn
 
 @deffn {Directive} %require "@var{version}"
@@ -4915,8 +5037,11 @@ names that do not conflict.
 
 The precise list of symbols renamed is @code{yyparse}, @code{yylex},
 @code{yyerror}, @code{yynerrs}, @code{yylval}, @code{yylloc},
-@code{yychar} and @code{yydebug}.  For example, if you use @samp{-p c},
-the names become @code{cparse}, @code{clex}, and so on.
+@code{yychar} and @code{yydebug}.  If you use a push parser, 
+@code{yypush_parse}, @code{yypull_parse}, @code{yypstate}, 
+@code{yypstate_new} and @code{yypstate_delete} will also be renamed.
+For example, if you use @samp{-p c}, the names become @code{cparse}, 
+@code{clex}, and so on.
 
 @strong{All the other variables and macros associated with Bison are not
 renamed.} These others are not global; there is no conflict if the same
@@ -4945,6 +5070,12 @@ in the grammar file, you are likely to run into trouble.
 
 @menu
 * Parser Function::   How to call @code{yyparse} and what it returns.
+* Push Parser Function::  How to call @code{yypush_parse} and what it returns.
+* Pull Parser Function::  How to call @code{yypull_parse} and what it returns.
+* Parser Create Function::  How to call @code{yypstate_new} and what it 
+                        returns.
+* Parser Delete Function::  How to call @code{yypstate_delete} and what it 
+                        returns.
 * Lexical::           You must supply a function @code{yylex}
                         which reads tokens.
 * Error Reporting::   You must supply a function @code{yyerror}.
@@ -5027,6 +5158,61 @@ In the grammar actions, use expressions like this to refer to the data:
 exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
 @end example
 
+@node Push Parser Function
+@section The Push Parser Function @code{yypush_parse}
+@findex yypush_parse
+
+You call the function @code{yypush_parse} to parse a single token.  This 
+function is available if either the @code{%push-parser} or 
+@code{%push-pull-parser} declaration is used.  
+@xref{Push Decl, ,A Push Parser}.
+
+@deftypefun int yypush_parse (yypstate *yyps)
+The value returned by @code{yypush_parse} is the same as for yyparse with the 
+following exception.  @code{yypush_parse} will return YYPUSH_MORE if more input
+is required to finish parsing the grammar.
+@end deftypefun
+
+@node Pull Parser Function
+@section The Pull Parser Function @code{yypull_parse}
+@findex yypull_parse
+
+You call the function @code{yypull_parse} to parse the rest of the input 
+stream.  This function is available if the @code{%push-pull-parser} 
+declaration is used.  
+@xref{Push Decl, ,A Push Parser}.
+
+@deftypefun int yypull_parse (yypstate *yyps)
+The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
+@end deftypefun
+
+@node Parser Create Function
+@section The Parser Create Function @code{yystate_new}
+@findex yypstate_new
+
+You call the function @code{yypstate_new} to create a new parser instance.  
+This function is available if either the @code{%push-parser} or 
+@code{%push-pull-parser} declaration is used.  
+@xref{Push Decl, ,A Push Parser}.
+
+@deftypefun yypstate *yypstate_new (void)
+The fuction will return a valid parser instance if there was memory available
+or NULL if no memory was available.
+@end deftypefun
+
+@node Parser Delete Function
+@section The Parser Delete Function @code{yystate_delete}
+@findex yypstate_delete
+
+You call the function @code{yypstate_delete} to delete a parser instance.
+This function is available if either the @code{%push-parser} or 
+@code{%push-pull-parser} declaration is used.  
+@xref{Push Decl, ,A Push Parser}.
+
+@deftypefun void yypstate_delete (yypstate *yyps)
+This function will reclaim the memory associated with a parser instance.
+After this call, you should no longer attempt to use the parser instance.
+@end deftypefun
 
 @node Lexical
 @section The Lexical Analyzer Function @code{yylex}
@@ -9266,6 +9452,16 @@ Bison declaration to request a pure (reentrant) parser.
 @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
 @end deffn
 
+@deffn {Directive} %push-parser
+Bison declaration to request a push parser.
+@xref{Push Decl, ,A Push Parser}.
+@end deffn
+
+@deffn {Directive} %push-pull-parser
+Bison declaration to request a push and a pull parser.
+@xref{Push Decl, ,A Push Parser}.
+@end deffn
+
 @deffn {Directive} %require "@var{version}"
 Require version @var{version} or higher of Bison.  @xref{Require Decl, ,
 Require a Version of Bison}.
@@ -9440,13 +9636,41 @@ Management}.
 
 @deffn {Variable} yynerrs
 Global variable which Bison increments each time it reports a syntax error.
-(In a pure parser, it is a local variable within @code{yyparse}.)
+(In a pure parser, it is a local variable within @code{yyparse}. In a 
+pure push parser, it is a member of yypstate.)
 @xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
 @end deffn
 
 @deffn {Function} yyparse
 The parser function produced by Bison; call this function to start
 parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+@end deffn
+
+@deffn {Function} yypstate_delete
+The function to delete a parser instance, produced by Bison in push mode; 
+call this function to delete the memory associated with a parser.
+@xref{Parser Delete Function, ,The Parser Delete Function 
+@code{yypstate_delete}}.
+@end deffn
+
+@deffn {Function} yypstate_new
+The function to create a parser instance, produced by Bison in push mode; 
+call this function to create a new parser.
+@xref{Parser Create Function, ,The Parser Create Function 
+@code{yypstate_new}}.
+@end deffn
+
+@deffn {Function} yypull_parse
+The parser function produced by Bison in push mode; call this function to 
+parse the rest of the input stream.  
+@xref{Pull Parser Function, ,The Pull Parser Function 
+@code{yypull_parse}}.
+@end deffn
+
+@deffn {Function} yypush_parse
+The parser function produced by Bison in push mode; call this function to 
+parse a single token.  @xref{Push Parser Function, ,The Push Parser Function 
+@code{yypush_parse}}.
 @end deffn
 
 @deffn {Macro} YYPARSE_PARAM
