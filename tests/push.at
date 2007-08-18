@@ -76,3 +76,77 @@ AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])
 
 AT_CLEANUP
+
+
+## ----------------------------------------- ##
+## Push Parsing: Multiple impure instances.  ##
+## ----------------------------------------- ##
+
+AT_SETUP([[Push Parsing: Multiple impure instances]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[
+%{
+  #include <assert.h>
+  #include <stdio.h>
+  void yyerror (char const *msg);
+  int yylex (void);
+%}
+
+%push-pull-parser
+
+%%
+
+start: ;
+
+%%
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+yylex (void)
+{
+  return 0;
+}
+
+int
+main (void)
+{
+  yypstate *ps;
+  int i;
+
+  for (i = 0; i < 2; ++i)
+    {
+      ps = yypstate_new ();
+      assert (ps);
+      assert (yypstate_new () == NULL);
+      assert (yyparse () == 2);
+      yychar = 0;
+      assert (yypush_parse (ps) == 0);
+      assert (yypstate_new () == NULL);
+      assert (yyparse () == 2);
+      yypstate_delete (ps);
+    }
+
+  return 0;
+}
+]])
+
+AT_CHECK([[bison -o input.c input.y]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]], 0, [],
+[[cannot allocate multiple impure push-parser instances
+cannot allocate multiple impure push-parser instances
+cannot allocate multiple impure push-parser instances
+cannot allocate multiple impure push-parser instances
+cannot allocate multiple impure push-parser instances
+cannot allocate multiple impure push-parser instances
+cannot allocate multiple impure push-parser instances
+cannot allocate multiple impure push-parser instances
+]])
+
+AT_CLEANUP

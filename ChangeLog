@@ -1,3 +1,17 @@
+2007-08-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	In impure push mode, don't allow more than one yypstate to be allocated
+	since multiple impure parsers would corrupt yynerrs.
+	* data/push.c (yypstate_allocated): New static global variable
+	initialized to 0.
+	(yypull_parse): If yypstate_new returns 0, don't report it as memory
+	exhaustion if yypstate_allocated is 1, but still return 2.
+	(yypstate_new): Invoke yyerror and return 0 if yypstate_allocated is
+	already 1.  Otherwise, set it to 1.
+	(yypstate_delete): Set it to 0.
+	* tests/push.at (Push Parsing: Multiple impure instances): New test
+	case.
+
 2007-08-17  Bob Rossi  <bob@brasko.net>
 
 	* doc/bison.texinfo (Push Decl): Document the push parser.
