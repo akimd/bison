@@ -4816,7 +4816,7 @@ Bison will warn if a @var{variable} is defined multiple times.
 Omitting @code{"@var{value}"} is always equivalent to specifying it as
 @code{""}.
 
-Some @var{variable}s may be used as booleans.
+Some @var{variable}s may be used as Booleans.
 In this case, Bison will complain if the variable definition does not meet one
 of the following four conditions:
 

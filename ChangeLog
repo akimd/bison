@@ -1,3 +1,15 @@
+2007-08-28  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Spell "boolean" as "Boolean".  Reported by Akim Demaille.
+	* data/bison.m4 (b4_percent_define_flag_if): Fix complaint.
+	* doc/bison.texinfo (Decl Summary): Fix.
+	* src/muscle_tab.c (muscle_percent_define_flag_if): Fix complaint.
+	* tests/input.at (Boolean %define variables): Update output.
+	* tests/skeletons.at (%define boolean variables: invalid skeleton
+	defaults): Rename to...
+	(%define Boolean variables: invalid skeleton defaults): ... this and
+	update output.
+
 2007-08-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	In impure push mode, don't allow more than one yypstate to be allocated

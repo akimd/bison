@@ -381,7 +381,7 @@ m4_define([b4_percent_define_flag_if],
            [m4_expand_once([dnl
              m4_pushdef([b4_loc], m4_indir([b4_percent_define_loc(]$1[)]))dnl
              b4_complain_at(b4_loc,
-                            [[invalid value for %%define boolean variable `%s']],
+                            [[invalid value for %%define Boolean variable `%s']],
                             [$1])dnl
              m4_popdef([b4_loc])],
              [[b4_percent_define_flag_if($1)]])])],

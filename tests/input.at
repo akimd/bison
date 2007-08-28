@@ -836,7 +836,7 @@ start: ;
 ]])
 
 AT_CHECK([[bison Input.y]], [1], [],
-[[Input.y:2.9-14: invalid value for %define boolean variable `public'
+[[Input.y:2.9-14: invalid value for %define Boolean variable `public'
 ]])
 
 AT_CLEANUP

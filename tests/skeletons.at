@@ -142,10 +142,10 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------ ##
-## %define boolean variables: invalid skeleton defaults.  ##
+## %define Boolean variables: invalid skeleton defaults.  ##
 ## ------------------------------------------------------ ##
 
-AT_SETUP([[%define boolean variables: invalid skeleton defaults]])
+AT_SETUP([[%define Boolean variables: invalid skeleton defaults]])
 
 AT_CHECK([[mkdir tmp]])
 
@@ -161,7 +161,7 @@ start: ;
 ]])
 
 AT_CHECK([[bison input.y]], [[1]], [[]],
-[[[Bison:b4_percent_define_default]:0.0: invalid value for %define boolean variable `foo'
+[[[Bison:b4_percent_define_default]:0.0: invalid value for %define Boolean variable `foo'
 ]])
 
 AT_CLEANUP
