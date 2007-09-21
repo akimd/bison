@@ -16,12 +16,9 @@ tools we depend upon, including:
 - Flex <http://www.gnu.org/software/flex/>
 - Gettext <http://www.gnu.org/software/gettext/>
 - Gzip <http://www.gnu.org/software/gzip/>
+- Perl <http://www.cpan.org/>
+- Rsync <http://samba.anu.edu.au/rsync/>
 - Tar <http://www.gnu.org/software/tar/>
-- Wget <http://www.gnu.org/software/wget/>
-
-Only building the initial full source tree will be a bit painful.
-Later, after synchronizing from the repository a plain `make' should
-be sufficient.
 
 Valgrind <http://valgrind.org/> is also highly recommended, if
 Valgrind supports your architecture.
@@ -32,13 +29,14 @@ generated from the grammars is out of date, and to bootstrap with an
 out-of-date version of the C code, but the process is not foolproof.
 Also, you may run into similar problems yourself if you modify Bison.
 
-Only building the initial full source tree will be a bit painful,
-later, a plain `cvs update -P && make' should be sufficient.
+Only building the initial full source tree will be a bit painful.
+Later, after synchronizing from the repository a plain `make' should
+be sufficient.
 
 * First checkout
 
 Obviously, if you are reading these notes, you did manage to check out
-Bison from the repository.  For the record, you will find all the
+this package from the repository.  For the record, you will find all the
 relevant information on:
 
 	http://savannah.gnu.org/cvs/?group_id=56
@@ -67,8 +65,6 @@ Enjoy!
 
 Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software
 Foundation, Inc.
-
-This file is part of GNU Bison.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

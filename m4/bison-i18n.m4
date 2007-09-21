@@ -1,5 +1,5 @@
-# bison-i18n.m4 serial 1 (bison-2.1)
-dnl Copyright (C) 2005 Free Software Foundation, Inc.
+# bison-i18n.m4 serial 2
+dnl Copyright (C) 2005-2006 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -19,38 +19,27 @@ AC_DEFUN([BISON_I18N],
     exit 1
   fi
   BISON_LOCALEDIR=
+  BISON_USE_NLS=no
   if test "$USE_NLS" = yes; then
+    dnl Determine bison's localedir.
     dnl AC_PROG_YACC sets the YACC variable; other macros set the BISON variable.
-    if test -n "$YACC"; then
-      case "$YACC" in
-        *bison*)
-          if ($YACC --print-localedir) >/dev/null 2>&1; then
-            BISON_LOCALEDIR=`$YACC --print-localedir`
-          fi
-          ;;
-      esac
-    else
-      if test -n "$BISON"; then
-        if test "$BISON" != ":"; then
-          if ($BISON --print-localedir) >/dev/null 2>&1; then
-            BISON_LOCALEDIR=`$BISON --print-localedir`
-          fi
-        fi
-      fi
+    dnl But even is YACC is called "yacc", it may be a script that invokes bison
+    dnl and accepts the --print-localedir option.
+    dnl YACC's default value is empty; BISON's default value is :.
+    if (${YACC-${BISON-:}} --print-localedir) >/dev/null 2>&1; then
+      BISON_LOCALEDIR=`${YACC-${BISON-:}} --print-localedir`
     fi
     AC_SUBST([BISON_LOCALEDIR])
     if test -n "$BISON_LOCALEDIR"; then
+      dnl There is no need to enable internationalization if the user doesn't
+      dnl want message catalogs.  So look at the language/locale names for
+      dnl which the user wants message catalogs.  This is $LINGUAS.  If unset
+      dnl or empty, he wants all of them.
       USER_LINGUAS="${LINGUAS-%UNSET%}"
       if test -n "$USER_LINGUAS"; then
         BISON_USE_NLS=yes
-      else
-        BISON_USE_NLS=no
       fi
-    else
-      BISON_USE_NLS=no
     fi
-  else
-    BISON_USE_NLS=no
   fi
   if test $BISON_USE_NLS = yes; then
     AC_DEFINE([YYENABLE_NLS], 1,

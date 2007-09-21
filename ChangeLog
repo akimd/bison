@@ -1,3 +1,19 @@
+2007-09-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* GNUmakefile: Switch to coreutils's version.
+	* bootstrap: Likewise.
+	* Makefile.cfg: Adjust to new GNUmakefile.
+	* README-hacking: Likewise.
+
+	Import from gnulib:
+
+	2006-08-18  Paul Eggert  <eggert@cs.ucla.edu>
+		    Bruno Haible  <bruno@clisp.org>
+
+	* m4/bison-i18n.m4 (BISON_I18N): Also handle the case where yacc exists
+	and is a script that invokes bison. Tighten the code. Add comments.
+
+
 2007-08-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Spell "boolean" as "Boolean".  Reported by Akim Demaille.

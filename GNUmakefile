@@ -4,18 +4,18 @@
 # It is necessary if you want to build targets usually of interest
 # only to the maintainer.
 
-# Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2003, 2006-2007 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-#
+
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
+
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -39,14 +39,28 @@ ifeq ($(have-Makefile),yes)
 export TAR_OPTIONS = --owner=0 --group=0 --numeric-owner
 
 include Makefile
+
+# Ensure that $(VERSION) is up to date for dist-related targets, but not
+# for others: rerunning autoconf and recompiling everything isn't cheap.
+ifeq (0,$(MAKELEVEL))
+  _is-dist-target = $(filter dist% alpha beta major,$(MAKECMDGOALS))
+  ifneq (,$(_is-dist-target))
+    _curr-ver := $(shell build-aux/git-version-gen 0 .version)
+    ifneq ($(_curr-ver),$(VERSION))
+      $(info INFO: rerunning autoconf for new version string: $(_curr-ver))
+      dummy := $(shell rm -rf autom4te.cache; $(AUTOCONF))
+    endif
+  endif
+endif
+
 include $(srcdir)/Makefile.cfg
 include $(srcdir)/Makefile.maint
 
 else
 
 all:
-	@echo There seems to be no Makefile in this directory.
-	@echo "You must run ./configure before running \`make'."
+	@echo There seems to be no Makefile in this directory.   1>&2
+	@echo "You must run ./configure before running \`make'." 1>&2
 	@exit 1
 
 endif
