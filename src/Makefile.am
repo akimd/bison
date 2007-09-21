@@ -50,6 +50,7 @@ bison_SOURCES =					  \
 	parse-gram.h parse-gram.y		  \
 	print.c print.h				  \
 	print_graph.c print_graph.h		  \
+	print-xml.c print-xml.h			  \
 	reader.c reader.h			  \
 	reduce.c reduce.h			  \
 	revision.c revision.h			  \

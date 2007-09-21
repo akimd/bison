@@ -208,6 +208,7 @@ struct state
   /* If some conflicts were solved thanks to precedence/associativity,
      a human readable description of the resolution.  */
   const char *solved_conflicts;
+  const char *solved_conflicts_xml;
 
   /* Its items.  Must be last, since ITEMS can be arbitrarily large.  Sorted
      ascendingly on item index in RITEM, which is sorted on rule number.  */
@@ -236,6 +237,8 @@ void state_errs_set (state *s, int num, symbol **errors);
 /* Print on OUT all the lookahead tokens such that this STATE wants to
    reduce R.  */
 void state_rule_lookahead_tokens_print (state *s, rule *r, FILE *out);
+void state_rule_lookahead_tokens_print_xml (state *s, rule *r,
+					    FILE *out, int level);
 
 /* Create/destroy the states hash table.  */
 void state_hash_new (void);

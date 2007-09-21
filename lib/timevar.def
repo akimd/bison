@@ -1,6 +1,6 @@
 /* This file contains the definitions for timing variables used to -*- C -*-
    measure run-time performance of the compiler.
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2007 Free Software Foundation, Inc.
    Contributed by Akim Demaille <akim@freefriends.org>.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -46,6 +46,7 @@ DEFTIMEVAR (TV_CONFLICTS             , "conflicts")
 /* Time spent outputing results.  */
 DEFTIMEVAR (TV_REPORT                , "outputing report")
 DEFTIMEVAR (TV_GRAPH                 , "outputing graph")
+DEFTIMEVAR (TV_XML                   , "outputing xml")
 DEFTIMEVAR (TV_ACTIONS               , "parser action tables")
 DEFTIMEVAR (TV_PARSER                , "outputing parser")
 DEFTIMEVAR (TV_M4                    , "running m4")

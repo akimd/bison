@@ -1,7 +1,7 @@
 /* Data definitions for internal representation of Bison's input.
 
    Copyright (C) 1984, 1986, 1989, 1992, 2001, 2002, 2003, 2004, 2005, 2006
-   Free Software Foundation, Inc.
+   2007 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -218,6 +218,7 @@ bool rule_never_reduced_p (rule *r);
    already displayed (by a previous call for another rule), avoid
    useless repetitions.  */
 void rule_lhs_print (rule *r, symbol *previous_lhs, FILE *out);
+void rule_lhs_print_xml (rule *r, FILE *out, int level);
 
 /* Return the length of the RHS.  */
 int rule_rhs_length (rule *r);
@@ -252,9 +253,12 @@ size_t ritem_longest_rhs (void);
    (exclusive) on OUT under TITLE.  */
 void grammar_rules_partial_print (FILE *out, const char *title,
 				  rule_filter filter);
+void grammar_rules_partial_print_xml (FILE *out, int level, bool rtag,
+				      rule_filter filter);
 
 /* Print the grammar's rules on OUT.  */
 void grammar_rules_print (FILE *out);
+void grammar_rules_print_xml (FILE *out, int level);
 
 /* Dump the grammar. */
 void grammar_dump (FILE *out, const char *title);

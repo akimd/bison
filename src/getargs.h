@@ -36,6 +36,7 @@ extern char const *include;
 extern bool debug_flag;			/* for -t */
 extern bool defines_flag;		/* for -d */
 extern bool graph_flag;			/* for -g */
+extern bool xml_flag;			/* for -x */
 extern bool locations_flag;
 extern bool no_lines_flag;		/* for -l */
 extern bool token_table_flag;		/* for -k */

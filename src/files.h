@@ -41,6 +41,9 @@ extern char *spec_verbose_file;
 /* File name specified for the output graph.  */
 extern char *spec_graph_file;
 
+/* File name specified for the xml output.  */
+extern char *spec_xml_file;
+
 /* File name specified with --defines.  */
 extern char *spec_defines_file;
 

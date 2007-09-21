@@ -1,5 +1,54 @@
 2007-09-21  Paul Eggert  <eggert@cs.ucla.edu>
 
+	* src/gram.c (rule_rhs_print_xml): Now static, since it isn't used
+	elsewhere.
+	* src/print-xml.c: Prefer "const" after types; that's more consistent.
+	(xml_printf): Indent just 1 space for level.
+	(e_char, xlate_char): Remove.
+	(xml_escape_string): Rewrite to avoid undefined behavior (used
+	storage that was freed from the stack).
+	(xml_escape_n): Don't bother checking for subscript error.
+
+2007-09-21  Wojciech Polak <polak@gnu.org>
+
+	Add support for an -x option to generate an XML report.
+	It is not documented yet.
+	* src/print-xml.c: New file.
+	* src/print-xml.h: Likewise.
+	* lib/timevar.def (TV_XML): New var.
+	* src/Makefile.am (bison_SOURCES): Add print-xml.c, print-xml.h.
+	* src/conflicts.c: Include print-xml.h.
+	(solved_conflicts_xml_obstack): New var.
+	(log_resolution, conflicts_solve, conflicts_free):
+	Add support for XML report.
+	(conflicts_output_val): New function.
+	* src/conflicts.h (conflicts_output_val): New decl.
+	* src/files.c (spec_xml_file): New var.
+	(compute_output_file_names, output_file_names_free): Add XML support.
+	* src/files.h (spec_xml_file): New decl.
+	* src/getargs.c (xml_flag): New var.
+	(usage, short_options, long_options, getargs): Add XML support.
+	* src/getargs.h (xml_flag): New decl.
+	* src/gram.c: Include print-xml.h.
+	(rule_lhs_print_xml, rule_rhs_print_xml):
+	(grammar_rules_partial_print_xml, grammar_rules_print_xml):
+	New functions.
+	* src/gram.h: Declare external ones.
+	* src/main.c: Include print-xml.h.
+	(main): Add XML support.
+	* src/reduce.c: Include print-xml.h.
+	(reduce_xml): New function.
+	* src/reduce.h: Declare it.
+	* src/state.c: Include print-xml.h.
+	(state_new): Add XML support.
+	(state_rule_lookahead_tokens_print_xml): New function.
+	* src/state.h: Declare it.
+	(struct state): New member solved_conflicts_xml.
+	* src/symtab.c (symbol_class_get_string): New function.
+	* src/symtab.h: Declare it.
+
+2007-09-21  Paul Eggert  <eggert@cs.ucla.edu>
+
 	* GNUmakefile: Switch to coreutils's version.
 	* bootstrap: Likewise.
 	* Makefile.cfg: Adjust to new GNUmakefile.
@@ -12,7 +61,6 @@
 
 	* m4/bison-i18n.m4 (BISON_I18N): Also handle the case where yacc exists
 	and is a script that invokes bison. Tighten the code. Add comments.
-
 
 2007-08-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 

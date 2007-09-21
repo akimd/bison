@@ -37,6 +37,7 @@ void conflicts_update_state_numbers (state_number old_to_new[],
 void conflicts_print (void);
 int conflicts_total_count (void);
 void conflicts_output (FILE *out);
+void conflicts_output_xml (FILE *out, int level);
 void conflicts_free (void);
 
 /* Were there conflicts? */
