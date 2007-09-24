@@ -1,3 +1,13 @@
+2007-09-24  Wojciech Polak  <polak@gnu.org>
+
+	Add XSLT transformations.
+
+	* data/xslt/xml2dot.xsl: Transform XML into DOT.
+	* data/xslt/xml2text.xsl: Transform XML into plain text.
+	* data/xslt/xml2xhtml.xsl: Transform XML into XHTML.
+	* data/Makefile.am (xsltdir): New variable.
+	(dist_xslt_DATA): Add xslt/*.xsl files.
+
 2007-09-23  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/conflicts.c (log_resolution): Fix indenting bugs I introduced.
@@ -25,7 +35,9 @@
 	storage that was freed from the stack).
 	(xml_escape_n): Don't bother checking for subscript error.
 
-2007-09-21  Wojciech Polak <polak@gnu.org>
+2007-09-21  Wojciech Polak  <polak@gnu.org>
+
+	Add Bison XML Automaton Report.
 
 	Add support for an -x option to generate an XML report.
 	It is not documented yet.
