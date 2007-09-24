@@ -22,7 +22,7 @@
 #ifndef PRINT_XML_H_
 # define PRINT_XML_H_
 
-void xml_puts (FILE *, int, char *);
+void xml_puts (FILE *, int, char const *);
 void xml_printf (FILE *, int, char const *, ...);
 char const *xml_escape_n (int n, char const *str);
 char const *xml_escape (char const *str);

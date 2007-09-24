@@ -1,3 +1,11 @@
+2007-09-23  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Pacify ./configure --enable-gcc-warnings.
+	* src/print-xml.c, src/print-xml.h (xml_puts): Make third argument
+	`char const *' instead of `char *'.
+	* src/state.c (state_rule_lookahead_tokens_print_xml): Remove unused
+	local variable `sep'.
+
 2007-09-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* src/gram.c (rule_rhs_print_xml): Now static, since it isn't used
