@@ -1,3 +1,11 @@
+2007-09-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* src/conflicts.c (log_resolution): Fix indenting bugs I introduced.
+	Problem reported by Wojciech Polak.
+	* src/print-xml.c (xml_puts): Work even if LEVEL exceeds INT_MAX/2.
+	(xml_printf): Undo change I made on 21 September; that is,
+	indent 2 spaces, not 1.
+
 2007-09-23  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Pacify ./configure --enable-gcc-warnings.
