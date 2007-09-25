@@ -214,13 +214,7 @@ b4_define_flag_if([error_verbose])	# Whether error are verbose.
 b4_define_flag_if([glr])		# Whether a GLR parser is requested.
 b4_define_flag_if([locations])	        # Whether locations are tracked.
 b4_define_flag_if([nondeterministic])	# Whether conflicts should be handled.
-b4_define_flag_if([pull])	        # Whether pull parsing is requested.
 b4_define_flag_if([pure])	        # Whether the interface is pure.
-b4_define_flag_if([push])	        # Whether push parsing is requested.
-b4_define_flag_if([use_push_for_pull])  # Whether push parsing should be used
-                                        # in place of pull parsing (where
-                                        # available) for the sake of the test
-                                        # suite.
 b4_define_flag_if([yacc])	        # Whether POSIX Yacc is emulated.
 
 
@@ -402,6 +396,43 @@ m4_define([b4_percent_define_default],
            [m4_define([b4_percent_define(]$1[)], [$2])dnl
             m4_define([b4_percent_define_loc(]$1[)],
                       [[[[[Bison:b4_percent_define_default]:0.0]], [[[Bison:b4_percent_define_default]:0.0]]]])])])
+
+# b4_percent_define_check_values(VALUES)
+# --------------------------------------
+# Mimic muscle_percent_define_check_values in ../src/muscle_tab.h exactly
+# except that the VALUES structure is more appropriate for M4.  That is, VALUES
+# is a list of sublists of strings.  For each sublist, the first string is the
+# name of a %define variable, and all remaining strings in that sublist are the
+# valid values for that variable.  Complain if such a variable is undefined (a
+# Bison error since the default value should have been set already) or defined
+# to any other value (possibly a user error).  Don't record this as a Bison
+# usage of the variable as there's no reason to suspect that the value has yet
+# influenced the output.
+#
+# For example:
+#
+#   b4_percent_define_check_values([[[[foo]], [[foo-value1]], [[foo-value2]]]],
+#                                  [[[[bar]], [[bar-value1]]]])
+m4_define([b4_percent_define_check_values],
+[m4_foreach([b4_sublist], m4_quote($@),
+            [_b4_percent_define_check_values(b4_sublist)])])
+
+m4_define([_b4_percent_define_check_values],
+[m4_ifdef([b4_percent_define(]$1[)],
+  [m4_pushdef([b4_good_value], [0])dnl
+   m4_if($#, 1, [],
+         [m4_foreach([b4_value], m4_dquote(m4_shift($@)),
+                     [m4_if(m4_indir([b4_percent_define(]$1[)]), b4_value,
+                            [m4_define([b4_good_value], [1])])])])dnl
+   m4_if(b4_good_value, [0],
+         [m4_pushdef([b4_loc], m4_indir([b4_percent_define_loc(]$1[)]))dnl
+          b4_complain_at(b4_loc,
+                         [[invalid value for %%define variable `%s': `%s']],
+                         [$1],
+                         m4_dquote(m4_indir([b4_percent_define(]$1[)])))dnl
+          m4_popdef([b4_loc])])dnl
+   m4_popdef([b4_good_value])],
+  [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_check_values]], [$1])])])
 
 # b4_percent_code_get([QUALIFIER])
 # --------------------------------

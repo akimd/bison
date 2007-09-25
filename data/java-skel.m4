@@ -18,7 +18,6 @@
 
 b4_glr_if(             [b4_complain([%%glr-parser not supported for Java])])
 b4_nondeterministic_if([b4_complain([%%nondeterministic-parser not supported for Java])])
-b4_push_if(            [b4_complain([%%push-parser is not supported for Java])])
 
 m4_define_default([b4_used_skeleton], [b4_pkgdatadir/[lalr1.java]])
 m4_define_default([b4_skeleton], ["b4_basename(b4_used_skeleton)"])

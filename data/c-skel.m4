@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-b4_push_if(            [m4_define([b4_used_skeleton], [b4_pkgdatadir/[push.c]])])
 b4_glr_if(             [m4_define([b4_used_skeleton], [b4_pkgdatadir/[glr.c]])])
 b4_nondeterministic_if([m4_define([b4_used_skeleton], [b4_pkgdatadir/[glr.c]])])
 

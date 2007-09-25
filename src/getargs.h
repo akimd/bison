@@ -51,18 +51,10 @@ extern bool error_verbose;
 
 extern bool glr_parser;
 
-/* PULL_PARSER is true if should generate a pull parser.  */
-
-extern bool pull_parser;
-
 /* PURE_PARSER is true if should generate a parser that is all pure
    and reentrant.  */
 
 extern bool pure_parser;
-
-/* PUSH_PARSER is true if should generate a push parser.  */
-
-extern bool push_parser;
 
 /* NONDETERMINISTIC_PARSER is true iff conflicts are accepted.  This
    is used by the GLR parser, and might be used in BackTracking

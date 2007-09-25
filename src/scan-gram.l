@@ -185,8 +185,6 @@ splice	 (\\[ \f\t\v]*\n)*
   "%prec"                 	    return PERCENT_PREC;
   "%printer"              	    return PERCENT_PRINTER;
   "%pure"[-_]"parser"     	    return PERCENT_PURE_PARSER;
-  "%push-parser"		    return PERCENT_PUSH_PARSER;
-  "%push-pull-parser"		    return PERCENT_PUSH_PULL_PARSER;
   "%require"              	    return PERCENT_REQUIRE;
   "%right"                	    return PERCENT_RIGHT;
   "%skeleton"             	    return PERCENT_SKELETON;

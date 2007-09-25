@@ -1,3 +1,48 @@
+2007-09-25  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Replace `%push-parser' and `%push-pull-parser' with
+	`%define push_pull "push"' and `%define push_pull "both"'.
+	`%define push_pull "pull"' is the default.
+	* doc/bison.texinfo (Push Decl, Push Parser Function,
+	Pull Parser Function, Parser Create Function, Parser Delete Function):
+	Update declarations.
+	(Decl Summary, Table of Symbols): Replace %push-parser and
+	%push-pull-parser entries with a %define push_pull entry.
+	* data/bison.m4 (b4_percent_define_check_values): New macro.
+	(b4_pull_if, b4_push_if, b4_use_push_for_pull_if): Move these
+	definitions...
+	* data/c.m4 (b4_identification): ... and the YYPUSH and YYPULL cpp
+	definitions...
+	* data/push.c: ... to here and compute them from the value of the
+	%define variable push_pull.
+	* data/c-skel.m4: Instead of choosing the push.c skeleton for push
+	parsing requests here...
+	* data/yacc.c: ... hack this to switch to push.c any time
+	b4_use_push_pull_flag or the %define variable push_pull is set.  This
+	will go away when we mv push.c yacc.c.
+	* data/c++-skel.m4, data/glr.c, data/java-skel.m4: Don't report that
+	push parsing is not supported since unused %define variables are
+	reported anyway.
+	* src/getargs.c, src/getargs.h (pull_parser, push_parser): Remove.
+	* src/muscle_tab.h (muscle_percent_define_check_values): Update
+	comments for consistency with b4_percent_define_check_values.
+	* src/output.c (prepare): Don't insert b4_pull_flag and b4_push_flag
+	muscles.
+	* src/parse-gram.y (PERCENT_PUSH_PARSER, PERCENT_PUSH_PULL_PARSER):
+	Remove.
+	(prologue_declaration): Remove %push-parser and %push-pull-parser
+	rules.
+	* src/scan-gram.l (%push-parser, %push-pull-parser): Remove rules.
+	* tests/calc.at: Update declarations.
+	* tests/input.at (%define enum variables): New test case.
+	* tests/push.at (Push Parsing: Memory Leak for Early Deletion): Update
+	declaration.
+	(Push Parsing: Multiple impure instances): Update declaration.
+	(Push Parsing: Unsupported Skeletons): New test case.
+	* tests/torture.at (Exploding the Stack Size with Alloca): Update
+	declaration.
+	(Exploding the Stack Size with Malloc): Update declaration.
+
 2007-09-24  Wojciech Polak  <polak@gnu.org>
 
 	Add XSLT transformations.

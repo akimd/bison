@@ -822,10 +822,10 @@ input.y:5.9-16: warning: %define variable `special2' is not used
 AT_CLEANUP
 
 ## --------------------------- ##
-## Boolean %define variables.  ##
+## %define Boolean variables.  ##
 ## --------------------------- ##
 
-AT_SETUP([Boolean %define variables])
+AT_SETUP([[%define Boolean variables]])
 
 AT_DATA([Input.y],
 [[%language "Java"
@@ -837,6 +837,24 @@ start: ;
 
 AT_CHECK([[bison Input.y]], [1], [],
 [[Input.y:2.9-14: invalid value for %define Boolean variable `public'
+]])
+
+AT_CLEANUP
+
+## ------------------------ ##
+## %define enum variables.  ##
+## ------------------------ ##
+
+AT_SETUP([[%define enum variables]])
+
+AT_DATA([[input.y]],
+[[%define push_pull "neither"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input.y]], [1], [],
+[[input.y:1.9-17: invalid value for %define variable `push_pull': `neither'
 ]])
 
 AT_CLEANUP

@@ -33,7 +33,7 @@ AT_DATA_GRAMMAR([[input.y]],
   void yyerror (char const *msg);
 %}
 
-%pure-parser %push-parser
+%pure-parser %define push_pull "push"
 
 %%
 
@@ -77,7 +77,6 @@ AT_PARSER_CHECK([[./input]])
 
 AT_CLEANUP
 
-
 ## ----------------------------------------- ##
 ## Push Parsing: Multiple impure instances.  ##
 ## ----------------------------------------- ##
@@ -93,7 +92,7 @@ AT_DATA_GRAMMAR([[input.y]],
   int yylex (void);
 %}
 
-%push-pull-parser
+%define push_pull "both"
 
 %%
 
@@ -147,6 +146,25 @@ cannot allocate multiple impure push-parser instances
 cannot allocate multiple impure push-parser instances
 cannot allocate multiple impure push-parser instances
 cannot allocate multiple impure push-parser instances
+]])
+
+AT_CLEANUP
+
+## ------------------------------------- ##
+## Push Parsing: Unsupported Skeletons.  ##
+## ------------------------------------- ##
+
+AT_SETUP([[Push Parsing: Unsupported Skeletons]])
+
+AT_DATA([[input.y]],
+[[%glr-parser
+%define push_pull "push"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input.y]], [0], [],
+[[input.y:2.9-17: warning: %define variable `push_pull' is not used
 ]])
 
 AT_CLEANUP
