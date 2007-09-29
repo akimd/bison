@@ -1,3 +1,11 @@
+2007-09-29  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/print-xml.c (escape_bufs): New static global variable
+	replacing...
+	(xml_escape_n): ... the static local variable buf here.
+	(print_xml): Free memory for escape_bufs.
+	* src/reduce.c (reduce_xml): XML-escape terminal symbol tags.
+
 2007-09-25  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Replace `%push-parser' and `%push-pull-parser' with
