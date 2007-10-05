@@ -1,3 +1,16 @@
+2007-10-04  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Implement --print-datadir.
+	* src/getargs.c (usage): Mention.
+	(PRINT_DATADIR_OPTION): New anonymous enum member.
+	(long_options): Add entry for it.
+	(getargs): Add case for it calling compute_pkgdatadir.
+	* src/output.c (output_skeleton): Encapsulate data directory
+	computation from here...
+	(prepare): ... and from here...
+	(compute_pkgdatadir): ... into this new function.
+	* src/output.h (compute_pkgdatadir): Prototype.
+
 2007-09-29  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/print-xml.c (escape_bufs): New static global variable
