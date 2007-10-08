@@ -4726,8 +4726,8 @@ where Bison should generate it.
 Not all values of @var{qualifier} are available for all target languages:
 
 @itemize @bullet
-@findex %code requires
 @item requires
+@findex %code requires
 
 @itemize @bullet
 @item Language(s): C, C++
@@ -4833,14 +4833,77 @@ This is equivalent to @code{"true"}.
 In this case, Bison selects a default value, which may depend on the selected
 target language and/or parser skeleton.
 @end enumerate
-@end deffn
 
-@deffn {Directive} %define push_pull "@var{value}"
-Bison declaration to request a @code{"pull"} parser, a @code{"push"} parser, or
-@code{"both"}.
-The default @code{"@var{value}"} is @code{"pull"}.
-This directive is currently only available for LALR(1) parsers in C.
+Some of the accepted @var{variable}s are:
+
+@itemize @bullet
+@item push_pull
+@findex %define push_pull
+
+@itemize @bullet
+@item Language(s): C (LALR(1) only)
+
+@item Purpose: Requests a pull parser, a push parser, or both.
 @xref{Push Decl, ,A Push Parser}.
+
+@item Accepted Values: @code{"pull"}, @code{"push"}, @code{"both"}
+
+@item Default Value: @code{"pull"}
+@end itemize
+
+@item namespace
+@findex %define namespace
+
+@itemize
+@item Languages(s): C++
+
+@item Purpose: Specifies the namespace for the parser class.
+For example, if you specify:
+
+@smallexample
+%define namespace "foo::bar"
+@end smallexample
+
+Bison uses @code{foo::bar} verbatim in references such as:
+
+@smallexample
+foo::bar::parser::semantic_type
+@end smallexample
+
+However, to open a namespace, Bison removes any leading @code{::} and then
+splits on any remaining occurrences:
+
+@smallexample
+namespace foo @{ namespace bar @{
+  class position;
+  class location;
+@} @}
+@end smallexample
+
+@item Accepted Values: Any absolute or relative C++ namespace reference without
+a trailing @code{"::"}.
+For example, @code{"foo"} or @code{"::foo::bar"}.
+
+@item Default Value: The value specified by @code{%name-prefix}, which defaults
+to @code{yy}.
+This usage of @code{%name-prefix} is for backward compatibility and can be
+confusing since @code{%name-prefix} also specifies the textual prefix for the
+lexical analyzer function.
+Thus, if you specify @code{%name-prefix}, it is best to also specify
+@code{%define namespace} so that @code{%name-prefix} @emph{only} affects the
+lexical analyzer function.
+For example, if you specify:
+
+@smallexample
+%define namespace "foo"
+%name-prefix "bar::"
+@end smallexample
+
+The parser namespace is @code{foo} and @code{yylex} is referenced as
+@code{bar::lex}.
+@end itemize
+@end itemize
+
 @end deffn
 
 @deffn {Directive} %defines
@@ -4921,9 +4984,9 @@ is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
 @code{yypush_parse}, @code{yypull_parse}, @code{yypstate}, 
 @code{yypstate_new} and @code{yypstate_delete} will 
 also be renamed.  For example, if you use @samp{%name-prefix "c_"}, the 
-names become @code{c_parse}, @code{c_lex}, and so on.  In C++ parsers, 
-it is only the surrounding namespace which is named @var{prefix} instead 
-of @samp{yy}.
+names become @code{c_parse}, @code{c_lex}, and so on.
+For C++ parsers, see the @code{%define namespace} documentation in this
+section.
 @xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
 @end deffn
 
@@ -7812,10 +7875,12 @@ The C++ @acronym{LALR}(1) parser is selected using the language directive,
 @option{--language=c++}.
 @xref{Decl Summary}.
 
-When run, @command{bison} will create several
-entities in the @samp{yy} namespace.  Use the @samp{%name-prefix}
-directive to change the namespace name, see @ref{Decl Summary}.  The
-various classes are generated in the following files:
+When run, @command{bison} will create several entities in the @samp{yy}
+namespace.
+@findex %define namespace
+Use the @samp{%define namespace} directive to change the namespace name, see
+@ref{Decl Summary}.
+The various classes are generated in the following files:
 
 @table @file
 @item position.hh
@@ -9327,12 +9392,6 @@ Precedence}.
 @deffnx {Directive} %define @var{define-variable} @var{value}
 Define a variable to adjust Bison's behavior.
 @xref{Decl Summary,,%define}.
-@end deffn
-
-@deffn {Directive} %define push_pull "@var{value}"
-Bison declaration to request a @code{"pull"} parser, a @code{"push"} parser, or
-@code{"both"}.
-@xref{Decl Summary,,%define push_pull}.
 @end deffn
 
 @deffn {Directive} %defines

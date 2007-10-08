@@ -25,7 +25,7 @@ b4_copyright([Positions for Bison parsers in C++],
 
 /**
  ** \file position.hh
- ** Define the ]b4_percent_define_get([[namespace]])[::position class.
+ ** Define the ]b4_namespace_ref[::position class.
  */
 
 #ifndef BISON_POSITION_HH
@@ -35,8 +35,7 @@ b4_copyright([Positions for Bison parsers in C++],
 # include <string>
 # include <algorithm>
 
-namespace ]b4_percent_define_get([[namespace]])[
-{
+]b4_namespace_open[
   /// Abstract a position.
   class position
   {
@@ -142,7 +141,7 @@ namespace ]b4_percent_define_get([[namespace]])[
     return ostr << pos.line << '.' << pos.column;
   }
 
-}
+]b4_namespace_close[
 #endif // not BISON_POSITION_HH]
 @output(b4_dir_prefix[]location.hh@)
 b4_copyright([Locations for Bison parsers in C++],
@@ -150,7 +149,7 @@ b4_copyright([Locations for Bison parsers in C++],
 
 /**
  ** \file location.hh
- ** Define the ]b4_percent_define_get([[namespace]])[::location class.
+ ** Define the ]b4_namespace_ref[::location class.
  */
 
 #ifndef BISON_LOCATION_HH
@@ -160,8 +159,7 @@ b4_copyright([Locations for Bison parsers in C++],
 # include <string>
 # include "position.hh"
 
-namespace ]b4_percent_define_get([[namespace]])[
-{
+]b4_namespace_open[
 
   /// Abstract a location.
   class location
@@ -270,7 +268,7 @@ namespace ]b4_percent_define_get([[namespace]])[
     return ostr;
   }
 
-}
+]b4_namespace_close[
 
 #endif // not BISON_LOCATION_HH]
 m4_divert_pop(0)

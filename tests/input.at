@@ -858,3 +858,52 @@ AT_CHECK([[bison input.y]], [1], [],
 ]])
 
 AT_CLEANUP
+
+## -------------------------------- ##
+## C++ namespace reference errors.  ##
+## -------------------------------- ##
+
+AT_SETUP([[C++ namespace reference errors]])
+
+# AT_CHECK_NAMESPACE_ERROR(NAMESPACE-DECL, ERROR, [ERROR], ...)
+# -------------------------------------------------------------
+# Make sure Bison reports all ERROR's for %define namespace "NAMESPACE-DECL".
+m4_define([AT_CHECK_NAMESPACE_ERROR],
+[
+AT_DATA([[input.y]],
+[[%language "C++"
+%defines
+%define namespace "]$1["
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input.y]], [1], [],
+[m4_foreach([b4_arg], m4_dquote(m4_shift($@)),
+[[input.y:3.9-17: ]b4_arg[
+]])])
+])
+
+AT_CHECK_NAMESPACE_ERROR([[]],
+                         [[namespace reference is empty]])
+AT_CHECK_NAMESPACE_ERROR([[ 		  	 	]],
+                         [[namespace reference is empty]])
+AT_CHECK_NAMESPACE_ERROR([[foo::::bar]],
+                         [[namespace reference has consecutive "::"]])
+AT_CHECK_NAMESPACE_ERROR([[foo:: 	::bar]],
+                         [[namespace reference has consecutive "::"]])
+AT_CHECK_NAMESPACE_ERROR([[::::bar]],
+                         [[namespace reference has consecutive "::"]])
+AT_CHECK_NAMESPACE_ERROR([[:: ::bar]],
+                         [[namespace reference has consecutive "::"]])
+AT_CHECK_NAMESPACE_ERROR([[foo::bar::	::]],
+                         [[namespace reference has consecutive "::"]],
+                         [[namespace reference has a trailing "::"]])
+AT_CHECK_NAMESPACE_ERROR([[foo::bar::]],
+                         [[namespace reference has a trailing "::"]])
+AT_CHECK_NAMESPACE_ERROR([[foo::bar:: 	]],
+                         [[namespace reference has a trailing "::"]])
+AT_CHECK_NAMESPACE_ERROR([[::]],
+                         [[namespace reference has a trailing "::"]])
+
+AT_CLEANUP

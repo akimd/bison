@@ -35,6 +35,51 @@ b4_percent_define_default([[define_location_comparison]],
                                  [std::string], [[true]], [[false]])])
 
 
+## ----------- ##
+## Namespace.  ##
+## ----------- ##
+
+m4_define([b4_namespace_ref], [b4_percent_define_get([[namespace]])])
+
+# Don't permit an empty b4_namespace_ref.  Any `::parser::foo' appended to it
+# would compile as an absolute reference with `parser' in the global namespace.
+# b4_namespace_open would open an anonymous namespace and thus establish
+# internal linkage.  This would compile.  However, it's cryptic, and internal
+# linkage for the parser would be specified in all translation units that
+# include the header, which is always generated.  If we ever need to permit
+# internal linkage somehow, surely we can find a cleaner approach.
+m4_if(m4_bregexp(b4_namespace_ref, [^[	 ]*$]), [-1], [],
+[b4_complain_at(b4_percent_define_get_loc([[namespace]]),
+                [[namespace reference is empty]])])
+
+# Instead of assuming the C++ compiler will do it, Bison should reject any
+# invalid b4_namepsace_ref that would be converted to a valid
+# b4_namespace_open.  The problem is that Bison doesn't always output
+# b4_namespace_ref to uncommented code but should reserve the ability to do so
+# in future releases without risking breaking any existing user grammars.
+# Specifically, don't allow empty names as b4_namespace_open would just convert
+# those into anonymous namespaces, and that might tempt some users.
+m4_if(m4_bregexp(b4_namespace_ref, [::[	 ]*::]), [-1], [],
+[b4_complain_at(b4_percent_define_get_loc([[namespace]]),
+                [[namespace reference has consecutive "::"]])])
+m4_if(m4_bregexp(b4_namespace_ref, [::[	 ]*$]), [-1], [],
+[b4_complain_at(b4_percent_define_get_loc([[namespace]]),
+                [[namespace reference has a trailing "::"]])])
+
+m4_define([b4_namespace_open],
+[b4_user_code([b4_percent_define_get_syncline([[namespace]])
+[namespace ]m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref),
+                                                [^\(.\)[	 ]*::], [\1])),
+                         [::], [ { namespace ])[ {]])])
+
+m4_define([b4_namespace_close],
+[b4_user_code([b4_percent_define_get_syncline([[namespace]])
+m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref),
+                                    [^\(.\)[	 ]*\(::\)?\([^][:]\|:[^][:]\)*],
+                                    [\1])),
+             [::\([^][:]\|:[^][:]\)*], [} ])[} // ]b4_namespace_ref])])
+
+
 # b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
 # -----------------------------------------------------
 # Output the definition of the tokens as enums.

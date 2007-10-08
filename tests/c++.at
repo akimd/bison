@@ -1,5 +1,5 @@
 # Checking the output filenames.                    -*- Autotest -*-
-# Copyright (C) 2004, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2005, 2007 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -99,3 +99,84 @@ m4_popdef([AT_DOXYGEN_PRIVATE])
 
 AT_CHECK_DOXYGEN([Public])
 AT_CHECK_DOXYGEN([Private])
+
+## ------------ ##
+## Namespaces.  ##
+## ------------ ##
+
+# AT_CHECK_NAMESPACE(NAMESPACE-DECL, [COMPILE-ERROR])
+# ---------------------------------------------------
+# See if Bison can handle %define namespace "NAMESPACE-DECL".  If COMPILE-ERROR
+# is specified, then Bison should accept the input, but compilation will fail,
+# so don't check compilation.
+m4_define([AT_CHECK_NAMESPACE],
+[
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%language "C++"
+%defines
+%define namespace "]$1["
+%union { int i; }
+%define global_tokens_and_yystype
+
+%code {
+  // YYSTYPE contains a namespace reference.
+  int yylex (YYSTYPE *lval) {
+    lval->i = 3;
+    return 0;
+  }
+}
+
+%%
+
+start: ;
+
+%%
+
+void
+]$1[::parser::error (const ]$1[::parser::location_type &loc,
+                     const std::string &msg)
+{
+  std::cerr << "At " << loc << ": " << msg << std::endl;
+}
+
+int
+main (void)
+{
+  ]$1[::parser p;
+  return p.parse ();
+}
+]])
+
+AT_CHECK([[bison -o input.cc input.y]])
+
+m4_if([$#], [1],
+[AT_COMPILE_CXX([[input]], [[input.cc]])
+AT_PARSER_CHECK([[./input]])])
+
+])
+
+AT_SETUP([[Relative namespace references]])
+AT_CHECK_NAMESPACE([[foo]])
+AT_CHECK_NAMESPACE([[foo::bar]])
+AT_CHECK_NAMESPACE([[foo::bar::baz]])
+AT_CLEANUP
+
+AT_SETUP([[Absolute namespace references]])
+AT_CHECK_NAMESPACE([[::foo]])
+AT_CHECK_NAMESPACE([[::foo::bar]])
+AT_CHECK_NAMESPACE([[::foo::bar::baz]])
+AT_CHECK_NAMESPACE([[	::foo]])
+AT_CHECK_NAMESPACE([[  	 ::foo::bar]])
+AT_CHECK_NAMESPACE([[  ::foo::bar::baz]])
+AT_CLEANUP
+
+AT_SETUP([[Syntactically invalid namespace references]])
+AT_CHECK_NAMESPACE([[:foo:bar]], [[-]])
+AT_CHECK_NAMESPACE([[foo: :bar]], [[-]])
+# This one is interesting because `[3]' is encoded as `@<:@3@:>@', which
+# contains single occurrences of `:'.
+AT_CHECK_NAMESPACE([[foo[3]::bar::baz]], [[-]])
+AT_CHECK_NAMESPACE([[foo::bar,baz]], [[-]])
+AT_CHECK_NAMESPACE([[foo::bar::(baz]], [[-]])
+AT_CLEANUP

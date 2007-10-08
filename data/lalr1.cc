@@ -20,8 +20,6 @@ m4_include(b4_pkgdatadir/[c++.m4])
 
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
-m4_define([b4_namespace],
-          [b4_percent_define_get([[namespace]])])
 
 # The header is mandatory.
 b4_defines_if([],
@@ -51,11 +49,10 @@ dnl FIXME: This is wrong, we want computed header guards.
 #include <iostream>
 #include "stack.hh"
 
-namespace ]b4_namespace[
-{
+]b4_namespace_open[
   class position;
   class location;
-}
+]b4_namespace_close[
 
 #include "location.hh"
 
@@ -96,8 +93,7 @@ do {							\
 } while (false)
 #endif
 
-namespace ]b4_namespace[
-{
+]b4_namespace_open[
 
   /// A Bison parser.
   class ]b4_parser_class_name[
@@ -286,14 +282,14 @@ b4_error_verbose_if([, int tok])[);
     static const token_number_type yyundef_token_;
 ]b4_parse_param_vars[
   };
-}
+]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
 [b4_token_defines(b4_tokens)
 
 #ifndef YYSTYPE
  /* Redirection for backward compatibility.  */
-# define YYSTYPE b4_namespace::b4_parser_class_name::semantic_type
+# define YYSTYPE b4_namespace_ref::b4_parser_class_name::semantic_type
 #endif
 ])
 b4_percent_code_get([[provides]])[]dnl
@@ -375,8 +371,7 @@ do {					\
 #define YYABORT		goto yyabortlab
 #define YYERROR		goto yyerrorlab
 
-namespace ]b4_namespace[
-{
+]b4_namespace_open[
 #if YYERROR_VERBOSE
 
   /* Return YYSTR after stripping away unnecessary quotes and
@@ -1049,7 +1044,7 @@ b4_error_verbose_if([, int tok])[)
   const unsigned int ]b4_parser_class_name[::yyuser_token_number_max_ = ]b4_user_token_number_max[;
   const ]b4_parser_class_name[::token_number_type ]b4_parser_class_name[::yyundef_token_ = ]b4_undef_token_number[;
 
-} // namespace ]b4_namespace[
+]b4_namespace_close[
 
 ]b4_epilogue
 dnl
@@ -1062,8 +1057,7 @@ b4_copyright([Stack handling for Bison parsers in C++],
 
 #include <deque>
 
-namespace ]b4_namespace[
-{
+]b4_namespace_open[
   template <class T, class S = std::deque<T> >
   class stack
   {
@@ -1149,7 +1143,7 @@ namespace ]b4_namespace[
     const S& stack_;
     unsigned int range_;
   };
-}
+]b4_namespace_close[
 
 #endif // not BISON_STACK_HH]
 m4_divert_pop(0)

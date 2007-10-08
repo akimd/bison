@@ -1,5 +1,30 @@
 2007-10-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Improve C++ namespace support.  Discussed starting at
+	<http://lists.gnu.org/archive/html/help-bison/2007-09/msg00016.html>.
+	* data/c++.m4: (b4_namespace_ref, b4_namespace_open,
+	b4_namespace_close): New macros that interpret the %define variable
+	"namespace" so its value can contain "::" to indicate nested
+	namespaces.
+	* data/glr.cc (b4_namespace): Don't define, and replace all uses with
+	the above macros.
+	* data/lalr1.cc (b4_namespace): Likewise.
+	* data/location.cc (b4_namespace): Likewise.
+	* doc/bison.texinfo (Decl Summary): Move `%define push_pull' entry
+	inside a new table in the general %define entry.  Document `%define
+	namespace' there as well.  Point the %name-prefix entry to it since it
+	explains it more completely in the case of C++.
+	(C++ Bison Interface): Mention `%define namespace' instead of
+	%name-prefix.
+	(Table of Symbols): Remove the `%define push_pull' entry.  The %define
+	entry suffices.
+	* tests/c++.at (Relative namespace references): New test case.
+	(Absolute namespace references): New test case.
+	(Syntactically invalid namespace references): New test case.
+	* tests/input.at (C++ namespace reference errors): New test case.
+
+2007-10-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Add syncline support and location accessor to internal %define
 	interfaces.
 	* data/bison.m4 (b4_percent_define_get_loc): New.
