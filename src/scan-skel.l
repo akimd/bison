@@ -70,9 +70,11 @@ static void fail_for_invalid_at (char const *at);
   char *at_directive_argv[AT_DIRECTIVE_ARGC_MAX];
 %}
 
-"@@"	   fputc ('@', yyout);
-"@{"	   fputc ('[', yyout);
-"@}"	   fputc (']', yyout);
+"@@" fputc ('@', yyout);
+"@{" fputc ('[', yyout);
+"@}" fputc (']', yyout);
+"@`" /* Emtpy.  Used by b4_cat in ../data/bison.m4.  */
+@\n  /* Likewise.  */
 
 "@oline@"  fprintf (yyout, "%d", out_lineno + 1);
 "@ofile@"  QPUTS (outname);
@@ -87,7 +89,7 @@ static void fail_for_invalid_at (char const *at);
 }
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^@{}(\n]* fail_for_invalid_at (yytext);
+@[^@{}`(\n]* fail_for_invalid_at (yytext);
 \n	   out_lineno++; ECHO;
 [^@\n]+	   ECHO;
 
@@ -108,6 +110,7 @@ static void fail_for_invalid_at (char const *at);
   "@}" { obstack_1grow (&obstack_for_string, ']'); }
   "@`" /* Emtpy.  Useful for starting an argument
           that begins with whitespace. */
+  @\n  /* Empty.  */
 
   @[,)] {
     if (at_directive_argc >= AT_DIRECTIVE_ARGC_MAX)

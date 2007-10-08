@@ -1,3 +1,22 @@
+2007-10-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix some error-reporting macro bugs.
+	* data/bison.m4 (b4_cat): New.
+	(b4_error, b4_error_at): Use b4_cat to send error directives directly
+	to stdout so they don't become arguments to other macros.  Update
+	comments and add examples.
+	(b4_warn, b4_warn_at, b4_complain, b4_complain_at): Update comments and
+	add examples.
+	(b4_fatal, b4_fatal_at): Likewise, and invoke m4_exit(1) immediately
+	after printing the error directive so that M4 doesn't report subsequent
+	problems that are induced by this problem.
+	* src/scan-skel.l: Recognize @` digraph outside of directive arguments
+	instead of just in them.  Recognize @\n in both places.  Both expand to
+	the empty string.  Needed by b4_cat.
+	* tests/skeletons.at (Complaining during macro argument expansion):
+	New test case.
+	(Fatal errors make M4 exit immediately): New test case.
+
 2007-10-04  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Implement --print-datadir.

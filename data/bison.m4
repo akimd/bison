@@ -61,50 +61,75 @@ version 2.2 of Bison.])])
 ## Error handling.  ##
 ## ---------------- ##
 
+# The following error handling macros print error directives that should not
+# become arguments of other macro invocations since they would likely then be
+# mangled.  Thus, they print to stdout directly.
+
+# b4_cat(TEXT)
+# ------------
+# Write TEXT to stdout.  Precede the final newline with an @ so that it's
+# escaped.  For example:
+#
+#   b4_cat([[@complain(invalid input@)]])
+m4_define([b4_cat],
+[m4_syscmd([cat <<'_m4eof'
+]m4_bpatsubst(m4_dquote($1), [_m4eof], [_m4@`eof])[@
+_m4eof])dnl
+m4_if(m4_sysval, [0], [], [m4_fatal([$0: cannot write to stdout])])])
+
 # b4_error(KIND, FORMAT, [ARG1], [ARG2], ...)
 # -------------------------------------------
-# Write @KIND(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+# Write @KIND(FORMAT@,ARG1@,ARG2@,...@) to stdout.
+#
+# For example:
+#
+#   b4_error([[warn]], [[invalid value for `%s': %s]], [[foo]], [[3]])
 m4_define([b4_error],
-[m4_divert_push(0)[@]$1[(]$2[]m4_if([$#], [2], [],
-[m4_foreach([b4_arg],
-            m4_dquote(m4_shift(m4_shift($@))),
-            [[@,]b4_arg])])[@)]m4_divert_pop(0)])
+[b4_cat([[@]$1[(]$2[]]dnl
+[m4_if([$#], [2], [],
+       [m4_foreach([b4_arg],
+                   m4_dquote(m4_shift(m4_shift($@))),
+                   [[@,]b4_arg])])[@)]])])
 
 # b4_error_at(KIND, START, END, FORMAT, [ARG1], [ARG2], ...)
 # ----------------------------------------------------------
-# Write @KIND(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+# Write @KIND_at(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to stdout.
+#
+# For example:
+#
+#   b4_error_at([[complain]], [[input.y:2.3]], [[input.y:5.4]],
+#               [[invalid %s]], [[foo]])
 m4_define([b4_error_at],
-[m4_divert_push(0)[@]$1[_at(]$2[@,]$3[@,]$4[]m4_if([$#], [4], [],
-[m4_foreach([b4_arg],
-            m4_dquote(m4_shift(m4_shift(m4_shift(m4_shift($@))))),
-            [[@,]b4_arg])])[@)]m4_divert_pop(0)])
+[b4_cat([[@]$1[_at(]$2[@,]$3[@,]$4[]]dnl
+[m4_if([$#], [4], [],
+       [m4_foreach([b4_arg],
+                   m4_dquote(m4_shift(m4_shift(m4_shift(m4_shift($@))))),
+                   [[@,]b4_arg])])[@)]])])
 
 # b4_warn(FORMAT, [ARG1], [ARG2], ...)
 # ------------------------------------
-# Write @warn(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+# Write @warn(FORMAT@,ARG1@,ARG2@,...@) to stdout.
+#
+# For example:
+#
+#   b4_warn([[invalid value for `%s': %s]], [[foo]], [[3]])
 #
 # As a simple test suite, this:
 #
+#   m4_divert(-1)
 #   m4_define([asdf], [ASDF])
 #   m4_define([fsa], [FSA])
 #   m4_define([fdsa], [FDSA])
 #   b4_warn([[[asdf), asdf]]], [[[fsa), fsa]]], [[[fdsa), fdsa]]])
-#   m4_divert(0)
 #   b4_warn([[asdf), asdf]], [[fsa), fsa]], [[fdsa), fdsa]])
-#   m4_divert(0)
-#   b4_warn([asdf), asdf], [fsa), fsa], [fdsa), fdsa])
-#   m4_divert(0)
 #   b4_warn()
-#   m4_divert(0)
 #   b4_warn(1)
-#   m4_divert(0)
 #   b4_warn(1, 2)
 #
-# Should produce this:
+# Should produce this without newlines:
 #
 #   @warn([asdf), asdf]@,[fsa), fsa]@,[fdsa), fdsa]@)
 #   @warn(asdf), asdf@,fsa), fsa@,fdsa), fdsa@)
-#   @warn(ASDF), ASDF@,FSA), FSA@,FDSA), FDSA@)
 #   @warn(@)
 #   @warn(1@)
 #   @warn(1@,2@)
@@ -113,37 +138,47 @@ m4_define([b4_warn],
 
 # b4_warn_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # ---------------------------------------------------
-# Write @warn(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+# Write @warn(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to stdout.
+#
+# For example:
+#
+#   b4_warn_at([[input.y:2.3]], [[input.y:5.4]], [[invalid %s]], [[foo]])
 m4_define([b4_warn_at],
 [b4_error_at([[warn]], $@)])
 
 # b4_complain(FORMAT, [ARG1], [ARG2], ...)
 # ----------------------------------------
-# Write @complain(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+# Write @complain(FORMAT@,ARG1@,ARG2@,...@) to stdout.
 #
-# See the test suite for b4_warn above.
+# See b4_warn example.
 m4_define([b4_complain],
 [b4_error([[complain]], $@)])
 
 # b4_complain_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # -------------------------------------------------------
-# Write @complain(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+# Write @complain(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to stdout.
+#
+# See b4_warn_at example.
 m4_define([b4_complain_at],
 [b4_error_at([[complain]], $@)])
 
 # b4_fatal(FORMAT, [ARG1], [ARG2], ...)
 # -------------------------------------
-# Write @fatal(FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+# Write @fatal(FORMAT@,ARG1@,ARG2@,...@) to stdout and exit.
 #
-# See the test suite for b4_warn above.
+# See b4_warn example.
 m4_define([b4_fatal],
-[b4_error([[fatal]], $@)])
+[b4_error([[fatal]], $@)dnl
+m4_exit(1)])
 
 # b4_fatal_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # ----------------------------------------------------
-# Write @fatal(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to diversion 0.
+# Write @fatal(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to stdout and exit.
+#
+# See b4_warn_at example.
 m4_define([b4_fatal_at],
-[b4_error_at([[fatal]], $@)])
+[b4_error_at([[fatal]], $@)dnl
+m4_exit(1)])
 
 
 ## ---------------- ##

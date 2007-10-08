@@ -147,8 +147,6 @@ AT_CLEANUP
 
 AT_SETUP([[%define Boolean variables: invalid skeleton defaults]])
 
-AT_CHECK([[mkdir tmp]])
-
 AT_DATA([[skel.c]],
 [[b4_percent_define_default([[foo]], [[bogus value]])
 b4_percent_define_flag_if([[foo]])
@@ -167,3 +165,98 @@ AT_CHECK([[bison input.y]], [[1]], [[]],
 AT_CLEANUP
 
 
+## --------------------------------------------- ##
+## Complaining during macro argument expansion.  ##
+## --------------------------------------------- ##
+
+AT_SETUP([[Complaining during macro argument expansion]])
+
+AT_DATA([[skel1.c]],
+[[m4@&t@_define([foow], [b4_warn([[foow fubar]])])
+m4@&t@_define([foowat], [b4_warn_at([[foow.y:2.3]],
+                                    [[foow.y:5.4]], [[foowat fubar]])])
+m4@&t@_define([fooc], [b4_complain([[fooc fubar]])])
+m4@&t@_define([foocat], [b4_complain_at([[fooc.y:1.1]],
+                                        [[fooc.y:10.6]], [[foocat fubar]])])
+m4@&t@_define([foof], [b4_fatal([[foof fubar]])])
+m4@&t@_if(foow, [1], [yes])
+m4@&t@_if(foowat, [1], [yes])
+m4@&t@_if(fooc, [1], [yes])
+m4@&t@_if(foocat, [1], [yes])
+m4@&t@_if(foof, [1], [yes])
+]])
+
+AT_DATA([[input1.y]],
+[[%skeleton "./skel1.c"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input1.y]], [[1]], [[]],
+[[input1.y: warning: foow fubar
+foow.y:2.3-5.3: warning: foowat fubar
+input1.y: fooc fubar
+fooc.y:1.1-10.5: foocat fubar
+input1.y: fatal error: foof fubar
+]])
+
+AT_DATA([[skel2.c]],
+[[m4@&t@_define([foofat], [b4_fatal_at([[foof.y:12.11]],
+                                       [[foof.y:100.123]], [[foofat fubar]])])
+m4@&t@_if(foofat, [1], [yes])
+]])
+
+AT_DATA([[input2.y]],
+[[%skeleton "./skel2.c"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input2.y]], [[1]], [[]],
+[[foof.y:12.11-100.122: fatal error: foofat fubar
+]])
+
+AT_CLEANUP
+
+
+## --------------------------------------- ##
+## Fatal errors make M4 exit immediately.  ##
+## --------------------------------------- ##
+
+AT_SETUP([[Fatal errors make M4 exit immediately]])
+
+AT_DATA([[skel1.c]],
+[[b4_complain([[non-fatal error]])
+b4_fatal([[M4 should exit immediately here]])
+m4@&t@_fatal([this should never be evaluated])
+]])
+
+AT_DATA([[input1.y]],
+[[%skeleton "./skel1.c"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input1.y]], [[1]], [[]],
+[[input1.y: non-fatal error
+input1.y: fatal error: M4 should exit immediately here
+]])
+
+AT_DATA([[skel2.c]],
+[[b4_warn([[morning]])
+b4_fatal_at([[foo.y:1.5]], [[foo.y:1.7]], [[M4 should exit immediately here]])
+m4@&t@_fatal([this should never be evaluated])
+]])
+
+AT_DATA([[input2.y]],
+[[%skeleton "./skel2.c"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input2.y]], [[1]], [[]],
+[[input2.y: warning: morning
+foo.y:1.5-6: fatal error: M4 should exit immediately here
+]])
+
+AT_CLEANUP
