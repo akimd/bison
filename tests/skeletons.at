@@ -159,7 +159,7 @@ start: ;
 ]])
 
 AT_CHECK([[bison input.y]], [[1]], [[]],
-[[[Bison:b4_percent_define_default]:0.0: invalid value for %define Boolean variable `foo'
+[[[Bison:b4_percent_define_default]:1.0: invalid value for %define Boolean variable `foo'
 ]])
 
 AT_CLEANUP
@@ -214,6 +214,34 @@ start: ;
 
 AT_CHECK([[bison input2.y]], [[1]], [[]],
 [[foof.y:12.11-100.122: fatal error: foofat fubar
+]])
+
+AT_DATA([[skel3.c]],
+[[b4_complain_at(b4_percent_define_get_loc([[bogus]]), [[bad value]])
+]])
+
+AT_DATA([[input3.y]],
+[[%skeleton "./skel3.c"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input3.y]], [[1]], [[]],
+[[input3.y: fatal error: undefined %define variable `bogus' passed to b4_percent_define_get_loc
+]])
+
+AT_DATA([[skel4.c]],
+[[b4_warn_at(b4_percent_define_get_syncline([[bogus]]), [[bad value]])
+]])
+
+AT_DATA([[input4.y]],
+[[%skeleton "./skel4.c"
+%%
+start: ;
+]])
+
+AT_CHECK([[bison input4.y]], [[1]], [[]],
+[[input4.y: fatal error: undefined %define variable `bogus' passed to b4_percent_define_get_syncline
 ]])
 
 AT_CLEANUP

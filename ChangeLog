@@ -1,3 +1,34 @@
+2007-10-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Add syncline support and location accessor to internal %define
+	interfaces.
+	* data/bison.m4 (b4_percent_define_get_loc): New.
+	(b4_percent_define_get_syncline): New.
+	(b4_percent_define_flag_if): Use b4_percent_define_get_loc.
+	(b4_percent_define_default): Record defining location as line 1 rather
+	than 0 for the sake of synchronizing #line's, and define
+	b4_percent_define_syncline(VARIABLE).
+	(b4_percent_define_check_values): Use b4_percent_define_get_loc.
+	* src/muscle_tab.c (muscle_syncline_grow): New.
+	(muscle_code_grow): Use muscle_syncline_grow.
+	(muscle_percent_define_insert): Use muscle_percent_define_get_loc, and
+	define b4_percent_define_syncline(VARIABLE).
+	(muscle_percent_define_get_loc): New.
+	(muscle_percent_define_get_syncline): New.
+	(muscle_percent_define_flag_if): Use muscle_percent_define_get_loc, and
+	remove some unused variables.
+	(muscle_percent_define_default): Record defining location as line 1
+	rather than 0 for the sake of synchronizing #line's, and define
+	b4_percent_define_syncline(VARIABLE).
+	(muscle_percent_define_check_values): Use
+	muscle_percent_define_get_loc.
+	* src/muscle_tab.h (muscle_percent_define_get_loc): Prototype.
+	(muscle_percent_define_get_syncline): Prototype.
+	* tests/skeletons.at (%define Boolean variables: invalid skeleton
+	defaults): Update output for location change.
+	(Complaining during macro argument expansion): Extend to test
+	b4_percent_define_get_loc and b4_percent_define_get_syncline errors.
+
 2007-10-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix some error-reporting macro bugs.

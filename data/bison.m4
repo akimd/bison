@@ -375,6 +375,42 @@ m4_define([b4_percent_define_get],
 [m4_define([b4_percent_define_bison_variables(]$1[)])dnl
 m4_ifdef([b4_percent_define(]$1[)], [m4_indir([b4_percent_define(]$1[)])])])
 
+# b4_percent_define_get_loc(VARIABLE)
+# -----------------------------------
+# Mimic muscle_percent_define_get_loc in ../src/muscle_tab.h exactly.  That is,
+# if the %define variable VARIABLE is undefined, complain fatally since that's
+# a Bison or skeleton error.  Otherwise, return its definition location in a
+# form approriate for the first two arguments of b4_warn_at, b4_complain_at, or
+# b4_fatal_at.  Don't record this as a Bison usage of VARIABLE as there's no
+# reason to suspect that the user-supplied value has yet influenced the output.
+#
+# For example:
+#
+#   b4_complain_at(b4_percent_define_get_loc([[foo]]), [[invalid foo]])
+m4_define([b4_percent_define_get_loc],
+[m4_ifdef([b4_percent_define_loc(]$1[)],
+          [m4_pushdef([b4_loc], m4_indir([b4_percent_define_loc(]$1[)]))dnl
+b4_loc[]dnl
+m4_popdef([b4_loc])],
+          [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_get_loc]], [$1])])])
+
+# b4_percent_define_get_syncline(VARIABLE)
+# ----------------------------------------
+# Mimic muscle_percent_define_get_syncline in ../src/muscle_tab.h exactly.
+# That is, if the %define variable VARIABLE is undefined, complain fatally
+# since that's a Bison or skeleton error.  Otherwise, return its definition
+# location as a b4_syncline invocation.  Don't record this as a Bison usage of
+# VARIABLE as there's no reason to suspect that the user-supplied value has yet
+# influenced the output.
+#
+# For example:
+#
+#   b4_percent_define_get_syncline([[foo]])
+m4_define([b4_percent_define_get_syncline],
+[m4_ifdef([b4_percent_define_syncline(]$1[)],
+          [m4_indir([b4_percent_define_syncline(]$1[)])],
+          [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_get_syncline]], [$1])])])
+
 # b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
 # Mimic muscle_percent_define_ifdef in ../src/muscle_tab.h exactly.  That is,
@@ -407,13 +443,10 @@ m4_define([b4_percent_define_flag_if],
 [b4_percent_define_ifdef([$1],
   [m4_case(b4_percent_define_get([$1]),
            [], [$2], [true], [$2], [false], [$3],
-           [m4_expand_once([dnl
-             m4_pushdef([b4_loc], m4_indir([b4_percent_define_loc(]$1[)]))dnl
-             b4_complain_at(b4_loc,
-                            [[invalid value for %%define Boolean variable `%s']],
-                            [$1])dnl
-             m4_popdef([b4_loc])],
-             [[b4_percent_define_flag_if($1)]])])],
+           [m4_expand_once([b4_complain_at(b4_percent_define_get_loc([$1]),
+                                           [[invalid value for %%define Boolean variable `%s']],
+                                           [$1])],
+                           [[b4_percent_define_flag_if($1)]])])],
   [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_flag_if]], [$1])])])
 
 # b4_percent_define_default(VARIABLE, DEFAULT)
@@ -430,7 +463,10 @@ m4_define([b4_percent_define_default],
 [m4_ifndef([b4_percent_define(]$1[)],
            [m4_define([b4_percent_define(]$1[)], [$2])dnl
             m4_define([b4_percent_define_loc(]$1[)],
-                      [[[[[Bison:b4_percent_define_default]:0.0]], [[[Bison:b4_percent_define_default]:0.0]]]])])])
+                      [[[[[Bison:b4_percent_define_default]:1.0]], [[[Bison:b4_percent_define_default]:1.0]]]])dnl
+            m4_define([b4_percent_define_syncline(]$1[)],
+                      [[]b4_syncline(1, [["[Bison:b4_percent_define_default]"]])[
+]])])])
 
 # b4_percent_define_check_values(VALUES)
 # --------------------------------------
@@ -460,12 +496,10 @@ m4_define([_b4_percent_define_check_values],
                      [m4_if(m4_indir([b4_percent_define(]$1[)]), b4_value,
                             [m4_define([b4_good_value], [1])])])])dnl
    m4_if(b4_good_value, [0],
-         [m4_pushdef([b4_loc], m4_indir([b4_percent_define_loc(]$1[)]))dnl
-          b4_complain_at(b4_loc,
+         [b4_complain_at(b4_percent_define_get_loc([$1]),
                          [[invalid value for %%define variable `%s': `%s']],
                          [$1],
-                         m4_dquote(m4_indir([b4_percent_define(]$1[)])))dnl
-          m4_popdef([b4_loc])])dnl
+                         m4_dquote(m4_indir([b4_percent_define(]$1[)])))])dnl
    m4_popdef([b4_good_value])],
   [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_check_values]], [$1])])])
 

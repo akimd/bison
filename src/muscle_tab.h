@@ -136,6 +136,22 @@ void muscle_percent_define_insert (char const *variable, location variable_loc,
    freeing the memory of the returned string.  */
 char *muscle_percent_define_get (char const *variable);
 
+/* Mimic muscle_percent_define_get_loc in ../data/bison.m4 exactly.  That is,
+   if the %define variable VARIABLE is undefined, complain fatally since that's
+   a Bison error.  Otherwise, return its definition location in a form
+   approriate for the first argument of warn_at, complain_at, or fatal_at.
+   Don't record this as a Bison usage of VARIABLE as there's no reason to
+   suspect that the user-supplied value has yet influenced the output.  */
+location muscle_percent_define_get_loc (char const *variable);
+
+/* Mimic muscle_percent_define_get_syncline in ../data/bison.m4 exactly.  That
+   is, if the %define variable VARIABLE is undefined, complain fatally since
+   that's a Bison error.  Otherwise, return its definition location as a
+   b4_syncline invocation.  Don't record this as a Bison usage of VARIABLE as
+   there's no reason to suspect that the user-supplied value has yet influenced
+   the output.  */
+char const *muscle_percent_define_get_syncline (char const *variable);
+
 /* Mimic b4_percent_define_ifdef in ../data/bison.m4 exactly.  That is, if the
    %define variable VARIABLE is defined, return true.  Otherwise, return false.
    Also, record Bison's usage of VARIABLE by defining
