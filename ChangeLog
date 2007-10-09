@@ -1,5 +1,9 @@
 2007-10-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* src/getargs.c (version): Update copyright year.
+
+2007-10-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Make xml2dot.xsl and --graph produce the same output.
 	* data/xslt/xml2dot.xsl (xsl:template match="rule"): Use a `&#10;'
 	instead of a `\n'.  That is, don't add escapes yet or they'll be doubly
