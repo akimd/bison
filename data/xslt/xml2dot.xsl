@@ -59,7 +59,7 @@
 </xsl:template>
 
 <xsl:template match="rule">
-  <xsl:text>\n</xsl:text>
+  <xsl:text>&#10;</xsl:text>
   <xsl:value-of select="lhs"/>
   <xsl:text> -&gt;</xsl:text>
   <xsl:apply-templates select="rhs/symbol|rhs/point|rhs/empty"/>
@@ -123,10 +123,8 @@
   <xsl:text>  </xsl:text>
   <xsl:value-of select="$number"/>
   <xsl:text> [label="</xsl:text>
-  <xsl:call-template name="string-replace">
+  <xsl:call-template name="escape">
     <xsl:with-param name="subject" select="$label"/>
-    <xsl:with-param name="search" select="'&quot;'"/>
-    <xsl:with-param name="replace" select="'\&quot;'"/>
   </xsl:call-template>
   <xsl:text>"]&#10;</xsl:text>
 </xsl:template>
@@ -144,36 +142,55 @@
   <xsl:value-of select="$style"/>
   <xsl:if test="$label and $label != ''">
     <xsl:text> label="</xsl:text>
-    <xsl:call-template name="string-replace">
+    <xsl:call-template name="escape">
       <xsl:with-param name="subject" select="$label"/>
-      <xsl:with-param name="search" select="'&quot;'"/>
-      <xsl:with-param name="replace" select="'\&quot;'"/>
     </xsl:call-template>
     <xsl:text>"</xsl:text>
   </xsl:if>
   <xsl:text>]&#10;</xsl:text>
 </xsl:template>
 
- <xsl:template name="string-replace">
-   <xsl:param name="subject"/>
-   <xsl:param name="search"/>
-   <xsl:param name="replace"/>
-   <xsl:choose>
-     <xsl:when test="contains($subject, $search)">
-       <xsl:variable name="before" select="substring-before($subject, $search)"/>
-       <xsl:variable name="after" select="substring-after($subject, $search)"/>
-       <xsl:value-of select="$before"/>
-       <xsl:value-of select="$replace"/>
-       <xsl:call-template name="string-replace">
-	 <xsl:with-param name="subject" select="$after"/>
-	 <xsl:with-param name="search" select="$search"/>
-	 <xsl:with-param name="replace" select="$replace"/>
-       </xsl:call-template>
-     </xsl:when> 
-     <xsl:otherwise>
-       <xsl:value-of select="$subject"/>  
-     </xsl:otherwise>
-   </xsl:choose>            
- </xsl:template>
+<xsl:template name="escape">
+  <xsl:param name="subject" required="yes"/>
+  <xsl:call-template name="string-replace">
+    <xsl:with-param name="subject">
+      <xsl:call-template name="string-replace">
+        <xsl:with-param name="subject">
+          <xsl:call-template name="string-replace">
+            <xsl:with-param name="subject" select="$subject"/>
+            <xsl:with-param name="search" select="'\'"/>
+            <xsl:with-param name="replace" select="'\\'"/>
+          </xsl:call-template>
+        </xsl:with-param>
+        <xsl:with-param name="search" select="'&quot;'"/>
+        <xsl:with-param name="replace" select="'\&quot;'"/>
+      </xsl:call-template>
+    </xsl:with-param>
+    <xsl:with-param name="search" select="'&#10;'"/>
+    <xsl:with-param name="replace" select="'\n'"/>
+  </xsl:call-template>
+</xsl:template>
+
+<xsl:template name="string-replace">
+  <xsl:param name="subject"/>
+  <xsl:param name="search"/>
+  <xsl:param name="replace"/>
+  <xsl:choose>
+    <xsl:when test="contains($subject, $search)">
+      <xsl:variable name="before" select="substring-before($subject, $search)"/>
+      <xsl:variable name="after" select="substring-after($subject, $search)"/>
+      <xsl:value-of select="$before"/>
+      <xsl:value-of select="$replace"/>
+      <xsl:call-template name="string-replace">
+        <xsl:with-param name="subject" select="$after"/>
+        <xsl:with-param name="search" select="$search"/>
+        <xsl:with-param name="replace" select="$replace"/>
+      </xsl:call-template>
+    </xsl:when> 
+    <xsl:otherwise>
+      <xsl:value-of select="$subject"/>  
+    </xsl:otherwise>
+  </xsl:choose>            
+</xsl:template>
 
 </xsl:stylesheet>

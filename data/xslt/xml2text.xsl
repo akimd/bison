@@ -25,8 +25,10 @@
   -->
 
 <xsl:stylesheet version="1.0"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:bison="http://www.gnu.org/software/bison/">
+
+<xsl:import href="bison.xsl"/>
 <xsl:output method="text" encoding="UTF-8" indent="no"/>
 
 <xsl:template match="/">
@@ -36,7 +38,7 @@
 <xsl:template match="bison-xml-report">
   <xsl:apply-templates select="reductions"/>
   <xsl:apply-templates select="rules-never-reduced"/>
-  <xsl:apply-templates select="conflicts"/>
+  <xsl:apply-templates select="automaton" mode="conflicts"/>
   <xsl:apply-templates select="grammar"/>
   <xsl:apply-templates select="automaton"/>
 </xsl:template>
@@ -91,23 +93,6 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="conflicts">
-  <xsl:if test="conflict">
-    <xsl:apply-templates select="conflict"/>
-    <xsl:text>&#10;&#10;</xsl:text>
-  </xsl:if>
-</xsl:template>
-
-<xsl:template match="conflict">
-  <xsl:text>State </xsl:text>
-  <xsl:value-of select="@state"/>
-  <xsl:text> conflicts: </xsl:text>
-  <xsl:value-of select="@num"/>
-  <xsl:text> </xsl:text>
-  <xsl:value-of select="@type"/>
-  <xsl:text>&#10;</xsl:text>
-</xsl:template>
-
 <xsl:template match="grammar">
   <xsl:text>Grammar&#10;</xsl:text>
   <xsl:apply-templates select="rules/rule">
@@ -131,9 +116,16 @@
 
 <xsl:template match="terminal">
   <xsl:value-of select="@symbol"/>
-  <xsl:value-of select="concat(' (', @type, ')')"/>
-  <xsl:apply-templates select="rule"/>
-  <xsl:text>&#10;</xsl:text>
+  <xsl:call-template name="line-wrap">
+    <xsl:with-param
+      name="first-line-length" select="66 - string-length(@symbol)"
+    />
+    <xsl:with-param name="line-length" select="66" />
+    <xsl:with-param name="text">
+      <xsl:value-of select="concat(' (', @type, ')')"/>
+      <xsl:apply-templates select="rule" />
+    </xsl:with-param>
+  </xsl:call-template>
 </xsl:template>
 
 <xsl:template match="terminal/rule">
@@ -144,24 +136,67 @@
 <xsl:template match="nonterminal">
   <xsl:value-of select="@symbol"/>
   <xsl:value-of select="concat(' (', @type, ')')"/>
-  <xsl:text>&#10;    </xsl:text>
-  <xsl:if test="left/rule">
-    <xsl:text>on left:</xsl:text>
-  </xsl:if>
-  <xsl:apply-templates select="left/rule"/>
-  <xsl:if test="left/rule and right/rule">
-    <xsl:text>, </xsl:text>
-  </xsl:if>
-  <xsl:if test="right/rule">
-    <xsl:text>on right:</xsl:text>
-  </xsl:if>
-  <xsl:apply-templates select="right/rule"/>
   <xsl:text>&#10;</xsl:text>
+  <xsl:variable name="output">
+    <xsl:call-template name="line-wrap">
+      <xsl:with-param name="line-length" select="66" />
+      <xsl:with-param name="text">
+        <xsl:text>    </xsl:text>
+        <xsl:if test="left/rule">
+          <xsl:text>on@left:</xsl:text>
+        </xsl:if>
+        <xsl:apply-templates select="left/rule"/>
+        <xsl:if test="left/rule and right/rule">
+          <xsl:text>, </xsl:text>
+        </xsl:if>
+        <xsl:if test="right/rule">
+          <xsl:text>on@right:</xsl:text>
+        </xsl:if>
+        <xsl:apply-templates select="right/rule"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:variable>
+  <xsl:value-of select="translate($output, '@', ' ')" />
 </xsl:template>
 
 <xsl:template match="nonterminal/left/rule|nonterminal/right/rule">
   <xsl:text> </xsl:text>
   <xsl:value-of select="."/>
+</xsl:template>
+
+<xsl:template match="automaton" mode="conflicts">
+  <xsl:variable name="conflict-report">
+    <xsl:apply-templates select="state" mode="conflicts"/>
+  </xsl:variable>
+  <xsl:if test="string-length($conflict-report) != 0">
+    <xsl:value-of select="$conflict-report"/>
+    <xsl:text>&#10;&#10;</xsl:text>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="state" mode="conflicts">
+  <xsl:variable name="conflict-counts">
+    <xsl:apply-templates select="." mode="bison:count-conflicts" />
+  </xsl:variable>
+  <xsl:variable
+    name="sr-count" select="substring-before($conflict-counts, ',')"
+  />
+  <xsl:variable
+    name="rr-count" select="substring-after($conflict-counts, ',')"
+  />
+  <xsl:if test="$sr-count > 0 or $rr-count > 0">
+    <xsl:value-of select="concat('State ', @number, ' conflicts:')"/>
+    <xsl:if test="$sr-count > 0">
+      <xsl:value-of select="concat(' ', $sr-count, ' shift/reduce')"/>
+      <xsl:if test="$rr-count > 0">
+        <xsl:value-of select="(',')"/>
+      </xsl:if>
+    </xsl:if>
+    <xsl:if test="$rr-count > 0">
+      <xsl:value-of select="concat(' ', $rr-count, ' reduce/reduce')"/>
+    </xsl:if>
+    <xsl:value-of select="'&#10;'"/>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="automaton">
@@ -427,6 +462,52 @@
     </xsl:call-template>
     <xsl:value-of select="$fill"/>
   </xsl:if>
+</xsl:template>
+
+<xsl:template name="line-wrap">
+  <xsl:param name="line-length" required="yes" />
+  <xsl:param name="first-line-length" select="$line-length" />
+  <xsl:param name="text" required="yes" />
+  <xsl:choose>
+    <xsl:when test="string-length($text) = 0 or normalize-space($text) = ''" />
+    <xsl:when test="string-length($text) &lt;= $first-line-length">
+      <xsl:value-of select="concat($text, '&#10;')" />
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:variable name="break-pos">
+        <xsl:call-template name="ws-search">
+          <xsl:with-param name="text" select="$text" />
+          <xsl:with-param name="pos" select="$first-line-length+1" />
+        </xsl:call-template>
+      </xsl:variable>
+      <xsl:value-of select="substring($text, 1, $break-pos - 1)" />
+      <xsl:text>&#10;</xsl:text>
+      <xsl:call-template name="line-wrap">
+        <xsl:with-param name="line-length" select="$line-length" />
+        <xsl:with-param
+          name="text" select="concat('    ', substring($text, $break-pos+1))"
+        />
+      </xsl:call-template>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<xsl:template name="ws-search">
+  <xsl:param name="text" required="yes" />
+  <xsl:param name="pos" required="yes" />
+  <xsl:choose>
+    <xsl:when
+      test="$pos &gt; string-length($text) or substring($text, $pos, 1) = ' '"
+    >
+      <xsl:value-of select="$pos" />
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:call-template name="ws-search">
+        <xsl:with-param name="text" select="$text" />
+        <xsl:with-param name="pos" select="$pos+1" />
+      </xsl:call-template>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

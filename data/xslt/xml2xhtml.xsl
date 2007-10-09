@@ -26,7 +26,10 @@
 
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns="http://www.w3.org/1999/xhtml">
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:bison="http://www.gnu.org/software/bison/">
+
+<xsl:import href="bison.xsl"/>
 
 <xsl:output method="xml" encoding="UTF-8"
 	    doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -123,7 +126,7 @@
   </ul>
   <xsl:apply-templates select="reductions"/>
   <xsl:apply-templates select="rules-never-reduced"/>
-  <xsl:apply-templates select="conflicts"/>
+  <xsl:apply-templates select="automaton" mode="conflicts"/>
   <xsl:apply-templates select="grammar"/>
   <xsl:apply-templates select="automaton"/>
 </xsl:template>
@@ -206,32 +209,52 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="conflicts">
+<xsl:template match="automaton" mode="conflicts">
   <h2>
     <a name="conflicts"/>
     <xsl:text> Conflicts</xsl:text>
   </h2>
   <xsl:text>&#10;&#10;</xsl:text>
-  <xsl:if test="conflict">
+  <xsl:variable name="conflict-report">
+    <xsl:apply-templates select="state" mode="conflicts"/>
+  </xsl:variable>
+  <xsl:if test="string-length($conflict-report) != 0">
     <p class="pre">
-      <xsl:apply-templates select="conflict"/>
+      <xsl:copy-of select="$conflict-report"/>
       <xsl:text>&#10;&#10;</xsl:text>
     </p>
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="conflict">
-  <a>
-    <xsl:attribute name="href">
-      <xsl:value-of select="concat('#state_', @state)"/>
-    </xsl:attribute>
-    <xsl:value-of select="concat('State ', @state)"/>
-  </a>
-  <xsl:text> conflicts: </xsl:text>
-  <xsl:value-of select="@num"/>
-  <xsl:text> </xsl:text>
-  <xsl:value-of select="@type"/>
-  <xsl:text>&#10;</xsl:text>
+<xsl:template match="state" mode="conflicts">
+  <xsl:variable name="conflict-counts">
+    <xsl:apply-templates select="." mode="bison:count-conflicts" />
+  </xsl:variable>
+  <xsl:variable
+    name="sr-count" select="substring-before($conflict-counts, ',')"
+  />
+  <xsl:variable
+    name="rr-count" select="substring-after($conflict-counts, ',')"
+  />
+  <xsl:if test="$sr-count > 0 or $rr-count > 0">
+    <a>
+      <xsl:attribute name="href">
+        <xsl:value-of select="concat('#state_', @number)"/>
+      </xsl:attribute>
+      <xsl:value-of select="concat('State ', @number)"/>
+    </a>
+    <xsl:text> conflicts:</xsl:text>
+    <xsl:if test="$sr-count > 0">
+      <xsl:value-of select="concat(' ', $sr-count, ' shift/reduce')"/>
+      <xsl:if test="$rr-count > 0">
+        <xsl:value-of select="(',')"/>
+      </xsl:if>
+    </xsl:if>
+    <xsl:if test="$rr-count > 0">
+      <xsl:value-of select="concat(' ', $rr-count, ' reduce/reduce')"/>
+    </xsl:if>
+    <xsl:value-of select="'&#10;'"/>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="grammar">

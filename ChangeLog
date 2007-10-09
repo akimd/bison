@@ -1,3 +1,51 @@
+2007-10-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Make xml2dot.xsl and --graph produce the same output.
+	* data/xslt/xml2dot.xsl (xsl:template match="rule"): Use a `&#10;'
+	instead of a `\n'.  That is, don't add escapes yet or they'll be doubly
+	escaped later.
+	(xsl:template name="output-node"): Use the new escape template instead
+	of the string-replace template directly.
+	(xsl:template name="output-edge"): Likewise.
+	(xsl:template name="escape"): New, escapes backslashes and newlines in
+	addition to quotation marks.
+	* src/graphviz.c (start_graph, output_node, output_edge): Add
+	whitespace to output for legibility.
+
+	Make xml2text.xsl and --report produce the same output, and remove the
+	XML "conflicts" element since a conflict summary is easily extracted
+	from the automaton.
+	* data/xslt/bison.xsl: New.
+	(xsl:template match="state" mode="bison:count-conflicts): New.
+	* data/xslt/xml2text.xsl: Import bison.xsl.
+	(xsl:template match="bison-xml-report"): Instead of styling the
+	"conflicts" element, style the "automaton" element with mode
+	"conflicts".  Unlike the former, the latter lists S/R and R/R
+	conflicts for a state on the same line.
+	(xsl:template match="conflicts"): Remove.
+	(xsl:template match="conflict"): Remove.
+	(xsl:template match="terminal"): Line-wrap the list of rules in which
+	the terminal is used.
+	(xsl:template match="nonterminal"): Likewise for nonterminals.
+	(xsl:template match="automaton" mode="conflicts"): New.
+	(xsl:template match="state" mode="conflicts"): New.
+	(xsl:template name="line-wrap"): New.
+	(xsl:template name="ws-search"): New.
+	* data/xslt/xml2xhtml.xsl: Import bison.xsl.
+	(xsl:template match="bison-xml-report"): Instead of styling the
+	"conflicts" element, style the "automaton" element with mode
+	"conflicts."
+	(xsl:template match="conflicts"): Remove.
+	(xsl:template match="conflict"): Remove.
+	(xsl:template match="automaton" mode="conflicts"): New.
+	(xsl:template match="state" mode="conflicts): New.
+	* src/conflicts.c (conflicts_output_xml): Remove.
+	* src/conflicts.h (conflicts_output_xml): Remove prototype.
+	* src/print-xml.c (print_xml): Don't invoke conflicts_output_xml.
+	* src/print.c (print_grammar): Consistently wrap at the 66th column so
+	the corresponding XSLT is easier.  Also, never wrap between a word and
+	the comma that follows it.
+
 2007-10-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Improve C++ namespace support.  Discussed starting at
