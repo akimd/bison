@@ -211,7 +211,7 @@
   <xsl:text>state </xsl:text>
   <xsl:value-of select="@number"/>
   <xsl:text>&#10;&#10;</xsl:text>
-  <xsl:apply-templates select="itemset/rule">
+  <xsl:apply-templates select="itemset/item">
     <xsl:with-param name="pad" select="$pad"/>
   </xsl:apply-templates>
   <xsl:apply-templates select="actions/transitions">
@@ -265,19 +265,51 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="rule">
+<xsl:template match="item">
   <xsl:param name="pad"/>
-  <xsl:if test="not(name(..) = 'itemset') and not(preceding-sibling::rule[1]/lhs[text()] = lhs[text()])">
+  <xsl:param name="prev-rule-number"
+	     select="preceding-sibling::item[1]/@rule-number"/>
+  <xsl:apply-templates select="key('bison:ruleNumber', current()/@rule-number)">
+    <xsl:with-param name="itemset" select="'true'"/>
+    <xsl:with-param name="pad" select="$pad"/>
+    <xsl:with-param name="prev-lhs"
+		    select="key('bison:ruleNumber', $prev-rule-number)/lhs[text()]"/>
+    <xsl:with-param name="point" select="@point"/>
+    <xsl:with-param name="lookaheads">
+      <xsl:apply-templates select="lookaheads"/>
+    </xsl:with-param>
+  </xsl:apply-templates>
+</xsl:template>
+
+<xsl:template match="rule">
+  <xsl:param name="itemset"/>
+  <xsl:param name="pad"/>
+  <xsl:param name="prev-lhs"/>
+  <xsl:param name="point"/>
+  <xsl:param name="lookaheads"/>
+
+  <xsl:if test="$itemset != 'true'
+		and not(preceding-sibling::rule[1]/lhs[text()] = lhs[text()])">
     <xsl:text>&#10;</xsl:text>
   </xsl:if>
+
   <xsl:text>  </xsl:text>
   <xsl:call-template name="lpad">
     <xsl:with-param name="str" select="string(@number)"/>
     <xsl:with-param name="pad" select="number($pad)"/>
   </xsl:call-template>
   <xsl:text> </xsl:text>
+
+  <!-- LHS -->
   <xsl:choose>
-    <xsl:when test="preceding-sibling::rule[1]/lhs[text()] = lhs[text()]">
+    <xsl:when test="$itemset != 'true'
+		    and preceding-sibling::rule[1]/lhs[text()] = lhs[text()]">
+      <xsl:call-template name="lpad">
+	<xsl:with-param name="str" select="'|'"/>
+	<xsl:with-param name="pad" select="number(string-length(lhs[text()])) + 1"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$itemset = 'true' and $prev-lhs = lhs[text()]">
       <xsl:call-template name="lpad">
 	<xsl:with-param name="str" select="'|'"/>
 	<xsl:with-param name="pad" select="number(string-length(lhs[text()])) + 1"/>
@@ -288,18 +320,32 @@
       <xsl:text>:</xsl:text>
     </xsl:otherwise>
   </xsl:choose>
-  <xsl:apply-templates select="rhs/symbol|rhs/point|rhs/empty"/>
-  <xsl:apply-templates select="lookaheads"/>
+
+  <!-- RHS -->
+  <xsl:for-each select="rhs/*">
+    <xsl:if test="position() = $point + 1">
+      <xsl:text> .</xsl:text>
+    </xsl:if>
+    <xsl:if test="$itemset = 'true' and name(.) != 'empty'">
+      <xsl:apply-templates select="."/>
+    </xsl:if>
+    <xsl:if test="$itemset != 'true'">
+      <xsl:apply-templates select="."/>
+    </xsl:if>
+    <xsl:if test="position() = last() and position() = $point">
+      <xsl:text> .</xsl:text>
+    </xsl:if>
+  </xsl:for-each>
+  <xsl:if test="$lookaheads">
+    <xsl:value-of select="$lookaheads"/>
+  </xsl:if>
+
   <xsl:text>&#10;</xsl:text>
 </xsl:template>
 
 <xsl:template match="symbol">
   <xsl:text> </xsl:text>
   <xsl:value-of select="."/>
-</xsl:template>
-
-<xsl:template match="point">
-  <xsl:text> .</xsl:text>
 </xsl:template>
 
 <xsl:template match="empty">
@@ -372,7 +418,7 @@
       <xsl:value-of select="@rule"/>
       <xsl:text> (</xsl:text>
       <xsl:value-of
-	  select="/bison-xml-report/grammar/rules/rule[@number = current()/@rule]/lhs[text()]"/>
+	  select="key('bison:ruleNumber', current()/@rule)/lhs[text()]"/>
       <xsl:text>)</xsl:text>
     </xsl:otherwise>
   </xsl:choose>
@@ -465,9 +511,9 @@
 </xsl:template>
 
 <xsl:template name="line-wrap">
-  <xsl:param name="line-length" required="yes" />
-  <xsl:param name="first-line-length" select="$line-length" />
-  <xsl:param name="text" required="yes" />
+  <xsl:param name="line-length"/> <!-- required -->
+  <xsl:param name="first-line-length" select="$line-length"/>
+  <xsl:param name="text"/> <!-- required -->
   <xsl:choose>
     <xsl:when test="string-length($text) = 0 or normalize-space($text) = ''" />
     <xsl:when test="string-length($text) &lt;= $first-line-length">
@@ -493,8 +539,8 @@
 </xsl:template>
 
 <xsl:template name="ws-search">
-  <xsl:param name="text" required="yes" />
-  <xsl:param name="pos" required="yes" />
+  <xsl:param name="text"/> <!-- required -->
+  <xsl:param name="pos"/> <!-- required -->
   <xsl:choose>
     <xsl:when
       test="$pos &gt; string-length($text) or substring($text, $pos, 1) = ' '"
