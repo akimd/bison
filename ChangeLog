@@ -1,3 +1,16 @@
+2007-10-11  Wojciech Polak  <polak@gnu.org>
+
+	* src/print-xml.c (print_core): Remove item set
+	redundancy.
+	* data/xslt/bison.xsl (bison:ruleNumber): New key.
+	Improve processing time. Suggested by Joel E. Denny.
+	* data/xslt/xml2dot.xsl (xsl:template name="escape"):
+	Write xsl:param "required" attribute as comment.
+	* data/xslt/xml2text.xsl (xsl:template match="item"): New.
+	(xsl:template match="rule"): Support new reduced itemset.
+	(xsl:template match="point"): Remove.
+	* data/xslt/xml2xhtml.xsl: Likewise.
+
 2007-10-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/getargs.c (version): Update copyright year.
