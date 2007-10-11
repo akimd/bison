@@ -2,6 +2,8 @@
 
 <!--
     bison.xsl - common templates for Bison XSLT.
+    $Id$
+
     Copyright (C) 2007 Free Software Foundation, Inc.
 
     This file is part of Bison, the GNU Compiler Compiler.
@@ -23,6 +25,10 @@
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:bison="http://www.gnu.org/software/bison/">
+
+<xsl:key name="bison:ruleNumber"
+	 match="/bison-xml-report/grammar/rules/rule"
+	 use="@number"/>
 
 <!-- For the specified state, output: #sr-conflicts,#rr-conflicts -->
 <xsl:template match="state" mode="bison:count-conflicts">
