@@ -151,7 +151,7 @@
 </xsl:template>
 
 <xsl:template name="escape">
-  <xsl:param name="subject" required="yes"/>
+  <xsl:param name="subject"/> <!-- required -->
   <xsl:call-template name="string-replace">
     <xsl:with-param name="subject">
       <xsl:call-template name="string-replace">
