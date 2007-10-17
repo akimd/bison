@@ -7649,6 +7649,9 @@ Print the version number of Bison and exit.
 @item --print-localedir
 Print the name of the directory containing locale-dependent data.
 
+@item --print-datadir
+Print the name of the directory containing skeletons and XSLT.
+
 @item -y
 @itemx --yacc
 Act more like the traditional Yacc command.  This can cause
@@ -7810,6 +7813,7 @@ the corresponding short option.
 @item @option{--no-lines}                   @tab @option{-l}
 @item @option{--output=@var{outfile}}       @tab @option{-o @var{outfile}}
 @item @option{--print-localedir}            @tab
+@item @option{--print-datadir}              @tab
 @item @option{--token-table}                @tab @option{-k}
 @item @option{--verbose}                    @tab @option{-v}
 @item @option{--version}                    @tab @option{-V}

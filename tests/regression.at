@@ -1140,3 +1140,43 @@ start: 'a' "A" 'b';
 AT_CHECK([bison -t -o input.c input.y])
 
 AT_CLEANUP
+
+
+
+## -------------------------------- ##
+## Extra lookahead sets in report.  ##
+## -------------------------------- ##
+
+AT_SETUP([[Extra lookahead sets in report]])
+
+# Within a single state, Bison used to print a reduction's lookahead set next
+# to all items of the associated rule.  Instead, it should only print it next
+# to the item that is of the associated rule and whose dot is at the end of the
+# RHS.  Printing it next to items whose dot is not at the end of the RHS is
+# sometimes redundant and, as in this test case, is sometimes incorrect.
+
+AT_DATA([[input.y]],
+[[%%
+start: a | 'a' a 'a' ;
+a: 'a' ;
+]])
+
+AT_CHECK([[bison --report=all input.y]])
+AT_CHECK([[sed -n '/^state 1$/,/^state 2$/p' input.output]], [[0]],
+[[state 1
+
+    2 start: 'a' . a 'a'
+    3 a: . 'a'
+    3  | 'a' .  [$end]
+
+    'a'  shift, and go to state 4
+
+    $default  reduce using rule 3 (a)
+
+    a  go to state 5
+
+
+state 2
+]])
+
+AT_CLEANUP

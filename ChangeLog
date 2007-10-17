@@ -1,3 +1,16 @@
+2007-10-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* doc/bison.texinfo (Bison Options): Add entry for --print-datadir.
+	(Option Cross Key): Likewise.
+
+	* src/print-xml.c (print_core): Don't print a reduction's lookahead set
+	next to an item whose dot is not at the end of the RHS even if it
+	happens to be associated with the same rule.
+	* src/print.c (print_core): Likewise.
+	* tests/conflicts.at (Unresolved SR Conflicts): Update output.
+	(Resolved SR Conflicts): Update output.
+	* tests/regression.at (Extra lookahead sets in report): New test case.
+
 2007-10-11  Wojciech Polak  <polak@gnu.org>
 
 	* src/print-xml.c (print_core): Remove item set

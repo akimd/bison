@@ -212,7 +212,7 @@ state 4
 
 state 5
 
-    1 exp: exp . OP exp  [$end, OP]
+    1 exp: exp . OP exp
     1    | exp OP exp .  [$end, OP]
 
     OP  shift, and go to state 4
@@ -315,7 +315,7 @@ state 4
 
 state 5
 
-    1 exp: exp . OP exp  [$end, OP]
+    1 exp: exp . OP exp
     1    | exp OP exp .  [$end, OP]
 
     $default  reduce using rule 1 (exp)
