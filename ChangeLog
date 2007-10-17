@@ -1,3 +1,13 @@
+2007-10-17  Wojciech Polak  <polak@gnu.org>
+
+	* src/print-xml.c (print_grammar): Renamed
+	<terminal> and <nonterminal> attributes:
+	"type" to "number" and "symbol" to "name".
+	* data/xslt/xml2text.xsl (xsl:template match="terminal"):
+	Use new attribute names.
+	(xsl:template match="nonterminal"): Likewise.
+	* data/xslt/xml2xhtml.xsl: Likewise.
+
 2007-10-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* doc/bison.texinfo (Bison Options): Add entry for --print-datadir.
