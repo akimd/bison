@@ -636,7 +636,7 @@ AT_DATA([[input.y]],
 
 start: resolved_conflict 'a' reported_conflicts 'a' ;
 
-/* S/R conflict resolved as shift, so the state with item
+/* S/R conflict resolved as reduce, so the state with item
  * (resolved_conflict: 'a' . unreachable1) and all it transition successors are
  * unreachable, and the associated production is useless.  */
 resolved_conflict:
@@ -810,6 +810,19 @@ state 7
     1 start: resolved_conflict 'a' reported_conflicts 'a' .
 
     $default  reduce using rule 1 (start)
+]])
+
+AT_DATA([[input-keep.y]],
+[[%define lr.keep_unreachable_states
+]])
+AT_CHECK([[cat input.y >> input-keep.y]])
+
+AT_CHECK([[bison input-keep.y]], 0, [],
+[[input-keep.y: conflicts: 2 shift/reduce, 2 reduce/reduce
+input-keep.y:22.4: warning: rule never reduced because of conflicts: unreachable1: /* empty */
+input-keep.y:26.16: warning: rule never reduced because of conflicts: unreachable2: /* empty */
+input-keep.y:32.5-7: warning: rule never reduced because of conflicts: reported_conflicts: 'a'
+input-keep.y:33.4: warning: rule never reduced because of conflicts: reported_conflicts: /* empty */
 ]])
 
 AT_CLEANUP

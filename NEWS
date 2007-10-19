@@ -3,8 +3,9 @@ Bison News
 
 Changes in version 2.3a+ (????-??-??):
 
-* Previously, Bison sometimes generated parser tables with states that were
-  unreachable due to conflicts in predecessor states.  Bison now:
+* Previously, Bison sometimes generated parser tables containing unreachable
+  states.  A state can become unreachable during conflict resolution if Bison
+  disables a shift action leading to it from a predecessor state.  Bison now:
 
     1. Removes unreachable states.
 
@@ -14,6 +15,13 @@ Changes in version 2.3a+ (????-??-??):
 
     3. For any rule used only in such states, Bison now reports the rule as
        "never reduced because of conflicts".
+
+  This feature can be disabled with the following directive:
+
+    %define lr.keep_unreachable_states
+
+  See the %define entry in the `Bison Declaration Summary' in the Bison manual
+  for further discussion.
 
 * When instructed to generate a `.output' file including lookahead sets
   (using `--report=lookahead', for example), Bison now prints each reduction's

@@ -4851,6 +4851,48 @@ Some of the accepted @var{variable}s are:
 @item Default Value: @code{"pull"}
 @end itemize
 
+@item lr.keep_unreachable_states
+@findex %define lr.keep_unreachable_states
+
+@itemize @bullet
+@item Language(s): all
+
+@item Purpose: Requests that Bison allow unreachable parser states to remain in
+the parser tables.
+Bison considers a state to be unreachable if there exists no sequence of
+transitions from the start state to that state.
+A state can become unreachable during conflict resolution if Bison disables a
+shift action leading to it from a predecessor state.
+Keeping unreachable states is sometimes useful for analysis purposes, but they
+are useless in the generated parser.
+
+@item Accepted Values: Boolean
+
+@item Default Value: @code{"false"}
+
+@item Caveats:
+
+@itemize @bullet
+@item Unreachable states may contain conflicts and may reduce rules not
+reduced in any other state.
+Thus, keeping unreachable states may induce warnings that are irrelevant to
+your parser's behavior, and it may eliminate warnings that are relevant.
+Of course, the change in warnings may actually be relevant to a parser table
+analysis that wants to keep unreachable states, so this behavior will likely
+remain in future Bison releases.
+
+@item While Bison is able to remove unreachable states, it is not guaranteed to
+remove other kinds of useless states.
+Specifically, when Bison disables reduce actions during conflict resolution,
+some goto actions may become useless, and thus some additional states may
+become useless.
+If Bison were to compute which goto actions were useless and then disable those
+actions, it could identify such states as unreachable and then remove those
+states.
+However, Bison does not compute which goto actions are useless.
+@end itemize
+@end itemize
+
 @item namespace
 @findex %define namespace
 

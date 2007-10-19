@@ -1,6 +1,15 @@
 2007-10-19  Joel E. Denny  <jdenny@ces.clemson.edu>
 
-	* NEWS: Add entry for recent .output file lookahead set fix.
+	Add %define lr.keep_unreachable_states.
+	* NEWS (2.3a+): Mention it in the entry for unreachable state removal.
+	* doc/bison.texinfo (Decl Summary): Mention it in the %define entry.
+	* src/main.c (main): Implement it.
+	* tests/conflicts.at (Unreachable States After Conflict Resolution):
+	Extend to test it, and fix a typo.
+
+2007-10-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS (2.3a+): Add entry for recent .output file lookahead set fix.
 	* doc/bison.texinfo (Understanding): Remove a bogus lookahead set in
 	the example .output text.
 	* tests/regression.at (Extra lookahead sets in report): Improve wording
