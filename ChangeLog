@@ -1,3 +1,11 @@
+2007-10-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS: Add entry for recent .output file lookahead set fix.
+	* doc/bison.texinfo (Understanding): Remove a bogus lookahead set in
+	the example .output text.
+	* tests/regression.at (Extra lookahead sets in report): Improve wording
+	of comments.
+
 2007-10-17  Wojciech Polak  <polak@gnu.org>
 
 	* src/print-xml.c (print_grammar): Renamed

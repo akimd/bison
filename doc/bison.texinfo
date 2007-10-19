@@ -7387,7 +7387,7 @@ with some set of possible lookahead tokens.  When run with
 @example
 state 8
 
-    exp  ->  exp . '+' exp  [$, '+', '-', '/']   (rule 1)
+    exp  ->  exp . '+' exp   (rule 1)
     exp  ->  exp '+' exp .  [$, '+', '-', '/']   (rule 1)
     exp  ->  exp . '-' exp   (rule 2)
     exp  ->  exp . '*' exp   (rule 3)

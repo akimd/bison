@@ -1149,11 +1149,12 @@ AT_CLEANUP
 
 AT_SETUP([[Extra lookahead sets in report]])
 
-# Within a single state, Bison used to print a reduction's lookahead set next
-# to all items of the associated rule.  Instead, it should only print it next
-# to the item that is of the associated rule and whose dot is at the end of the
-# RHS.  Printing it next to items whose dot is not at the end of the RHS is
-# sometimes redundant and, as in this test case, is sometimes incorrect.
+# Bison prints each reduction's lookahead set only next to the associated
+# state's one item that (1) is associated with the same rule as the reduction
+# and (2) has its dot at the end of its RHS.  Previously, Bison also
+# erroneously printed the lookahead set next to all of the state's other items
+# associated with the same rule.  This bug affected only the `.output' file and
+# not the generated parser source code.
 
 AT_DATA([[input.y]],
 [[%%
