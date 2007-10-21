@@ -25,8 +25,10 @@
   -->
 
 <xsl:stylesheet version="1.0"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:bison="http://www.gnu.org/software/bison/">
+
+<xsl:import href="bison.xsl"/>
 <xsl:output method="text" encoding="UTF-8" indent="no"/>
 
 <xsl:template match="/">
@@ -48,7 +50,7 @@
     <xsl:with-param name="number" select="@number"/>
     <xsl:with-param name="label">
       <xsl:value-of select="@number"/>
-      <xsl:apply-templates select="itemset/rule"/>
+      <xsl:apply-templates select="itemset/item"/>
     </xsl:with-param>
   </xsl:call-template>
   <xsl:apply-templates select="actions/transitions"/>
@@ -58,12 +60,27 @@
   <xsl:apply-templates select="transition"/>
 </xsl:template>
 
+<xsl:template match="item">
+  <xsl:apply-templates select="key('bison:ruleNumber', @rule-number)">
+    <xsl:with-param name="point" select="@point"/>
+  </xsl:apply-templates>
+  <xsl:apply-templates select="lookaheads"/>
+</xsl:template>
+
 <xsl:template match="rule">
+  <xsl:param name="point"/>
   <xsl:text>&#10;</xsl:text>
   <xsl:value-of select="lhs"/>
   <xsl:text> -&gt;</xsl:text>
-  <xsl:apply-templates select="rhs/symbol|rhs/point|rhs/empty"/>
-  <xsl:apply-templates select="lookaheads"/>
+  <xsl:if test="$point = 0">
+    <xsl:text> .</xsl:text>
+  </xsl:if>
+  <xsl:for-each select="rhs/symbol|rhs/empty">
+    <xsl:apply-templates select="."/>
+    <xsl:if test="$point = position()">
+      <xsl:text> .</xsl:text>
+    </xsl:if>
+  </xsl:for-each>
 </xsl:template>
 
 <xsl:template match="symbol">
@@ -71,13 +88,7 @@
   <xsl:value-of select="."/>
 </xsl:template>
 
-<xsl:template match="point">
-  <xsl:text> .</xsl:text>
-</xsl:template>
-
-<xsl:template match="empty">
-  <xsl:text> /* empty */</xsl:text>
-</xsl:template>
+<xsl:template match="empty"/>
 
 <xsl:template match="lookaheads">
   <xsl:text>[</xsl:text>

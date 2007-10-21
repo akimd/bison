@@ -117,9 +117,14 @@
 <xsl:template match="terminal">
   <xsl:value-of select="@name"/>
   <xsl:call-template name="line-wrap">
-    <xsl:with-param
-      name="first-line-length" select="66 - string-length(@name)"
-    />
+    <xsl:with-param name="first-line-length">
+      <xsl:choose>
+        <xsl:when test="string-length(@name) &gt; 66">0</xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="66 - string-length(@name)" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:with-param>
     <xsl:with-param name="line-length" select="66" />
     <xsl:with-param name="text">
       <xsl:value-of select="concat(' (', @number, ')')"/>
@@ -515,7 +520,7 @@
   <xsl:param name="first-line-length" select="$line-length"/>
   <xsl:param name="text"/> <!-- required -->
   <xsl:choose>
-    <xsl:when test="string-length($text) = 0 or normalize-space($text) = ''" />
+    <xsl:when test="normalize-space($text) = ''" />
     <xsl:when test="string-length($text) &lt;= $first-line-length">
       <xsl:value-of select="concat($text, '&#10;')" />
     </xsl:when>
@@ -523,7 +528,7 @@
       <xsl:variable name="break-pos">
         <xsl:call-template name="ws-search">
           <xsl:with-param name="text" select="$text" />
-          <xsl:with-param name="pos" select="$first-line-length+1" />
+          <xsl:with-param name="start" select="$first-line-length+1" />
         </xsl:call-template>
       </xsl:variable>
       <xsl:value-of select="substring($text, 1, $break-pos - 1)" />
@@ -540,18 +545,16 @@
 
 <xsl:template name="ws-search">
   <xsl:param name="text"/> <!-- required -->
-  <xsl:param name="pos"/> <!-- required -->
+  <xsl:param name="start"/> <!-- required -->
+  <xsl:variable name="search-text" select="substring($text, $start)" />
   <xsl:choose>
-    <xsl:when
-      test="$pos &gt; string-length($text) or substring($text, $pos, 1) = ' '"
-    >
-      <xsl:value-of select="$pos" />
+    <xsl:when test="not(contains($search-text, ' '))">
+      <xsl:value-of select="string-length($text)+1" />
     </xsl:when>
     <xsl:otherwise>
-      <xsl:call-template name="ws-search">
-        <xsl:with-param name="text" select="$text" />
-        <xsl:with-param name="pos" select="$pos+1" />
-      </xsl:call-template>
+      <xsl:value-of
+        select="$start + string-length(substring-before($search-text, ' '))"
+      />
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
