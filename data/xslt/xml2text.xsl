@@ -127,7 +127,7 @@
     </xsl:with-param>
     <xsl:with-param name="line-length" select="66" />
     <xsl:with-param name="text">
-      <xsl:value-of select="concat(' (', @number, ')')"/>
+      <xsl:value-of select="concat(' (', @token-number, ')')"/>
       <xsl:apply-templates select="rule" />
     </xsl:with-param>
   </xsl:call-template>
@@ -140,7 +140,7 @@
 
 <xsl:template match="nonterminal">
   <xsl:value-of select="@name"/>
-  <xsl:value-of select="concat(' (', @number, ')')"/>
+  <xsl:value-of select="concat(' (', @symbol-number, ')')"/>
   <xsl:text>&#10;</xsl:text>
   <xsl:variable name="output">
     <xsl:call-template name="line-wrap">

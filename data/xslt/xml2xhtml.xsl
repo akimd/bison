@@ -298,7 +298,7 @@
 
 <xsl:template match="terminal">
   <b><xsl:value-of select="@name"/></b>
-  <xsl:value-of select="concat(' (', @number, ')')"/>
+  <xsl:value-of select="concat(' (', @token-number, ')')"/>
   <xsl:apply-templates select="rule"/>
   <xsl:text>&#10;</xsl:text>
 </xsl:template>
@@ -315,7 +315,7 @@
 
 <xsl:template match="nonterminal">
   <b><xsl:value-of select="@name"/></b>
-  <xsl:value-of select="concat(' (', @number, ')')"/>
+  <xsl:value-of select="concat(' (', @symbol-number, ')')"/>
   <xsl:text>&#10;    </xsl:text>
   <xsl:if test="left/rule">
     <xsl:text>on left:</xsl:text>
