@@ -3,7 +3,35 @@ Bison News
 
 Changes in version 2.3a+ (????-??-??):
 
-* Previously, Bison sometimes generated parser tables containing unreachable
+* Push Parsing
+
+  Bison can now generate an LALR(1) parser in C with a push interface.  That
+  is, instead of invoking yyparse, which pulls tokens from `yylex', you can
+  push one token at a time to the parser using `yypush_parse', which will
+  return to the caller after processing each token.  By default, the push
+  interface is disabled.  Either of the following directives will enable it:
+
+    %define api.push_pull "push" // Just push; does not require yylex.
+    %define api.push_pull "both" // Push and pull; requires yylex.
+
+  See the new section `A Push Parser' in the Bison manual for details.
+
+* The -g and --graph options now output graphs in Graphviz DOT format,
+  not VCG format.
+
+* An experimental directive %language specifies the language of the
+  generated parser, which can be C (the default) or C++.  This
+  directive affects the skeleton used, and the names of the generated
+  files if the grammar file's name ends in ".y".
+
+* The grammar file may now specify the name of the parser header file using
+  %defines.  For example:
+
+    %defines "parser.h"
+
+* Unreachable State Removal
+
+  Previously, Bison sometimes generated parser tables containing unreachable
   states.  A state can become unreachable during conflict resolution if Bison
   disables a shift action leading to it from a predecessor state.  Bison now:
 
@@ -23,7 +51,9 @@ Changes in version 2.3a+ (????-??-??):
   See the %define entry in the `Bison Declaration Summary' in the Bison manual
   for further discussion.
 
-* When instructed to generate a `.output' file including lookahead sets
+* Lookahead Set Correction in the `.output' Report
+  
+  When instructed to generate a `.output' file including lookahead sets
   (using `--report=lookahead', for example), Bison now prints each reduction's
   lookahead set only next to the associated state's one item that (1) is
   associated with the same rule as the reduction and (2) has its dot at the end
@@ -31,19 +61,6 @@ Changes in version 2.3a+ (????-??-??):
   next to all of the state's other items associated with the same rule.  This
   bug affected only the `.output' file and not the generated parser source
   code.
-
-* The -g and --graph options now output graphs in Graphviz DOT format,
-  not VCG format.
-
-* An experimental directive %language specifies the language of the
-  generated parser, which can be C (the default) or C++.  This
-  directive affects the skeleton used, and the names of the generated
-  files if the grammar file's name ends in ".y".
-
-* The grammar file may now specify the name of the parser header file using
-  %defines.  For example:
-
-    %defines "parser.h"
 
 * The `=' that used to be required in the following directives is now
   deprecated:
@@ -57,7 +74,9 @@ Changes in version 2.3a+ (????-??-??):
 
     %define NAME "VALUE"
 
-* Bison 2.3a provided a new set of directives as a more flexible alternative to
+* An Alternative to `%{...%}' -- `%code QUALIFIER {CODE}'
+
+  Bison 2.3a provided a new set of directives as a more flexible alternative to
   the traditional Yacc prologue blocks.  Those have now been consolidated into
   a single %code directive with an optional qualifier field, which identifies
   the purpose of the code and thus the location(s) where Bison should generate
@@ -96,7 +115,9 @@ Changes in version 2.3a+ (????-??-??):
   To enable these warnings, specify the flag `--warnings=midrule-values' or
   `-W', which is a synonym for `--warnings=all'.
 
-* Bison now recognizes two separate kinds of default %destructor's and
+* Default %destructor or %printer with `<*>' or `<>'
+
+  Bison now recognizes two separate kinds of default %destructor's and
   %printer's:
 
     1. Place `<*>' in a %destructor/%printer symbol list to define a default

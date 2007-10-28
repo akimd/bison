@@ -496,7 +496,7 @@ AT_PARSER_CHECK([./input 10000], 2, [], [ignore],
 # just helps guarantee we don't let the YYSTACK_USE_ALLOCA feature affect
 # push parsers.
 AT_DATA_STACK_TORTURE([AT_USE_ALLOCA],
-[[%define push_pull "both"
+[[%define api.push_pull "both"
 ]])
 AT_PARSER_CHECK([./input 20], 0, [], [ignore],
                 [[VALGRIND_OPTS="$VALGRIND_OPTS --log-fd=1"]])
@@ -534,7 +534,7 @@ AT_PARSER_CHECK([./input 10000], 2, [], [ignore],
                 [[VALGRIND_OPTS="$VALGRIND_OPTS --log-fd=1"]])
 
 AT_DATA_STACK_TORTURE([AT_USE_ALLOCA],
-[[%define push_pull "both"
+[[%define api.push_pull "both"
 ]])
 AT_PARSER_CHECK([./input 20], 0, [], [ignore],
                 [[VALGRIND_OPTS="$VALGRIND_OPTS --log-fd=1"]])

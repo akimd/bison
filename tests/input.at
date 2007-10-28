@@ -848,13 +848,13 @@ AT_CLEANUP
 AT_SETUP([[%define enum variables]])
 
 AT_DATA([[input.y]],
-[[%define push_pull "neither"
+[[%define api.push_pull "neither"
 %%
 start: ;
 ]])
 
 AT_CHECK([[bison input.y]], [1], [],
-[[input.y:1.9-17: invalid value for %define variable `push_pull': `neither'
+[[input.y:1.9-21: invalid value for %define variable `api.push_pull': `neither'
 ]])
 
 AT_CLEANUP

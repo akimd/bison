@@ -1,3 +1,26 @@
+2007-10-28  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	%define push_pull -> %define api.push_pull.  Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00005.html>.
+	* data/push.c: Expect the new name.
+	* data/yacc.c: Likewise.
+	* doc/bison.texinfo (Push Decl): Update.
+	(Decl Summary): Update %define entry.
+	(Push Parser Function): Update.
+	(Pull Parser Function): Update.
+	(Parser Create Function): Update.
+	(Parser Delete Function): Update.
+	* tests/calc.at (Simple LALR Calculator): Update.
+	* tests/input.at (%define enum variables): Update.
+	* tests/push.at (Push Parsing: Memory Leak for Early Deletion): Update.
+	(Push Parsing: Multiple impure instances): Update.
+	(Push Parsing: Unsupported Skeletons): Update.
+	* tests/torture.at (Exploding the Stack Size with Alloca): Update.
+	(Exploding the Stack Size with Malloc): Update.
+
+	* NEWS (2.3a+): Add an entry for the push parser, and clean up the
+	other entries some.
+
 2007-10-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	For the XML output's terminal element, rename @number to @token-number,

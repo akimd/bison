@@ -4528,7 +4528,7 @@ valid grammar.
 @subsection A Push Parser
 @cindex push parser
 @cindex push parser
-@findex %define push_pull
+@findex %define api.push_pull
 
 A pull parser is called once and it takes control until all its input 
 is completely parsed.  A push parser, on the other hand, is called 
@@ -4541,10 +4541,10 @@ within a certain time period.
 
 Normally, Bison generates a pull parser.
 The following Bison declaration says that you want the parser to be a push
-parser (@pxref{Decl Summary,,%define push_pull}):
+parser (@pxref{Decl Summary,,%define api.push_pull}):
 
 @example
-%define push_pull "push"
+%define api.push_pull "push"
 @end example
 
 In almost all cases, you want to ensure that your push parser is also
@@ -4555,7 +4555,7 @@ what you are doing, your declarations should look like this:
 
 @example
 %pure-parser
-%define push_pull "push"
+%define api.push_pull "push"
 @end example
 
 There is a major notable functional difference between the pure push parser 
@@ -4604,14 +4604,14 @@ for use by the next invocation of the @code{yypush_parse} function.
 
 Bison also supports both the push parser interface along with the pull parser 
 interface in the same generated parser.  In order to get this functionality,
-you should replace the @code{%define push_pull "push"} declaration with the 
-@code{%define push_pull "both"} declaration.  Doing this will create all of the 
-symbols mentioned earlier along with the two extra symbols, @code{yyparse} 
+you should replace the @code{%define api.push_pull "push"} declaration with the 
+@code{%define api.push_pull "both"} declaration.  Doing this will create all of
+the symbols mentioned earlier along with the two extra symbols, @code{yyparse}
 and @code{yypull_parse}.  @code{yyparse} can be used exactly as it normally 
 would be used.  However, the user should note that it is implemented in the 
 generated parser by calling @code{yypull_parse}.
 This makes the @code{yyparse} function that is generated with the
-@code{%define push_pull "both"} declaration slower than the normal
+@code{%define api.push_pull "both"} declaration slower than the normal
 @code{yyparse} function.  If the user
 calls the @code{yypull_parse} function it will parse the rest of the input
 stream.  It is possible to @code{yypush_parse} tokens to select a subgrammar 
@@ -4628,8 +4628,8 @@ yypstate_delete (ps);
 @end example
 
 Adding the @code{%pure-parser} declaration does exactly the same thing to the 
-generated parser with @code{%define push_pull "both"} as it did for 
-@code{%define push_pull "push"}.
+generated parser with @code{%define api.push_pull "both"} as it did for 
+@code{%define api.push_pull "push"}.
 
 @node Decl Summary
 @subsection Bison Declaration Summary
@@ -4837,8 +4837,8 @@ target language and/or parser skeleton.
 Some of the accepted @var{variable}s are:
 
 @itemize @bullet
-@item push_pull
-@findex %define push_pull
+@item api.push_pull
+@findex %define api.push_pull
 
 @itemize @bullet
 @item Language(s): C (LALR(1) only)
@@ -5267,8 +5267,8 @@ exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
 @findex yypush_parse
 
 You call the function @code{yypush_parse} to parse a single token.  This 
-function is available if either the @code{%define push_pull "push"} or 
-@code{%define push_pull "both"} declaration is used.  
+function is available if either the @code{%define api.push_pull "push"} or 
+@code{%define api.push_pull "both"} declaration is used.  
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *yyps)
@@ -5282,7 +5282,7 @@ is required to finish parsing the grammar.
 @findex yypull_parse
 
 You call the function @code{yypull_parse} to parse the rest of the input 
-stream.  This function is available if the @code{%define push_pull "both"} 
+stream.  This function is available if the @code{%define api.push_pull "both"} 
 declaration is used.  
 @xref{Push Decl, ,A Push Parser}.
 
@@ -5295,8 +5295,8 @@ The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 @findex yypstate_new
 
 You call the function @code{yypstate_new} to create a new parser instance.  
-This function is available if either the @code{%define push_pull "push"} or 
-@code{%define push_pull "both"} declaration is used.  
+This function is available if either the @code{%define api.push_pull "push"} or 
+@code{%define api.push_pull "both"} declaration is used.  
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun yypstate *yypstate_new (void)
@@ -5309,8 +5309,8 @@ or NULL if no memory was available.
 @findex yypstate_delete
 
 You call the function @code{yypstate_delete} to delete a parser instance.
-function is available if either the @code{%define push_pull "push"} or 
-@code{%define push_pull "both"} declaration is used.  
+function is available if either the @code{%define api.push_pull "push"} or 
+@code{%define api.push_pull "both"} declaration is used.  
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun void yypstate_delete (yypstate *yyps)

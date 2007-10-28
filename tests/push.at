@@ -33,7 +33,7 @@ AT_DATA_GRAMMAR([[input.y]],
   void yyerror (char const *msg);
 %}
 
-%pure-parser %define push_pull "push"
+%pure-parser %define api.push_pull "push"
 
 %%
 
@@ -92,7 +92,7 @@ AT_DATA_GRAMMAR([[input.y]],
   int yylex (void);
 %}
 
-%define push_pull "both"
+%define api.push_pull "both"
 
 %%
 
@@ -158,13 +158,13 @@ AT_SETUP([[Push Parsing: Unsupported Skeletons]])
 
 AT_DATA([[input.y]],
 [[%glr-parser
-%define push_pull "push"
+%define api.push_pull "push"
 %%
 start: ;
 ]])
 
 AT_CHECK([[bison input.y]], [0], [],
-[[input.y:2.9-17: warning: %define variable `push_pull' is not used
+[[input.y:2.9-21: warning: %define variable `api.push_pull' is not used
 ]])
 
 AT_CLEANUP
