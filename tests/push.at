@@ -33,7 +33,7 @@ AT_DATA_GRAMMAR([[input.y]],
   void yyerror (char const *msg);
 %}
 
-%pure-parser %define api.push_pull "push"
+%define api.pure %define api.push_pull "push"
 
 %%
 

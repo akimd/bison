@@ -3,6 +3,18 @@ Bison News
 
 Changes in version 2.3a+ (????-??-??):
 
+* The quotes around NAME that used to be required in the following directive
+  are now deprecated:
+
+    %define NAME "VALUE"
+
+* The directive `%pure-parser' is now deprecated in favor of:
+
+    %define api.pure
+
+  which has the same effect except that Bison is more careful to warn about
+  unreasonable usage in the latter case.
+
 * Push Parsing
 
   Bison can now generate an LALR(1) parser in C with a push interface.  That
@@ -68,11 +80,6 @@ Changes in version 2.3a+ (????-??-??):
     %file-prefix "parser"
     %name-prefix "c_"
     %output "parser.c"
-
-* The quotes around NAME that used to be required in the following directive
-  are now deprecated:
-
-    %define NAME "VALUE"
 
 * An Alternative to `%{...%}' -- `%code QUALIFIER {CODE}'
 

@@ -4487,7 +4487,7 @@ may override this restriction with the @code{%start} declaration as follows:
 @subsection A Pure (Reentrant) Parser
 @cindex reentrant parser
 @cindex pure parser
-@findex %pure-parser
+@findex %define api.pure
 
 A @dfn{reentrant} program is one which does not alter in the course of
 execution; in other words, it consists entirely of @dfn{pure} (read-only)
@@ -4503,11 +4503,11 @@ statically allocated variables for communication with @code{yylex},
 including @code{yylval} and @code{yylloc}.)
 
 Alternatively, you can generate a pure, reentrant parser.  The Bison
-declaration @code{%pure-parser} says that you want the parser to be
+declaration @code{%define api.pure} says that you want the parser to be
 reentrant.  It looks like this:
 
 @example
-%pure-parser
+%define api.pure
 @end example
 
 The result is that the communication variables @code{yylval} and
@@ -4554,7 +4554,7 @@ compatibility with the impure Yacc pull mode interface.  Unless you know
 what you are doing, your declarations should look like this:
 
 @example
-%pure-parser
+%define api.pure
 %define api.push_pull "push"
 @end example
 
@@ -4627,8 +4627,8 @@ yypull_parse (ps); /* Will call the lexer */
 yypstate_delete (ps);
 @end example
 
-Adding the @code{%pure-parser} declaration does exactly the same thing to the 
-generated parser with @code{%define api.push_pull "both"} as it did for 
+Adding the @code{%define api.pure} declaration does exactly the same thing to
+the generated parser with @code{%define api.push_pull "both"} as it did for 
 @code{%define api.push_pull "push"}.
 
 @node Decl Summary
@@ -4837,6 +4837,20 @@ target language and/or parser skeleton.
 Some of the accepted @var{variable}s are:
 
 @itemize @bullet
+@item api.pure
+@findex %define api.pure
+
+@itemize @bullet
+@item Language(s): C
+
+@item Purpose: Request a pure (reentrant) parser program.
+@xref{Pure Decl, ,A Pure (Reentrant) Parser}.
+
+@item Accepted Values: Boolean
+
+@item Default Value: @code{"false"}
+@end itemize
+
 @item api.push_pull
 @findex %define api.push_pull
 
@@ -5054,8 +5068,8 @@ Specify @var{file} for the parser file.
 @end deffn
 
 @deffn {Directive} %pure-parser
-Request a pure (reentrant) parser program (@pxref{Pure Decl, ,A Pure
-(Reentrant) Parser}).
+Deprecated version of @code{%define api.pure} (@pxref{Decl Summary, ,%define}),
+for which Bison is more careful to warn about unreasonable usage.
 @end deffn
 
 @deffn {Directive} %require "@var{version}"
@@ -5498,7 +5512,7 @@ The data type of @code{yylloc} has the name @code{YYLTYPE}.
 @node Pure Calling
 @subsection Calling Conventions for Pure Parsers
 
-When you use the Bison declaration @code{%pure-parser} to request a
+When you use the Bison declaration @code{%define api.pure} to request a
 pure, reentrant parser, the global communication variables @code{yylval}
 and @code{yylloc} cannot be used.  (@xref{Pure Decl, ,A Pure (Reentrant)
 Parser}.)  In such parsers the two global variables are replaced by
@@ -5549,7 +5563,7 @@ int yylex   (int *nastiness);
 int yyparse (int *nastiness, int *randomness);
 @end example
 
-If @code{%pure-parser} is added:
+If @code{%define api.pure} is added:
 
 @example
 int yylex   (YYSTYPE *lvalp, int *nastiness);
@@ -5557,7 +5571,7 @@ int yyparse (int *nastiness, int *randomness);
 @end example
 
 @noindent
-and finally, if both @code{%pure-parser} and @code{%locations} are used:
+and finally, if both @code{%define api.pure} and @code{%locations} are used:
 
 @example
 int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
@@ -5623,7 +5637,7 @@ Obviously, in location tracking pure parsers, @code{yyerror} should have
 an access to the current location.
 This is indeed the case for the @acronym{GLR}
 parsers, but not for the Yacc parser, for historical reasons.  I.e., if
-@samp{%locations %pure-parser} is passed then the prototypes for
+@samp{%locations %define api.pure} is passed then the prototypes for
 @code{yyerror} are:
 
 @example
@@ -5641,13 +5655,14 @@ void yyerror (int *nastiness, char const *msg);  /* GLR parsers.   */
 Finally, @acronym{GLR} and Yacc parsers share the same @code{yyerror} calling
 convention for absolutely pure parsers, i.e., when the calling
 convention of @code{yylex} @emph{and} the calling convention of
-@code{%pure-parser} are pure.  I.e.:
+@code{%define api.pure} are pure.
+I.e.:
 
 @example
 /* Location tracking.  */
 %locations
 /* Pure yylex.  */
-%pure-parser
+%define api.pure
 %lex-param   @{int *nastiness@}
 /* Pure yyparse.  */
 %parse-param @{int *nastiness@}
@@ -8108,7 +8123,7 @@ described by @var{m}.
 
 The parser invokes the scanner by calling @code{yylex}.  Contrary to C
 parsers, C++ parsers are always pure: there is no point in using the
-@code{%pure-parser} directive.  Therefore the interface is as follows.
+@code{%define api.pure} directive.  Therefore the interface is as follows.
 
 @deftypemethod {parser} {int} yylex (semantic_value_type& @var{yylval}, location_type& @var{yylloc}, @var{type1} @var{arg1}, ...)
 Return the next token.  Its type is the return value, its semantic
@@ -8860,10 +8875,9 @@ The return type can be changed using @samp{%define "stype"
 @end deftypemethod
 
 
-If @code{%pure-parser} is not specified, the lexer interface
-resides in the same class (@code{YYParser}) as the Bison-generated
-parser. The fields and methods that are provided to
-this end are as follows.
+The lexer interface resides in the same class (@code{YYParser}) as the
+Bison-generated parser.
+The fields and methods that are provided to this end are as follows.
 
 @deftypemethod {YYParser} {void} error (Location @var{l}, String @var{m})
 As explained in @pxref{Java Parser Interface}, this method is defined
@@ -8996,7 +9010,7 @@ or
 @display
 My parser includes support for an @samp{#include}-like feature, in
 which case I run @code{yyparse} from @code{yyparse}.  This fails
-although I did specify I needed a @code{%pure-parser}.
+although I did specify @code{%define api.pure}.
 @end display
 
 These problems typically come not from Bison itself, but from
@@ -9558,8 +9572,8 @@ Bison declaration to assign a precedence to a specific rule.
 @end deffn
 
 @deffn {Directive} %pure-parser
-Bison declaration to request a pure (reentrant) parser.
-@xref{Pure Decl, ,A Pure (Reentrant) Parser}.
+Deprecated version of @code{%define api.pure} (@pxref{Decl Summary, ,%define}),
+for which Bison is more careful to warn about unreasonable usage.
 @end deffn
 
 @deffn {Directive} %require "@var{version}"

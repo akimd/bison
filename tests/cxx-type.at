@@ -1,5 +1,6 @@
 # Checking GLR Parsing.                         -*- Autotest -*-
-# Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation,
+# Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -423,14 +424,14 @@ AT_PARSER_CHECK([[./types test-input]], 0,
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, no locations])
-_AT_TEST_GLR_CXXTYPES([%pure-parser],
+_AT_TEST_GLR_CXXTYPES([%define api.pure],
 		      [%dprec 1], [%dprec 2])
 AT_PARSER_CHECK([[./types test-input]], 0,
 		_AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, locations])
-_AT_TEST_GLR_CXXTYPES([%pure-parser %locations],
+_AT_TEST_GLR_CXXTYPES([%define api.pure %locations],
 		      [%dprec 1], [%dprec 2])
 AT_PARSER_CHECK([[./types test-input]], 0,
 		_AT_RESOLVED_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
@@ -451,13 +452,13 @@ AT_PARSER_CHECK([[./types test-input]], 0,
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, pure, no locations])
-_AT_TEST_GLR_CXXTYPES([%pure-parser],
+_AT_TEST_GLR_CXXTYPES([%define api.pure],
 		      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
 		_AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 AT_SETUP([GLR: Merge conflicting parses, pure, locations])
-_AT_TEST_GLR_CXXTYPES([%pure-parser %locations],
+_AT_TEST_GLR_CXXTYPES([%define api.pure %locations],
 		      [%merge <stmtMerge>],[%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
 		_AT_AMBIG_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)

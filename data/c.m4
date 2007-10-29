@@ -28,22 +28,31 @@ m4_define([b4_comment], [/* m4_bpatsubst([$1], [
 
 # b4_identification
 # -----------------
+# Depends on individual skeletons to define b4_pure_flag, b4_push_flag, or
+# b4_pull_flag if they use the values of the %define variables api.pure or
+# api.push_pull.
 m4_define([b4_identification],
-[/* Identify Bison output.  */
-[#]define YYBISON 1
+[[/* Identify Bison output.  */
+#define YYBISON 1
 
 /* Bison version.  */
-[#]define YYBISON_VERSION "b4_version"
+#define YYBISON_VERSION "]b4_version["
 
 /* Skeleton name.  */
-[#]define YYSKELETON_NAME b4_skeleton
+#define YYSKELETON_NAME ]b4_skeleton[]m4_ifdef([b4_pure_flag], [[
 
 /* Pure parsers.  */
-[#]define YYPURE b4_pure_flag
+#define YYPURE ]b4_pure_flag])[]m4_ifdef([b4_push_flag], [[
+
+/* Push parsers.  */
+#define YYPUSH ]b4_push_flag])[]m4_ifdef([b4_pull_flag], [[
+
+/* Pull parsers.  */
+#define YYPULL ]b4_pull_flag])[
 
 /* Using locations.  */
-[#]define YYLSP_NEEDED b4_locations_flag
-])
+#define YYLSP_NEEDED ]b4_locations_flag[
+]])
 
 
 ## ---------------- ##

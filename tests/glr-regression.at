@@ -1646,7 +1646,7 @@ AT_DATA_GRAMMAR([glr-regr17.y],
 [[
 %glr-parser
 %locations
-%pure-parser
+%define api.pure
 %error-verbose
 
 %union { int dummy; }

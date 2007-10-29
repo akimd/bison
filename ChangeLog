@@ -1,5 +1,50 @@
 2007-10-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Deprecate %pure-parser and add `%define api.pure'.  Discussed starting
+	at
+	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00006.html>.
+	* NEWS (2.3a+): Mention.
+	* data/bison.m4 (b4_pure_if): Don't define it here.
+	* data/c.m4 (b4_identification): Depend on individual skeletons to
+	define b4_pure_flag, b4_push_flag, or b4_pull_flag if they use the
+	values of the %define variables api.pure or api.push_pull.  Define
+	YYPURE, YYPUSH, and YYPULL accordingly.
+	* data/glr.c: Define b4_pure_if based on `%define api.pure' unless
+	glr.cc has already defined b4_pure_flag.
+	* data/push.c: Define b4_pure_if based on `%define api.pure'.
+	Remove YYPUSH and YYPULL since they're back in b4_identification again.
+	* data/yacc.c Define b4_pure_if based on `%define api.pure'.
+	* doc/bison.texinfo (Pure Decl): Update.
+	(Push Decl): Update.
+	(Decl Summary): Add api.pure to %define entry.
+	In %pure-parser entry, say it's deprecated and reference %define.
+	(Pure Calling): Update.
+	(Error Reporting): Update.
+	(C++ Scanner Interface): Update.
+	(How Can I Reset the Parser): Update.
+	(Table of Symbols): In %pure-parser entry, say it's deprecated and
+	reference %define.
+	* src/getargs.c (pure_parser): Remove global variable.
+	* src/getargs.h (pure_parser): Remove extern.
+	* src/output.c (prepare): Don't define pure_flag muscle.
+	* src/parse-gram.y (prologue_declaration): Implement %pure-parser as a
+	wrapper around `%define api.pure'.
+	* tests/calc.at (Simple LALR Calculator): Update.
+	(Simple GLR Calculator): Update.
+	* tests/cxx-type.at (GLR: Resolve ambiguity, pure, no locations):
+	Update.
+	(GLR: Resolve ambiguity, pure, locations): Update.
+	(GLR: Merge conflicting parses, pure, no locations): Update.
+	(GLR: Merge conflicting parses, pure, locations): Update.
+	* tests/glr-regression.at (Uninitialized location when reporting
+	ambiguity): Update
+	* tests/input.at (Unused %define api.pure): New test case.
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Update definition for
+	AT_PURE_IF and AT_PURE_AND_LOC_IF.
+	* tests/push.at (Push Parsing: Memory Leak for Early Deletion): Update.
+
+2007-10-28  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	%define push_pull -> %define api.push_pull.  Discussed starting at
 	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00005.html>.
 	* data/push.c: Expect the new name.

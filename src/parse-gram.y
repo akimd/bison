@@ -266,7 +266,19 @@ prologue_declaration:
 | "%output" STRING              { spec_outfile = $2; }
 | "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
 | "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
-| "%pure-parser"                { pure_parser = true; }
+| "%pure-parser"
+    {
+      /* %pure-parser is deprecated in favor of `%define api.pure', so use
+         `%define api.pure' in a backward-compatible manner here.  First, don't
+         complain if %pure-parser is specified multiple times.  */
+      if (!muscle_find_const ("percent_define(api.pure)"))
+        muscle_percent_define_insert ("api.pure", @1, "");
+      /* In all cases, use api.pure now so that the backend doesn't complain if
+         the skeleton ignores api.pure, but do warn now if there's a previous
+         conflicting definition from an actual %define.  */
+      if (!muscle_percent_define_flag_if ("api.pure"))
+        muscle_percent_define_insert ("api.pure", @1, "");
+    }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING
     {
