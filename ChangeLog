@@ -1,3 +1,9 @@
+2007-11-04  Akim Demaille  <demaille@gostai.com>
+
+	Find sha1sum when named gsha1sum.
+	* bootstrap (find_tool): New.
+	($SHA1SUM): New.
+
 2007-10-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Deprecate %pure-parser and add `%define api.pure'.  Discussed starting
