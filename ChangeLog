@@ -1,5 +1,11 @@
 2007-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Complete --help.
+	* src/getargs.c (usage): Document -W, make it clear that -d,
+	-g and -x have optional arguments.
+
+2007-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Find sha1sum when named gsha1sum.
 	* bootstrap (find_tool): New.
 	($SHA1SUM): New.
