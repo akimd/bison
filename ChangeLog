@@ -810,38 +810,38 @@
 
 2007-03-07  Paolo Bonzini  <bonzini@gnu.org>
 
-        * data/java.m4 (b4_single_class_if): Remove.
-        (b4_abstract_if): Look at "%define abstract".
-        (b4_lexer_if): New.
-        (b4_union_name): Rename...
-        (b4_yystype): ... to this.  Map to "%define stype".
-        (b4_rhs_value, b4_parse_param_decl, b4_lex_param_decl,
-        b4_maybe_throws): Fix quoting.
-        (b4_lex_param_call): Move below to keep b4_*_param_decl close.
-        * data/lalr1.java (Lexer interface): Always define.
-        (Lexer interface within parser class): Remove.
-        (YYLexer class): New, used when "%code lexer" is present.
-        (constructor): When "%code lexer" is used, pass %lex-param
-        to the lexer constructor.
-        (yylex, yyparse): Remove %lex-param from method invocations
-        (YYStack, yyaction, yyparse): Rename b4_union_name to b4_yystype.
+	* data/java.m4 (b4_single_class_if): Remove.
+	(b4_abstract_if): Look at "%define abstract".
+	(b4_lexer_if): New.
+	(b4_union_name): Rename...
+	(b4_yystype): ... to this.  Map to "%define stype".
+	(b4_rhs_value, b4_parse_param_decl, b4_lex_param_decl,
+	b4_maybe_throws): Fix quoting.
+	(b4_lex_param_call): Move below to keep b4_*_param_decl close.
+	* data/lalr1.java (Lexer interface): Always define.
+	(Lexer interface within parser class): Remove.
+	(YYLexer class): New, used when "%code lexer" is present.
+	(constructor): When "%code lexer" is used, pass %lex-param
+	to the lexer constructor.
+	(yylex, yyparse): Remove %lex-param from method invocations
+	(YYStack, yyaction, yyparse): Rename b4_union_name to b4_yystype.
 
-        * doc/bison.texinfo (Java Bison Interface): Mention "%define
-        abstract".  Rename "%define union_name" to "%define stype".
-        Rename method names according to previous patch.
-        (Java Scanner Interface): Describe "%code lexer" instead of
-        "%pure-parser" and "%define single_class".
-        (Java Differences): Mention "%code lexer".
+	* doc/bison.texinfo (Java Bison Interface): Mention "%define
+	abstract".  Rename "%define union_name" to "%define stype".
+	Rename method names according to previous patch.
+	(Java Scanner Interface): Describe "%code lexer" instead of
+	"%pure-parser" and "%define single_class".
+	(Java Differences): Mention "%code lexer".
 
-        * tests/java.at (_AT_DATA_JAVA_CALC_Y): Remove final argument.
-        Include scanner here, using macros from tests/local.at.
-        (AT_DATA_CALC_Y): Remove final argument.
-        (_AT_CHECK_JAVA_CALC): Likewise.
-        (AT_CHECK_JAVA_CALC): Likewise.  Test all four combinations
-        of %locations and %error-verbose.
-        (main): Test with and without %lex-param.
-        * tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Push AT_LEXPARAM_IF.
-        (AT_BISON_OPTION_POPDEFS): Pop it.
+	* tests/java.at (_AT_DATA_JAVA_CALC_Y): Remove final argument.
+	Include scanner here, using macros from tests/local.at.
+	(AT_DATA_CALC_Y): Remove final argument.
+	(_AT_CHECK_JAVA_CALC): Likewise.
+	(AT_CHECK_JAVA_CALC): Likewise.  Test all four combinations
+	of %locations and %error-verbose.
+	(main): Test with and without %lex-param.
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Push AT_LEXPARAM_IF.
+	(AT_BISON_OPTION_POPDEFS): Pop it.
 
 2007-03-07  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
