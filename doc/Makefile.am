@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2001, 2002, 2003, 2005, 2006 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,21 +16,71 @@
 
 AM_MAKEINFOFLAGS = --no-split
 info_TEXINFOS = bison.texinfo
-man_MANS = bison.1
 bison_TEXINFOS = gpl-3.0.texi fdl.texi
 
-EXTRA_DIST = bison.1 refcard.tex
-
-CLEANFILES = refcard.dvi refcard.log refcard.ps bison.fns
+CLEANFILES = bison.fns
 CLEANDIRS = *.t2d
 clean-local:
 	rm -rf $(CLEANDIRS)
+
+## ---------- ##
+## Ref card.  ##
+## ---------- ##
+
+EXTRA_DIST = refcard.tex
+
+CLEANFILES += refcard.dvi refcard.log refcard.ps
 
 refcard.dvi: refcard.tex
 	tex refcard.tex
 
 refcard.ps: refcard.dvi
 
+
+## ----------- ##
+## Man Pages.  ##
+## ----------- ##
+
+dist_man_MANS = $(srcdir)/bison.1
+
+EXTRA_DIST += $(dist_man_MANS:.1=.x) common.x
+MAINTAINERCLEANFILES = $(dist_man_MANS)
+
+# Depend on configure.ac to get version number changes.
+common_dep = $(top_srcdir)/configure.ac $(srcdir)/common.x
+srcsrcdir = $(top_srcdir)/bin
+$(srcdir)/bison.1:      $(common_dep) $(top_srcdir)/src/getargs.c
+
+remove_time_stamp = 's/^\(\.TH[^"]*"[^"]*"[^"]*\)"[^"]*"/\1/'
+
+MOSTLYCLEANFILES = $(srcdir)/*.t
+
+SUFFIXES = .x .1
+
+PREPATH = $(top_builddir)/src
+.x.1:
+	@program=`expr "/$*" : '.*/\(.*\)'` &&				\
+	save_IFS=$IFS;							\
+	IFS=$(PATH_SEPARATOR);						\
+	for dir in $(PREPATH); do					\
+	  IFS=$save_IFS;						\
+	  echo cd $$dir '&&' $(MAKE) $(AM_MAKEFLAGS) $$program &&	\
+	  (cd $$dir && $(MAKE) $(AM_MAKEFLAGS) $$program) || exit;	\
+	done
+	@echo "Updating man page $@"
+	PATH="$(PREPATH)$(PATH_SEPARATOR)$$PATH";			     \
+	export PATH;							     \
+	$(HELP2MAN)							     \
+	    --include=$*.x						     \
+	    --include=$(srcdir)/common.x				     \
+	    --output=$@.t `echo '$*' | sed 's,.*/,,'`
+	if sed $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		     \
+	   sed $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then \
+		touch $@;						     \
+	else								     \
+		mv $@.t $@;						     \
+	fi
+	rm -f $@*.t
 
 
 ## -------------- ##

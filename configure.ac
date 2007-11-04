@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Free Software
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software
 # Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ AC_ARG_ENABLE(gcc-warnings,
    yes|no) ;;
    *)      AC_MSG_ERROR([bad value ${enableval} for gcc-warnings option]) ;;
  esac],
-              [enableval=no])
+	      [enableval=no])
 if test "${enableval}" = yes; then
   gl_WARNING_CFLAGS([-Werror])
   AC_SUBST([WERROR_CFLAGS], [$WARNING_CFLAGS])
@@ -87,6 +87,7 @@ if test x"$ac_cv_prog_gnu_m4" != xyes; then
   AC_MSG_ERROR([GNU M4 1.4 is required])
 fi
 AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
+AM_MISSING_PROG([HELP2MAN], [help2man])
 
 # Checks for header files.
 AC_CHECK_HEADERS_ONCE([locale.h])
@@ -138,11 +139,11 @@ gt_JAVACOMP([1.3])
 gt_JAVAEXEC
 
 AC_CONFIG_FILES([Makefile
-                 build-aux/Makefile
-                 po/Makefile.in
-                 data/Makefile
-                 etc/Makefile
+		 build-aux/Makefile
+		 po/Makefile.in
+		 data/Makefile
+		 etc/Makefile
 		 examples/Makefile
 		    examples/calc++/Makefile
-                 lib/Makefile src/Makefile doc/Makefile])
+		 lib/Makefile src/Makefile doc/Makefile])
 AC_OUTPUT

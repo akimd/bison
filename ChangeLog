@@ -1,5 +1,13 @@
 2007-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Generate bison.1 using help2man.
+	* doc/common.x, doc/bison.x: New.
+	* doc/Makefile.am (bison.1, .x.1): New.
+	The code is taken from autoconf-2.61/man/Makefile.am.
+	* configure.ac: Look for help2man.
+
+2007-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Complete --help.
 	* src/getargs.c (usage): Document -W, make it clear that -d,
 	-g and -x have optional arguments.
