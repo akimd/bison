@@ -16,7 +16,14 @@
 
 AM_MAKEINFOFLAGS = --no-split
 info_TEXINFOS = bison.texinfo
-bison_TEXINFOS = gpl-3.0.texi fdl.texi
+bison_TEXINFOS = cross-options.texi gpl-3.0.texi fdl.texi
+
+CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
+$(srcdir)/cross-options.texi: $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
+	-rm -f $@ $@.tmp
+	cd $(top_builddir)/src && $(MAKE) $(AM_MAKEFLAGS) bison
+	$(top_builddir)/src/bison --help | perl $(CROSS_OPTIONS_PL) >$@.tmp
+	mv $@.tmp $@
 
 CLEANFILES = bison.fns
 CLEANDIRS = *.t2d
