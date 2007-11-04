@@ -1,5 +1,12 @@
 2007-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Generate the long/short option cross-table.
+	* build-aux/cross-options.pl: New.
+	* doc/Makefile.am (cross-options.texi): New.
+	* doc/bison.texinfo: Use it.
+
+2007-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Generate bison.1 using help2man.
 	* doc/common.x, doc/bison.x: New.
 	* doc/Makefile.am (bison.1, .x.1): New.
