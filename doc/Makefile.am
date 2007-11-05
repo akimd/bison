@@ -16,7 +16,12 @@
 
 AM_MAKEINFOFLAGS = --no-split
 info_TEXINFOS = bison.texinfo
-bison_TEXINFOS = cross-options.texi gpl-3.0.texi fdl.texi
+bison_TEXINFOS = $(srcdir)/cross-options.texi gpl-3.0.texi fdl.texi
+
+CLEANFILES = bison.fns
+CLEANDIRS = *.t2d
+clean-local:
+	rm -rf $(CLEANDIRS)
 
 CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
 $(srcdir)/cross-options.texi: $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
@@ -24,18 +29,13 @@ $(srcdir)/cross-options.texi: $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
 	cd $(top_builddir)/src && $(MAKE) $(AM_MAKEFLAGS) bison
 	$(top_builddir)/src/bison --help | perl $(CROSS_OPTIONS_PL) >$@.tmp
 	mv $@.tmp $@
-
-CLEANFILES = bison.fns
-CLEANDIRS = *.t2d
-clean-local:
-	rm -rf $(CLEANDIRS)
+MAINTAINERCLEANFILES = $(srcdir)/cross-options.texi
 
 ## ---------- ##
 ## Ref card.  ##
 ## ---------- ##
 
 EXTRA_DIST = refcard.tex
-
 CLEANFILES += refcard.dvi refcard.log refcard.ps
 
 refcard.dvi: refcard.tex
@@ -51,7 +51,7 @@ refcard.ps: refcard.dvi
 dist_man_MANS = $(srcdir)/bison.1
 
 EXTRA_DIST += $(dist_man_MANS:.1=.x) common.x
-MAINTAINERCLEANFILES = $(dist_man_MANS)
+MAINTAINERCLEANFILES += $(dist_man_MANS)
 
 # Depend on configure.ac to get version number changes.
 common_dep = $(top_srcdir)/configure.ac $(srcdir)/common.x
