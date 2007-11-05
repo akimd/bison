@@ -1,3 +1,10 @@
+2007-11-05  Akim Demaille  <akim@epita.fr>
+
+	Remove Id: from bison.1.
+	* doc/Makefile.am (remove_time_stamp): Include the sed invocation.
+	(perl -0777 -pi -e 's/\.PP\nId): New.
+	(.x.1): Use it to ignore the version control revision.
+
 2007-11-05  Akim Demaille  <demaille@gostai.com>
 
 	* build-aux/Makefile.am: Ship cross-options.pl.

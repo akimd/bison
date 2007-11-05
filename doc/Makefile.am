@@ -58,7 +58,14 @@ common_dep = $(top_srcdir)/configure.ac $(srcdir)/common.x
 srcsrcdir = $(top_srcdir)/bin
 $(srcdir)/bison.1:      $(common_dep) $(top_srcdir)/src/getargs.c
 
-remove_time_stamp = 's/^\(\.TH[^"]*"[^"]*"[^"]*\)"[^"]*"/\1/'
+# Output from --help and --version that must not appear in the man page.
+neutralize = \
+  perl -0777 -pi -e 's/\.PP\nId:.*\n//g'
+
+# Differences to ignore when comparing the man page (the date).
+remove_time_stamp = \
+  sed 's/^\(\.TH[^"]*"[^"]*"[^"]*\)"[^"]*"/\1/'
+
 
 MOSTLYCLEANFILES = $(srcdir)/*.t
 
@@ -81,8 +88,9 @@ PREPATH = $(top_builddir)/src
 	    --include=$*.x						     \
 	    --include=$(srcdir)/common.x				     \
 	    --output=$@.t `echo '$*' | sed 's,.*/,,'`
-	if sed $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		     \
-	   sed $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then \
+	$(neutralize) $@.t
+	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		     \
+	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then     \
 		touch $@;						     \
 	else								     \
 		mv $@.t $@;						     \
