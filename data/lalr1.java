@@ -119,13 +119,12 @@ b4_token_enums(b4_tokens)
     /**
      * Method to retrieve the semantic value of the last scanned token.
      * @@return the semantic value of the last scanned token.  */
-    ]b4_yystype[ getLVal ();]
+    ]b4_yystype[ getLVal ();
 
     /**
      * Entry point for the scanner.  Returns the token identifier corresponding
-     * to the next token and ]b4_pure_if([prepares to return], [stores])[
-     * the semantic value]b4_locations_if([ and beginning/ending positions])[
-     * of the token. 
+     * to the next token and prepares to return the semantic value
+     * ]b4_locations_if([and beginning/ending positions ])[of the token. 
      * @@return the token identifier corresponding to the next token. */
     int yylex () ]b4_maybe_throws([b4_lex_throws])[;
 

@@ -1,3 +1,7 @@
+2007-11-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* data/lalr1.java (Lexer): Remove usage of b4_pure_if.
+
 2007-11-05  Akim Demaille  <akim@epita.fr>
 
 	Remove Id: from bison.1.
