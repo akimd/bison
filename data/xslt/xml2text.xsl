@@ -37,15 +37,15 @@
 
 <xsl:template match="bison-xml-report">
   <xsl:apply-templates select="reductions"/>
-  <xsl:apply-templates select="rules-never-reduced"/>
+  <xsl:apply-templates select="rules-useless-in-parser"/>
   <xsl:apply-templates select="automaton" mode="conflicts"/>
   <xsl:apply-templates select="grammar"/>
   <xsl:apply-templates select="automaton"/>
 </xsl:template>
 
-<xsl:template match="rules-never-reduced">
+<xsl:template match="rules-useless-in-parser">
   <xsl:if test="rule">
-    <xsl:text>Rules never reduced&#10;</xsl:text>
+    <xsl:text>Rules useless in parser due to conflicts&#10;</xsl:text>
     <xsl:apply-templates select="rule">
       <xsl:with-param name="pad" select="'3'"/>
     </xsl:apply-templates>
@@ -54,14 +54,14 @@
 </xsl:template>
 
 <xsl:template match="reductions">
-  <xsl:apply-templates select="useless/nonterminals"/>
+  <xsl:apply-templates select="useless-in-grammar/nonterminals"/>
   <xsl:apply-templates select="unused/terminals"/>
-  <xsl:apply-templates select="useless/rules"/>
+  <xsl:apply-templates select="useless-in-grammar/rules"/>
 </xsl:template>
 
-<xsl:template match="useless/nonterminals">
+<xsl:template match="useless-in-grammar/nonterminals">
   <xsl:if test="nonterminal">
-    <xsl:text>Useless nonterminals&#10;&#10;</xsl:text>
+    <xsl:text>Nonterminals useless in grammar&#10;&#10;</xsl:text>
     <xsl:for-each select="nonterminal">
       <xsl:text>   </xsl:text>
       <xsl:value-of select="."/>
@@ -71,9 +71,9 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="useless/rules">
+<xsl:template match="useless-in-grammar/rules">
   <xsl:if test="rule">
-    <xsl:text>Useless rules&#10;</xsl:text>
+    <xsl:text>Rules useless in grammar&#10;</xsl:text>
     <xsl:apply-templates select="rule">
       <xsl:with-param name="pad" select="'3'"/>
     </xsl:apply-templates>

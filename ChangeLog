@@ -1,3 +1,58 @@
+2007-11-10  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/gram.c: Remove comments that duplicate comments in gram.h.
+
+	When reporting useless rules and nonterminals, say "useless in grammar"
+	instead of "useless", and say "useless in parser" instead of "never
+	reduced".  Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2007-10/msg00033.html>.
+	* NEWS (2.3a+): Mention this change.
+	* data/xslt/xml2text.xsl: Update output text and expected input XML
+	element names to match changes below.
+	* data/xslt/xml2xhtml.xsl: Likewise.
+	(xsl:template match="bison-xml-report"): Add missing entry in Table of
+	Contents: "Rules useless in parser due to conflicts".
+	* doc/bison.texinfo (Decl Summary): Reword a little.
+	(Understanding): Update example output for changes below.
+	* src/gram.c: (rule_useful_p): Rename to...
+	(rule_useful_in_grammar_p): ... this.
+	(rule_useless_p): Rename to...
+	(rule_useless_in_grammar_p): ... this.
+	(rule_never_reduced_p): Rename to...
+	(rule_useless_in_parser_p): ... this.
+	(grammar_rules_print): Update for renames.
+	(grammar_rules_print_xml): Update for renames.
+	(grammar_rules_never_reduced_report): Rename to...
+	(grammar_rules_useless_report): ... this since it is used for either
+	kind of useless rule.
+	* src/gram.h: Reword comments and update function names in prototypes.
+	* src/main.c (main): Say "rule useless in parser due to conflicts".
+	* src/print-xml.c (print_rules_never_reduced): Rename to...
+	(print_rules_useless_in_parser): ... this, and rename output XML
+	element "rules-never-reduced" to "rules-useless-in-parser".
+	(print_xml): Update for rename.
+	* src/print.c (print_results): Say "Rules useless in parser due to
+	conflicts".
+	* src/reduce.c (reduce_grammar_tables): Say "rule useless in grammar".
+	(nonterminals_reduce): Say "nonterminal useless in grammar".
+	(reduce_output): Say "Nonterminals useless in grammar".
+	Say "Rules useless in grammar".
+	(reduce_xml): Rename output XML element "useless" to
+	"useless-in-grammar".
+	(reduce_print): Don't report the count of grammatically useless rules
+	as "rules never reduced" just because %yacc is specified.
+	In the correct report of this count, say nonterminal(s) and rule(s)
+	"useless in grammar".
+	* tests/conflicts.at (S/R in initial): Update expected output.
+	(Defaulted Conflicted Reduction): Likewise.
+	(Unreachable States After Conflict Resolution): Likewise.
+	* tests/existing.at (GNU pic Grammar): Likewise.
+	* tests/reduce.at (Useless Nonterminals): Likewise.
+	(Useless Rules): Likewise.
+	(Reduced Automaton): Likewise.
+	(Underivable Rules): Likewise.
+	(Empty Language): Likewise.
+
 2007-11-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/bison.m4 (b4_cat): Put a newline after the end delimiter of the

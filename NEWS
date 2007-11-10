@@ -41,6 +41,10 @@ Changes in version 2.3a+ (????-??-??):
 
     %defines "parser.h"
 
+* When reporting useless rules and nonterminals, Bison now employs the term
+  "useless in grammar" instead of "useless" and employs the term "useless in
+  parser" instead of "never reduced".
+
 * Unreachable State Removal
 
   Previously, Bison sometimes generated parser tables containing unreachable
@@ -54,7 +58,7 @@ Changes in version 2.3a+ (????-??-??):
        directives in existing grammar files.
 
     3. For any rule used only in such states, Bison now reports the rule as
-       "never reduced because of conflicts".
+       "useless in parser due to conflicts".
 
   This feature can be disabled with the following directive:
 

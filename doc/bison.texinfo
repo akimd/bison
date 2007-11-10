@@ -4887,8 +4887,9 @@ are useless in the generated parser.
 @item Caveats:
 
 @itemize @bullet
-@item Unreachable states may contain conflicts and may reduce rules not
-reduced in any other state.
+
+@item Unreachable states may contain conflicts and may use rules not used in
+any other state.
 Thus, keeping unreachable states may induce warnings that are irrelevant to
 your parser's behavior, and it may eliminate warnings that are relevant.
 Of course, the change in warnings may actually be relevant to a parser table
@@ -7155,9 +7156,9 @@ useless: STR;
 @command{bison} reports:
 
 @example
-calc.y: warning: 1 useless nonterminal and 1 useless rule
-calc.y:11.1-7: warning: useless nonterminal: useless
-calc.y:11.10-12: warning: useless rule: useless: STR
+calc.y: warning: 1 nonterminal and 1 rule useless in grammar
+calc.y:11.1-7: warning: nonterminal useless in grammar: useless
+calc.y:11.10-12: warning: rule useless in grammar: useless: STR
 calc.y: conflicts: 7 shift/reduce
 @end example
 
@@ -7206,7 +7207,7 @@ Useless nonterminals:
 Terminals which are not used:
    STR
 
-Useless rules:
+Rules useless in grammar:
 #6     useless: STR;
 @end example
 

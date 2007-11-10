@@ -108,9 +108,12 @@
     <li>
       <a href="#reductions">Reductions</a>
       <ul class="lower-alpha">
-	<li><a href="#useless_nonterminals">Useless nonterminal symbols</a></li>
-	<li><a href="#unused_terminals">Unused terminal symbols</a></li>
-	<li><a href="#useless_rules">Useless rules</a></li>
+	<li><a href="#nonterminals_useless_in_grammar">Nonterminals useless in grammar</a></li>
+	<li><a href="#unused_terminals">Unused terminals</a></li>
+	<li><a href="#rules_useless_in_grammar">Rules useless in grammar</a></li>
+	<xsl:if test="rules-useless-in-parser/rule">
+	  <li><a href="#rules_useless_in_parser">Rules useless in parser due to conflicts</a></li>
+	</xsl:if>
       </ul>
     </li>
     <li><a href="#conflicts">Conflicts</a></li>
@@ -125,17 +128,17 @@
     <li><a href="#automaton">Automaton</a></li>
   </ul>
   <xsl:apply-templates select="reductions"/>
-  <xsl:apply-templates select="rules-never-reduced"/>
+  <xsl:apply-templates select="rules-useless-in-parser"/>
   <xsl:apply-templates select="automaton" mode="conflicts"/>
   <xsl:apply-templates select="grammar"/>
   <xsl:apply-templates select="automaton"/>
 </xsl:template>
 
-<xsl:template match="rules-never-reduced">
+<xsl:template match="rules-useless-in-parser">
   <xsl:if test="rule">
     <h2>
-      <a name="rules_never_reduced"/>
-      <xsl:text> Rules never reduced</xsl:text>
+      <a name="rules_useless_in_parser"/>
+      <xsl:text> Rules useless in parser due to conflicts</xsl:text>
     </h2>
     <xsl:text>&#10;</xsl:text>
     <p class="pre">
@@ -152,15 +155,15 @@
     <a name="reductions"/>
     <xsl:text> Reductions</xsl:text>
   </h2>
-  <xsl:apply-templates select="useless/nonterminals"/>
+  <xsl:apply-templates select="useless-in-grammar/nonterminals"/>
   <xsl:apply-templates select="unused/terminals"/>
-  <xsl:apply-templates select="useless/rules"/>
+  <xsl:apply-templates select="useless-in-grammar/rules"/>
 </xsl:template>
 
-<xsl:template match="useless/nonterminals">
+<xsl:template match="useless-in-grammar/nonterminals">
   <h3>
-    <a name="useless_nonterminals"/>
-    <xsl:text> Useless nonterminals</xsl:text>
+    <a name="nonterminals_useless_in_grammar"/>
+    <xsl:text> Nonterminals useless in grammar</xsl:text>
   </h3>
   <xsl:text>&#10;&#10;</xsl:text>
   <xsl:if test="nonterminal">
@@ -175,10 +178,10 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="useless/rules">
+<xsl:template match="useless-in-grammar/rules">
   <h3>
-    <a name="useless_rules"/>
-    <xsl:text> Useless rules</xsl:text>
+    <a name="rules_useless_in_grammar"/>
+    <xsl:text> Rules useless in grammar</xsl:text>
   </h3>
   <xsl:text>&#10;</xsl:text>
   <xsl:if test="rule">
