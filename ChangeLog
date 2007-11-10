@@ -1,3 +1,11 @@
+2007-11-09  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/bison.m4 (b4_cat): Put a newline after the end delimiter of the
+	here document and before the EOF so that BSD's implementation of Bourne
+	shell doesn't parse the delimiter as part of the here document.
+	* doc/.cvsignore: Add cross-options.texi.
+	* src/getargs.c (usage): Add a blank line after the warning categories.
+
 2007-11-08  Paolo Bonzini  <bonzini@gnu.org>
 
 	* data/lalr1.java (Lexer): Remove usage of b4_pure_if.

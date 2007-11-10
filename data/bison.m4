@@ -74,7 +74,8 @@ version 2.2 of Bison.])])
 m4_define([b4_cat],
 [m4_syscmd([cat <<'_m4eof'
 ]m4_bpatsubst(m4_dquote($1), [_m4eof], [_m4@`eof])[@
-_m4eof])dnl
+_m4eof
+])dnl
 m4_if(m4_sysval, [0], [], [m4_fatal([$0: cannot write to stdout])])])
 
 # b4_error(KIND, FORMAT, [ARG1], [ARG2], ...)
