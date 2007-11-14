@@ -1,3 +1,12 @@
+2007-11-14  Akim Demaille  <akim@epita.fr>
+
+	* doc/yacc.1.in: New.
+	* configure.ac, doc/Makefile.am: Adjust.
+	* configure.ac (PACKAGE_COPYRIGHT_YEAR): New substitution, and new
+	config.h symbol.
+	Use AC_SUBST for assignments too.
+	* src/getargs.c (version): Use PACKAGE_COPYRIGHT_YEAR.
+
 2007-11-10  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/gram.c: Remove comments that duplicate comments in gram.h.

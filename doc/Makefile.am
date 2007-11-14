@@ -66,7 +66,6 @@ neutralize = \
 remove_time_stamp = \
   sed 's/^\(\.TH[^"]*"[^"]*"[^"]*\)"[^"]*"/\1/'
 
-
 MOSTLYCLEANFILES = $(srcdir)/*.t
 
 SUFFIXES = .x .1
@@ -97,6 +96,7 @@ PREPATH = $(top_builddir)/src
 	fi
 	rm -f $@*.t
 
+nodist_man_MANS = yacc.1
 
 ## -------------- ##
 ## Doxygenation.  ##

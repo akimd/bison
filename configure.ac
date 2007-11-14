@@ -20,6 +20,10 @@
 AC_PREREQ(2.61)
 
 AC_INIT([GNU Bison], [2.3a+], [bug-bison@gnu.org])
+AC_DEFINE([PACKAGE_COPYRIGHT_YEAR], [2007],
+          [The copyright year for this package])
+AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2007])
+
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -130,10 +134,8 @@ BISON_TEST_FOR_WORKING_CXX_COMPILER
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
-O0CFLAGS=`echo $CFLAGS | sed 's/-O[[0-9]] *//'`
-AC_SUBST([O0CFLAGS])
-O0CXXFLAGS=`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`
-AC_SUBST([O0CXXFLAGS])
+AC_SUBST([O0CFLAGS],   [`echo $CFLAGS   | sed 's/-O[[0-9]] *//'`])
+AC_SUBST([O0CXXFLAGS], [`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`])
 
 gt_JAVACOMP([1.3])
 gt_JAVAEXEC
@@ -145,5 +147,7 @@ AC_CONFIG_FILES([Makefile
 		 etc/Makefile
 		 examples/Makefile
 		    examples/calc++/Makefile
-		 lib/Makefile src/Makefile doc/Makefile])
+		 lib/Makefile src/Makefile
+		 doc/Makefile
+		   doc/yacc.1])
 AC_OUTPUT
