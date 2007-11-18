@@ -1,3 +1,19 @@
+2007-11-18  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Accept --report-file=FILE to override the default `.output' filename.
+	* NEWS (2.3a+): Mention.
+	* doc/bison.texinfo (Bison Options): Add an entry.
+	* src/files.c (compute_output_file_names): Don't override
+	spec_verbose_file if already set.
+	* src/getargs.c (usage): Document --report-file.
+	(REPORT_FILE_OPTION): New anonymous enum member.
+	(long_options): Add entry for it.
+	(getargs): Add case for it setting spec_verbose_file.
+
+	* build-aux/cross-options.pl: Don't record a short option just because
+	there's an arg.
+	* doc/.cvsignore: Add yacc.1.
+
 2007-11-14  Akim Demaille  <akim@epita.fr>
 
 	* doc/yacc.1.in: New.

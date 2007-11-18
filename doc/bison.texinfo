@@ -7827,6 +7827,9 @@ Implies @code{state} and augments the description of the automaton with
 the full set of items for each state, instead of its core only.
 @end table
 
+@item --report-file=@var{file}
+Specify the @var{file} for the verbose description.
+
 @item -v
 @itemx --verbose
 Pretend that @code{%verbose} was specified, i.e., write an extra output

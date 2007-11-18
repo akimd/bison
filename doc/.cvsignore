@@ -13,11 +13,12 @@ bison.ps
 bison.toc
 bison.tp
 bison.vr
+cross-options.texi
+Makefile.in
 refcard.dvi
 refcard.log
 refcard.ps
-Makefile.in
 *.info*
 stamp-vti
 version.texi
-cross-options.texi
+yacc.1

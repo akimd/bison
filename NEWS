@@ -78,6 +78,8 @@ Changes in version 2.3a+ (????-??-??):
   bug affected only the `.output' file and not the generated parser source
   code.
 
+* --report-file=FILE is a new flag to override the default `.output' file name.
+
 * The `=' that used to be required in the following directives is now
   deprecated:
 

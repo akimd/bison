@@ -17,7 +17,7 @@ while (<>)
 	    $arg = '@var{' . lc ($arg) . '}';
 	    $arg = '[' . $arg . ']'
 		if defined $opt;
-	    $option{"$long=$arg"} = "$short $arg";
+	    $option{"$long=$arg"} = $short ? "$short $arg" : '';
 	}
 	else
 	{
