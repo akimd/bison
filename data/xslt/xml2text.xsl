@@ -36,71 +36,93 @@
 </xsl:template>
 
 <xsl:template match="bison-xml-report">
-  <xsl:apply-templates select="reductions"/>
-  <xsl:apply-templates select="rules-useless-in-parser"/>
+  <xsl:apply-templates select="grammar" mode="reductions"/>
+  <xsl:apply-templates select="grammar" mode="useless-in-parser"/>
   <xsl:apply-templates select="automaton" mode="conflicts"/>
   <xsl:apply-templates select="grammar"/>
   <xsl:apply-templates select="automaton"/>
 </xsl:template>
 
-<xsl:template match="rules-useless-in-parser">
-  <xsl:if test="rule">
-    <xsl:text>Rules useless in parser due to conflicts&#10;</xsl:text>
-    <xsl:apply-templates select="rule">
-      <xsl:with-param name="pad" select="'3'"/>
-    </xsl:apply-templates>
-    <xsl:text>&#10;&#10;</xsl:text>
-  </xsl:if>
+<xsl:template match="grammar" mode="reductions">
+  <xsl:apply-templates select="nonterminals" mode="useless-in-grammar"/>
+  <xsl:apply-templates select="terminals" mode="unused-in-grammar"/>
+  <xsl:apply-templates select="rules" mode="useless-in-grammar"/>
 </xsl:template>
 
-<xsl:template match="reductions">
-  <xsl:apply-templates select="useless-in-grammar/nonterminals"/>
-  <xsl:apply-templates select="unused/terminals"/>
-  <xsl:apply-templates select="useless-in-grammar/rules"/>
-</xsl:template>
-
-<xsl:template match="useless-in-grammar/nonterminals">
-  <xsl:if test="nonterminal">
+<xsl:template match="nonterminals" mode="useless-in-grammar">
+  <xsl:if test="nonterminal[@usefulness='useless-in-grammar']">
     <xsl:text>Nonterminals useless in grammar&#10;&#10;</xsl:text>
-    <xsl:for-each select="nonterminal">
+    <xsl:for-each select="nonterminal[@usefulness='useless-in-grammar']">
       <xsl:text>   </xsl:text>
-      <xsl:value-of select="."/>
+      <xsl:value-of select="@name"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
     <xsl:text>&#10;&#10;</xsl:text>
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="useless-in-grammar/rules">
-  <xsl:if test="rule">
+<xsl:template match="terminals" mode="unused-in-grammar">
+  <xsl:if test="terminal[@usefulness='unused-in-grammar']">
+    <xsl:text>Terminals unused in grammar&#10;&#10;</xsl:text>
+    <xsl:for-each select="terminal[@usefulness='unused-in-grammar']">
+      <xsl:sort select="@symbol-number" data-type="number"/>
+      <xsl:text>   </xsl:text>
+      <xsl:value-of select="@name"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:for-each>
+    <xsl:text>&#10;&#10;</xsl:text>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="rules" mode="useless-in-grammar">
+  <xsl:variable name="set" select="rule[@usefulness='useless-in-grammar']"/>
+  <xsl:if test="$set">
     <xsl:text>Rules useless in grammar&#10;</xsl:text>
-    <xsl:apply-templates select="rule">
-      <xsl:with-param name="pad" select="'3'"/>
-    </xsl:apply-templates>
+    <xsl:call-template name="style-rule-set">
+      <xsl:with-param name="rule-set" select="$set"/>
+    </xsl:call-template>
     <xsl:text>&#10;&#10;</xsl:text>
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="unused/terminals">
-  <xsl:if test="terminal">
-    <xsl:text>Terminals which are not used&#10;&#10;</xsl:text>
-    <xsl:for-each select="terminal">
-      <xsl:text>   </xsl:text>
-      <xsl:value-of select="."/>
-      <xsl:text>&#10;</xsl:text>
-    </xsl:for-each>
+<xsl:template match="grammar" mode="useless-in-parser">
+  <xsl:variable
+    name="set" select="rules/rule[@usefulness='useless-in-parser']"
+  />
+  <xsl:if test="$set">
+    <xsl:text>Rules useless in parser due to conflicts&#10;</xsl:text>
+    <xsl:call-template name="style-rule-set">
+      <xsl:with-param name="rule-set" select="$set"/>
+    </xsl:call-template>
     <xsl:text>&#10;&#10;</xsl:text>
   </xsl:if>
 </xsl:template>
 
 <xsl:template match="grammar">
   <xsl:text>Grammar&#10;</xsl:text>
-  <xsl:apply-templates select="rules/rule">
-    <xsl:with-param name="pad" select="'3'"/>
-  </xsl:apply-templates>
+  <xsl:call-template name="style-rule-set">
+    <xsl:with-param
+      name="rule-set" select="rules/rule[@usefulness!='useless-in-grammar']"
+    />
+  </xsl:call-template>
   <xsl:text>&#10;&#10;</xsl:text>
   <xsl:apply-templates select="terminals"/>
   <xsl:apply-templates select="nonterminals"/>
+</xsl:template>
+
+<xsl:template name="style-rule-set">
+  <xsl:param name="rule-set"/>
+  <xsl:for-each select="$rule-set">
+    <xsl:apply-templates select=".">
+      <xsl:with-param name="pad" select="'3'"/>
+      <xsl:with-param name="prev-lhs">
+        <xsl:if test="position()>1">
+          <xsl:variable name="position" select="position()"/>
+          <xsl:value-of select="$rule-set[$position - 1]/lhs"/>
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:apply-templates>
+  </xsl:for-each>
 </xsl:template>
 
 <xsl:template match="grammar/terminals">
@@ -111,7 +133,7 @@
 
 <xsl:template match="grammar/nonterminals">
   <xsl:text>Nonterminals, with rules where they appear&#10;&#10;</xsl:text>
-  <xsl:apply-templates select="nonterminal"/>
+  <xsl:apply-templates select="nonterminal[@usefulness!='useless-in-grammar']"/>
 </xsl:template>
 
 <xsl:template match="terminal">
@@ -293,8 +315,7 @@
   <xsl:param name="point"/>
   <xsl:param name="lookaheads"/>
 
-  <xsl:if test="$itemset != 'true'
-		and not(preceding-sibling::rule[1]/lhs[text()] = lhs[text()])">
+  <xsl:if test="$itemset != 'true' and not($prev-lhs = lhs[text()])">
     <xsl:text>&#10;</xsl:text>
   </xsl:if>
 
@@ -307,8 +328,7 @@
 
   <!-- LHS -->
   <xsl:choose>
-    <xsl:when test="$itemset != 'true'
-		    and preceding-sibling::rule[1]/lhs[text()] = lhs[text()]">
+    <xsl:when test="$itemset != 'true' and $prev-lhs = lhs[text()]">
       <xsl:call-template name="lpad">
 	<xsl:with-param name="str" select="'|'"/>
 	<xsl:with-param name="pad" select="number(string-length(lhs[text()])) + 1"/>

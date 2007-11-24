@@ -7197,14 +7197,14 @@ State 11 conflicts: 4 shift/reduce
 The next section reports useless tokens, nonterminal and rules.  Useless
 nonterminals and rules are removed in order to produce a smaller parser,
 but useless tokens are preserved, since they might be used by the
-scanner (note the difference between ``useless'' and ``not used''
+scanner (note the difference between ``useless'' and ``unused''
 below):
 
 @example
-Useless nonterminals:
+Nonterminals useless in grammar:
    useless
 
-Terminals which are not used:
+Terminals unused in grammar:
    STR
 
 Rules useless in grammar:

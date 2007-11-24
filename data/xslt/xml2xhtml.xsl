@@ -109,9 +109,9 @@
       <a href="#reductions">Reductions</a>
       <ul class="lower-alpha">
 	<li><a href="#nonterminals_useless_in_grammar">Nonterminals useless in grammar</a></li>
-	<li><a href="#unused_terminals">Unused terminals</a></li>
+	<li><a href="#terminals_unused_in_grammar">Terminals unused in grammar</a></li>
 	<li><a href="#rules_useless_in_grammar">Rules useless in grammar</a></li>
-	<xsl:if test="rules-useless-in-parser/rule">
+	<xsl:if test="grammar/rules/rule[@usefulness='useless-in-parser']">
 	  <li><a href="#rules_useless_in_parser">Rules useless in parser due to conflicts</a></li>
 	</xsl:if>
       </ul>
@@ -127,89 +127,127 @@
     </li>
     <li><a href="#automaton">Automaton</a></li>
   </ul>
-  <xsl:apply-templates select="reductions"/>
-  <xsl:apply-templates select="rules-useless-in-parser"/>
+  <xsl:apply-templates select="grammar" mode="reductions"/>
+  <xsl:apply-templates select="grammar" mode="useless-in-parser"/>
   <xsl:apply-templates select="automaton" mode="conflicts"/>
   <xsl:apply-templates select="grammar"/>
   <xsl:apply-templates select="automaton"/>
 </xsl:template>
 
-<xsl:template match="rules-useless-in-parser">
-  <xsl:if test="rule">
+<xsl:template match="grammar" mode="reductions">
+  <h2>
+    <a name="reductions"/>
+    <xsl:text> Reductions</xsl:text>
+  </h2>
+  <xsl:apply-templates select="nonterminals" mode="useless-in-grammar"/>
+  <xsl:apply-templates select="terminals" mode="unused-in-grammar"/>
+  <xsl:apply-templates select="rules" mode="useless-in-grammar"/>
+</xsl:template>
+
+<xsl:template match="nonterminals" mode="useless-in-grammar">
+  <h3>
+    <a name="nonterminals_useless_in_grammar"/>
+    <xsl:text> Nonterminals useless in grammar</xsl:text>
+  </h3>
+  <xsl:text>&#10;&#10;</xsl:text>
+  <xsl:if test="nonterminal[@usefulness='useless-in-grammar']">
+    <p class="pre">
+      <xsl:for-each select="nonterminal[@usefulness='useless-in-grammar']">
+	<xsl:text>   </xsl:text>
+	<xsl:value-of select="@name"/>
+	<xsl:text>&#10;</xsl:text>
+      </xsl:for-each>
+      <xsl:text>&#10;&#10;</xsl:text>
+    </p>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="terminals" mode="unused-in-grammar">
+  <h3>
+    <a name="terminals_unused_in_grammar"/>
+    <xsl:text> Terminals unused in grammar</xsl:text>
+  </h3>
+  <xsl:text>&#10;&#10;</xsl:text>
+  <xsl:if test="terminal[@usefulness='unused-in-grammar']">
+    <p class="pre">
+      <xsl:for-each select="terminal[@usefulness='unused-in-grammar']">
+        <xsl:sort select="@symbol-number" data-type="number"/>
+	<xsl:text>   </xsl:text>
+	<xsl:value-of select="@name"/>
+	<xsl:text>&#10;</xsl:text>
+      </xsl:for-each>
+      <xsl:text>&#10;&#10;</xsl:text>
+    </p>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="rules" mode="useless-in-grammar">
+  <h3>
+    <a name="rules_useless_in_grammar"/>
+    <xsl:text> Rules useless in grammar</xsl:text>
+  </h3>
+  <xsl:text>&#10;</xsl:text>
+  <xsl:variable name="set" select="rule[@usefulness='useless-in-grammar']"/>
+  <xsl:if test="$set">
+    <p class="pre">
+      <xsl:call-template name="style-rule-set">
+        <xsl:with-param name="rule-set" select="$set"/>
+      </xsl:call-template>
+      <xsl:text>&#10;&#10;</xsl:text>
+    </p>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="grammar" mode="useless-in-parser">
+  <xsl:variable
+    name="set" select="rules/rule[@usefulness='useless-in-parser']"
+  />
+  <xsl:if test="$set">
     <h2>
       <a name="rules_useless_in_parser"/>
       <xsl:text> Rules useless in parser due to conflicts</xsl:text>
     </h2>
     <xsl:text>&#10;</xsl:text>
     <p class="pre">
-      <xsl:apply-templates select="rule">
-	<xsl:with-param name="pad" select="'3'"/>
-      </xsl:apply-templates>
+      <xsl:call-template name="style-rule-set">
+        <xsl:with-param name="rule-set" select="$set"/>
+      </xsl:call-template>
     </p>
     <xsl:text>&#10;&#10;</xsl:text>
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="reductions">
+<xsl:template match="grammar">
   <h2>
-    <a name="reductions"/>
-    <xsl:text> Reductions</xsl:text>
+    <a name="grammar"/>
+    <xsl:text> Grammar</xsl:text>
   </h2>
-  <xsl:apply-templates select="useless-in-grammar/nonterminals"/>
-  <xsl:apply-templates select="unused/terminals"/>
-  <xsl:apply-templates select="useless-in-grammar/rules"/>
-</xsl:template>
-
-<xsl:template match="useless-in-grammar/nonterminals">
-  <h3>
-    <a name="nonterminals_useless_in_grammar"/>
-    <xsl:text> Nonterminals useless in grammar</xsl:text>
-  </h3>
-  <xsl:text>&#10;&#10;</xsl:text>
-  <xsl:if test="nonterminal">
-    <p class="pre">
-      <xsl:for-each select="nonterminal">
-	<xsl:text>   </xsl:text>
-	<xsl:value-of select="."/>
-	<xsl:text>&#10;</xsl:text>
-      </xsl:for-each>
-      <xsl:text>&#10;&#10;</xsl:text>
-    </p>
-  </xsl:if>
-</xsl:template>
-
-<xsl:template match="useless-in-grammar/rules">
-  <h3>
-    <a name="rules_useless_in_grammar"/>
-    <xsl:text> Rules useless in grammar</xsl:text>
-  </h3>
   <xsl:text>&#10;</xsl:text>
-  <xsl:if test="rule">
-    <p class="pre">
-      <xsl:apply-templates select="rule">
-	<xsl:with-param name="pad" select="'3'"/>
-      </xsl:apply-templates>
-      <xsl:text>&#10;&#10;</xsl:text>
-    </p>
-  </xsl:if>
+  <p class="pre">
+    <xsl:call-template name="style-rule-set">
+      <xsl:with-param
+        name="rule-set" select="rules/rule[@usefulness!='useless-in-grammar']"
+      />
+    </xsl:call-template>
+  </p>
+  <xsl:text>&#10;&#10;</xsl:text>
+  <xsl:apply-templates select="terminals"/>
+  <xsl:apply-templates select="nonterminals"/>
 </xsl:template>
 
-<xsl:template match="unused/terminals">
-  <h3>
-    <a name="unused_terminals"/>
-    <xsl:text> Terminals which are not used</xsl:text>
-  </h3>
-  <xsl:text>&#10;&#10;</xsl:text>
-  <xsl:if test="terminal">
-    <p class="pre">
-      <xsl:for-each select="terminal">
-	<xsl:text>   </xsl:text>
-	<xsl:value-of select="."/>
-	<xsl:text>&#10;</xsl:text>
-      </xsl:for-each>
-      <xsl:text>&#10;&#10;</xsl:text>
-    </p>
-  </xsl:if>
+<xsl:template name="style-rule-set">
+  <xsl:param name="rule-set"/>
+  <xsl:for-each select="$rule-set">
+    <xsl:apply-templates select=".">
+      <xsl:with-param name="pad" select="'3'"/>
+      <xsl:with-param name="prev-lhs">
+        <xsl:if test="position()>1">
+          <xsl:variable name="position" select="position()"/>
+          <xsl:value-of select="$rule-set[$position - 1]/lhs"/>
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:apply-templates>
+  </xsl:for-each>
 </xsl:template>
 
 <xsl:template match="automaton" mode="conflicts">
@@ -260,22 +298,6 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="grammar">
-  <h2>
-    <a name="grammar"/>
-    <xsl:text> Grammar</xsl:text>
-  </h2>
-  <xsl:text>&#10;</xsl:text>
-  <p class="pre">
-    <xsl:apply-templates select="rules/rule">
-      <xsl:with-param name="pad" select="'3'"/>
-    </xsl:apply-templates>
-  </p>
-  <xsl:text>&#10;&#10;</xsl:text>
-  <xsl:apply-templates select="terminals"/>
-  <xsl:apply-templates select="nonterminals"/>
-</xsl:template>
-
 <xsl:template match="grammar/terminals">
   <h3>
     <a name="terminals"/>
@@ -295,7 +317,9 @@
   </h3>
   <xsl:text>&#10;&#10;</xsl:text>
   <p class="pre">
-    <xsl:apply-templates select="nonterminal"/>
+    <xsl:apply-templates
+      select="nonterminal[@usefulness!='useless-in-grammar']"
+    />
   </p>
 </xsl:template>
 
@@ -446,8 +470,7 @@
   <xsl:param name="point"/>
   <xsl:param name="lookaheads"/>
 
-  <xsl:if test="$itemset != 'true'
-		and not(preceding-sibling::rule[1]/lhs[text()] = lhs[text()])">
+  <xsl:if test="$itemset != 'true' and not($prev-lhs = lhs[text()])">
     <xsl:text>&#10;</xsl:text>
   </xsl:if>
 
@@ -483,8 +506,7 @@
 
   <!-- LHS -->
   <xsl:choose>
-    <xsl:when test="$itemset != 'true'
-		    and preceding-sibling::rule[1]/lhs[text()] = lhs[text()]">
+    <xsl:when test="$itemset != 'true' and $prev-lhs = lhs[text()]">
       <xsl:call-template name="lpad">
 	<xsl:with-param name="str" select="'|'"/>
 	<xsl:with-param name="pad" select="number(string-length(lhs[text()])) + 2"/>

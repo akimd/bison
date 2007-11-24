@@ -41,9 +41,10 @@ Changes in version 2.3a+ (????-??-??):
 
     %defines "parser.h"
 
-* When reporting useless rules and nonterminals, Bison now employs the term
-  "useless in grammar" instead of "useless" and employs the term "useless in
-  parser" instead of "never reduced".
+* When reporting useless rules, useless nonterminals, and unused terminals,
+  Bison now employs the terms "useless in grammar" instead of "useless",
+  "useless in parser" instead of "never reduced", and "unused in grammar"
+  instead of "unused".
 
 * Unreachable State Removal
 

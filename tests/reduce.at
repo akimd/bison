@@ -45,7 +45,7 @@ exp: useful;
 AT_CHECK([[bison input.y]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
-[[Terminals which are not used
+[[Terminals unused in grammar
    useless1
    useless2
    useless3
@@ -174,7 +174,7 @@ AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
    useless7
    useless8
    useless9
-Terminals which are not used
+Terminals unused in grammar
    '1'
    '2'
    '3'
@@ -249,7 +249,7 @@ AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' not-reduced.output]], 0,
 [[Nonterminals useless in grammar
    not_reachable
    non_productive
-Terminals which are not used
+Terminals unused in grammar
    useless_token
 Rules useless in grammar
     2 exp: non_productive

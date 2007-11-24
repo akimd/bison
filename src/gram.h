@@ -254,11 +254,10 @@ size_t ritem_longest_rhs (void);
 /* Print the grammar's rules that match FILTER on OUT under TITLE.  */
 void grammar_rules_partial_print (FILE *out, const char *title,
 				  rule_filter filter);
-void grammar_rules_partial_print_xml (FILE *out, int level, bool rtag,
-				      rule_filter filter);
 
 /* Print the grammar's useful rules on OUT.  */
 void grammar_rules_print (FILE *out);
+/* Print all of the grammar's rules with a "usefulness" attribute.  */
 void grammar_rules_print_xml (FILE *out, int level);
 
 /* Dump the grammar. */

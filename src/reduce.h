@@ -22,7 +22,8 @@
 
 void reduce_grammar (void);
 void reduce_output (FILE *out);
-void reduce_xml (FILE *out, int level);
+bool reduce_token_unused_in_grammar (symbol_number i);
+bool reduce_nonterminal_useless_in_grammar (symbol_number i);
 void reduce_free (void);
 
 extern symbol_number nuseless_nonterminals;

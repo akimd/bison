@@ -1,3 +1,37 @@
+2007-11-24  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	In the XML output, list useless and unused symbols and rules with the
+	useful ones and add a "usefulness" attribute.  Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00017.html>.
+	* src/gram.c (grammar_rules_partial_print_xml): Remove.
+	(grammar_rules_print_xml): Print all rules instead of just those
+	useful in the grammar, and add a "usefulness" attribute.
+	* src/gram.h (grammar_rules_partial_print_xml): Remove prototype.
+	* src/print-xml.c (print_rules_useless_in_parser): Remove.
+	(print_grammar): Print all nonterminals instead of just useful ones,
+	and add a "usefulness" attribute to nonterminals and terminals.
+	(print_xml): Don't print a separate "reductions" or
+	"rules-useless-in-parser" element.
+	* src/reduce.c (reduce_output): Use reduce_token_unused_in_grammar.
+	(reduce_xml): Remove.
+	(reduce_token_unused_in_grammar): New.
+	(reduce_nonterminal_useless_in_grammar): New.
+	* src/reduce.h (reduce_xml): Remove prototype.
+	(reduce_token_unused_in_grammar): Add prototype.
+	(reduce_nonterminal_useless_in_grammar): Add prototype.
+	* data/xslt/xml2text.xsl: Update for XML changes.
+	* data/xslt/xml2xhtml.xsl: Update for XML changes.
+	* tests/reduce.at (Useless Terminals): Update output.
+	(Useless Rules): Update output.
+	(Reduced Automaton): Update output.
+
+	Say "Terminals unused in grammar" instead of "Unused terminals".
+	* NEWS (2.3a+): Update.
+	* doc/bison.texinfo (Understanding): Update example output.
+	* src/reduce.c (reduce_output): Implement.
+	* data/xslt/xml2text.xsl: Implement.
+	* data/xslt/xml2xhtml.xsl: Implement.
+
 2007-11-18  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Accept --report-file=FILE to override the default `.output' filename.
