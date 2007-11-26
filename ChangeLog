@@ -1,3 +1,7 @@
+2007-11-26  Akim Demaille  <akim@epita.fr>
+
+	* data/Makefile.am (dist_pkgdata_DATA): Ship and install bison.xsl.
+
 2007-11-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	In the XML output, list useless and unused symbols and rules with the

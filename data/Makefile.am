@@ -22,7 +22,8 @@ m4sugardir = $(pkgdatadir)/m4sugar
 dist_m4sugar_DATA = m4sugar/m4sugar.m4
 
 xsltdir = $(pkgdatadir)/xslt
-dist_xslt_DATA = \
-   xslt/xml2dot.xsl \
-   xslt/xml2text.xsl \
+dist_xslt_DATA =				\
+   xslt/bison.xsl				\
+   xslt/xml2dot.xsl				\
+   xslt/xml2text.xsl				\
    xslt/xml2xhtml.xsl
