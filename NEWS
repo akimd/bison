@@ -18,7 +18,7 @@ Changes in version 2.3a+ (????-??-??):
 * Push Parsing
 
   Bison can now generate an LALR(1) parser in C with a push interface.  That
-  is, instead of invoking yyparse, which pulls tokens from `yylex', you can
+  is, instead of invoking `yyparse', which pulls tokens from `yylex', you can
   push one token at a time to the parser using `yypush_parse', which will
   return to the caller after processing each token.  By default, the push
   interface is disabled.  Either of the following directives will enable it:

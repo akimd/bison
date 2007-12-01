@@ -305,7 +305,7 @@ prologue_declaration:
       skeleton_arg (skeleton_user, 1, &@1);
     }
 | "%token-table"                { token_table_flag = true; }
-| "%verbose"                    { report_flag = report_states; }
+| "%verbose"                    { report_flag |= report_states; }
 | "%yacc"                       { yacc_flag = true; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
