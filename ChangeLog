@@ -1,3 +1,35 @@
+2007-12-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/xslt/bison.xsl (bison:ruleNumber): Rename to...
+	(bison:ruleByNumber): ... this for clarity.
+	* data/xslt/xml2dot.xsl (xsl:template match="item"): Update.
+	* data/xslt/xml2text.xsl (xsl:template match="item"): Update.
+	(xsl:template match="reduction"): Update.
+	(xsl:template match="item"): Update.
+	(xsl:template match="reduction"): Update.
+
+	In the XML output, don't print the list of rules where symbols appear.
+	Compute it in XSLT instead.  Discussed at
+	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00024.html>.
+	* data/xslt/bison.xsl (bison:ruleByLhs): New.
+	(bison:ruleByRhs): New.
+	* data/xslt/xml2text.xsl (xsl:template match="terminal"): Use
+	bison:ruleByRhs.
+	(xsl:template match="terminal/rule"): Remove.
+	(xsl:template match="nonterminal"): Use bison:ruleByLhs and
+	bison:ruleByRhs.
+	(xsl:template match="nonterminal/left/rule|nonterminal/right/rule"):
+	Remove.
+	* data/xslt/xml2xhtml.xsl (xsl:template match="terminal"): Use
+	bison:ruleByRhs and mode="number-link" for rule template.
+	(xsl:template match="terminal/rule"): Remove.
+	(xsl:template match="nonterminal"): Use bison:ruleByLhs and
+	bison:ruleByRhs and mode="number-link" for rule template.
+	(xsl:template match="nonterminal/left/rule|nonterminal/right/rule"):
+	Rewrite as...
+	(xsl:template match="rule" mode="number-link"): ... this.
+	* src/print-xml.c (print_grammar): Don't print the list of rules.
+
 2007-12-01  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't let --report affect XML output; always print all information.

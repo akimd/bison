@@ -26,9 +26,23 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:bison="http://www.gnu.org/software/bison/">
 
-<xsl:key name="bison:ruleNumber"
-	 match="/bison-xml-report/grammar/rules/rule"
-	 use="@number"/>
+<xsl:key
+  name="bison:ruleByNumber"
+  match="/bison-xml-report/grammar/rules/rule"
+  use="@number"
+/>
+<xsl:key
+  name="bison:ruleByLhs"
+  match="/bison-xml-report/grammar/rules/rule[
+         @usefulness != 'useless-in-grammar']"
+  use="lhs"
+/>
+<xsl:key
+  name="bison:ruleByRhs"
+  match="/bison-xml-report/grammar/rules/rule[
+         @usefulness != 'useless-in-grammar']"
+  use="rhs/symbol"
+/>
 
 <!-- For the specified state, output: #sr-conflicts,#rr-conflicts -->
 <xsl:template match="state" mode="bison:count-conflicts">

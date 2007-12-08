@@ -61,7 +61,7 @@
 </xsl:template>
 
 <xsl:template match="item">
-  <xsl:apply-templates select="key('bison:ruleNumber', @rule-number)">
+  <xsl:apply-templates select="key('bison:ruleByNumber', @rule-number)">
     <xsl:with-param name="point" select="@point"/>
   </xsl:apply-templates>
   <xsl:apply-templates select="lookaheads"/>

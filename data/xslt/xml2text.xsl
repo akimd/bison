@@ -150,14 +150,11 @@
     <xsl:with-param name="line-length" select="66" />
     <xsl:with-param name="text">
       <xsl:value-of select="concat(' (', @token-number, ')')"/>
-      <xsl:apply-templates select="rule" />
+      <xsl:for-each select="key('bison:ruleByRhs', @name)">
+        <xsl:value-of select="concat(' ', @number)"/>
+      </xsl:for-each>
     </xsl:with-param>
   </xsl:call-template>
-</xsl:template>
-
-<xsl:template match="terminal/rule">
-  <xsl:text> </xsl:text>
-  <xsl:value-of select="."/>
 </xsl:template>
 
 <xsl:template match="nonterminal">
@@ -169,26 +166,25 @@
       <xsl:with-param name="line-length" select="66" />
       <xsl:with-param name="text">
         <xsl:text>    </xsl:text>
-        <xsl:if test="left/rule">
+        <xsl:if test="key('bison:ruleByLhs', @name)">
           <xsl:text>on@left:</xsl:text>
+          <xsl:for-each select="key('bison:ruleByLhs', @name)">
+            <xsl:value-of select="concat(' ', @number)"/>
+          </xsl:for-each>
         </xsl:if>
-        <xsl:apply-templates select="left/rule"/>
-        <xsl:if test="left/rule and right/rule">
-          <xsl:text>, </xsl:text>
-        </xsl:if>
-        <xsl:if test="right/rule">
+        <xsl:if test="key('bison:ruleByRhs', @name)">
+          <xsl:if test="key('bison:ruleByLhs', @name)">
+            <xsl:text>, </xsl:text>
+          </xsl:if>
           <xsl:text>on@right:</xsl:text>
+          <xsl:for-each select="key('bison:ruleByRhs', @name)">
+            <xsl:value-of select="concat(' ', @number)"/>
+          </xsl:for-each>
         </xsl:if>
-        <xsl:apply-templates select="right/rule"/>
       </xsl:with-param>
     </xsl:call-template>
   </xsl:variable>
   <xsl:value-of select="translate($output, '@', ' ')" />
-</xsl:template>
-
-<xsl:template match="nonterminal/left/rule|nonterminal/right/rule">
-  <xsl:text> </xsl:text>
-  <xsl:value-of select="."/>
 </xsl:template>
 
 <xsl:template match="automaton" mode="conflicts">
@@ -296,11 +292,15 @@
   <xsl:param name="pad"/>
   <xsl:param name="prev-rule-number"
 	     select="preceding-sibling::item[1]/@rule-number"/>
-  <xsl:apply-templates select="key('bison:ruleNumber', current()/@rule-number)">
+  <xsl:apply-templates
+    select="key('bison:ruleByNumber', current()/@rule-number)"
+  >
     <xsl:with-param name="itemset" select="'true'"/>
     <xsl:with-param name="pad" select="$pad"/>
-    <xsl:with-param name="prev-lhs"
-		    select="key('bison:ruleNumber', $prev-rule-number)/lhs[text()]"/>
+    <xsl:with-param
+      name="prev-lhs"
+      select="key('bison:ruleByNumber', $prev-rule-number)/lhs[text()]"
+   />
     <xsl:with-param name="point" select="@point"/>
     <xsl:with-param name="lookaheads">
       <xsl:apply-templates select="lookaheads"/>
@@ -443,7 +443,7 @@
       <xsl:value-of select="@rule"/>
       <xsl:text> (</xsl:text>
       <xsl:value-of
-	  select="key('bison:ruleNumber', current()/@rule)/lhs[text()]"/>
+	  select="key('bison:ruleByNumber', current()/@rule)/lhs[text()]"/>
       <xsl:text>)</xsl:text>
     </xsl:otherwise>
   </xsl:choose>
