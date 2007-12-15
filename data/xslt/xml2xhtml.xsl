@@ -552,7 +552,7 @@
 <xsl:template match="symbol">
   <xsl:text> </xsl:text>
   <xsl:choose>
-    <xsl:when test="@class = 'nonterminal'">
+    <xsl:when test="name(key('bison:symbolByName', .)) = 'nonterminal'">
       <span class="i"><xsl:value-of select="."/></span>
     </xsl:when>
     <xsl:otherwise>

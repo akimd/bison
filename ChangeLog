@@ -1,5 +1,27 @@
 2007-12-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	In XML output, remove redundant class attribute on symbol element.
+	* data/xslt/bison.xsl (xsl:key name="bison:symbolByName"): New.
+	* data/xslt/xml2xhtml.xsl (xsl:template match="symbol"): Use it to
+	look up a symbol to determine whether it's a nonterminal or terminal.
+	* src/gram.c (rule_rhs_print_xml): Remove class attribute.
+	* src/state.c (state_rule_lookahead_tokens_print_xml): Likewise.
+
+	Add prec/assoc information to XML output.
+	* src/gram.c (grammar_rules_print_xml): For each rule that has a
+	%prec, add a percent_prec attribute.
+	* src/print-xml.c (print_grammar): For each terminal that has a
+	precedence or associativity, add a prec or assoc attribute.
+	(xml_indent): New.
+	(xml_puts): Use xml_indent.
+	(xml_printf): Use xml_indent.
+	* src/print-xml.h (xml_indent): Prototype.
+
+	* tests/existing.at (GNU pic Grammar): Fix a rule miscopied from
+	<http://lists.gnu.org/archive/html/bug-bison/2003-04/msg00026.html>.
+
+2007-12-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* data/xslt/bison.xsl (bison:ruleNumber): Rename to...
 	(bison:ruleByNumber): ... this for clarity.
 	* data/xslt/xml2dot.xsl (xsl:template match="item"): Update.
@@ -300,7 +322,7 @@
 
 	* data/xslt/xml2dot.xsl (xsl:template match="automaton/state"): After
 	2007-10-11 change, the child elements here are items not rules.
-	(<xsl:template match="item"): New.
+	(xsl:template match="item"): New.
 	(xsl:template match="rule"): Update for new reduced itemset.
 	(xsl:template match="point"): Remove.
 	(xsl:template match="empty"): For consistency with --graph, don't

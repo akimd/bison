@@ -27,6 +27,16 @@
   xmlns:bison="http://www.gnu.org/software/bison/">
 
 <xsl:key
+  name="bison:symbolByName"
+  match="/bison-xml-report/grammar/nonterminals/nonterminal"
+  use="@name"
+/>
+<xsl:key
+  name="bison:symbolByName"
+  match="/bison-xml-report/grammar/terminals/terminal"
+  use="@name"
+/>
+<xsl:key
   name="bison:ruleByNumber"
   match="/bison-xml-report/grammar/rules/rule"
   use="@number"

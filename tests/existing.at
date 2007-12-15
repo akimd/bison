@@ -1266,7 +1266,7 @@ element:
 	| LABEL ':' optional_separator element
 	| LABEL ':' optional_separator position_not_place
 	| LABEL ':' optional_separator place
-	| '{}'
+	| '{' {} element_list '}'
 		{}
 	  optional_element
 	| placeless_element
