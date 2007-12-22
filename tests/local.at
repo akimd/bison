@@ -203,8 +203,8 @@ m4_define([AT_BISON_CHECK_NO_XML],
 # defined.  It doesn't make sense to invoke this macro if Bison is expected to
 # have a non-zero exit status.
 m4_define([AT_BISON_CHECK_XML],
-[[if test x"$BISON_TEST_XML" = x1 && test x"$XSLTPROC" != x""; then]
-  mkdir xml-tests
+[[if test x"$BISON_TEST_XML" = x1 && test x"$XSLTPROC" != x""; then
+  mkdir xml-tests]
   m4_pushdef([AT_BISON_ARGS],
              [m4_bpatsubsts([[$1]],
                             [--report(-file)?=[^][ ]*], [],
@@ -218,16 +218,16 @@ m4_define([AT_BISON_CHECK_XML],
   AT_CHECK([[bison --xml=xml-tests/test.xml ]]AT_BISON_ARGS,
            [[0]], [ignore], [ignore])
   m4_popdef([AT_BISON_ARGS])dnl
-  cp xml-tests/test.output expout
+  [cp xml-tests/test.output expout]
   AT_CHECK([[$XSLTPROC \
              `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2text.xsl \
              xml-tests/test.xml]], [[0]], [expout])
-  cp xml-tests/test.dot expout
+  [cp xml-tests/test.dot expout]
   AT_CHECK([[$XSLTPROC \
              `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2dot.xsl \
              xml-tests/test.xml]], [[0]], [expout])
-  rm -rf xml-tests expout
-[fi]])
+  [rm -rf xml-tests expout
+fi]])
 
 # AT_QUELL_VALGRIND
 # -----------------
