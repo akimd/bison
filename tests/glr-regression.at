@@ -93,7 +93,7 @@ yylex (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr1.c glr-regr1.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr1.c glr-regr1.y]], 0, [],
 [glr-regr1.y: conflicts: 1 shift/reduce
 ])
 AT_COMPILE([glr-regr1])
@@ -211,7 +211,7 @@ main (int argc, char **argv)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr2a.c glr-regr2a.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr2a.c glr-regr2a.y]], 0, [],
 [glr-regr2a.y: conflicts: 2 shift/reduce
 ])
 AT_COMPILE([glr-regr2a])
@@ -325,7 +325,7 @@ int main(int argc, char* argv[]) {
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr3.c glr-regr3.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr3.c glr-regr3.y]], 0, [],
 [glr-regr3.y: conflicts: 1 shift/reduce, 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr3])
@@ -429,7 +429,7 @@ yyerror (char const *msg)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr4.c glr-regr4.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr4.c glr-regr4.y]], 0, [],
 [glr-regr4.y: conflicts: 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr4])
@@ -502,7 +502,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr5.c glr-regr5.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr5.c glr-regr5.y]], 0, [],
 [glr-regr5.y: conflicts: 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr5])
@@ -567,7 +567,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr6.c glr-regr6.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr6.c glr-regr6.y]], 0, [],
 [glr-regr6.y: conflicts: 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr6])
@@ -659,7 +659,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr7.c glr-regr7.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr7.c glr-regr7.y]], 0, [],
 [glr-regr7.y: conflicts: 2 reduce/reduce
 ])
 AT_COMPILE([glr-regr7])
@@ -757,7 +757,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr8.c glr-regr8.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr8.c glr-regr8.y]], 0, [],
 [glr-regr8.y: conflicts: 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr8])
@@ -840,7 +840,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr9.c glr-regr9.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr9.c glr-regr9.y]], 0, [],
 [glr-regr9.y: conflicts: 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr9])
@@ -907,7 +907,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr10.c glr-regr10.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr10.c glr-regr10.y]], 0, [],
 [glr-regr10.y: conflicts: 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr10])
@@ -976,7 +976,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr11.c glr-regr11.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr11.c glr-regr11.y]], 0, [],
 [glr-regr11.y: conflicts: 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr11])
@@ -1107,7 +1107,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr12.c glr-regr12.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr12.c glr-regr12.y]], 0, [],
 [glr-regr12.y: conflicts: 1 shift/reduce, 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr12])
@@ -1236,7 +1236,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr13.c glr-regr13.y]], 0, [], [])
+AT_BISON_CHECK([[-o glr-regr13.c glr-regr13.y]], 0, [], [])
 AT_COMPILE([glr-regr13])
 
 AT_PARSER_CHECK([[./glr-regr13]], 0,
@@ -1452,7 +1452,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr14.c glr-regr14.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr14.c glr-regr14.y]], 0, [],
 [glr-regr14.y: conflicts: 3 reduce/reduce
 ])
 AT_COMPILE([glr-regr14])
@@ -1556,7 +1556,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr15.c glr-regr15.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr15.c glr-regr15.y]], 0, [],
 [glr-regr15.y: conflicts: 2 reduce/reduce
 ])
 AT_COMPILE([glr-regr15])
@@ -1625,7 +1625,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr16.c glr-regr16.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr16.c glr-regr16.y]], 0, [],
 [glr-regr16.y: conflicts: 1 reduce/reduce
 ])
 AT_COMPILE([glr-regr16])
@@ -1712,7 +1712,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr17.c glr-regr17.y]], 0, [],
+AT_BISON_CHECK([[-o glr-regr17.c glr-regr17.y]], 0, [],
 [glr-regr17.y: conflicts: 3 reduce/reduce
 ])
 AT_COMPILE([glr-regr17])
@@ -1778,7 +1778,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o glr-regr18.c glr-regr18.y]], 1, [],
+AT_BISON_CHECK([[-o glr-regr18.c glr-regr18.y]], 1, [],
 [glr-regr18.y:26.18-24: result type clash on merge function `merge': <type2> != <type1>
 glr-regr18.y:25.18-24: previous declaration
 glr-regr18.y:27.13-19: result type clash on merge function `merge': <type3> != <type2>

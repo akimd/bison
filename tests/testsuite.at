@@ -17,15 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# Bison often leaks memory when its exit status is non-zero, so set
-# --leak-check=summary for Valgrind in that case.
-m4_pushdef([ORIGINAL_AT_CHECK], m4_defn([AT_CHECK]))
-m4_pushdef([AT_CHECK],
-[ORIGINAL_AT_CHECK(
-   m4_if(m4_index(m4_quote($1), [bison ]), 0,
-	 m4_if(m4_quote($2), [0], [], m4_quote($2), [], [],
-	       [[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS; ]]))$@)])
-
 # Testing resistance to user bugs.
 m4_include([input.at])
 
@@ -80,6 +71,3 @@ m4_include([glr-regression.at])
 
 # Push parsing specific tests.
 m4_include([push.at])
-
-m4_popdef([AT_CHECK])
-m4_popdef([ORIGINAL_AT_CHECK])

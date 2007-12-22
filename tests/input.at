@@ -32,7 +32,7 @@ exp: { $$ = $1 ; };
 exp: { @$ = @1 ; };
 ]])
 
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.13-14: integer out of range: `$1'
 input.y:3.13-14: integer out of range: `@1'
 ]])
@@ -57,7 +57,7 @@ exp: foo { $$; } foo { $2; } foo
    ;
 ]])
 
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:5.12-13: $$ for the midrule at $2 of `exp' has no declared type
 input.y:5.24-25: $2 of `exp' has no declared type
 input.y:5.6-32: warning: type clash on default action: <bar> != <>
@@ -117,7 +117,7 @@ l: INT | INT { $<integer>$ = $<integer>1; } INT { $<integer>$ = $<integer>2 + $<
 _AT_UNUSED_VALUES_DECLARATIONS])
 )
 
-AT_CHECK([bison]m4_ifval($2, [ --warnings=midrule-values ])[ input.y], [0], [],
+AT_BISON_CHECK(m4_ifval($2, [ --warnings=midrule-values ])[ input.y], [0], [],
 [[input.y:11.10-32: warning: unset value: $]$[
 input.y:11.10-32: warning: unused value: $]1[
 input.y:11.10-32: warning: unused value: $]3[
@@ -204,7 +204,7 @@ start: ;
 %printer { destroy ($$); } <>;
 ]])
 
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:1.13-29: redeclaration for default tagged %destructor
 input.y:1.13-29: previous declaration
 input.y:2.10-26: redeclaration for default tagged %printer
@@ -255,7 +255,7 @@ start: ;
 %printer { destroy ($$); } <field2> <field1>;
 ]])
 
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:4.13-29: %destructor redeclaration for <field1>
 input.y:1.13-29: previous declaration
 input.y:4.13-29: %destructor redeclaration for <field1>
@@ -294,7 +294,7 @@ end: { } ;
 tagged: { } ;
 ]])
 
-AT_CHECK([bison input.y], [0], [],
+AT_BISON_CHECK([input.y], [0], [],
 [[input.y:6.8-45: warning: unset value: $$
 input.y:6.8-45: warning: unused value: $2
 input.y:7.6-8: warning: unset value: $$
@@ -311,7 +311,7 @@ end: { } ;
 tagged: { } ;
 ]])
 
-AT_CHECK([bison input.y], [0], [],
+AT_BISON_CHECK([input.y], [0], [],
 [[input.y:6.8-45: warning: unused value: $4
 input.y:8.9-11: warning: unset value: $$
 ]])
@@ -335,7 +335,7 @@ start: end end { $1; } ;
 end: { }  ;
 ]])
 
-AT_CHECK([bison input.y], [0], [],
+AT_BISON_CHECK([input.y], [0], [],
 [[input.y:6.8-22: warning: unset value: $$
 input.y:6.8-22: warning: unused value: $2
 input.y:7.6-8: warning: unset value: $$
@@ -367,7 +367,7 @@ AT_DATA([input.y],
 exp: foo;
 ]])
 
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:8.7-11: %type redeclaration for foo
 input.y:3.7-11: previous declaration
 input.y:10.13-17: %destructor redeclaration for foo
@@ -393,7 +393,7 @@ AT_SETUP([Torturing the Scanner])
 
 
 AT_DATA([input.y], [])
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:1.1: syntax error, unexpected end of file
 ]])
 
@@ -401,7 +401,7 @@ AT_CHECK([bison input.y], [1], [],
 AT_DATA([input.y],
 [{}
 ])
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:1.1-2: syntax error, unexpected {...}
 ]])
 
@@ -537,7 +537,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -d -v -o input.c input.y])
+AT_BISON_CHECK([-d -v -o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
 AT_COMPILE([main.o], [-c main.c])
 AT_COMPILE([input], [input.o main.o])
@@ -568,7 +568,7 @@ exp: "MY TOKEN";
 %%
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 
 AT_CLEANUP
 
@@ -584,7 +584,7 @@ AT_DATA_GRAMMAR([input.y],
 %%
 empty_file:;
 ]])
-AT_CHECK([bison -o input.c input.y], $2, [], ignore)
+AT_BISON_CHECK([-o input.c input.y], $2, [], ignore)
 AT_CLEANUP
 ])
 
@@ -610,7 +610,7 @@ start: 'a';
 %%
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 
 AT_CLEANUP
 
@@ -648,7 +648,7 @@ start: ;
 %destructor { free ($$)
 ]])
 
-AT_CHECK([bison -o input.c input.y], 1, [],
+AT_BISON_CHECK([-o input.c input.y], 1, [],
 [[input.y:1.10-2.0: missing `"' at end of line
 input.y:4.10-5.0: missing `'' at end of line
 input.y:14.11-15.0: missing `'' at end of line
@@ -676,7 +676,7 @@ start: false_start ;
 %start start;
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 
 AT_CLEANUP
 
@@ -695,7 +695,7 @@ start: PREC %prec PREC ;
 PREC: ;
 ]])
 
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:3.1-4: rule given for PREC, which is a token
 ]])
 
@@ -716,7 +716,7 @@ AT_DATA([input-c.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c.y]], [0], [],
+AT_BISON_CHECK([[input-c.y]], [0], [],
 [[input-c.y:1.7: warning: %code qualifier `q' is not used
 input-c.y:2.7-9: warning: %code qualifier `bad' is not used
 input-c.y:3.7-9: warning: %code qualifier `bad' is not used
@@ -730,7 +730,7 @@ AT_DATA([input-c-glr.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c-glr.y]], [0], [],
+AT_BISON_CHECK([[input-c-glr.y]], [0], [],
 [[input-c-glr.y:1.7: warning: %code qualifier `q' is not used
 input-c-glr.y:2.7-9: warning: %code qualifier `bad' is not used
 input-c-glr.y:3.8-10: warning: %code qualifier `bad' is not used
@@ -743,7 +743,7 @@ AT_DATA([input-c++.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c++.y]], [0], [],
+AT_BISON_CHECK([[input-c++.y]], [0], [],
 [[input-c++.y:1.7: warning: %code qualifier `q' is not used
 input-c++.y:2.7-9: warning: %code qualifier `bad' is not used
 input-c++.y:3.8: warning: %code qualifier `q' is not used
@@ -756,7 +756,7 @@ AT_DATA([input-c++-glr.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison input-c++-glr.y]], [0], [],
+AT_BISON_CHECK([[input-c++-glr.y]], [0], [],
 [[input-c++-glr.y:1.7-9: warning: %code qualifier `bad' is not used
 input-c++-glr.y:2.7: warning: %code qualifier `q' is not used
 input-c++-glr.y:3.7: warning: %code qualifier `q' is not used
@@ -769,7 +769,7 @@ AT_DATA([special-char-@@.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison special-char-@@.y]], [0], [],
+AT_BISON_CHECK([[special-char-@@.y]], [0], [],
 [[special-char-@@.y:1.7-9: warning: %code qualifier `bad' is not used
 special-char-@@.y:2.7: warning: %code qualifier `q' is not used
 special-char-@@.y:3.7: warning: %code qualifier `q' is not used
@@ -782,7 +782,7 @@ AT_DATA([special-char-@:>@.y],
 %%
 start: ;
 ]])
-AT_CHECK([[bison special-char-@:>@.y]], [0], [],
+AT_BISON_CHECK([[special-char-@:>@.y]], [0], [],
 [[special-char-@:>@.y:1.7-9: warning: %code qualifier `bad' is not used
 special-char-@:>@.y:2.7: warning: %code qualifier `q' is not used
 special-char-@:>@.y:3.7: warning: %code qualifier `q' is not used
@@ -807,7 +807,7 @@ AT_DATA([input.y],
 start: ;
 ]])
 
-AT_CHECK([[bison input.y]], [0], [],
+AT_BISON_CHECK([[input.y]], [0], [],
 [[input.y:2.9-11: warning: %define variable `var' redefined
 input.y:1.9-11: warning: previous definition
 input.y:3.10-12: warning: %define variable `var' redefined
@@ -835,7 +835,7 @@ AT_DATA([Input.y],
 start: ;
 ]])
 
-AT_CHECK([[bison Input.y]], [1], [],
+AT_BISON_CHECK([[Input.y]], [1], [],
 [[Input.y:2.9-14: invalid value for %define Boolean variable `public'
 ]])
 
@@ -853,7 +853,7 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 
-AT_CHECK([[bison input.y]], [1], [],
+AT_BISON_CHECK([[input.y]], [1], [],
 [[input.y:1.9-21: invalid value for %define variable `api.push_pull': `neither'
 ]])
 
@@ -878,7 +878,7 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 
-AT_CHECK([[bison input.y]], [0], [],
+AT_BISON_CHECK([[input.y]], [0], [],
 [[input.y:1.9-16: warning: %define variable `api.pure' is not used
 ]])
 ])
@@ -911,7 +911,7 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 
-AT_CHECK([[bison input.y]], [1], [],
+AT_BISON_CHECK([[input.y]], [1], [],
 [m4_foreach([b4_arg], m4_dquote(m4_shift($@)),
 [[input.y:3.9-17: ]b4_arg[
 ]])])

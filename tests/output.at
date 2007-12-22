@@ -32,7 +32,7 @@ AT_DATA([$1],
 foo: {};
 ]])
 
-AT_CHECK([bison $3 $1 $5], 0)
+AT_BISON_CHECK([$3 $1 $5], 0)
 AT_CHECK([ls $4], [], [ignore])
 $6
 AT_CLEANUP
@@ -130,7 +130,7 @@ AT_DATA([$1],
 foo: {};
 ]])
 
-AT_CHECK([bison $3 $1], 0, [], [$4])
+AT_BISON_CHECK([$3 $1], 0, [], [$4])
 AT_CLEANUP
 ])
 
@@ -164,7 +164,7 @@ AT_DATA_GRAMMAR([glr.y],
 %%
 start: {};
 ]])
-AT_CHECK([bison -o "AS_ESCAPE([$1.c])" --defines="AS_ESCAPE([$1.h])" glr.y])
+AT_BISON_CHECK([-o "AS_ESCAPE([$1.c])" --defines="AS_ESCAPE([$1.h])" glr.y])
 AT_CHECK([ls "AS_ESCAPE([$1.c])" "AS_ESCAPE([$1.h])"], [], [ignore])
 AT_COMPILE([glr.o], [-c "AS_ESCAPE([$1.c])"])
 $2
@@ -175,7 +175,7 @@ AT_DATA_GRAMMAR([cxx.y],
 %%
 start: {};
 ]])
-AT_CHECK([bison -o "AS_ESCAPE([$1.c])" --defines="AS_ESCAPE([$1.h])" cxx.y])
+AT_BISON_CHECK([-o "AS_ESCAPE([$1.c])" --defines="AS_ESCAPE([$1.h])" cxx.y])
 AT_CHECK([ls "AS_ESCAPE([$1.c])" "AS_ESCAPE([$1.h])"], [], [ignore])
 AT_COMPILE_CXX([cxx.o], [-c "AS_ESCAPE([$1.c])"])
 $2

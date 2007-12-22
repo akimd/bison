@@ -38,3 +38,7 @@ maintainer-check:
 .PHONY: maintainer-push-check
 maintainer-push-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
+
+.PHONY: maintainer-xml-check
+maintainer-xml-check:
+	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@

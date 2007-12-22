@@ -169,6 +169,79 @@ m4_define([AT_DATA_GRAMMAR],
 $2])
 ])
 
+# AT_BISON_CHECK(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
+# -------------------------------------------------
+# Check Bison by invoking `bison BISON_ARGS'.  OTHER_AT_CHECK_ARGS are the
+# usual remaining arguments to AT_CHECK: STATUS, STDOUT, etc.
+#
+# This macro or AT_BISON_CHECK_NO_XML should always be used whenever invoking
+# Bison in the test suite.  For now it ensures that:
+#
+#   1. Valgrind doesn't report reachable memory when Bison is expected to have
+#      a non-zero exit status since Bison doesn't always try to free all memory
+#      in that case.
+#
+#   2. In the case of maintainer-xml-check, XML/XSLT output is compared with
+#      --graph and --report=all output for every working grammar.
+m4_define([AT_BISON_CHECK],
+[m4_if(m4_quote($2), [0], [AT_BISON_CHECK_XML($@)],
+       m4_quote($2), [], [AT_BISON_CHECK_XML($@)])
+AT_BISON_CHECK_NO_XML($@)])
+
+# AT_BISON_CHECK_NO_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
+# --------------------------------------------------------
+# Same as AT_BISON_CHECK except don't perform XML/XSLT checks.  This is useful
+# when a tortured grammar's XML is known to be too large for xsltproc to
+# handle.
+m4_define([AT_BISON_CHECK_NO_XML],
+[AT_CHECK(m4_if(m4_quote($2), [0], [], m4_quote($2), [], [],
+                [AT_QUELL_VALGRIND ])[[bison ]]$@)])
+
+# AT_BISON_CHECK_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
+# -----------------------------------------------------
+# Run AT_BISON_CHECK's XML/XSLT checks if $BISON_TEST_XML=1 and $XSLTPROC is
+# defined.  It doesn't make sense to invoke this macro if Bison is expected to
+# have a non-zero exit status.
+m4_define([AT_BISON_CHECK_XML],
+[[if test x"$BISON_TEST_XML" = x1 && test x"$XSLTPROC" != x""; then]
+  mkdir xml-tests
+  m4_pushdef([AT_BISON_ARGS],
+             [m4_bpatsubsts([[$1]],
+                            [--report(-file)?=[^][ ]*], [],
+                            [--graph=[^][ ]*], [],
+                            [--xml=[^][ ]*], [])])dnl
+  # Don't combine these Bison invocations since we want to be sure that
+  # --report=all isn't required to get the full XML file.
+  AT_CHECK([[bison --report=all --report-file=xml-tests/test.output \
+             --graph=xml-tests/test.dot ]]AT_BISON_ARGS,
+           [[0]], [ignore], [ignore])
+  AT_CHECK([[bison --xml=xml-tests/test.xml ]]AT_BISON_ARGS,
+           [[0]], [ignore], [ignore])
+  m4_popdef([AT_BISON_ARGS])dnl
+  cp xml-tests/test.output expout
+  AT_CHECK([[$XSLTPROC \
+             `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2text.xsl \
+             xml-tests/test.xml]], [[0]], [expout])
+  cp xml-tests/test.dot expout
+  AT_CHECK([[$XSLTPROC \
+             `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2dot.xsl \
+             xml-tests/test.xml]], [[0]], [expout])
+  rm -rf xml-tests expout
+[fi]])
+
+# AT_QUELL_VALGRIND
+# -----------------
+# Put this before a Bison invocation to keep Valgrind from complaining about
+# reachable memory.
+#
+# Do not quote invocations of this macro within the first argument of AT_CHECK.
+# The triple quoting below will cause test cases to fail if you do.  If you do
+# so anyway but also decrease the quoting below to avoid that problem, AT_CHECK
+# will then fail to shell-escape its contents when attempting to print them.
+# The testsuite verbose output, at least, will be incorrect, but nothing may
+# fail to make sure you notice.
+m4_define([AT_QUELL_VALGRIND],
+[[[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS;]]])
 
 ## ------------------------ ##
 ## Compiling C, C++ Files.  ##

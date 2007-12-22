@@ -42,7 +42,7 @@ AT_DATA([[input.y]],
 exp: useful;
 ]])
 
-AT_CHECK([[bison input.y]])
+AT_BISON_CHECK([[input.y]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
 [[Terminals unused in grammar
@@ -86,7 +86,7 @@ AT_DATA([[input.y]],
 exp: useful;
 ]])
 
-AT_CHECK([[bison input.y]], 0, [],
+AT_BISON_CHECK([[input.y]], 0, [],
 [[input.y: warning: 9 nonterminals useless in grammar
 input.y:4.8-15: warning: nonterminal useless in grammar: useless1
 input.y:5.8-15: warning: nonterminal useless in grammar: useless2
@@ -141,7 +141,7 @@ useless8: '8';
 useless9: '9';
 ]])
 
-AT_CHECK([[bison input.y]], 0, [],
+AT_BISON_CHECK([[input.y]], 0, [],
 [[input.y: warning: 9 nonterminals and 9 rules useless in grammar
 input.y:6.1-8: warning: nonterminal useless in grammar: useless1
 input.y:7.1-8: warning: nonterminal useless in grammar: useless2
@@ -236,7 +236,7 @@ non_productive: non_productive useless_token
 %%
 ]])
 
-AT_CHECK([[bison not-reduced.y]], 0, [],
+AT_BISON_CHECK([[not-reduced.y]], 0, [],
 [[not-reduced.y: warning: 2 nonterminals and 3 rules useless in grammar
 not-reduced.y:14.1-13: warning: nonterminal useless in grammar: not_reachable
 not-reduced.y:11.6-19: warning: nonterminal useless in grammar: non_productive
@@ -282,7 +282,7 @@ exp: useful            { /* A useful action. */ }
 %%
 ]])
 
-AT_CHECK([[bison reduced.y]])
+AT_BISON_CHECK([[reduced.y]])
 
 # Comparing the parsers.
 cp reduced.c expout
@@ -310,7 +310,7 @@ underivable: indirection;
 indirection: underivable;
 ]])
 
-AT_CHECK([[bison input.y]], 0, [],
+AT_BISON_CHECK([[input.y]], 0, [],
 [[input.y: warning: 2 nonterminals and 3 rules useless in grammar
 input.y:5.15-25: warning: nonterminal useless in grammar: underivable
 input.y:6.14-24: warning: nonterminal useless in grammar: indirection
@@ -345,7 +345,7 @@ AT_DATA([[input.y]],
 exp: exp;
 ]])
 
-AT_CHECK([[bison input.y]], 1, [],
+AT_BISON_CHECK([[input.y]], 1, [],
 [[input.y: warning: 2 nonterminals and 2 rules useless in grammar
 input.y:3.1-3: fatal error: start symbol exp does not derive any sentence
 ]])

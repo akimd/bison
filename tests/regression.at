@@ -1,6 +1,6 @@
 # Bison Regressions.                               -*- Autotest -*-
 
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Free Software
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ int yylex (void);
 program: 'x';
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
 AT_COMPILE([input.o], [-DYYDEBUG -c input.c])
 
@@ -67,7 +67,7 @@ typedef union { char const *val; } YYSTYPE;
 program: { $$ = ""; };
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
 
 AT_CLEANUP
@@ -105,7 +105,7 @@ exp: MY_TOKEN;
 %%
 ]])
 
-AT_CHECK([bison -y -o input.c input.y])
+AT_BISON_CHECK([-y -o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
 
 AT_CLEANUP
@@ -148,7 +148,7 @@ exp: MY_TOKEN;
 %%
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
 
 AT_CLEANUP
@@ -170,7 +170,7 @@ exp: { tests = {{{{{{{{{{}}}}}}}}}}; };
 %%
 ]])
 
-AT_CHECK([bison -v -o input.c input.y])
+AT_BISON_CHECK([-v -o input.c input.y])
 
 AT_CHECK([grep 'tests = {{{{{{{{{{}}}}}}}}}};' input.c], 0, [ignore])
 
@@ -197,7 +197,7 @@ exp: '(' exp ')' | NUM ;
 %%
 ]])
 
-AT_CHECK([bison -v -o input.c input.y], 0, [],
+AT_BISON_CHECK([-v -o input.c input.y], 0, [],
 [[input.y:6.8-14: warning: symbol `"<="' used more than once as a literal string
 ]])
 
@@ -242,7 +242,7 @@ expr:
 };
 ]])
 
-AT_CHECK([bison -o input.c -v input.y])
+AT_BISON_CHECK([-o input.c -v input.y])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
@@ -364,7 +364,7 @@ exp: ;
 %%
 ]])
 
-AT_CHECK([bison -v -o input.c input.y])
+AT_BISON_CHECK([-v -o input.c input.y])
 
 AT_CLEANUP
 
@@ -387,7 +387,7 @@ default: 'a' }
 %{
 ]])
 
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.1: invalid character: `?'
 input.y:3.14: invalid character: `}'
 input.y:4.1: invalid character: `%'
@@ -414,7 +414,7 @@ AT_DATA([input.y],
 %union
 ]])
 
-AT_CHECK([bison input.y], [1], [],
+AT_BISON_CHECK([input.y], [1], [],
 [[input.y:3.1-15: syntax error, unexpected %initial-action, expecting {...}
 ]])
 
@@ -469,7 +469,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
 AT_DATA([experr],
 [[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\201\001\201?\?!", expecting a
@@ -500,7 +500,7 @@ exp:
 ]])
 # Pacify font-lock-mode: "
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
 AT_CLEANUP
 
@@ -540,7 +540,7 @@ CONST_DEC:
 %%
 ]])
 
-AT_CHECK([bison -v input.y])
+AT_BISON_CHECK([-v input.y])
 AT_CHECK([cat input.output], 0,
 [[Grammar
 
@@ -705,7 +705,7 @@ else: "else" statement;
 %%
 ]])
 
-AT_CHECK([bison -v -o input.c input.y])
+AT_BISON_CHECK([-v -o input.c input.y])
 
 # Check only the tables.
 [sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c >tables.c]
@@ -925,11 +925,11 @@ m4_define([AT_CHECK_DANCER],
 [AT_SETUP([Dancer $1])
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_DANCER_Y([$1])
-AT_CHECK([bison -o dancer.c dancer.y])
+AT_BISON_CHECK([-o dancer.c dancer.y])
 AT_LALR1_CC_IF(
-  [AT_CHECK([bison -o dancer.cc dancer.y])
+  [AT_BISON_CHECK([-o dancer.cc dancer.y])
    AT_COMPILE_CXX([dancer])],
-  [AT_CHECK([bison -o dancer.c dancer.y])
+  [AT_BISON_CHECK([-o dancer.c dancer.y])
    AT_COMPILE([dancer])])
 AT_PARSER_CHECK([./dancer], 1, [],
 [syntax error, unexpected ':'
@@ -1025,11 +1025,11 @@ m4_define([AT_CHECK_EXPECT2],
 [AT_SETUP([Expecting two tokens $1])
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_EXPECT2_Y([$1])
-AT_CHECK([bison -o expect2.c expect2.y])
+AT_BISON_CHECK([-o expect2.c expect2.y])
 AT_LALR1_CC_IF(
-  [AT_CHECK([bison -o expect2.cc expect2.y])
+  [AT_BISON_CHECK([-o expect2.cc expect2.y])
    AT_COMPILE_CXX([expect2])],
-  [AT_CHECK([bison -o expect2.c expect2.y])
+  [AT_BISON_CHECK([-o expect2.c expect2.y])
    AT_COMPILE([expect2])])
 AT_PARSER_CHECK([./expect2], 1, [],
 [syntax error, unexpected '+', expecting A or B
@@ -1096,7 +1096,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -t -o input.c input.y])
+AT_BISON_CHECK([-t -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 0,
 [[Bison would once convert this action to a midrule because of the subsequent braced code.
@@ -1137,7 +1137,7 @@ start: 'a' "A" 'b';
 %token 'a' "A";
 ]])
 
-AT_CHECK([bison -t -o input.c input.y])
+AT_BISON_CHECK([-t -o input.c input.y])
 
 AT_CLEANUP
 
@@ -1162,7 +1162,7 @@ start: a | 'a' a 'a' ;
 a: 'a' ;
 ]])
 
-AT_CHECK([[bison --report=all input.y]])
+AT_BISON_CHECK([[--report=all input.y]])
 AT_CHECK([[sed -n '/^state 1$/,/^state 2$/p' input.output]], [[0]],
 [[state 1
 

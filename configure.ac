@@ -92,6 +92,8 @@ if test x"$ac_cv_prog_gnu_m4" != xyes; then
 fi
 AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
 AM_MISSING_PROG([HELP2MAN], [help2man])
+AC_PATH_PROG([XSLTPROC], [xsltproc])
+AC_SUBST([XSLTPROC])
 
 # Checks for header files.
 AC_CHECK_HEADERS_ONCE([locale.h])

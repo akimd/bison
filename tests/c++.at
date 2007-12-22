@@ -42,7 +42,7 @@ yy::parser::error (const location& l, const std::string& m)
 }
 ]])
 
-AT_CHECK([bison -o input.cc input.yy], 0)
+AT_BISON_CHECK([-o input.cc input.yy], 0)
 
 AT_DATA([Doxyfile],
 [# The PROJECT_NAME tag is a single word (or a sequence of words
@@ -148,7 +148,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o input.cc input.y]])
+AT_BISON_CHECK([[-o input.cc input.y]])
 
 m4_if([$#], [1],
 [AT_COMPILE_CXX([[input]], [[input.cc]])

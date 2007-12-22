@@ -97,3 +97,7 @@ maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-ch
 .PHONY: maintainer-push-check
 maintainer-push-check:
 	BISON_USE_PUSH_FOR_PULL=1 $(MAKE) $(AM_MAKEFLAGS) maintainer-check
+
+.PHONY: maintainer-xml-check
+maintainer-xml-check:
+	BISON_TEST_XML=1 $(MAKE) $(AM_MAKEFLAGS) maintainer-check

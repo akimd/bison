@@ -1,5 +1,5 @@
 # Exercising Bison Grammar Sets.                      -*- Autotest -*-
-# Copyright (C) 2001, 2002, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2005, 2007 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -76,7 +76,7 @@ AT_DATA([[input.y]],
 e: 'e' | /* Nothing */;
 ]])
 
-AT_CHECK([[bison --trace=sets input.y]], [], [], [stderr])
+AT_BISON_CHECK([[--trace=sets input.y]], [], [], [stderr])
 AT_EXTRACT_SETS([stderr], [sets])
 AT_CHECK([[cat sets]], [],
 [[DERIVES
@@ -160,7 +160,7 @@ g: h;
 h: 'h';
 ]])
 
-AT_CHECK([[bison --trace=sets input.y]], [], [], [stderr])
+AT_BISON_CHECK([[--trace=sets input.y]], [], [], [stderr])
 
 AT_CHECK([[sed -n 's/[	 ]*$//;/^RTC: Firsts Output BEGIN/,/^RTC: Firsts Output END/p' stderr]], [],
 [[RTC: Firsts Output BEGIN
@@ -206,7 +206,7 @@ exp:
  ;
 ]])
 
-AT_CHECK([[bison --trace=sets input.y]], [], [], [stderr])
+AT_BISON_CHECK([[--trace=sets input.y]], [], [], [stderr])
 AT_EXTRACT_SETS([stderr], [sets])
 AT_CHECK([[cat sets]], [],
 [[DERIVES
@@ -276,7 +276,7 @@ input:
 ;
 ]])
 
-AT_CHECK([[bison -v -o input.c input.y]])
+AT_BISON_CHECK([[-v -o input.c input.y]])
 
 # Get the final state in the parser.
 AT_CHECK([[sed -n 's/.*define YYFINAL *\([0-9][0-9]*\)/final state \1/p' input.c]],

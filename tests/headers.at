@@ -1,5 +1,5 @@
 # Bison Parser Headers.                               -*- Autotest -*-
-# Copyright (C) 2001, 2002, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2006, 2007 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ AT_DATA([input.y],
 exp: {};
 ])
 
-AT_CHECK([bison --defines input.y])
+AT_BISON_CHECK([--defines input.y])
 
 AT_CLEANUP
 
@@ -65,7 +65,7 @@ dummy:;
 #include <$1.h>
 ])
 
-AT_CHECK([bison --defines=$1.h --output=y.tab.c $1.y])
+AT_BISON_CHECK([--defines=$1.h --output=y.tab.c $1.y])
 
 AT_COMPILE([y.tab.o], [-I. -c y.tab.c])
 
@@ -109,7 +109,7 @@ my_error (const char *msg)
 exp:;
 ])
 
-AT_CHECK([bison --defines -o input.c input.y])
+AT_BISON_CHECK([--defines -o input.c input.y])
 
 # YYLTYPE should be defined, and MY_LLOC declared.
 AT_DATA([caller.c],

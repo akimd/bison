@@ -36,3 +36,6 @@ CONF_JAVAC='@CONF_JAVAC@'
 
 # Empty if no Java VM was found
 CONF_JAVA='@CONF_JAVA@'
+
+# Empty if no xsltproc was found
+XSLTPROC='@XSLTPROC@'

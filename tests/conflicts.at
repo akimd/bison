@@ -36,7 +36,7 @@ exp: e 'e';
 e: 'e' | /* Nothing. */;
 ]])
 
-AT_CHECK([bison -o input.c input.y], 0, [],
+AT_BISON_CHECK([-o input.c input.y], 0, [],
 [[input.y:4.9: warning: rule useless in parser due to conflicts: e: /* empty */
 ]])
 
@@ -94,7 +94,7 @@ main (int argc, const char *argv[])
 ]])
 
 # Specify the output files to avoid problems on different file systems.
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
 
 AT_PARSER_CHECK([./input '0<0'])
@@ -132,7 +132,7 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison -o input.c --report=all input.y], 0, [],
+AT_BISON_CHECK([-o input.c --report=all input.y], 0, [],
 [input.y: conflicts: 1 shift/reduce
 ])
 
@@ -240,7 +240,7 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison -o input.c --report=all input.y])
+AT_BISON_CHECK([-o input.c --report=all input.y])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
@@ -362,7 +362,7 @@ id : '0';
 %%
 ]])
 
-AT_CHECK([bison -o input.c --report=all input.y], 0, [],
+AT_BISON_CHECK([-o input.c --report=all input.y], 0, [],
 [[input.y: conflicts: 1 reduce/reduce
 input.y:4.6-8: warning: rule useless in parser due to conflicts: id: '0'
 ]])
@@ -479,7 +479,7 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison -o input.c input.y], 1, [],
+AT_BISON_CHECK([-o input.c input.y], 1, [],
 [input.y: conflicts: 1 shift/reduce
 input.y: expected 0 shift/reduce conflicts
 ])
@@ -499,7 +499,7 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_CLEANUP
 
 
@@ -516,7 +516,7 @@ AT_DATA([input.y],
 exp: exp OP exp | NUM;
 ]])
 
-AT_CHECK([bison -o input.c input.y], 1, [],
+AT_BISON_CHECK([-o input.c input.y], 1, [],
 [input.y: conflicts: 1 shift/reduce
 input.y: expected 2 shift/reduce conflicts
 ])
@@ -536,7 +536,7 @@ program: a 'a' | a a;
 a: 'a';
 ]])
 
-AT_CHECK([bison -o input.c input.y], 1, [],
+AT_BISON_CHECK([-o input.c input.y], 1, [],
 [input.y: conflicts: 1 reduce/reduce
 input.y: expected 0 reduce/reduce conflicts
 ])
@@ -563,7 +563,7 @@ e:   e '+' e
    ;
 ]])
 
-AT_CHECK([bison -o input.c input.y], 0, [],
+AT_BISON_CHECK([-o input.c input.y], 0, [],
 [[input.y: conflicts: 4 shift/reduce
 ]])
 AT_CLEANUP
@@ -589,7 +589,7 @@ e:   e '+' e %prec '+'
    ;
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_CLEANUP
 
 
@@ -613,7 +613,7 @@ e:   e '+' e
    ;
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_CLEANUP
 
 
@@ -665,7 +665,7 @@ reported_conflicts:
 
 ]])
 
-AT_CHECK([[bison --report=all input.y]], 0, [],
+AT_BISON_CHECK([[--report=all input.y]], 0, [],
 [[input.y: conflicts: 1 shift/reduce, 1 reduce/reduce
 input.y:12.5-20: warning: rule useless in parser due to conflicts: resolved_conflict: 'a' unreachable1
 input.y:20.5-20: warning: rule useless in parser due to conflicts: unreachable1: 'a' unreachable2
@@ -817,7 +817,7 @@ AT_DATA([[input-keep.y]],
 ]])
 AT_CHECK([[cat input.y >> input-keep.y]])
 
-AT_CHECK([[bison input-keep.y]], 0, [],
+AT_BISON_CHECK([[input-keep.y]], 0, [],
 [[input-keep.y: conflicts: 2 shift/reduce, 2 reduce/reduce
 input-keep.y:22.4: warning: rule useless in parser due to conflicts: unreachable1: /* empty */
 input-keep.y:26.16: warning: rule useless in parser due to conflicts: unreachable2: /* empty */
@@ -858,7 +858,7 @@ empty_c1: %prec 'c' ;
 empty_c2: %prec 'c' ;
 empty_c3: %prec 'd' ;
 ]])
-AT_CHECK([[bison --report=all -o input.c input.y]], 0, [], [ignore])
+AT_BISON_CHECK([[--report=all -o input.c input.y]], 0, [], [ignore])
 AT_CHECK([[cat input.output | sed -n '/^state 0$/,/^state 1$/p']], 0,
 [[state 0
 
@@ -934,7 +934,7 @@ empty_c2: %prec 'c' ;
 empty_c3: %prec 'c' ;
 ]])
 
-AT_CHECK([[bison --report=all -o input.c input.y]], 0, [], [ignore])
+AT_BISON_CHECK([[--report=all -o input.c input.y]], 0, [], [ignore])
 AT_CHECK([[cat input.output | sed -n '/^state 0$/,/^state 1$/p']], 0,
 [[state 0
 

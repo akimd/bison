@@ -1,3 +1,47 @@
+2007-12-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Automate regression testing of the XML/XSLT implementation.  Discussed
+	starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2007-11/msg00021.html>.
+	* configure.ac (XSLTPROC): New substitution.
+	* Makefile.am (maintainer-xml-check): New phony target invoking...
+	* tests/Makefile.am (maintainer-xml-check): ... this new phony target
+	invoking make maintainer-check with BISON_TEST_XML=1.
+	* tests/atlocal.in (XSLTPROC): New.
+	* tests/local.at (AT_BISON_CHECK): New macro to (1) instruct Valgrind
+	not to report reachable memory when Bison is expected to have a
+	non-zero exit status and (2) to compare XML/XSLT output with --graph
+	and --report=all output for every working grammar when
+	BISON_TEST_XML=1.
+	(AT_BISON_CHECK_NO_XML): Likewise, but skip XML checks.
+	(AT_BISON_CHECK_XML): New.
+	(AT_QUELL_VALGRIND): New.
+	* tests/testsuite.at (ORIGINAL_AT_CHECK): Remove this and...
+	(AT_CHECK): ... don't redefine this since this was the old way to
+	quell Valgrind.
+	* tests/actions.at: Rewrite all AT_CHECK invocations for bison as
+	AT_BISON_CHECK invocations.
+	* tests/c++.at: Likewise.
+	* tests/calc.at: Likewise.
+	* tests/conflicts.at: Likewise.
+	* tests/cxx-type.at: Likewise.
+	* tests/existing.at: Likewise.
+	* tests/glr-regression.at: Likewise.
+	* tests/headers.at: Likewise.
+	* tests/input.at: Likewise.
+	* tests/java.at: Likewise.
+	* tests/output.at: Likewise.
+	* tests/push.at: Likewise.
+	* tests/reduce.at: Likewise.
+	* tests/regression.at: Likewise.
+	* tests/sets.at: Likewise.
+	* tests/skeletons.at: Likewise.
+	* tests/synclines.at: Likewise.
+	* tests/torture.at: Likewise.
+	(Big triangle): Use AT_BISON_CHECK_NO_XML instead since this grammar
+	tends to hang xsltproc.
+	(Big horizontal): Likewise.
+
 2007-12-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	In XML output, remove redundant class attribute on symbol element.

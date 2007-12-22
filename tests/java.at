@@ -288,7 +288,7 @@ AT_DATA_JAVA_CALC_Y([$1
 $2
 }])
 
-AT_CHECK([bison -o Calc.java Calc.y])
+AT_BISON_CHECK([-o Calc.java Calc.y])
 AT_JAVA_COMPILE([Calc.java])
 
 # Test the priorities.

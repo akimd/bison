@@ -74,7 +74,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -d -v -o input.c input.y])
+AT_BISON_CHECK([-d -v -o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 0,
 [[0123456789
@@ -152,7 +152,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -d -v -o input.c input.y], 0)
+AT_BISON_CHECK([-d -v -o input.c input.y], 0)
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 0,
 [[15
@@ -368,9 +368,9 @@ main (int argc, const char *argv[])
 ]])
 
 AT_LALR1_CC_IF(
-  [AT_CHECK([bison -o input.cc input.y])
+  [AT_BISON_CHECK([-o input.cc input.y])
    AT_COMPILE_CXX([input])],
-  [AT_CHECK([bison -o input.c input.y])
+  [AT_BISON_CHECK([-o input.c input.y])
    AT_COMPILE([input])])
 
 
@@ -663,7 +663,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
 [[<> destructor for 'd' @ 4.
@@ -788,7 +788,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
 [[<*>/<field2>/e destructor.
@@ -923,7 +923,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input$1.c input$1.y])
+AT_BISON_CHECK([-o input$1.c input$1.y])
 AT_COMPILE([input$1])
 AT_PARSER_CHECK([./input$1], 0,
 [[<]]kind[[> for 'E' @ 1.
@@ -1023,7 +1023,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], [1], [],
 [[Starting parse
@@ -1134,7 +1134,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
 
 AT_CLEANUP
@@ -1202,7 +1202,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([bison -o input.c input.y], 0,,
+AT_BISON_CHECK([-o input.c input.y], 0,,
 [[input.y:33.3-23: warning: unset value: $$
 input.y:30.3-35.37: warning: unused value: $3
 ]])
@@ -1296,7 +1296,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o input.c input.y]])
+AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
 
 AT_CLEANUP])

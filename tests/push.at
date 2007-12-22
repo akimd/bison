@@ -71,7 +71,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o input.c input.y]])
+AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])
 
@@ -135,7 +135,7 @@ main (void)
 }
 ]])
 
-AT_CHECK([[bison -o input.c input.y]])
+AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]], 0, [],
 [[cannot allocate multiple impure push-parser instances
@@ -163,7 +163,7 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 
-AT_CHECK([[bison input.y]], [0], [],
+AT_BISON_CHECK([[input.y]], [0], [],
 [[input.y:2.9-21: warning: %define variable `api.push_pull' is not used
 ]])
 
