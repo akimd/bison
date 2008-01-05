@@ -1,3 +1,8 @@
+2008-01-05  Wojciech Polak  <polak@gnu.org>
+
+	* data/xslt/xml2xhtml.xsl (xsl:template match="/"): Precede an XHTML
+	document's title with the input grammar file name.
+
 2007-12-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Automate regression testing of the XML/XSLT implementation.  Discussed
