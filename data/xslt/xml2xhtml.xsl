@@ -4,7 +4,7 @@
     xml2html.xsl - transform Bison XML Report into XHTML.
     $Id$
 
-    Copyright (C) 2007 Free Software Foundation, Inc.
+    Copyright (C) 2007, 2008 Free Software Foundation, Inc.
 
     This file is part of Bison, the GNU Compiler Compiler.
 
@@ -39,7 +39,10 @@
 <xsl:template match="/">
   <html>
     <head>
-      <title>GNU Bison XML Automaton Report</title>
+      <title>
+	<xsl:value-of select="bison-xml-report/filename"/>
+	<xsl:text> - GNU Bison XML Automaton Report</xsl:text>
+      </title>
       <style type="text/css"><![CDATA[
       body {
         font-family: "Nimbus Sans L", Arial, sans-serif;
@@ -89,7 +92,7 @@
       GNU Bison <xsl:value-of select="/bison-xml-report/@version"/></a>
       XML Automaton Report, written by
       <a href="http://www.gnu.org.ua/~polak/" title="Wojciech Polak">Wojciech Polak</a>.
-      Copyright (C) 2007 Free Software Foundation, Inc.<br />
+      Copyright (C) 2007, 2008 Free Software Foundation, Inc.<br />
       Verbatim copying and distribution of this entire page is permitted
       in any medium, provided this notice is preserved.</div>
     </body>
