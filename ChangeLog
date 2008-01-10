@@ -1,3 +1,9 @@
+2008-01-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* data/yacc.c (yyparse): Correct the comment when locations aren't used.
+	Problem reported by Claudio Saavedra in
+	<http://lists.gnu.org/archive/html/bug-bison/2008-01/msg00003.html>.
+
 2008-01-05  Wojciech Polak  <polak@gnu.org>
 
 	* data/xslt/xml2xhtml.xsl (xsl:template match="/"): Precede an XHTML
