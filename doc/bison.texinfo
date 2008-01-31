@@ -45,10 +45,10 @@ being ``A @acronym{GNU} Manual,'' and with the Back-Cover Texts as in
 (a) below.  A copy of the license is included in the section entitled
 ``@acronym{GNU} Free Documentation License.''
 
-(a) The @acronym{FSF}'s Back-Cover Text is: ``You have freedom to copy
-and modify this @acronym{GNU} Manual, like @acronym{GNU} software.
-Copies published by the Free Software Foundation raise funds for
-@acronym{GNU} development.''
+(a) The FSF's Back-Cover Text is: ``You have the freedom to copy and
+modify this @acronym{GNU} manual.  Buying copies from the @acronym{FSF}
+supports it in developing @acronym{GNU} and promoting software
+freedom.''
 @end quotation
 @end copying
 

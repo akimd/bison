@@ -1,3 +1,7 @@
+2008-01-30  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/bison.texinfo: Update Back-Cover text to reflect new GNU wording.
+
 2008-01-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* data/yacc.c (yyparse): Correct the comment when locations aren't used.
