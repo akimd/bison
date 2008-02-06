@@ -1,3 +1,23 @@
+2008-02-06  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
+
+	DJGPP specific issues.
+	* djgpp/config.bat: Add filenames that are not 8.3 clean and that must
+	be changed.  Copyright timestamp adjusted.
+	* djgpp/config.sed: Add filenames that are not 8.3 clean and that must
+	be changed.  Copyright timestamp adjusted.
+	* djgpp/config.site: Copyright timestamp adjusted.
+	* djgpp/config_h.sed: Copyright timestamp adjusted.
+	* djgpp/djunpack.bat: Copyright timestamp adjusted.
+	* djgpp/fnchnage.lst: Add filenames that are not 8.3 clean to the
+	filename translation list.
+	* djgpp/subpipe.c (init_subpipe): Check the environment variables
+	TMPDIR, TMP and TEMP, in that order, to determinate where the temp
+	files shall be created.  Before trying to use the temp dir where the
+	environment variable points to check that the dir really exists. If
+	not default to the cwd as temp dir.  Copyright timestamp adjusted.
+	* djgpp/subpipe.h: Copyright timestamp adjusted.
+	* djgpp/testsuite.sed: Copyright timestamp adjusted.
+
 2008-01-30  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/bison.texinfo: Update Back-Cover text to reflect new GNU wording.
