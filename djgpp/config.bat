@@ -4,7 +4,7 @@ Rem Configure Bison for DJGPP.
 Rem WARNING WARNING WARNING: This file needs to have DOS CRLF end-of-line
 Rem format, or else stock DOS/Windows shells will refuse to run it.
 
-Rem Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+Rem Copyright (C) 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
 Rem This program is free software: you can redistribute it and/or modify
 Rem it under the terms of the GNU General Public License as published by
@@ -212,6 +212,46 @@ test -f %XSRC%/data/c++-skel.m4
 if not errorlevel 1 mv -f %XSRC%/data/c++-skel.m4 %XSRC%/data/cxx-skel.m4
 test -f %XSRC%/data/cxx-skel.m4
 if errorlevel 1 mv -f %XSRC%/data/cpp-skel.m4 %XSRC%/data/cxx-skel.m4
+test -f %XSRC%/build-aux/javacomp.sh.in
+if not errorlevel 1 mv -f %XSRC%/build-aux/javacomp.sh.in %XSRC%/build-aux/javacomp.sh-in
+test -f %XSRC%/build-aux/javacomp.sh-in
+if errorlevel 1 mv -f %XSRC%/build-aux/javacomp.sh %XSRC%/build-aux/javacomp.sh-in
+test -f %XSRC%/build-aux/javacomp.sh-in
+if errorlevel 1 mv -f %XSRC%/build-aux/javacomp.shin %XSRC%/build-aux/javacomp.sh-in
+test -f %XSRC%/build-aux/javacomp.sh-in
+if errorlevel 1 mv -f %XSRC%/build-aux/javacomp.sh_in %XSRC%/build-aux/javacomp.sh-in
+test -f %XSRC%/build-aux/javacomp.sh-in
+if errorlevel 1 mv -f %XSRC%/build-aux/javacomp.sh.in %XSRC%/build-aux/javacomp.sh-in
+test -f %XSRC%/build-aux/javaexec.sh.in
+if not errorlevel 1 mv -f %XSRC%/build-aux/javaexec.sh.in %XSRC%/build-aux/javaexec.sh-in
+test -f %XSRC%/build-aux/javaexec.sh-in
+if errorlevel 1 mv -f %XSRC%/build-aux/javaexec.sh %XSRC%/build-aux/javaexec.sh-in
+test -f %XSRC%/build-aux/javaexec.sh-in
+if errorlevel 1 mv -f %XSRC%/build-aux/javaexec.shin %XSRC%/build-aux/javaexec.sh-in
+test -f %XSRC%/build-aux/javaexec.sh-in
+if errorlevel 1 mv -f %XSRC%/build-aux/javaexec.sh_in %XSRC%/build-aux/javaexec.sh-in
+test -f %XSRC%/build-aux/javaexec.sh-in
+if errorlevel 1 mv -f %XSRC%/build-aux/javaexec_sh.in %XSRC%/build-aux/javaexec.sh-in
+test -f %XSRC%/doc/yacc.1.in
+if not errorlevel 1 mv -f %XSRC%/doc/yacc.1.in %XSRC%/doc/yacc.1-in
+test -f %XSRC%/doc/yacc.1-in
+if errorlevel 1 mv -f %XSRC%/doc/yacc.1 %XSRC%/doc/yacc.1-in
+test -f %XSRC%/doc/yacc.1-in
+if errorlevel 1 mv -f %XSRC%/doc/yacc.1in %XSRC%/doc/yacc.1-in
+test -f %XSRC%/doc/yacc.1-in
+if errorlevel 1 mv -f %XSRC%/doc/yacc.1_in %XSRC%/doc/yacc.1-in
+test -f %XSRC%/doc/yacc.1-in
+if errorlevel 1 mv -f %XSRC%/doc/yacc_1.in %XSRC%/doc/yacc.1-in
+test -f %XSRC%/etc/bench.pl.in
+if not errorlevel 1 mv -f %XSRC%/etc/bench.pl.in %XSRC%/etc/bench.pl-in
+test -f %XSRC%/etc/bench.pl-in
+if errorlevel 1 mv -f %XSRC%/etc/bench.pl %XSRC%/etc/bench.pl-in
+test -f %XSRC%/etc/bench.pl-in
+if errorlevel 1 mv -f %XSRC%/etc/bench.plin %XSRC%/etc/bench.pl-in
+test -f %XSRC%/etc/bench.pl-in
+if errorlevel 1 mv -f %XSRC%/etc/bench.pl_in %XSRC%/etc/bench.pl-in
+test -f %XSRC%/etc/bench.pl-in
+if errorlevel 1 mv -f %XSRC%/etc/bench_pl.in %XSRC%/etc/bench.pl-in
 
 :scan_gram_c_Test
 test -f %XSRC%/src/c-scan-gram.c
