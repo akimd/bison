@@ -1,5 +1,9 @@
+@V@/build-aux/javacomp.sh.in              @V@/build-aux/javacomp.sh-in
+@V@/build-aux/javaexec.sh.in              @V@/build-aux/javaexec.sh-in
 @V@/data/c++-skel.m4                      @V@/data/cxx-skel.m4
 @V@/data/c++.m4                           @V@/data/cxx.m4
+@V@/doc/yacc.1.in                         @V@/doc/yacc.1-in
+@V@/etc/bench.pl.in                       @V@/etc/bench.pl-in
 @V@/examples/calc++/                      @V@/examples/calcxx/
 @V@/examples/calc++/Makefile.am           @V@/examples/calcxx/Makefile.am
 @V@/examples/calc++/Makefile.in           @V@/examples/calcxx/Makefile.in
@@ -16,6 +20,8 @@
 @V@/examples/calc++/calc++-parser.stamp   @V@/examples/calcxx/calcxx-parser.stamp
 @V@/examples/calc++/calc++-parser.yy      @V@/examples/calcxx/calcxx-parser.yy
 @V@/examples/calc++/test                  @V@/examples/calcxx/test
-@V@/tests/c++.at                          @V@/tests/cxx.at
+@V@/po/Makefile.in.in                     @V@/po/Makefile.in-in
+@V@/runtime-po/Makefile.in.in             @V@/runtime-po/Makefile.in-in
 @V@/src/scan-gram-c.c                     @V@/src/c-scan-gram.c
 @V@/src/scan-skel-c.c                     @V@/src/c-scan-skel.c
+@V@/tests/c++.at                          @V@/tests/cxx.at
