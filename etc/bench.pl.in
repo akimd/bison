@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-# Copyright (C) 2006 Free Software Foundation, Inc.
+# Copyright (C) 2006, 2008 Free Software Foundation, Inc.
 #
 # This file is part of Bison, the GNU Compiler Compiler.
 #
@@ -343,12 +343,10 @@ sub bench_grammar ($)
   my ($gram) = @_;
   my %test =
     (
-     "yacc.c-pull-impure" => '',
-     "yacc.c-pull-pure" => '%pure-parser',
-     "push.c-pull-impure" => '%skeleton "push.c"',
-     "push.c-pull-pure" => '%skeleton "push.c" %pure-parser',
-     "push.c-push-impure" => '%skeleton "push.c" %push-pull-parser',
-     "push.c-push-pure" => '%skeleton "push.c" %push-pull-parser %pure-parser',
+     "pull-impure" => '',
+     "pull-pure" => '%define api.pure',
+     "push-impure" => '%define api.push_pull "both"',
+     "push-pure" => '%define api.push_pull "both" %define api.pure',
     );
 
   my %bench;

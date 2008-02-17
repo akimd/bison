@@ -1,4 +1,4 @@
-## Copyright (C) 2002, 2005, 2006, 2007 Free Software Foundation, Inc.
+## Copyright (C) 2002, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 dist_pkgdata_DATA = README bison.m4 \
-   c-skel.m4 c.m4 yacc.c glr.c push.c \
+   c-skel.m4 c.m4 yacc.c glr.c \
    c++-skel.m4 c++.m4 location.cc lalr1.cc glr.cc \
    java-skel.m4 java.m4 lalr1.java
 

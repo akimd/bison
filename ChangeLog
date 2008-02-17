@@ -1,5 +1,14 @@
 2008-02-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* data/Makefile.am (dist_pkgdata_DATA): Remove push.c.
+	* data/push.c: Rename to...
+	* data/yacc.c: ... this, overwriting it.
+	* etc/bench.pl.in (bench_grammar): `%pure-parser'-> `%define api.pure'.
+	`%push-pull-parser' -> `%define api.push_pull "both"'.
+	Remove old yacc.c tests, and update push.c tests to yacc.c.
+
+2008-02-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* data/bison.m4 (b4_percent_code_get): Output %code block comments like
 	`"%code top" blocks' instead of `%code "top" blocks'.
 	* data/push.c: Import yacc.c changes from 2008-01-09 and 2007-08-03.
