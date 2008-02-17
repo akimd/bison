@@ -1,6 +1,6 @@
 # Bison Regressions.                               -*- Autotest -*-
 
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -1179,5 +1179,66 @@ AT_CHECK([[sed -n '/^state 1$/,/^state 2$/p' input.output]], [[0]],
 
 state 2
 ]])
+
+AT_CLEANUP
+
+
+
+## ---------------------------------------- ##
+## Token number in precedence declaration.  ##
+## ---------------------------------------- ##
+
+AT_SETUP([[Token number in precedence declaration.]])
+
+# POSIX says token numbers can be declared in %left, %right, and %nonassoc, but
+# we lost this in Bison 1.50.
+
+AT_DATA_GRAMMAR([input.y],
+[[%{
+  #include <stdio.h>
+  void yyerror (char const *);
+  int yylex (void);
+%}
+
+%error-verbose
+%left TK1 1 TK2 2 "tok alias" 3
+
+%%
+
+start: TK1 sr_conflict "tok alias" ;
+
+sr_conflict:
+  TK2
+  | TK2 "tok alias"
+  ;
+
+%%
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+yylex (void)
+{
+  static int const input[] = { 1, 2, 3, 0 };
+  static int const *inputp = input;
+  return *inputp++;
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_BISON_CHECK([[-o input.c input.y]], [[0]],,
+[[input.y:24.5-19: warning: rule useless in parser due to conflicts: sr_conflict: TK2 "tok alias"
+]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]])
 
 AT_CLEANUP

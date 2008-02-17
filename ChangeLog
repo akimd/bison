@@ -1,3 +1,21 @@
+2008-02-16  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Accept a token number in a %left, %right, or %nonassoc for POSIX
+	conformance.  Reported by Tim Josling at
+	<http://lists.gnu.org/archive/html/bug-bison/2008-01/msg00010.html>.
+	* NEWS (2.3a+): Mention.
+	* doc/bison.texinfo (Precedence Decl): Describe how literal strings
+	and code numbers are treated by precedence declarations.
+	* src/parse-gram.y (precedence_declaration): Use symbols.prec instead
+	of symbols.1.
+	(symbols.prec): New, just like symbols.1 but uses symbol.prec instead
+	of symbol.
+	(symbol.prec): New, just like symbol but allows INT.
+	* src/symtab.c (symbol_user_token_number_set): Remove an aver that no
+	longer holds.
+	* tests/regression.at (Token number in precedence declaration): New
+	test case.
+
 2008-02-06  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	DJGPP specific issues.

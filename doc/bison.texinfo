@@ -34,7 +34,8 @@ This manual is for @acronym{GNU} Bison (version @value{VERSION},
 @value{UPDATED}), the @acronym{GNU} parser generator.
 
 Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
-1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
+Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -4088,7 +4089,7 @@ once.  These are called @dfn{precedence declarations}.
 @xref{Precedence, ,Operator Precedence}, for general information on
 operator precedence.
 
-The syntax of a precedence declaration is the same as that of
+The syntax of a precedence declaration is nearly the same as that of
 @code{%token}: either
 
 @example
@@ -4125,6 +4126,18 @@ precedence and nest together according to their associativity.
 When two tokens declared in different precedence declarations associate,
 the one declared later has the higher precedence and is grouped first.
 @end itemize
+
+For backward compatibility, there is a confusing difference between the
+argument lists of @code{%token} and precedence declarations.
+Only a @code{%token} can associate a literal string with a token type name.
+A precedence declaration always interprets a literal string as a reference to a
+separate token.
+For example:
+
+@example
+%left  OR "<="         // Does not declare an alias.
+%left  OR 134 "<=" 135 // Declares 134 for OR and 135 for "<=".
+@end example
 
 @node Union Decl
 @subsection The Collection of Value Types

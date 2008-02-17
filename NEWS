@@ -154,6 +154,10 @@ Changes in version 2.3a+ (????-??-??):
   See the section `Freeing Discarded Symbols' in the Bison manual for further
   details.
 
+* %left, %right, and %nonassoc can now declare token numbers.  This is required
+  by POSIX.  However, see the end of section `Operator Precedence' in the Bison
+  manual for a caveat concerning the treatment of literal strings.
+
 Changes in version 2.3a, 2006-09-13:
 
 * Instead of %union, you can define and use your own union type
@@ -978,7 +982,7 @@ End:
 -----
 
 Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
-2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 

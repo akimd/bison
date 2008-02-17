@@ -1,7 +1,7 @@
 %{/* Bison Grammar Parser                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation,
-   Inc.
+   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -192,12 +192,12 @@ static int current_prec = 0;
 %type <integer> INT
 %printer { fprintf (stderr, "%d", $$); } INT
 
-%type <symbol> id id_colon symbol string_as_id
+%type <symbol> id id_colon symbol symbol.prec string_as_id
 %printer { fprintf (stderr, "%s", $$->tag); } id symbol string_as_id
 %printer { fprintf (stderr, "%s:", $$->tag); } id_colon
 
 %type <assoc> precedence_declarator
-%type <list>  symbols.1 generic_symlist generic_symlist_item
+%type <list>  symbols.1 symbols.prec generic_symlist generic_symlist_item
 %%
 
 input:
@@ -399,7 +399,7 @@ symbol_declaration:
 ;
 
 precedence_declaration:
-  precedence_declarator type.opt symbols.1
+  precedence_declarator type.opt symbols.prec
     {
       symbol_list *list;
       ++current_prec;
@@ -423,6 +423,19 @@ type.opt:
   /* Nothing. */ { current_type = NULL; }
 | TYPE           { current_type = $1; tag_seen = true; }
 ;
+
+/* Just like symbols.1 but accept INT for the sake of POSIX.  */
+symbols.prec:
+  symbol.prec
+    { $$ = symbol_list_sym_new ($1, @1); }
+| symbols.prec symbol.prec
+    { $$ = symbol_list_prepend ($1, symbol_list_sym_new ($2, @2)); }
+;
+
+symbol.prec:
+    symbol { $$ = $1; }
+  | symbol INT { $$ = $1; symbol_user_token_number_set ($1, $2, @2); }
+  ;
 
 /* One or more symbols to be %typed. */
 symbols.1:
