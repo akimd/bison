@@ -69,7 +69,7 @@ Changes in version 2.3a+ (????-??-??):
   for further discussion.
 
 * Lookahead Set Correction in the `.output' Report
-  
+
   When instructed to generate a `.output' file including lookahead sets
   (using `--report=lookahead', for example), Bison now prints each reduction's
   lookahead set only next to the associated state's one item that (1) is
@@ -157,6 +157,9 @@ Changes in version 2.3a+ (????-??-??):
 * %left, %right, and %nonassoc can now declare token numbers.  This is required
   by POSIX.  However, see the end of section `Operator Precedence' in the Bison
   manual for a caveat concerning the treatment of literal strings.
+
+* The nonfunctional --no-parser, -n, and %no-parser options have been
+  completely removed from Bison.
 
 Changes in version 2.3a, 2006-09-13:
 

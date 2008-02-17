@@ -4023,7 +4023,7 @@ associativity and precedence.  @xref{Precedence Decl, ,Operator
 Precedence}.
 
 You can explicitly specify the numeric code for a token type by appending
-a decimal or hexadecimal integer value in the field immediately
+a nonnegative decimal or hexadecimal integer value in the field immediately
 following the token name:
 
 @example
@@ -4076,6 +4076,16 @@ Once you equate the literal string and the token name, you can use them
 interchangeably in further declarations or the grammar rules.  The
 @code{yylex} function can use the token name or the literal string to
 obtain the token type code number (@pxref{Calling Convention}).
+Syntax error messages passed to @code{yyerror} from the parser will reference
+the literal string instead of the token name.
+
+The token numbered as 0 corresponds to end of file; the following line
+allows for nicer error messages referring to ``end of file'' instead
+of ``$end'':
+
+@example
+%token END 0 "end of file"
+@end example
 
 @node Precedence Decl
 @subsection Operator Precedence
