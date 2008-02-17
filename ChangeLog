@@ -1,3 +1,10 @@
+2008-02-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/bison.m4 (b4_percent_code_get): Output %code block comments like
+	`"%code top" blocks' instead of `%code "top" blocks'.
+	* data/push.c: Import yacc.c changes from 2008-01-09 and 2007-08-03.
+	Clean up whitespace in the output a little.
+
 2008-02-16  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix documentation problems reported by Tim Josling at
@@ -359,7 +366,7 @@
 	glr.cc has already defined b4_pure_flag.
 	* data/push.c: Define b4_pure_if based on `%define api.pure'.
 	Remove YYPUSH and YYPULL since they're back in b4_identification again.
-	* data/yacc.c Define b4_pure_if based on `%define api.pure'.
+	* data/yacc.c: Define b4_pure_if based on `%define api.pure'.
 	* doc/bison.texinfo (Pure Decl): Update.
 	(Push Decl): Update.
 	(Decl Summary): Add api.pure to %define entry.
