@@ -83,6 +83,7 @@ AT_CLEANUP
 
 AT_SETUP([[Push Parsing: Multiple impure instances]])
 
+m4_pushdef([AT_MULTIPLE_IMPURE_INSTANCES_CHECK], [
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %{
@@ -92,7 +93,7 @@ AT_DATA_GRAMMAR([[input.y]],
   int yylex (void);
 %}
 
-%define api.push_pull "both"
+%define api.push_pull "]$1["
 
 %%
 
@@ -123,11 +124,11 @@ main (void)
       ps = yypstate_new ();
       assert (ps);
       assert (yypstate_new () == NULL);
-      assert (yyparse () == 2);
+      ]m4_if([$1], [[both]], [[assert (yyparse () == 2)]])[;
       yychar = 0;
       assert (yypush_parse (ps) == 0);
       assert (yypstate_new () == NULL);
-      assert (yyparse () == 2);
+      ]m4_if([$1], [[both]], [[assert (yyparse () == 2)]])[;
       yypstate_delete (ps);
     }
 
@@ -137,16 +138,13 @@ main (void)
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]], 0, [],
-[[cannot allocate multiple impure push-parser instances
-cannot allocate multiple impure push-parser instances
-cannot allocate multiple impure push-parser instances
-cannot allocate multiple impure push-parser instances
-cannot allocate multiple impure push-parser instances
-cannot allocate multiple impure push-parser instances
-cannot allocate multiple impure push-parser instances
-cannot allocate multiple impure push-parser instances
-]])
+AT_PARSER_CHECK([[./input]])
+])
+
+AT_MULTIPLE_IMPURE_INSTANCES_CHECK([[both]])
+AT_MULTIPLE_IMPURE_INSTANCES_CHECK([[push]])
+
+m4_popdef([AT_MULTIPLE_IMPURE_INSTANCES_CHECK])
 
 AT_CLEANUP
 

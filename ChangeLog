@@ -1,3 +1,21 @@
+2008-02-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix impure push parser compile error reported by Bob Rossi at
+	<http://lists.gnu.org/archive/html/help-bison/2008-02/msg00023.html>.
+	* data/yacc.c: Clean up whitespace in the output a little.
+	(yypstate_allocated): Define for impure push parsers regardless of
+	whether the pull interface is also requested.
+	* tests/push.at (Push Parsing: Multiple impure instances): Extend to
+	check impure push parsers without the pull interface.
+
+	* data/yacc.c (yypstate_new): Don't try to invoke yyerror since
+	yyerror takes arguments specified by %parse-param while yypstate_new
+	does not.
+	* doc/bison.texinfo (Parser Create Function): Document that
+	yypstate_new returns 0 for multiple impure parser instances.
+	* tests/push.at (Push Parsing: Multiple impure instances): Update
+	expected stderr output.
+
 2008-02-19  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* runtime-po/POTFILES.in (push.c): Remove.

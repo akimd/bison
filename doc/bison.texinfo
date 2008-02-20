@@ -5339,7 +5339,9 @@ This function is available if either the @code{%define api.push_pull "push"} or
 
 @deftypefun yypstate *yypstate_new (void)
 The fuction will return a valid parser instance if there was memory available
-or NULL if no memory was available.
+or 0 if no memory was available.
+In impure mode, it will also return 0 if a parser instance is currently
+allocated.
 @end deftypefun
 
 @node Parser Delete Function
