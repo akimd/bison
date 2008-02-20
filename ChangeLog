@@ -1,3 +1,7 @@
+2008-02-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* runtime-po/POTFILES.in (push.c): Remove.
+
 2008-02-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/Makefile.am (dist_pkgdata_DATA): Remove push.c.
