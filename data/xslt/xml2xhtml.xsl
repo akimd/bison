@@ -87,14 +87,13 @@
     <body>
       <xsl:apply-templates select="bison-xml-report"/>
       <xsl:text>&#10;&#10;</xsl:text>
-      <div id="footer"><hr />
+      <div id="footer"><hr />This document was generated using
       <a href="http://www.gnu.org/software/bison/" title="GNU Bison">
       GNU Bison <xsl:value-of select="/bison-xml-report/@version"/></a>
-      XML Automaton Report, written by
-      <a href="http://www.gnu.org.ua/~polak/" title="Wojciech Polak">Wojciech Polak</a>.
-      Copyright (C) 2007, 2008 Free Software Foundation, Inc.<br />
-      Verbatim copying and distribution of this entire page is permitted
-      in any medium, provided this notice is preserved.</div>
+      XML Automaton Report.<br />
+      <!-- default copying notice -->
+      Verbatim copying and distribution of this entire page is
+      permitted in any medium, provided this notice is preserved.</div>
     </body>
   </html>
 </xsl:template>
