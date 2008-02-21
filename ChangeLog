@@ -1,3 +1,8 @@
+2008-02-21  Wojciech Polak  <polak@gnu.org>
+
+	* data/xslt/xml2xhtml.xsl (xsl:template match="/"): Change footer
+	text.
+
 2008-02-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix impure push parser compile error reported by Bob Rossi at
