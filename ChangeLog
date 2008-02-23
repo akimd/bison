@@ -1,3 +1,30 @@
+2008-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS (2.3a+): Don't say %language is experimental.  Mention Java and
+	say its interface is experimental.
+	* doc/bison.texinfo (Decl Summary): In the %language entry, mention
+	Java.
+	(Bison Options): In the -L and --language entry, mention Java.
+	(Java Bison Interface): Say the interface is experimental.
+	* src/getargs.c (usage): Mention -L and --language.
+
+	* NEWS (2.3a+): Say the push parsing interface is experimental.
+	* doc/bison.texinfo (Push Decl): Likewise.
+	(Decl Summary): Likewise in the "%define api.push_pull" entry.
+	(Push Parser Function): Likewise.
+	(Pull Parser Function): Likewise.
+	(Parser Create Function): Likewise.
+	(Parser Delete Function): Likewise.
+	(Table of Symbols): Likewise in the yypstate_delete, yypstate_new,
+	yypull_parse, and yypush_parse entries.
+
+	* NEWS (2.3a+): Mention XML support, and say the schema is
+	experimental.
+	* doc/bison.texinfo (Bison Options): Mention -x and --xml.
+	* src/getargs.c (usage): Say the XML schema is experimental.
+
+	* NEWS (2.3a+): Say option instead of flag.
+
 2008-02-21  Wojciech Polak  <polak@gnu.org>
 
 	* data/xslt/xml2xhtml.xsl (xsl:template match="/"): Change footer

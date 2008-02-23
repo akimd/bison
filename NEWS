@@ -28,13 +28,35 @@ Changes in version 2.3a+ (????-??-??):
 
   See the new section `A Push Parser' in the Bison manual for details.
 
+  The current push parsing interface is experimental and may evolve.  More user
+  feedback will help to stabilize it.
+
 * The -g and --graph options now output graphs in Graphviz DOT format,
   not VCG format.
 
-* An experimental directive %language specifies the language of the
-  generated parser, which can be C (the default) or C++.  This
-  directive affects the skeleton used, and the names of the generated
-  files if the grammar file's name ends in ".y".
+* Java
+
+  Bison can now generate an LALR(1) parser in Java.  The skeleton is
+  `data/lalr1.java'.  Consider using the new %language directive instead of
+  %skeleton to select it.
+
+  See the new section `Java Parsers' in the Bison manual for details.
+
+  The current Java interface is experimental and may evolve.  More user
+  feedback will help to stabilize it.
+
+* %language
+
+  This new directive specifies the programming language of the generated
+  parser, which can be C (the default), C++, or Java.  This directive affects
+  the skeleton used and the names of the generated files if the grammar file's
+  name ends in ".y".
+
+* XML Automaton Report
+
+  Bison can now generate an XML report of the LALR(1) automaton using the new
+  `--xml' option.  The current XML schema is experimental and may evolve.  More
+  user feedback will help to stabilize it.
 
 * The grammar file may now specify the name of the parser header file using
   %defines.  For example:
@@ -79,7 +101,8 @@ Changes in version 2.3a+ (????-??-??):
   bug affected only the `.output' file and not the generated parser source
   code.
 
-* --report-file=FILE is a new flag to override the default `.output' file name.
+* --report-file=FILE is a new option to override the default `.output' file
+  name.
 
 * The `=' that used to be required in the following directives is now
   deprecated:
@@ -126,7 +149,7 @@ Changes in version 2.3a+ (????-??-??):
   sometimes prove to be false alarms in existing grammars employing the Yacc
   constructs $0 or $-N (where N is some positive integer).
 
-  To enable these warnings, specify the flag `--warnings=midrule-values' or
+  To enable these warnings, specify the option `--warnings=midrule-values' or
   `-W', which is a synonym for `--warnings=all'.
 
 * Default %destructor or %printer with `<*>' or `<>'
