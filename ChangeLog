@@ -1,3 +1,7 @@
+2008-02-28  Akim Demaille  <demaille@gostai.com>
+
+	* doc/bison.texinfo: Fix a few typos.
+
 2008-02-28  Akim Demaille  <akim@epita.fr>
 
 	* doc/bison.texinfo (Bison Options): Document -W.

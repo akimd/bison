@@ -8749,9 +8749,9 @@ in an arbitrary Java package using a @samp{%define package} section.
 
 The parser class defines an inner class, @code{Location}, that is used
 for location tracking.  If the parser is pure, it also defines an
-inner interface, @code{Lexer}; see~@ref{Java Scanner Interface} for the
+inner interface, @code{Lexer}; see @ref{Java Scanner Interface} for the
 meaning of pure parsers when the Java language is chosen.  Other than
-these inner class/interface, and the members described in~@ref{Java
+these inner class/interface, and the members described in @ref{Java
 Parser Interface}, all the other members and fields are preceded
 with a @code{yy} prefix to avoid clashes with user code.
 
@@ -8906,9 +8906,14 @@ Contrary to C parsers, Java parsers do not use global variables; the
 state of the parser is always local to an instance of the parser class.
 Therefore, all Java parsers are ``pure'', and the @code{%pure-parser}
 directive does not do anything when used in Java.
+@c FIXME: But a bit farther it is stated that
+@c  If @code{%pure-parser} is not specified, the lexer interface
+@c  resides in the same class (@code{YYParser}) as the Bison-generated
+@c  parser. The fields and methods that are provided to
+@c  this end are as follows.
 
 The scanner always resides in a separate class than the parser.
-Still, Java also two possible ways to interface a Bison-generated Java
+Still, there are two possible ways to interface a Bison-generated Java
 parser with a scanner, that is, the scanner may reside in a separate file
 than the Bison grammar, or in the same file.  The interface
 to the scanner is similar in the two cases.
@@ -8919,7 +8924,7 @@ to pass parameters from the parser constructor to the scanner constructor,
 specify them with @code{%lex-param}; they are passed before
 @code{%parse-param}s to the constructor.
 
-In the second case, the scanner has to implement interface @code{Lexer},
+In the second case, the scanner has to implement the @code{Lexer} interface,
 which is defined within the parser class (e.g., @code{YYParser.Lexer}).
 The constructor of the parser object will then accept an object
 implementing the interface; @code{%lex-param} is not used in this
@@ -8952,8 +8957,7 @@ The return type can be changed using @samp{%define "position_type"
 @end deftypemethod
 
 @deftypemethod {Lexer} {Object} getLVal ()
-Return respectively the first position of the last token that yylex
-returned, and the first position beyond it.
+Return the semantical value of the last token that yylex returned.
 
 The return type can be changed using @samp{%define "stype"
 "@var{class-name}".}
@@ -8965,7 +8969,7 @@ Bison-generated parser.
 The fields and methods that are provided to this end are as follows.
 
 @deftypemethod {YYParser} {void} error (Location @var{l}, String @var{m})
-As explained in @pxref{Java Parser Interface}, this method is defined
+As already explained (@pxref{Java Parser Interface}), this method is defined
 by the user to emit an error message.  The first parameter is not used
 unless location tracking is active.  Its type can be changed using
 @samp{%define "location_type" "@var{class-name}".}
