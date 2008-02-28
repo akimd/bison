@@ -1,3 +1,12 @@
+2008-02-28  Akim Demaille  <akim@epita.fr>
+
+	* src/getargs.c (short_options): Split and sort for readability.
+	-g and -x take optional arguments, just like their long options.
+	* build-aux/cross-options.pl: Use /x to make the regexp easier to
+	understand.
+	Fix the handling of $opt which resulted in all the argument to be
+	considered as optional.
+
 2008-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* NEWS (2.3a+): Don't say %language is experimental.  Mention Java and

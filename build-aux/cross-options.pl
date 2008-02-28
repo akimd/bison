@@ -7,7 +7,12 @@ use strict;
 my %option;
 while (<>)
 {
-    if (/^\s*(?:(-\w), )?(--[-\w]+)(\[?)(=[-\w]+)?\]?/)
+    if (/^\s*          # Initial spaces.
+        (?:(-\w),\s+)? # $1: Possible short option.
+        (--[-\w]+)     # $2: Long option.
+        (\[?)          # $3: '[' iff the argument is optional.
+        (?:=([-\w]+))? # $4: Possible argument name.
+        /x)
     {
 	my ($short, $long, $opt, $arg) = ($1, $2, $3, $4);
 	$short = defined $short ? '@option{' . $short . '}' : '';
@@ -16,7 +21,7 @@ while (<>)
 	    $arg =~ s/^=//;
 	    $arg = '@var{' . lc ($arg) . '}';
 	    $arg = '[' . $arg . ']'
-		if defined $opt;
+		if $opt eq '[';
 	    $option{"$long=$arg"} = $short ? "$short $arg" : '';
 	}
 	else
