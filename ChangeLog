@@ -1,5 +1,10 @@
 2008-02-28  Akim Demaille  <akim@epita.fr>
 
+	* doc/bison.texinfo (Bison Options): Document -W.
+	Based on Joel E. Denny's NEWS entry, and Automake's documentation.
+
+2008-02-28  Akim Demaille  <akim@epita.fr>
+
 	* src/getargs.c (short_options): Split and sort for readability.
 	-g and -x take optional arguments, just like their long options.
 	* build-aux/cross-options.pl: Use /x to make the regexp easier to

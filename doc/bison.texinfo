@@ -7776,6 +7776,46 @@ traditional Yacc grammars.  If your grammar uses a Bison extension
 like @samp{%glr-parser}, Bison might not be Yacc-compatible even if
 this option is specified.
 
+@item -W
+@itemx --warnings
+Output warnings falling in @var{category}.  @var{category} can be one
+of:
+@table @code
+@item midrule-values
+Warn about about mid-rule values that are set but not used within any of
+the actions of the parent rule.  For example, Bison warns about unused
+@code{$2} in:
+
+@example
+exp: '1' @{ $$ = 1; @} '+' exp @{ $$ = $1 + $4; @};
+@end example
+
+It also warns about mid-rule values that are used but not set.  For
+example, Bison warns about unset @code{$$} in the mid-rule action in:
+
+@example
+ exp: '1' @{ $1 = 1; @} '+' exp @{ $$ = $2 + $4; @};
+@end example
+
+These warnings are not enabled by default since they sometimes prove to
+be false alarms in existing grammars employing the Yacc constructs
+@code{$0} or @code{$-@var{b}} (where @var{n} is some positive integer).
+
+
+@item yacc
+Incompatibilities with @acronym{POSIX} Yacc.
+
+@item all
+all the warnings
+@item none
+turn off all the warnings
+@item error
+treat warnings as errors
+@end table
+
+A category can be turned off by prefixing its name with @samp{no-}.  For
+instance, @option{-Wno-syntax} will hide the warnings about unused
+variables.
 @end table
 
 @noindent
