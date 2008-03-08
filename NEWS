@@ -32,7 +32,8 @@ Changes in version 2.3a+ (????-??-??):
   feedback will help to stabilize it.
 
 * The -g and --graph options now output graphs in Graphviz DOT format,
-  not VCG format.
+  not VCG format.  Like --graph, -g now also takes an optional FILE argument
+  and thus cannot be bundled with other short options.
 
 * Java
 

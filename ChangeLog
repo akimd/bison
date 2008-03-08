@@ -1,3 +1,16 @@
+2008-03-08  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS (2.3a+): Mention that -g now takes an argument.
+	* doc/bison.texinfo (Bison Options): Reword -W entry a little for
+	consistency.  Update the -g and -x entries now that they take
+	arguments.  Use brackets to indicate optional arguments.
+	* src/getargs.c (usage): Explain the relationship between arguments of
+	long and short options more completely.  Document --defines and -d
+	separately since the former takes an argument but, for POSIX Yacc, the
+	latter does not.
+	(short_options): Let -W take an optional argument like --warnings.
+	(getargs): Sort cases.  
+
 2008-02-28  Akim Demaille  <demaille@gostai.com>
 
 	* doc/bison.texinfo: Fix a few typos.

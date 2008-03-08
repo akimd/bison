@@ -7782,16 +7782,16 @@ Output warnings falling in @var{category}.  @var{category} can be one
 of:
 @table @code
 @item midrule-values
-Warn about about mid-rule values that are set but not used within any of
-the actions of the parent rule.  For example, Bison warns about unused
-@code{$2} in:
+Warn about mid-rule values that are set but not used within any of the actions
+of the parent rule.
+For example, warn about unused @code{$2} in:
 
 @example
 exp: '1' @{ $$ = 1; @} '+' exp @{ $$ = $1 + $4; @};
 @end example
 
-It also warns about mid-rule values that are used but not set.  For
-example, Bison warns about unset @code{$$} in the mid-rule action in:
+Also warn about mid-rule values that are used but not set.
+For example, warn about unset @code{$$} in the mid-rule action in:
 
 @example
  exp: '1' @{ $1 = 1; @} '+' exp @{ $$ = $2 + $4; @};
@@ -7799,18 +7799,18 @@ example, Bison warns about unset @code{$$} in the mid-rule action in:
 
 These warnings are not enabled by default since they sometimes prove to
 be false alarms in existing grammars employing the Yacc constructs
-@code{$0} or @code{$-@var{b}} (where @var{n} is some positive integer).
+@code{$0} or @code{$-@var{n}} (where @var{n} is some positive integer).
 
 
 @item yacc
 Incompatibilities with @acronym{POSIX} Yacc.
 
 @item all
-all the warnings
+All the warnings.
 @item none
-turn off all the warnings
+Turn off all the warnings.
 @item error
-treat warnings as errors
+Treat warnings as errors.
 @end table
 
 A category can be turned off by prefixing its name with @samp{no-}.  For
@@ -7876,14 +7876,15 @@ Pretend that @code{%token-table} was specified.  @xref{Decl Summary}.
 Adjust the output:
 
 @table @option
-@item -d
-@itemx --defines
+@item --defines[=@var{file}]
 Pretend that @code{%defines} was specified, i.e., write an extra output
 file containing macro definitions for the token type names defined in
 the grammar, as well as a few other declarations.  @xref{Decl Summary}.
 
-@item --defines=@var{defines-file}
-Same as above, but save in the file @var{defines-file}.
+@item -d
+This is the same as @code{--defines} except @code{-d} does not accept a
+@var{file} argument since POSIX Yacc requires that @code{-d} can be bundled
+with other short options.
 
 @item -b @var{file-prefix}
 @itemx --file-prefix=@var{prefix}
@@ -7925,22 +7926,19 @@ Specify the @var{file} for the parser file.
 The other output files' names are constructed from @var{file} as
 described under the @samp{-v} and @samp{-d} options.
 
-@item -g
+@item -g[@var{file}]
+@itemx --graph[=@var{file}]
 Output a graphical representation of the @acronym{LALR}(1) grammar
 automaton computed by Bison, in @uref{http://www.graphviz.org/, Graphviz}
 @uref{http://www.graphviz.org/doc/info/lang.html, @acronym{DOT}} format.
-If the grammar file is @file{foo.y}, the output file will
-be @file{foo.dot}.
+@code{@var{file}} is optional.
+If omitted and the grammar file is @file{foo.y}, the output file will be
+@file{foo.dot}.
 
-@item --graph=@var{graph-file}
-The behavior of @var{--graph} is the same as @samp{-g}.  The only
-difference is that it has an optional argument which is the name of
-the output graph file.
-
-@item -x
-@itemx --xml=@var{file}
+@item -x[@var{file}]
+@itemx --xml[=@var{file}]
 Output an XML report of the @acronym{LALR}(1) automaton computed by Bison.
-@code{=@var{file}} is optional.
+@code{@var{file}} is optional.
 If omitted and the grammar file is @file{foo.y}, the output file will be
 @file{foo.xml}.
 (The current XML schema is experimental and may evolve.
