@@ -19,7 +19,7 @@
 	separately since the former takes an argument but, for POSIX Yacc, the
 	latter does not.
 	(short_options): Let -W take an optional argument like --warnings.
-	(getargs): Sort cases.  
+	(getargs): Sort cases.
 
 2008-02-28  Akim Demaille  <demaille@gostai.com>
 
