@@ -142,7 +142,8 @@ AC_SUBST([O0CXXFLAGS], [`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`])
 gt_JAVACOMP([1.3])
 gt_JAVAEXEC
 
-AC_CONFIG_FILES([Makefile
+AC_CONFIG_FILES([.version
+		 Makefile
 		 build-aux/Makefile
 		 po/Makefile.in
 		 data/Makefile

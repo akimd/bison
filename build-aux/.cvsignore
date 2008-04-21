@@ -5,6 +5,7 @@ config.guess
 config.rpath
 config.sub
 depcomp
+git-version-gen
 install-sh
 javacomp.sh.in
 javaexec.sh.in

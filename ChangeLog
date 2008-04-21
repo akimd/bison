@@ -1,3 +1,13 @@
+2008-04-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix make dist infinite loop reported by Juan Manuel Guerrero at
+	<http://lists.gnu.org/archive/html/bug-bison/2008-01/msg00009.html>.
+	* .cvsignore: Add .version.
+	* .version.in: New.
+	* bootstrap.conf (gnulib_modules): Add git-version-gen.
+	* configure.ac (AC_CONFIG_FILES): Add .version.
+	* build-aux/.cvsignore: Add git-version-gen.
+
 2008-03-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* NEWS (2.3a+): Mention that -g now takes an argument.
