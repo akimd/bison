@@ -2,7 +2,8 @@
 
 # Bootstrap this package from checked-out sources.
 
-# Copyright (C) 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation,
+# Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -274,7 +275,7 @@ case ${GNULIB_SRCDIR--} in
 
     trap cleanup_gnulib 1 2 13 15
 
-    cvs -z3 -q -d ${CVS_PREFIX}cvs.savannah.gnu.org:/cvsroot/gnulib co gnulib ||
+    cvs -z3 -q -d ${CVS_PREFIX}pserver.git.sv.gnu.org:/gnulib.git co -d gnulib HEAD ||
       cleanup_gnulib
 
     trap - 1 2 13 15
@@ -333,6 +334,27 @@ case $SKIP_PO in
   fi;;
 esac
 
+check_dst_dir()
+{
+  dst=$1
+  # If the destination directory doesn't exist, create it.
+  # This is required at least for "lib/uniwidth/cjk.h".
+  dst_dir=`dirname "$dst"`
+  if ! test -d "$dst_dir"; then
+    mkdir -p "$dst_dir"
+
+    # If we've just created a directory like lib/uniwidth,
+    # tell version control system(s) it's ignorable.
+    # FIXME: for now, this does only one level
+    parent=`dirname "$dst_dir"`
+    for dot_ig in x $vc_ignore; do
+      test $dot_ig = x && continue
+      ig=$parent/$dot_ig
+      insert_sorted_if_absent $ig `echo "$dst_dir"|sed 's,.*/,,'`
+    done
+  fi
+}
+
 symlink_to_dir()
 {
   src=$1/$2
@@ -340,22 +362,7 @@ symlink_to_dir()
 
   test -f "$src" && {
 
-    # If the destination directory doesn't exist, create it.
-    # This is required at least for "lib/uniwidth/cjk.h".
-    dst_dir=`dirname "$dst"`
-    if ! test -d "$dst_dir"; then
-      mkdir -p "$dst_dir"
-
-      # If we've just created a directory like lib/uniwidth,
-      # tell version control system(s) it's ignorable.
-      # FIXME: for now, this does only one level
-      parent=`dirname "$dst_dir"`
-      for dot_ig in x $vc_ignore; do
-	test $dot_ig = x && continue
-	ig=$parent/$dot_ig
-	insert_sorted_if_absent $ig `echo "$dst_dir"|sed 's,.*/,,'`
-      done
-    fi
+    check_dst_dir "$dst"
 
     if $copy; then
       {
@@ -419,6 +426,7 @@ cp_mark_as_generated()
 	sed "s!$bt_regex/!!g" "$cp_src" > "$cp_dst"
       }
     else
+      check_dst_dir "$cp_dst"
       # Copy the file first to get proper permissions if it
       # doesn't already exist.  Then overwrite the copy.
       cp "$cp_src" "$cp_dst-t" &&

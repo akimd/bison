@@ -1,3 +1,23 @@
+2008-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Update to the current gnulib CVS repository, and fix trigraph handling
+	in Bison.
+	* bootstrap: Update gnulib CVS repository URL.
+	(symlink_to_dir): Encapsulate the code that guarantees the destination
+	directory exists into...
+	(check_dst_dir): ... this new function, and...
+	(cp_mark_as_generated): ... reuse it here so that bootstrap doesn't
+	fail when copying files into lib/uniwidth/.
+	* src/output.c (prepare_symbols): When writing yytname muscles, where
+	symbol names will be encoded in C-string literals, tell quotearg to
+	escape trigraphs.  This used to be the default in gnulib.
+	* tests/regression.at (Token definitions): Because of the change in
+	gnulib's quotearg behavior, string_as_id in parse-gram.y no longer
+	escapes trigraphs in symbol names.  Thus, yytname no longer has
+	trigraphs unnecessarily doubly escaped.  Update test case output.
+	Extend test case to be sure Bison's own error messages will no longer
+	have trigraphs in symbol names unnecessarily escaped once.
+
 2008-04-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix make dist infinite loop reported by Juan Manuel Guerrero at

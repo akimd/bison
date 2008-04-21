@@ -444,6 +444,7 @@ int yylex (void);
 %token C_TOKEN 'c'
 %token 'd' D_TOKEN
 %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+%token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
 %%
 exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
 %%
@@ -469,10 +470,22 @@ main (void)
 }
 ]])
 
-AT_BISON_CHECK([-o input.c input.y])
+# Checking the warning message guarantees that the trigraph "??!" isn't
+# unnecessarily escaped here even though it would need to be if encoded in a
+# C-string literal.  Also notice that unnecessary escaping, such as "\?", from
+# the user specification is eliminated.
+AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
+[[input.y:22.8-14: warning: symbol SPECIAL redeclared
+input.y:22.8-63: warning: symbol `"\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!"' used more than once as a literal string
+]])
 AT_COMPILE([input])
+
+# Checking the error message here guarantees that yytname, which does contain
+# C-string literals, does have the trigraph escaped correctly.  Thus, the
+# symbol name reported by the parser is exactly the same as that reported by
+# Bison itself.
 AT_DATA([experr],
-[[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\201\001\201?\?!", expecting a
+[[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!", expecting a
 ]])
 AT_PARSER_CHECK([./input], 1, [], [experr])
 AT_CLEANUP
