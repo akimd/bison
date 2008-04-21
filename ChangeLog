@@ -1,5 +1,10 @@
 2008-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* GNUmakefile: Update git-version-gen invocation so make dist
+	succeeds.
+
+2008-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Update to the current gnulib CVS repository, and fix trigraph handling
 	in Bison.
 	* bootstrap: Update gnulib CVS repository URL.
