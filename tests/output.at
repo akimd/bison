@@ -186,8 +186,9 @@ AT_CLEANUP
 # Notice that the header file name here cannot contain
 # `"' since FILENAME in `#include "FILENAME"' cannot.
 AT_CHECK_OUTPUT_FILE_NAME([[`~!@#$%^&*()-=_+{}[]|\:;<>, .']])
-AT_CHECK_OUTPUT_FILE_NAME([[(]])
-AT_CHECK_OUTPUT_FILE_NAME([[)]])
+dnl Autoconf 2.62's AT_SETUP can't handle these, but they worked fine in 2.61.
+dnl AT_CHECK_OUTPUT_FILE_NAME([[(]])
+dnl AT_CHECK_OUTPUT_FILE_NAME([[)]])
 AT_CHECK_OUTPUT_FILE_NAME([[#]])
 AT_CHECK_OUTPUT_FILE_NAME([[@@]])
 AT_CHECK_OUTPUT_FILE_NAME([[@{]])
