@@ -186,9 +186,13 @@ AT_CLEANUP
 # Notice that the header file name here cannot contain
 # `"' since FILENAME in `#include "FILENAME"' cannot.
 AT_CHECK_OUTPUT_FILE_NAME([[`~!@#$%^&*()-=_+{}[]|\:;<>, .']])
-dnl Autoconf 2.62's AT_SETUP can't handle these, but they worked fine in 2.61.
-dnl AT_CHECK_OUTPUT_FILE_NAME([[(]])
-dnl AT_CHECK_OUTPUT_FILE_NAME([[)]])
+dnl Work around a bug in m4_expand that broke AT_SETUP in autoconf 2.62,
+dnl by using the definition from 2.63.
+m4_define([m4_expand], [_$0(-=<{($1)}>=-)])
+m4_define([_m4_expand],
+[m4_changequote([-=<{(], [)}>=-])$1m4_changequote([, ])])
+AT_CHECK_OUTPUT_FILE_NAME([[(]])
+AT_CHECK_OUTPUT_FILE_NAME([[)]])
 AT_CHECK_OUTPUT_FILE_NAME([[#]])
 AT_CHECK_OUTPUT_FILE_NAME([[@@]])
 AT_CHECK_OUTPUT_FILE_NAME([[@{]])

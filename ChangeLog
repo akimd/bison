@@ -1,3 +1,11 @@
+2008-04-23  Eric Blake  <ebb9@byu.net>
+
+	Revert prior patch, by working around autoconf regression.
+	* tests/output.at (m4_expand): Add workaround for autoconf 2.62.
+	("Output file name: ("): Uncomment test.
+	("Output file name: )"): Likewise.
+	Based on an idea from Noah Misch.
+
 2008-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Work-around an Autoconf 2.62 AT_SETUP bug that was not present in
