@@ -1,3 +1,7 @@
+2008-05-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* THANKS: Add Eric Blake.
+
 2008-04-23  Eric Blake  <ebb9@byu.net>
 
 	Revert prior patch, by working around autoconf regression.
