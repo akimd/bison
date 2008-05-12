@@ -1,3 +1,9 @@
+2008-05-12  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
+
+	DJGPP specific issue.
+	* djgpp/config.sed: Fixes required to run configure scripts generated
+	by autoconf 2.62.
+
 2008-05-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* HACKING (Release Procedure): translation@iro.umontreal.ca is now
