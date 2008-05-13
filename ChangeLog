@@ -1,3 +1,8 @@
+2008-05-13  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* data/yacc.c: Reformat m4 a little for readability.
+	* src/lalr.c (build_relations): Correct comment.
+
 2008-05-12  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	DJGPP specific issue.
