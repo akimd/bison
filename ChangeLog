@@ -1,5 +1,11 @@
 2008-05-23  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* NEWS: Version 2.3b.
+	* configure.ac (AC_INIT): Likewise.
+	(PACKAGE_COPYRIGHT_YEAR): Update to 2008.
+
+2008-05-23  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* HACKING: Don't say don't mention HACKING in the ChangeLog.  We've
 	been doing it for years.
 	(Test suite): Mention maintainer-push-check and maintainer-xml-check.
