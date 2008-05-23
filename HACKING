@@ -1,8 +1,7 @@
 -*- outline -*-
 
 This file attempts to describe the rules to use when hacking Bison.
-Don't put this file into the distribution.  Don't mention it in the
-ChangeLog.
+Don't put this file into the distribution.
 
 Everything related to the development of Bison is on Savannah:
 
@@ -57,6 +56,18 @@ release:
   - runs the parsers under Valgrind.
   - runs the test suite with G++ as C compiler...
 
+- run `make maintainer-push-check', which runs `make maintainer-check'
+  while activating the push implementation and its pull interface wrappers
+  in many test cases that were originally written to exercise only the
+  pull implementation.  This makes certain the push implementation can
+  perform every task the pull implementation can.
+
+- run `make maintainer-xml-check', which runs `make maintainer-check'
+  while checking Bison's XML automaton report for every working grammar
+  passed to Bison in the test suite.  The check just diffs the output of
+  Bison's included XSLT style sheets with the output of --report=all and
+  --graph.
+
 - Change tests/atlocal/CFLAGS to add your preferred options.  For
   instance, `-traditional' to check that the parsers are K&R.  Note
   that it does not make sense for glr.c, which should be ANSI,
@@ -92,6 +103,8 @@ the tarballs, the xdeltas, and prepares (in /tmp/) a proto
 announcement.  It is so neat, that that's what I use anyway for
 genuine releases, but adjusting things by hand (e.g., the urls in the
 announcement file, the ChangeLog which is not needed etc.).
+FIXME: `make alpha' is not maintained and is broken.  These
+instructions need to be replaced or removed.
 
 If it fails, you're on your own...
 

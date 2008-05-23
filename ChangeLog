@@ -1,3 +1,10 @@
+2008-05-23  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* HACKING: Don't say don't mention HACKING in the ChangeLog.  We've
+	been doing it for years.
+	(Test suite): Mention maintainer-push-check and maintainer-xml-check.
+	(Release Procedure): Add FIXME about make alpha being unmaintained.
+
 2008-05-13  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/yacc.c: Reformat m4 a little for readability.
@@ -20508,7 +20515,7 @@
 	-----
 
 	Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996,
-	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
+	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
 	Free Software Foundation, Inc.
 
 	Copying and distribution of this file, with or without
