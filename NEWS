@@ -1,6 +1,10 @@
 Bison News
 ----------
 
+Changes in version 2.3b+ (????-??-??):
+
+*
+
 Changes in version 2.3b (2008-05-27):
 
 * The quotes around NAME that used to be required in the following directive

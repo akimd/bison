@@ -1,5 +1,10 @@
 2008-05-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* NEWS (2.3b+): New section, empty for now.
+	* configure.ac (AC_INIT): 2.3b -> 2.3b+.
+
+2008-05-27  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* NEWS (2.3b): Update release date since there has been a delay in
 	getting the announcements and tarballs out.
 

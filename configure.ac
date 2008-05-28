@@ -19,7 +19,7 @@
 # We have strange test case titles, so we need Autoconf 2.61 or better.
 AC_PREREQ(2.61)
 
-AC_INIT([GNU Bison], [2.3b], [bug-bison@gnu.org])
+AC_INIT([GNU Bison], [2.3b+], [bug-bison@gnu.org])
 AC_DEFINE([PACKAGE_COPYRIGHT_YEAR], [2008],
           [The copyright year for this package])
 AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2008])
