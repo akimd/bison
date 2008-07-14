@@ -1,3 +1,20 @@
+2008-07-14  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Add .gitignore everywhere based on .cvsignore.
+	* .gitignore: New.
+	* build-aux/.gitignore: New.
+	* data/.gitignore: New.
+	* doc/.gitignore: New.
+	* etc/.gitignore: New.
+	* examples/.gitignore: New.
+	* examples/calc++/.gitignore: New.
+	* lib/.gitignore: New.
+	* m4/.gitignore: New.
+	* po/.gitignore: New.
+	* runtime-po/.gitignore: New.
+	* src/.gitignore: New.
+	* tests/.gitignore: New.
+
 2008-05-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* NEWS (2.3b+): New section, empty for now.

@@ -1,0 +1,12 @@
+/*.cc
+/*.hh
+/*.ll
+/*.o
+/*.output
+/*.stamp
+/*.tmp
+/*.yy
+/.deps
+/Makefile
+/Makefile.in
+/calc++

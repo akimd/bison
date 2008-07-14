@@ -1,0 +1,16 @@
+/Makefile
+/Makefile.in
+/compile
+/config.guess
+/config.rpath
+/config.sub
+/depcomp
+/git-version-gen
+/install-sh
+/javacomp.sh.in
+/javaexec.sh.in
+/link-warning.h
+/mdate-sh
+/missing
+/texinfo.tex
+/ylwrap

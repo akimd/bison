@@ -1,0 +1,13 @@
+/*.flc
+/*.log
+/*.o
+/*.output
+/.deps
+/Makefile
+/Makefile.in
+/bison
+/revision.c
+/scan-code.c
+/scan-gram.c
+/scan-skel.c
+/yacc
