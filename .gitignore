@@ -1,6 +1,5 @@
 /*.cache
 /*.flc
-/*.patch *.log log patches applied
 /*.prj
 /.version
 /ABOUT-NLS

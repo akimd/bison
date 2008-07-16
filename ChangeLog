@@ -1,5 +1,25 @@
 2008-07-15  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Fix some .gitignore and .cvsignore problems.
+	* bootstrap (insert_sorted_if_absent): Replace all uses with...
+	(insert_vc_ignore): ... this new function, which prepends `/' to all
+	.gitignore entries before passing them to insert_sorted_if_absent.
+	* bootstrap.conf (vc_ignore): Set to '.cvsignore .gitignore' so that
+	.cvsignore files are maintained even though Bison developers run
+	bootstrap while using Git.
+	* .cvsignore (*.patch *.log log patches applied): Remove, apparently
+	unneeded by Bison.
+	(gnulib): Add.
+	* .gitignore (/*.patch *.log log patches applied): Remove, broken and
+	unneeded.  Reported by Eric Blake.
+	* lib/.gitignore (/*~): Add.
+	* po/.cvsignore, runtime-po/.cvsignore: Sync with .gitignore.
+	* examples/calc++/.gitignore (/calc++.exe): Add.  Reported by Eric
+	Blake.
+	* src/.gitignore (/bison.exe): Add.  Reported by Eric Blake.
+
+2008-07-15  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Improve forward-compatibility with GNU M4.  Reported by Eric Blake at
 	<http://lists.gnu.org/archive/html/bug-bison/2008-07/msg00000.html>.
 	* bootstrap.conf (gnulib_modules): Add unsetenv.

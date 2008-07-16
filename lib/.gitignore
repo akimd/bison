@@ -1,5 +1,6 @@
 /*.a
 /*.o
+/*~
 /.deps
 /Makefile
 /Makefile.in

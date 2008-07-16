@@ -211,7 +211,7 @@ if test -n "$checkout_only_file" && test ! -r "$checkout_only_file"; then
   exit 1
 fi
 
-# If $STR is not already on a line by itself in $FILE, insert it,
+# If each line in $STR is not already on a line by itself in $FILE, insert it,
 # sorting the new contents of the file and replacing $FILE with the result.
 insert_sorted_if_absent() {
   file=$1
@@ -220,6 +220,21 @@ insert_sorted_if_absent() {
   echo "$str" | sort -u - $file | cmp -s - $file \
     || echo "$str" | sort -u - $file -o $file \
     || exit 1
+}
+
+# Adjust $PATTERN for $VC_IGNORE_FILE and insert it with
+# insert_sorted_if_absent.
+insert_vc_ignore() {
+  vc_ignore_file="$1"
+  case $vc_ignore_file in
+  *.gitignore)
+    # A .gitignore entry that does not start with `/' applies recursively to
+    # subdirectories, so prepend `/' to every .gitignore entry.
+    pattern=`echo "$2" | sed s,^,/,`;;
+  *)
+    pattern="$2";;
+  esac
+  insert_sorted_if_absent "$vc_ignore_file" "$pattern"
 }
 
 # Die if there is no AC_CONFIG_AUX_DIR($build_aux) line in configure.ac.
@@ -240,7 +255,7 @@ if test ! -d $build_aux; then
   mkdir $build_aux
   for dot_ig in x $vc_ignore; do
     test $dot_ig = x && continue
-    insert_sorted_if_absent $dot_ig $build_aux
+    insert_vc_ignore $dot_ig $build_aux
   done
 fi
 
@@ -350,7 +365,7 @@ check_dst_dir()
     for dot_ig in x $vc_ignore; do
       test $dot_ig = x && continue
       ig=$parent/$dot_ig
-      insert_sorted_if_absent $ig `echo "$dst_dir"|sed 's,.*/,,'`
+      insert_vc_ignore $ig `echo "$dst_dir"|sed 's,.*/,,'`
     done
   fi
 }
@@ -507,18 +522,18 @@ slurp() {
       test $dot_ig = x && continue
       ig=$dir/$dot_ig
       if test -n "$copied"; then
-	insert_sorted_if_absent $ig "$copied"
+	insert_vc_ignore $ig "$copied"
 	# If an ignored file name ends with _.h, then also add
 	# the name with just ".h".  Many gnulib headers are generated,
 	# e.g., stdint_.h -> stdint.h, dirent_.h ->..., etc.
 	# Likewise for .gperf -> .h, .y -> .c, and .sin -> .sed
 	f=`echo "$copied"|sed 's/_\.h$/.h/;s/\.sin$/.sed/;s/\.y$/.c/;s/\.gperf$/.h/'`
-	insert_sorted_if_absent $ig "$f"
+	insert_vc_ignore $ig "$f"
 
 	# For files like sys_stat_.h and sys_time_.h, record as
 	# ignorable the directory we might eventually create: sys/.
 	f=`echo "$copied"|sed 's/sys_.*_\.h$/sys/'`
-	insert_sorted_if_absent $ig "$f"
+	insert_vc_ignore $ig "$f"
       fi
     done
   done

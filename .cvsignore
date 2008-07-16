@@ -1,6 +1,5 @@
 *.cache
 *.flc
-*.patch *.log log patches applied
 *.prj
 .version
 ABOUT-NLS
@@ -21,6 +20,7 @@ config.status
 configure
 configure.lineno
 conftest*
+gnulib
 javacomp.sh
 javaexec.sh
 patches
