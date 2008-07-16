@@ -1,3 +1,8 @@
+2008-08-05  Eric Blake  <ebb9@byu.net>
+
+	Fix comments in m4sugar.
+	* data/m4sugar/m4sugar.m4: Comment changes, borrowed from autoconf.
+
 2008-08-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Update for recent .gitignore fix in Gnulib.
