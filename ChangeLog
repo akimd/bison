@@ -1,5 +1,14 @@
 2008-08-05  Eric Blake  <ebb9@byu.net>
 
+	Partial m4sugar merge from autoconf: builtins, version.m4.
+	* data/m4sugar/m4sugar.m4 (changeword): Nuke.
+	(m4_prepend): Remove, as it is unused and inherently quadratic,
+	whereas m4_append is linear in newer m4.
+	(m4_mkstemp): New builtin.
+	(m4_symbols): Make rename conditional.
+	(m4_version_prereq): Ensure fatal error if used in bison, which
+	intentionally lacks version.m4.
+
 	Fix comments in m4sugar.
 	* data/m4sugar/m4sugar.m4: Comment changes, borrowed from autoconf.
 

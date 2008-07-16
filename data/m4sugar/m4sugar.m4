@@ -115,10 +115,16 @@ m4_define([m4_copy_unm4],
 
 
 # Some m4 internals have names colliding with tokens we might use.
-# Rename them a` la `m4 --prefix-builtins'.
+# Rename them a` la `m4 --prefix-builtins'.  Conditionals first, since
+# some subsequent renames are conditional.
+m4_rename_m4([ifdef])
+m4_rename([ifelse], [m4_if])
+
 m4_rename_m4([builtin])
 m4_rename_m4([changecom])
 m4_rename_m4([changequote])
+m4_ifdef([changeword],dnl conditionally available in 1.4.x
+[m4_undefine([changeword])])
 m4_rename_m4([debugfile])
 m4_rename_m4([debugmode])
 m4_rename_m4([decr])
@@ -129,8 +135,6 @@ m4_rename_m4([errprint])
 m4_rename_m4([esyscmd])
 m4_rename_m4([eval])
 m4_rename_m4([format])
-m4_rename_m4([ifdef])
-m4_rename([ifelse], [m4_if])
 m4_undefine([include])
 m4_rename_m4([incr])
 m4_rename_m4([index])
@@ -138,7 +142,12 @@ m4_rename_m4([indir])
 m4_rename_m4([len])
 m4_rename([m4exit], [m4_exit])
 m4_rename([m4wrap], [m4_wrap])
-m4_rename_m4([maketemp])
+m4_ifdef([mkstemp],dnl added in M4 1.4.8
+[m4_rename_m4([mkstemp])
+m4_copy([m4_mkstemp], [m4_maketemp])
+m4_undefine([maketemp])],
+[m4_rename_m4([maketemp])
+m4_copy([m4_maketemp], [m4_mkstemp])])
 m4_rename([patsubst], [m4_bpatsubst])
 m4_undefine([popdef])
 m4_rename_m4([pushdef])
@@ -146,7 +155,8 @@ m4_rename([regexp], [m4_bregexp])
 m4_rename_m4([shift])
 m4_undefine([sinclude])
 m4_rename_m4([substr])
-m4_rename_m4([symbols])
+m4_ifdef([symbols],dnl present only in alpha-quality 1.4o
+[m4_rename_m4([symbols])])
 m4_rename_m4([syscmd])
 m4_rename_m4([sysval])
 m4_rename_m4([traceoff])
@@ -1524,13 +1534,6 @@ m4_define([m4_append],
 [m4_define([$1],
 	   m4_ifdef([$1], [m4_defn([$1])$3])[$2])])
 
-# m4_prepend(MACRO-NAME, STRING, [SEPARATOR])
-# -------------------------------------------
-# Same, but prepend.
-m4_define([m4_prepend],
-[m4_define([$1],
-	   [$2]m4_ifdef([$1], [$3[]m4_defn([$1])]))])
-
 # m4_append_uniq(MACRO-NAME, STRING, [SEPARATOR])
 # -----------------------------------------------
 # As `m4_append', but append only if not yet present.
@@ -1733,12 +1736,14 @@ m4_sinclude([m4sugar/version.m4])
 # ----------------------------------------------------
 # Check this Autoconf version against VERSION.
 m4_define([m4_version_prereq],
-[m4_if(m4_version_compare(m4_defn([m4_PACKAGE_VERSION]), [$1]), -1,
-       [m4_default([$3],
-		   [m4_fatal([Autoconf version $1 or higher is required],
-			     63)])],
-       [$2])[]dnl
-])
+m4_ifdef([m4_PACKAGE_VERSION],
+[[m4_if(m4_version_compare(]m4_dquote(m4_defn([m4_PACKAGE_VERSION]))[, [$1]),
+	[-1],
+	[m4_default([$3],
+		    [m4_fatal([Autoconf version $1 or higher is required],
+			      [63])])],
+	[$2])]],
+[[m4_fatal([m4sugar/version.m4 not found])]]))
 
 
 
