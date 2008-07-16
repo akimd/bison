@@ -1,3 +1,16 @@
+2008-07-16  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix untranslatable composition of sentences.  Reported by Goran
+	Uddeborg at
+	<http://lists.gnu.org/archive/html/bug-bison/2008-06/msg00000.html>.
+	* THANKS (Goran Uddeborg): Add.
+	* src/reduce.c (reduce_print): Report the number of nonterminals and
+	rules useless in the grammar in separate sentences.
+	* tests/reduce.at (Useless Rules): Update output.
+	(Reduced Automaton): Likewise.
+	(Underivable Rules): Likewise.
+	(Empty Language): Likewise.
+
 2008-07-15  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix some .gitignore and .cvsignore problems.

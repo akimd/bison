@@ -142,7 +142,8 @@ useless9: '9';
 ]])
 
 AT_BISON_CHECK([[input.y]], 0, [],
-[[input.y: warning: 9 nonterminals and 9 rules useless in grammar
+[[input.y: warning: 9 nonterminals useless in grammar
+input.y: warning: 9 rules useless in grammar
 input.y:6.1-8: warning: nonterminal useless in grammar: useless1
 input.y:7.1-8: warning: nonterminal useless in grammar: useless2
 input.y:8.1-8: warning: nonterminal useless in grammar: useless3
@@ -237,7 +238,8 @@ non_productive: non_productive useless_token
 ]])
 
 AT_BISON_CHECK([[not-reduced.y]], 0, [],
-[[not-reduced.y: warning: 2 nonterminals and 3 rules useless in grammar
+[[not-reduced.y: warning: 2 nonterminals useless in grammar
+not-reduced.y: warning: 3 rules useless in grammar
 not-reduced.y:14.1-13: warning: nonterminal useless in grammar: not_reachable
 not-reduced.y:11.6-19: warning: nonterminal useless in grammar: non_productive
 not-reduced.y:11.6-57: warning: rule useless in grammar: exp: non_productive
@@ -311,7 +313,8 @@ indirection: underivable;
 ]])
 
 AT_BISON_CHECK([[input.y]], 0, [],
-[[input.y: warning: 2 nonterminals and 3 rules useless in grammar
+[[input.y: warning: 2 nonterminals useless in grammar
+input.y: warning: 3 rules useless in grammar
 input.y:5.15-25: warning: nonterminal useless in grammar: underivable
 input.y:6.14-24: warning: nonterminal useless in grammar: indirection
 input.y:5.15-25: warning: rule useless in grammar: exp: underivable
@@ -346,7 +349,8 @@ exp: exp;
 ]])
 
 AT_BISON_CHECK([[input.y]], 1, [],
-[[input.y: warning: 2 nonterminals and 2 rules useless in grammar
+[[input.y: warning: 2 nonterminals useless in grammar
+input.y: warning: 2 rules useless in grammar
 input.y:3.1-3: fatal error: start symbol exp does not derive any sentence
 ]])
 
