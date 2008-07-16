@@ -1,3 +1,12 @@
+2008-08-06  Eric Blake  <ebb9@byu.net>
+
+	Partial m4sugar merge from autoconf: m4_wrap vs. m4 1.6.
+	* data/m4sugar/m4sugar.m4 (m4_unquote, m4_wrap_lifo): New macros.
+	(m4_wrap): Guarantee FIFO order, in spite of m4 1.6.
+	(m4_init): Consolidate wrapped text into single m4_wrap.
+	* data/bison.m4 (b4_check_user_names_wrap): Stick with LIFO order
+	in wrapped text.
+
 2008-08-05  Eric Blake  <ebb9@byu.net>
 
 	Partial m4sugar merge from autoconf: builtins, version.m4.

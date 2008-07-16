@@ -141,7 +141,7 @@ m4_rename_m4([index])
 m4_rename_m4([indir])
 m4_rename_m4([len])
 m4_rename([m4exit], [m4_exit])
-m4_rename([m4wrap], [m4_wrap])
+m4_undefine([m4wrap])
 m4_ifdef([mkstemp],dnl added in M4 1.4.8
 [m4_rename_m4([mkstemp])
 m4_copy([m4_mkstemp], [m4_maketemp])
@@ -574,6 +574,41 @@ m4_define([m4_undefine],
 	   [m4_fatal([$0: undefined macro: $1])])dnl
 m4_builtin([undefine], $@)])
 
+
+# m4_unquote(ARGS)
+# ----------------
+# Remove one layer of quotes from each ARG, performing one level of
+# expansion.  For one argument, m4_unquote([arg]) is more efficient than
+# m4_do([arg]), but for multiple arguments, the difference is that
+# m4_unquote separates arguments with commas while m4_do concatenates.
+m4_define([m4_unquote], [$*])
+
+# _m4_wrap(PRE, POST)
+# -------------------
+# Helper macro for m4_wrap and m4_wrap_lifo.  Allows nested calls to
+# m4_wrap within wrapped text.
+# Skip m4_defn and m4_popdef for speed.
+m4_define([_m4_wrap],
+[m4_ifdef([$0_text],
+	  [m4_define([$0_text], [$1]m4_builtin([defn], [$0_text])[$2])],
+	  [m4_builtin([m4wrap], [m4_unquote(m4_builtin([defn],
+  [$0_text])m4_builtin([popdef], [$0_text]))])m4_define([$0_text], [$1$2])])])
+
+# m4_wrap(TEXT)
+# -------------
+# Append TEXT to the list of hooks to be executed at the end of input.
+# Whereas the order of the original may be LIFO in the underlying m4,
+# this version is always FIFO.
+m4_define([m4_wrap],
+[_m4_wrap([], [$1[]])])
+
+# m4_wrap_lifo(TEXT)
+# ------------------
+# Prepend TEXT to the list of hooks to be executed at the end of input.
+# Whereas the order of m4_wrap may be FIFO in the underlying m4, this
+# version is always LIFO.
+m4_define([m4_wrap_lifo],
+[_m4_wrap([$1[]])])
 
 ## -------------------------- ##
 ## 8. Implementing m4 loops.  ##
@@ -1783,10 +1818,11 @@ m4_define([m4_init],
 m4_pattern_forbid([^_?m4_])
 m4_pattern_forbid([^dnl$])
 
-# Check the divert push/pop perfect balance.
-m4_wrap([m4_ifdef([_m4_divert_diversion],
-	   [m4_fatal([$0: unbalanced m4_divert_push:]_m4_divert_n_stack)])[]])
-
+# _m4_divert_diversion should be defined:
 m4_divert_push([KILL])
-m4_wrap([m4_divert_pop([KILL])[]])
+
+# Check the divert push/pop perfect balance.
+m4_wrap([m4_divert_pop([])
+	 m4_ifdef([_m4_divert_diversion],
+	   [m4_fatal([$0: unbalanced m4_divert_push:]_m4_divert_n_stack)])[]])
 ])

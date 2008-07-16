@@ -550,7 +550,7 @@ m4_define([b4_check_user_names_wrap],
                                [b4_percent_]$1[_user_]$2[s],
                                [[b4_percent_]$1[_bison_]$2[s]])])])
 
-m4_wrap([
+m4_wrap_lifo([
 b4_check_user_names_wrap([[define]], [[variable]])
 b4_check_user_names_wrap([[code]], [[qualifier]])
 ])
