@@ -1,3 +1,16 @@
+2008-07-15  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Improve forward-compatibility with GNU M4.  Reported by Eric Blake at
+	<http://lists.gnu.org/archive/html/bug-bison/2008-07/msg00000.html>.
+	* bootstrap.conf (gnulib_modules): Add unsetenv.
+	* lib/.gitignore, lib/.cvsignore (/unsetenv.c): Add.
+	* m4/.gitignore, m4/.cvsignore (/environ.m4): Add.
+	(/setenv.m4): Add.
+	* src/output.c (output_skeleton): For the m4 invocation, pass -dV as
+	the first argument because it may become position-dependent, and unset
+	POSIXLY_CORRECT so Bison's skeletons have access to GNU M4 extensions.
+	Add comments explaining these issues in more detail.
+
 2008-07-14  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Add .gitignore everywhere based on .cvsignore.

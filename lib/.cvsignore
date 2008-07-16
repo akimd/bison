@@ -87,6 +87,7 @@ unitypes.h
 uniwidth
 uniwidth.h
 unlocked-io.h
+unsetenv.c
 verify.h
 wchar.h
 wchar.in.h
