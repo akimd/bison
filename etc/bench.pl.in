@@ -32,6 +32,7 @@ use Benchmark qw (:all);
 
 my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
+my $cxx = $ENV{'CXX'} || 'g++';
 
 ##################################################################
 
@@ -43,13 +44,21 @@ my $cc = $ENV{'CC'} || 'gcc';
 
 Format the list of directives for Bison for bench named C<$bench>.
 
+The special fake C<%variant> directive requests the use of
+Boost.Variants instead of a regular union.  So don't pass it, it is
+not a valid directive.
+
 =cut
 
 sub directives($@)
 {
   my ($bench, @directives) = @_;
   my $res = "/* Directives for bench `$bench'. */\n";
-  $res .= join ("\n", @directives);
+  for my $d (@directives)
+    {
+      $res .= $d . "\n"
+        unless $d eq '%variant';
+    }
   $res .= "/* End of directives for bench `$bench'. */\n";
   return $res;
 }
@@ -193,9 +202,9 @@ sub calc_input ($$)
 ##################################################################
 =item C<calc_grammar ($base, $max, @directives)>
 
-Generate a Bison file C<$base.y> that for a calculator parser in C.
-Pass the additional Bison C<@directives>.  C<$max> is ignored, but
-left to have the same interface as C<triangular_grammar>.
+Generate a Bison file C<$base.y> for a calculator parser in C.  Pass
+the additional Bison C<@directives>.  C<$max> is ignored, but left to
+have the same interface as C<triangular_grammar>.
 
 =cut
 
@@ -401,18 +410,168 @@ EOF
 
 ##################################################################
 
+=item C<variant_grammar ($base, $max, @directives)>
+
+Generate a Bison file C<$base.y> that uses, or not, the Boost.Variants
+depending on the C<@directives>.
+
+=cut
+
+sub variant_grammar ($$$)
+{
+  my ($base, $max, @directives) = @_;
+  my $directives = directives ($base, @directives);
+  my $variant = grep { '%variant' } @directives;
+
+  my $out = new IO::File ">$base.y"
+    or die;
+  print $out <<EOF;
+%debug
+%language "C++"
+%defines
+
+%code requires // code for the .hh file
+{
+#include <string>
+}
+
+%code // code for the .cc file
+{
+#include <algorithm>
+#include <iostream>
+#include <sstream>
+
+// Prototype of the yylex function providing subsequent tokens.
+static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
+
+#define STAGE_MAX    $max
+#define USE_VARIANTS $variant
+#if USE_VARIANTS
+# define IF_VARIANTS(True, False) True
+#else
+# define IF_VARIANTS(True, False) False
+#endif
+}
+EOF
+
+  if ($variant)
+    {
+      print $out <<'EOF';
+%code variant {int,std::string}
+%token <std::string> TEXT
+%token <int> NUMBER
+%printer { std::cerr << "Number: " << $$; } <int>
+%printer { std::cerr << "Text: " << $$; } <std::string>
+%token END_OF_FILE 0
+%type <std::string> text result
+
+%%
+result:
+  text			{ /* Throw away the result. */ }
+;
+
+text:
+  /* nothing */		{ /* This will generate an empty string */ }
+| text TEXT		{ std::swap($$,$1); $$.append($2); }
+| text NUMBER		{
+			  std::swap($$,$1);
+                          std::ostringstream ss;
+			  ss << ' ' << $2;
+			  $$.append(ss.str());
+			 }
+;
+EOF
+    }
+  else
+    {
+      # Not using Boost variants.
+      print $out <<'EOF';
+%union {int ival; std::string* sval;}
+%token <sval> TEXT
+%token <ival> NUMBER
+%printer { std::cerr << "Number: " << $$; } <ival>
+%printer { std::cerr << "Text: " << *$$; } <sval>
+%token END_OF_FILE 0
+%type <sval> text result
+
+%%
+result:
+  text			{ delete $1; }
+;
+
+text:
+  /* nothing */		{ $$ = new std::string; }
+| text TEXT		{ $$->append(*$2); delete $2; }
+| text NUMBER		{
+			  std::ostringstream ss;
+			  ss << ' ' << $2;
+			  $$->append(ss.str());
+			 }
+;
+EOF
+    }
+
+  print $out <<'EOF';
+%%
+static
+yy::parser::token_type
+yylex(yy::parser::semantic_type* yylval)
+{
+  static int stage = -1;
+  ++stage;
+  if (stage == STAGE_MAX)
+    return yy::parser::token::END_OF_FILE;
+  else if (stage % 2)
+    {
+      IF_VARIANTS(*yylval, yylval->ival) = stage;
+      return yy::parser::token::NUMBER;
+    }
+  else
+    {
+      IF_VARIANTS(*yylval =, yylval->sval = new) std::string("A string.");
+      return yy::parser::token::TEXT;
+    }
+  abort();
+}
+
+// Mandatory error function
+void
+yy::parser::error(const yy::parser::location_type& yylloc,
+                  const std::string& message)
+{
+  std::cerr << yylloc << ": " << message << std::endl;
+}
+
+int main(int argc, char *argv[])
+{
+  yy::parser p;
+  p.set_debug_level(!!getenv("YYDEBUG"));
+  p.parse();
+  return 0;
+}
+EOF
+}
+
+##################################################################
+
 =item C<compile ($base)>
 
-Compile C<$base.y> to an executable C<$base> using the C compiler.
+Compile C<$base.y> to an executable C, Using the C or C++ compiler
+depending on the %language specification in C<$base.y>.
 
 =cut
 
 sub compile ($)
 {
   my ($base) = @_;
+  my $language = `sed -ne '/%language "\\(.*\\)"/{s//\\1/;p;q;}' $base.y`;
+  chomp $language;
+
+  my $compiler = $language eq 'C++' ? $cxx : $cc;
+
   system ("$bison $base.y -o $base.c") == 0
     or die;
-  system ("$cc -o $base $base.c") == 0
+  system ("$compiler -o $base -O3 -I /opt/local/include $base.c") == 0
     or die;
 }
 
@@ -462,7 +621,6 @@ interfaces.
 
 sub bench_push_parser ()
 {
-  print STDERR "Using $bison, $cc.\n";
   calc_input ('calc', 200);
   bench_grammar
     ('calc',
@@ -475,7 +633,28 @@ sub bench_push_parser ()
     );
 }
 
-bench_push_parser();
+=item C<bench_variant_parser ()>
+
+Bench the C++ lalr1.cc parser using Boost.Variants or %union.
+
+=cut
+
+sub bench_variant_parser ()
+{
+  bench_grammar
+    ('variant',
+     (
+      "union"    => [],
+      "variant"  => ['%variant'],
+     )
+    );
+}
+
+############################################################################
+
+print STDERR "Using bison=$bison, cc=$cc, cxx=$cxx.\n";
+# bench_push_parser();
+bench_variant_parser();
 
 ### Setup "GNU" style for perl-mode and cperl-mode.
 ## Local Variables:
