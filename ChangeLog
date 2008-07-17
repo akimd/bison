@@ -1,5 +1,10 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	bench: Improve output.
+	* etc/bench.pl.in (bench_grammar): Tune the printf format.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	bench: check impact of %debug on variants.
 	* etc/bench.pl.in (variant_grammar): Fix the computation of
 	$variant.

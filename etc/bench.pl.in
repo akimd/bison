@@ -696,9 +696,15 @@ sub bench_grammar ($%)
 
   # Display the sizes.
   print "Sizes:\n";
+  my $width = 10;
   for my $bench (keys %size)
     {
-      printf "%10s: %10dkB\n", $bench, int ($size{$bench} / 1024);
+      $width = length $bench
+        if $width < length $bench;
+    }
+  for my $bench (keys %size)
+    {
+      printf "%${width}s: %5dkB\n", $bench, int ($size{$bench} / 1024);
     }
 }
 
