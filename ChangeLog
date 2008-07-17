@@ -1,5 +1,16 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	bench: check impact of %debug on variants.
+	* etc/bench.pl.in (variant_grammar): Fix the computation of
+	$variant.
+	Generate a grammar file that can work with or without %debug.
+	Do use the @directive.
+	(bench_variant_parser): Check impact of %debug.
+	(@directives): Rename all the occurrences to...
+	(@directive): this, for consistency.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	bench: report the size too.
 	* etc/bench.pl.in ($iterations): Defaults to -3.
 	(&bench_grammar): Require hireswallclock.
