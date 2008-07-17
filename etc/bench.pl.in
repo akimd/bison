@@ -39,7 +39,22 @@ my $cc = $ENV{'CC'} || 'gcc';
 
 =over 4
 
-=item C<triangular_grammar ($base, $max, $directives)>
+=item C<directives($bench, @directive)>
+
+Format the list of directives for Bison for bench named C<$bench>.
+
+=cut
+
+sub directives($@)
+{
+  my ($bench, @directives) = @_;
+  my $res = "/* Directives for bench `$bench'. */\n";
+  $res .= join ("\n", @directives);
+  $res .= "/* End of directives for bench `$bench'. */\n";
+  return $res;
+}
+
+=item C<triangular_grammar ($base, $max, @directives)>
 
 Create a large triangular grammar which looks like :
 
@@ -59,7 +74,7 @@ Create a large triangular grammar which looks like :
 
 C<$base> is the base name for the file to create (C<$base.y>).
 C<$max> is the number of such rules (here, 5).  You may pass
-additional Bison C<$directives>.
+additional Bison C<@directives>.
 
 The created parser is self contained: it includes its scanner, and
 source of input.
@@ -67,7 +82,8 @@ source of input.
 
 sub triangular_grammar ($$$)
 {
-  my ($base, $max, $directives) = @_;
+  my ($base, $max, @directives) = @_;
+  my $directives = directives ($base, @directives);
 
   my $out = new IO::File ">$base.y"
     or die;
@@ -81,6 +97,7 @@ sub triangular_grammar ($$$)
 static int yylex (void);
 static void yyerror (const char *msg);
 %}
+$directives
 %union
 {
   int val;
@@ -174,17 +191,18 @@ sub calc_input ($$)
 }
 
 ##################################################################
-=item C<calc_grammar ($base, $max, $directives)>
+=item C<calc_grammar ($base, $max, @directives)>
 
 Generate a Bison file C<$base.y> that for a calculator parser in C.
-Pass the additional Bison C<$directives>.  C<$max> is ignored, but
+Pass the additional Bison C<@directives>.  C<$max> is ignored, but
 left to have the same interface as C<triangular_grammar>.
 
 =cut
 
 sub calc_grammar ($$$)
 {
-  my ($base, $max, $directives) = @_;
+  my ($base, $max, @directives) = @_;
+  my $directives = directives ($base, @directives);
 
   my $out = new IO::File ">$base.y"
     or die;
@@ -204,9 +222,9 @@ static semantic_value global_result = 0;
 static int global_count = 0;
 %}
 
-/* Exercise %union. */
 $directives
 %error-verbose
+/* Exercise %union. */
 %union
 {
   semantic_value ival;
@@ -403,9 +421,9 @@ sub compile ($)
 Generate benches for C<$gram>.  C<$gram> should be C<calc> or
 C<triangle>.  C<%bench> is a hash of the form:
 
-  C<$name> => C<$directives>
+  C<$name> => C<@directives>
 
-where C<$name> is the name of the bench, and C<$directives> are the
+where C<$name> is the name of the bench, and C<@directives> are the
 Bison directive to use for this bench.  All the benches are compared
 against each other, repeated 50 times.
 
@@ -422,7 +440,7 @@ sub bench_grammar ($%)
       print STDERR "$name\n";
       # Call the Bison input file generator.
       my $generator = "$gram" . "_grammar";
-      &$generator ($name, 200, $directives);
+      &$generator ($name, 200, @$directives);
       compile ($name);
       $bench{$name} = "system ('./$name');";
     }
@@ -449,10 +467,10 @@ sub bench_push_parser ()
   bench_grammar
     ('calc',
      (
-      "pull-impure" => '',
-      "pull-pure" => '%define api.pure',
-      "push-impure" => '%define api.push_pull "both"',
-      "push-pure" => '%define api.push_pull "both" %define api.pure',
+      "pull-impure" => [],
+      "pull-pure"   => ['%define api.pure'],
+      "push-impure" => ['%define api.push_pull "both"'],
+      "push-pure"   => ['%define api.push_pull "both"', '%define api.pure'],
      )
     );
 }

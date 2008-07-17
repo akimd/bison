@@ -1,5 +1,15 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	bench.pl: Pass directives as a list instead of as a string.
+	* etc/bench.pl.in (&directives): New.
+	(&triangular_grammar, &calc_grammar): Use it to format the Bison
+	directives.
+	(&triangular_grammar): Do use the directives (were ignored).
+	(&bench_grammar, &bench_push_parser): Adjust to pass lists of
+	directives.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Improve genericity of bench.pl.
 	* etc/bench.pl.in (&bench_grammar): Take the set of benches as
 	argument.
