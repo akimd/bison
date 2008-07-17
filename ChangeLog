@@ -1,5 +1,10 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Add documentation to bench.pl.
+	* etc/bench.pl.in: Comment changes.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Fuse the three stacks into a single one.
 	In order to make it easy to perform benchmarks to ensure that there are no
 	performance loss, lalr1.cc is forked into lalr1-fusion.cc.  Eventually,

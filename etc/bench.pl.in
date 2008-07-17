@@ -17,6 +17,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+=head1 NAME
+
+bench.pl - perform benches on Bison parsers.
+
+=head1 SYNOPSIS
+
+  ./bench.pl
+
+=cut
+
 use IO::File;
 use Benchmark qw (:all);
 
@@ -24,6 +34,36 @@ my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
 
 ##################################################################
+
+=head2 Functions
+
+=over 4
+
+=item C<triangular_grammar ($base, $max, $directives)>
+
+Create a large triangular grammar which looks like :
+
+  input:
+    exp        { if ($1 != 0) abort (); $$ = $1; }
+  | input exp  { if ($2 != $1 + 1) abort (); $$ = $2; }
+  ;
+
+  exp:
+    END                         { $$ = 0; }
+  | "1"  END                    { $$ = 1; }
+  | "1" "2"  END                { $$ = 2; }
+  | "1" "2" "3"  END            { $$ = 3; }
+  | "1" "2" "3" "4"  END        { $$ = 4; }
+  | "1" "2" "3" "4" "5"  END    { $$ = 5; }
+  ;
+
+C<$base> is the base name for the file to create (C<$base.y>).
+C<$max> is the number of such rules (here, 5).  You may pass
+additional Bison C<$directives>.
+
+The created parser is self contained: it includes its scanner, and
+source of input.
+=cut
 
 sub triangular_grammar ($$$)
 {
@@ -112,6 +152,15 @@ EOF
 
 ##################################################################
 
+=item C<calc_input ($base, $max)>
+
+Generate the input file C<$base.input> for the calc parser.  The input
+is composed of two expressions.  The first one is using left recursion
+only and consumes no stack.  The second one requires a deep stack.
+These two expressions are repeated C<$max> times in the output file.
+
+=cut
+
 sub calc_input ($$)
 {
   my ($base, $max) = @_;
@@ -125,6 +174,13 @@ sub calc_input ($$)
 }
 
 ##################################################################
+=item C<calc_grammar ($base, $max, $directives)>
+
+Generate a Bison file C<$base.y> that for a calculator parser in C.
+Pass the additional Bison C<$directives>.  C<$max> is ignored, but
+left to have the same interface as C<triangular_grammar>.
+
+=cut
 
 sub calc_grammar ($$$)
 {
@@ -327,6 +383,12 @@ EOF
 
 ##################################################################
 
+=item C<compile ($base)>
+
+Compile C<$base.y> to an executable C<$base> using the C compiler.
+
+=cut
+
 sub compile ($)
 {
   my ($base) = @_;
@@ -335,6 +397,13 @@ sub compile ($)
   system ("$cc -o $base $base.c") == 0
     or die;
 }
+
+=item C<bench_grammar ($gram)>
+
+Generate benches for C<$gram>.  C<$gram> should be C<calc> or
+C<triangle>.
+
+=cut
 
 sub bench_grammar ($)
 {
