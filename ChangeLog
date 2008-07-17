@@ -1,5 +1,13 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	bench: report the size too.
+	* etc/bench.pl.in ($iterations): Defaults to -3.
+	(&bench_grammar): Require hireswallclock.
+	Compute and display the size of the result.
+	More comments.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	bench: More use of the verbosity level.
 	* etc/bench.pl.in ($verbose, &verbose): New.
 	Use them.

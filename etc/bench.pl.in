@@ -35,7 +35,9 @@ Flags to pass to the C or C++ compiler.
 
 =item B<-i>, B<--iterations>=I<integer>
 
-Say how many times a single test of the bench must be run.
+Say how many times a single test of the bench must be run.  If
+negative, specify the minimum number of CPU seconds to run.  Defaults
+to -3.
 
 =item B<-v>, B<--verbose>
 
@@ -46,7 +48,6 @@ Raise the verbosity level.  Currently only affects B<--help>.
 =cut
 
 use IO::File;
-use Benchmark qw (:all);
 
 ##################################################################
 
@@ -86,7 +87,7 @@ my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
 my $cxx = $ENV{'CXX'} || 'g++';
 my $cflags = '';
-my $iterations = 50;
+my $iterations = -3;
 my $verbose = 0;
 
 =head1 FUNCTIONS
@@ -658,8 +659,12 @@ sub bench_grammar ($%)
 {
   my ($gram, %test) = @_;
 
+  use Benchmark qw (:all :hireswallclock);
+
   # Set up the benches as expected by timethese.
   my %bench;
+  # For each bench, capture the size.
+  my %size;
   while (my ($name, $directives) = each %test)
     {
       verbose 1, "Generating $name\n";
@@ -668,13 +673,30 @@ sub bench_grammar ($%)
       &$generator ($name, 200, @$directives);
       compile ($name);
       $bench{$name} = "system ('./$name');";
+      chop($size{$name} = `wc -c <$name`);
     }
 
-  verbose 1, "Running the benches for $gram\n";
   # Run the benches.
+  #
+  # STYLE can be any of 'all', 'none', 'noc', 'nop' or 'auto'.  'all'
+  # shows each of the 5 times available ('wallclock' time, user time,
+  # system time, user time of children, and system time of
+  # children). 'noc' shows all except the two children times. 'nop'
+  # shows only wallclock and the two children times.  'auto' (the
+  # default) will act as 'all' unless the children times are both
+  # zero, in which case it acts as 'noc'.  'none' prevents output.
+  verbose 1, "Running the benches for $gram\n";
   my $res = timethese ($iterations, \%bench, 'nop');
-  # Output the result.
+
+  # Output the speed result.
   cmpthese ($res, 'nop');
+
+  # Display the sizes.
+  print "Sizes:\n";
+  for my $bench (keys %size)
+    {
+      printf "%10s: %10dkB\n", $bench, int ($size{$bench} / 1024);
+    }
 }
 
 
