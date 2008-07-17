@@ -25,6 +25,20 @@ bench.pl - perform benches on Bison parsers.
 
   ./bench.pl
 
+=head1 OPTIONS
+
+=item B<-c>, B<--cflags>=I<flags>
+
+Flags to pass to the C or C++ compiler.
+
+=item B<-i>, B<--iterations>=I<integer>
+
+Say how many times a single test of the bench must be run.
+
+=item B<-v>, B<--verbose>
+
+Raise the verbosity level.  Currently only affects B<--help>.
+
 =cut
 
 use IO::File;
@@ -33,8 +47,14 @@ use Benchmark qw (:all);
 my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
 my $cxx = $ENV{'CXX'} || 'g++';
+# Compiler flags (C or C++).
+my $cflags = '';
+# The number of times the parser is run for a bench.
+my $iterations = 50;
 
 ##################################################################
+
+=head1 DESCRIPTIONS
 
 =head2 Functions
 
@@ -81,7 +101,7 @@ Create a large triangular grammar which looks like :
   | "1" "2" "3" "4" "5"  END    { $$ = 5; }
   ;
 
-C<$base> is the base name for the file to create (C<$base.y>).
+C<$base> is the base name for the file to create (F<$base.y>).
 C<$max> is the number of such rules (here, 5).  You may pass
 additional Bison C<@directives>.
 
@@ -180,7 +200,7 @@ EOF
 
 =item C<calc_input ($base, $max)>
 
-Generate the input file C<$base.input> for the calc parser.  The input
+Generate the input file F<$base.input> for the calc parser.  The input
 is composed of two expressions.  The first one is using left recursion
 only and consumes no stack.  The second one requires a deep stack.
 These two expressions are repeated C<$max> times in the output file.
@@ -202,7 +222,7 @@ sub calc_input ($$)
 ##################################################################
 =item C<calc_grammar ($base, $max, @directives)>
 
-Generate a Bison file C<$base.y> for a calculator parser in C.  Pass
+Generate a Bison file F<$base.y> for a calculator parser in C.  Pass
 the additional Bison C<@directives>.  C<$max> is ignored, but left to
 have the same interface as C<triangular_grammar>.
 
@@ -412,7 +432,7 @@ EOF
 
 =item C<variant_grammar ($base, $max, @directives)>
 
-Generate a Bison file C<$base.y> that uses, or not, the Boost.Variants
+Generate a Bison file F<$base.y> that uses, or not, the Boost.Variants
 depending on the C<@directives>.
 
 =cut
@@ -444,7 +464,7 @@ sub variant_grammar ($$$)
 // Prototype of the yylex function providing subsequent tokens.
 static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
 
-#define STAGE_MAX    $max
+#define STAGE_MAX    ($max * 10)
 #define USE_VARIANTS $variant
 #if USE_VARIANTS
 # define IF_VARIANTS(True, False) True
@@ -571,7 +591,7 @@ sub compile ($)
 
   system ("$bison $base.y -o $base.c") == 0
     or die;
-  system ("$compiler -o $base -O3 -I /opt/local/include $base.c") == 0
+  system ("$compiler -o $base $cflags $base.c") == 0
     or die;
 }
 
@@ -580,7 +600,7 @@ sub compile ($)
 Generate benches for C<$gram>.  C<$gram> should be C<calc> or
 C<triangle>.  C<%bench> is a hash of the form:
 
-  C<$name> => C<@directives>
+  $name => @directives
 
 where C<$name> is the name of the bench, and C<@directives> are the
 Bison directive to use for this bench.  All the benches are compared
@@ -606,7 +626,7 @@ sub bench_grammar ($%)
 
   print "$gram:\n";
   # Run the benches.
-  my $res = timethese (50, \%bench, 'nop');
+  my $res = timethese ($iterations, \%bench, 'nop');
   # Output the result.
   cmpthese ($res, 'nop');
 }
@@ -652,7 +672,34 @@ sub bench_variant_parser ()
 
 ############################################################################
 
-print STDERR "Using bison=$bison, cc=$cc, cxx=$cxx.\n";
+sub help ($)
+{
+  my ($verbose) = @_;
+  use Pod::Usage;
+  # See <URL:http://perldoc.perl.org/pod2man.html#NOTES>.
+  pod2usage( { -message => "Bench Bison parsers",
+               -exitval => 0,
+               -verbose => $verbose,
+               -output  => \*STDOUT });
+}
+
+sub getopt ()
+{
+  use Getopt::Long;
+  my $verbose = 0;
+  %option = ("h|help"     => sub { help ($verbose) },
+	     "v|verbose"  => sub { ++$verbose },
+             "c|cflags=s" => \$cflags,
+             "i|iterations=i" => \$iterations);
+  Getopt::Long::Configure ("bundling", "pass_through");
+  GetOptions (%option)
+    or exit 1;
+}
+
+######################################################################
+
+getopt;
+print STDERR "Using bison=$bison, cc=$cc, cxx=$cxx, cflags=$cflags.\n";
 # bench_push_parser();
 bench_variant_parser();
 
