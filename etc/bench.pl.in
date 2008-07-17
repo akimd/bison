@@ -27,6 +27,8 @@ bench.pl - perform benches on Bison parsers.
 
 =head1 OPTIONS
 
+=over 4
+
 =item B<-c>, B<--cflags>=I<flags>
 
 Flags to pass to the C or C++ compiler.
@@ -39,26 +41,70 @@ Say how many times a single test of the bench must be run.
 
 Raise the verbosity level.  Currently only affects B<--help>.
 
+=back
+
 =cut
 
 use IO::File;
 use Benchmark qw (:all);
 
+##################################################################
+
+=head1 VARIABLES
+
+=over 4
+
+=item C<$bison>
+
+The Bison program to use to compile the grammar.
+
+=item C<$cc>
+
+The C compiler.
+
+=item C<$cxx>
+
+The C++ compiler.
+
+=item C<$cflags>
+
+Compiler flags (C or C++).
+
+=item C<$iterations>
+
+The number of times the parser is run for a bench.
+
+=item C<$verbose>
+
+Verbosity level.
+
+=back
+
+=cut
+
 my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
 my $cxx = $ENV{'CXX'} || 'g++';
-# Compiler flags (C or C++).
 my $cflags = '';
-# The number of times the parser is run for a bench.
 my $iterations = 50;
+my $verbose = 0;
 
-##################################################################
-
-=head1 DESCRIPTIONS
-
-=head2 Functions
+=head1 FUNCTIONS
 
 =over 4
+
+=item C<verbose($level, $message)>
+
+Report the C<$message> is C<$level> E<lt>= C<$verbose>.
+
+=cut
+
+sub verbose($$)
+{
+  my ($level, $message) = @_;
+  print STDERR $message
+    if $level <= $verbose;
+}
 
 =item C<directives($bench, @directive)>
 
@@ -616,7 +662,7 @@ sub bench_grammar ($%)
   my %bench;
   while (my ($name, $directives) = each %test)
     {
-      print STDERR "$name\n";
+      verbose 1, "Generating $name\n";
       # Call the Bison input file generator.
       my $generator = "$gram" . "_grammar";
       &$generator ($name, 200, @$directives);
@@ -624,7 +670,7 @@ sub bench_grammar ($%)
       $bench{$name} = "system ('./$name');";
     }
 
-  print "$gram:\n";
+  verbose 1, "Running the benches for $gram\n";
   # Run the benches.
   my $res = timethese ($iterations, \%bench, 'nop');
   # Output the result.
@@ -686,7 +732,6 @@ sub help ($)
 sub getopt ()
 {
   use Getopt::Long;
-  my $verbose = 0;
   %option = ("h|help"     => sub { help ($verbose) },
 	     "v|verbose"  => sub { ++$verbose },
              "c|cflags=s" => \$cflags,
@@ -699,7 +744,10 @@ sub getopt ()
 ######################################################################
 
 getopt;
-print STDERR "Using bison=$bison, cc=$cc, cxx=$cxx, cflags=$cflags.\n";
+verbose 1, "Using bison=$bison.\n";
+verbose 1, "Using cc=$cc.\n";
+verbose 1, "Using cxx=$cxx.\n";
+verbose 1, "Using cflags=$cflags.\n";
 # bench_push_parser();
 bench_variant_parser();
 
