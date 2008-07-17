@@ -1,5 +1,13 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Improve genericity of bench.pl.
+	* etc/bench.pl.in (&bench_grammar): Take the set of benches as
+	argument.
+	(&bench_push_parser): New.
+	Call it.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Add documentation to bench.pl.
 	* etc/bench.pl.in: Comment changes.
 

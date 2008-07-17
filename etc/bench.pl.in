@@ -398,28 +398,29 @@ sub compile ($)
     or die;
 }
 
-=item C<bench_grammar ($gram)>
+=item C<bench_grammar ($gram, %bench)>
 
 Generate benches for C<$gram>.  C<$gram> should be C<calc> or
-C<triangle>.
+C<triangle>.  C<%bench> is a hash of the form:
+
+  C<$name> => C<$directives>
+
+where C<$name> is the name of the bench, and C<$directives> are the
+Bison directive to use for this bench.  All the benches are compared
+against each other, repeated 50 times.
 
 =cut
 
-sub bench_grammar ($)
+sub bench_grammar ($%)
 {
-  my ($gram) = @_;
-  my %test =
-    (
-     "pull-impure" => '',
-     "pull-pure" => '%define api.pure',
-     "push-impure" => '%define api.push_pull "both"',
-     "push-pure" => '%define api.push_pull "both" %define api.pure',
-    );
+  my ($gram, %test) = @_;
 
+  # Set up the benches as expected by timethese.
   my %bench;
   while (my ($name, $directives) = each %test)
     {
       print STDERR "$name\n";
+      # Call the Bison input file generator.
       my $generator = "$gram" . "_grammar";
       &$generator ($name, 200, $directives);
       compile ($name);
@@ -427,13 +428,36 @@ sub bench_grammar ($)
     }
 
   print "$gram:\n";
+  # Run the benches.
   my $res = timethese (50, \%bench, 'nop');
+  # Output the result.
   cmpthese ($res, 'nop');
 }
 
-print STDERR "Using $bison, $cc.\n";
-calc_input ('calc', 200);
-bench_grammar ('calc');
+
+=item C<bench_push_parser ()>
+
+Bench the C push parser against the pull parser, pure and impure
+interfaces.
+
+=cut
+
+sub bench_push_parser ()
+{
+  print STDERR "Using $bison, $cc.\n";
+  calc_input ('calc', 200);
+  bench_grammar
+    ('calc',
+     (
+      "pull-impure" => '',
+      "pull-pure" => '%define api.pure',
+      "push-impure" => '%define api.push_pull "both"',
+      "push-pure" => '%define api.push_pull "both" %define api.pure',
+     )
+    );
+}
+
+bench_push_parser();
 
 ### Setup "GNU" style for perl-mode and cperl-mode.
 ## Local Variables:
