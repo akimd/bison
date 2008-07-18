@@ -155,7 +155,8 @@ dnl FIXME: This is wrong, we want computed header guards.
 ]b4_namespace_open[
   class position;
   class location;
-
+]b4_variant_if(
+[[
   /// A char[S] buffer to store and retrieve objects.
   ///
   /// Sort of a variant, but does not keep track of the nature
@@ -199,7 +200,7 @@ dnl FIXME: This is wrong, we want computed header guards.
     /// A buffer large enough to store any of the semantic values.
     char buffer[S];
   };
-
+]])[
 ]b4_namespace_close[
 
 #include "location.hh"
