@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+## Copyright (C) 2005, 2006, 2008 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ EXTRA_DIST = $(srcdir)/calc++-parser.stamp $(srcdir)/calc++-parser.yy
 $(srcdir)/calc++-parser.stamp: $(srcdir)/calc++-parser.yy $(BISON_IN)
 	@rm -f calc++-parser.tmp
 	@touch calc++-parser.tmp
-	$(BISON) -d -ra -S lalr1.cc -o $(srcdir)/calc++-parser.cc \
+	$(BISON) -d -ra -o $(srcdir)/calc++-parser.cc \
 	  $(srcdir)/calc++-parser.yy
 	@mv -f calc++-parser.tmp $@
 

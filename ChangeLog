@@ -1,5 +1,11 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Don't specify the skeleton twice in the example.
+	* examples/calc++/Makefile.am: Don't pass -S to Bison, the grammar
+	file does what is needed.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	bench: Improve output.
 	* etc/bench.pl.in (bench_grammar): Tune the printf format.
 
