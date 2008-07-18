@@ -1,5 +1,13 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Fail on parse error in calc++.
+	* doc/bison.texinfo (calc++.cc): Propagate failures to the exit
+	status.
+	* examples/calc++/test ($me, $number, $exit, run): New.
+	Use them to propagate errors to the exit status.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Don't specify the skeleton twice in the example.
 	* examples/calc++/Makefile.am: Don't pass -S to Bison, the grammar
 	file does what is needed.

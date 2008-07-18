@@ -8713,6 +8713,7 @@ The top level file, @file{calc++.cc}, poses no problem.
 int
 main (int argc, char *argv[])
 @{
+  int res = 0;
   calcxx_driver driver;
   for (++argv; argv[0]; ++argv)
     if (*argv == std::string ("-p"))
@@ -8721,6 +8722,9 @@ main (int argc, char *argv[])
       driver.trace_scanning = true;
     else if (!driver.parse (*argv))
       std::cout << driver.result << std::endl;
+    else
+      res = 1;
+  return res;
 @}
 @end example
 

@@ -5,6 +5,33 @@ test -z "$VERBOSE" && {
    set -x
 }
 
+me=`basename $0`
+
+# Number of the current test.
+number=1
+
+# Exit status of this script.
+exit=true
+
+# run EXPECTED-EXIT-STATUS [PARSER-OPTIONS]
+# -----------------------------------------
+run ()
+{
+  # Effective and expected exit status.
+  local sta_exp=$1
+  shift
+  ./calc++ "$@" input
+  local sta_eff=$?
+  if test $sta_eff -eq $sta_exp; then
+    printf "$me: PASS: %2d\n" $number
+  else
+    printf "$me: FAIL: %2d (expected status: %d, effective: %d\n" \
+        $number $sta_exp $sta_eff
+    exit=false
+  fi
+  number=`expr $number + 1`
+}
+
 cat >input <<EOF
 a := 1
 b := 2
@@ -12,20 +39,22 @@ c := 3
 d := a + b * c
 d
 EOF
+run 0
+run 0 -p
 
-./calc++ input
-./calc++ -p input
 
 cat >input <<EOF
 a := 1
 d := a + b * c
 EOF
-./calc++ input
+run 1 input
+
 
 cat >input <<EOF
 toto := 1
 toto
 EOF
-./calc++ -s input
+run 0 -s
 
 rm input
+$exit
