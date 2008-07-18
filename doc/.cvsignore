@@ -1,4 +1,5 @@
 Makefile
+bison.1
 bison.aux
 bison.cp
 bison.cps

@@ -53,7 +53,6 @@ bison_SOURCES =					  \
 	print-xml.c print-xml.h			  \
 	reader.c reader.h			  \
 	reduce.c reduce.h			  \
-	revision.c revision.h			  \
 	relation.c relation.h			  \
 	scan-code.h scan-code-c.c		  \
 	scan-gram.h scan-gram-c.c		  \
@@ -70,7 +69,6 @@ EXTRA_bison_SOURCES = scan-code.l scan-skel.l scan-gram.l
 
 BUILT_SOURCES =					\
 parse-gram.c parse-gram.h			\
-revision.c					\
 scan-code.c					\
 scan-skel.c					\
 scan-gram.c
@@ -84,16 +82,6 @@ yacc:
 
 echo:
 	echo $(bison_SOURCES) $(noinst_HEADERS)
-
-revision.c: $(top_srcdir)/configure $(top_srcdir)/ChangeLog
-	case "$(VERSION)" in \
-	  *+*) sed -n \
-	    's/^\$$\(Id.*\)\$$$$/const char *revision = "\1\\n";/p' \
-	    $(top_srcdir)/ChangeLog \
-	    ;; \
-	  *) echo 'const char *revision = "";' \
-	    ;; \
-	esac >$@
 
 # The following rule is not designed to be portable,
 # and relies on tools that not everyone has.

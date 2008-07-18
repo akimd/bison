@@ -7,7 +7,6 @@
 /Makefile.in
 /bison
 /bison.exe
-/revision.c
 /scan-code.c
 /scan-gram.c
 /scan-skel.c

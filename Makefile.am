@@ -23,7 +23,7 @@ SUBDIRS = build-aux po runtime-po lib data src doc examples tests etc
 aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
-EXTRA_DIST = GNUmakefile Makefile.cfg Makefile.maint \
+EXTRA_DIST = .prev-version .version Makefile.cfg Makefile.maint maint.mk \
   OChangeLog PACKAGING \
   djgpp/Makefile.maint djgpp/README.in djgpp/config.bat \
   djgpp/config.sed djgpp/config.site djgpp/config_h.sed \
@@ -42,3 +42,10 @@ maintainer-push-check:
 .PHONY: maintainer-xml-check
 maintainer-xml-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
+
+# See comments in build-aux/git-version-gen.
+BUILT_SOURCES = $(top_srcdir)/.version
+$(top_srcdir)/.version:
+	echo $(VERSION) > $@-t && mv $@-t $@
+dist-hook:
+	echo $(VERSION) > $(distdir)/.tarball-version

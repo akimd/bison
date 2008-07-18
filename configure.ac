@@ -19,7 +19,9 @@
 # We have strange test case titles, so we need Autoconf 2.61 or better.
 AC_PREREQ(2.61)
 
-AC_INIT([GNU Bison], [2.3b+], [bug-bison@gnu.org])
+AC_INIT([GNU Bison],
+        m4_esyscmd([build-aux/git-version-gen .tarball-version]),
+        [bug-bison@gnu.org])
 AC_DEFINE([PACKAGE_COPYRIGHT_YEAR], [2008],
           [The copyright year for this package])
 AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2008])
@@ -142,8 +144,7 @@ AC_SUBST([O0CXXFLAGS], [`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`])
 gt_JAVACOMP([1.3])
 gt_JAVAEXEC
 
-AC_CONFIG_FILES([.version
-		 Makefile
+AC_CONFIG_FILES([Makefile
 		 build-aux/Makefile
 		 po/Makefile.in
 		 data/Makefile
