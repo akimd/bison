@@ -167,10 +167,10 @@ dnl FIXME: This is wrong, we want computed header guards.
   {
     /// Instantiate a \a T in here.
     template <typename T>
-    inline void
+    inline T&
     build()
     {
-      new (buffer) T;
+      return *new (buffer) T;
     }
 
     /// Destroy the stored \a T.
