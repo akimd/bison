@@ -1,3 +1,11 @@
+2008-07-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Update copyright dates for recent changes.
+	* Makefile.am: Here.
+	* src/Makefile.am: Here.
+	* src/reduce.c: Here.
+	* tests/reduce.at: Here.
+
 2008-07-18  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Use git-version-gen for version names between releases.
