@@ -1,5 +1,11 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Remove trailing empty line.
+	* data/lalr1-fusion.cc: Don't add an empty line after the user's
+	epilogue.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Fix output of copyright years.
 	* data/bison.m4 (b4_copyright): Fix the indentation of the
 	copyright year paragraph.

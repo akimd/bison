@@ -1211,8 +1211,7 @@ b4_error_verbose_if([ tok])[)
 
 ]b4_namespace_close[
 
-]b4_epilogue
-dnl
+]b4_epilogue[]dnl
 @output(b4_dir_prefix[]stack.hh@)@
 b4_copyright([Stack handling for Bison parsers in C++])[
 
