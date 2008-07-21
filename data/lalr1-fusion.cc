@@ -132,6 +132,9 @@ m4_define([b4_char_sizeof],
 ])
 
 
+m4_pushdef([b4_copyright_years],
+           [2002, 2003, 2004, 2005, 2006, 2007, 2008])
+
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
 
@@ -148,8 +151,7 @@ m4_changecom()
 m4_divert_push(0)dnl
 b4_defines_if(
 [@output(b4_spec_defines_file@)@
-b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
-             [2002, 2003, 2004, 2005, 2006, 2007, 2008])
+b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 dnl FIXME: This is wrong, we want computed header guards.
 [
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
@@ -479,8 +481,7 @@ b4_percent_code_get([[provides]])[]dnl
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
 @output(b4_parser_file_name@)@
-b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
-             [2002, 2003, 2004, 2005, 2006, 2007, 2008])
+b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])
 b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
 [
@@ -1213,8 +1214,7 @@ b4_error_verbose_if([ tok])[)
 ]b4_epilogue
 dnl
 @output(b4_dir_prefix[]stack.hh@)@
-b4_copyright([Stack handling for Bison parsers in C++],
-             [2002, 2003, 2004, 2005, 2006, 2007, 2008])[
+b4_copyright([Stack handling for Bison parsers in C++])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
@@ -1312,3 +1312,4 @@ b4_copyright([Stack handling for Bison parsers in C++],
 #endif // not BISON_STACK_HH[]dnl
 ]
 m4_divert_pop(0)
+m4_popdef([b4_copyright_years])dnl

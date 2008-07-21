@@ -1,5 +1,15 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Fix output of copyright years.
+	* data/bison.m4 (b4_copyright): Fix the indentation of the
+	copyright year paragraph.
+	Use b4_copyright_years when no years are given.
+	* data/lalr1.cc, data/lalr1-fusion.cc, data/location.cc
+	(b4_copyright_years): New.
+	Use it.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Avoid the spurious initial empty line.
 	* data/lalr1-fusion.cc, data/location.cc: Put a trailing "@" at
 	the end of @output request to suppress the empty line that

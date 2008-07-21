@@ -22,14 +22,17 @@
 ## Identification.  ##
 ## ---------------- ##
 
-# b4_copyright(TITLE, YEARS)
-# --------------------------
+# b4_copyright(TITLE, [YEARS])
+# ----------------------------
+# If YEARS are not defined, use b4_copyright_years.
 m4_define([b4_copyright],
 [b4_comment([A Bison parser, made by GNU Bison b4_version.])
 
 b4_comment([$1
 
-m4_text_wrap([Copyright (C) $2 Free Software Foundation, Inc.], [   ])
+]m4_dquote(m4_text_wrap([Copyright (C)
+]m4_ifval([$2], [[$2]], [m4_defn([b4_copyright_years])])[
+Free Software Foundation, Inc.]))[
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
