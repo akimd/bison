@@ -18,6 +18,17 @@
 
 m4_include(b4_pkgdatadir/[c++.m4])
 
+# b4_table_define(TABLE-NAME, CONTENT)
+# ------------------------------------
+# Define "parser::yy<TABLE-NAME>_" which contents is CONTENT.
+m4_define([b4_table_define],
+[const b4_int_type_for([$2])
+  b4_parser_class_name::yy$1_[[]] =
+  {
+  $2
+  }dnl
+])
+
 # How the semantic value is extracted when using variants.
 b4_variant_if([
   # b4_symbol_value(VAL, [TYPE])
@@ -1081,83 +1092,43 @@ b4_error_verbose_if([ tok])[)
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
   const ]b4_int_type(b4_pact_ninf, b4_pact_ninf) b4_parser_class_name::yypact_ninf_ = b4_pact_ninf[;
-  const ]b4_int_type_for([b4_pact])[
-  ]b4_parser_class_name[::yypact_[] =
-  {
-  ]b4_pact[
-  };
+  ]b4_table_define([pact], [b4_pact])[;
 
   /* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
      doesn't specify something else to do.  Zero means the default is an
      error.  */
-  const ]b4_int_type_for([b4_defact])[
-  ]b4_parser_class_name[::yydefact_[] =
-  {
-  ]b4_defact[
-  };
+  ]b4_table_define([defact], [b4_defact])[;
 
   /* YYPGOTO[NTERM-NUM].  */
-  const ]b4_int_type_for([b4_pgoto])[
-  ]b4_parser_class_name[::yypgoto_[] =
-  {
-  ]b4_pgoto[
-  };
+  ]b4_table_define([pgoto], [b4_pgoto])[;
 
   /* YYDEFGOTO[NTERM-NUM].  */
-  const ]b4_int_type_for([b4_defgoto])[
-  ]b4_parser_class_name[::yydefgoto_[] =
-  {
-  ]b4_defgoto[
-  };
+  ]b4_table_define([defgoto], [b4_defgoto])[;
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
      number is the opposite.  If zero, do what YYDEFACT says.  */
   const ]b4_int_type(b4_table_ninf, b4_table_ninf) b4_parser_class_name::yytable_ninf_ = b4_table_ninf[;
-  const ]b4_int_type_for([b4_table])[
-  ]b4_parser_class_name[::yytable_[] =
-  {
-  ]b4_table[
-  };
+  ]b4_table_define([table], [b4_table])[;
 
   /* YYCHECK.  */
-  const ]b4_int_type_for([b4_check])[
-  ]b4_parser_class_name[::yycheck_[] =
-  {
-  ]b4_check[
-  };
+  ]b4_table_define([check], [b4_check])[;
 
   /* STOS_[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
-  const ]b4_int_type_for([b4_stos])[
-  ]b4_parser_class_name[::yystos_[] =
-  {
-  ]b4_stos[
-  };
+  ]b4_table_define([stos], [b4_stos])[;
 
 #if YYDEBUG
   /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
      to YYLEX-NUM.  */
-  const ]b4_int_type_for([b4_toknum])[
-  ]b4_parser_class_name[::yytoken_number_[] =
-  {
-  ]b4_toknum[
-  };
+  ]b4_table_define([token_number], [b4_toknum])[;
 #endif
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-  const ]b4_int_type_for([b4_r1])[
-  ]b4_parser_class_name[::yyr1_[] =
-  {
-  ]b4_r1[
-  };
+  ]b4_table_define([r1], [b4_r1])[;
 
   /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-  const ]b4_int_type_for([b4_r2])[
-  ]b4_parser_class_name[::yyr2_[] =
-  {
-  ]b4_r2[
-  };
+  ]b4_table_define([r2], [b4_r2])[;
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
@@ -1179,18 +1150,10 @@ b4_error_verbose_if([ tok])[)
 
   /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
      YYRHS.  */
-  const ]b4_int_type_for([b4_prhs])[
-  ]b4_parser_class_name[::yyprhs_[] =
-  {
-  ]b4_prhs[
-  };
+  ]b4_table_define([prhs], [b4_prhs])[;
 
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-  const ]b4_int_type_for([b4_rline])[
-  ]b4_parser_class_name[::yyrline_[] =
-  {
-  ]b4_rline[
-  };
+  ]b4_table_define([rline], [b4_rline])[;
 
   // Print the state stack on the debug stream.
   void
