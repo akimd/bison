@@ -186,14 +186,6 @@ dnl FIXME: This is wrong, we want computed header guards.
       return *new (buffer) T;
     }
 
-    /// Destroy the stored \a T.
-    template <typename T>
-    inline void
-    destroy()
-    {
-      reinterpret_cast<T&>(buffer).~T();
-    }
-
     /// Accessor to a built \a T.
     template <typename T>
     inline T&
@@ -208,6 +200,14 @@ dnl FIXME: This is wrong, we want computed header guards.
     as() const
     {
       return reinterpret_cast<const T&>(buffer);
+    }
+
+    /// Destroy the stored \a T.
+    template <typename T>
+    inline void
+    destroy()
+    {
+      as<T>().~T();
     }
 
     /// A buffer large enough to store any of the semantic values.

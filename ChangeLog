@@ -1,5 +1,11 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Sort methods.
+	* data/lalr1-fusion.cc (destroy): Use as() in its definition.
+	Define it after as().
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Useless parens.
 	* data/lalr1-fusion.cc (b4_rhs_location): Remove useless parens.
 
