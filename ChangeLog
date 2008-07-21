@@ -1,5 +1,12 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Avoid the spurious initial empty line.
+	* data/lalr1-fusion.cc, data/location.cc: Put a trailing "@" at
+	the end of @output request to suppress the empty line that
+	results.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Remove parser::rhs_number_type.
 	* data/lalr1-fusion.cc (rhs_number_type): No longer define it.
 	(yyrhs_): Use b4_table_define.
