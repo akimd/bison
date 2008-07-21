@@ -29,6 +29,27 @@ bench.pl - perform benches on Bison parsers.
 
 =over 4
 
+=item B<-b>, B<--bench>=I<bench-name>
+
+Specify the set of benches to run.  I<bench-name> should be one of:
+
+=over 4
+
+=item I<fusion>
+
+Test F<lalr1.cc> with three stacks against F<lalr1-fusion.cc> which
+uses a single one.
+
+=item I<push>
+
+Test the push parser vs. the pull interface.  Use the C parser.
+
+=item I<variant>
+
+Test the use of variants instead of union in the C++ parser.
+
+=back
+
 =item B<-c>, B<--cflags>=I<flags>
 
 Flags to pass to the C or C++ compiler.
@@ -590,12 +611,12 @@ yylex(yy::parser::semantic_type* yylval)
     return yy::parser::token::END_OF_FILE;
   else if (stage % 2)
     {
-      IF_VARIANTS(*yylval, yylval->ival) = stage;
+      IF_VARIANTS(yylval->build<int>(), yylval->ival) = stage;
       return yy::parser::token::NUMBER;
     }
   else
     {
-      IF_VARIANTS(*yylval =, yylval->sval = new) std::string("A string.");
+      IF_VARIANTS(yylval->build<std::string>() =, yylval->sval = new) std::string("A string.");
       return yy::parser::token::TEXT;
     }
   abort();
@@ -741,10 +762,12 @@ sub bench_variant_parser ()
   bench_grammar
     ('variant',
      (
-      "union"         => [],
-      "variant"       => ['%variant'],
-      "union-debug"   => ['%debug'],
-      "variant-debug" => ['%debug', '%variant'],
+      "f-union"         => ['%skeleton "lalr1-fusion.cc"'],
+      "f-uni-deb"   => ['%skeleton "lalr1-fusion.cc"', '%debug'],
+      "f-var"       => ['%skeleton "lalr1-fusion.cc"', '%variant'],
+      "f-var-deb" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%variant'],
+      "f-var-dtr"       => ['%skeleton "lalr1-fusion.cc"', '%variant', "%code {\n#define VARIANT_DESTROY\n}"],
+      "f-var-deb-dtr" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%variant', "%code {\n#define VARIANT_DESTROY\n}"],
      )
     );
 }
@@ -782,10 +805,13 @@ sub help ($)
 sub getopt ()
 {
   use Getopt::Long;
-  %option = ("h|help"     => sub { help ($verbose) },
-	     "v|verbose"  => sub { ++$verbose },
-             "c|cflags=s" => \$cflags,
-             "i|iterations=i" => \$iterations);
+  %option = (
+    "b|bench=s"      => \$bench,
+    "c|cflags=s"     => \$cflags,
+    "h|help"         => sub { help ($verbose) },
+    "i|iterations=i" => \$iterations,
+    "v|verbose"      => sub { ++$verbose },
+    );
   Getopt::Long::Configure ("bundling", "pass_through");
   GetOptions (%option)
     or exit 1;
@@ -798,9 +824,10 @@ verbose 1, "Using bison=$bison.\n";
 verbose 1, "Using cc=$cc.\n";
 verbose 1, "Using cxx=$cxx.\n";
 verbose 1, "Using cflags=$cflags.\n";
-# bench_push_parser();
-# bench_variant_parser();
-bench_fusion_parser();
+
+bench_fusion_parser()  if $bench eq "fusion";
+bench_push_parser()    if $bench eq "push";
+bench_variant_parser() if $bench eq "variant";
 
 ### Setup "GNU" style for perl-mode and cperl-mode.
 ## Local Variables:
