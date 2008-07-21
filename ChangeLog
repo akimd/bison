@@ -1,5 +1,10 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Fix iteration type.
+	* data/lalr1-fusion.cc: Use an int to iterate up to an int.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Factor the declaration of the integer tables.
 	* data/lalr1-fusion.cc (b4_table_define): New.
 	Use it.

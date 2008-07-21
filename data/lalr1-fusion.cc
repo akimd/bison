@@ -888,7 +888,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
 ]b4_variant_if([
     // Destroy the lhs symbols.
-    for (unsigned i = 0; i < yylen; ++i)
+    for (int i = 0; i < yylen; ++i)
       {
         b4_symbol_variant([[yystos_[yystack_@{i@}.state]]],
                           [[yystack_@{i@}.value]],
