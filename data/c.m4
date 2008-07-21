@@ -367,6 +367,7 @@ m4_define([b4_sync_start], [[#]line $1 $2])
 m4_define([b4_case],
 [  case $1:
 $2
+b4_syncline([@oline@], [@ofile@])
     break;])
 
 # b4_symbol_actions(FILENAME, LINENO,
