@@ -52,7 +52,7 @@ m4_define([b4_rhs_value],
 # Expansion of @NUM, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[(yystack_@{($1) - ($2)@}.location)])
+[yystack_@{($1) - ($2)@}.location])
 
 
 # b4_symbol_actions(FILENAME, LINENO,
