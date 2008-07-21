@@ -386,10 +386,8 @@ m4_ifdef([b4_stype],
 #endif
 
 #if YYDEBUG
-    /// A type to store symbol numbers and -1.
-    typedef ]b4_int_type_for([b4_rhs])[ rhs_number_type;
     /// A `-1'-separated list of the rules' RHS.
-    static const rhs_number_type yyrhs_[];
+    static const ]b4_int_type_for([b4_rhs])[ yyrhs_[];
     /// For each rule, the index of the first RHS symbol in \a yyrhs_.
     static const ]b4_int_type_for([b4_prhs])[ yyprhs_[];
     /// For each rule, its source line number.
@@ -1142,11 +1140,7 @@ b4_error_verbose_if([ tok])[)
 
 #if YYDEBUG
   /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
-  const ]b4_parser_class_name[::rhs_number_type
-  ]b4_parser_class_name[::yyrhs_[] =
-  {
-  ]b4_rhs[
-  };
+  ]b4_table_define([rhs], [b4_rhs])[;
 
   /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
      YYRHS.  */

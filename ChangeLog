@@ -1,5 +1,11 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Remove parser::rhs_number_type.
+	* data/lalr1-fusion.cc (rhs_number_type): No longer define it.
+	(yyrhs_): Use b4_table_define.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Fix iteration type.
 	* data/lalr1-fusion.cc: Use an int to iterate up to an int.
 
