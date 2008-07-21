@@ -1,5 +1,11 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Destroy the lhs symbols after reduction.
+	* data/lalr1-fusion.cc (parse): After the user action, when in
+	variant mode, destroy the lhs symbols.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Simplify yysyntax_error_ use.
 	* data/lalr1-fusion.cc (yysyntax_error_): Always pass it the token
 	type, but make it unnamed in the declaration when it is not used.

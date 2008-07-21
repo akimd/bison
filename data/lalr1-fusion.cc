@@ -859,10 +859,13 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     else
       yyval = yystack_@{0@}.value;])[
 
+    // Compute the default @@$.
     {
       slice<data_type, stack_type> slice (yystack_, yylen);
       YYLLOC_DEFAULT (yyloc, slice, yylen);
     }
+
+    // Perform the reduction.
     YY_REDUCE_PRINT (yyn);
     switch (yyn)
       {
@@ -872,6 +875,15 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
     YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], yyval, yyloc);
 
+]b4_variant_if([
+    // Destroy the lhs symbols.
+    for (unsigned i = 0; i < yylen; ++i)
+      {
+        b4_symbol_variant([[yystos_[yystack_@{i@}.state]]],
+                          [[yystack_@{i@}.value]],
+                          [[destroy]])
+      }])dnl
+[
     yypop_ (yylen);
     yylen = 0;
     YY_STACK_PRINT ();
