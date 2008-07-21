@@ -85,13 +85,13 @@ m4_define([b4_symbol_action_],
 ])])
 
 
-# b4_symbol_variant(YYTYPE, YYVAL, ACTION)
-# ----------------------------------------
+# b4_symbol_variant(YYTYPE, YYVAL, ACTION, [ARGS])
+# ------------------------------------------------
 # Run some ACTION ("build", or "destroy") on YYVAL of symbol type
 # YYTYPE.
 m4_define([b4_symbol_variant],
 [m4_pushdef([b4_dollar_dollar],
-            [$2.$3<$][3>()])dnl
+            [$2.$3<$][3>(m4_shift3($@))])dnl
   switch ($1)
     {
 m4_map([b4_symbol_action_], m4_defn([b4_type_names]))
@@ -200,6 +200,24 @@ dnl FIXME: This is wrong, we want computed header guards.
     as() const
     {
       return reinterpret_cast<const T&>(buffer);
+    }
+
+    /// Swap the content with \a other.
+    template <typename T>
+    inline void
+    swap(variant<S>& other)
+    {
+      std::swap(as<T>(), other.as<T>());
+    }
+
+    /// Assign the content of \a other to this.
+    /// Destroys \a other.
+    template <typename T>
+    inline void
+    build(variant<S>& other)
+    {
+      build<T>();
+      swap<T>(other);
     }
 
     /// Destroy the stored \a T.
@@ -683,7 +701,10 @@ do {					\
   ]b4_parser_class_name[::yypush_ (state_type s,
                            semantic_type& v, const location_type& l)
   {
-    yystack_.push (data_type (s, v, l));
+]b4_variant_if(
+[[    yystack_.push (data_type (s, semantic_type(), l));
+    ]b4_symbol_variant([[yystos_[s]]], [[yystack_[0].value]], [build], [v])],
+[    yystack_.push (data_type (s, v, l));])[
   }
 
   void

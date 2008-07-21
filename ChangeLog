@@ -1,5 +1,15 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Don't memcpy C++ structures.
+	* data/lalr1-fusion.cc (b4_symbol_variant): Adjust additional
+	arguments.
+	(variant::build): New overload for
+	copy-construction-that-destroys.
+	(variant::swap): New.
+	(parser::yypush_): Use it in variant mode.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Better defaults for bench.pl.
 	* etc/bench.pl.in ($verbose, $cflags, $iterations): Change the
 	default values.
