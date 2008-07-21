@@ -1,5 +1,10 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Fix indentation of tables in lalr1.cc
+	* data/lalr1-fusion.cc: Fix the indentation.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Destroy the lhs symbols after reduction.
 	* data/lalr1-fusion.cc (parse): After the user action, when in
 	variant mode, destroy the lhs symbols.

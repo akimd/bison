@@ -1084,7 +1084,7 @@ b4_error_verbose_if([ tok])[)
   const ]b4_int_type_for([b4_pact])[
   ]b4_parser_class_name[::yypact_[] =
   {
-    ]b4_pact[
+  ]b4_pact[
   };
 
   /* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
@@ -1093,21 +1093,21 @@ b4_error_verbose_if([ tok])[)
   const ]b4_int_type_for([b4_defact])[
   ]b4_parser_class_name[::yydefact_[] =
   {
-    ]b4_defact[
+  ]b4_defact[
   };
 
   /* YYPGOTO[NTERM-NUM].  */
   const ]b4_int_type_for([b4_pgoto])[
   ]b4_parser_class_name[::yypgoto_[] =
   {
-    ]b4_pgoto[
+  ]b4_pgoto[
   };
 
   /* YYDEFGOTO[NTERM-NUM].  */
   const ]b4_int_type_for([b4_defgoto])[
   ]b4_parser_class_name[::yydefgoto_[] =
   {
-    ]b4_defgoto[
+  ]b4_defgoto[
   };
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -1117,14 +1117,14 @@ b4_error_verbose_if([ tok])[)
   const ]b4_int_type_for([b4_table])[
   ]b4_parser_class_name[::yytable_[] =
   {
-    ]b4_table[
+  ]b4_table[
   };
 
   /* YYCHECK.  */
   const ]b4_int_type_for([b4_check])[
   ]b4_parser_class_name[::yycheck_[] =
   {
-    ]b4_check[
+  ]b4_check[
   };
 
   /* STOS_[STATE-NUM] -- The (internal number of the) accessing
@@ -1132,7 +1132,7 @@ b4_error_verbose_if([ tok])[)
   const ]b4_int_type_for([b4_stos])[
   ]b4_parser_class_name[::yystos_[] =
   {
-    ]b4_stos[
+  ]b4_stos[
   };
 
 #if YYDEBUG
@@ -1141,7 +1141,7 @@ b4_error_verbose_if([ tok])[)
   const ]b4_int_type_for([b4_toknum])[
   ]b4_parser_class_name[::yytoken_number_[] =
   {
-    ]b4_toknum[
+  ]b4_toknum[
   };
 #endif
 
@@ -1149,14 +1149,14 @@ b4_error_verbose_if([ tok])[)
   const ]b4_int_type_for([b4_r1])[
   ]b4_parser_class_name[::yyr1_[] =
   {
-    ]b4_r1[
+  ]b4_r1[
   };
 
   /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
   const ]b4_int_type_for([b4_r2])[
   ]b4_parser_class_name[::yyr2_[] =
   {
-    ]b4_r2[
+  ]b4_r2[
   };
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
@@ -1165,7 +1165,7 @@ b4_error_verbose_if([ tok])[)
   const char*
   const ]b4_parser_class_name[::yytname_[] =
   {
-    ]b4_tname[
+  ]b4_tname[
   };
 #endif
 
@@ -1174,7 +1174,7 @@ b4_error_verbose_if([ tok])[)
   const ]b4_parser_class_name[::rhs_number_type
   ]b4_parser_class_name[::yyrhs_[] =
   {
-    ]b4_rhs[
+  ]b4_rhs[
   };
 
   /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
@@ -1182,14 +1182,14 @@ b4_error_verbose_if([ tok])[)
   const ]b4_int_type_for([b4_prhs])[
   ]b4_parser_class_name[::yyprhs_[] =
   {
-    ]b4_prhs[
+  ]b4_prhs[
   };
 
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
   const ]b4_int_type_for([b4_rline])[
   ]b4_parser_class_name[::yyrline_[] =
   {
-    ]b4_rline[
+  ]b4_rline[
   };
 
   // Print the state stack on the debug stream.
@@ -1231,7 +1231,7 @@ b4_error_verbose_if([ tok])[)
     const token_number_type
     translate_table[] =
     {
-      ]b4_translate[
+  ]b4_translate[
     };
     if ((unsigned int) t <= yyuser_token_number_max_)
       return translate_table[t];
