@@ -52,17 +52,26 @@ Test the use of variants instead of union in the C++ parser.
 
 =item B<-c>, B<--cflags>=I<flags>
 
-Flags to pass to the C or C++ compiler.
+Flags to pass to the C or C++ compiler.  Defaults to -O2.
+
+=item B<-h>, B<--help>
+
+Display this message and exit succesfully.  The more verbose, the more
+details.
 
 =item B<-i>, B<--iterations>=I<integer>
 
 Say how many times a single test of the bench must be run.  If
 negative, specify the minimum number of CPU seconds to run.  Defaults
-to -3.
+to -1.
+
+=item B<-q>, B<--quiet>
+
+Decrease the verbosity level (defaults to 1).
 
 =item B<-v>, B<--verbose>
 
-Raise the verbosity level.  Currently only affects B<--help>.
+Raise the verbosity level (defaults to 1).
 
 =back
 
@@ -107,9 +116,9 @@ Verbosity level.
 my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
 my $cxx = $ENV{'CXX'} || 'g++';
-my $cflags = '';
-my $iterations = -3;
-my $verbose = 0;
+my $cflags = '-O2';
+my $iterations = -1;
+my $verbose = 1;
 
 =head1 FUNCTIONS
 
@@ -690,7 +699,7 @@ sub bench_grammar ($%)
   my %size;
   while (my ($name, $directives) = each %test)
     {
-      verbose 1, "Generating $name\n";
+      verbose 2, "Generating $name\n";
       # Call the Bison input file generator.
       my $generator = "$gram" . "_grammar";
       &$generator ($name, 200, @$directives);
@@ -709,7 +718,7 @@ sub bench_grammar ($%)
   # shows only wallclock and the two children times.  'auto' (the
   # default) will act as 'all' unless the children times are both
   # zero, in which case it acts as 'noc'.  'none' prevents output.
-  verbose 1, "Running the benches for $gram\n";
+  verbose 2, "Running the benches for $gram\n";
   my $res = timethese ($iterations, \%bench, 'nop');
 
   # Output the speed result.
@@ -810,6 +819,7 @@ sub getopt ()
     "c|cflags=s"     => \$cflags,
     "h|help"         => sub { help ($verbose) },
     "i|iterations=i" => \$iterations,
+    "q|quiet"        => sub { --$verbose },
     "v|verbose"      => sub { ++$verbose },
     );
   Getopt::Long::Configure ("bundling", "pass_through");

@@ -1,5 +1,13 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Better defaults for bench.pl.
+	* etc/bench.pl.in ($verbose, $cflags, $iterations): Change the
+	default values.
+	Adjust &verbose uses.
+	(-q, --quiet): New.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Make variant.yy more complex.
 	std::list cannot be copied via memcpy, they are more demanding than
 	std::string.  Use one std::list to strengthen the test.
