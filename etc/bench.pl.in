@@ -725,16 +725,18 @@ sub bench_grammar ($%)
   cmpthese ($res, 'nop');
 
   # Display the sizes.
-  print "Sizes:\n";
+  print "Sizes (decreasing):\n";
   my $width = 10;
   for my $bench (keys %size)
     {
       $width = length $bench
         if $width < length $bench;
     }
-  for my $bench (keys %size)
+  # Benches sorted by decreasing size.
+  my @benches_per_size = sort {$size{$b} <=> $size{$a}} keys %size;
+  for my $bench (@benches_per_size)
     {
-      printf "%${width}s: %5dkB\n", $bench, int ($size{$bench} / 1024);
+      printf "%${width}s: %5.2fkB\n", $bench, $size{$bench} / 1024;
     }
 }
 
