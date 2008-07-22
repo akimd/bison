@@ -1,5 +1,14 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Use strict on bench.pl.
+	* etc/bench.pl.in (&run, &generate_grammar): New.
+	Rename the grammar generating functions for consistency.
+	Change the interface so that the list of benches to run is passed
+	as (optionless) arguments.
+	(&compile): Use &run.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Remove spurious initial empty lines.
 	* data/glr.c, data/glr.cc, data/lalr1.cc, data/lalr1.java,
 	* data/yacc.c: End the @output lines with an @.

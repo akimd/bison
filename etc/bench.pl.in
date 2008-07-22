@@ -23,13 +23,9 @@ bench.pl - perform benches on Bison parsers.
 
 =head1 SYNOPSIS
 
-  ./bench.pl
+  ./bench.pl [OPTIONS]... BENCHES
 
-=head1 OPTIONS
-
-=over 4
-
-=item B<-b>, B<--bench>=I<bench-name>
+=head1 BENCHES
 
 Specify the set of benches to run.  I<bench-name> should be one of:
 
@@ -49,6 +45,8 @@ Test the push parser vs. the pull interface.  Use the C parser.
 Test the use of variants instead of union in the C++ parser.
 
 =back
+
+=head1 OPTIONS
 
 =item B<-c>, B<--cflags>=I<flags>
 
@@ -77,6 +75,7 @@ Raise the verbosity level (defaults to 1).
 
 =cut
 
+use strict;
 use IO::File;
 
 ##################################################################
@@ -84,6 +83,10 @@ use IO::File;
 =head1 VARIABLES
 
 =over 4
+
+=item C<@bench>
+
+The list of benches to run.
 
 =item C<$bison>
 
@@ -137,6 +140,9 @@ sub verbose($$)
     if $level <= $verbose;
 }
 
+
+######################################################################
+
 =item C<directives($bench, @directive)>
 
 Format the list of directives for Bison for bench named C<$bench>.
@@ -160,7 +166,9 @@ sub directives($@)
   return $res;
 }
 
-=item C<triangular_grammar ($base, $max, @directive)>
+######################################################################
+
+=item C<generate_grammar_triangular ($base, $max, @directive)>
 
 Create a large triangular grammar which looks like :
 
@@ -186,7 +194,7 @@ The created parser is self contained: it includes its scanner, and
 source of input.
 =cut
 
-sub triangular_grammar ($$$)
+sub generate_grammar_triangular ($$@)
 {
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
@@ -297,7 +305,8 @@ sub calc_input ($$)
 }
 
 ##################################################################
-=item C<calc_grammar ($base, $max, @directive)>
+
+=item C<generate_grammar_calc ($base, $max, @directive)>
 
 Generate a Bison file F<$base.y> for a calculator parser in C.  Pass
 the additional Bison C<@directive>.  C<$max> is ignored, but left to
@@ -305,7 +314,7 @@ have the same interface as C<triangular_grammar>.
 
 =cut
 
-sub calc_grammar ($$$)
+sub generate_grammar_calc ($$@)
 {
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
@@ -507,14 +516,14 @@ EOF
 
 ##################################################################
 
-=item C<variant_grammar ($base, $max, @directive)>
+=item C<generate_grammar_variant ($base, $max, @directive)>
 
 Generate a Bison file F<$base.y> that uses, or not, the Boost.Variants
 depending on the C<@directive>.
 
 =cut
 
-sub variant_grammar ($$$)
+sub generate_grammar_variant ($$@)
 {
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
@@ -541,7 +550,7 @@ $directives
 // Prototype of the yylex function providing subsequent tokens.
 static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
 
-#define STAGE_MAX    ($max * 10)
+#define STAGE_MAX    ($max * 10) // max = $max
 #define USE_VARIANTS $variant
 #if USE_VARIANTS
 # define IF_VARIANTS(True, False) True
@@ -653,6 +662,43 @@ EOF
 
 ##################################################################
 
+=item C<generate_grammar ($name, $base, @directive)>
+
+Generate F<$base.y> by calling C<&generate_grammar_$name>.
+
+=cut
+
+sub generate_grammar ($$@)
+{
+  my ($name, $base, @directive) = @_;
+  verbose 2, "Generating $base.y\n";
+  my %generator =
+    (
+      "calc"       => \&generate_grammar_calc,
+      "triangular" => \&generate_grammar_triangular,
+      "variant"    => \&generate_grammar_variant,
+    );
+  &{$generator{$name}}($base, 200, @directive);
+}
+
+##################################################################
+
+=item C<run ($command)>
+
+Run, possibly verbosely, the shell C<$command>.
+
+=cut
+
+sub run ($)
+{
+  my ($command) = @_;
+  verbose 2, "$command\n";
+  system ("$command") == 0
+    or die "$command failed";
+}
+
+##################################################################
+
 =item C<compile ($base)>
 
 Compile C<$base.y> to an executable C, Using the C or C++ compiler
@@ -668,11 +714,11 @@ sub compile ($)
 
   my $compiler = $language eq 'C++' ? $cxx : $cc;
 
-  system ("$bison $base.y -o $base.c") == 0
-    or die;
-  system ("$compiler -o $base $cflags $base.c") == 0
-    or die;
+  run "$bison $base.y -o $base.c";
+  run "$compiler -o $base $cflags $base.c";
 }
+
+######################################################################
 
 =item C<bench_grammar ($gram, %bench)>
 
@@ -699,10 +745,7 @@ sub bench_grammar ($%)
   my %size;
   while (my ($name, $directives) = each %test)
     {
-      verbose 2, "Generating $name\n";
-      # Call the Bison input file generator.
-      my $generator = "$gram" . "_grammar";
-      &$generator ($name, 200, @$directives);
+      generate_grammar ($gram, $name, @$directives);
       # Compile the executable.
       compile ($name);
       $bench{$name} = "system ('./$name');";
@@ -740,6 +783,7 @@ sub bench_grammar ($%)
     }
 }
 
+######################################################################
 
 =item C<bench_push_parser ()>
 
@@ -762,6 +806,8 @@ sub bench_push_parser ()
     );
 }
 
+######################################################################
+
 =item C<bench_variant_parser ()>
 
 Bench the C++ lalr1.cc parser using Boost.Variants or %union.
@@ -782,6 +828,8 @@ sub bench_variant_parser ()
      )
     );
 }
+
+######################################################################
 
 =item C<bench_fusion_parser ()>
 
@@ -813,11 +861,12 @@ sub help ($)
                -output  => \*STDOUT });
 }
 
+######################################################################
+
 sub getopt ()
 {
   use Getopt::Long;
-  %option = (
-    "b|bench=s"      => \$bench,
+  my %option = (
     "c|cflags=s"     => \$cflags,
     "h|help"         => sub { help ($verbose) },
     "i|iterations=i" => \$iterations,
@@ -837,9 +886,13 @@ verbose 1, "Using cc=$cc.\n";
 verbose 1, "Using cxx=$cxx.\n";
 verbose 1, "Using cflags=$cflags.\n";
 
-bench_fusion_parser()  if $bench eq "fusion";
-bench_push_parser()    if $bench eq "push";
-bench_variant_parser() if $bench eq "variant";
+for my $b (@ARGV)
+{
+  verbose 1, "Running benchmark $b.\n";
+  bench_fusion_parser()  if $b eq "fusion";
+  bench_push_parser()    if $b eq "push";
+  bench_variant_parser() if $b eq "variant";
+}
 
 ### Setup "GNU" style for perl-mode and cperl-mode.
 ## Local Variables:
