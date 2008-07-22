@@ -538,26 +538,26 @@ b4_percent_code_get[]dnl
 # define YYCDEBUG if (yydebug_) (*yycdebug_)
 
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)	\
-do {							\
-  if (yydebug_)						\
+  do {							\
+    if (yydebug_)                                       \
     {							\
       *yycdebug_ << Title << ' ';			\
       yy_symbol_print_ ((Type), (Value), (Location));	\
       *yycdebug_ << std::endl;				\
     }							\
-} while (false)
+  } while (false)
 
 # define YY_REDUCE_PRINT(Rule)		\
-do {					\
-  if (yydebug_)				\
-    yy_reduce_print_ (Rule);		\
-} while (false)
+  do {					\
+    if (yydebug_)                       \
+      yy_reduce_print_ (Rule);		\
+  } while (false)
 
 # define YY_STACK_PRINT()		\
-do {					\
-  if (yydebug_)				\
-    yystack_print_ ();			\
-} while (false)
+  do {					\
+    if (yydebug_)                       \
+      yystack_print_ ();                \
+  } while (false)
 
 #else /* !YYDEBUG */
 
