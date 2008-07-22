@@ -124,7 +124,7 @@ m4_include(b4_pkgdatadir/[location.cc])
 m4_changecom()
 m4_divert_push(0)dnl
 b4_defines_if(
-[@output(b4_spec_defines_file@)
+[@output(b4_spec_defines_file@)@
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 dnl FIXME: This is wrong, we want computed header guards.
 [
@@ -445,7 +445,7 @@ b4_percent_code_get([[provides]])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
 ])dnl
-@output(b4_parser_file_name@)
+@output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])
 b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
@@ -1209,7 +1209,7 @@ b4_error_verbose_if([, int tok])[)
 
 ]b4_epilogue
 dnl
-@output(b4_dir_prefix[]stack.hh@)
+@output(b4_dir_prefix[]stack.hh@)@
 b4_copyright([Stack handling for Bison parsers in C++])[
 
 #ifndef BISON_STACK_HH
