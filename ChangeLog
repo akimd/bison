@@ -1,5 +1,12 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
+	Use b4_copyright_years.
+	* data/yacc.c (b4_copyright_years): New.
+	Fix its value according to the comments in the file.
+	Use it and undefine it.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
 	Formatting changes.
 	* data/lalr1-fusion.cc, src/parse-gram.y: here.
 
