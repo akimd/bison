@@ -949,9 +949,9 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
 	if (yychar <= yyeof_)
 	  {
-	  /* Return failure if at end of input.  */
-	  if (yychar == yyeof_)
-	    YYABORT;
+            /* Return failure if at end of input.  */
+            if (yychar == yyeof_)
+              YYABORT;
 	  }
 	else
 	  {

@@ -352,9 +352,9 @@ grammar_declaration:
 ;
 
 
-/*----------*
- | %union.  |
- *----------*/
+/*---------.
+| %union.  |
+`---------*/
 
 %token PERCENT_UNION "%union";
 
@@ -541,14 +541,14 @@ rhs:
 ;
 
 
-/*----------------------------*
- | variable and content.opt.  |
- *---------------------------*/
+/*---------------------------.
+| variable and content.opt.  |
+`---------------------------*/
 
 variable:
   ID
-  | STRING { $$ = uniqstr_new ($1); } /* deprecated and not M4-friendly */
-  ;
+| STRING { $$ = uniqstr_new ($1); } /* deprecated and not M4-friendly */
+;
 
 /* Some content or empty by default. */
 content.opt:
@@ -560,9 +560,9 @@ content.opt:
 ;
 
 
-/*-------------*
- | braceless.  |
- *-------------*/
+/*------------.
+| braceless.  |
+`------------*/
 
 braceless:
   "{...}"
@@ -577,9 +577,9 @@ braceless:
 ;
 
 
-/*---------------*
- | Identifiers.  |
- *---------------*/
+/*--------------.
+| Identifiers.  |
+`--------------*/
 
 /* Identifiers are returned as uniqstr values by the scanner.
    Depending on their use, we may need to make them genuine symbols.  */

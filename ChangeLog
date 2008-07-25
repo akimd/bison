@@ -1,6 +1,11 @@
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
 	Formatting changes.
+	* data/lalr1-fusion.cc, src/parse-gram.y: here.
+
+2008-11-04  Akim Demaille  <demaille@gostai.com>
+
+	Formatting changes.
 	* data/lalr1-fusion.cc: here.
 
 2008-11-04  Akim Demaille  <demaille@gostai.com>
