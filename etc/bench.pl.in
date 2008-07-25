@@ -816,6 +816,7 @@ sub bench_variant_parser ()
       "f-var-deb" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%define variant'],
       "f-var-dtr"       => ['%skeleton "lalr1-fusion.cc"', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
       "f-var-deb-dtr" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
+      "f-var-deb-dtr-ass" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}", "%define assert"],
      )
     );
 }

@@ -1,5 +1,30 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	Add "%define assert" to variants.
+	This is used to help the user catch cases where some value gets
+	ovewritten by a new one.  This should not happen, as this will
+	probably leak.
+	
+	Unfortunately this uncovered a bug in the C++ parser itself: the
+	lookahead value was not destroyed between two calls to yylex.  For
+	instance if the previous lookahead was a std::string, and then an int,
+	then the value of the std::string was correctly taken (i.e., the
+	lookahead was now an empty string), but std::string structure itself
+	was not reclaimed.
+	
+	This is now done in variant::build(other&) (which is used to take the
+	value of the lookahead): other is not only stolen from its value, it
+	is also destroyed.  This incurs a new performance penalty of a few
+	percent, and union becomes faster again.
+	
+	* data/lalr1-fusion.cc (variant::build(other&)): Destroy other.
+	(b4_variant_if): New.
+	(variant::built): New.
+	Use it whereever the status of the variant changes.
+	* etc/bench.pl.in: Check the penalty of %define assert.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	Use "%define variant" in bench.pl.
 	* etc/bench.pl.in: No longer use the pseudo directive %variants,
 	just use %define variants.

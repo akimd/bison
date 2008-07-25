@@ -40,6 +40,12 @@ b4_variant_if([
 ]) # b4_variant_if
 
 
+# b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
+# ----------------------------------------------------
+m4_define([b4_assert_if],
+[b4_percent_define_ifdef([[assert]], [$1], [$2])])
+
+
 # b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
 # --------------------------------------
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
@@ -161,6 +167,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 
 ]b4_percent_code_get([[requires]])[
 
+]b4_assert_if([#include <cassert>])[
 #include <string>
 #include <iostream>
 #include "stack.hh"
@@ -177,12 +184,22 @@ dnl FIXME: This is wrong, we want computed header guards.
   /// via the current state.
   template <size_t S>
   struct variant
-  {
+  {]b4_assert_if([
+    /// Whether something is contained.
+    bool built;
+
+    /// Initially uninitialized.
+    variant ()
+      : built(false)
+    {}])[
+
     /// Instantiate a \a T in here.
     template <typename T>
     inline T&
     build()
-    {
+    {]b4_assert_if([
+      assert(!built);
+      built = true;])[
       return *new (buffer) T;
     }
 
@@ -190,7 +207,8 @@ dnl FIXME: This is wrong, we want computed header guards.
     template <typename T>
     inline T&
     as()
-    {
+    {]b4_assert_if([
+      assert(built);])[
       return reinterpret_cast<T&>(buffer);
     }
 
@@ -198,7 +216,8 @@ dnl FIXME: This is wrong, we want computed header guards.
     template <typename T>
     inline const T&
     as() const
-    {
+    {]b4_assert_if([
+      assert(built);])[
       return reinterpret_cast<const T&>(buffer);
     }
 
@@ -218,6 +237,7 @@ dnl FIXME: This is wrong, we want computed header guards.
     {
       build<T>();
       swap<T>(other);
+      other.destroy<T>();
     }
 
     /// Destroy the stored \a T.
@@ -225,7 +245,8 @@ dnl FIXME: This is wrong, we want computed header guards.
     inline void
     destroy()
     {
-      as<T>().~T();
+      as<T>().~T();]b4_assert_if([
+      built = false;])[
     }
 
     /// A buffer large enough to store any of the semantic values.
