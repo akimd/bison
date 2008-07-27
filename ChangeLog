@@ -1,3 +1,11 @@
+2008-07-27  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix dependence on computed configure variables.
+	* doc/Makefile.am (common_dep): Depend on $(top_srcdir)/configure not
+	$(top_srcdir)/configure.ac so that changes to computed variables, such
+	as PACKAGE_VERSION, are seen.
+	* tests/Makefile.am ($(srcdir)/package.m4): Likewise.
+
 2008-07-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Update copyright dates for recent changes.

@@ -53,8 +53,8 @@ dist_man_MANS = $(srcdir)/bison.1
 EXTRA_DIST += $(dist_man_MANS:.1=.x) common.x
 MAINTAINERCLEANFILES += $(dist_man_MANS)
 
-# Depend on configure.ac to get version number changes.
-common_dep = $(top_srcdir)/configure.ac $(srcdir)/common.x
+# Depend on configure to get version number changes.
+common_dep = $(top_srcdir)/configure $(srcdir)/common.x
 srcsrcdir = $(top_srcdir)/bin
 $(srcdir)/bison.1:      $(common_dep) $(top_srcdir)/src/getargs.c
 
