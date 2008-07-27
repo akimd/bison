@@ -1,5 +1,6 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Free Software Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Free Software
+## Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -58,10 +59,6 @@ common_dep = $(top_srcdir)/configure $(srcdir)/common.x
 srcsrcdir = $(top_srcdir)/bin
 $(srcdir)/bison.1:      $(common_dep) $(top_srcdir)/src/getargs.c
 
-# Output from --help and --version that must not appear in the man page.
-neutralize = \
-  perl -0777 -pi -e 's/\.PP\nId:.*\n//g'
-
 # Differences to ignore when comparing the man page (the date).
 remove_time_stamp = \
   sed 's/^\(\.TH[^"]*"[^"]*"[^"]*\)"[^"]*"/\1/'
@@ -87,7 +84,6 @@ PREPATH = $(top_builddir)/src
 	    --include=$*.x						     \
 	    --include=$(srcdir)/common.x				     \
 	    --output=$@.t `echo '$*' | sed 's,.*/,,'`
-	$(neutralize) $@.t
 	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		     \
 	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then     \
 		touch $@;						     \
@@ -111,8 +107,7 @@ doc: html
 html-local: Doxyfile
 	$(DOXYGEN)
 
-edit = sed -e "s|@ID@|$$Id|" \
-	   -e 's,@PACKAGE_NAME\@,$(PACKAGE_NAME),g' \
+edit = sed -e 's,@PACKAGE_NAME\@,$(PACKAGE_NAME),g' \
 	   -e 's,@PACKAGE_VERSION\@,$(PACKAGE_VERSION),g' \
 	   -e 's,@top_builddir\@,$(top_builddir),g' \
 	   -e 's,@top_srcdir\@,$(top_srcdir),g'
@@ -121,10 +116,7 @@ EXTRA_DIST += Doxyfile.in
 CLEANFILES += Doxyfile
 # Sed is used to generate Doxyfile from Doxyfile.in instead of
 # configure, because the former is way faster than the latter.
-# Moreover, this file is updated whenever ChangeLog is touched: using
-# sed instead of configure saves us a lot of time.
-Doxyfile: $(top_srcdir)/ChangeLog $(srcdir)/Doxyfile.in
-	Id=`grep '^\$$Id' $(top_srcdir)/ChangeLog`; \
+Doxyfile: $(srcdir)/Doxyfile.in
 	$(edit) $(srcdir)/Doxyfile.in >Doxyfile
 
 CLEANDIRS += html latex

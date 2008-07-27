@@ -1,5 +1,21 @@
 2008-07-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Remove remaining dependence on CVS Id keyword.
+	* ChangeLog: For the sake of people still using CVS, don't use dollars
+	when mentioning Id.
+	* data/xslt/bison.xsl: Remove Id from header comments, where it was
+	unusual anyway.
+	* data/xslt/xml2dot.xsl: Likewise.
+	* data/xslt/xml2text.xsl: Likewise.
+	* data/xslt/xml2xhtml.xsl: Likewise.
+	* doc/Doxyfile.in (PROJECT_NUMBER): Don't use ID.
+	* doc/Makefile.am (neutralize): Remove, no longer needed.
+	(.x.1): Don't use neutralize.
+	(edit): Don't substitute for ID.
+	(Doxyfile): Don't define Id, and thus don't depend on ChangeLog.
+
+2008-07-27  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Fix dependence on computed configure variables.
 	* doc/Makefile.am (common_dep): Depend on $(top_srcdir)/configure not
 	$(top_srcdir)/configure.ac so that changes to computed variables, such
@@ -21,7 +37,7 @@
 	* .gitignore (/.tarball-version, /GNUmakefile, /*~): Add.
 	* .prev-version: New.
 	* .version.in: Remove.
-	* ChangeLog: Remove the $Id$ previously used for capturing the CVS
+	* ChangeLog: Remove the Id previously used for capturing the CVS
 	revision.
 	* GNUmakefile: Remove, now copied from Gnulib.
 	* Makefile.am: Add code suggested by comments in

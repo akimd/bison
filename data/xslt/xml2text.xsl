@@ -2,9 +2,8 @@
 
 <!--
     xml2text.xsl - transform Bison XML Report into plain text.
-    $Id$
 
-    Copyright (C) 2007 Free Software Foundation, Inc.
+    Copyright (C) 2007, 2008 Free Software Foundation, Inc.
 
     This file is part of Bison, the GNU Compiler Compiler.
 

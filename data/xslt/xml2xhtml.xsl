@@ -2,7 +2,6 @@
 
 <!--
     xml2html.xsl - transform Bison XML Report into XHTML.
-    $Id$
 
     Copyright (C) 2007, 2008 Free Software Foundation, Inc.
 
