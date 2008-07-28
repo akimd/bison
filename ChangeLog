@@ -1,5 +1,13 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	Destroy the variants that remain on the stack in case of error.
+	* data/lalr1-fusion.cc (yydestruct_): Invoke the variant's
+	destructor.
+	Display the value only if yymsg is nonnull.
+	(yyreduce): Invoke yydestruct_ when popping lhs symbols.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	Add "%define assert" to variants.
 	This is used to help the user catch cases where some value gets
 	ovewritten by a new one.  This should not happen, as this will

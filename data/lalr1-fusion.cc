@@ -450,6 +450,7 @@ m4_ifdef([b4_stype],
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
+    ///                     If null, nothing is printed at all.
     /// \param yytype       The symbol type.
     /// \param yyvalue      Its semantic value.
     /// \param yylocation   Its location.
@@ -693,14 +694,19 @@ b4_percent_code_get[]dnl
     YYUSE (yyvalue);
     YYUSE (yylocation);
 
-    YY_SYMBOL_PRINT (yymsg, yytype, yyvalue, yylocation);
+    if (yymsg)
+      YY_SYMBOL_PRINT (yymsg, yytype, yyvalue, yylocation);
 
+    // User destructor.
     switch (yytype)
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
 	default:
 	  break;
-      }
+      }]b4_variant_if([
+
+    // Type destructor.
+  b4_symbol_variant([[yytype]], [[yyvalue]], [[destroy]])])[
   }
 
   ]b4_parser_class_name[::data_type::data_type ()
@@ -926,16 +932,21 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
           break;
       }
     YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], yyval, yyloc);
-
-]b4_variant_if([
+]b4_variant_if([[
     // Destroy the lhs symbols.
     for (int i = 0; i < yylen; ++i)
-      {
-        b4_symbol_variant([[yystos_[yystack_@{i@}.state]]],
-                          [[yystack_@{i@}.value]],
-                          [[destroy]])
-      }])dnl
-[
+      // Destroy a variant which value may have be swapped with yyval.
+      // The value of yyval (hence maybe one of these lhs symbols)
+      // depends on what does the default contruction for this type.
+      // In the case of pointers for instance, nothing is done, so the
+      // value is junk.  Therefore do not try to report the content in
+      // the debug trace, it's junk.  Hence yymsg = 0.  Besides, that
+      // keeps exactly the same traces as with the other Bison
+      // skeletons.
+      yydestruct_ (0,
+                   yystos_[yystack_[i].state],
+                   yystack_[i].value, yystack_[i].location);]])[
+
     yypop_ (yylen);
     yylen = 0;
     YY_STACK_PRINT ();
