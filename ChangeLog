@@ -1,5 +1,15 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	Initialize the muscle table before parsing the command line.
+	* src/getargs.c (quotearg.h, muscle_tab.h): Include.
+	(getargs): Define file_name.
+	* src/main.c (main): Initialize muscle_tab before calling
+	getargs.
+	* src/muscle_tab.c (muscle_init): No longer define file_name, as
+	its value is not available yet.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	Locations without columns for command line arguments.
 	* src/location.c (location_print): Don't display negative columns.
 	* src/location.h: Document this.
