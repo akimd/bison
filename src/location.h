@@ -1,5 +1,5 @@
 /* Locations for Bison
-   Copyright (C) 2002, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -31,9 +31,13 @@ typedef struct
      If this is INT_MAX, the line number has overflowed.  */
   int line;
 
-  /* The (origin-1) column just after the boundary.  This is neither a
-     byte count, nor a character count; it is a column count.
-     If this is INT_MAX, the column number has overflowed.  */
+  /* If nonnegative, the (origin-1) column just after the boundary.
+     This is neither a byte count, nor a character count; it is a
+     column count.  If this is INT_MAX, the column number has
+     overflowed.
+
+     Meaningless and not displayed if negative.
+  */
   int column;
 
 } boundary;

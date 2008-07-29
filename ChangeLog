@@ -1,5 +1,11 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	Locations without columns for command line arguments.
+	* src/location.c (location_print): Don't display negative columns.
+	* src/location.h: Document this.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	Fix --help.
 	* src/getargs.c (usage): Fix help string for -W.
 
