@@ -1,5 +1,10 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	Fix --help.
+	* src/getargs.c (usage): Fix help string for -W.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	Handle more general types of option arguments.
 	* build-aux/cross-options.pl: The argument ends at the first
 	space, not the first non-symbol character.
