@@ -1,3 +1,10 @@
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
+	Handle more general types of option arguments.
+	* build-aux/cross-options.pl: The argument ends at the first
+	space, not the first non-symbol character.
+	Use @var for each word appearing the argument description.
+
 2009-04-04  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Remove spurious initial empty lines.
