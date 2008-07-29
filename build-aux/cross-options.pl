@@ -7,19 +7,27 @@ use strict;
 my %option;
 while (<>)
 {
-    if (/^\s*          # Initial spaces.
-        (?:(-\w),\s+)? # $1: Possible short option.
-        (--[-\w]+)     # $2: Long option.
-        (\[?)          # $3: '[' iff the argument is optional.
-        (?:=([-\w]+))? # $4: Possible argument name.
+    if (/^\s*             # Initial spaces.
+        (?:(-\w),\s+)?    # $1: $short: Possible short option.
+        (--[-\w]+)        # $2: $long:  Long option.
+        (\[?)             # $3: $opt:   '[' iff the argument is optional.
+        (?:=(\S+))?       # $4: $arg:   Possible argument name.
+        \s                # Spaces.
         /x)
     {
 	my ($short, $long, $opt, $arg) = ($1, $2, $3, $4);
 	$short = defined $short ? '@option{' . $short . '}' : '';
 	if ($arg)
 	{
+            # if $opt, $arg contains the closing ].
+            substr ($arg, -1) = ''
+                if $opt eq '[';
 	    $arg =~ s/^=//;
-	    $arg = '@var{' . lc ($arg) . '}';
+            $arg = lc ($arg);
+            # If the argument is compite (e.g., for --define[=NAME[=VALUE]]),
+            # put each word in @var, to build @var{name}[=@var{value}], not
+            # @var{name[=value]}].
+	    $arg =~ s/(\w+)/\@var{$1}/g;
 	    $arg = '[' . $arg . ']'
 		if $opt eq '[';
 	    $option{"$long=$arg"} = $short ? "$short $arg" : '';
@@ -33,5 +41,8 @@ while (<>)
 
 foreach my $long (sort keys %option)
 {
-    printf "\@item %-40s \@tab %s\n", '@option{' . $long . '}', $option{$long};
+    # Avoid trailing spaces.
+    printf ("\@item %-40s \@tab%s\n",
+            '@option{' . $long . '}',
+            $option{$long} ? " $option{$long}" : "");
 }
