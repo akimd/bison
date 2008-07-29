@@ -1,5 +1,13 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	Pass command line location to skeleton_arg and language_argmatch.
+	* src/getargs.h, src/getargs.c (skeleton_arg, language_argmatch):
+	The location argument is now mandatory.
+	Adjust all dependencies.
+	(getargs): Use command_line_location.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	-D, --define.
 	* src/getargs.c (usage): Document -D.
 	Fix help string for --locations.

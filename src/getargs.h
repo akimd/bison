@@ -135,7 +135,7 @@ extern int warnings_flag;
 void getargs (int argc, char *argv[]);
 
 /* Used by parse-gram.y.  */
-void language_argmatch (char const *arg, int prio, location const *loc);
-void skeleton_arg (const char *arg, int prio, location const *loc);
+void language_argmatch (char const *arg, int prio, location loc);
+void skeleton_arg (const char *arg, int prio, location loc);
 
 #endif /* !GETARGS_H_ */
