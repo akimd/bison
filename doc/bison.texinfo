@@ -7833,6 +7833,11 @@ In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
 already defined, so that the debugging facilities are compiled.
 @xref{Tracing, ,Tracing Your Parser}.
 
+@item -D @var{name}[=@var{value}]
+@itemx --define=@var{name}[=@var{value}]
+Same as running @samp{%define @var{name} "@var{value}"} (@pxref{Decl
+Summary, ,%define}).
+
 @item -L @var{language}
 @itemx --language=@var{language}
 Specify the programming language for the generated parser, as if

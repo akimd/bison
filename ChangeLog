@@ -1,5 +1,16 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	-D, --define.
+	* src/getargs.c (usage): Document -D.
+	Fix help string for --locations.
+	(command_line_location): New.
+	(short_options, long_options, getargs): Support -D, --define.
+	(getargs): Move -d support at the right place.
+	* doc/bison.texinfo (Bison Options): Update.
+	* tests/input.at (%define, --define): New.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	Initialize the muscle table before parsing the command line.
 	* src/getargs.c (quotearg.h, muscle_tab.h): Include.
 	(getargs): Define file_name.
