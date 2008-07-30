@@ -1,5 +1,13 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	Avoid empty-if warnings.
+	Reported by Quentin Hocquet.
+	
+	* data/lalr1-fusion.cc (YY_SYMBOL_PRINT, YY_REDUCE_PRINT)
+	(YY_STACK_PRINT): Provide some contents even when !YYDEBUG.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	Pass command line location to skeleton_arg and language_argmatch.
 	* src/getargs.h, src/getargs.c (skeleton_arg, language_argmatch):
 	The location argument is now mandatory.
