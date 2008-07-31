@@ -25,6 +25,10 @@ The correct response to most actual bugs is to write a new test case
 which demonstrates the bug.  Then fix the bug, re-run the test suite,
 and check everything in.
 
+** You may find it useful to install the git-merge-changelog merge driver.
+See http://www.mail-archive.com/bug-gnulib@gnu.org/msg09699.html for
+information on how to install it.
+
 
 * Hacking
 

@@ -267,6 +267,20 @@ cleanup_gnulib() {
   exit $status
 }
 
+# See if we can use gnulib's git-merge-changelog merge driver.
+
+if test -d .git && (git --version) >/dev/null 2>/dev/null ; then
+  if git config merge.merge-changelog.driver >/dev/null ; then
+    :
+  elif (git-merge-changelog --version) >/dev/null 2>/dev/null ; then
+    echo "initializing git-merge-changelog driver"
+    git config merge.merge-changelog.name 'GNU-style ChangeLog merge driver'
+    git config merge.merge-changelog.driver 'git-merge-changelog %O %A %B'
+  else
+    echo "consider installing git-merge-changelog from gnulib"
+  fi
+fi
+
 # Get gnulib files.
 
 case ${GNULIB_SRCDIR--} in

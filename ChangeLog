@@ -1,3 +1,11 @@
+2008-07-31  Paolo Bonzini  <bonzini@gnu.org>
+
+	Support usage of git-merge-changelog.
+	* .gitattributes: New.
+	* HACKING: Document usage of git-merge-changelog.
+	* bootstrap: Install git-merge-changelog entries in .git/config
+	if appropriate.
+
 2008-07-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Remove remaining dependence on CVS Id keyword.
