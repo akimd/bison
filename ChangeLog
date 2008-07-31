@@ -1,5 +1,9 @@
 2008-07-31  Paolo Bonzini  <bonzini@gnu.org>
 
+	* NEWS: Clarify documentation of %language.
+
+2008-07-31  Paolo Bonzini  <bonzini@gnu.org>
+
 	Support usage of git-merge-changelog.
 	* .gitattributes: New.
 	* HACKING: Document usage of git-merge-changelog.

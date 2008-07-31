@@ -53,9 +53,9 @@ Changes in version 2.3b (2008-05-27):
 * %language
 
   This new directive specifies the programming language of the generated
-  parser, which can be C (the default), C++, or Java.  This directive affects
-  the skeleton used and the names of the generated files if the grammar file's
-  name ends in ".y".
+  parser, which can be C (the default), C++, or Java.  Besides the skeleton
+  that Bison uses, the directive affects the names of the generated files if
+  the grammar file's name ends in ".y".
 
 * XML Automaton Report
 
