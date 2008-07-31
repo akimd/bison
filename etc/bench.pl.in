@@ -581,7 +581,7 @@ EOF
     }
   else
     {
-      # Not using Boost variants.
+      # Not using Bison variants.
       print $out <<'EOF';
 %union {int ival; std::string* sval;}
 %token <sval> TEXT
@@ -810,13 +810,13 @@ sub bench_variant_parser ()
   bench_grammar
     ('variant',
      (
-      "f-union"         => ['%skeleton "lalr1-fusion.cc"'],
-      "f-uni-deb"   => ['%skeleton "lalr1-fusion.cc"', '%debug'],
-      "f-var"       => ['%skeleton "lalr1-fusion.cc"', '%define variant'],
-      "f-var-deb" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%define variant'],
-      "f-var-dtr"       => ['%skeleton "lalr1-fusion.cc"', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
-      "f-var-deb-dtr" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
-      "f-var-deb-dtr-ass" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}", "%define assert"],
+      "f-union"         => ['%skeleton "lalr1.cc"'],
+      "f-uni-deb"   => ['%skeleton "lalr1.cc"', '%debug'],
+      "f-var"       => ['%skeleton "lalr1.cc"', '%define variant'],
+      "f-var-deb" => ['%skeleton "lalr1.cc"', '%debug', '%define variant'],
+      "f-var-dtr"       => ['%skeleton "lalr1.cc"', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
+      "f-var-deb-dtr" => ['%skeleton "lalr1.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
+      "f-var-deb-dtr-ass" => ['%skeleton "lalr1.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}", "%define assert"],
      )
     );
 }
@@ -834,8 +834,8 @@ sub bench_fusion_parser ()
   bench_grammar
     ('variant',
      (
-      "split"         => [],
-      "fused"         => ['%skeleton "lalr1-fusion.cc"'],
+      "split"         => ['%skeleton "lalr1-split.cc"'],
+      "fused"         => ['%skeleton "lalr1.cc"'],
      )
     );
 }

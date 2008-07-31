@@ -1,5 +1,14 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	The single-stack C++ parser is now the standard one.
+	* data/lalr1.cc: Rename as...
+	* data/lalr1-split.cc: this.
+	* data/lalr1-fusion.cc: Rename as...
+	* data/lalr1.cc: this.
+	* etc/bench.pl.in: Adjust.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	Avoid empty-if warnings.
 	Reported by Quentin Hocquet.
 	

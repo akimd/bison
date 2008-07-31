@@ -18,8 +18,16 @@
 
 m4_include(b4_pkgdatadir/[c++.m4])
 
-m4_pushdef([b4_copyright_years],
-           [2002, 2003, 2004, 2005, 2006, 2007, 2008])
+# b4_table_define(TABLE-NAME, CONTENT)
+# ------------------------------------
+# Define "parser::yy<TABLE-NAME>_" which contents is CONTENT.
+m4_define([b4_table_define],
+[const b4_int_type_for([$2])
+  b4_parser_class_name::yy$1_[[]] =
+  {
+  $2
+  }dnl
+])
 
 # How the semantic value is extracted when using variants.
 b4_variant_if([
@@ -30,6 +38,27 @@ b4_variant_if([
             [$1.as<$2>()],
             [$1])])
 ]) # b4_variant_if
+
+
+# b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
+# ----------------------------------------------------
+m4_define([b4_assert_if],
+[b4_percent_define_ifdef([[assert]], [$1], [$2])])
+
+
+# b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
+# --------------------------------------
+# Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
+# symbols on RHS.
+m4_define([b4_rhs_value],
+          [b4_symbol_value([yystack_@{($1) - ($2)@}.value], [$3])])
+
+# b4_rhs_location(RULE-LENGTH, NUM)
+# ---------------------------------
+# Expansion of @NUM, where the current rule has RULE-LENGTH symbols
+# on RHS.
+m4_define([b4_rhs_location],
+[yystack_@{($1) - ($2)@}.location])
 
 
 # b4_symbol_actions(FILENAME, LINENO,
@@ -62,13 +91,13 @@ m4_define([b4_symbol_action_],
 ])])
 
 
-# b4_symbol_variant(YYTYPE, YYVAL, ACTION)
-# ----------------------------------------
+# b4_symbol_variant(YYTYPE, YYVAL, ACTION, [ARGS])
+# ------------------------------------------------
 # Run some ACTION ("build", or "destroy") on YYVAL of symbol type
 # YYTYPE.
 m4_define([b4_symbol_variant],
 [m4_pushdef([b4_dollar_dollar],
-            [$2.$3<$][3>()])dnl
+            [$2.$3<$][3>(m4_shift3($@))])dnl
   switch ($1)
     {
 m4_map([b4_symbol_action_], m4_defn([b4_type_names]))
@@ -109,6 +138,9 @@ m4_define([b4_char_sizeof],
 ])
 
 
+m4_pushdef([b4_copyright_years],
+           [2002, 2003, 2004, 2005, 2006, 2007, 2008])
+
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
 
@@ -135,6 +167,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 
 ]b4_percent_code_get([[requires]])[
 
+]b4_assert_if([#include <cassert>])[
 #include <string>
 #include <iostream>
 #include "stack.hh"
@@ -142,7 +175,8 @@ dnl FIXME: This is wrong, we want computed header guards.
 ]b4_namespace_open[
   class position;
   class location;
-]b4_variant_if([[
+]b4_variant_if(
+[[
   /// A char[S] buffer to store and retrieve objects.
   ///
   /// Sort of a variant, but does not keep track of the nature
@@ -150,28 +184,31 @@ dnl FIXME: This is wrong, we want computed header guards.
   /// via the current state.
   template <size_t S>
   struct variant
-  {
+  {]b4_assert_if([
+    /// Whether something is contained.
+    bool built;
+
+    /// Initially uninitialized.
+    variant ()
+      : built(false)
+    {}])[
+
     /// Instantiate a \a T in here.
     template <typename T>
-    inline void
+    inline T&
     build()
-    {
-      new (buffer) T;
-    }
-
-    /// Destroy the stored \a T.
-    template <typename T>
-    inline void
-    destroy()
-    {
-      reinterpret_cast<T&>(buffer).~T();
+    {]b4_assert_if([
+      assert(!built);
+      built = true;])[
+      return *new (buffer) T;
     }
 
     /// Accessor to a built \a T.
     template <typename T>
     inline T&
     as()
-    {
+    {]b4_assert_if([
+      assert(built);])[
       return reinterpret_cast<T&>(buffer);
     }
 
@@ -179,8 +216,37 @@ dnl FIXME: This is wrong, we want computed header guards.
     template <typename T>
     inline const T&
     as() const
-    {
+    {]b4_assert_if([
+      assert(built);])[
       return reinterpret_cast<const T&>(buffer);
+    }
+
+    /// Swap the content with \a other.
+    template <typename T>
+    inline void
+    swap(variant<S>& other)
+    {
+      std::swap(as<T>(), other.as<T>());
+    }
+
+    /// Assign the content of \a other to this.
+    /// Destroys \a other.
+    template <typename T>
+    inline void
+    build(variant<S>& other)
+    {
+      build<T>();
+      swap<T>(other);
+      other.destroy<T>();
+    }
+
+    /// Destroy the stored \a T.
+    template <typename T>
+    inline void
+    destroy()
+    {
+      as<T>().~T();]b4_assert_if([
+      built = false;])[
     }
 
     /// A buffer large enough to store any of the semantic values.
@@ -214,17 +280,17 @@ dnl FIXME: This is wrong, we want computed header guards.
    the previous symbol: RHS[0] (always defined).  */
 
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)		\
-do {							\
-  if (N)						\
-    {							\
-      (Current).begin = (Rhs)[1].begin;			\
-      (Current).end   = (Rhs)[N].end;			\
-    }							\
-  else							\
-    {							\
-      (Current).begin = (Current).end = (Rhs)[0].end;	\
-    }							\
+# define YYLLOC_DEFAULT(Current, Rhs, N)                        \
+do {                                                            \
+  if (N)                                                        \
+    {                                                           \
+      (Current).begin = (Rhs)[1].location.begin;                \
+      (Current).end   = (Rhs)[N].location.end;			\
+    }                                                           \
+  else                                                          \
+    {                                                           \
+      (Current).begin = (Current).end = (Rhs)[0].location.end;	\
+    }                                                           \
 } while (false)
 #endif
 
@@ -295,8 +361,7 @@ m4_ifdef([b4_stype],
     /// Generate an error message.
     /// \param state   the state where the error occurred.
     /// \param tok     the lookahead token.
-    virtual std::string yysyntax_error_ (int yystate]dnl
-b4_error_verbose_if([, int tok])[);
+    virtual std::string yysyntax_error_ (int yystate, int tok);
 
 #if YYDEBUG
     /// \brief Report a symbol value on the debug stream.
@@ -315,22 +380,8 @@ b4_error_verbose_if([, int tok])[);
 				   const location_type& yylocation);
 #endif
 
-
     /// State numbers.
     typedef int state_type;
-    /// State stack type.
-    typedef stack<state_type>    state_stack_type;
-    /// Semantic value stack type.
-    typedef stack<semantic_type> semantic_stack_type;
-    /// location stack type.
-    typedef stack<location_type> location_stack_type;
-
-    /// The state stack.
-    state_stack_type yystate_stack_;
-    /// The semantic value stack.
-    semantic_stack_type yysemantic_stack_;
-    /// The location stack.
-    location_stack_type yylocation_stack_;
 
     /// Internal symbol numbers.
     typedef ]b4_int_type_for([b4_translate])[ token_number_type;
@@ -376,10 +427,8 @@ b4_error_verbose_if([, int tok])[);
 #endif
 
 #if YYDEBUG
-    /// A type to store symbol numbers and -1.
-    typedef ]b4_int_type_for([b4_rhs])[ rhs_number_type;
     /// A `-1'-separated list of the rules' RHS.
-    static const rhs_number_type yyrhs_[];
+    static const ]b4_int_type_for([b4_rhs])[ yyrhs_[];
     /// For each rule, the index of the first RHS symbol in \a yyrhs_.
     static const ]b4_int_type_for([b4_prhs])[ yyprhs_[];
     /// For each rule, its source line number.
@@ -401,6 +450,7 @@ b4_error_verbose_if([, int tok])[);
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
+    ///                     If null, nothing is printed at all.
     /// \param yytype       The symbol type.
     /// \param yyvalue      Its semantic value.
     /// \param yylocation   Its location.
@@ -408,6 +458,31 @@ b4_error_verbose_if([, int tok])[);
 			     int yytype,
 			     semantic_type& yyvalue,
 			     location_type& yylocation);
+
+    /// Element of the stack: a state and its attributes.
+    struct data_type
+    {
+      /// Default constructor.
+      data_type ();
+
+      /// Constructor.
+      data_type (state_type s, const semantic_type& v, const location_type& l);
+
+      /// The state.
+      state_type state;
+
+      /// The semantic value.
+      semantic_type value;
+
+      /// The location.
+      location_type location;
+    };
+
+    /// Stack type.
+    typedef stack<data_type> stack_type;
+
+    /// The stack.
+    stack_type yystack_;
 
     /// Push a new state on the stack.
     /// \warning the contents of \a v is stolen.
@@ -485,33 +560,33 @@ b4_percent_code_get[]dnl
 # define YYCDEBUG if (yydebug_) (*yycdebug_)
 
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)	\
-do {							\
-  if (yydebug_)						\
+  do {							\
+    if (yydebug_)                                       \
     {							\
       *yycdebug_ << Title << ' ';			\
       yy_symbol_print_ ((Type), (Value), (Location));	\
       *yycdebug_ << std::endl;				\
     }							\
-} while (false)
+  } while (false)
 
 # define YY_REDUCE_PRINT(Rule)		\
-do {					\
-  if (yydebug_)				\
-    yy_reduce_print_ (Rule);		\
-} while (false)
+  do {					\
+    if (yydebug_)                       \
+      yy_reduce_print_ (Rule);		\
+  } while (false)
 
 # define YY_STACK_PRINT()		\
-do {					\
-  if (yydebug_)				\
-    yystack_print_ ();			\
-} while (false)
+  do {					\
+    if (yydebug_)                       \
+      yystack_print_ ();                \
+  } while (false)
 
 #else /* !YYDEBUG */
 
 # define YYCDEBUG if (false) std::cerr
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
-# define YY_REDUCE_PRINT(Rule)
-# define YY_STACK_PRINT()
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)  static_cast<void>(0)
+# define YY_REDUCE_PRINT(Rule)                          static_cast<void>(0)
+# define YY_STACK_PRINT()                               static_cast<void>(0)
 
 #endif /* !YYDEBUG */
 
@@ -619,31 +694,50 @@ do {					\
     YYUSE (yyvalue);
     YYUSE (yylocation);
 
-    YY_SYMBOL_PRINT (yymsg, yytype, yyvalue, yylocation);
+    if (yymsg)
+      YY_SYMBOL_PRINT (yymsg, yytype, yyvalue, yylocation);
 
+    // User destructor.
     switch (yytype)
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
 	default:
 	  break;
-      }
+      }]b4_variant_if([
+
+    // Type destructor.
+  b4_symbol_variant([[yytype]], [[yyvalue]], [[destroy]])])[
+  }
+
+  ]b4_parser_class_name[::data_type::data_type ()
+    : state()
+    , value()
+    , location()
+  {
+  }
+
+  ]b4_parser_class_name[::data_type::data_type (state_type s,
+                           const semantic_type& v, const location_type& l)
+    : state(s)
+    , value(v)
+    , location(l)
+  {
   }
 
   void
   ]b4_parser_class_name[::yypush_ (state_type s,
                            semantic_type& v, const location_type& l)
   {
-    yystate_stack_.push (s);
-    yysemantic_stack_.push (v);
-    yylocation_stack_.push (l);
+]b4_variant_if(
+[[    yystack_.push (data_type (s, semantic_type(), l));
+    ]b4_symbol_variant([[yystos_[s]]], [[yystack_[0].value]], [build], [v])],
+[    yystack_.push (data_type (s, v, l));])[
   }
 
   void
   ]b4_parser_class_name[::yypop_ (unsigned int n)
   {
-    yystate_stack_.pop (n);
-    yysemantic_stack_.pop (n);
-    yylocation_stack_.pop (n);
+    yystack_.pop (n);
   }
 
 #if YYDEBUG
@@ -694,7 +788,7 @@ do {					\
     /// Location of the lookahead.
     location_type yylloc;
     /// The locations where the error started and ended.
-    location_type yyerror_range[2];
+    data_type yyerror_range[2];
 
     /// $$.
     semantic_type yyval;
@@ -713,13 +807,11 @@ m4_pushdef([b4_dollar_dollar], [yylval])dnl
 m4_popdef([b4_dollar_dollar])dnl
 m4_popdef([b4_at_dollar])])dnl
 
-  [  /* Initialize the stacks.  The initial state will be pushed in
+  [  /* Initialize the stack.  The initial state will be set in
        yynewstate, since the latter expects the semantical and the
        location values to have been already stored, initialize these
        stacks with a primary value.  */
-    yystate_stack_ = state_stack_type (0);
-    yysemantic_stack_ = semantic_stack_type (0);
-    yylocation_stack_ = location_stack_type (0);
+    yystack_ = stack_type (0);
     yypush_ (yystate, yylval, yylloc);
 
     // A new state was pushed on the stack.
@@ -821,14 +913,17 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
        This behavior is undocumented and Bison
        users should not rely upon it.  */
     if (yylen)
-      yyval = yysemantic_stack_@{yylen - 1@};
+      yyval = yystack_@{yylen - 1@}.value;
     else
-      yyval = yysemantic_stack_@{0@};])[
+      yyval = yystack_@{0@}.value;])[
 
+    // Compute the default @@$.
     {
-      slice<location_type, location_stack_type> slice (yylocation_stack_, yylen);
+      slice<data_type, stack_type> slice (yystack_, yylen);
       YYLLOC_DEFAULT (yyloc, slice, yylen);
     }
+
+    // Perform the reduction.
     YY_REDUCE_PRINT (yyn);
     switch (yyn)
       {
@@ -837,6 +932,20 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
           break;
       }
     YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], yyval, yyloc);
+]b4_variant_if([[
+    // Destroy the lhs symbols.
+    for (int i = 0; i < yylen; ++i)
+      // Destroy a variant which value may have be swapped with yyval.
+      // The value of yyval (hence maybe one of these lhs symbols)
+      // depends on what does the default contruction for this type.
+      // In the case of pointers for instance, nothing is done, so the
+      // value is junk.  Therefore do not try to report the content in
+      // the debug trace, it's junk.  Hence yymsg = 0.  Besides, that
+      // keeps exactly the same traces as with the other Bison
+      // skeletons.
+      yydestruct_ (0,
+                   yystos_[yystack_[i].state],
+                   yystack_[i].value, yystack_[i].location);]])[
 
     yypop_ (yylen);
     yylen = 0;
@@ -844,9 +953,9 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
     /* Shift the result of the reduction.  */
     yyn = yyr1_[yyn];
-    yystate = yypgoto_[yyn - yyntokens_] + yystate_stack_[0];
+    yystate = yypgoto_[yyn - yyntokens_] + yystack_[0].state;
     if (0 <= yystate && yystate <= yylast_
-	&& yycheck_[yystate] == yystate_stack_[0])
+	&& yycheck_[yystate] == yystack_[0].state)
       yystate = yytable_[yystate];
     else
       yystate = yydefgoto_[yyn - yyntokens_];
@@ -861,11 +970,10 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     if (!yyerrstatus_)
       {
 	++yynerrs_;
-	error (yylloc, yysyntax_error_ (yystate]dnl
-b4_error_verbose_if([, yytoken])[));
+	error (yylloc, yysyntax_error_ (yystate, yytoken));
       }
 
-    yyerror_range[0] = yylloc;
+    yyerror_range[0].location = yylloc;
     if (yyerrstatus_ == 3)
       {
 	/* If just tried and failed to reuse lookahead token after an
@@ -873,9 +981,9 @@ b4_error_verbose_if([, yytoken])[));
 
 	if (yychar <= yyeof_)
 	  {
-	  /* Return failure if at end of input.  */
-	  if (yychar == yyeof_)
-	    YYABORT;
+            /* Return failure if at end of input.  */
+            if (yychar == yyeof_)
+              YYABORT;
 	  }
 	else
 	  {
@@ -900,12 +1008,12 @@ b4_error_verbose_if([, yytoken])[));
     if (false)
       goto yyerrorlab;
 
-    yyerror_range[0] = yylocation_stack_[yylen - 1];
+    yyerror_range[0].location = yystack_[yylen - 1].location;
     /* Do not reclaim the symbols of the rule which action triggered
        this YYERROR.  */
     yypop_ (yylen);
     yylen = 0;
-    yystate = yystate_stack_[0];
+    yystate = yystack_[0].state;
     goto yyerrlab1;
 
   /*-------------------------------------------------------------.
@@ -928,27 +1036,27 @@ b4_error_verbose_if([, yytoken])[));
 	    }
 	}
 
-	/* Pop the current state because it cannot handle the error token.  */
-	if (yystate_stack_.size () == 1)
-	YYABORT;
+	// Pop the current state because it cannot handle the error token.
+	if (yystack_.size () == 1)
+	  YYABORT;
 
-	yyerror_range[0] = yylocation_stack_[0];
+	yyerror_range[0].location = yystack_[0].location;
 	yydestruct_ ("Error: popping",
 		     yystos_[yystate],
-		     yysemantic_stack_[0], yylocation_stack_[0]);
+		     yystack_[0].value, yystack_[0].location);
 	yypop_ ();
-	yystate = yystate_stack_[0];
+	yystate = yystack_[0].state;
 	YY_STACK_PRINT ();
       }
 
-    yyerror_range[1] = yylloc;
+    yyerror_range[1].location = yylloc;
     // Using YYLLOC is tempting, but would change the location of
     // the lookahead.  YYLOC is available though.
     YYLLOC_DEFAULT (yyloc, (yyerror_range - 1), 2);
 
     /* Shift the error token.  */
     YY_SYMBOL_PRINT ("Shifting", yystos_[yyn],
-		     yysemantic_stack_[0], yylocation_stack_[0]);
+		     yystack_[0].value, yystack_[0].location);
 
     yystate = yyn;
     yypush_ (yystate, yylval, yyloc);
@@ -971,12 +1079,11 @@ b4_error_verbose_if([, yytoken])[));
     /* Do not reclaim the symbols of the rule which action triggered
        this YYABORT or YYACCEPT.  */
     yypop_ (yylen);
-    while (yystate_stack_.size () != 1)
+    while (yystack_.size () != 1)
       {
 	yydestruct_ ("Cleanup: popping",
-                     yystos_[yystate_stack_[0]],
-                     yysemantic_stack_[0],
-                     yylocation_stack_[0]);
+		   yystos_[yystack_[0].state],
+		   yystack_[0].value, yystack_[0].location);
 	yypop_ ();
       }
 
@@ -985,8 +1092,8 @@ b4_error_verbose_if([, yytoken])[));
 
   // Generate an error message.
   std::string
-  ]b4_parser_class_name[::yysyntax_error_ (int yystate]dnl
-b4_error_verbose_if([, int tok])[)
+  ]b4_parser_class_name[::yysyntax_error_ (int yystate, int]dnl
+b4_error_verbose_if([ tok])[)
   {
     std::string res;
     YYUSE (yystate);
@@ -1037,83 +1144,43 @@ b4_error_verbose_if([, int tok])[)
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
   const ]b4_int_type(b4_pact_ninf, b4_pact_ninf) b4_parser_class_name::yypact_ninf_ = b4_pact_ninf[;
-  const ]b4_int_type_for([b4_pact])[
-  ]b4_parser_class_name[::yypact_[] =
-  {
-    ]b4_pact[
-  };
+  ]b4_table_define([pact], [b4_pact])[;
 
   /* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
      doesn't specify something else to do.  Zero means the default is an
      error.  */
-  const ]b4_int_type_for([b4_defact])[
-  ]b4_parser_class_name[::yydefact_[] =
-  {
-    ]b4_defact[
-  };
+  ]b4_table_define([defact], [b4_defact])[;
 
   /* YYPGOTO[NTERM-NUM].  */
-  const ]b4_int_type_for([b4_pgoto])[
-  ]b4_parser_class_name[::yypgoto_[] =
-  {
-    ]b4_pgoto[
-  };
+  ]b4_table_define([pgoto], [b4_pgoto])[;
 
   /* YYDEFGOTO[NTERM-NUM].  */
-  const ]b4_int_type_for([b4_defgoto])[
-  ]b4_parser_class_name[::yydefgoto_[] =
-  {
-    ]b4_defgoto[
-  };
+  ]b4_table_define([defgoto], [b4_defgoto])[;
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
      number is the opposite.  If zero, do what YYDEFACT says.  */
   const ]b4_int_type(b4_table_ninf, b4_table_ninf) b4_parser_class_name::yytable_ninf_ = b4_table_ninf[;
-  const ]b4_int_type_for([b4_table])[
-  ]b4_parser_class_name[::yytable_[] =
-  {
-    ]b4_table[
-  };
+  ]b4_table_define([table], [b4_table])[;
 
   /* YYCHECK.  */
-  const ]b4_int_type_for([b4_check])[
-  ]b4_parser_class_name[::yycheck_[] =
-  {
-    ]b4_check[
-  };
+  ]b4_table_define([check], [b4_check])[;
 
   /* STOS_[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
-  const ]b4_int_type_for([b4_stos])[
-  ]b4_parser_class_name[::yystos_[] =
-  {
-    ]b4_stos[
-  };
+  ]b4_table_define([stos], [b4_stos])[;
 
 #if YYDEBUG
   /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
      to YYLEX-NUM.  */
-  const ]b4_int_type_for([b4_toknum])[
-  ]b4_parser_class_name[::yytoken_number_[] =
-  {
-    ]b4_toknum[
-  };
+  ]b4_table_define([token_number], [b4_toknum])[;
 #endif
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-  const ]b4_int_type_for([b4_r1])[
-  ]b4_parser_class_name[::yyr1_[] =
-  {
-    ]b4_r1[
-  };
+  ]b4_table_define([r1], [b4_r1])[;
 
   /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-  const ]b4_int_type_for([b4_r2])[
-  ]b4_parser_class_name[::yyr2_[] =
-  {
-    ]b4_r2[
-  };
+  ]b4_table_define([r2], [b4_r2])[;
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
@@ -1121,41 +1188,31 @@ b4_error_verbose_if([, int tok])[)
   const char*
   const ]b4_parser_class_name[::yytname_[] =
   {
-    ]b4_tname[
+  ]b4_tname[
   };
 #endif
 
 #if YYDEBUG
   /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
-  const ]b4_parser_class_name[::rhs_number_type
-  ]b4_parser_class_name[::yyrhs_[] =
-  {
-    ]b4_rhs[
-  };
+  ]b4_table_define([rhs], [b4_rhs])[;
 
   /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
      YYRHS.  */
-  const ]b4_int_type_for([b4_prhs])[
-  ]b4_parser_class_name[::yyprhs_[] =
-  {
-    ]b4_prhs[
-  };
+  ]b4_table_define([prhs], [b4_prhs])[;
 
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-  const ]b4_int_type_for([b4_rline])[
-  ]b4_parser_class_name[::yyrline_[] =
-  {
-    ]b4_rline[
-  };
+  ]b4_table_define([rline], [b4_rline])[;
 
   // Print the state stack on the debug stream.
   void
   ]b4_parser_class_name[::yystack_print_ ()
   {
     *yycdebug_ << "Stack now";
-    for (state_stack_type::const_iterator i = yystate_stack_.begin ();
-	 i != yystate_stack_.end (); ++i)
-      *yycdebug_ << ' ' << *i;
+    for (stack_type::const_iterator
+           i = yystack_.begin (),
+           i_end = yystack_.end ();
+	 i != i_end; ++i)
+      *yycdebug_ << ' ' << i->state;
     *yycdebug_ << std::endl;
   }
 
@@ -1185,7 +1242,7 @@ b4_error_verbose_if([, int tok])[)
     const token_number_type
     translate_table[] =
     {
-      ]b4_translate[
+  ]b4_translate[
     };
     if ((unsigned int) t <= yyuser_token_number_max_)
       return translate_table[t];
@@ -1207,8 +1264,7 @@ b4_error_verbose_if([, int tok])[)
 
 ]b4_namespace_close[
 
-]b4_epilogue
-dnl
+]b4_epilogue[]dnl
 @output(b4_dir_prefix[]stack.hh@)@
 b4_copyright([Stack handling for Bison parsers in C++])[
 
