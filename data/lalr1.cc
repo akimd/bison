@@ -60,19 +60,36 @@ m4_define([b4_lhs_location],
 [yylhs.location])
 
 
+# b4_rhs_data(RULE-LENGTH, NUM)
+# -----------------------------
+# Return the data corresponding to the symbol #NUM, where the current
+# rule has RULE-LENGTH symbols on RHS.
+m4_define([b4_rhs_data],
+          [yystack_@{($1) - ($2)@}])
+
+
+# b4_rhs_state(RULE-LENGTH, NUM)
+# -----------------------------
+# The state corresponding to the symbol #NUM, where the current
+# rule has RULE-LENGTH symbols on RHS.
+m4_define([b4_rhs_state],
+          [b4_rhs_data([$1], [$2]).state])
+
+
 # b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
 # --------------------------------------
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
 m4_define([b4_rhs_value],
-          [b4_symbol_value([yystack_@{($1) - ($2)@}.value], [$3])])
+          [b4_symbol_value([b4_rhs_data([$1], [$2]).value], [$3])])
+
 
 # b4_rhs_location(RULE-LENGTH, NUM)
 # ---------------------------------
 # Expansion of @NUM, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[yystack_@{($1) - ($2)@}.location])
+          [b4_rhs_data([$1], [$2]).location])
 
 
 # b4_symbol_actions(FILENAME, LINENO,
@@ -441,10 +458,6 @@ m4_ifdef([b4_stype],
 #endif
 
 #if YYDEBUG
-    /// A `-1'-separated list of the rules' RHS.
-    static const ]b4_int_type_for([b4_rhs])[ yyrhs_[];
-    /// For each rule, the index of the first RHS symbol in \a yyrhs_.
-    static const ]b4_int_type_for([b4_prhs])[ yyprhs_[];
     /// For each rule, its source line number.
     static const ]b4_int_type_for([b4_rline])[ yyrline_[];
     /// For each scanner token number, its symbol number.
@@ -1210,13 +1223,6 @@ b4_error_verbose_if([ tok])[)
 #endif
 
 #if YYDEBUG
-  /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
-  ]b4_table_define([rhs], [b4_rhs])[;
-
-  /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
-     YYRHS.  */
-  ]b4_table_define([prhs], [b4_prhs])[;
-
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
   ]b4_table_define([rline], [b4_rline])[;
 
@@ -1245,7 +1251,7 @@ b4_error_verbose_if([ tok])[)
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
       YY_SYMBOL_PRINT ("   $" << yyi + 1 << " =",
-		       yyrhs_[yyprhs_[yyrule] + yyi],
+                       ]yystos_@{b4_rhs_state(yynrhs, yyi + 1)@}[,
 		       ]b4_rhs_value(yynrhs, yyi + 1)[,
 		       ]b4_rhs_location(yynrhs, yyi + 1)[);
   }

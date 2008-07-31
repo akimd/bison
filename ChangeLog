@@ -1,5 +1,17 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Rely on the state stack to display reduction traces.
+	To display rhs symbols before a reduction, we used information about the rule
+	reduced, which required the tables yyrhs and yyprhs.  Now use rely only on the
+	state stack to get the same information.
+	
+	* data/lalr1.cc (b4_rhs_data, b4_rhs_state): New.
+	Use them.
+	(parser::yyrhs_, parser::yyprhs_): Remove.
+	(parser::yy_reduce_print_): Use the state stack.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Fuse yyval and yyloc into yylhs.
 	* data/lalr1.cc (b4_lhs_value, b4_lhs_location): Adjust to using
 	yylhs.
