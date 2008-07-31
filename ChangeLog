@@ -1,5 +1,11 @@
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
+	Moving push traces into yypush_.
+	* data/lalr1.cc (yypush_): Now takes a optional trace message.
+	Adjust all uses.
+
+2008-11-07  Akim Demaille  <demaille@gostai.com>
+
 	The single-stack C++ parser is now the standard one.
 	* data/lalr1.cc: Rename as...
 	* data/lalr1-split.cc: this.

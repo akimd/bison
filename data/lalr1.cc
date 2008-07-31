@@ -485,8 +485,13 @@ m4_ifdef([b4_stype],
     stack_type yystack_;
 
     /// Push a new state on the stack.
+    /// \param m    a debug message to display
+    ///             if null, no trace is output.
+    /// \param s    the state entered
+    /// \param v    semantic value
+    /// \param l    location
     /// \warning the contents of \a v is stolen.
-    inline void yypush_ (state_type s,
+    inline void yypush_ (const char* m, state_type s,
                          semantic_type& v, const location_type& l);
 
     /// Pop \a n symbols the three stacks.
@@ -725,9 +730,11 @@ b4_percent_code_get[]dnl
   }
 
   void
-  ]b4_parser_class_name[::yypush_ (state_type s,
+  ]b4_parser_class_name[::yypush_ (const char* m, state_type s,
                            semantic_type& v, const location_type& l)
   {
+    if (m)
+      YY_SYMBOL_PRINT (m, yystos_[s], v, l);
 ]b4_variant_if(
 [[    yystack_.push (data_type (s, semantic_type(), l));
     ]b4_symbol_variant([[yystos_[s]]], [[yystack_[0].value]], [build], [v])],
@@ -812,7 +819,7 @@ m4_popdef([b4_at_dollar])])dnl
        location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_ = stack_type (0);
-    yypush_ (yystate, yylval, yylloc);
+    yypush_ (0, yystate, yylval, yylloc);
 
     // A new state was pushed on the stack.
     // Invariant: yystate == yystack_[0].state, i.e.,
@@ -873,9 +880,6 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 	goto yyreduce;
       }
 
-    /* Shift the lookahead token.  */
-    YY_SYMBOL_PRINT ("Shifting", yytoken, yylval, yylloc);
-
     /* Discard the token being shifted.  */
     yychar = yyempty_;
 
@@ -884,8 +888,9 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     if (yyerrstatus_)
       --yyerrstatus_;
 
+    /* Shift the lookahead token.  */
     yystate = yyn;
-    yypush_ (yystate, yylval, yylloc);
+    yypush_ ("Shifting", yystate, yylval, yylloc);
     goto yynewstate;
 
   /*-----------------------------------------------------------.
@@ -959,7 +964,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       yystate = yytable_[yystate];
     else
       yystate = yydefgoto_[yyn - yyntokens_];
-    yypush_ (yystate, yyval, yyloc);
+    yypush_ (0, yystate, yyval, yyloc);
     goto yynewstate;
 
   /*------------------------------------.
@@ -1055,11 +1060,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     YYLLOC_DEFAULT (yyloc, (yyerror_range - 1), 2);
 
     /* Shift the error token.  */
-    YY_SYMBOL_PRINT ("Shifting", yystos_[yyn],
-		     yystack_[0].value, yystack_[0].location);
-
     yystate = yyn;
-    yypush_ (yystate, yylval, yyloc);
+    yypush_ ("Shifting", yystate, yylval, yyloc);
     goto yynewstate;
 
     /* Accept.  */
