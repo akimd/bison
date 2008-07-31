@@ -46,6 +46,20 @@ m4_define([b4_assert_if],
 [b4_percent_define_ifdef([[assert]], [$1], [$2])])
 
 
+# b4_lhs_value([TYPE])
+# --------------------
+# Expansion of $<TYPE>$.
+m4_define([b4_lhs_value],
+[b4_symbol_value([yylhs.value], [$1])])
+
+
+# b4_lhs_location()
+# -----------------
+# Expansion of @$.
+m4_define([b4_lhs_location],
+[yylhs.location])
+
+
 # b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
 # --------------------------------------
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
@@ -797,11 +811,10 @@ b4_percent_code_get[]dnl
     /// The locations where the error started and ended.
     data_type yyerror_range[2];
 
-    /// $$.
-    semantic_type yyval;
-    /// @@$.
-    location_type yyloc;
+    /// $$ and @@$.
+    data_type yylhs;
 
+    /// The return value of parse().
     int yyresult;
 
     YYCDEBUG << "Starting parse" << std::endl;
@@ -910,22 +923,22 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     /* Variants are always initialized to an empty instance of the
        correct type. The default $$=$1 rule is NOT applied when using
        variants */
-    ]b4_symbol_variant([[yyr1_@{yyn@}]], [yyval], [build])[],[
+    ]b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build])[],[
     /* If YYLEN is nonzero, implement the default value of the action:
        `$$ = $1'.  Otherwise, use the top of the stack.
 
-       Otherwise, the following line sets YYVAL to garbage.
+       Otherwise, the following line sets YYLHS.VALUE to garbage.
        This behavior is undocumented and Bison
        users should not rely upon it.  */
     if (yylen)
-      yyval = yystack_@{yylen - 1@}.value;
+      yylhs.value = yystack_@{yylen - 1@}.value;
     else
-      yyval = yystack_@{0@}.value;])[
+      yylhs.value = yystack_@{0@}.value;])[
 
     // Compute the default @@$.
     {
       slice<data_type, stack_type> slice (yystack_, yylen);
-      YYLLOC_DEFAULT (yyloc, slice, yylen);
+      YYLLOC_DEFAULT (yylhs.location, slice, yylen);
     }
 
     // Perform the reduction.
@@ -936,18 +949,27 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 	default:
           break;
       }
-    YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], yyval, yyloc);
+    // Compute post-reduction state.
+    yyn = yyr1_[yyn];
+    yystate = yypgoto_[yyn - yyntokens_] + yystack_[yylen].state;
+    if (0 <= yystate && yystate <= yylast_
+	&& yycheck_[yystate] == yystack_[yylen].state)
+      yystate = yytable_[yystate];
+    else
+      yystate = yydefgoto_[yyn - yyntokens_];
+    yylhs.state = yystate;
+    YY_SYMBOL_PRINT ("-> $$ =", yyn, yylhs.value, yylhs.location);
 ]b4_variant_if([[
     // Destroy the lhs symbols.
     for (int i = 0; i < yylen; ++i)
-      // Destroy a variant which value may have be swapped with yyval.
-      // The value of yyval (hence maybe one of these lhs symbols)
-      // depends on what does the default contruction for this type.
-      // In the case of pointers for instance, nothing is done, so the
-      // value is junk.  Therefore do not try to report the content in
-      // the debug trace, it's junk.  Hence yymsg = 0.  Besides, that
-      // keeps exactly the same traces as with the other Bison
-      // skeletons.
+      // Destroy a variant which value may have be swapped with
+      // yylhs.value.  The value of yylhs.value (hence maybe one of
+      // these lhs symbols) depends on what does the default
+      // contruction for this type.  In the case of pointers for
+      // instance, nothing is done, so the value is junk.  Therefore
+      // do not try to report the content in the debug trace, it's
+      // junk.  Hence yymsg = 0.  Besides, that keeps exactly the same
+      // traces as with the other Bison skeletons.
       yydestruct_ (0,
                    yystos_[yystack_[i].state],
                    yystack_[i].value, yystack_[i].location);]])[
@@ -957,14 +979,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     YY_STACK_PRINT ();
 
     /* Shift the result of the reduction.  */
-    yyn = yyr1_[yyn];
-    yystate = yypgoto_[yyn - yyntokens_] + yystack_[0].state;
-    if (0 <= yystate && yystate <= yylast_
-	&& yycheck_[yystate] == yystack_[0].state)
-      yystate = yytable_[yystate];
-    else
-      yystate = yydefgoto_[yyn - yyntokens_];
-    yypush_ (0, yystate, yyval, yyloc);
+    yypush_ (0, yylhs.state, yylhs.value, yylhs.location);
     goto yynewstate;
 
   /*------------------------------------.
@@ -1026,42 +1041,42 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
   `-------------------------------------------------------------*/
   yyerrlab1:
     yyerrstatus_ = 3;	/* Each real token shifted decrements this.  */
+    {
+      data_type error_token;
+      for (;;)
+        {
+          yyn = yypact_[yystate];
+          if (yyn != yypact_ninf_)
+            {
+              yyn += yyterror_;
+              if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
+                {
+                  yyn = yytable_[yyn];
+                  if (0 < yyn)
+                    break;
+                }
+            }
 
-    for (;;)
-      {
-	yyn = yypact_[yystate];
-	if (yyn != yypact_ninf_)
-	{
-	  yyn += yyterror_;
-	  if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
-	    {
-	      yyn = yytable_[yyn];
-	      if (0 < yyn)
-		break;
-	    }
-	}
+          // Pop the current state because it cannot handle the error token.
+          if (yystack_.size () == 1)
+            YYABORT;
 
-	// Pop the current state because it cannot handle the error token.
-	if (yystack_.size () == 1)
-	  YYABORT;
+          yyerror_range[0].location = yystack_[0].location;
+          yydestruct_ ("Error: popping",
+                       yystos_[yystate],
+                       yystack_[0].value, yystack_[0].location);
+          yypop_ ();
+          yystate = yystack_[0].state;
+          YY_STACK_PRINT ();
+        }
 
-	yyerror_range[0].location = yystack_[0].location;
-	yydestruct_ ("Error: popping",
-		     yystos_[yystate],
-		     yystack_[0].value, yystack_[0].location);
-	yypop_ ();
-	yystate = yystack_[0].state;
-	YY_STACK_PRINT ();
-      }
+      yyerror_range[1].location = yylloc;
+      YYLLOC_DEFAULT (error_token.location, (yyerror_range - 1), 2);
 
-    yyerror_range[1].location = yylloc;
-    // Using YYLLOC is tempting, but would change the location of
-    // the lookahead.  YYLOC is available though.
-    YYLLOC_DEFAULT (yyloc, (yyerror_range - 1), 2);
-
-    /* Shift the error token.  */
-    yystate = yyn;
-    yypush_ ("Shifting", yystate, yylval, yyloc);
+      /* Shift the error token.  */
+      yystate = yyn;
+      yypush_ ("Shifting", yystate, error_token.value, error_token.location);
+    }
     goto yynewstate;
 
     /* Accept.  */

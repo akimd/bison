@@ -1,3 +1,14 @@
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
+	Fuse yyval and yyloc into yylhs.
+	* data/lalr1.cc (b4_lhs_value, b4_lhs_location): Adjust to using
+	yylhs.
+	(parse): Replace yyval and yyloc with yylhs.value and
+	yylhs.location.
+	After a user action, compute yylhs.state earlier.
+	(yyerrlab1): Do not play tricks with yylhs.location, rather, use a
+	fresh error_token.
+
 2008-11-09  Di-an Jan  <dianj@freeshell.org>
 
 	Remove unused variable.
