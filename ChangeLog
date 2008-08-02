@@ -1,3 +1,11 @@
+2008-08-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Set gnu or gnits strictness.
+	* configure.ac (AM_INIT_AUTOMAKE): Set gnu strictness during
+	development and gnits strictness for releases.  Based on Eric Blake's
+	suggestion at
+	<http://lists.gnu.org/archive/html/bug-bison/2008-07/msg00019.html>.
+
 2008-07-31  Paolo Bonzini  <bonzini@gnu.org>
 
 	* NEWS: Clarify documentation of %language.

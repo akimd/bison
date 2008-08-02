@@ -30,7 +30,11 @@ AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
 # We don't have a file m4/Makefile.am, so we need Automake 1.8 or later.
-AM_INIT_AUTOMAKE([1.8 check-news readme-alpha dist-bzip2])
+# We want gnits strictness only when rolling a formal release so that we can,
+# for example, run make dist at other times without being required to add a
+# bogus NEWS entry.
+AM_INIT_AUTOMAKE([1.8 dist-bzip2]
+                 m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [-], [gnu], [gnits]))
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
 
 # Checks for the compiler.
