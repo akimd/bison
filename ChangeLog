@@ -1,5 +1,22 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Introduce a hierarchy for symbols.
+	* data/lalr1.cc (symbol_base_type, symbol_type): New.
+	(data_type): Rename as...
+	(stack_symbol_type): this.
+	Derive from symbol_base_type.
+	(yy_symbol_value_print_): Merge into...
+	(yy_symbol_print_): this.
+	Rename as...
+	(yy_print_): this.
+	(yydestruct_): Rename as...
+	(yy_destroy_): this.
+	(b4_symbols_actions, YY_SYMBOL_PRINT): Adjust.
+	(parser::parse): yyla is now of symbol_type.
+	Use its type member instead of yytoken.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Rename data_type and stack_symbol_type.
 	* data/lalr1.cc (data_type): Rename as...
 	(stack_symbol_type): this.
