@@ -614,12 +614,6 @@ if test -f $mam_template; then
   done
 fi
 
-# FIXME: Gnulib should be patched to add "/" in front of .gitignore entries
-# instead.  Anyway, this hack must be done before invoking autoconf so that
-# build-aux/git-version-gen doesn't think the version is dirty because
-# .gitignore isn't committed.
-grep -v '^GNUmakefile$' .gitignore > .gitignore~ && mv .gitignore~ .gitignore
-
 # Reconfigure, getting other files.
 
 for command in \

@@ -1,5 +1,11 @@
 2008-08-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Update for recent .gitignore fix in Gnulib.
+	* bootstrap: Back out 2008-07-18 hack now that gnulib-tool creates
+	anchored .gitignore entries.
+
+2008-08-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Set gnu or gnits strictness.
 	* configure.ac (AM_INIT_AUTOMAKE): Set gnu strictness during
 	development and gnits strictness for releases.  Based on Eric Blake's
