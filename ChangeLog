@@ -1,5 +1,13 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Use inline for small operations.
+	* data/lalr1.cc (symbol_base_type, symbol_type)
+	(stack_symbol_type): Declare constructor and other operations as
+	inline.
+	(yy_destroy_): Inline.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Introduce a hierarchy for symbols.
 	* data/lalr1.cc (symbol_base_type, symbol_type): New.
 	(data_type): Rename as...

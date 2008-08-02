@@ -462,10 +462,10 @@ m4_ifdef([b4_stype],
     struct symbol_base_type
     {
       /// Default constructor.
-      symbol_base_type ();
+      inline symbol_base_type ();
 
       /// Constructor.
-      symbol_base_type (const semantic_type& v, const location_type& l);
+      inline symbol_base_type (const semantic_type& v, const location_type& l);
 
       /// Return the type of this symbol.
       virtual int type_get () const = 0;
@@ -488,40 +488,40 @@ m4_ifdef([b4_stype],
     /// \param yymsg     Why this token is reclaimed.
     ///                  If null, print nothing.
     /// \param s         The symbol.
-    void yy_destroy_ (const char* yymsg, symbol_base_type& yysym) const;
+    inline void yy_destroy_ (const char* yymsg, symbol_base_type& yysym) const;
 
     /// Element of the stack: a state and its attributes.
     struct symbol_type : symbol_base_type
     {
       /// Default constructor.
-      symbol_type ();
+      inline symbol_type ();
 
       /// Constructor.
-      symbol_type (state_type s,
-                   const semantic_type& v, const location_type& l);
+      inline symbol_type (int t,
+                          const semantic_type& v, const location_type& l);
 
       /// The symbol type.
       int type;
 
       /// Return the type corresponding to this state.
-      virtual int type_get () const;
+      virtual inline int type_get () const;
     };
 
     /// Element of the stack: a state and its attributes.
     struct stack_symbol_type : symbol_base_type
     {
       /// Default constructor.
-      stack_symbol_type ();
+      inline stack_symbol_type ();
 
       /// Constructor.
-      stack_symbol_type (state_type s,
-                         const semantic_type& v, const location_type& l);
+      inline stack_symbol_type (state_type s,
+                                const semantic_type& v, const location_type& l);
 
       /// The state.
       state_type state;
 
       /// Return the type corresponding to this state.
-      virtual int type_get () const;
+      virtual inline int type_get () const;
     };
 
     /// Stack type.
