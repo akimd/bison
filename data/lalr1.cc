@@ -817,10 +817,9 @@ b4_percent_code_get[]dnl
     int yynerrs_ = 0;
     int yyerrstatus_ = 0;
 
-    /// Semantic value of the lookahead.
-    semantic_type yylval;
-    /// Location of the lookahead.
-    location_type yylloc;
+    /// The lookahead symbol.
+    data_type yyla;
+
     /// The locations where the error started and ended.
     data_type yyerror_range[2];
 
@@ -833,8 +832,8 @@ b4_percent_code_get[]dnl
     YYCDEBUG << "Starting parse" << std::endl;
 
 ]m4_ifdef([b4_initial_action], [
-m4_pushdef([b4_at_dollar],     [yylloc])dnl
-m4_pushdef([b4_dollar_dollar], [yylval])dnl
+m4_pushdef([b4_at_dollar],     [yyla.location])dnl
+m4_pushdef([b4_dollar_dollar], [yyla.value])dnl
     /* User initialization code.  */
     b4_user_initial_action
 m4_popdef([b4_dollar_dollar])dnl
@@ -845,7 +844,7 @@ m4_popdef([b4_at_dollar])])dnl
        location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_ = stack_type (0);
-    yypush_ (0, yystate, yylval, yylloc);
+    yypush_ (0, yyla.state, yyla.value, yyla.location);
 
     // A new state was pushed on the stack.
     // Invariant: yystate == yystack_[0].state, i.e.,
@@ -872,8 +871,8 @@ m4_popdef([b4_at_dollar])])dnl
       {
 	YYCDEBUG << "Reading a token: ";
 	yychar = ]b4_c_function_call([yylex], [int],
-				     [[YYSTYPE*], [&yylval]][]dnl
-b4_locations_if([, [[location*], [&yylloc]]])dnl
+				     [[YYSTYPE*], [&yyla.value]][]dnl
+b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
 
@@ -887,7 +886,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     else
       {
 	yytoken = yytranslate_ (yychar);
-	YY_SYMBOL_PRINT ("Next token is", yytoken, yylval, yylloc);
+	YY_SYMBOL_PRINT ("Next token is", yytoken, yyla.value, yyla.location);
       }
 
     /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -901,7 +900,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     if (yyn <= 0)
       {
 	if (yyn == 0 || yyn == yytable_ninf_)
-	goto yyerrlab;
+	  goto yyerrlab;
 	yyn = -yyn;
 	goto yyreduce;
       }
@@ -915,8 +914,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       --yyerrstatus_;
 
     /* Shift the lookahead token.  */
-    yystate = yyn;
-    yypush_ ("Shifting", yystate, yylval, yylloc);
+    yyla.state = yystate = yyn;
+    yypush_ ("Shifting", yyla.state, yyla.value, yyla.location);
     goto yynewstate;
 
   /*-----------------------------------------------------------.
@@ -1003,10 +1002,10 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     if (!yyerrstatus_)
       {
 	++yynerrs_;
-	error (yylloc, yysyntax_error_ (yystate, yytoken));
+	error (yyla.location, yysyntax_error_ (yystate, yytoken));
       }
 
-    yyerror_range[0].location = yylloc;
+    yyerror_range[0].location = yyla.location;
     if (yyerrstatus_ == 3)
       {
 	/* If just tried and failed to reuse lookahead token after an
@@ -1020,7 +1019,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 	  }
 	else
 	  {
-	    yydestruct_ ("Error: discarding", yytoken, yylval, yylloc);
+	    yydestruct_ ("Error: discarding",
+                         yytoken, yyla.value, yyla.location);
 	    yychar = yyempty_;
 	  }
       }
@@ -1083,7 +1083,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
           YY_STACK_PRINT ();
         }
 
-      yyerror_range[1].location = yylloc;
+      yyerror_range[1].location = yyla.location;
       YYLLOC_DEFAULT (error_token.location, (yyerror_range - 1), 2);
 
       /* Shift the error token.  */
@@ -1104,7 +1104,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
   yyreturn:
     if (yychar != yyempty_)
-      yydestruct_ ("Cleanup: discarding lookahead", yytoken, yylval, yylloc);
+      yydestruct_ ("Cleanup: discarding lookahead",
+                   yytoken, yyla.value, yyla.location);
 
     /* Do not reclaim the symbols of the rule which action triggered
        this YYABORT or YYACCEPT.  */

@@ -1,5 +1,11 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Agregate yylval and yylloc.
+	* data/lalr1.cc (parser::yylval, parser::yylloc): Replace by...
+	(parser::yyla): this.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Rely on the state stack to display reduction traces.
 	To display rhs symbols before a reduction, we used information about the rule
 	reduced, which required the tables yyrhs and yyprhs.  Now use rely only on the
