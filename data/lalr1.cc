@@ -514,12 +514,9 @@ m4_ifdef([b4_stype],
     /// Push a new state on the stack.
     /// \param m    a debug message to display
     ///             if null, no trace is output.
-    /// \param s    the state entered
-    /// \param v    semantic value
-    /// \param l    location
-    /// \warning the contents of \a v is stolen.
-    inline void yypush_ (const char* m, state_type s,
-                         semantic_type& v, const location_type& l);
+    /// \param s    the symbol
+    /// \warning the contents of \a s.value is stolen.
+    inline void yypush_ (const char* m, data_type& s);
 
     /// Pop \a n symbols the three stacks.
     inline void yypop_ (unsigned int n = 1);
@@ -757,15 +754,15 @@ b4_percent_code_get[]dnl
   }
 
   void
-  ]b4_parser_class_name[::yypush_ (const char* m, state_type s,
-                           semantic_type& v, const location_type& l)
+  ]b4_parser_class_name[::yypush_ (const char* m, data_type& s)
   {
     if (m)
-      YY_SYMBOL_PRINT (m, yystos_[s], v, l);
+      YY_SYMBOL_PRINT (m, yystos_[s.state], s.value, s.location);
 ]b4_variant_if(
 [[    yystack_.push (data_type (s, semantic_type(), l));
-    ]b4_symbol_variant([[yystos_[s]]], [[yystack_[0].value]], [build], [v])],
-[    yystack_.push (data_type (s, v, l));])[
+    ]b4_symbol_variant([[yystos_[s]]], [[yystack_[0].value]],
+                       [build], [s.value])],
+[    yystack_.push (s);])[
   }
 
   void
@@ -844,7 +841,7 @@ m4_popdef([b4_at_dollar])])dnl
        location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_ = stack_type (0);
-    yypush_ (0, yyla.state, yyla.value, yyla.location);
+    yypush_ (0, yyla);
 
     // A new state was pushed on the stack.
     // Invariant: yystate == yystack_[0].state, i.e.,
@@ -915,7 +912,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
     /* Shift the lookahead token.  */
     yyla.state = yystate = yyn;
-    yypush_ ("Shifting", yyla.state, yyla.value, yyla.location);
+    yypush_ ("Shifting", yyla);
     goto yynewstate;
 
   /*-----------------------------------------------------------.
@@ -991,7 +988,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     YY_STACK_PRINT ();
 
     /* Shift the result of the reduction.  */
-    yypush_ (0, yylhs.state, yylhs.value, yylhs.location);
+    yypush_ (0, yylhs);
     goto yynewstate;
 
   /*------------------------------------.
@@ -1087,8 +1084,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       YYLLOC_DEFAULT (error_token.location, (yyerror_range - 1), 2);
 
       /* Shift the error token.  */
-      yystate = yyn;
-      yypush_ ("Shifting", yystate, error_token.value, error_token.location);
+      error_token.state = yystate = yyn;
+      yypush_ ("Shifting", error_token);
     }
     goto yynewstate;
 
