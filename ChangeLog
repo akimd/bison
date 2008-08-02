@@ -1,5 +1,15 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	bench.pl -d, --directive.
+	* etc/bench.pl.in (@directive): New.
+	(&bench_grammar): Use it.
+	(&bench_list_grammar): New, to provide access to the "variant"
+	grammar.
+	Use it.
+	(getopts): Support -d, --directive.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Use inline for small operations.
 	* data/lalr1.cc (symbol_base_type, symbol_type)
 	(stack_symbol_type): Declare constructor and other operations as

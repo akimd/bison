@@ -52,6 +52,10 @@ Test the use of variants instead of union in the C++ parser.
 
 Flags to pass to the C or C++ compiler.  Defaults to -O2.
 
+=item B<-d>, B<--directive>=I<directives>
+
+Add a set of Bison directives to bench against each other.
+
 =item B<-h>, B<--help>
 
 Display this message and exit succesfully.  The more verbose, the more
@@ -104,6 +108,10 @@ The C++ compiler.
 
 Compiler flags (C or C++).
 
+=item C<@directive>
+
+A list of directive sets to measure against each other.
+
 =item C<$iterations>
 
 The number of times the parser is run for a bench.
@@ -120,6 +128,7 @@ my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
 my $cxx = $ENV{'CXX'} || 'g++';
 my $cflags = '-O2';
+my @directive = ();
 my $iterations = -1;
 my $verbose = 1;
 
@@ -734,13 +743,31 @@ sub bench_grammar ($%)
   my %bench;
   # For each bench, capture the size.
   my %size;
-  while (my ($name, $directives) = each %test)
+  # If there are no user specified directives, use an empty one.
+  @directive = ('')
+    unless @directive;
+  my %directive;
+  # A counter of directive sets.
+  my $count = 1;
+  for my $d (@directive)
     {
-      generate_grammar ($gram, $name, @$directives);
-      # Compile the executable.
-      compile ($name);
-      $bench{$name} = "system ('./$name');";
-      chop($size{$name} = `wc -c <$name`);
+      $directive{$count} = $d;
+      while (my ($name, $directives) = each %test)
+        {
+          $name = "$count-$name";
+          generate_grammar ($gram, $name, (@$directives, $d));
+          # Compile the executable.
+          compile ($name);
+          $bench{$name} = "system ('./$name');";
+          chop($size{$name} = `wc -c <$name`);
+        }
+      $count++;
+    }
+
+  # Display the directives.
+  for my $d (sort keys %directive)
+    {
+      printf " %2d. %s\n", $d, $directive{$d};
     }
 
   # Run the benches.
@@ -840,6 +867,25 @@ sub bench_fusion_parser ()
     );
 }
 
+######################################################################
+
+=item C<bench_list_parser ()>
+
+Bench the "variant" grammar with debug and no-debug.
+
+=cut
+
+sub bench_list_parser ()
+{
+  bench_grammar
+    ('variant',
+     (
+      "nodbd"  => [''],
+      "debug"  => ['%debug'],
+     )
+    );
+}
+
 ############################################################################
 
 sub help ($)
@@ -860,6 +906,7 @@ sub getopt ()
   use Getopt::Long;
   my %option = (
     "c|cflags=s"     => \$cflags,
+    "d|directive=s"  => \@directive,
     "h|help"         => sub { help ($verbose) },
     "i|iterations=i" => \$iterations,
     "q|quiet"        => sub { --$verbose },
@@ -882,6 +929,7 @@ for my $b (@ARGV)
 {
   verbose 1, "Running benchmark $b.\n";
   bench_fusion_parser()  if $b eq "fusion";
+  bench_list_parser()    if $b eq "list";
   bench_push_parser()    if $b eq "push";
   bench_variant_parser() if $b eq "variant";
 }
