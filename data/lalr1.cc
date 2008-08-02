@@ -99,8 +99,8 @@ m4_define([b4_rhs_location],
 # Same as in C, but using references instead of pointers.
 m4_define([b4_symbol_actions],
 [m4_pushdef([b4_dollar_dollar],
-            [b4_symbol_value([yyvalue], [$6])])dnl
-m4_pushdef([b4_at_dollar], [yylocation])dnl
+            [b4_symbol_value([yydata.value], [$6])])dnl
+m4_pushdef([b4_at_dollar], [yydata.location])dnl
       case $4: // $3
 b4_syncline([$2], [$1])
         $5;
@@ -394,23 +394,6 @@ m4_ifdef([b4_stype],
     /// \param tok     the lookahead token.
     virtual std::string yysyntax_error_ (int yystate, int tok);
 
-#if YYDEBUG
-    /// \brief Report a symbol value on the debug stream.
-    /// \param yytype       The token type.
-    /// \param yyvalue      Its semantic value.
-    /// \param yylocation   Its location.
-    virtual void yy_symbol_value_print_ (int yytype,
-					 const semantic_type& yyvalue,
-					 const location_type& yylocation);
-    /// \brief Report a symbol on the debug stream.
-    /// \param yytype       The token type.
-    /// \param yyvalue      Its semantic value.
-    /// \param yylocation   Its location.
-    virtual void yy_symbol_print_ (int yytype,
-				   const semantic_type& yyvalue,
-				   const location_type& yylocation);
-#endif
-
     /// State numbers.
     typedef int state_type;
 
@@ -475,17 +458,6 @@ m4_ifdef([b4_stype],
     /// Convert a scanner token number \a t to a symbol number.
     token_number_type yytranslate_ (int t);
 
-    /// \brief Reclaim the memory associated to a symbol.
-    /// \param yymsg        Why this token is reclaimed.
-    ///                     If null, nothing is printed at all.
-    /// \param yytype       The symbol type.
-    /// \param yyvalue      Its semantic value.
-    /// \param yylocation   Its location.
-    inline void yydestruct_ (const char* yymsg,
-			     int yytype,
-			     semantic_type& yyvalue,
-			     location_type& yylocation);
-
     /// Element of the stack: a state and its attributes.
     struct data_type
     {
@@ -504,6 +476,33 @@ m4_ifdef([b4_stype],
       /// The location.
       location_type location;
     };
+
+#if YYDEBUG
+    /// \brief Report a symbol value on the debug stream as per %printer.
+    /// \param yytype       The token type.
+    /// \param yydata       Its semantic value and location.
+    virtual void yy_symbol_value_print_ (int yytype,
+					 const data_type& yydata);
+    /// \brief Report a symbol on the debug stream.
+    /// \param yytype       The token type.
+    /// \param yydata       Its semantic value and location.
+    virtual void yy_symbol_print_ (int yytype,
+				   const data_type& yydata);
+#endif
+
+    /// \brief Reclaim the memory associated to a lookahead symbol.
+    /// \param yymsg        Why this token is reclaimed.
+    ///                     If null, print nothing.
+    /// \param yytype       The symbol type.
+    /// \param yydata       Its semantic value and location.
+    inline void yydestruct_ (const char* yymsg,
+			     int yytype, data_type& yydata);
+
+    /// \brief Reclaim the memory associated to a stack symbol.
+    /// \param yymsg        Why this token is reclaimed.
+    ///                     If null, print nothing.
+    /// \param yysym        Its kind, semantic value and location.
+    inline void yydestruct_ (const char* yymsg, data_type& yysym);
 
     /// Stack type.
     typedef stack<data_type> stack_type;
@@ -588,14 +587,14 @@ b4_percent_code_get[]dnl
 /* A pseudo ostream that takes yydebug_ into account.  */
 # define YYCDEBUG if (yydebug_) (*yycdebug_)
 
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)	\
-  do {							\
-    if (yydebug_)                                       \
-    {							\
-      *yycdebug_ << Title << ' ';			\
-      yy_symbol_print_ ((Type), (Value), (Location));	\
-      *yycdebug_ << std::endl;				\
-    }							\
+# define YY_SYMBOL_PRINT(Title, Type, Data)	\
+  do {                                          \
+    if (yydebug_)                               \
+    {                                           \
+      *yycdebug_ << Title << ' ';               \
+      yy_symbol_print_ ((Type), (Data));	\
+      *yycdebug_ << std::endl;                  \
+    }                                           \
   } while (false)
 
 # define YY_REDUCE_PRINT(Rule)		\
@@ -613,9 +612,9 @@ b4_percent_code_get[]dnl
 #else /* !YYDEBUG */
 
 # define YYCDEBUG if (false) std::cerr
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)  static_cast<void>(0)
-# define YY_REDUCE_PRINT(Rule)                          static_cast<void>(0)
-# define YY_STACK_PRINT()                               static_cast<void>(0)
+# define YY_SYMBOL_PRINT(Title, Type, Data)  static_cast<void>(0)
+# define YY_REDUCE_PRINT(Rule)               static_cast<void>(0)
+# define YY_STACK_PRINT()                    static_cast<void>(0)
 
 #endif /* !YYDEBUG */
 
@@ -690,10 +689,8 @@ b4_percent_code_get[]dnl
 
   inline void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
-			   const semantic_type& yyvalue, const location_type& yylocation)
+			   const data_type& yydata)
   {
-    YYUSE (yylocation);
-    YYUSE (yyvalue);
     switch (yytype)
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
@@ -705,26 +702,30 @@ b4_percent_code_get[]dnl
 
   void
   ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
-			   const semantic_type& yyvalue, const location_type& yylocation)
+			   const data_type& yydata)
   {
     *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
 	       << ' ' << yytname_[yytype] << " ("
-	       << yylocation << ": ";
-    yy_symbol_value_print_ (yytype, yyvalue, yylocation);
+	       << yydata.location << ": ";
+    yy_symbol_value_print_ (yytype, yydata);
     *yycdebug_ << ')';
   }
 #endif
 
   void
+  ]b4_parser_class_name[::yydestruct_ (const char* yymsg, data_type& yysym)
+  {
+    yydestruct_ (yymsg, yystos_[yysym.state], yysym);
+  }
+
+  void
   ]b4_parser_class_name[::yydestruct_ (const char* yymsg,
-			   int yytype, semantic_type& yyvalue, location_type& yylocation)
+			   int yytype, data_type& yydata)
   {
     YYUSE (yymsg);
-    YYUSE (yyvalue);
-    YYUSE (yylocation);
 
     if (yymsg)
-      YY_SYMBOL_PRINT (yymsg, yytype, yyvalue, yylocation);
+      YY_SYMBOL_PRINT (yymsg, yytype, yydata);
 
     // User destructor.
     switch (yytype)
@@ -735,7 +736,7 @@ b4_percent_code_get[]dnl
       }]b4_variant_if([
 
     // Type destructor.
-  b4_symbol_variant([[yytype]], [[yyvalue]], [[destroy]])])[
+  b4_symbol_variant([[yytype]], [[yydata.value]], [[destroy]])])[
   }
 
   ]b4_parser_class_name[::data_type::data_type ()
@@ -757,7 +758,7 @@ b4_percent_code_get[]dnl
   ]b4_parser_class_name[::yypush_ (const char* m, data_type& s)
   {
     if (m)
-      YY_SYMBOL_PRINT (m, yystos_[s.state], s.value, s.location);
+      YY_SYMBOL_PRINT (m, yystos_[s.state], s);
 ]b4_variant_if(
 [[    yystack_.push (data_type (s, semantic_type(), l));
     ]b4_symbol_variant([[yystos_[s]]], [[yystack_[0].value]],
@@ -883,7 +884,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     else
       {
 	yytoken = yytranslate_ (yychar);
-	YY_SYMBOL_PRINT ("Next token is", yytoken, yyla.value, yyla.location);
+	YY_SYMBOL_PRINT ("Next token is", yytoken, yyla);
       }
 
     /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -967,7 +968,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     else
       yystate = yydefgoto_[yyn - yyntokens_];
     yylhs.state = yystate;
-    YY_SYMBOL_PRINT ("-> $$ =", yyn, yylhs.value, yylhs.location);
+    YY_SYMBOL_PRINT ("-> $$ =", yyn, yylhs);
 ]b4_variant_if([[
     // Destroy the lhs symbols.
     for (int i = 0; i < yylen; ++i)
@@ -979,9 +980,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       // do not try to report the content in the debug trace, it's
       // junk.  Hence yymsg = 0.  Besides, that keeps exactly the same
       // traces as with the other Bison skeletons.
-      yydestruct_ (0,
-                   yystos_[yystack_[i].state],
-                   yystack_[i].value, yystack_[i].location);]])[
+      yydestruct_ (0, yystack_[i]);]])[
 
     yypop_ (yylen);
     yylen = 0;
@@ -1016,8 +1015,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 	  }
 	else
 	  {
-	    yydestruct_ ("Error: discarding",
-                         yytoken, yyla.value, yyla.location);
+	    yydestruct_ ("Error: discarding", yytoken, yyla);
 	    yychar = yyempty_;
 	  }
       }
@@ -1072,9 +1070,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
             YYABORT;
 
           yyerror_range[0].location = yystack_[0].location;
-          yydestruct_ ("Error: popping",
-                       yystos_[yystate],
-                       yystack_[0].value, yystack_[0].location);
+          yydestruct_ ("Error: popping", yystack_[0]);
           yypop_ ();
           yystate = yystack_[0].state;
           YY_STACK_PRINT ();
@@ -1101,17 +1097,14 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
   yyreturn:
     if (yychar != yyempty_)
-      yydestruct_ ("Cleanup: discarding lookahead",
-                   yytoken, yyla.value, yyla.location);
+      yydestruct_ ("Cleanup: discarding lookahead", yytoken, yyla);
 
     /* Do not reclaim the symbols of the rule which action triggered
        this YYABORT or YYACCEPT.  */
     yypop_ (yylen);
     while (yystack_.size () != 1)
       {
-	yydestruct_ ("Cleanup: popping",
-		   yystos_[yystack_[0].state],
-		   yystack_[0].value, yystack_[0].location);
+	yydestruct_ ("Cleanup: popping", yystack_[0]);
 	yypop_ ();
       }
 
@@ -1250,8 +1243,7 @@ b4_error_verbose_if([ tok])[)
     for (int yyi = 0; yyi < yynrhs; yyi++)
       YY_SYMBOL_PRINT ("   $" << yyi + 1 << " =",
                        ]yystos_@{b4_rhs_state(yynrhs, yyi + 1)@}[,
-		       ]b4_rhs_value(yynrhs, yyi + 1)[,
-		       ]b4_rhs_location(yynrhs, yyi + 1)[);
+		       ]b4_rhs_data(yynrhs, yyi + 1)[);
   }
 #endif // YYDEBUG
 

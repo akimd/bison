@@ -1,5 +1,16 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Handle semantic value and location together.
+	* data/lalr1.cc (b4_symbol_actions): Bounce $$ and @$ to
+	yydata.value and yydata.location.
+	(yy_symbol_value_print_, yy_symbol_print_, yydestruct_)
+	(YY_SYMBOL_PRINT): Now take semantic value and location as a
+	single arg.
+	Adjust all callers.
+	(yydestruct_): New overload for a stack symbol.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Push a complete symbol, not connected parts.
 	* data/lalr1.cc (yypush_): Take a data_type&, not disconnected
 	state, value and location.
