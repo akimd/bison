@@ -459,13 +459,14 @@ m4_ifdef([b4_stype],
     token_number_type yytranslate_ (int t);
 
     /// Element of the stack: a state and its attributes.
-    struct data_type
+    struct stack_symbol_type
     {
       /// Default constructor.
-      data_type ();
+      stack_symbol_type ();
 
       /// Constructor.
-      data_type (state_type s, const semantic_type& v, const location_type& l);
+      stack_symbol_type (state_type s,
+                         const semantic_type& v, const location_type& l);
 
       /// The state.
       state_type state;
@@ -482,12 +483,12 @@ m4_ifdef([b4_stype],
     /// \param yytype       The token type.
     /// \param yydata       Its semantic value and location.
     virtual void yy_symbol_value_print_ (int yytype,
-					 const data_type& yydata);
+					 const stack_symbol_type& yydata);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
     /// \param yydata       Its semantic value and location.
     virtual void yy_symbol_print_ (int yytype,
-				   const data_type& yydata);
+				   const stack_symbol_type& yydata);
 #endif
 
     /// \brief Reclaim the memory associated to a lookahead symbol.
@@ -496,16 +497,16 @@ m4_ifdef([b4_stype],
     /// \param yytype       The symbol type.
     /// \param yydata       Its semantic value and location.
     inline void yydestruct_ (const char* yymsg,
-			     int yytype, data_type& yydata);
+			     int yytype, stack_symbol_type& yydata);
 
     /// \brief Reclaim the memory associated to a stack symbol.
     /// \param yymsg        Why this token is reclaimed.
     ///                     If null, print nothing.
     /// \param yysym        Its kind, semantic value and location.
-    inline void yydestruct_ (const char* yymsg, data_type& yysym);
+    inline void yydestruct_ (const char* yymsg, stack_symbol_type& yysym);
 
     /// Stack type.
-    typedef stack<data_type> stack_type;
+    typedef stack<stack_symbol_type> stack_type;
 
     /// The stack.
     stack_type yystack_;
@@ -515,7 +516,7 @@ m4_ifdef([b4_stype],
     ///             if null, no trace is output.
     /// \param s    the symbol
     /// \warning the contents of \a s.value is stolen.
-    inline void yypush_ (const char* m, data_type& s);
+    inline void yypush_ (const char* m, stack_symbol_type& s);
 
     /// Pop \a n symbols the three stacks.
     inline void yypop_ (unsigned int n = 1);
@@ -689,7 +690,7 @@ b4_percent_code_get[]dnl
 
   inline void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
-			   const data_type& yydata)
+			   const stack_symbol_type& yydata)
   {
     switch (yytype)
       {
@@ -702,7 +703,7 @@ b4_percent_code_get[]dnl
 
   void
   ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
-			   const data_type& yydata)
+			   const stack_symbol_type& yydata)
   {
     *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
 	       << ' ' << yytname_[yytype] << " ("
@@ -713,14 +714,15 @@ b4_percent_code_get[]dnl
 #endif
 
   void
-  ]b4_parser_class_name[::yydestruct_ (const char* yymsg, data_type& yysym)
+  ]b4_parser_class_name[::yydestruct_ (const char* yymsg,
+                                       stack_symbol_type& yysym)
   {
     yydestruct_ (yymsg, yystos_[yysym.state], yysym);
   }
 
   void
   ]b4_parser_class_name[::yydestruct_ (const char* yymsg,
-			   int yytype, data_type& yydata)
+			   int yytype, stack_symbol_type& yydata)
   {
     YYUSE (yymsg);
 
@@ -739,14 +741,14 @@ b4_percent_code_get[]dnl
   b4_symbol_variant([[yytype]], [[yydata.value]], [[destroy]])])[
   }
 
-  ]b4_parser_class_name[::data_type::data_type ()
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
     : state()
     , value()
     , location()
   {
   }
 
-  ]b4_parser_class_name[::data_type::data_type (state_type s,
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s,
                            const semantic_type& v, const location_type& l)
     : state(s)
     , value(v)
@@ -755,12 +757,12 @@ b4_percent_code_get[]dnl
   }
 
   void
-  ]b4_parser_class_name[::yypush_ (const char* m, data_type& s)
+  ]b4_parser_class_name[::yypush_ (const char* m, stack_symbol_type& s)
   {
     if (m)
       YY_SYMBOL_PRINT (m, yystos_[s.state], s);
 ]b4_variant_if(
-[[    yystack_.push (data_type (s, semantic_type(), l));
+[[    yystack_.push (stack_symbol_type (s, semantic_type(), l));
     ]b4_symbol_variant([[yystos_[s]]], [[yystack_[0].value]],
                        [build], [s.value])],
 [    yystack_.push (s);])[
@@ -816,13 +818,13 @@ b4_percent_code_get[]dnl
     int yyerrstatus_ = 0;
 
     /// The lookahead symbol.
-    data_type yyla;
+    stack_symbol_type yyla;
 
     /// The locations where the error started and ended.
-    data_type yyerror_range[2];
+    stack_symbol_type yyerror_range[2];
 
     /// $$ and @@$.
-    data_type yylhs;
+    stack_symbol_type yylhs;
 
     /// The return value of parse().
     int yyresult;
@@ -947,7 +949,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
     // Compute the default @@$.
     {
-      slice<data_type, stack_type> slice (yystack_, yylen);
+      slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
       YYLLOC_DEFAULT (yylhs.location, slice, yylen);
     }
 
@@ -1050,7 +1052,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
   yyerrlab1:
     yyerrstatus_ = 3;	/* Each real token shifted decrements this.  */
     {
-      data_type error_token;
+      stack_symbol_type error_token;
       for (;;)
         {
           yyn = yypact_[yystate];

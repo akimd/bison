@@ -1,5 +1,11 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Rename data_type and stack_symbol_type.
+	* data/lalr1.cc (data_type): Rename as...
+	(stack_symbol_type): this.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Handle semantic value and location together.
 	* data/lalr1.cc (b4_symbol_actions): Bounce $$ and @$ to
 	yydata.value and yydata.location.
