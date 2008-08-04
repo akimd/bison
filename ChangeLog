@@ -1,5 +1,12 @@
 2008-08-27  Akim Demaille  <demaille@gostai.com>
 
+	Check yyerrok in calc.at.
+        * tests/calc.at (calc.y): Use yyerrok on "( error )".
+        (AT_CHECK_CALC): Add a check that ensures that yyerrok works as
+        expected.
+
+2008-08-27  Akim Demaille  <demaille@gostai.com>
+
 	Support yyerrok in lalr1.cc.
 	YYBACKUP is still to import back into lalr1.cc.
         * data/lalr1.cc (yyerrork, yyclearin, YYRECOVERING): Define.
