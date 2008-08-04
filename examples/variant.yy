@@ -1,7 +1,7 @@
 /* Test file for C++ parsers using variants.
    Based on an example by Michiel De Wilde <mdewilde.agilent@gmail.com>. */
 %debug
-%skeleton "lalr1-fusion.cc"
+%skeleton "lalr1.cc"
 %defines
 %define variant
 

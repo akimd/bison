@@ -29,6 +29,11 @@ m4_define([b4_table_define],
   }dnl
 ])
 
+# b4_symbol_value_template(VAL, [TYPE])
+# -------------------------------------
+# Same as b4_symbol_value, but used in a template method.
+m4_copy([b4_symbol_value], [b4_symbol_value_template])
+
 # How the semantic value is extracted when using variants.
 b4_variant_if([
   # b4_symbol_value(VAL, [TYPE])
@@ -37,11 +42,19 @@ b4_variant_if([
   [m4_ifval([$2],
             [$1.as<$2>()],
             [$1])])
+
+  # b4_symbol_value_template(VAL, [TYPE])
+  # -------------------------------------
+  # Same as b4_symbol_value, but used in a template method.
+  m4_define([b4_symbol_value_template],
+  [m4_ifval([$2],
+            [$1.template as<$2>()],
+            [$1])])
 ]) # b4_variant_if
 
 
 # b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
-# ----------------------------------------------------
+# ------------------------------------------------
 m4_define([b4_assert_if],
 [b4_percent_define_ifdef([[assert]], [$1], [$2])])
 
@@ -99,7 +112,7 @@ m4_define([b4_rhs_location],
 # Same as in C, but using references instead of pointers.
 m4_define([b4_symbol_actions],
 [m4_pushdef([b4_dollar_dollar],
-            [b4_symbol_value([yysym.value], [$6])])dnl
+            [b4_symbol_value_template([yysym.value], [$6])])dnl
 m4_pushdef([b4_at_dollar], [yysym.location])dnl
       case $4: // $3
 b4_syncline([$2], [$1])
@@ -459,6 +472,7 @@ m4_ifdef([b4_stype],
     token_number_type yytranslate_ (int t);
 
     /// A complete symbol, with its type.
+    template <typename Exact>
     struct symbol_base_type
     {
       /// Default constructor.
@@ -467,8 +481,12 @@ m4_ifdef([b4_stype],
       /// Constructor.
       inline symbol_base_type (const semantic_type& v, const location_type& l);
 
+      /// Return this with its exact type.
+      const Exact& self () const;
+      Exact& self ();
+
       /// Return the type of this symbol.
-      virtual int type_get () const = 0;
+      int type_get () const;
 
       /// The semantic value.
       semantic_type value;
@@ -481,18 +499,25 @@ m4_ifdef([b4_stype],
     /// \brief Display a symbol type, value and location.
     /// \param yyo    The output stream.
     /// \param yysym  The symbol.
-    void yy_print_ (std::ostream& yyo, const symbol_base_type& yysym) const;
+    template <typename Exact>
+    void yy_print_ (std::ostream& yyo,
+                    const symbol_base_type<Exact>& yysym) const;
 #endif
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg     Why this token is reclaimed.
     ///                  If null, print nothing.
     /// \param s         The symbol.
-    inline void yy_destroy_ (const char* yymsg, symbol_base_type& yysym) const;
+    template <typename Exact>
+    inline void yy_destroy_ (const char* yymsg,
+                             symbol_base_type<Exact>& yysym) const;
 
     /// Element of the stack: a state and its attributes.
-    struct symbol_type : symbol_base_type
+    struct symbol_type : symbol_base_type<symbol_type>
     {
+      /// The parent class.
+      typedef symbol_base_type<symbol_type> super_type;
+
       /// Default constructor.
       inline symbol_type ();
 
@@ -504,12 +529,15 @@ m4_ifdef([b4_stype],
       int type;
 
       /// Return the type corresponding to this state.
-      virtual inline int type_get () const;
+      inline int type_get_ () const;
     };
 
     /// Element of the stack: a state and its attributes.
-    struct stack_symbol_type : symbol_base_type
+    struct stack_symbol_type : symbol_base_type<stack_symbol_type>
     {
+      /// The parent class.
+      typedef symbol_base_type<stack_symbol_type> super_type;
+
       /// Default constructor.
       inline stack_symbol_type ();
 
@@ -521,7 +549,7 @@ m4_ifdef([b4_stype],
       state_type state;
 
       /// Return the type corresponding to this state.
-      virtual inline int type_get () const;
+      inline int type_get_ () const;
     };
 
     /// Stack type.
@@ -717,62 +745,86 @@ b4_percent_code_get[]dnl
   `---------------*/
 
   // symbol_base_type.
-  ]b4_parser_class_name[::symbol_base_type::symbol_base_type ()
+  template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type ()
     : value()
     , location()
   {
   }
 
-  ]b4_parser_class_name[::symbol_base_type::symbol_base_type (const semantic_type& v, const location_type& l)
-
+  template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const semantic_type& v, const location_type& l)
     : value(v)
     , location(l)
   {
   }
 
+  template <typename Exact>
+  const Exact&
+  ]b4_parser_class_name[::symbol_base_type<Exact>::self () const
+  {
+    return static_cast<const Exact&>(*this);
+  }
+
+  template <typename Exact>
+  Exact&
+  ]b4_parser_class_name[::symbol_base_type<Exact>::self ()
+  {
+    return static_cast<Exact&>(*this);
+  }
+
+  template <typename Exact>
+  int
+  ]b4_parser_class_name[::symbol_base_type<Exact>::type_get () const
+  {
+    return self ().type_get_ ();
+  }
+
   // symbol_type.
   ]b4_parser_class_name[::symbol_type::symbol_type ()
-    : type()
-    , symbol_base_type()
+    : super_type ()
+    , type ()
   {
   }
 
   ]b4_parser_class_name[::symbol_type::symbol_type (int t,
                            const semantic_type& v, const location_type& l)
-    : type(t)
-    , symbol_base_type(v, l)
+    : super_type (v, l)
+    , type (t)
   {
   }
 
   int
-  ]b4_parser_class_name[::symbol_type::type_get () const
+  ]b4_parser_class_name[::symbol_type::type_get_ () const
   {
     return type;
   }
 
   // stack_symbol_type.
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
-    : state()
-    , symbol_base_type()
+    : super_type ()
+    , state ()
   {
   }
 
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s,
                            const semantic_type& v, const location_type& l)
-    : state(s)
-    , symbol_base_type(v, l)
+    : super_type (v, l)
+    , state (s)
   {
   }
 
   int
-  ]b4_parser_class_name[::stack_symbol_type::type_get () const
+  ]b4_parser_class_name[::stack_symbol_type::type_get_ () const
   {
     return yystos_[state];
   }
 
 
+  template <typename Exact>
   void
-  ]b4_parser_class_name[::yy_destroy_ (const char* yymsg, symbol_base_type& yysym) const
+  ]b4_parser_class_name[::yy_destroy_ (const char* yymsg,
+                                       symbol_base_type<Exact>& yysym) const
   {
     int yytype = yysym.type_get ();
     YYUSE (yymsg);
@@ -788,12 +840,14 @@ b4_percent_code_get[]dnl
       }]b4_variant_if([
 
     // Type destructor.
-    b4_symbol_variant([[yytype]], [[yysym.value]], [[destroy]])])[
+    b4_symbol_variant([[yytype]], [[yysym.value]], [[template destroy]])])[
   }
 
 #if YYDEBUG
+  template <typename Exact>
   void
-  ]b4_parser_class_name[::yy_print_ (std::ostream& yyo, const symbol_base_type& yysym) const
+  ]b4_parser_class_name[::yy_print_ (std::ostream& yyo,
+                                     const symbol_base_type<Exact>& yysym) const
   {
     int yytype = yysym.type_get ();
     yyo << (yytype < yyntokens_ ? "token" : "nterm")

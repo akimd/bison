@@ -1,5 +1,12 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Use a static hierarchy for symbols in the C++ parser.
+	* data/lalr1.cc (symbol_base_type, symbol_type)
+	(stack_symbol_type): Make it a static hierarchy.
+	Adjust dependencies.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	bench.pl -d, --directive.
 	* etc/bench.pl.in (@directive): New.
 	(&bench_grammar): Use it.
