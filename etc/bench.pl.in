@@ -19,15 +19,37 @@
 
 =head1 NAME
 
-bench.pl - perform benches on Bison parsers.
+bench.pl - bench marks for Bison parsers.
 
 =head1 SYNOPSIS
 
-  ./bench.pl [OPTIONS]... BENCHES
+  ./bench.pl [OPTIONS]... I<directives>
 
-=head1 BENCHES
+=head1 DIRECTIVES
 
-Specify the set of benches to run.  I<bench-name> should be one of:
+Specify the set of benches to run.  The following grammar defines the
+I<directives>:
+
+   I<directives> ::= I<directives> | I<directives>  -- Alternation
+                  |  I<directives> & I<directives>  -- Concatenation
+                  |  [ I<directives> ]              -- Optional
+                  |  ( I<directives> )              -- Parentheses
+                  | I<directive>
+
+Parentheses only group to override precedence.  For instance:
+
+  [ %debug ] & [ %error-verbose ] & [ %define variant ]
+
+will generate eight different cases.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-b>, B<--bench>
+
+Predefined benches, that is, combimation between a grammar and a I<directives>
+request.
 
 =over 4
 
@@ -46,8 +68,6 @@ Test the use of variants instead of union in the C++ parser.
 
 =back
 
-=head1 OPTIONS
-
 =item B<-c>, B<--cflags>=I<flags>
 
 Flags to pass to the C or C++ compiler.  Defaults to -O2.
@@ -55,6 +75,27 @@ Flags to pass to the C or C++ compiler.  Defaults to -O2.
 =item B<-d>, B<--directive>=I<directives>
 
 Add a set of Bison directives to bench against each other.
+
+=item B<-g>, B<--grammar>=I<grammar>
+
+Select the base I<grammar> to use.  Defaults to I<calc>.
+
+=over 4
+
+=item I<calc>
+
+Traditional calculator.
+
+=item I<list>
+
+C++ grammar that uses std::string and std::list.  Can be used with
+or without %define variant.
+
+=item I<triangular>
+
+Artificial grammar with very long rules.
+
+=back
 
 =item B<-h>, B<--help>
 
@@ -124,11 +165,13 @@ Verbosity level.
 
 =cut
 
+my $bench;
 my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
 my $cxx = $ENV{'CXX'} || 'g++';
 my $cflags = '-O2';
 my @directive = ();
+my $grammar = 'calc';
 my $iterations = -1;
 my $verbose = 1;
 
@@ -319,6 +362,10 @@ sub generate_grammar_calc ($$@)
 {
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
+
+  # Putting this request here is stupid, since the input will be
+  # generated each time we generate a grammar.
+  calc_input ('calc', 200);
 
   my $out = new IO::File ">$base.y"
     or die;
@@ -517,14 +564,14 @@ EOF
 
 ##################################################################
 
-=item C<generate_grammar_variant ($base, $max, @directive)>
+=item C<generate_grammar_list ($base, $max, @directive)>
 
-Generate a Bison file F<$base.y> that uses, or not, the Boost.Variants
-depending on the C<@directive>.
+Generate a Bison file F<$base.y> for a C++ parser that uses C++
+objects (std::string, std::list).  Tailored for using %define variant.
 
 =cut
 
-sub generate_grammar_variant ($$@)
+sub generate_grammar_list ($$@)
 {
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
@@ -537,12 +584,12 @@ sub generate_grammar_variant ($$@)
 %defines
 $directives
 
-%code requires // variant.h
+%code requires // *.h
 {
 #include <string>
 }
 
-%code // variant.c
+%code // *.c
 {
 #include <algorithm>
 #include <iostream>
@@ -675,8 +722,8 @@ sub generate_grammar ($$@)
   my %generator =
     (
       "calc"       => \&generate_grammar_calc,
+      "list"       => \&generate_grammar_list,
       "triangular" => \&generate_grammar_triangular,
-      "variant"    => \&generate_grammar_variant,
     );
   &{$generator{$name}}($base, 200, @directive);
 }
@@ -720,54 +767,41 @@ sub compile ($)
 
 ######################################################################
 
-=item C<bench_grammar ($gram, %bench)>
+=item C<bench ($grammar, @token)>
 
-Generate benches for C<$gram>.  C<$gram> should be C<calc> or
-C<triangle>.  C<%bench> is a hash of the form:
-
-  $name => @directive
-
-where C<$name> is the name of the bench, and C<@directive> are the
-Bison directive to use for this bench.  All the benches are compared
-against each other, repeated 50 times.
+Generate benches for the C<$grammar> and the directive specification
+given in the list of C<@token>.
 
 =cut
 
-sub bench_grammar ($%)
+sub bench ($@)
 {
-  my ($gram, %test) = @_;
-
+  my ($grammar, @token) = @_;
   use Benchmark qw (:all :hireswallclock);
+
+  my @directive = parse (@token);
 
   # Set up the benches as expected by timethese.
   my %bench;
-  # For each bench, capture the size.
-  my %size;
-  # If there are no user specified directives, use an empty one.
-  @directive = ('')
-    unless @directive;
-  my %directive;
   # A counter of directive sets.
   my $count = 1;
   for my $d (@directive)
     {
-      $directive{$count} = $d;
-      while (my ($name, $directives) = each %test)
-        {
-          $name = "$count-$name";
-          generate_grammar ($gram, $name, (@$directives, $d));
-          # Compile the executable.
-          compile ($name);
-          $bench{$name} = "system ('./$name');";
-          chop($size{$name} = `wc -c <$name`);
-        }
+      $bench{$count} = $d;
+      printf " %2d. %s\n", $count, join (' ', split ("\n", $d));
       $count++;
-    }
+    };
 
-  # Display the directives.
-  for my $d (sort keys %directive)
+  # For each bench, capture the size.
+  my %size;
+
+  while (my ($name, $directives) = each %bench)
     {
-      printf " %2d. %s\n", $d, $directive{$d};
+      generate_grammar ($grammar, $name, $directives);
+      # Compile the executable.
+      compile ($name);
+      $bench{$name} = "system ('./$name');";
+      chop($size{$name} = `wc -c <$name`);
     }
 
   # Run the benches.
@@ -779,7 +813,7 @@ sub bench_grammar ($%)
   # shows only wallclock and the two children times.  'auto' (the
   # default) will act as 'all' unless the children times are both
   # zero, in which case it acts as 'noc'.  'none' prevents output.
-  verbose 2, "Running the benches for $gram\n";
+  verbose 2, "Running the benches for $grammar\n";
   my $res = timethese ($iterations, \%bench, 'nop');
 
   # Output the speed result.
@@ -812,16 +846,12 @@ interfaces.
 
 sub bench_push_parser ()
 {
-  calc_input ('calc', 200);
-  bench_grammar
-    ('calc',
-     (
-      "pull-impure" => [],
-      "pull-pure"   => ['%define api.pure'],
-      "push-impure" => ['%define api.push_pull "both"'],
-      "push-pure"   => ['%define api.push_pull "both"', '%define api.pure'],
-     )
-    );
+  bench ('calc',
+         (
+          '[', '%define api.pure', ']',
+          '&',
+          '[', '%define api.push_pull "both"', ']'
+         ));
 }
 
 ######################################################################
@@ -834,18 +864,15 @@ Bench the C++ lalr1.cc parser using Boost.Variants or %union.
 
 sub bench_variant_parser ()
 {
-  bench_grammar
-    ('variant',
-     (
-      "f-union"         => ['%skeleton "lalr1.cc"'],
-      "f-uni-deb"   => ['%skeleton "lalr1.cc"', '%debug'],
-      "f-var"       => ['%skeleton "lalr1.cc"', '%define variant'],
-      "f-var-deb" => ['%skeleton "lalr1.cc"', '%debug', '%define variant'],
-      "f-var-dtr"       => ['%skeleton "lalr1.cc"', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
-      "f-var-deb-dtr" => ['%skeleton "lalr1.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
-      "f-var-deb-dtr-ass" => ['%skeleton "lalr1.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}", "%define assert"],
-     )
-    );
+  bench ('variant',
+         ('%skeleton "lalr1.cc"',
+          '&',
+          '[', '%debug', ']',
+          '&',
+          '[', '%define variant', ']',
+          '&',
+          '[', "%code {\n#define VARIANT_DESTROY\n}", ']'
+         ));
 }
 
 ######################################################################
@@ -858,32 +885,10 @@ Bench the C++ lalr1.cc parser using Boost.Variants or %union.
 
 sub bench_fusion_parser ()
 {
-  bench_grammar
-    ('variant',
-     (
-      "split"         => ['%skeleton "lalr1-split.cc"'],
-      "fused"         => ['%skeleton "lalr1.cc"'],
-     )
-    );
-}
-
-######################################################################
-
-=item C<bench_list_parser ()>
-
-Bench the "variant" grammar with debug and no-debug.
-
-=cut
-
-sub bench_list_parser ()
-{
-  bench_grammar
-    ('variant',
-     (
-      "nodbd"  => [''],
-      "debug"  => ['%debug'],
-     )
-    );
+  bench ('list',
+         ('%skeleton "lalr1-split.cc"',
+          '|',
+          '%skeleton "lalr1.cc"'));
 }
 
 ############################################################################
@@ -901,12 +906,92 @@ sub help ($)
 
 ######################################################################
 
+# The list of tokens parsed by the following functions.
+my @token;
+
+# Parse directive specifications:
+#   expr: term (| term)*
+#   term: fact (& fact)*
+#   fact: ( expr ) | [ expr ] | dirs
+sub parse (@)
+{
+  @token = @_;
+  verbose 2, "Parsing: @token\n";
+  return parse_expr ();
+}
+
+sub parse_expr ()
+{
+  my @res = parse_term ();
+  while (defined $token[0] && $token[0] eq '|')
+    {
+      shift @token;
+      # Alternation.
+      push @res, parse_term ();
+    }
+  return @res;
+}
+
+sub parse_term ()
+{
+  my @res = parse_fact ();
+  while (defined $token[0] && $token[0] eq '&')
+    {
+      shift @token;
+      # Cartesian product.
+      my @lhs = @res;
+      @res = ();
+      for my $rhs (parse_fact ())
+        {
+          for my $lhs (@lhs)
+            {
+              push @res, "$lhs\n$rhs";
+            }
+        }
+    }
+  return @res;
+}
+
+sub parse_fact ()
+{
+  my @res;
+  die "unexpected end of expression"
+    unless defined $token[0];
+
+  if ($token[0] eq '(')
+    {
+      shift @token;
+      @res = parse_expr ();
+      die "unexpected $token[0], expected )"
+        unless $token[0] eq ')';
+      shift @token;
+    }
+  elsif ($token[0] eq '[')
+    {
+      shift @token;
+      @res = (parse_expr (), '');
+      die "unexpected $token[0], expected ]"
+        unless $token[0] eq ']';
+      shift @token;
+    }
+  else
+    {
+      @res = $token[0];
+      shift @token;
+    }
+  return @res;
+}
+
+######################################################################
+
 sub getopt ()
 {
   use Getopt::Long;
   my %option = (
+    "b|bench=s"      => \$bench,
     "c|cflags=s"     => \$cflags,
     "d|directive=s"  => \@directive,
+    "g|grammar=s"    => \$grammar,
     "h|help"         => sub { help ($verbose) },
     "i|iterations=i" => \$iterations,
     "q|quiet"        => sub { --$verbose },
@@ -915,6 +1000,22 @@ sub getopt ()
   Getopt::Long::Configure ("bundling", "pass_through");
   GetOptions (%option)
     or exit 1;
+
+  # Support -b: predefined benches.
+  my %bench =
+    (
+     "fusion"   => \&bench_fusion_parser,
+     "push"     => \&bench_push_parser,
+     "variant"  => \&bench_variant_parser,
+    );
+
+  if (defined $bench)
+    {
+      die "invalid argument for --bench: $bench"
+        unless defined $bench{$bench};
+      &{$bench{$bench}}();
+      exit 0;
+    }
 }
 
 ######################################################################
@@ -924,15 +1025,11 @@ verbose 1, "Using bison=$bison.\n";
 verbose 1, "Using cc=$cc.\n";
 verbose 1, "Using cxx=$cxx.\n";
 verbose 1, "Using cflags=$cflags.\n";
+verbose 2, "Grammar: $grammar\n";
 
-for my $b (@ARGV)
-{
-  verbose 1, "Running benchmark $b.\n";
-  bench_fusion_parser()  if $b eq "fusion";
-  bench_list_parser()    if $b eq "list";
-  bench_push_parser()    if $b eq "push";
-  bench_variant_parser() if $b eq "variant";
-}
+# Launch the bench marking.
+bench ($grammar, @ARGV);
+
 
 ### Setup "GNU" style for perl-mode and cperl-mode.
 ## Local Variables:

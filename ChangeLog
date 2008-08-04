@@ -1,5 +1,18 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Enhance bench.pl.
+	* etc/bench.pl.in (parse, parse_expr, parse_term, parse_fact)
+	(@token, $grammar, $bench): New.
+	(generate_grammar_variant): Rename as...
+	(generate_grammar_list): this.
+	(generate_grammar): Adjust.
+	(bench_grammar): Rename as...
+	(bench): this.
+	Use it in the various bench-marking routines.
+	(-b, -g): New options.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Use a static hierarchy for symbols in the C++ parser.
 	* data/lalr1.cc (symbol_base_type, symbol_type)
 	(stack_symbol_type): Make it a static hierarchy.
