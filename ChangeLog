@@ -1,3 +1,9 @@
+2008-08-27  Akim Demaille  <demaille@gostai.com>
+
+	Support yyerrok in lalr1.cc.
+	YYBACKUP is still to import back into lalr1.cc.
+        * data/lalr1.cc (yyerrork, yyclearin, YYRECOVERING): Define.
+
 2008-08-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	For maintainer-check*, don't recompile for a $(VERSION) update.
