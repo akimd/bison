@@ -1,5 +1,11 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Update TODO.
+	* TODO: Remove obsolete items.
+	Update others.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Enhance bench.pl.
 	* etc/bench.pl.in (parse, parse_expr, parse_term, parse_fact)
 	(@token, $grammar, $bench): New.

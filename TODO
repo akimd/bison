@@ -19,9 +19,6 @@ Before releasing, make sure the documentation ("Understanding your
 parser") refers to the current `output' format.
 
 * lalr1.cc
-** vector
-Move to using vector, drop stack.hh.
-
 ** I18n
 Catch up with yacc.c.
 
@@ -172,15 +169,14 @@ Show reductions.
 ** Skeleton strategy
 Must we keep %token-table?
 
-* src/print_graph.c
-Find the best graph parameters.
-
 * BTYacc
 See if we can integrate backtracking in Bison.  Charles-Henri de
-Boysson <de-boy_c@epita.fr> is working on this, and already has some
-results.  Vadim Maslow, the maintainer of BTYacc was contacted, and we
-stay in touch with him.  Adjusting the Bison grammar parser will be
-needed to support some extra BTYacc features.  This is less urgent.
+Boysson <de-boy_c@epita.fr> has been working on this, but never gave
+the results.
+
+Vadim Maslow, the maintainer of BTYacc was once contacted.  Adjusting
+the Bison grammar parser will be needed to support some extra BTYacc
+features.  This is less urgent.
 
 ** Keeping the conflicted actions
 First, analyze the differences between byacc and btyacc (I'm referring
@@ -194,9 +190,6 @@ very feasible to use the very same conflict tables.
 
 ** Adjust the skeletons
 Import the skeletons for C and C++.
-
-** Improve the skeletons
-Have them support yysymprint, yydestruct and so forth.
 
 
 * Precedence
@@ -243,20 +236,6 @@ $<type_name>$ = $<type_name>1. I therefore think that one should implement
 a Bison option where every typed default rule is explicitly written out
 (same typed ruled can of course be grouped together).
 
-Note: Robert Anisko handles this.  He knows how to do it.
-
-
-* Warnings
-It would be nice to have warning support.  See how Autoconf handles
-them, it is fairly well described there.  It would be very nice to
-implement this in such a way that other programs could use
-lib/warnings.[ch].
-
-Don't work on this without first announcing you do, as I already have
-thought about it, and know many of the components that can be used to
-implement it.
-
-
 * Pre and post actions.
 From: Florian Krohm <florian@edamail.fishkill.ibm.com>
 Subject: YYACT_EPILOGUE
@@ -290,7 +269,7 @@ Equip the parser with a means to create the (visual) parse tree.
 
 -----
 
-Copyright (C) 2001, 2002, 2003, 2004, 2006 Free Software Foundation,
+Copyright (C) 2001, 2002, 2003, 2004, 2006, 2008 Free Software Foundation,
 Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
