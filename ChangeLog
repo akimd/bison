@@ -1,5 +1,13 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Make benches in a sub dirs.
+	* etc/bench.pl.in ($dir): New.
+	Use it.
+	Check the use of constructors with an argument.
+	(bench_variant_parser): Fix.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	fix eof condition
 
 2008-11-09  Akim Demaille  <demaille@gostai.com>
