@@ -247,6 +247,16 @@ dnl FIXME: This is wrong, we want computed header guards.
       return *new (buffer) T;
     }
 
+    /// Instantiate a \a T in here from \a t.
+    template <typename T>
+    inline T&
+    build(const T& t)
+    {]b4_assert_if([
+      assert(!built);
+      built = true;])[
+      return *new (buffer) T(t);
+    }
+
     /// Accessor to a built \a T.
     template <typename T>
     inline T&
