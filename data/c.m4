@@ -1,7 +1,8 @@
                                                             -*- Autoconf -*-
 
 # C M4 Macros for Bison.
-# Copyright (C) 2002, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008 Free Software
+# Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -228,8 +229,8 @@ m4_define([b4_c_function_def],
 b4_c_ansi_function_def($@)
 #else
 $2
-$1 (b4_c_knr_formal_names(m4_shiftn(2, $@)))
-b4_c_knr_formal_decls(m4_shiftn(2, $@))
+$1 (b4_c_knr_formal_names(m4_shift2($@)))
+b4_c_knr_formal_decls(m4_shift2($@))
 #endif[]dnl
 ])
 
@@ -239,7 +240,7 @@ b4_c_knr_formal_decls(m4_shiftn(2, $@))
 # Declare the function NAME in ANSI.
 m4_define([b4_c_ansi_function_def],
 [$2
-$1 (b4_c_ansi_formals(m4_shiftn(2, $@)))[]dnl
+$1 (b4_c_ansi_formals(m4_shift2($@)))[]dnl
 ])
 
 
@@ -301,7 +302,7 @@ $2 $1 ();
 # ----------------------------------------------------------------
 # Declare the function NAME.
 m4_define([b4_c_ansi_function_decl],
-[$2 $1 (b4_c_ansi_formals(m4_shiftn(2, $@)));[]dnl
+[$2 $1 (b4_c_ansi_formals(m4_shift2($@)));[]dnl
 ])
 
 
@@ -316,7 +317,7 @@ m4_define([b4_c_ansi_function_decl],
 # -----------------------------------------------------------
 # Call the function NAME with arguments NAME1, NAME2 etc.
 m4_define([b4_c_function_call],
-[$1 (b4_c_args(m4_shiftn(2, $@)))[]dnl
+[$1 (b4_c_args(m4_shift2($@)))[]dnl
 ])
 
 

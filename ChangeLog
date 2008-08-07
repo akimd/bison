@@ -1,5 +1,13 @@
 2008-08-06  Eric Blake  <ebb9@byu.net>
 
+	Partial m4sugar merge from autoconf: m4_shiftn.
+	* data/m4sugar/m4sugar.m4 (m4_shiftn): Faster implementation.
+	(m4_shift2, m4_shift3): New macros.
+	(m4_case, m4_bmatch, m4_bpatsubsts, m4_join): Adjust clients.
+	* data/c.m4 (b4_c_function_def, b4_c_ansi_function_def)
+	(b4_c_ansi_function_decl, b4_c_function_call): Likewise.
+	* data/java.m4 (b4_remove_comma): Likewise.
+
 	Partial m4sugar merge from autoconf: m4_wrap vs. m4 1.6.
 	* data/m4sugar/m4sugar.m4 (m4_unquote, m4_wrap_lifo): New macros.
 	(m4_wrap): Guarantee FIFO order, in spite of m4 1.6.

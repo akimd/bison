@@ -2,7 +2,7 @@
 
 # Java language support for Bison
 
-# Copyright (C) 2007 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2008 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ m4_define([b4_identification],
 m4_define([b4_int_type],
 [m4_if(b4_ints_in($@,   [-128],   [127]), [1], [byte],
        b4_ints_in($@, [-32768], [32767]), [1], [short],
-       					       [int])])
+					       [int])])
 
 # b4_int_type_for(NAME)
 # ---------------------
@@ -205,7 +205,7 @@ m4_define([b4_param_decls],
 	  [m4_map([b4_param_decl], [$@])])
 m4_define([b4_param_decl], [, $1])
 
-m4_define([b4_remove_comma], [m4_ifval($1, [$1, ], [])m4_shiftn(2, $@)])
+m4_define([b4_remove_comma], [m4_ifval($1, [$1, ], [])m4_shift2($@)])
 
 
 

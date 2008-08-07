@@ -366,7 +366,7 @@ m4_define([m4_case],
        [$#], 1, [],
        [$#], 2, [$2],
        [$1], [$2], [$3],
-       [$0([$1], m4_shiftn(3, $@))])])
+       [$0([$1], m4_shift3($@))])])
 
 
 # m4_bmatch(SWITCH, RE1, VAL1, RE2, VAL2, ..., DEFAULT)
@@ -388,7 +388,7 @@ m4_define([m4_bmatch],
 [m4_if([$#], 0, [m4_fatal([$0: too few arguments: $#])],
        [$#], 1, [m4_fatal([$0: too few arguments: $#: $1])],
        [$#], 2, [$2],
-       [m4_if(m4_bregexp([$1], [$2]), -1, [$0([$1], m4_shiftn(3, $@))],
+       [m4_if(m4_bregexp([$1], [$2]), -1, [$0([$1], m4_shift3($@))],
 	      [$3])])])
 
 
@@ -445,13 +445,19 @@ m4_define([m4_map_sep],
 # I would have liked to name this macro `m4_bpatsubst', unfortunately,
 # due to quotation problems, I need to double quote $1 below, therefore
 # the anchors are broken :(  I can't let users be trapped by that.
+#
+# Recall that m4_shift3 always results in an argument.  Hence, we need
+# to distinguish between a final deletion vs. ending recursion.
 m4_define([m4_bpatsubsts],
 [m4_if([$#], 0, [m4_fatal([$0: too few arguments: $#])],
        [$#], 1, [m4_fatal([$0: too few arguments: $#: $1])],
-       [$#], 2, [m4_builtin([patsubst], $@)],
+       [$#], 2, [m4_unquote(m4_builtin([patsubst], [[$1]], [$2]))],
+       [$#], 3, [m4_unquote(m4_builtin([patsubst], [[$1]], [$2], [$3]))],
+       [_$0($@m4_if(m4_eval($# & 1), 0, [,]))])])
+m4_define([_m4_bpatsubsts],
+[m4_if([$#], 2, [$1],
        [$0(m4_builtin([patsubst], [[$1]], [$2], [$3]),
-	   m4_shiftn(3, $@))])])
-
+	   m4_shift3($@))])])
 
 
 # m4_do(STRING, ...)
@@ -555,14 +561,45 @@ m4_define([m4_noquote],
 # m4_shiftn(N, ...)
 # -----------------
 # Returns ... shifted N times.  Useful for recursive "varargs" constructs.
+#
+# Autoconf does not use this macro, because it is inherently slower than
+# calling the common cases of m4_shift2 or m4_shift3 directly.  But it
+# might as well be fast for other clients, such as Libtool.  One way to
+# do this is to expand $@ only once in _m4_shiftn (otherwise, for long
+# lists, the expansion of m4_if takes twice as much memory as what the
+# list itself occupies, only to throw away the unused branch).  The end
+# result is strictly equivalent to
+#   m4_if([$1], 1, [m4_shift(,m4_shift(m4_shift($@)))],
+#         [_m4_shiftn(m4_decr([$1]), m4_shift(m4_shift($@)))])
+# but with the final `m4_shift(m4_shift($@)))' shared between the two
+# paths.  The first leg uses a no-op m4_shift(,$@) to balance out the ().
 m4_define([m4_shiftn],
-[m4_assert(($1 >= 0) && ($# > $1))dnl
-_m4_shiftn($@)])
+[m4_assert(0 < $1 && $1 < $#)_$0($@)])
 
 m4_define([_m4_shiftn],
-[m4_if([$1], 0,
-       [m4_shift($@)],
-       [_m4_shiftn(m4_eval([$1]-1), m4_shift(m4_shift($@)))])])
+[m4_if([$1], 1, [m4_shift(],
+       [$0(m4_decr([$1])]), m4_shift(m4_shift($@)))])
+
+# m4_shift2(...)
+# m4_shift3(...)
+# -----------------
+# Returns ... shifted twice, and three times.  Faster than m4_shiftn.
+m4_define([m4_shift2], [m4_shift(m4_shift($@))])
+m4_define([m4_shift3], [m4_shift(m4_shift(m4_shift($@)))])
+
+# _m4_shift2(...)
+# _m4_shift3(...)
+# ---------------
+# Like m4_shift2 or m4_shift3, except include a leading comma unless shifting
+# consumes all arguments.  Why?  Because in recursion, it is nice to
+# distinguish between 1 element left and 0 elements left, based on how many
+# arguments this shift expands to.
+m4_define([_m4_shift2],
+[m4_if([$#], [2], [],
+       [, m4_shift(m4_shift($@))])])
+m4_define([_m4_shift3],
+[m4_if([$#], [3], [],
+       [, m4_shift(m4_shift(m4_shift($@)))])])
 
 
 # m4_undefine(NAME)
@@ -717,7 +754,9 @@ m4_if($1, [$2], [],
 # Hence the design below.
 #
 # The M4 manual now includes a chapter devoted to this issue, with
-# the lessons learned from m4sugar.
+# the lessons learned from m4sugar.  And still, this design is only
+# optimal for M4 1.6; see foreach.m4 for yet more comments on why
+# M4 1.4.x uses yet another implementation.
 
 
 # m4_foreach(VARIABLE, LIST, EXPRESSION)
@@ -1524,13 +1563,24 @@ m4_define([m4_normalize],
 
 # m4_join(SEP, ARG1, ARG2...)
 # ---------------------------
-# Produce ARG1SEPARG2...SEPARGn.
-m4_defun([m4_join],
-[m4_case([$#],
-	 [1], [],
-	 [2], [[$2]],
-	 [[$2][$1]$0([$1], m4_shiftn(2, $@))])])
-
+# Produce ARG1SEPARG2...SEPARGn.  Avoid back-to-back SEP when a given ARG
+# is the empty string.  No expansion is performed on SEP or ARGs.
+#
+# Since the number of arguments to join can be arbitrarily long, we
+# want to avoid having more than one $@ in the macro definition;
+# otherwise, the expansion would require twice the memory of the already
+# long list.  Hence, m4_join merely looks for the first non-empty element,
+# and outputs just that element; while _m4_join looks for all non-empty
+# elements, and outputs them following a separator.  The final trick to
+# note is that we decide between recursing with $0 or _$0 based on the
+# nested m4_if ending with `_'.
+m4_define([m4_join],
+[m4_if([$#], [1], [],
+       [$#], [2], [[$2]],
+       [m4_if([$2], [], [], [[$2]_])$0([$1], m4_shift2($@))])])
+m4_define([_m4_join],
+[m4_if([$#$2], [2], [],
+       [m4_if([$2], [], [], [[$1$2]])$0([$1], m4_shift2($@))])])
 
 
 # m4_append(MACRO-NAME, STRING, [SEPARATOR])
