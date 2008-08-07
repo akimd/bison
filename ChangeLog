@@ -1,3 +1,11 @@
+2008-08-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Keep .version and PACKAGE_VERSION in sync.
+	* Makefile.am ($(top_srcdir)/.version): Declare configure as a
+	dependency, and add comments justifying this in more detail.  Discussed
+	starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2008-07/msg00022.html>.
+
 2008-08-06  Eric Blake  <ebb9@byu.net>
 
 	Partial m4sugar merge from autoconf: m4_shiftn.

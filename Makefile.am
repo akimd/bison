@@ -43,9 +43,17 @@ maintainer-push-check:
 maintainer-xml-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
 
-# See comments in build-aux/git-version-gen.
+# See comments in build-aux/git-version-gen.  However, we make .version depend
+# on configure so that .version and VERSION/PACKAGE_VERSION stay in sync in the
+# working copy (for example, when you run autoreconf && make).  Allowing these
+# to fall out of sync appears to have little potential to improve Bison build
+# efficiency (even if we were to replace VERSION/PACKAGE_VERSION with .version
+# everywhere possible).  On the other hand, it could be harmful.  For example,
+# a developer might naively reference .version in a test case while the bison
+# executable still compiles with VERSION, and so the test case might fail or
+# pass incorrectly.
 BUILT_SOURCES = $(top_srcdir)/.version
-$(top_srcdir)/.version:
+$(top_srcdir)/.version: configure
 	echo $(VERSION) > $@-t && mv $@-t $@
 dist-hook:
 	echo $(VERSION) > $(distdir)/.tarball-version
