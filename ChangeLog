@@ -1,3 +1,8 @@
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
+	Require the generation of parse-gram.output.
+	* src/Makefile.am (YACC): Pass --report=all.
+
 2009-04-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* NEWS (2.5): New stub.
