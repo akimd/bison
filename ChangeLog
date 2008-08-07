@@ -1,5 +1,9 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	Fix --help.
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Require the generation of parse-gram.output.
 	* src/Makefile.am (YACC): Pass --report=all.
 

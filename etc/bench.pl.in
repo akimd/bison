@@ -23,7 +23,7 @@ bench.pl - bench marks for Bison parsers.
 
 =head1 SYNOPSIS
 
-  ./bench.pl [OPTIONS]... I<directives>
+  ./bench.pl [OPTIONS]... DIRECTIVES
 
 =head1 DIRECTIVES
 
