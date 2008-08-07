@@ -1,3 +1,25 @@
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
+	Add %precedence support.
+	Unfortunately it is not possible to reuse the %prec directive.  This
+	is because to please POSIX, we do not require to end the rules with a
+	semicolon.  As a result,
+	
+	foo: bar %prec baz
+	
+	is ambiguous: either a rule which precedence is that of baz, or a rule,
+	and then a declaration of the precedence of the token baz.
+	
+	* doc/bison.texinfo: Document %precedence.
+	(Precedence Only): New.
+	* src/assoc.h, src/assoc.c (precedence_assoc): New.
+	* src/conflicts.c (resolve_sr_conflict): Support it.
+	* src/scan-gram.l, src/parse-gram.y (%precedence): New token.
+	Parse it.
+	* tests/calc.at: Use %precedence for NEG.
+	* tests/conflicts.at (%precedence does not suffice)
+	(%precedence suffices): New tests.
+
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
 	Make benches in a sub dirs.

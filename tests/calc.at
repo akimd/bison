@@ -106,11 +106,11 @@ static void unget_char (]AT_LEX_PRE_FORMALS[ int c);
 %token <ival> NUM "number"
 %type  <ival> exp
 
-%nonassoc '=' /* comparison	       */
+%nonassoc '='   /* comparison	       */
 %left '-' '+'
 %left '*' '/'
-%left NEG     /* negation--unary minus */
-%right '^'    /* exponentiation        */
+%precedence NEG /* negation--unary minus */
+%right '^'      /* exponentiation        */
 
 /* Grammar follows */
 %%

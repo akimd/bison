@@ -115,6 +115,7 @@ static int current_prec = 0;
 %token PERCENT_LEFT        "%left"
 %token PERCENT_RIGHT       "%right"
 %token PERCENT_NONASSOC    "%nonassoc"
+%token PERCENT_PRECEDENCE  "%precedence"
 
 %token PERCENT_PREC          "%prec"
 %token PERCENT_DPREC         "%dprec"
@@ -412,9 +413,10 @@ precedence_declaration:
 ;
 
 precedence_declarator:
-  "%left"     { $$ = left_assoc; }
-| "%right"    { $$ = right_assoc; }
-| "%nonassoc" { $$ = non_assoc; }
+  "%left"       { $$ = left_assoc; }
+| "%right"      { $$ = right_assoc; }
+| "%nonassoc"   { $$ = non_assoc; }
+| "%precedence" { $$ = precedence_assoc; }
 ;
 
 type.opt:

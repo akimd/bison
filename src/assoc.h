@@ -1,5 +1,5 @@
 /* Associativity information.
-   Copyright (C) 2002, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2006, 2008 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -22,10 +22,11 @@
 /* Associativity values for tokens and rules.  */
 typedef enum
 {
-  undef_assoc,
-  right_assoc,
-  left_assoc,
-  non_assoc
+  undef_assoc,     /** Not defined. */
+  right_assoc,     /** %right */
+  left_assoc,      /** %left */
+  non_assoc,       /** %nonassoc */
+  precedence_assoc /** %precedence */
 } assoc;
 
 char const *assoc_to_string (assoc a);

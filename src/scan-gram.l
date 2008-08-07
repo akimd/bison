@@ -183,6 +183,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%output"                         return PERCENT_OUTPUT;
   "%parse-param"                    return PERCENT_PARSE_PARAM;
   "%prec"                           return PERCENT_PREC;
+  "%precedence"                     return PERCENT_PRECEDENCE;
   "%printer"                        return PERCENT_PRINTER;
   "%pure"[-_]"parser"               return PERCENT_PURE_PARSER;
   "%require"                        return PERCENT_REQUIRE;

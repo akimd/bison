@@ -1,6 +1,6 @@
 # Exercising Bison on conflicts.                         -*- Autotest -*-
 
-# Copyright (C) 2002, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -321,6 +321,62 @@ state 5
     $default  reduce using rule 1 (exp)
 
     Conflict between rule 1 and token OP resolved as reduce (%left OP).
+]])
+
+AT_CLEANUP
+
+
+## ---------------------- ##
+## %precedence suffices.  ##
+## ---------------------- ##
+
+AT_SETUP([%precedence suffices])
+
+AT_DATA([input.y],
+[[%precedence "then"
+%precedence "else"
+%%
+stmt:
+  "if" cond "then" stmt
+| "if" cond "then" stmt "else" stmt
+| "stmt"
+;
+
+cond:
+  "exp"
+;
+]])
+
+AT_BISON_CHECK([-o input.c input.y])
+
+AT_CLEANUP
+
+
+## ------------------------------ ##
+## %precedence does not suffice.  ##
+## ------------------------------ ##
+
+AT_SETUP([%precedence does not suffice])
+
+AT_DATA([input.y],
+[[%precedence "then"
+%precedence "else"
+%%
+stmt:
+  "if" cond "then" stmt
+| "if" cond "then" stmt "else" stmt
+| "stmt"
+;
+
+cond:
+  "exp"
+| cond "then" cond
+;
+]])
+
+AT_BISON_CHECK([-o input.c input.y], 0, [],
+[[input.y: conflicts: 1 shift/reduce
+input.y:12.3-18: warning: rule useless in parser due to conflicts: cond: cond "then" cond
 ]])
 
 AT_CLEANUP
@@ -878,7 +934,7 @@ AT_CHECK([[cat input.output | sed -n '/^state 0$/,/^state 1$/p']], 0,
    13 empty_c3: .  ['c']
 
     'b'  shift, and go to state 1
- 
+
     'c'       reduce using rule 13 (empty_c3)
     $default  reduce using rule 9 (empty_a)
 

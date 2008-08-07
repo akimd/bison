@@ -264,7 +264,8 @@ The Bison Parser Algorithm
 Operator Precedence
 
 * Why Precedence::    An example showing why precedence is needed.
-* Using Precedence::  How to specify precedence in Bison grammars.
+* Using Precedence::  How to specify precedence and associativity.
+* Precedence Only::   How to specify precedence only.
 * Precedence Examples::  How these features are used in the previous example.
 * How Precedence::    How they work.
 
@@ -1858,8 +1859,8 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 %token NUM
 %left '-' '+'
 %left '*' '/'
-%left NEG     /* negation--unary minus */
-%right '^'    /* exponentiation */
+%precedence NEG   /* negation--unary minus */
+%right '^'        /* exponentiation */
 
 %% /* The grammar follows.  */
 input:    /* empty */
@@ -1892,15 +1893,16 @@ In the second section (Bison declarations), @code{%left} declares token
 types and says they are left-associative operators.  The declarations
 @code{%left} and @code{%right} (right associativity) take the place of
 @code{%token} which is used to declare a token type name without
-associativity.  (These tokens are single-character literals, which
+associativity/precedence.  (These tokens are single-character literals, which
 ordinarily don't need to be declared.  We declare them here to specify
-the associativity.)
+the associativity/precedence.)
 
 Operator precedence is determined by the line ordering of the
 declarations; the higher the line number of the declaration (lower on
 the page or screen), the higher the precedence.  Hence, exponentiation
 has the highest precedence, unary minus (@code{NEG}) is next, followed
-by @samp{*} and @samp{/}, and so on.  @xref{Precedence, ,Operator
+by @samp{*} and @samp{/}, and so on.  Unary minus is not associative,
+only precedence matters (@code{%precedence}. @xref{Precedence, ,Operator
 Precedence}.
 
 The other important new feature is the @code{%prec} in the grammar
@@ -2003,7 +2005,7 @@ the same as the declarations for the infix notation calculator.
 
 %left '-' '+'
 %left '*' '/'
-%left NEG
+%precedence NEG
 %right '^'
 
 %% /* The grammar follows.  */
@@ -2251,8 +2253,8 @@ Here are the C and Bison declarations for the multi-function calculator.
 %right '='
 %left '-' '+'
 %left '*' '/'
-%left NEG     /* negation--unary minus */
-%right '^'    /* exponentiation */
+%precedence NEG /* negation--unary minus */
+%right '^'      /* exponentiation */
 @end group
 %% /* The grammar follows.  */
 @end smallexample
@@ -4019,7 +4021,8 @@ Bison will convert this into a @code{#define} directive in
 the parser, so that the function @code{yylex} (if it is in this file)
 can use the name @var{name} to stand for this token type's code.
 
-Alternatively, you can use @code{%left}, @code{%right}, or
+Alternatively, you can use @code{%left}, @code{%right},
+@code{%precedence}, or
 @code{%nonassoc} instead of @code{%token}, if you wish to specify
 associativity and precedence.  @xref{Precedence Decl, ,Operator
 Precedence}.
@@ -4095,7 +4098,8 @@ of ``$end'':
 @cindex declaring operator precedence
 @cindex operator precedence, declaring
 
-Use the @code{%left}, @code{%right} or @code{%nonassoc} declaration to
+Use the @code{%left}, @code{%right}, @code{%nonassoc}, or
+@code{%precedence} declaration to
 declare a token and specify its precedence and associativity, all at
 once.  These are called @dfn{precedence declarations}.
 @xref{Precedence, ,Operator Precedence}, for general information on
@@ -4130,6 +4134,10 @@ left-associativity (grouping @var{x} with @var{y} first) and
 @var{z} first).  @code{%nonassoc} specifies no associativity, which
 means that @samp{@var{x} @var{op} @var{y} @var{op} @var{z}} is
 considered a syntax error.
+
+@code{%precedence} gives only precedence to the @var{symbols}, and
+defines no associativity at all.  Use this to define precedence only,
+and leave any potential conflict due to associativity enabled.
 
 @item
 The precedence of an operator determines how it nests with other operators.
@@ -6221,7 +6229,8 @@ shift and when to reduce.
 
 @menu
 * Why Precedence::    An example showing why precedence is needed.
-* Using Precedence::  How to specify precedence in Bison grammars.
+* Using Precedence::  How to specify precedence and associativity.
+* Precedence Only::   How to specify precedence only.
 * Precedence Examples::  How these features are used in the previous example.
 * How Precedence::    How they work.
 @end menu
@@ -6276,8 +6285,9 @@ makes right-associativity.
 @node Using Precedence
 @subsection Specifying Operator Precedence
 @findex %left
-@findex %right
 @findex %nonassoc
+@findex %precedence
+@findex %right
 
 Bison allows you to specify these choices with the operator precedence
 declarations @code{%left} and @code{%right}.  Each such declaration
@@ -6287,12 +6297,62 @@ those operators left-associative and the @code{%right} declaration makes
 them right-associative.  A third alternative is @code{%nonassoc}, which
 declares that it is a syntax error to find the same operator twice ``in a
 row''.
+The last alternative, @code{%precedence}, allows to define only
+precedence and no associativity at all.  As a result, any
+associativity-related conflict that remains will be reported as an
+compile-time error.  The directive @code{%nonassoc} creates run-time
+error: using the operator in a associative way is a syntax error.  The
+directive @code{%precedence} creates compile-time errors: an operator
+@emph{can} be involved in an associativity-related conflict, contrary to
+what expected the grammar author.
 
 The relative precedence of different operators is controlled by the
-order in which they are declared.  The first @code{%left} or
-@code{%right} declaration in the file declares the operators whose
+order in which they are declared.  The first precedence/associativity
+declaration in the file declares the operators whose
 precedence is lowest, the next such declaration declares the operators
 whose precedence is a little higher, and so on.
+
+@node Precedence Only
+@subsection Specifying Precedence Only
+@findex %precedence
+
+Since @acronym{POSIX} Yacc defines only @code{%left}, @code{%right}, and
+@code{%nonassoc}, which all defines precedence and associativity, little
+attention is paid to the fact that precedence cannot be defined without
+defining associativity.  Yet, sometimes, when trying to solve a
+conflict, precedence suffices.  In such a case, using @code{%left},
+@code{%right}, or @code{%nonassoc} might hide future (associativity
+related) conflicts that would remain hidden.
+
+The dangling @code{else} ambiguity (@pxref{Shift/Reduce, , Shift/Reduce
+Conflicts}) can be solved explictly.  This shift/reduce conflicts occurs
+in the following situation, where the period denotes the current parsing
+state:
+
+@example
+if @var{e1} then if  @var{e2} then @var{s1} . else @var{s2}
+@end example
+
+The conflict involves the reduction of the rule @samp{IF expr THEN
+stmt}, which precedence is by default that of its last token
+(@code{THEN}), and the shifting of the token @code{ELSE}.  The usual
+disambiguation (attach the @code{else} to the closest @code{if}),
+shifting must be preferred, i.e., the precedence of @code{ELSE} must be
+higher than that of @code{THEN}.  But neither is expected to be involved
+in an associativity related conflict, which can be specified as follows.
+
+@example
+%precedence THEN
+%precedence ELSE
+@end example
+
+The unary-minus is another typical example where associativity is
+usually over-specified, see @ref{Infix Calc, , Infix Notation
+Calculator: @code{calc}}.  The @code{%left} directive is traditionaly
+used to declare the precedence of @code{NEG}, which is more than needed
+since it also defines its associativity.  While this is harmless in the
+traditional example, who knows how @code{NEG} might be used in future
+evolutions of the grammar@dots{}
 
 @node Precedence Examples
 @subsection Precedence Examples
@@ -6355,8 +6415,8 @@ outlandish at first, but it is really very common.  For example, a minus
 sign typically has a very high precedence as a unary operator, and a
 somewhat lower precedence (lower than multiplication) as a binary operator.
 
-The Bison precedence declarations, @code{%left}, @code{%right} and
-@code{%nonassoc}, can only be used once for a given token; so a token has
+The Bison precedence declarations
+can only be used once for a given token; so a token has
 only one precedence declared in this way.  For context-dependent
 precedence, you need to use an additional mechanism: the @code{%prec}
 modifier for rules.
@@ -9865,7 +9925,7 @@ Specify the programming language for the generated parser.
 @end deffn
 
 @deffn {Directive} %left
-Bison declaration to assign left associativity to token(s).
+Bison declaration to assign precedence and left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
@@ -9900,7 +9960,7 @@ parser file.  @xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %nonassoc
-Bison declaration to assign nonassociativity to token(s).
+Bison declaration to assign precedence and nonassociativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
@@ -9920,6 +9980,11 @@ Bison declaration to assign a precedence to a specific rule.
 @xref{Contextual Precedence, ,Context-Dependent Precedence}.
 @end deffn
 
+@deffn {Directive} %precedence
+Bison declaration to assign precedence to token(s), but no associativity
+@xref{Precedence Decl, ,Operator Precedence}.
+@end deffn
+
 @deffn {Directive} %pure-parser
 Deprecated version of @code{%define api.pure} (@pxref{Decl Summary, ,%define}),
 for which Bison is more careful to warn about unreasonable usage.
@@ -9931,7 +9996,7 @@ Require a Version of Bison}.
 @end deffn
 
 @deffn {Directive} %right
-Bison declaration to assign right associativity to token(s).
+Bison declaration to assign precedence and right associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
