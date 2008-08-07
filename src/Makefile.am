@@ -24,7 +24,7 @@ LDADD = ../lib/libbison.a $(LIBINTL)
 
 # Use our own Bison to build the parser.  Of course, you ought to
 # keep a sane version of Bison nearby...
-YACC = ../tests/bison -y --warnings=all,error
+YACC = ../tests/bison -y --warnings=all,error --report=all
 
 bin_PROGRAMS = bison
 bin_SCRIPTS = $(YACC_SCRIPT)
