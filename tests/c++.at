@@ -1,5 +1,5 @@
 # Checking the output filenames.                    -*- Autotest -*-
-# Copyright (C) 2004, 2005, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2005, 2007, 2008 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,6 +15,155 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AT_BANNER([[C++ Features.]])
+
+
+## ---------- ##
+## Variants.  ##
+## ---------- ##
+
+# AT_CHECK_VARIANTS([DIRECTIVES])
+# -------------------------------
+# Check the support of variants in C++, with the additional DIRECTIVES.
+m4_define([AT_CHECK_VARIANTS],
+[AT_SETUP([Variants $1])
+
+# Store strings and integers in a list of strings.
+AT_DATA([list.yy],
+[[%debug
+%skeleton "lalr1.cc"
+%defines
+%define variant
+
+%code requires // code for the .hh file
+{
+#include <list>
+#include <string>
+typedef std::list<std::string> strings_type;
+}
+
+%code // code for the .cc file
+{
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <sstream>
+
+  // Prototype of the yylex function providing subsequent tokens.
+  static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
+
+  // Printing a list of strings.
+  // Koening look up will look into std, since that's an std::list.
+  namespace std
+  {
+    std::ostream&
+    operator<<(std::ostream& o, const strings_type& s)
+    {
+      std::copy(s.begin(), s.end(),
+                std::ostream_iterator<strings_type::value_type>(o, "\n"));
+      return o;
+    }
+  }
+
+  // Conversion to string.
+  template <typename T>
+    inline
+    std::string
+    string_cast (const T& t)
+  {
+    std::ostringstream o;
+    o << t;
+    return o.str();
+  }
+}
+
+%token <std::string> TEXT;
+%token <int> NUMBER;
+%printer { debug_stream() << $][$; } <int> <std::string> <strings_type>;
+%token END_OF_FILE 0;
+
+%type <std::string> item;
+%type <strings_type> list result;
+
+%%
+
+result:
+  list	{ std::cout << $][1; }
+;
+
+list:
+  /* nothing */	{ /* Generates an empty string list */ }
+| list item	{ std::swap($][$,$][1); $$.push_back($][2); }
+;
+
+item:
+  TEXT		{ std::swap($][$,$][1); }
+| NUMBER	{ $][$ = string_cast($][1); }
+;
+%%
+
+static
+yy::parser::token_type
+yylex(yy::parser::semantic_type* yylval)
+{
+  static int stage = 0;
+  yy::parser::token_type result;
+
+  switch (stage)
+  {
+    case 0:
+      yylval->build<std::string>() = std::string("BEGIN");
+      result = yy::parser::token::TEXT;
+      break;
+    case 1:
+    case 2:
+    case 3:
+      yylval->build<int>() = stage;
+      result = yy::parser::token::NUMBER;
+      break;
+    case 4:
+      yylval->build<std::string>() = std::string("END");
+      result = yy::parser::token::TEXT;
+      break;
+    default:
+      result = yy::parser::token::END_OF_FILE;
+      break;
+  }
+
+  ++stage;
+  return result;
+}
+
+// Mandatory error function
+void
+yy::parser::error(const yy::parser::location_type& yylloc,
+                  const std::string& message)
+{
+  std::cerr << yylloc << ": " << message << std::endl;
+}
+
+int main(int argc, char *argv[])
+{
+  yy::parser p;
+  p.set_debug_level(!!getenv("YYDEBUG"));
+  return p.parse();
+}
+]])
+
+AT_BISON_CHECK([-o list.cc list.yy], 0)
+AT_COMPILE_CXX([list])
+AT_CHECK([./list], 0,
+[BEGIN
+1
+2
+3
+END
+])
+
+AT_CLEANUP
+])
+
+AT_CHECK_VARIANTS([])
+AT_CHECK_VARIANTS([%define assert])
 
 
 ## ----------------------- ##
@@ -99,6 +248,9 @@ m4_popdef([AT_DOXYGEN_PRIVATE])
 
 AT_CHECK_DOXYGEN([Public])
 AT_CHECK_DOXYGEN([Private])
+
+
+
 
 ## ------------ ##
 ## Namespaces.  ##

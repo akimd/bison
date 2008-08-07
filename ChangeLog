@@ -1,5 +1,11 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Test variants.
+	* tests/c++.at (AT_CHECK_VARIANTS): New.
+	Use it with and without %define assert.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Add %precedence support.
 	Unfortunately it is not possible to reuse the %prec directive.  This
 	is because to please POSIX, we do not require to end the rules with a
