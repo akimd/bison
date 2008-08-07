@@ -1,6 +1,6 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation,
+   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation,
    Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -154,48 +154,48 @@ splice	 (\\[ \f\t\v]*\n)*
   `----------------------------*/
 <INITIAL>
 {
-  "%binary"               	    return PERCENT_NONASSOC;
+  "%binary"                         return PERCENT_NONASSOC;
   "%code"                           return PERCENT_CODE;
-  "%debug"                	    return PERCENT_DEBUG;
-  "%default"[-_]"prec"    	    return PERCENT_DEFAULT_PREC;
-  "%define"               	    return PERCENT_DEFINE;
-  "%defines"              	    return PERCENT_DEFINES;
-  "%destructor"		  	    return PERCENT_DESTRUCTOR;
-  "%dprec"		  	    return PERCENT_DPREC;
-  "%error"[-_]"verbose"   	    return PERCENT_ERROR_VERBOSE;
-  "%expect"               	    return PERCENT_EXPECT;
-  "%expect"[-_]"rr"	  	    return PERCENT_EXPECT_RR;
-  "%file-prefix"          	    return PERCENT_FILE_PREFIX;
+  "%debug"                          return PERCENT_DEBUG;
+  "%default"[-_]"prec"              return PERCENT_DEFAULT_PREC;
+  "%define"                         return PERCENT_DEFINE;
+  "%defines"                        return PERCENT_DEFINES;
+  "%destructor"                     return PERCENT_DESTRUCTOR;
+  "%dprec"                          return PERCENT_DPREC;
+  "%error"[-_]"verbose"             return PERCENT_ERROR_VERBOSE;
+  "%expect"                         return PERCENT_EXPECT;
+  "%expect"[-_]"rr"                 return PERCENT_EXPECT_RR;
+  "%file-prefix"                    return PERCENT_FILE_PREFIX;
   "%fixed"[-_]"output"[-_]"files"   return PERCENT_YACC;
-  "%initial-action"       	    return PERCENT_INITIAL_ACTION;
-  "%glr-parser"           	    return PERCENT_GLR_PARSER;
-  "%language"                 	    return PERCENT_LANGUAGE;
-  "%left"                 	    return PERCENT_LEFT;
-  "%lex-param"		  	    return PERCENT_LEX_PARAM;
-  "%locations"            	    return PERCENT_LOCATIONS;
-  "%merge"		  	    return PERCENT_MERGE;
-  "%name"[-_]"prefix"     	    return PERCENT_NAME_PREFIX;
-  "%no"[-_]"default"[-_]"prec"	    return PERCENT_NO_DEFAULT_PREC;
-  "%no"[-_]"lines"        	    return PERCENT_NO_LINES;
-  "%nonassoc"             	    return PERCENT_NONASSOC;
-  "%nondeterministic-parser"   	    return PERCENT_NONDETERMINISTIC_PARSER;
-  "%nterm"                	    return PERCENT_NTERM;
-  "%output"               	    return PERCENT_OUTPUT;
-  "%parse-param"	  	    return PERCENT_PARSE_PARAM;
-  "%prec"                 	    return PERCENT_PREC;
-  "%printer"              	    return PERCENT_PRINTER;
-  "%pure"[-_]"parser"     	    return PERCENT_PURE_PARSER;
-  "%require"              	    return PERCENT_REQUIRE;
-  "%right"                	    return PERCENT_RIGHT;
-  "%skeleton"             	    return PERCENT_SKELETON;
-  "%start"                	    return PERCENT_START;
-  "%term"                 	    return PERCENT_TOKEN;
-  "%token"                	    return PERCENT_TOKEN;
-  "%token"[-_]"table"     	    return PERCENT_TOKEN_TABLE;
-  "%type"                 	    return PERCENT_TYPE;
-  "%union"		  	    return PERCENT_UNION;
-  "%verbose"              	    return PERCENT_VERBOSE;
-  "%yacc"                 	    return PERCENT_YACC;
+  "%initial-action"                 return PERCENT_INITIAL_ACTION;
+  "%glr-parser"                     return PERCENT_GLR_PARSER;
+  "%language"                       return PERCENT_LANGUAGE;
+  "%left"                           return PERCENT_LEFT;
+  "%lex-param"                      return PERCENT_LEX_PARAM;
+  "%locations"                      return PERCENT_LOCATIONS;
+  "%merge"                          return PERCENT_MERGE;
+  "%name"[-_]"prefix"               return PERCENT_NAME_PREFIX;
+  "%no"[-_]"default"[-_]"prec"      return PERCENT_NO_DEFAULT_PREC;
+  "%no"[-_]"lines"                  return PERCENT_NO_LINES;
+  "%nonassoc"                       return PERCENT_NONASSOC;
+  "%nondeterministic-parser"        return PERCENT_NONDETERMINISTIC_PARSER;
+  "%nterm"                          return PERCENT_NTERM;
+  "%output"                         return PERCENT_OUTPUT;
+  "%parse-param"                    return PERCENT_PARSE_PARAM;
+  "%prec"                           return PERCENT_PREC;
+  "%printer"                        return PERCENT_PRINTER;
+  "%pure"[-_]"parser"               return PERCENT_PURE_PARSER;
+  "%require"                        return PERCENT_REQUIRE;
+  "%right"                          return PERCENT_RIGHT;
+  "%skeleton"                       return PERCENT_SKELETON;
+  "%start"                          return PERCENT_START;
+  "%term"                           return PERCENT_TOKEN;
+  "%token"                          return PERCENT_TOKEN;
+  "%token"[-_]"table"               return PERCENT_TOKEN_TABLE;
+  "%type"                           return PERCENT_TYPE;
+  "%union"                          return PERCENT_UNION;
+  "%verbose"                        return PERCENT_VERBOSE;
+  "%yacc"                           return PERCENT_YACC;
 
   {directive} {
     complain_at (*loc, _("invalid directive: %s"), quote (yytext));
