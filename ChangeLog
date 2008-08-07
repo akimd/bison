@@ -1,5 +1,9 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
+	fix eof condition
+
+2008-11-09  Akim Demaille  <demaille@gostai.com>
+
 	Fix --help.
 
 2008-11-09  Akim Demaille  <demaille@gostai.com>

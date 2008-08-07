@@ -575,8 +575,7 @@ sub generate_grammar_list ($$@)
 {
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
-  my $variant = grep { $_ eq '%define variant' } @directive;
-
+  my $variant = grep { /%define variant/ } @directive;
   my $out = new IO::File ">$base.y"
     or die;
   print $out <<EOF;
@@ -917,7 +916,10 @@ sub parse (@)
 {
   @token = @_;
   verbose 2, "Parsing: @token\n";
-  return parse_expr ();
+  my @res = parse_expr ();
+  die "expected end of directives, unexpected: @token"
+    if defined $token[0];
+  return @res;
 }
 
 sub parse_expr ()
