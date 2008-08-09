@@ -90,18 +90,17 @@ yylex (yy::parser::semantic_type* yylval)
   switch (stage)
   {
     case 0:
-      yylval->build<std::string> () =
-        std::string ("I have three numbers for you.");
+      yylval->build (std::string ("I have three numbers for you."));
       result = yy::parser::token::TEXT;
       break;
     case 1:
     case 2:
     case 3:
-      yylval->build<int> () = stage;
+      yylval->build (stage);
       result = yy::parser::token::NUMBER;
       break;
     case 4:
-      yylval->build<std::string> () = std::string ("And that's all!");
+      yylval->build (std::string ("And that's all!"));
       result = yy::parser::token::TEXT;
       break;
     default:
@@ -126,7 +125,7 @@ main (int argc, char *argv[])
 {
   yy::parser p;
   p.set_debug_level (!!getenv ("YYDEBUG"));
-  p.parse ();
+  return p.parse();
 }
 
 // Local Variables:

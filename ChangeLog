@@ -1,5 +1,11 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Update the variant example.
+	* examples/variant.yy: Formatting changes.
+	One stage build.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Support constructor with an argument.
 	This improves the "list" bench by 2%.
 	
