@@ -132,17 +132,25 @@ m4_popdef([b4_dollar_dollar])dnl
 ])
 
 
-# b4_symbol_action_(NUM)
-# ----------------------
-# Invoke b4_dollar_dollar(SYMBOL_TYPENAME) for each symbol.
-m4_define([b4_symbol_action_],
-[m4_ifval(b4_symbol([$1], [type_name]),
+# b4_symbol_case_(SYMBOL-NUM)
+# ---------------------------
+# Issue a "case NUM" for SYMBOL-NUM.
+m4_define([b4_symbol_case_],
 [      case b4_symbol([$1], [number]): // b4_symbol([$1], [tag])
+])
+
+
+# b4_type_action_(NUMS)
+# ---------------------
+# Run actions for the symbol NUMS that all have the same type-name.
+m4_define([b4_type_action_],
+[m4_map([b4_symbol_case_], [$@])[]dnl
         b4_dollar_dollar([b4_symbol([$1], [number])],
                          [b4_symbol([$1], [tag])],
                          [b4_symbol([$1], [type_name])]);
 	break;
-])])
+
+])
 
 
 # b4_symbol_variant(YYTYPE, YYVAL, ACTION, [ARGS])
@@ -154,7 +162,7 @@ m4_define([b4_symbol_variant],
             [$2.$3<$][3>(m4_shift3($@))])dnl
   switch ($1)
     {
-m4_map([b4_symbol_action_], m4_defn([b4_symbol_numbers]))
+m4_map([b4_type_action_], m4_defn([b4_type_names]))[]dnl
      default:
        break;
     }
@@ -860,7 +868,7 @@ b4_percent_code_get[]dnl
       }]b4_variant_if([
 
     // Type destructor.
-    b4_symbol_variant([[yytype]], [[yysym.value]], [[template destroy]])])[
+  b4_symbol_variant([[yytype]], [[yysym.value]], [[template destroy]])])[
   }
 
 #if YYDEBUG

@@ -1,5 +1,16 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Classify symbols by type-name.
+	* src/uniqstr.h (UNIQSTR_CMP): New.
+	* src/output.c (symbol_type_name_cmp, symbols_by_type_name)
+	(type_names_output): New.
+	(muscles_output): Use it.
+	* data/lalr1.cc (b4_symbol_action_): Remove.
+	(b4_symbol_case_, b4_type_action_): New.
+	Adjust uses of b4_symbol_action_ to use b4_type_action_.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Change the handling of the symbols in the skeletons.
 	Before we were using tables which lines were the symbols and which
 	columns were things like number, tag, type-name etc.  It is was
