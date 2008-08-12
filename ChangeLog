@@ -1,3 +1,10 @@
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
+	muscles_output.
+	* src/output.c (muscles_output): New, extracted from...
+	(output_skeleton): here.
+	Adjust.
+
 2008-11-21  Akim Demaille  <demaille@gostai.com>
 
 	Display the changes in cross-options.texi.
