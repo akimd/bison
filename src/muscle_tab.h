@@ -1,5 +1,5 @@
 /* Muscle table manager for Bison,
-   Copyright (C) 2001, 2002, 2003, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -51,6 +51,7 @@ do {								\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 } while(0)
 
+/* Key -> Value, but don't apply escaping to Value. */
 #define MUSCLE_INSERT_STRING_RAW(Key, Value)			\
 do {								\
   obstack_sgrow (&muscle_obstack, Value);			\
@@ -58,6 +59,7 @@ do {								\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 } while(0)
 
+/* Key -> Value, applying M4 escaping to Value. */
 #define MUSCLE_INSERT_STRING(Key, Value)			\
 do {								\
   MUSCLE_OBSTACK_SGROW (&muscle_obstack, Value);                \
