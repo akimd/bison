@@ -1,5 +1,12 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	--trace=muscles
+	* src/getargs.h, src/getargs.c (trace_muscle): New.
+	(trace_types, trace_args): Support it.
+	* src/output.c (output_skeleton): Use it.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	muscles_output.
 	* src/output.c (muscles_output): New, extracted from...
 	(output_skeleton): here.
