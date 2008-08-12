@@ -105,6 +105,14 @@ m4_define([b4_rhs_location],
           [b4_rhs_data([$1], [$2]).location])
 
 
+# b4_symbol(NUM, FIELD)
+# ---------------------
+# Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
+# undefined.
+m4_define([b4_symbol],
+[m4_indir([b4_symbol($1, $2)])])
+
+
 # b4_symbol_actions(FILENAME, LINENO,
 #                   SYMBOL-TAG, SYMBOL-NUM,
 #                   SYMBOL-ACTION, SYMBOL-TYPENAME)
@@ -124,13 +132,15 @@ m4_popdef([b4_dollar_dollar])dnl
 ])
 
 
-# b4_symbol_action_(SYMBOL-TAG, SYMBOL-NUM, SYMBOL-TYPENAME)
-# ----------------------------------------------------------
+# b4_symbol_action_(NUM)
+# ----------------------
 # Invoke b4_dollar_dollar(SYMBOL_TYPENAME) for each symbol.
 m4_define([b4_symbol_action_],
-[m4_ifval($3,
-[      case $2: // $1
-        b4_dollar_dollar($@);
+[m4_ifval(b4_symbol([$1], [type_name]),
+[      case b4_symbol([$1], [number]): // b4_symbol([$1], [tag])
+        b4_dollar_dollar([b4_symbol([$1], [number])],
+                         [b4_symbol([$1], [tag])],
+                         [b4_symbol([$1], [type_name])]);
 	break;
 ])])
 
@@ -144,7 +154,7 @@ m4_define([b4_symbol_variant],
             [$2.$3<$][3>(m4_shift3($@))])dnl
   switch ($1)
     {
-m4_map([b4_symbol_action_], m4_defn([b4_type_names]))
+m4_map([b4_symbol_action_], m4_defn([b4_symbol_numbers]))
      default:
        break;
     }
@@ -166,8 +176,8 @@ m4_define([_b4_char_sizeof_dummy],
 dummy[]_b4_char_sizeof_counter])
 
 
-# b4_char_sizeof(SYMBOL-TAG, SYMBOL-NUM, SYMBOL-TYPENAME)
-# -------------------------------------------------------
+# b4_char_sizeof(SYMBOL-NUM)
+# --------------------------
 # To be mapped on the list of type names to produce:
 #
 #    char dummy1[sizeof(type_name_1)];
@@ -176,9 +186,9 @@ dummy[]_b4_char_sizeof_counter])
 # for defined type names.
 # $3 is doubly-quoted, do not quote it again.
 m4_define([b4_char_sizeof],
-[m4_ifval($3,
+[m4_ifval(b4_symbol([$1], [type_name]),
 [
-      char _b4_char_sizeof_dummy@{sizeof($3)@}; // $1])dnl
+      char _b4_char_sizeof_dummy@{sizeof([b4_symbol([$1], [type_name])])@}; // b4_symbol([$1], [tag])])dnl
 ])
 
 
@@ -358,7 +368,7 @@ do {                                                            \
 ]b4_variant_if(
 [    /// An auxiliary type to compute the largest semantic type.
     union union_type
-    {]m4_map([b4_char_sizeof], m4_defn([b4_type_names]))[
+    {]m4_map([b4_char_sizeof], m4_defn([b4_symbol_numbers]))[
     };
 
     /// Symbol semantic values.
@@ -844,7 +854,7 @@ b4_percent_code_get[]dnl
     // User destructor.
     switch (yytype)
       {
-  ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
+]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
 	default:
 	  break;
       }]b4_variant_if([
@@ -865,7 +875,7 @@ b4_percent_code_get[]dnl
         << yysym.location << ": ";
     switch (yytype)
       {
-  ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
+]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [       default:
 	  break;
       }

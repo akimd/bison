@@ -1,5 +1,26 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Change the handling of the symbols in the skeletons.
+	Before we were using tables which lines were the symbols and which
+	columns were things like number, tag, type-name etc.  It is was
+	difficult to extend: each time a column was added, all the numbers had
+	to be updated (you asked for colon $2, not for "tag").  Also, it was
+	hard to filter these tables when only a subset of the symbols (say the
+	tokens, or the nterms, or the tokens that have and external number
+	*and* a type-name) was of interest.
+	
+	Now instead of monolithic tables, we define one macro per cell.  For
+	instance "b4_symbol(0, tag)" is a macro name which contents is
+	self-decriptive.  The macro "b4_symbol" provides easier access to
+	these cells.
+	
+	* src/output.c (type_names_output): Remove.
+	(symbol_numbers_output, symbol_definitions_output): New.
+	(muscles_output): Call them.
+	(prepare_symbols): Define b4_symbols_number.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	--trace=muscles
 	* src/getargs.h, src/getargs.c (trace_muscle): New.
 	(trace_types, trace_args): Support it.
