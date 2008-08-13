@@ -1,5 +1,13 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Adjust verbose message to using emacs.
+	* etc/bench.pl.in: Inform compilation-mode when we change the
+	directory.
+	(generate_grammar_list): Recognize %define "variant" in addition
+	to %define variant.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Classify symbols by type-name.
 	* src/uniqstr.h (UNIQSTR_CMP): New.
 	* src/output.c (symbol_type_name_cmp, symbols_by_type_name)

@@ -575,7 +575,7 @@ sub generate_grammar_list ($$@)
 {
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
-  my $variant = grep { /%define variant/ } @directive;
+  my $variant = grep { /%define "?variant"?/ } @directive;
   my $out = new IO::File ">$base.y"
     or die;
   print $out <<EOF;
@@ -1043,7 +1043,8 @@ mkdir $dir
   or die "cannot create $dir";
 chdir $dir
   or die "cannot chdir $dir";
-verbose 1, "Benching in $dir.\n";
+# The following message is tailored to please Emacs' compilation-mode.
+verbose 1, "Entering directory `$dir'\n";
 verbose 1, "Using bison=$bison.\n";
 verbose 2, "Using cc=$cc.\n";
 verbose 2, "Using cxx=$cxx.\n";
