@@ -403,29 +403,6 @@ m4_define([m4_cdr],
        [m4_dquote(m4_shift($@))])])
 
 
-# m4_map(MACRO, LIST)
-# -------------------
-# Invoke MACRO($1), MACRO($2) etc. where $1, $2... are the elements
-# of LIST (which can be lists themselves, for multiple arguments MACROs).
-m4_define([m4_fst], [$1])
-m4_define([m4_map],
-[m4_if([$2], [[]], [],
-       [_m4_map([$1], [$2])])])
-m4_define([_m4_map],
-[m4_ifval([$2],
-	  [$1(m4_fst($2))[]_m4_map([$1], m4_cdr($2))])])
-
-
-# m4_map_sep(MACRO, SEPARATOR, LIST)
-# ----------------------------------
-# Invoke MACRO($1), SEPARATOR, MACRO($2), ..., MACRO($N) where $1, $2... $N
-# are the elements of LIST (which can be lists themselves, for multiple
-# arguments MACROs).
-m4_define([m4_map_sep],
-[m4_if([$3], [[]], [],
-       [$1(m4_fst($3))[]_m4_map([$2[]$1], m4_cdr($3))])])
-
-
 ## ---------------------------------------- ##
 ## 6. Enhanced version of some primitives.  ##
 ## ---------------------------------------- ##
@@ -647,6 +624,27 @@ m4_define([m4_wrap],
 m4_define([m4_wrap_lifo],
 [_m4_wrap([$1[]])])
 
+## ------------------------- ##
+## 7. Quoting manipulation.  ##
+## ------------------------- ##
+
+
+# m4_apply(MACRO, LIST)
+# ---------------------
+# Invoke MACRO, with arguments provided from the quoted list of
+# comma-separated quoted arguments.  If LIST is empty, invoke MACRO
+# without arguments.  The expansion will not be concatenated with
+# subsequent text.
+m4_define([m4_apply],
+[m4_if([$2], [], [$1], [$1($2)])[]])
+
+# _m4_apply(MACRO, LIST)
+# ----------------------
+# Like m4_apply, except do nothing if LIST is empty.
+m4_define([_m4_apply],
+[m4_if([$2], [], [], [$1($2)[]])])
+
+
 ## -------------------------- ##
 ## 8. Implementing m4 loops.  ##
 ## -------------------------- ##
@@ -800,6 +798,65 @@ _m4_foreach([$1], m4_cdr($2), [$3])])])
 m4_define([m4_foreach_w],
 [m4_foreach([$1], m4_split(m4_normalize([$2])), [$3])])
 
+
+# m4_map(MACRO, LIST)
+# m4_mapall(MACRO, LIST)
+# ----------------------
+# Invoke MACRO($1), MACRO($2) etc. where $1, $2... are the elements of
+# LIST.  $1, $2... must in turn be lists, appropriate for m4_apply.
+# If LIST contains an empty sublist, m4_map skips the expansion of
+# MACRO, while m4_mapall expands MACRO with no arguments.
+#
+# Since LIST may be quite large, we want to minimize how often it
+# appears in the expansion.  Rather than use m4_car/m4_cdr iteration,
+# we unbox the list, ignore the second argument, and use m4_shift2 to
+# detect the end of recursion.  The mismatch in () is intentional; see
+# _m4_map.  For m4_map, an empty list behaves like an empty sublist
+# and gets ignored; for m4_mapall, we must special-case the empty
+# list.
+m4_define([m4_map],
+[_m4_map([_m4_apply([$1]], [], $2)])
+
+m4_define([m4_mapall],
+[m4_if([$2], [], [],
+       [_m4_map([m4_apply([$1]], [], $2)])])
+
+
+# m4_map_sep(MACRO, SEPARATOR, LIST)
+# m4_mapall_sep(MACRO, SEPARATOR, LIST)
+# -------------------------------------
+# Invoke MACRO($1), SEPARATOR, MACRO($2), ..., MACRO($N) where $1,
+# $2... $N are the elements of LIST, and are in turn lists appropriate
+# for m4_apply.  SEPARATOR is expanded, in order to allow the creation
+# of a list of arguments by using a single-quoted comma as the
+# separator.  For each empty sublist, m4_map_sep skips the expansion
+# of MACRO and SEPARATOR, while m4_mapall_sep expands MACRO with no
+# arguments.
+#
+# For m4_mapall_sep, merely expand the first iteration without the
+# separator, then include separator as part of subsequent recursion.
+# For m4_map_sep, things are trickier - we don't know if the first
+# list element is an empty sublist, so we must define a self-modifying
+# helper macro and use that as the separator instead.
+m4_define([m4_map_sep],
+[m4_pushdef([m4_Sep], [m4_define([m4_Sep], m4_defn([m4_unquote]))])]dnl
+[_m4_map([_m4_apply([m4_Sep([$2])[]$1]], [], $3)m4_popdef([m4_Sep])])
+
+m4_define([m4_mapall_sep],
+[m4_if([$3], [], [],
+       [m4_apply([$1], m4_car($3))_m4_map([m4_apply([$2[]$1]], $3)])])
+
+# _m4_map(PREFIX, IGNORED, SUBLIST, ...)
+# --------------------------------------
+# Common implementation for all four m4_map variants.  The mismatch in
+# the number of () is intentional.  PREFIX must supply a form of
+# m4_apply, the open `(', and the MACRO to be applied.  Each iteration
+# then appends `,', the current SUBLIST and the closing `)', then
+# recurses to the next SUBLIST.  IGNORED is an aid to ending recursion
+# efficiently.
+m4_define([_m4_map],
+[m4_if([$#], [2], [],
+       [$1, [$3])$0([$1], m4_shift2($@))])])
 
 
 ## --------------------------- ##

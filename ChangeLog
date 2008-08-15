@@ -1,3 +1,16 @@
+2008-08-15  Eric Blake  <ebb9@byu.net>
+
+	Partial m4sugar merge from autoconf: m4_map.
+	* data/m4sugar/m4sugar.m4 (m4_fst): Delete.
+	(m4_map, m4_map_sep, _m4_map): Rewrite more efficiently.
+	(m4_apply, _m4_apply, m4_mapall, m4_mapall_sep): New macros.
+	* data/java.m4 (b4_token_enums): Use more efficient short-circuit
+	for empty list.
+	* data/c.m4 (b4_token_defines, b4_token_enums, b4_c_ansi_formals):
+	Likewise.
+	(b4_parse_param_for): Avoid m4_fst, now that autoconf no longer
+	declares it.
+
 2008-08-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Keep .version and PACKAGE_VERSION in sync.

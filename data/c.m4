@@ -90,7 +90,7 @@ b4_parse_param)
 # the formal name to FORMAL, and evaluating the BODY.
 m4_define([b4_parse_param_for],
 [m4_foreach([$1_$2], m4_defn([b4_parse_param]),
-[m4_pushdef([$1], m4_fst($1_$2))dnl
+[m4_pushdef([$1], m4_unquote(m4_car($1_$2)))dnl
 m4_pushdef([$2], m4_shift($1_$2))dnl
 $3[]dnl
 m4_popdef([$2])dnl
@@ -160,7 +160,7 @@ m4_define([b4_token_define],
 # -------------------------------------------------------
 # Output the definition of the tokens (if there are) as #defines.
 m4_define([b4_token_defines],
-[m4_if([$@], [[]], [],
+[m4_if([$#$1], [1], [],
 [/* Tokens.  */
 m4_map([b4_token_define], [$@])])
 ])
@@ -177,7 +177,7 @@ m4_define([b4_token_enum],
 # -----------------------------------------------------
 # Output the definition of the tokens (if there are) as enums.
 m4_define([b4_token_enums],
-[m4_if([$@], [[]], [],
+[m4_if([$#$1], [1], [],
 [/* Tokens.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
@@ -248,9 +248,8 @@ $1 (b4_c_ansi_formals(m4_shift2($@)))[]dnl
 # --------------------------------------
 # Output the arguments ANSI-C definition.
 m4_define([b4_c_ansi_formals],
-[m4_case([$@],
-	 [],   [void],
-	 [[]], [void],
+[m4_if([$#], [0], [void],
+       [$#$1], [1], [void],
 	       [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
 
 m4_define([b4_c_ansi_formal],
