@@ -19,7 +19,7 @@ dist_pkgdata_DATA = README bison.m4 \
    java-skel.m4 java.m4 lalr1.java
 
 m4sugardir = $(pkgdatadir)/m4sugar
-dist_m4sugar_DATA = m4sugar/m4sugar.m4
+dist_m4sugar_DATA = m4sugar/m4sugar.m4 m4sugar/foreach.m4
 
 xsltdir = $(pkgdatadir)/xslt
 dist_xslt_DATA =				\

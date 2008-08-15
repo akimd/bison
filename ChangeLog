@@ -1,5 +1,11 @@
 2008-08-15  Eric Blake  <ebb9@byu.net>
 
+	Remaining m4sugar merge from autoconf.
+	* data/m4sugar/m4sugar.m4: Copy entire file from autoconf.
+	* data/m4sugar/foreach.m4: New file, copied from autoconf.
+	* data/Makefile.am (dist_m4sugar_DATA): Distribute it.
+	* src/output.c (output_skeleton): Tell m4 how to find it.
+
 	Partial m4sugar merge from autoconf: m4_map.
 	* data/m4sugar/m4sugar.m4 (m4_fst): Delete.
 	(m4_map, m4_map_sep, _m4_map): Rewrite more efficiently.
