@@ -1,5 +1,9 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Regen.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Make parser::yytranslate static.
 	Small speedup (1%) on the list grammar.  And makes yytranslate_ available
 	in non member functions.
