@@ -1,5 +1,13 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Shortcuts in bench directives.
+	* etc/bench.pl.in (parse_dirs): New.
+	Use it.
+	(bench_variant_parser, bench_fusion_parser): Use %s and %d.
+	Create the benches in "benches/".
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Formatting changes.
 	* data/lalr1.cc: here.
 

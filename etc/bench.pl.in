@@ -30,11 +30,14 @@ bench.pl - bench marks for Bison parsers.
 Specify the set of benches to run.  The following grammar defines the
 I<directives>:
 
-   I<directives> ::= I<directives> | I<directives>  -- Alternation
-                  |  I<directives> & I<directives>  -- Concatenation
-                  |  [ I<directives> ]              -- Optional
-                  |  ( I<directives> )              -- Parentheses
-                  | I<directive>
+   directives ::=
+       directives | directives  -- Alternation
+     | directives & directives  -- Concatenation
+     | [ directives> ]          -- Optional
+     | ( directives> )          -- Parentheses
+     | %s skeleton              -- %skeleton "skeleton"
+     | #d definition            -- %code { #define definition }
+     | directive
 
 Parentheses only group to override precedence.  For instance:
 
@@ -887,17 +890,19 @@ Bench the C++ lalr1.cc parser using Boost.Variants or %union.
 sub bench_variant_parser ()
 {
   bench ('list',
-         ('%skeleton "lalr1.cc"',
-          '&',
-          '[', '%debug', ']',
-          '&',
-          '[', '%define variant',
-            '&',
-            '[', "%code {\n#define VARIANT_DESTROY\n}", ']',
-            '&',
-            '[', "%code {\n#define ONE_STAGE_BUILD\n}", ']',
-          ']'
-         ));
+         qw(
+            %s lalr1.cc
+            &
+            [ %debug ]
+            &
+            [ %define variant
+              &
+              [ #d VARIANT_DESTROY ]
+              &
+              [ #d ONE_STAGE_BUILD ]
+            ]
+         )
+    );
 }
 
 ######################################################################
@@ -911,9 +916,12 @@ Bench the C++ lalr1.cc parser using Boost.Variants or %union.
 sub bench_fusion_parser ()
 {
   bench ('list',
-         ('%skeleton "lalr1-split.cc"',
-          '|',
-          '%skeleton "lalr1.cc"'));
+         qw(
+             %s lalr1-split.cc
+           |
+             %s lalr1.cc
+         )
+    );
 }
 
 ############################################################################
@@ -938,6 +946,7 @@ my @token;
 #   expr: term (| term)*
 #   term: fact (& fact)*
 #   fact: ( expr ) | [ expr ] | dirs
+#   dirs: %s SKELETON | #d DEFINE | directive
 sub parse (@)
 {
   @token = @_;
@@ -1004,9 +1013,35 @@ sub parse_fact ()
     }
   else
     {
+      @res = parse_dirs ();
+    }
+  return @res;
+}
+
+sub parse_dirs ()
+{
+  my @res;
+  die "unexpected end of expression"
+    unless defined $token[0];
+
+  if ($token[0] eq '#d')
+    {
+      shift @token;
+      @res = ("%code {\n#define\n}");
+      shift @token;
+    }
+  elsif ($token[0] eq '%s')
+    {
+      shift @token;
+      @res = ("%skeleton \"$token[0]\"");
+      shift @token;
+    }
+  else
+    {
       @res = $token[0];
       shift @token;
     }
+
   return @res;
 }
 
@@ -1035,14 +1070,17 @@ sub getopt ()
 getopt;
 
 # Create the directory we work in.
+mkdir "benches" or die "cannot create benches"
+  unless -d "benches";
 my $count = 1;
 ++$count
-  while -d "bench-$count";
-my $dir = "bench-$count";
+  while -d "benches/$count";
+my $dir = "benches/$count";
 mkdir $dir
   or die "cannot create $dir";
 chdir $dir
   or die "cannot chdir $dir";
+
 # The following message is tailored to please Emacs' compilation-mode.
 verbose 1, "Entering directory `$dir'\n";
 verbose 1, "Using bison=$bison.\n";
