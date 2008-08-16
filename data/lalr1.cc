@@ -113,6 +113,17 @@ m4_define([b4_symbol],
 [m4_indir([b4_symbol($1, $2)])])
 
 
+# b4_symbol_if(NUM, FIELD, IF-TRUE, IF-FALSE)
+# -------------------------------------------
+# If FIELD about symbol #NUM is 1 expand IF-TRUE, if is 0, expand IF-FALSE.
+# Otherwise an error.
+m4_define([b4_symbol_if],
+[m4_case(b4_symbol([$1], [$2]),
+         [1], [$3],
+         [0], [$4],
+         [m4_fatal([$0: field $2 of $1 is not a Boolean:] b4_symbol([$1], [$2]))])])
+
+
 # b4_symbol_actions(FILENAME, LINENO,
 #                   SYMBOL-TAG, SYMBOL-NUM,
 #                   SYMBOL-ACTION, SYMBOL-TYPENAME)
@@ -143,14 +154,16 @@ m4_define([b4_symbol_case_],
 # b4_type_action_(NUMS)
 # ---------------------
 # Run actions for the symbol NUMS that all have the same type-name.
+# Skip NUMS that have no type-name.
 m4_define([b4_type_action_],
+[b4_symbol_if([$1], [has_type_name],
 [m4_map([b4_symbol_case_], [$@])[]dnl
         b4_dollar_dollar([b4_symbol([$1], [number])],
                          [b4_symbol([$1], [tag])],
                          [b4_symbol([$1], [type_name])]);
 	break;
 
-])
+])])
 
 
 # b4_symbol_variant(YYTYPE, YYVAL, ACTION, [ARGS])

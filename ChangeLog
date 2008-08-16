@@ -1,5 +1,15 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	More information about the symbols.
+	* src/output.c (type_names_output): Document all the symbols,
+	including those that don't have a type-name.
+	(symbol_definitions_output): Define "is_token" and
+	"has_type_name".
+	* data/lalr1.cc (b4_type_action_): Skip symbols that have an empty
+	type-name, now that they are defined too in b4_type_names.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Regen.
 
 2008-11-10  Akim Demaille  <demaille@gostai.com>
