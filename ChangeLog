@@ -1,5 +1,9 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Comment changes.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Use "enum" for integral constants.
 	This is just nicer to read, I observed no speedup.
 	
