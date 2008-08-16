@@ -1,5 +1,15 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Use "enum" for integral constants.
+	This is just nicer to read, I observed no speedup.
+	
+	* data/lalr1.cc (yyeof_, yylast_, yynnts_, yyempty_, yyfinal_)
+	(yterror_, yyerrcode_, yyntokens_): Define as members of an enum.
+	(yyuser_token_number_max_, yyundef_token_): Move into...
+	(yytranslate_): here.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Shortcuts in bench directives.
 	* etc/bench.pl.in (parse_dirs): New.
 	Use it.

@@ -605,17 +605,18 @@ m4_ifdef([b4_stype],
     inline void yypop_ (unsigned int n = 1);
 
     /* Constants.  */
-    static const int yyeof_;
-    /* LAST_ -- Last index in TABLE_.  */
-    static const int yylast_;
-    static const int yynnts_;
-    static const int yyempty_;
-    static const int yyfinal_;
-    static const int yyterror_;
-    static const int yyerrcode_;
-    static const int yyntokens_;
-    static const unsigned int yyuser_token_number_max_;
-    static const token_number_type yyundef_token_;
+    enum
+    {
+      yyeof_ = 0,
+      yylast_ = ]b4_last[,           //< Last index in yytable_.
+      yynnts_ = ]b4_nterms_number[,  //< Number of nonterminal symbols.
+      yyempty_ = -2,
+      yyfinal_ = ]b4_final_state_number[, //< Termination state number.
+      yyterror_ = 1,
+      yyerrcode_ = 256,
+      yyntokens_ = ]b4_tokens_number[,   //< Number of tokens.
+    };
+
 ]b4_parse_param_vars[
   };
 
@@ -1403,25 +1404,16 @@ b4_error_verbose_if([ tok])[)
     const token_number_type
     translate_table[] =
     {
-  ]b4_translate[
+]b4_translate[
     };
-    if ((unsigned int) t <= yyuser_token_number_max_)
+    const unsigned int user_token_number_max_ = ]b4_user_token_number_max[;
+    const token_number_type undef_token_ = ]b4_undef_token_number[;
+
+    if (static_cast<unsigned int> (t) <= user_token_number_max_)
       return translate_table[t];
     else
-      return yyundef_token_;
+      return undef_token_;
   }
-
-  const int ]b4_parser_class_name[::yyeof_ = 0;
-  const int ]b4_parser_class_name[::yylast_ = ]b4_last[;
-  const int ]b4_parser_class_name[::yynnts_ = ]b4_nterms_number[;
-  const int ]b4_parser_class_name[::yyempty_ = -2;
-  const int ]b4_parser_class_name[::yyfinal_ = ]b4_final_state_number[;
-  const int ]b4_parser_class_name[::yyterror_ = 1;
-  const int ]b4_parser_class_name[::yyerrcode_ = 256;
-  const int ]b4_parser_class_name[::yyntokens_ = ]b4_tokens_number[;
-
-  const unsigned int ]b4_parser_class_name[::yyuser_token_number_max_ = ]b4_user_token_number_max[;
-  const ]b4_parser_class_name[::token_number_type ]b4_parser_class_name[::yyundef_token_ = ]b4_undef_token_number[;
 
 ]b4_namespace_close[
 
