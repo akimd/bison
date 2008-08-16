@@ -1,5 +1,14 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Make parser::yytranslate static.
+	Small speedup (1%) on the list grammar.  And makes yytranslate_ available
+	in non member functions.
+	
+	* data/lalr1.cc (yytranslate_): Does not need to be a instance
+	function.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Avoid trailing spaces.
 	* data/c.m4: b4_comment(TEXT): Don't indent empty lines.
 	* data/lalr1.cc: Don't indent before rule and symbol actions, as

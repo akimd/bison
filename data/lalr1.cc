@@ -497,7 +497,7 @@ m4_ifdef([b4_stype],
 #endif
 
     /// Convert a scanner token number \a t to a symbol number.
-    token_number_type yytranslate_ (int t);
+    static inline token_number_type yytranslate_ (int t);
 
     /// A complete symbol, with its type.
     template <typename Exact>
