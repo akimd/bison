@@ -1,5 +1,9 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Formatting changes.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	More information about the symbols.
 	* src/output.c (type_names_output): Document all the symbols,
 	including those that don't have a type-name.

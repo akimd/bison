@@ -1037,7 +1037,6 @@ b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
 
-
     /* Convert token to internal form.  */
     if (yychar <= yyeof_)
       {
