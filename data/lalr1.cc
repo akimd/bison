@@ -884,8 +884,8 @@ b4_percent_code_get[]dnl
         << yysym.location << ": ";
     switch (yytype)
       {
-]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
-[       default:
+]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))[
+       default:
 	  break;
       }
     yyo << ')';
@@ -1105,7 +1105,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     YY_REDUCE_PRINT (yyn);
     switch (yyn)
       {
-	]b4_user_actions[
+]b4_user_actions[
 	default:
           break;
       }

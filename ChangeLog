@@ -1,5 +1,13 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Avoid trailing spaces.
+	* data/c.m4: b4_comment(TEXT): Don't indent empty lines.
+	* data/lalr1.cc: Don't indent before rule and symbol actions, as
+	they can be empty, and anyway this incorrectly indents the first
+	action.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Comment changes.
 
 2008-11-10  Akim Demaille  <demaille@gostai.com>

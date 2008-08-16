@@ -23,9 +23,12 @@
 
 # b4_comment(TEXT)
 # ----------------
+# Put TEXT in comment.  Avoid trailing spaces: don't indent empty lines.
+# Avoid adding indentation to the first line, as the indentation comes
+# from "/*".  That's why we don't patsubst([$1], [^\(.\)], [   \1]).
 m4_define([b4_comment], [/* m4_bpatsubst([$1], [
-], [
-   ])  */])
+\(.\)], [
+   \1])  */])
 
 # b4_identification
 # -----------------
