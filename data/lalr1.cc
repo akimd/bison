@@ -163,8 +163,8 @@ m4_define([b4_symbol_variant],
   switch ($1)
     {
 m4_map([b4_type_action_], m4_defn([b4_type_names]))[]dnl
-     default:
-       break;
+      default:
+        break;
     }
 m4_popdef([b4_dollar_dollar])dnl
 ])
