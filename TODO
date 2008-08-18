@@ -1,5 +1,60 @@
 -*- outline -*-
 
+* Various
+** YYERRCODE
+Defined to 256, but not used, not documented.  Probably the token
+number for the error token, which POSIX wants to be 256, but which
+Bison might renumber if the user used number 256.  Keep fix and doc?
+Throw away?
+
+** YYFAIL
+It is seems to be *really* obsolete now, shall we remove it?
+
+** YYBACKUP
+There is no test about it, no examples in the doc, and I'm not sure
+what it should look like.  For instance what follows crashes.
+
+  %error-verbose
+  %debug
+  %pure-parser
+  %code {
+  # include <stdio.h>
+  # include <stdlib.h>
+  # include <assert.h>
+
+    static void yyerror (const char *msg);
+    static int yylex (YYSTYPE *yylval);
+  }
+  %%
+  exp:
+    'a'   { printf ("a: %d\n", $1); }
+  | 'b'   { YYBACKUP('a', 123); }
+  ;
+  %%
+  static int
+  yylex (YYSTYPE *yylval)
+  {
+    static char const input[] = "b";
+    static size_t toknum;
+    assert (toknum < sizeof input);
+    *yylval = (toknum + 1) * 10;
+    return input[toknum++];
+  }
+
+  static void
+  yyerror (const char *msg)
+  {
+    fprintf (stderr, "%s\n", msg);
+  }
+
+  int
+  main (void)
+  {
+    yydebug = !!getenv("YYDEBUG");
+    return yyparse ();
+  }
+
+
 * Header guards
 
 From Franc,ois: should we keep the directory part in the CPP guard?
@@ -95,9 +150,6 @@ not clear: should it be lexical or syntactic.  Vadim Maslow thinks it
 must be in the scanner: we must not parse what is in a switched off
 part of %if.  Akim Demaille thinks it should be in the parser, so as
 to avoid falling into another CPP mistake.
-
-** -D, --define-muscle NAME=VALUE
-To define muscles via cli.  Or maybe support directly NAME=VALUE?
 
 ** XML Output
 There are couple of available extensions of Bison targeting some XML
@@ -198,15 +250,6 @@ Import the skeletons for C and C++.
 It is unfortunate that there is a total order for precedence.  It
 makes it impossible to have modular precedence information.  We should
 move to partial orders (sounds like series/parallel orders to me).
-
-** Correlation b/w precedence and associativity
-Also, I fail to understand why we have to assign the same
-associativity to operators with the same precedence.  For instance,
-why can't I decide that the precedence of * and / is the same, but the
-latter is nonassoc?
-
-If there is really no profound motivation, we should find a new syntax
-to allow specifying this.
 
 ** RR conflicts
 See if we can use precedence between rules to solve RR conflicts.  See

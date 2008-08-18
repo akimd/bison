@@ -1,5 +1,14 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
+	Update TODO.
+	* TODO (-D): is implemented.
+	(associativity): Same precedence must have the same associativity.
+	For instance, how can a * b / c be parsed if * is %left and / is
+	%right?
+	(YYERRORCODE, YYFAIL, YYBACKUP): New.
+
+2008-11-10  Akim Demaille  <demaille@gostai.com>
+
 	Formatting changes.
 
 2008-11-10  Akim Demaille  <demaille@gostai.com>
