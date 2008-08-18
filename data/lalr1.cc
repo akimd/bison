@@ -1281,18 +1281,19 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     if (yyerrstatus_ == 3)
       {
 	/* If just tried and failed to reuse lookahead token after an
-	 error, discard it.  */
+           error, discard it.  */
 
-	if (yychar <= yyeof_)
-	  {
-            /* Return failure if at end of input.  */
-            if (yychar == yyeof_)
-              YYABORT;
-	  }
-	else
-	  {
-	    yy_destroy_ ("Error: discarding", yyla);
-	    yychar = yyempty_;
+        /* Return failure if at end of input.  */
+        if (yychar == yyeof_)
+          YYABORT;
+        else
+          {]b4_assert_if([
+            // Previous version of this code was ready to handle
+            // yychar == yyempty_ (actually yychar <= yyeof_).  Can it
+            // really be triggered?
+            assert (yychar != yyempty_);])[
+            yy_destroy_ ("Error: discarding", yyla);
+            yychar = yyempty_;
 	  }
       }
 

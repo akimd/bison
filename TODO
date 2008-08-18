@@ -54,6 +54,22 @@ what it should look like.  For instance what follows crashes.
     return yyparse ();
   }
 
+** yychar == yyempty_
+The code in yyerrlab reads:
+
+      if (yychar <= YYEOF)
+	{
+	  /* Return failure if at end of input.  */
+	  if (yychar == YYEOF)
+	    YYABORT;
+	}
+
+There are only two yychar that can be <= YYEOF: YYEMPTY and YYEOF.
+But I can't produce the situation where yychar is YYEMPTY here, is it
+really possible?  The test suite does not exercise this case.
+
+This shows that it would be interesting to manage to install skeleton
+coverage analysis to the test suite.
 
 * Header guards
 

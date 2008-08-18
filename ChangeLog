@@ -1,5 +1,12 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	yychar cannot be empty in yyerrlab.
+	* TODO (yychar == yyempty_): New.
+	* data/lalr1.cc: Remove the handling of this case.
+	This eases forthcoming changes related to yychar and yytranslate.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Bench: syntactic sugar for %define/#define.
 	* etc/bench.pl.in (parse_dirs): Support %d and #d with arguments.
 	(&bench_push_parser, bench_variant_parser): Use this feature.
