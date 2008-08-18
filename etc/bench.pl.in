@@ -995,7 +995,7 @@ sub parse_term ()
         {
           for my $lhs (@lhs)
             {
-              push @res, "$lhs\n$rhs";
+              push @res, $lhs . ($lhs && $rhs ? "\n" : "") . $rhs;
             }
         }
     }
