@@ -1,5 +1,13 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Bench: syntactic sugar for %define/#define.
+	* etc/bench.pl.in (parse_dirs): Support %d and #d with arguments.
+	(&bench_push_parser, bench_variant_parser): Use this feature.
+	(&eat): New.
+	Use it.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Less memory pressure on the "list" bench.
 	* etc/bench.pl.in (generate_grammar_list): Do not accumulate all
 	the values, to limit memory pressure.

@@ -35,8 +35,9 @@ I<directives>:
      | directives & directives  -- Concatenation
      | [ directives> ]          -- Optional
      | ( directives> )          -- Parentheses
+     | #d NAME[=VALUE]          -- %code { #define NAME [VALUE] }
+     | %d NAME[=VALUE]          -- %define NAME ["VALUE"]
      | %s skeleton              -- %skeleton "skeleton"
-     | #d definition            -- %code { #define definition }
      | directive
 
 Parentheses only group to override precedence.  For instance:
@@ -872,10 +873,10 @@ interfaces.
 sub bench_push_parser ()
 {
   bench ('calc',
-         (
-          '[', '%define api.pure', ']',
-          '&',
-          '[', '%define api.push_pull "both"', ']'
+         qw(
+            [ %d api.pure ]
+            &
+            [ %d api.push_pull=both ]
          ));
 }
 
@@ -891,11 +892,9 @@ sub bench_variant_parser ()
 {
   bench ('list',
          qw(
-            %s lalr1.cc
-            &
             [ %debug ]
             &
-            [ %define variant
+            [ %d variant
               &
               [ #d VARIANT_DESTROY ]
               &
@@ -939,30 +938,42 @@ sub help ($)
 
 ######################################################################
 
+# The end of the directives to parse.
+my $eod = "end of directives";
 # The list of tokens parsed by the following functions.
 my @token;
+
+# eat ($EXPECTED)
+# ---------------
+# Check that the current token is $EXPECTED, and move to the next.
+sub eat ($)
+{
+  my ($expected) = @_;
+  die "expected $expected, unexpected: $token[0] (@token)\n"
+    unless $token[0] eq $expected;
+  shift @token;
+}
 
 # Parse directive specifications:
 #   expr: term (| term)*
 #   term: fact (& fact)*
 #   fact: ( expr ) | [ expr ] | dirs
-#   dirs: %s SKELETON | #d DEFINE | directive
+#   dirs: %s SKELETON | #d NAME[=VALUE] | %d NAME[=VALUE] | directive
 sub parse (@)
 {
-  @token = @_;
+  @token = (@_, $eod);
   verbose 3, "Parsing: @token\n";
   my @res = parse_expr ();
-  die "expected end of directives, unexpected: @token"
-    if defined $token[0];
+  eat ($eod);
   return @res;
 }
 
 sub parse_expr ()
 {
   my @res = parse_term ();
-  while (defined $token[0] && $token[0] eq '|')
+  while ($token[0] eq '|')
     {
-      shift @token;
+      eat ('|');
       # Alternation.
       push @res, parse_term ();
     }
@@ -972,9 +983,9 @@ sub parse_expr ()
 sub parse_term ()
 {
   my @res = parse_fact ();
-  while (defined $token[0] && $token[0] eq '&')
+  while ($token[0] eq '&')
     {
-      shift @token;
+      eat ('&');
       # Cartesian product.
       my @lhs = @res;
       @res = ();
@@ -997,19 +1008,15 @@ sub parse_fact ()
 
   if ($token[0] eq '(')
     {
-      shift @token;
+      eat ('(');
       @res = parse_expr ();
-      die "unexpected $token[0], expected )"
-        unless $token[0] eq ')';
-      shift @token;
+      eat (')');
     }
   elsif ($token[0] eq '[')
     {
-      shift @token;
+      eat ('[');
       @res = (parse_expr (), '');
-      die "unexpected $token[0], expected ]"
-        unless $token[0] eq ']';
-      shift @token;
+      eat (']');
     }
   else
     {
@@ -1026,8 +1033,16 @@ sub parse_dirs ()
 
   if ($token[0] eq '#d')
     {
+      eat ('#d');
+      $token[0] =~ s/(.*?)=(.*)/$1 $2/;
+      @res = ("%code {\n#define $token[0]\n}");
       shift @token;
-      @res = ("%code {\n#define\n}");
+    }
+  elsif ($token[0] eq '%d')
+    {
+      shift @token;
+      $token[0] =~ s/(.*?)=(.*)/$1 "$2"/;
+      @res = ("%define $token[0]");
       shift @token;
     }
   elsif ($token[0] eq '%s')
