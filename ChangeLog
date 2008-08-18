@@ -1,5 +1,32 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Introduce make_symbol.
+	make_symbol provides a means to construct a full symbol (kind, value,
+	location) in a single shot.  It is meant to be a Symbol constructor,
+	parameterized by the symbol kind so that overloading would prevent
+	incorrect kind/value pairs.  Unfortunately parameterized constructors do
+	not work well in C++ (unless the parameter also appears as an argument,
+	which is not acceptable), hence the use of a function instead of a
+	constructor.
+	
+	* data/lalr1.cc (b4_symbol_constructor_declaration_)
+	(b4_symbol_constructor_declarations)
+	(b4_symbol_constructor_specialization_)
+	(b4_symbol_constructor_specializations)
+	(b4_symbol_constructor_definition_)
+	(b4_symbol_constructor_definitions): New.
+	Use them where appropriate to generate declaration, declaration of
+	the specializations, and implementations of the templated
+	overloaded function "make_symbol".
+	(variant::variant): Always define a default ctor.
+	Also provide a copy ctor.
+	(symbol_base_type, symbol_type): New ctor overloads for value-less
+	symbols.
+	(symbol_type): Now public, so that functions such as yylex can use
+	it.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Inform m4 whether a tag is a valid id.
 	* src/output.c (is_identifier): New.
 	(symbol_definitions_output): Use it to define tag_is_id.

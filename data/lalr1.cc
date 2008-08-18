@@ -166,6 +166,86 @@ m4_define([b4_type_action_],
 ])])
 
 
+# b4_symbol_constructor_declaration_(SYMBOL-NUMBERS)
+# ----------------------------------------------------
+# Declare the overloaded version of make_symbol for the (common) type of
+# these SYMBOL-NUMBERS.  Use at class-level.
+m4_define([b4_symbol_constructor_declaration_],
+[    template <token_type>
+    static inline symbol_type
+    make_symbol (b4_symbol_if([$1], [has_type_name],
+                              [const b4_symbol([$1], [type_name])& v, ])dnl
+const location_type& l);
+
+])
+
+# b4_symbol_constructor_declarations
+# ----------------------------------
+# Declare the overloaded versions of make_symbol for all the value types.
+# Use at class-level.
+m4_define([b4_symbol_constructor_declarations],
+[b4_variant_if([
+    // Declaration of make_symbol for each value type.
+m4_map([b4_symbol_constructor_declaration_], m4_defn([b4_type_names]))])])
+
+
+
+# b4_symbol_constructor_specialization_(SYMBOL-NUMBER)
+# ----------------------------------------------------
+# Declare the specialization of make_symbol for this each SYMBOL-NUMBER.
+# Specializations cannot be declared at class-level, this must be done
+# at namespace-level.
+m4_define([b4_symbol_constructor_specialization_],
+[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [tag_is_id],
+[  template <>
+  inline
+  b4_parser_class_name::symbol_type
+  b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [tag])> (dnl
+b4_symbol_if([$1], [has_type_name],
+             [const b4_symbol([$1], [type_name])& v, ])dnl
+const b4_parser_class_name::location_type& l);
+])])])
+
+# b4_symbol_constructor_specializations
+# -------------------------------------
+# Declare specializations of make_symbol.
+m4_define([b4_symbol_constructor_specializations],
+[b4_variant_if([
+  // Specializations of make_symbol for each symbol type.
+m4_map([b4_symbol_constructor_specialization_],
+       m4_defn([b4_symbol_numbers]))])dnl
+])
+
+
+
+# b4_symbol_constructor_definition_(SYMBOL-NUMBER)
+# ------------------------------------------------
+# Define make_symbol for this SYMBOL-NUMBER.
+m4_define([b4_symbol_constructor_definition_],
+[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [tag_is_id],
+[  template <>
+  b4_parser_class_name::symbol_type
+  b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [tag])> (dnl
+b4_symbol_if([$1], [has_type_name],
+             [const b4_symbol([$1], [type_name])& v, ])dnl
+const location_type& l)
+  {
+    return symbol_type (yytranslate_ (token::b4_symbol([$1], [tag])),dnl
+ b4_symbol_if([$1], [has_type_name], [v, ])l);
+  }
+
+])])])
+
+
+# b4_symbol_constructor_declarations
+# ----------------------------------
+# Define the overloaded versions of make_symbol for all the value types.
+m4_define([b4_symbol_constructor_definitions],
+[b4_variant_if(
+[  // Implementation of make_symbol for each symbol type.
+m4_map([b4_symbol_constructor_definition_], m4_defn([b4_symbol_numbers]))])])
+
+
 # b4_symbol_variant(YYTYPE, YYVAL, ACTION, [ARGS])
 # ------------------------------------------------
 # Run some ACTION ("build", or "destroy") on YYVAL of symbol type
@@ -262,11 +342,12 @@ dnl FIXME: This is wrong, we want computed header guards.
   {]b4_assert_if([
     /// Whether something is contained.
     bool built;
-
-    /// Initially uninitialized.
-    variant ()
-      : built(false)
-    {}])[
+])[
+    /// Empty construction.
+    inline
+    variant ()]b4_assert_if([
+      : built(false)])[
+    {}
 
     /// Instantiate a \a T in here.
     template <typename T>
@@ -286,6 +367,15 @@ dnl FIXME: This is wrong, we want computed header guards.
       assert(!built);
       built = true;])[
       return *new (buffer) T(t);
+    }
+
+    /// Construct and fill.
+    template <typename T>
+    inline
+    variant (const T& t)]b4_assert_if([
+      : built(true)])[
+    {
+      new (buffer) T(t);
     }
 
     /// Accessor to a built \a T.
@@ -520,6 +610,7 @@ m4_ifdef([b4_stype],
       inline symbol_base_type ();
 
       /// Constructor.
+      inline symbol_base_type (const location_type& l);
       inline symbol_base_type (const semantic_type& v, const location_type& l);
 
       /// Return this with its exact type.
@@ -553,6 +644,7 @@ m4_ifdef([b4_stype],
     inline void yy_destroy_ (const char* yymsg,
                              symbol_base_type<Exact>& yysym) const;
 
+  public:
     /// Element of the stack: a state and its attributes.
     struct symbol_type : symbol_base_type<symbol_type>
     {
@@ -566,6 +658,9 @@ m4_ifdef([b4_stype],
       inline symbol_type (int t,
                           const semantic_type& v, const location_type& l);
 
+      inline symbol_type (int t,
+                          const location_type& l);
+
       /// The symbol type.
       int type;
 
@@ -573,6 +668,9 @@ m4_ifdef([b4_stype],
       inline int type_get_ () const;
     };
 
+]b4_symbol_constructor_declarations[
+
+  private:
     /// Element of the stack: a state and its attributes.
     struct stack_symbol_type : symbol_base_type<stack_symbol_type>
     {
@@ -632,7 +730,7 @@ m4_ifdef([b4_stype],
 
 ]b4_parse_param_vars[
   };
-
+]b4_symbol_constructor_specializations[
 ]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -795,6 +893,13 @@ b4_percent_code_get[]dnl
   }
 
   template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const location_type& l)
+    : value()
+    , location(l)
+  {
+  }
+
+  template <typename Exact>
   ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const semantic_type& v, const location_type& l)
     : value(v)
     , location(l)
@@ -830,6 +935,13 @@ b4_percent_code_get[]dnl
   }
 
   ]b4_parser_class_name[::symbol_type::symbol_type (int t,
+                           const location_type& l)
+    : super_type (l)
+    , type (t)
+  {
+  }
+
+  ]b4_parser_class_name[::symbol_type::symbol_type (int t,
                            const semantic_type& v, const location_type& l)
     : super_type (v, l)
     , type (t)
@@ -841,6 +953,8 @@ b4_percent_code_get[]dnl
   {
     return type;
   }
+
+]b4_symbol_constructor_definitions[
 
   // stack_symbol_type.
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
