@@ -1149,19 +1149,14 @@ m4_popdef([b4_at_dollar])])dnl
 				     [[YYSTYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
+       // Convert token to internal form.
+       yyla.type = yytranslate_ (yychar);
+       // Beware that yylex may return -2 to mean EOF, but which
+       // turns out to the be value of YYEMPTY.
+       yychar = !yyempty_;
       }
 
-    /* Convert token to internal form.  */
-    if (yychar <= yyeof_)
-      {
-	yychar = yyla.type = yyeof_;
-	YYCDEBUG << "Now at end of input." << std::endl;
-      }
-    else
-      {
-	yyla.type = yytranslate_ (yychar);
-	YY_SYMBOL_PRINT ("Next token is", yyla);
-      }
+    YY_SYMBOL_PRINT ("Next token is", yyla);
 
     /* If the proper action on seeing token YYLA.TYPE is to reduce or
        to detect an error, take that action.  */
@@ -1284,7 +1279,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
            error, discard it.  */
 
         /* Return failure if at end of input.  */
-        if (yychar == yyeof_)
+        if (yyla.type == yyeof_)
           YYABORT;
         else
           {]b4_assert_if([
@@ -1536,7 +1531,9 @@ b4_error_verbose_if([ tok])[)
     const unsigned int user_token_number_max_ = ]b4_user_token_number_max[;
     const token_number_type undef_token_ = ]b4_undef_token_number[;
 
-    if (static_cast<unsigned int> (t) <= user_token_number_max_)
+    if (t <= yyeof_)
+      return yyeof_;
+    else if (static_cast<unsigned int> (t) <= user_token_number_max_)
       return translate_table[t];
     else
       return undef_token_;

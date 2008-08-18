@@ -1,5 +1,13 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Let yytranslate handle the eof case.
+	* data/lalr1.cc (yytranslate_): Handle the EOF case.
+	Adjust callers.
+	No longer expect yychar to be equal to yyeof_, rather, test the
+	lookahead's (translated) kind.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	yychar cannot be empty in yyerrlab.
 	* TODO (yychar == yyempty_): New.
 	* data/lalr1.cc: Remove the handling of this case.
