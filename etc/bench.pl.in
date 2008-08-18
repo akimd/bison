@@ -634,12 +634,11 @@ result:
 
 text:
   /* nothing */		{ /* This will generate an empty string */ }
-| text TEXT		{ std::swap($$,$1); $$.append($2); }
+| text TEXT		{ std::swap ($$, $2); }
 | text NUMBER		{
-			  std::swap($$,$1);
-                          std::ostringstream ss;
+			  std::ostringstream ss;
 			  ss << ' ' << $2;
-			  $$.append(ss.str());
+			  $$ = ss.str();
 			 }
 ;
 EOF
@@ -663,11 +662,12 @@ result:
 
 text:
   /* nothing */		{ $$ = new std::string; }
-| text TEXT		{ $$->append(*$2); delete $2; }
+| text TEXT		{ delete $1; $$ = $2; }
 | text NUMBER		{
-			  std::ostringstream ss;
+                          delete $1;
+                          std::ostringstream ss;
 			  ss << ' ' << $2;
-			  $$->append(ss.str());
+			  $$ = new std::string (ss.str());
 			 }
 ;
 EOF

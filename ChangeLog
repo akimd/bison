@@ -1,5 +1,11 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Less memory pressure on the "list" bench.
+	* etc/bench.pl.in (generate_grammar_list): Do not accumulate all
+	the values, to limit memory pressure.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Introduce make_symbol.
 	make_symbol provides a means to construct a full symbol (kind, value,
 	location) in a single shot.  It is meant to be a Symbol constructor,
