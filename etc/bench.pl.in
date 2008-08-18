@@ -615,6 +615,17 @@ static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
 #else
 # define IF_ONE_STAGE_BUILD(True, False) False
 #endif
+
+  // Conversion to string.
+  template <typename T>
+    inline
+    std::string
+    string_cast (const T& t)
+  {
+    std::ostringstream o;
+    o << t;
+    return o.str ();
+  }
 }
 EOF
 
@@ -636,11 +647,7 @@ result:
 text:
   /* nothing */		{ /* This will generate an empty string */ }
 | text TEXT		{ std::swap ($$, $2); }
-| text NUMBER		{
-			  std::ostringstream ss;
-			  ss << ' ' << $2;
-			  $$ = ss.str();
-			 }
+| text NUMBER		{ $$ = string_cast($2); }
 ;
 EOF
     }
@@ -664,12 +671,7 @@ result:
 text:
   /* nothing */		{ $$ = new std::string; }
 | text TEXT		{ delete $1; $$ = $2; }
-| text NUMBER		{
-                          delete $1;
-                          std::ostringstream ss;
-			  ss << ' ' << $2;
-			  $$ = new std::string (ss.str());
-			 }
+| text NUMBER		{ delete $1; $$ = new std::string (string_cast ($2)); }
 ;
 EOF
     }

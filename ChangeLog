@@ -1,5 +1,11 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Use string_cast in the bench.
+	* etc/bench.pl.in (generate_grammar_list): Define and use
+	string_cast.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Replace yychar with a Boolean.
 	* data/lalr1.cc (parse::yychar): Replace by...
 	(parse::yyempty): this.
