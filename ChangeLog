@@ -1,5 +1,12 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Inform m4 whether a tag is a valid id.
+	* src/output.c (is_identifier): New.
+	(symbol_definitions_output): Use it to define tag_is_id.
+	But maybe this should be done at m4 level?
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Test 214 was failing: it greps with a pattern containing [     ]*
 	which obviously meant to catch spaces and tabs, but contained only
 	spaces. Tabulations in sources are a nuisance, so to simplify the
