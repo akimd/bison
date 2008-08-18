@@ -1,5 +1,11 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Remove useless bench case.
+	* etc/bench.pl.in (bench_variant_parser): VARIANT_DESTROY is
+	no longer used.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Improve display of directives.
 	* etc/bench.pl.in (parse_term): Don't add useless eol.
 

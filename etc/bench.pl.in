@@ -898,8 +898,6 @@ sub bench_variant_parser ()
             &
             [ %d variant
               &
-              [ #d VARIANT_DESTROY ]
-              &
               [ #d ONE_STAGE_BUILD ]
             ]
          )
