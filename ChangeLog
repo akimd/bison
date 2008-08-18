@@ -1,5 +1,10 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Factor the tables.
+	* TODO: New item.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Let yytranslate handle the eof case.
 	* data/lalr1.cc (yytranslate_): Handle the EOF case.
 	Adjust callers.

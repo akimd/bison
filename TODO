@@ -71,6 +71,12 @@ really possible?  The test suite does not exercise this case.
 This shows that it would be interesting to manage to install skeleton
 coverage analysis to the test suite.
 
+** Table definitions
+It should be very easy to factor the definition of the various tables,
+including the separation bw declaration and definition.  See for
+instance b4_table_define in lalr1.cc.  This way, we could even factor
+C vs. C++ definitions.
+
 * Header guards
 
 From Franc,ois: should we keep the directory part in the CPP guard?
