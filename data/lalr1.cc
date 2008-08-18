@@ -815,12 +815,12 @@ b4_percent_code_get[]dnl
 
 #endif /* !YYDEBUG */
 
-#define yyerrok		(yyerrstatus_ = 0)
-#define yyclearin	(yychar = yyempty_)
+#define yyerrok         (yyerrstatus_ = 0)
+#define yyclearin       (yyempty = true)
 
-#define YYACCEPT	goto yyacceptlab
-#define YYABORT		goto yyabortlab
-#define YYERROR		goto yyerrorlab
+#define YYACCEPT        goto yyacceptlab
+#define YYABORT         goto yyabortlab
+#define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
 ]b4_namespace_open[
@@ -1080,8 +1080,8 @@ b4_percent_code_get[]dnl
   int
   ]b4_parser_class_name[::parse ()
   {
-    /// Coded type of the lookahead.
-    int yychar = yyempty_;
+    /// Whether yyla contains a lookahead.
+    bool yyempty = true;
 
     /* State.  */
     int yyn;
@@ -1142,18 +1142,14 @@ m4_popdef([b4_at_dollar])])dnl
       goto yydefault;
 
     /* Read a lookahead token.  */
-    if (yychar == yyempty_)
+    if (yyempty)
       {
 	YYCDEBUG << "Reading a token: ";
-	yychar = ]b4_c_function_call([yylex], [int],
+	yyla.type = yytranslate_ (]b4_c_function_call([yylex], [int],
 				     [[YYSTYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
-m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
-       // Convert token to internal form.
-       yyla.type = yytranslate_ (yychar);
-       // Beware that yylex may return -2 to mean EOF, but which
-       // turns out to the be value of YYEMPTY.
-       yychar = !yyempty_;
+m4_ifdef([b4_lex_param], [, ]b4_lex_param))[);
+        yyempty = false;
       }
 
     YY_SYMBOL_PRINT ("Next token is", yyla);
@@ -1175,7 +1171,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
 
     /* Discard the token being shifted.  */
-    yychar = yyempty_;
+    yyempty = true;
 
     /* Count tokens shifted since error; after three, turn off error
        status.  */
@@ -1282,13 +1278,9 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
         if (yyla.type == yyeof_)
           YYABORT;
         else
-          {]b4_assert_if([
-            // Previous version of this code was ready to handle
-            // yychar == yyempty_ (actually yychar <= yyeof_).  Can it
-            // really be triggered?
-            assert (yychar != yyempty_);])[
+          {
             yy_destroy_ ("Error: discarding", yyla);
-            yychar = yyempty_;
+            yyempty = true;
 	  }
       }
 
@@ -1368,7 +1360,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     goto yyreturn;
 
   yyreturn:
-    if (yychar != yyempty_)
+    if (!yyempty)
       yy_destroy_ ("Cleanup: discarding lookahead", yyla);
 
     /* Do not reclaim the symbols of the rule which action triggered
