@@ -1,5 +1,15 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Make it possible to return a symbol_type from yylex.
+	* data/lalr1.cc (b4_lex_symbol_if): New.
+	(parse): When lex_symbol is defined, expected yylex to return the
+	complete lookahead.
+	* etc/bench.pl.in (generate_grammar_list): Extend to support this
+	yylex interface.
+	(bench_variant_parser): Exercise it.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Remove useless bench case.
 	* etc/bench.pl.in (bench_variant_parser): VARIANT_DESTROY is
 	no longer used.

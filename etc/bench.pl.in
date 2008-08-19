@@ -580,11 +580,13 @@ sub generate_grammar_list ($$@)
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
   my $variant = grep { /%define "?variant"?/ } @directive;
+  my $lex_symbol = grep { /%define "?lex_symbol"?/ } @directive;
   my $out = new IO::File ">$base.y"
     or die;
   print $out <<EOF;
 %language "C++"
 %defines
+%locations
 $directives
 
 %code requires // *.h
@@ -598,22 +600,18 @@ $directives
 #include <iostream>
 #include <sstream>
 
-// Prototype of the yylex function providing subsequent tokens.
-static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
-
 #define STAGE_MAX    ($max * 10) // max = $max
 
+#define USE_LEX_SYMBOL $lex_symbol
 #define USE_VARIANTS $variant
-#if USE_VARIANTS
-# define IF_VARIANTS(True, False) True
-#else
-# define IF_VARIANTS(True, False) False
-#endif
 
-#ifdef ONE_STAGE_BUILD
-# define IF_ONE_STAGE_BUILD(True, False) True
+  // Prototype of the yylex function providing subsequent tokens.
+  static
+#if USE_LEX_SYMBOL
+  yy::parser::symbol_type yylex();
 #else
-# define IF_ONE_STAGE_BUILD(True, False) False
+  yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
+                               yy::parser::location_type* yylloc);
 #endif
 
   // Conversion to string.
@@ -627,6 +625,8 @@ static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
     return o.str ();
   }
 }
+
+%token END_OF_FILE 0
 EOF
 
   if ($variant)
@@ -636,7 +636,6 @@ EOF
 %token <int> NUMBER
 %printer { std::cerr << "Number: " << $$; } <int>
 %printer { std::cerr << "Text: " << $$; } <std::string>
-%token END_OF_FILE 0
 %type <std::string> text result
 
 %%
@@ -660,7 +659,6 @@ EOF
 %token <ival> NUMBER
 %printer { std::cerr << "Number: " << $$; } <ival>
 %printer { std::cerr << "Text: " << *$$; } <sval>
-%token END_OF_FILE 0
 %type <sval> text result
 
 %%
@@ -678,39 +676,63 @@ EOF
 
   print $out <<'EOF';
 %%
+#
+
 static
-yy::parser::token_type
-yylex(yy::parser::semantic_type* yylval)
+#if USE_LEX_SYMBOL
+yy::parser::symbol_type yylex()
+#else
+yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
+                             yy::parser::location_type* yylloc)
+#endif
 {
+  typedef yy::parser::token token;
   static int stage = -1;
   ++stage;
   if (stage == STAGE_MAX)
-    return yy::parser::token::END_OF_FILE;
+    {
+#if USE_LEX_SYMBOL
+      return yy::parser::make_symbol <token::END_OF_FILE> (yy::location());
+#else
+      *yylloc = yy::location ();
+      return token::END_OF_FILE;
+#endif
+    }
   else if (stage % 2)
     {
-#if USE_VARIANTS
-# ifdef ONE_STAGE_BUILD
+#if USE_LEX_SYMBOL
+      return yy::parser::make_symbol <token::NUMBER> (stage, yy::location());
+#elif defined ONE_STAGE_BUILD
       yylval->build(stage);
-# else
+      *yylloc = yy::location ();
+      return token::NUMBER;
+#elif USE_VARIANTS
       yylval->build<int>() = stage;
-# endif
+      *yylloc = yy::location ();
+      return token::NUMBER;
 #else
       yylval->ival = stage;
+      *yylloc = yy::location ();
+      return token::NUMBER;
 #endif
-      return yy::parser::token::NUMBER;
     }
   else
     {
-#if USE_VARIANTS
-# ifdef ONE_STAGE_BUILD
+#if USE_LEX_SYMBOL
+      return yy::parser::make_symbol <token::TEXT> ("A string.", yy::location());
+#elif defined ONE_STAGE_BUILD
       yylval->build(std::string("A string."));
-# else
+      *yylloc = yy::location ();
+      return token::TEXT;
+#elif USE_VARIANTS
       yylval->build<std::string>() = std::string("A string.");
-# endif
+      *yylloc = yy::location ();
+      return token::TEXT;
 #else
       yylval->sval = new std::string("A string.");
+      *yylloc = yy::location ();
+      return token::TEXT;
 #endif
-      return yy::parser::token::TEXT;
     }
   abort();
 }
@@ -886,7 +908,7 @@ sub bench_push_parser ()
 
 =item C<bench_variant_parser ()>
 
-Bench the C++ lalr1.cc parser using Boost.Variants or %union.
+Bench the C++ lalr1.cc parser using variants or %union.
 
 =cut
 
@@ -894,11 +916,10 @@ sub bench_variant_parser ()
 {
   bench ('list',
          qw(
-            [ %debug ]
-            &
-            [ %d variant
+            [
+              %d variant
               &
-              [ #d ONE_STAGE_BUILD ]
+              [ #d ONE_STAGE_BUILD | %d lex_symbol ]
             ]
          )
     );

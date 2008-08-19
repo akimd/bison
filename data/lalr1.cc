@@ -53,6 +53,12 @@ b4_variant_if([
 ]) # b4_variant_if
 
 
+# b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
+# ----------------------------------------------------------------
+m4_define([b4_lex_symbol_if],
+[b4_percent_define_ifdef([[lex_symbol]], [$1], [$2])])
+
+
 # b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
 # ------------------------------------------------
 m4_define([b4_assert_if],
@@ -1144,14 +1150,15 @@ m4_popdef([b4_at_dollar])])dnl
     /* Read a lookahead token.  */
     if (yyempty)
       {
-	YYCDEBUG << "Reading a token: ";
-	yyla.type = yytranslate_ (]b4_c_function_call([yylex], [int],
+        YYCDEBUG << "Reading a token: ";
+]b4_lex_symbol_if(
+[        yyla = yylex();],
+[        yyla.type = yytranslate_ (b4_c_function_call([yylex], [int],
 				     [[YYSTYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
-m4_ifdef([b4_lex_param], [, ]b4_lex_param))[);
+m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
         yyempty = false;
       }
-
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
     /* If the proper action on seeing token YYLA.TYPE is to reduce or
