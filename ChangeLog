@@ -1,5 +1,11 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Prefer M4 to CPP.
+	* data/lalr1.cc: Use b4_error_verbose_if instead of #if
+	YYERROR_VERBOSE.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Support i18n of the parse error messages.
 	* TODO (lalr1.cc/I18n): Remove.
 	* data/lalr1.cc (yysyntax_error_): Support the translation of the
