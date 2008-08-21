@@ -1,5 +1,13 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Support parens in calc++.
+	* doc/bison.texinfo (Calc++ Scanner, Calc++ Parser): Support parens.
+	* examples/calc++/test (run): Check the expected output.
+	Adjust callers.
+	Check parens too.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Simplify lalr1.cc since %defines is mandatory.
 	* data/lalr1.cc: Remove useless calls to b4_defines_if.
 
