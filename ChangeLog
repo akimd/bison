@@ -1,5 +1,13 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Support i18n of the parse error messages.
+	* TODO (lalr1.cc/I18n): Remove.
+	* data/lalr1.cc (yysyntax_error_): Support the translation of the
+	error messages, as done in yacc.c.
+	Stay within the yy* pseudo namespace.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	More TODO.
 	* TODO (single stack, yysyntax_error): New.
 

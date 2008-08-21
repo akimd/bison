@@ -106,10 +106,6 @@ find something clean (not like YYLSP_NEEDED...).
 Before releasing, make sure the documentation ("Understanding your
 parser") refers to the current `output' format.
 
-* lalr1.cc
-** I18n
-Catch up with yacc.c.
-
 * Report
 
 **  GLR
