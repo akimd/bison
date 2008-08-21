@@ -583,12 +583,10 @@ m4_ifdef([b4_stype],
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
-#endif
+#endif]b4_error_verbose_if([
 
-#if YYERROR_VERBOSE
     /// Convert the symbol name \a n to a form suitable for a diagnostic.
-    virtual std::string yytnamerr_ (const char *n);
-#endif
+    static std::string yytnamerr_ (const char *n);])[
 
 #if YYDEBUG
     /// For each rule, its source line number.
@@ -829,8 +827,7 @@ b4_percent_code_get[]dnl
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-]b4_namespace_open[
-#if YYERROR_VERBOSE
+]b4_namespace_open[]b4_error_verbose_if([[
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -868,8 +865,7 @@ b4_percent_code_get[]dnl
 
     return yystr;
   }
-
-#endif
+]])[
 
   /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
@@ -1384,12 +1380,11 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
 
   // Generate an error message.
   std::string
-  ]b4_parser_class_name[::yysyntax_error_ (int yystate, int]dnl
-b4_error_verbose_if([ yytoken])[)
+  ]b4_parser_class_name[::yysyntax_error_ (]dnl
+b4_error_verbose_if([int yystate, int yytoken],
+                    [int, int])[)
   {
-    std::string yyres;
-    YYUSE (yystate);
-#if YYERROR_VERBOSE
+    std::string yyres;]b4_error_verbose_if([[
     int yyn = yypact_[yystate];
     if (yypact_ninf_ < yyn && yyn <= yylast_)
       {
@@ -1446,8 +1441,8 @@ b4_error_verbose_if([ yytoken])[)
             yyres += *yyp;
       }
     else
-#endif
-      yyres = YY_("syntax error");
+  ]])dnl
+[    yyres = YY_("syntax error");
     return yyres;
   }
 
