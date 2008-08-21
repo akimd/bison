@@ -77,6 +77,17 @@ including the separation bw declaration and definition.  See for
 instance b4_table_define in lalr1.cc.  This way, we could even factor
 C vs. C++ definitions.
 
+* From lalr1.cc to yacc.c
+** Single stack
+Merging the three stacks in lalr1.cc simplified the code, prompted for
+other improvements and also made it faster (probably because memory
+management is performed once instead of three times).  I suggest that
+we do the same in yacc.c.
+
+** yysyntax_error
+In lalr1.cc we invoke it with the translated lookahead (yytoken), and
+yacc.c uses yychar.  I don't see why.
+
 * Header guards
 
 From Franc,ois: should we keep the directory part in the CPP guard?

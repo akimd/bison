@@ -1,5 +1,10 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	More TODO.
+	* TODO (single stack, yysyntax_error): New.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Make it possible to return a symbol_type from yylex.
 	* data/lalr1.cc (b4_lex_symbol_if): New.
 	(parse): When lex_symbol is defined, expected yylex to return the
