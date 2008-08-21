@@ -1,5 +1,10 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Simplify lalr1.cc since %defines is mandatory.
+	* data/lalr1.cc: Remove useless calls to b4_defines_if.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	TODO: yyfmt.
 	* TODO (yysyntax_error): New item.
 

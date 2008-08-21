@@ -316,8 +316,7 @@ m4_include(b4_pkgdatadir/[location.cc])
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
 m4_divert_push(0)dnl
-b4_defines_if(
-[@output(b4_spec_defines_file@)@
+@output(b4_spec_defines_file@)@
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 dnl FIXME: This is wrong, we want computed header guards.
 [
@@ -748,7 +747,6 @@ m4_ifdef([b4_stype],
 b4_percent_code_get([[provides]])[]dnl
 
 [#endif /* ! defined PARSER_HEADER_H */]
-])dnl
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])
 b4_percent_code_get([[top]])[]dnl
@@ -758,10 +756,9 @@ m4_if(b4_prefix, [yy], [],
 #define yylex   b4_prefix[]lex])[
 
 /* First part of user declarations.  */
-]b4_user_pre_prologue
+]b4_user_pre_prologue[
 
-b4_defines_if([[
-#include "@basename(]b4_spec_defines_file[@)"]])[
+#include "@basename(]b4_spec_defines_file[@)"
 
 /* User implementation prologue.  */
 ]b4_user_post_prologue
