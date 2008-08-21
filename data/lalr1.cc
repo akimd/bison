@@ -850,9 +850,9 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
   // Generate an error message.
   std::string
   ]b4_parser_class_name[::yysyntax_error_ (int yystate, int]dnl
-b4_error_verbose_if([ tok])[)
+b4_error_verbose_if([ yytoken])[)
   {
-    std::string res;
+    std::string yyres;
     YYUSE (yystate);
 #if YYERROR_VERBOSE
     int yyn = yypact_[yystate];
@@ -866,38 +866,56 @@ b4_error_verbose_if([ tok])[)
 	/* Stay within bounds of both yycheck and yytname.  */
 	int yychecklim = yylast_ - yyn + 1;
 	int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-	int count = 0;
-	for (int x = yyxbegin; x < yyxend; ++x)
-	  if (yycheck_[x + yyn] == x && x != yyterror_
-	      && !yy_table_value_is_error_ (yytable_[x + yyn]))
-	    ++count;
 
-	// FIXME: This method of building the message is not compatible
-	// with internationalization.  It should work like yacc.c does it.
-	// That is, first build a string that looks like this:
-	// "syntax error, unexpected %s or %s or %s"
-	// Then, invoke YY_ on this string.
-	// Finally, use the string as a format to output
-	// yytname_[tok], etc.
-	// Until this gets fixed, this message appears in English only.
-	res = "syntax error, unexpected ";
-	res += yytnamerr_ (yytname_[tok]);
-	if (count < 5)
-	  {
-	    count = 0;
-	    for (int x = yyxbegin; x < yyxend; ++x)
-	      if (yycheck_[x + yyn] == x && x != yyterror_
-		  && !yy_table_value_is_error_ (yytable_[x + yyn]))
-		{
-		  res += (!count++) ? ", expecting " : " or ";
-		  res += yytnamerr_ (yytname_[x]);
-		}
-	  }
+        // Number of "expected" tokens.
+	size_t yycount = 0;
+        // Its maximum.
+        enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+        // Arguments of yyformat.
+        char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+        yyarg[yycount++] = yytname_[yytoken];
+	for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
+	  if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
+	      && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
+          {
+            if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+            {
+              yycount = 1;
+              break;
+            }
+            else
+              yyarg[yycount++] = yytname_[yyx];
+          }
+
+        char const* yyformat = 0;
+        switch (yycount)
+        {
+#define YYCASE_(N, S)                           \
+          case N:                               \
+            yyformat = S;                       \
+          break
+          YYCASE_(1, YY_("syntax error, unexpected %s"));
+          YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
+          YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+          YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+          YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+#undef YYCASE_
+        }
+        // Argument number.
+        size_t yyi = 0;
+        for (char const* yyp = yyformat; *yyp; ++yyp)
+          if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
+          {
+            yyres += yytnamerr_ (yyarg[yyi++]);
+            ++yyp;
+          }
+          else
+            yyres += *yyp;
       }
     else
 #endif
-      res = YY_("syntax error");
-    return res;
+      yyres = YY_("syntax error");
+    return yyres;
   }
 
 

@@ -22,9 +22,6 @@ parser") refers to the current `output' format.
 ** vector
 Move to using vector, drop stack.hh.
 
-** I18n
-Catch up with yacc.c.
-
 * Report
 
 **  GLR
