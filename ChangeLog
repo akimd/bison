@@ -1,3 +1,9 @@
+2008-10-28  Akim Demaille  <demaille@gostai.com>
+
+	Make gnulib a submodule.
+	* gnulib: New.
+	* .gitmodules (gnulib): New.
+
 2008-10-18  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix yyerror_range for user-defined location type in C++.  Reported by
