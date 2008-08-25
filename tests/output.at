@@ -107,19 +107,27 @@ AT_CHECK([grep 'include .subdir/' $1.hh], 1, [])
 ])
 
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %defines %verbose], [],
+		[foo.tab.cc foo.tab.hh foo.output stack.hh])
+
+AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %defines %verbose %locations], [],
 		[foo.tab.cc foo.tab.hh foo.output location.hh stack.hh position.hh])
 
 AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose], [],
-		[foo.tab.cc foo.tab.hh foo.output location.hh stack.hh position.hh],
+		[foo.tab.cc foo.tab.hh foo.output stack.hh],
 		[], [AT_CHECK_NO_SUBDIR_PART([foo.tab])])
 
-AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose],
+AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose %locations],
 		[-o subdir/foo.cc],
 		[subdir/foo.cc subdir/foo.hh subdir/foo.output subdir/location.hh subdir/stack.hh subdir/position.hh],
 		[], [AT_CHECK_NO_SUBDIR_PART([subdir/foo])])
 
 AT_CHECK_OUTPUT([gram_dir/foo.yy],
                 [%skeleton "lalr1.cc" %defines %verbose %file-prefix "output_dir/foo"],
+                [],
+		[output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/foo.output output_dir/stack.hh])
+
+AT_CHECK_OUTPUT([gram_dir/foo.yy],
+                [%skeleton "lalr1.cc" %defines %locations %verbose %file-prefix "output_dir/foo"],
                 [],
 		[output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/foo.output output_dir/location.hh output_dir/stack.hh output_dir/position.hh])
 
@@ -153,7 +161,7 @@ AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 ])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
-[%skeleton "lalr1.cc" %defines], [--graph="location.hh"],
+[%skeleton "lalr1.cc" %defines %locations], [--graph="location.hh"],
 [foo.y: warning: conflicting outputs to file `location.hh'
 ])
 
@@ -163,7 +171,7 @@ AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
 
 
 # AT_CHECK_OUTPUT_FILE_NAME(FILE-NAME-PREFIX, [ADDITIONAL-TESTS])
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------
 m4_define([AT_CHECK_OUTPUT_FILE_NAME],
 [AT_SETUP([Output file name: $1])
 

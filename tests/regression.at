@@ -887,7 +887,7 @@ member: STRING
 AT_LALR1_CC_IF(
 [/* A C++ error reporting function. */
 void
-yy::parser::error (const location&, const std::string& m)
+yy::parser::error (const std::string& m)
 {
   std::cerr << m << std::endl;
 }
@@ -986,7 +986,7 @@ t: A | B;
 AT_LALR1_CC_IF(
 [/* A C++ error reporting function. */
 void
-yy::parser::error (const location&, const std::string& m)
+yy::parser::error (const std::string& m)
 {
   std::cerr << m << std::endl;
 }

@@ -90,16 +90,16 @@ static int get_char (]AT_LEX_FORMALS[);
 static void unget_char (]AT_LEX_PRE_FORMALS[ int c);
 %}
 
-]AT_SKEL_CC_IF(
-[/* The lalr1.cc skeleton, for backward compatibility, defines
+]AT_SKEL_CC_IF([AT_LOCATION_IF([
+/* The lalr1.cc skeleton, for backward compatibility, defines
    a constructor for position that initializes the filename.  The
    glr.cc skeleton does not (and in fact cannot: location/position
    are stored in a union, from which objects with constructors are
-   excluded in C++. */
+   excluded in C++). */
 %initial-action {
   @$.initialize (0);
 }
-])[
+])])[
 
 /* Bison Declarations */
 %token CALC_EOF 0 "end of input"
@@ -150,9 +150,8 @@ static FILE *input;
 ]AT_SKEL_CC_IF(
 [/* A C++ error reporting function.  */
 void
-AT_NAME_PREFIX::parser::error (const location& l, const std::string& m)
+AT_NAME_PREFIX::parser::error (AT_LOCATION_IF([const location& l, ])const std::string& m)
 {
-  (void) l;
   std::cerr << AT_LOCATION_IF([l << ": " << ])m << std::endl;
 }
 
@@ -627,16 +626,17 @@ AT_CHECK_CALC([%skeleton "lalr1.cc" %defines %locations])
 # Start a testing chunk which compiles `calc' grammar with
 # the C++ skeleton, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_LALR1_CC],
-[AT_CHECK_CALC([%language "C++" %defines %locations] $@)])
+[AT_CHECK_CALC([%language "C++" %defines] $@)])
 
 AT_CHECK_CALC_LALR1_CC([])
-AT_CHECK_CALC_LALR1_CC([%error-verbose %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%locations])
+AT_CHECK_CALC_LALR1_CC([%locations %error-verbose %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR1_CC([%error-verbose %debug %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%locations %error-verbose %debug %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR1_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR1_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
 
 

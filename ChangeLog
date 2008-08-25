@@ -1,5 +1,20 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	Locations are no longer required by lalr1.cc.
+	* data/lalr1.cc (_b4_args, b4_args): New.
+	Adjust all uses of locations to make them optional.
+	* tests/c++.at (AT_CHECK_VARIANTS): No longer use the locations.
+	(AT_CHECK_NAMESPACE): Check the use of locations.
+	* tests/calc.at (_AT_DATA_CALC_Y): Adjust to be usable with or
+	without locations with lalr1.cc.
+	Test these cases.
+	* tests/output.at: Check lalr1.cc with and without location
+	support.
+	* tests/regression.at (_AT_DATA_EXPECT2_Y, _AT_DATA_DANCER_Y):
+	Don't use locations.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	AT_FULL_COMPILE.
 	* tests/local.at (AT_FULL_COMPILE): New.
 	* tests/actions.at, tests/calc.at, tests/regression.at: Use it.

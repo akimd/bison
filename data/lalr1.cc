@@ -18,6 +18,29 @@
 
 m4_include(b4_pkgdatadir/[c++.m4])
 
+
+# b4_args(ARG1, ...)
+# _b4_args(ARG1, ...)
+# -------------------
+# Join with comma, skipping empty arguments.
+# b4_args calls itself recursively until it sees the first non-empty
+# argument, then calls _b4_args which prepends each non-empty argument
+# with a comma.
+m4_define([b4_args],
+[m4_if([$#$1],
+       [1], [],
+       [m4_ifval([$1],
+                 [$1[]_$0(m4_shift($@))],
+                 [$0(m4_shift($@))])])])
+
+# _b4_args(ARGS1, ...)
+# --------------------
+m4_define([_b4_args],
+[m4_if([$#$1],
+       [1], [],
+       [m4_ifval([$1], [, $1])[]$0(m4_shift($@))])])
+
+
 # b4_table_define(TABLE-NAME, CONTENT)
 # ------------------------------------
 # Define "parser::yy<TABLE-NAME>_" which contents is CONTENT.
@@ -179,9 +202,9 @@ m4_define([b4_type_action_],
 m4_define([b4_symbol_constructor_declaration_],
 [    template <token_type>
     static inline symbol_type
-    make_symbol (b4_symbol_if([$1], [has_type_name],
-                              [const b4_symbol([$1], [type_name])& v, ])dnl
-const location_type& l);
+    make_symbol (b4_args(b4_symbol_if([$1], [has_type_name],
+                                      [const b4_symbol([$1], [type_name])& v]),
+                         b4_locations_if([const location_type& l])));
 
 ])
 
@@ -207,9 +230,9 @@ m4_define([b4_symbol_constructor_specialization_],
   inline
   b4_parser_class_name::symbol_type
   b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [tag])> (dnl
-b4_symbol_if([$1], [has_type_name],
-             [const b4_symbol([$1], [type_name])& v, ])dnl
-const b4_parser_class_name::location_type& l);
+b4_args(b4_symbol_if([$1], [has_type_name],
+                     [const b4_symbol([$1], [type_name])& v]),
+        b4_locations_if([const b4_parser_class_name::location_type& l])));
 ])])])
 
 # b4_symbol_constructor_specializations
@@ -232,12 +255,13 @@ m4_define([b4_symbol_constructor_definition_],
 [  template <>
   b4_parser_class_name::symbol_type
   b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [tag])> (dnl
-b4_symbol_if([$1], [has_type_name],
-             [const b4_symbol([$1], [type_name])& v, ])dnl
-const location_type& l)
+b4_args(b4_symbol_if([$1], [has_type_name],
+                     [const b4_symbol([$1], [type_name])& v]),
+        b4_locations_if([const location_type& l])))
   {
-    return symbol_type (yytranslate_ (token::b4_symbol([$1], [tag])),dnl
- b4_symbol_if([$1], [has_type_name], [v, ])l);
+    return symbol_type (b4_args([yytranslate_ (token::b4_symbol([$1], [tag]))],
+                                b4_symbol_if([$1], [has_type_name], [v]),
+                                b4_locations_if([l])));
   }
 
 ])])])
@@ -309,9 +333,10 @@ m4_define([b4_parser_class_name],
 b4_defines_if([],
               [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
 
-# Backward compatibility.
+b4_locations_if(
+[# Backward compatibility.
 m4_define([b4_location_constructors])
-m4_include(b4_pkgdatadir/[location.cc])
+m4_include(b4_pkgdatadir/[location.cc])])
 
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
@@ -333,8 +358,8 @@ dnl FIXME: This is wrong, we want computed header guards.
 #include "stack.hh"
 
 ]b4_namespace_open[
-  class position;
-  class location;
+]b4_locations_if([  class position;
+  class location;])[
 ]b4_variant_if(
 [[
   /// A char[S] buffer to store and retrieve objects.
@@ -435,7 +460,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 ]])[
 ]b4_namespace_close[
 
-#include "location.hh"
+]b4_locations_if([#include "location.hh"])[
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -455,7 +480,8 @@ dnl FIXME: This is wrong, we want computed header guards.
 # define YYTOKEN_TABLE ]b4_token_table[
 #endif
 
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+]b4_locations_if([dnl
+[/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
    If N is 0, then set CURRENT to the empty location which ends
    the previous symbol: RHS[0] (always defined).  */
 
@@ -472,7 +498,7 @@ do {                                                            \
       (Current).begin = (Current).end = (Rhs)[0].location.end;	\
     }                                                           \
 } while (false)
-#endif
+#endif]])[
 
 ]b4_namespace_open[
 
@@ -499,9 +525,9 @@ m4_ifdef([b4_stype],
 [[    typedef YYSTYPE semantic_type;]])])])[
 #else
     typedef YYSTYPE semantic_type;
-#endif
+#endif]b4_locations_if([
     /// Symbol locations.
-    typedef ]b4_percent_define_get([[location_type]])[ location_type;
+    typedef b4_percent_define_get([[location_type]]) location_type;])[
     /// Tokens.
     struct token
     {
@@ -533,10 +559,10 @@ m4_ifdef([b4_stype],
 #endif
 
   private:
-    /// Report a syntax error.
-    /// \param loc    where the syntax error is found.
+    /// Report a syntax error.]b4_locations_if([
+    /// \param loc    where the syntax error is found.])[
     /// \param msg    a description of the syntax error.
-    virtual void error (const location_type& loc, const std::string& msg);
+    virtual void error (]b4_locations_if([const location_type& loc, ])[const std::string& msg);
 
     /// Generate an error message.
     /// \param state   the state where the error occurred.
@@ -612,9 +638,11 @@ m4_ifdef([b4_stype],
       /// Default constructor.
       inline symbol_base_type ();
 
-      /// Constructor.
-      inline symbol_base_type (const location_type& l);
-      inline symbol_base_type (const semantic_type& v, const location_type& l);
+      /// Constructor.]b4_locations_if([
+      inline symbol_base_type (const location_type& l)])[;
+      inline symbol_base_type (]b4_args(
+        [const semantic_type& v],
+        b4_locations_if([const location_type& l]))[);
 
       /// Return this with its exact type.
       const Exact& self () const;
@@ -624,10 +652,10 @@ m4_ifdef([b4_stype],
       int type_get () const;
 
       /// The semantic value.
-      semantic_type value;
+      semantic_type value;]b4_locations_if([
 
       /// The location.
-      location_type location;
+      location_type location;])[
     };
 
 #if YYDEBUG
@@ -658,11 +686,12 @@ m4_ifdef([b4_stype],
       inline symbol_type ();
 
       /// Constructor.
-      inline symbol_type (int t,
-                          const semantic_type& v, const location_type& l);
+      inline symbol_type (]b4_args([int t],
+                                   [const semantic_type& v],
+                                   b4_locations_if([const location_type& l]))[);
 
-      inline symbol_type (int t,
-                          const location_type& l);
+      inline symbol_type (]b4_args([int t],
+                                   b4_locations_if([const location_type& l]))[);
 
       /// The symbol type.
       int type;
@@ -684,8 +713,9 @@ m4_ifdef([b4_stype],
       inline stack_symbol_type ();
 
       /// Constructor.
-      inline stack_symbol_type (state_type s,
-                                const semantic_type& v, const location_type& l);
+      inline stack_symbol_type (]b4_args([state_type s],
+                                         [const semantic_type& v],
+                                         b4_locations_if([const location_type& l]))[);
 
       /// The state.
       state_type state;
@@ -886,22 +916,24 @@ b4_percent_code_get[]dnl
   // symbol_base_type.
   template <typename Exact>
   ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type ()
-    : value()
-    , location()
+    : value()]b4_locations_if([
+    , location()])[
   {
-  }
+  }]b4_locations_if([[
 
   template <typename Exact>
   ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const location_type& l)
     : value()
     , location(l)
   {
-  }
+  }]])[
 
   template <typename Exact>
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const semantic_type& v, const location_type& l)
-    : value(v)
-    , location(l)
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_args(
+          [const semantic_type& v],
+          b4_locations_if([const location_type& l]))[)
+    : value(v)]b4_locations_if([
+    , location(l)])[
   {
   }
 
@@ -933,16 +965,19 @@ b4_percent_code_get[]dnl
   {
   }
 
-  ]b4_parser_class_name[::symbol_type::symbol_type (int t,
-                           const location_type& l)
-    : super_type (l)
+  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
+                [int t],
+                b4_locations_if([const location_type& l]))[)
+    : super_type (]b4_locations_if([l])[)
     , type (t)
   {
   }
 
-  ]b4_parser_class_name[::symbol_type::symbol_type (int t,
-                           const semantic_type& v, const location_type& l)
-    : super_type (v, l)
+  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
+                 [int t],
+                 [const semantic_type& v],
+                 b4_locations_if([const location_type& l]))[)
+    : super_type (v]b4_locations_if([, l])[)
     , type (t)
   {
   }
@@ -962,9 +997,11 @@ b4_percent_code_get[]dnl
   {
   }
 
-  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s,
-                           const semantic_type& v, const location_type& l)
-    : super_type (v, l)
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (]b4_args(
+                 [state_type s],
+                 [const semantic_type& v],
+                 b4_locations_if([const location_type& l]))[)
+    : super_type (v]b4_locations_if([, l])[)
     , state (s)
   {
   }
@@ -1006,8 +1043,8 @@ b4_percent_code_get[]dnl
   {
     int yytype = yysym.type_get ();
     yyo << (yytype < yyntokens_ ? "token" : "nterm")
-        << ' ' << yytname_[yytype] << " ("
-        << yysym.location << ": ";
+        << ' ' << yytname_[yytype] << " ("]b4_locations_if([
+        << yysym.location << ": "])[;
     switch (yytype)
       {
 ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))[
@@ -1025,10 +1062,16 @@ b4_percent_code_get[]dnl
     if (m)
       YY_SYMBOL_PRINT (m, sym);
 ]b4_variant_if(
-[[    yystack_.push (stack_symbol_type (s, semantic_type(), sym.location));
+[[    yystack_.push (stack_symbol_type (]b4_args(
+                    [s],
+                    [semantic_type()],
+                    b4_locations_if([sym.location]))[));
     ]b4_symbol_variant([[yystos_[s]]], [[yystack_[0].value]],
                        [build], [sym.value])],
-[    yystack_.push (stack_symbol_type (s, sym.value, sym.location));])[
+[[    yystack_.push (stack_symbol_type (]b4_args(
+                      [s],
+                      [sym.value],
+                      b4_locations_if([sym.location]))[));]])[
   }
 
   void
@@ -1037,7 +1080,10 @@ b4_percent_code_get[]dnl
     if (m)
       YY_SYMBOL_PRINT (m, s);
 ]b4_variant_if(
-[[    yystack_.push (stack_symbol_type (s.state, semantic_type(), s.location));
+[[    yystack_.push (stack_symbol_type (]b4_args(
+                       [s.state],
+                       [semantic_type()],
+                       b4_locations_if([s.location]))[));
     ]b4_symbol_variant([[yystos_[s.state]]], [[yystack_[0].value]],
                        [build], [s.value])],
 [    yystack_.push (s);])[
@@ -1092,10 +1138,10 @@ b4_percent_code_get[]dnl
     int yyerrstatus_ = 0;
 
     /// The lookahead symbol.
-    symbol_type yyla;
+    symbol_type yyla;]b4_locations_if([[
 
     /// The locations where the error started and ended.
-    stack_symbol_type yyerror_range[2];
+    stack_symbol_type yyerror_range[2];]])[
 
     /// $$ and @@$.
     stack_symbol_type yylhs;
@@ -1211,12 +1257,13 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       yylhs.value = yystack_@{yylen - 1@}.value;
     else
       yylhs.value = yystack_@{0@}.value;])[
-
+]b4_locations_if([dnl
+[
     // Compute the default @@$.
     {
       slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
       YYLLOC_DEFAULT (yylhs.location, slice, yylen);
-    }
+    }]])[
 
     // Perform the reduction.
     YY_REDUCE_PRINT (yyn);
@@ -1265,10 +1312,12 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     if (!yyerrstatus_)
       {
 	++yynerrs_;
-	error (yyla.location, yysyntax_error_ (yystate, yyla.type));
+	error (]b4_args(b4_locations_if([yyla.location]),
+                        [yysyntax_error_ (yystate, yyla.type)])[);
       }
 
-    yyerror_range[0].location = yyla.location;
+]b4_locations_if([[
+    yyerror_range[0].location = yyla.location;]])[
     if (yyerrstatus_ == 3)
       {
 	/* If just tried and failed to reuse lookahead token after an
@@ -1300,7 +1349,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     if (false)
       goto yyerrorlab;
 
-    yyerror_range[0].location = yystack_[yylen - 1].location;
+]b4_locations_if([[
+    yyerror_range[0].location = yystack_[yylen - 1].location;]])[
     /* Do not reclaim the symbols of the rule which action triggered
        this YYERROR.  */
     yypop_ (yylen);
@@ -1332,16 +1382,16 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
           // Pop the current state because it cannot handle the error token.
           if (yystack_.size () == 1)
             YYABORT;
-
-          yyerror_range[0].location = yystack_[0].location;
+]b4_locations_if([[
+          yyerror_range[0].location = yystack_[0].location;]])[
           yy_destroy_ ("Error: popping", yystack_[0]);
           yypop_ ();
           yystate = yystack_[0].state;
           YY_STACK_PRINT ();
         }
-
+]b4_locations_if([[
       yyerror_range[1].location = yyla.location;
-      YYLLOC_DEFAULT (error_token.location, (yyerror_range - 1), 2);
+      YYLLOC_DEFAULT (error_token.location, (yyerror_range - 1), 2);]])[
 
       /* Shift the error token.  */
       error_token.state = yystate = yyn;

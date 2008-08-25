@@ -141,10 +141,9 @@ yylex(yy::parser::semantic_type* yylval)
 }
 
 void
-yy::parser::error(const yy::parser::location_type& yylloc,
-                  const std::string& message)
+yy::parser::error(const std::string& message)
 {
-  std::cerr << yylloc << ": " << message << std::endl;
+  std::cerr << message << std::endl;
 }
 
 int
@@ -278,10 +277,11 @@ AT_DATA_GRAMMAR([[input.y]],
 %define namespace "]$1["
 %union { int i; }
 %define global_tokens_and_yystype
+%locations
 
 %code {
   // YYSTYPE contains a namespace reference.
-  int yylex (YYSTYPE *lval) {
+  int yylex (YYSTYPE *lval, const ]$1[::parser::location_type* lloc) {
     lval->i = 3;
     return 0;
   }
