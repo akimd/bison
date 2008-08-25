@@ -749,6 +749,23 @@ sub bench_variant_parser ()
     );
 }
 
+=item C<bench_fusion_parser ()>
+
+Bench the C++ lalr1.cc parser using Boost.Variants or %union.
+
+=cut
+
+sub bench_fusion_parser ()
+{
+  bench_grammar
+    ('variant',
+     (
+      "split"         => [],
+      "fused"         => ['%skeleton "lalr1-fusion.cc"'],
+     )
+    );
+}
+
 ############################################################################
 
 sub help ($)
@@ -782,7 +799,8 @@ verbose 1, "Using cc=$cc.\n";
 verbose 1, "Using cxx=$cxx.\n";
 verbose 1, "Using cflags=$cflags.\n";
 # bench_push_parser();
-bench_variant_parser();
+# bench_variant_parser();
+bench_fusion_parser();
 
 ### Setup "GNU" style for perl-mode and cperl-mode.
 ## Local Variables:

@@ -1,5 +1,11 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Bench the three-stack lalr1.cc.
+	* etc/bench.pl.in: Bench the three-stack lalr1.cc vs. the
+	one-stack one.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Fail on parse error in calc++.
 	* doc/bison.texinfo (calc++.cc): Propagate failures to the exit
 	status.
