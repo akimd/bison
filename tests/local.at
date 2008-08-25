@@ -1,7 +1,7 @@
 # Process this -*- Autotest -*- file with autom4te.
 
 # Macros for the GNU Bison Test suite.
-# Copyright (C) 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -267,6 +267,18 @@ AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.cc])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
 	 0, [ignore], [ignore])])
 
+
+# AT_FULL_COMPILE(OUTPUT)
+# -----------------------
+# Compile OUTPUT.y to OUTPUT.c or OUTPUT.cc, and compile it to OUTPUT.
+# Relies on AT_SKEL_CC_IF.
+m4_define([AT_FULL_COMPILE],
+[AT_SKEL_CC_IF(
+  [AT_BISON_CHECK([-o $1.cc $1.y])
+   AT_COMPILE_CXX([$1])],
+  [AT_BISON_CHECK([-o $1.c $1.y])
+   AT_COMPILE([$1])])
+])
 
 
 ## ---------------------------- ##

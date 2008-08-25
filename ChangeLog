@@ -1,5 +1,11 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
+	AT_FULL_COMPILE.
+	* tests/local.at (AT_FULL_COMPILE): New.
+	* tests/actions.at, tests/calc.at, tests/regression.at: Use it.
+
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
 	Support parens in calc++.
 	* doc/bison.texinfo (Calc++ Scanner, Calc++ Parser): Support parens.
 	* examples/calc++/test (run): Check the expected output.
