@@ -1,5 +1,10 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Honor lex-params in %define lex_symbol mode.
+	* data/lalr1.cc: Use b4_lex_param.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Simplify names.
 	* src/output.c (symbol_definitions_output): Rename symbol
 	attributes type_name and has_type_name as type and has_type.

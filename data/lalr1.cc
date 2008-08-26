@@ -1197,7 +1197,8 @@ m4_popdef([b4_at_dollar])])dnl
       {
         YYCDEBUG << "Reading a token: ";
 ]b4_lex_symbol_if(
-[        yyla = yylex();],
+[        yyla = b4_c_function_call([yylex], [symbol_type],
+                                   m4_ifdef([b4_lex_param], b4_lex_param));],
 [        yyla.type = yytranslate_ (b4_c_function_call([yylex], [int],
 				     [[YYSTYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
