@@ -52,6 +52,7 @@
 /strtol.m4
 /strtoul.m4
 /strverscmp.m4
+/threadlib.m4
 /unistd-safer.m4
 /unistd_h.m4
 /unlocked-io.m4

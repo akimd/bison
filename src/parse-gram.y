@@ -21,8 +21,6 @@
 #include <config.h>
 #include "system.h"
 
-#include <strverscmp.h>
-
 #include "complain.h"
 #include "conflicts.h"
 #include "files.h"

@@ -1,3 +1,9 @@
+2008-08-26  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Update for recent change to gnulib.
+	* src/parse-gram.y: Don't include strverscmp.h.  It comes from
+	string.h now.
+
 2008-08-15  Eric Blake  <ebb9@byu.net>
 
 	Remaining m4sugar merge from autoconf.
