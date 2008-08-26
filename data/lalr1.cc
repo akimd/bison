@@ -307,7 +307,14 @@ m4_define([_b4_char_sizeof_dummy],
 dummy[]_b4_char_sizeof_counter])
 
 
-# b4_char_sizeof(SYMBOL-NUM)
+# b4_char_sizeof_(SYMBOL-NUM)
+# ---------------------------
+# A comment describing this symbol.
+m4_define([b4_char_sizeof_],
+[      // b4_symbol([$1], [tag])
+])
+
+# b4_char_sizeof(SYMBOL-NUMS)
 # --------------------------
 # To be mapped on the list of type names to produce:
 #
@@ -315,12 +322,12 @@ dummy[]_b4_char_sizeof_counter])
 #    char dummy2[sizeof(type_name_2)];
 #
 # for defined type names.
-# $3 is doubly-quoted, do not quote it again.
 m4_define([b4_char_sizeof],
-[m4_ifval(b4_symbol([$1], [type_name]),
+[b4_symbol_if([$1], [has_type_name],
 [
-      char _b4_char_sizeof_dummy@{sizeof([b4_symbol([$1], [type_name])])@}; // b4_symbol([$1], [tag])])dnl
-])
+m4_map([b4_char_sizeof_], [$@])dnl
+      char _b4_char_sizeof_dummy@{sizeof([b4_symbol([$1], [type_name])])@};
+])])
 
 
 m4_pushdef([b4_copyright_years],
@@ -510,8 +517,7 @@ do {                                                            \
 ]b4_variant_if(
 [    /// An auxiliary type to compute the largest semantic type.
     union union_type
-    {]m4_map([b4_char_sizeof], m4_defn([b4_symbol_numbers]))[
-    };
+    {]m4_map([b4_char_sizeof], m4_defn([b4_type_names]))[};
 
     /// Symbol semantic values.
     typedef variant<sizeof(union_type)> semantic_type;],

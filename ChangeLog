@@ -1,5 +1,18 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Use b4_type_names for the union type.
+	The union used to compute the size of the variant used to iterate over the
+	type of all the symbols, with a lot of redundancy.  Now iterate over the
+	lists of symbols having the same type-name.
+	
+	* data/lalr1.cc (b4_char_sizeof_): New.
+	(b4_char_sizeof): Use it.
+	Adjust to be called with a list of numbers instead of a single
+	number.
+	Adjust its caller for new-line issues.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Define the "identifier" of a symbol.
 	Symbols may have several string representations, for instance if they
 	have an alias.  What I call its "id" is a string that can be used as
