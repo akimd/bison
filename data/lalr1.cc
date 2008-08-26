@@ -185,11 +185,11 @@ m4_define([b4_symbol_case_],
 # Run actions for the symbol NUMS that all have the same type-name.
 # Skip NUMS that have no type-name.
 m4_define([b4_type_action_],
-[b4_symbol_if([$1], [has_type_name],
+[b4_symbol_if([$1], [has_type],
 [m4_map([b4_symbol_case_], [$@])[]dnl
         b4_dollar_dollar([b4_symbol([$1], [number])],
                          [b4_symbol([$1], [tag])],
-                         [b4_symbol([$1], [type_name])]);
+                         [b4_symbol([$1], [type])]);
 	break;
 
 ])])
@@ -202,8 +202,8 @@ m4_define([b4_type_action_],
 m4_define([b4_symbol_constructor_declaration_],
 [    template <token_type>
     static inline symbol_type
-    make_symbol (b4_args(b4_symbol_if([$1], [has_type_name],
-                                      [const b4_symbol([$1], [type_name])& v]),
+    make_symbol (b4_args(b4_symbol_if([$1], [has_type],
+                                      [const b4_symbol([$1], [type])& v]),
                          b4_locations_if([const location_type& l])));
 
 ])
@@ -230,8 +230,8 @@ m4_define([b4_symbol_constructor_specialization_],
   inline
   b4_parser_class_name::symbol_type
   b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [id])> (dnl
-b4_args(b4_symbol_if([$1], [has_type_name],
-                     [const b4_symbol([$1], [type_name])& v]),
+b4_args(b4_symbol_if([$1], [has_type],
+                     [const b4_symbol([$1], [type])& v]),
         b4_locations_if([const b4_parser_class_name::location_type& l])));
 ])])])
 
@@ -255,12 +255,12 @@ m4_define([b4_symbol_constructor_definition_],
 [  template <>
   b4_parser_class_name::symbol_type
   b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [id])> (dnl
-b4_args(b4_symbol_if([$1], [has_type_name],
-                     [const b4_symbol([$1], [type_name])& v]),
+b4_args(b4_symbol_if([$1], [has_type],
+                     [const b4_symbol([$1], [type])& v]),
         b4_locations_if([const location_type& l])))
   {
     return symbol_type (b4_args([yytranslate_ (token::b4_symbol([$1], [id]))],
-                                b4_symbol_if([$1], [has_type_name], [v]),
+                                b4_symbol_if([$1], [has_type], [v]),
                                 b4_locations_if([l])));
   }
 
@@ -323,10 +323,10 @@ m4_define([b4_char_sizeof_],
 #
 # for defined type names.
 m4_define([b4_char_sizeof],
-[b4_symbol_if([$1], [has_type_name],
+[b4_symbol_if([$1], [has_type],
 [
 m4_map([b4_char_sizeof_], [$@])dnl
-      char _b4_char_sizeof_dummy@{sizeof([b4_symbol([$1], [type_name])])@};
+      char _b4_char_sizeof_dummy@{sizeof([b4_symbol([$1], [type])])@};
 ])])
 
 

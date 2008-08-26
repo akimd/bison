@@ -1,5 +1,12 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Simplify names.
+	* src/output.c (symbol_definitions_output): Rename symbol
+	attributes type_name and has_type_name as type and has_type.
+	* data/lalr1.cc: Adjust uses.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Use b4_type_names for the union type.
 	The union used to compute the size of the variant used to iterate over the
 	type of all the symbols, with a lot of redundancy.  Now iterate over the
