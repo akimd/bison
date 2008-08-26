@@ -1,6 +1,6 @@
 /* Definitions for symtab.c and callers, part of Bison.
 
-   Copyright (C) 1984, 1989, 1992, 2000, 2001, 2002, 2004, 2005, 2006, 2007
+   Copyright (C) 1984, 1989, 1992, 2000, 2001, 2002, 2004, 2005, 2006, 2007, 2008
    Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -105,9 +105,6 @@ struct symbol
 /* Undefined internal token number.  */
 #define NUMBER_UNDEFINED (-1)
 
-/** Print a symbol (for debugging). */
-void symbol_print (symbol *s, FILE *f);
-
 /** Fetch (or create) the symbol associated to KEY.  */
 symbol *symbol_from_uniqstr (const uniqstr key, location loc);
 
@@ -119,8 +116,22 @@ symbol *symbol_get (const char *key, location loc);
    Its name cannot conflict with the user's names.  */
 symbol *dummy_symbol_get (location loc);
 
+
+/*--------------------.
+| Methods on symbol.  |
+`--------------------*/
+
+/** Print a symbol (for debugging). */
+void symbol_print (symbol *s, FILE *f);
+
 /** Is this a dummy nonterminal?  */
 bool symbol_is_dummy (const symbol *sym);
+
+/** Return the name of the symbol that can be used as an identifier.
+ ** Consider the alias if needed.
+ ** Return 0 if there is none (e.g., the symbol is only defined as
+ ** a string). */
+uniqstr symbol_id_get (symbol const *sym);
 
 /** Declare the new symbol \c sym.  Make it an alias of \c symval.  */
 void symbol_make_alias (symbol *sym, symbol *symval, location loc);
@@ -160,6 +171,11 @@ void symbol_class_set (symbol *sym, symbol_class class, location loc,
 /** Set the \c user_token_number associated with \c sym.  */
 void symbol_user_token_number_set (symbol *sym, int user_number, location loc);
 
+
+
+/*------------------.
+| Special symbols.  |
+`------------------*/
 
 /** The error token. */
 extern symbol *errtoken;

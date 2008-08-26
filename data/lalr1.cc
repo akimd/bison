@@ -225,11 +225,11 @@ m4_map([b4_symbol_constructor_declaration_], m4_defn([b4_type_names]))])])
 # Specializations cannot be declared at class-level, this must be done
 # at namespace-level.
 m4_define([b4_symbol_constructor_specialization_],
-[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [tag_is_id],
+[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [  template <>
   inline
   b4_parser_class_name::symbol_type
-  b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [tag])> (dnl
+  b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [id])> (dnl
 b4_args(b4_symbol_if([$1], [has_type_name],
                      [const b4_symbol([$1], [type_name])& v]),
         b4_locations_if([const b4_parser_class_name::location_type& l])));
@@ -251,15 +251,15 @@ m4_map([b4_symbol_constructor_specialization_],
 # ------------------------------------------------
 # Define make_symbol for this SYMBOL-NUMBER.
 m4_define([b4_symbol_constructor_definition_],
-[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [tag_is_id],
+[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [  template <>
   b4_parser_class_name::symbol_type
-  b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [tag])> (dnl
+  b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [id])> (dnl
 b4_args(b4_symbol_if([$1], [has_type_name],
                      [const b4_symbol([$1], [type_name])& v]),
         b4_locations_if([const location_type& l])))
   {
-    return symbol_type (b4_args([yytranslate_ (token::b4_symbol([$1], [tag]))],
+    return symbol_type (b4_args([yytranslate_ (token::b4_symbol([$1], [id]))],
                                 b4_symbol_if([$1], [has_type_name], [v]),
                                 b4_locations_if([l])));
   }

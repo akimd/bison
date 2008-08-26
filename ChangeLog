@@ -1,3 +1,23 @@
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
+	Define the "identifier" of a symbol.
+	Symbols may have several string representations, for instance if they
+	have an alias.  What I call its "id" is a string that can be used as
+	an identifier.  May not exist.
+	
+	Currently the symbols which have the "tag_is_id" flag set are those that
+	don't have an alias.  Look harder for the id.
+	
+	* src/output.c (is_identifier): Move to...
+	* src/symtab.c (is_identifier): here.
+	* src/symtab.h, src/symtab.c (symbol_id_get): New.
+	* src/output.c (symbol_definitions_output): Use it to define "id"
+	and "has_id".
+	Remove the definition of "tag_is_id".
+	* data/lalr1.cc: Use the "id" and "has_id" whereever "tag" and
+	"tag_is_id" were used to produce code.
+	We still use "tag" for documentation.
+
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
 	Locations are no longer required by lalr1.cc.
