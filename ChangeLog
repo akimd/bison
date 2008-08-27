@@ -1,5 +1,12 @@
 2008-08-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	For maintainer-check*, don't recompile for a $(VERSION) update.
+	* cfg.mk: New file.
+	(_is-dist-target): Override the one in GNUmakefile.
+	* Makefile.am (EXTRA_DIST): Add cfg.mk.
+
+2008-08-26  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Update for recent change to gnulib.
 	* src/parse-gram.y: Don't include strverscmp.h.  It comes from
 	string.h now.

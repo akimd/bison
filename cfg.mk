@@ -1,0 +1,22 @@
+# Customize maint.mk                           -*- makefile -*-
+# Copyright (C) 2008 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# It's useful to run maintainer-check* targets during development, but we don't
+# want to wait on a recompile because of an update to $(VERSION).  Thus,
+# override the _is-dist-target from GNUmakefile so that maintainer-check*
+# targets are filtered out.
+_is-dist-target = $(filter-out %clean maintainer-check%, \
+  $(filter maintainer-% dist% alpha beta major,$(MAKECMDGOALS)))

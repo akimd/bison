@@ -23,7 +23,8 @@ SUBDIRS = build-aux po runtime-po lib data src doc examples tests etc
 aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
-EXTRA_DIST = .prev-version .version Makefile.cfg Makefile.maint maint.mk \
+EXTRA_DIST = .prev-version .version Makefile.cfg Makefile.maint \
+  cfg.mk maint.mk \
   OChangeLog PACKAGING \
   djgpp/Makefile.maint djgpp/README.in djgpp/config.bat \
   djgpp/config.sed djgpp/config.site djgpp/config_h.sed \
