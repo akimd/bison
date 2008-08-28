@@ -1,5 +1,20 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Define the constructors of symbol_type in b4_symbol_constructor_definitions.
+	The constructors are called by the make_symbol functions, which a
+	forthcoming patch will move elsewhere.  Hence the interest of putting them
+	together.
+	
+	The stack_symbol_type does not need to be moved, it is used only by the
+	parser.
+	
+	* data/lalr1.cc: Move symbol_type and symbol_base_type
+	constructors into...
+	(b4_symbol_constructor_definitions): here.
+	Adjust.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Make it easier to move the definition of yytranslate_.
 	Forthcoming changes will make it possible to use yytranslate_
 	from outside the parser implementation file.

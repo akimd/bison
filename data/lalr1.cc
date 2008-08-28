@@ -267,11 +267,86 @@ b4_args(b4_symbol_if([$1], [has_type],
 ])])])
 
 
-# b4_symbol_constructor_declarations
+# b4_symbol_constructor_definitions
 # ----------------------------------
 # Define the overloaded versions of make_symbol for all the value types.
 m4_define([b4_symbol_constructor_definitions],
-[b4_variant_if(
+[[  // symbol_base_type.
+  template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type ()
+    : value()]b4_locations_if([
+    , location()])[
+  {
+  }]b4_locations_if([[
+
+  template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const location_type& l)
+    : value()
+    , location(l)
+  {
+  }]])[
+
+  template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_args(
+          [const semantic_type& v],
+          b4_locations_if([const location_type& l]))[)
+    : value(v)]b4_locations_if([
+    , location(l)])[
+  {
+  }
+
+  template <typename Exact>
+  const Exact&
+  ]b4_parser_class_name[::symbol_base_type<Exact>::self () const
+  {
+    return static_cast<const Exact&>(*this);
+  }
+
+  template <typename Exact>
+  Exact&
+  ]b4_parser_class_name[::symbol_base_type<Exact>::self ()
+  {
+    return static_cast<Exact&>(*this);
+  }
+
+  template <typename Exact>
+  int
+  ]b4_parser_class_name[::symbol_base_type<Exact>::type_get () const
+  {
+    return self ().type_get_ ();
+  }
+
+  // symbol_type.
+  ]b4_parser_class_name[::symbol_type::symbol_type ()
+    : super_type ()
+    , type ()
+  {
+  }
+
+  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
+                [int t],
+                b4_locations_if([const location_type& l]))[)
+    : super_type (]b4_locations_if([l])[)
+    , type (t)
+  {
+  }
+
+  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
+                 [int t],
+                 [const semantic_type& v],
+                 b4_locations_if([const location_type& l]))[)
+    : super_type (v]b4_locations_if([, l])[)
+    , type (t)
+  {
+  }
+
+  int
+  ]b4_parser_class_name[::symbol_type::type_get_ () const
+  {
+    return type;
+  }
+
+]b4_variant_if(
 [  // Implementation of make_symbol for each symbol type.
 m4_map([b4_symbol_constructor_definition_], m4_defn([b4_symbol_numbers]))])])
 
@@ -947,81 +1022,6 @@ b4_percent_code_get[]dnl
   /*---------------.
   | Symbol types.  |
   `---------------*/
-
-  // symbol_base_type.
-  template <typename Exact>
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type ()
-    : value()]b4_locations_if([
-    , location()])[
-  {
-  }]b4_locations_if([[
-
-  template <typename Exact>
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const location_type& l)
-    : value()
-    , location(l)
-  {
-  }]])[
-
-  template <typename Exact>
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_args(
-          [const semantic_type& v],
-          b4_locations_if([const location_type& l]))[)
-    : value(v)]b4_locations_if([
-    , location(l)])[
-  {
-  }
-
-  template <typename Exact>
-  const Exact&
-  ]b4_parser_class_name[::symbol_base_type<Exact>::self () const
-  {
-    return static_cast<const Exact&>(*this);
-  }
-
-  template <typename Exact>
-  Exact&
-  ]b4_parser_class_name[::symbol_base_type<Exact>::self ()
-  {
-    return static_cast<Exact&>(*this);
-  }
-
-  template <typename Exact>
-  int
-  ]b4_parser_class_name[::symbol_base_type<Exact>::type_get () const
-  {
-    return self ().type_get_ ();
-  }
-
-  // symbol_type.
-  ]b4_parser_class_name[::symbol_type::symbol_type ()
-    : super_type ()
-    , type ()
-  {
-  }
-
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
-                [int t],
-                b4_locations_if([const location_type& l]))[)
-    : super_type (]b4_locations_if([l])[)
-    , type (t)
-  {
-  }
-
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
-                 [int t],
-                 [const semantic_type& v],
-                 b4_locations_if([const location_type& l]))[)
-    : super_type (v]b4_locations_if([, l])[)
-    , type (t)
-  {
-  }
-
-  int
-  ]b4_parser_class_name[::symbol_type::type_get_ () const
-  {
-    return type;
-  }
 
 ]b4_symbol_constructor_definitions[
 
