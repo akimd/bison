@@ -330,6 +330,35 @@ m4_map([b4_char_sizeof_], [$@])dnl
 ])])
 
 
+# b4_yytranslate_definition
+# -------------------------
+# Define yytranslate_.  Sometimes we want it in the header file,
+# sometimes the cc file suffices.
+m4_define([b4_yytranslate_definition],
+[[  // YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.
+  ]b4_parser_class_name[::token_number_type
+  ]b4_parser_class_name[::yytranslate_ (]b4_lex_symbol_if([token_type],
+                                                          [int])[ t)
+  {
+    static
+    const token_number_type
+    translate_table[] =
+    {
+]b4_translate[
+    };
+    const unsigned int user_token_number_max_ = ]b4_user_token_number_max[;
+    const token_number_type undef_token_ = ]b4_undef_token_number[;
+
+    if (static_cast<int>(t) <= yyeof_)
+      return yyeof_;
+    else if (static_cast<unsigned int> (t) <= user_token_number_max_)
+      return translate_table[t];
+    else
+      return undef_token_;
+  }
+]])
+
+
 m4_pushdef([b4_copyright_years],
            [2002, 2003, 2004, 2005, 2006, 2007, 2008])
 
@@ -635,8 +664,7 @@ m4_ifdef([b4_stype],
 #endif
 
     /// Convert a scanner token number \a t to a symbol number.
-    static inline token_number_type yytranslate_ (]b4_lex_symbol_if(
-                                                  [token_type], [int])[ t);
+    static token_number_type yytranslate_ (]b4_lex_symbol_if([token_type], [int])[ t);
 
     /// A complete symbol, with its type.
     template <typename Exact>
@@ -1586,28 +1614,7 @@ b4_error_verbose_if([int yystate, int yytoken],
   }
 #endif // YYDEBUG
 
-  /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-  ]b4_parser_class_name[::token_number_type
-  ]b4_parser_class_name[::yytranslate_ (]b4_lex_symbol_if([token_type],
-                                                          [int])[ t)
-  {
-    static
-    const token_number_type
-    translate_table[] =
-    {
-]b4_translate[
-    };
-    const unsigned int user_token_number_max_ = ]b4_user_token_number_max[;
-    const token_number_type undef_token_ = ]b4_undef_token_number[;
-
-    if (static_cast<int>(t) <= yyeof_)
-      return yyeof_;
-    else if (static_cast<unsigned int> (t) <= user_token_number_max_)
-      return translate_table[t];
-    else
-      return undef_token_;
-  }
-
+]b4_yytranslate_definition[
 ]b4_namespace_close[
 
 ]b4_epilogue[]dnl
