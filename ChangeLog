@@ -1,5 +1,18 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Finer input type for yytranslate.
+	This patch is debatable: the tradition expects yylex to return an int
+	which happens to correspond to token_number (which is an enum).  This
+	allows for instance to return characters (such as '*' etc.).  But this
+	goes against the stronger typing I am trying to have with the new
+	lex interface which return a symbol_type.  So in this case, feed
+	yytranslate_ with a token_type.
+	
+	* data/lalr1.cc (yytranslate_): When in %define lex-symbol,
+	expect a token_type.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Honor lex-params in %define lex_symbol mode.
 	* data/lalr1.cc: Use b4_lex_param.
 

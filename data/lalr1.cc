@@ -635,7 +635,8 @@ m4_ifdef([b4_stype],
 #endif
 
     /// Convert a scanner token number \a t to a symbol number.
-    static inline token_number_type yytranslate_ (int t);
+    static inline token_number_type yytranslate_ (]b4_lex_symbol_if(
+                                                  [token_type], [int])[ t);
 
     /// A complete symbol, with its type.
     template <typename Exact>
@@ -1587,7 +1588,8 @@ b4_error_verbose_if([int yystate, int yytoken],
 
   /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
   ]b4_parser_class_name[::token_number_type
-  ]b4_parser_class_name[::yytranslate_ (int t)
+  ]b4_parser_class_name[::yytranslate_ (]b4_lex_symbol_if([token_type],
+                                                          [int])[ t)
   {
     static
     const token_number_type
@@ -1598,7 +1600,7 @@ b4_error_verbose_if([int yystate, int yytoken],
     const unsigned int user_token_number_max_ = ]b4_user_token_number_max[;
     const token_number_type undef_token_ = ]b4_undef_token_number[;
 
-    if (t <= yyeof_)
+    if (static_cast<int>(t) <= yyeof_)
       return yyeof_;
     else if (static_cast<unsigned int> (t) <= user_token_number_max_)
       return translate_table[t];
