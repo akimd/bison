@@ -1,3 +1,13 @@
+2008-08-27  Eric Blake  <ebb9@byu.net>
+
+	Resync m4sugar from autoconf.
+	* data/m4sugar/m4sugar.m4 (m4_defn, m4_popdef, m4_undefine)
+	(m4_init): Adjust to latest m4.git changes.
+	(m4_mapall_sep, _m4_list_cmp, m4_version_compare): Reduce side
+	effects.
+	* data/m4sugar/foreach.m4 (_m4_shiftn): Fix off-by-one bug.
+	(_m4_list_cmp): Reduce side effects.
+
 2008-08-27  Akim Demaille  <demaille@gostai.com>
 
 	Check yyerrok in calc.at.

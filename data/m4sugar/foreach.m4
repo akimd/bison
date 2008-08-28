@@ -74,6 +74,8 @@
 # are not future-proof.  Thus, this file is conditionally included as
 # part of m4_init(), only when it is detected that M4 probably has
 # quadratic behavior (ie. it lacks the macro __m4_version__).
+#
+# Please keep this file in sync with m4sugar.m4.
 
 # m4_foreach(VARIABLE, LIST, EXPRESSION)
 # --------------------------------------
@@ -211,9 +213,9 @@ m4_bpatsubst(m4_dquote(_m4_defn([_m4_p])), [$$1], [$$2]))]])
 #   ,[$5],[$6],...,[$m]_m4_popdef([_m4_s])
 # before calling m4_shift(_m4_s($@)).
 m4_define([_m4_shiftn],
-[m4_define([_m4_s],
+[m4_if(m4_incr([$1]), [$#], [], [m4_define([_m4_s],
 	   m4_pushdef([_m4_s])_m4_for([_m4_s], m4_eval([$1 + 2]), [$#], [1],
-  [[,]m4_dquote([$]_m4_s)])[_m4_popdef([_m4_s])])m4_shift(_m4_s($@))])
+  [[,]m4_dquote([$]_m4_s)])[_m4_popdef([_m4_s])])m4_shift(_m4_s($@))])])
 
 # m4_do(STRING, ...)
 # ------------------
@@ -336,6 +338,8 @@ m4_define([m4_joinall],
 # -----------------
 # Compare the two lists of integer expressions A and B.
 #
+# m4_list_cmp takes care of any side effects; we only override
+# _m4_list_cmp_raw, where we can safely expand lists multiple times.
 # First, insert padding so that both lists are the same length; the
 # trailing +0 is necessary to handle a missing list.  Next, create a
 # temporary macro to perform pairwise comparisons until an inequality
@@ -344,9 +348,9 @@ m4_define([m4_joinall],
 #         m4_eval([($2) != ($4)]), [1], [m4_cmp([$2], [$4])],
 #         [0]_m4_popdef([_m4_cmp], [_m4_size]))
 # then calls _m4_cmp([1+0], [0], [1], [2+0])
-m4_define([m4_list_cmp],
-[m4_if([$1], [$2], 0,
-  [m4_pushdef([_m4_size])_$0($1+0_m4_list_pad(m4_count($1), m4_count($2)),
+m4_define([_m4_list_cmp_raw],
+[m4_if([$1], [$2], 0, [m4_pushdef(
+     [_m4_size])_m4_list_cmp($1+0_m4_list_pad(m4_count($1), m4_count($2)),
 			     $2+0_m4_list_pad(m4_count($2), m4_count($1)))])])
 
 m4_define([_m4_list_pad],
