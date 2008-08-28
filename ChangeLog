@@ -1,5 +1,12 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Define yytranslate in the header for lex_symbol.
+	* data/lalr1.cc: Move the invocation of b4_yytranslate_definition
+	into the header file when using %define lex_symbol.
+	(yytranslate_): Declare inline.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Define the constructors of symbol_type in b4_symbol_constructor_definitions.
 	The constructors are called by the make_symbol functions, which a
 	forthcoming patch will move elsewhere.  Hence the interest of putting them

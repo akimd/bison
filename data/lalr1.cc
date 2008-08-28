@@ -233,6 +233,7 @@ m4_define([b4_symbol_constructor_specialization_],
 b4_args(b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
         b4_locations_if([const location_type& l])));
+
 ])])])
 
 # b4_symbol_constructor_specializations
@@ -739,7 +740,7 @@ m4_ifdef([b4_stype],
 #endif
 
     /// Convert a scanner token number \a t to a symbol number.
-    static token_number_type yytranslate_ (]b4_lex_symbol_if([token_type], [int])[ t);
+    static inline token_number_type yytranslate_ (]b4_lex_symbol_if([token_type], [int])[ t);
 
     /// A complete symbol, with its type.
     template <typename Exact>
@@ -873,6 +874,8 @@ m4_ifdef([b4_stype],
 
 ]b4_parse_param_vars[
   };
+
+]b4_lex_symbol_if([b4_yytranslate_definition])[
 ]b4_symbol_constructor_specializations[
 ]b4_namespace_close[
 
@@ -1614,7 +1617,7 @@ b4_error_verbose_if([int yystate, int yytoken],
   }
 #endif // YYDEBUG
 
-]b4_yytranslate_definition[
+]b4_lex_symbol_if([], [b4_yytranslate_definition])[
 ]b4_namespace_close[
 
 ]b4_epilogue[]dnl
