@@ -1,5 +1,18 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Define make_symbol in the header.
+	To reach good performances these functions should be inlined (yet this is
+	to measure precisely).  To this end they must be available to the caller.
+	
+	* data/lalr1.cc (b4_symbol_constructor_definition_): Qualify
+	location_type with the class name.
+	Since will now be output in the header, declare "inline".
+	No longer use b4_symbol_constructor_specializations, but
+	b4_symbol_constructor_definitions in the header.
+	Don't call it in the *.cc file.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Define yytranslate in the header for lex_symbol.
 	* data/lalr1.cc: Move the invocation of b4_yytranslate_definition
 	into the header file when using %define lex_symbol.

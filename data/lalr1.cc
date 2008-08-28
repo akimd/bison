@@ -877,6 +877,7 @@ m4_ifdef([b4_stype],
 
 ]b4_lex_symbol_if([b4_yytranslate_definition])[
 ]b4_symbol_constructor_specializations[
+]b4_lex_symbol_if([b4_symbol_constructor_definitions])[
 ]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -1026,7 +1027,7 @@ b4_percent_code_get[]dnl
   | Symbol types.  |
   `---------------*/
 
-]b4_symbol_constructor_definitions[
+]b4_lex_symbol_if([], [b4_symbol_constructor_definitions])[
 
   // stack_symbol_type.
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
