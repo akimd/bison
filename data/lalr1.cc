@@ -232,7 +232,7 @@ m4_define([b4_symbol_constructor_specialization_],
   b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [id])> (dnl
 b4_args(b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
-        b4_locations_if([const b4_parser_class_name::location_type& l])));
+        b4_locations_if([const location_type& l])));
 ])])])
 
 # b4_symbol_constructor_specializations
