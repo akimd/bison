@@ -1,7 +1,11 @@
-This directory contains the Bison parser generator.
+This package contains the Bison parser generator.
 
 See the file INSTALL for generic compilation and installation instructions.
-See the file doc/FAQ for frequently asked questions.
+
+See the section FAQ in the documentation (doc/bison.info) for
+frequently asked questions.  The documentation is also available in
+PDF and HTML, provided you have a recent version of Texinfo installed:
+run "make pdf" or "make html".
 
 Bison requires GNU m4 1.4.3 or later.  See:
 
@@ -21,7 +25,7 @@ not answer them, please send mail to <help-bison@gnu.org>.
 
 -----
 
-Copyright (C) 1992, 1998, 1999, 2003, 2004, 2005 Free Software Foundation, Inc.
+Copyright (C) 1992, 1998, 1999, 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 

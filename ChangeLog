@@ -1,3 +1,8 @@
+2008-08-29  Akim Demaille  <demaille@gostai.com>
+
+	* README: Update FAQ pointer.
+	Reported by Joel E. Denny.
+
 2008-08-27  Eric Blake  <ebb9@byu.net>
 
 	Resync m4sugar from autoconf.
