@@ -14,6 +14,29 @@ number for the error token, which POSIX wants to be 256, but which
 Bison might renumber if the user used number 256.  Keep fix and doc?
 Throw away?
 
+We could (should?) also treat the case of the undef_token, which is
+numbered 257 for yylex, and 2 internal.  Both appear for instance in
+toknum:
+
+  const unsigned short int
+  parser::yytoken_number_[] =
+  {
+       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
+
+while here
+
+   enum yytokentype {
+     TOK_EOF = 0,
+     TOK_EQ = 258,
+
+so both 256 and 257 are "mysterious".
+
+  const char*
+  const parser::yytname_[] =
+  {
+  "\"end of command\"", "error", "$undefined", "\"=\"", "\"break\"",
+
+
 ** YYFAIL
 It is seems to be *really* obsolete now, shall we remove it?
 

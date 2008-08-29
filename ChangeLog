@@ -1,5 +1,10 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	YYERRCODE.
+	* TODO (YYERRCODE): Mention the case of $undef.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	TODO: YYPRINT.
 	* TODO (YYPRINT): New.
 
