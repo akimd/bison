@@ -1,5 +1,10 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	TODO: YYPRINT.
+	* TODO (YYPRINT): New.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Comment changes.
 	* data/lalr1.cc, data/yacc.c: Fix the description of the
 	yytranslate and yytoknum tables.

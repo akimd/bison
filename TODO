@@ -1,6 +1,13 @@
 -*- outline -*-
 
 * Various
+** YYPRINT
+glr.c inherits its symbol_print function from c.m4, which supports
+YYPRINT.  But to use YYPRINT yytoknum is needed, which not defined by
+glr.c.
+
+Anyway, IMHO YYPRINT is obsolete and should be restricted to yacc.c.
+
 ** YYERRCODE
 Defined to 256, but not used, not documented.  Probably the token
 number for the error token, which POSIX wants to be 256, but which
