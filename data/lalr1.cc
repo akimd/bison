@@ -411,7 +411,7 @@ m4_map([b4_char_sizeof_], [$@])dnl
 # Define yytranslate_.  Sometimes we want it in the header file,
 # sometimes the cc file suffices.
 m4_define([b4_yytranslate_definition],
-[[  // YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.
+[[  // Symbol number corresponding to token number t.
   ]b4_parser_class_name[::token_number_type
   ]b4_parser_class_name[::yytranslate_ (]b4_lex_symbol_if([token_type],
                                                           [int])[ t)
@@ -727,7 +727,8 @@ m4_ifdef([b4_stype],
 #if YYDEBUG
     /// For each rule, its source line number.
     static const ]b4_int_type_for([b4_rline])[ yyrline_[];
-    /// For each scanner token number, its symbol number.
+    /// (External) token number corresponding to the (internal) symbol
+    /// number (which must be that of a token).
     static const ]b4_int_type_for([b4_toknum])[ yytoken_number_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r);
@@ -1564,8 +1565,8 @@ b4_error_verbose_if([int yystate, int yytoken],
   ]b4_table_define([stos], [b4_stos])[;
 
 #if YYDEBUG
-  /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
-     to YYLEX-NUM.  */
+  /* YYTOKNUM[NUM] -- (External) token number corresponding to the
+     (internal) symbol number NUM (which must be that of a token).  */
   ]b4_table_define([token_number], [b4_toknum])[;
 #endif
 

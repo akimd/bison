@@ -1,5 +1,11 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Comment changes.
+	* data/lalr1.cc, data/yacc.c: Fix the description of the
+	yytranslate and yytoknum tables.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Define make_symbol in the header.
 	To reach good performances these functions should be inlined (yet this is
 	to measure precisely).  To this end they must be available to the caller.
