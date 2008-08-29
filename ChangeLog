@@ -1,5 +1,12 @@
 2008-08-29  Akim Demaille  <demaille@gostai.com>
 
+	Clarify UPDATED use.
+        * doc/bison.texinfo: It refers to the last edition of this file,
+	not to the release date of Bison.
+        Reported by Joel E. Denny.
+
+2008-08-29  Akim Demaille  <demaille@gostai.com>
+
 	* README: Update FAQ pointer.
 	Reported by Joel E. Denny.
 
