@@ -1,5 +1,11 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	Compute at M4 time some of the subtractions.
+	* data/lalr1.cc (b4_substract): New.
+	(b4_rhs_data): Use it.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	symbol::token.
 	This is allows the user to get the type of a token return by
 	yylex.
