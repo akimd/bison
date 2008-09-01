@@ -346,6 +346,21 @@ m4_define([b4_symbol_constructor_definitions],
   {
     return type;
   }
+]b4_lex_symbol_if([[
+  ]b4_parser_class_name[::token_type
+  ]b4_parser_class_name[::symbol_type::token () const
+  {
+    // YYTOKNUM[NUM] -- (External) token number corresponding to the
+    // (internal) symbol number NUM (which must be that of a token).  */
+    static
+    const ]b4_int_type_for([b4_toknum])[
+    yytoken_number_[] =
+    {
+  ]b4_toknum[
+    };
+    return static_cast<token_type> (yytoken_number_[type]);
+  }
+]])[
 
 ]b4_variant_if(
 [  // Implementation of make_symbol for each symbol type.
@@ -727,9 +742,6 @@ m4_ifdef([b4_stype],
 #if YYDEBUG
     /// For each rule, its source line number.
     static const ]b4_int_type_for([b4_rline])[ yyrline_[];
-    /// (External) token number corresponding to the (internal) symbol
-    /// number (which must be that of a token).
-    static const ]b4_int_type_for([b4_toknum])[ yytoken_number_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
@@ -810,6 +822,9 @@ m4_ifdef([b4_stype],
 
       /// Return the type corresponding to this state.
       inline int type_get_ () const;
+
+      /// Its token.
+      inline token_type token () const;
     };
 
 ]b4_symbol_constructor_declarations[
@@ -1563,12 +1578,6 @@ b4_error_verbose_if([int yystate, int yytoken],
   /* STOS_[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
   ]b4_table_define([stos], [b4_stos])[;
-
-#if YYDEBUG
-  /* YYTOKNUM[NUM] -- (External) token number corresponding to the
-     (internal) symbol number NUM (which must be that of a token).  */
-  ]b4_table_define([token_number], [b4_toknum])[;
-#endif
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
   ]b4_table_define([r1], [b4_r1])[;

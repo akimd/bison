@@ -1,5 +1,20 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	symbol::token.
+	This is allows the user to get the type of a token return by
+	yylex.
+	
+	* data/lalr1.cc (symbol::token): New.
+	(yytoknum_): Define when %define lex_symbol, independently of
+	%debug.
+	(yytoken_number_): Move into...
+	(symbol::token): here, since that's the only use.
+	The other one is YYPRINT which was not officially supported
+	by lalr1.cc, and anyway it did not work since YYPRINT uses this
+	array under a different name (yytoknum).
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	YYERRCODE.
 	* TODO (YYERRCODE): Mention the case of $undef.
 
