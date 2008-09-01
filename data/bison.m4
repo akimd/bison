@@ -542,6 +542,13 @@ m4_define([b4_percent_code_ifdef],
 	  [$3])])
 
 
+# Default values for %define.
+# ---------------------------
+# If the %token.prefix, it is empty.
+m4_percent_define_default([[token.prefix]], [[]])
+
+
+
 ## ----------------------------------------------------------- ##
 ## After processing the skeletons, check that all the user's   ##
 ## %define variables and %code qualifiers were used by Bison.  ##

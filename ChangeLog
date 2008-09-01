@@ -1,5 +1,17 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
+	%define token.prefix.
+	Provide a means to add a prefix to the name of the tokens as output in the
+	generated files.  Because of name clashes, it is good to have such a
+	prefix such as TOK_ that protects from names such as EOF, FILE etc.
+	But it clutters the grammar itself.
+	
+	* data/bison.m4 (token.prefix): Empty by default.
+	* data/c.m4 (b4_token_enum, b4_token_define): Use it.
+	* data/lalr1.cc (b4_symbol): Ditto.
+
+2008-11-13  Akim Demaille  <demaille@gostai.com>
+
 	Compute at M4 time some of the subtractions.
 	* data/lalr1.cc (b4_substract): New.
 	(b4_rhs_data): Use it.

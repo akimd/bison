@@ -159,7 +159,7 @@ m4_define([b4_null], [0])
 # -----------------------------------------
 # Output the definition of this token as #define.
 m4_define([b4_token_define],
-[#define $1 $2
+[#define b4_percent_define_get([token.prefix])$1 $2
 ])
 
 
@@ -177,7 +177,7 @@ m4_map([b4_token_define], [$@])])
 # ---------------------------------------
 # Output the definition of this token as an enum.
 m4_define([b4_token_enum],
-[$1 = $2])
+[b4_percent_define_get([token.prefix])$1 = $2])
 
 
 # b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)

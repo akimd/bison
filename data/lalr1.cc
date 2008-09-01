@@ -146,9 +146,10 @@ m4_define([b4_rhs_location],
 # b4_symbol(NUM, FIELD)
 # ---------------------
 # Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
-# undefined.
+# undefined.  If FIELD = id, prepend the prefix.
 m4_define([b4_symbol],
-[m4_indir([b4_symbol($1, $2)])])
+[m4_if([$2], [id], [b4_percent_define_get([token.prefix])])dnl
+m4_indir([b4_symbol($1, $2)])])
 
 
 # b4_symbol_if(NUM, FIELD, IF-TRUE, IF-FALSE)
