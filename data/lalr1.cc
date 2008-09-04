@@ -143,13 +143,23 @@ m4_define([b4_rhs_location],
           [b4_rhs_data([$1], [$2]).location])
 
 
+# b4_symbol_(NUM, FIELD)
+# ----------------------
+# Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
+# undefined.
+m4_define([b4_symbol_],
+[m4_indir([b4_symbol($1, $2)])])
+
+
 # b4_symbol(NUM, FIELD)
 # ---------------------
 # Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
 # undefined.  If FIELD = id, prepend the prefix.
 m4_define([b4_symbol],
-[m4_if([$2], [id], [b4_percent_define_get([token.prefix])])dnl
-m4_indir([b4_symbol($1, $2)])])
+[m4_case([$2],
+         [id],    [m4_do([b4_percent_define_get([token.prefix])],
+                         [b4_symbol_([$1], [id])])],
+         [b4_symbol_($@)])])
 
 
 # b4_symbol_if(NUM, FIELD, IF-TRUE, IF-FALSE)
@@ -205,67 +215,40 @@ m4_define([b4_type_action_],
 ])])
 
 
-# b4_symbol_constructor_declaration_(SYMBOL-NUMBERS)
-# ----------------------------------------------------
+# b4_symbol_constructor_declaration_(SYMBOL-NUMBER)
+# -------------------------------------------------
 # Declare the overloaded version of make_symbol for the (common) type of
 # these SYMBOL-NUMBERS.  Use at class-level.
 m4_define([b4_symbol_constructor_declaration_],
-[    template <token_type>
-    static inline symbol_type
-    make_symbol (b4_args(b4_symbol_if([$1], [has_type],
-                                      [const b4_symbol([$1], [type])& v]),
-                         b4_locations_if([const location_type& l])));
-
-])
-
-# b4_symbol_constructor_declarations
-# ----------------------------------
-# Declare the overloaded versions of make_symbol for all the value types.
-# Use at class-level.
-m4_define([b4_symbol_constructor_declarations],
-[b4_variant_if([
-    // Declaration of make_symbol for each value type.
-m4_map([b4_symbol_constructor_declaration_], m4_defn([b4_type_names]))])])
-
-
-
-# b4_symbol_constructor_specialization_(SYMBOL-NUMBER)
-# ----------------------------------------------------
-# Declare the specialization of make_symbol for this each SYMBOL-NUMBER.
-# Specializations cannot be declared at class-level, this must be done
-# at namespace-level.
-m4_define([b4_symbol_constructor_specialization_],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[  template <>
-  inline
-  b4_parser_class_name::symbol_type
-  b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [id])> (dnl
+[    static inline
+    symbol_type
+    make_[]b4_symbol_([$1], [id]) (dnl
 b4_args(b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
         b4_locations_if([const location_type& l])));
 
 ])])])
 
-# b4_symbol_constructor_specializations
-# -------------------------------------
-# Declare specializations of make_symbol.
-m4_define([b4_symbol_constructor_specializations],
+
+# b4_symbol_constructor_declarations
+# ----------------------------------
+# Declare symbol constructors for all the value types.
+# Use at class-level.
+m4_define([b4_symbol_constructor_declarations],
 [b4_variant_if([
-  // Specializations of make_symbol for each symbol type.
-m4_map([b4_symbol_constructor_specialization_],
-       m4_defn([b4_symbol_numbers]))])dnl
-])
+    // Symbol constructors declarations.
+m4_map([b4_symbol_constructor_declaration_], m4_defn([b4_symbol_numbers]))])])
 
 
 
 # b4_symbol_constructor_definition_(SYMBOL-NUMBER)
 # ------------------------------------------------
-# Define make_symbol for this SYMBOL-NUMBER.
+# Define symbol constructor for this SYMBOL-NUMBER.
 m4_define([b4_symbol_constructor_definition_],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[  template <>
-  b4_parser_class_name::symbol_type
-  b4_parser_class_name::make_symbol <b4_parser_class_name::token::b4_symbol([$1], [id])> (dnl
+[  b4_parser_class_name::symbol_type
+  b4_parser_class_name::make_[]b4_symbol_([$1], [id]) (dnl
 b4_args(b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
         b4_locations_if([const location_type& l])))
@@ -902,7 +885,6 @@ m4_ifdef([b4_stype],
   };
 
 ]b4_lex_symbol_if([b4_yytranslate_definition])[
-]b4_symbol_constructor_specializations[
 ]b4_lex_symbol_if([b4_symbol_constructor_definitions])[
 ]b4_namespace_close[
 

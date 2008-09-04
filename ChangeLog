@@ -1,3 +1,25 @@
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
+	Instead of using make_symbol<TOK_FOO>, generate make_FOO for each token type.
+	Using template buys us nothing, and makes it uselessly complex to
+	construct a symbol.  Besides, it could not be generalized to other
+	languages, while make_FOO would work in C/Java etc.
+	
+	* data/lalr1.cc (b4_symbol_): New.
+	(b4_symbol): Use it.
+	(b4_symbol_constructor_declaration_)
+	(b4_symbol_constructor_definition_): Instead of generating
+	specializations of an overloaded template function, just generate
+	several functions whose names are forged from the token names
+	without the token.prefix.
+	(b4_symbol_constructor_declarations): Generate them for all the
+	symbols, not just by class of symbol type, now that instead of
+	specializing a function template by the token, we generate a
+	function named after the token.
+	(b4_symbol_constructor_specialization_)
+	(b4_symbol_constructor_specializations): Remove.
+	* etc/bench.pl.in: Adjust to this new API.
+
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
 	%define token.prefix.

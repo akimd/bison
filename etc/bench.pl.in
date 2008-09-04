@@ -692,7 +692,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
   if (stage == STAGE_MAX)
     {
 #if USE_LEX_SYMBOL
-      return yy::parser::make_symbol <token::END_OF_FILE> (yy::location());
+      return yy::parser::make_END_OF_FILE (yy::location());
 #else
       *yylloc = yy::location ();
       return token::END_OF_FILE;
@@ -701,7 +701,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
   else if (stage % 2)
     {
 #if USE_LEX_SYMBOL
-      return yy::parser::make_symbol <token::NUMBER> (stage, yy::location());
+      return yy::parser::make_NUMBER (stage, yy::location());
 #elif defined ONE_STAGE_BUILD
       yylval->build(stage);
       *yylloc = yy::location ();
@@ -719,7 +719,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
   else
     {
 #if USE_LEX_SYMBOL
-      return yy::parser::make_symbol <token::TEXT> ("A string.", yy::location());
+      return yy::parser::make_TEXT ("A string.", yy::location());
 #elif defined ONE_STAGE_BUILD
       yylval->build(std::string("A string."));
       *yylloc = yy::location ();
