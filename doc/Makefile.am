@@ -56,7 +56,6 @@ MAINTAINERCLEANFILES += $(dist_man_MANS)
 
 # Depend on configure to get version number changes.
 common_dep = $(top_srcdir)/configure $(srcdir)/common.x
-srcsrcdir = $(top_srcdir)/bin
 $(srcdir)/bison.1:      $(common_dep) $(top_srcdir)/src/getargs.c
 
 # Differences to ignore when comparing the man page (the date).
