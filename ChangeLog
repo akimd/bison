@@ -1,5 +1,13 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	Provide convenience constructors for locations and positions.
+	* data/location.cc (position::position): Accept file, line and
+	column as arguments with default values.
+	Always qualify initial line and column literals as unsigned.
+	(location::location): Provide convenience constructors.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	Instead of using make_symbol<TOK_FOO>, generate make_FOO for each token type.
 	Using template buys us nothing, and makes it uselessly complex to
 	construct a symbol.  Besides, it could not be generalized to other
