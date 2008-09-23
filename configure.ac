@@ -152,8 +152,7 @@ AC_CONFIG_FILES([Makefile
 		 po/Makefile.in
 		 data/Makefile
 		 etc/Makefile
-		 examples/Makefile
-		    examples/calc++/Makefile
+		 examples/calc++/Makefile
 		 lib/Makefile src/Makefile
 		 doc/Makefile
 		   doc/yacc.1])

@@ -17,7 +17,10 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = po runtime-po lib data src doc examples tests etc
+SUBDIRS = po runtime-po lib data src doc tests etc
+if BISON_CXX_WORKS
+SUBDIRS += examples/calc++
+endif
 
 # Files installed for use by Automake.
 aclocaldir = @aclocaldir@
@@ -31,6 +34,7 @@ EXTRA_DIST = .prev-version .version cfg.mk maint.mk \
   djgpp/fnchange.lst djgpp/testsuite.sed
 
 include build-aux/local.mk
+include examples/local.mk
 
 .PHONY: maintainer-check
 maintainer-check:
