@@ -17,7 +17,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = po runtime-po lib data src doc tests etc
+SUBDIRS = po runtime-po lib data src doc tests
 if BISON_CXX_WORKS
 SUBDIRS += examples/calc++
 endif
@@ -34,6 +34,7 @@ EXTRA_DIST = .prev-version .version cfg.mk maint.mk \
   djgpp/fnchange.lst djgpp/testsuite.sed
 
 include build-aux/local.mk
+include etc/local.mk
 include examples/local.mk
 
 .PHONY: maintainer-check
