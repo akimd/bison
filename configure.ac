@@ -149,7 +149,6 @@ gt_JAVACOMP([1.3], [1.4])
 gt_JAVAEXEC
 
 AC_CONFIG_FILES([Makefile
-		 build-aux/Makefile
 		 po/Makefile.in
 		 data/Makefile
 		 etc/Makefile

@@ -1,5 +1,16 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	Remove build-aux/Makefile.am.
+	Recursive Makefiles are really way too slow, let's get rid of some of
+	them.
+	
+	* build-aux/Makefile.am: Rename as...
+	* build-aux/local.mk: this.
+	Adjust paths.
+	* Makefile.am, configure.ac: Adjust.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	Provide convenience constructors for locations and positions.
 	* data/location.cc (position::position): Accept file, line and
 	column as arguments with default values.

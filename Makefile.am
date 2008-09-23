@@ -17,7 +17,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = build-aux po runtime-po lib data src doc examples tests etc
+SUBDIRS = po runtime-po lib data src doc examples tests etc
 
 # Files installed for use by Automake.
 aclocaldir = @aclocaldir@
@@ -30,6 +30,7 @@ EXTRA_DIST = .prev-version .version cfg.mk maint.mk \
   djgpp/subpipe.c djgpp/subpipe.h djgpp/djunpack.bat \
   djgpp/fnchange.lst djgpp/testsuite.sed
 
+include build-aux/local.mk
 
 .PHONY: maintainer-check
 maintainer-check:
