@@ -1,5 +1,9 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	Comment changes.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	djgpp/local.mk.
 	* Makefile.am (EXTRA_DIST): Move djgpp related part to...
 	* djgpp/local.mk: this new file.
