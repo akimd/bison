@@ -17,7 +17,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = po runtime-po lib . doc tests
+SUBDIRS = po runtime-po lib . tests
 if BISON_CXX_WORKS
 SUBDIRS += examples/calc++
 endif
@@ -35,8 +35,10 @@ EXTRA_DIST = .prev-version .version cfg.mk maint.mk \
 
 # Initialization before completion by local.mk's.
 BUILT_SOURCES =
+MOSTLYCLEANFILES =
 include build-aux/local.mk
 include data/local.mk
+include doc/local.mk
 include etc/local.mk
 include examples/local.mk
 include src/local.mk

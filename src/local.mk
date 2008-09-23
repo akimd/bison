@@ -110,7 +110,7 @@ BUILT_SOURCES +=				\
   src/scan-gram.c				\
   src/scan-skel.c
 
-MOSTLYCLEANFILES = src/yacc
+MOSTLYCLEANFILES += src/yacc
 
 src/yacc:
 	rm -f $@ $@.tmp

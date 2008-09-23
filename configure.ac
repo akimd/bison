@@ -152,6 +152,5 @@ AC_CONFIG_FILES([Makefile
 		 po/Makefile.in
 		 examples/calc++/Makefile
 		 lib/Makefile
-		 doc/Makefile
-		   doc/yacc.1])
+		 doc/yacc.1])
 AC_OUTPUT
