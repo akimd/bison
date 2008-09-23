@@ -1,5 +1,16 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	Move sc_tight_scope into maint.mk.
+	It does not work, and I don't know how it was supposed to work: it seems
+	to be looking for sources in the build tree.  I just moved it at a better
+	place, fixing it is still required.
+	
+	* src/local.mk (echo): Remove.
+	(sc_tight_scope): Move to...
+	* maint.mk: here.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	Regen.
 	* src/parse-gram.h, src/parse-gram.h: Regen.
 

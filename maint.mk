@@ -404,8 +404,33 @@ sc_the_the:
 	  { echo '$(ME): found use of "the ''the";' 1>&2;		\
 	    exit 1; } || :
 
-#sc_tight_scope:
-#	$(MAKE) -C src $@
+# Most functions in src/*.c should have static scope.
+# Any that don't must be marked with `extern', but `main'
+# and `usage' are exceptions.  They're always extern, but
+# don't need to be marked.
+#
+# The second nm|grep checks for file-scope variables with `extern' scope.
+sc_tight_scope: $(all_programs)
+	@t=exceptions-$$$$;						\
+	trap 's=$$?; rm -f $$t; exit $$s' 0 1 2 13 15;			\
+	( printf '^main$$\n^usage$$\n';					\
+	  grep -h -A1 '^extern .*[^;]$$' $(SOURCES)			\
+	    | grep -vE '^(extern |--)' |sed 's/^/^/;s/ .*/$$/' ) > $$t;	\
+	if nm -e *.$(OBJEXT)						\
+	    | sed -n 's/.* T //p'					\
+	    | grep -Ev -f $$t; then					\
+	  echo 'the above functions should have static scope' 1>&2;	\
+	  exit 1;							\
+	fi;								\
+	( printf '^program_name$$\n';					\
+	  sed -n 's/^extern .*[* ]\([a-zA-Z_][a-zA-Z_0-9]*\);$$/^\1$$/p' \
+	    $$(ls $(SOURCES) | grep '\.h$$') /dev/null) > $$t;		\
+	if nm -e *.$(OBJEXT)						\
+	    | sed -n 's/.* [BD] //p'					\
+	    | grep -Ev -f $$t; then					\
+	  echo 'the above variables should have static scope' 1>&2;	\
+	  exit 1;							\
+	fi
 
 sc_trailing_blank:
 	@grep -n '[	 ]$$' $$($(VC_LIST_EXCEPT)) &&			\
