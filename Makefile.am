@@ -17,7 +17,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = po runtime-po lib src doc tests
+SUBDIRS = po runtime-po lib . doc tests
 if BISON_CXX_WORKS
 SUBDIRS += examples/calc++
 endif
@@ -33,10 +33,13 @@ EXTRA_DIST = .prev-version .version cfg.mk maint.mk \
   djgpp/subpipe.c djgpp/subpipe.h djgpp/djunpack.bat \
   djgpp/fnchange.lst djgpp/testsuite.sed
 
+# Initialization before completion by local.mk's.
+BUILT_SOURCES =
 include build-aux/local.mk
 include data/local.mk
 include etc/local.mk
 include examples/local.mk
+include src/local.mk
 
 .PHONY: maintainer-check
 maintainer-check:
@@ -59,7 +62,7 @@ maintainer-xml-check:
 # a developer might naively reference .version in a test case while the bison
 # executable still compiles with VERSION, and so the test case might fail or
 # pass incorrectly.
-BUILT_SOURCES = $(top_srcdir)/.version
+BUILT_SOURCES += $(top_srcdir)/.version
 $(top_srcdir)/.version: configure
 	echo $(VERSION) > $@-t && mv $@-t $@
 dist-hook:

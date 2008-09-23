@@ -1,5 +1,28 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	Remove src/Makefile.am.
+	* src/Makefile.am: Rename as...
+	* src/local.mk: this.
+	Prefix all the paths with src/.
+	(AUTOMAKE_OPTIONS): Build object files in the sub dirs.
+	(AM_CPPFLAGS): Find find in builddir/src.
+	(YACC): Move the flags into...
+	(AM_YFLAGS): here.
+	* maint.mk (sc_tight_scope): Disable.
+	It used to bounce to the version in src/Makefile.am which is now
+	part of this very Makefile.
+	* Makefile.am, configure.ac: Adjust.
+	* src/scan-code-c.c, src/scan-code.l: We can no longer rely on
+	include "..." to find files "here": we are no longer in src/, so
+	qualify the includes with src/.
+	* doc/Makefile.am (PREPATH): No longer include the top_builddir
+	prefix.
+	(.x.1): Adjust to be able to create src/foo from the top level
+	Makefile, instead of going bounce to src/Makefile the creation of
+	foo.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	Remove useless variable.
 	* doc/Makefile.am (srcsrcdir): Remove.
 

@@ -27,16 +27,16 @@
 #define code_wrap() 1
 
 #define FLEX_PREFIX(Id) code_ ## Id
-#include "flex-scanner.h"
+#include <src/flex-scanner.h>
 
-#include "complain.h"
-#include "reader.h"
-#include "getargs.h"
+#include <src/complain.h>
+#include <src/reader.h>
+#include <src/getargs.h>
 #include <get-errno.h>
 #include <quote.h>
 
-#include "scan-code.h"
-#include "symlist.h"
+#include <src/scan-code.h>
+#include <src/symlist.h>
 
 /* The current calling start condition: SC_RULE_ACTION or
    SC_SYMBOL_ACTION. */

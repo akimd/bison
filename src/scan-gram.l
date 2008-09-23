@@ -28,19 +28,19 @@
 #define gram_wrap() 1
 
 #define FLEX_PREFIX(Id) gram_ ## Id
-#include "flex-scanner.h"
+#include <src/flex-scanner.h>
 
-#include "complain.h"
-#include "files.h"
-#include "gram.h"
-#include "quotearg.h"
-#include "reader.h"
-#include "uniqstr.h"
+#include <src/complain.h>
+#include <src/files.h>
+#include <src/gram.h>
+#include <quotearg.h>
+#include <src/reader.h>
+#include <src/uniqstr.h>
 
 #include <mbswidth.h>
 #include <quote.h>
 
-#include "scan-gram.h"
+#include <src/scan-gram.h>
 
 #define YY_DECL GRAM_LEX_DECL
 

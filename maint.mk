@@ -404,8 +404,8 @@ sc_the_the:
 	  { echo '$(ME): found use of "the ''the";' 1>&2;		\
 	    exit 1; } || :
 
-sc_tight_scope:
-	$(MAKE) -C src $@
+#sc_tight_scope:
+#	$(MAKE) -C src $@
 
 sc_trailing_blank:
 	@grep -n '[	 ]$$' $$($(VC_LIST_EXCEPT)) &&			\

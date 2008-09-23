@@ -1,0 +1,154 @@
+## Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
+## Foundation, Inc.
+
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+AUTOMAKE_OPTIONS = subdir-objects
+
+AM_CPPFLAGS = -I$(top_srcdir)/lib
+# Find builddir/src/scan-code.c etc.
+AM_CPPFLAGS += -I$(top_builddir)
+
+AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS)
+
+LDADD = $(top_builddir)/lib/libbison.a $(LIBINTL)
+
+# Use our own Bison to build the parser.  Of course, you ought to
+# keep a sane version of Bison nearby...
+YACC = $(top_builddir)/tests/bison -y
+AM_YFLAGS = -dv --warnings=all,error --report=all
+
+bin_PROGRAMS = src/bison
+bin_SCRIPTS = $(YACC_SCRIPT)
+EXTRA_SCRIPTS = src/yacc
+
+src_bison_SOURCES =				\
+  src/LR0.c					\
+  src/LR0.h					\
+  src/assoc.c					\
+  src/assoc.h					\
+  src/closure.c					\
+  src/closure.h					\
+  src/complain.c				\
+  src/complain.h				\
+  src/conflicts.c				\
+  src/conflicts.h				\
+  src/derives.c					\
+  src/derives.h					\
+  src/files.c					\
+  src/files.h					\
+  src/flex-scanner.h				\
+  src/getargs.c					\
+  src/getargs.h					\
+  src/gram.c					\
+  src/gram.h					\
+  src/graphviz.c				\
+  src/graphviz.h				\
+  src/lalr.c					\
+  src/lalr.h					\
+  src/location.c				\
+  src/location.h				\
+  src/main.c					\
+  src/muscle_tab.c				\
+  src/muscle_tab.h				\
+  src/nullable.c				\
+  src/nullable.h				\
+  src/output.c					\
+  src/output.h					\
+  src/parse-gram.h				\
+  src/parse-gram.y				\
+  src/print-xml.c				\
+  src/print-xml.h				\
+  src/print.c					\
+  src/print.h					\
+  src/print_graph.c				\
+  src/print_graph.h				\
+  src/reader.c					\
+  src/reader.h					\
+  src/reduce.c					\
+  src/reduce.h					\
+  src/relation.c				\
+  src/relation.h				\
+  src/scan-code-c.c				\
+  src/scan-code.h				\
+  src/scan-gram-c.c				\
+  src/scan-gram.h				\
+  src/scan-skel-c.c				\
+  src/scan-skel.h				\
+  src/state.c					\
+  src/state.h					\
+  src/symlist.c					\
+  src/symlist.h					\
+  src/symtab.c					\
+  src/symtab.h					\
+  src/system.h					\
+  src/tables.c					\
+  src/tables.h					\
+  src/uniqstr.c					\
+  src/uniqstr.h
+
+EXTRA_src_bison_SOURCES =			\
+  src/scan-code.l				\
+  src/scan-gram.l				\
+  src/scan-skel.l
+
+BUILT_SOURCES +=				\
+  src/parse-gram.c				\
+  src/parse-gram.h				\
+  src/scan-code.c				\
+  src/scan-gram.c				\
+  src/scan-skel.c
+
+MOSTLYCLEANFILES = src/yacc
+
+src/yacc:
+	rm -f $@ $@.tmp
+	echo '#! /bin/sh' >$@.tmp
+	echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@.tmp
+	chmod a+x $@.tmp
+	mv $@.tmp $@
+
+echo:
+	echo $(src_bison_SOURCES) $(noinst_HEADERS)
+
+# The following rule is not designed to be portable,
+# and relies on tools that not everyone has.
+
+# Most functions in src/*.c should have static scope.
+# Any that don't must be marked with `extern', but `main'
+# and `usage' are exceptions.  They're always extern, but
+# don't need to be marked.
+#
+# The second nm|grep checks for file-scope variables with `extern' scope.
+sc_tight_scope: $(all_programs)
+	@t=exceptions-$$$$;						\
+	trap 's=$$?; rm -f $$t; exit $$s' 0 1 2 13 15;			\
+	( printf '^main$$\n^usage$$\n';					\
+	  grep -h -A1 '^extern .*[^;]$$' $(SOURCES)			\
+	    | grep -vE '^(extern |--)' |sed 's/^/^/;s/ .*/$$/' ) > $$t;	\
+	if nm -e *.$(OBJEXT)						\
+	    | sed -n 's/.* T //p'					\
+	    | grep -Ev -f $$t; then					\
+	  echo 'the above functions should have static scope' 1>&2;	\
+	  exit 1;							\
+	fi;								\
+	( printf '^program_name$$\n';					\
+	  sed -n 's/^extern .*[* ]\([a-zA-Z_][a-zA-Z_0-9]*\);$$/^\1$$/p' \
+	    $$(ls $(SOURCES) | grep '\.h$$') /dev/null) > $$t;		\
+	if nm -e *.$(OBJEXT)						\
+	    | sed -n 's/.* [BD] //p'					\
+	    | grep -Ev -f $$t; then					\
+	  echo 'the above variables should have static scope' 1>&2;	\
+	  exit 1;							\
+	fi

@@ -66,28 +66,30 @@ MOSTLYCLEANFILES = $(srcdir)/*.t
 
 SUFFIXES = .x .1
 
-PREPATH = $(top_builddir)/src
+PREPATH = src
 .x.1:
-	@program=`expr "/$*" : '.*/\(.*\)'` &&				\
-	save_IFS=$IFS;							\
-	IFS=$(PATH_SEPARATOR);						\
-	for dir in $(PREPATH); do					\
-	  IFS=$save_IFS;						\
-	  echo cd $$dir '&&' $(MAKE) $(AM_MAKEFLAGS) $$program &&	\
-	  (cd $$dir && $(MAKE) $(AM_MAKEFLAGS) $$program) || exit;	\
+	@program=`expr "/$*" : '.*/\(.*\)'` &&				 \
+	save_IFS=$IFS;							 \
+	IFS=$(PATH_SEPARATOR);						 \
+	for dir in $(PREPATH); do					 \
+	  IFS=$save_IFS;						 \
+	  echo cd $(top_builddir) '&&'					 \
+		$(MAKE) $(AM_MAKEFLAGS) $$dir/$$program &&		 \
+	  (cd $(top_builddir) &&					 \
+		$(MAKE) $(AM_MAKEFLAGS) $$dir/$$program) || exit;	 \
 	done
 	@echo "Updating man page $@"
-	PATH="$(PREPATH)$(PATH_SEPARATOR)$$PATH";			     \
-	export PATH;							     \
-	$(HELP2MAN)							     \
-	    --include=$*.x						     \
-	    --include=$(srcdir)/common.x				     \
+	PATH="$(top_builddir)/$(PREPATH)$(PATH_SEPARATOR)$$PATH";	 \
+	export PATH;							 \
+	$(HELP2MAN)							 \
+	    --include=$*.x						 \
+	    --include=$(srcdir)/common.x				 \
 	    --output=$@.t `echo '$*' | sed 's,.*/,,'`
-	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		     \
-	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then     \
-		touch $@;						     \
-	else								     \
-		mv $@.t $@;						     \
+	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		 \
+	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then \
+		touch $@;						 \
+	else								 \
+		mv $@.t $@;						 \
 	fi
 	rm -f $@*.t
 

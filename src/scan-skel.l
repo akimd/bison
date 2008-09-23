@@ -1,6 +1,6 @@
 /* Scan Bison Skeletons.                                       -*- C -*-
 
-   Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software
+   Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -28,16 +28,16 @@
 #define skel_wrap() 1
 
 #define FLEX_PREFIX(Id) skel_ ## Id
-#include "flex-scanner.h"
+#include <src/flex-scanner.h>
 
 #include <dirname.h>
 #include <error.h>
 #include <quotearg.h>
 
-#include "complain.h"
-#include "getargs.h"
-#include "files.h"
-#include "scan-skel.h"
+#include <src/complain.h>
+#include <src/getargs.h>
+#include <src/files.h>
+#include <src/scan-skel.h>
 
 #define YY_DECL static int skel_lex (void)
 YY_DECL;

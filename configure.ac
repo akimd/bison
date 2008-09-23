@@ -79,7 +79,7 @@ AC_ARG_ENABLE([yacc],
   , [enable_yacc=yes])
 case $enable_yacc in
 yes)
-  YACC_SCRIPT=yacc
+  YACC_SCRIPT=src/yacc
   YACC_LIBRARY=liby.a;;
 *)
   YACC_SCRIPT=
@@ -151,7 +151,7 @@ gt_JAVAEXEC
 AC_CONFIG_FILES([Makefile
 		 po/Makefile.in
 		 examples/calc++/Makefile
-		 lib/Makefile src/Makefile
+		 lib/Makefile
 		 doc/Makefile
 		   doc/yacc.1])
 AC_OUTPUT

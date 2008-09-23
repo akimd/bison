@@ -1,3 +1,3 @@
 #include <config.h>
 #include "system.h"
-#include "scan-gram.c"
+#include "src/scan-gram.c"
