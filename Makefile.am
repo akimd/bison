@@ -26,18 +26,16 @@ endif
 aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
-EXTRA_DIST = .prev-version .version cfg.mk maint.mk \
-  OChangeLog PACKAGING \
-  djgpp/Makefile.maint djgpp/README.in djgpp/config.bat \
-  djgpp/config.sed djgpp/config.site djgpp/config_h.sed \
-  djgpp/subpipe.c djgpp/subpipe.h djgpp/djunpack.bat \
-  djgpp/fnchange.lst djgpp/testsuite.sed
+EXTRA_DIST = .prev-version .version \
+  cfg.mk maint.mk \
+  OChangeLog PACKAGING
 
 # Initialization before completion by local.mk's.
 BUILT_SOURCES =
 MOSTLYCLEANFILES =
 include build-aux/local.mk
 include data/local.mk
+include djgpp/local.mk
 include doc/local.mk
 include etc/local.mk
 include examples/local.mk
