@@ -41,29 +41,32 @@ b4_copyright([Positions for Bison parsers in C++],
   class position
   {
   public:
-]m4_ifdef([b4_location_constructors], [
+]m4_ifdef([b4_location_constructors], [[
     /// Construct a position.
-    position ()
-      : filename (YY_NULL), line (]b4_location_initial_line[), column (]b4_location_initial_column[)
+    explicit position (]b4_percent_define_get([[filename_type]])[* f = YY_NULL,
+                       unsigned int l = ]b4_location_initial_line[u,
+                       unsigned int c = ]b4_location_initial_column[u)
+      : filename (f)
+      , line (l)
+      , column (c)
     {
     }
 
-])[
+]])[
     /// Initialization.
     void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
     {
       filename = fn;
-      line = ]b4_location_initial_line[;
-      column = ]b4_location_initial_column[;
+      line = ]b4_location_initial_line[u;
+      column = ]b4_location_initial_column[u;
     }
 
     /** \name Line and Column related manipulators
      ** \{ */
-  public:
     /// (line related) Advance to the COUNT next lines.
     void lines (int count = 1)
     {
-      column = ]b4_location_initial_column[;
+      column = ]b4_location_initial_column[u;
       line += count;
     }
 
@@ -74,7 +77,6 @@ b4_copyright([Positions for Bison parsers in C++],
     }
     /** \} */
 
-  public:
     /// File name to which this position refers.
     ]b4_percent_define_get([[filename_type]])[* filename;
     /// Current line number.
@@ -168,9 +170,26 @@ b4_copyright([Locations for Bison parsers in C++],
   {
   public:
 ]m4_ifdef([b4_location_constructors], [
-    /// Construct a location.
-    location ()
-      : begin (), end ()
+    /// Construct a location from \a b to \a e.
+    location (const position& b, const position& e)
+      : begin (b)
+      , end (e)
+    {
+    }
+
+    /// Construct a 0-width location in \a p.
+    explicit location (const position& p = position ())
+      : begin (p)
+      , end (p)
+    {
+    }
+
+    /// Construct a 0-width location in \a f, \a l, \a c.
+    explicit location (]b4_percent_define_get([[filename_type]])[* f,
+                       unsigned int l = ]b4_location_initial_line[u,
+                       unsigned int c = ]b4_location_initial_column[u)
+      : begin (f, l, c)
+      , end (f, l, c)
     {
     }
 
