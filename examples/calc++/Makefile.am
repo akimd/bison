@@ -22,7 +22,7 @@ BISON = $(top_builddir)/tests/bison
 BISON_IN = $(top_srcdir)/tests/bison.in
 
 $(BISON): $(BISON_IN)
-	cd $(top_builddir)/tests && $(MAKE) $(AM_MAKEFLAGS) bison
+	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) tests/bison
 
 ## ------------ ##
 ## Extracting.  ##

@@ -1,5 +1,15 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	Remove tests/Makefile.am.
+	* tests/Makefile.am: Rename as...
+	* tests/local.mk: this.
+	* Makefile.am, configure.ac: Adjust.
+	* Makefile.am (DISTCLEANFILES): Define.
+	(maintainer-check, maintainer-xml-check, maintainer-push-check):
+	Remove, we no longer need to bounce to the real targets.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	Comment changes.
 
 2008-11-15  Akim Demaille  <demaille@gostai.com>

@@ -17,7 +17,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = po runtime-po lib . tests
+SUBDIRS = po runtime-po lib .
 if BISON_CXX_WORKS
 SUBDIRS += examples/calc++
 endif
@@ -32,6 +32,7 @@ EXTRA_DIST = .prev-version .version \
 
 # Initialization before completion by local.mk's.
 BUILT_SOURCES =
+DISTCLEANFILES =
 MOSTLYCLEANFILES =
 include build-aux/local.mk
 include data/local.mk
@@ -40,18 +41,7 @@ include doc/local.mk
 include etc/local.mk
 include examples/local.mk
 include src/local.mk
-
-.PHONY: maintainer-check
-maintainer-check:
-	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
-
-.PHONY: maintainer-push-check
-maintainer-push-check:
-	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
-
-.PHONY: maintainer-xml-check
-maintainer-xml-check:
-	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
+include tests/local.mk
 
 # See comments in build-aux/git-version-gen.  However, we make .version depend
 # on configure so that .version and VERSION/PACKAGE_VERSION stay in sync in the
