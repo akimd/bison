@@ -205,7 +205,7 @@ b4_lexer_if([[
 
   ]b4_locations_if([
   protected final void yyerror (String s) {
-    yylexer.yyerror ((Location)null, s);
+    yylexer.yyerror ((]b4_location_type[)null, s);
   }
   protected final void yyerror (]b4_position_type[ loc, String s) {
     yylexer.yyerror (new ]b4_location_type[ (loc), s);
@@ -414,7 +414,7 @@ b4_lexer_if([[
     yycdebug (s + (yytype < yyntokens_ ? " token " : " nterm ")
 	      + yytname_[yytype] + " ("]b4_locations_if([
 	      + yylocationp + ": "])[
-	      + (yyvaluep == null ? "(null)" : yyvaluep) + ")");
+	      + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
   }
 
   /**

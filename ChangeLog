@@ -1,3 +1,9 @@
+2008-10-08  Di-an Jan  <dianj@freeshell.org>  (tiny change)
+
+	Small but important bugfixes for the Java skeleton.
+	* data/lalr1.java (yyerror): Change Location to b4_location_type.
+	(yy_symbol_print): Call toString on yyvaluep.
+
 2008-08-29  Akim Demaille  <demaille@gostai.com>
 
 	Clarify UPDATED use.
