@@ -1,5 +1,15 @@
 2008-11-15  Akim Demaille  <akim@betelgeuse.gostai.ensta.fr>
 
+	Test token.prefix.
+	This is not sufficient, but we test at least that the make_SYMBOL
+	interface is not affected by token.prefix.  A more general test
+	will be implemented when the support of token.prefix is generalized
+	to more skeletons.
+	
+	* tests/c++.at: One more variant test, using token.prefix.
+
+2008-11-15  Akim Demaille  <akim@betelgeuse.gostai.ensta.fr>
+
 	Test the make_TOKEN interface.
 	* tests/c++.at (AT_CHECK_VARIANTS): Require and use locations.
 	Factor the common code in yylex.
