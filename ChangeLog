@@ -1,3 +1,10 @@
+2008-11-15  Akim Demaille  <akim@betelgeuse.gostai.ensta.fr>
+
+	Simplify code for variants bench marks.
+	* etc/bench.pl.in (&generate_grammar_list): Define and use
+	location_type.
+	Factor the common code in yylex.
+
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
 	Better error message.
