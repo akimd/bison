@@ -1,5 +1,12 @@
 2008-11-15  Akim Demaille  <akim@betelgeuse.gostai.ensta.fr>
 
+	Test the make_TOKEN interface.
+	* tests/c++.at (AT_CHECK_VARIANTS): Require and use locations.
+	Factor the common code in yylex.
+	Use it to test "%define lex_symbol".
+
+2008-11-15  Akim Demaille  <akim@betelgeuse.gostai.ensta.fr>
+
 	Formatting change.
 
 2008-11-15  Akim Demaille  <akim@betelgeuse.gostai.ensta.fr>

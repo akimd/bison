@@ -33,6 +33,7 @@ AT_DATA([list.yy],
 %skeleton "lalr1.cc"
 %defines
 %define variant
+%locations
 ]m4_bpatsubst([$1], [\\n], [
 ])[
 
@@ -50,10 +51,15 @@ typedef std::list<std::string> strings_type;
 #include <iterator>
 #include <sstream>
 
-  // Prototype of the yylex function providing subsequent tokens.
-  static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
+ static
+#if defined USE_LEX_SYMBOL
+  yy::parser::symbol_type yylex ();
+#else
+  yy::parser::token_type yylex (yy::parser::semantic_type* yylval,
+                                yy::parser::location_type* yylloc);
+#endif
 
-  // Printing a list of strings.
+  // Printing a list of strings (for %printer).
   // Koening look up will look into std, since that's an std::list.
   namespace std
   {
@@ -103,45 +109,62 @@ item:
 ;
 %%
 
+#define STAGE_MAX 5
 static
-yy::parser::token_type
-yylex(yy::parser::semantic_type* yylval)
+#if defined USE_LEX_SYMBOL
+yy::parser::symbol_type yylex()
+#else
+yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
+                             yy::parser::location_type* yylloc)
+#endif
 {
-  static int stage = 0;
-  yy::parser::token_type result;
-
-  switch (stage)
-  {
-    case 0:
-    case 4:
-#ifdef ONE_STAGE_BUILD
-      yylval->build(string_cast(stage));
-#else
-      yylval->build<std::string>() = string_cast(stage);
-#endif
-      result = yy::parser::token::TEXT;
-      break;
-    case 1:
-    case 2:
-    case 3:
-#ifdef ONE_STAGE_BUILD
-      yylval->build(stage);
-#else
-      yylval->build<int>() = stage;
-#endif
-      result = yy::parser::token::NUMBER;
-      break;
-    default:
-      result = yy::parser::token::END_OF_FILE;
-      break;
-  }
-
+  typedef yy::parser::token token;
+  typedef yy::parser::location_type location_type;
+  static int stage = -1;
   ++stage;
-  return result;
+  if (stage == STAGE_MAX)
+    {
+#if defined USE_LEX_SYMBOL
+      return yy::parser::make_END_OF_FILE (location_type ());
+#else
+      *yylloc = location_type ();
+      return token::END_OF_FILE;
+#endif
+    }
+  else if (stage % 2)
+    {
+#if defined USE_LEX_SYMBOL
+      return yy::parser::make_NUMBER (stage, location_type ());
+#else
+# if defined ONE_STAGE_BUILD
+      yylval->build(stage);
+# else
+      yylval->build<int>() = stage;
+# endif
+      *yylloc = location_type ();
+      return token::NUMBER;
+#endif
+    }
+  else
+    {
+#if defined USE_LEX_SYMBOL
+      return yy::parser::make_TEXT (string_cast (stage), location_type ());
+#else
+# if defined ONE_STAGE_BUILD
+      yylval->build (string_cast (stage));
+# else
+      yylval->build<std::string>() = string_cast (stage);
+# endif
+      *yylloc = location_type ();
+      return token::TEXT;
+#endif
+    }
+  abort();
 }
 
 void
-yy::parser::error(const std::string& message)
+yy::parser::error(const yy::parser::location_type&,
+		  const std::string& message)
 {
   std::cerr << message << std::endl;
 }
@@ -171,6 +194,7 @@ AT_CLEANUP
 AT_CHECK_VARIANTS([])
 AT_CHECK_VARIANTS([%define assert])
 AT_CHECK_VARIANTS([[%define assert %code {\n#define ONE_STAGE_BUILD\n}]])
+AT_CHECK_VARIANTS([[%define assert  %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n}]])
 
 
 ## ----------------------- ##
