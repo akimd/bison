@@ -1,3 +1,57 @@
+2008-11-01  Di-an Jan  <dianj@freeshell.org>
+	    Paolo Bonzini  <bonzini@gnu.org>
+
+	Support all Java parser class modifiers.
+	* data/java.m4 (b4_percent_define_get3): New.
+	(b4_final_if, b4_strictfp_if): New.
+	* data/lalr1.java (final, strictfp, extends, implements): Support.
+	* doc/bison.texinfo (final, strictfp, extends, implements): Add
+	documentation.
+	* tests/java.at (AT_CHECK_JAVA_MINIMAL): New.
+	(AT_CHECK_JAVA_MINIMAL_W_LEXER): New.
+	(AT_CHECK_JAVA_GREP): New.
+	(Java parser class modifiers): New test.
+	(Java parser class extends and implements): New test.
+
+	Model exception propagation better with throws and lex_throws.
+	* data/java.m4 (b4_list2): New.
+	(throws): Change default.
+	* data/lalr1.java (yyaction): Add throws.
+	(parse): Add lex_throws in addition to throws.
+	* doc/bison.texinfo (throws, lex_throws): Add documentation.
+	* tests/java.at (Java throws specifications): New test.
+
+	Improve documentation for Java parsers.
+	* doc/bison.texinfo (Java Parsers): Add subsections.
+	Don't quote first argument of %define.
+	(Java Bison Interface): Document output files.  Move documentation
+	of parser class and merge into Java Parser Interface.  Document
+	features that error out.  Document directives with no effect.
+	Move note about Javadoc higher.
+	(Java Semantic Values): Explicitly mention stype.
+	Document that generic types cannot be used.
+	(Java Location Values): Use @deftypeivar.  Document constructors.
+	Correct return value for toString.
+	(Java Parser Interface): List undocumented constants/fields.
+	Move documentation of fields added by %parse-param closer to list
+	of members.  Document that token names are added as fields.
+	Document constructors accurately.  Remove error method.
+	(Java Scanner Interface): Move note on %pure-parser to Java Bison
+	Interface.  Describe %code lexer and yylex accutately.
+	Remove documentation that does not match the code.
+	(Java Action Features): New.
+	(Java Differences): Add reference.  Add item on semantic values.
+	Add note about @{ ... @}.  Clarify %% epilogue placement.
+	(Java Declarations Summary): New.
+
+	Fix Java skeleton.
+	* data/java.m4 (b4_prefix): Correct quoting for m4_define_default.
+	(b4_remove_comma): Quote test argument.
+	(b4_identification): Remove "bison" field.
+	* tests/java.at (Java parser class and package names): New test.
+	(Java %parse-param and %lex-param): New test.
+	(Java stype, position_class and location_class): New test.
+
 2008-10-31  Di-an Jan  <dianj@freeshell.org>
 
 	* data/lalr1.jave: Update copyright years.

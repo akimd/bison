@@ -36,7 +36,13 @@ b4_percent_code_get([[imports]])
  *
  * @@author LALR (1) parser skeleton written by Paolo Bonzini.
  */
-]b4_public_if([public ])b4_abstract_if([abstract ])[class ]b4_parser_class_name[
+]b4_public_if([public ])dnl
+b4_abstract_if([abstract ])dnl
+b4_final_if([final ])dnl
+b4_strictfp_if([strictfp ])dnl
+[class ]b4_parser_class_name[]dnl
+b4_percent_define_get3([extends], [ extends ])dnl
+b4_percent_define_get3([implements], [ implements ])[
 {
   ]b4_identification[
 
@@ -57,7 +63,7 @@ b4_locations_if([[
     public ]b4_position_type[ end;
 
     /**
-     * Create a ]b4_location_type[ denoting an empty range located at
+     * Create a <code>]b4_location_type[</code> denoting an empty range located at
      * a given point.
      * @@param loc The position at which the range is anchored.  */
     public ]b4_location_type[ (]b4_position_type[ loc) {
@@ -130,8 +136,7 @@ b4_token_enums(b4_tokens)
 
     /**
      * Entry point for error reporting.  Emits an error
-     * ]b4_locations_if([ referring to the given location])[in a user-defined
-     * way.
+     * ]b4_locations_if([referring to the given location ])[in a user-defined way.
      *
      * ]b4_locations_if([[@@param loc The location of the element to which the
      *                error message is related]])[
@@ -325,7 +330,7 @@ b4_lexer_if([[
     return yyerrstatus_ == 0;
   }
 
-  private int yyaction (int yyn, YYStack yystack, int yylen)
+  private int yyaction (int yyn, YYStack yystack, int yylen) ]b4_maybe_throws([b4_throws])[
   {
     ]b4_yystype[ yyval;
     ]b4_locations_if([b4_location_type[ yyloc = yylloc (yystack, yylen);]])[
@@ -424,7 +429,7 @@ b4_lexer_if([[
    * @@return <tt>true</tt> if the parsing succeeds.  Note that this does not
    *          imply that there were no syntax errors.
    */
-  public boolean parse () ]b4_maybe_throws([b4_throws])[
+  public boolean parse () ]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[
   {
     /// Lookahead and lookahead in internal form.
     int yychar = yyempty_;

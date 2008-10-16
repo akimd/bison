@@ -25,6 +25,23 @@ m4_define([b4_comment], [/* m4_bpatsubst([$1], [
    ])  */])
 
 
+# b4_list2(LIST1, LIST2)
+# --------------------------
+# Join two lists with a comma if necessary.
+m4_define([b4_list2],
+	  [$1[]m4_ifval(m4_quote($1), [m4_ifval(m4_quote($2), [[, ]])])[]$2])
+
+
+# b4_percent_define_get3(DEF, PRE, POST, NOT)
+# -------------------------------------------
+# Expand to the value of DEF surrounded by PRE and POST if it's %define'ed,
+# otherwise NOT.
+m4_define([b4_percent_define_get3],
+	  [m4_ifval(m4_quote(b4_percent_define_get([$1])),
+		[$2[]b4_percent_define_get([$1])[]$3], [$4])])
+
+
+
 # b4_flag_value(BOOLEAN-FLAG)
 # ---------------------------
 m4_define([b4_flag_value], [b4_flag_if([$1], [true], [false])])
@@ -44,6 +61,20 @@ m4_define([b4_abstract_if],
 [b4_percent_define_flag_if([abstract], [$1], [$2])])
 
 
+# b4_final_if(TRUE, FALSE)
+# ---------------------------
+b4_percent_define_default([[final]], [[false]])
+m4_define([b4_final_if],
+[b4_percent_define_flag_if([final], [$1], [$2])])
+
+
+# b4_strictfp_if(TRUE, FALSE)
+# ---------------------------
+b4_percent_define_default([[strictfp]], [[false]])
+m4_define([b4_strictfp_if],
+[b4_percent_define_flag_if([strictfp], [$1], [$2])])
+
+
 # b4_lexer_if(TRUE, FALSE)
 # ------------------------
 m4_define([b4_lexer_if],
@@ -53,10 +84,7 @@ m4_define([b4_lexer_if],
 # b4_identification
 # -----------------
 m4_define([b4_identification],
-[/** Always <tt>true</tt>, identifies Bison output.  */
-  public static final boolean bison = true;
-
-  /** Version number for the Bison executable that generated this parser.  */
+[  /** Version number for the Bison executable that generated this parser.  */
   public static final String bisonVersion = "b4_version";
 
   /** Name of the skeleton that generated this parser.  */
@@ -128,14 +156,16 @@ m4_define([b4_case], [  case $1:
 m4_define([b4_yystype], [b4_percent_define_get([[stype]])])
 b4_percent_define_default([[stype]], [[Object]])])
 
-m4_define_default([[b4_prefix]], [[YY]])])
+# %name-prefix
+m4_define_default([b4_prefix], [[YY]])
+
 b4_percent_define_default([[parser_class_name]], [b4_prefix[]Parser])])
 m4_define([b4_parser_class_name], [b4_percent_define_get([[parser_class_name]])])
 
 b4_percent_define_default([[lex_throws]], [[java.io.IOException]])])
 m4_define([b4_lex_throws], [b4_percent_define_get([[lex_throws]])])
 
-b4_percent_define_default([[throws]], [b4_lex_throws])])
+b4_percent_define_default([[throws]], [])])
 m4_define([b4_throws], [b4_percent_define_get([[throws]])])
 
 b4_percent_define_default([[location_type]], [Location])])
@@ -205,7 +235,7 @@ m4_define([b4_param_decls],
 	  [m4_map([b4_param_decl], [$@])])
 m4_define([b4_param_decl], [, $1])
 
-m4_define([b4_remove_comma], [m4_ifval($1, [$1, ], [])m4_shift2($@)])
+m4_define([b4_remove_comma], [m4_ifval(m4_quote($1), [$1, ], [])m4_shift2($@)])
 
 
 

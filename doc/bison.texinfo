@@ -315,8 +315,10 @@ Java Parsers
 * Java Semantic Values::         %type and %token vs. Java
 * Java Location Values::         The position and location classes
 * Java Parser Interface::        Instantiating and running the parser
-* Java Scanner Interface::       Java scanners, and pure parsers
+* Java Scanner Interface::       Specifying the scanner for the parser
+* Java Action Features::         Special features for use in actions.
 * Java Differences::             Differences between C/C++ and Java Grammars
+* Java Declarations Summary::    List of Bison declarations used with Java
 
 Frequently Asked Questions
 
@@ -8724,49 +8726,58 @@ main (int argc, char *argv[])
 * Java Semantic Values::         %type and %token vs. Java
 * Java Location Values::         The position and location classes
 * Java Parser Interface::        Instantiating and running the parser
-* Java Scanner Interface::       Java scanners, and pure parsers
+* Java Scanner Interface::       Specifying the scanner for the parser
+* Java Action Features::         Special features for use in actions.
 * Java Differences::             Differences between C/C++ and Java Grammars
+* Java Declarations Summary::    List of Bison declarations used with Java
 @end menu
 
 @node Java Bison Interface
 @subsection Java Bison Interface
 @c - %language "Java"
-@c - initial action
 
 (The current Java interface is experimental and may evolve.
 More user feedback will help to stabilize it.)
 
-The Java parser skeletons are selected using a language directive,
-@samp{%language "Java"}, or the synonymous command-line option
-@option{--language=java}.
+The Java parser skeletons are selected using the @code{%language "Java"}
+directive or the @option{-L java}/@option{--language=java} option.
 
-When run, @command{bison} will create several entities whose name
-starts with @samp{YY}.  Use the @samp{%name-prefix} directive to
-change the prefix, see @ref{Decl Summary}; classes can be placed
-in an arbitrary Java package using a @samp{%define package} section.
-
-The parser class defines an inner class, @code{Location}, that is used
-for location tracking.  If the parser is pure, it also defines an
-inner interface, @code{Lexer}; see @ref{Java Scanner Interface} for the
-meaning of pure parsers when the Java language is chosen.  Other than
-these inner class/interface, and the members described in @ref{Java
-Parser Interface}, all the other members and fields are preceded
-with a @code{yy} prefix to avoid clashes with user code.
-
-No header file can be generated for Java parsers; you must not pass
-@option{-d}/@option{--defines} to @command{bison}, nor use the
-@samp{%defines} directive.
-
-By default, the @samp{YYParser} class has package visibility.  A
-declaration @samp{%define "public"} will change to public visibility.
-Remember that, according to the Java language specification, the name
-of the @file{.java} file should match the name of the class in this
-case.
-
-Similarly, a declaration @samp{%define "abstract"} will make your
-class abstract.
+@c FIXME: Documented bug.
+When generating a Java parser, @code{bison @var{basename}.y} will create
+a single Java source file named @file{@var{basename}.java}.  Using an
+input file without a @file{.y} suffix is currently broken.  The basename
+of the output file can be changed by the @code{%file-prefix} directive
+or the @option{-p}/@option{--name-prefix} option.  The entire output file
+name can be changed by the @code{%output} directive or the
+@option{-o}/@option{--output} option.  The output file contains a single
+class for the parser.
 
 You can create documentation for generated parsers using Javadoc.
+
+Contrary to C parsers, Java parsers do not use global variables; the
+state of the parser is always local to an instance of the parser class.
+Therefore, all Java parsers are ``pure'', and the @code{%pure-parser}
+and @code{%define api.pure} directives does not do anything when used in
+Java.
+
+Push parsers are currently unsupported in Java and @code{%define
+api.push_pull} have no effect.
+
+@acronym{GLR} parsers are currently unsupported in Java.  Do not use the
+@code{glr-parser} directive.
+
+No header file can be generated for Java parsers.  Do not use the
+@code{%defines} directive or the @option{-d}/@option{--defines} options.
+
+@c FIXME: Possible code change.
+Currently, support for debugging and verbose errors are always compiled
+in.  Thus the @code{%debug} and @code{%token-table} directives and the
+@option{-t}/@option{--debug} and @option{-k}/@option{--token-table}
+options have no effect.  This may change in the future to eliminate
+unused code in the generated parser, so use @code{%debug} and
+@code{%verbose-error} explicitly if needed.  Also, in the future the
+@code{%token-table} directive might enable a public interface to
+access the token names and codes.
 
 @node Java Semantic Values
 @subsection Java Semantic Values
@@ -8786,20 +8797,23 @@ semantic values' types (class names) should be specified in the
 By default, the semantic stack is declared to have @code{Object} members,
 which means that the class types you specify can be of any class.
 To improve the type safety of the parser, you can declare the common
-superclass of all the semantic values using the @samp{%define} directive.
-For example, after the following declaration:
+superclass of all the semantic values using the @code{%define stype}
+directive.  For example, after the following declaration:
 
 @example
-%define "stype" "ASTNode"
+%define stype "ASTNode"
 @end example
 
 @noindent
 any @code{%type} or @code{%token} specifying a semantic type which
 is not a subclass of ASTNode, will cause a compile-time error.
 
+@c FIXME: Documented bug.
 Types used in the directives may be qualified with a package name.
 Primitive data types are accepted for Java version 1.5 or later.  Note
 that in this case the autoboxing feature of Java 1.5 will be used.
+Generic types may not be used; this is due to a limitation in the
+implementation of Bison, and may change in future releases.
 
 Java parsers do not support @code{%destructor}, since the language
 adopts garbage collection.  The parser will try to hold references
@@ -8822,20 +8836,29 @@ An auxiliary user-defined class defines a @dfn{position}, a single point
 in a file; Bison itself defines a class representing a @dfn{location},
 a range composed of a pair of positions (possibly spanning several
 files).  The location class is an inner class of the parser; the name
-is @code{Location} by default, may also be renamed using @code{%define
-"location_type" "@var{class-name}}.
+is @code{Location} by default, and may also be renamed using
+@code{%define location_type "@var{class-name}}.
 
 The location class treats the position as a completely opaque value.
 By default, the class name is @code{Position}, but this can be changed
-with @code{%define "position_type" "@var{class-name}"}.
+with @code{%define position_type "@var{class-name}"}.  This class must
+be supplied by the user.
 
 
-@deftypemethod {Location} {Position} begin
-@deftypemethodx {Location} {Position} end
+@deftypeivar {Location} {Position} begin
+@deftypeivarx {Location} {Position} end
 The first, inclusive, position of the range, and the first beyond.
-@end deftypemethod
+@end deftypeivar
 
-@deftypemethod {Location} {void} toString ()
+@deftypeop {Constructor} {Location} {} Location (Position @var{loc})
+Create a @code{Location} denoting an empty range located at a given point. 
+@end deftypeop
+
+@deftypeop {Constructor} {Location} {} Location (Position @var{begin}, Position @var{end})
+Create a @code{Location} from the endpoints of the range.
+@end deftypeop
+
+@deftypemethod {Location} {String} toString ()
 Prints the range represented by the location.  For this to work
 properly, the position class should override the @code{equals} and
 @code{toString} methods appropriately.
@@ -8850,19 +8873,56 @@ properly, the position class should override the @code{equals} and
 @c   debug_stream.
 @c - Reporting errors
 
-The output file defines the parser class in the package optionally
-indicated in the @code{%define package} section.  The class name defaults
-to @code{YYParser}.  The @code{YY} prefix may be changed using
-@samp{%name-prefix}; alternatively, you can use @samp{%define
-"parser_class_name" "@var{name}"} to give a custom name to the class.
-The interface of this class is detailed below.  It can be extended using
-the @code{%parse-param} directive; each occurrence of the directive will
-add a field to the parser class, and an argument to its constructor.
+The name of the generated parser class defaults to @code{YYParser}.  The
+@code{YY} prefix may be changed using the @code{%name-prefix} directive
+or the @option{-p}/@option{--name-prefix} option.  Alternatively, use
+@code{%define parser_class_name "@var{name}"} to give a custom name to
+the class.  The interface of this class is detailed below.
 
-@deftypemethod {YYParser} {} YYParser (@var{type1} @var{arg1}, ...)
-Build a new parser object.  There are no arguments by default, unless
-@samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
-@end deftypemethod
+By default, the parser class has package visibility.  A declaration
+@code{%define public} will change to public visibility.  Remember that,
+according to the Java language specification, the name of the @file{.java}
+file should match the name of the class in this case.  Similarly, you can
+use @code{abstract}, @code{final} and @code{strictfp} with the
+@code{%define} declaration to add other modifiers to the parser class.
+
+The Java package name of the parser class can be specified using the
+@code{%define package} directive.  The superclass and the implemented
+interfaces of the parser class can be specified with the @code{%define
+extends} and @code{%define implements} directives.
+
+The parser class defines an inner class, @code{Location}, that is used
+for location tracking (see @ref{Java Location Values}), and a inner
+interface, @code{Lexer} (see @ref{Java Scanner Interface}).  Other than
+these inner class/interface, and the members described in the interface
+below, all the other members and fields are preceded with a @code{yy} or
+@code{YY} prefix to avoid clashes with user code.
+
+@c FIXME: The following constants and variables are still undocumented:
+@c @code{bisonVersion}, @code{bisonSkeleton} and @code{errorVerbose}.
+
+The parser class can be extended using the @code{%parse-param}
+directive. Each occurrence of the directive will add a @code{protected
+final} field to the parser class, and an argument to its constructor,
+which initialize them automatically.
+
+Token names defined by @code{%token} and the predefined @code{EOF} token
+name are added as constant fields to the parser class.
+
+@deftypeop {Constructor} {YYParser} {} YYParser (@var{lex_param}, @dots{}, @var{parse_param}, @dots{})
+Build a new parser object with embedded @code{%code lexer}.  There are
+no parameters, unless @code{%parse-param}s and/or @code{%lex-param}s are
+used.
+@end deftypeop
+
+@deftypeop {Constructor} {YYParser} {} YYParser (Lexer @var{lexer}, @var{parse_param}, @dots{})
+Build a new parser object using the specified scanner.  There are no
+additional parameters unless @code{%parse-param}s are used.
+
+If the scanner is defined by @code{%code lexer}, this constructor is
+declared @code{protected} and is called automatically with a scanner
+created with the correct @code{%lex-param}s.
+@end deftypeop
 
 @deftypemethod {YYParser} {boolean} parse ()
 Run the syntactic analysis, and return @code{true} on success,
@@ -8871,7 +8931,8 @@ Run the syntactic analysis, and return @code{true} on success,
 
 @deftypemethod {YYParser} {boolean} recovering ()
 During the syntactic analysis, return @code{true} if recovering
-from a syntax error.  @xref{Error Recovery}.
+from a syntax error.
+@xref{Error Recovery}.
 @end deftypemethod
 
 @deftypemethod {YYParser} {java.io.PrintStream} getDebugStream ()
@@ -8886,13 +8947,6 @@ Get or set the tracing level.  Currently its value is either 0, no trace,
 or nonzero, full tracing.
 @end deftypemethod
 
-@deftypemethod {YYParser} {void} error (Location @var{l}, String @var{m})
-The definition for this member function must be supplied by the user
-in the same way as the scanner interface (@pxref{Java Scanner
-Interface}); the parser uses it to report a parser error occurring at
-@var{l}, described by @var{m}.
-@end deftypemethod
-
 
 @node Java Scanner Interface
 @subsection Java Scanner Interface
@@ -8900,27 +8954,16 @@ Interface}); the parser uses it to report a parser error occurring at
 @c - %lex-param
 @c - Lexer interface
 
-Contrary to C parsers, Java parsers do not use global variables; the
-state of the parser is always local to an instance of the parser class.
-Therefore, all Java parsers are ``pure'', and the @code{%pure-parser}
-directive does not do anything when used in Java.
-@c FIXME: But a bit farther it is stated that
-@c  If @code{%pure-parser} is not specified, the lexer interface
-@c  resides in the same class (@code{YYParser}) as the Bison-generated
-@c  parser. The fields and methods that are provided to
-@c  this end are as follows.
+There are two possible ways to interface a Bison-generated Java parser
+with a scanner: the scanner may be defined by @code{%code lexer}, or
+defined elsewhere.  In either case, the scanner has to implement the
+@code{Lexer} inner interface of the parser class.
 
-The scanner always resides in a separate class than the parser.
-Still, there are two possible ways to interface a Bison-generated Java
-parser with a scanner, that is, the scanner may reside in a separate file
-than the Bison grammar, or in the same file.  The interface
-to the scanner is similar in the two cases.
-
-In the first case, where the scanner in the same file as the grammar, the
-scanner code has to be placed in @code{%code lexer} blocks.  If you want
-to pass parameters from the parser constructor to the scanner constructor,
-specify them with @code{%lex-param}; they are passed before
-@code{%parse-param}s to the constructor.
+In the first case, the body of the scanner class is placed in
+@code{%code lexer} blocks.  If you want to pass parameters from the
+parser constructor to the scanner constructor, specify them with
+@code{%lex-param}; they are passed before @code{%parse-param}s to the
+constructor.
 
 In the second case, the scanner has to implement the @code{Lexer} interface,
 which is defined within the parser class (e.g., @code{YYParser.Lexer}).
@@ -8930,18 +8973,19 @@ case.
 
 In both cases, the scanner has to implement the following methods.
 
-@deftypemethod {Lexer} {void} yyerror (Location @var{l}, String @var{m})
-As explained in @pxref{Java Parser Interface}, this method is defined
-by the user to emit an error message.  The first parameter is omitted
-if location tracking is not active.  Its type can be changed using
-@samp{%define "location_type" "@var{class-name}".}
+@deftypemethod {Lexer} {void} yyerror (Location @var{loc}, String @var{msg})
+This method is defined by the user to emit an error message.  The first
+parameter is omitted if location tracking is not active.  Its type can be
+changed using @code{%define location_type "@var{class-name}".}
 @end deftypemethod
 
-@deftypemethod {Lexer} {int} yylex (@var{type1} @var{arg1}, ...)
+@deftypemethod {Lexer} {int} yylex ()
 Return the next token.  Its type is the return value, its semantic
 value and location are saved and returned by the ther methods in the
-interface.  Invocations of @samp{%lex-param @{@var{type1}
-@var{arg1}@}} yield additional arguments.
+interface.
+
+Use @code{%define lex_throws} to specify any uncaught exceptions.
+Default is @code{java.io.IOException}.
 @end deftypemethod
 
 @deftypemethod {Lexer} {Position} getStartPos ()
@@ -8950,53 +8994,100 @@ Return respectively the first position of the last token that
 @code{yylex} returned, and the first position beyond it.  These
 methods are not needed unless location tracking is active.
 
-The return type can be changed using @samp{%define "position_type"
+The return type can be changed using @code{%define position_type
 "@var{class-name}".}
 @end deftypemethod
 
 @deftypemethod {Lexer} {Object} getLVal ()
 Return the semantical value of the last token that yylex returned.
 
-The return type can be changed using @samp{%define "stype"
+The return type can be changed using @code{%define stype
 "@var{class-name}".}
 @end deftypemethod
 
 
-The lexer interface resides in the same class (@code{YYParser}) as the
-Bison-generated parser.
-The fields and methods that are provided to this end are as follows.
+@node Java Action Features
+@subsection Special Features for Use in Java Actions
 
-@deftypemethod {YYParser} {void} error (Location @var{l}, String @var{m})
-As already explained (@pxref{Java Parser Interface}), this method is defined
-by the user to emit an error message.  The first parameter is not used
-unless location tracking is active.  Its type can be changed using
-@samp{%define "location_type" "@var{class-name}".}
-@end deftypemethod
+The following special constructs can be uses in Java actions.
+Other analogous C action features are currently unavailable for Java.
 
-@deftypemethod {YYParser} {int} yylex (@var{type1} @var{arg1}, ...)
-Return the next token.  Its type is the return value, its semantic
-value and location are saved into @code{yylval}, @code{yystartpos},
-@code{yyendpos}.  Invocations of @samp{%lex-param @{@var{type1}
-@var{arg1}@}} yield additional arguments.
-@end deftypemethod
+Use @code{%define throws} to specify any uncaught exceptions from parser
+actions, and initial actions specified by @code{%initial-action}.
 
-@deftypecv {Field} {YYParser} Position yystartpos
-@deftypecvx {Field} {YYParser} Position yyendpos
-Contain respectively the first position of the last token that yylex
-returned, and the first position beyond it.  These methods are not
-needed unless location tracking is active.
+@defvar $@var{n}
+The semantic value for the @var{n}th component of the current rule.
+This may not be assigned to.
+@xref{Java Semantic Values}.
+@end defvar
 
-The field's type can be changed using @samp{%define "position_type"
-"@var{class-name}".}
-@end deftypecv
+@defvar $<@var{typealt}>@var{n}
+Like @code{$@var{n}} but specifies a alternative type @var{typealt}.
+@xref{Java Semantic Values}.
+@end defvar
 
-@deftypecv {Field} {YYParser} Object yylval
-Return respectively the first position of the last token that yylex
-returned, and the first position beyond it.
+@defvar $$
+The semantic value for the grouping made by the current rule.  As a
+value, this is in the base type (@code{Object} or as specified by
+@code{%define stype}) as in not cast to the declared subtype because
+casts are not allowed on the left-hand side of Java assignments.
+Use an explicit Java cast if the correct subtype is needed.
+@xref{Java Semantic Values}.
+@end defvar
 
-The field's type can be changed using @samp{%define "stype"
-"@var{class-name}".}
-@end deftypecv
+@defvar $<@var{typealt}>$
+Same as @code{$$} since Java always allow assigning to the base type.
+Perhaps we should use this and @code{$<>$} for the value and @code{$$}
+for setting the value but there is currently no easy way to distinguish
+these constructs.
+@xref{Java Semantic Values}.
+@end defvar
+
+@defvar @@@var{n}
+The location information of the @var{n}th component of the current rule.
+This may not be assigned to.
+@xref{Java Location Values}.
+@end defvar
+
+@defvar @@$
+The location information of the grouping made by the current rule.
+@xref{Java Location Values}.
+@end defvar
+
+@deffn {Statement} {return YYABORT;}
+Return immediately from the parser, indicating failure.
+@xref{Java Parser Interface}.
+@end deffn
+
+@deffn {Statement} {return YYACCEPT;}
+Return immediately from the parser, indicating success.
+@xref{Java Parser Interface}.
+@end deffn
+
+@deffn {Statement} {return YYERROR;}
+Start error recovery without printing an error message. 
+@xref{Error Recovery}.
+@end deffn
+
+@deffn {Statement} {return YYFAIL;}
+Print an error message and start error recovery. 
+@xref{Error Recovery}.
+@end deffn
+
+@deftypefn {Function} {boolean} recovering ()
+Return whether error recovery is being done. In this state, the parser
+reads token until it reaches a known state, and then restarts normal
+operation.
+@xref{Error Recovery}.
+@end deftypefn
+
+@deftypefn  {Function} {protected void} yyerror (String msg)
+@deftypefnx {Function} {protected void} yyerror (Position pos, String msg)
+@deftypefnx {Function} {protected void} yyerror (Location loc, String msg)
+Print an error message using the @code{yyerror} method of the scanner
+instance in use.
+@end deftypefn
+
 
 @node Java Differences
 @subsection Differences between C/C++ and Java Grammars
@@ -9013,12 +9104,24 @@ macros.  Instead, they should be preceded by @code{return} when they
 appear in an action.  The actual definition of these symbols is
 opaque to the Bison grammar, and it might change in the future.  The
 only meaningful operation that you can do, is to return them.
+See @pxref{Java Action Features}.
 
 Note that of these three symbols, only @code{YYACCEPT} and
 @code{YYABORT} will cause a return from the @code{yyparse}
 method@footnote{Java parsers include the actions in a separate
 method than @code{yyparse} in order to have an intuitive syntax that
 corresponds to these C macros.}.
+
+@item
+Java lacks unions, so @code{%union} has no effect.  Instead, semantic
+values have a common base type: @code{Object} or as specified by
+@code{%define stype}.  Angle backets on @code{%token}, @code{type},
+@code{$@var{n}} and @code{$$} specify subtypes rather than fields of
+an union.  The type of @code{$$}, even with angle brackets, is the base
+type since Java casts are not allow on the left-hand side of assignments.
+Also, @code{$@var{n}} and @code{@@@var{n}} are not allowed on the
+left-hand side of assignments. See @pxref{Java Semantic Values} and
+@pxref{Java Action Features}.
 
 @item
 The prolog declarations have a different meaning than in C/C++ code.
@@ -9039,9 +9142,153 @@ Interface}).
 @end table
 
 Other @code{%code} blocks are not supported in Java parsers.
+In particular, @code{%@{ @dots{} %@}} blocks should not be used
+and may give an error in future versions of Bison.
+
 The epilogue has the same meaning as in C/C++ code and it can
-be used to define other classes used by the parser.
+be used to define other classes used by the parser @emph{outside}
+the parser class.
 @end itemize
+
+
+@node Java Declarations Summary
+@subsection Java Declarations Summary
+
+This summary only include declarations specific to Java or have special
+meaning when used in a Java parser.
+
+@deffn {Directive} {%language "Java"}
+Generate a Java class for the parser.
+@end deffn
+
+@deffn {Directive} %lex-param @{@var{type} @var{name}@}
+A parameter for the lexer class defined by @code{%code lexer}
+@emph{only}, added as parameters to the lexer constructor and the parser
+constructor that @emph{creates} a lexer.  Default is none.
+@xref{Java Scanner Interface}.
+@end deffn
+
+@deffn {Directive} %name-prefix "@var{prefix}"
+The prefix of the parser class name @code{@var{prefix}Parser} if
+@code{%define parser_class_name} is not used.  Default is @code{YY}.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} %parse-param @{@var{type} @var{name}@}
+A parameter for the parser class added as parameters to constructor(s)
+and as fields initialized by the constructor(s).  Default is none.
+@xref{Java Parser Interface}.
+@end deffn
+
+@deffn {Directive} %token <@var{type}> @var{token} @dots{}
+Declare tokens.  Note that the angle brackets enclose a Java @emph{type}.
+@xref{Java Semantic Values}.
+@end deffn
+
+@deffn {Directive} %type <@var{type}> @var{nonterminal} @dots{}
+Declare the type of nonterminals.  Note that the angle brackets enclose
+a Java @emph{type}.
+@xref{Java Semantic Values}.
+@end deffn
+
+@deffn {Directive} %code @{ @var{code} @dots{} @}
+Code appended to the inside of the parser class.
+@xref{Java Differences}.
+@end deffn
+
+@deffn {Directive} {%code imports} @{ @var{code} @dots{} @}
+Code inserted just after the @code{package} declaration.
+@xref{Java Differences}.
+@end deffn
+
+@deffn {Directive} {%code lexer} @{ @var{code} @dots{} @}
+Code added to the body of a inner lexer class within the parser class.
+@xref{Java Scanner Interface}.
+@end deffn
+
+@deffn {Directive} %% @var{code} @dots{}
+Code (after the second @code{%%}) appended to the end of the file,
+@emph{outside} the parser class.
+@xref{Java Differences}.
+@end deffn
+
+@deffn {Directive} %@{ @var{code} @dots{} %@}
+Not supported.  Use @code{%code import} instead.
+@xref{Java Differences}.
+@end deffn
+
+@deffn {Directive} {%define abstract}
+Whether the parser class is declared @code{abstract}.  Default is false.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define extends} "@var{superclass}"
+The superclass of the parser class.  Default is none.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define final}
+Whether the parser class is declared @code{final}.  Default is false.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define implements} "@var{interfaces}"
+The implemented interfaces of the parser class, a comma-separated list.
+Default is none.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define lex_throws} "@var{exceptions}"
+The exceptions thrown by the @code{yylex} method of the lexer, a
+comma-separated list.  Default is @code{java.io.IOException}.
+@xref{Java Scanner Interface}.
+@end deffn
+
+@deffn {Directive} {%define location_type} "@var{class}"
+The name of the class used for locations (a range between two
+positions).  This class is generated as an inner class of the parser
+class by @command{bison}.  Default is @code{Location}.
+@xref{Java Location Values}.
+@end deffn
+
+@deffn {Directive} {%define package} "@var{package}"
+The package to put the parser class in.  Default is none.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define parser_class_name} "@var{name}"
+The name of the parser class.  Default is @code{YYParser} or
+@code{@var{name-prefix}Parser}.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define position_type} "@var{class}"
+The name of the class used for positions. This class must be supplied by
+the user.  Default is @code{Position}.
+@xref{Java Location Values}.
+@end deffn
+
+@deffn {Directive} {%define public}
+Whether the parser class is declared @code{public}.  Default is false.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define stype} "@var{class}"
+The base type of semantic values.  Default is @code{Object}.
+@xref{Java Semantic Values}.
+@end deffn
+
+@deffn {Directive} {%define strictfp}
+Whether the parser class is declared @code{strictfp}.  Default is false.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define throws} "@var{exceptions}"
+The exceptions thrown by user-supplied parser actions and
+@code{%initial-action}, a comma-separated list.  Default is none.
+@xref{Java Parser Interface}.
+@end deffn
+
 
 @c ================================================= FAQ
 
