@@ -1,3 +1,22 @@
+2008-10-18  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Update several administrative files mainly to facilitate releasing.
+	* HACKING (Administrivia): Make the git-merge-changelog notes more
+	helpful.
+	(Test suite): Don't say lalr1.cc is not exercised in the test suite.
+	(Release Procedure): Update for git and add numerous details that were
+	previously missing.
+	* Makefile.am (EXTRA_DIST): Remove Makefile.cfg and Makefile.maint.
+	* maint.mk (announcement): Don't list bison as a bootstrap tool so
+	that announcements don't claim we bootstrapped with whatever bison
+	happened to be in PATH.  Add flex as a bootstrap tool.
+	* Makefile.maint: Remove, previously replaced by maint.mk.
+	* Makefile.cfg: Remove, and migrate settings to...
+	* cfg.mk: ... here for the sake of `make announcement'.
+	* bootstrap.conf (gnulib_modules): Add announce-gen.
+	* README: Say GNU Bison instead of just Bison.  Suggested by Karl
+	Berry.
+
 2008-10-08  Di-an Jan  <dianj@freeshell.org>  (tiny change)
 
 	Small but important bugfixes for the Java skeleton.

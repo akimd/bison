@@ -805,7 +805,7 @@ announcement: NEWS ChangeLog $(rel-files)
 	    --curr=$(VERSION)						\
 	    --gpg-key-id=$(gpg_key_ID)					\
 	    --news=NEWS							\
-	    --bootstrap-tools=autoconf,automake,bison,gnulib		\
+	    --bootstrap-tools=autoconf,automake,flex,gnulib		\
 	    --gnulib-version=$(gnulib-version)				\
 	    $(addprefix --url-dir=, $(url_dir_list))
 

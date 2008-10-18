@@ -20,6 +20,7 @@
 /dirname.c
 /dirname.h
 /dup-safer.c
+/errno.in.h
 /error.c
 /error.h
 /exitfail.c

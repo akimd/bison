@@ -20,3 +20,23 @@
 # targets are filtered out.
 _is-dist-target = $(filter-out %clean maintainer-check%, \
   $(filter maintainer-% dist% alpha beta major,$(MAKECMDGOALS)))
+
+# Use alpha.gnu.org for alpha and beta releases.
+# Use ftp.gnu.org for major releases.
+gnu_ftp_host-alpha = alpha.gnu.org
+gnu_ftp_host-beta = alpha.gnu.org
+gnu_ftp_host-major = ftp.gnu.org
+gnu_rel_host = $(gnu_ftp_host-$(RELEASE_TYPE))
+
+url_dir_list = \
+  ftp://$(gnu_rel_host)/gnu/bison
+
+# Tests not to run as part of "make distcheck".
+# Exclude changelog-check here so that there's less churn in ChangeLog
+# files -- otherwise, you'd need to have the upcoming version number
+# at the top of the file for each `make distcheck' run.
+local-checks-to-skip = changelog-check
+
+# The local directory containing the checked-out copy of gnulib used in
+# this release.  Used solely to get a date for the "announcement" target.
+gnulib_dir = $(srcdir)/../../gnulib

@@ -25,9 +25,14 @@ The correct response to most actual bugs is to write a new test case
 which demonstrates the bug.  Then fix the bug, re-run the test suite,
 and check everything in.
 
-** You may find it useful to install the git-merge-changelog merge driver.
-See http://www.mail-archive.com/bug-gnulib@gnu.org/msg09699.html for
-information on how to install it.
+** You may find it useful to install the git-merge-changelog merge driver:
+
+  http://git.sv.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/git-merge-changelog.c
+
+When following the generic installation instructions there, keep in mind that
+your clone of Bison's git repository already contains appropriate
+.gitattributes files, and running Bison's bootstrap script will make the
+necessary changes to .git/config.
 
 
 * Hacking
@@ -75,8 +80,7 @@ release:
 - Change tests/atlocal/CFLAGS to add your preferred options.  For
   instance, `-traditional' to check that the parsers are K&R.  Note
   that it does not make sense for glr.c, which should be ANSI,
-  but currently is actually GNU C, nor for lalr1.cc, which anyway is
-  not exercised yet in the test suite.
+  but currently is actually GNU C, nor for lalr1.cc.
 
 
 * Release Procedure
@@ -93,35 +97,83 @@ This covers PO files too.  Sometimes a PO file contains problems that
 causes it to be rejected by recent Gettext releases; please report
 these to the Translation Project.
 
+** Update README
+Make sure the information in this file is current.  Most notably, make sure it
+recommends a version of GNU M4 that is compatible with the latest Bison
+sources.
+
 ** Update NEWS
 The version number, *and* the date of the release (including for
 betas).
 
 ** Update ChangeLog
 Should have an entry similar to `Version 1.49b.'.
-Check all this in once `make distcheck' passes.
+
+** Update configure.ac
+Be sure PACKAGE_COPYRIGHT_YEAR is up-to-date.
+
+** Tag the release
+Before Bison will build with the right version number, you must tag the release
+in git.  Do this after all other changes.  The command is similar to:
+
+  git tag -a v2.3b
+
+The log message can be simply:
+
+  Bison 2.3b
+
+** Push
+Once `make distcheck' passes, push your changes and the tag.
+`git push' without arguments will not push the tag.
 
 ** make alpha
+FIXME: `make alpha' is not maintained and is broken.  These
+instructions need to be replaced or removed.
+
 Running `make alpha' is absolutely perfect for beta releases: it makes
 the tarballs, the xdeltas, and prepares (in /tmp/) a proto
 announcement.  It is so neat, that that's what I use anyway for
 genuine releases, but adjusting things by hand (e.g., the urls in the
 announcement file, the ChangeLog which is not needed etc.).
-FIXME: `make alpha' is not maintained and is broken.  These
-instructions need to be replaced or removed.
 
 If it fails, you're on your own...
 
 It requires GNU Make.
 
 ** Upload
-Put the tarballs/xdeltas where they should be.  Or put it somewhere,
-and send the URL to ftp-upload@gnu.org.
+The generic GNU upload procedure is at:
 
-** Bump the version number
-In configure.ac.  Run `make', check this in.
+  http://www.gnu.org/prep/maintain/maintain.html#Automated-FTP-Uploads
+
+After following the instructions there to register your information so you're
+permitted to upload, here's a brief reminder of how to roll the tarballs and
+upload them:
+
+*** make distcheck
+*** gpg -b bison-2.3b.tar.gz
+*** In a file named `bison-2.3b.tar.gz.directive', type:
+
+      version: 1.1
+      directory: bison
+      filename: bison-2.3b.tar.gz
+
+*** gpg --clearsign bison-2.3b.tar.gz.directive
+*** ftp ftp-upload.gnu.org # Log in as anonymous.
+*** cd /incoming/alpha # cd /incoming/ftp for full release.
+*** put bison-2.3b.tar.gz # This can take a while.
+*** put bison-2.3b.tar.gz.sig
+*** put bison-2.3b.tar.gz.directive.asc
+*** Repeat all these steps for bison-2.3b.tar.bz2.
 
 ** Announce
+To generate a template announcement file:
+
+  make RELEASE_TYPE=alpha gpg_key_ID=F125BDF3 announcement
+
+where alpha can be replaced by beta or major and F125BDF3 should be replaced
+with your key ID.  For an example of how to fill out the template, search the
+mailing list archives for the most recent release announcement.
+
 Complete/fix the announcement file, and send it at least to
 info-gnu@gnu.org (if a real release, or a ``serious beta''),
 bug-bison@gnu.org, help-bison@gnu.org, bison-patches@gnu.org,
@@ -131,6 +183,14 @@ Send the same announcement on the comp.compilers newsgroup by sending
 email to compilers@iecc.com.  Do not make any Cc as the moderator will
 throw away anything cross-posted or Cc'ed.  It really needs to be a
 separate message.
+
+** Bump the version number
+In configure.ac.  Run `make'.  So that developers don't accidentally add new
+items to the old NEWS entry, create a new empty NEWS entry something like:
+
+  Changes in version ?.? (????-??-??):
+
+Push these changes.
 
 
 -----
