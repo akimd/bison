@@ -1,5 +1,13 @@
 2008-10-18  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Fix yyerror_range for user-defined location type in C++.  Reported by
+	Georg Sauthoff at
+	<http://lists.gnu.org/archive/html/bug-bison/2008-08/msg00008.html>.
+	* data/lalr1.cc (parse): Change type of yyerror_range to location_type.
+	* THANKS (Georg Sauthoff): Add.
+
+2008-10-18  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Update several administrative files mainly to facilitate releasing.
 	* HACKING (Administrivia): Make the git-merge-changelog notes more
 	helpful.

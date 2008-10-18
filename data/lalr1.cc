@@ -537,7 +537,7 @@ do {					\
     /// Location of the lookahead.
     location_type yylloc;
     /// The locations where the error started and ended.
-    location yyerror_range[2];
+    location_type yyerror_range[2];
 
     /// $$.
     semantic_type yyval;
