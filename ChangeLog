@@ -1,5 +1,31 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Use variants to support objects as semantic values.
+	This patch was inspired by work by Michiel De Wilde.  But he used Boost
+	variants which (i) requires Boost on the user side, (ii) is slow, and
+	(iii) has useless overhead (the parser knows the type of the semantic value
+	there is no reason to duplicate this information as Boost.Variants do).
+	
+	This implementation reserves a buffer large enough to store the largest
+	objects.  yy::variant implements this buffer.  It was implemented with
+	Quentin Hocquet.
+	
+	* src/output.c (type_names_output): New.
+	(output_skeleton): Invoke it.
+	* data/c++.m4 (b4_variant_if): New.
+	(b4_symbol_value): If needed, provide a definition for variants.
+	* data/lalr1.cc (b4_symbol_value, b4_symbol_action_)
+	(b4_symbol_variant, _b4_char_sizeof_counter, _b4_char_sizeof_dummy)
+	(b4_char_sizeof, yy::variant): New.
+	(parser::parse): If variants are requested, define
+	parser::union_type, parser::variant, change the definition of
+	semantic_type, construct $$ before running the user action instead
+	of performing a default $$ = $1.
+	* examples/variant.yy: New.
+	Based on an example by Michiel De Wilde.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Parameterize the extraction of semantic values.
 	To make future changes easier, no longer rely on ".TYPE" being the
 	way to get a semantic value.

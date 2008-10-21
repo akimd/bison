@@ -18,6 +18,75 @@
 
 m4_include(b4_pkgdatadir/[c++.m4])
 
+# How the semantic value is extracted when using variants.
+b4_variant_if([
+  # b4_symbol_value(VAL, [TYPE])
+  # ----------------------------
+  m4_define([b4_symbol_value],
+  [m4_ifval([$2],
+            [$1.as<$2>()],
+            [$1])])
+]) # b4_variant_if
+
+
+# b4_symbol_action_(SYMBOL-TAG, SYMBOL-NUM, SYMBOL-TYPENAME)
+# ----------------------------------------------------------
+# Invoke b4_dollar_dollar(SYMBOL_TYPENAME) for each symbol.
+m4_define([b4_symbol_action_],
+[m4_ifval($3,
+[      case $2: // $1
+        b4_dollar_dollar($@);
+	break;
+])])
+
+
+# b4_symbol_variant(YYTYPE, YYVAL, ACTION)
+# ----------------------------------------
+# Run some ACTION ("build", or "destroy") on YYVAL of symbol type
+# YYTYPE.
+m4_define([b4_symbol_variant],
+[m4_pushdef([b4_dollar_dollar],
+            [$2.$3<$][3>()])dnl
+  switch ($1)
+    {
+m4_map([b4_symbol_action_], m4_defn([b4_type_names]))
+     default:
+       break;
+    }
+m4_popdef([b4_dollar_dollar])dnl
+])
+
+
+# _b4_char_sizeof_counter
+# -----------------------
+# A counter used by _b4_char_sizeof_dummy to create fresh symbols.
+m4_define([_b4_char_sizeof_counter],
+[0])
+
+# _b4_char_sizeof_dummy
+# ---------------------
+# At each call return a new C++ identifier.
+m4_define([_b4_char_sizeof_dummy],
+[m4_define([_b4_char_sizeof_counter], m4_incr(_b4_char_sizeof_counter))dnl
+dummy[]_b4_char_sizeof_counter])
+
+
+# b4_char_sizeof(SYMBOL-TAG, SYMBOL-NUM, SYMBOL-TYPENAME)
+# -------------------------------------------------------
+# To be mapped on the list of type names to produce:
+#
+#    char dummy1[sizeof(type_name_1)];
+#    char dummy2[sizeof(type_name_2)];
+#
+# for defined type names.
+# $3 is doubly-quoted, do not quote it again.
+m4_define([b4_char_sizeof],
+[m4_ifval($3,
+[
+      char _b4_char_sizeof_dummy@{sizeof($3)@}; // $1])dnl
+])
+
+
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
 
@@ -52,6 +121,51 @@ dnl FIXME: This is wrong, we want computed header guards.
 ]b4_namespace_open[
   class position;
   class location;
+]b4_variant_if([[
+  /// A char[S] buffer to store and retrieve objects.
+  ///
+  /// Sort of a variant, but does not keep track of the nature
+  /// of the stored data, since that knowledge is available
+  /// via the current state.
+  template <size_t S>
+  struct variant
+  {
+    /// Instantiate a \a T in here.
+    template <typename T>
+    inline void
+    build()
+    {
+      new (buffer) T;
+    }
+
+    /// Destroy the stored \a T.
+    template <typename T>
+    inline void
+    destroy()
+    {
+      reinterpret_cast<T&>(buffer).~T();
+    }
+
+    /// Accessor to a built \a T.
+    template <typename T>
+    inline T&
+    as()
+    {
+      return reinterpret_cast<T&>(buffer);
+    }
+
+    /// Const accessor to a built \a T (for %printer).
+    template <typename T>
+    inline const T&
+    as() const
+    {
+      return reinterpret_cast<const T&>(buffer);
+    }
+
+    /// A buffer large enough to store any of the semantic values.
+    char buffer[S];
+  };
+]])[
 ]b4_namespace_close[
 
 #include "location.hh"
@@ -99,16 +213,23 @@ do {							\
   class ]b4_parser_class_name[
   {
   public:
-    /// Symbol semantic values.
 #ifndef YYSTYPE
-]m4_ifdef([b4_stype],
+]b4_variant_if(
+[    /// An auxiliary type to compute the largest semantic type.
+    union union_type
+    {]m4_map([b4_char_sizeof], m4_defn([b4_type_names]))[
+    };
+
+    /// Symbol semantic values.
+    typedef variant<sizeof(union_type)> semantic_type;],
+[    /// Symbol semantic values.
+m4_ifdef([b4_stype],
 [    union semantic_type
-    {
-b4_user_stype
+    {b4_user_stype
     };],
 [m4_if(b4_tag_seen_flag, 0,
 [[    typedef int semantic_type;]],
-[[    typedef YYSTYPE semantic_type;]])])[
+[[    typedef YYSTYPE semantic_type;]])])])[
 #else
     typedef YYSTYPE semantic_type;
 #endif
@@ -631,7 +752,6 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
     /* Discard the token being shifted.  */
     yychar = yyempty_;
-
     yysemantic_stack_.push (yylval);
     yylocation_stack_.push (yylloc);
 
@@ -656,7 +776,11 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
   | yyreduce -- Do a reduction.  |
   `-----------------------------*/
   yyreduce:
-    yylen = yyr2_[yyn];
+    yylen = yyr2_[yyn];]b4_variant_if([
+    /* Variants are always initialized to an empty instance of the
+       correct type. The default $$=$1 rule is NOT applied when using
+       variants */
+    ]b4_symbol_variant([[yyr1_@{yyn@}]], [yyval], [build])[],[
     /* If YYLEN is nonzero, implement the default value of the action:
        `$$ = $1'.  Otherwise, use the top of the stack.
 
@@ -666,7 +790,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     if (yylen)
       yyval = yysemantic_stack_@{yylen - 1@};
     else
-      yyval = yysemantic_stack_@{0@};
+      yyval = yysemantic_stack_@{0@};])[
 
     {
       slice<location_type, location_stack_type> slice (yylocation_stack_, yylen);
@@ -684,7 +808,6 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     yypop_ (yylen);
     yylen = 0;
     YY_STACK_PRINT ();
-
     yysemantic_stack_.push (yyval);
     yylocation_stack_.push (yyloc);
 

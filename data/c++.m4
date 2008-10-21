@@ -97,6 +97,11 @@ m4_map_sep([     b4_token_enum], [,
 ## Semantic Values.  ##
 ## ----------------- ##
 
+# b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
+# ----------------------------------------------
+m4_define([b4_variant_if],
+[b4_percent_define_ifdef([[variant]], [$1], [$2])])
+
 
 # b4_lhs_value([TYPE])
 # --------------------
