@@ -1,5 +1,13 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	stack::size instead of stack::height.
+	* data/lalr1.cc (stack::height): Rename as...
+	(stack::size): this.
+	Fix the output type.
+	Comment changes.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Use variants to support objects as semantic values.
 	This patch was inspired by work by Michiel De Wilde.  But he used Boost
 	variants which (i) requires Boost on the user side, (ii) is slow, and

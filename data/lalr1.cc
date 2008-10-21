@@ -897,7 +897,7 @@ b4_error_verbose_if([, yytoken])[));
 	}
 
 	/* Pop the current state because it cannot handle the error token.  */
-	if (yystate_stack_.height () == 1)
+	if (yystate_stack_.size () == 1)
 	YYABORT;
 
 	yyerror_range[0] = yylocation_stack_[0];
@@ -940,7 +940,7 @@ b4_error_verbose_if([, yytoken])[));
     /* Do not reclaim the symbols of the rule which action triggered
        this YYABORT or YYACCEPT.  */
     yypop_ (yylen);
-    while (yystate_stack_.height () != 1)
+    while (yystate_stack_.size () != 1)
       {
 	yydestruct_ ("Cleanup: popping",
 		   yystos_[yystate_stack_[0]],
@@ -1235,17 +1235,17 @@ b4_copyright([Stack handling for Bison parsers in C++],
     }
 
     inline
-    unsigned int
-    height () const
+    typename S::size_type
+    size () const
     {
       return seq_.size ();
     }
 
     inline const_iterator begin () const { return seq_.rbegin (); }
-    inline const_iterator end () const { return seq_.rend (); }
+    inline const_iterator end ()   const { return seq_.rend ();   }
 
   private:
-
+    /// The wrapped container.
     S seq_;
   };
 
