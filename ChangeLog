@@ -1,5 +1,10 @@
 2008-10-28  Akim Demaille  <demaille@gostai.com>
 
+	Space changes.
+	* data/lalr1.cc: Formatting changes.
+
+2008-10-28  Akim Demaille  <demaille@gostai.com>
+
 	Don't define debugging functions when !YYDEBUG.
 	* data/lalr1.cc (debug_stream, set_debug_stream)
 	(debug_level_type, debug_level, set_debug_level): Don't

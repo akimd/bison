@@ -795,7 +795,7 @@ b4_error_verbose_if([, yytoken])[));
 
     /* Shift the error token.  */
     YY_SYMBOL_PRINT ("Shifting", yystos_[yyn],
-		   &yysemantic_stack_[0], &yylocation_stack_[0]);
+		     &yysemantic_stack_[0], &yylocation_stack_[0]);
 
     yystate = yyn;
     goto yynewstate;
