@@ -1,5 +1,13 @@
 2008-10-28  Akim Demaille  <demaille@gostai.com>
 
+	Don't define debugging functions when !YYDEBUG.
+	* data/lalr1.cc (debug_stream, set_debug_stream)
+	(debug_level_type, debug_level, set_debug_level): Don't
+	declare them when YYDEBUG is not defined.
+	The implementation are already YYDEBUG-aware.
+
+2008-10-28  Akim Demaille  <demaille@gostai.com>
+
 	Prefer "continue" for empty loop bodies.
 	* etc/bench.pl.in: Use "continue" instead of {}.
 
