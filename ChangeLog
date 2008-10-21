@@ -1,5 +1,11 @@
 2008-10-28  Akim Demaille  <demaille@gostai.com>
 
+	Space and comments changes.
+	* data/c++.m4, data/glr.c, data/lalr1.cc: Copyright year changes.
+	* data/c.m4, data/lalr1.cc: Space changes.
+
+2008-10-28  Akim Demaille  <demaille@gostai.com>
+
 	Make gnulib a submodule.
 	* gnulib: New.
 	* .gitmodules (gnulib): New.

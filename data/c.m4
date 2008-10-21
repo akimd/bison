@@ -133,6 +133,8 @@ m4_define([b4_int_type],
 m4_define([b4_int_type_for],
 [b4_int_type($1_min, $1_max)])
 
+
+
 ## ---------##
 ## Values.  ##
 ## ---------##
@@ -142,6 +144,8 @@ m4_define([b4_int_type_for],
 # Return a null pointer constant.  NULL infringes on the user name
 # space in C, so use 0 rather than NULL.
 m4_define([b4_null], [0])
+
+
 
 
 ## ------------------------- ##
