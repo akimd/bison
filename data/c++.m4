@@ -102,7 +102,7 @@ m4_map_sep([     b4_token_enum], [,
 # --------------------
 # Expansion of $<TYPE>$.
 m4_define([b4_lhs_value],
-[(yyval[]m4_ifval([$1], [.$1]))])
+[b4_symbol_value([yyval], [$1])])
 
 
 # b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
@@ -110,7 +110,8 @@ m4_define([b4_lhs_value],
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
 m4_define([b4_rhs_value],
-[(yysemantic_stack_@{($1) - ($2)@}m4_ifval([$3], [.$3]))])
+[b4_symbol_value([yysemantic_stack_@{($1) - ($2)@}], [$3])])
+
 
 # b4_lhs_location()
 # -----------------

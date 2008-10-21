@@ -205,6 +205,21 @@ m4_define([b4_token_enums_defines],
 ])
 
 
+## ----------------- ##
+## Semantic Values.  ##
+## ----------------- ##
+
+
+# b4_symbol_value(VAL, [TYPE])
+# ----------------------------
+# Given a semantic value VAL ($$, $1 etc.), extract its value of type
+# TYPE if TYPE is given, otherwise just return VAL.  The result can be
+# used safetly, it is put in parens to avoid nasty precedence issues.
+# TYPE is *not* put in braces, provide some if needed.
+m4_define([b4_symbol_value],
+[($1[]m4_ifval([$2], [.$2]))])
+
+
 
 ## --------------------------------------------- ##
 ## Defining C functions in both K&R and ANSI-C.  ##
@@ -360,7 +375,7 @@ $2
 # -------------------------------------------------
 m4_define([b4_symbol_actions],
 [m4_pushdef([b4_dollar_dollar],
-   [m4_ifval([$6], [(yyvaluep->$6)], [(*yyvaluep)])])dnl
+   [b4_symbol_value([(*yyvaluep)], [$6])])dnl
 m4_pushdef([b4_at_dollar], [(*yylocationp)])dnl
       case $4: /* $3 */
 b4_syncline([$2], [$1])

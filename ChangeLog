@@ -1,5 +1,18 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Parameterize the extraction of semantic values.
+	To make future changes easier, no longer rely on ".TYPE" being the
+	way to get a semantic value.
+	
+	* data/c.m4 (b4_symbol_value): New.
+	Use it.
+	* data/c++.m4, data/yacc.c: Use it.
+	* data/glr.c: Use b4_symbol_value.
+	(b4_rhs_data): New.
+	Use it.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Prepare easier M4 changes.
 	* data/lalr1.cc: Use escaped [] instead of literals to prepare
 	future changes.
