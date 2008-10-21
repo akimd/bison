@@ -664,9 +664,9 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
        This behavior is undocumented and Bison
        users should not rely upon it.  */
     if (yylen)
-      yyval = yysemantic_stack_[yylen - 1];
+      yyval = yysemantic_stack_@{yylen - 1@};
     else
-      yyval = yysemantic_stack_[0];
+      yyval = yysemantic_stack_@{0@};
 
     {
       slice<location_type, location_stack_type> slice (yylocation_stack_, yylen);

@@ -1,3 +1,9 @@
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
+	Prepare easier M4 changes.
+	* data/lalr1.cc: Use escaped [] instead of literals to prepare
+	future changes.
+
 2008-11-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Initiate further development.
