@@ -1,5 +1,10 @@
 2008-10-28  Akim Demaille  <demaille@gostai.com>
 
+	Prefer "continue" for empty loop bodies.
+	* etc/bench.pl.in: Use "continue" instead of {}.
+
+2008-10-28  Akim Demaille  <demaille@gostai.com>
+
 	Space and comments changes.
 	* data/c++.m4, data/glr.c, data/lalr1.cc: Copyright year changes.
 	* data/c.m4, data/lalr1.cc: Space changes.

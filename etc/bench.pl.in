@@ -270,9 +270,7 @@ yylex (void)
 
   /* Skip white space.  */
   while ((c = get_char ()) == ' ' || c == '\t')
-    {
-
-    }
+    continue;
 
   /* process numbers   */
   if (c == '.' || isdigit (c))
