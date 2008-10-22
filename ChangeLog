@@ -1,5 +1,14 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Prefer references to pointers.
+	* data/lalr1.cc (b4_symbol_actions): New, overrides the default C
+	definition to use references instead of pointers.
+	(yy_symbol_value_print_, yy_symbol_print_, yydestruct_):
+	Take the value and location as references.
+	Adjust callers.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	stack::size instead of stack::height.
 	* data/lalr1.cc (stack::height): Rename as...
 	(stack::size): this.

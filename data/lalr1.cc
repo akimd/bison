@@ -29,6 +29,25 @@ b4_variant_if([
 ]) # b4_variant_if
 
 
+# b4_symbol_actions(FILENAME, LINENO,
+#                   SYMBOL-TAG, SYMBOL-NUM,
+#                   SYMBOL-ACTION, SYMBOL-TYPENAME)
+# -------------------------------------------------
+# Same as in C, but using references instead of pointers.
+m4_define([b4_symbol_actions],
+[m4_pushdef([b4_dollar_dollar],
+            [b4_symbol_value([yyvalue], [$6])])dnl
+m4_pushdef([b4_at_dollar], [yylocation])dnl
+      case $4: // $3
+b4_syncline([$2], [$1])
+        $5;
+b4_syncline([@oline@], [@ofile@])
+        break;
+m4_popdef([b4_at_dollar])dnl
+m4_popdef([b4_dollar_dollar])dnl
+])
+
+
 # b4_symbol_action_(SYMBOL-TAG, SYMBOL-NUM, SYMBOL-TYPENAME)
 # ----------------------------------------------------------
 # Invoke b4_dollar_dollar(SYMBOL_TYPENAME) for each symbol.
@@ -280,18 +299,18 @@ b4_error_verbose_if([, int tok])[);
 #if YYDEBUG
     /// \brief Report a symbol value on the debug stream.
     /// \param yytype       The token type.
-    /// \param yyvaluep     Its semantic value.
-    /// \param yylocationp  Its location.
+    /// \param yyvalue      Its semantic value.
+    /// \param yylocation   Its location.
     virtual void yy_symbol_value_print_ (int yytype,
-					 const semantic_type* yyvaluep,
-					 const location_type* yylocationp);
+					 const semantic_type& yyvalue,
+					 const location_type& yylocation);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
-    /// \param yyvaluep     Its semantic value.
-    /// \param yylocationp  Its location.
+    /// \param yyvalue      Its semantic value.
+    /// \param yylocation   Its location.
     virtual void yy_symbol_print_ (int yytype,
-				   const semantic_type* yyvaluep,
-				   const location_type* yylocationp);
+				   const semantic_type& yyvalue,
+				   const location_type& yylocation);
 #endif
 
 
@@ -381,12 +400,12 @@ b4_error_verbose_if([, int tok])[);
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
     /// \param yytype       The symbol type.
-    /// \param yyvaluep     Its semantic value.
-    /// \param yylocationp  Its location.
+    /// \param yyvalue      Its semantic value.
+    /// \param yylocation   Its location.
     inline void yydestruct_ (const char* yymsg,
 			     int yytype,
-			     semantic_type* yyvaluep,
-			     location_type* yylocationp);
+			     semantic_type& yyvalue,
+			     location_type& yylocation);
 
     /// Pop \a n symbols the three stacks.
     inline void yypop_ (unsigned int n = 1);
@@ -561,10 +580,10 @@ do {					\
 
   inline void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
-			   const semantic_type* yyvaluep, const location_type* yylocationp)
+			   const semantic_type& yyvalue, const location_type& yylocation)
   {
-    YYUSE (yylocationp);
-    YYUSE (yyvaluep);
+    YYUSE (yylocation);
+    YYUSE (yyvalue);
     switch (yytype)
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
@@ -576,25 +595,25 @@ do {					\
 
   void
   ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
-			   const semantic_type* yyvaluep, const location_type* yylocationp)
+			   const semantic_type& yyvalue, const location_type& yylocation)
   {
     *yycdebug_ << (yytype < yyntokens_ ? "token" : "nterm")
 	       << ' ' << yytname_[yytype] << " ("
-	       << *yylocationp << ": ";
-    yy_symbol_value_print_ (yytype, yyvaluep, yylocationp);
+	       << yylocation << ": ";
+    yy_symbol_value_print_ (yytype, yyvalue, yylocation);
     *yycdebug_ << ')';
   }
 #endif
 
   void
   ]b4_parser_class_name[::yydestruct_ (const char* yymsg,
-			   int yytype, semantic_type* yyvaluep, location_type* yylocationp)
+			   int yytype, semantic_type& yyvalue, location_type& yylocation)
   {
-    YYUSE (yylocationp);
     YYUSE (yymsg);
-    YYUSE (yyvaluep);
+    YYUSE (yyvalue);
+    YYUSE (yylocation);
 
-    YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+    YY_SYMBOL_PRINT (yymsg, yytype, yyvalue, yylocation);
 
     switch (yytype)
       {
@@ -728,7 +747,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     else
       {
 	yytoken = yytranslate_ (yychar);
-	YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
+	YY_SYMBOL_PRINT ("Next token is", yytoken, yylval, yylloc);
       }
 
     /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -748,7 +767,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
 
     /* Shift the lookahead token.  */
-    YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
+    YY_SYMBOL_PRINT ("Shifting", yytoken, yylval, yylloc);
 
     /* Discard the token being shifted.  */
     yychar = yyempty_;
@@ -803,7 +822,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 	default:
           break;
       }
-    YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], &yyval, &yyloc);
+    YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], yyval, yyloc);
 
     yypop_ (yylen);
     yylen = 0;
@@ -847,7 +866,7 @@ b4_error_verbose_if([, yytoken])[));
 	  }
 	else
 	  {
-	    yydestruct_ ("Error: discarding", yytoken, &yylval, &yylloc);
+	    yydestruct_ ("Error: discarding", yytoken, yylval, yylloc);
 	    yychar = yyempty_;
 	  }
       }
@@ -903,7 +922,7 @@ b4_error_verbose_if([, yytoken])[));
 	yyerror_range[0] = yylocation_stack_[0];
 	yydestruct_ ("Error: popping",
 		     yystos_[yystate],
-		     &yysemantic_stack_[0], &yylocation_stack_[0]);
+		     yysemantic_stack_[0], yylocation_stack_[0]);
 	yypop_ ();
 	yystate = yystate_stack_[0];
 	YY_STACK_PRINT ();
@@ -918,7 +937,7 @@ b4_error_verbose_if([, yytoken])[));
 
     /* Shift the error token.  */
     YY_SYMBOL_PRINT ("Shifting", yystos_[yyn],
-		     &yysemantic_stack_[0], &yylocation_stack_[0]);
+		     yysemantic_stack_[0], yylocation_stack_[0]);
 
     yystate = yyn;
     goto yynewstate;
@@ -935,7 +954,7 @@ b4_error_verbose_if([, yytoken])[));
 
   yyreturn:
     if (yychar != yyempty_)
-      yydestruct_ ("Cleanup: discarding lookahead", yytoken, &yylval, &yylloc);
+      yydestruct_ ("Cleanup: discarding lookahead", yytoken, yylval, yylloc);
 
     /* Do not reclaim the symbols of the rule which action triggered
        this YYABORT or YYACCEPT.  */
@@ -943,9 +962,9 @@ b4_error_verbose_if([, yytoken])[));
     while (yystate_stack_.size () != 1)
       {
 	yydestruct_ ("Cleanup: popping",
-		   yystos_[yystate_stack_[0]],
-		   &yysemantic_stack_[0],
-		   &yylocation_stack_[0]);
+                     yystos_[yystate_stack_[0]],
+                     yysemantic_stack_[0],
+                     yylocation_stack_[0]);
 	yypop_ ();
       }
 
@@ -1141,8 +1160,8 @@ b4_error_verbose_if([, int tok])[)
     for (int yyi = 0; yyi < yynrhs; yyi++)
       YY_SYMBOL_PRINT ("   $" << yyi + 1 << " =",
 		       yyrhs_[yyprhs_[yyrule] + yyi],
-		       &]b4_rhs_value(yynrhs, yyi + 1)[,
-		       &]b4_rhs_location(yynrhs, yyi + 1)[);
+		       ]b4_rhs_value(yynrhs, yyi + 1)[,
+		       ]b4_rhs_location(yynrhs, yyi + 1)[);
   }
 #endif // YYDEBUG
 
