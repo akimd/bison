@@ -144,9 +144,9 @@ vc_ignore=auto
 # -------------------------
 find_tool ()
 {
-  # Find sha1sum, named gsha1sum on MacPorts.
   find_tool_envvar=$1
   shift
+  find_tool_name=$@
   if eval test x"\$$find_tool_envvar" = x; then
     for i
     do
@@ -157,7 +157,7 @@ find_tool ()
     done
   fi
   if test x"$find_tool_res" = x; then
-    echo >&2 "$0: $find_tool_name is required"
+    echo >&2 "$0: one of these is required: $find_tool_names"
     exit 1
   fi
   ($find_tool_res --version </dev/null) >/dev/null 2>&1 || {
