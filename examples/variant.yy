@@ -114,10 +114,9 @@ yylex (yy::parser::semantic_type* yylval)
 
 // Mandatory error function
 void
-yy::parser::error (const yy::parser::location_type& yylloc,
-                   const std::string& message)
+yy::parser::error (const std::string& message)
 {
-  std::cerr << yylloc << ": " << message << std::endl;
+  std::cerr << message << std::endl;
 }
 
 int
