@@ -407,6 +407,11 @@ b4_error_verbose_if([, int tok])[);
 			     semantic_type& yyvalue,
 			     location_type& yylocation);
 
+    /// Push a new state on the stack.
+    /// \warning the contents of \a v is stolen.
+    inline void yypush_ (state_type s,
+                         semantic_type& v, const location_type& l);
+
     /// Pop \a n symbols the three stacks.
     inline void yypop_ (unsigned int n = 1);
 
@@ -624,6 +629,15 @@ do {					\
   }
 
   void
+  ]b4_parser_class_name[::yypush_ (state_type s,
+                           semantic_type& v, const location_type& l)
+  {
+    yystate_stack_.push (s);
+    yysemantic_stack_.push (v);
+    yylocation_stack_.push (l);
+  }
+
+  void
   ]b4_parser_class_name[::yypop_ (unsigned int n)
   {
     yystate_stack_.pop (n);
@@ -705,12 +719,12 @@ m4_popdef([b4_at_dollar])])dnl
     yystate_stack_ = state_stack_type (0);
     yysemantic_stack_ = semantic_stack_type (0);
     yylocation_stack_ = location_stack_type (0);
-    yysemantic_stack_.push (yylval);
-    yylocation_stack_.push (yylloc);
+    yypush_ (yystate, yylval, yylloc);
 
-    /* New state.  */
+    // A new state was pushed on the stack.
+    // Invariant: yystate == yystack_[0].state, i.e.,
+    // yystate was just pushed onto the state stack.
   yynewstate:
-    yystate_stack_.push (yystate);
     YYCDEBUG << "Entering state " << yystate << std::endl;
 
     /* Accept?  */
@@ -771,8 +785,6 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
 
     /* Discard the token being shifted.  */
     yychar = yyempty_;
-    yysemantic_stack_.push (yylval);
-    yylocation_stack_.push (yylloc);
 
     /* Count tokens shifted since error; after three, turn off error
        status.  */
@@ -780,6 +792,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       --yyerrstatus_;
 
     yystate = yyn;
+    yypush_ (yystate, yylval, yylloc);
     goto yynewstate;
 
   /*-----------------------------------------------------------.
@@ -827,8 +840,6 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     yypop_ (yylen);
     yylen = 0;
     YY_STACK_PRINT ();
-    yysemantic_stack_.push (yyval);
-    yylocation_stack_.push (yyloc);
 
     /* Shift the result of the reduction.  */
     yyn = yyr1_[yyn];
@@ -838,6 +849,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       yystate = yytable_[yystate];
     else
       yystate = yydefgoto_[yyn - yyntokens_];
+    yypush_ (yystate, yyval, yyloc);
     goto yynewstate;
 
   /*------------------------------------.
@@ -932,14 +944,13 @@ b4_error_verbose_if([, yytoken])[));
     // Using YYLLOC is tempting, but would change the location of
     // the lookahead.  YYLOC is available though.
     YYLLOC_DEFAULT (yyloc, (yyerror_range - 1), 2);
-    yysemantic_stack_.push (yylval);
-    yylocation_stack_.push (yyloc);
 
     /* Shift the error token.  */
     YY_SYMBOL_PRINT ("Shifting", yystos_[yyn],
 		     yysemantic_stack_[0], yylocation_stack_[0]);
 
     yystate = yyn;
+    yypush_ (yystate, yylval, yyloc);
     goto yynewstate;
 
     /* Accept.  */

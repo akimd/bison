@@ -1,5 +1,19 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Push the state, value, and location at the same time.
+	This is needed to prepare a forthcoming patch that fuses the three
+	stacks into one.
+	
+	* data/lalr1.cc (parser::yypush_): New.
+	(parser::yynewstate): Change the semantics: instead of arriving to
+	this label when value and location have been pushed, but yystate
+	is to be pushed on the state stack, now the three of them must
+	have been pushed before.  yystate still must be the new state.
+	This allows to use yypush_ everywhere instead of individual
+	handling of the stacks.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Prefer references to pointers.
 	* data/lalr1.cc (b4_symbol_actions): New, overrides the default C
 	definition to use references instead of pointers.
