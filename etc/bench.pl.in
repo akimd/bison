@@ -147,21 +147,13 @@ sub verbose($$)
 
 Format the list of directives for Bison for bench named C<$bench>.
 
-The special fake C<%variant> directive requests the use of
-Boost.Variants instead of a regular union.  So don't pass it, it is
-not a valid directive.
-
 =cut
 
 sub directives($@)
 {
   my ($bench, @directive) = @_;
   my $res = "/* Directives for bench `$bench'. */\n";
-  for my $d (@directive)
-    {
-      $res .= $d . "\n"
-        unless $d eq '%variant';
-    }
+  $res .= join ("\n", @directive) . "\n";
   $res .= "/* End of directives for bench `$bench'. */\n";
   return $res;
 }
@@ -527,7 +519,7 @@ sub generate_grammar_variant ($$@)
 {
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
-  my $variant = grep { $_ eq '%variant' } @directive;
+  my $variant = grep { $_ eq '%define variant' } @directive;
 
   my $out = new IO::File ">$base.y"
     or die;
@@ -563,7 +555,6 @@ EOF
   if ($variant)
     {
       print $out <<'EOF';
-%code variant {int,std::string}
 %token <std::string> TEXT
 %token <int> NUMBER
 %printer { std::cerr << "Number: " << $$; } <int>
@@ -821,10 +812,10 @@ sub bench_variant_parser ()
      (
       "f-union"         => ['%skeleton "lalr1-fusion.cc"'],
       "f-uni-deb"   => ['%skeleton "lalr1-fusion.cc"', '%debug'],
-      "f-var"       => ['%skeleton "lalr1-fusion.cc"', '%variant'],
-      "f-var-deb" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%variant'],
-      "f-var-dtr"       => ['%skeleton "lalr1-fusion.cc"', '%variant', "%code {\n#define VARIANT_DESTROY\n}"],
-      "f-var-deb-dtr" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%variant', "%code {\n#define VARIANT_DESTROY\n}"],
+      "f-var"       => ['%skeleton "lalr1-fusion.cc"', '%define variant'],
+      "f-var-deb" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%define variant'],
+      "f-var-dtr"       => ['%skeleton "lalr1-fusion.cc"', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
+      "f-var-deb-dtr" => ['%skeleton "lalr1-fusion.cc"', '%debug', '%define variant', "%code {\n#define VARIANT_DESTROY\n}"],
      )
     );
 }

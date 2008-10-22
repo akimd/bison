@@ -58,7 +58,7 @@ typedef std::list<std::string> strings_type;
 %%
 
 result:
-  list          { std::cout << $1 << std::endl; }
+  list	{ std::cout << $1 << std::endl; }
 ;
 
 list:
