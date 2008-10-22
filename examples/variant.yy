@@ -1,9 +1,8 @@
-/* Test file for C++ parsers using variants.
-   Based on an example by Michiel De Wilde <mdewilde.agilent@gmail.com>. */
 %debug
 %skeleton "lalr1.cc"
 %defines
 %define variant
+%define lex_symbol
 
 %code requires // *.hh
 {
@@ -20,17 +19,17 @@ typedef std::list<std::string> strings_type;
 #include <sstream>
 
   // Prototype of the yylex function providing subsequent tokens.
-  static yy::parser::token_type yylex(yy::parser::semantic_type* yylval);
+  static yy::parser::symbol_type yylex ();
 
   // Printing a list of strings.
   // Koening look up will look into std, since that's an std::list.
   namespace std
   {
     std::ostream&
-    operator<<(std::ostream& o, const strings_type& s)
+    operator<< (std::ostream& o, const strings_type& s)
     {
-      std::copy(s.begin(), s.end(),
-                std::ostream_iterator<strings_type::value_type>(o, "\n"));
+      std::copy (s.begin (), s.end (),
+                 std::ostream_iterator<strings_type::value_type> (o, "\n"));
       return o;
     }
   }
@@ -43,7 +42,7 @@ typedef std::list<std::string> strings_type;
   {
     std::ostringstream o;
     o << t;
-    return o.str();
+    return o.str ();
   }
 }
 
@@ -58,7 +57,7 @@ typedef std::list<std::string> strings_type;
 %%
 
 result:
-  list	{ std::cout << $1 << std::endl; }
+  list  { std::cout << $1 << std::endl; }
 ;
 
 list:
@@ -81,35 +80,23 @@ item:
 // END_OF_FILE
 
 static
-yy::parser::token_type
-yylex (yy::parser::semantic_type* yylval)
+yy::parser::symbol_type
+yylex ()
 {
-  static int stage = 0;
-  yy::parser::token_type result;
-
-  switch (stage)
+  static int stage = -1;
+  switch (++stage)
   {
     case 0:
-      yylval->build (std::string ("I have three numbers for you."));
-      result = yy::parser::token::TEXT;
-      break;
+      return yy::parser::make_TEXT ("I have three numbers for you.");
     case 1:
     case 2:
     case 3:
-      yylval->build (stage);
-      result = yy::parser::token::NUMBER;
-      break;
+      return yy::parser::make_NUMBER (stage);
     case 4:
-      yylval->build (std::string ("And that's all!"));
-      result = yy::parser::token::TEXT;
-      break;
+      return yy::parser::make_TEXT ("And that's all!");
     default:
-      result = yy::parser::token::END_OF_FILE;
-      break;
+      return yy::parser::make_END_OF_FILE ();
   }
-
-  stage++;
-  return result;
 }
 
 // Mandatory error function
@@ -120,11 +107,11 @@ yy::parser::error (const std::string& message)
 }
 
 int
-main (int argc, char *argv[])
+main ()
 {
   yy::parser p;
   p.set_debug_level (!!getenv ("YYDEBUG"));
-  return p.parse();
+  return p.parse ();
 }
 
 // Local Variables:
