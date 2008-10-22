@@ -1,5 +1,37 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
+	Fuse the three stacks into a single one.
+	In order to make it easy to perform benchmarks to ensure that there are no
+	performance loss, lalr1.cc is forked into lalr1-fusion.cc.  Eventually,
+	lalr1-fusion.cc will replace lalr1.cc.
+	
+	Meanwhile, to make sure that lalr1-fusion.cc is correctly exercized by the
+	test suite, the user must install a symbolic link from lalr1.cc to it.
+	
+	Instead of having three stacks (state, value, location), use a stack
+	of triples.  This considerably simplifies the code (and it will be
+	easier not to require locations as currently does the C++ parser),
+	and also gives a 10% speedup according to etc/bench (probably mainly since
+	memory allocation is done once instead of three times).
+	
+	Another motivation is to make it easier to destruct properly
+	semantic values: now that they are bound to their state (hence
+	symbol type) it will be easier to call the appropriate destructor.
+	
+	These changes should probably benefit the C parser too.
+	
+	* data/lalr1.cc: Copy as...  * data/lalr1-fusion.cc: this new
+	file.
+	(b4_rhs_value, b4_rhs_location): New definitions overriding those
+	from c++.m4.
+	(state_stack_type, semantic_stack_type, location_stack_type)
+	(yystate_stack_, yysemantic_stack_, yylocation_stack_): Remove.
+	(data_type, stack_type, yystack_): New.
+	(YYLLOC_DEFAULT, yypush_): Adjust.
+	(yyerror_range): Now based on data_type, not location_type.
+
+2008-11-03  Akim Demaille  <demaille@gostai.com>
+
 	Push the state, value, and location at the same time.
 	This is needed to prepare a forthcoming patch that fuses the three
 	stacks into one.
