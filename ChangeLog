@@ -1,5 +1,10 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	Remove duplicate header inclusion.
+	* src/LR0.c: here.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	* src/parse-gram.h, src/parse-gram.c: Regen.
 
 2008-11-15  Akim Demaille  <demaille@gostai.com>
