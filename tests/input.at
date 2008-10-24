@@ -1,6 +1,6 @@
 # Checking the Bison scanner.                    -*- Autotest -*-
-# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation,
-# Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+# Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -69,10 +69,9 @@ AT_CLEANUP
 
 
 # _AT_UNUSED_VALUES_DECLARATIONS()
-# --------------------------------------------
+# --------------------------------
 # Generate the token, type, and destructor
 # declarations for the unused values tests.
-
 m4_define([_AT_UNUSED_VALUES_DECLARATIONS],
 [[[%token <integer> INT;
 %type <integer> a b c d e f g h i j k l;
@@ -80,15 +79,11 @@ m4_define([_AT_UNUSED_VALUES_DECLARATIONS],
 
 
 # AT_CHECK_UNUSED_VALUES(DECLARATIONS_AFTER, CHECK_MIDRULE_VALUES)
-# ------------------------------------------------------------------
-# Generate a grammar to test unused values,
-# compile it, run it.  If DECLARATIONS_AFTER
-# is set, then the token, type, and destructor
-# declarations are generated after the rules
-# rather than before.  If CHECK_MIDRULE_VALUES
-# is set, then --warnings=midrule-values is
-# set.
-
+# ----------------------------------------------------------------
+# Generate a grammar to test unused values, compile it, run it.  If
+# DECLARATIONS_AFTER is set, then the token, type, and destructor
+# declarations are generated after the rules rather than before.  If
+# CHECK_MIDRULE_VALUES is set, then --warnings=midrule-values is set.
 m4_define([AT_CHECK_UNUSED_VALUES],
 [AT_DATA([input.y],
 m4_ifval($1, [
@@ -600,8 +595,8 @@ AT_CHECK_REQUIRE(100.0, 63)
 
 AT_SETUP([String aliases for character tokens])
 
-# Bison once thought a character token and its alias were different symbols
-# with the same user token number.
+# Bison once thought a character token and its alias were different
+# symbols with the same user token number.
 
 AT_DATA_GRAMMAR([input.y],
 [[%token 'a' "a"
@@ -621,10 +616,10 @@ AT_CLEANUP
 
 AT_SETUP([Unclosed constructs])
 
-# Bison's scan-gram.l once forgot to STRING_FINISH some unclosed constructs, so
-# they were prepended to whatever it STRING_GROW'ed next.  It also threw them
-# away rather than returning them to the parser.  The effect was confusing
-# subsequent error messages.
+# Bison's scan-gram.l once forgot to STRING_FINISH some unclosed
+# constructs, so they were prepended to whatever it STRING_GROW'ed
+# next.  It also threw them away rather than returning them to the
+# parser.  The effect was confusing subsequent error messages.
 
 AT_DATA([input.y],
 [[%token A "a
@@ -666,8 +661,8 @@ AT_CLEANUP
 
 AT_SETUP([%start after first rule])
 
-# Bison once complained that a %start after the first rule was a redeclaration
-# of the start symbol.
+# Bison once complained that a %start after the first rule was a
+# redeclaration of the start symbol.
 
 AT_DATA([input.y],
 [[%%
