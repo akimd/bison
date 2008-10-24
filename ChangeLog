@@ -1,3 +1,28 @@
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
+	Support parametric types.
+	There are two issues to handle: first scanning nested angle bracket pairs
+	to support types such as std::pair< std::string, std::list<std::string> > >.
+	
+	Another issue is to address idiosyncracies of C++: do not glue two closing
+	angle brackets together (otherwise it's operator>>), and avoid sticking
+	blindly a TYPE to the opening <, as it can result in '<:' which is a
+	digraph for '['.
+	
+	* src/scan-gram.l (brace_level): Rename as...
+	(nesting): this.
+	(SC_TAG): New.
+	Implement support for complex tags.
+	(tag): Accept 
+	, but not <.
+	* data/lalr1.cc (b4_symbol_value, b4_symbol_value_template)
+	(b4_symbol_variant): Leave space around types as parameters.
+	* examples/variant.yy: Use nested template types and leading ::.
+	* src/parse-gram.y (TYPE, TYPE_TAG_ANY, TYPE_TAG_NONE, type.opt):
+	Rename as...
+	(TAG, TAG_ANY, TAG_NONE, tag.opt): these.
+	* tests/c++.at: Test parametric types.
+
 2008-11-15  Akim Demaille  <akim@betelgeuse.gostai.ensta.fr>
 
 	Test token.prefix.

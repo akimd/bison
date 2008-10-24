@@ -72,7 +72,7 @@ b4_variant_if([
   # ----------------------------
   m4_define([b4_symbol_value],
   [m4_ifval([$2],
-            [$1.as<$2>()],
+            [$1.as< $2 >()],
             [$1])])
 
   # b4_symbol_value_template(VAL, [TYPE])
@@ -80,7 +80,7 @@ b4_variant_if([
   # Same as b4_symbol_value, but used in a template method.
   m4_define([b4_symbol_value_template],
   [m4_ifval([$2],
-            [$1.template as<$2>()],
+            [$1.template as< $2 >()],
             [$1])])
 ]) # b4_variant_if
 
@@ -366,7 +366,7 @@ m4_map([b4_symbol_constructor_definition_], m4_defn([b4_symbol_numbers]))])])
 # YYTYPE.
 m4_define([b4_symbol_variant],
 [m4_pushdef([b4_dollar_dollar],
-            [$2.$3<$][3>(m4_shift3($@))])dnl
+            [$2.$3< $][3 >(m4_shift3($@))])dnl
   switch ($1)
     {
 m4_map([b4_type_action_], m4_defn([b4_type_names]))[]dnl

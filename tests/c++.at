@@ -51,7 +51,7 @@ typedef std::list<std::string> strings_type;
 #include <iterator>
 #include <sstream>
 
- static
+  static
 #if defined USE_LEX_SYMBOL
   yy::parser::symbol_type yylex ();
 #else
@@ -86,26 +86,30 @@ typedef std::list<std::string> strings_type;
 
 %token <std::string> TEXT;
 %token <int> NUMBER;
-%printer { debug_stream() << $][$; } <int> <std::string> <strings_type>;
 %token END_OF_FILE 0;
 
 %type <std::string> item;
-%type <strings_type> list result;
+// Using the template type to exercize its parsing.
+// Starting with :: to ensure we don't output "<::" which starts by the
+// digraph for the left square bracket.
+%type <::std::list<std::string>> list result;
 
+%printer { debug_stream() << $][$; }
+  <int> <::std::string> <::std::list<::std::string>>;
 %%
 
 result:
-  list  	{ std::cout << $][1; }
+  list          { std::cout << $][1; }
 ;
 
 list:
-  /* nothing */	{ /* Generates an empty string list */ }
-| list item	{ std::swap($][$,$][1); $$.push_back($][2); }
+  /* nothing */ { /* Generates an empty string list */ }
+| list item     { std::swap($][$,$][1); $$.push_back($][2); }
 ;
 
 item:
-  TEXT		{ std::swap($][$,$][1); }
-| NUMBER	{ $][$ = string_cast($][1); }
+  TEXT          { std::swap($][$,$][1); }
+| NUMBER        { $][$ = string_cast($][1); }
 ;
 %%
 
@@ -164,7 +168,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
 
 void
 yy::parser::error(const yy::parser::location_type&,
-		  const std::string& message)
+                  const std::string& message)
 {
   std::cerr << message << std::endl;
 }
@@ -363,5 +367,5 @@ AT_CHECK_NAMESPACE([[foo: :bar]], [[-]])
 # contains single occurrences of `:'.
 AT_CHECK_NAMESPACE([[foo[3]::bar::baz]], [[-]])
 AT_CHECK_NAMESPACE([[foo::bar,baz]], [[-]])
-AT_CHECK_NAMESPACE([[foo::bar::(baz]], [[-]])
+AT_CHECK_NAMESPACE([[foo::bar::(baz /* Pacify Emacs ) */]], [[-]])
 AT_CLEANUP

@@ -167,9 +167,9 @@ static int current_prec = 0;
 %token PIPE            "|"
 %token PROLOGUE        "%{...%}"
 %token SEMICOLON       ";"
-%token TYPE            "type"
-%token TYPE_TAG_ANY    "<*>"
-%token TYPE_TAG_NONE   "<>"
+%token TAG             "<tag>"
+%token TAG_ANY         "<*>"
+%token TAG_NONE        "<>"
 
 %type <character> CHAR
 %printer { fputs (char_name ($$), stderr); } CHAR
@@ -183,8 +183,8 @@ static int current_prec = 0;
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
 	 braceless content.opt "{...}" "%{...%}" EPILOGUE
 
-%type <uniqstr> TYPE ID ID_COLON variable
-%printer { fprintf (stderr, "<%s>", $$); } TYPE
+%type <uniqstr> TAG ID ID_COLON variable
+%printer { fprintf (stderr, "<%s>", $$); } TAG
 %printer { fputs ($$, stderr); } ID variable
 %printer { fprintf (stderr, "%s:", $$); } ID_COLON
 
@@ -387,7 +387,7 @@ symbol_declaration:
       current_class = unknown_sym;
       current_type = NULL;
     }
-| "%type" TYPE symbols.1
+| "%type" TAG symbols.1
     {
       symbol_list *list;
       tag_seen = true;
@@ -398,7 +398,7 @@ symbol_declaration:
 ;
 
 precedence_declaration:
-  precedence_declarator type.opt symbols.prec
+  precedence_declarator tag.opt symbols.prec
     {
       symbol_list *list;
       ++current_prec;
@@ -419,9 +419,9 @@ precedence_declarator:
 | "%precedence" { $$ = precedence_assoc; }
 ;
 
-type.opt:
+tag.opt:
   /* Nothing. */ { current_type = NULL; }
-| TYPE           { current_type = $1; tag_seen = true; }
+| TAG            { current_type = $1; tag_seen = true; }
 ;
 
 /* Just like symbols.1 but accept INT for the sake of POSIX.  */
@@ -451,15 +451,15 @@ generic_symlist:
 ;
 
 generic_symlist_item:
-  symbol            { $$ = symbol_list_sym_new ($1, @1); }
-| TYPE              { $$ = symbol_list_type_new ($1, @1); }
-| "<*>"             { $$ = symbol_list_default_tagged_new (@1); }
-| "<>"             { $$ = symbol_list_default_tagless_new (@1); }
+  symbol    { $$ = symbol_list_sym_new ($1, @1); }
+| TAG       { $$ = symbol_list_type_new ($1, @1); }
+| "<*>"     { $$ = symbol_list_default_tagged_new (@1); }
+| "<>"      { $$ = symbol_list_default_tagless_new (@1); }
 ;
 
 /* One token definition.  */
 symbol_def:
-  TYPE
+  TAG
      {
        current_type = $1;
        tag_seen = true;
@@ -538,7 +538,7 @@ rhs:
     { grammar_current_rule_prec_set ($3, @3); }
 | rhs "%dprec" INT
     { grammar_current_rule_dprec_set ($3, @3); }
-| rhs "%merge" TYPE
+| rhs "%merge" TAG
     { grammar_current_rule_merge_set ($3, @3); }
 ;
 

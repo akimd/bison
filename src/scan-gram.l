@@ -78,6 +78,8 @@ static void unexpected_newline (boundary, char const *);
  /* A identifier was just read in directives/rules.  Special state
     to capture the sequence `identifier :'. */
 %x SC_AFTER_IDENTIFIER
+ /* A complex tag, with nested angles brackets. */
+%x SC_TAG
 
  /* Three types of user code:
     - prologue (code between `%{' `%}' in the first section, before %%);
@@ -96,8 +98,10 @@ int	  [0-9]+
 
 /* POSIX says that a tag must be both an id and a C union member, but
    historically almost any character is allowed in a tag.  We disallow
-   NUL and newline, as this simplifies our implementation.  */
-tag	 [^\0\n>]+
+   NUL, as this simplifies our implementation.  We disallow angle
+   bracket to match them in nested pairs: several languages use them
+   for generics/template types.  */
+tag	 [^\0<>]+
 
 /* Zero or more instances of backslash-newline.  Following GCC, allow
    white space between the backslash and the newline.  */
@@ -105,8 +109,9 @@ splice	 (\\[ \f\t\v]*\n)*
 
 %%
 %{
-  /* Nesting level of the current code in braces.  */
-  int braces_level IF_LINT (= 0);
+  /* Nesting level.  Either for nested braces, or nested angle brackets
+     (but not mixed).  */
+  int nesting IF_LINT (= 0);
 
   /* Parent context state, when applicable.  */
   int context_state IF_LINT (= 0);
@@ -205,8 +210,6 @@ splice	 (\\[ \f\t\v]*\n)*
   "="                     return EQUAL;
   "|"                     return PIPE;
   ";"                     return SEMICOLON;
-  "<*>"                   return TYPE_TAG_ANY;
-  "<>"                    return TYPE_TAG_NONE;
 
   {id} {
     val->uniqstr = uniqstr_new (yytext);
@@ -235,18 +238,25 @@ splice	 (\\[ \f\t\v]*\n)*
   /* Code in between braces.  */
   "{" {
     STRING_GROW;
-    braces_level = 0;
+    nesting = 0;
     code_start = loc->start;
     BEGIN SC_BRACED_CODE;
   }
 
   /* A type. */
+  "<*>"       return TAG_ANY;
+  "<>"        return TAG_NONE;
   "<"{tag}">" {
     obstack_grow (&obstack_for_string, yytext + 1, yyleng - 2);
     STRING_FINISH;
     val->uniqstr = uniqstr_new (last_string);
     STRING_FREE;
-    return TYPE;
+    return TAG;
+  }
+  "<"         {
+    nesting = 0;
+    token_start = loc->start;
+    BEGIN SC_TAG;
   }
 
   "%%" {
@@ -264,6 +274,17 @@ splice	 (\\[ \f\t\v]*\n)*
     loc->start = loc->end = scanner_cursor;
     yyterminate ();
   }
+}
+
+
+  /*--------------------------------------------------------------.
+  | Supporting \0 complexifies our implementation for no expected |
+  | added value.                                                  |
+  `--------------------------------------------------------------*/
+
+<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_TAG>
+{
+  \0	    complain_at (*loc, _("invalid null character"));
 }
 
 
@@ -386,11 +407,40 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 }
 
-<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING>
-{
-  \0	    complain_at (*loc, _("invalid null character"));
-}
+  /*-----------------------------------------------------------.
+  | Scanning a Bison nested tag.  The initial angle bracket is |
+  | already eaten.                                             |
+  `-----------------------------------------------------------*/
 
+<SC_TAG>
+{
+  ">" {
+    --nesting;
+    if (nesting < 0)
+      {
+        STRING_FINISH;
+        loc->start = token_start;
+        val->uniqstr = uniqstr_new (last_string);
+        STRING_FREE;
+        BEGIN INITIAL;
+        return TAG;
+      }
+    STRING_GROW;
+  }
+
+  [^<>]+ STRING_GROW;
+  "<"+   STRING_GROW; nesting += yyleng;
+
+  <<EOF>> {
+    unexpected_eof (token_start, ">");
+    STRING_FINISH;
+    loc->start = token_start;
+    val->uniqstr = uniqstr_new (last_string);
+    STRING_FREE;
+    BEGIN INITIAL;
+    return TAG;
+  }
+}
 
   /*----------------------------.
   | Decode escaped characters.  |
@@ -509,13 +559,13 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_BRACED_CODE>
 {
-  "{"|"<"{splice}"%"  STRING_GROW; braces_level++;
-  "%"{splice}">"      STRING_GROW; braces_level--;
+  "{"|"<"{splice}"%"  STRING_GROW; nesting++;
+  "%"{splice}">"      STRING_GROW; nesting--;
   "}" {
     obstack_1grow (&obstack_for_string, '}');
 
-    --braces_level;
-    if (braces_level < 0)
+    --nesting;
+    if (nesting < 0)
       {
 	STRING_FINISH;
 	loc->start = code_start;
