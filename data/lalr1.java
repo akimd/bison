@@ -1,6 +1,6 @@
 # Java skeleton for Bison -*- autoconf -*-
 
-# Copyright (C) 2007 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2008 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,14 +25,14 @@ m4_ifval(m4_defn([b4_symbol_destructors]),
 m4_divert_push(0)dnl
 @output(b4_parser_file_name@)
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
-  [2007])
+  [2007, 2008])
 
 b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
 ])[/* First part of user declarations.  */
 ]b4_pre_prologue
 b4_percent_code_get([[imports]])
 [/**
- * A Bison parser, automatically generated from <tt>@ofile@</tt>.
+ * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
  *
  * @@author LALR (1) parser skeleton written by Paolo Bonzini.
  */
@@ -67,7 +67,7 @@ b4_locations_if([[
     /**
      * Create a <code>]b4_location_type[</code> from the endpoints of the range.
      * @@param begin The first position included in the range.
-     * @@param begin The first position beyond the range.  */
+     * @@param end   The first position beyond the range.  */
     public ]b4_location_type[ (]b4_position_type[ begin, ]b4_position_type[ end) {
       this.begin = begin;
       this.end = end;
@@ -99,7 +99,7 @@ b4_token_enums(b4_tokens)
       return new ]b4_location_type[ (rhs.locationAt (1).begin, rhs.locationAt (n).end);
     else
       return new ]b4_location_type[ (rhs.locationAt (0).end);
-  }]])
+  }]])[
 
   /**
    * Communication interface between the scanner and the Bison-generated
@@ -133,7 +133,7 @@ b4_token_enums(b4_tokens)
      * ]b4_locations_if([ referring to the given location])[in a user-defined
      * way.
      *
-     * ]b4_locations_if([loc], [[The location of the element to which the
+     * ]b4_locations_if([[@@param loc The location of the element to which the
      *                error message is related]])[
      * @@param s The string for the error message.  */
      void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String s);]
@@ -160,7 +160,7 @@ b4_lexer_if([[
 
   /**
    * Instantiates the Bison-generated parser.
-   * @@param yylex The scanner that will supply tokens to the parser.
+   * @@param yylexer The scanner that will supply tokens to the parser.
    */
   b4_lexer_if([[protected]], [[public]]) b4_parser_class_name[ (]b4_parse_param_decl([[Lexer yylexer]])[) {
     this.yylexer = yylexer;
