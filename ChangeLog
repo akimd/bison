@@ -1,3 +1,12 @@
+2008-10-28  Di-an Jan  <dianj@freeshell.org>  (tiny change)
+
+	Don't overwrite the input file.
+	* src/files.c (output_file_name_check): Fatal error if using input file
+	for output.
+	* tests/output.at: (AT_CHECK_CONFLICTING_OUTPUT): Add return status
+	argument.
+	(Conflicting output files): Add test.
+
 2008-10-28  Akim Demaille  <demaille@gostai.com>
 
 	Space changes.

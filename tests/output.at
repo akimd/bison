@@ -117,8 +117,9 @@ AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose],
 		[], [AT_CHECK_NO_SUBDIR_PART([subdir/foo])])
 
 
-# AT_CHECK_CONFLICTING_OUTPUT(INPUT-FILE, DIRECTIVES, FLAGS, STDERR)
-# -----------------------------------------------------------------------------
+# AT_CHECK_CONFLICTING_OUTPUT(INPUT-FILE, DIRECTIVES, FLAGS, STDERR,
+#                             [EXIT-STATUS])
+# ------------------------------------------------------------------
 m4_define([AT_CHECK_CONFLICTING_OUTPUT],
 [AT_SETUP([Conflicting output files: $2 $3])
 case "$1" in
@@ -130,7 +131,7 @@ AT_DATA([$1],
 foo: {};
 ]])
 
-AT_BISON_CHECK([$3 $1], 0, [], [$4])
+AT_BISON_CHECK([$3 $1], $5, [], [$4])
 AT_CLEANUP
 ])
 
@@ -148,6 +149,10 @@ AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [%skeleton "lalr1.cc" %defines], [--graph="location.hh"],
 [foo.y: warning: conflicting outputs to file `location.hh'
 ])
+
+AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
+[foo.y: fatal error: refusing to overwrite the input file `foo.y'
+], 1)
 
 
 # AT_CHECK_OUTPUT_FILE_NAME(FILE-NAME-PREFIX, [ADDITIONAL-TESTS])
