@@ -1,3 +1,8 @@
+2008-10-28  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Update copyright year.
+	* src/files.c: Here.
+
 2008-10-28  Di-an Jan  <dianj@freeshell.org>  (tiny change)
 
 	Don't overwrite the input file.
