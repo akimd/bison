@@ -1,3 +1,14 @@
+2008-10-31  Di-an Jan  <dianj@freeshell.org>
+
+	* data/lalr1.jave: Update copyright years.
+	(YYParser): Correct name of "generated from" file in Javadoc:
+	use b4_file_name instead of @ofile@.
+	(Location constructor): Correct Javadoc parameter name.
+	(yylloc): Add missing opening m4 quote after b4_location_if.
+	This removes a stray [ in the Javadoc of Lexer.getStartPos.
+	(Lexer.yyerror): Fix incorrect m4 and Javadoc.
+	(YYParser constructor): Correct Javadoc parameter name.
+
 2008-10-30  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Always put auxiliary code files in the same dir as other output files.
