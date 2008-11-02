@@ -1,5 +1,9 @@
 2008-11-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* NEWS: Version 2.4.
+
+2008-11-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Prepare for next release.
 	* NEWS: Briefly mention changes since 2.3b.
 	* README: Say GNU m4 1.4.6, which we've been requiring in release
