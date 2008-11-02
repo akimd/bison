@@ -1,5 +1,11 @@
 2008-11-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Initiate further development.
+	* NEWS: Create an empty section for new entries.
+	* gnulib: Update submodule to HEAD.
+
+2008-11-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* NEWS: Version 2.4.
 
 2008-11-02  Joel E. Denny  <jdenny@ces.clemson.edu>
