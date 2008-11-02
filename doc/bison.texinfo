@@ -4838,7 +4838,7 @@ already defined, so that the debugging facilities are compiled.
 Define a variable to adjust Bison's behavior.
 The possible choices for @var{variable}, as well as their meanings, depend on
 the selected target language and/or the parser skeleton (@pxref{Decl
-Summary,,%language}).
+Summary,,%language}, @pxref{Decl Summary,,%skeleton}).
 
 Bison will warn if a @var{variable} is defined multiple times.
 
@@ -5051,6 +5051,9 @@ chosen as if the input file were named @file{@var{prefix}.y}.
 Specify the programming language for the generated parser.  Currently
 supported languages include C, C++, and Java.
 @var{language} is case-insensitive.
+
+This directive is experimental and its effect may be modified in future
+releases.
 @end deffn
 
 @deffn {Directive} %locations
@@ -5111,10 +5114,10 @@ Require a Version of Bison}.
 @deffn {Directive} %skeleton "@var{file}"
 Specify the skeleton to use.
 
-You probably don't need this option unless you are developing Bison.
-You should use @code{%language} if you want to specify the skeleton for a
-different language, because it is clearer and because it will always choose the
-correct skeleton for non-deterministic or push parsers.
+@c You probably don't need this option unless you are developing Bison.
+@c You should use @code{%language} if you want to specify the skeleton for a
+@c different language, because it is clearer and because it will always choose the
+@c correct skeleton for non-deterministic or push parsers.
 
 If @var{file} does not contain a @code{/}, @var{file} is the name of a skeleton
 file in the Bison installation directory.
@@ -7837,6 +7840,9 @@ Specify the programming language for the generated parser, as if
 Summary}).  Currently supported languages include C, C++, and Java.
 @var{language} is case-insensitive.
 
+This option is experimental and its effect may be modified in future
+releases.
+
 @item --locations
 Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
 
@@ -7858,10 +7864,10 @@ parser file, treating it as an independent source file in its own right.
 Specify the skeleton to use, similar to @code{%skeleton}
 (@pxref{Decl Summary, , Bison Declaration Summary}).
 
-You probably don't need this option unless you are developing Bison.
-You should use @option{--language} if you want to specify the skeleton for a
-different language, because it is clearer and because it will always
-choose the correct skeleton for non-deterministic or push parsers.
+@c You probably don't need this option unless you are developing Bison.
+@c You should use @option{--language} if you want to specify the skeleton for a
+@c different language, because it is clearer and because it will always
+@c choose the correct skeleton for non-deterministic or push parsers.
 
 If @var{file} does not contain a @code{/}, @var{file} is the name of a skeleton
 file in the Bison installation directory.
@@ -8009,13 +8015,13 @@ int yyparse (void);
 
 @node C++ Bison Interface
 @subsection C++ Bison Interface
-@c - %language "C++"
+@c - %skeleton "lalr1.cc"
 @c - Always pure
 @c - initial action
 
-The C++ @acronym{LALR}(1) parser is selected using the language directive,
-@samp{%language "C++"}, or the synonymous command-line option
-@option{--language=c++}.
+The C++ @acronym{LALR}(1) parser is selected using the skeleton directive,
+@samp{%skeleton "lalr1.c"}, or the synonymous command-line option
+@option{--skeleton=lalr1.c}.
 @xref{Decl Summary}.
 
 When run, @command{bison} will create several entities in the @samp{yy}
@@ -8409,7 +8415,7 @@ the grammar for.
 
 @comment file: calc++-parser.yy
 @example
-%language "C++"                          /*  -*- C++ -*- */
+%skeleton "lalr1.cc"                          /*  -*- C++ -*- */
 %require "@value{VERSION}"
 %defines
 %define parser_class_name "calcxx_parser"

@@ -3,7 +3,13 @@ Bison News
 
 Changes in version ?.? (????-??-??):
 
-*
+* %language is an experimental feature.
+
+  We first introduced this feature in test release 2.3b as a cleaner
+  alternative to %skeleton.  Since then, we have discussed the possibility of
+  modifying its effect on Bison's output file names.  Thus, in this release,
+  we consider %language to be an experimental feature that will likely evolve
+  in future releases.
 
 Changes in version 2.3b (2008-05-27):
 
