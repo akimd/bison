@@ -11,6 +11,11 @@ Changes in version ?.? (????-??-??):
   we consider %language to be an experimental feature that will likely evolve
   in future releases.
 
+* Forward compatibility with GNU M4 has been improved.
+
+* Several bugs in the C++ skeleton and the experimental Java skeleton have been
+  fixed.
+
 Changes in version 2.3b (2008-05-27):
 
 * The quotes around NAME that used to be required in the following directive

@@ -7,14 +7,14 @@ frequently asked questions.  The documentation is also available in
 PDF and HTML, provided you have a recent version of Texinfo installed:
 run "make pdf" or "make html".
 
-Bison requires GNU m4 1.4.3 or later.  See:
+Bison requires GNU m4 1.4.6 or later.  See:
 
-ftp://ftp.gnu.org/gnu/m4/m4-1.4.3.tar.gz
+ftp://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz
 
-Bison can work with pre-1.4.3 distributions of GNU m4 if they are
+Bison can work with pre-1.4.6 distributions of GNU m4 if they are
 sufficiently patched, but if you encounter a bug with an older
 distribution and report a bug we will probably suggest that you
-upgrade to 1.4.3 as the first step in trying to fix it.
+upgrade to 1.4.6 as the first step in trying to fix it.
 
 Please send bug reports to <bug-bison@gnu.org>.  Please include the
 version number from `bison --version', and a complete, self-contained

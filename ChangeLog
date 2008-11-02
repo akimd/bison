@@ -1,5 +1,12 @@
 2008-11-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Prepare for next release.
+	* NEWS: Briefly mention changes since 2.3b.
+	* README: Say GNU m4 1.4.6, which we've been requiring in release
+	announcements already, not 1.4.3, which breaks the build.
+
+2008-11-02  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Say %language is experimental.
 	We're thinking of extending it's effect on output file naming.  See the
 	thread at
