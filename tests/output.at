@@ -22,14 +22,14 @@ AT_BANNER([[Output file names.]])
 #                 [ADDITIONAL-TESTS])
 # -----------------------------------------------------------------------------
 m4_define([AT_CHECK_OUTPUT],
-[AT_SETUP([[Output files: $2 $3 $5]])
+[AT_SETUP([[Output files: ]$2 $3 $5])
 for file in $1 $4; do
   case "$file" in
     */*) mkdir -p `echo "$file" | sed 's,/.*,,'`;;
   esac
 done
 AT_DATA([$1],
-[[$2
+[$2[
 %%
 foo: {};
 ]])

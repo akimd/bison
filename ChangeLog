@@ -1,3 +1,9 @@
+2008-11-09  Paolo Bonzini  <bonzini@gnu.org>
+
+	Change tests/output.at quoting.
+	* tests/output.at (AT_CHECK_OUTPUT): Use conventional m4 quoting when
+	expanding arguments.
+
 2008-11-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't add a semicolon to actions for %skeleton or %language.
