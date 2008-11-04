@@ -1201,7 +1201,7 @@ AT_CLEANUP
 ## Token number in precedence declaration.  ##
 ## ---------------------------------------- ##
 
-AT_SETUP([[Token number in precedence declaration.]])
+AT_SETUP([[Token number in precedence declaration]])
 
 # POSIX says token numbers can be declared in %left, %right, and %nonassoc, but
 # we lost this in Bison 1.50.
@@ -1253,5 +1253,29 @@ AT_BISON_CHECK([[-o input.c input.y]], [[0]],,
 ]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])
+
+AT_CLEANUP
+
+
+
+## ----------------------------------------------- ##
+## Fix user actions without a trailing semicolon.  ##
+## ----------------------------------------------- ##
+
+AT_SETUP([[Fix user actions without a trailing semicolon]])
+
+# This feature is undocumented, but we accidentally broke it in 2.3a, and there
+# was a complaint at:
+# <http://lists.gnu.org/archive/html/bug-bison/2008-11/msg00001.html>.
+
+AT_DATA([input.y],
+[[%%
+start: {asdffdsa} ;
+]])
+
+AT_BISON_CHECK([[-o input.c input.y]])
+AT_CHECK([[sed -n '/asdffdsa/s/^ *//p' input.c]], [[0]],
+[[{asdffdsa;}
+]])
 
 AT_CLEANUP
