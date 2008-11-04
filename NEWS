@@ -3,7 +3,22 @@ Bison News
 
 * Changes in version ?.? (????-??-??):
 
-**
+** Temporary hack for adding a semicolon to the user action.
+
+  Bison used to prepend a trailing semicolon at the end of the user
+  action for reductions.  This allowed actions such as
+
+    exp: exp "+" exp { $$ = $1 + $3 };
+
+  instead of
+
+    exp: exp "+" exp { $$ = $1 + $3; };
+
+  This prevents the future support for languages than do not use `;'
+  as C/C++/Java do.  Yet some grammars still depend on this `feature'.
+  Bison 2.4.1 restores the previous behavior to leave more time for
+  grammars depending on the old behavior to be adjusted.  Future
+  release of Bison will disable this feature.
 
 * Changes in version 2.4 (2008-11-02):
 
