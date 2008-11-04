@@ -1,6 +1,6 @@
 /* Bison Action Scanner                             -*- C -*-
 
-   Copyright (C) 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 2006, 2007, 2008 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -170,7 +170,7 @@ splice	 (\\[ \f\t\v]*\n)*
 
   "{"  STRING_GROW; ++braces_level;
   "}"  {
-    bool outer_brace = --braces_level < 0;
+    bool outer_brace = --braces_level == 0;
 
     /* As an undocumented Bison extension, append `;' before the last
        brace in braced code, so that the user code can omit trailing
