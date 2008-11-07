@@ -254,7 +254,7 @@ prologue_declaration:
       muscle_code_grow ("initial_action", action.code, @2);
       code_scanner_last_string_free ();
     }
-| "%language" STRING		{ language_argmatch ($2, 1, &@1); }
+| "%language" STRING		{ language_argmatch ($2, grammar_prio, &@1); }
 | "%lex-param" "{...}"		{ add_param ("lex_param", $2, @2); }
 | "%locations"                  { locations_flag = true; }
 | "%name-prefix" STRING         { spec_name_prefix = $2; }
@@ -300,7 +300,7 @@ prologue_declaration:
           skeleton_user = uniqstr_new (skeleton_build);
           free (skeleton_build);
         }
-      skeleton_arg (skeleton_user, 1, &@1);
+      skeleton_arg (skeleton_user, grammar_prio, &@1);
     }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag |= report_states; }

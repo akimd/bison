@@ -1,3 +1,16 @@
+2008-11-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Clean up %skeleton and %language priority implementation.
+	* src/getargs.c (skeleton_prio): Use default_prio rather than 2, and
+	remove static qualifier because others will soon need to see it.
+	(language_prio): Likewise.
+	(getargs): Use command_line_prio rather than 0.
+	* src/getargs.h (command_line_prio, grammar_prio, default_prio): New
+	enum fields.
+	(skeleton_prio): Extern it.
+	(language_prio): Extern it.
+	* src/parse-gram.y: Use grammar_prio rather than 1.
+
 2008-11-04  Akim Demaille  <demaille@gostai.com>
 
 	* NEWS: Mention the trailing semicolon in action.
