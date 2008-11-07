@@ -1,5 +1,11 @@
 2008-11-07  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Don't add a semicolon to actions for %skeleton or %language.
+	It breaks Java test cases as reported by Akim Demaille.
+	* src/scan-code.l: Implement.
+
+2008-11-07  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Clean up %skeleton and %language priority implementation.
 	* src/getargs.c (skeleton_prio): Use default_prio rather than 2, and
 	remove static qualifier because others will soon need to see it.
