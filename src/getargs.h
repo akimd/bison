@@ -24,11 +24,13 @@
 #include "location.h"
 
 extern char *program_name;
+enum { command_line_prio, grammar_prio, default_prio };
 
 /* flags set by % directives */
 
 /* for -S */
 extern char const *skeleton;
+extern int skeleton_prio;
 
 /* for -I */
 extern char const *include;
@@ -68,6 +70,7 @@ struct bison_language
   bool add_tab;
 };
 
+extern int language_prio;
 extern struct bison_language const *language;
 
 /*-----------.
