@@ -3,7 +3,11 @@ Bison News
 
 Changes in version ?.? (????-??-??):
 
-*
+* Java skeleton improvements:
+
+  The constants for token names were moved to the Lexer interface.
+  Also, it is possible to add code to the parser's constructors using
+  "%code init" and "%define init_throws".
 
 Changes in version 2.4 (2008-11-02):
 

@@ -148,7 +148,7 @@ AT_LOCATION_IF([[
     int ttype = st.nextToken ();
     ]AT_LOCATION_IF([[yystartpos = yyendpos;]])[
     if (ttype == st.TT_EOF)
-      return Calc.EOF;
+      return EOF;
 
     else if (ttype == st.TT_EOL)
       {
@@ -159,7 +159,7 @@ AT_LOCATION_IF([[
     else if (ttype == st.TT_WORD)
       {
         yylval = new Integer (st.sval);
-        return Calc.NUM;
+        return NUM;
       }
 
     else
@@ -225,7 +225,8 @@ m4_define([AT_DATA_JAVA_CALC_Y],
 # Compile SOURCES into Java class files.  Skip the test if java or javac is
 # not installed.
 m4_define([AT_JAVA_COMPILE],
-[AT_CHECK([test -n "$CONF_JAVA" || exit 77
+[AT_KEYWORDS(java)
+AT_CHECK([test -n "$CONF_JAVA" || exit 77
 test -n "$CONF_JAVAC" || exit 77])
 AT_CHECK([$SHELL ../../../javacomp.sh $1],
          0, [ignore], [ignore])])
@@ -549,6 +550,12 @@ AT_CHECK_JAVA_MINIMAL([[
 %define strictfp]])
 AT_CHECK_JAVA_GREP([[public final strictfp class YYParser]])
 
+# FIXME: Can't do a Java compile because javacomp.sh is configured for 1.3
+AT_CHECK_JAVA_MINIMAL([[
+%define annotations "/*@Deprecated @SupressWarnings(\"unchecked\") @SupressWarnings({\"unchecked\", \"deprecation\"}) @SupressWarnings(value={\"unchecked\", \"deprecation\"})*/"
+%define public]])
+AT_CHECK_JAVA_GREP([[/\*@Deprecated @SupressWarnings("unchecked") @SupressWarnings({"unchecked", "deprecation"}) @SupressWarnings(value={"unchecked", "deprecation"})\*/ public class YYParser]])
+
 AT_CLEANUP
 
 
@@ -579,54 +586,54 @@ AT_CLEANUP
 AT_SETUP([Java %parse-param and %lex-param])
 
 AT_CHECK_JAVA_MINIMAL([])
-AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer) {]])
+AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer) *]])
 
 AT_CHECK_JAVA_MINIMAL([[%parse-param {int parse_param1}]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer, *int parse_param1) {]])
-AT_CHECK_JAVA_GREP([[[ 	]*this.parse_param1 = parse_param1;]])
+AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer, *int parse_param1) *]])
+AT_CHECK_JAVA_GREP([[[     ]*this.parse_param1 = parse_param1;]])
 
 AT_CHECK_JAVA_MINIMAL([[
 %parse-param {int parse_param1}
 %parse-param {long parse_param2}]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
 AT_CHECK_JAVA_GREP([[ *protected final long parse_param2;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) {]])
-AT_CHECK_JAVA_GREP([[[ 	]*this.parse_param1 = parse_param1;]])
-AT_CHECK_JAVA_GREP([[[ 	]*this.parse_param2 = parse_param2;]])
+AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[[     ]*this.parse_param1 = parse_param1;]])
+AT_CHECK_JAVA_GREP([[[     ]*this.parse_param2 = parse_param2;]])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([], [], [[return EOF;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser () {]])
-AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer) {]])
+AT_CHECK_JAVA_GREP([[ *public YYParser () *]])
+AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer) *]])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[%parse-param {int parse_param1}]],
-	[], [[return EOF;]])
+    [], [[return EOF;]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (int parse_param1) {]])
-AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1) {]])
-AT_CHECK_JAVA_GREP([[[ 	]*this.parse_param1 = parse_param1;]], [2])
+AT_CHECK_JAVA_GREP([[ *public YYParser (int parse_param1) *]])
+AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1) *]])
+AT_CHECK_JAVA_GREP([[[     ]*this.parse_param1 = parse_param1;]], [2])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
 %parse-param {int parse_param1}
 %parse-param {long parse_param2}]],
-	[], [[return EOF;]])
+    [], [[return EOF;]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
 AT_CHECK_JAVA_GREP([[ *protected final long parse_param2;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (int parse_param1, *long parse_param2) {]])
-AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) {]])
-AT_CHECK_JAVA_GREP([[[ 	]*this.parse_param1 = parse_param1;]], [2])
-AT_CHECK_JAVA_GREP([[[ 	]*this.parse_param2 = parse_param2;]], [2])
+AT_CHECK_JAVA_GREP([[ *public YYParser (int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[[     ]*this.parse_param1 = parse_param1;]], [2])
+AT_CHECK_JAVA_GREP([[[     ]*this.parse_param2 = parse_param2;]], [2])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[%lex-param {char lex_param1}]],
-	[], [[return EOF;]], [[YYLexer (char lex_param1) {}]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1) {]])
+    [], [[return EOF;]], [[YYLexer (char lex_param1) {}]])
+AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1) *]])
 AT_CHECK_JAVA_GREP([[.* = new YYLexer *(lex_param1);]])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
 %lex-param {char lex_param1}
 %lex-param {short lex_param2}]],
-	[], [[return EOF;]], [[YYLexer (char lex_param1, short lex_param2) {}]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1, *short lex_param2) {]])
+    [], [[return EOF;]], [[YYLexer (char lex_param1, short lex_param2) {}]])
+AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1, *short lex_param2) *]])
 AT_CHECK_JAVA_GREP([[.* = new YYLexer *(lex_param1, *lex_param2);]])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
@@ -634,14 +641,14 @@ AT_CHECK_JAVA_MINIMAL_W_LEXER([[
 %parse-param {long parse_param2}
 %lex-param {char lex_param1}
 %lex-param {short lex_param2}]],
-	[], [[return EOF;]], [[YYLexer (char lex_param1, short lex_param2) {}]])
+    [], [[return EOF;]], [[YYLexer (char lex_param1, short lex_param2) {}]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
 AT_CHECK_JAVA_GREP([[ *protected final long parse_param2;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1, *short lex_param2, *int parse_param1, *long parse_param2) {]])
+AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1, *short lex_param2, *int parse_param1, *long parse_param2) *]])
 AT_CHECK_JAVA_GREP([[.* = new YYLexer *(lex_param1, *lex_param2);]])
-AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) {]])
-AT_CHECK_JAVA_GREP([[[ 	]*this.parse_param1 = parse_param1;]], [2])
-AT_CHECK_JAVA_GREP([[[ 	]*this.parse_param2 = parse_param2;]], [2])
+AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[[     ]*this.parse_param1 = parse_param1;]], [2])
+AT_CHECK_JAVA_GREP([[[     ]*this.parse_param2 = parse_param2;]], [2])
 
 AT_CLEANUP
 
@@ -731,6 +738,28 @@ AT_CHECK_JAVA_GREP([[ *int yylex ()]AT_JT_yylex_throws *[;]])
 AT_CHECK_JAVA_GREP([[ *private int yyaction ([^)]*)]AT_JT_yyaction_throws[ *]])
 AT_CHECK_JAVA_GREP([[ *public boolean parse ()]AT_JT_parse_throws[ *]])
 ])])])
+
+AT_CLEANUP
+
+
+# ------------------------------------- #
+# Java constructor init and init_throws #
+# ------------------------------------- #
+
+AT_SETUP([Java constructor init and init_throws])
+
+AT_CHECK_JAVA_MINIMAL([[
+%define extends "Thread"
+%code init { super("Test Thread"); if (true) throw new InterruptedException(); }
+%define init_throws "InterruptedException"
+%lex-param {int lex_param}]])
+AT_CHECK([[grep -q 'super("Test Thread"); if (true) throw new InterruptedException();' YYParser.java]])
+
+AT_CHECK_JAVA_MINIMAL_W_LEXER([[
+%define extends "Thread"
+%code init { super("Test Thread"); if (true) throw new InterruptedException(); }
+%define init_throws "InterruptedException"]], [], [[return EOF;]])
+AT_CHECK([[grep -q 'super("Test Thread"); if (true) throw new InterruptedException();' YYParser.java]])
 
 AT_CLEANUP
 

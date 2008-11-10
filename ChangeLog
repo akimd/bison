@@ -1,3 +1,69 @@
+2008-11-10  Di-an Jan  <dianj@freeshell.org>
+
+	* NEWS: Document them.
+	
+	General Java skeleton improvements.
+	* configure.ac (gt_JAVACOMP): Request target of 1.4, which allows
+	using gcj < 4.3 in the testsuite, according to comments in
+	gnulib/m4/javacomp.m4.
+	* data/java.m4 (stype, parser_class_name, lex_throws, throws,
+	location_type, position_type): Remove extraneous brackets from
+	b4_percent_define_default.
+	(b4_lex_param, b4_parse_param): Remove extraneous brackets from
+	m4_define and m4_define_default.
+	* data/lalr1.java (b4_pre_prologue): Change to b4_user_post_prologue,
+	which marks the end of user code with appropriate syncline, like all
+	the other skeletons.
+	(b4_user_post_prologue): Add.  Don't silently drop.
+	(yylex): Remove.
+	(parse): Inline yylex.
+	* doc/bison.texinfo (bisonVersion, bisonSkeleton): Document.
+	(%{...%}): Fix typo of %code imports.
+	* tests/java.at (AT_JAVA_COMPILE): Add "java" keyword.
+
+	Support annotations on parser class with %define annotations.
+	* data/lalr1.java (annotations): Add to parser class modifier.
+	* doc/bison.texinfo (Java Parser Interface): Document
+	%define annotations.
+	(Java Declarations Summary): Document %define annotations.
+	* tests/java.at (Java parser class modifiers): Test annotations.
+
+	Do not generate code for %error-verbose unless requested.
+	* data/lalr1.java (errorVerbose): Rename to yyErrorVerbose.
+	Make private.  Make conditional on %error-verbose.
+	(getErrorVerbose, setErrorVerbose): New.
+	(yytnamerr_): Make conditional on %error-verbose.
+	(yysyntax_error): Make some code conditional on %error-verbose.
+	* doc/bison.texinfo (Java Bison Interface): Remove the parts
+	about %error-verbose having no effect.
+	(getErrorVerbose, setErrorVerbose): Document.
+
+	Move constants for token names to Lexer interface.
+	* data/lalr1.java (Lexer): Move EOF, b4_token_enums(b4_tokens) here.
+	* data/java.m4 (b4_token_enum): Indent for move to Lexer interface.
+	(parse): Qualify EOF to Lexer.EOF.
+	* doc/bison.texinfo (Java Parser Interface): Move documentation of
+	EOF and token names to Java Lexer Interface.
+	* tests/java.at (_AT_DATA_JAVA_CALC_Y): Remove Calc qualifier.
+
+	Make yyerror public.
+	* data/lalr1.java (Lexer.yyerror): Use longer parameter name.
+	(yyerror): Change to public.  Add Javadoc comments.  Use longer
+	parameter names.  Make the body rather than the declarator
+	conditional on %locations.
+	* doc/bison.texinfo (yyerror): Document.  Don't mark as protected.
+
+	Allow user to add code to the constructor with %code init.
+	* data/java.m4 (b4_init_throws): New, for %define init_throws.
+	* data/lalr1.java (YYParser.YYParser): Add b4_init_throws.
+	Add %code init to the front of the constructor body.
+	* doc/bison.texinfo (YYParser.YYParser): Document %code init
+	and %define init_throws.
+	(Java Declarations Summary): Document %code init and
+	%define init_throws.
+	* tests/java.at (Java %parse-param and %lex-param): Adjust grep.
+	(Java constructor init and init_throws): Add tests.
+	
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
 	Update TODO.

@@ -29,14 +29,16 @@ b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
 
 b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
 ])[/* First part of user declarations.  */
-]b4_pre_prologue
+]b4_user_pre_prologue
+b4_user_post_prologue
 b4_percent_code_get([[imports]])
 [/**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
  *
  * @@author LALR (1) parser skeleton written by Paolo Bonzini.
  */
-]b4_public_if([public ])dnl
+]b4_percent_define_get3([annotations], [], [ ])dnl
+b4_public_if([public ])dnl
 b4_abstract_if([abstract ])dnl
 b4_final_if([final ])dnl
 b4_strictfp_if([strictfp ])dnl
@@ -45,9 +47,22 @@ b4_percent_define_get3([extends], [ extends ])dnl
 b4_percent_define_get3([implements], [ implements ])[
 {
   ]b4_identification[
-
+]b4_error_verbose_if([[
   /** True if verbose error messages are enabled.  */
-  public boolean errorVerbose = ]b4_flag_value([error_verbose]);
+  private boolean yyErrorVerbose = true;
+
+  /**
+   * Return whether verbose error messages are enabled.
+   */
+  public final boolean getErrorVerbose() { return yyErrorVerbose; }
+
+  /**
+   * Set the verbosity of error messages.
+   * @@param verbose True to request verbose error messages.
+   */
+  public final void setErrorVerbose(boolean verbose)
+  { yyErrorVerbose = verbose; }
+]])
 
 b4_locations_if([[
   /**
@@ -93,11 +108,6 @@ b4_locations_if([[
 
 ]])
 
-[  /** Token returned by the scanner to signal the end of its input.  */
-  public static final int EOF = 0;]
-
-b4_token_enums(b4_tokens)
-
   b4_locations_if([[
   private ]b4_location_type[ yylloc (YYStack rhs, int n)
   {
@@ -112,6 +122,11 @@ b4_token_enums(b4_tokens)
    * parser <tt>]b4_parser_class_name[</tt>.
    */
   public interface Lexer {
+    /** Token returned by the scanner to signal the end of its input.  */
+    public static final int EOF = 0;
+
+]b4_token_enums(b4_tokens)[
+
     ]b4_locations_if([[/**
      * Method to retrieve the beginning position of the last scanned token.
      * @@return the position at which the last scanned token starts.  */
@@ -140,8 +155,8 @@ b4_token_enums(b4_tokens)
      *
      * ]b4_locations_if([[@@param loc The location of the element to which the
      *                error message is related]])[
-     * @@param s The string for the error message.  */
-     void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String s);]
+     * @@param msg The string for the error message.  */
+     void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String msg);]
   }
 
   b4_lexer_if([[private class YYLexer implements Lexer {
@@ -157,7 +172,9 @@ b4_lexer_if([[
   /**
    * Instantiates the Bison-generated parser.
    */
-  public ]b4_parser_class_name (b4_parse_param_decl([b4_lex_param_decl])[) {
+  public ]b4_parser_class_name (b4_parse_param_decl([b4_lex_param_decl])[) ]b4_maybe_throws([b4_init_throws])[
+  {
+    ]b4_percent_code_get([[init]])[
     this.yylexer = new YYLexer(]b4_lex_param_call[);
     ]b4_parse_param_cons[
   }
@@ -167,7 +184,9 @@ b4_lexer_if([[
    * Instantiates the Bison-generated parser.
    * @@param yylexer The scanner that will supply tokens to the parser.
    */
-  b4_lexer_if([[protected]], [[public]]) b4_parser_class_name[ (]b4_parse_param_decl([[Lexer yylexer]])[) {
+  b4_lexer_if([[protected]], [[public]]) b4_parser_class_name[ (]b4_parse_param_decl([[Lexer yylexer]])[) ]b4_maybe_throws([b4_init_throws])[
+  {
+    ]b4_percent_code_get([[init]])[
     this.yylexer = yylexer;
     ]b4_parse_param_cons[
   }
@@ -201,20 +220,35 @@ b4_lexer_if([[
    */
   public final void setDebugLevel(int level) { yydebug = level; }
 
-  private final int yylex () ]b4_maybe_throws([b4_lex_throws]) [{
-    return yylexer.yylex ();
+  /**
+   * Print an error message via the lexer.
+   *]b4_locations_if([[ Use a <code>null</code> location.]])[
+   * @@param msg The error message.
+   */
+  public final void yyerror (String msg)
+  {
+    yylexer.yyerror (]b4_locations_if([[(]b4_location_type[)null, ]])[msg);
   }
-  protected final void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String s) {
-    yylexer.yyerror (]b4_locations_if([loc, ])[s);
+]b4_locations_if([[
+  /**
+   * Print an error message via the lexer.
+   * @@param loc The location associated with the message.
+   * @@param msg The error message.
+   */
+  public final void yyerror (]b4_location_type[ loc, String msg)
+  {
+    yylexer.yyerror (loc, msg);
   }
 
-  ]b4_locations_if([
-  protected final void yyerror (String s) {
-    yylexer.yyerror ((]b4_location_type[)null, s);
-  }
-  protected final void yyerror (]b4_position_type[ loc, String s) {
-    yylexer.yyerror (new ]b4_location_type[ (loc), s);
-  }])
+  /**
+   * Print an error message via the lexer.
+   * @@param pos The position associated with the message.
+   * @@param msg The error message.
+   */
+  public final void yyerror (]b4_position_type[ pos, String msg)
+  {
+    yylexer.yyerror (new ]b4_location_type[ (pos), msg);
+  }]])
 
   [protected final void yycdebug (String s) {
     if (yydebug > 0)
@@ -372,6 +406,7 @@ b4_lexer_if([[
     return YYNEWSTATE;
   }
 
+]b4_error_verbose_if([[
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
      that double-quoting is unnecessary unless the string contains an
@@ -406,6 +441,7 @@ b4_lexer_if([[
 
     return yystr;
   }
+]])[
 
   /*--------------------------------.
   | Print this symbol on YYOUTPUT.  |
@@ -498,19 +534,19 @@ m4_popdef([b4_at_dollar])])dnl
         /* Read a lookahead token.  */
         if (yychar == yyempty_)
           {
-	    yycdebug ("Reading a token: ");
-	    yychar = yylex ();]
+        yycdebug ("Reading a token: ");
+        yychar = yylexer.yylex ();]
             b4_locations_if([[
-	    yylloc = new ]b4_location_type[(yylexer.getStartPos (),
-				            yylexer.getEndPos ());]])
+        yylloc = new ]b4_location_type[(yylexer.getStartPos (),
+                            yylexer.getEndPos ());]])
             yylval = yylexer.getLVal ();[
           }
 
         /* Convert token to internal form.  */
-        if (yychar <= EOF)
+        if (yychar <= Lexer.EOF)
           {
-	    yychar = yytoken = EOF;
-	    yycdebug ("Now at end of input.\n");
+        yychar = yytoken = Lexer.EOF;
+        yycdebug ("Now at end of input.\n");
           }
         else
           {
@@ -591,16 +627,16 @@ m4_popdef([b4_at_dollar])])dnl
         ]b4_locations_if([yyerrloc = yylloc;])[
         if (yyerrstatus_ == 3)
           {
-	    /* If just tried and failed to reuse lookahead token after an
-	     error, discard it.  */
+        /* If just tried and failed to reuse lookahead token after an
+         error, discard it.  */
 
-	    if (yychar <= EOF)
-	      {
-	      /* Return failure if at end of input.  */
-	      if (yychar == EOF)
-	        return false;
-	      }
-	    else
+        if (yychar <= Lexer.EOF)
+          {
+          /* Return failure if at end of input.  */
+          if (yychar == Lexer.EOF)
+            return false;
+          }
+        else
 	      yychar = yyempty_;
           }
 
@@ -682,8 +718,8 @@ m4_popdef([b4_at_dollar])])dnl
 
   // Generate an error message.
   private String yysyntax_error (int yystate, int tok)
-  {
-    if (errorVerbose)
+  {]b4_error_verbose_if([[
+    if (yyErrorVerbose)
       {
         int yyn = yypact_[yystate];
         if (yypact_ninf_ < yyn && yyn <= yylast_)
@@ -716,13 +752,12 @@ m4_popdef([b4_at_dollar])])dnl
 		      res.append (yytnamerr_ (yytname_[x]));
 		    }
 	      }
-	    return res.toString ();
+        return res.toString ();
           }
       }
-
+]])[
     return "syntax error";
   }
-
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */

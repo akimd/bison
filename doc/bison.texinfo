@@ -8845,12 +8845,12 @@ No header file can be generated for Java parsers.  Do not use the
 @code{%defines} directive or the @option{-d}/@option{--defines} options.
 
 @c FIXME: Possible code change.
-Currently, support for debugging and verbose errors are always compiled
+Currently, support for debugging is always compiled
 in.  Thus the @code{%debug} and @code{%token-table} directives and the
 @option{-t}/@option{--debug} and @option{-k}/@option{--token-table}
 options have no effect.  This may change in the future to eliminate
-unused code in the generated parser, so use @code{%debug} and
-@code{%verbose-error} explicitly if needed.  Also, in the future the
+unused code in the generated parser, so use @code{%debug} explicitly
+if needed.  Also, in the future the
 @code{%token-table} directive might enable a public interface to
 access the token names and codes.
 
@@ -8960,6 +8960,8 @@ according to the Java language specification, the name of the @file{.java}
 file should match the name of the class in this case.  Similarly, you can
 use @code{abstract}, @code{final} and @code{strictfp} with the
 @code{%define} declaration to add other modifiers to the parser class.
+A single @code{%define annotations "@var{annotations}"} directive can
+be used to add any number of annotations to the parser class.
 
 The Java package name of the parser class can be specified using the
 @code{%define package} directive.  The superclass and the implemented
@@ -8973,21 +8975,19 @@ these inner class/interface, and the members described in the interface
 below, all the other members and fields are preceded with a @code{yy} or
 @code{YY} prefix to avoid clashes with user code.
 
-@c FIXME: The following constants and variables are still undocumented:
-@c @code{bisonVersion}, @code{bisonSkeleton} and @code{errorVerbose}.
-
 The parser class can be extended using the @code{%parse-param}
 directive. Each occurrence of the directive will add a @code{protected
 final} field to the parser class, and an argument to its constructor,
 which initialize them automatically.
 
-Token names defined by @code{%token} and the predefined @code{EOF} token
-name are added as constant fields to the parser class.
-
 @deftypeop {Constructor} {YYParser} {} YYParser (@var{lex_param}, @dots{}, @var{parse_param}, @dots{})
 Build a new parser object with embedded @code{%code lexer}.  There are
 no parameters, unless @code{%parse-param}s and/or @code{%lex-param}s are
 used.
+
+Use @code{%code init} for code added to the start of the constructor
+body. This is especially useful to initialize superclasses. Use
+@code{%define init_throws} to specify any uncatch exceptions.
 @end deftypeop
 
 @deftypeop {Constructor} {YYParser} {} YYParser (Lexer @var{lexer}, @var{parse_param}, @dots{})
@@ -8997,11 +8997,30 @@ additional parameters unless @code{%parse-param}s are used.
 If the scanner is defined by @code{%code lexer}, this constructor is
 declared @code{protected} and is called automatically with a scanner
 created with the correct @code{%lex-param}s.
+
+Use @code{%code init} for code added to the start of the constructor
+body. This is especially useful to initialize superclasses. Use
+@code{%define init_throws} to specify any uncatch exceptions.
 @end deftypeop
 
 @deftypemethod {YYParser} {boolean} parse ()
 Run the syntactic analysis, and return @code{true} on success,
 @code{false} otherwise.
+@end deftypemethod
+
+@deftypemethod {YYParser} {boolean} getErrorVerbose ()
+@deftypemethodx {YYParser} {void} setErrorVerbose (boolean @var{verbose})
+Get or set the option to produce verbose error messages.  These are only
+available with the @code{%error-verbose} directive, which also turn on
+verbose error messages.
+@end deftypemethod
+
+@deftypemethod {YYParser} {void} yyerror (String @var{msg})
+@deftypemethodx {YYParser} {void} yyerror (Position @var{pos}, String @var{msg})
+@deftypemethodx {YYParser} {void} yyerror (Location @var{loc}, String @var{msg})
+Print an error message using the @code{yyerror} method of the scanner
+instance in use. The @code{Location} and @code{Position} parameters are
+available only if location tracking is active.
 @end deftypemethod
 
 @deftypemethod {YYParser} {boolean} recovering ()
@@ -9022,6 +9041,11 @@ Get or set the tracing level.  Currently its value is either 0, no trace,
 or nonzero, full tracing.
 @end deftypemethod
 
+@deftypecv {Constant} {YYParser} {String} {bisonVersion}
+@deftypecvx {Constant} {YYParser} {String} {bisonSkeleton}
+Identify the Bison version and skeleton used to generate this parser.
+@end deftypecv
+
 
 @node Java Scanner Interface
 @subsection Java Scanner Interface
@@ -9032,7 +9056,9 @@ or nonzero, full tracing.
 There are two possible ways to interface a Bison-generated Java parser
 with a scanner: the scanner may be defined by @code{%code lexer}, or
 defined elsewhere.  In either case, the scanner has to implement the
-@code{Lexer} inner interface of the parser class.
+@code{Lexer} inner interface of the parser class.  This interface also
+contain constants for all user-defined token names and the predefined
+@code{EOF} token.
 
 In the first case, the body of the scanner class is placed in
 @code{%code lexer} blocks.  If you want to pass parameters from the
@@ -9156,11 +9182,12 @@ operation.
 @xref{Error Recovery}.
 @end deftypefn
 
-@deftypefn  {Function} {protected void} yyerror (String msg)
-@deftypefnx {Function} {protected void} yyerror (Position pos, String msg)
-@deftypefnx {Function} {protected void} yyerror (Location loc, String msg)
+@deftypefn  {Function} {void} yyerror (String @var{msg})
+@deftypefnx {Function} {void} yyerror (Position @var{loc}, String @var{msg})
+@deftypefnx {Function} {void} yyerror (Location @var{loc}, String @var{msg})
 Print an error message using the @code{yyerror} method of the scanner
-instance in use.
+instance in use. The @code{Location} and @code{Position} parameters are
+available only if location tracking is active.
 @end deftypefn
 
 
@@ -9276,6 +9303,11 @@ Code inserted just after the @code{package} declaration.
 @xref{Java Differences}.
 @end deffn
 
+@deffn {Directive} {%code init} @{ @var{code} @dots{} @}
+Code inserted at the beginning of the parser constructor body.
+@xref{Java Parser Interface}.
+@end deffn
+
 @deffn {Directive} {%code lexer} @{ @var{code} @dots{} @}
 Code added to the body of a inner lexer class within the parser class.
 @xref{Java Scanner Interface}.
@@ -9288,12 +9320,17 @@ Code (after the second @code{%%}) appended to the end of the file,
 @end deffn
 
 @deffn {Directive} %@{ @var{code} @dots{} %@}
-Not supported.  Use @code{%code import} instead.
+Not supported.  Use @code{%code imports} instead.
 @xref{Java Differences}.
 @end deffn
 
 @deffn {Directive} {%define abstract}
 Whether the parser class is declared @code{abstract}.  Default is false.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define annotations} "@var{annotations}"
+The Java annotations for the parser class.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
@@ -9311,6 +9348,12 @@ Whether the parser class is declared @code{final}.  Default is false.
 The implemented interfaces of the parser class, a comma-separated list.
 Default is none.
 @xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define init_throws} "@var{exceptions}"
+The exceptions thrown by @code{%code init} from the parser class
+constructor.  Default is none.
+@xref{Java Parser Interface}.
 @end deffn
 
 @deffn {Directive} {%define lex_throws} "@var{exceptions}"

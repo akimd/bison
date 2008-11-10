@@ -145,7 +145,7 @@ AC_SUBST([GCC])
 AC_SUBST([O0CFLAGS],   [`echo $CFLAGS   | sed 's/-O[[0-9]] *//'`])
 AC_SUBST([O0CXXFLAGS], [`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`])
 
-gt_JAVACOMP([1.3])
+gt_JAVACOMP([1.3], [1.4])
 gt_JAVAEXEC
 
 AC_CONFIG_FILES([Makefile
