@@ -8854,6 +8854,12 @@ if needed.  Also, in the future the
 @code{%token-table} directive might enable a public interface to
 access the token names and codes.
 
+Getting a ``code too large'' error from the Java compiler means the code
+hit the 64KB bytecode per method limination of the Java class file.
+Try reducing the amount of code in actions and static initializers;
+otherwise, report a bug so that the parser skeleton will be improved.
+
+
 @node Java Semantic Values
 @subsection Java Semantic Values
 @c - No %union, specify type in %type/%token.

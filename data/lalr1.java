@@ -762,104 +762,55 @@ m4_popdef([b4_at_dollar])])dnl
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
   private static final ]b4_int_type_for([b4_pact])[ yypact_ninf_ = ]b4_pact_ninf[;
-  private static final ]b4_int_type_for([b4_pact])[ yypact_[] =
-  {
-    ]b4_pact[
-  };
+  ]b4_integral_parser_table([yypact_], [b4_pact])[
 
   /* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
      doesn't specify something else to do.  Zero means the default is an
      error.  */
-  private static final ]b4_int_type_for([b4_defact])[ yydefact_[] =
-  {
-    ]b4_defact[
-  };
+  ]b4_integral_parser_table([yydefact_], [b4_defact])[
 
   /* YYPGOTO[NTERM-NUM].  */
-  private static final ]b4_int_type_for([b4_pgoto])[ yypgoto_[] =
-  {
-    ]b4_pgoto[
-  };
+  ]b4_integral_parser_table([yypgoto_], [b4_pgoto])[
 
   /* YYDEFGOTO[NTERM-NUM].  */
-  private static final ]b4_int_type_for([b4_defgoto])[
-  yydefgoto_[] =
-  {
-    ]b4_defgoto[
-  };
+  ]b4_integral_parser_table([yydefgoto_], [b4_defgoto])[
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
      number is the opposite.  If zero, do what YYDEFACT says.  */
   private static final ]b4_int_type_for([b4_table])[ yytable_ninf_ = ]b4_table_ninf[;
-  private static final ]b4_int_type_for([b4_table])[
-  yytable_[] =
-  {
-    ]b4_table[
-  };
+  ]b4_integral_parser_table([yytable_], [b4_table])[
 
   /* YYCHECK.  */
-  private static final ]b4_int_type_for([b4_check])[
-  yycheck_[] =
-  {
-    ]b4_check[
-  };
+  ]b4_integral_parser_table([yycheck_], [b4_check])[
 
   /* STOS_[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
-  private static final ]b4_int_type_for([b4_stos])[
-  yystos_[] =
-  {
-    ]b4_stos[
-  };
+  ]b4_integral_parser_table([yystos_], [b4_stos])[
 
   /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
      to YYLEX-NUM.  */
-  private static final ]b4_int_type_for([b4_toknum])[
-  yytoken_number_[] =
-  {
-    ]b4_toknum[
-  };
+  ]b4_integral_parser_table([yytoken_number_], [b4_toknum])[
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-  private static final ]b4_int_type_for([b4_r1])[
-  yyr1_[] =
-  {
-    ]b4_r1[
-  };
+  ]b4_integral_parser_table([yyr1_], [b4_r1])[
 
   /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-  private static final ]b4_int_type_for([b4_r2])[
-  yyr2_[] =
-  {
-    ]b4_r2[
-  };
+  ]b4_integral_parser_table([yyr2_], [b4_r2])[
 
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
-  private static final String yytname_[] =
-  {
-    ]b4_tname[
-  };
+  ]b4_typed_parser_table([String], [yytname_], [b4_tname])[
 
   /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
-  private static final ]b4_int_type_for([b4_rhs])[ yyrhs_[] =
-  {
-    ]b4_rhs[
-  };
+  ]b4_integral_parser_table([yyrhs_], [b4_rhs])[
 
   /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
      YYRHS.  */
-  private static final ]b4_int_type_for([b4_prhs])[ yyprhs_[] =
-  {
-    ]b4_prhs[
-  };
+  ]b4_integral_parser_table([yyprhs_], [b4_prhs])[
 
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-  private static final ]b4_int_type_for([b4_rline])[ yyrline_[] =
-  {
-    ]b4_rline[
-  };
+  ]b4_integral_parser_table([yyrline_], [b4_rline])[
 
   // Report on the debug stream that the rule yyrule is going to be reduced.
   private void yy_reduce_print (int yyrule, YYStack yystack)
@@ -882,10 +833,7 @@ m4_popdef([b4_at_dollar])])dnl
   }
 
   /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-  private static final ]b4_int_type_for([b4_translate])[ yytranslate_table_[] =
-  {
-    ]b4_translate[
-  };
+  ]b4_integral_parser_table([yytranslate_table_], [b4_translate])[
 
   private static final ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)
   {

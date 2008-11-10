@@ -117,6 +117,25 @@ m4_define([b4_int_type_for],
 m4_define([b4_null], [null])
 
 
+# b4_typed_parser_table(TYPE, NAME, DATA)
+# ---------------------------------------
+m4_define([b4_typed_parser_table],
+[[private static final ]$1[ $2[] = $2init();
+  private static final ]$1[[] $2init()
+  {
+    return new ]$1[[]
+    {
+  ]$3[
+    };
+  }]])
+
+
+# b4_integral_parser_table(NAME, DATA)
+#-------------------------------------
+m4_define([b4_integral_parser_table],
+[b4_typed_parser_table([b4_int_type_for([$2])], [$1], [$2])])
+
+
 ## ------------------------- ##
 ## Assigning token numbers.  ##
 ## ------------------------- ##

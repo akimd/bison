@@ -1,5 +1,17 @@
 2008-11-10  Di-an Jan  <dianj@freeshell.org>
 
+	Workaround Java's ``code too large'' problem for parser tables
+	in most cases, by using one function per initialization.
+	* data/java.m4 (b4_typed_parser_table, b4_integral_parser_table): New.
+	* data/lalr1.java (yypact_, yydefact_, yypgoto_, yydefgoto_,
+	yytable_, yycheck_, yystos_, yytoken_number_, yyr1_, yyr2_, yyrhs_
+	yyprhs_, yyrline_, yytranslate_table_): Use b4_integral_parser_table.
+	(yytname_): Use b4_typed_parser_table.
+	* doc/bison.texinfo (Java Bison Interface): Add note on Java's
+	``code too large'' error.
+
+2008-11-10  Di-an Jan  <dianj@freeshell.org>
+
 	* NEWS: Document them.
 	
 	General Java skeleton improvements.
