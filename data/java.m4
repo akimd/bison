@@ -29,7 +29,7 @@ m4_define([b4_comment], [/* m4_bpatsubst([$1], [
 # --------------------------
 # Join two lists with a comma if necessary.
 m4_define([b4_list2],
-	  [$1[]m4_ifval(m4_quote($1), [m4_ifval(m4_quote($2), [[, ]])])[]$2])
+          [$1[]m4_ifval(m4_quote($1), [m4_ifval(m4_quote($2), [[, ]])])[]$2])
 
 
 # b4_percent_define_get3(DEF, PRE, POST, NOT)
@@ -37,8 +37,8 @@ m4_define([b4_list2],
 # Expand to the value of DEF surrounded by PRE and POST if it's %define'ed,
 # otherwise NOT.
 m4_define([b4_percent_define_get3],
-	  [m4_ifval(m4_quote(b4_percent_define_get([$1])),
-		[$2[]b4_percent_define_get([$1])[]$3], [$4])])
+          [m4_ifval(m4_quote(b4_percent_define_get([$1])),
+                [$2[]b4_percent_define_get([$1])[]$3], [$4])])
 
 
 
@@ -103,7 +103,7 @@ m4_define([b4_identification],
 m4_define([b4_int_type],
 [m4_if(b4_ints_in($@,   [-128],   [127]), [1], [byte],
        b4_ints_in($@, [-32768], [32767]), [1], [short],
-					       [int])])
+                                               [int])])
 
 # b4_int_type_for(NAME)
 # ---------------------
@@ -250,11 +250,11 @@ m4_define([b4_parse_param], b4_parse_param)
 m4_define([b4_lex_param_decl],
 [m4_ifset([b4_lex_param],
           [b4_remove_comma([$1],
-			   b4_param_decls(b4_lex_param))],
-	  [$1])])
+                           b4_param_decls(b4_lex_param))],
+          [$1])])
 
 m4_define([b4_param_decls],
-	  [m4_map([b4_param_decl], [$@])])
+          [m4_map([b4_param_decl], [$@])])
 m4_define([b4_param_decl], [, $1])
 
 m4_define([b4_remove_comma], [m4_ifval(m4_quote($1), [$1, ], [])m4_shift2($@)])
@@ -267,8 +267,8 @@ m4_define([b4_remove_comma], [m4_ifval(m4_quote($1), [$1, ], [])m4_shift2($@)])
 m4_define([b4_parse_param_decl],
 [m4_ifset([b4_parse_param],
           [b4_remove_comma([$1],
-			   b4_param_decls(b4_parse_param))],
-	  [$1])])
+                           b4_param_decls(b4_parse_param))],
+          [$1])])
 
 
 
@@ -277,11 +277,11 @@ m4_define([b4_parse_param_decl],
 # Delegating the lexer parameters to the lexer constructor.
 m4_define([b4_lex_param_call],
           [m4_ifset([b4_lex_param],
-	            [b4_remove_comma([$1],
-				     b4_param_calls(b4_lex_param))],
-	            [$1])])
+                    [b4_remove_comma([$1],
+                                     b4_param_calls(b4_lex_param))],
+                    [$1])])
 m4_define([b4_param_calls],
-	  [m4_map([b4_param_call], [$@])])
+          [m4_map([b4_param_call], [$@])])
 m4_define([b4_param_call], [, $2])
 
 
@@ -291,13 +291,13 @@ m4_define([b4_param_call], [, $2])
 # Extra initialisations of the constructor.
 m4_define([b4_parse_param_cons],
           [m4_ifset([b4_parse_param],
-		    [b4_constructor_calls(b4_parse_param)])])
+                    [b4_constructor_calls(b4_parse_param)])])
 
 m4_define([b4_constructor_calls],
-	  [m4_map([b4_constructor_call], [$@])])
+          [m4_map([b4_constructor_call], [$@])])
 m4_define([b4_constructor_call],
-	  [this.$2 = $2;
-	  ])
+          [this.$2 = $2;
+          ])
 
 
 
@@ -306,15 +306,15 @@ m4_define([b4_constructor_call],
 # Extra instance variables.
 m4_define([b4_parse_param_vars],
           [m4_ifset([b4_parse_param],
-		    [
+                    [
     /* User arguments.  */
 b4_var_decls(b4_parse_param)])])
 
 m4_define([b4_var_decls],
-	  [m4_map_sep([b4_var_decl], [
+          [m4_map_sep([b4_var_decl], [
 ], [$@])])
 m4_define([b4_var_decl],
-	  [    protected final $1;])
+          [    protected final $1;])
 
 
 
@@ -322,4 +322,4 @@ m4_define([b4_var_decl],
 # -----------------------
 # Expand to either an empty string or "throws THROWS".
 m4_define([b4_maybe_throws],
-	  [m4_ifval($1, [throws $1])])
+          [m4_ifval($1, [throws $1])])

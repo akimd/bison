@@ -264,24 +264,24 @@ b4_lexer_if([[
     public int height = -1;
 
     public final void push (int state, ]b4_yystype[ value]dnl
-			    b4_locations_if([, ]b4_location_type[ loc])[) {
+                            b4_locations_if([, ]b4_location_type[ loc])[) {
       height++;
       if (size == height)
         {
-	  int[] newStateStack = new int[size * 2];
-	  System.arraycopy (stateStack, 0, newStateStack, 0, height);
-	  stateStack = newStateStack;
-	  ]b4_locations_if([[
-	  ]b4_location_type[[] newLocStack = new ]b4_location_type[[size * 2];
-	  System.arraycopy (locStack, 0, newLocStack, 0, height);
-	  locStack = newLocStack;]])
+          int[] newStateStack = new int[size * 2];
+          System.arraycopy (stateStack, 0, newStateStack, 0, height);
+          stateStack = newStateStack;
+          ]b4_locations_if([[
+          ]b4_location_type[[] newLocStack = new ]b4_location_type[[size * 2];
+          System.arraycopy (locStack, 0, newLocStack, 0, height);
+          locStack = newLocStack;]])
 
-	  b4_yystype[[] newValueStack = new ]b4_yystype[[size * 2];
-	  System.arraycopy (valueStack, 0, newValueStack, 0, height);
-	  valueStack = newValueStack;
+          b4_yystype[[] newValueStack = new ]b4_yystype[[size * 2];
+          System.arraycopy (valueStack, 0, newValueStack, 0, height);
+          valueStack = newValueStack;
 
-	  size *= 2;
-	}
+          size *= 2;
+        }
 
       stateStack[height] = state;
       ]b4_locations_if([[locStack[height] = loc;]])[
@@ -295,7 +295,7 @@ b4_lexer_if([[
     public final void pop (int num) {
       // Avoid memory leaks... garbage collection is a white lie!
       if (num > 0) {
-	java.util.Arrays.fill (valueStack, height - num + 1, height, null);
+        java.util.Arrays.fill (valueStack, height - num + 1, height, null);
         ]b4_locations_if([[java.util.Arrays.fill (locStack, height - num + 1, height, null);]])[
       }
       height -= num;
@@ -320,8 +320,8 @@ b4_lexer_if([[
 
       for (int i = 0; i < height; i++)
         {
-	  out.print (' ');
-	  out.print (stateStack[i]);
+          out.print (' ');
+          out.print (stateStack[i]);
         }
       out.println ();
     }
@@ -384,8 +384,8 @@ b4_lexer_if([[
 
     switch (yyn)
       {
-	]b4_user_actions[
-	default: break;
+        ]b4_user_actions[
+        default: break;
       }
 
     yy_symbol_print ("-> $$ =", yyr1_[yyn], yyval]b4_locations_if([, yyloc])[);
@@ -397,7 +397,7 @@ b4_lexer_if([[
     yyn = yyr1_[yyn];
     int yystate = yypgoto_[yyn - yyntokens_] + yystack.stateAt (0);
     if (0 <= yystate && yystate <= yylast_
-	&& yycheck_[yystate] == yystack.stateAt (0))
+        && yycheck_[yystate] == yystack.stateAt (0))
       yystate = yytable_[yystate];
     else
       yystate = yydefgoto_[yyn - yyntokens_];
@@ -425,7 +425,7 @@ b4_lexer_if([[
               break strip_quotes;
 
             case '\\':
-	      if (yystr.charAt(++i) != '\\')
+              if (yystr.charAt(++i) != '\\')
                 break strip_quotes;
               /* Fall through.  */
             default:
@@ -448,14 +448,14 @@ b4_lexer_if([[
   `--------------------------------*/
 
   private void yy_symbol_print (String s, int yytype,
-			         ]b4_yystype[ yyvaluep]dnl
-				 b4_locations_if([, Object yylocationp])[)
+                                 ]b4_yystype[ yyvaluep]dnl
+                                 b4_locations_if([, Object yylocationp])[)
   {
     if (yydebug > 0)
     yycdebug (s + (yytype < yyntokens_ ? " token " : " nterm ")
-	      + yytname_[yytype] + " ("]b4_locations_if([
-	      + yylocationp + ": "])[
-	      + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
+              + yytname_[yytype] + " ("]b4_locations_if([
+              + yylocationp + ": "])[
+              + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
   }
 
   /**
@@ -513,7 +513,7 @@ m4_popdef([b4_at_dollar])])dnl
       switch (label)
       {
         /* New state.  Unlike in the C/C++ skeletons, the state is already
-	   pushed when we come here.  */
+           pushed when we come here.  */
       case YYNEWSTATE:
         yycdebug ("Entering state " + yystate + "\n");
         if (yydebug > 0)
@@ -528,7 +528,7 @@ m4_popdef([b4_at_dollar])])dnl
         if (yyn == yypact_ninf_)
           {
             label = YYDEFAULT;
-	    break;
+            break;
           }
 
         /* Read a lookahead token.  */
@@ -550,9 +550,9 @@ m4_popdef([b4_at_dollar])])dnl
           }
         else
           {
-	    yytoken = yytranslate_ (yychar);
-	    yy_symbol_print ("Next token is", yytoken,
-			     yylval]b4_locations_if([, yylloc])[);
+            yytoken = yytranslate_ (yychar);
+            yy_symbol_print ("Next token is", yytoken,
+                             yylval]b4_locations_if([, yylloc])[);
           }
 
         /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -564,20 +564,20 @@ m4_popdef([b4_at_dollar])])dnl
         /* <= 0 means reduce or error.  */
         else if ((yyn = yytable_[yyn]) <= 0)
           {
-	    if (yyn == 0 || yyn == yytable_ninf_)
-	      label = YYFAIL;
-	    else
-	      {
-	        yyn = -yyn;
-	        label = YYREDUCE;
-	      }
+            if (yyn == 0 || yyn == yytable_ninf_)
+              label = YYFAIL;
+            else
+              {
+                yyn = -yyn;
+                label = YYREDUCE;
+              }
           }
 
         else
           {
             /* Shift the lookahead token.  */
-	    yy_symbol_print ("Shifting", yytoken,
-			     yylval]b4_locations_if([, yylloc])[);
+            yy_symbol_print ("Shifting", yytoken,
+                             yylval]b4_locations_if([, yylloc])[);
 
             /* Discard the token being shifted.  */
             yychar = yyempty_;
@@ -610,7 +610,7 @@ m4_popdef([b4_at_dollar])])dnl
       case YYREDUCE:
         yylen = yyr2_[yyn];
         label = yyaction (yyn, yystack, yylen);
-	yystate = yystack.stateAt (0);
+        yystate = yystack.stateAt (0);
         break;
 
       /*------------------------------------.
@@ -620,8 +620,8 @@ m4_popdef([b4_at_dollar])])dnl
         /* If not already recovering from an error, report this error.  */
         if (yyerrstatus_ == 0)
           {
-	    ++yynerrs_;
-	    yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
+            ++yynerrs_;
+            yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
           }
 
         ]b4_locations_if([yyerrloc = yylloc;])[
@@ -637,7 +637,7 @@ m4_popdef([b4_at_dollar])])dnl
             return false;
           }
         else
-	      yychar = yyempty_;
+              yychar = yyempty_;
           }
 
         /* Else will try to reuse lookahead token after shifting the error
@@ -663,46 +663,46 @@ m4_popdef([b4_at_dollar])])dnl
       | yyerrlab1 -- common code for both syntax error and YYERROR.  |
       `-------------------------------------------------------------*/
       case YYERRLAB1:
-        yyerrstatus_ = 3;	/* Each real token shifted decrements this.  */
+        yyerrstatus_ = 3;       /* Each real token shifted decrements this.  */
 
         for (;;)
           {
-	    yyn = yypact_[yystate];
-	    if (yyn != yypact_ninf_)
-	      {
-	        yyn += yyterror_;
-	        if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
-	          {
-	            yyn = yytable_[yyn];
-	            if (0 < yyn)
-		      break;
-	          }
-	      }
+            yyn = yypact_[yystate];
+            if (yyn != yypact_ninf_)
+              {
+                yyn += yyterror_;
+                if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
+                  {
+                    yyn = yytable_[yyn];
+                    if (0 < yyn)
+                      break;
+                  }
+              }
 
-	    /* Pop the current state because it cannot handle the error token.  */
-	    if (yystack.height == 1)
-	      return false;
+            /* Pop the current state because it cannot handle the error token.  */
+            if (yystack.height == 1)
+              return false;
 
-	    ]b4_locations_if([yyerrloc = yystack.locationAt (0);])[
-	    yystack.pop ();
-	    yystate = yystack.stateAt (0);
-	    if (yydebug > 0)
-	      yystack.print (yyDebugStream);
+            ]b4_locations_if([yyerrloc = yystack.locationAt (0);])[
+            yystack.pop ();
+            yystate = yystack.stateAt (0);
+            if (yydebug > 0)
+              yystack.print (yyDebugStream);
           }
 
-	]b4_locations_if([
-	/* Muck with the stack to setup for yylloc.  */
-	yystack.push (0, null, yylloc);
-	yystack.push (0, null, yyerrloc);
+        ]b4_locations_if([
+        /* Muck with the stack to setup for yylloc.  */
+        yystack.push (0, null, yylloc);
+        yystack.push (0, null, yyerrloc);
         yyloc = yylloc (yystack, 2);
-	yystack.pop (2);])[
+        yystack.pop (2);])[
 
         /* Shift the error token.  */
         yy_symbol_print ("Shifting", yystos_[yyn],
-			 yylval]b4_locations_if([, yyloc])[);
+                         yylval]b4_locations_if([, yyloc])[);
 
         yystate = yyn;
-	yystack.push (yyn, yylval]b4_locations_if([, yyloc])[);
+        yystack.push (yyn, yylval]b4_locations_if([, yyloc])[);
         label = YYNEWSTATE;
         break;
 
@@ -724,34 +724,34 @@ m4_popdef([b4_at_dollar])])dnl
         int yyn = yypact_[yystate];
         if (yypact_ninf_ < yyn && yyn <= yylast_)
           {
-	    StringBuffer res;
+            StringBuffer res;
 
-	    /* Start YYX at -YYN if negative to avoid negative indexes in
-	       YYCHECK.  */
-	    int yyxbegin = yyn < 0 ? -yyn : 0;
+            /* Start YYX at -YYN if negative to avoid negative indexes in
+               YYCHECK.  */
+            int yyxbegin = yyn < 0 ? -yyn : 0;
 
-	    /* Stay within bounds of both yycheck and yytname.  */
-	    int yychecklim = yylast_ - yyn + 1;
-	    int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-	    int count = 0;
-	    for (int x = yyxbegin; x < yyxend; ++x)
-	      if (yycheck_[x + yyn] == x && x != yyterror_)
-	        ++count;
+            /* Stay within bounds of both yycheck and yytname.  */
+            int yychecklim = yylast_ - yyn + 1;
+            int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+            int count = 0;
+            for (int x = yyxbegin; x < yyxend; ++x)
+              if (yycheck_[x + yyn] == x && x != yyterror_)
+                ++count;
 
-	    // FIXME: This method of building the message is not compatible
-	    // with internationalization.
-	    res = new StringBuffer ("syntax error, unexpected ");
-	    res.append (yytnamerr_ (yytname_[tok]));
-	    if (count < 5)
-	      {
-	        count = 0;
-	        for (int x = yyxbegin; x < yyxend; ++x)
-	          if (yycheck_[x + yyn] == x && x != yyterror_)
-		    {
-		      res.append (count++ == 0 ? ", expecting " : " or ");
-		      res.append (yytnamerr_ (yytname_[x]));
-		    }
-	      }
+            // FIXME: This method of building the message is not compatible
+            // with internationalization.
+            res = new StringBuffer ("syntax error, unexpected ");
+            res.append (yytnamerr_ (yytname_[tok]));
+            if (count < 5)
+              {
+                count = 0;
+                for (int x = yyxbegin; x < yyxend; ++x)
+                  if (yycheck_[x + yyn] == x && x != yyterror_)
+                    {
+                      res.append (count++ == 0 ? ", expecting " : " or ");
+                      res.append (yytnamerr_ (yytname_[x]));
+                    }
+              }
         return res.toString ();
           }
       }
@@ -822,14 +822,14 @@ m4_popdef([b4_at_dollar])])dnl
     int yynrhs = yyr2_[yyrule];
     /* Print the symbols being reduced, and their result.  */
     yycdebug ("Reducing stack by rule " + (yyrule - 1)
-	      + " (line " + yylno + "), ");
+              + " (line " + yylno + "), ");
 
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
       yy_symbol_print ("   $" + (yyi + 1) + " =",
-		       yyrhs_[yyprhs_[yyrule] + yyi],
-		       ]b4_rhs_value(yynrhs, yyi + 1)b4_locations_if([,
-		       b4_rhs_location(yynrhs, yyi + 1)])[);
+                       yyrhs_[yyprhs_[yyrule] + yyi],
+                       ]b4_rhs_value(yynrhs, yyi + 1)b4_locations_if([,
+                       b4_rhs_location(yynrhs, yyi + 1)])[);
   }
 
   /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
