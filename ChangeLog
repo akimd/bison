@@ -1,3 +1,11 @@
+2008-11-11  Paolo Bonzini  <bonzini@gnu.org>
+
+	* bootstrap.conf: Replace m4/warning.m4 with warnings module.
+	* configure.ac: Adjust usage.
+	* lib/Makefile.am: Replace $(WARNING_CFLAGS) with $(WARN_CFLAGS).
+	* src/Makefile.am: Replace $(WARNING_CFLAGS) with $(WARN_CFLAGS).
+	* tests/atlocal.in: Replace $(WARNING_*FLAGS) with $(WARN_*FLAGS).
+
 2008-11-10  Di-an Jan  <dianj@freeshell.org>
 
 	Workaround Java's ``code too large'' problem for parser tables
