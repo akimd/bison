@@ -1,3 +1,15 @@
+2008-11-11  Akim Demaille  <demaille@gostai.com>
+
+	Test 214 was failing: it greps with a pattern containing [     ]*
+	which obviously meant to catch spaces and tabs, but contained only
+	spaces. Tabulations in sources are a nuisance, so to simplify the
+	matter, get rid of all the tabulations in the Java sources.  The
+	other skeletons will be treated equally later.
+
+	* data/java.m4, data/lalr1.java: Untabify.
+	* tests/java.at: Simplify AT_CHECK_JAVA_GREP invocations:
+	tabulations are no longer generated.
+
 2008-11-11  Paolo Bonzini  <bonzini@gnu.org>
 
 	* bootstrap.conf: Replace m4/warning.m4 with warnings module.
@@ -21,7 +33,7 @@
 2008-11-10  Di-an Jan  <dianj@freeshell.org>
 
 	* NEWS: Document them.
-	
+
 	General Java skeleton improvements.
 	* configure.ac (gt_JAVACOMP): Request target of 1.4, which allows
 	using gcj < 4.3 in the testsuite, according to comments in
@@ -83,7 +95,7 @@
 	%define init_throws.
 	* tests/java.at (Java %parse-param and %lex-param): Adjust grep.
 	(Java constructor init and init_throws): Add tests.
-	
+
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
 	Update TODO.
@@ -116,7 +128,7 @@
 	Make parser::yytranslate static.
 	Small speedup (1%) on the list grammar.  And makes yytranslate_ available
 	in non member functions.
-	
+
 	* data/lalr1.cc (yytranslate_): Does not need to be a instance
 	function.
 
@@ -136,7 +148,7 @@
 
 	Use "enum" for integral constants.
 	This is just nicer to read, I observed no speedup.
-	
+
 	* data/lalr1.cc (yyeof_, yylast_, yynnts_, yyempty_, yyfinal_)
 	(yterror_, yyerrcode_, yyntokens_): Define as members of an enum.
 	(yyuser_token_number_max_, yyundef_token_): Move into...
@@ -184,12 +196,12 @@
 	hard to filter these tables when only a subset of the symbols (say the
 	tokens, or the nterms, or the tokens that have and external number
 	*and* a type-name) was of interest.
-	
+
 	Now instead of monolithic tables, we define one macro per cell.  For
 	instance "b4_symbol(0, tag)" is a macro name which contents is
 	self-decriptive.  The macro "b4_symbol" provides easier access to
 	these cells.
-	
+
 	* src/output.c (type_names_output): Remove.
 	(symbol_numbers_output, symbol_definitions_output): New.
 	(muscles_output): Call them.
@@ -223,7 +235,7 @@
 
 	Support constructor with an argument.
 	This improves the "list" bench by 2%.
-	
+
 	* data/lalr1.cc (variant::build): Add an overloaded version with
 	an argument.
 	* tests/c++.at (AT_CHECK_VARIANT): Check it.
@@ -240,12 +252,12 @@
 	Unfortunately it is not possible to reuse the %prec directive.  This
 	is because to please POSIX, we do not require to end the rules with a
 	semicolon.  As a result,
-	
+
 	foo: bar %prec baz
-	
+
 	is ambiguous: either a rule which precedence is that of baz, or a rule,
 	and then a declaration of the precedence of the token baz.
-	
+
 	* doc/bison.texinfo: Document %precedence.
 	(Precedence Only): New.
 	* src/assoc.h, src/assoc.c (precedence_assoc): New.
@@ -378,7 +390,7 @@
 	To display rhs symbols before a reduction, we used information about the rule
 	reduced, which required the tables yyrhs and yyprhs.  Now use rely only on the
 	state stack to get the same information.
-	
+
 	* data/lalr1.cc (b4_rhs_data, b4_rhs_state): New.
 	Use them.
 	(parser::yyrhs_, parser::yyprhs_): Remove.
@@ -444,7 +456,7 @@
 
 	Avoid empty-if warnings.
 	Reported by Quentin Hocquet.
-	
+
 	* data/lalr1-fusion.cc (YY_SYMBOL_PRINT, YY_REDUCE_PRINT)
 	(YY_STACK_PRINT): Provide some contents even when !YYDEBUG.
 
@@ -509,19 +521,19 @@
 	This is used to help the user catch cases where some value gets
 	ovewritten by a new one.  This should not happen, as this will
 	probably leak.
-	
+
 	Unfortunately this uncovered a bug in the C++ parser itself: the
 	lookahead value was not destroyed between two calls to yylex.  For
 	instance if the previous lookahead was a std::string, and then an int,
 	then the value of the std::string was correctly taken (i.e., the
 	lookahead was now an empty string), but std::string structure itself
 	was not reclaimed.
-	
+
 	This is now done in variant::build(other&) (which is used to take the
 	value of the lookahead): other is not only stolen from its value, it
 	is also destroyed.  This incurs a new performance penalty of a few
 	percent, and union becomes faster again.
-	
+
 	* data/lalr1-fusion.cc (variant::build(other&)): Destroy other.
 	(b4_variant_if): New.
 	(variant::built): New.
@@ -610,7 +622,7 @@
 	Make variant.yy more complex.
 	std::list cannot be copied via memcpy, they are more demanding than
 	std::string.  Use one std::list to strengthen the test.
-	
+
 	* examples/variant.yy: Use lalr1-fusion.cc, not lalr1.cc.
 	Adjust.
 	Create a list of strings, instead of a single large string.
@@ -805,22 +817,22 @@
 	In order to make it easy to perform benchmarks to ensure that there are no
 	performance loss, lalr1.cc is forked into lalr1-fusion.cc.  Eventually,
 	lalr1-fusion.cc will replace lalr1.cc.
-	
+
 	Meanwhile, to make sure that lalr1-fusion.cc is correctly exercized by the
 	test suite, the user must install a symbolic link from lalr1.cc to it.
-	
+
 	Instead of having three stacks (state, value, location), use a stack
 	of triples.  This considerably simplifies the code (and it will be
 	easier not to require locations as currently does the C++ parser),
 	and also gives a 10% speedup according to etc/bench (probably mainly since
 	memory allocation is done once instead of three times).
-	
+
 	Another motivation is to make it easier to destruct properly
 	semantic values: now that they are bound to their state (hence
 	symbol type) it will be easier to call the appropriate destructor.
-	
+
 	These changes should probably benefit the C parser too.
-	
+
 	* data/lalr1.cc: Copy as...  * data/lalr1-fusion.cc: this new
 	file.
 	(b4_rhs_value, b4_rhs_location): New definitions overriding those
@@ -836,7 +848,7 @@
 	Push the state, value, and location at the same time.
 	This is needed to prepare a forthcoming patch that fuses the three
 	stacks into one.
-	
+
 	* data/lalr1.cc (parser::yypush_): New.
 	(parser::yynewstate): Change the semantics: instead of arriving to
 	this label when value and location have been pushed, but yystate
@@ -869,11 +881,11 @@
 	variants which (i) requires Boost on the user side, (ii) is slow, and
 	(iii) has useless overhead (the parser knows the type of the semantic value
 	there is no reason to duplicate this information as Boost.Variants do).
-	
+
 	This implementation reserves a buffer large enough to store the largest
 	objects.  yy::variant implements this buffer.  It was implemented with
 	Quentin Hocquet.
-	
+
 	* src/output.c (type_names_output): New.
 	(output_skeleton): Invoke it.
 	* data/c++.m4 (b4_variant_if): New.
@@ -893,7 +905,7 @@
 	Parameterize the extraction of semantic values.
 	To make future changes easier, no longer rely on ".TYPE" being the
 	way to get a semantic value.
-	
+
 	* data/c.m4 (b4_symbol_value): New.
 	Use it.
 	* data/c++.m4, data/yacc.c: Use it.
