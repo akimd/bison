@@ -1,5 +1,10 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	Regen.
+	* src/parse-gram.h, src/parse-gram.h: Regen.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	Remove src/Makefile.am.
 	* src/Makefile.am: Rename as...
 	* src/local.mk: this.
@@ -47,7 +52,7 @@
 	Remove examples/local.mk.
 	examples/calc++/Makefile.am might be interesting to keep as is, since
 	it is an example in itself.
-	
+
 	* examples/Makefile.am: Rename as...
 	* examples/local.mk: this.
 	Adjust.
@@ -58,7 +63,7 @@
 	Remove build-aux/Makefile.am.
 	Recursive Makefiles are really way too slow, let's get rid of some of
 	them.
-	
+
 	* build-aux/Makefile.am: Rename as...
 	* build-aux/local.mk: this.
 	Adjust paths.
@@ -78,7 +83,7 @@
 	Using template buys us nothing, and makes it uselessly complex to
 	construct a symbol.  Besides, it could not be generalized to other
 	languages, while make_FOO would work in C/Java etc.
-	
+
 	* data/lalr1.cc (b4_symbol_): New.
 	(b4_symbol): Use it.
 	(b4_symbol_constructor_declaration_)
@@ -101,7 +106,7 @@
 	generated files.  Because of name clashes, it is good to have such a
 	prefix such as TOK_ that protects from names such as EOF, FILE etc.
 	But it clutters the grammar itself.
-	
+
 	* data/bison.m4 (token.prefix): Empty by default.
 	* data/c.m4 (b4_token_enum, b4_token_define): Use it.
 	* data/lalr1.cc (b4_symbol): Ditto.
@@ -117,7 +122,7 @@
 	symbol::token.
 	This is allows the user to get the type of a token return by
 	yylex.
-	
+
 	* data/lalr1.cc (symbol::token): New.
 	(yytoknum_): Define when %define lex_symbol, independently of
 	%debug.
@@ -148,7 +153,7 @@
 	Define make_symbol in the header.
 	To reach good performances these functions should be inlined (yet this is
 	to measure precisely).  To this end they must be available to the caller.
-	
+
 	* data/lalr1.cc (b4_symbol_constructor_definition_): Qualify
 	location_type with the class name.
 	Since will now be output in the header, declare "inline".
@@ -169,10 +174,10 @@
 	The constructors are called by the make_symbol functions, which a
 	forthcoming patch will move elsewhere.  Hence the interest of putting them
 	together.
-	
+
 	The stack_symbol_type does not need to be moved, it is used only by the
 	parser.
-	
+
 	* data/lalr1.cc: Move symbol_type and symbol_base_type
 	constructors into...
 	(b4_symbol_constructor_definitions): here.
@@ -183,7 +188,7 @@
 	Make it easier to move the definition of yytranslate_.
 	Forthcoming changes will make it possible to use yytranslate_
 	from outside the parser implementation file.
-	
+
 	* data/lalr1.cc (b4_yytranslate_definition): New.
 	Use it.
 
@@ -203,7 +208,7 @@
 	goes against the stronger typing I am trying to have with the new
 	lex interface which return a symbol_type.  So in this case, feed
 	yytranslate_ with a token_type.
-	
+
 	* data/lalr1.cc (yytranslate_): When in %define lex-symbol,
 	expect a token_type.
 
@@ -225,7 +230,7 @@
 	The union used to compute the size of the variant used to iterate over the
 	type of all the symbols, with a lot of redundancy.  Now iterate over the
 	lists of symbols having the same type-name.
-	
+
 	* data/lalr1.cc (b4_char_sizeof_): New.
 	(b4_char_sizeof): Use it.
 	Adjust to be called with a list of numbers instead of a single
@@ -238,10 +243,10 @@
 	Symbols may have several string representations, for instance if they
 	have an alias.  What I call its "id" is a string that can be used as
 	an identifier.  May not exist.
-	
+
 	Currently the symbols which have the "tag_is_id" flag set are those that
 	don't have an alias.  Look harder for the id.
-	
+
 	* src/output.c (is_identifier): Move to...
 	* src/symtab.c (is_identifier): here.
 	* src/symtab.h, src/symtab.c (symbol_id_get): New.
@@ -387,7 +392,7 @@
 	not work well in C++ (unless the parameter also appears as an argument,
 	which is not acceptable), hence the use of a function instead of a
 	constructor.
-	
+
 	* data/lalr1.cc (b4_symbol_constructor_declaration_)
 	(b4_symbol_constructor_declarations)
 	(b4_symbol_constructor_specialization_)
