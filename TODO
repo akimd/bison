@@ -1,5 +1,33 @@
 -*- outline -*-
 
+* Short term
+** Document %define assert
+
+** Discuss about %printer/%destroy in the case of C++.
+It would be very nice to provide the symbol classes with an operator<<
+and a destructor.  Unfortunately the syntax we have chosen for
+%destroy and %printer make them hard to reuse.  For instance, the user
+is invited to write something like
+
+   %printer { debug_stream() << $$; } <my_type>;
+
+which is hard to reuse elsewhere since it wants to use
+"debug_stream()" to find the stream to use.  The same applies to
+%destroy: we told the user she could use the members of the Parser
+class in the printers/destructors, which is not good for an operator<<
+since it is no longer bound to a particular parser, it's just a
+(standalone symbol).
+
+** Rename LR0.cc
+as lr0.cc, why upper case?
+
+** bench several bisons.
+Enhance bench.pl with %b to run different bisons.
+
+** Use b4_symbol everywhere.
+Move its definition in the more standard places and deploy it in other
+skeletons.
+
 * Various
 ** YYPRINT
 glr.c inherits its symbol_print function from c.m4, which supports
