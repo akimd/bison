@@ -1,19 +1,21 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
 	Support parametric types.
-	There are two issues to handle: first scanning nested angle bracket pairs
-	to support types such as std::pair< std::string, std::list<std::string> > >.
-	
-	Another issue is to address idiosyncracies of C++: do not glue two closing
-	angle brackets together (otherwise it's operator>>), and avoid sticking
-	blindly a TYPE to the opening <, as it can result in '<:' which is a
-	digraph for '['.
-	
+
+	There are two issues to handle: first scanning nested angle
+	bracket pairs to support types such as std::pair< std::string,
+	std::list<std::string> > >.
+
+	Another issue is to address idiosyncracies of C++: do not glue two
+	closing angle brackets together (otherwise it's operator>>), and
+	avoid sticking blindly a TYPE to the opening <, as it can result
+	in '<:' which is a digraph for '['.
+
 	* src/scan-gram.l (brace_level): Rename as...
 	(nesting): this.
 	(SC_TAG): New.
 	Implement support for complex tags.
-	(tag): Accept 
+	(tag): Accept
 	, but not <.
 	* data/lalr1.cc (b4_symbol_value, b4_symbol_value_template)
 	(b4_symbol_variant): Leave space around types as parameters.
@@ -30,7 +32,7 @@
 	interface is not affected by token.prefix.  A more general test
 	will be implemented when the support of token.prefix is generalized
 	to more skeletons.
-	
+
 	* tests/c++.at: One more variant test, using token.prefix.
 
 2008-11-15  Akim Demaille  <akim@betelgeuse.gostai.ensta.fr>
@@ -106,10 +108,10 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
 	Move sc_tight_scope into maint.mk.
-	It does not work, and I don't know how it was supposed to work: it seems
-	to be looking for sources in the build tree.  I just moved it at a better
-	place, fixing it is still required.
-	
+	It does not work, and I don't know how it was supposed to work: it
+	seems to be looking for sources in the build tree.  I just moved
+	it at a better place, fixing it is still required.
+
 	* src/local.mk (echo): Remove.
 	(sc_tight_scope): Move to...
 	* maint.mk: here.
@@ -195,7 +197,8 @@
 
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
-	Instead of using make_symbol<TOK_FOO>, generate make_FOO for each token type.
+	Instead of using make_symbol<TOK_FOO>, generate make_FOO for each
+	token type.
 	Using template buys us nothing, and makes it uselessly complex to
 	construct a symbol.  Besides, it could not be generalized to other
 	languages, while make_FOO would work in C/Java etc.
@@ -218,10 +221,10 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
 	%define token.prefix.
-	Provide a means to add a prefix to the name of the tokens as output in the
-	generated files.  Because of name clashes, it is good to have such a
-	prefix such as TOK_ that protects from names such as EOF, FILE etc.
-	But it clutters the grammar itself.
+	Provide a means to add a prefix to the name of the tokens as
+	output in the generated files.  Because of name clashes, it is
+	good to have such a prefix such as TOK_ that protects from names
+	such as EOF, FILE etc.  But it clutters the grammar itself.
 
 	* data/bison.m4 (token.prefix): Empty by default.
 	* data/c.m4 (b4_token_enum, b4_token_define): Use it.
@@ -236,8 +239,7 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
 	symbol::token.
-	This is allows the user to get the type of a token return by
-	yylex.
+	This allows the user to get the type of a token returned by yylex.
 
 	* data/lalr1.cc (symbol::token): New.
 	(yytoknum_): Define when %define lex_symbol, independently of
@@ -267,8 +269,9 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
 	Define make_symbol in the header.
-	To reach good performances these functions should be inlined (yet this is
-	to measure precisely).  To this end they must be available to the caller.
+	To reach good performances these functions should be inlined (yet
+	this is to measure precisely).  To this end they must be available
+	to the caller.
 
 	* data/lalr1.cc (b4_symbol_constructor_definition_): Qualify
 	location_type with the class name.
@@ -286,13 +289,14 @@
 
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
-	Define the constructors of symbol_type in b4_symbol_constructor_definitions.
+	Define the constructors of symbol_type in
+	b4_symbol_constructor_definitions.
 	The constructors are called by the make_symbol functions, which a
-	forthcoming patch will move elsewhere.  Hence the interest of putting them
-	together.
+	forthcoming patch will move elsewhere.  Hence the interest of
+	putting them together.
 
-	The stack_symbol_type does not need to be moved, it is used only by the
-	parser.
+	The stack_symbol_type does not need to be moved, it is used only
+	by the parser.
 
 	* data/lalr1.cc: Move symbol_type and symbol_base_type
 	constructors into...
@@ -343,9 +347,9 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
 	Use b4_type_names for the union type.
-	The union used to compute the size of the variant used to iterate over the
-	type of all the symbols, with a lot of redundancy.  Now iterate over the
-	lists of symbols having the same type-name.
+	The union used to compute the size of the variant used to iterate
+	over the type of all the symbols, with a lot of redundancy.  Now
+	iterate over the lists of symbols having the same type-name.
 
 	* data/lalr1.cc (b4_char_sizeof_): New.
 	(b4_char_sizeof): Use it.
@@ -356,12 +360,12 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
 	Define the "identifier" of a symbol.
-	Symbols may have several string representations, for instance if they
-	have an alias.  What I call its "id" is a string that can be used as
-	an identifier.  May not exist.
+	Symbols may have several string representations, for instance if
+	they have an alias.  What I call its "id" is a string that can be
+	used as an identifier.  May not exist.
 
-	Currently the symbols which have the "tag_is_id" flag set are those that
-	don't have an alias.  Look harder for the id.
+	Currently the symbols which have the "tag_is_id" flag set are
+	those that don't have an alias.  Look harder for the id.
 
 	* src/output.c (is_identifier): Move to...
 	* src/symtab.c (is_identifier): here.
@@ -501,13 +505,13 @@
 2008-11-11  Akim Demaille  <demaille@gostai.com>
 
 	Introduce make_symbol.
-	make_symbol provides a means to construct a full symbol (kind, value,
-	location) in a single shot.  It is meant to be a Symbol constructor,
-	parameterized by the symbol kind so that overloading would prevent
-	incorrect kind/value pairs.  Unfortunately parameterized constructors do
-	not work well in C++ (unless the parameter also appears as an argument,
-	which is not acceptable), hence the use of a function instead of a
-	constructor.
+	make_symbol provides a means to construct a full symbol (kind,
+	value, location) in a single shot.  It is meant to be a Symbol
+	constructor, parameterized by the symbol kind so that overloading
+	would prevent incorrect kind/value pairs.  Unfortunately
+	parameterized constructors do not work well in C++ (unless the
+	parameter also appears as an argument, which is not acceptable),
+	hence the use of a function instead of a constructor.
 
 	* data/lalr1.cc (b4_symbol_constructor_declaration_)
 	(b4_symbol_constructor_declarations)
@@ -660,8 +664,8 @@
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
 	Make parser::yytranslate static.
-	Small speedup (1%) on the list grammar.  And makes yytranslate_ available
-	in non member functions.
+	Small speedup (1%) on the list grammar.  And makes yytranslate_
+	available in non member functions.
 
 	* data/lalr1.cc (yytranslate_): Does not need to be a instance
 	function.
@@ -921,9 +925,10 @@
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
 	Rely on the state stack to display reduction traces.
-	To display rhs symbols before a reduction, we used information about the rule
-	reduced, which required the tables yyrhs and yyprhs.  Now use rely only on the
-	state stack to get the same information.
+	To display rhs symbols before a reduction, we used information
+	about the rule reduced, which required the tables yyrhs and
+	yyprhs.  Now use rely only on the state stack to get the same
+	information.
 
 	* data/lalr1.cc (b4_rhs_data, b4_rhs_state): New.
 	Use them.
@@ -1348,18 +1353,22 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
 	Fuse the three stacks into a single one.
-	In order to make it easy to perform benchmarks to ensure that there are no
-	performance loss, lalr1.cc is forked into lalr1-fusion.cc.  Eventually,
-	lalr1-fusion.cc will replace lalr1.cc.
 
-	Meanwhile, to make sure that lalr1-fusion.cc is correctly exercized by the
-	test suite, the user must install a symbolic link from lalr1.cc to it.
+	In order to make it easy to perform benchmarks to ensure that
+	there are no performance loss, lalr1.cc is forked into
+	lalr1-fusion.cc.  Eventually, lalr1-fusion.cc will replace
+	lalr1.cc.
 
-	Instead of having three stacks (state, value, location), use a stack
-	of triples.  This considerably simplifies the code (and it will be
-	easier not to require locations as currently does the C++ parser),
-	and also gives a 10% speedup according to etc/bench (probably mainly since
-	memory allocation is done once instead of three times).
+	Meanwhile, to make sure that lalr1-fusion.cc is correctly
+	exercized by the test suite, the user must install a symbolic link
+	from lalr1.cc to it.
+
+	Instead of having three stacks (state, value, location), use a
+	stack of triples.  This considerably simplifies the code (and it
+	will be easier not to require locations as currently does the C++
+	parser), and also gives a 10% speedup according to
+	etc/bench (probably mainly since memory allocation is done once
+	instead of three times).
 
 	Another motivation is to make it easier to destruct properly
 	semantic values: now that they are bound to their state (hence
@@ -1367,8 +1376,8 @@
 
 	These changes should probably benefit the C parser too.
 
-	* data/lalr1.cc: Copy as...  * data/lalr1-fusion.cc: this new
-	file.
+	* data/lalr1.cc: Copy as...
+	* data/lalr1-fusion.cc: this new file.
 	(b4_rhs_value, b4_rhs_location): New definitions overriding those
 	from c++.m4.
 	(state_stack_type, semantic_stack_type, location_stack_type)
@@ -1411,14 +1420,15 @@
 2008-11-03  Akim Demaille  <demaille@gostai.com>
 
 	Use variants to support objects as semantic values.
-	This patch was inspired by work by Michiel De Wilde.  But he used Boost
-	variants which (i) requires Boost on the user side, (ii) is slow, and
-	(iii) has useless overhead (the parser knows the type of the semantic value
-	there is no reason to duplicate this information as Boost.Variants do).
+	This patch was inspired by work by Michiel De Wilde.  But he used
+	Boost variants which (i) requires Boost on the user side, (ii) is
+	slow, and (iii) has useless overhead (the parser knows the type of
+	the semantic value there is no reason to duplicate this
+	information as Boost.Variants do).
 
-	This implementation reserves a buffer large enough to store the largest
-	objects.  yy::variant implements this buffer.  It was implemented with
-	Quentin Hocquet.
+	This implementation reserves a buffer large enough to store the
+	largest objects.  yy::variant implements this buffer.  It was
+	implemented with Quentin Hocquet.
 
 	* src/output.c (type_names_output): New.
 	(output_skeleton): Invoke it.
