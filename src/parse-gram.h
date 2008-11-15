@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.4.150-0305.  */
+/* A Bison parser, made by GNU Bison 2.4.156-d497.  */
 
 /* Interface for Bison's Yacc-like parsers in C
 
@@ -89,9 +89,9 @@
      PIPE = 306,
      PROLOGUE = 307,
      SEMICOLON = 308,
-     TYPE = 309,
-     TYPE_TAG_ANY = 310,
-     TYPE_TAG_NONE = 311,
+     TAG = 309,
+     TAG_ANY = 310,
+     TAG_NONE = 311,
      PERCENT_UNION = 312
    };
 #endif
@@ -148,9 +148,9 @@
 #define PIPE 306
 #define PROLOGUE 307
 #define SEMICOLON 308
-#define TYPE 309
-#define TYPE_TAG_ANY 310
-#define TYPE_TAG_NONE 311
+#define TAG 309
+#define TAG_ANY 310
+#define TAG_NONE 311
 #define PERCENT_UNION 312
 
 

@@ -1,5 +1,9 @@
 2008-11-15  Akim Demaille  <demaille@gostai.com>
 
+	* src/parse-gram.h, src/parse-gram.c: Regen.
+
+2008-11-15  Akim Demaille  <demaille@gostai.com>
+
 	Support parametric types.
 
 	There are two issues to handle: first scanning nested angle
