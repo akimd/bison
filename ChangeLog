@@ -258,7 +258,7 @@
 2008-11-13  Akim Demaille  <demaille@gostai.com>
 
 	Compute at M4 time some of the subtractions.
-	* data/lalr1.cc (b4_substract): New.
+	* data/lalr1.cc (b4_subtract): New.
 	(b4_rhs_data): Use it.
 
 2008-11-13  Akim Demaille  <demaille@gostai.com>
