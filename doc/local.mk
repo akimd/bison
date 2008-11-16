@@ -1,4 +1,3 @@
-## Process this file with automake to produce Makefile.in -*-Makefile-*-
 ## Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Free Software
 ## Foundation, Inc.
 
@@ -31,7 +30,7 @@ CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
 CROSS_OPTIONS_TEXI = $(top_srcdir)/doc/cross-options.texi
 $(CROSS_OPTIONS_TEXI): $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
 	-rm -f $@ $@.tmp
-	$(MAKE) $(AM_MAKEFLAGS) src/bison
+	$(MAKE) $(AM_MAKEFLAGS) src/bison$(EXEEXT)
 	$(top_builddir)/src/bison --help | perl $(CROSS_OPTIONS_PL) >$@.tmp
 	mv $@.tmp $@
 MAINTAINERCLEANFILES = $(CROSS_OPTIONS_TEXI)
