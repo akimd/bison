@@ -2,8 +2,6 @@
 *.log
 *.output
 .deps
-Makefile
-Makefile.in
 bison
 scan-code.c
 scan-gram.c

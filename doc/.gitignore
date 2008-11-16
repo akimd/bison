@@ -1,4 +1,3 @@
-/Makefile
 /bison.1
 /bison.aux
 /bison.cp
@@ -15,7 +14,6 @@
 /bison.tp
 /bison.vr
 /cross-options.texi
-/Makefile.in
 /refcard.dvi
 /refcard.log
 /refcard.ps

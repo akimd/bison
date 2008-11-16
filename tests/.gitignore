@@ -7,9 +7,6 @@
 /calc
 /calc.[chy]
 /calc.tab.*
-/Makefile
-/Makefile.in
-/Makefile.in
 /package.m4
 /testsuite
 /testsuite.dir
