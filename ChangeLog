@@ -1,3 +1,12 @@
+2008-11-17  Di-an Jan  <dianj@freeshell.org>
+
+	* doc/bison.texinfo: Synchronize ``Detail Node Listing''.
+	Align menus.  Adjust word wrapping.  Use node names for menu names.
+	(Examples): Don't abbreviate node names.
+	(LocalWords): Remove abbreviations.
+	(Copying): Make description a sentence.
+	(Java Action Features): Remove period to match the rest of menu. 
+
 2008-11-11  Paolo Bonzini  <bonzini@gnu.org>
 
 	* bootstrap.conf: Replace m4/warning.m4 with warnings module.

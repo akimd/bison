@@ -89,76 +89,76 @@ Cover art by Etienne Suvasa.
 @menu
 * Introduction::
 * Conditions::
-* Copying::           The @acronym{GNU} General Public License says
-                        how you can copy and share Bison
+* Copying::             The @acronym{GNU} General Public License says
+                          how you can copy and share Bison.
 
 Tutorial sections:
-* Concepts::          Basic concepts for understanding Bison.
-* Examples::          Three simple explained examples of using Bison.
+* Concepts::            Basic concepts for understanding Bison.
+* Examples::            Three simple explained examples of using Bison.
 
 Reference sections:
-* Grammar File::      Writing Bison declarations and rules.
-* Interface::         C-language interface to the parser function @code{yyparse}.
-* Algorithm::         How the Bison parser works at run-time.
-* Error Recovery::    Writing rules for error recovery.
+* Grammar File::        Writing Bison declarations and rules.
+* Interface::           C-language interface to the parser function @code{yyparse}.
+* Algorithm::           How the Bison parser works at run-time.
+* Error Recovery::      Writing rules for error recovery.
 * Context Dependency::  What to do if your language syntax is too
-                        messy for Bison to handle straightforwardly.
-* Debugging::         Understanding or debugging Bison parsers.
-* Invocation::        How to run Bison (to produce the parser source file).
-* Other Languages::   Creating C++ and Java parsers.
-* FAQ::               Frequently Asked Questions
-* Table of Symbols::  All the keywords of the Bison language are explained.
-* Glossary::          Basic concepts are explained.
-* Copying This Manual::  License for copying this manual.
-* Index::             Cross-references to the text.
+                          messy for Bison to handle straightforwardly.
+* Debugging::           Understanding or debugging Bison parsers.
+* Invocation::          How to run Bison (to produce the parser source file).
+* Other Languages::     Creating C++ and Java parsers.
+* FAQ::                 Frequently Asked Questions
+* Table of Symbols::    All the keywords of the Bison language are explained.
+* Glossary::            Basic concepts are explained.
+* Copying This Manual:: License for copying this manual.
+* Index::               Cross-references to the text.
 
 @detailmenu
  --- The Detailed Node Listing ---
 
 The Concepts of Bison
 
-* Language and Grammar::  Languages and context-free grammars,
-                            as mathematical ideas.
-* Grammar in Bison::  How we represent grammars for Bison's sake.
-* Semantic Values::   Each token or syntactic grouping can have
-                        a semantic value (the value of an integer,
-                        the name of an identifier, etc.).
-* Semantic Actions::  Each rule can have an action containing C code.
-* GLR Parsers::       Writing parsers for general context-free languages.
-* Locations Overview::    Tracking Locations.
-* Bison Parser::      What are Bison's input and output,
-                        how is the output used?
-* Stages::            Stages in writing and running Bison grammars.
-* Grammar Layout::    Overall structure of a Bison grammar file.
+* Language and Grammar:: Languages and context-free grammars,
+                           as mathematical ideas.
+* Grammar in Bison::     How we represent grammars for Bison's sake.
+* Semantic Values::      Each token or syntactic grouping can have
+                           a semantic value (the value of an integer,
+                           the name of an identifier, etc.).
+* Semantic Actions::     Each rule can have an action containing C code.
+* GLR Parsers::          Writing parsers for general context-free languages.
+* Locations Overview::   Tracking Locations.
+* Bison Parser::         What are Bison's input and output,
+                           how is the output used?
+* Stages::               Stages in writing and running Bison grammars.
+* Grammar Layout::       Overall structure of a Bison grammar file.
 
 Writing @acronym{GLR} Parsers
 
-* Simple GLR Parsers::      Using @acronym{GLR} parsers on unambiguous grammars.
-* Merging GLR Parses::      Using @acronym{GLR} parsers to resolve ambiguities.
-* GLR Semantic Actions::    Deferred semantic actions have special concerns.
-* Compiler Requirements::   @acronym{GLR} parsers require a modern C compiler.
+* Simple GLR Parsers::     Using @acronym{GLR} parsers on unambiguous grammars.
+* Merging GLR Parses::     Using @acronym{GLR} parsers to resolve ambiguities.
+* GLR Semantic Actions::   Deferred semantic actions have special concerns.
+* Compiler Requirements::  @acronym{GLR} parsers require a modern C compiler.
 
 Examples
 
-* RPN Calc::          Reverse polish notation calculator;
-                        a first example with no operator precedence.
-* Infix Calc::        Infix (algebraic) notation calculator.
-                        Operator precedence is introduced.
+* RPN Calc::               Reverse polish notation calculator;
+                             a first example with no operator precedence.
+* Infix Calc::             Infix (algebraic) notation calculator.
+                             Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
 * Location Tracking Calc:: Demonstrating the use of @@@var{n} and @@$.
-* Multi-function Calc::  Calculator with memory and trig functions.
-                           It uses multiple data-types for semantic values.
-* Exercises::         Ideas for improving the multi-function calculator.
+* Multi-function Calc::    Calculator with memory and trig functions.
+                             It uses multiple data-types for semantic values.
+* Exercises::              Ideas for improving the multi-function calculator.
 
 Reverse Polish Notation Calculator
 
-* Decls: Rpcalc Decls.  Prologue (declarations) for rpcalc.
-* Rules: Rpcalc Rules.  Grammar Rules for rpcalc, with explanation.
-* Lexer: Rpcalc Lexer.  The lexical analyzer.
-* Main: Rpcalc Main.    The controlling function.
-* Error: Rpcalc Error.  The error reporting function.
-* Gen: Rpcalc Gen.      Running Bison on the grammar file.
-* Comp: Rpcalc Compile. Run the C compiler on the output code.
+* Rpcalc Declarations::    Prologue (declarations) for rpcalc.
+* Rpcalc Rules::           Grammar Rules for rpcalc, with explanation.
+* Rpcalc Lexer::           The lexical analyzer.
+* Rpcalc Main::            The controlling function.
+* Rpcalc Error::           The error reporting function.
+* Rpcalc Generate::        Running Bison on the grammar file.
+* Rpcalc Compile::         Run the C compiler on the output code.
 
 Grammar Rules for @code{rpcalc}
 
@@ -168,15 +168,15 @@ Grammar Rules for @code{rpcalc}
 
 Location Tracking Calculator: @code{ltcalc}
 
-* Decls: Ltcalc Decls.  Bison and C declarations for ltcalc.
-* Rules: Ltcalc Rules.  Grammar rules for ltcalc, with explanations.
-* Lexer: Ltcalc Lexer.  The lexical analyzer.
+* Ltcalc Declarations::    Bison and C declarations for ltcalc.
+* Ltcalc Rules::           Grammar rules for ltcalc, with explanations.
+* Ltcalc Lexer::           The lexical analyzer.
 
 Multi-Function Calculator: @code{mfcalc}
 
-* Decl: Mfcalc Decl.      Bison declarations for multi-function calculator.
-* Rules: Mfcalc Rules.    Grammar rules for the calculator.
-* Symtab: Mfcalc Symtab.  Symbol table management subroutines.
+* Mfcalc Declarations::    Bison declarations for multi-function calculator.
+* Mfcalc Rules::           Grammar rules for the calculator.
+* Mfcalc Symbol Table::    Symbol table management subroutines.
 
 Bison Grammar Files
 
@@ -191,11 +191,11 @@ Bison Grammar Files
 
 Outline of a Bison Grammar
 
-* Prologue::          Syntax and usage of the prologue.
+* Prologue::              Syntax and usage of the prologue.
 * Prologue Alternatives:: Syntax and usage of alternatives to the prologue.
-* Bison Declarations::  Syntax and usage of the Bison declarations section.
-* Grammar Rules::     Syntax and usage of the grammar rules section.
-* Epilogue::          Syntax and usage of the epilogue.
+* Bison Declarations::    Syntax and usage of the Bison declarations section.
+* Grammar Rules::         Syntax and usage of the grammar rules section.
+* Epilogue::              Syntax and usage of the epilogue.
 
 Defining Language Semantics
 
@@ -230,24 +230,28 @@ Bison Declarations
 
 Parser C-Language Interface
 
-* Parser Function::   How to call @code{yyparse} and what it returns.
-* Lexical::           You must supply a function @code{yylex}
-                        which reads tokens.
-* Error Reporting::   You must supply a function @code{yyerror}.
-* Action Features::   Special features for use in actions.
-* Internationalization::  How to let the parser speak in the user's
-                        native language.
+* Parser Function::         How to call @code{yyparse} and what it returns.
+* Push Parser Function::    How to call @code{yypush_parse} and what it returns.
+* Pull Parser Function::    How to call @code{yypull_parse} and what it returns.
+* Parser Create Function::  How to call @code{yypstate_new} and what it returns.
+* Parser Delete Function::  How to call @code{yypstate_delete} and what it returns.
+* Lexical::                 You must supply a function @code{yylex}
+                              which reads tokens.
+* Error Reporting::         You must supply a function @code{yyerror}.
+* Action Features::         Special features for use in actions.
+* Internationalization::    How to let the parser speak in the user's
+                              native language.
 
 The Lexical Analyzer Function @code{yylex}
 
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
-* Token Values::      How @code{yylex} must return the semantic value
-                        of the token it has read.
-* Token Locations::   How @code{yylex} must return the text location
-                        (line number, etc.) of the token, if the
-                        actions want that.
-* Pure Calling::      How the calling convention differs
-                        in a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
+* Token Values::        How @code{yylex} must return the semantic value
+                          of the token it has read.
+* Token Locations::     How @code{yylex} must return the text location
+                          (line number, etc.) of the token, if the
+                          actions want that.
+* Pure Calling::        How the calling convention differs in a pure parser
+                          (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
 
 The Bison Parser Algorithm
 
@@ -257,7 +261,7 @@ The Bison Parser Algorithm
 * Contextual Precedence::  When an operator's precedence depends on context.
 * Parser States::     The parser is a finite-state-machine with stack.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
-* Mystery Conflicts::  Reduce/reduce conflicts that look unjustified.
+* Mystery Conflicts:: Reduce/reduce conflicts that look unjustified.
 * Generalized LR Parsing::  Parsing arbitrary context-free grammars.
 * Memory Management:: What happens when memory is exhausted.  How to avoid it.
 
@@ -311,33 +315,33 @@ A Complete C++ Example
 
 Java Parsers
 
-* Java Bison Interface::         Asking for Java parser generation
-* Java Semantic Values::         %type and %token vs. Java
-* Java Location Values::         The position and location classes
-* Java Parser Interface::        Instantiating and running the parser
-* Java Scanner Interface::       Specifying the scanner for the parser
-* Java Action Features::         Special features for use in actions.
-* Java Differences::             Differences between C/C++ and Java Grammars
-* Java Declarations Summary::    List of Bison declarations used with Java
+* Java Bison Interface::        Asking for Java parser generation
+* Java Semantic Values::        %type and %token vs. Java
+* Java Location Values::        The position and location classes
+* Java Parser Interface::       Instantiating and running the parser
+* Java Scanner Interface::      Specifying the scanner for the parser
+* Java Action Features::        Special features for use in actions
+* Java Differences::            Differences between C/C++ and Java Grammars
+* Java Declarations Summary::   List of Bison declarations used with Java
 
 Frequently Asked Questions
 
-* Memory Exhausted::           Breaking the Stack Limits
-* How Can I Reset the Parser:: @code{yyparse} Keeps some State
-* Strings are Destroyed::      @code{yylval} Loses Track of Strings
-* Implementing Gotos/Loops::   Control Flow in the Calculator
-* Multiple start-symbols::     Factoring closely related grammars
-* Secure?  Conform?::          Is Bison @acronym{POSIX} safe?
-* I can't build Bison::        Troubleshooting
-* Where can I find help?::     Troubleshouting
-* Bug Reports::                Troublereporting
-* Other Languages::            Parsers in Java and others
-* Beta Testing::               Experimenting development versions
-* Mailing Lists::              Meeting other Bison users
+* Memory Exhausted::            Breaking the Stack Limits
+* How Can I Reset the Parser::  @code{yyparse} Keeps some State
+* Strings are Destroyed::       @code{yylval} Loses Track of Strings
+* Implementing Gotos/Loops::    Control Flow in the Calculator
+* Multiple start-symbols::      Factoring closely related grammars
+* Secure?  Conform?::           Is Bison @acronym{POSIX} safe?
+* I can't build Bison::         Troubleshooting
+* Where can I find help?::      Troubleshouting
+* Bug Reports::                 Troublereporting
+* More Languages::              Parsers in C++, Java, and so on
+* Beta Testing::                Experimenting development versions
+* Mailing Lists::               Meeting other Bison users
 
 Copying This Manual
 
-* Copying This Manual::        License for copying this manual.
+* Copying This Manual::         License for copying this manual.
 
 @end detailmenu
 @end menu
@@ -417,19 +421,19 @@ details of Bison will not make sense.  If you do not already know how to
 use Bison or Yacc, we suggest you start by reading this chapter carefully.
 
 @menu
-* Language and Grammar::  Languages and context-free grammars,
-                            as mathematical ideas.
-* Grammar in Bison::  How we represent grammars for Bison's sake.
-* Semantic Values::   Each token or syntactic grouping can have
-                        a semantic value (the value of an integer,
-                        the name of an identifier, etc.).
-* Semantic Actions::  Each rule can have an action containing C code.
-* GLR Parsers::       Writing parsers for general context-free languages.
-* Locations Overview::    Tracking Locations.
-* Bison Parser::      What are Bison's input and output,
-                        how is the output used?
-* Stages::            Stages in writing and running Bison grammars.
-* Grammar Layout::    Overall structure of a Bison grammar file.
+* Language and Grammar:: Languages and context-free grammars,
+                           as mathematical ideas.
+* Grammar in Bison::     How we represent grammars for Bison's sake.
+* Semantic Values::      Each token or syntactic grouping can have
+                           a semantic value (the value of an integer,
+                           the name of an identifier, etc.).
+* Semantic Actions::     Each rule can have an action containing C code.
+* GLR Parsers::          Writing parsers for general context-free languages.
+* Locations Overview::   Tracking Locations.
+* Bison Parser::         What are Bison's input and output,
+                           how is the output used?
+* Stages::               Stages in writing and running Bison grammars.
+* Grammar Layout::       Overall structure of a Bison grammar file.
 @end menu
 
 @node Language and Grammar
@@ -745,10 +749,10 @@ user-defined function on the resulting values to produce an arbitrary
 merged result.
 
 @menu
-* Simple GLR Parsers::      Using @acronym{GLR} parsers on unambiguous grammars.
-* Merging GLR Parses::      Using @acronym{GLR} parsers to resolve ambiguities.
-* GLR Semantic Actions::    Deferred semantic actions have special concerns.
-* Compiler Requirements::   @acronym{GLR} parsers require a modern C compiler.
+* Simple GLR Parsers::     Using @acronym{GLR} parsers on unambiguous grammars.
+* Merging GLR Parses::     Using @acronym{GLR} parsers to resolve ambiguities.
+* GLR Semantic Actions::   Deferred semantic actions have special concerns.
+* Compiler Requirements::  @acronym{GLR} parsers require a modern C compiler.
 @end menu
 
 @node Simple GLR Parsers
@@ -1376,15 +1380,15 @@ languages are written the same way.  You can copy these examples into a
 source file to try them.
 
 @menu
-* RPN Calc::          Reverse polish notation calculator;
-                        a first example with no operator precedence.
-* Infix Calc::        Infix (algebraic) notation calculator.
-                        Operator precedence is introduced.
+* RPN Calc::               Reverse polish notation calculator;
+                             a first example with no operator precedence.
+* Infix Calc::             Infix (algebraic) notation calculator.
+                             Operator precedence is introduced.
 * Simple Error Recovery::  Continuing after syntax errors.
 * Location Tracking Calc:: Demonstrating the use of @@@var{n} and @@$.
-* Multi-function Calc::  Calculator with memory and trig functions.
-                           It uses multiple data-types for semantic values.
-* Exercises::         Ideas for improving the multi-function calculator.
+* Multi-function Calc::    Calculator with memory and trig functions.
+                             It uses multiple data-types for semantic values.
+* Exercises::              Ideas for improving the multi-function calculator.
 @end menu
 
 @node RPN Calc
@@ -1403,16 +1407,16 @@ The source code for this calculator is named @file{rpcalc.y}.  The
 @samp{.y} extension is a convention used for Bison input files.
 
 @menu
-* Decls: Rpcalc Decls.  Prologue (declarations) for rpcalc.
-* Rules: Rpcalc Rules.  Grammar Rules for rpcalc, with explanation.
-* Lexer: Rpcalc Lexer.  The lexical analyzer.
-* Main: Rpcalc Main.    The controlling function.
-* Error: Rpcalc Error.  The error reporting function.
-* Gen: Rpcalc Gen.      Running Bison on the grammar file.
-* Comp: Rpcalc Compile. Run the C compiler on the output code.
+* Rpcalc Declarations::    Prologue (declarations) for rpcalc.
+* Rpcalc Rules::           Grammar Rules for rpcalc, with explanation.
+* Rpcalc Lexer::           The lexical analyzer.
+* Rpcalc Main::            The controlling function.
+* Rpcalc Error::           The error reporting function.
+* Rpcalc Generate::        Running Bison on the grammar file.
+* Rpcalc Compile::         Run the C compiler on the output code.
 @end menu
 
-@node Rpcalc Decls
+@node Rpcalc Declarations
 @subsection Declarations for @code{rpcalc}
 
 Here are the C and Bison declarations for the reverse polish notation
@@ -1662,7 +1666,7 @@ therefore, @code{NUM} becomes a macro for @code{yylex} to use.
 The semantic value of the token (if it has one) is stored into the
 global variable @code{yylval}, which is where the Bison parser will look
 for it.  (The C data type of @code{yylval} is @code{YYSTYPE}, which was
-defined at the beginning of the grammar; @pxref{Rpcalc Decls,
+defined at the beginning of the grammar; @pxref{Rpcalc Declarations,
 ,Declarations for @code{rpcalc}}.)
 
 A token type code of zero is returned if the end-of-input is encountered.
@@ -1758,7 +1762,7 @@ have not written any error rules in this example, so any invalid input will
 cause the calculator program to exit.  This is not clean behavior for a
 real calculator, but it is adequate for the first example.
 
-@node Rpcalc Gen
+@node Rpcalc Generate
 @subsection Running Bison to Make the Parser
 @cindex running Bison (introduction)
 
@@ -1977,12 +1981,12 @@ most of the work needed to use locations will be done in the lexical
 analyzer.
 
 @menu
-* Decls: Ltcalc Decls.  Bison and C declarations for ltcalc.
-* Rules: Ltcalc Rules.  Grammar rules for ltcalc, with explanations.
-* Lexer: Ltcalc Lexer.  The lexical analyzer.
+* Ltcalc Declarations::    Bison and C declarations for ltcalc.
+* Ltcalc Rules::           Grammar rules for ltcalc, with explanations.
+* Ltcalc Lexer::           The lexical analyzer.
 @end menu
 
-@node Ltcalc Decls
+@node Ltcalc Declarations
 @subsection Declarations for @code{ltcalc}
 
 The C and Bison declarations for the location tracking calculator are
@@ -2218,12 +2222,12 @@ $
 Note that multiple assignment and nested function calls are permitted.
 
 @menu
-* Decl: Mfcalc Decl.      Bison declarations for multi-function calculator.
-* Rules: Mfcalc Rules.    Grammar rules for the calculator.
-* Symtab: Mfcalc Symtab.  Symbol table management subroutines.
+* Mfcalc Declarations::    Bison declarations for multi-function calculator.
+* Mfcalc Rules::           Grammar rules for the calculator.
+* Mfcalc Symbol Table::    Symbol table management subroutines.
 @end menu
 
-@node Mfcalc Decl
+@node Mfcalc Declarations
 @subsection Declarations for @code{mfcalc}
 
 Here are the C and Bison declarations for the multi-function calculator.
@@ -2319,7 +2323,7 @@ exp:      NUM                @{ $$ = $1;                         @}
 %%
 @end smallexample
 
-@node Mfcalc Symtab
+@node Mfcalc Symbol Table
 @subsection The @code{mfcalc} Symbol Table
 @cindex symbol table example
 
@@ -2632,11 +2636,11 @@ As a @acronym{GNU} extension, @samp{//} introduces a comment that
 continues until end of line.
 
 @menu
-* Prologue::          Syntax and usage of the prologue.
+* Prologue::              Syntax and usage of the prologue.
 * Prologue Alternatives:: Syntax and usage of alternatives to the prologue.
-* Bison Declarations::  Syntax and usage of the Bison declarations section.
-* Grammar Rules::     Syntax and usage of the grammar rules section.
-* Epilogue::          Syntax and usage of the epilogue.
+* Bison Declarations::    Syntax and usage of the Bison declarations section.
+* Grammar Rules::         Syntax and usage of the grammar rules section.
+* Epilogue::              Syntax and usage of the epilogue.
 @end menu
 
 @node Prologue
@@ -5221,19 +5225,17 @@ identifier (aside from those in this manual) in an action or in epilogue
 in the grammar file, you are likely to run into trouble.
 
 @menu
-* Parser Function::   How to call @code{yyparse} and what it returns.
-* Push Parser Function::  How to call @code{yypush_parse} and what it returns.
-* Pull Parser Function::  How to call @code{yypull_parse} and what it returns.
-* Parser Create Function::  How to call @code{yypstate_new} and what it
-                        returns.
-* Parser Delete Function::  How to call @code{yypstate_delete} and what it
-                        returns.
-* Lexical::           You must supply a function @code{yylex}
-                        which reads tokens.
-* Error Reporting::   You must supply a function @code{yyerror}.
-* Action Features::   Special features for use in actions.
-* Internationalization::  How to let the parser speak in the user's
-                        native language.
+* Parser Function::         How to call @code{yyparse} and what it returns.
+* Push Parser Function::    How to call @code{yypush_parse} and what it returns.
+* Pull Parser Function::    How to call @code{yypull_parse} and what it returns.
+* Parser Create Function::  How to call @code{yypstate_new} and what it returns.
+* Parser Delete Function::  How to call @code{yypstate_delete} and what it returns.
+* Lexical::                 You must supply a function @code{yylex}
+                              which reads tokens.
+* Error Reporting::         You must supply a function @code{yyerror}.
+* Action Features::         Special features for use in actions.
+* Internationalization::    How to let the parser speak in the user's
+                              native language.
 @end menu
 
 @node Parser Function
@@ -5400,13 +5402,13 @@ that need it.  @xref{Invocation, ,Invoking Bison}.
 
 @menu
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
-* Token Values::      How @code{yylex} must return the semantic value
-                        of the token it has read.
-* Token Locations::   How @code{yylex} must return the text location
-                        (line number, etc.) of the token, if the
-                        actions want that.
-* Pure Calling::      How the calling convention differs
-                        in a pure parser (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
+* Token Values::        How @code{yylex} must return the semantic value
+                          of the token it has read.
+* Token Locations::     How @code{yylex} must return the text location
+                          (line number, etc.) of the token, if the
+                          actions want that.
+* Pure Calling::        How the calling convention differs in a pure parser
+                          (@pxref{Pure Decl, ,A Pure (Reentrant) Parser}).
 @end menu
 
 @node Calling Convention
@@ -6049,7 +6051,7 @@ This kind of parser is known in the literature as a bottom-up parser.
 * Contextual Precedence::  When an operator's precedence depends on context.
 * Parser States::     The parser is a finite-state-machine with stack.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
-* Mystery Conflicts::  Reduce/reduce conflicts that look unjustified.
+* Mystery Conflicts:: Reduce/reduce conflicts that look unjustified.
 * Generalized LR Parsing::  Parsing arbitrary context-free grammars.
 * Memory Management:: What happens when memory is exhausted.  How to avoid it.
 @end menu
@@ -7653,7 +7655,7 @@ standard I/O stream, the numeric code for the token type, and the token
 value (from @code{yylval}).
 
 Here is an example of @code{YYPRINT} suitable for the multi-function
-calculator (@pxref{Mfcalc Decl, ,Declarations for @code{mfcalc}}):
+calculator (@pxref{Mfcalc Declarations, ,Declarations for @code{mfcalc}}):
 
 @smallexample
 %@{
@@ -8728,14 +8730,14 @@ main (int argc, char *argv[])
 @section Java Parsers
 
 @menu
-* Java Bison Interface::         Asking for Java parser generation
-* Java Semantic Values::         %type and %token vs. Java
-* Java Location Values::         The position and location classes
-* Java Parser Interface::        Instantiating and running the parser
-* Java Scanner Interface::       Specifying the scanner for the parser
-* Java Action Features::         Special features for use in actions.
-* Java Differences::             Differences between C/C++ and Java Grammars
-* Java Declarations Summary::    List of Bison declarations used with Java
+* Java Bison Interface::        Asking for Java parser generation
+* Java Semantic Values::        %type and %token vs. Java
+* Java Location Values::        The position and location classes
+* Java Parser Interface::       Instantiating and running the parser
+* Java Scanner Interface::      Specifying the scanner for the parser
+* Java Action Features::        Special features for use in actions
+* Java Differences::            Differences between C/C++ and Java Grammars
+* Java Declarations Summary::   List of Bison declarations used with Java
 @end menu
 
 @node Java Bison Interface
@@ -10357,7 +10359,7 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: akim fn cp syncodeindex vr tp synindex dircategory direntry
 @c LocalWords: ifset vskip pt filll insertcopying sp ISBN Etienne Suvasa
 @c LocalWords: ifnottex yyparse detailmenu GLR RPN Calc var Decls Rpcalc
-@c LocalWords: rpcalc Lexer Gen Comp Expr ltcalc mfcalc Decl Symtab yylex
+@c LocalWords: rpcalc Lexer Expr ltcalc mfcalc yylex
 @c LocalWords: yyerror pxref LR yylval cindex dfn LALR samp gpl BNF xref
 @c LocalWords: const int paren ifnotinfo AC noindent emph expr stmt findex
 @c LocalWords: glr YYSTYPE TYPENAME prog dprec printf decl init stmtMerge
