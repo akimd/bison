@@ -1,3 +1,9 @@
+2008-11-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Don't let maintainer-*-check targets force a version update.
+	* cfg.mk (_is-dist-target): Implement.  maintainer-check* was already
+	handled.
+
 2008-11-17  Di-an Jan  <dianj@freeshell.org>
 
 	* doc/bison.texinfo: Synchronize ``Detail Node Listing''.
@@ -5,7 +11,7 @@
 	(Examples): Don't abbreviate node names.
 	(LocalWords): Remove abbreviations.
 	(Copying): Make description a sentence.
-	(Java Action Features): Remove period to match the rest of menu. 
+	(Java Action Features): Remove period to match the rest of menu.
 
 2008-11-17  Di-an Jan  <dianj@freeshell.org>
 
@@ -18,7 +24,7 @@
 	(muscles_output): Move symbol_definitions_output to...
 	(output): here as prepare_symbol_definitions.
 	* tests/c++.at (AT_CHECK_VARIANTS): Remove unused parameters of main.
-	(AT_CHECK_NAMESPACE): Make unused parameter lloc unnamed. 
+	(AT_CHECK_NAMESPACE): Make unused parameter lloc unnamed.
 
 2008-11-17  Di-an Jan  <dianj@freeshell.org>
 

@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# It's useful to run maintainer-check* targets during development, but we don't
-# want to wait on a recompile because of an update to $(VERSION).  Thus,
-# override the _is-dist-target from GNUmakefile so that maintainer-check*
+# It's useful to run maintainer-*check* targets during development, but we
+# don't want to wait on a recompile because of an update to $(VERSION).  Thus,
+# override the _is-dist-target from GNUmakefile so that maintainer-*check*
 # targets are filtered out.
-_is-dist-target = $(filter-out %clean maintainer-check%, \
+_is-dist-target = $(filter-out %clean maintainer-check% maintainer-%-check, \
   $(filter maintainer-% dist% alpha beta major,$(MAKECMDGOALS)))
 
 # Use alpha.gnu.org for alpha and beta releases.
