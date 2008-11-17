@@ -174,7 +174,7 @@ yy::parser::error(const yy::parser::location_type&,
 }
 
 int
-main(int argc, char *argv[])
+main (void)
 {
   yy::parser p;
   p.set_debug_level(!!getenv("YYDEBUG"));
@@ -310,7 +310,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 %code {
   // YYSTYPE contains a namespace reference.
-  int yylex (YYSTYPE *lval, const ]$1[::parser::location_type* lloc) {
+  int yylex (YYSTYPE *lval, const ]$1[::parser::location_type*) {
     lval->i = 3;
     return 0;
   }
