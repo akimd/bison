@@ -1,5 +1,10 @@
 2008-11-18  Akim Demaille  <demaille@gostai.com>
 
+	Regen.
+	* src/parse-gram.h, src/parse-gram.c: Regen.
+
+2008-11-18  Akim Demaille  <demaille@gostai.com>
+
 	Use b4_subtract where possible.
 	* data/lalr1.cc (b4_subtract): Move to...
 	* data/bison.m4: here.
