@@ -28,7 +28,7 @@ m4_define([AT_CHECK_VARIANTS],
 [AT_SETUP([Variants $1])
 
 # Store strings and integers in a list of strings.
-AT_DATA([list.yy],
+AT_DATA_GRAMMAR([list.yy],
 [[%debug
 %skeleton "lalr1.cc"
 %defines

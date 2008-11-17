@@ -1,3 +1,8 @@
+2008-11-17  Di-an Jan  <dianj@freeshell.org>
+
+	* tests/c++.at (AT_CHECK_VARIANTS): Fixes tests 198-202.
+	Use AT_DATA_GRAMMAR instead of AT_DATA for compiled tests.
+
 2008-11-16  Akim Demaille  <demaille@gostai.com>
 
 	Add missing $(EXEEXT).
