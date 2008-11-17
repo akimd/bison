@@ -1,5 +1,13 @@
 2008-11-18  Akim Demaille  <demaille@gostai.com>
 
+	Use b4_subtract where possible.
+	* data/lalr1.cc (b4_subtract): Move to...
+	* data/bison.m4: here.
+	* data/glr.c (b4_rhs_data): Use it.
+	* data/yacc.c (b4_rhs_value, b4_rhs_location): Use it.
+
+2008-11-18  Akim Demaille  <demaille@gostai.com>
+
 	Remove incorrect mode specification.
 	* data/glr.cc: Don't pretend it's C code.
 

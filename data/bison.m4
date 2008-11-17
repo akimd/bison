@@ -212,6 +212,15 @@ m4_define([b4_ints_in],
 [m4_eval([$3 <= $1 && $1 <= $4 && $3 <= $2 && $2 <= $4])])
 
 
+# b4_subtract(LHS, RHS)
+# ---------------------
+# Evaluate LHS - RHS if they are integer literals, otherwise expand
+# to (LHS) - (RHS).
+m4_define([b4_subtract],
+[m4_bmatch([$1$2], [^[0123456789]*$],
+           [m4_eval([$1 - $2])],
+           [($1) - ($2)])])
+
 
 ## ------------------ ##
 ## Decoding options.  ##
@@ -255,11 +264,6 @@ b4_define_flag_if([glr])		# Whether a GLR parser is requested.
 b4_define_flag_if([locations])	        # Whether locations are tracked.
 b4_define_flag_if([nondeterministic])	# Whether conflicts should be handled.
 b4_define_flag_if([yacc])	        # Whether POSIX Yacc is emulated.
-
-
-## ------------------------- ##
-## Assigning token numbers.  ##
-## ------------------------- ##
 
 
 ## ----------- ##

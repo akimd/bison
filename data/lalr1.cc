@@ -18,16 +18,6 @@
 
 m4_include(b4_pkgdatadir/[c++.m4])
 
-# b4_subtract(LHS, RHS)
-# ---------------------
-# Evaluate LHS - RHS if they are integer literals, otherwise expand
-# to (LHS) - (RHS).
-m4_define([b4_subtract],
-[m4_bmatch([$1$2], [^[0123456789]*$],
-           [m4_eval([$1 - $2])],
-           [($1) - ($2)])])
-
-
 # b4_args(ARG1, ...)
 # _b4_args(ARG1, ...)
 # -------------------
