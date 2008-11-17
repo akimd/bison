@@ -1,5 +1,10 @@
 2008-11-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Simplify last patch slightly.
+	* src/getargs.c (getargs): Here.
+
+2008-11-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Fix last warning from --enable-gcc-warnings.
 	* src/getargs.c (getargs): Don't assign const address to non-const
 	pointer.
