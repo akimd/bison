@@ -1,5 +1,14 @@
 2008-11-17  Di-an Jan  <dianj@freeshell.org>
 
+	* doc/bison.texinfo: Synchronize ``Detail Node Listing''.
+	Align menus.  Adjust word wrapping.  Use node names for menu names.
+	(Examples): Don't abbreviate node names.
+	(LocalWords): Remove abbreviations.
+	(Copying): Make description a sentence.
+	(Java Action Features): Remove period to match the rest of menu. 
+
+2008-11-17  Di-an Jan  <dianj@freeshell.org>
+
 	Handles several --enable-gcc-warnings.
 	* src/getargs.c (command_line_location): Set parameters to void.
 	* src/output.c (symbol_type_name_cmp): Make static.
