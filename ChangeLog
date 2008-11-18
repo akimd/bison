@@ -1,5 +1,10 @@
 2008-11-18  Akim Demaille  <demaille@gostai.com>
 
+	More TODO.
+	* TODO: More short term issues.
+
+2008-11-18  Akim Demaille  <demaille@gostai.com>
+
 	Regen.
 	* src/parse-gram.h, src/parse-gram.c: Regen.
 
