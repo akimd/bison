@@ -1,7 +1,7 @@
 # Simple calculator.                         -*- Autotest -*-
 
-# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-# Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free
+# Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,21 +28,162 @@
 
 # _AT_DATA_CALC_Y($1, $2, $3, [BISON-DIRECTIVES])
 # -----------------------------------------------
-# Produce `calc.y'.  Don't call this macro directly, because it contains
-# some occurrences of `$1' etc. which will be interpreted by m4.  So
-# you should call it with $1, $2, and $3 as arguments, which is what
-# AT_DATA_CALC_Y does.
+# Produce `calc.y' and, if %defines was specified, `calc-lex.c' or
+# `calc-lex.cc'.
+#
+# Don't call this macro directly, because it contains some occurrences
+# of `$1' etc. which will be interpreted by m4.  So you should call it
+# with $1, $2, and $3 as arguments, which is what AT_DATA_CALC_Y does.
 m4_define([_AT_DATA_CALC_Y],
 [m4_if([$1$2$3], $[1]$[2]$[3], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
+m4_pushdef([AT_CALC_LEX],
+[[#include <ctype.h>
+
+int ]AT_NAME_PREFIX[lex (]AT_LEX_FORMALS[);
+static int get_char (]AT_LEX_FORMALS[);
+static void unget_char (]AT_LEX_PRE_FORMALS[ int c);
+
+]AT_LOCATION_IF([
+static YYLTYPE last_yylloc;
+])[
+static int
+get_char (]AT_LEX_FORMALS[)
+{
+  int res = getc (input);
+  ]AT_USE_LEX_ARGS[;
+]AT_LOCATION_IF([
+  last_yylloc = AT_LOC;
+  if (res == '\n')
+    {
+      AT_LOC.last_line++;
+      AT_LOC.last_column = 1;
+    }
+  else
+    AT_LOC.last_column++;
+])[
+  return res;
+}
+
+static void
+unget_char (]AT_LEX_PRE_FORMALS[ int c)
+{
+  ]AT_USE_LEX_ARGS[;
+]AT_LOCATION_IF([
+  /* Wrong when C == `\n'. */
+  AT_LOC = last_yylloc;
+])[
+  ungetc (c, input);
+}
+
+static int
+read_signed_integer (]AT_LEX_FORMALS[)
+{
+  int c = get_char (]AT_LEX_ARGS[);
+  int sign = 1;
+  int n = 0;
+
+  ]AT_USE_LEX_ARGS[;
+  if (c == '-')
+    {
+      c = get_char (]AT_LEX_ARGS[);
+      sign = -1;
+    }
+
+  while (isdigit (c))
+    {
+      n = 10 * n + (c - '0');
+      c = get_char (]AT_LEX_ARGS[);
+    }
+
+  unget_char (]AT_LEX_PRE_ARGS[ c);
+
+  return sign * n;
+}
+
+
+/*---------------------------------------------------------------.
+| Lexical analyzer returns an integer on the stack and the token |
+| NUM, or the ASCII character read if not a number.  Skips all   |
+| blanks and tabs, returns 0 for EOF.                            |
+`---------------------------------------------------------------*/
+
+int
+]AT_NAME_PREFIX[lex (]AT_LEX_FORMALS[)
+{
+  static int init = 1;
+  int c;
+
+  if (init)
+    {
+      init = 0;
+]AT_LOCATION_IF([
+      AT_LOC.last_column = 1;
+      AT_LOC.last_line = 1;
+])[
+    }
+
+]AT_LOCATION_IF([
+ AT_LOC.first_column = AT_LOC.last_column;
+  AT_LOC.first_line   = AT_LOC.last_line;
+])[
+
+  /* Skip white space.  */
+  while ((c = get_char (]AT_LEX_ARGS[)) == ' ' || c == '\t')
+    {
+]AT_LOCATION_IF(
+[     AT_LOC.first_column = AT_LOC.last_column;
+      AT_LOC.first_line   = AT_LOC.last_line;
+])[
+    }
+
+  /* process numbers   */
+  if (c == '.' || isdigit (c))
+    {
+      unget_char (]AT_LEX_PRE_ARGS[ c);
+      ]AT_VAL[.ival = read_signed_integer (]AT_LEX_ARGS[);
+      return NUM;
+    }
+
+  /* Return end-of-file.  */
+  if (c == EOF)
+    return CALC_EOF;
+
+  /* Return single chars. */
+  return c;
+}
+]])
+
 AT_DATA_GRAMMAR([calc.y],
 [[/* Infix notation calculator--calc */
 ]$4
 AT_SKEL_CC_IF(
 [%define global_tokens_and_yystype])[
-%{
-#include <stdio.h>
+%code requires {
+/* Exercise pre-prologue dependency to %union.  */
+typedef int semantic_value;
+}
 
+/* Exercise %union. */
+%union
+{
+  semantic_value ival;
+};
+
+%code provides {
+#include <stdio.h>
+/* The input.  */
+extern FILE *input;]AT_SKEL_CC_IF([[
+#ifndef YYLTYPE
+# define YYLTYPE ]AT_NAME_PREFIX[::location
+#endif
+#define first_line   begin.line
+#define first_column begin.column
+#define last_line    end.line
+#define last_column  end.column]])[
+}
+
+%code {
 #include <stdlib.h>
 #include <string.h>
 #if HAVE_UNISTD_H
@@ -51,33 +192,13 @@ AT_SKEL_CC_IF(
 # undef alarm
 # define alarm(seconds) /* empty */
 #endif
-#include <ctype.h>
 #define USE(Var)
 
-/* Exercise pre-prologue dependency to %union.  */
-typedef int semantic_value;
-
+FILE *input;
 static semantic_value global_result = 0;
 static int global_count = 0;
-%}
-
-/* Exercise %union. */
-%union
-{
-  semantic_value ival;
-};
-
-%{
 static int power (int base, int exponent);
-]AT_SKEL_CC_IF(
-[#ifndef YYLTYPE
-[#] define YYLTYPE AT_NAME_PREFIX::location
-#endif
-#define first_line   begin.line
-#define first_column begin.column
-#define last_line    end.line
-#define last_column  end.column
-],
+]AT_SKEL_CC_IF(,
 [/* yyerror receives the location if:
    - %location & %pure & %glr
    - %location & %pure & %yacc & %parse-param. */
@@ -85,10 +206,8 @@ static void yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])
                      AT_PARAM_IF([semantic_value *result, int *count, ])
                      const char *s
                      );])[
-static int yylex (]AT_LEX_FORMALS[);
-static int get_char (]AT_LEX_FORMALS[);
-static void unget_char (]AT_LEX_PRE_FORMALS[ int c);
-%}
+int yylex (]AT_LEX_FORMALS[);
+}
 
 ]AT_SKEL_CC_IF(
 [/* The lalr1.cc skeleton, for backward compatibility, defines
@@ -144,8 +263,6 @@ exp:
 | '-' error          { $$ = 0; YYERROR;     }
 ;
 %%
-/* The input.  */
-static FILE *input;
 
 ]AT_SKEL_CC_IF(
 [/* A C++ error reporting function.  */
@@ -185,117 +302,7 @@ AT_YYERROR_SEES_LOC_IF([
   fprintf (stderr, "%s\n", s);
 }])[
 
-
-]AT_LOCATION_IF([
-static YYLTYPE last_yylloc;
-])[
-static int
-get_char (]AT_LEX_FORMALS[)
-{
-  int res = getc (input);
-  ]AT_USE_LEX_ARGS[;
-]AT_LOCATION_IF([
-  last_yylloc = AT_LOC;
-  if (res == '\n')
-    {
-      AT_LOC.last_line++;
-      AT_LOC.last_column = 1;
-    }
-  else
-    AT_LOC.last_column++;
-])[
-  return res;
-}
-
-
-static void
-unget_char (]AT_LEX_PRE_FORMALS[ int c)
-{
-  ]AT_USE_LEX_ARGS[;
-]AT_LOCATION_IF([
-  /* Wrong when C == `\n'. */
-  AT_LOC = last_yylloc;
-])[
-  ungetc (c, input);
-}
-
-static int
-read_signed_integer (]AT_LEX_FORMALS[)
-{
-  int c = get_char (]AT_LEX_ARGS[);
-  int sign = 1;
-  int n = 0;
-
-  ]AT_USE_LEX_ARGS[;
-  if (c == '-')
-    {
-      c = get_char (]AT_LEX_ARGS[);
-      sign = -1;
-    }
-
-  while (isdigit (c))
-    {
-      n = 10 * n + (c - '0');
-      c = get_char (]AT_LEX_ARGS[);
-    }
-
-  unget_char (]AT_LEX_PRE_ARGS[ c);
-
-  return sign * n;
-}
-
-
-
-/*---------------------------------------------------------------.
-| Lexical analyzer returns an integer on the stack and the token |
-| NUM, or the ASCII character read if not a number.  Skips all   |
-| blanks and tabs, returns 0 for EOF.                            |
-`---------------------------------------------------------------*/
-
-static int
-yylex (]AT_LEX_FORMALS[)
-{
-  static int init = 1;
-  int c;
-
-  if (init)
-    {
-      init = 0;
-]AT_LOCATION_IF([
-      AT_LOC.last_column = 1;
-      AT_LOC.last_line = 1;
-])[
-    }
-
-]AT_LOCATION_IF([
- AT_LOC.first_column = AT_LOC.last_column;
-  AT_LOC.first_line   = AT_LOC.last_line;
-])[
-
-  /* Skip white space.  */
-  while ((c = get_char (]AT_LEX_ARGS[)) == ' ' || c == '\t')
-    {
-]AT_LOCATION_IF(
-[     AT_LOC.first_column = AT_LOC.last_column;
-      AT_LOC.first_line   = AT_LOC.last_line;
-])[
-    }
-
-  /* process numbers   */
-  if (c == '.' || isdigit (c))
-    {
-      unget_char (]AT_LEX_PRE_ARGS[ c);
-      ]AT_VAL[.ival = read_signed_integer (]AT_LEX_ARGS[);
-      return NUM;
-    }
-
-  /* Return end-of-file.  */
-  if (c == EOF)
-    return CALC_EOF;
-
-  /* Return single chars. */
-  return c;
-}
+]AT_DEFINES_IF(, [AT_CALC_LEX])[
 
 static int
 power (int base, int exponent)
@@ -343,12 +350,18 @@ main (int argc, const char **argv)
   return status;
 }
 ]])
+AT_DEFINES_IF([AT_DATA_SOURCE([[calc-lex.c]AT_SKEL_CC_IF([[c]])],
+[[#include "calc.h]AT_SKEL_CC_IF([[h]])["
+
+]AT_CALC_LEX])])
+m4_popdef([AT_CALC_LEX])
 ])# _AT_DATA_CALC_Y
 
 
 # AT_DATA_CALC_Y([BISON-OPTIONS])
 # -------------------------------
-# Produce `calc.y'.
+# Produce `calc.y' and, if %defines was specified, `calc-lex.c' or
+# `calc-lex.cc'.
 m4_define([AT_DATA_CALC_Y],
 [_AT_DATA_CALC_Y($[1], $[2], $[3], [$1])
 ])
@@ -453,12 +466,7 @@ m4_ifval([$2], [AT_CHECK([exit 77])])
 AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
-
-AT_SKEL_CC_IF(
-  [AT_BISON_CHECK([-o calc.cc calc.y])
-   AT_COMPILE_CXX([calc])],
-  [AT_BISON_CHECK([-o calc.c calc.y])
-   AT_COMPILE([calc])])
+AT_FULL_COMPILE([calc], [AT_DEFINES_IF([[lex]])])
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],

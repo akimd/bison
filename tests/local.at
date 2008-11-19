@@ -1,7 +1,8 @@
 # Process this -*- Autotest -*- file with autom4te.
 
 # Macros for the GNU Bison Test suite.
-# Copyright (C) 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation,
+# Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,6 +40,8 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
 [m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
+m4_pushdef([AT_DEFINES_IF],
+[m4_bmatch([$3], [%defines], [$1], [$2])])
 m4_pushdef([AT_SKEL_CC_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
 m4_pushdef([AT_GLR_IF],
@@ -100,8 +103,8 @@ AT_PURE_LEX_IF(
  m4_pushdef([AT_LEX_PRE_ARGS],
 	    [AT_LEX_ARGS, ])
 ],
-[m4_pushdef([AT_LOC], [(yylloc)])
- m4_pushdef([AT_VAL], [(yylval)])
+[m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
+ m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
  m4_pushdef([AT_LEX_FORMALS],     [void])
  m4_pushdef([AT_LEX_ARGS],        [])
  m4_pushdef([AT_USE_LEX_ARGS],    [])
@@ -135,6 +138,7 @@ m4_popdef([AT_GLR_IF])
 m4_popdef([AT_SKEL_CC_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
+m4_popdef([AT_DEFINES_IF])
 ])# AT_BISON_OPTION_POPDEFS
 
 
@@ -143,21 +147,37 @@ m4_popdef([AT_LALR1_CC_IF])
 ## Generating Grammar Files.  ##
 ## -------------------------- ##
 
+# AT_DATA_SOURCE_PROLOGUE
+# ------------------------
+# The prologue that should be included in any source code that is
+# meant to be compiled.
+m4_define([AT_DATA_SOURCE_PROLOGUE],
+[[#include <config.h>
+/* We don't need perfect functions for these tests. */
+#undef malloc
+#undef memcmp
+#undef realloc
+]])
 
 # AT_DATA_GRAMMAR_PROLOGUE
 # ------------------------
 # The prologue that should be included in any grammar which parser is
 # meant to be compiled.
 m4_define([AT_DATA_GRAMMAR_PROLOGUE],
-[[%{
-#include <config.h>
-/* We don't need perfect functions for these tests. */
-#undef malloc
-#undef memcmp
-#undef realloc
-%}]
-])
+[[%code top {
+]AT_DATA_SOURCE_PROLOGUE[]dnl
+[}
+]])
 
+# AT_DATA_SOURCE(NAME, CONTENT)
+# -----------------------------
+# Generate the file NAME, which CONTENT is preceded by
+# AT_DATA_SOURCE_PROLOGUE.
+m4_define([AT_DATA_SOURCE],
+[AT_DATA([$1],
+[AT_DATA_SOURCE_PROLOGUE
+$2])
+])
 
 # AT_DATA_GRAMMAR(NAME, CONTENT)
 # ------------------------------
@@ -267,6 +287,20 @@ AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.cc])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
 	 0, [ignore], [ignore])])
 
+
+# AT_FULL_COMPILE(OUTPUT, [OTHER])
+# --------------------------------
+# Compile OUTPUT.y to OUTPUT.c or OUTPUT.cc, and compile it to OUTPUT.
+# If OTHER is specified, compile OUTPUT-OTHER.c or OUTPUT-OTHER.cc to OUTPUT
+# along with it.
+# Relies on AT_SKEL_CC_IF.
+m4_define([AT_FULL_COMPILE],
+[AT_SKEL_CC_IF(
+  [AT_BISON_CHECK([-o $1.cc $1.y])
+   AT_COMPILE_CXX([$1]m4_ifval($2, [, [$1.cc $1-$2.cc]]))],
+  [AT_BISON_CHECK([-o $1.c $1.y])
+   AT_COMPILE([$1]m4_ifval($2, [, [$1.c $1-$2.c]]))])
+])
 
 
 ## ---------------------------- ##

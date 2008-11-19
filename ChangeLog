@@ -1,3 +1,23 @@
+2008-11-18  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix unexpanded macros in GLR defines file.
+	Reported by Csaba Raduly at
+	<http://lists.gnu.org/archive/html/bug-bison/2008-11/msg00048.html>.
+	* THANKS (Csaba Raduly): Add.
+	* data/glr.c: Fix overquoting on b4_prefix for yylval and yylloc.
+	* tests/calc.at (_AT_DATA_CALC_Y): If %defines is specified, generate
+	lexer in a separate module that includes the defines file.
+	(AT_CHECK_CALC): Use AT_FULL_COMPILE and request compilation of lexer
+	source.
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Push AT_DEFINES_IF.
+	Adjust AT_LOC and AT_VAL to use AT_NAME_PREFIX.
+	(AT_BISON_OPTION_POPDEFS): Pop AT_DEFINES_IF.
+	(AT_DATA_SOURCE_PROLOGUE): New.
+	(AT_DATA_GRAMMAR_PROLOGUE): Use AT_DATA_SOURCE_PROLOGUE.
+	(AT_DATA_SOURCE): New.
+	(AT_FULL_COMPILE): New, copied from master branch and extended to
+	support an additional source file.
+
 2008-11-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Don't let maintainer-*-check targets force a version update.
