@@ -20,8 +20,10 @@ Bison News
   This prevents the future support for languages than do not use `;'
   as C/C++/Java do.  Yet some grammars still depend on this `feature'.
   Bison 2.4.1 restores the previous behavior in the case of C output
-  to leave more time for grammars depending on the old behavior to be
-  adjusted.  Future releases of Bison will disable this feature.
+  (specifically, when neither %language or %skeleton or equivalent
+  command-line options are used) to leave more time for grammars
+  depending on the old behavior to be adjusted.  Future releases of
+  Bison will disable this feature.
 
 ** A few minor improvements to the Bison manual.
 
