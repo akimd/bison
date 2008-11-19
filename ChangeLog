@@ -1,5 +1,23 @@
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
+	Convert lib/Makefile.am into lib/local.mk.
+	The real problem is rather gnulib.mk, which itself is extracted
+	from a Makefile.am that gnulib expects to the "recursive".  The
+	tool prefix-gnulib-mk converts such a gnulib.mk to be
+	non-recursive.  Also, some AC_SUBST variables need to be adjusted.
+
+	* etc/prefix-gnulib-mk: New.
+	* bootstrap (slurp): Use it to convert further gnulib.mk.
+	No longer try to avoid re-creation of lib/gnulib.mk as the changes
+	are deeper.
+	* lib/Makefile.am: Rename as...
+	* lib/local.mk: this.
+	Adjust to be prefixed.
+	* Makefile.am, configure.ac: Adjust.
+	* src/local.mk (AM_CPPFLAGS): Extend it, don't define it.
+
+2008-11-26  Akim Demaille  <demaille@gostai.com>
+
 	s/_FLAGS/FLAGS/.
 	* tests/local.mk (TESTSUITE_FLAGS, AUTOTEST_FLAGS): Rename as...
 	(TESTSUITEFLAGS, AUTOTESTFLAGS): these to compy with the GCS.
@@ -64,7 +82,7 @@
 	Get rid of (yy)rhs and (yy)prhs.
 	These tables are no longer needed in the parsers, and they don't seem to
 	be useful.  They are not documented either.
-	
+
 	* src/output.c (prepare_rules): Get rid of rhs and prhs.
 	Adjust the computation of (yy)r2.
 
@@ -77,7 +95,7 @@
 
 	Get rid of lalr1-split.cc.
 	It was no longer maintainer.
-	
+
 	* data/lalr1-split.cc: Remove.
 	* etc/bench.pl.in (bench_fusion_parser): Remove.
 	Adjust.
@@ -105,7 +123,7 @@
 
 	Prefer TESTSUITE_FLAGS.
 	TESTSUITEFLAGS is barely readable.
-	
+
 	* tests/local.mk (TESTSUITE_FLAGS): Default to $(TESTSUITEFLAGS)
 	for backward compatibility.
 	Use the former instead of the latter.
@@ -128,7 +146,7 @@
 	is available from the state stack.  This has two be benefits: two tables
 	less in the parser (making it smaller), and a more consistent use of the
 	three stacks which will help to fuse them.
-	
+
 	* data/yacc.c (yyprhs, yyrhs): Remove.
 	(YY_REDUCE_PRINT): Pass yyssp to yy_reduce_print.
 	(yy_reduce_print): Take yyssp as argument.
@@ -141,7 +159,7 @@
 	b4_tables_map.
 	The point is to factor the generation of the tables across skeletons.
 	This is language dependant.
-	
+
 	* data/c.m4 (b4_comment_): New.
 	Should be usable to define how to generate tables independently of
 	the language.
@@ -201,7 +219,7 @@
 	(Option Cross Key): Implement FIXME: listing directives also.
 	* build-aux/cross-options.pl:  Read from <STDIN> rather than <>.
 	(Short Option): Special case -d.  Put arguments inside @option.
-	(Bison Directive): Add column, automatically extracted from 
+	(Bison Directive): Add column, automatically extracted from
 	src/scan-gram.l (actual name passed as the first argument)
 	with special case for %define.
 	* doc/local.mk (doc/cross-options.texi): Pass src/scan-gram.l

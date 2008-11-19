@@ -80,7 +80,7 @@ AC_ARG_ENABLE([yacc],
 case $enable_yacc in
 yes)
   YACC_SCRIPT=src/yacc
-  YACC_LIBRARY=liby.a;;
+  YACC_LIBRARY=lib/liby.a;;
 *)
   YACC_SCRIPT=
   YACC_LIBRARY=;;
@@ -148,9 +148,14 @@ AC_SUBST([O0CXXFLAGS], [`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`])
 gt_JAVACOMP([1.3], [1.4])
 gt_JAVAEXEC
 
+AC_SUBST([gl_PREFIXED_LIBOBJS],
+         [$(echo "$gl_LIBOBJS" | sed -e 's, , lib/,g')])
+for ac_var in ERRNO_H GETOPT_H INTTYPES_H STDBOOL_H STDINT_H WCHAR_H WCTYPE_H
+do
+  eval "$ac_var=lib/\$$ac_var"
+done
 AC_CONFIG_FILES([Makefile
 		 po/Makefile.in
 		 examples/calc++/Makefile
-		 lib/Makefile
 		 doc/yacc.1])
 AC_OUTPUT

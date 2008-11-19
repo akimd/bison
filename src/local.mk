@@ -16,7 +16,7 @@
 
 AUTOMAKE_OPTIONS = subdir-objects
 
-AM_CPPFLAGS = -I$(top_srcdir)/lib
+AM_CPPFLAGS += -I$(top_srcdir)/lib
 # Find builddir/src/scan-code.c etc.
 AM_CPPFLAGS += -I$(top_builddir)
 

@@ -505,11 +505,10 @@ slurp() {
       if test $file = Makefile.am; then
 	copied=$copied${sep}$gnulib_mk; sep=$nl
 	remove_intl='/^[^#].*\/intl/s/^/#/;'"s!$bt_regex/!!g"
-	sed "$remove_intl" $1/$dir/$file | cmp -s - $dir/$gnulib_mk || {
-	  echo "$0: Copying $1/$dir/$file to $dir/$gnulib_mk ..." &&
-	  rm -f $dir/$gnulib_mk &&
-	  sed "$remove_intl" $1/$dir/$file >$dir/$gnulib_mk
-	}
+	echo "$0: Copying $1/$dir/$file to $dir/$gnulib_mk ..."
+	rm -f $dir/$gnulib_mk
+	sed "$remove_intl" $1/$dir/$file >$dir/$gnulib_mk
+        etc/prefix-gnulib-mk $dir/$gnulib_mk
       elif { test "${2+set}" = set && test -r $2/$dir/$file; } ||
 	   version_controlled_file $dir $file; then
 	echo "$0: $dir/$file overrides $1/$dir/$file"

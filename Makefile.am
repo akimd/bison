@@ -17,7 +17,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = po runtime-po lib .
+SUBDIRS = po runtime-po .
 if BISON_CXX_WORKS
 SUBDIRS += examples/calc++
 endif
@@ -31,6 +31,7 @@ EXTRA_DIST = .prev-version .version \
   OChangeLog PACKAGING
 
 # Initialization before completion by local.mk's.
+AM_CPPFLAGS =
 BUILT_SOURCES =
 DISTCLEANFILES =
 MOSTLYCLEANFILES =
@@ -40,6 +41,7 @@ include djgpp/local.mk
 include doc/local.mk
 include etc/local.mk
 include examples/local.mk
+include lib/local.mk
 include src/local.mk
 include tests/local.mk
 
