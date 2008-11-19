@@ -1,3 +1,7 @@
+2008-11-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS: Update for recent changes.
+
 2008-11-18  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix unexpanded macros in GLR defines file.

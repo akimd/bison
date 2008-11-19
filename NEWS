@@ -3,6 +3,9 @@ Bison News
 
 * Changes in version ?.? (????-??-??):
 
+** In the GLR defines file, unexpanded M4 macros in the yylval and yylloc
+   declarations have been fixed.
+
 ** Temporary hack for adding a semicolon to the user action.
 
   Bison used to prepend a trailing semicolon at the end of the user
@@ -16,9 +19,11 @@ Bison News
 
   This prevents the future support for languages than do not use `;'
   as C/C++/Java do.  Yet some grammars still depend on this `feature'.
-  Bison 2.4.1 restores the previous behavior to leave more time for
-  grammars depending on the old behavior to be adjusted.  Future
-  release of Bison will disable this feature.
+  Bison 2.4.1 restores the previous behavior in the case of C output
+  to leave more time for grammars depending on the old behavior to be
+  adjusted.  Future releases of Bison will disable this feature.
+
+** A few minor improvements to the Bison manual.
 
 * Changes in version 2.4 (2008-11-02):
 
