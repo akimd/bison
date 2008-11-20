@@ -1,3 +1,18 @@
+2008-11-20  Di-an Jan  <dianj@freeshell.org>
+
+	Improves options in the manual.
+	* doc/bison.texinfo (-g, -x): Add space before argument.
+	(Option Cross Key): Implement FIXME: listing directives also.
+	* build-aux/cross-options.pl:  Read from <STDIN> rather than <>.
+	(Short Option): Special case -d.  Put arguments inside @option.
+	(Bison Directive): Add column, automatically extracted from 
+	src/scan-gram.l (actual name passed as the first argument)
+	with special case for %define.
+	* doc/Makefile.am (doc/cross-options.texi): Pass src/scan-gram.l
+	to build-aux/cross-options.pl.
+	* src/getargs.c (usage): Document limitations of cross-options.pl.
+	* src/scan-gram.l: Likewise.
+
 2009-02-25  Akim Demaille  <demaille@gostai.com>
 
 	Copyright years.

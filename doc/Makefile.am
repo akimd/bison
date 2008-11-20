@@ -28,7 +28,8 @@ CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
 $(srcdir)/cross-options.texi: $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
 	-rm -f $@ $@.tmp
 	cd $(top_builddir)/src && $(MAKE) $(AM_MAKEFLAGS) bison
-	$(top_builddir)/src/bison --help | perl $(CROSS_OPTIONS_PL) >$@.tmp
+	$(top_builddir)/src/bison --help \
+	  | perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
 	mv $@.tmp $@
 MAINTAINERCLEANFILES = $(srcdir)/cross-options.texi
 

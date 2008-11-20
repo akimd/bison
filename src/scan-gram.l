@@ -1,7 +1,7 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation,
-   Inc.
+   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -152,6 +152,13 @@ splice	 (\\[ \f\t\v]*\n)*
   /*----------------------------.
   | Scanning Bison directives.  |
   `----------------------------*/
+
+  /* For directives that are also command line options, the regex must be
+	"%..."
+     after "[-_]"s are removed, and the directive must match the --long
+     option name, with a single string argument.  Otherwise, add exceptions
+     to ../build-aux/cross-options.pl.  */
+
 <INITIAL>
 {
   "%binary"               	    return PERCENT_NONASSOC;
