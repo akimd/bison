@@ -157,6 +157,13 @@ splice	 (\\[ \f\t\v]*\n)*
   /*----------------------------.
   | Scanning Bison directives.  |
   `----------------------------*/
+
+  /* For directives that are also command line options, the regex must be
+	"%..."
+     after "[-_]"s are removed, and the directive must match the --long
+     option name, with a single string argument.  Otherwise, add exceptions
+     to ../build-aux/cross-options.pl.  */
+
 <INITIAL>
 {
   "%binary"                         return PERCENT_NONASSOC;

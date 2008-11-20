@@ -8001,7 +8001,7 @@ Specify the @var{file} for the parser file.
 The other output files' names are constructed from @var{file} as
 described under the @samp{-v} and @samp{-d} options.
 
-@item -g[@var{file}]
+@item -g [@var{file}]
 @itemx --graph[=@var{file}]
 Output a graphical representation of the @acronym{LALR}(1) grammar
 automaton computed by Bison, in @uref{http://www.graphviz.org/, Graphviz}
@@ -8010,7 +8010,7 @@ automaton computed by Bison, in @uref{http://www.graphviz.org/, Graphviz}
 If omitted and the grammar file is @file{foo.y}, the output file will be
 @file{foo.dot}.
 
-@item -x[@var{file}]
+@item -x [@var{file}]
 @itemx --xml[=@var{file}]
 Output an XML report of the @acronym{LALR}(1) automaton computed by Bison.
 @code{@var{file}} is optional.
@@ -8023,12 +8023,11 @@ More user feedback will help to stabilize it.)
 @node Option Cross Key
 @section Option Cross Key
 
-@c FIXME: How about putting the directives too?
 Here is a list of options, alphabetized by long option, to help you find
 the corresponding short option.
 
-@multitable {@option{--defines=@var{defines-file}}} {@option{-b @var{file-prefix}XXX}}
-@headitem Long Option @tab Short Option
+@multitable {@option{--defines=@var{defines-file}}} {@option{-D @var{name}[=@var{value}]}} {@code{%nondeterministic-parser}}
+@headitem Long Option @tab Short Option @tab Bison Directive
 @include cross-options.texi
 @end multitable
 
