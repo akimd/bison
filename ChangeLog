@@ -1,3 +1,9 @@
+2008-11-25  Akim Demaille  <demaille@gostai.com>
+
+	b4_args is more general than only C++.
+	* data/lalr1.cc (b4_args, _b4_args): Move to...
+	* data/bison.m4: here.
+
 2008-11-21  Di-an Jan  <dianj@freeshell.org>
 
 	Implement no-XXX arguments for --warnings, --report, --trace.

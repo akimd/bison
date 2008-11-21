@@ -18,27 +18,6 @@
 
 m4_include(b4_pkgdatadir/[c++.m4])
 
-# b4_args(ARG1, ...)
-# _b4_args(ARG1, ...)
-# -------------------
-# Join with comma, skipping empty arguments.
-# b4_args calls itself recursively until it sees the first non-empty
-# argument, then calls _b4_args which prepends each non-empty argument
-# with a comma.
-m4_define([b4_args],
-[m4_if([$#$1],
-       [1], [],
-       [m4_ifval([$1],
-                 [$1[]_$0(m4_shift($@))],
-                 [$0(m4_shift($@))])])])
-
-# _b4_args(ARGS1, ...)
-# --------------------
-m4_define([_b4_args],
-[m4_if([$#$1],
-       [1], [],
-       [m4_ifval([$1], [, $1])[]$0(m4_shift($@))])])
-
 
 # b4_table_define(TABLE-NAME, CONTENT)
 # ------------------------------------
