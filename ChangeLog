@@ -1,3 +1,9 @@
+2008-11-21  Di-an Jan  <dianj@freeshell.org>
+
+	Implement no-XXX arguments for --warnings, --report, --trace.
+	* src/getargs.c (flags_argmatch): Handles no-XXX.
+	Fix typo in doxygen comment.
+
 2008-11-21  Akim Demaille  <demaille@gostai.com>
 
 	Display the changes in cross-options.texi.
