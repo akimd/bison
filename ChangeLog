@@ -1,3 +1,10 @@
+2008-11-21  Akim Demaille  <demaille@gostai.com>
+
+	Display the changes in cross-options.texi.
+	* build-aux/cross-options.pl ($sep): New, to separate items.
+	* doc/local.mk ($(CROSS_OPTIONS_TEXI)): Use diff to display the
+	changes.
+
 2008-11-20  Di-an Jan  <dianj@freeshell.org>
 
 	Improves options in the manual.
