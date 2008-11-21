@@ -61,9 +61,12 @@ while (<STDIN>)
     }
 }
 
+my $sep = '';
 foreach my $long (sort keys %option)
 {
     # Avoid trailing spaces.
+    print $sep;
+    $sep = "\n";
     print '@item @option{', $long, "}\n\@tab";
     print ' @option{', $option{$long}, '}' if $option{$long};
     print "\n\@tab";

@@ -1,3 +1,10 @@
+2008-11-21  Akim Demaille  <demaille@gostai.com>
+
+	Display the changes in cross-options.texi.
+	* build-aux/cross-options.pl ($sep): New, to separate items.
+	* doc/Makefile.am ($(srcdir)/cross-options.texi): Use diff to display
+	the changes.
+
 2008-11-20  Di-an Jan  <dianj@freeshell.org>
 
 	Improves options in the manual.
@@ -5,7 +12,7 @@
 	(Option Cross Key): Implement FIXME: listing directives also.
 	* build-aux/cross-options.pl:  Read from <STDIN> rather than <>.
 	(Short Option): Special case -d.  Put arguments inside @option.
-	(Bison Directive): Add column, automatically extracted from 
+	(Bison Directive): Add column, automatically extracted from
 	src/scan-gram.l (actual name passed as the first argument)
 	with special case for %define.
 	* doc/Makefile.am (doc/cross-options.texi): Pass src/scan-gram.l
