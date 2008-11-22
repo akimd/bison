@@ -1,5 +1,17 @@
 2008-11-25  Akim Demaille  <demaille@gostai.com>
 
+	b4_table_declare.
+	* data/lalr1.cc (b4_table_declare): New.
+	Use it to declare the tables defined with b4_table_define.
+	(b4_table_define): Declare a third arg to match b4_table_declare
+	signature.
+	Move all the comments around invocations of b4_table_define into
+	the invocations itselves.
+	Move things around to have the order for declarations and
+	definitions.
+
+2008-11-25  Akim Demaille  <demaille@gostai.com>
+
 	Formatting changes.
 	* data/lalr1.java: here.
 

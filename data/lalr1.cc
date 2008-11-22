@@ -19,8 +19,16 @@
 m4_include(b4_pkgdatadir/[c++.m4])
 
 
-# b4_table_define(TABLE-NAME, CONTENT)
-# ------------------------------------
+# b4_table_declare(TABLE-NAME, CONTENT, COMMENT)
+# ----------------------------------------------
+# Declare "parser::yy<TABLE-NAME>_" which contents is CONTENT.
+m4_define([b4_table_declare],
+[b4_comment([$3])
+  static const b4_int_type_for([$2]) yy$1_[[]]dnl
+])
+
+# b4_table_define(TABLE-NAME, CONTENT, COMMENT)
+# ---------------------------------------------
 # Define "parser::yy<TABLE-NAME>_" which contents is CONTENT.
 m4_define([b4_table_define],
 [const b4_int_type_for([$2])
@@ -662,36 +670,19 @@ m4_ifdef([b4_stype],
 
     /// Internal symbol numbers.
     typedef ]b4_int_type_for([b4_translate])[ token_number_type;
-    /* Tables.  */
-    /// For a state, the index in \a yytable_ of its portion.
-    static const ]b4_int_type_for([b4_pact])[ yypact_[];
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
-
-    /// For a state, default rule to reduce.
-    /// Unless\a  yytable_ specifies something else to do.
-    /// Zero means the default is an error.
-    static const ]b4_int_type_for([b4_defact])[ yydefact_[];
-
-    static const ]b4_int_type_for([b4_pgoto])[ yypgoto_[];
-    static const ]b4_int_type_for([b4_defgoto])[ yydefgoto_[];
-
-    /// What to do in a state.
-    /// \a yytable_[yypact_[s]]: what to do in state \a s.
-    /// - if positive, shift that token.
-    /// - if negative, reduce the rule which number is the opposite.
-    /// - if zero, do what YYDEFACT says.
-    static const ]b4_int_type_for([b4_table])[ yytable_[];
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
 
-    static const ]b4_int_type_for([b4_check])[ yycheck_[];
-
-    /// For a state, its accessing symbol.
-    static const ]b4_int_type_for([b4_stos])[ yystos_[];
-
-    /// For a rule, its LHS.
-    static const ]b4_int_type_for([b4_r1])[ yyr1_[];
-    /// For a rule, its RHS length.
-    static const ]b4_int_type_for([b4_r2])[ yyr2_[];
+    /* Tables.  */
+    ]b4_table_declare([pact], [b4_pact])[;
+    ]b4_table_declare([defact], [b4_defact])[;
+    ]b4_table_declare([pgoto], [b4_pgoto])[;
+    ]b4_table_declare([defgoto], [b4_defgoto])[;
+    ]b4_table_declare([table], [b4_table])[;
+    ]b4_table_declare([check], [b4_check])[;
+    ]b4_table_declare([stos], [b4_stos])[;
+    ]b4_table_declare([r1], [b4_r1])[;
+    ]b4_table_declare([r2], [b4_r2])[;
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
     /// For a symbol, its name in clear.
@@ -702,8 +693,7 @@ m4_ifdef([b4_stype],
     static std::string yytnamerr_ (const char *n);])[
 
 #if YYDEBUG
-    /// For each rule, its source line number.
-    static const ]b4_int_type_for([b4_rline])[ yyrline_[];
+    ]b4_table_declare([rline], [b4_rline])[;
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
@@ -1511,40 +1501,39 @@ b4_error_verbose_if([int yystate, int yytoken],
   }
 
 
-  /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
-     STATE-NUM.  */
   const ]b4_int_type(b4_pact_ninf, b4_pact_ninf) b4_parser_class_name::yypact_ninf_ = b4_pact_ninf[;
-  ]b4_table_define([pact], [b4_pact])[;
 
-  /* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
-     doesn't specify something else to do.  Zero means the default is an
-     error.  */
-  ]b4_table_define([defact], [b4_defact])[;
-
-  /* YYPGOTO[NTERM-NUM].  */
-  ]b4_table_define([pgoto], [b4_pgoto])[;
-
-  /* YYDEFGOTO[NTERM-NUM].  */
-  ]b4_table_define([defgoto], [b4_defgoto])[;
-
-  /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
-     positive, shift that token.  If negative, reduce the rule which
-     number is the opposite.  If zero, do what YYDEFACT says.  */
   const ]b4_int_type(b4_table_ninf, b4_table_ninf) b4_parser_class_name::yytable_ninf_ = b4_table_ninf[;
-  ]b4_table_define([table], [b4_table])[;
 
-  /* YYCHECK.  */
+  ]b4_table_define([pact], [b4_pact],
+    [YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
+     STATE-NUM.])[;
+
+  ]b4_table_define([defact], [b4_defact],
+    [YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
+     does not specify something else to do.  Zero means the default is an
+     error.])[;
+
+  ]b4_table_define([pgoto], [b4_pgoto], [YYPGOTO[NTERM-NUM].])[;
+
+  ]b4_table_define([defgoto], [b4_defgoto], [YYDEFGOTO[NTERM-NUM].])[;
+
+  ]b4_table_define([table], [b4_table],
+[YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
+ positive, shift that token.  If negative, reduce the rule which
+ number is the opposite.  If zero, do what YYDEFACT says.])[;
+
   ]b4_table_define([check], [b4_check])[;
 
-  /* STOS_[STATE-NUM] -- The (internal number of the) accessing
-     symbol of state STATE-NUM.  */
-  ]b4_table_define([stos], [b4_stos])[;
+  ]b4_table_define([stos], [b4_stos],
+    [STOS_[STATE-NUM] -- The (internal number of the) accessing
+     symbol of state STATE-NUM.])[;
 
-  /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-  ]b4_table_define([r1], [b4_r1])[;
+  ]b4_table_define([r1], [b4_r1],
+    [YYR1[YYN] -- Symbol number of symbol that rule YYN derives.])[;
 
-  /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-  ]b4_table_define([r2], [b4_r2])[;
+  ]b4_table_define([r2], [b4_r2],
+  [YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.])[;
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
@@ -1557,8 +1546,8 @@ b4_error_verbose_if([int yystate, int yytoken],
 #endif
 
 #if YYDEBUG
-  /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-  ]b4_table_define([rline], [b4_rline])[;
+  ]b4_table_define([rline], [b4_rline],
+    [YYRLINE[YYN] -- Source line where rule number YYN was defined.])[;
 
   // Print the state stack on the debug stream.
   void
