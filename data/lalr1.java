@@ -534,10 +534,10 @@ m4_popdef([b4_at_dollar])])dnl
         /* Read a lookahead token.  */
         if (yychar == yyempty_)
           {
-        yycdebug ("Reading a token: ");
-        yychar = yylexer.yylex ();]
+            yycdebug ("Reading a token: ");
+            yychar = yylexer.yylex ();]
             b4_locations_if([[
-        yylloc = new ]b4_location_type[(yylexer.getStartPos (),
+            yylloc = new ]b4_location_type[(yylexer.getStartPos (),
                             yylexer.getEndPos ());]])
             yylval = yylexer.getLVal ();[
           }
@@ -545,8 +545,8 @@ m4_popdef([b4_at_dollar])])dnl
         /* Convert token to internal form.  */
         if (yychar <= Lexer.EOF)
           {
-        yychar = yytoken = Lexer.EOF;
-        yycdebug ("Now at end of input.\n");
+            yychar = yytoken = Lexer.EOF;
+            yycdebug ("Now at end of input.\n");
           }
         else
           {
