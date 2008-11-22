@@ -1,5 +1,27 @@
 2008-11-25  Akim Demaille  <demaille@gostai.com>
 
+	b4_tables_map.
+	The point is to factor the generation of the tables across skeletons.
+	This is language dependant.
+	
+	* data/c.m4 (b4_comment_): New.
+	Should be usable to define how to generate tables independently of
+	the language.
+	(b4_c_comment): New.
+	(b4_comment): Bounce to b4_c_comment.
+	Now support $2 = [PREFIX] for indentation.
+	* data/lalr1.cc (b4_table_declare): Don't output a comment if
+	there is no comment.
+	Indent it properly when there is one.
+	Output the ending semicolon.
+	(b4_table_define): Space changes.
+	Output the ending semicolon.
+	(b4_tables_map): New.
+	Use it twice instead of declaring and defining the (integral)
+	tables by hand.
+
+2008-11-25  Akim Demaille  <demaille@gostai.com>
+
 	b4_table_declare.
 	* data/lalr1.cc (b4_table_declare): New.
 	Use it to declare the tables defined with b4_table_define.
