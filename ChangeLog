@@ -1,5 +1,21 @@
 2008-11-25  Akim Demaille  <demaille@gostai.com>
 
+	Get rid of yyrhs and yyprhs in yacc.c.
+	They were used to get the symbol types, given a rule number,  when
+	displaying the top of the stack before a reduction.  But the symbol type
+	is available from the state stack.  This has two be benefits: two tables
+	less in the parser (making it smaller), and a more consistent use of the
+	three stacks which will help to fuse them.
+	
+	* data/yacc.c (yyprhs, yyrhs): Remove.
+	(YY_REDUCE_PRINT): Pass yyssp to yy_reduce_print.
+	(yy_reduce_print): Take yyssp as argument.
+	Use it, together with yystos, to get the symbol type.
+	* tests/regression.at (Web2c Report): Remove these tables from the
+	expected output.
+
+2008-11-25  Akim Demaille  <demaille@gostai.com>
+
 	b4_tables_map.
 	The point is to factor the generation of the tables across skeletons.
 	This is language dependant.
