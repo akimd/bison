@@ -1,5 +1,9 @@
 2008-11-25  Akim Demaille  <demaille@gostai.com>
 
+	Formatting changes.
+
+2008-11-25  Akim Demaille  <demaille@gostai.com>
+
 	Get rid of yyrhs and yyprhs in yacc.c.
 	They were used to get the symbol types, given a rule number,  when
 	displaying the top of the stack before a reduction.  But the symbol type

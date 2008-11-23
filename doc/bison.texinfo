@@ -8934,7 +8934,7 @@ The first, inclusive, position of the range, and the first beyond.
 @end deftypeivar
 
 @deftypeop {Constructor} {Location} {} Location (Position @var{loc})
-Create a @code{Location} denoting an empty range located at a given point. 
+Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
 @deftypeop {Constructor} {Location} {} Location (Position @var{begin}, Position @var{end})
@@ -9174,12 +9174,12 @@ Return immediately from the parser, indicating success.
 @end deffn
 
 @deffn {Statement} {return YYERROR;}
-Start error recovery without printing an error message. 
+Start error recovery without printing an error message.
 @xref{Error Recovery}.
 @end deffn
 
 @deffn {Statement} {return YYFAIL;}
-Print an error message and start error recovery. 
+Print an error message and start error recovery.
 @xref{Error Recovery}.
 @end deffn
 
