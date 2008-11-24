@@ -433,7 +433,7 @@ dnl FIXME: This is wrong, we want computed header guards.
     {]b4_assert_if([
       assert(!built);
       built = true;])[
-      return *new (buffer) T;
+      return *new (buffer.raw) T;
     }
 
     /// Instantiate a \a T in here from \a t.
@@ -443,7 +443,7 @@ dnl FIXME: This is wrong, we want computed header guards.
     {]b4_assert_if([
       assert(!built);
       built = true;])[
-      return *new (buffer) T(t);
+      return *new (buffer.raw) T(t);
     }
 
     /// Construct and fill.
@@ -452,7 +452,7 @@ dnl FIXME: This is wrong, we want computed header guards.
     variant (const T& t)]b4_assert_if([
       : built(true)])[
     {
-      new (buffer) T(t);
+      new (buffer.raw) T(t);
     }
 
     /// Accessor to a built \a T.
@@ -461,7 +461,7 @@ dnl FIXME: This is wrong, we want computed header guards.
     as()
     {]b4_assert_if([
       assert(built);])[
-      return reinterpret_cast<T&>(buffer);
+      return reinterpret_cast<T&>(buffer.raw);
     }
 
     /// Const accessor to a built \a T (for %printer).
@@ -470,7 +470,7 @@ dnl FIXME: This is wrong, we want computed header guards.
     as() const
     {]b4_assert_if([
       assert(built);])[
-      return reinterpret_cast<const T&>(buffer);
+      return reinterpret_cast<const T&>(buffer.raw);
     }
 
     /// Swap the content with \a other.
@@ -502,7 +502,12 @@ dnl FIXME: This is wrong, we want computed header guards.
     }
 
     /// A buffer large enough to store any of the semantic values.
-    char buffer[S];
+    /// Long double is chosen as it has the strongest alignment
+    /// constraints.
+    union {
+      long double align_me;
+      char raw[S];
+    } buffer;
   };
 ]])[
 ]b4_namespace_close[
