@@ -802,13 +802,6 @@ m4_popdef([b4_at_dollar])])dnl
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   ]b4_typed_parser_table([String], [yytname_], [b4_tname])[
 
-  /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
-  ]b4_integral_parser_table([yyrhs_], [b4_rhs])[
-
-  /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
-     YYRHS.  */
-  ]b4_integral_parser_table([yyprhs_], [b4_prhs])[
-
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
   ]b4_integral_parser_table([yyrline_], [b4_rline])[
 
@@ -827,7 +820,7 @@ m4_popdef([b4_at_dollar])])dnl
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
       yy_symbol_print ("   $" + (yyi + 1) + " =",
-                       yyrhs_[yyprhs_[yyrule] + yyi],
+                       yystos_[yystack.stateAt(yyi + 1 - yynrhs)],
                        ]b4_rhs_value(yynrhs, yyi + 1)b4_locations_if([,
                        b4_rhs_location(yynrhs, yyi + 1)])[);
   }

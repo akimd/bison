@@ -1,5 +1,11 @@
 2008-11-25  Akim Demaille  <demaille@gostai.com>
 
+	Get rid of yyrhs and yyprhs in larl1.java.
+	* data/lalr1.java (yyrhs_, yyprhs_): Remove.
+	(yy_reduce_print): Rather, use yystos_ and the state stack.
+
+2008-11-25  Akim Demaille  <demaille@gostai.com>
+
 	Formatting changes.
 
 2008-11-25  Akim Demaille  <demaille@gostai.com>
