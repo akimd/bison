@@ -1,5 +1,11 @@
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
+	Use b4_parser_tables_define in glr.cc.
+	* data/glr.c: Use b4_parser_tables_define instead of defining the
+	(deterministic integral) tables by hand.
+
+2008-11-26  Akim Demaille  <demaille@gostai.com>
+
 	Use b4_parser_tables_define in Java.
 	* data/java.m4 (b4_typed_parser_table): Rename as...
 	(b4_typed_parser_table_define): this, for consistency.
