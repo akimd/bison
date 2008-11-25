@@ -117,11 +117,13 @@ m4_define([b4_int_type_for],
 m4_define([b4_null], [null])
 
 
-# b4_typed_parser_table(TYPE, NAME, DATA)
-# ---------------------------------------
-m4_define([b4_typed_parser_table],
-[[private static final ]$1[ $2[] = $2init();
-  private static final ]$1[[] $2init()
+# b4_typed_parser_table_define(TYPE, NAME, DATA, COMMENT)
+# -------------------------------------------------------
+m4_define([b4_typed_parser_table_define],
+[m4_ifval([$4], [b4_comment([$4])
+  ])dnl
+[private static final ]$1[ yy$2_[] = yy$2_init();
+  private static final ]$1[[] yy$2_init()
   {
     return new ]$1[[]
     {
@@ -130,10 +132,10 @@ m4_define([b4_typed_parser_table],
   }]])
 
 
-# b4_integral_parser_table(NAME, DATA)
-#-------------------------------------
-m4_define([b4_integral_parser_table],
-[b4_typed_parser_table([b4_int_type_for([$2])], [$1], [$2])])
+# b4_integral_parser_table_define(NAME, DATA, COMMENT)
+#-----------------------------------------------------
+m4_define([b4_integral_parser_table_define],
+[b4_typed_parser_table_define([b4_int_type_for([$2])], [$1], [$2], [$3])])
 
 
 ## ------------------------- ##

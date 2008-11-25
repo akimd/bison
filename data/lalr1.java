@@ -759,51 +759,20 @@ m4_popdef([b4_at_dollar])])dnl
     return "syntax error";
   }
 
-  /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
-     STATE-NUM.  */
   private static final ]b4_int_type_for([b4_pact])[ yypact_ninf_ = ]b4_pact_ninf[;
-  ]b4_integral_parser_table([yypact_], [b4_pact])[
-
-  /* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
-     doesn't specify something else to do.  Zero means the default is an
-     error.  */
-  ]b4_integral_parser_table([yydefact_], [b4_defact])[
-
-  /* YYPGOTO[NTERM-NUM].  */
-  ]b4_integral_parser_table([yypgoto_], [b4_pgoto])[
-
-  /* YYDEFGOTO[NTERM-NUM].  */
-  ]b4_integral_parser_table([yydefgoto_], [b4_defgoto])[
-
-  /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
-     positive, shift that token.  If negative, reduce the rule which
-     number is the opposite.  If zero, do what YYDEFACT says.  */
   private static final ]b4_int_type_for([b4_table])[ yytable_ninf_ = ]b4_table_ninf[;
-  ]b4_integral_parser_table([yytable_], [b4_table])[
 
-  /* YYCHECK.  */
-  ]b4_integral_parser_table([yycheck_], [b4_check])[
-
-  /* STOS_[STATE-NUM] -- The (internal number of the) accessing
-     symbol of state STATE-NUM.  */
-  ]b4_integral_parser_table([yystos_], [b4_stos])[
-
-  /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
-     to YYLEX-NUM.  */
-  ]b4_integral_parser_table([yytoken_number_], [b4_toknum])[
-
-  /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-  ]b4_integral_parser_table([yyr1_], [b4_r1])[
-
-  /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-  ]b4_integral_parser_table([yyr2_], [b4_r2])[
+  ]b4_parser_tables_define[
+  ]b4_integral_parser_table_define([token_number], [b4_toknum],
+     [TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
+     to YYLEX-NUM.])[
 
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
-  ]b4_typed_parser_table([String], [yytname_], [b4_tname])[
+  ]b4_typed_parser_table_define([String], [tname], [b4_tname])[
 
-  /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-  ]b4_integral_parser_table([yyrline_], [b4_rline])[
+  ]b4_integral_parser_table_define([rline], [b4_rline],
+  [YYRLINE[YYN] -- Source line where rule number YYN was defined.])[
 
   // Report on the debug stream that the rule yyrule is going to be reduced.
   private void yy_reduce_print (int yyrule, YYStack yystack)
@@ -826,7 +795,7 @@ m4_popdef([b4_at_dollar])])dnl
   }
 
   /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-  ]b4_integral_parser_table([yytranslate_table_], [b4_translate])[
+  ]b4_integral_parser_table_define([translate_table], [b4_translate])[
 
   private static final ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)
   {

@@ -1,5 +1,17 @@
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
+	Use b4_parser_tables_define in Java.
+	* data/java.m4 (b4_typed_parser_table): Rename as...
+	(b4_typed_parser_table_define): this, for consistency.
+	Accept a comment as $4.
+	Move $2 into yy*_.
+	(b4_integral_parser_table): Rename as...
+	(b4_integral_parser_table_define): this.
+	* data/lalr1.java: Adjust all uses.
+	Use b4_parser_tables_define instead of generation by hand.
+
+2008-11-26  Akim Demaille  <demaille@gostai.com>
+
 	Prepare the convergence bw C style and Java table generation.
 	* data/bison.m4 (b4_tables_map, b4_tables_declare)
 	(b4_tables_define): Rename as...
