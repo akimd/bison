@@ -110,6 +110,7 @@ AT_PURE_LEX_IF(
  m4_pushdef([AT_LEX_PRE_FORMALS], [])
  m4_pushdef([AT_LEX_PRE_ARGS],    [])
 ])
+AT_GLR_IF([AT_KEYWORDS([glr])])
 ])# _AT_BISON_OPTION_PUSHDEFS
 
 
