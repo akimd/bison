@@ -1,5 +1,14 @@
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
+	Get rid of lalr1-split.cc.
+	It was no longer maintainer.
+	
+	* data/lalr1-split.cc: Remove.
+	* etc/bench.pl.in (bench_fusion_parser): Remove.
+	Adjust.
+
+2008-11-26  Akim Demaille  <demaille@gostai.com>
+
 	Use yy* consistently.
 	* data/glr.c: Now that yyrhs no longer exists as a global
 	variable, rename local "rhs" variables into "yyrhs" for

@@ -57,11 +57,6 @@ request.
 
 =over 4
 
-=item I<fusion>
-
-Test F<lalr1.cc> with three stacks against F<lalr1-fusion.cc> which
-uses a single one.
-
 =item I<push>
 
 Test the push parser vs. the pull interface.  Use the C parser.
@@ -922,25 +917,6 @@ sub bench_variant_parser ()
     );
 }
 
-######################################################################
-
-=item C<bench_fusion_parser ()>
-
-Bench the C++ lalr1.cc parser using Boost.Variants or %union.
-
-=cut
-
-sub bench_fusion_parser ()
-{
-  bench ('list',
-         qw(
-             %s lalr1-split.cc
-           |
-             %s lalr1.cc
-         )
-    );
-}
-
 ############################################################################
 
 sub help ($)
@@ -1126,7 +1102,6 @@ verbose 2, "Grammar: $grammar\n";
 # Support -b: predefined benches.
 my %bench =
   (
-   "fusion"   => \&bench_fusion_parser,
    "push"     => \&bench_push_parser,
    "variant"  => \&bench_variant_parser,
   );
