@@ -1,5 +1,14 @@
 2008-11-25  Akim Demaille  <demaille@gostai.com>
 
+	Prefer TESTSUITE_FLAGS.
+	TESTSUITEFLAGS is barely readable.
+	
+	* tests/local.mk (TESTSUITE_FLAGS): Default to $(TESTSUITEFLAGS)
+	for backward compatibility.
+	Use the former instead of the latter.
+
+2008-11-25  Akim Demaille  <demaille@gostai.com>
+
 	Get rid of yyrhs and yyprhs in larl1.java.
 	* data/lalr1.java (yyrhs_, yyprhs_): Remove.
 	(yy_reduce_print): Rather, use yystos_ and the state stack.

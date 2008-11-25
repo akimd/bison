@@ -78,15 +78,17 @@ clean-local: clean-local-tests
 clean-local-tests:
 	test ! -f $(TESTSUITE) || cd tests && ../$(TESTSUITE) --clean
 
+# TESTSUITEFLAGS was used initially, this is backward compatibility.
+TESTSUITE_FLAGS = $(TESTSUITEFLAGS)
 check-local: tests/atconfig tests/atlocal $(TESTSUITE)
 # Move into tests/ so that testsuite.dir etc. be created there.
-	cd tests && ../$(TESTSUITE) $(TESTSUITEFLAGS)
+	cd tests && ../$(TESTSUITE) $(TESTSUITE_FLAGS)
 
 check_SCRIPTS = tests/bison
 
 # Run the test suite on the *installed* tree.
 installcheck-local:
-	cd tests && ../$(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
+	cd tests && ../$(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITE_FLAGS)
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++
