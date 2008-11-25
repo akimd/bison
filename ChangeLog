@@ -1,5 +1,11 @@
 2008-11-25  Akim Demaille  <demaille@gostai.com>
 
+	Get rid of yyrhs and yyprhs in glr.c.
+	* data/glr.c (yyrhs, yyprhs): Remove.
+	Instead, use the state stack and yystos.
+
+2008-11-25  Akim Demaille  <demaille@gostai.com>
+
 	Flag glr tests.
 	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): If glr, declare it
 	as an Autotest keyword.
