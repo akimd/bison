@@ -1,7 +1,7 @@
 /* Data definitions for internal representation of Bison's input.
 
    Copyright (C) 1984, 1986, 1989, 1992, 2001, 2002, 2003, 2004, 2005, 2006
-   2007 Free Software Foundation, Inc.
+   2007, 2008 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -223,7 +223,7 @@ void rule_lhs_print (rule *r, symbol *previous_lhs, FILE *out);
 void rule_lhs_print_xml (rule *r, FILE *out, int level);
 
 /* Return the length of the RHS.  */
-int rule_rhs_length (rule *r);
+size_t rule_rhs_length (rule *r);
 
 /* Print this rule's RHS on OUT.  */
 void rule_rhs_print (rule *r, FILE *out);
