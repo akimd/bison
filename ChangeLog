@@ -1,5 +1,14 @@
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
+	Get rid of (yy)rhs and (yy)prhs.
+	These tables are no longer needed in the parsers, and they don't seem to
+	be useful.  They are not documented either.
+	
+	* src/output.c (prepare_rules): Get rid of rhs and prhs.
+	Adjust the computation of (yy)r2.
+
+2008-11-26  Akim Demaille  <demaille@gostai.com>
+
 	Rule length is unsigned.
 	* src/gram.h, src/gram.c (rule_rhs_length): Return a size_t.
 
