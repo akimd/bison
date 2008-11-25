@@ -245,11 +245,11 @@ m4_define([_b4_args],
 
 
 
-# b4_tables_map(MACRO)
-# --------------------
+# b4_integral_parser_tables_map(MACRO)
+# -------------------------------------
 # Map MACRO on all the integral tables.  MACRO is expected to have
 # the signature MACRO(TABLE-NAME, CONTENT, COMMENT).
-m4_define([b4_tables_map],
+m4_define([b4_integral_parser_tables_map],
 [$1([pact], [b4_pact],
     [[YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
 STATE-NUM.]])
@@ -283,15 +283,15 @@ $1([r2], [b4_r2],
 ])
 
 
-# b4_tables_declare
-# b4_tables_define
-# -----------------
+# b4_parser_tables_declare
+# b4_parser_tables_define
+# ------------------------
 # Define/declare the (deterministic) parser tables.
-m4_define([b4_tables_declare],
-[b4_tables_map([b4_table_declare])])
+m4_define([b4_parser_tables_declare],
+[b4_integral_parser_tables_map([b4_integral_parser_table_declare])])
 
-m4_define([b4_tables_define],
-[b4_tables_map([b4_table_define])])
+m4_define([b4_parser_tables_define],
+[b4_integral_parser_tables_map([b4_integral_parser_table_define])])
 
 
 

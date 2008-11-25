@@ -169,10 +169,10 @@ m4_define([b4_int_type_for],
 m4_define([b4_null], [0])
 
 
-# b4_table_define(TABLE-NAME, CONTENT, COMMENT)
-# ---------------------------------------------
+# b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
+# -------------------------------------------------------------
 # Define "yy<TABLE-NAME>" which contents is CONTENT.
-m4_define([b4_table_define],
+m4_define([b4_integral_parser_table_define],
 [m4_ifval([$3], [b4_c_comment([$3], [  ])
 ])dnl
 static const b4_int_type_for([$2]) yy$1[[]] =

@@ -1,5 +1,22 @@
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
+	Prepare the convergence bw C style and Java table generation.
+	* data/bison.m4 (b4_tables_map, b4_tables_declare)
+	(b4_tables_define): Rename as...
+	(b4_integral_parser_tables_map, b4_parser_tables_declare)
+	(b4_parser_tables_define): these.
+	* data/c.m4 (b4_table_define): Rename as...
+	(b4_integral_parser_table_define): this.
+	* data/lalr1.cc: Adjust.
+	(b4_table_define, b4_table_declare): Rename as...
+	(b4_integral_parser_table_define)
+	(b4_integral_parser_table_declare): these.
+	(yyrline_): Move the comment where it is actually used.
+	* data/yacc.c: Adjust.
+	(yyrline): Use b4_integral_parser_table_define.
+
+2008-11-26  Akim Demaille  <demaille@gostai.com>
+
 	Regen.
 	* src/parse-gram.h, src/parse-gram.c: Regen.
 

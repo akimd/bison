@@ -19,19 +19,19 @@
 m4_include(b4_pkgdatadir/[c++.m4])
 
 
-# b4_table_declare(TABLE-NAME, CONTENT, COMMENT)
-# ----------------------------------------------
+# b4_integral_parser_table_declare(TABLE-NAME, CONTENT, COMMENT)
+# --------------------------------------------------------------
 # Declare "parser::yy<TABLE-NAME>_" which contents is CONTENT.
-m4_define([b4_table_declare],
+m4_define([b4_integral_parser_table_declare],
 [m4_ifval([$3], [b4_c_comment([$3], [  ])
 ])dnl
   static const b4_int_type_for([$2]) yy$1_[[]];dnl
 ])
 
-# b4_table_define(TABLE-NAME, CONTENT, COMMENT)
+# b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
 # ---------------------------------------------
 # Define "parser::yy<TABLE-NAME>_" which contents is CONTENT.
-m4_define([b4_table_define],
+m4_define([b4_integral_parser_table_define],
 [  const b4_int_type_for([$2])
   b4_parser_class_name::yy$1_[[]] =
   {
@@ -676,7 +676,7 @@ m4_ifdef([b4_stype],
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
 
     /* Tables.  */
-]b4_tables_declare[
+]b4_parser_tables_declare[
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
     /// For a symbol, its name in clear.
@@ -687,7 +687,8 @@ m4_ifdef([b4_stype],
     static std::string yytnamerr_ (const char *n);])[
 
 #if YYDEBUG
-]b4_table_declare([rline], [b4_rline])[
+]b4_integral_parser_table_declare([rline], [b4_rline],
+     [YYRLINE[YYN] -- Source line where rule number YYN was defined.])[
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
@@ -1499,7 +1500,7 @@ b4_error_verbose_if([int yystate, int yytoken],
 
   const ]b4_int_type(b4_table_ninf, b4_table_ninf) b4_parser_class_name::yytable_ninf_ = b4_table_ninf[;
 
-]b4_tables_define[
+]b4_parser_tables_define[
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
@@ -1512,8 +1513,7 @@ b4_error_verbose_if([int yystate, int yytoken],
 #endif
 
 #if YYDEBUG
-]b4_table_define([rline], [b4_rline],
-                 [YYRLINE[YYN] -- Source line where rule number YYN was defined.])[
+]b4_integral_parser_table_define([rline], [b4_rline])[
 
   // Print the state stack on the debug stream.
   void
