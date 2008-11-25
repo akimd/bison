@@ -1,5 +1,10 @@
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
+	Regen.
+	* src/parse-gram.h, src/parse-gram.c: Regen.
+
+2008-11-26  Akim Demaille  <demaille@gostai.com>
+
 	Factor the generation of the (integral) tables bw yacc.c and lalr1.cc.
 	* data/lalr1.cc (b4_tables_map): Move to...
 	* data/bison.m4: here.
