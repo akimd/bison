@@ -245,6 +245,56 @@ m4_define([_b4_args],
 
 
 
+# b4_tables_map(MACRO)
+# --------------------
+# Map MACRO on all the integral tables.  MACRO is expected to have
+# the signature MACRO(TABLE-NAME, CONTENT, COMMENT).
+m4_define([b4_tables_map],
+[$1([pact], [b4_pact],
+    [[YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
+STATE-NUM.]])
+
+$1([defact], [b4_defact],
+   [[YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
+does not specify something else to do.  Zero means the default is an
+error.]])
+
+$1([pgoto], [b4_pgoto], [[YYPGOTO[NTERM-NUM].]])
+
+$1([defgoto], [b4_defgoto], [[YYDEFGOTO[NTERM-NUM].]])
+
+$1([table], [b4_table],
+   [[YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
+positive, shift that token.  If negative, reduce the rule which
+number is the opposite.  If zero, do what YYDEFACT says.
+If YYTABLE_NINF, syntax error.]])
+
+$1([check], [b4_check])
+
+$1([stos], [b4_stos],
+   [[STOS_[STATE-NUM] -- The (internal number of the) accessing
+symbol of state STATE-NUM.]])
+
+$1([r1], [b4_r1],
+   [[YYR1[YYN] -- Symbol number of symbol that rule YYN derives.]])
+
+$1([r2], [b4_r2],
+   [[YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.]])
+])
+
+
+# b4_tables_declare
+# b4_tables_define
+# -----------------
+# Define/declare the (deterministic) parser tables.
+m4_define([b4_tables_declare],
+[b4_tables_map([b4_table_declare])])
+
+m4_define([b4_tables_define],
+[b4_tables_map([b4_table_define])])
+
+
+
 ## ------------------ ##
 ## Decoding options.  ##
 ## ------------------ ##

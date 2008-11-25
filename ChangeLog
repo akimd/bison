@@ -1,5 +1,19 @@
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
+	Factor the generation of the (integral) tables bw yacc.c and lalr1.cc.
+	* data/lalr1.cc (b4_tables_map): Move to...
+	* data/bison.m4: here.
+	Update the comment for yytable during the flight.
+	(b4_tables_declare, b4_tables_define): New.
+	* data/lalr1.cc: Use them.
+	* data/c.m4 (b4_table_define): New.
+	* data/yacc.c: Use b4_tables_define instead of output the tables
+	by hand.
+	* tests/regression.at (Web2c Actions): Adjust the expected output,
+	the order of the tables changed.
+
+2008-11-26  Akim Demaille  <demaille@gostai.com>
+
 	Get rid of (yy)rhs and (yy)prhs.
 	These tables are no longer needed in the parsers, and they don't seem to
 	be useful.  They are not documented either.
