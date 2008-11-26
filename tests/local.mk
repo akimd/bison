@@ -66,9 +66,9 @@ TESTSUITE_AT =					\
 TESTSUITE = $(top_srcdir)/tests/testsuite
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
-AUTOTEST_FLAGS = -I $(top_srcdir)/tests
+AUTOTESTFLAGS = -I $(top_srcdir)/tests
 $(TESTSUITE): tests/package.m4 $(TESTSUITE_AT)
-	$(AUTOTEST) $(AUTOTEST_FLAGS) $(top_srcdir)/tests/testsuite.at -o $@.tmp
+	$(AUTOTEST) $(AUTOTESTFLAGS) $(top_srcdir)/tests/testsuite.at -o $@.tmp
 	mv $@.tmp $@
 
 tests/atconfig: $(top_builddir)/config.status
@@ -78,17 +78,15 @@ clean-local: clean-local-tests
 clean-local-tests:
 	test ! -f $(TESTSUITE) || cd tests && ../$(TESTSUITE) --clean
 
-# TESTSUITEFLAGS was used initially, this is backward compatibility.
-TESTSUITE_FLAGS = $(TESTSUITEFLAGS)
 check-local: tests/atconfig tests/atlocal $(TESTSUITE)
 # Move into tests/ so that testsuite.dir etc. be created there.
-	cd tests && ../$(TESTSUITE) $(TESTSUITE_FLAGS)
+	cd tests && ../$(TESTSUITE) $(TESTSUITEFLAGS)
 
 check_SCRIPTS = tests/bison
 
 # Run the test suite on the *installed* tree.
 installcheck-local:
-	cd tests && ../$(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITE_FLAGS)
+	cd tests && ../$(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++
