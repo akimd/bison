@@ -1,3 +1,9 @@
+2008-12-01  Akim Demaille  <demaille@gostai.com>
+
+	Remove spurious empty line before syncline.
+	* data/bison.m4 (b4_syncline): Don't output an empty line before
+	the output.
+
 2008-11-26  Akim Demaille  <demaille@gostai.com>
 
 	Convert lib/Makefile.am into lib/local.mk.
