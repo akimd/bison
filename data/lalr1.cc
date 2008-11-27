@@ -152,23 +152,33 @@ m4_define([b4_symbol_if],
          [m4_fatal([$0: field $2 of $1 is not a Boolean:] b4_symbol([$1], [$2]))])])
 
 
-# b4_symbol_actions(FILENAME, LINENO,
-#                   SYMBOL-TAG, SYMBOL-NUM,
-#                   SYMBOL-ACTION, SYMBOL-TYPENAME)
-# -------------------------------------------------
+# b4_symbol_action(SYMBOL-NUM, KIND)
+# ----------------------------------
+# Run the action KIND (destructor or printer) for SYMBOL-NUM.
 # Same as in C, but using references instead of pointers.
-m4_define([b4_symbol_actions],
+m4_define([b4_symbol_action],
+[b4_symbol_if([$1], [has_$2],
 [m4_pushdef([b4_dollar_dollar],
-            [b4_symbol_value_template([yysym.value], [$6])])dnl
+    [b4_symbol_value_template([yysym.value],
+                              b4_symbol_if([$1], [has_type],
+                                           [b4_symbol([$1], [type])]))])dnl
 m4_pushdef([b4_at_dollar], [yysym.location])dnl
-      case $4: // $3
-b4_syncline([$2], [$1])
-        $5;
+      case $1: // b4_symbol([$1], [tag])
+b4_syncline([b4_symbol([$1], [$2_line])], ["b4_symbol([$1], [$2_file])"])
+        b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])
         break;
+
 m4_popdef([b4_at_dollar])dnl
 m4_popdef([b4_dollar_dollar])dnl
-])
+])])
+
+
+# b4_symbol_destructor(SYMBOL-NUM)
+# b4_symbol_printer(SYMBOL-NUM)
+# --------------------------------
+m4_define([b4_symbol_destructor], [b4_symbol_action([$1], [destructor])])
+m4_define([b4_symbol_printer],    [b4_symbol_action([$1], [printer])])
 
 
 # b4_symbol_case_(SYMBOL-NUM)
@@ -1027,9 +1037,9 @@ b4_percent_code_get[]dnl
     // User destructor.
     switch (yytype)
       {
-]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
-	default:
-	  break;
+]m4_map([b4_symbol_destructor], m4_defn([b4_symbol_numbers]))dnl
+[       default:
+          break;
       }]b4_variant_if([
 
     // Type destructor.
@@ -1048,8 +1058,8 @@ b4_percent_code_get[]dnl
         << yysym.location << ": "])[;
     switch (yytype)
       {
-]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))[
-       default:
+]m4_map([b4_symbol_printer], m4_defn([b4_symbol_numbers]))dnl
+[       default:
 	  break;
       }
     yyo << ')';
