@@ -1,5 +1,11 @@
 2008-12-01  Akim Demaille  <demaille@gostai.com>
 
+	Avoid capturing variables too easily.
+	* src/muscle_tab.h (MUSCLE_INSERT_BOOL, MUSCLE_OBSTACK_SGROW): Use
+	v__ and p__ instead of v and p.
+
+2008-12-01  Akim Demaille  <demaille@gostai.com>
+
 	Remove spurious empty line before syncline.
 	* data/bison.m4 (b4_syncline): Don't output an empty line before
 	the output.

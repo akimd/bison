@@ -33,8 +33,8 @@ extern struct obstack muscle_obstack;
 
 #define MUSCLE_INSERT_BOOL(Key, Value)				\
 do {								\
-  int v = Value;						\
-  MUSCLE_INSERT_INT (Key, v);					\
+  int v__ = Value;						\
+  MUSCLE_INSERT_INT (Key, v__);					\
 } while(0)
 
 #define MUSCLE_INSERT_INT(Key, Value)				\
@@ -67,18 +67,18 @@ do {								\
   muscle_insert (Key, obstack_finish (&muscle_obstack));	\
 } while(0)
 
-#define MUSCLE_OBSTACK_SGROW(Obstack, Value)			\
-do {								\
-  char const *p;						\
-  for (p = Value; *p; p++)					\
-    switch (*p)							\
-      {								\
-      case '$':	obstack_sgrow (Obstack, "$]["); break;		\
-      case '@':	obstack_sgrow (Obstack, "@@" ); break;		\
-      case '[':	obstack_sgrow (Obstack, "@{" ); break;		\
-      case ']':	obstack_sgrow (Obstack, "@}" ); break;		\
-      default: obstack_1grow (Obstack, *p); break;		\
-      }								\
+#define MUSCLE_OBSTACK_SGROW(Obstack, Value)            \
+do {                                                    \
+  char const *p__;                                      \
+  for (p__ = Value; *p__; p__++)                        \
+    switch (*p__)                                       \
+      {                                                 \
+      case '$':	obstack_sgrow (Obstack, "$]["); break;  \
+      case '@':	obstack_sgrow (Obstack, "@@" ); break;  \
+      case '[':	obstack_sgrow (Obstack, "@{" ); break;  \
+      case ']':	obstack_sgrow (Obstack, "@}" ); break;  \
+      default: obstack_1grow (Obstack, *p__); break;    \
+      }                                                 \
 } while(0)
 
 #define MUSCLE_INSERT_C_STRING(Key, Value)			\
