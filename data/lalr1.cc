@@ -189,6 +189,20 @@ m4_define([b4_symbol_case_],
 ])
 
 
+# b4_symbol_foreach(MACRO)
+# ------------------------
+# Invoke MACRO(SYMBOL-NUM) for each SYMBOL-NUM.
+m4_define([b4_symbol_foreach],
+          [m4_map([$1], m4_defn([b4_symbol_numbers]))])
+
+# b4_type_foreach(MACRO)
+# ----------------------
+# Invoke MACRO(SYMBOL-NUMS) for each set of SYMBOL-NUMS for each type set.
+m4_define([b4_type_foreach],
+          [m4_map([$1], m4_defn([b4_type_names]))])
+
+
+
 # b4_type_action_(NUMS)
 # ---------------------
 # Run actions for the symbol NUMS that all have the same type-name.
@@ -227,7 +241,7 @@ b4_args(b4_symbol_if([$1], [has_type],
 m4_define([b4_symbol_constructor_declarations],
 [b4_variant_if([
     // Symbol constructors declarations.
-m4_map([b4_symbol_constructor_declaration_], m4_defn([b4_symbol_numbers]))])])
+b4_symbol_foreach([b4_symbol_constructor_declaration_])])])
 
 
 
@@ -346,7 +360,7 @@ m4_define([b4_symbol_constructor_definitions],
 
 ]b4_variant_if(
 [  // Implementation of make_symbol for each symbol type.
-m4_map([b4_symbol_constructor_definition_], m4_defn([b4_symbol_numbers]))])])
+b4_symbol_foreach([b4_symbol_constructor_definition_])])])
 
 
 # b4_symbol_variant(YYTYPE, YYVAL, ACTION, [ARGS])
@@ -358,7 +372,7 @@ m4_define([b4_symbol_variant],
             [$2.$3< $][3 >(m4_shift3($@))])dnl
   switch ($1)
     {
-m4_map([b4_type_action_], m4_defn([b4_type_names]))[]dnl
+b4_type_foreach([b4_type_action_])[]dnl
       default:
         break;
     }
@@ -619,7 +633,7 @@ do {                                                            \
 ]b4_variant_if(
 [    /// An auxiliary type to compute the largest semantic type.
     union union_type
-    {]m4_map([b4_char_sizeof], m4_defn([b4_type_names]))[};
+    {]b4_type_foreach([b4_char_sizeof])[};
 
     /// Symbol semantic values.
     typedef variant<sizeof(union_type)> semantic_type;],
@@ -1037,7 +1051,7 @@ b4_percent_code_get[]dnl
     // User destructor.
     switch (yytype)
       {
-]m4_map([b4_symbol_destructor], m4_defn([b4_symbol_numbers]))dnl
+]b4_symbol_foreach([b4_symbol_destructor])dnl
 [       default:
           break;
       }]b4_variant_if([
@@ -1058,7 +1072,7 @@ b4_percent_code_get[]dnl
         << yysym.location << ": "])[;
     switch (yytype)
       {
-]m4_map([b4_symbol_printer], m4_defn([b4_symbol_numbers]))dnl
+]b4_symbol_foreach([b4_symbol_printer])dnl
 [       default:
 	  break;
       }

@@ -1,5 +1,11 @@
 2008-12-01  Akim Demaille  <demaille@gostai.com>
 
+	b4_symbol/type_foreach.
+	* data/lalr1.cc (b4_symbol_foreach, b4_type_foreach): New.
+	Use them.
+
+2008-12-01  Akim Demaille  <demaille@gostai.com>
+
 	Use the symbol properties to output the printer/destructor for lalr1.cc.
 	Instead of defining complex list of tuples to define various properties of
 	the symbols, we now prefer to define symbols as "structs" in m4: using the
