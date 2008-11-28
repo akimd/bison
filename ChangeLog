@@ -1,5 +1,17 @@
 2008-12-01  Akim Demaille  <demaille@gostai.com>
 
+	Use b4_symbol for printers and destructors everywhere.
+	* data/bison.m4 (b4_symbol_action_location): New.
+	* data/c.m4 (b4_symbol_actions): Remove.
+	Adjust all callers to use by b4_symbol_foreach and the corresponding
+	b4_symbol_printer/destructor macro.
+	* data/glr.cc: Adjust.
+	* data/lalr1.java: Adjust the %destructor sanity check.
+	* src/output.c (symbol_code_props_output): Remove, we no longer
+	need the b4_symbol_printers/destructors tables.
+
+2008-12-01  Akim Demaille  <demaille@gostai.com>
+
 	Use b4_symbol_case_.
 	* data/lalr1.cc, data/bison.m4 (b4_symbol_action): Use
 	b4_symbol_case_.

@@ -17,15 +17,20 @@
 
 m4_include(b4_pkgdatadir/[java.m4])
 
-b4_defines_if([b4_fatal([%s: %%defines does not make sense in Java], [b4_skeleton])])
-m4_ifval(m4_defn([b4_symbol_destructors]),
-        [b4_fatal([%s: %%destructor does not make sense in Java], [b4_skeleton])],
-        [])
+b4_defines_if([b4_fatal([%s: %%defines does not make sense in Java],
+              [b4_skeleton])])
+
+m4_define([b4_symbol_no_destructor_assert],
+[b4_symbol_if([$1], [has_destructor],
+              [b4_fatal([%s: %s: %%destructor does not make sense in Java],
+                        [b4_skeleton],
+                        [b4_symbol_action_location([$1], [destructor])])])])
+b4_symbol_foreach([b4_symbol_no_destructor_assert])
 
 m4_divert_push(0)dnl
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
-  [2007, 2008])
+             [2007, 2008])
 
 b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
 ])[/* First part of user declarations.  */

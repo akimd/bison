@@ -373,6 +373,13 @@ m4_define([b4_symbol_if],
          [m4_fatal([$0: field $2 of $1 is not a Boolean:] b4_symbol([$1], [$2]))])])
 
 
+# b4_symbol_action_location(SYMBOL-NUM, KIND)
+# -------------------------------------------
+# Report the location of the KIND action as FILE:LINE.
+m4_define([b4_symbol_action_location],
+[b4_symbol([$1], [$2_file]):b4_syncline([b4_symbol([$1], [$2_line])])])
+
+
 # b4_symbol_action(SYMBOL-NUM, KIND)
 # ----------------------------------
 # Run the action KIND (destructor or printer) for SYMBOL-NUM.

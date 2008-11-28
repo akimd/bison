@@ -153,7 +153,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
     YYUSE (yylocationp);
     switch (yytype)
       {
-  ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
+]b4_symbol_foreach([b4_symbol_printer])dnl
 [        default:
 	  break;
       }

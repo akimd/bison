@@ -404,23 +404,6 @@ $2
 b4_syncline([@oline@], [@ofile@])
     break;])
 
-# b4_symbol_actions(FILENAME, LINENO,
-#                   SYMBOL-TAG, SYMBOL-NUM,
-#                   SYMBOL-ACTION, SYMBOL-TYPENAME)
-# -------------------------------------------------
-m4_define([b4_symbol_actions],
-[m4_pushdef([b4_dollar_dollar],
-   [b4_symbol_value([(*yyvaluep)], [$6])])dnl
-m4_pushdef([b4_at_dollar], [(*yylocationp)])dnl
-      case $4: /* $3 */
-b4_syncline([$2], [$1])
-	$5;
-b4_syncline([@oline@], [@ofile@])
-	break;
-m4_popdef([b4_at_dollar])dnl
-m4_popdef([b4_dollar_dollar])dnl
-])
-
 
 # b4_yydestruct_generate(FUNCTION-DECLARATOR)
 # -------------------------------------------
@@ -452,8 +435,8 @@ b4_parse_param_use[]dnl
 
   switch (yytype)
     {
-]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
-      default:
+]b4_symbol_foreach([b4_symbol_destructor])dnl
+[      default:
 	break;
     }
 }]dnl
@@ -493,7 +476,7 @@ b4_parse_param_use[]dnl
 # endif
   switch (yytype)
     {
-]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
+]b4_symbol_foreach([b4_symbol_printer])dnl
 [      default:
 	break;
     }
