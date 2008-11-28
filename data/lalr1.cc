@@ -121,37 +121,6 @@ m4_define([b4_rhs_value],
 m4_define([b4_rhs_location],
           [b4_rhs_data([$1], [$2]).location])
 
-
-# b4_symbol_(NUM, FIELD)
-# ----------------------
-# Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
-# undefined.
-m4_define([b4_symbol_],
-[m4_indir([b4_symbol($1, $2)])])
-
-
-# b4_symbol(NUM, FIELD)
-# ---------------------
-# Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
-# undefined.  If FIELD = id, prepend the prefix.
-m4_define([b4_symbol],
-[m4_case([$2],
-         [id],    [m4_do([b4_percent_define_get([token.prefix])],
-                         [b4_symbol_([$1], [id])])],
-         [b4_symbol_($@)])])
-
-
-# b4_symbol_if(NUM, FIELD, IF-TRUE, IF-FALSE)
-# -------------------------------------------
-# If FIELD about symbol #NUM is 1 expand IF-TRUE, if is 0, expand IF-FALSE.
-# Otherwise an error.
-m4_define([b4_symbol_if],
-[m4_case(b4_symbol([$1], [$2]),
-         [1], [$3],
-         [0], [$4],
-         [m4_fatal([$0: field $2 of $1 is not a Boolean:] b4_symbol([$1], [$2]))])])
-
-
 # b4_symbol_action(SYMBOL-NUM, KIND)
 # ----------------------------------
 # Run the action KIND (destructor or printer) for SYMBOL-NUM.
@@ -172,51 +141,6 @@ b4_syncline([@oline@], [@ofile@])
 m4_popdef([b4_at_dollar])dnl
 m4_popdef([b4_dollar_dollar])dnl
 ])])
-
-
-# b4_symbol_destructor(SYMBOL-NUM)
-# b4_symbol_printer(SYMBOL-NUM)
-# --------------------------------
-m4_define([b4_symbol_destructor], [b4_symbol_action([$1], [destructor])])
-m4_define([b4_symbol_printer],    [b4_symbol_action([$1], [printer])])
-
-
-# b4_symbol_case_(SYMBOL-NUM)
-# ---------------------------
-# Issue a "case NUM" for SYMBOL-NUM.
-m4_define([b4_symbol_case_],
-[      case b4_symbol([$1], [number]): // b4_symbol([$1], [tag])
-])
-
-
-# b4_symbol_foreach(MACRO)
-# ------------------------
-# Invoke MACRO(SYMBOL-NUM) for each SYMBOL-NUM.
-m4_define([b4_symbol_foreach],
-          [m4_map([$1], m4_defn([b4_symbol_numbers]))])
-
-# b4_type_foreach(MACRO)
-# ----------------------
-# Invoke MACRO(SYMBOL-NUMS) for each set of SYMBOL-NUMS for each type set.
-m4_define([b4_type_foreach],
-          [m4_map([$1], m4_defn([b4_type_names]))])
-
-
-
-# b4_type_action_(NUMS)
-# ---------------------
-# Run actions for the symbol NUMS that all have the same type-name.
-# Skip NUMS that have no type-name.
-m4_define([b4_type_action_],
-[b4_symbol_if([$1], [has_type],
-[m4_map([b4_symbol_case_], [$@])[]dnl
-        b4_dollar_dollar([b4_symbol([$1], [number])],
-                         [b4_symbol([$1], [tag])],
-                         [b4_symbol([$1], [type])]);
-	break;
-
-])])
-
 
 # b4_symbol_constructor_declaration_(SYMBOL-NUMBER)
 # -------------------------------------------------
