@@ -26,8 +26,6 @@
 	* data/bison.m4: Here.
 	* data/lalr1.cc (b4_symbol_action): Specialize for C++: use
 	b4_symbol_value_template instead of b4_symbol_value.
-	
-	s b4_symbols in bison.m4
 
 2008-12-01  Akim Demaille  <demaille@gostai.com>
 
@@ -38,11 +36,12 @@
 2008-12-01  Akim Demaille  <demaille@gostai.com>
 
 	Use the symbol properties to output the printer/destructor for lalr1.cc.
-	Instead of defining complex list of tuples to define various properties of
-	the symbols, we now prefer to define symbols as "structs" in m4: using the
-	symbol key (its number), and the property name, b4_symbol gives it value.
-	Use this to handle destructors and printers.
-	
+	Instead of defining complex list of tuples to define various
+	properties of the symbols, we now prefer to define symbols as
+	"structs" in m4: using the symbol key (its number), and the
+	property name, b4_symbol gives it value.  Use this to handle
+	destructors and printers.
+
 	* src/output.c (CODE_PROP): New.
 	(prepare_symbol_definitions): Use it to define the printer and
 	destructor related attributes of the symbols.
@@ -207,11 +206,12 @@
 2008-11-25  Akim Demaille  <demaille@gostai.com>
 
 	Get rid of yyrhs and yyprhs in yacc.c.
-	They were used to get the symbol types, given a rule number,  when
-	displaying the top of the stack before a reduction.  But the symbol type
-	is available from the state stack.  This has two be benefits: two tables
-	less in the parser (making it smaller), and a more consistent use of the
-	three stacks which will help to fuse them.
+	They were used to get the symbol types, given a rule number, when
+	displaying the top of the stack before a reduction.  But the
+	symbol type is available from the state stack.  This has two be
+	benefits: two tables less in the parser (making it smaller), and a
+	more consistent use of the three stacks which will help to fuse
+	them.
 
 	* data/yacc.c (yyprhs, yyrhs): Remove.
 	(YY_REDUCE_PRINT): Pass yyssp to yy_reduce_print.
