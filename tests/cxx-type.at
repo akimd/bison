@@ -1,6 +1,6 @@
 # Checking GLR Parsing.                         -*- Autotest -*-
-# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation,
-# Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
+# Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -351,7 +351,7 @@ AT_BISON_OPTION_POPDEFS
 ])
 
 m4_define([_AT_RESOLVED_GLR_OUTPUT],
-[[+(z,q)
+[[[+(z,q)
 <declare>(T,x)
 <init-declare>(T,x,y)
 =(x,y)
@@ -360,10 +360,10 @@ m4_define([_AT_RESOLVED_GLR_OUTPUT],
 <init-declare>(T,y,+(z,q))
 <error>
 +(z,q)
-]])
+]]])
 
 m4_define([_AT_RESOLVED_GLR_OUTPUT_WITH_LOC],
-[[3.0-3.5: +(z,q)
+[[[3.0-3.5: +(z,q)
 5.0-5.3: <declare>(T,x)
 7.0-7.7: <init-declare>(T,x,y)
 9.0-9.5: =(x,y)
@@ -372,10 +372,10 @@ m4_define([_AT_RESOLVED_GLR_OUTPUT_WITH_LOC],
 15.0-15.13: <init-declare>(T,y,+(z,q))
 17.0-17.15: <error>
 19.0-19.5: +(z,q)
-]])
+]]])
 
 m4_define([_AT_AMBIG_GLR_OUTPUT],
-[[+(z,q)
+[[[+(z,q)
 <declare>(T,x)
 <init-declare>(T,x,y)
 =(x,y)
@@ -384,10 +384,10 @@ m4_define([_AT_AMBIG_GLR_OUTPUT],
 <OR>(<init-declare>(T,y,+(z,q)),=(<cast>(y,T),+(z,q)))
 <error>
 +(z,q)
-]])
+]]])
 
 m4_define([_AT_AMBIG_GLR_OUTPUT_WITH_LOC],
-[[3.0-3.5: +(z,q)
+[[[3.0-3.5: +(z,q)
 5.0-5.3: <declare>(T,x)
 7.0-7.7: <init-declare>(T,x,y)
 9.0-9.5: =(x,y)
@@ -396,15 +396,15 @@ m4_define([_AT_AMBIG_GLR_OUTPUT_WITH_LOC],
 15.0-15.13: <OR>(<init-declare>(T,y,+(z,q)),=(<cast>(y,T),+(z,q)))
 17.0-17.15: <error>
 19.0-19.5: +(z,q)
-]])
+]]])
 
 m4_define([_AT_GLR_STDERR],
-[[syntax error
-]])
+[[[syntax error
+]]])
 
 m4_define([_AT_VERBOSE_GLR_STDERR],
-[[syntax error, unexpected ID, expecting '=' or '+' or ')'
-]])
+[[[syntax error, unexpected ID, expecting '=' or '+' or ')'
+]]])
 
 ## ---------------------------------------------------- ##
 ## Compile the grammar described in the documentation.  ##

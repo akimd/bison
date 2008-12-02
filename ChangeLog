@@ -1,3 +1,14 @@
+2008-12-02  Eric Blake  <ebb9@byu.net>
+
+	Build testsuite with newer autoconf.
+	* tests/output.at (m4_expand): Don't override in newer autoconf,
+	where the underlying implementation changed.
+	* tests/cxx-type.at (_AT_RESOLVED_GLR_OUTPUT)
+	(_AT_RESOLVED_GLR_OUTPUT_WITH_LOC, _AT_AMBIG_GLR_OUTPUT)
+	(_AT_AMBIG_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
+	(_AT_VERBOSE_GLR_STDERR): Expand to double-quoted strings,
+	since some of them contain unbalanced ')'.
+
 2008-12-01  Akim Demaille  <demaille@gostai.com>
 
 	Use b4_symbol for printers and destructors everywhere.
@@ -2061,9 +2072,9 @@
 2008-08-29  Akim Demaille  <demaille@gostai.com>
 
 	Clarify UPDATED use.
-        * doc/bison.texinfo: It refers to the last edition of this file,
+	* doc/bison.texinfo: It refers to the last edition of this file,
 	not to the release date of Bison.
-        Reported by Joel E. Denny.
+	Reported by Joel E. Denny.
 
 2008-08-29  Akim Demaille  <demaille@gostai.com>
 
@@ -2083,15 +2094,15 @@
 2008-08-27  Akim Demaille  <demaille@gostai.com>
 
 	Check yyerrok in calc.at.
-        * tests/calc.at (calc.y): Use yyerrok on "( error )".
-        (AT_CHECK_CALC): Add a check that ensures that yyerrok works as
-        expected.
+	* tests/calc.at (calc.y): Use yyerrok on "( error )".
+	(AT_CHECK_CALC): Add a check that ensures that yyerrok works as
+	expected.
 
 2008-08-27  Akim Demaille  <demaille@gostai.com>
 
 	Support yyerrok in lalr1.cc.
 	YYBACKUP is still to import back into lalr1.cc.
-        * data/lalr1.cc (yyerrork, yyclearin, YYRECOVERING): Define.
+	* data/lalr1.cc (yyerrork, yyclearin, YYRECOVERING): Define.
 
 2008-08-26  Joel E. Denny  <jdenny@ces.clemson.edu>
 
