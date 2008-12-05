@@ -200,9 +200,10 @@ AT_CLEANUP
 AT_CHECK_OUTPUT_FILE_NAME([[`~!@#$%^&*()-=_+{}[]|\:;<>, .']])
 dnl Work around a bug in m4_expand that broke AT_SETUP in autoconf 2.62,
 dnl by using the definition from 2.63.
-m4_define([m4_expand], [_$0(-=<{($1)}>=-)])
+m4_version_prereq([2.63], [],
+[m4_define([m4_expand], [_$0(-=<{($1)}>=-)])
 m4_define([_m4_expand],
-[m4_changequote([-=<{(], [)}>=-])$1m4_changequote([, ])])
+[m4_changequote([-=<{(], [)}>=-])$1m4_changequote([, ])])])
 AT_CHECK_OUTPUT_FILE_NAME([[(]])
 AT_CHECK_OUTPUT_FILE_NAME([[)]])
 AT_CHECK_OUTPUT_FILE_NAME([[#]])
