@@ -1,3 +1,8 @@
+2008-12-07  Akim Demaille  <demaille@gostai.com>
+
+	Update gnulib.
+	* gnulib: Update from master.
+
 2008-12-05  Eric Blake  <ebb9@byu.net>
 
 	Avoid compiler warning.
