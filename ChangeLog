@@ -1,3 +1,9 @@
+2008-12-05  Eric Blake  <ebb9@byu.net>
+
+	Avoid compiler warning.
+	* src/output.c (muscle_insert_item_number_table): Delete unused
+	function.
+
 2008-12-02  Eric Blake  <ebb9@byu.net>
 
 	Build testsuite with newer autoconf.
