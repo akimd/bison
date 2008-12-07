@@ -71,9 +71,6 @@ $(TESTSUITE): tests/package.m4 $(TESTSUITE_AT)
 	$(AUTOTEST) $(AUTOTESTFLAGS) $(top_srcdir)/tests/testsuite.at -o $@.tmp
 	mv $@.tmp $@
 
-tests/atconfig: $(top_builddir)/config.status
-	./config.status tests/$@
-
 clean-local: clean-local-tests
 clean-local-tests:
 	test ! -f $(TESTSUITE) || cd tests && ../$(TESTSUITE) --clean

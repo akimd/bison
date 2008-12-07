@@ -1,3 +1,10 @@
+2008-12-08  Akim Demaille  <demaille@gostai.com>
+
+	Fix regeneration of atconfig.
+	* tests/local.mk (tests/atconfig): The rule was incorrect, but
+	remove it: now that there is no tests/Makefile.am, the top-level
+	Makefile properly updates atconfig when needed.
+
 2008-12-07  Di-an Jan  <dianj@freeshell.org>
 
 	Implement the FIXME that ends an user action with a semicolon
