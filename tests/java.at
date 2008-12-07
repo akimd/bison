@@ -24,7 +24,7 @@ AT_BANNER([[Java Calculator.]])
 
 
 # _AT_DATA_JAVA_CALC_Y($1, $2, $3, [BISON-DIRECTIVES])
-# ----------------------------------------------------------------------
+# ----------------------------------------------------
 # Produce `calc.y'.  Don't call this macro directly, because it contains
 # some occurrences of `$1' etc. which will be interpreted by m4.  So
 # you should call it with $1, $2, and $3 as arguments, which is what
@@ -212,7 +212,7 @@ class Position {
 
 
 # AT_DATA_CALC_Y([BISON-OPTIONS])
-# -------------------------------------------------
+# -------------------------------
 # Produce `calc.y'.
 m4_define([AT_DATA_JAVA_CALC_Y],
 [_AT_DATA_JAVA_CALC_Y($[1], $[2], $[3], [$1])
@@ -275,7 +275,7 @@ AT_CHECK([cat stderr], 0, [expout])
 ])
 
 # _AT_CHECK_JAVA_CALC([BISON-DIRECTIVES], [BISON-CODE])
-# -----------------------------------------------------------------------
+# -----------------------------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-DIRECTIVES, and performs several tests over the parser.
 m4_define([_AT_CHECK_JAVA_CALC],
@@ -367,7 +367,7 @@ AT_CLEANUP
 
 
 # AT_CHECK_JAVA_CALC([BISON-DIRECTIVES])
-# --------------------------------------------------------
+# --------------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-DIRECTIVES, and performs several tests over the parser.
 # Run the test with and without %error-verbose.
@@ -420,9 +420,10 @@ AT_DATA([[YYParser.y]], [
 %debug
 %error-verbose
 %token-table
+%token END "end"
 $1
 %%
-start: "end" {$2};
+start: END {$2};
 %%
 class m4_default([$3], [Position]) {}
 ])
@@ -474,9 +475,9 @@ m4_define([AT_CHECK_JAVA_GREP],
 ])
 
 
-# ----------------------------------- #
-# Java parser class and package names #
-# ----------------------------------- #
+# ------------------------------------- #
+# Java parser class and package names.  #
+# ------------------------------------- #
 
 AT_SETUP([Java parser class and package names])
 
@@ -485,6 +486,9 @@ AT_CHECK_JAVA_GREP([[class YYParser]])
 
 AT_CHECK_JAVA_MINIMAL([[%name-prefix "Prefix"]])
 AT_CHECK_JAVA_GREP([[class PrefixParser]])
+
+AT_CHECK_JAVA_MINIMAL([[%define token.prefix "TOK_"]])
+AT_CHECK_JAVA_GREP([[.*TOK_END.*]])
 
 AT_CHECK_JAVA_MINIMAL([[%define parser_class_name "ParserClassName"]])
 AT_CHECK_JAVA_GREP([[class ParserClassName]])
@@ -495,9 +499,9 @@ AT_CHECK_JAVA_GREP([[package user_java_package;]])
 AT_CLEANUP
 
 
-# --------------------------- #
-# Java parser class modifiers #
-# --------------------------- #
+# ----------------------------- #
+# Java parser class modifiers.  #
+# ----------------------------- #
 
 AT_SETUP([Java parser class modifiers])
 

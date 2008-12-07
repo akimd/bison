@@ -147,7 +147,7 @@ m4_define([b4_integral_parser_table_define],
 # Output the definition of this token as an enum.
 m4_define([b4_token_enum],
 [    /** Token number, to be returned by the scanner.  */
-    static final int $1 = $2;
+    static final int b4_percent_define_get([token.prefix])$1 = $2;
 ])
 
 

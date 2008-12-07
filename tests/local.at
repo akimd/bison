@@ -35,7 +35,7 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 # --------------------------------------------------
 # This macro works around the impossibility to define macros
 # inside macros, because issuing `[$1]' is not possible in M4 :(.
-# This sucks hard, GNU M4 should really provide M5 like $$1.
+# This sucks hard, GNU M4 should really provide M5-like $$1.
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
 [m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
@@ -70,6 +70,9 @@ m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [%name-prefix ".*"],
            [m4_bregexp([$3], [name-prefix "\([^"]*\)"], [\1])],
            [yy])])
+m4_pushdef([AT_TOKEN_PREFIX],
+[m4_bmatch([$3], [%define token.prefix ".*"],
+           [m4_bregexp([$3], [%define token.prefix "\(.*\)"], [\1])])])
 # yyerror receives the location if %location & %pure & (%glr or %parse-param).
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],

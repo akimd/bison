@@ -1,5 +1,16 @@
 2008-12-08  Akim Demaille  <demaille@gostai.com>
 
+	Test token.prefix in all the skeletons.
+	* data/java.m4 (b4_token_enum): Use the token.prefix.
+	* tests/local.at (AT_BISON_OPTION_PUSHDEFS): Define AT_TOKEN_PREFIX.
+	* tests/calc.at (_AT_DATA_CALC_Y): Use it.
+	Add checks for yacc.c, glr.c, lalr1.cc and glr.cc.
+	* tests/java.at: Comment changes.
+	(AT_CHECK_JAVA_MINIMAL): Define the END token.
+	(Java parser class and package names): Add token.prefix check.
+
+2008-12-08  Akim Demaille  <demaille@gostai.com>
+
 	Fix regeneration of atconfig.
 	* tests/local.mk (tests/atconfig): The rule was incorrect, but
 	remove it: now that there is no tests/Makefile.am, the top-level

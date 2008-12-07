@@ -142,12 +142,12 @@ int
     {
       unget_char (]AT_LEX_PRE_ARGS[ c);
       ]AT_VAL[.ival = read_signed_integer (]AT_LEX_ARGS[);
-      return NUM;
+      return ]AT_TOKEN_PREFIX[NUM;
     }
 
   /* Return end-of-file.  */
   if (c == EOF)
-    return CALC_EOF;
+    return ]AT_TOKEN_PREFIX[CALC_EOF;
 
   /* Return single chars. */
   return c;
@@ -579,6 +579,7 @@ AT_CHECK_CALC_LALR([%define api.push_pull "both" %define api.pure %locations])
 AT_CHECK_CALC_LALR([%error-verbose %locations])
 
 AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%error-verbose %locations %defines %name-prefix "calc" %define token.prefix "TOK_" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%debug])
 AT_CHECK_CALC_LALR([%error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
@@ -619,6 +620,7 @@ AT_CHECK_CALC_GLR([%error-verbose %locations %defines %name-prefix "calc" %verbo
 
 AT_CHECK_CALC_GLR([%debug])
 AT_CHECK_CALC_GLR([%error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_GLR([%error-verbose %debug %locations %defines %name-prefix "calc" %define token.prefix "TOK_" %verbose %yacc])
 
 AT_CHECK_CALC_GLR([%define api.pure %error-verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
@@ -648,6 +650,7 @@ AT_CHECK_CALC_LALR1_CC([%locations %error-verbose %name-prefix "calc" %verbose %
 AT_CHECK_CALC_LALR1_CC([%locations %error-verbose %debug %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %error-verbose %debug %name-prefix "calc" %define token.prefix "TOK_" %verbose %yacc])
 
 AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
@@ -676,5 +679,6 @@ AT_CHECK_CALC_GLR_CC([%debug])
 AT_CHECK_CALC_GLR_CC([%error-verbose %debug %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_GLR_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %define token.prefix "TOK_" %verbose %yacc])
 
 AT_CHECK_CALC_GLR_CC([%pure-parser %error-verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
