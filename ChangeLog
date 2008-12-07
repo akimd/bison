@@ -1,3 +1,10 @@
+2008-12-08  Akim Demaille  <demaille@gostai.com>
+
+	Install autoconf as a submodule to get m4sugar.
+	* .gitmodules: Add submodules/autoconf.
+	* data/m4sugar/foreach.m4, data/m4sugar/m4sugar.m4: Now links into
+	submodules/autoconf.
+
 2008-11-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Simplify last patch slightly.
