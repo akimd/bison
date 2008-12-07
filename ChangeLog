@@ -1,5 +1,12 @@
 2008-12-08  Akim Demaille  <demaille@gostai.com>
 
+	Install autoconf as a submodule to get m4sugar.
+	* .gitmodules: Add submodules/autoconf.
+	* data/m4sugar/foreach.m4, data/m4sugar/m4sugar.m4: Now links into
+	submodules/autoconf.
+
+2008-12-08  Akim Demaille  <demaille@gostai.com>
+
 	Test token.prefix in all the skeletons.
 	* data/java.m4 (b4_token_enum): Use the token.prefix.
 	* tests/local.at (AT_BISON_OPTION_PUSHDEFS): Define AT_TOKEN_PREFIX.
