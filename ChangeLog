@@ -1,5 +1,10 @@
 2008-12-08  Akim Demaille  <demaille@gostai.com>
 
+	Update data/README.
+	* data/README: Document glr.cc, lalr1.java, m4sugar and xslt.
+
+2008-12-08  Akim Demaille  <demaille@gostai.com>
+
 	Install autoconf as a submodule to get m4sugar.
 	* .gitmodules: Add submodules/autoconf.
 	* data/m4sugar/foreach.m4, data/m4sugar/m4sugar.m4: Now links into
