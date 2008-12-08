@@ -97,16 +97,16 @@ m4_ifval($1, [
 ], [_AT_UNUSED_VALUES_DECLARATIONS
 ])[[%%
 start:
-  'a' a { $]2[ } | 'b' b { $]2[ } | 'c' c { $]2[ } | 'd' d { $]2[ } | 'e' e { $]2[ }
-| 'f' f { $]2[ } | 'g' g { $]2[ } | 'h' h { $]2[ } | 'i' i { $]2[ } | 'j' j { $]2[ }
-| 'k' k { $]2[ } | 'l' l { $]2[ }
+  'a' a { $]2[; } | 'b' b { $]2[; } | 'c' c { $]2[; } | 'd' d { $]2[; }
+| 'e' e { $]2[; } | 'f' f { $]2[; } | 'g' g { $]2[; } | 'h' h { $]2[; }
+| 'i' i { $]2[; } | 'j' j { $]2[; } | 'k' k { $]2[; } | 'l' l { $]2[; }
 ;
 
 a: INT | INT { } INT { } INT { };
 b: INT | /* empty */;
-c: INT | INT { $]1[ } INT { $<integer>2 } INT { $<integer>4 };
-d: INT | INT { } INT { $]1[ } INT { $<integer>2 };
-e: INT | INT { } INT {  } INT { $]1[ };
+c: INT | INT { $]1[; } INT { $<integer>2; } INT { $<integer>4; };
+d: INT | INT { } INT { $]1[; } INT { $<integer>2; };
+e: INT | INT { } INT {  } INT { $]1[; };
 f: INT | INT { } INT {  } INT { $]$[ = $]1[ + $]3[ + $]5[; };
 g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
 h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
@@ -123,18 +123,18 @@ input.y:11.10-32: warning: unused value: $]1[
 input.y:11.10-32: warning: unused value: $]3[
 input.y:11.10-32: warning: unused value: $]5[
 input.y:12.9: warning: empty rule for typed nonterminal, and no action
-]]m4_ifval($2, [[[input.y:13.14-19: warning: unset value: $$
-input.y:13.25-39: warning: unset value: $$
-]]])[[input.y:13.10-59: warning: unset value: $]$[
-input.y:13.10-59: warning: unused value: $]3[
-input.y:13.10-59: warning: unused value: $]5[
+]]m4_ifval($2, [[[input.y:13.14-20: warning: unset value: $$
+input.y:13.26-41: warning: unset value: $$
+]]])[[input.y:13.10-62: warning: unset value: $]$[
+input.y:13.10-62: warning: unused value: $]3[
+input.y:13.10-62: warning: unused value: $]5[
 ]]m4_ifval($2, [[[input.y:14.14-16: warning: unset value: $$
-]]])[[input.y:14.10-47: warning: unset value: $]$[
-input.y:14.10-47: warning: unused value: $]3[
-input.y:14.10-47: warning: unused value: $]5[
-input.y:15.10-36: warning: unset value: $]$[
-input.y:15.10-36: warning: unused value: $]3[
-input.y:15.10-36: warning: unused value: $]5[
+]]])[[input.y:14.10-49: warning: unset value: $]$[
+input.y:14.10-49: warning: unused value: $]3[
+input.y:14.10-49: warning: unused value: $]5[
+input.y:15.10-37: warning: unset value: $]$[
+input.y:15.10-37: warning: unused value: $]3[
+input.y:15.10-37: warning: unused value: $]5[
 input.y:17.10-58: warning: unset value: $]$[
 input.y:17.10-58: warning: unused value: $]1[
 ]]m4_ifval($2, [[[input.y:17.10-58: warning: unused value: $]2[
