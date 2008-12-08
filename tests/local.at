@@ -21,6 +21,22 @@
 m4_version_prereq([2.58])
 
 
+## ------------- ##
+## Basic tests.  ##
+## ------------- ##
+
+# AT_MATCHES_CHECK(FILE, PERL-REGEXP, COUNT)
+# ------------------------------------------
+# Expect COUNT matches of the PERL-REGEXP in FILE.  The file is
+# taken in "slurp" mode, i.e., one can match end-of-lines.
+m4_define([AT_MATCHES_CHECK],
+[AT_CHECK([perl -0777 -ne '
+my $count = 0;
+s{$2}{ ++$count; "" }gem;
+printf "$count\n";' $1], [0], [$3
+])])
+
+
 ## ------------------------------- ##
 ## Macros decoding Bison options.  ##
 ## ------------------------------- ##
