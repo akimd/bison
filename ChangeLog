@@ -1,5 +1,14 @@
 2008-12-08  Akim Demaille  <demaille@gostai.com>
 
+	Fix portability issue in the test suite.
+	* tests/local.at (AT_MATCHES_CHECK): New.
+	Based on Perl instead of Sed.  Sed has too many portability
+	pitfalls, not ever Sed is GNU Sed.
+	* tests/actions.at (Fix user actions without a trailing semicolon):
+	Use it.
+
+2008-12-08  Akim Demaille  <demaille@gostai.com>
+
 	Update data/README.
 	* data/README: Document glr.cc, lalr1.java, m4sugar and xslt.
 
