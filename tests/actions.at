@@ -1300,3 +1300,120 @@ AT_CLEANUP])
 AT_CHECK_ACTION_LOCATIONS([[%initial-action]])
 AT_CHECK_ACTION_LOCATIONS([[%destructor]])
 AT_CHECK_ACTION_LOCATIONS([[%printer]])
+
+
+## ----------------------------------------------- ##
+## Fix user actions without a trailing semicolon.  ##
+## ----------------------------------------------- ##
+
+AT_SETUP([[Fix user actions without a trailing semicolon]])
+
+# This feature is undocumented, but we accidentally broke it in 2.3a,
+# and there was a complaint at:
+# <http://lists.gnu.org/archive/html/bug-bison/2008-11/msg00001.html>.
+
+AT_DATA([input.y],
+[[%%
+start: test2 test1 test0 testc;
+
+test2
+: 'a' { semi;			/* TEST:N:2 */ }
+| 'b' { if (0) {no_semi}	/* TEST:N:2 */ }
+| 'c' { if (0) {semi;}		/* TEST:N:2 */ }
+| 'd' { semi;   no_semi		/* TEST:Y:2 */ }
+| 'e' { semi(); no_semi()	/* TEST:Y:2 */ }
+| 'f' { semi[]; no_semi[]	/* TEST:Y:2 */ }
+| 'g' { semi++; no_semi++	/* TEST:Y:2 */ }
+| 'h' { {no_semi} no_semi	/* TEST:Y:2 */ }
+| 'i' { {semi;}   no_semi	/* TEST:Y:2 */ }
+;
+test1
+  : 'a' { semi;			// TEST:N:1 ;
+} | 'b' { if (0) {no_semi}	// TEST:N:1 ;
+} | 'c' { if (0) {semi;}	// TEST:N:1 ;
+} | 'd' { semi;   no_semi	// TEST:Y:1 ;
+} | 'e' { semi(); no_semi()	// TEST:Y:1 ;
+} | 'f' { semi[]; no_semi[]	// TEST:Y:1 ;
+} | 'g' { semi++; no_semi++	// TEST:Y:1 ;
+} | 'h' { {no_semi} no_semi	// TEST:Y:1 ;
+} | 'i' { {semi;}   no_semi	// TEST:Y:1 ;
+} ;
+test0
+  : 'a' { semi;			// TEST:N:1 {}
+} | 'b' { if (0) {no_semi}	// TEST:N:1 {}
+} | 'c' { if (0) {semi;}	// TEST:N:1 {}
+} | 'd' { semi;   no_semi	// TEST:Y:1 {}
+} | 'e' { semi(); no_semi()	// TEST:Y:1 {}
+} | 'f' { semi[]; no_semi[]	// TEST:Y:1 {}
+} | 'g' { semi++; no_semi++	// TEST:Y:1 {}
+} | 'h' { {no_semi} no_semi	// TEST:Y:1 {}
+} | 'i' { {semi;}   no_semi	// TEST:Y:1 {}
+} ;
+
+testc
+: 'a' {
+#define TEST_MACRO_N \
+[]"broken\" $ @ $$ @$ [];\
+string;"}
+| 'b' {
+no_semi
+#define TEST_MACRO_N \
+[]"broken\" $ @ $$ @$ [];\
+string;"}
+]])
+
+AT_BISON_CHECK([[-o input.c input.y]], [0], [],
+[[input.y:8.48: warning: a `;' might be needed at the end of action code
+input.y:8.48: warning: future versions of Bison will not add the `;'
+input.y:9.48: warning: a `;' might be needed at the end of action code
+input.y:9.48: warning: future versions of Bison will not add the `;'
+input.y:10.48: warning: a `;' might be needed at the end of action code
+input.y:10.48: warning: future versions of Bison will not add the `;'
+input.y:11.48: warning: a `;' might be needed at the end of action code
+input.y:11.48: warning: future versions of Bison will not add the `;'
+input.y:12.48: warning: a `;' might be needed at the end of action code
+input.y:12.48: warning: future versions of Bison will not add the `;'
+input.y:13.48: warning: a `;' might be needed at the end of action code
+input.y:13.48: warning: future versions of Bison will not add the `;'
+input.y:20.1: warning: a `;' might be needed at the end of action code
+input.y:20.1: warning: future versions of Bison will not add the `;'
+input.y:21.1: warning: a `;' might be needed at the end of action code
+input.y:21.1: warning: future versions of Bison will not add the `;'
+input.y:22.1: warning: a `;' might be needed at the end of action code
+input.y:22.1: warning: future versions of Bison will not add the `;'
+input.y:23.1: warning: a `;' might be needed at the end of action code
+input.y:23.1: warning: future versions of Bison will not add the `;'
+input.y:24.1: warning: a `;' might be needed at the end of action code
+input.y:24.1: warning: future versions of Bison will not add the `;'
+input.y:25.1: warning: a `;' might be needed at the end of action code
+input.y:25.1: warning: future versions of Bison will not add the `;'
+input.y:31.1: warning: a `;' might be needed at the end of action code
+input.y:31.1: warning: future versions of Bison will not add the `;'
+input.y:32.1: warning: a `;' might be needed at the end of action code
+input.y:32.1: warning: future versions of Bison will not add the `;'
+input.y:33.1: warning: a `;' might be needed at the end of action code
+input.y:33.1: warning: future versions of Bison will not add the `;'
+input.y:34.1: warning: a `;' might be needed at the end of action code
+input.y:34.1: warning: future versions of Bison will not add the `;'
+input.y:35.1: warning: a `;' might be needed at the end of action code
+input.y:35.1: warning: future versions of Bison will not add the `;'
+input.y:36.1: warning: a `;' might be needed at the end of action code
+input.y:36.1: warning: future versions of Bison will not add the `;'
+]])
+AT_CHECK([[grep -c '/\* TEST:N:2 \*/ }$' input.c]], [0], [[3
+]])
+AT_CHECK([[grep -c '/\* TEST:Y:2 \*/ ;}$' input.c]], [0], [[6
+]])
+AT_CHECK([[sed -n '/TEST:N:1/{N
+s/\n/<NL>/gp}' input.c | grep -c '// TEST:N:1 [;{}]*<NL>}$']], [0], [[6
+]])
+AT_CHECK([[sed -n '/TEST:Y:1/{N
+s/\n/<NL>/gp}' input.c | grep -c '// TEST:Y:1 [;{}]*<NL>;}$']], [0], [[12
+]])
+AT_CHECK([[sed -n '/^#define TEST_MACRO_N/{N
+N
+s/\n/<NL>/gp}' input.c | grep -F -xc '#define TEST_MACRO_N \<NL>[]"broken\" $ @ $$ @$ [];\<NL>string;"}']],
+	[0], [[2
+]])
+
+AT_CLEANUP

@@ -1,3 +1,19 @@
+2008-12-07  Di-an Jan  <dianj@freeshell.org>
+
+	Implement the FIXME that ends an user action with a semicolon
+	if it seems necessary.
+	* src/scan-code.l (flex rules section): Flag cpp directive from
+	any `#' to the first unescaped end-of-line.  Semicolon is not
+	needed after `;', `{', '}', or cpp directives and is needed after
+	any other token (whitespaces and comments have no effect).
+	* tests/actions.at (Fix user actions without a trailing semicolon):
+	New test.
+	* tests/input.at (AT_CHECK_UNUSED_VALUES): Add semicolons to
+	to make user actions complete statements.
+	Adjust column numbers in error messages.
+	* tests/regression.at (Fix user actions without a trailing semicolon):
+	Remove.  Covered by new test.
+
 2008-12-07  Akim Demaille  <demaille@gostai.com>
 
 	Update gnulib.
