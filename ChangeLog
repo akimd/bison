@@ -1,3 +1,8 @@
+2008-12-09  Akim Demaille  <demaille@gostai.com>
+
+	Update data/README.
+	* data/README: Document glr.cc, lalr1.java, m4sugar and xslt.
+
 2008-12-05  Eric Blake  <ebb9@byu.net>
 
 	Build testsuite with newer autoconf.
