@@ -1,5 +1,12 @@
 2008-12-11  Akim Demaille  <demaille@gostai.com>
 
+	Pass the token type to yysyntax_error.
+	* data/yacc.c (yysyntax_error): Take the transated token instead
+	of the raw number.
+	Adjust callers.
+
+2008-12-11  Akim Demaille  <demaille@gostai.com>
+
 	Simplify the i18n of the error messages.
 	* data/yacc.c (yysyntax_error): Rewrite, using a switch instead
 	of building dynamically the format string.
