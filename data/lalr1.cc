@@ -1393,7 +1393,8 @@ b4_error_verbose_if([int yystate, int yytoken],
 	int yychecklim = yylast_ - yyn + 1;
 	int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
 
-        // Number of "expected" tokens.
+        // Number of reported tokens (one for the "unexpected", one per
+        // "expected").
 	size_t yycount = 0;
         // Its maximum.
         enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
