@@ -1,3 +1,9 @@
+2008-12-11  Akim Demaille  <demaille@gostai.com>
+
+	Simplify the i18n of the error messages.
+	* data/yacc.c (yysyntax_error): Rewrite, using a switch instead
+	of building dynamically the format string.
+
 2009-10-03  Joel E. Denny  <jdenny@clemson.edu>
 
 	Remove dead code.
