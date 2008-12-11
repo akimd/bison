@@ -157,10 +157,6 @@ management is performed once instead of three times).  I suggest that
 we do the same in yacc.c.
 
 ** yysyntax_error
-In lalr1.cc we invoke it with the translated lookahead (yytoken), and
-yacc.c uses yychar.  I don't see why.
-
-** yysyntax_error
 The code bw glr.c and yacc.c is really alike, we can certainly factor
 some parts.
 
