@@ -1,5 +1,12 @@
 2008-12-11  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Version 2.4.1.
+	* NEWS: Set version and date.
+	* lib/Makefile.am: Update copyright year.
+	* tests/atlocal.in: Update copyright year.
+
+2008-12-11  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Semicolon feature removal is not about future language support.
 	* NEWS: The semicolon feature is no longer active for newer languages,
 	so don't claim that it causes trouble for them.

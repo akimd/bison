@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-* Changes in version ?.? (????-??-??):
+* Changes in version 2.4.1 (2008-12-11):
 
 ** In the GLR defines file, unexpanded M4 macros in the yylval and yylloc
    declarations have been fixed.
