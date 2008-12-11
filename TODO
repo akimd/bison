@@ -161,8 +161,8 @@ In lalr1.cc we invoke it with the translated lookahead (yytoken), and
 yacc.c uses yychar.  I don't see why.
 
 ** yysyntax_error
-The use of switch to select yyfmt in lalr1.cc seems simpler than
-what's done in yacc.c.
+The code bw glr.c and yacc.c is really alike, we can certainly factor
+some parts.
 
 * Header guards
 

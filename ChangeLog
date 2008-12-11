@@ -1,5 +1,13 @@
 2008-12-11  Akim Demaille  <demaille@gostai.com>
 
+	Propagate i18n changes into glr.c.
+	* TODO: Update.
+	* data/glr.c (yyreportSyntaxError): Use "switch" instead of
+	building the error message format dynamically.
+	* data/lalr1.java: Formatting changes.
+
+2008-12-11  Akim Demaille  <demaille@gostai.com>
+
 	Use testsuite -C.
 	* tests/local.mk: Replace "cd && testsuite" by "testsuite -C".
 	Solves problems when top_srcdir is an absolute path.
