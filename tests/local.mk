@@ -73,33 +73,32 @@ $(TESTSUITE): tests/package.m4 $(TESTSUITE_AT)
 
 clean-local: clean-local-tests
 clean-local-tests:
-	test ! -f $(TESTSUITE) || cd tests && ../$(TESTSUITE) --clean
+	test ! -f $(TESTSUITE) || $(TESTSUITE) -C tests --clean
 
 check-local: tests/atconfig tests/atlocal $(TESTSUITE)
 # Move into tests/ so that testsuite.dir etc. be created there.
-	cd tests && ../$(TESTSUITE) $(TESTSUITEFLAGS)
+	$(TESTSUITE) -C tests $(TESTSUITEFLAGS)
 
 check_SCRIPTS = tests/bison
 
 # Run the test suite on the *installed* tree.
 installcheck-local:
-	cd tests && ../$(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
+	$(TESTSUITE) -C tests AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++
 maintainer-check-g++: $(TESTSUITE)
-	cd tests && ../$(TESTSUITE) CC='$(CXX)'
+	$(TESTSUITE) -C tests CC='$(CXX)'
 
 .PHONY: maintainer-check-posix
 maintainer-check-posix: $(TESTSUITE)
-	cd tests && ../$(TESTSUITE) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
+	$(TESTSUITE) -C tests POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
 
 .PHONY: maintainer-check-valgrind
 maintainer-check-valgrind: $(TESTSUITE)
 	test -z '$(VALGRIND)' || \
 	   VALGRIND_OPTS='--leak-check=full --show-reachable=yes' \
-	   cd tests && \
-	   ../$(TESTSUITE) PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'
+	   $(TESTSUITE) -C tests PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'
 
 .PHONY: maintainer-check
 maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++

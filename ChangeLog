@@ -1,5 +1,13 @@
 2008-12-11  Akim Demaille  <demaille@gostai.com>
 
+	Use testsuite -C.
+	* tests/local.mk: Replace "cd && testsuite" by "testsuite -C".
+	Solves problems when top_srcdir is an absolute path.
+	Suggested by Eric Blake.
+	* configure.ac: Require Autoconf 2.62.
+
+2008-12-11  Akim Demaille  <demaille@gostai.com>
+
 	Simplify the i18n of the error messages.
 	* data/lalr1.cc: Comment changes.
 	* data/yacc.c (yysyntax_error): Rewrite, using a switch as in

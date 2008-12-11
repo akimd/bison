@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# We have strange test case titles, so we need Autoconf 2.61 or better.
-AC_PREREQ(2.61)
+# testsuite -C appears in 2.62.
+AC_PREREQ(2.62)
 
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
