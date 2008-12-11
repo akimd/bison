@@ -1,5 +1,11 @@
 2008-12-11  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Semicolon feature removal is not about future language support.
+	* NEWS: The semicolon feature is no longer active for newer languages,
+	so don't claim that it causes trouble for them.
+
+2008-12-11  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* gnulib: Update submodule to HEAD.
 
 2008-12-09  Akim Demaille  <demaille@gostai.com>
