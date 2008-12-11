@@ -1,3 +1,10 @@
+2008-12-11  Akim Demaille  <demaille@gostai.com>
+
+	Propagate i18n changes into glr.c.
+	* data/glr.c (yyreportSyntaxError): Use "switch" instead of
+	building the error message format dynamically.
+	* data/lalr1.java: Formatting changes.
+
 2009-12-22  Joel E. Denny  <jdenny@clemson.edu>
 
 	Port small part of master's 11707b2b so future ports are easier.

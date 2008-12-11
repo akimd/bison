@@ -717,7 +717,7 @@ m4_popdef([b4_at_dollar])])dnl
                       res.append (yytnamerr_ (yytname_[x]));
                     }
               }
-        return res.toString ();
+            return res.toString ();
           }
       }
 
