@@ -1,5 +1,10 @@
 2008-12-11  Akim Demaille  <demaille@gostai.com>
 
+	Formatting changes.
+	* data/glr.c: Formatting changes.
+
+2008-12-11  Akim Demaille  <demaille@gostai.com>
+
 	Propagate i18n changes into glr.c.
 	* TODO: Update.
 	* data/glr.c (yyreportSyntaxError): Use "switch" instead of
