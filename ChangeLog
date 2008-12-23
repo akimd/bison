@@ -1,5 +1,13 @@
 2009-02-19  Akim Demaille  <demaille@gostai.com>
 
+	Extract variant.hh
+	* data/variant.hh: New, extracted from...
+	* data/lalr1.cc: here.
+	Adjust.
+	* data/local.mk: Adjust.
+
+2009-02-19  Akim Demaille  <demaille@gostai.com>
+
 	Extract stack.hh from lalr1.cc.
 	* data/stack.hh: New.
 	* data/lalr1.cc: Extract from here.
