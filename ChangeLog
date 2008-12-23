@@ -1,3 +1,10 @@
+2009-02-19  Akim Demaille  <demaille@gostai.com>
+
+	Extract stack.hh from lalr1.cc.
+	* data/stack.hh: New.
+	* data/lalr1.cc: Extract from here.
+	* data/local.mk: Adjust.
+
 2009-02-03  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Add reminder about uploading public key to keys.gnupg.net.

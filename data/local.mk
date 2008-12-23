@@ -27,6 +27,7 @@ dist_pkgdata_DATA =				\
   data/lalr1.cc					\
   data/lalr1.java				\
   data/location.cc				\
+  data/stack.hh					\
   data/yacc.c
 
 m4sugardir = $(pkgdatadir)/m4sugar
