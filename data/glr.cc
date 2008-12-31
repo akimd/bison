@@ -123,8 +123,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
     :])[
 #if YYDEBUG
-    ]m4_ifset([b4_parse_param], [  ], [ :])[yydebug_ (false),
-      yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
+    ]m4_ifset([b4_parse_param], [  ], [ :])[yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
 #endif]b4_parse_param_cons[
   {
   }
@@ -187,13 +186,13 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   ]b4_parser_class_name[::debug_level_type
   ]b4_parser_class_name[::debug_level () const
   {
-    return yydebug_;
+    return yydebug;
   }
 
   void
   ]b4_parser_class_name[::set_debug_level (debug_level_type l)
   {
-    yydebug_ = l;
+    yydebug = l;
   }
 
 #endif
@@ -334,7 +333,6 @@ b4_user_stype
 				   const location_type* yylocationp);
   private:
     /* Debugging.  */
-    int yydebug_;
     std::ostream* yycdebug_;
 #endif
 

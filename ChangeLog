@@ -1,5 +1,12 @@
 2009-02-25  Akim Demaille  <demaille@gostai.com>
 
+	Fix glr.cc's debug level handling.
+	* data/glr.cc (yydebug_): Remove, as it is actually yydebug from
+	glr.c which is used.
+	(debug_level, set_debug_level): Adjust.
+
+2009-02-25  Akim Demaille  <demaille@gostai.com>
+
 	Copyright years.
 	* data/glr.c: Add 2007 and 2008 here, consistenly with the comments.
 
