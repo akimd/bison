@@ -1,8 +1,10 @@
 %debug
 %skeleton "lalr1.cc"
 %defines
+%define assert
 %define variant
 %define lex_symbol
+%locations
 
 %code requires // *.hh
 {
@@ -85,26 +87,28 @@ yy::parser::symbol_type
 yylex ()
 {
   static int stage = -1;
-  switch (++stage)
+  ++stage;
+  yy::parser::location_type loc(0, stage + 1, stage + 1);
+  switch (stage)
   {
     case 0:
-      return yy::parser::make_TEXT ("I have three numbers for you.");
+      return yy::parser::make_TEXT ("I have three numbers for you.", loc);
     case 1:
     case 2:
     case 3:
-      return yy::parser::make_NUMBER (stage);
+      return yy::parser::make_NUMBER (stage, loc);
     case 4:
-      return yy::parser::make_TEXT ("And that's all!");
+      return yy::parser::make_TEXT ("And that's all!", loc);
     default:
-      return yy::parser::make_END_OF_FILE ();
+      return yy::parser::make_END_OF_FILE (loc);
   }
 }
 
 // Mandatory error function
 void
-yy::parser::error (const std::string& message)
+yy::parser::error (const yy::parser::location_type& loc, const std::string& msg)
 {
-  std::cerr << message << std::endl;
+  std::cerr << loc << ": " << msg << std::endl;
 }
 
 int
