@@ -114,60 +114,6 @@ m4_popdef([b4_at_dollar])dnl
 m4_popdef([b4_dollar_dollar])dnl
 ])])
 
-# b4_symbol_constructor_declare_(SYMBOL-NUMBER)
-# ---------------------------------------------
-# Declare the overloaded version of make_symbol for the (common) type of
-# these SYMBOL-NUMBERS.  Use at class-level.
-m4_define([b4_symbol_constructor_declare_],
-[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[    static inline
-    symbol_type
-    make_[]b4_symbol_([$1], [id]) (dnl
-b4_args(b4_symbol_if([$1], [has_type],
-                     [const b4_symbol([$1], [type])& v]),
-        b4_locations_if([const location_type& l])));
-
-])])])
-
-
-# b4_symbol_constructor_declare
-# -----------------------------
-# Declare symbol constructors for all the value types.
-# Use at class-level.
-m4_define([b4_symbol_constructor_declare],
-[b4_variant_if([
-    // Symbol constructors declarations.
-b4_symbol_foreach([b4_symbol_constructor_declare_])])])
-
-
-
-# b4_symbol_constructor_define_(SYMBOL-NUMBER)
-# --------------------------------------------
-# Define symbol constructor for this SYMBOL-NUMBER.
-m4_define([b4_symbol_constructor_define_],
-[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[  b4_parser_class_name::symbol_type
-  b4_parser_class_name::make_[]b4_symbol_([$1], [id]) (dnl
-b4_args(b4_symbol_if([$1], [has_type],
-                     [const b4_symbol([$1], [type])& v]),
-        b4_locations_if([const location_type& l])))
-  {
-    return symbol_type (b4_args([yytranslate_ (token::b4_symbol([$1], [id]))],
-                                b4_symbol_if([$1], [has_type], [v]),
-                                b4_locations_if([l])));
-  }
-
-])])])
-
-
-# b4_symbol_constructor_define
-# ----------------------------
-# Define the overloaded versions of make_symbol for all the value types.
-m4_define([b4_symbol_constructor_define],
-[b4_variant_if([
-  // Implementation of make_symbol for each symbol type.
-b4_symbol_foreach([b4_symbol_constructor_define_])])])
-
 
 # b4_yytranslate_define
 # ---------------------
@@ -287,7 +233,6 @@ do {                                                            \
   {
   public:
 ]b4_public_types_declare[
-]b4_symbol_constructor_declare[
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
@@ -436,8 +381,7 @@ do {                                                            \
   };
 
 ]b4_lex_symbol_if([b4_yytranslate_define
-b4_public_types_define
-b4_symbol_constructor_define])[
+b4_public_types_define])[
 ]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -587,8 +531,7 @@ b4_percent_code_get[]dnl
   | Symbol types.  |
   `---------------*/
 
-]b4_lex_symbol_if([], [b4_public_types_define
-b4_symbol_constructor_define])[
+]b4_lex_symbol_if([], [b4_public_types_define])[
 
   // stack_symbol_type.
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()

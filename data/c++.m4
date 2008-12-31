@@ -186,7 +186,7 @@ m4_define([b4_public_types_declare],
       /// Its token.
       inline token_type token () const;
     };
-]])
+]b4_symbol_constructor_declare])
 
 
 # b4_public_types_define
@@ -281,7 +281,18 @@ m4_define([b4_public_types_define],
     };
     return static_cast<token_type> (yytoken_number_[type]);
   }
-]])])
+]])[]dnl
+b4_symbol_constructor_define])
+
+
+# b4_symbol_constructor_declare
+# b4_symbol_constructor_define
+# -----------------------------
+# Declare/define symbol constructors for all the value types.
+# Use at class-level.  Redefined in variant.hh.
+m4_define([b4_symbol_constructor_declare], [])
+m4_define([b4_symbol_constructor_define], [])
+
 
 
 # b4_lhs_value([TYPE])

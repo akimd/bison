@@ -1,5 +1,22 @@
 2009-03-02  Akim Demaille  <demaille@gostai.com>
 
+	Dub make_TOKEN as a public type interface.
+	* data/c++.m4 (b4_symbol_constructor_declare)
+	(b4_symbol_constructor_define): New empty stubs.
+	(b4_public_types_declare, b4_public_types_define): Use them.
+	* data/lalr1.cc (b4_symbol_constructor_declare)
+	(b4_symbol_constructor_declare_)
+	(b4_symbol_constructor_define_, b4_symbol_constructor_define):
+	Move to...
+	* data/variant.hh: here.
+	Remove the "b4_variant_if" parts, as variant.hh is loaded only if
+	needed.
+	* data/lalr1.cc: No longer invoke b4_symbol_constructor_define and
+	b4_symbol_constructor_declare, as it is now done by
+	b4_public_types_define and b4_public_types_declare.
+
+2009-03-02  Akim Demaille  <demaille@gostai.com>
+
 	Coding style changes.
 	* data/lalr1.cc (b4_symbol_constructor_declaration_)
 	(b4_symbol_constructor_declarations)
