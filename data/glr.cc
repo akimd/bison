@@ -27,7 +27,7 @@
 #
 #   The additional arguments are stored as members of the parser
 #   object, yyparser.  The C routines need to carry yyparser
-#   throughout the C parser; that easy: just let yyparser become an
+#   throughout the C parser; that's easy: make yyparser an
 #   additional parse-param.  But because the C++ skeleton needs to
 #   know the "real" original parse-param, we save them
 #   (b4_parse_param_orig).  Note that b4_parse_param is overquoted
@@ -37,7 +37,7 @@
 # The locations
 #
 #   We use location.cc just like lalr1.cc, but because glr.c stores
-#   the locations in a (C++) union, the position and location classes
+#   the locations in a union, the position and location classes
 #   must not have a constructor.  Therefore, contrary to lalr1.cc, we
 #   must not define "b4_location_constructors".  As a consequence the
 #   user must initialize the first positions (in particular the
