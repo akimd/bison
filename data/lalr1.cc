@@ -439,12 +439,12 @@ m4_ifdef([b4_stype],
     void set_debug_level (debug_level_type l);
 #endif
 
-  private:
     /// Report a syntax error.]b4_locations_if([
     /// \param loc    where the syntax error is found.])[
     /// \param msg    a description of the syntax error.
     virtual void error (]b4_locations_if([const location_type& loc, ])[const std::string& msg);
 
+  private:
     /// Generate an error message.
     /// \param state   the state where the error occurred.
     /// \param tok     the lookahead token.

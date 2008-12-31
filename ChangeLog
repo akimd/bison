@@ -1,5 +1,13 @@
 2009-02-19  Akim Demaille  <demaille@gostai.com>
 
+	Make yyparser::error public.
+	* data/lalr1.cc: here.
+	There is no good reason to keep it private (and it is convenient
+	to use it from the scanner for instance).  It is already public in
+	glr.cc.
+
+2009-02-19  Akim Demaille  <demaille@gostai.com>
+
 	Comment changes.
 	* data/glr.cc: here.
 
