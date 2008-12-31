@@ -189,6 +189,18 @@ m4_define([b4_variant_definition],
 ## -------------------------- ##
 
 
+# b4_semantic_type_declare
+# ------------------------
+# Declare semantic_type.
+m4_define([b4_semantic_type_declare],
+[    /// An auxiliary type to compute the largest semantic type.
+    union union_type
+    {]b4_type_foreach([b4_char_sizeof])[};
+
+    /// Symbol semantic values.
+    typedef variant<sizeof(union_type)> semantic_type;])
+
+
 # How the semantic value is extracted when using variants.
 
 # b4_symbol_value(VAL, [TYPE])

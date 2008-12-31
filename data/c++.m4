@@ -97,6 +97,20 @@ m4_map_sep([     b4_token_enum], [,
 ## Semantic Values.  ##
 ## ----------------- ##
 
+# b4_semantic_type_declare
+# ------------------------
+# Declare semantic_type.
+m4_define([b4_semantic_type_declare],
+[    /// Symbol semantic values.
+m4_ifdef([b4_stype],
+[    union semantic_type
+    {b4_user_stype
+    };],
+[m4_if(b4_tag_seen_flag, 0,
+[[    typedef int semantic_type;]],
+[[    typedef YYSTYPE semantic_type;]])])])
+
+
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
 m4_define([b4_variant_if],

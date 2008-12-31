@@ -266,16 +266,8 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
   class ]b4_parser_class_name[
   {
   public:
-    /// Symbol semantic values.
 #ifndef YYSTYPE
-]m4_ifdef([b4_stype],
-[    union semantic_type
-    {
-b4_user_stype
-    };],
-[m4_if(b4_tag_seen_flag, 0,
-[[    typedef int semantic_type;]],
-[[    typedef YYSTYPE semantic_type;]])])[
+]b4_semantic_type_declare[
 #else
     typedef YYSTYPE semantic_type;
 #endif

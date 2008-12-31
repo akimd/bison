@@ -389,21 +389,7 @@ do {                                                            \
   {
   public:
 #ifndef YYSTYPE
-]b4_variant_if(
-[    /// An auxiliary type to compute the largest semantic type.
-    union union_type
-    {]b4_type_foreach([b4_char_sizeof])[};
-
-    /// Symbol semantic values.
-    typedef variant<sizeof(union_type)> semantic_type;],
-[    /// Symbol semantic values.
-m4_ifdef([b4_stype],
-[    union semantic_type
-    {b4_user_stype
-    };],
-[m4_if(b4_tag_seen_flag, 0,
-[[    typedef int semantic_type;]],
-[[    typedef YYSTYPE semantic_type;]])])])[
+]b4_semantic_type_declare[
 #else
     typedef YYSTYPE semantic_type;
 #endif]b4_locations_if([
