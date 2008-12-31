@@ -1,5 +1,11 @@
 2009-03-02  Akim Demaille  <demaille@gostai.com>
 
+	b4_public_types_declare.
+	* data/c++.m4 (b4_public_types_declare): New.
+	* data/glr.cc, data/lalr1.cc: Use it.
+
+2009-03-02  Akim Demaille  <demaille@gostai.com>
+
 	b4_semantic_type_declare.
 	* data/c++.m4 (b4_semantic_type_declare): New.
 	Factors and generalizes what was in glr.cc and lalr1.cc.

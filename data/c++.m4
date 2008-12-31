@@ -111,6 +111,27 @@ m4_ifdef([b4_stype],
 [[    typedef YYSTYPE semantic_type;]])])])
 
 
+# b4_public_types_declare
+# -----------------------
+# Define the public types: token, semantic value, location, and so forth.
+m4_define([b4_public_types_declare],
+[[#ifndef YYSTYPE
+]b4_semantic_type_declare[
+#else
+    typedef YYSTYPE semantic_type;
+#endif]b4_locations_if([
+    /// Symbol locations.
+    typedef b4_percent_define_get([[location_type]]) location_type;])[
+    /// Tokens.
+    struct token
+    {
+      ]b4_token_enums(b4_tokens)[
+    };
+    /// Token type.
+    typedef token::yytokentype token_type;
+]])
+
+
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
 m4_define([b4_variant_if],

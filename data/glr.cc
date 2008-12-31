@@ -266,20 +266,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
   class ]b4_parser_class_name[
   {
   public:
-#ifndef YYSTYPE
-]b4_semantic_type_declare[
-#else
-    typedef YYSTYPE semantic_type;
-#endif
-    /// Symbol locations.
-    typedef ]b4_percent_define_get([[location_type]])[ location_type;
-    /// Tokens.
-    struct token
-    {
-      ]b4_token_enums(b4_tokens)[
-    };
-    /// Token type.
-    typedef token::yytokentype token_type;
+]b4_public_types_declare[
 
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
