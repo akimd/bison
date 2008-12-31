@@ -688,7 +688,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
   if (stage == STAGE_MAX)
     {
 #if USE_LEX_SYMBOL
-      return yy::parser::make_END_OF_FILE (yy::location());
+      return yy::parser::make_END_OF_FILE (location_type ());
 #else
       *yylloc = location_type ();
       return token::END_OF_FILE;
@@ -697,7 +697,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
   else if (stage % 2)
     {
 #if USE_LEX_SYMBOL
-      return yy::parser::make_NUMBER (stage, yy::location());
+      return yy::parser::make_NUMBER (stage, location_type ());
 #else
 # if defined ONE_STAGE_BUILD
       yylval->build(stage);
@@ -713,7 +713,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
   else
     {
 #if USE_LEX_SYMBOL
-      return yy::parser::make_TEXT ("A string.", yy::location());
+      return yy::parser::make_TEXT ("A string.", location_type ());
 #else
 # if defined ONE_STAGE_BUILD
       yylval->build(std::string("A string."));
@@ -731,10 +731,9 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
 
 // Mandatory error function
 void
-yy::parser::error(const yy::parser::location_type& yylloc,
-                  const std::string& message)
+yy::parser::error(const yy::parser::location_type& loc, const std::string& msg)
 {
-  std::cerr << yylloc << ": " << message << std::endl;
+  std::cerr << loc << ": " << msg << std::endl;
 }
 
 int main(int argc, char *argv[])

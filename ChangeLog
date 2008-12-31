@@ -1,5 +1,11 @@
 2009-02-25  Akim Demaille  <demaille@gostai.com>
 
+	Style changes.
+	* etc/bench.pl.in (generate_grammar_list): Consitently use
+	location_type, not yy::location.
+
+2009-02-25  Akim Demaille  <demaille@gostai.com>
+
 	Comment change.
 	* data/lalr1.cc: here.
 
