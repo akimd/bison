@@ -1,5 +1,10 @@
 2009-02-19  Akim Demaille  <demaille@gostai.com>
 
+	Comment changes.
+	* data/lalr1.cc: here.
+
+2009-02-19  Akim Demaille  <demaille@gostai.com>
+
 	Extract variant.hh
 	* data/variant.hh: New, extracted from...
 	* data/lalr1.cc: here.

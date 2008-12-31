@@ -1069,16 +1069,18 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     yylhs.state = yystate;
     YY_SYMBOL_PRINT ("-> $$ =", yylhs);
 ]b4_variant_if([[
-    // Destroy the lhs symbols.
+    // Destroy the rhs symbols.
     for (int i = 0; i < yylen; ++i)
-      // Destroy a variant which value may have be swapped with
-      // yylhs.value.  The value of yylhs.value (hence maybe one of
-      // these lhs symbols) depends on what does the default
-      // contruction for this type.  In the case of pointers for
-      // instance, nothing is done, so the value is junk.  Therefore
-      // do not try to report the content in the debug trace, it's
-      // junk.  Hence yymsg = 0.  Besides, that keeps exactly the same
-      // traces as with the other Bison skeletons.
+      // Destroy a variant which value may have been swapped with
+      // yylhs.value (for instance if the action was "std::swap($$,
+      // $1)").  The value of yylhs.value (hence possibly one of these
+      // rhs symbols) depends on the default contruction for this
+      // type.  In the case of pointers for instance, no
+      // initialization is done, so the value is junk.  Therefore do
+      // not try to report the value of symbols about to be destroyed
+      // in the debug trace, it's possibly junk.  Hence yymsg = 0.
+      // Besides, that keeps exactly the same traces as with the other
+      // Bison skeletons.
       yy_destroy_ (0, yystack_[i]);]])[
 
     yypop_ (yylen);
@@ -1089,9 +1091,9 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     yypush_ (0, yylhs);
     goto yynewstate;
 
-  /*------------------------------------.
-  | yyerrlab -- here on detecting error |
-  `------------------------------------*/
+  /*--------------------------------------.
+  | yyerrlab -- here on detecting error.  |
+  `--------------------------------------*/
   yyerrlab:
     /* If not already recovering from an error, report this error.  */
     if (!yyerrstatus_)
