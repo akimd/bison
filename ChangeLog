@@ -1,3 +1,8 @@
+2009-02-25  Akim Demaille  <demaille@gostai.com>
+
+	Copyright years.
+	* data/glr.c: Add 2007 and 2008 here, consistenly with the comments.
+
 2008-12-08  Akim Demaille  <demaille@gostai.com>
 
 	Install autoconf as a submodule to get m4sugar.
