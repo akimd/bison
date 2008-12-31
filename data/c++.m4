@@ -2,8 +2,8 @@
 
 # C++ skeleton for Bison
 
-# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-# Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
+# Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -282,12 +282,6 @@ m4_define([b4_public_types_define],
     return static_cast<token_type> (yytoken_number_[type]);
   }
 ]])])
-
-
-# b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
-# ----------------------------------------------
-m4_define([b4_variant_if],
-[b4_percent_define_ifdef([[variant]], [$1], [$2])])
 
 
 # b4_lhs_value([TYPE])

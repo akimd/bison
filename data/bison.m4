@@ -1,8 +1,8 @@
                                                             -*- Autoconf -*-
 
 # Language-independent M4 Macros for Bison.
-# Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008 Free Software Foundation,
-# Inc.
+# Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008, 2009
+# Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -617,6 +617,31 @@ m4_define([b4_percent_define_ifdef],
 [m4_ifdef([b4_percent_define(]$1[)],
 	  [m4_define([b4_percent_define_bison_variables(]$1[)])$2],
 	  [$3])])
+
+
+# b4_percent_define_if_define(VARIABLE)
+# -------------------------------------
+# Define b4_VARIABLE_if that executes its $1 or $2 depending whether VARIABLE
+# was %defined.
+m4_define([b4_percent_define_if_define_],
+[m4_define([b4_$1_if], [b4_percent_define_ifdef([$1], [$2], [$3])])])
+m4_define([b4_percent_define_if_define],
+[b4_percent_define_if_define_([$1], $[1], $[2])])
+
+## --------- ##
+## Options.  ##
+## --------- ##
+
+
+# b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
+# b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
+# b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
+# ----------------------------------------------
+b4_percent_define_if_define([assert])
+b4_percent_define_if_define([lex_symbol])
+b4_percent_define_if_define([variant])
+
+
 
 # b4_percent_define_flag_if(VARIABLE, IF-TRUE, [IF-FALSE])
 # --------------------------------------------------------

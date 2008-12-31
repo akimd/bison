@@ -47,18 +47,6 @@ m4_define([b4_integral_parser_table_define],
 m4_copy([b4_symbol_value], [b4_symbol_value_template])
 
 
-# b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
-# ----------------------------------------------------------------
-m4_define([b4_lex_symbol_if],
-[b4_percent_define_ifdef([[lex_symbol]], [$1], [$2])])
-
-
-# b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
-# ------------------------------------------------
-m4_define([b4_assert_if],
-[b4_percent_define_ifdef([[assert]], [$1], [$2])])
-
-
 # b4_lhs_value([TYPE])
 # --------------------
 # Expansion of $<TYPE>$.
