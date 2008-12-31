@@ -1,5 +1,16 @@
 2009-02-19  Akim Demaille  <demaille@gostai.com>
 
+	Remove trailing blanks.
+	The epilogue has its own ending 
+	, no need to add another.
+	
+	* data/glr.c, data/lalr1.java, data/yacc.c: dnl when outputing the
+	epilogue.
+	* data/glr.cc: dnl when extending the epilogue.
+	Remove stray "private:".
+
+2009-02-19  Akim Demaille  <demaille@gostai.com>
+
 	Use b4_c_modern.
 	* data/c.m4 (b4_c_function_decl): Here.
 

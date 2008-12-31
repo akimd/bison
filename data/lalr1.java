@@ -826,5 +826,5 @@ b4_percent_code_get[]dnl
 
 }
 
-b4_epilogue
+b4_epilogue[]dnl
 m4_divert_pop(0)dnl

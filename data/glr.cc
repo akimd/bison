@@ -199,7 +199,6 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 #endif
 ]m4_popdef([b4_parse_param])dnl
 b4_namespace_close[
-
 ]])
 
 
@@ -311,14 +310,11 @@ b4_user_stype
     /// Set the current debugging level.
     void set_debug_level (debug_level_type l);
 
-  private:
-
   public:
     /// Report a syntax error.
     /// \param loc    where the syntax error is found.
     /// \param msg    a description of the syntax error.
     virtual void error (const location_type& loc, const std::string& msg);
-  private:
 
 #if YYDEBUG
   public:
@@ -341,7 +337,6 @@ b4_user_stype
     int yydebug_;
     std::ostream* yycdebug_;
 #endif
-
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
