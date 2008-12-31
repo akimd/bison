@@ -114,11 +114,11 @@ m4_popdef([b4_at_dollar])dnl
 m4_popdef([b4_dollar_dollar])dnl
 ])])
 
-# b4_symbol_constructor_declaration_(SYMBOL-NUMBER)
-# -------------------------------------------------
+# b4_symbol_constructor_declare_(SYMBOL-NUMBER)
+# ---------------------------------------------
 # Declare the overloaded version of make_symbol for the (common) type of
 # these SYMBOL-NUMBERS.  Use at class-level.
-m4_define([b4_symbol_constructor_declaration_],
+m4_define([b4_symbol_constructor_declare_],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [    static inline
     symbol_type
@@ -130,21 +130,21 @@ b4_args(b4_symbol_if([$1], [has_type],
 ])])])
 
 
-# b4_symbol_constructor_declarations
-# ----------------------------------
+# b4_symbol_constructor_declare
+# -----------------------------
 # Declare symbol constructors for all the value types.
 # Use at class-level.
-m4_define([b4_symbol_constructor_declarations],
+m4_define([b4_symbol_constructor_declare],
 [b4_variant_if([
     // Symbol constructors declarations.
-b4_symbol_foreach([b4_symbol_constructor_declaration_])])])
+b4_symbol_foreach([b4_symbol_constructor_declare_])])])
 
 
 
-# b4_symbol_constructor_definition_(SYMBOL-NUMBER)
-# ------------------------------------------------
+# b4_symbol_constructor_define_(SYMBOL-NUMBER)
+# --------------------------------------------
 # Define symbol constructor for this SYMBOL-NUMBER.
-m4_define([b4_symbol_constructor_definition_],
+m4_define([b4_symbol_constructor_define_],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [  b4_parser_class_name::symbol_type
   b4_parser_class_name::make_[]b4_symbol_([$1], [id]) (dnl
@@ -160,20 +160,20 @@ b4_args(b4_symbol_if([$1], [has_type],
 ])])])
 
 
-# b4_symbol_constructor_definitions
-# ----------------------------------
+# b4_symbol_constructor_define
+# ----------------------------
 # Define the overloaded versions of make_symbol for all the value types.
-m4_define([b4_symbol_constructor_definitions],
+m4_define([b4_symbol_constructor_define],
 [b4_variant_if([
   // Implementation of make_symbol for each symbol type.
-b4_symbol_foreach([b4_symbol_constructor_definition_])])])
+b4_symbol_foreach([b4_symbol_constructor_define_])])])
 
 
-# b4_yytranslate_definition
-# -------------------------
+# b4_yytranslate_define
+# ---------------------
 # Define yytranslate_.  Sometimes we want it in the header file,
 # sometimes the cc file suffices.
-m4_define([b4_yytranslate_definition],
+m4_define([b4_yytranslate_define],
 [[  // Symbol number corresponding to token number t.
   ]b4_parser_class_name[::token_number_type
   ]b4_parser_class_name[::yytranslate_ (]b4_lex_symbol_if([token_type],
@@ -237,7 +237,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 ]b4_namespace_open[
 ]b4_locations_if([  class position;
   class location;])[
-]b4_variant_if([b4_variant_definition])[
+]b4_variant_if([b4_variant_define])[
 ]b4_namespace_close[
 
 ]b4_locations_if([#include "location.hh"])[
@@ -287,7 +287,7 @@ do {                                                            \
   {
   public:
 ]b4_public_types_declare[
-]b4_symbol_constructor_declarations[
+]b4_symbol_constructor_declare[
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
@@ -435,9 +435,9 @@ do {                                                            \
 ]b4_parse_param_vars[
   };
 
-]b4_lex_symbol_if([b4_yytranslate_definition
+]b4_lex_symbol_if([b4_yytranslate_define
 b4_public_types_define
-b4_symbol_constructor_definitions])[
+b4_symbol_constructor_define])[
 ]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -588,7 +588,7 @@ b4_percent_code_get[]dnl
   `---------------*/
 
 ]b4_lex_symbol_if([], [b4_public_types_define
-b4_symbol_constructor_definitions])[
+b4_symbol_constructor_define])[
 
   // stack_symbol_type.
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
@@ -1146,7 +1146,7 @@ b4_error_verbose_if([int yystate, int yytoken],
   }
 #endif // YYDEBUG
 
-]b4_lex_symbol_if([], [b4_yytranslate_definition])[
+]b4_lex_symbol_if([], [b4_yytranslate_define])[
 ]b4_namespace_close[
 ]b4_epilogue[]dnl
 m4_divert_pop(0)

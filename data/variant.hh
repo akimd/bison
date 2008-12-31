@@ -75,10 +75,10 @@ m4_map([b4_char_sizeof_], [$@])dnl
 ])])
 
 
-# b4_variant_definition
-# ---------------------
+# b4_variant_define
+# -----------------
 # Define "variant".
-m4_define([b4_variant_definition],
+m4_define([b4_variant_define],
 [[
   /// A char[S] buffer to store and retrieve objects.
   ///

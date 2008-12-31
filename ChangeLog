@@ -1,5 +1,21 @@
 2009-03-02  Akim Demaille  <demaille@gostai.com>
 
+	Coding style changes.
+	* data/lalr1.cc (b4_symbol_constructor_declaration_)
+	(b4_symbol_constructor_declarations)
+	(b4_symbol_constructor_definition_)
+	(b4_symbol_constructor_definitions)
+	(b4_yytranslate_definition): Rename as...
+	(b4_symbol_constructor_declare_)
+	(b4_symbol_constructor_declare)
+	(b4_symbol_constructor_define_)
+	(b4_symbol_constructor_define)
+	(b4_yytranslate_define): these.
+	* data/variant.hh (b4_variant_definition): Rename as...
+	(b4_variant_define): this.
+
+2009-03-02  Akim Demaille  <demaille@gostai.com>
+
 	Factor b4_assert_if, b4_lex_symbol_if, and b4_variant_if.
 	* data/bison.m4 (b4_percent_define_if_define): New.
 	* data/c++.m4 (b4_variant_if): Move to...
