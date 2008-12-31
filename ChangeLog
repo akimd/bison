@@ -1,3 +1,8 @@
+2009-02-25  Akim Demaille  <demaille@gostai.com>
+
+	Comment change.
+	* data/lalr1.cc: here.
+
 2009-02-19  Akim Demaille  <demaille@gostai.com>
 
 	Make yyparser::error public.

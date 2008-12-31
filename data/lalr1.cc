@@ -530,7 +530,7 @@ m4_ifdef([b4_stype],
                              symbol_base_type<Exact>& yysym) const;
 
   public:
-    /// Element of the stack: a state and its attributes.
+    /// External form of a symbol: its type and attributes.
     struct symbol_type : symbol_base_type<symbol_type>
     {
       /// The parent class.
