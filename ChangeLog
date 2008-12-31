@@ -1,5 +1,14 @@
 2009-03-02  Akim Demaille  <demaille@gostai.com>
 
+	Dub symbol_type_base as a public type.
+	* data/c++.m4 (b4_public_types_declare): Now define
+	symbol_type_base and symbol_type.
+	(b4_public_types_define): New.
+	In both cases, the definitions are taken verbatim from lalr1.cc.
+	* data/lalr1.cc: Adjust.
+
+2009-03-02  Akim Demaille  <demaille@gostai.com>
+
 	b4_public_types_declare.
 	* data/c++.m4 (b4_public_types_declare): New.
 	* data/glr.cc, data/lalr1.cc: Use it.

@@ -114,6 +114,7 @@ m4_ifdef([b4_stype],
 # b4_public_types_declare
 # -----------------------
 # Define the public types: token, semantic value, location, and so forth.
+# Depending on %define token_lex, may be output in the header or source file.
 m4_define([b4_public_types_declare],
 [[#ifndef YYSTYPE
 ]b4_semantic_type_declare[
@@ -122,14 +123,165 @@ m4_define([b4_public_types_declare],
 #endif]b4_locations_if([
     /// Symbol locations.
     typedef b4_percent_define_get([[location_type]]) location_type;])[
+
     /// Tokens.
     struct token
     {
       ]b4_token_enums(b4_tokens)[
     };
+
     /// Token type.
     typedef token::yytokentype token_type;
+
+    /// A complete symbol, with its type.
+    template <typename Exact>
+    struct symbol_base_type
+    {
+      /// Default constructor.
+      inline symbol_base_type ();
+
+      /// Constructor.]b4_locations_if([
+      inline symbol_base_type (const location_type& l)])[;
+      inline symbol_base_type (]b4_args(
+        [const semantic_type& v],
+        b4_locations_if([const location_type& l]))[);
+
+      /// Return this with its exact type.
+      const Exact& self () const;
+      Exact& self ();
+
+      /// Return the type of this symbol.
+      int type_get () const;
+
+      /// The semantic value.
+      semantic_type value;]b4_locations_if([
+
+      /// The location.
+      location_type location;])[
+    };
+
+    /// External form of a symbol: its type and attributes.
+    struct symbol_type : symbol_base_type<symbol_type>
+    {
+      /// The parent class.
+      typedef symbol_base_type<symbol_type> super_type;
+
+      /// Default constructor.
+      inline symbol_type ();
+
+      /// Constructor.
+      inline symbol_type (]b4_args([int t],
+                                   [const semantic_type& v],
+                                   b4_locations_if([const location_type& l]))[);
+
+      inline symbol_type (]b4_args([int t],
+                                   b4_locations_if([const location_type& l]))[);
+
+      /// The symbol type.
+      int type;
+
+      /// Return the type corresponding to this state.
+      inline int type_get_ () const;
+
+      /// Its token.
+      inline token_type token () const;
+    };
 ]])
+
+
+# b4_public_types_define
+# ----------------------
+# Provide the implementation needed by the public types.
+m4_define([b4_public_types_define],
+[[  // symbol_base_type.
+  template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type ()
+    : value()]b4_locations_if([
+    , location()])[
+  {
+  }]b4_locations_if([[
+
+  template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const location_type& l)
+    : value()
+    , location(l)
+  {
+  }]])[
+
+  template <typename Exact>
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_args(
+          [const semantic_type& v],
+          b4_locations_if([const location_type& l]))[)
+    : value(v)]b4_locations_if([
+    , location(l)])[
+  {
+  }
+
+  template <typename Exact>
+  const Exact&
+  ]b4_parser_class_name[::symbol_base_type<Exact>::self () const
+  {
+    return static_cast<const Exact&>(*this);
+  }
+
+  template <typename Exact>
+  Exact&
+  ]b4_parser_class_name[::symbol_base_type<Exact>::self ()
+  {
+    return static_cast<Exact&>(*this);
+  }
+
+  template <typename Exact>
+  int
+  ]b4_parser_class_name[::symbol_base_type<Exact>::type_get () const
+  {
+    return self ().type_get_ ();
+  }
+
+  // symbol_type.
+  ]b4_parser_class_name[::symbol_type::symbol_type ()
+    : super_type ()
+    , type ()
+  {
+  }
+
+  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
+                [int t],
+                b4_locations_if([const location_type& l]))[)
+    : super_type (]b4_locations_if([l])[)
+    , type (t)
+  {
+  }
+
+  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
+                 [int t],
+                 [const semantic_type& v],
+                 b4_locations_if([const location_type& l]))[)
+    : super_type (v]b4_locations_if([, l])[)
+    , type (t)
+  {
+  }
+
+  int
+  ]b4_parser_class_name[::symbol_type::type_get_ () const
+  {
+    return type;
+  }
+]b4_lex_symbol_if([[
+  ]b4_parser_class_name[::token_type
+  ]b4_parser_class_name[::symbol_type::token () const
+  {
+    // YYTOKNUM[NUM] -- (External) token number corresponding to the
+    // (internal) symbol number NUM (which must be that of a token).  */
+    static
+    const ]b4_int_type_for([b4_toknum])[
+    yytoken_number_[] =
+    {
+  ]b4_toknum[
+    };
+    return static_cast<token_type> (yytoken_number_[type]);
+  }
+]])])
 
 
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])

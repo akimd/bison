@@ -176,98 +176,8 @@ b4_args(b4_symbol_if([$1], [has_type],
 # ----------------------------------
 # Define the overloaded versions of make_symbol for all the value types.
 m4_define([b4_symbol_constructor_definitions],
-[[  // symbol_base_type.
-  template <typename Exact>
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type ()
-    : value()]b4_locations_if([
-    , location()])[
-  {
-  }]b4_locations_if([[
-
-  template <typename Exact>
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const location_type& l)
-    : value()
-    , location(l)
-  {
-  }]])[
-
-  template <typename Exact>
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_args(
-          [const semantic_type& v],
-          b4_locations_if([const location_type& l]))[)
-    : value(v)]b4_locations_if([
-    , location(l)])[
-  {
-  }
-
-  template <typename Exact>
-  const Exact&
-  ]b4_parser_class_name[::symbol_base_type<Exact>::self () const
-  {
-    return static_cast<const Exact&>(*this);
-  }
-
-  template <typename Exact>
-  Exact&
-  ]b4_parser_class_name[::symbol_base_type<Exact>::self ()
-  {
-    return static_cast<Exact&>(*this);
-  }
-
-  template <typename Exact>
-  int
-  ]b4_parser_class_name[::symbol_base_type<Exact>::type_get () const
-  {
-    return self ().type_get_ ();
-  }
-
-  // symbol_type.
-  ]b4_parser_class_name[::symbol_type::symbol_type ()
-    : super_type ()
-    , type ()
-  {
-  }
-
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
-                [int t],
-                b4_locations_if([const location_type& l]))[)
-    : super_type (]b4_locations_if([l])[)
-    , type (t)
-  {
-  }
-
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
-                 [int t],
-                 [const semantic_type& v],
-                 b4_locations_if([const location_type& l]))[)
-    : super_type (v]b4_locations_if([, l])[)
-    , type (t)
-  {
-  }
-
-  int
-  ]b4_parser_class_name[::symbol_type::type_get_ () const
-  {
-    return type;
-  }
-]b4_lex_symbol_if([[
-  ]b4_parser_class_name[::token_type
-  ]b4_parser_class_name[::symbol_type::token () const
-  {
-    // YYTOKNUM[NUM] -- (External) token number corresponding to the
-    // (internal) symbol number NUM (which must be that of a token).  */
-    static
-    const ]b4_int_type_for([b4_toknum])[
-    yytoken_number_[] =
-    {
-  ]b4_toknum[
-    };
-    return static_cast<token_type> (yytoken_number_[type]);
-  }
-]])[
-
-]b4_variant_if(
-[  // Implementation of make_symbol for each symbol type.
+[b4_variant_if([
+  // Implementation of make_symbol for each symbol type.
 b4_symbol_foreach([b4_symbol_constructor_definition_])])])
 
 
@@ -389,6 +299,7 @@ do {                                                            \
   {
   public:
 ]b4_public_types_declare[
+]b4_symbol_constructor_declarations[
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
@@ -457,33 +368,6 @@ do {                                                            \
     /// Convert a scanner token number \a t to a symbol number.
     static inline token_number_type yytranslate_ (]b4_lex_symbol_if([token_type], [int])[ t);
 
-    /// A complete symbol, with its type.
-    template <typename Exact>
-    struct symbol_base_type
-    {
-      /// Default constructor.
-      inline symbol_base_type ();
-
-      /// Constructor.]b4_locations_if([
-      inline symbol_base_type (const location_type& l)])[;
-      inline symbol_base_type (]b4_args(
-        [const semantic_type& v],
-        b4_locations_if([const location_type& l]))[);
-
-      /// Return this with its exact type.
-      const Exact& self () const;
-      Exact& self ();
-
-      /// Return the type of this symbol.
-      int type_get () const;
-
-      /// The semantic value.
-      semantic_type value;]b4_locations_if([
-
-      /// The location.
-      location_type location;])[
-    };
-
 #if YYDEBUG
     /// \brief Display a symbol type, value and location.
     /// \param yyo    The output stream.
@@ -500,36 +384,6 @@ do {                                                            \
     template <typename Exact>
     inline void yy_destroy_ (const char* yymsg,
                              symbol_base_type<Exact>& yysym) const;
-
-  public:
-    /// External form of a symbol: its type and attributes.
-    struct symbol_type : symbol_base_type<symbol_type>
-    {
-      /// The parent class.
-      typedef symbol_base_type<symbol_type> super_type;
-
-      /// Default constructor.
-      inline symbol_type ();
-
-      /// Constructor.
-      inline symbol_type (]b4_args([int t],
-                                   [const semantic_type& v],
-                                   b4_locations_if([const location_type& l]))[);
-
-      inline symbol_type (]b4_args([int t],
-                                   b4_locations_if([const location_type& l]))[);
-
-      /// The symbol type.
-      int type;
-
-      /// Return the type corresponding to this state.
-      inline int type_get_ () const;
-
-      /// Its token.
-      inline token_type token () const;
-    };
-
-]b4_symbol_constructor_declarations[
 
   private:
     /// Element of the stack: a state and its attributes.
@@ -593,8 +447,9 @@ do {                                                            \
 ]b4_parse_param_vars[
   };
 
-]b4_lex_symbol_if([b4_yytranslate_definition])[
-]b4_lex_symbol_if([b4_symbol_constructor_definitions])[
+]b4_lex_symbol_if([b4_yytranslate_definition
+b4_public_types_define
+b4_symbol_constructor_definitions])[
 ]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -744,7 +599,8 @@ b4_percent_code_get[]dnl
   | Symbol types.  |
   `---------------*/
 
-]b4_lex_symbol_if([], [b4_symbol_constructor_definitions])[
+]b4_lex_symbol_if([], [b4_public_types_define
+b4_symbol_constructor_definitions])[
 
   // stack_symbol_type.
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
