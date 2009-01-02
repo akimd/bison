@@ -1029,8 +1029,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
   yyreduce:
     yylen = yyr2_[yyn];]b4_variant_if([
     /* Variants are always initialized to an empty instance of the
-       correct type. The default $$=$1 rule is NOT applied when using
-       variants */
+       correct type. The default $$=$1 action is NOT applied when using
+       variants.  */
     ]b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build]),[
     /* If YYLEN is nonzero, implement the default value of the action:
        `$$ = $1'.  Otherwise, use the top of the stack.

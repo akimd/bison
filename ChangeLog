@@ -1,5 +1,10 @@
 2009-02-25  Akim Demaille  <demaille@gostai.com>
 
+	Comment changes.
+	* data/lalr1.cc: here.
+
+2009-02-25  Akim Demaille  <demaille@gostai.com>
+
 	Fix glr.cc's debug level handling.
 	* data/glr.cc (yydebug_): Remove, as it is actually yydebug from
 	glr.c which is used.
