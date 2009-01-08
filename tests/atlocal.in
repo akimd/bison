@@ -1,11 +1,11 @@
 # @configure_input@					-*- shell-script -*-
 # Configurable variable values for Bison test suite.
 
-# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free
-# Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008,
+# 2009 Free Software Foundation, Inc.
 
 # We need a C compiler.
-CC='@CC@'
+: ${CC='@CC@'}
 
 # We want no optimization.
 CFLAGS='@O0CFLAGS@ @WARN_CFLAGS@ @WERROR_CFLAGS@'
@@ -17,7 +17,7 @@ CPPFLAGS="-I$abs_top_builddir/lib @CPPFLAGS@"
 GCC='@GCC@'
 
 # The C++ compiler.
-CXX='@CXX@'
+: ${CXX='@CXX@'}
 
 # If 'exit 77'; skip all C++ tests; otherwise ':'.
 BISON_CXX_WORKS='@BISON_CXX_WORKS@'
@@ -38,4 +38,7 @@ CONF_JAVAC='@CONF_JAVAC@'
 CONF_JAVA='@CONF_JAVA@'
 
 # Empty if no xsltproc was found
-XSLTPROC='@XSLTPROC@'
+: ${XSLTPROC='@XSLTPROC@'}
+
+# We need egrep.
+: ${EGREP='@EGREP@'}

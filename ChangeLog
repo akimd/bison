@@ -1,3 +1,17 @@
+2009-01-08  Akim Demaille  <demaille@gostai.com>
+
+	Fix grep portability issues.
+	Grep on Solaris does not support -q.
+	Reported by Summum Bonum.
+	
+	* NEWS: Add a stub for 2.4.2.
+	* THANKS: Add Summum Bonum.
+	* tests/atlocal.in (EGREP): New.
+	(CC, CXX, XSLTPROC): Make it possible to override them via
+	envvars.
+	* tests/java.at: Use $EGREP instead of egrep.
+	Use AT_CHECK's ignore instead of grep's -q.
+
 2008-12-11  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Version 2.4.1.
