@@ -1,3 +1,8 @@
+2009-02-03  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Add reminder about uploading public key to keys.gnupg.net.
+	* HACKING (Release Procedure): Here.
+
 2009-03-31  Akim Demaille  <demaille@gostai.com>
 
 	bootstrap: --help to stdout.
