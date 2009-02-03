@@ -1,3 +1,8 @@
+2009-02-03  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Add reminder about uploading public key to keys.gnupg.net.
+	* HACKING (Release Procedure): Here.
+
 2009-01-28  Akim Demaille  <demaille@gostai.com>
 
 	* NEWS: Update information about 2.4.1 and 2.4.2.

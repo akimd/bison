@@ -145,9 +145,15 @@ The generic GNU upload procedure is at:
 
   http://www.gnu.org/prep/maintain/maintain.html#Automated-FTP-Uploads
 
-After following the instructions there to register your information so you're
-permitted to upload, here's a brief reminder of how to roll the tarballs and
-upload them:
+Follow the instructions there to register your information so you're permitted
+to upload.  Make sure your public key has been uploaded at least to
+keys.gnupg.net.  You can upload it with:
+
+  gpg --keyserver keys.gnupg.net --send-keys F125BDF3
+
+where F125BDF3 should be replaced with your key ID.
+
+Here's a brief reminder of how to roll the tarballs and upload them:
 
 *** make distcheck
 *** gpg -b bison-2.3b.tar.gz
