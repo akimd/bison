@@ -44,6 +44,8 @@
 /localcharset.c
 /localcharset.h
 /malloc.c
+/mbrtowc.c
+/mbsinit.c
 /mbswidth.c
 /mbswidth.h
 /obstack.c

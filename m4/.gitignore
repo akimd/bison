@@ -1,3 +1,4 @@
+/00gnulib.m4
 /absolute-header.m4
 /argmatch.m4
 /config-h.m4
@@ -29,11 +30,16 @@
 /lib-link.m4
 /lib-prefix.m4
 /localcharset.m4
+/locale-fr.m4
+/locale-ja.m4
+/locale-zh.m4
 /longlong.m4
 /malloc.m4
 /mbrtowc.m4
+/mbsinit.m4
 /mbstate_t.m4
 /mbswidth.m4
+/multiarch.m4
 /nls.m4
 /po.m4
 /progtest.m4
