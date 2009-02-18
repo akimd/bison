@@ -2,7 +2,7 @@
 
 # Java language support for Bison
 
-# Copyright (C) 2007, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2008, 2009 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -247,7 +247,7 @@ m4_define([b4_lex_param], b4_lex_param)
 m4_define([b4_parse_param], b4_parse_param)
 
 # b4_lex_param_decl
-# -------------------
+# -----------------
 # Extra formal arguments of the constructor.
 m4_define([b4_lex_param_decl],
 [m4_ifset([b4_lex_param],
@@ -275,7 +275,7 @@ m4_define([b4_parse_param_decl],
 
 
 # b4_lex_param_call
-# -------------------
+# -----------------
 # Delegating the lexer parameters to the lexer constructor.
 m4_define([b4_lex_param_call],
           [m4_ifset([b4_lex_param],

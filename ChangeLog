@@ -1,5 +1,9 @@
 2009-03-02  Akim Demaille  <demaille@gostai.com>
 
+	Comment changes.
+
+2009-03-02  Akim Demaille  <demaille@gostai.com>
+
 	Share b4_yytranslate_define.
 	* data/lalr1.cc (b4_yytranslate_define): Move to...
 	* data/c++.m4: here.
