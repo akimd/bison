@@ -1,8 +1,8 @@
                                                             -*- Autoconf -*-
 
 # C M4 Macros for Bison.
-# Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008 Free Software
-# Foundation, Inc.
+# Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008, 2009
+# Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -342,7 +342,7 @@ m4_define([b4_c_knr_formal_decl],
 # -----------------------------------------------------------
 # Declare the function NAME.
 m4_define([b4_c_function_decl],
-[#if defined __STDC__ || defined __cplusplus
+[#if b4_c_modern
 b4_c_ansi_function_decl($@)
 #else
 $2 $1 ();
