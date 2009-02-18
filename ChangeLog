@@ -1,5 +1,11 @@
 2009-02-25  Akim Demaille  <demaille@gostai.com>
 
+	Remove useless arguments.
+	* data/glr.c (yy_reduce_print): $$ and @$ are not used and not
+	relevant.
+
+2009-02-25  Akim Demaille  <demaille@gostai.com>
+
 	Comment changes.
 	* data/lalr1.cc: here.
 
