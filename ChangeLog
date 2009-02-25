@@ -1,3 +1,10 @@
+2009-02-26  Akim Demaille  <demaille@gostai.com>
+
+	Upgrade gnulib.
+	* gnulib: Upgrade from master.
+	* lib/.cvsignore, lib/.gitignore, m4/.cvsignore, m4/.gitignore:
+	Regen.
+
 2009-02-25  Akim Demaille  <demaille@gostai.com>
 
 	Remove useless arguments.
@@ -48,9 +55,8 @@
 2009-02-19  Akim Demaille  <demaille@gostai.com>
 
 	Remove trailing blanks.
-	The epilogue has its own ending 
-	, no need to add another.
-	
+	The epilogue has its own ending \n, no need to add another.
+
 	* data/glr.c, data/lalr1.java, data/yacc.c: dnl when outputing the
 	epilogue.
 	* data/glr.cc: dnl when extending the epilogue.
