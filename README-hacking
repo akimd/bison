@@ -39,31 +39,79 @@ Obviously, if you are reading these notes, you did manage to check out
 this package from the repository.  For the record, you will find all the
 relevant information on:
 
-	http://savannah.gnu.org/cvs/?group_id=56
+        http://savannah.gnu.org/git/?group=bison
+
+Bison uses Git submodules: subscriptions to other Git repositories.
+In particular it uses gnulib, the GNU portability library.  To ask Git
+to perform the first checkout of the submodules, run
+
+       $ git submodule update --init
+
+Git submodule support is weak before versions 1.6 and later, you
+should probably upgrade Git if your version is older.
 
 The next step is to get other files needed to build, which are
 extracted from other source packages:
 
-	$ ./bootstrap
+        $ ./bootstrap
 
 And there you are!  Just
 
-	$ ./configure
-	$ make
-	$ make check
+        $ ./configure
+        $ make
+        $ make check
 
 At this point, there should be no difference between your local copy,
 and the master copy:
 
-	$ cvs diff
+        $ git diff
 
 should output no difference.
 
 Enjoy!
 
+* Updating
+
+The use of submodules make things somewhat different because git does
+not support recursive operations: submodules must be taken care of
+explicitly by the user.
+
+** Updating Bison
+
+If you pull a newer version of a branch, say via `git pull', you might
+import requests for updated submodules.  A simple `git diff' will
+reveal if the current version of the submodule (i.e., the actual
+contents of the gnulib directory) and the current request from the
+subscriber (i.e., the reference of the version of gnulib that the
+Bison reporitory requests) differ.  To upgrade the submodules (i.e.,
+to check out the version that is actually requested by the subscriber,
+run `git submodule update'.
+
+        $ git pull
+        $ git submodule update
+
+** Updating a submodule
+To update a submodule, say gnulib, do as follows:
+
+Get the most recent version of the master branch from git.
+
+        $ cd gnulib
+        $ git fetch
+        $ git checkout -b master --track origin/master
+
+Make sure Bison can live with that version of gnulib.
+
+        $ cd ..
+        $ ./bootstrap
+        $ make distcheck
+
+Register your changes.
+
+        $ git checkin ...
+
 -----
 
-Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software
+Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2009 Free Software
 Foundation, Inc.
 
 This program is free software: you can redistribute it and/or modify

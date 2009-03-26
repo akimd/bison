@@ -1,5 +1,11 @@
 2009-03-26  Akim Demaille  <demaille@gostai.com>
 
+	doc: update README-hacking.
+	* README-hacking: We now use git and git submodules.
+	Reported by Ralf Wildenhues and Alexandre Duret-Lutz.
+
+2009-03-26  Akim Demaille  <demaille@gostai.com>
+
 	lalr1.cc: avoid GCC 4.3 warnings.
 	GCC 4.3 now warns about "a || b && c" and asks for explicit
 	parentheses.
