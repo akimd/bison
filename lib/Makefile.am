@@ -1,7 +1,7 @@
 # Make bison/lib.
 
-# Copyright (C) 2001, 2002, 2003, 2004, 2006, 2008 Free Software Foundation,
-# Inc.
+# Copyright (C) 2001, 2002, 2003, 2004, 2006, 2008, 2009
+# Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 include gnulib.mk
 
-AM_CFLAGS = $(WARN_CFLAGS)
+AM_CFLAGS += $(WARN_CFLAGS)
 
 # Implementation of bitsets.
 bitsets_sources = \

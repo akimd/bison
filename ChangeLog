@@ -1,3 +1,10 @@
+2009-03-26  Akim Demaille  <demaille@gostai.com>
+
+	gnulib: update.
+	* gnulib: Update to latest.
+	* lib/Makefile.am (AM_CPPFLAGS): It is now defined by gnulib, so
+	use +=.
+
 2009-01-08  Akim Demaille  <demaille@gostai.com>
 
 	Fix grep portability issues.
