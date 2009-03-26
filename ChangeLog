@@ -1,5 +1,14 @@
 2009-03-26  Akim Demaille  <demaille@gostai.com>
 
+	doc: merge HACKING and README-hacking.
+	Two files is confusing.
+	Reported by Alexandre Duret-Lutz.
+	
+	* README-hacking: Merge into...
+	* HACKING (Working from the repository): here.
+
+2009-03-26  Akim Demaille  <demaille@gostai.com>
+
 	doc: update README-hacking.
 	* README-hacking: We now use git and git submodules.
 	Reported by Ralf Wildenhues and Alexandre Duret-Lutz.

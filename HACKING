@@ -5,7 +5,7 @@ Don't put this file into the distribution.
 
 Everything related to the development of Bison is on Savannah:
 
-	http://savannah.gnu.org/projects/bison/
+        http://savannah.gnu.org/projects/bison/
 
 
 * Administrivia
@@ -45,6 +45,118 @@ Only user visible strings are to be translated: error messages, bits
 of the .output file etc.  This excludes impossible error messages
 (comparable to assert/abort), and all the --trace output which is
 meant for the maintainers only.
+
+
+* Working from the repository
+
+These notes intend to help people working on the checked-out sources.
+These requirements do not apply when building from a distribution tarball.
+
+** Requirements
+
+We've opted to keep only the highest-level sources in the repository.
+This eases our maintenance burden, (fewer merges etc.), but imposes more
+requirements on anyone wishing to build from the just-checked-out sources.
+For example, you have to use the latest stable versions of the maintainer
+tools we depend upon, including:
+
+- Automake <http://www.gnu.org/software/automake/>
+- Autoconf <http://www.gnu.org/software/autoconf/>
+- Flex <http://www.gnu.org/software/flex/>
+- Gettext <http://www.gnu.org/software/gettext/>
+- Gzip <http://www.gnu.org/software/gzip/>
+- Perl <http://www.cpan.org/>
+- Rsync <http://samba.anu.edu.au/rsync/>
+- Tar <http://www.gnu.org/software/tar/>
+
+Valgrind <http://valgrind.org/> is also highly recommended, if
+Valgrind supports your architecture.
+
+Bison is written using Bison grammars, so there are bootstrapping
+issues.  The bootstrap script attempts to discover when the C code
+generated from the grammars is out of date, and to bootstrap with an
+out-of-date version of the C code, but the process is not foolproof.
+Also, you may run into similar problems yourself if you modify Bison.
+
+Only building the initial full source tree will be a bit painful.
+Later, after synchronizing from the repository a plain `make' should
+be sufficient.
+
+** First checkout
+
+Obviously, if you are reading these notes, you did manage to check out
+this package from the repository.  For the record, you will find all the
+relevant information on:
+
+        http://savannah.gnu.org/git/?group=bison
+
+Bison uses Git submodules: subscriptions to other Git repositories.
+In particular it uses gnulib, the GNU portability library.  To ask Git
+to perform the first checkout of the submodules, run
+
+       $ git submodule update --init
+
+Git submodule support is weak before versions 1.6 and later, you
+should probably upgrade Git if your version is older.
+
+The next step is to get other files needed to build, which are
+extracted from other source packages:
+
+        $ ./bootstrap
+
+And there you are!  Just
+
+        $ ./configure
+        $ make
+        $ make check
+
+At this point, there should be no difference between your local copy,
+and the master copy:
+
+        $ git diff
+
+should output no difference.
+
+Enjoy!
+
+** Updating
+
+The use of submodules make things somewhat different because git does
+not support recursive operations: submodules must be taken care of
+explicitly by the user.
+
+*** Updating Bison
+
+If you pull a newer version of a branch, say via `git pull', you might
+import requests for updated submodules.  A simple `git diff' will
+reveal if the current version of the submodule (i.e., the actual
+contents of the gnulib directory) and the current request from the
+subscriber (i.e., the reference of the version of gnulib that the
+Bison reporitory requests) differ.  To upgrade the submodules (i.e.,
+to check out the version that is actually requested by the subscriber,
+run `git submodule update'.
+
+        $ git pull
+        $ git submodule update
+
+*** Updating a submodule
+To update a submodule, say gnulib, do as follows:
+
+Get the most recent version of the master branch from git.
+
+        $ cd gnulib
+        $ git fetch
+        $ git checkout -b master --track origin/master
+
+Make sure Bison can live with that version of gnulib.
+
+        $ cd ..
+        $ ./bootstrap
+        $ make distcheck
+
+Register your changes.
+
+        $ git checkin ...
 
 
 * Test suite
@@ -201,7 +313,8 @@ Push these changes.
 
 -----
 
-Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008 Free Software Foundation, Inc.
+Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008, 2009
+Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 
