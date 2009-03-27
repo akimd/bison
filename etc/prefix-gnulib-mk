@@ -50,7 +50,7 @@ sub prefix_assignment ($$)
 
   # Some variables are initialized by gnulib.mk, and we don't want
   # that.  Change '=' to '+='.
-  if ($lhs_and_assign_op =~ /^(SUBDIRS|EXTRA_DIST|BUILT_SOURCES|SUFFIXES|MOSTLYCLEANFILES|CLEANFILES|DISTCLEANFILES|MAINTAINERCLEANFILES|AM_CPPFLAGS|AM_GNU_GETTEXT) =/)
+  if ($lhs_and_assign_op =~ /^(SUBDIRS|EXTRA_DIST|BUILT_SOURCES|SUFFIXES|MOSTLYCLEANFILES|CLEANFILES|DISTCLEANFILES|MAINTAINERCLEANFILES|AM_CFLAGS|AM_CPPFLAGS|AM_GNU_GETTEXT) =/)
     {
       $lhs_and_assign_op =~ s/=/+=/;
     }

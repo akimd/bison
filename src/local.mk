@@ -1,5 +1,5 @@
-## Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-## Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
+## Free Software Foundation, Inc.
 
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@ AUTOMAKE_OPTIONS = subdir-objects
 AM_CPPFLAGS += -I$(top_srcdir)/lib
 # Find builddir/src/scan-code.c etc.
 AM_CPPFLAGS += -I$(top_builddir)
-
-AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS)
 
 LDADD = $(top_builddir)/lib/libbison.a $(LIBINTL)
 

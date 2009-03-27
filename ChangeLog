@@ -1,3 +1,12 @@
+2009-03-26  Akim Demaille  <demaille@gostai.com>
+
+	gnulib: update.
+	* gnulib: Update to latest.
+	* src/local.mk (AM_CFLAGS): Move to...
+	* Makefile.am: here.
+	* etc/prefix-gnulib-mk (prefix_assignment): Also transform
+	AM_CFLAGS.
+
 2009-03-02  Akim Demaille  <demaille@gostai.com>
 
 	Comment changes.
@@ -14,7 +23,7 @@
 	Yes, this obfuscates the point of this example, variants only.  But glr.cc
 	cannot work (yet?) without locations.  This change makes it easier to use
 	this example with glr.cc.
-	
+
 	* examples/variant.yy (assert): %define it.
 	(locations): Request them.
 	(yylex): Bind the location to the stage.
