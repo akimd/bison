@@ -1,5 +1,16 @@
 2009-03-26  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: avoid GCC 4.3 warnings.
+	GCC 4.3 now warns about "a || b && c" and asks for explicit
+	parentheses.
+	Reported by Alexandre Duret-Lutz.
+	* data/location.cc: Update copyright years.
+	(Position::operator==): Use parens to make precedence explicit.
+	Compare lines and columns first, as they are more likely to be
+	different, and they are faster to compare.
+
+2009-03-26  Akim Demaille  <demaille@gostai.com>
+
 	gnulib: update.
 	* gnulib: Update to latest.
 	* src/local.mk (AM_CFLAGS): Move to...
