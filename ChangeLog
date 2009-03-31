@@ -1,3 +1,8 @@
+2009-03-31  Akim Demaille  <demaille@gostai.com>
+
+	bootstrap: README-hacking no longer exists
+	* bootstrap (checkout_only_file): Set to HACKING.
+
 2009-03-26  Akim Demaille  <demaille@gostai.com>
 
 	doc: merge HACKING and README-hacking.
