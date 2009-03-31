@@ -36,7 +36,7 @@ bt_regex=`echo "$bt"| sed 's/\./[.]/g'`
 bt2=${bt}2
 
 usage() {
-  echo >&2 "\
+  cat <<EOF
 Usage: $0 [OPTION]...
 Bootstrap this package from the checked-out sources.
 
@@ -57,7 +57,7 @@ If the file bootstrap.conf exists in the current working directory, its
 contents are read as shell variables to configure the bootstrap.
 
 Running without arguments will suffice in most cases.
-"
+EOF
 }
 
 # Configuration.

@@ -1,5 +1,11 @@
 2009-03-31  Akim Demaille  <demaille@gostai.com>
 
+	bootstrap: --help to stdout.
+	* bootstrap (usage): Don't send --help to stderr.
+	Use a here doc instead of a long string.
+
+2009-03-31  Akim Demaille  <demaille@gostai.com>
+
 	bootstrap: README-hacking no longer exists
 	* bootstrap (checkout_only_file): Set to HACKING.
 
