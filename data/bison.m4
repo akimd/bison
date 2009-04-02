@@ -332,7 +332,6 @@ m4_define([b4_$3_if],
 # -----------------------------
 # Expand IF-TRUE, if FLAG is true, IF-FALSE otherwise.
 b4_define_flag_if([defines])	        # Whether headers are requested.
-b4_define_flag_if([error_verbose])	# Whether error are verbose.
 b4_define_flag_if([glr])		# Whether a GLR parser is requested.
 b4_define_flag_if([locations])	        # Whether locations are tracked.
 b4_define_flag_if([nondeterministic])	# Whether conflicts should be handled.
@@ -619,28 +618,9 @@ m4_define([b4_percent_define_ifdef],
 	  [$3])])
 
 
-# b4_percent_define_if_define(VARIABLE)
-# -------------------------------------
-# Define b4_VARIABLE_if that executes its $1 or $2 depending whether VARIABLE
-# was %defined.
-m4_define([b4_percent_define_if_define_],
-[m4_define([b4_$1_if], [b4_percent_define_ifdef([$1], [$2], [$3])])])
-m4_define([b4_percent_define_if_define],
-[b4_percent_define_if_define_([$1], $[1], $[2])])
-
 ## --------- ##
 ## Options.  ##
 ## --------- ##
-
-
-# b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
-# b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
-# b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
-# ----------------------------------------------
-b4_percent_define_if_define([assert])
-b4_percent_define_if_define([lex_symbol])
-b4_percent_define_if_define([variant])
-
 
 
 # b4_percent_define_flag_if(VARIABLE, IF-TRUE, [IF-FALSE])
@@ -666,6 +646,7 @@ m4_define([b4_percent_define_flag_if],
                            [[b4_percent_define_flag_if($1)]])])],
   [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_flag_if]], [$1])])])
 
+
 # b4_percent_define_default(VARIABLE, DEFAULT)
 # --------------------------------------------
 # Mimic muscle_percent_define_default in ../src/muscle_tab.h exactly.  That is,
@@ -683,6 +664,30 @@ m4_define([b4_percent_define_default],
                       [[[[<skeleton default value>:-1.-1]],
                         [[<skeleton default value>:-1.-1]]]])dnl
             m4_define([b4_percent_define_syncline(]$1[)], [[]])])])
+
+
+# b4_percent_define_if_define(VARIABLE)
+# -------------------------------------
+# Define b4_VARIABLE_if that executes its $1 or $2 depending whether
+# VARIABLE was %defined.
+m4_define([b4_percent_define_if_define_],
+[m4_define([b4_$1_if], [b4_percent_define_flag_if([$1], [$2], [$3])])])
+m4_define([b4_percent_define_if_define],
+[b4_percent_define_default([[$1]], [[false]])
+b4_percent_define_if_define_([$1], $[1], $[2])])
+
+
+# b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
+# b4_error_verbose_if([IF-ERRORS-ARE-VERBOSE], [IF-NOT])
+# b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
+# b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
+# ----------------------------------------------
+b4_percent_define_if_define([assert])
+b4_percent_define_if_define([error_verbose])
+b4_percent_define_if_define([lex_symbol])
+b4_percent_define_if_define([variant])
+
+
 
 # b4_percent_define_check_values(VALUES)
 # --------------------------------------

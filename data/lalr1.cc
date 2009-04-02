@@ -1,6 +1,6 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 # Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -116,7 +116,7 @@ m4_popdef([b4_dollar_dollar])dnl
 
 
 m4_pushdef([b4_copyright_years],
-           [2002, 2003, 2004, 2005, 2006, 2007, 2008])
+           [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009])
 
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
@@ -169,7 +169,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE ]b4_error_verbose_flag[
+# define YYERROR_VERBOSE ]b4_error_verbose_if([1], [0])[
 #endif
 
 /* Enabling the token table.  */

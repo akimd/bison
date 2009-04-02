@@ -1,6 +1,6 @@
 %{/* Bison Grammar Parser                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
+   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -236,7 +236,10 @@ prologue_declaration:
       defines_flag = true;
       spec_defines_file = xstrdup ($2);
     }
-| "%error-verbose"                 { error_verbose = true; }
+| "%error-verbose"
+    {
+      muscle_percent_define_insert ("error_verbose", @$, "");
+    }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT		   { expected_rr_conflicts = $2; }
 | "%file-prefix" STRING            { spec_file_prefix = $2; }
