@@ -161,7 +161,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG ]b4_debug_flag[
+# define YYDEBUG ]b4_debug_if([1], [0])[
 #endif
 
 /* Enabling verbose error messages.  */

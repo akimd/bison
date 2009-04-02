@@ -225,7 +225,10 @@ prologue_declaration:
                         plain_code.code, @1);
       code_scanner_last_string_free ();
     }
-| "%debug"                         { debug_flag = true; }
+| "%debug"
+    {
+      muscle_percent_define_insert ("debug", @$, "");
+    }
 | "%define" variable content.opt
     {
       muscle_percent_define_insert ($2, @2, $3);

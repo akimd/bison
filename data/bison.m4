@@ -678,11 +678,13 @@ b4_percent_define_if_define_([$1], $[1], $[2])])
 
 
 # b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
+# b4_debug_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
 # b4_error_verbose_if([IF-ERRORS-ARE-VERBOSE], [IF-NOT])
 # b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
 b4_percent_define_if_define([assert])
+b4_percent_define_if_define([debug])
 b4_percent_define_if_define([error_verbose])
 b4_percent_define_if_define([lex_symbol])
 b4_percent_define_if_define([variant])
