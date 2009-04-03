@@ -1,7 +1,7 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation,
-   Inc.
+   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -54,6 +54,13 @@ static boundary scanner_cursor;
 
 static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
+
+#define RETURN_PERCENT_FLAG(Value)              \
+  do {                                          \
+    val->uniqstr = uniqstr_new (Value);         \
+    return PERCENT_FLAG;                        \
+  } while (0)
+
 
 /* A string representing the most recently saved token.  */
 static char *last_string;
@@ -168,13 +175,13 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "%binary"                         return PERCENT_NONASSOC;
   "%code"                           return PERCENT_CODE;
-  "%debug"                          return PERCENT_DEBUG;
+  "%debug"                          RETURN_PERCENT_FLAG("debug");
   "%default"[-_]"prec"              return PERCENT_DEFAULT_PREC;
   "%define"                         return PERCENT_DEFINE;
   "%defines"                        return PERCENT_DEFINES;
   "%destructor"                     return PERCENT_DESTRUCTOR;
   "%dprec"                          return PERCENT_DPREC;
-  "%error"[-_]"verbose"             return PERCENT_ERROR_VERBOSE;
+  "%error"[-_]"verbose"             RETURN_PERCENT_FLAG("error_verbose");
   "%expect"                         return PERCENT_EXPECT;
   "%expect"[-_]"rr"                 return PERCENT_EXPECT_RR;
   "%file-prefix"                    return PERCENT_FILE_PREFIX;

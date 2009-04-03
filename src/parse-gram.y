@@ -128,13 +128,13 @@ static int current_prec = 0;
 
 %token
   PERCENT_CODE            "%code"
-  PERCENT_DEBUG           "%debug"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
   PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR	  "%expect-rr"
+  PERCENT_FLAG            "%<flag>"
   PERCENT_FILE_PREFIX     "%file-prefix"
   PERCENT_GLR_PARSER      "%glr-parser"
   PERCENT_INITIAL_ACTION  "%initial-action"
@@ -183,10 +183,11 @@ static int current_prec = 0;
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
 	 braceless content.opt "{...}" "%{...%}" EPILOGUE
 
-%type <uniqstr> TAG ID ID_COLON variable
-%printer { fprintf (stderr, "<%s>", $$); } TAG
+%type <uniqstr> TAG ID ID_COLON PERCENT_FLAG variable
 %printer { fputs ($$, stderr); } ID variable
 %printer { fprintf (stderr, "%s:", $$); } ID_COLON
+%printer { fprintf (stderr, "%%%s", $$); } PERCENT_FLAG
+%printer { fprintf (stderr, "<%s>", $$); } TAG
 
 %type <integer> INT
 %printer { fprintf (stderr, "%d", $$); } INT
@@ -225,9 +226,9 @@ prologue_declaration:
                         plain_code.code, @1);
       code_scanner_last_string_free ();
     }
-| "%debug"
+| "%<flag>"
     {
-      muscle_percent_define_insert ("debug", @$, "");
+      muscle_percent_define_insert ($1, @1, "");
     }
 | "%define" variable content.opt
     {
@@ -238,10 +239,6 @@ prologue_declaration:
     {
       defines_flag = true;
       spec_defines_file = xstrdup ($2);
-    }
-| "%error-verbose"
-    {
-      muscle_percent_define_insert ("error_verbose", @$, "");
     }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT		   { expected_rr_conflicts = $2; }

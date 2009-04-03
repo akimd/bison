@@ -1,5 +1,14 @@
 2009-04-03  Akim Demaille  <demaille@gostai.com>
 
+	Factor %FLAG at scan level.
+	* src/parse-gram.y (PERCENT_DEBUG, PERCENT_ERROR_VERBOSE): Token
+	definitions and associated rules, replaced by....
+	(PERCENT_FLAG): this new token type, and rule.
+	* src/scan-gram.l (RETURN_PERCENT_FLAG): New.
+	Use it for %debug and %error-verbose.
+
+2009-04-03  Akim Demaille  <demaille@gostai.com>
+
 	Regen.
 	* src/parse-gram.h, src/parse-gram.c: Regen.
 
