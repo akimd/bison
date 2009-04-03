@@ -283,6 +283,47 @@ Here's a brief reminder of how to roll the tarballs and upload them:
 *** put bison-2.3b.tar.gz.directive.asc
 *** Repeat all these steps for bison-2.3b.tar.bz2.
 
+** Update Bison manual on www.gnu.org.
+
+*** You need a non-anonymous checkout of the web pages directory.
+
+  $ cvs -d YOUR_USERID@cvs.savannah.gnu.org:/web/bison checkout bison
+
+*** Get familiar with the instructions for web page maintainers.
+http://www.gnu.org/server/standards/readme_index.html
+http://www.gnu.org/server/standards/README.software.html
+especially the note about symlinks.
+
+*** Build the web pages.
+Assuming BISON_CHECKOUT refers to a checkout of the Bison dir, and
+BISON_WWW_CHECKOUT refers to the web directory created above, do:
+
+  $ cd $BISON_CHECKOUT/doc
+  $ make stamp-vti
+  $ ../build-aux/gendocs.sh -o "$BISON_WWW_CHECKOUT/manual" \
+    bison "Bison - GNU parser generator"
+  $ cd $BISON_WWW_CHECKOUT
+
+Verify that the result looks sane.
+
+*** Commit the modified and the new files.
+
+*** Remove old files.
+Find the files which have not been overwritten (because they belonged to
+sections that have been removed or renamed):
+
+   $ cd manual/html_node
+   $ ls -lt
+
+Remove these files and commit their removal to CVS.  For each of these
+files, add a line to the file .symlinks.  This will ensure that
+hyperlinks to the removed files will redirect to the entire manual; this
+is better than a 404 error.
+
+There is a problem with 'index.html' being written twice (once for POSIX
+function 'index', once for the table of contents); you can ignore this
+issue.
+
 ** Announce
 To generate a template announcement file:
 

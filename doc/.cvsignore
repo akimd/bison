@@ -1,4 +1,6 @@
+*.info*
 Makefile
+Makefile.in
 bison.1
 bison.aux
 bison.cp
@@ -15,11 +17,10 @@ bison.toc
 bison.tp
 bison.vr
 cross-options.texi
-Makefile.in
+gendocs_template
 refcard.dvi
 refcard.log
 refcard.ps
-*.info*
 stamp-vti
 version.texi
 yacc.1
