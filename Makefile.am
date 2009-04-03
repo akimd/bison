@@ -31,7 +31,7 @@ EXTRA_DIST = .prev-version .version \
   OChangeLog PACKAGING
 
 # Initialization before completion by local.mk's.
-AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS)
+AM_CFLAGS = $(WARN_CFLAGS)
 AM_CPPFLAGS =
 BUILT_SOURCES =
 DISTCLEANFILES =

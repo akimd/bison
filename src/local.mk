@@ -31,6 +31,7 @@ bin_PROGRAMS = src/bison
 bin_SCRIPTS = $(YACC_SCRIPT)
 EXTRA_SCRIPTS = src/yacc
 
+src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
 src_bison_SOURCES =				\
   src/LR0.c					\
   src/LR0.h					\
