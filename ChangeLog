@@ -1,5 +1,10 @@
 2009-04-03  Akim Demaille  <demaille@gostai.com>
 
+	Regen.
+	* src/parse-gram.h, src/parse-gram.c: Regen.
+
+2009-04-03  Akim Demaille  <demaille@gostai.com>
+
 	Treat %debug as %define debug.
 	* data/bison.m4 (b4_debug_if): New.
 	* data/glr.c, data/glr.cc, data/lalr1.cc, data/yacc.c,
