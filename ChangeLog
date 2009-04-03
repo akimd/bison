@@ -1,3 +1,32 @@
+2009-04-03  Akim Demaille  <demaille@gostai.com>
+
+	Treat %debug as %define debug.
+	* data/bison.m4 (b4_debug_if): New.
+	* data/glr.c, data/glr.cc, data/lalr1.cc, data/yacc.c,
+	* data/lalr1.java: Use it instead of b4_debug_flag.
+	* src/getargs.h, src/getargs.c (debug_flag): Remove.
+	* src/output.c (prepare): Don't output it.
+	* src/parse-gram.y: Treat %debug as %define debug.
+
+2009-04-03  Akim Demaille  <demaille@gostai.com>
+
+	Treat %error-verbose as %define error_verbose.
+	This allows to pass -Derror_verbose on the command line.  Better
+	yet, it allows to pass -Derror_verbose=$(ERROR_VERBOSE), with
+	ERROR_VERBOSE being defined as false or true.
+	* data/bison.m4 (b4_percent_define_if_define): Instead of relying
+	on b4_percent_define_ifdef, for does not check the defined value,
+	but only whether the symbol is defined, rely on
+	b4_percent_define_flag_if, so that a value of "false" is processed
+	as a false.
+	If not defined, define the flag to "false".
+	(b4_error_verbose_if): New.
+	* data/glr.c, data/lalr1.cc, data/yacc.c: Use it instead of
+	b4_error_verbose_flag.
+	* src/getargs.h, src/getargs.c (error_verbose_flag): Remove.
+	* src/output.c (prepare): Don't output it.
+	* src/parse-gram.y (%error-verbose): Treat as %define error_verbose.
+
 2009-04-03  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix strange %define locations for default values.
