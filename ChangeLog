@@ -1,3 +1,22 @@
+2009-04-03  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Fix strange %define locations for default values.
+	Reported by Akim Demaille at
+	<http://lists.gnu.org/archive/html/bug-bison/2007-12/msg00001.html>
+	and discussed again starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2008-11/msg00102.html>.
+	* data/bison.m4 (b4_percent_define_default): Leave syncline blank
+	because location information is bogus.
+	Use angle brackets to delimit fake file name because square brackets
+	look like underexpanded m4.  Choose a better fake file name.
+	Use negative line numbers.
+	* src/muscle_tab.c (muscle_percent_define_default): Likewise.
+	* src/location.c (location_print): If line for a boundary is negative,
+	only print that boundary's file name.
+	* src/location.h: Document that.
+	* tests/skeletons.at (%define Boolean variables: invalid skeleton
+	defaults): Update output.
+
 2008-11-07  Akim Demaille  <demaille@gostai.com>
 
 	Locations without columns for command line arguments.

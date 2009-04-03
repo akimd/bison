@@ -1,5 +1,5 @@
 # Checking skeleton support.                     -*- Autotest -*-
-# Copyright (C) 2007 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2009 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -159,7 +159,7 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[[Bison:b4_percent_define_default]:1.0: invalid value for %define Boolean variable `foo'
+[[<skeleton default value>: invalid value for %define Boolean variable `foo'
 ]])
 
 AT_CLEANUP
