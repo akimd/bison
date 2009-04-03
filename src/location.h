@@ -1,5 +1,6 @@
 /* Locations for Bison
-   Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008, 2009 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -27,8 +28,11 @@ typedef struct
   /* The name of the file that contains the boundary.  */
   uniqstr file;
 
-  /* The (origin-1) line that contains the boundary.
-     If this is INT_MAX, the line number has overflowed.  */
+  /* If nonnegative, the (origin-1) line that contains the boundary.
+     If this is INT_MAX, the line number has overflowed.
+
+     Meaningless and not displayed if negative.
+  */
   int line;
 
   /* If nonnegative, the (origin-1) column just after the boundary.

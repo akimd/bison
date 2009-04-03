@@ -680,10 +680,9 @@ m4_define([b4_percent_define_default],
 [m4_ifndef([b4_percent_define(]$1[)],
            [m4_define([b4_percent_define(]$1[)], [$2])dnl
             m4_define([b4_percent_define_loc(]$1[)],
-                      [[[[[Bison:b4_percent_define_default]:1.0]], [[[Bison:b4_percent_define_default]:1.0]]]])dnl
-            m4_define([b4_percent_define_syncline(]$1[)],
-                      [[]b4_syncline(1, [["[Bison:b4_percent_define_default]"]])[
-]])])])
+                      [[[[<skeleton default value>:-1.-1]],
+                        [[<skeleton default value>:-1.-1]]]])dnl
+            m4_define([b4_percent_define_syncline(]$1[)], [[]])])])
 
 # b4_percent_define_check_values(VALUES)
 # --------------------------------------
