@@ -1,3 +1,9 @@
+2009-04-03  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Help with updating web manual.
+	* HACKING: Incorporate instructions from gnulib/doc/README.
+	* bootstrap.conf (gnulib_modules): Add gendocs.
+
 2009-04-03  Akim Demaille  <demaille@gostai.com>
 
 	Regen.
