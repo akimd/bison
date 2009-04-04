@@ -1,3 +1,8 @@
+2009-04-04  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Document semicolon warnings.
+	* NEWS (2.5): Here.
+
 2008-12-08  Akim Demaille  <demaille@gostai.com>
 
 	Fix portability issue in the test suite.
