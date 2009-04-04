@@ -25,6 +25,27 @@ Bison News
   for any NAME and VALUE.  Omitting `=VALUE' on the command line is
   equivalent to omitting `"VALUE"' in the declaration.
 
+** Temporary hack for adding a semicolon to the user action.
+
+  Previously, Bison appended a semicolon to every user action for
+  reductions when the output language defaulted to C (specifically, when
+  neither %yacc, %language, %skeleton, or equivalent command-line
+  options were specified).  This allowed actions such as
+
+    exp: exp "+" exp { $$ = $1 + $3 };
+
+  instead of
+
+    exp: exp "+" exp { $$ = $1 + $3; };
+
+  As a first step in removing this misfeature, Bison now issues a
+  warning when it appends a semicolon.  Moreover, in cases where Bison
+  cannot easily determine whether a semicolon is needed (for example, an
+  action ending with a cpp directive or a braced compound initializer),
+  it no longer appends one.  Thus, the C compiler might now complain
+  about a missing semicolon where it did not before.  Future releases of
+  Bison will cease to append semicolons entirely.
+
 * Changes in version 2.4.2 (????-??-??):
 
 * Changes in version 2.4.1 (2008-12-11):

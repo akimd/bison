@@ -1,3 +1,8 @@
+2009-04-04  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Document semicolon warnings.
+	* NEWS (2.5): Here.
+
 2009-04-14  Akim Demaille  <demaille@gostai.com>
 
 	variables: use `parse.assert' instead of `assert'.
