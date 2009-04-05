@@ -1,7 +1,7 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-# Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
+# Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -92,10 +92,7 @@ AC_SUBST([YACC_LIBRARY])
 AC_PROG_LEX
 AC_PROG_YACC
 AC_PROG_RANLIB
-BISON_PROG_GNU_M4
-if test x"$ac_cv_prog_gnu_m4" != xyes; then
-  AC_MSG_ERROR([GNU M4 1.4 is required])
-fi
+AC_PROG_GNU_M4
 AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
 AM_MISSING_PROG([HELP2MAN], [help2man])
 AC_PATH_PROG([XSLTPROC], [xsltproc])

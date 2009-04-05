@@ -1,3 +1,12 @@
+2009-04-04  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Replace BISON_PROG_GNU_M4 with Autoconf's AC_PROG_GNU_M4.
+	If the first m4 in $PATH is wrong, it keeps looking.  Moreover, its
+	requirements for a correct m4 are stricter.
+	* m4/m4.m4: Make it a symbolic link to submodules/autoconf/m4/m4.m4.
+	* configure.ac: Update to use AC_PROG_GNU_M4.
+	Reported by Eric Blake.
+
 2009-04-03  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Help with updating web manual.
