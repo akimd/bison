@@ -1,5 +1,10 @@
 2009-04-06  Akim Demaille  <demaille@gostai.com>
 
+	Regen.
+	* src/parse-gram.c: Regen.
+
+2009-04-06  Akim Demaille  <demaille@gostai.com>
+
 	muscle: factor the handling of obsolete of obsolete directives.
 	Suggested by Joel E. Denny.
 	
