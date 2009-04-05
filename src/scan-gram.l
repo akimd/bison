@@ -191,7 +191,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%language"                       return PERCENT_LANGUAGE;
   "%left"                           return PERCENT_LEFT;
   "%lex-param"                      return PERCENT_LEX_PARAM;
-  "%locations"                      return PERCENT_LOCATIONS;
+  "%locations"                      RETURN_PERCENT_FLAG("locations");
   "%merge"                          return PERCENT_MERGE;
   "%name"[-_]"prefix"               return PERCENT_NAME_PREFIX;
   "%no"[-_]"default"[-_]"prec"      return PERCENT_NO_DEFAULT_PREC;

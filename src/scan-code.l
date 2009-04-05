@@ -1,6 +1,6 @@
 /* Bison Action Scanner                             -*- C -*-
 
-   Copyright (C) 2006, 2007, 2008 Free Software Foundation, Inc.
+   Copyright (C) 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -34,7 +34,7 @@
 #include <src/getargs.h>
 #include <get-errno.h>
 #include <quote.h>
-
+#include <src/muscle_tab.h>
 #include <src/scan-code.h>
 #include <src/symlist.h>
 
@@ -223,7 +223,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "#"       STRING_GROW; in_cpp = true;
 
   {splice}  STRING_GROW;
-  [\n\r]    STRING_GROW; if (in_cpp) in_cpp = need_semicolon = false; 
+  [\n\r]    STRING_GROW; if (in_cpp) in_cpp = need_semicolon = false;
   [ \t\f]   STRING_GROW;
   .         STRING_GROW; need_semicolon = true;
 }
@@ -236,7 +236,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
   "@$" {
     obstack_sgrow (&obstack_for_string, "]b4_at_dollar[");
-    locations_flag = true;
+    muscle_percent_define_ensure("locations", the_location, true);
   }
 }
 
@@ -391,7 +391,7 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
      ? rule->midrule_parent_rhs_index - 1
      : symbol_list_length (rule->next));
 
-  locations_flag = true;
+  muscle_percent_define_ensure("locations", at_loc, true);
 
   if (*cp == '$')
     obstack_sgrow (&obstack_for_string, "]b4_lhs_location[");

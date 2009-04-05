@@ -1,5 +1,19 @@
 2009-04-06  Akim Demaille  <demaille@gostai.com>
 
+	parser: handle %locations as %define locations.
+	* src/getargs.h, src/getargs.c (locations_flag): Remove.
+	* src/getargs.c, src/scan-code.l: Use muscle_percent_define_ensure
+	to set "locations" to true.
+	* src/output.c (prepare): Don't output "locations".
+	* src/scan-gram.l (%locations): Handle it as a %<flag>.
+	* src/parse-gram.y: It's no longer a token.
+	Don't handle it.
+	* data/bison.m4 (b4_locations_if): Define it with
+	b4_percent_define_if_define.
+	* data/c.m4, data/glr.cc: Adjust.
+
+2009-04-06  Akim Demaille  <demaille@gostai.com>
+
 	Regen.
 	* src/parse-gram.c: Regen.
 

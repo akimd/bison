@@ -44,7 +44,7 @@
 #   filename member).
 
 # We require a pure interface using locations.
-m4_define([b4_locations_flag], [1])
+m4_define([b4_percent_define(locations)], [])
 m4_define([b4_pure_flag],      [1])
 
 # The header is mandatory.
@@ -228,7 +228,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 #include <iostream>
 
 /* Using locations.  */
-#define YYLSP_NEEDED ]b4_locations_flag[
+#define YYLSP_NEEDED ]b4_locations_if([1], [0])[
 
 ]b4_namespace_open[
   class position;

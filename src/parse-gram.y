@@ -139,7 +139,6 @@ static int current_prec = 0;
   PERCENT_INITIAL_ACTION  "%initial-action"
   PERCENT_LANGUAGE        "%language"
   PERCENT_LEX_PARAM       "%lex-param"
-  PERCENT_LOCATIONS       "%locations"
   PERCENT_NAME_PREFIX     "%name-prefix"
   PERCENT_NO_DEFAULT_PREC "%no-default-prec"
   PERCENT_NO_LINES        "%no-lines"
@@ -258,7 +257,6 @@ prologue_declaration:
     }
 | "%language" STRING		{ language_argmatch ($2, grammar_prio, @1); }
 | "%lex-param" "{...}"		{ add_param ("lex_param", $2, @2); }
-| "%locations"                  { locations_flag = true; }
 | "%name-prefix" STRING         { spec_name_prefix = $2; }
 | "%name-prefix" "=" STRING     { spec_name_prefix = $3; } /* deprecated */
 | "%no-lines"                   { no_lines_flag = true; }

@@ -333,7 +333,6 @@ m4_define([b4_$3_if],
 # Expand IF-TRUE, if FLAG is true, IF-FALSE otherwise.
 b4_define_flag_if([defines])	        # Whether headers are requested.
 b4_define_flag_if([glr])		# Whether a GLR parser is requested.
-b4_define_flag_if([locations])	        # Whether locations are tracked.
 b4_define_flag_if([nondeterministic])	# Whether conflicts should be handled.
 b4_define_flag_if([yacc])	        # Whether POSIX Yacc is emulated.
 
@@ -687,6 +686,7 @@ b4_percent_define_if_define([assert])
 b4_percent_define_if_define([debug])
 b4_percent_define_if_define([error_verbose])
 b4_percent_define_if_define([lex_symbol])
+b4_percent_define_if_define([locations])     # Whether locations are tracked.
 b4_percent_define_if_define([variant])
 
 
