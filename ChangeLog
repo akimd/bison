@@ -1,5 +1,11 @@
 2009-04-06  Akim Demaille  <demaille@gostai.com>
 
+	Makefile: introduce $(BISON).
+	* src/local.mk (BISON): New.
+	(YACC): Use it.
+
+2009-04-06  Akim Demaille  <demaille@gostai.com>
+
 	parser: handle %locations as %define locations.
 	* src/getargs.h, src/getargs.c (locations_flag): Remove.
 	* src/getargs.c, src/scan-code.l: Use muscle_percent_define_ensure

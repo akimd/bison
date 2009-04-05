@@ -24,7 +24,8 @@ LDADD = $(top_builddir)/lib/libbison.a $(LIBINTL)
 
 # Use our own Bison to build the parser.  Of course, you ought to
 # keep a sane version of Bison nearby...
-YACC = $(top_builddir)/tests/bison -y
+BISON = $(top_builddir)/tests/bison
+YACC = $(BISON) -y
 AM_YFLAGS = -dv --warnings=all,error --report=all
 
 bin_PROGRAMS = src/bison
