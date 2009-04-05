@@ -1,5 +1,7 @@
 /* Muscle table manager for Bison,
-   Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Free Software Foundation, Inc.
+
+   Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -130,6 +132,13 @@ void muscle_user_name_list_grow (char const *key, char const *user_name,
    invoking muscle_user_name_list_grow.  */
 void muscle_percent_define_insert (char const *variable, location variable_loc,
                                    char const *value);
+
+/* Make sure that VARIABLE is set to the boolean VALUE.  Warn on mismatches
+   only, but accept repeated declaration.  Used for backward compatibility
+   between old directives such as %pure-parser, and the recommended use of
+   variables (%define api.pure).   */
+void muscle_percent_define_ensure (char const *variable, location variable_loc,
+                                   bool value);
 
 /* Mimic b4_percent_define_get in ../data/bison.m4 exactly.  That is, if the
    %define variable VARIABLE is defined, return its value.  Otherwise, return

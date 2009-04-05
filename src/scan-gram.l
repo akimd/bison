@@ -204,7 +204,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%prec"                           return PERCENT_PREC;
   "%precedence"                     return PERCENT_PRECEDENCE;
   "%printer"                        return PERCENT_PRINTER;
-  "%pure"[-_]"parser"               return PERCENT_PURE_PARSER;
+  "%pure"[-_]"parser"               RETURN_PERCENT_FLAG("api.pure");
   "%require"                        return PERCENT_REQUIRE;
   "%right"                          return PERCENT_RIGHT;
   "%skeleton"                       return PERCENT_SKELETON;

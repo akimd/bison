@@ -131,7 +131,6 @@ static int current_prec = 0;
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
-  PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR	  "%expect-rr"
   PERCENT_FLAG            "%<flag>"
@@ -148,7 +147,6 @@ static int current_prec = 0;
 			  "%nondeterministic-parser"
   PERCENT_OUTPUT          "%output"
   PERCENT_PARSE_PARAM     "%parse-param"
-  PERCENT_PURE_PARSER     "%pure-parser"
   PERCENT_REQUIRE	  "%require"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
@@ -228,7 +226,7 @@ prologue_declaration:
     }
 | "%<flag>"
     {
-      muscle_percent_define_insert ($1, @1, "");
+      muscle_percent_define_ensure ($1, @1, true);
     }
 | "%define" variable content.opt
     {
@@ -268,19 +266,6 @@ prologue_declaration:
 | "%output" STRING              { spec_outfile = $2; }
 | "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
 | "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
-| "%pure-parser"
-    {
-      /* %pure-parser is deprecated in favor of `%define api.pure', so use
-         `%define api.pure' in a backward-compatible manner here.  First, don't
-         complain if %pure-parser is specified multiple times.  */
-      if (!muscle_find_const ("percent_define(api.pure)"))
-        muscle_percent_define_insert ("api.pure", @1, "");
-      /* In all cases, use api.pure now so that the backend doesn't complain if
-         the skeleton ignores api.pure, but do warn now if there's a previous
-         conflicting definition from an actual %define.  */
-      if (!muscle_percent_define_flag_if ("api.pure"))
-        muscle_percent_define_insert ("api.pure", @1, "");
-    }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING
     {

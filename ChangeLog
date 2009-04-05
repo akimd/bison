@@ -1,3 +1,17 @@
+2009-04-06  Akim Demaille  <demaille@gostai.com>
+
+	muscle: factor the handling of obsolete of obsolete directives.
+	Suggested by Joel E. Denny.
+	
+	* src/muscle_tab.h, src/muscle_tab.c (muscle_percent_define_ensure):
+	New, extracted from...
+	* src/parse-gram.y (prologue_declaration: pure-parser): here.
+	Remove it.
+	(prologue_declaration: "%<flag>"): Use
+	muscle_percent_define_ensure.
+	(%error-verbose, %pure-parser): No longer tokens.
+	* src/scan-gram.l (pure-parser): Return as a %<flag>.
+
 2009-04-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix options documentation.
