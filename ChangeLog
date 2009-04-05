@@ -1,5 +1,13 @@
 2009-04-06  Akim Demaille  <demaille@gostai.com>
 
+	rename muscle_tab.* as muscle-tab.* for consistency.
+	* src/muscle_tab.h, src/muscle_tab.c: Rename as...
+	* src/muscle-tab.h, src/muscle-tab.c: these.
+	* src/getargs.c, src/local.mk, src/main.c, src/output.c,
+	* src/parse-gram.y, src/reader.c, src/scan-code.l: Adjust.
+
+2009-04-06  Akim Demaille  <demaille@gostai.com>
+
 	Makefile: introduce $(BISON).
 	* src/local.mk (BISON): New.
 	(YACC): Use it.

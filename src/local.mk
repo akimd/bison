@@ -60,8 +60,8 @@ src_bison_SOURCES =				\
   src/location.c				\
   src/location.h				\
   src/main.c					\
-  src/muscle_tab.c				\
-  src/muscle_tab.h				\
+  src/muscle-tab.c				\
+  src/muscle-tab.h				\
   src/nullable.c				\
   src/nullable.h				\
   src/output.c					\

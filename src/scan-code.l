@@ -34,7 +34,7 @@
 #include <src/getargs.h>
 #include <get-errno.h>
 #include <quote.h>
-#include <src/muscle_tab.h>
+#include <src/muscle-tab.h>
 #include <src/scan-code.h>
 #include <src/symlist.h>
 

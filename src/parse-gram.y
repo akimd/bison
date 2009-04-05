@@ -26,7 +26,7 @@
 #include "files.h"
 #include "getargs.h"
 #include "gram.h"
-#include "muscle_tab.h"
+#include "muscle-tab.h"
 #include "quotearg.h"
 #include "reader.h"
 #include "symlist.h"
