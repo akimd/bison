@@ -1,3 +1,7 @@
+2009-04-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS (2.5): New section.  Describe new -D/--define feature.
+
 2009-04-06  Akim Demaille  <demaille@gostai.com>
 
 	Regen.
@@ -40,7 +44,7 @@
 
 	muscle: factor the handling of obsolete of obsolete directives.
 	Suggested by Joel E. Denny.
-	
+
 	* src/muscle_tab.h, src/muscle_tab.c (muscle_percent_define_ensure):
 	New, extracted from...
 	* src/parse-gram.y (prologue_declaration: pure-parser): here.
