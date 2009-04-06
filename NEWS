@@ -3,6 +3,20 @@ Bison News
 
 * Changes in version 2.5 (????-??-??):
 
+** %define can now be invoked via the command line.
+
+  Each of these bison command-line options
+
+    -D NAME=VALUE
+    --define=NAME=VALUE
+
+  is equivalent to this grammar file declaration
+
+    %define NAME "VALUE"
+
+  for any NAME and VALUE.  Omitting `=VALUE' on the command line is
+  equivalent to omitting `"VALUE"' in the declaration.
+
 * Changes in version 2.4.2 (????-??-??):
 
 * Changes in version 2.4.1 (2008-12-11):

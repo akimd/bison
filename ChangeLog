@@ -1,3 +1,7 @@
+2009-04-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* NEWS (2.5): Describe new -D/--define feature.
+
 2008-11-10  Akim Demaille  <demaille@gostai.com>
 
 	--trace=muscles
