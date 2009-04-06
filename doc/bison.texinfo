@@ -34,8 +34,8 @@ This manual (@value{UPDATED}) is for @acronym{GNU} Bison (version
 @value{VERSION}), the @acronym{GNU} parser generator.
 
 Copyright @copyright{} 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1998,
-1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-Foundation, Inc.
+1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free
+Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -7783,8 +7783,8 @@ traditional Yacc grammars.  If your grammar uses a Bison extension
 like @samp{%glr-parser}, Bison might not be Yacc-compatible even if
 this option is specified.
 
-@item -W
-@itemx --warnings
+@item -W [@var{category}]
+@itemx --warnings[=@var{category}]
 Output warnings falling in @var{category}.  @var{category} can be one
 of:
 @table @code

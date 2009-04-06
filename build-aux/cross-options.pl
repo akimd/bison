@@ -28,9 +28,12 @@ while (<>)
             # put each word in @var, to build @var{name}[=@var{value}], not
             # @var{name[=value]}].
 	    $arg =~ s/(\w+)/\@var{$1}/g;
-	    $arg = '[' . $arg . ']'
-		if $opt eq '[';
-	    $option{"$long=$arg"} = $short ? "$short $arg" : '';
+	    my $long_arg = "=$arg";
+	    if ($opt eq '[') {
+	      $long_arg = "[$long_arg]";
+	      $arg = "[$arg]";
+	    }
+	    $option{"$long$long_arg"} = $short ? "$short $arg" : '';
 	}
 	else
 	{
