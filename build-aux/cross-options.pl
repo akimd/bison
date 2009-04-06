@@ -35,8 +35,11 @@ while (<STDIN>)
             # put each word in @var, to build @var{name}[=@var{value}], not
             # @var{name[=value]}].
 	    $arg =~ s/(\w+)/\@var{$1}/g;
-	    $arg = '[' . $arg . ']'
-		if $opt eq '[';
+	    my $long_arg = "=$arg";
+	    if ($opt eq '[') {
+	      $long_arg = "[$long_arg]";
+	      $arg = "[$arg]";
+	    }
 	    # For arguments of directives: this only works if all arguments
 	    # are strings and have the same syntax as on the command line.
 	    if ($dir_arg eq 'name[=value]')
@@ -49,7 +52,7 @@ while (<STDIN>)
 		$dir_arg = '[' . $dir_arg . ']'
 		    if $opt eq '[';
 	    }
-	    $long = "$long=$arg";
+	    $long = "$long$long_arg";
 	    $short = "$short $arg" if $short && $short ne '-d';
 	    $dir = "$dir $dir_arg" if $dir;
 	}
