@@ -1,5 +1,9 @@
 2009-04-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	* NEWS (2.5): New stub.
+
+2009-04-06  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Fix options documentation.
 	* build-aux/cross-options.pl: As in --help output, write optional
 	arguments as [=ARG] not =[ARG].
