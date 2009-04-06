@@ -19,7 +19,7 @@
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
 m4_divert_push(0)dnl
-@output(b4_dir_prefix[]position.hh@)
+@output(b4_dir_prefix[]position.hh@)@
 b4_copyright([Positions for Bison parsers in C++],
              [2002, 2003, 2004, 2005, 2006, 2007, 2009])[
 
@@ -144,7 +144,7 @@ b4_copyright([Positions for Bison parsers in C++],
 
 ]b4_namespace_close[
 #endif // not BISON_POSITION_HH]
-@output(b4_dir_prefix[]location.hh@)
+@output(b4_dir_prefix[]location.hh@)@
 b4_copyright([Locations for Bison parsers in C++],
              [2002, 2003, 2004, 2005, 2006, 2007, 2009])[
 
