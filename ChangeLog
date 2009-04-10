@@ -1,3 +1,8 @@
+2009-04-10  Eric Blake  <ebb9@byu.net>
+
+	submodules: update to latest
+	* submodules/autoconf: Use latest upstream Autoconf.
+
 2009-04-06  Eric Blake  <ebb9@byu.net>
 
 	Work around autoconf 2.63b bug in testsuite.
