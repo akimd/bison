@@ -1,3 +1,9 @@
+2009-04-14  Akim Demaille  <demaille@gostai.com>
+
+	doc: minor fixes.
+	* doc/bison.texinfo (Decl Summary): Fix entry about %debug.
+	(Table of Symbols): Remove duplicate entry for %debug.
+
 2009-04-06  Eric Blake  <ebb9@byu.net>
 
 	Work around autoconf 2.63b bug in testsuite.
