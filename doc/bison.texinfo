@@ -4842,8 +4842,8 @@ traditional Yacc prologue for C/C++, see @ref{Prologue Alternatives}.
 @deffn {Directive} %debug
 In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
 already defined, so that the debugging facilities are compiled.
-@end deffn
 @xref{Tracing, ,Tracing Your Parser}.
+@end deffn
 
 @deffn {Directive} %define @var{variable}
 @deffnx {Directive} %define @var{variable} "@var{value}"
@@ -9890,10 +9890,6 @@ Start-Symbol}.  It cannot be used in the grammar.
 @deffnx {Directive} %code @var{qualifier} @{@var{code}@}
 Insert @var{code} verbatim into output parser source.
 @xref{Decl Summary,,%code}.
-@end deffn
-
-@deffn {Directive} %debug
-Equip the parser for debugging.  @xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %debug
