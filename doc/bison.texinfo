@@ -5003,6 +5003,22 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 @end itemize
 @c namespace
 
+@item parse.assert
+@findex %define parse.assert
+
+@itemize
+@item Languages(s): C++
+
+@item Purpose: Issue runtime assertions to catch invalid uses.
+In C++, when variants are used, symbols must be constructed and
+destroyed properly.  This option checks these constraints.
+
+@item Accepted Values: Boolean
+
+@item Default Value: @code{false}
+@end itemize
+@c parse.assert
+
 @item parse.trace
 @findex %define parse.trace
 

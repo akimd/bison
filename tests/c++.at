@@ -1,5 +1,5 @@
 # Checking the output filenames.                    -*- Autotest -*-
-# Copyright (C) 2004, 2005, 2007, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2005, 2007, 2008, 2009 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -196,10 +196,10 @@ AT_CLEANUP
 ])
 
 AT_CHECK_VARIANTS([])
-AT_CHECK_VARIANTS([%define assert])
-AT_CHECK_VARIANTS([[%define assert %code {\n#define ONE_STAGE_BUILD\n}]])
-AT_CHECK_VARIANTS([[%define assert  %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n}]])
-AT_CHECK_VARIANTS([[%define assert  %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n} %define token.prefix "TOK_"]])
+AT_CHECK_VARIANTS([%define parse.assert])
+AT_CHECK_VARIANTS([[%define parse.assert %code {\n#define ONE_STAGE_BUILD\n}]])
+AT_CHECK_VARIANTS([[%define parse.assert %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n}]])
+AT_CHECK_VARIANTS([[%define parse.assert %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n} %define token.prefix "TOK_"]])
 
 
 ## ----------------------- ##

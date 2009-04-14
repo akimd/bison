@@ -87,13 +87,13 @@ m4_define([b4_variant_define],
   /// via the current state.
   template <size_t S>
   struct variant
-  {]b4_assert_if([
+  {]b4_parse_assert_if([
     /// Whether something is contained.
     bool built;
 ])[
     /// Empty construction.
     inline
-    variant ()]b4_assert_if([
+    variant ()]b4_parse_assert_if([
       : built (false)])[
     {}
 
@@ -101,7 +101,7 @@ m4_define([b4_variant_define],
     template <typename T>
     inline T&
     build ()
-    {]b4_assert_if([
+    {]b4_parse_assert_if([
       assert (!built);
       built = true;])[
       return *new (buffer.raw) T;
@@ -111,7 +111,7 @@ m4_define([b4_variant_define],
     template <typename T>
     inline T&
     build (const T& t)
-    {]b4_assert_if([
+    {]b4_parse_assert_if([
       assert(!built);
       built = true;])[
       return *new (buffer.raw) T(t);
@@ -120,7 +120,7 @@ m4_define([b4_variant_define],
     /// Construct and fill.
     template <typename T>
     inline
-    variant (const T& t)]b4_assert_if([
+    variant (const T& t)]b4_parse_assert_if([
       : built (true)])[
     {
       new (buffer.raw) T(t);
@@ -130,7 +130,7 @@ m4_define([b4_variant_define],
     template <typename T>
     inline T&
     as ()
-    {]b4_assert_if([
+    {]b4_parse_assert_if([
       assert (built);])[
       return reinterpret_cast<T&>(buffer.raw);
     }
@@ -139,7 +139,7 @@ m4_define([b4_variant_define],
     template <typename T>
     inline const T&
     as () const
-    {]b4_assert_if([
+    {]b4_parse_assert_if([
       assert(built);])[
       return reinterpret_cast<const T&>(buffer.raw);
     }
@@ -168,7 +168,7 @@ m4_define([b4_variant_define],
     inline void
     destroy ()
     {
-      as<T>().~T();]b4_assert_if([
+      as<T>().~T();]b4_parse_assert_if([
       built = false;])[
     }
 

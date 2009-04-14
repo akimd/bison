@@ -146,7 +146,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 
 ]b4_percent_code_get([[requires]])[
 
-]b4_assert_if([#include <cassert>])[
+]b4_parse_assert_if([#include <cassert>])[
 #include <string>
 #include <iostream>
 #include "stack.hh"

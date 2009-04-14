@@ -1,5 +1,14 @@
 2009-04-14  Akim Demaille  <demaille@gostai.com>
 
+	variables: use `parse.assert' instead of `assert'.
+	* TODO (assert): Remove.
+	* data/bison.m4 (b4_assert_if): Replace with...
+	(b4_parse_assert_if): this.
+	* data/lalr1.cc, data/variant.hh, tests/c++.at: Adjust.
+	* doc/bison.texinfo (Decl Summary): Document parse.assert.
+
+2009-04-14  Akim Demaille  <demaille@gostai.com>
+
 	variables: use `parse.assert' instead of `debug'.
 	* src/getargs.c (getargs): Map -t to %define trace.parse.
 	* src/scan-gram.l (%debug): Map to %define trace.parse.

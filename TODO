@@ -293,8 +293,6 @@ Are there any Texinfo standards for bibliography?
 ** %printer
 Wow, %printer is not documented.  Clearly mark YYPRINT as obsolete.
 
-** %define assert
-
 * Java, Fortran, etc.
 
 
