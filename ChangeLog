@@ -9,7 +9,7 @@
 
 2009-04-14  Akim Demaille  <demaille@gostai.com>
 
-	variables: use `parse.assert' instead of `debug'.
+	variables: use `parse.trace' instead of `debug'.
 	* src/getargs.c (getargs): Map -t to %define trace.parse.
 	* src/scan-gram.l (%debug): Map to %define trace.parse.
 	* data/bison.m4 (b4_percent_define_if_define): Map `.' in variable
