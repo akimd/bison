@@ -4840,8 +4840,8 @@ traditional Yacc prologue for C/C++, see @ref{Prologue Alternatives}.
 @end deffn
 
 @deffn {Directive} %debug
-In the parser file, define the macro @code{YYDEBUG} to 1 if it is not
-already defined, so that the debugging facilities are compiled.
+Instrument the output parser for traces.  Obsoleted by @samp{%define
+parse.trace}.
 @xref{Tracing, ,Tracing Your Parser}.
 @end deffn
 
@@ -4876,7 +4876,7 @@ target language and/or parser skeleton.
 
 Some of the accepted @var{variable}s are:
 
-@itemize @bullet
+@table @code
 @item api.pure
 @findex %define api.pure
 
@@ -5001,9 +5001,27 @@ For example, if you specify:
 The parser namespace is @code{foo} and @code{yylex} is referenced as
 @code{bar::lex}.
 @end itemize
-@end itemize
+@c namespace
 
+@item parse.trace
+@findex %define parse.trace
+
+@itemize
+@item Languages(s): C, C++
+
+@item Purpose: Require parser instrumentation for tracing.
+In C/C++, define the macro @code{YYDEBUG} to 1 in the parser file if it
+is not already defined, so that the debugging facilities are compiled.
+@xref{Tracing, ,Tracing Your Parser}.
+
+@item Accepted Values: Boolean
+
+@item Default Value: @code{false}
+@end itemize
+@end table
+@c parse.trace
 @end deffn
+@c %define
 
 @deffn {Directive} %defines
 Write a header file containing macro definitions for the token type
@@ -7650,15 +7668,21 @@ Use the @samp{-t} option when you run Bison (@pxref{Invocation,
 
 @item the directive @samp{%debug}
 @findex %debug
-Add the @code{%debug} directive (@pxref{Decl Summary, ,Bison
-Declaration Summary}).  This is a Bison extension, which will prove
-useful when Bison will output parsers for languages that don't use a
-preprocessor.  Unless @acronym{POSIX} and Yacc portability matter to
-you, this is
-the preferred solution.
+Add the @code{%debug} directive (@pxref{Decl Summary, ,Bison Declaration
+Summary}).  This Bison extension is maintained for backward
+compatibility with previous versions of Bison.
+
+@item the variable @samp{parse.trace}
+@findex %define parse.trace
+Add the @samp{%define parse.trace} directive (@pxref{Decl Summary,
+,Bison Declaration Summary}), or pass the @option{-Dparse.trace} option
+(@pxref{Bison Options}).  This is a Bison extension, which is especially
+useful for languages that don't use a preprocessor.  Unless
+@acronym{POSIX} and Yacc portability matter to you, this is the
+preferred solution.
 @end table
 
-We suggest that you always enable the debug option so that debugging is
+We suggest that you always enable the trace option so that debugging is
 always possible.
 
 The trace facility outputs messages with macro calls of the form
@@ -8539,7 +8563,7 @@ error messages.
 
 @comment file: calc++-parser.yy
 @example
-%debug
+%define parse.trace
 %error-verbose
 @end example
 
@@ -8847,11 +8871,13 @@ No header file can be generated for Java parsers.  Do not use the
 @code{%defines} directive or the @option{-d}/@option{--defines} options.
 
 @c FIXME: Possible code change.
-Currently, support for debugging is always compiled
-in.  Thus the @code{%debug} and @code{%token-table} directives and the
+Currently, support for tracing is always compiled
+in.  Thus the @samp{%define parse.trace} and @samp{%token-table}
+directives and the
 @option{-t}/@option{--debug} and @option{-k}/@option{--token-table}
 options have no effect.  This may change in the future to eliminate
-unused code in the generated parser, so use @code{%debug} explicitly
+unused code in the generated parser, so use @samp{%define parse.trace}
+explicitly
 if needed.  Also, in the future the
 @code{%token-table} directive might enable a public interface to
 access the token names and codes.

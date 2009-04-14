@@ -1,5 +1,22 @@
 2009-04-14  Akim Demaille  <demaille@gostai.com>
 
+	variables: use `parse.assert' instead of `debug'.
+	* src/getargs.c (getargs): Map -t to %define trace.parse.
+	* src/scan-gram.l (%debug): Map to %define trace.parse.
+	* data/bison.m4 (b4_percent_define_if_define): Map `.' in variable
+	names to `_' in macro names.
+	(b4_debug_if): Replace with...
+	(b4_parse_trace_if): this.
+	* data/glr.c, data/glr.cc, data/lalr1.cc, data/lalr1.java,
+	* data/yacc.c: Adjust.
+	* doc/bison.texinfo (Decl Summary): Document %debug as obsoleted.
+	Use @code to label the variable list.
+	Document the variable parse.trace.
+	(Tracing): Promote the parse.trace variable.
+	* TODO: %printer is not documented.
+
+2009-04-14  Akim Demaille  <demaille@gostai.com>
+
 	doc: minor fixes.
 	* doc/bison.texinfo (Decl Summary): Fix entry about %debug.
 	(Table of Symbols): Remove duplicate entry for %debug.

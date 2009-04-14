@@ -668,22 +668,23 @@ m4_define([b4_percent_define_default],
 # b4_percent_define_if_define(VARIABLE)
 # -------------------------------------
 # Define b4_VARIABLE_if that executes its $1 or $2 depending whether
-# VARIABLE was %defined.
+# VARIABLE was %defined.  The character `.' in VARIABLE is mapped to `_'.
 m4_define([b4_percent_define_if_define_],
-[m4_define([b4_$1_if], [b4_percent_define_flag_if([$1], [$2], [$3])])])
+[m4_define(m4_bpatsubst([b4_$1_if], [[.]], [_]),
+           [b4_percent_define_flag_if([$1], [$2], [$3])])])
 m4_define([b4_percent_define_if_define],
 [b4_percent_define_default([[$1]], [[false]])
 b4_percent_define_if_define_([$1], $[1], $[2])])
 
 
 # b4_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
-# b4_debug_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
+# b4_parse_trace_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
 # b4_error_verbose_if([IF-ERRORS-ARE-VERBOSE], [IF-NOT])
 # b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
 b4_percent_define_if_define([assert])
-b4_percent_define_if_define([debug])
+b4_percent_define_if_define([parse.trace])
 b4_percent_define_if_define([error_verbose])
 b4_percent_define_if_define([lex_symbol])
 b4_percent_define_if_define([locations])     # Whether locations are tracked.

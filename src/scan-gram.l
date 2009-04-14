@@ -175,7 +175,7 @@ splice	 (\\[ \f\t\v]*\n)*
 {
   "%binary"                         return PERCENT_NONASSOC;
   "%code"                           return PERCENT_CODE;
-  "%debug"                          RETURN_PERCENT_FLAG("debug");
+  "%debug"                          RETURN_PERCENT_FLAG("parse.trace");
   "%default"[-_]"prec"              return PERCENT_DEFAULT_PREC;
   "%define"                         return PERCENT_DEFINE;
   "%defines"                        return PERCENT_DEFINES;

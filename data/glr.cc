@@ -239,7 +239,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG ]b4_debug_if([1], [0])[
+# define YYDEBUG ]b4_parse_trace_if([1], [0])[
 #endif
 
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].

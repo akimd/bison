@@ -21,7 +21,7 @@ b4_defines_if([b4_fatal([%s: %%defines does not make sense in Java],
               [b4_skeleton])])
 
 # We don't depend on %debug in Java, but pacify warnings about non-used flags.
-b4_debug_if([0], [0])
+b4_parse_trace_if([0], [0])
 
 m4_define([b4_symbol_no_destructor_assert],
 [b4_symbol_if([$1], [has_destructor],

@@ -15,8 +15,6 @@ I have seen messages like the following from GCC.
 <built-in>:0: fatal error: opening dependency file .deps/libltdl/argz.Tpo: No such file or directory
 
 
-** Document %define assert
-
 ** Discuss about %printer/%destroy in the case of C++.
 It would be very nice to provide the symbol classes with an operator<<
 and a destructor.  Unfortunately the syntax we have chosen for
@@ -292,7 +290,10 @@ this issue.  Does anybody have it?
 Some history of Bison and some bibliography would be most welcome.
 Are there any Texinfo standards for bibliography?
 
+** %printer
+Wow, %printer is not documented.  Clearly mark YYPRINT as obsolete.
 
+** %define assert
 
 * Java, Fortran, etc.
 
