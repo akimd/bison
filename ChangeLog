@@ -1,3 +1,9 @@
+2009-04-17  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Pacify make maintainer-check-posix.
+	* tests/input.at (%define, --define): Move bison command-line
+	options before grammar file name.
+
 2009-04-04  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Document semicolon warnings.
