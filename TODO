@@ -54,6 +54,22 @@ number for the error token, which POSIX wants to be 256, but which
 Bison might renumber if the user used number 256.  Keep fix and doc?
 Throw away?
 
+Also, why don't we output the token name of the error token in the
+output?  It is explicitly skipped:
+
+      /* Skip error token and tokens without identifier.  */
+      if (sym != errtoken && id)
+
+Of course there are issues with name spaces, but if we disable we have
+something which seems to be more simpler and more consistent instead
+of the special case YYERRCODE.
+
+   enum yytokentype {
+     error = 256,
+     // ...
+   };
+
+
 We could (should?) also treat the case of the undef_token, which is
 numbered 257 for yylex, and 2 internal.  Both appear for instance in
 toknum:
