@@ -4894,6 +4894,7 @@ Some of the accepted @var{variable}s are:
 
 @item Default Value: @code{"false"}
 @end itemize
+@c api.pure
 
 @item api.push_pull
 @findex %define api.push_pull
@@ -4910,6 +4911,24 @@ More user feedback will help to stabilize it.)
 
 @item Default Value: @code{"pull"}
 @end itemize
+@c api.push_pull
+
+@item error-verbose
+@findex %define error-verbose
+@itemize
+@item Languages(s):
+all.
+@item Purpose:
+Enable the generation of more verbose error messages than a instead of
+just plain @w{@code{"syntax error"}}.  @xref{Error Reporting, ,The Error
+Reporting Function @code{yyerror}}.
+@item Accepted Values:
+Boolean
+@item Default Value:
+@code{false}
+@end itemize
+@c error-verbose
+
 
 @item lr.keep_unreachable_states
 @findex %define lr.keep_unreachable_states
@@ -4953,6 +4972,7 @@ states.
 However, Bison does not compute which goto actions are useless.
 @end itemize
 @end itemize
+@c lr.keep_unreachable_states
 
 @item namespace
 @findex %define namespace
@@ -5693,8 +5713,8 @@ called by @code{yyparse} whenever a syntax error is found, and it
 receives one argument.  For a syntax error, the string is normally
 @w{@code{"syntax error"}}.
 
-@findex %error-verbose
-If you invoke the directive @code{%error-verbose} in the Bison
+@findex %define error-verbose
+If you invoke the directive @code{%define error-verbose} in the Bison
 declarations section (@pxref{Bison Declarations, ,The Bison Declarations
 Section}), then Bison provides a more verbose and specific error message
 string instead of just plain @w{@code{"syntax error"}}.
@@ -8584,7 +8604,7 @@ error messages.
 @comment file: calc++-parser.yy
 @example
 %define parse.trace
-%error-verbose
+%define error-verbose
 @end example
 
 @noindent
@@ -9065,7 +9085,7 @@ Run the syntactic analysis, and return @code{true} on success,
 @deftypemethod {YYParser} {boolean} getErrorVerbose ()
 @deftypemethodx {YYParser} {void} setErrorVerbose (boolean @var{verbose})
 Get or set the option to produce verbose error messages.  These are only
-available with the @code{%error-verbose} directive, which also turn on
+available with the @code{%define error-verbose} directive, which also turn on
 verbose error messages.
 @end deftypemethod
 
@@ -9994,8 +10014,7 @@ token is reset to the token that originally caused the violation.
 @end deffn
 
 @deffn {Directive} %error-verbose
-Bison declaration to request verbose, specific error message strings
-when @code{yyerror} is called.
+An obsolete directive standing for @samp{%define error-verbose}.
 @end deffn
 
 @deffn {Directive} %file-prefix "@var{prefix}"
@@ -10193,16 +10212,16 @@ instead.
 
 @deffn {Function} yyerror
 User-supplied function to be called by @code{yyparse} on error.
-@xref{Error Reporting, ,The Error
-Reporting Function @code{yyerror}}.
+@xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
 @end deffn
 
 @deffn {Macro} YYERROR_VERBOSE
-An obsolete macro that you define with @code{#define} in the prologue
-to request verbose, specific error message strings
-when @code{yyerror} is called.  It doesn't matter what definition you
-use for @code{YYERROR_VERBOSE}, just whether you define it.  Using
-@code{%error-verbose} is preferred.
+An obsolete macro used in the @file{yacc.c} skeleton, that you define
+with @code{#define} in the prologue to request verbose, specific error
+message strings when @code{yyerror} is called.  It doesn't matter what
+definition you use for @code{YYERROR_VERBOSE}, just whether you define
+it.  Using @code{%define error-verbose} is preferred (@pxref{Error
+Reporting, ,The Error Reporting Function @code{yyerror}}).
 @end deffn
 
 @deffn {Macro} YYINITDEPTH

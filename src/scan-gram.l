@@ -181,7 +181,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%defines"                        return PERCENT_DEFINES;
   "%destructor"                     return PERCENT_DESTRUCTOR;
   "%dprec"                          return PERCENT_DPREC;
-  "%error"[-_]"verbose"             RETURN_PERCENT_FLAG("error_verbose");
+  "%error"[-_]"verbose"             RETURN_PERCENT_FLAG("error-verbose");
   "%expect"                         return PERCENT_EXPECT;
   "%expect"[-_]"rr"                 return PERCENT_EXPECT_RR;
   "%file-prefix"                    return PERCENT_FILE_PREFIX;

@@ -684,7 +684,7 @@ b4_percent_define_if_define_([$1], $[1], $[2])])
 # b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
-b4_percent_define_if_define([error_verbose])
+b4_percent_define_if_define([error-verbose])
 b4_percent_define_if_define([lex_symbol])
 b4_percent_define_if_define([locations])     # Whether locations are tracked.
 b4_percent_define_if_define([parse.assert])

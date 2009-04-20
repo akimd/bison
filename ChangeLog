@@ -1,5 +1,16 @@
 2009-04-20  Akim Demaille  <demaille@gostai.com>
 
+	variables: prefer error-verbose to error_verbose.
+	* data/bison.m4 (b4_error_verbose_if): Based on error-verbose
+	instead of error_verbose.
+	* src/scan-gram.l (%error-verbose): Map to the error-verbose
+	variable.
+	* doc/bison.texinfo: Promote %define error-verbose instead of
+	%error-verbose.
+	* tests/actions.at: Prefer %define error-verbose to %error-verbose.
+
+2009-04-15  Akim Demaille  <demaille@gostai.com>
+
 	variables: accept dashes.
 	* data/bison.m4 (b4_percent_define_if_define_): Also map dashes to
 	underscores.
