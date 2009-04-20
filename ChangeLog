@@ -1,3 +1,8 @@
+2009-04-20  Akim Demaille  <demaille@gostai.com>
+
+	Consistently refer to Yacc, not YACC.
+	* src/getargs.c (usage, warnings_args): s/YACC/Yacc/.
+
 2009-04-17  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Pacify make maintainer-check-posix.
