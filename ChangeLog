@@ -1,5 +1,9 @@
 2009-04-20  Akim Demaille  <demaille@gostai.com>
 
+	Formatting change.
+
+2009-04-20  Akim Demaille  <demaille@gostai.com>
+
 	bison: factoring.
 	* src/output.c (token_definitions_output): Use symbol_id_get
 	instead of duplicating its logic.
