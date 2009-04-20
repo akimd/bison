@@ -1,3 +1,18 @@
+2009-04-20  Akim Demaille  <demaille@gostai.com>
+
+	variables: accept dashes.
+	* src/scan-gram.l ({id}): Also accept dashes after the initial
+	letter.
+	({directive}): Use {id}.
+	* src/parse-gram.y: Comment and formatting changes.
+	* doc/bison.texinfo (Symbols): Adjust the lexical definitions of
+	symbols.
+	* src/complain.h, src/complain.c (yacc_at): New.
+	* src/symtab.c (symbol_new): Use yacc_at to report inappropriate
+	symbol names.
+	* src/output.c (token_definitions_output): Do not #define token
+	names with dashes.
+
 2009-04-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Clean up recent patches a little.

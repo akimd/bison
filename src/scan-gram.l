@@ -90,8 +90,8 @@ static void unexpected_newline (boundary, char const *);
 %x SC_STRING SC_CHARACTER
 
 letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id	  {letter}({letter}|[0-9])*
-directive %{letter}({letter}|[0-9]|-)*
+id	  {letter}({letter}|[0-9]|-)*
+directive %{id}
 int	  [0-9]+
 
 /* POSIX says that a tag must be both an id and a C union member, but
@@ -382,7 +382,7 @@ splice	 (\\[ \f\t\v]*\n)*
     unexpected_eof (token_start, "'");
     STRING_FINISH;
     loc->start = token_start;
-    if (strlen(last_string) > 1)
+    if (strlen (last_string) > 1)
       val->character = last_string[1];
     else
       val->character = last_string[0];
