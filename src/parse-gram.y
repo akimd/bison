@@ -535,15 +535,12 @@ rhs:
 
 variable:
   ID
-| STRING { $$ = uniqstr_new ($1); } /* deprecated and not M4-friendly */
+| STRING { $$ = uniqstr_new ($1); }
 ;
 
 /* Some content or empty by default. */
 content.opt:
-  /* Nothing. */
-    {
-      $$ = "";
-    }
+  /* Nothing. */   { $$ = ""; }
 | STRING
 ;
 

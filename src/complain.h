@@ -1,5 +1,5 @@
 /* Declaration for error-reporting function for Bison.
-   Copyright (C) 2000, 2001, 2002, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002, 2006, 2009 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,6 +38,13 @@ void complain (char const *format, ...)
 
 void complain_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
+
+/** An incompatibility with POSIX Yacc: mapped either to warn* or
+    complain* depending on yacc_flag. */
+
+void yacc_at (location loc, char const *format, ...)
+  __attribute__ ((__format__ (__printf__, 2, 3)));
+
 
 /** A fatal error, causing immediate exit.  */
 

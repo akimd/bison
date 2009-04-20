@@ -668,9 +668,10 @@ m4_define([b4_percent_define_default],
 # b4_percent_define_if_define(VARIABLE)
 # -------------------------------------
 # Define b4_VARIABLE_if that executes its $1 or $2 depending whether
-# VARIABLE was %defined.  The character `.' in VARIABLE is mapped to `_'.
+# VARIABLE was %defined.  The characters `.' and `-' in VARIABLE are mapped
+# to `_'.
 m4_define([b4_percent_define_if_define_],
-[m4_define(m4_bpatsubst([b4_$1_if], [[.]], [_]),
+[m4_define(m4_bpatsubst([b4_$1_if], [[-.]], [_]),
            [b4_percent_define_flag_if([$1], [$2], [$3])])])
 m4_define([b4_percent_define_if_define],
 [b4_percent_define_default([[$1]], [[false]])
