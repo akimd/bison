@@ -1,8 +1,8 @@
 # Process this -*- Autotest -*- file with autom4te.
 
 # Macros for the GNU Bison Test suite.
-# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation,
-# Inc.
+# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software
+# Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -329,6 +329,165 @@ m4_define([AT_FULL_COMPILE],
 m4_define([AT_PARSER_CHECK],
 [AT_CHECK([$5 $PREPARSER $1], [$2], [$3], [$4])])
 
+# AT_TEST_TABLES_AND_PARSE(TITLE, COND-VALUE, TEST-SPEC,
+#                          DECLS, GRAMMAR, INPUT,
+#                          BISON-STDERR, TABLES-OR-LAST-STATE,
+#                          [OTHER-CHECKS],
+#                          [PARSER-EXIT-VALUE],
+#                          [PARSER-STDOUT], [PARSER-STDERR])
+# -------------------------------------------------------------
+# Using TITLE as the test group title, check the generated parser tables
+# and parser for a specified grammar file under a condition labeled by
+# COND-VALUE.
+#
+# TEST-SPEC is a comma-delimited list of attributes of this test.  Each
+# recognized attribute is described below where it is relevant.
+#
+# Insert DECLS and GRAMMAR into the declarations and grammar section of
+# the grammar file.  Insert basic yyerror, yylex, and main function
+# definitions as well.  Hardcode yylex to return the (possibly empty)
+# comma-delimited series of tokens in INPUT followed by token 0.
+#
+# If TEST-SPEC contains the attribute no-xml, then invoke bison using
+# AT_BISON_CHECK_NO_XML.  Otherwise, invoke bison using AT_BISON_CHECK.
+# On the bison command-line, specify `--report=all --defines'.  Check
+# that Bison exits with value 0, has no stdout, and has stderr
+# BISON-STDERR.
+#
+# If TEST-SPEC contains the attribute `last-state', check that the value
+# of TABLES-OR-LAST-STATE is the index of the last state generated for
+# the grammar; in other words, check the number of states (minus one).
+# Otherwise, check that everything in the `.output' file starting with
+# the definition of state 0 is the same as the entire value of
+# TABLES-OR-LAST-STATE.
+#
+# Expand the M4 in OTHER-CHECKS to perform additional checks of the
+# `.output' file, which is named `input.output', and/or grammar file,
+# which is named `input.y'.
+#
+# Finally, compile the generated parser and then run it using
+# AT_PARSER_CHECK with PARSER-EXIT-VALUE, PARSER-STDOUT, and
+# PARSER-STDERR as the 2nd-4th arguments.
+#
+# As a precondition, you must properly double-quote all arguments that
+# are to be interpreted as strings.
+#
+# AT_COND_CASE (when appearing in single-quoted segments of arguments)
+# invokes m4_case with its own arguments but COND-VALUE inserted as the
+# first argument.  This is useful, for example, when wrapping multiple
+# AT_TEST_TABLES_AND_PARSE invocations, each representing a different
+# condition, in another macro.
+#
+# For example:
+#
+#   # AT_TEST_SYNTAX_ERROR(DESCRIPTION, DECLS, GRAMMAR, INPUT, LAST-STATE,
+#   #                      PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR)
+#   # ---------------------------------------------------------------------
+#   m4_define([AT_TEST_SYNTAX_ERROR],
+#   [
+#     AT_TEST_TABLES_AND_PARSE([$1[ with %error-verbose]], [[verbose]],
+#                              [[last-state]],
+#                              [[%error-verbose ]$2], [$3], [$4],
+#                              [[]], [$5], [], [$6], [$7], [$8])
+#     AT_TEST_TABLES_AND_PARSE([$1[ with no %error-verbose]], [[no verbose]],
+#                              [[last-state]],
+#                              [$2], [$3], [$4],
+#                              [[]], [$5], [], [$6], [$7], [$8])
+#   ])
+#
+#   AT_TEST_SYNTAX_ERROR([[Single Char Grammar]],
+#                        [[%token 'b']], [[start: 'a' ;]], [['a', 'b']],
+#                        [[3]],
+#                        [[1]], [[]],
+#                        [AT_COND_CASE([[no verbose]],
+#                                      [[syntax error
+#   ]],
+#                                      [[syntax error, unexpected 'b', expecting $end
+#   ]])])
+m4_define([AT_TEST_TABLES_AND_PARSE],
+[_AT_TEST_TABLES_AND_PARSE($[1], $[@], $@)])
+
+m4_define([_AT_TEST_TABLES_AND_PARSE],
+[m4_pushdef([AT_COND_CASE], [m4_case([$4], $][@)])
+
+AT_SETUP([$3])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%code {
+  #include <stdio.h>
+  static void yyerror (char const *msg);
+  static int yylex (void);
+}
+
+]$6[
+
+%%
+
+]$7[
+
+%%
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex (void)
+{
+  static int const input[] = {
+    ]m4_if([$8], [], [], [$8], [[]], [], [$8[, ]])[0
+  };
+  static int const *inputp = input;
+  return *inputp++;
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+# AT_CHECK invokes AS_ESCAPE before expanding macros, so it corrupts some
+# special characters in the macros.  To avoid this, expand now and pass it
+# the result with proper string quotation.  Assume args 9 thru 14 expand to
+# properly quoted strings.
+
+# Pass plenty of options, to exercise plenty of code, even if we
+# don't actually check the output.  But SEGV is watching us, and
+# so might do dmalloc.
+m4_if(m4_index(m4_quote($5), [no-xml]), -1,
+      [AT_BISON_CHECK],
+      [AT_BISON_CHECK_NO_XML])([[--report=all --defines -o input.c input.y]],
+                               [0], [], m4_dquote($9))
+
+# Sigh.  Some M4's can't reference arg 10 directly.
+m4_pushdef([arg10], m4_car(m4_shiftn(9, $@)))
+m4_if(m4_index(m4_quote($5), [last-state]), -1,
+      [AT_CHECK([[sed -n '/^state 0$/,$p' input.output]], [[0]],
+                m4_dquote(arg10))],
+      [AT_CHECK([[sed -n 's/^state //p' input.output | tail -1]], [[0]],
+                m4_dquote(arg10)[[
+]])])
+m4_popdef([arg10])
+
+m4_if($#, 10, [], m4_car(m4_shiftn(10, $@)))
+
+AT_COMPILE([[input]])
+
+m4_pushdef([AT_EXPAND_ARGS], [$][*])
+m4_pushdef([AT_DQUOTE_EACH], [[[$1]]m4_if($][#, 1, [], [, AT_DQUOTE_EACH(m4_shift($2))])])
+
+AT_PARSER_CHECK([[./input]]m4_if($#, 10, [], $#, 11, [], [, AT_DQUOTE_EACH(AT_EXPAND_ARGS(m4_shiftn(11, $@)))]))
+
+m4_popdef([AT_DQUOTE_EACH])
+m4_popdef([AT_EXPAND_ARGS])
+
+AT_CLEANUP
+
+m4_popdef([AT_COND_CASE])])
 
 
 

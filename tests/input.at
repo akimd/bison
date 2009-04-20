@@ -867,6 +867,24 @@ AT_BISON_CHECK([[Input.y]], [1], [],
 
 AT_CLEANUP
 
+## ----------------------------------------- ##
+## %define lr.default_rules invalid values.  ##
+## ----------------------------------------- ##
+
+AT_SETUP([[%define lr.default_rules invalid values]])
+
+AT_DATA([[input.y]],
+[[%define lr.default_rules "bogus"
+%%
+start: ;
+]])
+
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
+[[input.y:1.9-24: invalid value for %define variable `lr.default_rules': `bogus'
+]])
+
+AT_CLEANUP
+
 ## ------------------------ ##
 ## %define enum variables.  ##
 ## ------------------------ ##
