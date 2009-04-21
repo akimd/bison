@@ -1,7 +1,7 @@
 # Make bison/src.
 
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-# Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
+# Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,10 @@ bin_SCRIPTS = $(YACC_SCRIPT)
 EXTRA_SCRIPTS = yacc
 
 bison_SOURCES =					  \
+	AnnotationList.c AnnotationList.h	  \
+	InadequacyList.c InadequacyList.h	  \
 	LR0.c LR0.h				  \
+	Sbitset.c Sbitset.h			  \
 	assoc.c assoc.h				  \
 	closure.c closure.h			  \
 	complain.c complain.h			  \
@@ -42,6 +45,7 @@ bison_SOURCES =					  \
 	getargs.c getargs.h			  \
 	gram.c gram.h				  \
 	lalr.h lalr.c				  \
+	ielr.h ielr.c				  \
 	location.c location.h			  \
 	main.c					  \
 	muscle_tab.c muscle_tab.h		  \

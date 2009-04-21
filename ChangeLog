@@ -1,5 +1,55 @@
 2009-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Finish implementing %define lr.type.
+	Its value can be "LALR", "IELR", or "canonical LR".
+	* lib/timevar.def (TV_IELR_PHASE1): New var.
+	(TV_IELR_PHASE2): New var.
+	(TV_IELR_PHASE3): New var.
+	(TV_IELR_PHASE4): New var.
+	* src/Makefile.am (bison_SOURCES): Add AnnotationList.c,
+	AnnotationList.h, InadequacyList.c, InadequacyList.h, Sbitset.c,
+	Sbitset.h, ielr.h, and ielr.c.
+	* src/getargs.h, src/getargs.c (enum trace, trace_args,
+	trace_types): Add trace_ielr.
+	* src/lalr.h, src/lalr.c (ngotos): Export it.
+	(F): Rename to...
+	(goto_follows): ... this, update all uses, and export it.
+	(set_goto_map): Export it.
+	(map_goto): Export it.
+	(compute_lookahead_tokens): Don't free goto_follows yet.  Now
+	handled in ielr.
+	(initialize_LA): Export it.  Move lookback allocation to...
+	(lalr): ... here because, for canonical LR, initialize_LA must
+	be invoked but lookback and much of the rest of LALR isn't
+	needed.
+	* main.c (main): Instead of lalr, invoke ielr, which invokes
+	lalr.
+	* src/reader.c (reader): Default lr.type to "LALR".
+	Default lr.default_rules to "accepting" if lr.type is "canonical
+	LR".  Leave the default as "all" otherwise.
+	Check for a valid lr.type value.
+	* src/state.h, src/state.c (struct state_list): Add state_list
+	member.
+	(state_new): Initialize state_list member to NULL.
+	(state_new_isocore): New function, exported.
+	* tests/existing.at (AT_TEST_EXISTING_GRAMMAR): New macro that
+	exercises all values of lr.type.
+	(GNU AWK Grammar): Rename test group to...
+	(GNU AWK 3.1.0 Grammar): ... this, and extend to use
+	AT_TEST_EXISTING_GRAMMAR.
+	(GNU Cim Grammar): Extend to use AT_TEST_EXISTING_GRAMMAR.
+	(GNU pic Grammar): Rename test group to...
+	(GNU pic (Groff 1.18.1) Grammar): ... this, and extend to use
+	AT_TEST_EXISTING_GRAMMAR.
+	* tests/reduce.at (AT_TEST_LR_TYPE): New macro that exercises
+	all values of lr.type.
+	(Single State Split): New test groups using AT_TEST_LR_TYPE.
+	(Lane Split): Likewise.
+	(Complex Lane Split): Likewise.
+	(Split During Added Lookahead Propagation): Likewise.
+
+2009-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Add new files for IELR and canonical LR implementation.
 	* src/AnnotationList.c: New.
 	* src/AnnotationList.h: New.
