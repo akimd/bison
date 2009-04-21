@@ -34,8 +34,14 @@ EXTRA_SCRIPTS = src/yacc
 
 src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
 src_bison_SOURCES =				\
+  src/AnnotationList.c				\
+  src/AnnotationList.h				\
+  src/InadequacyList.c				\
+  src/InadequacyList.h				\
   src/LR0.c					\
   src/LR0.h					\
+  src/Sbitset.c					\
+  src/Sbitset.h					\
   src/assoc.c					\
   src/assoc.h					\
   src/closure.c					\
@@ -57,6 +63,8 @@ src_bison_SOURCES =				\
   src/graphviz.h				\
   src/lalr.c					\
   src/lalr.h					\
+  src/ielr.c					\
+  src/ielr.h					\
   src/location.c				\
   src/location.h				\
   src/main.c					\

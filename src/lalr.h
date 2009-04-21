@@ -1,7 +1,7 @@
 /* Compute lookahead criteria for bison,
 
-   Copyright (C) 1984, 1986, 1989, 2000, 2002, 2004, 2006, 2007 Free Software
-   Foundation, Inc.
+   Copyright (C) 1984, 1986, 1989, 2000, 2002, 2004, 2006, 2007, 2009
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -37,12 +37,28 @@
    which rules need lookahead in each state, and which lookahead
    tokens they accept.
 
-   Builds:
-   - #goto_map
-   - #from_state
-   - #to_state
+   Also builds:
+     - #goto_map
+     - #from_state
+     - #to_state
+     - #goto_follows
 */
 void lalr (void);
+
+/**
+ * Set #nLA and allocate all reduction lookahead sets.  Normally invoked by
+ * #lalr.
+ */
+void initialize_LA (void);
+
+/**
+ * Build only:
+ *   - #goto_map
+ *   - #from_state
+ *   - #to_state
+ * Normally invoked by #lalr.
+ */
+void set_goto_map (void);
 
 /**
  * Update state numbers recorded in #goto_map, #from_state, and #to_state such
@@ -62,7 +78,6 @@ void lalr_update_state_numbers (state_number old_to_new[],
    Can be performed once the action tables are computed.  */
 void lalr_free (void);
 
-
 typedef size_t goto_number;
 # define GOTO_NUMBER_MAXIMUM ((goto_number) -1)
 
@@ -73,11 +88,20 @@ typedef size_t goto_number;
    TO_STATE of the first of them.  */
 extern goto_number *goto_map;
 
-/** State number which a transition leads from. */
+/** The size of #from_state and #to_state.  */
+extern goto_number ngotos;
+
+/** State number which a transition leads from.  */
 extern state_number *from_state;
 
 /** State number it leads to.  */
 extern state_number *to_state;
+
+/** Map a state/symbol pair into its numeric representation.  */
+goto_number map_goto (state_number s0, symbol_number sym);
+
+/* goto_follows[i] is the set of tokens following goto i.  */
+extern bitsetv goto_follows;
 
 
 #endif /* !LALR_H_ */

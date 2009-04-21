@@ -1,7 +1,7 @@
 /* Type definitions for nondeterministic finite state machine for Bison.
 
-   Copyright (C) 1984, 1989, 2000, 2001, 2002, 2003, 2004, 2007 Free
-   Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 2000, 2001, 2002, 2003, 2004, 2007, 2009
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -193,6 +193,8 @@ typedef struct
 | states.  |
 `---------*/
 
+struct state_list;
+
 struct state
 {
   state_number number;
@@ -200,6 +202,11 @@ struct state
   transitions *transitions;
   reductions *reductions;
   errs *errs;
+
+  /* When an includer (such as ielr.c) needs to store states in a list, the
+     includer can define struct state_list as the list node structure and can
+     store in this member a reference to the node containing each state.  */
+  struct state_list *state_list;
 
   /* If non-zero, then no lookahead sets on reduce actions are needed to
      decide what to do in state S.  */
@@ -222,6 +229,7 @@ extern state *final_state;
 /* Create a new state with ACCESSING_SYMBOL for those items.  */
 state *state_new (symbol_number accessing_symbol,
 		  size_t core_size, item_number *core);
+state *state_new_isocore (state const *s);
 
 /* Set the transitions of STATE.  */
 void state_transitions_set (state *s, int num, state **trans);

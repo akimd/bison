@@ -359,6 +359,1089 @@ AT_CLEANUP
 
 
 
+## ----------------- ##
+## %define lr.type.  ##
+## ----------------- ##
+
+# AT_TEST_LR_TYPE(DESCRIPTION,
+#                 DECLS, GRAMMAR, INPUT,
+#                 BISON-STDERR, TABLES,
+#                 [OTHER-CHECKS],
+#                 [PARSER-EXIT-VALUE],
+#                 [PARSER-STDOUT], [PARSER-STDERR])
+# -------------------------------------------------
+m4_define([AT_TEST_LR_TYPE],
+[
+AT_TEST_TABLES_AND_PARSE([[no %define lr.type: ]$1],
+                         [[LALR]], [[]],
+                         [$2], m4_shiftn(2, $@))
+AT_TEST_TABLES_AND_PARSE([[%define lr.type "LALR": ]$1],
+                         [[LALR]], [[]],
+                         [[%define lr.type "LALR"
+]$2],
+                         m4_shiftn(2, $@))
+AT_TEST_TABLES_AND_PARSE([[%define lr.type "IELR": ]$1],
+                         [[IELR]], [[]],
+                         [[%define lr.type "IELR"
+]$2],
+                         m4_shiftn(2, $@))
+AT_TEST_TABLES_AND_PARSE([[%define lr.type "canonical LR": ]$1],
+                         [[canonical LR]], [[]],
+                         [[%define lr.type "canonical LR"
+]$2],
+                         m4_shiftn(2, $@))
+])
+
+AT_TEST_LR_TYPE([[Single State Split]],
+[[%left 'a'
+// Conflict resolution renders state 12 unreachable for canonical LR(1).  We
+// keep it so that the paser table diff is easier to code.
+%define lr.keep_unreachable_states]],
+[[
+S: 'a' A 'a' /* rule 1 */
+ | 'b' A 'b' /* rule 2 */
+ | 'c' c     /* rule 3 */
+ ;
+
+/* A conflict should appear after the first 'a' in rules 4 and 5 but only after
+   having shifted the first 'a' in rule 1.  However, when LALR(1) merging is
+   chosen, the state containing that conflict is reused after having seen the
+   first 'b' in rule 2 and then the first 'a' in rules 4 and 5.  In both cases,
+   because of the merged state, if the next token is an 'a', the %left forces a
+   reduction action with rule 5.  In the latter case, only a shift is actually
+   grammatically correct.  Thus, the parser would report a syntax error for the
+   grammatically correct sentence "baab" because it would encounter a syntax
+   error after that incorrect reduction.
+
+   Despite not being LALR(1), Menhir version 20070322 suffers from this problem
+   as well.  It uses David Pager's weak compatibility test for merging states.
+   Bison and Menhir accept non-LR(1) grammars with conflict resolution.  Pager
+   designed his algorithm only for LR(1) grammars.  */
+A: 'a' 'a' /* rule 4 */
+ | 'a'     /* rule 5 */
+ ;
+
+/* Rule 3, rule 6, and rule 7 ensure that Bison does not report rule 4 as
+   useless after conflict resolution.  This proves that, even though LALR(1)
+   generates incorrect parser tables sometimes, Bison will not necessarily
+   produce any warning to help the user realize it.  */
+c: 'a' 'b' /* rule 6 */
+ | A       /* rule 7 */
+ ;
+]],
+
+dnl INPUT
+[['b', 'a', 'a', 'b']],
+
+dnl BISON-STDERR
+[],
+
+dnl TABLES
+[[state 0
+
+    0 $accept: . S $end
+    1 S: . 'a' A 'a'
+    2  | . 'b' A 'b'
+    3  | . 'c' c
+
+    'a'  shift, and go to state 1
+    'b'  shift, and go to state 2
+    'c'  shift, and go to state 3
+
+    S  go to state 4
+
+
+state 1
+
+    1 S: 'a' . A 'a'
+    4 A: . 'a' 'a'
+    5  | . 'a'
+
+    'a'  shift, and go to state 5
+
+    A  go to state 6
+
+
+state 2
+
+    2 S: 'b' . A 'b'
+    4 A: . 'a' 'a'
+    5  | . 'a'
+
+    'a'  shift, and go to state ]AT_COND_CASE([[LALR]], [[5]], [[16]])[
+
+    A  go to state 7
+
+
+state 3
+
+    3 S: 'c' . c
+    4 A: . 'a' 'a'
+    5  | . 'a'
+    6 c: . 'a' 'b'
+    7  | . A
+
+    'a'  shift, and go to state 8
+
+    A  go to state 9
+    c  go to state 10
+
+
+state 4
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 11
+
+
+state 5
+
+    4 A: 'a' . 'a'
+    5  | 'a' .  ]AT_COND_CASE([[LALR]], [[['a', 'b']]], [[['a']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['a']],
+                  [[$default]])[  reduce using rule 5 (A)
+
+    Conflict between rule 5 and token 'a' resolved as reduce (%left 'a').
+
+
+state 6
+
+    1 S: 'a' A . 'a'
+
+    'a'  shift, and go to state 13
+
+
+state 7
+
+    2 S: 'b' A . 'b'
+
+    'b'  shift, and go to state 14
+
+
+state 8
+
+    4 A: 'a' . 'a'
+    5  | 'a' .  [$end]
+    6 c: 'a' . 'b'
+
+    'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[17]],
+                                              [[12]])[
+    'b'  shift, and go to state 15
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 5 (A)
+
+
+state 9
+
+    7 c: A .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 7 (c)
+
+
+state 10
+
+    3 S: 'c' c .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 3 (S)
+
+
+state 11
+
+    0 $accept: S $end .
+
+    $default  accept
+
+
+state 12
+
+    4 A: 'a' 'a' .]AT_COND_CASE([[canonical LR]], [[  ['a']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['a']],
+                  [[$default]])[  reduce using rule 4 (A)
+
+
+state 13
+
+    1 S: 'a' A 'a' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 1 (S)
+
+
+state 14
+
+    2 S: 'b' A 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 2 (S)
+
+
+state 15
+
+    6 c: 'a' 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 6 (c)]AT_COND_CASE([[LALR]],
+                                                                       [[]], [[
+
+
+state 16
+
+    4 A: 'a' . 'a'
+    5  | 'a' .  ['b']
+
+    'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[18]],
+                                              [[12]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['b']],
+                  [[$default]])[  reduce using rule 5 (A)]AT_COND_CASE([[canonical LR]], [[
+
+
+state 17
+
+    4 A: 'a' 'a' .  [$end]
+
+    $end  reduce using rule 4 (A)
+
+
+state 18
+
+    4 A: 'a' 'a' .  ['b']
+
+    'b'  reduce using rule 4 (A)]])])[
+]],
+
+dnl OTHER-CHECKS
+[],
+
+dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
+[AT_COND_CASE([[LALR]], [[1]], [[0]])],
+[],
+[AT_COND_CASE([[LALR]],
+[[syntax error
+]])])
+
+AT_TEST_LR_TYPE([[Lane Split]],
+[[%left 'a'
+// Conflict resolution renders state 16 unreachable for canonical LR(1).  We
+// keep it so that the paser table diff is easier to code.
+%define lr.keep_unreachable_states]],
+[[
+/* Similar to the last test case set but two states must be split.  */
+S: 'a' A 'a' /* rule 1 */
+ | 'b' A 'b' /* rule 2 */
+ | 'c' c     /* rule 3 */
+ ;
+
+A: 'a' 'a' 'a' /* rule 4 */
+ | 'a' 'a'     /* rule 5 */
+ ;
+
+c: 'a' 'a' 'b' /* rule 6 */
+ | A           /* rule 7 */
+ ;
+]],
+
+dnl INPUT
+[['b', 'a', 'a', 'a', 'b']],
+
+dnl BISON-STDERR
+[],
+
+dnl TABLES
+[[state 0
+
+    0 $accept: . S $end
+    1 S: . 'a' A 'a'
+    2  | . 'b' A 'b'
+    3  | . 'c' c
+
+    'a'  shift, and go to state 1
+    'b'  shift, and go to state 2
+    'c'  shift, and go to state 3
+
+    S  go to state 4
+
+
+state 1
+
+    1 S: 'a' . A 'a'
+    4 A: . 'a' 'a' 'a'
+    5  | . 'a' 'a'
+
+    'a'  shift, and go to state 5
+
+    A  go to state 6
+
+
+state 2
+
+    2 S: 'b' . A 'b'
+    4 A: . 'a' 'a' 'a'
+    5  | . 'a' 'a'
+
+    'a'  shift, and go to state ]AT_COND_CASE([[LALR]], [[5]], [[18]])[
+
+    A  go to state 7
+
+
+state 3
+
+    3 S: 'c' . c
+    4 A: . 'a' 'a' 'a'
+    5  | . 'a' 'a'
+    6 c: . 'a' 'a' 'b'
+    7  | . A
+
+    'a'  shift, and go to state 8
+
+    A  go to state 9
+    c  go to state 10
+
+
+state 4
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 11
+
+
+state 5
+
+    4 A: 'a' . 'a' 'a'
+    5  | 'a' . 'a'
+
+    'a'  shift, and go to state 12
+
+
+state 6
+
+    1 S: 'a' A . 'a'
+
+    'a'  shift, and go to state 13
+
+
+state 7
+
+    2 S: 'b' A . 'b'
+
+    'b'  shift, and go to state 14
+
+
+state 8
+
+    4 A: 'a' . 'a' 'a'
+    5  | 'a' . 'a'
+    6 c: 'a' . 'a' 'b'
+
+    'a'  shift, and go to state 15
+
+
+state 9
+
+    7 c: A .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 7 (c)
+
+
+state 10
+
+    3 S: 'c' c .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 3 (S)
+
+
+state 11
+
+    0 $accept: S $end .
+
+    $default  accept
+
+
+state 12
+
+    4 A: 'a' 'a' . 'a'
+    5  | 'a' 'a' .  ]AT_COND_CASE([[LALR]], [[['a', 'b']]], [[['a']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['a']],
+                  [[$default]])[  reduce using rule 5 (A)
+
+    Conflict between rule 5 and token 'a' resolved as reduce (%left 'a').
+
+
+state 13
+
+    1 S: 'a' A 'a' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 1 (S)
+
+
+state 14
+
+    2 S: 'b' A 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 2 (S)
+
+
+state 15
+
+    4 A: 'a' 'a' . 'a'
+    5  | 'a' 'a' .  [$end]
+    6 c: 'a' 'a' . 'b'
+
+    'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[19]],
+                                              [[16]])[
+    'b'  shift, and go to state 17
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 5 (A)
+
+
+state 16
+
+    4 A: 'a' 'a' 'a' .]AT_COND_CASE([[canonical LR]], [[  ['a']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['a']],
+                  [[$default]])[  reduce using rule 4 (A)
+
+
+state 17
+
+    6 c: 'a' 'a' 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 6 (c)]AT_COND_CASE([[LALR]],
+                                                                       [[]], [[
+
+
+state 18
+
+    4 A: 'a' . 'a' 'a'
+    5  | 'a' . 'a'
+
+    'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[20]],
+                                              [[19]])[
+
+
+state 19]AT_COND_CASE([[canonical LR]], [[
+
+    4 A: 'a' 'a' 'a' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 4 (A)
+
+
+state 20]])[
+
+    4 A: 'a' 'a' . 'a'
+    5  | 'a' 'a' .  ['b']
+
+    'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[21]],
+                                              [[16]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['b']],
+                  [[$default]])[  reduce using rule 5 (A)]AT_COND_CASE([[canonical LR]], [[
+
+
+state 21
+
+    4 A: 'a' 'a' 'a' .]AT_COND_CASE([[canonical LR]], [[  ['b']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['b']],
+                  [[$default]])[  reduce using rule 4 (A)]])])[
+]],
+
+dnl OTHER-CHECKS
+[],
+
+dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
+[AT_COND_CASE([[LALR]], [[1]], [[0]])],
+[],
+[AT_COND_CASE([[LALR]],
+[[syntax error
+]])])
+
+AT_TEST_LR_TYPE([[Complex Lane Split]],
+[[%left 'a'
+// Conflict resolution renders state 16 unreachable for canonical LR(1).  We
+// keep it so that the paser table diff is easier to code.
+%define lr.keep_unreachable_states]],
+[[
+/* Similar to the last test case set but forseeing the S/R conflict from the
+   first state that must be split is becoming difficult.  Imagine if B were
+   even more complex.  Imagine if A had other RHS's ending in other
+   nonterminals.  */
+S: 'a' A 'a'
+ | 'b' A 'b'
+ | 'c' c
+ ;
+A: 'a' 'a' B
+ ;
+B: 'a'
+ | %prec 'a'
+ ;
+c: 'a' 'a' 'b'
+ | A
+ ;
+]],
+
+dnl INPUT
+[['b', 'a', 'a', 'a', 'b']],
+
+dnl BISON-STDERR
+[],
+
+dnl TABLES
+[[state 0
+
+    0 $accept: . S $end
+    1 S: . 'a' A 'a'
+    2  | . 'b' A 'b'
+    3  | . 'c' c
+
+    'a'  shift, and go to state 1
+    'b'  shift, and go to state 2
+    'c'  shift, and go to state 3
+
+    S  go to state 4
+
+
+state 1
+
+    1 S: 'a' . A 'a'
+    4 A: . 'a' 'a' B
+
+    'a'  shift, and go to state 5
+
+    A  go to state 6
+
+
+state 2
+
+    2 S: 'b' . A 'b'
+    4 A: . 'a' 'a' B
+
+    'a'  shift, and go to state ]AT_COND_CASE([[LALR]], [[5]], [[19]])[
+
+    A  go to state 7
+
+
+state 3
+
+    3 S: 'c' . c
+    4 A: . 'a' 'a' B
+    7 c: . 'a' 'a' 'b'
+    8  | . A
+
+    'a'  shift, and go to state 8
+
+    A  go to state 9
+    c  go to state 10
+
+
+state 4
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 11
+
+
+state 5
+
+    4 A: 'a' . 'a' B
+
+    'a'  shift, and go to state 12
+
+
+state 6
+
+    1 S: 'a' A . 'a'
+
+    'a'  shift, and go to state 13
+
+
+state 7
+
+    2 S: 'b' A . 'b'
+
+    'b'  shift, and go to state 14
+
+
+state 8
+
+    4 A: 'a' . 'a' B
+    7 c: 'a' . 'a' 'b'
+
+    'a'  shift, and go to state 15
+
+
+state 9
+
+    8 c: A .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 8 (c)
+
+
+state 10
+
+    3 S: 'c' c .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 3 (S)
+
+
+state 11
+
+    0 $accept: S $end .
+
+    $default  accept
+
+
+state 12
+
+    4 A: 'a' 'a' . B
+    5 B: . 'a'
+    6  | .  ]AT_COND_CASE([[LALR]], [[['a', 'b']]], [[['a']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['a']],
+                  [[$default]])[  reduce using rule 6 (B)
+
+    B  go to state 17
+
+    Conflict between rule 6 and token 'a' resolved as reduce (%left 'a').
+
+
+state 13
+
+    1 S: 'a' A 'a' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 1 (S)
+
+
+state 14
+
+    2 S: 'b' A 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 2 (S)
+
+
+state 15
+
+    4 A: 'a' 'a' . B
+    5 B: . 'a'
+    6  | .  [$end]
+    7 c: 'a' 'a' . 'b'
+
+    'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[20]],
+                                              [[16]])[
+    'b'  shift, and go to state 18
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 6 (B)
+
+    B  go to state ]AT_COND_CASE([[canonical LR]], [[21]], [[17]])[
+
+
+state 16
+
+    5 B: 'a' .]AT_COND_CASE([[canonical LR]], [[  ['a']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['a']],
+                  [[$default]])[  reduce using rule 5 (B)
+
+
+state 17
+
+    4 A: 'a' 'a' B .]AT_COND_CASE([[canonical LR]], [[  ['a']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['a']],
+                  [[$default]])[  reduce using rule 4 (A)
+
+
+state 18
+
+    7 c: 'a' 'a' 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 7 (c)]AT_COND_CASE([[LALR]], [], [[
+
+
+state 19
+
+    4 A: 'a' . 'a' B
+
+    'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[22]],
+                                              [[20]])[
+
+
+state 20]AT_COND_CASE([[canonical LR]], [[
+
+    5 B: 'a' .  [$end]
+
+    $end  reduce using rule 5 (B)
+
+
+state 21
+
+    4 A: 'a' 'a' B .  [$end]
+
+    $end  reduce using rule 4 (A)
+
+
+state 22]])[
+
+    4 A: 'a' 'a' . B
+    5 B: . 'a'
+    6  | .  ['b']
+
+    'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[23]],
+                                              [[16]])[
+
+    ]AT_COND_CASE([[canonical LR]], [['b']],
+                  [[$default]])[  reduce using rule 6 (B)
+
+    B  go to state ]AT_COND_CASE([[canonical LR]], [[24
+
+
+state 23
+
+    5 B: 'a' .  ['b']
+
+    'b'  reduce using rule 5 (B)
+
+
+state 24
+
+    4 A: 'a' 'a' B .  ['b']
+
+    'b'  reduce using rule 4 (A)]], [[17]])])[
+]],
+
+dnl OTHER-CHECKS
+[],
+
+dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
+[AT_COND_CASE([[LALR]], [[1]], [[0]])],
+[],
+[AT_COND_CASE([[LALR]],
+[[syntax error
+]])])
+
+AT_TEST_LR_TYPE([[Split During Added Lookahead Propagation]],
+[[%define lr.keep_unreachable_states]],
+[[
+/* The partial state chart diagram below is for LALR(1).  State 0 is the start
+   state.  States are iterated for successor construction in numerical order.
+   Transitions are downwards.
+
+   State 13 has a R/R conflict that cannot be predicted by Bison's LR(1)
+   algorithm using annotations alone.  That is, when state 11's successor on
+   'd' is merged with state 5 (which is originally just state 1's successor on
+   'd'), state 5's successor on 'e' must then be changed because the resulting
+   lookaheads that propagate to it now make it incompatible with state 8's
+   successor on 'e'.  In other words, state 13 must be split to avoid the
+   conflict.
+
+          0
+        / | \
+     a / c|  \ b
+      1   3   2
+      |   |   |
+     d|   |c  | d
+      |  11   |
+      |   |   |
+       \ /d   |
+        5     8
+         \    |
+        e \  / e
+           13
+           R/R
+
+   This grammar is designed carefully to make sure that, despite Bison's LR(1)
+   algorithm's bread-first iteration of transitions to reconstruct states,
+   state 11's successors are constructed after state 5's and state 8's.
+   Otherwise (for example, if you remove the first 'c' in each of rules 6 and
+   7), state 5's successor on 'e' would never be merged with state 8's, so the
+   split of the resulting state 13 would never need to be performed.  */
+S: 'a' A 'f'
+ | 'a' B
+ | 'b' A 'f'
+ | 'b' B 'g'
+ | 'b' 'd'
+ | 'c' 'c' A 'g'
+ | 'c' 'c' B
+ ;
+A: 'd' 'e' ;
+B: 'd' 'e' ;
+]],
+
+dnl INPUT
+[['b', 'd', 'e', 'g']],
+
+dnl BISON-STDERR
+[AT_COND_CASE([[LALR]],
+[[input.y: conflicts: 1 reduce/reduce
+]], [])],
+
+dnl TABLES
+[[state 0
+
+    0 $accept: . S $end
+    1 S: . 'a' A 'f'
+    2  | . 'a' B
+    3  | . 'b' A 'f'
+    4  | . 'b' B 'g'
+    5  | . 'b' 'd'
+    6  | . 'c' 'c' A 'g'
+    7  | . 'c' 'c' B
+
+    'a'  shift, and go to state 1
+    'b'  shift, and go to state 2
+    'c'  shift, and go to state 3
+
+    S  go to state 4
+
+
+state 1
+
+    1 S: 'a' . A 'f'
+    2  | 'a' . B
+    8 A: . 'd' 'e'
+    9 B: . 'd' 'e'
+
+    'd'  shift, and go to state 5
+
+    A  go to state 6
+    B  go to state 7
+
+
+state 2
+
+    3 S: 'b' . A 'f'
+    4  | 'b' . B 'g'
+    5  | 'b' . 'd'
+    8 A: . 'd' 'e'
+    9 B: . 'd' 'e'
+
+    'd'  shift, and go to state 8
+
+    A  go to state 9
+    B  go to state 10
+
+
+state 3
+
+    6 S: 'c' . 'c' A 'g'
+    7  | 'c' . 'c' B
+
+    'c'  shift, and go to state 11
+
+
+state 4
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 12
+
+
+state 5
+
+    8 A: 'd' . 'e'
+    9 B: 'd' . 'e'
+
+    'e'  shift, and go to state ]AT_COND_CASE([[LALR]], [[13]],
+                                               [[canonical LR]], [[13]],
+                                               [[20]])[
+
+
+state 6
+
+    1 S: 'a' A . 'f'
+
+    'f'  shift, and go to state 14
+
+
+state 7
+
+    2 S: 'a' B .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 2 (S)
+
+
+state 8
+
+    5 S: 'b' 'd' .  [$end]
+    8 A: 'd' . 'e'
+    9 B: 'd' . 'e'
+
+    'e'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[20]],
+                                              [[13]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 5 (S)
+
+
+state 9
+
+    3 S: 'b' A . 'f'
+
+    'f'  shift, and go to state 15
+
+
+state 10
+
+    4 S: 'b' B . 'g'
+
+    'g'  shift, and go to state 16
+
+
+state 11
+
+    6 S: 'c' 'c' . A 'g'
+    7  | 'c' 'c' . B
+    8 A: . 'd' 'e'
+    9 B: . 'd' 'e'
+
+    'd'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[21]],
+                                              [[5]])[
+
+    A  go to state 17
+    B  go to state 18
+
+
+state 12
+
+    0 $accept: S $end .
+
+    $default  accept]AT_COND_CASE([[LALR]], [[
+
+
+state 13
+
+    8 A: 'd' 'e' .  ['f', 'g']
+    9 B: 'd' 'e' .  [$end, 'g']
+
+    $end      reduce using rule 9 (B)
+    'g'       reduce using rule 8 (A)
+    'g'       [reduce using rule 9 (B)]
+    $default  reduce using rule 8 (A)]], [[
+
+
+state 13
+
+    8 A: 'd' 'e' .  ['f']
+    9 B: 'd' 'e' .  ]AT_COND_CASE([[canonical LR]], [[[$end]]], [[['g']]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [['g'     ]])[  reduce using rule 9 (B)
+    ]AT_COND_CASE([[canonical LR]], [['f' ]],
+                  [[$default]])[  reduce using rule 8 (A)]])[
+
+
+state 14
+
+    1 S: 'a' A 'f' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 1 (S)
+
+
+state 15
+
+    3 S: 'b' A 'f' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 3 (S)
+
+
+state 16
+
+    4 S: 'b' B 'g' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 4 (S)
+
+
+state 17
+
+    6 S: 'c' 'c' A . 'g'
+
+    'g'  shift, and go to state 19
+
+
+state 18
+
+    7 S: 'c' 'c' B .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 7 (S)
+
+
+state 19
+
+    6 S: 'c' 'c' A 'g' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
+
+    ]AT_COND_CASE([[canonical LR]], [[$end]],
+                  [[$default]])[  reduce using rule 6 (S)]AT_COND_CASE([[LALR]],
+                                                                       [[]], [[
+
+
+state 20]AT_COND_CASE([[canonical LR]], [[
+
+    8 A: 'd' 'e' .  ['f']
+    9 B: 'd' 'e' .  ['g']
+
+    'f'  reduce using rule 8 (A)
+    'g'  reduce using rule 9 (B)
+
+
+state 21
+
+    8 A: 'd' . 'e'
+    9 B: 'd' . 'e'
+
+    'e'  shift, and go to state 22
+
+
+state 22
+
+    8 A: 'd' 'e' .  ['g']
+    9 B: 'd' 'e' .  [$end]
+
+    $end  reduce using rule 9 (B)
+    'g'   reduce using rule 8 (A)]], [[
+
+    8 A: 'd' 'e' .  ['f', 'g']
+    9 B: 'd' 'e' .  [$end]
+
+    $end      reduce using rule 9 (B)
+    $default  reduce using rule 8 (A)]])])[
+]],
+
+dnl OTHER-CHECKS
+[],
+
+dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
+[AT_COND_CASE([[LALR]], [[1]], [[0]])],
+[],
+[AT_COND_CASE([[LALR]],
+[[syntax error
+]])])
+
+
+
 ## -------------------------- ##
 ## %define lr.default_rules.  ##
 ## -------------------------- ##

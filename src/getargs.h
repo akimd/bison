@@ -103,6 +103,7 @@ enum trace
     trace_skeleton  = 1 << 9,  /**< Skeleton postprocessing. */
     trace_m4        = 1 << 10, /**< M4 traces. */
     trace_muscles   = 1 << 11, /**< M4 definitions of the muscles. */
+    trace_ielr      = 1 << 12, /**< IELR conversion. */
     trace_all       = ~0       /**< All of the above.  */
   };
 /** What debug items bison displays during its run.  */
