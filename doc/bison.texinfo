@@ -352,10 +352,12 @@ Copying This Manual
 @cindex introduction
 
 @dfn{Bison} is a general-purpose parser generator that converts an
-annotated context-free grammar into an @acronym{LALR}(1) or
-@acronym{GLR} parser for that grammar.  Once you are proficient with
-Bison, you can use it to develop a wide range of language parsers, from those
-used in simple desk calculators to complex programming languages.
+annotated context-free grammar into a deterministic or @acronym{GLR}
+parser employing @acronym{LALR}(1), @acronym{IELR}(1), or canonical
+@acronym{LR}(1) parser tables.
+Once you are proficient with Bison, you can use it to develop a wide
+range of language parsers, from those used in simple desk calculators to
+complex programming languages.
 
 Bison is upward compatible with Yacc: all properly-written Yacc grammars
 ought to work with Bison with no change.  Anyone familiar with Yacc
@@ -461,26 +463,27 @@ order to specify the language Algol 60.  Any grammar expressed in
 essentially machine-readable @acronym{BNF}.
 
 @cindex @acronym{LALR}(1) grammars
+@cindex @acronym{IELR}(1) grammars
 @cindex @acronym{LR}(1) grammars
-There are various important subclasses of context-free grammar.  Although it
-can handle almost all context-free grammars, Bison is optimized for what
-are called @acronym{LALR}(1) grammars.
-In brief, in these grammars, it must be possible to
-tell how to parse any portion of an input string with just a single
-token of lookahead.  Strictly speaking, that is a description of an
-@acronym{LR}(1) grammar, and @acronym{LALR}(1) involves additional
-restrictions that are
-hard to explain simply; but it is rare in actual practice to find an
-@acronym{LR}(1) grammar that fails to be @acronym{LALR}(1).
+There are various important subclasses of context-free grammars.
+Although it can handle almost all context-free grammars, Bison is
+optimized for what are called @acronym{LR}(1) grammars.
+In brief, in these grammars, it must be possible to tell how to parse
+any portion of an input string with just a single token of lookahead.
+For historical reasons, Bison by default is limited by the additional
+restrictions of @acronym{LALR}(1), which is hard to explain simply.
 @xref{Mystery Conflicts, ,Mysterious Reduce/Reduce Conflicts}, for
 more information on this.
+To escape these additional restrictions, you can request
+@acronym{IELR}(1) or canonical @acronym{LR}(1) parser tables.
+@xref{Decl Summary,,lr.type}, to learn how.
 
 @cindex @acronym{GLR} parsing
 @cindex generalized @acronym{LR} (@acronym{GLR}) parsing
 @cindex ambiguous grammars
 @cindex nondeterministic parsing
 
-Parsers for @acronym{LALR}(1) grammars are @dfn{deterministic}, meaning
+Parsers for @acronym{LR}(1) grammars are @dfn{deterministic}, meaning
 roughly that the next grammar rule to apply at any point in the input is
 uniquely determined by the preceding input and a fixed, finite portion
 (called a @dfn{lookahead}) of the remaining input.  A context-free
@@ -709,8 +712,8 @@ from the values of the two subexpressions.
 @cindex shift/reduce conflicts
 @cindex reduce/reduce conflicts
 
-In some grammars, Bison's standard
-@acronym{LALR}(1) parsing algorithm cannot decide whether to apply a
+In some grammars, Bison's deterministic
+@acronym{LR}(1) parsing algorithm cannot decide whether to apply a
 certain grammar rule at a given point.  That is, it may not be able to
 decide (on the basis of the input read so far) which of two possible
 reductions (applications of a grammar rule) applies, or whether to apply
@@ -719,13 +722,13 @@ input.  These are known respectively as @dfn{reduce/reduce} conflicts
 (@pxref{Reduce/Reduce}), and @dfn{shift/reduce} conflicts
 (@pxref{Shift/Reduce}).
 
-To use a grammar that is not easily modified to be @acronym{LALR}(1), a
+To use a grammar that is not easily modified to be @acronym{LR}(1), a
 more general parsing algorithm is sometimes necessary.  If you include
 @code{%glr-parser} among the Bison declarations in your file
 (@pxref{Grammar Outline}), the result is a Generalized @acronym{LR}
 (@acronym{GLR}) parser.  These parsers handle Bison grammars that
 contain no unresolved conflicts (i.e., after applying precedence
-declarations) identically to @acronym{LALR}(1) parsers.  However, when
+declarations) identically to deterministic parsers.  However, when
 faced with unresolved shift/reduce and reduce/reduce conflicts,
 @acronym{GLR} parsers use the simple expedient of doing both,
 effectively cloning the parser to follow both possibilities.  Each of
@@ -767,11 +770,8 @@ merged result.
 @cindex shift/reduce conflicts
 
 In the simplest cases, you can use the @acronym{GLR} algorithm
-to parse grammars that are unambiguous, but fail to be @acronym{LALR}(1).
-Such grammars typically require more than one symbol of lookahead,
-or (in rare cases) fall into the category of grammars in which the
-@acronym{LALR}(1) algorithm throws away too much information (they are in
-@acronym{LR}(1), but not @acronym{LALR}(1), @ref{Mystery Conflicts}).
+to parse grammars that are unambiguous but fail to be @acronym{LR}(1).
+Such grammars typically require more than one symbol of lookahead.
 
 Consider a problem that
 arises in the declaration of enumerated and subrange types in the
@@ -808,7 +808,7 @@ type enum = (a);
 valid, and more-complicated cases can come up in practical programs.)
 
 These two declarations look identical until the @samp{..} token.
-With normal @acronym{LALR}(1) one-token lookahead it is not
+With normal @acronym{LR}(1) one-token lookahead it is not
 possible to decide between the two forms when the identifier
 @samp{a} is parsed.  It is, however, desirable
 for a parser to decide this, since in the latter case
@@ -847,9 +847,9 @@ reports a syntax error as usual.
 
 The effect of all this is that the parser seems to ``guess'' the
 correct branch to take, or in other words, it seems to use more
-lookahead than the underlying @acronym{LALR}(1) algorithm actually allows
-for.  In this example, @acronym{LALR}(2) would suffice, but also some cases
-that are not @acronym{LALR}(@math{k}) for any @math{k} can be handled this way.
+lookahead than the underlying @acronym{LR}(1) algorithm actually allows
+for.  In this example, @acronym{LR}(2) would suffice, but also some cases
+that are not @acronym{LR}(@math{k}) for any @math{k} can be handled this way.
 
 In general, a @acronym{GLR} parser can take quadratic or cubic worst-case time,
 and the current Bison parser even takes exponential time and space
@@ -902,7 +902,7 @@ expr : '(' expr ')'
 @end group
 @end example
 
-When used as a normal @acronym{LALR}(1) grammar, Bison correctly complains
+When used as a normal @acronym{LR}(1) grammar, Bison correctly complains
 about one reduce/reduce conflict.  In the conflicting situation the
 parser chooses one of the alternatives, arbitrarily the one
 declared first.  Therefore the following correct input is not
@@ -934,7 +934,7 @@ there are at least two potential problems to beware.  First, always
 analyze the conflicts reported by Bison to make sure that @acronym{GLR}
 splitting is only done where it is intended.  A @acronym{GLR} parser
 splitting inadvertently may cause problems less obvious than an
-@acronym{LALR} parser statically choosing the wrong alternative in a
+@acronym{LR} parser statically choosing the wrong alternative in a
 conflict.  Second, consider interactions with the lexer (@pxref{Semantic
 Tokens}) with great care.  Since a split parser consumes tokens without
 performing any actions during the split, the lexer cannot obtain
@@ -1154,7 +1154,7 @@ Another Bison feature requiring special consideration is @code{YYERROR}
 (@pxref{Action Features}), which you can invoke in a semantic action to
 initiate error recovery.
 During deterministic @acronym{GLR} operation, the effect of @code{YYERROR} is
-the same as its effect in an @acronym{LALR}(1) parser.
+the same as its effect in a deterministic parser.
 In a deferred semantic action, its effect is undefined.
 @c The effect is probably a syntax error at the split point.
 
@@ -4475,7 +4475,7 @@ be @var{n} shift/reduce conflicts and no reduce/reduce conflicts.
 Bison reports an error if the number of shift/reduce conflicts differs
 from @var{n}, or if there are any reduce/reduce conflicts.
 
-For normal @acronym{LALR}(1) parsers, reduce/reduce conflicts are more
+For deterministic parsers, reduce/reduce conflicts are more
 serious, and should be eliminated entirely.  Bison will always report
 reduce/reduce conflicts for these parsers.  With @acronym{GLR}
 parsers, however, both kinds of conflicts are routine; otherwise,
@@ -4900,7 +4900,7 @@ Some of the accepted @var{variable}s are:
 @findex %define api.push_pull
 
 @itemize @bullet
-@item Language(s): C (LALR(1) only)
+@item Language(s): C (deterministic parsers only)
 
 @item Purpose: Requests a pull parser, a push parser, or both.
 @xref{Push Decl, ,A Push Parser}.
@@ -4929,6 +4929,71 @@ Boolean
 @end itemize
 @c error-verbose
 
+
+@item lr.default_rules
+@cindex default rules
+@findex %define lr.default_rules
+@cindex delayed syntax errors
+@cindex syntax errors delayed
+
+@itemize @bullet
+@item Language(s): all
+
+@item Purpose: Specifies the kind of states that are permitted to
+contain default rules.
+That is, in such a state, Bison declares the rule with the largest
+lookahead set to be the default rule by which to reduce and then removes
+that lookahead set.
+The advantages of default rules are discussed below.
+The disadvantage is that, when the generated parser encounters a
+syntactically unacceptable token, the parser might then perform
+unnecessary reductions by default rules before it can detect the syntax
+error.
+
+(This feature is experimental.
+More user feedback will help to stabilize it.)
+
+@item Accepted Values:
+@itemize
+@item @code{"all"}.
+For @acronym{LALR} and @acronym{IELR} parsers (@pxref{Decl
+Summary,,lr.type}) by default, all states are permitted to contain
+default rules.
+The advantage is that parser table sizes can be significantly reduced.
+The reason Bison does not by default attempt to address the disadvantage
+of delayed syntax error detection is that this disadvantage is already
+inherent in @acronym{LALR} and @acronym{IELR} parser tables.
+That is, unlike a canonical @acronym{LR} state, an @acronym{LALR} or
+@acronym{IELR} state can contain syntactically incorrect tokens in the
+lookahead sets of its rules.
+
+@item @code{"consistent"}.
+@cindex consistent states
+A consistent state is a state that has only one possible action.
+If that action is a reduction, then the parser does not need to request
+a lookahead token from the scanner before performing that action.
+However, the parser only recognizes the ability to ignore the lookahead
+token when such a reduction is encoded as a default rule.
+Thus, if default rules are permitted in and only in consistent states,
+then a canonical @acronym{LR} parser reports a syntax error as soon as
+it @emph{needs} the syntactically unacceptable token from the scanner.
+
+@item @code{"accepting"}.
+@cindex accepting state
+By default, the only default rule permitted in a canonical @acronym{LR}
+parser is the accept rule in the accepting state, which the parser
+reaches only after reading all tokens from the input.
+Thus, the default canonical @acronym{LR} parser reports a syntax error
+as soon as it @emph{reaches} the syntactically unacceptable token
+without performing any extra reductions.
+@end itemize
+
+@item Default Value:
+@itemize
+@item @code{"accepting"} if @code{lr.type} is @code{"canonical LR"}.
+@item @code{"all"} otherwise.
+@end itemize
+@end itemize
 
 @item lr.keep_unreachable_states
 @findex %define lr.keep_unreachable_states
@@ -4973,6 +5038,83 @@ However, Bison does not compute which goto actions are useless.
 @end itemize
 @end itemize
 @c lr.keep_unreachable_states
+
+@item lr.type
+@findex %define lr.type
+@cindex @acronym{LALR}
+@cindex @acronym{IELR}
+@cindex @acronym{LR}
+
+@itemize @bullet
+@item Language(s): all
+
+@item Purpose: Specifies the type of parser tables within the
+@acronym{LR}(1) family.
+(This feature is experimental.
+More user feedback will help to stabilize it.)
+
+@item Accepted Values:
+@itemize
+@item @code{"LALR"}.
+While Bison generates @acronym{LALR} parser tables by default for
+historical reasons, @acronym{IELR} or canonical @acronym{LR} is almost
+always preferable for deterministic parsers.
+The trouble is that @acronym{LALR} parser tables can suffer from
+mysterious conflicts and may not accept the full set of sentences that
+@acronym{IELR} and canonical @acronym{LR} accept.
+@xref{Mystery Conflicts}, for details.
+However, there are at least two scenarios where @acronym{LALR} may be
+worthwhile:
+@itemize
+@cindex @acronym{GLR} with @acronym{LALR}
+@item When employing @acronym{GLR} parsers (@pxref{GLR Parsers}), if you
+do not resolve any conflicts statically (for example, with @code{%left}
+or @code{%prec}), then the parser explores all potential parses of any
+given input.
+Thus, the use of @acronym{LALR} parser tables is guaranteed not to alter
+the language accepted by the parser.
+@acronym{LALR} parser tables are the smallest parser tables Bison can
+currently generate, so they may be preferable.
+
+@item Occasionally during development, an especially malformed grammar
+with a major recurring flaw may severely impede the @acronym{IELR} or
+canonical @acronym{LR} parser table generation algorithm.
+@acronym{LALR} can be a quick way to generate parser tables in order to
+investigate such problems while ignoring the more subtle differences
+from @acronym{IELR} and canonical @acronym{LR}.
+@end itemize
+
+@item @code{"IELR"}.
+@acronym{IELR} is a minimal @acronym{LR} algorithm.
+That is, given any grammar (@acronym{LR} or non-@acronym{LR}),
+@acronym{IELR} and canonical @acronym{LR} always accept exactly the same
+set of sentences.
+However, as for @acronym{LALR}, the number of parser states is often an
+order of magnitude less for @acronym{IELR} than for canonical
+@acronym{LR}.
+More importantly, because canonical @acronym{LR}'s extra parser states
+may contain duplicate conflicts in the case of non-@acronym{LR}
+grammars, the number of conflicts for @acronym{IELR} is often an order
+of magnitude less as well.
+This can significantly reduce the complexity of developing of a grammar.
+
+@item @code{"canonical LR"}.
+@cindex delayed syntax errors
+@cindex syntax errors delayed
+The only advantage of canonical @acronym{LR} over @acronym{IELR} is that
+every canonical @acronym{LR} state encodes that state's exact set of
+syntactically acceptable tokens.
+The only difference in parsing behavior is then that the canonical
+@acronym{LR} parser can report a syntax error as soon as possible
+without performing any unnecessary reductions.
+@xref{Decl Summary,,lr.default_rules}, for further details.
+Even when canonical @acronym{LR} behavior is ultimately desired,
+@acronym{IELR}'s elimination of duplicate conflicts should still
+facilitate the development of a grammar.
+@end itemize
+
+@item Default Value: @code{"LALR"}
+@end itemize
 
 @item namespace
 @findex %define namespace
@@ -6728,12 +6870,13 @@ a @code{name} if a comma or colon follows, or a @code{type} if another
 
 @cindex @acronym{LR}(1)
 @cindex @acronym{LALR}(1)
-However, Bison, like most parser generators, cannot actually handle all
-@acronym{LR}(1) grammars.  In this grammar, two contexts, that after
-an @code{ID}
-at the beginning of a @code{param_spec} and likewise at the beginning of
-a @code{return_spec}, are similar enough that Bison assumes they are the
-same.  They appear similar because the same set of rules would be
+However, for historical reasons, Bison cannot by default handle all
+@acronym{LR}(1) grammars.
+In this grammar, two contexts, that after an @code{ID} at the beginning
+of a @code{param_spec} and likewise at the beginning of a
+@code{return_spec}, are similar enough that Bison assumes they are the
+same.
+They appear similar because the same set of rules would be
 active---the rule for reducing to a @code{name} and that for reducing to
 a @code{type}.  Bison is unable to determine at that stage of processing
 that the rules would require different lookahead tokens in the two
@@ -6741,16 +6884,22 @@ contexts, so it makes a single parser state for them both.  Combining
 the two contexts causes a conflict later.  In parser terminology, this
 occurrence means that the grammar is not @acronym{LALR}(1).
 
-In general, it is better to fix deficiencies than to document them.  But
-this particular deficiency is intrinsically hard to fix; parser
-generators that can handle @acronym{LR}(1) grammars are hard to write
-and tend to
-produce parsers that are very large.  In practice, Bison is more useful
-as it is now.
+For many practical grammars (specifically those that fall into the
+non-@acronym{LR}(1) class), the limitations of @acronym{LALR}(1) result in
+difficulties beyond just mysterious reduce/reduce conflicts.
+The best way to fix all these problems is to select a different parser
+table generation algorithm.
+Either @acronym{IELR}(1) or canonical @acronym{LR}(1) would suffice, but
+the former is more efficient and easier to debug during development.
+@xref{Decl Summary,,lr.type}, for details.
+(Bison's @acronym{IELR}(1) and canonical @acronym{LR}(1) implementations
+are experimental.
+More user feedback will help to stabilize them.)
 
-When the problem arises, you can often fix it by identifying the two
-parser states that are being confused, and adding something to make them
-look distinct.  In the above example, adding one rule to
+If you instead wish to work around @acronym{LALR}(1)'s limitations, you
+can often fix a mysterious conflict by identifying the two parser states
+that are being confused, and adding something to make them look
+distinct.  In the above example, adding one rule to
 @code{return_spec} as follows makes the problem go away:
 
 @example
@@ -6818,7 +6967,7 @@ The same is true of languages that require more than one symbol of
 lookahead, since the parser lacks the information necessary to make a
 decision at the point it must be made in a shift-reduce parser.
 Finally, as previously mentioned (@pxref{Mystery Conflicts}),
-there are languages where Bison's particular choice of how to
+there are languages where Bison's default choice of how to
 summarize the input seen so far loses necessary information.
 
 When you use the @samp{%glr-parser} declaration in your grammar file,
@@ -6850,7 +6999,7 @@ grammar symbol that produces the same segment of the input token
 stream.
 
 Whenever the parser makes a transition from having multiple
-states to having one, it reverts to the normal @acronym{LALR}(1) parsing
+states to having one, it reverts to the normal deterministic parsing
 algorithm, after resolving and executing the saved-up actions.
 At this transition, some of the states on the stack will have semantic
 values that are sets (actually multisets) of possible actions.  The
@@ -6863,9 +7012,9 @@ Bison resolves and evaluates both and then calls the merge function on
 the result.  Otherwise, it reports an ambiguity.
 
 It is possible to use a data structure for the @acronym{GLR} parsing tree that
-permits the processing of any @acronym{LALR}(1) grammar in linear time (in the
+permits the processing of any @acronym{LR}(1) grammar in linear time (in the
 size of the input), any unambiguous (not necessarily
-@acronym{LALR}(1)) grammar in
+@acronym{LR}(1)) grammar in
 quadratic worst-case time, and any general (possibly ambiguous)
 context-free grammar in cubic worst-case time.  However, Bison currently
 uses a simpler data structure that requires time proportional to the
@@ -6875,9 +7024,9 @@ grammars can require exponential time and space to process.  Such badly
 behaving examples, however, are not generally of practical interest.
 Usually, nondeterminism in a grammar is local---the parser is ``in
 doubt'' only for a few tokens at a time.  Therefore, the current data
-structure should generally be adequate.  On @acronym{LALR}(1) portions of a
-grammar, in particular, it is only slightly slower than with the default
-Bison parser.
+structure should generally be adequate.  On @acronym{LR}(1) portions of a
+grammar, in particular, it is only slightly slower than with the
+deterministic @acronym{LR}(1) Bison parser.
 
 For a more detailed exposition of @acronym{GLR} parsers, please see: Elizabeth
 Scott, Adrian Johnstone and Shamsa Sadaf Hussain, Tomita-Style
@@ -6926,16 +7075,16 @@ The default value of @code{YYMAXDEPTH}, if you do not define it, is
 
 @vindex YYINITDEPTH
 You can control how much stack is allocated initially by defining the
-macro @code{YYINITDEPTH} to a positive integer.  For the C
-@acronym{LALR}(1) parser, this value must be a compile-time constant
+macro @code{YYINITDEPTH} to a positive integer.  For the deterministic
+parser in C, this value must be a compile-time constant
 unless you are assuming C99 or some other target language or compiler
 that allows variable-length arrays.  The default is 200.
 
 Do not allow @code{YYINITDEPTH} to be greater than @code{YYMAXDEPTH}.
 
 @c FIXME: C++ output.
-Because of semantical differences between C and C++, the
-@acronym{LALR}(1) parsers in C produced by Bison cannot grow when compiled
+Because of semantical differences between C and C++, the deterministic
+parsers in C produced by Bison cannot grow when compiled
 by C++ compilers.  In this precise case (compiling a C parser as C++) you are
 suggested to grow @code{YYINITDEPTH}.  The Bison maintainers hope to fix
 this deficiency in a future release.
@@ -7323,7 +7472,8 @@ useless: STR;
 @command{bison} reports:
 
 @example
-calc.y: warning: 1 nonterminal and 1 rule useless in grammar
+tmp.y: warning: 1 nonterminal useless in grammar
+tmp.y: warning: 1 rule useless in grammar
 calc.y:11.1-7: warning: nonterminal useless in grammar: useless
 calc.y:11.10-12: warning: rule useless in grammar: useless: STR
 calc.y: conflicts: 7 shift/reduce
@@ -7511,6 +7661,7 @@ control will jump to state 4, corresponding to the item @samp{exp -> exp
 '+' . exp}.  Since there is no default action, any other token than
 those listed above will trigger a syntax error.
 
+@cindex accepting state
 The state 3 is named the @dfn{final state}, or the @dfn{accepting
 state}:
 
@@ -7591,7 +7742,7 @@ sentence @samp{NUM + NUM / NUM} can be parsed as @samp{NUM + (NUM /
 NUM)}, which corresponds to shifting @samp{/}, or as @samp{(NUM + NUM) /
 NUM}, which corresponds to reducing rule 1.
 
-Because in @acronym{LALR}(1) parsing a single decision can be made, Bison
+Because in deterministic parsing a single decision can be made, Bison
 arbitrarily chose to disable the reduction, see @ref{Shift/Reduce, ,
 Shift/Reduce Conflicts}.  Discarded actions are reported in between
 square brackets.
@@ -7891,7 +8042,7 @@ other minor ways.  Most importantly, imitate Yacc's output
 file name conventions, so that the parser output file is called
 @file{y.tab.c}, and the other outputs are called @file{y.output} and
 @file{y.tab.h}.
-Also, if generating an @acronym{LALR}(1) parser in C, generate @code{#define}
+Also, if generating a deterministic parser in C, generate @code{#define}
 statements in addition to an @code{enum} to associate token numbers with token
 names.
 Thus, the following shell script can substitute for Yacc, and the Bison
@@ -8038,7 +8189,7 @@ separated list of @var{things} among:
 @table @code
 @item state
 Description of the grammar, conflicts (resolved and unresolved), and
-@acronym{LALR} automaton.
+parser's automaton.
 
 @item lookahead
 Implies @code{state} and augments the description of the automaton with
@@ -8067,7 +8218,7 @@ described under the @samp{-v} and @samp{-d} options.
 
 @item -g [@var{file}]
 @itemx --graph[=@var{file}]
-Output a graphical representation of the @acronym{LALR}(1) grammar
+Output a graphical representation of the parser's
 automaton computed by Bison, in @uref{http://www.graphviz.org/, Graphviz}
 @uref{http://www.graphviz.org/doc/info/lang.html, @acronym{DOT}} format.
 @code{@var{file}} is optional.
@@ -8076,7 +8227,7 @@ If omitted and the grammar file is @file{foo.y}, the output file will be
 
 @item -x [@var{file}]
 @itemx --xml[=@var{file}]
-Output an XML report of the @acronym{LALR}(1) automaton computed by Bison.
+Output an XML report of the parser's automaton computed by Bison.
 @code{@var{file}} is optional.
 If omitted and the grammar file is @file{foo.y}, the output file will be
 @file{foo.xml}.
@@ -8149,7 +8300,7 @@ int yyparse (void);
 @c - Always pure
 @c - initial action
 
-The C++ @acronym{LALR}(1) parser is selected using the skeleton directive,
+The C++ deterministic parser is selected using the skeleton directive,
 @samp{%skeleton "lalr1.c"}, or the synonymous command-line option
 @option{--skeleton=lalr1.c}.
 @xref{Decl Summary}.
@@ -8538,10 +8689,10 @@ calcxx_driver::error (const std::string& m)
 @subsubsection Calc++ Parser
 
 The parser definition file @file{calc++-parser.yy} starts by asking for
-the C++ LALR(1) skeleton, the creation of the parser header file, and
-specifies the name of the parser class.  Because the C++ skeleton
-changed several times, it is safer to require the version you designed
-the grammar for.
+the C++ deterministic parser skeleton, the creation of the parser header
+file, and specifies the name of the parser class.
+Because the C++ skeleton changed several times, it is safer to require
+the version you designed the grammar for.
 
 @comment file: calc++-parser.yy
 @example
@@ -10335,8 +10486,8 @@ is recovering from a syntax error, and 0 otherwise.
 @end deffn
 
 @deffn {Macro} YYSTACK_USE_ALLOCA
-Macro used to control the use of @code{alloca} when the C
-@acronym{LALR}(1) parser needs to extend its stacks.  If defined to 0,
+Macro used to control the use of @code{alloca} when the
+deterministic parser in C needs to extend its stacks.  If defined to 0,
 the parser will use @code{malloc} to extend its stacks.  If defined to
 1, the parser will use @code{alloca}.  Values other than 0 and 1 are
 reserved for future Bison extensions.  If not defined,
@@ -10361,11 +10512,20 @@ Data type of semantic values; @code{int} by default.
 @cindex glossary
 
 @table @asis
+@item Accepting State
+A state whose only action is the accept action.
+The accepting state is thus a consistent state.
+@xref{Understanding,,}.
+
 @item Backus-Naur Form (@acronym{BNF}; also called ``Backus Normal Form'')
 Formal method of specifying context-free grammars originally proposed
 by John Backus, and slightly improved by Peter Naur in his 1960-01-02
 committee document contributing to what became the Algol 60 report.
 @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
+
+@item Consistent State
+A state containing only one possible action.
+@xref{Decl Summary,,lr.default_rules}.
 
 @item Context-free grammars
 Grammars specified as rules that can be applied regardless of context.
@@ -10373,6 +10533,13 @@ Thus, if there is a rule which says that an integer can be used as an
 expression, integers are allowed @emph{anywhere} an expression is
 permitted.  @xref{Language and Grammar, ,Languages and Context-Free
 Grammars}.
+
+@item Default Rule
+The rule by which a parser should reduce if the current parser state
+contains no other action for the lookahead token.
+In permitted parser states, Bison declares the rule with the largest
+lookahead set to be the default rule and removes that lookahead set.
+@xref{Decl Summary,,lr.default_rules}.
 
 @item Dynamic allocation
 Allocation of memory that occurs during execution, rather than at
@@ -10392,8 +10559,8 @@ rules.  @xref{Algorithm, ,The Bison Parser Algorithm}.
 
 @item Generalized @acronym{LR} (@acronym{GLR})
 A parsing algorithm that can handle all context-free grammars, including those
-that are not @acronym{LALR}(1).  It resolves situations that Bison's
-usual @acronym{LALR}(1)
+that are not @acronym{LR}(1).  It resolves situations that Bison's
+deterministic parsing
 algorithm cannot by effectively splitting off multiple parsers, trying all
 possible parsers, and discarding those that fail in the light of additional
 right context.  @xref{Generalized LR Parsing, ,Generalized
@@ -10403,6 +10570,20 @@ right context.  @xref{Generalized LR Parsing, ,Generalized
 A language construct that is (in general) grammatically divisible;
 for example, `expression' or `declaration' in C@.
 @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
+
+@item @acronym{IELR}(1)
+A minimal @acronym{LR}(1) parser table generation algorithm.
+That is, given any context-free grammar, @acronym{IELR}(1) generates
+parser tables with the full language recognition power of canonical
+@acronym{LR}(1) but with nearly the same number of parser states as
+@acronym{LALR}(1).
+This reduction in parser states is often an order of magnitude.
+More importantly, because canonical @acronym{LR}(1)'s extra parser
+states may contain duplicate conflicts in the case of
+non-@acronym{LR}(1) grammars, the number of conflicts for
+@acronym{IELR}(1) is often an order of magnitude less as well.
+This can significantly reduce the complexity of developing of a grammar.
+@xref{Decl Summary,,lr.type}.
 
 @item Infix operator
 An arithmetic operator that is placed between the operands on which it
@@ -10447,8 +10628,8 @@ Tokens}.
 
 @item @acronym{LALR}(1)
 The class of context-free grammars that Bison (like most other parser
-generators) can handle; a subset of @acronym{LR}(1).  @xref{Mystery
-Conflicts, ,Mysterious Reduce/Reduce Conflicts}.
+generators) can handle by default; a subset of @acronym{LR}(1).
+@xref{Mystery Conflicts, ,Mysterious Reduce/Reduce Conflicts}.
 
 @item @acronym{LR}(1)
 The class of context-free grammars in which at most one token of
@@ -10566,4 +10747,4 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: infile ypp yxx outfile itemx tex leaderfill
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll
 @c LocalWords: nbar yytext fst snd osplit ntwo strdup AST
-@c LocalWords: YYSTACK DVI fdl printindex
+@c LocalWords: YYSTACK DVI fdl printindex IELR

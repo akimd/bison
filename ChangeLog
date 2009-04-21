@@ -1,5 +1,43 @@
 2009-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Document %define lr.type and lr.default_rules.
+	* NEWS (2.5): Add an entry.
+	* src/getargs.c (usage): Mention IELR(1) and canonical LR(1)
+	besides just LALR(1) and GLR(1).
+	* doc/bison.texinfo (Introduction): Likewise.
+	(Language and Grammar): Bison is no longer limited to LALR(1)
+	restrictions.
+	(GLR parsing): Say deterministic or LR(1) rather than LALR(1)
+	when trying to distinguish from GLR.  Talk about LR(1) grammars
+	rather than LALR(1) grammars.
+	(Decl Summary): In %define api.push_pull entry, say it applies
+	to deterministic parsers in C rather than LALR(1) parsers in C.
+	Add lr.default_rules entry.
+	Add lr.type entry.
+	(Mystery Conflicts): Bison is no longer limited to LALR(1)
+	restrictions.
+	(Generalized LR Parsing): Same changes as for the previous GLR
+	section.
+	(Memory Management): Say deterministic rather than LALR(1).
+	(Understanding): Correct some bison output.
+	Index discussion of "accepting state".
+	Say deterministic rather than LALR(1).
+	(Bison Options): In --yacc entry, say deterministic rather than
+	LALR(1).
+	In --report, --graph, and --xml entries, just don't mention
+	LALR(1).
+	(C++ Parsers): Say deterministic rather than LALR(1).
+	(Table of Symbols): Likewise in YYSTACK_USE_ALLOCA entry.
+	(Glossary): Add Accepting State, Consistent State, Default Rule,
+	and IELR(1) definitions.
+	In Generalized LR (GLR) definition, make same changes as in
+	previous GLR sections.
+	In LALR(1) definition, say Bison uses LALR(1) by default rather
+	than implying Bison is limited to LALR(1).
+	(LocalWords): Add IELR.
+
+2009-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Finish implementing %define lr.type.
 	Its value can be "LALR", "IELR", or "canonical LR".
 	* lib/timevar.def (TV_IELR_PHASE1): New var.

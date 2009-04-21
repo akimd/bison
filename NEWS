@@ -11,6 +11,35 @@ Bison News
 
 * Changes in version 2.5 (????-??-??):
 
+** IELR(1) and Canonical LR(1) Support
+
+  IELR(1) is a minimal LR(1) parser table generation algorithm.  That
+  is, given any context-free grammar, IELR(1) generates parser tables
+  with the full language recognition power of canonical LR(1) but with
+  nearly the same number of parser states as LALR(1).  This reduction in
+  parser states is often an order of magnitude.  More importantly,
+  because canonical LR(1)'s extra parser states may contain duplicate
+  conflicts in the case of non-LR(1) grammars, the number of conflicts
+  for IELR(1) is often an order of magnitude less as well.  This can
+  significantly reduce the complexity of developing of a grammar.
+
+  Bison can now generate IELR(1) and canonical LR(1) parser tables in
+  place of its traditional LALR(1) parser tables, which remain the
+  default.  You can specify the type of parser tables in the grammar
+  file with these directives:
+
+    %define lr.type "LALR"
+    %define lr.type "IELR"
+    %define lr.type "canonical LR"
+
+  The default rules optimization in the parser tables can also be
+  adjusted using `%define lr.default_rules'.  See the documentation for
+  `%define lr.type' and `%define lr.default_rules' in the section `Bison
+  Declaration Summary' in the Bison manual for the details.
+
+  These features are experimental.  More user feedback will help to
+  stabilize them.
+
 ** %define can now be invoked via the command line.
 
   Each of these bison command-line options
