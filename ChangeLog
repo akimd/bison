@@ -1,3 +1,15 @@
+2009-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Add new files for IELR and canonical LR implementation.
+	* src/AnnotationList.c: New.
+	* src/AnnotationList.h: New.
+	* src/InadequacyList.c: New.
+	* src/InadequacyList.h: New.
+	* src/Sbitset.c: New.
+	* src/Sbitset.h: New.
+	* src/ielr.c: New.
+	* src/ielr.h: New.
+
 2009-04-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Implement %define lr.default_rules.
