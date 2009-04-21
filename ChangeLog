@@ -1,3 +1,8 @@
+2009-04-21  Akim Demaille  <demaille@gostai.com>
+
+	tests: check the use of dashes and periods in symbols.
+	* tests/input.at (Symbol): New test group.
+
 2009-04-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Document how `%define "var" "value"' is not M4-friendly.
