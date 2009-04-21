@@ -610,6 +610,65 @@ AT_BISON_CHECK([-o input.c input.y])
 AT_CLEANUP
 
 
+## -------------- ##
+## Symbol names.  ##
+## -------------- ##
+
+AT_SETUP([Symbols])
+
+# Bison once thought a character token and its alias were different
+# symbols with the same user token number.
+
+AT_DATA_GRAMMAR([input.y],
+[[%token WITH-DASH
+%token WITHOUT_DASH "WITHOUT-DASH"
+%token WITH.PERIOD
+%token WITHOUT_PERIOD "WITHOUT.PERIOD"
+%%
+start: with-dash without_dash with.period without_period;
+with-dash: WITH-DASH;
+without_dash: "WITHOUT-DASH";
+with.period: WITH.PERIOD;
+without_period: "WITHOUT.PERIOD";
+%%
+]])
+
+# POSIX Yacc accept periods, but not dashes.
+AT_BISON_CHECK([--yacc input.y], [1], [],
+[[input.y:9.8-16: POSIX Yacc forbids dashes in symbol names: WITH-DASH
+input.y:14.8-16: POSIX Yacc forbids dashes in symbol names: with-dash
+]])
+
+# So warn about them.
+AT_BISON_CHECK([-Wyacc input.y], [], [],
+[[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH
+input.y:14.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash
+]])
+
+# Dashes are fine for GNU Bison.
+AT_BISON_CHECK([-o input.c input.y])
+
+# Make sure we don't export silly token identifiers with periods or dashes.
+AT_COMPILE([input.o], [-c input.c])
+
+
+# Period are genuine letters, they can start identifiers.  Dashes
+# and digits can't.
+AT_DATA_GRAMMAR([input.y],
+[[%token .good
+%token -wrong
+%token 1nv4l1d
+%%
+start: .good
+]])
+AT_BISON_CHECK([-o input.c input.y], [1], [],
+[[input.y:10.8: invalid character: `-'
+input.y:11.8: syntax error, unexpected integer, expecting char or identifier or <tag>
+]])
+
+AT_CLEANUP
+
+
 ## --------------------- ##
 ## Unclosed constructs.  ##
 ## --------------------- ##

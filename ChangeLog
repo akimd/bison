@@ -1,3 +1,8 @@
+2009-04-21  Akim Demaille  <demaille@gostai.com>
+
+	tests: check the use of dashes and periods in symbols.
+	* tests/input.at (Symbol): New test group.
+
 2009-04-21  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Document %define lr.type and lr.default_rules.
