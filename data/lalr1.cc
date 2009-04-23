@@ -1,6 +1,6 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 # Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ m4_divert_push(0)dnl
 b4_defines_if(
 [@output(b4_spec_defines_file@)@
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
-             [2002, 2003, 2004, 2005, 2006, 2007, 2008])
+             [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009])
 dnl FIXME: This is wrong, we want computed header guards.
 [
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
@@ -197,7 +197,7 @@ b4_error_verbose_if([, int tok])[);
     static const ]b4_int_type_for([b4_pact])[ yypact_[];
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
 
-    /// For a state, default rule to reduce.
+    /// For a state, default reduction number.
     /// Unless\a  yytable_ specifies something else to do.
     /// Zero means the default is an error.
     static const ]b4_int_type_for([b4_defact])[ yydefact_[];
@@ -300,7 +300,7 @@ b4_percent_code_get([[provides]])[]dnl
 ])dnl
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
-             [2002, 2003, 2004, 2005, 2006, 2007, 2008])
+             [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009])
 b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
 [
@@ -889,9 +889,9 @@ b4_error_verbose_if([, int tok])[)
     ]b4_pact[
   };
 
-  /* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
-     doesn't specify something else to do.  Zero means the default is an
-     error.  */
+  /* YYDEFACT[S] -- default reduction number in state S.  Performed when
+     YYTABLE doesn't specify something else to do.  Zero means the
+     default is an error.  */
   const ]b4_int_type_for([b4_defact])[
   ]b4_parser_class_name[::yydefact_[] =
   {
@@ -1057,7 +1057,7 @@ b4_error_verbose_if([, int tok])[)
 dnl
 @output(b4_dir_prefix[]stack.hh@)@
 b4_copyright([Stack handling for Bison parsers in C++],
-             [2002, 2003, 2004, 2005, 2006, 2007, 2008])[
+             [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009])[
 
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH

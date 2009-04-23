@@ -1442,33 +1442,33 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 
 
 
-## -------------------------- ##
-## %define lr.default_rules.  ##
-## -------------------------- ##
+## ------------------------------- ##
+## %define lr.default_reductions.  ##
+## ------------------------------- ##
 
-# AT_TEST_LR_DEFAULT_RULES(GRAMMAR, INPUT, TABLES)
-# ------------------------------------------------
-m4_define([AT_TEST_LR_DEFAULT_RULES],
+# AT_TEST_LR_DEFAULT_REDUCTIONS(GRAMMAR, INPUT, TABLES)
+# -----------------------------------------------------
+m4_define([AT_TEST_LR_DEFAULT_REDUCTIONS],
 [
-AT_TEST_TABLES_AND_PARSE([[no %define lr.default_rules]],
+AT_TEST_TABLES_AND_PARSE([[no %define lr.default_reductions]],
                          [[all]], [[]],
                          [[]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default_rules "all"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default_reductions "all"]],
                          [[all]], [[]],
-                         [[%define lr.default_rules "all"]],
+                         [[%define lr.default_reductions "all"]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default_rules "consistent"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default_reductions "consistent"]],
                          [[consistent]], [[]],
-                         [[%define lr.default_rules "consistent"]],
+                         [[%define lr.default_reductions "consistent"]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default_rules "accepting"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default_reductions "accepting"]],
                          [[accepting]], [[]],
-                         [[%define lr.default_rules "accepting"]],
+                         [[%define lr.default_reductions "accepting"]],
                          [$1], [$2], [[]], [$3])
 ])
 
-AT_TEST_LR_DEFAULT_RULES([[
+AT_TEST_LR_DEFAULT_REDUCTIONS([[
 /* The start state is consistent and has a shift on 'a' and no reductions.
    After pushing the b below, enter an inconsistent state that has a shift and
    one reduction with one lookahead.  */
@@ -1484,7 +1484,7 @@ a: 'a' ;
 
 /* After the previous reduction, enter an inconsistent state that has no shift
    and multiple reductions.  The first reduction has more lookaheads than the
-   second, so the first should always be preferred as the default rule if
+   second, so the first should always be preferred as the default reduction if
    enabled.  The second reduction has one lookahead.  */
 b: ;
 c: ;

@@ -24,10 +24,11 @@ Bison News
     %define lr.type "IELR"
     %define lr.type "canonical LR"
 
-  The default rules optimization in the parser tables can also be
-  adjusted using `%define lr.default_rules'.  See the documentation for
-  `%define lr.type' and `%define lr.default_rules' in the section `Bison
-  Declaration Summary' in the Bison manual for the details.
+  The default reduction optimization in the parser tables can also be
+  adjusted using `%define lr.default_reductions'.  See the documentation
+  for `%define lr.type' and `%define lr.default_reductions' in the
+  section `Bison Declaration Summary' in the Bison manual for the
+  details.
 
   These features are experimental.  More user feedback will help to
   stabilize them.

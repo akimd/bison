@@ -4899,9 +4899,9 @@ More user feedback will help to stabilize it.)
 @item Default Value: @code{"pull"}
 @end itemize
 
-@item lr.default_rules
-@cindex default rules
-@findex %define lr.default_rules
+@item lr.default_reductions
+@cindex default reductions
+@findex %define lr.default_reductions
 @cindex delayed syntax errors
 @cindex syntax errors delayed
 
@@ -4909,15 +4909,14 @@ More user feedback will help to stabilize it.)
 @item Language(s): all
 
 @item Purpose: Specifies the kind of states that are permitted to
-contain default rules.
-That is, in such a state, Bison declares the rule with the largest
-lookahead set to be the default rule by which to reduce and then removes
-that lookahead set.
-The advantages of default rules are discussed below.
+contain default reductions.
+That is, in such a state, Bison declares the reduction with the largest
+lookahead set to be the default reduction and then removes that
+lookahead set.
+The advantages of default reductions are discussed below.
 The disadvantage is that, when the generated parser encounters a
 syntactically unacceptable token, the parser might then perform
-unnecessary reductions by default rules before it can detect the syntax
-error.
+unnecessary default reductions before it can detect the syntax error.
 
 (This feature is experimental.
 More user feedback will help to stabilize it.)
@@ -4927,14 +4926,14 @@ More user feedback will help to stabilize it.)
 @item @code{"all"}.
 For @acronym{LALR} and @acronym{IELR} parsers (@pxref{Decl
 Summary,,lr.type}) by default, all states are permitted to contain
-default rules.
+default reductions.
 The advantage is that parser table sizes can be significantly reduced.
 The reason Bison does not by default attempt to address the disadvantage
 of delayed syntax error detection is that this disadvantage is already
 inherent in @acronym{LALR} and @acronym{IELR} parser tables.
-That is, unlike a canonical @acronym{LR} state, an @acronym{LALR} or
-@acronym{IELR} state can contain syntactically incorrect tokens in the
-lookahead sets of its rules.
+That is, unlike in a canonical @acronym{LR} state, the lookahead sets of
+reductions in an @acronym{LALR} or @acronym{IELR} state can contain
+tokens that are syntactically incorrect for some left contexts.
 
 @item @code{"consistent"}.
 @cindex consistent states
@@ -4942,16 +4941,17 @@ A consistent state is a state that has only one possible action.
 If that action is a reduction, then the parser does not need to request
 a lookahead token from the scanner before performing that action.
 However, the parser only recognizes the ability to ignore the lookahead
-token when such a reduction is encoded as a default rule.
-Thus, if default rules are permitted in and only in consistent states,
-then a canonical @acronym{LR} parser reports a syntax error as soon as
-it @emph{needs} the syntactically unacceptable token from the scanner.
+token when such a reduction is encoded as a default reduction.
+Thus, if default reductions are permitted in and only in consistent
+states, then a canonical @acronym{LR} parser reports a syntax error as
+soon as it @emph{needs} the syntactically unacceptable token from the
+scanner.
 
 @item @code{"accepting"}.
 @cindex accepting state
-By default, the only default rule permitted in a canonical @acronym{LR}
-parser is the accept rule in the accepting state, which the parser
-reaches only after reading all tokens from the input.
+By default, the only default reduction permitted in a canonical
+@acronym{LR} parser is the accept action in the accepting state, which
+the parser reaches only after reading all tokens from the input.
 Thus, the default canonical @acronym{LR} parser reports a syntax error
 as soon as it @emph{reaches} the syntactically unacceptable token
 without performing any extra reductions.
@@ -5028,8 +5028,8 @@ While Bison generates @acronym{LALR} parser tables by default for
 historical reasons, @acronym{IELR} or canonical @acronym{LR} is almost
 always preferable for deterministic parsers.
 The trouble is that @acronym{LALR} parser tables can suffer from
-mysterious conflicts and may not accept the full set of sentences that
-@acronym{IELR} and canonical @acronym{LR} accept.
+mysterious conflicts and thus may not accept the full set of sentences
+that @acronym{IELR} and canonical @acronym{LR} accept.
 @xref{Mystery Conflicts}, for details.
 However, there are at least two scenarios where @acronym{LALR} may be
 worthwhile:
@@ -5039,8 +5039,8 @@ worthwhile:
 do not resolve any conflicts statically (for example, with @code{%left}
 or @code{%prec}), then the parser explores all potential parses of any
 given input.
-Thus, the use of @acronym{LALR} parser tables is guaranteed not to alter
-the language accepted by the parser.
+In this case, the use of @acronym{LALR} parser tables is guaranteed not
+to alter the language accepted by the parser.
 @acronym{LALR} parser tables are the smallest parser tables Bison can
 currently generate, so they may be preferable.
 
@@ -5069,13 +5069,14 @@ This can significantly reduce the complexity of developing of a grammar.
 @item @code{"canonical LR"}.
 @cindex delayed syntax errors
 @cindex syntax errors delayed
-The only advantage of canonical @acronym{LR} over @acronym{IELR} is that
-every canonical @acronym{LR} state encodes that state's exact set of
-syntactically acceptable tokens.
-The only difference in parsing behavior is then that the canonical
+The only advantage of canonical @acronym{LR} over @acronym{IELR} is
+that, for every left context of every canonical @acronym{LR} state, the
+set of tokens accepted by that state is the exact set of tokens that is
+syntactically acceptable in that left context.
+Thus, the only difference in parsing behavior is that the canonical
 @acronym{LR} parser can report a syntax error as soon as possible
 without performing any unnecessary reductions.
-@xref{Decl Summary,,lr.default_rules}, for further details.
+@xref{Decl Summary,,lr.default_reductions}, for further details.
 Even when canonical @acronym{LR} behavior is ultimately desired,
 @acronym{IELR}'s elimination of duplicate conflicts should still
 facilitate the development of a grammar.
@@ -10341,7 +10342,7 @@ committee document contributing to what became the Algol 60 report.
 
 @item Consistent State
 A state containing only one possible action.
-@xref{Decl Summary,,lr.default_rules}.
+@xref{Decl Summary,,lr.default_reductions}.
 
 @item Context-free grammars
 Grammars specified as rules that can be applied regardless of context.
@@ -10350,12 +10351,13 @@ expression, integers are allowed @emph{anywhere} an expression is
 permitted.  @xref{Language and Grammar, ,Languages and Context-Free
 Grammars}.
 
-@item Default Rule
-The rule by which a parser should reduce if the current parser state
+@item Default Reduction
+The reduction that a parser should perform if the current parser state
 contains no other action for the lookahead token.
-In permitted parser states, Bison declares the rule with the largest
-lookahead set to be the default rule and removes that lookahead set.
-@xref{Decl Summary,,lr.default_rules}.
+In permitted parser states, Bison declares the reduction with the
+largest lookahead set to be the default reduction and removes that
+lookahead set.
+@xref{Decl Summary,,lr.default_reductions}.
 
 @item Dynamic allocation
 Allocation of memory that occurs during execution, rather than at
