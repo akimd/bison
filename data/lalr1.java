@@ -33,7 +33,7 @@ b4_symbol_foreach([b4_symbol_no_destructor_assert])
 m4_divert_push(0)dnl
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
-             [2007, 2008])
+             [2007, 2008, 2009])
 
 b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
 ])[/* First part of user declarations.  */

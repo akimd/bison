@@ -1,5 +1,5 @@
 /* Prepare the LALR and GLR parser tables.
-   Copyright (C) 2002, 2004 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004, 2009 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -45,9 +45,9 @@
 
    YYSTOS[S] = the symbol number of the symbol that leads to state S.
 
-   YYDEFACT[S] = default rule to reduce with in state s, when YYTABLE
-   doesn't specify something else to do.  Zero means the default is an
-   error.
+   YYDEFACT[S] = default reduction number in state s.  Performed when
+   YYTABLE doesn't specify something else to do.  Zero means the default
+   is an error.
 
    YYDEFGOTO[I] = default state to go to after a reduction of a rule
    that generates variable NTOKENS + I, except when YYTABLE specifies

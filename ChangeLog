@@ -1,3 +1,34 @@
+2009-04-23  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Rename "default rule" to "default reduction".
+	This includes changing variable names in code, changing
+	comments, and renaming %define lr.default_rules to %define
+	lr.default_reductions.
+	* NEWS (2.5): Update IELR documentation.
+	* data/bison.m4 (b4_integral_parser_tables_map): Adjust YYDEFACT
+	documentation.
+	* data/glr.c, data/lalr1.java: Sync copyright dates.
+	* doc/bison.texinfo (Decl Summary): Adjust lr.default_reductions
+	and lr.type documentation.  Make some other wording
+	improvements.
+	(Glossary): Adjust cross-references and Default Reduction
+	definition.
+	* src/lalr.c (state_lookahead_tokens_count): Adjust code.
+	Remove a confusing comment pointed out by Akim Demaille.
+	(initialize_LA): Adjust code.
+	* src/print-xml.c (print_reductions): Adjust code.
+	* src/print.c (print_reductions): Adjust code.
+	* src/reader.c (reader): Adjust code.
+	* src/tables.c (action_row): Adjust code.
+	(token_actions): Adjust code.
+	* src/tables.h: Adjust YYDEFACT documentation.
+	* tests/input.at (%define lr.default_rules invalid values):
+	Rename test group to...
+	(%define lr.default_reductions invalid values): ... this, and
+	update grammar file and expected output.
+	* tests/reduce.at (AT_TEST_LR_DEFAULT_RULES): Rename to...
+	(AT_TEST_LR_DEFAULT_REDUCTIONS): ... this, and update.
+
 2009-04-21  Akim Demaille  <demaille@gostai.com>
 
 	tests: check the use of dashes and periods in symbols.

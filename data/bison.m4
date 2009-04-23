@@ -255,9 +255,9 @@ m4_define([b4_integral_parser_tables_map],
 STATE-NUM.]])
 
 $1([defact], [b4_defact],
-   [[YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
-does not specify something else to do.  Zero means the default is an
-error.]])
+   [[YYDEFACT[S] -- default reduction number in state S.  Performed when
+YYTABLE does not specify something else to do.  Zero means the default
+is an error.]])
 
 $1([pgoto], [b4_pgoto], [[YYPGOTO[NTERM-NUM].]])
 
