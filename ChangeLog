@@ -1,5 +1,12 @@
 2009-04-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Clean up recent patches a little.
+	Reported by Akim Demaille.
+	* doc/bison.texinfo (Understanding): Fix typos.
+	* src/print.c (print_reductions): Don't use negated variable.
+
+2009-04-24  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	List accepted values for a %define enum variable with an invalid value.
 	Suggested by Akim Demaille at
 	<http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00082.html>.

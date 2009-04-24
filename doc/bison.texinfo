@@ -7355,8 +7355,8 @@ useless: STR;
 @command{bison} reports:
 
 @example
-tmp.y: warning: 1 nonterminal useless in grammar
-tmp.y: warning: 1 rule useless in grammar
+calc.y: warning: 1 nonterminal useless in grammar
+calc.y: warning: 1 rule useless in grammar
 calc.y:11.1-7: warning: nonterminal useless in grammar: useless
 calc.y:11.10-12: warning: rule useless in grammar: useless: STR
 calc.y: conflicts: 7 shift/reduce
