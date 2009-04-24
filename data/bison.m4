@@ -724,7 +724,11 @@ m4_define([_b4_percent_define_check_values],
          [b4_complain_at(b4_percent_define_get_loc([$1]),
                          [[invalid value for %%define variable `%s': `%s']],
                          [$1],
-                         m4_dquote(m4_indir([b4_percent_define(]$1[)])))])dnl
+                         m4_dquote(m4_indir([b4_percent_define(]$1[)])))
+          m4_foreach([b4_value], m4_dquote(m4_shift($@)),
+                     [b4_complain_at(b4_percent_define_get_loc([$1]),
+                                     [[accepted value: `%s']],
+                                     m4_dquote(b4_value))])])dnl
    m4_popdef([b4_good_value])],
   [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_check_values]], [$1])])])
 
