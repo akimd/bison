@@ -867,38 +867,36 @@ AT_BISON_CHECK([[Input.y]], [1], [],
 
 AT_CLEANUP
 
-## ---------------------------------------------- ##
-## %define lr.default_reductions invalid values.  ##
-## ---------------------------------------------- ##
-
-AT_SETUP([[%define lr.default_reductions invalid values]])
-
-AT_DATA([[input.y]],
-[[%define lr.default_reductions "bogus"
-%%
-start: ;
-]])
-
-AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[input.y:1.9-29: invalid value for %define variable `lr.default_reductions': `bogus'
-]])
-
-AT_CLEANUP
-
 ## ------------------------ ##
 ## %define enum variables.  ##
 ## ------------------------ ##
 
 AT_SETUP([[%define enum variables]])
 
+# Front-end.
+AT_DATA([[input.y]],
+[[%define lr.default_reductions "bogus"
+%%
+start: ;
+]])
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
+[[input.y:1.9-29: invalid value for %define variable `lr.default_reductions': `bogus'
+input.y:1.9-29: accepted value: `all'
+input.y:1.9-29: accepted value: `consistent'
+input.y:1.9-29: accepted value: `accepting'
+]])
+
+# Back-end.
 AT_DATA([[input.y]],
 [[%define api.push_pull "neither"
 %%
 start: ;
 ]])
-
 AT_BISON_CHECK([[input.y]], [1], [],
 [[input.y:1.9-21: invalid value for %define variable `api.push_pull': `neither'
+input.y:1.9-21: accepted value: `pull'
+input.y:1.9-21: accepted value: `push'
+input.y:1.9-21: accepted value: `both'
 ]])
 
 AT_CLEANUP

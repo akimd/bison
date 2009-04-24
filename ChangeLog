@@ -1,3 +1,14 @@
+2009-04-24  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	List accepted values for a %define enum variable with an invalid value.
+	Suggested by Akim Demaille at
+	<http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00082.html>.
+	* data/bison.m4 (_b4_percent_define_check_values): Implement.
+	* src/muscle_tab.c (muscle_percent_define_check_values): Implement.
+	* tests/input.at (%define lr.default_reductions invalid values): Merge
+	into...
+	(%define enum variables): ... here, and update output.
+
 2009-04-23  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Rename "default rule" to "default reduction".
