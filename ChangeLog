@@ -1,5 +1,17 @@
 2009-04-29  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Rename lr.default_reductions to lr.default-reductions.
+	* NEWS (2.5): Here.
+	* doc/bison.texinfo: Here.
+	* src/lalr.c (initialize_LA): Here.
+	* src/print.c (print_reductions): Here.
+	* src/reader.c (reader): Here.
+	* src/tables.c (action_row): Here.
+	* tests/input.at (%define enum variables): Here.
+	* tests/reduce.at (AT_TEST_LR_DEFAULT_REDUCTIONS): Here.
+
+2009-04-29  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Pacify ./configure --enable-gcc-warnings.
 	* tests/input.at (Symbols): Prototype yyerror and yylex.
 

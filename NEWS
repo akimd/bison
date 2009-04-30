@@ -25,8 +25,8 @@ Bison News
     %define lr.type "canonical LR"
 
   The default reduction optimization in the parser tables can also be
-  adjusted using `%define lr.default_reductions'.  See the documentation
-  for `%define lr.type' and `%define lr.default_reductions' in the
+  adjusted using `%define lr.default-reductions'.  See the documentation
+  for `%define lr.type' and `%define lr.default-reductions' in the
   section `Bison Declaration Summary' in the Bison manual for the
   details.
 

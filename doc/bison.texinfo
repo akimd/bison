@@ -4903,9 +4903,9 @@ More user feedback will help to stabilize it.)
 @item Default Value: @code{"pull"}
 @end itemize
 
-@item lr.default_reductions
+@item lr.default-reductions
 @cindex default reductions
-@findex %define lr.default_reductions
+@findex %define lr.default-reductions
 @cindex delayed syntax errors
 @cindex syntax errors delayed
 
@@ -5080,7 +5080,7 @@ syntactically acceptable in that left context.
 Thus, the only difference in parsing behavior is that the canonical
 @acronym{LR} parser can report a syntax error as soon as possible
 without performing any unnecessary reductions.
-@xref{Decl Summary,,lr.default_reductions}, for further details.
+@xref{Decl Summary,,lr.default-reductions}, for further details.
 Even when canonical @acronym{LR} behavior is ultimately desired,
 @acronym{IELR}'s elimination of duplicate conflicts should still
 facilitate the development of a grammar.
@@ -10346,7 +10346,7 @@ committee document contributing to what became the Algol 60 report.
 
 @item Consistent State
 A state containing only one possible action.
-@xref{Decl Summary,,lr.default_reductions}.
+@xref{Decl Summary,,lr.default-reductions}.
 
 @item Context-free grammars
 Grammars specified as rules that can be applied regardless of context.
@@ -10361,7 +10361,7 @@ contains no other action for the lookahead token.
 In permitted parser states, Bison declares the reduction with the
 largest lookahead set to be the default reduction and removes that
 lookahead set.
-@xref{Decl Summary,,lr.default_reductions}.
+@xref{Decl Summary,,lr.default-reductions}.
 
 @item Dynamic allocation
 Allocation of memory that occurs during execution, rather than at
