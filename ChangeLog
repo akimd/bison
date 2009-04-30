@@ -1,3 +1,10 @@
+2009-04-24  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Add copyright updates missed during previous cherry pick.
+	* src/output.c: Here.
+	* src/parse-gram.y: Here.
+	* src/scan-gram.l: Here.
+
 2009-04-20  Akim Demaille  <demaille@gostai.com>
 
 	variables: accept dashes.
