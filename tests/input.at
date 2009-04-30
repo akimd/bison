@@ -629,6 +629,10 @@ AT_DATA_GRAMMAR([input.y],
 %token WITHOUT_DASH "WITHOUT-DASH"
 %token WITH.PERIOD
 %token WITHOUT_PERIOD "WITHOUT.PERIOD"
+%code {
+  void yyerror (char const *);
+  int yylex (void);
+}
 %%
 start: with-dash without_dash with.period without_period;
 with-dash: WITH-DASH;
@@ -641,13 +645,13 @@ without_period: "WITHOUT.PERIOD";
 # POSIX Yacc accept periods, but not dashes.
 AT_BISON_CHECK([--yacc input.y], [1], [],
 [[input.y:9.8-16: POSIX Yacc forbids dashes in symbol names: WITH-DASH
-input.y:14.8-16: POSIX Yacc forbids dashes in symbol names: with-dash
+input.y:18.8-16: POSIX Yacc forbids dashes in symbol names: with-dash
 ]])
 
 # So warn about them.
 AT_BISON_CHECK([-Wyacc input.y], [], [],
 [[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH
-input.y:14.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash
+input.y:18.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash
 ]])
 
 # Dashes are fine for GNU Bison.
