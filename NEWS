@@ -55,6 +55,21 @@ Bison News
   for any NAME and VALUE.  Omitting `=VALUE' on the command line is
   equivalent to omitting `"VALUE"' in the declaration.
 
+** %define variables renamed.
+
+  The following %define variables
+
+    api.push_pull
+    lr.keep_unreachable_states
+
+  have been renamed to
+
+    api.push-pull
+    lr.keep-unreachable-states
+
+  The old names are now deprecated but will be maintained indefinitely
+  for backward compatibility.
+
 ** Temporary hack for adding a semicolon to the user action.
 
   Previously, Bison appended a semicolon to every user action for

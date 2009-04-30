@@ -396,7 +396,7 @@ AT_TEST_LR_TYPE([[Single State Split]],
 [[%left 'a'
 // Conflict resolution renders state 12 unreachable for canonical LR(1).  We
 // keep it so that the paser table diff is easier to code.
-%define lr.keep_unreachable_states]],
+%define lr.keep-unreachable-states]],
 [[
 S: 'a' A 'a' /* rule 1 */
  | 'b' A 'b' /* rule 2 */
@@ -629,7 +629,7 @@ AT_TEST_LR_TYPE([[Lane Split]],
 [[%left 'a'
 // Conflict resolution renders state 16 unreachable for canonical LR(1).  We
 // keep it so that the paser table diff is easier to code.
-%define lr.keep_unreachable_states]],
+%define lr.keep-unreachable-states]],
 [[
 /* Similar to the last test case set but two states must be split.  */
 S: 'a' A 'a' /* rule 1 */
@@ -873,7 +873,7 @@ AT_TEST_LR_TYPE([[Complex Lane Split]],
 [[%left 'a'
 // Conflict resolution renders state 16 unreachable for canonical LR(1).  We
 // keep it so that the paser table diff is easier to code.
-%define lr.keep_unreachable_states]],
+%define lr.keep-unreachable-states]],
 [[
 /* Similar to the last test case set but forseeing the S/R conflict from the
    first state that must be split is becoming difficult.  Imagine if B were
@@ -1139,7 +1139,7 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 ]])])
 
 AT_TEST_LR_TYPE([[Split During Added Lookahead Propagation]],
-[[%define lr.keep_unreachable_states]],
+[[%define lr.keep-unreachable-states]],
 [[
 /* The partial state chart diagram below is for LALR(1).  State 0 is the start
    state.  States are iterated for successor construction in numerical order.

@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-# Copyright (C) 2006, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2006, 2008, 2009 Free Software Foundation, Inc.
 #
 # This file is part of Bison, the GNU Compiler Compiler.
 #
@@ -891,7 +891,7 @@ sub bench_push_parser ()
          qw(
             [ %d api.pure ]
             &
-            [ %d api.push_pull=both ]
+            [ %d api.push-pull=both ]
          ));
 }
 

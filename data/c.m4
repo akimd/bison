@@ -54,7 +54,7 @@ m4_define([b4_comment], [b4_c_comment($@)])
 # -----------------
 # Depends on individual skeletons to define b4_pure_flag, b4_push_flag, or
 # b4_pull_flag if they use the values of the %define variables api.pure or
-# api.push_pull.
+# api.push-pull.
 m4_define([b4_identification],
 [[/* Identify Bison output.  */
 #define YYBISON 1

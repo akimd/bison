@@ -4569,7 +4569,7 @@ valid grammar.
 @subsection A Push Parser
 @cindex push parser
 @cindex push parser
-@findex %define api.push_pull
+@findex %define api.push-pull
 
 (The current push parsing interface is experimental and may evolve.
 More user feedback will help to stabilize it.)
@@ -4585,10 +4585,10 @@ within a certain time period.
 
 Normally, Bison generates a pull parser.
 The following Bison declaration says that you want the parser to be a push
-parser (@pxref{Decl Summary,,%define api.push_pull}):
+parser (@pxref{Decl Summary,,%define api.push-pull}):
 
 @example
-%define api.push_pull "push"
+%define api.push-pull "push"
 @end example
 
 In almost all cases, you want to ensure that your push parser is also
@@ -4599,7 +4599,7 @@ what you are doing, your declarations should look like this:
 
 @example
 %define api.pure
-%define api.push_pull "push"
+%define api.push-pull "push"
 @end example
 
 There is a major notable functional difference between the pure push parser
@@ -4648,14 +4648,14 @@ for use by the next invocation of the @code{yypush_parse} function.
 
 Bison also supports both the push parser interface along with the pull parser
 interface in the same generated parser.  In order to get this functionality,
-you should replace the @code{%define api.push_pull "push"} declaration with the
-@code{%define api.push_pull "both"} declaration.  Doing this will create all of
+you should replace the @code{%define api.push-pull "push"} declaration with the
+@code{%define api.push-pull "both"} declaration.  Doing this will create all of
 the symbols mentioned earlier along with the two extra symbols, @code{yyparse}
 and @code{yypull_parse}.  @code{yyparse} can be used exactly as it normally
 would be used.  However, the user should note that it is implemented in the
 generated parser by calling @code{yypull_parse}.
 This makes the @code{yyparse} function that is generated with the
-@code{%define api.push_pull "both"} declaration slower than the normal
+@code{%define api.push-pull "both"} declaration slower than the normal
 @code{yyparse} function.  If the user
 calls the @code{yypull_parse} function it will parse the rest of the input
 stream.  It is possible to @code{yypush_parse} tokens to select a subgrammar
@@ -4672,8 +4672,8 @@ yypstate_delete (ps);
 @end example
 
 Adding the @code{%define api.pure} declaration does exactly the same thing to
-the generated parser with @code{%define api.push_pull "both"} as it did for
-@code{%define api.push_pull "push"}.
+the generated parser with @code{%define api.push-pull "both"} as it did for
+@code{%define api.push-pull "push"}.
 
 @node Decl Summary
 @subsection Bison Declaration Summary
@@ -4896,8 +4896,8 @@ Some of the accepted @var{variable}s are:
 @end itemize
 @c api.pure
 
-@item api.push_pull
-@findex %define api.push_pull
+@item api.push-pull
+@findex %define api.push-pull
 
 @itemize @bullet
 @item Language(s): C (deterministic parsers only)
@@ -4911,7 +4911,7 @@ More user feedback will help to stabilize it.)
 
 @item Default Value: @code{"pull"}
 @end itemize
-@c api.push_pull
+@c api.push-pull
 
 @item error-verbose
 @findex %define error-verbose
@@ -4995,8 +4995,8 @@ without performing any extra reductions.
 @end itemize
 @end itemize
 
-@item lr.keep_unreachable_states
-@findex %define lr.keep_unreachable_states
+@item lr.keep-unreachable-states
+@findex %define lr.keep-unreachable-states
 
 @itemize @bullet
 @item Language(s): all
@@ -5037,7 +5037,7 @@ states.
 However, Bison does not compute which goto actions are useless.
 @end itemize
 @end itemize
-@c lr.keep_unreachable_states
+@c lr.keep-unreachable-states
 
 @item lr.type
 @findex %define lr.type
@@ -5529,8 +5529,8 @@ exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypush_parse} to parse a single token.  This
-function is available if either the @code{%define api.push_pull "push"} or
-@code{%define api.push_pull "both"} declaration is used.
+function is available if either the @code{%define api.push-pull "push"} or
+@code{%define api.push-pull "both"} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *yyps)
@@ -5547,7 +5547,7 @@ is required to finish parsing the grammar.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypull_parse} to parse the rest of the input
-stream.  This function is available if the @code{%define api.push_pull "both"}
+stream.  This function is available if the @code{%define api.push-pull "both"}
 declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
@@ -5563,8 +5563,8 @@ The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_new} to create a new parser instance.
-This function is available if either the @code{%define api.push_pull "push"} or
-@code{%define api.push_pull "both"} declaration is used.
+This function is available if either the @code{%define api.push-pull "push"} or
+@code{%define api.push-pull "both"} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun yypstate *yypstate_new (void)
@@ -5582,8 +5582,8 @@ allocated.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_delete} to delete a parser instance.
-function is available if either the @code{%define api.push_pull "push"} or
-@code{%define api.push_pull "both"} declaration is used.
+function is available if either the @code{%define api.push-pull "push"} or
+@code{%define api.push-pull "both"} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun void yypstate_delete (yypstate *yyps)
@@ -9054,7 +9054,7 @@ and @code{%define api.pure} directives does not do anything when used in
 Java.
 
 Push parsers are currently unsupported in Java and @code{%define
-api.push_pull} have no effect.
+api.push-pull} have no effect.
 
 @acronym{GLR} parsers are currently unsupported in Java.  Do not use the
 @code{glr-parser} directive.

@@ -1,5 +1,33 @@
 2009-04-30  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Convert underscores to dashes in some %define variable names.
+	For now, just api.push-pull and lr.keep-unreachable-states.
+	Maintain old names for backward compatibility.
+	* NEWS (2.5): Document.
+	* data/c.m4 (b4_identification): Update comment.
+	* data/yacc.c: Update access.
+	* doc/bison.texinfo: Update.
+	* etc/bench.pl.in (bench_push_parser): Update use.
+	* src/files.c (tr): Move to...
+	* src/getargs.c, src/getargs.h (tr): ... here because I can't
+	think of a better place to expose it.  My logic is that, for all
+	uses of tr so far, command-line arguments can be involved, and
+	getargs.h is already included.
+	* src/main.c (main): Update access.
+	* src/muscle_tab.c (muscle_percent_define_insert): Convert old
+	variable names to new variable names before assigning value.
+	* src/reader.c (reader): Update setting default.
+	* tests/calc.at: Update uses.
+	* tests/conflicts.at (Unreachable States After Conflict
+	Resolution): Update use.
+	* tests/input.at (%define enum variables): Update use.
+	(%define backward compatibility): New test group.
+	* tests/push.at: Update uses.
+	* tests/reduce.at: Update uses.
+	* tests/torture.at: Update uses.
+
+2009-04-30  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Set all front-end %define defaults in one place.
 	* src/main.c (main): Move lr.keep_unreachable_states default...
 	* src/reader.c (reader): ... to here.
