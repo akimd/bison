@@ -1443,28 +1443,28 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 
 
 ## ------------------------------- ##
-## %define lr.default_reductions.  ##
+## %define lr.default-reductions.  ##
 ## ------------------------------- ##
 
 # AT_TEST_LR_DEFAULT_REDUCTIONS(GRAMMAR, INPUT, TABLES)
 # -----------------------------------------------------
 m4_define([AT_TEST_LR_DEFAULT_REDUCTIONS],
 [
-AT_TEST_TABLES_AND_PARSE([[no %define lr.default_reductions]],
+AT_TEST_TABLES_AND_PARSE([[no %define lr.default-reductions]],
                          [[all]], [[]],
                          [[]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default_reductions "all"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions "all"]],
                          [[all]], [[]],
-                         [[%define lr.default_reductions "all"]],
+                         [[%define lr.default-reductions "all"]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default_reductions "consistent"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions "consistent"]],
                          [[consistent]], [[]],
-                         [[%define lr.default_reductions "consistent"]],
+                         [[%define lr.default-reductions "consistent"]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default_reductions "accepting"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions "accepting"]],
                          [[accepting]], [[]],
-                         [[%define lr.default_reductions "accepting"]],
+                         [[%define lr.default-reductions "accepting"]],
                          [$1], [$2], [[]], [$3])
 ])
 

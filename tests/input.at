@@ -933,12 +933,12 @@ AT_SETUP([[%define enum variables]])
 
 # Front-end.
 AT_DATA([[input.y]],
-[[%define lr.default_reductions "bogus"
+[[%define lr.default-reductions "bogus"
 %%
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[input.y:1.9-29: invalid value for %define variable `lr.default_reductions': `bogus'
+[[input.y:1.9-29: invalid value for %define variable `lr.default-reductions': `bogus'
 input.y:1.9-29: accepted value: `all'
 input.y:1.9-29: accepted value: `consistent'
 input.y:1.9-29: accepted value: `accepting'
