@@ -1,3 +1,9 @@
+2009-04-30  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Set all front-end %define defaults in one place.
+	* src/main.c (main): Move lr.keep_unreachable_states default...
+	* src/reader.c (reader): ... to here.
+
 2009-04-29  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Rename lr.default_reductions to lr.default-reductions.
