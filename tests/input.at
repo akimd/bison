@@ -951,15 +951,56 @@ input.y:1.9-29: accepted value: `accepting'
 
 # Back-end.
 AT_DATA([[input.y]],
+[[%define api.push-pull "neither"
+%%
+start: ;
+]])
+AT_BISON_CHECK([[input.y]], [1], [],
+[[input.y:1.9-21: invalid value for %define variable `api.push-pull': `neither'
+input.y:1.9-21: accepted value: `pull'
+input.y:1.9-21: accepted value: `push'
+input.y:1.9-21: accepted value: `both'
+]])
+
+AT_CLEANUP
+
+## -------------------------------- ##
+## %define backward compatibility.  ##
+## -------------------------------- ##
+
+AT_SETUP([[%define backward compatibility]])
+
+# The error messages tell us whether underscores in these variables are
+# being converted to dashes.
+
+AT_DATA([[input.y]],
 [[%define api.push_pull "neither"
 %%
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:1.9-21: invalid value for %define variable `api.push_pull': `neither'
+[[input.y:1.9-21: invalid value for %define variable `api.push-pull': `neither'
 input.y:1.9-21: accepted value: `pull'
 input.y:1.9-21: accepted value: `push'
 input.y:1.9-21: accepted value: `both'
+]])
+
+AT_DATA([[input.y]],
+[[%define lr.keep_unreachable_states "maybe"
+%%
+start: ;
+]])
+AT_BISON_CHECK([[input.y]], [1], [],
+[[input.y:1.9-34: invalid value for %define Boolean variable `lr.keep-unreachable-states'
+]])
+
+AT_DATA([[input.y]],
+[[%define foo_bar "baz"
+%%
+start: ;
+]])
+AT_BISON_CHECK([[input.y]], [0], [],
+[[input.y:1.9-15: warning: %define variable `foo_bar' is not used
 ]])
 
 AT_CLEANUP

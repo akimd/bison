@@ -1,5 +1,5 @@
 # Checking Push Parsing.                            -*- Autotest -*-
-# Copyright (C) 2007 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2009 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ AT_DATA_GRAMMAR([[input.y]],
   void yyerror (char const *msg);
 %}
 
-%define api.pure %define api.push_pull "push"
+%define api.pure %define api.push-pull "push"
 
 %%
 
@@ -93,7 +93,7 @@ AT_DATA_GRAMMAR([[input.y]],
   int yylex (void);
 %}
 
-%define api.push_pull "]$1["
+%define api.push-pull "]$1["
 
 %%
 
@@ -156,13 +156,13 @@ AT_SETUP([[Push Parsing: Unsupported Skeletons]])
 
 AT_DATA([[input.y]],
 [[%glr-parser
-%define api.push_pull "push"
+%define api.push-pull "push"
 %%
 start: ;
 ]])
 
 AT_BISON_CHECK([[input.y]], [0], [],
-[[input.y:2.9-21: warning: %define variable `api.push_pull' is not used
+[[input.y:2.9-21: warning: %define variable `api.push-pull' is not used
 ]])
 
 AT_CLEANUP

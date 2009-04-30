@@ -1,6 +1,6 @@
 # Torturing Bison.                                    -*- Autotest -*-
-# Copyright (C) 2001, 2002, 2004, 2005, 2006, 2007 Free Software Foundation,
-# Inc.
+# Copyright (C) 2001, 2002, 2004, 2005, 2006, 2007, 2009 Free Software
+# Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -496,7 +496,7 @@ AT_PARSER_CHECK([./input 10000], 2, [], [ignore],
 # just helps guarantee we don't let the YYSTACK_USE_ALLOCA feature affect
 # push parsers.
 AT_DATA_STACK_TORTURE([AT_USE_ALLOCA],
-[[%define api.push_pull "both"
+[[%define api.push-pull "both"
 ]])
 AT_PARSER_CHECK([./input 20], 0, [], [ignore],
                 [[VALGRIND_OPTS="$VALGRIND_OPTS --log-fd=1"]])
@@ -534,7 +534,7 @@ AT_PARSER_CHECK([./input 10000], 2, [], [ignore],
                 [[VALGRIND_OPTS="$VALGRIND_OPTS --log-fd=1"]])
 
 AT_DATA_STACK_TORTURE([AT_USE_ALLOCA],
-[[%define api.push_pull "both"
+[[%define api.push-pull "both"
 ]])
 AT_PARSER_CHECK([./input 20], 0, [], [ignore],
                 [[VALGRIND_OPTS="$VALGRIND_OPTS --log-fd=1"]])

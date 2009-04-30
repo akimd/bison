@@ -140,4 +140,7 @@ void getargs (int argc, char *argv[]);
 void language_argmatch (char const *arg, int prio, location loc);
 void skeleton_arg (const char *arg, int prio, location loc);
 
+/** In the string \c s, replace all characters \c from by \c to.  */
+void tr (char *s, char from, char to);
+
 #endif /* !GETARGS_H_ */

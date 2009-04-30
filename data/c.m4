@@ -1,7 +1,7 @@
                                                             -*- Autoconf -*-
 
 # C M4 Macros for Bison.
-# Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008 Free Software
+# Copyright (C) 2002, 2004, 2005, 2006, 2007, 2008, 2009 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ m4_define([b4_comment], [/* m4_bpatsubst([$1], [
 # -----------------
 # Depends on individual skeletons to define b4_pure_flag, b4_push_flag, or
 # b4_pull_flag if they use the values of the %define variables api.pure or
-# api.push_pull.
+# api.push-pull.
 m4_define([b4_identification],
 [[/* Identify Bison output.  */
 #define YYBISON 1
