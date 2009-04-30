@@ -1,5 +1,10 @@
 2009-04-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Document how `%define "var" "value"' is not M4-friendly.
+	* src/parse-gram.y (variable): In comments here.
+
+2009-04-24  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Add copyright updates missed during previous cherry pick.
 	* src/output.c: Here.
 	* src/parse-gram.y: Here.
