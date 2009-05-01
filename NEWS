@@ -93,6 +93,29 @@ Bison News
 
 * Changes in version 2.4.2 (????-??-??):
 
+** %code is now a permanent feature.
+
+  A traditional Yacc prologue directive is written in the form:
+
+    %{CODE%}
+
+  To provide a more flexible alternative, Bison 2.3b introduced the
+  %code directive with the following forms for C/C++:
+
+    %code          {CODE}
+    %code requires {CODE}
+    %code provides {CODE}
+    %code top      {CODE}
+
+  These forms are now considered permanent features of Bison.  See the
+  %code entries in the section "Bison Declaration Summary" in the Bison
+  manual for a summary of their functionality.  See the section
+  "Prologue Alternatives" for a detailed discussion including the
+  advantages of %code over the traditional Yacc prologue directive.
+
+  Bison's Java feature as a whole including its current usage of %code
+  is still considered experimental.
+
 * Changes in version 2.4.1 (2008-12-11):
 
 ** In the GLR defines file, unexpanded M4 macros in the yylval and yylloc
