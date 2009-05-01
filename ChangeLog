@@ -1,3 +1,11 @@
+2009-05-01  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Declare %code to be a permanent feature.
+	* NEWS (2.4.2): Here.
+	* doc/bison.texinfo (Prologue Alternatives): Don't say it's
+	experimental.
+	(Decl Summary): Likewise.
+
 2009-04-14  Akim Demaille  <demaille@gostai.com>
 
 	doc: minor fixes.
