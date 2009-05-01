@@ -2704,9 +2704,6 @@ feature test macros can affect the behavior of Bison-generated
 @findex %code requires
 @findex %code provides
 @findex %code top
-(The prologue alternatives described here are experimental.
-More user feedback will help to determine whether they should become permanent
-features.)
 
 The functionality of @var{Prologue} sections can often be subtle and
 inflexible.
@@ -4745,10 +4742,6 @@ Thus, @code{%code} replaces the traditional Yacc prologue,
 For a detailed discussion, see @ref{Prologue Alternatives}.
 
 For Java, the default location is inside the parser class.
-
-(Like all the Yacc prologue alternatives, this directive is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.)
 @end deffn
 
 @deffn {Directive} %code @var{qualifier} @{@var{code}@}
@@ -4825,10 +4818,6 @@ For example:
 before any class definitions.
 @end itemize
 @end itemize
-
-(Like all the Yacc prologue alternatives, this directive is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.)
 
 @cindex Prologue
 For a detailed discussion of how to use @code{%code} in place of the
