@@ -621,9 +621,6 @@ AT_CLEANUP
 
 AT_SETUP([Symbols])
 
-# Bison once thought a character token and its alias were different
-# symbols with the same user token number.
-
 AT_DATA_GRAMMAR([input.y],
 [[%token WITH-DASH
 %token WITHOUT_DASH "WITHOUT-DASH"
@@ -661,18 +658,17 @@ AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
 
 
-# Period are genuine letters, they can start identifiers.  Dashes
-# and digits can't.
+# Periods and dashes are genuine letters, they can start identifiers.
+# Digits cannot.
 AT_DATA_GRAMMAR([input.y],
-[[%token .good
-%token -wrong
-%token 1nv4l1d
+[[%token .GOOD
+%token -GOOD
+%token 1NV4L1D
 %%
-start: .good
+start: .GOOD -GOOD
 ]])
 AT_BISON_CHECK([-o input.c input.y], [1], [],
-[[input.y:10.8: invalid character: `-'
-input.y:11.8: syntax error, unexpected integer, expecting char or identifier or type
+[[input.y:11.8: syntax error, unexpected integer, expecting char or identifier or type
 ]])
 
 AT_CLEANUP

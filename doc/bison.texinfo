@@ -3048,8 +3048,8 @@ A @dfn{nonterminal symbol} stands for a class of syntactically
 equivalent groupings.  The symbol name is used in writing grammar rules.
 By convention, it should be all lower case.
 
-Symbol names can contain letters, underscores, period, and (not at the
-beginning) digits and dashes.  Dashes in symbol names are a GNU
+Symbol names can contain letters, underscores, periods, dashes, and (not
+at the beginning) digits.  Dashes in symbol names are a GNU
 extension, incompatible with @acronym{POSIX} Yacc.  Terminal symbols
 that contain periods or dashes make little sense: since they are not
 valid symbols (in most programming languages) they are not exported as
@@ -9008,7 +9008,7 @@ The first, inclusive, position of the range, and the first beyond.
 @end deftypeivar
 
 @deftypeop {Constructor} {Location} {} Location (Position @var{loc})
-Create a @code{Location} denoting an empty range located at a given point. 
+Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
 @deftypeop {Constructor} {Location} {} Location (Position @var{begin}, Position @var{end})
@@ -9222,12 +9222,12 @@ Return immediately from the parser, indicating success.
 @end deffn
 
 @deffn {Statement} {return YYERROR;}
-Start error recovery without printing an error message. 
+Start error recovery without printing an error message.
 @xref{Error Recovery}.
 @end deffn
 
 @deffn {Statement} {return YYFAIL;}
-Print an error message and start error recovery. 
+Print an error message and start error recovery.
 @xref{Error Recovery}.
 @end deffn
 

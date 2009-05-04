@@ -62,6 +62,14 @@ Bison News
   The old names are now deprecated but will be maintained indefinitely
   for backward compatibility.
 
+** Symbols names
+
+  Consistently with directives (such as %error-verbose) and variables
+  (e.g. push-pull), symbol names may include dashes in any position,
+  similarly to periods and underscores.  This is GNU extension over
+  POSIX Yacc whose use is reported by -Wyacc, and rejected in Yacc
+  mode (--yacc).
+
 ** Temporary hack for adding a semicolon to the user action.
 
   Previously, Bison appended a semicolon to every user action for

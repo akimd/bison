@@ -89,8 +89,8 @@ static void unexpected_newline (boundary, char const *);
  /* Strings and characters in code. */
 %x SC_STRING SC_CHARACTER
 
-letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id	  {letter}({letter}|[0-9]|-)*
+letter	  [-.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+id	  {letter}({letter}|[0-9])*
 directive %{id}
 int	  [0-9]+
 
