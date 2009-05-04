@@ -208,6 +208,12 @@ splice	 (\\[ \f\t\v]*\n)*
     complain_at (*loc, _("invalid directive: %s"), quote (yytext));
   }
 
+  /* Identifiers may not start with a digit.  Yet, don't silently
+     accept "1FOO" as "1 FOO".  */
+  {int}{id} {
+    complain_at (*loc, _("invalid identifier: %s"), quote (yytext));
+  }
+
   "="                     return EQUAL;
   "|"                     return PIPE;
   ";"                     return SEMICOLON;

@@ -662,13 +662,13 @@ AT_COMPILE([input.o], [-c input.c])
 # Digits cannot.
 AT_DATA_GRAMMAR([input.y],
 [[%token .GOOD
-%token -GOOD
-%token 1NV4L1D
+         -GOOD
+         1NV4L1D
 %%
 start: .GOOD -GOOD
 ]])
 AT_BISON_CHECK([-o input.c input.y], [1], [],
-[[input.y:11.8: syntax error, unexpected integer, expecting char or identifier or type
+[[input.y:11.10-16: invalid identifier: `1NV4L1D'
 ]])
 
 AT_CLEANUP

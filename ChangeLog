@@ -1,5 +1,11 @@
 2009-05-04  Akim Demaille  <demaille@gostai.com>
 
+	bison: catch bad symbol names.
+	* src/scan-gram.l({int}{id}): Report as an invalid identifier.
+	* tests/input.at: Adjust.
+
+2009-05-04  Akim Demaille  <demaille@gostai.com>
+
 	space changes.
 	* src/scan-gram.l: Untabify to be robust to zealous editors.
 
