@@ -1,8 +1,14 @@
 2009-05-04  Akim Demaille  <demaille@gostai.com>
 
+	bison: catch bad symbol names.
+	* src/scan-gram.l({int}{id}): Report as an invalid identifier.
+	* tests/input.at: Adjust.
+
+2009-05-04  Akim Demaille  <demaille@gostai.com>
+
 	identifiers: dashes are letters.
 	Dashes can now start identifiers (symbols and directives).
-	
+
 	* src/scan-gram.l ({letter}): Add dash.
 	({id}): Remove it.
 	* tests/input.at (Symbols): Adjust.

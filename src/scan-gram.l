@@ -240,6 +240,12 @@ splice	 (\\[ \f\t\v]*\n)*
     return INT;
   }
 
+  /* Identifiers may not start with a digit.  Yet, don't silently
+     accept "1FOO" as "1 FOO".  */
+  {int}{id} {
+    complain_at (*loc, _("invalid identifier: %s"), quote (yytext));
+  }
+
   /* Characters.  We don't check there is only one.  */
   "'"	      STRING_GROW; token_start = loc->start; BEGIN SC_ESCAPED_CHARACTER;
 
