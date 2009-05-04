@@ -1,5 +1,10 @@
 2009-05-04  Akim Demaille  <demaille@gostai.com>
 
+	space changes.
+	* src/scan-gram.l: Untabify to be robust to zealous editors.
+
+2009-05-04  Akim Demaille  <demaille@gostai.com>
+
 	identifiers: dashes are letters.
 	Dashes can now start identifiers (symbols and directives).
 	
