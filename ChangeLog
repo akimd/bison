@@ -1,3 +1,15 @@
+2009-05-04  Akim Demaille  <demaille@gostai.com>
+
+	identifiers: dashes are letters.
+	Dashes can now start identifiers (symbols and directives).
+	
+	* src/scan-gram.l ({letter}): Add dash.
+	({id}): Remove it.
+	* tests/input.at (Symbols): Adjust.
+	Remove stray comment.
+	* tests/regression.at (Invalid inputs): Adjust error message.
+	* doc/bison.texinfo (Symbols): Update.
+
 2009-05-01  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Declare %code to be a permanent feature.

@@ -1,6 +1,6 @@
 # Bison Regressions.                               -*- Autotest -*-
 
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -393,8 +393,7 @@ input.y:3.14: invalid character: `}'
 input.y:4.1: invalid character: `%'
 input.y:4.2: invalid character: `&'
 input.y:5.1-17: invalid directive: `%a-does-not-exist'
-input.y:6.1: invalid character: `%'
-input.y:6.2: invalid character: `-'
+input.y:6.1-2: invalid directive: `%-'
 input.y:7.1-8.0: missing `%}' at end of file
 input.y:7.1-8.0: syntax error, unexpected %{...%}
 ]])
