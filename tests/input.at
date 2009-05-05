@@ -669,6 +669,43 @@ AT_BISON_CHECK([-o input.c input.y], [1], [],
 AT_CLEANUP
 
 
+## ----------------- ##
+## Numbered tokens.  ##
+## ----------------- ##
+
+AT_SETUP([Numbered tokens])
+
+AT_DATA_GRAMMAR([input.y],
+[[%token HEXADECIMAL_1 0xabcdef
+           DECIMAL_1 11259375
+%token HEXADECIMAL_2 0XFEDCBA
+           DECIMAL_2 16702650
+%%
+start: HEXADECIMAL_1 HEXADECIMAL_2
+%%
+]])
+
+AT_BISON_CHECK([input.y], [1], [],
+[[input.y:12.12-20: tokens HEXADECIMAL_2 and DECIMAL_2 both assigned number 16702650
+input.y:9.8-20: tokens DECIMAL_1 and HEXADECIMAL_1 both assigned number 11259375
+]])
+
+AT_DATA_GRAMMAR([input.y],
+[[%token TOO_LARGE_DEC 999999999999999999999
+         TOO_LARGE_HEX 0xFFFFFFFFFFFFFFFFFFF
+%%
+start: TOO_LARGE_DEC TOO_LARGE_HEX
+%%
+]])
+
+AT_BISON_CHECK([input.y], [1], [],
+[[input.y:9.22-42: integer out of range: `999999999999999999999'
+input.y:10.24-44: integer out of range: `0xFFFFFFFFFFFFFFFFFFF'
+]])
+
+AT_CLEANUP
+
+
 ## --------------------- ##
 ## Unclosed constructs.  ##
 ## --------------------- ##
