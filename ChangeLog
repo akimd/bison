@@ -1,3 +1,8 @@
+2009-05-05  Akim Demaille  <demaille@gostai.com>
+
+	tests: check token numbers.
+	* tests/input.at (Numbered tokens): New.
+
 2009-05-04  Akim Demaille  <demaille@gostai.com>
 
 	bison: catch bad symbol names.
