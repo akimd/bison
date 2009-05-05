@@ -1,5 +1,10 @@
 2009-05-05  Akim Demaille  <demaille@gostai.com>
 
+	fix hexadecimal token number support.
+	* src/scan-gram.l: Catch incorrect ids after hexadecimal numbers.
+
+2009-05-05  Akim Demaille  <demaille@gostai.com>
+
 	tests: check token numbers.
 	* tests/input.at (Numbered tokens): New.
 

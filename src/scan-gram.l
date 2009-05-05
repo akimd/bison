@@ -208,12 +208,6 @@ splice	 (\\[ \f\t\v]*\n)*
     complain_at (*loc, _("invalid directive: %s"), quote (yytext));
   }
 
-  /* Identifiers may not start with a digit.  Yet, don't silently
-     accept "1FOO" as "1 FOO".  */
-  {int}{id} {
-    complain_at (*loc, _("invalid identifier: %s"), quote (yytext));
-  }
-
   "="                     return EQUAL;
   "|"                     return PIPE;
   ";"                     return SEMICOLON;
@@ -233,6 +227,12 @@ splice	 (\\[ \f\t\v]*\n)*
   0[xX][0-9abcdefABCDEF]+ {
     val->integer = scan_integer (yytext, 16, *loc);
     return INT;
+  }
+
+  /* Identifiers may not start with a digit.  Yet, don't silently
+     accept "1FOO" as "1 FOO".  */
+  {int}{id} {
+    complain_at (*loc, _("invalid identifier: %s"), quote (yytext));
   }
 
   /* Characters.  We don't check there is only one.  */
