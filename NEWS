@@ -9,6 +9,22 @@ Bison News
   Also, it is possible to add code to the parser's constructors using
   "%code init" and "%define init_throws".
 
+** Variable token.prefix
+
+  The variable token.prefix changes the way tokens are identified in
+  the generated files.  This is especially useful to avoid collisions
+  with identifiers in the target language.  For instance
+
+      %token FILE for ERROR
+      %define token.prefix "TOK_"
+      %%
+      start: FILE for ERROR;
+
+  will generate the definition of the symbols TOK_FILE, TOK_for, and
+  TOK_ERROR in the generated sources.  In particular, the scanner must
+  use these prefixed token names, although the grammar itself still
+  uses the short names (as in the sample rule given above).
+
 * Changes in version 2.5 (????-??-??):
 
 ** IELR(1) and Canonical LR(1) Support

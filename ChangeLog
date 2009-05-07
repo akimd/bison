@@ -1,3 +1,15 @@
+2009-05-11  Akim Demaille  <demaille@gostai.com>
+
+	doc: token.prefix
+	* doc/bison.simple (Decl Summary): Document token.prefix.
+	(Calc++ Parser): Various fixes.
+	Formatting changes.
+	Use token.prefix.
+	Introduce a macro TOKEN to shorten the code and make it more
+	readable.
+	(Calc++ Scanner): Adjust.
+	* NEWS (Variable token.prefix): New.
+
 2009-05-04  Akim Demaille  <demaille@gostai.com>
 
 	bison: catch bad symbol names.
