@@ -1,3 +1,9 @@
+2009-05-11  Akim Demaille  <demaille@gostai.com>
+
+	doc: use C++ headers.
+	* doc/bison.texinfo (Calc++ Scanner): Prefer C++ headers to C
+	headers.
+
 2009-05-01  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Declare %code to be a permanent feature.
