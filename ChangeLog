@@ -1,3 +1,9 @@
+2009-05-11  Akim Demaille  <demaille@gostai.com>
+
+	doc: use C++ headers.
+	* doc/bison.texinfo (Calc++ Scanner): Prefer C++ headers to C
+	headers.
+
 2009-05-05  Akim Demaille  <demaille@gostai.com>
 
 	fix hexadecimal token number support.
@@ -7,12 +13,6 @@
 
 	tests: check token numbers.
 	* tests/input.at (Numbered tokens): New.
-
-2009-05-11  Akim Demaille  <demaille@gostai.com>
-
-	doc: use C++ headers.
-	* doc/bison.texinfo (Calc++ Scanner): Prefer C++ headers to C
-	headers.
 
 2009-05-04  Akim Demaille  <demaille@gostai.com>
 
