@@ -4902,6 +4902,43 @@ More user feedback will help to stabilize it.)
 @end itemize
 @c api.push-pull
 
+@item api.tokens.prefix
+@findex %define api.tokens.prefix
+
+@itemize
+@item Languages(s): all
+
+@item Purpose:
+Add a prefix to the token names when generating their definition in the
+target language.  For instance
+
+@example
+%token FILE for ERROR
+%define api.tokens.prefix "TOK_"
+%%
+start: FILE for ERROR;
+@end example
+
+@noindent
+generates the definition of the symbols @code{TOK_FILE}, @code{TOK_for},
+and @code{TOK_ERROR} in the generated source files.  In particular, the
+scanner must use these prefixed token names, while the grammar itself
+may still use the short names (as in the sample rule given above).  The
+generated informational files (@file{*.output}, @file{*.xml},
+@file{*.dot}) are not modified by this prefix.  See @ref{Calc++ Parser}
+and @ref{Calc++ Scanner}, for a complete example.
+
+@item Accepted Values:
+Any string.  Should be a valid identifier prefix in the target language,
+in other words, it should typically be an identifier itself (sequence of
+letters, underscores, and ---not at the beginning--- digits).
+
+@item Default Value:
+empty
+@end itemize
+@c api.tokens.prefix
+
+
 @item error-verbose
 @findex %define error-verbose
 @itemize
@@ -5191,42 +5228,6 @@ is not already defined, so that the debugging facilities are compiled.
 @item Default Value: @code{false}
 @end itemize
 @c parse.trace
-
-@item token.prefix
-@findex %define token.prefix
-
-@itemize
-@item Languages(s): all
-
-@item Purpose:
-Add a prefix to the token names when generating their definition in the
-target language.  For instance
-
-@example
-%token FILE for ERROR
-%define token.prefix "TOK_"
-%%
-start: FILE for ERROR;
-@end example
-
-@noindent
-generates the definition of the symbols @code{TOK_FILE}, @code{TOK_for},
-and @code{TOK_ERROR} in the generated source files.  In particular, the
-scanner must use these prefixed token names, while the grammar itself
-may still use the short names (as in the sample rule given above).  The
-generated informational files (@file{*.output}, @file{*.xml},
-@file{*.dot}) are not modified by this prefix.  See @ref{Calc++ Parser}
-and @ref{Calc++ Scanner}, for a complete example.
-
-@item Accepted Values:
-Any string.  Should be a valid identifier prefix in the target language,
-in other words, it should typically be an identifier itself (sequence of
-letters, underscores, and ---not at the beginning--- digits).
-
-@item Default Value:
-empty
-@end itemize
-@c token.prefix
 
 @end table
 @end deffn
@@ -8817,11 +8818,11 @@ The token numbered as 0 corresponds to end of file; the following line
 allows for nicer error messages referring to ``end of file'' instead of
 ``$end''.  Similarly user friendly names are provided for each symbol.
 To avoid name clashes in the generated files (@pxref{Calc++ Scanner}),
-prefix tokens with @code{TOK_} (@pxref{Decl Summary,, token.prefix}).
+prefix tokens with @code{TOK_} (@pxref{Decl Summary,, api.tokens.prefix}).
 
 @comment file: calc++-parser.yy
 @example
-%define token.prefix "TOK_"
+%define api.tokens.prefix "TOK_"
 %token        END      0 "end of file"
 %token        ASSIGN     ":="
 %token <sval> IDENTIFIER "identifier"
