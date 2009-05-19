@@ -1,3 +1,9 @@
+2009-05-19  Akim Demaille  <demaille@gostai.com>
+
+	remove useless variable.
+	* src/getargs.c (skeleton_arg): Remove now useless variable.
+	Should help the compiler see that this printf-like call is sane.
+
 2009-05-15  Akim Demaille  <demaille@gostai.com>
 
 	Rename token.prefix as api.tokens.prefix.
