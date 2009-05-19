@@ -1,3 +1,11 @@
+2009-05-19  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Handle a trailing `:' in a user-supplied C++ namespace better.
+	* data/c++.m4 (b4_namespace_close): Don't let it be printed
+	among the closing braces here.  This fix might make the
+	generated code easier to debug, but otherwise it should be
+	insignificant because a trailing `:' is a C++ error already.
+
 2009-05-19  Akim Demaille  <demaille@gostai.com>
 
 	remove useless variable.
