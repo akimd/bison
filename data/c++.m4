@@ -74,7 +74,7 @@ m4_define([b4_namespace_open],
 
 m4_define([b4_namespace_close],
 [b4_user_code([b4_percent_define_get_syncline([[namespace]])
-m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref),
+m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref[ ]),
                                     [^\(.\)[	 ]*\(::\)?\([^][:]\|:[^][:]\)*],
                                     [\1])),
              [::\([^][:]\|:[^][:]\)*], [} ])[} // ]b4_namespace_ref])])
