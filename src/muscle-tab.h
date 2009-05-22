@@ -126,12 +126,25 @@ void muscle_boundary_grow (char const *key, boundary bound);
 void muscle_user_name_list_grow (char const *key, char const *user_name,
                                  location loc);
 
-/* Define the muscle for the %define variable VARIABLE appearing at
-   VARIABLE_LOC with value VALUE.  Warn if VARIABLE is already defined.
-   Record this as a user occurrence of VARIABLE by invoking
+/* Indicates whether a variable's value was specified with -D/--define, with
+   -F/--force-define, or in the grammar file.  */
+typedef enum {
+  MUSCLE_PERCENT_DEFINE_D = 0, MUSCLE_PERCENT_DEFINE_F,
+  MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE
+} muscle_percent_define_how;
+
+/* Define the muscles for %define variable VARIABLE with VALUE specified
+   at VARIABLE_LOC in the manner HOW unless it was specified in the
+   grammar file while the previous definition for VARIABLE was specified
+   with -F/--force-define.  Warn if a previous definition is being
+   overridden and the new definition is specified in the grammar file.
+   (These rules support the documented behavior as long as command-line
+   definitions are processed before grammar file definitions.)  Record
+   this as a user occurrence of VARIABLE by invoking
    muscle_user_name_list_grow.  */
 void muscle_percent_define_insert (char const *variable, location variable_loc,
-                                   char const *value);
+                                   char const *value,
+                                   muscle_percent_define_how how);
 
 /* Make sure that VARIABLE is set to the boolean VALUE.  Warn on mismatches
    only, but accept repeated declaration.  Used for backward compatibility

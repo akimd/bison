@@ -913,27 +913,49 @@ input.y:5.9-16: warning: %define variable `special2' is not used
 AT_CLEANUP
 
 
-## ------------------- ##
-## %define, --define.  ##
-## ------------------- ##
+## ----------------------------------- ##
+## %define, --define, --force-define.  ##
+## ----------------------------------- ##
 
-AT_SETUP([%define, --define])
+AT_SETUP([%define, --define, --force-define])
+
+AT_DATA([skel.c],
+[[m4@&t@_divert_push(0)@
+@output(b4_parser_file_name@)@
+[var-dd: ]b4_percent_define_get([[var-dd]])[
+var-ff: ]b4_percent_define_get([[var-ff]])[
+var-dg: ]b4_percent_define_get([[var-dg]])[
+var-dfg: ]b4_percent_define_get([[var-dfg]])[
+var-fd: ]b4_percent_define_get([[var-fd]])
+m4@&t@_divert_pop(0)
+]])
 
 AT_DATA([input.y],
-[[%define var "value1"
+[[%define var-dg "gram"
+%define var-dfg "gram"
 %%
 start: ;
 ]])
 
-AT_BISON_CHECK([[-DFOO -DFOO -Dvar=value input.y]], [0], [],
-[[<command line>:3: warning: %define variable `FOO' redefined
-<command line>:2: warning: previous definition
-input.y:1.9-11: warning: %define variable `var' redefined
-<command line>:4: warning: previous definition
-<command line>:2: warning: %define variable `FOO' is not used
-<command line>:3: warning: %define variable `FOO' is not used
-<command line>:4: warning: %define variable `var' is not used
-input.y:1.9-11: warning: %define variable `var' is not used
+AT_BISON_CHECK([[-Dvar-dd=cmd-d1 -Dvar-dd=cmd-d2 \
+                 -Fvar-ff=cmd-f1 -Fvar-ff=cmd-f2 \
+                 -Dvar-dg=cmd-d                  \
+                 -Dvar-dfg=cmd-d -Fvar-dfg=cmd-f \
+                 -Fvar-fd=cmd-f -Dvar-fd=cmd-d   \
+                 -Dunused-d -Funused-f           \
+                 --skeleton ./skel.c input.y]], [0], [],
+[[input.y:1.9-14: warning: %define variable `var-dg' redefined
+<command line>:6: warning: previous definition
+<command line>:11: warning: %define variable `unused-d' is not used
+<command line>:12: warning: %define variable `unused-f' is not used
+]])
+
+AT_CHECK([[cat input.tab.c]], [[0]],
+[[var-dd: cmd-d2
+var-ff: cmd-f2
+var-dg: gram
+var-dfg: cmd-f
+var-fd: cmd-d
 ]])
 
 AT_CLEANUP

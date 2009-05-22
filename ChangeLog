@@ -1,5 +1,30 @@
 2009-05-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	-F/--force-define and relative %define/-D/--define priorities.
+	* NEWS (2.5): Add documentation to -D/--define entry.
+	* build-aux/cross-options.pl: Hard-code association of
+	--force-define with %define.
+	* doc/bison.texinfo (Decl Summary): In %define entry,
+	cross-reference command-line options.
+	(Bison Options): Add documentation to -D/--define entry.
+	(Option Cross Key): Widen column for --force-define row.
+	* src/getargs.c (usage): Document -F/--force-define.  Realign
+	options in output.
+	(short_options, long_options, getargs): Parse -F/--force-define,
+	and update muscle_percent_define_insert invocations.
+	* src/muscle-tab.h (muscle_percent_define_how): New enum type.
+	(muscle_percent_define_insert): Add argument with that type.
+	* src/muscle-tab.c (muscle_percent_define_insert): Implement
+	-F/--force-define behavior and priorities.
+	(muscle_percent_define_ensure): Update
+	muscle_percent_define_insert invocation.
+	* src/parse-gram.y (prologue_declaration): Update
+	muscle_percent_define_insert invocations.
+	* tests/input.at (`%define, --define'): Rename to...
+	(`%define, --define, --force-define'): ... this and extend.
+
+2009-05-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Update some comments to make sense for -D.
 	* data/bison.m4 (b4_check_user_names): In header comments, say
 	"user occurrence" instead of "grammar occurrence".

@@ -229,7 +229,8 @@ prologue_declaration:
     }
 | "%define" variable content.opt
     {
-      muscle_percent_define_insert ($2, @2, $3);
+      muscle_percent_define_insert ($2, @2, $3,
+                                    MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%defines"                       { defines_flag = true; }
 | "%defines" STRING
