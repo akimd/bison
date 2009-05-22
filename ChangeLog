@@ -1,3 +1,11 @@
+2009-05-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Update some comments to make sense for -D.
+	* data/bison.m4 (b4_check_user_names): In header comments, say
+	"user occurrence" instead of "grammar occurrence".
+	* src/muscle-tab.h (muscle_percent_define_insert): Likewise.
+	(muscle_percent_code_grow): Likewise just for consistency.
+
 2009-05-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* data/c++.m4 (b4_namespace_close): Simplify slightly.
