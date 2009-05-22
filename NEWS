@@ -35,17 +35,22 @@ Bison News
 
 ** %define can now be invoked via the command line.
 
-  Each of these bison command-line options
+  Each of these command-line options
 
-    -D NAME=VALUE
-    --define=NAME=VALUE
+    -D NAME[=VALUE]
+    --define=NAME[=VALUE]
+
+    -F NAME[=VALUE]
+    --force-define=NAME[=VALUE]
 
   is equivalent to this grammar file declaration
 
-    %define NAME "VALUE"
+    %define NAME ["VALUE"]
 
-  for any NAME and VALUE.  Omitting `=VALUE' on the command line is
-  equivalent to omitting `"VALUE"' in the declaration.
+  except that the manner in which Bison processes multiple definitions
+  for the same NAME differs.  Most importantly, -F and --force-define
+  quietly override %define, but -D and --define do not.  For further
+  details, see the section "Bison Options" in the Bison manual.
 
 ** %define variables renamed.
 

@@ -227,7 +227,8 @@ prologue_declaration:
 | "%debug"                         { debug_flag = true; }
 | "%define" variable content.opt
     {
-      muscle_percent_define_insert ($2, @2, $3);
+      muscle_percent_define_insert ($2, @2, $3,
+                                    MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%defines"                       { defines_flag = true; }
 | "%defines" STRING
@@ -270,12 +271,14 @@ prologue_declaration:
          `%define api.pure' in a backward-compatible manner here.  First, don't
          complain if %pure-parser is specified multiple times.  */
       if (!muscle_find_const ("percent_define(api.pure)"))
-        muscle_percent_define_insert ("api.pure", @1, "");
+        muscle_percent_define_insert ("api.pure", @1, "",
+                                      MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
       /* In all cases, use api.pure now so that the backend doesn't complain if
          the skeleton ignores api.pure, but do warn now if there's a previous
          conflicting definition from an actual %define.  */
       if (!muscle_percent_define_flag_if ("api.pure"))
-        muscle_percent_define_insert ("api.pure", @1, "");
+        muscle_percent_define_insert ("api.pure", @1, "",
+                                      MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING

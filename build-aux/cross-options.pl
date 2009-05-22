@@ -22,7 +22,11 @@ while (<STDIN>)
 	$short = '' if ! defined $short;
 	$short = '-d' if $long eq '--defines' && ! $short;
 	my $dir = '%' . substr($long, 2);
-	$dir = '' if index ($scanner, "\"$dir\"") < 0;
+	if (index ($scanner, "\"$dir\"") < 0)
+	{
+	  if ($long eq '--force-define') { $dir = '%define'; }
+	  else { $dir = ''; }
+	}
 	if ($arg)
 	{
             # if $opt, $arg contains the closing ].
