@@ -1,5 +1,6 @@
 /* Muscle table manager for Bison,
-   Copyright (C) 2001, 2002, 2003, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002, 2003, 2006, 2007, 2009 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -123,9 +124,9 @@ void muscle_user_name_list_grow (char const *key, char const *user_name,
                                  location loc);
 
 /* Define the muscle for the %define variable VARIABLE appearing at
-   VARIABLE_LOC in the grammar file with value VALUE.  Warn if VARIABLE is
-   already defined.  Record this as a grammar occurrence of VARIABLE by
-   invoking muscle_user_name_list_grow.  */
+   VARIABLE_LOC with value VALUE.  Warn if VARIABLE is already defined.
+   Record this as a user occurrence of VARIABLE by invoking
+   muscle_user_name_list_grow.  */
 void muscle_percent_define_insert (char const *variable, location variable_loc,
                                    char const *value);
 
@@ -185,9 +186,10 @@ void muscle_percent_define_default (char const *variable, char const *value);
    output.  */
 void muscle_percent_define_check_values (char const * const *values);
 
-/* Grow the muscle for the %code qualifier QUALIFIER appearing at QUALIFIER_LOC
-   in the grammar file with code CODE appearing at CODE_LOC.  Record this as a
-   grammar occurrence of VARIABLE by invoking muscle_user_name_list_grow.  */
+/* Grow the muscle for the %code qualifier QUALIFIER appearing at
+   QUALIFIER_LOC with code CODE appearing at CODE_LOC.  Record this as a
+   user occurrence of QUALIFIER by invoking
+   muscle_user_name_list_grow.  */
 void muscle_percent_code_grow (char const *qualifier, location qualifier_loc,
                                char const *code, location code_loc);
 

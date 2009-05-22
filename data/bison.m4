@@ -317,8 +317,8 @@ b4_define_user_code([stype])
 # but is not used by Bison (as recorded by macros in the namespace
 # BISON-NAMESPACE).
 #
-# USER-LIST must expand to a list specifying all grammar occurrences of all
-# names of type WHAT.   Each item in the list must be a triplet specifying one
+# USER-LIST must expand to a list specifying all user occurrences of all names
+# of type WHAT.   Each item in the list must be a triplet specifying one
 # occurrence: name, start boundary, and end boundary.  Empty string names are
 # fine.  An empty list is fine.
 #
