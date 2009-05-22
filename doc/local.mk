@@ -1,5 +1,5 @@
-## Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Free Software
-## Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2009
+## Free Software Foundation, Inc.
 
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -29,11 +29,14 @@ clean-local:
 CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
 CROSS_OPTIONS_TEXI = $(top_srcdir)/doc/cross-options.texi
 $(CROSS_OPTIONS_TEXI): $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
-	mv -f $@ $@~ || : >$@~
-	-rm -f $@.tmp
+# Create $@~ which is the previous contents.  Don't use `mv' here so
+# that even if we are interrupted, the file is still available for
+# diff in the next run.  Note that $@ might not exist yet.
+	{ test ! -f $@ || cat $@; } >$@~
+	test ! -f $@.tmp || rm -f $@.tmp
 	$(MAKE) $(AM_MAKEFLAGS) src/bison$(EXEEXT)
-	$(top_builddir)/src/bison --help |				\
-	perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
+	$(top_builddir)/src/bison --help |				 \
+	  perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
 	diff -u $@~ $@.tmp || true
 	mv $@.tmp $@
 MAINTAINERCLEANFILES = $(CROSS_OPTIONS_TEXI)

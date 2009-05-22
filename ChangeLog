@@ -1,3 +1,9 @@
+2009-05-25  Akim Demaille  <demaille@gostai.com>
+
+	build: avoid ignored errors.
+	* doc/local.mk ($(CROSS_OPTIONS_TEXI)): Don't generate ignored
+	errors, they pollute the output.
+
 2009-05-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Convert multiple variable definition warnings to complaints.
