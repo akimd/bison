@@ -104,7 +104,9 @@ src_bison_SOURCES =				\
   src/tables.c					\
   src/tables.h					\
   src/uniqstr.c					\
-  src/uniqstr.h
+  src/uniqstr.h					\
+  src/named-ref.c				\
+  src/named-ref.h
 
 EXTRA_src_bison_SOURCES =			\
   src/scan-code.l				\

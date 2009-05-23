@@ -1,3 +1,24 @@
+2009-06-27  Alex Rozenman  <rozenman@gmail.com>
+
+	Implement support for named symbol references.
+	* src/parse-gram.y: Add new syntax (named_ref.opt).
+	* src/reader.c: Store named refs in symbol lists.
+	* src/reader.h: New argument for symbol_append and
+	action_append functions.
+	* src/scan-code.h: Add new field (named_ref) into
+	code_props data structure. Keeps named ref of midrule
+	actions.
+	* src/scan-code.l: Support for named refs in semantic
+	action code. New function 'parse_named_ref'.
+	* src/scan-gram.l: Support bracketed id.
+	* src/symlist.c: Store named refs in symbol lists.
+	* src/symlist.h: New field in symbol list: named_ref.
+	* src/named-ref.h: New file, a struct for named_ref.
+	* src/named-ref.cp: New file, named_ref_new function.
+	* src/local.mk: Add two new files.
+	* tests/testsuite.at: Include new test group:
+	* tests/named-refs.at: this new file.
+
 2009-06-25  Akim Demaille  <demaille@gostai.com>
 
 	hash: check insertion for memory exhaustion.

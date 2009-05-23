@@ -30,6 +30,7 @@
 #include "quotearg.h"
 #include "reader.h"
 #include "symlist.h"
+#include "named-ref.h"
 #include "scan-gram.h"
 #include "scan-code.h"
 
@@ -63,6 +64,7 @@ static symbol_class current_class = unknown_sym;
 static uniqstr current_type = NULL;
 static symbol *current_lhs;
 static location current_lhs_location;
+static named_ref *current_lhs_named_ref;
 static int current_prec = 0;
 
 #define YYTYPE_INT16 int_fast16_t
@@ -98,6 +100,7 @@ static int current_prec = 0;
   assoc assoc;
   uniqstr uniqstr;
   unsigned char character;
+  named_ref *named_ref;
 };
 
 /* Define the tokens together with their human representation.  */
@@ -167,6 +170,7 @@ static int current_prec = 0;
 %token TAG             "<tag>"
 %token TAG_ANY         "<*>"
 %token TAG_NONE        "<>"
+%token BRACKETED_ID    "[id]"
 
 %type <character> CHAR
 %printer { fputs (char_name ($$), stderr); } CHAR
@@ -180,7 +184,8 @@ static int current_prec = 0;
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
 	 braceless content.opt "{...}" "%{...%}" EPILOGUE
 
-%type <uniqstr> TAG ID ID_COLON PERCENT_FLAG variable
+%type <uniqstr> TAG ID ID_COLON BRACKETED_ID PERCENT_FLAG variable
+%type <named_ref> named_ref.opt
 %printer { fputs ($$, stderr); } ID variable
 %printer { fprintf (stderr, "%s:", $$); } ID_COLON
 %printer { fprintf (stderr, "%%%s", $$); } PERCENT_FLAG
@@ -505,7 +510,8 @@ rules_or_grammar_declaration:
 ;
 
 rules:
-  id_colon { current_lhs = $1; current_lhs_location = @1; } rhses.1
+  id_colon named_ref.opt { current_lhs = $1; current_lhs_location = @1;
+    current_lhs_named_ref = $2; } rhses.1
 ;
 
 rhses.1:
@@ -516,17 +522,26 @@ rhses.1:
 
 rhs:
   /* Nothing.  */
-    { grammar_current_rule_begin (current_lhs, current_lhs_location); }
-| rhs symbol
-    { grammar_current_rule_symbol_append ($2, @2); }
-| rhs "{...}"
-    { grammar_current_rule_action_append ($2, @2); }
+    { grammar_current_rule_begin (current_lhs, current_lhs_location,
+				  current_lhs_named_ref); }
+| rhs symbol named_ref.opt
+    { grammar_current_rule_symbol_append ($2, @2, $3); }
+| rhs "{...}" named_ref.opt
+    { grammar_current_rule_action_append ($2, @2, $3); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3, @3); }
 | rhs "%dprec" INT
     { grammar_current_rule_dprec_set ($3, @3); }
 | rhs "%merge" TAG
     { grammar_current_rule_merge_set ($3, @3); }
+;
+
+named_ref.opt:
+  /* Nothing.  */
+    { $$ = 0; }
+|
+  BRACKETED_ID
+    { $$ = named_ref_new($1, @1); }
 ;
 
 

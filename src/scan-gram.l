@@ -61,9 +61,20 @@ static size_t no_cr_read (FILE *, char *, size_t);
     return PERCENT_FLAG;                        \
   } while (0)
 
+#define ROLLBACK_CURRENT_TOKEN                                  \
+  do {                                                          \
+    scanner_cursor.column -= mbsnwidth (yytext, yyleng, 0);	\
+    yyless (0);                                                 \
+  } while (0)
 
 /* A string representing the most recently saved token.  */
 static char *last_string;
+
+/* Bracketed identifier */
+static uniqstr bracketed_id_str = 0;
+static location bracketed_id_loc;
+static boundary bracketed_id_start;
+static int bracketed_id_context_state = 0;
 
 void
 gram_scanner_last_string_free (void)
@@ -97,6 +108,8 @@ static void unexpected_newline (boundary, char const *);
 %x SC_COMMENT SC_LINE_COMMENT
  /* Strings and characters in code. */
 %x SC_STRING SC_CHARACTER
+ /* Bracketed identifiers support */
+%x SC_BRACKETED_ID SC_RETURN_BRACKETED_ID
 
 letter	  [-.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
 id	  {letter}({letter}|[0-9])*
@@ -141,7 +154,7 @@ splice	 (\\[ \f\t\v]*\n)*
   | Scanning white space.  |
   `-----------------------*/
 
-<INITIAL,SC_AFTER_IDENTIFIER>
+<INITIAL,SC_AFTER_IDENTIFIER,SC_BRACKETED_ID,SC_RETURN_BRACKETED_ID>
 {
   /* Comments and white space.  */
   ","	       warn_at (*loc, _("stray `,' treated as white space"));
@@ -228,6 +241,7 @@ splice	 (\\[ \f\t\v]*\n)*
   {id} {
     val->uniqstr = uniqstr_new (yytext);
     id_loc = *loc;
+    bracketed_id_str = NULL;
     BEGIN SC_AFTER_IDENTIFIER;
   }
 
@@ -286,6 +300,13 @@ splice	 (\\[ \f\t\v]*\n)*
     return PERCENT_PERCENT;
   }
 
+  "[" {
+    bracketed_id_str = NULL;
+    bracketed_id_start = loc->start;
+    bracketed_id_context_state = YY_START;
+    BEGIN SC_BRACKETED_ID;
+  }
+
   . {
     complain_at (*loc, _("invalid character: %s"), quote (yytext));
   }
@@ -314,22 +335,91 @@ splice	 (\\[ \f\t\v]*\n)*
 
 <SC_AFTER_IDENTIFIER>
 {
+  "[" {
+    if (!bracketed_id_str)
+      {
+	bracketed_id_start = loc->start;
+	bracketed_id_context_state = YY_START;
+	BEGIN SC_BRACKETED_ID;
+      }
+    else
+      {
+	ROLLBACK_CURRENT_TOKEN;
+	BEGIN SC_RETURN_BRACKETED_ID;
+	*loc = id_loc;
+	return ID;
+      }
+  }
   ":" {
+    BEGIN (bracketed_id_str ? SC_RETURN_BRACKETED_ID : INITIAL);
     *loc = id_loc;
-    BEGIN INITIAL;
     return ID_COLON;
   }
   . {
-    scanner_cursor.column -= mbsnwidth (yytext, yyleng, 0);
-    yyless (0);
+    ROLLBACK_CURRENT_TOKEN;
+    BEGIN (bracketed_id_str ? SC_RETURN_BRACKETED_ID : INITIAL);
     *loc = id_loc;
-    BEGIN INITIAL;
     return ID;
   }
   <<EOF>> {
+    BEGIN (bracketed_id_str ? SC_RETURN_BRACKETED_ID : INITIAL);
     *loc = id_loc;
-    BEGIN INITIAL;
     return ID;
+  }
+}
+
+  /*--------------------------------.
+  | Scanning bracketed identifiers. |
+  `--------------------------------*/
+
+<SC_BRACKETED_ID>
+{
+  {id} {
+    if (!bracketed_id_str)
+      {
+	bracketed_id_str = uniqstr_new (yytext);
+	bracketed_id_loc = *loc;
+      }
+    else
+      {
+	complain_at (*loc, _("redundant identifier in bracketed name: %s"),
+		     quote (yytext));
+      }
+  }
+  "]" {
+    BEGIN bracketed_id_context_state;
+    if (bracketed_id_str)
+      {
+	if (INITIAL == bracketed_id_context_state)
+	  {
+	    val->uniqstr = bracketed_id_str;
+	    bracketed_id_str = 0;
+	    *loc = bracketed_id_loc;
+	    return BRACKETED_ID;
+	  }
+      }
+    else
+      complain_at (*loc, _("a non empty identifier expected"));
+  }
+  . {
+    complain_at (*loc, _("invalid character in bracketed name: %s"),
+		 quote (yytext));
+  }
+  <<EOF>> {
+    BEGIN bracketed_id_context_state;
+    unexpected_eof (bracketed_id_start, "]");
+  }
+}
+
+<SC_RETURN_BRACKETED_ID>
+{
+  . {
+    ROLLBACK_CURRENT_TOKEN;
+    val->uniqstr = bracketed_id_str;
+    bracketed_id_str = 0;
+    *loc = bracketed_id_loc;
+    BEGIN INITIAL;
+    return BRACKETED_ID;
   }
 }
 
