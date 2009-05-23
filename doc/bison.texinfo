@@ -4845,8 +4845,8 @@ The possible choices for @var{variable}, as well as their meanings, depend on
 the selected target language and/or the parser skeleton (@pxref{Decl
 Summary,,%language}, @pxref{Decl Summary,,%skeleton}).
 
-Bison will warn if a @var{variable} is defined by @code{%define}
-multiple times, but @ref{Bison Options,,-D @var{name}[=@var{value}]}.
+It is an error if a @var{variable} is defined by @code{%define} multiple
+times, but @ref{Bison Options,,-D @var{name}[=@var{value}]}.
 
 Omitting @code{"@var{value}"} is always equivalent to specifying it as
 @code{""}.
@@ -8149,16 +8149,19 @@ definitions for the same @var{name} as follows:
 
 @itemize
 @item
-Bison processes all command-line definitions in order and then processes
-all @code{%define} definitions in order.
+Bison quietly ignores all command-line definitions for @var{name} except
+the last.
 @item
-Later definitions override earlier definitions except that Bison quietly
-ignores all @code{%define} definitions if the last command-line
-definition is specified by @code{-F} or @code{--force-define}.
+If that command-line definition is specified by a @code{-D} or
+@code{--define}, Bison reports an error for any @code{%define}
+definition for @var{name}.
 @item
-Bison never warns when a command-line definition overrides another
-definition, but Bison always warns when a @code{%define} definition
-overrides a command-line or @code{%define} definition.
+If that command-line definition is specified by a @code{-F} or
+@code{--force-define} instead, Bison quietly ignores all @code{%define}
+definitions for @var{name}.
+@item
+Otherwise, Bison reports an error if there are multiple @code{%define}
+definitions for @var{name}.
 @end itemize
 
 You should avoid using @code{-F} and @code{--force-define} in your
