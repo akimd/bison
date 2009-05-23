@@ -33,6 +33,8 @@ Bison News
   These features are experimental.  More user feedback will help to
   stabilize them.
 
+** Multiple %define's for any variable is now an error not a warning.
+
 ** %define can now be invoked via the command line.
 
   Each of these command-line options

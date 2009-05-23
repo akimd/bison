@@ -1,5 +1,17 @@
 2009-05-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Convert multiple variable definition warnings to complaints.
+	* NEWS (2.5): Add a new entry for that change.
+	* doc/bison.texinfo (Decl Summary): Update %define entry.
+	(Bison Options): Update -D/--define/-F/--force-define entry.
+	* src/muscle_tab.c (muscle_percent_define_insert): Implement.
+	* src/muscle_tab.h (muscle_percent_define_insert): Update
+	comments.
+	* tests/input.at (`%define errors'): Update.
+	(`%define, --define, --force-define'): Update.
+
+2009-05-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	-F/--force-define and relative %define/-D/--define priorities.
 	* NEWS (2.5): Add documentation to -D/--define entry.
 	* build-aux/cross-options.pl: Hard-code association of

@@ -133,7 +133,7 @@ typedef enum {
 /* Define the muscles for %define variable VARIABLE with VALUE specified
    at VARIABLE_LOC in the manner HOW unless it was specified in the
    grammar file while the previous definition for VARIABLE was specified
-   with -F/--force-define.  Warn if a previous definition is being
+   with -F/--force-define.  Complain if a previous definition is being
    overridden and the new definition is specified in the grammar file.
    (These rules support the documented behavior as long as command-line
    definitions are processed before grammar file definitions.)  Record
