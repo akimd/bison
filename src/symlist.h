@@ -23,6 +23,7 @@
 # include "location.h"
 # include "scan-code.h"
 # include "symtab.h"
+# include "named-ref.h"
 
 /* A list of symbols, used during the parsing to store the rules.  */
 typedef struct symbol_list
@@ -48,6 +49,9 @@ typedef struct symbol_list
   } content;
   location location;
 
+  /* Proper location of the symbol, not all the rule */
+  location sym_loc;
+
   /* If this symbol is the generated lhs for a midrule but this is the rule in
      whose rhs it appears, MIDRULE = a pointer to that midrule.  */
   struct symbol_list *midrule;
@@ -68,6 +72,9 @@ typedef struct symbol_list
   int dprec;
   int merger;
   location merger_declaration_location;
+
+  /* Named reference. */
+  named_ref *named_ref;
 
   /* The list.  */
   struct symbol_list *next;

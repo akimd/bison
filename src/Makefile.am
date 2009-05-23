@@ -67,7 +67,8 @@ bison_SOURCES =					  \
 	system.h				  \
 	tables.h tables.c			  \
 	uniqstr.c uniqstr.h			  \
-	graphviz.c graphviz.h
+	graphviz.c graphviz.h			  \
+	named-ref.c named-ref.h
 
 EXTRA_bison_SOURCES = scan-code.l scan-skel.l scan-gram.l
 

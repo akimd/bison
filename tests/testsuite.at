@@ -20,6 +20,9 @@
 # Testing resistance to user bugs.
 m4_include([input.at])
 
+# Testing named references.
+m4_include([named-refs.at])
+
 # Testing output file names.
 m4_include([output.at])
 

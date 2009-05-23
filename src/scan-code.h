@@ -21,6 +21,7 @@
 # define SCAN_CODE_H_
 
 # include "location.h"
+# include "named-ref.h"
 
 struct symbol_list;
 
@@ -64,6 +65,9 @@ typedef struct code_props {
 
   /** \c NULL iff \c code_props::kind is not \c CODE_PROPS_RULE_ACTION.  */
   struct symbol_list *rule;
+
+  /* Named reference. */
+  named_ref *named_ref;
 } code_props;
 
 /**
@@ -76,7 +80,7 @@ void code_props_none_init (code_props *self);
 
 /** Equivalent to \c code_props_none_init.  */
 #define CODE_PROPS_NONE_INIT \
-  {CODE_PROPS_NONE, NULL, EMPTY_LOCATION_INIT, false, NULL}
+  {CODE_PROPS_NONE, NULL, EMPTY_LOCATION_INIT, false, NULL, NULL}
 
 /** Initialized by \c CODE_PROPS_NONE_INIT with no further modification.  */
 extern code_props const code_props_none;
@@ -129,7 +133,8 @@ void code_props_symbol_action_init (code_props *self, char const *code,
  *     - The caller frees \c rule.
  */
 void code_props_rule_action_init (code_props *self, char const *code,
-                                  location code_loc, struct symbol_list *rule);
+                                  location code_loc, struct symbol_list *rule,
+				  named_ref *named_ref);
 
 /**
  * \pre
