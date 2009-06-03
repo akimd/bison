@@ -1,5 +1,17 @@
 2009-06-10  Akim Demaille  <demaille@gostai.com>
 
+	deterministic user-token-number redeclaration errors.
+	Address nondeterminism reported by Joel E. Denny.
+	http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00023.html
+
+	* src/uniqstr.h: Comment changes.
+	* src/location.h (boundary_cmp, location_cmp): New.
+	* src/symtab.c (user_token_number_redeclaration): New.
+	(symbol_translation): Use it.
+	* tests/input.at (Numbered tokens): Adjust the expected output.
+
+2009-05-25  Akim Demaille  <demaille@gostai.com>
+
 	gnulib: update.
         * gnulib: Update to latest.
         * lib/.cvsignore, lib/.gitignore, m4/.cvsignore,

@@ -691,8 +691,10 @@ start: HEXADECIMAL_1 HEXADECIMAL_2
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:12.12-20: tokens HEXADECIMAL_2 and DECIMAL_2 both assigned number 16702650
-input.y:9.8-20: tokens DECIMAL_1 and HEXADECIMAL_1 both assigned number 11259375
+[[input.y:10.12-20: user token number 11259375 redeclaration for DECIMAL_1
+input.y:9.8-20: previous declaration for HEXADECIMAL_1
+input.y:12.12-20: user token number 16702650 redeclaration for DECIMAL_2
+input.y:11.8-20: previous declaration for HEXADECIMAL_2
 ]])
 
 AT_DATA_GRAMMAR([input.y],
