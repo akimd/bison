@@ -1,5 +1,16 @@
 2009-06-10  Akim Demaille  <demaille@gostai.com>
 
+	gnulib: update.
+        * gnulib: Update to latest.
+        * lib/.cvsignore, lib/.gitignore, m4/.cvsignore,
+        * m4/.gitignore: Regen.
+        * src/symtab.c (symbol_from_uniqstr, semantic_type_from_uniqstr):
+        Call xalloc_die on hash_insert failures.
+        Requested by the new __warn_unused_result__ attribute of
+        hash_insert.
+
+2009-06-10  Akim Demaille  <demaille@gostai.com>
+
 	deterministic user-token-number redeclaration errors.
 	Address nondeterminism reported by Joel E. Denny.
 	http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00023.html
