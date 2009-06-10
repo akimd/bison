@@ -39,6 +39,7 @@ mbrtowc.m4
 mbsinit.m4
 mbstate_t.m4
 mbswidth.m4
+memchr.m4
 multiarch.m4
 nls.m4
 po.m4

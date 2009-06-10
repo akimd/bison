@@ -48,6 +48,7 @@
 /mbsinit.c
 /mbswidth.c
 /mbswidth.h
+/memchr.c
 /obstack.c
 /obstack.h
 /pipe-safer.c
