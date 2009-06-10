@@ -1,5 +1,21 @@
 2009-06-10  Akim Demaille  <demaille@gostai.com>
 
+	deterministic test suite.
+	Some consistency checks on symbols are performed after all the
+	symbols were read, by an iteration over the symbol table.  This
+	traversal is nondeterministic, which can be a problem for test
+	cases.
+	Avoid this.
+	Addresses another form of nondeterminism reported by Joel E. Denny.
+	http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00023.html
+
+	* tests/input.at (Numbered tokens): Split the hexadecimal/decimal
+	test in two.
+	Use different file names for the three tests to make the
+	maintenance easier.
+
+2009-06-10  Akim Demaille  <demaille@gostai.com>
+
 	gnulib: update.
         * gnulib: Update to latest.
         * lib/.cvsignore, lib/.gitignore, m4/.cvsignore,
