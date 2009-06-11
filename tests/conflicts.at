@@ -600,9 +600,26 @@ input.y: expected 0 reduce/reduce conflicts
 AT_CLEANUP
 
 
-## ------------------------------- ##
-## %no-default-prec without %prec  ##
-## ------------------------------- ##
+## ------------------------- ##
+## %prec with user strings.  ##
+## ------------------------- ##
+
+AT_SETUP([%prec with user string])
+
+AT_DATA([[input.y]],
+[[%%
+exp:
+  "foo" %prec "foo"
+;
+]])
+
+AT_BISON_CHECK([-o input.c input.y])
+AT_CLEANUP
+
+
+## -------------------------------- ##
+## %no-default-prec without %prec.  ##
+## -------------------------------- ##
 
 AT_SETUP([%no-default-prec without %prec])
 
