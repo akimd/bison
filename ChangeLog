@@ -1,3 +1,10 @@
+2009-06-11  Akim Demaille  <demaille@gostai.com>
+
+	tests: honor TESTSUITEFLAGS in every check target.
+	* tests/local.mk (RUN_TESTSUITE): New.
+	(check-local, installcheck-local, maintainer-check-g++)
+	(maintainer-check-posix, maintainer-check-valgrind): Use it.
+
 2009-06-10  Akim Demaille  <demaille@gostai.com>
 
 	deterministic test suite.

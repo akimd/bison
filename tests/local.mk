@@ -1,7 +1,7 @@
 ## Makefile for Bison testsuite.
 
-## Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free
-## Software Foundation, Inc.
+## Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
+## Free Software Foundation, Inc.
 
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -64,6 +64,7 @@ TESTSUITE_AT =					\
   tests/torture.at
 
 TESTSUITE = $(top_srcdir)/tests/testsuite
+RUN_TESTSUITE = $(TESTSUITE) -C tests $(TESTSUITEFLAGS)
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
 AUTOTESTFLAGS = -I $(top_srcdir)/tests
@@ -77,28 +78,28 @@ clean-local-tests:
 
 check-local: tests/atconfig tests/atlocal $(TESTSUITE)
 # Move into tests/ so that testsuite.dir etc. be created there.
-	$(TESTSUITE) -C tests $(TESTSUITEFLAGS)
+	$(RUN_TESTSUITE)
 
 check_SCRIPTS = tests/bison
 
 # Run the test suite on the *installed* tree.
 installcheck-local:
-	$(TESTSUITE) -C tests AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
+	$(RUN_TESTSUITE) AUTOTEST_PATH="$(bindir)"
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++
 maintainer-check-g++: $(TESTSUITE)
-	$(TESTSUITE) -C tests CC='$(CXX)'
+	$(RUN_TESTSUITE) CC='$(CXX)'
 
 .PHONY: maintainer-check-posix
 maintainer-check-posix: $(TESTSUITE)
-	$(TESTSUITE) -C tests POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
+	$(RUN_TESTSUITE) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
 
 .PHONY: maintainer-check-valgrind
 maintainer-check-valgrind: $(TESTSUITE)
 	test -z '$(VALGRIND)' || \
 	   VALGRIND_OPTS='--leak-check=full --show-reachable=yes' \
-	   $(TESTSUITE) -C tests PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'
+	   $(RUN_TESTSUITE) PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'
 
 .PHONY: maintainer-check
 maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++
