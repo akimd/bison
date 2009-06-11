@@ -524,9 +524,9 @@ input.y: expected 2 shift/reduce conflicts
 AT_CLEANUP
 
 
-## ------------------------------ ##
-## %expect with reduce conflicts  ##
-## ------------------------------ ##
+## ------------------------------- ##
+## %expect with reduce conflicts.  ##
+## ------------------------------- ##
 
 AT_SETUP([%expect with reduce conflicts])
 
@@ -587,9 +587,9 @@ AT_BISON_CHECK([-o input.c input.y], 0, [],
 AT_CLEANUP
 
 
-## ---------------------------- ##
-## %no-default-prec with %prec  ##
-## ---------------------------- ##
+## ----------------------------- ##
+## %no-default-prec with %prec.  ##
+## ----------------------------- ##
 
 AT_SETUP([%no-default-prec with %prec])
 
@@ -611,9 +611,9 @@ AT_BISON_CHECK([-o input.c input.y])
 AT_CLEANUP
 
 
-## ---------------- ##
-## %default-prec    ##
-## ---------------- ##
+## --------------- ##
+## %default-prec.  ##
+## --------------- ##
 
 AT_SETUP([%default-prec])
 

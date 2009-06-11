@@ -3,7 +3,7 @@
 <!--
     xml2dot.xsl - transform Bison XML Report into DOT.
 
-    Copyright (C) 2007, 2008 Free Software Foundation, Inc.
+    Copyright (C) 2007, 2008, 2009 Free Software Foundation, Inc.
 
     This file is part of Bison, the GNU Compiler Compiler.
 
@@ -196,11 +196,11 @@
         <xsl:with-param name="search" select="$search"/>
         <xsl:with-param name="replace" select="$replace"/>
       </xsl:call-template>
-    </xsl:when> 
+    </xsl:when>
     <xsl:otherwise>
-      <xsl:value-of select="$subject"/>  
+      <xsl:value-of select="$subject"/>
     </xsl:otherwise>
-  </xsl:choose>            
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>
