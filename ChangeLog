@@ -1,5 +1,12 @@
 2009-06-11  Akim Demaille  <demaille@gostai.com>
 
+	style changes.
+	* data/xslt/xml2dot.xsl, data/xslt/xml2xhtml.xsl: Space changes.
+	* src/print-xml.c: Style changes.
+	* tests/conflicts.at: Comment changes.
+
+2009-06-11  Akim Demaille  <demaille@gostai.com>
+
 	xml: beware of user strings used to give a %prec to rules.
 	* tests/conflicts.at (%prec with user strings): New.
 	* src/gram.c (grammar_rules_print_xml): Escape the precedence for

@@ -3,7 +3,7 @@
 <!--
     xml2html.xsl - transform Bison XML Report into XHTML.
 
-    Copyright (C) 2007, 2008 Free Software Foundation, Inc.
+    Copyright (C) 2007, 2008, 2009 Free Software Foundation, Inc.
 
     This file is part of Bison, the GNU Compiler Compiler.
 
@@ -48,15 +48,15 @@
 	font-size: 9pt;
       }
       a:link {
- 	color: #1f00ff;
+	color: #1f00ff;
 	text-decoration: none;
       }
       a:visited {
- 	color: #1f00ff;
+	color: #1f00ff;
 	text-decoration: none;
       }
       a:hover {
- 	color: red;
+	color: red;
       }
       #menu a {
         text-decoration: underline;
