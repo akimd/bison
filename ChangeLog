@@ -1,3 +1,10 @@
+2009-06-11  Akim Demaille  <demaille@gostai.com>
+
+	hash: check insertion for memory exhaustion.
+	* src/muscle-tab.c (muscle_insert, muscle_grow)
+	* src/state.c (state_hash_insert): Check the return value of
+	hash_insert.
+
 2009-06-10  Akim Demaille  <demaille@gostai.com>
 
 	deterministic test suite.
