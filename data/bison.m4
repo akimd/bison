@@ -718,17 +718,27 @@ b4_percent_define_if_define_([$1], $[1], $[2])])
 
 # b4_parse_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
 # b4_parse_trace_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
-# b4_error_verbose_if([IF-ERRORS-ARE-VERBOSE], [IF-NOT])
 # b4_lex_symbol_if([IF-YYLEX-RETURNS-A-COMPLETE-SYMBOL], [IF-NOT])
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
-b4_percent_define_if_define([error-verbose])
 b4_percent_define_if_define([lex_symbol])
 b4_percent_define_if_define([locations])     # Whether locations are tracked.
 b4_percent_define_if_define([parse.assert])
 b4_percent_define_if_define([parse.trace])
 b4_percent_define_if_define([variant])
 
+
+# b4_error_verbose_if([IF-ERRORS-ARE-VERBOSE], [IF-NOT])
+# ------------------------------------------------------
+# Map %define parse.error "(simple|verbose)" to b4_error_verbose_if and
+# b4_error_verbose_flag.
+b4_percent_define_default([[parse.error]], [[simple]])
+b4_percent_define_check_values([[[[parse.error]],
+                               [[simple]], [[verbose]]]])
+m4_case(b4_percent_define_get([[parse.error]]),
+        [simple],  [m4_define([b4_error_verbose_flag], [[0]])],
+        [verbose], [m4_define([b4_error_verbose_flag], [[1]])])
+b4_define_flag_if([error_verbose])
 
 
 # b4_percent_define_check_values(VALUES)

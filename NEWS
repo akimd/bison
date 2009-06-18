@@ -30,6 +30,12 @@ Bison News
   The "namespace" variable is renamed "api.namespace".  Backward
   compatibility is ensured, but upgrading is recommended.
 
+** Variable parse.error
+
+  The variable error controls the verbosity of error messages.  The
+  use of the %error-verbose directive is deprecated in favor of
+  %define parse.error "verbose".
+
 * Changes in version 2.5 (????-??-??):
 
 ** IELR(1) and Canonical LR(1) Support

@@ -4998,23 +4998,6 @@ empty
 @c api.tokens.prefix
 
 
-@item error-verbose
-@findex %define error-verbose
-@itemize
-@item Languages(s):
-all.
-@item Purpose:
-Enable the generation of more verbose error messages than a instead of
-just plain @w{@code{"syntax error"}}.  @xref{Error Reporting, ,The Error
-Reporting Function @code{yyerror}}.
-@item Accepted Values:
-Boolean
-@item Default Value:
-@code{false}
-@end itemize
-@c error-verbose
-
-
 @item lr.default-reductions
 @cindex default reductions
 @findex %define lr.default-reductions
@@ -5209,6 +5192,8 @@ facilitate the development of a grammar.
 Obsoleted by @code{api.namespace}
 @c namespace
 
+
+@c ================================================== parse.assert
 @item parse.assert
 @findex %define parse.assert
 
@@ -5225,6 +5210,34 @@ destroyed properly.  This option checks these constraints.
 @end itemize
 @c parse.assert
 
+
+@c ================================================== parse.error
+@item parse.error
+@findex %define parse.error
+@itemize
+@item Languages(s):
+all.
+@item Purpose:
+Control the kind of error messages passed to the error reporting
+function.  @xref{Error Reporting, ,The Error Reporting Function
+@code{yyerror}}.
+@item Accepted Values:
+@itemize
+@item @code{"simple"}
+Error messages passed to @code{yyerror} are simply @w{@code{"syntax
+error"}}.
+@item @code{"verbose"}
+Error messages report the unexpected token, and possibly the expected
+ones.
+@end itemize
+
+@item Default Value:
+@code{simple}
+@end itemize
+@c parse.error
+
+
+@c ================================================== parse.trace
 @item parse.trace
 @findex %define parse.trace
 
@@ -5884,7 +5897,7 @@ int yyparse (int *nastiness, int *randomness);
 @cindex parse error
 @cindex syntax error
 
-The Bison parser detects a @dfn{syntax error} or @dfn{parse error}
+The Bison parser detects a @dfn{syntax error} (or @dfn{parse error})
 whenever it reads a token which cannot satisfy any syntax rule.  An
 action in the grammar can also explicitly proclaim an error, using the
 macro @code{YYERROR} (@pxref{Action Features, ,Special Features for Use
@@ -5896,8 +5909,8 @@ called by @code{yyparse} whenever a syntax error is found, and it
 receives one argument.  For a syntax error, the string is normally
 @w{@code{"syntax error"}}.
 
-@findex %define error-verbose
-If you invoke the directive @samp{%define error-verbose} in the Bison
+@findex %define parse.error
+If you invoke @samp{%define parse.error "verbose"} in the Bison
 declarations section (@pxref{Bison Declarations, ,The Bison Declarations
 Section}), then Bison provides a more verbose and specific error message
 string instead of just plain @w{@code{"syntax error"}}.
@@ -8821,7 +8834,7 @@ error messages.
 @comment file: calc++-parser.yy
 @example
 %define parse.trace
-%define error-verbose
+%define parse.error "verbose"
 @end example
 
 @noindent
@@ -9309,7 +9322,7 @@ Run the syntactic analysis, and return @code{true} on success,
 @deftypemethod {YYParser} {boolean} getErrorVerbose ()
 @deftypemethodx {YYParser} {void} setErrorVerbose (boolean @var{verbose})
 Get or set the option to produce verbose error messages.  These are only
-available with the @samp{%define error-verbose} directive, which also turn on
+available with @samp{%define parse.error "verbose"}, which also turns on
 verbose error messages.
 @end deftypemethod
 
@@ -10238,7 +10251,7 @@ token is reset to the token that originally caused the violation.
 @end deffn
 
 @deffn {Directive} %error-verbose
-An obsolete directive standing for @samp{%define error-verbose}.
+An obsolete directive standing for @samp{%define parse.error "verbose"}.
 @end deffn
 
 @deffn {Directive} %file-prefix "@var{prefix}"
@@ -10444,8 +10457,8 @@ An obsolete macro used in the @file{yacc.c} skeleton, that you define
 with @code{#define} in the prologue to request verbose, specific error
 message strings when @code{yyerror} is called.  It doesn't matter what
 definition you use for @code{YYERROR_VERBOSE}, just whether you define
-it.  Using @samp{%define error-verbose} is preferred (@pxref{Error
-Reporting, ,The Error Reporting Function @code{yyerror}}).
+it.  Using @samp{%define parse.error "verbose"} is preferred
+(@pxref{Error Reporting, ,The Error Reporting Function @code{yyerror}}).
 @end deffn
 
 @deffn {Macro} YYINITDEPTH

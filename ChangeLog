@@ -1,3 +1,25 @@
+2009-06-29  Akim Demaille  <demaille@gostai.com>
+
+	variables: parse.error
+
+	Implement, document, and test the replacement of %error-verbose
+	by %define parse.error "verbose".
+	* data/bison.m4 (b4_error_verbose_if): Reimplement to track the
+	values of the parse.error variable.
+	Make "simple" its default value.
+	Check the valid values.
+	* src/parse-gram.y: Use %define parse.error.
+	(PERCENT_ERROR_VERBOSE): New token.
+	Support it.
+	* src/scan-gram.l: Support %error-verbose.
+
+	* doc/bison.texinfo (Decl Summary): Replace the documentation of
+	%define error-verbose by that of %define parse.error.
+	* NEWS: Document it.
+
+	* tests/actions.at, tests/calc.at: Use parse.error instead of
+	%error-verbose.
+
 2009-06-27  Alex Rozenman  <rozenman@gmail.com>
 
 	Implement support for named symbol references.
