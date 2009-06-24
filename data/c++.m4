@@ -24,22 +24,31 @@ m4_include(b4_pkgdatadir/[c.m4])
 ## Default values.  ##
 ## ---------------- ##
 
-# Default parser class name.
 b4_percent_define_default([[parser_class_name]], [[parser]])
 b4_percent_define_default([[location_type]], [[location]])
 b4_percent_define_default([[filename_type]], [[std::string]])
-b4_percent_define_default([[namespace]], m4_defn([b4_prefix]))
+
+# api.namespace defaults to namespace, and then to b4_prefix.
+b4_percent_define_ifdef([api.namespace],
+   [],
+   [b4_percent_define_ifdef([namespace],
+       [b4_percent_define_copy([namespace], [api.namespace])],
+       [b4_percent_define_default([api.namespace],
+                                  m4_defn([b4_prefix]))])])
+
 b4_percent_define_default([[global_tokens_and_yystype]], [[false]])
 b4_percent_define_default([[define_location_comparison]],
                           [m4_if(b4_percent_define_get([[filename_type]]),
                                  [std::string], [[true]], [[false]])])
 
 
+
 ## ----------- ##
 ## Namespace.  ##
 ## ----------- ##
 
-m4_define([b4_namespace_ref], [b4_percent_define_get([[namespace]])])
+m4_define([b4_namespace_ref], [b4_percent_define_get([[api.namespace]])])
+
 
 # Don't permit an empty b4_namespace_ref.  Any `::parser::foo' appended to it
 # would compile as an absolute reference with `parser' in the global namespace.
@@ -49,7 +58,7 @@ m4_define([b4_namespace_ref], [b4_percent_define_get([[namespace]])])
 # include the header, which is always generated.  If we ever need to permit
 # internal linkage somehow, surely we can find a cleaner approach.
 m4_if(m4_bregexp(b4_namespace_ref, [^[	 ]*$]), [-1], [],
-[b4_complain_at(b4_percent_define_get_loc([[namespace]]),
+[b4_complain_at(b4_percent_define_get_loc([[api.namespace]]),
                 [[namespace reference is empty]])])
 
 # Instead of assuming the C++ compiler will do it, Bison should reject any
@@ -60,20 +69,20 @@ m4_if(m4_bregexp(b4_namespace_ref, [^[	 ]*$]), [-1], [],
 # Specifically, don't allow empty names as b4_namespace_open would just convert
 # those into anonymous namespaces, and that might tempt some users.
 m4_if(m4_bregexp(b4_namespace_ref, [::[	 ]*::]), [-1], [],
-[b4_complain_at(b4_percent_define_get_loc([[namespace]]),
+[b4_complain_at(b4_percent_define_get_loc([[api.namespace]]),
                 [[namespace reference has consecutive "::"]])])
 m4_if(m4_bregexp(b4_namespace_ref, [::[	 ]*$]), [-1], [],
-[b4_complain_at(b4_percent_define_get_loc([[namespace]]),
+[b4_complain_at(b4_percent_define_get_loc([[api.namespace]]),
                 [[namespace reference has a trailing "::"]])])
 
 m4_define([b4_namespace_open],
-[b4_user_code([b4_percent_define_get_syncline([[namespace]])
+[b4_user_code([b4_percent_define_get_syncline([[api.namespace]])
 [namespace ]m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref),
                                                 [^\(.\)[	 ]*::], [\1])),
                          [::], [ { namespace ])[ {]])])
 
 m4_define([b4_namespace_close],
-[b4_user_code([b4_percent_define_get_syncline([[namespace]])
+[b4_user_code([b4_percent_define_get_syncline([[api.namespace]])
 m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref[ ]),
                                     [^\(.\)[	 ]*\(::\)?\([^][:]\|:[^:]\)*],
                                     [\1])),

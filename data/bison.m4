@@ -551,6 +551,44 @@ m4_popdef([b4_start])dnl
 m4_popdef([b4_end])dnl
 ])])
 
+
+
+## --------------------- ##
+## b4_percent_define_*.  ##
+## --------------------- ##
+
+
+# b4_percent_define_use(VARIABLE)
+# -------------------------------
+# Declare that VARIABLE was used.
+m4_define([b4_percent_define_use],
+[m4_define([b4_percent_define_bison_variables(]$1[)])dnl
+])
+
+
+# b4_percent_define_copy_(SOURCE, DESTINATION, [|_loc|_syncline])
+# ---------------------------------------------------------------
+# Copy the value/loc/syncline from the variable SOURCE to the DESTINATION.
+# Ignore undefined values.  "Use" the SOURCE so that there are no
+# complaints about unused variables.
+m4_define([b4_percent_define_copy_],
+[m4_ifdef([b4_percent_define$3(]$1[)],
+          [m4_define([b4_percent_define$3(]$2[)],
+                     m4_defn([b4_percent_define$3(]$1[)]))])dnl
+])
+
+
+# b4_percent_define_copy(SOURCE, DESTINATION)
+# -------------------------------------------
+# Define the variable DESTINATION as a copy of SOURCE.
+m4_define([b4_percent_define_copy],
+[b4_percent_define_use([$1])dnl
+b4_percent_define_copy_([$1], [$2], [])dnl
+b4_percent_define_copy_([$1], [$2], [_loc])dnl
+b4_percent_define_copy_([$1], [$2], [_syncline])dnl
+])
+
+
 # b4_percent_define_get(VARIABLE)
 # -------------------------------
 # Mimic muscle_percent_define_get in ../src/muscle_tab.h exactly.  That is, if
@@ -562,7 +600,7 @@ m4_popdef([b4_end])dnl
 #
 #   b4_percent_define_get([[foo]])
 m4_define([b4_percent_define_get],
-[m4_define([b4_percent_define_bison_variables(]$1[)])dnl
+[b4_percent_define_use([$1])dnl
 m4_ifdef([b4_percent_define(]$1[)], [m4_indir([b4_percent_define(]$1[)])])])
 
 # b4_percent_define_get_loc(VARIABLE)
@@ -613,7 +651,7 @@ m4_define([b4_percent_define_get_syncline],
 #   b4_percent_define_ifdef([[foo]], [[it's defined]], [[it's undefined]])
 m4_define([b4_percent_define_ifdef],
 [m4_ifdef([b4_percent_define(]$1[)],
-	  [m4_define([b4_percent_define_bison_variables(]$1[)])$2],
+	  [b4_percent_define_use([$1])$2],
 	  [$3])])
 
 

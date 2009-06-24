@@ -303,7 +303,7 @@ m4_define([AT_CHECK_NAMESPACE],
 AT_DATA_GRAMMAR([[input.y]],
 [[%language "C++"
 %defines
-%define namespace "]$1["
+%define api.namespace "]$1["
 %union { int i; }
 %define global_tokens_and_yystype
 %locations

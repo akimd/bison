@@ -1,3 +1,24 @@
+2009-06-24  Akim Demaille  <demaille@gostai.com>
+
+	variables: rename namespace as api.namespace.
+	Discussed in
+	http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00033.html
+
+	* data/bison.m4 (b4_percent_define_copy_, b4_percent_define_copy):
+	New.
+	(b4_percent_define_use): New.
+	Use it where applicable.
+	* data/c++.m4: Replace uses of the variable "namespace" by
+	"api.namespace".
+	Default the latter to the former.
+	* doc/bison.texinfo (Decl Summary): Document "namespace" as
+	obsolete.
+	Document api.namespace.
+	Use @samp to document %define uses, keep @code for identifiers.
+	* NEWS: Likewise.
+	* tests/c++.at, tests/input.at: Test api.namespace instead of
+	namespace. (The tests passed with namespace.)
+
 2009-06-11  Akim Demaille  <demaille@gostai.com>
 
 	style changes.

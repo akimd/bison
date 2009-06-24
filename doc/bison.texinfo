@@ -4541,7 +4541,7 @@ statically allocated variables for communication with @code{yylex},
 including @code{yylval} and @code{yylloc}.)
 
 Alternatively, you can generate a pure, reentrant parser.  The Bison
-declaration @code{%define api.pure} says that you want the parser to be
+declaration @samp{%define api.pure} says that you want the parser to be
 reentrant.  It looks like this:
 
 @example
@@ -4645,14 +4645,14 @@ for use by the next invocation of the @code{yypush_parse} function.
 
 Bison also supports both the push parser interface along with the pull parser
 interface in the same generated parser.  In order to get this functionality,
-you should replace the @code{%define api.push-pull "push"} declaration with the
-@code{%define api.push-pull "both"} declaration.  Doing this will create all of
+you should replace the @samp{%define api.push-pull "push"} declaration with the
+@samp{%define api.push-pull "both"} declaration.  Doing this will create all of
 the symbols mentioned earlier along with the two extra symbols, @code{yyparse}
 and @code{yypull_parse}.  @code{yyparse} can be used exactly as it normally
 would be used.  However, the user should note that it is implemented in the
 generated parser by calling @code{yypull_parse}.
 This makes the @code{yyparse} function that is generated with the
-@code{%define api.push-pull "both"} declaration slower than the normal
+@samp{%define api.push-pull "both"} declaration slower than the normal
 @code{yyparse} function.  If the user
 calls the @code{yypull_parse} function it will parse the rest of the input
 stream.  It is possible to @code{yypush_parse} tokens to select a subgrammar
@@ -4668,9 +4668,9 @@ yypull_parse (ps); /* Will call the lexer */
 yypstate_delete (ps);
 @end example
 
-Adding the @code{%define api.pure} declaration does exactly the same thing to
-the generated parser with @code{%define api.push-pull "both"} as it did for
-@code{%define api.push-pull "push"}.
+Adding the @samp{%define api.pure} declaration does exactly the same thing to
+the generated parser with @samp{%define api.push-pull "both"} as it did for
+@samp{%define api.push-pull "push"}.
 
 @node Decl Summary
 @subsection Bison Declaration Summary
@@ -4871,6 +4871,61 @@ target language and/or parser skeleton.
 Some of the accepted @var{variable}s are:
 
 @table @code
+@c ================================================== namespace
+@item api.namespace
+@findex %define api.namespace
+@itemize
+@item Languages(s): C++
+
+@item Purpose: Specifies the namespace for the parser class.
+For example, if you specify:
+
+@smallexample
+%define api.namespace "foo::bar"
+@end smallexample
+
+Bison uses @code{foo::bar} verbatim in references such as:
+
+@smallexample
+foo::bar::parser::semantic_type
+@end smallexample
+
+However, to open a namespace, Bison removes any leading @code{::} and then
+splits on any remaining occurrences:
+
+@smallexample
+namespace foo @{ namespace bar @{
+  class position;
+  class location;
+@} @}
+@end smallexample
+
+@item Accepted Values:
+Any absolute or relative C++ namespace reference without a trailing
+@code{"::"}.  For example, @code{"foo"} or @code{"::foo::bar"}.
+
+@item Default Value:
+The value specified by @code{%name-prefix}, which defaults to @code{yy}.
+This usage of @code{%name-prefix} is for backward compatibility and can
+be confusing since @code{%name-prefix} also specifies the textual prefix
+for the lexical analyzer function.  Thus, if you specify
+@code{%name-prefix}, it is best to also specify @samp{%define
+api.namespace} so that @code{%name-prefix} @emph{only} affects the
+lexical analyzer function.  For example, if you specify:
+
+@smallexample
+%define api.namespace "foo"
+%name-prefix "bar::"
+@end smallexample
+
+The parser namespace is @code{foo} and @code{yylex} is referenced as
+@code{bar::lex}.
+@end itemize
+@c namespace
+
+
+
+@c ================================================== api.pure
 @item api.pure
 @findex %define api.pure
 
@@ -4886,6 +4941,9 @@ Some of the accepted @var{variable}s are:
 @end itemize
 @c api.pure
 
+
+
+@c ================================================== api.push-pull
 @item api.push-pull
 @findex %define api.push-pull
 
@@ -5144,57 +5202,11 @@ facilitate the development of a grammar.
 @item Default Value: @code{"LALR"}
 @end itemize
 
+
+@c ================================================== namespace
 @item namespace
 @findex %define namespace
-
-@itemize
-@item Languages(s): C++
-
-@item Purpose: Specifies the namespace for the parser class.
-For example, if you specify:
-
-@smallexample
-%define namespace "foo::bar"
-@end smallexample
-
-Bison uses @code{foo::bar} verbatim in references such as:
-
-@smallexample
-foo::bar::parser::semantic_type
-@end smallexample
-
-However, to open a namespace, Bison removes any leading @code{::} and then
-splits on any remaining occurrences:
-
-@smallexample
-namespace foo @{ namespace bar @{
-  class position;
-  class location;
-@} @}
-@end smallexample
-
-@item Accepted Values: Any absolute or relative C++ namespace reference without
-a trailing @code{"::"}.
-For example, @code{"foo"} or @code{"::foo::bar"}.
-
-@item Default Value: The value specified by @code{%name-prefix}, which defaults
-to @code{yy}.
-This usage of @code{%name-prefix} is for backward compatibility and can be
-confusing since @code{%name-prefix} also specifies the textual prefix for the
-lexical analyzer function.
-Thus, if you specify @code{%name-prefix}, it is best to also specify
-@code{%define namespace} so that @code{%name-prefix} @emph{only} affects the
-lexical analyzer function.
-For example, if you specify:
-
-@smallexample
-%define namespace "foo"
-%name-prefix "bar::"
-@end smallexample
-
-The parser namespace is @code{foo} and @code{yylex} is referenced as
-@code{bar::lex}.
-@end itemize
+Obsoleted by @code{api.namespace}
 @c namespace
 
 @item parse.assert
@@ -5316,7 +5328,7 @@ is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
 @code{yypstate_new} and @code{yypstate_delete} will
 also be renamed.  For example, if you use @samp{%name-prefix "c_"}, the
 names become @code{c_parse}, @code{c_lex}, and so on.
-For C++ parsers, see the @code{%define namespace} documentation in this
+For C++ parsers, see the @samp{%define api.namespace} documentation in this
 section.
 @xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
 @end deffn
@@ -5343,7 +5355,7 @@ Specify @var{file} for the parser file.
 @end deffn
 
 @deffn {Directive} %pure-parser
-Deprecated version of @code{%define api.pure} (@pxref{Decl Summary, ,%define}),
+Deprecated version of @samp{%define api.pure} (@pxref{Decl Summary, ,%define}),
 for which Bison is more careful to warn about unreasonable usage.
 @end deffn
 
@@ -5557,8 +5569,8 @@ exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypush_parse} to parse a single token.  This
-function is available if either the @code{%define api.push-pull "push"} or
-@code{%define api.push-pull "both"} declaration is used.
+function is available if either the @samp{%define api.push-pull "push"} or
+@samp{%define api.push-pull "both"} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *yyps)
@@ -5575,7 +5587,7 @@ is required to finish parsing the grammar.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypull_parse} to parse the rest of the input
-stream.  This function is available if the @code{%define api.push-pull "both"}
+stream.  This function is available if the @samp{%define api.push-pull "both"}
 declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
@@ -5591,8 +5603,8 @@ The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_new} to create a new parser instance.
-This function is available if either the @code{%define api.push-pull "push"} or
-@code{%define api.push-pull "both"} declaration is used.
+This function is available if either the @samp{%define api.push-pull "push"} or
+@samp{%define api.push-pull "both"} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun yypstate *yypstate_new (void)
@@ -5610,8 +5622,8 @@ allocated.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_delete} to delete a parser instance.
-function is available if either the @code{%define api.push-pull "push"} or
-@code{%define api.push-pull "both"} declaration is used.
+function is available if either the @samp{%define api.push-pull "push"} or
+@samp{%define api.push-pull "both"} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun void yypstate_delete (yypstate *yyps)
@@ -5799,7 +5811,7 @@ The data type of @code{yylloc} has the name @code{YYLTYPE}.
 @node Pure Calling
 @subsection Calling Conventions for Pure Parsers
 
-When you use the Bison declaration @code{%define api.pure} to request a
+When you use the Bison declaration @samp{%define api.pure} to request a
 pure, reentrant parser, the global communication variables @code{yylval}
 and @code{yylloc} cannot be used.  (@xref{Pure Decl, ,A Pure (Reentrant)
 Parser}.)  In such parsers the two global variables are replaced by
@@ -5850,7 +5862,7 @@ int yylex   (int *nastiness);
 int yyparse (int *nastiness, int *randomness);
 @end example
 
-If @code{%define api.pure} is added:
+If @samp{%define api.pure} is added:
 
 @example
 int yylex   (YYSTYPE *lvalp, int *nastiness);
@@ -5858,7 +5870,7 @@ int yyparse (int *nastiness, int *randomness);
 @end example
 
 @noindent
-and finally, if both @code{%define api.pure} and @code{%locations} are used:
+and finally, if both @samp{%define api.pure} and @code{%locations} are used:
 
 @example
 int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
@@ -5885,7 +5897,7 @@ receives one argument.  For a syntax error, the string is normally
 @w{@code{"syntax error"}}.
 
 @findex %define error-verbose
-If you invoke the directive @code{%define error-verbose} in the Bison
+If you invoke the directive @samp{%define error-verbose} in the Bison
 declarations section (@pxref{Bison Declarations, ,The Bison Declarations
 Section}), then Bison provides a more verbose and specific error message
 string instead of just plain @w{@code{"syntax error"}}.
@@ -5942,7 +5954,7 @@ void yyerror (int *nastiness, char const *msg);  /* GLR parsers.   */
 Finally, @acronym{GLR} and Yacc parsers share the same @code{yyerror} calling
 convention for absolutely pure parsers, i.e., when the calling
 convention of @code{yylex} @emph{and} the calling convention of
-@code{%define api.pure} are pure.
+@samp{%define api.pure} are pure.
 I.e.:
 
 @example
@@ -8360,8 +8372,9 @@ The C++ deterministic parser is selected using the skeleton directive,
 
 When run, @command{bison} will create several entities in the @samp{yy}
 namespace.
-@findex %define namespace
-Use the @samp{%define namespace} directive to change the namespace name, see
+@findex %define api.namespace
+Use the @samp{%define api.namespace} directive to change the namespace
+name, see
 @ref{Decl Summary}.
 The various classes are generated in the following files:
 
@@ -8545,7 +8558,7 @@ described by @var{m}.
 
 The parser invokes the scanner by calling @code{yylex}.  Contrary to C
 parsers, C++ parsers are always pure: there is no point in using the
-@code{%define api.pure} directive.  Therefore the interface is as follows.
+@samp{%define api.pure} directive.  Therefore the interface is as follows.
 
 @deftypemethod {parser} {int} yylex (semantic_value_type& @var{yylval}, location_type& @var{yylloc}, @var{type1} @var{arg1}, ...)
 Return the next token.  Its type is the return value, its semantic
@@ -9109,7 +9122,7 @@ You can create documentation for generated parsers using Javadoc.
 Contrary to C parsers, Java parsers do not use global variables; the
 state of the parser is always local to an instance of the parser class.
 Therefore, all Java parsers are ``pure'', and the @code{%pure-parser}
-and @code{%define api.pure} directives does not do anything when used in
+and @samp{%define api.pure} directives does not do anything when used in
 Java.
 
 Push parsers are currently unsupported in Java and @code{%define
@@ -9157,7 +9170,7 @@ semantic values' types (class names) should be specified in the
 By default, the semantic stack is declared to have @code{Object} members,
 which means that the class types you specify can be of any class.
 To improve the type safety of the parser, you can declare the common
-superclass of all the semantic values using the @code{%define stype}
+superclass of all the semantic values using the @samp{%define stype}
 directive.  For example, after the following declaration:
 
 @example
@@ -9197,11 +9210,11 @@ in a file; Bison itself defines a class representing a @dfn{location},
 a range composed of a pair of positions (possibly spanning several
 files).  The location class is an inner class of the parser; the name
 is @code{Location} by default, and may also be renamed using
-@code{%define location_type "@var{class-name}}.
+@samp{%define location_type "@var{class-name}}.
 
 The location class treats the position as a completely opaque value.
 By default, the class name is @code{Position}, but this can be changed
-with @code{%define position_type "@var{class-name}"}.  This class must
+with @samp{%define position_type "@var{class-name}"}.  This class must
 be supplied by the user.
 
 
@@ -9236,22 +9249,22 @@ properly, the position class should override the @code{equals} and
 The name of the generated parser class defaults to @code{YYParser}.  The
 @code{YY} prefix may be changed using the @code{%name-prefix} directive
 or the @option{-p}/@option{--name-prefix} option.  Alternatively, use
-@code{%define parser_class_name "@var{name}"} to give a custom name to
+@samp{%define parser_class_name "@var{name}"} to give a custom name to
 the class.  The interface of this class is detailed below.
 
 By default, the parser class has package visibility.  A declaration
-@code{%define public} will change to public visibility.  Remember that,
+@samp{%define public} will change to public visibility.  Remember that,
 according to the Java language specification, the name of the @file{.java}
 file should match the name of the class in this case.  Similarly, you can
 use @code{abstract}, @code{final} and @code{strictfp} with the
 @code{%define} declaration to add other modifiers to the parser class.
-A single @code{%define annotations "@var{annotations}"} directive can
+A single @samp{%define annotations "@var{annotations}"} directive can
 be used to add any number of annotations to the parser class.
 
 The Java package name of the parser class can be specified using the
-@code{%define package} directive.  The superclass and the implemented
+@samp{%define package} directive.  The superclass and the implemented
 interfaces of the parser class can be specified with the @code{%define
-extends} and @code{%define implements} directives.
+extends} and @samp{%define implements} directives.
 
 The parser class defines an inner class, @code{Location}, that is used
 for location tracking (see @ref{Java Location Values}), and a inner
@@ -9272,7 +9285,7 @@ used.
 
 Use @code{%code init} for code added to the start of the constructor
 body. This is especially useful to initialize superclasses. Use
-@code{%define init_throws} to specify any uncatch exceptions.
+@samp{%define init_throws} to specify any uncatch exceptions.
 @end deftypeop
 
 @deftypeop {Constructor} {YYParser} {} YYParser (Lexer @var{lexer}, @var{parse_param}, @dots{})
@@ -9285,7 +9298,7 @@ created with the correct @code{%lex-param}s.
 
 Use @code{%code init} for code added to the start of the constructor
 body. This is especially useful to initialize superclasses. Use
-@code{%define init_throws} to specify any uncatch exceptions.
+@samp{%define init_throws} to specify any uncatch exceptions.
 @end deftypeop
 
 @deftypemethod {YYParser} {boolean} parse ()
@@ -9296,7 +9309,7 @@ Run the syntactic analysis, and return @code{true} on success,
 @deftypemethod {YYParser} {boolean} getErrorVerbose ()
 @deftypemethodx {YYParser} {void} setErrorVerbose (boolean @var{verbose})
 Get or set the option to produce verbose error messages.  These are only
-available with the @code{%define error-verbose} directive, which also turn on
+available with the @samp{%define error-verbose} directive, which also turn on
 verbose error messages.
 @end deftypemethod
 
@@ -9362,7 +9375,7 @@ In both cases, the scanner has to implement the following methods.
 @deftypemethod {Lexer} {void} yyerror (Location @var{loc}, String @var{msg})
 This method is defined by the user to emit an error message.  The first
 parameter is omitted if location tracking is not active.  Its type can be
-changed using @code{%define location_type "@var{class-name}".}
+changed using @samp{%define location_type "@var{class-name}".}
 @end deftypemethod
 
 @deftypemethod {Lexer} {int} yylex ()
@@ -9370,7 +9383,7 @@ Return the next token.  Its type is the return value, its semantic
 value and location are saved and returned by the ther methods in the
 interface.
 
-Use @code{%define lex_throws} to specify any uncaught exceptions.
+Use @samp{%define lex_throws} to specify any uncaught exceptions.
 Default is @code{java.io.IOException}.
 @end deftypemethod
 
@@ -9380,14 +9393,14 @@ Return respectively the first position of the last token that
 @code{yylex} returned, and the first position beyond it.  These
 methods are not needed unless location tracking is active.
 
-The return type can be changed using @code{%define position_type
+The return type can be changed using @samp{%define position_type
 "@var{class-name}".}
 @end deftypemethod
 
 @deftypemethod {Lexer} {Object} getLVal ()
 Return the semantical value of the last token that yylex returned.
 
-The return type can be changed using @code{%define stype
+The return type can be changed using @samp{%define stype
 "@var{class-name}".}
 @end deftypemethod
 
@@ -9398,7 +9411,7 @@ The return type can be changed using @code{%define stype
 The following special constructs can be uses in Java actions.
 Other analogous C action features are currently unavailable for Java.
 
-Use @code{%define throws} to specify any uncaught exceptions from parser
+Use @samp{%define throws} to specify any uncaught exceptions from parser
 actions, and initial actions specified by @code{%initial-action}.
 
 @defvar $@var{n}
@@ -9415,7 +9428,7 @@ Like @code{$@var{n}} but specifies a alternative type @var{typealt}.
 @defvar $$
 The semantic value for the grouping made by the current rule.  As a
 value, this is in the base type (@code{Object} or as specified by
-@code{%define stype}) as in not cast to the declared subtype because
+@samp{%define stype}) as in not cast to the declared subtype because
 casts are not allowed on the left-hand side of Java assignments.
 Use an explicit Java cast if the correct subtype is needed.
 @xref{Java Semantic Values}.
@@ -9502,7 +9515,7 @@ corresponds to these C macros.}.
 @item
 Java lacks unions, so @code{%union} has no effect.  Instead, semantic
 values have a common base type: @code{Object} or as specified by
-@code{%define stype}.  Angle backets on @code{%token}, @code{type},
+@samp{%define stype}.  Angle backets on @code{%token}, @code{type},
 @code{$@var{n}} and @code{$$} specify subtypes rather than fields of
 an union.  The type of @code{$$}, even with angle brackets, is the base
 type since Java casts are not allow on the left-hand side of assignments.
@@ -9516,7 +9529,7 @@ The prolog declarations have a different meaning than in C/C++ code.
 @item @code{%code imports}
 blocks are placed at the beginning of the Java source code.  They may
 include copyright notices.  For a @code{package} declarations, it is
-suggested to use @code{%define package} instead.
+suggested to use @samp{%define package} instead.
 
 @item unqualified @code{%code}
 blocks are placed inside the parser class.
@@ -9557,7 +9570,7 @@ constructor that @emph{creates} a lexer.  Default is none.
 
 @deffn {Directive} %name-prefix "@var{prefix}"
 The prefix of the parser class name @code{@var{prefix}Parser} if
-@code{%define parser_class_name} is not used.  Default is @code{YY}.
+@samp{%define parser_class_name} is not used.  Default is @code{YY}.
 @xref{Java Bison Interface}.
 @end deffn
 
@@ -9747,7 +9760,7 @@ or
 @display
 My parser includes support for an @samp{#include}-like feature, in
 which case I run @code{yyparse} from @code{yyparse}.  This fails
-although I did specify @code{%define api.pure}.
+although I did specify @samp{%define api.pure}.
 @end display
 
 These problems typically come not from Bison itself, but from
@@ -10309,7 +10322,7 @@ Bison declaration to assign precedence to token(s), but no associativity
 @end deffn
 
 @deffn {Directive} %pure-parser
-Deprecated version of @code{%define api.pure} (@pxref{Decl Summary, ,%define}),
+Deprecated version of @samp{%define api.pure} (@pxref{Decl Summary, ,%define}),
 for which Bison is more careful to warn about unreasonable usage.
 @end deffn
 
@@ -10431,7 +10444,7 @@ An obsolete macro used in the @file{yacc.c} skeleton, that you define
 with @code{#define} in the prologue to request verbose, specific error
 message strings when @code{yyerror} is called.  It doesn't matter what
 definition you use for @code{YYERROR_VERBOSE}, just whether you define
-it.  Using @code{%define error-verbose} is preferred (@pxref{Error
+it.  Using @samp{%define error-verbose} is preferred (@pxref{Error
 Reporting, ,The Error Reporting Function @code{yyerror}}).
 @end deffn
 

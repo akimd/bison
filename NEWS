@@ -25,6 +25,11 @@ Bison News
   use these prefixed token names, although the grammar itself still
   uses the short names (as in the sample rule given above).
 
+** Variable api.namespace
+
+  The "namespace" variable is renamed "api.namespace".  Backward
+  compatibility is ensured, but upgrading is recommended.
+
 * Changes in version 2.5 (????-??-??):
 
 ** IELR(1) and Canonical LR(1) Support

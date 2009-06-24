@@ -1123,14 +1123,14 @@ m4_define([AT_CHECK_NAMESPACE_ERROR],
 AT_DATA([[input.y]],
 [[%language "C++"
 %defines
-%define namespace "]$1["
+%define api.namespace "]$1["
 %%
 start: ;
 ]])
 
 AT_BISON_CHECK([[input.y]], [1], [],
 [m4_foreach([b4_arg], m4_dquote(m4_shift($@)),
-[[input.y:3.9-17: ]b4_arg[
+[[input.y:3.9-21: ]b4_arg[
 ]])])
 ])
 
