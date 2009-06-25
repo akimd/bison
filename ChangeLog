@@ -1,3 +1,8 @@
+2009-06-25  Akim Demaille  <demaille@gostai.com>
+
+	hash: check insertion for memory exhaustion.
+	* src/uniqstr.c (uniqstr_new): New.
+
 2009-06-11  Akim Demaille  <demaille@gostai.com>
 
 	style changes.
