@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.4.323-f8e7-dirty.  */
+/* A Bison parser, made by GNU Bison 2.4.336-b5c21.  */
 
 /* Interface for Bison's Yacc-like parsers in C
 
@@ -89,7 +89,8 @@
      TAG = 306,
      TAG_ANY = 307,
      TAG_NONE = 308,
-     PERCENT_UNION = 309
+     BRACKETED_ID = 309,
+     PERCENT_UNION = 310
    };
 #endif
 /* Tokens.  */
@@ -145,7 +146,8 @@
 #define TAG 306
 #define TAG_ANY 307
 #define TAG_NONE 308
-#define PERCENT_UNION 309
+#define BRACKETED_ID 309
+#define PERCENT_UNION 310
 
 
 
@@ -153,8 +155,8 @@
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 1663 of yacc.c  */
-#line 92 "parse-gram.y"
+/* Line 1600 of yacc.c  */
+#line 94 "parse-gram.y"
 
   symbol *symbol;
   symbol_list *list;
@@ -164,10 +166,11 @@ typedef union YYSTYPE
   assoc assoc;
   uniqstr uniqstr;
   unsigned char character;
+  named_ref *named_ref;
 
 
-/* Line 1663 of yacc.c  */
-#line 171 "src/parse-gram.h"
+/* Line 1600 of yacc.c  */
+#line 174 "../bison/src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
