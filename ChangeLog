@@ -1,3 +1,8 @@
+2009-06-29  Eric Blake  <ebb9@byu.net>
+
+	scan-code: avoid compiler warnings
+	* src/scan-code.l (parse_named_ref): Use correct specifiers.
+
 2009-06-29  Akim Demaille  <demaille@gostai.com>
 
 	build: avoid concurrent extraction of calc++.
