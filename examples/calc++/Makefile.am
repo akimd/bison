@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+## Copyright (C) 2005, 2006, 2009 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,12 +31,16 @@ $(BISON): $(BISON_IN)
 doc = $(top_srcdir)/doc/bison.texinfo
 extexi = $(top_srcdir)/examples/extexi
 # Extract in src.
-$(calc_extracted): $(doc) $(extexi)
+calc.stamp: $(doc) $(extexi)
+	rm -f $@ $@.tmp
+	touch $@.tmp
 	cd $(srcdir) && \
 	   $(AWK) -f ../extexi -v VERSION="$(VERSION)" \
 	     ../../doc/bison.texinfo -- calc++-parser.yy \
 	     calc++-scanner.ll calc++.cc calc++-driver.hh calc++-driver.cc
+	mv $@.tmp $@
 
+$(calc_extracted): calc.stamp
 
 ## ------------------- ##
 ## Parser generation.  ##

@@ -1,3 +1,12 @@
+2009-06-29  Akim Demaille  <demaille@gostai.com>
+
+	build: avoid concurrent extraction of calc++.
+	* examples/calc++/Makefile.am (calc.stamp): New.
+	Depend on it to create the sources of calc++ so that concurrent
+	builds don't launch several "extexi" in parallel.
+	Not only this is inefficient, this also builds incorrect sources
+	with several extractions mixed together.
+
 2009-06-25  Akim Demaille  <demaille@gostai.com>
 
 	hash: check insertion for memory exhaustion.
