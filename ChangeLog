@@ -1,5 +1,12 @@
 2009-06-29  Akim Demaille  <demaille@gostai.com>
 
+	parse.error: fix.
+	* data/bison.m4: Move code related to specific variables after the
+	definition of the variable-maintaining macros so that we don't
+	"invoke" b4_percent_define_check_values before it is defined.
+
+2009-06-29  Akim Demaille  <demaille@gostai.com>
+
 	variables: parse.error
 
 	Implement, document, and test the replacement of %error-verbose
