@@ -534,7 +534,7 @@ parse_named_ref(char *cp, symbol_list *rule, int rule_length,
       if (variant->ind == 0)
 	strcpy(at_buf, "$$");
       else
-	snprintf(at_buf, sizeof(at_buf), "$%d", variant->ind);
+	snprintf(at_buf, sizeof(at_buf), "$%ld", variant->ind);
 
       if (variant->err == 0)
 	complain_at (variant->loc, _("  refers to: %c%s at %s"),
@@ -588,7 +588,7 @@ parse_named_ref(char *cp, symbol_list *rule, int rule_length,
 			    "mid-rule action at $%d", midrule_rhs_index);
 
 	  obstack_1grow (&msg_buf, '\0');
-	  complain_at (loc, _("%s"), obstack_finish (&msg_buf));
+	  complain_at (loc, _("%s"), (char *) obstack_finish (&msg_buf));
 	  obstack_free (&msg_buf, 0);
 	}
     }
