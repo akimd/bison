@@ -54,7 +54,10 @@ MAINTAINERCLEANFILES = $(srcdir)/*.stamp $(BUILT_SOURCES)
 # Compile the parser and save cycles.
 # This code comes from "Handling Tools that Produce Many Outputs",
 # from the Automake documentation.
-EXTRA_DIST = $(srcdir)/calc++-parser.stamp $(srcdir)/calc++-parser.yy
+EXTRA_DIST =					\
+  $(srcdir)/calc++-parser.stamp			\
+  $(srcdir)/calc++-parser.yy			\
+  $(srcdir)/calc.stamp
 # Don't depend on $(BISON) otherwise we would rebuild these files
 # in srcdir, including during distcheck, which is forbidden.
 $(srcdir)/calc++-parser.stamp: $(srcdir)/calc++-parser.yy $(BISON_IN)

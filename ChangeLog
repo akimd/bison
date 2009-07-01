@@ -1,3 +1,9 @@
+2009-08-12  Akim Demaille  <demaille@gostai.com>
+
+	distcheck: fix.
+
+        * examples/calc++/Makefile.am: (EXTRA_DIST): Ship calc.stamp.
+
 2009-08-10  Joel E. Denny  <jdenny@clemson.edu>
 
 	* tests/local.mk (TESTSUITE_AT): Add named-refs.at.
