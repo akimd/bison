@@ -73,9 +73,6 @@ sub prefix_assignment ($$)
   # lib_libbison_a_SOURCES.
   $lhs_and_assign_op =~ s/(libbison)/lib_$1/g;
 
-  # Do not use gl_LIBOBJS, but its prefixed version.
-  $rhs =~ s/gl_LIBOBJS/gl_PREFIXED_LIBOBJS/g;
-
   return $lhs_and_assign_op . $rhs;
 }
 
@@ -93,7 +90,7 @@ sub prefix ($)
   # Prefix all the occurrence of files in rules.  If there is nothing
   # after in the :, it's probably a phony target, or a suffix rule.
   # Don't touch it.
-  s{^([\w.]+ *: *\w.*)$}
+  s{^([\w./]+ *: *\w.*)$}
    {prefix_words($1)}gem;
 
   # Prefix files in variables.
@@ -103,7 +100,7 @@ sub prefix ($)
   # These three guys escape all the other regular rules.
   s{(charset\.alias|ref-add\.sed|ref-del\.sed)}{$prefix$1}g;
   # Unfortunately, as a result we sometimes have lib/lib.
-  s{lib/lib/}{lib/}g;
+  s{($prefix){2}}{$1}g;
 
   # $(srcdir) is actually $(top_srcdir)/lib.
   s{\$\(srcdir\)}{\$(top_srcdir)/lib}g;
@@ -111,6 +108,12 @@ sub prefix ($)
   # Sometimes, t-$@ is used instead of $@-t, which, of course, does
   # not work when we have a $@ with a directory in it.
   s{t-\$\@}{\$\@-t}g;
+
+  # Some AC_SUBST patterns remain and would better be Make macros.
+  s{\@(MKDIR_P)\@}{\$($1)}g;
+
+  # Adjust paths in mkdir.
+  s{(\$\(MKDIR_P\))\s*(\w+)}{$1 $prefix$2}g;
 
   return $_;
 }
@@ -128,7 +131,7 @@ sub process ($)
   print $out $contents;
 }
 
-process ("lib/gnulib.mk")
+process ("${prefix}gnulib.mk")
 
 
 ### Setup "GNU" style for perl-mode and cperl-mode.

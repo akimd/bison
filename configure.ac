@@ -145,11 +145,13 @@ AC_SUBST([O0CXXFLAGS], [`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`])
 gt_JAVACOMP([1.3], [1.4])
 gt_JAVAEXEC
 
-AC_SUBST([gl_PREFIXED_LIBOBJS],
-         [$(echo "$gl_LIBOBJS" | sed -e 's, , lib/,g')])
-for ac_var in ERRNO_H GETOPT_H INTTYPES_H STDBOOL_H STDINT_H WCHAR_H WCTYPE_H
+# We use gnulib, but from lib/local.mk instead of lib/Makefile.am.
+# So prefix paths with lib/.  See also etc/prefix-gnulib-mk.
+gl_LIBOBJS=`echo "$gl_LIBOBJS" | sed -e 's, , lib/,g'`
+for ac_var in ALLOCA_H ERRNO_H FCNTL_H GETOPT_H INTTYPES_H \
+              STDBOOL_H STDINT_H SYS_WAIT_H WCHAR_H WCTYPE_H
 do
-  eval "$ac_var=lib/\$$ac_var"
+  eval "test 'x$ac_var' = x || $ac_var=lib/\$$ac_var"
 done
 AC_CONFIG_FILES([Makefile
 		 po/Makefile.in

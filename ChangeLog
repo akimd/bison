@@ -1,5 +1,19 @@
 2009-08-12  Akim Demaille  <demaille@gostai.com>
 
+	gnulib: improve prefixing.
+	* configure.ac (gl_PREFIXED_LIBOBJS): Don't rename it, rather,
+	change the value of...
+	(gl_LIBOBJS): this.
+	Adjust more variables.
+	* etc/prefix-gnulib-mk (prefix_assignment): Don't rename
+	gl_LIBOBJS.
+	(prefix): Also transform rules whose targets have slashes.
+	Use $prefix liberally.
+	Map @MKDIR_P@ to $(MKDIR_P).
+	Prefix directories that are mkdir'd.
+
+2009-08-12  Akim Demaille  <demaille@gostai.com>
+
 	build: fix paths.
 	When using $(top_builddir) inconsistently, Make (including GNU
 	Make) is sometimes confused.  As a result it may want to build
