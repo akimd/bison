@@ -35,7 +35,7 @@ $(CROSS_OPTIONS_TEXI): $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
 	{ test ! -f $@ || cat $@; } >$@~
 	test ! -f $@.tmp || rm -f $@.tmp
 	$(MAKE) $(AM_MAKEFLAGS) src/bison$(EXEEXT)
-	$(top_builddir)/src/bison --help |				 \
+	src/bison --help |				 \
 	  perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
 	diff -u $@~ $@.tmp || true
 	mv $@.tmp $@

@@ -1,5 +1,23 @@
 2009-08-12  Akim Demaille  <demaille@gostai.com>
 
+	build: fix paths.
+	When using $(top_builddir) inconsistently, Make (including GNU
+	Make) is sometimes confused.  As a result it may want to build
+	lib/libbison.la and $(top_builddir)/lib/libbison.la (the same
+	file, different names) concurrently, which, amusingly enough,
+	might end with:
+
+	  ranlib lib/libbison.a
+	  ranlib lib/libbison.a
+	  make[2]: *** [lib/libbison.a] Segmentation fault
+
+	on OS X.
+
+	* doc/local.mk, src/local.mk: Do not use $(top_builddir) when not
+	needed.
+
+2009-08-12  Akim Demaille  <demaille@gostai.com>
+
 	distcheck: fix.
 
         * examples/calc++/Makefile.am: (EXTRA_DIST): Ship calc.stamp.
