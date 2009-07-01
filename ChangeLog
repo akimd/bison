@@ -1,3 +1,9 @@
+2009-08-12  Akim Demaille  <demaille@gostai.com>
+
+	distcheck: fix.
+
+        * examples/calc++/Makefile.am: (EXTRA_DIST): Ship calc.stamp.
+
 2009-08-06  Joel E. Denny  <jdenny@clemson.edu>
 
 	maint: run "make update-copyright"
