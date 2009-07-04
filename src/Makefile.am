@@ -49,6 +49,7 @@ bison_SOURCES =					  \
 	location.c location.h			  \
 	main.c					  \
 	muscle_tab.c muscle_tab.h		  \
+	named-ref.c named-ref.h			  \
 	nullable.c nullable.h			  \
 	output.c output.h			  \
 	parse-gram.h parse-gram.y		  \
@@ -67,8 +68,7 @@ bison_SOURCES =					  \
 	system.h				  \
 	tables.h tables.c			  \
 	uniqstr.c uniqstr.h			  \
-	graphviz.c graphviz.h			  \
-	named-ref.c named-ref.h
+	graphviz.c graphviz.h
 
 EXTRA_bison_SOURCES = scan-code.l scan-skel.l scan-gram.l
 

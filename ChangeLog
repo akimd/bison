@@ -1,5 +1,10 @@
 2009-07-04  Alex Rozenman <rozenman@gmail.com>
 
+	Alphabetical order in src/Makefile.am.
+	* src/Makefile.am: Adjust.
+
+2009-07-04  Alex Rozenman <rozenman@gmail.com>
+
 	Style changes and factoring.
 	* src/named-ref.h: Add comments.
 	* src/parse-gram.y: Readability and style changes.
