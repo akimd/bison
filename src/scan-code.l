@@ -32,11 +32,12 @@
 #include "complain.h"
 #include "reader.h"
 #include "getargs.h"
-#include <get-errno.h>
-#include <quote.h>
-
 #include "scan-code.h"
 #include "symlist.h"
+
+#include <c-ctype.h>
+#include <get-errno.h>
+#include <quote.h>
 
 /* The current calling start condition: SC_RULE_ACTION or
    SC_SYMBOL_ACTION. */
@@ -49,7 +50,7 @@ static void handle_action_dollar (symbol_list *rule, char *cp,
 				  location dollar_loc);
 static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
 
-/* A string to be pushed to obstack after dollar/at has been handled */
+/* A string to be pushed to obstack after dollar/at has been handled. */
 static char *ref_tail_fields;
 
 static location the_location;
@@ -81,7 +82,8 @@ tag	 [^\0\n>]+
 splice	 (\\[ \f\t\v]*\n)*
 
 /* C style identifier. Must start with letter. Will be used for
-   named symbol references. */
+   named symbol references. Shall be kept synchronized with
+   scan-gram.l "letter" and "id". */
 letter	  [-.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
 id	  {letter}({letter}|[0-9])*
 ref      -?[0-9]+|{id}|"["{id}"]"|"$"
@@ -181,7 +183,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   "$"("<"{tag}">")?{ref}  {
     ref_tail_fields = 0;
     handle_action_dollar (self->rule, yytext, *loc);
-    if (ref_tail_fields != NULL) {
+    if (ref_tail_fields) {
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
     }
     need_semicolon = true;
@@ -189,7 +191,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   "@"{ref} {
     ref_tail_fields = 0;
     handle_action_at (self->rule, yytext, *loc);
-    if (ref_tail_fields != NULL) {
+    if (ref_tail_fields) {
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
     }
     need_semicolon = true;
@@ -285,60 +287,57 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 %%
 
-
 static inline bool
-symbol_list_null(symbol_list *l)
-{
-  if (l && !(l->content_type == SYMLIST_SYMBOL && l->content.sym == NULL))
-    return false;
-  else
-    return true;
-}
-
-static inline bool
-is_dot_or_dash(char ch)
+is_dot_or_dash (char ch)
 {
   return ch == '.' || ch == '-';
 }
 
 static inline bool
-is_digit(char ch)
+contains_dot_or_dash (const char* p)
 {
-  return '0' <= ch && ch <= '9';
+  for (; *p; ++p)
+    if (is_dot_or_dash (*p))
+      return true;
+  return false;
 }
 
-static inline bool
-contains_dot_or_dash(const char* str)
-{
-  return strpbrk(str, ".-") != NULL;
-}
-
-#define VARIANT_HIDDEN (1 << 0)
-#define VARIANT_BAD_BRACKETING (1 << 1)
-#define VARIANT_NOT_VISIBLE_FROM_MIDRULE (1 << 2)
-
+/* Defines a variant of a symbolic name resolution. */
 typedef struct
 {
   /* Index in symbol list. */
-  long int ind;
+  unsigned index;
 
   /* Matched symbol id and loc. */
   uniqstr id;
   location loc;
 
-  /* Hidding named reference. */
+  /* Hiding named reference. */
   named_ref* hidden_by;
 
-  /* Error flags. */
+  /* Error flags. May contain zero (no errors) or
+     a combination of VARIANT_* values. */
   unsigned err;
 } variant;
+
+/* Set when the variant refers to a symbol hidden
+   by an explicit symbol reference. */
+#define VARIANT_HIDDEN (1 << 0)
+
+/* Set when the variant refers to a symbol containing
+   dots or dashes. Will require explicit bracketing. */
+#define VARIANT_BAD_BRACKETING (1 << 1)
+
+/* Set when the variant refers to a symbol which is
+   not visible from current midrule. */
+#define VARIANT_NOT_VISIBLE_FROM_MIDRULE (1 << 2)
 
 static variant *variant_table = 0;
 static unsigned variant_table_size = 0;
 static unsigned variant_count = 0;
 
 static variant *
-variant_table_grow()
+variant_table_grow ()
 {
   ++variant_count;
   if (variant_count > variant_table_size)
@@ -352,16 +351,13 @@ variant_table_grow()
 }
 
 static char *
-find_prefix_end(const char *prefix, char *begin, char *end)
+find_prefix_end (const char *prefix, char *begin, char *end)
 {
   char *ptr = begin;
 
-  while (*prefix && ptr != end)
-    {
-      if (*prefix != *ptr)
-	return 0;
-      ++prefix, ++ptr;
-    }
+  for (; *prefix && ptr != end; ++prefix, ++ptr)
+    if (*prefix != *ptr)
+      return 0;
 
   if (*prefix)
     return 0;
@@ -370,18 +366,18 @@ find_prefix_end(const char *prefix, char *begin, char *end)
 }
 
 static variant *
-variant_add(uniqstr id, location loc, long int ind,
-	    char *cp, char *cp_end, bool exact_mode)
+variant_add (uniqstr id, location loc, unsigned index,
+	     char *cp, char *cp_end, bool exact_mode)
 {
   char *prefix_end;
 
-  prefix_end = find_prefix_end(id, cp, cp_end);
+  prefix_end = find_prefix_end (id, cp, cp_end);
   if (prefix_end &&
       (prefix_end == cp_end ||
-       (!exact_mode && is_dot_or_dash(*prefix_end))))
+       (!exact_mode && is_dot_or_dash (*prefix_end))))
     {
-      variant *r = variant_table_grow();
-      r->ind = ind;
+      variant *r = variant_table_grow ();
+      r->index = index;
       r->id = id;
       r->loc = loc;
       r->hidden_by = NULL;
@@ -392,27 +388,44 @@ variant_add(uniqstr id, location loc, long int ind,
     return NULL;
 }
 
+static const char *
+get_at_spec(unsigned index)
+{
+  static char at_buf[20];
+  if (index == 0)
+    strcpy (at_buf, "$$");
+  else
+    snprintf (at_buf, sizeof at_buf, "$%u", index);
+  return at_buf;
+}
+
+/* Returned from "parse_ref" when the reference
+   is inappropriate. */
 #define INVALID_REF (INT_MIN)
+
+/* Returned from "parse_ref" when the reference
+   points to LHS ($$) of the current rule. */
 #define LHS_REF (INT_MIN + 1)
 
+/* Parse named or positional reference. In case of positional
+   references, can return negative values for $-n "deep" stack
+   accesses. */
 static long int
-parse_named_ref(char *cp, symbol_list *rule, int rule_length,
-		int midrule_rhs_index, char *text, location loc,
-		char dollar_or_at)
+parse_ref (char *cp, symbol_list *rule, int rule_length,
+	   int midrule_rhs_index, char *text, location loc,
+	   char dollar_or_at)
 {
   symbol_list *l;
   char *cp_end;
   bool exact_mode;
   bool has_error;
   bool has_valid;
-  long int ind, i;
-  variant* variant;
-  char* p;
+  unsigned i;
 
   if ('$' == *cp)
     return LHS_REF;
 
-  if (is_digit (*cp) || (*cp == '-' && is_digit (* (cp + 1))))
+  if (c_isdigit (*cp) || (*cp == '-' && c_isdigit (* (cp + 1))))
     {
       long int num = strtol (cp, &cp, 10);
       if (1 - INT_MAX + rule_length <= num && num <= rule_length)
@@ -426,71 +439,78 @@ parse_named_ref(char *cp, symbol_list *rule, int rule_length,
 
   if ('[' == *cp)
     {
-      exact_mode = true;
-
       /* Ignore the brackets. */
-      ++cp;
-      for (p = cp; *p != ']'; ++p);
+      char *p;
+      for (p = ++cp; *p != ']'; ++p)
+	continue;
       cp_end = p;
+
+      exact_mode = true;
     }
   else
     {
-      exact_mode = false;
-
       /* Take all characters of the name. */
+      char* p;
       for (p = cp; *p; ++p)
-	if (is_dot_or_dash(*p))
+	if (is_dot_or_dash (*p))
 	  {
 	    ref_tail_fields = p;
 	    break;
 	  }
-      for (p = cp; *p; ++p);
+      for (p = cp; *p; ++p)
+	continue;
       cp_end = p;
+
+      exact_mode = false;
     }
 
   /* Add all relevant variants. */
-  variant_count = 0;
-  for (ind = 0, l = rule; !symbol_list_null(l); ++ind, l = l->next)
-    {
-      if (l->content_type != SYMLIST_SYMBOL)
-	continue;
+  {
+    unsigned index;
+    variant_count = 0;
+    for (index = 0, l = rule; !symbol_list_null (l); ++index, l = l->next)
+      {
+	variant *variant;
+	if (l->content_type != SYMLIST_SYMBOL)
+	  continue;
 
-      variant = variant_add(l->content.sym->tag, l->sym_loc, ind,
-			    cp, cp_end, exact_mode);
+	variant = variant_add (l->content.sym->tag, l->sym_loc, index,
+			       cp, cp_end, exact_mode);
 
-      if (variant && l->named_ref)
-	variant->hidden_by = l->named_ref;
+	if (variant && l->named_ref)
+	  variant->hidden_by = l->named_ref;
 
-      if (l->named_ref)
-	variant_add(l->named_ref->id, l->named_ref->loc, ind,
-		    cp, cp_end, exact_mode);
-    }
+	if (l->named_ref)
+	  variant_add (l->named_ref->id, l->named_ref->loc, index,
+		       cp, cp_end, exact_mode);
+      }
+  }
 
   /* Check errors. */
   has_error = false;
   has_valid = false;
   for (i = 0; i < variant_count; ++i)
     {
-      variant = &variant_table[i];
-      ind = variant->ind;
+      variant *variant = &variant_table[i];
+      unsigned index = variant->index;
 
       /* Check visibility from mid-rule actions. */
-      if (midrule_rhs_index != 0 &&
-	  (ind == 0 || ind > midrule_rhs_index))
+      if (midrule_rhs_index != 0
+	  && (index == 0 || midrule_rhs_index < index))
 	{
 	  variant->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
 	  has_error = true;
 	}
 
       /* Check correct bracketing. */
-      if (!exact_mode && contains_dot_or_dash(variant->id))
+      if (!exact_mode && contains_dot_or_dash (variant->id))
 	{
 	  variant->err |= VARIANT_BAD_BRACKETING;
 	  has_error = true;
 	}
 
       /* Check using of hidden symbols. */
-      if (variant->hidden_by != NULL)
+      if (variant->hidden_by)
 	{
 	  variant->err |= VARIANT_HIDDEN;
 	  has_error = true;
@@ -503,65 +523,47 @@ parse_named_ref(char *cp, symbol_list *rule, int rule_length,
   if (variant_count == 1 && has_valid)
     {
       /* The only "good" case is here. */
-      ind = variant_table[0].ind;
-      if (ind == midrule_rhs_index)
+      unsigned index = variant_table[0].index;
+      if (index == midrule_rhs_index)
 	return LHS_REF;
       else
-	return ind;
+	return index;
     }
 
   /* Start complaining. */
 
   if (variant_count == 0)
-    complain_at (loc, _("reference is invalid: %s, symbol not found"),
+    complain_at (loc, _("invalid reference: %s, symbol not found"),
 		 quote (text));
   else if (variant_count > 1 && !has_error)
-    complain_at (loc, _("reference is ambiguous: %s"),
+    complain_at (loc, _("ambiguous reference: %s"),
 		 quote (text));
   else if (variant_count > 1 && has_valid && has_error)
-    complain_at (loc, _("reference is misleading: %s"),
+    complain_at (loc, _("misleading reference: %s"),
 		 quote (text));
   else
-    complain_at (loc, _("reference is invalid: %s"),
+    complain_at (loc, _("invalid reference: %s"),
 		 quote (text));
 
   for (i = 0; i < variant_count; ++i)
     {
-      static char at_buf[20];
-
-      variant = &variant_table[i];
-
-      if (variant->ind == 0)
-	strcpy(at_buf, "$$");
-      else
-	snprintf(at_buf, sizeof(at_buf), "$%ld", variant->ind);
+      const variant *variant = &variant_table[i];
+      const char *at_spec = get_at_spec (variant->index);
 
       if (variant->err == 0)
 	complain_at (variant->loc, _("  refers to: %c%s at %s"),
-		     dollar_or_at, variant->id, at_buf);
+		     dollar_or_at, variant->id, at_spec);
       else
 	{
 	  static struct obstack msg_buf;
-	  const char *tail = "";
-	  const char *id;
-	  location loc;
-
-	  if (!exact_mode)
-	    tail = cp + strlen(variant->id);
-
-	  if (variant->hidden_by)
-	    {
-	      id = variant->hidden_by->id;
-	      loc = variant->hidden_by->loc;
-	    }
-	  else
-	    {
-	      id = variant->id;
-	      loc = variant->loc;
-	    }
+	  const char *tail = exact_mode ? "" :
+	    cp + strlen (variant->id);
+	  const char *id = variant->hidden_by ? variant->hidden_by->id :
+	    variant->id;
+	  location loc = variant->hidden_by ? variant->hidden_by->loc :
+	    variant->loc;
 
 	  /* Create the explanation message. */
-
 	  obstack_init (&msg_buf);
 
 	  obstack_fgrow1 (&msg_buf, "  possibly meant: %c", dollar_or_at);
@@ -581,7 +583,7 @@ parse_named_ref(char *cp, symbol_list *rule, int rule_length,
 	      obstack_sgrow (&msg_buf, tail);
 	    }
 
-	  obstack_fgrow1 (&msg_buf, " at %s", at_buf);
+	  obstack_fgrow1 (&msg_buf, " at %s", at_spec);
 
 	  if (variant->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
 	    obstack_fgrow1 (&msg_buf, ", cannot be accessed from "
@@ -617,7 +619,8 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
   char *cp = text + 1;
   char *gt_ptr = 0;
   symbol_list *effective_rule;
-  int effective_rule_length, n;
+  int effective_rule_length;
+  int n;
 
   if (rule->midrule_parent_rule)
     {
@@ -646,8 +649,8 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       tag_seen = true;
     }
 
-  n = parse_named_ref (cp, effective_rule, effective_rule_length,
-		       rule->midrule_parent_rhs_index, text, dollar_loc, '$');
+  n = parse_ref (cp, effective_rule, effective_rule_length,
+		 rule->midrule_parent_rhs_index, text, dollar_loc, '$');
 
   if (gt_ptr)
     *gt_ptr = '\0';
@@ -722,7 +725,8 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
 {
   char *cp = text + 1;
   symbol_list *effective_rule;
-  int effective_rule_length, n;
+  int effective_rule_length;
+  int n;
 
   if (rule->midrule_parent_rule)
     {
@@ -737,7 +741,7 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
 
   locations_flag = true;
 
-  n = parse_named_ref (cp, effective_rule, effective_rule_length,
+  n = parse_ref (cp, effective_rule, effective_rule_length,
 		       rule->midrule_parent_rhs_index, text, at_loc, '@');
   switch (n)
     {
@@ -796,7 +800,8 @@ code_props_none_init (code_props *self)
 code_props const code_props_none = CODE_PROPS_NONE_INIT;
 
 void
-code_props_plain_init (code_props *self, char const *code, location code_loc)
+code_props_plain_init (code_props *self, char const *code,
+		       location code_loc)
 {
   self->kind = CODE_PROPS_PLAIN;
   self->code = code;

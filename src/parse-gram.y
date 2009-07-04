@@ -27,10 +27,10 @@
 #include "getargs.h"
 #include "gram.h"
 #include "muscle_tab.h"
+#include "named-ref.h"
 #include "quotearg.h"
 #include "reader.h"
 #include "symlist.h"
-#include "named-ref.h"
 #include "scan-gram.h"
 #include "scan-code.h"
 
@@ -172,7 +172,7 @@ static int current_prec = 0;
 %token TYPE            "type"
 %token TYPE_TAG_ANY    "<*>"
 %token TYPE_TAG_NONE   "<>"
-%token BRACKETED_ID    "[id]"
+%token BRACKETED_ID    "[identifier]"
 
 %type <character> CHAR
 %printer { fputs (char_name ($$), stderr); } CHAR
@@ -551,11 +551,9 @@ rhs:
 ;
 
 named_ref.opt:
-  /* Nothing.  */
-    { $$ = 0; }
+  /* Nothing. */ { $$ = 0; }
 |
-  BRACKETED_ID
-    { $$ = named_ref_new($1, @1); }
+  BRACKETED_ID   { $$ = named_ref_new($1, @1); }
 ;
 
 
