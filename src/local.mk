@@ -70,6 +70,8 @@ src_bison_SOURCES =				\
   src/main.c					\
   src/muscle-tab.c				\
   src/muscle-tab.h				\
+  src/named-ref.c				\
+  src/named-ref.h				\
   src/nullable.c				\
   src/nullable.h				\
   src/output.c					\
@@ -104,9 +106,7 @@ src_bison_SOURCES =				\
   src/tables.c					\
   src/tables.h					\
   src/uniqstr.c					\
-  src/uniqstr.h					\
-  src/named-ref.c				\
-  src/named-ref.h
+  src/uniqstr.h
 
 EXTRA_src_bison_SOURCES =			\
   src/scan-code.l				\
