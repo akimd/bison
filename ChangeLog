@@ -1,3 +1,17 @@
+2009-07-04  Alex Rozenman <rozenman@gmail.com>
+
+	Style changes and factoring.
+	* src/named-ref.h: Add comments.
+	* src/parse-gram.y: Readability and style changes.
+	* src/reader.c: Factoring: assign_named_ref function.
+	* src/scan-code.l: Factoring and style changes. Rename
+	parse_named_ref to parse_ref. Use "c-ctype.h" from gnulib.
+	Use "unsigned" type for variant index. Improve readablity.
+	* src/scan-gram.l: Change error messages and add comments.
+	* src/symlist.h: symbol_list_null: New function decl.
+	* src/symlist.c: symbol_list_null: Implement here.
+	* tests/named-refs.at: Adjust for new error messages.
+
 2009-06-29  Eric Blake  <ebb9@byu.net>
 
 	scan-code: avoid compiler warnings

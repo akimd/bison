@@ -1,7 +1,6 @@
 # Named references test.                           -*- Autotest -*-
 
-# Copyright (C) 2009 Free Software
-# Foundation, Inc.
+# Copyright (C) 2009 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -256,14 +255,14 @@ exp:
 ]])
 
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:50.51-60: reference is invalid: `$<ival>lo9', symbol not found
-test.y:51.51-60: reference is misleading: `$<ival>exp'
+[[test.y:50.51-60: invalid reference: `$<ival>lo9', symbol not found
+test.y:51.51-60: misleading reference: `$<ival>exp'
 test.y:42.1-3:   refers to: $exp at $$
 test.y:51.7:   possibly meant: $x, hiding $exp at $1
 test.y:51.41:   possibly meant: $r, hiding $exp at $4
 test.y:52.51-52: $l of `exp' has no declared type
-test.y:55.46-49: reference is invalid: `$r12', symbol not found
-test.y:56.29-33: reference is invalid: `$expo', symbol not found
+test.y:55.46-49: invalid reference: `$r12', symbol not found
+test.y:56.29-33: invalid reference: `$expo', symbol not found
 ]])
 AT_CLEANUP
 
@@ -278,7 +277,7 @@ foo: '1'
 foo.bar: '2'
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:11.22-29: reference is misleading: `$foo.bar'
+[[test.y:11.22-29: misleading reference: `$foo.bar'
 test.y:11.8-10:   refers to: $foo at $1
 test.y:11.12-18:   possibly meant: $[foo.bar] at $2
 ]])
@@ -354,33 +353,33 @@ factor:     '(' expr ')'  { $$ = $2; }
     ;
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:24.36-41: reference is invalid: `$cond1', symbol not found
-test.y:26.43-53: reference is invalid: `$stmt.field'
+[[test.y:24.36-41: invalid reference: `$cond1', symbol not found
+test.y:26.43-53: invalid reference: `$stmt.field'
 test.y:25.35-38:   possibly meant: $then.field, hiding $stmt.field at $4
-test.y:28.43-52: reference is invalid: `$stmt.list'
+test.y:28.43-52: invalid reference: `$stmt.list'
 test.y:27.30-38:   possibly meant: $[stmt.list] at $4
-test.y:30.43-46: reference is ambiguous: `$xyz'
+test.y:30.43-46: ambiguous reference: `$xyz'
 test.y:29.35-37:   refers to: $xyz at $4
 test.y:29.50-52:   refers to: $xyz at $6
-test.y:32.43-52: reference is invalid: `$stmt.list'
+test.y:32.43-52: invalid reference: `$stmt.list'
 test.y:31.40-43:   possibly meant: $then, hiding $[stmt.list] at $4
 test.y:31.61-64:   possibly meant: $else, hiding $[stmt.list] at $6
-test.y:34.43-58: reference is invalid: `$stmt.list.field'
+test.y:34.43-58: invalid reference: `$stmt.list.field'
 test.y:33.40-43:   possibly meant: $then.field, hiding $[stmt.list].field at $4
 test.y:33.61-64:   possibly meant: $else.field, hiding $[stmt.list].field at $6
-test.y:36.43-54: reference is invalid: `$[stmt.list]'
+test.y:36.43-54: invalid reference: `$[stmt.list]'
 test.y:35.40-43:   possibly meant: $then, hiding $[stmt.list] at $4
 test.y:35.61-64:   possibly meant: $else, hiding $[stmt.list] at $6
-test.y:38.43-49: reference is invalid: `$then.1'
+test.y:38.43-49: invalid reference: `$then.1'
 test.y:37.40-45:   possibly meant: $[then.1] at $4
-test.y:40.43-55: reference is invalid: `$then.1.field'
+test.y:40.43-55: invalid reference: `$then.1.field'
 test.y:39.40-45:   possibly meant: $[then.1].field at $4
-test.y:42.44-50: reference is invalid: `$stmt.x'
+test.y:42.44-50: invalid reference: `$stmt.x'
 test.y:41.36-41:   possibly meant: $[stmt.x].x, hiding $stmt.x at $4
 test.y:41.36-41:   possibly meant: $[stmt.x] at $4
-test.y:44.13-22: reference is invalid: `$if-stmt-a'
+test.y:44.13-22: invalid reference: `$if-stmt-a'
 test.y:43.1-9:   possibly meant: $[if-stmt-a] at $$
-test.y:46.46-54: reference is invalid: `$then-a.f'
+test.y:46.46-54: invalid reference: `$then-a.f'
 test.y:45.41-46:   possibly meant: $[then-a].f at $4
 ]])
 AT_CLEANUP
@@ -395,7 +394,7 @@ start: foo[] bar
   { s = $foo; }
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:11.12: a non empty identifier expected
+[[test.y:11.12: an identifier expected
 ]])
 AT_CLEANUP
 
@@ -409,7 +408,7 @@ start: foo[ a d ] bar
   { s = $foo; }
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:11.15: redundant identifier in bracketed name: `d'
+[[test.y:11.15: unexpected identifier in bracketed name: `d'
 ]])
 AT_CLEANUP
 
@@ -423,7 +422,7 @@ start: foo[/* comment */] bar
   { s = $foo; }
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:11.25: a non empty identifier expected
+[[test.y:11.25: an identifier expected
 ]])
 AT_CLEANUP
 
@@ -452,6 +451,6 @@ AT_DATA_GRAMMAR([test.y],
 start[a s]: foo
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:11.9: redundant identifier in bracketed name: `s'
+[[test.y:11.9: unexpected identifier in bracketed name: `s'
 ]])
 AT_CLEANUP
