@@ -1,3 +1,23 @@
+2009-07-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Some M4 cleanup in the testsuite.
+	Suggested by Eric Blake at
+	<http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00083.html>.
+	* tests/existing.at (_AT_TEST_EXISTING_GRAMMAR): Do not
+	complicate the code by distinguishing between a missing value
+	and an empty string value for an optional argument.  This fix is
+	allowed by the similar fix in AT_TEST_TABLES_AND_PARSE below.
+	* tests/local.at (_AT_TEST_TABLES_AND_PARSE): Merge into...
+	(AT_TEST_TABLES_AND_PARSE): ... this now that the special
+	arguments are not needed because of the following changes.
+	Fix stale comments.
+	Bison developers should use GNU M4 and should not use
+	POSIXLY_CORRECT when building the test suite, so do not
+	complicate the code by avoiding $10 and above.
+	Do not quote an empty string value for an optional argument, and
+	do not distinguish between a missing value and an empty string
+	value.
+
 2009-07-15  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Revert unnecessary column realignment in --help output.

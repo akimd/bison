@@ -409,12 +409,9 @@ m4_define([AT_PARSER_CHECK],
 #                                      [[syntax error, unexpected 'b', expecting $end
 #   ]])])
 m4_define([AT_TEST_TABLES_AND_PARSE],
-[_AT_TEST_TABLES_AND_PARSE($[1], $[@], $@)])
+[m4_pushdef([AT_COND_CASE], [m4_case([$2], $][@)])
 
-m4_define([_AT_TEST_TABLES_AND_PARSE],
-[m4_pushdef([AT_COND_CASE], [m4_case([$4], $][@)])
-
-AT_SETUP([$3])
+AT_SETUP([$1])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%code {
@@ -423,11 +420,11 @@ AT_DATA_GRAMMAR([[input.y]],
   static int yylex (void);
 }
 
-]$6[
+]$4[
 
 %%
 
-]$7[
+]$5[
 
 %%
 
@@ -441,7 +438,7 @@ static int
 yylex (void)
 {
   static int const input[] = {
-    ]m4_if([$8], [], [], [$8], [[]], [], [$8[, ]])[0
+    ]m4_if([$6], [], [], [$6], [[]], [], [$6[, ]])[0
   };
   static int const *inputp = input;
   return *inputp++;
@@ -454,40 +451,32 @@ main (void)
 }
 ]])
 
-# AT_CHECK invokes AS_ESCAPE before expanding macros, so it corrupts some
-# special characters in the macros.  To avoid this, expand now and pass it
-# the result with proper string quotation.  Assume args 9 thru 14 expand to
-# properly quoted strings.
+# In some versions of Autoconf, AT_CHECK invokes AS_ESCAPE before
+# expanding macros, so it corrupts some special characters in the
+# macros.  To avoid this, expand now and pass it the result with proper
+# string quotation.  Assume args 7 thru 12 expand to properly quoted
+# strings.
 
-# Pass plenty of options, to exercise plenty of code, even if we
-# don't actually check the output.  But SEGV is watching us, and
-# so might do dmalloc.
-m4_if(m4_index(m4_quote($5), [no-xml]), -1,
+m4_if(m4_index(m4_quote($3), [no-xml]), -1,
       [AT_BISON_CHECK],
       [AT_BISON_CHECK_NO_XML])([[--report=all --defines -o input.c input.y]],
-                               [0], [], m4_dquote($9))
+                               [0], [], m4_dquote($7))
 
-# Sigh.  Some M4's can't reference arg 10 directly.
-m4_pushdef([arg10], m4_car(m4_shiftn(9, $@)))
-m4_if(m4_index(m4_quote($5), [last-state]), -1,
+m4_if(m4_index(m4_quote($3), [last-state]), -1,
       [AT_CHECK([[sed -n '/^state 0$/,$p' input.output]], [[0]],
-                m4_dquote(arg10))],
+                m4_dquote($8))],
       [AT_CHECK([[sed -n 's/^state //p' input.output | tail -1]], [[0]],
-                m4_dquote(arg10)[[
+                m4_dquote($8)[[
 ]])])
-m4_popdef([arg10])
 
-m4_if($#, 10, [], m4_car(m4_shiftn(10, $@)))
+$9
 
 AT_COMPILE([[input]])
 
-m4_pushdef([AT_EXPAND_ARGS], [$][*])
-m4_pushdef([AT_DQUOTE_EACH], [[[$1]]m4_if($][#, 1, [], [, AT_DQUOTE_EACH(m4_shift($2))])])
-
-AT_PARSER_CHECK([[./input]]m4_if($#, 10, [], $#, 11, [], [, AT_DQUOTE_EACH(AT_EXPAND_ARGS(m4_shiftn(11, $@)))]))
-
-m4_popdef([AT_DQUOTE_EACH])
-m4_popdef([AT_EXPAND_ARGS])
+AT_PARSER_CHECK([[./input]],
+                m4_ifval([$10], [m4_dquote($10)]),
+                m4_ifval([$11], [m4_dquote($11)]),
+                m4_ifval([$12], [m4_dquote($12)]))
 
 AT_CLEANUP
 
