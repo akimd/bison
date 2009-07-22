@@ -45,24 +45,18 @@ AT_TEST_TABLES_AND_PARSE([$2[: LALR(1)]], [[LALR]], [[last-state]],
                          [[%define lr.type "LALR"
 ]$3],
                          [$4], [$5], [$6], [$7],
-                         [AT_LALR1_DIFF_CHECK([$8])$9]m4_if($#, 8, [],
-                                                            $#, 9, [],
-                                                            [, m4_shiftn(9,
-                                                                         $@)]))
+                         [AT_LALR1_DIFF_CHECK([$8])$9], [$10], [$11], [$12])
 AT_TEST_TABLES_AND_PARSE([$2[: IELR(1)]], [[IELR]], [[last-state]],
                          [[%define lr.type "IELR"
 ]$3],
                          [$4], [$5], [$6], [$7],
-                         [AT_LALR1_DIFF_CHECK([$8])$9]m4_if($#, 8, [],
-                                                            $#, 9, [],
-                                                            [, m4_shiftn(9,
-                                                                         $@)]))
+                         [AT_LALR1_DIFF_CHECK([$8])$9], [$10], [$11], [$12])
 AT_TEST_TABLES_AND_PARSE([$2[: Canonical LR(1)]], [[canonical LR]],
                          [[last-state,no-xml]],
                          [[%define lr.type "canonical LR"
 ]$3],
                          [$4], [$5], [$6], [$7],
-                         [$9]m4_if($#, 8, [], $#, 9, [], [, m4_shiftn(9, $@)]))
+                         [$9], [$10], [$11], [$12])
 
 m4_popdef([AT_LALR1_DIFF_CHECK])
 ])
