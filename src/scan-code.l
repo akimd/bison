@@ -351,6 +351,15 @@ variant_table_grow ()
   return &variant_table[variant_count - 1];
 }
 
+static void
+variant_table_free ()
+{
+  if (variant_table)
+    free (variant_table);
+  variant_table = 0;
+  variant_table_size = variant_count = 0;
+}
+
 static char *
 find_prefix_end (const char *prefix, char *begin, char *end)
 {
@@ -866,6 +875,8 @@ void
 code_scanner_free (void)
 {
   obstack_free (&obstack_for_string, 0);
+  variant_table_free ();
+
   /* Reclaim Flex's buffers.  */
   yylex_destroy ();
 }

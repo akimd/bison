@@ -1,3 +1,11 @@
+2009-07-24  Alex Rozenman  <rozenmam@gmail.com>
+
+	Fix some memory leaks.
+	* src/named-ref.c: Add a pointer check (named_ref_free).
+	* src/scan-code.l: New function (variant_table_free). Called in
+	code_scanner_free.
+	* src/symlist.c: Call to named_ref_free (symbol_list_free).
+
 2009-07-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	* src/lalr.c (state_lookahead_tokens_count): Correct comment.
