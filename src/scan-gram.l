@@ -260,7 +260,7 @@ splice	 (\\[ \f\t\v]*\n)*
     complain_at (*loc, _("invalid identifier: %s"), quote (yytext));
   }
 
-  /* Characters.  We don't check there is only one.  */
+  /* Characters.  */
   "'"	      STRING_GROW; token_start = loc->start; BEGIN SC_ESCAPED_CHARACTER;
 
   /* Strings. */
@@ -493,24 +493,40 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_CHARACTER>
 {
   "'"|"\n" {
-    if (yytext[0] == '\n')
-      unexpected_newline (token_start, "'");
     STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
     val->character = last_string[1];
+    {
+      /* FIXME: Eventually, make these errors.  */
+      size_t length = strlen (last_string);
+      if (strlen (last_string) < 3)
+        warn_at (*loc, _("empty character literal"));
+      else if (strlen (last_string) > 3)
+        warn_at (*loc, _("extra characters in character literal"));
+    }
+    if (yytext[0] == '\n')
+      unexpected_newline (token_start, "'");
     STRING_FREE;
     BEGIN INITIAL;
     return CHAR;
   }
   <<EOF>> {
-    unexpected_eof (token_start, "'");
     STRING_FINISH;
     loc->start = token_start;
-    if (strlen (last_string) > 1)
-      val->character = last_string[1];
-    else
-      val->character = last_string[0];
+    {
+      size_t length = strlen (last_string);
+      /* FIXME: Eventually, make these errors.  */
+      if (length < 2)
+        warn_at (*loc, _("empty character literal"));
+      else if (length > 2)
+        warn_at (*loc, _("extra characters in character literal"));
+      if (length > 1)
+        val->character = last_string[1];
+      else
+        val->character = last_string[0];
+    }
+    unexpected_eof (token_start, "'");
     STRING_FREE;
     BEGIN INITIAL;
     return CHAR;

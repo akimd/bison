@@ -133,6 +133,19 @@ Bison News
   about a missing semicolon where it did not before.  Future releases of
   Bison will cease to append semicolons entirely.
 
+** Character literals not of length one.
+
+  Previously, Bison quietly converted all character literals to length
+  one.  For example, without warning, Bison interpreted the operators in
+  the following grammar to be the same token:
+
+    exp: exp '++'
+       | exp '+' exp
+       ;
+
+  Bison now warns when a character literal is not of length one.  In
+  some future release, Bison will report an error instead.
+
 * Changes in version 2.4.2 (????-??-??):
 
 ** %code is now a permanent feature.
