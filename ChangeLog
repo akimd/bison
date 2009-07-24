@@ -1,3 +1,7 @@
+2009-07-24  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	* src/lalr.c (state_lookahead_tokens_count): Correct comment.
+
 2009-07-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Some M4 cleanup in the testsuite.
