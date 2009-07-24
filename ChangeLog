@@ -1,5 +1,14 @@
 2009-07-24  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Warn about character literals not of length one.
+	* NEWS (2.5): Document.
+	* src/scan-gram.l (INITIAL): Remove comment that we don't check
+	the length.
+	(SC_ESCAPED_CHARACTER): Warn if length is wrong.
+	* tests/input.at (Bad character literals): New test group.
+
+2009-07-24  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	* src/lalr.c (state_lookahead_tokens_count): Correct comment.
 
 2009-07-22  Joel E. Denny  <jdenny@ces.clemson.edu>

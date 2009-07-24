@@ -1162,3 +1162,65 @@ AT_CHECK_NAMESPACE_ERROR([[::]],
                          [[namespace reference has a trailing "::"]])
 
 AT_CLEANUP
+
+## ------------------------ ##
+## Bad character literals.  ##
+## ------------------------ ##
+
+# Bison used to accept character literals that were empty or contained
+# too many characters.
+
+# FIXME: $ECHO_N and $ECHO_C are not very portable according to the
+# Autoconf manual.  Switch to AS_ECHO_N when Autoconf 2.64 is released?
+# Even better, AT_DATA or some variant of AT_DATA may eventually permit
+# a trailing newline.  See the threads starting at
+# <http://lists.gnu.org/archive/html/bison-patches/2009-07/msg00019.html>.
+
+AT_SETUP([[Bad character literals]])
+
+AT_DATA([empty.y],
+[[%%
+start: '';
+start: '
+]])
+echo $ECHO_N "start: '$ECHO_C" >> empty.y
+
+AT_BISON_CHECK([empty.y], [1], [],
+[[empty.y:2.8-9: warning: empty character literal
+empty.y:3.8-4.0: warning: empty character literal
+empty.y:3.8-4.0: missing `'' at end of line
+empty.y:4.8: warning: empty character literal
+empty.y:4.8: missing `'' at end of file
+]])
+
+AT_DATA([two.y],
+[[%%
+start: 'ab';
+start: 'ab
+]])
+echo $ECHO_N "start: 'ab$ECHO_C" >> two.y
+
+AT_BISON_CHECK([two.y], [1], [],
+[[two.y:2.8-11: warning: extra characters in character literal
+two.y:3.8-4.0: warning: extra characters in character literal
+two.y:3.8-4.0: missing `'' at end of line
+two.y:4.8-10: warning: extra characters in character literal
+two.y:4.8-10: missing `'' at end of file
+]])
+
+AT_DATA([three.y],
+[[%%
+start: 'abc';
+start: 'abc
+]])
+echo $ECHO_N "start: 'abc$ECHO_C" >> three.y
+
+AT_BISON_CHECK([three.y], [1], [],
+[[three.y:2.8-12: warning: extra characters in character literal
+three.y:3.8-4.0: warning: extra characters in character literal
+three.y:3.8-4.0: missing `'' at end of line
+three.y:4.8-11: warning: extra characters in character literal
+three.y:4.8-11: missing `'' at end of file
+]])
+
+AT_CLEANUP
