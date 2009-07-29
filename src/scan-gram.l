@@ -472,9 +472,9 @@ splice	 (\\[ \f\t\v]*\n)*
     {
       /* FIXME: Eventually, make these errors.  */
       size_t length = strlen (last_string);
-      if (strlen (last_string) < 3)
+      if (length < 3)
         warn_at (*loc, _("empty character literal"));
-      else if (strlen (last_string) > 3)
+      else if (length > 3)
         warn_at (*loc, _("extra characters in character literal"));
     }
     if (yytext[0] == '\n')
