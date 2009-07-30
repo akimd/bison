@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in -*-Makefile-*-
-## Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-## Foundation, Inc.
+## Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008-2009
+## Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ SUBDIRS = build-aux po runtime-po lib data src doc examples tests etc
 aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
-EXTRA_DIST = .prev-version .version cfg.mk maint.mk \
+EXTRA_DIST = .prev-version .version cfg.mk \
   OChangeLog PACKAGING \
   djgpp/Makefile.maint djgpp/README.in djgpp/config.bat \
   djgpp/config.sed djgpp/config.site djgpp/config_h.sed \

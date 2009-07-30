@@ -7,6 +7,7 @@
 /argmatch.c
 /argmatch.h
 /basename.c
+/bitrotate.h
 /c-ctype.c
 /c-ctype.h
 /c-strcase.h
@@ -33,6 +34,7 @@
 /getopt1.c
 /getopt_.h
 /getopt_int.h
+/getpagesize.c
 /gettext.h
 /gnulib.mk
 /hash.c
@@ -49,6 +51,7 @@
 /mbswidth.c
 /mbswidth.h
 /memchr.c
+/memchr.valgrind
 /obstack.c
 /obstack.h
 /pipe-safer.c
