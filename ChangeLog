@@ -1,5 +1,24 @@
 2009-08-04  Joel E. Denny  <jdenny@clemson.edu>
 
+	maint: automate annual package-wide copyright-year update.
+	* .x-update-copyright: New.
+	* Makefile.am (EXTRA_DIST): Remove maint.mk.
+	* bootstrap.conf (gnulib_modules): Add maintainer-makefile and
+	update-copyright.  Remove gnumakefile, which is implied by
+	maintainer-makefile.
+	* cfg.mk (bootstrap-tools): Copy from old maint.mk.
+	* gnulib: Update.
+	* maint.mk: Remove, now copied from gnulib.
+	* examples/extexi: Add missing "(C)" in copyright statement so
+	update-copyright can recognize it.
+	* src/LR0.h: Likewise.
+	* src/print.h: Likewise.
+	* src/print_graph.h: Likewise.
+	* src/gram.c: Add missing comma in copyright statement.
+	* src/gram.h: Likewise.
+
+2009-08-04  Joel E. Denny  <jdenny@clemson.edu>
+
 	Fix "make distcheck".
 	* examples/calc++/Makefile.am: Say $(srcdir)/calc.stamp instead
 	of just calc.stamp.

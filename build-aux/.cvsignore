@@ -15,4 +15,7 @@ link-warning.h
 mdate-sh
 missing
 texinfo.tex
+update-copyright
+useless-if-before-free
+vc-list-files
 ylwrap
