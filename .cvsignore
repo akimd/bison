@@ -26,6 +26,7 @@ conftest*
 gnulib
 javacomp.sh
 javaexec.sh
+maint.mk
 patches
 releases
 stamp-h*

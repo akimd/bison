@@ -27,7 +27,7 @@ aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
 EXTRA_DIST = .prev-version .version \
-  cfg.mk maint.mk \
+  cfg.mk \
   OChangeLog PACKAGING
 
 # Initialization before completion by local.mk's.
