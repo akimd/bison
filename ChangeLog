@@ -20,7 +20,7 @@
 	(SC_ESCAPED_CHARACTER): Warn if length is wrong.
 	* tests/input.at (Bad character literals): New test group.
 
-2009-07-24  Alex Rozenman  <rozenmam@gmail.com>
+2009-07-24  Alex Rozenman  <rozenman@gmail.com>
 
 	Fix some memory leaks.
 	* src/named-ref.c: Add a pointer check (named_ref_free).
@@ -59,12 +59,12 @@
 	<http://lists.gnu.org/archive/html/bison-patches/2009-06/msg00010.html>.
 	* src/getargs.c (usage): Here.
 
-2009-07-04  Alex Rozenman <rozenman@gmail.com>
+2009-07-04  Alex Rozenman  <rozenman@gmail.com>
 
 	Alphabetical order in src/local.mk.
 	* src/local.mk: Adjust.
 
-2009-07-04  Alex Rozenman <rozenman@gmail.com>
+2009-07-04  Alex Rozenman  <rozenman@gmail.com>
 
 	Style changes and factoring.
 	* src/named-ref.h: Add comments.
