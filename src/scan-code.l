@@ -337,7 +337,7 @@ static unsigned variant_table_size = 0;
 static unsigned variant_count = 0;
 
 static variant *
-variant_table_grow ()
+variant_table_grow (void)
 {
   ++variant_count;
   if (variant_count > variant_table_size)
@@ -351,10 +351,9 @@ variant_table_grow ()
 }
 
 static void
-variant_table_free ()
+variant_table_free (void)
 {
-  if (variant_table)
-    free (variant_table);
+  free (variant_table);
   variant_table = 0;
   variant_table_size = variant_count = 0;
 }
@@ -375,7 +374,7 @@ find_prefix_end (const char *prefix, char *begin, char *end)
 }
 
 static variant *
-variant_add (uniqstr id, location loc, unsigned index,
+variant_add (uniqstr id, location id_loc, unsigned symbol_index,
 	     char *cp, char *cp_end, bool exact_mode)
 {
   char *prefix_end;
@@ -386,9 +385,9 @@ variant_add (uniqstr id, location loc, unsigned index,
        (!exact_mode && is_dot_or_dash (*prefix_end))))
     {
       variant *r = variant_table_grow ();
-      r->index = index;
+      r->index = symbol_index;
       r->id = id;
-      r->loc = loc;
+      r->loc = id_loc;
       r->hidden_by = NULL;
       r->err = 0;
       return r;
@@ -398,13 +397,13 @@ variant_add (uniqstr id, location loc, unsigned index,
 }
 
 static const char *
-get_at_spec(unsigned index)
+get_at_spec(unsigned symbol_index)
 {
   static char at_buf[20];
-  if (index == 0)
+  if (symbol_index == 0)
     strcpy (at_buf, "$$");
   else
-    snprintf (at_buf, sizeof at_buf, "$%u", index);
+    snprintf (at_buf, sizeof at_buf, "$%u", symbol_index);
   return at_buf;
 }
 
@@ -421,7 +420,7 @@ get_at_spec(unsigned index)
    accesses. */
 static long int
 parse_ref (char *cp, symbol_list *rule, int rule_length,
-	   int midrule_rhs_index, char *text, location loc,
+	   int midrule_rhs_index, char *text, location text_loc,
 	   char dollar_or_at)
 {
   symbol_list *l;
@@ -441,7 +440,8 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 	return num;
       else
 	{
-	  complain_at (loc, _("integer out of range: %s"), quote (text));
+	  complain_at (text_loc, _("integer out of range: %s"),
+                       quote (text));
 	  return INVALID_REF;
 	}
     }
@@ -475,23 +475,23 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 
   /* Add all relevant variants. */
   {
-    unsigned index;
+    unsigned symbol_index;
     variant_count = 0;
-    for (index = 0, l = rule; !symbol_list_null (l); ++index, l = l->next)
+    for (symbol_index = 0, l = rule; !symbol_list_null (l);
+         ++symbol_index, l = l->next)
       {
-	variant *variant;
+	variant *var;
 	if (l->content_type != SYMLIST_SYMBOL)
 	  continue;
 
-	variant = variant_add (l->content.sym->tag, l->sym_loc, index,
-			       cp, cp_end, exact_mode);
-
-	if (variant && l->named_ref)
-	  variant->hidden_by = l->named_ref;
+	var = variant_add (l->content.sym->tag, l->sym_loc,
+                           symbol_index, cp, cp_end, exact_mode);
+	if (var && l->named_ref)
+	  var->hidden_by = l->named_ref;
 
 	if (l->named_ref)
-	  variant_add (l->named_ref->id, l->named_ref->loc, index,
-		       cp, cp_end, exact_mode);
+	  variant_add (l->named_ref->id, l->named_ref->loc,
+                       symbol_index, cp, cp_end, exact_mode);
       }
   }
 
@@ -500,77 +500,77 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
   has_valid = false;
   for (i = 0; i < variant_count; ++i)
     {
-      variant *variant = &variant_table[i];
-      unsigned index = variant->index;
+      variant *var = &variant_table[i];
+      unsigned symbol_index = var->index;
 
       /* Check visibility from mid-rule actions. */
       if (midrule_rhs_index != 0
-	  && (index == 0 || midrule_rhs_index < index))
+	  && (symbol_index == 0 || midrule_rhs_index < symbol_index))
 	{
-	  variant->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
+	  var->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
 	  has_error = true;
 	}
 
       /* Check correct bracketing. */
-      if (!exact_mode && contains_dot_or_dash (variant->id))
+      if (!exact_mode && contains_dot_or_dash (var->id))
 	{
-	  variant->err |= VARIANT_BAD_BRACKETING;
+	  var->err |= VARIANT_BAD_BRACKETING;
 	  has_error = true;
 	}
 
       /* Check using of hidden symbols. */
-      if (variant->hidden_by)
+      if (var->hidden_by)
 	{
-	  variant->err |= VARIANT_HIDDEN;
+	  var->err |= VARIANT_HIDDEN;
 	  has_error = true;
 	}
 
-      if (!variant->err)
+      if (!var->err)
 	has_valid = true;
     }
 
   if (variant_count == 1 && has_valid)
     {
       /* The only "good" case is here. */
-      unsigned index = variant_table[0].index;
-      if (index == midrule_rhs_index)
+      unsigned symbol_index = variant_table[0].index;
+      if (symbol_index == midrule_rhs_index)
 	return LHS_REF;
       else
-	return index;
+	return symbol_index;
     }
 
   /* Start complaining. */
 
   if (variant_count == 0)
-    complain_at (loc, _("invalid reference: %s, symbol not found"),
+    complain_at (text_loc, _("invalid reference: %s, symbol not found"),
 		 quote (text));
   else if (variant_count > 1 && !has_error)
-    complain_at (loc, _("ambiguous reference: %s"),
+    complain_at (text_loc, _("ambiguous reference: %s"),
 		 quote (text));
   else if (variant_count > 1 && has_valid && has_error)
-    complain_at (loc, _("misleading reference: %s"),
+    complain_at (text_loc, _("misleading reference: %s"),
 		 quote (text));
   else
-    complain_at (loc, _("invalid reference: %s"),
+    complain_at (text_loc, _("invalid reference: %s"),
 		 quote (text));
 
   for (i = 0; i < variant_count; ++i)
     {
-      const variant *variant = &variant_table[i];
-      const char *at_spec = get_at_spec (variant->index);
+      const variant *var = &variant_table[i];
+      const char *at_spec = get_at_spec (var->index);
 
-      if (variant->err == 0)
-	complain_at (variant->loc, _("  refers to: %c%s at %s"),
-		     dollar_or_at, variant->id, at_spec);
+      if (var->err == 0)
+	complain_at (var->loc, _("  refers to: %c%s at %s"),
+		     dollar_or_at, var->id, at_spec);
       else
 	{
 	  static struct obstack msg_buf;
 	  const char *tail = exact_mode ? "" :
-	    cp + strlen (variant->id);
-	  const char *id = variant->hidden_by ? variant->hidden_by->id :
-	    variant->id;
-	  location loc = variant->hidden_by ? variant->hidden_by->loc :
-	    variant->loc;
+	    cp + strlen (var->id);
+	  const char *id = var->hidden_by ? var->hidden_by->id :
+	    var->id;
+	  location id_loc = var->hidden_by ? var->hidden_by->loc :
+	    var->loc;
 
 	  /* Create the explanation message. */
 	  obstack_init (&msg_buf);
@@ -582,24 +582,24 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 	    obstack_sgrow (&msg_buf, id);
 	  obstack_sgrow (&msg_buf, tail);
 
-	  if (variant->err & VARIANT_HIDDEN)
+	  if (var->err & VARIANT_HIDDEN)
 	    {
 	      obstack_fgrow1 (&msg_buf, ", hiding %c", dollar_or_at);
-	      if (contains_dot_or_dash (variant->id))
-		obstack_fgrow1 (&msg_buf, "[%s]", variant->id);
+	      if (contains_dot_or_dash (var->id))
+		obstack_fgrow1 (&msg_buf, "[%s]", var->id);
 	      else
-		obstack_sgrow (&msg_buf, variant->id);
+		obstack_sgrow (&msg_buf, var->id);
 	      obstack_sgrow (&msg_buf, tail);
 	    }
 
 	  obstack_fgrow1 (&msg_buf, " at %s", at_spec);
 
-	  if (variant->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
+	  if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
 	    obstack_fgrow1 (&msg_buf, ", cannot be accessed from "
 			    "mid-rule action at $%d", midrule_rhs_index);
 
 	  obstack_1grow (&msg_buf, '\0');
-	  complain_at (loc, _("%s"), (char *) obstack_finish (&msg_buf));
+	  complain_at (id_loc, _("%s"), (char *) obstack_finish (&msg_buf));
 	  obstack_free (&msg_buf, 0);
 	}
     }
@@ -835,14 +835,14 @@ code_props_symbol_action_init (code_props *self, char const *code,
 void
 code_props_rule_action_init (code_props *self, char const *code,
                              location code_loc, symbol_list *rule,
-			     named_ref *named_ref)
+			     named_ref *name)
 {
   self->kind = CODE_PROPS_RULE_ACTION;
   self->code = code;
   self->location = code_loc;
   self->is_value_used = false;
   self->rule = rule;
-  self->named_ref = named_ref;
+  self->named_ref = name;
 }
 
 void
