@@ -18,7 +18,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-%option nodefault noyywrap nounput never-interactive debug
+%option nodefault noyywrap noinput nounput never-interactive debug
 %option prefix="skel_" outfile="lex.yy.c"
 
 %{
