@@ -1,3 +1,17 @@
+2009-08-01  Joel E. Denny  <jdenny@clemson.edu>
+
+	Pacify "gcc -Wunused" for the input function from Flex.
+	Reported by Alex Rozenman.  This warning shows up with gcc-4.3.0
+	and later.
+	* src/scan-code.l: Add "%option noinput", which I cannot find in
+	the Flex manual, but which Flex has supported since at least as
+	far back as 2.5.4.  However, if any of our developers still use
+	Flex 2.5.4, they'll need to stop configuring with
+	--enable-gcc-warnings because "%option noinput" didn't work
+	correctly until Flex 2.5.6.
+	* src/scan-gram.l: Likewise.
+	* src/scan-skel.l: Likewise.
+
 2009-06-29  Akim Demaille  <demaille@gostai.com>
 
 	build: avoid concurrent extraction of calc++.
