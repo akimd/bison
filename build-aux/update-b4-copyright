@@ -1,0 +1,124 @@
+#!/usr/bin/perl -0777 -pi
+# Update an b4_copyright invocation to include the current year.
+
+# Copyright (C) 2009 Free Software Foundation, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+use strict;
+use warnings;
+
+my $this_year = $ENV{UPDATE_COPYRIGHT_YEAR};
+if (!$this_year || $this_year !~ m/^\d\d(\d\d)?$/)
+  {
+    my ($sec, $min, $hour, $mday, $month, $year) = localtime (time ());
+    $this_year = $year + 1900;
+  }
+my $margin = 72;
+my $old_re = <<'EOF'
+  (
+    (?:^|\n)
+    (?:
+      b4_copyright\(\[[^]]*]
+      | m4_(?:push|pop)def\(\[b4_copyright_years]
+    )
+  )
+  (?:
+    ,\s*
+    (
+      \[\s* (?:\d{4}(,\s*|-))* (\d{4}) \s*]
+    )
+  )?
+  \)
+EOF
+  ;
+
+while (/$old_re/x)
+  {
+    my $b4_copyright_line = $1;
+    my $year_lines = $2;
+    my $sep = $3 ? $3 : "";
+    my $final_year = $4;
+    $year_lines .= ')';
+
+    # Mark it completed.
+    $b4_copyright_line =~ s/b4_/b4*/g;
+
+    # If there was a second argument, it contains years, so update them.
+    if ($final_year)
+      {
+        $b4_copyright_line .= ',';
+        if ($final_year != $this_year)
+          {
+            # Update the year.
+            if ($sep eq '-' && $final_year + 1 == $this_year)
+              {
+                $year_lines =~ s/$final_year/$this_year/;
+              }
+            elsif ($sep ne '-' && $final_year + 1 == $this_year)
+              {
+                $year_lines =~ s/$final_year/$final_year-$this_year/;
+              }
+            else
+              {
+                $year_lines =~ s/$final_year/$final_year, $this_year/;
+              }
+          }
+
+          # Normalize all whitespace.
+          $year_lines =~ s/\s+/ /g;
+
+          # Put spaces after commas.
+          $year_lines =~ s/, ?/, /g;
+
+          # Format within margin.
+          my $year_lines_new;
+          my $indent = index ($b4_copyright_line, '[');
+          --$indent if ($b4_copyright_line =~ m/^\n/);
+          while (length $year_lines)
+            {
+              my $text_margin = $margin - $indent;
+              if (($year_lines =~ s/^(.{1,$text_margin})(?: |$)//)
+                  || ($year_lines =~ s/^([\S]+)(?: |$)//))
+                {
+                  my $line = "\n" . (' 'x$indent) . $1;
+                  ++$indent if (!$year_lines_new);
+                  $year_lines_new .= $line;
+                }
+              else
+                {
+                  # Should be unreachable, but we don't want an infinite
+                  # loop if it can be reached.
+                  die;
+                }
+            }
+          $year_lines = $year_lines_new;
+      }
+
+    # Replace the old invocation.
+    s/$old_re/$b4_copyright_line$year_lines/x;
+  }
+
+if (/\bb4_copyright\(/)
+  {
+    print STDERR
+      "$ARGV: warning: failed to update a b4_copyright invocation\n";
+  }
+if (/\[b4_copyright_years]/)
+  {
+    print STDERR
+      "$ARGV: warning: failed to update a b4_copyright_years use\n";
+  }
+
+s/b4\*copyright/b4_copyright/g;
