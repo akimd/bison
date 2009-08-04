@@ -1,3 +1,9 @@
+2009-08-04  Joel E. Denny  <jdenny@clemson.edu>
+
+	Fix "make distcheck".
+	* examples/calc++/Makefile.am: Say $(srcdir)/calc.stamp instead
+	of just calc.stamp.
+
 2009-08-01  Joel E. Denny  <jdenny@clemson.edu>
 
 	Pacify "gcc -Wunused" for the input function from Flex.
