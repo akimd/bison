@@ -1,5 +1,14 @@
 2009-08-04  Joel E. Denny  <jdenny@clemson.edu>
 
+	maint: automate b4_copyright updates.
+	* Makefile.am (update-b4-copyright): New target rule.
+	* build-aux/Makefile.am (EXTRA_DIST): Add update-b4-copyright.
+	* build-aux/update-b4-copyright: New.
+	* data/yacc.c: Remove stray characters around b4_copyright
+	invocations.
+
+2009-08-04  Joel E. Denny  <jdenny@clemson.edu>
+
 	maint: automate annual package-wide copyright-year update.
 	* .x-update-copyright: New.
 	* Makefile.am (EXTRA_DIST): Remove maint.mk.
