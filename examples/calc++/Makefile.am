@@ -31,7 +31,7 @@ $(BISON): $(BISON_IN)
 doc = $(top_srcdir)/doc/bison.texinfo
 extexi = $(top_srcdir)/examples/extexi
 # Extract in src.
-calc.stamp: $(doc) $(extexi)
+$(srcdir)/calc.stamp: $(doc) $(extexi)
 	rm -f $@ $@.tmp
 	touch $@.tmp
 	cd $(srcdir) && \
@@ -40,7 +40,7 @@ calc.stamp: $(doc) $(extexi)
 	     calc++-scanner.ll calc++.cc calc++-driver.hh calc++-driver.cc
 	mv $@.tmp $@
 
-$(calc_extracted): calc.stamp
+$(calc_extracted): $(srcdir)/calc.stamp
 
 ## ------------------- ##
 ## Parser generation.  ##
