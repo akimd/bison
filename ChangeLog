@@ -1,3 +1,12 @@
+2009-08-05  Joel E. Denny  <jdenny@clemson.edu>
+
+	maint: clean up update-b4-copyright code
+	* build-aux/update-b4-copyright: Do not accept 2-digit
+	UPDATE_COPYRIGHT_YEAR, which was not handled correctly.
+	Don't accept a `[' in a b4_copyright argument.
+	Format code more consistently.
+	Don't assume b4*copyright never occurs.
+
 2009-08-04  Joel E. Denny  <jdenny@clemson.edu>
 
 	maint: automate b4_copyright updates.
