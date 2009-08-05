@@ -1,5 +1,7 @@
 #!/usr/bin/perl -0777 -pi
-# Update an b4_copyright invocation to include the current year.
+
+# Update b4_copyright invocations or b4_copyright_years definitions to
+# include the current year.
 
 # Copyright (C) 2009 Free Software Foundation, Inc.
 #
@@ -19,20 +21,23 @@
 use strict;
 use warnings;
 
+my $margin = 72;
+
 my $this_year = $ENV{UPDATE_COPYRIGHT_YEAR};
-if (!$this_year || $this_year !~ m/^\d\d(\d\d)?$/)
+if (!$this_year || $this_year !~ m/^\d{4}$/)
   {
     my ($sec, $min, $hour, $mday, $month, $year) = localtime (time ());
     $this_year = $year + 1900;
   }
-my $margin = 72;
 my $old_re = <<'EOF'
   (
     (?:^|\n)
+    #BEFORE
     (?:
-      b4_copyright\(\[[^]]*]
+      b4_copyright\(\[[^][]*]
       | m4_(?:push|pop)def\(\[b4_copyright_years]
     )
+    #AFTER
   )
   (?:
     ,\s*
@@ -44,16 +49,14 @@ my $old_re = <<'EOF'
 EOF
   ;
 
-while (/$old_re/x)
+while (/($old_re)/gx)
   {
-    my $b4_copyright_line = $1;
-    my $year_lines = $2;
-    my $sep = $3 ? $3 : "";
-    my $final_year = $4;
+    my $start = pos() - length ($1);
+    my $b4_copyright_line = $2;
+    my $year_lines = $3;
+    my $sep = $4 ? $4 : "";
+    my $final_year = $5;
     $year_lines .= ')';
-
-    # Mark it completed.
-    $b4_copyright_line =~ s/b4_/b4*/g;
 
     # If there was a second argument, it contains years, so update them.
     if ($final_year)
@@ -76,49 +79,67 @@ while (/$old_re/x)
               }
           }
 
-          # Normalize all whitespace.
-          $year_lines =~ s/\s+/ /g;
+        # Normalize all whitespace.
+        $year_lines =~ s/\s+/ /g;
 
-          # Put spaces after commas.
-          $year_lines =~ s/, ?/, /g;
+        # Put spaces after commas.
+        $year_lines =~ s/, ?/, /g;
 
-          # Format within margin.
-          my $year_lines_new;
-          my $indent = index ($b4_copyright_line, '[');
-          --$indent if ($b4_copyright_line =~ m/^\n/);
-          while (length $year_lines)
-            {
-              my $text_margin = $margin - $indent;
-              if (($year_lines =~ s/^(.{1,$text_margin})(?: |$)//)
-                  || ($year_lines =~ s/^([\S]+)(?: |$)//))
-                {
-                  my $line = "\n" . (' 'x$indent) . $1;
-                  ++$indent if (!$year_lines_new);
-                  $year_lines_new .= $line;
-                }
-              else
-                {
-                  # Should be unreachable, but we don't want an infinite
-                  # loop if it can be reached.
-                  die;
-                }
-            }
-          $year_lines = $year_lines_new;
+        # Format within margin.
+        my $year_lines_new;
+        my $indent = index ($b4_copyright_line, '[');
+        --$indent if ($b4_copyright_line =~ m/^\n/);
+        while (length $year_lines)
+          {
+            my $text_margin = $margin - $indent;
+            if (($year_lines =~ s/^(.{1,$text_margin})(?: |$)//)
+                || ($year_lines =~ s/^([\S]+)(?: |$)//))
+              {
+                my $line = "\n" . (' 'x$indent) . $1;
+                ++$indent if (!$year_lines_new);
+                $year_lines_new .= $line;
+              }
+            else
+              {
+                # Should be unreachable, but we don't want an infinite
+                # loop if it can be reached.
+                die;
+              }
+          }
+
+        # Replace the old invocation.  Should never die.
+        die if (!s/$old_re\G/$b4_copyright_line$year_lines_new/x);
+
+        # Prepare for the next search.
+        pos () = $start + length ("$b4_copyright_line$year_lines_new");
       }
-
-    # Replace the old invocation.
-    s/$old_re/$b4_copyright_line$year_lines/x;
   }
 
-if (/\bb4_copyright\(/)
+while (/(\bb4_copyright\()/g)
   {
-    print STDERR
-      "$ARGV: warning: failed to update a b4_copyright invocation\n";
-  }
-if (/\[b4_copyright_years]/)
-  {
-    print STDERR
-      "$ARGV: warning: failed to update a b4_copyright_years use\n";
+    my $pos = pos ();
+    pos () -= length ($1);
+    my $re = $old_re;
+    $re =~ s/\#BEFORE/\\G/;
+    if (!/$re/x)
+      {
+        print STDERR
+          "$ARGV: warning: failed to update a b4_copyright before char"
+          . " $pos\n";
+      }
+    pos () = $pos;
   }
 
-s/b4\*copyright/b4_copyright/g;
+while (/\[b4_copyright_years]/g)
+  {
+    my $pos = pos ();
+    my $re = $old_re;
+    $re =~ s/\#AFTER/\\G/;
+    if (!/$re/x)
+      {
+        print STDERR
+          "$ARGV: warning: failed to update a b4_copyright_years before"
+          . " char $pos\n";
+      }
+    pos () = $pos;
+  }
