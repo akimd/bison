@@ -1,3 +1,12 @@
+2009-08-06  Joel E. Denny  <jdenny@clemson.edu>
+
+	maint: make update-b4-copyright easier to use
+	* build-aux/update-b4-copyright: In warnings, report line
+	numbers rather than character positions.
+	* cfg.mk (update-copyright-local): Set to update-b4-copyright so
+	that update-copyright runs it.
+	* gnulib: Update.
+
 2009-08-05  Joel E. Denny  <jdenny@clemson.edu>
 
 	maint: clean up update-b4-copyright code
