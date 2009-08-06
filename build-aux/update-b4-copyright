@@ -117,29 +117,34 @@ while (/($old_re)/gx)
 
 while (/(\bb4_copyright\()/g)
   {
-    my $pos = pos ();
-    pos () -= length ($1);
+    my $start = pos () - length ($1);
+    my $end = pos ();
     my $re = $old_re;
+    pos () = $start;
     $re =~ s/\#BEFORE/\\G/;
     if (!/$re/x)
       {
+        my $line = (substr ($_, 0, $start) =~ s/\n/\n/g) + 1;
         print STDERR
-          "$ARGV: warning: failed to update a b4_copyright before char"
-          . " $pos\n";
+          "$ARGV:$line: warning: failed to update a b4_copyright\n";
       }
-    pos () = $pos;
+    pos () = $end;
   }
 
-while (/\[b4_copyright_years]/g)
+while (/(\[b4_copyright_years])/g)
   {
-    my $pos = pos ();
+    my $start = pos () - length ($1);
+    my $end = pos ();
     my $re = $old_re;
     $re =~ s/\#AFTER/\\G/;
     if (!/$re/x)
       {
+        # The substr operation blows away pos (), so restoring pos ()
+        # at the end is necessary.
+        my $line = (substr ($_, 0, $start) =~ s/\n/\n/g) + 1;
         print STDERR
-          "$ARGV: warning: failed to update a b4_copyright_years before"
-          . " char $pos\n";
+          "$ARGV:$line: warning: failed to update a"
+          . " b4_copyright_years\n";
       }
-    pos () = $pos;
+    pos () = $end;
   }
