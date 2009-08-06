@@ -42,3 +42,5 @@ local-checks-to-skip = changelog-check
 gnulib_dir = $(srcdir)/../../gnulib
 
 bootstrap-tools = autoconf,automake,flex,gnulib
+
+update-copyright-local = update-b4-copyright
