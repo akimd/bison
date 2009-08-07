@@ -1,5 +1,12 @@
 2009-08-06  Joel E. Denny  <jdenny@clemson.edu>
 
+	maint: run "make update-copyright"
+	But first...
+	* .x-update-copyright (^data/m4sugar/): Add, because these
+	files are from Autoconf.
+
+2009-08-06  Joel E. Denny  <jdenny@clemson.edu>
+
 	maint: make update-b4-copyright easier to use
 	* build-aux/update-b4-copyright: In warnings, report line
 	numbers rather than character positions.

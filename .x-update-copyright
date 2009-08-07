@@ -2,3 +2,4 @@
 ^doc/gpl-3\.0\.texi$
 ^doc/yacc\.1\.in$
 ^src/parse-gram\.h$
+^data/m4sugar/
