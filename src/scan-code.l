@@ -306,7 +306,7 @@ contains_dot_or_dash (const char* p)
 typedef struct
 {
   /* Index in symbol list. */
-  unsigned index;
+  unsigned symbol_index;
 
   /* Matched symbol id and loc. */
   uniqstr id;
@@ -385,7 +385,7 @@ variant_add (uniqstr id, location id_loc, unsigned symbol_index,
        (!exact_mode && is_dot_or_dash (*prefix_end))))
     {
       variant *r = variant_table_grow ();
-      r->index = symbol_index;
+      r->symbol_index = symbol_index;
       r->id = id;
       r->loc = id_loc;
       r->hidden_by = NULL;
@@ -407,12 +407,78 @@ get_at_spec(unsigned symbol_index)
   return at_buf;
 }
 
+static void
+show_sub_messages (const char* cp, bool exact_mode, int midrule_rhs_index,
+                   char dollar_or_at, bool is_warning)
+{
+  unsigned i;
+
+  for (i = 0; i < variant_count; ++i)
+    {
+      const variant *var = &variant_table[i];
+      const char *at_spec = get_at_spec (var->symbol_index);
+
+      if (var->err == 0)
+        {
+          if (is_warning)
+            warn_at (var->loc, _("  refers to: %c%s at %s"),
+                     dollar_or_at, var->id, at_spec);
+          else
+            complain_at (var->loc, _("  refers to: %c%s at %s"),
+                         dollar_or_at, var->id, at_spec);
+        }
+      else
+	{
+	  static struct obstack msg_buf;
+	  const char *tail = exact_mode ? "" :
+	    cp + strlen (var->id);
+	  const char *id = var->hidden_by ? var->hidden_by->id :
+	    var->id;
+	  location id_loc = var->hidden_by ? var->hidden_by->loc :
+	    var->loc;
+
+	  /* Create the explanation message. */
+	  obstack_init (&msg_buf);
+
+	  obstack_fgrow1 (&msg_buf, "  possibly meant: %c", dollar_or_at);
+	  if (contains_dot_or_dash (id))
+	    obstack_fgrow1 (&msg_buf, "[%s]", id);
+	  else
+	    obstack_sgrow (&msg_buf, id);
+	  obstack_sgrow (&msg_buf, tail);
+
+	  if (var->err & VARIANT_HIDDEN)
+	    {
+	      obstack_fgrow1 (&msg_buf, ", hiding %c", dollar_or_at);
+	      if (contains_dot_or_dash (var->id))
+		obstack_fgrow1 (&msg_buf, "[%s]", var->id);
+	      else
+		obstack_sgrow (&msg_buf, var->id);
+	      obstack_sgrow (&msg_buf, tail);
+	    }
+
+	  obstack_fgrow1 (&msg_buf, " at %s", at_spec);
+
+	  if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
+	    obstack_fgrow1 (&msg_buf, ", cannot be accessed from "
+			    "mid-rule action at $%d", midrule_rhs_index);
+
+	  obstack_1grow (&msg_buf, '\0');
+          if (is_warning)
+            warn_at (id_loc, _("%s"), (char *) obstack_finish (&msg_buf));
+          else
+            complain_at (id_loc, _("%s"), (char *) obstack_finish (&msg_buf));
+	  obstack_free (&msg_buf, 0);
+	}
+    }
+}
+
 /* Returned from "parse_ref" when the reference
    is inappropriate. */
 #define INVALID_REF (INT_MIN)
 
 /* Returned from "parse_ref" when the reference
-   points to LHS ($$) of the current rule. */
+   points to LHS ($$) of the current rule or midrule. */
 #define LHS_REF (INT_MIN + 1)
 
 /* Parse named or positional reference. In case of positional
@@ -426,9 +492,9 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
   symbol_list *l;
   char *cp_end;
   bool exact_mode;
-  bool has_error;
-  bool has_valid;
   unsigned i;
+  unsigned valid_variants = 0;
+  unsigned valid_variant_index = 0;
 
   if ('$' == *cp)
     return LHS_REF;
@@ -496,114 +562,70 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
   }
 
   /* Check errors. */
-  has_error = false;
-  has_valid = false;
   for (i = 0; i < variant_count; ++i)
     {
       variant *var = &variant_table[i];
-      unsigned symbol_index = var->index;
+      unsigned symbol_index = var->symbol_index;
 
       /* Check visibility from mid-rule actions. */
       if (midrule_rhs_index != 0
 	  && (symbol_index == 0 || midrule_rhs_index < symbol_index))
-	{
-	  var->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
-	  has_error = true;
-	}
+        var->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
 
       /* Check correct bracketing. */
       if (!exact_mode && contains_dot_or_dash (var->id))
-	{
-	  var->err |= VARIANT_BAD_BRACKETING;
-	  has_error = true;
-	}
+        var->err |= VARIANT_BAD_BRACKETING;
 
       /* Check using of hidden symbols. */
       if (var->hidden_by)
-	{
-	  var->err |= VARIANT_HIDDEN;
-	  has_error = true;
-	}
+        var->err |= VARIANT_HIDDEN;
 
       if (!var->err)
-	has_valid = true;
+        {
+          valid_variant_index = i;
+          ++valid_variants;
+        }
     }
 
-  if (variant_count == 1 && has_valid)
+  switch (valid_variants)
     {
-      /* The only "good" case is here. */
-      unsigned symbol_index = variant_table[0].index;
-      if (symbol_index == midrule_rhs_index)
-	return LHS_REF;
+    case 0:
+      if (variant_count == 0)
+        complain_at (text_loc, _("invalid reference: %s, symbol not found"),
+                     quote (text));
       else
-	return symbol_index;
+        {
+          complain_at (text_loc, _("invalid reference: %s"),
+                       quote (text));
+          show_sub_messages (cp, exact_mode, midrule_rhs_index,
+                             dollar_or_at, false);
+        }
+      return INVALID_REF;
+    case 1:
+      {
+        if (variant_count > 1)
+          {
+            warn_at (text_loc, _("misleading reference: %s"),
+                     quote (text));
+            show_sub_messages (cp, exact_mode, midrule_rhs_index,
+                               dollar_or_at, true);
+          }
+        {
+          unsigned symbol_index =
+            variant_table[valid_variant_index].symbol_index;
+          return (symbol_index == midrule_rhs_index) ? LHS_REF : symbol_index;
+        }
+      }
+    case 2:
+    default:
+      complain_at (text_loc, _("ambiguous reference: %s"),
+                   quote (text));
+      show_sub_messages (cp, exact_mode, midrule_rhs_index,
+                         dollar_or_at, false);
+      return INVALID_REF;
     }
 
-  /* Start complaining. */
-
-  if (variant_count == 0)
-    complain_at (text_loc, _("invalid reference: %s, symbol not found"),
-		 quote (text));
-  else if (variant_count > 1 && !has_error)
-    complain_at (text_loc, _("ambiguous reference: %s"),
-		 quote (text));
-  else if (variant_count > 1 && has_valid && has_error)
-    complain_at (text_loc, _("misleading reference: %s"),
-		 quote (text));
-  else
-    complain_at (text_loc, _("invalid reference: %s"),
-		 quote (text));
-
-  for (i = 0; i < variant_count; ++i)
-    {
-      const variant *var = &variant_table[i];
-      const char *at_spec = get_at_spec (var->index);
-
-      if (var->err == 0)
-	complain_at (var->loc, _("  refers to: %c%s at %s"),
-		     dollar_or_at, var->id, at_spec);
-      else
-	{
-	  static struct obstack msg_buf;
-	  const char *tail = exact_mode ? "" :
-	    cp + strlen (var->id);
-	  const char *id = var->hidden_by ? var->hidden_by->id :
-	    var->id;
-	  location id_loc = var->hidden_by ? var->hidden_by->loc :
-	    var->loc;
-
-	  /* Create the explanation message. */
-	  obstack_init (&msg_buf);
-
-	  obstack_fgrow1 (&msg_buf, "  possibly meant: %c", dollar_or_at);
-	  if (contains_dot_or_dash (id))
-	    obstack_fgrow1 (&msg_buf, "[%s]", id);
-	  else
-	    obstack_sgrow (&msg_buf, id);
-	  obstack_sgrow (&msg_buf, tail);
-
-	  if (var->err & VARIANT_HIDDEN)
-	    {
-	      obstack_fgrow1 (&msg_buf, ", hiding %c", dollar_or_at);
-	      if (contains_dot_or_dash (var->id))
-		obstack_fgrow1 (&msg_buf, "[%s]", var->id);
-	      else
-		obstack_sgrow (&msg_buf, var->id);
-	      obstack_sgrow (&msg_buf, tail);
-	    }
-
-	  obstack_fgrow1 (&msg_buf, " at %s", at_spec);
-
-	  if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
-	    obstack_fgrow1 (&msg_buf, ", cannot be accessed from "
-			    "mid-rule action at $%d", midrule_rhs_index);
-
-	  obstack_1grow (&msg_buf, '\0');
-	  complain_at (id_loc, _("%s"), (char *) obstack_finish (&msg_buf));
-	  obstack_free (&msg_buf, 0);
-	}
-    }
-
+  /* Not reachable. */
   return INVALID_REF;
 }
 
