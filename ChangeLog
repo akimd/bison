@@ -1,3 +1,20 @@
+2009-08-13  Joel E. Denny  <jdenny@clemson.edu>
+
+	Make it easier to write deterministic tests.
+	Continues Akim's work from his 2009-06-10 commits.
+	* src/reader.c (check_and_convert_grammar): Don't add any
+	symbols after the first symbols_do invocation.
+	* src/symtab.c (symbols_sorted): New static global.
+	(user_token_number_redeclaration): Update comments.
+	(symbol_from_uniqstr): If a new symbol is being created, assert
+	that symbols_sorted hasn't been allocated yet.
+	(symbols_free): Free symbols_sorted.
+	(symbols_cmp, symbols_cmp_qsort): New functions.
+	(symbols_do): Sort symbol_table into symbols_sorted on first
+	invocation.
+	* tests/input.at (Numbered tokens): Recombine tests now that the
+	output should be deterministic across multiple numbers.
+
 2009-08-12  Akim Demaille  <demaille@gostai.com>
 
 	tests: GCC 4.5 compliance.
