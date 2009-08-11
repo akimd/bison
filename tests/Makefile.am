@@ -44,8 +44,8 @@ $(srcdir)/package.m4: $(top_srcdir)/configure
 TESTSUITE_AT = \
 	local.at \
 	testsuite.at \
-	input.at \
-	output.at sets.at reduce.at skeletons.at \
+	input.at named-refs.at \
+	output.at skeletons.at sets.at reduce.at \
 	synclines.at headers.at actions.at conflicts.at \
 	calc.at \
         torture.at existing.at regression.at \
