@@ -1,5 +1,9 @@
 2009-08-10  Joel E. Denny  <jdenny@clemson.edu>
 
+	* tests/local.mk (TESTSUITE_AT): Add named-refs.at.
+
+2009-08-10  Joel E. Denny  <jdenny@clemson.edu>
+
 	Miscellaneous code readability improvements.
 
 	* src/reader.c (reader): Move %define front-end variable
