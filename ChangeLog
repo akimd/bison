@@ -1,3 +1,33 @@
+2009-08-10  Joel E. Denny  <jdenny@clemson.edu>
+
+	Miscellaneous code readability improvements.
+
+	* src/reader.c (reader): Move %define front-end variable
+	defaults and checking into...
+	(prepare_percent_define_front_end_variables): ... this new
+	function.
+
+	* src/scan-gram.l (INITIAL): For consistency with string
+	literals, don't store open quote on character literal.  It's
+	discarded before returning anyway.
+	(SC_ESCAPED_CHARACTER): Similarly, don't store close quote.
+	Make length test more readable, and make the character stored
+	for an empty literal more obvious while consistent with the
+	previous behavior.
+
+	* src/symtab.c, src/symtab.h: Rename USER_NUMBER_ALIAS to
+	USER_NUMBER_HAS_STRING_ALIAS throughout.
+	* src/symtab.c (symbol_make_alias): Remove comment from symtab.c
+	that is repeated in symtab.h.  Improve argument names to make it
+	clear which side of the symbol-string alias pair is which.
+	(symbol_check_alias_consistency): Improve local variable names
+	for the same purpose.
+	* src/symtab.h (struct symbol): Make comments about aliases
+	clearer.
+	(symbol_make_alias): Improve comments and argument name.
+	* src/output.c (token_definitions_output): Update for rename to
+	USER_NUMBER_HAS_STRING_ALIAS and improve comments about aliases.
+
 2009-08-08  Alex Rozenman  <rozenman@gmail.com>
 
 	Convert "misleading reference" messages to warnings.

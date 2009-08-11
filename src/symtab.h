@@ -85,9 +85,9 @@ struct symbol
   assoc assoc;
   int user_token_number;
 
-  /* Points to the other in the identifier-symbol pair for an alias.
-     Special value USER_NUMBER_ALIAS in the identifier half of the
-     identifier-symbol pair for an alias.  */
+  /* Points to the other in the symbol-string pair for an alias.
+     Special value USER_NUMBER_HAS_STRING_ALIAS in the symbol half of the
+     symbol-string pair for an alias.  */
   symbol *alias;
   symbol_class class;
   bool declared;
@@ -96,11 +96,11 @@ struct symbol
 /** Undefined user number.  */
 #define USER_NUMBER_UNDEFINED -1
 
-/* `symbol->user_token_number == USER_NUMBER_ALIAS' means this symbol
-   *has* (not is) a string literal alias.  For instance, `%token foo
+/* `symbol->user_token_number == USER_NUMBER_HAS_STRING_ALIAS' means
+   this symbol has a literal string alias.  For instance, `%token foo
    "foo"' has `"foo"' numbered regularly, and `foo' numbered as
-   USER_NUMBER_ALIAS.  */
-#define USER_NUMBER_ALIAS -9991
+   USER_NUMBER_HAS_STRING_ALIAS.  */
+#define USER_NUMBER_HAS_STRING_ALIAS -9991
 
 /* Undefined internal token number.  */
 #define NUMBER_UNDEFINED (-1)
@@ -133,8 +133,11 @@ bool symbol_is_dummy (const symbol *sym);
  ** a string). */
 uniqstr symbol_id_get (symbol const *sym);
 
-/** Declare the new symbol \c sym.  Make it an alias of \c symval.  */
-void symbol_make_alias (symbol *sym, symbol *symval, location loc);
+/**
+ * Make \c str the literal string alias of \c sym.  Copy token number,
+ * symbol number, and type from \c sym to \c str.
+ */
+void symbol_make_alias (symbol *sym, symbol *str, location loc);
 
 /** Set the \c type_name associated with \c sym.
 
