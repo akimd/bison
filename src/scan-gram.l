@@ -251,7 +251,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   /* Characters.  */
-  "'"	      STRING_GROW; token_start = loc->start; BEGIN SC_ESCAPED_CHARACTER;
+  "'"	      token_start = loc->start; BEGIN SC_ESCAPED_CHARACTER;
 
   /* Strings. */
   "\""	      token_start = loc->start; BEGIN SC_ESCAPED_STRING;
@@ -465,16 +465,18 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_ESCAPED_CHARACTER>
 {
   "'"|"\n" {
-    STRING_GROW;
     STRING_FINISH;
     loc->start = token_start;
-    val->character = last_string[1];
+    val->character = last_string[0];
     {
       /* FIXME: Eventually, make these errors.  */
-      size_t length = strlen (last_string);
-      if (length < 3)
-        warn_at (*loc, _("empty character literal"));
-      else if (length > 3)
+      if (last_string[0] == '\0')
+        {
+          warn_at (*loc, _("empty character literal"));
+          /* '\0' seems dangerous even if we are about to complain.  */
+          val->character = '\'';
+        }
+      else if (last_string[1] != '\0')
         warn_at (*loc, _("extra characters in character literal"));
     }
     if (yytext[0] == '\n')
@@ -486,17 +488,17 @@ splice	 (\\[ \f\t\v]*\n)*
   <<EOF>> {
     STRING_FINISH;
     loc->start = token_start;
+    val->character = last_string[0];
     {
-      size_t length = strlen (last_string);
       /* FIXME: Eventually, make these errors.  */
-      if (length < 2)
-        warn_at (*loc, _("empty character literal"));
-      else if (length > 2)
+      if (last_string[0] == '\0')
+        {
+          warn_at (*loc, _("empty character literal"));
+          /* '\0' seems dangerous even if we are about to complain.  */
+          val->character = '\'';
+        }
+      else if (last_string[1] != '\0')
         warn_at (*loc, _("extra characters in character literal"));
-      if (length > 1)
-        val->character = last_string[1];
-      else
-        val->character = last_string[0];
     }
     unexpected_eof (token_start, "'");
     STRING_FREE;
