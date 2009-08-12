@@ -1,5 +1,11 @@
 2009-08-12  Akim Demaille  <demaille@gostai.com>
 
+	tests: GCC 4.5 compliance.
+	* tests/synclines.at (AT_SYNCLINES_COMPILE): Adjust to GCC 4.5's
+	messages about #error.
+
+2009-08-12  Akim Demaille  <demaille@gostai.com>
+
 	build: fix the generation of the documentation.
 	Some of our targets use "bison --help", but they can't depend on
 	"bison" itself (to avoid additional requirements on the user), so
