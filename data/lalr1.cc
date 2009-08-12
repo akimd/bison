@@ -757,11 +757,19 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
   | yyreduce -- Do a reduction.  |
   `-----------------------------*/
   yyreduce:
-    yylen = yyr2_[yyn];]b4_variant_if([
+    yylen = yyr2_[yyn];
+    // Compute post-reduction state.
+    yystate = yypgoto_[yyr1_[yyn] - yyntokens_] + yystack_[yylen].state;
+    if (0 <= yystate && yystate <= yylast_
+	&& yycheck_[yystate] == yystack_[yylen].state)
+      yystate = yytable_[yystate];
+    else
+      yystate = yydefgoto_[yyr1_[yyn] - yyntokens_];
+    yylhs.state = yystate;]b4_variant_if([
     /* Variants are always initialized to an empty instance of the
        correct type. The default $$=$1 action is NOT applied when using
        variants.  */
-    ]b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build]),[
+    b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build])],[
     /* If YYLEN is nonzero, implement the default value of the action:
        `$$ = $1'.  Otherwise, use the top of the stack.
 
@@ -788,15 +796,6 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
 	default:
           break;
       }
-    // Compute post-reduction state.
-    yyn = yyr1_[yyn];
-    yystate = yypgoto_[yyn - yyntokens_] + yystack_[yylen].state;
-    if (0 <= yystate && yystate <= yylast_
-	&& yycheck_[yystate] == yystack_[yylen].state)
-      yystate = yytable_[yystate];
-    else
-      yystate = yydefgoto_[yyn - yyntokens_];
-    yylhs.state = yystate;
     YY_SYMBOL_PRINT ("-> $$ =", yylhs);
 ]b4_variant_if([[
     // Destroy the rhs symbols.
@@ -864,10 +863,10 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
        YYERROR and the label yyerrorlab therefore never appears in user
        code.  */
     if (false)
-      goto yyerrorlab;
-
-]b4_locations_if([[
-    yyerror_range[0].location = yystack_[yylen - 1].location;]])[
+      goto yyerrorlab;]b4_locations_if([[
+    yyerror_range[0].location = yystack_[yylen - 1].location;]])b4_variant_if([[
+    /* $$ was initialized before running the user action.  */
+    yy_destroy_ ("Error: discarding", yylhs);]])[
     /* Do not reclaim the symbols of the rule which action triggered
        this YYERROR.  */
     yypop_ (yylen);

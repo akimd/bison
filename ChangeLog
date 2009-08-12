@@ -1,3 +1,12 @@
+2009-08-19  Akim Demaille  <demaille@gostai.com>
+
+	lalr1.cc: destroy $$ when YYERROR is called.
+	* data/lalr1.cc (yyreduce): Compute the resulting state before
+	running the user action so that yylhs is a valid symbol.
+	(yyerrorlab): Since yylhs is complete (it knows its type), we can
+	simply call yy_destroy_ to destroy $$ on YYERROR invocations.
+	* tests/c++.at (AT_CHECK_VARIANTS): Test YYERROR with variants.
+
 2009-08-18  Joel E. Denny  <jdenny@clemson.edu>
 
 	maint: update for gnulib's recent update-copyright changes
