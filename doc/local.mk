@@ -26,16 +26,17 @@ CLEANDIRS = doc/*.t2d
 clean-local:
 	rm -rf $(CLEANDIRS)
 
+MOSTLYCLEANFILES += $(top_srcdir)/doc/*.t
+
 CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
 CROSS_OPTIONS_TEXI = $(top_srcdir)/doc/cross-options.texi
-$(CROSS_OPTIONS_TEXI): $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
+$(CROSS_OPTIONS_TEXI): doc/bison.help $(CROSS_OPTIONS_PL)
 # Create $@~ which is the previous contents.  Don't use `mv' here so
 # that even if we are interrupted, the file is still available for
 # diff in the next run.  Note that $@ might not exist yet.
 	{ test ! -f $@ || cat $@; } >$@~
 	test ! -f $@.tmp || rm -f $@.tmp
-	$(MAKE) $(AM_MAKEFLAGS) src/bison$(EXEEXT)
-	src/bison --help |				 \
+	src/bison$(EXEEXT) --help |					 \
 	  perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
 	diff -u $@~ $@.tmp || true
 	mv $@.tmp $@
@@ -54,49 +55,61 @@ doc/refcard.dvi: doc/refcard.tex
 doc/refcard.ps: doc/refcard.dvi
 
 
+## ---------------- ##
+## doc/bison.help.  ##
+## ---------------- ##
+
+# Some of our targets (cross-option.texi, bison.1) use "bison --help".
+# Since we want to ship the generated file to avoid additional
+# requirements over the user environment, we used not depend on
+# src/bison itself, but on src/getargs.c and other files.  Yet, we
+# need "bison --help" to work to make help2man happy, so we used to
+# include "make src/bison" in the commands.  Then we may have a
+# problem with concurrent builds, since one make might be aiming one
+# of its jobs at compiling src/bison, and another job at generating
+# the man page.  If the latter is faster than the former, then we have
+# two makes that concurrently try to compile src/bison.  Doomed to
+# failure.
+#
+# As a simple scheme to get our way out, make a stamp file,
+# bison.help, which contains --version then --help.  This file can
+# depend on bison, which ensures its correctness.  But update it
+# *only* if needed (content changes).  This way, we avoid useless
+# compilations of cross-option.texi and bison.1.  At the cost of
+# repeated builds of bison.help.
+
+EXTRA_DIST += $(top_srcdir)/doc/bison.help
+MAINTAINERCLEANFILES += $(top_srcdir)/doc/bison.help
+$(top_srcdir)/doc/bison.help: src/bison$(EXEEXT)
+	$< --version >doc/bison.help.t
+	$< --help   >>doc/bison.help.t
+	$(top_srcdir)/build-aux/move-if-change doc/bison.help.t $@
+
+
 ## ----------- ##
 ## Man Pages.  ##
 ## ----------- ##
 
 dist_man_MANS = $(top_srcdir)/doc/bison.1
 
-EXTRA_DIST += $(dist_man_MANS:.1=.x) doc/common.x
+EXTRA_DIST += $(dist_man_MANS:.1=.x)
 MAINTAINERCLEANFILES += $(dist_man_MANS)
-
-# Depend on configure to get version number changes.
-common_dep = $(top_srcdir)/configure $(top_srcdir)/doc/common.x
-$(top_srcdir)/doc/bison.1:      $(common_dep) $(top_srcdir)/src/getargs.c
 
 # Differences to ignore when comparing the man page (the date).
 remove_time_stamp = \
   sed 's/^\(\.TH[^"]*"[^"]*"[^"]*\)"[^"]*"/\1/'
 
-MOSTLYCLEANFILES += $(top_srcdir)/doc/*.t
-
-SUFFIXES = .x .1
-
-PREPATH = src
-.x.1:
-	@program=`expr "/$*" : '.*/\(.*\)'` &&				 \
-	save_IFS=$IFS;							 \
-	IFS=$(PATH_SEPARATOR);						 \
-	for dir in $(PREPATH); do					 \
-	  IFS=$save_IFS;						 \
-	  echo $(MAKE) $(AM_MAKEFLAGS) $$dir/$$program;			 \
-	  $(MAKE) $(AM_MAKEFLAGS) $$dir/$$program || exit;		 \
-	done
+# Depend on configure to get version number changes.
+$(top_srcdir)/doc/bison.1: doc/bison.help doc/bison.x $(top_srcdir)/configure
 	@echo "Updating man page $@"
-	PATH="$(top_builddir)/$(PREPATH)$(PATH_SEPARATOR)$$PATH";	 \
-	export PATH;							 \
-	$(HELP2MAN)							 \
-	    --include=$*.x						 \
-	    --include=$(top_srcdir)/doc/common.x			 \
-	    --output=$@.t `echo '$*' | sed 's,.*/,,'`
+	$(HELP2MAN)					\
+	    --include=$(top_srcdir)/doc/bison.x		\
+	    --output=$@.t src/bison$(EXEEXT)
 	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		 \
 	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then \
-		touch $@;						 \
+	  touch $@;							 \
 	else								 \
-		mv $@.t $@;						 \
+	  mv $@.t $@;							 \
 	fi
 	rm -f $@*.t
 

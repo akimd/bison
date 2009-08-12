@@ -36,6 +36,7 @@ AM_CPPFLAGS =
 BUILT_SOURCES =
 DISTCLEANFILES =
 MOSTLYCLEANFILES =
+SUFFIXES =
 include build-aux/local.mk
 include data/local.mk
 include djgpp/local.mk

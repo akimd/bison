@@ -1,5 +1,32 @@
 2009-08-12  Akim Demaille  <demaille@gostai.com>
 
+	build: fix the generation of the documentation.
+	Some of our targets use "bison --help", but they can't depend on
+	"bison" itself (to avoid additional requirements on the user), so
+	they used to call "make src/bison" in the commands.  Then
+	concurrent builds may fail: one make might be aiming one of its
+	jobs at compiling src/bison, and another job at generating the man
+	page.  If the latter is faster than the former, then we have two
+	makes that concurrently try to compile src/bison.
+
+	This might also be a more convincing explanation for the failure
+	described in the patch "build: fix paths".
+
+	* Makefile.am (SUFFIXES): Initialize.
+	* build-aux/move-if-change: New, symlink to gnulib's.
+	* build-aux/local.mk: Ship it.
+	* doc/common.x: Remove, merged into...
+	* doc/bison.x: here.
+	* doc/local.mk (doc/bison.help): New.
+	($(CROSS_OPTIONS_TEXI)): Depend on it.
+	Use src/bison.
+	(.x.1): Replace with...
+	(doc/bison.1): this explicit, simpler, target.
+	(common_dep): Remove, inlined where appropriate.
+	(SUFFIXES, PREPATH): Remove, unused.
+
+2009-08-12  Akim Demaille  <demaille@gostai.com>
+
 	gnulib: improve prefixing.
 	* configure.ac (gl_PREFIXED_LIBOBJS): Don't rename it, rather,
 	change the value of...

@@ -53,3 +53,8 @@ are unique.  When a long option takes an argument, like
 .BR \-\-file-prefix ,
 connect the option name and the argument with
 .BR = .
+
+[see also]
+.BR lex (1),
+.BR flex (1),
+.BR yacc (1).
