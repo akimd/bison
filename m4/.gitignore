@@ -50,6 +50,7 @@
 /quotearg.m4
 /setenv.m4
 /stdbool.m4
+/stddef_h.m4
 /stdint.m4
 /stdint_h.m4
 /stdio-safer.m4
