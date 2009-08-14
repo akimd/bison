@@ -64,6 +64,7 @@ stamp-h1
 stdbool.h
 stdbool.in.h
 stdbool_.h
+stddef.in.h
 stdint.h
 stdint.in.h
 stdint_.h

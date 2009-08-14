@@ -1,3 +1,12 @@
+2009-08-14  Joel E. Denny  <jdenny@clemson.edu>
+
+	maint: fix use of copyright year intervals.
+	* gnulib: Update.
+	* bootstrap.conf (gnulib_modules): Update getopt to getopt-gnu
+	as now recommended in gnulib/NEWS.
+	* build-aux/update-b4-copyright: Fix.
+	* cfg.mk (update-copyright-env): Configure update-copyright.
+
 2009-08-13  Joel E. Denny  <jdenny@clemson.edu>
 
 	Make it easier to write deterministic tests.
