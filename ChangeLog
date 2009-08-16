@@ -1,5 +1,11 @@
 2009-08-19  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: use state_type.
+	* data/lalr1.cc (yysyntax_error_): Use state_type.
+	Move argument names into yy*.
+
+2009-08-19  Akim Demaille  <demaille@gostai.com>
+
 	lalr1.cc: get rid of yyparse's yystate.
 	yystate and yystack_[0].state are equal, keep only the latter.
 	The former was also used as a temporary variable to compute the

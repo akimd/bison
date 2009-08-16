@@ -232,13 +232,13 @@ do {                                                            \
     virtual void error (]b4_locations_if([const location_type& loc, ])[const std::string& msg);
 
   private:
-    /// Generate an error message.
-    /// \param state   the state where the error occurred.
-    /// \param tok     the lookahead token.
-    virtual std::string yysyntax_error_ (int yystate, int tok);
-
     /// State numbers.
     typedef int state_type;
+
+    /// Generate an error message.
+    /// \param yystate   the state where the error occurred.
+    /// \param yytoken   the lookahead token.
+    virtual std::string yysyntax_error_ (state_type yystate, int yytoken);
 
     /// Compute post-reduction state.
     /// \param yystate   the current state
@@ -946,7 +946,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
   // Generate an error message.
   std::string
   ]b4_parser_class_name[::yysyntax_error_ (]dnl
-b4_error_verbose_if([int yystate, int yytoken],
+b4_error_verbose_if([state_type yystate, int yytoken],
                     [int, int])[)
   {
     std::string yyres;]b4_error_verbose_if([[
