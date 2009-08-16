@@ -240,6 +240,11 @@ do {                                                            \
     /// State numbers.
     typedef int state_type;
 
+    /// Compute post-reduction state.
+    /// \param yystate   the current state
+    /// \param yylhs     the nonterminal to push on the stack
+    state_type yy_lr_goto_state_ (state_type yystate, int yylhs);
+
     /// Internal symbol numbers.
     typedef ]b4_int_type_for([b4_translate])[ token_number_type;
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
@@ -636,6 +641,16 @@ b4_percent_code_get[]dnl
   }
 #endif
 
+  inline ]b4_parser_class_name[::state_type
+  ]b4_parser_class_name[::yy_lr_goto_state_ (state_type yystate, int yylhs)
+  {
+    int yyr = yypgoto_[yylhs - yyntokens_] + yystate;
+    if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
+      return yytable_[yyr];
+    else
+      return yydefgoto_[yylhs - yyntokens_];
+  }
+
   int
   ]b4_parser_class_name[::parse ()
   {
@@ -645,7 +660,6 @@ b4_percent_code_get[]dnl
     /* State.  */
     int yyn;
     int yylen = 0;
-    int yystate = 0;
 
     /* Error handling.  */
     int yynerrs_ = 0;
@@ -680,14 +694,12 @@ m4_popdef([b4_at_dollar])])dnl
     yystack_ = stack_type (0);
     yypush_ (0, 0, yyla);
 
-    // A new state was pushed on the stack.
-    // Invariant: yystate == yystack_[0].state, i.e.,
-    // yystate was just pushed onto the state stack.
+    // A new symbol was pushed on the stack.
   yynewstate:
-    YYCDEBUG << "Entering state " << yystate << std::endl;
+    YYCDEBUG << "Entering state " << yystack_[0].state << std::endl;
 
     /* Accept?  */
-    if (yystate == yyfinal_)
+    if (yystack_[0].state == yyfinal_)
       goto yyacceptlab;
 
     goto yybackup;
@@ -696,7 +708,7 @@ m4_popdef([b4_at_dollar])])dnl
   yybackup:
 
     /* Try to take a decision without lookahead.  */
-    yyn = yypact_[yystate];
+    yyn = yypact_[yystack_[0].state];
     if (yyn == yypact_ninf_)
       goto yydefault;
 
@@ -740,15 +752,14 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       --yyerrstatus_;
 
     /* Shift the lookahead token.  */
-    yystate = yyn;
-    yypush_ ("Shifting", yystate, yyla);
+    yypush_ ("Shifting", yyn, yyla);
     goto yynewstate;
 
   /*-----------------------------------------------------------.
   | yydefault -- do the default action for the current state.  |
   `-----------------------------------------------------------*/
   yydefault:
-    yyn = yydefact_[yystate];
+    yyn = yydefact_[yystack_[0].state];
     if (yyn == 0)
       goto yyerrlab;
     goto yyreduce;
@@ -758,14 +769,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
   `-----------------------------*/
   yyreduce:
     yylen = yyr2_[yyn];
-    // Compute post-reduction state.
-    yystate = yypgoto_[yyr1_[yyn] - yyntokens_] + yystack_[yylen].state;
-    if (0 <= yystate && yystate <= yylast_
-	&& yycheck_[yystate] == yystack_[yylen].state)
-      yystate = yytable_[yystate];
-    else
-      yystate = yydefgoto_[yyr1_[yyn] - yyntokens_];
-    yylhs.state = yystate;]b4_variant_if([
+    yylhs.state = yy_lr_goto_state_(yystack_[yylen].state, yyr1_[yyn]);]b4_variant_if([
     /* Variants are always initialized to an empty instance of the
        correct type. The default $$=$1 action is NOT applied when using
        variants.  */
@@ -829,7 +833,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       {
 	++yynerrs_;
 	error (]b4_args(b4_locations_if([yyla.location]),
-                        [yysyntax_error_ (yystate, yyla.type)])[);
+                        [[yysyntax_error_ (yystack_[0].state, yyla.type)]])[);
       }
 
 ]b4_locations_if([[
@@ -871,7 +875,6 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
        this YYERROR.  */
     yypop_ (yylen);
     yylen = 0;
-    yystate = yystack_[0].state;
     goto yyerrlab1;
 
   /*-------------------------------------------------------------.
@@ -883,7 +886,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       stack_symbol_type error_token;
       for (;;)
         {
-          yyn = yypact_[yystate];
+          yyn = yypact_[yystack_[0].state];
           if (yyn != yypact_ninf_)
             {
               yyn += yyterror_;
@@ -902,7 +905,6 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
           yyerror_range[0].location = yystack_[0].location;]])[
           yy_destroy_ ("Error: popping", yystack_[0]);
           yypop_ ();
-          yystate = yystack_[0].state;
           YY_STACK_PRINT ();
         }
 ]b4_locations_if([[
@@ -910,7 +912,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       YYLLOC_DEFAULT (error_token.location, (yyerror_range - 1), 2);]])[
 
       /* Shift the error token.  */
-      error_token.state = yystate = yyn;
+      error_token.state = yyn;
       yypush_ ("Shifting", error_token);
     }
     goto yynewstate;

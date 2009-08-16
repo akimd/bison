@@ -1,5 +1,20 @@
 2009-08-19  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: get rid of yyparse's yystate.
+	yystate and yystack_[0].state are equal, keep only the latter.
+	The former was also used as a temporary variable to compute the
+	post-reduction state.  Move this computation into an auxiliary
+	function.
+
+	* data/glr.c (yyLRgotoState): Fuse variable definition and first
+	assignment.
+	* data/lalr1.cc (yy_lr_goto_state_): New.
+	(yyparse): Use it.
+	Replace remaining uses of yystate by yystate_[0].state.
+	Remove the former.
+
+2009-08-19  Akim Demaille  <demaille@gostai.com>
+
 	lalr1.cc: destroy $$ when YYERROR is called.
 	* data/lalr1.cc (yyreduce): Compute the resulting state before
 	running the user action so that yylhs is a valid symbol.
