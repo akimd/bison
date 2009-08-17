@@ -1,3 +1,12 @@
+2009-08-17  Akim Demaille  <demaille@gostai.com>
+
+	build: require gettext 0.17.
+
+	Suggested by Bruno Haible.
+	http://lists.gnu.org/archive/html/bug-bison/2009-08/msg00009.html
+	* configure.ac: require gettext 0.17 to ensure compatibility with
+	gnulib.
+
 2010-07-24  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	tests: handle Valgrind that complains about >&-.
