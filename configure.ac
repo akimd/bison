@@ -116,7 +116,7 @@ BISON_PREREQ_TIMEVAR
 
 # Gettext.
 # We've never tested with gettext versions before 0.15, so play it safe.
-AM_GNU_GETTEXT([external], [need-formatstring-macros])
+AM_GNU_GETTEXT([external], [need-ngettext])
 AM_GNU_GETTEXT_VERSION([0.15])
 BISON_I18N
 
