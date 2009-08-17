@@ -115,9 +115,10 @@ BISON_PREREQ_SUBPIPE
 BISON_PREREQ_TIMEVAR
 
 # Gettext.
-# We've never tested with gettext versions before 0.15, so play it safe.
+# We use gnulib, which is only guaranteed to work properly with the
+# latest Gettext.
 AM_GNU_GETTEXT([external], [need-ngettext])
-AM_GNU_GETTEXT_VERSION([0.15])
+AM_GNU_GETTEXT_VERSION([0.17])
 BISON_I18N
 
 # Internationalized parsers.
