@@ -1,3 +1,12 @@
+2009-08-18  Joel E. Denny  <jdenny@clemson.edu>
+
+	maint: update for gnulib's recent update-copyright changes
+	* gnulib: Update.
+	* .x-update-copyright (COPYING): Add as it's no longer implied
+	when .x-update-copyright is present.
+	* cfg.mk (update-copyright-local): Remove, now ignored.
+	(update-copyright): Declare update-b4-copyright as a dependency.
+
 2009-08-17  Akim Demaille  <demaille@gostai.com>
 
 	build: require gettext 0.17.
