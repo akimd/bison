@@ -1,3 +1,4 @@
+COPYING
 ^doc/fdl\.texi$
 ^doc/gpl-3\.0\.texi$
 ^doc/yacc\.1\.in$

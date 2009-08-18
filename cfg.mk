@@ -43,6 +43,6 @@ gnulib_dir = $(srcdir)/../../gnulib
 
 bootstrap-tools = autoconf,automake,flex,gnulib
 
-update-copyright-local = update-b4-copyright
+update-copyright: update-b4-copyright
 update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
