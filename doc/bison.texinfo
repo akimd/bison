@@ -4841,7 +4841,7 @@ the selected target language and/or the parser skeleton (@pxref{Decl
 Summary,,%language}, @pxref{Decl Summary,,%skeleton}).
 
 It is an error if a @var{variable} is defined by @code{%define} multiple
-times, but @ref{Bison Options,,-D @var{name}[=@var{value}]}.
+times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
 
 Omitting @code{"@var{value}"} is always equivalent to specifying it as
 @code{""}.
@@ -7986,7 +7986,7 @@ already defined, so that the debugging facilities are compiled.
 
 @item -D @var{name}[=@var{value}]
 @itemx --define=@var{name}[=@var{value}]
-@item -F @var{name}[=@var{value}]
+@itemx -F @var{name}[=@var{value}]
 @itemx --force-define=@var{name}[=@var{value}]
 Each of these is equivalent to @samp{%define @var{name} "@var{value}"}
 (@pxref{Decl Summary, ,%define}) except that Bison processes multiple
