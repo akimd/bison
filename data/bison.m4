@@ -565,30 +565,6 @@ m4_define([b4_percent_define_use],
 [m4_define([b4_percent_define_bison_variables(]$1[)])dnl
 ])
 
-
-# b4_percent_define_copy_(SOURCE, DESTINATION, [|_loc|_syncline])
-# ---------------------------------------------------------------
-# Copy the value/loc/syncline from the variable SOURCE to the DESTINATION.
-# Ignore undefined values.  "Use" the SOURCE so that there are no
-# complaints about unused variables.
-m4_define([b4_percent_define_copy_],
-[m4_ifdef([b4_percent_define$3(]$1[)],
-          [m4_define([b4_percent_define$3(]$2[)],
-                     m4_defn([b4_percent_define$3(]$1[)]))])dnl
-])
-
-
-# b4_percent_define_copy(SOURCE, DESTINATION)
-# -------------------------------------------
-# Define the variable DESTINATION as a copy of SOURCE.
-m4_define([b4_percent_define_copy],
-[b4_percent_define_use([$1])dnl
-b4_percent_define_copy_([$1], [$2], [])dnl
-b4_percent_define_copy_([$1], [$2], [_loc])dnl
-b4_percent_define_copy_([$1], [$2], [_syncline])dnl
-])
-
-
 # b4_percent_define_get(VARIABLE)
 # -------------------------------
 # Mimic muscle_percent_define_get in ../src/muscle_tab.h exactly.  That is, if

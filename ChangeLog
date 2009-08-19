@@ -1,5 +1,24 @@
 2009-08-19  Akim Demaille  <demaille@gostai.com>
 
+	variables: simplify the upgrade of namespace into api.namespace.
+
+	This patch simplifies "variables: rename namespace as
+	api.namespace", commit 67501061076ba46355cfd9f9361c7eed861b389c.
+	Suggested by Joel E. Denny in
+	http://lists.gnu.org/archive/html/bison-patches/2009-07/msg00006.html
+
+	* src/muscle-tab.c (muscle_percent_variable_update): New.
+	(muscle_percent_define_insert): Use it in replacement of the
+	previous tr invocation.
+	Remove variable_tr, no longer needed.
+	* data/bison.m4 (b4_percent_define_copy_, b4_percent_define_copy):
+	Remove.
+	* data/c++.m4: No longer handle namespace -> api.namespace.
+	* tests/input.at (%define backward compatibility): Check that
+	namespace is treated as api.namespace.
+
+2009-08-19  Akim Demaille  <demaille@gostai.com>
+
 	doc: %initial-action to initialize yylloc.
 	Reported by Bill Allombert.
 	* doc/bison.texinfo: Set fill-column to 76.

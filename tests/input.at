@@ -1056,6 +1056,17 @@ AT_BISON_CHECK([[input.y]], [1], [],
 ]])
 
 AT_DATA([[input.y]],
+[[%define namespace "foo"
+%define api.namespace "foo"
+%%
+start: ;
+]])
+AT_BISON_CHECK([[input.y]], [1], [],
+[[input.y:2.9-21: %define variable `api.namespace' redefined
+input.y:1.9-17: previous definition
+]])
+
+AT_DATA([[input.y]],
 [[%define foo_bar "baz"
 %%
 start: ;

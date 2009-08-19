@@ -27,14 +27,7 @@ m4_include(b4_pkgdatadir/[c.m4])
 b4_percent_define_default([[parser_class_name]], [[parser]])
 b4_percent_define_default([[location_type]], [[location]])
 b4_percent_define_default([[filename_type]], [[std::string]])
-
-# api.namespace defaults to namespace, and then to b4_prefix.
-b4_percent_define_ifdef([api.namespace],
-   [],
-   [b4_percent_define_ifdef([namespace],
-       [b4_percent_define_copy([namespace], [api.namespace])],
-       [b4_percent_define_default([api.namespace],
-                                  m4_defn([b4_prefix]))])])
+b4_percent_define_default([[api.namespace]], m4_defn([b4_prefix]))
 
 b4_percent_define_default([[global_tokens_and_yystype]], [[false]])
 b4_percent_define_default([[define_location_comparison]],
