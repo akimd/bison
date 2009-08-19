@@ -1,5 +1,10 @@
 2009-08-19  Akim Demaille  <demaille@gostai.com>
 
+	doc: fixes.
+	* doc/bison.texinfo: Fix minor Texinfo errors.
+
+2009-08-19  Akim Demaille  <demaille@gostai.com>
+
 	tests: distcc compliance.
 	* tests/synclines.at (AT_SYNCLINES_COMPILE): Discard distcc's
 	error messages from the output.
