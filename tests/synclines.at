@@ -41,7 +41,15 @@ m4_define([AT_SYNCLINES_COMPILE],
 # =>
 #   input.y:4: #error "8"
 #
-AT_CHECK([[sed -e 's/^\([^:]*:[^:.]*\)[.:][^:]*:\(.*\)$/\1:\2/'      \
+#
+# And possibly distcc adds its bits.
+#
+#   distcc[33187] ERROR: compile (null) on localhost failed
+#   syncline.c:1:2: error: #error "1"
+#   distcc[33185] ERROR: compile syncline.c on localhost failed
+
+AT_CHECK([[sed -e '/^distcc\[[0-9]*\] ERROR: .*/d'                   \
+               -e 's/^\([^:]*:[^:.]*\)[.:][^:]*:\(.*\)$/\1:\2/'      \
                -e 's/^\([^:]*:[^:]*:\)[^@%:@]*\( @%:@error\)/\1\2/'  \
                -e "/^[^:]*: In function '[^\']*':$/d"                \
             stderr]],

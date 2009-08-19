@@ -1,5 +1,11 @@
 2009-08-19  Akim Demaille  <demaille@gostai.com>
 
+	tests: distcc compliance.
+	* tests/synclines.at (AT_SYNCLINES_COMPILE): Discard distcc's
+	error messages from the output.
+
+2009-08-19  Akim Demaille  <demaille@gostai.com>
+
 	variables: simplify the upgrade of namespace into api.namespace.
 
 	This patch simplifies "variables: rename namespace as
