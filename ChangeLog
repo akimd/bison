@@ -1,3 +1,11 @@
+2009-08-19  Akim Demaille  <demaille@gostai.com>
+
+	doc: %initial-action to initialize yylloc.
+	Reported by Bill Allombert.
+	* doc/bison.texinfo: Set fill-column to 76.
+	(Location Type): Document the use of %initial-action to initialize
+	yylloc.
+
 2009-08-18  Joel E. Denny  <jdenny@clemson.edu>
 
 	maint: update for gnulib's recent update-copyright changes

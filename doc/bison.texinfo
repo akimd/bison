@@ -3800,8 +3800,11 @@ typedef struct YYLTYPE
 @} YYLTYPE;
 @end example
 
-At the beginning of the parsing, Bison initializes all these fields to 1
-for @code{yylloc}.
+When @code{YYLTYPE} is not defined, at the beginning of the parsing, Bison
+initializes all these fields to 1 for @code{yylloc}.  To initialize
+@code{yylloc} with a custom location type (or to chose a different
+initialization), use the @code{%initial-action} directive.  @xref{Initial
+Action Decl, , Performing Actions before Parsing}.
 
 @node Actions and Locations
 @subsection Actions and Locations
@@ -10338,6 +10341,10 @@ grammatically indivisible.  The piece of text it represents is a token.
 @printindex cp
 
 @bye
+
+@c Local Variables:
+@c fill-column: 76
+@c End:
 
 @c LocalWords: texinfo setfilename settitle setchapternewpage finalout
 @c LocalWords: ifinfo smallbook shorttitlepage titlepage GPL FIXME iftex
