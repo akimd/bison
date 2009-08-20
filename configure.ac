@@ -94,6 +94,8 @@ AC_PROG_YACC
 AC_PROG_RANLIB
 AC_PROG_GNU_M4
 AC_DEFINE_UNQUOTED([M4], ["$M4"], [Define to the GNU M4 executable name.])
+AC_DEFINE_UNQUOTED([M4_GNU_OPTION], ["$M4_GNU"], [Define to "-g" if GNU M4
+supports -g, otherwise to "".])
 AM_MISSING_PROG([HELP2MAN], [help2man])
 AC_PATH_PROG([XSLTPROC], [xsltproc])
 AC_SUBST([XSLTPROC])

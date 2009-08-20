@@ -1,3 +1,11 @@
+2009-08-20  Eric Blake  <ebb9@byu.net>
+
+	Import latest m4/m4.m4.
+	* m4/m4.m4: Copy from autoconf 2.64.
+	* configure.ac (M4_GNU_OPTION): New define.
+	* src/output.c (output_skeleton): Use it to resolve FIXME.
+	* NEWS: Mention this.
+
 2009-08-19  Joel E. Denny  <jdenny@clemson.edu>
 
 	Fix complaints about escape sequences.
