@@ -1220,3 +1220,46 @@ three.y:4.8-11: missing `'' at end of file
 ]])
 
 AT_CLEANUP
+
+## ------------------------- ##
+## Bad escapes in literals.  ##
+## ------------------------- ##
+
+AT_SETUP([[Bad escapes in literals]])
+
+AT_DATA([input.y],
+[[%%
+start: '\777' '\0' '\xfff' '\x0'
+       '\uffff' '\u0000' '\Uffffffff' '\U00000000'
+       '\ ' '\A';
+]])
+echo 'start: "\T\F\0\1" ;' | tr 'TF01' '\011\014\0\1' >> input.y
+
+AT_BISON_CHECK([input.y], [1], [],
+[[input.y:2.9-12: invalid number after \-escape: 777
+input.y:2.8-13: warning: empty character literal
+input.y:2.16-17: invalid number after \-escape: 0
+input.y:2.15-18: warning: empty character literal
+input.y:2.21-25: invalid number after \-escape: xfff
+input.y:2.20-26: warning: empty character literal
+input.y:2.29-31: invalid number after \-escape: x0
+input.y:2.28-32: warning: empty character literal
+input.y:3.9-14: invalid number after \-escape: uffff
+input.y:3.8-15: warning: empty character literal
+input.y:3.18-23: invalid number after \-escape: u0000
+input.y:3.17-24: warning: empty character literal
+input.y:3.27-36: invalid number after \-escape: Uffffffff
+input.y:3.26-37: warning: empty character literal
+input.y:3.40-49: invalid number after \-escape: U00000000
+input.y:3.39-50: warning: empty character literal
+input.y:4.9-10: invalid character after \-escape: ` '
+input.y:4.8-11: warning: empty character literal
+input.y:4.14-15: invalid character after \-escape: A
+input.y:4.13-16: warning: empty character literal
+input.y:5.9-16: invalid character after \-escape: \t
+input.y:5.17: invalid character after \-escape: \f
+input.y:5.18: invalid character after \-escape: \0
+input.y:5.19: invalid character after \-escape: \001
+]])
+
+AT_CLEANUP
