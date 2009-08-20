@@ -1,5 +1,11 @@
 2009-08-20  Eric Blake  <ebb9@byu.net>
 
+	Make previous patch more robust.
+	* src/output.c (ARRAY_CARDINALITY): New macro, copied from
+	argmatch.h.
+	(output_skeleton): Use it.
+	Suggested by Akim Demaille.
+
 	Import latest m4/m4.m4.
 	* submodules/autoconf: Update to autoconf 2.64.
 	* configure.ac (M4_GNU_OPTION): New define.
@@ -66,12 +72,12 @@
 	that perfectly supported Bison mo files.  Lower the requirement.
 	http://lists.gnu.org/archive/html/bug-bison/2009-08/msg00006.html
 
-        * configure.ac: Require need-ngettext instead of
-        need-formatstring-macros.
-        Reported by Martin Jabocs.
-        Suggested by Bruno Haible.
-        * INSTALL: Restructure.
-        (Internationalization): New.
+	* configure.ac: Require need-ngettext instead of
+	need-formatstring-macros.
+	Reported by Martin Jabocs.
+	Suggested by Bruno Haible.
+	* INSTALL: Restructure.
+	(Internationalization): New.
 
 2009-08-14  Joel E. Denny  <jdenny@clemson.edu>
 
@@ -103,7 +109,7 @@
 
 	distcheck: fix.
 
-        * examples/calc++/Makefile.am: (EXTRA_DIST): Ship calc.stamp.
+	* examples/calc++/Makefile.am: (EXTRA_DIST): Ship calc.stamp.
 
 2009-08-10  Joel E. Denny  <jdenny@clemson.edu>
 
@@ -392,13 +398,13 @@
 2009-05-25  Akim Demaille  <demaille@gostai.com>
 
 	gnulib: update.
-        * gnulib: Update to latest.
-        * lib/.cvsignore, lib/.gitignore, m4/.cvsignore,
-        * m4/.gitignore: Regen.
-        * src/symtab.c (symbol_from_uniqstr, semantic_type_from_uniqstr):
-        Call xalloc_die on hash_insert failures.
-        Requested by the new __warn_unused_result__ attribute of
-        hash_insert.
+	* gnulib: Update to latest.
+	* lib/.cvsignore, lib/.gitignore, m4/.cvsignore,
+	* m4/.gitignore: Regen.
+	* src/symtab.c (symbol_from_uniqstr, semantic_type_from_uniqstr):
+	Call xalloc_die on hash_insert failures.
+	Requested by the new __warn_unused_result__ attribute of
+	hash_insert.
 
 2009-05-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
