@@ -1,3 +1,23 @@
+2009-08-19  Joel E. Denny  <jdenny@clemson.edu>
+
+	Fix complaints about escape sequences.
+	Discussed starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2009-08/msg00036.html>.
+	* src/scan-gram.l (SC_ESCAPED_STRING, SC_ESCAPED_CHARACTER):
+	For a \0 and similar escape sequences meaning the null
+	character, report an invalid escape sequence instead of an
+	invalid null character because the latter does not actually
+	appear in the user's input.
+	In all escape sequence complaints, don't escape the initial
+	backslash, and don't quote when the sequence appears at the end
+	of the complaint line unless there's whitespace that quotearg
+	won't escape.
+	Consistently say "invalid" not "unrecognized".
+	Consistently prefer "empty character literal" over "extra
+	characters in character literal" warning for invalid escape
+	sequences; that is, consistently discard those sequences.
+	* tests/input.at (Bad escapes in literals): New.
+
 2009-08-19  Akim Demaille  <demaille@gostai.com>
 
 	doc: fixes.
