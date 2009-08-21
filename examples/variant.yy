@@ -1,7 +1,7 @@
-%debug
 %skeleton "lalr1.cc"
 %defines
-%define assert
+%define parse.assert
+%define parse.trace
 %define variant
 %define lex_symbol
 %locations
