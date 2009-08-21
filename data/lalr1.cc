@@ -237,8 +237,9 @@ do {                                                            \
 
     /// Generate an error message.
     /// \param yystate   the state where the error occurred.
-    /// \param yytoken   the lookahead token.
-    virtual std::string yysyntax_error_ (state_type yystate, int yytoken);
+    /// \param yyla      the (invalid) lookahead token.
+    virtual std::string yysyntax_error_ (state_type yystate,
+                                         const symbol_type& yyla);
 
     /// Compute post-reduction state.
     /// \param yystate   the current state
@@ -853,7 +854,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       {
 	++yynerrs_;
 	error (]b4_args(b4_locations_if([yyla.location]),
-                        [[yysyntax_error_ (yystack_[0].state, yyla.type)]])[);
+                        [[yysyntax_error_ (yystack_[0].state, yyla)]])[);
       }
 
 ]b4_locations_if([[
@@ -966,8 +967,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
   // Generate an error message.
   std::string
   ]b4_parser_class_name[::yysyntax_error_ (]dnl
-b4_error_verbose_if([state_type yystate, int yytoken],
-                    [state_type, int])[)
+b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
+                    [state_type, const symbol_type&])[)
   {
     std::string yyres;]b4_error_verbose_if([[
     int yyn = yypact_[yystate];
@@ -989,7 +990,8 @@ b4_error_verbose_if([state_type yystate, int yytoken],
         enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
         // Arguments of yyformat.
         char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-        yyarg[yycount++] = yytname_[yytoken];
+        // The unexpected token.
+        yyarg[yycount++] = yytname_[yyla.type_get ()];
 	for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
 	  if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
 	      && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
