@@ -967,7 +967,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
   std::string
   ]b4_parser_class_name[::yysyntax_error_ (]dnl
 b4_error_verbose_if([state_type yystate, int yytoken],
-                    [int, int])[)
+                    [state_type, int])[)
   {
     std::string yyres;]b4_error_verbose_if([[
     int yyn = yypact_[yystate];

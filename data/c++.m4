@@ -310,7 +310,7 @@ m4_define([b4_yytranslate_define],
     const token_number_type
     translate_table[] =
     {
-]b4_translate[
+  ]b4_translate[
     };
     const unsigned int user_token_number_max_ = ]b4_user_token_number_max[;
     const token_number_type undef_token_ = ]b4_undef_token_number[;
