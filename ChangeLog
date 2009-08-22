@@ -1,3 +1,9 @@
+2009-08-21  Joel E. Denny  <jdenny@clemson.edu>
+
+	Use locale when quoting.
+	* src/scan-gram.l (SC_ESCAPED_STRING, SC_ESCAPED_CHARACTER): Use
+	quote rather than implementing quoting here.
+
 2009-08-20  Eric Blake  <ebb9@byu.net>
 
 	Make previous patch more robust.

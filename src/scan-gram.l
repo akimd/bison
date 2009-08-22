@@ -560,12 +560,9 @@ splice	 (\\[ \f\t\v]*\n)*
   }
   \\(.|\n)	{
     char const *p = yytext + 1;
-    char quoted_ws[] = "` '";
+    /* Quote only if escaping won't make the character visible.  */
     if (isspace (*p) && isprint (*p))
-      {
-        quoted_ws[1] = *p;
-        p = quoted_ws;
-      }
+      p = quote (p);
     else
       p = quotearg_style_mem (escape_quoting_style, p, 1);
     complain_at (*loc, _("invalid character after \\-escape: %s"), p);
