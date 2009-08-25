@@ -971,7 +971,8 @@ b4_error_verbose_if([state_type yystate, int yytoken],
         char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
         yyarg[yycount++] = yytname_[yytoken];
 	for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-	  if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_)
+	  if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
+	      && yytable_[yyx + yyn] != yytable_ninf_)
           {
             if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
             {

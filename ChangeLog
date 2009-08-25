@@ -1,5 +1,18 @@
 2009-08-25  Joel E. Denny  <jdenny@clemson.edu>
 
+	Fix %error-verbose for conflicts resolved by %nonassoc.
+	* NEWS (2.5): Document.
+	* data/glr.c (yyreportSyntaxError): Fix this by checking
+	yyis_table_ninf.
+	* data/yacc.c (yysyntax_error): Likewise.
+	* data/lalr1.cc (yysyntax_error_): Fix this by checking
+	yytable_ninf_.
+	* data/lalr1.java (yysyntax_error): Likewise.
+	* tests/conflicts.at (%nonassoc and eof): Update expected output
+	and remove FIXME.
+
+2009-08-25  Joel E. Denny  <jdenny@clemson.edu>
+
 	Some code and documentation improvements.
 	* data/c.m4 (b4_table_value_equals): New macro to capture
 	some repeated code.

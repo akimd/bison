@@ -146,6 +146,15 @@ Bison News
   Bison now warns when a character literal is not of length one.  In
   some future release, Bison will report an error instead.
 
+** Verbose error messages fixed for nonassociative tokens.
+
+  When %error-verbose is specified, syntax error messages produced by
+  the generated parser include the unexpected token as well as a list of
+  expected tokens.  Previously, this list erroneously included tokens
+  that would actually induce a syntax error because conflicts for them
+  were resolved with %nonassoc.  Such tokens are now properly omitted
+  from the list.
+
 * Changes in version 2.4.2 (????-??-??):
 
 ** Detection of GNU M4 1.4.6 or newer during configure is improved.
