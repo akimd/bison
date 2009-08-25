@@ -1,5 +1,50 @@
 2009-08-25  Joel E. Denny  <jdenny@clemson.edu>
 
+	More fixes related to last two patches.
+	* data/c.m4 (b4_table_value_equals): Comment that YYID must be
+	defined.
+	* data/glr.c, data/lalr1.cc, data/lalr1.java, data/yacc.c: Fix
+	yytable comments: zero indicates syntax error not default
+	action.
+	* data/glr.c (yyis_pact_ninf): Rename to...
+	(yypact_value_is_default): ... this.
+	(yyisDefaultedState): Update for rename.
+	(yyis_table_ninf): Rename to...
+	(yytable_value_is_error): ... this, and check for value zero
+	besides just YYTABLE_NINF.
+	(yygetLRActions): Check for default value from yypact.  It
+	appears that this check is always performed before this function
+	is invoked, and so adding the check here is probably redundant.
+	However, the code may evolve after this subtlety is forgotten.
+	Also, update for rename to yytable_value_is_error.  Because that
+	macro now checks for zero, a different but equivalent branch of
+	the if-then-else here is evaluated.
+	(yyreportSyntaxError): Update for rename to
+	yytable_value_is_error.  The zero condition was mishandled
+	before.
+	(yyrecoverSyntaxError): Update for renames.  No behavioral
+	changes.
+	* data/lalr1.cc, data/lalr1.java (yy_pact_value_is_default_):
+	New function.
+	(yy_table_value_is_error_): New function.
+	(parse): Use new functions where possible.  No behavioral
+	changes.
+	(yysyntax_error_, yysyntax_error): Use yy_table_value_is_error_.
+	The zero condition was mishandled before.
+	* data/yacc.c (yyis_pact_ninf): Rename to...
+	(yypact_value_is_default): ... this.
+	(yyis_table_ninf): Rename to...
+	(yytable_value_is_error): ... this, and check for value zero
+	besides just YYTABLE_NINF.
+	(yysyntax_error): Update for rename to yytable_value_is_error.
+	The zero condition was mishandled before.
+	(yyparse): Update for renames.  No behavioral changes.
+	* src/tables.h: Improve comments about yypact, yytable, etc.
+	more.  Most importantly, say yytable value of zero means syntax
+	error not default action.
+
+2009-08-25  Joel E. Denny  <jdenny@clemson.edu>
+
 	Fix %error-verbose for conflicts resolved by %nonassoc.
 	* NEWS (2.5): Document.
 	* data/glr.c (yyreportSyntaxError): Fix this by checking

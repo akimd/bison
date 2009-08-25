@@ -489,7 +489,7 @@ m4_popdef([b4_at_dollar])])dnl
 
         /* Take a decision.  First try without lookahead.  */
         yyn = yypact_[yystate];
-        if (yyn == yypact_ninf_)
+        if (yy_pact_value_is_default_ (yyn))
           {
             label = YYDEFAULT;
 	    break;
@@ -528,7 +528,7 @@ m4_popdef([b4_at_dollar])])dnl
         /* <= 0 means reduce or error.  */
         else if ((yyn = yytable_[yyn]) <= 0)
           {
-	    if (yyn == 0 || yyn == yytable_ninf_)
+	    if (yy_table_value_is_error_ (yyn))
 	      label = YYFAIL;
 	    else
 	      {
@@ -632,7 +632,7 @@ m4_popdef([b4_at_dollar])])dnl
         for (;;)
           {
 	    yyn = yypact_[yystate];
-	    if (yyn != yypact_ninf_)
+	    if (!yy_pact_value_is_default_ (yyn))
 	      {
 	        yyn += yyterror_;
 	        if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
@@ -701,7 +701,7 @@ m4_popdef([b4_at_dollar])])dnl
 	    int count = 0;
 	    for (int x = yyxbegin; x < yyxend; ++x)
 	      if (yycheck_[x + yyn] == x && x != yyterror_
-		  && yycheck_[x + yyn] != yytable_ninf_)
+		  && !yy_table_value_is_error_ (yycheck_[x + yyn]))
 	        ++count;
 
 	    // FIXME: This method of building the message is not compatible
@@ -713,7 +713,7 @@ m4_popdef([b4_at_dollar])])dnl
 	        count = 0;
 	        for (int x = yyxbegin; x < yyxend; ++x)
 	          if (yycheck_[x + yyn] == x && x != yyterror_
-		      && yycheck_[x + yyn] != yytable_ninf_)
+		      && !yy_table_value_is_error_ (yycheck_[x + yyn]))
 		    {
 		      res.append (count++ == 0 ? ", expecting " : " or ");
 		      res.append (yytnamerr_ (yytname_[x]));
@@ -726,6 +726,23 @@ m4_popdef([b4_at_dollar])])dnl
     return "syntax error";
   }
 
+  /**
+   * Whether the given <code>yypact_</code> value indicates a defaulted state.
+   * @@param yyvalue   the value to check
+   */
+  private static boolean yy_pact_value_is_default_ (int yyvalue)
+  {
+    return yyvalue == yypact_ninf_;
+  }
+
+  /**
+   * Whether the given <code>yytable_</code> value indicates a syntax error.
+   * @@param yyvalue   the value to check
+   */
+  private static boolean yy_table_value_is_error_ (int yyvalue)
+  {
+    return yyvalue == 0 || yyvalue == yytable_ninf_;
+  }
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
@@ -758,7 +775,7 @@ m4_popdef([b4_at_dollar])])dnl
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
-     number is the opposite.  If zero, do what YYDEFACT says.  */
+     number is the opposite.  If zero or YYTABLE_NINF_, syntax error.  */
   private static final ]b4_int_type_for([b4_table])[ yytable_ninf_ = ]b4_table_ninf[;
   private static final ]b4_int_type_for([b4_table])[
   yytable_[] =

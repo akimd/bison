@@ -138,7 +138,8 @@ m4_define([b4_int_type_for],
 # --------------------------------------------
 # Without inducing a comparison warning from the compiler, check if the
 # literal value LITERAL equals VALUE from table TABLE, which must have
-# TABLE_min and TABLE_max defined.
+# TABLE_min and TABLE_max defined.  YYID must be defined as an identity
+# function that suppresses warnings about constant conditions.
 m4_define([b4_table_value_equals],
 [m4_if(m4_eval($3 < m4_indir([b4_]$1[_min])
                || m4_indir([b4_]$1[_max]) < $3), [1],

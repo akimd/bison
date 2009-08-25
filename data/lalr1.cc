@@ -190,6 +190,14 @@ b4_error_verbose_if([, int tok])[);
     /// The location stack.
     location_stack_type yylocation_stack_;
 
+    /// Whether the given \c yypact_ value indicates a defaulted state.
+    /// \param yyvalue   the value to check
+    static bool yy_pact_value_is_default_ (int yyvalue);
+
+    /// Whether the given \c yytable_ value indicates a syntax error.
+    /// \param yyvalue   the value to check
+    static bool yy_table_value_is_error_ (int yyvalue);
+
     /// Internal symbol numbers.
     typedef ]b4_int_type_for([b4_translate])[ token_number_type;
     /* Tables.  */
@@ -518,6 +526,18 @@ do {					\
   }
 #endif
 
+  inline bool
+  ]b4_parser_class_name[::yy_pact_value_is_default_ (int yyvalue)
+  {
+    return yyvalue == yypact_ninf_;
+  }
+
+  inline bool
+  ]b4_parser_class_name[::yy_table_value_is_error_ (int yyvalue)
+  {
+    return yyvalue == 0 || yyvalue == yytable_ninf_;
+  }
+
   int
   ]b4_parser_class_name[::parse ()
   {
@@ -584,7 +604,7 @@ m4_popdef([b4_at_dollar])])dnl
 
     /* Try to take a decision without lookahead.  */
     yyn = yypact_[yystate];
-    if (yyn == yypact_ninf_)
+    if (yy_pact_value_is_default_ (yyn))
       goto yydefault;
 
     /* Read a lookahead token.  */
@@ -620,8 +640,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     yyn = yytable_[yyn];
     if (yyn <= 0)
       {
-	if (yyn == 0 || yyn == yytable_ninf_)
-	goto yyerrlab;
+	if (yy_table_value_is_error_ (yyn))
+	  goto yyerrlab;
 	yyn = -yyn;
 	goto yyreduce;
       }
@@ -762,7 +782,7 @@ b4_error_verbose_if([, yytoken])[));
     for (;;)
       {
 	yyn = yypact_[yystate];
-	if (yyn != yypact_ninf_)
+	if (!yy_pact_value_is_default_ (yyn))
 	{
 	  yyn += yyterror_;
 	  if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
@@ -851,7 +871,7 @@ b4_error_verbose_if([, int tok])[)
 	int count = 0;
 	for (int x = yyxbegin; x < yyxend; ++x)
 	  if (yycheck_[x + yyn] == x && x != yyterror_
-	      && yytable_[x + yyn] != yytable_ninf_)
+	      && !yy_table_value_is_error_ (yytable_[x + yyn]))
 	    ++count;
 
 	// FIXME: This method of building the message is not compatible
@@ -869,7 +889,7 @@ b4_error_verbose_if([, int tok])[)
 	    count = 0;
 	    for (int x = yyxbegin; x < yyxend; ++x)
 	      if (yycheck_[x + yyn] == x && x != yyterror_
-		  && yytable_[x + yyn] != yytable_ninf_)
+		  && !yy_table_value_is_error_ (yytable_[x + yyn]))
 		{
 		  res += (!count++) ? ", expecting " : " or ";
 		  res += yytnamerr_ (yytname_[x]);
@@ -917,7 +937,8 @@ b4_error_verbose_if([, int tok])[)
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
-     number is the opposite.  If zero, do what YYDEFACT says.  */
+     number is the opposite.  If zero or YYTABLE_NINF_, syntax
+     error.  */
   const ]b4_int_type(b4_table_ninf, b4_table_ninf) b4_parser_class_name::yytable_ninf_ = b4_table_ninf[;
   const ]b4_int_type_for([b4_table])[
   ]b4_parser_class_name[::yytable_[] =
