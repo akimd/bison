@@ -245,6 +245,14 @@ do {                                                            \
     /// \param yylhs     the nonterminal to push on the stack
     state_type yy_lr_goto_state_ (state_type yystate, int yylhs);
 
+    /// Whether the given \c yypact_ value indicates a defaulted state.
+    /// \param yyvalue   the value to check
+    static bool yy_pact_value_is_default_ (int yyvalue);
+
+    /// Whether the given \c yytable_ value indicates a syntax error.
+    /// \param yyvalue   the value to check
+    static bool yy_table_value_is_error_ (int yyvalue);
+
     /// Internal symbol numbers.
     typedef ]b4_int_type_for([b4_translate])[ token_number_type;
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
@@ -651,6 +659,18 @@ b4_percent_code_get[]dnl
       return yydefgoto_[yylhs - yyntokens_];
   }
 
+  inline bool
+  ]b4_parser_class_name[::yy_pact_value_is_default_ (int yyvalue)
+  {
+    return yyvalue == yypact_ninf_;
+  }
+
+  inline bool
+  ]b4_parser_class_name[::yy_table_value_is_error_ (int yyvalue)
+  {
+    return yyvalue == 0 || yyvalue == yytable_ninf_;
+  }
+
   int
   ]b4_parser_class_name[::parse ()
   {
@@ -709,7 +729,7 @@ m4_popdef([b4_at_dollar])])dnl
 
     /* Try to take a decision without lookahead.  */
     yyn = yypact_[yystack_[0].state];
-    if (yyn == yypact_ninf_)
+    if (yy_pact_value_is_default_ (yyn))
       goto yydefault;
 
     /* Read a lookahead token.  */
@@ -737,7 +757,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     yyn = yytable_[yyn];
     if (yyn <= 0)
       {
-	if (yyn == 0 || yyn == yytable_ninf_)
+	if (yy_table_value_is_error_ (yyn))
 	  goto yyerrlab;
 	yyn = -yyn;
 	goto yyreduce;
@@ -887,7 +907,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       for (;;)
         {
           yyn = yypact_[yystack_[0].state];
-          if (yyn != yypact_ninf_)
+          if (!yy_pact_value_is_default_ (yyn))
             {
               yyn += yyterror_;
               if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
@@ -972,7 +992,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
         yyarg[yycount++] = yytname_[yytoken];
 	for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
 	  if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
-	      && yytable_[yyx + yyn] != yytable_ninf_)
+	      && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
           {
             if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
             {

@@ -45,6 +45,24 @@
 
    YYSTOS[S] = the symbol number of the symbol that leads to state S.
 
+   YYFINAL = the state number of the termination state.
+
+   YYTABLE = a vector filled with portions for different uses, found
+   via YYPACT and YYPGOTO.
+
+   YYLAST ( = high) the number of the last element of YYTABLE, i.e.,
+   sizeof (YYTABLE) - 1.
+
+   YYCHECK = a vector indexed in parallel with YYTABLE.  It indicates,
+   in a roundabout way, the bounds of the portion you are trying to
+   examine.
+
+   Suppose that the portion of YYTABLE starts at index P and the index
+   to be examined within the portion is I.  Then if YYCHECK[P+I] != I,
+   I is outside the bounds of what is actually allocated, and the
+   default (from YYDEFACT or YYDEFGOTO) should be used.  Otherwise,
+   YYTABLE[P+I] should be used.
+
    YYDEFACT[S] = default reduction number in state s.  Performed when
    YYTABLE doesn't specify something else to do.  Zero means the default
    is an error.
@@ -58,10 +76,10 @@
    YYTABLE to find out what action to perform.
 
    If YYPACT[S] == YYPACT_NINF, if YYPACT[S] + I is outside the bounds
-   of YYTABLE (from 0 to YYLAST), or if YYCHECK indicates that I is
-   outside the bounds of the portion for S, then the default action
-   (from YYDEFACT and YYDEFGOTO) should be used instead of YYTABLE.
-   Otherwise, the value YYTABLE[YYPACT[S] + I] should be used even if
+   of YYTABLE (from 0 to YYLAST), or I is outside the bounds for portion
+   S (that is, YYCHECK[YYPACT[S] + I] != I), then the default action
+   (that is, YYDEFACT[S]) should be used instead of YYTABLE.  Otherwise,
+   the value YYTABLE[YYPACT[S] + I] should be used even if
    YYPACT[S] < 0.
 
    If the value in YYTABLE is positive, we shift the token and go to
@@ -69,33 +87,19 @@
 
    If the value is negative, it is minus a rule number to reduce by.
 
-   If the value is zero, the default action from YYDEFACT[S] is used.
-
-   If the value is YYTABLE_NINF, it's a syntax error.
+   If the value is zero or YYTABLE_NINF, it's a syntax error.
 
    YYPGOTO[I] = the index in YYTABLE of the portion describing what to
    do after reducing a rule that derives variable I + NTOKENS.  This
    portion is indexed by the parser state number, S, as of before the
-   text for this nonterminal was read.  The value from YYTABLE is the
-   state to go to if the corresponding value in YYCHECK is S.
+   text for this nonterminal was read.
 
-   YYTABLE = a vector filled with portions for different uses, found
-   via YYPACT and YYPGOTO.
-
-   YYCHECK = a vector indexed in parallel with YYTABLE.  It indicates,
-   in a roundabout way, the bounds of the portion you are trying to
-   examine.
-
-   Suppose that the portion of YYTABLE starts at index P and the index
-   to be examined within the portion is I.  Then if YYCHECK[P+I] != I,
-   I is outside the bounds of what is actually allocated, and the
-   default (from YYDEFACT or YYDEFGOTO) should be used.  Otherwise,
-   YYTABLE[P+I] should be used.
-
-   YYFINAL = the state number of the termination state.
-
-   YYLAST ( = high) the number of the last element of YYTABLE, i.e.,
-   sizeof (YYTABLE) - 1.  */
+   If YYPGOTO[I] + S is outside the bounds of YYTABLE (from 0 to YYLAST)
+   or if S is outside the bounds of the portion for I (that is,
+   YYCHECK[YYPGOTO[I] + S] != S), then the default state (that is,
+   YYDEFGOTO[I]) should be used instead of YYTABLE.  Otherwise,
+   YYTABLE[YYPGOTO[I] + S] is the state to go to even if YYPGOTO[I] < 0.
+*/
 
 extern int nvectors;
 
