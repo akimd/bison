@@ -735,7 +735,8 @@ m4_popdef([b4_at_dollar])])dnl
             StringBuffer res;
 
             /* Start YYX at -YYN if negative to avoid negative indexes in
-               YYCHECK.  */
+               YYCHECK.  In other words, skip the first -YYN actions for this
+               state because they are default actions.  */
             int yyxbegin = yyn < 0 ? -yyn : 0;
 
             /* Stay within bounds of both yycheck and yytname.  */
