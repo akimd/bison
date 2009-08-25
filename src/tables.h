@@ -54,8 +54,15 @@
    something else to do.
 
    YYPACT[S] = index in YYTABLE of the portion describing state S.
-   The lookahead token's type is used to index that portion to find
-   out what to do.
+   The lookahead token's number, I, is used to index that portion of
+   YYTABLE to find out what action to perform.
+
+   If YYPACT[S] == YYPACT_NINF, if YYPACT[S] + I is outside the bounds
+   of YYTABLE (from 0 to YYLAST), or if YYCHECK indicates that I is
+   outside the bounds of the portion for S, then the default action
+   (from YYDEFACT and YYDEFGOTO) should be used instead of YYTABLE.
+   Otherwise, the value YYTABLE[YYPACT[S] + I] should be used even if
+   YYPACT[S] < 0.
 
    If the value in YYTABLE is positive, we shift the token and go to
    that state.
@@ -63,6 +70,8 @@
    If the value is negative, it is minus a rule number to reduce by.
 
    If the value is zero, the default action from YYDEFACT[S] is used.
+
+   If the value is YYTABLE_NINF, it's a syntax error.
 
    YYPGOTO[I] = the index in YYTABLE of the portion describing what to
    do after reducing a rule that derives variable I + NTOKENS.  This

@@ -1,3 +1,19 @@
+2009-08-25  Joel E. Denny  <jdenny@clemson.edu>
+
+	Some code and documentation improvements.
+	* data/c.m4 (b4_table_value_equals): New macro to capture
+	some repeated code.
+	* data/glr.c (yyis_pact_ninf): Use it here.
+	(yyis_table_ninf): Likewise.
+	(yyreportSyntaxError): Improve internal comments.
+	* data/yacc.c (yyis_pact_ninf): New macro copied from glr.c.
+	Use it everywhere possible.
+	(yyis_table_ninf): Likewise.
+	(yysyntax_error): Improve internal comments.
+	* data/lalr1.cc (yysyntax_error_): Likewise.
+	* data/lalr1.java (yysyntax_error): Likewise.
+	* src/tables.h: Improve comments about yypact, yytable, etc.
+
 2009-08-21  Joel E. Denny  <jdenny@clemson.edu>
 
 	Use locale when quoting.
