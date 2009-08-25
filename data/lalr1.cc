@@ -850,7 +850,8 @@ b4_error_verbose_if([, int tok])[)
 	int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
 	int count = 0;
 	for (int x = yyxbegin; x < yyxend; ++x)
-	  if (yycheck_[x + yyn] == x && x != yyterror_)
+	  if (yycheck_[x + yyn] == x && x != yyterror_
+	      && yytable_[x + yyn] != yytable_ninf_)
 	    ++count;
 
 	// FIXME: This method of building the message is not compatible
@@ -867,7 +868,8 @@ b4_error_verbose_if([, int tok])[)
 	  {
 	    count = 0;
 	    for (int x = yyxbegin; x < yyxend; ++x)
-	      if (yycheck_[x + yyn] == x && x != yyterror_)
+	      if (yycheck_[x + yyn] == x && x != yyterror_
+		  && yytable_[x + yyn] != yytable_ninf_)
 		{
 		  res += (!count++) ? ", expecting " : " or ";
 		  res += yytnamerr_ (yytname_[x]);
