@@ -745,7 +745,7 @@ m4_popdef([b4_at_dollar])])dnl
             int count = 0;
             for (int x = yyxbegin; x < yyxend; ++x)
               if (yycheck_[x + yyn] == x && x != yyterror_
-                  && !yy_table_value_is_error_ (yycheck_[x + yyn]))
+                  && !yy_table_value_is_error_ (yytable_[x + yyn]))
                 ++count;
 
             // FIXME: This method of building the message is not compatible
@@ -757,7 +757,7 @@ m4_popdef([b4_at_dollar])])dnl
                 count = 0;
                 for (int x = yyxbegin; x < yyxend; ++x)
                   if (yycheck_[x + yyn] == x && x != yyterror_
-                      && !yy_table_value_is_error_ (yycheck_[x + yyn]))
+                      && !yy_table_value_is_error_ (yytable_[x + yyn]))
                     {
                       res.append (count++ == 0 ? ", expecting " : " or ");
                       res.append (yytnamerr_ (yytname_[x]));
@@ -785,7 +785,7 @@ m4_popdef([b4_at_dollar])])dnl
    */
   private static boolean yy_table_value_is_error_ (int yyvalue)
   {
-    return yyvalue == 0 || yyvalue == yytable_ninf_;
+    return yyvalue == yytable_ninf_;
   }
 
   private static final ]b4_int_type_for([b4_pact])[ yypact_ninf_ = ]b4_pact_ninf[;

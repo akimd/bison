@@ -1,3 +1,17 @@
+2009-08-26  Joel E. Denny  <jdenny@clemson.edu>
+
+	Actually handle the yytable zero value correctly this time.
+	* data/bison.m4 (b4_integral_parser_tables_map): Don't mention
+	zero values in the YYTABLE comments.
+	* data/glr.c (yytable_value_is_error): Don't check for zero
+	value.
+	* data/lalr1.cc (yy_table_value_is_error_): Likewise.
+	* data/yacc.c (yytable_value_is_error): Likewise.
+	* data/lalr1.java (yy_table_value_is_error_): Likewise.
+	(yysyntax_error): Fix typo in code: use yytable_ not yycheck_.
+	* src/tables.h: In header comments, explain why it's useless to
+	check for a zero value in yytable.
+
 2009-08-25  Joel E. Denny  <jdenny@clemson.edu>
 
 	More fixes related to last two patches.

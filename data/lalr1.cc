@@ -668,7 +668,7 @@ b4_percent_code_get[]dnl
   inline bool
   ]b4_parser_class_name[::yy_table_value_is_error_ (int yyvalue)
   {
-    return yyvalue == 0 || yyvalue == yytable_ninf_;
+    return yyvalue == yytable_ninf_;
   }
 
   int

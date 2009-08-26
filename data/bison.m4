@@ -266,7 +266,7 @@ $1([defgoto], [b4_defgoto], [[YYDEFGOTO[NTERM-NUM].]])
 $1([table], [b4_table],
    [[YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
 positive, shift that token.  If negative, reduce the rule which
-number is the opposite.  If zero or YYTABLE_NINF, syntax error.]])
+number is the opposite.  If YYTABLE_NINF, syntax error.]])
 
 $1([check], [b4_check])
 
