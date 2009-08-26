@@ -1,3 +1,9 @@
+2009-08-26  Joel E. Denny  <jdenny@clemson.edu>
+
+	tests: show a use of %define lr.default-reductions "consistent"
+	* tests/conflicts.at (%nonassoc and eof): Extend to test that it
+	prevents the omission of expected tokens for %error-verbose.
+
 2009-08-26  Akim Demaille  <demaille@gostai.com>
 
 	tests: portability fix.
