@@ -701,7 +701,7 @@ m4_popdef([b4_at_dollar])])dnl
 	    int count = 0;
 	    for (int x = yyxbegin; x < yyxend; ++x)
 	      if (yycheck_[x + yyn] == x && x != yyterror_
-		  && !yy_table_value_is_error_ (yycheck_[x + yyn]))
+		  && !yy_table_value_is_error_ (yytable_[x + yyn]))
 	        ++count;
 
 	    // FIXME: This method of building the message is not compatible
@@ -713,7 +713,7 @@ m4_popdef([b4_at_dollar])])dnl
 	        count = 0;
 	        for (int x = yyxbegin; x < yyxend; ++x)
 	          if (yycheck_[x + yyn] == x && x != yyterror_
-		      && !yy_table_value_is_error_ (yycheck_[x + yyn]))
+		      && !yy_table_value_is_error_ (yytable_[x + yyn]))
 		    {
 		      res.append (count++ == 0 ? ", expecting " : " or ");
 		      res.append (yytnamerr_ (yytname_[x]));
@@ -741,7 +741,7 @@ m4_popdef([b4_at_dollar])])dnl
    */
   private static boolean yy_table_value_is_error_ (int yyvalue)
   {
-    return yyvalue == 0 || yyvalue == yytable_ninf_;
+    return yyvalue == yytable_ninf_;
   }
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
@@ -775,7 +775,7 @@ m4_popdef([b4_at_dollar])])dnl
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
-     number is the opposite.  If zero or YYTABLE_NINF_, syntax error.  */
+     number is the opposite.  If YYTABLE_NINF_, syntax error.  */
   private static final ]b4_int_type_for([b4_table])[ yytable_ninf_ = ]b4_table_ninf[;
   private static final ]b4_int_type_for([b4_table])[
   yytable_[] =

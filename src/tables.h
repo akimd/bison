@@ -48,7 +48,7 @@
    YYFINAL = the state number of the termination state.
 
    YYTABLE = a vector filled with portions for different uses, found
-   via YYPACT and YYPGOTO.
+   via YYPACT and YYPGOTO, described below.
 
    YYLAST ( = high) the number of the last element of YYTABLE, i.e.,
    sizeof (YYTABLE) - 1.
@@ -87,7 +87,7 @@
 
    If the value is negative, it is minus a rule number to reduce by.
 
-   If the value is zero or YYTABLE_NINF, it's a syntax error.
+   If the value is YYTABLE_NINF, it's a syntax error.
 
    YYPGOTO[I] = the index in YYTABLE of the portion describing what to
    do after reducing a rule that derives variable I + NTOKENS.  This
@@ -99,6 +99,16 @@
    YYCHECK[YYPGOTO[I] + S] != S), then the default state (that is,
    YYDEFGOTO[I]) should be used instead of YYTABLE.  Otherwise,
    YYTABLE[YYPGOTO[I] + S] is the state to go to even if YYPGOTO[I] < 0.
+
+   When the above YYPACT, YYPGOTO, and YYCHECK tests determine that a
+   value from YYTABLE should be used, that value is never zero, so it is
+   useless to check for zero.  When those tests indicate that the value
+   from YYDEFACT or YYDEFGOTO should be used instead, the value from
+   YYTABLE *might* be zero, which, as a consequence of the way in which
+   the tables are constructed, also happens to indicate that YYDEFACT or
+   YYDEFGOTO should be used.  However, the YYTABLE value cannot be
+   trusted when the YYDEFACT or YYDEFGOTO value should be used.  In
+   summary, forget about zero values in YYTABLE.
 */
 
 extern int nvectors;

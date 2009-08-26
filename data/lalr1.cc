@@ -535,7 +535,7 @@ do {					\
   inline bool
   ]b4_parser_class_name[::yy_table_value_is_error_ (int yyvalue)
   {
-    return yyvalue == 0 || yyvalue == yytable_ninf_;
+    return yyvalue == yytable_ninf_;
   }
 
   int
@@ -937,8 +937,7 @@ b4_error_verbose_if([, int tok])[)
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
-     number is the opposite.  If zero or YYTABLE_NINF_, syntax
-     error.  */
+     number is the opposite.  If YYTABLE_NINF_, syntax error.  */
   const ]b4_int_type(b4_table_ninf, b4_table_ninf) b4_parser_class_name::yytable_ninf_ = b4_table_ninf[;
   const ]b4_int_type_for([b4_table])[
   ]b4_parser_class_name[::yytable_[] =
