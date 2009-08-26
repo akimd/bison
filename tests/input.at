@@ -1227,7 +1227,14 @@ start: '\777' '\0' '\xfff' '\x0'
        '\uffff' '\u0000' '\Uffffffff' '\U00000000'
        '\ ' '\A';
 ]])
-echo 'start: "\T\F\0\1" ;' | tr 'TF01' '\011\014\0\1' >> input.y
+
+# It is not easy to create special characters, we can only trust tr.
+# Beside we cannot even expect "echo '\0'" to output two characters
+# (well three with \n): at least Bash 3.2 converts the two-character
+# sequence "\0" into a single NUL character.
+#
+# Z for 0, O for 1.
+echo 'start: "\T\F\Z\O" ;' | tr 'TFZO' '\011\014\0\1' >> input.y
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.9-12: invalid number after \-escape: 777
