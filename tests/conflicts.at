@@ -112,6 +112,29 @@ AT_PARSER_CHECK([./input '0<0>0'], [1], [],
          [syntax error, unexpected '>'
 ])
 
+# We must disable default reductions in inconsistent states in order to
+# have an explicit list of all expected tokens.  (However, unless we use
+# canonical LR, lookahead sets are merged for different left contexts,
+# so it is still possible to have extra incorrect tokens in the expected
+# list.  That just doesn't happen to be a problem for this test case.)
+
+AT_BISON_CHECK([-Dlr.default-reductions=consistent -o input.c input.y])
+AT_COMPILE([input])
+
+AT_PARSER_CHECK([./input '0<0'])
+AT_PARSER_CHECK([./input '0<0<0'], [1], [],
+         [syntax error, unexpected '<', expecting $end
+])
+
+AT_PARSER_CHECK([./input '0>0'])
+AT_PARSER_CHECK([./input '0>0>0'], [1], [],
+         [syntax error, unexpected '>', expecting $end
+])
+
+AT_PARSER_CHECK([./input '0<0>0'], [1], [],
+         [syntax error, unexpected '>', expecting $end
+])
+
 AT_CLEANUP
 
 
