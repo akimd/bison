@@ -29,7 +29,7 @@ m4_define([b4_integral_parser_table_declare],
 ])
 
 # b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
-# ---------------------------------------------
+# -------------------------------------------------------------
 # Define "parser::yy<TABLE-NAME>_" which contents is CONTENT.
 m4_define([b4_integral_parser_table_define],
 [  const b4_int_type_for([$2])
@@ -100,10 +100,10 @@ m4_define([b4_rhs_location],
 m4_define([b4_symbol_action],
 [b4_symbol_if([$1], [has_$2],
 [m4_pushdef([b4_dollar_dollar],
-    [b4_symbol_value_template([yysym.value],
+    [b4_symbol_value_template([value],
                               b4_symbol_if([$1], [has_type],
                                            [b4_symbol([$1], [type])]))])dnl
-m4_pushdef([b4_at_dollar], [yysym.location])dnl
+m4_pushdef([b4_at_dollar], [location])dnl
       b4_symbol_case_([$1])
 b4_syncline([b4_symbol([$1], [$2_line])], ["b4_symbol([$1], [$2_file])"])
         b4_symbol([$1], [$2])
@@ -147,8 +147,9 @@ dnl FIXME: This is wrong, we want computed header guards.
 ]b4_percent_code_get([[requires]])[
 
 ]b4_parse_assert_if([#include <cassert>])[
-#include <string>
 #include <iostream>
+#include <string>
+#include <sstream>
 #include "stack.hh"
 
 ]b4_namespace_open[
@@ -268,7 +269,7 @@ do {                                                            \
 #endif]b4_error_verbose_if([
 
     /// Convert the symbol name \a n to a form suitable for a diagnostic.
-    static std::string yytnamerr_ (const char *n);])[
+    static std::string yytnamerr_ (const std::string& n);])[
 
 #if YYDEBUG
 ]b4_integral_parser_table_declare([rline], [b4_rline],
@@ -365,8 +366,7 @@ do {                                                            \
 ]b4_parse_param_vars[
   };
 
-]b4_lex_symbol_if([b4_yytranslate_define
-b4_public_types_define])[
+]b4_lex_symbol_if([b4_yytranslate_define])[
 ]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -465,12 +465,12 @@ b4_percent_code_get[]dnl
      apostrophe, a comma, or backslash (other than backslash-backslash).
      YYSTR is taken from yytname.  */
   std::string
-  ]b4_parser_class_name[::yytnamerr_ (const char *yystr)
+  ]b4_parser_class_name[::yytnamerr_ (const std::string& yystr)
   {
-    if (*yystr == '"')
+    if (yystr[0] == '"')
       {
         std::string yyr = "";
-        char const *yyp = yystr;
+        char const *yyp = yystr.c_str ();
 
         for (;;)
           switch (*++yyp)
@@ -496,6 +496,8 @@ b4_percent_code_get[]dnl
     return yystr;
   }
 ]])[
+
+]b4_lex_symbol_if([b4_public_types_define])[
 
   /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
@@ -546,21 +548,9 @@ b4_percent_code_get[]dnl
   ]b4_parser_class_name[::yy_destroy_ (const char* yymsg,
                                        symbol_base_type<Exact>& yysym) const
   {
-    int yytype = yysym.type_get ();
-    YYUSE (yymsg);
     if (yymsg)
       YY_SYMBOL_PRINT (yymsg, yysym);
-
-    // User destructor.
-    switch (yytype)
-      {
-]b4_symbol_foreach([b4_symbol_destructor])dnl
-[       default:
-          break;
-      }]b4_variant_if([
-
-    // Type destructor.
-  b4_symbol_variant([[yytype]], [[yysym.value]], [[template destroy]])])[
+    yysym.clear ();
   }
 
 #if YYDEBUG
@@ -569,17 +559,7 @@ b4_percent_code_get[]dnl
   ]b4_parser_class_name[::yy_print_ (std::ostream& yyo,
                                      const symbol_base_type<Exact>& yysym) const
   {
-    int yytype = yysym.type_get ();
-    yyo << (yytype < yyntokens_ ? "token" : "nterm")
-        << ' ' << yytname_[yytype] << " ("]b4_locations_if([
-        << yysym.location << ": "])[;
-    switch (yytype)
-      {
-]b4_symbol_foreach([b4_symbol_printer])dnl
-[       default:
-	  break;
-      }
-    yyo << ')';
+    yysym.dump (yyo);
   }
 #endif
 
@@ -1021,10 +1001,17 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
         }
         // Argument number.
         size_t yyi = 0;
+        // The unexpected token.  Try to print its value.
+        std::ostringstream yyo;
+        yyla.print (yyo);
         for (char const* yyp = yyformat; *yyp; ++yyp)
           if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
           {
-            yyres += yytnamerr_ (yyarg[yyi++]);
+            if (!yyi && !yyo.str ().empty ())
+              yyres += yyo.str ();
+            else
+              yyres += yytnamerr_ (yyarg[yyi]);
+            ++yyi;
             ++yyp;
           }
           else

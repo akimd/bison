@@ -148,12 +148,27 @@ m4_define([b4_public_types_declare],
         [const semantic_type& v],
         b4_locations_if([const location_type& l]))[);
 
+      /// Release the memory allocated to members.
+      /// Reclaim the semantic value using the %destructor directive.
+      void clear ();
+
+      /// Print the semantic value using the %printer directive.
+      std::ostream& print (std::ostream& o) const;
+
+      /// Print everything about the symbol (type, value, location).
+      std::ostream& dump (std::ostream& o) const;
+
       /// Return this with its exact type.
       const Exact& self () const;
       Exact& self ();
 
       /// Return the type of this symbol.
       int type_get () const;
+
+#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
+      /// The name for the type.
+      const char *type_name () const;
+#endif
 
       /// The semantic value.
       semantic_type value;]b4_locations_if([
@@ -186,7 +201,7 @@ m4_define([b4_public_types_declare],
       inline int type_get_ () const;
 
       /// Its token.
-      inline token_type token () const;
+      token_type token () const;
     };
 ]b4_symbol_constructor_declare])
 
@@ -220,6 +235,53 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Exact>
+  void
+  ]b4_parser_class_name[::symbol_base_type<Exact>::clear ()
+  {
+    int yytype = type_get ();
+    // User destructor.
+    switch (yytype)
+      {
+]b4_symbol_foreach([b4_symbol_destructor])dnl
+[       default:
+          break;
+      }]b4_variant_if([
+
+    // Type destructor.
+  b4_symbol_variant([[yytype]], [[value]], [[template destroy]])])[
+  }
+
+  template <typename Exact>
+  std::ostream&
+  ]b4_parser_class_name[::symbol_base_type<Exact>::print (std::ostream& yystream) const
+  {
+#define debug_stream() yystream
+    switch (type_get ())
+      {
+]b4_symbol_foreach([b4_symbol_printer])dnl
+[       default:
+	  break;
+      }
+#undef debug_stream
+    return yystream;
+  }
+
+  template <typename Exact>
+  std::ostream&
+  ]b4_parser_class_name[::symbol_base_type<Exact>::dump (std::ostream& yystream) const
+  {
+    int yytype = type_get ();
+    yystream << (yytype < yyntokens_ ? "token" : "nterm")
+#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
+             << ' ' << type_name ()
+#endif
+             << " ("]b4_locations_if([
+             << location << ": "])[;
+    print (yystream);
+    return yystream << ')';
+  }
+
+  template <typename Exact>
   const Exact&
   ]b4_parser_class_name[::symbol_base_type<Exact>::self () const
   {
@@ -240,6 +302,14 @@ m4_define([b4_public_types_define],
     return self ().type_get_ ();
   }
 
+#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
+  template <typename Exact>
+  const char *
+  ]b4_parser_class_name[::symbol_base_type<Exact>::type_name () const
+  {
+    return ]b4_parser_class_name[::yytname_[type_get ()];
+  }
+#endif
   // symbol_type.
   ]b4_parser_class_name[::symbol_type::symbol_type ()
     : super_type ()

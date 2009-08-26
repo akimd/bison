@@ -231,7 +231,7 @@ m4_define([b4_symbol_value_template],
 # these SYMBOL-NUMBERS.  Use at class-level.
 m4_define([b4_symbol_constructor_declare_],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[    static inline
+[    static // inline
     symbol_type
     make_[]b4_symbol_([$1], [id]) (dnl
 b4_args(b4_symbol_if([$1], [has_type],
