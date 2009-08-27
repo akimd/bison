@@ -1,3 +1,9 @@
+2009-08-27  Eric Blake  <ebb9@byu.net>
+
+	scan-gram: avoid portability trap with ctype usage.
+	* src/scan-gram.l (<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>):
+	Avoid compiler warning.
+
 2009-08-27  Joel E. Denny  <jdenny@clemson.edu>
 
 	tests: use perl for printing special sequences to files.
