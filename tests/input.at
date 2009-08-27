@@ -1160,10 +1160,8 @@ AT_CLEANUP
 # Bison used to accept character literals that were empty or contained
 # too many characters.
 
-# FIXME: $ECHO_N and $ECHO_C are not very portable according to the
-# Autoconf manual.  Switch to AS_ECHO_N when Autoconf 2.64 is released?
-# Even better, AT_DATA or some variant of AT_DATA may eventually permit
-# a trailing newline.  See the threads starting at
+# FIXME: AT_DATA or some variant of AT_DATA may eventually permit
+# the final newline to be omitted.  See the threads starting at
 # <http://lists.gnu.org/archive/html/bison-patches/2009-07/msg00019.html>.
 
 AT_SETUP([[Bad character literals]])
@@ -1173,7 +1171,7 @@ AT_DATA([empty.y],
 start: '';
 start: '
 ]])
-echo $ECHO_N "start: '$ECHO_C" >> empty.y
+AT_CHECK([[perl -e "print 'start: \'';" >> empty.y || exit 77]])
 
 AT_BISON_CHECK([empty.y], [1], [],
 [[empty.y:2.8-9: warning: empty character literal
@@ -1188,7 +1186,7 @@ AT_DATA([two.y],
 start: 'ab';
 start: 'ab
 ]])
-echo $ECHO_N "start: 'ab$ECHO_C" >> two.y
+AT_CHECK([[perl -e "print 'start: \'ab';" >> two.y || exit 77]])
 
 AT_BISON_CHECK([two.y], [1], [],
 [[two.y:2.8-11: warning: extra characters in character literal
@@ -1203,7 +1201,7 @@ AT_DATA([three.y],
 start: 'abc';
 start: 'abc
 ]])
-echo $ECHO_N "start: 'abc$ECHO_C" >> three.y
+AT_CHECK([[perl -e "print 'start: \'abc';" >> three.y || exit 77]])
 
 AT_BISON_CHECK([three.y], [1], [],
 [[three.y:2.8-12: warning: extra characters in character literal
@@ -1228,13 +1226,12 @@ start: '\777' '\0' '\xfff' '\x0'
        '\ ' '\A';
 ]])
 
-# It is not easy to create special characters, we can only trust tr.
+# It is not easy to create special characters, we cannot even trust tr.
 # Beside we cannot even expect "echo '\0'" to output two characters
 # (well three with \n): at least Bash 3.2 converts the two-character
 # sequence "\0" into a single NUL character.
-#
-# Z for 0, O for 1.
-echo 'start: "\T\F\Z\O" ;' | tr 'TFZO' '\011\014\0\1' >> input.y
+AT_CHECK([[perl -e 'print "start: \"\\\t\\\f\\\0\\\1\" ;";' >> input.y \
+           || exit 77]])
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.9-12: invalid number after \-escape: 777
