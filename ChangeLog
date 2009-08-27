@@ -1,3 +1,13 @@
+2009-08-27  Joel E. Denny  <jdenny@clemson.edu>
+
+	tests: use perl for printing special sequences to files.
+	And skip tests if perl is not available.  This is better than
+	playing tricks with shell portability.  Suggested by Akim
+	Demaille.
+	* tests/input.at (Bad character literals): Use it here for
+	omitting final newlines.
+	(Bad escapes in literals): Use it here for special characters.
+
 2009-08-21  Joel E. Denny  <jdenny@clemson.edu>
 
 	Use locale when quoting.
