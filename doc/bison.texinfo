@@ -4588,7 +4588,7 @@ The following Bison declaration says that you want the parser to be a push
 parser (@pxref{Decl Summary,,%define api.push-pull}):
 
 @example
-%define api.push-pull "push"
+%define api.push-pull push
 @end example
 
 In almost all cases, you want to ensure that your push parser is also
@@ -4599,7 +4599,7 @@ what you are doing, your declarations should look like this:
 
 @example
 %define api.pure
-%define api.push-pull "push"
+%define api.push-pull push
 @end example
 
 There is a major notable functional difference between the pure push parser
@@ -4648,14 +4648,14 @@ for use by the next invocation of the @code{yypush_parse} function.
 
 Bison also supports both the push parser interface along with the pull parser
 interface in the same generated parser.  In order to get this functionality,
-you should replace the @samp{%define api.push-pull "push"} declaration with the
-@samp{%define api.push-pull "both"} declaration.  Doing this will create all of
+you should replace the @samp{%define api.push-pull push} declaration with the
+@samp{%define api.push-pull both} declaration.  Doing this will create all of
 the symbols mentioned earlier along with the two extra symbols, @code{yyparse}
 and @code{yypull_parse}.  @code{yyparse} can be used exactly as it normally
 would be used.  However, the user should note that it is implemented in the
 generated parser by calling @code{yypull_parse}.
 This makes the @code{yyparse} function that is generated with the
-@samp{%define api.push-pull "both"} declaration slower than the normal
+@samp{%define api.push-pull both} declaration slower than the normal
 @code{yyparse} function.  If the user
 calls the @code{yypull_parse} function it will parse the rest of the input
 stream.  It is possible to @code{yypush_parse} tokens to select a subgrammar
@@ -4672,8 +4672,8 @@ yypstate_delete (ps);
 @end example
 
 Adding the @samp{%define api.pure} declaration does exactly the same thing to
-the generated parser with @samp{%define api.push-pull "both"} as it did for
-@samp{%define api.push-pull "push"}.
+the generated parser with @samp{%define api.push-pull both} as it did for
+@samp{%define api.push-pull push}.
 
 @node Decl Summary
 @subsection Bison Declaration Summary
@@ -4842,6 +4842,7 @@ parse.trace}.
 @end deffn
 
 @deffn {Directive} %define @var{variable}
+@deffnx {Directive} %define @var{variable} @var{value}
 @deffnx {Directive} %define @var{variable} "@var{value}"
 Define a variable to adjust Bison's behavior.
 The possible choices for @var{variable}, as well as their meanings, depend on
@@ -4851,7 +4852,11 @@ Summary,,%language}, @pxref{Decl Summary,,%skeleton}).
 It is an error if a @var{variable} is defined by @code{%define} multiple
 times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
 
-Omitting @code{"@var{value}"} is always equivalent to specifying it as
+@var{value} must be placed in quotation marks if it contains any
+character other than a letter, underscore, period, dash, or non-initial
+digit.
+
+Omitting @code{"@var{value}"} entirely is always equivalent to specifying
 @code{""}.
 
 Some @var{variable}s may be used as Booleans.
@@ -4859,12 +4864,12 @@ In this case, Bison will complain if the variable definition does not meet one
 of the following four conditions:
 
 @enumerate
-@item @code{"@var{value}"} is @code{"true"}
+@item @code{@var{value}} is @code{true}
 
-@item @code{"@var{value}"} is omitted (or is @code{""}).
-This is equivalent to @code{"true"}.
+@item @code{@var{value}} is omitted (or @code{""} is specified).
+This is equivalent to @code{true}.
 
-@item @code{"@var{value}"} is @code{"false"}.
+@item @code{@var{value}} is @code{false}.
 
 @item @var{variable} is never defined.
 In this case, Bison selects a default value, which may depend on the selected
@@ -4940,7 +4945,7 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 
 @item Accepted Values: Boolean
 
-@item Default Value: @code{"false"}
+@item Default Value: @code{false}
 @end itemize
 @c api.pure
 
@@ -4958,9 +4963,9 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 (The current push parsing interface is experimental and may evolve.
 More user feedback will help to stabilize it.)
 
-@item Accepted Values: @code{"pull"}, @code{"push"}, @code{"both"}
+@item Accepted Values: @code{pull}, @code{push}, @code{both}
 
-@item Default Value: @code{"pull"}
+@item Default Value: @code{pull}
 @end itemize
 @c api.push-pull
 
@@ -5025,7 +5030,7 @@ More user feedback will help to stabilize it.)
 
 @item Accepted Values:
 @itemize
-@item @code{"all"}.
+@item @code{all}.
 For @acronym{LALR} and @acronym{IELR} parsers (@pxref{Decl
 Summary,,lr.type}) by default, all states are permitted to contain
 default reductions.
@@ -5037,7 +5042,7 @@ That is, unlike in a canonical @acronym{LR} state, the lookahead sets of
 reductions in an @acronym{LALR} or @acronym{IELR} state can contain
 tokens that are syntactically incorrect for some left contexts.
 
-@item @code{"consistent"}.
+@item @code{consistent}.
 @cindex consistent states
 A consistent state is a state that has only one possible action.
 If that action is a reduction, then the parser does not need to request
@@ -5049,7 +5054,7 @@ states, then a canonical @acronym{LR} parser reports a syntax error as
 soon as it @emph{needs} the syntactically unacceptable token from the
 scanner.
 
-@item @code{"accepting"}.
+@item @code{accepting}.
 @cindex accepting state
 By default, the only default reduction permitted in a canonical
 @acronym{LR} parser is the accept action in the accepting state, which
@@ -5061,8 +5066,8 @@ without performing any extra reductions.
 
 @item Default Value:
 @itemize
-@item @code{"accepting"} if @code{lr.type} is @code{"canonical-lr"}.
-@item @code{"all"} otherwise.
+@item @code{accepting} if @code{lr.type} is @code{canonical-lr}.
+@item @code{all} otherwise.
 @end itemize
 @end itemize
 
@@ -5083,7 +5088,7 @@ are useless in the generated parser.
 
 @item Accepted Values: Boolean
 
-@item Default Value: @code{"false"}
+@item Default Value: @code{false}
 
 @item Caveats:
 
@@ -5126,7 +5131,7 @@ More user feedback will help to stabilize it.)
 
 @item Accepted Values:
 @itemize
-@item @code{"lalr"}.
+@item @code{lalr}.
 While Bison generates @acronym{LALR} parser tables by default for
 historical reasons, @acronym{IELR} or canonical @acronym{LR} is almost
 always preferable for deterministic parsers.
@@ -5155,7 +5160,7 @@ investigate such problems while ignoring the more subtle differences
 from @acronym{IELR} and canonical @acronym{LR}.
 @end itemize
 
-@item @code{"ielr"}.
+@item @code{ielr}.
 @acronym{IELR} is a minimal @acronym{LR} algorithm.
 That is, given any grammar (@acronym{LR} or non-@acronym{LR}),
 @acronym{IELR} and canonical @acronym{LR} always accept exactly the same
@@ -5169,7 +5174,7 @@ grammars, the number of conflicts for @acronym{IELR} is often an order
 of magnitude less as well.
 This can significantly reduce the complexity of developing of a grammar.
 
-@item @code{"canonical-lr"}.
+@item @code{canonical-lr}.
 @cindex delayed syntax errors
 @cindex syntax errors delayed
 The only advantage of canonical @acronym{LR} over @acronym{IELR} is
@@ -5185,7 +5190,7 @@ Even when canonical @acronym{LR} behavior is ultimately desired,
 facilitate the development of a grammar.
 @end itemize
 
-@item Default Value: @code{"lalr"}
+@item Default Value: @code{lalr}
 @end itemize
 
 
@@ -5226,10 +5231,10 @@ function.  @xref{Error Reporting, ,The Error Reporting Function
 @code{yyerror}}.
 @item Accepted Values:
 @itemize
-@item @code{"simple"}
+@item @code{simple}
 Error messages passed to @code{yyerror} are simply @w{@code{"syntax
 error"}}.
-@item @code{"verbose"}
+@item @code{verbose}
 Error messages report the unexpected token, and possibly the expected
 ones.
 @end itemize
@@ -5585,8 +5590,8 @@ exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypush_parse} to parse a single token.  This
-function is available if either the @samp{%define api.push-pull "push"} or
-@samp{%define api.push-pull "both"} declaration is used.
+function is available if either the @samp{%define api.push-pull push} or
+@samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *yyps)
@@ -5603,7 +5608,7 @@ is required to finish parsing the grammar.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypull_parse} to parse the rest of the input
-stream.  This function is available if the @samp{%define api.push-pull "both"}
+stream.  This function is available if the @samp{%define api.push-pull both}
 declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
@@ -5619,8 +5624,8 @@ The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_new} to create a new parser instance.
-This function is available if either the @samp{%define api.push-pull "push"} or
-@samp{%define api.push-pull "both"} declaration is used.
+This function is available if either the @samp{%define api.push-pull push} or
+@samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun yypstate *yypstate_new (void)
@@ -5638,8 +5643,8 @@ allocated.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_delete} to delete a parser instance.
-function is available if either the @samp{%define api.push-pull "push"} or
-@samp{%define api.push-pull "both"} declaration is used.
+function is available if either the @samp{%define api.push-pull push} or
+@samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun void yypstate_delete (yypstate *yyps)
@@ -5913,7 +5918,7 @@ receives one argument.  For a syntax error, the string is normally
 @w{@code{"syntax error"}}.
 
 @findex %define parse.error
-If you invoke @samp{%define parse.error "verbose"} in the Bison
+If you invoke @samp{%define parse.error verbose} in the Bison
 declarations section (@pxref{Bison Declarations, ,The Bison Declarations
 Section}), then Bison provides a more verbose and specific error message
 string instead of just plain @w{@code{"syntax error"}}.
@@ -8837,7 +8842,7 @@ error messages.
 @comment file: calc++-parser.yy
 @example
 %define parse.trace
-%define parse.error "verbose"
+%define parse.error verbose
 @end example
 
 @noindent
@@ -9226,7 +9231,7 @@ in a file; Bison itself defines a class representing a @dfn{location},
 a range composed of a pair of positions (possibly spanning several
 files).  The location class is an inner class of the parser; the name
 is @code{Location} by default, and may also be renamed using
-@samp{%define location_type "@var{class-name}}.
+@samp{%define location_type "@var{class-name}"}.
 
 The location class treats the position as a completely opaque value.
 By default, the class name is @code{Position}, but this can be changed
@@ -9325,7 +9330,7 @@ Run the syntactic analysis, and return @code{true} on success,
 @deftypemethod {YYParser} {boolean} getErrorVerbose ()
 @deftypemethodx {YYParser} {void} setErrorVerbose (boolean @var{verbose})
 Get or set the option to produce verbose error messages.  These are only
-available with @samp{%define parse.error "verbose"}, which also turns on
+available with @samp{%define parse.error verbose}, which also turns on
 verbose error messages.
 @end deftypemethod
 
@@ -10212,6 +10217,7 @@ Precedence}.
 
 @deffn {Directive} %define @var{define-variable}
 @deffnx {Directive} %define @var{define-variable} @var{value}
+@deffnx {Directive} %define @var{define-variable} "@var{value}"
 Define a variable to adjust Bison's behavior.
 @xref{Decl Summary,,%define}.
 @end deffn
@@ -10254,7 +10260,7 @@ token is reset to the token that originally caused the violation.
 @end deffn
 
 @deffn {Directive} %error-verbose
-An obsolete directive standing for @samp{%define parse.error "verbose"}.
+An obsolete directive standing for @samp{%define parse.error verbose}.
 @end deffn
 
 @deffn {Directive} %file-prefix "@var{prefix}"
@@ -10460,7 +10466,7 @@ An obsolete macro used in the @file{yacc.c} skeleton, that you define
 with @code{#define} in the prologue to request verbose, specific error
 message strings when @code{yyerror} is called.  It doesn't matter what
 definition you use for @code{YYERROR_VERBOSE}, just whether you define
-it.  Using @samp{%define parse.error "verbose"} is preferred
+it.  Using @samp{%define parse.error verbose} is preferred
 (@pxref{Error Reporting, ,The Error Reporting Function @code{yyerror}}).
 @end deffn
 

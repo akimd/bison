@@ -77,7 +77,7 @@ m4_pushdef([AT_LOCATION_IF],
 [m4_bmatch([$3], [%locations], [$1], [$2])])
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
-           [m4_bmatch([$3], [%define  *api\.pure *"false"], [$2], [$1])],
+           [m4_bmatch([$3], [%define  *api\.pure *"?false"?], [$2], [$1])],
            [$2])])
 m4_pushdef([AT_PURE_AND_LOC_IF],
 [m4_bmatch([$3], [%locations], [AT_PURE_IF($@)], [$2])])

@@ -563,6 +563,7 @@ variable:
 /* Some content or empty by default. */
 content.opt:
   /* Nothing. */   { $$ = ""; }
+| ID { $$ = $1; }
 | STRING
 ;
 

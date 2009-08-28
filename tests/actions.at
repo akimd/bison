@@ -29,7 +29,7 @@ AT_SETUP([Mid-rule actions])
 # action.
 
 AT_DATA_GRAMMAR([[input.y]],
-[[%define parse.error "verbose"
+[[%define parse.error verbose
 %debug
 %{
 # include <stdio.h>
@@ -93,7 +93,7 @@ AT_CLEANUP
 AT_SETUP([Exotic Dollars])
 
 AT_DATA_GRAMMAR([[input.y]],
-[[%define parse.error "verbose"
+[[%define parse.error verbose
 %debug
 %{
 # include <stdio.h>
@@ -557,7 +557,7 @@ m4_define([AT_CHECK_PRINTER_AND_DESTRUCTOR],
 
 $3
 _AT_CHECK_PRINTER_AND_DESTRUCTOR($[1], $[2], $[3], $[4],
-[%define parse.error "verbose"
+[%define parse.error verbose
 %debug
 %verbose
 %locations
@@ -588,7 +588,7 @@ AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [with union])
 AT_SETUP([Default tagless %printer and %destructor])
 
 AT_DATA_GRAMMAR([[input.y]],
-[[%define parse.error "verbose"
+[[%define parse.error verbose
 %debug
 %locations
 %initial-action {
@@ -706,7 +706,7 @@ AT_CLEANUP
 AT_SETUP([Default tagged and per-type %printer and %destructor])
 
 AT_DATA_GRAMMAR([[input.y]],
-[[%define parse.error "verbose"
+[[%define parse.error verbose
 %debug
 
 %{
@@ -850,7 +850,7 @@ m4_define([_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN],
   [m4_pushdef([kind], [*]) m4_pushdef([not_kind], [])])
 
 AT_DATA_GRAMMAR([[input]]$1[[.y]],
-[[%define parse.error "verbose"
+[[%define parse.error verbose
 %debug
 %locations
 %initial-action {
