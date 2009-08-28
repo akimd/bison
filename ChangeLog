@@ -1,3 +1,18 @@
+2009-08-28  Joel E. Denny  <jdenny@clemson.edu>
+
+	%define lr.type: make values lowercase IDs.
+	That is, "LALR" => "lalr", "IELR" => "ielr", and
+	"canonical LR" => "canonical-lr".
+	* NEWS (2.5): Update documentation.
+	* doc/bison.texinfo (Decl Summary): Likewise.
+	* src/ielr.c (ielr): Use new values.
+	* src/ielr.h (ielr): Update documentation.
+	* src/reader.c (prepare_percent_define_front_end_variables): Use
+	and validate new values.
+	* tests/existing.at (AT_TEST_EXISTING_GRAMMAR): Update test
+	grammars.
+	* tests/reduce.at (AT_TEST_LR_TYPE): Likewise.
+
 2009-08-27  Eric Blake  <ebb9@byu.net>
 
 	scan-gram: avoid portability trap with ctype usage.

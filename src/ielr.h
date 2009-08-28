@@ -33,9 +33,9 @@
  *   - \c ::states is of size \c ::nstates (which might be greater than
  *     <tt>::nstates \@pre</tt>) and defines the type of parser specified by
  *     the value of the \c \%define variable \c lr.type.  Its value can be:
- *     - \c "LALR".
- *     - \c "IELR".
- *     - \c "canonical LR".
+ *     - \c "lalr".
+ *     - \c "ielr".
+ *     - \c "canonical-lr".
  */
 void ielr (void);
 

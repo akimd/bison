@@ -20,9 +20,9 @@ Bison News
   default.  You can specify the type of parser tables in the grammar
   file with these directives:
 
-    %define lr.type "LALR"
-    %define lr.type "IELR"
-    %define lr.type "canonical LR"
+    %define lr.type "lalr"
+    %define lr.type "ielr"
+    %define lr.type "canonical-lr"
 
   The default reduction optimization in the parser tables can also be
   adjusted using `%define lr.default-reductions'.  See the documentation

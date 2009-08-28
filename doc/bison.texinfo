@@ -4956,7 +4956,7 @@ without performing any extra reductions.
 
 @item Default Value:
 @itemize
-@item @code{"accepting"} if @code{lr.type} is @code{"canonical LR"}.
+@item @code{"accepting"} if @code{lr.type} is @code{"canonical-lr"}.
 @item @code{"all"} otherwise.
 @end itemize
 @end itemize
@@ -5020,7 +5020,7 @@ More user feedback will help to stabilize it.)
 
 @item Accepted Values:
 @itemize
-@item @code{"LALR"}.
+@item @code{"lalr"}.
 While Bison generates @acronym{LALR} parser tables by default for
 historical reasons, @acronym{IELR} or canonical @acronym{LR} is almost
 always preferable for deterministic parsers.
@@ -5049,7 +5049,7 @@ investigate such problems while ignoring the more subtle differences
 from @acronym{IELR} and canonical @acronym{LR}.
 @end itemize
 
-@item @code{"IELR"}.
+@item @code{"ielr"}.
 @acronym{IELR} is a minimal @acronym{LR} algorithm.
 That is, given any grammar (@acronym{LR} or non-@acronym{LR}),
 @acronym{IELR} and canonical @acronym{LR} always accept exactly the same
@@ -5063,7 +5063,7 @@ grammars, the number of conflicts for @acronym{IELR} is often an order
 of magnitude less as well.
 This can significantly reduce the complexity of developing of a grammar.
 
-@item @code{"canonical LR"}.
+@item @code{"canonical-lr"}.
 @cindex delayed syntax errors
 @cindex syntax errors delayed
 The only advantage of canonical @acronym{LR} over @acronym{IELR} is
@@ -5079,7 +5079,7 @@ Even when canonical @acronym{LR} behavior is ultimately desired,
 facilitate the development of a grammar.
 @end itemize
 
-@item Default Value: @code{"LALR"}
+@item Default Value: @code{"lalr"}
 @end itemize
 
 @item namespace
