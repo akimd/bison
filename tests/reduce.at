@@ -375,19 +375,19 @@ m4_define([AT_TEST_LR_TYPE],
 AT_TEST_TABLES_AND_PARSE([[no %define lr.type: ]$1],
                          [[LALR]], [[]],
                          [$2], m4_shiftn(2, $@))
-AT_TEST_TABLES_AND_PARSE([[%define lr.type "LALR": ]$1],
+AT_TEST_TABLES_AND_PARSE([[%define lr.type "lalr": ]$1],
                          [[LALR]], [[]],
-                         [[%define lr.type "LALR"
+                         [[%define lr.type "lalr"
 ]$2],
                          m4_shiftn(2, $@))
-AT_TEST_TABLES_AND_PARSE([[%define lr.type "IELR": ]$1],
+AT_TEST_TABLES_AND_PARSE([[%define lr.type "ielr": ]$1],
                          [[IELR]], [[]],
-                         [[%define lr.type "IELR"
+                         [[%define lr.type "ielr"
 ]$2],
                          m4_shiftn(2, $@))
-AT_TEST_TABLES_AND_PARSE([[%define lr.type "canonical LR": ]$1],
+AT_TEST_TABLES_AND_PARSE([[%define lr.type "canonical-lr": ]$1],
                          [[canonical LR]], [[]],
-                         [[%define lr.type "canonical LR"
+                         [[%define lr.type "canonical-lr"
 ]$2],
                          m4_shiftn(2, $@))
 ])
