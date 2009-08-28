@@ -8,7 +8,7 @@
 	(Table of Symbols): Likewise.
 	* src/ielr.c (LrType): Update documentation.
 	* src/parse-gram.y (content.opt): Add production for ID.
-	* tests/calc.at: Likewise.
+	* tests/calc.at: Remove quotes in most tests.
 	* tests/existing.at: Likewise.
 	* tests/input.at: Likewise.
 	* tests/local.at: Likewise.
