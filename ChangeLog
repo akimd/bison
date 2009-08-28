@@ -1,5 +1,23 @@
 2009-08-28  Joel E. Denny  <jdenny@clemson.edu>
 
+	%define: accept unquoted values.
+	* NEWS (2.5): Group all %define changes together, and document
+	this one.  Remove quotes in IELR and canonical LR entry.
+	* doc/bison.texinfo: Remove quotes in most examples throughout.
+	(Decl Summary): Update %define documentation.
+	(Table of Symbols): Likewise.
+	* src/ielr.c (LrType): Update documentation.
+	* src/parse-gram.y (content.opt): Add production for ID.
+	* tests/calc.at: Likewise.
+	* tests/existing.at: Likewise.
+	* tests/input.at: Likewise.
+	* tests/local.at: Likewise.
+	* tests/push.at: Likewise.
+	* tests/reduce.at: Likewise.
+	* tests/torture.at: Likewise.
+
+2009-08-28  Joel E. Denny  <jdenny@clemson.edu>
+
 	%define lr.type: make values lowercase IDs.
 	That is, "LALR" => "lalr", "IELR" => "ielr", and
 	"canonical LR" => "canonical-lr".

@@ -4580,7 +4580,7 @@ The following Bison declaration says that you want the parser to be a push
 parser (@pxref{Decl Summary,,%define api.push-pull}):
 
 @example
-%define api.push-pull "push"
+%define api.push-pull push
 @end example
 
 In almost all cases, you want to ensure that your push parser is also
@@ -4591,7 +4591,7 @@ what you are doing, your declarations should look like this:
 
 @example
 %define api.pure
-%define api.push-pull "push"
+%define api.push-pull push
 @end example
 
 There is a major notable functional difference between the pure push parser
@@ -4640,14 +4640,14 @@ for use by the next invocation of the @code{yypush_parse} function.
 
 Bison also supports both the push parser interface along with the pull parser
 interface in the same generated parser.  In order to get this functionality,
-you should replace the @code{%define api.push-pull "push"} declaration with the
-@code{%define api.push-pull "both"} declaration.  Doing this will create all of
+you should replace the @code{%define api.push-pull push} declaration with the
+@code{%define api.push-pull both} declaration.  Doing this will create all of
 the symbols mentioned earlier along with the two extra symbols, @code{yyparse}
 and @code{yypull_parse}.  @code{yyparse} can be used exactly as it normally
 would be used.  However, the user should note that it is implemented in the
 generated parser by calling @code{yypull_parse}.
 This makes the @code{yyparse} function that is generated with the
-@code{%define api.push-pull "both"} declaration slower than the normal
+@code{%define api.push-pull both} declaration slower than the normal
 @code{yyparse} function.  If the user
 calls the @code{yypull_parse} function it will parse the rest of the input
 stream.  It is possible to @code{yypush_parse} tokens to select a subgrammar
@@ -4664,8 +4664,8 @@ yypstate_delete (ps);
 @end example
 
 Adding the @code{%define api.pure} declaration does exactly the same thing to
-the generated parser with @code{%define api.push-pull "both"} as it did for
-@code{%define api.push-pull "push"}.
+the generated parser with @code{%define api.push-pull both} as it did for
+@code{%define api.push-pull push}.
 
 @node Decl Summary
 @subsection Bison Declaration Summary
@@ -4834,6 +4834,7 @@ already defined, so that the debugging facilities are compiled.
 @end deffn
 
 @deffn {Directive} %define @var{variable}
+@deffnx {Directive} %define @var{variable} @var{value}
 @deffnx {Directive} %define @var{variable} "@var{value}"
 Define a variable to adjust Bison's behavior.
 The possible choices for @var{variable}, as well as their meanings, depend on
@@ -4843,7 +4844,11 @@ Summary,,%language}, @pxref{Decl Summary,,%skeleton}).
 It is an error if a @var{variable} is defined by @code{%define} multiple
 times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
 
-Omitting @code{"@var{value}"} is always equivalent to specifying it as
+@var{value} must be placed in quotation marks if it contains any
+character other than a letter, underscore, period, dash, or non-initial
+digit.
+
+Omitting @code{"@var{value}"} entirely is always equivalent to specifying
 @code{""}.
 
 Some @var{variable}s may be used as Booleans.
@@ -4851,12 +4856,12 @@ In this case, Bison will complain if the variable definition does not meet one
 of the following four conditions:
 
 @enumerate
-@item @code{"@var{value}"} is @code{"true"}
+@item @code{@var{value}} is @code{true}
 
-@item @code{"@var{value}"} is omitted (or is @code{""}).
-This is equivalent to @code{"true"}.
+@item @code{@var{value}} is omitted (or @code{""} is specified).
+This is equivalent to @code{true}.
 
-@item @code{"@var{value}"} is @code{"false"}.
+@item @code{@var{value}} is @code{false}.
 
 @item @var{variable} is never defined.
 In this case, Bison selects a default value, which may depend on the selected
@@ -4877,7 +4882,7 @@ Some of the accepted @var{variable}s are:
 
 @item Accepted Values: Boolean
 
-@item Default Value: @code{"false"}
+@item Default Value: @code{false}
 @end itemize
 
 @item api.push-pull
@@ -4891,9 +4896,9 @@ Some of the accepted @var{variable}s are:
 (The current push parsing interface is experimental and may evolve.
 More user feedback will help to stabilize it.)
 
-@item Accepted Values: @code{"pull"}, @code{"push"}, @code{"both"}
+@item Accepted Values: @code{pull}, @code{push}, @code{both}
 
-@item Default Value: @code{"pull"}
+@item Default Value: @code{pull}
 @end itemize
 
 @item lr.default-reductions
@@ -4920,7 +4925,7 @@ More user feedback will help to stabilize it.)
 
 @item Accepted Values:
 @itemize
-@item @code{"all"}.
+@item @code{all}.
 For @acronym{LALR} and @acronym{IELR} parsers (@pxref{Decl
 Summary,,lr.type}) by default, all states are permitted to contain
 default reductions.
@@ -4932,7 +4937,7 @@ That is, unlike in a canonical @acronym{LR} state, the lookahead sets of
 reductions in an @acronym{LALR} or @acronym{IELR} state can contain
 tokens that are syntactically incorrect for some left contexts.
 
-@item @code{"consistent"}.
+@item @code{consistent}.
 @cindex consistent states
 A consistent state is a state that has only one possible action.
 If that action is a reduction, then the parser does not need to request
@@ -4944,7 +4949,7 @@ states, then a canonical @acronym{LR} parser reports a syntax error as
 soon as it @emph{needs} the syntactically unacceptable token from the
 scanner.
 
-@item @code{"accepting"}.
+@item @code{accepting}.
 @cindex accepting state
 By default, the only default reduction permitted in a canonical
 @acronym{LR} parser is the accept action in the accepting state, which
@@ -4956,8 +4961,8 @@ without performing any extra reductions.
 
 @item Default Value:
 @itemize
-@item @code{"accepting"} if @code{lr.type} is @code{"canonical-lr"}.
-@item @code{"all"} otherwise.
+@item @code{accepting} if @code{lr.type} is @code{canonical-lr}.
+@item @code{all} otherwise.
 @end itemize
 @end itemize
 
@@ -4978,7 +4983,7 @@ are useless in the generated parser.
 
 @item Accepted Values: Boolean
 
-@item Default Value: @code{"false"}
+@item Default Value: @code{false}
 
 @item Caveats:
 
@@ -5020,7 +5025,7 @@ More user feedback will help to stabilize it.)
 
 @item Accepted Values:
 @itemize
-@item @code{"lalr"}.
+@item @code{lalr}.
 While Bison generates @acronym{LALR} parser tables by default for
 historical reasons, @acronym{IELR} or canonical @acronym{LR} is almost
 always preferable for deterministic parsers.
@@ -5049,7 +5054,7 @@ investigate such problems while ignoring the more subtle differences
 from @acronym{IELR} and canonical @acronym{LR}.
 @end itemize
 
-@item @code{"ielr"}.
+@item @code{ielr}.
 @acronym{IELR} is a minimal @acronym{LR} algorithm.
 That is, given any grammar (@acronym{LR} or non-@acronym{LR}),
 @acronym{IELR} and canonical @acronym{LR} always accept exactly the same
@@ -5063,7 +5068,7 @@ grammars, the number of conflicts for @acronym{IELR} is often an order
 of magnitude less as well.
 This can significantly reduce the complexity of developing of a grammar.
 
-@item @code{"canonical-lr"}.
+@item @code{canonical-lr}.
 @cindex delayed syntax errors
 @cindex syntax errors delayed
 The only advantage of canonical @acronym{LR} over @acronym{IELR} is
@@ -5079,7 +5084,7 @@ Even when canonical @acronym{LR} behavior is ultimately desired,
 facilitate the development of a grammar.
 @end itemize
 
-@item Default Value: @code{"lalr"}
+@item Default Value: @code{lalr}
 @end itemize
 
 @item namespace
@@ -5460,8 +5465,8 @@ exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypush_parse} to parse a single token.  This
-function is available if either the @code{%define api.push-pull "push"} or
-@code{%define api.push-pull "both"} declaration is used.
+function is available if either the @code{%define api.push-pull push} or
+@code{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *yyps)
@@ -5478,7 +5483,7 @@ is required to finish parsing the grammar.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypull_parse} to parse the rest of the input
-stream.  This function is available if the @code{%define api.push-pull "both"}
+stream.  This function is available if the @code{%define api.push-pull both}
 declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
@@ -5494,8 +5499,8 @@ The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_new} to create a new parser instance.
-This function is available if either the @code{%define api.push-pull "push"} or
-@code{%define api.push-pull "both"} declaration is used.
+This function is available if either the @code{%define api.push-pull push} or
+@code{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun yypstate *yypstate_new (void)
@@ -5513,8 +5518,8 @@ allocated.
 More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_delete} to delete a parser instance.
-function is available if either the @code{%define api.push-pull "push"} or
-@code{%define api.push-pull "both"} declaration is used.
+function is available if either the @code{%define api.push-pull push} or
+@code{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun void yypstate_delete (yypstate *yyps)
@@ -9022,7 +9027,7 @@ in a file; Bison itself defines a class representing a @dfn{location},
 a range composed of a pair of positions (possibly spanning several
 files).  The location class is an inner class of the parser; the name
 is @code{Location} by default, and may also be renamed using
-@code{%define location_type "@var{class-name}}.
+@code{%define location_type "@var{class-name}"}.
 
 The location class treats the position as a completely opaque value.
 By default, the class name is @code{Position}, but this can be changed
@@ -9965,6 +9970,7 @@ Precedence}.
 
 @deffn {Directive} %define @var{define-variable}
 @deffnx {Directive} %define @var{define-variable} @var{value}
+@deffnx {Directive} %define @var{define-variable} "@var{value}"
 Define a variable to adjust Bison's behavior.
 @xref{Decl Summary,,%define}.
 @end deffn

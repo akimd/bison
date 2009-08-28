@@ -33,7 +33,7 @@ AT_DATA_GRAMMAR([[input.y]],
   void yyerror (char const *msg);
 %}
 
-%define api.pure %define api.push-pull "push"
+%define api.pure %define api.push-pull push
 
 %%
 
@@ -93,7 +93,7 @@ AT_DATA_GRAMMAR([[input.y]],
   int yylex (void);
 %}
 
-%define api.push-pull "]$1["
+%define api.push-pull ]$1[
 
 %%
 
@@ -156,7 +156,7 @@ AT_SETUP([[Push Parsing: Unsupported Skeletons]])
 
 AT_DATA([[input.y]],
 [[%glr-parser
-%define api.push-pull "push"
+%define api.push-pull push
 %%
 start: ;
 ]])

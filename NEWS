@@ -20,9 +20,9 @@ Bison News
   default.  You can specify the type of parser tables in the grammar
   file with these directives:
 
-    %define lr.type "lalr"
-    %define lr.type "ielr"
-    %define lr.type "canonical-lr"
+    %define lr.type lalr
+    %define lr.type ielr
+    %define lr.type canonical-lr
 
   The default reduction optimization in the parser tables can also be
   adjusted using `%define lr.default-reductions'.  See the documentation
@@ -33,9 +33,11 @@ Bison News
   These features are experimental.  More user feedback will help to
   stabilize them.
 
-** Multiple %define's for any variable is now an error not a warning.
+** %define improvements.
 
-** %define can now be invoked via the command line.
+*** Multiple invocations for any variable is now an error not a warning.
+
+*** Can now be invoked via the command line.
 
   Each of these command-line options
 
@@ -54,7 +56,7 @@ Bison News
   quietly override %define, but -D and --define do not.  For further
   details, see the section "Bison Options" in the Bison manual.
 
-** %define variables renamed.
+*** Variables renamed.
 
   The following %define variables
 
@@ -69,7 +71,18 @@ Bison News
   The old names are now deprecated but will be maintained indefinitely
   for backward compatibility.
 
-** Symbols names
+*** Values no longer need to be quoted in grammar file.
+
+  If a %define value is an identifier, it no longer needs to be placed
+  within quotations marks.  For example,
+
+    %define api.push-pull "push"
+
+  can be rewritten as
+
+    %define api.push-pull push
+
+** Symbol names.
 
   Consistently with directives (such as %error-verbose) and variables
   (e.g. push-pull), symbol names may include dashes in any position,

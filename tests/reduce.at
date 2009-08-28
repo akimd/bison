@@ -375,19 +375,19 @@ m4_define([AT_TEST_LR_TYPE],
 AT_TEST_TABLES_AND_PARSE([[no %define lr.type: ]$1],
                          [[LALR]], [[]],
                          [$2], m4_shiftn(2, $@))
-AT_TEST_TABLES_AND_PARSE([[%define lr.type "lalr": ]$1],
+AT_TEST_TABLES_AND_PARSE([[%define lr.type lalr: ]$1],
                          [[LALR]], [[]],
-                         [[%define lr.type "lalr"
+                         [[%define lr.type lalr
 ]$2],
                          m4_shiftn(2, $@))
-AT_TEST_TABLES_AND_PARSE([[%define lr.type "ielr": ]$1],
+AT_TEST_TABLES_AND_PARSE([[%define lr.type ielr: ]$1],
                          [[IELR]], [[]],
-                         [[%define lr.type "ielr"
+                         [[%define lr.type ielr
 ]$2],
                          m4_shiftn(2, $@))
-AT_TEST_TABLES_AND_PARSE([[%define lr.type "canonical-lr": ]$1],
+AT_TEST_TABLES_AND_PARSE([[%define lr.type canonical-lr: ]$1],
                          [[canonical LR]], [[]],
-                         [[%define lr.type "canonical-lr"
+                         [[%define lr.type canonical-lr
 ]$2],
                          m4_shiftn(2, $@))
 ])
@@ -1454,17 +1454,17 @@ AT_TEST_TABLES_AND_PARSE([[no %define lr.default-reductions]],
                          [[all]], [[]],
                          [[]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions "all"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions all]],
                          [[all]], [[]],
-                         [[%define lr.default-reductions "all"]],
+                         [[%define lr.default-reductions all]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions "consistent"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions consistent]],
                          [[consistent]], [[]],
-                         [[%define lr.default-reductions "consistent"]],
+                         [[%define lr.default-reductions consistent]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions "accepting"]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions accepting]],
                          [[accepting]], [[]],
-                         [[%define lr.default-reductions "accepting"]],
+                         [[%define lr.default-reductions accepting]],
                          [$1], [$2], [[]], [$3])
 ])
 
