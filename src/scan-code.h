@@ -134,7 +134,7 @@ void code_props_symbol_action_init (code_props *self, char const *code,
  */
 void code_props_rule_action_init (code_props *self, char const *code,
                                   location code_loc, struct symbol_list *rule,
-				  named_ref *named_ref);
+                                  named_ref *name);
 
 /**
  * \pre
