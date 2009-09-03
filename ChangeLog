@@ -1,5 +1,19 @@
 2009-09-03  Joel E. Denny  <jdenny@clemson.edu>
 
+	Complain about unused %define variables and %code qualifiers.
+	* NEWS (2.5): Document.
+	* data/bison.m4 (b4_check_user_names): Complain instead of warn.
+	* doc/bison.texinfo (Decl Summary): Document complaint, and
+	improve %define documentation a little otherwise.
+	* tests/input.at (Reject unused %code qualifiers): Update.
+	(%define errors): Update.
+	(%define, --define, --force-define): Update.
+	(%define backward compatibility): Update.
+	(Unused %define api.pure): Update.
+	* tests/push.at (Push Parsing: Unsupported Skeletons): Update.
+
+2009-09-03  Joel E. Denny  <jdenny@clemson.edu>
+
 	Use aver not assert.
 	* src/output.c: Don't include assert.h.
 	(output_skeleton): Use aver not assert.

@@ -4755,7 +4755,9 @@ use this form instead.
 
 @var{qualifier} identifies the purpose of @var{code} and thus the location(s)
 where Bison should generate it.
-Not all values of @var{qualifier} are available for all target languages:
+Not all @var{qualifier}s are accepted for all target languages.
+Unaccepted @var{qualifier}s produce an error.
+Some of the accepted @var{qualifier}s are:
 
 @itemize @bullet
 @item requires
@@ -4837,9 +4839,6 @@ already defined, so that the debugging facilities are compiled.
 @deffnx {Directive} %define @var{variable} @var{value}
 @deffnx {Directive} %define @var{variable} "@var{value}"
 Define a variable to adjust Bison's behavior.
-The possible choices for @var{variable}, as well as their meanings, depend on
-the selected target language and/or the parser skeleton (@pxref{Decl
-Summary,,%language}, @pxref{Decl Summary,,%skeleton}).
 
 It is an error if a @var{variable} is defined by @code{%define} multiple
 times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
@@ -4851,7 +4850,7 @@ digit.
 Omitting @code{"@var{value}"} entirely is always equivalent to specifying
 @code{""}.
 
-Some @var{variable}s may be used as Booleans.
+Some @var{variable}s take Boolean values.
 In this case, Bison will complain if the variable definition does not meet one
 of the following four conditions:
 
@@ -4864,10 +4863,14 @@ This is equivalent to @code{true}.
 @item @code{@var{value}} is @code{false}.
 
 @item @var{variable} is never defined.
-In this case, Bison selects a default value, which may depend on the selected
-target language and/or parser skeleton.
+In this case, Bison selects a default value.
 @end enumerate
 
+What @var{variable}s are accepted, as well as their meanings and default
+values, depend on the selected target language and/or the parser
+skeleton (@pxref{Decl Summary,,%language}, @pxref{Decl
+Summary,,%skeleton}).
+Unaccepted @var{variable}s produce an error.
 Some of the accepted @var{variable}s are:
 
 @itemize @bullet
