@@ -1,3 +1,20 @@
+2009-09-09  Akim Demaille  <demaille@gostai.com>
+
+	%param.
+	Provide a means to factor lex-param and parse-param common
+	declarations.
+
+	* src/parse-gram.y (param_type): New.
+	Define a %printer for it.
+	(add_param): Use it.
+	(%parse-param, %lex-param): Merge into...
+	(%parse): this new token.
+	Adjust the grammar to use it.
+	* src/scan-gram.l (RETURN_VALUE): New.
+	(RETURN_PERCENT_FLAG): Use it.
+	(RETURN_PERCENT_PARAM): New.
+	Use it to support %parse-param, %lex-param and %param.
+
 2009-09-03  Joel E. Denny  <jdenny@clemson.edu>
 
 	Use aver not assert.

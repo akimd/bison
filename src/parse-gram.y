@@ -50,28 +50,22 @@ static void version_check (location const *loc, char const *version);
 static void gram_error (location const *, char const *);
 
 static char const *char_name (char);
-
-/** Add a lex-param or a parse-param.
- *
- * \param type  \a lex_param or \a parse_param
- * \param decl  the formal argument
- * \param loc   the location in the source.
- */
-static void add_param (char const *type, char *decl, location loc);
-
-
-static symbol_class current_class = unknown_sym;
-static uniqstr current_type = NULL;
-static symbol *current_lhs;
-static location current_lhs_location;
-static named_ref *current_lhs_named_ref;
-static int current_prec = 0;
-
-#define YYTYPE_INT16 int_fast16_t
-#define YYTYPE_INT8 int_fast8_t
-#define YYTYPE_UINT16 uint_fast16_t
-#define YYTYPE_UINT8 uint_fast8_t
 %}
+
+%code
+{
+  static symbol_class current_class = unknown_sym;
+  static uniqstr current_type = NULL;
+  static symbol *current_lhs;
+  static location current_lhs_location;
+  static named_ref *current_lhs_named_ref;
+  static int current_prec = 0;
+
+  #define YYTYPE_INT16 int_fast16_t
+  #define YYTYPE_INT8 int_fast8_t
+  #define YYTYPE_UINT16 uint_fast16_t
+  #define YYTYPE_UINT8 uint_fast8_t
+}
 
 %debug
 %verbose
@@ -92,15 +86,15 @@ static int current_prec = 0;
 
 %union
 {
+  assoc assoc;
+  char *code;
+  char const *chars;
+  int integer;
+  named_ref *named_ref;
   symbol *symbol;
   symbol_list *list;
-  int integer;
-  char const *chars;
-  char *code;
-  assoc assoc;
   uniqstr uniqstr;
   unsigned char character;
-  named_ref *named_ref;
 };
 
 /* Define the tokens together with their human representation.  */
@@ -136,21 +130,19 @@ static int current_prec = 0;
   PERCENT_DEFINES         "%defines"
   PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
-  PERCENT_EXPECT_RR	  "%expect-rr"
+  PERCENT_EXPECT_RR       "%expect-rr"
   PERCENT_FLAG            "%<flag>"
   PERCENT_FILE_PREFIX     "%file-prefix"
   PERCENT_GLR_PARSER      "%glr-parser"
   PERCENT_INITIAL_ACTION  "%initial-action"
   PERCENT_LANGUAGE        "%language"
-  PERCENT_LEX_PARAM       "%lex-param"
   PERCENT_NAME_PREFIX     "%name-prefix"
   PERCENT_NO_DEFAULT_PREC "%no-default-prec"
   PERCENT_NO_LINES        "%no-lines"
   PERCENT_NONDETERMINISTIC_PARSER
-			  "%nondeterministic-parser"
+                          "%nondeterministic-parser"
   PERCENT_OUTPUT          "%output"
-  PERCENT_PARSE_PARAM     "%parse-param"
-  PERCENT_REQUIRE	  "%require"
+  PERCENT_REQUIRE         "%require"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
   PERCENT_TOKEN_TABLE     "%token-table"
@@ -201,6 +193,51 @@ static int current_prec = 0;
 
 %type <assoc> precedence_declarator
 %type <list>  symbols.1 symbols.prec generic_symlist generic_symlist_item
+
+/*---------.
+| %param.  |
+`---------*/
+%code requires
+{
+# ifndef PARAM_TYPE
+#  define PARAM_TYPE
+  typedef enum
+  {
+    param_lex    = 1 << 0,
+    param_parse  = 1 << 1,
+    param_both   = param_lex | param_parse
+  } param_type;
+# endif
+};
+%code
+{
+  /** Add a lex-param and/or a parse-param.
+   *
+   * \param type  where to push this formal argument.
+   * \param decl  the formal argument.  Destroyed.
+   * \param loc   the location in the source.
+   */
+  static void add_param (param_type type, char *decl, location loc);
+};
+%union
+{
+  param_type param;
+}
+%token <param> PERCENT_PARAM "%param";
+%printer
+{
+  switch ($$)
+    {
+#define CASE(In, Out)                                           \
+      case param_ ## In:   fputs ("%" #Out, stderr); break
+
+      CASE(lex,   lex-param);
+      CASE(parse, parse-param);
+      CASE(both,  param);
+    }
+#undef CASE
+} <param>;
+
 %%
 
 input:
@@ -268,14 +305,13 @@ prologue_declaration:
       code_scanner_last_string_free ();
     }
 | "%language" STRING		{ language_argmatch ($2, grammar_prio, @1); }
-| "%lex-param" "{...}"		{ add_param ("lex_param", $2, @2); }
 | "%name-prefix" STRING         { spec_name_prefix = $2; }
 | "%name-prefix" "=" STRING     { spec_name_prefix = $3; } /* deprecated */
 | "%no-lines"                   { no_lines_flag = true; }
 | "%nondeterministic-parser"	{ nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
 | "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
-| "%parse-param" "{...}"	{ add_param ("parse_param", $2, @2); }
+| "%param" "{...}"	        { add_param ($1, $2, @2); }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING
     {
@@ -306,6 +342,11 @@ prologue_declaration:
 | "%yacc"                       { yacc_flag = true; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
+
+
+/*----------------------.
+| grammar_declaration.  |
+`----------------------*/
 
 grammar_declaration:
   precedence_declaration
@@ -668,11 +709,8 @@ lloc_default (YYLTYPE const *rhs, int n)
 }
 
 
-/* Add a lex-param or a parse-param (depending on TYPE) with
-   declaration DECL and location LOC.  */
-
 static void
-add_param (char const *type, char *decl, location loc)
+add_param (param_type type, char *decl, location loc)
 {
   static char const alphanum[26 + 26 + 1 + 10] =
     "abcdefghijklmnopqrstuvwxyz"
@@ -712,7 +750,10 @@ add_param (char const *type, char *decl, location loc)
       name = xmalloc (name_len + 1);
       memcpy (name, name_start, name_len);
       name[name_len] = '\0';
-      muscle_pair_list_grow (type, decl, name);
+      if (type & param_lex)
+        muscle_pair_list_grow ("lex_param", decl, name);
+      if (type & param_parse)
+        muscle_pair_list_grow ("parse_param", decl, name);
       free (name);
     }
 

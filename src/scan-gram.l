@@ -56,10 +56,16 @@ static boundary scanner_cursor;
 static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
 
-#define RETURN_PERCENT_FLAG(Value)              \
+#define RETURN_PERCENT_PARAM(Value)                     \
+  RETURN_VALUE(PERCENT_PARAM, param, param_ ## Value)
+
+#define RETURN_PERCENT_FLAG(Value)                              \
+  RETURN_VALUE(PERCENT_FLAG, uniqstr, uniqstr_new (Value))
+
+#define RETURN_VALUE(Token, Field, Value)       \
   do {                                          \
-    val->uniqstr = uniqstr_new (Value);         \
-    return PERCENT_FLAG;                        \
+    val->Field = Value;                         \
+    return Token;                               \
   } while (0)
 
 #define ROLLBACK_CURRENT_TOKEN                                  \
@@ -204,7 +210,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%glr-parser"                     return PERCENT_GLR_PARSER;
   "%language"                       return PERCENT_LANGUAGE;
   "%left"                           return PERCENT_LEFT;
-  "%lex-param"                      return PERCENT_LEX_PARAM;
+  "%lex-param"                      RETURN_PERCENT_PARAM(lex);
   "%locations"                      RETURN_PERCENT_FLAG("locations");
   "%merge"                          return PERCENT_MERGE;
   "%name"[-_]"prefix"               return PERCENT_NAME_PREFIX;
@@ -214,7 +220,8 @@ splice	 (\\[ \f\t\v]*\n)*
   "%nondeterministic-parser"        return PERCENT_NONDETERMINISTIC_PARSER;
   "%nterm"                          return PERCENT_NTERM;
   "%output"                         return PERCENT_OUTPUT;
-  "%parse-param"                    return PERCENT_PARSE_PARAM;
+  "%param"                          RETURN_PERCENT_PARAM(both);
+  "%parse-param"                    RETURN_PERCENT_PARAM(parse);
   "%prec"                           return PERCENT_PREC;
   "%precedence"                     return PERCENT_PRECEDENCE;
   "%printer"                        return PERCENT_PRINTER;
