@@ -1,3 +1,10 @@
+2009-09-04  Akim Demaille  <demaille@gostai.com>
+
+	Adjust synclines in src/parse-gram.[ch].
+	* tests/bison.in: Do some magic (including working around issues
+	with ylwrap) when this wrapper is used to compile
+	src/parse-gram.y.
+
 2009-09-03  Joel E. Denny  <jdenny@clemson.edu>
 
 	Don't suppress warnings about unused parse.error.
