@@ -1,3 +1,9 @@
+2009-09-03  Akim Demaille  <demaille@gostai.com>
+
+	bootstrap: fix/improve find_tool.
+	* bootstrap (find_tool): Improve error messages.
+	Fix typo about find_tool_names.
+
 2009-08-29  Joel E. Denny  <jdenny@clemson.edu>
 
 	Fix gcc 3.4.4 shadowing warning reported by Eric Blake.
