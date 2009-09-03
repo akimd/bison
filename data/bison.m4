@@ -794,9 +794,9 @@ b4_percent_define_default([[parse.error]], [[simple]])
 b4_percent_define_check_values([[[[parse.error]],
                                  [[simple]], [[verbose]]]])
 m4_define([b4_error_verbose_flag],
-          m4_case(b4_percent_define_get([[parse.error]]),
-                  [simple],  [[0]],
-                  [verbose], [[1]]))
+          [m4_case(b4_percent_define_get([[parse.error]]),
+                   [simple],  [[0]],
+                   [verbose], [[1]])])
 b4_define_flag_if([error_verbose])
 
 
