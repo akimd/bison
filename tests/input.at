@@ -808,11 +808,11 @@ AT_DATA([input-c.y],
 %%
 start: ;
 ]])
-AT_BISON_CHECK([[input-c.y]], [0], [],
-[[input-c.y:1.7: warning: %code qualifier `q' is not used
-input-c.y:2.7-9: warning: %code qualifier `bad' is not used
-input-c.y:3.7-9: warning: %code qualifier `bad' is not used
-input-c.y:4.7-12: warning: %code qualifier `format' is not used
+AT_BISON_CHECK([[input-c.y]], [[1]], [],
+[[input-c.y:1.7: %code qualifier `q' is not used
+input-c.y:2.7-9: %code qualifier `bad' is not used
+input-c.y:3.7-9: %code qualifier `bad' is not used
+input-c.y:4.7-12: %code qualifier `format' is not used
 ]])
 
 AT_DATA([input-c-glr.y],
@@ -822,10 +822,10 @@ AT_DATA([input-c-glr.y],
 %%
 start: ;
 ]])
-AT_BISON_CHECK([[input-c-glr.y]], [0], [],
-[[input-c-glr.y:1.7: warning: %code qualifier `q' is not used
-input-c-glr.y:2.7-9: warning: %code qualifier `bad' is not used
-input-c-glr.y:3.8-10: warning: %code qualifier `bad' is not used
+AT_BISON_CHECK([[input-c-glr.y]], [[1]], [],
+[[input-c-glr.y:1.7: %code qualifier `q' is not used
+input-c-glr.y:2.7-9: %code qualifier `bad' is not used
+input-c-glr.y:3.8-10: %code qualifier `bad' is not used
 ]])
 
 AT_DATA([input-c++.y],
@@ -835,10 +835,10 @@ AT_DATA([input-c++.y],
 %%
 start: ;
 ]])
-AT_BISON_CHECK([[input-c++.y]], [0], [],
-[[input-c++.y:1.7: warning: %code qualifier `q' is not used
-input-c++.y:2.7-9: warning: %code qualifier `bad' is not used
-input-c++.y:3.8: warning: %code qualifier `q' is not used
+AT_BISON_CHECK([[input-c++.y]], [[1]], [],
+[[input-c++.y:1.7: %code qualifier `q' is not used
+input-c++.y:2.7-9: %code qualifier `bad' is not used
+input-c++.y:3.8: %code qualifier `q' is not used
 ]])
 
 AT_DATA([input-c++-glr.y],
@@ -848,10 +848,10 @@ AT_DATA([input-c++-glr.y],
 %%
 start: ;
 ]])
-AT_BISON_CHECK([[input-c++-glr.y]], [0], [],
-[[input-c++-glr.y:1.7-9: warning: %code qualifier `bad' is not used
-input-c++-glr.y:2.7: warning: %code qualifier `q' is not used
-input-c++-glr.y:3.7: warning: %code qualifier `q' is not used
+AT_BISON_CHECK([[input-c++-glr.y]], [[1]], [],
+[[input-c++-glr.y:1.7-9: %code qualifier `bad' is not used
+input-c++-glr.y:2.7: %code qualifier `q' is not used
+input-c++-glr.y:3.7: %code qualifier `q' is not used
 ]])
 
 AT_DATA([special-char-@@.y],
@@ -861,10 +861,10 @@ AT_DATA([special-char-@@.y],
 %%
 start: ;
 ]])
-AT_BISON_CHECK([[special-char-@@.y]], [0], [],
-[[special-char-@@.y:1.7-9: warning: %code qualifier `bad' is not used
-special-char-@@.y:2.7: warning: %code qualifier `q' is not used
-special-char-@@.y:3.7: warning: %code qualifier `q' is not used
+AT_BISON_CHECK([[special-char-@@.y]], [[1]], [],
+[[special-char-@@.y:1.7-9: %code qualifier `bad' is not used
+special-char-@@.y:2.7: %code qualifier `q' is not used
+special-char-@@.y:3.7: %code qualifier `q' is not used
 ]])
 
 AT_DATA([special-char-@:>@.y],
@@ -874,10 +874,10 @@ AT_DATA([special-char-@:>@.y],
 %%
 start: ;
 ]])
-AT_BISON_CHECK([[special-char-@:>@.y]], [0], [],
-[[special-char-@:>@.y:1.7-9: warning: %code qualifier `bad' is not used
-special-char-@:>@.y:2.7: warning: %code qualifier `q' is not used
-special-char-@:>@.y:3.7: warning: %code qualifier `q' is not used
+AT_BISON_CHECK([[special-char-@:>@.y]], [[1]], [],
+[[special-char-@:>@.y:1.7-9: %code qualifier `bad' is not used
+special-char-@:>@.y:2.7: %code qualifier `q' is not used
+special-char-@:>@.y:3.7: %code qualifier `q' is not used
 ]])
 
 AT_CLEANUP
@@ -912,8 +912,8 @@ AT_DATA([input-unused.y],
 start: ;
 ]])
 
-AT_BISON_CHECK([[input-unused.y]], [[0]], [],
-[[input-unused.y:1.9-11: warning: %define variable `var' is not used
+AT_BISON_CHECK([[input-unused.y]], [[1]], [],
+[[input-unused.y:1.9-11: %define variable `var' is not used
 ]])
 
 AT_CLEANUP
@@ -923,9 +923,9 @@ AT_CLEANUP
 ## %define, --define, --force-define.  ##
 ## ----------------------------------- ##
 
-AT_SETUP([%define, --define, --force-define])
+AT_SETUP([[%define, --define, --force-define]])
 
-AT_DATA([skel.c],
+AT_DATA([[skel.c]],
 [[m4@&t@_divert_push(0)@
 @output(b4_parser_file_name@)@
 [var-dd: ]b4_percent_define_get([[var-dd]])[
@@ -934,23 +934,16 @@ var-dfg: ]b4_percent_define_get([[var-dfg]])[
 var-fd: ]b4_percent_define_get([[var-fd]])
 m4@&t@_divert_pop(0)
 ]])
-
-AT_DATA([input.y],
+AT_DATA([[input.y]],
 [[%define var-dfg "gram"
 %%
 start: ;
 ]])
-
 AT_BISON_CHECK([[-Dvar-dd=cmd-d1 -Dvar-dd=cmd-d2 \
                  -Fvar-ff=cmd-f1 -Fvar-ff=cmd-f2 \
                  -Dvar-dfg=cmd-d -Fvar-dfg=cmd-f \
                  -Fvar-fd=cmd-f -Dvar-fd=cmd-d   \
-                 -Dunused-d -Funused-f           \
-                 --skeleton ./skel.c input.y]], [[0]], [],
-[[<command line>:10: warning: %define variable `unused-d' is not used
-<command line>:11: warning: %define variable `unused-f' is not used
-]])
-
+                 --skeleton ./skel.c input.y]])
 AT_CHECK([[cat input.tab.c]], [[0]],
 [[var-dd: cmd-d2
 var-ff: cmd-f2
@@ -958,15 +951,23 @@ var-dfg: cmd-f
 var-fd: cmd-d
 ]])
 
-AT_DATA([input-dg.y],
+AT_DATA([[input-dg.y]],
 [[%define var "gram"
 %%
 start: ;
 ]])
-
 AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.9-11: %define variable `var' redefined
 <command line>:2: previous definition
+]])
+
+AT_DATA([[input-unused.y]],
+[[%%
+start: ;
+]])
+AT_BISON_CHECK([[-Dunused-d -Funused-f input-unused.y]], [[1]], [],
+[[<command line>:2: %define variable `unused-d' is not used
+<command line>:3: %define variable `unused-f' is not used
 ]])
 
 AT_CLEANUP
@@ -1071,8 +1072,8 @@ AT_DATA([[input.y]],
 %%
 start: ;
 ]])
-AT_BISON_CHECK([[input.y]], [0], [],
-[[input.y:1.9-15: warning: %define variable `foo_bar' is not used
+AT_BISON_CHECK([[input.y]], [[1]], [],
+[[input.y:1.9-15: %define variable `foo_bar' is not used
 ]])
 
 AT_CLEANUP
@@ -1096,8 +1097,8 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 
-AT_BISON_CHECK([[input.y]], [0], [],
-[[input.y:1.9-16: warning: %define variable `api.pure' is not used
+AT_BISON_CHECK([[input.y]], [[1]], [],
+[[input.y:1.9-16: %define variable `api.pure' is not used
 ]])
 ])
 

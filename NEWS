@@ -68,7 +68,11 @@ Bison News
   These features are experimental.  More user feedback will help to
   stabilize them.
 
+** Unrecognized %code qualifiers are now an error not a warning.
+
 ** %define improvements.
+
+*** Unrecognized variables are now an error not a warning.
 
 *** Multiple invocations for any variable is now an error not a warning.
 
