@@ -1,3 +1,9 @@
+2009-09-03  Akim Demaille  <demaille@gostai.com>
+
+	bootstrap: fix/improve find_tool.
+	* bootstrap (find_tool): Improve error messages.
+	Fix typo about find_tool_names.
+
 2009-08-27  Eric Blake  <ebb9@byu.net>
 
 	scan-gram: avoid portability trap with ctype usage.
