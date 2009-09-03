@@ -1,5 +1,9 @@
 2009-09-03  Akim Demaille  <demaille@gostai.com>
 
+	* NEWS (2.4.2): Add "Internationalization" item.
+
+2009-09-03  Akim Demaille  <demaille@gostai.com>
+
 	bootstrap: fix/improve find_tool.
 	* bootstrap (find_tool): Improve error messages.
 	Fix typo about find_tool_names.
