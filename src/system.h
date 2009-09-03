@@ -124,7 +124,10 @@ typedef size_t uintptr_t;
 `-------------*/
 
 /* <assert.h>'s assertions are too heavyweight, and can be disabled
-   too easily, so use aver rather than assert.  */
+   too easily, so use aver rather than assert.  See discussions at
+   <http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00080.html>
+   <http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00111.html>.
+*/
 static inline void
 aver (bool assertion)
 {
