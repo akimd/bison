@@ -28,6 +28,12 @@ Bison News
   Bison's Java feature as a whole including its current usage of %code
   is still considered experimental.
 
+** Internationalization.
+
+  Fix a regression introduced in Bison 2.4: Under some circumstances,
+  message translations were not installed although supported by the
+  host system.
+
 * Changes in version 2.4.1 (2008-12-11):
 
 ** In the GLR defines file, unexpanded M4 macros in the yylval and yylloc
