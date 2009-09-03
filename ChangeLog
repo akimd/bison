@@ -1,3 +1,11 @@
+2009-09-03  Joel E. Denny  <jdenny@clemson.edu>
+
+	Use aver not assert.
+	* src/output.c: Don't include assert.h.
+	(output_skeleton): Use aver not assert.
+	* src/system.h (aver): In documentation of why, add links to
+	Paul Eggert's explanations in the mailing lists.
+
 2009-09-05  Alex Rozenman  <rozenman@gmail.com>
 
 	Use "Unresolved reference" error message when no symbols were found
