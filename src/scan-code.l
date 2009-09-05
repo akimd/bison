@@ -376,14 +376,14 @@ find_prefix_end (const char *prefix, char *begin, char *end)
 
 static variant *
 variant_add (uniqstr id, location id_loc, unsigned symbol_index,
-	     char *cp, char *cp_end, bool exact_mode)
+	     char *cp, char *cp_end, bool explicit_bracketing)
 {
   char *prefix_end;
 
   prefix_end = find_prefix_end (id, cp, cp_end);
   if (prefix_end &&
       (prefix_end == cp_end ||
-       (!exact_mode && is_dot_or_dash (*prefix_end))))
+       (!explicit_bracketing && is_dot_or_dash (*prefix_end))))
     {
       variant *r = variant_table_grow ();
       r->symbol_index = symbol_index;
@@ -409,8 +409,8 @@ get_at_spec(unsigned symbol_index)
 }
 
 static void
-show_sub_messages (const char* cp, bool exact_mode, int midrule_rhs_index,
-                   char dollar_or_at, bool is_warning)
+show_sub_messages (const char* cp, bool explicit_bracketing,
+                   int midrule_rhs_index, char dollar_or_at, bool is_warning)
 {
   unsigned i;
 
@@ -431,7 +431,7 @@ show_sub_messages (const char* cp, bool exact_mode, int midrule_rhs_index,
       else
 	{
 	  static struct obstack msg_buf;
-	  const char *tail = exact_mode ? "" :
+	  const char *tail = explicit_bracketing ? "" :
 	    cp + strlen (var->id);
 	  const char *id = var->hidden_by ? var->hidden_by->id :
 	    var->id;
@@ -492,7 +492,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 {
   symbol_list *l;
   char *cp_end;
-  bool exact_mode;
+  bool explicit_bracketing;
   unsigned i;
   unsigned valid_variants = 0;
   unsigned valid_variant_index = 0;
@@ -521,7 +521,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 	continue;
       cp_end = p;
 
-      exact_mode = true;
+      explicit_bracketing = true;
     }
   else
     {
@@ -537,7 +537,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 	continue;
       cp_end = p;
 
-      exact_mode = false;
+      explicit_bracketing = false;
     }
 
   /* Add all relevant variants. */
@@ -552,13 +552,13 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 	  continue;
 
 	var = variant_add (l->content.sym->tag, l->sym_loc,
-                           symbol_index, cp, cp_end, exact_mode);
+                           symbol_index, cp, cp_end, explicit_bracketing);
 	if (var && l->named_ref)
 	  var->hidden_by = l->named_ref;
 
 	if (l->named_ref)
 	  variant_add (l->named_ref->id, l->named_ref->loc,
-                       symbol_index, cp, cp_end, exact_mode);
+                       symbol_index, cp, cp_end, explicit_bracketing);
       }
   }
 
@@ -574,7 +574,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         var->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
 
       /* Check correct bracketing. */
-      if (!exact_mode && contains_dot_or_dash (var->id))
+      if (!explicit_bracketing && contains_dot_or_dash (var->id))
         var->err |= VARIANT_BAD_BRACKETING;
 
       /* Check using of hidden symbols. */
@@ -592,13 +592,25 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
     {
     case 0:
       if (variant_count == 0)
-        complain_at (text_loc, _("invalid reference: %s, symbol not found"),
-                     quote (text));
+        {
+          if (explicit_bracketing || !ref_tail_fields)
+            complain_at (text_loc, _("unresolved reference: %s"),
+                         quote(text));
+          else
+            {
+              unsigned len = ref_tail_fields - text;
+              char *str = strndup (text, len);
+              text_loc.end.column = text_loc.start.column + len;
+              complain_at (text_loc, _("unresolved reference: %s"),
+                           quote (str));
+              free (str);
+            }
+        }
       else
         {
           complain_at (text_loc, _("invalid reference: %s"),
                        quote (text));
-          show_sub_messages (cp, exact_mode, midrule_rhs_index,
+          show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
                              dollar_or_at, false);
         }
       return INVALID_REF;
@@ -608,7 +620,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
           {
             warn_at (text_loc, _("misleading reference: %s"),
                      quote (text));
-            show_sub_messages (cp, exact_mode, midrule_rhs_index,
+            show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
                                dollar_or_at, true);
           }
         {
@@ -621,7 +633,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
     default:
       complain_at (text_loc, _("ambiguous reference: %s"),
                    quote (text));
-      show_sub_messages (cp, exact_mode, midrule_rhs_index,
+      show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
                          dollar_or_at, false);
       return INVALID_REF;
     }

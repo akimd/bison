@@ -255,14 +255,14 @@ exp:
 ]])
 
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:50.51-60: invalid reference: `$<ival>lo9', symbol not found
+[[test.y:50.51-60: unresolved reference: `$<ival>lo9'
 test.y:51.51-60: warning: misleading reference: `$<ival>exp'
 test.y:42.1-3: warning:   refers to: $exp at $$
 test.y:51.7: warning:   possibly meant: $x, hiding $exp at $1
 test.y:51.41: warning:   possibly meant: $r, hiding $exp at $4
 test.y:52.51-52: $l of `exp' has no declared type
-test.y:55.46-49: invalid reference: `$r12', symbol not found
-test.y:56.29-33: invalid reference: `$expo', symbol not found
+test.y:55.46-49: unresolved reference: `$r12'
+test.y:56.29-33: unresolved reference: `$expo'
 ]])
 AT_CLEANUP
 
@@ -353,7 +353,7 @@ factor:     '(' expr ')'  { $$ = $2; }
     ;
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:24.36-41: invalid reference: `$cond1', symbol not found
+[[test.y:24.36-41: unresolved reference: `$cond1'
 test.y:26.43-53: invalid reference: `$stmt.field'
 test.y:25.35-38:   possibly meant: $then.field, hiding $stmt.field at $4
 test.y:28.43-52: invalid reference: `$stmt.list'
@@ -452,5 +452,82 @@ start[a s]: foo
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.9: unexpected identifier in bracketed name: `s'
+]])
+AT_CLEANUP
+
+#######################################################################
+
+AT_SETUP([Unresolved references])
+AT_DATA_GRAMMAR([test.y],
+[[
+%%
+stat:
+sym_a sym_b
+{ func($sym.field); }
+|
+sym_a sym_b
+{ func($<aa>sym.field); }
+|
+sym_a sym_b
+{ func($[sym.field]); }
+|
+sym_a sym_b
+{ func($<aa>[sym.field]); }
+|
+sym_a sym_b
+{ func($sym); }
+|
+sym_a sym_b
+{ func($<aa>sym); }
+|
+sym_a sym_b
+{ func($[sym]); }
+sym_a sym_b
+{ func($<aa>[sym]); }
+;
+stat1:
+sym_a sym_b
+{ func($sym-field); }
+|
+sym_a sym_b
+{ func($<aa>sym-field); }
+|
+sym_a sym_b
+{ func($[sym-field]); }
+|
+sym_a sym_b
+{ func($<aa>[sym-field]); }
+|
+sym_a sym_b
+{ func($sym); }
+|
+sym_a sym_b
+{ func($<aa>sym); }
+|
+sym_a sym_b
+{ func($[sym]); }
+sym_a sym_b
+{ func($<aa>[sym]); }
+;
+sym_a : 'a';
+sym_b : 'b';
+]])
+AT_BISON_CHECK([-o test.c test.y], 1, [],
+[[test.y:13.8-11: unresolved reference: `$sym'
+test.y:16.8-15: unresolved reference: `$<aa>sym'
+test.y:19.8-19: unresolved reference: `$[sym.field]'
+test.y:22.8-23: unresolved reference: `$<aa>[sym.field]'
+test.y:25.8-11: unresolved reference: `$sym'
+test.y:28.8-15: unresolved reference: `$<aa>sym'
+test.y:31.8-13: unresolved reference: `$[sym]'
+test.y:33.8-17: unresolved reference: `$<aa>[sym]'
+test.y:37.8-11: unresolved reference: `$sym'
+test.y:40.8-15: unresolved reference: `$<aa>sym'
+test.y:43.8-19: unresolved reference: `$[sym-field]'
+test.y:46.8-23: unresolved reference: `$<aa>[sym-field]'
+test.y:49.8-11: unresolved reference: `$sym'
+test.y:52.8-15: unresolved reference: `$<aa>sym'
+test.y:55.8-13: unresolved reference: `$[sym]'
+test.y:57.8-17: unresolved reference: `$<aa>[sym]'
 ]])
 AT_CLEANUP

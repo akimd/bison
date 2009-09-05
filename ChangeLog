@@ -1,3 +1,12 @@
+2009-09-05  Alex Rozenman  <rozenman@gmail.com>
+
+	Use "Unresolved reference" error message when no symbols were found
+	in a symbolic reference resolution. Remove .expr and -expr from
+	the shown reference when the reference is unresolved.
+	* src/scan-code.l: Change the error message, adjust location columns,
+	rename variable "exact_mode" to "explicit_bracketing".
+	* tests/named-ref.at: Adjust existing tests and add a new one.
+
 2009-09-04  Akim Demaille  <demaille@gostai.com>
 
 	Adjust synclines in src/parse-gram.[ch].
