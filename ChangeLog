@@ -1,5 +1,15 @@
 2009-09-09  Akim Demaille  <demaille@gostai.com>
 
+	%param: documentation.
+	* NEWS (2.6): Document %param, %lex-param, and %parse-param
+	changes.
+	* doc/bison.texinfo: Document that %lex-param and %parse-param
+	are n-ary.
+	Changes some examples to demonstrate it.
+	(Calc++ Parser): Use %param.
+
+2009-09-09  Akim Demaille  <demaille@gostai.com>
+
 	Regen.
 
 2009-09-09  Akim Demaille  <demaille@gostai.com>

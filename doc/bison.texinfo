@@ -5550,10 +5550,10 @@ If you use a reentrant parser, you can optionally pass additional
 parameter information to it in a reentrant way.  To do so, use the
 declaration @code{%parse-param}:
 
-@deffn {Directive} %parse-param @{@var{argument-declaration}@}
+@deffn {Directive} %parse-param @{@var{argument-declaration}@} @dots{}
 @findex %parse-param
-Declare that an argument declared by the braced-code
-@var{argument-declaration} is an additional @code{yyparse} argument.
+Declare that one or more
+@var{argument-declaration} are additional @code{yyparse} arguments.
 The @var{argument-declaration} is used when declaring
 functions or prototypes.  The last identifier in
 @var{argument-declaration} must be the argument name.
@@ -5562,8 +5562,7 @@ functions or prototypes.  The last identifier in
 Here's an example.  Write this in the parser:
 
 @example
-%parse-param @{int *nastiness@}
-%parse-param @{int *randomness@}
+%parse-param @{int *nastiness@} @{int *randomness@}
 @end example
 
 @noindent
@@ -5859,46 +5858,57 @@ textual locations, then the type @code{YYLTYPE} will not be defined.  In
 this case, omit the second argument; @code{yylex} will be called with
 only one argument.
 
-
-If you wish to pass the additional parameter data to @code{yylex}, use
+If you wish to pass additional arguments to @code{yylex}, use
 @code{%lex-param} just like @code{%parse-param} (@pxref{Parser
-Function}).
+Function}).  To pass additional arguments to both @code{yylex} and
+@code{yyparse}, use @code{%param}.
 
-@deffn {Directive} lex-param @{@var{argument-declaration}@}
+@deffn {Directive} %lex-param @{@var{argument-declaration}@} @dots{}
 @findex %lex-param
-Declare that the braced-code @var{argument-declaration} is an
-additional @code{yylex} argument declaration.
+Specify that @var{argument-declaration} are additional @code{yylex} argument
+declarations.  You may pass one or more such declarations, which is
+equivalent to repeating @code{%lex-param}.
+@end deffn
+
+@deffn {Directive} %param @{@var{argument-declaration}@} @dots{}
+@findex %param
+Specify that @var{argument-declaration} are additional
+@code{yylex}/@code{yyparse} argument declaration.  This is equivalent to
+@samp{%lex-param @{@var{argument-declaration}@} @dots{} %parse-param
+@{@var{argument-declaration}@} @dots{}}.  You may pass one or more
+declarations, which is equivalent to repeating @code{%param}.
 @end deffn
 
 For instance:
 
 @example
-%parse-param @{int *nastiness@}
-%lex-param   @{int *nastiness@}
-%parse-param @{int *randomness@}
+%lex-param   @{scanner_mode *mode@}
+%parse-param @{parser_mode *mode@}
+%param       @{environment_type *env@}
 @end example
 
 @noindent
 results in the following signature:
 
 @example
-int yylex   (int *nastiness);
-int yyparse (int *nastiness, int *randomness);
+int yylex   (scanner_mode *mode, environment_type *env);
+int yyparse (parser_mode *mode, environment_type *env);
 @end example
 
 If @samp{%define api.pure} is added:
 
 @example
-int yylex   (YYSTYPE *lvalp, int *nastiness);
-int yyparse (int *nastiness, int *randomness);
+int yylex   (YYSTYPE *lvalp, scanner_mode *mode, environment_type *env);
+int yyparse (parser_mode *mode, environment_type *env);
 @end example
 
 @noindent
 and finally, if both @samp{%define api.pure} and @code{%locations} are used:
 
 @example
-int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
-int yyparse (int *nastiness, int *randomness);
+int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp,
+             scanner_mode *mode, environment_type *env);
+int yyparse (parser_mode *mode, environment_type *env);
 @end example
 
 @node Error Reporting
@@ -8818,15 +8828,14 @@ global variables.
 @comment file: calc++-parser.yy
 @example
 // The parsing context.
-%parse-param @{ calcxx_driver& driver @}
-%lex-param   @{ calcxx_driver& driver @}
+%param @{ calcxx_driver& driver @}
 @end example
 
 @noindent
-Then we request the location tracking feature, and initialize the
+Then we request location tracking, and initialize the
 first location's file name.  Afterwards new locations are computed
 relatively to the previous locations: the file name will be
-automatically propagated.
+propagated.
 
 @comment file: calc++-parser.yy
 @example
@@ -8839,7 +8848,7 @@ automatically propagated.
 @end example
 
 @noindent
-Use the two following directives to enable parser tracing and verbose
+Use the following two directives to enable parser tracing and verbose
 error messages.
 
 @comment file: calc++-parser.yy
@@ -9304,8 +9313,8 @@ which initialize them automatically.
 
 @deftypeop {Constructor} {YYParser} {} YYParser (@var{lex_param}, @dots{}, @var{parse_param}, @dots{})
 Build a new parser object with embedded @code{%code lexer}.  There are
-no parameters, unless @code{%parse-param}s and/or @code{%lex-param}s are
-used.
+no parameters, unless @code{%param}s and/or @code{%parse-param}s and/or
+@code{%lex-param}s are used.
 
 Use @code{%code init} for code added to the start of the constructor
 body. This is especially useful to initialize superclasses. Use
@@ -9314,11 +9323,12 @@ body. This is especially useful to initialize superclasses. Use
 
 @deftypeop {Constructor} {YYParser} {} YYParser (Lexer @var{lexer}, @var{parse_param}, @dots{})
 Build a new parser object using the specified scanner.  There are no
-additional parameters unless @code{%parse-param}s are used.
+additional parameters unless @code{%param}s and/or @code{%parse-param}s are
+used.
 
 If the scanner is defined by @code{%code lexer}, this constructor is
 declared @code{protected} and is called automatically with a scanner
-created with the correct @code{%lex-param}s.
+created with the correct @code{%param}s and/or @code{%lex-param}s.
 
 Use @code{%code init} for code added to the start of the constructor
 body. This is especially useful to initialize superclasses. Use
@@ -10290,8 +10300,8 @@ Bison declaration to assign precedence and left associativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
-@deffn {Directive} %lex-param @{@var{argument-declaration}@}
-Bison declaration to specifying an additional parameter that
+@deffn {Directive} %lex-param @{@var{argument-declaration}@} @dots{}
+Bison declaration to specifying additional arguments that
 @code{yylex} should accept.  @xref{Pure Calling,, Calling Conventions
 for Pure Parsers}.
 @end deffn
@@ -10330,10 +10340,15 @@ Bison declaration to set the name of the parser file.  @xref{Decl
 Summary}.
 @end deffn
 
-@deffn {Directive} %parse-param @{@var{argument-declaration}@}
-Bison declaration to specifying an additional parameter that
-@code{yyparse} should accept.  @xref{Parser Function,, The Parser
-Function @code{yyparse}}.
+@deffn {Directive} %param @{@var{argument-declaration}@} @dots{}
+Bison declaration to specify additional arguments that both
+@code{yylex} and @code{yyparse} should accept.  @xref{Parser Function,, The
+Parser Function @code{yyparse}}.
+@end deffn
+
+@deffn {Directive} %parse-param @{@var{argument-declaration}@} @dots{}
+Bison declaration to specify additional arguments that @code{yyparse}
+should accept.  @xref{Parser Function,, The Parser Function @code{yyparse}}.
 @end deffn
 
 @deffn {Directive} %prec
