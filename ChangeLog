@@ -1,5 +1,11 @@
 2009-09-09  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: add missing "inline".
+	* data/c++.m4 (b4_public_types_define): Add missing inline to
+	implementations provided in headers.
+
+2009-09-09  Akim Demaille  <demaille@gostai.com>
+
 	%param: documentation.
 	* NEWS (2.6): Document %param, %lex-param, and %parse-param
 	changes.

@@ -204,6 +204,7 @@ m4_define([b4_public_types_define],
   }]b4_locations_if([[
 
   template <typename Exact>
+  inline
   ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const location_type& l)
     : value()
     , location(l)
@@ -211,6 +212,7 @@ m4_define([b4_public_types_define],
   }]])[
 
   template <typename Exact>
+  inline
   ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_args(
           [const semantic_type& v],
           b4_locations_if([const location_type& l]))[)
@@ -220,6 +222,7 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Exact>
+  inline
   const Exact&
   ]b4_parser_class_name[::symbol_base_type<Exact>::self () const
   {
@@ -227,6 +230,7 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Exact>
+  inline
   Exact&
   ]b4_parser_class_name[::symbol_base_type<Exact>::self ()
   {
@@ -234,6 +238,7 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Exact>
+  inline
   int
   ]b4_parser_class_name[::symbol_base_type<Exact>::type_get () const
   {
@@ -241,12 +246,14 @@ m4_define([b4_public_types_define],
   }
 
   // symbol_type.
+  inline
   ]b4_parser_class_name[::symbol_type::symbol_type ()
     : super_type ()
     , type ()
   {
   }
 
+  inline
   ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
                 [int t],
                 b4_locations_if([const location_type& l]))[)
@@ -255,6 +262,7 @@ m4_define([b4_public_types_define],
   {
   }
 
+  inline
   ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
                  [int t],
                  [const semantic_type& v],
@@ -264,12 +272,14 @@ m4_define([b4_public_types_define],
   {
   }
 
+  inline
   int
   ]b4_parser_class_name[::symbol_type::type_get_ () const
   {
     return type;
   }
 ]b4_lex_symbol_if([[
+  inline
   ]b4_parser_class_name[::token_type
   ]b4_parser_class_name[::symbol_type::token () const
   {
