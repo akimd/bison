@@ -1,5 +1,20 @@
 2009-09-09  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: syntax_error as exceptions.
+	It is common to use sort of factories in the user actions.  These
+	factories may check some "syntactic" constraints that are not
+	enforced by the grammar itself.  This is possible using YYERROR
+	within the action itself.  Provide the user with a means to throw
+	a syntax_error exception.
+
+	* data/c++.m4 (b4_public_types_declare, b4_public_types_define):
+	Declare and define yy::parser::syntax_error.
+	* data/lalr1.cc: Include stdexcept.
+	(yy::parser::parse): Wrap the user action within a try/catch.
+	* data/glr.cc: Include stdexcept.
+
+2009-09-09  Akim Demaille  <demaille@gostai.com>
+
 	lalr1.cc: add missing "inline".
 	* data/c++.m4 (b4_public_types_define): Add missing inline to
 	implementations provided in headers.

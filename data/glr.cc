@@ -224,6 +224,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 ]b4_percent_code_get([[requires]])[
 
+#include <stdexcept>
 #include <string>
 #include <iostream>
 

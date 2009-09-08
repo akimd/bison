@@ -147,6 +147,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 ]b4_percent_code_get([[requires]])[
 
 ]b4_parse_assert_if([#include <cassert>])[
+#include <stdexcept>
 #include <string>
 #include <iostream>
 #include "stack.hh"
@@ -814,12 +815,21 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
 
     // Perform the reduction.
     YY_REDUCE_PRINT (yyn);
-    switch (yyn)
+    try
+    {
+      switch (yyn)
       {
 ]b4_user_actions[
 	default:
           break;
       }
+    }
+    catch (const syntax_error& yyexc)
+    {
+      error (]b4_args(b4_locations_if([yyexc.location]),
+                      [[yyexc.what()]])[);
+      YYERROR;
+    }
     YY_SYMBOL_PRINT ("-> $$ =", yylhs);
 ]b4_variant_if([[
     // Destroy the rhs symbols.

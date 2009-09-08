@@ -126,6 +126,13 @@ m4_define([b4_public_types_declare],
     /// Symbol locations.
     typedef b4_percent_define_get([[location_type]]) location_type;])[
 
+    /// Syntax errors thrown from user actions.
+    struct syntax_error : std::runtime_error
+    {
+      syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m);]b4_locations_if([
+      location_type location;])[
+    };
+
     /// Tokens.
     struct token
     {
@@ -195,8 +202,15 @@ m4_define([b4_public_types_declare],
 # ----------------------
 # Provide the implementation needed by the public types.
 m4_define([b4_public_types_define],
-[[  // symbol_base_type.
+[[  inline
+  ]b4_parser_class_name[::syntax_error::syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m)
+    : std::runtime_error (m)]b4_locations_if([
+    , location (l)])[
+  {}
+
+  // symbol_base_type.
   template <typename Exact>
+  inline
   ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type ()
     : value()]b4_locations_if([
     , location()])[
