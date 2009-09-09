@@ -1,5 +1,9 @@
 2009-09-09  Akim Demaille  <demaille@gostai.com>
 
+	Regen.
+
+2009-09-09  Akim Demaille  <demaille@gostai.com>
+
 	style changes.
 	* src/parse-gram.y (add_param): Scope changes.
 

@@ -38,6 +38,7 @@
 #  define PARAM_TYPE
   typedef enum
   {
+    param_none   = 0,
     param_lex    = 1 << 0,
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
@@ -46,7 +47,7 @@
 
 
 /* Line 1608 of yacc.c  */
-#line 50 "src/parse-gram.h"
+#line 51 "src/parse-gram.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -186,13 +187,13 @@ typedef union YYSTYPE
   unsigned char character;
 
 /* Line 1608 of yacc.c  */
-#line 223 "src/parse-gram.y"
+#line 225 "src/parse-gram.y"
 
   param_type param;
 
 
 /* Line 1608 of yacc.c  */
-#line 196 "src/parse-gram.h"
+#line 197 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
