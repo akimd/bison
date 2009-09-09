@@ -727,23 +727,25 @@ add_param (param_type type, char *decl, location loc)
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "_"
     "0123456789";
+
   char const *name_start = NULL;
-  char *p;
+  {
+    char *p;
+    /* Stop on last actual character.  */
+    for (p = decl; p[1]; p++)
+      if ((p == decl
+           || ! memchr (alphanum, p[-1], sizeof alphanum))
+          && memchr (alphanum, p[0], sizeof alphanum - 10))
+        name_start = p;
 
-  /* Stop on last actual character.  */
-  for (p = decl; p[1]; p++)
-    if ((p == decl
-	 || ! memchr (alphanum, p[-1], sizeof alphanum))
-	&& memchr (alphanum, p[0], sizeof alphanum - 10))
-      name_start = p;
-
-  /* Strip the surrounding '{' and '}', and any blanks just inside
-     the braces.  */
-  while (*--p == ' ' || *p == '\t')
-    continue;
-  p[1] = '\0';
-  while (*++decl == ' ' || *decl == '\t')
-    continue;
+    /* Strip the surrounding '{' and '}', and any blanks just inside
+       the braces.  */
+    while (*--p == ' ' || *p == '\t')
+      continue;
+    p[1] = '\0';
+    while (*++decl == ' ' || *decl == '\t')
+      continue;
+  }
 
   if (! name_start)
     complain_at (loc, _("missing identifier in parameter declaration"));
