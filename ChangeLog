@@ -1,5 +1,15 @@
 2009-09-16  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: factor the yytranslate_ invocation in make_SYMBOLS.
+	* data/c++.m4, data/lalr1.cc (parser::symbol_type): Change the
+	constructor to take a token_type instead of the (internal) symbol
+	number.
+	Call yytranslate_.
+	* data/variant.hh (b4_symbol_constructor_define_): Therefore,
+	don't call yytranslate_ here.
+
+2009-09-16  Akim Demaille  <demaille@gostai.com>
+
 	TODO: statistics.
 	* TODO (Figures): New.
 

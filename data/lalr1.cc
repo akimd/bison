@@ -29,7 +29,7 @@ m4_define([b4_integral_parser_table_declare],
 ])
 
 # b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
-# ---------------------------------------------
+# -------------------------------------------------------------
 # Define "parser::yy<TABLE-NAME>_" which contents is CONTENT.
 m4_define([b4_integral_parser_table_define],
 [  const b4_int_type_for([$2])
@@ -321,7 +321,7 @@ do {                                                            \
       /// The state.
       state_type state;
 
-      /// Return the type corresponding to this state.
+      /// The type (corresponding to \a state).
       inline int type_get_ () const;
     };
 

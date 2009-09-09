@@ -178,21 +178,22 @@ m4_define([b4_public_types_declare],
       /// Default constructor.
       inline symbol_type ();
 
-      /// Constructor.
-      inline symbol_type (]b4_args([int t],
+      /// Constructor for tokens with semantic value.
+      inline symbol_type (]b4_args([token_type t],
                                    [const semantic_type& v],
                                    b4_locations_if([const location_type& l]))[);
 
-      inline symbol_type (]b4_args([int t],
+      /// Constructor for valueless tokens.
+      inline symbol_type (]b4_args([token_type t],
                                    b4_locations_if([const location_type& l]))[);
 
       /// The symbol type.
       int type;
 
-      /// Return the type corresponding to this state.
+      /// The symbol type.
       inline int type_get_ () const;
 
-      /// Its token.
+      /// The token.
       inline token_type token () const;
     };
 ]b4_symbol_constructor_declare])
@@ -269,20 +270,20 @@ m4_define([b4_public_types_define],
 
   inline
   ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
-                [int t],
+                [token_type t],
                 b4_locations_if([const location_type& l]))[)
     : super_type (]b4_locations_if([l])[)
-    , type (t)
+    , type (yytranslate_ (t))
   {
   }
 
   inline
   ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
-                 [int t],
+                 [token_type t],
                  [const semantic_type& v],
                  b4_locations_if([const location_type& l]))[)
     : super_type (v]b4_locations_if([, l])[)
-    , type (t)
+    , type (yytranslate_ (t))
   {
   }
 
