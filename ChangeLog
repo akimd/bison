@@ -1,5 +1,13 @@
 2009-09-09  Akim Demaille  <demaille@gostai.com>
 
+	%parse: support several arguments.
+	* src/parse-gram.y (current_param): New.
+	(param_type): Add param_none.
+	(params): New nonterminal.
+	Use it.
+
+2009-09-09  Akim Demaille  <demaille@gostai.com>
+
 	Regen.
 
 2009-09-09  Akim Demaille  <demaille@gostai.com>

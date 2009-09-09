@@ -54,12 +54,12 @@ static char const *char_name (char);
 
 %code
 {
-  static symbol_class current_class = unknown_sym;
-  static uniqstr current_type = NULL;
-  static symbol *current_lhs;
+  static int current_prec = 0;
   static location current_lhs_location;
   static named_ref *current_lhs_named_ref;
-  static int current_prec = 0;
+  static symbol *current_lhs;
+  static symbol_class current_class = unknown_sym;
+  static uniqstr current_type = NULL;
 
   #define YYTYPE_INT16 int_fast16_t
   #define YYTYPE_INT8 int_fast8_t
@@ -203,6 +203,7 @@ static char const *char_name (char);
 #  define PARAM_TYPE
   typedef enum
   {
+    param_none   = 0,
     param_lex    = 1 << 0,
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
@@ -218,6 +219,7 @@ static char const *char_name (char);
    * \param loc   the location in the source.
    */
   static void add_param (param_type type, char *decl, location loc);
+  static param_type current_param = param_none;
 };
 %union
 {
@@ -229,15 +231,18 @@ static char const *char_name (char);
   switch ($$)
     {
 #define CASE(In, Out)                                           \
-      case param_ ## In:   fputs ("%" #Out, stderr); break
-
+      case param_ ## In: fputs ("%" #Out, stderr); break
       CASE(lex,   lex-param);
       CASE(parse, parse-param);
       CASE(both,  param);
-    }
 #undef CASE
+    }
 } <param>;
 
+
+                     /*==========\
+                     | Grammar.  |
+                     \==========*/
 %%
 
 input:
@@ -311,7 +316,7 @@ prologue_declaration:
 | "%nondeterministic-parser"	{ nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
 | "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
-| "%param" "{...}"	        { add_param ($1, $2, @2); }
+| "%param" { current_param = $1; } params { current_param = param_none; }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING
     {
@@ -341,6 +346,11 @@ prologue_declaration:
 | "%verbose"                    { report_flag |= report_states; }
 | "%yacc"                       { yacc_flag = true; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
+;
+
+params:
+   params "{...}"  { add_param (current_param, $2, @2); }
+| "{...}"          { add_param (current_param, $1, @1); }
 ;
 
 
