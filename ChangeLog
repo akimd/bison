@@ -1,5 +1,9 @@
 2009-09-09  Akim Demaille  <demaille@gostai.com>
 
+	Regen.
+
+2009-09-09  Akim Demaille  <demaille@gostai.com>
+
 	%param.
 	Provide a means to factor lex-param and parse-param common
 	declarations.

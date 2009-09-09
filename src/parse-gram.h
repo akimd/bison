@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.3b.445-2755.  */
+/* A Bison parser, made by GNU Bison 2.4.403-43f2.  */
 
 /* Interface for Bison's Yacc-like parsers in C
 
@@ -30,6 +30,23 @@
 
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
+/* "%code requires" blocks.  */
+/* Line 1608 of yacc.c  */
+#line 201 "src/parse-gram.y"
+
+# ifndef PARAM_TYPE
+#  define PARAM_TYPE
+  typedef enum
+  {
+    param_lex    = 1 << 0,
+    param_parse  = 1 << 1,
+    param_both   = param_lex | param_parse
+  } param_type;
+# endif
+
+
+/* Line 1608 of yacc.c  */
+#line 50 "src/parse-gram.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -64,34 +81,33 @@
      PERCENT_GLR_PARSER = 281,
      PERCENT_INITIAL_ACTION = 282,
      PERCENT_LANGUAGE = 283,
-     PERCENT_LEX_PARAM = 284,
-     PERCENT_NAME_PREFIX = 285,
-     PERCENT_NO_DEFAULT_PREC = 286,
-     PERCENT_NO_LINES = 287,
-     PERCENT_NONDETERMINISTIC_PARSER = 288,
-     PERCENT_OUTPUT = 289,
-     PERCENT_PARSE_PARAM = 290,
-     PERCENT_REQUIRE = 291,
-     PERCENT_SKELETON = 292,
-     PERCENT_START = 293,
-     PERCENT_TOKEN_TABLE = 294,
-     PERCENT_VERBOSE = 295,
-     PERCENT_YACC = 296,
-     BRACED_CODE = 297,
-     CHAR = 298,
-     EPILOGUE = 299,
-     EQUAL = 300,
-     ID = 301,
-     ID_COLON = 302,
-     PERCENT_PERCENT = 303,
-     PIPE = 304,
-     PROLOGUE = 305,
-     SEMICOLON = 306,
-     TAG = 307,
-     TAG_ANY = 308,
-     TAG_NONE = 309,
-     BRACKETED_ID = 310,
-     PERCENT_UNION = 311
+     PERCENT_NAME_PREFIX = 284,
+     PERCENT_NO_DEFAULT_PREC = 285,
+     PERCENT_NO_LINES = 286,
+     PERCENT_NONDETERMINISTIC_PARSER = 287,
+     PERCENT_OUTPUT = 288,
+     PERCENT_REQUIRE = 289,
+     PERCENT_SKELETON = 290,
+     PERCENT_START = 291,
+     PERCENT_TOKEN_TABLE = 292,
+     PERCENT_VERBOSE = 293,
+     PERCENT_YACC = 294,
+     BRACED_CODE = 295,
+     CHAR = 296,
+     EPILOGUE = 297,
+     EQUAL = 298,
+     ID = 299,
+     ID_COLON = 300,
+     PERCENT_PERCENT = 301,
+     PIPE = 302,
+     PROLOGUE = 303,
+     SEMICOLON = 304,
+     TAG = 305,
+     TAG_ANY = 306,
+     TAG_NONE = 307,
+     BRACKETED_ID = 308,
+     PERCENT_PARAM = 309,
+     PERCENT_UNION = 310
    };
 #endif
 /* Tokens.  */
@@ -122,34 +138,33 @@
 #define PERCENT_GLR_PARSER 281
 #define PERCENT_INITIAL_ACTION 282
 #define PERCENT_LANGUAGE 283
-#define PERCENT_LEX_PARAM 284
-#define PERCENT_NAME_PREFIX 285
-#define PERCENT_NO_DEFAULT_PREC 286
-#define PERCENT_NO_LINES 287
-#define PERCENT_NONDETERMINISTIC_PARSER 288
-#define PERCENT_OUTPUT 289
-#define PERCENT_PARSE_PARAM 290
-#define PERCENT_REQUIRE 291
-#define PERCENT_SKELETON 292
-#define PERCENT_START 293
-#define PERCENT_TOKEN_TABLE 294
-#define PERCENT_VERBOSE 295
-#define PERCENT_YACC 296
-#define BRACED_CODE 297
-#define CHAR 298
-#define EPILOGUE 299
-#define EQUAL 300
-#define ID 301
-#define ID_COLON 302
-#define PERCENT_PERCENT 303
-#define PIPE 304
-#define PROLOGUE 305
-#define SEMICOLON 306
-#define TAG 307
-#define TAG_ANY 308
-#define TAG_NONE 309
-#define BRACKETED_ID 310
-#define PERCENT_UNION 311
+#define PERCENT_NAME_PREFIX 284
+#define PERCENT_NO_DEFAULT_PREC 285
+#define PERCENT_NO_LINES 286
+#define PERCENT_NONDETERMINISTIC_PARSER 287
+#define PERCENT_OUTPUT 288
+#define PERCENT_REQUIRE 289
+#define PERCENT_SKELETON 290
+#define PERCENT_START 291
+#define PERCENT_TOKEN_TABLE 292
+#define PERCENT_VERBOSE 293
+#define PERCENT_YACC 294
+#define BRACED_CODE 295
+#define CHAR 296
+#define EPILOGUE 297
+#define EQUAL 298
+#define ID 299
+#define ID_COLON 300
+#define PERCENT_PERCENT 301
+#define PIPE 302
+#define PROLOGUE 303
+#define SEMICOLON 304
+#define TAG 305
+#define TAG_ANY 306
+#define TAG_NONE 307
+#define BRACKETED_ID 308
+#define PERCENT_PARAM 309
+#define PERCENT_UNION 310
 
 
 
@@ -158,21 +173,26 @@
 typedef union YYSTYPE
 {
 /* Line 1608 of yacc.c  */
-#line 94 "src/parse-gram.y"
+#line 88 "src/parse-gram.y"
 
+  assoc assoc;
+  char *code;
+  char const *chars;
+  int integer;
+  named_ref *named_ref;
   symbol *symbol;
   symbol_list *list;
-  int integer;
-  char const *chars;
-  char *code;
-  assoc assoc;
   uniqstr uniqstr;
   unsigned char character;
-  named_ref *named_ref;
+
+/* Line 1608 of yacc.c  */
+#line 223 "src/parse-gram.y"
+
+  param_type param;
 
 
 /* Line 1608 of yacc.c  */
-#line 176 "src/parse-gram.h"
+#line 196 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
