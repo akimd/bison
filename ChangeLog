@@ -1,3 +1,8 @@
+2009-09-10  Joel E. Denny  <jdenny@clemson.edu>
+
+	Fix --enable-gcc-warnings.
+	* src/parse-gram.y (%printer <param>): Handle param_none.
+
 2009-09-09  Akim Demaille  <demaille@gostai.com>
 
 	lalr1.cc: syntax_error as exceptions.

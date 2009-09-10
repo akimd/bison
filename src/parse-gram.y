@@ -236,6 +236,7 @@ static char const *char_name (char);
       CASE(parse, parse-param);
       CASE(both,  param);
 #undef CASE
+      case param_none: aver (false); break;
     }
 } <param>;
 
