@@ -591,29 +591,24 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
   switch (valid_variants)
     {
     case 0:
-      if (variant_count == 0)
-        {
-          if (explicit_bracketing || !ref_tail_fields)
-            complain_at (text_loc, _("unresolved reference: %s"),
-                         quote(text));
-          else
-            {
-              unsigned len = ref_tail_fields - text;
-              char *str = strndup (text, len);
-              text_loc.end.column = text_loc.start.column + len;
-              complain_at (text_loc, _("unresolved reference: %s"),
-                           quote (str));
-              free (str);
-            }
-        }
-      else
-        {
-          complain_at (text_loc, _("invalid reference: %s"),
-                       quote (text));
+      {
+        unsigned len = (explicit_bracketing || !ref_tail_fields) ?
+          cp_end - cp : ref_tail_fields - cp;
+        const char *message = "symbol not found in production";
+
+        complain_at (text_loc, _("invalid reference: %s"), quote (text));
+        if (midrule_rhs_index)
+          complain_at (rule->location, _("  %s before $%d: %.*s"),
+                       message, midrule_rhs_index, len, cp);
+        else
+          complain_at (rule->location, _("  %s: %.*s"),
+                       message, len, cp);
+
+        if (variant_count > 0)
           show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
                              dollar_or_at, false);
-        }
-      return INVALID_REF;
+        return INVALID_REF;
+      }
     case 1:
       {
         if (variant_count > 1)

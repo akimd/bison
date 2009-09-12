@@ -1,3 +1,12 @@
+2009-09-12  Alex Rozenman  <rozenman@gmail.com>
+
+	Provide an additional sub-message for clarity.
+	Add "symbol not found in production" error message when
+	an "invalid reference" is detected in named references
+	resolution.
+	* src/scan-code.l: Update "invalid reference" case.
+	* tests/named-ref.at: Adjust test-cases.
+
 2009-09-10  Joel E. Denny  <jdenny@clemson.edu>
 
 	Clean up yacc.c a little.
