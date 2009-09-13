@@ -1,3 +1,9 @@
+2009-09-13  Joel E. Denny  <jdenny@clemson.edu>
+
+	tests: clean up push.at test group titles.
+	* tests/push.at: Remove "Push Parsing: " from test group titles
+	because these are already under the banner "Push Parsing Tests".
+
 2009-09-12  Alex Rozenman  <rozenman@gmail.com>
 
 	Provide an additional sub-message for clarity.
