@@ -16,11 +16,11 @@
 
 AT_BANNER([[Push Parsing Tests]])
 
-## ---------------------------------------------- ##
-## Push Parsing: Memory Leak for Early Deletion.  ##
-## ---------------------------------------------- ##
+## -------------------------------- ##
+## Memory Leak for Early Deletion.  ##
+## -------------------------------- ##
 
-AT_SETUP([[Push Parsing: Memory Leak for Early Deletion]])
+AT_SETUP([[Memory Leak for Early Deletion]])
 
 # Requires Valgrind.
 
@@ -77,11 +77,11 @@ AT_PARSER_CHECK([[./input]])
 
 AT_CLEANUP
 
-## ----------------------------------------- ##
-## Push Parsing: Multiple impure instances.  ##
-## ----------------------------------------- ##
+## --------------------------- ##
+## Multiple impure instances.  ##
+## --------------------------- ##
 
-AT_SETUP([[Push Parsing: Multiple impure instances]])
+AT_SETUP([[Multiple impure instances]])
 
 m4_pushdef([AT_MULTIPLE_IMPURE_INSTANCES_CHECK], [
 AT_DATA_GRAMMAR([[input.y]],
@@ -148,11 +148,11 @@ m4_popdef([AT_MULTIPLE_IMPURE_INSTANCES_CHECK])
 
 AT_CLEANUP
 
-## ------------------------------------- ##
-## Push Parsing: Unsupported Skeletons.  ##
-## ------------------------------------- ##
+## ----------------------- ##
+## Unsupported Skeletons.  ##
+## ----------------------- ##
 
-AT_SETUP([[Push Parsing: Unsupported Skeletons]])
+AT_SETUP([[Unsupported Skeletons]])
 
 AT_DATA([[input.y]],
 [[%glr-parser
