@@ -194,6 +194,13 @@ parser") refers to the current `output' format.
 
 * Report
 
+** Figures
+Some statistics about the grammar and the parser would be useful,
+especially when asking the user to send some information about the
+grammars she is working on.  We should probably also include some
+information about the variables (I'm not sure for instance we even
+specify what LR variant was used).
+
 **  GLR
 How would Paul like to display the conflicted actions?  In particular,
 what when two reductions are possible on a given lookahead token, but one is
