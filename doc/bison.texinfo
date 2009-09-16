@@ -5351,7 +5351,7 @@ This function is available if either the @code{%define api.push_pull "push"} or
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun yypstate *yypstate_new (void)
-The fuction will return a valid parser instance if there was memory available
+The function will return a valid parser instance if there was memory available
 or 0 if no memory was available.
 In impure mode, it will also return 0 if a parser instance is currently
 allocated.
@@ -6808,7 +6808,7 @@ that allows variable-length arrays.  The default is 200.
 Do not allow @code{YYINITDEPTH} to be greater than @code{YYMAXDEPTH}.
 
 @c FIXME: C++ output.
-Because of semantical differences between C and C++, the
+Because of semantic differences between C and C++, the
 @acronym{LALR}(1) parsers in C produced by Bison cannot grow when compiled
 by C++ compilers.  In this precise case (compiling a C parser as C++) you are
 suggested to grow @code{YYINITDEPTH}.  The Bison maintainers hope to fix
@@ -8447,7 +8447,7 @@ global variables.
 
 @noindent
 Then we request the location tracking feature, and initialize the
-first location's file name.  Afterwards new locations are computed
+first location's file name.  Afterward new locations are computed
 relatively to the previous locations: the file name will be
 automatically propagated.
 
@@ -8981,7 +8981,7 @@ changed using @code{%define location_type "@var{class-name}".}
 
 @deftypemethod {Lexer} {int} yylex ()
 Return the next token.  Its type is the return value, its semantic
-value and location are saved and returned by the ther methods in the
+value and location are saved and returned by the their methods in the
 interface.
 
 Use @code{%define lex_throws} to specify any uncaught exceptions.
@@ -8999,7 +8999,7 @@ The return type can be changed using @code{%define position_type
 @end deftypemethod
 
 @deftypemethod {Lexer} {Object} getLVal ()
-Return the semantical value of the last token that yylex returned.
+Return the semantic value of the last token that yylex returned.
 
 The return type can be changed using @code{%define stype
 "@var{class-name}".}
@@ -9115,7 +9115,7 @@ corresponds to these C macros.}.
 @item
 Java lacks unions, so @code{%union} has no effect.  Instead, semantic
 values have a common base type: @code{Object} or as specified by
-@code{%define stype}.  Angle backets on @code{%token}, @code{type},
+@samp{%define stype}.  Angle brackets on @code{%token}, @code{type},
 @code{$@var{n}} and @code{$$} specify subtypes rather than fields of
 an union.  The type of @code{$$}, even with angle brackets, is the base
 type since Java casts are not allow on the left-hand side of assignments.
@@ -9124,7 +9124,7 @@ left-hand side of assignments. See @pxref{Java Semantic Values} and
 @pxref{Java Action Features}.
 
 @item
-The prolog declarations have a different meaning than in C/C++ code.
+The prologue declarations have a different meaning than in C/C++ code.
 @table @asis
 @item @code{%code imports}
 blocks are placed at the beginning of the Java source code.  They may

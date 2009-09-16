@@ -1,3 +1,8 @@
+2009-09-16  Akim Demaille  <demaille@gostai.com>
+
+	doc: spell checking.
+	* doc/bison.texinfo: here.
+
 2009-09-13  Joel E. Denny  <jdenny@clemson.edu>
 
 	tests: clean up push.at test group titles.
