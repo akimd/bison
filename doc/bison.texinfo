@@ -5640,7 +5640,7 @@ This function is available if either the @samp{%define api.push-pull push} or
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun yypstate *yypstate_new (void)
-The fuction will return a valid parser instance if there was memory available
+The function will return a valid parser instance if there was memory available
 or 0 if no memory was available.
 In impure mode, it will also return 0 if a parser instance is currently
 allocated.
@@ -6611,7 +6611,7 @@ conflict, precedence suffices.  In such a case, using @code{%left},
 related) conflicts that would remain hidden.
 
 The dangling @code{else} ambiguity (@pxref{Shift/Reduce, , Shift/Reduce
-Conflicts}) can be solved explictly.  This shift/reduce conflicts occurs
+Conflicts}) can be solved explicitly.  This shift/reduce conflicts occurs
 in the following situation, where the period denotes the current parsing
 state:
 
@@ -6634,7 +6634,7 @@ in an associativity related conflict, which can be specified as follows.
 
 The unary-minus is another typical example where associativity is
 usually over-specified, see @ref{Infix Calc, , Infix Notation
-Calculator: @code{calc}}.  The @code{%left} directive is traditionaly
+Calculator: @code{calc}}.  The @code{%left} directive is traditionally
 used to declare the precedence of @code{NEG}, which is more than needed
 since it also defines its associativity.  While this is harmless in the
 traditional example, who knows how @code{NEG} might be used in future
@@ -7167,7 +7167,7 @@ that allows variable-length arrays.  The default is 200.
 Do not allow @code{YYINITDEPTH} to be greater than @code{YYMAXDEPTH}.
 
 @c FIXME: C++ output.
-Because of semantical differences between C and C++, the deterministic
+Because of semantic differences between C and C++, the deterministic
 parsers in C produced by Bison cannot grow when compiled
 by C++ compilers.  In this precise case (compiling a C parser as C++) you are
 suggested to grow @code{YYINITDEPTH}.  The Bison maintainers hope to fix
@@ -8842,7 +8842,7 @@ global variables.
 
 @noindent
 Then we request location tracking, and initialize the
-first location's file name.  Afterwards new locations are computed
+first location's file name.  Afterward new locations are computed
 relatively to the previous locations: the file name will be
 propagated.
 
@@ -9189,7 +9189,7 @@ if needed.  Also, in the future the
 access the token names and codes.
 
 Getting a ``code too large'' error from the Java compiler means the code
-hit the 64KB bytecode per method limination of the Java class file.
+hit the 64KB bytecode per method limitation of the Java class file.
 Try reducing the amount of code in actions and static initializers;
 otherwise, report a bug so that the parser skeleton will be improved.
 
@@ -9327,7 +9327,7 @@ no parameters, unless @code{%param}s and/or @code{%parse-param}s and/or
 
 Use @code{%code init} for code added to the start of the constructor
 body. This is especially useful to initialize superclasses. Use
-@samp{%define init_throws} to specify any uncatch exceptions.
+@samp{%define init_throws} to specify any uncaught exceptions.
 @end deftypeop
 
 @deftypeop {Constructor} {YYParser} {} YYParser (Lexer @var{lexer}, @var{parse_param}, @dots{})
@@ -9423,7 +9423,7 @@ changed using @samp{%define location_type "@var{class-name}".}
 
 @deftypemethod {Lexer} {int} yylex ()
 Return the next token.  Its type is the return value, its semantic
-value and location are saved and returned by the ther methods in the
+value and location are saved and returned by the their methods in the
 interface.
 
 Use @samp{%define lex_throws} to specify any uncaught exceptions.
@@ -9441,7 +9441,7 @@ The return type can be changed using @samp{%define position_type
 @end deftypemethod
 
 @deftypemethod {Lexer} {Object} getLVal ()
-Return the semantical value of the last token that yylex returned.
+Return the semantic value of the last token that yylex returned.
 
 The return type can be changed using @samp{%define stype
 "@var{class-name}".}
@@ -9558,7 +9558,7 @@ corresponds to these C macros.}.
 @item
 Java lacks unions, so @code{%union} has no effect.  Instead, semantic
 values have a common base type: @code{Object} or as specified by
-@samp{%define stype}.  Angle backets on @code{%token}, @code{type},
+@samp{%define stype}.  Angle brackets on @code{%token}, @code{type},
 @code{$@var{n}} and @code{$$} specify subtypes rather than fields of
 an union.  The type of @code{$$}, even with angle brackets, is the base
 type since Java casts are not allow on the left-hand side of assignments.
@@ -9567,7 +9567,7 @@ left-hand side of assignments. See @pxref{Java Semantic Values} and
 @pxref{Java Action Features}.
 
 @item
-The prolog declarations have a different meaning than in C/C++ code.
+The prologue declarations have a different meaning than in C/C++ code.
 @table @asis
 @item @code{%code imports}
 blocks are placed at the beginning of the Java source code.  They may
