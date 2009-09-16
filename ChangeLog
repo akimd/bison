@@ -1,3 +1,8 @@
+2009-09-16  Akim Demaille  <demaille@gostai.com>
+
+	doc: spell checking.
+	* doc/bison.texinfo: here.
+
 2009-09-19  Alex Rozenman  <rozenman@gmail.com>
 
 	Keep sub-messages aligned. Fix strings for translation.
