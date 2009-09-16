@@ -1,5 +1,30 @@
 2009-09-16  Akim Demaille  <demaille@gostai.com>
 
+	doc: lalr1.cc and variants.
+	* doc/bison.texinfo (Decl Summary): Document the "lex_symbol" and
+	"variant" %define variables.
+	(C++ Semantic Values): Split into...
+	(C++ Unions, C++ Variants): these.
+	The latter is new.
+	(C++ Parser Interface): Fix type names.
+	Document parser::syntax_error.
+	Document the fact that locations are not mandatory.
+	(C++ Scanner Interface): Split into...
+	(Split Symbols, Complete Symbols): these.
+	The later is new.
+	(Calc++ Parsing Driver): Use variants.
+	Add more comments.
+	Adjust style.
+	(Calc++ Parser): Declare all the tokens, no
+	longer accept raw characters.
+	Remove %union.
+	Adjust types and printers.
+	Remove destructors.
+	(Calc++ Scanner): Use make_<SYMBOL> functions.
+	Use strerror in error message.
+
+2009-09-16  Akim Demaille  <demaille@gostai.com>
+
 	doc: spell checking.
 	* doc/bison.texinfo: here.
 

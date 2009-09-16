@@ -5012,6 +5012,28 @@ empty
 @c api.tokens.prefix
 
 
+@c ================================================== lex_symbol
+@item variant
+@findex %define lex_symbol
+
+@itemize @bullet
+@item Language(s):
+C++
+
+@item Purpose:
+When variant-based semantic values are enabled (@pxref{C++ Variants}),
+request that symbols be handled as a whole (type, value, and possibly
+location) in the scanner.  @xref{Complete Symbols}, for details.
+
+@item Accepted Values:
+Boolean.
+
+@item Default Value:
+@code{false}
+@end itemize
+@c lex_symbol
+
+
 @c ================================================== lr.default-reductions
 
 @item lr.default-reductions
@@ -5221,7 +5243,8 @@ Obsoleted by @code{api.namespace}
 @item Languages(s): C++
 
 @item Purpose: Issue runtime assertions to catch invalid uses.
-In C++, when variants are used, symbols must be constructed and
+In C++, when variants are used (@pxref{C++ Variants}), symbols must be
+constructed and
 destroyed properly.  This option checks these constraints.
 
 @item Accepted Values: Boolean
@@ -5274,6 +5297,27 @@ is not already defined, so that the debugging facilities are compiled.
 @item Default Value: @code{false}
 @end itemize
 @c parse.trace
+
+@c ================================================== variant
+@item variant
+@findex %define variant
+
+@itemize @bullet
+@item Language(s):
+C++
+
+@item Purpose:
+Requests variant-based semantic values.
+@xref{C++ Variants}.
+
+@item Accepted Values:
+Boolean.
+
+@item Default Value:
+@code{false}
+@end itemize
+@c variant
+
 
 @end table
 @end deffn
@@ -8425,7 +8469,7 @@ The various classes are generated in the following files:
 @item position.hh
 @itemx location.hh
 The definition of the classes @code{position} and @code{location},
-used for location tracking.  @xref{C++ Location Values}.
+used for location tracking when enabled.  @xref{C++ Location Values}.
 
 @item stack.hh
 An auxiliary class @code{stack} used by the parser.
@@ -8451,11 +8495,22 @@ for a complete and accurate documentation.
 @c - YYSTYPE
 @c - Printer and destructor
 
+Bison supports two different means to handle semantic values in C++.  One is
+alike the C interface, and relies on unions (@pxref{C++ Unions}).  As C++
+practitioners know, unions are inconvenient in C++, therefore another
+approach is provided, based on variants (@pxref{C++ Variants}).
+
+@menu
+* C++ Unions::             Semantic values cannot be objects
+* C++ Variants::           Using objects as semantic values
+@end menu
+
+@node C++ Unions
+@subsubsection C++ Unions
+
 The @code{%union} directive works as for C, see @ref{Union Decl, ,The
 Collection of Value Types}.  In particular it produces a genuine
-@code{union}@footnote{In the future techniques to allow complex types
-within pseudo-unions (similar to Boost variants) might be implemented to
-alleviate these issues.}, which have a few specific features in C++.
+@code{union}, which have a few specific features in C++.
 @itemize @minus
 @item
 The type @code{YYSTYPE} is defined but its use is discouraged: rather
@@ -8472,6 +8527,98 @@ reclaimed automatically: using the @code{%destructor} directive is the
 only means to avoid leaks.  @xref{Destructor Decl, , Freeing Discarded
 Symbols}.
 
+@node C++ Variants
+@subsubsection C++ Variants
+
+Starting with version 2.6, Bison provides a @emph{variant} based
+implementation of semantic values for C++.  This alleviates all the
+limitations reported in the previous section, and in particular, object
+types can be used without pointers.
+
+To enable variant-based semantic values, set @code{%define} variable
+@code{variant} (@pxref{Decl Summary, , variant}).  Once this defined,
+@code{%union} is ignored, and instead of using the name of the fields of the
+@code{%union} to ``type'' the symbols, use genuine types.
+
+For instance, instead of
+
+@example
+%union
+@{
+  int ival;
+  std::string* sval;
+@}
+%token <ival> NUMBER;
+%token <sval> STRING;
+@end example
+
+@noindent
+write
+
+@example
+%token <int> NUMBER;
+%token <std::string> STRING;
+@end example
+
+@code{STRING} is no longer a pointer, which should fairly simplify the user
+actions in the grammar and in the scanner (in particular the memory
+management).
+
+Since C++ features destructors, and since it is customary to specialize
+@code{operator<<} to support uniform printing of values, variants also
+typically simplify Bison printers and destructors.
+
+Variants are stricter than unions.  When based on unions, you may play any
+dirty game with @code{yylval}, say storing an @code{int}, reading a
+@code{char*}, and then storing a @code{double} in it.  This is no longer
+possible with variants: they must be initialized, then assigned to, and
+eventually, destroyed.
+
+@deftypemethod {semantic_type} {T&} build<T> ()
+Initialize, but leave empty.  Returns the address where the actual value may
+be stored.  Requires that the variant was not initialized yet.
+@end deftypemethod
+
+@deftypemethod {semantic_type} {T&} build<T> (const T& @var{t})
+Initialize, and copy-construct from @var{t}.
+@end deftypemethod
+
+
+@strong{Warning}: We do not use Boost.Variant, for two reasons.  First, it
+appeared unacceptable to require Boost on the user's machine (i.e., the
+machine on which the generated parser will be compiled, not the machine on
+which @command{bison} was run).  Second, for each possible semantic value,
+Boost.Variant not only stores the value, but also a tag specifying its
+type.  But the parser already ``knows'' the type of the semantic value, so
+that would be duplicating the information.
+
+Therefore we developed light-weight variants whose type tag is external (so
+they are really like @code{unions} for C++ actually).  But our code is much
+less mature that Boost.Variant.  So there is a number of limitations in
+(the current implementation of) variants:
+@itemize
+@item
+Alignment must be enforced: values should be aligned in memory according to
+the most demanding type.  Computing the smallest alignment possible requires
+meta-programming techniques that are not currently implemented in Bison, and
+therefore, since, as far as we know, @code{double} is the most demanding
+type on all platforms, alignments are enforced for @code{double} whatever
+types are actually used.  This may waste space in some cases.
+
+@item
+Our implementation is not conforming with strict aliasing rules.  Alias
+analysis is a technique used in optimizing compilers to detect when two
+pointers are disjoint (they cannot ``meet'').  Our implementation breaks
+some of the rules that G++ 4.4 uses in its alias analysis, so @emph{strict
+alias analysis must be disabled}.  Use the option
+@option{-fno-strict-aliasing} to compile the generated parser.
+
+@item
+There might be portability issues we are not aware of.
+@end itemize
+
+As far as we know, these limitations \emph{can} be alleviated.  All it takes
+is some time and/or some talented C++ hacker willing to contribute to Bison.
 
 @node C++ Location Values
 @subsection C++ Location Values
@@ -8560,14 +8707,29 @@ this class is detailed below.  It can be extended using the
 it describes an additional member of the parser class, and an
 additional argument for its constructor.
 
-@defcv {Type} {parser} {semantic_value_type}
-@defcvx {Type} {parser} {location_value_type}
-The types for semantics value and locations.
+@defcv {Type} {parser} {semantic_type}
+@defcvx {Type} {parser} {location_type}
+The types for semantic values and locations (if enabled).
+@end defcv
+
+@defcv {Type} {parser} {syntax_error}
+This class derives from @code{std::runtime_error}.  Throw instances of it
+from user actions to raise parse errors.  This is equivalent with first
+invoking @code{error} to report the location and message of the syntax
+error, and then to invoke @code{YYERROR} to enter the error-recovery mode.
+But contrary to @code{YYERROR} which can only be invoked from user actions
+(i.e., written in the action itself), the exception can be thrown from
+function invoked from the user action.
 @end defcv
 
 @deftypemethod {parser} {} parser (@var{type1} @var{arg1}, ...)
 Build a new parser object.  There are no arguments by default, unless
 @samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
+@end deftypemethod
+
+@deftypemethod {syntax_error} {} syntax_error (const location_type& @var{l}, const std::string& @var{m})
+@deftypemethodx {syntax_error} {} syntax_error (const std::string& @var{m})
+Instantiate a syntax-error exception.
 @end deftypemethod
 
 @deftypemethod {parser} {int} parse ()
@@ -8587,9 +8749,11 @@ or nonzero, full tracing.
 @end deftypemethod
 
 @deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
+@deftypemethodx {parser} {void} error (const std::string& @var{m})
 The definition for this member function must be supplied by the user:
 the parser uses it to report a parser error occurring at @var{l},
-described by @var{m}.
+described by @var{m}.  If location tracking is not enabled, the second
+signature is used.
 @end deftypemethod
 
 
@@ -8601,25 +8765,143 @@ described by @var{m}.
 
 The parser invokes the scanner by calling @code{yylex}.  Contrary to C
 parsers, C++ parsers are always pure: there is no point in using the
-@samp{%define api.pure} directive.  Therefore the interface is as follows.
+@samp{%define api.pure} directive.  The actual interface with @code{yylex}
+depends whether you use unions, or variants.
 
-@deftypemethod {parser} {int} yylex (semantic_value_type& @var{yylval}, location_type& @var{yylloc}, @var{type1} @var{arg1}, ...)
-Return the next token.  Its type is the return value, its semantic
-value and location being @var{yylval} and @var{yylloc}.  Invocations of
+@menu
+* Split Symbols::         Passing symbols as two/three components
+* Complete Symbols::      Making symbols a whole
+@end menu
+
+@node Split Symbols
+@subsubsection Split Symbols
+
+Therefore the interface is as follows.
+
+@deftypemethod {parser} {int} yylex (semantic_type& @var{yylval}, location_type& @var{yylloc}, @var{type1} @var{arg1}, ...)
+@deftypemethodx {parser} {int} yylex (semantic_type& @var{yylval}, @var{type1} @var{arg1}, ...)
+Return the next token.  Its type is the return value, its semantic value and
+location (if enabled) being @var{yylval} and @var{yylloc}.  Invocations of
 @samp{%lex-param @{@var{type1} @var{arg1}@}} yield additional arguments.
 @end deftypemethod
 
+Note that when using variants, the interface for @code{yylex} is the same,
+but @code{yylval} is handled differently.
+
+Regular union-based code in Lex scanner typically look like:
+
+@example
+[0-9]+   @{
+           yylval.ival = text_to_int (yytext);
+           return yy::parser::INTEGER;
+         @}
+[a-z]+   @{
+           yylval.sval = new std::string (yytext);
+           return yy::parser::IDENTIFIER;
+         @}
+@end example
+
+Using variants, @code{yylval} is already constructed, but it is not
+initialized.  So the code would look like:
+
+@example
+[0-9]+   @{
+           yylval.build<int>() = text_to_int (yytext);
+           return yy::parser::INTEGER;
+         @}
+[a-z]+   @{
+           yylval.build<std::string> = yytext;
+           return yy::parser::IDENTIFIER;
+         @}
+@end example
+
+@noindent
+or
+
+@example
+[0-9]+   @{
+           yylval.build(text_to_int (yytext));
+           return yy::parser::INTEGER;
+         @}
+[a-z]+   @{
+           yylval.build(yytext);
+           return yy::parser::IDENTIFIER;
+         @}
+@end example
+
+
+@node Complete Symbols
+@subsubsection Complete Symbols
+
+If you specified both @code{%define variant} and @code{%define lex_symbol},
+the @code{parser} class also defines the class @code{parser::symbol_type}
+which defines a @emph{complete} symbol, aggregating its type (i.e., the
+traditional value returned by @code{yylex}), its semantic value (i.e., the
+value passed in @code{yylval}, and possibly its location (@code{yylloc}).
+
+@deftypemethod {symbol_type} {} symbol_type (token_type @var{type},  const semantic_type& @var{value}, const location_type& @var{location})
+Build a complete terminal symbol which token type is @var{type}, and which
+semantic value is @var{value}.  If location tracking is enabled, also pass
+the @var{location}.
+@end deftypemethod
+
+This interface is low-level and should not be used for two reasons.  First,
+it is inconvenient, as you still have to build the semantic value, which is
+a variant, and second, because consistency is not enforced: as with unions,
+it is still possible to give an integer as semantic value for a string.
+
+So for each token type, Bison generates named constructors as follows.
+
+@deftypemethod {symbol_type} {} make_@var{token} (const @var{value_type}& @var{value}, const location_type& @var{location})
+@deftypemethodx {symbol_type} {} make_@var{token} (const location_type& @var{location})
+Build a complete terminal symbol for the token type @var{token} (not
+including the @code{api.tokens.prefix}) whose possible semantic value is
+@var{value} of adequate @var{value_type}.  If location tracking is enabled,
+also pass the @var{location}.
+@end deftypemethod
+
+For instance, given the following declarations:
+
+@example
+%define api.tokens.prefix "TOK_"
+%token <std::string> IDENTIFIER;
+%token <int> INTEGER;
+%token COLON;
+@end example
+
+@noindent
+Bison generates the following functions:
+
+@example
+symbol_type make_IDENTIFIER(const std::string& v,
+                            const location_type& l);
+symbol_type make_INTEGER(const int& v,
+                         const location_type& loc);
+symbol_type make_COLON(const location_type& loc);
+@end example
+
+@noindent
+which should be used in a Lex-scanner as follows.
+
+@example
+[0-9]+   return yy::parser::make_INTEGER(text_to_int (yytext), loc);
+[a-z]+   return yy::parser::make_IDENTIFIER(yytext, loc);
+":"      return yy::parser::make_COLON(loc);
+@end example
+
+Tokens that do not have an identifier are not accessible: you cannot simply
+use characters such as @code{':'}, they must be declared with @code{%token}.
 
 @node A Complete C++ Example
 @subsection A Complete C++ Example
 
 This section demonstrates the use of a C++ parser with a simple but
 complete example.  This example should be available on your system,
-ready to compile, in the directory @dfn{../bison/examples/calc++}.  It
+ready to compile, in the directory @dfn{.../bison/examples/calc++}.  It
 focuses on the use of Bison, therefore the design of the various C++
 classes is very naive: no accessors, no encapsulation of members etc.
 We will use a Lex scanner, and more precisely, a Flex scanner, to
-demonstrate the various interaction.  A hand written scanner is
+demonstrate the various interactions.  A hand-written scanner is
 actually easier to interface with.
 
 @menu
@@ -8683,11 +8965,8 @@ factor both as follows.
 @comment file: calc++-driver.hh
 @example
 // Tell Flex the lexer's prototype ...
-# define YY_DECL                                        \
-  yy::calcxx_parser::token_type                         \
-  yylex (yy::calcxx_parser::semantic_type* yylval,      \
-         yy::calcxx_parser::location_type* yylloc,      \
-         calcxx_driver& driver)
+# define YY_DECL \
+  yy::calcxx_parser::symbol_type yylex (calcxx_driver& driver)
 // ... and declare it for the parser's sake.
 YY_DECL;
 @end example
@@ -8711,8 +8990,8 @@ public:
 @end example
 
 @noindent
-To encapsulate the coordination with the Flex scanner, it is useful to
-have two members function to open and close the scanning phase.
+To encapsulate the coordination with the Flex scanner, it is useful to have
+member functions to open and close the scanning phase.
 
 @comment file: calc++-driver.hh
 @example
@@ -8727,9 +9006,13 @@ Similarly for the parser itself.
 
 @comment file: calc++-driver.hh
 @example
-  // Run the parser.  Return 0 on success.
+  // Run the parser on file F.
+  // Return 0 on success.
   int parse (const std::string& f);
+  // The name of the file being parsed.
+  // Used later to pass the file name to the location tracker.
   std::string file;
+  // Whether parser traces should be generated.
   bool trace_parsing;
 @end example
 
@@ -8812,18 +9095,34 @@ the version you designed the grammar for.
 @end example
 
 @noindent
-@findex %code requires
-Then come the declarations/inclusions needed to define the
-@code{%union}.  Because the parser uses the parsing driver and
-reciprocally, both cannot include the header of the other.  Because the
-driver's header needs detailed knowledge about the parser class (in
-particular its inner types), it is the parser's header which will simply
-use a forward declaration of the driver.
-@xref{Decl Summary, ,%code}.
+@findex %define variant
+@findex %define lex_symbol
+This example will use genuine C++ objects as semantic values, therefore, we
+require the variant-based interface.  To make sure we properly use it, we
+enable assertions.  To fully benefit from type-safety and more natural
+definition of ``symbol'', we enable @code{lex_symbol}.
 
 @comment file: calc++-parser.yy
 @example
-%code requires @{
+%define variant
+%define parse.assert
+%define lex_symbol
+@end example
+
+@noindent
+@findex %code requires
+Then come the declarations/inclusions needed by the semantic values.
+Because the parser uses the parsing driver and reciprocally, both would like
+to include the header of the other, which is, of course, insane.  These
+mutual dependency will be broken using forward declarations.  Because the
+driver's header needs detailed knowledge about the parser class (in
+particular its inner types), it is the parser's header which will use a
+forward declaration of the driver.  @xref{Decl Summary, ,%code}.
+
+@comment file: calc++-parser.yy
+@example
+%code requires
+@{
 # include <string>
 class calcxx_driver;
 @}
@@ -8867,27 +9166,14 @@ error messages.
 @end example
 
 @noindent
-Semantic values cannot use ``real'' objects, but only pointers to
-them.
-
-@comment file: calc++-parser.yy
-@example
-// Symbols.
-%union
-@{
-  int          ival;
-  std::string *sval;
-@};
-@end example
-
-@noindent
 @findex %code
 The code between @samp{%code @{} and @samp{@}} is output in the
 @file{*.cc} file; it needs detailed knowledge about the driver.
 
 @comment file: calc++-parser.yy
 @example
-%code @{
+%code
+@{
 # include "calc++-driver.hh"
 @}
 @end example
@@ -8903,28 +9189,45 @@ prefix tokens with @code{TOK_} (@pxref{Decl Summary,, api.tokens.prefix}).
 @comment file: calc++-parser.yy
 @example
 %define api.tokens.prefix "TOK_"
-%token        END      0 "end of file"
-%token        ASSIGN     ":="
-%token <sval> IDENTIFIER "identifier"
-%token <ival> NUMBER     "number"
-%type  <ival> exp
+%token
+  END  0  "end of file"
+  ASSIGN  ":="
+  MINUS   "-"
+  PLUS    "+"
+  STAR    "*"
+  SLASH   "/"
+  LPAREN  "("
+  RPAREN  ")"
+;
 @end example
 
 @noindent
-To enable memory deallocation during error recovery, use
-@code{%destructor}.
+Since we use variant-based semantic values, @code{%union} is not used, and
+both @code{%type} and @code{%token} expect genuine types, as opposed to type
+tags.
+
+@comment file: calc++-parser.yy
+@example
+%token <std::string> IDENTIFIER "identifier"
+%token <int> NUMBER "number"
+%type  <int> exp
+@end example
+
+@noindent
+No @code{%destructor} is needed to enable memory deallocation during error
+recovery; the memory, for strings for instance, will be reclaimed by the
+regular destructors.  All the values are printed using their
+@code{operator<<}.
 
 @c FIXME: Document %printer, and mention that it takes a braced-code operand.
 @comment file: calc++-parser.yy
 @example
-%printer    @{ debug_stream () << *$$; @} "identifier"
-%destructor @{ delete $$; @} "identifier"
-
-%printer    @{ debug_stream () << $$; @} <ival>
+%printer @{ debug_stream () << $$; @} <*>;
 @end example
 
 @noindent
-The grammar itself is straightforward.
+The grammar itself is straightforward (@pxref{Location Tracking Calc, ,
+Location Tracking Calculator: @code{ltcalc}}).
 
 @comment file: calc++-parser.yy
 @example
@@ -8937,19 +9240,18 @@ assignments:
 | /* Nothing.  */        @{@};
 
 assignment:
-  "identifier" ":=" exp
-       @{ driver.variables[*$1] = $3; delete $1; @};
+  "identifier" ":=" exp @{ driver.variables[$1] = $3; @};
 
-%left '+' '-';
-%left '*' '/';
+%left "+" "-";
+%left "*" "/";
 exp:
-  exp '+' exp   @{ $$ = $1 + $3; @}
-| exp '-' exp   @{ $$ = $1 - $3; @}
-| exp '*' exp   @{ $$ = $1 * $3; @}
-| exp '/' exp   @{ $$ = $1 / $3; @}
-| '(' exp ')'   @{ $$ = $2; @}
-| "identifier"  @{ $$ = driver.variables[*$1]; delete $1; @}
-| "number"      @{ $$ = $1; @};
+  exp "+" exp   @{ $$ = $1 + $3; @}
+| exp "-" exp   @{ $$ = $1 - $3; @}
+| exp "*" exp   @{ $$ = $1 * $3; @}
+| exp "/" exp   @{ $$ = $1 / $3; @}
+| "(" exp ")"   @{ std::swap($$, $2); @}
+| "identifier"  @{ $$ = driver.variables[$1]; @}
+| "number"      @{ std::swap($$, $1); @};
 %%
 @end example
 
@@ -8960,7 +9262,7 @@ driver.
 @comment file: calc++-parser.yy
 @example
 void
-yy::calcxx_parser::error (const yy::calcxx_parser::location_type& l,
+yy::calcxx_parser::error (const location_type& l,
                           const std::string& m)
 @{
   driver.error (l, m);
@@ -8976,24 +9278,22 @@ parser's to get the set of defined tokens.
 @comment file: calc++-scanner.ll
 @example
 %@{                                            /* -*- C++ -*- */
-# include <cstdlib>
 # include <cerrno>
 # include <climits>
+# include <cstdlib>
 # include <string>
 # include "calc++-driver.hh"
 # include "calc++-parser.hh"
 
-/* Work around an incompatibility in flex (at least versions
-   2.5.31 through 2.5.33): it generates code that does
-   not conform to C89.  See Debian bug 333231
-   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+// Work around an incompatibility in flex (at least versions
+// 2.5.31 through 2.5.33): it generates code that does
+// not conform to C89.  See Debian bug 333231
+// <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.
 # undef yywrap
 # define yywrap() 1
 
-/* By default yylex returns an int; we use token_type.
-   The default yyterminate implementation returns 0, which is
-   not of token_type.  */
-#define yyterminate() return TOKEN(END)
+// The location of the current token.
+static yy::location loc;
 %@}
 @end example
 
@@ -9001,7 +9301,7 @@ parser's to get the set of defined tokens.
 Because there is no @code{#include}-like feature we don't need
 @code{yywrap}, we don't need @code{unput} either, and we parse an
 actual file, this is not an interactive session with the user.
-Finally we enable the scanner tracing features.
+Finally, we enable scanner tracing.
 
 @comment file: calc++-scanner.ll
 @example
@@ -9021,8 +9321,8 @@ blank [ \t]
 @noindent
 The following paragraph suffices to track locations accurately.  Each
 time @code{yylex} is invoked, the begin position is moved onto the end
-position.  Then when a pattern is matched, the end position is
-advanced of its width.  In case it matched ends of lines, the end
+position.  Then when a pattern is matched, its width is added to the end
+column.  When matching ends of lines, the end
 cursor is adjusted, and each time blanks are matched, the begin cursor
 is moved onto the end cursor to effectively ignore the blanks
 preceding tokens.  Comments would be treated equally.
@@ -9030,49 +9330,46 @@ preceding tokens.  Comments would be treated equally.
 @comment file: calc++-scanner.ll
 @example
 %@{
-# define YY_USER_ACTION  yylloc->columns (yyleng);
+  // Code run each time a pattern is matched.
+  # define YY_USER_ACTION  loc.columns (yyleng);
 %@}
 %%
 %@{
-  yylloc->step ();
+  // Code run each time yylex is called.
+  loc.step ();
 %@}
-@{blank@}+   yylloc->step ();
-[\n]+      yylloc->lines (yyleng); yylloc->step ();
+@{blank@}+   loc.step ();
+[\n]+      loc.lines (yyleng); loc.step ();
 @end example
 
 @noindent
-The rules are simple.  The driver is used to report errors.  It is
-convenient to use a macro to shorten
-@code{yy::calcxx_parser::token::TOK_@var{Name}} into
-@code{TOKEN(@var{Name})}; note the token prefix, @code{TOK_}.
+The rules are simple.  The driver is used to report errors.
 
 @comment file: calc++-scanner.ll
 @example
-%@{
-# define TOKEN(Name)                          \
-  yy::calcxx_parser::token::TOK_ ## Name
-%@}
-           /* Convert ints to the actual type of tokens.  */
-[-+*/()]   return yy::calcxx_parser::token_type (yytext[0]);
-":="       return TOKEN(ASSIGN);
+"-"      return yy::calcxx_parser::make_MINUS(loc);
+"+"      return yy::calcxx_parser::make_PLUS(loc);
+"*"      return yy::calcxx_parser::make_STAR(loc);
+"/"      return yy::calcxx_parser::make_SLASH(loc);
+"("      return yy::calcxx_parser::make_LPAREN(loc);
+")"      return yy::calcxx_parser::make_RPAREN(loc);
+":="     return yy::calcxx_parser::make_ASSIGN(loc);
+
 @{int@}      @{
   errno = 0;
   long n = strtol (yytext, NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
-    driver.error (*yylloc, "integer is out of range");
-  yylval->ival = n;
-  return TOKEN(NUMBER);
+    driver.error (loc, "integer is out of range");
+  return yy::calcxx_parser::make_NUMBER(n, loc);
 @}
-@{id@}       @{
-  yylval->sval = new std::string (yytext);
-  return TOKEN(IDENTIFIER);
-@}
-.          driver.error (*yylloc, "invalid character");
+@{id@}       return yy::calcxx_parser::make_IDENTIFIER(yytext, loc);
+.          driver.error (loc, "invalid character");
+<<EOF>>    return yy::calcxx_parser::make_END(loc);
 %%
 @end example
 
 @noindent
-Finally, because the scanner related driver's member function depend
+Finally, because the scanner-related driver's member-functions depend
 on the scanner's data, it is simpler to implement them in this file.
 
 @comment file: calc++-scanner.ll
@@ -9085,7 +9382,7 @@ calcxx_driver::scan_begin ()
     yyin = stdin;
   else if (!(yyin = fopen (file.c_str (), "r")))
     @{
-      error (std::string ("cannot open ") + file);
+      error (std::string ("cannot open ") + file + ": " + strerror(errno));
       exit (1);
     @}
 @}
