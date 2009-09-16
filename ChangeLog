@@ -1,5 +1,10 @@
 2009-09-16  Akim Demaille  <demaille@gostai.com>
 
+	doc: comment changes.
+	* doc/bison.texinfo: Comment changes.
+
+2009-09-16  Akim Demaille  <demaille@gostai.com>
+
 	doc: spell checking.
 	* doc/bison.texinfo: here.
 

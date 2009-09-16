@@ -4904,6 +4904,8 @@ More user feedback will help to stabilize it.)
 @item Default Value: @code{pull}
 @end itemize
 
+@c ================================================== lr.default-reductions
+
 @item lr.default-reductions
 @cindex default reductions
 @findex %define lr.default-reductions
@@ -4969,6 +4971,8 @@ without performing any extra reductions.
 @end itemize
 @end itemize
 
+@c ============================================ lr.keep-unreachable-states
+
 @item lr.keep-unreachable-states
 @findex %define lr.keep-unreachable-states
 
@@ -5011,6 +5015,8 @@ states.
 However, Bison does not compute which goto actions are useless.
 @end itemize
 @end itemize
+
+@c ================================================== lr.type
 
 @item lr.type
 @findex %define lr.type
@@ -10571,32 +10577,55 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c fill-column: 76
 @c End:
 
-@c LocalWords: texinfo setfilename settitle setchapternewpage finalout
-@c LocalWords: ifinfo smallbook shorttitlepage titlepage GPL FIXME iftex
-@c LocalWords: akim fn cp syncodeindex vr tp synindex dircategory direntry
-@c LocalWords: ifset vskip pt filll insertcopying sp ISBN Etienne Suvasa
-@c LocalWords: ifnottex yyparse detailmenu GLR RPN Calc var Decls Rpcalc
-@c LocalWords: rpcalc Lexer Expr ltcalc mfcalc yylex
-@c LocalWords: yyerror pxref LR yylval cindex dfn LALR samp gpl BNF xref
-@c LocalWords: const int paren ifnotinfo AC noindent emph expr stmt findex
-@c LocalWords: glr YYSTYPE TYPENAME prog dprec printf decl init stmtMerge
-@c LocalWords: pre STDC GNUC endif yy YY alloca lf stddef stdlib YYDEBUG
-@c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit
-@c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok
-@c LocalWords: longjmp fprintf stderr yylloc YYLTYPE cos ln
-@c LocalWords: smallexample symrec val tptr FNCT fnctptr func struct sym
-@c LocalWords: fnct putsym getsym fname arith fncts atan ptr malloc sizeof
-@c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum
-@c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype
-@c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless yynerrs
-@c LocalWords: yychar yydebug msg YYNTOKENS YYNNTS YYNRULES YYNSTATES
-@c LocalWords: cparse clex deftypefun NE defmac YYACCEPT YYABORT param
-@c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP
-@c LocalWords: YYEMPTY YYEOF YYRECOVERING yyclearin GE def UMINUS maybeword
-@c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH
-@c LocalWords: YYINITDEPTH stmnts ref stmnt initdcl maybeasm notype
-@c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args
-@c LocalWords: infile ypp yxx outfile itemx tex leaderfill
-@c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll
-@c LocalWords: nbar yytext fst snd osplit ntwo strdup AST
-@c LocalWords: YYSTACK DVI fdl printindex IELR
+@c LocalWords: texinfo setfilename settitle setchapternewpage finalout texi FSF
+@c LocalWords: ifinfo smallbook shorttitlepage titlepage GPL FIXME iftex FSF's
+@c LocalWords: akim fn cp syncodeindex vr tp synindex dircategory direntry Naur
+@c LocalWords: ifset vskip pt filll insertcopying sp ISBN Etienne Suvasa Multi
+@c LocalWords: ifnottex yyparse detailmenu GLR RPN Calc var Decls Rpcalc multi
+@c LocalWords: rpcalc Lexer Expr ltcalc mfcalc yylex defaultprec Donnelly Gotos
+@c LocalWords: yyerror pxref LR yylval cindex dfn LALR samp gpl BNF xref yypush
+@c LocalWords: const int paren ifnotinfo AC noindent emph expr stmt findex lr
+@c LocalWords: glr YYSTYPE TYPENAME prog dprec printf decl init stmtMerge POSIX
+@c LocalWords: pre STDC GNUC endif yy YY alloca lf stddef stdlib YYDEBUG yypull
+@c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit nonfree
+@c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok rr
+@c LocalWords: longjmp fprintf stderr yylloc YYLTYPE cos ln Stallman Destructor
+@c LocalWords: smallexample symrec val tptr FNCT fnctptr func struct sym enum
+@c LocalWords: fnct putsym getsym fname arith fncts atan ptr malloc sizeof Lex
+@c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum DOTDOT
+@c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype Unary
+@c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless yynerrs nonterminal
+@c LocalWords: yychar yydebug msg YYNTOKENS YYNNTS YYNRULES YYNSTATES reentrant
+@c LocalWords: cparse clex deftypefun NE defmac YYACCEPT YYABORT param yypstate
+@c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP subrange
+@c LocalWords: YYEMPTY YYEOF YYRECOVERING yyclearin GE def UMINUS maybeword loc
+@c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH inline
+@c LocalWords: YYINITDEPTH stmnts ref stmnt initdcl maybeasm notype Lookahead
+@c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args Autoconf
+@c LocalWords: infile ypp yxx outfile itemx tex leaderfill Troubleshouting sqrt
+@c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
+@c LocalWords: nbar yytext fst snd osplit ntwo strdup AST Troublereporting th
+@c LocalWords: YYSTACK DVI fdl printindex IELR nondeterministic nonterminals ps
+@c LocalWords: subexpressions declarator nondeferred config libintl postfix
+@c LocalWords: preprocessor nonpositive unary nonnumeric typedef extern rhs
+@c LocalWords: yytokentype filename destructor multicharacter nonnull EBCDIC
+@c LocalWords: lvalue nonnegative XNUM CHR chr TAGLESS tagless stdout api TOK
+@c LocalWords: destructors Reentrancy nonreentrant subgrammar nonassociative
+@c LocalWords: deffnx namespace xml goto lalr ielr runtime lex yacc yyps env
+@c LocalWords: yystate variadic Unshift NLS gettext po UTF Automake LOCALEDIR
+@c LocalWords: YYENABLE bindtextdomain Makefile DEFS CPPFLAGS DBISON DeRemer
+@c LocalWords: autoreconf Pennello multisets nondeterminism Generalised baz
+@c LocalWords: redeclare automata Dparse localedir datadir XSLT midrule Wno
+@c LocalWords: makefiles Graphviz multitable headitem hh basename Doxygen fno
+@c LocalWords: doxygen ival sval deftypemethod deallocate pos deftypemethodx
+@c LocalWords: Ctor defcv defcvx arg accessors arithmetics CPP ifndef CALCXX
+@c LocalWords: lexer's calcxx bool LPAREN RPAREN deallocation cerrno climits
+@c LocalWords: cstdlib Debian undef yywrap unput noyywrap nounput zA yyleng
+@c LocalWords: errno strtol ERANGE str strerror iostream argc argv Javadoc
+@c LocalWords: bytecode initializers superclass stype ASTNode autoboxing nls
+@c LocalWords: toString deftypeivar deftypeivarx deftypeop YYParser strictfp
+@c LocalWords: superclasses boolean getErrorVerbose setErrorVerbose deftypecv
+@c LocalWords: getDebugStream setDebugStream getDebugLevel setDebugLevel url
+@c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos
+@c LocalWords: getLVal defvar YYFAIL deftypefn deftypefnx gotos msgfmt
+@c LocalWords: subdirectory Solaris nonassociativity
