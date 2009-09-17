@@ -1,3 +1,9 @@
+2009-09-17  Akim Demaille  <demaille@gostai.com>
+
+	doc: fixes.
+	* doc/bison.texinfo: here.
+	Reported by Alex Rozenman.
+
 2009-09-16  Akim Demaille  <demaille@gostai.com>
 
 	doc: lalr1.cc and variants.

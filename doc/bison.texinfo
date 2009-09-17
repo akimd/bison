@@ -8617,7 +8617,7 @@ alias analysis must be disabled}.  Use the option
 There might be portability issues we are not aware of.
 @end itemize
 
-As far as we know, these limitations \emph{can} be alleviated.  All it takes
+As far as we know, these limitations @emph{can} be alleviated.  All it takes
 is some time and/or some talented C++ hacker willing to contribute to Bison.
 
 @node C++ Location Values
@@ -9113,7 +9113,7 @@ definition of ``symbol'', we enable @code{lex_symbol}.
 @findex %code requires
 Then come the declarations/inclusions needed by the semantic values.
 Because the parser uses the parsing driver and reciprocally, both would like
-to include the header of the other, which is, of course, insane.  These
+to include the header of the other, which is, of course, insane.  This
 mutual dependency will be broken using forward declarations.  Because the
 driver's header needs detailed knowledge about the parser class (in
 particular its inner types), it is the parser's header which will use a
