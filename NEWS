@@ -3,6 +3,31 @@ Bison News
 
 * Changes in version 2.5 (????-??-??):
 
+** Named References Support
+
+  Historically, Yacc and Bison have supported positional references
+  ($n, $$) to allow access to symbol values from inside of semantic
+  actions code.
+
+  Starting from this version, Bison can also accept named references.
+  When no ambiguity is possible, original symbol names may be used
+  as named references:
+
+    if_stmt : 'if' cond_expr 'then' then_stmt ';'
+    { $if_stmt = mk_if_stmt($cond_expr, $then_stmt); }
+
+  In the more common case, explicit names may be declared:
+
+    stmt[res] : 'if' expr[cond] 'then' stmt[then] 'else' stmt[else] ';'
+    { $res = mk_if_stmt($cond, $then, $else); }
+
+  Location information is also accessible using @name syntax. When
+  accessing symbol names containing dots or dashes, explicit bracketing
+  ($[sym.1]) must be used.
+
+  These features are experimental in this version. More user feedback
+  will help to stabilize them.
+
 ** IELR(1) and Canonical LR(1) Support
 
   IELR(1) is a minimal LR(1) parser table generation algorithm.  That
