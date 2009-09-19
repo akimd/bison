@@ -98,7 +98,9 @@ extern location const empty_location;
 void location_compute (location *loc,
 		       boundary *cur, char const *token, size_t size);
 
-void location_print (FILE *out, location loc);
+/* Print location to file. Return number of actually printed
+   characters.  */
+unsigned location_print (FILE *out, location loc);
 
 /* Return -1, 0, 1, depending whether a is before, equal, or
    after b.  */

@@ -410,7 +410,8 @@ get_at_spec(unsigned symbol_index)
 
 static void
 show_sub_messages (const char* cp, bool explicit_bracketing,
-                   int midrule_rhs_index, char dollar_or_at, bool is_warning)
+                   int midrule_rhs_index, char dollar_or_at,
+                   bool is_warning, unsigned indent)
 {
   unsigned i;
 
@@ -422,11 +423,11 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
       if (var->err == 0)
         {
           if (is_warning)
-            warn_at (var->loc, _("  refers to: %c%s at %s"),
-                     dollar_or_at, var->id, at_spec);
+            warn_at_indent (var->loc, &indent, _("refers to: %c%s at %s"),
+                            dollar_or_at, var->id, at_spec);
           else
-            complain_at (var->loc, _("  refers to: %c%s at %s"),
-                         dollar_or_at, var->id, at_spec);
+            complain_at_indent (var->loc, &indent, _("refers to: %c%s at %s"),
+                                dollar_or_at, var->id, at_spec);
         }
       else
 	{
@@ -441,7 +442,7 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
 	  /* Create the explanation message. */
 	  obstack_init (&msg_buf);
 
-	  obstack_fgrow1 (&msg_buf, "  possibly meant: %c", dollar_or_at);
+	  obstack_fgrow1 (&msg_buf, _("possibly meant: %c"), dollar_or_at);
 	  if (contains_dot_or_dash (id))
 	    obstack_fgrow1 (&msg_buf, "[%s]", id);
 	  else
@@ -450,7 +451,7 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
 
 	  if (var->err & VARIANT_HIDDEN)
 	    {
-	      obstack_fgrow1 (&msg_buf, ", hiding %c", dollar_or_at);
+	      obstack_fgrow1 (&msg_buf, _(", hiding %c"), dollar_or_at);
 	      if (contains_dot_or_dash (var->id))
 		obstack_fgrow1 (&msg_buf, "[%s]", var->id);
 	      else
@@ -458,17 +459,22 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
 	      obstack_sgrow (&msg_buf, tail);
 	    }
 
-	  obstack_fgrow1 (&msg_buf, " at %s", at_spec);
+	  obstack_fgrow1 (&msg_buf, _(" at %s"), at_spec);
 
 	  if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
-	    obstack_fgrow1 (&msg_buf, ", cannot be accessed from "
-			    "mid-rule action at $%d", midrule_rhs_index);
+            {
+              const char *format =
+                _(", cannot be accessed from mid-rule action at $%d");
+              obstack_fgrow1 (&msg_buf, format, midrule_rhs_index);
+            }
 
 	  obstack_1grow (&msg_buf, '\0');
           if (is_warning)
-            warn_at (id_loc, _("%s"), (char *) obstack_finish (&msg_buf));
+            warn_at_indent (id_loc, &indent, "%s",
+                            (char *) obstack_finish (&msg_buf));
           else
-            complain_at (id_loc, _("%s"), (char *) obstack_finish (&msg_buf));
+            complain_at_indent (id_loc, &indent, "%s",
+                                (char *) obstack_finish (&msg_buf));
 	  obstack_free (&msg_buf, 0);
 	}
     }
@@ -481,6 +487,9 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
 /* Returned from "parse_ref" when the reference
    points to LHS ($$) of the current rule or midrule. */
 #define LHS_REF (INT_MIN + 1)
+
+/* Sub-messages indent. */
+#define SUB_INDENT (4)
 
 /* Parse named or positional reference. In case of positional
    references, can return negative values for $-n "deep" stack
@@ -594,29 +603,40 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
       {
         unsigned len = (explicit_bracketing || !ref_tail_fields) ?
           cp_end - cp : ref_tail_fields - cp;
-        const char *message = "symbol not found in production";
+        unsigned indent = 0;
 
-        complain_at (text_loc, _("invalid reference: %s"), quote (text));
+        complain_at_indent (text_loc, &indent, _("invalid reference: %s"),
+                            quote (text));
+        indent += SUB_INDENT;
         if (midrule_rhs_index)
-          complain_at (rule->location, _("  %s before $%d: %.*s"),
-                       message, midrule_rhs_index, len, cp);
+          {
+            const char *format =
+              _("symbol not found in production before $%d: %.*s");
+            complain_at_indent (rule->location, &indent, format,
+                                midrule_rhs_index, len, cp);
+          }
         else
-          complain_at (rule->location, _("  %s: %.*s"),
-                       message, len, cp);
+          {
+            const char *format =
+              _("symbol not found in production: %.*s");
+            complain_at_indent (rule->location, &indent, format,
+                                len, cp);
+          }
 
         if (variant_count > 0)
           show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
-                             dollar_or_at, false);
+                             dollar_or_at, false, indent);
         return INVALID_REF;
       }
     case 1:
       {
+        unsigned indent = 0;
         if (variant_count > 1)
           {
-            warn_at (text_loc, _("misleading reference: %s"),
-                     quote (text));
+            warn_at_indent (text_loc, &indent, _("misleading reference: %s"),
+                            quote (text));
             show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
-                               dollar_or_at, true);
+                               dollar_or_at, true, indent + SUB_INDENT);
           }
         {
           unsigned symbol_index =
@@ -626,11 +646,14 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
       }
     case 2:
     default:
-      complain_at (text_loc, _("ambiguous reference: %s"),
-                   quote (text));
-      show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
-                         dollar_or_at, false);
-      return INVALID_REF;
+      {
+        unsigned indent = 0;
+        complain_at_indent (text_loc, &indent, _("ambiguous reference: %s"),
+                            quote (text));
+        show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
+                           dollar_or_at, false, indent + SUB_INDENT);
+        return INVALID_REF;
+      }
     }
 
   /* Not reachable. */

@@ -31,6 +31,13 @@ void warn (char const *format, ...)
 void warn_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
+/* Generate a message aligned by an indent.
+   When *indent == 0, assign message's indent to *indent,
+   When *indent > 0, align the message by *indent value. */
+void warn_at_indent (location loc, unsigned *indent,
+                     char const *format, ...)
+  __attribute__ ((__format__ (__printf__, 3, 4)));
+
 /** An error, but we continue and die later.  */
 
 void complain (char const *format, ...)
@@ -38,6 +45,13 @@ void complain (char const *format, ...)
 
 void complain_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
+
+/* Generate a message aligned by an indent.
+   When *indent == 0, assign message's indent to *indent,
+   When *indent > 0, align the message by *indent value. */
+void complain_at_indent (location loc, unsigned *indent,
+                         char const *format, ...)
+  __attribute__ ((__format__ (__printf__, 3, 4)));
 
 /** An incompatibility with POSIX Yacc: mapped either to warn* or
     complain* depending on yacc_flag. */

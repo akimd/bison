@@ -1,3 +1,18 @@
+2009-09-19  Alex Rozenman  <rozenman@gmail.com>
+
+	Keep sub-messages aligned. Fix strings for translation.
+	* src/location.h: (location_print): Add return value.
+	* src/location.c: (location_print): Return number of printed
+	characters.
+	* src/complain.h: Two new functions (complain_at_indent,
+	warn_at_indent).
+	* src/complain.cpp: Implement the alignment mechanism. Add new
+	static variable (indent_ptr). Use and update it (error_message,
+	complain_at_indent, warn_at_indent).
+	* src/scan-code.l: Fix strings for translations. Use new *_indent
+	functions (parse_ref, show_sub_messages).
+	* NEWS (2.5): Add an announcement about named references.
+
 2009-09-17  Akim Demaille  <demaille@gostai.com>
 
 	doc: fixes.
