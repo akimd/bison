@@ -1,3 +1,12 @@
+2009-09-23  Joel E. Denny  <jdenny@clemson.edu>
+
+	yysyntax_error: test memory management more.
+	* tests/atlocal.in (NO_WERROR_CFLAGS): New cpp macro.
+	* tests/regression.at (parse.error=verbose and
+	YYSTACK_USE_ALLOCA): New test group.
+	(parse.error=verbose overflow): New test group that reveals an
+	obscure bug.  Expected fail for now.
+
 2009-10-04  Joel E. Denny  <jdenny@clemson.edu>
 
 	benchmarks: use %debug consistently among grammars.

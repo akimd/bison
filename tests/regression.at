@@ -1260,3 +1260,212 @@ AT_BISON_CHECK([[-o input.c -Dlr.type=ielr input.y]])
 AT_CHECK([[diff -u lalr.c ielr.c]])
 
 AT_CLEANUP
+
+
+
+## -------------------------------------------- ##
+## parse.error=verbose and YYSTACK_USE_ALLOCA.  ##
+## -------------------------------------------- ##
+
+AT_SETUP([[parse.error=verbose and YYSTACK_USE_ALLOCA]])
+
+AT_DATA_GRAMMAR([input.y],
+[[%code {
+  #include <stdio.h>
+  void yyerror (char const *);
+  int yylex (void);
+  #define YYSTACK_USE_ALLOCA 1
+}
+
+%define parse.error verbose
+
+%%
+
+start: check syntax_error syntax_error ;
+
+check:
+{
+  if (128 < sizeof yymsgbuf)
+    {
+      fprintf (stderr,
+               "The initial size of yymsgbuf in yyparse has increased\n"
+               "since this test group was last updated.  As a result,\n"
+               "this test group may no longer manage to induce a\n"
+               "reallocation of the syntax error message buffer.\n"
+               "This test group must be adjusted to produce a longer\n"
+               "error message.\n");
+      YYABORT;
+    }
+}
+;
+
+// Induce a syntax error message whose total length is more than
+// sizeof yymsgbuf in yyparse.  Each token here is 64 bytes.
+syntax_error:
+  "123456789112345678921234567893123456789412345678951234567896123A"
+| "123456789112345678921234567893123456789412345678951234567896123B"
+| error 'a' 'b' 'c'
+;
+
+%%
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+yylex (void)
+{
+  /* Induce two syntax error messages (which requires full error
+     recovery by shifting 3 tokens) in order to detect any loss of the
+     reallocated buffer.  */
+  static char const *input = "abc";
+  return *input++;
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_BISON_CHECK([[-o input.c input.y]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]], [[1]], [],
+[[syntax error, unexpected 'a', expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
+syntax error, unexpected $end, expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
+]])
+
+AT_CLEANUP
+
+
+
+## ------------------------------ ##
+## parse.error=verbose overflow.  ##
+## ------------------------------ ##
+
+# Imagine the case where YYSTACK_ALLOC_MAXIMUM = YYSIZE_MAXIMUM and an
+# invocation of yysyntax_error has caused yymsg_alloc to grow to exactly
+# YYSTACK_ALLOC_MAXIMUM (perhaps because the normal doubling of size had
+# to be clipped to YYSTACK_ALLOC_MAXIMUM).  Now imagine a subsequent
+# invocation of yysyntax_error that overflows during its size
+# calculation and thus returns YYSIZE_MAXIMUM to yyparse.  Then, yyparse
+# will invoke yyerror using the old contents of yymsg.  This bug needs
+# to be fixed.
+
+AT_SETUP([[parse.error=verbose overflow]])
+
+AT_XFAIL_IF([[:]])
+
+AT_DATA_GRAMMAR([input.y],
+[[%code {
+  #include <stdio.h>
+  void yyerror (char const *);
+  int yylex (void);
+
+  /* This prevents this test case from having to induce error messages
+     large enough to overflow size_t.  */
+  #define YYSIZE_T unsigned char
+
+  /* Bring in malloc so yacc.c doesn't try to provide a malloc prototype
+     using our YYSIZE_T.  */
+  #include <stdlib.h>
+
+  /* Max depth is usually much smaller than YYSTACK_ALLOC_MAXIMUM, and
+     we don't want gcc to warn everywhere this constant would be too big
+     to make sense for our YYSIZE_T.  */
+  #define YYMAXDEPTH 100
+}
+
+%define parse.error verbose
+
+%%
+
+start: syntax_error1 check syntax_error2 ;
+
+// Induce a syntax error message whose total length causes yymsg in
+// yyparse to be reallocated to size YYSTACK_ALLOC_MAXIMUM, which
+// should be 255.  Each token here is 64 bytes.
+syntax_error1:
+  "123456789112345678921234567893123456789412345678951234567896123A"
+| "123456789112345678921234567893123456789412345678951234567896123B"
+| "123456789112345678921234567893123456789412345678951234567896123C"
+| error 'a' 'b' 'c'
+;
+
+check:
+{
+  if (yymsg_alloc != YYSTACK_ALLOC_MAXIMUM
+      || YYSTACK_ALLOC_MAXIMUM != YYSIZE_MAXIMUM
+      || YYSIZE_MAXIMUM != 255)
+    {
+      fprintf (stderr,
+               "The assumptions of this test group are no longer\n"
+               "valid, so it may no longer catch the error it was\n"
+               "designed to catch.  Specifically, the following\n"
+               "values should all be 255:\n\n");
+      fprintf (stderr, "  yymsg_alloc = %d\n", yymsg_alloc);
+      fprintf (stderr, "  YYSTACK_ALLOC_MAXIMUM = %d\n",
+               YYSTACK_ALLOC_MAXIMUM);
+      fprintf (stderr, "  YYSIZE_MAXIMUM = %d\n", YYSIZE_MAXIMUM);
+      YYABORT;
+    }
+}
+;
+
+// Now overflow.
+syntax_error2:
+  "123456789112345678921234567893123456789412345678951234567896123A"
+| "123456789112345678921234567893123456789412345678951234567896123B"
+| "123456789112345678921234567893123456789412345678951234567896123C"
+| "123456789112345678921234567893123456789412345678951234567896123D"
+| "123456789112345678921234567893123456789412345678951234567896123E"
+;
+
+%%
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+yylex (void)
+{
+  /* Induce two syntax error messages (which requires full error
+     recovery by shifting 3 tokens).  */
+  static char const *input = "abc";
+  return *input++;
+}
+
+int
+main (void)
+{
+  /* Push parsers throw away the message buffer between tokens, so skip
+     this test under maintainer-push-check.  */
+  if (YYPUSH)
+    return 77;
+  return yyparse ();
+}
+]])
+
+AT_BISON_CHECK([[-o input.c input.y]])
+
+# gcc warns about tautologies and fallacies involving comparisons for
+# unsigned char.  However, it doesn't produce these same warnings for
+# size_t and many other types when the warnings would seem to make just
+# as much sense.  We ignore the warnings.
+[CFLAGS="$NO_WERROR_CFLAGS"]
+AT_COMPILE([[input]])
+
+AT_PARSER_CHECK([[./input]], [[2]], [],
+[[syntax error, unexpected 'a', expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B or 123456789112345678921234567893123456789412345678951234567896123C
+syntax error
+memory exhausted
+]])
+
+AT_CLEANUP
