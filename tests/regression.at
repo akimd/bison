@@ -1350,15 +1350,12 @@ AT_CLEANUP
 # Imagine the case where YYSTACK_ALLOC_MAXIMUM = YYSIZE_MAXIMUM and an
 # invocation of yysyntax_error has caused yymsg_alloc to grow to exactly
 # YYSTACK_ALLOC_MAXIMUM (perhaps because the normal doubling of size had
-# to be clipped to YYSTACK_ALLOC_MAXIMUM).  Now imagine a subsequent
-# invocation of yysyntax_error that overflows during its size
-# calculation and thus returns YYSIZE_MAXIMUM to yyparse.  Then, yyparse
-# will invoke yyerror using the old contents of yymsg.  This bug needs
-# to be fixed.
+# to be clipped to YYSTACK_ALLOC_MAXIMUM).  In an old version of yacc.c,
+# a subsequent invocation of yysyntax_error that overflows during its
+# size calculation would return YYSIZE_MAXIMUM to yyparse.  Then,
+# yyparse would invoke yyerror using the old contents of yymsg.
 
 AT_SETUP([[parse.error=verbose overflow]])
-
-AT_XFAIL_IF([[:]])
 
 AT_DATA_GRAMMAR([input.y],
 [[%code {
