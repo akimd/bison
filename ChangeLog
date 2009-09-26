@@ -1,3 +1,10 @@
+2009-09-26  Joel E. Denny  <jdenny@clemson.edu>
+
+	tests: check that parse-gram.y's IELR and LALR are identical.
+	* tests/atlocal.in (abs_top_srcdir): New shell variable.
+	* tests/regression.at (parse-gram.y: LALR = IELR): New test
+	group.
+
 2009-09-19  Alex Rozenman  <rozenman@gmail.com>
 
 	Keep sub-messages aligned. Fix strings for translation.

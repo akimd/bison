@@ -42,3 +42,5 @@ CONF_JAVA='@CONF_JAVA@'
 
 # We need egrep.
 : ${EGREP='@EGREP@'}
+
+abs_top_srcdir='@abs_top_srcdir@'
