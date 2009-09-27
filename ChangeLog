@@ -1,3 +1,9 @@
+2009-09-27  Joel E. Denny  <jdenny@clemson.edu>
+
+	tests: don't abuse AT_BISON_CHECK.
+	* tests/regression.at (parse-gram.y: LALR = IELR): Move
+	additional shell commands outside of AT_BISON_CHECK.
+
 2009-09-26  Joel E. Denny  <jdenny@clemson.edu>
 
 	tests: check that parse-gram.y's IELR and LALR are identical.

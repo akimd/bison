@@ -1260,9 +1260,11 @@ AT_SETUP([[parse-gram.y: LALR = IELR]])
 
 # Avoid differences in synclines by telling bison that the output files
 # have the same name.
-cp $abs_top_srcdir/src/parse-gram.y input.y
-AT_BISON_CHECK([[-o input.c -Dlr.type=lalr input.y && mv input.c lalr.c]])
-AT_BISON_CHECK([[-o input.c -Dlr.type=ielr input.y && mv input.c ielr.c]])
+[cp $abs_top_srcdir/src/parse-gram.y input.y]
+AT_BISON_CHECK([[-o input.c -Dlr.type=lalr input.y]])
+[mv input.c lalr.c]
+AT_BISON_CHECK([[-o input.c -Dlr.type=ielr input.y]])
+[mv input.c ielr.c]
 AT_CHECK([[diff -u lalr.c ielr.c]])
 
 AT_CLEANUP
