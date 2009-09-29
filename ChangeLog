@@ -1,3 +1,11 @@
+2009-09-29  Joel E. Denny  <jdenny@clemson.edu>
+
+	Use the correct conversion specifier for size_t.
+	Reported by Jim Meyering.
+	* src/Sbitset.h (SBITSET__INDEX__CONVERSION_SPEC): New, "zu"
+	because Sbitset__Index is size_t.
+	* src/Sbitset.c (Sbitset__fprint): Use it instead of %d.
+
 2009-09-27  Joel E. Denny  <jdenny@clemson.edu>
 
 	tests: don't abuse AT_BISON_CHECK.
