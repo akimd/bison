@@ -22,6 +22,7 @@
 
 typedef char *Sbitset;
 typedef size_t Sbitset__Index;
+#define SBITSET__INDEX__CONVERSION_SPEC "zu"
 
 #define Sbitset__nbytes(NBITS)            (((NBITS)+7)/8)
 #define Sbitset__byteAddress(SELF, INDEX) (((SELF) + (INDEX)/8))
