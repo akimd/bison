@@ -1,3 +1,9 @@
+2009-10-03  Joel E. Denny  <jdenny@clemson.edu>
+
+	Remove dead code.
+	* src/symtab.c (symbol_pack): Here because every symbol's number
+	is always defined by this time.
+
 2009-10-03  Alex Rozenman  <rozenman@gmail.com>
 
 	Add additional space after periods in NEWS.
