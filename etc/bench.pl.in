@@ -246,7 +246,6 @@ sub generate_grammar_triangular ($$@)
     or die;
   print $out <<EOF;
 %error-verbose
-%debug
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -318,7 +317,9 @@ yyerror (const char *msg)
 int
 main (void)
 {
+#if YYDEBUG
   yydebug = !!getenv ("YYDEBUG");
+#endif
   return yyparse ();
 }
 EOF
@@ -542,6 +543,10 @@ main (int argc, const char **argv)
   semantic_value result = 0;
   int count = 0;
   int status;
+
+#if YYDEBUG
+  yydebug = !!getenv ("YYDEBUG");
+#endif
 
   input = fopen ("calc.input", "r");
   if (!input)
