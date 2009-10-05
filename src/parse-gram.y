@@ -160,6 +160,7 @@ static int current_prec = 0;
 ;
 
 %token BRACED_CODE     "{...}"
+%token BRACKETED_ID    "[identifier]"
 %token CHAR            "char"
 %token EPILOGUE        "epilogue"
 %token EQUAL           "="
@@ -172,7 +173,6 @@ static int current_prec = 0;
 %token TYPE            "type"
 %token TYPE_TAG_ANY    "<*>"
 %token TYPE_TAG_NONE   "<>"
-%token BRACKETED_ID    "[identifier]"
 
 %type <character> CHAR
 %printer { fputs (char_name ($$), stderr); } CHAR
@@ -186,21 +186,23 @@ static int current_prec = 0;
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
 	 braceless content.opt "{...}" "%{...%}" EPILOGUE
 
-%type <uniqstr> TYPE ID ID_COLON BRACKETED_ID variable
-%type <named_ref> named_ref.opt
-%printer { fprintf (stderr, "<%s>", $$); } TYPE
-%printer { fputs ($$, stderr); } ID variable
+%type <uniqstr> BRACKETED_ID ID ID_COLON TYPE variable
+%printer { fputs ($$, stderr); } <uniqstr>
+%printer { fprintf (stderr, "[%s]", $$); } BRACKETED_ID
 %printer { fprintf (stderr, "%s:", $$); } ID_COLON
+%printer { fprintf (stderr, "<%s>", $$); } TYPE
 
 %type <integer> INT
-%printer { fprintf (stderr, "%d", $$); } INT
+%printer { fprintf (stderr, "%d", $$); } <integer>
 
-%type <symbol> id id_colon symbol symbol.prec string_as_id
-%printer { fprintf (stderr, "%s", $$->tag); } id symbol string_as_id
+%type <symbol> id id_colon string_as_id symbol symbol.prec
+%printer { fprintf (stderr, "%s", $$->tag); } <symbol>
 %printer { fprintf (stderr, "%s:", $$->tag); } id_colon
 
 %type <assoc> precedence_declarator
 %type <list>  symbols.1 symbols.prec generic_symlist generic_symlist_item
+%type <named_ref> named_ref.opt
+
 %%
 
 input:
