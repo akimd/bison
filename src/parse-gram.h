@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.4.425-305c-dirty.  */
+/* A Bison parser, made by GNU Bison 2.4.434-7439c.  */
 
 /* Interface for Bison's Yacc-like parsers in C
 
@@ -32,7 +32,7 @@
    version 2.2 of Bison.  */
 /* "%code requires" blocks.  */
 /* Line 1624 of yacc.c  */
-#line 201 "src/parse-gram.y"
+#line 202 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
 #  define PARAM_TYPE
@@ -94,19 +94,19 @@
      PERCENT_VERBOSE = 293,
      PERCENT_YACC = 294,
      BRACED_CODE = 295,
-     CHAR = 296,
-     EPILOGUE = 297,
-     EQUAL = 298,
-     ID = 299,
-     ID_COLON = 300,
-     PERCENT_PERCENT = 301,
-     PIPE = 302,
-     PROLOGUE = 303,
-     SEMICOLON = 304,
-     TAG = 305,
-     TAG_ANY = 306,
-     TAG_NONE = 307,
-     BRACKETED_ID = 308,
+     BRACKETED_ID = 296,
+     CHAR = 297,
+     EPILOGUE = 298,
+     EQUAL = 299,
+     ID = 300,
+     ID_COLON = 301,
+     PERCENT_PERCENT = 302,
+     PIPE = 303,
+     PROLOGUE = 304,
+     SEMICOLON = 305,
+     TAG = 306,
+     TAG_ANY = 307,
+     TAG_NONE = 308,
      PERCENT_PARAM = 309,
      PERCENT_UNION = 310
    };
@@ -151,19 +151,19 @@
 #define PERCENT_VERBOSE 293
 #define PERCENT_YACC 294
 #define BRACED_CODE 295
-#define CHAR 296
-#define EPILOGUE 297
-#define EQUAL 298
-#define ID 299
-#define ID_COLON 300
-#define PERCENT_PERCENT 301
-#define PIPE 302
-#define PROLOGUE 303
-#define SEMICOLON 304
-#define TAG 305
-#define TAG_ANY 306
-#define TAG_NONE 307
-#define BRACKETED_ID 308
+#define BRACKETED_ID 296
+#define CHAR 297
+#define EPILOGUE 298
+#define EQUAL 299
+#define ID 300
+#define ID_COLON 301
+#define PERCENT_PERCENT 302
+#define PIPE 303
+#define PROLOGUE 304
+#define SEMICOLON 305
+#define TAG 306
+#define TAG_ANY 307
+#define TAG_NONE 308
 #define PERCENT_PARAM 309
 #define PERCENT_UNION 310
 
@@ -187,7 +187,7 @@ typedef union YYSTYPE
   unsigned char character;
 
 /* Line 1624 of yacc.c  */
-#line 225 "src/parse-gram.y"
+#line 226 "src/parse-gram.y"
 
   param_type param;
 
