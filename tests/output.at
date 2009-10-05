@@ -175,6 +175,10 @@ AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
 m4_define([AT_CHECK_OUTPUT_FILE_NAME],
 [AT_SETUP([Output file name: $1])
 
+# Skip if platform doesn't support file name.  For example, Cygwin
+# doesn't support file names containing ":" or "\".
+AT_CHECK([[touch "]AS_ESCAPE([$1[.tmp]])[" || exit 77]])
+
 AT_DATA_GRAMMAR([glr.y],
 [[%glr-parser
 %code {

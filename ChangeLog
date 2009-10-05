@@ -1,3 +1,12 @@
+2009-10-04  Joel E. Denny  <jdenny@clemson.edu>
+
+	tests: skip tests of file names that platform does not support.
+	Reported by Michael Raskin at
+	<http://lists.gnu.org/archive/html/bug-bison/2009-09/msg00001.html>.
+	* THANKS (Michael Raskin): Add.
+	* tests/output.at (AT_CHECK_OUTPUT_FILE_NAME): Fix.  Cygwin used
+	to fail at least for file names containing ":" or "\".
+
 2009-09-23  Joel E. Denny  <jdenny@clemson.edu>
 
 	yysyntax_error: avoid duplicate lookahead collection.
