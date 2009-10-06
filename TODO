@@ -455,6 +455,23 @@ to bison. If you're interested, I'll work on a patch.
 * Better graphics
 Equip the parser with a means to create the (visual) parse tree.
 
+* Complaint submessage indentation.
+We already have an implementation that works fairly well for named
+reference messages, but it would be nice to use it consistently for all
+submessages from Bison.  For example, the "previous definition"
+submessage or the list of correct values for a %define variable might
+look better with indentation.
+
+However, the current implementation makes the assumption that the
+location printed on the first line is not usually much shorter than the
+locations printed on the submessage lines that follow.  That assumption
+may not hold true as often for some kinds of submessages especially if
+we ever support multiple grammar files.
+
+Here's a proposal for how a new implementation might look:
+
+  http://lists.gnu.org/archive/html/bison-patches/2009-09/msg00086.html
+
 -----
 
 Copyright (C) 2001, 2002, 2003, 2004, 2006, 2008-2009 Free Software
