@@ -1,3 +1,14 @@
+2009-10-08  Joel E. Denny  <jdenny@clemson.edu>
+
+	Rename muscle_tab.* to muscle-tab.* for consistency with master.
+	* src/Makefile.am (bison_SOURCES): Update.
+	* src/getargs.c, src/ielr.c, src/lalr.c, src/main.c,
+	src/output.c, src/parse-gram.y, src/print.c, src/reader.c,
+	src/tables.c: Update include.
+	* src/muscle_tab.c, src/muscle_tab.h: Rename to...
+	* src/muscle-tab.c, src/muscle-tab.h: ... these and update
+	include.
+
 2009-10-07  Joel E. Denny  <jdenny@clemson.edu>
 
 	Minor code cleanup.

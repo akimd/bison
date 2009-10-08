@@ -48,7 +48,7 @@ bison_SOURCES =					  \
 	ielr.h ielr.c				  \
 	location.c location.h			  \
 	main.c					  \
-	muscle_tab.c muscle_tab.h		  \
+	muscle-tab.c muscle-tab.h		  \
 	named-ref.c named-ref.h			  \
 	nullable.c nullable.h			  \
 	output.c output.h			  \
