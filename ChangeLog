@@ -1,3 +1,7 @@
+2009-10-08  Joel E. Denny  <jdenny@clemson.edu>
+
+	* data/bison.m4: Update comments for rename to muscle-tab.h.
+
 2009-10-07  Joel E. Denny  <jdenny@clemson.edu>
 
 	Minor code cleanup.
