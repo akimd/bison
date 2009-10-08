@@ -364,7 +364,7 @@ m4_popdef([b4_end])dnl
 
 # b4_percent_define_get(VARIABLE)
 # -------------------------------
-# Mimic muscle_percent_define_get in ../src/muscle_tab.h exactly.  That is, if
+# Mimic muscle_percent_define_get in ../src/muscle-tab.h exactly.  That is, if
 # the %define variable VARIABLE is defined, emit its value.  Also, record
 # Bison's usage of VARIABLE by defining
 # b4_percent_define_bison_variables(VARIABLE).
@@ -378,7 +378,7 @@ m4_ifdef([b4_percent_define(]$1[)], [m4_indir([b4_percent_define(]$1[)])])])
 
 # b4_percent_define_get_loc(VARIABLE)
 # -----------------------------------
-# Mimic muscle_percent_define_get_loc in ../src/muscle_tab.h exactly.  That is,
+# Mimic muscle_percent_define_get_loc in ../src/muscle-tab.h exactly.  That is,
 # if the %define variable VARIABLE is undefined, complain fatally since that's
 # a Bison or skeleton error.  Otherwise, return its definition location in a
 # form approriate for the first two arguments of b4_warn_at, b4_complain_at, or
@@ -397,7 +397,7 @@ m4_popdef([b4_loc])],
 
 # b4_percent_define_get_syncline(VARIABLE)
 # ----------------------------------------
-# Mimic muscle_percent_define_get_syncline in ../src/muscle_tab.h exactly.
+# Mimic muscle_percent_define_get_syncline in ../src/muscle-tab.h exactly.
 # That is, if the %define variable VARIABLE is undefined, complain fatally
 # since that's a Bison or skeleton error.  Otherwise, return its definition
 # location as a b4_syncline invocation.  Don't record this as a Bison usage of
@@ -414,7 +414,7 @@ m4_define([b4_percent_define_get_syncline],
 
 # b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
-# Mimic muscle_percent_define_ifdef in ../src/muscle_tab.h exactly.  That is,
+# Mimic muscle_percent_define_ifdef in ../src/muscle-tab.h exactly.  That is,
 # if the %define variable VARIABLE is defined, expand IF-TRUE, else expand
 # IF-FALSE.  Also, record Bison's usage of VARIABLE by defining
 # b4_percent_define_bison_variables(VARIABLE).
@@ -429,7 +429,7 @@ m4_define([b4_percent_define_ifdef],
 
 # b4_percent_define_flag_if(VARIABLE, IF-TRUE, [IF-FALSE])
 # --------------------------------------------------------
-# Mimic muscle_percent_define_flag_if in ../src/muscle_tab.h exactly.  That is,
+# Mimic muscle_percent_define_flag_if in ../src/muscle-tab.h exactly.  That is,
 # if the %define variable VARIABLE is defined to "" or "true", expand IF-TRUE.
 # If it is defined to "false", expand IF-FALSE.  Complain if it is undefined
 # (a Bison or skeleton error since the default value should have been set
@@ -452,7 +452,7 @@ m4_define([b4_percent_define_flag_if],
 
 # b4_percent_define_default(VARIABLE, DEFAULT)
 # --------------------------------------------
-# Mimic muscle_percent_define_default in ../src/muscle_tab.h exactly.  That is,
+# Mimic muscle_percent_define_default in ../src/muscle-tab.h exactly.  That is,
 # if the %define variable VARIABLE is undefined, set its value to DEFAULT.
 # Don't record this as a Bison usage of VARIABLE as there's no reason to
 # suspect that the value has yet influenced the output.
@@ -470,7 +470,7 @@ m4_define([b4_percent_define_default],
 
 # b4_percent_define_check_values(VALUES)
 # --------------------------------------
-# Mimic muscle_percent_define_check_values in ../src/muscle_tab.h exactly
+# Mimic muscle_percent_define_check_values in ../src/muscle-tab.h exactly
 # except that the VALUES structure is more appropriate for M4.  That is, VALUES
 # is a list of sublists of strings.  For each sublist, the first string is the
 # name of a %define variable, and all remaining strings in that sublist are the

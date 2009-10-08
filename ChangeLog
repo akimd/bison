@@ -1,5 +1,9 @@
 2009-10-08  Joel E. Denny  <jdenny@clemson.edu>
 
+	* data/bison.m4: Update comments for rename to muscle-tab.h.
+
+2009-10-08  Joel E. Denny  <jdenny@clemson.edu>
+
 	Rename muscle_tab.* to muscle-tab.* for consistency with master.
 	* src/Makefile.am (bison_SOURCES): Update.
 	* src/getargs.c, src/ielr.c, src/lalr.c, src/main.c,
