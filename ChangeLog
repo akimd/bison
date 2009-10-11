@@ -1,3 +1,9 @@
+2009-10-11  Joel E. Denny  <jdenny@clemson.edu>
+
+	portability: use va_start and va_end in the same function.
+	* src/complain.c (error_message): Move va_end from here...
+	(ERROR_MESSAGE): ... to here.
+
 2009-10-08  Joel E. Denny  <jdenny@clemson.edu>
 
 	* data/bison.m4: Update comments for rename to muscle-tab.h.
