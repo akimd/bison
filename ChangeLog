@@ -1,3 +1,9 @@
+2009-10-11  Joel E. Denny  <jdenny@clemson.edu>
+
+	portability: use va_start and va_end in the same function.
+	* src/complain.c (error_message): Move va_end from here...
+	(ERROR_MESSAGE): ... to here.
+
 2009-10-04  Joel E. Denny  <jdenny@clemson.edu>
 
 	tests: skip tests of file names that platform does not support.
