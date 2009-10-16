@@ -1,5 +1,15 @@
 2009-10-16  Joel E. Denny  <jdenny@clemson.edu>
 
+	cleanup.
+	* src/Sbitset.c (Sbitset__new_on_obstack): Use Sbitset instead
+	of char*.
+	(Sbitset__isEmpty): Use Sbitset instead of char*.
+	* src/Sbitset.h (Sbitset): Make it a pointer to unsigned char
+	instead of char.  This helps to avoid casting errors.
+	(Sbitset__or): Use Sbitset instead of char*.
+
+2009-10-16  Joel E. Denny  <jdenny@clemson.edu>
+
 	portability: don't assume 8-bit bytes.
 	That is, use CHAR_BIT and UCHAR_MAX instead of 8 and 0xff.
 	* src/Sbitset.h (Sbitset__nbytes): Here.
