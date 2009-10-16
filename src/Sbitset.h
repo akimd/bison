@@ -24,10 +24,14 @@ typedef char *Sbitset;
 typedef size_t Sbitset__Index;
 #define SBITSET__INDEX__CONVERSION_SPEC "zu"
 
-#define Sbitset__nbytes(NBITS)            (((NBITS)+7)/8)
-#define Sbitset__byteAddress(SELF, INDEX) (((SELF) + (INDEX)/8))
-#define Sbitset__bit_mask(INDEX)          (0x1 << (7 - (INDEX)%8))
-#define Sbitset__last_byte_mask(NBITS)    (0xff << (7 - ((NBITS)-1)%8))
+#define Sbitset__nbytes(NBITS) \
+  (((NBITS) + CHAR_BIT - 1) / CHAR_BIT)
+#define Sbitset__byteAddress(SELF, INDEX) \
+  (((SELF) + (INDEX) / CHAR_BIT))
+#define Sbitset__bit_mask(INDEX) \
+  (1 << (CHAR_BIT - 1 - (INDEX) % CHAR_BIT))
+#define Sbitset__last_byte_mask(NBITS) \
+  (UCHAR_MAX << (CHAR_BIT - 1 - ((NBITS) - 1) % CHAR_BIT))
 
 /* nbits must not be 0.  */
 Sbitset Sbitset__new (Sbitset__Index nbits);
@@ -63,7 +67,7 @@ do {                                                                          \
 /* NBITS is the size of the bitset.  More than NBITS bits might be set.  */
 #define Sbitset__ones(SELF, NBITS)                                            \
 do {                                                                          \
-  memset (SELF, 0xff, Sbitset__nbytes (NBITS));                               \
+  memset (SELF, UCHAR_MAX, Sbitset__nbytes (NBITS));                          \
 } while(0)
 
 /* NBITS is the size of every bitset.  More than NBITS bits might be set.  */
@@ -80,8 +84,8 @@ do {                                                                          \
 #define SBITSET__FOR_EACH(SELF, NBITS, ITER, INDEX)                           \
   for ((ITER) = (SELF); (ITER) < (SELF) + Sbitset__nbytes (NBITS); ++(ITER))  \
     if (*(ITER) != 0)                                                         \
-      for ((INDEX) = ((ITER)-(SELF))*8;                                       \
-           (INDEX) < (NBITS) && (SELF)+(INDEX)/8 < (ITER)+1;                  \
+      for ((INDEX) = ((ITER)-(SELF))*CHAR_BIT;                                \
+           (INDEX) < (NBITS) && (SELF)+(INDEX)/CHAR_BIT < (ITER)+1;           \
            ++(INDEX))                                                         \
         if (((*ITER) & Sbitset__bit_mask (INDEX)) != 0)
 
