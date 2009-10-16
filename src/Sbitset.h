@@ -20,7 +20,7 @@
 #ifndef SBITSET_H_
 # define SBITSET_H_
 
-typedef char *Sbitset;
+typedef unsigned char *Sbitset;
 typedef size_t Sbitset__Index;
 #define SBITSET__INDEX__CONVERSION_SPEC "zu"
 
@@ -73,10 +73,10 @@ do {                                                                          \
 /* NBITS is the size of every bitset.  More than NBITS bits might be set.  */
 #define Sbitset__or(SELF, OTHER1, OTHER2, NBITS)                              \
 do {                                                                          \
-  char *ptr_self = (SELF);                                                    \
-  char *ptr_other1 = (OTHER1);                                                \
-  char *ptr_other2 = (OTHER2);                                                \
-  char *end_self = ptr_self + Sbitset__nbytes (NBITS);                        \
+  Sbitset ptr_self = (SELF);                                                  \
+  Sbitset ptr_other1 = (OTHER1);                                              \
+  Sbitset ptr_other2 = (OTHER2);                                              \
+  Sbitset end_self = ptr_self + Sbitset__nbytes (NBITS);                      \
   for (; ptr_self < end_self; ++ptr_self, ++ptr_other1, ++ptr_other2)         \
     *ptr_self = *ptr_other1 | *ptr_other2;                                    \
 } while(0)
