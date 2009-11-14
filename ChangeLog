@@ -1,3 +1,10 @@
+2009-10-03  Alex Rozenman  <rozenman@gmail.com>
+
+	Document named references.
+	* doc/bison.texinfo (Actions): Add new example and xref to
+	Using Named References node.
+	(Using Named References): New node.
+
 2009-10-16  Joel E. Denny  <jdenny@clemson.edu>
 
 	cleanup.
