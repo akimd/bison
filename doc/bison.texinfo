@@ -352,9 +352,10 @@ Copying This Manual
 @cindex introduction
 
 @dfn{Bison} is a general-purpose parser generator that converts an
-annotated context-free grammar into a deterministic or @acronym{GLR}
-parser employing @acronym{LALR}(1), @acronym{IELR}(1), or canonical
-@acronym{LR}(1) parser tables.
+annotated context-free grammar into a deterministic @acronym{LR} or
+generalized @acronym{LR} (@acronym{GLR}) parser employing
+@acronym{LALR}(1), @acronym{IELR}(1), or canonical @acronym{LR}(1)
+parser tables.
 Once you are proficient with Bison, you can use it to develop a wide
 range of language parsers, from those used in simple desk calculators to
 complex programming languages.

@@ -1,3 +1,11 @@
+2009-12-14  Joel E. Denny  <jdenny@clemson.edu>
+
+	Expand GLR acronym in summary of Bison.
+	Based on discussion with Akim Demaille starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00087.html>.
+	* doc/bison.texinfo (Introduction): Here.
+	* src/getargs.c (usage): Here.
+
 2009-10-03  Alex Rozenman  <rozenman@gmail.com>
 
 	Document named references.
