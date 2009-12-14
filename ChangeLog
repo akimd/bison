@@ -1,3 +1,10 @@
+2009-12-14  Joel E. Denny  <jdenny@clemson.edu>
+
+	Enable assertion output and --disable-assert for configure.
+	* bootstrap.conf (gnulib_modules): Add assert module.
+	* src/system.h (aver): Define as assert, and summarize the
+	discussion on this issue.
+
 2009-10-11  Joel E. Denny  <jdenny@clemson.edu>
 
 	portability: use va_start and va_end in the same function.

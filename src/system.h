@@ -123,14 +123,26 @@ typedef size_t uintptr_t;
 | Assertions.  |
 `-------------*/
 
-/* <assert.h>'s assertions are too heavyweight, and can be disabled
-   too easily, so use aver rather than assert.  */
-static inline void
-aver (bool assertion)
-{
-  if (! assertion)
-    abort ();
-}
+/* In the past, Bison defined aver to simply invoke abort in the case of
+   a failed assertion.  The rationale was that <assert.h>'s assertions
+   were too heavyweight and could be disabled too easily.  See
+   discussions at
+   <http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00080.html>
+   <http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00111.html>.
+
+   However, normal assert output can be helpful during development and
+   in bug reports from users.  Moreover, it's not clear now that
+   <assert.h>'s assertions are significantly heavyweight.  Finally, if
+   users want to experiment with disabling assertions, it's debatable
+   whether it's our responsibility to stop them.  See discussion
+   starting at
+   <http://lists.gnu.org/archive/html/bison-patches/2009-09/msg00013.html>.
+
+   For now, we use assert but we call it aver throughout Bison in case
+   we later wish to try another scheme.
+*/
+#include <assert.h>
+#define aver assert
 
 
 /*-----------.
