@@ -1,5 +1,11 @@
 2009-12-15  Joel E. Denny  <jdenny@clemson.edu>
 
+	autoconf: update to latest for fix of M4 detection.
+	Reported by Eric Blake.
+	* submodules/autoconf: Update.
+
+2009-12-15  Joel E. Denny  <jdenny@clemson.edu>
+
 	portability: use -DGNULIB_POSIXCHECK.
 	Reported by Eric Blake.  See discussions at
 	<http://lists.gnu.org/archive/html/bug-bison/2009-09/msg00008.html>
