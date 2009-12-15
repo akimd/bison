@@ -172,6 +172,9 @@ release:
   that 1. Bison compiles cleanly, 2. the parsers it produces compile
   cleanly too.
 
+- Build with -DGNULIB_POSIXCHECK.  It suggests gnulib modules that can
+  fix portability issues.
+
 - run `make maintainer-check' which:
   - runs `valgrind -q bison' to run Bison under Valgrind.
   - runs the parsers under Valgrind.

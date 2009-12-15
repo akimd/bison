@@ -1,3 +1,18 @@
+2009-12-15  Joel E. Denny  <jdenny@clemson.edu>
+
+	portability: use -DGNULIB_POSIXCHECK.
+	Reported by Eric Blake.  See discussions at
+	<http://lists.gnu.org/archive/html/bug-bison/2009-09/msg00008.html>
+	and
+	<http://lists.gnu.org/archive/html/bug-gnulib/2009-10/msg00108.html>.
+	* HACKING (Release checks): Suggest -DGNULIB_POSIXCHECK.
+	* bootstrap.conf (gnulib_modules): Add all the printf modules
+	suggested by -DGNULIB_POSIXCHECK.  Add realloc-posix as
+	suggested by -DGNULIB_POSIXCHECK for gnulib's own vasnprintf.c.
+	(excluded_files): Remove m4/printf-posix.m4.
+	* tests/atlocal.in (LIBS): As for LDADD in src/local.mk, add
+	lib/libbison.a so gnulib libraries can be linked.
+
 2009-12-14  Joel E. Denny  <jdenny@clemson.edu>
 
 	Enable assertion output and --disable-assert for configure.
