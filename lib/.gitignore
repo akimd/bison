@@ -6,6 +6,7 @@
 /Makefile.in
 /argmatch.c
 /argmatch.h
+/basename-lgpl.c
 /basename.c
 /bitrotate.h
 /c-ctype.c
@@ -18,6 +19,7 @@
 /config.h
 /config.hin
 /configmake.h
+/dirname-lgpl.c
 /dirname.c
 /dirname.h
 /dup-safer.c
@@ -28,6 +30,7 @@
 /exitfail.h
 /fd-safer.c
 /fopen-safer.c
+/fopen.c
 /getopt.c
 /getopt.h
 /getopt.in.h
@@ -73,6 +76,8 @@
 /stdint_.h
 /stdio--.h
 /stdio-safer.h
+/stdio-write.c
+/stdio.in.h
 /stdlib.h
 /stdlib.in.h
 /stdlib_.h

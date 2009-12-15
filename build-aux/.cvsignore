@@ -1,4 +1,5 @@
 announce-gen
+arg-nonnull.h
 compile
 config.guess
 config.rpath

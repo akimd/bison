@@ -90,7 +90,7 @@ sub prefix ($)
   # Prefix all the occurrence of files in rules.  If there is nothing
   # after in the :, it's probably a phony target, or a suffix rule.
   # Don't touch it.
-  s{^([\w./]+ *: *\w.*)$}
+  s{^([-\w/]+\.[-\w.]+ *: *\S.*)$}
    {prefix_words($1)}gem;
 
   # Prefix files in variables.
