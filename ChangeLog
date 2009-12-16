@@ -1,3 +1,9 @@
+2009-12-16  Joel E. Denny  <jdenny@clemson.edu>
+
+	Document gcc -Wundef fix.
+	* NEWS (2.4.2): Here.
+	* THANKS (Jonathan Nieder): Add.
+
 2009-12-15  Jonathan Nieder  <jrnieder@gmail.com>  (tiny change)
 
 	Avoid warnings from gcc -Wundef y.tab.c.
