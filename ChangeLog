@@ -1,5 +1,12 @@
 2009-12-15  Jonathan Nieder  <jrnieder@gmail.com>  (tiny change)
 
+	Simplify y.tab.c when location tracking is disabled.
+	* data/yacc.c: Do not check YYLTYPE_IS_TRIVIAL if location
+	tracking is not enabled.  Instead, unconditionally define
+	YY_LOCATION_PRINT as a no-op for backward compatibility.
+
+2009-12-15  Jonathan Nieder  <jrnieder@gmail.com>  (tiny change)
+
 	Avoid warnings from gcc -Wundef y.tab.c.
 	* data/glr.c: Check if YYENABLE_NLS and YYLTYPE_IS_TRIVIAL are
 	defined before using them.
