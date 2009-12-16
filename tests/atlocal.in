@@ -8,7 +8,7 @@
 : ${CC='@CC@'}
 
 # We want no optimization.
-CFLAGS='@O0CFLAGS@ @WARN_CFLAGS@ @WERROR_CFLAGS@'
+CFLAGS='@O0CFLAGS@ @WARN_CFLAGS_TEST@ @WERROR_CFLAGS@'
 
 # We need `config.h'.
 CPPFLAGS="-I$abs_top_builddir/lib @CPPFLAGS@"
@@ -23,7 +23,7 @@ GCC='@GCC@'
 BISON_CXX_WORKS='@BISON_CXX_WORKS@'
 
 # We want no optimization with C++, too.
-CXXFLAGS='@O0CXXFLAGS@ @WARN_CXXFLAGS@ @WERROR_CFLAGS@'
+CXXFLAGS='@O0CXXFLAGS@ @WARN_CXXFLAGS_TEST@ @WERROR_CFLAGS@'
 
 # Are special link options needed?
 LDFLAGS='@LDFLAGS@'

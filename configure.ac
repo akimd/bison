@@ -68,6 +68,12 @@ if test "${enableval}" = yes; then
   gl_WARN_ADD([-Wshadow])
   gl_WARN_ADD([-Wstrict-prototypes])
   AC_SUBST([WARN_CFLAGS])
+  # Warnings for the test suite only.
+  gl_WARN_ADD([-Wundef], [WARN_CFLAGS_TEST])
+  WARN_CXXFLAGS_TEST="$WARN_CXXFLAGS $WARN_CFLAGS_TEST"
+  WARN_CFLAGS_TEST="$WARN_CFLAGS $WARN_CFLAGS_TEST"
+  AC_SUBST([WARN_CXXFLAGS_TEST])
+  AC_SUBST([WARN_CFLAGS_TEST])
   AC_DEFINE([lint], 1, [Define to 1 if the compiler is checking for lint.])
 fi
 

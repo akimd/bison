@@ -5,8 +5,9 @@ Bison News
 
 ** Detection of GNU M4 1.4.6 or newer during configure is improved.
 
-** Warnings from gcc's -Wundef option about undefined YYENABLE_NLS and
-   YYLTYPE_IS_TRIVIAL in C/C++ parsers are now avoided.
+** Warnings from gcc's -Wundef option about undefined YYENABLE_NLS,
+   YYLTYPE_IS_TRIVIAL, and __STRICT_ANSI__ in C/C++ parsers are now
+   avoided.
 
 ** %code is now a permanent feature.
 
