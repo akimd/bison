@@ -1,4 +1,4 @@
-# m4.m4 serial 9
+# m4.m4 serial 10
 
 # Copyright (C) 2000, 2006, 2007, 2008, 2009 Free Software Foundation,
 # Inc.
@@ -29,7 +29,7 @@ AC_PATH_PROGS_FEATURE_CHECK([M4], [m4 gm4 gnum4],
       ac_snippet=change'quote(<,>)in''dir(<if''def>,mac,bug)'
       ac_snippet=${ac_snippet}pat'subst(a,\(b\)\|\(a\),\1)d'nl
       test -z "`$ac_path_M4 -F conftest.m4f </dev/null 2>&1`" \
-      && test -z "`echo $ac_snippet | $ac_path_M4 --trace=mac 2>&1`" \
+      && test -z "`AS_ECHO([$ac_snippet]) | $ac_path_M4 --trace=mac 2>&1`" \
       && test -f conftest.m4f \
       && ac_cv_path_M4=$ac_path_M4 ac_path_M4_found=:
       rm -f conftest.m4f],
