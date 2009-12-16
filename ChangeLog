@@ -1,5 +1,17 @@
 2009-12-16  Joel E. Denny  <jdenny@clemson.edu>
 
+	Add gcc's -Wundef to test suite and fix another warning from it.
+	* NEWS (2.4.2): Update description of -Wundef fix.
+	* configure.ac (WARN_CXXFLAGS_TEST): New substitution.
+	(WARN_CFLAGS_TEST): New substitution.
+	* data/glr.c: Avoid warning about __STRICT_ANSI__.
+	* tests/atlocal.in (CFLAGS): Use WARN_CFLAGS_TEST instead of
+	WARN_CFLAGS.
+	(NO_WERROR_CFLAGS): Likewise.
+	(CXXFLAGS): Use WARN_CXXFLAGS_TEST instead of WARN_CXXFLAGS.
+
+2009-12-16  Joel E. Denny  <jdenny@clemson.edu>
+
 	* data/yacc.c: Reformat m4 a little.
 
 2009-12-16  Joel E. Denny  <jdenny@clemson.edu>
