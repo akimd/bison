@@ -1,3 +1,9 @@
+2009-12-17  Joel E. Denny  <jdenny@clemson.edu>
+
+	Code cleanup.
+	* src/symtab.c, src/symtab.h (symbol_class_get_string): Remove
+	function, which is no longer used.
+
 2009-12-16  Joel E. Denny  <jdenny@clemson.edu>
 
 	Add gcc's -Wundef to test suite and fix another warning from it.

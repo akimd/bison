@@ -133,9 +133,6 @@ void symbol_make_alias (symbol *sym, symbol *str, location loc);
     Do nothing if passed 0 as \c type_name.  */
 void symbol_type_set (symbol *sym, uniqstr type_name, location loc);
 
-/** Get the \c class string associated with \c sym.  */
-const char *symbol_class_get_string (symbol *sym);
-
 /** Set the \c destructor associated with \c sym.  */
 void symbol_destructor_set (symbol *sym, code_props const *destructor);
 
