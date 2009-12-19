@@ -876,7 +876,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
         /* Return failure if at end of input.  */
         if (yyla.type == yyeof_)
           YYABORT;
-        else
+        else if (!yyempty)
           {
             yy_destroy_ ("Error: discarding", yyla);
             yyempty = true;

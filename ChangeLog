@@ -1,3 +1,10 @@
+2009-12-18  Joel E. Denny  <jdenny@clemson.edu>
+
+	lalr1.cc: don't discard non-existent lookahead on syntax error.
+	* data/lalr1.cc (parser::parse): Check yyempty first.
+	* tests/c++.at (Syntax error discarding no lookahead): New test
+	group.
+
 2009-12-17  Joel E. Denny  <jdenny@clemson.edu>
 
 	Code cleanup.

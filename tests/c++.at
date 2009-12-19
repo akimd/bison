@@ -286,8 +286,6 @@ AT_CHECK_DOXYGEN([Public])
 AT_CHECK_DOXYGEN([Private])
 
 
-
-
 ## ------------ ##
 ## Namespaces.  ##
 ## ------------ ##
@@ -368,4 +366,81 @@ AT_CHECK_NAMESPACE([[foo: :bar]], [[-]])
 AT_CHECK_NAMESPACE([[foo[3]::bar::baz]], [[-]])
 AT_CHECK_NAMESPACE([[foo::bar,baz]], [[-]])
 AT_CHECK_NAMESPACE([[foo::bar::(baz /* Pacify Emacs ) */]], [[-]])
+AT_CLEANUP
+
+
+## -------------------------------------- ##
+## Syntax error discarding no lookahead.  ##
+## -------------------------------------- ##
+
+# After a syntax error, lalr1.cc used to not check whether there
+# actually is a lookahead before discarding the lookahead.  As a result,
+# it mistakenly invoked the destructor for the previous lookahead.
+
+AT_SETUP([[Syntax error discarding no lookahead]])
+
+AT_DATA_GRAMMAR([[input.yy]],
+[[%skeleton "lalr1.cc"
+
+%code {
+  #include <string>
+  int yylex (yy::parser::semantic_type *, yy::location *);
+  #define USE(Args)
+}
+
+%defines
+%locations
+%define parse.error verbose
+
+%nonassoc 'a' ;
+
+%destructor {
+  std::cerr << "Discarding 'a'." << std::endl;
+} 'a'
+
+%%
+
+start: error-reduce consistent-error 'a' { USE ($3); };
+
+error-reduce:
+  'a' 'a' consistent-error 'a' { USE (($1, $2, $4)); }
+| 'a' error { std::cerr << "Reducing 'a'." << std::endl; USE ($1); }
+;
+
+consistent-error:
+  'a'
+| /*empty*/ %prec 'a'
+;
+
+%%
+
+int
+yylex (yy::parser::semantic_type *, yy::location *)
+{
+  static char const *input = "aa";
+  return *input++;
+}
+
+void
+yy::parser::error (const location_type &, const std::string &m)
+{
+  std::cerr << m << std::endl;
+}
+
+int
+main (void)
+{
+  yy::parser parser;
+  return parser.parse ();
+}
+]])
+AT_BISON_CHECK([[-o input.cc input.yy]], [[0]], [[]], [[ignore-nolog]])
+AT_COMPILE_CXX([[input]])
+# This used to print "Discarding 'a'." again at the end.
+AT_PARSER_CHECK([[./input]], [[1]], [[]],
+[[syntax error
+Discarding 'a'.
+Reducing 'a'.
+]])
+
 AT_CLEANUP
