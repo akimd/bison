@@ -1,3 +1,31 @@
+2009-12-20  Joel E. Denny  <jdenny@clemson.edu>
+
+	Fix handling of yychar manipulation in user semantic actions.
+	The problem was that yacc.c didn't always update the yychar
+	translation afterwards.  However, other skeletons appear to be
+	fine.  glr.c appears to already translate yychar before every
+	use.  lalr1.cc does not define yychar and does not document its
+	replacement, yyla, for users.  It does provide yyclearin, but
+	that does not manipulate yyla and thus requires no translation
+	update.  In lalr1.java, yychar is out of scope during semantic
+	actions.
+	* NEWS (2.5): Document.
+	* data/yacc.c (YYBACKUP): Don't bother translating yychar into
+	yytoken here.
+	(yyparse, yypush_parse): Instead, translate before every use of
+	yytoken, and add comments explaining this approach.
+	* tests/actions.at (Destroying lookahead assigned by semantic
+	action): New test group checking that translation happens before
+	lookahead destructor calls at parser return.  Previously,
+	incorrect destructors were called.
+	* tests/conflicts.at (%error-verbose and consistent
+	errors): New test group checking that translation happens at
+	syntax error detection before the associated verbose error
+	message and the associated lookahead destructor calls.  While
+	the destructor call is fixed by this patch, the verbose error
+	message is currently incorrect due to another bug (see
+	comments in test group), so this is an expected failure for now.
+
 2009-12-21  Joel E. Denny  <jdenny@clemson.edu>
 
 	YYFAIL: warn about uses and remove from lalr1.java.

@@ -1408,3 +1408,74 @@ AT_MATCHES_CHECK([input.c], [[// TEST:Y:1 [;{}]*\n;\}$]],  [[12]])
 AT_MATCHES_CHECK([input.c], [[#define TEST_MACRO_N \\\n\[\]"broken\\" \$ \@ \$\$ \@\$ \[\];\\\nstring;"\}]], [[2]])
 
 AT_CLEANUP
+
+
+## -------------------------------------------------- ##
+## Destroying lookahead assigned by semantic action.  ##
+## -------------------------------------------------- ##
+
+AT_SETUP([[Destroying lookahead assigned by semantic action]])
+
+AT_DATA_GRAMMAR([input.y],
+[[
+%code {
+  #include <assert.h>
+  #include <stdio.h>
+  static void yyerror (char const *);
+  static int yylex (void);
+  #define USE(Var)
+}
+
+%destructor { fprintf (stderr, "'a' destructor\n"); } 'a'
+%destructor { fprintf (stderr, "'b' destructor\n"); } 'b'
+
+%%
+
+// In a previous version of Bison, yychar assigned by the semantic
+// action below was not translated into yytoken before the lookahead was
+// discarded and thus before its destructor (selected according to
+// yytoken) was called in order to return from yyparse.  This would
+// happen even if YYACCEPT was performed in a later semantic action as
+// long as only consistent states with default reductions were visited
+// in between.  However, we leave YYACCEPT in the same semantic action
+// for this test in order to show that skeletons cannot simply translate
+// immediately after every semantic action because a semantic action
+// that has set yychar might not always return normally.  Instead,
+// skeletons must translate before every use of yytoken.
+start: 'a' accept { USE($1); } ;
+accept: /*empty*/ {
+  assert (yychar == YYEMPTY);
+  yychar = 'b';
+  YYACCEPT;
+} ;
+
+%%
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+static int
+yylex (void)
+{
+  static char const *input = "a";
+  return *input++;
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_BISON_CHECK([[-o input.c input.y]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]], [[0]], [],
+[['b' destructor
+'a' destructor
+]])
+
+AT_CLEANUP
