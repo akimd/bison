@@ -139,6 +139,130 @@ AT_CLEANUP
 
 
 
+## ------------------------------------------- ##
+## parse.error=verbose and consistent errors.  ##
+## ------------------------------------------- ##
+
+AT_SETUP([[parse.error=verbose and consistent errors]])
+
+m4_pushdef([AT_CONSISTENT_ERRORS_CHECK], [
+
+AT_BISON_CHECK([$1[ -o input.c input.y]])
+AT_COMPILE([[input]])
+
+m4_pushdef([AT_EXPECTING], [m4_if($3, [ab], [[, expecting 'a' or 'b']],
+                                  $3, [a],  [[, expecting 'a']],
+                                  $3, [b],  [[, expecting 'b']])])
+
+AT_PARSER_CHECK([[./input]], [[1]], [],
+[[syntax error, unexpected ]$2[]AT_EXPECTING[
+]])
+
+m4_popdef([AT_EXPECTING])
+
+])
+
+AT_DATA_GRAMMAR([input.y],
+[[%code {
+  #include <assert.h>
+  #include <stdio.h>
+  int yylex (void);
+  void yyerror (char const *);
+  #define USE(Var)
+}
+
+%define parse.error verbose
+
+// The point isn't to test IELR here, but state merging happens to
+// complicate the example.
+%define lr.type ielr
+
+%nonassoc 'a'
+
+// If yylval=0 here, then we know that the 'a' destructor is being
+// invoked incorrectly for the 'b' set in the semantic action below.
+// All 'a' tokens are returned by yylex, which sets yylval=1.
+%destructor {
+  if (!$$)
+    fprintf (stderr, "Wrong destructor.\n");
+} 'a'
+
+%%
+
+// The lookahead assigned by the semantic action isn't needed before
+// either error action is encountered.  In a previous version of Bison,
+// this was a problem as it meant yychar was not translated into yytoken
+// before either error action.  The second error action thus invoked a
+// destructor that it selected according to the incorrect yytoken.  The
+// first error action would have reported an incorrect unexpected token
+// except that, due to another bug, the unexpected token is not reported
+// at all because the error action is the default action in a consistent
+// state.  That bug still needs to be fixed.
+start: error-reduce consistent-error 'a' { USE ($3); } ;
+
+error-reduce:
+  'a' 'a' consistent-reduction consistent-error 'a'
+  { USE (($1, $2, $5)); }
+| 'a' error
+  { USE ($1); }
+;
+
+consistent-reduction: /*empty*/ {
+  assert (yychar == YYEMPTY);
+  yylval = 0;
+  yychar = 'b';
+} ;
+
+consistent-error:
+  'a' { USE ($1); }
+| /*empty*/ %prec 'a'
+;
+
+// Provide another context in which all rules are useful so that this
+// test case looks a little more realistic.
+start: 'b' consistent-error 'b' ;
+
+%%
+
+int
+yylex (void)
+{
+  static char const *input = "aa";
+  yylval = 1;
+  return *input++;
+}
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+# See comments in grammar for why this test doesn't succeed.
+AT_XFAIL_IF([[:]])
+
+AT_CONSISTENT_ERRORS_CHECK([], [['b']], [[none]])
+AT_CONSISTENT_ERRORS_CHECK([[-Dlr.default-reductions=consistent]],
+                           [['b']], [[none]])
+
+# Canonical LR doesn't foresee the error for 'a'!
+AT_CONSISTENT_ERRORS_CHECK([[-Dlr.default-reductions=accepting]],
+                           [[$end]], [[a]])
+AT_CONSISTENT_ERRORS_CHECK([[-Flr.type=canonical-lr]], [[$end]], [[a]])
+
+m4_popdef([AT_CONSISTENT_ERRORS_CHECK])
+
+AT_CLEANUP
+
+
+
 ## ------------------------- ##
 ## Unresolved SR Conflicts.  ##
 ## ------------------------- ##

@@ -223,6 +223,13 @@ Bison News
   were resolved with %nonassoc.  Such tokens are now properly omitted
   from the list.
 
+** Destructor calls fixed for lookaheads altered in semantic actions.
+
+  Previously for deterministic parsers in C, if a user semantic action
+  altered yychar, the parser in some cases used the old yychar value to
+  determine which destructor to call for the lookahead upon a syntax
+  error or upon parser return.  This bug has been fixed.
+
 * Changes in version 2.4.2 (????-??-??):
 
 ** Detection of GNU M4 1.4.6 or newer during configure is improved.
