@@ -310,7 +310,8 @@ b4_lexer_if([[
 
   /**
    * Returned by a Bison action in order to print an error message and start
-   * error recovery.  */
+   * error recovery.  Formally deprecated in Bison 2.4.2's NEWS entry, where
+   * a plan to phase it out is discussed.  */
   public static final int YYFAIL = 3;
 
   private static final int YYNEWSTATE = 4;
