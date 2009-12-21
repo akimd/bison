@@ -9925,11 +9925,6 @@ Start error recovery without printing an error message.
 @xref{Error Recovery}.
 @end deffn
 
-@deffn {Statement} {return YYFAIL;}
-Print an error message and start error recovery.
-@xref{Error Recovery}.
-@end deffn
-
 @deftypefn {Function} {boolean} recovering ()
 Return whether error recovery is being done. In this state, the parser
 reads token until it reaches a known state, and then restarts normal
@@ -11330,5 +11325,5 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: superclasses boolean getErrorVerbose setErrorVerbose deftypecv
 @c LocalWords: getDebugStream setDebugStream getDebugLevel setDebugLevel url
 @c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos
-@c LocalWords: getLVal defvar YYFAIL deftypefn deftypefnx gotos msgfmt
+@c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt
 @c LocalWords: subdirectory Solaris nonassociativity

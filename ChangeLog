@@ -1,3 +1,15 @@
+2009-12-21  Joel E. Denny  <jdenny@clemson.edu>
+
+	YYFAIL: deprecate.
+	* NEWS (2.4.2): Document deprecation and the phase-out plan.
+	* data/lalr1.java (parser::YYStack::YYFAIL): Add comment about
+	deprecation.
+	* data/yacc.c (YYFAIL): Likewise, and suppress warnings about
+	YYFAIL from GCC cpp's -Wunused-macros.
+	* doc/bison.texinfo (Java Action Features): Remove YYFAIL
+	documentation.
+	(LocalWords): Remove YYFAIL.
+
 2009-12-20  Joel E. Denny  <jdenny@clemson.edu>
 
 	tests: cleanup.

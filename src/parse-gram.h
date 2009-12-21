@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.4.434-7439c.  */
+/* A Bison parser, made by GNU Bison 2.4.456-ea2e.  */
 
 /* Interface for Bison's Yacc-like parsers in C
 
@@ -31,7 +31,7 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 /* "%code requires" blocks.  */
-/* Line 1624 of yacc.c  */
+/* Line 1640 of yacc.c  */
 #line 202 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
@@ -46,7 +46,7 @@
 # endif
 
 
-/* Line 1624 of yacc.c  */
+/* Line 1640 of yacc.c  */
 #line 51 "src/parse-gram.h"
 
 /* Tokens.  */
@@ -173,7 +173,7 @@
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 1624 of yacc.c  */
+/* Line 1640 of yacc.c  */
 #line 88 "src/parse-gram.y"
 
   assoc assoc;
@@ -186,13 +186,13 @@ typedef union YYSTYPE
   uniqstr uniqstr;
   unsigned char character;
 
-/* Line 1624 of yacc.c  */
+/* Line 1640 of yacc.c  */
 #line 226 "src/parse-gram.y"
 
   param_type param;
 
 
-/* Line 1624 of yacc.c  */
+/* Line 1640 of yacc.c  */
 #line 197 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
