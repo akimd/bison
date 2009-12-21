@@ -1,5 +1,13 @@
 2009-12-21  Joel E. Denny  <jdenny@clemson.edu>
 
+	YYFAIL: warn about uses and remove from lalr1.java.
+	* NEWS (2.5): Document.
+	* data/lalr1.java (parser::YYStack::YYFAIL): Rename to YYERRLAB,
+	and make it private.  Update all uses.
+	* src/scan-code.l (SC_RULE_ACTION): Implement warning.
+
+2009-12-21  Joel E. Denny  <jdenny@clemson.edu>
+
 	YYFAIL: deprecate.
 	* NEWS (2.4.2): Document deprecation and the phase-out plan.
 	* data/lalr1.java (parser::YYStack::YYFAIL): Add comment about
