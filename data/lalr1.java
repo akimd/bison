@@ -350,12 +350,9 @@ b4_lexer_if([[
    * printing an error message.  */
   public static final int YYERROR = 2;
 
-  /**
-   * Returned by a Bison action in order to print an error message and start
-   * error recovery.  Formally deprecated in Bison 2.4.2's NEWS entry, where
-   * a plan to phase it out is discussed.  */
-  public static final int YYFAIL = 3;
-
+  // Internal return codes that are not supported for user semantic
+  // actions.
+  private static final int YYERRLAB = 3;
   private static final int YYNEWSTATE = 4;
   private static final int YYDEFAULT = 5;
   private static final int YYREDUCE = 6;
@@ -574,7 +571,7 @@ m4_popdef([b4_at_dollar])])dnl
         else if ((yyn = yytable_[yyn]) <= 0)
           {
             if (yy_table_value_is_error_ (yyn))
-              label = YYFAIL;
+              label = YYERRLAB;
             else
               {
                 yyn = -yyn;
@@ -608,7 +605,7 @@ m4_popdef([b4_at_dollar])])dnl
       case YYDEFAULT:
         yyn = yydefact_[yystate];
         if (yyn == 0)
-          label = YYFAIL;
+          label = YYERRLAB;
         else
           label = YYREDUCE;
         break;
@@ -625,7 +622,7 @@ m4_popdef([b4_at_dollar])])dnl
       /*------------------------------------.
       | yyerrlab -- here on detecting error |
       `------------------------------------*/
-      case YYFAIL:
+      case YYERRLAB:
         /* If not already recovering from an error, report this error.  */
         if (yyerrstatus_ == 0)
           {
