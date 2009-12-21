@@ -9069,11 +9069,6 @@ Start error recovery without printing an error message.
 @xref{Error Recovery}.
 @end deffn
 
-@deffn {Statement} {return YYFAIL;}
-Print an error message and start error recovery. 
-@xref{Error Recovery}.
-@end deffn
-
 @deftypefn {Function} {boolean} recovering ()
 Return whether error recovery is being done. In this state, the parser
 reads token until it reaches a known state, and then restarts normal
