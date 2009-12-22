@@ -1,3 +1,8 @@
+2009-12-22  Joel E. Denny  <jdenny@clemson.edu>
+
+	Port small part of master's 11707b2b so future ports are easier.
+	* data/lalr1.java (YYParser::yysyntax_error): Untabify.
+
 2008-12-11  Akim Demaille  <demaille@gostai.com>
 
 	Simplify the i18n of the error messages.

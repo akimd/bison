@@ -686,38 +686,38 @@ m4_popdef([b4_at_dollar])])dnl
         int yyn = yypact_[yystate];
         if (yypact_ninf_ < yyn && yyn <= yylast_)
           {
-	    StringBuffer res;
+            StringBuffer res;
 
-	    /* Start YYX at -YYN if negative to avoid negative indexes in
-	       YYCHECK.  In other words, skip the first -YYN actions for this
-	       state because they are default actions.  */
-	    int yyxbegin = yyn < 0 ? -yyn : 0;
+            /* Start YYX at -YYN if negative to avoid negative indexes in
+               YYCHECK.  In other words, skip the first -YYN actions for this
+               state because they are default actions.  */
+            int yyxbegin = yyn < 0 ? -yyn : 0;
 
-	    /* Stay within bounds of both yycheck and yytname.  */
-	    int yychecklim = yylast_ - yyn + 1;
-	    int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-	    int count = 0;
-	    for (int x = yyxbegin; x < yyxend; ++x)
-	      if (yycheck_[x + yyn] == x && x != yyterror_
-		  && !yy_table_value_is_error_ (yytable_[x + yyn]))
-	        ++count;
+            /* Stay within bounds of both yycheck and yytname.  */
+            int yychecklim = yylast_ - yyn + 1;
+            int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+            int count = 0;
+            for (int x = yyxbegin; x < yyxend; ++x)
+              if (yycheck_[x + yyn] == x && x != yyterror_
+                  && !yy_table_value_is_error_ (yytable_[x + yyn]))
+                ++count;
 
-	    // FIXME: This method of building the message is not compatible
-	    // with internationalization.
-	    res = new StringBuffer ("syntax error, unexpected ");
-	    res.append (yytnamerr_ (yytname_[tok]));
-	    if (count < 5)
-	      {
-	        count = 0;
-	        for (int x = yyxbegin; x < yyxend; ++x)
-	          if (yycheck_[x + yyn] == x && x != yyterror_
-		      && !yy_table_value_is_error_ (yytable_[x + yyn]))
-		    {
-		      res.append (count++ == 0 ? ", expecting " : " or ");
-		      res.append (yytnamerr_ (yytname_[x]));
-		    }
-	      }
-	    return res.toString ();
+            // FIXME: This method of building the message is not compatible
+            // with internationalization.
+            res = new StringBuffer ("syntax error, unexpected ");
+            res.append (yytnamerr_ (yytname_[tok]));
+            if (count < 5)
+              {
+                count = 0;
+                for (int x = yyxbegin; x < yyxend; ++x)
+                  if (yycheck_[x + yyn] == x && x != yyterror_
+                      && !yy_table_value_is_error_ (yytable_[x + yyn]))
+                    {
+                      res.append (count++ == 0 ? ", expecting " : " or ");
+                      res.append (yytnamerr_ (yytname_[x]));
+                    }
+              }
+        return res.toString ();
           }
       }
 
