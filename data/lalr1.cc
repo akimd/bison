@@ -153,8 +153,7 @@ b4_user_stype
     /// Generate an error message.
     /// \param state   the state where the error occurred.
     /// \param tok     the lookahead token.
-    virtual std::string yysyntax_error_ (int yystate]dnl
-b4_error_verbose_if([, int tok])[);
+    virtual std::string yysyntax_error_ (int yystate, int tok);
 
 #if YYDEBUG
     /// \brief Report a symbol value on the debug stream.
@@ -726,8 +725,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     if (!yyerrstatus_)
       {
 	++yynerrs_;
-	error (yylloc, yysyntax_error_ (yystate]dnl
-b4_error_verbose_if([, yytoken])[));
+	error (yylloc, yysyntax_error_ (yystate, yytoken));
       }
 
     yyerror_range[0] = yylloc;
@@ -851,8 +849,8 @@ b4_error_verbose_if([, yytoken])[));
 
   // Generate an error message.
   std::string
-  ]b4_parser_class_name[::yysyntax_error_ (int yystate]dnl
-b4_error_verbose_if([, int tok])[)
+  ]b4_parser_class_name[::yysyntax_error_ (int yystate, int]dnl
+b4_error_verbose_if([ tok])[)
   {
     std::string res;
     YYUSE (yystate);

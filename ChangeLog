@@ -1,3 +1,11 @@
+2009-12-22  Joel E. Denny  <jdenny@clemson.edu>
+
+	Port small part of master's 8901f32e so future ports are easier.
+	* data/lalr1.cc (yy::parser::yysyntax_error_): Always add second
+	argument, but name it in the function definition only when
+	verbose error messages are enabled and it'll thus be used.
+	(yy::parser::parse): Update use of yysyntax_error_.
+
 2009-12-29  Joel E. Denny  <jdenny@clemson.edu>
 
 	portability: `<' and `>' are not always defined on addresses.
