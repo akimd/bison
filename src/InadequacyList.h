@@ -26,6 +26,14 @@
 #include "symtab.h"
 
 /**
+ * A unique ID assigned to every \c InadequacyList node.
+ *
+ * This must remain unsigned so that the overflow check in
+ * \c InadequacyList__new_conflict works properly.
+ */
+typedef unsigned long long int InadequacyListNodeCount;
+
+/**
  * For a conflict, each rule in the grammar can have at most one contributing
  * reduction except that rule 0 cannot have any because the reduction on rule 0
  * cannot have lookaheads.  For a conflict, exactly one shift can contribute.
@@ -66,6 +74,7 @@ typedef struct {
  */
 typedef struct InadequacyList {
   struct InadequacyList *next;
+  InadequacyListNodeCount id;
   state *manifestingState;
   ContributionIndex contributionCount;
   union {
@@ -79,6 +88,14 @@ typedef struct InadequacyList {
  *   - \c token is a token.
  *   - The size of \c actions is
  *     <tt>manifesting_state->reductions->num + 1</tt>.
+ *   - If the set of all \c InadequacyList nodes with which the new
+ *     \c InadequacyList node might be compared is currently empty, then
+ *     it is best if <tt>*node_count</t> is zero so that the node count
+ *     does not eventually overflow.  However, if that set is not
+ *     currently empty, then <tt>*node_count</tt> has not been modified
+ *     by any function except \c InadequacyList__new_conflict since the
+ *     invocation of \c InadequacyList__new_conflict that constructed
+ *     the first existing member of that set.
  * \post
  *   - \c result is a new \c InadequacyList with one node indicating that, in
  *     \c manifesting_state, the following actions are in conflict on \c token:
@@ -88,10 +105,14 @@ typedef struct InadequacyList {
  *       <tt>0 <= i < manifesting_state->reductions->num</tt>, the reduction
  *       for the rule <tt>manifesting_state->reductions->rules[i]</tt> iff
  *       <tt>actions[i]</tt> is set.
+ *   - Given any node \c n from the set of all existing
+ *     \c InadequacyList nodes with which \c result might be compared
+ *     such that <tt>n != result</tt>, then <tt>n->id < result->id</tt>.
  *   - \c result assumes responsibility for the memory of \c actions.
  */
-InadequacyList *InadequacyList__new_conflict (state *manifesting_state,
-                                              symbol *token, bitset actions);
+InadequacyList *InadequacyList__new_conflict (
+  state *manifesting_state, symbol *token, bitset actions,
+  InadequacyListNodeCount *node_count);
 
 /**
  * \post

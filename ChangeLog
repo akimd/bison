@@ -1,3 +1,28 @@
+2009-12-29  Joel E. Denny  <jdenny@clemson.edu>
+
+	portability: `<' and `>' are not always defined on addresses.
+	Specifically, don't sort objects by their memory addresses when
+	they're not allocated in the same array or other object.  Though
+	I haven't found a test case where that fails on my platform, C
+	says the behavior is undefined.
+	* src/AnnotationList.c (AnnotationList__insertInto): Remove
+	FIXME.  Use new id field of InadequacyList nodes rather than
+	their memory addresses when sorting.
+	(AnnotationList__compute_from_inadequacies): Add
+	inadequacy_list_node_count argument to pass to
+	InadequacyList__new_conflict.
+	* src/AnnotationList.h
+	(AnnotationList__compute_from_inadequacies): Update prototype
+	and documentation for new argument.
+	* src/InadequacyList.c (InadequacyList__new_conflict): Add
+	node_count argument and use it to assign a unique ID.
+	* src/InadequacyList.h (InadequacyListNodeCount): New typedef.
+	(InadequacyList): Add id field.
+	(InadequacyList__new_conflict): Update prototype and
+	documentation for new argument.
+	* src/ielr.c (ielr_compute_annotation_lists): Update
+	AnnotationList__compute_from_inadequacies invocation.
+
 2009-12-20  Joel E. Denny  <jdenny@clemson.edu>
 
 	Fix handling of yychar manipulation in user semantic actions.
