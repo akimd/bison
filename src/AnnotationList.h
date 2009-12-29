@@ -82,6 +82,15 @@ typedef struct AnnotationList
  *     computed by \c ielr_compute_auxiliary_tables.
  *   - The size of each of \c annotation_lists and \c annotation_counts is
  *     \c ::nstates.
+ *   - If no \c InadequacyList nodes are currently allocated for the
+ *     parser tables to which \c s belongs, then it is best if
+ *     <tt>*inadequacy_list_node_count</tt> is zero to avoid overflow.
+ *     Otherwise, <tt>*inadequacy_list_node_count</tt> has not been
+ *     modified by any function except
+ *     \c AnnotationList__compute_from_inadequacies since the invocation
+ *     of \c AnnotationList__compute_from_inadequacies that constructed
+ *     the first of the \c InadequacyList nodes currently allocated for
+ *     those parser tables.
  * \post
  *   - <tt>inadequacy_lists[s->number]</tt> now describes all inadequacies that
  *     manifest in \c s.
@@ -97,18 +106,14 @@ typedef struct AnnotationList
  *     \c annotations_obstackp.
  */
 void
-AnnotationList__compute_from_inadequacies (state *s,
-                                           bitsetv follow_kernel_items,
-                                           bitsetv always_follows,
-                                           state ***predecessors,
-                                           bitset **item_lookahead_sets,
-                                           InadequacyList **inadequacy_lists,
-                                           AnnotationList **annotation_lists,
-                                           AnnotationIndex *annotation_counts,
-                                           ContributionIndex
-                                             *max_contributionsp,
-                                           struct obstack
-                                             *annotations_obstackp);
+AnnotationList__compute_from_inadequacies (
+  state *s, bitsetv follow_kernel_items, bitsetv always_follows,
+  state ***predecessors, bitset **item_lookahead_sets,
+  InadequacyList **inadequacy_lists, AnnotationList **annotation_lists,
+  AnnotationIndex *annotation_counts,
+  ContributionIndex *max_contributionsp,
+  struct obstack *annotations_obstackp,
+  InadequacyListNodeCount *inadequacy_list_node_count);
 
 /**
  * \pre
