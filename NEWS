@@ -182,6 +182,16 @@ Bison News
 
 * Changes in version 2.4.2 (????-??-??):
 
+** `%prec IDENTIFIER' requires IDENTIFIER to be defined separately.
+
+  POSIX specifies that an error be reported for any identifier that does
+  not appear on the LHS of a grammar rule and that is not defined by
+  %token, %left, %right, or %nonassoc.  Bison 2.3b and later lost this
+  error report for the case when an identifier appears only after a
+  %prec directive.  It is now restored.  However, for backward
+  compatibility with recent Bison releases, it is only a warning for
+  now.  In Bison 2.5 and later, it will return to being an error.
+
 ** Detection of GNU M4 1.4.6 or newer during configure is improved.
 
 ** Warnings from gcc's -Wundef option about undefined YYENABLE_NLS,
