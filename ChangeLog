@@ -1,3 +1,16 @@
+2009-12-30  Joel E. Denny  <jdenny@clemson.edu>
+
+	POSIX: warn if %prec's token was not defined.
+	Reported by Florian Krohm at
+	<http://lists.gnu.org/archive/html/bug-bison/2009-12/msg00005.html>.
+	* NEWS (2.4.2): Document.
+	* src/reader.c (grammar_rule_check): Implement.
+	(grammar_current_rule_prec_set): Add comments explaining that we
+	here assume a %prec identifier is a token, but we still manage
+	to support POSIX.
+	* tests/input.at (%prec's token must be defined): New test
+	group.
+
 2009-12-31  Joel E. Denny  <jdenny@clemson.edu>
 
 	* HACKING (Release Procedure): Recommend a secure automake.
