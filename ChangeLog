@@ -1,3 +1,7 @@
+2009-12-31  Joel E. Denny  <jdenny@clemson.edu>
+
+	* HACKING (Release Procedure): Recommend a secure automake.
+
 2008-12-11  Akim Demaille  <demaille@gostai.com>
 
 	Propagate i18n changes into glr.c.
