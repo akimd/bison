@@ -1,3 +1,7 @@
+2009-12-31  Joel E. Denny  <jdenny@clemson.edu>
+
+	* HACKING (Release Procedure): Recommend a secure automake.
+
 2009-12-29  Joel E. Denny  <jdenny@clemson.edu>
 
 	portability: `<' and `>' are not always defined on addresses.
