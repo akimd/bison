@@ -1,3 +1,7 @@
+2009-12-31  Joel E. Denny  <jdenny@clemson.edu>
+
+	* HACKING (Release Procedure): Recommend a secure automake.
+
 2009-12-21  Joel E. Denny  <jdenny@clemson.edu>
 
 	YYFAIL: deprecate.
