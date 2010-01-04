@@ -1,4 +1,4 @@
-/* Type definitions for nondeterministic finite state machine for Bison.
+/* Type definitions for the finite state machine for Bison.
 
    Copyright (C) 1984, 1989, 2000-2004, 2007, 2009-2010 Free Software
    Foundation, Inc.
