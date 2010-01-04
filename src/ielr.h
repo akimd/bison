@@ -26,8 +26,8 @@
 
 /**
  * \pre
- *   - \c ::states is of size \c ::nstates and defines an LALR(1) parser for
- *     the users's grammar.
+ *   - \c ::states is of size \c ::nstates and defines an LR(0) parser
+ *     for the users's grammar.
  *   - \c ::ntokens is the number of tokens in the grammar.
  * \post
  *   - \c ::states is of size \c ::nstates (which might be greater than

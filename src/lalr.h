@@ -33,8 +33,7 @@
 
 /** Build the LALR(1) automaton.
 
-   Compute how to make the finite state machine deterministic; find
-   which rules need lookahead in each state, and which lookahead
+   Find which rules need lookahead in each state, and which lookahead
    tokens they accept.
 
    Also builds:

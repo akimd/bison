@@ -1,5 +1,22 @@
 2010-01-04  Joel E. Denny  <jdenny@clemson.edu>
 
+	Fix some comments concerning LR(0) versus LALR(1).
+
+	Stop equating LR(0) with nondeterminism and LALR(1) with
+	determinism.  That is, if all states are consistent, then LR(0)
+	tables are deterministic.  On the other hand, LALR(1) tables
+	might be nondeterministic before conflict resolution, and GLR
+	permits LALR(1) tables to remain nondeterministic.
+	* src/LR0.c, src/LR0.h: Here.
+	* src/lalr.c, src/lalr.h: Here.
+	* src/main.c (main): Here.
+	* src/state.c, src/state.h: Here.
+
+	* src/ielr.h (ielr): In preconditions, expect LR(0) not LALR(1)
+	parser tables.
+
+2010-01-04  Joel E. Denny  <jdenny@clemson.edu>
+
 	maint: run "make update-copyright"
 
 2009-12-30  Joel E. Denny  <jdenny@clemson.edu>

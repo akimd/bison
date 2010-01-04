@@ -1,4 +1,5 @@
-/* Generate the nondeterministic finite state machine for bison,
+/* Generate the LR(0) parser states for Bison.
+
    Copyright (C) 1984, 1986, 1989, 2000-2002, 2009-2010 Free Software
    Foundation, Inc.
 
