@@ -1,3 +1,7 @@
+2010-01-04  Joel E. Denny  <jdenny@clemson.edu>
+
+	maint: run "make update-copyright"
+
 2009-12-30  Joel E. Denny  <jdenny@clemson.edu>
 
 	POSIX: warn if %prec's token was not defined.
@@ -21585,9 +21589,8 @@
 
 	-----
 
-	Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996,
-	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-	2007, 2008, 2009 Free Software Foundation, Inc.
+	Copyright (C) 1987-1988, 1991-2010 Free Software Foundation,
+	Inc.
 
 	Copying and distribution of this file, with or without
 	modification, are permitted provided the copyright notice and this
