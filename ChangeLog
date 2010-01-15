@@ -1,3 +1,9 @@
+2010-01-15  Joel E. Denny  <jdenny@clemson.edu>
+
+	Thank the developer of the initial push parser implementation.
+	This unfortunate oversight is several years old.
+	* THANKS (Odd Arild Olsen): Add.
+
 2010-01-04  Joel E. Denny  <jdenny@clemson.edu>
 
 	maint: run "make update-copyright"
