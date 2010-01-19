@@ -234,12 +234,6 @@ The log message can be simply:
 
   Bison 2.3b
 
-** make distcheck
-Be sure to use automake 1.10.3, 1.11.1, or later in order to avoid the
-security issue described here:
-
-  http://thread.gmane.org/gmane.comp.sysutils.autotools.announce/131
-
 ** Push
 Once `make distcheck' passes, push your changes and the tag.
 `git push' without arguments will not push the tag.

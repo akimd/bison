@@ -28,11 +28,16 @@ AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2008])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
-# We don't have a file m4/Makefile.am, so we need Automake 1.8 or later.
+# Automake 1.10.3 and 1.11.1 fix a security flaw discussed here:
+#
+#   http://thread.gmane.org/gmane.comp.sysutils.autotools.announce/131
+#
+# To avoid 1.11, we make 1.11.1 the minimum version.
+#
 # We want gnits strictness only when rolling a formal release so that we can,
 # for example, run make dist at other times without being required to add a
 # bogus NEWS entry.
-AM_INIT_AUTOMAKE([1.8 dist-bzip2]
+AM_INIT_AUTOMAKE([1.11.1 dist-bzip2]
                  m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [-], [gnu], [gnits]))
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
 
