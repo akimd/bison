@@ -31,6 +31,8 @@
 /error.h
 /exitfail.c
 /exitfail.h
+/fcntl.c
+/fcntl.in.h
 /fd-safer.c
 /float+.h
 /float.in.h
