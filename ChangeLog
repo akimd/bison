@@ -1,5 +1,13 @@
 2010-01-19  Joel E. Denny  <jdenny@clemson.edu>
 
+	build: require Automake 1.11.1 to avoid a security flaw.
+	* HACKING (Release Procedure): Don't document Automake security
+	flaw here.
+	* configure.ac (AM_INIT_AUTOMAKE): Require 1.11.1, and explain
+	why here.
+
+2010-01-19  Joel E. Denny  <jdenny@clemson.edu>
+
 	gnulib: update to latest.
 
 2010-01-19  Joel E. Denny  <jdenny@clemson.edu>
