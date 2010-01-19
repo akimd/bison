@@ -1,3 +1,7 @@
+2010-01-19  Joel E. Denny  <jdenny@clemson.edu>
+
+	ChangeLog (2006-09-15): add Odd Arild Olsen's role for push.c.
+
 2010-01-15  Joel E. Denny  <jdenny@clemson.edu>
 
 	Thank the developer of the initial push parser implementation.
@@ -5661,9 +5665,12 @@
 
 2006-09-15  Bob Rossi  <bob@brasko.net>
 
+	Add support for push parsing.  Based on the original work of
+	Odd Arild Olsen <oao@fibula.no>.
 	* data/Makefile.am (dist_pkgdata_DATA): Add push.c.
 	* data/c.m4 (YYPUSH): New.
 	(b4_push_if): New macro.  Use it instead of #ifdef YYPUSH.
+	* data/push.c: New file.
 	* src/getargs.c (push_parser): New var.
 	* src/getargs.h (push_parser): New declaration.
 	* src/output.c (prepare): Add macro insertion of `push_flag'.
