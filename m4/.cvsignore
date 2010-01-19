@@ -16,6 +16,8 @@ exponentd.m4
 exponentf.m4
 exponentl.m4
 extensions.m4
+fcntl-o.m4
+fcntl.m4
 fcntl_h.m4
 float_h.m4
 fopen.m4
@@ -104,6 +106,7 @@ vfprintf-posix.m4
 vsnprintf-posix.m4
 vsnprintf.m4
 vsprintf-posix.m4
+warn-on-use.m4
 warning.m4
 warnings.m4
 wchar.m4
