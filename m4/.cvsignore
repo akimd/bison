@@ -6,11 +6,16 @@ config-h.m4
 dirname.m4
 dos.m4
 double-slash-root.m4
+dup2.m4
 environ.m4
 errno_h.m4
 error.m4
 exitfail.m4
 extensions.m4
+fcntl-o.m4
+fcntl.m4
+fcntl_h.m4
+fopen.m4
 getopt.m4
 getpagesize.m4
 gettext.m4
@@ -55,6 +60,7 @@ stddef_h.m4
 stdint.m4
 stdint_h.m4
 stdio-safer.m4
+stdio_h.m4
 stdlib_h.m4
 stpcpy.m4
 strerror.m4
@@ -68,6 +74,7 @@ threadlib.m4
 unistd-safer.m4
 unistd_h.m4
 unlocked-io.m4
+warn-on-use.m4
 warning.m4
 warnings.m4
 wchar.m4

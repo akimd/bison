@@ -1,6 +1,7 @@
 /Makefile
 /Makefile.in
 /announce-gen
+/arg-nonnull.h
 /compile
 /config.guess
 /config.rpath
@@ -18,4 +19,5 @@
 /update-copyright
 /useless-if-before-free
 /vc-list-files
+/warn-on-use.h
 /ylwrap
