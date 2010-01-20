@@ -1,5 +1,9 @@
 2010-01-19  Joel E. Denny  <jdenny@clemson.edu>
 
+	* bootstrap: Import improvements from latest gnulib.
+
+2010-01-19  Joel E. Denny  <jdenny@clemson.edu>
+
 	build: require Automake 1.11.1 to avoid a security flaw.
 	* HACKING (Release Procedure): Don't document Automake security
 	flaw here.

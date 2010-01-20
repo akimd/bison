@@ -24,12 +24,14 @@
 /dirname.h
 /dup-safer.c
 /dup2.c
+/errno.h
 /errno.in.h
 /error.c
 /error.h
 /exitfail.c
 /exitfail.h
 /fcntl.c
+/fcntl.h
 /fcntl.in.h
 /fd-safer.c
 /fopen-safer.c
@@ -73,6 +75,7 @@
 /stdbool.h
 /stdbool.in.h
 /stdbool_.h
+/stddef.h
 /stddef.in.h
 /stdint.h
 /stdint.in.h
@@ -80,6 +83,7 @@
 /stdio--.h
 /stdio-safer.h
 /stdio-write.c
+/stdio.h
 /stdio.in.h
 /stdlib.h
 /stdlib.in.h
