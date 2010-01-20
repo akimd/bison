@@ -4,6 +4,7 @@
 /.deps
 /Makefile
 /Makefile.in
+/alloca.h
 /alloca.in.h
 /argmatch.c
 /argmatch.h
@@ -26,15 +27,18 @@
 /dirname.h
 /dup-safer.c
 /dup2.c
+/errno.h
 /errno.in.h
 /error.c
 /error.h
 /exitfail.c
 /exitfail.h
 /fcntl.c
+/fcntl.h
 /fcntl.in.h
 /fd-safer.c
 /float+.h
+/float.h
 /float.in.h
 /fopen-safer.c
 /fopen.c
@@ -69,6 +73,7 @@
 /localcharset.c
 /localcharset.h
 /malloc.c
+/math.h
 /math.in.h
 /mbrtowc.c
 /mbsinit.c
@@ -107,6 +112,7 @@
 /stdbool.h
 /stdbool.in.h
 /stdbool_.h
+/stddef.h
 /stddef.in.h
 /stdint.h
 /stdint.in.h
@@ -115,6 +121,7 @@
 /stdio-impl.h
 /stdio-safer.h
 /stdio-write.c
+/stdio.h
 /stdio.in.h
 /stdlib.h
 /stdlib.in.h
