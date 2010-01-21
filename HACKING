@@ -210,9 +210,17 @@ causes it to be rejected by recent Gettext releases; please report
 these to the Translation Project.
 
 ** Update README
-Make sure the information in this file is current.  Most notably, make sure it
-recommends a version of GNU M4 that is compatible with the latest Bison
-sources.
+Make sure the information in README is current.  Most notably, make sure
+it recommends a version of GNU M4 that is compatible with the latest
+Bison sources.
+
+** Check copyright years.
+We update years in copyright statements throughout Bison once at the
+start of every year by running `make update-copyright'.  However, before
+a release, it's good to verify that it's actually been run.  Besides the
+copyright statement for each Bison file, check the copyright statements
+that the skeletons insert into generated parsers, and check all
+occurrences of PACKAGE_COPYRIGHT_YEAR in configure.ac.
 
 ** Update NEWS
 The version number, *and* the date of the release (including for
@@ -220,9 +228,6 @@ betas).
 
 ** Update ChangeLog
 Should have an entry similar to `Version 1.49b.'.
-
-** Update configure.ac
-Be sure PACKAGE_COPYRIGHT_YEAR is up-to-date.
 
 ** Tag the release
 Before Bison will build with the right version number, you must tag the release
