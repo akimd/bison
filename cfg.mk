@@ -39,7 +39,7 @@ local-checks-to-skip = changelog-check
 
 # The local directory containing the checked-out copy of gnulib used in
 # this release.  Used solely to get a date for the "announcement" target.
-gnulib_dir = $(srcdir)/../../gnulib
+gnulib_dir = $(srcdir)/gnulib
 
 bootstrap-tools = autoconf,automake,flex,gnulib
 
