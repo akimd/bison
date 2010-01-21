@@ -1,0 +1,49 @@
+#!/usr/bin/perl -0777 -pi
+
+# In configure.ac, update PACKAGE_COPYRIGHT_YEAR to the current year.
+
+# Copyright (C) 2010 Free Software Foundation, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+use strict;
+use warnings;
+
+my $this_year = $ENV{UPDATE_COPYRIGHT_YEAR};
+if (!$this_year || $this_year !~ m/^\d{4}$/)
+  {
+    my ($sec, $min, $hour, $mday, $month, $year) = localtime (time ());
+    $this_year = $year + 1900;
+  }
+my $old_re = <<'EOF'
+  (
+    MACRO\(
+    \[PACKAGE_COPYRIGHT_YEAR],
+    \s*\[
+  )
+  (\d{4})
+  (?=])
+EOF
+  ;
+foreach my $macro ("AC_DEFINE", "AC_SUBST")
+  {
+    my $this_old_re = $old_re;
+    $this_old_re =~ s/MACRO/$macro/;
+    if (!s/$this_old_re/$1$this_year/x)
+      {
+        print STDERR
+          "$ARGV: warning: failed to update PACKAGE_COPYRIGHT_YEAR in"
+          . " $macro.\n";
+      }
+  }
