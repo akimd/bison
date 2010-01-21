@@ -1,5 +1,9 @@
 2010-01-21  Joel E. Denny  <jdenny@clemson.edu>
 
+	* cfg.mk (gnulib_dir): Assume gnulib is a subdirectory.
+
+2010-01-21  Joel E. Denny  <jdenny@clemson.edu>
+
 	maint: automate PACKAGE_COPYRIGHT_YEAR update, and update it.
 	* HACKING (Release Procedure): Update notes on copyright years.
 	* Makefile.am (update-package-copyright-year): New target rule.
