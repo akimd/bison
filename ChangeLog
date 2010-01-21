@@ -1,3 +1,12 @@
+2010-01-21  Joel E. Denny  <jdenny@clemson.edu>
+
+	maint: automate PACKAGE_COPYRIGHT_YEAR update, and update it.
+	* HACKING (Release Procedure): Update notes on copyright years.
+	* Makefile.am (update-package-copyright-year): New target rule.
+	* build-aux/update-package-copyright-year: New file.
+	* cfg.mk (update-copyright): Add update-package-copyright-year
+	as a dependency.
+
 2010-01-19  Joel E. Denny  <jdenny@clemson.edu>
 
 	* bootstrap: Import improvements from latest gnulib.

@@ -21,9 +21,9 @@ AC_PREREQ(2.62)
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
         [bug-bison@gnu.org])
-AC_DEFINE([PACKAGE_COPYRIGHT_YEAR], [2008],
+AC_DEFINE([PACKAGE_COPYRIGHT_YEAR], [2010],
           [The copyright year for this package])
-AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2008])
+AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2010])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])

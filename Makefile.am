@@ -61,9 +61,11 @@ $(top_srcdir)/.version: configure
 dist-hook:
 	echo $(VERSION) > $(distdir)/.tarball-version
 
-.PHONY: update-b4-copyright
+.PHONY: update-b4-copyright update-package-copyright-year
 update-b4-copyright:
 	find data -type f                    \
 	  | grep -v -E '^data/bison.m4$$'    \
 	  | xargs $(build_aux)/$@
 	@echo 'warning: src/parse-gram.[hc] may need to be regenerated.'
+update-package-copyright-year:
+	$(build_aux)/$@ configure.ac
