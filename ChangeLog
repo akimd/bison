@@ -1,3 +1,11 @@
+2010-01-21  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Version 2.4.1a.
+	* NEWS (2.4.2): Rename to...
+	(2.4.1a): ... this for now.  Set date.
+	* configure.ac (AM_INIT_AUTOMAKE): Disable gnits for now because
+	it does not like this version name.
+
 2010-01-21  Joel E. Denny  <jdenny@clemson.edu>
 
 	* cfg.mk (gnulib_dir): Assume gnulib is a subdirectory.
