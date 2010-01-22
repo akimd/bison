@@ -1,3 +1,12 @@
+2010-01-22  Joel E. Denny  <jdenny@clemson.edu>
+
+	tests: fix missing include caught by g++ 4.4.1.
+	Reported by Tys Lefering.
+	* HACKING (Release checks): Add note about trying a recent GCC.
+	* tests/regression.at (_AT_DATA_DANCER_Y): For C++, include
+	cstdlib for abort.
+	(_AT_DATA_EXPECT2_Y): Likewise.
+
 2010-01-21  Joel E. Denny  <jdenny@clemson.edu>
 
 	* cfg.mk (gnulib_dir): Assume gnulib is a subdirectory.

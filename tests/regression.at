@@ -824,7 +824,7 @@ m4_define([_AT_DATA_DANCER_Y],
 [AT_DATA_GRAMMAR([dancer.y],
 [%{
 static int yylex (AT_LALR1_CC_IF([int *], [void]));
-AT_LALR1_CC_IF([],
+AT_LALR1_CC_IF([#include <cstdlib>],
 [#include <stdlib.h>
 #include <stdio.h>
 static void yyerror (const char *);])
@@ -952,7 +952,7 @@ m4_define([_AT_DATA_EXPECT2_Y],
 [AT_DATA_GRAMMAR([expect2.y],
 [%{
 static int yylex (AT_LALR1_CC_IF([int *], [void]));
-AT_LALR1_CC_IF([],
+AT_LALR1_CC_IF([#include <cstdlib>],
 [#include <stdio.h>
 #include <stdlib.h>
 static void yyerror (const char *);])

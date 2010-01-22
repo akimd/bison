@@ -197,6 +197,9 @@ release:
   that it does not make sense for glr.c, which should be ANSI,
   but currently is actually GNU C, nor for lalr1.cc.
 
+- Test with a very recent version of GCC for both C and C++.  Testing
+  with older versions that are still in use is nice too.
+
 
 * Release Procedure
 
