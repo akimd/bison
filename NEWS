@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-* Changes in version 2.4.1a (2010-01-22):
+* Changes in version 2.4.2 (????-??-??):
 
 ** `%prec IDENTIFIER' requires IDENTIFIER to be defined separately.
 
@@ -76,10 +76,10 @@ Bison News
   preprocessor warnings (from GCC cpp's -Wunused-macros, for example).
   To avoid Bison's future warning, such YYFAIL uses can be moved to the
   epilogue (that is, after the second `%%') in the Bison input file.  In
-  this release (2.4.1a), Bison already generates its own code to suppress
+  this release (2.4.2), Bison already generates its own code to suppress
   C preprocessor warnings for YYFAIL, so projects can remove their own
   phony uses of YYFAIL if compatibility with Bison releases prior to
-  2.4.1a is not necessary.
+  2.4.2 is not necessary.
 
 ** Internationalization.
 
