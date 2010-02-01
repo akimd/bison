@@ -1,3 +1,9 @@
+2010-02-01  Joel E. Denny  <jdenny@clemson.edu>
+
+	Code cleanup.
+	* tests/atlocal.in (abs_top_srcdir): Remove shell variable,
+	which is already defined in atconfig.
+
 2010-01-21  Joel E. Denny  <jdenny@clemson.edu>
 
 	* cfg.mk (gnulib_dir): Assume gnulib is a subdirectory.
