@@ -1,3 +1,13 @@
+2010-02-01  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	tests: link lib/libbison.a for gnulib.
+	This solves a problem on Solaris 2.7 where the testsuite needs
+	at least gnulib's rpl_fopen.  Reported by Albert Chin at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-02/msg00001.html>.
+	* NEWS (2.4.2): Document.
+	* tests/atlocal.in (LIBS): As for LDADD in src/Makefile.am, add
+	lib/libbison.a.
+
 2010-01-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Prepare for 2.4.2 release.

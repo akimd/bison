@@ -28,7 +28,7 @@ CXXFLAGS='@O0CXXFLAGS@ @WARN_CXXFLAGS_TEST@ @WERROR_CFLAGS@'
 LDFLAGS='@LDFLAGS@'
 
 # Are special libraries needed?
-LIBS='@LIBS@ @INTLLIBS@'
+LIBS="$abs_top_builddir/lib/libbison.a @LIBS@ @INTLLIBS@"
 
 # Empty if no javac was found
 CONF_JAVAC='@CONF_JAVAC@'

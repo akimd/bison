@@ -3,6 +3,9 @@ Bison News
 
 * Changes in version 2.4.2 (????-??-??):
 
+** Some portability problems in the testsuite that resulted in failures
+   on at least Solaris 2.7 have been fixed.
+
 ** `%prec IDENTIFIER' requires IDENTIFIER to be defined separately.
 
   POSIX specifies that an error be reported for any identifier that does
