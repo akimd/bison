@@ -1,3 +1,10 @@
+2010-02-04  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Update POTFILES.
+	* HACKING (Release Procedure): Add reminder about keeping
+	POTFILES files up-to-date.
+	* po/POTFILES.in (src/muscle_tab.c, src/scan-skel.l): Add.
+
 2010-02-01  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	tests: link lib/libbison.a for gnulib.

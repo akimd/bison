@@ -5,12 +5,14 @@ src/getargs.c
 src/gram.c
 src/location.c
 src/main.c
+src/muscle_tab.c
 src/parse-gram.y
 src/print.c
 src/reader.c
 src/reduce.c
 src/scan-code.l
 src/scan-gram.l
+src/scan-skel.l
 src/symlist.c
 src/symtab.c
 
