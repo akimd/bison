@@ -203,8 +203,11 @@ release:
 
 * Release Procedure
 
-** Try to get the *.pot files to the Translation Project at least one week
-before a stable release, to give them time to translate them.
+** Try to get the *.pot files to the Translation Project at least one
+week before a stable release, to give them time to translate them.
+Before generating the *.pot files, make sure that po/POTFILES.in and
+runtime-po/POTFILES.in list all files with translatable strings.
+This helps: grep -l '\<_(' *
 
 ** Tests
 See above.
