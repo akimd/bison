@@ -107,7 +107,7 @@ static void fail_for_invalid_at (char const *at);
   "@@" { obstack_1grow (&obstack_for_string, '@'); }
   "@{" { obstack_1grow (&obstack_for_string, '['); }
   "@}" { obstack_1grow (&obstack_for_string, ']'); }
-  "@`" /* Emtpy.  Useful for starting an argument
+  "@`" /* Empty.  Useful for starting an argument
           that begins with whitespace. */
   @\n  /* Empty.  */
 
@@ -174,10 +174,10 @@ skel_scanner_free (void)
   yylex_destroy ();
 }
 
-static
-void at_directive_perform (int at_directive_argc,
-                           char *at_directive_argv[],
-                           char **outnamep, int *out_linenop)
+static void
+at_directive_perform (int at_directive_argc,
+                      char *at_directive_argv[],
+                      char **outnamep, int *out_linenop)
 {
   if (0 == strcmp (at_directive_argv[0], "@basename"))
     {
@@ -276,7 +276,7 @@ void at_directive_perform (int at_directive_argc,
           xfclose (yyout);
         }
       *outnamep = xstrdup (at_directive_argv[1]);
-      output_file_name_check (*outnamep);
+      output_file_name_check (outnamep);
       yyout = xfopen (*outnamep, "w");
       *out_linenop = 1;
     }

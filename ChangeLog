@@ -1,3 +1,55 @@
+2010-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	portability: fix several issues with M4 subprocess.
+
+	M4's output pipe was not being drained upon fatal errors during
+	scan_skel.  As a result, broken-pipe messages from M4 were seen
+	on at least AIX, HP-UX, Solaris, and RHEL4, and this caused a
+	failure in the test suite.  The problem was that, on platforms
+	where the default disposition for SIGPIPE is ignore instead of
+	terminate, M4 sometimes saw fwrite fail with errno=EPIPE and
+	then reported it.  However, there's some sort of race condition,
+	because the new test group occasionally succeeded.
+	Reported by Albert Chin at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-02/msg00004.html>.
+
+	There were also problems with the test suite livelocking on
+	Tru64 5.1b.  Reported by Didier Godefroy at
+	<http://lists.gnu.org/archive/html/bug-bison/2009-05/msg00005.html>.
+	Switching to create_pipe_bidi suggested by Akim Demaille.
+
+	To attempt to solve both of these problems, switch to gnulib's
+	create_pipe_bidi and register M4 process as a slave.  Along the
+	way, clean up file name conflict handling, which was affected by
+	the broken-pipe problem before the switch.
+	* NEWS (2.4.2): Document.
+	* THANKS (Didier Godefroy): Add.
+	* bootstrap.conf (gnulib_modules): Add pipe.
+	* gnulib: Update to latest to make sure we have all the latest
+	fixes.
+	* lib/local.mk (lib_libbison_a_SOURCES): Remove subpipe.h and
+	subpipe.c.
+	* po/POTFILES.in (lib/subpipe.c): Remove.
+	* src/files.c (compute_output_file_names): Update invocations
+	of output_file_name_check.
+	(output_file_name_check): In the case that the grammar file
+	would be overwritten, use complain instead of fatal, but replace
+	the output file name with /dev/null.  Use the /dev/null solution
+	for the case of two conflicting output files as well because it
+	seems safer in case Bison one day tries to open both files at
+	the same time.
+	* src/files.h (output_file_name_check): Update prototype.
+	* src/output.c (output_skeleton): Use create_pipe_bidi and
+	wait_subprocess.  Assert that scan_skel completely drains the
+	pipe.
+	* src/scan-skel.l (at_directive_perform): Update
+	output_file_name_check invocation.
+	* tests/output.at (AT_CHECK_CONFLICTING_OUTPUT): Check that the
+	grammar file actually isn't overwritten.
+	(Conflicting output files: -o foo.y): Update expected output.
+	* tests/skeletons.at (Fatal errors but M4 continues producing
+	output): New test group.
+
 2010-02-04  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Update POTFILES.

@@ -51,9 +51,7 @@ lib_libbison_a_SOURCES +=                       \
 # Non-gnulib sources in Bison's internal library.
 lib_libbison_a_SOURCES +=                       \
   lib/get-errno.h                               \
-  lib/get-errno.c                               \
-  lib/subpipe.h                                 \
-  lib/subpipe.c
+  lib/get-errno.c
 
 # The Yacc compatibility library.
 lib_LIBRARIES = $(YACC_LIBRARY)
