@@ -37,7 +37,6 @@ timevars_sources = \
 # Non-gnulib sources in Bison's internal library.
 libbison_a_SOURCES += \
   get-errno.h get-errno.c \
-  subpipe.h subpipe.c \
   $(bitsets_sources) $(additional_bitsets_sources) $(timevars_sources)
 
 # The Yacc compatibility library.

@@ -188,6 +188,12 @@ Bison News
 
 * Changes in version 2.4.2 (????-??-??):
 
+** Some portability problems that resulted in failures and livelocks
+   in the test suite on some versions of at least Solaris, AIX, HP-UX,
+   RHEL4, and Tru64 have been fixed.  As part of those fixes, fatal
+   Bison errors no longer cause M4 to report a broken pipe on the
+   affected platforms.
+
 ** `%prec IDENTIFIER' requires IDENTIFIER to be defined separately.
 
   POSIX specifies that an error be reported for any identifier that does
