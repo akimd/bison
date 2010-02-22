@@ -137,7 +137,9 @@ AT_DATA([$1],
 foo: {};
 ]])
 
+[cp ]$1[ expout]
 AT_BISON_CHECK([$3 $1], $5, [], [$4])
+AT_CHECK([[cat $1]], [[0]], [expout])
 AT_CLEANUP
 ])
 
@@ -157,7 +159,7 @@ AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 ])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
-[foo.y: fatal error: refusing to overwrite the input file `foo.y'
+[foo.y: refusing to overwrite the input file `foo.y'
 ], 1)
 
 
