@@ -1,5 +1,12 @@
 2010-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Prepare for 2.4.2 release.
+	* NEWS (2.4.1b): Rename back to...
+	(2.4.2): ... this, and unset date.
+	* configure.ac (AM_INIT_AUTOMAKE): Re-enable gnits.
+
+2010-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Version 2.4.1b.
 	* NEWS (2.4.2): Rename to...
 	(2.4.1b): ... this for now.  Set date.
