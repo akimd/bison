@@ -38,7 +38,7 @@ AC_CONFIG_MACRO_DIR([m4])
 # for example, run make dist at other times without being required to add a
 # bogus NEWS entry.
 AM_INIT_AUTOMAKE([1.11.1 dist-bzip2]
-                 m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [-], [gnu], [gnits]))
+                 m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [-], [gnu], [gnu]))
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
 
 # Checks for the compiler.

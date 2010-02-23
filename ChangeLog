@@ -1,5 +1,13 @@
 2010-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	Version 2.4.1b.
+	* NEWS (2.4.2): Rename to...
+	(2.4.1b): ... this for now.  Set date.
+	* configure.ac (AM_INIT_AUTOMAKE): Disable gnits for now because
+	it does not like this version name.
+
+2010-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	tests: fix maintainer-xml-check for recent changes.
 	* tests/output.at (AT_CHECK_CONFLICTING_OUTPUT): Use
 	AT_BISON_CHECK_NO_XML rather than AT_BISON_CHECK because an
