@@ -146,7 +146,11 @@ foo: {};
 ]])
 
 [cp ]$1[ expout]
-AT_BISON_CHECK([$3 $1], $5, [], [$4])
+# Because an output file name conflict is still a warning, Bison exits
+# with status 0, so AT_BISON_CHECK does not realize that there may be no
+# output file against which to check the XML.  AT_BISON_CHECK_NO_XML
+# avoids that problem.
+AT_BISON_CHECK_NO_XML([$3 $1], $5, [], [$4])
 AT_CHECK([[cat $1]], [[0]], [expout])
 AT_CLEANUP
 ])
