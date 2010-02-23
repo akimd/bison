@@ -1,5 +1,13 @@
 2010-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	tests: fix maintainer-xml-check for recent changes.
+	* tests/output.at (AT_CHECK_CONFLICTING_OUTPUT): Use
+	AT_BISON_CHECK_NO_XML rather than AT_BISON_CHECK because an
+	output file whose name conflicts with a previous output file
+	is now never generated.
+
+2010-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	portability: fix several issues with M4 subprocess.
 
 	M4's output pipe was not being drained upon fatal errors during
