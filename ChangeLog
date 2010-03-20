@@ -1,5 +1,11 @@
 2010-03-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	maint: update for changes to gnulib's announce-gen.
+	* HACKING (Announce): RELEASE_TYPE=major must now be written
+	RELEASE_TYPE=stable.
+
+2010-03-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	Version 2.4.2.
 	* NEWS (2.4.2): Set version and date.  For the recent test suite
 	portability fixes, don't be so optimistic about their success
