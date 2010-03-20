@@ -1,3 +1,10 @@
+2010-03-20  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	Version 2.4.2.
+	* NEWS (2.4.2): Set version and date.  For the recent test suite
+	portability fixes, don't be so optimistic about their success
+	given the lack of feedback on the affected platforms.
+
 2010-02-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Prepare for 2.4.2 release.
