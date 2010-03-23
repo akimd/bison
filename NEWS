@@ -236,6 +236,11 @@ Bison News
   determine which destructor to call for the lookahead upon a syntax
   error or upon parser return.  This bug has been fixed.
 
+* Changes in version 2.4.3 (????-??-??):
+
+** Problems with spawning M4 on at least FreeBSD 8 and FreeBSD 9 have
+   been fixed.
+
 * Changes in version 2.4.2 (2010-03-20):
 
 ** Some portability problems that resulted in failures and livelocks
