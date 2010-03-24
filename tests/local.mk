@@ -68,7 +68,7 @@ RUN_TESTSUITE = $(TESTSUITE) -C tests $(TESTSUITEFLAGS)
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
 AUTOTESTFLAGS = -I $(top_srcdir)/tests
-$(TESTSUITE): tests/package.m4 $(TESTSUITE_AT)
+$(TESTSUITE): $(top_srcdir)/tests/package.m4 $(TESTSUITE_AT)
 	$(AUTOTEST) $(AUTOTESTFLAGS) $(top_srcdir)/tests/testsuite.at -o $@.tmp
 	mv $@.tmp $@
 

@@ -1,5 +1,13 @@
 2010-03-23  Joel E. Denny  <jdenny@ces.clemson.edu>
 
+	portability: fix for BSD make.
+	Reported by Johan van Selst at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00016.html>.
+	* tests/local.mk ($(TESTSUITE)): Qualify package.m4 in
+	this dependency list as in package.m4's target rule.
+
+2010-03-23  Joel E. Denny  <jdenny@ces.clemson.edu>
+
 	portability: fix spawning on at least FreeBSD 8 and FreeBSD 9.
 	Reported by Johan van Selst at
 	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00014.html>.
