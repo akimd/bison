@@ -1,3 +1,9 @@
+2010-03-25  Akim Demaille  <demaille@gostai.com>
+
+	tests: fix 250: parse.error=verbose overflow.
+	* tests/regression.at (parse.error=verbose overflow): Avoid the
+	double inclusion of stdlib.h as it triggers hard errors.
+
 2010-03-23  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	portability: fix for BSD make.
