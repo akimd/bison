@@ -21,7 +21,6 @@
 
 #ifndef GRAPHVIZ_H_
 # define GRAPHVIZ_H_
-# include <stdbool.h>
 
 /// Begin a Dot graph.
 /// \param fout   output stream.
