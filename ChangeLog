@@ -1,5 +1,10 @@
 2010-04-05  Akim Demaille  <demaille@gostai.com>
 
+	remove useless include.
+	* src/graphviz.h: Don't include stdbool.h.
+
+2010-04-05  Akim Demaille  <demaille@gostai.com>
+
 	graph: sign the output file.
 	* src/graphviz.c (start_graph): Issue comments about Bison.
 	Suggested by Tys Lefering.
