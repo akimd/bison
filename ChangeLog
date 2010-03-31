@@ -1,3 +1,11 @@
+2010-03-31  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	portability: fix test suite for GCC 4.5's new #error message.
+	Reported by Tys Lefering at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00030.html>.
+	* NEWS (2.4.3): Mention.
+	* tests/synclines.at (AT_TEST_SYNCLINE): Implement.
+
 2010-03-30  Akim Demaille  <demaille@gostai.com>
 
 	fix comments.
