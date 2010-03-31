@@ -241,6 +241,8 @@ Bison News
 ** Problems with spawning M4 on at least FreeBSD 8 and FreeBSD 9 have
    been fixed.
 
+** Failures in the test suite for GCC 4.5 have been fixed.
+
 * Changes in version 2.4.2 (2010-03-20):
 
 ** Some portability problems that resulted in failures and livelocks
