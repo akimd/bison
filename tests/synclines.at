@@ -71,7 +71,9 @@ AT_CHECK([[test "`cat stdout`" = 'syncline.c:1: @%:@error "1"' || exit 77]])
 AT_DATA([[input.y]], [$2])
 AT_BISON_CHECK([-o input.c input.y])
 AT_SYNCLINES_COMPILE([input.c])
-AT_CHECK([cat stdout], 0, [$3])
+# GCC 4.5 tells you the function within which #error appears, but
+# previous versions of gcc do not.
+AT_CHECK([grep -v ': In function ' stdout], 0, [$3])
 AT_CLEANUP
 ])
 
