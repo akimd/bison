@@ -689,7 +689,7 @@ b4_percent_code_get[]dnl
     symbol_type yyla;]b4_locations_if([[
 
     /// The locations where the error started and ended.
-    stack_symbol_type yyerror_range[2];]])[
+    stack_symbol_type yyerror_range[3];]])[
 
     /// $$ and @@$.
     stack_symbol_type yylhs;
@@ -866,7 +866,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       }
 
 ]b4_locations_if([[
-    yyerror_range[0].location = yyla.location;]])[
+    yyerror_range[1].location = yyla.location;]])[
     if (yyerrstatus_ == 3)
       {
 	/* If just tried and failed to reuse lookahead token after an
@@ -897,7 +897,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
        code.  */
     if (false)
       goto yyerrorlab;]b4_locations_if([[
-    yyerror_range[0].location = yystack_[yylen - 1].location;]])b4_variant_if([[
+    yyerror_range[1].location = yystack_[yylen - 1].location;]])b4_variant_if([[
     /* $$ was initialized before running the user action.  */
     yy_destroy_ ("Error: discarding", yylhs);]])[
     /* Do not reclaim the symbols of the rule which action triggered
@@ -931,14 +931,14 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
           if (yystack_.size () == 1)
             YYABORT;
 ]b4_locations_if([[
-          yyerror_range[0].location = yystack_[0].location;]])[
+          yyerror_range[1].location = yystack_[0].location;]])[
           yy_destroy_ ("Error: popping", yystack_[0]);
           yypop_ ();
           YY_STACK_PRINT ();
         }
 ]b4_locations_if([[
-      yyerror_range[1].location = yyla.location;
-      YYLLOC_DEFAULT (error_token.location, (yyerror_range - 1), 2);]])[
+      yyerror_range[2].location = yyla.location;
+      YYLLOC_DEFAULT (error_token.location, yyerror_range, 2);]])[
 
       /* Shift the error token.  */
       error_token.state = yyn;
