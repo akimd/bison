@@ -1,3 +1,16 @@
+2010-04-03  Joel E. Denny  <jdenny@ces.clemson.edu>
+
+	portability: fix pointer arithmetic to conform to C standard.
+	Reported by Tys Lefering at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00035.html>.
+	This fix is already implemented in glr.c and does not apply to
+	lalr1.java.
+	* data/lalr1.cc (yy::parser::parse): Increase size of
+	yyerror_range and adjust subscripting so you don't have to
+	subtract one from the beginning of the array.
+	* data/yacc.c (b4_declare_parser_state_variables,
+	yyparse, yypush_parse): Likewise.
+
 2010-03-31  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	portability: fix test suite for GCC 4.5's new #error message.
