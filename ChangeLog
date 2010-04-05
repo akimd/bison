@@ -1,3 +1,9 @@
+2010-04-05  Akim Demaille  <demaille@gostai.com>
+
+	graph: sign the output file.
+	* src/graphviz.c (start_graph): Issue comments about Bison.
+	Suggested by Tys Lefering.
+
 2010-03-31  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	portability: fix test suite for GCC 4.5's new #error message.
