@@ -149,15 +149,12 @@ dnl FIXME: This is wrong, we want computed header guards.
 #include <stdexcept>
 #include <string>
 #include <iostream>
+]b4_locations_if([#include "location.hh"])[
 #include "stack.hh"
 
 ]b4_namespace_open[
-]b4_locations_if([  class position;
-  class location;])[
 ]b4_variant_if([b4_variant_define])[
 ]b4_namespace_close[
-
-]b4_locations_if([#include "location.hh"])[
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
