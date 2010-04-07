@@ -46,14 +46,8 @@ dnl FIXME: This is wrong, we want computed header guards.
 
 #include <string>
 #include <iostream>
-#include "stack.hh"
-
-]b4_namespace_open[
-  class position;
-  class location;
-]b4_namespace_close[
-
 #include "location.hh"
+#include "stack.hh"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG

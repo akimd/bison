@@ -229,16 +229,10 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 #include <string>
 #include <iostream>
+#include "location.hh"
 
 /* Using locations.  */
 #define YYLSP_NEEDED ]b4_locations_flag[
-
-]b4_namespace_open[
-  class position;
-  class location;
-]b4_namespace_close[
-
-#include "location.hh"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
