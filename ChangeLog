@@ -1,3 +1,14 @@
+2010-04-10  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	tests: fix for newer Sun Studio C++.
+	Reported by Dagobert Michelsen at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00023.html>.
+	* THANKS (Dagobert Michelsen): Add.
+	* configure.ac (AC_PREREQ): Set to 2.64 so we get the latest
+	Autoconf macro for handling the restrict keyword.
+	* gnulib: Update to latest, which no longer overrides that macro
+	from Autoconf.
+
 2010-04-03  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	portability: fix pointer arithmetic to conform to C standard.
