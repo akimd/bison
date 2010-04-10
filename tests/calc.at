@@ -346,7 +346,8 @@ main (int argc, const char **argv)
 ]AT_SKEL_CC_IF([], [m4_bmatch([$4], [%debug],
 [  yydebug = 1;])])[
   status = yyparse (]AT_PARAM_IF([[&result, &count]])[);
-  fclose (input);
+  if (fclose (input))
+    perror ("fclose");
   if (global_result != result)
     abort ();
   if (global_count != count)
