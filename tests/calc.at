@@ -176,7 +176,7 @@ typedef int semantic_value;
 /* The input.  */
 extern FILE *input;]AT_SKEL_CC_IF([[
 #ifndef YYLTYPE
-# define YYLTYPE ]AT_NAME_PREFIX[::location
+# define YYLTYPE ]AT_NAME_PREFIX[::parser::location_type
 #endif
 #define first_line   begin.line
 #define first_column begin.column
@@ -269,7 +269,7 @@ exp:
 ]AT_SKEL_CC_IF(
 [/* A C++ error reporting function.  */
 void
-AT_NAME_PREFIX::parser::error (AT_LOCATION_IF([const location& l, ])const std::string& m)
+AT_NAME_PREFIX::parser::error (AT_LOCATION_IF([const location_type& l, ])const std::string& m)
 {
   std::cerr << AT_LOCATION_IF([l << ": " << ])m << std::endl;
 }
