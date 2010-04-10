@@ -1,5 +1,10 @@
 2010-04-13  Akim Demaille  <demaille@gostai.com>
 
+	formatting changes.
+	* tests/calc.at: Formatting changes.
+
+2010-04-13  Akim Demaille  <demaille@gostai.com>
+
 	lalr1.cc: remove useless forward declaration.
 	* data/lalr1.cc: Include location.hh before stack.hh.
 	Remove the useless forward declarations of position and location.
