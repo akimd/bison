@@ -1,5 +1,10 @@
 2010-04-13  Akim Demaille  <demaille@gostai.com>
 
+	tests: check fclose's return value.
+	* tests/calc.at (_AT_DATA_CALC_Y): Check fclose's return status.
+
+2010-04-13  Akim Demaille  <demaille@gostai.com>
+
 	tests: don't depend on the actual location type.
 	* tests/calc.at: Use yy::parser::location_type rather than
 	yy::location, since the former is always right, and might point to
