@@ -123,7 +123,7 @@ int
     }
 
 ]AT_LOCATION_IF([
- AT_LOC.first_column = AT_LOC.last_column;
+  AT_LOC.first_column = AT_LOC.last_column;
   AT_LOC.first_line   = AT_LOC.last_line;
 ])[
 
@@ -158,7 +158,8 @@ AT_DATA_GRAMMAR([calc.y],
 ]$4
 AT_SKEL_CC_IF(
 [%define global_tokens_and_yystype])[
-%code requires {
+%code requires
+{
 /* Exercise pre-prologue dependency to %union.  */
 typedef int semantic_value;
 }
@@ -169,7 +170,8 @@ typedef int semantic_value;
   semantic_value ival;
 };
 
-%code provides {
+%code provides
+{
 #include <stdio.h>
 /* The input.  */
 extern FILE *input;]AT_SKEL_CC_IF([[
@@ -182,7 +184,8 @@ extern FILE *input;]AT_SKEL_CC_IF([[
 #define last_column  end.column]])[
 }
 
-%code {
+%code
+{
 #include <stdlib.h>
 #include <string.h>
 #if HAVE_UNISTD_H
@@ -272,6 +275,7 @@ AT_NAME_PREFIX::parser::error (const location& l, const std::string& m)
   std::cerr << AT_LOCATION_IF([l << ": " << ])m << std::endl;
 }
 
+/* A C++ yyparse that simulates the C signature.  */
 int
 yyparse (AT_PARAM_IF([semantic_value *result, int *count]))
 {
@@ -282,7 +286,8 @@ yyparse (AT_PARAM_IF([semantic_value *result, int *count]))
   return parser.parse ();
 }
 ],
-[static void
+[/* A C error reporting function.  */
+static void
 yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])
          AT_PARAM_IF([semantic_value *result, int *count, ])
          const char *s)
@@ -315,6 +320,7 @@ power (int base, int exponent)
 }
 
 
+/* A C main function.  */
 int
 main (int argc, const char **argv)
 {
