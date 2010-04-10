@@ -15,8 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# testsuite -C appears in 2.62.
-AC_PREREQ(2.62)
+# In order for some versions of Sun Studio to compile our C++ test cases
+# correctly, we need Autoconf 2.64 or better to handle the restrict
+# keyword in at least string.h from gnulib.
+AC_PREREQ(2.64)
 
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
