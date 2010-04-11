@@ -243,6 +243,9 @@ Bison News
 
 ** Failures in the test suite for GCC 4.5 have been fixed.
 
+** Failures in the test suite for some versions of Sun Studio C++ have
+   been fixed.
+
 * Changes in version 2.4.2 (2010-03-20):
 
 ** Some portability problems that resulted in failures and livelocks
