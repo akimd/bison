@@ -1,5 +1,15 @@
 2010-04-13  Akim Demaille  <demaille@gostai.com>
 
+	test location_type.
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS):
+	Define AT_LOCATION_TYPE_IF.
+	(_AT_BISON_OPTION_POPDEFS): Undefine AT_LOCATION_TYPE_IF.
+	* tests/calc.at (_AT_DATA_CALC_Y): When %define location_type is
+	used, provide a user location type and use it.
+	(Simple LALR1 C++ Calculator): Add a test case for location_type.
+
+2010-04-13  Akim Demaille  <demaille@gostai.com>
+
 	tests: check fclose's return value.
 	* tests/calc.at (_AT_DATA_CALC_Y): Check fclose's return status.
 
