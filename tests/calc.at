@@ -55,11 +55,11 @@ get_char (]AT_LEX_FORMALS[)
   last_yylloc = AT_LOC;
   if (res == '\n')
     {
-      AT_LOC.last_line++;
-      AT_LOC.last_column = 1;
+      AT_LOC_LAST_LINE++;
+      AT_LOC_LAST_COLUMN = 1;
     }
   else
-    AT_LOC.last_column++;
+    AT_LOC_LAST_COLUMN++;
 ])[
   return res;
 }
@@ -117,22 +117,22 @@ int
     {
       init = 0;
 ]AT_LOCATION_IF([
-      AT_LOC.last_column = 1;
-      AT_LOC.last_line = 1;
+      AT_LOC_LAST_COLUMN = 1;
+      AT_LOC_LAST_LINE = 1;
 ])[
     }
 
 ]AT_LOCATION_IF([
-  AT_LOC.first_column = AT_LOC.last_column;
-  AT_LOC.first_line   = AT_LOC.last_line;
+  AT_LOC_FIRST_COLUMN = AT_LOC_LAST_COLUMN;
+  AT_LOC_FIRST_LINE   = AT_LOC_LAST_LINE;
 ])[
 
   /* Skip white space.  */
   while ((c = get_char (]AT_LEX_ARGS[)) == ' ' || c == '\t')
     {
 ]AT_LOCATION_IF(
-[     AT_LOC.first_column = AT_LOC.last_column;
-      AT_LOC.first_line   = AT_LOC.last_line;
+[     AT_LOC_FIRST_COLUMN = AT_LOC_LAST_COLUMN;
+      AT_LOC_FIRST_LINE   = AT_LOC_LAST_LINE;
 ])[
     }
 
@@ -192,17 +192,7 @@ extern FILE *input;]AT_SKEL_CC_IF([[
 #ifndef YYLTYPE
 # define YYLTYPE ]AT_NAME_PREFIX[::parser::location_type
 #endif
-]AT_LOCATION_TYPE_IF([[
-  #define first_line   begin.l
-  #define first_column begin.c
-  #define last_line    end.l
-  #define last_column  end.c
-]], [[
-  #define first_line   begin.line
-  #define first_column begin.column
-  #define last_line    end.line
-  #define last_column  end.column
-]])])[
+]])[
 }
 
 %code
@@ -328,13 +318,13 @@ yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])
 AT_PARAM_IF([(void) result; (void) count;])
 AT_YYERROR_SEES_LOC_IF([
   fprintf (stderr, "%d.%d",
-           AT_LOC.first_line, AT_LOC.first_column);
-  if (AT_LOC.first_line != AT_LOC.last_line)
+           AT_LOC_FIRST_LINE, AT_LOC_FIRST_COLUMN);
+  if (AT_LOC_FIRST_LINE != AT_LOC_LAST_LINE)
     fprintf (stderr, "-%d.%d",
-	     AT_LOC.last_line,  AT_LOC.last_column - 1);
-  else if (AT_LOC.first_column != AT_LOC.last_column - 1)
+	     AT_LOC_LAST_LINE,  AT_LOC_LAST_COLUMN - 1);
+  else if (AT_LOC_FIRST_COLUMN != AT_LOC_LAST_COLUMN - 1)
     fprintf (stderr, "-%d",
-	     AT_LOC.last_column - 1);
+	     AT_LOC_LAST_COLUMN - 1);
   fprintf (stderr, ": ");])
   fprintf (stderr, "%s\n", s);
 }])[
