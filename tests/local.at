@@ -70,10 +70,12 @@ m4_pushdef([AT_YACC_IF],
 [m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
 m4_pushdef([AT_LEXPARAM_IF],
 [m4_bmatch([$3], [%lex-param], [$1], [$2])])
-m4_pushdef([AT_PARAM_IF],
-[m4_bmatch([$3], [%parse-param], [$1], [$2])])
 m4_pushdef([AT_LOCATION_IF],
 [m4_bmatch([$3], [%locations], [$1], [$2])])
+m4_pushdef([AT_LOCATION_TYPE_IF],
+[m4_bmatch([$3], [%define location_type], [$1], [$2])])
+m4_pushdef([AT_PARAM_IF],
+[m4_bmatch([$3], [%parse-param], [$1], [$2])])
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
            [m4_bmatch([$3], [%define  *api\.pure *"?false"?], [$2], [$1])],
@@ -149,6 +151,7 @@ m4_popdef([AT_YYERROR_ARG_LOC_IF])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_GLR_OR_PARAM_IF])
 m4_popdef([AT_PURE_AND_LOC_IF])
+m4_popdef([AT_LOCATION_TYPE_IF])
 m4_popdef([AT_LOCATION_IF])
 m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_LEXPARAM_IF])
