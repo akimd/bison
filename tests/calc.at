@@ -122,19 +122,15 @@ int
 ])[
     }
 
-]AT_LOCATION_IF([
-  AT_LOC_FIRST_COLUMN = AT_LOC_LAST_COLUMN;
-  AT_LOC_FIRST_LINE   = AT_LOC_LAST_LINE;
-])[
-
-  /* Skip white space.  */
-  while ((c = get_char (]AT_LEX_ARGS[)) == ' ' || c == '\t')
+  /* Skip current token, then white spaces.  */
+  do
     {
 ]AT_LOCATION_IF(
 [     AT_LOC_FIRST_COLUMN = AT_LOC_LAST_COLUMN;
       AT_LOC_FIRST_LINE   = AT_LOC_LAST_LINE;
 ])[
     }
+  while ((c = get_char (]AT_LEX_ARGS[)) == ' ' || c == '\t');
 
   /* process numbers   */
   if (c == '.' || isdigit (c))
