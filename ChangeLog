@@ -1,5 +1,10 @@
 2010-04-13  Akim Demaille  <demaille@gostai.com>
 
+	tests: calc: minor refactoring.
+	* tests/calc.at (_AT_DATA_CALC_Y): Simplify yylex.
+
+2010-04-13  Akim Demaille  <demaille@gostai.com>
+
 	tests: calc: simplify location management.
 	* tests/local.at (AT_LOC_PUSHDEF, AT_LOC_POPDEF): New.
 	(_AT_BISON_OPTION_PUSHDEFS, AT_BISON_OPTION_POPDEFS): Use them to
