@@ -1,5 +1,14 @@
 2010-05-04  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: location_type: make sure we don't depend on loc.(begin|end).
+	* tests/calc.at (Span): Instead of begin/end, as in the built-in
+	location class, use first and last.
+	Define YYLLOC_DEFAULT to adjust to these changes.
+	* tests/local.at (_AT_BISON_OPTION_PUSHDEFS): Adjust to the
+	location_type changes.
+
+2010-05-04  Akim Demaille  <demaille@gostai.com>
+
 	tests: enhance AT_SYNCLINES_COMPILE.
 	* tests/synclines.at (AT_TEST_SYNCLINE): Move GCC 4.5 protection
 	into...

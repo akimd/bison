@@ -152,7 +152,7 @@ AT_PURE_LEX_IF(
 
 AT_SKEL_CC_IF(
   [AT_LOCATION_TYPE_IF(
-    [AT_LOC_PUSHDEF([begin.l], [begin.c], [end.l], [end.c])],
+    [AT_LOC_PUSHDEF([first.l], [first.c], [last.l], [last.c])],
     [AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])])],
   [AT_LOC_PUSHDEF([first_line], [first_column], [last_line], [last_column])])
 
