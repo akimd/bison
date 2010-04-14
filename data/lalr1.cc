@@ -124,10 +124,10 @@ m4_define([b4_parser_class_name],
 b4_defines_if([],
               [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
 
-b4_locations_if(
-[# Backward compatibility.
-m4_define([b4_location_constructors])
-m4_include(b4_pkgdatadir/[location.cc])])
+b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+  [# Backward compatibility.
+  m4_define([b4_location_constructors])
+  m4_include(b4_pkgdatadir/[location.cc])])])
 m4_include(b4_pkgdatadir/[stack.hh])
 b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 
@@ -149,8 +149,9 @@ dnl FIXME: This is wrong, we want computed header guards.
 #include <stdexcept>
 #include <string>
 #include <iostream>
-]b4_locations_if([#include "location.hh"])[
 #include "stack.hh"
+]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+                                          [[#include "location.hh"]])])[
 
 ]b4_variant_if([b4_namespace_open
 b4_variant_define

@@ -563,10 +563,11 @@ m4_define([b4_percent_define_use],
 [m4_define([b4_percent_define_bison_variables(]$1[)])dnl
 ])
 
-# b4_percent_define_get(VARIABLE)
-# -------------------------------
-# Mimic muscle_percent_define_get in ../src/muscle-tab.h exactly.  That is, if
-# the %define variable VARIABLE is defined, emit its value.  Also, record
+# b4_percent_define_get(VARIABLE, [DEFAULT])
+# ------------------------------------------
+# Mimic muscle_percent_define_get in ../src/muscle-tab.h.  That is, if
+# the %define variable VARIABLE is defined, emit its value.  Contrary
+# to its C counterpart, return DEFAULT otherwise.  Also, record
 # Bison's usage of VARIABLE by defining
 # b4_percent_define_bison_variables(VARIABLE).
 #
@@ -575,7 +576,9 @@ m4_define([b4_percent_define_use],
 #   b4_percent_define_get([[foo]])
 m4_define([b4_percent_define_get],
 [b4_percent_define_use([$1])dnl
-m4_ifdef([b4_percent_define(]$1[)], [m4_indir([b4_percent_define(]$1[)])])])
+m4_ifdef([b4_percent_define(]$1[)],
+         [m4_indir([b4_percent_define(]$1[)])],
+         [$2])])
 
 # b4_percent_define_get_loc(VARIABLE)
 # -----------------------------------
