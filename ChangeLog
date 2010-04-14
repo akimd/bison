@@ -1,3 +1,11 @@
+2010-05-04  Akim Demaille  <demaille@gostai.com>
+
+	tests: enhance AT_SYNCLINES_COMPILE.
+	* tests/synclines.at (AT_TEST_SYNCLINE): Move GCC 4.5 protection
+	into...
+	(AT_SYNCLINES_COMPILE): here.
+	Add more distcc patterns.
+
 2010-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	tests: fix maintainer-xml-check.
