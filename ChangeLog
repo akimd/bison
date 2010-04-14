@@ -1,3 +1,10 @@
+2010-05-04  Akim Demaille  <demaille@gostai.com>
+
+	tests: enhance AT_SYNCLINES_COMPILE.
+	* tests/synclines.at (AT_SYNCLINES_COMPILE): More distcc patterns.
+	(AT_TEST_SYNCLINE): Remove GCC 4.5 protection which is already
+	taken care of in AT_SYNCLINES_COMPILE.
+
 2010-04-30  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	Document that undefined %prec identifier warnings will remain.
