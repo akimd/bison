@@ -1,5 +1,12 @@
 2010-05-04  Akim Demaille  <demaille@gostai.com>
 
+	tests: enhance AT_SYNCLINES_COMPILE.
+	* tests/synclines.at (AT_SYNCLINES_COMPILE): More distcc patterns.
+	(AT_TEST_SYNCLINE): Remove GCC 4.5 protection which is already
+	taken care of in AT_SYNCLINES_COMPILE.
+
+2010-05-04  Akim Demaille  <demaille@gostai.com>
+
 	lalr1.cc: don't generate location.hh when location_type is defined
 	* data/bison.m4 (b4_percent_define_get): Accept a default value.
 	* data/c++.m4: Do not provide a default value for the %define
