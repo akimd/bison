@@ -1,5 +1,10 @@
 2010-05-04  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: minor refactoring.
+	* data/lalr1.cc: Don't issue empty namespaces.
+
+2010-05-04  Akim Demaille  <demaille@gostai.com>
+
 	tests: fix %printer.
 	Currently, there is no check that %printer ... <foo> (nor
 	%destructor) is about an existing <foo> type.  This C++ test had
