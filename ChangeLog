@@ -1,5 +1,13 @@
 2010-04-25  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	build: don't require src/bison during bootstrap.
+	Suggested by Eric Blake at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00003.html>.
+	* bootstrap.conf (bootstrap_epilogue): New function to make sure
+	src/parse-gram.[ch] are stamped later than src/parse-gram.y.
+
+2010-04-25  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	i18n: fix untranslatable string.
 	Reported by Goran Uddeborg at
 	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00000.html>.
