@@ -1,5 +1,17 @@
 2010-05-04  Akim Demaille  <demaille@gostai.com>
 
+	tests: fix %printer.
+	Currently, there is no check that %printer ... <foo> (nor
+	%destructor) is about an existing <foo> type.  This C++ test had
+	it wrong (<::std::string> vs. <std::string>).
+
+	* tests/c++.at (AT_CHECK_VARIANTS): In list.yy, redefine the
+	pretty-printing of lists into something better for parser traces.
+	Update the expected output.
+	Fix correspondance between %type/%token and %printer.
+
+2010-05-04  Akim Demaille  <demaille@gostai.com>
+
 	lalr1.cc: location_type: make sure we don't depend on loc.(begin|end).
 	* tests/calc.at (Span): Instead of begin/end, as in the built-in
 	location class, use first and last.

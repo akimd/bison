@@ -46,9 +46,7 @@ typedef std::list<std::string> strings_type;
 
 %code // code for the .cc file
 {
-#include <algorithm>
 #include <iostream>
-#include <iterator>
 #include <sstream>
 
   static
@@ -66,9 +64,14 @@ typedef std::list<std::string> strings_type;
     std::ostream&
     operator<<(std::ostream& o, const strings_type& s)
     {
-      std::copy(s.begin(), s.end(),
-                std::ostream_iterator<strings_type::value_type>(o, "\n"));
-      return o;
+      o << '(';
+      for (strings_type::const_iterator i = s.begin(); i != s.end (); ++i)
+        {
+          if (i != s.begin ())
+            o << ", ";
+          o << *i;
+        }
+      return o << ')';
     }
   }
 
@@ -84,11 +87,11 @@ typedef std::list<std::string> strings_type;
   }
 }
 
-%token <std::string> TEXT;
+%token <::std::string> TEXT;
 %token <int> NUMBER;
 %token END_OF_FILE 0;
 
-%type <std::string> item;
+%type <::std::string> item;
 // Using the template type to exercize its parsing.
 // Starting with :: to ensure we don't output "<::" which starts by the
 // digraph for the left square bracket.
@@ -99,7 +102,7 @@ typedef std::list<std::string> strings_type;
 %%
 
 result:
-  list          { std::cout << $][1; }
+  list          { std::cout << $][1 << std::endl; }
 ;
 
 list:
@@ -186,10 +189,7 @@ main (void)
 AT_BISON_CHECK([-o list.cc list.yy])
 AT_COMPILE_CXX([list])
 AT_CHECK([./list], 0,
-[0
-1
-2
-4
+         [(0, 1, 2, 4)
 ])
 
 AT_CLEANUP
