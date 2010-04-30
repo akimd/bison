@@ -1,3 +1,15 @@
+2010-04-30  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	Revert 2009-12-30 change for undefined %prec token complaints.
+	That is, keep them as warnings because that should be sufficient
+	to satisfy POSIX without creating backward compatibility issues.
+	Suggested by Richard Stallman at
+	<http://lists.gnu.org/archive/html/bison-patches/2010-03/msg00033.html>.
+	* NEWS (2.5): Remove mention of complaint.
+	* src/reader.c (grammar_rule_check): Convert warning back to
+	complaint.
+	* tests/input.at (%prec's token must be defined): Update.
+
 2010-04-25  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	build: don't require src/bison during bootstrap.
