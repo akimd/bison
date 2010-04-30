@@ -180,12 +180,6 @@ Bison News
   discussion of how to suppress C preprocessor warnings about YYFAIL
   being unused, see the Bison 2.4.2 NEWS entry.
 
-** `%prec IDENTIFIER' requires IDENTIFIER to be defined separately.
-
-  As promised in Bison 2.4.2's NEWS entry, it is now an error if a token
-  that appears after a %prec directive is not defined by %token, %left,
-  %right, or %nonassoc.  This is required by POSIX.
-
 ** Temporary hack for adding a semicolon to the user action.
 
   Previously, Bison appended a semicolon to every user action for

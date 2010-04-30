@@ -806,8 +806,8 @@ AT_DATA([[input.y]],
 start: %prec PREC ;
 ]])
 
-AT_BISON_CHECK([[input.y]], [[1]], [],
-[[input.y:2.8-17: token for %prec is not defined: PREC
+AT_BISON_CHECK([[input.y]], [[0]], [],
+[[input.y:2.8-17: warning: token for %prec is not defined: PREC
 ]])
 
 AT_CLEANUP
