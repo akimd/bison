@@ -1,5 +1,16 @@
 2010-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	tests: fix maintainer-xml-check.
+	* data/xslt/xml2dot.xsl (xsl:template match="bison-xml-report"):
+	Update output to include comments now produced by --graph.
+	(xsl:template match="automaton"): As for --graph, name the
+	digraph after the grammar file.
+	* src/print-xml.c (escape_bufs): Enlarge array.
+	(print_xml): Add bug-report and url attributes to
+	bison-xml-report element.
+
+2010-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	In DOT output, convert from "/*" comments to "//" comments.
 	This handles the possibility that a "*/" might appear in
 	variable portions of those comments at some point in the future.
