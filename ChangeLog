@@ -1,3 +1,10 @@
+2010-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	In DOT output, convert from "/*" comments to "//" comments.
+	This handles the possibility that a "*/" might appear in
+	variable portions of those comments at some point in the future.
+	* src/graphviz.c (start_graph): Implement.
+
 2010-04-30  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	Document that undefined %prec identifier warnings will remain.
