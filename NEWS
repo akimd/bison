@@ -240,6 +240,11 @@ Bison News
 ** Failures in the test suite for some versions of Sun Studio C++ have
    been fixed.
 
+** Contrary to Bison 2.4.2's NEWS entry, it has been decided that
+   warnings about undefined %prec identifiers will not be converted to
+   errors in Bison 2.5.  They will remain warnings, which should be
+   sufficient for POSIX while avoiding backward compatibility issues.
+
 * Changes in version 2.4.2 (2010-03-20):
 
 ** Some portability problems that resulted in failures and livelocks
@@ -257,6 +262,8 @@ Bison News
   %prec directive.  It is now restored.  However, for backward
   compatibility with recent Bison releases, it is only a warning for
   now.  In Bison 2.5 and later, it will return to being an error.
+  [Between the 2.4.2 and 2.4.3 releases, it was decided that this
+  warning will not be converted to an error in Bison 2.5.]
 
 ** Detection of GNU M4 1.4.6 or newer during configure is improved.
 

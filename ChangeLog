@@ -1,5 +1,11 @@
 2010-04-30  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Document that undefined %prec identifier warnings will remain.
+	* NEWS (2.4.3): Here.
+	(2.4.2): Here.
+
+2010-04-30  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Revert 2009-12-30 change for undefined %prec token complaints.
 	That is, keep them as warnings because that should be sufficient
 	to satisfy POSIX without creating backward compatibility issues.
