@@ -1,3 +1,9 @@
+2010-04-30  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	Document that undefined %prec identifier warnings will remain.
+	* NEWS (2.4.3): Here.
+	(2.4.2): Here.
+
 2010-04-25  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	build: don't require src/bison during bootstrap.
