@@ -1,3 +1,8 @@
+2010-05-07  Akim Demaille  <demaille@gostai.com>
+
+	doc: fix typo.
+	* tests/synclines.at: here.
+
 2010-05-04  Akim Demaille  <demaille@gostai.com>
 
 	tests: enhance AT_SYNCLINES_COMPILE.
