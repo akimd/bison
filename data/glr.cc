@@ -51,7 +51,8 @@ b4_defines_if([],
               [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
 
 m4_include(b4_pkgdatadir/[c++.m4])
-m4_include(b4_pkgdatadir/[location.cc])
+b4_percent_define_ifdef([[location_type]], [],
+                        [m4_include(b4_pkgdatadir/[location.cc])])
 
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
@@ -226,7 +227,8 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 #include <stdexcept>
 #include <string>
 #include <iostream>
-#include "location.hh"
+]b4_percent_define_ifdef([[location_type]], [],
+                         [[#include "location.hh"]])[
 
 /* Using locations.  */
 #define YYLSP_NEEDED ]b4_locations_if([1], [0])[

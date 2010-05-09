@@ -180,19 +180,20 @@ b4_namespace_close])[
    If N is 0, then set CURRENT to the empty location which ends
    the previous symbol: RHS[0] (always defined).  */
 
+#define YYRHSLOC(Rhs, K) ((Rhs)[K].location)
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)                        \
-do {                                                            \
-  if (N)                                                        \
-    {                                                           \
-      (Current).begin = (Rhs)[1].location.begin;                \
-      (Current).end   = (Rhs)[N].location.end;			\
-    }                                                           \
-  else                                                          \
-    {                                                           \
-      (Current).begin = (Current).end = (Rhs)[0].location.end;	\
-    }                                                           \
-} while (false)
+# define YYLLOC_DEFAULT(Current, Rhs, N)                               \
+ do                                                                    \
+   if (N)                                                              \
+     {                                                                 \
+       (Current).begin = YYRHSLOC (Rhs, 1).begin;                      \
+       (Current).end   = YYRHSLOC (Rhs, N).end;                        \
+     }                                                                 \
+   else                                                                \
+     {                                                                 \
+       (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;        \
+     }                                                                 \
+ while (false)
 #endif]])[
 
 ]b4_namespace_open[

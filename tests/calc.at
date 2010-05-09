@@ -171,17 +171,17 @@ AT_SKEL_CC_IF(
   };
 
 # define YYLLOC_DEFAULT(Current, Rhs, N)                                \
-do {                                                                    \
-  if (N)                                                                \
-    {                                                                   \
-      (Current).first = (Rhs)[1].location.first;			\
-      (Current).last  = (Rhs)[N].location.last;                         \
-    }                                                                   \
-  else                                                                  \
-    {                                                                   \
-      (Current).first = (Current).last = (Rhs)[0].location.last;	\
-    }                                                                   \
-} while (false)
+  do                                                                    \
+    if (N)                                                              \
+      {                                                                 \
+        (Current).first = YYRHSLOC (Rhs, 1).first;                      \
+        (Current).last  = YYRHSLOC (Rhs, N).last;                       \
+      }                                                                 \
+    else                                                                \
+      {                                                                 \
+        (Current).first = (Current).last = YYRHSLOC (Rhs, 0).last;      \
+      }                                                                 \
+  while (false)
 
 ]])[
   /* Exercise pre-prologue dependency to %union.  */
@@ -716,6 +716,7 @@ m4_define([AT_CHECK_CALC_GLR_CC],
 [AT_CHECK_CALC([%language "C++" %glr-parser %defines %locations] $@)])
 
 AT_CHECK_CALC_GLR_CC([])
+AT_CHECK_CALC_GLR_CC([%define location_type Span])
 AT_CHECK_CALC_GLR_CC([%define parse.error verbose %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR_CC([%debug])
