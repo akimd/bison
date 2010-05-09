@@ -229,7 +229,8 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 #include <string>
 #include <iostream>
-#include "location.hh"
+]b4_percent_define_ifdef([[location_type]], [],
+                         [[#include "location.hh"]])[
 
 /* Using locations.  */
 #define YYLSP_NEEDED ]b4_locations_flag[
@@ -277,7 +278,8 @@ b4_user_stype
     typedef YYSTYPE semantic_type;
 #endif
     /// Symbol locations.
-    typedef ]b4_percent_define_get([[location_type]])[ location_type;
+    typedef ]b4_percent_define_get([[location_type]],
+                                   [[location]])[ location_type;
     /// Tokens.
     struct token
     {

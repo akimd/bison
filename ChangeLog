@@ -1,5 +1,19 @@
 2010-05-04  Akim Demaille  <demaille@gostai.com>
 
+	lalr1.cc: don't generate location.hh when location_type is defined
+	* data/bison.m4 (b4_percent_define_use): New.
+	(b4_percent_define_get): Use it.
+	Accept a default value.
+	* data/c++.m4: Do not provide a default value for the %define
+	variable location_type, rather, use b4_percent_define_get with a
+	default argument where its value is needed.
+	* data/lalr1.cc: Do not load location.cc (which outputs both
+	location.hh and position.hh) if the user defined location_type.
+	Do not include location.hh either.
+	* data/glr.cc: Likewise.
+
+2010-05-04  Akim Demaille  <demaille@gostai.com>
+
 	lalr1.cc: location_type: make sure we don't depend on loc.(begin|end).
 	* tests/calc.at (Span): Instead of begin/end, as in the built-in
 	location class, use first and last.

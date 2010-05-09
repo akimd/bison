@@ -24,9 +24,10 @@ m4_define([b4_parser_class_name],
 b4_defines_if([],
               [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
 
-# Backward compatibility.
-m4_define([b4_location_constructors])
-m4_include(b4_pkgdatadir/[location.cc])
+b4_percent_define_ifdef([[location_type]], [],
+  [# Backward compatibility.
+  m4_define([b4_location_constructors])
+  m4_include(b4_pkgdatadir/[location.cc])])
 
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
@@ -46,8 +47,9 @@ dnl FIXME: This is wrong, we want computed header guards.
 
 #include <string>
 #include <iostream>
-#include "location.hh"
 #include "stack.hh"
+]b4_percent_define_ifdef([[location_type]], [],
+                         [[#include "location.hh"]])[
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -106,7 +108,8 @@ b4_user_stype
     typedef YYSTYPE semantic_type;
 #endif
     /// Symbol locations.
-    typedef ]b4_percent_define_get([[location_type]])[ location_type;
+    typedef ]b4_percent_define_get([[location_type]],
+                                   [[location]])[ location_type;
     /// Tokens.
     struct token
     {
