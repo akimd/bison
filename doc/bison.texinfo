@@ -8569,8 +8569,8 @@ int yyparse (void);
 @c - initial action
 
 The C++ deterministic parser is selected using the skeleton directive,
-@samp{%skeleton "lalr1.c"}, or the synonymous command-line option
-@option{--skeleton=lalr1.c}.
+@samp{%skeleton "lalr1.cc"}, or the synonymous command-line option
+@option{--skeleton=lalr1.cc}.
 @xref{Decl Summary}.
 
 When run, @command{bison} will create several entities in the @samp{yy}
@@ -8828,6 +8828,14 @@ additional argument for its constructor.
 The types for semantic values and locations (if enabled).
 @end defcv
 
+@defcv {Type} {parser} {token}
+A structure that contains (only) the definition of the tokens as the
+@code{yytokentype} enumeration.  To refer to the token @code{FOO}, the
+scanner should use @code{yy::parser::token::FOO}.  The scanner can use
+@samp{typedef yy::parser::token token;} to ``import'' the token enumeration
+(@pxref{Calc++ Scanner}).
+@end defcv
+
 @defcv {Type} {parser} {syntax_error}
 This class derives from @code{std::runtime_error}.  Throw instances of it
 from user actions to raise parse errors.  This is equivalent with first
@@ -8894,8 +8902,8 @@ depends whether you use unions, or variants.
 
 Therefore the interface is as follows.
 
-@deftypemethod {parser} {int} yylex (semantic_type& @var{yylval}, location_type& @var{yylloc}, @var{type1} @var{arg1}, ...)
-@deftypemethodx {parser} {int} yylex (semantic_type& @var{yylval}, @var{type1} @var{arg1}, ...)
+@deftypemethod {parser} {int} yylex (semantic_type* @var{yylval}, location_type* @var{yylloc}, @var{type1} @var{arg1}, ...)
+@deftypemethodx {parser} {int} yylex (semantic_type* @var{yylval}, @var{type1} @var{arg1}, ...)
 Return the next token.  Its type is the return value, its semantic value and
 location (if enabled) being @var{yylval} and @var{yylloc}.  Invocations of
 @samp{%lex-param @{@var{type1} @var{arg1}@}} yield additional arguments.
