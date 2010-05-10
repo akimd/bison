@@ -1,3 +1,12 @@
+2010-05-10  Akim Demaille  <demaille@gostai.com>
+
+	doc: fix lalr1.cc documentation.
+	* doc/bison.texinfo (C++ Scanner Interface): Fix yylex signature.
+	(C++ Bison Interface): Fix lalr1.cc skeleton name.
+	(C++ Parser Interface): Fix semantic_type and location_type names.
+	Document yy::parser::token.
+	Reported by Jerry Quinn.
+
 2010-05-04  Akim Demaille  <demaille@gostai.com>
 
 	lalr1.cc: don't generate location.hh when location_type is defined
