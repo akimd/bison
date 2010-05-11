@@ -10876,10 +10876,6 @@ grammatically indivisible.  The piece of text it represents is a token.
 
 @bye
 
-@c Local Variables:
-@c fill-column: 76
-@c End:
-
 @c LocalWords: texinfo setfilename settitle setchapternewpage finalout texi FSF
 @c LocalWords: ifinfo smallbook shorttitlepage titlepage GPL FIXME iftex FSF's
 @c LocalWords: akim fn cp syncodeindex vr tp synindex dircategory direntry Naur
@@ -10932,3 +10928,8 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos
 @c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett
 @c LocalWords: subdirectory Solaris nonassociativity
+
+@c Local Variables:
+@c ispell-dictionary: "american"
+@c fill-column: 76
+@c End:
