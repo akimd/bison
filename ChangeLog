@@ -1,5 +1,13 @@
 2010-05-11  Akim Demaille  <demaille@gostai.com>
 
+	lalrl1.cc: give a chance to user defined YYLLOC_DEFAULT.
+	* data/lalr1.cc (YYLLOC_DEFAULT): Move its definition from the
+	header file to the implementation file, after the user %code
+	sections.
+	* NEWS (2.5): Document this.
+
+2010-05-11  Akim Demaille  <demaille@gostai.com>
+
 	doc: please Emacs.
 	* doc/bison.texinfo (Local Variables): Move this after the
 	LocalWords, since the latter are looked for in the whole document,
