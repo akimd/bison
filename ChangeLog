@@ -1,3 +1,11 @@
+2010-05-11  Akim Demaille  <demaille@gostai.com>
+
+	doc: please Emacs.
+	* doc/bison.texinfo (Local Variables): Move this after the
+	LocalWords, since the latter are looked for in the whole document,
+	while the former are looked for only at its end.
+	Require american spell checking.
+
 2010-05-10  Akim Demaille  <demaille@gostai.com>
 
 	doc: fix lalr1.cc documentation.
