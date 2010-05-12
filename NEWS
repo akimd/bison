@@ -180,6 +180,41 @@ Bison News
   determine which destructor to call for the lookahead upon a syntax
   error or upon parser return.  This bug has been fixed.
 
+** C++ parsers use YYRHSLOC
+
+  Similarly to the C parsers, the C++ parsers now define the YYRHSLOC
+  macro and use it in the default YYLLOC_DEFAULT.  You are encouraged
+  to use it.  If, for instance, your location structure has "first"
+  and "last" members, instead of
+
+      # define YYLLOC_DEFAULT(Current, Rhs, N)                             \
+        do                                                                 \
+          if (N)                                                           \
+            {                                                              \
+              (Current).first = (Rhs)[1].location.first;                   \
+              (Current).last  = (Rhs)[N].location.last;                    \
+            }                                                              \
+          else                                                             \
+            {                                                              \
+              (Current).first = (Current).last = (Rhs)[0].location.last;   \
+            }                                                              \
+        while (false)
+
+  use:
+
+      # define YYLLOC_DEFAULT(Current, Rhs, N)                             \
+        do                                                                 \
+          if (N)                                                           \
+            {                                                              \
+              (Current).first = YYRHSLOC (Rhs, 1).first;                   \
+              (Current).last  = YYRHSLOC (Rhs, N).last;                    \
+            }                                                              \
+          else                                                             \
+            {                                                              \
+              (Current).first = (Current).last = YYRHSLOC (Rhs, 0).last;   \
+            }                                                              \
+        while (false)
+
 * Changes in version 2.4.3 (????-??-??):
 
 ** Problems with spawning M4 on at least FreeBSD 8 and FreeBSD 9 have

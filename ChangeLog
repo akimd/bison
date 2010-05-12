@@ -1,3 +1,14 @@
+2010-05-07  Akim Demaille  <demaille@gostai.com>
+
+	c++: use YYRHSLOC.
+	* data/lalr1.cc (YYRHSLOC): New.
+	(YYLLOC_DEFAULT): Use it.
+	* data/glr.cc: If location_type was user defined, do not include
+	location.hh, and do not produce location.hh and position.hh.
+	* tests/calc.at (YYLLOC_DEFAULT): Use YYRHSLOC.
+	Check that glr.cc supports user defined location_type.
+	* NEWS: Document this.
+
 2010-05-10  Akim Demaille  <demaille@gostai.com>
 
 	doc: fix lalr1.cc documentation.
