@@ -69,26 +69,6 @@ dnl FIXME: This is wrong, we want computed header guards.
 # define YYTOKEN_TABLE ]b4_token_table[
 #endif
 
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
-#define YYRHSLOC(Rhs, K) ((Rhs)[K])
-#ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)                               \
- do                                                                    \
-   if (N)                                                              \
-     {                                                                 \
-       (Current).begin = YYRHSLOC (Rhs, 1).begin;                      \
-       (Current).end   = YYRHSLOC (Rhs, N).end;                        \
-     }                                                                 \
-   else                                                                \
-     {                                                                 \
-       (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;        \
-     }                                                                 \
- while (false)
-#endif
-
 ]b4_namespace_open[
 
   /// A Bison parser.
@@ -329,6 +309,26 @@ b4_percent_code_get[]dnl
 # ifndef YY_
 #  define YY_(msgid) msgid
 # endif
+#endif
+
+/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
+
+#define YYRHSLOC(Rhs, K) ((Rhs)[K])
+#ifndef YYLLOC_DEFAULT
+# define YYLLOC_DEFAULT(Current, Rhs, N)                               \
+ do                                                                    \
+   if (N)                                                              \
+     {                                                                 \
+       (Current).begin = YYRHSLOC (Rhs, 1).begin;                      \
+       (Current).end   = YYRHSLOC (Rhs, N).end;                        \
+     }                                                                 \
+   else                                                                \
+     {                                                                 \
+       (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;        \
+     }                                                                 \
+ while (false)
 #endif
 
 /* Suppress unused-variable warnings by "using" E.  */
