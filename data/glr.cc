@@ -1,7 +1,9 @@
                                                                     -*- C -*-
 
 # C++ GLR skeleton for Bison
-# Copyright (C) 2002-2010 Free Software Foundation, Inc.
+
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+# 2010 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -218,7 +220,7 @@ m4_popdef([b4_parse_param])
 m4_divert_push(0)
 @output(b4_spec_defines_file@)@
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
-             [2002-2006, 2009-2010])[
+             [2002, 2003, 2004, 2005, 2006, 2009, 2010])[
 
 /* C++ GLR parser skeleton written by Akim Demaille.  */
 
