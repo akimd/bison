@@ -5,6 +5,71 @@
 	* doc/fdl.texi: Update to version 1.3, taken from:
 	http://www.gnu.org/licenses/fdl.texi
 
+2010-06-17  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Do not use date ranges in copyright notices.
+	See http://www.gnu.org/prep/maintain/maintain.html#Copyright-Notices
+
+	* HACKING, Makefile.am, NEWS, PACKAGING, README, README-alpha:
+	* TODO, bootstrap, bootstrap.conf:
+	* build-aux/update-b4-copyright, cfg.mk, configure.ac:
+	* data/README, data/bison.m4, data/c++-skel.m4, data/c++.m4:
+	* data/c-skel.m4, data/c.m4, data/glr.c, data/glr.cc:
+	* data/java-skel.m4, data/java.m4, data/lalr1.cc:
+	* data/lalr1.java, data/location.cc:
+	* data/xslt/bison.xsl:
+	* data/xslt/xml2dot.xsl, data/xslt/xml2text.xsl:
+	* data/xslt/xml2xhtml.xsl, data/yacc.c, djgpp/Makefile.maint:
+	* djgpp/README.in, djgpp/config.bat, djgpp/config.sed:
+	* djgpp/config.site, djgpp/config_h.sed, djgpp/djunpack.bat:
+	* djgpp/subpipe.c, djgpp/subpipe.h:
+	* djgpp/testsuite.sed, doc/bison.texinfo:
+	* doc/refcard.tex, etc/README, etc/bench.pl.in:
+	* examples/calc++/Makefile.am, examples/extexi:
+	* lib/abitset.c, lib/abitset.h:
+	* lib/bbitset.h, lib/bitset.c, lib/bitset.h:
+	* lib/bitset_stats.c, lib/bitset_stats.h, lib/bitsetv-print.c:
+	* lib/bitsetv-print.h, lib/bitsetv.c, lib/bitsetv.h:
+	* lib/ebitset.c, lib/ebitset.h, lib/get-errno.c:
+	* lib/get-errno.h, lib/lbitset.c, lib/lbitset.h:
+	* lib/libiberty.h, lib/main.c, lib/timevar.c:
+	* lib/timevar.def, lib/timevar.h, lib/vbitset.c:
+	* lib/vbitset.h, lib/yyerror.c, m4/bison-i18n.m4:
+	* m4/c-working.m4, m4/cxx.m4, m4/subpipe.m4, m4/timevar.m4:
+	* src/AnnotationList.c, src/AnnotationList.h:
+	* src/InadequacyList.c, src/InadequacyList.h, src/LR0.c:
+	* src/LR0.h, src/Sbitset.c, src/Sbitset.h, src/assoc.c:
+	* src/assoc.h, src/closure.c, src/closure.h, src/complain.c:
+	* src/complain.h, src/conflicts.c, src/conflicts.h:
+	* src/derives.c, src/derives.h, src/files.c, src/files.h:
+	* src/flex-scanner.h, src/getargs.c, src/getargs.h:
+	* src/gram.c, src/gram.h, src/graphviz.c, src/ielr.c:
+	* src/ielr.h, src/lalr.c, src/lalr.h:
+	* src/location.c, src/location.h, src/main.c:
+	* src/muscle-tab.c, src/muscle-tab.h, src/named-ref.c:
+	* src/named-ref.h, src/nullable.c, src/nullable.h:
+	* src/output.c, src/output.h, src/parse-gram.y:
+	* src/print-xml.c, src/print-xml.h, src/print.c, src/print.h:
+	* src/print_graph.c, src/print_graph.h, src/reader.c:
+	* src/reader.h, src/reduce.c, src/reduce.h, src/relation.c:
+	* src/relation.h, src/scan-code.h, src/scan-code.l:
+	* src/scan-gram.h, src/scan-gram.l, src/scan-skel.h:
+	* src/scan-skel.l, src/state.c, src/state.h, src/symlist.c:
+	* src/symlist.h, src/symtab.c, src/symtab.h, src/system.h:
+	* src/tables.c, src/tables.h, src/uniqstr.c, src/uniqstr.h:
+	* tests/actions.at, tests/atlocal.in, tests/c++.at:
+	* tests/calc.at, tests/conflicts.at, tests/cxx-type.at:
+	* tests/existing.at, tests/glr-regression.at:
+	* tests/headers.at, tests/input.at, tests/java.at:
+	* tests/local.at, tests/named-refs.at:
+	* tests/output.at, tests/push.at, tests/reduce.at:
+	* tests/regression.at, tests/sets.at, tests/skeletons.at:
+	* tests/synclines.at, tests/testsuite.at, tests/torture.at:
+	* data/Makefile.am, data/location.cc, doc/Makefile.am, src/Makefile.am:
+	* tests/Makefile.am, lib/Makefile.am, examples/Makefile.am:
+	* etc/Makefile.am:
+	Don't use date ranges in copyright notices.
+
 2010-05-11  Akim Demaille  <demaille@gostai.com>
 
 	lalrl1.cc: give a chance to user defined YYLLOC_DEFAULT.
@@ -23199,8 +23264,9 @@
 
 	-----
 
-	Copyright (C) 1987-1988, 1991-2010 Free Software Foundation,
-	Inc.
+	Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996,
+	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+	2008, 2009, 2010 Free Software Foundation, Inc.
 
 	Copying and distribution of this file, with or without
 	modification, are permitted provided the copyright notice and this
