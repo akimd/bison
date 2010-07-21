@@ -370,9 +370,9 @@ skeleton_arg (char const *arg, int prio, location const *loc)
       char const *msg =
 	_("multiple skeleton declarations are invalid");
       if (loc)
-	complain_at (*loc, msg);
+	complain_at (*loc, "%s", msg);
       else
-	complain (msg);
+	complain ("%s", msg);
     }
 }
 

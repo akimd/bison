@@ -1,3 +1,9 @@
+2010-07-21  Akim Demaille  <demaille@gostai.com>
+
+	Pacify gcc warnings.
+	* src/getargs.c (skeleton_arg): Pass "%s" to printf-like functions
+	with variable format and no argument.
+
 2010-06-17  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Update from GFDL GFDL 1.2 to 1.3.
