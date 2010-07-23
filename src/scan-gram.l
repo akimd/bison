@@ -106,11 +106,12 @@ static void unexpected_newline (boundary, char const *);
  /* A complex tag, with nested angles brackets. */
 %x SC_TAG
 
- /* Three types of user code:
+ /* Four types of user code:
     - prologue (code between `%{' `%}' in the first section, before %%);
     - actions, printers, union, etc, (between braced in the middle section);
-    - epilogue (everything after the second %%). */
-%x SC_PROLOGUE SC_BRACED_CODE SC_EPILOGUE
+    - epilogue (everything after the second %%). 
+    - predicate (code between `%?{' and `{' in middle section); */
+%x SC_PROLOGUE SC_BRACED_CODE SC_EPILOGUE SC_PREDICATE
  /* C and C++ comments in code. */
 %x SC_COMMENT SC_LINE_COMMENT
  /* Strings and characters in code. */
@@ -283,6 +284,13 @@ splice	 (\\[ \f\t\v]*\n)*
     nesting = 0;
     code_start = loc->start;
     BEGIN SC_BRACED_CODE;
+  }
+
+  /* Semantic predicate. */
+  "%?"[ \f\n\t\v]*"{" {
+    nesting = 0;
+    code_start = loc->start;
+    BEGIN SC_PREDICATE;
   }
 
   /* A type. */
@@ -661,7 +669,7 @@ splice	 (\\[ \f\t\v]*\n)*
   | Strings, comments etc. can be found in user code.  |
   `---------------------------------------------------*/
 
-<SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>
+<SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE,SC_PREDICATE>
 {
   "'" {
     STRING_GROW;
@@ -691,14 +699,32 @@ splice	 (\\[ \f\t\v]*\n)*
 
 
   /*-----------------------------------------------------------.
-  | Scanning some code in braces (actions). The initial "{" is |
-  | already eaten.                                             |
+  | Scanning some code in braces (actions, predicates). The    |
+  | initial "{" is already eaten.                              |
   `-----------------------------------------------------------*/
 
-<SC_BRACED_CODE>
+<SC_BRACED_CODE,SC_PREDICATE>
 {
   "{"|"<"{splice}"%"  STRING_GROW; nesting++;
   "%"{splice}">"      STRING_GROW; nesting--;
+
+  /* Tokenize `<<%' correctly (as `<<' `%') rather than incorrrectly
+     (as `<' `<%').  */
+  "<"{splice}"<"  STRING_GROW;
+
+  <<EOF>> {
+    int token = (YY_START == SC_BRACED_CODE) ? BRACED_CODE : BRACED_PREDICATE;
+    unexpected_eof (code_start, "}");
+    STRING_FINISH;
+    loc->start = code_start;
+    val->code = last_string;
+    BEGIN INITIAL;
+    return token;
+  }
+}
+
+<SC_BRACED_CODE>
+{
   "}" {
     obstack_1grow (&obstack_for_string, '}');
 
@@ -712,21 +738,24 @@ splice	 (\\[ \f\t\v]*\n)*
 	return BRACED_CODE;
       }
   }
-
-  /* Tokenize `<<%' correctly (as `<<' `%') rather than incorrrectly
-     (as `<' `<%').  */
-  "<"{splice}"<"  STRING_GROW;
-
-  <<EOF>> {
-    unexpected_eof (code_start, "}");
-    STRING_FINISH;
-    loc->start = code_start;
-    val->code = last_string;
-    BEGIN INITIAL;
-    return BRACED_CODE;
-  }
 }
 
+<SC_PREDICATE>
+{
+  "}" {
+    --nesting;
+    if (nesting < 0)
+      {
+	STRING_FINISH;
+	loc->start = code_start;
+	val->code = last_string;
+	BEGIN INITIAL;
+	return BRACED_PREDICATE;
+      }
+    else
+      obstack_1grow (&obstack_for_string, '}');
+  }
+}
 
   /*--------------------------------------------------------------.
   | Scanning some prologue: from "%{" (already scanned) to "%}".  |
@@ -774,8 +803,8 @@ splice	 (\\[ \f\t\v]*\n)*
   | By default, grow the string obstack with the input.  |
   `-----------------------------------------------------*/
 
-<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>.	|
-<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE>\n	STRING_GROW;
+<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>.	|
+  <SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE>\n	STRING_GROW;
 
 %%
 

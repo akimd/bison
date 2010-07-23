@@ -194,6 +194,7 @@ typedef struct
 
   location location;
   bool useful;
+  bool is_predicate;
 
   const char *action;
   location action_location;

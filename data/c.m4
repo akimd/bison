@@ -417,6 +417,15 @@ b4_syncline([@oline@], [@ofile@])
     break;])
 
 
+# b4_predicate_case(LABEL, CONDITIONS)
+# ------------------------------------
+m4_define([b4_predicate_case],
+[  case $1:
+    if (! ($2)) YYERROR;
+b4_syncline([@oline@], [@ofile@])
+    break;])
+
+
 # b4_yydestruct_generate(FUNCTION-DECLARATOR)
 # -------------------------------------------
 # Generate the "yydestruct" function, which declaration is issued using

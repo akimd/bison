@@ -169,6 +169,13 @@ m4_define([b4_case], [  case $1:
   break;
     ])
 
+# b4_predicate_case(LABEL, CONDITIONS)
+# ------------------------------------
+m4_define([b4_predicate_case], [  case $1:
+     if (! ($2)) YYERROR;
+    break;
+    ])
+
 
 ## ---------------- ##
 ## Default values.  ##

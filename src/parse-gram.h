@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 2.4.483-4ad39-dirty.  */
+/* A Bison parser, made by GNU Bison 2.4.516-804e.  */
 
 /* Interface for Bison's Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2010 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+   2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,7 +32,7 @@
    version 2.2 of Bison.  */
 /* "%code requires" blocks.  */
 /* Line 1658 of yacc.c  */
-#line 201 "src/parse-gram.y"
+#line 202 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
 #  define PARAM_TYPE
@@ -46,7 +47,7 @@
 
 
 /* Line 1658 of yacc.c  */
-#line 50 "src/parse-gram.h"
+#line 51 "src/parse-gram.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -93,21 +94,22 @@
      PERCENT_VERBOSE = 293,
      PERCENT_YACC = 294,
      BRACED_CODE = 295,
-     BRACKETED_ID = 296,
-     CHAR = 297,
-     EPILOGUE = 298,
-     EQUAL = 299,
-     ID = 300,
-     ID_COLON = 301,
-     PERCENT_PERCENT = 302,
-     PIPE = 303,
-     PROLOGUE = 304,
-     SEMICOLON = 305,
-     TAG = 306,
-     TAG_ANY = 307,
-     TAG_NONE = 308,
-     PERCENT_PARAM = 309,
-     PERCENT_UNION = 310
+     BRACED_PREDICATE = 296,
+     BRACKETED_ID = 297,
+     CHAR = 298,
+     EPILOGUE = 299,
+     EQUAL = 300,
+     ID = 301,
+     ID_COLON = 302,
+     PERCENT_PERCENT = 303,
+     PIPE = 304,
+     PROLOGUE = 305,
+     SEMICOLON = 306,
+     TAG = 307,
+     TAG_ANY = 308,
+     TAG_NONE = 309,
+     PERCENT_PARAM = 310,
+     PERCENT_UNION = 311
    };
 #endif
 /* Tokens.  */
@@ -150,21 +152,22 @@
 #define PERCENT_VERBOSE 293
 #define PERCENT_YACC 294
 #define BRACED_CODE 295
-#define BRACKETED_ID 296
-#define CHAR 297
-#define EPILOGUE 298
-#define EQUAL 299
-#define ID 300
-#define ID_COLON 301
-#define PERCENT_PERCENT 302
-#define PIPE 303
-#define PROLOGUE 304
-#define SEMICOLON 305
-#define TAG 306
-#define TAG_ANY 307
-#define TAG_NONE 308
-#define PERCENT_PARAM 309
-#define PERCENT_UNION 310
+#define BRACED_PREDICATE 296
+#define BRACKETED_ID 297
+#define CHAR 298
+#define EPILOGUE 299
+#define EQUAL 300
+#define ID 301
+#define ID_COLON 302
+#define PERCENT_PERCENT 303
+#define PIPE 304
+#define PROLOGUE 305
+#define SEMICOLON 306
+#define TAG 307
+#define TAG_ANY 308
+#define TAG_NONE 309
+#define PERCENT_PARAM 310
+#define PERCENT_UNION 311
 
 
 
@@ -173,7 +176,7 @@
 typedef union YYSTYPE
 {
 /* Line 1658 of yacc.c  */
-#line 87 "src/parse-gram.y"
+#line 88 "src/parse-gram.y"
 
   assoc assoc;
   char *code;
@@ -186,13 +189,13 @@ typedef union YYSTYPE
   unsigned char character;
 
 /* Line 1658 of yacc.c  */
-#line 225 "src/parse-gram.y"
+#line 226 "src/parse-gram.y"
 
   param_type param;
 
 
 /* Line 1658 of yacc.c  */
-#line 196 "src/parse-gram.h"
+#line 199 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

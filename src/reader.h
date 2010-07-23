@@ -53,7 +53,7 @@ void grammar_current_rule_merge_set (uniqstr name, location loc);
 void grammar_current_rule_symbol_append (symbol *sym, location loc,
 					 named_ref *named_ref);
 void grammar_current_rule_action_append (const char *action, location loc,
-					 named_ref *named_ref);
+					 named_ref *named_ref, bool);
 void reader (void);
 void free_merger_functions (void);
 

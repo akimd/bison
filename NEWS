@@ -51,6 +51,15 @@ Bison News
   use of the %error-verbose directive is deprecated in favor of
   %define parse.error "verbose".
 
+** Semantic predicates
+
+  The new, experimental, semantic-predicate feature allows actions of
+  the form %?{ BOOLEAN-EXPRESSION }, which cause syntax errors (as for
+  YYERROR) if the expression evaluates to 0, and are evaluated immediately
+  in GLR parsers, rather than being deferred.  The result is that they
+  allow the programmer to prune possible parses based on the values of
+  runtime expressions.
+
 * Changes in version 2.5 (????-??-??):
 
 ** Named References Support

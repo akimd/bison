@@ -118,7 +118,6 @@ static char const *char_name (char);
 %token PERCENT_DPREC         "%dprec"
 %token PERCENT_MERGE         "%merge"
 
-
 /*----------------------.
 | Global Declarations.  |
 `----------------------*/
@@ -151,6 +150,7 @@ static char const *char_name (char);
 ;
 
 %token BRACED_CODE     "{...}"
+%token BRACED_PREDICATE "%?{...}"
 %token BRACKETED_ID    "[identifier]"
 %token CHAR            "char"
 %token EPILOGUE        "epilogue"
@@ -171,7 +171,7 @@ static char const *char_name (char);
 /* braceless is not to be used for rule or symbol actions, as it
    calls code_props_plain_init.  */
 %type <chars> STRING "%{...%}" EPILOGUE braceless content.opt
-%type <code> "{...}"
+%type <code> "{...}" "%?{...}"
 %printer { fputs (quotearg_style (c_quoting_style, $$), stderr); }
 	 STRING
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
@@ -586,7 +586,9 @@ rhs:
 | rhs symbol named_ref.opt
     { grammar_current_rule_symbol_append ($2, @2, $3); }
 | rhs "{...}" named_ref.opt
-    { grammar_current_rule_action_append ($2, @2, $3); }
+    { grammar_current_rule_action_append ($2, @2, $3, false); }
+| rhs "%?{...}" 
+    { grammar_current_rule_action_append ($2, @2, NULL, true); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3, @3); }
 | rhs "%dprec" INT
@@ -600,7 +602,6 @@ named_ref.opt:
 |
   BRACKETED_ID   { $$ = named_ref_new($1, @1); }
 ;
-
 
 /*---------------------------.
 | variable and content.opt.  |

@@ -902,7 +902,7 @@ code_props_symbol_action_init (code_props *self, char const *code,
 void
 code_props_rule_action_init (code_props *self, char const *code,
                              location code_loc, symbol_list *rule,
-			     named_ref *name)
+			     named_ref *name, bool is_predicate)
 {
   self->kind = CODE_PROPS_RULE_ACTION;
   self->code = code;
@@ -910,6 +910,7 @@ code_props_rule_action_init (code_props *self, char const *code,
   self->is_value_used = false;
   self->rule = rule;
   self->named_ref = name;
+  self->is_predicate = is_predicate;
 }
 
 void

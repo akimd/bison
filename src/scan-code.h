@@ -63,6 +63,13 @@ typedef struct code_props {
    */
   bool is_value_used;
 
+  /**
+   * \c true iff this code is an action that is not to be deferred in
+   * a non-deterministic parser.
+   */
+  bool is_predicate;
+
+
   /** \c NULL iff \c code_props::kind is not \c CODE_PROPS_RULE_ACTION.  */
   struct symbol_list *rule;
 
@@ -80,7 +87,7 @@ void code_props_none_init (code_props *self);
 
 /** Equivalent to \c code_props_none_init.  */
 #define CODE_PROPS_NONE_INIT \
-  {CODE_PROPS_NONE, NULL, EMPTY_LOCATION_INIT, false, NULL, NULL}
+  {CODE_PROPS_NONE, NULL, EMPTY_LOCATION_INIT, false, false, NULL, NULL}
 
 /** Initialized by \c CODE_PROPS_NONE_INIT with no further modification.  */
 extern code_props const code_props_none;
@@ -134,7 +141,7 @@ void code_props_symbol_action_init (code_props *self, char const *code,
  */
 void code_props_rule_action_init (code_props *self, char const *code,
                                   location code_loc, struct symbol_list *rule,
-                                  named_ref *name);
+                                  named_ref *name, bool is_predicate);
 
 /**
  * \pre

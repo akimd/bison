@@ -136,6 +136,7 @@ Writing @acronym{GLR} Parsers
 * Simple GLR Parsers::     Using @acronym{GLR} parsers on unambiguous grammars.
 * Merging GLR Parses::     Using @acronym{GLR} parsers to resolve ambiguities.
 * GLR Semantic Actions::   Deferred semantic actions have special concerns.
+* Semantic Predicates::    Controlling a parse with arbitrary computations.
 * Compiler Requirements::  @acronym{GLR} parsers require a modern C compiler.
 
 Examples
@@ -758,6 +759,7 @@ merged result.
 * Simple GLR Parsers::     Using @acronym{GLR} parsers on unambiguous grammars.
 * Merging GLR Parses::     Using @acronym{GLR} parsers to resolve ambiguities.
 * GLR Semantic Actions::   Deferred semantic actions have special concerns.
+* Semantic Predicates::    Controlling a parse with arbitrary computations.
 * Compiler Requirements::  @acronym{GLR} parsers require a modern C compiler.
 @end menu
 
@@ -1162,6 +1164,65 @@ In a deferred semantic action, its effect is undefined.
 
 Also, see @ref{Location Default Action, ,Default Action for Locations}, which
 describes a special usage of @code{YYLLOC_DEFAULT} in @acronym{GLR} parsers.
+
+@node Semantic Predicates
+@subsection Controlling a Parse with Arbitrary Predicates
+@findex %?
+@cindex Semantic predicates in @acronym{GLR} parsers
+
+In addition to the @code{%dprec} and @code{%merge} directives,
+@acronym{GLR} parsers
+allow you to reject parses on the basis of arbitrary computations executed
+in user code, without having Bison treat this rejection as an error
+if there are alternative parses. (This feature is experimental and may
+evolve.  We welcome user feedback.)  For example,
+
+@smallexample
+widget :
+          %?@{ new_syntax @} "widget" id new_args   @{ $$ = f($3, $4); @}
+       |  %?@{ !new_syntax @} "widget" id old_args  @{ $$ = f($3, $4); @}
+       ;
+@end smallexample
+
+@noindent
+is one way to allow the same parser to handle two different syntaxes for 
+widgets.  The clause preceded by @code{%?} is treated like an ordinary
+action, except that its text is treated as an expression and is always
+evaluated immediately (even when in nondeterministic mode).  If the 
+expression yields 0 (false), the clause is treated as a syntax error,
+which, in a nondeterministic parser, causes the stack in which it is reduced 
+to die.  In a deterministic parser, it acts like YYERROR.
+
+As the example shows, predicates otherwise look like semantic actions, and
+therefore you must be take them into account when determining the numbers
+to use for denoting the semantic values of right-hand side symbols.
+Predicate actions, however, have no defined value, and may not be given
+labels.
+
+There is a subtle difference between semantic predicates and ordinary
+actions in nondeterministic mode, since the latter are deferred.
+For example, we could try to rewrite the previous example as 
+
+@smallexample
+widget :
+          @{ if (!new_syntax) YYERROR; @} "widget" id new_args  @{ $$ = f($3, $4); @}
+       |  @{ if (new_syntax) YYERROR; @} "widget" id old_args   @{ $$ = f($3, $4); @}
+       ;
+@end smallexample
+
+@noindent
+(reversing the sense of the predicate tests to cause an error when they are
+false).  However, this
+does @emph{not} have the same effect if @code{new_args} and @code{old_args}
+have overlapping syntax.
+Since the mid-rule actions testing @code{new_syntax} are deferred, 
+a @acronym{GLR} parser first encounters the unresolved ambiguous reduction 
+for cases where @code{new_args} and @code{old_args} recognize the same string
+@emph{before} performing the tests of @code{new_syntax}.  It therefore
+reports an error.
+
+Finally, be careful in writing predicates: deferred actions have not been
+evaluated, so that using them in a predicate will have undefined effects.
 
 @node Compiler Requirements
 @subsection Considerations when Compiling @acronym{GLR} Parsers
@@ -10608,6 +10669,19 @@ All code listed between @samp{%@{} and @samp{%@}} is copied directly to
 the output file uninterpreted.  Such code forms the prologue of the input
 file.  @xref{Grammar Outline, ,Outline of a Bison
 Grammar}.
+@end deffn
+
+@deffn {Directive} %?@{@var{expression}@}
+Predicate actions.  This is a type of action clause that may appear in
+rules. The expression is evaluated, and if false, causes a syntax error.  In
+@acronym{GLR} parsers during nondeterministic operation,  
+this silently causes an alternative parse to die.  During deterministic
+operation, it is the same as the effect of YYERROR.
+@xref{Semantic Predicates}.
+
+This feature is experimental.
+More user feedback will help to determine whether it should become a permanent
+feature.
 @end deffn
 
 @deffn {Construct} /*@dots{}*/
