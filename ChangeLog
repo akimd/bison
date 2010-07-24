@@ -1,3 +1,10 @@
+2010-07-24  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	tests: handle Valgrind that complains about >&-.
+	* tests/output.at (AT_CHECK_OUTPUT): Extend to accept pre-tests.
+	(Output files: -dv >&-): Skip test group if running
+	maintainer-check-valgrind.
+
 2010-07-23  Paul Hilfinger  <hilfingr@EECS.Berkeley.EDU>
 
 	* NEWS: Describe new semantic-predicate feature.
