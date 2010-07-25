@@ -338,19 +338,20 @@ To generate a template announcement file:
   make RELEASE_TYPE=alpha gpg_key_ID=F125BDF3 announcement
 
 where alpha can be replaced by beta or stable and F125BDF3 should be
-replaced with your key ID.  For an example of how to fill out the
-template, search the mailing list archives for the most recent release
-announcement.
+replaced with your key ID.
 
-Complete/fix the announcement file, and send it at least to
-info-gnu@gnu.org (if a real release, or a ``serious beta''),
-bug-bison@gnu.org, help-bison@gnu.org, bison-patches@gnu.org,
-and coordinator@translationproject.org.
+Complete/fix the announcement file.  The generated list of recipients
+(info-gnu@gnu.org, bug-bison@gnu.org, help-bison@gnu.org,
+bison-patches@gnu.org, and coordinator@translationproject.org) is
+appropriate for a stable release or a ``serious beta''.  For any other
+release, drop at least info-gnu@gnu.org.  For an example of how to fill
+out the rest of the template, search the mailing list archives for the
+most recent release announcement.
 
-Send the same announcement on the comp.compilers newsgroup by sending
-email to compilers@iecc.com.  Do not make any Cc as the moderator will
-throw away anything cross-posted or Cc'ed.  It really needs to be a
-separate message.
+For a stable release, send the same announcement on the comp.compilers
+newsgroup by sending email to compilers@iecc.com.  Do not make any Cc as
+the moderator will throw away anything cross-posted or Cc'ed.  It really
+needs to be a separate message.
 
 ** Bump the version number
 In configure.ac.  Run `make'.  So that developers don't accidentally add new

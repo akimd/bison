@@ -44,6 +44,10 @@ gnulib_dir = $(srcdir)/gnulib
 
 bootstrap-tools = autoconf,automake,flex,gnulib
 
+announcement_Cc_ = \
+  bug-bison@gnu.org, help-bison@gnu.org, bison-patches@gnu.org, \
+  coordinator@translationproject.org
+
 update-copyright: update-b4-copyright update-package-copyright-year
 update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1
