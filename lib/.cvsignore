@@ -188,8 +188,10 @@ unistd.h
 unistd.in.h
 unistd_.h
 unitypes.h
+unitypes.in.h
 uniwidth
 uniwidth.h
+uniwidth.in.h
 unlocked-io.h
 unsetenv.c
 vasnprintf.c
