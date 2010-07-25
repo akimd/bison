@@ -133,7 +133,7 @@ BISON_PREREQ_TIMEVAR
 # We use gnulib, which is only guaranteed to work properly with the
 # latest Gettext.
 AM_GNU_GETTEXT([external], [need-ngettext])
-AM_GNU_GETTEXT_VERSION([0.17])
+AM_GNU_GETTEXT_VERSION([0.18])
 BISON_I18N
 
 # Internationalized parsers.

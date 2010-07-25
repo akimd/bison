@@ -1,3 +1,12 @@
+2010-07-25  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	maint: use announce-gen's new --mail-headers.
+	* HACKING (Announce): Update instructions.
+	* cfg.mk (announcement_Cc_): Define.
+	* configure.ac (AM_GNU_GETTEXT_VERSION): Update to 0.18 as
+	required by latest gnulib.
+	* gnulib: Update to latest.
+
 2010-07-24  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	tests: handle Valgrind that complains about >&-.
