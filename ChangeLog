@@ -1,5 +1,13 @@
 2010-07-25  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	build: fix our adjustments for gnulib files in lib.
+	* configure.ac: For prepending lib/ to the values of config
+	variables, fix detection of empty values.  Also, due to recent
+	gnulib changes, add LIBUNISTRING_UNITYPES_H and
+	LIBUNISTRING_UNIWIDTH_H to the list of those variables.
+
+2010-07-25  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	maint: use announce-gen's new --mail-headers.
 	* HACKING (Announce): Update instructions.
 	* cfg.mk (announcement_Cc_): Define.
