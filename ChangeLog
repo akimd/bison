@@ -1,5 +1,10 @@
 2010-07-28  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	i18n: update.
+	* po/POTFILES.in: Add src/graphviz.c.
+
+2010-07-28  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	i18n: fix for gnulib.
 	* po/POTFILES.in: Add remaining gnulib files that have
 	translatable strings.
