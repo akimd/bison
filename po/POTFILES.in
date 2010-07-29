@@ -21,6 +21,9 @@ lib/bitset_stats.c
 lib/error.c
 lib/getopt.c
 lib/obstack.c
+lib/pipe.c
 lib/quotearg.c
 lib/timevar.c
+lib/w32spawn.h
+lib/wait-process.c
 lib/xalloc-die.c
