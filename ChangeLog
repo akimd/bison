@@ -1,5 +1,15 @@
 2010-07-28  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Version 2.4.3_rc1.
+	* NEWS (2.4.3): Rename to...
+	(2.4.3_rc1): ... this for now so we can include translation
+	updates in 2.4.3, and set release date.
+	* configure.ac (AM_INIT_AUTOMAKE): Underscore rather than dash
+	in version string now indicates a release candidate and that we
+	thus cannot enable gnits.  Dash confuses git-version-gen.
+
+2010-07-28  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	i18n: fix for gnulib.
 	* po/POTFILES.in: Add remaining gnulib files that have
 	translatable strings.
