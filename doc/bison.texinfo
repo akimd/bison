@@ -135,7 +135,7 @@ Writing @acronym{GLR} Parsers
 
 * Simple GLR Parsers::     Using @acronym{GLR} parsers on unambiguous grammars.
 * Merging GLR Parses::     Using @acronym{GLR} parsers to resolve ambiguities.
-* GLR Semantic Actions::   Deferred semantic actions have special concerns.
+* GLR Semantic Actions::   Considerations for semantic values and deferred actions.
 * Semantic Predicates::    Controlling a parse with arbitrary computations.
 * Compiler Requirements::  @acronym{GLR} parsers require a modern C compiler.
 
@@ -758,7 +758,7 @@ merged result.
 @menu
 * Simple GLR Parsers::     Using @acronym{GLR} parsers on unambiguous grammars.
 * Merging GLR Parses::     Using @acronym{GLR} parsers to resolve ambiguities.
-* GLR Semantic Actions::   Deferred semantic actions have special concerns.
+* GLR Semantic Actions::   Considerations for semantic values and deferred actions.
 * Semantic Predicates::    Controlling a parse with arbitrary computations.
 * Compiler Requirements::  @acronym{GLR} parsers require a modern C compiler.
 @end menu
@@ -1119,6 +1119,10 @@ the offending merge.
 @node GLR Semantic Actions
 @subsection GLR Semantic Actions
 
+The nature of @acronym{GLR} parsing and the structure of the generated
+parsers give rise to certain restrictions on semantic values and actions.
+
+@subsubsection Deferred semantic actions
 @cindex deferred semantic actions
 By definition, a deferred semantic action is not performed at the same time as
 the associated reduction.
@@ -1152,6 +1156,7 @@ For example, if a semantic action might be deferred, you should never write it
 to invoke @code{yyclearin} (@pxref{Action Features}) or to attempt to free
 memory referenced by @code{yylval}.
 
+@subsubsection YYERROR
 @findex YYERROR
 @cindex @acronym{GLR} parsers and @code{YYERROR}
 Another Bison feature requiring special consideration is @code{YYERROR}
@@ -1159,11 +1164,17 @@ Another Bison feature requiring special consideration is @code{YYERROR}
 initiate error recovery.
 During deterministic @acronym{GLR} operation, the effect of @code{YYERROR} is
 the same as its effect in a deterministic parser.
-In a deferred semantic action, its effect is undefined.
-@c The effect is probably a syntax error at the split point.
+The effect in a deferred action is similar, but the precise point of the 
+error is undefined;  instead, the parser reverts to deterministic operation, 
+selecting an unspecified stack on which to continue with a syntax error.
+In a semantic predicate (see @ref{Semantic Predicates}) during nondeterministic
+parsing, @code{YYERROR} silently prunes
+the parse that invoked the test.
 
-Also, see @ref{Location Default Action, ,Default Action for Locations}, which
-describes a special usage of @code{YYLLOC_DEFAULT} in @acronym{GLR} parsers.
+@subsubsection Restrictions on semantic values and locations
+@acronym{GLR} parsers require that you use POD (Plain Old Data) types for
+semantic values and location types when using the generated parsers as
+C++ code.
 
 @node Semantic Predicates
 @subsection Controlling a Parse with Arbitrary Predicates
@@ -7388,12 +7399,14 @@ that allows variable-length arrays.  The default is 200.
 
 Do not allow @code{YYINITDEPTH} to be greater than @code{YYMAXDEPTH}.
 
-@c FIXME: C++ output.
-Because of semantic differences between C and C++, the deterministic
-parsers in C produced by Bison cannot grow when compiled
-by C++ compilers.  In this precise case (compiling a C parser as C++) you are
-suggested to grow @code{YYINITDEPTH}.  The Bison maintainers hope to fix
-this deficiency in a future release.
+You can generate a deterministic parser containing C++ user code from
+the default (C) skeleton, as well as from the C++ skeleton 
+(@pxref{C++ Parsers}).  However, if you do use the default skeleton
+and want to allow the parsing stack to grow,
+be careful not to use semantic types or location types that require
+non-trivial copy constructors.
+The C skeleton bypasses these constructors when copying data to
+new, larger stacks.
 
 @node Error Recovery
 @chapter Error Recovery
