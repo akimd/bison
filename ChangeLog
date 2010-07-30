@@ -1,5 +1,11 @@
 2010-07-29  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	maint: enable gnits only at stable releases.
+	* configure.ac (AM_INIT_AUTOMAKE): Underscore or dash in a
+	version string should disable gnits.  Explain in comments.
+
+2010-07-29  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Prepare for 2.4.3 release.
 	* NEWS (2.4.3_rc1): Rename back to...
 	(2.4.3): ... this, and unset date.
