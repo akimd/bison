@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-* Changes in version 2.4.3_rc1 (2010-07-29):
+* Changes in version 2.4.3 (????-??-??):
 
 ** Problems with spawning M4 on at least FreeBSD 8 and FreeBSD 9 have
    been fixed.
