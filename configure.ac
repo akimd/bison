@@ -37,11 +37,15 @@ AC_CONFIG_MACRO_DIR([m4])
 #
 # To avoid 1.11, we make 1.11.1 the minimum version.
 #
-# We want gnits strictness only when rolling a formal release so that we can,
-# for example, run make dist at other times without being required to add a
-# bogus NEWS entry.
+# We want gnits strictness only when rolling a stable release.  For
+# release candidates, we use version strings like 2.4.3_rc1, but gnits
+# doesn't like that, so we let the underscore disable gnits.  Between
+# releases, we want to be able run make dist without being required to
+# add a bogus NEWS entry.  In that case, the version string
+# automatically contains a dash, which we also let disable gnits.
 AM_INIT_AUTOMAKE([1.11.1 dist-bzip2]
-                 m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [-], [gnu], [gnits]))
+                 m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [[-_]],
+                           [gnu], [gnits]))
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
 
 # Checks for the compiler.
