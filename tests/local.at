@@ -257,10 +257,16 @@ $2])
 #
 #   2. In the case of maintainer-xml-check, XML/XSLT output is compared with
 #      --graph and --report=all output for every working grammar.
+#
+#   3. If stderr contains a warning, -Werror and --warnings=error
+#      convert the warning to an error.
 m4_define([AT_BISON_CHECK],
 [m4_if(m4_quote($2), [0], [AT_BISON_CHECK_XML($@)],
        m4_quote($2), [], [AT_BISON_CHECK_XML($@)])
 AT_BISON_CHECK_NO_XML($@)])
+
+m4_define([AT_BISON_WERROR_MSG],
+          [[bison: warnings being treated as errors]])
 
 # AT_BISON_CHECK_NO_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # --------------------------------------------------------
@@ -269,7 +275,64 @@ AT_BISON_CHECK_NO_XML($@)])
 # handle.
 m4_define([AT_BISON_CHECK_NO_XML],
 [AT_CHECK(m4_if(m4_quote($2), [0], [], m4_quote($2), [], [],
-                [AT_QUELL_VALGRIND ])[[bison ]]$@)])
+                [AT_QUELL_VALGRIND ])[[bison ]]$@)
+m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
+      [m4_if(m4_quote(m4_if(m4_quote($2), [], [0], [$2])), [0],
+             [[# Don't interfere with caller's files.
+              if test -f stderr; then
+                mv stderr at-bison-check-stderr.bak
+              fi
+              if test -f experr; then
+                mv experr at-bison-check-experr.bak
+              fi
+
+              # Run with -Werror.
+              ]AT_CHECK(AT_QUELL_VALGRIND[[ bison -Werror ]$1],
+                        [[1]], [$3], [stderr])[
+
+              # Build expected stderr up to and including the "warnings
+              # being treated as errors" message.
+              ]AT_DATA([[at-bison-check-warnings]], [$4])[
+              at_bison_check_first="` \
+                sed -n '/: warning: /=' at-bison-check-warnings \
+                | sed -n 1p \
+              `"
+              if test $at_bison_check_first -gt 1; then
+                sed -n "1,`expr $at_bison_check_first - 1`"p \
+                  at-bison-check-warnings > experr
+              fi
+              echo ']AT_BISON_WERROR_MSG[' >> experr
+
+              # Finish building expected stderr and check.  Unlike
+              # warnings, complaints cause bison to exit early.  Thus,
+              # with -Werror, bison does not necessarily report all
+              # warnings that it does without -Werror, but it at least
+              # reports one.
+              at_bison_check_last="`sed -n '$=' stderr`"
+              if test x"$at_bison_check_last" = x; then
+                at_bison_check_last=1
+              fi
+              at_bison_check_last="`expr $at_bison_check_last - 1`"
+              sed -n "$at_bison_check_first,$at_bison_check_last"p \
+                at-bison-check-warnings >> experr
+              ]AT_CHECK([[sed 's,.*/\(]AT_BISON_WERROR_MSG[\)$,\1,' \
+                          stderr 1>&2]], [[0]], [[]], [experr])[
+
+              # Now check --warnings=error.
+              cp stderr experr
+              ]AT_CHECK(AT_QUELL_VALGRIND[[ bison --warnings=error ]$1],
+                        [[1]], [$3], [experr])[
+
+              # Restore caller's files.
+              if test -f at-bison-check-experr.bak; then
+                mv at-bison-check-experr.bak experr
+              fi
+              if test -f at-bison-check-stderr.bak; then
+                mv at-bison-check-stderr.bak stderr
+              fi
+             ]])
+      ])
+])
 
 # AT_BISON_CHECK_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # -----------------------------------------------------
