@@ -1,3 +1,18 @@
+2010-08-01  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	-Werror: fix for rules useless in parser after conflicts.
+	* NEWS (2.4.3): Document fix.
+	* src/complain.c (error_message): Extend to handle incomplete
+	error messages so warn and warn_at can be used in more cases.
+	* src/gram.c (grammar_rules_useless_report): Use warn_at so that
+	-Werror is always obeyed.
+	* src/reduce.c (reduce_print): Use warn so that the "warnings
+	being treated as errors" message is printed consistently before
+	the first warning message.  This makes testing easier.
+	* tests/local.at (AT_BISON_WERROR_MSG): New macro.
+	(AT_BISON_CHECK_NO_XML): Extend to check -Werror and
+	--warnings=error when warnings appear in bison's stderr.
+
 2010-07-29  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	maint: enable gnits only at stable releases.

@@ -224,6 +224,9 @@ Bison News
 
 * Changes in version 2.4.3 (????-??-??):
 
+** Bison now obeys -Werror and --warnings=error for warnings about
+   grammar rules that are useless in the parser due to conflicts.
+
 ** Problems with spawning M4 on at least FreeBSD 8 and FreeBSD 9 have
    been fixed.
 
