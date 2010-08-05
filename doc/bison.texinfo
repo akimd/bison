@@ -4695,8 +4695,8 @@ number which Bison printed.  With @acronym{GLR} parsers, add an
 @code{%expect-rr} declaration as well.
 @end itemize
 
-Now Bison will warn you if you introduce an unexpected conflict, but
-will keep silent otherwise.
+Now Bison will report an error if you introduce an unexpected conflict,
+but will keep silent otherwise.
 
 @node Start Decl
 @subsection The Start-Symbol
@@ -6705,8 +6705,10 @@ This particular ambiguity was first encountered in the specifications of
 Algol 60 and is called the ``dangling @code{else}'' ambiguity.
 
 To avoid warnings from Bison about predictable, legitimate shift/reduce
-conflicts, use the @code{%expect @var{n}} declaration.  There will be no
-warning as long as the number of shift/reduce conflicts is exactly @var{n}.
+conflicts, use the @code{%expect @var{n}} declaration.
+There will be no warning as long as the number of shift/reduce conflicts
+is exactly @var{n}, and Bison will report an error if there is a
+different number.
 @xref{Expect Decl, ,Suppressing Conflict Warnings}.
 
 The definition of @code{if_stmt} above is solely to blame for the
@@ -8415,8 +8417,8 @@ Treat warnings as errors.
 @end table
 
 A category can be turned off by prefixing its name with @samp{no-}.  For
-instance, @option{-Wno-syntax} will hide the warnings about unused
-variables.
+instance, @option{-Wno-yacc} will hide the warnings about
+@acronym{POSIX} Yacc incompatibilities.
 @end table
 
 @noindent
