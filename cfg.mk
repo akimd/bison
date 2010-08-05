@@ -42,7 +42,7 @@ local-checks-to-skip = changelog-check
 # this release.  Used solely to get a date for the "announcement" target.
 gnulib_dir = $(srcdir)/gnulib
 
-bootstrap-tools = autoconf,automake,flex,gnulib
+bootstrap-tools = autoconf,automake,flex,gettext,gnulib
 
 announcement_Cc_ = \
   bug-bison@gnu.org, help-bison@gnu.org, bison-patches@gnu.org, \

@@ -1,5 +1,13 @@
 2010-08-04  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	maint: add gettext version to release announcements.
+	Suggested by Paul Hilfinger at
+	<http://lists.gnu.org/archive/html/bison-patches/2010-07/msg00019.html>
+	<http://lists.gnu.org/archive/html/bison-patches/2010-08/msg00002.html>.
+	* cfg.mk (bootstrap-tools): Add gettext.
+
+2010-08-04  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: fix -W and %expect documentation some.
 	* NEWS (2.4.3): Mention that there are documentation fixes.
 	* doc/bison.texinfo (Expect Decl): Make it clear that %expect
