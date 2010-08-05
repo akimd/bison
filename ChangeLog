@@ -1,3 +1,12 @@
+2010-08-04  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	doc: fix -W and %expect documentation some.
+	* NEWS (2.4.3): Mention that there are documentation fixes.
+	* doc/bison.texinfo (Expect Decl): Make it clear that %expect
+	turns conflicts into errors not warnings.
+	(Shift/Reduce): Likewise.
+	(Bison Options): Don't mention -Wsyntax.  It doesn't exist.
+
 2010-08-01  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	-Werror: fix for rules useless in parser after conflicts.
