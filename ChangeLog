@@ -1,3 +1,8 @@
+2010-08-05  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	Version 2.4.3.
+	* NEWS (2.4.3): Set date.
+
 2010-08-04  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	maint: add gettext version to release announcements.
