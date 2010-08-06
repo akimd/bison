@@ -281,7 +281,7 @@ Bison News
   the user %code sections so that its #ifndef guard does not try to
   override the user's YYLLOC_DEFAULT if provided.
 
-* Changes in version 2.4.3 (????-??-??):
+* Changes in version 2.4.3 (2010-08-05):
 
 ** Bison now obeys -Werror and --warnings=error for warnings about
    grammar rules that are useless in the parser due to conflicts.
