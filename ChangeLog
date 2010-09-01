@@ -1,3 +1,10 @@
+2010-09-01  Akim Demaille  <demaille@gostai.com>
+
+	Address GCC warnings about shadowed local variables (yyflag).
+	* data/glr.c (YYCHK): Rename yyflag as yychk_flag.
+	(yyprocessOneStack): Reduce the scope of yyaction, yyconflicts,
+	yyrule, and yyflag.
+
 2010-08-05  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	Version 2.4.3.
@@ -119,7 +126,7 @@
         (packgram): Transfer is_predicate value.
         * src/reader.h (grammar_current_rule_action_append): New interface.
         * doc/bison.texinfo: Document semantic predicates (%?).
-    
+
         * data/glr.c (yylhsNonterm, yyisDefaultedState,yyDefaultAction)
         (yygetLRActions,yynewGLRStackItem,yyaddDeferredAction,yyinitStateSet)
         (yyinitGLRStack,yyexpandGLRStack,yyupdateSplit,yymarkStackDeleted)
@@ -130,7 +137,7 @@
         (struct yyGLRState): Fix description of yyposn field.
         (yyresolveLocations): Correct comment so as not to imply action when
         yyn1==0.
-	
+
 2010-06-17  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Update from GFDL GFDL 1.2 to 1.3.
