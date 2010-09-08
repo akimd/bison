@@ -1,3 +1,13 @@
+2010-09-08  Paul Hilfinger  <hilfinger@cs.berkeley.edu>
+
+	* data/glr.c (yy_reduce_print): Change yyrhsVals to yyvsp to remove
+	compiler errors when using %debug.
+	Add declaration of yylow when locations in use to avoid compilation
+	error.
+	(yyglrReduce): Conditionalize message "Parse ... rejected by rule..."
+	on whether we are in split mode, for consistency with behavior of
+	non-GLR parsing.
+
 2010-09-01  Akim Demaille  <demaille@gostai.com>
 
 	Address GCC warnings about shadowed local variables (yyflag).
