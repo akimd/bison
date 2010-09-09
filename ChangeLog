@@ -1,3 +1,8 @@
+2010-09-09  Paul Hilfinger  <hilfinger@cs.berkeley.edu>
+
+	* data/glr.c (yySymbol): Define as int to avoid compiler warnings about
+	possible change of value.
+
 2010-09-08  Paul Hilfinger  <hilfinger@cs.berkeley.edu>
 
 	* data/glr.c (yy_reduce_print): Change yyrhsVals to yyvsp to remove
