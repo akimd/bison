@@ -1,5 +1,15 @@
 2010-10-08  Paul Eggert  <eggert@cs.ucla.edu>
 
+	Fix portability problem on OpenBSD 4.7.
+
+	Jim Meyering reported this in
+	<http://lists.gnu.org/archive/html/bug-bison/2010-10/msg00007.html>.
+	* data/yacc.c: Use EXIT_SUCCESS as a witness for stdlib.h,
+	not _STDLIB_H.  EXIT_SUCCESS has been defined by the standard
+	for quite some time.
+	* src/parse-gram.c, src/parse-gram.h: Regenerate.
+	* tests/regression.at: Tamper with the renamed witness.
+
 	Adjust to recent changes to gnulib bootstrap.
 
 	* .cvsignore, build-aux/.cvsignore, doc/.cvsignore, etc/.cvsignore:
