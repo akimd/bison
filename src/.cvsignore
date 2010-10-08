@@ -1,9 +1,0 @@
-*.flc
-*.log
-*.output
-.deps
-bison
-scan-code.c
-scan-gram.c
-scan-skel.c
-yacc

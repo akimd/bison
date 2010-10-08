@@ -1,3 +1,31 @@
+2010-10-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Adjust to recent changes to gnulib bootstrap.
+
+	* .cvsignore, build-aux/.cvsignore, doc/.cvsignore, etc/.cvsignore:
+	* examples/calc++/.cvsignore, lib/.cvsignore, m4/.cvsignore:
+	* po/.cvsignore, runtime-po/.cvsignore, src/.cvsignore:
+	* tests/.cvsignore: Remove; I don't use CVS to maintain Bison
+	anymore and don't know of anybody else who does.  If someone needs
+	these files, they can resurrect them.
+	* .gitignore, build-aux/.gitignore, doc/.gitignore, lib/.gitignore:
+	* m4/.gitignore, po/.gitignore, runtime-po/.gitignore:
+	Omit leading '/', since bootstrap omits it.
+	Adjust file names to match current contents better.
+	* bootstrap: Sync from gnulib: this contains the new gnulib_mk_hook
+	installed just for us.
+	* bootstrap.conf (excluded_files): Don't exclude codeset.m4,
+	glibc21.m4, inttypes_h.m4, size_max.m4, xsize.m4, as they are now
+	needed somehow.  Don't have time to look into why.
+	(gnulib_modules): Change malloc to malloc-gnu.  Do we really assume
+	the GNU malloc behavior, where malloc (0) != NULL unless we're
+	out of storage?  If not, we can omit malloc-gnu; but for now I left
+	it in to be safe.
+	(vc_ignore): Remove.
+	(gnulib_mk_hook): New function.
+	* README-hacking: Renamed from HACKING, since gnulib bootstrap now
+	uses that convention.
+
 2010-09-09  Paul Hilfinger  <hilfinger@cs.berkeley.edu>
 
 	* data/glr.c (yySymbol): Define as int to avoid compiler warnings about
