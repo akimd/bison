@@ -261,6 +261,21 @@ insert_sorted_if_absent() {
     || exit 1
 }
 
+# Adjust $PATTERN for $VC_IGNORE_FILE and insert it with
+# insert_sorted_if_absent.
+insert_vc_ignore() {
+  vc_ignore_file="$1"
+  pattern="$2"
+  case $vc_ignore_file in
+  *.gitignore)
+    # A .gitignore entry that does not start with `/' applies
+    # recursively to subdirectories, so prepend `/' to every
+    # .gitignore entry.
+    pattern=`echo "$pattern" | sed s,^,/,`;;
+  esac
+  insert_sorted_if_absent "$vc_ignore_file" "$pattern"
+}
+
 # Die if there is no AC_CONFIG_AUX_DIR($build_aux) line in configure.ac.
 found_aux_dir=no
 grep '^[	 ]*AC_CONFIG_AUX_DIR(\['"$build_aux"'\])' configure.ac \
@@ -279,7 +294,7 @@ if test ! -d $build_aux; then
   mkdir $build_aux
   for dot_ig in x $vc_ignore; do
     test $dot_ig = x && continue
-    insert_sorted_if_absent $dot_ig $build_aux
+    insert_vc_ignore $dot_ig $build_aux
   done
 fi
 
@@ -565,7 +580,7 @@ symlink_to_dir()
       for dot_ig in x $vc_ignore; do
         test $dot_ig = x && continue
         ig=$parent/$dot_ig
-        insert_sorted_if_absent $ig `echo "$dst_dir"|sed 's,.*/,,'`
+        insert_vc_ignore $ig `echo "$dst_dir"|sed 's,.*/,,'`
       done
     fi
 
@@ -725,7 +740,7 @@ slurp() {
       test $dot_ig = x && continue
       ig=$dir/$dot_ig
       if test -n "$copied"; then
-        insert_sorted_if_absent $ig "$copied"
+        insert_vc_ignore $ig "$copied"
         # If an ignored file name ends with .in.h, then also add
         # the name with just ".h".  Many gnulib headers are generated,
         # e.g., stdint.in.h -> stdint.h, dirent.in.h ->..., etc.
@@ -738,12 +753,12 @@ slurp() {
             s/\.gperf$/.h/
           '
         `
-        insert_sorted_if_absent $ig "$f"
+        insert_vc_ignore $ig "$f"
 
         # For files like sys_stat.in.h and sys_time.in.h, record as
         # ignorable the directory we might eventually create: sys/.
         f=`echo "$copied"|sed 's/sys_.*\.in\.h$/sys/'`
-        insert_sorted_if_absent $ig "$f"
+        insert_vc_ignore $ig "$f"
       fi
     done
   done
