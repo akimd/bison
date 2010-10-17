@@ -1,3 +1,13 @@
+2010-10-17  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	maint: re-anchor all .gitignore entries.
+	* bootstrap: Copy from gnulib's latest for the fix to
+	automatically anchor entries it constructs.
+	* gnulib: Update to latest just so it has the same bootstrap.
+	* .gitignore, build-aux/.gitignore, doc/.gitignore:
+	* lib/.gitignore, m4/.gitignore, po/.gitignore:
+	* runtime-po/.gitignore: Re-anchor all entries.
+
 2010-10-08  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix portability problem on OpenBSD 4.7.
