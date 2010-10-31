@@ -1,3 +1,7 @@
+2010-10-31  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	* ChangeLog: Correct some errors in previous entries.
+
 2010-10-17  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	maint: re-anchor all .gitignore entries.
@@ -149,57 +153,57 @@
 2010-07-23  Paul Hilfinger  <hilfingr@EECS.Berkeley.EDU>
 
 	* NEWS: Describe new semantic-predicate feature.
-        * data/c.m4 (b4_predicate_case): New definition.
-        * data/java.m4 (b4_predicate_case): New definition.
-        * data/glr.c (yyimmediate): Add definition.
-        (yydoAction): Remove comment, now obsolete.
-        Do YY_REDUCE_PRINT here.
-        (yyglrReduce): Alter comment to indicate that semantic values
-        need not be deferred.
-        Remove YY_REDUCE_PRINT from here; done in yydoAction.
-        (yyprocessOneStack): Pass immediate flag.
-        Delete stacks rejected by predicates in newly split-off parsers.
-        Change handling of yyerr so that only current stack gets deleted
-        when semantic predicate fails.
-        (yyfillin): Don't crash if a semantic value is unresolved (as may
-        happen in predicate rules).
-        Copy lr state as well in debugging mode.
-        Update comment on setting of yysval to include yyloc as well.
-        (yy_reduce_print): Add yynormal argument.  Perform fillin properly.
-        Report unresolved RHS values.
-        (yyimmediate): New table.
-        * src/gram.h (struct rule): Add is_predicate field.
-        * src/output.c (user_actions_output): Use b4_predicate_case for
-        predicates.
-        (prepare_symbols): Output yyimmediate.
-        * src/scan-gram.l: Add %? token, SC_PREDICATE state.
-        * src/scan-code.l (code_props_rule_action_init): Add is_predicate
-        argument.
-        * src/scan-code.h (struct code_props): Add is_predicate field.
-        (code_props_rule_action_init): New interface.
-        * src/parse-gram.y (%?{...}): New token.
-        (rhs): Add %?{...} rule.
-        * src/parse-gram.c: Regenerate.
-        * src/parse-gram.h: Regenerate.
-        * src/reader.c (grammar_current_rule_action_append): Add
-        immediate argument.
-        (grammar_midrule_action): Use new interface for
-        code_props_rule_action_init.
-        (grammar_current_rule_action_append): Ditto.
-        (packgram): Transfer is_predicate value.
-        * src/reader.h (grammar_current_rule_action_append): New interface.
-        * doc/bison.texinfo: Document semantic predicates (%?).
+	* data/c.m4 (b4_predicate_case): New definition.
+	* data/java.m4 (b4_predicate_case): New definition.
+	* data/glr.c (yyimmediate): Add definition.
+	(yydoAction): Remove comment, now obsolete.
+	Do YY_REDUCE_PRINT here.
+	(yyglrReduce): Alter comment to indicate that semantic values
+	need not be deferred.
+	Remove YY_REDUCE_PRINT from here; done in yydoAction.
+	(yyprocessOneStack): Pass immediate flag.
+	Delete stacks rejected by predicates in newly split-off parsers.
+	Change handling of yyerr so that only current stack gets deleted
+	when semantic predicate fails.
+	(yyfillin): Don't crash if a semantic value is unresolved (as may
+	happen in predicate rules).
+	Copy lr state as well in debugging mode.
+	Update comment on setting of yysval to include yyloc as well.
+	(yy_reduce_print): Add yynormal argument.  Perform fillin properly.
+	Report unresolved RHS values.
+	(yyimmediate): New table.
+	* src/gram.h (struct rule): Add is_predicate field.
+	* src/output.c (user_actions_output): Use b4_predicate_case for
+	predicates.
+	(prepare_symbols): Output yyimmediate.
+	* src/scan-gram.l: Add %? token, SC_PREDICATE state.
+	* src/scan-code.l (code_props_rule_action_init): Add is_predicate
+	argument.
+	* src/scan-code.h (struct code_props): Add is_predicate field.
+	(code_props_rule_action_init): New interface.
+	* src/parse-gram.y (%?{...}): New token.
+	(rhs): Add %?{...} rule.
+	* src/parse-gram.c: Regenerate.
+	* src/parse-gram.h: Regenerate.
+	* src/reader.c (grammar_current_rule_action_append): Add
+	immediate argument.
+	(grammar_midrule_action): Use new interface for
+	code_props_rule_action_init.
+	(grammar_current_rule_action_append): Ditto.
+	(packgram): Transfer is_predicate value.
+	* src/reader.h (grammar_current_rule_action_append): New interface.
+	* doc/bison.texinfo: Document semantic predicates (%?).
 
-        * data/glr.c (yylhsNonterm, yyisDefaultedState,yyDefaultAction)
-        (yygetLRActions,yynewGLRStackItem,yyaddDeferredAction,yyinitStateSet)
-        (yyinitGLRStack,yyexpandGLRStack,yyupdateSplit,yymarkStackDeleted)
-        (yyundeleteLastStack,yyglrShift,yyglrShiftDefer,yydoAction,yyglrReduce)
-        (yyidenticalOptions,yymergeOptionSets,yyresolveStates,yyresolveAction)
-        (yyresolveLocations,yyresolveValue,yyreducePrint): Update parameter
-        names in comments and mention all parameters.
-        (struct yyGLRState): Fix description of yyposn field.
-        (yyresolveLocations): Correct comment so as not to imply action when
-        yyn1==0.
+	* data/glr.c (yylhsNonterm, yyisDefaultedState,yyDefaultAction)
+	(yygetLRActions,yynewGLRStackItem,yyaddDeferredAction,yyinitStateSet)
+	(yyinitGLRStack,yyexpandGLRStack,yyupdateSplit,yymarkStackDeleted)
+	(yyundeleteLastStack,yyglrShift,yyglrShiftDefer,yydoAction,yyglrReduce)
+	(yyidenticalOptions,yymergeOptionSets,yyresolveStates,yyresolveAction)
+	(yyresolveLocations,yyresolveValue,yyreducePrint): Update parameter
+	names in comments and mention all parameters.
+	(struct yyGLRState): Fix description of yyposn field.
+	(yyresolveLocations): Correct comment so as not to imply action when
+	yyn1==0.
 
 2010-06-17  Paul Eggert  <eggert@cs.ucla.edu>
 
@@ -767,7 +771,7 @@
 
 	YYFAIL: warn about uses and remove from lalr1.java.
 	* NEWS (2.5): Document.
-	* data/lalr1.java (parser::YYStack::YYFAIL): Rename to YYERRLAB,
+	* data/lalr1.java (YYParser::YYFAIL): Rename to YYERRLAB,
 	and make it private.  Update all uses.
 	* src/scan-code.l (SC_RULE_ACTION): Implement warning.
 
@@ -775,7 +779,7 @@
 
 	YYFAIL: deprecate.
 	* NEWS (2.4.2): Document deprecation and the phase-out plan.
-	* data/lalr1.java (parser::YYStack::YYFAIL): Add comment about
+	* data/lalr1.java (YYParser::YYFAIL): Add comment about
 	deprecation.
 	* data/yacc.c (YYFAIL): Likewise, and suppress warnings about
 	YYFAIL from GCC cpp's -Wunused-macros.
@@ -792,7 +796,7 @@
 2009-12-18  Joel E. Denny  <jdenny@clemson.edu>
 
 	lalr1.cc: don't discard non-existent lookahead on syntax error.
-	* data/lalr1.cc (parser::parse): Check yyempty first.
+	* data/lalr1.cc (yy::parser::parse): Check yyempty first.
 	* tests/c++.at (Syntax error discarding no lookahead): New test
 	group.
 
