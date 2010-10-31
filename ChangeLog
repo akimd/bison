@@ -1,3 +1,7 @@
+2010-10-31  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	* ChangeLog: Correct some errors in previous entries.
+
 2010-10-17  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	maint: re-anchor all .gitignore entries.
@@ -688,7 +692,7 @@
 
 	YYFAIL: warn about uses and remove from lalr1.java.
 	* NEWS (2.5): Document.
-	* data/lalr1.java (parser::YYStack::YYFAIL): Rename to YYERRLAB,
+	* data/lalr1.java (YYParser::YYFAIL): Rename to YYERRLAB,
 	and make it private.  Update all uses.
 	* src/scan-code.l (SC_RULE_ACTION): Implement warning.
 
@@ -696,7 +700,7 @@
 
 	YYFAIL: deprecate.
 	* NEWS (2.4.2): Document deprecation and the phase-out plan.
-	* data/lalr1.java (parser::YYStack::YYFAIL): Add comment about
+	* data/lalr1.java (YYParser::YYFAIL): Add comment about
 	deprecation.
 	* data/yacc.c (YYFAIL): Likewise, and suppress warnings about
 	YYFAIL from GCC cpp's -Wunused-macros.
