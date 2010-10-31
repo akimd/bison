@@ -1,5 +1,12 @@
 2010-10-31  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	yysyntax_error: improve invocation readability.
+	* data/yacc.c (yyparse, yypush_parse): For yysyntax_error
+	invocation, get rid of the while loop, which is misleading
+	because there are really at most two iterations.
+
+2010-10-31  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	* ChangeLog: Correct some errors in previous entries.
 
 2010-10-17  Joel E. Denny  <joeldenny@joeldenny.org>
