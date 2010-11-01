@@ -1,5 +1,10 @@
 2010-10-31  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Fix memory leak.
+	* src/output.c (prepare_rules): Free temporary array.
+
+2010-10-31  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	yysyntax_error: improve invocation readability.
 	* data/yacc.c (yyparse, yypush_parse): For yysyntax_error
 	invocation, get rid of the while loop, which is misleading
