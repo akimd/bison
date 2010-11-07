@@ -977,8 +977,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
   ]b4_parser_class_name[::yysyntax_error_ (]dnl
 b4_error_verbose_if([state_type yystate, int yytoken],
                     [int, int])[)
-  {
-    std::string yyres;]b4_error_verbose_if([[
+  {]b4_error_verbose_if([[
+    std::string yyres;
     int yyn = yypact_[yystate];
     if (yypact_ninf_ < yyn && yyn <= yylast_)
       {
@@ -1038,9 +1038,9 @@ b4_error_verbose_if([state_type yystate, int yytoken],
         yyres += *yyp;
     }
   else
-  ]])dnl
-[    yyres = YY_("syntax error");
-    return yyres;
+    yyres = YY_("syntax error");
+    return yyres;]], [[
+    return YY_("syntax error");]])[
   }
 
 

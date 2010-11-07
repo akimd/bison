@@ -1,5 +1,14 @@
 2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
 
+	yysyntax_error: more preparation for readability of next patch.
+	There are no behavioral changes here.
+	* data/glr.c (yyreportSyntaxError): Reorganize.
+	* data/lalr1.cc (yy::parser::yysyntax_error_): Reorganize.
+	* tests/conflicts.at (parse.error=verbose and consistent errors):
+	Reorganize.
+
+2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
+
 	yysyntax_error: prepare for readability of next patches.
 	These are purely whitespace changes that result in ugly code
 	but that make the next couple of patches much easier to read.
