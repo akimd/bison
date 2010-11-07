@@ -1,5 +1,41 @@
 2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
 
+	yysyntax_error: fix for consistent error with lookahead.
+	* NEWS (2.5): Document.
+	* data/yacc.c (yysyntax_error): In a verbose syntax error
+	message while in a consistent state with a default action (which
+	must be an error action given that yysyntax_error is being
+	invoked), continue to drop the expected token list, but don't
+	drop the unexpected token unless there actually is no lookahead.
+	Moreover, handle that internally instead of returning 1 to tell
+	the caller to do it.  With that meaning of 1 gone, renumber
+	return codes more usefully.
+	(yyparse, yypush_parse): Update yysyntax_error usage.  Most
+	importantly, set yytoken to YYEMPTY when there's no lookahead.
+	* data/glr.c (yyreportSyntaxError): As in yacc.c, don't drop the
+	unexpected token unless there actually is no lookahead.
+	* data/lalr1.cc (yy::parser::parse): If there's no lookahead,
+	pass yyempty_ not yyla.type to yysyntax_error_.
+	(yy::parser::yysyntax_error_): Again, don't drop the unexpected
+	token unless there actually is no lookahead.
+	* data/lalr1.java (YYParser::parse): If there's no lookahead,
+	set yytoken to yyempty_ before invoking yysyntax_error.
+	(YYParser::yysyntax_error): Again, don't drop the unexpected
+	token unless there actually is no lookahead.
+	* tests/conflicts.at (parse.error=verbose and consistent
+	errors): Extend test group to further reveal how the previous
+	use of the simple "syntax error" message was too general.  Test
+	yacc.c, glr.c, lalr1.cc, and lalr1.java.  No longer an expected
+	failure.
+	* tests/java.at (AT_JAVA_COMPILE, AT_JAVA_PARSER_CHECK): Move
+	to...
+	* tests/local.at: ... here.
+	(_AT_BISON_OPTION_PUSHDEFS): Push AT_SKEL_JAVA_IF definition.
+	(AT_BISON_OPTION_POPDEFS): Pop it.
+	(AT_FULL_COMPILE): Extend to handle Java.
+
+2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
+
 	yysyntax_error: more preparation for readability of next patch.
 	There are no behavioral changes here.
 	* data/glr.c (yyreportSyntaxError): Reorganize.
