@@ -1,5 +1,17 @@
 2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
 
+	yysyntax_error: adjust prior fixes for branch-2.5's lalr1.cc.
+	On master, there is no yychar in lalr1.cc, but there is on
+	branch-2.5, and the prior cherry-pick of "Fix handling of yychar
+	manipulation in user semantic actions" wasn't adjusted for that
+	difference.
+	* data/lalr1.cc (yy::parser::parse): Translate yychar before
+	every use of yytoken, and add comments explaining this approach.
+	* tests/conflicts.at (%error-verbose and consistent errors):
+	Extend to test yychar manipulation with lalr1.cc.
+
+2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
+
 	yysyntax_error: fix for consistent error with lookahead.
 	* NEWS (2.5): Document.
 	* data/yacc.c (yysyntax_error): In a verbose syntax error

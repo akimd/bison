@@ -161,6 +161,7 @@ AT_SKEL_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
 }]], [[
 
 %code {]AT_SKEL_CC_IF([[
+  #include <cassert>
   #include <string>]], [[
   #include <assert.h>
   #include <stdio.h>
@@ -376,7 +377,7 @@ error-reduce:
 ;
 
 consistent-reduction: /*empty*/ {
-  assert (yychar == YYEMPTY);
+  assert (yychar == ]AT_SKEL_CC_IF([[yyempty_]], [[YYEMPTY]])[);
   yylval = 0;
   yychar = 'b';
 } ;
@@ -400,7 +401,11 @@ AT_CONSISTENT_ERRORS_CHECK([[%glr-parser]],
                            [AT_USER_ACTION_GRAMMAR],
                            [AT_USER_ACTION_INPUT],
                            [['b']], [[none]])
-# No C++ or Java test because yychar cannot be manipulated by users.
+AT_CONSISTENT_ERRORS_CHECK([[%language "c++"]],
+                           [AT_USER_ACTION_GRAMMAR],
+                           [AT_USER_ACTION_INPUT],
+                           [['b']], [[none]])
+# No Java test because yychar cannot be manipulated by users.
 
 AT_CONSISTENT_ERRORS_CHECK([[%define lr.default-reductions consistent]],
                            [AT_USER_ACTION_GRAMMAR],
