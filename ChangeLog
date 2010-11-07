@@ -1,3 +1,13 @@
+2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
+
+	yysyntax_error: prepare for readability of next patches.
+	These are purely whitespace changes that result in ugly code
+	but that make the next couple of patches much easier to read.
+	* data/glr.c (yyreportSyntaxError): Reindent.
+	* data/lalr1.cc (yy::parser::yysyntax_error_): Reindent.
+	* data/lalr1.java (YYParser::yysyntax_error): Reindent.
+	* data/yacc.c (yysyntax_error): Reindent.
+
 2010-10-31  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	Fix memory leak.

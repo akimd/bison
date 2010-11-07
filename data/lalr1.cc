@@ -982,62 +982,62 @@ b4_error_verbose_if([state_type yystate, int yytoken],
     int yyn = yypact_[yystate];
     if (yypact_ninf_ < yyn && yyn <= yylast_)
       {
-	/* Start YYX at -YYN if negative to avoid negative indexes in
-	   YYCHECK.  In other words, skip the first -YYN actions for this
-	   state because they are default actions.  */
-	int yyxbegin = yyn < 0 ? -yyn : 0;
+            /* Start YYX at -YYN if negative to avoid negative indexes in
+               YYCHECK.  In other words, skip the first -YYN actions for
+               this state because they are default actions.  */
+            int yyxbegin = yyn < 0 ? -yyn : 0;
 
-	/* Stay within bounds of both yycheck and yytname.  */
-	int yychecklim = yylast_ - yyn + 1;
-	int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+            /* Stay within bounds of both yycheck and yytname.  */
+            int yychecklim = yylast_ - yyn + 1;
+            int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
 
         // Number of reported tokens (one for the "unexpected", one per
         // "expected").
-	size_t yycount = 0;
+        size_t yycount = 0;
         // Its maximum.
         enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
         // Arguments of yyformat.
         char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
         yyarg[yycount++] = yytname_[yytoken];
-	for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-	  if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
-	      && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
-          {
-            if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-            {
-              yycount = 1;
-              break;
-            }
-            else
-              yyarg[yycount++] = yytname_[yyx];
-          }
+            for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
+              if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
+                  && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
+                {
+                  if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+                    {
+                      yycount = 1;
+                      break;
+                    }
+                  else
+                    yyarg[yycount++] = yytname_[yyx];
+                }
 
-        char const* yyformat = 0;
-        switch (yycount)
-        {
-#define YYCASE_(N, S)                           \
-          case N:                               \
-            yyformat = S;                       \
-          break
-          YYCASE_(1, YY_("syntax error, unexpected %s"));
-          YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
-          YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
-          YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
-          YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+    char const* yyformat = 0;
+    switch (yycount)
+      {
+#define YYCASE_(N, S)                         \
+        case N:                               \
+          yyformat = S;                       \
+        break
+        YYCASE_(1, YY_("syntax error, unexpected %s"));
+        YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
+        YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+        YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+        YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
 #undef YYCASE_
-        }
-        // Argument number.
-        size_t yyi = 0;
-        for (char const* yyp = yyformat; *yyp; ++yyp)
-          if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
-          {
-            yyres += yytnamerr_ (yyarg[yyi++]);
-            ++yyp;
-          }
-          else
-            yyres += *yyp;
       }
-    else
+    // Argument number.
+    size_t yyi = 0;
+    for (char const* yyp = yyformat; *yyp; ++yyp)
+      if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
+        {
+          yyres += yytnamerr_ (yyarg[yyi++]);
+          ++yyp;
+        }
+      else
+        yyres += *yyp;
+    }
+  else
   ]])dnl
 [    yyres = YY_("syntax error");
     return yyres;
