@@ -147,14 +147,29 @@ AT_SETUP([[%error-verbose and consistent errors]])
 
 m4_pushdef([AT_CONSISTENT_ERRORS_CHECK], [
 
-AT_DATA_GRAMMAR([input.y],
-[[%code {
+AT_BISON_OPTION_PUSHDEFS([$1])
+
+m4_pushdef([AT_YYLEX_PROTOTYPE],
+[AT_SKEL_CC_IF([[int yylex (yy::parser::semantic_type *lvalp)]],
+               [[int yylex (YYSTYPE *lvalp)]])])
+
+AT_SKEL_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
+[AT_SKEL_JAVA_IF([[
+
+%code imports {
+  import java.io.IOException;
+}]], [[
+
+%code {]AT_SKEL_CC_IF([[
+  #include <string>]], [[
   #include <assert.h>
   #include <stdio.h>
-  int yylex (void);
-  void yyerror (char const *);
+  void yyerror (char const *msg);]])[
+  ]AT_YYLEX_PROTOTYPE[;
   #define USE(Var)
 }
+
+]AT_SKEL_CC_IF([[%defines]], [[%define api.pure]])])[
 
 ]$1[
 
@@ -164,63 +179,193 @@ AT_DATA_GRAMMAR([input.y],
 
 ]$2[
 
-%%
+]AT_SKEL_JAVA_IF([[%code lexer {]], [[%%]])[
 
-int
-yylex (void)
+/*--------.
+| yylex.  |
+`--------*/]AT_SKEL_JAVA_IF([[
+
+public String input = "]$3[";
+public int index = 0;
+public int yylex ()
+{
+  if (index < input.length ())
+    return input.charAt (index++);
+  else
+    return 0;
+}
+public Object getLVal ()
+{
+  return new Integer(1);
+}]], [[
+
+]AT_YYLEX_PROTOTYPE[
 {
   static char const *input = "]$3[";
-  yylval = 1;
+  *lvalp = 1;
   return *input++;
+}]])[
+
+/*----------.
+| yyerror.  |
+`----------*/]AT_SKEL_JAVA_IF([[
+
+public void yyerror (String msg)
+{
+  System.err.println (msg);
 }
+
+};
+
+%%]], [AT_SKEL_CC_IF([[
+
+void
+yy::parser::error (const yy::location &, std::string const &msg)
+{
+  std::cerr << msg << std::endl;
+}]], [[
 
 void
 yyerror (char const *msg)
 {
   fprintf (stderr, "%s\n", msg);
-}
+}]])])[
+
+/*-------.
+| main.  |
+`-------*/]AT_SKEL_JAVA_IF([[
+
+class input
+{
+  public static void main (String args[]) throws IOException
+  {
+    YYParser p = new YYParser ();
+    p.parse ();
+  }
+}]], [AT_SKEL_CC_IF([[
+
+int
+main (void)
+{
+  yy::parser parser;
+  return parser.parse ();
+}]], [[
 
 int
 main (void)
 {
   return yyparse ();
-}
+}]])])[
 ]])
-AT_BISON_CHECK([[-o input.c input.y]])
-AT_COMPILE([[input]])
+
+AT_FULL_COMPILE([[input]])
 
 m4_pushdef([AT_EXPECTING], [m4_if($5, [ab], [[, expecting 'a' or 'b']],
                                   $5, [a],  [[, expecting 'a']],
                                   $5, [b],  [[, expecting 'b']])])
 
-AT_PARSER_CHECK([[./input]], [[1]], [[]],
+AT_SKEL_JAVA_IF([AT_JAVA_PARSER_CHECK([[input]], [[0]]],
+                [AT_PARSER_CHECK([[./input]], [[1]]]),
+[[]],
 [[syntax error, unexpected ]$4[]AT_EXPECTING[
 ]])
 
 m4_popdef([AT_EXPECTING])
+m4_popdef([AT_YYLEX_PROTOTYPE])
+AT_BISON_OPTION_POPDEFS
 
 ])
+
+m4_pushdef([AT_PREVIOUS_STATE_GRAMMAR],
+[[%nonassoc 'a';
+
+start: consistent-error-on-a-a 'a' ;
+
+consistent-error-on-a-a:
+    'a' default-reduction
+  | 'a' default-reduction 'a'
+  | 'a' shift
+  ;
+
+default-reduction: /*empty*/ ;
+shift: 'b' ;
+
+// Provide another context in which all rules are useful so that this
+// test case looks a little more realistic.
+start: 'b' consistent-error-on-a-a 'c' ;
+]])
+
+m4_pushdef([AT_PREVIOUS_STATE_INPUT], [[a]])
+
+# Unfortunately, no expected tokens are reported even though 'b' can be
+# accepted.  Nevertheless, the main point of this test is to make sure
+# that at least the unexpected token is reported.  In a previous version
+# of Bison, it wasn't reported because the error is detected in a
+# consistent state with an error action, and that case always triggered
+# the simple "syntax error" message.
+#
+# The point isn't to test IELR here, but state merging happens to
+# complicate this example.
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[none]])
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
+                             %glr-parser]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[none]])
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
+                             %language "c++"]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[none]])
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
+                             %language "java"]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[end of input]], [[none]])
+
+# Even canonical LR doesn't foresee the error for 'a'!
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
+                             %define lr.default-reductions consistent]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[ab]])
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
+                             %define lr.default-reductions accepting]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[ab]])
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type canonical-lr]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[ab]])
+
+m4_popdef([AT_PREVIOUS_STATE_GRAMMAR])
+m4_popdef([AT_PREVIOUS_STATE_INPUT])
 
 m4_pushdef([AT_USER_ACTION_GRAMMAR],
 [[%nonassoc 'a';
 
-// If yylval=0 here, then we know that the 'a' destructor is being
-// invoked incorrectly for the 'b' set in the semantic action below.
-// All 'a' tokens are returned by yylex, which sets yylval=1.
+// If $$ = 0 here, then we know that the 'a' destructor is being invoked
+// incorrectly for the 'b' set in the semantic action below.  All 'a'
+// tokens are returned by yylex, which sets $$ = 1.
 %destructor {
   if (!$$)
     fprintf (stderr, "Wrong destructor.\n");
 } 'a';
 
-// The lookahead assigned by the semantic action isn't needed before
-// either error action is encountered.  In a previous version of Bison,
-// this was a problem as it meant yychar was not translated into yytoken
-// before either error action.  The second error action thus invoked a
+// Rather than depend on an inconsistent state to induce reading a
+// lookahead as in the previous grammar, just assign the lookahead in a
+// semantic action.  That lookahead isn't needed before either error
+// action is encountered.  In a previous version of Bison, this was a
+// problem as it meant yychar was not translated into yytoken before
+// either error action.  The second error action thus invoked a
 // destructor that it selected according to the incorrect yytoken.  The
 // first error action would have reported an incorrect unexpected token
-// except that, due to another bug, the unexpected token is not reported
-// at all because the error action is the default action in a consistent
-// state.  That bug still needs to be fixed.
+// except that, due to the bug described in the previous grammar, the
+// unexpected token was not reported at all.
 start: error-reduce consistent-error 'a' { USE ($][3); } ;
 
 error-reduce:
@@ -247,13 +392,16 @@ start: 'b' consistent-error 'b' ;
 ]])
 m4_pushdef([AT_USER_ACTION_INPUT], [[aa]])
 
-# See comments in grammar for why this test doesn't succeed.
-AT_XFAIL_IF([[:]])
-
 AT_CONSISTENT_ERRORS_CHECK([[]],
                            [AT_USER_ACTION_GRAMMAR],
                            [AT_USER_ACTION_INPUT],
                            [['b']], [[none]])
+AT_CONSISTENT_ERRORS_CHECK([[%glr-parser]],
+                           [AT_USER_ACTION_GRAMMAR],
+                           [AT_USER_ACTION_INPUT],
+                           [['b']], [[none]])
+# No C++ or Java test because yychar cannot be manipulated by users.
+
 AT_CONSISTENT_ERRORS_CHECK([[%define lr.default-reductions consistent]],
                            [AT_USER_ACTION_GRAMMAR],
                            [AT_USER_ACTION_INPUT],

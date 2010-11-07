@@ -219,24 +219,6 @@ m4_define([AT_DATA_JAVA_CALC_Y],
 ])
 
 
-
-# AT_JAVA_COMPILE(SOURCE)
-# -----------------------
-# Compile SOURCES into Java class files.  Skip the test if java or javac is
-# not installed.
-m4_define([AT_JAVA_COMPILE],
-[AT_CHECK([test -n "$CONF_JAVA" || exit 77
-test -n "$CONF_JAVAC" || exit 77])
-AT_CHECK([$SHELL ../../../javacomp.sh $1],
-         0, [ignore], [ignore])])
-
-
-# AT_JAVA_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR, [PRE])
-# -----------------------------------------------------------------
-m4_define([AT_JAVA_PARSER_CHECK],
-[AT_CHECK([$5 $SHELL ../../../javaexec.sh $1], [$2], [$3], [$4])])
-
-
 # _AT_CHECK_JAVA_CALC_ERROR(BISON-OPTIONS, INPUT,
 #                           [VERBOSE-AND-LOCATED-ERROR-MESSAGE])
 # ---------------------------------------------------------

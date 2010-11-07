@@ -80,6 +80,8 @@ m4_pushdef([AT_DEFINES_IF],
 [m4_bmatch([$3], [%defines], [$1], [$2])])
 m4_pushdef([AT_SKEL_CC_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
+m4_pushdef([AT_SKEL_JAVA_IF],
+[m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
 m4_pushdef([AT_GLR_IF],
 [m4_bmatch([$3], [%glr-parser\|%skeleton "glr\.], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
@@ -184,6 +186,7 @@ m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_YACC_IF])
 m4_popdef([AT_GLR_IF])
 m4_popdef([AT_SKEL_CC_IF])
+m4_popdef([AT_SKEL_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
 m4_popdef([AT_DEFINES_IF])
@@ -399,19 +402,38 @@ AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.cc])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
 	 0, [ignore], [ignore])])
 
+# AT_JAVA_COMPILE(SOURCES)
+# ------------------------
+# Compile SOURCES into Java class files.  Skip the test if java or javac
+# is not installed.
+m4_define([AT_JAVA_COMPILE],
+[AT_KEYWORDS(java)
+AT_CHECK([[test -n "$CONF_JAVA" || exit 77
+           test -n "$CONF_JAVAC" || exit 77]])
+AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
+         [[0]], [ignore], [ignore])])
 
 # AT_FULL_COMPILE(OUTPUT, [OTHER])
 # --------------------------------
-# Compile OUTPUT.y to OUTPUT.c or OUTPUT.cc, and compile it to OUTPUT.
-# If OTHER is specified, compile OUTPUT-OTHER.c or OUTPUT-OTHER.cc to OUTPUT
-# along with it.
-# Relies on AT_SKEL_CC_IF.
-m4_define([AT_FULL_COMPILE],
-[AT_SKEL_CC_IF(
-  [AT_BISON_CHECK([-o $1.cc $1.y])
-   AT_COMPILE_CXX([$1]m4_ifval($2, [, [$1.cc $1-$2.cc]]))],
-  [AT_BISON_CHECK([-o $1.c $1.y])
-   AT_COMPILE([$1]m4_ifval($2, [, [$1.c $1-$2.c]]))])
+# Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
+# compile it to OUTPUT or OUTPUT.class.  If OTHER is specified, compile
+# OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
+# OUTPUT.java along with it.  Relies on AT_SKEL_CC_IF and
+# AT_SKEL_JAVA_IF.
+m4_define([AT_FULL_COMPILE], [
+  AT_SKEL_JAVA_IF([
+    AT_BISON_CHECK([[-o ]$1[.java ]$1[.y]])
+    AT_JAVA_COMPILE([$1[.java]]m4_ifval($2,
+                                        [[$1[.java ]$1[-]$2[.java]]]))
+  ], [
+    AT_SKEL_CC_IF([
+      AT_BISON_CHECK([[-o ]$1[.cc ]$1[.y]])
+      AT_COMPILE_CXX([$1]m4_ifval($2, [, [$1[.cc ]$1[-]$2[.cc]]]))
+    ], [
+      AT_BISON_CHECK([[-o ]$1[.c ]$1[.y]])
+      AT_COMPILE([$1]m4_ifval($2, [, [$1[.c ]$1[-]$2[.c]]]))
+    ])
+  ])
 ])
 
 
@@ -424,6 +446,11 @@ m4_define([AT_FULL_COMPILE],
 # So that we can run `./testsuite PREPARSER='valgrind -q' for instance.
 m4_define([AT_PARSER_CHECK],
 [AT_CHECK([$5 $PREPARSER $1], [$2], [$3], [$4])])
+
+# AT_JAVA_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR, [PRE])
+# -----------------------------------------------------------------
+m4_define([AT_JAVA_PARSER_CHECK],
+[AT_CHECK([$5[ $SHELL ../../../javaexec.sh ]$1], [$2], [$3], [$4])])
 
 # AT_TEST_TABLES_AND_PARSE(TITLE, COND-VALUE, TEST-SPEC,
 #                          DECLS, GRAMMAR, INPUT,

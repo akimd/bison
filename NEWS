@@ -164,14 +164,41 @@ Bison News
   Bison now warns when a character literal is not of length one.  In
   some future release, Bison will report an error instead.
 
-** Verbose error messages fixed for nonassociative tokens.
+** Verbose syntax error message fixes:
 
-  When %error-verbose is specified, syntax error messages produced by
-  the generated parser include the unexpected token as well as a list of
-  expected tokens.  Previously, this list erroneously included tokens
-  that would actually induce a syntax error because conflicts for them
-  were resolved with %nonassoc.  Such tokens are now properly omitted
-  from the list.
+  When %error-verbose or `#define YYERROR_VERBOSE' is specified, syntax
+  error messages produced by the generated parser include the unexpected
+  token as well as a list of expected tokens.  The effect of %nonassoc
+  on these verbose messages has been corrected in two ways, but
+  additional fixes are still being implemented:
+
+*** When %nonassoc is used, there can exist parser states that accept no
+    tokens, and so the parser does not always require a lookahead token
+    in order to detect a syntax error.  Because no unexpected token or
+    expected tokens can then be reported, the verbose syntax error
+    message described above is suppressed, and the parser instead
+    reports the simpler message, "syntax error".  Previously, this
+    suppression was sometimes erroneously triggered by %nonassoc when a
+    lookahead was actually required.  Now verbose messages are
+    suppressed only when all previous lookaheads have already been
+    shifted or discarded.
+
+*** Previously, the list of expected tokens erroneously included tokens
+    that would actually induce a syntax error because conflicts for them
+    were resolved with %nonassoc in the current parser state.  Such
+    tokens are now properly omitted from the list.
+
+*** Expected token lists are still often wrong due to state merging
+    (from LALR or IELR) and default reductions, which can both add and
+    subtract valid tokens.  Canonical LR almost completely fixes this
+    problem by eliminating state merging and default reductions.
+    However, there is one minor problem left even when using canonical
+    LR and even after the fixes above.  That is, if the resolution of a
+    conflict with %nonassoc appears in a later parser state than the one
+    at which some syntax error is discovered, the conflicted token is
+    still erroneously included in the expected token list.  We are
+    currently working on a fix to eliminate this problem and to
+    eliminate the need for canonical LR.
 
 ** Destructor calls fixed for lookaheads altered in semantic actions.
 

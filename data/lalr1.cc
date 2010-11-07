@@ -719,6 +719,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     if (!yyerrstatus_)
       {
 	++yynerrs_;
+	if (yychar == yyempty_)
+	  yytoken = yyempty_;
 	error (yylloc, yysyntax_error_ (yystate, yytoken));
       }
 
@@ -848,26 +850,52 @@ b4_error_verbose_if([int yystate, int yytoken],
                     [int, int])[)
   {]b4_error_verbose_if([[
     std::string yyres;
-    int yyn = yypact_[yystate];
-    if (yypact_ninf_ < yyn && yyn <= yylast_)
+    // Number of reported tokens (one for the "unexpected", one per
+    // "expected").
+    size_t yycount = 0;
+    // Its maximum.
+    enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+    // Arguments of yyformat.
+    char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action, then
+         the only way this function was invoked is if the default action
+         is an error action.  In that case, don't check for expected
+         tokens because there are none.
+       - The only way there can be no lookahead present (in yytoken) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this state is
+         a consistent state with a default action.  There might have
+         been a previous inconsistent state, consistent state with a
+         non-default action, or user semantic action that manipulated
+         yychar.
+       - Of course, the expected token list depends on states to have
+         correct lookahead information, and it depends on the parser not
+         to perform extra reductions after fetching a lookahead from the
+         scanner and before detecting a syntax error.  Thus, state
+         merging (from LALR or IELR) and default reductions corrupt the
+         expected token list.  However, the list is correct for
+         canonical LR with one exception: it will still contain any
+         token that will not be accepted due to an error action in a
+         later state.
+    */
+    if (yytoken != yyempty_)
       {
+        yyarg[yycount++] = yytname_[yytoken];
+        int yyn = yypact_[yystate];
+        if (!yy_pact_value_is_default_ (yyn))
+          {
             /* Start YYX at -YYN if negative to avoid negative indexes in
                YYCHECK.  In other words, skip the first -YYN actions for
                this state because they are default actions.  */
             int yyxbegin = yyn < 0 ? -yyn : 0;
-
             /* Stay within bounds of both yycheck and yytname.  */
             int yychecklim = yylast_ - yyn + 1;
             int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-
-        // Number of reported tokens (one for the "unexpected", one per
-        // "expected").
-        size_t yycount = 0;
-        // Its maximum.
-        enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
-        // Arguments of yyformat.
-        char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-        yyarg[yycount++] = yytname_[yytoken];
             for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
               if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
                   && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
@@ -880,6 +908,8 @@ b4_error_verbose_if([int yystate, int yytoken],
                   else
                     yyarg[yycount++] = yytname_[yyx];
                 }
+          }
+      }
 
     char const* yyformat = 0;
     switch (yycount)
@@ -888,6 +918,7 @@ b4_error_verbose_if([int yystate, int yytoken],
         case N:                               \
           yyformat = S;                       \
         break
+        YYCASE_(0, YY_("syntax error"));
         YYCASE_(1, YY_("syntax error, unexpected %s"));
         YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
         YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
@@ -895,6 +926,7 @@ b4_error_verbose_if([int yystate, int yytoken],
         YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
 #undef YYCASE_
       }
+
     // Argument number.
     size_t yyi = 0;
     for (char const* yyp = yyformat; *yyp; ++yyp)
@@ -905,9 +937,6 @@ b4_error_verbose_if([int yystate, int yytoken],
         }
       else
         yyres += *yyp;
-    }
-  else
-    yyres = YY_("syntax error");
     return yyres;]], [[
     return YY_("syntax error");]])[
   }
