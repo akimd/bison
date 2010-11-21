@@ -1,3 +1,12 @@
+2010-11-21  Joel E. Denny  <jdenny@clemson.edu>
+
+	build: use gnulib's new bootstrap_sync option.
+	Now, whenever we update bison's copy of gnulib, bootstrap will
+	update itself the next time it's run.
+	* bootstrap: Copy from latest gnulib for bootstrap_sync support.
+	* bootstrap.conf (bootstrap_sync): Set to true.
+	* gnulib: Update to latest so bootstrap is in sync now.
+
 2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
 
 	yysyntax_error: adjust prior fixes for branch-2.5's lalr1.cc.
