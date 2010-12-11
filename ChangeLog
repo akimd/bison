@@ -1,5 +1,42 @@
 2010-12-11  Joel E. Denny  <jdenny@clemson.edu>
 
+	parse.lac: implement exploratory stack reallocations.
+	* data/yacc.c: Rename %define variable parse.lac.es-capacity to
+	parse.lac.es-capacity-initial.  Accept parse.lac.memory-trace
+	with values of "failures" (default) or "full".
+	(b4_declare_parser_state_variables): Add yyesa, yyes, and
+	yyes_capacity variables.
+	(YYSTACK_USE_ALLOCA): Ignore it if LAC requested.
+	(YYSTACK_ALLOC, YYSTACK_FREE, YYSTACK_ALLOC_MAXIMUM): Define if
+	LAC requested.
+	(YYCOPY_NEEDED): New cpp macro.
+	(YYCOPY): Define if LAC requested.
+	(yy_lac_stack_realloc): New function implementing stack
+	reallocations.  Use YYMAXDEPTH for maximum stack size given that
+	the stack should never need to grow larger than the main state
+	stack needs to grow without LAC.
+	(YY_LAC_ESTABLISH): Update yy_lac invocation.
+	(yy_lac): Add arguments for exploratory stack memory data
+	recorded in the main parser.  Invoke yy_lac_stack_realloc when
+	reallocation is necessary.
+	(yysyntax_error): Add the same new arguments and pass them to
+	yy_lac.
+	(yypstate_delete): Free yyes if necessary.
+	(yyesa, yyes, yyes_capacity): #define these to yypstate members
+	in the case of push parsing.
+	(yyparse, yypush_parse): Initialize yyes and yyes_capacity.
+	Update yysyntax_error invocations.  At yyreturn, free yyes if
+	necessary.
+	* src/parse-gram.y: %define parse.lac full.
+	* tests/input.at (LAC: errors for %define): Extend for
+	parse.lac-memory-trace.
+	* tests/regression.at (LAC: Exploratory stack): Extend to check
+	that stack reallocs happen when expected.
+	(LAC: Memory exhaustion): Update to use YYMAXDEPTH and
+	parse.lac.es-capacity-initial.
+
+2010-12-11  Joel E. Denny  <jdenny@clemson.edu>
+
 	parse.lac: implement as %define variable.
 	LAC = lookahead correction.  See discussion at
 	<http://lists.gnu.org/archive/html/bison-patches/2009-09/msg00034.html>.

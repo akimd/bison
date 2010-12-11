@@ -1506,6 +1506,8 @@ AT_DATA_GRAMMAR([input.y],
 // default reductions in inconsistent states
 // v   v v   v v v v   v v v v v v v
 S: A B A A B A A A A B A A A A A A A B C C A A A A A A A A A A A A B ;
+//       ^                     ^                               ^
+// LAC reallocs
 
 A: 'a' | /*empty*/ { printf ("inconsistent default reduction\n"); } ;
 B: 'b' ;
@@ -1535,9 +1537,8 @@ main (void)
 }
 ]])
 
-# Give exactly the right amount of memory to be sure there's no
-# off-by-one error, for example.
-AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity=12 \
+AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
+                 -Dparse.lac.memory-trace=full \
                  -t -o input.c input.y]], [[0]], [],
 [[input.y: conflicts: 21 shift/reduce
 ]])
@@ -1559,6 +1560,11 @@ AT_CHECK([[perl -0777 -ne 'print s/inconsistent default reduction//g;' \
 # it is performed before the syntax error is detected.
 AT_CHECK([[perl -0777 -ne 'print s/\bconsistent default reduction//g;' \
            < stdout.txt || exit 77]], [[0]], [[2]])
+
+# Check number of reallocs to be sure reallocated memory isn't somehow
+# lost between LAC invocations.
+AT_CHECK([[perl -0777 -ne 'print s/\(realloc//g;' < stderr.txt \
+           || exit 77]], [[0]], [[3]])
 
 AT_BISON_OPTION_POPDEFS
 ])
@@ -1587,6 +1593,7 @@ AT_DATA_GRAMMAR([input.y],
   #include <stdio.h>
   void yyerror (char const *);
   int yylex (void);
+  #define YYMAXDEPTH 8
 }
 
 %error-verbose
@@ -1619,7 +1626,7 @@ main (void)
 }
 ]])
 
-AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity=8 \
+AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
                  -t -o input.c input.y]], [[0]], [],
 [[input.y: conflicts: 8 shift/reduce
 ]])
@@ -1634,7 +1641,7 @@ AT_PARSER_CHECK([[./input]], [[2]], [[]],
 Entering state 0
 Reading a token: Now at end of input.
 LAC: initial context established for $end
-LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max stack size exceeded)
+LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
 memory exhausted
 Cleanup: discarding lookahead token $end ()
 Stack now 0
@@ -1650,7 +1657,7 @@ Reading a token: Next token is token $undefined ()
 LAC: initial context established for $undefined
 LAC: checking lookahead $undefined: Always Err
 Constructing syntax error message
-LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max stack size exceeded)
+LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
 syntax error
 memory exhausted
 Cleanup: discarding lookahead token $undefined ()

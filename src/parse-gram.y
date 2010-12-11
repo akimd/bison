@@ -79,6 +79,7 @@ static int current_prec = 0;
 %locations
 %pure-parser
 %error-verbose
+%define parse.lac full
 %name-prefix="gram_"
 %expect 0
 
