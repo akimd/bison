@@ -1,3 +1,40 @@
+2010-12-11  Joel E. Denny  <jdenny@clemson.edu>
+
+	parse.lac: implement as %define variable.
+	LAC = lookahead correction.  See discussion at
+	<http://lists.gnu.org/archive/html/bison-patches/2009-09/msg00034.html>.
+	However, one point there must be corrected: because of %nonassoc,
+	LAC is *not* always redundant for lr.type=canonical-lr.
+	* data/yacc.c: Accept values of "none" (default) or "full" for
+	parse.lac.  Accept %define parse.lac.es-capacity to specify
+	capacity of LAC's temporary exploratory stack.  It defaults to 20
+	and, for now, will not grow dynamically.
+	(b4_lac_flag, b4_lac_if): New m4 macros.  Evaluate as true for
+	parse.lac!=none.
+	(YYBACKUP): Invoke YY_LAC_DISCARD.
+	(YY_LAC_ESTABLISH, YY_LAC_DISCARD): New cpp macros that invoke
+	yy_lac and track when it needs to be invoked
+	(yy_lac): New function that, given the current stack, determines
+	whether a token can eventually be shifted.  Return status mimics
+	yyparse return status.
+	(yysyntax_error): Change yystate argument to yyssp so stack top
+	can be passed to yy_lac.  If LAC is requested, build expected
+	token list by invoking yy_lac for every token instead of just
+	checking the current state for lookaheads.  Return 2 if yy_lac
+	exhausts memory.
+	(yyparse, yypush_parse): Use local variable yy_lac_established and
+	cpp macros YY_LAC_ESTABLISH and YY_LAC_DISCARD to implement LAC.
+	Update yysyntax_error invocation.  Add yyexhaustedlab code if LAC
+	is requested.
+	* tests/conflicts.at (%nonassoc and eof): Extend to check the
+	effect of each of -Dlr.type=canonical-lr and -Dparse.lac=full.
+	(%error-verbose and consistent errors): Likewise.
+	(LAC: %nonassoc requires splitting canonical LR states): New test
+	group demonstrating how LAC can fix canonical LR.
+	* tests/input.at (LAC: Errors for %define): New test group.
+	* tests/regression.at (LAC: Exploratory stack): New test group.
+	(LAC: Memory exhaustion): New test group.
+
 2010-11-21  Joel E. Denny  <jdenny@clemson.edu>
 
 	build: use gnulib's new bootstrap_sync option.
