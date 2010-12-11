@@ -94,46 +94,52 @@ main (int argc, const char *argv[])
 }
 ]])
 
-# Specify the output files to avoid problems on different file systems.
-AT_BISON_CHECK([-o input.c input.y])
+m4_pushdef([AT_NONASSOC_AND_EOF_CHECK],
+[AT_BISON_CHECK([$1[ -o input.c input.y]])
 AT_COMPILE([input])
+
+m4_pushdef([AT_EXPECTING], [m4_if($2, [correct], [[, expecting $end]])])
 
 AT_PARSER_CHECK([./input '0<0'])
 AT_PARSER_CHECK([./input '0<0<0'], [1], [],
-         [syntax error, unexpected '<'
+         [syntax error, unexpected '<'AT_EXPECTING
 ])
 
 AT_PARSER_CHECK([./input '0>0'])
 AT_PARSER_CHECK([./input '0>0>0'], [1], [],
-         [syntax error, unexpected '>'
+         [syntax error, unexpected '>'AT_EXPECTING
 ])
 
 AT_PARSER_CHECK([./input '0<0>0'], [1], [],
-         [syntax error, unexpected '>'
+         [syntax error, unexpected '>'AT_EXPECTING
 ])
+
+m4_popdef([AT_EXPECTING])])
+
+# Expected token list is missing.
+AT_NONASSOC_AND_EOF_CHECK([], [[incorrect]])
 
 # We must disable default reductions in inconsistent states in order to
-# have an explicit list of all expected tokens.  (However, unless we use
-# canonical LR, lookahead sets are merged for different left contexts,
-# so it is still possible to have extra incorrect tokens in the expected
-# list.  That just doesn't happen to be a problem for this test case.)
+# have an explicit list of all expected tokens.
+AT_NONASSOC_AND_EOF_CHECK([[-Dlr.default-reductions=consistent]],
+                          [[correct]])
 
-AT_BISON_CHECK([-Dlr.default-reductions=consistent -o input.c input.y])
-AT_COMPILE([input])
+# lr.default-reductions=consistent happens to work for this test case.
+# However, for other grammars, lookahead sets can be merged for
+# different left contexts, so it is still possible to have an incorrect
+# expected list.  Canonical LR is almost a general solution (that is, it
+# can fail only when %nonassoc is used), so make sure it gives the same
+# result as above.
+AT_NONASSOC_AND_EOF_CHECK([[-Dlr.type=canonical-lr]], [[correct]])
 
-AT_PARSER_CHECK([./input '0<0'])
-AT_PARSER_CHECK([./input '0<0<0'], [1], [],
-         [syntax error, unexpected '<', expecting $end
-])
+# parse.lac=full is a completely general solution that does not require
+# any of the above sacrifices.  Of course, it does not extend the
+# language-recognition power of LALR to (IE)LR, but it does ensure that
+# the reported list of expected tokens matches what the given parser
+# would have accepted in place of the unexpected token.
+AT_NONASSOC_AND_EOF_CHECK([[-Dparse.lac=full]], [[correct]])
 
-AT_PARSER_CHECK([./input '0>0'])
-AT_PARSER_CHECK([./input '0>0>0'], [1], [],
-         [syntax error, unexpected '>', expecting $end
-])
-
-AT_PARSER_CHECK([./input '0<0>0'], [1], [],
-         [syntax error, unexpected '>', expecting $end
-])
+m4_popdef([AT_NONASSOC_AND_EOF_CHECK])
 
 AT_CLEANUP
 
@@ -342,6 +348,18 @@ AT_CONSISTENT_ERRORS_CHECK([[%define lr.type canonical-lr]],
                            [AT_PREVIOUS_STATE_INPUT],
                            [[$end]], [[ab]])
 
+# Only LAC gets it right.
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type canonical-lr
+                             %define parse.lac full]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[b]])
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
+                             %define parse.lac full]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[b]])
+
 m4_popdef([AT_PREVIOUS_STATE_GRAMMAR])
 m4_popdef([AT_PREVIOUS_STATE_INPUT])
 
@@ -417,6 +435,16 @@ AT_CONSISTENT_ERRORS_CHECK([[%define lr.type canonical-lr]],
                            [AT_USER_ACTION_INPUT],
                            [[$end]], [[a]])
 
+AT_CONSISTENT_ERRORS_CHECK([[%define parse.lac full]],
+                           [AT_USER_ACTION_GRAMMAR],
+                           [AT_USER_ACTION_INPUT],
+                           [['b']], [[none]])
+AT_CONSISTENT_ERRORS_CHECK([[%define parse.lac full
+                             %define lr.default-reductions accepting]],
+                           [AT_USER_ACTION_GRAMMAR],
+                           [AT_USER_ACTION_INPUT],
+                           [[$end]], [[none]])
+
 m4_popdef([AT_USER_ACTION_GRAMMAR])
 m4_popdef([AT_USER_ACTION_INPUT])
 
@@ -425,6 +453,113 @@ m4_popdef([AT_CONSISTENT_ERRORS_CHECK])
 AT_CLEANUP
 
 
+
+## ------------------------------------------------------- ##
+## LAC: %nonassoc requires splitting canonical LR states.  ##
+## ------------------------------------------------------- ##
+
+# This test case demonstrates that, when %nonassoc is used, canonical
+# LR(1) parser table construction followed by conflict resolution
+# without further state splitting is not always sufficient to produce a
+# parser that can detect all syntax errors as soon as possible on one
+# token of lookahead.  However, LAC solves the problem completely even
+# with minimal LR parser tables.
+
+AT_SETUP([[LAC: %nonassoc requires splitting canonical LR states]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%code {
+  #include <stdio.h>
+  void yyerror (char const *);
+  int yylex (void);
+}
+
+%error-verbose
+%nonassoc 'a'
+
+%%
+
+start:
+  'a' problem 'a' // First context.
+| 'b' problem 'b' // Second context.
+| 'c' reduce-nonassoc // Just makes reduce-nonassoc useful.
+;
+
+problem:
+  look reduce-nonassoc
+| look 'a'
+| look 'b'
+;
+
+// For the state reached after shifting the 'a' in these productions,
+// lookahead sets are the same in both the first and second contexts.
+// Thus, canonical LR reuses the same state for both contexts.  However,
+// the lookahead 'a' for the reduction "look: 'a'" later becomes an
+// error action only in the first context.  In order to immediately
+// detect the syntax error on 'a' here for only the first context, this
+// canonical LR state would have to be split into two states, and the
+// 'a' lookahead would have to be removed from only one of the states.
+look:
+  'a' // Reduction lookahead set is always ['a', 'b'].
+| 'a' 'b'
+| 'a' 'c' // 'c' is forgotten as an expected token.
+;
+
+reduce-nonassoc: %prec 'a';
+
+%%
+
+void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+yylex (void)
+{
+  char const *input = "aaa";
+  return *input++;
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+# Show canonical LR's failure.
+AT_BISON_CHECK([[-Dlr.type=canonical-lr -o input.c input.y]],
+               [[0]], [[]],
+[[input.y: conflicts: 2 shift/reduce
+]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]], [[1]], [[]],
+[[syntax error, unexpected 'a', expecting 'b'
+]])
+
+# It's corrected by LAC.
+AT_BISON_CHECK([[-Dlr.type=canonical-lr -Dparse.lac=full \
+                 -o input.c input.y]], [[0]], [[]],
+[[input.y: conflicts: 2 shift/reduce
+]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]], [[1]], [[]],
+[[syntax error, unexpected 'a', expecting 'b' or 'c'
+]])
+
+# IELR is sufficient when LAC is used.
+AT_BISON_CHECK([[-Dlr.type=ielr -Dparse.lac=full -o input.c input.y]],
+               [[0]], [[]],
+[[input.y: conflicts: 2 shift/reduce
+]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]], [[1]], [[]],
+[[syntax error, unexpected 'a', expecting 'b' or 'c'
+]])
+
+AT_CLEANUP
 
 ## ------------------------- ##
 ## Unresolved SR Conflicts.  ##

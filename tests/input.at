@@ -1289,3 +1289,22 @@ input.y:5.19: invalid character after \-escape: \001
 ]])
 
 AT_CLEANUP
+
+## ------------------------- ##
+## LAC: Errors for %define.  ##
+## ------------------------- ##
+
+AT_SETUP([[LAC: Errors for %define]])
+
+AT_DATA([[input.y]],
+[[%%
+start: ;
+]])
+
+# parse.lac.* options are useless if LAC isn't actually activated.
+AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 input.y]],
+               [[1]], [],
+[[<command line>:2: %define variable `parse.lac.es-capacity-initial' is not used
+]])
+
+AT_CLEANUP
