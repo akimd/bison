@@ -1306,5 +1306,9 @@ AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 input.y]],
                [[1]], [],
 [[<command line>:2: %define variable `parse.lac.es-capacity-initial' is not used
 ]])
+AT_BISON_CHECK([[-Dparse.lac.memory-trace=full input.y]],
+               [[1]], [],
+[[<command line>:2: %define variable `parse.lac.memory-trace' is not used
+]])
 
 AT_CLEANUP

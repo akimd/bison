@@ -31,8 +31,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 /* "%code requires" blocks.  */
-/* Line 1904 of yacc.c  */
-#line 202 "src/parse-gram.y"
+/* Line 2002 of yacc.c  */
+#line 203 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
 #  define PARAM_TYPE
@@ -46,7 +46,7 @@
 # endif
 
 
-/* Line 1904 of yacc.c  */
+/* Line 2002 of yacc.c  */
 #line 51 "src/parse-gram.h"
 
 /* Tokens.  */
@@ -175,8 +175,8 @@
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 1904 of yacc.c  */
-#line 88 "src/parse-gram.y"
+/* Line 2002 of yacc.c  */
+#line 89 "src/parse-gram.y"
 
   assoc assoc;
   char *code;
@@ -188,13 +188,13 @@ typedef union YYSTYPE
   uniqstr uniqstr;
   unsigned char character;
 
-/* Line 1904 of yacc.c  */
-#line 226 "src/parse-gram.y"
+/* Line 2002 of yacc.c  */
+#line 227 "src/parse-gram.y"
 
   param_type param;
 
 
-/* Line 1904 of yacc.c  */
+/* Line 2002 of yacc.c  */
 #line 199 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1

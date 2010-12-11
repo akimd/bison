@@ -73,6 +73,7 @@ static char const *char_name (char);
 %locations
 %pure-parser
 %define parse.error "verbose"
+%define parse.lac full
 %name-prefix="gram_"
 %expect 0
 
