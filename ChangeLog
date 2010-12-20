@@ -1,3 +1,14 @@
+2010-12-19  Joel E. Denny  <jdenny@clemson.edu>
+
+	parse.lac: document.
+	* NEWS (2.5): Add entry for LAC, and mention LAC in entry for
+	other corrections to verbose syntax error messages.
+	* doc/bison.texinfo (Decl Summary): Rewrite entries for
+	lr.default-reductions and lr.type to be clearer, to mention
+	%nonassoc's effect on canonical LR, and to mention LAC.  Add entry
+	for parse.lac.
+	(Glossary): Add entry for LAC.
+
 2010-12-11  Joel E. Denny  <jdenny@clemson.edu>
 
 	parse.lac: implement exploratory stack reallocations.

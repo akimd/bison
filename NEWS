@@ -58,6 +58,46 @@ Bison News
   These features are experimental.  More user feedback will help to
   stabilize them.
 
+** LAC (lookahead correction) for syntax error handling:
+
+  Canonical LR, IELR, and LALR can suffer from a couple of problems
+  upon encountering a syntax error.  First, the parser might perform
+  additional parser stack reductions before discovering the syntax
+  error.  Such reductions perform user semantic actions that are
+  unexpected because they are based on an invalid token, and they
+  cause error recovery to begin in a different syntactic context than
+  the one in which the invalid token was encountered.  Second, when
+  verbose error messages are enabled (with %error-verbose or `#define
+  YYERROR_VERBOSE'), the expected token list in the syntax error
+  message can both contain invalid tokens and omit valid tokens.
+
+  The culprits for the above problems are %nonassoc, default
+  reductions in inconsistent states, and parser state merging.  Thus,
+  IELR and LALR suffer the most.  Canonical LR can suffer only if
+  %nonassoc is used or if default reductions are enabled for
+  inconsistent states.
+
+  LAC is a new mechanism within the parsing algorithm that completely
+  solves these problems for canonical LR, IELR, and LALR without
+  sacrificing %nonassoc, default reductions, or state mering.  When
+  LAC is in use, canonical LR and IELR behave exactly the same for
+  both syntactically acceptable and syntactically unacceptable input.
+  While LALR still does not support the full language-recognition
+  power of canonical LR and IELR, LAC at least enables LALR's syntax
+  error handling to correctly reflect LALR's language-recognition
+  power.
+
+  Currently, LAC is only supported for deterministic parsers in C.
+  You can enable LAC with the following directive:
+
+    %define parse.lac full
+
+  See the documentation for `%define parse.lac' in the section `Bison
+  Declaration Summary' in the Bison manual for additional details.
+
+  LAC is an experimental feature.  More user feedback will help to
+  stabilize it.
+
 ** Unrecognized %code qualifiers are now an error not a warning.
 
 ** %define improvements.
@@ -166,11 +206,11 @@ Bison News
 
 ** Verbose syntax error message fixes:
 
-  When %error-verbose or `#define YYERROR_VERBOSE' is specified, syntax
-  error messages produced by the generated parser include the unexpected
-  token as well as a list of expected tokens.  The effect of %nonassoc
-  on these verbose messages has been corrected in two ways, but
-  additional fixes are still being implemented:
+  When %error-verbose or `#define YYERROR_VERBOSE' is specified,
+  syntax error messages produced by the generated parser include the
+  unexpected token as well as a list of expected tokens.  The effect
+  of %nonassoc on these verbose messages has been corrected in two
+  ways, but a complete fix requires LAC, described above:
 
 *** When %nonassoc is used, there can exist parser states that accept no
     tokens, and so the parser does not always require a lookahead token
@@ -189,16 +229,18 @@ Bison News
     tokens are now properly omitted from the list.
 
 *** Expected token lists are still often wrong due to state merging
-    (from LALR or IELR) and default reductions, which can both add and
-    subtract valid tokens.  Canonical LR almost completely fixes this
-    problem by eliminating state merging and default reductions.
-    However, there is one minor problem left even when using canonical
-    LR and even after the fixes above.  That is, if the resolution of a
-    conflict with %nonassoc appears in a later parser state than the one
-    at which some syntax error is discovered, the conflicted token is
-    still erroneously included in the expected token list.  We are
-    currently working on a fix to eliminate this problem and to
-    eliminate the need for canonical LR.
+    (from LALR or IELR) and default reductions, which can both add
+    invalid tokens and subtract valid tokens.  Canonical LR almost
+    completely fixes this problem by eliminating state merging and
+    default reductions.  However, there is one minor problem left even
+    when using canonical LR and even after the fixes above.  That is,
+    if the resolution of a conflict with %nonassoc appears in a later
+    parser state than the one at which some syntax error is
+    discovered, the conflicted token is still erroneously included in
+    the expected token list.  Bison's new LAC implementation,
+    described above, eliminates this problem and the need for
+    canonical LR.  However, LAC is still experimental and is disabled
+    by default.
 
 ** Destructor calls fixed for lookaheads altered in semantic actions.
 
