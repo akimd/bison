@@ -5230,57 +5230,61 @@ Boolean.
 @findex %define lr.default-reductions
 @cindex delayed syntax errors
 @cindex syntax errors delayed
+@cindex @acronym{LAC}
+@findex %nonassoc
 
 @itemize @bullet
 @item Language(s): all
 
-@item Purpose: Specifies the kind of states that are permitted to
+@item Purpose: Specify the kind of states that are permitted to
 contain default reductions.
-That is, in such a state, Bison declares the reduction with the largest
-lookahead set to be the default reduction and then removes that
+That is, in such a state, Bison selects the reduction with the largest
+lookahead set to be the default parser action and then removes that
 lookahead set.
-The advantages of default reductions are discussed below.
-The disadvantage is that, when the generated parser encounters a
-syntactically unacceptable token, the parser might then perform
-unnecessary default reductions before it can detect the syntax error.
-
-(This feature is experimental.
+(The ability to specify where default reductions should be used is
+experimental.
 More user feedback will help to stabilize it.)
 
 @item Accepted Values:
 @itemize
 @item @code{all}.
-For @acronym{LALR} and @acronym{IELR} parsers (@pxref{Decl
-Summary,,lr.type}) by default, all states are permitted to contain
-default reductions.
-The advantage is that parser table sizes can be significantly reduced.
-The reason Bison does not by default attempt to address the disadvantage
-of delayed syntax error detection is that this disadvantage is already
-inherent in @acronym{LALR} and @acronym{IELR} parser tables.
-That is, unlike in a canonical @acronym{LR} state, the lookahead sets of
-reductions in an @acronym{LALR} or @acronym{IELR} state can contain
-tokens that are syntactically incorrect for some left contexts.
+This is the traditional Bison behavior.
+The main advantage is a significant decrease in the size of the parser
+tables.
+The disadvantage is that, when the generated parser encounters a
+syntactically unacceptable token, the parser might then perform
+unnecessary default reductions before it can detect the syntax error.
+Such delayed syntax error detection is usually inherent in
+@acronym{LALR} and @acronym{IELR} parser tables anyway due to
+@acronym{LR} state merging (@pxref{Decl Summary,,lr.type}).
+Furthermore, the use of @code{%nonassoc} can contribute to delayed
+syntax error detection even in the case of canonical @acronym{LR}.
+As an experimental feature, delayed syntax error detection can be
+overcome in all cases by enabling @acronym{LAC} (@pxref{Decl
+Summary,,parse.lac}, for details, including a discussion of the effects
+of delayed syntax error detection).
 
 @item @code{consistent}.
 @cindex consistent states
 A consistent state is a state that has only one possible action.
 If that action is a reduction, then the parser does not need to request
 a lookahead token from the scanner before performing that action.
-However, the parser only recognizes the ability to ignore the lookahead
-token when such a reduction is encoded as a default reduction.
-Thus, if default reductions are permitted in and only in consistent
-states, then a canonical @acronym{LR} parser reports a syntax error as
-soon as it @emph{needs} the syntactically unacceptable token from the
-scanner.
+However, the parser recognizes the ability to ignore the lookahead token
+in this way only when such a reduction is encoded as a default
+reduction.
+Thus, if default reductions are permitted only in consistent states,
+then a canonical @acronym{LR} parser that does not employ
+@code{%nonassoc} detects a syntax error as soon as it @emph{needs} the
+syntactically unacceptable token from the scanner.
 
 @item @code{accepting}.
 @cindex accepting state
-By default, the only default reduction permitted in a canonical
-@acronym{LR} parser is the accept action in the accepting state, which
-the parser reaches only after reading all tokens from the input.
-Thus, the default canonical @acronym{LR} parser reports a syntax error
-as soon as it @emph{reaches} the syntactically unacceptable token
-without performing any extra reductions.
+In the accepting state, the default reduction is actually the accept
+action.
+In this case, a canonical @acronym{LR} parser that does not employ
+@code{%nonassoc} detects a syntax error as soon as it @emph{reaches} the
+syntactically unacceptable token in the input.
+That is, it does not perform any extra reductions.
 @end itemize
 
 @item Default Value:
@@ -5400,17 +5404,23 @@ This can significantly reduce the complexity of developing of a grammar.
 @item @code{canonical-lr}.
 @cindex delayed syntax errors
 @cindex syntax errors delayed
-The only advantage of canonical @acronym{LR} over @acronym{IELR} is
-that, for every left context of every canonical @acronym{LR} state, the
-set of tokens accepted by that state is the exact set of tokens that is
-syntactically acceptable in that left context.
-Thus, the only difference in parsing behavior is that the canonical
-@acronym{LR} parser can report a syntax error as soon as possible
-without performing any unnecessary reductions.
-@xref{Decl Summary,,lr.default-reductions}, for further details.
-Even when canonical @acronym{LR} behavior is ultimately desired,
-@acronym{IELR}'s elimination of duplicate conflicts should still
-facilitate the development of a grammar.
+@cindex @acronym{LAC}
+@findex %nonassoc
+While inefficient, canonical @acronym{LR} parser tables can be an
+interesting means to explore a grammar because they have a property that
+@acronym{IELR} and @acronym{LALR} tables do not.
+That is, if @code{%nonassoc} is not used and default reductions are left
+disabled (@pxref{Decl Summary,,lr.default-reductions}), then, for every
+left context of every canonical @acronym{LR} state, the set of tokens
+accepted by that state is guaranteed to be the exact set of tokens that
+is syntactically acceptable in that left context.
+It might then seem that an advantage of canonical @acronym{LR} parsers
+in production is that, under the above constraints, they are guaranteed
+to detect a syntax error as soon as possible without performing any
+unnecessary reductions.
+However, @acronym{IELR} parsers using @acronym{LAC} (@pxref{Decl
+Summary,,parse.lac}) are also able to achieve this behavior without
+sacrificing @code{%nonassoc} or default reductions.
 @end itemize
 
 @item Default Value: @code{lalr}
@@ -5448,7 +5458,7 @@ destroyed properly.  This option checks these constraints.
 @findex %define parse.error
 @itemize
 @item Languages(s):
-all.
+all
 @item Purpose:
 Control the kind of error messages passed to the error reporting
 function.  @xref{Error Reporting, ,The Error Reporting Function
@@ -5468,6 +5478,90 @@ ones.
 @end itemize
 @c parse.error
 
+
+@c ================================================== parse.lac
+@item parse.lac
+@findex %define parse.lac
+@cindex @acronym{LAC}
+@cindex lookahead correction
+
+@itemize
+@item Languages(s): C
+
+@item Purpose: Enable @acronym{LAC} (lookahead correction) to improve
+syntax error handling.
+
+Canonical @acronym{LR}, @acronym{IELR}, and @acronym{LALR} can suffer
+from a couple of problems upon encountering a syntax error.  First, the
+parser might perform additional parser stack reductions before
+discovering the syntax error.  Such reductions perform user semantic
+actions that are unexpected because they are based on an invalid token,
+and they cause error recovery to begin in a different syntactic context
+than the one in which the invalid token was encountered.  Second, when
+verbose error messages are enabled (with @code{%error-verbose} or
+@code{#define YYERROR_VERBOSE}), the expected token list in the syntax
+error message can both contain invalid tokens and omit valid tokens.
+
+The culprits for the above problems are @code{%nonassoc}, default
+reductions in inconsistent states, and parser state merging.  Thus,
+@acronym{IELR} and @acronym{LALR} suffer the most.  Canonical
+@acronym{LR} can suffer only if @code{%nonassoc} is used or if default
+reductions are enabled for inconsistent states.
+
+@acronym{LAC} is a new mechanism within the parsing algorithm that
+completely solves these problems for canonical @acronym{LR},
+@acronym{IELR}, and @acronym{LALR} without sacrificing @code{%nonassoc},
+default reductions, or state mering.  Conceptually, the mechanism is
+straight-forward.  Whenever the parser fetches a new token from the
+scanner so that it can determine the next parser action, it immediately
+suspends normal parsing and performs an exploratory parse using a
+temporary copy of the normal parser state stack.  During this
+exploratory parse, the parser does not perform user semantic actions.
+If the exploratory parse reaches a shift action, normal parsing then
+resumes on the normal parser stacks.  If the exploratory parse reaches
+an error instead, the parser reports a syntax error.  If verbose syntax
+error messages are enabled, the parser must then discover the list of
+expected tokens, so it performs a separate exploratory parse for each
+token in the grammar.
+
+There is one subtlety about the use of @acronym{LAC}.  That is, when in
+a consistent parser state with a default reduction, the parser will not
+attempt to fetch a token from the scanner because no lookahead is needed
+to determine the next parser action.  Thus, whether default reductions
+are enabled in consistent states (@pxref{Decl
+Summary,,lr.default-reductions}) affects how soon the parser detects a
+syntax error: when it @emph{reaches} an erroneous token or when it
+eventually @emph{needs} that token as a lookahead.  The latter behavior
+is probably more intuitive, so Bison currently provides no way to
+achieve the former behavior while default reductions are fully enabled.
+
+Thus, when @acronym{LAC} is in use, for some fixed decision of whether
+to enable default reductions in consistent states, canonical
+@acronym{LR} and @acronym{IELR} behave exactly the same for both
+syntactically acceptable and syntactically unacceptable input.  While
+@acronym{LALR} still does not support the full language-recognition
+power of canonical @acronym{LR} and @acronym{IELR}, @acronym{LAC} at
+least enables @acronym{LALR}'s syntax error handling to correctly
+reflect @acronym{LALR}'s language-recognition power.
+
+Because @acronym{LAC} requires many parse actions to be performed twice,
+it can have a performance penalty.  However, not all parse actions must
+be performed twice.  Specifically, during a series of default reductions
+in consistent states and shift actions, the parser never has to initiate
+an exploratory parse.  Moreover, the most time-consuming tasks in a
+parse are often the file I/O, the lexical analysis performed by the
+scanner, and the user's semantic actions, but none of these are
+performed during the exploratory parse.  Finally, the base of the
+temporary stack used during an exploratory parse is a pointer into the
+normal parser state stack so that the stack is never physically copied.
+In our experience, the performance penalty of @acronym{LAC} has proven
+insignificant for practical grammars.
+
+@item Accepted Values: @code{none}, @code{full}
+
+@item Default Value: @code{none}
+@end itemize
+@c parse.lac
 
 @c ================================================== parse.trace
 @item parse.trace
@@ -11241,6 +11335,14 @@ performs some operation.
 @item Input stream
 A continuous flow of data between devices or programs.
 
+@item @acronym{LAC} (Lookahead Correction)
+A parsing mechanism that fixes the problem of delayed syntax error
+detection, which is caused by LR state merging, default reductions, and
+the use of @code{%nonassoc}.  Delayed syntax error detection results in
+unexpected semantic actions, initiation of error recovery in the wrong
+syntactic context, and an incorrect list of expected tokens in a verbose
+syntax error message.  @xref{Decl Summary,,parse.lac}.
+
 @item Language construct
 One of the typical usage schemas of the language.  For example, one of
 the constructs of the C language is the @code{if} statement.
@@ -11397,7 +11499,7 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
 @c LocalWords: nbar yytext fst snd osplit ntwo strdup AST Troublereporting th
 @c LocalWords: YYSTACK DVI fdl printindex IELR nondeterministic nonterminals ps
-@c LocalWords: subexpressions declarator nondeferred config libintl postfix
+@c LocalWords: subexpressions declarator nondeferred config libintl postfix LAC
 @c LocalWords: preprocessor nonpositive unary nonnumeric typedef extern rhs
 @c LocalWords: yytokentype filename destructor multicharacter nonnull EBCDIC
 @c LocalWords: lvalue nonnegative XNUM CHR chr TAGLESS tagless stdout api TOK
