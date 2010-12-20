@@ -477,8 +477,8 @@ For historical reasons, Bison by default is limited by the additional
 restrictions of @acronym{LALR}(1), which is hard to explain simply.
 @xref{Mystery Conflicts, ,Mysterious Reduce/Reduce Conflicts}, for
 more information on this.
-To escape these additional restrictions, you can request
-@acronym{IELR}(1) or canonical @acronym{LR}(1) parser tables.
+As an experimental feature, you can escape these additional restrictions by
+requesting @acronym{IELR}(1) or canonical @acronym{LR}(1) parser tables.
 @xref{Decl Summary,,lr.type}, to learn how.
 
 @cindex @acronym{GLR} parsing
@@ -5077,7 +5077,7 @@ Some of the accepted @var{variable}s are:
 @itemize
 @item Languages(s): C++
 
-@item Purpose: Specifies the namespace for the parser class.
+@item Purpose: Specify the namespace for the parser class.
 For example, if you specify:
 
 @smallexample
@@ -5150,7 +5150,7 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 @itemize @bullet
 @item Language(s): C (deterministic parsers only)
 
-@item Purpose: Requests a pull parser, a push parser, or both.
+@item Purpose: Request a pull parser, a push parser, or both.
 @xref{Push Decl, ,A Push Parser}.
 (The current push parsing interface is experimental and may evolve.
 More user feedback will help to stabilize it.)
@@ -5302,8 +5302,8 @@ That is, it does not perform any extra reductions.
 @itemize @bullet
 @item Language(s): all
 
-@item Purpose: Requests that Bison allow unreachable parser states to remain in
-the parser tables.
+@item Purpose: Request that Bison allow unreachable parser states to
+remain in the parser tables.
 Bison considers a state to be unreachable if there exists no sequence of
 transitions from the start state to that state.
 A state can become unreachable during conflict resolution if Bison disables a
@@ -5351,7 +5351,7 @@ However, Bison does not compute which goto actions are useless.
 @itemize @bullet
 @item Language(s): all
 
-@item Purpose: Specifies the type of parser tables within the
+@item Purpose: Specify the type of parser tables within the
 @acronym{LR}(1) family.
 (This feature is experimental.
 More user feedback will help to stabilize it.)
@@ -5378,6 +5378,10 @@ In this case, the use of @acronym{LALR} parser tables is guaranteed not
 to alter the language accepted by the parser.
 @acronym{LALR} parser tables are the smallest parser tables Bison can
 currently generate, so they may be preferable.
+Nevertheless, once you begin to resolve conflicts statically,
+@acronym{GLR} begins to behave more like a deterministic parser, and so
+@acronym{IELR} and canonical @acronym{LR} can be helpful to avoid
+@acronym{LALR}'s mysterious behavior.
 
 @item Occasionally during development, an especially malformed grammar
 with a major recurring flaw may severely impede the @acronym{IELR} or
@@ -5590,7 +5594,7 @@ is not already defined, so that the debugging facilities are compiled.
 C++
 
 @item Purpose:
-Requests variant-based semantic values.
+Request variant-based semantic values.
 @xref{C++ Variants}.
 
 @item Accepted Values:
