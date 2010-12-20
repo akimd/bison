@@ -1,6 +1,12 @@
 2010-12-19  Joel E. Denny  <jdenny@clemson.edu>
 
 	doc: cleanup.
+	* NEWS (2.5): Try to sort entries according to how interesting
+	users might find them.
+
+2010-12-19  Joel E. Denny  <jdenny@clemson.edu>
+
+	doc: cleanup.
 	* NEWS (2.5): Make some minor improvements to wording, and format
 	entries more consistently.
 	* doc/bison.texinfo (Language and Grammar): Point out that IELR
