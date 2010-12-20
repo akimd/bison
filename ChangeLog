@@ -1,5 +1,15 @@
 2010-12-19  Joel E. Denny  <jdenny@clemson.edu>
 
+	doc: cleanup.
+	* NEWS (2.5): Make some minor improvements to wording, and format
+	entries more consistently.
+	* doc/bison.texinfo (Language and Grammar): Point out that IELR
+	and canonical LR are experimental features.
+	(Decl Summary): In list of %define variables, make wording more
+	consistent.  Improve discussion of using LALR for GLR.
+
+2010-12-19  Joel E. Denny  <jdenny@clemson.edu>
+
 	parse.lac: document.
 	* NEWS (2.5): Add entry for LAC, and mention LAC in entry for
 	other corrections to verbose syntax error messages.
