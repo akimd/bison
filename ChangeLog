@@ -1,5 +1,15 @@
 2011-01-02  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	maint: prepare to use date ranges in copyright notices.
+	* README (Copyright statements): New section explaining the range
+	notation.  The GNU coding standards require this explanation.  I
+	copied ours from coreutils.
+	* build-aux/update-b4-copyright: Revert 2010-06-17 changes that
+	disabled Bison's automated use of ranges.
+	* cfg.mk (update-copyright-env): Likewise.
+
+2011-01-02  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Correct my email address.
 	* ChangeLog: In all recent entries.
 	* THANKS (Joel E. Denny): Here.

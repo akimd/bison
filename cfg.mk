@@ -50,4 +50,4 @@ announcement_Cc_ = \
 
 update-copyright: update-b4-copyright update-package-copyright-year
 update-copyright-env = \
-  UPDATE_COPYRIGHT_FORCE=1
+  UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
