@@ -1,10 +1,16 @@
-2010-12-19  Joel E. Denny  <jdenny@clemson.edu>
+2011-01-02  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	Correct my email address.
+	* ChangeLog: In all recent entries.
+	* THANKS (Joel E. Denny): Here.
+
+2010-12-19  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	doc: cleanup.
 	* NEWS (2.5): Try to sort entries according to how interesting
 	users might find them.
 
-2010-12-19  Joel E. Denny  <jdenny@clemson.edu>
+2010-12-19  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	doc: cleanup.
 	* NEWS (2.5): Make some minor improvements to wording, and format
@@ -14,7 +20,7 @@
 	(Decl Summary): In list of %define variables, make wording more
 	consistent.  Improve discussion of using LALR for GLR.
 
-2010-12-19  Joel E. Denny  <jdenny@clemson.edu>
+2010-12-19  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	parse.lac: document.
 	* NEWS (2.5): Add entry for LAC, and mention LAC in entry for
@@ -25,7 +31,7 @@
 	for parse.lac.
 	(Glossary): Add entry for LAC.
 
-2010-12-11  Joel E. Denny  <jdenny@clemson.edu>
+2010-12-11  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	parse.lac: implement exploratory stack reallocations.
 	* data/yacc.c: Rename %define variable parse.lac.es-capacity to
@@ -62,7 +68,7 @@
 	(LAC: Memory exhaustion): Update to use YYMAXDEPTH and
 	parse.lac.es-capacity-initial.
 
-2010-12-11  Joel E. Denny  <jdenny@clemson.edu>
+2010-12-11  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	parse.lac: implement as %define variable.
 	LAC = lookahead correction.  See discussion at
@@ -99,7 +105,7 @@
 	* tests/regression.at (LAC: Exploratory stack): New test group.
 	(LAC: Memory exhaustion): New test group.
 
-2010-11-21  Joel E. Denny  <jdenny@clemson.edu>
+2010-11-21  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	build: use gnulib's new bootstrap_sync option.
 	Now, whenever we update bison's copy of gnulib, bootstrap will
@@ -108,7 +114,7 @@
 	* bootstrap.conf (bootstrap_sync): Set to true.
 	* gnulib: Update to latest so bootstrap is in sync now.
 
-2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
+2010-11-07  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	yysyntax_error: fix for consistent error with lookahead.
 	* NEWS (2.5): Document.
@@ -144,7 +150,7 @@
 	(AT_BISON_OPTION_POPDEFS): Pop it.
 	(AT_FULL_COMPILE): Extend to handle Java.
 
-2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
+2010-11-07  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	yysyntax_error: more preparation for readability of next patch.
 	There are no behavioral changes here.
@@ -153,7 +159,7 @@
 	* tests/conflicts.at (parse.error=verbose and consistent errors):
 	Reorganize.
 
-2010-11-07  Joel E. Denny  <jdenny@clemson.edu>
+2010-11-07  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	yysyntax_error: prepare for readability of next patches.
 	These are purely whitespace changes that result in ugly code
