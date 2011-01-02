@@ -1,5 +1,9 @@
 2011-01-02  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	maint: run "make update-copyright".
+
+2011-01-02  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	maint: prepare to use date ranges in copyright notices.
 	* README (Copyright statements): New section explaining the range
 	notation.  The GNU coding standards require this explanation.  I
@@ -26024,9 +26028,8 @@
 
 	-----
 
-	Copyright (C) 1987, 1988, 1991, 1992, 1993, 1994, 1995, 1996,
-	1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
-	2008, 2009, 2010 Free Software Foundation, Inc.
+	Copyright (C) 1987-1988, 1991-2011 Free Software Foundation,
+	Inc.
 
 	Copying and distribution of this file, with or without
 	modification, are permitted provided the copyright notice and this
