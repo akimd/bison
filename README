@@ -33,6 +33,10 @@ Please send bug reports to <bug-bison@gnu.org>.  Please include the
 version number from `bison --version', and a complete, self-contained
 test case in each bug report.
 
+* Copyright statements
+For any copyright year range specified as YYYY-ZZZZ in this package,
+note that the range specifies every single year in that closed interval.
+
 
 Local Variables:
 mode: outline
