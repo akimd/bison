@@ -1,3 +1,13 @@
+2011-01-03  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	maint: don't update copyright years in bootstrap.
+	* .x-update-copyright: Add entry for bootstrap.
+	* bootstrap: Remove 2011 from copyright years.  The bootstrap
+	version we're currently using comes from an older version of
+	gnulib.
+	* bootstrap.conf (bootstrap_sync): Add comments explaining this
+	issue.
+
 2011-01-02  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	maint: run "make update-copyright".
