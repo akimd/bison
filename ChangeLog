@@ -1,5 +1,9 @@
 2011-01-03  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	* ChangeLog (2011-01-02): improve description.
+
+2011-01-03  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	maint: don't update copyright years in bootstrap.
 	* .x-update-copyright: Add entry for bootstrap.
 	* bootstrap: Remove 2011 from copyright years.  The bootstrap
@@ -14,10 +18,11 @@
 
 2011-01-02  Joel E. Denny  <joeldenny@joeldenny.org>
 
-	maint: prepare to use date ranges in copyright notices.
+	maint: prepare to use year ranges in copyright notices.
 	* README (Copyright statements): New section explaining the range
-	notation.  The GNU coding standards require this explanation.  I
-	copied ours from coreutils.
+	notation.  The GNU maintainers document requires this explanation:
+	<http://www.gnu.org/prep/maintain/maintain.html#Copyright-Notices>.
+	I copied our explanation from coreutils.
 	* build-aux/update-b4-copyright: Revert 2010-06-17 changes that
 	disabled Bison's automated use of ranges.
 	* cfg.mk (update-copyright-env): Likewise.
