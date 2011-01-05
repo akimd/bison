@@ -1,3 +1,13 @@
+2011-01-05  Alex Rozenman  <rozenman@gmail.com>
+
+	Do not allow identifiers that start with a negative number.
+	Reported by Paul Hilfinger as a side effect of named references
+	support at
+	<http://lists.gnu.org/archive/html/bug-bison/2011-01/msg00000.html>.
+	Suggested by Paul Eggert.
+	* src/scan-code.l ({letter}, {id}): Adjust lexical definitions.
+	* src/scan-gram.l ({letter}, {id}): Likewise.
+
 2011-01-03  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	* ChangeLog (2011-01-02): improve description.
