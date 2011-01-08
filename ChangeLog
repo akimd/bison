@@ -1,3 +1,10 @@
+2011-01-08  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	doc: don't use @acronym.
+	Lately, many GNU packages are dropping it.  See
+	<http://lists.gnu.org/archive/html/bison-patches/2011-01/msg00003.html>.
+	* doc/bison.texinfo: Remove all uses.
+
 2011-01-05  Alex Rozenman  <rozenman@gmail.com>
 
 	Do not allow identifiers that start with a negative number.
