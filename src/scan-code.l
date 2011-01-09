@@ -621,7 +621,17 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         complain_at_indent (text_loc, &indent, _("invalid reference: %s"),
                             quote (text));
         indent += SUB_INDENT;
-        if (midrule_rhs_index)
+        if (len == 0)
+          {
+            location sym_loc = text_loc;
+            sym_loc.start.column += 1;
+            sym_loc.end = sym_loc.start;
+            const char *format =
+              _("syntax error after `%c', expecting integer, letter,"
+                " `_', `[', or `$'");
+            complain_at_indent (sym_loc, &indent, format, dollar_or_at);
+          }
+        else if (midrule_rhs_index)
           {
             const char *format =
               _("symbol not found in production before $%d: %.*s");

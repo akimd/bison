@@ -1,3 +1,20 @@
+2011-01-09  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	Improve error messages for `$' or `@' followed by `.' or `-'.
+	Previously, for this special case of an invalid reference, the
+	usual "symbol not found in production:" was printed.  However,
+	because the symbol name was parsed as the empty string, that
+	message was followed immediately by a newline instead of a symbol
+	name.  In reality, this is a syntax error, so the reference is
+	invalid regardless of the symbols actually appearing in the
+	production.  Discussed at
+	<http://lists.gnu.org/archive/html/bison-patches/2011-01/msg00012.html>.
+	* src/scan-code.l (parse_ref): Report the above case as a syntax
+	error.  Other than that, continue to handle this case like any
+	other invalid reference that Bison manages to parse because
+	"possibly meant" messages can still be helpful to the user.
+	* tests/named-refs.at ($ or @ followed by . or -): New test group.
+
 2011-01-08  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	doc: don't use @acronym.
