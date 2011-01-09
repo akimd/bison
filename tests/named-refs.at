@@ -561,3 +561,32 @@ test.y:57.8-17: invalid reference: `$<aa>[sym]'
 test.y:54.1-57.21:  symbol not found in production: sym
 ]])
 AT_CLEANUP
+
+#######################################################################
+
+AT_SETUP([[$ or @ followed by . or -]])
+AT_DATA([[test.y]],
+[[
+%%
+start:
+  .field { $.field; }
+| -field { @-field; }
+| 'a'    { @.field; }
+| 'a'    { $-field; }
+;
+.field: ;
+-field: ;
+]])
+AT_BISON_CHECK([[test.y]], [[1]], [],
+[[test.y:4.12-18: invalid reference: `$.field'
+test.y:4.13:        syntax error after `$', expecting integer, letter, `_', `@<:@', or `$'
+test.y:4.3-8:       possibly meant: $[.field] at $1
+test.y:5.12-18: invalid reference: `@-field'
+test.y:5.13:        syntax error after `@', expecting integer, letter, `_', `@<:@', or `$'
+test.y:5.3-8:       possibly meant: @[-field] at $1
+test.y:6.12-18: invalid reference: `@.field'
+test.y:6.13:        syntax error after `@', expecting integer, letter, `_', `@<:@', or `$'
+test.y:7.12-18: invalid reference: `$-field'
+test.y:7.13:        syntax error after `$', expecting integer, letter, `_', `@<:@', or `$'
+]])
+AT_CLEANUP
