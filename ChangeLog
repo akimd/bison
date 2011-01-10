@@ -1,3 +1,13 @@
+2011-01-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix minor problems encountered by a fresh bootstrap.
+	* data/glr.c, data/yacc.c: Do not use apostrophes in '#' comments,
+	as they confuse xgettext, which tries to parse them as C character
+	constants in a preprocessor directive.
+	* data/yacc.c (yy_lac): Don't use printf %d format on *yyesp, as
+	that expression might not promote to int on some platforms.
+	* src/parse-gram.c, src/parse-gram.h: Regenerate.
+
 2011-01-09  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	Improve error messages for `$' or `@' followed by `.' or `-'.
