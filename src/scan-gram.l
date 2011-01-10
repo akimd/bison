@@ -118,8 +118,9 @@ static void unexpected_newline (boundary, char const *);
  /* Bracketed identifiers support. */
 %x SC_BRACKETED_ID SC_RETURN_BRACKETED_ID
 
-letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id	  -*(-|{letter}({letter}|[-0-9])*)
+/* A Bison identifier.  Keep this synchronized with scan-code.l "id".  */
+letter	  [-.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+id	  {letter}({letter}|[0-9])*
 directive %{id}
 int	  [0-9]+
 
