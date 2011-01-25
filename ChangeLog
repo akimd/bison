@@ -1,3 +1,7 @@
+2011-01-24  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	* data/yacc.c: Fix last apostrophe warning from xgettext.
+
 2011-01-09  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Simplify handling of '.' and '-' after unbracketed named references.
