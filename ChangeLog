@@ -4,47 +4,6 @@
 
 2011-01-09  Paul Eggert  <eggert@cs.ucla.edu>
 
-	Simplify handling of '.' and '-' after unbracketed named references.
-	* doc/bison.texinfo (Mid-Rule Actions): Mention that periods and
-	dashes make symbol names less convenient for named references.
-	* src/scan-code.l:
-	(handle_action_dollar): New arg textlen.  All callers changed.
-	(handle_action_at): Likewise.  Also, args are pointers to const.
-	(ref_tail_fields): Remove; no longer used.
-	(letter): Now includes '-' and '.', since this is for Bison
-	identifiers.
-	(id): Now the simpler traditional defn, since letters now include
-	'-' and '.'.
-	(c_letter, c_id): New defns.
-	(ref): Use c_id for unbracketed IDs.
-	(<SC_RULE_ACTION>): Simplify, now that the distinction between
-	Bison and unbracketed IDs are now in the regular expressions.
-	(VARIANT_BAD_BRACKETING): Remove.
-	(VARIANT_NOT_VISIBLE_FROM_MIDRULE): Renumber.
-	(find_prefix_end): Remove, replacing with ....
-	(identifier_matches): New function.
-	(variant_add): Use it.  Omit EXPLICIT_BRACKETING arg; no longer
-	needed.  CP arg is pointer to constant.  All callers changed.
-	(show_sub_messages): Remove args CP, EXPLICIT_BRACKETING, DOLLAR_OR_AT.
-	New arg TEXT.  All callers changed.  Do not worry about showing
-	trailing context.
-	(parse_ref): Args CP, RULE, TEXT are now pointers to const.  New
-	arg TEXTLEN.  Remove arg DOLLAR_OR_AT.  All callers changed.
-	Simplify code now that the regular expressions capture the
-	restrictions.
-	* src/scan-gram.l (letter, id): Adjust to match scan-code.l.
-	* src/symlist.c (symbol_list_null): Arg is now pointer to const.
-	* src/symlist.h: Likewise.
-	* tests/named-refs.at (Misleading references): These are now caught
-	by the C compiler, not by Bison; that's good enough.  Adjust test
-	to reflect this.
-	(Many kinds of errors, Unresolved references): Adjust expected
-	diagnostics to match new behavior.  The same errors are caught,
-	though the diagnostics are not quite as fancy.
-	($ or @ followed by . or -): Likewise.  Also, Make the grammar
-	unambiguous, so that diagnostics are not complicated by ambiguity
-	warnings.
-
 	Fix minor problems encountered by a fresh bootstrap.
 	* data/glr.c, data/yacc.c: Do not use apostrophes in '#' comments,
 	as they confuse xgettext, which tries to parse them as C character

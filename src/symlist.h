@@ -116,7 +116,7 @@ symbol_list *symbol_list_n_get (symbol_list *l, int n);
 uniqstr symbol_list_n_type_name_get (symbol_list *l, location loc, int n);
 
 /* Check whether the node is a border element of a rule. */
-bool symbol_list_null (symbol_list const *node);
+bool symbol_list_null (symbol_list *node);
 
 /** Set the \c \%destructor for \c node as \c code at \c loc.  */
 void symbol_list_destructor_set (symbol_list *node, char const *code,

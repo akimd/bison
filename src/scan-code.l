@@ -47,9 +47,12 @@ YY_DECL;
 
 #define YY_USER_ACTION  location_compute (loc, &loc->end, yytext, yyleng);
 
-static void handle_action_dollar (symbol_list *, char *, unsigned, location);
-static void handle_action_at (symbol_list const *, char const *, unsigned,
-			      location);
+static void handle_action_dollar (symbol_list *rule, char *cp,
+				  location dollar_loc);
+static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
+
+/* A string to be pushed to obstack after dollar/at has been handled. */
+static char *ref_tail_fields;
 
 static location the_location;
 static location *loc = &the_location;
@@ -79,16 +82,12 @@ tag	 [^\0\n>]+
    white space between the backslash and the newline.  */
 splice	 (\\[ \f\t\v]*\n)*
 
-/* A Bison identifier.  Keep this synchronized with scan-gram.l "id".  */
-letter	  [-.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id	  {letter}({letter}|[0-9])*
-
-/* An identifier that can appear unbracketed in a reference.
-   This happens to be the same as a C-language identifier.  */
-c_letter  [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-c_id	  {c_letter}({c_letter}|[0-9])*
-
-ref	  -?[0-9]+|{c_id}|"["{id}"]"|"$"
+/* C style identifier. Must start with letter. Will be used for
+   named symbol references. Shall be kept synchronized with
+   scan-gram.l "letter" and "id". */
+letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+id	  -*(-|{letter}({letter}|[-0-9])*)
+ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 %%
 
@@ -183,11 +182,19 @@ ref	  -?[0-9]+|{c_id}|"["{id}"]"|"$"
 <SC_RULE_ACTION>
 {
   "$"("<"{tag}">")?{ref}  {
-    handle_action_dollar (self->rule, yytext, yyleng, *loc);
+    ref_tail_fields = 0;
+    handle_action_dollar (self->rule, yytext, *loc);
+    if (ref_tail_fields) {
+      obstack_sgrow (&obstack_for_string, ref_tail_fields);
+    }
     need_semicolon = true;
   }
   "@"{ref} {
-    handle_action_at (self->rule, yytext, yyleng, *loc);
+    ref_tail_fields = 0;
+    handle_action_at (self->rule, yytext, *loc);
+    if (ref_tail_fields) {
+      obstack_sgrow (&obstack_for_string, ref_tail_fields);
+    }
     need_semicolon = true;
   }
   "$"  {
@@ -331,9 +338,13 @@ typedef struct
    by an explicit symbol reference. */
 #define VARIANT_HIDDEN (1 << 0)
 
+/* Set when the variant refers to a symbol containing
+   dots or dashes. Will require explicit bracketing. */
+#define VARIANT_BAD_BRACKETING (1 << 1)
+
 /* Set when the variant refers to a symbol which is
    not visible from current midrule. */
-#define VARIANT_NOT_VISIBLE_FROM_MIDRULE (1 << 1)
+#define VARIANT_NOT_VISIBLE_FROM_MIDRULE (1 << 2)
 
 static variant *variant_table = 0;
 static unsigned variant_table_size = 0;
@@ -361,25 +372,31 @@ variant_table_free (void)
   variant_table_size = variant_count = 0;
 }
 
-/* Return TRUE if ID matches the string from CP up to CP_END.
-   The string does not contain null bytes.  */
-static bool
-identifier_matches (char const *id, char const *cp, char const *cp_end)
+static char *
+find_prefix_end (const char *prefix, char *begin, char *end)
 {
-  while (cp != cp_end)
-    if (*id++ != *cp++)
-      return false;
-  return !*id;
+  char *ptr = begin;
+
+  for (; *prefix && ptr != end; ++prefix, ++ptr)
+    if (*prefix != *ptr)
+      return 0;
+
+  if (*prefix)
+    return 0;
+
+  return ptr;
 }
 
-/* If scanning ID, return a new variant with that ID, at location
-   ID_LOC with index SYMBOL_INDEX.  Otherwise, return NULL.  The
-   currently scanned identifier starts at CP and ends at CP_END.  */
 static variant *
 variant_add (uniqstr id, location id_loc, unsigned symbol_index,
-	     char const *cp, char const *cp_end)
+	     char *cp, char *cp_end, bool explicit_bracketing)
 {
-  if (identifier_matches (id, cp, cp_end))
+  char *prefix_end;
+
+  prefix_end = find_prefix_end (id, cp, cp_end);
+  if (prefix_end &&
+      (prefix_end == cp_end ||
+       (!explicit_bracketing && is_dot_or_dash (*prefix_end))))
     {
       variant *r = variant_table_grow ();
       r->symbol_index = symbol_index;
@@ -404,15 +421,11 @@ get_at_spec(unsigned symbol_index)
   return at_buf;
 }
 
-/* Show a subsidiary message for a problem with a grammar rule.  TEXT
-   points to the problematic reference.  MIDRULE_RHS_INDEX is the rhs
-   index (1-origin) in the rule.  If IS_WARNING, it is a warning,
-   otherwise a complaint.  Indent the message INDENT spaces.  */
 static void
-show_sub_messages (char const *text, int midrule_rhs_index,
+show_sub_messages (const char* cp, bool explicit_bracketing,
+                   int midrule_rhs_index, char dollar_or_at,
                    bool is_warning, unsigned indent)
 {
-  char dollar_or_at = *text;
   unsigned i;
 
   for (i = 0; i < variant_count; ++i)
@@ -432,6 +445,8 @@ show_sub_messages (char const *text, int midrule_rhs_index,
       else
 	{
 	  static struct obstack msg_buf;
+	  const char *tail = explicit_bracketing ? "" :
+	    cp + strlen (var->id);
 	  const char *id = var->hidden_by ? var->hidden_by->id :
 	    var->id;
 	  location id_loc = var->hidden_by ? var->hidden_by->loc :
@@ -445,6 +460,7 @@ show_sub_messages (char const *text, int midrule_rhs_index,
 	    obstack_fgrow1 (&msg_buf, "[%s]", id);
 	  else
 	    obstack_sgrow (&msg_buf, id);
+	  obstack_sgrow (&msg_buf, tail);
 
 	  if (var->err & VARIANT_HIDDEN)
 	    {
@@ -453,6 +469,7 @@ show_sub_messages (char const *text, int midrule_rhs_index,
 		obstack_fgrow1 (&msg_buf, "[%s]", var->id);
 	      else
 		obstack_sgrow (&msg_buf, var->id);
+	      obstack_sgrow (&msg_buf, tail);
 	    }
 
 	  obstack_fgrow1 (&msg_buf, _(" at %s"), at_spec);
@@ -487,22 +504,16 @@ show_sub_messages (char const *text, int midrule_rhs_index,
 /* Sub-messages indent. */
 #define SUB_INDENT (4)
 
-/* Return the index of a named or positional reference starting at CP
-   for a rule RULE of length RULE_LENGTH.  If MIDRULE_RHS_INDEX is
-   nonzero, this is a generated midrule whose rhs index (1-origin) is
-   MIDRULE_RHS_INDEX in the parent rule.  The entire semantic value
-   containing the reference is TEXT, of length TEXTLEN.  Its location
-   is TEXT_LOC.
-
-   In case of positional references, this can return negative values
-   for $-n "deep" stack accesses.  */
+/* Parse named or positional reference. In case of positional
+   references, can return negative values for $-n "deep" stack
+   accesses. */
 static long int
-parse_ref (char const *cp, symbol_list const *rule, int rule_length,
-	   int midrule_rhs_index, char const *text, unsigned textlen,
-	   location text_loc)
+parse_ref (char *cp, symbol_list *rule, int rule_length,
+	   int midrule_rhs_index, char *text, location text_loc,
+	   char dollar_or_at)
 {
-  symbol_list const *l;
-  char const *cp_end;
+  symbol_list *l;
+  char *cp_end;
   bool explicit_bracketing;
   unsigned i;
   unsigned valid_variants = 0;
@@ -511,9 +522,9 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
   if ('$' == *cp)
     return LHS_REF;
 
-  if (c_isdigit (*cp) || *cp == '-')
+  if (c_isdigit (*cp) || (*cp == '-' && c_isdigit (* (cp + 1))))
     {
-      long int num = strtol (cp, NULL, 10);
+      long int num = strtol (cp, &cp, 10);
       if (1 - INT_MAX + rule_length <= num && num <= rule_length)
 	return num;
       else
@@ -524,9 +535,32 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
 	}
     }
 
-  explicit_bracketing = (*cp == '[');
-  cp += explicit_bracketing;
-  cp_end = text + textlen - explicit_bracketing;
+  if ('[' == *cp)
+    {
+      /* Ignore the brackets. */
+      char *p;
+      for (p = ++cp; *p != ']'; ++p)
+	continue;
+      cp_end = p;
+
+      explicit_bracketing = true;
+    }
+  else
+    {
+      /* Take all characters of the name. */
+      char* p;
+      for (p = cp; *p; ++p)
+	if (is_dot_or_dash (*p))
+	  {
+	    ref_tail_fields = p;
+	    break;
+	  }
+      for (p = cp; *p; ++p)
+	continue;
+      cp_end = p;
+
+      explicit_bracketing = false;
+    }
 
   /* Add all relevant variants. */
   {
@@ -540,13 +574,13 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
 	  continue;
 
 	var = variant_add (l->content.sym->tag, l->sym_loc,
-                           symbol_index, cp, cp_end);
+                           symbol_index, cp, cp_end, explicit_bracketing);
 	if (var && l->named_ref)
 	  var->hidden_by = l->named_ref;
 
 	if (l->named_ref)
 	  variant_add (l->named_ref->id, l->named_ref->loc,
-                       symbol_index, cp, cp_end);
+                       symbol_index, cp, cp_end, explicit_bracketing);
       }
   }
 
@@ -560,6 +594,10 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
       if (midrule_rhs_index != 0
 	  && (symbol_index == 0 || midrule_rhs_index < symbol_index))
         var->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
+
+      /* Check correct bracketing. */
+      if (!explicit_bracketing && contains_dot_or_dash (var->id))
+        var->err |= VARIANT_BAD_BRACKETING;
 
       /* Check using of hidden symbols. */
       if (var->hidden_by)
@@ -576,7 +614,8 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
     {
     case 0:
       {
-        unsigned len = cp_end - cp;
+        unsigned len = (explicit_bracketing || !ref_tail_fields) ?
+          cp_end - cp : ref_tail_fields - cp;
         unsigned indent = 0;
 
         complain_at_indent (text_loc, &indent, _("invalid reference: %s"),
@@ -590,7 +629,7 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
             const char *format =
               _("syntax error after `%c', expecting integer, letter,"
                 " `_', `[', or `$'");
-            complain_at_indent (sym_loc, &indent, format, *text);
+            complain_at_indent (sym_loc, &indent, format, dollar_or_at);
           }
         else if (midrule_rhs_index)
           {
@@ -608,7 +647,8 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
           }
 
         if (variant_count > 0)
-          show_sub_messages (text, midrule_rhs_index, false, indent);
+          show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
+                             dollar_or_at, false, indent);
         return INVALID_REF;
       }
     case 1:
@@ -618,8 +658,8 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
           {
             warn_at_indent (text_loc, &indent, _("misleading reference: %s"),
                             quote (text));
-            show_sub_messages (text, midrule_rhs_index, true,
-			       indent + SUB_INDENT);
+            show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
+                               dollar_or_at, true, indent + SUB_INDENT);
           }
         {
           unsigned symbol_index =
@@ -633,8 +673,8 @@ parse_ref (char const *cp, symbol_list const *rule, int rule_length,
         unsigned indent = 0;
         complain_at_indent (text_loc, &indent, _("ambiguous reference: %s"),
                             quote (text));
-        show_sub_messages (text, midrule_rhs_index, false,
-			   indent + SUB_INDENT);
+        show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
+                           dollar_or_at, false, indent + SUB_INDENT);
         return INVALID_REF;
       }
     }
@@ -652,14 +692,13 @@ int max_left_semantic_context = 0;
 /*------------------------------------------------------------------.
 | TEXT is pointing to a wannabee semantic value (i.e., a `$').      |
 |                                                                   |
-| Possible inputs: $(<TYPENAME>|)($|integer|c_id|[id])              |
+| Possible inputs: $[<TYPENAME>]($|integer)                         |
 |                                                                   |
 | Output to OBSTACK_FOR_STRING a reference to this semantic value.  |
 `------------------------------------------------------------------*/
 
 static void
-handle_action_dollar (symbol_list *rule, char *text, unsigned textlen,
-		      location dollar_loc)
+handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 {
   char const *type_name = NULL;
   char *cp = text + 1;
@@ -696,7 +735,7 @@ handle_action_dollar (symbol_list *rule, char *text, unsigned textlen,
     }
 
   n = parse_ref (cp, effective_rule, effective_rule_length,
-		 rule->midrule_parent_rhs_index, text, textlen, dollar_loc);
+		 rule->midrule_parent_rhs_index, text, dollar_loc, '$');
 
   if (gt_ptr)
     *gt_ptr = '\0';
@@ -767,11 +806,10 @@ handle_action_dollar (symbol_list *rule, char *text, unsigned textlen,
 `------------------------------------------------------*/
 
 static void
-handle_action_at (symbol_list const *rule, char const *text, unsigned textlen,
-		  location at_loc)
+handle_action_at (symbol_list *rule, char *text, location at_loc)
 {
-  char const *cp = text + 1;
-  symbol_list const *effective_rule;
+  char *cp = text + 1;
+  symbol_list *effective_rule;
   int effective_rule_length;
   int n;
 
@@ -789,7 +827,7 @@ handle_action_at (symbol_list const *rule, char const *text, unsigned textlen,
   muscle_percent_define_ensure("locations", at_loc, true);
 
   n = parse_ref (cp, effective_rule, effective_rule_length,
-		 rule->midrule_parent_rhs_index, text, textlen, at_loc);
+		       rule->midrule_parent_rhs_index, text, at_loc, '@');
   switch (n)
     {
     case INVALID_REF:

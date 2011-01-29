@@ -3125,9 +3125,7 @@ By convention, it should be all lower case.
 
 Symbol names can contain letters, underscores, periods, dashes, and (not
 at the beginning) digits.  Dashes in symbol names are a GNU
-extension, incompatible with POSIX Yacc.  Periods and dashes make symbol
-names less convenient to use with named references, which require brackets
-around such names (@pxref{Named References}).  Terminal symbols
+extension, incompatible with POSIX Yacc.  Terminal symbols
 that contain periods or dashes make little sense: since they are not
 valid symbols (in most programming languages) they are not exported as
 token names.
