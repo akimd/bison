@@ -653,17 +653,20 @@ AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
 
 
-# Periods and dashes are genuine letters, they can start identifiers.
-# Digits cannot.
+# Periods are genuine letters, they can start identifiers.
+# Digits and dashes cannot.
 AT_DATA_GRAMMAR([input.y],
 [[%token .GOOD
          -GOOD
          1NV4L1D
+         -123
 %%
-start: .GOOD -GOOD
+start: .GOOD GOOD
 ]])
 AT_BISON_CHECK([-o input.c input.y], [1], [],
-[[input.y:11.10-16: invalid identifier: `1NV4L1D'
+[[input.y:10.10: invalid character: `-'
+input.y:11.10-16: invalid identifier: `1NV4L1D'
+input.y:12.10: invalid character: `-'
 ]])
 
 AT_CLEANUP

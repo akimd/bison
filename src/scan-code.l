@@ -86,7 +86,7 @@ splice	 (\\[ \f\t\v]*\n)*
    named symbol references. Shall be kept synchronized with
    scan-gram.l "letter" and "id". */
 letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id	  -*(-|{letter}({letter}|[-0-9])*)
+id	  {letter}({letter}|[-0-9])*
 ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 %%

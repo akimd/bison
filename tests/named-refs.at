@@ -446,13 +446,14 @@ AT_SETUP([Stray symbols in brackets])
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
-start: foo[ /* aaa */ *&-+ ] bar
+start: foo[ /* aaa */ *&-.+ ] bar
   { s = $foo; }
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.23: invalid character in bracketed name: `*'
 test.y:11.24: invalid character in bracketed name: `&'
-test.y:11.26: invalid character in bracketed name: `+'
+test.y:11.25: invalid character in bracketed name: `-'
+test.y:11.27: invalid character in bracketed name: `+'
 ]])
 AT_CLEANUP
 
@@ -570,23 +571,27 @@ AT_DATA([[test.y]],
 %%
 start:
   .field { $.field; }
-| -field { @-field; }
 | 'a'    { @.field; }
-| 'a'    { $-field; }
 ;
 .field: ;
--field: ;
 ]])
 AT_BISON_CHECK([[test.y]], [[1]], [],
 [[test.y:4.12-18: invalid reference: `$.field'
 test.y:4.13:        syntax error after `$', expecting integer, letter, `_', `@<:@', or `$'
 test.y:4.3-8:       possibly meant: $[.field] at $1
-test.y:5.12-18: invalid reference: `@-field'
+test.y:5.12-18: invalid reference: `@.field'
 test.y:5.13:        syntax error after `@', expecting integer, letter, `_', `@<:@', or `$'
-test.y:5.3-8:       possibly meant: @[-field] at $1
-test.y:6.12-18: invalid reference: `@.field'
-test.y:6.13:        syntax error after `@', expecting integer, letter, `_', `@<:@', or `$'
-test.y:7.12-18: invalid reference: `$-field'
-test.y:7.13:        syntax error after `$', expecting integer, letter, `_', `@<:@', or `$'
+]])
+AT_DATA([[test.y]],
+[[
+%%
+start:
+  'a' { $-field; }
+| 'b' { @-field; }
+;
+]])
+AT_BISON_CHECK([[test.y]], [[0]], [],
+[[test.y:4.9: warning: stray `$'
+test.y:5.9: warning: stray `@'
 ]])
 AT_CLEANUP

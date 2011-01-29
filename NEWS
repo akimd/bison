@@ -62,6 +62,14 @@ Bison News
 
 * Changes in version 2.5 (????-??-??):
 
+** Grammar symbol names can now contain non-initial dashes:
+
+  Consistently with directives (such as %error-verbose) and with
+  %define variables (e.g. push-pull), grammar symbol names may contain
+  dashes in any position except the beginning.  This is a GNU
+  extension over POSIX Yacc.  Thus, use of this extension is reported
+  by -Wyacc and rejected in Yacc mode (--yacc).
+
 ** Named references:
 
   Historically, Yacc and Bison have supported positional references
@@ -156,14 +164,6 @@ Bison News
 
   LAC is an experimental feature.  More user feedback will help to
   stabilize it.
-
-** Grammar symbol names can now contain dashes:
-
-  Consistently with directives (such as %error-verbose) and variables
-  (e.g. push-pull), grammar symbol names may include dashes in any
-  position, similarly to periods and underscores.  This is GNU
-  extension over POSIX Yacc whose use is reported by -Wyacc, and
-  rejected in Yacc mode (--yacc).
 
 ** %define improvements:
 

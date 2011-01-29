@@ -119,7 +119,7 @@ static void unexpected_newline (boundary, char const *);
 %x SC_BRACKETED_ID SC_RETURN_BRACKETED_ID
 
 letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id	  -*(-|{letter}({letter}|[-0-9])*)
+id	  {letter}({letter}|[-0-9])*
 directive %{id}
 int	  [0-9]+
 
