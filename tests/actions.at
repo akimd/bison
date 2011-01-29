@@ -158,6 +158,52 @@ AT_PARSER_CHECK([./input], 0,
 [[15
 ]])
 
+# Make sure that fields after $n or $-n are parsed correctly.  At one
+# point while implementing dashes in symbol names, we were dropping
+# fields after $-n.
+AT_DATA_GRAMMAR([[input.y]],
+[[
+%{
+# include <stdio.h>
+  static int yylex (void);
+  static void yyerror (char const *msg);
+  typedef struct { int val; } stype;
+# define YYSTYPE stype
+%}
+
+%%
+start: one two { $$.val = $1.val + $2.val; } sum ;
+one: { $$.val = 1; } ;
+two: { $$.val = 2; } ;
+sum: { printf ("%d\n", $0.val + $-1.val + $-2.val); } ;
+
+%%
+
+static int
+yylex (void)
+{
+  return 0;
+}
+
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  return yyparse ();
+}
+]])
+
+AT_BISON_CHECK([[-o input.c input.y]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]], [[0]],
+[[6
+]])
+
 AT_CLEANUP
 
 

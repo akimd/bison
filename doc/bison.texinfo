@@ -3049,12 +3049,13 @@ A @dfn{nonterminal symbol} stands for a class of syntactically
 equivalent groupings.  The symbol name is used in writing grammar rules.
 By convention, it should be all lower case.
 
-Symbol names can contain letters, underscores, periods, dashes, and (not
-at the beginning) digits.  Dashes in symbol names are a GNU
-extension, incompatible with POSIX Yacc.  Terminal symbols
-that contain periods or dashes make little sense: since they are not
-valid symbols (in most programming languages) they are not exported as
-token names.
+Symbol names can contain letters, underscores, periods, and non-initial
+digits and dashes.  Dashes in symbol names are a GNU extension, incompatible
+with POSIX Yacc.  Periods and dashes make symbol names less convenient to
+use with named references, which require brackets around such names
+(@pxref{Named References}).  Terminal symbols that contain periods or dashes
+make little sense: since they are not valid symbols (in most programming
+languages) they are not exported as token names.
 
 There are three ways of writing terminal symbols in the grammar:
 
@@ -4959,9 +4960,8 @@ Define a variable to adjust Bison's behavior.
 It is an error if a @var{variable} is defined by @code{%define} multiple
 times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
 
-@var{value} must be placed in quotation marks if it contains any
-character other than a letter, underscore, period, dash, or non-initial
-digit.
+@var{value} must be placed in quotation marks if it contains any character
+other than a letter, underscore, period, or non-initial dash or digit.
 
 Omitting @code{"@var{value}"} entirely is always equivalent to specifying
 @code{""}.

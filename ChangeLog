@@ -1,3 +1,36 @@
+2011-01-29  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	Do not allow identifiers that start with a dash.
+	This cleans up our previous fixes for a bug whereby Bison
+	discarded `.field' in `$-1.field'.  The previous fixes were less
+	restrictive about where a dash could appear in an identifier, but
+	the restrictions were hard to explain.  That bug was reported and
+	this final fix was originally suggested by Paul Hilfinger.  This
+	also fixes a remaining bug reported by Paul Eggert whereby Bison
+	parses `%token ID -123' as `%token ID - 123' and handles `-' as an
+	identifier.  Now, `-' cannot be an identifier.  Discussed in
+	threads beginning at
+	<http://lists.gnu.org/archive/html/bug-bison/2011-01/msg00000.html>,
+	<http://lists.gnu.org/archive/html/bug-bison/2011-01/msg00004.html>.
+	* NEWS (2.5): Update entry describing the dash extension to
+	grammar symbol names.  Also, move that entry before the named
+	references entry because the latter mentions the former.
+	* doc/bison.texinfo (Symbol): Update documentation for symbol
+	names.  As suggested by Paul Eggert, mention the effect of periods
+	and dashes on named references.
+	(Decl Summary): Update documentation for unquoted %define values,
+	which, as a side effect, can no longer start with dashes either.
+	* src/scan-code.l (id): Implement.
+	* src/scan-gram.l (id): Implement.
+	* tests/actions.at (Exotic Dollars): Extend test group to exercise
+	bug reported by Paul Hilfinger.
+	* tests/input.at (Symbols): Update test group, and extend to
+	exercise bug reported by Paul Eggert.
+	* tests/named-refs.at (Stray symbols in brackets): Update test
+	group.
+	($ or @ followed by . or -): Likewise.
+	* tests/regression.at (Invalid inputs): Likewise.
+
 2011-01-24  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	* data/yacc.c: Fix last apostrophe warning from xgettext.
