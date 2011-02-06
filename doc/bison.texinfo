@@ -5146,23 +5146,35 @@ including its naming conventions.  @xref{Bison Options}, for more.
 
 @node %define Summary
 @subsection %define Summary
+
+There are many features of Bison's behavior that can be controlled by
+assigning the feature a single value.  For historical reasons, some
+such features are assigned values by dedicated directives, such as
+@code{%start}, which assigns the start symbol.  However, newer such
+features are associated with variables, which are assigned by the
+@code{%define} directive:
+
 @deffn {Directive} %define @var{variable}
 @deffnx {Directive} %define @var{variable} @var{value}
 @deffnx {Directive} %define @var{variable} "@var{value}"
-Define a variable to adjust Bison's behavior.
+Define @var{variable} to @var{value}.
 
-It is an error if a @var{variable} is defined by @code{%define} multiple
-times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
+@var{value} must be placed in quotation marks if it contains any
+character other than a letter, underscore, period, or non-initial dash
+or digit.  Omitting @code{"@var{value}"} entirely is always equivalent
+to specifying @code{""}.
 
-@var{value} must be placed in quotation marks if it contains any character
-other than a letter, underscore, period, or non-initial dash or digit.
+It is an error if a @var{variable} is defined by @code{%define}
+multiple times, but see @ref{Bison Options,,-D
+@var{name}[=@var{value}]}.
+@end deffn
 
-Omitting @code{"@var{value}"} entirely is always equivalent to specifying
-@code{""}.
+The rest of this section summarizes variables and values that
+@code{%define} accepts.
 
-Some @var{variable}s take Boolean values.
-In this case, Bison will complain if the variable definition does not meet one
-of the following four conditions:
+Some @var{variable}s take Boolean values.  In this case, Bison will
+complain if the variable definition does not meet one of the following
+four conditions:
 
 @enumerate
 @item @code{@var{value}} is @code{true}
@@ -5715,43 +5727,51 @@ Boolean.
 @code{false}
 @end itemize
 @c variant
-
-
 @end table
-@end deffn
 
 
 @node %code Summary
 @subsection %code Summary
-@deffn {Directive} %code @{@var{code}@}
 @findex %code
-This is the unqualified form of the @code{%code} directive.
-It inserts @var{code} verbatim at a language-dependent default location in the
-output@footnote{The default location is actually skeleton-dependent;
-  writers of non-standard skeletons however should choose the default location
-  consistently with the behavior of the standard Bison skeletons.}.
-
 @cindex Prologue
+
+The @code{%code} directive inserts code verbatim into the output
+parser source at any of a predefined set of locations.  It thus serves
+as a flexible and user-friendly alternative to the traditional Yacc
+prologue, @code{%@{@var{code}%@}}.  This section summarizes the
+functionality of @code{%code} for the various target languages
+supported by Bison.  For a detailed discussion of how to use
+@code{%code} in place of @code{%@{@var{code}%@}} for C/C++ and why it
+is advantageous to do so, @pxref{Prologue Alternatives}.
+
+@deffn {Directive} %code @{@var{code}@}
+This is the unqualified form of the @code{%code} directive.  It
+inserts @var{code} verbatim at a language-dependent default location
+in the parser implementation.
+
 For C/C++, the default location is the parser implementation file
-after the usual contents of the parser header file.  Thus,
-@code{%code} replaces the traditional Yacc prologue,
-@code{%@{@var{code}%@}}, for most purposes.  For a detailed
-discussion, see @ref{Prologue Alternatives}.
+after the usual contents of the parser header file.  Thus, the
+unqualified form replaces @code{%@{@var{code}%@}} for most purposes.
 
 For Java, the default location is inside the parser class.
 @end deffn
 
 @deffn {Directive} %code @var{qualifier} @{@var{code}@}
 This is the qualified form of the @code{%code} directive.
-If you need to specify location-sensitive verbatim @var{code} that does not
-belong at the default location selected by the unqualified @code{%code} form,
-use this form instead.
+@var{qualifier} identifies the purpose of @var{code} and thus the
+location(s) where Bison should insert it.  That is, if you need to
+specify location-sensitive @var{code} that does not belong at the
+default location selected by the unqualified @code{%code} form, use
+this form instead.
+@end deffn
 
-@var{qualifier} identifies the purpose of @var{code} and thus the location(s)
-where Bison should generate it.
-Not all @var{qualifier}s are accepted for all target languages.
-Unaccepted @var{qualifier}s produce an error.
-Some of the accepted @var{qualifier}s are:
+For any particular qualifier or for the unqualified form, if there are
+multiple occurrences of the @code{%code} directive, Bison concatenates
+the specified code in the order in which it appears in the grammar
+file.
+
+Not all qualifiers are accepted for all target languages.  Unaccepted
+qualifiers produce an error.  Some of the accepted qualifiers are:
 
 @itemize @bullet
 @item requires
@@ -5819,10 +5839,10 @@ before any class definitions.
 @end itemize
 @end itemize
 
-@cindex Prologue
-For a detailed discussion of how to use @code{%code} in place of the
-traditional Yacc prologue for C/C++, see @ref{Prologue Alternatives}.
-@end deffn
+Though we say the insertion locations are language-dependent, they are
+technically skeleton-dependent.  Writers of non-standard skeletons
+however should choose their locations consistently with the behavior
+of the standard Bison skeletons.
 
 
 @node Multiple Parsers
@@ -10878,7 +10898,8 @@ Start-Symbol}.  It cannot be used in the grammar.
 
 @deffn {Directive} %code @{@var{code}@}
 @deffnx {Directive} %code @var{qualifier} @{@var{code}@}
-Insert @var{code} verbatim into output parser source.
+Insert @var{code} verbatim into the output parser source at the
+default location or at the location specified by @var{qualifier}.
 @xref{%code Summary}.
 @end deffn
 
