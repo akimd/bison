@@ -1,5 +1,20 @@
 2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: clean up naming of various Bison files.
+	The Bison manual's names for various files associated with a Bison
+	parser has devolved into inconsistency.  This patch makes the
+	naming consistent for the most important files.  First, it chooses
+	"grammar file" over "input file".  The former appears to be more
+	traditional in the Bison manual, and Bison has other input
+	files (skeletons).  Second, it chooses "parser implementation
+	file" over names like "parser file", "parser source file", "parser
+	source code file", and "parser output file".  The new name makes
+	it clearer where Bison generates the main parser implementation,
+	and it is easily distinguishable from "parser header file".
+	* doc/bison.texinfo: Implement throughout.
+
+2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: give credit to more of Bison's developers.
 	* doc/bison.texinfo (Introduction): Don't imply that only Robert
 	Corbett, Richard Stallman, and Wilfred Hansen have contributed to
