@@ -1,3 +1,17 @@
+2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	doc: document experimental features better.
+	* doc/bison.texinfo (Introduction): Say that IELR(1) and canonical
+	LR(1) are experimental.  Mention Java.  Normally experimental
+	features probably shouldn't be mentioned in the introduction.
+	However, if Bison's limitations to LALR(1), C, and C++ are so
+	important that they should be mentioned here, then it's important
+	to point out that Bison is beginning to escape those limitations.
+	Moreover, these particular experimental features have very little
+	chance of being removed.
+	* src/getargs.c (usage): Say that IELR(1) and canonical LR(1) are
+	experimental.
+
 2011-01-29  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	Do not allow identifiers that start with a dash.
