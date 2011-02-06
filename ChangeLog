@@ -1,5 +1,19 @@
 2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: finish splitting apart the manual's Decl Summary section.
+	Suggested by Akim Demaille at
+	<http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00013.html>.
+	* doc/bison.texinfo (Decl Summary): Extract most of the %define
+	entry into...
+	(%define Summary): ... this new subsection, and update all
+	cross-references.  For readability of the patches, rewriting of
+	the text so it makes sense as a separate subsection will come in a
+	later patch.  Moreover, the majority of the text describing the
+	various new LR features should likely move to another new section
+	somewhere.
+
+2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: begin to split apart the manual's Decl Summary section.
 	Discussed in thread starting at
 	<http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00013.html>.
