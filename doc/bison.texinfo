@@ -353,23 +353,25 @@ Copying This Manual
 @cindex introduction
 
 @dfn{Bison} is a general-purpose parser generator that converts an
-annotated context-free grammar into a deterministic LR or
-generalized LR (GLR) parser employing
-LALR(1), IELR(1), or canonical LR(1)
-parser tables.
-Once you are proficient with Bison, you can use it to develop a wide
-range of language parsers, from those used in simple desk calculators to
-complex programming languages.
+annotated context-free grammar into a deterministic LR or generalized
+LR (GLR) parser employing LALR(1) parser tables.  As an experimental
+feature, Bison can also generate IELR(1) or canonical LR(1) parser
+tables.  Once you are proficient with Bison, you can use it to develop
+a wide range of language parsers, from those used in simple desk
+calculators to complex programming languages.
 
-Bison is upward compatible with Yacc: all properly-written Yacc grammars
-ought to work with Bison with no change.  Anyone familiar with Yacc
-should be able to use Bison with little trouble.  You need to be fluent in
-C or C++ programming in order to use Bison or to understand this manual.
+Bison is upward compatible with Yacc: all properly-written Yacc
+grammars ought to work with Bison with no change.  Anyone familiar
+with Yacc should be able to use Bison with little trouble.  You need
+to be fluent in C or C++ programming in order to use Bison or to
+understand this manual.  Java is also supported as an experimental
+feature.
 
-We begin with tutorial chapters that explain the basic concepts of using
-Bison and show three explained examples, each building on the last.  If you
-don't know Bison or Yacc, start by reading these chapters.  Reference
-chapters follow which describe specific aspects of Bison in detail.
+We begin with tutorial chapters that explain the basic concepts of
+using Bison and show three explained examples, each building on the
+last.  If you don't know Bison or Yacc, start by reading these
+chapters.  Reference chapters follow, which describe specific aspects
+of Bison in detail.
 
 Bison was written primarily by Robert Corbett; Richard Stallman made it
 Yacc-compatible.  Wilfred Hansen of Carnegie Mellon University added
