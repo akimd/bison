@@ -371,9 +371,13 @@ last.  If you don't know Bison or Yacc, start by reading these
 chapters.  Reference chapters follow, which describe specific aspects
 of Bison in detail.
 
-Bison was written primarily by Robert Corbett; Richard Stallman made it
-Yacc-compatible.  Wilfred Hansen of Carnegie Mellon University added
-multi-character string literals and other features.
+Bison was written originally by Robert Corbett.  Richard Stallman made
+it Yacc-compatible.  Wilfred Hansen of Carnegie Mellon University
+added multi-character string literals and other features.  Since then,
+Bison has grown more robust and evolved many other new features thanks
+to the hard work of a long list of volunteers.  For details, see the
+@file{THANKS} and @file{ChangeLog} files included in the Bison
+distribution.
 
 This edition corresponds to version @value{VERSION} of Bison.
 
@@ -10875,5 +10879,5 @@ grammatically indivisible.  The piece of text it represents is a token.
 @c LocalWords: superclasses boolean getErrorVerbose setErrorVerbose deftypecv
 @c LocalWords: getDebugStream setDebugStream getDebugLevel setDebugLevel url
 @c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos
-@c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt
+@c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett
 @c LocalWords: subdirectory Solaris nonassociativity

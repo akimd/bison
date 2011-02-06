@@ -1,5 +1,13 @@
 2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: give credit to more of Bison's developers.
+	* doc/bison.texinfo (Introduction): Don't imply that only Robert
+	Corbett, Richard Stallman, and Wilfred Hansen have contributed to
+	Bison.  However, I don't have time to write a full history, so
+	just point readers to THANKS and ChangeLog.
+
+2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: document experimental features better.
 	* doc/bison.texinfo (Introduction): Say that IELR(1) and canonical
 	LR(1) are experimental.  Mention Java.  Normally experimental
