@@ -1,5 +1,17 @@
 2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: begin to split apart the manual's Decl Summary section.
+	Discussed in thread starting at
+	<http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00013.html>.
+	* doc/bison.texinfo (Decl Summary): Extract most of the %code
+	entry into...
+	(%code Summary): ... this new subsection, and update all
+	cross-references.  For readability of the patches, rewriting of
+	the text so it makes sense as a separate subsection will come in a
+	later patch.
+
+2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: clean up naming of various Bison files.
 	The Bison manual's names for various files associated with a Bison
 	parser has devolved into inconsistency.  This patch makes the
