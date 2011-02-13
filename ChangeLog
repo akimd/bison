@@ -1,3 +1,12 @@
+2011-02-13  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	doc: fix some minor inconsistencies.
+	* doc/bison.texinfo (%define Summary): Fix mislabeled entry for
+	lex_symbol.
+	(%code Summary): For consistency with the variable list in the
+	%define Summary, enclose the list of %code qualifiers in a table
+	instead of an itemize.
+
 2011-02-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	doc: clean up new subsections in manual.

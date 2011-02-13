@@ -5327,7 +5327,7 @@ empty
 
 
 @c ================================================== lex_symbol
-@item variant
+@item lex_symbol
 @findex %define lex_symbol
 
 @itemize @bullet
@@ -5773,7 +5773,7 @@ file.
 Not all qualifiers are accepted for all target languages.  Unaccepted
 qualifiers produce an error.  Some of the accepted qualifiers are:
 
-@itemize @bullet
+@table @code
 @item requires
 @findex %code requires
 
@@ -5837,7 +5837,7 @@ parser implementation file.  For example:
 @item Location(s): The parser Java file after any Java package directive and
 before any class definitions.
 @end itemize
-@end itemize
+@end table
 
 Though we say the insertion locations are language-dependent, they are
 technically skeleton-dependent.  Writers of non-standard skeletons
