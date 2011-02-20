@@ -1,3 +1,13 @@
+2011-02-19  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	java: test and document previous bug fix.
+	* NEWS (2.5): Document it.
+	* tests/java.at (_AT_DATA_JAVA_CALC_Y): To one of the yyerror
+	invocations, pass a location that spans multiple tokens.  Change
+	yyerror to report all of a location rather than just the begin
+	position.  Extend yylex and Position to count tokens on a line.
+	Remove getHashCode as it's unused.  Update all expected output.
+
 2011-02-19  Bernd Kiefer  <kiefer@dfki.de>  (tiny change)
 
 	java: fix location handling bug.

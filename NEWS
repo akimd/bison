@@ -291,6 +291,8 @@ Bison News
     canonical LR.  However, LAC is still experimental and is disabled
     by default.
 
+** A location handling bug in the Java skeleton has been fixed.
+
 * Changes in version 2.4.3 (2010-08-05):
 
 ** Bison now obeys -Werror and --warnings=error for warnings about
