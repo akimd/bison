@@ -102,7 +102,7 @@ b4_token_enums(b4_tokens)
   private ]b4_location_type[ yylloc (YYStack rhs, int n)
   {
     if (n > 0)
-      return new ]b4_location_type[ (rhs.locationAt (1).begin, rhs.locationAt (n).end);
+      return new ]b4_location_type[ (rhs.locationAt (n-1).begin, rhs.locationAt (0).end);
     else
       return new ]b4_location_type[ (rhs.locationAt (0).end);
   }]])[
