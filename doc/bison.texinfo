@@ -109,6 +109,7 @@ Reference sections:
 * Table of Symbols::    All the keywords of the Bison language are explained.
 * Glossary::            Basic concepts are explained.
 * Copying This Manual:: License for copying this manual.
+* Bibliography::        Publications cited in this manual.
 * Index::               Cross-references to the text.
 
 @detailmenu
@@ -7109,11 +7110,7 @@ return_spec:
 @end example
 
 For a more detailed exposition of LALR(1) parsers and parser
-generators, please see:
-Frank DeRemer and Thomas Pennello, Efficient Computation of
-LALR(1) Look-Ahead Sets, @cite{ACM Transactions on
-Programming Languages and Systems}, Vol.@: 4, No.@: 4 (October 1982),
-pp.@: 615--649 @uref{http://doi.acm.org/10.1145/69622.357187}.
+generators, @pxref{Bibliography,,DeRemer 1982}.
 
 @node Generalized LR Parsing
 @section Generalized LR (GLR) Parsing
@@ -7194,12 +7191,8 @@ structure should generally be adequate.  On LR(1) portions of a
 grammar, in particular, it is only slightly slower than with the
 deterministic LR(1) Bison parser.
 
-For a more detailed exposition of GLR parsers, please see: Elizabeth
-Scott, Adrian Johnstone and Shamsa Sadaf Hussain, Tomita-Style
-Generalised LR Parsers, Royal Holloway, University of
-London, Department of Computer Science, TR-00-12,
-@uref{http://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_1.ps},
-(2000-12-24).
+For a more detailed exposition of GLR parsers, @pxref{Bibliography,,Scott
+2000}.
 
 @node Memory Management
 @section Memory Management, and How to Avoid Memory Exhaustion
@@ -10868,6 +10861,46 @@ grammatically indivisible.  The piece of text it represents is a token.
 @node Copying This Manual
 @appendix Copying This Manual
 @include fdl.texi
+
+@node Bibliography
+@unnumbered Bibliography
+
+@table @asis
+@item [Denny 2008]
+Joel E. Denny and Brian A. Malloy, IELR(1): Practical LR(1) Parser Tables
+for Non-LR(1) Grammars with Conflict Resolution, in @cite{Proceedings of the
+2008 ACM Symposium on Applied Computing} (SAC'08), ACM, New York, NY, USA,
+pp.@: 240--245.  @uref{http://dx.doi.org/10.1145/1363686.1363747}
+
+@item [Denny 2010 May]
+Joel E. Denny, PSLR(1): Pseudo-Scannerless Minimal LR(1) for the
+Deterministic Parsing of Composite Languages, Ph.D. Dissertation, Clemson
+University, Clemson, SC, USA (May 2010).
+@uref{http://proquest.umi.com/pqdlink?did=2041473591&Fmt=7&clientId=79356&RQT=309&VName=PQD}
+
+@item [Denny 2010 November]
+Joel E. Denny and Brian A. Malloy, The IELR(1) Algorithm for Generating
+Minimal LR(1) Parser Tables for Non-LR(1) Grammars with Conflict Resolution,
+in @cite{Science of Computer Programming}, Vol.@: 75, Issue 11 (November
+2010), pp.@: 943--979.  @uref{http://dx.doi.org/10.1016/j.scico.2009.08.001}
+
+@item [DeRemer 1982]
+Frank DeRemer and Thomas Pennello, Efficient Computation of LALR(1)
+Look-Ahead Sets, in @cite{ACM Transactions on Programming Languages and
+Systems}, Vol.@: 4, No.@: 4 (October 1982), pp.@:
+615--649. @uref{http://dx.doi.org/10.1145/69622.357187}
+
+@item [Knuth 1965]
+Donald E. Knuth, On the Translation of Languages from Left to Right, in
+@cite{Information and Control}, Vol.@: 8, Issue 6 (December 1965), pp.@:
+607--639. @uref{http://dx.doi.org/10.1016/S0019-9958(65)90426-2}
+
+@item [Scott 2000]
+Elizabeth Scott, Adrian Johnstone, and Shamsa Sadaf Hussain,
+@cite{Tomita-Style Generalised LR Parsers}, Royal Holloway, University of
+London, Department of Computer Science, TR-00-12 (December 2000).
+@uref{http://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_1.ps}
+@end table
 
 @node Index
 @unnumbered Index

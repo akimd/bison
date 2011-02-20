@@ -1,3 +1,12 @@
+2011-02-20  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	doc: add bibliography to manual.
+	* doc/bison.texinfo (Mystery Conflicts): Cross-reference
+	bibliography instead of citing publications directly.
+	(Generalized LR Parsing): Likewise.
+	(Bibliography): New section.  Not all entries are cross-referenced
+	yet, but that will come in future patches.
+
 2011-02-19  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	java: test and document previous bug fix.
