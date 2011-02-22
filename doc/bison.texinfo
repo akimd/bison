@@ -265,6 +265,7 @@ The Bison Parser Algorithm
 * Parser States::     The parser is a finite-state-machine with stack.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
 * Mystery Conflicts:: Reduce/reduce conflicts that look unjustified.
+* Tuning LR::         How to tune fundamental aspects of LR-based parsing.
 * Generalized LR Parsing::  Parsing arbitrary context-free grammars.
 * Memory Management:: What happens when memory is exhausted.  How to avoid it.
 
@@ -274,6 +275,13 @@ Operator Precedence
 * Using Precedence::  How to specify precedence in Bison grammars.
 * Precedence Examples::  How these features are used in the previous example.
 * How Precedence::    How they work.
+
+Tuning LR
+
+* LR Table Construction:: Choose a different construction algorithm.
+* Default Reductions::    Disable default reductions.
+* LAC::                   Correct lookahead sets in the parser states.
+* Unreachable States::    Keep unreachable parser states for debugging.
 
 Handling Context Dependencies
 
@@ -471,21 +479,19 @@ order to specify the language Algol 60.  Any grammar expressed in
 BNF is a context-free grammar.  The input to Bison is
 essentially machine-readable BNF.
 
-@cindex LALR(1) grammars
-@cindex IELR(1) grammars
-@cindex LR(1) grammars
-There are various important subclasses of context-free grammars.
-Although it can handle almost all context-free grammars, Bison is
-optimized for what are called LR(1) grammars.
-In brief, in these grammars, it must be possible to tell how to parse
-any portion of an input string with just a single token of lookahead.
-For historical reasons, Bison by default is limited by the additional
-restrictions of LALR(1), which is hard to explain simply.
-@xref{Mystery Conflicts, ,Mysterious Reduce/Reduce Conflicts}, for
-more information on this.
-As an experimental feature, you can escape these additional restrictions by
-requesting IELR(1) or canonical LR(1) parser tables.
-@xref{%define Summary,,lr.type}, to learn how.
+@cindex LALR grammars
+@cindex IELR grammars
+@cindex LR grammars
+There are various important subclasses of context-free grammars.  Although
+it can handle almost all context-free grammars, Bison is optimized for what
+are called LR(1) grammars.  In brief, in these grammars, it must be possible
+to tell how to parse any portion of an input string with just a single token
+of lookahead.  For historical reasons, Bison by default is limited by the
+additional restrictions of LALR(1), which is hard to explain simply.
+@xref{Mystery Conflicts, ,Mysterious Reduce/Reduce Conflicts}, for more
+information on this.  As an experimental feature, you can escape these
+additional restrictions by requesting IELR(1) or canonical LR(1) parser
+tables.  @xref{LR Table Construction}, to learn how.
 
 @cindex GLR parsing
 @cindex generalized LR (GLR) parsing
@@ -5150,65 +5156,17 @@ More user feedback will help to stabilize it.)
 @c ================================================== lr.default-reductions
 
 @item lr.default-reductions
-@cindex default reductions
 @findex %define lr.default-reductions
-@cindex delayed syntax errors
-@cindex syntax errors delayed
-@cindex LAC
-@findex %nonassoc
 
 @itemize @bullet
 @item Language(s): all
 
 @item Purpose: Specify the kind of states that are permitted to
-contain default reductions.
-That is, in such a state, Bison selects the reduction with the largest
-lookahead set to be the default parser action and then removes that
-lookahead set.
-(The ability to specify where default reductions should be used is
-experimental.
-More user feedback will help to stabilize it.)
+contain default reductions.  @xref{Default Reductions}.  (The ability to
+specify where default reductions should be used is experimental.  More user
+feedback will help to stabilize it.)
 
-@item Accepted Values:
-@itemize
-@item @code{all}.
-This is the traditional Bison behavior.  The main advantage is a
-significant decrease in the size of the parser tables.  The
-disadvantage is that, when the generated parser encounters a
-syntactically unacceptable token, the parser might then perform
-unnecessary default reductions before it can detect the syntax error.
-Such delayed syntax error detection is usually inherent in LALR and
-IELR parser tables anyway due to LR state merging (@pxref{%define
-Summary,,lr.type}).  Furthermore, the use of @code{%nonassoc} can
-contribute to delayed syntax error detection even in the case of
-canonical LR.  As an experimental feature, delayed syntax error
-detection can be overcome in all cases by enabling LAC (@pxref{%define
-Summary,,parse.lac}, for details, including a discussion of the
-effects of delayed syntax error detection).
-
-@item @code{consistent}.
-@cindex consistent states
-A consistent state is a state that has only one possible action.
-If that action is a reduction, then the parser does not need to request
-a lookahead token from the scanner before performing that action.
-However, the parser recognizes the ability to ignore the lookahead token
-in this way only when such a reduction is encoded as a default
-reduction.
-Thus, if default reductions are permitted only in consistent states,
-then a canonical LR parser that does not employ
-@code{%nonassoc} detects a syntax error as soon as it @emph{needs} the
-syntactically unacceptable token from the scanner.
-
-@item @code{accepting}.
-@cindex accepting state
-In the accepting state, the default reduction is actually the accept
-action.
-In this case, a canonical LR parser that does not employ
-@code{%nonassoc} detects a syntax error as soon as it @emph{reaches} the
-syntactically unacceptable token in the input.
-That is, it does not perform any extra reductions.
-@end itemize
-
+@item Accepted Values: @code{all}, @code{consistent}, @code{accepting}
 @item Default Value:
 @itemize
 @item @code{accepting} if @code{lr.type} is @code{canonical-lr}.
@@ -5223,129 +5181,25 @@ That is, it does not perform any extra reductions.
 
 @itemize @bullet
 @item Language(s): all
-
 @item Purpose: Request that Bison allow unreachable parser states to
-remain in the parser tables.
-Bison considers a state to be unreachable if there exists no sequence of
-transitions from the start state to that state.
-A state can become unreachable during conflict resolution if Bison disables a
-shift action leading to it from a predecessor state.
-Keeping unreachable states is sometimes useful for analysis purposes, but they
-are useless in the generated parser.
-
+remain in the parser tables.  @xref{Unreachable States}.
 @item Accepted Values: Boolean
-
 @item Default Value: @code{false}
-
-@item Caveats:
-
-@itemize @bullet
-
-@item Unreachable states may contain conflicts and may use rules not used in
-any other state.
-Thus, keeping unreachable states may induce warnings that are irrelevant to
-your parser's behavior, and it may eliminate warnings that are relevant.
-Of course, the change in warnings may actually be relevant to a parser table
-analysis that wants to keep unreachable states, so this behavior will likely
-remain in future Bison releases.
-
-@item While Bison is able to remove unreachable states, it is not guaranteed to
-remove other kinds of useless states.
-Specifically, when Bison disables reduce actions during conflict resolution,
-some goto actions may become useless, and thus some additional states may
-become useless.
-If Bison were to compute which goto actions were useless and then disable those
-actions, it could identify such states as unreachable and then remove those
-states.
-However, Bison does not compute which goto actions are useless.
-@end itemize
 @end itemize
 
 @c ================================================== lr.type
 
 @item lr.type
 @findex %define lr.type
-@cindex LALR
-@cindex IELR
-@cindex LR
 
 @itemize @bullet
 @item Language(s): all
 
 @item Purpose: Specify the type of parser tables within the
-LR(1) family.
-(This feature is experimental.
+LR(1) family.  @xref{LR Table Construction}.  (This feature is experimental.
 More user feedback will help to stabilize it.)
 
-@item Accepted Values:
-@itemize
-@item @code{lalr}.
-While Bison generates LALR parser tables by default for
-historical reasons, IELR or canonical LR is almost
-always preferable for deterministic parsers.
-The trouble is that LALR parser tables can suffer from
-mysterious conflicts and thus may not accept the full set of sentences
-that IELR and canonical LR accept.
-@xref{Mystery Conflicts}, for details.
-However, there are at least two scenarios where LALR may be
-worthwhile:
-@itemize
-@cindex GLR with LALR
-@item When employing GLR parsers (@pxref{GLR Parsers}), if you
-do not resolve any conflicts statically (for example, with @code{%left}
-or @code{%prec}), then the parser explores all potential parses of any
-given input.
-In this case, the use of LALR parser tables is guaranteed not
-to alter the language accepted by the parser.
-LALR parser tables are the smallest parser tables Bison can
-currently generate, so they may be preferable.
-Nevertheless, once you begin to resolve conflicts statically,
-GLR begins to behave more like a deterministic parser, and so
-IELR and canonical LR can be helpful to avoid
-LALR's mysterious behavior.
-
-@item Occasionally during development, an especially malformed grammar
-with a major recurring flaw may severely impede the IELR or
-canonical LR parser table generation algorithm.
-LALR can be a quick way to generate parser tables in order to
-investigate such problems while ignoring the more subtle differences
-from IELR and canonical LR.
-@end itemize
-
-@item @code{ielr}.
-IELR is a minimal LR algorithm.
-That is, given any grammar (LR or non-LR),
-IELR and canonical LR always accept exactly the same
-set of sentences.
-However, as for LALR, the number of parser states is often an
-order of magnitude less for IELR than for canonical
-LR.
-More importantly, because canonical LR's extra parser states
-may contain duplicate conflicts in the case of non-LR
-grammars, the number of conflicts for IELR is often an order
-of magnitude less as well.
-This can significantly reduce the complexity of developing of a grammar.
-
-@item @code{canonical-lr}.
-@cindex delayed syntax errors
-@cindex syntax errors delayed
-@cindex LAC
-@findex %nonassoc
-While inefficient, canonical LR parser tables can be an interesting
-means to explore a grammar because they have a property that IELR and
-LALR tables do not.  That is, if @code{%nonassoc} is not used and
-default reductions are left disabled (@pxref{%define
-Summary,,lr.default-reductions}), then, for every left context of
-every canonical LR state, the set of tokens accepted by that state is
-guaranteed to be the exact set of tokens that is syntactically
-acceptable in that left context.  It might then seem that an advantage
-of canonical LR parsers in production is that, under the above
-constraints, they are guaranteed to detect a syntax error as soon as
-possible without performing any unnecessary reductions.  However, IELR
-parsers using LAC (@pxref{%define Summary,,parse.lac}) are also able
-to achieve this behavior without sacrificing @code{%nonassoc} or
-default reductions.
-@end itemize
+@item Accepted Values: @code{lalr}, @code{ielr}, @code{canonical-lr}
 
 @item Default Value: @code{lalr}
 @end itemize
@@ -5405,84 +5259,13 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 @c ================================================== parse.lac
 @item parse.lac
 @findex %define parse.lac
-@cindex LAC
-@cindex lookahead correction
 
 @itemize
-@item Languages(s): C
+@item Languages(s): C (deterministic parsers only)
 
 @item Purpose: Enable LAC (lookahead correction) to improve
-syntax error handling.
-
-Canonical LR, IELR, and LALR can suffer
-from a couple of problems upon encountering a syntax error.  First, the
-parser might perform additional parser stack reductions before
-discovering the syntax error.  Such reductions perform user semantic
-actions that are unexpected because they are based on an invalid token,
-and they cause error recovery to begin in a different syntactic context
-than the one in which the invalid token was encountered.  Second, when
-verbose error messages are enabled (with @code{%error-verbose} or
-@code{#define YYERROR_VERBOSE}), the expected token list in the syntax
-error message can both contain invalid tokens and omit valid tokens.
-
-The culprits for the above problems are @code{%nonassoc}, default
-reductions in inconsistent states, and parser state merging.  Thus,
-IELR and LALR suffer the most.  Canonical
-LR can suffer only if @code{%nonassoc} is used or if default
-reductions are enabled for inconsistent states.
-
-LAC is a new mechanism within the parsing algorithm that
-completely solves these problems for canonical LR,
-IELR, and LALR without sacrificing @code{%nonassoc},
-default reductions, or state mering.  Conceptually, the mechanism is
-straight-forward.  Whenever the parser fetches a new token from the
-scanner so that it can determine the next parser action, it immediately
-suspends normal parsing and performs an exploratory parse using a
-temporary copy of the normal parser state stack.  During this
-exploratory parse, the parser does not perform user semantic actions.
-If the exploratory parse reaches a shift action, normal parsing then
-resumes on the normal parser stacks.  If the exploratory parse reaches
-an error instead, the parser reports a syntax error.  If verbose syntax
-error messages are enabled, the parser must then discover the list of
-expected tokens, so it performs a separate exploratory parse for each
-token in the grammar.
-
-There is one subtlety about the use of LAC.  That is, when in a
-consistent parser state with a default reduction, the parser will not
-attempt to fetch a token from the scanner because no lookahead is
-needed to determine the next parser action.  Thus, whether default
-reductions are enabled in consistent states (@pxref{%define
-Summary,,lr.default-reductions}) affects how soon the parser detects a
-syntax error: when it @emph{reaches} an erroneous token or when it
-eventually @emph{needs} that token as a lookahead.  The latter
-behavior is probably more intuitive, so Bison currently provides no
-way to achieve the former behavior while default reductions are fully
-enabled.
-
-Thus, when LAC is in use, for some fixed decision of whether
-to enable default reductions in consistent states, canonical
-LR and IELR behave exactly the same for both
-syntactically acceptable and syntactically unacceptable input.  While
-LALR still does not support the full language-recognition
-power of canonical LR and IELR, LAC at
-least enables LALR's syntax error handling to correctly
-reflect LALR's language-recognition power.
-
-Because LAC requires many parse actions to be performed twice,
-it can have a performance penalty.  However, not all parse actions must
-be performed twice.  Specifically, during a series of default reductions
-in consistent states and shift actions, the parser never has to initiate
-an exploratory parse.  Moreover, the most time-consuming tasks in a
-parse are often the file I/O, the lexical analysis performed by the
-scanner, and the user's semantic actions, but none of these are
-performed during the exploratory parse.  Finally, the base of the
-temporary stack used during an exploratory parse is a pointer into the
-normal parser state stack so that the stack is never physically copied.
-In our experience, the performance penalty of LAC has proven
-insignificant for practical grammars.
-
+syntax error handling.  @xref{LAC}.
 @item Accepted Values: @code{none}, @code{full}
-
 @item Default Value: @code{none}
 @end itemize
 @end itemize
@@ -6075,10 +5858,11 @@ receives one argument.  For a syntax error, the string is normally
 @w{@code{"syntax error"}}.
 
 @findex %error-verbose
-If you invoke the directive @code{%error-verbose} in the Bison
-declarations section (@pxref{Bison Declarations, ,The Bison Declarations
-Section}), then Bison provides a more verbose and specific error message
-string instead of just plain @w{@code{"syntax error"}}.
+If you invoke the directive @code{%error-verbose} in the Bison declarations
+section (@pxref{Bison Declarations, ,The Bison Declarations Section}), then
+Bison provides a more verbose and specific error message string instead of
+just plain @w{@code{"syntax error"}}.  However, that message sometimes
+contains incorrect information if LAC is not enabled (@pxref{LAC}).
 
 The parser can detect one other kind of error: memory exhaustion.  This
 can happen when the input contains constructions that are very deeply
@@ -6479,6 +6263,7 @@ This kind of parser is known in the literature as a bottom-up parser.
 * Parser States::     The parser is a finite-state-machine with stack.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
 * Mystery Conflicts:: Reduce/reduce conflicts that look unjustified.
+* Tuning LR::         How to tune fundamental aspects of LR-based parsing.
 * Generalized LR Parsing::  Parsing arbitrary context-free grammars.
 * Memory Management:: What happens when memory is exhausted.  How to avoid it.
 @end menu
@@ -6996,6 +6781,7 @@ redirects:redirect
 
 @node Mystery Conflicts
 @section Mysterious Reduce/Reduce Conflicts
+@cindex Mysterious Conflicts
 
 Sometimes reduce/reduce conflicts can occur that don't look warranted.
 Here is an example:
@@ -7037,8 +6823,8 @@ of lookahead: when a @code{param_spec} is being read, an @code{ID} is
 a @code{name} if a comma or colon follows, or a @code{type} if another
 @code{ID} follows.  In other words, this grammar is LR(1).
 
-@cindex LR(1)
-@cindex LALR(1)
+@cindex LR
+@cindex LALR
 However, for historical reasons, Bison cannot by default handle all
 LR(1) grammars.
 In this grammar, two contexts, that after an @code{ID} at the beginning
@@ -7053,15 +6839,16 @@ contexts, so it makes a single parser state for them both.  Combining
 the two contexts causes a conflict later.  In parser terminology, this
 occurrence means that the grammar is not LALR(1).
 
-For many practical grammars (specifically those that fall into the
-non-LR(1) class), the limitations of LALR(1) result in difficulties
-beyond just mysterious reduce/reduce conflicts.  The best way to fix
-all these problems is to select a different parser table generation
-algorithm.  Either IELR(1) or canonical LR(1) would suffice, but the
-former is more efficient and easier to debug during development.
-@xref{%define Summary,,lr.type}, for details.  (Bison's IELR(1) and
-canonical LR(1) implementations are experimental.  More user feedback
-will help to stabilize them.)
+@cindex IELR
+@cindex canonical LR
+For many practical grammars (specifically those that fall into the non-LR(1)
+class), the limitations of LALR(1) result in difficulties beyond just
+mysterious reduce/reduce conflicts.  The best way to fix all these problems
+is to select a different parser table construction algorithm.  Either
+IELR(1) or canonical LR(1) would suffice, but the former is more efficient
+and easier to debug during development.  @xref{LR Table Construction}, for
+details.  (Bison's IELR(1) and canonical LR(1) implementations are
+experimental.  More user feedback will help to stabilize them.)
 
 If you instead wish to work around LALR(1)'s limitations, you
 can often fix a mysterious conflict by identifying the two parser states
@@ -7111,6 +6898,409 @@ return_spec:
 
 For a more detailed exposition of LALR(1) parsers and parser
 generators, @pxref{Bibliography,,DeRemer 1982}.
+
+@node Tuning LR
+@section Tuning LR
+
+The default behavior of Bison's LR-based parsers is chosen mostly for
+historical reasons, but that behavior is often not robust.  For example, in
+the previous section, we discussed the mysterious conflicts that can be
+produced by LALR(1), Bison's default parser table construction algorithm.
+Another example is Bison's @code{%error-verbose} directive, which instructs
+the generated parser to produce verbose syntax error messages, which can
+sometimes contain incorrect information.
+
+In this section, we explore several modern features of Bison that allow you
+to tune fundamental aspects of the generated LR-based parsers.  Some of
+these features easily eliminate shortcomings like those mentioned above.
+Others can be helpful purely for understanding your parser.
+
+Most of the features discussed in this section are still experimental.  More
+user feedback will help to stabilize them.
+
+@menu
+* LR Table Construction:: Choose a different construction algorithm.
+* Default Reductions::    Disable default reductions.
+* LAC::                   Correct lookahead sets in the parser states.
+* Unreachable States::    Keep unreachable parser states for debugging.
+@end menu
+
+@node LR Table Construction
+@subsection LR Table Construction
+@cindex Mysterious Conflict
+@cindex LALR
+@cindex IELR
+@cindex canonical LR
+@findex %define lr.type
+
+For historical reasons, Bison constructs LALR(1) parser tables by default.
+However, LALR does not possess the full language-recognition power of LR.
+As a result, the behavior of parsers employing LALR parser tables is often
+mysterious.  We presented a simple example of this effect in @ref{Mystery
+Conflicts}.
+
+As we also demonstrated in that example, the traditional approach to
+eliminating such mysterious behavior is to restructure the grammar.
+Unfortunately, doing so correctly is often difficult.  Moreover, merely
+discovering that LALR causes mysterious behavior in your parser can be
+difficult as well.
+
+Fortunately, Bison provides an easy way to eliminate the possibility of such
+mysterious behavior altogether.  You simply need to activate a more powerful
+parser table construction algorithm by using the @code{%define lr.type}
+directive.
+
+@deffn {Directive} {%define lr.type @var{TYPE}}
+Specify the type of parser tables within the LR(1) family.  The accepted
+values for @var{TYPE} are:
+
+@itemize
+@item @code{lalr} (default)
+@item @code{ielr}
+@item @code{canonical-lr}
+@end itemize
+
+(This feature is experimental. More user feedback will help to stabilize
+it.)
+@end deffn
+
+For example, to activate IELR, you might add the following directive to you
+grammar file:
+
+@example
+%define lr.type ielr
+@end example
+
+@noindent For the example in @ref{Mystery Conflicts}, the mysterious
+conflict is then eliminated, so there is no need to invest time in
+comprehending the conflict or restructuring the grammar to fix it.  If,
+during future development, the grammar evolves such that all mysterious
+behavior would have disappeared using just LALR, you need not fear that
+continuing to use IELR will result in unnecessarily large parser tables.
+That is, IELR generates LALR tables when LALR (using a deterministic parsing
+algorithm) is sufficient to support the full language-recognition power of
+LR.  Thus, by enabling IELR at the start of grammar development, you can
+safely and completely eliminate the need to consider LALR's shortcomings.
+
+While IELR is almost always preferable, there are circumstances where LALR
+or the canonical LR parser tables described by Knuth
+(@pxref{Bibliography,,Knuth 1965}) can be useful.  Here we summarize the
+relative advantages of each parser table construction algorithm within
+Bison:
+
+@itemize
+@item LALR
+
+There are at least two scenarios where LALR can be worthwhile:
+
+@itemize
+@item GLR without static conflict resolution.
+
+@cindex GLR with LALR
+When employing GLR parsers (@pxref{GLR Parsers}), if you do not resolve any
+conflicts statically (for example, with @code{%left} or @code{%prec}), then
+the parser explores all potential parses of any given input.  In this case,
+the choice of parser table construction algorithm is guaranteed not to alter
+the language accepted by the parser.  LALR parser tables are the smallest
+parser tables Bison can currently construct, so they may then be preferable.
+Nevertheless, once you begin to resolve conflicts statically, GLR behaves
+more like a deterministic parser in the syntactic contexts where those
+conflicts appear, and so either IELR or canonical LR can then be helpful to
+avoid LALR's mysterious behavior.
+
+@item Malformed grammars.
+
+Occasionally during development, an especially malformed grammar with a
+major recurring flaw may severely impede the IELR or canonical LR parser
+table construction algorithm.  LALR can be a quick way to construct parser
+tables in order to investigate such problems while ignoring the more subtle
+differences from IELR and canonical LR.
+@end itemize
+
+@item IELR
+
+IELR (Inadequacy Elimination LR) is a minimal LR algorithm.  That is, given
+any grammar (LR or non-LR), parsers using IELR or canonical LR parser tables
+always accept exactly the same set of sentences.  However, like LALR, IELR
+merges parser states during parser table construction so that the number of
+parser states is often an order of magnitude less than for canonical LR.
+More importantly, because canonical LR's extra parser states may contain
+duplicate conflicts in the case of non-LR grammars, the number of conflicts
+for IELR is often an order of magnitude less as well.  This effect can
+significantly reduce the complexity of developing a grammar.
+
+@item Canonical LR
+
+@cindex delayed syntax error detection
+@cindex LAC
+@findex %nonassoc
+While inefficient, canonical LR parser tables can be an interesting means to
+explore a grammar because they possess a property that IELR and LALR tables
+do not.  That is, if @code{%nonassoc} is not used and default reductions are
+left disabled (@pxref{Default Reductions}), then, for every left context of
+every canonical LR state, the set of tokens accepted by that state is
+guaranteed to be the exact set of tokens that is syntactically acceptable in
+that left context.  It might then seem that an advantage of canonical LR
+parsers in production is that, under the above constraints, they are
+guaranteed to detect a syntax error as soon as possible without performing
+any unnecessary reductions.  However, IELR parsers that use LAC are also
+able to achieve this behavior without sacrificing @code{%nonassoc} or
+default reductions.  For details and a few caveats of LAC, @pxref{LAC}.
+@end itemize
+
+For a more detailed exposition of the mysterious behavior in LALR parsers
+and the benefits of IELR, @pxref{Bibliography,,Denny 2008 March}, and
+@ref{Bibliography,,Denny 2010 November}.
+
+@node Default Reductions
+@subsection Default Reductions
+@cindex default reductions
+@findex %define lr.default-reductions
+@findex %nonassoc
+
+After parser table construction, Bison identifies the reduction with the
+largest lookahead set in each parser state.  To reduce the size of the
+parser state, traditional Bison behavior is to remove that lookahead set and
+to assign that reduction to be the default parser action.  Such a reduction
+is known as a @dfn{default reduction}.
+
+Default reductions affect more than the size of the parser tables.  They
+also affect the behavior of the parser:
+
+@itemize
+@item Delayed @code{yylex} invocations.
+
+@cindex delayed yylex invocations
+@cindex consistent states
+@cindex defaulted states
+A @dfn{consistent state} is a state that has only one possible parser
+action.  If that action is a reduction and is encoded as a default
+reduction, then that consistent state is called a @dfn{defaulted state}.
+Upon reaching a defaulted state, a Bison-generated parser does not bother to
+invoke @code{yylex} to fetch the next token before performing the reduction.
+In other words, whether default reductions are enabled in consistent states
+determines how soon a Bison-generated parser invokes @code{yylex} for a
+token: immediately when it @emph{reaches} that token in the input or when it
+eventually @emph{needs} that token as a lookahead to determine the next
+parser action.  Traditionally, default reductions are enabled, and so the
+parser exhibits the latter behavior.
+
+The presence of defaulted states is an important consideration when
+designing @code{yylex} and the grammar file.  That is, if the behavior of
+@code{yylex} can influence or be influenced by the semantic actions
+associated with the reductions in defaulted states, then the delay of the
+next @code{yylex} invocation until after those reductions is significant.
+For example, the semantic actions might pop a scope stack that @code{yylex}
+uses to determine what token to return.  Thus, the delay might be necessary
+to ensure that @code{yylex} does not look up the next token in a scope that
+should already be considered closed.
+
+@item Delayed syntax error detection.
+
+@cindex delayed syntax error detection
+When the parser fetches a new token by invoking @code{yylex}, it checks
+whether there is an action for that token in the current parser state.  The
+parser detects a syntax error if and only if either (1) there is no action
+for that token or (2) the action for that token is the error action (due to
+the use of @code{%nonassoc}).  However, if there is a default reduction in
+that state (which might or might not be a defaulted state), then it is
+impossible for condition 1 to exist.  That is, all tokens have an action.
+Thus, the parser sometimes fails to detect the syntax error until it reaches
+a later state.
+
+@cindex LAC
+@c If there's an infinite loop, default reductions can prevent an incorrect
+@c sentence from being rejected.
+While default reductions never cause the parser to accept syntactically
+incorrect sentences, the delay of syntax error detection can have unexpected
+effects on the behavior of the parser.  However, the delay can be caused
+anyway by parser state merging and the use of @code{%nonassoc}, and it can
+be fixed by another Bison feature, LAC.  We discuss the effects of delayed
+syntax error detection and LAC more in the next section (@pxref{LAC}).
+@end itemize
+
+For canonical LR, the only default reduction that Bison enables by default
+is the accept action, which appears only in the accepting state, which has
+no other action and is thus a defaulted state.  However, the default accept
+action does not delay any @code{yylex} invocation or syntax error detection
+because the accept action ends the parse.
+
+For LALR and IELR, Bison enables default reductions in nearly all states by
+default.  There are only two exceptions.  First, states that have a shift
+action on the @code{error} token do not have default reductions because
+delayed syntax error detection could then prevent the @code{error} token
+from ever being shifted in that state.  However, parser state merging can
+cause the same effect anyway, and LAC fixes it in both cases, so future
+versions of Bison might drop this exception when LAC is activated.  Second,
+GLR parsers do not record the default reduction as the action on a lookahead
+token for which there is a conflict.  The correct action in this case is to
+split the parse instead.
+
+To adjust which states have default reductions enabled, use the
+@code{%define lr.default-reductions} directive.
+
+@deffn {Directive} {%define lr.default-reductions @var{WHERE}}
+Specify the kind of states that are permitted to contain default reductions.
+The accepted values of @var{WHERE} are:
+@itemize
+@item @code{all} (default for LALR and IELR)
+@item @code{consistent}
+@item @code{accepting} (default for canonical LR)
+@end itemize
+
+(The ability to specify where default reductions are permitted is
+experimental.  More user feedback will help to stabilize it.)
+@end deffn
+
+FIXME: Because of the exceptions described above, @code{all} is a misnomer.
+Rename to @code{full}.
+
+@node LAC
+@subsection LAC
+@findex %define parse.lac
+@cindex LAC
+@cindex lookahead correction
+
+Canonical LR, IELR, and LALR can suffer from a couple of problems upon
+encountering a syntax error.  First, the parser might perform additional
+parser stack reductions before discovering the syntax error.  Such
+reductions can perform user semantic actions that are unexpected because
+they are based on an invalid token, and they cause error recovery to begin
+in a different syntactic context than the one in which the invalid token was
+encountered.  Second, when verbose error messages are enabled (@pxref{Error
+Reporting}), the expected token list in the syntax error message can both
+contain invalid tokens and omit valid tokens.
+
+The culprits for the above problems are @code{%nonassoc}, default reductions
+in inconsistent states (@pxref{Default Reductions}), and parser state
+merging.  Because IELR and LALR merge parser states, they suffer the most.
+Canonical LR can suffer only if @code{%nonassoc} is used or if default
+reductions are enabled for inconsistent states.
+
+LAC (Lookahead Correction) is a new mechanism within the parsing algorithm
+that solves these problems for canonical LR, IELR, and LALR without
+sacrificing @code{%nonassoc}, default reductions, or state merging.  You can
+enable LAC with the @code{%define parse.lac} directive.
+
+@deffn {Directive} {%define parse.lac @var{VALUE}}
+Enable LAC to improve syntax error handling.
+@itemize
+@item @code{none} (default)
+@item @code{full}
+@end itemize
+(This feature is experimental.  More user feedback will help to stabilize
+it.  Moreover, it is currently only available for deterministic parsers in
+C.)
+@end deffn
+
+Conceptually, the LAC mechanism is straight-forward.  Whenever the parser
+fetches a new token from the scanner so that it can determine the next
+parser action, it immediately suspends normal parsing and performs an
+exploratory parse using a temporary copy of the normal parser state stack.
+During this exploratory parse, the parser does not perform user semantic
+actions.  If the exploratory parse reaches a shift action, normal parsing
+then resumes on the normal parser stacks.  If the exploratory parse reaches
+an error instead, the parser reports a syntax error.  If verbose syntax
+error messages are enabled, the parser must then discover the list of
+expected tokens, so it performs a separate exploratory parse for each token
+in the grammar.
+
+There is one subtlety about the use of LAC.  That is, when in a consistent
+parser state with a default reduction, the parser will not attempt to fetch
+a token from the scanner because no lookahead is needed to determine the
+next parser action.  Thus, whether default reductions are enabled in
+consistent states (@pxref{Default Reductions}) affects how soon the parser
+detects a syntax error: immediately when it @emph{reaches} an erroneous
+token or when it eventually @emph{needs} that token as a lookahead to
+determine the next parser action.  The latter behavior is probably more
+intuitive, so Bison currently provides no way to achieve the former behavior
+while default reductions are enabled in consistent states.
+
+Thus, when LAC is in use, for some fixed decision of whether to enable
+default reductions in consistent states, canonical LR and IELR behave almost
+exactly the same for both syntactically acceptable and syntactically
+unacceptable input.  While LALR still does not support the full
+language-recognition power of canonical LR and IELR, LAC at least enables
+LALR's syntax error handling to correctly reflect LALR's
+language-recognition power.
+
+There are a few caveats to consider when using LAC:
+
+@itemize
+@item Infinite parsing loops.
+
+IELR plus LAC does have one shortcoming relative to canonical LR.  Some
+parsers generated by Bison can loop infinitely.  LAC does not fix infinite
+parsing loops that occur between encountering a syntax error and detecting
+it, but enabling canonical LR or disabling default reductions sometimes
+does.
+
+@item Verbose error message limitations.
+
+Because of internationalization considerations, Bison-generated parsers
+limit the size of the expected token list they are willing to report in a
+verbose syntax error message.  If the number of expected tokens exceeds that
+limit, the list is simply dropped from the message.  Enabling LAC can
+increase the size of the list and thus cause the parser to drop it.  Of
+course, dropping the list is better than reporting an incorrect list.
+
+@item Performance.
+
+Because LAC requires many parse actions to be performed twice, it can have a
+performance penalty.  However, not all parse actions must be performed
+twice.  Specifically, during a series of default reductions in consistent
+states and shift actions, the parser never has to initiate an exploratory
+parse.  Moreover, the most time-consuming tasks in a parse are often the
+file I/O, the lexical analysis performed by the scanner, and the user's
+semantic actions, but none of these are performed during the exploratory
+parse.  Finally, the base of the temporary stack used during an exploratory
+parse is a pointer into the normal parser state stack so that the stack is
+never physically copied.  In our experience, the performance penalty of LAC
+has proven insignificant for practical grammars.
+@end itemize
+
+@node Unreachable States
+@subsection Unreachable States
+@findex %define lr.keep-unreachable-states
+@cindex unreachable states
+
+If there exists no sequence of transitions from the parser's start state to
+some state @var{s}, then Bison considers @var{s} to be an @dfn{unreachable
+state}.  A state can become unreachable during conflict resolution if Bison
+disables a shift action leading to it from a predecessor state.
+
+By default, Bison removes unreachable states from the parser after conflict
+resolution because they are useless in the generated parser.  However,
+keeping unreachable states is sometimes useful when trying to understand the
+relationship between the parser and the grammar.
+
+@deffn {Directive} {%define lr.keep-unreachable-states @var{VALUE}}
+Request that Bison allow unreachable states to remain in the parser tables.
+@var{VALUE} must be a Boolean.  The default is @code{false}.
+@end deffn
+
+There are a few caveats to consider:
+
+@itemize @bullet
+@item Missing or extraneous warnings.
+
+Unreachable states may contain conflicts and may use rules not used in any
+other state.  Thus, keeping unreachable states may induce warnings that are
+irrelevant to your parser's behavior, and it may eliminate warnings that are
+relevant.  Of course, the change in warnings may actually be relevant to a
+parser table analysis that wants to keep unreachable states, so this
+behavior will likely remain in future Bison releases.
+
+@item Other useless states.
+
+While Bison is able to remove unreachable states, it is not guaranteed to
+remove other kinds of useless states.  Specifically, when Bison disables
+reduce actions during conflict resolution, some goto actions may become
+useless, and thus some additional states may become useless.  If Bison were
+to compute which goto actions were useless and then disable those actions,
+it could identify such states as unreachable and then remove those states.
+However, Bison does not compute which goto actions are useless.
+@end itemize
 
 @node Generalized LR Parsing
 @section Generalized LR (GLR) Parsing
@@ -8934,8 +9124,9 @@ automatically propagated.
 @end example
 
 @noindent
-Use the two following directives to enable parser tracing and verbose
-error messages.
+Use the two following directives to enable parser tracing and verbose error
+messages.  However, verbose error messages can contain incorrect information
+(@pxref{LAC}).
 
 @comment file: calc++-parser.yy
 @example
@@ -10267,9 +10458,9 @@ Precedence}.
 @end deffn
 @end ifset
 
-@deffn {Directive} %define @var{define-variable}
-@deffnx {Directive} %define @var{define-variable} @var{value}
-@deffnx {Directive} %define @var{define-variable} "@var{value}"
+@deffn {Directive} %define @var{variable}
+@deffnx {Directive} %define @var{variable} @var{value}
+@deffnx {Directive} %define @var{variable} "@var{value}"
 Define a variable to adjust Bison's behavior.  @xref{%define Summary}.
 @end deffn
 
@@ -10312,7 +10503,7 @@ token is reset to the token that originally caused the violation.
 
 @deffn {Directive} %error-verbose
 Bison declaration to request verbose, specific error message strings
-when @code{yyerror} is called.
+when @code{yyerror} is called.  @xref{Error Reporting}.
 @end deffn
 
 @deffn {Directive} %file-prefix "@var{prefix}"
@@ -10515,7 +10706,7 @@ An obsolete macro that you define with @code{#define} in the prologue
 to request verbose, specific error message strings
 when @code{yyerror} is called.  It doesn't matter what definition you
 use for @code{YYERROR_VERBOSE}, just whether you define it.  Using
-@code{%error-verbose} is preferred.
+@code{%error-verbose} is preferred.  @xref{Error Reporting}.
 @end deffn
 
 @deffn {Macro} YYINITDEPTH
@@ -10655,7 +10846,7 @@ Data type of semantic values; @code{int} by default.
 @cindex glossary
 
 @table @asis
-@item Accepting State
+@item Accepting state
 A state whose only action is the accept action.
 The accepting state is thus a consistent state.
 @xref{Understanding,,}.
@@ -10666,9 +10857,8 @@ by John Backus, and slightly improved by Peter Naur in his 1960-01-02
 committee document contributing to what became the Algol 60 report.
 @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
 
-@item Consistent State
-A state containing only one possible action.  @xref{%define
-Summary,,lr.default-reductions}.
+@item Consistent state
+A state containing only one possible action.  @xref{Default Reductions}.
 
 @item Context-free grammars
 Grammars specified as rules that can be applied regardless of context.
@@ -10677,12 +10867,15 @@ expression, integers are allowed @emph{anywhere} an expression is
 permitted.  @xref{Language and Grammar, ,Languages and Context-Free
 Grammars}.
 
-@item Default Reduction
+@item Default reduction
 The reduction that a parser should perform if the current parser state
 contains no other action for the lookahead token.  In permitted parser
-states, Bison declares the reduction with the largest lookahead set to
-be the default reduction and removes that lookahead set.
-@xref{%define Summary,,lr.default-reductions}.
+states, Bison declares the reduction with the largest lookahead set to be
+the default reduction and removes that lookahead set.  @xref{Default
+Reductions}.
+
+@item Defaulted state
+A consistent state with a default reduction.  @xref{Default Reductions}.
 
 @item Dynamic allocation
 Allocation of memory that occurs during execution, rather than at
@@ -10714,17 +10907,16 @@ A language construct that is (in general) grammatically divisible;
 for example, `expression' or `declaration' in C@.
 @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
 
-@item IELR(1)
-A minimal LR(1) parser table generation algorithm.  That is, given any
+@item IELR(1) (Inadequacy Elimination LR(1))
+A minimal LR(1) parser table construction algorithm.  That is, given any
 context-free grammar, IELR(1) generates parser tables with the full
-language recognition power of canonical LR(1) but with nearly the same
-number of parser states as LALR(1).  This reduction in parser states
-is often an order of magnitude.  More importantly, because canonical
-LR(1)'s extra parser states may contain duplicate conflicts in the
-case of non-LR(1) grammars, the number of conflicts for IELR(1) is
-often an order of magnitude less as well.  This can significantly
-reduce the complexity of developing of a grammar.  @xref{%define
-Summary,,lr.type}.
+language-recognition power of canonical LR(1) but with nearly the same
+number of parser states as LALR(1).  This reduction in parser states is
+often an order of magnitude.  More importantly, because canonical LR(1)'s
+extra parser states may contain duplicate conflicts in the case of non-LR(1)
+grammars, the number of conflicts for IELR(1) is often an order of magnitude
+less as well.  This can significantly reduce the complexity of developing a
+grammar.  @xref{LR Table Construction}.
 
 @item Infix operator
 An arithmetic operator that is placed between the operands on which it
@@ -10735,12 +10927,11 @@ A continuous flow of data between devices or programs.
 
 @item LAC (Lookahead Correction)
 A parsing mechanism that fixes the problem of delayed syntax error
-detection, which is caused by LR state merging, default reductions,
-and the use of @code{%nonassoc}.  Delayed syntax error detection
-results in unexpected semantic actions, initiation of error recovery
-in the wrong syntactic context, and an incorrect list of expected
-tokens in a verbose syntax error message.  @xref{%define
-Summary,,parse.lac}.
+detection, which is caused by LR state merging, default reductions, and the
+use of @code{%nonassoc}.  Delayed syntax error detection results in
+unexpected semantic actions, initiation of error recovery in the wrong
+syntactic context, and an incorrect list of expected tokens in a verbose
+syntax error message.  @xref{LAC}.
 
 @item Language construct
 One of the typical usage schemas of the language.  For example, one of
@@ -10856,6 +11047,11 @@ the lexical analyzer.  @xref{Symbols}.
 A grammar symbol that has no rules in the grammar and therefore is
 grammatically indivisible.  The piece of text it represents is a token.
 @xref{Language and Grammar, ,Languages and Context-Free Grammars}.
+
+@item Unreachable state
+A parser state to which there does not exist a sequence of transitions from
+the parser's start state.  A state can become unreachable during conflict
+resolution.  @xref{Unreachable States}.
 @end table
 
 @node Copying This Manual

@@ -57,27 +57,27 @@ Bison News
     %define lr.type ielr
     %define lr.type canonical-lr
 
-  The default reduction optimization in the parser tables can also be
-  adjusted using `%define lr.default-reductions'.  See the documentation
-  for `%define lr.type' and `%define lr.default-reductions' in the
-  section `Bison Declaration Summary' in the Bison manual for the
-  details.
+  The default-reduction optimization in the parser tables can also be
+  adjusted using `%define lr.default-reductions'.  For details on both
+  of these features, see the new section `Tuning LR' in the Bison
+  manual.
 
   These features are experimental.  More user feedback will help to
   stabilize them.
 
-** LAC (lookahead correction) for syntax error handling:
+** LAC (Lookahead Correction) for syntax error handling:
 
   Canonical LR, IELR, and LALR can suffer from a couple of problems
   upon encountering a syntax error.  First, the parser might perform
   additional parser stack reductions before discovering the syntax
-  error.  Such reductions perform user semantic actions that are
+  error.  Such reductions can perform user semantic actions that are
   unexpected because they are based on an invalid token, and they
   cause error recovery to begin in a different syntactic context than
   the one in which the invalid token was encountered.  Second, when
-  verbose error messages are enabled (with %error-verbose or `#define
-  YYERROR_VERBOSE'), the expected token list in the syntax error
-  message can both contain invalid tokens and omit valid tokens.
+  verbose error messages are enabled (with %error-verbose or the
+  obsolete `#define YYERROR_VERBOSE'), the expected token list in the
+  syntax error message can both contain invalid tokens and omit valid
+  tokens.
 
   The culprits for the above problems are %nonassoc, default
   reductions in inconsistent states, and parser state merging.  Thus,
@@ -85,11 +85,11 @@ Bison News
   %nonassoc is used or if default reductions are enabled for
   inconsistent states.
 
-  LAC is a new mechanism within the parsing algorithm that completely
-  solves these problems for canonical LR, IELR, and LALR without
-  sacrificing %nonassoc, default reductions, or state mering.  When
-  LAC is in use, canonical LR and IELR behave exactly the same for
-  both syntactically acceptable and syntactically unacceptable input.
+  LAC is a new mechanism within the parsing algorithm that solves
+  these problems for canonical LR, IELR, and LALR without sacrificing
+  %nonassoc, default reductions, or state merging.  When LAC is in
+  use, canonical LR and IELR behave almost exactly the same for both
+  syntactically acceptable and syntactically unacceptable input.
   While LALR still does not support the full language-recognition
   power of canonical LR and IELR, LAC at least enables LALR's syntax
   error handling to correctly reflect LALR's language-recognition
@@ -100,8 +100,8 @@ Bison News
 
     %define parse.lac full
 
-  See the documentation for `%define parse.lac' in the section `Bison
-  Declaration Summary' in the Bison manual for additional details.
+  See the new section `LAC' in the Bison manual for additional
+  details including a few caveats.
 
   LAC is an experimental feature.  More user feedback will help to
   stabilize it.
@@ -255,11 +255,11 @@ Bison News
 
 ** Verbose syntax error message fixes:
 
-  When %error-verbose or `#define YYERROR_VERBOSE' is specified,
-  syntax error messages produced by the generated parser include the
-  unexpected token as well as a list of expected tokens.  The effect
-  of %nonassoc on these verbose messages has been corrected in two
-  ways, but a complete fix requires LAC, described above:
+  When %error-verbose or the obsolete `#define YYERROR_VERBOSE' is
+  specified, syntax error messages produced by the generated parser
+  include the unexpected token as well as a list of expected tokens.
+  The effect of %nonassoc on these verbose messages has been corrected
+  in two ways, but a more complete fix requires LAC, described above:
 
 *** When %nonassoc is used, there can exist parser states that accept no
     tokens, and so the parser does not always require a lookahead token
