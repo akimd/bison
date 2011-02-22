@@ -1,3 +1,34 @@
+2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	doc: create a new Tuning LR section in the manual.
+	And clean up all other documentation of the features described
+	there.
+	* NEWS (2.5): Tweak wording of lr.type and parse.lac entries a
+	bit, update the cross-references to the manual, and point out that
+	LAC has caveats.  Don't be so adamant that IELR+LAC=canonical LR.
+	That is, as the referenced section in the manual documents, LAC
+	does not fix infinite parsing loops on syntax errors.
+	* doc/bison.texinfo: Consistently drop the "(1)" suffix from LALR,
+	IELR, and LR in @cindex.
+	(%define Summary): Condense the entries for lr.default-reductions,
+	lr.keep-unreachable-states, lr.type, and parse.lac into brief
+	summaries, and cross-reference the appropriate subsections of
+	Tuning LR.  For parse.lac, mention that it's only implemented for
+	deterministic parsers in C.  In parse.error entry, mention LAC,
+	and add cross-reference to the LAC section.
+	(Error Reporting): When mentioning parse.error, mention LAC, and
+	add cross-reference to the LAC section.
+	(Tuning LR): New section with an extended version of the
+	documentation removed from %define Summary.  Change all
+	cross-references in the manual to point here instead of there.
+	(Calc++ Parser): When mentioning parse.error, mention LAC, and add
+	cross-reference to the LAC section.
+	(Table of Symbols): In %error-verbose entry, add cross-reference
+	to Error Reporting.
+	(Glossary): Capitalize entry titles consistently.  Add definitions
+	for "defaulted state" and "unreachable state".  Expand IELR
+	acronym in IELR's entry.
+
 2011-02-20  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	doc: add bibliography to manual.
