@@ -1,3 +1,9 @@
+2011-03-09  Akim Demaille  <akim@lrde.epita.fr>
+
+	tests: style changes.
+	* tests/named-refs.at (Redundant words in LHS brackets)
+	(Unresolved references): here.
+
 2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	java: fix parser tracing bug.
