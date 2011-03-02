@@ -37,6 +37,9 @@ typedef struct named_ref
 /* Allocate a named reference object. */
 named_ref *named_ref_new (uniqstr id, location loc);
 
+/* Allocate and return a copy.  */
+named_ref *named_ref_copy (const named_ref *r);
+
 /* Free a named reference object. */
 void named_ref_free (named_ref *r);
 
