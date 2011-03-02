@@ -463,7 +463,7 @@ AT_SETUP([Redundant words in LHS brackets])
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
-start[a s]: foo
+start[a s]: foo;
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.9: unexpected identifier in bracketed name: `s'
@@ -477,89 +477,61 @@ AT_DATA_GRAMMAR([test.y],
 [[
 %%
 stat:
-sym_a sym_b
-{ func($sym.field); }
-|
-sym_a sym_b
-{ func($<aa>sym.field); }
-|
-sym_a sym_b
-{ func($[sym.field]); }
-|
-sym_a sym_b
-{ func($<aa>[sym.field]); }
-|
-sym_a sym_b
-{ func($sym); }
-|
-sym_a sym_b
-{ func($<aa>sym); }
-|
-sym_a sym_b
-{ func($[sym]); }
-sym_a sym_b
-{ func($<aa>[sym]); }
+  sym_a sym_b { func($sym.field); }
+| sym_a sym_b { func($<aa>sym.field); }
+| sym_a sym_b { func($[sym.field]); }
+| sym_a sym_b { func($<aa>[sym.field]); }
+| sym_a sym_b { func($sym); }
+| sym_a sym_b { func($<aa>sym); }
+| sym_a sym_b { func($[sym]); } sym_a sym_b { func($<aa>[sym]); }
 ;
+
 stat1:
-sym_a sym_b
-{ func($sym-field); }
-|
-sym_a sym_b
-{ func($<aa>sym-field); }
-|
-sym_a sym_b
-{ func($[sym-field]); }
-|
-sym_a sym_b
-{ func($<aa>[sym-field]); }
-|
-sym_a sym_b
-{ func($sym); }
-|
-sym_a sym_b
-{ func($<aa>sym); }
-|
-sym_a sym_b
-{ func($[sym]); }
-sym_a sym_b
-{ func($<aa>[sym]); }
+  sym_a sym_b { func($sym-field); }
+| sym_a sym_b { func($<aa>sym-field); }
+| sym_a sym_b { func($[sym-field]); }
+| sym_a sym_b { func($<aa>[sym-field]); }
+| sym_a sym_b { func($sym); }
+| sym_a sym_b { func($<aa>sym); }
+| sym_a sym_b { func($[sym]); } sym_a sym_b { func($<aa>[sym]); }
 ;
-sym_a : 'a';
-sym_b : 'b';
+
+sym_a: 'a';
+sym_b: 'b';
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
-[[test.y:13.8-17: invalid reference: `$sym.field'
-test.y:12.1-13.21:  symbol not found in production: sym
-test.y:16.8-21: invalid reference: `$<aa>sym.field'
-test.y:15.1-16.25:  symbol not found in production: sym
-test.y:19.8-19: invalid reference: `$[sym.field]'
-test.y:18.1-19.23:  symbol not found in production: sym.field
-test.y:22.8-23: invalid reference: `$<aa>[sym.field]'
-test.y:21.1-22.27:  symbol not found in production: sym.field
-test.y:25.8-11: invalid reference: `$sym'
-test.y:24.1-25.15:  symbol not found in production: sym
-test.y:28.8-15: invalid reference: `$<aa>sym'
-test.y:27.1-28.19:  symbol not found in production: sym
-test.y:31.8-13: invalid reference: `$[sym]'
-test.y:30.1-33.21:  symbol not found in production before $3: sym
-test.y:33.8-17: invalid reference: `$<aa>[sym]'
-test.y:30.1-33.21:  symbol not found in production: sym
-test.y:37.8-17: invalid reference: `$sym-field'
-test.y:36.1-37.21:  symbol not found in production: sym
-test.y:40.8-21: invalid reference: `$<aa>sym-field'
-test.y:39.1-40.25:  symbol not found in production: sym
-test.y:43.8-19: invalid reference: `$[sym-field]'
-test.y:42.1-43.23:  symbol not found in production: sym-field
-test.y:46.8-23: invalid reference: `$<aa>[sym-field]'
-test.y:45.1-46.27:  symbol not found in production: sym-field
-test.y:49.8-11: invalid reference: `$sym'
-test.y:48.1-49.15:  symbol not found in production: sym
-test.y:52.8-15: invalid reference: `$<aa>sym'
-test.y:51.1-52.19:  symbol not found in production: sym
-test.y:55.8-13: invalid reference: `$[sym]'
-test.y:54.1-57.21:  symbol not found in production before $3: sym
-test.y:57.8-17: invalid reference: `$<aa>[sym]'
-test.y:54.1-57.21:  symbol not found in production: sym
+[[test.y:12.22-31: invalid reference: `$sym.field'
+test.y:12.3-35:      symbol not found in production: sym
+test.y:13.22-35: invalid reference: `$<aa>sym.field'
+test.y:13.3-39:      symbol not found in production: sym
+test.y:14.22-33: invalid reference: `$[sym.field]'
+test.y:14.3-37:      symbol not found in production: sym.field
+test.y:15.22-37: invalid reference: `$<aa>[sym.field]'
+test.y:15.3-41:      symbol not found in production: sym.field
+test.y:16.22-25: invalid reference: `$sym'
+test.y:16.3-29:      symbol not found in production: sym
+test.y:17.22-29: invalid reference: `$<aa>sym'
+test.y:17.3-33:      symbol not found in production: sym
+test.y:18.22-27: invalid reference: `$[sym]'
+test.y:18.3-65:      symbol not found in production before $3: sym
+test.y:18.52-61: invalid reference: `$<aa>[sym]'
+test.y:18.3-65:      symbol not found in production: sym
+test.y:22.22-31: invalid reference: `$sym-field'
+test.y:22.3-35:      symbol not found in production: sym
+test.y:23.22-35: invalid reference: `$<aa>sym-field'
+test.y:23.3-39:      symbol not found in production: sym
+test.y:24.22-33: invalid reference: `$[sym-field]'
+test.y:24.3-37:      symbol not found in production: sym-field
+test.y:25.22-37: invalid reference: `$<aa>[sym-field]'
+test.y:25.3-41:      symbol not found in production: sym-field
+test.y:26.22-25: invalid reference: `$sym'
+test.y:26.3-29:      symbol not found in production: sym
+test.y:27.22-29: invalid reference: `$<aa>sym'
+test.y:27.3-33:      symbol not found in production: sym
+test.y:28.22-27: invalid reference: `$[sym]'
+test.y:28.3-65:      symbol not found in production before $3: sym
+test.y:28.52-61: invalid reference: `$<aa>[sym]'
+test.y:28.3-65:      symbol not found in production: sym
 ]])
 AT_CLEANUP
 
