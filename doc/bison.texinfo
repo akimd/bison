@@ -264,7 +264,7 @@ The Bison Parser Algorithm
 * Contextual Precedence::  When an operator's precedence depends on context.
 * Parser States::     The parser is a finite-state-machine with stack.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
-* Mystery Conflicts:: Reduce/reduce conflicts that look unjustified.
+* Mysterious Conflicts:: Conflicts that look unjustified.
 * Tuning LR::         How to tune fundamental aspects of LR-based parsing.
 * Generalized LR Parsing::  Parsing arbitrary context-free grammars.
 * Memory Management:: What happens when memory is exhausted.  How to avoid it.
@@ -488,10 +488,10 @@ are called LR(1) grammars.  In brief, in these grammars, it must be possible
 to tell how to parse any portion of an input string with just a single token
 of lookahead.  For historical reasons, Bison by default is limited by the
 additional restrictions of LALR(1), which is hard to explain simply.
-@xref{Mystery Conflicts, ,Mysterious Reduce/Reduce Conflicts}, for more
-information on this.  As an experimental feature, you can escape these
-additional restrictions by requesting IELR(1) or canonical LR(1) parser
-tables.  @xref{LR Table Construction}, to learn how.
+@xref{Mysterious Conflicts}, for more information on this.  As an
+experimental feature, you can escape these additional restrictions by
+requesting IELR(1) or canonical LR(1) parser tables.  @xref{LR Table
+Construction}, to learn how.
 
 @cindex GLR parsing
 @cindex generalized LR (GLR) parsing
@@ -6262,7 +6262,7 @@ This kind of parser is known in the literature as a bottom-up parser.
 * Contextual Precedence::  When an operator's precedence depends on context.
 * Parser States::     The parser is a finite-state-machine with stack.
 * Reduce/Reduce::     When two rules are applicable in the same situation.
-* Mystery Conflicts:: Reduce/reduce conflicts that look unjustified.
+* Mysterious Conflicts:: Conflicts that look unjustified.
 * Tuning LR::         How to tune fundamental aspects of LR-based parsing.
 * Generalized LR Parsing::  Parsing arbitrary context-free grammars.
 * Memory Management:: What happens when memory is exhausted.  How to avoid it.
@@ -6779,8 +6779,8 @@ redirects:redirect
         ;
 @end example
 
-@node Mystery Conflicts
-@section Mysterious Reduce/Reduce Conflicts
+@node Mysterious Conflicts
+@section Mysterious Conflicts
 @cindex Mysterious Conflicts
 
 Sometimes reduce/reduce conflicts can occur that don't look warranted.
@@ -6936,7 +6936,7 @@ user feedback will help to stabilize them.
 For historical reasons, Bison constructs LALR(1) parser tables by default.
 However, LALR does not possess the full language-recognition power of LR.
 As a result, the behavior of parsers employing LALR parser tables is often
-mysterious.  We presented a simple example of this effect in @ref{Mystery
+mysterious.  We presented a simple example of this effect in @ref{Mysterious
 Conflicts}.
 
 As we also demonstrated in that example, the traditional approach to
@@ -6971,7 +6971,7 @@ grammar file:
 %define lr.type ielr
 @end example
 
-@noindent For the example in @ref{Mystery Conflicts}, the mysterious
+@noindent For the example in @ref{Mysterious Conflicts}, the mysterious
 conflict is then eliminated, so there is no need to invest time in
 comprehending the conflict or restructuring the grammar to fix it.  If,
 during future development, the grammar evolves such that all mysterious
@@ -7316,7 +7316,7 @@ sequence of reductions cannot have deterministic parsers in this sense.
 The same is true of languages that require more than one symbol of
 lookahead, since the parser lacks the information necessary to make a
 decision at the point it must be made in a shift-reduce parser.
-Finally, as previously mentioned (@pxref{Mystery Conflicts}),
+Finally, as previously mentioned (@pxref{Mysterious Conflicts}),
 there are languages where Bison's default choice of how to
 summarize the input seen so far loses necessary information.
 
@@ -10967,7 +10967,7 @@ Tokens}.
 @item LALR(1)
 The class of context-free grammars that Bison (like most other parser
 generators) can handle by default; a subset of LR(1).
-@xref{Mystery Conflicts, ,Mysterious Reduce/Reduce Conflicts}.
+@xref{Mysterious Conflicts}.
 
 @item LR(1)
 The class of context-free grammars in which at most one token of

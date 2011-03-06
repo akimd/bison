@@ -1,5 +1,14 @@
 2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: clean up terminology for mysterious conflicts.
+	* doc/bison.texinfo (Mystery Conflicts): Rename node to...
+	(Mysterious Conflicts): ... this, which is already the section
+	title and the name used in the index.  Update all cross-references
+	to this node.  Also, don't imply that R/R conflicts are the only
+	kind of mysterious conflict.
+
+2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	lr.default-reductions: rename "all" value to "full".
 	States that shift the error token do not have default reductions,
 	and GLR disables some default reductions, so "all" was a misnomer.
