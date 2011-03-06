@@ -1,5 +1,10 @@
 2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: cite publication for LAC.
+	* doc/bison.texinfo (LAC): Here.
+
+2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: clean up terminology for mysterious conflicts.
 	* doc/bison.texinfo (Mystery Conflicts): Rename node to...
 	(Mysterious Conflicts): ... this, which is already the section
