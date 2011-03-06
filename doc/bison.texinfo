@@ -7562,6 +7562,11 @@ never physically copied.  In our experience, the performance penalty of LAC
 has proven insignificant for practical grammars.
 @end itemize
 
+While the basic premise behind LAC has been recognized in the parser
+community for years, for the first publication that uses the term LAC and
+that discusses Bison's LAC implementation, @pxref{Bibliography,,Denny 2010
+May}.
+
 @node Unreachable States
 @subsection Unreachable States
 @findex %define lr.keep-unreachable-states
