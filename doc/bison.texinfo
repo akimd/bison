@@ -5166,11 +5166,11 @@ contain default reductions.  @xref{Default Reductions}.  (The ability to
 specify where default reductions should be used is experimental.  More user
 feedback will help to stabilize it.)
 
-@item Accepted Values: @code{all}, @code{consistent}, @code{accepting}
+@item Accepted Values: @code{full}, @code{consistent}, @code{accepting}
 @item Default Value:
 @itemize
 @item @code{accepting} if @code{lr.type} is @code{canonical-lr}.
-@item @code{all} otherwise.
+@item @code{full} otherwise.
 @end itemize
 @end itemize
 
@@ -7143,7 +7143,7 @@ To adjust which states have default reductions enabled, use the
 Specify the kind of states that are permitted to contain default reductions.
 The accepted values of @var{WHERE} are:
 @itemize
-@item @code{all} (default for LALR and IELR)
+@item @code{full} (default for LALR and IELR)
 @item @code{consistent}
 @item @code{accepting} (default for canonical LR)
 @end itemize
@@ -7151,9 +7151,6 @@ The accepted values of @var{WHERE} are:
 (The ability to specify where default reductions are permitted is
 experimental.  More user feedback will help to stabilize it.)
 @end deffn
-
-FIXME: Because of the exceptions described above, @code{all} is a misnomer.
-Rename to @code{full}.
 
 @node LAC
 @subsection LAC

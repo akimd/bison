@@ -1,5 +1,19 @@
 2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	lr.default-reductions: rename "all" value to "full".
+	States that shift the error token do not have default reductions,
+	and GLR disables some default reductions, so "all" was a misnomer.
+	* doc/bison.texinfo (%define Summary): Update.
+	(Default Reductions): Update.
+	* src/print.c (print_reductions): Update.
+	* src/reader.c (prepare_percent_define_front_end_variables):
+	Update.
+	* src/tables.c (action_row): Update.
+	* tests/input.at (%define enum variables): Update.
+	* tests/reduce.at (%define lr.default-reductions): Update.
+
+2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: create a new Tuning LR section in the manual.
 	And clean up all other documentation of the features described
 	there.
