@@ -303,7 +303,7 @@ b4_lexer_if([[
     public final void pop (int num) {
       // Avoid memory leaks... garbage collection is a white lie!
       if (num > 0) {
-        java.util.Arrays.fill (valueStack, height - num + 1, height, null);
+        java.util.Arrays.fill (valueStack, height - num + 1, height + 1, null);
         ]b4_locations_if([[java.util.Arrays.fill (locStack, height - num + 1, height, null);]])[
       }
       height -= num;
