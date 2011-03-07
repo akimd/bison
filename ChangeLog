@@ -1,5 +1,12 @@
 2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	java: fix parser tracing bug.
+	* NEWS (2.5): Document.
+	* data/lalr1.java (YYParser::YYStack::print): Don't skip top
+	element.
+
+2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	java: finish fixing parser stack popping bug.
 	* NEWS (2.5): Document.
 	* data/lalr1.java (YYParser::YYStack::pop): Fix off-by-one error

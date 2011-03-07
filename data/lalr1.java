@@ -326,7 +326,7 @@ b4_lexer_if([[
     {
       out.print ("Stack now");
 
-      for (int i = 0; i < height; i++)
+      for (int i = 0; i <= height; i++)
         {
           out.print (' ');
           out.print (stateStack[i]);
