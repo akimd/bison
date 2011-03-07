@@ -298,6 +298,8 @@ Bison News
 *** The top element of each of the value stack and location stack is now
     cleared when popped so that it can be garbage collected.
 
+*** Parser traces now print the top element of the stack.
+
 * Changes in version 2.4.3 (2010-08-05):
 
 ** Bison now obeys -Werror and --warnings=error for warnings about
