@@ -1,3 +1,11 @@
+2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	java: finish fixing parser stack popping bug.
+	* NEWS (2.5): Document.
+	* data/lalr1.java (YYParser::YYStack::pop): Fix off-by-one error
+	in clearing the location stack.  Also fix pop function that
+	accepts no arguments.
+
 2011-03-06  Angelo Borsotti  <angelo.borsotti@gmail.com>  (tiny change)
 
 	java: fix parser stack popping bug.
