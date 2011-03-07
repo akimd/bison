@@ -1,3 +1,13 @@
+2011-03-06  Angelo Borsotti  <angelo.borsotti@gmail.com>  (tiny change)
+
+	java: fix parser stack popping bug.
+	Reported at
+	<http://lists.gnu.org/archive/html/bug-bison/2011-02/msg00005.html>.
+	* THANKS (Angelo Borsotti): Add.
+	* data/lalr1.java (YYParser::YYStack::pop): Fix off-by-one error
+	in clearing the value stack.  Previously, the top element of the
+	stack wasn't cleared and so the value was not garbage collected.
+
 2011-03-06  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	doc: cite publication for LAC.
