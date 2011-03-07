@@ -291,7 +291,12 @@ Bison News
     canonical LR.  However, LAC is still experimental and is disabled
     by default.
 
-** A location handling bug in the Java skeleton has been fixed.
+** Java skeleton fixes:
+
+*** A location handling bug has been fixed.
+
+*** The top element of each of the value stack and location stack is now
+    cleared when popped so that it can be garbage collected.
 
 * Changes in version 2.4.3 (2010-08-05):
 
