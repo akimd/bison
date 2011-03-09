@@ -1,5 +1,20 @@
 2011-03-09  Akim Demaille  <akim@lrde.epita.fr>
 
+	named references: fix double free.
+	In `rhs[name]: "a" | "b"', do not free "name" twice.
+	Reported by Tys Lefering.
+	<http://lists.gnu.org/archive/html/bug-bison/2010-06/msg00002.html>
+	* src/named-ref.h, src/named-ref.c (named_ref_copy): New.
+	* src/parse-gram.y (current_lhs): Rename as...
+	(current_lhs_symbol): this.
+	(current_lhs): New function.  Use it to free the current lhs
+	named reference.
+	* src/reader.c: Bind lhs to a copy of the current named reference.
+	* src/symlist.c: Rely on free (0) being valid.
+	* tests/named-refs.at: Test this.
+
+2011-03-09  Akim Demaille  <akim@lrde.epita.fr>
+
 	tests: style changes.
 	* tests/named-refs.at (Redundant words in LHS brackets)
 	(Unresolved references): here.

@@ -56,9 +56,27 @@ static char const *char_name (char);
   static int current_prec = 0;
   static location current_lhs_location;
   static named_ref *current_lhs_named_ref;
-  static symbol *current_lhs;
+  static symbol *current_lhs_symbol;
   static symbol_class current_class = unknown_sym;
   static uniqstr current_type = NULL;
+
+  /** Set the new current left-hand side symbol, possibly common
+   * to several right-hand side parts of rule.
+   */
+  static
+  void
+  current_lhs(symbol *sym, location loc, named_ref *ref)
+  {
+    current_lhs_symbol = sym;
+    current_lhs_location = loc;
+    /* In order to simplify memory management, named references for lhs
+       are always assigned by deep copy into the current symbol_list
+       node.  This is because a single named-ref in the grammar may
+       result in several uses when the user factors lhs between several
+       rules using "|".  Therefore free the parser's original copy.  */
+    free (current_lhs_named_ref);
+    current_lhs_named_ref = ref;
+  }
 
   #define YYTYPE_INT16 int_fast16_t
   #define YYTYPE_INT8 int_fast8_t
@@ -569,8 +587,11 @@ rules_or_grammar_declaration:
 ;
 
 rules:
-  id_colon named_ref.opt { current_lhs = $1; current_lhs_location = @1;
-    current_lhs_named_ref = $2; } rhses.1
+  id_colon named_ref.opt { current_lhs ($1, @1, $2); } rhses.1
+  {
+    /* Free the current lhs. */
+    current_lhs (0, @1, 0);
+  }
 ;
 
 rhses.1:
@@ -581,7 +602,7 @@ rhses.1:
 
 rhs:
   /* Nothing.  */
-    { grammar_current_rule_begin (current_lhs, current_lhs_location,
+    { grammar_current_rule_begin (current_lhs_symbol, current_lhs_location,
 				  current_lhs_named_ref); }
 | rhs symbol named_ref.opt
     { grammar_current_rule_symbol_append ($2, @2, $3); }

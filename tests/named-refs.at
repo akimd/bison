@@ -472,6 +472,19 @@ AT_CLEANUP
 
 #######################################################################
 
+# Bison used to free twice the named ref for "a", since a single copy
+# was used in two rules.
+AT_SETUP([Factored LHS])
+AT_DATA_GRAMMAR([test.y],
+[[
+%%
+start[a]: "foo" | "bar";
+]])
+AT_BISON_CHECK([-o test.c test.y])
+AT_CLEANUP
+
+#######################################################################
+
 AT_SETUP([Unresolved references])
 AT_DATA_GRAMMAR([test.y],
 [[
