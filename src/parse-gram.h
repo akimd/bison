@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.4.1.266-7e5e.  */
+/* A Bison parser, made by GNU Bison 2.4.1.287-8f46.  */
 
 /* Bison interface for Yacc-like parsers in C
    
@@ -161,7 +161,7 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 94 "parse-gram.y"
+#line 113 "parse-gram.y"
 
   symbol *symbol;
   symbol_list *list;

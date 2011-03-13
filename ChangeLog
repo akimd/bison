@@ -1,3 +1,7 @@
+2011-03-13  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	* src/parse-gram.c, src/parse-gram.h: Regenerate.
+
 2011-03-09  Akim Demaille  <akim@lrde.epita.fr>
 
 	named references: fix double free.
