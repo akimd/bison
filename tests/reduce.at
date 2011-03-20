@@ -1451,12 +1451,12 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 m4_define([AT_TEST_LR_DEFAULT_REDUCTIONS],
 [
 AT_TEST_TABLES_AND_PARSE([[no %define lr.default-reductions]],
-                         [[full]], [[]],
+                         [[most]], [[]],
                          [[]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions full]],
-                         [[full]], [[]],
-                         [[%define lr.default-reductions full]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions most]],
+                         [[most]], [[]],
+                         [[%define lr.default-reductions most]],
                          [$1], [$2], [[]], [$3])
 AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions consistent]],
                          [[consistent]], [[]],
@@ -1529,7 +1529,7 @@ state 3
     2      | a . b 'a'
     3      | a . c 'b'
     5 b: .  [$end, 'a']
-    6 c: .  ['b']]AT_COND_CASE([[full]], [[
+    6 c: .  ['b']]AT_COND_CASE([[most]], [[
 
     'b'       reduce using rule 6 (c)
     $default  reduce using rule 5 (b)]], [[
@@ -1556,7 +1556,7 @@ state 5
 
     'a'  shift, and go to state 7
 
-    ]AT_COND_CASE([[full]], [[$default]],
+    ]AT_COND_CASE([[most]], [[$default]],
                   [[$end]])[  reduce using rule 1 (start)
 
 
