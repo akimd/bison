@@ -1,3 +1,17 @@
+2011-03-20  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	lr.default-reductions: rename "full" value to "most".
+	Unlike "consistent" and "accepting", "full" doesn't answer the
+	question of "which states".
+	* doc/bison.texinfo (%define Summary): Update.
+	(Default Reductions): Update.
+	* src/print.c (print_reductions): Update.
+	* src/reader.c (prepare_percent_define_front_end_variables):
+	Update.
+	* src/tables.c (action_row): Update.
+	* tests/input.at (%define enum variables): Update.
+	* tests/reduce.at (%define lr.default-reductions): Update.
+
 2011-03-13  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	* src/parse-gram.c, src/parse-gram.h: Regenerate.
