@@ -1,5 +1,11 @@
 2011-03-20  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: fix confusing citation of LAC publication.
+	Suggested by Akim Demaille.
+	* doc/bison.texinfo (LAC): Here.
+
+2011-03-20  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	lr.default-reductions: rename "full" value to "most".
 	Unlike "consistent" and "accepting", "full" doesn't answer the
 	question of "which states".
