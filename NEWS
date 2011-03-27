@@ -300,6 +300,15 @@ Bison News
 
 *** Parser traces now print the top element of the stack.
 
+** -W/--warnings fixes:
+
+*** Bison now properly recognizes the "no-" versions of categories:
+
+  For example, given the following command line, Bison now enables all
+  warnings except warnings for incompatibilities with POSIX Yacc:
+
+    bison -Wall,no-yacc gram.y
+
 * Changes in version 2.4.3 (2010-08-05):
 
 ** Bison now obeys -Werror and --warnings=error for warnings about

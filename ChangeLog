@@ -1,3 +1,7 @@
+2011-03-27  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	* NEWS (2.5): Document fix for -Wno-CATEGORY.
+
 2008-11-21  Di-an Jan  <dianj@freeshell.org>
 
 	Implement no-XXX arguments for --warnings, --report, --trace.
