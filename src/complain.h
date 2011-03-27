@@ -25,7 +25,8 @@
 extern "C" {
 # endif
 
-/** Informative messages, but we proceed.  */
+/** Informative messages, but we proceed.  Report iff
+    <tt>warnings_flag & warnings_other</tt>.  */
 
 void warn (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
@@ -61,6 +62,11 @@ void complain_at_indent (location loc, unsigned *indent,
 void yacc_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
+/** A midrule-value warning.  Report iff
+    <tt>warnings_flag & warnings_midrule_values</tt>.  */
+
+void midrule_value_at (location loc, char const *format, ...)
+  __attribute__ ((__format__ (__printf__, 2, 3)));
 
 /** A fatal error, causing immediate exit.  */
 

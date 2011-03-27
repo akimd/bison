@@ -375,6 +375,15 @@ Bison News
 
     bison -Werror,none,yacc gram.y
 
+*** The "none" category now disables all Bison warnings.
+
+  Previously, the "none" category disabled only Bison warnings for
+  which there existed a specific -W/--warning category.  However,
+  given the following command line, Bison is now guaranteed to
+  suppress all warnings:
+
+    bison -Wnone gram.y
+
 * Changes in version 2.4.3 (2010-08-05):
 
 ** Bison now obeys -Werror and --warnings=error for warnings about
