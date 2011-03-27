@@ -368,6 +368,13 @@ Bison News
 
     bison -Wall,no-yacc gram.y
 
+*** The "none" category no longer disables a preceding "error":
+
+  For example, for the following command line, Bison now reports
+  errors instead of warnings for incompatibilities with POSIX Yacc:
+
+    bison -Werror,none,yacc gram.y
+
 * Changes in version 2.4.3 (2010-08-05):
 
 ** Bison now obeys -Werror and --warnings=error for warnings about
