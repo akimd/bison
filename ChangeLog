@@ -1,5 +1,15 @@
 2011-03-27  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Pacify maintainer-check-posix.
+	Adding command-line options after the grammar file name is not
+	permitted, so disable checks that do that when
+	maintainer-check-posix is running.
+	* tests/local.at (AT_BISON_CHECK_NO_XML): Don't run the
+	problematic checks when POSIXLY_CORRECT=1.  Also, for readability,
+	remove an unnecessary m4_if.
+
+2011-03-27  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Add -Wother so -Wnone suppresses all warnings.
 	Reported by George Neuner at
 	<http://lists.gnu.org/archive/html/bug-bison/2010-08/msg00002.html>.
