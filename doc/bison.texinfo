@@ -8426,9 +8426,15 @@ These warnings are not enabled by default since they sometimes prove to
 be false alarms in existing grammars employing the Yacc constructs
 @code{$0} or @code{$-@var{n}} (where @var{n} is some positive integer).
 
-
 @item yacc
 Incompatibilities with POSIX Yacc.
+
+@item other
+All warnings not categorized above.  These warnings are enabled by default.
+
+This category is provided merely for the sake of completeness.  Future
+releases of Bison may move warnings from this category to new, more specific
+categories.
 
 @item all
 All the warnings.

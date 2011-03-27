@@ -242,8 +242,10 @@ $2])
 
 # AT_BISON_CHECK(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # -------------------------------------------------
-# Check Bison by invoking `bison BISON_ARGS'.  OTHER_AT_CHECK_ARGS are the
-# usual remaining arguments to AT_CHECK: STATUS, STDOUT, etc.
+# Check Bison by invoking `bison BISON_ARGS'.  BISON_ARGS should not contain
+# shell constructs (such as redirection or pipes) that would prevent
+# appending additional command-line arguments for bison. OTHER_AT_CHECK_ARGS
+# are the usual remaining arguments to AT_CHECK: STATUS, STDOUT, etc.
 #
 # This macro or AT_BISON_CHECK_NO_XML should always be used whenever invoking
 # Bison in the test suite.  For now it ensures that:
@@ -257,6 +259,8 @@ $2])
 #
 #   3. If stderr contains a warning, -Werror and --warnings=error
 #      convert the warning to an error.
+#
+#   4. If stderr contains a warning, -Wnone and --warnings=none suppress it.
 m4_define([AT_BISON_CHECK],
 [m4_if(m4_quote($2), [0], [AT_BISON_CHECK_XML($@)],
        m4_quote($2), [], [AT_BISON_CHECK_XML($@)])
@@ -282,10 +286,16 @@ m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
               if test -f experr; then
                 mv experr at-bison-check-experr.bak
               fi
+              if test -f expout; then
+                mv expout at-bison-check-expout.bak
+              fi
+
+              # To avoid expanding it repeatedly, store specified stdout.
+              ]AT_DATA([expout], [$3])[
 
               # Run with -Werror.
-              ]AT_CHECK(AT_QUELL_VALGRIND[[ bison -Werror ]$1],
-                        [[1]], [$3], [stderr])[
+              ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ -Werror]],
+                        [[1]], [expout], [stderr])[
 
               # Build expected stderr up to and including the "warnings
               # being treated as errors" message.
@@ -317,10 +327,21 @@ m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
 
               # Now check --warnings=error.
               cp stderr experr
-              ]AT_CHECK(AT_QUELL_VALGRIND[[ bison --warnings=error ]$1],
-                        [[1]], [$3], [experr])[
+              ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ --warnings=error]],
+                        [[1]], [expout], [experr])[
+
+              # Now check -Wnone and --warnings=none by making sure that
+              # -Werror doesn't change the exit status when -Wnone or
+              # --warnings=none is specified.
+              ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ -Wnone -Werror]],
+                        [[0]], [expout], [ignore])[
+              ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ --warnings=none \
+                        -Werror]], [[0]], [expout], [ignore])[
 
               # Restore caller's files.
+              if test -f at-bison-check-expout.bak; then
+                mv at-bison-check-expout.bak expout
+              fi
               if test -f at-bison-check-experr.bak; then
                 mv at-bison-check-experr.bak experr
               fi

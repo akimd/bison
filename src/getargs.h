@@ -123,6 +123,7 @@ enum warnings
     warnings_error            = 1 << 0, /**< Warnings are treated as errors.  */
     warnings_midrule_values   = 1 << 1, /**< Unset or unused midrule values.  */
     warnings_yacc             = 1 << 2, /**< POSIXME.  */
+    warnings_other            = 1 << 3, /**< All other warnings.  */
     warnings_all              = ~warnings_error /**< All above warnings.  */
   };
 /** What warnings are issued.  */

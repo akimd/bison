@@ -1,5 +1,34 @@
 2011-03-27  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Add -Wother so -Wnone suppresses all warnings.
+	Reported by George Neuner at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-08/msg00002.html>.
+	* NEWS (2.5): Document.
+	* THANKS (George Neuner): Add.
+	* doc/bison.texinfo (Bison Options): Document.
+	* src/complain.c, src/complain.h
+	(warn_at, warn_at_indent, warn): Suppress warning if -Wno-other.
+	(midrule_value_at): New warning function, similar to yacc_at in
+	that it's controlled by its own warning category.
+	* src/getargs.c (warnings_flag): Initialize to warnings_other.
+	(warnings_args, warnings_types): Add entry for warnings_other.
+	(usage): Update.
+	* src/getargs.h (enum warnings): Add entry for warnings_other.
+	* src/gram.c (grammar_rules_useless_report): If -Wno-other, then
+	don't print useless rules.
+	* src/reader.c (symbol_should_be_used): Rather than adjusting the
+	return value based on whether midrule value warnings are enabled,
+	accept a new parameter for telling the caller whether true is
+	being returned for a potential midrule warning.
+	(grammar_rule_check): Use midrule_value_at for midrule value
+	warnings, and continue to use warn_at for all other warnings.  Let
+	them check whether the warnings are enabled.
+	* tests/local.at (AT_BISON_CHECK): Update documentation.
+	(AT_BISON_CHECK_NO_XML): Check that -Wnone and --warnings=none
+	disable all warnings exercised in the test suite.
+
+2011-03-27  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Don't let -Wnone disable -Werror.
 	Discussed at
 	<http://lists.gnu.org/archive/html/bison-patches/2010-08/msg00009.html>.
