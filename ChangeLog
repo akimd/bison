@@ -1,5 +1,33 @@
 2011-03-27  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Add -Wconflicts-sr and -Wconflicts-rr.
+	Thus, conflict reports are now affected by -Werror and -Wnone
+	(unless %expect or %expect-rr is specified).  Reported by George
+	Neuner at
+	<http://lists.gnu.org/archive/html/bug-bison/2010-08/msg00002.html>.
+	* NEWS (2.5): Document.
+	* doc/bison.texinfo (Bison Options): Document.
+	* src/complain.c, src/complain.h (set_warning_issued): Export
+	function.
+	* src/conflicts.c (conflicts_print): Suppress conflict report
+	based on -Wno-conflicts-sr and -Wno-conflicts-rr, and treat
+	conflicts as errors if -Werror.
+	* src/getargs.c (warnings_flag): Initialize with
+	warnings_conflicts_sr and warnings_conflicts_rr as well.
+	(warnings_args, warnings_types): Add entries for
+	warnings_conflicts_sr and warnings_conflicts_rr.
+	(usage): Update.
+	* src/getargs.h (enum warnings): Add entries for
+	warnings_conflicts_sr and warnings_conflicts_rr.
+	* tests/conflicts.at (-W versus %expect and %expect-rr): New test
+	group.
+	* tests/local.at (AT_BISON_CHECK_NO_XML): Update now that the
+	conflict report can produce a "warnings being treated as errors"
+	message.  Also, check that stderr is now fully scrubbed by -Wnone
+	when the exit status is 0.
+
+2011-03-27  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Pacify maintainer-check-posix.
 	Adding command-line options after the grammar file name is not
 	permitted, so disable checks that do that when

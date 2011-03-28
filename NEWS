@@ -368,6 +368,24 @@ Bison News
 
     bison -Wall,no-yacc gram.y
 
+*** Bison now treats S/R and R/R conflicts like other warnings:
+
+  Previously, conflict reports were independent of Bison's normal
+  warning system.  Now, Bison recognizes the warning categories
+  "conflicts-sr" and "conflicts-rr".  This change has important
+  consequences for the -W and --warnings command-line options.  For
+  example:
+
+    bison -Wno-conflicts-sr gram.y  # S/R conflicts not reported
+    bison -Wno-conflicts-rr gram.y  # R/R conflicts not reported
+    bison -Wnone            gram.y  # no conflicts are reported
+    bison -Werror           gram.y  # any conflict is an error
+
+  However, as before, if the %expect or %expect-rr directive is
+  specified, an unexpected number of conflicts is an error, and an
+  expected number of conflicts is not reported, so -W and --warning
+  then have no effect on the conflict report.
+
 *** The "none" category no longer disables a preceding "error":
 
   For example, for the following command line, Bison now reports

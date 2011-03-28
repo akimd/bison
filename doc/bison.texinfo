@@ -8742,6 +8742,14 @@ be false alarms in existing grammars employing the Yacc constructs
 @item yacc
 Incompatibilities with POSIX Yacc.
 
+@item conflicts-sr
+@itemx conflicts-rr
+S/R and R/R conflicts.  These warnings are enabled by default.  However, if
+the @code{%expect} or @code{%expect-rr} directive is specified, an
+unexpected number of conflicts is an error, and an expected number of
+conflicts is not reported, so @option{-W} and @option{--warning} then have
+no effect on the conflict report.
+
 @item other
 All warnings not categorized above.  These warnings are enabled by default.
 

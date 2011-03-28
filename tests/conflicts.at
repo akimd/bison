@@ -1490,3 +1490,104 @@ AT_CHECK([[cat input.output | sed -n '/^state 0$/,/^state 1$/p']], 0,
 state 1
 ]])
 AT_CLEANUP
+
+
+## --------------------------------- ##
+## -W versus %expect and %expect-rr  ##
+## --------------------------------- ##
+
+AT_SETUP([[-W versus %expect and %expect-rr]])
+
+AT_DATA([[sr-rr.y]],
+[[%glr-parser
+%%
+start: 'a' | A 'a' | B 'a' ;
+A: ;
+B: ;
+]])
+AT_DATA([[sr.y]],
+[[%glr-parser
+%%
+start: 'a' | A 'a' ;
+A: ;
+]])
+AT_DATA([[rr.y]],
+[[%glr-parser
+%%
+start: A | B ;
+A: ;
+B: ;
+]])
+
+AT_BISON_CHECK([[sr-rr.y]], [[0]], [[]],
+[[sr-rr.y: conflicts: 1 shift/reduce, 1 reduce/reduce
+]])
+AT_BISON_CHECK([[-Wno-conflicts-sr sr-rr.y]], [[0]], [[]],
+[[sr-rr.y: conflicts: 1 reduce/reduce
+]])
+AT_BISON_CHECK([[-Wno-conflicts-rr sr-rr.y]], [[0]], [[]],
+[[sr-rr.y: conflicts: 1 shift/reduce
+]])
+
+[for gram in sr-rr sr rr; do
+  for sr_exp_i in '' 0 1 2; do
+    for rr_exp_i in '' 0 1 2; do
+      test -z "$sr_exp_i" && test -z "$rr_exp_i" && continue
+
+      # Build grammar file.
+      sr_exp=0
+      rr_exp=0
+      file=$gram
+      directives=
+      if test -n "$sr_exp_i"; then
+        sr_exp=$sr_exp_i
+        file=$file-expect-$sr_exp
+        directives="%expect $sr_exp"
+      fi
+      if test -n "$rr_exp_i"; then
+        rr_exp=$rr_exp_i
+        file=$file-expect-rr-$rr_exp
+        directives="$directives %expect-rr $rr_exp"
+      fi
+      file=$file.y
+      echo "$directives" > $file
+      cat $gram.y >> $file
+
+      # Count actual conflicts.
+      conflicts=
+      sr_count=0
+      rr_count=0
+      if test $gram = sr || test $gram = sr-rr; then
+        conflicts="1 shift/reduce"
+        sr_count=1
+      fi
+      if test $gram = rr || test $gram = sr-rr; then
+        if test -n "$conflicts"; then
+          conflicts="$conflicts, "
+        fi
+        conflicts="${conflicts}1 reduce/reduce"
+        rr_count=1
+      fi
+
+      # Run tests.
+      if test $sr_count -eq $sr_exp && test $rr_count -eq $rr_exp; then
+        ]AT_BISON_CHECK([[-Wnone $file]])[
+        ]AT_BISON_CHECK([[-Werror $file]])[
+      else
+        echo "$file: conflicts: $conflicts" > experr
+        if test $sr_count -ne $sr_exp; then
+          if test $sr_exp -ne 1; then s=s; else s= ; fi
+          echo "$file: expected $sr_exp shift/reduce conflict$s" >> experr
+        fi
+        if test $rr_count -ne $rr_exp; then
+          if test $rr_exp -ne 1; then s=s; else s= ; fi
+          echo "$file: expected $rr_exp reduce/reduce conflict$s" >> experr
+        fi
+        ]AT_BISON_CHECK([[-Wnone $file]], [[1]], [[]], [[experr]])[
+        ]AT_BISON_CHECK([[-Werror $file]], [[1]], [[]], [[experr]])[
+      fi
+    done
+  done
+done]
+
+AT_CLEANUP
