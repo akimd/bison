@@ -301,6 +301,13 @@ m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
             sed -n '/: warning: /=' at-bison-check-warnings \
             | sed -n 1p \
           `"
+          at_bison_check_first_tmp="` \
+            sed -n '/conflicts: [0-9].*reduce$/=' at-bison-check-warnings \
+            | sed -n 1p \
+          `"
+          if test $at_bison_check_first_tmp -lt $at_bison_check_first; then
+            at_bison_check_first=$at_bison_check_first_tmp
+          fi
           if test $at_bison_check_first -gt 1; then
             sed -n "1,`expr $at_bison_check_first - 1`"p \
               at-bison-check-warnings > experr
@@ -330,9 +337,9 @@ m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
           # -Werror doesn't change the exit status when -Wnone or
           # --warnings=none is specified.
           ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ -Wnone -Werror]],
-                    [[0]], [expout], [ignore])[
+                    [[0]], [expout])[
           ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ --warnings=none \
-                    -Werror]], [[0]], [expout], [ignore])[
+                    -Werror]], [[0]], [expout])[
 
           # Restore caller's files.
           if test -f at-bison-check-expout.bak; then
