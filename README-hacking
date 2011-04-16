@@ -158,6 +158,20 @@ Register your changes.
 
         $ git checkin ...
 
+For a suggestion of what gnulib commit might be stable enough for a
+formal release, see the ChangeLog in the latest gnulib snapshot at:
+
+        http://erislabs.net/ianb/projects/gnulib/
+
+The autoconf files we use are currently:
+
+        m4/m4.m4
+        lib/m4sugar/m4sugar.m4
+        lib/m4sugar/foreach.m4
+
+These files don't change very often in autoconf, so it should be
+relatively straight-forward to examine the differences in order to
+decide whether to update.
 
 * Test suite
 
@@ -199,6 +213,8 @@ release:
 
 
 * Release Procedure
+
+** Update the submodules.  See above.
 
 ** Try to get the *.pot files to the Translation Project at least one
 week before a stable release, to give them time to translate them.

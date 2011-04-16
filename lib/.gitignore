@@ -1,3 +1,4 @@
+
 /*.a
 /*.bak
 /*.o
@@ -6,6 +7,7 @@
 /.dirstamp
 /Makefile
 /Makefile.in
+/alignof.h
 /alloca.h
 /alloca.in.h
 /arg-nonnull.h
@@ -32,6 +34,7 @@
 /dirname-lgpl.c
 /dirname.c
 /dirname.h
+/dosname.h
 /dup-safer-flag.c
 /dup-safer.c
 /dup2.c
@@ -72,6 +75,7 @@
 /intprops.h
 /inttypes.h
 /inttypes.in.h
+/ioctl.c
 /isnan.c
 /isnand-nolibm.h
 /isnand.c
@@ -90,12 +94,12 @@
 /mbswidth.h
 /memchr.c
 /memchr.valgrind
+/nonblocking.c
+/nonblocking.h
 /obstack.c
 /obstack.h
 /open.c
 /pipe-safer.c
-/pipe.c
-/pipe.h
 /pipe2-safer.c
 /pipe2.c
 /printf-args.c
@@ -130,6 +134,8 @@
 /sigprocmask.c
 /size_max.h
 /snprintf.c
+/spawn-pipe.c
+/spawn-pipe.h
 /spawn.h
 /spawn.in.h
 /spawn_faction_addclose.c
@@ -175,6 +181,10 @@
 /strtoul.c
 /strverscmp.c
 /sys
+/sys_ioctl.h
+/sys_ioctl.in.h
+/sys_socket.h
+/sys_socket.in.h
 /sys_stat.h
 /sys_stat.in.h
 /sys_wait.h
@@ -198,6 +208,7 @@
 /vfprintf.c
 /vsnprintf.c
 /vsprintf.c
+/w32sock.h
 /w32spawn.h
 /wait-process.c
 /wait-process.h
@@ -214,3 +225,4 @@
 /xsize.h
 /xstrndup.c
 /xstrndup.h
+
