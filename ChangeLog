@@ -1,5 +1,18 @@
 2011-04-16  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	glr.c: omit yyresolveLocations when locations are disabled.
+	This prevents gcc 4.6.0's -Wunused-but-set-variable from warning
+	about yyresolveLocations's local yyrhsloc.  When locations are
+	enabled, there's no such warning because YYLLOC_DEFAULT then uses
+	yyrhsloc.  Reported by Jim Meyering at
+	<http://lists.gnu.org/archive/html/bug-bison/2011-04/msg00002.html>.
+	* data/glr.c (yyresolveLocations): Omit definition when locations
+	are disabled.
+	(yyresolveValue): Omit yyresolveLocations invocation when
+	locations are disabled.
+
+2011-04-16  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	gnulib, autoconf: update.
 	* README-hacking (Updating a submodule): Give advice on how to
 	determine the versions of gnulib and autoconf to which we should
