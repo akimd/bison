@@ -1,3 +1,21 @@
+2011-04-16  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	gnulib, autoconf: update.
+	* README-hacking (Updating a submodule): Give advice on how to
+	determine the versions of gnulib and autoconf to which we should
+	update.
+	(Release Procedure): Note that submodules should be updated.
+	* bootstrap.conf (gnulib_modules): Rename pipe to spawn-pipe as
+	suggested in updated gnulib NEWS.
+	* gnulib: Choose a stable snapshot according to advice in Bison's
+	README-hacking.
+	* po/POTFILES.in (lib/pipe.c): Rename to...
+	(lib/spawn-pipe.c): ... this.
+	* src/output.c: Update to include spawn-pipe.h.
+	* submodules/autoconf: Update to latest for improvement in m4.m4
+	that excludes M4 with buggy strstr.  The only other changes to
+	files that we use are copyright updates.
+
 2011-04-09  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	Fix missing updates to GPLv3.

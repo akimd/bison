@@ -1,3 +1,4 @@
+
 /00gnulib.m4
 /alloca.m4
 /argmatch.m4
@@ -6,6 +7,7 @@
 /cloexec.m4
 /codeset.m4
 /config-h.m4
+/configmake.m4
 /dirname.m4
 /dos.m4
 /double-slash-root.m4
@@ -44,6 +46,7 @@
 /inttypes-pri.m4
 /inttypes.m4
 /inttypes_h.m4
+/ioctl.m4
 /isnand.m4
 /isnanf.m4
 /isnanl.m4
@@ -72,7 +75,6 @@
 /nls.m4
 /nocrash.m4
 /open.m4
-/pipe.m4
 /pipe2.m4
 /po.m4
 /posix_spawn.m4
@@ -96,6 +98,9 @@
 /size_max.m4
 /snprintf-posix.m4
 /snprintf.m4
+/socklen.m4
+/sockpfaf.m4
+/spawn-pipe.m4
 /spawn_h.m4
 /sprintf-posix.m4
 /stat.m4
@@ -115,6 +120,8 @@
 /strtol.m4
 /strtoul.m4
 /strverscmp.m4
+/sys_ioctl_h.m4
+/sys_socket_h.m4
 /sys_stat_h.m4
 /sys_wait_h.m4
 /threadlib.m4
@@ -139,3 +146,4 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
+
