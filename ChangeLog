@@ -1,5 +1,14 @@
 2011-04-16  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	tests: pacify gcc 4.6.0's -Wunused-but-set-variable.
+	Reported by Jim Meyering at
+	<http://lists.gnu.org/archive/html/bug-bison/2011-04/msg00002.html>.
+	* tests/actions.at
+	(Default %printer and %destructor for mid-rule values): Define
+	YYLLOC_DEFAULT so that it uses its Rhs argument.
+
+2011-04-16  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	glr.c: omit yyresolveLocations when locations are disabled.
 	This prevents gcc 4.6.0's -Wunused-but-set-variable from warning
 	about yyresolveLocations's local yyrhsloc.  When locations are
