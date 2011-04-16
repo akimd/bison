@@ -1199,7 +1199,7 @@ AT_DATA_GRAMMAR([[input.y]],
   static int yylex (void);
 # define USE(SYM)
 # define YYLTYPE int
-# define YYLLOC_DEFAULT(Current, Rhs, N)
+# define YYLLOC_DEFAULT(Current, Rhs, N) (void)(Rhs)
 # define YY_LOCATION_PRINT(File, Loc)
 %}
 
