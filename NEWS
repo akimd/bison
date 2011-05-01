@@ -99,7 +99,7 @@ Bison News
 
   IELR(1) is a minimal LR(1) parser table generation algorithm.  That
   is, given any context-free grammar, IELR(1) generates parser tables
-  with the full language recognition power of canonical LR(1) but with
+  with the full language-recognition power of canonical LR(1) but with
   nearly the same number of parser states as LALR(1).  This reduction
   in parser states is often an order of magnitude.  More importantly,
   because canonical LR(1)'s extra parser states may contain duplicate
@@ -201,7 +201,7 @@ Bison News
   The old names are now deprecated but will be maintained indefinitely
   for backward compatibility.
 
-*** Values no longer need to be quoted in grammar file:
+*** Values no longer need to be quoted in the grammar file:
 
   If a %define value is an identifier, it no longer needs to be placed
   within quotations marks.  For example,
