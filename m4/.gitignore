@@ -4,7 +4,9 @@
 /argmatch.m4
 /asm-underscore.m4
 /assert.m4
+/calloc.m4
 /cloexec.m4
+/close.m4
 /codeset.m4
 /config-h.m4
 /configmake.m4
@@ -20,6 +22,7 @@
 /exponentl.m4
 /extensions.m4
 /fatal-signal.m4
+/fclose.m4
 /fcntl-o.m4
 /fcntl.m4
 /fcntl_h.m4
@@ -47,9 +50,11 @@
 /inttypes.m4
 /inttypes_h.m4
 /ioctl.m4
+/isnan.m4
 /isnand.m4
 /isnanf.m4
 /isnanl.m4
+/iswblank.m4
 /javacomp.m4
 /javaexec.m4
 /ldexpl.m4
@@ -64,6 +69,8 @@
 /longlong.m4
 /malloc.m4
 /math_h.m4
+/mbchar.m4
+/mbiter.m4
 /mbrtowc.m4
 /mbsinit.m4
 /mbstate_t.m4
@@ -75,6 +82,8 @@
 /nls.m4
 /nocrash.m4
 /open.m4
+/perror.m4
+/pipe.m4
 /pipe2.m4
 /po.m4
 /posix_spawn.m4
@@ -113,6 +122,7 @@
 /stdlib_h.m4
 /stpcpy.m4
 /strchrnul.m4
+/strdup.m4
 /strerror.m4
 /string_h.m4
 /strndup.m4

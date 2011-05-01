@@ -341,7 +341,7 @@ prologue_declaration:
 | "%skeleton" STRING
     {
       char const *skeleton_user = $2;
-      if (strchr (skeleton_user, '/'))
+      if (mbschr (skeleton_user, '/'))
         {
           size_t dir_length = strlen (current_file);
           char *skeleton_build;
