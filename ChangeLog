@@ -1,3 +1,11 @@
+2011-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	doc: clean up quotation style in NEWS.
+	* NEWS (2.5): For multi-character tokens in example grammar rules,
+	use "token" not 'token'.  In English, use a consistent quotation
+	style; we might as well follow the precedent seen in info pages:
+	`quote' not "quote".
+
 2011-04-16  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	tests: pacify gcc 4.6.0's -Wunused-but-set-variable.
