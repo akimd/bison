@@ -1,5 +1,11 @@
 2011-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Version 2.5_rc1.
+	* NEWS (2.5): Rename to...
+	(2.5_rc1): ... this, and set date.
+
+2011-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Pacify -DGNULIB_POSIXCHECK.
 	* bootstrap.conf (gnulib_modules): Add all modules suggested by
 	-DGNULIB_POSIXCHECK.
