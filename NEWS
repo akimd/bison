@@ -80,12 +80,12 @@ Bison News
   When no ambiguity is possible, original symbol names may be used
   as named references:
 
-    if_stmt : 'if' cond_expr 'then' then_stmt ';'
+    if_stmt : "if" cond_expr "then" then_stmt ';'
     { $if_stmt = mk_if_stmt($cond_expr, $then_stmt); }
 
   In the more common case, explicit names may be declared:
 
-    stmt[res] : 'if' expr[cond] 'then' stmt[then] 'else' stmt[else] ';'
+    stmt[res] : "if" expr[cond] "then" stmt[then] "else" stmt[else] ';'
     { $res = mk_if_stmt($cond, $then, $else); }
 
   Location information is also accessible using @name syntax.  When
@@ -184,7 +184,7 @@ Bison News
   except that the manner in which Bison processes multiple definitions
   for the same NAME differs.  Most importantly, -F and --force-define
   quietly override %define, but -D and --define do not.  For further
-  details, see the section "Bison Options" in the Bison manual.
+  details, see the section `Bison Options' in the Bison manual.
 
 *** Variables renamed:
 
@@ -242,8 +242,8 @@ Bison News
 
   Similarly to the C parsers, the C++ parsers now define the YYRHSLOC
   macro and use it in the default YYLLOC_DEFAULT.  You are encouraged
-  to use it.  If, for instance, your location structure has "first"
-  and "last" members, instead of
+  to use it.  If, for instance, your location structure has `first'
+  and `last' members, instead of
 
       # define YYLLOC_DEFAULT(Current, Rhs, N)                             \
         do                                                                 \
@@ -325,7 +325,7 @@ Bison News
     in order to detect a syntax error.  Because no unexpected token or
     expected tokens can then be reported, the verbose syntax error
     message described above is suppressed, and the parser instead
-    reports the simpler message, "syntax error".  Previously, this
+    reports the simpler message, `syntax error'.  Previously, this
     suppression was sometimes erroneously triggered by %nonassoc when a
     lookahead was actually required.  Now verbose messages are
     suppressed only when all previous lookaheads have already been
@@ -361,7 +361,7 @@ Bison News
 
 ** -W/--warnings fixes:
 
-*** Bison now properly recognizes the "no-" versions of categories:
+*** Bison now properly recognizes the `no-' versions of categories:
 
   For example, given the following command line, Bison now enables all
   warnings except warnings for incompatibilities with POSIX Yacc:
@@ -372,7 +372,7 @@ Bison News
 
   Previously, conflict reports were independent of Bison's normal
   warning system.  Now, Bison recognizes the warning categories
-  "conflicts-sr" and "conflicts-rr".  This change has important
+  `conflicts-sr' and `conflicts-rr'.  This change has important
   consequences for the -W and --warnings command-line options.  For
   example:
 
@@ -386,16 +386,16 @@ Bison News
   expected number of conflicts is not reported, so -W and --warning
   then have no effect on the conflict report.
 
-*** The "none" category no longer disables a preceding "error":
+*** The `none' category no longer disables a preceding `error':
 
   For example, for the following command line, Bison now reports
   errors instead of warnings for incompatibilities with POSIX Yacc:
 
     bison -Werror,none,yacc gram.y
 
-*** The "none" category now disables all Bison warnings.
+*** The `none' category now disables all Bison warnings.
 
-  Previously, the "none" category disabled only Bison warnings for
+  Previously, the `none' category disabled only Bison warnings for
   which there existed a specific -W/--warning category.  However,
   given the following command line, Bison is now guaranteed to
   suppress all warnings:
