@@ -1,7 +1,7 @@
 Bison News
 ----------
 
-* Changes in version 2.5_rc1 (2011-05-01):
+* Changes in version 2.5 (????-??-??):
 
 ** Grammar symbol names can now contain non-initial dashes:
 

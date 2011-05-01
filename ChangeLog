@@ -1,5 +1,11 @@
 2011-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Prepare for 2.5 release.
+	* NEWS (2.5_rc1): Rename back to...
+	(2.5): ... this, and unset date.
+
+2011-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Version 2.5_rc1.
 	* NEWS (2.5): Rename to...
 	(2.5_rc1): ... this, and set date.
