@@ -1,5 +1,17 @@
 2011-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Fix precedence for end token.
+	Since Bison 2.3b, which restored the ability of precedence
+	directives to assign user token numbers, doing so for user token
+	number 0 has produced an assertion failure.
+	* NEWS (2.5): Document fix.
+	* src/symtab.c (symbol_user_token_number_set): In the case of the
+	end token, don't decrement ntokens if it was never incremented.
+	* tests/regression.at (Token number in precedence declaration):
+	Extend.
+
+2011-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Pacify -DGNULIB_POSIXCHECK.
 	* bootstrap.conf (gnulib_modules): Add all modules suggested by
 	-DGNULIB_POSIXCHECK.
