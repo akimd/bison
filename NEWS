@@ -343,6 +343,16 @@ Bison News
 
     bison -Wnone gram.y
 
+** Precedence directives can now assign token number 0:
+
+  Since Bison 2.3b, which restored the ability of precedence
+  directives to assign token numbers, doing so for token number 0 has
+  produced an assertion failure.  For example:
+
+    %left END 0
+
+  This bug has been fixed.
+
 * Changes in version 2.4.3 (2010-08-05):
 
 ** Bison now obeys -Werror and --warnings=error for warnings about

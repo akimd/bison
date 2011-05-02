@@ -1205,12 +1205,15 @@ AT_DATA_GRAMMAR([input.y],
 %}
 
 %error-verbose
+%right END 0
 %left TK1 1 TK2 2 "tok alias" 3
 
 %%
 
-start: TK1 sr_conflict "tok alias" ;
-
+start:
+    TK1 sr_conflict "tok alias"
+  | start %prec END
+  ;
 sr_conflict:
   TK2
   | TK2 "tok alias"
@@ -1240,7 +1243,8 @@ main (void)
 ]])
 
 AT_BISON_CHECK([[-o input.c input.y]], [[0]],,
-[[input.y:24.5-19: warning: rule useless in parser due to conflicts: sr_conflict: TK2 "tok alias"
+[[input.y:23.5-19: warning: rule useless in parser due to conflicts: start: start
+input.y:27.5-19: warning: rule useless in parser due to conflicts: sr_conflict: TK2 "tok alias"
 ]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])
