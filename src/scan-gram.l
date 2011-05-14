@@ -138,13 +138,13 @@ splice	 (\\[ \f\t\v]*\n)*
 %{
   /* Nesting level.  Either for nested braces, or nested angle brackets
      (but not mixed).  */
-  int nesting IF_LINT (= 0);
+  int nesting PACIFY_CC (= 0);
 
   /* Parent context state, when applicable.  */
-  int context_state IF_LINT (= 0);
+  int context_state PACIFY_CC (= 0);
 
   /* Location of most recent identifier, when applicable.  */
-  location id_loc IF_LINT (= empty_location);
+  location id_loc PACIFY_CC (= empty_location);
 
   /* Where containing code started, when applicable.  Its initial
      value is relevant only when yylex is invoked in the SC_EPILOGUE
@@ -153,7 +153,7 @@ splice	 (\\[ \f\t\v]*\n)*
 
   /* Where containing comment or string or character literal started,
      when applicable.  */
-  boundary token_start IF_LINT (= scanner_cursor);
+  boundary token_start PACIFY_CC (= scanner_cursor);
 %}
 
 

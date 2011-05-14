@@ -58,7 +58,7 @@ static void fail_for_invalid_at (char const *at);
 %%
 
 %{
-  int out_lineno IF_LINT (= 0);
+  int out_lineno PACIFY_CC (= 0);
   char *outname = NULL;
 
   /* Currently, only the @warn, @complain, @fatal, @warn_at, @complain_at, and
