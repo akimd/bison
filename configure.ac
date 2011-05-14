@@ -84,7 +84,6 @@ if test "${enableval}" = yes; then
   WARN_CFLAGS_TEST="$WARN_CFLAGS $WARN_CFLAGS_TEST"
   AC_SUBST([WARN_CXXFLAGS_TEST])
   AC_SUBST([WARN_CFLAGS_TEST])
-  AC_DEFINE([lint], 1, [Define to 1 if the compiler is checking for lint.])
 fi
 
 BISON_TEST_FOR_WORKING_C_COMPILER

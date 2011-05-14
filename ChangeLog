@@ -1,3 +1,20 @@
+2011-05-14  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	Don't use IF_LINT in Bison sources.
+	It creates unnecessary differences between the sources that Bison
+	maintainers build and test (given that maintainers normally
+	configure with --enable-gcc-warnings) and the sources that Bison
+	users build.  Instead, use PACIFY_CC, which doesn't.  This change
+	fixes compiler warnings reported by Tys Lefering at
+	<http://lists.gnu.org/archive/html/bison-patches/2011-05/msg00004.html>.
+	* configure.ac: Don't AC_DEFINE lint regardless of the configure
+	options.  This change affects imported gnulib sources, where
+	IF_LINT still appears and depends on lint.
+	* src/scan-gram.l, src/scan-skel.l: Replace uses of IF_LINT with
+	PACIFY_CC.
+	* src/system.h (IF_LINT): Remove cpp macro.
+	(PACIFY_CC): New cpp macro.
+
 2011-05-01  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	Fix precedence for end token.
