@@ -1,5 +1,10 @@
 2011-05-14  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	Version 2.5.
+	* NEWS (2.5): Set date.
+
+2011-05-14  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	Don't use IF_LINT in Bison sources.
 	It creates unnecessary differences between the sources that Bison
 	maintainers build and test (given that maintainers normally
