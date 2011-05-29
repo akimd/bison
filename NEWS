@@ -3,6 +3,8 @@ Bison News
 
 * Changes in version 2.5.1 (????-??-??):
 
+** Minor improvements have been made to the manual.
+
 * Changes in version 2.5 (2011-05-14):
 
 ** Grammar symbol names can now contain non-initial dashes:
