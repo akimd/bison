@@ -4018,10 +4018,16 @@ statement when it is followed by a semicolon.
 @section Using Named References
 @cindex named references
 
-While every semantic value can be accessed with positional references
-@code{$@var{n}} and @code{$$}, it's often much more convenient to refer to
-them by name.  First of all, original symbol names may be used as named
-references.  For example:
+As described in the preceding sections, the traditional way to refer to any
+semantic value or location is a @dfn{positional reference}, which takes the
+form @code{$@var{n}}, @code{$$}, @code{@@@var{n}}, and @code{@@$}.  However,
+such a reference is not very descriptive.  Moreover, if you later decide to
+insert or remove symbols in the right-hand side of a grammar rule, the need
+to renumber such references can be tedious and error-prone.
+
+To avoid these issues, you can also refer to a semantic value or location
+using a @dfn{named reference}.  First of all, original symbol names may be
+used as named references.  For example:
 
 @example
 @group
@@ -4031,8 +4037,7 @@ invocation: op '(' args ')'
 @end example
 
 @noindent
-The positional @code{$$}, @code{@@$}, @code{$n}, and @code{@@n} can be
-mixed with @code{$name} and @code{@@name} arbitrarily.  For example:
+Positional and named references can be mixed arbitrarily.  For example:
 
 @example
 @group

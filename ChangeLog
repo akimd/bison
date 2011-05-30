@@ -1,5 +1,13 @@
 2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: motivate named references.
+	Suggested by Hans Aberg at
+	<http://lists.gnu.org/archive/html/bug-bison/2011-05/msg00008.html>.
+	* doc/bison.texinfo (Named References): Explain briefly how
+	they're better than the traditional positional references.
+
+2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: discuss named references after locations.
 	Reported by Hans Aberg at
 	<http://lists.gnu.org/archive/html/bug-bison/2011-05/msg00008.html>.
