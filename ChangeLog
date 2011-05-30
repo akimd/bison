@@ -1,5 +1,15 @@
 2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: clean up `Named References' a little.
+	* doc/bison.texinfo (Named References): Rename section to match
+	the node name, and update all cross references.  Don't use the
+	acronyms RHS and LHS given that we don't expand them anywhere in
+	the manual.  Try to use @samp and @code properly.  Mention that
+	named references are experimental as we've already stated in NEWS.
+	(Destructor Decl): Expand the only remaining use of RHS or LHS.
+
+2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: motivate named references.
 	Suggested by Hans Aberg at
 	<http://lists.gnu.org/archive/html/bug-bison/2011-05/msg00008.html>.
