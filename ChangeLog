@@ -1,5 +1,16 @@
 2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: clean up references to `Tracking Locations'.
+	* doc/bison.texinfo (Locations): Rename node to...
+	(Tracking Locations): ... this, which is its section name, and
+	update all cross references.  The trouble is that there is another
+	node about locations.  Its section name is `Locations', which was
+	easily confused with the node name of this node.  Moreover, its
+	node name is `Locations Overview', which was mistakenly used to
+	label some cross references to this node.
+
+2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: clean up `Named References' a little.
 	* doc/bison.texinfo (Named References): Rename section to match
 	the node name, and update all cross references.  Don't use the
