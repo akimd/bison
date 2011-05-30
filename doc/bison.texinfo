@@ -181,15 +181,15 @@ Multi-Function Calculator: @code{mfcalc}
 
 Bison Grammar Files
 
-* Grammar Outline::   Overall layout of the grammar file.
-* Symbols::           Terminal and nonterminal symbols.
-* Rules::             How to write grammar rules.
-* Recursion::         Writing recursive rules.
-* Semantics::         Semantic values and actions.
-* Locations::         Locations and actions.
-* Named References::  Using named references in actions.
-* Declarations::      All kinds of Bison declarations are described here.
-* Multiple Parsers::  Putting more than one Bison parser in one program.
+* Grammar Outline::    Overall layout of the grammar file.
+* Symbols::            Terminal and nonterminal symbols.
+* Rules::              How to write grammar rules.
+* Recursion::          Writing recursive rules.
+* Semantics::          Semantic values and actions.
+* Tracking Locations:: Locations and actions.
+* Named References::   Using named references in actions.
+* Declarations::       All kinds of Bison declarations are described here.
+* Multiple Parsers::   Putting more than one Bison parser in one program.
 
 Outline of a Bison Grammar
 
@@ -1290,9 +1290,10 @@ the @dfn{textual location}, or @dfn{location}, of each syntactic construct.
 Bison provides a mechanism for handling these locations.
 
 Each token has a semantic value.  In a similar fashion, each token has an
-associated location, but the type of locations is the same for all tokens and
-groupings.  Moreover, the output parser is equipped with a default data
-structure for storing locations (@pxref{Locations}, for more details).
+associated location, but the type of locations is the same for all tokens
+and groupings.  Moreover, the output parser is equipped with a default data
+structure for storing locations (@pxref{Tracking Locations}, for more
+details).
 
 Like semantic values, locations can be reached in actions using a dedicated
 set of constructs.  In the example above, the location of the whole grouping
@@ -2695,15 +2696,15 @@ The Bison grammar file conventionally has a name ending in @samp{.y}.
 @xref{Invocation, ,Invoking Bison}.
 
 @menu
-* Grammar Outline::   Overall layout of the grammar file.
-* Symbols::           Terminal and nonterminal symbols.
-* Rules::             How to write grammar rules.
-* Recursion::         Writing recursive rules.
-* Semantics::         Semantic values and actions.
-* Locations::         Locations and actions.
-* Named References::  Using named references in actions.
-* Declarations::      All kinds of Bison declarations are described here.
-* Multiple Parsers::  Putting more than one Bison parser in one program.
+* Grammar Outline::    Overall layout of the grammar file.
+* Symbols::            Terminal and nonterminal symbols.
+* Rules::              How to write grammar rules.
+* Recursion::          Writing recursive rules.
+* Semantics::          Semantic values and actions.
+* Tracking Locations:: Locations and actions.
+* Named References::   Using named references in actions.
+* Declarations::       All kinds of Bison declarations are described here.
+* Multiple Parsers::   Putting more than one Bison parser in one program.
 @end menu
 
 @node Grammar Outline
@@ -3880,7 +3881,7 @@ compound: subroutine
 Now Bison can execute the action in the rule for @code{subroutine} without
 deciding which rule for @code{compound} it will eventually use.
 
-@node Locations
+@node Tracking Locations
 @section Tracking Locations
 @cindex location
 @cindex textual location
@@ -4998,9 +4999,8 @@ Unless your parser is pure, the parser header file declares
 (Reentrant) Parser}.
 
 If you have also used locations, the parser header file declares
-@code{YYLTYPE} and @code{yylloc} using a protocol similar to that of
-the @code{YYSTYPE} macro and @code{yylval}.  @xref{Locations,
-,Tracking Locations}.
+@code{YYLTYPE} and @code{yylloc} using a protocol similar to that of the
+@code{YYSTYPE} macro and @code{yylval}.  @xref{Tracking Locations}.
 
 This parser header file is normally essential if you wish to put the
 definition of @code{yylex} in a separate source file, because
@@ -6002,12 +6002,12 @@ then the code in @code{yylex} might look like this:
 @subsection Textual Locations of Tokens
 
 @vindex yylloc
-If you are using the @samp{@@@var{n}}-feature (@pxref{Locations, ,
-Tracking Locations}) in actions to keep track of the textual locations
-of tokens and groupings, then you must provide this information in
-@code{yylex}.  The function @code{yyparse} expects to find the textual
-location of a token just parsed in the global variable @code{yylloc}.
-So @code{yylex} must store the proper data in that variable.
+If you are using the @samp{@@@var{n}}-feature (@pxref{Tracking Locations})
+in actions to keep track of the textual locations of tokens and groupings,
+then you must provide this information in @code{yylex}.  The function
+@code{yyparse} expects to find the textual location of a token just parsed
+in the global variable @code{yylloc}.  So @code{yylex} must store the proper
+data in that variable.
 
 By default, the value of @code{yylloc} is a structure and you need only
 initialize the members that are going to be used by the actions.  The
@@ -6344,9 +6344,9 @@ Actions}).
 
 @deffn {Value} @@$
 @findex @@$
-Acts like a structure variable containing information on the textual location
-of the grouping made by the current rule.  @xref{Locations, ,
-Tracking Locations}.
+Acts like a structure variable containing information on the textual
+location of the grouping made by the current rule.  @xref{Tracking
+Locations}.
 
 @c Check if those paragraphs are still useful or not.
 
@@ -6370,9 +6370,9 @@ Tracking Locations}.
 
 @deffn {Value} @@@var{n}
 @findex @@@var{n}
-Acts like a structure variable containing information on the textual location
-of the @var{n}th component of the current rule.  @xref{Locations, ,
-Tracking Locations}.
+Acts like a structure variable containing information on the textual
+location of the @var{n}th component of the current rule.  @xref{Tracking
+Locations}.
 @end deffn
 
 @node Internationalization
@@ -9176,10 +9176,10 @@ is some time and/or some talented C++ hacker willing to contribute to Bison.
 @c - %define filename_type "const symbol::Symbol"
 
 When the directive @code{%locations} is used, the C++ parser supports
-location tracking, see @ref{Locations, , Locations Overview}.  Two
-auxiliary classes define a @code{position}, a single point in a file,
-and a @code{location}, a range composed of a pair of
-@code{position}s (possibly spanning several files).
+location tracking, see @ref{Tracking Locations}.  Two auxiliary classes
+define a @code{position}, a single point in a file, and a @code{location}, a
+range composed of a pair of @code{position}s (possibly spanning several
+files).
 
 @deftypemethod {position} {std::string*} file
 The name of the file.  It will always be handled as a pointer, the
@@ -10100,14 +10100,13 @@ can be used to print the semantic values.  This however may change
 @c - class Position
 @c - class Location
 
-When the directive @code{%locations} is used, the Java parser
-supports location tracking, see @ref{Locations, , Locations Overview}.
-An auxiliary user-defined class defines a @dfn{position}, a single point
-in a file; Bison itself defines a class representing a @dfn{location},
-a range composed of a pair of positions (possibly spanning several
-files).  The location class is an inner class of the parser; the name
-is @code{Location} by default, and may also be renamed using
-@samp{%define location_type "@var{class-name}"}.
+When the directive @code{%locations} is used, the Java parser supports
+location tracking, see @ref{Tracking Locations}.  An auxiliary user-defined
+class defines a @dfn{position}, a single point in a file; Bison itself
+defines a class representing a @dfn{location}, a range composed of a pair of
+positions (possibly spanning several files).  The location class is an inner
+class of the parser; the name is @code{Location} by default, and may also be
+renamed using @samp{%define location_type "@var{class-name}"}.
 
 The location class treats the position as a completely opaque value.
 By default, the class name is @code{Position}, but this can be changed
@@ -10991,22 +10990,22 @@ See @url{http://lists.gnu.org/}.
 
 @deffn {Variable} @@$
 In an action, the location of the left-hand side of the rule.
-@xref{Locations, , Locations Overview}.
+@xref{Tracking Locations}.
 @end deffn
 
 @deffn {Variable} @@@var{n}
-In an action, the location of the @var{n}-th symbol of the right-hand
-side of the rule.  @xref{Locations, , Locations Overview}.
+In an action, the location of the @var{n}-th symbol of the right-hand side
+of the rule.  @xref{Tracking Locations}.
 @end deffn
 
 @deffn {Variable} @@@var{name}
-In an action, the location of a symbol addressed by name.
-@xref{Locations, , Locations Overview}.
+In an action, the location of a symbol addressed by name.  @xref{Tracking
+Locations}.
 @end deffn
 
 @deffn {Variable} @@[@var{name}]
-In an action, the location of a symbol addressed by name.
-@xref{Locations, , Locations Overview}.
+In an action, the location of a symbol addressed by name.  @xref{Tracking
+Locations}.
 @end deffn
 
 @deffn {Variable} $$
