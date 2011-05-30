@@ -60,6 +60,8 @@ Bison News
   allow the programmer to prune possible parses based on the values of
   runtime expressions.
 
+* Changes in version 2.5.1 (????-??-??):
+
 * Changes in version 2.5 (2011-05-14):
 
 ** Grammar symbol names can now contain non-initial dashes:
