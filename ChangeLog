@@ -1,5 +1,13 @@
 2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	doc: clean up references to `Locations Overview'.
+	* doc/bison.texinfo (Locations Overview): Rename node to...
+	(Locations): ... this, which is its section name.  Update menus to
+	match that and not to use the title `Tracking Locations', which is
+	a different section.
+
+2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	doc: clean up references to `Tracking Locations'.
 	* doc/bison.texinfo (Locations): Rename node to...
 	(Tracking Locations): ... this, which is its section name, and

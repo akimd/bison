@@ -125,7 +125,7 @@ The Concepts of Bison
                            the name of an identifier, etc.).
 * Semantic Actions::     Each rule can have an action containing C code.
 * GLR Parsers::          Writing parsers for general context-free languages.
-* Locations Overview::   Tracking Locations.
+* Locations::            Overview of location tracking.
 * Bison Parser::         What are Bison's input and output,
                            how is the output used?
 * Stages::               Stages in writing and running Bison grammars.
@@ -451,7 +451,7 @@ use Bison or Yacc, we suggest you start by reading this chapter carefully.
                            the name of an identifier, etc.).
 * Semantic Actions::     Each rule can have an action containing C code.
 * GLR Parsers::          Writing parsers for general context-free languages.
-* Locations Overview::   Tracking Locations.
+* Locations::            Overview of location tracking.
 * Bison Parser::         What are Bison's input and output,
                            how is the output used?
 * Stages::               Stages in writing and running Bison grammars.
@@ -1278,7 +1278,7 @@ will suffice.  Otherwise, we suggest
 %@}
 @end example
 
-@node Locations Overview
+@node Locations
 @section Locations
 @cindex location
 @cindex textual location
