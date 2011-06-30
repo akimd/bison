@@ -209,6 +209,9 @@ b4_namespace_close])[
     /// \param msg    a description of the syntax error.
     virtual void error (]b4_locations_if([const location_type& loc, ])[const std::string& msg);
 
+    /// Report a syntax error.
+    void error (const syntax_error& err);
+
   private:
     /// State numbers.
     typedef int state_type;
@@ -734,13 +737,21 @@ m4_popdef([b4_at_dollar])])dnl
     if (yyempty)
       {
         YYCDEBUG << "Reading a token: ";
+        try
+        {
 ]b4_lex_symbol_if(
-[        yyla = b4_c_function_call([yylex], [symbol_type],
-                                   m4_ifdef([b4_lex_param], b4_lex_param));],
-[        yyla.type = yytranslate_ (b4_c_function_call([yylex], [int],
+[          yyla = b4_c_function_call([yylex], [symbol_type],
+                                     m4_ifdef([b4_lex_param], b4_lex_param));],
+[          yyla.type = yytranslate_ (b4_c_function_call([yylex], [int],
                                      [[YYSTYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
+        }
+        catch (const syntax_error& yyexc)
+        {
+          error (yyexc);
+          goto yyerrlab1;
+        }
         yyempty = false;
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
@@ -823,8 +834,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     }
     catch (const syntax_error& yyexc)
     {
-      error (]b4_args(b4_locations_if([yyexc.location]),
-                      [[yyexc.what()]])[);
+      error (yyexc);
       YYERROR;
     }
     YY_SYMBOL_PRINT ("-> $$ =", yylhs);
@@ -969,6 +979,13 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       }
 
     return yyresult;
+  }
+
+  void
+  ]b4_parser_class_name[::error (const syntax_error& yyexc)
+  {
+    error (]b4_args(b4_locations_if([yyexc.location]),
+                    [[yyexc.what()]])[);
   }
 
   // Generate an error message.

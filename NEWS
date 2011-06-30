@@ -24,6 +24,15 @@ Bison News
   Also, it is possible to add code to the parser's constructors using
   "%code init" and "%define init_throws".
 
+** C++ skeleton improvements
+
+  The C++ parser features a syntax_error exception, which can be
+  thrown from the scanner or from user rules to raise syntax errors.
+  This facilitates reporting errors caught in sub-functions (e.g.,
+  rejecting too large integral literals from a conversion function
+  used by the scanner, or rejecting invalid combinations from a
+  factory invoked by the user actions).
+
 ** Variable api.tokens.prefix
 
   The variable api.tokens.prefix changes the way tokens are identified in

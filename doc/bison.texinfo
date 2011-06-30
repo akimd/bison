@@ -9270,7 +9270,8 @@ scanner should use @code{yy::parser::token::FOO}.  The scanner can use
 
 @defcv {Type} {parser} {syntax_error}
 This class derives from @code{std::runtime_error}.  Throw instances of it
-from user actions to raise parse errors.  This is equivalent with first
+from the scanner or from the user actions to raise parse errors.  This is
+equivalent with first
 invoking @code{error} to report the location and message of the syntax
 error, and then to invoke @code{YYERROR} to enter the error-recovery mode.
 But contrary to @code{YYERROR} which can only be invoked from user actions

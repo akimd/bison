@@ -492,9 +492,12 @@ item:
 int
 yylex (yy::parser::semantic_type *)
 {
-  static char const *input = "as";
+  // 's': syntax error, 'l': lexical error.
+  static char const *input = "asal";
   switch (int res = *input++)
   {
+    case 'l':
+      throw yy::parser::syntax_error("invalid character");
     default:
       return res;
   }
@@ -519,6 +522,8 @@ AT_COMPILE_CXX([[input]])
 
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
 [[error: invalid expression
+caught error
+error: invalid character
 caught error
 ]])
 
