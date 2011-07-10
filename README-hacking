@@ -311,7 +311,7 @@ Here's a brief reminder of how to roll the tarballs and upload them:
 *** put bison-2.3b.tar.gz # This can take a while.
 *** put bison-2.3b.tar.gz.sig
 *** put bison-2.3b.tar.gz.directive.asc
-*** Repeat all these steps for bison-2.3b.tar.bz2.
+*** Repeat all these steps for bison-2.3b.tar.xz.
 
 ** Update Bison manual on www.gnu.org.
 
