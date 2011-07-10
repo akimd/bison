@@ -216,6 +216,8 @@ release:
 
 ** Update the submodules.  See above.
 
+** Update maintainer tools, such as Autoconf.  See above.
+
 ** Try to get the *.pot files to the Translation Project at least one
 week before a stable release, to give them time to translate them.
 Before generating the *.pot files, make sure that po/POTFILES.in and

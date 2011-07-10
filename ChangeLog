@@ -1,5 +1,17 @@
 2011-07-10  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	build: avoid YACC typo inherited from Autoconf.
+	The typo shows up in the `configure --help' output.  Reported by
+	W.C.A. Wijngaards and Paul Eggert at
+	<http://lists.gnu.org/archive/html/bug-bison/2011-07/msg00000.html>.
+	* README-hacking (Release Procedure): Remind about updating
+	maintainer tools before a release.
+	* THANKS (W.C.A. Wijngaards): Add.
+	* configure.ac (AC_PREREQ): Set to 2.68, which fixes the YACC
+	typo.
+
+2011-07-10  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	build: create xz instead of bzip2 tarballs.
 	Suggested by Jim Meyering at
 	<http://lists.gnu.org/archive/html/bug-bison/2011-06/msg00012.html>.
