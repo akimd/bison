@@ -1,3 +1,12 @@
+2011-07-10  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	build: create xz instead of bzip2 tarballs.
+	Suggested by Jim Meyering at
+	<http://lists.gnu.org/archive/html/bug-bison/2011-06/msg00012.html>.
+	* README-hacking (Release Procedure): Update example.
+	* configure.ac (AM_INIT_AUTOMAKE): Replace dist-bzip2 with
+	dist-xz.
+
 2011-05-29  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	doc: clean up references to `Locations Overview'.
