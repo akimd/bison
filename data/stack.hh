@@ -74,7 +74,7 @@ b4_copyright([Stack handling for Bison parsers in C++])[
     pop (unsigned int n = 1)
     {
       for (; n; --n)
-	seq_.pop_front ();
+        seq_.pop_front ();
     }
 
     inline

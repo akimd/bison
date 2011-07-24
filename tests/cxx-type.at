@@ -92,35 +92,35 @@ $1
 
 prog :
      | prog stmt   {
-			char *output;]AT_LOCATION_IF([
-			printf ("%d.%d-%d.%d: ",
-			     @2.first_line, @2.first_column,
-			     @2.last_line, @2.last_column);])[
-			output = node_to_string (]$[2);
-			printf ("%s\n", output);
-			free (output);
-			free_node (]$[2);
-		   }
+                        char *output;]AT_LOCATION_IF([
+                        printf ("%d.%d-%d.%d: ",
+                             @2.first_line, @2.first_column,
+                             @2.last_line, @2.last_column);])[
+                        output = node_to_string (]$[2);
+                        printf ("%s\n", output);
+                        free (output);
+                        free_node (]$[2);
+                   }
      ;
 
-stmt : expr ';'  $2	{ $$ = ]$[1; }
+stmt : expr ';'  $2     { $$ = ]$[1; }
      | decl      $3
-     | error ';'	{ $$ = new_nterm ("<error>", 0, 0, 0); }
-     | '@'		{ YYACCEPT; }
+     | error ';'        { $$ = new_nterm ("<error>", 0, 0, 0); }
+     | '@'              { YYACCEPT; }
      ;
 
 expr : ID
      | TYPENAME '(' expr ')'
-			{ $$ = new_nterm ("<cast>(%s,%s)", ]$[3, ]$[1, 0); }
-     | expr '+' expr	{ $$ = new_nterm ("+(%s,%s)", ]$[1, ]$[3, 0); }
+                        { $$ = new_nterm ("<cast>(%s,%s)", ]$[3, ]$[1, 0); }
+     | expr '+' expr    { $$ = new_nterm ("+(%s,%s)", ]$[1, ]$[3, 0); }
      | expr '=' expr    { $$ = new_nterm ("=(%s,%s)", ]$[1, ]$[3, 0); }
      ;
 
 decl : TYPENAME declarator ';'
-			{ $$ = new_nterm ("<declare>(%s,%s)", ]$[1, ]$[2, 0); }
+                        { $$ = new_nterm ("<declare>(%s,%s)", ]$[1, ]$[2, 0); }
      | TYPENAME declarator '=' expr ';'
-			{ $$ = new_nterm ("<init-declare>(%s,%s,%s)", ]$[1,
-					  ]$[2, ]$[4); }
+                        { $$ = new_nterm ("<init-declare>(%s,%s,%s)", ]$[1,
+                                          ]$[2, ]$[4); }
      ;
 
 declarator : ID
@@ -163,60 +163,60 @@ yylex (LEX_PARAMETERS)
   while (1)
     {
       if (feof (stdin))
-	abort ();
+        abort ();
       c = getchar ();
       switch (c)
-	{
-	case EOF:
-	  return 0;
-	case '\t':
-	  colNum = (colNum + 7) & ~7;
-	  break;
-	case ' ': case '\f':
-	  colNum += 1;
-	  break;
-	case '\n':
-	  lineNum += 1;
-	  colNum = 0;
-	  break;
-	default:
-	  {
-	    int tok;
+        {
+        case EOF:
+          return 0;
+        case '\t':
+          colNum = (colNum + 7) & ~7;
+          break;
+        case ' ': case '\f':
+          colNum += 1;
+          break;
+        case '\n':
+          lineNum += 1;
+          colNum = 0;
+          break;
+        default:
+          {
+            int tok;
 #if YYLSP_NEEDED
-	    yylloc.first_line = yylloc.last_line = lineNum;
-	    yylloc.first_column = colNum;
+            yylloc.first_line = yylloc.last_line = lineNum;
+            yylloc.first_column = colNum;
 #endif
-	    if (isalpha (c))
-	      {
-		i = 0;
+            if (isalpha (c))
+              {
+                i = 0;
 
-		do
-		  {
-		    buffer[i++] = c;
-		    colNum += 1;
-		    if (i == sizeof buffer - 1)
-		      abort ();
-		    c = getchar ();
-		  }
-		while (isalnum (c) || c == '_');
+                do
+                  {
+                    buffer[i++] = c;
+                    colNum += 1;
+                    if (i == sizeof buffer - 1)
+                      abort ();
+                    c = getchar ();
+                  }
+                while (isalnum (c) || c == '_');
 
-		ungetc (c, stdin);
-		buffer[i++] = 0;
-		tok = isupper ((unsigned char) buffer[0]) ? TYPENAME : ID;
-		yylval = new_term (strcpy ((char *) malloc (i), buffer));
-	      }
-	    else
-	      {
-		colNum += 1;
-		tok = c;
-		yylval = 0;
-	      }
+                ungetc (c, stdin);
+                buffer[i++] = 0;
+                tok = isupper ((unsigned char) buffer[0]) ? TYPENAME : ID;
+                yylval = new_term (strcpy ((char *) malloc (i), buffer));
+              }
+            else
+              {
+                colNum += 1;
+                tok = c;
+                yylval = 0;
+              }
 #if YYLSP_NEEDED
-	    yylloc.last_column = colNum-1;
+            yylloc.last_column = colNum-1;
 #endif
-	    return tok;
-	  }
-	}
+            return tok;
+          }
+        }
     }
 }
 
@@ -298,7 +298,7 @@ node_to_string (Node *node)
       child1 = node_to_string (node->nterm.children[1]);
       child2 = node_to_string (node->nterm.children[2]);
       buffer = (char *) malloc (strlen (node->nterm.form) + strlen (child0)
-				+ strlen (child1) + strlen (child2) + 1);
+                                + strlen (child1) + strlen (child2) + 1);
       sprintf (buffer, node->nterm.form, child0, child1, child2);
       free (child0);
       free (child1);
@@ -412,61 +412,61 @@ m4_define([_AT_VERBOSE_GLR_STDERR],
 
 AT_SETUP([GLR: Resolve ambiguity, impure, no locations])
 _AT_TEST_GLR_CXXTYPES([],
-		      [%dprec 1], [%dprec 2])
+                      [%dprec 1], [%dprec 2])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
+                _AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, impure, locations])
 _AT_TEST_GLR_CXXTYPES([%locations],[%dprec 1],[%dprec 2])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_RESOLVED_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
+                _AT_RESOLVED_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, no locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure],
-		      [%dprec 1], [%dprec 2])
+                      [%dprec 1], [%dprec 2])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
+                _AT_RESOLVED_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure %locations],
-		      [%dprec 1], [%dprec 2])
+                      [%dprec 1], [%dprec 2])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_RESOLVED_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
+                _AT_RESOLVED_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, no locations])
 _AT_TEST_GLR_CXXTYPES([],
-		      [%merge <stmtMerge>], [%merge <stmtMerge>])
+                      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
+                _AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, locations])
 _AT_TEST_GLR_CXXTYPES([%locations],
-		      [%merge <stmtMerge>], [%merge <stmtMerge>])
+                      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_AMBIG_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
+                _AT_AMBIG_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, pure, no locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure],
-		      [%merge <stmtMerge>], [%merge <stmtMerge>])
+                      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
+                _AT_AMBIG_GLR_OUTPUT, _AT_GLR_STDERR)
 AT_CLEANUP
 AT_SETUP([GLR: Merge conflicting parses, pure, locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure %locations],
-		      [%merge <stmtMerge>],[%merge <stmtMerge>])
+                      [%merge <stmtMerge>],[%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_AMBIG_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
+                _AT_AMBIG_GLR_OUTPUT_WITH_LOC, _AT_GLR_STDERR)
 AT_CLEANUP
 
 AT_SETUP([GLR: Verbose messages, resolve ambiguity, impure, no locations])
 _AT_TEST_GLR_CXXTYPES([%error-verbose],
-		      [%merge <stmtMerge>], [%merge <stmtMerge>])
+                      [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
-		_AT_AMBIG_GLR_OUTPUT, _AT_VERBOSE_GLR_STDERR)
+                _AT_AMBIG_GLR_OUTPUT, _AT_VERBOSE_GLR_STDERR)
 AT_CLEANUP

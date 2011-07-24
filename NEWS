@@ -894,26 +894,26 @@ Bison News
   if the symbols have destructors.  For instance:
 
      exp: exp "?" exp ":" exp { $1 ? $1 : $3; }
-	| exp "+" exp
-	;
+        | exp "+" exp
+        ;
 
   will trigger a warning about $$ and $5 in the first rule, and $3 in
   the second ($1 is copied to $$ by the default rule).  This example
   most likely contains three errors, and could be rewritten as:
 
      exp: exp "?" exp ":" exp
-	    { $$ = $1 ? $3 : $5; free ($1 ? $5 : $3); free ($1); }
-	| exp "+" exp
-	    { $$ = $1 ? $1 : $3; if ($1) free ($3); }
-	;
+            { $$ = $1 ? $3 : $5; free ($1 ? $5 : $3); free ($1); }
+        | exp "+" exp
+            { $$ = $1 ? $1 : $3; if ($1) free ($3); }
+        ;
 
   However, if the original actions were really intended, memory leaks
   and all, the warnings can be suppressed by letting Bison believe the
   values are used, e.g.:
 
      exp: exp "?" exp ":" exp { $1 ? $1 : $3; (void) ($$, $5); }
-	| exp "+" exp         { $$ = $1; (void) $3; }
-	;
+        | exp "+" exp         { $$ = $1; (void) $3; }
+        ;
 
   If there are mid-rule actions, the warning is issued if no action
   uses it.  The following triggers no warning: $1 and $3 are used.
@@ -1157,16 +1157,16 @@ Bison News
   In agreement with POSIX and with other Yaccs, leaving a default
   action is valid when $$ is untyped, and $1 typed:
 
-	untyped: ... typed;
+        untyped: ... typed;
 
   but the converse remains an error:
 
-	typed: ... untyped;
+        typed: ... untyped;
 
 ** Values of mid-rule actions
   The following code:
 
-	foo: { ... } { $$ = $1; } ...
+        foo: { ... } { $$ = $1; } ...
 
   was incorrectly rejected: $1 is defined in the second mid-rule
   action, and is equal to the $$ of the first mid-rule action.

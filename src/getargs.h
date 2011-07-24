@@ -35,12 +35,12 @@ extern int skeleton_prio;
 /* for -I */
 extern char const *include;
 
-extern bool defines_flag;		/* for -d */
-extern bool graph_flag;			/* for -g */
-extern bool xml_flag;			/* for -x */
-extern bool no_lines_flag;		/* for -l */
-extern bool token_table_flag;		/* for -k */
-extern bool yacc_flag;			/* for -y */
+extern bool defines_flag;               /* for -d */
+extern bool graph_flag;                 /* for -g */
+extern bool xml_flag;                   /* for -x */
+extern bool no_lines_flag;              /* for -l */
+extern bool token_table_flag;           /* for -k */
+extern bool yacc_flag;                  /* for -y */
 
 
 /* GLR_PARSER is true if the input file says to use the GLR

@@ -1,3 +1,19 @@
+2011-07-24  Joel E. Denny  <joeldenny@joeldenny.org>
+
+	global: remove unnecessary horizontal tabs.
+	This change was made by applying emacs' untabify function to
+	nearly all files in Bison's repository.  Required tabs in make
+	files, ChangeLog, regexps, and test code were manually skipped.
+	Other notable exceptions and changes are listed below.
+	* bootstrap: Skip because we sync this with gnulib.
+	* data/m4sugar/foreach.m4
+	* data/m4sugar/m4sugar.m4: Skip because we sync these with
+	Autoconf.
+	* djgpp: Skip because I don't know how to test djgpp properly, and
+	this code appears to be unmaintained anyway.
+	* README-hacking (Hacking): Specify that tabs should be avoided
+	where not required.
+
 2011-07-10  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	build: avoid YACC typo inherited from Autoconf.

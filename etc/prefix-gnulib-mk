@@ -10,7 +10,7 @@ my $prefix = "lib/";
 sub contents ($)
 {
   my ($file) = @_;
-  local $/;			# Turn on slurp-mode.
+  local $/;                     # Turn on slurp-mode.
   my $f = new IO::File "< $file" or die "$file";
   my $contents = $f->getline or die "$file";
   $f->close;

@@ -44,7 +44,7 @@ int yylex (void);
 %token <ival> NUM "number"
 %type  <ival> exp
 
-%nonassoc '='   /* comparison	       */
+%nonassoc '='   /* comparison          */
 %left '-' '+'
 %left '*' '/'
 %precedence NEG /* negation--unary minus */
@@ -215,7 +215,7 @@ int yylex (void);
 %token <ival> NUM "number"
 %type  <ival> exp
 
-%nonassoc '='   /* comparison	       */
+%nonassoc '='   /* comparison          */
 %left '-' '+'
 %left '*' '/'
 %precedence NEG /* negation--unary minus */

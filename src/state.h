@@ -148,12 +148,12 @@ typedef struct
 
 
 /* Iterate over each transition over a token (shifts).  */
-#define FOR_EACH_SHIFT(Transitions, Iter)			\
-  for (Iter = 0;						\
-       Iter < Transitions->num					\
-	 && (TRANSITION_IS_DISABLED (Transitions, Iter)		\
-	     || TRANSITION_IS_SHIFT (Transitions, Iter));	\
-       ++Iter)							\
+#define FOR_EACH_SHIFT(Transitions, Iter)                       \
+  for (Iter = 0;                                                \
+       Iter < Transitions->num                                  \
+         && (TRANSITION_IS_DISABLED (Transitions, Iter)         \
+             || TRANSITION_IS_SHIFT (Transitions, Iter));       \
+       ++Iter)                                                  \
     if (!TRANSITION_IS_DISABLED (Transitions, Iter))
 
 
@@ -228,7 +228,7 @@ extern state *final_state;
 
 /* Create a new state with ACCESSING_SYMBOL for those items.  */
 state *state_new (symbol_number accessing_symbol,
-		  size_t core_size, item_number *core);
+                  size_t core_size, item_number *core);
 state *state_new_isocore (state const *s);
 
 /* Set the transitions of STATE.  */
@@ -246,7 +246,7 @@ void state_errs_set (state *s, int num, symbol **errors);
    reduce R.  */
 void state_rule_lookahead_tokens_print (state *s, rule *r, FILE *out);
 void state_rule_lookahead_tokens_print_xml (state *s, rule *r,
-					    FILE *out, int level);
+                                            FILE *out, int level);
 
 /* Create/destroy the states hash table.  */
 void state_hash_new (void);

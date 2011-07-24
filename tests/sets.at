@@ -288,15 +288,15 @@ mv stdout expout
 # Get the final state in the report, from the "accept" action..
 AT_CHECK([sed -n '
            /^state \(.*\)/{
-	     s//final state \1/
-	     x
-	   }
-	   / accept/{
-	     x
-	     p
-	     q
-	   }
-	' input.output],
-	0, [expout])
+             s//final state \1/
+             x
+           }
+           / accept/{
+             x
+             p
+             q
+           }
+        ' input.output],
+        0, [expout])
 
 AT_CLEANUP

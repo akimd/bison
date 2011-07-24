@@ -21,7 +21,7 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_C_COMPILER], [
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
        [[#include <limits.h>
-	 int test_array[CHAR_BIT];]])],
+         int test_array[CHAR_BIT];]])],
     [],
     [AC_MSG_FAILURE([cannot compile a simple C program])])
 ])

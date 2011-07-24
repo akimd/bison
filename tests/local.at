@@ -116,34 +116,34 @@ m4_pushdef([AT_TOKEN_PREFIX],
 # yyerror receives the location if %location & %pure & (%glr or %parse-param).
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
-		    [$2])])
+                    [$2])])
 # yyerror always sees the locations (when activated), except if
 # (yacc & pure & !param).  FIXME: This is wrong.  See the manual.
 m4_pushdef([AT_YYERROR_SEES_LOC_IF],
 [AT_LOCATION_IF([AT_YACC_IF([AT_PURE_IF([AT_PARAM_IF([$1], [$2])],
-					[$1])],
-			    [$1])],
-		[$2])])
+                                        [$1])],
+                            [$1])],
+                [$2])])
 
 # The interface is pure: either because %define api.pure, or because we
 # are using the C++ parsers.
 m4_pushdef([AT_PURE_LEX_IF],
 [AT_PURE_IF([$1],
-	    [AT_SKEL_CC_IF([$1], [$2])])])
+            [AT_SKEL_CC_IF([$1], [$2])])])
 
 AT_PURE_LEX_IF(
 [m4_pushdef([AT_LOC], [(*llocp)])
  m4_pushdef([AT_VAL], [(*lvalp)])
  m4_pushdef([AT_LEX_FORMALS],
-	    [YYSTYPE *lvalp[]AT_LOCATION_IF([, YYLTYPE *llocp])])
+            [YYSTYPE *lvalp[]AT_LOCATION_IF([, YYLTYPE *llocp])])
  m4_pushdef([AT_LEX_ARGS],
-	    [lvalp[]AT_LOCATION_IF([, llocp])])
+            [lvalp[]AT_LOCATION_IF([, llocp])])
  m4_pushdef([AT_USE_LEX_ARGS],
-	    [(void) lvalp;AT_LOCATION_IF([(void) llocp])])
+            [(void) lvalp;AT_LOCATION_IF([(void) llocp])])
  m4_pushdef([AT_LEX_PRE_FORMALS],
-	    [AT_LEX_FORMALS, ])
+            [AT_LEX_FORMALS, ])
  m4_pushdef([AT_LEX_PRE_ARGS],
-	    [AT_LEX_ARGS, ])
+            [AT_LEX_ARGS, ])
 ],
 [m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
  m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
@@ -417,7 +417,7 @@ m4_define([AT_QUELL_VALGRIND],
 # assume that we are linking too; this is a hack.
 m4_define([AT_COMPILE],
 [AT_CHECK([$CC $CFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.c])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
-	   0, [ignore], [ignore])])
+           0, [ignore], [ignore])])
 
 # AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.cc])
 # --------------------------------------------
@@ -428,7 +428,7 @@ m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS(c++)
 AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.cc])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
-	 0, [ignore], [ignore])])
+         0, [ignore], [ignore])])
 
 # AT_JAVA_COMPILE(SOURCES)
 # ------------------------

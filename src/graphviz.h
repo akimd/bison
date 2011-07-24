@@ -40,7 +40,7 @@ void output_node (int id, char const *label, FILE *fout);
 /// \param style        Dot style of the edge (e.g., "dotted" or "solid").
 /// \param fout         output stream.
 void output_edge (int source, int destination, char const *label,
-		  char const *style, FILE *fout);
+                  char const *style, FILE *fout);
 
 /// End a Dot graph.
 /// \param fout  output stream.

@@ -15,9 +15,9 @@
 
 AM_MAKEINFOFLAGS = --no-split
 info_TEXINFOS = doc/bison.texinfo
-doc_bison_TEXINFOS =				\
-  $(CROSS_OPTIONS_TEXI)				\
-  doc/fdl.texi					\
+doc_bison_TEXINFOS =                            \
+  $(CROSS_OPTIONS_TEXI)                         \
+  doc/fdl.texi                                  \
   doc/gpl-3.0.texi
 
 CLEANFILES = doc/bison.fns
@@ -35,7 +35,7 @@ $(CROSS_OPTIONS_TEXI): doc/bison.help $(CROSS_OPTIONS_PL)
 # diff in the next run.  Note that $@ might not exist yet.
 	{ test ! -f $@ || cat $@; } >$@~
 	test ! -f $@.tmp || rm -f $@.tmp
-	src/bison$(EXEEXT) --help |					 \
+	src/bison$(EXEEXT) --help |                                      \
 	  perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
 	diff -u $@~ $@.tmp || true
 	mv $@.tmp $@
@@ -101,14 +101,14 @@ remove_time_stamp = \
 # Depend on configure to get version number changes.
 $(top_srcdir)/doc/bison.1: doc/bison.help doc/bison.x $(top_srcdir)/configure
 	@echo "Updating man page $@"
-	$(HELP2MAN)					\
-	    --include=$(top_srcdir)/doc/bison.x		\
+	$(HELP2MAN)                                     \
+	    --include=$(top_srcdir)/doc/bison.x         \
 	    --output=$@.t src/bison$(EXEEXT)
-	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		 \
+	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&                 \
 	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then \
-	  touch $@;							 \
-	else								 \
-	  mv $@.t $@;							 \
+	  touch $@;                                                      \
+	else                                                             \
+	  mv $@.t $@;                                                    \
 	fi
 	rm -f $@*.t
 

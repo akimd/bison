@@ -65,23 +65,23 @@ BEGIN {
       # => + 2.
       # Note that recent Bison support it, but not Flex.
       if (file ~ /\.[chy]*$/)
-	input = "#line " (FNR + 1) " \"" FILENAME "\"\n";
+        input = "#line " (FNR + 1) " \"" FILENAME "\"\n";
       next;
     }
 
   if ($0 ~ /^@end example$/)
     {
       if (input == "")
-	fatal("no contents: " file);
+        fatal("no contents: " file);
 
       input = normalize(input);
       # No spurious end of line: use printf.
       if (files_output[file])
-	# The parens around the output file seem to be required
+        # The parens around the output file seem to be required
         # by awk on Mac OS X Tiger (darwin 8.4.6).
         printf ("%s", input) >> (output_dir "/" file);
       else
-	printf ("%s", input) > (output_dir "/" file);
+        printf ("%s", input) > (output_dir "/" file);
       close (output_dir "/" file);
       files_output[file] = 1;
 
@@ -105,11 +105,11 @@ function normalize(contents,    i, lines, n, line, res) {
 
       # Whole line commands.
       if (line ~ /^@(c |comment|dots|end (ignore|group)|ignore|group)/)
-	# Gperf accepts empty lines as valid input!!!
-	if (file ~ /\.gperf$/)
-	  continue;
-	else
-	  line = "";
+        # Gperf accepts empty lines as valid input!!!
+        if (file ~ /\.gperf$/)
+          continue;
+        else
+          line = "";
 
       gsub (/"@value\{VERSION\}"/, "\"" VERSION "\"", line)
       gsub (/^@result\{\}/, "", line);

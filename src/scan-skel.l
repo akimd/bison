@@ -89,8 +89,8 @@ static void fail_for_invalid_at (char const *at);
 
   /* This pattern must not match more than the previous @ patterns. */
 @[^@{}`(\n]* fail_for_invalid_at (yytext);
-\n	   out_lineno++; ECHO;
-[^@\n]+	   ECHO;
+\n         out_lineno++; ECHO;
+[^@\n]+    ECHO;
 
 <INITIAL><<EOF>> {
   if (outname)

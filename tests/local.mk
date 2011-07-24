@@ -40,27 +40,27 @@ $(top_srcdir)/tests/package.m4: $(top_srcdir)/configure
 ## Test suite.  ##
 ## ------------ ##
 
-TESTSUITE_AT =					\
-  tests/actions.at				\
-  tests/c++.at					\
-  tests/calc.at					\
-  tests/conflicts.at				\
-  tests/cxx-type.at				\
-  tests/existing.at				\
-  tests/glr-regression.at			\
-  tests/headers.at				\
-  tests/input.at				\
-  tests/java.at					\
-  tests/local.at				\
-  tests/named-refs.at				\
-  tests/output.at				\
-  tests/push.at					\
-  tests/reduce.at				\
-  tests/regression.at				\
-  tests/sets.at					\
-  tests/skeletons.at				\
-  tests/synclines.at				\
-  tests/testsuite.at				\
+TESTSUITE_AT =                                  \
+  tests/actions.at                              \
+  tests/c++.at                                  \
+  tests/calc.at                                 \
+  tests/conflicts.at                            \
+  tests/cxx-type.at                             \
+  tests/existing.at                             \
+  tests/glr-regression.at                       \
+  tests/headers.at                              \
+  tests/input.at                                \
+  tests/java.at                                 \
+  tests/local.at                                \
+  tests/named-refs.at                           \
+  tests/output.at                               \
+  tests/push.at                                 \
+  tests/reduce.at                               \
+  tests/regression.at                           \
+  tests/sets.at                                 \
+  tests/skeletons.at                            \
+  tests/synclines.at                            \
+  tests/testsuite.at                            \
   tests/torture.at
 
 TESTSUITE = $(top_srcdir)/tests/testsuite

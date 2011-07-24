@@ -37,7 +37,7 @@
 static YYLTYPE lloc_default (YYLTYPE const *, int);
 
 #define YY_LOCATION_PRINT(File, Loc) \
-	  location_print (File, Loc)
+          location_print (File, Loc)
 
 static void version_check (location const *loc, char const *version);
 
@@ -45,7 +45,7 @@ static void version_check (location const *loc, char const *version);
    FIXME: depends on the undocumented availability of YYLLOC.  */
 #undef  yyerror
 #define yyerror(Msg) \
-	gram_error (&yylloc, Msg)
+        gram_error (&yylloc, Msg)
 static void gram_error (location const *, char const *);
 
 static char const *char_name (char);
@@ -191,9 +191,9 @@ static char const *char_name (char);
 %type <chars> STRING "%{...%}" EPILOGUE braceless content.opt
 %type <code> "{...}" "%?{...}"
 %printer { fputs (quotearg_style (c_quoting_style, $$), stderr); }
-	 STRING
+         STRING
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
-	 braceless content.opt "{...}" "%{...%}" EPILOGUE
+         braceless content.opt "{...}" "%{...%}" EPILOGUE
 
 %type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG variable
 %printer { fputs ($$, stderr); } <uniqstr>
@@ -270,9 +270,9 @@ input:
 ;
 
 
-	/*------------------------------------.
-	| Declarations: before the first %%.  |
-	`------------------------------------*/
+        /*------------------------------------.
+        | Declarations: before the first %%.  |
+        `------------------------------------*/
 
 prologue_declarations:
   /* Nothing */
@@ -312,7 +312,7 @@ prologue_declaration:
                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
-| "%expect-rr" INT		   { expected_rr_conflicts = $2; }
+| "%expect-rr" INT                 { expected_rr_conflicts = $2; }
 | "%file-prefix" STRING            { spec_file_prefix = $2; }
 | "%file-prefix" "=" STRING        { spec_file_prefix = $3; } /* deprecated */
 | "%glr-parser"
@@ -329,11 +329,11 @@ prologue_declaration:
       muscle_code_grow ("initial_action", action.code, @2);
       code_scanner_last_string_free ();
     }
-| "%language" STRING		{ language_argmatch ($2, grammar_prio, @1); }
+| "%language" STRING            { language_argmatch ($2, grammar_prio, @1); }
 | "%name-prefix" STRING         { spec_name_prefix = $2; }
 | "%name-prefix" "=" STRING     { spec_name_prefix = $3; } /* deprecated */
 | "%no-lines"                   { no_lines_flag = true; }
-| "%nondeterministic-parser"	{ nondeterministic_parser = true; }
+| "%nondeterministic-parser"    { nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
 | "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
 | "%param" { current_param = $1; } params { current_param = param_none; }
@@ -389,14 +389,14 @@ grammar_declaration:
     {
       symbol_list *list;
       for (list = $3; list; list = list->next)
-	symbol_list_destructor_set (list, $2, @2);
+        symbol_list_destructor_set (list, $2, @2);
       symbol_list_free ($3);
     }
 | "%printer" "{...}" generic_symlist
     {
       symbol_list *list;
       for (list = $3; list; list = list->next)
-	symbol_list_printer_set (list, $2, @2);
+        symbol_list_printer_set (list, $2, @2);
       symbol_list_free ($3);
     }
 | "%default-prec"
@@ -461,7 +461,7 @@ symbol_declaration:
       symbol_list *list;
       tag_seen = true;
       for (list = $3; list; list = list->next)
-	symbol_type_set (list->content.sym, $2, @2);
+        symbol_type_set (list->content.sym, $2, @2);
       symbol_list_free ($3);
     }
 ;
@@ -472,10 +472,10 @@ precedence_declaration:
       symbol_list *list;
       ++current_prec;
       for (list = $3; list; list = list->next)
-	{
-	  symbol_type_set (list->content.sym, current_type, @2);
-	  symbol_precedence_set (list->content.sym, current_prec, $1, @1);
-	}
+        {
+          symbol_type_set (list->content.sym, current_type, @2);
+          symbol_precedence_set (list->content.sym, current_prec, $1, @1);
+        }
       symbol_list_free ($3);
       current_type = NULL;
     }
@@ -566,9 +566,9 @@ symbol_defs.1:
 ;
 
 
-	/*------------------------------------------.
-	| The grammar section: between the two %%.  |
-	`------------------------------------------*/
+        /*------------------------------------------.
+        | The grammar section: between the two %%.  |
+        `------------------------------------------*/
 
 grammar:
   rules_or_grammar_declaration
@@ -603,7 +603,7 @@ rhses.1:
 rhs:
   /* Nothing.  */
     { grammar_current_rule_begin (current_lhs_symbol, current_lhs_location,
-				  current_lhs_named_ref); }
+                                  current_lhs_named_ref); }
 | rhs symbol named_ref.opt
     { grammar_current_rule_symbol_append ($2, @2, $3); }
 | rhs "{...}" named_ref.opt
@@ -735,8 +735,8 @@ lloc_default (YYLTYPE const *rhs, int n)
   for (i = 1; i <= n; i++)
     if (! equal_boundaries (rhs[i].start, rhs[i].end))
       {
-	loc.start = rhs[i].start;
-	break;
+        loc.start = rhs[i].start;
+        break;
       }
 
   return loc;
@@ -779,9 +779,9 @@ add_param (param_type type, char *decl, location loc)
       size_t name_len;
 
       for (name_len = 1;
-	   memchr (alphanum, name_start[name_len], sizeof alphanum);
-	   name_len++)
-	continue;
+           memchr (alphanum, name_start[name_len], sizeof alphanum);
+           name_len++)
+        continue;
 
       name = xmalloc (name_len + 1);
       memcpy (name, name_start, name_len);
@@ -803,7 +803,7 @@ version_check (location const *loc, char const *version)
   if (strverscmp (version, PACKAGE_VERSION) > 0)
     {
       complain_at (*loc, "require bison %s, but have %s",
-		   version, PACKAGE_VERSION);
+                   version, PACKAGE_VERSION);
       exit (63);
     }
 }

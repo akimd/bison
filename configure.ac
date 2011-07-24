@@ -61,7 +61,7 @@ AC_ARG_ENABLE(gcc-warnings,
    yes|no) ;;
    *)      AC_MSG_ERROR([bad value ${enableval} for gcc-warnings option]) ;;
  esac],
-	      [enableval=no])
+              [enableval=no])
 if test "${enableval}" = yes; then
   gl_WARN_ADD([-Werror], [WERROR_CFLAGS])
   AC_SUBST([WERROR_CFLAGS])
@@ -175,7 +175,7 @@ do
   eval "test x\$$ac_var = x || $ac_var=lib/\$$ac_var"
 done
 AC_CONFIG_FILES([Makefile
-		 po/Makefile.in
-		 examples/calc++/Makefile
-		 doc/yacc.1])
+                 po/Makefile.in
+                 examples/calc++/Makefile
+                 doc/yacc.1])
 AC_OUTPUT

@@ -418,8 +418,8 @@ AT_JAVA_COMPILE([[YYParser.java]])
 
 
 # AT_CHECK_JAVA_MINIMAL_W_LEXER([1:DIRECTIVES], [2:LEX_THROWS],
-# 	[3:YYLEX_ACTION], [4:LEXER_BODY], [5:PARSER_ACTION], [6:STYPE],
-#	[7:POSITION_TYPE], [8:LOCATION_TYPE])
+#       [3:YYLEX_ACTION], [4:LEXER_BODY], [5:PARSER_ACTION], [6:STYPE],
+#       [7:POSITION_TYPE], [8:LOCATION_TYPE])
 # ---------------------------------------------------------------------
 # Check that a mininal parser with DIRECTIVES and a "%code lexer".
 # YYLEX is the body of yylex () which throws LEX_THROW.
@@ -454,7 +454,7 @@ m4_define([AT_CHECK_JAVA_MINIMAL_W_LEXER],
 # Check that YYParser.java contains exactly COUNT lines matching ^LINE$
 # with grep.
 m4_define([AT_CHECK_JAVA_GREP],
-	[AT_CHECK([grep -c '^$1$' YYParser.java], [], [m4_default([$2], [1])
+        [AT_CHECK([grep -c '^$1$' YYParser.java], [], [m4_default([$2], [1])
 ])
 ])
 
@@ -647,74 +647,74 @@ AT_CLEANUP
 
 AT_SETUP([Java throws specifications])
 
-# %define throws	- 0 1 2
-# %define lex-throws	- 0 1 2
-# %code lexer		  0 1
+# %define throws        - 0 1 2
+# %define lex-throws    - 0 1 2
+# %code lexer             0 1
 
 m4_define([AT_JT_lex_throws_define], [m4_case(AT_JT_lex_throws,
-	-1, [],
-	 0, [[%define lex_throws ""]],
-	 1, [[%define lex_throws "InterruptedException"]],
-	 2, [[%define lex_throws "InterruptedException, IllegalAccessException"]])])
+        -1, [],
+         0, [[%define lex_throws ""]],
+         1, [[%define lex_throws "InterruptedException"]],
+         2, [[%define lex_throws "InterruptedException, IllegalAccessException"]])])
 
 m4_define([AT_JT_yylex_throws], [m4_case(AT_JT_lex_throws,
-	-1, [[ throws java.io.IOException]],
-	 0, [],
-	 1, [[ throws InterruptedException]],
-	 2, [[ throws InterruptedException, IllegalAccessException]])])
+        -1, [[ throws java.io.IOException]],
+         0, [],
+         1, [[ throws InterruptedException]],
+         2, [[ throws InterruptedException, IllegalAccessException]])])
 
 m4_define([AT_JT_yylex_action], [m4_case(AT_JT_lex_throws,
-	-1, [[throw new java.io.IOException();]],
-	 0, [[return EOF;]],
-	 1, [[throw new InterruptedException();]],
-	 2, [[throw new IllegalAccessException();]])])
+        -1, [[throw new java.io.IOException();]],
+         0, [[return EOF;]],
+         1, [[throw new InterruptedException();]],
+         2, [[throw new IllegalAccessException();]])])
 
 
 m4_define([AT_JT_throws_define], [m4_case(AT_JT_throws,
-	-1, [],
-	 0, [[%define throws ""]],
-	 1, [[%define throws "ClassNotFoundException"]],
-	 2, [[%define throws "ClassNotFoundException, InstantiationException"]])])
+        -1, [],
+         0, [[%define throws ""]],
+         1, [[%define throws "ClassNotFoundException"]],
+         2, [[%define throws "ClassNotFoundException, InstantiationException"]])])
 
 m4_define([AT_JT_yyaction_throws], [m4_case(AT_JT_throws,
-	-1, [],
-	 0, [],
-	 1, [[ throws ClassNotFoundException]],
-	 2, [[ throws ClassNotFoundException, InstantiationException]])])
+        -1, [],
+         0, [],
+         1, [[ throws ClassNotFoundException]],
+         2, [[ throws ClassNotFoundException, InstantiationException]])])
 
 m4_define([AT_JT_parse_throws_2], [m4_case(AT_JT_throws,
-	-1, [],
-	 0, [],
-	 1, [[, ClassNotFoundException]],
-	 2, [[, ClassNotFoundException, InstantiationException]])])
+        -1, [],
+         0, [],
+         1, [[, ClassNotFoundException]],
+         2, [[, ClassNotFoundException, InstantiationException]])])
 
 m4_define([AT_JT_parse_throws],
-	[m4_if(m4_quote(AT_JT_yylex_throws), [],
-		[AT_JT_yyaction_throws],
-		[AT_JT_yylex_throws[]AT_JT_parse_throws_2])])
+        [m4_if(m4_quote(AT_JT_yylex_throws), [],
+                [AT_JT_yyaction_throws],
+                [AT_JT_yylex_throws[]AT_JT_parse_throws_2])])
 
 m4_define([AT_JT_initial_action], [m4_case(AT_JT_throws,
-	-1, [],
-	 0, [],
-	 1, [[%initial-action {if (true) throw new ClassNotFoundException();}]],
-	 2, [[%initial-action {if (true) throw new InstantiationException();}]])])
+        -1, [],
+         0, [],
+         1, [[%initial-action {if (true) throw new ClassNotFoundException();}]],
+         2, [[%initial-action {if (true) throw new InstantiationException();}]])])
 
 m4_define([AT_JT_parse_action], [m4_case(AT_JT_throws,
-	-1, [],
-	 0, [],
-	 1, [[throw new ClassNotFoundException();]],
-	 2, [[throw new ClassNotFoundException();]])])
+        -1, [],
+         0, [],
+         1, [[throw new ClassNotFoundException();]],
+         2, [[throw new ClassNotFoundException();]])])
 
 m4_for([AT_JT_lexer], 0, 1, 1,
   [m4_for([AT_JT_lex_throws], -1, 2, 1,
     [m4_for([AT_JT_throws], -1, 2, 1,
       [m4_if(AT_JT_lexer, 0,
-	[AT_CHECK_JAVA_MINIMAL([
+        [AT_CHECK_JAVA_MINIMAL([
 AT_JT_throws_define
 AT_JT_lex_throws_define
 AT_JT_initial_action],
 [AT_JT_parse_action])],
-	[AT_CHECK_JAVA_MINIMAL_W_LEXER([
+        [AT_CHECK_JAVA_MINIMAL_W_LEXER([
 AT_JT_throws_define
 AT_JT_lex_throws_define
 AT_JT_initial_action],

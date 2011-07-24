@@ -73,8 +73,8 @@ static inline bool
 equal_boundaries (boundary a, boundary b)
 {
   return (a.column == b.column
-	  && a.line == b.line
-	  && UNIQSTR_EQ (a.file, b.file));
+          && a.line == b.line
+          && UNIQSTR_EQ (a.file, b.file));
 }
 
 /* A location, that is, a region of source code.  */
@@ -96,7 +96,7 @@ extern location const empty_location;
 /* Set *LOC and adjust scanner cursor to account for token TOKEN of
    size SIZE.  */
 void location_compute (location *loc,
-		       boundary *cur, char const *token, size_t size);
+                       boundary *cur, char const *token, size_t size);
 
 /* Print location to file. Return number of actually printed
    characters.  */

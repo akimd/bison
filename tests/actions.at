@@ -298,11 +298,11 @@ input:
       printf ("input (%d@%d-%d): /* Nothing */\n", $$, RANGE (@$));
     }
 | line input /* Right recursive to load the stack so that popping at
-		END can	be exercised.  */
+                END can be exercised.  */
     {
       $$ = 2;
       printf ("input (%d@%d-%d): line (%d@%d-%d) input (%d@%d-%d)\n",
-	      $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2));
+              $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2));
     }
 ;
 
@@ -1363,37 +1363,37 @@ AT_DATA([input.y],
 start: test2 test1 test0 testc;
 
 test2
-: 'a' { semi;			/* TEST:N:2 */ }
-| 'b' { if (0) {no_semi}	/* TEST:N:2 */ }
-| 'c' { if (0) {semi;}		/* TEST:N:2 */ }
-| 'd' { semi;   no_semi		/* TEST:Y:2 */ }
-| 'e' { semi(); no_semi()	/* TEST:Y:2 */ }
-| 'f' { semi[]; no_semi[]	/* TEST:Y:2 */ }
-| 'g' { semi++; no_semi++	/* TEST:Y:2 */ }
-| 'h' { {no_semi} no_semi	/* TEST:Y:2 */ }
-| 'i' { {semi;}   no_semi	/* TEST:Y:2 */ }
+: 'a' { semi;                   /* TEST:N:2 */ }
+| 'b' { if (0) {no_semi}        /* TEST:N:2 */ }
+| 'c' { if (0) {semi;}          /* TEST:N:2 */ }
+| 'd' { semi;   no_semi         /* TEST:Y:2 */ }
+| 'e' { semi(); no_semi()       /* TEST:Y:2 */ }
+| 'f' { semi[]; no_semi[]       /* TEST:Y:2 */ }
+| 'g' { semi++; no_semi++       /* TEST:Y:2 */ }
+| 'h' { {no_semi} no_semi       /* TEST:Y:2 */ }
+| 'i' { {semi;}   no_semi       /* TEST:Y:2 */ }
 ;
 test1
-  : 'a' { semi;			// TEST:N:1 ;
-} | 'b' { if (0) {no_semi}	// TEST:N:1 ;
-} | 'c' { if (0) {semi;}	// TEST:N:1 ;
-} | 'd' { semi;   no_semi	// TEST:Y:1 ;
-} | 'e' { semi(); no_semi()	// TEST:Y:1 ;
-} | 'f' { semi[]; no_semi[]	// TEST:Y:1 ;
-} | 'g' { semi++; no_semi++	// TEST:Y:1 ;
-} | 'h' { {no_semi} no_semi	// TEST:Y:1 ;
-} | 'i' { {semi;}   no_semi	// TEST:Y:1 ;
+  : 'a' { semi;                 // TEST:N:1 ;
+} | 'b' { if (0) {no_semi}      // TEST:N:1 ;
+} | 'c' { if (0) {semi;}        // TEST:N:1 ;
+} | 'd' { semi;   no_semi       // TEST:Y:1 ;
+} | 'e' { semi(); no_semi()     // TEST:Y:1 ;
+} | 'f' { semi[]; no_semi[]     // TEST:Y:1 ;
+} | 'g' { semi++; no_semi++     // TEST:Y:1 ;
+} | 'h' { {no_semi} no_semi     // TEST:Y:1 ;
+} | 'i' { {semi;}   no_semi     // TEST:Y:1 ;
 } ;
 test0
-  : 'a' { semi;			// TEST:N:1 {}
-} | 'b' { if (0) {no_semi}	// TEST:N:1 {}
-} | 'c' { if (0) {semi;}	// TEST:N:1 {}
-} | 'd' { semi;   no_semi	// TEST:Y:1 {}
-} | 'e' { semi(); no_semi()	// TEST:Y:1 {}
-} | 'f' { semi[]; no_semi[]	// TEST:Y:1 {}
-} | 'g' { semi++; no_semi++	// TEST:Y:1 {}
-} | 'h' { {no_semi} no_semi	// TEST:Y:1 {}
-} | 'i' { {semi;}   no_semi	// TEST:Y:1 {}
+  : 'a' { semi;                 // TEST:N:1 {}
+} | 'b' { if (0) {no_semi}      // TEST:N:1 {}
+} | 'c' { if (0) {semi;}        // TEST:N:1 {}
+} | 'd' { semi;   no_semi       // TEST:Y:1 {}
+} | 'e' { semi(); no_semi()     // TEST:Y:1 {}
+} | 'f' { semi[]; no_semi[]     // TEST:Y:1 {}
+} | 'g' { semi++; no_semi++     // TEST:Y:1 {}
+} | 'h' { {no_semi} no_semi     // TEST:Y:1 {}
+} | 'i' { {semi;}   no_semi     // TEST:Y:1 {}
 } ;
 
 testc

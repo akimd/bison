@@ -76,10 +76,10 @@ static struct obstack obstack_for_string;
 #define STRING_GROW   \
   obstack_grow (&obstack_for_string, yytext, yyleng)
 
-#define STRING_FINISH					\
-  do {							\
-    obstack_1grow (&obstack_for_string, '\0');		\
-    last_string = obstack_finish (&obstack_for_string);	\
+#define STRING_FINISH                                   \
+  do {                                                  \
+    obstack_1grow (&obstack_for_string, '\0');          \
+    last_string = obstack_finish (&obstack_for_string); \
   } while (0)
 
 #define STRING_FREE \

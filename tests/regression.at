@@ -532,7 +532,7 @@ AT_SETUP([Web2c Report])
 AT_KEYWORDS([report])
 
 AT_DATA([input.y],
-[[%token	undef_id_tok const_id_tok
+[[%token        undef_id_tok const_id_tok
 
 %start CONST_DEC_PART
 
@@ -542,12 +542,12 @@ CONST_DEC_PART:
         ;
 
 CONST_DEC_LIST:
-	  CONST_DEC
+          CONST_DEC
         | CONST_DEC_LIST CONST_DEC
         ;
 
 CONST_DEC:
-	  { } undef_id_tok '=' const_id_tok ';'
+          { } undef_id_tok '=' const_id_tok ';'
         ;
 %%
 ]])
@@ -1062,7 +1062,7 @@ static int yylex (void);
 start:
   {
     printf ("Bison would once convert this action to a midrule because of the"
-	    " subsequent braced code.\n");
+            " subsequent braced code.\n");
   }
   ;
 

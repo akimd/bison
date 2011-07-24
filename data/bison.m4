@@ -304,8 +304,8 @@ m4_define([b4_parser_tables_define],
 m4_define([b4_flag_if],
 [m4_case(b4_$1_flag,
          [0], [$3],
-	 [1], [$2],
-	 [m4_fatal([invalid $1 value: ]$1)])])
+         [1], [$2],
+         [m4_fatal([invalid $1 value: ]$1)])])
 
 
 # b4_define_flag_if(FLAG)
@@ -330,10 +330,10 @@ m4_define([b4_$3_if],
 # b4_FLAG_if(IF-TRUE, IF-FALSE)
 # -----------------------------
 # Expand IF-TRUE, if FLAG is true, IF-FALSE otherwise.
-b4_define_flag_if([defines])	        # Whether headers are requested.
-b4_define_flag_if([glr])		# Whether a GLR parser is requested.
-b4_define_flag_if([nondeterministic])	# Whether conflicts should be handled.
-b4_define_flag_if([yacc])	        # Whether POSIX Yacc is emulated.
+b4_define_flag_if([defines])            # Whether headers are requested.
+b4_define_flag_if([glr])                # Whether a GLR parser is requested.
+b4_define_flag_if([nondeterministic])   # Whether conflicts should be handled.
+b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 
 
 ## --------- ##
@@ -435,7 +435,7 @@ m4_define([b4_type_action_],
         b4_dollar_dollar([b4_symbol([$1], [number])],
                          [b4_symbol([$1], [tag])],
                          [b4_symbol([$1], [type])]);
-	break;
+        break;
 
 ])])
 
@@ -629,8 +629,8 @@ m4_define([b4_percent_define_get_syncline],
 #   b4_percent_define_ifdef([[foo]], [[it's defined]], [[it's undefined]])
 m4_define([b4_percent_define_ifdef],
 [m4_ifdef([b4_percent_define(]$1[)],
-	  [b4_percent_define_use([$1])$2],
-	  [$3])])
+          [b4_percent_define_use([$1])$2],
+          [$3])])
 
 
 ## --------- ##
@@ -765,7 +765,7 @@ m4_popdef([b4_macro_name])])
 m4_define([b4_percent_code_ifdef],
 [m4_ifdef([b4_percent_code(]$1[)],
           [m4_ifval([$1], [m4_define([b4_percent_code_bison_qualifiers(]$1[)])])$2],
-	  [$3])])
+          [$3])])
 
 
 ## ------------------ ##

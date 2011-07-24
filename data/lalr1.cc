@@ -426,14 +426,14 @@ b4_percent_code_get[]dnl
     }                                           \
   } while (false)
 
-# define YY_REDUCE_PRINT(Rule)		\
-  do {					\
+# define YY_REDUCE_PRINT(Rule)          \
+  do {                                  \
     if (yydebug_)                       \
-      yy_reduce_print_ (Rule);		\
+      yy_reduce_print_ (Rule);          \
   } while (false)
 
-# define YY_STACK_PRINT()		\
-  do {					\
+# define YY_STACK_PRINT()               \
+  do {                                  \
     if (yydebug_)                       \
       yystack_print_ ();                \
   } while (false)
@@ -575,7 +575,7 @@ b4_percent_code_get[]dnl
       {
 ]b4_symbol_foreach([b4_symbol_printer])dnl
 [       default:
-	  break;
+          break;
       }
     yyo << ')';
   }
@@ -739,7 +739,7 @@ m4_popdef([b4_at_dollar])])dnl
 [        yyla = b4_c_function_call([yylex], [symbol_type],
                                    m4_ifdef([b4_lex_param], b4_lex_param));],
 [        yyla.type = yytranslate_ (b4_c_function_call([yylex], [int],
-				     [[YYSTYPE*], [&yyla.value]][]dnl
+                                     [[YYSTYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
         yyempty = false;
@@ -756,10 +756,10 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     yyn = yytable_[yyn];
     if (yyn <= 0)
       {
-	if (yy_table_value_is_error_ (yyn))
-	  goto yyerrlab;
-	yyn = -yyn;
-	goto yyreduce;
+        if (yy_table_value_is_error_ (yyn))
+          goto yyerrlab;
+        yyn = -yyn;
+        goto yyreduce;
       }
 
     /* Discard the token being shifted.  */
@@ -818,7 +818,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       switch (yyn)
       {
 ]b4_user_actions[
-	default:
+        default:
           break;
       }
     }
@@ -859,8 +859,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     /* If not already recovering from an error, report this error.  */
     if (!yyerrstatus_)
       {
-	++yynerrs_;
-	error (]b4_args(b4_locations_if([yyla.location]),
+        ++yynerrs_;
+        error (]b4_args(b4_locations_if([yyla.location]),
                         [[yysyntax_error_ (yystack_[0].state,
                                            yyempty ? yyempty_ : yyla.type)]])[);
       }
@@ -869,7 +869,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     yyerror_range[1].location = yyla.location;]])[
     if (yyerrstatus_ == 3)
       {
-	/* If just tried and failed to reuse lookahead token after an
+        /* If just tried and failed to reuse lookahead token after an
            error, discard it.  */
 
         /* Return failure if at end of input.  */
@@ -879,7 +879,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
           {
             yy_destroy_ ("Error: discarding", yyla);
             yyempty = true;
-	  }
+          }
       }
 
     /* Else will try to reuse lookahead token after shifting the error
@@ -910,7 +910,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
   | yyerrlab1 -- common code for both syntax error and YYERROR.  |
   `-------------------------------------------------------------*/
   yyerrlab1:
-    yyerrstatus_ = 3;	/* Each real token shifted decrements this.  */
+    yyerrstatus_ = 3;   /* Each real token shifted decrements this.  */
     {
       stack_symbol_type error_token;
       for (;;)
@@ -965,8 +965,8 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     yypop_ (yylen);
     while (yystack_.size () != 1)
       {
-	yy_destroy_ ("Cleanup: popping", yystack_[0]);
-	yypop_ ();
+        yy_destroy_ ("Cleanup: popping", yystack_[0]);
+        yypop_ ();
       }
 
     return yyresult;
@@ -1098,7 +1098,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
     for (stack_type::const_iterator
            i = yystack_.begin (),
            i_end = yystack_.end ();
-	 i != i_end; ++i)
+         i != i_end; ++i)
       *yycdebug_ << ' ' << i->state;
     *yycdebug_ << std::endl;
   }
@@ -1111,7 +1111,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
     int yynrhs = yyr2_[yyrule];
     /* Print the symbols being reduced, and their result.  */
     *yycdebug_ << "Reducing stack by rule " << yyrule - 1
-	       << " (line " << yylno << "):" << std::endl;
+               << " (line " << yylno << "):" << std::endl;
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
       YY_SYMBOL_PRINT ("   $" << yyi + 1 << " =",

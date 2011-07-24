@@ -46,6 +46,13 @@ of the .output file etc.  This excludes impossible error messages
 (comparable to assert/abort), and all the --trace output which is
 meant for the maintainers only.
 
+** Horizontal tabs
+Do not add horizontal tab characters to any file in Bison's repository
+except where required.  For example, do not use tabs to format C code.
+However, make files, ChangeLog, and some regular expressions require
+tabs.  Also, test cases might need to contain tabs to check that Bison
+properly processes tabs in its input.
+
 
 * Working from the repository
 

@@ -25,8 +25,8 @@ LALR(1) Look-Ahead Sets", ACM Transactions on Programming Languages
 and Systems (TOPLAS) 4, 4 (October 1982), 615-649.  Their
 technique is the standard one now.)
 
-	paul rubin
-	free software foundation
+        paul rubin
+        free software foundation
 
 
 [DeRemer-Pennello reference corrected by Paul Eggert <eggert@cs.ucla.edu>,

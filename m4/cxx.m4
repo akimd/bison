@@ -26,25 +26,25 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
     bison_cv_cxx_works=no
     AC_COMPILE_IFELSE(
       [AC_LANG_PROGRAM(
-	 [#include <cstdlib>
-	  #include <iostream>
-	  #include <map>
-	  #include <string>
-	  using namespace std;],
+         [#include <cstdlib>
+          #include <iostream>
+          #include <map>
+          #include <string>
+          using namespace std;],
          [std::cerr << "";
           cout << "";
-	  typedef std::pair<unsigned int, int> uipair;
-	  std::map<unsigned int, int> m;
-	  std::map<unsigned int, int>::iterator i;
-	  m.insert (uipair (4, -4));
-	  for (i = m.begin (); i != m.end (); ++i)
-	    if (i->first != 4)
-	      return 1;])],
+          typedef std::pair<unsigned int, int> uipair;
+          std::map<unsigned int, int> m;
+          std::map<unsigned int, int>::iterator i;
+          m.insert (uipair (4, -4));
+          for (i = m.begin (); i != m.end (); ++i)
+            if (i->first != 4)
+              return 1;])],
       [AS_IF([AC_TRY_COMMAND([$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_objext $LIBS >&AS_MESSAGE_LOG_FD])],
-	 [AS_IF([test "$cross_compiling" = yes],
-	    [bison_cv_cxx_works=cross],
-	    [AS_IF([AC_TRY_COMMAND(./conftest$ac_exeext)],
-	       [bison_cv_cxx_works=yes])])])
+         [AS_IF([test "$cross_compiling" = yes],
+            [bison_cv_cxx_works=cross],
+            [AS_IF([AC_TRY_COMMAND(./conftest$ac_exeext)],
+               [bison_cv_cxx_works=yes])])])
        rm -f conftest$ac_exeext])
     AC_LANG_POP([C++])])
 

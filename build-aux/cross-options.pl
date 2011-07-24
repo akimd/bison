@@ -18,50 +18,50 @@ while (<STDIN>)
         \s                # Spaces.
         /x)
     {
-	my ($short, $long, $opt, $arg) = ($1, $2, $3, $4);
-	$short = '' if ! defined $short;
-	$short = '-d' if $long eq '--defines' && ! $short;
-	my $dir = '%' . substr($long, 2);
-	if (index ($scanner, "\"$dir\"") < 0)
-	{
-	  if ($long eq '--force-define') { $dir = '%define'; }
-	  else { $dir = ''; }
-	}
-	if ($arg)
-	{
+        my ($short, $long, $opt, $arg) = ($1, $2, $3, $4);
+        $short = '' if ! defined $short;
+        $short = '-d' if $long eq '--defines' && ! $short;
+        my $dir = '%' . substr($long, 2);
+        if (index ($scanner, "\"$dir\"") < 0)
+        {
+          if ($long eq '--force-define') { $dir = '%define'; }
+          else { $dir = ''; }
+        }
+        if ($arg)
+        {
             # if $opt, $arg contains the closing ].
             substr ($arg, -1) = ''
                 if $opt eq '[';
-	    $arg =~ s/^=//;
+            $arg =~ s/^=//;
             $arg = lc ($arg);
-	    my $dir_arg = $arg;
+            my $dir_arg = $arg;
             # If the argument is compite (e.g., for --define[=NAME[=VALUE]]),
             # put each word in @var, to build @var{name}[=@var{value}], not
             # @var{name[=value]}].
-	    $arg =~ s/(\w+)/\@var{$1}/g;
-	    my $long_arg = "=$arg";
-	    if ($opt eq '[') {
-	      $long_arg = "[$long_arg]";
-	      $arg = "[$arg]";
-	    }
-	    # For arguments of directives: this only works if all arguments
-	    # are strings and have the same syntax as on the command line.
-	    if ($dir_arg eq 'name[=value]')
-	    {
-		$dir_arg = '@var{name} ["@var{value}"]';
-	    }
-	    else
-	    {
-		$dir_arg =~ s/(\w+)/\@var{"$1"}/g;
-		$dir_arg = '[' . $dir_arg . ']'
-		    if $opt eq '[';
-	    }
-	    $long = "$long$long_arg";
-	    $short = "$short $arg" if $short && $short ne '-d';
-	    $dir = "$dir $dir_arg" if $dir;
-	}
-	$option{$long} = $short;
-	$directive{$long} = $dir;
+            $arg =~ s/(\w+)/\@var{$1}/g;
+            my $long_arg = "=$arg";
+            if ($opt eq '[') {
+              $long_arg = "[$long_arg]";
+              $arg = "[$arg]";
+            }
+            # For arguments of directives: this only works if all arguments
+            # are strings and have the same syntax as on the command line.
+            if ($dir_arg eq 'name[=value]')
+            {
+                $dir_arg = '@var{name} ["@var{value}"]';
+            }
+            else
+            {
+                $dir_arg =~ s/(\w+)/\@var{"$1"}/g;
+                $dir_arg = '[' . $dir_arg . ']'
+                    if $opt eq '[';
+            }
+            $long = "$long$long_arg";
+            $short = "$short $arg" if $short && $short ne '-d';
+            $dir = "$dir $dir_arg" if $dir;
+        }
+        $option{$long} = $short;
+        $directive{$long} = $dir;
     }
 }
 

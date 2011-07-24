@@ -405,24 +405,24 @@ m4_define([b4_parse_param_decl_1],
 # Extra initialisations of the constructor.
 m4_define([b4_parse_param_cons],
           [m4_ifset([b4_parse_param],
-		    [
+                    [
       b4_cc_constructor_calls(b4_parse_param)])])
 m4_define([b4_cc_constructor_calls],
-	  [m4_map_sep([b4_cc_constructor_call], [,
+          [m4_map_sep([b4_cc_constructor_call], [,
       ], [$@])])
 m4_define([b4_cc_constructor_call],
-	  [$2 ($2_yyarg)])
+          [$2 ($2_yyarg)])
 
 # b4_parse_param_vars
 # -------------------
 # Extra instance variables.
 m4_define([b4_parse_param_vars],
           [m4_ifset([b4_parse_param],
-		    [
+                    [
     /* User arguments.  */
 b4_cc_var_decls(b4_parse_param)])])
 m4_define([b4_cc_var_decls],
-	  [m4_map_sep([b4_cc_var_decl], [
+          [m4_map_sep([b4_cc_var_decl], [
 ], [$@])])
 m4_define([b4_cc_var_decl],
-	  [    $1;])
+          [    $1;])

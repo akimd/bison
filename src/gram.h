@@ -105,8 +105,8 @@
 # include "location.h"
 # include "symtab.h"
 
-# define ISTOKEN(i)	((i) < ntokens)
-# define ISVAR(i)	((i) >= ntokens)
+# define ISTOKEN(i)     ((i) < ntokens)
+# define ISVAR(i)       ((i) >= ntokens)
 
 extern int nsyms;
 extern int ntokens;
@@ -254,7 +254,7 @@ size_t ritem_longest_rhs (void);
 
 /* Print the grammar's rules that match FILTER on OUT under TITLE.  */
 void grammar_rules_partial_print (FILE *out, const char *title,
-				  rule_filter filter);
+                                  rule_filter filter);
 
 /* Print the grammar's useful rules on OUT.  */
 void grammar_rules_print (FILE *out);

@@ -211,7 +211,7 @@ m4_define([AT_CHECK_DOXYGEN],
 [m4_case([$1],
          [Public],  [m4_pushdef([AT_DOXYGEN_PRIVATE], [NO])],
          [Private], [m4_pushdef([AT_DOXYGEN_PRIVATE], [YES])],
-	 [m4_fatal([invalid argument: $1])])
+         [m4_fatal([invalid argument: $1])])
 AT_SETUP([Doxygen $1 Documentation])
 
 AT_DATA([input.yy],

@@ -284,8 +284,8 @@ for my $size (1 .. $max)
   {
     use Text::Wrap;
     print $out wrap ("| ", "   ",
-		     (map { "\"$_\"" } (1 .. $size)),
-		     " END \n"),
+                     (map { "\"$_\"" } (1 .. $size)),
+                     " END \n"),
                "    { \$\$ = $size; }\n";
   };
 print $out ";\n";
@@ -411,7 +411,7 @@ static int yylex (void);
 %token <ival> NUM "number"
 %type  <ival> exp
 
-%nonassoc '=' /* comparison	       */
+%nonassoc '=' /* comparison            */
 %left '-' '+'
 %left '*' '/'
 %left NEG     /* negation--unary minus */
@@ -640,13 +640,13 @@ EOF
 
 %%
 result:
-  text			{ /* Throw away the result. */ }
+  text                  { /* Throw away the result. */ }
 ;
 
 text:
-  /* nothing */		{ /* This will generate an empty string */ }
-| text TEXT		{ std::swap ($$, $2); }
-| text NUMBER		{ $$ = string_cast($2); }
+  /* nothing */         { /* This will generate an empty string */ }
+| text TEXT             { std::swap ($$, $2); }
+| text NUMBER           { $$ = string_cast($2); }
 ;
 EOF
     }
@@ -663,13 +663,13 @@ EOF
 
 %%
 result:
-  text			{ delete $1; }
+  text                  { delete $1; }
 ;
 
 text:
-  /* nothing */		{ $$ = new std::string; }
-| text TEXT		{ delete $1; $$ = $2; }
-| text NUMBER		{ delete $1; $$ = new std::string (string_cast ($2)); }
+  /* nothing */         { $$ = new std::string; }
+| text TEXT             { delete $1; $$ = $2; }
+| text NUMBER           { delete $1; $$ = new std::string (string_cast ($2)); }
 ;
 EOF
     }

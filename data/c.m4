@@ -146,7 +146,7 @@ m4_define([b4_int_type],
 
        m4_eval([0 <= $1]),                [1], [unsigned int],
 
-					       [int])])
+                                               [int])])
 
 
 # b4_int_type_for(NAME)
@@ -235,7 +235,7 @@ m4_define([b4_token_enums],
    enum yytokentype {
 m4_map_sep([     b4_token_enum], [,
 ],
-	   [$@])
+           [$@])
    };
 #endif
 ])])
@@ -314,7 +314,7 @@ $1 (b4_c_ansi_formals(m4_shift2($@)))[]dnl
 m4_define([b4_c_ansi_formals],
 [m4_if([$#], [0], [void],
        [$#$1], [1], [void],
-	       [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
+               [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
 
 m4_define([b4_c_ansi_formal],
 [$1])
@@ -335,9 +335,9 @@ m4_define([b4_c_knr_formal_name],
 # Output the K&R argument declarations.
 m4_define([b4_c_knr_formal_decls],
 [m4_map_sep([b4_c_knr_formal_decl],
-	    [
+            [
 ],
-	    [$@])])
+            [$@])])
 
 m4_define([b4_c_knr_formal_decl],
 [    $1;])
@@ -457,7 +457,7 @@ b4_parse_param_use[]dnl
     {
 ]b4_symbol_foreach([b4_symbol_destructor])dnl
 [      default:
-	break;
+        break;
     }
 }]dnl
 ])
@@ -477,9 +477,9 @@ m4_define_default([b4_yy_symbol_print_generate],
 /*ARGSUSED*/
 ]$1([yy_symbol_value_print],
     [static void],
-	       [[FILE *yyoutput],                       [yyoutput]],
-	       [[int yytype],                           [yytype]],
-	       [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
+               [[FILE *yyoutput],                       [yyoutput]],
+               [[int yytype],                           [yytype]],
+               [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
@@ -498,7 +498,7 @@ b4_parse_param_use[]dnl
     {
 ]b4_symbol_foreach([b4_symbol_printer])dnl
 [      default:
-	break;
+        break;
     }
 }
 
@@ -509,9 +509,9 @@ b4_parse_param_use[]dnl
 
 ]$1([yy_symbol_print],
     [static void],
-	       [[FILE *yyoutput],                       [yyoutput]],
-	       [[int yytype],                           [yytype]],
-	       [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
+               [[FILE *yyoutput],                       [yyoutput]],
+               [[int yytype],                           [yytype]],
+               [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {

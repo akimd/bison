@@ -39,8 +39,8 @@
 typedef enum
 {
   unknown_sym,          /**< Undefined.  */
-  token_sym,		/**< Terminal. */
-  nterm_sym		/**< Non-terminal. */
+  token_sym,            /**< Terminal. */
+  nterm_sym             /**< Non-terminal. */
 } symbol_class;
 
 
@@ -166,7 +166,7 @@ void symbol_precedence_set (symbol *sym, int prec, assoc a, location loc);
 
 /** Set the \c class associated with \c sym.  */
 void symbol_class_set (symbol *sym, symbol_class class, location loc,
-		       bool declaring);
+                       bool declaring);
 
 /** Set the \c user_token_number associated with \c sym.  */
 void symbol_user_token_number_set (symbol *sym, int user_number, location loc);

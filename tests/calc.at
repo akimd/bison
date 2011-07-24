@@ -249,7 +249,7 @@ int yylex (]AT_LEX_FORMALS[);
 %token <ival> NUM "number"
 %type  <ival> exp
 
-%nonassoc '='   /* comparison	       */
+%nonassoc '='   /* comparison          */
 %left '-' '+'
 %left '*' '/'
 %precedence NEG /* negation--unary minus */
@@ -332,10 +332,10 @@ AT_YYERROR_SEES_LOC_IF([
            AT_LOC_FIRST_LINE, AT_LOC_FIRST_COLUMN);
   if (AT_LOC_FIRST_LINE != AT_LOC_LAST_LINE)
     fprintf (stderr, "-%d.%d",
-	     AT_LOC_LAST_LINE,  AT_LOC_LAST_COLUMN - 1);
+             AT_LOC_LAST_LINE,  AT_LOC_LAST_COLUMN - 1);
   else if (AT_LOC_FIRST_COLUMN != AT_LOC_LAST_COLUMN - 1)
     fprintf (stderr, "-%d",
-	     AT_LOC_LAST_COLUMN - 1);
+             AT_LOC_LAST_COLUMN - 1);
   fprintf (stderr, ": ");])
   fprintf (stderr, "%s\n", s);
 }])[

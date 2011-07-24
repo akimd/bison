@@ -21,7 +21,7 @@
 
 # include "location.h"
 
-# ifdef	__cplusplus
+# ifdef __cplusplus
 extern "C" {
 # endif
 
@@ -86,7 +86,7 @@ void fatal_at (location loc, char const *format, ...)
 /** Whether an error was reported.  */
 extern bool complaint_issued;
 
-# ifdef	__cplusplus
+# ifdef __cplusplus
 }
 # endif
 

@@ -166,11 +166,11 @@ what it should look like.  For instance what follows crashes.
 The code in yyerrlab reads:
 
       if (yychar <= YYEOF)
-	{
-	  /* Return failure if at end of input.  */
-	  if (yychar == YYEOF)
-	    YYABORT;
-	}
+        {
+          /* Return failure if at end of input.  */
+          if (yychar == YYEOF)
+            YYABORT;
+        }
 
 There are only two yychar that can be <= YYEOF: YYEMPTY and YYEOF.
 But I can't produce the situation where yychar is YYEMPTY here, is it
@@ -280,7 +280,7 @@ Note that there remains the problem of locations: `@r'?
 We should find a means to provide an access to values deep in the
 stack.  For instance, instead of
 
-	baz: qux { $$ = $<foo>-1 + $<bar>0 + $1; }
+        baz: qux { $$ = $<foo>-1 + $<bar>0 + $1; }
 
 we should be able to have:
 
@@ -313,13 +313,13 @@ XML output for GNU Bison
 * Unit rules
 Maybe we could expand unit rules, i.e., transform
 
-	exp: arith | bool;
-	arith: exp '+' exp;
-	bool: exp '&' exp;
+        exp: arith | bool;
+        arith: exp '+' exp;
+        bool: exp '&' exp;
 
 into
 
-	exp: exp '+' exp | exp '&' exp;
+        exp: exp '+' exp | exp '&' exp;
 
 when there are no actions.  This can significantly speed up some
 grammars.  I can't find the papers.  In particular the book `LR
@@ -344,19 +344,19 @@ Wow, %printer is not documented.  Clearly mark YYPRINT as obsolete.
 * Coding system independence
 Paul notes:
 
-	Currently Bison assumes 8-bit bytes (i.e. that UCHAR_MAX is
-	255).  It also assumes that the 8-bit character encoding is
-	the same for the invocation of 'bison' as it is for the
-	invocation of 'cc', but this is not necessarily true when
-	people run bison on an ASCII host and then use cc on an EBCDIC
-	host.  I don't think these topics are worth our time
-	addressing (unless we find a gung-ho volunteer for EBCDIC or
-	PDP-10 ports :-) but they should probably be documented
-	somewhere.
+        Currently Bison assumes 8-bit bytes (i.e. that UCHAR_MAX is
+        255).  It also assumes that the 8-bit character encoding is
+        the same for the invocation of 'bison' as it is for the
+        invocation of 'cc', but this is not necessarily true when
+        people run bison on an ASCII host and then use cc on an EBCDIC
+        host.  I don't think these topics are worth our time
+        addressing (unless we find a gung-ho volunteer for EBCDIC or
+        PDP-10 ports :-) but they should probably be documented
+        somewhere.
 
-	More importantly, Bison does not currently allow NUL bytes in
-	tokens, either via escapes (e.g., "x\0y") or via a NUL byte in
-	the source code.  This should get fixed.
+        More importantly, Bison does not currently allow NUL bytes in
+        tokens, either via escapes (e.g., "x\0y") or via a NUL byte in
+        the source code.  This should get fixed.
 
 * --graph
 Show reductions.
