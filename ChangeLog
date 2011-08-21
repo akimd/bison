@@ -1,5 +1,11 @@
 2011-08-21  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	lalr1.cc: remove trailing comma from enumerator list.
+	* data/lalr1.cc (yy::parser): Here.  This suppresses a -pedantic
+	warning.
+
+2011-08-21  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	tests: add -pedantic for --enable-gcc-warnings.
 	This should help to avoid some portability problems.  For example,
 	it would have revealed the empty unions fixed by the last patch

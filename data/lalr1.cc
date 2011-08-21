@@ -336,7 +336,7 @@ b4_namespace_close])[
       yyfinal_ = ]b4_final_state_number[, //< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = ]b4_tokens_number[,   //< Number of tokens.
+      yyntokens_ = ]b4_tokens_number[    //< Number of tokens.
     };
 
 ]b4_parse_param_vars[
