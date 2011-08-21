@@ -1,5 +1,14 @@
 2011-08-21  Joel E. Denny  <joeldenny@joeldenny.org>
 
+	tests: add -pedantic for --enable-gcc-warnings.
+	This should help to avoid some portability problems.  For example,
+	it would have revealed the empty unions fixed by the last patch
+	* configure.ac (WARN_CFLAGS_TESTS, WARN_CXXFLAGS_TEST): Implement.
+	* tests/synclines.at (AT_TEST_SYNCLINE): Avoid -pedantic warning
+	about an empty translation unit.
+
+2011-08-21  Joel E. Denny  <joeldenny@joeldenny.org>
+
 	tests: fix empty unions.
 	Empty unions are not accepted by the ISO C99 grammar or by at
 	least some versions of Sun Studio.  Reported by Wolfgang S. Kechel
