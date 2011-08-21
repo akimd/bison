@@ -88,6 +88,7 @@ m4_define([AT_TEST_SYNCLINE],
 
 AT_DATA([syncline.c],
 [[#error "1"
+int i; // avoids -pedantic warning about an empty translation unit
 ]])
 
 AT_SYNCLINES_COMPILE([syncline.c])
