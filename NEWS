@@ -62,6 +62,8 @@ Bison News
 
 * Changes in version 2.5.1 (????-??-??):
 
+** Some portability problems in the test suite have been fixed.
+
 ** Minor improvements have been made to the manual.
 
 * Changes in version 2.5 (2011-05-14):
