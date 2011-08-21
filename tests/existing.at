@@ -778,8 +778,7 @@ dnl In the case of the syntax error, the parser recovers, so it returns 0.
 # It reported 80 SR && 99 RR conflicts instead of 78/10!!!
 
 AT_TEST_EXISTING_GRAMMAR([[GNU Cim Grammar]],
-[[%union {}
-
+[[
 %token
 	HACTIVATE HAFTER /*HAND*/ HARRAY HAT
 	HBEFORE HBEGIN HBOOLEAN
@@ -1400,7 +1399,6 @@ State 427 conflicts: 9 shift/reduce, 2 reduce/reduce
 
 AT_TEST_EXISTING_GRAMMAR([[GNU pic (Groff 1.18.1) Grammar]],
 [[%error-verbose
-%union {}
 
 %token LABEL
 %token VARIABLE
@@ -1950,7 +1948,7 @@ dnl without being followed by "of".)
 [[VARIABLE, '=', LABEL, LEFT, DOT_X]],
 
 dnl BISON-STDERR
-[[input.y:471.11-48: warning: rule useless in parser due to conflicts: path: ORDINAL LAST object_type relative_path
+[[input.y:470.11-48: warning: rule useless in parser due to conflicts: path: ORDINAL LAST object_type relative_path
 ]],
 
 dnl LAST-STATE
