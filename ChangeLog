@@ -1,3 +1,11 @@
+2012-01-06  Jim Meyering  <meyering@redhat.com>
+
+	build: avoid warnings about set-but-not-used variables
+	* lib/bitset_stats.c (bitset_stats_list): Remove declaration
+	and set of unused local, "type".
+	* lib/ebitset.c (ebitset_init): Likewise, for "size".
+	* lib/lbitset.c (lbitset_not): Likewise, for "elt".
+
 2011-08-21  Joel E. Denny  <joeldenny@joeldenny.org>
 
 	lalr1.cc: remove trailing comma from enumerator list.
