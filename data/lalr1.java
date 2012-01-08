@@ -498,8 +498,6 @@ b4_lexer_if([[
     /// Semantic value of the lookahead.
     b4_yystype[ yylval = null;
 
-    int yyresult;
-
     yycdebug ("Starting parse\n");
     yyerrstatus_ = 0;
 

@@ -1,3 +1,8 @@
+2012-01-11  Tim Landscheidt  <tim@tim-landscheidt.de>
+
+	java: remove used variable.
+	* data/lalr1.java (yyresult): remove, unused.
+
 2012-01-11  Akim Demaille  <demaille@gostai.com>
 
 	scanner: fix typo.
