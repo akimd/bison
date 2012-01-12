@@ -1,3 +1,9 @@
+2012-01-12  Jim Meyering  <meyering@redhat.com>
+
+	build: avoid warning from coverity about lbitset_elt_find
+	* lib/lbitset.c (lbitset_elt_find): Remove unnecessary test of "elt",
+	at a point where we know it is non-NULL, due to prior dereference.
+
 2012-01-13  Jim Meyering  <meyering@redhat.com>
 
 	maint: get fdl.texi from gnulib
