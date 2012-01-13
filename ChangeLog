@@ -1,5 +1,10 @@
 2012-01-13  Akim Demaille  <akim@lrde.epita.fr>
 
+	maint: factor copyright year.
+	* configure.ac: Use $PACKAGE_COPYRIGHT_YEAR instead of repeating it.
+
+2012-01-13  Akim Demaille  <akim@lrde.epita.fr>
+
 	maint: catch missing gnulib macros.
 	* configure.ac: Add m4_pattern_forbid.
 
