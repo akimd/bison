@@ -1,5 +1,12 @@
 2012-01-15  Jim Meyering  <meyering@redhat.com>
 
+	maint: get fdl.texi from gnulib
+	* bootstrap.conf (gnulib_modules): Add fdl.
+	* doc/fdl.texi: Remove file.
+	* doc/.gitignore: Add it here.
+
+2012-01-15  Jim Meyering  <meyering@redhat.com>
+
 	maint: spell "file system" as two separate words
 	* doc/Doxyfile.in: Spell it "file system", to avoid a
 	"make syntax-check" failure.
