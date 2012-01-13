@@ -1,6 +1,6 @@
 /* Declaration for error-reporting function for Bison.
 
-   Copyright (C) 2000-2002, 2006, 2009-2011 Free Software Foundation,
+   Copyright (C) 2000-2002, 2006, 2009-2012 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
