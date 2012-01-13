@@ -1,3 +1,11 @@
+2012-01-15  Jim Meyering  <meyering@redhat.com>
+
+	maint: avoid "the the"
+	* djgpp/README.in: s/the the/the/
+	* src/parse-gram.c (lloc_default): Likewise.
+	* src/parse-gram.y (lloc_default): Likewise, and remove a
+	trailing space.
+
 2012-01-13  Jim Meyering  <meyering@redhat.com>
 
 	build: avoid warning from coverity about lbitset_elt_find

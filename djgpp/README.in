@@ -84,7 +84,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	some more work to unpack, if LFN support is not available.  If LFN is
 	available then you can extract the source files from the archive with
 	any unzip program and proceed to the paragraph 3.3, below.  Any file
-	name issue will be handled by the the DJGPP configuration files.
+	name issue will be handled by the DJGPP configuration files.
 	To unpack the source distribution on SFN systems, first, you MUST use
 	the `djunpack' batch file to unzip the package.  That is because some
 	file names in the official distributions need to be changed to avoid
