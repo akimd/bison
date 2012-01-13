@@ -1,4 +1,3 @@
-
 /*.info*
 /*~
 /.dirstamp
@@ -19,6 +18,7 @@
 /bison.tp
 /bison.vr
 /cross-options.texi
+/fdl.texi
 /gendocs_template
 /refcard.dvi
 /refcard.log
@@ -26,4 +26,3 @@
 /stamp-vti
 /version.texi
 /yacc.1
-
