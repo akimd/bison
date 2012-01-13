@@ -20,7 +20,8 @@
 # keyword in at least string.h from gnulib.  We need Autoconf 2.68 or
 # better to avoid a typo in the `configure --help' entry for the YACC
 # environment variable.
-AC_PREREQ(2.68)
+AC_PREREQ([2.68])
+m4_pattern_forbid([^gl_[A-Z]])
 
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
