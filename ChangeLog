@@ -1,3 +1,9 @@
+2012-01-15  Akim Demaille  <demaille@gostai.com>
+
+	java: fix reduction traces.
+	* data/lalr1.java (yy_reduce_print): Fix state index.
+	Reported by Tim Landscheidt.
+
 2012-01-12  Jim Meyering  <meyering@redhat.com>
 
 	build: avoid warning from coverity about lbitset_elt_find
