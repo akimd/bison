@@ -108,7 +108,7 @@ static void unexpected_newline (boundary, char const *);
  /* Four types of user code:
     - prologue (code between `%{' `%}' in the first section, before %%);
     - actions, printers, union, etc, (between braced in the middle section);
-    - epilogue (everything after the second %%). 
+    - epilogue (everything after the second %%).
     - predicate (code between `%?{' and `{' in middle section); */
 %x SC_PROLOGUE SC_BRACED_CODE SC_EPILOGUE SC_PREDICATE
  /* C and C++ comments in code. */
