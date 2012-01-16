@@ -36,7 +36,9 @@ url_dir_list = \
 # Exclude changelog-check here so that there's less churn in ChangeLog
 # files -- otherwise, you'd need to have the upcoming version number
 # at the top of the file for each `make distcheck' run.
-local-checks-to-skip = changelog-check
+local-checks-to-skip = \
+  changelog-check \
+  sc_immutable_NEWS
 
 # The local directory containing the checked-out copy of gnulib used in
 # this release.  Used solely to get a date for the "announcement" target.
@@ -51,3 +53,5 @@ announcement_Cc_ = \
 update-copyright: update-b4-copyright update-package-copyright-year
 update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
+
+exclude_file_name_regexp--sc_space_tab = ^tests/(input|c\+\+)\.at$$
