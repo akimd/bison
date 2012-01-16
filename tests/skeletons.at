@@ -160,7 +160,7 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[<skeleton default value>: invalid value for %define Boolean variable `foo'
+[[<skeleton default value>: invalid value for %define Boolean variable 'foo'
 ]])
 
 AT_CLEANUP
@@ -228,7 +228,7 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input3.y]], [[1]], [[]],
-[[input3.y: fatal error: undefined %define variable `bogus' passed to b4_percent_define_get_loc
+[[input3.y: fatal error: undefined %define variable 'bogus' passed to b4_percent_define_get_loc
 ]])
 
 AT_DATA([[skel4.c]],
@@ -242,7 +242,7 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input4.y]], [[1]], [[]],
-[[input4.y: fatal error: undefined %define variable `bogus' passed to b4_percent_define_get_syncline
+[[input4.y: fatal error: undefined %define variable 'bogus' passed to b4_percent_define_get_syncline
 ]])
 
 AT_CLEANUP

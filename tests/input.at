@@ -832,10 +832,10 @@ AT_DATA([input-c.y],
 start: ;
 ]])
 AT_BISON_CHECK([[input-c.y]], [[1]], [],
-[[input-c.y:1.7: %code qualifier `q' is not used
-input-c.y:2.7-9: %code qualifier `bad' is not used
-input-c.y:3.7-9: %code qualifier `bad' is not used
-input-c.y:4.7-12: %code qualifier `format' is not used
+[[input-c.y:1.7: %code qualifier 'q' is not used
+input-c.y:2.7-9: %code qualifier 'bad' is not used
+input-c.y:3.7-9: %code qualifier 'bad' is not used
+input-c.y:4.7-12: %code qualifier 'format' is not used
 ]])
 
 AT_DATA([input-c-glr.y],
@@ -846,9 +846,9 @@ AT_DATA([input-c-glr.y],
 start: ;
 ]])
 AT_BISON_CHECK([[input-c-glr.y]], [[1]], [],
-[[input-c-glr.y:1.7: %code qualifier `q' is not used
-input-c-glr.y:2.7-9: %code qualifier `bad' is not used
-input-c-glr.y:3.8-10: %code qualifier `bad' is not used
+[[input-c-glr.y:1.7: %code qualifier 'q' is not used
+input-c-glr.y:2.7-9: %code qualifier 'bad' is not used
+input-c-glr.y:3.8-10: %code qualifier 'bad' is not used
 ]])
 
 AT_DATA([input-c++.y],
@@ -859,9 +859,9 @@ AT_DATA([input-c++.y],
 start: ;
 ]])
 AT_BISON_CHECK([[input-c++.y]], [[1]], [],
-[[input-c++.y:1.7: %code qualifier `q' is not used
-input-c++.y:2.7-9: %code qualifier `bad' is not used
-input-c++.y:3.8: %code qualifier `q' is not used
+[[input-c++.y:1.7: %code qualifier 'q' is not used
+input-c++.y:2.7-9: %code qualifier 'bad' is not used
+input-c++.y:3.8: %code qualifier 'q' is not used
 ]])
 
 AT_DATA([input-c++-glr.y],
@@ -872,9 +872,9 @@ AT_DATA([input-c++-glr.y],
 start: ;
 ]])
 AT_BISON_CHECK([[input-c++-glr.y]], [[1]], [],
-[[input-c++-glr.y:1.7-9: %code qualifier `bad' is not used
-input-c++-glr.y:2.7: %code qualifier `q' is not used
-input-c++-glr.y:3.7: %code qualifier `q' is not used
+[[input-c++-glr.y:1.7-9: %code qualifier 'bad' is not used
+input-c++-glr.y:2.7: %code qualifier 'q' is not used
+input-c++-glr.y:3.7: %code qualifier 'q' is not used
 ]])
 
 AT_DATA([special-char-@@.y],
@@ -885,9 +885,9 @@ AT_DATA([special-char-@@.y],
 start: ;
 ]])
 AT_BISON_CHECK([[special-char-@@.y]], [[1]], [],
-[[special-char-@@.y:1.7-9: %code qualifier `bad' is not used
-special-char-@@.y:2.7: %code qualifier `q' is not used
-special-char-@@.y:3.7: %code qualifier `q' is not used
+[[special-char-@@.y:1.7-9: %code qualifier 'bad' is not used
+special-char-@@.y:2.7: %code qualifier 'q' is not used
+special-char-@@.y:3.7: %code qualifier 'q' is not used
 ]])
 
 AT_DATA([special-char-@:>@.y],
@@ -898,9 +898,9 @@ AT_DATA([special-char-@:>@.y],
 start: ;
 ]])
 AT_BISON_CHECK([[special-char-@:>@.y]], [[1]], [],
-[[special-char-@:>@.y:1.7-9: %code qualifier `bad' is not used
-special-char-@:>@.y:2.7: %code qualifier `q' is not used
-special-char-@:>@.y:3.7: %code qualifier `q' is not used
+[[special-char-@:>@.y:1.7-9: %code qualifier 'bad' is not used
+special-char-@:>@.y:2.7: %code qualifier 'q' is not used
+special-char-@:>@.y:3.7: %code qualifier 'q' is not used
 ]])
 
 AT_CLEANUP
@@ -923,9 +923,9 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input-redefined.y]], [[1]], [],
-[[input-redefined.y:2.9-11: %define variable `var' redefined
+[[input-redefined.y:2.9-11: %define variable 'var' redefined
 input-redefined.y:1.9-11: previous definition
-input-redefined.y:3.10-12: %define variable `var' redefined
+input-redefined.y:3.10-12: %define variable 'var' redefined
 input-redefined.y:2.9-11: previous definition
 ]])
 
@@ -936,7 +936,7 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input-unused.y]], [[1]], [],
-[[input-unused.y:1.9-11: %define variable `var' is not used
+[[input-unused.y:1.9-11: %define variable 'var' is not used
 ]])
 
 AT_CLEANUP
@@ -980,7 +980,7 @@ AT_DATA([[input-dg.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
-[[input-dg.y:1.9-11: %define variable `var' redefined
+[[input-dg.y:1.9-11: %define variable 'var' redefined
 <command line>:2: previous definition
 ]])
 
@@ -989,8 +989,8 @@ AT_DATA([[input-unused.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[-Dunused-d -Funused-f input-unused.y]], [[1]], [],
-[[<command line>:2: %define variable `unused-d' is not used
-<command line>:3: %define variable `unused-f' is not used
+[[<command line>:2: %define variable 'unused-d' is not used
+<command line>:3: %define variable 'unused-f' is not used
 ]])
 
 AT_CLEANUP
@@ -1010,7 +1010,7 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[Input.y]], [1], [],
-[[Input.y:2.9-14: invalid value for %define Boolean variable `public'
+[[Input.y:2.9-14: invalid value for %define Boolean variable 'public'
 ]])
 
 AT_CLEANUP
@@ -1028,10 +1028,10 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[input.y:1.9-29: invalid value for %define variable `lr.default-reductions': `bogus'
-input.y:1.9-29: accepted value: `most'
-input.y:1.9-29: accepted value: `consistent'
-input.y:1.9-29: accepted value: `accepting'
+[[input.y:1.9-29: invalid value for %define variable 'lr.default-reductions': 'bogus'
+input.y:1.9-29: accepted value: 'most'
+input.y:1.9-29: accepted value: 'consistent'
+input.y:1.9-29: accepted value: 'accepting'
 ]])
 
 # Back-end.
@@ -1041,10 +1041,10 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:1.9-21: invalid value for %define variable `api.push-pull': `neither'
-input.y:1.9-21: accepted value: `pull'
-input.y:1.9-21: accepted value: `push'
-input.y:1.9-21: accepted value: `both'
+[[input.y:1.9-21: invalid value for %define variable 'api.push-pull': 'neither'
+input.y:1.9-21: accepted value: 'pull'
+input.y:1.9-21: accepted value: 'push'
+input.y:1.9-21: accepted value: 'both'
 ]])
 
 AT_CLEANUP
@@ -1064,10 +1064,10 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:1.9-21: invalid value for %define variable `api.push-pull': `neither'
-input.y:1.9-21: accepted value: `pull'
-input.y:1.9-21: accepted value: `push'
-input.y:1.9-21: accepted value: `both'
+[[input.y:1.9-21: invalid value for %define variable 'api.push-pull': 'neither'
+input.y:1.9-21: accepted value: 'pull'
+input.y:1.9-21: accepted value: 'push'
+input.y:1.9-21: accepted value: 'both'
 ]])
 
 AT_DATA([[input.y]],
@@ -1076,7 +1076,7 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:1.9-34: invalid value for %define Boolean variable `lr.keep-unreachable-states'
+[[input.y:1.9-34: invalid value for %define Boolean variable 'lr.keep-unreachable-states'
 ]])
 
 AT_DATA([[input.y]],
@@ -1086,7 +1086,7 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:2.9-21: %define variable `api.namespace' redefined
+[[input.y:2.9-21: %define variable 'api.namespace' redefined
 input.y:1.9-17: previous definition
 ]])
 
@@ -1096,7 +1096,7 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [[1]], [],
-[[input.y:1.9-15: %define variable `foo_bar' is not used
+[[input.y:1.9-15: %define variable 'foo_bar' is not used
 ]])
 
 AT_CLEANUP
@@ -1121,7 +1121,7 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[1]], [],
-[[input.y:1.9-16: %define variable `api.pure' is not used
+[[input.y:1.9-16: %define variable 'api.pure' is not used
 ]])
 ])
 
@@ -1306,11 +1306,11 @@ start: ;
 # parse.lac.* options are useless if LAC isn't actually activated.
 AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 input.y]],
                [[1]], [],
-[[<command line>:2: %define variable `parse.lac.es-capacity-initial' is not used
+[[<command line>:2: %define variable 'parse.lac.es-capacity-initial' is not used
 ]])
 AT_BISON_CHECK([[-Dparse.lac.memory-trace=full input.y]],
                [[1]], [],
-[[<command line>:2: %define variable `parse.lac.memory-trace' is not used
+[[<command line>:2: %define variable 'parse.lac.memory-trace' is not used
 ]])
 
 AT_CLEANUP

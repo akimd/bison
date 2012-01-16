@@ -88,7 +88,7 @@ m4_if(m4_sysval, [0], [], [m4_fatal([$0: cannot write to stdout])])])
 #
 # For example:
 #
-#   b4_error([[warn]], [[invalid value for `%s': %s]], [[foo]], [[3]])
+#   b4_error([[warn]], [[invalid value for '%s': %s]], [[foo]], [[3]])
 m4_define([b4_error],
 [b4_cat([[@]$1[(]$2[]]dnl
 [m4_if([$#], [2], [],
@@ -117,7 +117,7 @@ m4_define([b4_error_at],
 #
 # For example:
 #
-#   b4_warn([[invalid value for `%s': %s]], [[foo]], [[3]])
+#   b4_warn([[invalid value for '%s': %s]], [[foo]], [[3]])
 #
 # As a simple test suite, this:
 #
@@ -542,7 +542,7 @@ m4_pushdef([b4_start], m4_car(m4_shift(b4_occurrence)))dnl
 m4_pushdef([b4_end], m4_shift(m4_shift(b4_occurrence)))dnl
 m4_ifndef($3[(]m4_quote(b4_user_name)[)],
           [b4_complain_at([b4_start], [b4_end],
-                          [[%s `%s' is not used]],
+                          [[%s '%s' is not used]],
                           [$1], [b4_user_name])])[]dnl
 m4_popdef([b4_occurrence])dnl
 m4_popdef([b4_user_name])dnl
@@ -598,7 +598,7 @@ m4_define([b4_percent_define_get_loc],
           [m4_pushdef([b4_loc], m4_indir([b4_percent_define_loc(]$1[)]))dnl
 b4_loc[]dnl
 m4_popdef([b4_loc])],
-          [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_get_loc]], [$1])])])
+          [b4_fatal([[undefined %%define variable '%s' passed to b4_percent_define_get_loc]], [$1])])])
 
 # b4_percent_define_get_syncline(VARIABLE)
 # ----------------------------------------
@@ -615,7 +615,7 @@ m4_popdef([b4_loc])],
 m4_define([b4_percent_define_get_syncline],
 [m4_ifdef([b4_percent_define_syncline(]$1[)],
           [m4_indir([b4_percent_define_syncline(]$1[)])],
-          [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_get_syncline]], [$1])])])
+          [b4_fatal([[undefined %%define variable '%s' passed to b4_percent_define_get_syncline]], [$1])])])
 
 # b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
@@ -656,10 +656,10 @@ m4_define([b4_percent_define_flag_if],
   [m4_case(b4_percent_define_get([$1]),
            [], [$2], [true], [$2], [false], [$3],
            [m4_expand_once([b4_complain_at(b4_percent_define_get_loc([$1]),
-                                           [[invalid value for %%define Boolean variable `%s']],
+                                           [[invalid value for %%define Boolean variable '%s']],
                                            [$1])],
                            [[b4_percent_define_flag_if($1)]])])],
-  [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_flag_if]], [$1])])])
+  [b4_fatal([[undefined %%define variable '%s' passed to b4_percent_define_flag_if]], [$1])])])
 
 
 # b4_percent_define_default(VARIABLE, DEFAULT)
@@ -723,15 +723,15 @@ m4_define([_b4_percent_define_check_values],
                             [m4_define([b4_good_value], [1])])])])dnl
    m4_if(b4_good_value, [0],
          [b4_complain_at(b4_percent_define_get_loc([$1]),
-                         [[invalid value for %%define variable `%s': `%s']],
+                         [[invalid value for %%define variable '%s': '%s']],
                          [$1],
                          m4_dquote(m4_indir([b4_percent_define(]$1[)])))
           m4_foreach([b4_value], m4_dquote(m4_shift($@)),
                      [b4_complain_at(b4_percent_define_get_loc([$1]),
-                                     [[accepted value: `%s']],
+                                     [[accepted value: '%s']],
                                      m4_dquote(b4_value))])])dnl
    m4_popdef([b4_good_value])],
-  [b4_fatal([[undefined %%define variable `%s' passed to b4_percent_define_check_values]], [$1])])])
+  [b4_fatal([[undefined %%define variable '%s' passed to b4_percent_define_check_values]], [$1])])])
 
 # b4_percent_code_get([QUALIFIER])
 # --------------------------------

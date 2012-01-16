@@ -163,7 +163,7 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[1]], [],
-[[input.y:2.9-21: %define variable `api.push-pull' is not used
+[[input.y:2.9-21: %define variable 'api.push-pull' is not used
 ]])
 
 AT_CLEANUP
