@@ -157,3 +157,12 @@
 /xsize.m4
 /xstrndup.m4
 
+/fstat.m4
+/largefile.m4
+/ldexp.m4
+/msvc-inval.m4
+/msvc-nothrow.m4
+/pathmax.m4
+/raise.m4
+/ssize_t.m4
+/strerror_r.m4

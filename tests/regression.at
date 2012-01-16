@@ -162,7 +162,7 @@ AT_CLEANUP
 AT_SETUP([Braces parsing])
 
 AT_DATA([input.y],
-[[/* Bison used to swallow the character after `}'. */
+[[/* Bison used to swallow the character after '}'. */
 
 %%
 exp: { tests = {{{{{{{{{{}}}}}}}}}}; };
@@ -184,7 +184,7 @@ AT_CLEANUP
 AT_SETUP([Duplicate string])
 
 AT_DATA([input.y],
-[[/* `Bison -v' used to dump core when two tokens are defined with the same
+[[/* 'Bison -v' used to dump core when two tokens are defined with the same
    string, as LE and GE below. */
 
 %token NUM
@@ -197,7 +197,7 @@ exp: '(' exp ')' | NUM ;
 ]])
 
 AT_BISON_CHECK([-v -o input.c input.y], 0, [],
-[[input.y:6.8-14: warning: symbol `"<="' used more than once as a literal string
+[[input.y:6.8-14: warning: symbol '"<="' used more than once as a literal string
 ]])
 
 AT_CLEANUP
@@ -387,14 +387,14 @@ default: 'a' }
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:2.1: invalid character: `?'
-input.y:3.14: invalid character: `}'
-input.y:4.1: invalid character: `%'
-input.y:4.2: invalid character: `&'
-input.y:5.1-17: invalid directive: `%a-does-not-exist'
-input.y:6.1: invalid character: `%'
-input.y:6.2: invalid character: `-'
-input.y:7.1-8.0: missing `%}' at end of file
+[[input.y:2.1: invalid character: '?'
+input.y:3.14: invalid character: '}'
+input.y:4.1: invalid character: '%'
+input.y:4.2: invalid character: '&'
+input.y:5.1-17: invalid directive: '%a-does-not-exist'
+input.y:6.1: invalid character: '%'
+input.y:6.2: invalid character: '-'
+input.y:7.1-8.0: missing '%}' at end of file
 input.y:7.1-8.0: syntax error, unexpected %{...%}
 ]])
 
@@ -428,7 +428,7 @@ AT_CLEANUP
 
 AT_SETUP([Token definitions])
 
-# Bison managed, when fed with `%token 'f' "f"' to #define 'f'!
+# Bison managed, when fed with '%token 'f' "f"' to #define 'f'!
 AT_DATA_GRAMMAR([input.y],
 [%{
 #include <stdlib.h>
@@ -475,7 +475,7 @@ main (void)
 # the user specification is eliminated.
 AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared
-input.y:22.8-63: warning: symbol `"\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!"' used more than once as a literal string
+input.y:22.8-63: warning: symbol '"\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!"' used more than once as a literal string
 ]])
 AT_COMPILE([input])
 
@@ -524,7 +524,7 @@ AT_CLEANUP
 
 # The generation of the reduction was once wrong in Bison, and made it
 # miss some reductions.  In the following test case, the reduction on
-# `undef_id_tok' in state 1 was missing.  This is stripped down from
+# 'undef_id_tok' in state 1 was missing.  This is stripped down from
 # the actual web2c.y.
 
 AT_SETUP([Web2c Report])
@@ -686,7 +686,7 @@ AT_CLEANUP
 ## Web2c Actions.  ##
 ## --------------- ##
 
-# The generation of the mapping `state -> action' was once wrong in
+# The generation of the mapping 'state -> action' was once wrong in
 # extremely specific situations.  web2c.y exhibits this situation.
 # Below is a stripped version of the grammar.  It looks like one can
 # simplify it further, but just don't: it is tuned to exhibit a bug,
@@ -1157,7 +1157,7 @@ AT_SETUP([[Extra lookahead sets in report]])
 # state's one item that (1) is associated with the same rule as the reduction
 # and (2) has its dot at the end of its RHS.  Previously, Bison also
 # erroneously printed the lookahead set next to all of the state's other items
-# associated with the same rule.  This bug affected only the `.output' file and
+# associated with the same rule.  This bug affected only the '.output' file and
 # not the generated parser source code.
 
 AT_DATA([[input.y]],
