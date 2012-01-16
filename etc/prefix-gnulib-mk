@@ -26,7 +26,7 @@ sub prefix_word ($)
 {
   local ($_) = @_;
   $_ = $prefix . $_
-    unless m{^\$\(\w+\)} || $_ eq "Makefile";
+    unless /^-/ || m{^\$\(\w+\)} || $_ eq "Makefile" || $_ eq '\\';
   return $_;
 }
 

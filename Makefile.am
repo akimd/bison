@@ -37,6 +37,9 @@ BUILT_SOURCES =
 DISTCLEANFILES =
 MOSTLYCLEANFILES =
 SUFFIXES =
+noinst_LIBRARIES =
+MOSTLYCLEANDIRS =
+
 include build-aux/local.mk
 include data/local.mk
 include djgpp/local.mk
