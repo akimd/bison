@@ -1178,8 +1178,8 @@ Another Bison feature requiring special consideration is @code{YYERROR}
 initiate error recovery.
 During deterministic GLR operation, the effect of @code{YYERROR} is
 the same as its effect in a deterministic parser.
-The effect in a deferred action is similar, but the precise point of the 
-error is undefined;  instead, the parser reverts to deterministic operation, 
+The effect in a deferred action is similar, but the precise point of the
+error is undefined;  instead, the parser reverts to deterministic operation,
 selecting an unspecified stack on which to continue with a syntax error.
 In a semantic predicate (see @ref{Semantic Predicates}) during nondeterministic
 parsing, @code{YYERROR} silently prunes
@@ -1210,12 +1210,12 @@ widget :
 @end smallexample
 
 @noindent
-is one way to allow the same parser to handle two different syntaxes for 
+is one way to allow the same parser to handle two different syntaxes for
 widgets.  The clause preceded by @code{%?} is treated like an ordinary
 action, except that its text is treated as an expression and is always
-evaluated immediately (even when in nondeterministic mode).  If the 
+evaluated immediately (even when in nondeterministic mode).  If the
 expression yields 0 (false), the clause is treated as a syntax error,
-which, in a nondeterministic parser, causes the stack in which it is reduced 
+which, in a nondeterministic parser, causes the stack in which it is reduced
 to die.  In a deterministic parser, it acts like YYERROR.
 
 As the example shows, predicates otherwise look like semantic actions, and
@@ -1226,7 +1226,7 @@ labels.
 
 There is a subtle difference between semantic predicates and ordinary
 actions in nondeterministic mode, since the latter are deferred.
-For example, we could try to rewrite the previous example as 
+For example, we could try to rewrite the previous example as
 
 @smallexample
 widget :
@@ -1240,7 +1240,7 @@ widget :
 false).  However, this
 does @emph{not} have the same effect if @code{new_args} and @code{old_args}
 have overlapping syntax.
-Since the mid-rule actions testing @code{new_syntax} are deferred, 
+Since the mid-rule actions testing @code{new_syntax} are deferred,
 a GLR parser first encounters the unresolved ambiguous reduction
 for cases where @code{new_args} and @code{old_args} recognize the same string
 @emph{before} performing the tests of @code{new_syntax}.  It therefore
@@ -7745,7 +7745,7 @@ that allows variable-length arrays.  The default is 200.
 Do not allow @code{YYINITDEPTH} to be greater than @code{YYMAXDEPTH}.
 
 You can generate a deterministic parser containing C++ user code from
-the default (C) skeleton, as well as from the C++ skeleton 
+the default (C) skeleton, as well as from the C++ skeleton
 (@pxref{C++ Parsers}).  However, if you do use the default skeleton
 and want to allow the parsing stack to grow,
 be careful not to use semantic types or location types that require
@@ -10937,7 +10937,7 @@ transcript of the build session, starting with the invocation of
 send additional files as well (such as `config.h' or `config.cache').
 
 Patches are most welcome, but not required.  That is, do not hesitate to
-send a bug report just because you can not provide a fix.
+send a bug report just because you cannot provide a fix.
 
 Send bug reports to @email{bug-bison@@gnu.org}.
 
