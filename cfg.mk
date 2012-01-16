@@ -55,3 +55,4 @@ update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
 
 exclude_file_name_regexp--sc_space_tab = ^tests/(input|c\+\+)\.at$$
+exclude_file_name_regexp--sc_require_config_h_first = ^data/(glr|yacc)\.c$$
