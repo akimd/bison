@@ -10308,7 +10308,7 @@ transcript of the build session, starting with the invocation of
 send additional files as well (such as `config.h' or `config.cache').
 
 Patches are most welcome, but not required.  That is, do not hesitate to
-send a bug report just because you can not provide a fix.
+send a bug report just because you cannot provide a fix.
 
 Send bug reports to @email{bug-bison@@gnu.org}.
 
