@@ -140,7 +140,7 @@
 1996-05-12  Jim Meyering  <meyering@na-net.ornl.gov>
 
 	* src/bison.simple (__yy_memcpy) [__cplusplus]: Reorder declarations
- 	of variables f and t.
+	of variables f and t.
 
 1996-05-11  Richard Stallman  <rms@delasyd.gnu.ai.mit.edu>
 
