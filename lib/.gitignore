@@ -243,3 +243,19 @@
 /xstrndup.c
 /xstrndup.h
 
+/c-strcaseeq.h
+/fd-hook.c
+/fd-hook.h
+/float.c
+/fstat.c
+/itold.c
+/msvc-inval.c
+/msvc-inval.h
+/msvc-nothrow.c
+/msvc-nothrow.h
+/pathmax.h
+/raise.c
+/strerror-override.c
+/strerror-override.h
+/strerror_r.c
+/xalloc-oversized.h

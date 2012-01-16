@@ -100,16 +100,16 @@ static void unexpected_newline (boundary, char const *);
  /* Strings and characters in directives/rules. */
 %x SC_ESCAPED_STRING SC_ESCAPED_CHARACTER
  /* A identifier was just read in directives/rules.  Special state
-    to capture the sequence `identifier :'. */
+    to capture the sequence 'identifier :'. */
 %x SC_AFTER_IDENTIFIER
  /* A complex tag, with nested angles brackets. */
 %x SC_TAG
 
  /* Four types of user code:
-    - prologue (code between `%{' `%}' in the first section, before %%);
+    - prologue (code between '%{' '%}' in the first section, before %%);
     - actions, printers, union, etc, (between braced in the middle section);
     - epilogue (everything after the second %%).
-    - predicate (code between `%?{' and `{' in middle section); */
+    - predicate (code between '%?{' and '{' in middle section); */
 %x SC_PROLOGUE SC_BRACED_CODE SC_EPILOGUE SC_PREDICATE
  /* C and C++ comments in code. */
 %x SC_COMMENT SC_LINE_COMMENT
@@ -164,7 +164,7 @@ splice   (\\[ \f\t\v]*\n)*
 <INITIAL,SC_AFTER_IDENTIFIER,SC_BRACKETED_ID,SC_RETURN_BRACKETED_ID>
 {
   /* Comments and white space.  */
-  ","          warn_at (*loc, _("stray `,' treated as white space"));
+  ","          warn_at (*loc, _("stray ',' treated as white space"));
   [ \f\n\t\v]  |
   "//".*       ;
   "/*" {
@@ -440,7 +440,7 @@ splice   (\\[ \f\t\v]*\n)*
 
 
   /*---------------------------------------------------------------.
-  | Scanning a Yacc comment.  The initial `/ *' is already eaten.  |
+  | Scanning a Yacc comment.  The initial '/ *' is already eaten.  |
   `---------------------------------------------------------------*/
 
 <SC_YACC_COMMENT>
@@ -452,7 +452,7 @@ splice   (\\[ \f\t\v]*\n)*
 
 
   /*------------------------------------------------------------.
-  | Scanning a C comment.  The initial `/ *' is already eaten.  |
+  | Scanning a C comment.  The initial '/ *' is already eaten.  |
   `------------------------------------------------------------*/
 
 <SC_COMMENT>
@@ -463,7 +463,7 @@ splice   (\\[ \f\t\v]*\n)*
 
 
   /*--------------------------------------------------------------.
-  | Scanning a line comment.  The initial `//' is already eaten.  |
+  | Scanning a line comment.  The initial '//' is already eaten.  |
   `--------------------------------------------------------------*/
 
 <SC_LINE_COMMENT>
@@ -707,8 +707,8 @@ splice   (\\[ \f\t\v]*\n)*
   "{"|"<"{splice}"%"  STRING_GROW; nesting++;
   "%"{splice}">"      STRING_GROW; nesting--;
 
-  /* Tokenize `<<%' correctly (as `<<' `%') rather than incorrrectly
-     (as `<' `<%').  */
+  /* Tokenize '<<%' correctly (as '<<' '%') rather than incorrrectly
+     (as '<' '<%').  */
   "<"{splice}"<"  STRING_GROW;
 
   <<EOF>> {
@@ -933,7 +933,7 @@ convert_ucn_to_byte (char const *ucn)
 
 
 /*----------------------------------------------------------------.
-| Handle `#line INT "FILE"'.  ARGS has already skipped `#line '.  |
+| Handle '#line INT "FILE"'.  ARGS has already skipped '#line '.  |
 `----------------------------------------------------------------*/
 
 static void
@@ -977,7 +977,7 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
 static void
 unexpected_eof (boundary start, char const *token_end)
 {
-  unexpected_end (start, N_("missing `%s' at end of file"), token_end);
+  unexpected_end (start, N_("missing '%s' at end of file"), token_end);
 }
 
 
@@ -988,7 +988,7 @@ unexpected_eof (boundary start, char const *token_end)
 static void
 unexpected_newline (boundary start, char const *token_end)
 {
-  unexpected_end (start, N_("missing `%s' at end of line"), token_end);
+  unexpected_end (start, N_("missing '%s' at end of line"), token_end);
 }
 
 

@@ -96,10 +96,10 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   int braces_level = 0;
 
   /* Whether a semicolon is probably needed.
-     The heuristic is that a semicolon is not needed after `{', `}', `;',
+     The heuristic is that a semicolon is not needed after '{', '}', ';',
      or a C preprocessor directive, and that whitespaces and comments
      do not affect this flag.
-     Note that `{' does not need a semicolon because of `{}'.
+     Note that '{' does not need a semicolon because of '{}'.
      A semicolon may be needed before a cpp direcive, but don't bother.  */
   bool need_semicolon = false;
 
@@ -118,7 +118,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 %}
 
   /*------------------------------------------------------------.
-  | Scanning a C comment.  The initial `/ *' is already eaten.  |
+  | Scanning a C comment.  The initial '/ *' is already eaten.  |
   `------------------------------------------------------------*/
 
 <SC_COMMENT>
@@ -128,7 +128,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 
   /*--------------------------------------------------------------.
-  | Scanning a line comment.  The initial `//' is already eaten.  |
+  | Scanning a line comment.  The initial '//' is already eaten.  |
   `--------------------------------------------------------------*/
 
 <SC_LINE_COMMENT>
@@ -198,12 +198,12 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     need_semicolon = true;
   }
   "$"  {
-    warn_at (*loc, _("stray `$'"));
+    warn_at (*loc, _("stray '$'"));
     obstack_sgrow (&obstack_for_string, "$][");
     need_semicolon = true;
   }
   "@"  {
-    warn_at (*loc, _("stray `@'"));
+    warn_at (*loc, _("stray '@'"));
     obstack_sgrow (&obstack_for_string, "@@");
     need_semicolon = true;
   }
@@ -221,15 +221,15 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   "}"  {
     bool outer_brace = --braces_level == 0;
 
-    /* As an undocumented Bison extension, append `;' before the last
+    /* As an undocumented Bison extension, append ';' before the last
        brace in braced code, so that the user code can omit trailing
-       `;'.  But do not append `;' if emulating Yacc, since Yacc does
+       ';'.  But do not append ';' if emulating Yacc, since Yacc does
        not append one.  */
     if (outer_brace && !yacc_flag && language_prio == default_prio
         && skeleton_prio == default_prio && need_semicolon && ! in_cpp)
       {
-        warn_at (*loc, _("a `;' might be needed at the end of action code"));
-        warn_at (*loc, _("future versions of Bison will not add the `;'"));
+        warn_at (*loc, _("a ';' might be needed at the end of action code"));
+        warn_at (*loc, _("future versions of Bison will not add the ';'"));
         obstack_1grow (&obstack_for_string, ';');
       }
 
@@ -239,8 +239,8 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
   /* Preprocessing directives should only be recognized at the beginning
      of lines, allowing whitespace including comments, but in C/C++,
-     `#' can only be the start of preprocessor directives or within
-     `#define' directives anyway, so don't bother with begin of line.  */
+     '#' can only be the start of preprocessor directives or within
+     '#define' directives anyway, so don't bother with begin of line.  */
   "#"       STRING_GROW; in_cpp = true;
 
   {splice}  STRING_GROW;
@@ -627,8 +627,8 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
             sym_loc.start.column += 1;
             sym_loc.end = sym_loc.start;
             const char *format =
-              _("syntax error after `%c', expecting integer, letter,"
-                " `_', `[', or `$'");
+              _("syntax error after '%c', expecting integer, letter,"
+                " '_', '[', or '$'");
             complain_at_indent (sym_loc, &indent, format, dollar_or_at);
           }
         else if (midrule_rhs_index)
@@ -690,7 +690,7 @@ int max_left_semantic_context = 0;
 
 
 /*------------------------------------------------------------------.
-| TEXT is pointing to a wannabee semantic value (i.e., a `$').      |
+| TEXT is pointing to a wannabee semantic value (i.e., a '$').      |
 |                                                                   |
 | Possible inputs: $[<TYPENAME>]($|integer)                         |
 |                                                                   |
@@ -755,12 +755,12 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             {
               if (rule->midrule_parent_rule)
                 complain_at (dollar_loc,
-                             _("$$ for the midrule at $%d of `%s'"
+                             _("$$ for the midrule at $%d of '%s'"
                                " has no declared type"),
                              rule->midrule_parent_rhs_index,
                              effective_rule->content.sym->tag);
               else
-                complain_at (dollar_loc, _("$$ of `%s' has no declared type"),
+                complain_at (dollar_loc, _("$$ of '%s' has no declared type"),
                              rule->content.sym->tag);
             }
           else
@@ -782,7 +782,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       if (!type_name)
         {
           if (union_seen | tag_seen)
-            complain_at (dollar_loc, _("$%s of `%s' has no declared type"),
+            complain_at (dollar_loc, _("$%s of '%s' has no declared type"),
                          cp, effective_rule->content.sym->tag);
           else
             untyped_var_seen = true;
@@ -801,7 +801,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 
 
 /*------------------------------------------------------.
-| TEXT is a location token (i.e., a `@...').  Output to |
+| TEXT is a location token (i.e., a '@...').  Output to |
 | OBSTACK_FOR_STRING a reference to this location.      |
 `------------------------------------------------------*/
 

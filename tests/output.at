@@ -72,7 +72,7 @@ AT_CHECK_OUTPUT([foo.y], [%defines %verbose %yacc],[],
 AT_CHECK_OUTPUT([foo.yy], [%defines %verbose %yacc],[],
                 [y.output y.tab.c y.tab.h])
 
-# Exercise %output and %file-prefix including deprecated `='
+# Exercise %output and %file-prefix including deprecated '='
 AT_CHECK_OUTPUT([foo.y], [%file-prefix "bar" %defines %verbose],      [],
                 [bar.output bar.tab.c bar.tab.h])
 AT_CHECK_OUTPUT([foo.y], [%output="bar.c" %defines %verbose %yacc],[],
@@ -165,21 +165,21 @@ AT_CLEANUP
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [], [--graph="foo.tab.c"],
-[foo.y: warning: conflicting outputs to file `foo.tab.c'
+[foo.y: warning: conflicting outputs to file 'foo.tab.c'
 ])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [%defines "foo.output"], [-v],
-[foo.y: warning: conflicting outputs to file `foo.output'
+[foo.y: warning: conflicting outputs to file 'foo.output'
 ])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [%skeleton "lalr1.cc" %defines %locations], [--graph="location.hh"],
-[foo.y: warning: conflicting outputs to file `location.hh'
+[foo.y: warning: conflicting outputs to file 'location.hh'
 ])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
-[foo.y: refusing to overwrite the input file `foo.y'
+[foo.y: refusing to overwrite the input file 'foo.y'
 ], 1)
 
 
@@ -221,7 +221,7 @@ AT_CLEANUP
 ])
 
 # Notice that the header file name here cannot contain
-# `"' since FILENAME in `#include "FILENAME"' cannot.
+# '"' since FILENAME in '#include "FILENAME"' cannot.
 AT_CHECK_OUTPUT_FILE_NAME([[`~!@#$%^&*()-=_+{}[]|\:;<>, .']])
 dnl Work around a bug in m4_expand that broke AT_SETUP in autoconf 2.62,
 dnl by using the definition from 2.63.

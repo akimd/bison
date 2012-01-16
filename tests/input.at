@@ -33,8 +33,8 @@ exp: { @$ = @1 ; };
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:2.13-14: integer out of range: `$1'
-input.y:3.13-14: integer out of range: `@1'
+[[input.y:2.13-14: integer out of range: '$1'
+input.y:3.13-14: integer out of range: '@1'
 ]])
 
 AT_CLEANUP
@@ -58,8 +58,8 @@ exp: foo { $$; } foo { $2; } foo
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:5.12-13: $$ for the midrule at $2 of `exp' has no declared type
-input.y:5.24-25: $2 of `exp' has no declared type
+[[input.y:5.12-13: $$ for the midrule at $2 of 'exp' has no declared type
+input.y:5.24-25: $2 of 'exp' has no declared type
 input.y:5.6-32: warning: type clash on default action: <bar> != <>
 input.y:6.6-8: warning: type clash on default action: <bar> != <>
 input.y:7.5: warning: empty rule for typed nonterminal, and no action
@@ -664,9 +664,9 @@ AT_DATA_GRAMMAR([input.y],
 start: .GOOD GOOD
 ]])
 AT_BISON_CHECK([-o input.c input.y], [1], [],
-[[input.y:10.10: invalid character: `-'
-input.y:11.10-16: invalid identifier: `1NV4L1D'
-input.y:12.10: invalid character: `-'
+[[input.y:10.10: invalid character: '-'
+input.y:11.10-16: invalid identifier: '1NV4L1D'
+input.y:12.10: invalid character: '-'
 ]])
 
 AT_CLEANUP
@@ -703,8 +703,8 @@ start: TOO_LARGE_DEC TOO_LARGE_HEX
 ]])
 
 AT_BISON_CHECK([too-large.y], [1], [],
-[[too-large.y:9.22-42: integer out of range: `999999999999999999999'
-too-large.y:10.24-44: integer out of range: `0xFFFFFFFFFFFFFFFFFFF'
+[[too-large.y:9.22-42: integer out of range: '999999999999999999999'
+too-large.y:10.24-44: integer out of range: '0xFFFFFFFFFFFFFFFFFFF'
 ]])
 
 AT_CLEANUP
@@ -744,11 +744,11 @@ start: ;
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], 1, [],
-[[input.y:1.10-2.0: missing `"' at end of line
-input.y:4.10-5.0: missing `'' at end of line
-input.y:14.11-15.0: missing `'' at end of line
-input.y:16.11-17.0: missing `"' at end of line
-input.y:19.13-20.0: missing `}' at end of file
+[[input.y:1.10-2.0: missing '"' at end of line
+input.y:4.10-5.0: missing ''' at end of line
+input.y:14.11-15.0: missing ''' at end of line
+input.y:16.11-17.0: missing '"' at end of line
+input.y:19.13-20.0: missing '}' at end of file
 input.y:20.1: syntax error, unexpected end of file
 ]])
 
@@ -1206,9 +1206,9 @@ AT_CHECK([[perl -e "print 'start: \'';" >> empty.y || exit 77]])
 AT_BISON_CHECK([empty.y], [1], [],
 [[empty.y:2.8-9: warning: empty character literal
 empty.y:3.8-4.0: warning: empty character literal
-empty.y:3.8-4.0: missing `'' at end of line
+empty.y:3.8-4.0: missing ''' at end of line
 empty.y:4.8: warning: empty character literal
-empty.y:4.8: missing `'' at end of file
+empty.y:4.8: missing ''' at end of file
 ]])
 
 AT_DATA([two.y],
@@ -1221,9 +1221,9 @@ AT_CHECK([[perl -e "print 'start: \'ab';" >> two.y || exit 77]])
 AT_BISON_CHECK([two.y], [1], [],
 [[two.y:2.8-11: warning: extra characters in character literal
 two.y:3.8-4.0: warning: extra characters in character literal
-two.y:3.8-4.0: missing `'' at end of line
+two.y:3.8-4.0: missing ''' at end of line
 two.y:4.8-10: warning: extra characters in character literal
-two.y:4.8-10: missing `'' at end of file
+two.y:4.8-10: missing ''' at end of file
 ]])
 
 AT_DATA([three.y],
@@ -1236,9 +1236,9 @@ AT_CHECK([[perl -e "print 'start: \'abc';" >> three.y || exit 77]])
 AT_BISON_CHECK([three.y], [1], [],
 [[three.y:2.8-12: warning: extra characters in character literal
 three.y:3.8-4.0: warning: extra characters in character literal
-three.y:3.8-4.0: missing `'' at end of line
+three.y:3.8-4.0: missing ''' at end of line
 three.y:4.8-11: warning: extra characters in character literal
-three.y:4.8-11: missing `'' at end of file
+three.y:4.8-11: missing ''' at end of file
 ]])
 
 AT_CLEANUP
@@ -1280,7 +1280,7 @@ input.y:3.27-36: invalid number after \-escape: Uffffffff
 input.y:3.26-37: warning: empty character literal
 input.y:3.40-49: invalid number after \-escape: U00000000
 input.y:3.39-50: warning: empty character literal
-input.y:4.9-10: invalid character after \-escape: ` '
+input.y:4.9-10: invalid character after \-escape: ' '
 input.y:4.8-11: warning: empty character literal
 input.y:4.14-15: invalid character after \-escape: A
 input.y:4.13-16: warning: empty character literal
