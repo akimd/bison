@@ -166,3 +166,4 @@
 /raise.m4
 /ssize_t.m4
 /strerror_r.m4
+/gnulib-comp.m4

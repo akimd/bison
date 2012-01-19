@@ -23,13 +23,12 @@ SUBDIRS = build-aux po runtime-po lib data src doc examples tests etc
 aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
-EXTRA_DIST = .prev-version .version cfg.mk \
-  OChangeLog PACKAGING \
+EXTRA_DIST = .prev-version .version \
+  cfg.mk ChangeLog-1998 ChangeLog-2012 PACKAGING \
   djgpp/Makefile.maint djgpp/README.in djgpp/config.bat \
   djgpp/config.sed djgpp/config.site djgpp/config_h.sed \
   djgpp/subpipe.c djgpp/subpipe.h djgpp/djunpack.bat \
   djgpp/fnchange.lst djgpp/testsuite.sed
-
 
 .PHONY: maintainer-check
 maintainer-check:
@@ -55,7 +54,7 @@ maintainer-xml-check:
 BUILT_SOURCES = $(top_srcdir)/.version
 $(top_srcdir)/.version: configure
 	echo $(VERSION) > $@-t && mv $@-t $@
-dist-hook:
+dist-hook: gen-ChangeLog
 	echo $(VERSION) > $(distdir)/.tarball-version
 
 .PHONY: update-b4-copyright update-package-copyright-year
@@ -66,3 +65,15 @@ update-b4-copyright:
 	@echo 'warning: src/parse-gram.[hc] may need to be regenerated.'
 update-package-copyright-year:
 	$(build_aux)/$@ configure.ac
+
+gen_start_date = 2012-01-16
+.PHONY: gen-ChangeLog
+gen-ChangeLog:
+	$(AM_V_GEN)if test -d .git; then				\
+	  $(top_srcdir)/build-aux/gitlog-to-changelog			\
+	    --no-cluster						\
+	    --amend=$(srcdir)/build-aux/git-log-fix			\
+	    --since=$(gen_start_date) > $(distdir)/cl-t;		\
+	  rm -f $(distdir)/ChangeLog;					\
+	  mv $(distdir)/cl-t $(distdir)/ChangeLog;			\
+	fi
