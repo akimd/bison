@@ -1,4 +1,3 @@
-
 /announce-gen
 /arg-nonnull.h
 /c++defs.h
@@ -9,6 +8,7 @@
 /depcomp
 /gendocs.sh
 /git-version-gen
+/gitlog-to-changelog
 /install-sh
 /javacomp.sh.in
 /javaexec.sh.in
@@ -21,4 +21,3 @@
 /vc-list-files
 /warn-on-use.h
 /ylwrap
-

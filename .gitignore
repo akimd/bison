@@ -1,4 +1,3 @@
-
 /*.cache
 /*.flc
 /*.prj
@@ -7,6 +6,7 @@
 /.version
 /ABOUT-NLS
 /COPYING
+/ChangeLog
 /GNUmakefile
 /INSTALL
 /Makefile
@@ -31,4 +31,3 @@
 /patches
 /releases
 /stamp-h*
-
