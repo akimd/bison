@@ -2,8 +2,46 @@
 
 use strict;
 use IO::File;
+use Getopt::Long;
+use File::Basename; # for dirname
 
-my $prefix = "lib/";
+my $VERSION = '2012-01-21 17:13'; # UTC
+(my $ME = $0) =~ s|.*/||;
+
+my $prefix;
+my $lib_name;
+
+sub usage ($)
+{
+  my ($exit_code) = @_;
+  my $STREAM = ($exit_code == 0 ? *STDOUT : *STDERR);
+  if ($exit_code != 0)
+    {
+      print $STREAM "Try '$ME --help' for more information.\n";
+    }
+  else
+    {
+      print $STREAM <<EOF;
+Usage: $ME --lib-name=NAME FILE
+   or: $ME [--help|--version]
+Rewrite a gnulib-tool-generated FILE like lib/gnulib.mk to work with
+automake's subdir-objects.
+
+OPTIONS:
+
+This option must be specified:
+
+   --lib-name=NAME    library name, often "lib\$project"
+
+The following are optional:
+
+   --help             display this help and exit
+   --version          output version information and exit
+
+EOF
+    }
+  exit $exit_code;
+}
 
 # contents ($FILE_NAME)
 # ---------------------
@@ -71,7 +109,7 @@ sub prefix_assignment ($$)
 
   # Variables which name depend on the location: libbison_a_SOURCES =>
   # lib_libbison_a_SOURCES.
-  $lhs_and_assign_op =~ s/(libbison)/lib_$1/g;
+  $lhs_and_assign_op =~ s/($lib_name)/lib_$1/g;
 
   return $lhs_and_assign_op . $rhs;
 }
@@ -131,8 +169,33 @@ sub process ($)
   print $out $contents;
 }
 
-process ("${prefix}gnulib.mk")
+{
+  GetOptions
+    (
+     'lib-name=s' => \$lib_name,
+     help => sub { usage 0 },
+     version => sub { print "$ME version $VERSION\n"; exit },
+    ) or usage 1;
 
+  my $fail = 0;
+  defined $lib_name
+    or (warn "$ME: no library name; use --lib-name=NAME\n"), $fail = 1;
+
+  # There must be exactly one argument.
+  @ARGV == 0
+    and (warn "$ME: missing FILE argument\n"), $fail = 1;
+  1 < @ARGV
+    and (warn "$ME: too many arguments:\n", join ("\n", @ARGV), "\n"),
+      $fail = 1;
+  $fail
+    and usage 1;
+
+  my $file = $ARGV[0];
+  $prefix = (dirname $file) . '/';
+  warn "prefix=$prefix\n";
+
+  process $file;
+}
 
 ### Setup "GNU" style for perl-mode and cperl-mode.
 ## Local Variables:
@@ -149,4 +212,9 @@ process ("${prefix}gnulib.mk")
 ## cperl-extra-newline-before-brace: t
 ## cperl-merge-trailing-else: nil
 ## cperl-continued-statement-offset: 2
+## eval: (add-hook 'write-file-hooks 'time-stamp)
+## time-stamp-start: "my $VERSION = '"
+## time-stamp-format: "%:y-%02m-%02d %02H:%02M"
+## time-stamp-time-zone: "UTC"
+## time-stamp-end: "'; # UTC"
 ## End:
