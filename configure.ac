@@ -57,14 +57,14 @@ AC_PROG_CC_STDC
 # Gnulib (early checks).
 gl_EARLY
 
-AC_ARG_ENABLE(gcc-warnings,
+AC_ARG_ENABLE([gcc-warnings],
 [  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended)],
-[case "${enableval}" in
+[case $enable_gcc_warnings in
    yes|no) ;;
-   *)      AC_MSG_ERROR([bad value ${enableval} for gcc-warnings option]) ;;
+   *)  AC_MSG_ERROR([invalid value for --gcc-warnings: $enable_gcc_warnings]);;
  esac],
-              [enableval=no])
-if test "${enableval}" = yes; then
+              [$enable_gcc_warnings=no])
+if test "$enable_gcc_warnings" = yes; then
   gl_WARN_ADD([-Werror], [WERROR_CFLAGS])
   AC_SUBST([WERROR_CFLAGS])
   gl_WARN_ADD([-Wall])
