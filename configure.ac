@@ -45,9 +45,10 @@ AC_CONFIG_MACRO_DIR([m4])
 # releases, we want to be able run make dist without being required to
 # add a bogus NEWS entry.  In that case, the version string
 # automatically contains a dash, which we also let disable gnits.
-AM_INIT_AUTOMAKE([1.11.1 dist-xz]
+AM_INIT_AUTOMAKE([1.11.1 dist-xz silent-rules]
                  m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [[-_]],
                            [gnu], [gnits]))
+AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
 
 # Checks for the compiler.
