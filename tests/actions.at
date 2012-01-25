@@ -1525,3 +1525,68 @@ AT_PARSER_CHECK([[./input]], [[0]], [],
 ]])
 
 AT_CLEANUP
+
+## ---------- ##
+## YYBACKUP.  ##
+## ---------- ##
+
+AT_SETUP([[YYBACKUP]])
+
+AT_DATA_GRAMMAR([input.y],
+[[
+%error-verbose
+%debug
+%pure-parser
+%code {
+# include <stdio.h>
+# include <stdlib.h>
+# include <assert.h>
+
+  static void yyerror (const char *msg);
+  static int yylex (YYSTYPE *yylval);
+}
+%%
+input:
+  exp exp {}
+;
+
+exp:
+  'a'     { printf ("a: %d\n", $1); }
+| 'b'     { YYBACKUP('a', 123); }
+| 'c' 'd' { YYBACKUP('a', 456); }
+;
+
+%%
+static int
+yylex (YYSTYPE *yylval)
+{
+  static char const input[] = "bcd";
+  static size_t toknum;
+  assert (toknum < sizeof input);
+  *yylval = (toknum + 1) * 10;
+  return input[toknum++];
+}
+
+static void
+yyerror (const char *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}
+
+int
+main (void)
+{
+  yydebug = !!getenv("YYDEBUG");
+  return yyparse ();
+}
+]])
+
+AT_BISON_CHECK([[-o input.c input.y]])
+AT_COMPILE([[input]])
+AT_PARSER_CHECK([[./input]], [[0]],
+[[a: 123
+a: 456
+a: 789
+]])
+
+AT_CLEANUP

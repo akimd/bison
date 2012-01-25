@@ -66,6 +66,8 @@ Bison News
 
 ** Minor improvements have been made to the manual.
 
+** YYBACKUP works as expected.
+
 * Changes in version 2.5 (2011-05-14):
 
 ** Grammar symbol names can now contain non-initial dashes:

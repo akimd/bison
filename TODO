@@ -118,50 +118,6 @@ so both 256 and 257 are "mysterious".
 ** YYFAIL
 It is seems to be *really* obsolete now, shall we remove it?
 
-** YYBACKUP
-There is no test about it, no examples in the doc, and I'm not sure
-what it should look like.  For instance what follows crashes.
-
-  %error-verbose
-  %debug
-  %pure-parser
-  %code {
-  # include <stdio.h>
-  # include <stdlib.h>
-  # include <assert.h>
-
-    static void yyerror (const char *msg);
-    static int yylex (YYSTYPE *yylval);
-  }
-  %%
-  exp:
-    'a'   { printf ("a: %d\n", $1); }
-  | 'b'   { YYBACKUP('a', 123); }
-  ;
-  %%
-  static int
-  yylex (YYSTYPE *yylval)
-  {
-    static char const input[] = "b";
-    static size_t toknum;
-    assert (toknum < sizeof input);
-    *yylval = (toknum + 1) * 10;
-    return input[toknum++];
-  }
-
-  static void
-  yyerror (const char *msg)
-  {
-    fprintf (stderr, "%s\n", msg);
-  }
-
-  int
-  main (void)
-  {
-    yydebug = !!getenv("YYDEBUG");
-    return yyparse ();
-  }
-
 ** yychar == yyempty_
 The code in yyerrlab reads:
 
