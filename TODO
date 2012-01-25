@@ -52,31 +52,6 @@ DeRemer and Penello: they already provide the algorithm.
 
 * Extensions
 
-** Labeling the symbols
-Have a look at the Lemon parser generator: instead of $1, $2 etc. they
-can name the values.  This is much more pleasant.  For instance:
-
-       exp (res): exp (a) '+' exp (b) { $res = $a + $b; };
-
-I love this.  I have been bitten too often by the removal of the
-symbol, and forgetting to shift all the $n to $n-1.  If you are
-unlucky, it compiles...
-
-But instead of using $a etc., we can use regular variables.  And
-instead of using (), I propose to use `:' (again).  Paul suggests
-supporting `->' in addition to `:' to separate LHS and RHS. In other
-words:
-
-       r:exp -> a:exp '+' b:exp { r = a + b; };
-
-That requires an significant improvement of the grammar parser.  Using
-GLR would be nice.  It also requires that Bison know the type of the
-symbols (which will be useful for %include anyway).  So we have some
-time before...
-
-Note that there remains the problem of locations: `@r'?
-
-
 ** $-1
 We should find a means to provide an access to values deep in the
 stack.  For instance, instead of
