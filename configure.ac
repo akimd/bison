@@ -63,7 +63,7 @@ AC_ARG_ENABLE([gcc-warnings],
    yes|no) ;;
    *)  AC_MSG_ERROR([invalid value for --gcc-warnings: $enable_gcc_warnings]);;
  esac],
-              [$enable_gcc_warnings=no])
+              [enable_gcc_warnings=no])
 if test "$enable_gcc_warnings" = yes; then
   gl_WARN_ADD([-Werror], [WERROR_CFLAGS])
   AC_SUBST([WERROR_CFLAGS])
