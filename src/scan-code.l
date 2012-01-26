@@ -243,7 +243,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   "#"       STRING_GROW; in_cpp = true;
 
   {splice}  STRING_GROW;
-  [\n\r]    STRING_GROW; if (in_cpp) in_cpp = need_semicolon = false; 
+  [\n\r]    STRING_GROW; if (in_cpp) in_cpp = need_semicolon = false;
   [ \t\f]   STRING_GROW;
 
   /* YYFAIL is undocumented and was formally deprecated in Bison
