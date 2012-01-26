@@ -1586,7 +1586,6 @@ AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]], [[0]],
 [[a: 123
 a: 456
-a: 789
 ]])
 
 AT_CLEANUP
