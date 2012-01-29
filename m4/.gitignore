@@ -1,4 +1,3 @@
-
 /00gnulib.m4
 /alloca.m4
 /argmatch.m4
@@ -6,7 +5,9 @@
 /assert.m4
 /calloc.m4
 /cloexec.m4
+/close-stream.m4
 /close.m4
+/closeout.m4
 /codeset.m4
 /config-h.m4
 /configmake.m4
@@ -28,10 +29,12 @@
 /fcntl_h.m4
 /float_h.m4
 /fopen.m4
+/fpending.m4
 /fpieee.m4
 /fprintf-posix.m4
 /frexp.m4
 /frexpl.m4
+/fstat.m4
 /getdtablesize.m4
 /getopt.m4
 /gettext.m4
@@ -57,6 +60,8 @@
 /iswblank.m4
 /javacomp.m4
 /javaexec.m4
+/largefile.m4
+/ldexp.m4
 /ldexpl.m4
 /lib-ld.m4
 /lib-link.m4
@@ -78,10 +83,13 @@
 /memchr.m4
 /mmap-anon.m4
 /mode_t.m4
+/msvc-inval.m4
+/msvc-nothrow.m4
 /multiarch.m4
 /nls.m4
 /nocrash.m4
 /open.m4
+/pathmax.m4
 /perror.m4
 /pipe.m4
 /pipe2.m4
@@ -95,6 +103,7 @@
 /progtest.m4
 /quote.m4
 /quotearg.m4
+/raise.m4
 /rawmemchr.m4
 /realloc.m4
 /sched_h.m4
@@ -112,6 +121,7 @@
 /spawn-pipe.m4
 /spawn_h.m4
 /sprintf-posix.m4
+/ssize_t.m4
 /stat.m4
 /stdbool.m4
 /stddef_h.m4
@@ -124,6 +134,7 @@
 /strchrnul.m4
 /strdup.m4
 /strerror.m4
+/strerror_r.m4
 /string_h.m4
 /strndup.m4
 /strnlen.m4
@@ -156,14 +167,3 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
-
-/fstat.m4
-/largefile.m4
-/ldexp.m4
-/msvc-inval.m4
-/msvc-nothrow.m4
-/pathmax.m4
-/raise.m4
-/ssize_t.m4
-/strerror_r.m4
-/gnulib-comp.m4

@@ -259,3 +259,9 @@
 /strerror-override.h
 /strerror_r.c
 /xalloc-oversized.h
+/close-stream.c
+/close-stream.h
+/closeout.c
+/closeout.h
+/fpending.c
+/fpending.h
