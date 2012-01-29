@@ -166,3 +166,6 @@
 /raise.m4
 /ssize_t.m4
 /strerror_r.m4
+/close-stream.m4
+/closeout.m4
+/fpending.m4
