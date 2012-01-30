@@ -26,13 +26,13 @@ clean-local:
 
 CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
 $(srcdir)/cross-options.texi: $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
-	mv -f $@ $@~ || : >$@~
-	-rm -f $@.tmp
-	cd $(top_builddir)/src && $(MAKE) $(AM_MAKEFLAGS) bison
-	$(top_builddir)/src/bison --help \
+	$(AM_V_GEN)mv -f $@ $@~ || : >$@~
+	$(AM_V_at)rm -f $@.tmp
+	$(AM_V_at)cd $(top_builddir)/src && $(MAKE) $(AM_MAKEFLAGS) bison
+	$(AM_V_at)$(top_builddir)/src/bison --help \
 	  | perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
-	diff -u $@~ $@.tmp || true
-	mv $@.tmp $@
+	$(AM_V_at)diff -u $@~ $@.tmp || true
+	$(AM_V_at)mv $@.tmp $@
 MAINTAINERCLEANFILES = $(srcdir)/cross-options.texi
 
 ## ---------- ##
@@ -43,7 +43,7 @@ EXTRA_DIST = refcard.tex
 CLEANFILES += refcard.dvi refcard.log refcard.ps
 
 refcard.dvi: refcard.tex
-	tex refcard.tex
+	$(AM_V_GEN)tex refcard.tex
 
 refcard.ps: refcard.dvi
 
@@ -72,7 +72,7 @@ SUFFIXES = .x .1
 
 PREPATH = $(top_builddir)/src
 .x.1:
-	@program=`expr "/$*" : '.*/\(.*\)'` &&				\
+	$(AM_V_GEN)program=`expr "/$*" : '.*/\(.*\)'` &&		\
 	save_IFS=$IFS;							\
 	IFS=$(PATH_SEPARATOR);						\
 	for dir in $(PREPATH); do					\
@@ -80,20 +80,19 @@ PREPATH = $(top_builddir)/src
 	  echo cd $$dir '&&' $(MAKE) $(AM_MAKEFLAGS) $$program &&	\
 	  (cd $$dir && $(MAKE) $(AM_MAKEFLAGS) $$program) || exit;	\
 	done
-	@echo "Updating man page $@"
-	PATH="$(PREPATH)$(PATH_SEPARATOR)$$PATH";			     \
+	$(AM_V_at)PATH="$(PREPATH)$(PATH_SEPARATOR)$$PATH";		     \
 	export PATH;							     \
 	$(HELP2MAN)							     \
 	    --include=$*.x						     \
 	    --include=$(srcdir)/common.x				     \
 	    --output=$@.t `echo '$*' | sed 's,.*/,,'`
-	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&		     \
+	$(AM_V_at)if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&	     \
 	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then     \
 		touch $@;						     \
 	else								     \
 		mv $@.t $@;						     \
 	fi
-	rm -f $@*.t
+	$(AM_V_at)rm -f $@*.t
 
 nodist_man_MANS = yacc.1
 
@@ -120,6 +119,6 @@ CLEANFILES += Doxyfile
 # Sed is used to generate Doxyfile from Doxyfile.in instead of
 # configure, because the former is way faster than the latter.
 Doxyfile: $(srcdir)/Doxyfile.in
-	$(edit) $(srcdir)/Doxyfile.in >Doxyfile
+	$(AM_V_GEN)$(edit) $(srcdir)/Doxyfile.in >Doxyfile
 
 CLEANDIRS += html latex

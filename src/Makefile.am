@@ -80,9 +80,9 @@ scan-gram.c
 MOSTLYCLEANFILES = yacc
 
 yacc:
-	echo '#! /bin/sh' >$@
-	echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@
-	chmod a+x $@
+	$(AM_V_GEN)echo '#! /bin/sh' >$@
+	$(AM_V_at)echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@
+	$(AM_V_at)chmod a+x $@
 
 echo:
 	echo $(bison_SOURCES) $(noinst_HEADERS)

@@ -32,15 +32,15 @@ EXTRA_DIST = .prev-version .version \
 
 .PHONY: maintainer-check
 maintainer-check:
-	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
+	$(AM_V_GEN)cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
 
 .PHONY: maintainer-push-check
 maintainer-push-check:
-	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
+	$(AM_V_GEN)cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
 
 .PHONY: maintainer-xml-check
 maintainer-xml-check:
-	cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
+	$(AM_V_GEN)cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
 
 # See comments in build-aux/git-version-gen.  However, we make .version depend
 # on configure so that .version and VERSION/PACKAGE_VERSION stay in sync in the
@@ -53,18 +53,18 @@ maintainer-xml-check:
 # pass incorrectly.
 BUILT_SOURCES = $(top_srcdir)/.version
 $(top_srcdir)/.version: configure
-	echo $(VERSION) > $@-t && mv $@-t $@
+	$(AM_V_GEN)echo $(VERSION) > $@-t && mv $@-t $@
 dist-hook: gen-ChangeLog
-	echo $(VERSION) > $(distdir)/.tarball-version
+	$(AM_V_GEN)echo $(VERSION) > $(distdir)/.tarball-version
 
 .PHONY: update-b4-copyright update-package-copyright-year
 update-b4-copyright:
-	find data -type f                    \
+	$(AM_V_GEN)find data -type f                    \
 	  | grep -v -E '^data/bison.m4$$'    \
 	  | xargs $(build_aux)/$@
 	@echo 'warning: src/parse-gram.[hc] may need to be regenerated.'
 update-package-copyright-year:
-	$(build_aux)/$@ configure.ac
+	$(AM_V_GEN)$(build_aux)/$@ configure.ac
 
 gen_start_date = 2012-01-16
 .PHONY: gen-ChangeLog
