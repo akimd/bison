@@ -122,8 +122,8 @@ BUILT_SOURCES +=                                \
 MOSTLYCLEANFILES += src/yacc
 
 src/yacc:
-	rm -f $@ $@.tmp
-	echo '#! /bin/sh' >$@.tmp
-	echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@.tmp
-	chmod a+x $@.tmp
-	mv $@.tmp $@
+	$(AM_V_GEN)rm -f $@ $@.tmp
+	$(AM_V_at)echo '#! /bin/sh' >$@.tmp
+	$(AM_V_at)echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@.tmp
+	$(AM_V_at)chmod a+x $@.tmp
+	$(AM_V_at)mv $@.tmp $@

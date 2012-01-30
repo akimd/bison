@@ -23,7 +23,7 @@ BISON = $(top_builddir)/tests/bison
 BISON_IN = $(top_srcdir)/tests/bison.in
 
 $(BISON): $(BISON_IN)
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) tests/bison
+	$(AM_V_GEN)cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) tests/bison
 
 ## ------------ ##
 ## Extracting.  ##
@@ -33,13 +33,13 @@ doc = $(top_srcdir)/doc/bison.texinfo
 extexi = $(top_srcdir)/examples/extexi
 # Extract in src.
 $(srcdir)/calc.stamp: $(doc) $(extexi)
-	rm -f $@ $@.tmp
-	touch $@.tmp
-	cd $(srcdir) && \
+	$(AM_V_GEN)rm -f $@ $@.tmp
+	$(AM_V_at)touch $@.tmp
+	$(AM_V_at)cd $(srcdir) && \
 	   $(AWK) -f ../extexi -v VERSION="$(VERSION)" \
 	     ../../doc/bison.texinfo -- calc++-parser.yy \
 	     calc++-scanner.ll calc++.cc calc++-driver.hh calc++-driver.cc
-	mv $@.tmp $@
+	$(AM_V_at)mv $@.tmp $@
 
 $(calc_extracted): $(srcdir)/calc.stamp
 
@@ -62,14 +62,14 @@ EXTRA_DIST =                                    \
 # Don't depend on $(BISON) otherwise we would rebuild these files
 # in srcdir, including during distcheck, which is forbidden.
 $(srcdir)/calc++-parser.stamp: $(srcdir)/calc++-parser.yy $(BISON_IN)
-	@rm -f calc++-parser.tmp
-	@touch calc++-parser.tmp
-	$(BISON) -d -ra -o $(srcdir)/calc++-parser.cc \
+	$(AM_V_GEN)rm -f calc++-parser.tmp
+	$(AM_V_at)touch calc++-parser.tmp
+	$(AM_V_at)$(BISON) -d -ra -o $(srcdir)/calc++-parser.cc \
 	  $(srcdir)/calc++-parser.yy
-	@mv -f calc++-parser.tmp $@
+	$(AM_V_at)mv -f calc++-parser.tmp $@
 
 $(calc_sources_generated): $(srcdir)/calc++-parser.stamp
-	@if test -f $@; then :; else \
+	$(AM_V_GEN)if test -f $@; then :; else \
 	  rm -f $(srcdir)/calc++-parser.stamp && \
 	  $(MAKE) $(AM_MAKEFLAGS) $(srcdir)/calc++-parser.stamp; \
 	fi
@@ -82,11 +82,11 @@ $(calc_sources_generated): $(srcdir)/calc++-parser.stamp
 check_PROGRAMS = calc++
 
 calc_sources_extracted = $(srcdir)/calc++-scanner.ll $(srcdir)/calc++.cc \
-	$(srcdir)/calc++-driver.hh $(srcdir)/calc++-driver.cc
+  $(srcdir)/calc++-driver.hh $(srcdir)/calc++-driver.cc
 calc_extracted = $(calc_sources_extracted) $(srcdir)/calc++-parser.yy
 calc_sources_generated = \
-	$(srcdir)/stack.hh $(srcdir)/position.hh $(srcdir)/location.hh \
-	$(srcdir)/calc++-parser.hh $(srcdir)/calc++-parser.cc
+  $(srcdir)/stack.hh $(srcdir)/position.hh $(srcdir)/location.hh \
+  $(srcdir)/calc++-parser.hh $(srcdir)/calc++-parser.cc
 
 calc___SOURCES = $(calc_sources_extracted) $(calc_sources_generated)
 

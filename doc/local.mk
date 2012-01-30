@@ -33,12 +33,12 @@ $(CROSS_OPTIONS_TEXI): doc/bison.help $(CROSS_OPTIONS_PL)
 # Create $@~ which is the previous contents.  Don't use `mv' here so
 # that even if we are interrupted, the file is still available for
 # diff in the next run.  Note that $@ might not exist yet.
-	{ test ! -f $@ || cat $@; } >$@~
-	test ! -f $@.tmp || rm -f $@.tmp
-	src/bison$(EXEEXT) --help |                                      \
+	$(AM_V_GEN){ test ! -f $@ || cat $@; } >$@~
+	$(AM_V_at)test ! -f $@.tmp || rm -f $@.tmp
+	$(AM_V_at)src/bison$(EXEEXT) --help |				 \
 	  perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
-	diff -u $@~ $@.tmp || true
-	mv $@.tmp $@
+	$(AM_V_at)diff -u $@~ $@.tmp || true
+	$(AM_V_at)mv $@.tmp $@
 MAINTAINERCLEANFILES = $(CROSS_OPTIONS_TEXI)
 
 ## ---------- ##
@@ -49,7 +49,7 @@ EXTRA_DIST += doc/refcard.tex
 CLEANFILES += doc/refcard.dvi doc/refcard.log doc/refcard.ps
 
 doc/refcard.dvi: doc/refcard.tex
-	cd doc && tex refcard.tex
+	$(AM_V_GEN)cd doc && tex refcard.tex
 
 doc/refcard.ps: doc/refcard.dvi
 
@@ -80,9 +80,9 @@ doc/refcard.ps: doc/refcard.dvi
 EXTRA_DIST += $(top_srcdir)/doc/bison.help
 MAINTAINERCLEANFILES += $(top_srcdir)/doc/bison.help
 $(top_srcdir)/doc/bison.help: src/bison$(EXEEXT)
-	$< --version >doc/bison.help.t
-	$< --help   >>doc/bison.help.t
-	$(top_srcdir)/build-aux/move-if-change doc/bison.help.t $@
+	$(AM_V_GEN)$< --version >doc/bison.help.t
+	$(AM_V_at)$< --help   >>doc/bison.help.t
+	$(AM_V_at)$(top_srcdir)/build-aux/move-if-change doc/bison.help.t $@
 
 
 ## ----------- ##
@@ -100,17 +100,16 @@ remove_time_stamp = \
 
 # Depend on configure to get version number changes.
 $(top_srcdir)/doc/bison.1: doc/bison.help doc/bison.x $(top_srcdir)/configure
-	@echo "Updating man page $@"
-	$(HELP2MAN)                                     \
-	    --include=$(top_srcdir)/doc/bison.x         \
+	$(AM_V_GEN)$(HELP2MAN)			\
+	    --include=$(top_srcdir)/doc/bison.x	\
 	    --output=$@.t src/bison$(EXEEXT)
-	if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&                 \
+	$(AM_V_at)if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&	 \
 	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then \
-	  touch $@;                                                      \
-	else                                                             \
-	  mv $@.t $@;                                                    \
+	  touch $@;							 \
+	else								 \
+	  mv $@.t $@;							 \
 	fi
-	rm -f $@*.t
+	$(AM_V_at)rm -f $@*.t
 
 nodist_man_MANS = doc/yacc.1
 
@@ -125,7 +124,7 @@ DOXYGEN = doxygen
 doc: html
 
 html-local: doc/Doxyfile
-	cd doc && $(DOXYGEN)
+	$(AM_V_GEN) cd doc && $(DOXYGEN)
 
 edit = sed -e 's,@PACKAGE_NAME\@,$(PACKAGE_NAME),g' \
 	   -e 's,@PACKAGE_VERSION\@,$(PACKAGE_VERSION),g' \
@@ -137,6 +136,6 @@ CLEANFILES += doc/Doxyfile
 # Sed is used to generate Doxyfile from Doxyfile.in instead of
 # configure, because the former is way faster than the latter.
 doc/Doxyfile: $(top_srcdir)/doc/Doxyfile.in
-	$(edit) $(top_srcdir)/doc/Doxyfile.in >doc/Doxyfile
+	$(AM_V_GEN) $(edit) $(top_srcdir)/doc/Doxyfile.in >doc/Doxyfile
 
 CLEANDIRS += html latex
