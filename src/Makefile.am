@@ -84,8 +84,6 @@ yacc:
 	$(AM_V_at)echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@
 	$(AM_V_at)chmod a+x $@
 
-echo:
-	echo $(bison_SOURCES) $(noinst_HEADERS)
 
 # The following rule is not designed to be portable,
 # and relies on tools that not everyone has.
