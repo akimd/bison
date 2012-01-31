@@ -29,53 +29,53 @@ bin_PROGRAMS = bison
 bin_SCRIPTS = $(YACC_SCRIPT)
 EXTRA_SCRIPTS = yacc
 
-bison_SOURCES =					  \
-	AnnotationList.c AnnotationList.h	  \
-	InadequacyList.c InadequacyList.h	  \
-	LR0.c LR0.h				  \
-	Sbitset.c Sbitset.h			  \
-	assoc.c assoc.h				  \
-	closure.c closure.h			  \
-	complain.c complain.h			  \
-	conflicts.c conflicts.h			  \
-	derives.c derives.h			  \
-	files.c files.h				  \
-	flex-scanner.h				  \
-	getargs.c getargs.h			  \
-	gram.c gram.h				  \
-	lalr.h lalr.c				  \
-	ielr.h ielr.c				  \
-	location.c location.h			  \
-	main.c					  \
-	muscle-tab.c muscle-tab.h		  \
-	named-ref.c named-ref.h			  \
-	nullable.c nullable.h			  \
-	output.c output.h			  \
-	parse-gram.h parse-gram.y		  \
-	print.c print.h				  \
-	print_graph.c print_graph.h		  \
-	print-xml.c print-xml.h			  \
-	reader.c reader.h			  \
-	reduce.c reduce.h			  \
-	relation.c relation.h			  \
-	scan-code.h scan-code-c.c		  \
-	scan-gram.h scan-gram-c.c		  \
-	scan-skel.h scan-skel-c.c		  \
-	state.c state.h				  \
-	symlist.c symlist.h			  \
-	symtab.c symtab.h			  \
-	system.h				  \
-	tables.h tables.c			  \
-	uniqstr.c uniqstr.h			  \
-	graphviz.c graphviz.h
+bison_SOURCES =                                 \
+  AnnotationList.c AnnotationList.h             \
+  InadequacyList.c InadequacyList.h             \
+  LR0.c LR0.h                                   \
+  Sbitset.c Sbitset.h                           \
+  assoc.c assoc.h                               \
+  closure.c closure.h                           \
+  complain.c complain.h                         \
+  conflicts.c conflicts.h                       \
+  derives.c derives.h                           \
+  files.c files.h                               \
+  flex-scanner.h                                \
+  getargs.c getargs.h                           \
+  gram.c gram.h                                 \
+  lalr.h lalr.c                                 \
+  ielr.h ielr.c                                 \
+  location.c location.h                         \
+  main.c                                        \
+  muscle-tab.c muscle-tab.h                     \
+  named-ref.c named-ref.h                       \
+  nullable.c nullable.h                         \
+  output.c output.h                             \
+  parse-gram.h parse-gram.y                     \
+  print.c print.h                               \
+  print_graph.c print_graph.h                   \
+  print-xml.c print-xml.h                       \
+  reader.c reader.h                             \
+  reduce.c reduce.h                             \
+  relation.c relation.h                         \
+  scan-code.h scan-code-c.c                     \
+  scan-gram.h scan-gram-c.c                     \
+  scan-skel.h scan-skel-c.c                     \
+  state.c state.h                               \
+  symlist.c symlist.h                           \
+  symtab.c symtab.h                             \
+  system.h                                      \
+  tables.h tables.c                             \
+  uniqstr.c uniqstr.h                           \
+  graphviz.c graphviz.h
 
 EXTRA_bison_SOURCES = scan-code.l scan-skel.l scan-gram.l
 
-BUILT_SOURCES =					\
-parse-gram.c parse-gram.h			\
-scan-code.c					\
-scan-skel.c					\
-scan-gram.c
+BUILT_SOURCES =                                 \
+  parse-gram.c parse-gram.h                     \
+  scan-code.c                                   \
+  scan-skel.c                                   \
+  scan-gram.c
 
 MOSTLYCLEANFILES = yacc
 
