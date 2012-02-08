@@ -58,3 +58,7 @@ CONF_JAVA='@CONF_JAVA@'
 
 # We need egrep.
 : ${EGREP='@EGREP@'}
+
+# Use simple quotes (lib/quote.c).
+LC_CTYPE=C
+export LC_CTYPE
