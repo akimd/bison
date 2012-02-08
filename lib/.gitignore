@@ -1,4 +1,3 @@
-
 /*.a
 /*.bak
 /*.o
@@ -242,7 +241,6 @@
 /xsize.h
 /xstrndup.c
 /xstrndup.h
-
 /c-strcaseeq.h
 /fd-hook.c
 /fd-hook.h

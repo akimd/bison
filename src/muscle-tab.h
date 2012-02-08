@@ -21,6 +21,8 @@
 #ifndef MUSCLE_TAB_H_
 # define MUSCLE_TAB_H_
 
+# include <quotearg.h>
+
 # include "location.h"
 
 void muscle_init (void);

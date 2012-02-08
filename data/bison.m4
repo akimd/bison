@@ -412,7 +412,7 @@ m4_define([b4_percent_define_get_loc],
           [m4_pushdef([b4_loc], m4_indir([b4_percent_define_loc(]$1[)]))dnl
 b4_loc[]dnl
 m4_popdef([b4_loc])],
-          [b4_fatal([[undefined %%define variable '%s' passed to b4_percent_define_get_loc]], [$1])])])
+          [b4_fatal([[b4_percent_define_get_loc: undefined %%define variable '%s']], [$1])])])
 
 # b4_percent_define_get_syncline(VARIABLE)
 # ----------------------------------------
@@ -429,7 +429,7 @@ m4_popdef([b4_loc])],
 m4_define([b4_percent_define_get_syncline],
 [m4_ifdef([b4_percent_define_syncline(]$1[)],
           [m4_indir([b4_percent_define_syncline(]$1[)])],
-          [b4_fatal([[undefined %%define variable '%s' passed to b4_percent_define_get_syncline]], [$1])])])
+          [b4_fatal([[b4_percent_define_get_syncline: undefined %%define variable '%s']], [$1])])])
 
 # b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
@@ -467,7 +467,7 @@ m4_define([b4_percent_define_flag_if],
                                            [[invalid value for %%define Boolean variable '%s']],
                                            [$1])],
                            [[b4_percent_define_flag_if($1)]])])],
-  [b4_fatal([[undefined %%define variable '%s' passed to b4_percent_define_flag_if]], [$1])])])
+  [b4_fatal([[b4_percent_define_flag_if: undefined %%define variable '%s']], [$1])])])
 
 # b4_percent_define_default(VARIABLE, DEFAULT)
 # --------------------------------------------
@@ -524,7 +524,7 @@ m4_define([_b4_percent_define_check_values],
                                      [[accepted value: '%s']],
                                      m4_dquote(b4_value))])])dnl
    m4_popdef([b4_good_value])],
-  [b4_fatal([[undefined %%define variable '%s' passed to b4_percent_define_check_values]], [$1])])])
+  [b4_fatal([[b4_percent_define_check_values: undefined %%define variable '%s']], [$1])])])
 
 # b4_percent_code_get([QUALIFIER])
 # --------------------------------
