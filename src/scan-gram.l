@@ -39,6 +39,7 @@
 #include <ctype.h>
 #include <mbswidth.h>
 #include <quote.h>
+#include <streq.h>
 
 #include <src/scan-gram.h>
 
@@ -965,6 +966,10 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
   location loc;
   loc.start = start;
   loc.end = scanner_cursor;
+  token_end = quote (token_end);
+  // Instead of '\'', display "'".
+  if (STREQ (token_end, "'\\''", '\'', '\\', '\'', '\'', 0,0,0,0,0))
+    token_end = "\"'\"";
   complain_at (loc, _(msgid), token_end);
 }
 
@@ -977,7 +982,7 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
 static void
 unexpected_eof (boundary start, char const *token_end)
 {
-  unexpected_end (start, N_("missing '%s' at end of file"), token_end);
+  unexpected_end (start, N_("missing %s at end of file"), token_end);
 }
 
 
@@ -988,7 +993,7 @@ unexpected_eof (boundary start, char const *token_end)
 static void
 unexpected_newline (boundary start, char const *token_end)
 {
-  unexpected_end (start, N_("missing '%s' at end of line"), token_end);
+  unexpected_end (start, N_("missing %s at end of line"), token_end);
 }
 
 

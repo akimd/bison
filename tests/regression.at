@@ -197,7 +197,7 @@ exp: '(' exp ')' | NUM ;
 ]])
 
 AT_BISON_CHECK([-v -o input.c input.y], 0, [],
-[[input.y:6.8-14: warning: symbol '"<="' used more than once as a literal string
+[[input.y:6.8-14: warning: symbol "<=" used more than once as a literal string
 ]])
 
 AT_CLEANUP
@@ -475,7 +475,7 @@ main (void)
 # the user specification is eliminated.
 AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared
-input.y:22.8-63: warning: symbol '"\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!"' used more than once as a literal string
+input.y:22.8-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string
 ]])
 AT_COMPILE([input])
 

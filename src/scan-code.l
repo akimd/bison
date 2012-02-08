@@ -755,13 +755,13 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             {
               if (rule->midrule_parent_rule)
                 complain_at (dollar_loc,
-                             _("$$ for the midrule at $%d of '%s'"
+                             _("$$ for the midrule at $%d of %s"
                                " has no declared type"),
                              rule->midrule_parent_rhs_index,
-                             effective_rule->content.sym->tag);
+                             quote (effective_rule->content.sym->tag));
               else
-                complain_at (dollar_loc, _("$$ of '%s' has no declared type"),
-                             rule->content.sym->tag);
+                complain_at (dollar_loc, _("$$ of %s has no declared type"),
+                             quote (rule->content.sym->tag));
             }
           else
             untyped_var_seen = true;
@@ -782,8 +782,8 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       if (!type_name)
         {
           if (union_seen | tag_seen)
-            complain_at (dollar_loc, _("$%s of '%s' has no declared type"),
-                         cp, effective_rule->content.sym->tag);
+            complain_at (dollar_loc, _("$%s of %s has no declared type"),
+                         cp, quote (effective_rule->content.sym->tag));
           else
             untyped_var_seen = true;
           type_name = "";
