@@ -441,7 +441,7 @@ b4_percent_code_get[]dnl
 #else /* !YYDEBUG */
 
 # define YYCDEBUG if (false) std::cerr
-# define YY_SYMBOL_PRINT(Title, Symbol)  static_cast<void>(0)
+# define YY_SYMBOL_PRINT(Title, Symbol)  YYUSE(Symbol)
 # define YY_REDUCE_PRINT(Rule)           static_cast<void>(0)
 # define YY_STACK_PRINT()                static_cast<void>(0)
 
@@ -545,7 +545,6 @@ b4_percent_code_get[]dnl
                                        symbol_base_type<Exact>& yysym) const
   {
     int yytype = yysym.type_get ();
-    YYUSE (yymsg);
     if (yymsg)
       YY_SYMBOL_PRINT (yymsg, yysym);
 

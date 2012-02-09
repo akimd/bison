@@ -120,11 +120,15 @@ m4_popdef([$2])dnl
 m4_popdef([$1])dnl
 ])])
 
-# b4_parse_param_use
-# ------------------
-# `YYUSE' all the parse-params.
+# b4_parse_param_use([VAL], [LOC])
+# --------------------------------
+# `YYUSE' VAL, LOC if locations are enabled, and all the parse-params.
 m4_define([b4_parse_param_use],
-[b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
+[m4_ifval([$1], [  YYUSE([$1]);
+])dnl
+m4_ifval([$2], [b4_locations_if([  YYUSE ([$2]);
+])])dnl
+b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
 ])dnl
 ])
 
@@ -444,11 +448,7 @@ m4_define_default([b4_yydestruct_generate],
 b4_locations_if(            [, [[YYLTYPE *yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-  YYUSE (yyvaluep);
-]b4_locations_if([  YYUSE (yylocationp);
-])dnl
-b4_parse_param_use[]dnl
-[
+]b4_parse_param_use([yyvaluep], [yylocationp])[
   if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
@@ -485,14 +485,10 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
   if (!yyvaluep)
     return;
-]b4_locations_if([  YYUSE (yylocationp);
-])dnl
-b4_parse_param_use[]dnl
-[# ifdef YYPRINT
+]b4_parse_param_use([yyoutput], [yylocationp])[
+# ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
-# else
-  YYUSE (yyoutput);
 # endif
   switch (yytype)
     {
