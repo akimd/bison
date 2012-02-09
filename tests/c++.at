@@ -385,12 +385,11 @@ AT_DATA_GRAMMAR([[input.yy]],
 
 %code {
   #include <string>
-  int yylex (yy::parser::semantic_type *, yy::location *);
+  int yylex (yy::parser::semantic_type *);
   #define USE(Args)
 }
 
 %defines
-%locations
 %define parse.error verbose
 
 %nonassoc 'a' ;
@@ -420,14 +419,14 @@ start: 'b' consistent-error ;
 %%
 
 int
-yylex (yy::parser::semantic_type *, yy::location *)
+yylex (yy::parser::semantic_type *)
 {
   static char const *input = "aa";
   return *input++;
 }
 
 void
-yy::parser::error (const location_type &, const std::string &m)
+yy::parser::error (const std::string &m)
 {
   std::cerr << m << std::endl;
 }
