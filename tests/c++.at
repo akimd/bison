@@ -448,3 +448,78 @@ Reducing 'a'.
 ]])
 
 AT_CLEANUP
+
+
+## --------------------------- ##
+## Syntax error as exception.  ##
+## --------------------------- ##
+
+AT_SETUP([[Syntax error as exception]])
+
+AT_DATA_GRAMMAR([[input.yy]],
+[[%skeleton "lalr1.cc"
+
+%code
+{
+  int yylex (yy::parser::semantic_type *);
+}
+
+%defines
+%define variant
+%define parse.error verbose
+%define parse.trace
+%%
+
+start:
+  thing
+| start thing
+;
+
+thing:
+  error   { std::cerr << "caught error" << std::endl; }
+| item
+;
+
+item:
+  'a'
+| 's'
+  {
+    throw yy::parser::syntax_error("invalid expression");
+  }
+
+%%
+
+int
+yylex (yy::parser::semantic_type *)
+{
+  static char const *input = "as";
+  switch (int res = *input++)
+  {
+    default:
+      return res;
+  }
+}
+
+void
+yy::parser::error (const std::string &m)
+{
+  std::cerr << "error: " << m << std::endl;
+}
+
+int
+main ()
+{
+  yy::parser parser;
+  parser.set_debug_level(!!getenv("YYDEBUG"));
+  return parser.parse ();
+}
+]])
+AT_BISON_CHECK([[-o input.cc input.yy]])
+AT_COMPILE_CXX([[input]])
+
+AT_PARSER_CHECK([[./input]], [[0]], [[]],
+[[error: invalid expression
+caught error
+]])
+
+AT_CLEANUP
