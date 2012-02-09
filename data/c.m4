@@ -483,9 +483,9 @@ m4_define_default([b4_yy_symbol_print_generate],
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
+]b4_parse_param_use([yyoutput], [yylocationp])[
   if (!yyvaluep)
     return;
-]b4_parse_param_use([yyoutput], [yylocationp])[
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);

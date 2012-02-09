@@ -15,7 +15,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-EXTRA_DIST += $(TESTSUITE_AT) tests/testsuite tests/package.m4
+EXTRA_DIST += $(TESTSUITE_AT) tests/testsuite
 
 DISTCLEANFILES       += tests/atconfig $(check_SCRIPTS)
 MAINTAINERCLEANFILES += $(TESTSUITE)
@@ -25,8 +25,8 @@ MAINTAINERCLEANFILES += $(TESTSUITE)
 ## ------------ ##
 
 $(top_srcdir)/tests/package.m4: $(top_srcdir)/configure
-	rm -f $@ $@.tmp
-	{ \
+	$(AM_V_GEN)rm -f $@ $@.tmp
+	$(AM_V_at){ \
 	  echo '# Signature of the current package.'; \
 	  echo 'm4_define([AT_PACKAGE_NAME],      [$(PACKAGE_NAME)])'; \
 	  echo 'm4_define([AT_PACKAGE_TARNAME],   [$(PACKAGE_TARNAME)])'; \
@@ -34,13 +34,16 @@ $(top_srcdir)/tests/package.m4: $(top_srcdir)/configure
 	  echo 'm4_define([AT_PACKAGE_STRING],    [$(PACKAGE_STRING)])'; \
 	  echo 'm4_define([AT_PACKAGE_BUGREPORT], [$(PACKAGE_BUGREPORT)])'; \
 	} >$@.tmp
-	mv $@.tmp $@
+	$(AM_V_at)mv $@.tmp $@
 
 ## ------------ ##
 ## Test suite.  ##
 ## ------------ ##
 
+## Leave testsuite.at first for the "testsuite" rule's $<.
 TESTSUITE_AT =                                  \
+  tests/testsuite.at                            \
+                                                \
   tests/actions.at                              \
   tests/c++.at                                  \
   tests/calc.at                                 \
@@ -54,13 +57,13 @@ TESTSUITE_AT =                                  \
   tests/local.at                                \
   tests/named-refs.at                           \
   tests/output.at                               \
+  tests/package.m4                              \
   tests/push.at                                 \
   tests/reduce.at                               \
   tests/regression.at                           \
   tests/sets.at                                 \
   tests/skeletons.at                            \
   tests/synclines.at                            \
-  tests/testsuite.at                            \
   tests/torture.at
 
 TESTSUITE = $(top_srcdir)/tests/testsuite
@@ -68,9 +71,9 @@ RUN_TESTSUITE = $(TESTSUITE) -C tests $(TESTSUITEFLAGS)
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
 AUTOTESTFLAGS = -I $(top_srcdir)/tests
-$(TESTSUITE): $(top_srcdir)/tests/package.m4 $(TESTSUITE_AT)
-	$(AUTOTEST) $(AUTOTESTFLAGS) $(top_srcdir)/tests/testsuite.at -o $@.tmp
-	mv $@.tmp $@
+$(TESTSUITE): $(TESTSUITE_AT)
+	$(AM_V_GEN)$(AUTOTEST) $(AUTOTESTFLAGS) $< -o $@.tmp
+	$(AM_V_at)mv $@.tmp $@
 
 clean-local: clean-local-tests
 clean-local-tests:
