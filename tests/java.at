@@ -749,3 +749,69 @@ AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Position']], [1], [ignore])
 AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Location']], [1], [ignore])
 
 AT_CLEANUP
+
+
+# ----------------------------------------------- #
+# Java syntax error handling without error token. #
+# ----------------------------------------------- #
+
+AT_SETUP([Java syntax error handling without error token])
+
+AT_DATA([[YYParser.y]], [[%language "Java"
+
+%lex-param { String s }
+
+%code imports {
+  import java.io.IOException;
+}
+
+%code lexer {
+  String Input;
+  int Position;
+
+  public YYLexer (String s)
+  {
+    Input    = s;
+    Position = 0;
+  }
+
+  public void yyerror (String s)
+  {
+    System.err.println (s);
+  }
+
+  public Object getLVal ()
+  {
+    return null;
+  }
+
+  public int yylex () throws IOException
+  {
+    if (Position >= Input.length ())
+      return EOF;
+    else
+      return Input.charAt (Position++);
+  }
+}
+
+%code {
+  public static void main (String args []) throws IOException
+  {
+    YYParser p = new YYParser (args [0]);
+    p.parse ();
+  }
+}
+%%
+input:
+  'a' 'a'
+;
+]])
+AT_BISON_CHECK([[YYParser.y]])
+AT_JAVA_COMPILE([[YYParser.java]])
+AT_JAVA_PARSER_CHECK([[YYParser aa]], [[0]], [[]], [[]])
+AT_JAVA_PARSER_CHECK([[YYParser ab]], [[0]], [[]], [[syntax error
+]])
+AT_JAVA_PARSER_CHECK([[YYParser ba]], [[0]], [[]], [[syntax error
+]])
+
+AT_CLEANUP

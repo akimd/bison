@@ -642,7 +642,7 @@ m4_popdef([b4_at_dollar])])dnl
 	      }
 
 	    /* Pop the current state because it cannot handle the error token.  */
-	    if (yystack.height == 1)
+	    if (yystack.height == 0)
 	      return false;
 
 	    ]b4_locations_if([yyerrloc = yystack.locationAt (0);])[
