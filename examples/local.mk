@@ -14,3 +14,5 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 dist_noinst_SCRIPTS = examples/extexi
+
+include examples/calc++/local.mk

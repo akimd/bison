@@ -7,7 +7,5 @@
 /*.tmp
 /*.yy
 /.deps
-/Makefile
-/Makefile.in
 /calc++
 /calc++.exe

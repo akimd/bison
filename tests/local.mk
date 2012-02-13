@@ -83,7 +83,7 @@ check-local: tests/atconfig tests/atlocal $(TESTSUITE)
 # Move into tests/ so that testsuite.dir etc. be created there.
 	$(RUN_TESTSUITE)
 
-check_SCRIPTS = tests/bison
+check_SCRIPTS = $(BISON)
 
 # Run the test suite on the *installed* tree.
 installcheck-local:

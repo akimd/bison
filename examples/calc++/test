@@ -37,7 +37,7 @@ run ()
   shift
   local out_exp=$1
   shift
-  ./calc++ "$@" input >out_eff
+  ./examples/calc++/calc++ "$@" input >out_eff
   local sta_eff=$?
   local out_eff=`cat out_eff`
   if test $sta_eff -eq $sta_exp; then

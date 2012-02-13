@@ -15,15 +15,10 @@
 
 AUTOMAKE_OPTIONS = subdir-objects
 
-AM_CPPFLAGS += -I$(top_srcdir)/lib
-# Find builddir/src/scan-code.c etc.
-AM_CPPFLAGS += -I$(top_builddir)
-
 LDADD = lib/libbison.a $(LIBINTL)
 
 # Use our own Bison to build the parser.  Of course, you ought to
 # keep a sane version of Bison nearby...
-BISON = tests/bison
 YACC = $(BISON) -y
 AM_YFLAGS = -dv --warnings=all,error --report=all
 

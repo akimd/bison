@@ -18,9 +18,6 @@
 ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = po runtime-po .
-if BISON_CXX_WORKS
-SUBDIRS += examples/calc++
-endif
 
 # Files installed for use by Automake.
 aclocaldir = @aclocaldir@
@@ -29,9 +26,15 @@ aclocal_DATA = m4/bison-i18n.m4
 EXTRA_DIST = .prev-version .version \
   cfg.mk ChangeLog-1998 ChangeLog-2012 PACKAGING
 
+## Running the bison from this tarball.  To generate our own parser,
+## but also to run the tests.
+BISON = $(top_builddir)/tests/bison
+BISON_IN = $(top_srcdir)/tests/bison.in
+
 # Initialization before completion by local.mk's.
 AM_CFLAGS = $(WARN_CFLAGS)
-AM_CPPFLAGS =
+# Find builddir/src/scan-code.c etc.
+AM_CPPFLAGS = -I. -Ilib -I$(top_srcdir) -I$(top_srcdir)/lib
 BUILT_SOURCES =
 DISTCLEANFILES =
 MOSTLYCLEANFILES =

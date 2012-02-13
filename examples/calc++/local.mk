@@ -15,16 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## ------------------------------------- ##
-## Running the bison from this tarball.  ##
-## ------------------------------------- ##
-
-BISON = $(top_builddir)/tests/bison
-BISON_IN = $(top_srcdir)/tests/bison.in
-
-$(BISON): $(BISON_IN)
-	$(AM_V_GEN)cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) tests/bison
-
 ## ------------ ##
 ## Extracting.  ##
 ## ------------ ##
@@ -32,46 +22,45 @@ $(BISON): $(BISON_IN)
 doc = $(top_srcdir)/doc/bison.texinfo
 extexi = $(top_srcdir)/examples/extexi
 # Extract in src.
-$(srcdir)/calc.stamp: $(doc) $(extexi)
+$(top_srcdir)/examples/calc++/calc.stamp: $(doc) $(extexi)
 	$(AM_V_GEN)rm -f $@ $@.tmp
 	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)cd $(srcdir) && \
+	$(AM_V_at)cd $(top_srcdir)/examples/calc++ && \
 	   $(AWK) -f ../extexi -v VERSION="$(VERSION)" \
 	     ../../doc/bison.texinfo -- calc++-parser.yy \
 	     calc++-scanner.ll calc++.cc calc++-driver.hh calc++-driver.cc
 	$(AM_V_at)mv $@.tmp $@
 
-$(calc_extracted): $(srcdir)/calc.stamp
+$(calc_extracted): $(top_srcdir)/examples/calc++/calc.stamp
 
 ## ------------------- ##
 ## Parser generation.  ##
 ## ------------------- ##
 
-DEFAULT_INCLUDES = -I. -I$(srcdir)
-BUILT_SOURCES = $(calc_extracted) $(calc_sources_generated)
-CLEANFILES = $(srcdir)/*.output *.tmp
-MAINTAINERCLEANFILES = $(srcdir)/*.stamp $(BUILT_SOURCES)
+BUILT_SOURCES += $(calc_extracted) $(calc_sources_generated)
+CLEANFILES += $(top_srcdir)/examples/calc++/*.output *.tmp
+MAINTAINERCLEANFILES += $(top_srcdir)/examples/calc++/*.stamp $(calc___SOURCES)
 
 # Compile the parser and save cycles.
 # This code comes from "Handling Tools that Produce Many Outputs",
 # from the Automake documentation.
-EXTRA_DIST =                                    \
-  $(srcdir)/calc++-parser.stamp                 \
-  $(srcdir)/calc++-parser.yy                    \
-  $(srcdir)/calc.stamp
+EXTRA_DIST +=					\
+  examples/calc++/calc++-parser.stamp		\
+  examples/calc++/calc++-parser.yy		\
+  examples/calc++/calc.stamp
 # Don't depend on $(BISON) otherwise we would rebuild these files
 # in srcdir, including during distcheck, which is forbidden.
-$(srcdir)/calc++-parser.stamp: $(srcdir)/calc++-parser.yy $(BISON_IN)
+$(top_srcdir)/examples/calc++/calc++-parser.stamp: $(top_srcdir)/examples/calc++/calc++-parser.yy $(BISON_IN)
 	$(AM_V_GEN)rm -f calc++-parser.tmp
 	$(AM_V_at)touch calc++-parser.tmp
-	$(AM_V_at)$(BISON) -d -ra -o $(srcdir)/calc++-parser.cc \
-	  $(srcdir)/calc++-parser.yy
+	$(AM_V_at)$(BISON) -d -ra -o $(top_srcdir)/examples/calc++/calc++-parser.cc \
+	  $(top_srcdir)/examples/calc++/calc++-parser.yy
 	$(AM_V_at)mv -f calc++-parser.tmp $@
 
-$(calc_sources_generated): $(srcdir)/calc++-parser.stamp
+$(calc_sources_generated): $(top_srcdir)/examples/calc++/calc++-parser.stamp
 	$(AM_V_GEN)if test -f $@; then :; else \
-	  rm -f $(srcdir)/calc++-parser.stamp && \
-	  $(MAKE) $(AM_MAKEFLAGS) $(srcdir)/calc++-parser.stamp; \
+	  rm -f $(top_srcdir)/examples/calc++/calc++-parser.stamp && \
+	  $(MAKE) $(AM_MAKEFLAGS) $(top_srcdir)/examples/calc++/calc++-parser.stamp; \
 	fi
 
 
@@ -79,16 +68,27 @@ $(calc_sources_generated): $(srcdir)/calc++-parser.stamp
 ## Building & testing calc++.  ##
 ## --------------------------- ##
 
-check_PROGRAMS = calc++
+calc_sources_extracted =			\
+  examples/calc++/calc++-scanner.ll		\
+  examples/calc++/calc++.cc			\
+  examples/calc++/calc++-driver.hh		\
+  examples/calc++/calc++-driver.cc
+calc_extracted =				\
+  $(calc_sources_extracted)			\
+  examples/calc++/calc++-parser.yy
+calc_sources_generated =			\
+  examples/calc++/stack.hh			\
+  examples/calc++/position.hh			\
+  examples/calc++/location.hh			\
+  examples/calc++/calc++-parser.hh		\
+  examples/calc++/calc++-parser.cc
 
-calc_sources_extracted = $(srcdir)/calc++-scanner.ll $(srcdir)/calc++.cc \
-  $(srcdir)/calc++-driver.hh $(srcdir)/calc++-driver.cc
-calc_extracted = $(calc_sources_extracted) $(srcdir)/calc++-parser.yy
-calc_sources_generated = \
-  $(srcdir)/stack.hh $(srcdir)/position.hh $(srcdir)/location.hh \
-  $(srcdir)/calc++-parser.hh $(srcdir)/calc++-parser.cc
-
-calc___SOURCES = $(calc_sources_extracted) $(calc_sources_generated)
-
-TESTS = test
-EXTRA_DIST += $(TESTS)
+if BISON_CXX_WORKS
+check_PROGRAMS = examples/calc++/calc++
+examples_calc___calc___SOURCES =		\
+  $(calc_sources_extracted) 			\
+  $(calc_sources_generated)
+examples_calc___calc___CPPFLAGS = -I$(top_srcdir)/examples/calc++
+TESTS = examples/calc++/test
+endif
+EXTRA_DIST += examples/calc++/test
