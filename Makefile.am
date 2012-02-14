@@ -1,4 +1,4 @@
-## Process this file with automake to produce Makefile.in -*-Makefile-*-
+## Process this file with automake to produce Makefile.in.
 
 ## Copyright (C) 2001-2012 Free Software Foundation, Inc.
 
@@ -15,6 +15,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = po runtime-po .
@@ -27,9 +28,12 @@ EXTRA_DIST = .prev-version .version \
   cfg.mk ChangeLog-1998 ChangeLog-2012 PACKAGING
 
 ## Running the bison from this tarball.  To generate our own parser,
-## but also to run the tests.
+## but also to run the tests.  Of course, you ought to keep a sane
+## version of Bison nearby...
 BISON = $(top_builddir)/tests/bison
 BISON_IN = $(top_srcdir)/tests/bison.in
+YACC = $(BISON) -y
+AM_YFLAGS = -dv --warnings=all,error --report=all
 
 # Initialization before completion by local.mk's.
 AM_CFLAGS = $(WARN_CFLAGS)

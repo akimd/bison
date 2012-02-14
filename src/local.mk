@@ -13,18 +13,9 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-AUTOMAKE_OPTIONS = subdir-objects
-
 LDADD = lib/libbison.a $(LIBINTL)
 
-# Use our own Bison to build the parser.  Of course, you ought to
-# keep a sane version of Bison nearby...
-YACC = $(BISON) -y
-AM_YFLAGS = -dv --warnings=all,error --report=all
-
 bin_PROGRAMS = src/bison
-bin_SCRIPTS = $(YACC_SCRIPT)
-EXTRA_SCRIPTS = src/yacc
 
 src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
 src_bison_SOURCES =                             \
@@ -114,6 +105,13 @@ BUILT_SOURCES +=                                \
   src/scan-gram.c                               \
   src/scan-skel.c
 
+
+## ------ ##
+## yacc.  ##
+## ------ ##
+
+bin_SCRIPTS = $(YACC_SCRIPT)
+EXTRA_SCRIPTS = src/yacc
 MOSTLYCLEANFILES += src/yacc
 
 src/yacc:
