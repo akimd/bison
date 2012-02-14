@@ -32,62 +32,40 @@ $(top_srcdir)/examples/calc++/calc.stamp: $(doc) $(extexi)
 	$(AM_V_at)mv $@.tmp $@
 
 $(calc_extracted): $(top_srcdir)/examples/calc++/calc.stamp
-
-## ------------------- ##
-## Parser generation.  ##
-## ------------------- ##
-
-BUILT_SOURCES += $(calc_extracted) $(calc_sources_generated)
-CLEANFILES += $(top_srcdir)/examples/calc++/*.output *.tmp
-MAINTAINERCLEANFILES += $(top_srcdir)/examples/calc++/*.stamp $(calc___SOURCES)
-
-# Compile the parser and save cycles.
-# This code comes from "Handling Tools that Produce Many Outputs",
-# from the Automake documentation.
-EXTRA_DIST +=					\
-  examples/calc++/calc++-parser.stamp		\
-  examples/calc++/calc++-parser.yy		\
-  examples/calc++/calc.stamp
-# Don't depend on $(BISON) otherwise we would rebuild these files
-# in srcdir, including during distcheck, which is forbidden.
-$(top_srcdir)/examples/calc++/calc++-parser.stamp: $(top_srcdir)/examples/calc++/calc++-parser.yy $(BISON_IN)
-	$(AM_V_GEN)rm -f calc++-parser.tmp
-	$(AM_V_at)touch calc++-parser.tmp
-	$(AM_V_at)$(BISON) -d -ra -o $(top_srcdir)/examples/calc++/calc++-parser.cc \
-	  $(top_srcdir)/examples/calc++/calc++-parser.yy
-	$(AM_V_at)mv -f calc++-parser.tmp $@
-
-$(calc_sources_generated): $(top_srcdir)/examples/calc++/calc++-parser.stamp
 	$(AM_V_GEN)if test -f $@; then :; else \
-	  rm -f $(top_srcdir)/examples/calc++/calc++-parser.stamp && \
-	  $(MAKE) $(AM_MAKEFLAGS) $(top_srcdir)/examples/calc++/calc++-parser.stamp; \
+	  rm -f $< && \
+	  $(MAKE) $(AM_MAKEFLAGS) $<; \
 	fi
-
 
 ## --------------------------- ##
 ## Building & testing calc++.  ##
 ## --------------------------- ##
 
-calc_sources_extracted =			\
+BUILT_SOURCES += $(calc_sources) examples/calc++/calc++-parser.h
+CLEANFILES += *.tmp
+MAINTAINERCLEANFILES += $(top_srcdir)/examples/calc++/calc.stamp $(calc_sources)
+EXTRA_DIST += examples/calc++/calc.stamp
+
+calc_extracted =				\
   examples/calc++/calc++-scanner.ll		\
   examples/calc++/calc++.cc			\
   examples/calc++/calc++-driver.hh		\
-  examples/calc++/calc++-driver.cc
-calc_extracted =				\
-  $(calc_sources_extracted)			\
+  examples/calc++/calc++-driver.cc		\
   examples/calc++/calc++-parser.yy
-calc_sources_generated =			\
+calc_generated =				\
+  examples/calc++/calc++-parser.h		\
   examples/calc++/stack.hh			\
   examples/calc++/position.hh			\
-  examples/calc++/location.hh			\
-  examples/calc++/calc++-parser.hh		\
-  examples/calc++/calc++-parser.cc
-
+  examples/calc++/location.hh
+calc_sources =					\
+  $(calc_extracted) $(calc_generated)
 if BISON_CXX_WORKS
 check_PROGRAMS = examples/calc++/calc++
 examples_calc___calc___SOURCES =		\
-  $(calc_sources_extracted) 			\
-  $(calc_sources_generated)
+  $(calc_sources)				\
+  examples/calc++/y.tab.h			\
+  examples/calc++/calc++-parser.hh
+
 examples_calc___calc___CPPFLAGS = -I$(top_srcdir)/examples/calc++
 TESTS = examples/calc++/test
 endif
