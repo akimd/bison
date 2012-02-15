@@ -53,7 +53,6 @@ calc_extracted =				\
   examples/calc++/calc++-driver.cc		\
   examples/calc++/calc++-parser.yy
 calc_generated =				\
-  examples/calc++/calc++-parser.h		\
   examples/calc++/stack.hh			\
   examples/calc++/position.hh			\
   examples/calc++/location.hh

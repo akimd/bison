@@ -61,7 +61,6 @@ src_bison_SOURCES =                             \
   src/nullable.h                                \
   src/output.c                                  \
   src/output.h                                  \
-  src/parse-gram.h                              \
   src/parse-gram.y                              \
   src/print-xml.c                               \
   src/print-xml.h                               \
