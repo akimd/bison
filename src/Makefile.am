@@ -17,13 +17,13 @@
 
 AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS)
 AM_CPPFLAGS = -I$(top_srcdir)/lib
-AM_YFLAGS = "-dv"
-
-LDADD = ../lib/libbison.a $(LIBINTL)
-
+BISON = ../tests/bison
 # Use our own Bison to build the parser.  Of course, you ought to
 # keep a sane version of Bison nearby...
-YACC = ../tests/bison -y --warnings=all,error --report=all
+YACC = $(BISON) -y
+AM_YFLAGS = -d -v --warnings=all,error --report=all
+
+LDADD = ../lib/libbison.a $(LIBINTL)
 
 bin_PROGRAMS = bison
 bin_SCRIPTS = $(YACC_SCRIPT)
@@ -51,7 +51,7 @@ bison_SOURCES =                                 \
   named-ref.c named-ref.h                       \
   nullable.c nullable.h                         \
   output.c output.h                             \
-  parse-gram.h parse-gram.y                     \
+  parse-gram.y                                  \
   print.c print.h                               \
   print_graph.c print_graph.h                   \
   print-xml.c print-xml.h                       \
