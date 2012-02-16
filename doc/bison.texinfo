@@ -178,6 +178,8 @@ Multi-Function Calculator: @code{mfcalc}
 * Mfcalc Declarations::    Bison declarations for multi-function calculator.
 * Mfcalc Rules::           Grammar rules for the calculator.
 * Mfcalc Symbol Table::    Symbol table management subroutines.
+* Mfcalc Lexer::           The lexical analyzer.
+* Mfcalc Main::            The controlling function.
 
 Bison Grammar Files
 
@@ -2320,6 +2322,8 @@ Note that multiple assignment and nested function calls are permitted.
 * Mfcalc Declarations::    Bison declarations for multi-function calculator.
 * Mfcalc Rules::           Grammar rules for the calculator.
 * Mfcalc Symbol Table::    Symbol table management subroutines.
+* Mfcalc Lexer::           The lexical analyzer.
+* Mfcalc Main::            The controlling function.
 @end menu
 
 @node Mfcalc Declarations
@@ -2466,23 +2470,11 @@ symrec *getsym (char const *);
 @end group
 @end smallexample
 
-The new version of @code{main} includes a call to @code{init_table}, a
-function that initializes the symbol table.  Here it is, and
-@code{init_table} as well:
+The new version of @code{main} will call @code{init_table} to initialize
+the symbol table:
 
 @comment file: mfcalc.y
 @smallexample
-#include <stdio.h>
-
-@group
-/* Called by yyparse on error.  */
-void
-yyerror (char const *s)
-@{
-  printf ("%s\n", s);
-@}
-@end group
-
 @group
 struct init
 @{
@@ -2523,15 +2515,6 @@ init_table (void)
       ptr = putsym (arith_fncts[i].fname, FNCT);
       ptr->value.fnctptr = arith_fncts[i].fnct;
     @}
-@}
-@end group
-
-@group
-int
-main (void)
-@{
-  init_table ();
-  return yyparse ();
 @}
 @end group
 @end smallexample
@@ -2576,6 +2559,9 @@ getsym (char const *sym_name)
   return 0;
 @}
 @end smallexample
+
+@node Mfcalc Lexer
+@subsection The @code{mfcalc} Lexer
 
 The function @code{yylex} must now recognize variables, numeric values, and
 the single-character arithmetic operators.  Strings of alphanumeric
@@ -2674,6 +2660,34 @@ yylex (void)
 
   /* Any other character is a token by itself.        */
   return c;
+@}
+@end group
+@end smallexample
+
+@node Mfcalc Main
+@subsection The @code{mfcalc} Main
+
+The error reporting function is unchanged, and the new version of
+@code{main} includes a call to @code{init_table}:
+
+@comment file: mfcalc.y
+@smallexample
+
+@group
+@group
+/* Called by yyparse on error.  */
+void
+yyerror (char const *s)
+@{
+  fprintf (stderr, "%s\n", s);
+@}
+@end group
+
+int
+main (int argc, char const* argv[])
+@{
+  init_table ();
+  return yyparse ();
 @}
 @end group
 @end smallexample
