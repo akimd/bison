@@ -19,8 +19,6 @@
 ## Extracting.  ##
 ## ------------ ##
 
-doc = $(top_srcdir)/doc/bison.texinfo
-extexi = $(top_srcdir)/examples/extexi
 # Extract in src.
 $(top_srcdir)/examples/calc++/calc.stamp: $(doc) $(extexi)
 	$(AM_V_GEN)rm -f $@ $@.tmp
@@ -37,9 +35,9 @@ $(calc_extracted): $(top_srcdir)/examples/calc++/calc.stamp
 	  $(MAKE) $(AM_MAKEFLAGS) $<; \
 	fi
 
-## --------------------------- ##
-## Building & testing calc++.  ##
-## --------------------------- ##
+## -------------------- ##
+## Building & testing.  ##
+## -------------------- ##
 
 BUILT_SOURCES += $(calc_sources) examples/calc++/calc++-parser.h
 CLEANFILES += *.tmp
@@ -59,13 +57,13 @@ calc_generated =				\
 calc_sources =					\
   $(calc_extracted) $(calc_generated)
 if BISON_CXX_WORKS
-check_PROGRAMS = examples/calc++/calc++
+check_PROGRAMS += examples/calc++/calc++
 examples_calc___calc___SOURCES =		\
   $(calc_sources)				\
   examples/calc++/y.tab.h			\
   examples/calc++/calc++-parser.hh
 
 examples_calc___calc___CPPFLAGS = -I$(top_srcdir)/examples/calc++
-TESTS = examples/calc++/test
+TESTS += examples/calc++/test
 endif
 EXTRA_DIST += examples/calc++/test

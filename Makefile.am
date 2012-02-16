@@ -41,10 +41,12 @@ AM_CFLAGS = $(WARN_CFLAGS)
 AM_CPPFLAGS = -I. -Ilib -I$(top_srcdir) -I$(top_srcdir)/lib
 BUILT_SOURCES =
 DISTCLEANFILES =
+MOSTLYCLEANDIRS =
 MOSTLYCLEANFILES =
 SUFFIXES =
+TESTS =
+check_PROGRAMS =
 noinst_LIBRARIES =
-MOSTLYCLEANDIRS =
 
 include build-aux/local.mk
 include data/local.mk

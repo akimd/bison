@@ -15,11 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-test -z "$VERBOSE" && {
-   exec > /dev/null 2>&1
-   set -x
-}
-
 me=`basename $0`
 
 # Number of the current test.
@@ -27,6 +22,9 @@ number=1
 
 # Exit status of this script.
 exit=true
+
+# The exercised program.
+prog=./examples/calc++/calc++
 
 # run EXPECTED-EXIT-STATUS EXPECTED-OUTPUT [PARSER-OPTIONS]
 # ---------------------------------------------------------
@@ -37,7 +35,7 @@ run ()
   shift
   local out_exp=$1
   shift
-  ./examples/calc++/calc++ "$@" input >out_eff
+  $prog "$@" - <input >out_eff
   local sta_eff=$?
   local out_eff=`cat out_eff`
   if test $sta_eff -eq $sta_exp; then
@@ -55,6 +53,14 @@ run ()
   fi
   number=`expr $number + 1`
 }
+
+
+cat >input <<EOF
+toto := 1
+toto
+EOF
+run 0 1 -s
+
 
 cat >input <<EOF
 a := 1
@@ -81,14 +87,7 @@ cat >input <<EOF
 a := 1
 d := a + b * c
 EOF
-run 1 '' input
-
-
-cat >input <<EOF
-toto := 1
-toto
-EOF
-run 0 1 -s
+run 1 ''
 
 rm input out_eff
 $exit

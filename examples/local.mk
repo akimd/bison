@@ -13,6 +13,8 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+doc = $(top_srcdir)/doc/bison.texinfo
+extexi = $(top_srcdir)/examples/extexi
 dist_noinst_SCRIPTS = examples/extexi
 
 include examples/calc++/local.mk
