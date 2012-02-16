@@ -52,11 +52,11 @@ BEGIN {
     }
 }
 
-/^@example$/, /^@end example$/ {
+/^@(small)?example$/, /^@end (small)?example$/ {
   if (!file)
     next;
 
-  if ($0 ~ /^@example$/)
+  if ($0 ~ /^@(small)?example$/)
     {
       input = files_output[file] ? "\n" : "";
 
@@ -69,7 +69,7 @@ BEGIN {
       next;
     }
 
-  if ($0 ~ /^@end example$/)
+  if ($0 ~ /^@end (small)?example$/)
     {
       if (input == "")
         fatal("no contents: " file);

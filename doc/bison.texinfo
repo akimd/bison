@@ -2300,17 +2300,17 @@ Here is a sample session with the multi-function calculator:
 @example
 $ @kbd{mfcalc}
 @kbd{pi = 3.141592653589}
-3.1415926536
+@result{} 3.1415926536
 @kbd{sin(pi)}
-0.0000000000
+@result{} 0.0000000000
 @kbd{alpha = beta1 = 2.3}
-2.3000000000
+@result{} 2.3000000000
 @kbd{alpha}
-2.3000000000
+@result{} 2.3000000000
 @kbd{ln(alpha)}
-0.8329091229
+@result{} 0.8329091229
 @kbd{exp(ln(beta1))}
-2.3000000000
+@result{} 2.3000000000
 $
 @end example
 
@@ -2327,11 +2327,12 @@ Note that multiple assignment and nested function calls are permitted.
 
 Here are the C and Bison declarations for the multi-function calculator.
 
+@comment file: mfcalc.y
 @smallexample
 @group
 %@{
-  #include <math.h>  /* For math functions, cos(), sin(), etc.  */
-  #include "calc.h"  /* Contains definition of `symrec'.  */
+  #include <stdio.h>  /* For printf, etc. */
+  #include "calc.h"   /* Contains definition of `symrec'.  */
   int yylex (void);
   void yyerror (char const *);
 %@}
@@ -2385,6 +2386,7 @@ Here are the grammar rules for the multi-function calculator.
 Most of them are copied directly from @code{calc}; three rules,
 those which mention @code{VAR} or @code{FNCT}, are new.
 
+@comment file: mfcalc.y
 @smallexample
 @group
 input:   /* empty */
@@ -2395,8 +2397,8 @@ input:   /* empty */
 @group
 line:
           '\n'
-        | exp '\n'   @{ printf ("\t%.10g\n", $1); @}
-        | error '\n' @{ yyerrok;                  @}
+        | exp '\n'   @{ printf ("%.10g\n", $1); @}
+        | error '\n' @{ yyerrok;                @}
 ;
 @end group
 
@@ -2431,6 +2433,7 @@ The symbol table itself consists of a linked list of records.  Its
 definition, which is kept in the header @file{calc.h}, is as follows.  It
 provides for either functions or variables to be placed in the table.
 
+@comment file: calc.h
 @smallexample
 @group
 /* Function type.  */
@@ -2467,6 +2470,7 @@ The new version of @code{main} includes a call to @code{init_table}, a
 function that initializes the symbol table.  Here it is, and
 @code{init_table} as well:
 
+@comment file: mfcalc.y
 @smallexample
 #include <stdio.h>
 
@@ -2488,15 +2492,16 @@ struct init
 @end group
 
 @group
+#include <math.h>  /* Math functions, cos(), sin(), etc.  */
 struct init const arith_fncts[] =
 @{
-  "sin",  sin,
-  "cos",  cos,
-  "atan", atan,
-  "ln",   log,
-  "exp",  exp,
-  "sqrt", sqrt,
-  0, 0
+  @{ "atan", atan @},
+  @{ "cos",  cos  @},
+  @{ "exp",  exp  @},
+  @{ "ln",   log  @},
+  @{ "sin",  sin  @},
+  @{ "sqrt", sqrt @},
+  @{ 0, 0 @},
 @};
 @end group
 
@@ -2507,6 +2512,7 @@ symrec *sym_table;
 
 @group
 /* Put arithmetic functions in table.  */
+static
 void
 init_table (void)
 @{
@@ -2540,7 +2546,11 @@ linked to the front of the list, and a pointer to the object is returned.
 The function @code{getsym} is passed the name of the symbol to look up.  If
 found, a pointer to that symbol is returned; otherwise zero is returned.
 
+@comment file: mfcalc.y
 @smallexample
+#include <stdlib.h> /* malloc. */
+#include <string.h> /* strlen. */
+
 symrec *
 putsym (char const *sym_name, int sym_type)
 @{
@@ -2582,6 +2592,7 @@ returned to @code{yyparse}.
 No change is needed in the handling of numeric values and arithmetic
 operators in @code{yylex}.
 
+@comment file: mfcalc.y
 @smallexample
 @group
 #include <ctype.h>
@@ -2624,7 +2635,10 @@ yylex (void)
       /* Initially make the buffer long enough
          for a 40-character symbol name.  */
       if (length == 0)
-        length = 40, symbuf = (char *)malloc (length + 1);
+        @{
+          length = 40;
+          symbuf = (char *) malloc (length + 1);
+        @}
 
       i = 0;
       do
