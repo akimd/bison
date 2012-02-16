@@ -179,7 +179,7 @@ yy::parser::error(const yy::parser::location_type&,
 }
 
 int
-main (void)
+main ()
 {
   yy::parser p;
   p.set_debug_level(!!getenv("YYDEBUG"));
@@ -329,7 +329,7 @@ void
 }
 
 int
-main (void)
+main ()
 {
   ]$1[::parser p;
   return p.parse ();
@@ -432,7 +432,7 @@ yy::parser::error (const std::string &m)
 }
 
 int
-main (void)
+main ()
 {
   yy::parser parser;
   return parser.parse ();
@@ -461,7 +461,7 @@ AT_DATA_GRAMMAR([[input.yy]],
 
 %code
 {
-  #include <stdlib.h>
+  #include <cstdlib>
   int yylex (yy::parser::semantic_type *);
 }
 
@@ -511,7 +511,7 @@ yy::parser::error (const std::string &m)
 }
 
 int
-main (void)
+main ()
 {
   yy::parser parser;
   parser.set_debug_level(!!getenv("YYDEBUG"));
