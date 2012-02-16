@@ -18,3 +18,4 @@ extexi = $(top_srcdir)/examples/extexi
 dist_noinst_SCRIPTS = examples/extexi
 
 include examples/calc++/local.mk
+include examples/mfcalc/local.mk

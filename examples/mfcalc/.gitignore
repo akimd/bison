@@ -1,0 +1,11 @@
+/*.o
+/*.tmp
+/.deps
+/calc.h
+/mfcalc
+/mfcalc.c
+/mfcalc.exe
+/mfcalc.h
+/mfcalc.stamp
+/mfcalc.y
+

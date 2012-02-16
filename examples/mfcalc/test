@@ -1,0 +1,70 @@
+#! /bin/sh
+
+# Copyright (C) 2005-2012 Free Software Foundation, Inc.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+me=`basename $0`
+
+# Number of the current test.
+number=1
+
+# Exit status of this script.
+exit=true
+
+# The exercised program.
+prog=./examples/mfcalc/mfcalc
+
+# run EXPECTED-EXIT-STATUS EXPECTED-OUTPUT [PARSER-OPTIONS]
+# ---------------------------------------------------------
+run ()
+{
+  # Effective and expected exit status.
+  local sta_exp=$1
+  shift
+  local out_exp=$1
+  shift
+  $prog "$@" - < input >out_eff
+  local sta_eff=$?
+  local out_eff=`cat out_eff`
+  if test $sta_eff -eq $sta_exp; then
+    if test "$out_eff" = "$out_exp"; then
+      printf "$me: PASS: %2d\n" $number
+    else
+      printf "$me: FAIL: %2d (expected output: %s, effective: %s\n" \
+          $number "$out_exp" "$out_eff"
+      exit=false
+    fi
+  else
+    printf "$me: FAIL: %2d (expected status: %d, effective: %d\n" \
+        $number $sta_exp $sta_eff
+    exit=false
+  fi
+  number=`expr $number + 1`
+}
+
+cat >input <<EOF
+1+2*3
+EOF
+run 0 7
+run 0 7
+
+cat >input <<EOF
+(1+2) * 3
+EOF
+run 0 9
+
+
+rm input out_eff
+$exit
