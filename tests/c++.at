@@ -461,6 +461,7 @@ AT_DATA_GRAMMAR([[input.yy]],
 
 %code
 {
+  #include <stdlib.h>
   int yylex (yy::parser::semantic_type *);
 }
 
@@ -510,7 +511,7 @@ yy::parser::error (const std::string &m)
 }
 
 int
-main ()
+main (void)
 {
   yy::parser parser;
   parser.set_debug_level(!!getenv("YYDEBUG"));
