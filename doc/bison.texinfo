@@ -2336,6 +2336,7 @@ Here are the C and Bison declarations for the multi-function calculator.
 @group
 %@{
   #include <stdio.h>  /* For printf, etc. */
+  #include <math.h>   /* For pow, used in the grammar.  */
   #include "calc.h"   /* Contains definition of `symrec'.  */
   int yylex (void);
   void yyerror (char const *);
@@ -2484,7 +2485,6 @@ struct init
 @end group
 
 @group
-#include <math.h>  /* Math functions, cos(), sin(), etc.  */
 struct init const arith_fncts[] =
 @{
   @{ "atan", atan @},
