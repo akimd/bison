@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-me=`basename $0`
+me=`dirname $0`
+me=`basename $me`
 
 # Number of the current test.
 number=1
@@ -24,35 +25,52 @@ number=1
 exit=true
 
 # The exercised program.
-prog=./examples/mfcalc/mfcalc
+prog=../examples/$me/$me
+
+# cleanup
+# -------
+cleanup ()
+{
+  local status=$?
+  if test -z "$DEBUG"; then
+     cd ..
+     rm -rf $$.dir
+  fi
+  exit $status
+}
+trap cleanup 0 1 2 13 15
+mkdir $$.dir
+cd $$.dir
 
 # run EXPECTED-EXIT-STATUS EXPECTED-OUTPUT [PARSER-OPTIONS]
 # ---------------------------------------------------------
 run ()
 {
-  # Effective and expected exit status.
+  # Expected exit status.
   local sta_exp=$1
   shift
+  # Expected output.
   local out_exp=$1
   shift
-  $prog "$@" - < input >out_eff
+  $prog "$@" - <input >out_eff
+  # Effective exit status.
   local sta_eff=$?
+  # Effective output.
   local out_eff=`cat out_eff`
   if test $sta_eff -eq $sta_exp; then
     if test "$out_eff" = "$out_exp"; then
-      printf "$me: PASS: %2d\n" $number
+      echo "$me: PASS: $number"
     else
-      printf "$me: FAIL: %2d (expected output: %s, effective: %s\n" \
-          $number "$out_exp" "$out_eff"
+      echo "$me: FAIL: $number (expected output: $out_exp, effective: $out_eff)"
       exit=false
     fi
   else
-    printf "$me: FAIL: %2d (expected status: %d, effective: %d\n" \
-        $number $sta_exp $sta_eff
+    echo "$me: FAIL: $number (expected status: $sta_exp, effective: $sta_eff)"
     exit=false
   fi
   number=`expr $number + 1`
 }
+
 
 cat >input <<EOF
 1+2*3
@@ -65,6 +83,4 @@ cat >input <<EOF
 EOF
 run 0 9
 
-
-rm input out_eff
 $exit
