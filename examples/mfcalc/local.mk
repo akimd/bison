@@ -49,6 +49,7 @@ mfcalc_sources =				\
   $(mfcalc_extracted)
 
 check_PROGRAMS += examples/mfcalc/mfcalc
+examples_mfcalc_mfcalc_LDADD = -lm
 examples_mfcalc_mfcalc_SOURCES =		\
   $(mfcalc_sources)
 
