@@ -54,5 +54,5 @@ examples_mfcalc_mfcalc_SOURCES =		\
   $(mfcalc_sources)
 
 examples_mfcalc_mfcalc_CPPFLAGS = -I$(top_srcdir)/examples/mfcalc
-TESTS += examples/mfcalc/test
-EXTRA_DIST += examples/mfcalc/test
+TESTS += examples/mfcalc/mfcalc.test
+EXTRA_DIST += examples/mfcalc/mfcalc.test

@@ -15,7 +15,8 @@
 
 doc = $(top_srcdir)/doc/bison.texinfo
 extexi = $(top_srcdir)/examples/extexi
-dist_noinst_SCRIPTS = examples/extexi
+dist_noinst_SCRIPTS = examples/extexi examples/test
+TEST_LOG_COMPILER = $(top_srcdir)/examples/test
 
 include examples/calc++/local.mk
 include examples/mfcalc/local.mk

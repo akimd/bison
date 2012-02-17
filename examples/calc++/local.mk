@@ -64,6 +64,6 @@ examples_calc___calc___SOURCES =		\
   examples/calc++/calc++-parser.hh
 
 examples_calc___calc___CPPFLAGS = -I$(top_srcdir)/examples/calc++
-TESTS += examples/calc++/test
+TESTS += examples/calc++/calc++.test
 endif
-EXTRA_DIST += examples/calc++/test
+EXTRA_DIST += examples/calc++/calc++.test
