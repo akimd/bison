@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# FIXME: Duplication with calc.at.
 AT_BANNER([[Named references tests.]])
 
 AT_SETUP([Tutorial calculator])
@@ -142,8 +143,7 @@ int yylex (void)
 static int power (int base, int exponent)
 {
   int res = 1;
-  if (exponent < 0)
-    exit (3);
+  assert (0 <= exponent);
   for (/* Niente */; exponent; --exponent)
     res *= base;
   return res;

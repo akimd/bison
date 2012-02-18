@@ -263,3 +263,4 @@
 /closeout.h
 /fpending.c
 /fpending.h
+/sysexits.in.h

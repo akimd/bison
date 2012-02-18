@@ -52,6 +52,7 @@
 typedef size_t uintptr_t;
 #endif
 
+#include <sysexits.h>
 
 /*---------.
 | Gnulib.  |

@@ -758,8 +758,8 @@ version_check (location const *loc, char const *version)
   if (strverscmp (version, PACKAGE_VERSION) > 0)
     {
       complain_at (*loc, "require bison %s, but have %s",
-		   version, PACKAGE_VERSION);
-      exit (63);
+                   version, PACKAGE_VERSION);
+      exit (EX_CONFIG);
     }
 }
 

@@ -291,9 +291,8 @@ yylex (void)
 static int
 power (int base, int exponent)
 {
+  assert (0 <= exponent);
   int res = 1;
-  if (exponent < 0)
-    exit (3);
   for (/* Niente */; exponent; --exponent)
     res *= base;
   return res;
