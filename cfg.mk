@@ -42,7 +42,6 @@ local-checks-to-skip =			\
   sc_prohibit_always_true_header_tests	\
   sc_prohibit_atoi_atof			\
   sc_prohibit_doubled_word		\
-  sc_prohibit_empty_lines_at_EOF	\
   sc_prohibit_strcmp
 
 # The local directory containing the checked-out copy of gnulib used in
@@ -59,7 +58,8 @@ update-copyright: update-b4-copyright update-package-copyright-year
 update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
 
-exclude_file_name_regexp--sc_space_tab = ^tests/(input|c\+\+)\.at$$
+exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = ^src/parse-gram.h$$
 exclude_file_name_regexp--sc_require_config_h_first = \
   ^(lib/yyerror|data/(glr|yacc))\.c$$
+exclude_file_name_regexp--sc_space_tab = ^tests/(input|c\+\+)\.at$$
 exclude_file_name_regexp--sc_unmarked_diagnostics = ^djgpp/
