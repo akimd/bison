@@ -804,7 +804,7 @@ version_check (location const *loc, char const *version)
     {
       complain_at (*loc, "require bison %s, but have %s",
                    version, PACKAGE_VERSION);
-      exit (63);
+      exit (EX_CONFIG);
     }
 }
 

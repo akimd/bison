@@ -346,8 +346,7 @@ static int
 power (int base, int exponent)
 {
   int res = 1;
-  if (exponent < 0)
-    exit (3);
+  assert (0 <= exponent);
   for (/* Niente */; exponent; --exponent)
     res *= base;
   return res;

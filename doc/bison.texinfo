@@ -9969,7 +9969,7 @@ calcxx_driver::scan_begin ()
   else if (!(yyin = fopen (file.c_str (), "r")))
     @{
       error (std::string ("cannot open ") + file + ": " + strerror(errno));
-      exit (1);
+      exit (EXIT_FAILURE);
     @}
 @}
 
@@ -10703,11 +10703,17 @@ yyparse (char const *file)
 {
   yyin = fopen (file, "r");
   if (!yyin)
-    exit (2);
+  {
+    perror ("fopen");
+    exit (EXIT_FAILURE);
+  }
   /* One token only.  */
   yylex ();
   if (fclose (yyin) != 0)
-    exit (3);
+  {
+    perror ("fclose");
+    exit (EXIT_FAILURE);
+  }
   return 0;
 }
 
