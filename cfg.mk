@@ -48,10 +48,7 @@ local-checks-to-skip = \
   sc_prohibit_doubled_word		\
   sc_prohibit_empty_lines_at_EOF	\
   sc_prohibit_magic_number_exit		\
-  sc_prohibit_quotearg_without_use	\
-  sc_prohibit_strcmp			\
-  sc_unmarked_diagnostics		\
-  sc_useless_cpp_parens
+  sc_prohibit_strcmp
 
 # The local directory containing the checked-out copy of gnulib used in
 # this release.  Used solely to get a date for the "announcement" target.
@@ -70,3 +67,4 @@ update-copyright-env = \
 exclude_file_name_regexp--sc_space_tab = ^tests/(input|c\+\+)\.at$$
 exclude_file_name_regexp--sc_require_config_h_first = \
   ^(lib/yyerror|data/(glr|yacc))\.c$$
+exclude_file_name_regexp--sc_unmarked_diagnostics = ^djgpp/

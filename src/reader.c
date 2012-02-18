@@ -22,7 +22,6 @@
 #include "system.h"
 
 #include <quote.h>
-#include <quotearg.h>
 
 #include "complain.h"
 #include "conflicts.h"
