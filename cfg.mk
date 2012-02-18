@@ -36,8 +36,6 @@ url_dir_list = \
 local-checks-to-skip =			\
   sc_immutable_NEWS			\
   sc_bindtextdomain			\
-  sc_error_message_period		\
-  sc_error_message_uppercase		\
   sc_program_name			\
   sc_prohibit_HAVE_MBRTOWC		\
   sc_prohibit_always-defined_macros	\
