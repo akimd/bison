@@ -22,7 +22,6 @@
 #include "system.h"
 
 #include <bitset.h>
-#include <quotearg.h>
 
 #include "LR0.h"
 #include "closure.h"

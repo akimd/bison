@@ -29,7 +29,6 @@
 #include "system.h"
 
 #include <bitset.h>
-#include <quotearg.h>
 
 #include "complain.h"
 #include "files.h"

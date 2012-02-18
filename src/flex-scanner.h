@@ -51,11 +51,11 @@ int   FLEX_PREFIX (lex_destroy) (void);
    versions according to the Flex manual) leak memory if yylex_destroy is not
    invoked.  However, yylex_destroy is not defined before Flex 2.5.9, so give
    an implementation here that at least appears to work with Flex 2.5.4.  */
-#if !defined(YY_FLEX_MAJOR_VERSION) || YY_FLEX_MAJOR_VERSION < 2 \
+#if !defined YY_FLEX_MAJOR_VERSION || YY_FLEX_MAJOR_VERSION < 2 \
     || (YY_FLEX_MAJOR_VERSION == 2 \
-        && (!defined(YY_FLEX_MINOR_VERSION) || YY_FLEX_MINOR_VERSION < 5 \
+        && (!defined YY_FLEX_MINOR_VERSION || YY_FLEX_MINOR_VERSION < 5 \
             || (YY_FLEX_MINOR_VERSION == 5 \
-                && (!defined(YY_FLEX_SUBMINOR_VERSION) \
+                && (!defined YY_FLEX_SUBMINOR_VERSION \
                     || YY_FLEX_SUBMINOR_VERSION < 9))))
 # define yylex_destroy() yy_delete_buffer (YY_CURRENT_BUFFER)
 #endif
