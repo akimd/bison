@@ -38,7 +38,20 @@ url_dir_list = \
 # at the top of the file for each `make distcheck' run.
 local-checks-to-skip = \
   changelog-check \
-  sc_immutable_NEWS
+  sc_immutable_NEWS			\
+  sc_bindtextdomain			\
+  sc_program_name			\
+  sc_prohibit_HAVE_MBRTOWC		\
+  sc_prohibit_always-defined_macros	\
+  sc_prohibit_always_true_header_tests	\
+  sc_prohibit_atoi_atof			\
+  sc_prohibit_doubled_word		\
+  sc_prohibit_empty_lines_at_EOF	\
+  sc_prohibit_magic_number_exit		\
+  sc_prohibit_quotearg_without_use	\
+  sc_prohibit_strcmp			\
+  sc_unmarked_diagnostics		\
+  sc_useless_cpp_parens
 
 # The local directory containing the checked-out copy of gnulib used in
 # this release.  Used solely to get a date for the "announcement" target.

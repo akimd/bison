@@ -1689,8 +1689,8 @@ empty2: ;
 static void
 yyerror (YYLTYPE *locp, char const *msg)
 {
-  fprintf (stderr, "Error at %d.%d-%d.%d: %s.\n", locp->first_line,
-	   locp->first_column, locp->last_line, locp->last_column, msg);
+  fprintf (stderr, "%d.%d-%d.%d: %s.\n", locp->first_line,
+           locp->first_column, locp->last_line, locp->last_column, msg);
 }
 
 static int
@@ -1720,7 +1720,7 @@ AT_BISON_CHECK([[-o glr-regr17.c glr-regr17.y]], 0, [],
 AT_COMPILE([glr-regr17])
 
 AT_PARSER_CHECK([[./glr-regr17]], 0, [],
-[Error at 1.1-2.3: syntax is ambiguous.
+[1.1-2.3: syntax is ambiguous.
 ])
 
 AT_CLEANUP
