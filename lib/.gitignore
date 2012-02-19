@@ -264,3 +264,5 @@
 /fpending.c
 /fpending.h
 /sysexits.in.h
+/progname.c
+/progname.h

@@ -35,9 +35,6 @@ url_dir_list = \
 # Tests not to run as part of "make distcheck".
 local-checks-to-skip =			\
   sc_immutable_NEWS			\
-  sc_bindtextdomain			\
-  sc_program_name			\
-  sc_prohibit_HAVE_MBRTOWC		\
   sc_prohibit_always-defined_macros	\
   sc_prohibit_always_true_header_tests	\
   sc_prohibit_atoi_atof			\
@@ -58,8 +55,12 @@ update-copyright: update-b4-copyright update-package-copyright-year
 update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
 
-exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = ^src/parse-gram.h$$
-exclude_file_name_regexp--sc_require_config_h_first = \
-  ^(lib/yyerror|data/(glr|yacc))\.c$$
-exclude_file_name_regexp--sc_space_tab = ^tests/(input|c\+\+)\.at$$
-exclude_file_name_regexp--sc_unmarked_diagnostics = ^djgpp/
+exclude = $(foreach a,$(1),$(eval exclude_file_name_regexp--sc_$(a)))
+$(call exclude,							\
+  bindtextdomain=^lib/main.c$$					\
+  program_name=^lib/main.c$$					\
+  prohibit_empty_lines_at_EOF=^src/parse-gram.h$$		\
+  require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$	\
+  space_tab=^tests/(input|c\+\+)\.at$$				\
+  unmarked_diagnostics=^djgpp/					\
+)

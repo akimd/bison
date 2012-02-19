@@ -23,7 +23,6 @@
 
 #include "location.h"
 
-extern char *program_name;
 enum { command_line_prio, grammar_prio, default_prio };
 
 /* flags set by % directives */

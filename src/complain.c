@@ -23,6 +23,7 @@
 #include "system.h"
 
 #include <stdarg.h>
+#include <progname.h>
 
 #include "complain.h"
 #include "files.h"
