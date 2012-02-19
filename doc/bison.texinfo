@@ -163,9 +163,9 @@ Reverse Polish Notation Calculator
 
 Grammar Rules for @code{rpcalc}
 
-* Rpcalc Input::
-* Rpcalc Line::
-* Rpcalc Expr::
+* Rpcalc Input::            Explanation of the @code{input} nonterminal
+* Rpcalc Line::             Explanation of the @code{line} nonterminal
+* Rpcalc Expr::             Explanation of the @code{expr} nonterminal
 
 Location Tracking Calculator: @code{ltcalc}
 
@@ -1517,11 +1517,13 @@ The source code for this calculator is named @file{rpcalc.y}.  The
 Here are the C and Bison declarations for the reverse polish notation
 calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 
+@comment file: rpcalc.y
 @example
 /* Reverse polish notation calculator.  */
 
 %@{
   #define YYSTYPE double
+  #include <stdio.h>
   #include <math.h>
   int yylex (void);
   void yyerror (char const *);
@@ -1566,13 +1568,14 @@ type for numeric constants.
 
 Here are the grammar rules for the reverse polish notation calculator.
 
+@comment file: rpcalc.y
 @example
 input:    /* empty */
         | input line
 ;
 
 line:     '\n'
-        | exp '\n'      @{ printf ("\t%.10g\n", $1); @}
+        | exp '\n'      @{ printf ("%.10g\n", $1); @}
 ;
 
 exp:      NUM           @{ $$ = $1;           @}
@@ -1607,9 +1610,9 @@ main job of most actions.  The semantic values of the components of the
 rule are referred to as @code{$1}, @code{$2}, and so on.
 
 @menu
-* Rpcalc Input::
-* Rpcalc Line::
-* Rpcalc Expr::
+* Rpcalc Input::            Explanation of the @code{input} nonterminal
+* Rpcalc Line::             Explanation of the @code{line} nonterminal
+* Rpcalc Expr::             Explanation of the @code{expr} nonterminal
 @end menu
 
 @node Rpcalc Input
@@ -1653,7 +1656,7 @@ Now consider the definition of @code{line}:
 
 @example
 line:     '\n'
-        | exp '\n'  @{ printf ("\t%.10g\n", $1); @}
+        | exp '\n'  @{ printf ("%.10g\n", $1); @}
 ;
 @end example
 
@@ -1769,6 +1772,7 @@ A token type code of zero is returned if the end-of-input is encountered.
 
 Here is the code for the lexical analyzer:
 
+@comment file: rpcalc.y
 @example
 @group
 /* The lexical analyzer returns a double floating point
@@ -1817,6 +1821,7 @@ In keeping with the spirit of this example, the controlling function is
 kept to the bare minimum.  The only requirement is that it call
 @code{yyparse} to start the process of parsing.
 
+@comment file: rpcalc.y
 @example
 @group
 int
@@ -1837,6 +1842,7 @@ always @code{"syntax error"}).  It is up to the programmer to supply
 @code{yyerror} (@pxref{Interface, ,Parser C-Language Interface}), so
 here is the definition we will use:
 
+@comment file: rpcalc.y
 @example
 @group
 #include <stdio.h>
@@ -1919,15 +1925,15 @@ example session using @code{rpcalc}.
 @example
 $ @kbd{rpcalc}
 @kbd{4 9 +}
-13
+@result{} 13
 @kbd{3 7 + 3 4 5 *+-}
--13
+@result{} -13
 @kbd{3 7 + 3 4 5 * + - n}              @r{Note the unary minus, @samp{n}}
-13
+@result{} 13
 @kbd{5 6 / 4 n +}
--3.166666667
+@result{} -3.166666667
 @kbd{3 4 ^}                            @r{Exponentiation}
-81
+@result{} 81
 @kbd{^D}                               @r{End-of-file indicator}
 $
 @end example

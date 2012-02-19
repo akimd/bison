@@ -16,11 +16,31 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 cat >input <<EOF
-1+2*3
+1 2 3 * +
 EOF
 run 0 7
 
 cat >input <<EOF
-(1+2) * 3
+1.1 2.2 3.3 * +
+EOF
+run 0 8.36
+
+cat >input <<EOF
+1 2 + 3 *
 EOF
 run 0 9
+
+cat >input <<EOF
+1 2 3 4 5 6 7 8 9 * * * * * * * *
+EOF
+run 0 362880
+
+cat >input <<EOF
+3 7 + 3 4 5 * + - n
+EOF
+run 0 13
+
+cat >input <<EOF
+3 4 ^
+EOF
+run 0 81

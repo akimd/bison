@@ -20,3 +20,4 @@ TEST_LOG_COMPILER = $(top_srcdir)/examples/test
 
 include examples/calc++/local.mk
 include examples/mfcalc/local.mk
+include examples/rpcalc/local.mk
