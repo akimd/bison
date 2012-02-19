@@ -66,4 +66,5 @@ exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = ^src/parse-gram.[ch]$
 exclude_file_name_regexp--sc_require_config_h_first = \
   ^(lib/yyerror|data/(glr|yacc))\.c$$
 exclude_file_name_regexp--sc_space_tab = ^tests/(input|c\+\+)\.at$$
+exclude_file_name_regexp--sc_trailing_blank = ^src/parse-gram.[ch]$$
 exclude_file_name_regexp--sc_unmarked_diagnostics = ^djgpp/

@@ -1343,7 +1343,7 @@ AT_CHECK([[cat input.output | sed -n '/^state 0$/,/^state 1$/p']], 0,
    13 empty_c3: .  ['c']
 
     'b'  shift, and go to state 1
- 
+
     'c'       reduce using rule 13 (empty_c3)
     $default  reduce using rule 9 (empty_a)
 
