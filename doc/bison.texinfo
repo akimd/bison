@@ -1712,7 +1712,7 @@ yylex (void)
 
   /* Skip white space.  */
   while ((c = getchar ()) == ' ' || c == '\t')
-    ;
+    continue;
 @end group
 @group
   /* Process numbers.  */
@@ -2158,6 +2158,7 @@ yylex (void)
   if (c == EOF)
     return 0;
 
+@group
   /* Return a single char, and update location.  */
   if (c == '\n')
     @{
@@ -2168,6 +2169,7 @@ yylex (void)
     ++yylloc.last_column;
   return c;
 @}
+@end group
 @end example
 
 Basically, the lexical analyzer performs the same processing as before:
@@ -2467,6 +2469,10 @@ The function @code{getsym} is passed the name of the symbol to look up.  If
 found, a pointer to that symbol is returned; otherwise zero is returned.
 
 @smallexample
+#include <stdlib.h> /* malloc. */
+#include <string.h> /* strlen. */
+
+@group
 symrec *
 putsym (char const *sym_name, int sym_type)
 @{
@@ -2480,7 +2486,9 @@ putsym (char const *sym_name, int sym_type)
   sym_table = ptr;
   return ptr;
 @}
+@end group
 
+@group
 symrec *
 getsym (char const *sym_name)
 @{
@@ -2491,6 +2499,7 @@ getsym (char const *sym_name)
       return ptr;
   return 0;
 @}
+@end group
 @end smallexample
 
 The function @code{yylex} must now recognize variables, numeric values, and
@@ -2520,7 +2529,8 @@ yylex (void)
   int c;
 
   /* Ignore white space, get first nonwhite character.  */
-  while ((c = getchar ()) == ' ' || c == '\t');
+  while ((c = getchar ()) == ' ' || c == '\t')
+    continue;
 
   if (c == EOF)
     return 0;
@@ -2841,19 +2851,26 @@ definitions.
 Thus, they belong in one or more @code{%code requires}:
 
 @smallexample
+@group
 %code top @{
   #define _GNU_SOURCE
   #include <stdio.h>
 @}
+@end group
 
+@group
 %code requires @{
   #include "ptypes.h"
 @}
+@end group
+@group
 %union @{
   long int n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
+@end group
 
+@group
 %code requires @{
   #define YYLTYPE YYLTYPE
   typedef struct YYLTYPE
@@ -2865,12 +2882,15 @@ Thus, they belong in one or more @code{%code requires}:
     char *filename;
   @} YYLTYPE;
 @}
+@end group
 
+@group
 %code @{
   static void print_token_value (FILE *, int, YYSTYPE);
   #define YYPRINT(F, N, L) print_token_value (F, N, L)
   static void trace_token (enum yytokentype token, YYLTYPE loc);
 @}
+@end group
 
 @dots{}
 @end smallexample
@@ -2908,19 +2928,26 @@ sufficient.  Instead, move its prototype from the unqualified
 @code{%code} to a @code{%code provides}:
 
 @smallexample
+@group
 %code top @{
   #define _GNU_SOURCE
   #include <stdio.h>
 @}
+@end group
 
+@group
 %code requires @{
   #include "ptypes.h"
 @}
+@end group
+@group
 %union @{
   long int n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
+@end group
 
+@group
 %code requires @{
   #define YYLTYPE YYLTYPE
   typedef struct YYLTYPE
@@ -2932,15 +2959,20 @@ sufficient.  Instead, move its prototype from the unqualified
     char *filename;
   @} YYLTYPE;
 @}
+@end group
 
+@group
 %code provides @{
   void trace_token (enum yytokentype token, YYLTYPE loc);
 @}
+@end group
 
+@group
 %code @{
   static void print_token_value (FILE *, int, YYSTYPE);
   #define YYPRINT(F, N, L) print_token_value (F, N, L)
 @}
+@end group
 
 @dots{}
 @end smallexample
@@ -2970,15 +3002,19 @@ For example, you may organize semantic-type-related directives by semantic
 type:
 
 @smallexample
+@group
 %code requires @{ #include "type1.h" @}
 %union @{ type1 field1; @}
 %destructor @{ type1_free ($$); @} <field1>
 %printer @{ type1_print ($$); @} <field1>
+@end group
 
+@group
 %code requires @{ #include "type2.h" @}
 %union @{ type2 field2; @}
 %destructor @{ type2_free ($$); @} <field2>
 %printer @{ type2_print ($$); @} <field2>
+@end group
 @end smallexample
 
 @noindent
@@ -6683,18 +6719,22 @@ For example, here is an erroneous attempt to define a sequence
 of zero or more @code{word} groupings.
 
 @example
+@group
 sequence: /* empty */
                 @{ printf ("empty sequence\n"); @}
         | maybeword
         | sequence word
                 @{ printf ("added word %s\n", $2); @}
         ;
+@end group
 
+@group
 maybeword: /* empty */
                 @{ printf ("empty maybeword\n"); @}
         | word
                 @{ printf ("single word %s\n", $1); @}
         ;
+@end group
 @end example
 
 @noindent
@@ -6771,18 +6811,24 @@ Second, to prevent either a @code{words} or a @code{redirects}
 from being empty:
 
 @example
+@group
 sequence: /* empty */
         | sequence words
         | sequence redirects
         ;
+@end group
 
+@group
 words:    word
         | words word
         ;
+@end group
 
+@group
 redirects:redirect
         | redirects redirect
         ;
+@end group
 @end example
 
 @node Mysterious Conflicts
@@ -7622,11 +7668,13 @@ earlier:
 @example
 typedef int foo, bar;
 int baz (void)
+@group
 @{
   static bar (bar);      /* @r{redeclare @code{bar} as static variable} */
   extern foo foo (foo);  /* @r{redeclare @code{foo} as function} */
   return foo (bar);
 @}
+@end group
 @end example
 
 Unfortunately, the name being declared is separated from the declaration
@@ -7639,17 +7687,21 @@ declaration in which that can't be done.  Here is a part of the
 duplication, with actions omitted for brevity:
 
 @example
+@group
 initdcl:
           declarator maybeasm '='
           init
         | declarator maybeasm
         ;
+@end group
 
+@group
 notype_initdcl:
           notype_declarator maybeasm '='
           init
         | notype_declarator maybeasm
         ;
+@end group
 @end example
 
 @noindent
@@ -7904,6 +7956,7 @@ Grammar
 and reports the uses of the symbols:
 
 @example
+@group
 Terminals, with rules where they appear
 
 $end (0) 0
@@ -7913,13 +7966,16 @@ $end (0) 0
 '/' (47) 4
 error (256)
 NUM (258) 5
+@end group
 
+@group
 Nonterminals, with rules where they appear
 
 $accept (8)
     on left: 0
 exp (9)
     on left: 1 2 3 4 5, on right: 0 1 2 3 4
+@end group
 @end example
 
 @noindent
@@ -8136,6 +8192,7 @@ state 8
 The remaining states are similar:
 
 @example
+@group
 state 9
 
     exp  ->  exp . '+' exp   (rule 1)
@@ -8149,7 +8206,9 @@ state 9
 
     '/'         [reduce using rule 2 (exp)]
     $default    reduce using rule 2 (exp)
+@end group
 
+@group
 state 10
 
     exp  ->  exp . '+' exp   (rule 1)
@@ -8162,7 +8221,9 @@ state 10
 
     '/'         [reduce using rule 3 (exp)]
     $default    reduce using rule 3 (exp)
+@end group
 
+@group
 state 11
 
     exp  ->  exp . '+' exp   (rule 1)
@@ -8181,6 +8242,7 @@ state 11
     '*'         [reduce using rule 4 (exp)]
     '/'         [reduce using rule 4 (exp)]
     $default    reduce using rule 4 (exp)
+@end group
 @end example
 
 @noindent
@@ -9314,9 +9376,11 @@ preceding tokens.  Comments would be treated equally.
 
 @comment file: calc++-scanner.ll
 @example
+@group
 %@{
 # define YY_USER_ACTION  yylloc->columns (yyleng);
 %@}
+@end group
 %%
 %@{
   yylloc->step ();
@@ -9358,6 +9422,7 @@ on the scanner's data, it is simpler to implement them in this file.
 
 @comment file: calc++-scanner.ll
 @example
+@group
 void
 calcxx_driver::scan_begin ()
 @{
@@ -9370,12 +9435,15 @@ calcxx_driver::scan_begin ()
       exit (EXIT_FAILURE);
     @}
 @}
+@end group
 
+@group
 void
 calcxx_driver::scan_end ()
 @{
   fclose (yyin);
 @}
+@end group
 @end example
 
 @node Calc++ Top Level
@@ -9388,6 +9456,7 @@ The top level file, @file{calc++.cc}, poses no problem.
 #include <iostream>
 #include "calc++-driver.hh"
 
+@group
 int
 main (int argc, char *argv[])
 @{
@@ -9400,6 +9469,7 @@ main (int argc, char *argv[])
     else if (!driver.parse (*argv))
       std::cout << driver.result << std::endl;
 @}
+@end group
 @end example
 
 @node Java Parsers
@@ -10032,41 +10102,49 @@ speed, they might not notice a change of input file.  As a
 demonstration, consider the following source file,
 @file{first-line.l}:
 
-@verbatim
-%{
+@example
+@group
+%@{
 #include <stdio.h>
 #include <stdlib.h>
-%}
+%@}
+@end group
 %%
 .*\n    ECHO; return 1;
 %%
+@group
 int
 yyparse (char const *file)
-{
+@{
   yyin = fopen (file, "r");
   if (!yyin)
-  {
-    perror ("fopen");
-    exit (EXIT_FAILURE);
-  }
+    @{
+      perror ("fopen");
+      exit (EXIT_FAILURE);
+    @}
+@end group
+@group
   /* One token only.  */
   yylex ();
   if (fclose (yyin) != 0)
-  {
-    perror ("fclose");
-    exit (EXIT_FAILURE);
-  }
+    @{
+      perror ("fclose");
+      exit (EXIT_FAILURE);
+    @}
   return 0;
-}
+@}
+@end group
 
+@group
 int
 main (void)
-{
+@{
   yyparse ("input");
   yyparse ("input");
   return 0;
-}
-@end verbatim
+@}
+@end group
+@end example
 
 @noindent
 If the file @file{input} contains
@@ -10116,14 +10194,19 @@ Bison lists, but is only concerned with a misunderstanding of the role
 of the scanner.  Consider the following Lex code:
 
 @verbatim
+@group
 %{
 #include <stdio.h>
 char *yylval = NULL;
 %}
+@end group
+@group
 %%
 .*    yylval = yytext; return 1;
 \n    /* IGNORE */
 %%
+@end group
+@group
 int
 main ()
 {
@@ -10133,6 +10216,7 @@ main ()
   printf ("\"%s\", \"%s\"\n", fst, snd);
   return 0;
 }
+@end group
 @end verbatim
 
 If you compile and run this code, you get:
