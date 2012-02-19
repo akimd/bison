@@ -39,7 +39,6 @@ url_dir_list = \
 local-checks-to-skip = \
   changelog-check \
   sc_immutable_NEWS			\
-  sc_prohibit_always-defined_macros	\
   sc_prohibit_always_true_header_tests	\
   sc_prohibit_atoi_atof			\
   sc_prohibit_doubled_word		\
@@ -60,12 +59,15 @@ update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
 
 exclude = $(foreach a,$(1),$(eval exclude_file_name_regexp--sc_$(a)))
-$(call exclude,							\
-  bindtextdomain=^lib/main.c$$					\
-  program_name=^lib/main.c$$					\
-  prohibit_empty_lines_at_EOF=^src/parse-gram.[ch]$$		\
-  require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$	\
-  space_tab=^tests/(input|c\+\+)\.at$$				\
-  trailing_blank=^src/parse-gram.[ch]$$				\
-  unmarked_diagnostics=^djgpp/					\
+$(call exclude,								\
+  bindtextdomain=^lib/main.c$$						\
+  program_name=^lib/main.c$$						\
+  prohibit_always-defined_macros=^data/yacc.c|^djgpp/			\
+  prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$	\
+  prohibit_always-defined_macros+=?|^tests/regression.at$$		\
+  prohibit_empty_lines_at_EOF=^src/parse-gram.[ch]$$			\
+  require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
+  space_tab=^tests/(input|c\+\+)\.at$$					\
+  trailing_blank=^src/parse-gram.[ch]$$					\
+  unmarked_diagnostics=^djgpp/						\
 )
