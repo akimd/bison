@@ -41,7 +41,6 @@ local-checks-to-skip = \
   sc_immutable_NEWS			\
   sc_prohibit_always_true_header_tests	\
   sc_prohibit_atoi_atof			\
-  sc_prohibit_doubled_word		\
   sc_prohibit_strcmp
 
 # The local directory containing the checked-out copy of gnulib used in

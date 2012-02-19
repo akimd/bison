@@ -4092,7 +4092,7 @@ In references, in order to specify names containing dots and dashes, an explicit
 bracketed syntax @code{$[name]} and @code{@@[name]} must be used:
 @example
 @group
-if-stmt: IF '(' expr ')' THEN then.stmt ';'
+if-stmt: "if" '(' expr ')' "then" then.stmt ';'
   @{ $[if-stmt] = new_if_stmt ($expr, $[then.stmt]); @}
 @end group
 @end example
