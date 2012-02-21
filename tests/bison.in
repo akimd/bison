@@ -20,17 +20,29 @@
 abs_top_srcdir='@abs_top_srcdir@'
 abs_top_builddir='@abs_top_builddir@'
 
+: ${PERL=perl}
+
 # Use the shipped files, not those installed.
 BISON_PKGDATADIR=$abs_top_srcdir/data
 export BISON_PKGDATADIR
-$PREBISON "$abs_top_builddir/src/bison" ${1+"$@"}
+
+trap 'rm -f /tmp/bison.$$.*; exit $status' 0 1 2 13 15
+$PREBISON "$abs_top_builddir/src/bison" ${1+"$@"} 2>/tmp/bison.$$.err
 status=$?
+# Protect from gettextized quotes.  See quotearg.c's gettext_quote for
+# the UTF-8 sequences.  For context, see
+# http://lists.gnu.org/archive/html/bug-bison/2012-01/msg00120.html
+#
+# In UTF-8 the quoting quote are not ', so bison use them to quote the
+# ' character.  When using ASCII quotes, bison issues "'".
+$PERL -p                                                                \
+  -e "s{\\xe2\\x80\\x98|\\xe2\\x80\\x99|\\xa1\\ae|\\xa1\\xaf}{'}g;"     \
+  -e "s{'''}{\"'\"}g;"                                                  \
+  /tmp/bison.$$.err >&2
 
 # As a special dark magic, if we are actually using this wrapper to
 # compile Bison's src/parse-gram.y, post-process the synclines to
 # avoid dependencies on the user's set up (srcdir vs. builddir).
-PERL=perl
-
 for i
 do
   case $i in
@@ -40,8 +52,8 @@ do
       # post-processes the synclines on y.tab.c itself.  Don't let it
       # do it.  Besides, it leaves "parse-gram.y" as the source,
       # dropping the src/ part.
-      perl -pi -e 's{"y\.tab\.}{"src/parse-gram.}g;'  \
-               -e 's{".*/(parse-gram\.y)"}{"src/$1"}g;'   \
+      $PERL -pi -e 's{"y\.tab\.}{"src/parse-gram.}g;'    \
+                -e 's{".*/(parse-gram\.y)"}{"src/$1"}g;' \
            y.tab.[ch]
     fi
     ;;
