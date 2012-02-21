@@ -207,6 +207,7 @@ extern FILE *input;]AT_SKEL_CC_IF([[
 
 %code
 {
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #if HAVE_UNISTD_H
