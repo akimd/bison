@@ -23,6 +23,7 @@ AT_SETUP([Tutorial calculator])
 AT_DATA_GRAMMAR([test.y],
 [[
 %{
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

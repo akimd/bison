@@ -52,7 +52,8 @@
 typedef size_t uintptr_t;
 #endif
 
-#include <sysexits.h>
+// Version mismatch.
+#define EX_MISMATCH 63
 
 /*---------.
 | Gnulib.  |
