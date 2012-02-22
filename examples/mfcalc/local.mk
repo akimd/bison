@@ -15,38 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## ------------ ##
-## Extracting.  ##
-## ------------ ##
-
-# Extract in src.
-$(top_srcdir)/examples/mfcalc/mfcalc.stamp: $(doc) $(extexi)
-	$(AM_V_GEN)rm -f $@ $@.tmp
-	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)cd $(top_srcdir)/examples/mfcalc && \
-	   $(AWK) -f ../extexi -v VERSION="$(VERSION)" \
-	     ../../doc/bison.texinfo -- calc.h mfcalc.y
-	$(AM_V_at)mv $@.tmp $@
-
-$(mfcalc_extracted): $(top_srcdir)/examples/mfcalc/mfcalc.stamp
-	$(AM_V_GEN)if test -f $@; then :; else \
-	  rm -f $< && \
-	  $(MAKE) $(AM_MAKEFLAGS) $<; \
-	fi
-
 ## -------------------- ##
 ## Building & testing.  ##
 ## -------------------- ##
 
 BUILT_SOURCES += $(mfcalc_sources)
-MAINTAINERCLEANFILES += $(top_srcdir)/examples/mfcalc/mfcalc.stamp $(mfcalc_sources)
-EXTRA_DIST += examples/mfcalc/mfcalc.stamp
+MAINTAINERCLEANFILES += $(mfcalc_sources)
 
 mfcalc_extracted =				\
   examples/mfcalc/calc.h			\
   examples/mfcalc/mfcalc.y
 mfcalc_sources =				\
   $(mfcalc_extracted)
+extracted += $(mfcalc_extracted)
 
 check_PROGRAMS += examples/mfcalc/mfcalc
 examples_mfcalc_mfcalc_LDADD = -lm

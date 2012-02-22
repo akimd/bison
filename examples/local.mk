@@ -13,10 +13,27 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-doc = $(top_srcdir)/doc/bison.texinfo
-extexi = $(top_srcdir)/examples/extexi
 dist_noinst_SCRIPTS = examples/extexi examples/test
 TEST_LOG_COMPILER = $(top_srcdir)/examples/test
+
+## ------------ ##
+## Extracting.  ##
+## ------------ ##
+
+doc = $(top_srcdir)/doc/bison.texinfo
+extexi = $(top_srcdir)/examples/extexi
+extract = $(AWK) -f $(extexi) -v VERSION="$(VERSION)" $(doc) --
+extracted =
+MAINTAINERCLEANFILES += $(extracted)
+examples/extracted.stamp: $(doc) $(extexi)
+	$(AM_V_GEN)rm -f $@ $@.tmp
+	$(AM_V_at)touch $@.tmp
+	$(AM_V_at)$(extract) $(extracted)
+	$(AM_V_at)mv $@.tmp $@
+
+$(extracted): examples/extracted.stamp
+	@test -f $@ || rm -f examples/extracted.stamp
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) examples/extracted.stamp
 
 include examples/calc++/local.mk
 include examples/mfcalc/local.mk

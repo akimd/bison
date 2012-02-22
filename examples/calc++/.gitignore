@@ -4,10 +4,11 @@
 /calc++
 /calc++-driver.cc
 /calc++-driver.hh
-/calc++-parser.output
-/calc++-parser.yy
 /calc++-parser.cc
-/calc++-parser.h
+/calc++-parser.hh
+/calc++-parser.output
+/calc++-parser.stamp
+/calc++-parser.yy
 /calc++-scanner.cc
 /calc++-scanner.ll
 /calc++.cc

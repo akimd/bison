@@ -29,7 +29,7 @@ BEGIN {
     if (ARGV[argc] == "--")
       break;
   for (i = argc + 1; i < ARGC; ++i)
-    file_wanted[ARGV[i]] = 1;
+    file_wanted[basename(ARGV[i])] = ARGV[i];
   ARGC = argc;
 }
 
@@ -43,13 +43,10 @@ BEGIN {
 }
 
 /^@comment file: / {
-  if (!file_wanted[$3])
-    message("ignoring " $3);
+  if (file = file_wanted[$3])
+    message(" GEN " file);
   else
-    {
-      message("extracting " $3);
-      file = $3;
-    }
+    message("SKIP " $3);
 }
 
 /^@(small)?example$/, /^@end (small)?example$/ {
@@ -124,6 +121,11 @@ function normalize(contents,    i, lines, n, line, res) {
   return res;
 }
 
+
+function basename(name,     a, n) {
+  n = split (name, a, "/");
+  return a[n];
+}
 
 function message(msg) {
   if (! message_printed[msg])

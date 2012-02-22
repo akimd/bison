@@ -15,37 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## ------------ ##
-## Extracting.  ##
-## ------------ ##
-
-# Extract in src.
-$(top_srcdir)/examples/rpcalc/rpcalc.stamp: $(doc) $(extexi)
-	$(AM_V_GEN)rm -f $@ $@.tmp
-	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)cd $(top_srcdir)/examples/rpcalc && \
-	   $(AWK) -f ../extexi -v VERSION="$(VERSION)" \
-	     ../../doc/bison.texinfo -- calc.h rpcalc.y
-	$(AM_V_at)mv $@.tmp $@
-
-$(rpcalc_extracted): $(top_srcdir)/examples/rpcalc/rpcalc.stamp
-	$(AM_V_GEN)if test -f $@; then :; else \
-	  rm -f $< && \
-	  $(MAKE) $(AM_MAKEFLAGS) $<; \
-	fi
-
 ## -------------------- ##
 ## Building & testing.  ##
 ## -------------------- ##
 
 BUILT_SOURCES += $(rpcalc_sources)
-MAINTAINERCLEANFILES += $(top_srcdir)/examples/rpcalc/rpcalc.stamp $(rpcalc_sources)
-EXTRA_DIST += examples/rpcalc/rpcalc.stamp
+MAINTAINERCLEANFILES += $(rpcalc_sources)
 
 rpcalc_extracted =				\
   examples/rpcalc/rpcalc.y
 rpcalc_sources =				\
   $(rpcalc_extracted)
+extracted += $(rpcalc_extracted)
 
 check_PROGRAMS += examples/rpcalc/rpcalc
 examples_rpcalc_rpcalc_LDADD = -lm

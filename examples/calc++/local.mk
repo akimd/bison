@@ -15,55 +15,71 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## ------------ ##
-## Extracting.  ##
-## ------------ ##
+## ------------------- ##
+## Parser generation.  ##
+## ------------------- ##
 
-# Extract in src.
-$(top_srcdir)/examples/calc++/calc.stamp: $(doc) $(extexi)
-	$(AM_V_GEN)rm -f $@ $@.tmp
+CLEANFILES += $(top_srcdir)/examples/calc++/*.output *.tmp
+MAINTAINERCLEANFILES += examples/calc++/*.stamp $(calc_sources)
+
+# Compile the parser and save cycles.
+# This code comes from "Handling Tools that Produce Many Outputs",
+# from the Automake documentation.
+EXTRA_DIST +=                                  \
+  examples/calc++/calc++-parser.stamp          \
+  examples/calc++/calc++-parser.yy             \
+  examples/calc++/calc++.stamp
+# Don't depend on $(BISON) otherwise we would rebuild these files
+# in srcdir, including during distcheck, which is forbidden.
+examples/calc++/calc++-parser.stamp: examples/calc++/calc++-parser.yy $(BISON_IN)
+	$(AM_V_YACC)rm -f $@
 	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)cd $(top_srcdir)/examples/calc++ && \
-	   $(AWK) -f ../extexi -v VERSION="$(VERSION)" \
-	     ../../doc/bison.texinfo -- calc++-parser.yy \
-	     calc++-scanner.ll calc++.cc calc++-driver.hh calc++-driver.cc
-	$(AM_V_at)mv $@.tmp $@
+	$(AM_V_at)$(YACCCOMPILE) -o examples/calc++/calc++-parser.cc	\
+	  examples/calc++/calc++-parser.yy
+	$(AM_V_at)mv -f $@.tmp $@
 
-$(calc_extracted): $(top_srcdir)/examples/calc++/calc.stamp
-	$(AM_V_GEN)if test -f $@; then :; else \
-	  rm -f $< && \
-	  $(MAKE) $(AM_MAKEFLAGS) $<; \
-	fi
+$(calc_sources_generated): examples/calc++/calc++-parser.stamp
+	@test -f $@ || rm -f examples/calc++/calc++-parser.stamp
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) examples/calc++/calc++-parser.stamp
+
 
 ## -------------------- ##
 ## Building & testing.  ##
 ## -------------------- ##
 
-BUILT_SOURCES += $(calc_sources) examples/calc++/calc++-parser.h
+# Avoid using BUILT_SOURCES which is too global.
+$(examples_calc___calc___OBJECTS): $(calc_sources_generated)
 CLEANFILES += *.tmp
-MAINTAINERCLEANFILES += $(top_srcdir)/examples/calc++/calc.stamp $(calc_sources)
-EXTRA_DIST += examples/calc++/calc.stamp
+MAINTAINERCLEANFILES += $(calc_sources)
 
-calc_extracted =				\
-  examples/calc++/calc++-scanner.ll		\
-  examples/calc++/calc++.cc			\
-  examples/calc++/calc++-driver.hh		\
+calc_sources_extracted =			\
   examples/calc++/calc++-driver.cc		\
+  examples/calc++/calc++-driver.hh		\
+  examples/calc++/calc++-scanner.ll		\
+  examples/calc++/calc++.cc
+calc_extracted =				\
+  $(calc_sources_extracted)			\
   examples/calc++/calc++-parser.yy
-calc_generated =				\
-  examples/calc++/stack.hh			\
+extracted += $(calc_extracted)
+calc_sources_generated =			\
+  examples/calc++/calc++-parser.cc		\
+  examples/calc++/calc++-parser.hh		\
+  examples/calc++/location.hh			\
   examples/calc++/position.hh			\
-  examples/calc++/location.hh
+  examples/calc++/stack.hh
 calc_sources =					\
-  $(calc_extracted) $(calc_generated)
+  $(calc_sources_extracted)			\
+  $(calc_sources_generated)
 if BISON_CXX_WORKS
 check_PROGRAMS += examples/calc++/calc++
 examples_calc___calc___SOURCES =		\
-  $(calc_sources)				\
-  examples/calc++/y.tab.h			\
-  examples/calc++/calc++-parser.hh
+  $(calc_sources)
 
-examples_calc___calc___CPPFLAGS = -I$(top_srcdir)/examples/calc++
+examples_calc___calc___CPPFLAGS =		\
+  -I$(top_builddir)/examples/calc++		\
+  -I$(top_srcdir)/examples/calc++
 TESTS += examples/calc++/calc++.test
 endif
-EXTRA_DIST += examples/calc++/calc++.test
+EXTRA_DIST +=					\
+  examples/calc++/calc++-parser.yy		\
+  examples/calc++/calc++.test
