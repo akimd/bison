@@ -303,14 +303,12 @@ m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
           # Build expected stderr up to and including the "warnings being
           # treated as errors" message.
           ]AT_DATA([[at-bison-check-warnings]], [$4])[
-          at_bison_check_first="` \
-            sed -n '/: warning: /=' at-bison-check-warnings \
-            | sed -n 1p \
-          `"
-          at_bison_check_first_tmp="` \
-            sed -n '/conflicts: [0-9].*reduce$/=' at-bison-check-warnings \
-            | sed -n 1p \
-          `"
+          at_bison_check_first=`sed -n \
+            '/: warning: /{=;q;}' at-bison-check-warnings`
+          : ${at_bison_check_first:=1}
+          at_bison_check_first_tmp=`sed -n \
+            '/conflicts: [0-9].*reduce$/{=;q;}' at-bison-check-warnings`
+          : ${at_bison_check_first_tmp:=1}
           if test $at_bison_check_first_tmp -lt $at_bison_check_first; then
             at_bison_check_first=$at_bison_check_first_tmp
           fi
@@ -324,11 +322,9 @@ m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
           # complaints cause bison to exit early.  Thus, with -Werror, bison
           # does not necessarily report all warnings that it does without
           # -Werror, but it at least reports one.
-          at_bison_check_last="`sed -n '$=' stderr`"
-          if test x"$at_bison_check_last" = x; then
-            at_bison_check_last=1
-          fi
-          at_bison_check_last="`expr $at_bison_check_last - 1`"
+          at_bison_check_last=`sed -n '$=' stderr`
+          : ${at_bison_check_last:=1}
+          at_bison_check_last=`expr $at_bison_check_last - 1`
           sed -n "$at_bison_check_first,$at_bison_check_last"p \
             at-bison-check-warnings >> experr
           ]AT_CHECK([[sed 's,.*/\(]AT_BISON_WERROR_MSG[\)$,\1,' \
