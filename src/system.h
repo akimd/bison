@@ -42,6 +42,15 @@
 #define STREQ(L, R)  (strcmp(L, R) == 0)
 #define STRNEQ(L, R) (!STREQ(L, R))
 
+/* Just like strncmp, but the second argument must be a literal string
+   and you don't specify the length.  */
+#define STRNCMP_LIT(S, Literal)                         \
+  strncmp (S, "" Literal "", sizeof (Literal) - 1)
+
+/* Whether Literal is a prefix of S.  */
+#define STRPREFIX_LIT(Literal, S)               \
+  (STRNCMP_LIT (S, Literal) == 0)
+
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>
 #endif
