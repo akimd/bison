@@ -35,9 +35,7 @@ url_dir_list = \
 # Tests not to run as part of "make distcheck".
 local-checks-to-skip =			\
   sc_immutable_NEWS			\
-  sc_prohibit_always_true_header_tests	\
-  sc_prohibit_atoi_atof			\
-  sc_prohibit_strcmp
+  sc_prohibit_atoi_atof
 
 # The local directory containing the checked-out copy of gnulib used in
 # this release.  Used solely to get a date for the "announcement" target.
@@ -61,6 +59,7 @@ $(call exclude,								\
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$	\
   prohibit_always-defined_macros+=?|^tests/regression.at$$		\
   prohibit_empty_lines_at_EOF=^src/parse-gram.h$$			\
+  prohibit_strcmp=^doc/bison\.texinfo$$					\
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
   space_tab=^tests/(input|c\+\+)\.at$$					\
   unmarked_diagnostics=^djgpp/						\

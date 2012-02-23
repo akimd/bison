@@ -179,15 +179,15 @@ at_directive_perform (int at_directive_argc,
                       char *at_directive_argv[],
                       char **outnamep, int *out_linenop)
 {
-  if (0 == strcmp (at_directive_argv[0], "@basename"))
+  if (STREQ (at_directive_argv[0], "@basename"))
     {
       if (at_directive_argc > 2)
         fail_for_at_directive_too_many_args (at_directive_argv[0]);
       fputs (last_component (at_directive_argv[1]), yyout);
     }
-  else if (0 == strcmp (at_directive_argv[0], "@warn")
-           || 0 == strcmp (at_directive_argv[0], "@complain")
-           || 0 == strcmp (at_directive_argv[0], "@fatal"))
+  else if (STREQ (at_directive_argv[0], "@warn")
+           || STREQ (at_directive_argv[0], "@complain")
+           || STREQ (at_directive_argv[0], "@fatal"))
     {
       void (*func)(char const *, ...);
       switch (at_directive_argv[0][1])
@@ -223,9 +223,9 @@ at_directive_perform (int at_directive_argc,
             break;
         }
     }
-  else if (0 == strcmp (at_directive_argv[0], "@warn_at")
-           || 0 == strcmp (at_directive_argv[0], "@complain_at")
-           || 0 == strcmp (at_directive_argv[0], "@fatal_at"))
+  else if (STREQ (at_directive_argv[0], "@warn_at")
+           || STREQ (at_directive_argv[0], "@complain_at")
+           || STREQ (at_directive_argv[0], "@fatal_at"))
     {
       void (*func)(location, char const *, ...);
       location loc;
@@ -266,7 +266,7 @@ at_directive_perform (int at_directive_argc,
             break;
         }
     }
-  else if (0 == strcmp (at_directive_argv[0], "@output"))
+  else if (STREQ (at_directive_argv[0], "@output"))
     {
       if (at_directive_argc > 2)
         fail_for_at_directive_too_many_args (at_directive_argv[0]);

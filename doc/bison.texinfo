@@ -2569,7 +2569,7 @@ getsym (char const *sym_name)
   symrec *ptr;
   for (ptr = sym_table; ptr != (symrec *) 0;
        ptr = (symrec *)ptr->next)
-    if (strcmp (ptr->name,sym_name) == 0)
+    if (strcmp (ptr->name, sym_name) == 0)
       return ptr;
   return 0;
 @}

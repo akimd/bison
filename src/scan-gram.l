@@ -39,7 +39,6 @@
 #include <ctype.h>
 #include <mbswidth.h>
 #include <quote.h>
-#include <streq.h>
 
 #include <src/scan-gram.h>
 
@@ -968,7 +967,7 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
   loc.end = scanner_cursor;
   token_end = quote (token_end);
   // Instead of '\'', display "'".
-  if (STREQ (token_end, "'\\''", '\'', '\\', '\'', '\'', 0,0,0,0,0))
+  if (STREQ (token_end, "'\\''"))
     token_end = "\"'\"";
   complain_at (loc, _(msgid), token_end);
 }
