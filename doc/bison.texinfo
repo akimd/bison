@@ -10736,10 +10736,10 @@ are addressed.
 @node Memory Exhausted
 @section Memory Exhausted
 
-@display
+@quotation
 My parser returns with error with a @samp{memory exhausted}
 message.  What can I do?
-@end display
+@end quotation
 
 This question is already addressed elsewhere, @xref{Recursion,
 ,Recursive Rules}.
@@ -10750,20 +10750,20 @@ This question is already addressed elsewhere, @xref{Recursion,
 The following phenomenon has several symptoms, resulting in the
 following typical questions:
 
-@display
+@quotation
 I invoke @code{yyparse} several times, and on correct input it works
 properly; but when a parse error is found, all the other calls fail
 too.  How can I reset the error flag of @code{yyparse}?
-@end display
+@end quotation
 
 @noindent
 or
 
-@display
+@quotation
 My parser includes support for an @samp{#include}-like feature, in
 which case I run @code{yyparse} from @code{yyparse}.  This fails
 although I did specify @samp{%define api.pure}.
-@end display
+@end quotation
 
 These problems typically come not from Bison itself, but from
 Lex-generated scanners.  Because these scanners use large buffers for
@@ -10818,10 +10818,10 @@ main (void)
 @noindent
 If the file @file{input} contains
 
-@verbatim
+@example
 input:1: Hello,
 input:2: World!
-@end verbatim
+@end example
 
 @noindent
 then instead of getting the first line twice, you get:
@@ -10852,22 +10852,22 @@ start condition, through a call to @samp{BEGIN (0)}.
 @node Strings are Destroyed
 @section Strings are Destroyed
 
-@display
+@quotation
 My parser seems to destroy old strings, or maybe it loses track of
 them.  Instead of reporting @samp{"foo", "bar"}, it reports
 @samp{"bar", "bar"}, or even @samp{"foo\nbar", "bar"}.
-@end display
+@end quotation
 
 This error is probably the single most frequent ``bug report'' sent to
 Bison lists, but is only concerned with a misunderstanding of the role
 of the scanner.  Consider the following Lex code:
 
-@verbatim
+@example
 @group
-%{
+%@{
 #include <stdio.h>
 char *yylval = NULL;
-%}
+%@}
 @end group
 @group
 %%
@@ -10878,15 +10878,15 @@ char *yylval = NULL;
 @group
 int
 main ()
-{
+@{
   /* Similar to using $1, $2 in a Bison action.  */
   char *fst = (yylex (), yylval);
   char *snd = (yylex (), yylval);
   printf ("\"%s\", \"%s\"\n", fst, snd);
   return 0;
-}
+@}
 @end group
-@end verbatim
+@end example
 
 If you compile and run this code, you get:
 
@@ -10917,10 +10917,10 @@ $ @kbd{printf 'one\ntwo\n' | ./split-lines}
 @node Implementing Gotos/Loops
 @section Implementing Gotos/Loops
 
-@display
+@quotation
 My simple calculator supports variables, assignments, and functions,
 but how can I implement gotos, or loops?
-@end display
+@end quotation
 
 Although very pedagogical, the examples included in the document blur
 the distinction to make between the parser---whose job is to recover
@@ -10947,11 +10947,11 @@ invited to consult the dedicated literature.
 @node Multiple start-symbols
 @section Multiple start-symbols
 
-@display
+@quotation
 I have several closely related grammars, and I would like to share their
 implementations.  In fact, I could use a single grammar but with
 multiple entry points.
-@end display
+@end quotation
 
 Bison does not support multiple start-symbols, but there is a very
 simple means to simulate them.  If @code{foo} and @code{bar} are the two
@@ -10996,9 +10996,9 @@ available in the scanner (e.g., a global variable or using
 @node Secure?  Conform?
 @section Secure?  Conform?
 
-@display
+@quotation
 Is Bison secure?  Does it conform to POSIX?
-@end display
+@end quotation
 
 If you're looking for a guarantee or certification, we don't provide it.
 However, Bison is intended to be a reliable program that conforms to the
@@ -11008,11 +11008,11 @@ please send us a bug report.
 @node I can't build Bison
 @section I can't build Bison
 
-@display
+@quotation
 I can't build Bison because @command{make} complains that
 @code{msgfmt} is not found.
 What should I do?
-@end display
+@end quotation
 
 Like most GNU packages with internationalization support, that feature
 is turned on by default.  If you have problems building in the @file{po}
@@ -11026,9 +11026,9 @@ Bison.  See the file @file{ABOUT-NLS} for more information.
 @node Where can I find help?
 @section Where can I find help?
 
-@display
+@quotation
 I'm having trouble using Bison.  Where can I find help?
-@end display
+@end quotation
 
 First, read this fine manual.  Beyond that, you can send mail to
 @email{help-bison@@gnu.org}.  This mailing list is intended to be
@@ -11043,9 +11043,9 @@ hearts.
 @node Bug Reports
 @section Bug Reports
 
-@display
+@quotation
 I found a bug.  What should I include in the bug report?
-@end display
+@end quotation
 
 Before you send a bug report, make sure you are using the latest
 version.  Check @url{ftp://ftp.gnu.org/pub/gnu/bison/} or one of its
@@ -11074,10 +11074,10 @@ Send bug reports to @email{bug-bison@@gnu.org}.
 @node More Languages
 @section More Languages
 
-@display
+@quotation
 Will Bison ever have C++ and Java support?  How about @var{insert your
 favorite language here}?
-@end display
+@end quotation
 
 C++ and Java support is there now, and is documented.  We'd love to add other
 languages; contributions are welcome.
@@ -11085,9 +11085,9 @@ languages; contributions are welcome.
 @node Beta Testing
 @section Beta Testing
 
-@display
+@quotation
 What is involved in being a beta tester?
-@end display
+@end quotation
 
 It's not terribly involved.  Basically, you would download a test
 release, compile it, and use it to build and run a parser or two.  After
@@ -11105,9 +11105,9 @@ systems are especially welcome.
 @node Mailing Lists
 @section Mailing Lists
 
-@display
+@quotation
 How do I join the help-bison and bug-bison mailing lists?
-@end display
+@end quotation
 
 See @url{http://lists.gnu.org/}.
 
