@@ -20,7 +20,6 @@
 ## -------------------- ##
 
 BUILT_SOURCES += $(mfcalc_sources)
-MAINTAINERCLEANFILES += $(mfcalc_sources)
 
 mfcalc_extracted =				\
   examples/mfcalc/calc.h			\
@@ -31,9 +30,8 @@ extracted += $(mfcalc_extracted)
 
 check_PROGRAMS += examples/mfcalc/mfcalc
 examples_mfcalc_mfcalc_LDADD = -lm
-examples_mfcalc_mfcalc_SOURCES =		\
+nodist_examples_mfcalc_mfcalc_SOURCES =		\
   $(mfcalc_sources)
 
-examples_mfcalc_mfcalc_CPPFLAGS = -I$(top_srcdir)/examples/mfcalc
-TESTS += examples/mfcalc/mfcalc.test
-EXTRA_DIST += examples/mfcalc/mfcalc.test
+examples_mfcalc_mfcalc_CPPFLAGS = -I$(top_builddir)/examples/mfcalc
+dist_TESTS += examples/mfcalc/mfcalc.test

@@ -19,23 +19,16 @@
 ## Parser generation.  ##
 ## ------------------- ##
 
-CLEANFILES += $(top_srcdir)/examples/calc++/*.output *.tmp
-MAINTAINERCLEANFILES += examples/calc++/*.stamp $(calc_sources)
+CLEANFILES += examples/calc++/calc++-parser.output *.tmp
 
-# Compile the parser and save cycles.
-# This code comes from "Handling Tools that Produce Many Outputs",
-# from the Automake documentation.
-EXTRA_DIST +=                                  \
-  examples/calc++/calc++-parser.stamp          \
-  examples/calc++/calc++-parser.yy             \
-  examples/calc++/calc++.stamp
 # Don't depend on $(BISON) otherwise we would rebuild these files
 # in srcdir, including during distcheck, which is forbidden.
-examples/calc++/calc++-parser.stamp: examples/calc++/calc++-parser.yy $(BISON_IN)
+examples/calc++/calc++-parser.stamp: $(BISON_IN)
+SUFFIXES += .yy .stamp
+.yy.stamp:
 	$(AM_V_YACC)rm -f $@
 	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)$(YACCCOMPILE) -o examples/calc++/calc++-parser.cc	\
-	  examples/calc++/calc++-parser.yy
+	$(AM_V_at)$(YACCCOMPILE) -o $*.cc $<
 	$(AM_V_at)mv -f $@.tmp $@
 
 $(calc_sources_generated): examples/calc++/calc++-parser.stamp
@@ -49,8 +42,6 @@ $(calc_sources_generated): examples/calc++/calc++-parser.stamp
 
 # Avoid using BUILT_SOURCES which is too global.
 $(examples_calc___calc___OBJECTS): $(calc_sources_generated)
-CLEANFILES += *.tmp
-MAINTAINERCLEANFILES += $(calc_sources)
 
 calc_sources_extracted =			\
   examples/calc++/calc++-driver.cc		\
@@ -70,16 +61,12 @@ calc_sources_generated =			\
 calc_sources =					\
   $(calc_sources_extracted)			\
   $(calc_sources_generated)
+
 if BISON_CXX_WORKS
 check_PROGRAMS += examples/calc++/calc++
-examples_calc___calc___SOURCES =		\
+nodist_examples_calc___calc___SOURCES =		\
   $(calc_sources)
 
-examples_calc___calc___CPPFLAGS =		\
-  -I$(top_builddir)/examples/calc++		\
-  -I$(top_srcdir)/examples/calc++
-TESTS += examples/calc++/calc++.test
+examples_calc___calc___CPPFLAGS = -I$(top_builddir)/examples/calc++
+dist_TESTS += examples/calc++/calc++.test
 endif
-EXTRA_DIST +=					\
-  examples/calc++/calc++-parser.yy		\
-  examples/calc++/calc++.test

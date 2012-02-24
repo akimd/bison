@@ -20,7 +20,6 @@
 ## -------------------- ##
 
 BUILT_SOURCES += $(rpcalc_sources)
-MAINTAINERCLEANFILES += $(rpcalc_sources)
 
 rpcalc_extracted =				\
   examples/rpcalc/rpcalc.y
@@ -30,9 +29,8 @@ extracted += $(rpcalc_extracted)
 
 check_PROGRAMS += examples/rpcalc/rpcalc
 examples_rpcalc_rpcalc_LDADD = -lm
-examples_rpcalc_rpcalc_SOURCES =		\
+nodist_examples_rpcalc_rpcalc_SOURCES =		\
   $(rpcalc_sources)
 
-examples_rpcalc_rpcalc_CPPFLAGS = -I$(top_srcdir)/examples/rpcalc
-TESTS += examples/rpcalc/rpcalc.test
-EXTRA_DIST += examples/rpcalc/rpcalc.test
+examples_rpcalc_rpcalc_CPPFLAGS = -I$(top_builddir)/examples/rpcalc
+dist_TESTS += examples/rpcalc/rpcalc.test
