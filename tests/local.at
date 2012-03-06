@@ -284,9 +284,10 @@ m4_define([AT_BISON_CHECK_NO_XML],
                 [AT_QUELL_VALGRIND ])[[bison ]]$@)
 m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
       m4_quote(m4_if(m4_quote($2), [], [0], [$2])), [0], [[
-        # POSIXLY_CORRECT=1 causes bison to complain if options are added
-        # after the grammar file name, so skip these checks in that case.
-        if test x"$POSIXLY_CORRECT" != x1; then
+        # Defining POSIXLY_CORRECT causes bison to complain if options
+        # are added after the grammar file name, so skip these checks
+        # in that case.
+        if test -z "${POSIXLY_CORRECT+set}"; then
           # Don't interfere with caller's files.
           if test -f stderr; then mv stderr at-bison-check-stderr.bak; fi
           if test -f experr; then mv experr at-bison-check-experr.bak; fi
