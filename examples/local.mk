@@ -24,7 +24,7 @@ doc = $(top_srcdir)/doc/bison.texinfo
 extexi = $(top_srcdir)/examples/extexi
 extract = $(AWK) -f $(extexi) -v VERSION="$(VERSION)" $(doc) --
 extracted =
-MAINTAINERCLEANFILES += $(extracted)
+CLEANFILES += $(extracted) examples/extracted.stamp
 examples/extracted.stamp: $(doc) $(extexi)
 	$(AM_V_GEN)rm -f $@ $@.tmp
 	$(AM_V_at)touch $@.tmp

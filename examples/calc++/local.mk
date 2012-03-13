@@ -17,8 +17,6 @@
 ## Parser generation.  ##
 ## ------------------- ##
 
-CLEANFILES += examples/calc++/calc++-parser.output *.tmp
-
 # Don't depend on $(BISON) otherwise we would rebuild these files
 # in srcdir, including during distcheck, which is forbidden.
 examples/calc++/calc++-parser.stamp: $(BISON_IN)
@@ -32,6 +30,11 @@ SUFFIXES += .yy .stamp
 $(calc_sources_generated): examples/calc++/calc++-parser.stamp
 	@test -f $@ || rm -f examples/calc++/calc++-parser.stamp
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) examples/calc++/calc++-parser.stamp
+CLEANFILES += 					\
+  $(calc_sources_generated)			\
+  examples/calc++/calc++-parser.output		\
+  examples/calc++/calc++-parser.stamp		\
+  examples/calc++/calc++-scanner.cc
 
 
 ## -------------------- ##

@@ -18,6 +18,7 @@
 ## -------------------- ##
 
 BUILT_SOURCES += $(rpcalc_sources)
+CLEANFILES +=  examples/rpcalc/rpcalc.[ch] examples/rpcalc/rpcalc.output
 
 rpcalc_extracted =				\
   examples/rpcalc/rpcalc.y

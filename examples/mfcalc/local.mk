@@ -18,6 +18,7 @@
 ## -------------------- ##
 
 BUILT_SOURCES += $(mfcalc_sources)
+CLEANFILES +=  examples/mfcalc/mfcalc.[ch] examples/mfcalc/mfcalc.output
 
 mfcalc_extracted =				\
   examples/mfcalc/calc.h			\
