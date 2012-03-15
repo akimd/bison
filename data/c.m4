@@ -485,12 +485,15 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
 ]b4_parse_param_use([yyoutput], [yylocationp])[
   if (!yyvaluep)
-    return;
-# ifdef YYPRINT
+    return;]
+dnl glr.c does not feature yytoknum.
+m4_if(b4_skeleton, ["yacc.c"],
+[[# ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
 # endif
-  switch (yytype)
+]])dnl
+[  switch (yytype)
     {
 ]b4_symbol_foreach([b4_symbol_printer])dnl
 [      default:
