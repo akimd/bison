@@ -124,10 +124,8 @@ m4_popdef([$1])dnl
 # --------------------------------
 # `YYUSE' VAL, LOC if locations are enabled, and all the parse-params.
 m4_define([b4_parse_param_use],
-[m4_ifval([$1], [  YYUSE([$1]);
-])dnl
-m4_ifval([$2], [b4_locations_if([  YYUSE ([$2]);
-])])dnl
+[m4_ifvaln([$1], [  YYUSE([$1]);])dnl
+b4_locations_if([m4_ifvaln([$2], [  YYUSE ([$2]);])])dnl
 b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
 ])dnl
 ])
@@ -188,8 +186,7 @@ m4_define([b4_null], [0])
 # -------------------------------------------------------------
 # Define "yy<TABLE-NAME>" which contents is CONTENT.
 m4_define([b4_integral_parser_table_define],
-[m4_ifval([$3], [b4_c_comment([$3], [  ])
-])dnl
+[m4_ifvaln([$3], [b4_c_comment([$3], [  ])])dnl
 static const b4_int_type_for([$2]) yy$1[[]] =
 {
   $2
@@ -448,8 +445,8 @@ m4_define_default([b4_yydestruct_generate],
 b4_locations_if(            [, [[YYLTYPE *yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-]b4_parse_param_use([yyvaluep], [yylocationp])[
-  if (!yymsg)
+]b4_parse_param_use([yyvaluep], [yylocationp])dnl
+[  if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
@@ -483,8 +480,8 @@ m4_define_default([b4_yy_symbol_print_generate],
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-]b4_parse_param_use([yyoutput], [yylocationp])[
-  if (!yyvaluep)
+]b4_parse_param_use([yyoutput], [yylocationp])dnl
+[  if (!yyvaluep)
     return;]
 dnl glr.c does not feature yytoknum.
 m4_if(b4_skeleton, ["yacc.c"],
