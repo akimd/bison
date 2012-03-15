@@ -1204,12 +1204,12 @@ in user code, without having Bison treat this rejection as an error
 if there are alternative parses. (This feature is experimental and may
 evolve.  We welcome user feedback.)  For example,
 
-@smallexample
-widget :
-          %?@{ new_syntax @} "widget" id new_args   @{ $$ = f($3, $4); @}
-       |  %?@{ !new_syntax @} "widget" id old_args  @{ $$ = f($3, $4); @}
-       ;
-@end smallexample
+@example
+widget:
+         %?@{ new_syntax @} "widget" id new_args   @{ $$ = f($3, $4); @}
+      |  %?@{ !new_syntax @} "widget" id old_args  @{ $$ = f($3, $4); @}
+      ;
+@end example
 
 @noindent
 is one way to allow the same parser to handle two different syntaxes for
@@ -1230,12 +1230,14 @@ There is a subtle difference between semantic predicates and ordinary
 actions in nondeterministic mode, since the latter are deferred.
 For example, we could try to rewrite the previous example as
 
-@smallexample
-widget :
-          @{ if (!new_syntax) YYERROR; @} "widget" id new_args  @{ $$ = f($3, $4); @}
-       |  @{ if (new_syntax) YYERROR; @} "widget" id old_args   @{ $$ = f($3, $4); @}
-       ;
-@end smallexample
+@example
+widget:
+         @{ if (!new_syntax) YYERROR; @}
+              "widget" id new_args  @{ $$ = f($3, $4); @}
+      |  @{ if (new_syntax) YYERROR; @}
+              "widget" id old_args   @{ $$ = f($3, $4); @}
+      ;
+@end example
 
 @noindent
 (reversing the sense of the predicate tests to cause an error when they are
@@ -2361,7 +2363,7 @@ Note that multiple assignment and nested function calls are permitted.
 Here are the C and Bison declarations for the multi-function calculator.
 
 @comment file: mfcalc.y
-@smallexample
+@example
 @group
 %@{
   #include <stdio.h>  /* For printf, etc. */
@@ -2389,7 +2391,7 @@ Here are the C and Bison declarations for the multi-function calculator.
 %right '^'      /* exponentiation */
 @end group
 %% /* The grammar follows.  */
-@end smallexample
+@end example
 
 The above grammar introduces only two new features of the Bison language.
 These features allow semantic values to have various data types
@@ -2421,7 +2423,7 @@ Most of them are copied directly from @code{calc}; three rules,
 those which mention @code{VAR} or @code{FNCT}, are new.
 
 @comment file: mfcalc.y
-@smallexample
+@example
 @group
 input:   /* empty */
         | input line
@@ -2452,7 +2454,7 @@ exp:      NUM                @{ $$ = $1;                         @}
 @end group
 /* End of grammar.  */
 %%
-@end smallexample
+@end example
 
 @node Mfcalc Symbol Table
 @subsection The @code{mfcalc} Symbol Table
@@ -2468,7 +2470,7 @@ definition, which is kept in the header @file{calc.h}, is as follows.  It
 provides for either functions or variables to be placed in the table.
 
 @comment file: calc.h
-@smallexample
+@example
 @group
 /* Function type.  */
 typedef double (*func_t) (double);
@@ -2498,13 +2500,13 @@ extern symrec *sym_table;
 symrec *putsym (char const *, int);
 symrec *getsym (char const *);
 @end group
-@end smallexample
+@end example
 
 The new version of @code{main} will call @code{init_table} to initialize
 the symbol table:
 
 @comment file: mfcalc.y
-@smallexample
+@example
 @group
 struct init
 @{
@@ -2545,7 +2547,7 @@ init_table (void)
     @}
 @}
 @end group
-@end smallexample
+@end example
 
 By simply editing the initialization list and adding the necessary include
 files, you can add additional functions to the calculator.
@@ -2558,7 +2560,7 @@ The function @code{getsym} is passed the name of the symbol to look up.  If
 found, a pointer to that symbol is returned; otherwise zero is returned.
 
 @comment file: mfcalc.y
-@smallexample
+@example
 #include <stdlib.h> /* malloc. */
 #include <string.h> /* strlen. */
 
@@ -2589,7 +2591,7 @@ getsym (char const *sym_name)
   return 0;
 @}
 @end group
-@end smallexample
+@end example
 
 @node Mfcalc Lexer
 @subsection The @code{mfcalc} Lexer
@@ -2610,7 +2612,7 @@ No change is needed in the handling of numeric values and arithmetic
 operators in @code{yylex}.
 
 @comment file: mfcalc.y
-@smallexample
+@example
 @group
 #include <ctype.h>
 @end group
@@ -2688,7 +2690,7 @@ yylex (void)
   return c;
 @}
 @end group
-@end smallexample
+@end example
 
 @node Mfcalc Main
 @subsection The @code{mfcalc} Main
@@ -2697,7 +2699,7 @@ The error reporting function is unchanged, and the new version of
 @code{main} includes a call to @code{init_table}:
 
 @comment file: mfcalc.y
-@smallexample
+@example
 @group
 /* Called by yyparse on error.  */
 void
@@ -2715,7 +2717,7 @@ main (int argc, char const* argv[])
   return yyparse ();
 @}
 @end group
-@end smallexample
+@end example
 
 This program is both powerful and flexible.  You may easily add new
 functions, and it is a simple job to modify this code to install
@@ -2818,7 +2820,7 @@ prototype functions that take arguments of type @code{YYSTYPE}.  This
 can be done with two @var{Prologue} blocks, one before and one after the
 @code{%union} declaration.
 
-@smallexample
+@example
 %@{
   #define _GNU_SOURCE
   #include <stdio.h>
@@ -2836,7 +2838,7 @@ can be done with two @var{Prologue} blocks, one before and one after the
 %@}
 
 @dots{}
-@end smallexample
+@end example
 
 When in doubt, it is usually safer to put prologue code before all
 Bison declarations, rather than after.  For example, any definitions
@@ -2864,7 +2866,7 @@ location, or it can be one of @code{requires}, @code{provides},
 
 Look again at the example of the previous section:
 
-@smallexample
+@example
 %@{
   #define _GNU_SOURCE
   #include <stdio.h>
@@ -2882,7 +2884,7 @@ Look again at the example of the previous section:
 %@}
 
 @dots{}
-@end smallexample
+@end example
 
 @noindent
 Notice that there are two @var{Prologue} sections here, but there's a
@@ -2911,7 +2913,7 @@ To avoid this subtle @code{%union} dependency, rewrite the example using a
 Let's go ahead and add the new @code{YYLTYPE} definition and the
 @code{trace_token} prototype at the same time:
 
-@smallexample
+@example
 %code top @{
   #define _GNU_SOURCE
   #include <stdio.h>
@@ -2943,7 +2945,7 @@ Let's go ahead and add the new @code{YYLTYPE} definition and the
 @}
 
 @dots{}
-@end smallexample
+@end example
 
 @noindent
 In this way, @code{%code top} and the unqualified @code{%code} achieve the same
@@ -2967,7 +2969,7 @@ lines are dependency code required by the @code{YYSTYPE} and @code{YYLTYPE}
 definitions.
 Thus, they belong in one or more @code{%code requires}:
 
-@smallexample
+@example
 @group
 %code top @{
   #define _GNU_SOURCE
@@ -3010,7 +3012,7 @@ Thus, they belong in one or more @code{%code requires}:
 @end group
 
 @dots{}
-@end smallexample
+@end example
 
 @noindent
 Now Bison will insert @code{#include "ptypes.h"} and the new
@@ -3044,7 +3046,7 @@ this function is not a dependency required by @code{YYSTYPE} or
 sufficient.  Instead, move its prototype from the unqualified
 @code{%code} to a @code{%code provides}:
 
-@smallexample
+@example
 @group
 %code top @{
   #define _GNU_SOURCE
@@ -3092,7 +3094,7 @@ sufficient.  Instead, move its prototype from the unqualified
 @end group
 
 @dots{}
-@end smallexample
+@end example
 
 @noindent
 Bison will insert the @code{trace_token} prototype into both the
@@ -3118,7 +3120,7 @@ organize your grammar file.
 For example, you may organize semantic-type-related directives by semantic
 type:
 
-@smallexample
+@example
 @group
 %code requires @{ #include "type1.h" @}
 %union @{ type1 field1; @}
@@ -3132,7 +3134,7 @@ type:
 %destructor @{ type2_free ($$); @} <field2>
 %printer @{ type2_print ($$); @} <field2>
 @end group
-@end smallexample
+@end example
 
 @noindent
 You could even place each of the above directive groups in the rules section of
@@ -4122,27 +4124,27 @@ parameter is the number of discarded symbols.
 
 By default, @code{YYLLOC_DEFAULT} is defined this way:
 
-@smallexample
+@example
 @group
-# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
-    do                                                                  \
-      if (N)                                                            \
-        @{                                                               \
-          (Current).first_line   = YYRHSLOC(Rhs, 1).first_line;         \
-          (Current).first_column = YYRHSLOC(Rhs, 1).first_column;       \
-          (Current).last_line    = YYRHSLOC(Rhs, N).last_line;          \
-          (Current).last_column  = YYRHSLOC(Rhs, N).last_column;        \
-        @}                                                               \
-      else                                                              \
-        @{                                                               \
-          (Current).first_line   = (Current).last_line   =              \
-            YYRHSLOC(Rhs, 0).last_line;                                 \
-          (Current).first_column = (Current).last_column =              \
-            YYRHSLOC(Rhs, 0).last_column;                               \
-        @}                                                               \
-    while (0)
+# define YYLLOC_DEFAULT(Cur, Rhs, N)                      \
+do                                                        \
+  if (N)                                                  \
+    @{                                                     \
+      (Cur).first_line   = YYRHSLOC(Rhs, 1).first_line;   \
+      (Cur).first_column = YYRHSLOC(Rhs, 1).first_column; \
+      (Cur).last_line    = YYRHSLOC(Rhs, N).last_line;    \
+      (Cur).last_column  = YYRHSLOC(Rhs, N).last_column;  \
+    @}                                                     \
+  else                                                    \
+    @{                                                     \
+      (Cur).first_line   = (Cur).last_line   =            \
+        YYRHSLOC(Rhs, 0).last_line;                       \
+      (Cur).first_column = (Cur).last_column =            \
+        YYRHSLOC(Rhs, 0).last_column;                     \
+    @}                                                     \
+while (0)
 @end group
-@end smallexample
+@end example
 
 @noindent
 where @code{YYRHSLOC (rhs, k)} is the location of the @var{k}th symbol
@@ -4660,7 +4662,7 @@ symbol that has no declared semantic type tag.
 @noindent
 For example:
 
-@smallexample
+@example
 %union @{ char *string; @}
 %token <string> STRING1
 %token <string> STRING2
@@ -4675,7 +4677,7 @@ For example:
 %destructor @{ free ($$); @} <*>
 %destructor @{ free ($$); printf ("%d", @@$.first_line); @} STRING1 string1
 %destructor @{ printf ("Discarding tagless symbol.\n"); @} <>
-@end smallexample
+@end example
 
 @noindent
 guarantees that, when the parser discards any user-defined symbol that has a
@@ -4700,9 +4702,9 @@ reference it in your grammar.
 However, it may invoke one of them for the end token (token 0) if you
 redefine it from @code{$end} to, for example, @code{END}:
 
-@smallexample
+@example
 %token END 0
-@end smallexample
+@end example
 
 @cindex actions in mid-rule
 @cindex mid-rule actions
@@ -5298,25 +5300,25 @@ Some of the accepted @var{variable}s are:
 @item Purpose: Specify the namespace for the parser class.
 For example, if you specify:
 
-@smallexample
+@example
 %define api.namespace "foo::bar"
-@end smallexample
+@end example
 
 Bison uses @code{foo::bar} verbatim in references such as:
 
-@smallexample
+@example
 foo::bar::parser::semantic_type
-@end smallexample
+@end example
 
 However, to open a namespace, Bison removes any leading @code{::} and then
 splits on any remaining occurrences:
 
-@smallexample
+@example
 namespace foo @{ namespace bar @{
   class position;
   class location;
 @} @}
-@end smallexample
+@end example
 
 @item Accepted Values:
 Any absolute or relative C++ namespace reference without a trailing
@@ -5331,10 +5333,10 @@ for the lexical analyzer function.  Thus, if you specify
 api.namespace} so that @code{%name-prefix} @emph{only} affects the
 lexical analyzer function.  For example, if you specify:
 
-@smallexample
+@example
 %define api.namespace "foo"
 %name-prefix "bar::"
-@end smallexample
+@end example
 
 The parser namespace is @code{foo} and @code{yylex} is referenced as
 @code{bar::lex}.
@@ -5687,12 +5689,12 @@ should usually be more appropriate than @code{%code top}.  However,
 occasionally it is necessary to insert code much nearer the top of the
 parser implementation file.  For example:
 
-@smallexample
+@example
 %code top @{
   #define _GNU_SOURCE
   #include <stdio.h>
 @}
-@end smallexample
+@end example
 
 @item Location(s): Near the top of the parser implementation file.
 @end itemize
@@ -6014,7 +6016,7 @@ assuming that the characters of the token are stored in
 @code{token_buffer}, and assuming that the token does not contain any
 characters like @samp{"} that require escaping.
 
-@smallexample
+@example
 for (i = 0; i < YYNTOKENS; i++)
   @{
     if (yytname[i] != 0
@@ -6025,7 +6027,7 @@ for (i = 0; i < YYNTOKENS; i++)
         && yytname[i][strlen (token_buffer) + 2] == 0)
       break;
   @}
-@end smallexample
+@end example
 
 The @code{yytname} table is generated only if you use the
 @code{%token-table} declaration.  @xref{Decl Summary}.
@@ -8701,10 +8703,11 @@ value (from @code{yylval}).
 Here is an example of @code{YYPRINT} suitable for the multi-function
 calculator (@pxref{Mfcalc Declarations, ,Declarations for @code{mfcalc}}):
 
-@smallexample
+@example
 %@{
   static void print_token_value (FILE *, int, YYSTYPE);
-  #define YYPRINT(file, type, value) print_token_value (file, type, value)
+  #define YYPRINT(file, type, value)            \
+    print_token_value (file, type, value)
 %@}
 
 @dots{} %% @dots{} %% @dots{}
@@ -8717,7 +8720,7 @@ print_token_value (FILE *file, int type, YYSTYPE value)
   else if (type == NUM)
     fprintf (file, "%d", value.val);
 @}
-@end smallexample
+@end example
 
 @c ================================================= Invoking Bison
 
@@ -9750,7 +9753,7 @@ the grammar for.
 
 @comment file: calc++-parser.yy
 @example
-%skeleton "lalr1.cc"                          /*  -*- C++ -*- */
+%skeleton "lalr1.cc" /* -*- C++ -*- */
 %require "@value{VERSION}"
 %defines
 %define parser_class_name "calcxx_parser"
@@ -9940,7 +9943,7 @@ parser's to get the set of defined tokens.
 
 @comment file: calc++-scanner.ll
 @example
-%@{                                            /* -*- C++ -*- */
+%@{ /* -*- C++ -*- */
 # include <cerrno>
 # include <climits>
 # include <cstdlib>
@@ -11928,7 +11931,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit nonfree
 @c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok rr
 @c LocalWords: longjmp fprintf stderr yylloc YYLTYPE cos ln Stallman Destructor
-@c LocalWords: smallexample symrec val tptr FNCT fnctptr func struct sym enum
+@c LocalWords: symrec val tptr FNCT fnctptr func struct sym enum
 @c LocalWords: fnct putsym getsym fname arith fncts atan ptr malloc sizeof Lex
 @c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum DOTDOT
 @c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype Unary
