@@ -540,7 +540,6 @@ lexicography, not grammar.)
 
 Here is a simple C function subdivided into tokens:
 
-@ifinfo
 @example
 int             /* @r{keyword `int'} */
 square (int x)  /* @r{identifier, open-paren, keyword `int',}
@@ -550,16 +549,6 @@ square (int x)  /* @r{identifier, open-paren, keyword `int',}
                    @r{identifier, semicolon} */
 @}               /* @r{close-brace} */
 @end example
-@end ifinfo
-@ifnotinfo
-@example
-int             /* @r{keyword `int'} */
-square (int x)  /* @r{identifier, open-paren, keyword `int', identifier, close-paren} */
-@{               /* @r{open-brace} */
-  return x * x; /* @r{keyword `return', identifier, asterisk, identifier, semicolon} */
-@}               /* @r{close-brace} */
-@end example
-@end ifnotinfo
 
 The syntactic groupings of C include the expression, the statement, the
 declaration, and the function definition.  These are represented in the
