@@ -7942,14 +7942,27 @@ creates a file @file{calc.output} with contents detailed below.  The
 order of the output and the exact presentation might vary, but the
 interpretation is the same.
 
-The first section includes details on conflicts that were solved thanks
-to precedence and/or associativity:
+@noindent
+@cindex token, useless
+@cindex useless token
+@cindex nonterminal, useless
+@cindex useless nonterminal
+@cindex rule, useless
+@cindex useless rule
+The first section reports useless tokens, nonterminals and rules.  Useless
+nonterminals and rules are removed in order to produce a smaller parser, but
+useless tokens are preserved, since they might be used by the scanner (note
+the difference between ``useless'' and ``unused'' below):
 
 @example
-Conflict in state 8 between rule 2 and token '+' resolved as reduce.
-Conflict in state 8 between rule 2 and token '-' resolved as reduce.
-Conflict in state 8 between rule 2 and token '*' resolved as shift.
-@exdent @dots{}
+Nonterminals useless in grammar
+   useless
+
+Terminals unused in grammar
+   STR
+
+Rules useless in grammar
+    6 useless: STR
 @end example
 
 @noindent
@@ -7963,42 +7976,18 @@ State 11 conflicts: 4 shift/reduce
 @end example
 
 @noindent
-@cindex token, useless
-@cindex useless token
-@cindex nonterminal, useless
-@cindex useless nonterminal
-@cindex rule, useless
-@cindex useless rule
-The next section reports useless tokens, nonterminal and rules.  Useless
-nonterminals and rules are removed in order to produce a smaller parser,
-but useless tokens are preserved, since they might be used by the
-scanner (note the difference between ``useless'' and ``unused''
-below):
-
-@example
-Nonterminals useless in grammar:
-   useless
-
-Terminals unused in grammar:
-   STR
-
-Rules useless in grammar:
-#6     useless: STR;
-@end example
-
-@noindent
-The next section reproduces the exact grammar that Bison used:
+Then Bison reproduces the exact grammar it used:
 
 @example
 Grammar
 
-  Number, Line, Rule
-    0   5 $accept -> exp $end
-    1   5 exp -> exp '+' exp
-    2   6 exp -> exp '-' exp
-    3   7 exp -> exp '*' exp
-    4   8 exp -> exp '/' exp
-    5   9 exp -> NUM
+    0 $accept: exp $end
+
+    1 exp: exp '+' exp
+    2    | exp '-' exp
+    3    | exp '*' exp
+    4    | exp '/' exp
+    5    | NUM
 @end example
 
 @noindent
@@ -8015,14 +8004,15 @@ $end (0) 0
 '/' (47) 4
 error (256)
 NUM (258) 5
+STR (259)
 @end group
 
 @group
 Nonterminals, with rules where they appear
 
-$accept (8)
+$accept (9)
     on left: 0
-exp (9)
+exp (10)
     on left: 1 2 3 4 5, on right: 0 1 2 3 4
 @end group
 @end example
@@ -8039,11 +8029,11 @@ the location of the input cursor.
 @example
 state 0
 
-    $accept  ->  . exp $   (rule 0)
+    0 $accept: . exp $end
 
-    NUM         shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp         go to state 2
+    exp  go to state 2
 @end example
 
 This reads as follows: ``state 0 corresponds to being at the very
@@ -8069,27 +8059,27 @@ you want to see more detail you can invoke @command{bison} with
 @example
 state 0
 
-    $accept  ->  . exp $   (rule 0)
-    exp  ->  . exp '+' exp   (rule 1)
-    exp  ->  . exp '-' exp   (rule 2)
-    exp  ->  . exp '*' exp   (rule 3)
-    exp  ->  . exp '/' exp   (rule 4)
-    exp  ->  . NUM   (rule 5)
+    0 $accept: . exp $end
+    1 exp: . exp '+' exp
+    2    | . exp '-' exp
+    3    | . exp '*' exp
+    4    | . exp '/' exp
+    5    | . NUM
 
-    NUM         shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp         go to state 2
+    exp  go to state 2
 @end example
 
 @noindent
-In the state 1...
+In the state 1@dots{}
 
 @example
 state 1
 
-    exp  ->  NUM .   (rule 5)
+    5 exp: NUM .
 
-    $default    reduce using rule 5 (exp)
+    $default  reduce using rule 5 (exp)
 @end example
 
 @noindent
@@ -8101,24 +8091,24 @@ jump to state 2 (@samp{exp: go to state 2}).
 @example
 state 2
 
-    $accept  ->  exp . $   (rule 0)
-    exp  ->  exp . '+' exp   (rule 1)
-    exp  ->  exp . '-' exp   (rule 2)
-    exp  ->  exp . '*' exp   (rule 3)
-    exp  ->  exp . '/' exp   (rule 4)
+    0 $accept: exp . $end
+    1 exp: exp . '+' exp
+    2    | exp . '-' exp
+    3    | exp . '*' exp
+    4    | exp . '/' exp
 
-    $           shift, and go to state 3
-    '+'         shift, and go to state 4
-    '-'         shift, and go to state 5
-    '*'         shift, and go to state 6
-    '/'         shift, and go to state 7
+    $end  shift, and go to state 3
+    '+'   shift, and go to state 4
+    '-'   shift, and go to state 5
+    '*'   shift, and go to state 6
+    '/'   shift, and go to state 7
 @end example
 
 @noindent
 In state 2, the automaton can only shift a symbol.  For instance,
-because of the item @samp{exp -> exp . '+' exp}, if the lookahead is
+because of the item @samp{exp: exp . '+' exp}, if the lookahead is
 @samp{+} it is shifted onto the parse stack, and the automaton
-jumps to state 4, corresponding to the item @samp{exp -> exp '+' . exp}.
+jumps to state 4, corresponding to the item @samp{exp: exp '+' . exp}.
 Since there is no default action, any lookahead not listed triggers a syntax
 error.
 
@@ -8129,14 +8119,14 @@ state}:
 @example
 state 3
 
-    $accept  ->  exp $ .   (rule 0)
+    0 $accept: exp $end .
 
-    $default    accept
+    $default  accept
 @end example
 
 @noindent
-the initial rule is completed (the start symbol and the end
-of input were read), the parsing exits successfully.
+the initial rule is completed (the start symbol and the end-of-input were
+read), the parsing exits successfully.
 
 The interpretation of states 4 to 7 is straightforward, and is left to
 the reader.
@@ -8144,35 +8134,38 @@ the reader.
 @example
 state 4
 
-    exp  ->  exp '+' . exp   (rule 1)
+    1 exp: exp '+' . exp
 
-    NUM         shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp         go to state 8
+    exp  go to state 8
+
 
 state 5
 
-    exp  ->  exp '-' . exp   (rule 2)
+    2 exp: exp '-' . exp
 
-    NUM         shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp         go to state 9
+    exp  go to state 9
+
 
 state 6
 
-    exp  ->  exp '*' . exp   (rule 3)
+    3 exp: exp '*' . exp
 
-    NUM         shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp         go to state 10
+    exp  go to state 10
+
 
 state 7
 
-    exp  ->  exp '/' . exp   (rule 4)
+    4 exp: exp '/' . exp
 
-    NUM         shift, and go to state 1
+    NUM  shift, and go to state 1
 
-    exp         go to state 11
+    exp  go to state 11
 @end example
 
 As was announced in beginning of the report, @samp{State 8 conflicts:
@@ -8181,17 +8174,17 @@ As was announced in beginning of the report, @samp{State 8 conflicts:
 @example
 state 8
 
-    exp  ->  exp . '+' exp   (rule 1)
-    exp  ->  exp '+' exp .   (rule 1)
-    exp  ->  exp . '-' exp   (rule 2)
-    exp  ->  exp . '*' exp   (rule 3)
-    exp  ->  exp . '/' exp   (rule 4)
+    1 exp: exp . '+' exp
+    1    | exp '+' exp .
+    2    | exp . '-' exp
+    3    | exp . '*' exp
+    4    | exp . '/' exp
 
-    '*'         shift, and go to state 6
-    '/'         shift, and go to state 7
+    '*'  shift, and go to state 6
+    '/'  shift, and go to state 7
 
-    '/'         [reduce using rule 1 (exp)]
-    $default    reduce using rule 1 (exp)
+    '/'       [reduce using rule 1 (exp)]
+    $default  reduce using rule 1 (exp)
 @end example
 
 Indeed, there are two actions associated to the lookahead @samp{/}:
@@ -8205,7 +8198,7 @@ NUM}, which corresponds to reducing rule 1.
 
 Because in deterministic parsing a single decision can be made, Bison
 arbitrarily chose to disable the reduction, see @ref{Shift/Reduce, ,
-Shift/Reduce Conflicts}.  Discarded actions are reported in between
+Shift/Reduce Conflicts}.  Discarded actions are reported between
 square brackets.
 
 Note that all the previous states had a single possible action: either
@@ -8224,18 +8217,31 @@ with some set of possible lookahead tokens.  When run with
 @example
 state 8
 
-    exp  ->  exp . '+' exp   (rule 1)
-    exp  ->  exp '+' exp .  [$, '+', '-', '/']   (rule 1)
-    exp  ->  exp . '-' exp   (rule 2)
-    exp  ->  exp . '*' exp   (rule 3)
-    exp  ->  exp . '/' exp   (rule 4)
+    1 exp: exp . '+' exp
+    1    | exp '+' exp .  [$end, '+', '-', '/']
+    2    | exp . '-' exp
+    3    | exp . '*' exp
+    4    | exp . '/' exp
 
-    '*'         shift, and go to state 6
-    '/'         shift, and go to state 7
+    '*'  shift, and go to state 6
+    '/'  shift, and go to state 7
 
-    '/'         [reduce using rule 1 (exp)]
-    $default    reduce using rule 1 (exp)
+    '/'       [reduce using rule 1 (exp)]
+    $default  reduce using rule 1 (exp)
 @end example
+
+Note however that while @samp{NUM + NUM / NUM} is ambiguous (which results in
+the conflicts on @samp{/}), @samp{NUM + NUM * NUM} is not: the conflict was
+solved thanks to associativity and precedence directives.  If invoked with
+@option{--report=solved}, Bison includes information about the solved
+conflicts in the report:
+
+@example
+Conflict between rule 1 and token '+' resolved as reduce (%left '+').
+Conflict between rule 1 and token '-' resolved as reduce (%left '-').
+Conflict between rule 1 and token '*' resolved as shift ('+' < '*').
+@end example
+
 
 The remaining states are similar:
 
@@ -8243,53 +8249,53 @@ The remaining states are similar:
 @group
 state 9
 
-    exp  ->  exp . '+' exp   (rule 1)
-    exp  ->  exp . '-' exp   (rule 2)
-    exp  ->  exp '-' exp .   (rule 2)
-    exp  ->  exp . '*' exp   (rule 3)
-    exp  ->  exp . '/' exp   (rule 4)
+    1 exp: exp . '+' exp
+    2    | exp . '-' exp
+    2    | exp '-' exp .
+    3    | exp . '*' exp
+    4    | exp . '/' exp
 
-    '*'         shift, and go to state 6
-    '/'         shift, and go to state 7
+    '*'  shift, and go to state 6
+    '/'  shift, and go to state 7
 
-    '/'         [reduce using rule 2 (exp)]
-    $default    reduce using rule 2 (exp)
+    '/'       [reduce using rule 2 (exp)]
+    $default  reduce using rule 2 (exp)
 @end group
 
 @group
 state 10
 
-    exp  ->  exp . '+' exp   (rule 1)
-    exp  ->  exp . '-' exp   (rule 2)
-    exp  ->  exp . '*' exp   (rule 3)
-    exp  ->  exp '*' exp .   (rule 3)
-    exp  ->  exp . '/' exp   (rule 4)
+    1 exp: exp . '+' exp
+    2    | exp . '-' exp
+    3    | exp . '*' exp
+    3    | exp '*' exp .
+    4    | exp . '/' exp
 
-    '/'         shift, and go to state 7
+    '/'  shift, and go to state 7
 
-    '/'         [reduce using rule 3 (exp)]
-    $default    reduce using rule 3 (exp)
+    '/'       [reduce using rule 3 (exp)]
+    $default  reduce using rule 3 (exp)
 @end group
 
 @group
 state 11
 
-    exp  ->  exp . '+' exp   (rule 1)
-    exp  ->  exp . '-' exp   (rule 2)
-    exp  ->  exp . '*' exp   (rule 3)
-    exp  ->  exp . '/' exp   (rule 4)
-    exp  ->  exp '/' exp .   (rule 4)
+    1 exp: exp . '+' exp
+    2    | exp . '-' exp
+    3    | exp . '*' exp
+    4    | exp . '/' exp
+    4    | exp '/' exp .
 
-    '+'         shift, and go to state 4
-    '-'         shift, and go to state 5
-    '*'         shift, and go to state 6
-    '/'         shift, and go to state 7
+    '+'  shift, and go to state 4
+    '-'  shift, and go to state 5
+    '*'  shift, and go to state 6
+    '/'  shift, and go to state 7
 
-    '+'         [reduce using rule 4 (exp)]
-    '-'         [reduce using rule 4 (exp)]
-    '*'         [reduce using rule 4 (exp)]
-    '/'         [reduce using rule 4 (exp)]
-    $default    reduce using rule 4 (exp)
+    '+'       [reduce using rule 4 (exp)]
+    '-'       [reduce using rule 4 (exp)]
+    '*'       [reduce using rule 4 (exp)]
+    '/'       [reduce using rule 4 (exp)]
+    $default  reduce using rule 4 (exp)
 @end group
 @end example
 
