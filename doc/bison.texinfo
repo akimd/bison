@@ -7905,21 +7905,21 @@ in the current context, the parse can continue.
 For example:
 
 @example
-stmnts:
+stmts:
   /* empty string */
-| stmnts '\n'
-| stmnts exp '\n'
-| stmnts error '\n'
+| stmts '\n'
+| stmts exp '\n'
+| stmts error '\n'
 @end example
 
 The fourth rule in this example says that an error followed by a newline
-makes a valid addition to any @code{stmnts}.
+makes a valid addition to any @code{stmts}.
 
 What happens if a syntax error occurs in the middle of an @code{exp}?  The
 error recovery rule, interpreted strictly, applies to the precise sequence
-of a @code{stmnts}, an @code{error} and a newline.  If an error occurs in
+of a @code{stmts}, an @code{error} and a newline.  If an error occurs in
 the middle of an @code{exp}, there will probably be some additional tokens
-and subexpressions on the stack after the last @code{stmnts}, and there
+and subexpressions on the stack after the last @code{stmts}, and there
 will be tokens to read before the next newline.  So the rule is not
 applicable in the ordinary way.
 
@@ -7927,7 +7927,7 @@ But Bison can force the situation to fit the rule, by discarding part of
 the semantic context and part of the input.  First it discards states
 and objects from the stack until it gets back to a state in which the
 @code{error} token is acceptable.  (This means that the subexpressions
-already parsed are discarded, back to the last complete @code{stmnts}.)
+already parsed are discarded, back to the last complete @code{stmts}.)
 At this point the @code{error} token can be shifted.  Then, if the old
 lookahead token is not acceptable to be shifted next, the parser reads
 tokens and discards them until it finds a token which is acceptable.  In
@@ -7941,7 +7941,7 @@ error recovery.  A simple and useful strategy is simply to skip the rest of
 the current input line or current statement if an error is detected:
 
 @example
-stmnt: error ';'  /* On error, skip until ';' is read.  */
+stmt: error ';'  /* On error, skip until ';' is read.  */
 @end example
 
 It is also useful to recover to the matching close-delimiter of an
@@ -7960,11 +7960,11 @@ primary:
 Error recovery strategies are necessarily guesses.  When they guess wrong,
 one syntax error often leads to another.  In the above example, the error
 recovery rule guesses that an error is due to bad input within one
-@code{stmnt}.  Suppose that instead a spurious semicolon is inserted in the
-middle of a valid @code{stmnt}.  After the error recovery rule recovers
+@code{stmt}.  Suppose that instead a spurious semicolon is inserted in the
+middle of a valid @code{stmt}.  After the error recovery rule recovers
 from the first error, another syntax error will be found straightaway,
 since the text following the spurious semicolon is also an invalid
-@code{stmnt}.
+@code{stmt}.
 
 To prevent an outpouring of error messages, the parser will output no error
 message for another syntax error that happens shortly after the first; only
@@ -11971,7 +11971,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP subrange
 @c LocalWords: YYEMPTY YYEOF YYRECOVERING yyclearin GE def UMINUS maybeword loc
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH inline
-@c LocalWords: YYINITDEPTH stmnts ref stmnt initdcl maybeasm notype Lookahead
+@c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args Autoconf
 @c LocalWords: infile ypp yxx outfile itemx tex leaderfill Troubleshouting sqrt
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
