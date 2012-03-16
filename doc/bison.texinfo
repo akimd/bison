@@ -637,8 +637,7 @@ the statement; the naked semicolon, and the colon, are Bison punctuation
 used in every rule.
 
 @example
-stmt:   RETURN expr ';'
-        ;
+stmt: RETURN expr ';' ;
 @end example
 
 @noindent
@@ -710,8 +709,7 @@ For example, here is a rule that says an expression can be the sum of
 two subexpressions:
 
 @example
-expr: expr '+' expr   @{ $$ = $1 + $3; @}
-        ;
+expr: expr '+' expr   @{ $$ = $1 + $3; @} ;
 @end example
 
 @noindent
@@ -890,30 +888,32 @@ parses a vastly simplified form of Pascal type declarations.
 %%
 
 @group
-type_decl : TYPE ID '=' type ';'
-     ;
+type_decl: TYPE ID '=' type ';' ;
 @end group
 
 @group
-type : '(' id_list ')'
-     | expr DOTDOT expr
-     ;
+type:
+  '(' id_list ')'
+| expr DOTDOT expr
+;
 @end group
 
 @group
-id_list : ID
-     | id_list ',' ID
-     ;
+id_list:
+  ID
+| id_list ',' ID
+;
 @end group
 
 @group
-expr : '(' expr ')'
-     | expr '+' expr
-     | expr '-' expr
-     | expr '*' expr
-     | expr '/' expr
-     | ID
-     ;
+expr:
+  '(' expr ')'
+| expr '+' expr
+| expr '-' expr
+| expr '*' expr
+| expr '/' expr
+| ID
+;
 @end group
 @end example
 
@@ -993,30 +993,35 @@ Let's consider an example, vastly simplified from a C++ grammar.
 
 %%
 
-prog :
-     | prog stmt   @{ printf ("\n"); @}
-     ;
+prog:
+  /* Nothing.  */
+| prog stmt   @{ printf ("\n"); @}
+;
 
-stmt : expr ';'  %dprec 1
-     | decl      %dprec 2
-     ;
+stmt:
+  expr ';'  %dprec 1
+| decl      %dprec 2
+;
 
-expr : ID               @{ printf ("%s ", $$); @}
-     | TYPENAME '(' expr ')'
-                        @{ printf ("%s <cast> ", $1); @}
-     | expr '+' expr    @{ printf ("+ "); @}
-     | expr '=' expr    @{ printf ("= "); @}
-     ;
+expr:
+  ID               @{ printf ("%s ", $$); @}
+| TYPENAME '(' expr ')'
+                   @{ printf ("%s <cast> ", $1); @}
+| expr '+' expr    @{ printf ("+ "); @}
+| expr '=' expr    @{ printf ("= "); @}
+;
 
-decl : TYPENAME declarator ';'
-                        @{ printf ("%s <declare> ", $1); @}
-     | TYPENAME declarator '=' expr ';'
-                        @{ printf ("%s <init-declare> ", $1); @}
-     ;
+decl:
+  TYPENAME declarator ';'
+                   @{ printf ("%s <declare> ", $1); @}
+| TYPENAME declarator '=' expr ';'
+                   @{ printf ("%s <init-declare> ", $1); @}
+;
 
-declarator : ID         @{ printf ("\"%s\" ", $1); @}
-     | '(' declarator ')'
-     ;
+declarator:
+  ID               @{ printf ("\"%s\" ", $1); @}
+| '(' declarator ')'
+;
 @end example
 
 @noindent
@@ -1085,9 +1090,10 @@ other.  To do so, you could change the declaration of @code{stmt} as
 follows:
 
 @example
-stmt : expr ';'  %merge <stmtMerge>
-     | decl      %merge <stmtMerge>
-     ;
+stmt:
+  expr ';'  %merge <stmtMerge>
+| decl      %merge <stmtMerge>
+;
 @end example
 
 @noindent
@@ -1494,25 +1500,28 @@ Here are the grammar rules for the reverse polish notation calculator.
 
 @example
 @group
-input:    /* empty */
-        | input line
+input:
+  /* empty */
+| input line
 ;
 @end group
 
 @group
-line:     '\n'
-        | exp '\n'      @{ printf ("\t%.10g\n", $1); @}
+line:
+  '\n'
+| exp '\n'      @{ printf ("%.10g\n", $1); @}
 ;
 @end group
 
 @group
-exp:      NUM           @{ $$ = $1;           @}
-        | exp exp '+'   @{ $$ = $1 + $2;      @}
-        | exp exp '-'   @{ $$ = $1 - $2;      @}
-        | exp exp '*'   @{ $$ = $1 * $2;      @}
-        | exp exp '/'   @{ $$ = $1 / $2;      @}
-        | exp exp '^'   @{ $$ = pow ($1, $2); @}  /* Exponentiation */
-        | exp 'n'       @{ $$ = -$1;          @}  /* Unary minus    */
+exp:
+  NUM           @{ $$ = $1;           @}
+| exp exp '+'   @{ $$ = $1 + $2;      @}
+| exp exp '-'   @{ $$ = $1 - $2;      @}
+| exp exp '*'   @{ $$ = $1 * $2;      @}
+| exp exp '/'   @{ $$ = $1 / $2;      @}
+| exp exp '^'   @{ $$ = pow ($1, $2); @}  /* Exponentiation */
+| exp 'n'       @{ $$ = -$1;          @}  /* Unary minus    */
 ;
 @end group
 %%
@@ -1548,8 +1557,9 @@ rule are referred to as @code{$1}, @code{$2}, and so on.
 Consider the definition of @code{input}:
 
 @example
-input:    /* empty */
-        | input line
+input:
+  /* empty */
+| input line
 ;
 @end example
 
@@ -1582,8 +1592,9 @@ input tokens; we will arrange for the latter to happen at end-of-input.
 Now consider the definition of @code{line}:
 
 @example
-line:     '\n'
-        | exp '\n'  @{ printf ("\t%.10g\n", $1); @}
+line:
+  '\n'
+| exp '\n'  @{ printf ("%.10g\n", $1); @}
 ;
 @end example
 
@@ -1610,21 +1621,22 @@ The second handles an addition-expression, which looks like two expressions
 followed by a plus-sign.  The third handles subtraction, and so on.
 
 @example
-exp:      NUM
-        | exp exp '+'     @{ $$ = $1 + $2;    @}
-        | exp exp '-'     @{ $$ = $1 - $2;    @}
-        @dots{}
-        ;
+exp:
+  NUM
+| exp exp '+'     @{ $$ = $1 + $2;    @}
+| exp exp '-'     @{ $$ = $1 - $2;    @}
+@dots{}
+;
 @end example
 
 We have used @samp{|} to join all the rules for @code{exp}, but we could
 equally well have written them separately:
 
 @example
-exp:      NUM ;
-exp:      exp exp '+'     @{ $$ = $1 + $2;    @} ;
-exp:      exp exp '-'     @{ $$ = $1 - $2;    @} ;
-        @dots{}
+exp: NUM ;
+exp: exp exp '+'     @{ $$ = $1 + $2; @};
+exp: exp exp '-'     @{ $$ = $1 - $2; @};
+@dots{}
 @end example
 
 Most of the rules have actions that compute the value of the expression in
@@ -1645,16 +1657,17 @@ not require it.  You can add or change white space as much as you wish.
 For example, this:
 
 @example
-exp   : NUM | exp exp '+' @{$$ = $1 + $2; @} | @dots{} ;
+exp: NUM | exp exp '+' @{$$ = $1 + $2; @} | @dots{} ;
 @end example
 
 @noindent
 means the same thing as this:
 
 @example
-exp:      NUM
-        | exp exp '+'    @{ $$ = $1 + $2; @}
-        | @dots{}
+exp:
+  NUM
+| exp exp '+'    @{ $$ = $1 + $2; @}
+| @dots{}
 ;
 @end example
 
@@ -1899,26 +1912,29 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 
 %% /* The grammar follows.  */
 @group
-input:    /* empty */
-        | input line
+input:
+  /* empty */
+| input line
 ;
 @end group
 
 @group
-line:     '\n'
-        | exp '\n'  @{ printf ("\t%.10g\n", $1); @}
+line:
+  '\n'
+| exp '\n'  @{ printf ("\t%.10g\n", $1); @}
 ;
 @end group
 
 @group
-exp:      NUM                @{ $$ = $1;           @}
-        | exp '+' exp        @{ $$ = $1 + $3;      @}
-        | exp '-' exp        @{ $$ = $1 - $3;      @}
-        | exp '*' exp        @{ $$ = $1 * $3;      @}
-        | exp '/' exp        @{ $$ = $1 / $3;      @}
-        | '-' exp  %prec NEG @{ $$ = -$2;          @}
-        | exp '^' exp        @{ $$ = pow ($1, $3); @}
-        | '(' exp ')'        @{ $$ = $2;           @}
+exp:
+  NUM                @{ $$ = $1;           @}
+| exp '+' exp        @{ $$ = $1 + $3;      @}
+| exp '-' exp        @{ $$ = $1 - $3;      @}
+| exp '*' exp        @{ $$ = $1 * $3;      @}
+| exp '/' exp        @{ $$ = $1 / $3;      @}
+| '-' exp  %prec NEG @{ $$ = -$2;          @}
+| exp '^' exp        @{ $$ = pow ($1, $3); @}
+| '(' exp ')'        @{ $$ = $2;           @}
 ;
 @end group
 %%
@@ -1981,9 +1997,10 @@ been added to one of the alternatives for @code{line}:
 
 @example
 @group
-line:     '\n'
-        | exp '\n'   @{ printf ("\t%.10g\n", $1); @}
-        | error '\n' @{ yyerrok;                  @}
+line:
+  '\n'
+| exp '\n'   @{ printf ("\t%.10g\n", $1); @}
+| error '\n' @{ yyerrok;                  @}
 ;
 @end group
 @end example
@@ -2074,41 +2091,44 @@ wrong expressions or subexpressions.
 
 @example
 @group
-input   : /* empty */
-        | input line
+input:
+  /* empty */
+| input line
 ;
 @end group
 
 @group
-line    : '\n'
-        | exp '\n' @{ printf ("%d\n", $1); @}
+line:
+  '\n'
+| exp '\n' @{ printf ("%d\n", $1); @}
 ;
 @end group
 
 @group
-exp     : NUM           @{ $$ = $1; @}
-        | exp '+' exp   @{ $$ = $1 + $3; @}
-        | exp '-' exp   @{ $$ = $1 - $3; @}
-        | exp '*' exp   @{ $$ = $1 * $3; @}
+exp:
+  NUM           @{ $$ = $1; @}
+| exp '+' exp   @{ $$ = $1 + $3; @}
+| exp '-' exp   @{ $$ = $1 - $3; @}
+| exp '*' exp   @{ $$ = $1 * $3; @}
 @end group
 @group
-        | exp '/' exp
-            @{
-              if ($3)
-                $$ = $1 / $3;
-              else
-                @{
-                  $$ = 1;
-                  fprintf (stderr, "%d.%d-%d.%d: division by zero",
-                           @@3.first_line, @@3.first_column,
-                           @@3.last_line, @@3.last_column);
-                @}
-            @}
+| exp '/' exp
+    @{
+      if ($3)
+        $$ = $1 / $3;
+      else
+        @{
+          $$ = 1;
+          fprintf (stderr, "%d.%d-%d.%d: division by zero",
+                   @@3.first_line, @@3.first_column,
+                   @@3.last_line, @@3.last_column);
+        @}
+    @}
 @end group
 @group
-        | '-' exp %prec NEG     @{ $$ = -$2; @}
-        | exp '^' exp           @{ $$ = pow ($1, $3); @}
-        | '(' exp ')'           @{ $$ = $2; @}
+| '-' exp %prec NEG     @{ $$ = -$2; @}
+| exp '^' exp           @{ $$ = pow ($1, $3); @}
+| '(' exp ')'           @{ $$ = $2; @}
 @end group
 @end example
 
@@ -2334,31 +2354,33 @@ those which mention @code{VAR} or @code{FNCT}, are new.
 @comment file: mfcalc.y
 @example
 @group
-input:   /* empty */
-        | input line
+input:
+  /* empty */
+| input line
 ;
 @end group
 
 @group
 line:
-          '\n'
-        | exp '\n'   @{ printf ("\t%.10g\n", $1); @}
-        | error '\n' @{ yyerrok;                  @}
+  '\n'
+| exp '\n'   @{ printf ("%.10g\n", $1); @}
+| error '\n' @{ yyerrok;                @}
 ;
 @end group
 
 @group
-exp:      NUM                @{ $$ = $1;                         @}
-        | VAR                @{ $$ = $1->value.var;              @}
-        | VAR '=' exp        @{ $$ = $3; $1->value.var = $3;     @}
-        | FNCT '(' exp ')'   @{ $$ = (*($1->value.fnctptr))($3); @}
-        | exp '+' exp        @{ $$ = $1 + $3;                    @}
-        | exp '-' exp        @{ $$ = $1 - $3;                    @}
-        | exp '*' exp        @{ $$ = $1 * $3;                    @}
-        | exp '/' exp        @{ $$ = $1 / $3;                    @}
-        | '-' exp  %prec NEG @{ $$ = -$2;                        @}
-        | exp '^' exp        @{ $$ = pow ($1, $3);               @}
-        | '(' exp ')'        @{ $$ = $2;                         @}
+exp:
+  NUM                @{ $$ = $1;                         @}
+| VAR                @{ $$ = $1->value.var;              @}
+| VAR '=' exp        @{ $$ = $3; $1->value.var = $3;     @}
+| FNCT '(' exp ')'   @{ $$ = (*($1->value.fnctptr))($3); @}
+| exp '+' exp        @{ $$ = $1 + $3;                    @}
+| exp '-' exp        @{ $$ = $1 - $3;                    @}
+| exp '*' exp        @{ $$ = $1 * $3;                    @}
+| exp '/' exp        @{ $$ = $1 / $3;                    @}
+| '-' exp  %prec NEG @{ $$ = -$2;                        @}
+| exp '^' exp        @{ $$ = pow ($1, $3);               @}
+| '(' exp ')'        @{ $$ = $2;                         @}
 ;
 @end group
 /* End of grammar.  */
@@ -3261,8 +3283,7 @@ A Bison grammar rule has the following general form:
 
 @example
 @group
-@var{result}: @var{components}@dots{}
-        ;
+@var{result}: @var{components}@dots{};
 @end group
 @end example
 
@@ -3275,8 +3296,7 @@ For example,
 
 @example
 @group
-exp:      exp '+' exp
-        ;
+exp: exp '+' exp;
 @end group
 @end example
 
@@ -3321,10 +3341,11 @@ be joined with the vertical-bar character @samp{|} as follows:
 
 @example
 @group
-@var{result}:    @var{rule1-components}@dots{}
-        | @var{rule2-components}@dots{}
-        @dots{}
-        ;
+@var{result}:
+  @var{rule1-components}@dots{}
+| @var{rule2-components}@dots{}
+@dots{}
+;
 @end group
 @end example
 
@@ -3337,15 +3358,17 @@ comma-separated sequence of zero or more @code{exp} groupings:
 
 @example
 @group
-expseq:   /* empty */
-        | expseq1
-        ;
+expseq:
+  /* empty */
+| expseq1
+;
 @end group
 
 @group
-expseq1:  exp
-        | expseq1 ',' exp
-        ;
+expseq1:
+  exp
+| expseq1 ',' exp
+;
 @end group
 @end example
 
@@ -3365,9 +3388,10 @@ comma-separated sequence of one or more expressions:
 
 @example
 @group
-expseq1:  exp
-        | expseq1 ',' exp
-        ;
+expseq1:
+  exp
+| expseq1 ',' exp
+;
 @end group
 @end example
 
@@ -3380,9 +3404,10 @@ the same construct is defined using @dfn{right recursion}:
 
 @example
 @group
-expseq1:  exp
-        | exp ',' expseq1
-        ;
+expseq1:
+  exp
+| exp ',' expseq1
+;
 @end group
 @end example
 
@@ -3406,15 +3431,17 @@ For example:
 
 @example
 @group
-expr:     primary
-        | primary '+' primary
-        ;
+expr:
+  primary
+| primary '+' primary
+;
 @end group
 
 @group
-primary:  constant
-        | '(' expr ')'
-        ;
+primary:
+  constant
+| '(' expr ')'
+;
 @end group
 @end example
 
@@ -3536,9 +3563,9 @@ Here is a typical example:
 
 @example
 @group
-exp:    @dots{}
-        | exp '+' exp
-            @{ $$ = $1 + $3; @}
+exp:
+@dots{}
+| exp '+' exp     @{ $$ = $1 + $3; @}
 @end group
 @end example
 
@@ -3546,9 +3573,9 @@ Or, in terms of named references:
 
 @example
 @group
-exp[result]:    @dots{}
-        | exp[left] '+' exp[right]
-            @{ $result = $left + $right; @}
+exp[result]:
+@dots{}
+| exp[left] '+' exp[right]  @{ $result = $left + $right; @}
 @end group
 @end example
 
@@ -3595,15 +3622,16 @@ is a case in which you can use this reliably:
 
 @example
 @group
-foo:      expr bar '+' expr  @{ @dots{} @}
-        | expr bar '-' expr  @{ @dots{} @}
-        ;
+foo:
+  expr bar '+' expr  @{ @dots{} @}
+| expr bar '-' expr  @{ @dots{} @}
+;
 @end group
 
 @group
-bar:      /* empty */
-        @{ previous_expr = $0; @}
-        ;
+bar:
+  /* empty */    @{ previous_expr = $0; @}
+;
 @end group
 @end example
 
@@ -3633,9 +3661,9 @@ in the rule.  In this example,
 
 @example
 @group
-exp:    @dots{}
-        | exp '+' exp
-            @{ $$ = $1 + $3; @}
+exp:
+  @dots{}
+| exp '+' exp    @{ $$ = $1 + $3; @}
 @end group
 @end example
 
@@ -3702,11 +3730,11 @@ remove it afterward.  Here is how it is done:
 
 @example
 @group
-stmt:   LET '(' var ')'
-                @{ $<context>$ = push_context ();
-                  declare_variable ($3); @}
-        stmt    @{ $$ = $6;
-                  pop_context ($<context>5); @}
+stmt:
+  LET '(' var ')'
+    @{ $<context>$ = push_context (); declare_variable ($3); @}
+  stmt
+    @{ $$ = $6; pop_context ($<context>5); @}
 @end group
 @end example
 
@@ -3748,15 +3776,19 @@ declare a destructor for that symbol:
 
 %%
 
-stmt:  let stmt
-               @{ $$ = $2;
-                 pop_context ($1); @}
-       ;
+stmt:
+  let stmt
+    @{
+      $$ = $2;
+      pop_context ($1);
+    @};
 
-let:   LET '(' var ')'
-               @{ $$ = push_context ();
-                 declare_variable ($3); @}
-       ;
+let:
+  LET '(' var ')'
+    @{
+      $$ = push_context ();
+      declare_variable ($3);
+    @};
 
 @end group
 @end example
@@ -3775,9 +3807,10 @@ declaration or not:
 
 @example
 @group
-compound: '@{' declarations statements '@}'
-        | '@{' statements '@}'
-        ;
+compound:
+  '@{' declarations statements '@}'
+| '@{' statements '@}'
+;
 @end group
 @end example
 
@@ -3786,12 +3819,13 @@ But when we add a mid-rule action as follows, the rules become nonfunctional:
 
 @example
 @group
-compound: @{ prepare_for_local_variables (); @}
-          '@{' declarations statements '@}'
+compound:
+  @{ prepare_for_local_variables (); @}
+     '@{' declarations statements '@}'
 @end group
 @group
-        | '@{' statements '@}'
-        ;
+|    '@{' statements '@}'
+;
 @end group
 @end example
 
@@ -3808,11 +3842,12 @@ actions into the two rules, like this:
 
 @example
 @group
-compound: @{ prepare_for_local_variables (); @}
-          '@{' declarations statements '@}'
-        | @{ prepare_for_local_variables (); @}
-          '@{' statements '@}'
-        ;
+compound:
+  @{ prepare_for_local_variables (); @}
+    '@{' declarations statements '@}'
+| @{ prepare_for_local_variables (); @}
+    '@{' statements '@}'
+;
 @end group
 @end example
 
@@ -3826,10 +3861,11 @@ does work is to put the action after the open-brace, like this:
 
 @example
 @group
-compound: '@{' @{ prepare_for_local_variables (); @}
-          declarations statements '@}'
-        | '@{' statements '@}'
-        ;
+compound:
+  '@{' @{ prepare_for_local_variables (); @}
+    declarations statements '@}'
+| '@{' statements '@}'
+;
 @end group
 @end example
 
@@ -3842,18 +3878,16 @@ serves as a subroutine:
 
 @example
 @group
-subroutine: /* empty */
-          @{ prepare_for_local_variables (); @}
-        ;
-
+subroutine:
+  /* empty */  @{ prepare_for_local_variables (); @}
+;
 @end group
 
 @group
-compound: subroutine
-          '@{' declarations statements '@}'
-        | subroutine
-          '@{' statements '@}'
-        ;
+compound:
+  subroutine '@{' declarations statements '@}'
+| subroutine '@{' statements '@}'
+;
 @end group
 @end example
 
@@ -3938,24 +3972,25 @@ Here is a basic example using the default data type for locations:
 
 @example
 @group
-exp:    @dots{}
-        | exp '/' exp
-            @{
-              @@$.first_column = @@1.first_column;
-              @@$.first_line = @@1.first_line;
-              @@$.last_column = @@3.last_column;
-              @@$.last_line = @@3.last_line;
-              if ($3)
-                $$ = $1 / $3;
-              else
-                @{
-                  $$ = 1;
-                  fprintf (stderr,
-                           "Division by zero, l%d,c%d-l%d,c%d",
-                           @@3.first_line, @@3.first_column,
-                           @@3.last_line, @@3.last_column);
-                @}
-            @}
+exp:
+  @dots{}
+| exp '/' exp
+    @{
+      @@$.first_column = @@1.first_column;
+      @@$.first_line = @@1.first_line;
+      @@$.last_column = @@3.last_column;
+      @@$.last_line = @@3.last_line;
+      if ($3)
+        $$ = $1 / $3;
+      else
+        @{
+          $$ = 1;
+          fprintf (stderr,
+                   "Division by zero, l%d,c%d-l%d,c%d",
+                   @@3.first_line, @@3.first_column,
+                   @@3.last_line, @@3.last_column);
+        @}
+    @}
 @end group
 @end example
 
@@ -3969,20 +4004,21 @@ example above simply rewrites this way:
 
 @example
 @group
-exp:    @dots{}
-        | exp '/' exp
-            @{
-              if ($3)
-                $$ = $1 / $3;
-              else
-                @{
-                  $$ = 1;
-                  fprintf (stderr,
-                           "Division by zero, l%d,c%d-l%d,c%d",
-                           @@3.first_line, @@3.first_column,
-                           @@3.last_line, @@3.last_column);
-                @}
-            @}
+exp:
+  @dots{}
+| exp '/' exp
+    @{
+      if ($3)
+        $$ = $1 / $3;
+      else
+        @{
+          $$ = 1;
+          fprintf (stderr,
+                   "Division by zero, l%d,c%d-l%d,c%d",
+                   @@3.first_line, @@3.first_column,
+                   @@3.last_line, @@3.last_column);
+        @}
+    @}
 @end group
 @end example
 
@@ -6355,16 +6391,18 @@ factorial operators (@samp{!}), and allow parentheses for grouping.
 
 @example
 @group
-expr:     term '+' expr
-        | term
-        ;
+expr:
+  term '+' expr
+| term
+;
 @end group
 
 @group
-term:     '(' expr ')'
-        | term '!'
-        | NUMBER
-        ;
+term:
+  '(' expr ')'
+| term '!'
+| NUMBER
+;
 @end group
 @end example
 
@@ -6402,9 +6440,9 @@ statements, with a pair of rules like this:
 @example
 @group
 if_stmt:
-          IF expr THEN stmt
-        | IF expr THEN stmt ELSE stmt
-        ;
+  IF expr THEN stmt
+| IF expr THEN stmt ELSE stmt
+;
 @end group
 @end example
 
@@ -6471,20 +6509,22 @@ the conflict:
 %%
 @end group
 @group
-stmt:     expr
-        | if_stmt
-        ;
+stmt:
+  expr
+| if_stmt
+;
 @end group
 
 @group
 if_stmt:
-          IF expr THEN stmt
-        | IF expr THEN stmt ELSE stmt
-        ;
+  IF expr THEN stmt
+| IF expr THEN stmt ELSE stmt
+;
 @end group
 
-expr:     variable
-        ;
+expr:
+  variable
+;
 @end example
 
 @node Precedence
@@ -6512,12 +6552,13 @@ input @w{@samp{1 - 2 * 3}} can be parsed in two different ways):
 
 @example
 @group
-expr:     expr '-' expr
-        | expr '*' expr
-        | expr '<' expr
-        | '(' expr ')'
-        @dots{}
-        ;
+expr:
+  expr '-' expr
+| expr '*' expr
+| expr '<' expr
+| '(' expr ')'
+@dots{}
+;
 @end group
 @end example
 
@@ -6671,10 +6712,11 @@ Now the precedence of @code{UMINUS} can be used in specific rules:
 
 @example
 @group
-exp:    @dots{}
-        | exp '-' exp
-        @dots{}
-        | '-' exp %prec UMINUS
+exp:
+  @dots{}
+| exp '-' exp
+  @dots{}
+| '-' exp %prec UMINUS
 @end group
 @end example
 
@@ -6740,20 +6782,18 @@ of zero or more @code{word} groupings.
 
 @example
 @group
-sequence: /* empty */
-                @{ printf ("empty sequence\n"); @}
-        | maybeword
-        | sequence word
-                @{ printf ("added word %s\n", $2); @}
-        ;
+sequence:
+  /* empty */    @{ printf ("empty sequence\n"); @}
+| maybeword
+| sequence word  @{ printf ("added word %s\n", $2); @}
+;
 @end group
 
 @group
-maybeword: /* empty */
-                @{ printf ("empty maybeword\n"); @}
-        | word
-                @{ printf ("single word %s\n", $1); @}
-        ;
+maybeword:
+  /* empty */   @{ printf ("empty maybeword\n"); @}
+| word          @{ printf ("single word %s\n", $1); @}
+;
 @end group
 @end example
 
@@ -6781,28 +6821,30 @@ reduce/reduce conflict must be studied and usually eliminated.  Here is the
 proper way to define @code{sequence}:
 
 @example
-sequence: /* empty */
-                @{ printf ("empty sequence\n"); @}
-        | sequence word
-                @{ printf ("added word %s\n", $2); @}
-        ;
+sequence:
+  /* empty */    @{ printf ("empty sequence\n"); @}
+| sequence word  @{ printf ("added word %s\n", $2); @}
+;
 @end example
 
 Here is another common error that yields a reduce/reduce conflict:
 
 @example
-sequence: /* empty */
-        | sequence words
-        | sequence redirects
-        ;
+sequence:
+  /* empty */
+| sequence words
+| sequence redirects
+;
 
-words:    /* empty */
-        | words word
-        ;
+words:
+  /* empty */
+| words word
+;
 
-redirects:/* empty */
-        | redirects redirect
-        ;
+redirects:
+  /* empty */
+| redirects redirect
+;
 @end example
 
 @noindent
@@ -6821,10 +6863,11 @@ Here are two ways to correct these rules.  First, to make it a single level
 of sequence:
 
 @example
-sequence: /* empty */
-        | sequence word
-        | sequence redirect
-        ;
+sequence:
+  /* empty */
+| sequence word
+| sequence redirect
+;
 @end example
 
 Second, to prevent either a @code{words} or a @code{redirects}
@@ -6832,22 +6875,25 @@ from being empty:
 
 @example
 @group
-sequence: /* empty */
-        | sequence words
-        | sequence redirects
-        ;
+sequence:
+  /* empty */
+| sequence words
+| sequence redirects
+;
 @end group
 
 @group
-words:    word
-        | words word
-        ;
+words:
+  word
+| words word
+;
 @end group
 
 @group
-redirects:redirect
-        | redirects redirect
-        ;
+redirects:
+  redirect
+| redirects redirect
+;
 @end group
 @end example
 
@@ -6863,30 +6909,27 @@ Here is an example:
 %token ID
 
 %%
-def:    param_spec return_spec ','
-        ;
+def: param_spec return_spec ',';
 param_spec:
-             type
-        |    name_list ':' type
-        ;
+  type
+| name_list ':' type
+;
 @end group
 @group
 return_spec:
-             type
-        |    name ':' type
-        ;
+  type
+| name ':' type
+;
 @end group
 @group
-type:        ID
-        ;
+type: ID;
 @end group
 @group
-name:        ID
-        ;
+name: ID;
 name_list:
-             name
-        |    name ',' name_list
-        ;
+  name
+| name ',' name_list
+;
 @end group
 @end example
 
@@ -6935,11 +6978,10 @@ distinct.  In the above example, adding one rule to
 %%
 @dots{}
 return_spec:
-             type
-        |    name ':' type
-        /* This rule is never used.  */
-        |    ID BOGUS
-        ;
+  type
+| name ':' type
+| ID BOGUS       /* This rule is never used.  */
+;
 @end group
 @end example
 
@@ -6959,13 +7001,13 @@ rather than the one for @code{name}.
 
 @example
 param_spec:
-             type
-        |    name_list ':' type
-        ;
+  type
+| name_list ':' type
+;
 return_spec:
-             type
-        |    ID ':' type
-        ;
+  type
+| ID ':' type
+;
 @end example
 
 For a more detailed exposition of LALR(1) parsers and parser
@@ -7540,10 +7582,11 @@ in the current context, the parse can continue.
 For example:
 
 @example
-stmnts:  /* empty string */
-        | stmnts '\n'
-        | stmnts exp '\n'
-        | stmnts error '\n'
+stmnts:
+  /* empty string */
+| stmnts '\n'
+| stmnts exp '\n'
+| stmnts error '\n'
 @end example
 
 The fourth rule in this example says that an error followed by a newline
@@ -7584,10 +7627,11 @@ close-delimiter will probably appear to be unmatched, and generate another,
 spurious error message:
 
 @example
-primary:  '(' expr ')'
-        | '(' error ')'
-        @dots{}
-        ;
+primary:
+  '(' expr ')'
+| '(' error ')'
+@dots{}
+;
 @end example
 
 Error recovery strategies are necessarily guesses.  When they guess wrong,
@@ -7709,18 +7753,16 @@ duplication, with actions omitted for brevity:
 @example
 @group
 initdcl:
-          declarator maybeasm '='
-          init
-        | declarator maybeasm
-        ;
+  declarator maybeasm '=' init
+| declarator maybeasm
+;
 @end group
 
 @group
 notype_initdcl:
-          notype_declarator maybeasm '='
-          init
-        | notype_declarator maybeasm
-        ;
+  notype_declarator maybeasm '=' init
+| notype_declarator maybeasm
+;
 @end group
 @end example
 
@@ -7761,24 +7803,21 @@ as an identifier if it appears in that context.  Here is how you can do it:
 @dots{}
 @end group
 @group
-expr:   IDENTIFIER
-        | constant
-        | HEX '('
-                @{ hexflag = 1; @}
-          expr ')'
-                @{ hexflag = 0;
-                   $$ = $4; @}
-        | expr '+' expr
-                @{ $$ = make_sum ($1, $3); @}
-        @dots{}
-        ;
+expr:
+  IDENTIFIER
+| constant
+| HEX '('        @{ hexflag = 1; @}
+    expr ')'     @{ hexflag = 0; $$ = $4; @}
+| expr '+' expr  @{ $$ = make_sum ($1, $3); @}
+@dots{}
+;
 @end group
 
 @group
 constant:
-          INTEGER
-        | STRING
-        ;
+  INTEGER
+| STRING
+;
 @end group
 @end example
 
@@ -7804,12 +7843,12 @@ For example, in C-like languages, a typical error recovery rule is to skip
 tokens until the next semicolon, and then start a new statement, like this:
 
 @example
-stmt:   expr ';'
-        | IF '(' expr ')' stmt @{ @dots{} @}
-        @dots{}
-        error ';'
-                @{ hexflag = 0; @}
-        ;
+stmt:
+  expr ';'
+| IF '(' expr ')' stmt @{ @dots{} @}
+@dots{}
+| error ';'  @{ hexflag = 0; @}
+;
 @end example
 
 If there is a syntax error in the middle of a @samp{hex (@var{expr})}
@@ -7826,11 +7865,11 @@ and skips to the close-parenthesis:
 
 @example
 @group
-expr:   @dots{}
-        | '(' expr ')'
-                @{ $$ = $2; @}
-        | '(' error ')'
-        @dots{}
+expr:
+  @dots{}
+| '(' expr ')'   @{ $$ = $2; @}
+| '(' error ')'
+@dots{}
 @end group
 @end example
 
@@ -7888,12 +7927,13 @@ The following grammar file, @file{calc.y}, will be used in the sequel:
 %left '+' '-'
 %left '*'
 %%
-exp: exp '+' exp
-   | exp '-' exp
-   | exp '*' exp
-   | exp '/' exp
-   | NUM
-   ;
+exp:
+  exp '+' exp
+| exp '-' exp
+| exp '*' exp
+| exp '/' exp
+| NUM
+;
 useless: STR;
 %%
 @end example
@@ -8507,7 +8547,7 @@ Also warn about mid-rule values that are used but not set.
 For example, warn about unset @code{$$} in the mid-rule action in:
 
 @example
- exp: '1' @{ $1 = 1; @} '+' exp @{ $$ = $2 + $4; @};
+exp: '1' @{ $1 = 1; @} '+' exp @{ $$ = $2 + $4; @};
 @end example
 
 These warnings are not enabled by default since they sometimes prove to
@@ -9302,8 +9342,9 @@ The grammar itself is straightforward.
 %start unit;
 unit: assignments exp  @{ driver.result = $2; @};
 
-assignments: assignments assignment @{@}
-           | /* Nothing.  */        @{@};
+assignments:
+  /* Nothing.  */        @{@}
+| assignments assignment @{@};
 
 assignment:
      "identifier" ":=" exp
@@ -10313,8 +10354,9 @@ real start-symbol:
 @example
 %token START_FOO START_BAR;
 %start start;
-start: START_FOO foo
-     | START_BAR bar;
+start:
+  START_FOO foo
+| START_BAR bar;
 @end example
 
 These tokens prevents the introduction of new conflicts.  As far as the
