@@ -7983,9 +7983,9 @@ exp (9)
 @cindex pointed rule
 @cindex rule, pointed
 Bison then proceeds onto the automaton itself, describing each state
-with it set of @dfn{items}, also known as @dfn{pointed rules}.  Each
-item is a production rule together with a point (marked by @samp{.})
-that the input cursor.
+with its set of @dfn{items}, also known as @dfn{pointed rules}.  Each
+item is a production rule together with a point (@samp{.}) marking
+the location of the input cursor.
 
 @example
 state 0
@@ -8002,7 +8002,7 @@ beginning of the parsing, in the initial rule, right before the start
 symbol (here, @code{exp}).  When the parser returns to this state right
 after having reduced a rule that produced an @code{exp}, the control
 flow jumps to state 2.  If there is no such transition on a nonterminal
-symbol, and the lookahead is a @code{NUM}, then this token is shifted on
+symbol, and the lookahead is a @code{NUM}, then this token is shifted onto
 the parse stack, and the control flow jumps to state 1.  Any other
 lookahead triggers a syntax error.''
 
@@ -8015,8 +8015,7 @@ report lists @code{NUM} as a lookahead token because @code{NUM} can be
 at the beginning of any rule deriving an @code{exp}.  By default Bison
 reports the so-called @dfn{core} or @dfn{kernel} of the item set, but if
 you want to see more detail you can invoke @command{bison} with
-@option{--report=itemset} to list all the items, include those that can
-be derived:
+@option{--report=itemset} to list the derived items as well:
 
 @example
 state 0
@@ -8068,11 +8067,11 @@ state 2
 
 @noindent
 In state 2, the automaton can only shift a symbol.  For instance,
-because of the item @samp{exp -> exp . '+' exp}, if the lookahead if
-@samp{+}, it will be shifted on the parse stack, and the automaton
-control will jump to state 4, corresponding to the item @samp{exp -> exp
-'+' . exp}.  Since there is no default action, any other token than
-those listed above will trigger a syntax error.
+because of the item @samp{exp -> exp . '+' exp}, if the lookahead is
+@samp{+} it is shifted onto the parse stack, and the automaton
+jumps to state 4, corresponding to the item @samp{exp -> exp '+' . exp}.
+Since there is no default action, any lookahead not listed triggers a syntax
+error.
 
 @cindex accepting state
 The state 3 is named the @dfn{final state}, or the @dfn{accepting
