@@ -7356,7 +7356,7 @@ semantic actions, but none of these are performed during the exploratory
 parse.  Finally, the base of the temporary stack used during an exploratory
 parse is a pointer into the normal parser state stack so that the stack is
 never physically copied.  In our experience, the performance penalty of LAC
-has proven insignificant for practical grammars.
+has proved insignificant for practical grammars.
 @end itemize
 
 While the LAC algorithm shares techniques that have been recognized in the
@@ -11279,7 +11279,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit nonfree
 @c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok rr
 @c LocalWords: longjmp fprintf stderr yylloc YYLTYPE cos ln Stallman Destructor
-@c LocalWords: symrec val tptr FNCT fnctptr func struct sym enum
+@c LocalWords: symrec val tptr FNCT fnctptr func struct sym enum IEC syntaxes
 @c LocalWords: fnct putsym getsym fname arith fncts atan ptr malloc sizeof Lex
 @c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum DOTDOT
 @c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype Unary
@@ -11289,35 +11289,36 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP subrange
 @c LocalWords: YYEMPTY YYEOF YYRECOVERING yyclearin GE def UMINUS maybeword loc
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH inline
-@c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead
+@c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead yyoutput
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args Autoconf
 @c LocalWords: infile ypp yxx outfile itemx tex leaderfill Troubleshouting sqrt
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
 @c LocalWords: nbar yytext fst snd osplit ntwo strdup AST Troublereporting th
 @c LocalWords: YYSTACK DVI fdl printindex IELR nondeterministic nonterminals ps
 @c LocalWords: subexpressions declarator nondeferred config libintl postfix LAC
-@c LocalWords: preprocessor nonpositive unary nonnumeric typedef extern rhs
-@c LocalWords: yytokentype destructor multicharacter nonnull EBCDIC
+@c LocalWords: preprocessor nonpositive unary nonnumeric typedef extern rhs sr
+@c LocalWords: yytokentype destructor multicharacter nonnull EBCDIC nterm LR's
 @c LocalWords: lvalue nonnegative XNUM CHR chr TAGLESS tagless stdout api TOK
-@c LocalWords: destructors Reentrancy nonreentrant subgrammar nonassociative
+@c LocalWords: destructors Reentrancy nonreentrant subgrammar nonassociative Ph
 @c LocalWords: deffnx namespace xml goto lalr ielr runtime lex yacc yyps env
 @c LocalWords: yystate variadic Unshift NLS gettext po UTF Automake LOCALEDIR
 @c LocalWords: YYENABLE bindtextdomain Makefile DEFS CPPFLAGS DBISON DeRemer
-@c LocalWords: autoreconf Pennello multisets nondeterminism Generalised baz
+@c LocalWords: autoreconf Pennello multisets nondeterminism Generalised baz ACM
 @c LocalWords: redeclare automata Dparse localedir datadir XSLT midrule Wno
-@c LocalWords: Graphviz multitable headitem hh basename Doxygen fno
+@c LocalWords: Graphviz multitable headitem hh basename Doxygen fno filename
 @c LocalWords: doxygen ival sval deftypemethod deallocate pos deftypemethodx
 @c LocalWords: Ctor defcv defcvx arg accessors arithmetics CPP ifndef CALCXX
 @c LocalWords: lexer's calcxx bool LPAREN RPAREN deallocation cerrno climits
 @c LocalWords: cstdlib Debian undef yywrap unput noyywrap nounput zA yyleng
-@c LocalWords: errno strtol ERANGE str strerror iostream argc argv Javadoc
+@c LocalWords: errno strtol ERANGE str strerror iostream argc argv Javadoc PSLR
 @c LocalWords: bytecode initializers superclass stype ASTNode autoboxing nls
 @c LocalWords: toString deftypeivar deftypeivarx deftypeop YYParser strictfp
 @c LocalWords: superclasses boolean getErrorVerbose setErrorVerbose deftypecv
 @c LocalWords: getDebugStream setDebugStream getDebugLevel setDebugLevel url
 @c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos
-@c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett
-@c LocalWords: subdirectory Solaris nonassociativity
+@c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett LALR's
+@c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy
+@c LocalWords: Scannerless ispell american
 
 @c Local Variables:
 @c ispell-dictionary: "american"
