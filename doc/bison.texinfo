@@ -8283,7 +8283,7 @@ interpretation is the same.
 @cindex useless nonterminal
 @cindex rule, useless
 @cindex useless rule
-The first section reports useless tokens, nonterminal and rules.  Useless
+The first section reports useless tokens, nonterminals and rules.  Useless
 nonterminals and rules are removed in order to produce a smaller parser, but
 useless tokens are preserved, since they might be used by the scanner (note
 the difference between ``useless'' and ``unused'' below):
