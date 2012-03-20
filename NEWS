@@ -3,11 +3,28 @@ Bison News
 
 * Changes in version 2.5.1 (????-??-??):
 
-** Some portability problems in the test suite have been fixed.
+** Several portability problems in the test suite have been fixed:
 
-** Minor improvements have been made to the manual.
+  This includes warnings with some compilers, unexpected behavior of
+  tools such as diff, warning messages from the test suite itself,
+  etc.
+
+** Warnings during the build procedure have been eliminated.
+
+** Many minor improvements have been made to the manual:
+
+  The layout for grammar has changed to a more compact scheme.  Named
+  references are motivated.  The description of the automaton
+  description file is updated.
 
 ** YYBACKUP works as expected.
+
+** liby is no longer asking for "rpl_fprintf" on some platforms.
+
+** Several Java fixes:
+
+  The Java parser no longer throws ArrayIndexOutOfBoundsException if
+  the first token leads to a syntax error.  Some minor clean ups.
 
 * Changes in version 2.5 (2011-05-14):
 
