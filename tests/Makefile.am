@@ -78,7 +78,7 @@ installcheck-local:
 # Be real mean with it.
 .PHONY: maintainer-check-g++
 maintainer-check-g++: $(TESTSUITE)
-	$(TESTSUITE) CC='$(CXX)'
+	$(TESTSUITE) --compile-c-with-cxx
 
 .PHONY: maintainer-check-posix
 maintainer-check-posix: $(TESTSUITE)

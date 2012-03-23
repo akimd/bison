@@ -629,4 +629,15 @@ m4_popdef([AT_COND_CASE])])
 
 AT_INIT
 
+# Cannot assign CC and CFLAGS here, since atlocal is loaded after
+# options are processed, so we don't know the value of CXX and
+# CXXFLAGS yet.
+#
+# Note that it also means that command line values for CXX and
+# CXXFLAGS will not be propagated to CC and CFLAGS.
+AT_ARG_OPTION([compile-c-with-cxx],
+              [compile C parsers with the C++ compiler])
+
+AT_COLOR_TESTS
+
 AT_TESTED([bison])

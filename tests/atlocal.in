@@ -62,3 +62,10 @@ CONF_JAVA='@CONF_JAVA@'
 # Use simple quotes (lib/quote.c).
 LC_CTYPE=C
 export LC_CTYPE
+
+
+# Handle --compile-c-with-cxx here, once CXX and CXXFLAGS are known.
+if "$at_arg_compile_c_with_cxx"; then
+  CC=$CXX
+  CFLAGS=$CXXFLAGS
+fi
