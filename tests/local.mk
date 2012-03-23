@@ -36,9 +36,9 @@ $(top_srcdir)/tests/package.m4: $(top_srcdir)/configure
 	} >$@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
-## ------------ ##
-## Test suite.  ##
-## ------------ ##
+## ------------------------- ##
+## Generate the test suite.  ##
+## ------------------------- ##
 
 ## Leave testsuite.at first for the "testsuite" rule's $<.
 TESTSUITE_AT =                                  \
@@ -67,7 +67,6 @@ TESTSUITE_AT =                                  \
   tests/torture.at
 
 TESTSUITE = $(top_srcdir)/tests/testsuite
-RUN_TESTSUITE = $(TESTSUITE) -C tests $(TESTSUITEFLAGS)
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
 AUTOTESTFLAGS = -I $(top_srcdir)/tests
@@ -75,31 +74,38 @@ $(TESTSUITE): $(TESTSUITE_AT)
 	$(AM_V_GEN)$(AUTOTEST) $(AUTOTESTFLAGS) $< -o $@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
+
+## -------------------- ##
+## Run the test suite.  ##
+## -------------------- ##
+
+# Move into tests/ so that testsuite.dir etc. be created there.
+RUN_TESTSUITE = $(TESTSUITE) -C tests $(TESTSUITEFLAGS)
+check_SCRIPTS = $(BISON) tests/atconfig tests/atlocal
+RUN_TESTSUITE_deps = $(TESTSUITE) $(check_SCRIPTS)
+
 clean-local: clean-local-tests
 clean-local-tests:
 	test ! -f $(TESTSUITE) || $(TESTSUITE) -C tests --clean
 
-check-local: tests/atconfig tests/atlocal $(TESTSUITE)
-# Move into tests/ so that testsuite.dir etc. be created there.
+check-local: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE)
 
-check_SCRIPTS = $(BISON)
-
 # Run the test suite on the *installed* tree.
-installcheck-local:
+installcheck-local: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE) AUTOTEST_PATH="$(bindir)"
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++
-maintainer-check-g++: $(TESTSUITE)
 	$(RUN_TESTSUITE) CC='$(CXX)'
+maintainer-check-g++: $(RUN_TESTSUITE_deps)
 
 .PHONY: maintainer-check-posix
-maintainer-check-posix: $(TESTSUITE)
+maintainer-check-posix: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
 
 .PHONY: maintainer-check-valgrind
-maintainer-check-valgrind: $(TESTSUITE)
+maintainer-check-valgrind: $(RUN_TESTSUITE_deps)
 	test -z '$(VALGRIND)' || \
 	   VALGRIND_OPTS='--leak-check=full --show-reachable=yes' \
 	   $(RUN_TESTSUITE) PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'
