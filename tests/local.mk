@@ -93,7 +93,7 @@ check-local: $(RUN_TESTSUITE_deps)
 
 # Run the test suite on the *installed* tree.
 installcheck-local: $(RUN_TESTSUITE_deps)
-	$(RUN_TESTSUITE) AUTOTEST_PATH="$(bindir)"
+	$(RUN_TESTSUITE) AUTOTEST_PATH='$(bindir)'
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++
@@ -106,17 +106,20 @@ maintainer-check-posix: $(RUN_TESTSUITE_deps)
 
 .PHONY: maintainer-check-valgrind
 maintainer-check-valgrind: $(RUN_TESTSUITE_deps)
-	test -z '$(VALGRIND)' || \
-	   VALGRIND_OPTS='--leak-check=full --show-reachable=yes' \
-	   $(RUN_TESTSUITE) PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'
+	test -z '$(VALGRIND)' ||					\
+	  $(RUN_TESTSUITE)						\
+	    PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'	\
+	    VALGRIND_OPTS='--leak-check=full --show-reachable=yes'
 
 .PHONY: maintainer-check
 maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++
 
 .PHONY: maintainer-push-check
 maintainer-push-check:
-	BISON_USE_PUSH_FOR_PULL=1 $(MAKE) $(AM_MAKEFLAGS) maintainer-check
+	$(MAKE) $(AM_MAKEFLAGS) maintainer-check			\
+	  TESTSUITEFLAGS='BISON_USE_PUSH_FOR_PULL=1 $(TESTSUITEFLAGS)'
 
 .PHONY: maintainer-xml-check
 maintainer-xml-check:
-	BISON_TEST_XML=1 $(MAKE) $(AM_MAKEFLAGS) maintainer-check
+	$(MAKE) $(AM_MAKEFLAGS) maintainer-check		\
+	  TESTSUITEFLAGS='BISON_TEST_XML=1 $(TESTSUITEFLAGS)'
