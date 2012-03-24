@@ -615,6 +615,17 @@ m4_if(m4_index(m4_quote($3), [last-state]), -1,
 
 $9
 
+# Canonical LR generates very large tables, resulting in very long
+# files with #line directives that may overflow what the standards
+# (C90 and C++98) guarantee: 32767.  In that case, GCC's -pedantic
+# will issue an error.
+#
+# There is no "" around `wc` since some indent the result.
+m4_bmatch([$4], [%define lr.type canonical-lr],
+[if test 32767 -lt `wc -l < input.c`; then
+  CFLAGS=`echo " $CFLAGS " | sed -e 's/ -pedantic //'`
+  CXXFLAGS=`echo " $CXXFLAGS " | sed -e 's/ -pedantic //'`
+fi])
 AT_COMPILE([[input]])
 
 AT_PARSER_CHECK([[./input]],
