@@ -90,7 +90,7 @@ typedef struct InadequacyList {
  *     <tt>manifesting_state->reductions->num + 1</tt>.
  *   - If the set of all \c InadequacyList nodes with which the new
  *     \c InadequacyList node might be compared is currently empty, then
- *     it is best if <tt>*node_count</t> is zero so that the node count
+ *     it is best if <tt>*node_count</tt> is zero so that the node count
  *     does not eventually overflow.  However, if that set is not
  *     currently empty, then <tt>*node_count</tt> has not been modified
  *     by any function except \c InadequacyList__new_conflict since the
