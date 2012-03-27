@@ -124,7 +124,7 @@ DOXYGEN = doxygen
 doc: html
 
 html-local: doc/Doxyfile
-	$(AM_V_GEN) cd doc && $(DOXYGEN)
+	$(AM_V_GEN) $(DOXYGEN) doc/Doxyfile
 
 edit = sed -e 's,@PACKAGE_NAME\@,$(PACKAGE_NAME),g' \
 	   -e 's,@PACKAGE_VERSION\@,$(PACKAGE_VERSION),g' \
@@ -138,4 +138,4 @@ CLEANFILES += doc/Doxyfile
 doc/Doxyfile: $(top_srcdir)/doc/Doxyfile.in
 	$(AM_V_GEN) $(edit) $(top_srcdir)/doc/Doxyfile.in >doc/Doxyfile
 
-CLEANDIRS += html latex
+CLEANDIRS += doc/html
