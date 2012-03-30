@@ -241,7 +241,7 @@ int yylex (]AT_LEX_FORMALS[);
    are stored in a union, from which objects with constructors are
    excluded in C++. */
 %initial-action {
-  @$.initialize (0);
+  @$.initialize ();
 }
 ])])[
 

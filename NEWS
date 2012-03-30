@@ -9,6 +9,9 @@ Bison News
   tools such as diff, warning messages from the test suite itself,
   etc.
 
+  __attribute__ is not longer disabled when __STRICT_ANSI__ is defined
+  (i.e., when -std is passed to GCC).
+
 ** Warnings during the build procedure have been eliminated.
 
 ** Many minor improvements have been made to the manual:
@@ -25,6 +28,11 @@ Bison News
 
   The Java parser no longer throws ArrayIndexOutOfBoundsException if
   the first token leads to a syntax error.  Some minor clean ups.
+
+** C++11 compatibility:
+
+  C and C++ parsers use nullptr instead of 0 when __cplusplus is
+  201103L or higher.
 
 * Changes in version 2.5 (2011-05-14):
 

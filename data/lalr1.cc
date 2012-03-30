@@ -51,6 +51,8 @@ dnl FIXME: This is wrong, we want computed header guards.
 ]b4_percent_define_ifdef([[location_type]], [],
                          [[#include "location.hh"]])[
 
+]b4_null_define[
+
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG ]b4_debug_flag[
@@ -931,7 +933,7 @@ b4_error_verbose_if([int yystate, int yytoken],
           }
       }
 
-    char const* yyformat = 0;
+    char const* yyformat = YY_NULL;
     switch (yycount)
       {
 #define YYCASE_(N, S)                         \

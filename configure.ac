@@ -70,7 +70,7 @@ if test "$enable_gcc_warnings" = yes; then
     -Wcast-qual -Wformat -Wpointer-arith -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wmissing-declarations -Wmissing-prototypes
     -Wshadow -Wstrict-prototypes'
-  warn_cxx=''
+  warn_cxx='-Wnoexcept -Wzero-as-null-pointer-constant'
   AC_LANG_PUSH([C])
   for i in $warn_common $warn_c;
   do

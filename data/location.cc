@@ -20,7 +20,7 @@ m4_changecom()
 m4_divert_push(0)dnl
 @output(b4_dir_prefix[]position.hh@)@
 b4_copyright([Positions for Bison parsers in C++],
-             [2002-2007, 2009-2011])[
+             [2002-2007, 2009-2012])[
 
 /**
  ** \file position.hh
@@ -34,6 +34,8 @@ b4_copyright([Positions for Bison parsers in C++],
 # include <string>
 # include <algorithm>
 
+]b4_null_define[
+
 ]b4_namespace_open[
   /// Abstract a position.
   class position
@@ -42,13 +44,13 @@ b4_copyright([Positions for Bison parsers in C++],
 ]m4_ifdef([b4_location_constructors], [
     /// Construct a position.
     position ()
-      : filename (0), line (]b4_location_initial_line[), column (]b4_location_initial_column[)
+      : filename (YY_NULL), line (]b4_location_initial_line[), column (]b4_location_initial_column[)
     {
     }
 
 ])[
     /// Initialization.
-    inline void initialize (]b4_percent_define_get([[filename_type]])[* fn)
+    inline void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
     {
       filename = fn;
       line = ]b4_location_initial_line[;
@@ -174,7 +176,7 @@ b4_copyright([Locations for Bison parsers in C++],
 
 ])[
     /// Initialization.
-    inline void initialize (]b4_percent_define_get([[filename_type]])[* fn)
+    inline void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
     {
       begin.initialize (fn);
       end = begin;

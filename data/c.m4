@@ -146,16 +146,31 @@ m4_define([b4_table_value_equals],
        [[YYID (0)]],
        [[((]$2[) == (]$3[))]])])
 
+
 ## ---------##
 ## Values.  ##
 ## ---------##
 
-# b4_null
----------
-# Return a null pointer constant.  NULL infringes on the user name
-# space in C, so use 0 rather than NULL.
-m4_define([b4_null], [0])
 
+# b4_null_define
+# --------------
+# Portability issues: define a YY_NULL appropriate for the current
+# language (C, C++98, or C++11).
+m4_define([b4_null_define],
+[# ifndef YY_NULL
+#  if defined __cplusplus && 201103L <= __cplusplus
+#   define YY_NULL nullptr
+#  else
+#   define YY_NULL 0
+#  endif
+# endif[]dnl
+])
+
+
+# b4_null
+# -------
+# Return a null pointer constant.
+m4_define([b4_null], [YY_NULL])
 
 
 
