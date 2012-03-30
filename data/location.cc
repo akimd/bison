@@ -50,7 +50,7 @@ b4_copyright([Positions for Bison parsers in C++],
 
 ])[
     /// Initialization.
-    inline void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
+    void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
     {
       filename = fn;
       line = ]b4_location_initial_line[;
@@ -61,14 +61,14 @@ b4_copyright([Positions for Bison parsers in C++],
      ** \{ */
   public:
     /// (line related) Advance to the COUNT next lines.
-    inline void lines (int count = 1)
+    void lines (int count = 1)
     {
       column = ]b4_location_initial_column[;
       line += count;
     }
 
     /// (column related) Advance to the COUNT next columns.
-    inline void columns (int count = 1)
+    void columns (int count = 1)
     {
       column = std::max (]b4_location_initial_column[u, column + count);
     }
@@ -176,7 +176,7 @@ b4_copyright([Locations for Bison parsers in C++],
 
 ])[
     /// Initialization.
-    inline void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
+    void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
     {
       begin.initialize (fn);
       end = begin;
@@ -186,19 +186,19 @@ b4_copyright([Locations for Bison parsers in C++],
      ** \{ */
   public:
     /// Reset initial location to final location.
-    inline void step ()
+    void step ()
     {
       begin = end;
     }
 
     /// Extend the current location to the COUNT next columns.
-    inline void columns (unsigned int count = 1)
+    void columns (unsigned int count = 1)
     {
       end += count;
     }
 
     /// Extend the current location to the COUNT next lines.
-    inline void lines (unsigned int count = 1)
+    void lines (unsigned int count = 1)
     {
       end.lines (count);
     }
