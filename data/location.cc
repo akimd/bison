@@ -54,11 +54,13 @@ b4_copyright([Positions for Bison parsers in C++],
 
 ]])[
     /// Initialization.
-    void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
+    void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL,
+                     unsigned int l = ]b4_location_initial_line[u,
+                     unsigned int c = ]b4_location_initial_column[u)
     {
       filename = fn;
-      line = ]b4_location_initial_line[u;
-      column = ]b4_location_initial_column[u;
+      line = l;
+      column = c;
     }
 
     /** \name Line and Column related manipulators
@@ -195,9 +197,11 @@ b4_copyright([Locations for Bison parsers in C++],
 
 ])[
     /// Initialization.
-    void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL)
+    void initialize (]b4_percent_define_get([[filename_type]])[* f = YY_NULL,
+                     unsigned int l = ]b4_location_initial_line[u,
+                     unsigned int c = ]b4_location_initial_column[u)
     {
-      begin.initialize (fn);
+      begin.initialize (f, l, c);
       end = begin;
     }
 

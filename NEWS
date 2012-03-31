@@ -34,6 +34,12 @@ Bison News
   C and C++ parsers use nullptr instead of 0 when __cplusplus is
   201103L or higher.
 
+** C++ locations:
+
+  The position and location constructors (and their initialize
+  methods) accept new arguments for line and column.  Several issues
+  in the documentation were fixed.
+
 * Changes in version 2.5 (2011-05-14):
 
 ** Grammar symbol names can now contain non-initial dashes:
