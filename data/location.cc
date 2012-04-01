@@ -151,7 +151,7 @@ b4_copyright([Positions for Bison parsers in C++],
 #endif // not BISON_POSITION_HH]
 @output(b4_dir_prefix[]location.hh@)@
 b4_copyright([Locations for Bison parsers in C++],
-             [2002-2007, 2009-2011])[
+             [2002-2007, 2009-2012])[
 
 /**
  ** \file location.hh

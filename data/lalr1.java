@@ -25,7 +25,7 @@ m4_ifval(m4_defn([b4_symbol_destructors]),
 m4_divert_push(0)dnl
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
-             [2007-2011])
+             [2007-2012])
 
 b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
 ])[/* First part of user declarations.  */

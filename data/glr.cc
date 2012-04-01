@@ -220,7 +220,7 @@ m4_popdef([b4_parse_param])
 m4_divert_push(0)
 @output(b4_spec_defines_file@)@
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
-             [2002-2006, 2009-2011])[
+             [2002-2006, 2009-2012])[
 
 /* C++ GLR parser skeleton written by Akim Demaille.  */
 
