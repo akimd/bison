@@ -21,7 +21,8 @@ doc_bison_TEXINFOS =                            \
   doc/gpl-3.0.texi
 
 CLEANFILES = doc/bison.fns
-CLEANDIRS = doc/*.t2d
+TEXI2DVI = texi2dvi --build-dir=doc/bison.t2d
+CLEANDIRS = doc/bison.t2d
 clean-local:
 	rm -rf $(CLEANDIRS)
 
@@ -46,12 +47,11 @@ MAINTAINERCLEANFILES = $(CROSS_OPTIONS_TEXI)
 ## ---------- ##
 
 EXTRA_DIST += doc/refcard.tex
-CLEANFILES += doc/refcard.dvi doc/refcard.log doc/refcard.ps
+CLEANFILES += doc/refcard.pdf
 
-doc/refcard.dvi: doc/refcard.tex
-	$(AM_V_GEN)cd doc && tex refcard.tex
+doc/refcard.pdf: doc/refcard.tex
+	$(AM_V_GEN) cd doc && pdftex $(abs_top_srcdir)/doc/refcard.tex
 
-doc/refcard.ps: doc/refcard.dvi
 
 
 ## ---------------- ##
