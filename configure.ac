@@ -137,7 +137,6 @@ gl_INIT
 # Checks for library functions.
 AC_CHECK_FUNCS_ONCE([setlocale])
 AM_WITH_DMALLOC
-BISON_PREREQ_SUBPIPE
 BISON_PREREQ_TIMEVAR
 
 # Gettext.
