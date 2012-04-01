@@ -80,9 +80,9 @@ doc/refcard.ps: doc/refcard.dvi
 EXTRA_DIST += $(top_srcdir)/doc/bison.help
 MAINTAINERCLEANFILES += $(top_srcdir)/doc/bison.help
 $(top_srcdir)/doc/bison.help: src/bison$(EXEEXT)
-	$(AM_V_GEN)$< --version >doc/bison.help.t
-	$(AM_V_at)$< --help   >>doc/bison.help.t
-	$(AM_V_at)$(top_srcdir)/build-aux/move-if-change doc/bison.help.t $@
+	$(AM_V_GEN)src/bison$(EXEEXT) --version >doc/bison.help.tmp
+	$(AM_V_at) src/bison$(EXEEXT) --help   >>doc/bison.help.tmp
+	$(AM_V_at)$(top_srcdir)/build-aux/move-if-change doc/bison.help.tmp $@
 
 
 ## ----------- ##

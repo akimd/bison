@@ -40,7 +40,6 @@ $(top_srcdir)/tests/package.m4: $(top_srcdir)/configure
 ## Generate the test suite.  ##
 ## ------------------------- ##
 
-## Leave testsuite.at first for the "testsuite" rule's $<.
 TESTSUITE_AT =                                  \
   tests/testsuite.at                            \
                                                 \
@@ -71,7 +70,8 @@ TESTSUITE = $(top_srcdir)/tests/testsuite
 AUTOTEST = $(AUTOM4TE) --language=autotest
 AUTOTESTFLAGS = -I $(top_srcdir)/tests
 $(TESTSUITE): $(TESTSUITE_AT)
-	$(AM_V_GEN)$(AUTOTEST) $(AUTOTESTFLAGS) $< -o $@.tmp
+	$(AM_V_GEN) \
+	  $(AUTOTEST) $(AUTOTESTFLAGS) $(srcdir)/tests/testsuite.at -o $@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
 
