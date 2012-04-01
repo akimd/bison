@@ -320,6 +320,11 @@ C++ Parsers
 * C++ Scanner Interface::       Exchanges between yylex and parse
 * A Complete C++ Example::      Demonstrating their use
 
+C++ Location Values
+
+* C++ position::                One point in the source file
+* C++ location::                Two points in the source file
+
 A Complete C++ Example
 
 * Calc++ --- C++ Calculator::   The specifications
@@ -9324,55 +9329,98 @@ define a @code{position}, a single point in a file, and a @code{location}, a
 range composed of a pair of @code{position}s (possibly spanning several
 files).
 
-@deftypemethod {position} {std::string*} file
+@tindex uint
+In this section @code{uint} is an abbreviation for @code{unsigned int}: in
+genuine code only the latter is used.
+
+@menu
+* C++ position::         One point in the source file
+* C++ location::         Two points in the source file
+@end menu
+
+@node C++ position
+@subsubsection C++ @code{position}
+
+@deftypeop {Constructor} {position} {} position (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+Create a @code{position} denoting a given point.  Note that @code{file} is
+not reclaimed when the @code{position} is destroyed: memory managed must be
+handled elsewhere.
+@end deftypeop
+
+@deftypemethod {position} {void} initialize (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+Reset the position to the given values.
+@end deftypemethod
+
+@deftypeivar {position} {std::string*} file
 The name of the file.  It will always be handled as a pointer, the
 parser will never duplicate nor deallocate it.  As an experimental
 feature you may change it to @samp{@var{type}*} using @samp{%define
 filename_type "@var{type}"}.
-@end deftypemethod
+@end deftypeivar
 
-@deftypemethod {position} {unsigned int} line
+@deftypeivar {position} {uint} line
 The line, starting at 1.
-@end deftypemethod
+@end deftypeivar
 
-@deftypemethod {position} {unsigned int} lines (int @var{height} = 1)
+@deftypemethod {position} {uint} lines (int @var{height} = 1)
 Advance by @var{height} lines, resetting the column number.
 @end deftypemethod
 
-@deftypemethod {position} {unsigned int} column
-The column, starting at 0.
-@end deftypemethod
+@deftypeivar {position} {uint} column
+The column, starting at 1.
+@end deftypeivar
 
-@deftypemethod {position} {unsigned int} columns (int @var{width} = 1)
+@deftypemethod {position} {uint} columns (int @var{width} = 1)
 Advance by @var{width} columns, without changing the line number.
 @end deftypemethod
 
-@deftypemethod {position} {position&} operator+= (position& @var{pos}, int @var{width})
-@deftypemethodx {position} {position} operator+ (const position& @var{pos}, int @var{width})
-@deftypemethodx {position} {position&} operator-= (const position& @var{pos}, int @var{width})
-@deftypemethodx {position} {position} operator- (position& @var{pos}, int @var{width})
+@deftypemethod {position} {position&} operator+= (int @var{width})
+@deftypemethodx {position} {position} operator+ (int @var{width})
+@deftypemethodx {position} {position&} operator-= (int @var{width})
+@deftypemethodx {position} {position} operator- (int @var{width})
 Various forms of syntactic sugar for @code{columns}.
 @end deftypemethod
 
-@deftypemethod {position} {position} operator<< (std::ostream @var{o}, const position& @var{p})
+@deftypemethod {position} {bool} operator== (const position& @var{that})
+@deftypemethodx {position} {bool} operator!= (const position& @var{that})
+Whether @code{*this} and @code{that} denote equal/different positions.
+@end deftypemethod
+
+@deftypefun {std::ostream&} operator<< (std::ostream& @var{o}, const position& @var{p})
 Report @var{p} on @var{o} like this:
 @samp{@var{file}:@var{line}.@var{column}}, or
 @samp{@var{line}.@var{column}} if @var{file} is null.
+@end deftypefun
+
+@node C++ location
+@subsubsection C++ @code{location}
+
+@deftypeop {Constructor} {location} {} location (const position& @var{begin}, const position& @var{end})
+Create a @code{Location} from the endpoints of the range.
+@end deftypeop
+
+@deftypeop {Constructor} {location} {} location (const position& @var{pos} = position())
+@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, uint @var{line}, uint @var{col})
+Create a @code{Location} denoting an empty range located at a given point.
+@end deftypeop
+
+@deftypemethod {location} {void} initialize (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+Reset the location to an empty range at the given values.
 @end deftypemethod
 
-@deftypemethod {location} {position} begin
-@deftypemethodx {location} {position} end
+@deftypeivar {location} {position} begin
+@deftypeivarx {location} {position} end
 The first, inclusive, position of the range, and the first beyond.
-@end deftypemethod
+@end deftypeivar
 
-@deftypemethod {location} {unsigned int} columns (int @var{width} = 1)
-@deftypemethodx {location} {unsigned int} lines (int @var{height} = 1)
+@deftypemethod {location} {uint} columns (int @var{width} = 1)
+@deftypemethodx {location} {uint} lines (int @var{height} = 1)
 Advance the @code{end} position.
 @end deftypemethod
 
-@deftypemethod {location} {location} operator+ (const location& @var{begin}, const location& @var{end})
-@deftypemethodx {location} {location} operator+ (const location& @var{begin}, int @var{width})
-@deftypemethodx {location} {location} operator+= (const location& @var{loc}, int @var{width})
+@deftypemethod {location} {location} operator+ (const location& @var{end})
+@deftypemethodx {location} {location} operator+ (int @var{width})
+@deftypemethodx {location} {location} operator+= (int @var{width})
 Various forms of syntactic sugar.
 @end deftypemethod
 
@@ -9380,6 +9428,16 @@ Various forms of syntactic sugar.
 Move @code{begin} onto @code{end}.
 @end deftypemethod
 
+@deftypemethod {location} {bool} operator== (const location& @var{that})
+@deftypemethodx {location} {bool} operator!= (const location& @var{that})
+Whether @code{*this} and @code{that} denote equal/different ranges of
+positions.
+@end deftypemethod
+
+@deftypefun {std::ostream&} operator<< (std::ostream& @var{o}, const location& @var{p})
+Report @var{p} on @var{o}, taking care of special cases such as: no
+@code{filename} defined, or equal filename/line or column.
+@end deftypefun
 
 @node C++ Parser Interface
 @subsection C++ Parser Interface

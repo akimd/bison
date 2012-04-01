@@ -157,6 +157,8 @@ dnl FIXME: This is wrong, we want computed header guards.
 b4_variant_define
 b4_namespace_close])[
 
+]b4_null_define[
+
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG ]b4_parse_trace_if([1], [0])[
@@ -1056,7 +1058,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
           }
       }
 
-    char const* yyformat = 0;
+    char const* yyformat = YY_NULL;
     switch (yycount)
       {
 #define YYCASE_(N, S)                         \

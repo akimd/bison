@@ -55,6 +55,7 @@ AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
 
 # Checks for the compiler.
 AC_PROG_CC_STDC
+AC_PROG_CXX
 
 # Gnulib (early checks).
 gl_EARLY
@@ -67,31 +68,36 @@ AC_ARG_ENABLE([gcc-warnings],
  esac],
               [enable_gcc_warnings=no])
 if test "$enable_gcc_warnings" = yes; then
+  warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align
+    -Wcast-qual -Wformat -Wpointer-arith -Wwrite-strings'
+  warn_c='-Wbad-function-cast -Wmissing-declarations -Wmissing-prototypes
+    -Wshadow -Wstrict-prototypes'
+  warn_cxx='-Wnoexcept -Wzero-as-null-pointer-constant'
+  AC_LANG_PUSH([C])
+  for i in $warn_common $warn_c;
+  do
+    gl_WARN_ADD([$i], [WARN_CFLAGS])
+  done
   gl_WARN_ADD([-Werror], [WERROR_CFLAGS])
-  AC_SUBST([WERROR_CFLAGS])
-  gl_WARN_ADD([-Wall])
-  gl_WARN_ADD([-Wextra -Wno-sign-compare])
-  gl_WARN_ADD([-Wcast-align])
-  gl_WARN_ADD([-Wcast-qual])
-  gl_WARN_ADD([-Wformat])
-  gl_WARN_ADD([-Wpointer-arith])
-  gl_WARN_ADD([-Wwrite-strings])
-  AC_SUBST([WARN_CXXFLAGS], [$WARN_CFLAGS])
-  # The following warnings are not suitable for C++.
-  gl_WARN_ADD([-Wbad-function-cast])
-  gl_WARN_ADD([-Wmissing-declarations])
-  gl_WARN_ADD([-Wmissing-prototypes])
-  gl_WARN_ADD([-Wshadow])
-  gl_WARN_ADD([-Wstrict-prototypes])
-  AC_SUBST([WARN_CFLAGS])
   # Warnings for the test suite only.
   gl_WARN_ADD([-Wundef], [WARN_CFLAGS_TEST])
   gl_WARN_ADD([-pedantic], [WARN_CFLAGS_TEST])
-  AC_SUBST([WARN_CXXFLAGS_TEST], ["$WARN_CXXFLAGS $WARN_CFLAGS_TEST"])
-  AC_SUBST([WARN_CFLAGS_TEST], ["$WARN_CFLAGS $WARN_CFLAGS_TEST"])
+  AC_LANG_POP([C])
+
+  AC_LANG_PUSH([C++])
+  for i in $warn_common $warn_cxx;
+  do
+    gl_WARN_ADD([$i], [WARN_CXXFLAGS])
+  done
+  gl_WARN_ADD([-Werror], [WERROR_CXXFLAGS])
+  # Warnings for the test suite only.
+  gl_WARN_ADD([-Wundef], [WARN_CXXFLAGS_TEST])
+  gl_WARN_ADD([-pedantic], [WARN_CXXFLAGS_TEST])
+  AC_LANG_POP([C++])
 fi
 
 BISON_TEST_FOR_WORKING_C_COMPILER
+BISON_TEST_FOR_WORKING_CXX_COMPILER
 
 AC_ARG_ENABLE([yacc],
   [AC_HELP_STRING([--disable-yacc],
@@ -133,7 +139,6 @@ gl_INIT
 # Checks for library functions.
 AC_CHECK_FUNCS_ONCE([setlocale])
 AM_WITH_DMALLOC
-BISON_PREREQ_SUBPIPE
 BISON_PREREQ_TIMEVAR
 
 # Gettext.
@@ -157,13 +162,9 @@ AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_FILES([tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
 AC_CHECK_PROGS([VALGRIND], [valgrind])
-AC_PROG_CXX
-BISON_TEST_FOR_WORKING_CXX_COMPILER
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
-AC_SUBST([O0CFLAGS],   [`echo $CFLAGS   | sed 's/-O[[0-9]] *//'`])
-AC_SUBST([O0CXXFLAGS], [`echo $CXXFLAGS | sed 's/-O[[0-9]] *//'`])
 
 gt_JAVACOMP([1.3], [1.4])
 gt_JAVAEXEC

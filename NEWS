@@ -71,11 +71,42 @@ Bison News
 
 * Changes in version 2.5.1 (????-??-??):
 
-** Some portability problems in the test suite have been fixed.
+** Several portability problems in the test suite have been fixed:
 
-** Minor improvements have been made to the manual.
+  This includes warnings with some compilers, unexpected behavior of
+  tools such as diff, warning messages from the test suite itself,
+  etc.
+
+  __attribute__ is not longer disabled when __STRICT_ANSI__ is defined
+  (i.e., when -std is passed to GCC).
+
+** Warnings during the build procedure have been eliminated.
+
+** Many minor improvements have been made to the manual:
+
+  The layout for grammar has changed to a more compact scheme.  Named
+  references are motivated.  The description of the automaton
+  description file is updated.
 
 ** YYBACKUP works as expected.
+
+** liby is no longer asking for "rpl_fprintf" on some platforms.
+
+** Several Java fixes:
+
+  The Java parser no longer throws ArrayIndexOutOfBoundsException if
+  the first token leads to a syntax error.  Some minor clean ups.
+
+** C++11 compatibility:
+
+  C and C++ parsers use nullptr instead of 0 when __cplusplus is
+  201103L or higher.
+
+** C++ locations:
+
+  The position and location constructors (and their initialize
+  methods) accept new arguments for line and column.  Several issues
+  in the documentation were fixed.
 
 * Changes in version 2.5 (2011-05-14):
 
