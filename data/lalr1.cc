@@ -715,7 +715,7 @@ m4_popdef([b4_at_dollar])])dnl
        location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_ = stack_type (0);
-    yypush_ (0, 0, yyla);
+    yypush_ (YY_NULL, 0, yyla);
 
     // A new symbol was pushed on the stack.
   yynewstate:
@@ -853,14 +853,14 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       // in the debug trace, it's possibly junk.  Hence yymsg = 0.
       // Besides, that keeps exactly the same traces as with the other
       // Bison skeletons.
-      yy_destroy_ (0, yystack_[i]);]])[
+      yy_destroy_ (YY_NULL, yystack_[i]);]])[
 
     yypop_ (yylen);
     yylen = 0;
     YY_STACK_PRINT ();
 
     /* Shift the result of the reduction.  */
-    yypush_ (0, yylhs);
+    yypush_ (YY_NULL, yylhs);
     goto yynewstate;
 
   /*--------------------------------------.
