@@ -9933,7 +9933,7 @@ Return immediately from the parser, indicating success.
 @end deffn
 
 @deffn {Statement} {return YYERROR;}
-Start error recovery without printing an error message.
+Start error recovery (without printing an error message).
 @xref{Error Recovery}.
 @end deffn
 
@@ -10911,10 +10911,11 @@ after a syntax error.  @xref{Error Recovery}.
 @end deffn
 
 @deffn {Macro} YYERROR
-Macro to pretend that a syntax error has just been detected: call
-@code{yyerror} and then perform normal error recovery if possible
-(@pxref{Error Recovery}), or (if recovery is impossible) make
-@code{yyparse} return 1.  @xref{Error Recovery}.
+Cause an immediate syntax error.  This statement initiates error
+recovery just as if the parser itself had detected an error; however, it
+does not call @code{yyerror}, and does not print any message.  If you
+want to print an error message, call @code{yyerror} explicitly before
+the @samp{YYERROR;} statement.  @xref{Error Recovery}.
 
 For Java parsers, this functionality is invoked using @code{return YYERROR;}
 instead.
