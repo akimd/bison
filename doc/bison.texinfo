@@ -5659,7 +5659,7 @@ This function is available if either the @code{%define api.push-pull push} or
 @code{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
-@deftypefun yypstate *yypstate_new (void)
+@deftypefun {yypstate*} yypstate_new (void)
 The function will return a valid parser instance if there was memory available
 or 0 if no memory was available.
 In impure mode, it will also return 0 if a parser instance is currently
@@ -6081,17 +6081,17 @@ union specified by the @code{%union} declaration.
 @xref{Action Types, ,Data Types of Values in Actions}.
 @end deffn
 
-@deffn {Macro} YYABORT;
+@deffn {Macro} YYABORT @code{;}
 Return immediately from @code{yyparse}, indicating failure.
 @xref{Parser Function, ,The Parser Function @code{yyparse}}.
 @end deffn
 
-@deffn {Macro} YYACCEPT;
+@deffn {Macro} YYACCEPT @code{;}
 Return immediately from @code{yyparse}, indicating success.
 @xref{Parser Function, ,The Parser Function @code{yyparse}}.
 @end deffn
 
-@deffn {Macro} YYBACKUP (@var{token}, @var{value});
+@deffn {Macro} YYBACKUP (@var{token}, @var{value})@code{;}
 @findex YYBACKUP
 Unshift a token.  This macro is allowed only for rules that reduce
 a single value, and only when there is no lookahead token.
@@ -6109,18 +6109,15 @@ In either case, the rest of the action is not executed.
 @end deffn
 
 @deffn {Macro} YYEMPTY
-@vindex YYEMPTY
 Value stored in @code{yychar} when there is no lookahead token.
 @end deffn
 
 @deffn {Macro} YYEOF
-@vindex YYEOF
 Value stored in @code{yychar} when the lookahead is the end of the input
 stream.
 @end deffn
 
-@deffn {Macro} YYERROR;
-@findex YYERROR
+@deffn {Macro} YYERROR @code{;}
 Cause an immediate syntax error.  This statement initiates error
 recovery just as if the parser itself had detected an error; however, it
 does not call @code{yyerror}, and does not print any message.  If you
@@ -6144,7 +6141,7 @@ Actions}).
 @xref{Lookahead, ,Lookahead Tokens}.
 @end deffn
 
-@deffn {Macro} yyclearin;
+@deffn {Macro} yyclearin @code{;}
 Discard the current lookahead token.  This is useful primarily in
 error rules.
 Do not invoke @code{yyclearin} in a deferred semantic action (@pxref{GLR
@@ -6152,7 +6149,7 @@ Semantic Actions}).
 @xref{Error Recovery}.
 @end deffn
 
-@deffn {Macro} yyerrok;
+@deffn {Macro} yyerrok @code{;}
 Resume generating error messages immediately for subsequent syntax
 errors.  This is useful primarily in error rules.
 @xref{Error Recovery}.
@@ -9922,20 +9919,20 @@ The location information of the grouping made by the current rule.
 @xref{Java Location Values}.
 @end defvar
 
-@deffn {Statement} {return YYABORT;}
+@deftypefn {Statement} return YYABORT @code{;}
 Return immediately from the parser, indicating failure.
 @xref{Java Parser Interface}.
-@end deffn
+@end deftypefn
 
-@deffn {Statement} {return YYACCEPT;}
+@deftypefn {Statement} return YYACCEPT @code{;}
 Return immediately from the parser, indicating success.
 @xref{Java Parser Interface}.
-@end deffn
+@end deftypefn
 
-@deffn {Statement} {return YYERROR;}
+@deftypefn {Statement} {return} YYERROR @code{;}
 Start error recovery (without printing an error message).
 @xref{Error Recovery}.
-@end deffn
+@end deftypefn
 
 @deftypefn {Function} {boolean} recovering ()
 Return whether error recovery is being done. In this state, the parser
