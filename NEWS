@@ -3,28 +3,14 @@ Bison News
 
 * Changes in version 2.5.1 (????-??-??):
 
-** Several portability problems in the test suite have been fixed:
-
-  This includes warnings with some compilers, unexpected behavior of
-  tools such as diff, warning messages from the test suite itself,
-  etc.
+** glr.c: __attribute__ is preserved:
 
   __attribute__ is not longer disabled when __STRICT_ANSI__ is defined
   (i.e., when -std is passed to GCC).
 
-** Warnings during the build procedure have been eliminated.
+** yacc.c: YYBACKUP works as expected.
 
-** Many minor improvements have been made to the manual:
-
-  The layout for grammar has changed to a more compact scheme.  Named
-  references are motivated.  The description of the automaton
-  description file is updated.
-
-** YYBACKUP works as expected.
-
-** liby is no longer asking for "rpl_fprintf" on some platforms.
-
-** Several Java fixes:
+** lalr1.java: several fixes:
 
   The Java parser no longer throws ArrayIndexOutOfBoundsException if
   the first token leads to a syntax error.  Some minor clean ups.
@@ -39,6 +25,24 @@ Bison News
   The position and location constructors (and their initialize
   methods) accept new arguments for line and column.  Several issues
   in the documentation were fixed.
+
+** liby is no longer asking for "rpl_fprintf" on some platforms.
+
+** Several improvements have been made to the manual:
+
+  The layout for grammar excerpts was changed to a more compact
+  scheme.  Named references are motivated.  The description of the
+  automaton description file (*.output) is updated to the current
+  format.  Incorrect index entries were fixed.  Some other errors were
+  fixed.
+
+** Warnings during the build procedure have been eliminated.
+
+** Several portability problems in the test suite have been fixed:
+
+  This includes warnings with some compilers, unexpected behavior of
+  tools such as diff, warning messages from the test suite itself,
+  etc.
 
 * Changes in version 2.5 (2011-05-14):
 
