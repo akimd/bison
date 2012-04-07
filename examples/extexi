@@ -1,4 +1,5 @@
-# Extract all examples from the manual source.            -*- AWK -*-
+#! /usr/bin/perl -w
+# Extract all examples from the manual source.
 
 # This file is part of GNU Bison
 
@@ -18,124 +19,138 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# This script is for use with any Awk that conforms to POSIX.
-# It was derived from a similar script tests/generate.awk in GNU m4.
-#
 # Usage: extexi input-file.texi ... -- [FILES to extract]
-BEGIN {
-  if (!output_dir)
-    output_dir = ".";
-  for (argc = 1; argc < ARGC; ++argc)
-    if (ARGV[argc] == "--")
-      break;
-  for (i = argc + 1; i < ARGC; ++i)
-    file_wanted[basename(ARGV[i])] = ARGV[i];
-  ARGC = argc;
+
+use strict;
+
+# normalize($block)
+# -----------------
+# Remove Texinfo mark up.
+sub normalize($)
+{
+  local ($_) = @_;
+
+  s/^\@(c |comment|dots|end (ignore|group)|ignore|group).*//mg;
+  s/\@value\{VERSION\}/$ENV{VERSION}/g;
+  s/^\@(error|result)\{\}//mg;
+  s/\@([{}@])/$1/g;
+  s/\@comment.*//;
+  $_;
 }
 
-/^@node / {
-  if (seq > 0)
-    print "AT_CLEANUP";
-
-  split ($0, tmp, ",");
-  node = substr(tmp[1], 7);
-  seq = 0;
+# Print messages only once.
+my %msg;
+sub message($)
+{
+  my ($msg) = @_;
+  if (! $msg{$msg})
+    {
+      print STDERR "extexi: $msg\n";
+      $msg{$msg} = 1;
+    }
 }
 
-/^@comment file: / {
-  if (file = file_wanted[$3])
-    message(" GEN " file);
+# basename => full file name for files we should extract.
+my %file_wanted;
+# Whether we already say that file (in which case, append instead of
+# create).
+my %file_output;
+
+sub process ($)
+{
+  my ($in) = @_;
+  use IO::File;
+  my $f = new IO::File($in)
+    or die "$in: cannot open: $?";
+  # The latest "@comment file: " argument.
+  my $file;
+  # The @example block currently read.
+  my $input;
+  local $_;
+  while (<$f>)
+    {
+      if (/^\@comment file: (.*)/)
+        {
+          my $f = $1;
+          if ($file_wanted{$f})
+            {
+              $file = $file_wanted{$f};
+              message(" GEN $file");
+            }
+          else
+            {
+              message("SKIP $f");
+            }
+        }
+      elsif ($file && /^\@(small)?example$/ .. /^\@end (small)?example$/)
+        {
+          if (/^\@(small)?example$/)
+            {
+              $input = $file_output{$file} ? "\n" : "";
+              # Bison supports synclines, but not Flex.
+              $input .= sprintf ("#line %s \"$in\"\n", $. + 1)
+                if $file =~ /\.[chy]*$/;
+              next;
+            }
+          elsif (/^\@end (small)?example$/)
+            {
+              die "no contents: $file"
+                if $input eq "";
+
+              $input = normalize($input);
+              # No spurious end of line: use printf.
+              my $o =
+                ($file_output{$file}
+                 ? new IO::File(">>$file")
+                 : new IO::File(">$file"));
+              print $o $input;
+              $file_output{$file} = 1;
+              $file = $input = undef;
+            }
+          else
+            {
+              $input .= $_;
+            }
+        }
+
+    }
+}
+
+my @input;
+my $seen_dash = 0;
+for my $arg (@ARGV)
+{
+  if ($arg eq '--')
+    {
+      $seen_dash = 1;
+    }
+  elsif ($seen_dash)
+    {
+      use File::Basename;
+      $file_wanted{basename($arg)} = $arg;
+    }
   else
-    message("SKIP " $3);
-}
-
-/^@(small)?example$/, /^@end (small)?example$/ {
-  if (!file)
-    next;
-
-  if ($0 ~ /^@(small)?example$/)
     {
-      input = files_output[file] ? "\n" : "";
-
-      # FNR is starting at 0 instead of 1, and
-      # #line report the line number of the *next* line.
-      # => + 2.
-      # Note that recent Bison support it, but not Flex.
-      if (file ~ /\.[chy]*$/)
-        input = "#line " (FNR + 1) " \"" FILENAME "\"\n";
-      next;
-    }
-
-  if ($0 ~ /^@end (small)?example$/)
-    {
-      if (input == "")
-        fatal("no contents: " file);
-
-      input = normalize(input);
-      # No spurious end of line: use printf.
-      if (files_output[file])
-        # The parens around the output file seem to be required
-        # by awk on Mac OS X Tiger (darwin 8.4.6).
-        printf ("%s", input) >> (output_dir "/" file);
-      else
-        printf ("%s", input) > (output_dir "/" file);
-      close (output_dir "/" file);
-      files_output[file] = 1;
-
-      file = input = "";
-      next;
-    }
-
-  input = input $0 "\n";
-}
-
-
-# We have to handle CONTENTS line per line, since anchors in AWK are
-# referring to the whole string, not the lines.
-function normalize(contents,    i, lines, n, line, res) {
-  # Remove the Texinfo tags.
-  n = split (contents, lines, "\n");
-  # We don't want the last field which empty: it's behind the last \n.
-  for (i = 1; i < n; ++i)
-    {
-      line = lines[i];
-
-      # Whole line commands.
-      if (line ~ /^@(c |comment|dots|end (ignore|group)|ignore|group)/)
-        # Gperf accepts empty lines as valid input!!!
-        if (file ~ /\.gperf$/)
-          continue;
-        else
-          line = "";
-
-      gsub (/"@value\{VERSION\}"/, "\"" VERSION "\"", line)
-      gsub (/^@result\{\}/, "", line);
-      gsub (/^@error\{\}/,  "", line);
-      gsub ("@[{]", "{", line);
-      gsub ("@}", "}", line);
-      gsub ("@@", "@", line);
-      gsub ("@comment.*", "", line);
-
-      res = res line "\n";
-    }
-  return res;
-}
-
-
-function basename(name,     a, n) {
-  n = split (name, a, "/");
-  return a[n];
-}
-
-function message(msg) {
-  if (! message_printed[msg])
-    {
-      print "extexi: " msg > "/dev/stderr";
-      message_printed[msg] = 1;
+      push @input, $arg;
     }
 }
+process $_
+  foreach @input;
 
-function fatal(msg) {
-  message(msg);
-  exit 1
-}
+
+### Setup "GNU" style for perl-mode and cperl-mode.
+## Local Variables:
+## perl-indent-level: 2
+## perl-continued-statement-offset: 2
+## perl-continued-brace-offset: 0
+## perl-brace-offset: 0
+## perl-brace-imaginary-offset: 0
+## perl-label-offset: -2
+## cperl-indent-level: 2
+## cperl-brace-offset: 0
+## cperl-continued-brace-offset: 0
+## cperl-label-offset: -2
+## cperl-extra-newline-before-brace: t
+## cperl-merge-trailing-else: nil
+## cperl-continued-statement-offset: 2
+## End:
