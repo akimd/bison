@@ -40,6 +40,7 @@ AM_CFLAGS = $(WARN_CFLAGS)
 # Find builddir/src/scan-code.c etc.
 AM_CPPFLAGS = -I. -Ilib -I$(top_srcdir) -I$(top_srcdir)/lib
 BUILT_SOURCES =
+CLEANFILES =
 DISTCLEANFILES =
 EXTRA_DIST += $(dist_TESTS)
 MOSTLYCLEANDIRS =

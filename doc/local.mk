@@ -20,7 +20,6 @@ doc_bison_TEXINFOS =                            \
   doc/fdl.texi                                  \
   doc/gpl-3.0.texi
 
-CLEANFILES = doc/bison.fns
 TEXI2DVI = texi2dvi --build-dir=doc/bison.t2d
 CLEANDIRS = doc/bison.t2d
 clean-local:
