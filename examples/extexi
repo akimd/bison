@@ -21,6 +21,18 @@
 
 # Usage: extexi input-file.texi ... -- [FILES to extract]
 
+# Look for @example environments preceded with lines such as:
+#
+#      @comment file calc.y
+# or
+#      @comment file calc.y: 3
+#
+# and output their content in that file (calc.y).  When numbers are
+# provided, use them to decide the output order (block numbered 1 is
+# output before block 2, even if the latter appears before).  The same
+# number may be used several time, in which case the order of
+# appearance is used.
+
 use strict;
 
 # normalize($block)
@@ -52,9 +64,6 @@ sub message($)
 
 # basename => full file name for files we should extract.
 my %file_wanted;
-# Whether we already say that file (in which case, append instead of
-# create).
-my %file_output;
 
 sub process ($)
 {
@@ -62,16 +71,21 @@ sub process ($)
   use IO::File;
   my $f = new IO::File($in)
     or die "$in: cannot open: $?";
-  # The latest "@comment file: " argument.
+  # FILE-NAME => { BLOCK-NUM => CODE }
+  my %file;
+
+  # The latest "@comment file: FILE [BLOCK-NUM]" arguments.
   my $file;
+  my $block;
   # The @example block currently read.
   my $input;
   local $_;
   while (<$f>)
     {
-      if (/^\@comment file: (.*)/)
+      if (/^\@comment file: ([^:\n]+)(?::\s*(\d+))?$/)
         {
           my $f = $1;
+          $block = $2 || 1;
           if ($file_wanted{$f})
             {
               $file = $file_wanted{$f};
@@ -86,7 +100,6 @@ sub process ($)
         {
           if (/^\@(small)?example$/)
             {
-              $input = $file_output{$file} ? "\n" : "";
               # Bison supports synclines, but not Flex.
               $input .= sprintf ("#line %s \"$in\"\n", $. + 1)
                 if $file =~ /\.[chy]*$/;
@@ -97,22 +110,25 @@ sub process ($)
               die "no contents: $file"
                 if $input eq "";
 
-              $input = normalize($input);
-              # No spurious end of line: use printf.
-              my $o =
-                ($file_output{$file}
-                 ? new IO::File(">>$file")
-                 : new IO::File(">$file"));
-              print $o $input;
-              $file_output{$file} = 1;
+              $file{$file}{$block} .= normalize($input);
               $file = $input = undef;
+              ++$block;
             }
           else
             {
               $input .= $_;
             }
         }
+    }
 
+  # Output the files.
+  for my $file (keys %file)
+    {
+      # No spurious end of line: use printf.
+      my $o = new IO::File(">$file")
+        or die "$file: cannot create: $?";
+      print $o $file{$file}{$_}
+        for sort keys %{$file{$file}};
     }
 }
 
