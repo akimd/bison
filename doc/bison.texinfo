@@ -8005,7 +8005,7 @@ tune or simply fix a parser.  Bison provides two different
 representation of it, either textually or graphically (as a DOT file).
 
 The textual file is generated when the options @option{--report} or
-@option{--verbose} are specified, see @xref{Invocation, , Invoking
+@option{--verbose} are specified, see @ref{Invocation, , Invoking
 Bison}.  Its name is made by removing @samp{.tab.c} or @samp{.c} from
 the parser implementation file name, and adding @samp{.output}
 instead.  Therefore, if the grammar file is @file{foo.y}, then the
@@ -10252,7 +10252,7 @@ macros.  Instead, they should be preceded by @code{return} when they
 appear in an action.  The actual definition of these symbols is
 opaque to the Bison grammar, and it might change in the future.  The
 only meaningful operation that you can do, is to return them.
-See @pxref{Java Action Features}.
+@xref{Java Action Features}.
 
 Note that of these three symbols, only @code{YYACCEPT} and
 @code{YYABORT} will cause a return from the @code{yyparse}
@@ -10268,8 +10268,8 @@ values have a common base type: @code{Object} or as specified by
 an union.  The type of @code{$$}, even with angle brackets, is the base
 type since Java casts are not allow on the left-hand side of assignments.
 Also, @code{$@var{n}} and @code{@@@var{n}} are not allowed on the
-left-hand side of assignments. See @pxref{Java Semantic Values} and
-@pxref{Java Action Features}.
+left-hand side of assignments. @xref{Java Semantic Values} and
+@ref{Java Action Features}.
 
 @item
 The prologue declarations have a different meaning than in C/C++ code.
@@ -10285,7 +10285,7 @@ blocks are placed inside the parser class.
 @item @code{%code lexer}
 blocks, if specified, should include the implementation of the
 scanner.  If there is no such block, the scanner can be any class
-that implements the appropriate interface (see @pxref{Java Scanner
+that implements the appropriate interface (@pxref{Java Scanner
 Interface}).
 @end table
 
