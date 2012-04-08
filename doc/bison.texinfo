@@ -226,6 +226,7 @@ Bison Declarations
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
 * Initial Action Decl::  Code run before parsing starts.
 * Destructor Decl::   Declaring how symbols are freed.
+* Printer Decl::      Declaring how symbol values are displayed.
 * Expect Decl::       Suppressing warnings about parsing conflicts.
 * Start Decl::        Specifying the start symbol.
 * Pure Decl::         Requesting a reentrant parser.
@@ -298,6 +299,12 @@ Debugging Your Parser
 
 * Understanding::     Understanding the structure of your parser.
 * Tracing::           Tracing the execution of your parser.
+
+Tracing Your Parser
+
+* Enabling Traces::             Activating run-time trace support
+* Mfcalc Traces::               Extending @code{mfcalc} to support traces
+* The YYPRINT Macro::           Obsolete interface for semantic value reports
 
 Invoking Bison
 
@@ -2376,7 +2383,7 @@ Note that multiple assignment and nested function calls are permitted.
 
 Here are the C and Bison declarations for the multi-function calculator.
 
-@comment file: mfcalc.y
+@comment file: mfcalc.y: 1
 @example
 @group
 %@{
@@ -2387,6 +2394,7 @@ Here are the C and Bison declarations for the multi-function calculator.
   void yyerror (char const *);
 %@}
 @end group
+
 @group
 %union @{
   double    val;   /* For returning numbers.  */
@@ -2394,7 +2402,7 @@ Here are the C and Bison declarations for the multi-function calculator.
 @}
 @end group
 %token <val>  NUM        /* Simple double precision number.  */
-%token <tptr> VAR FNCT   /* Variable and Function.  */
+%token <tptr> VAR FNCT   /* Variable and function.  */
 %type  <val>  exp
 
 @group
@@ -2404,7 +2412,6 @@ Here are the C and Bison declarations for the multi-function calculator.
 %precedence NEG /* negation--unary minus */
 %right '^'      /* exponentiation */
 @end group
-%% /* The grammar follows.  */
 @end example
 
 The above grammar introduces only two new features of the Bison language.
@@ -2436,8 +2443,9 @@ Here are the grammar rules for the multi-function calculator.
 Most of them are copied directly from @code{calc}; three rules,
 those which mention @code{VAR} or @code{FNCT}, are new.
 
-@comment file: mfcalc.y
+@comment file: mfcalc.y: 3
 @example
+%% /* The grammar follows.  */
 @group
 input:
   /* empty */
@@ -2521,7 +2529,7 @@ symrec *getsym (char const *);
 The new version of @code{main} will call @code{init_table} to initialize
 the symbol table:
 
-@comment file: mfcalc.y
+@comment file: mfcalc.y: 3
 @example
 @group
 struct init
@@ -2575,7 +2583,7 @@ linked to the front of the list, and a pointer to the object is returned.
 The function @code{getsym} is passed the name of the symbol to look up.  If
 found, a pointer to that symbol is returned; otherwise zero is returned.
 
-@comment file: mfcalc.y
+@comment file: mfcalc.y: 3
 @example
 #include <stdlib.h> /* malloc. */
 #include <string.h> /* strlen. */
@@ -2627,7 +2635,7 @@ returned to @code{yyparse}.
 No change is needed in the handling of numeric values and arithmetic
 operators in @code{yylex}.
 
-@comment file: mfcalc.y
+@comment file: mfcalc.y: 3
 @example
 @group
 #include <ctype.h>
@@ -2712,9 +2720,10 @@ yylex (void)
 @subsection The @code{mfcalc} Main
 
 The error reporting function is unchanged, and the new version of
-@code{main} includes a call to @code{init_table}:
+@code{main} includes a call to @code{init_table} and sets the @code{yydebug}
+on user demand (@xref{Tracing, , Tracing Your Parser}, for details):
 
-@comment file: mfcalc.y
+@comment file: mfcalc.y: 3
 @example
 @group
 /* Called by yyparse on error.  */
@@ -2729,6 +2738,11 @@ yyerror (char const *s)
 int
 main (int argc, char const* argv[])
 @{
+  int i;
+  /* Enable parse traces on option -p.  */
+  for (i = 1; i < argc; ++i)
+    if (!strcmp(argv[i], "-p"))
+      yydebug = 1;
   init_table ();
   return yyparse ();
 @}
@@ -4321,6 +4335,7 @@ and Context-Free Grammars}).
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
 * Initial Action Decl::  Code run before parsing starts.
 * Destructor Decl::   Declaring how symbols are freed.
+* Printer Decl::      Declaring how symbol values are displayed.
 * Expect Decl::       Suppressing warnings about parsing conflicts.
 * Start Decl::        Specifying the start symbol.
 * Pure Decl::         Requesting a reentrant parser.
@@ -4779,6 +4794,69 @@ Right-hand side symbols of a rule that explicitly triggers a syntax
 error via @code{YYERROR} are not discarded automatically.  As a rule
 of thumb, destructors are invoked only when user actions cannot manage
 the memory.
+
+@node Printer Decl
+@subsection Printing Semantic Values
+@cindex printing semantic values
+@findex %printer
+@findex <*>
+@findex <>
+When run-time traces are enabled (@pxref{Tracing, ,Tracing Your Parser}),
+the parser reports its actions, such as reductions.  When a symbol involved
+in an action is reported, only its kind is displayed, as the parser cannot
+know how semantic values should be formatted.
+
+The @code{%printer} directive defines code that is called when a symbol is
+reported.  Its syntax is the same as @code{%destructor} (@pxref{Destructor
+Decl, , Freeing Discarded Symbols}).
+
+@deffn {Directive} %printer @{ @var{code} @} @var{symbols}
+@findex %printer
+@vindex yyoutput
+@c This is the same text as for %destructor.
+Invoke the braced @var{code} whenever the parser displays one of the
+@var{symbols}.  Within @var{code}, @code{yyoutput} denotes the output stream
+(a @code{FILE*} in C, and an @code{std::ostream&} in C++),
+@code{$$} designates the semantic value associated with the symbol, and
+@code{@@$} its location.  The additional parser parameters are also
+available (@pxref{Parser Function, , The Parser Function @code{yyparse}}).
+
+The @var{symbols} are defined as for @code{%destructor} (@pxref{Destructor
+Decl, , Freeing Discarded Symbols}.): they can be per-type (e.g.,
+@samp{<ival>}), per-symbol (e.g., @samp{exp}, @samp{NUM}, @samp{"float"}),
+typed per-default (i.e., @samp{<*>}, or untyped per-default (i.e.,
+@samp{<>}).
+@end deffn
+
+@noindent
+For example:
+
+@example
+%union @{ char *string; @}
+%token <string> STRING1
+%token <string> STRING2
+%type  <string> string1
+%type  <string> string2
+%union @{ char character; @}
+%token <character> CHR
+%type  <character> chr
+%token TAGLESS
+
+%printer @{ fprintf (yyoutput, "'%c'", $$); @} <character>
+%printer @{ fprintf (yyoutput, "&%p", $$); @} <*>
+%printer @{ fprintf (yyoutput, "\"%s\"", $$); @} STRING1 string1
+%printer @{ fprintf (yyoutput, "<>"); @} <>
+@end example
+
+@noindent
+guarantees that, when the parser print any symbol that has a semantic type
+tag other than @code{<character>}, it display the address of the semantic
+value by default.  However, when the parser displays a @code{STRING1} or a
+@code{string1}, it formats it as a string in double quotes.  It performs
+only the second @code{%printer} in this case, so it prints only once.
+Finally, the parser print @samp{<>} for any symbol, such as @code{TAGLESS},
+that has no semantic type tag.  See also
+
 
 @node Expect Decl
 @subsection Suppressing Conflict Warnings
@@ -8219,12 +8297,10 @@ clear the flag.
 @node Debugging
 @chapter Debugging Your Parser
 
-Developing a parser can be a challenge, especially if you don't
-understand the algorithm (@pxref{Algorithm, ,The Bison Parser
-Algorithm}).  Even so, sometimes a detailed description of the automaton
-can help (@pxref{Understanding, , Understanding Your Parser}), or
-tracing the execution of the parser can give some insight on why it
-behaves improperly (@pxref{Tracing, , Tracing Your Parser}).
+Developing a parser can be a challenge, especially if you don't understand
+the algorithm (@pxref{Algorithm, ,The Bison Parser Algorithm}).  This
+chapter explains how to generate and read the detailed description of the
+automaton, and how to enable and understand the parser run-time traces.
 
 @menu
 * Understanding::     Understanding the structure of your parser.
@@ -8651,9 +8727,17 @@ associativity of @samp{/} is not specified.
 @cindex debugging
 @cindex tracing the parser
 
-If a Bison grammar compiles properly but doesn't do what you want when it
-runs, the @code{yydebug} parser-trace feature can help you figure out why.
+When a Bison grammar compiles properly but parses ``incorrectly'', the
+@code{yydebug} parser-trace feature helps figuring out why.
 
+@menu
+* Enabling Traces::    Activating run-time trace support
+* Mfcalc Traces::      Extending @code{mfcalc} to support traces
+* The YYPRINT Macro::  Obsolete interface for semantic value reports
+@end menu
+
+@node Enabling Traces
+@subsection  Enabling Traces
 There are several means to enable compilation of trace facilities:
 
 @table @asis
@@ -8687,6 +8771,7 @@ portability matter to you, this is the preferred solution.
 We suggest that you always enable the trace option so that debugging is
 always possible.
 
+@findex YYFPRINTF
 The trace facility outputs messages with macro calls of the form
 @code{YYFPRINTF (stderr, @var{format}, @var{args})} where
 @var{format} and @var{args} are the usual @code{printf} format and variadic
@@ -8716,9 +8801,9 @@ Each time a rule is reduced, which rule it is, and the complete contents
 of the state stack afterward.
 @end itemize
 
-To make sense of this information, it helps to refer to the listing file
-produced by the Bison @samp{-v} option (@pxref{Invocation, ,Invoking
-Bison}).  This file shows the meaning of each state in terms of
+To make sense of this information, it helps to refer to the automaton
+description file (@pxref{Understanding, ,Understanding Your Parser}).
+This file shows the meaning of each state in terms of
 positions in various rules, and also what each state will do with each
 possible input token.  As you read the successive trace messages, you
 can see that the parser is functioning according to its specification in
@@ -8726,19 +8811,197 @@ the listing file.  Eventually you will arrive at the place where
 something undesirable happens, and you will see which parts of the
 grammar are to blame.
 
-The parser implementation file is a C program and you can use C
+The parser implementation file is a C/C++/Java program and you can use
 debuggers on it, but it's not easy to interpret what it is doing.  The
 parser function is a finite-state machine interpreter, and aside from
 the actions it executes the same code over and over.  Only the values
 of variables show where in the grammar it is working.
 
+@node Mfcalc Traces
+@subsection Enabling Debug Traces for @code{mfcalc}
+
+The debugging information normally gives the token type of each token read,
+but not its semantic value.  The @code{%printer} directive allows specify
+how semantic values are reported, see @ref{Printer Decl, , Printing
+Semantic Values}.  For backward compatibility, Yacc like C parsers may also
+use the @code{YYPRINT} (@pxref{The YYPRINT Macro, , The @code{YYPRINT}
+Macro}), but its use is discouraged.
+
+As a demonstration of @code{%printer}, consider the multi-function
+calculator, @code{mfcalc} (@pxref{Multi-function Calc}).  To enable run-time
+traces, and semantic value reports, insert the following directives in its
+prologue:
+
+@comment file: mfcalc.y: 2
+@example
+/* Generate the parser description file.  */
+%verbose
+/* Enable run-time traces (yydebug).  */
+%define parse.trace
+
+/* Formatting semantic values.  */
+%printer @{ fprintf (yyoutput, "%s", $$->name); @} VAR;
+%printer @{ fprintf (yyoutput, "%s()", $$->name); @} FNCT;
+%printer @{ fprintf (yyoutput, "%g", $$); @} <val>;
+@end example
+
+The @code{%define} directive instructs Bison to generate run-time trace
+support.  Then, activation of these traces is controlled at run-time by the
+@code{yydebug} variable, which is disabled by default.  Because these traces
+will refer to the ``states'' of the parser, it is helpful to ask for the
+creation of a description of that parser; this is the purpose of (admittedly
+ill-named) @code{%verbose} directive.
+
+The set of @code{%printer} directives demonstrates how to format the
+semantic value in the traces.  Note that the specification can be done
+either on the symbol type (e.g., @code{VAR} or @code{FNCT}), or on the type
+tag: since @code{<val>} is the type for both @code{NUM} and @code{exp}, this
+printer will be used for them.
+
+Here is a sample of the information provided by run-time traces.  The traces
+are sent onto standard error.
+
+@example
+$ @kbd{echo 'sin(1-1)' | ./mfcalc -p}
+Starting parse
+Entering state 0
+Reducing stack by rule 1 (line 34):
+-> $$ = nterm input ()
+Stack now 0
+Entering state 1
+@end example
+
+@noindent
+This first batch shows a specific feature of this grammar: the first rule
+(which is in line 34 of @file{mfcalc.y} can be reduced without even having
+to look for the first token.  The resulting left-hand symbol (@code{$$}) is
+a valueless (@samp{()}) @code{input} non terminal (@code{nterm}).
+
+Then the parser calls the scanner.
+@example
+Reading a token: Next token is token FNCT (sin())
+Shifting token FNCT (sin())
+Entering state 6
+@end example
+
+@noindent
+That token (@code{token}) is a function (@code{FNCT}) whose value is
+@samp{sin} as formatted per our @code{%printer} specification: @samp{sin()}.
+The parser stores (@code{Shifting}) that token, and others, until it can do
+something about it.
+
+@example
+Reading a token: Next token is token '(' ()
+Shifting token '(' ()
+Entering state 14
+Reading a token: Next token is token NUM (1.000000)
+Shifting token NUM (1.000000)
+Entering state 4
+Reducing stack by rule 6 (line 44):
+   $1 = token NUM (1.000000)
+-> $$ = nterm exp (1.000000)
+Stack now 0 1 6 14
+Entering state 24
+@end example
+
+@noindent
+The previous reduction demonstrates the @code{%printer} directive for
+@code{<val>}: both the token @code{NUM} and the resulting non-terminal
+@code{exp} have @samp{1} as value.
+
+@example
+Reading a token: Next token is token '-' ()
+Shifting token '-' ()
+Entering state 17
+Reading a token: Next token is token NUM (1.000000)
+Shifting token NUM (1.000000)
+Entering state 4
+Reducing stack by rule 6 (line 44):
+   $1 = token NUM (1.000000)
+-> $$ = nterm exp (1.000000)
+Stack now 0 1 6 14 24 17
+Entering state 26
+Reading a token: Next token is token ')' ()
+Reducing stack by rule 11 (line 49):
+   $1 = nterm exp (1.000000)
+   $2 = token '-' ()
+   $3 = nterm exp (1.000000)
+-> $$ = nterm exp (0.000000)
+Stack now 0 1 6 14
+Entering state 24
+@end example
+
+@noindent
+The rule for the subtraction was just reduced.  The parser is about to
+discover the end of the call to @code{sin}.
+
+@example
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 31
+Reducing stack by rule 9 (line 47):
+   $1 = token FNCT (sin())
+   $2 = token '(' ()
+   $3 = nterm exp (0.000000)
+   $4 = token ')' ()
+-> $$ = nterm exp (0.000000)
+Stack now 0 1
+Entering state 11
+@end example
+
+@noindent
+Finally, the end-of-line allow the parser to complete the computation, and
+display its result.
+
+@example
+Reading a token: Next token is token '\n' ()
+Shifting token '\n' ()
+Entering state 22
+Reducing stack by rule 4 (line 40):
+   $1 = nterm exp (0.000000)
+   $2 = token '\n' ()
+@result{} 0
+-> $$ = nterm line ()
+Stack now 0 1
+Entering state 10
+Reducing stack by rule 2 (line 35):
+   $1 = nterm input ()
+   $2 = nterm line ()
+-> $$ = nterm input ()
+Stack now 0
+Entering state 1
+@end example
+
+The parser has returned into state 1, in which it is waiting for the next
+expression to evaluate, or for the end-of-file token, which causes the
+completion of the parsing.
+
+@example
+Reading a token: Now at end of input.
+Shifting token $end ()
+Entering state 2
+Stack now 0 1 2
+Cleanup: popping token $end ()
+Cleanup: popping nterm input ()
+@end example
+
+
+@node The YYPRINT Macro
+@subsection The @code{YYPRINT} Macro
+
 @findex YYPRINT
-The debugging information normally gives the token type of each token
-read, but not its semantic value.  You can optionally define a macro
-named @code{YYPRINT} to provide a way to print the value.  If you define
-@code{YYPRINT}, it should take three arguments.  The parser will pass a
-standard I/O stream, the numeric code for the token type, and the token
-value (from @code{yylval}).
+Before @code{%printer} support, semantic values could be displayed using the
+@code{YYPRINT} macro, which works only for terminal symbols and only with
+the @file{yacc.c} skeleton.
+
+@deffn {Macro} YYPRINT (@var{stream}, @var{token}, @var{value});
+@findex YYPRINT
+If you define @code{YYPRINT}, it should take three arguments.  The parser
+will pass a standard I/O stream, the numeric code for the token type, and
+the token value (from @code{yylval}).
+
+For @file{yacc.c} only.  Obsoleted by @code{%printer}.
+@end deffn
 
 Here is an example of @code{YYPRINT} suitable for the multi-function
 calculator (@pxref{Mfcalc Declarations, ,Declarations for @code{mfcalc}}):
@@ -8746,8 +9009,8 @@ calculator (@pxref{Mfcalc Declarations, ,Declarations for @code{mfcalc}}):
 @example
 %@{
   static void print_token_value (FILE *, int, YYSTYPE);
-  #define YYPRINT(file, type, value)            \
-    print_token_value (file, type, value)
+  #define YYPRINT(File, Type, Value)            \
+    print_token_value (File, Type, Value)
 %@}
 
 @dots{} %% @dots{} %% @dots{}
@@ -10144,7 +10407,7 @@ void
 calcxx_driver::scan_begin ()
 @{
   yy_flex_debug = trace_scanning;
-  if (file == "-")
+  if (file.empty () || file == "-")
     yyin = stdin;
   else if (!(yyin = fopen (file.c_str (), "r")))
     @{
@@ -10179,12 +10442,12 @@ main (int argc, char *argv[])
 @{
   int res = 0;
   calcxx_driver driver;
-  for (++argv; argv[0]; ++argv)
-    if (*argv == std::string ("-p"))
+  for (int i = 1; i < argc; ++i)
+    if (argv[i] == std::string ("-p"))
       driver.trace_parsing = true;
-    else if (*argv == std::string ("-s"))
+    else if (argv[i] == std::string ("-s"))
       driver.trace_scanning = true;
-    else if (!driver.parse (*argv))
+    else if (!driver.parse (argv[i]))
       std::cout << driver.result << std::endl;
     else
       res = 1;
@@ -11616,6 +11879,11 @@ it.  Using @samp{%define parse.error verbose} is preferred
 (@pxref{Error Reporting, ,The Error Reporting Function @code{yyerror}}).
 @end deffn
 
+@deffn {Macro} YYFPRINTF
+Macro used to output run-time traces.
+@xref{Enabling Traces}.
+@end deffn
+
 @deffn {Macro} YYINITDEPTH
 Macro for specifying the initial size of the parser stack.
 @xref{Memory Management}.
@@ -11676,6 +11944,12 @@ pure push parser, it is a member of yypstate.)
 @deffn {Function} yyparse
 The parser function produced by Bison; call this function to start
 parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
+@end deffn
+
+@deffn {Macro} YYPRINT
+Macro used to output token semantic values.  For @file{yacc.c} only.
+Obsoleted by @code{%printer}.
+@xref{The YYPRINT Macro, , The @code{YYPRINT} Macro}.
 @end deffn
 
 @deffn {Function} yypstate_delete
