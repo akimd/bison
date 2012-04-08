@@ -19,6 +19,7 @@
 
 abs_top_srcdir='@abs_top_srcdir@'
 abs_top_builddir='@abs_top_builddir@'
+: ${PERL='@perl@'}
 
 # Use the shipped files, not those installed.
 BISON_PKGDATADIR=$abs_top_srcdir/data
@@ -34,7 +35,6 @@ for i
 do
   case $i in
     */src/parse-gram.y)
-    : ${PERL=perl}
     if $PERL --version >/dev/null; then
       # We are called by ylwrap which still uses y.tab.*, and
       # post-processes the synclines on y.tab.c itself.  Don't let it

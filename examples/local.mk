@@ -22,7 +22,6 @@ TEST_LOG_COMPILER = $(top_srcdir)/examples/test
 
 doc = $(top_srcdir)/doc/bison.texinfo
 extexi = $(top_srcdir)/examples/extexi
-PERL = perl
 extract = VERSION="$(VERSION)" $(PERL) -f $(extexi) $(doc) --
 extracted =
 CLEANFILES += $(extracted) examples/extracted.stamp

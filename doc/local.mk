@@ -36,7 +36,7 @@ $(CROSS_OPTIONS_TEXI): doc/bison.help $(CROSS_OPTIONS_PL)
 	$(AM_V_GEN){ test ! -f $@ || cat $@; } >$@~
 	$(AM_V_at)test ! -f $@.tmp || rm -f $@.tmp
 	$(AM_V_at)src/bison$(EXEEXT) --help |				 \
-	  perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
+	  $(PERL) $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
 	$(AM_V_at)diff -u $@~ $@.tmp || true
 	$(AM_V_at)mv $@.tmp $@
 MAINTAINERCLEANFILES = $(CROSS_OPTIONS_TEXI)
@@ -127,6 +127,7 @@ html-local: doc/Doxyfile
 
 edit = sed -e 's,@PACKAGE_NAME\@,$(PACKAGE_NAME),g' \
 	   -e 's,@PACKAGE_VERSION\@,$(PACKAGE_VERSION),g' \
+	   -e 's,@PERL\@,$(PERL),g' \
 	   -e 's,@top_builddir\@,$(top_builddir),g' \
 	   -e 's,@top_srcdir\@,$(top_srcdir),g'
 
