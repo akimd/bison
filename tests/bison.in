@@ -19,7 +19,7 @@
 
 abs_top_srcdir='@abs_top_srcdir@'
 abs_top_builddir='@abs_top_builddir@'
-: ${PERL=perl}
+: ${PERL='@PERL@'}
 
 # Use the shipped files, not those installed.
 BISON_PKGDATADIR=$abs_top_srcdir/data

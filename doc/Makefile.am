@@ -30,7 +30,7 @@ $(srcdir)/cross-options.texi: $(top_srcdir)/src/getargs.c $(CROSS_OPTIONS_PL)
 	$(AM_V_at)rm -f $@.tmp
 	$(AM_V_at)cd $(top_builddir)/src && $(MAKE) $(AM_MAKEFLAGS) bison
 	$(AM_V_at)$(top_builddir)/src/bison --help \
-	  | perl $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
+	  | $(PERL) $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
 	$(AM_V_at)diff -u $@~ $@.tmp || true
 	$(AM_V_at)mv $@.tmp $@
 MAINTAINERCLEANFILES = $(srcdir)/cross-options.texi
