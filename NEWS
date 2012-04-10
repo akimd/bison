@@ -9,7 +9,14 @@ Bison News
 
 ** yacc.c: YYBACKUP works as expected.
 
-** glr.c: __attribute__ is preserved:
+** glr.c improvements:
+
+*** Location support is eliminated when not requested:
+
+  GLR parsers used to include location-related code even when
+  locations were not requested, and therefore not even usable.
+
+*** __attribute__ is preserved:
 
   __attribute__ is no longer disabled when __STRICT_ANSI__ is defined
   (i.e., when -std is passed to GCC).
