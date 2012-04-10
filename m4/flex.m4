@@ -12,7 +12,7 @@ AN_MAKEVAR([LEX],  [AC_PROG_LEX])
 AN_PROGRAM([lex],  [AC_PROG_LEX])
 AN_PROGRAM([flex], [AC_PROG_LEX])
 AC_DEFUN_ONCE([AC_PROG_LEX],
-[AC_CHECK_PROGS(LEX, flex lex, :)
+[AC_CHECK_PROGS([LEX], [flex lex], [:])
 if test "x$LEX" != "x:"; then
   _AC_PROG_LEX_YYTEXT_DECL
 fi])
@@ -43,7 +43,7 @@ main (void)
   return ! yylex () + ! yywrap ();
 }
 ]_ACEOF
-_AC_DO_VAR(LEX conftest.l)
+_AC_DO_VAR([LEX conftest.l])
 AC_CACHE_CHECK([lex output file root], [ac_cv_prog_lex_root], [
 if test -f lex.yy.c; then
   ac_cv_prog_lex_root=lex.yy
@@ -68,9 +68,10 @@ if test -z "${LEXLIB+set}"; then
   ])
   test "$ac_cv_lib_lex" != 'none needed' && LEXLIB=$ac_cv_lib_lex
 fi
-AC_SUBST(LEXLIB)
+AC_SUBST([LEXLIB])
 
-AC_CACHE_CHECK(whether yytext is a pointer, ac_cv_prog_lex_yytext_pointer,
+AC_CACHE_CHECK([whether yytext is a pointer],
+               [ac_cv_prog_lex_yytext_pointer],
 [# POSIX says lex can declare yytext either as a pointer or an array; the
 # default is implementation-dependent.  Figure out which it is, since
 # not all implementations provide the %pointer and %array declarations.
@@ -85,7 +86,7 @@ LIBS=$ac_save_LIBS
 ])
 dnl
 if test $ac_cv_prog_lex_yytext_pointer = yes; then
-  AC_DEFINE(YYTEXT_POINTER, 1,
+  AC_DEFINE([YYTEXT_POINTER], [1],
 	    [Define to 1 if `lex' declares `yytext' as a `char *' by default,
 	     not a `char[]'.])
 fi
