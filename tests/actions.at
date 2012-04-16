@@ -889,7 +889,7 @@ AT_CLEANUP
 AT_SETUP([Default %printer and %destructor for user-defined end token])
 
 # _AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN(TYPED)
-# -----------------------------------------------------------------------------
+# -------------------------------------------------------------
 m4_define([_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN],
 [m4_if($1, 0,
   [m4_pushdef([kind], []) m4_pushdef([not_kind], [*])],
