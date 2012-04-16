@@ -549,11 +549,11 @@ b4_percent_code_get[]dnl
   ]b4_parser_class_name[::yy_destroy_ (const char* yymsg,
                                        symbol_base_type<Exact>& yysym) const
   {
-    int yytype = yysym.type_get ();
     if (yymsg)
       YY_SYMBOL_PRINT (yymsg, yysym);
 
     // User destructor.
+    int yytype = yysym.type_get ();
     switch (yytype)
       {
 ]b4_symbol_foreach([b4_symbol_destructor])dnl
@@ -571,6 +571,8 @@ b4_percent_code_get[]dnl
   ]b4_parser_class_name[::yy_print_ (std::ostream& yyo,
                                      const symbol_base_type<Exact>& yysym) const
   {
+    std::ostream& yyoutput = yyo;
+    YYUSE (yyoutput);
     int yytype = yysym.type_get ();
     yyo << (yytype < yyntokens_ ? "token" : "nterm")
         << ' ' << yytname_[yytype] << " ("]b4_locations_if([

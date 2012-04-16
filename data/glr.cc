@@ -148,9 +148,11 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
                            const semantic_type* yyvaluep, const location_type* yylocationp)
   {
-    /* Pacify ``unused variable'' warnings.  */
-    YYUSE (yyvaluep);
     YYUSE (yylocationp);
+    YYUSE (yyvaluep);
+    std::ostream& yyoutput = debug_stream ();
+    std::ostream& yyo = yyoutput;
+    YYUSE (yyo);
     switch (yytype)
       {
 ]b4_symbol_foreach([b4_symbol_printer])dnl
