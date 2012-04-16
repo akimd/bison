@@ -847,8 +847,7 @@ for file in $gnulib_extra_files; do
   esac
   symlink_to_dir "$GNULIB_SRCDIR" $file $dst || exit
 done
-pwd
-set -xv
+
 if test $with_gettext = yes; then
   # Create gettext configuration.
   echo "$0: Creating po/Makevars from po/Makevars.template ..."
@@ -864,7 +863,7 @@ if test $with_gettext = yes; then
     }
   ' po/Makevars.template >po/Makevars || exit 1
 
-  cat $build_aux/po/Makefile.in.in > po/Makefile.in.in || exit 1
+  cat $GNULIB_SRCDIR/build-aux/po/Makefile.in.in > po/Makefile.in.in || exit 1
 
   if test -d runtime-po; then
     # Similarly for runtime-po/Makevars, but not quite the same.
