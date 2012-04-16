@@ -3079,14 +3079,14 @@ type:
 %code requires @{ #include "type1.h" @}
 %union @{ type1 field1; @}
 %destructor @{ type1_free ($$); @} <field1>
-%printer @{ type1_print ($$); @} <field1>
+%printer @{ type1_print (yyoutput, $$); @} <field1>
 @end group
 
 @group
 %code requires @{ #include "type2.h" @}
 %union @{ type2 field2; @}
 %destructor @{ type2_free ($$); @} <field2>
-%printer @{ type2_print ($$); @} <field2>
+%printer @{ type2_print (yyoutput, $$); @} <field2>
 @end group
 @end example
 
@@ -9665,10 +9665,10 @@ To enable memory deallocation during error recovery, use
 @c FIXME: Document %printer, and mention that it takes a braced-code operand.
 @comment file: calc++-parser.yy
 @example
-%printer    @{ debug_stream () << *$$; @} "identifier"
+%printer    @{ yyoutput << *$$; @} "identifier"
 %destructor @{ delete $$; @} "identifier"
 
-%printer    @{ debug_stream () << $$; @} <ival>
+%printer    @{ yyoutput << $$; @} <ival>
 @end example
 
 @noindent

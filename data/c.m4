@@ -456,6 +456,8 @@ m4_define_default([b4_yy_symbol_print_generate],
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
+  FILE *yyo = yyoutput;
+  YYUSE (yyo);
   if (!yyvaluep)
     return;
 ]b4_locations_if([  YYUSE (yylocationp);

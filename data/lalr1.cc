@@ -446,6 +446,9 @@ do {					\
   {
     YYUSE (yylocationp);
     YYUSE (yyvaluep);
+    std::ostream& yyo = debug_stream ();
+    std::ostream& yyoutput = yyo;
+    YYUSE (yyoutput);
     switch (yytype)
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
