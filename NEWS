@@ -58,13 +58,20 @@ Bison News
   format.  Incorrect index entries were fixed.  Some other errors were
   fixed.
 
-** Warnings during the build procedure have been eliminated.
+** Changes to the build system:
 
-** Several portability problems in the test suite have been fixed:
+*** Warnings during the build procedure have been eliminated.
+
+*** Several portability problems in the test suite have been fixed:
 
   This includes warnings with some compilers, unexpected behavior of
   tools such as diff, warning messages from the test suite itself,
   etc.
+
+*** The install-pdf target work properly:
+
+  Running "make install-pdf" (or -dvi, -html, -info, and -ps) no
+  longer halts in the middle of its course.
 
 * Changes in version 2.5 (2011-05-14):
 
