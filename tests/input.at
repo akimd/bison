@@ -177,53 +177,53 @@ AT_SETUP([Default %printer and %destructor redeclared])
 
 AT_DATA([[input.y]],
 [[%destructor { destroy ($$); } <*> <*>
-%printer { destroy ($$); } <*> <*>
+%printer { print ($$); } <*> <*>
 
 %destructor { destroy ($$); } <*>
-%printer { destroy ($$); } <*>
+%printer { print ($$); } <*>
 
 %destructor { destroy ($$); } <> <>
-%printer { destroy ($$); } <> <>
+%printer { print ($$); } <> <>
 
 %destructor { destroy ($$); } <>
-%printer { destroy ($$); } <>
+%printer { print ($$); } <>
 
 %%
 
 start: ;
 
 %destructor { destroy ($$); } <*>;
-%printer { destroy ($$); } <*>;
+%printer { print ($$); } <*>;
 
 %destructor { destroy ($$); } <>;
-%printer { destroy ($$); } <>;
+%printer { print ($$); } <>;
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:1.13-29: redeclaration for default tagged %destructor
 input.y:1.13-29: previous declaration
-input.y:2.10-26: redeclaration for default tagged %printer
-input.y:2.10-26: previous declaration
+input.y:2.10-24: redeclaration for default tagged %printer
+input.y:2.10-24: previous declaration
 input.y:4.13-29: redeclaration for default tagged %destructor
 input.y:1.13-29: previous declaration
-input.y:5.10-26: redeclaration for default tagged %printer
-input.y:2.10-26: previous declaration
+input.y:5.10-24: redeclaration for default tagged %printer
+input.y:2.10-24: previous declaration
 input.y:7.13-29: redeclaration for default tagless %destructor
 input.y:7.13-29: previous declaration
-input.y:8.10-26: redeclaration for default tagless %printer
-input.y:8.10-26: previous declaration
+input.y:8.10-24: redeclaration for default tagless %printer
+input.y:8.10-24: previous declaration
 input.y:10.13-29: redeclaration for default tagless %destructor
 input.y:7.13-29: previous declaration
-input.y:11.10-26: redeclaration for default tagless %printer
-input.y:8.10-26: previous declaration
+input.y:11.10-24: redeclaration for default tagless %printer
+input.y:8.10-24: previous declaration
 input.y:17.13-29: redeclaration for default tagged %destructor
 input.y:4.13-29: previous declaration
-input.y:18.10-26: redeclaration for default tagged %printer
-input.y:5.10-26: previous declaration
+input.y:18.10-24: redeclaration for default tagged %printer
+input.y:5.10-24: previous declaration
 input.y:20.13-29: redeclaration for default tagless %destructor
 input.y:10.13-29: previous declaration
-input.y:21.10-26: redeclaration for default tagless %printer
-input.y:11.10-26: previous declaration
+input.y:21.10-24: redeclaration for default tagless %printer
+input.y:11.10-24: previous declaration
 ]])
 
 AT_CLEANUP
@@ -237,17 +237,17 @@ AT_SETUP([Per-type %printer and %destructor redeclared])
 
 AT_DATA([[input.y]],
 [[%destructor { destroy ($$); } <field1> <field2>
-%printer { destroy ($$); } <field1> <field2>
+%printer { print ($$); } <field1> <field2>
 
 %destructor { destroy ($$); } <field1> <field1>
-%printer { destroy ($$); } <field2> <field2>
+%printer { print ($$); } <field2> <field2>
 
 %%
 
 start: ;
 
 %destructor { destroy ($$); } <field2> <field1>;
-%printer { destroy ($$); } <field2> <field1>;
+%printer { print ($$); } <field2> <field1>;
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
@@ -255,18 +255,18 @@ AT_BISON_CHECK([input.y], [1], [],
 input.y:1.13-29: previous declaration
 input.y:4.13-29: %destructor redeclaration for <field1>
 input.y:4.13-29: previous declaration
-input.y:5.10-26: %printer redeclaration for <field2>
-input.y:2.10-26: previous declaration
-input.y:5.10-26: %printer redeclaration for <field2>
-input.y:5.10-26: previous declaration
+input.y:5.10-24: %printer redeclaration for <field2>
+input.y:2.10-24: previous declaration
+input.y:5.10-24: %printer redeclaration for <field2>
+input.y:5.10-24: previous declaration
 input.y:11.13-29: %destructor redeclaration for <field1>
 input.y:4.13-29: previous declaration
 input.y:11.13-29: %destructor redeclaration for <field2>
 input.y:1.13-29: previous declaration
-input.y:12.10-26: %printer redeclaration for <field1>
-input.y:2.10-26: previous declaration
-input.y:12.10-26: %printer redeclaration for <field2>
-input.y:5.10-26: previous declaration
+input.y:12.10-24: %printer redeclaration for <field1>
+input.y:2.10-24: previous declaration
+input.y:12.10-24: %printer redeclaration for <field2>
+input.y:5.10-24: previous declaration
 ]])
 
 AT_CLEANUP
