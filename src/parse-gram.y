@@ -733,17 +733,7 @@ add_param (char const *type, char *decl, location loc)
     complain_at (loc, _("missing identifier in parameter declaration"));
   else
     {
-      char *name;
-      size_t name_len;
-
-      for (name_len = 1;
-	   memchr (alphanum, name_start[name_len], sizeof alphanum);
-	   name_len++)
-	continue;
-
-      name = xmalloc (name_len + 1);
-      memcpy (name, name_start, name_len);
-      name[name_len] = '\0';
+      char *name = xmemdup0 (name_start, strspn (name_start, alphanum));
       muscle_pair_list_grow (type, decl, name);
       free (name);
     }
