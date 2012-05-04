@@ -96,7 +96,8 @@ m4_append([b4_post_prologue],
 
 b4_c_ansi_function_decl([yyerror],
     [static void],
-    [[b4_namespace_ref::b4_parser_class_name::location_type *yylocationp], [yylocationp]],
+    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+                        [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])])
 
@@ -110,7 +111,8 @@ m4_append([b4_epilogue],
 
 ]b4_c_ansi_function_def([yyerror],
     [static void],
-    [[b4_namespace_ref::b4_parser_class_name::location_type *yylocationp], [yylocationp]],
+    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+                        [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])[
 {
