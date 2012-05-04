@@ -345,17 +345,6 @@ b4_user_stype
     std::ostream* yycdebug_;
 #endif
 
-
-    /// \brief Reclaim the memory associated to a symbol.
-    /// \param yymsg        Why this token is reclaimed.
-    /// \param yytype       The symbol type.
-    /// \param yyvaluep     Its semantic value.
-    /// \param yylocationp  Its location.
-    inline void yydestruct_ (const char* yymsg,
-			     int yytype,
-			     semantic_type* yyvaluep,
-			     location_type* yylocationp);
-
 ]b4_parse_param_vars[
   };
 
