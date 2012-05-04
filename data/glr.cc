@@ -151,7 +151,8 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   inline void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
-			   const semantic_type* yyvaluep, const location_type* yylocationp)
+                           const semantic_type* yyvaluep,
+                           const location_type* yylocationp)
   {
     YYUSE (yylocationp);
     YYUSE (yyvaluep);
@@ -169,7 +170,8 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   void
   ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
-			   const semantic_type* yyvaluep, const location_type* yylocationp)
+                           const semantic_type* yyvaluep,
+                           const location_type* yylocationp)
   {
     *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
 	       << ' ' << yytname[yytype] << " ("
