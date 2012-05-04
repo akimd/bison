@@ -136,11 +136,6 @@ Do some people use YYPURE, YYLSP_NEEDED like we do in the test suite?
 They should not: it is not documented.  But if they need to, let's
 find something clean (not like YYLSP_NEEDED...).
 
-
-* Documentation
-Before releasing, make sure the documentation ("Understanding your
-parser") refers to the current `output' format.
-
 * Report
 
 ** Figures
@@ -237,12 +232,6 @@ this issue.  Does anybody have it?
 Some history of Bison and some bibliography would be most welcome.
 Are there any Texinfo standards for bibliography?
 
-** %printer
-Wow, %printer is not documented.  Clearly mark YYPRINT as obsolete.
-
-* Java, Fortran, etc.
-
-
 * Coding system independence
 Paul notes:
 
@@ -267,29 +256,6 @@ Show reductions.
 ** %token-table
 ** Skeleton strategy
 Must we keep %token-table?
-
-* BTYacc
-See if we can integrate backtracking in Bison.  Charles-Henri de
-Boysson <de-boy_c@epita.fr> has been working on this, but never gave
-the results.
-
-Vadim Maslow, the maintainer of BTYacc was once contacted.  Adjusting
-the Bison grammar parser will be needed to support some extra BTYacc
-features.  This is less urgent.
-
-** Keeping the conflicted actions
-First, analyze the differences between byacc and btyacc (I'm referring
-to the executables).  Find where the conflicts are preserved.
-
-** Compare with the GLR tables
-See how isomorphic the way BTYacc and the way the GLR adjustments in
-Bison are compatible.  *As much as possible* one should try to use the
-same implementation in the Bison executables.  I insist: it should be
-very feasible to use the very same conflict tables.
-
-** Adjust the skeletons
-Import the skeletons for C and C++.
-
 
 * Precedence
 

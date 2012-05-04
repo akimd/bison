@@ -71,28 +71,25 @@ Bison News
 
 * Changes in version 2.5.1 (????-??-??):
 
-** Several portability problems in the test suite have been fixed:
+** Future changes:
 
-  This includes warnings with some compilers, unexpected behavior of
-  tools such as diff, warning messages from the test suite itself,
-  etc.
+  The next major release will drop support for K&R C.
 
-  __attribute__ is not longer disabled when __STRICT_ANSI__ is defined
+** yacc.c: YYBACKUP works as expected.
+
+** glr.c improvements:
+
+*** Location support is eliminated when not requested:
+
+  GLR parsers used to include location-related code even when
+  locations were not requested, and therefore not even usable.
+
+*** __attribute__ is preserved:
+
+  __attribute__ is no longer disabled when __STRICT_ANSI__ is defined
   (i.e., when -std is passed to GCC).
 
-** Warnings during the build procedure have been eliminated.
-
-** Many minor improvements have been made to the manual:
-
-  The layout for grammar has changed to a more compact scheme.  Named
-  references are motivated.  The description of the automaton
-  description file is updated.
-
-** YYBACKUP works as expected.
-
-** liby is no longer asking for "rpl_fprintf" on some platforms.
-
-** Several Java fixes:
+** lalr1.java: several fixes:
 
   The Java parser no longer throws ArrayIndexOutOfBoundsException if
   the first token leads to a syntax error.  Some minor clean ups.
@@ -107,6 +104,42 @@ Bison News
   The position and location constructors (and their initialize
   methods) accept new arguments for line and column.  Several issues
   in the documentation were fixed.
+
+** liby is no longer asking for "rpl_fprintf" on some platforms.
+
+** Changes in the manual:
+
+*** %printer is documented
+
+  The %printer directive, supported since at least Bison 1.50, is
+  finally documented.  The %mfcalc example is extended to demonstrate
+  its use of printer.
+
+  The C++ parsers now also support yyoutput (as an alias to
+  debug_stream ()) for consistency with the C skeletons.
+
+*** Several improvements have been made:
+
+  The layout for grammar excerpts was changed to a more compact
+  scheme.  Named references are motivated.  The description of the
+  automaton description file (*.output) is updated to the current
+  format.  Incorrect index entries were fixed.  Some other errors were
+  fixed.
+
+** Changes to the build system:
+
+*** Warnings during the build procedure have been eliminated.
+
+*** Several portability problems in the test suite have been fixed:
+
+  This includes warnings with some compilers, unexpected behavior of
+  tools such as diff, warning messages from the test suite itself,
+  etc.
+
+*** The install-pdf target work properly:
+
+  Running "make install-pdf" (or -dvi, -html, -info, and -ps) no
+  longer halts in the middle of its course.
 
 * Changes in version 2.5 (2011-05-14):
 
@@ -1511,7 +1544,7 @@ Bison News
 ** The output file does not define const, as this caused problems when used
   with common autoconfiguration schemes.  If you still use ancient compilers
   that lack const, compile with the equivalent of the C compiler option
-  `-Dconst='.  autoconf's AC_C_CONST macro provides one way to do this.
+  `-Dconst='.  Autoconf's AC_C_CONST macro provides one way to do this.
 
 ** Added `-g' and `--graph'.
 
@@ -1558,7 +1591,7 @@ Bison News
 
 * Changes in version 1.26:
 
-** Bison now uses automake.
+** Bison now uses Automake.
 
 ** New mailing lists: <bug-bison@gnu.org> and <help-bison@gnu.org>.
 
@@ -1580,7 +1613,7 @@ the grammar file, and reports all the errors found in it.
 
 ** Tokens can now be specified as multiple-character strings: for
 example, you could use "<=" for a token which looks like <=, instead
-of chosing a name like LESSEQ.
+of choosing a name like LESSEQ.
 
 ** The %token_table declaration says to write a table of tokens (names
 and numbers) into the parser file.  The yylex function can use this
@@ -1615,10 +1648,6 @@ Line numbers in output file corrected.
 
 Output file does not redefine const for C++.
 
-Local Variables:
-mode: outline
-End:
-
 -----
 
 Copyright (C) 1995-2012 Free Software Foundation, Inc.
@@ -1637,3 +1666,24 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ LocalWords:  yacc YYBACKUP glr GCC lalr ArrayIndexOutOfBoundsException nullptr
+ LocalWords:  cplusplus liby rpl fprintf mfcalc Wyacc stmt cond expr mk sym lr
+ LocalWords:  IELR ielr Lookahead YYERROR nonassoc LALR's api lookaheads yychar
+ LocalWords:  destructor lookahead YYRHSLOC YYLLOC Rhs ifndef YYFAIL cpp sr rr
+ LocalWords:  preprocessor initializer Wno Wnone Werror FreeBSD prec livelocks
+ LocalWords:  Solaris AIX UX RHEL Tru LHS gcc's Wundef YYENABLE NLS YYLTYPE VCG
+ LocalWords:  yyerror cpp's Wunused yylval yylloc prepend yyparse yylex yypush
+ LocalWords:  Graphviz xml nonterminals midrule destructor's YYSTYPE typedef ly
+ LocalWords:  CHR chr printf stdout namespace preprocessing enum pre include's
+ LocalWords:  YYRECOVERING nonfree destructors YYABORT YYACCEPT params enums de
+ LocalWords:  struct yystype DJGPP lex param Haible NUM alloca YYSTACK NUL goto
+ LocalWords:  YYMAXDEPTH Unescaped UCNs YYLTYPE's yyltype typedefs inline Yaccs
+ LocalWords:  Heriyanto Reenable dprec Hilfinger Eggert MYEOF Folle Menezes EOF
+ LocalWords:  Lackovic define's itemset Groff Gettext malloc NEWS'ed YYDEBUG
+ LocalWords:  namespaces strerror const autoconfiguration Dconst Autoconf's FDL
+ LocalWords:  Automake TMPDIR LESSEQ
+
+Local Variables:
+mode: outline
+End:

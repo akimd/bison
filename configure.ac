@@ -116,6 +116,9 @@ AC_SUBST([YACC_LIBRARY])
 
 # Checks for programs.
 AC_PROG_LEX
+if test "$FLEX" != yes; then
+  AC_MSG_ERROR([Flex is required])
+fi
 AC_PROG_YACC
 AC_PROG_RANLIB
 AC_PROG_GNU_M4

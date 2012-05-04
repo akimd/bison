@@ -215,23 +215,19 @@ b4_token_enums(b4_tokens)
 [[typedef int YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1]])])[
 #endif
-
+]b4_locations_if([[
 #if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
 typedef struct YYLTYPE
 {
-]b4_locations_if([
   int first_line;
   int first_column;
   int last_line;
   int last_column;
-],[
-  char yydummy;
-])[
 } YYLTYPE;
 # define YYLTYPE_IS_DECLARED 1
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
-
+]])[
 ]b4_percent_code_get([[provides]])[]dnl
 ])
 
@@ -511,9 +507,8 @@ m4_if(b4_prefix[], [yy], [],
 #define b4_prefix[]char yychar
 #define b4_prefix[]lval yylval
 #define b4_prefix[]lloc yylloc])],
-[YYSTYPE yylval;
-
-YYLTYPE yylloc;
+[YYSTYPE yylval;]b4_locations_if([[
+YYLTYPE yylloc;]])[
 
 int yynerrs;
 int yychar;])[
@@ -716,9 +711,9 @@ struct yyGLRState {
     yySemanticOption* yyfirstVal;
     /** Semantic value for this state.  */
     YYSTYPE yysval;
-  } yysemantics;
+  } yysemantics;]b4_locations_if([[
   /** Source location for this state.  */
-  YYLTYPE yyloc;
+  YYLTYPE yyloc;]])[
 };
 
 struct yyGLRStateSet {
@@ -740,8 +735,8 @@ struct yySemanticOption {
   yyGLRState* yystate;
   /** The lookahead for this reduction.  */
   int yyrawchar;
-  YYSTYPE yyval;
-  YYLTYPE yyloc;
+  YYSTYPE yyval;]b4_locations_if([[
+  YYLTYPE yyloc;]])[
   /** Next sibling in chain of options.  To facilitate merging,
    *  options are chained in decreasing order by address.  */
   yySemanticOption* yynext;
@@ -762,8 +757,8 @@ struct yyGLRStack {
 [
   int yyerrcnt;
   int yyrawchar;
-  YYSTYPE yyval;
-  YYLTYPE yyloc;
+  YYSTYPE yyval;]b4_locations_if([[
+  YYLTYPE yyloc;]])[
 ])[
   YYJMP_BUF yyexception_buffer;
   yyGLRStackItem* yyitems;
@@ -829,8 +824,8 @@ yyfillin (yyGLRStackItem *yyvsp, int yylow0, int yylow1)
       else
         /* The effect of using yysval or yyloc (in an immediate rule) is
          * undefined.  */
-        yyvsp[i].yystate.yysemantics.yyfirstVal = YY_NULL;
-      yyvsp[i].yystate.yyloc = s->yyloc;
+        yyvsp[i].yystate.yysemantics.yyfirstVal = YY_NULL;]b4_locations_if([[
+      yyvsp[i].yystate.yyloc = s->yyloc;]])[
       s = yyvsp[i].yystate.yypred = s->yypred;
     }
 }
