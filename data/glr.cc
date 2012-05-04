@@ -94,7 +94,8 @@ m4_append([b4_post_prologue],
 
 b4_c_ansi_function_decl([yyerror],
     [static void],
-    [[b4_namespace_ref::b4_parser_class_name::location_type *yylocationp], [yylocationp]],
+    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+                        [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])])
 
@@ -108,7 +109,8 @@ m4_append([b4_epilogue],
 
 ]b4_c_ansi_function_def([yyerror],
     [static void],
-    [[b4_namespace_ref::b4_parser_class_name::location_type *yylocationp], [yylocationp]],
+    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+                        [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])[
 {
@@ -146,7 +148,8 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   inline void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
-                           const semantic_type* yyvaluep, const location_type* yylocationp)
+                           const semantic_type* yyvaluep,
+                           const location_type* yylocationp)
   {
     YYUSE (yylocationp);
     YYUSE (yyvaluep);
@@ -164,7 +167,8 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   void
   ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
-                           const semantic_type* yyvaluep, const location_type* yylocationp)
+                           const semantic_type* yyvaluep,
+                           const location_type* yylocationp)
   {
     *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
                << ' ' << yytname[yytype] << " ("
@@ -313,16 +317,6 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
     /* Debugging.  */
     std::ostream* yycdebug_;
 #endif
-
-    /// \brief Reclaim the memory associated to a symbol.
-    /// \param yymsg        Why this token is reclaimed.
-    /// \param yytype       The symbol type.
-    /// \param yyvaluep     Its semantic value.
-    /// \param yylocationp  Its location.
-    inline void yydestruct_ (const char* yymsg,
-                             int yytype,
-                             semantic_type* yyvaluep,
-                             location_type* yylocationp);
 
 ]b4_parse_param_vars[
   };
