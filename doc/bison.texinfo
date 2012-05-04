@@ -10268,7 +10268,7 @@ values have a common base type: @code{Object} or as specified by
 an union.  The type of @code{$$}, even with angle brackets, is the base
 type since Java casts are not allow on the left-hand side of assignments.
 Also, @code{$@var{n}} and @code{@@@var{n}} are not allowed on the
-left-hand side of assignments. @xref{Java Semantic Values} and
+left-hand side of assignments. @xref{Java Semantic Values}, and
 @ref{Java Action Features}.
 
 @item
