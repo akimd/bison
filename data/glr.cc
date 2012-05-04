@@ -79,9 +79,9 @@ m4_define([b4_yy_symbol_print_generate],
     [[FILE *],               []],
     [[int yytype],           [yytype]],
     [[const b4_namespace_ref::b4_parser_class_name::semantic_type *yyvaluep],
-			     [yyvaluep]],
+                             [yyvaluep]],
     [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
-			     [yylocationp]],
+                             [yylocationp]],
     b4_parse_param)[
 {
 ]b4_parse_param_use[]dnl
@@ -163,7 +163,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
       {
   ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [        default:
-	  break;
+          break;
       }
   }
 
@@ -174,8 +174,8 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
                            const location_type* yylocationp)
   {
     *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
-	       << ' ' << yytname[yytype] << " ("
-	       << *yylocationp << ": ";
+               << ' ' << yytname[yytype] << " ("
+               << *yylocationp << ": ";
     yy_symbol_value_print_ (yytype, yyvaluep, yylocationp);
     *yycdebug_ << ')';
   }
@@ -215,10 +215,10 @@ b4_namespace_close[
 # Let glr.c believe that the user arguments include the parser itself.
 m4_ifset([b4_parse_param],
 [m4_pushdef([b4_parse_param],
-	    m4_dquote([[[b4_namespace_ref::b4_parser_class_name& yyparser], [[yyparser]]],]
+            m4_dquote([[[b4_namespace_ref::b4_parser_class_name& yyparser], [[yyparser]]],]
 m4_defn([b4_parse_param])))],
 [m4_pushdef([b4_parse_param],
-	    [[[[b4_namespace_ref::b4_parser_class_name& yyparser], [[yyparser]]]]])
+            [[[[b4_namespace_ref::b4_parser_class_name& yyparser], [[yyparser]]]]])
 ])
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])
@@ -253,17 +253,17 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
    the previous symbol: RHS[0] (always defined).  */
 
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)				\
-    do									\
-      if (N)								\
-	{								\
-	  (Current).begin  = YYRHSLOC (Rhs, 1).begin;			\
-	  (Current).end    = YYRHSLOC (Rhs, N).end;			\
-	}								\
-      else								\
-	{								\
-	  (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;	\
-	}								\
+# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
+    do                                                                  \
+      if (N)                                                            \
+        {                                                               \
+          (Current).begin  = YYRHSLOC (Rhs, 1).begin;                   \
+          (Current).end    = YYRHSLOC (Rhs, N).end;                     \
+        }                                                               \
+      else                                                              \
+        {                                                               \
+          (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
+        }                                                               \
     while (/*CONSTCOND*/ 0)
 #endif
 
@@ -332,15 +332,15 @@ b4_user_stype
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     virtual void yy_symbol_value_print_ (int yytype,
-					 const semantic_type* yyvaluep,
-					 const location_type* yylocationp);
+                                         const semantic_type* yyvaluep,
+                                         const location_type* yylocationp);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
     virtual void yy_symbol_print_ (int yytype,
-				   const semantic_type* yyvaluep,
-				   const location_type* yylocationp);
+                                   const semantic_type* yyvaluep,
+                                   const location_type* yylocationp);
   private:
     /* Debugging.  */
     int yydebug_;
