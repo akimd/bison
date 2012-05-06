@@ -17,7 +17,39 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+abs_top_srcdir='@abs_top_srcdir@'
+abs_top_builddir='@abs_top_builddir@'
+: ${PERL=perl}
+
 # Use the shipped files, not those installed.
-BISON_PKGDATADIR='@abs_top_srcdir@/data'
+BISON_PKGDATADIR=$abs_top_srcdir/data
 export BISON_PKGDATADIR
-exec $PREBISON '@abs_top_builddir@/src/bison' ${1+"$@"}
+
+$PREBISON "$abs_top_builddir/src/bison" ${1+"$@"}
+status=$?
+
+# As a special dark magic, if we are actually using this wrapper to
+# compile Bison's src/parse-gram.y, post-process the synclines to
+# avoid dependencies on the user's set up (srcdir vs. builddir).
+for i
+do
+  case $i in
+    */parse-gram.y)
+    if $PERL --version >/dev/null; then
+      # We are called by ylwrap which still uses y.tab.*, and
+      # post-processes the synclines on y.tab.c itself.  Don't let it
+      # do it.  Besides, it leaves "parse-gram.y" as the source,
+      # dropping the src/ part.
+      $PERL -pi -e 's{"y\.tab\.}{"parse-gram.}g;'    \
+                -e 's{".*/(parse-gram\.y)"}{"$1"}g;' \
+           y.tab.[ch]
+    fi
+    ;;
+  esac
+done
+
+exit $status
+
+# Local Variables:
+# mode: shell-script
+# End:
