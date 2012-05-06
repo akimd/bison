@@ -98,7 +98,6 @@
 /open.m4
 /pathmax.m4
 /perror.m4
-/pipe.m4
 /pipe2.m4
 /po.m4
 /posix_spawn.m4
