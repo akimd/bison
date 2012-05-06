@@ -265,3 +265,5 @@
 /xsize.h
 /xstrndup.c
 /xstrndup.h
+/xmemdup0.c
+/xmemdup0.h
