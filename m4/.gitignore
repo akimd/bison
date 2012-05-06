@@ -38,6 +38,7 @@
 /getdtablesize.m4
 /getopt.m4
 /gettext.m4
+/glibc2.m4
 /glibc21.m4
 /gnulib-cache.m4
 /gnulib-common.m4
@@ -47,7 +48,11 @@
 /iconv.m4
 /include_next.m4
 /inline.m4
+/intdiv0.m4
+/intl.m4
+/intldir.m4
 /intlmacosx.m4
+/intmax.m4
 /intmax_t.m4
 /inttypes-pri.m4
 /inttypes.m4
@@ -61,6 +66,7 @@
 /javacomp.m4
 /javaexec.m4
 /largefile.m4
+/lcmessage.m4
 /ldexp.m4
 /ldexpl.m4
 /lib-ld.m4
@@ -71,6 +77,7 @@
 /locale-fr.m4
 /locale-ja.m4
 /locale-zh.m4
+/lock.m4
 /longlong.m4
 /malloc.m4
 /math_h.m4
@@ -145,13 +152,16 @@
 /sys_socket_h.m4
 /sys_stat_h.m4
 /sys_wait_h.m4
+/sysexits.m4
 /threadlib.m4
 /time_h.m4
+/uintmax_t.m4
 /unistd-safer.m4
 /unistd_h.m4
 /unlocked-io.m4
 /vasnprintf.m4
 /vfprintf-posix.m4
+/visibility.m4
 /vsnprintf-posix.m4
 /vsnprintf.m4
 /vsprintf-posix.m4
@@ -167,4 +177,3 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
-/sysexits.m4
