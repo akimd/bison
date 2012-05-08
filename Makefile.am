@@ -30,16 +30,13 @@ EXTRA_DIST = .prev-version .version \
   djgpp/subpipe.c djgpp/subpipe.h djgpp/djunpack.bat \
   djgpp/fnchange.lst djgpp/testsuite.sed
 
-.PHONY: maintainer-check
-maintainer-check:
-	$(AM_V_GEN)cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
-
-.PHONY: maintainer-push-check
-maintainer-push-check:
-	$(AM_V_GEN)cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
-
-.PHONY: maintainer-xml-check
-maintainer-xml-check:
+MAINTAINER_CHECKS =				\
+  maintainer-check				\
+  maintainer-push-check				\
+  maintainer-xml-check				\
+  maintainer-release-check
+.PHONY: $(MAINTAINER_CHECKS)
+$(MAINTAINER_CHECKS):
 	$(AM_V_GEN)cd tests && $(MAKE) $(AM_MAKEFLAGS) $@
 
 # See comments in build-aux/git-version-gen.  However, we make .version depend

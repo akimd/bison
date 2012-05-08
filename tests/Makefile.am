@@ -100,3 +100,6 @@ maintainer-push-check:
 .PHONY: maintainer-xml-check
 maintainer-xml-check:
 	BISON_TEST_XML=1 $(MAKE) $(AM_MAKEFLAGS) maintainer-check
+
+.PHONY: maintainer-release-check
+maintainer-release-check: maintainer-check maintainer-push-check maintainer-xml-check

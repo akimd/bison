@@ -180,6 +180,9 @@ release:
 - Build with -DGNULIB_POSIXCHECK.  It suggests gnulib modules that can
   fix portability issues.
 
+- Check with `make syntax-check' if there are issues diagnosed by
+  gnulib.
+
 - run `make maintainer-check' which:
   - runs `valgrind -q bison' to run Bison under Valgrind.
   - runs the parsers under Valgrind.
@@ -196,6 +199,9 @@ release:
   passed to Bison in the test suite.  The check just diffs the output of
   Bison's included XSLT style sheets with the output of --report=all and
   --graph.
+
+- running `make maintainer-release-check' takes care of running
+  maintainer-check, maintainer-push-check and maintainer-xml-check.
 
 - Change tests/atlocal/CFLAGS to add your preferred options.  For
   instance, `-traditional' to check that the parsers are K&R.  Note
