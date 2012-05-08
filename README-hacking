@@ -15,24 +15,15 @@ First, if it is a large change, you must make sure they have signed
 the appropriate paperwork.  Second, be sure to add their name and
 email address to THANKS.
 
-** If a change fixes a test, mention the test in the ChangeLog entry.
+** If a change fixes a test, mention the test in the log entry.
 
 ** Bug reports
-If somebody reports a new bug, mention his name in the ChangeLog entry
+If somebody reports a new bug, mention his name in the log entry
 and in the test case you write.  Put him into THANKS.
 
 The correct response to most actual bugs is to write a new test case
 which demonstrates the bug.  Then fix the bug, re-run the test suite,
 and check everything in.
-
-** You may find it useful to install the git-merge-changelog merge driver:
-
-  http://git.sv.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/git-merge-changelog.c
-
-When following the generic installation instructions there, keep in mind that
-your clone of Bison's git repository already contains appropriate
-.gitattributes files, and running Bison's bootstrap script will make the
-necessary changes to .git/config.
 
 
 * Hacking
@@ -169,7 +160,7 @@ The autoconf files we use are currently:
         lib/m4sugar/m4sugar.m4
         lib/m4sugar/foreach.m4
 
-These files don't change very often in autoconf, so it should be
+These files don't change very often in Autoconf, so it should be
 relatively straight-forward to examine the differences in order to
 decide whether to update.
 
@@ -250,12 +241,13 @@ occurrences of PACKAGE_COPYRIGHT_YEAR in configure.ac.
 The version number, *and* the date of the release (including for
 betas).
 
-** Update ChangeLog
-Should have an entry similar to `Version 1.49b.'.
+** Mention the release name in a commit log
+Should have an entry similar to `Version 2.3b.'.
 
 ** Tag the release
-Before Bison will build with the right version number, you must tag the release
-in git.  Do this after all other changes.  The command is similar to:
+Before Bison will build with the right version number, you must tag
+the release in git.  Do this after all other changes.  The command is
+similar to:
 
   git tag -a v2.3b
 
