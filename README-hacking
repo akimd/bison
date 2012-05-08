@@ -15,10 +15,10 @@ First, if it is a large change, you must make sure they have signed
 the appropriate paperwork.  Second, be sure to add their name and
 email address to THANKS.
 
-** If a change fixes a test, mention the test in the log entry.
+** If a change fixes a test, mention the test in the commit message.
 
 ** Bug reports
-If somebody reports a new bug, mention his name in the log entry
+If somebody reports a new bug, mention his name in the commit message
 and in the test case you write.  Put him into THANKS.
 
 The correct response to most actual bugs is to write a new test case
@@ -241,7 +241,7 @@ occurrences of PACKAGE_COPYRIGHT_YEAR in configure.ac.
 The version number, *and* the date of the release (including for
 betas).
 
-** Mention the release name in a commit log
+** Mention the release name in a commit message
 Should have an entry similar to `Version 2.3b.'.
 
 ** Tag the release
@@ -251,7 +251,7 @@ similar to:
 
   git tag -a v2.3b
 
-The log message can be simply:
+The commit message can be simply:
 
   Bison 2.3b
 
