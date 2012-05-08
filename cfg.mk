@@ -62,6 +62,7 @@ $(call exclude,								\
   bindtextdomain=^lib/main.c$$						\
   program_name=^lib/main.c$$						\
   prohibit_always-defined_macros=^data/yacc.c|^djgpp/			\
+  prohibit_always-defined_macros+=?|^lib/timevar.c$$			\
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$	\
   prohibit_always-defined_macros+=?|^tests/regression.at$$		\
   prohibit_empty_lines_at_EOF=^src/parse-gram.[ch]$$			\
