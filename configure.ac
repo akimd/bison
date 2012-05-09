@@ -49,7 +49,7 @@ AM_INIT_AUTOMAKE([1.11.1 dist-xz silent-rules]
                  m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [[-_]],
                            [gnu], [gnits]))
 AM_SILENT_RULES([yes])
-AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
+AC_CONFIG_HEADERS([lib/config.h:lib/config.in.h])
 
 # Checks for the compiler.
 AC_PROG_CC_STDC

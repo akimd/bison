@@ -37,7 +37,7 @@
 /closeout.h
 /config.charset
 /config.h
-/config.hin
+/config.in.h
 /configmake.h
 /dirname-lgpl.c
 /dirname.c
