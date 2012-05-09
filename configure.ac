@@ -70,7 +70,7 @@ if test "$enable_gcc_warnings" = yes; then
     -Wcast-qual -Wformat -Wpointer-arith -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wmissing-declarations -Wmissing-prototypes
     -Wshadow -Wstrict-prototypes'
-  warn_cxx='-Wnoexcept -Wzero-as-null-pointer-constant'
+  warn_cxx='-Wnoexcept'
   AC_LANG_PUSH([C])
   for i in $warn_common $warn_c;
   do
@@ -87,6 +87,8 @@ if test "$enable_gcc_warnings" = yes; then
   do
     gl_WARN_ADD([$i], [WARN_CXXFLAGS])
   done
+  gl_WARN_ADD([ -Wzero-as-null-pointer-constant], [WARN_CXXFLAGS],
+              [AC_LANG_PROGRAM([], [nullptr])])
   gl_WARN_ADD([-Werror], [WERROR_CXXFLAGS])
   # Warnings for the test suite only.
   gl_WARN_ADD([-Wundef], [WARN_CXXFLAGS_TEST])
