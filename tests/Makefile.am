@@ -74,22 +74,23 @@ check_SCRIPTS = bison
 
 # Run the test suite on the *installed* tree.
 installcheck-local:
-	$(SHELL) $(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
+	$(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++
 maintainer-check-g++: $(TESTSUITE)
-	$(TESTSUITE) --compile-c-with-cxx
+	$(TESTSUITE) $(TESTSUITEFLAGS) --compile-c-with-cxx
 
 .PHONY: maintainer-check-posix
 maintainer-check-posix: $(TESTSUITE)
-	$(TESTSUITE) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
+	$(TESTSUITE) $(TESTSUITEFLAGS) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
 
 .PHONY: maintainer-check-valgrind
 maintainer-check-valgrind: $(TESTSUITE)
-	test -z '$(VALGRIND)' || \
-	   VALGRIND_OPTS='--leak-check=full --show-reachable=yes' \
-	   $(TESTSUITE) PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'
+	test -z '$(VALGRIND)' ||					\
+	  $(TESTSUITE) $(TESTSUITEFLAGS)				\
+	  PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'		\
+	  VALGRIND_OPTS='--leak-check=full --show-reachable=yes'
 
 .PHONY: maintainer-check
 maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++
