@@ -1,11 +1,12 @@
 Bison News
 ----------
 
-* Changes in version 2.5.1 (????-??-??):
+* Changes in version 2.5.1_rc1 (2012-05-14):
 
 ** Future changes:
 
-  The next major release will drop support for K&R C.
+  The next major release will drop support for generating parsers in
+  K&R C.
 
 ** yacc.c: YYBACKUP works as expected.
 
