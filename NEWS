@@ -59,7 +59,13 @@ Bison News
   format.  Incorrect index entries were fixed.  Some other errors were
   fixed.
 
-** Changes to the build system:
+** Building bison:
+
+*** Conflicting prototypes with recent/modified Flex.
+
+  Fixed build problems with the current, unreleased, version of Flex,
+  and some modified versions of 2.5.35, which have modified function
+  prototypes.
 
 *** Warnings during the build procedure have been eliminated.
 
