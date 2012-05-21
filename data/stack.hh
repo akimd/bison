@@ -25,6 +25,11 @@ m4_divert_push(0)dnl
 b4_copyright([Stack handling for Bison parsers in C++],
              [2002-2012])[
 
+/**
+ ** \file ]b4_dir_prefix[stack.hh
+ ** Define the ]b4_namespace_ref[::stack class.
+ */
+
 #ifndef BISON_STACK_HH
 # define BISON_STACK_HH
 

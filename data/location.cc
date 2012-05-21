@@ -23,7 +23,7 @@ b4_copyright([Positions for Bison parsers in C++],
              [2002-2007, 2009-2012])[
 
 /**
- ** \file position.hh
+ ** \file ]b4_dir_prefix[position.hh
  ** Define the ]b4_namespace_ref[::position class.
  */
 
@@ -154,7 +154,7 @@ b4_copyright([Locations for Bison parsers in C++],
              [2002-2007, 2009-2012])[
 
 /**
- ** \file location.hh
+ ** \file ]b4_dir_prefix[location.hh
  ** Define the ]b4_namespace_ref[::location class.
  */
 

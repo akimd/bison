@@ -39,6 +39,11 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
              [2002-2012])
 dnl FIXME: This is wrong, we want computed header guards.
 [
+/**
+ ** \file ]b4_spec_defines_file[
+ ** Define the ]b4_namespace_ref[::parser class.
+ */
+
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
 
 #ifndef PARSER_HEADER_H
