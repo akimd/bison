@@ -15,7 +15,7 @@
 
 dist_pkgdata_DATA = README bison.m4 \
    c-skel.m4 c.m4 yacc.c glr.c \
-   c++-skel.m4 c++.m4 location.cc lalr1.cc glr.cc \
+   c++-skel.m4 c++.m4 location.cc lalr1.cc glr.cc stack.hh \
    java-skel.m4 java.m4 lalr1.java
 
 m4sugardir = $(pkgdatadir)/m4sugar
