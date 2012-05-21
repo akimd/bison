@@ -30,8 +30,7 @@ b4_copyright([Stack handling for Bison parsers in C++],
  ** Define the ]b4_namespace_ref[::stack class.
  */
 
-#ifndef BISON_STACK_HH
-# define BISON_STACK_HH
+]b4_cpp_guard_open([b4_dir_prefix[]stack.hh])[
 
 # include <deque>
 
@@ -119,8 +118,7 @@ b4_copyright([Stack handling for Bison parsers in C++],
   };
 ]b4_namespace_close[
 
-#endif // not BISON_STACK_HH[]dnl
-]
+]b4_cpp_guard_close([b4_dir_prefix[]stack.hh])
 m4_divert_pop(0)
 m4_popdef([b4_copyright_years])dnl
 m4_changecom([#])

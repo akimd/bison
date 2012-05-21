@@ -37,7 +37,6 @@ b4_defines_if(
 [@output(b4_spec_defines_file@)@
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
              [2002-2012])
-dnl FIXME: This is wrong, we want computed header guards.
 [
 /**
  ** \file ]b4_spec_defines_file[
@@ -46,8 +45,7 @@ dnl FIXME: This is wrong, we want computed header guards.
 
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
 
-#ifndef PARSER_HEADER_H
-# define PARSER_HEADER_H
+]b4_cpp_guard_open([b4_spec_defines_file])[
 
 ]b4_percent_code_get([[requires]])[
 
@@ -283,10 +281,9 @@ b4_user_stype
  /* Redirection for backward compatibility.  */
 # define YYSTYPE b4_namespace_ref::b4_parser_class_name::semantic_type
 #endif
-])
-b4_percent_code_get([[provides]])[]dnl
-
-[#endif /* ! defined PARSER_HEADER_H */]
+])[
+]b4_percent_code_get([[provides]])[
+]b4_cpp_guard_close([b4_spec_defines_file])
 ])dnl
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],

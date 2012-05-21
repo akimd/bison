@@ -26,12 +26,35 @@ Bison News
   The Java parser no longer throws ArrayIndexOutOfBoundsException if the
   first token leads to a syntax error.  Some minor clean ups.
 
-** C++11 compatibility:
+** Changes for C++:
+
+*** C++11 compatibility:
 
   C and C++ parsers use "nullptr" instead of "0" when __cplusplus is 201103L
   or higher.
 
-** C++ locations:
+*** Header guards
+
+  The header files such as "parser.hh", "location.hh", etc. used a constant
+  name for preprocessor guards, for instance:
+
+  #ifndef BISON_LOCATION_HH
+  # define BISON_LOCATION_HH
+  ...
+  #endif // !BISON_LOCATION_HH
+
+  The inclusion guard is now computed from "PREFIX/FILE-NAME", where lower
+  case characters are converted to upper case, and series of
+  non-alphanumerical characters are converted to an underscore.
+
+  With "bison -o lang++/parser.cc", "location.hh" would now include:
+
+  #ifndef YY_LANG_LOCATION_HH
+  # define YY_LANG_LOCATION_HH
+  ...
+  #endif // !YY_LANG_LOCATION_HH
+
+*** C++ locations:
 
   The position and location constructors (and their initialize methods)
   accept new arguments for line and column.  Several issues in the
