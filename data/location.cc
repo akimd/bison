@@ -25,12 +25,11 @@ m4_divert_push(0)dnl
 b4_copyright([Positions for Bison parsers in C++])[
 
 /**
- ** \file position.hh
+ ** \file ]b4_dir_prefix[position.hh
  ** Define the ]b4_namespace_ref[::position class.
  */
 
-#ifndef BISON_POSITION_HH
-# define BISON_POSITION_HH
+]b4_cpp_guard_open([b4_dir_prefix[]position.hh])[
 
 # include <iostream>
 # include <string>
@@ -150,17 +149,16 @@ b4_copyright([Positions for Bison parsers in C++])[
   }
 
 ]b4_namespace_close[
-#endif // not BISON_POSITION_HH]
+]b4_cpp_guard_close([b4_dir_prefix[]position.hh])
 @output(b4_dir_prefix[]location.hh@)@
 b4_copyright([Locations for Bison parsers in C++])[
 
 /**
- ** \file location.hh
+ ** \file ]b4_dir_prefix[location.hh
  ** Define the ]b4_namespace_ref[::location class.
  */
 
-#ifndef BISON_LOCATION_HH
-# define BISON_LOCATION_HH
+]b4_cpp_guard_open([b4_dir_prefix[]location.hh])[
 
 # include <iostream>
 # include <string>
@@ -296,7 +294,7 @@ b4_copyright([Locations for Bison parsers in C++])[
 
 ]b4_namespace_close[
 
-#endif // not BISON_LOCATION_HH]
+]b4_cpp_guard_close([b4_dir_prefix[]location.hh])
 m4_divert_pop(0)
 m4_popdef([b4_copyright_years])dnl
 m4_changecom([#])

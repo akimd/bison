@@ -51,7 +51,7 @@ AM_INIT_AUTOMAKE([1.11.1 dist-xz nostdinc
                  m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [[-_]],
                            [gnu], [gnits]))
 AM_SILENT_RULES([yes])
-AC_CONFIG_HEADERS([lib/config.h:lib/config.hin])
+AC_CONFIG_HEADERS([lib/config.h:lib/config.in.h])
 
 # Checks for the compiler.
 AC_PROG_CC_STDC
@@ -72,7 +72,7 @@ if test "$enable_gcc_warnings" = yes; then
     -Wcast-qual -Wformat -Wpointer-arith -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wmissing-declarations -Wmissing-prototypes
     -Wshadow -Wstrict-prototypes'
-  warn_cxx='-Wnoexcept -Wzero-as-null-pointer-constant'
+  warn_cxx='-Wnoexcept'
   AC_LANG_PUSH([C])
   for i in $warn_common $warn_c;
   do
@@ -89,6 +89,8 @@ if test "$enable_gcc_warnings" = yes; then
   do
     gl_WARN_ADD([$i], [WARN_CXXFLAGS])
   done
+  gl_WARN_ADD([ -Wzero-as-null-pointer-constant], [WARN_CXXFLAGS],
+              [AC_LANG_PROGRAM([], [nullptr])])
   gl_WARN_ADD([-Werror], [WERROR_CXXFLAGS])
   # Warnings for the test suite only.
   gl_WARN_ADD([-Wundef], [WARN_CXXFLAGS_TEST])
@@ -116,9 +118,7 @@ AC_SUBST([YACC_LIBRARY])
 
 # Checks for programs.
 AC_PROG_LEX
-if test "$FLEX" != yes; then
-  AC_MSG_ERROR([Flex is required])
-fi
+$LEX_IS_FLEX || AC_MSG_ERROR([Flex is required])
 AC_PROG_YACC
 AC_PROG_RANLIB
 AC_PROG_GNU_M4

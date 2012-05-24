@@ -32,6 +32,7 @@
 #include "symlist.h"
 #include "scan-gram.h"
 #include "scan-code.h"
+#include "xmemdup0.h"
 
 #define YYLLOC_DEFAULT(Current, Rhs, N)  (Current) = lloc_default (Rhs, N)
 static YYLTYPE lloc_default (YYLTYPE const *, int);
@@ -353,7 +354,7 @@ prologue_declaration:
             xmalloc (dir_length + 1 + strlen (skeleton_user) + 1);
           if (dir_length > 0)
             {
-              strncpy (skeleton_build, current_file, dir_length);
+              memcpy (skeleton_build, current_file, dir_length);
               skeleton_build[dir_length++] = '/';
             }
           strcpy (skeleton_build + dir_length, skeleton_user);
@@ -775,17 +776,7 @@ add_param (param_type type, char *decl, location loc)
     complain_at (loc, _("missing identifier in parameter declaration"));
   else
     {
-      char *name;
-      size_t name_len;
-
-      for (name_len = 1;
-           memchr (alphanum, name_start[name_len], sizeof alphanum);
-           name_len++)
-        continue;
-
-      name = xmalloc (name_len + 1);
-      memcpy (name, name_start, name_len);
-      name[name_len] = '\0';
+      char *name = xmemdup0 (name_start, strspn (name_start, alphanum));
       if (type & param_lex)
         muscle_pair_list_grow ("lex_param", decl, name);
       if (type & param_parse)

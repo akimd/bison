@@ -1,4 +1,4 @@
-# flex.m4 serial 1
+# flex.m4 serial 2
 # Copyright (C) 2012 Free Software Foundation, Inc.
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -24,7 +24,7 @@ fi])
 # and whether Lex declares yytext as a char * by default.
 m4_define([_AC_PROG_LEX_YYTEXT_DECL],
 [AC_CACHE_CHECK([whether lex is flex],
-                [ac_cv_prog_flex],
+                [ac_cv_prog_lex_is_flex],
 [cat >conftest.l <<_ACEOF[
 %option debug nodefault noinput nounput noyywrap never-interactive
 %x SC_CONF_TEST
@@ -32,15 +32,13 @@ m4_define([_AC_PROG_LEX_YYTEXT_DECL],
 a { BEGIN SC_CONF_TEST; }
 ]_ACEOF
 if _AC_DO_VAR([LEX conftest.l]); then
-  ac_cv_prog_flex=yes
+  ac_cv_prog_lex_is_flex=yes
 else
-  ac_cv_prog_flex=no
+  ac_cv_prog_lex_is_flex=no
 fi
 ])
-FLEX=
-if test $ac_cv_prog_flex = yes; then
-  AC_SUBST([FLEX], [yes])dnl
-fi
+AC_SUBST([LEX_IS_FLEX],
+         [`test "$ac_cv_prog_lex_is_flex" = yes && echo true || echo false`])dnl
 
 cat >conftest.l <<_ACEOF[
 %%

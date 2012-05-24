@@ -125,10 +125,6 @@ we do the same in yacc.c.
 The code bw glr.c and yacc.c is really alike, we can certainly factor
 some parts.
 
-* Header guards
-
-From François: should we keep the directory part in the CPP guard?
-
 
 * Yacc.c: CPP Macros
 

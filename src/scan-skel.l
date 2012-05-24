@@ -77,7 +77,6 @@ static void fail_for_invalid_at (char const *at);
 
 "@oline@"  fprintf (yyout, "%d", out_lineno + 1);
 "@ofile@"  QPUTS (outname);
-"@dir_prefix@" QPUTS (dir_prefix);
 
 @[a-z_]+"(" {
   yytext[yyleng-1] = '\0';

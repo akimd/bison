@@ -7914,7 +7914,7 @@ calls @code{yyerror} and then returns 2.
 
 Because Bison parsers have growing stacks, hitting the upper limit
 usually results from using a right recursion instead of a left
-recursion, @xref{Recursion, ,Recursive Rules}.
+recursion, see @ref{Recursion, ,Recursive Rules}.
 
 @vindex YYMAXDEPTH
 By defining the macro @code{YYMAXDEPTH}, you can control how deep the
@@ -11105,8 +11105,8 @@ My parser returns with error with a @samp{memory exhausted}
 message.  What can I do?
 @end quotation
 
-This question is already addressed elsewhere, @xref{Recursion,
-,Recursive Rules}.
+This question is already addressed elsewhere, see @ref{Recursion, ,Recursive
+Rules}.
 
 @node How Can I Reset the Parser
 @section How Can I Reset the Parser

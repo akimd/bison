@@ -24,10 +24,14 @@ m4_divert_push(0)dnl
 @output(b4_dir_prefix[]stack.hh@)@
 b4_copyright([Stack handling for Bison parsers in C++])[
 
-#ifndef BISON_STACK_HH
-# define BISON_STACK_HH
+/**
+ ** \file ]b4_dir_prefix[stack.hh
+ ** Define the ]b4_namespace_ref[::stack class.
+ */
 
-#include <deque>
+]b4_cpp_guard_open([b4_dir_prefix[]stack.hh])[
+
+# include <deque>
 
 ]b4_namespace_open[
   template <class T, class S = std::deque<T> >
@@ -109,8 +113,8 @@ b4_copyright([Stack handling for Bison parsers in C++])[
   {
   public:
     slice (const S& stack, unsigned int range)
-      : stack_ (stack),
-        range_ (range)
+      : stack_ (stack)
+      , range_ (range)
     {
     }
 
@@ -127,8 +131,7 @@ b4_copyright([Stack handling for Bison parsers in C++])[
   };
 ]b4_namespace_close[
 
-#endif // not BISON_STACK_HH[]dnl
-]
+]b4_cpp_guard_close([b4_dir_prefix[]stack.hh])
 m4_divert_pop(0)
 m4_popdef([b4_copyright_years])dnl
 m4_changecom([#])

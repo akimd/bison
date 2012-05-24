@@ -88,11 +88,13 @@ update-package-copyright-year:
 gen_start_date = 2012-01-16
 .PHONY: gen-ChangeLog
 gen-ChangeLog:
-	$(AM_V_GEN)if test -d .git; then				\
-	  $(top_srcdir)/build-aux/gitlog-to-changelog			\
-	    --no-cluster						\
-	    --amend=$(srcdir)/build-aux/git-log-fix			\
-	    --since=$(gen_start_date) > $(distdir)/cl-t;		\
-	  rm -f $(distdir)/ChangeLog;					\
-	  mv $(distdir)/cl-t $(distdir)/ChangeLog;			\
+	$(AM_V_GEN)if test -d $(srcdir)/.git; then		\
+	  $(top_srcdir)/build-aux/gitlog-to-changelog		\
+	    --strip-tab						\
+	    --strip-cherry-picked				\
+	    --no-cluster					\
+	    --amend=$(srcdir)/build-aux/git-log-fix		\
+	    --since=$(gen_start_date) > $(distdir)/cl-t;	\
+	  rm -f $(distdir)/ChangeLog;				\
+	  mv $(distdir)/cl-t $(distdir)/ChangeLog;		\
 	fi

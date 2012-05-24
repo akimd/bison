@@ -1258,10 +1258,12 @@ AT_SETUP([[parse-gram.y: LALR = IELR]])
 # output files have the same name.
 [cp $abs_top_srcdir/src/parse-gram.y input.y]
 AT_BISON_CHECK([[-o input.c -Dlr.type=lalr input.y]])
-[mv input.c expout]
+[mv input.c lalr.c]
+AT_CAPTURE_FILE([lalr.c])
 AT_BISON_CHECK([[-o input.c -Dlr.type=ielr input.y]])
 [mv input.c ielr.c]
-AT_CHECK([[cat ielr.c]], [[0]], [[expout]])
+AT_CAPTURE_FILE([ielr.c])
+AT_CHECK([[diff lalr.c ielr.c]], [[0]])
 
 AT_CLEANUP
 

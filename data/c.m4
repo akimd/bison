@@ -17,6 +17,33 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
+# b4_tocpp(STRING)
+# ----------------
+# Convert STRING into a valid C macro name.
+m4_define([b4_tocpp],
+[m4_toupper(m4_bpatsubst(m4_quote($1), [[^a-zA-Z0-9]+], [_]))])
+
+
+# b4_cpp_guard(FILE)
+# ------------------
+# A valid C macro name to use as a CPP header guard for FILE.
+m4_define([b4_cpp_guard],
+[b4_tocpp(m4_defn([b4_prefix])/[$1])])
+
+
+# b4_cpp_guard_open(FILE)
+# b4_cpp_guard_close(FILE)
+# ------------------------
+# Open/close CPP inclusion guards for FILE.
+m4_define([b4_cpp_guard_open],
+[#ifndef b4_cpp_guard([$1])
+# define b4_cpp_guard([$1])])
+
+m4_define([b4_cpp_guard_close],
+[#endif b4_comment([!b4_cpp_guard([$1])])])
+
+
 ## ---------------- ##
 ## Identification.  ##
 ## ---------------- ##
