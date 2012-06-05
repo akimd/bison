@@ -941,8 +941,8 @@ handle_syncline (char *args, location loc)
 {
   char *after_num;
   unsigned long int lineno = strtoul (args, &after_num, 10);
-  char *file = mbschr (after_num, '"') + 1;
-  *mbschr (file, '"') = '\0';
+  char *file = strchr (after_num, '"') + 1;
+  *strchr (file, '"') = '\0';
   if (INT_MAX <= lineno)
     {
       warn_at (loc, _("line number overflow"));

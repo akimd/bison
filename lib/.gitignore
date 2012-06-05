@@ -109,9 +109,7 @@
 /mbchar.c
 /mbchar.h
 /mbrtowc.c
-/mbschr.c
 /mbsinit.c
-/mbsrchr.c
 /mbswidth.c
 /mbswidth.h
 /mbuiter.h
