@@ -268,3 +268,7 @@
 /xmemdup0.c
 /xmemdup0.h
 /sys_types.in.h
+/concat-filename.c
+/concat-filename.h
+/filename.h
+/xconcat-filename.c

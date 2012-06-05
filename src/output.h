@@ -23,6 +23,8 @@
 
 /* Output the parsing tables and the parser code to FTABLE.  */
 void output (void);
-char const *compute_pkgdatadir (void);
+
+/* Where our data files are installed.  */
+char const *pkgdatadir (void);
 
 #endif /* !OUTPUT_H_ */
