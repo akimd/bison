@@ -1,5 +1,4 @@
 # Customize maint.mk                           -*- makefile -*-
-
 # Copyright (C) 2008-2012 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -14,6 +13,9 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Used in maint.mk's web-manual rule
+manual_title = The Yacc-compatible Parser Generator
 
 # It's useful to run maintainer-*check* targets during development, but we
 # don't want to wait on a recompile because of an update to $(VERSION).  Thus,
