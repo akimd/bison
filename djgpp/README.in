@@ -179,7 +179,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	This will install the products into your DJGPP installation tree given
 	by the default prefix "/dev/env/DJDIR".  If you prefer to install them
-	into some other directory you will have to set prefix to the appropiate
+	into some other directory you will have to set prefix to the appropriate
 	value:
 	  make install prefix=z:/some/other/place
 

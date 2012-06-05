@@ -619,7 +619,7 @@ main (void)
 # In some versions of Autoconf, AT_CHECK invokes AS_ESCAPE before
 # expanding macros, so it corrupts some special characters in the
 # macros.  To avoid this, expand now and pass it the result with proper
-# string quotation.  Assume args 7 thru 12 expand to properly quoted
+# string quotation.  Assume args 7 through 12 expand to properly quoted
 # strings.
 
 m4_if(m4_index(m4_quote($3), [no-xml]), -1,

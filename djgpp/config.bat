@@ -471,7 +471,7 @@ redir -e /dev/null rm %XSRC%/po/stamp-cat-id
 
 Rem Update the arguments file for the configure script.
 Rem We prefer without-included-gettext because libintl.a from gettext package
-Rem is the only one that is garanteed to have been ported to DJGPP.
+Rem is the only one that is guaranteed to have been ported to DJGPP.
 echo --enable-nls --without-included-gettext >> args
 goto ConfigurePackage
 

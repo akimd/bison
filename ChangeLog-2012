@@ -8196,7 +8196,7 @@
 	(PERCENT_LEX_PARAM, PERCENT_PARSE_PARAM): Remove the {...} part,
 	which is now, again, a separate token.
 	Adjust all dependencies.
-	Whereever actions with $ and @ are used, use translate_code.
+	Wherever actions with $ and @ are used, use translate_code.
 	(action): Remove this nonterminal which is now useless.
 	* src/reader.c: Include assert.h, scan-gram.h and scan-code.h.
 	(grammar_current_rule_action_append): Use translate_code.
@@ -9382,10 +9382,10 @@
 
 	* Makefile.am: DJGPP specific files added to EXTRA_DIST.
 	* djgpp/Makefile.maint: Fix PACKAGE variable computation.
-	* djgpp/config.bat: Replace every occurence of the file name
+	* djgpp/config.bat: Replace every occurrence of the file name
 	scan-gram-c.c with c-scan-gram.c. The same for scan-skel-c.c with
 	c-scan-skel.c to conform with the 8.3 file name restriction on MSDOS.
-	* djgpp/config.sed: Replace every occurence of the file name
+	* djgpp/config.sed: Replace every occurrence of the file name
 	scan-gram-c.c with c-scan-gram.c. The same for scan-skel-c.c with
 	c-scan-skel.c to conform with the 8.3 file name restriction on MSDOS.
 	* djgpp/djunpack.bat: DJGPP specific file.
@@ -12658,7 +12658,7 @@
 	(YYERROR): Goto to yyerrorlab, not yyerrlab1.
 	(yyerrlab1): Remove, but where it used to be (now the bottom part of
 	yyerrlab), when hitting EOF, pop the whole stack here instead of
-	merely falling thru the default error handling mechanism.
+	merely falling through the default error handling mechanism.
 	(yyerrorlab): New label, with the old contents of YYERROR,
 	plus the following change: pop the stack of rhs corresponding
 	to the production that invoked YYERROR.  That is how Yacc
@@ -16380,7 +16380,7 @@
 
 2002-07-30  Akim Demaille  <akim@epita.fr>
 
-	`stage' was accidently included in a previous patch.
+	`stage' was accidentally included in a previous patch.
 	Initiate its autoconfiscation.
 
 	* configure.in: Look for malloc.h and sys/times.h.
@@ -19383,7 +19383,7 @@
 	(insert_accepting_state, augment_automaton): Remove, since now
 	these states are automatically computed from the initial state.
 	(generate_states): Adjust.
-	* src/print.c: When reporting a rule number to the user, substract
+	* src/print.c: When reporting a rule number to the user, subtract
 	1, so that the axiom rule is rule 0, and the first user rule is 1.
 	* src/reduce.c: Likewise.
 	* src/print_graph.c (print_core): For the time being, just as for
