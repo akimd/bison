@@ -1,7 +1,6 @@
-Bison News
-----------
+GNU Bison NEWS
 
-* Changes in version ?.? (????-??-??):
+* Noteworthy changes in release ?.? (????-??-??) [?]
 
 ** Additional yylex/yyparse arguments
 
@@ -69,7 +68,7 @@ Bison News
   allow the programmer to prune possible parses based on the values of
   runtime expressions.
 
-* Changes in version 2.5.1 (????-??-??):
+* Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 
 ** Future changes:
 

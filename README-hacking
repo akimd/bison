@@ -77,8 +77,9 @@ out-of-date version of the C code, but the process is not foolproof.
 Also, you may run into similar problems yourself if you modify Bison.
 
 Only building the initial full source tree will be a bit painful.
-Later, after synchronizing from the repository a plain `make' should
-be sufficient.
+Later, after synchronizing from the repository a plain 'make' should
+be sufficient.  Note, however, that when gnulib is updated, running
+'./bootstrap' again might be needed.
 
 ** First checkout
 
@@ -125,14 +126,14 @@ explicitly by the user.
 
 *** Updating Bison
 
-If you pull a newer version of a branch, say via `git pull', you might
-import requests for updated submodules.  A simple `git diff' will
+If you pull a newer version of a branch, say via "git pull", you might
+import requests for updated submodules.  A simple "git diff" will
 reveal if the current version of the submodule (i.e., the actual
 contents of the gnulib directory) and the current request from the
 subscriber (i.e., the reference of the version of gnulib that the
 Bison reporitory requests) differ.  To upgrade the submodules (i.e.,
 to check out the version that is actually requested by the subscriber,
-run `git submodule update'.
+run "git submodule update".
 
         $ git pull
         $ git submodule update
@@ -184,42 +185,46 @@ release:
   that 1. Bison compiles cleanly, 2. the parsers it produces compile
   cleanly too.
 
-- Build with -DGNULIB_POSIXCHECK.  It suggests gnulib modules that can
-  fix portability issues.
+- Maybe build with -DGNULIB_POSIXCHECK, which suggests gnulib modules
+  that can fix portability issues.  See if you really want to pay
+  attention to its warnings; there's no need to obey blindly to it
+  (<http://lists.gnu.org/archive/html/bison-patches/2012-05/msg00057.html>).
 
-- Check with `make syntax-check' if there are issues diagnosed by
+- Check with "make syntax-check" if there are issues diagnosed by
   gnulib.
 
-- run `make maintainer-check' which:
-  - runs `valgrind -q bison' to run Bison under Valgrind.
+- run "make maintainer-check" which:
+  - runs "valgrind -q bison" to run Bison under Valgrind.
   - runs the parsers under Valgrind.
   - runs the test suite with G++ as C compiler...
 
-- run `make maintainer-push-check', which runs `make maintainer-check'
+- run "make maintainer-push-check", which runs "make maintainer-check"
   while activating the push implementation and its pull interface wrappers
   in many test cases that were originally written to exercise only the
   pull implementation.  This makes certain the push implementation can
   perform every task the pull implementation can.
 
-- run `make maintainer-xml-check', which runs `make maintainer-check'
+- run "make maintainer-xml-check", which runs "make maintainer-check"
   while checking Bison's XML automaton report for every working grammar
   passed to Bison in the test suite.  The check just diffs the output of
   Bison's included XSLT style sheets with the output of --report=all and
   --graph.
 
-- running `make maintainer-release-check' takes care of running
+- running "make maintainer-release-check" takes care of running
   maintainer-check, maintainer-push-check and maintainer-xml-check.
 
 - Change tests/atlocal/CFLAGS to add your preferred options.  For
-  instance, `-traditional' to check that the parsers are K&R.  Note
-  that it does not make sense for glr.c, which should be ANSI,
-  but currently is actually GNU C, nor for lalr1.cc.
+  instance, "-traditional" to check that the parsers are K&R.  Note
+  that it does not make sense for glr.c, which should be ANSI, but
+  currently is actually GNU C, nor for lalr1.cc.
 
 - Test with a very recent version of GCC for both C and C++.  Testing
   with older versions that are still in use is nice too.
 
 
 * Release Procedure
+This section needs to be updated to take into account features from
+gnulib.  In particular, be sure to read README-release.
 
 ** Update the submodules.  See above.
 
@@ -235,7 +240,7 @@ This helps: grep -l '\<_(' *
 See above.
 
 ** Update the foreign files
-Running `./bootstrap' in the top level should update them all for you.
+Running "./bootstrap" in the top level should update them all for you.
 This covers PO files too.  Sometimes a PO file contains problems that
 causes it to be rejected by recent Gettext releases; please report
 these to the Translation Project.
@@ -247,7 +252,7 @@ Bison sources.
 
 ** Check copyright years.
 We update years in copyright statements throughout Bison once at the
-start of every year by running `make update-copyright'.  However, before
+start of every year by running "make update-copyright".  However, before
 a release, it's good to verify that it's actually been run.  Besides the
 copyright statement for each Bison file, check the copyright statements
 that the skeletons insert into generated parsers, and check all
@@ -258,55 +263,57 @@ The version number, *and* the date of the release (including for
 betas).
 
 ** Mention the release name in a commit message
-Should have an entry similar to `Version 2.3b.'.
+Should have an entry similar to "Version 2.3b.".
 
 ** Tag the release
 Before Bison will build with the right version number, you must tag
 the release in git.  Do this after all other changes.  The command is
 similar to:
 
-  git tag -a v2.3b
-
-The commit message can be simply:
-
-  Bison 2.3b
+  git tag -a v2.3b -m "Bison 2.3b."
 
 ** Push
-Once `make distcheck' passes, push your changes and the tag.
-`git push' without arguments will not push the tag.
+Once "make distcheck" passes, push your changes and the tag.
+"git push" without arguments will not push the tag.
 
-** make alpha
-FIXME: `make alpha' is not maintained and is broken.  These
-instructions need to be replaced or removed.
-
-Running `make alpha' is absolutely perfect for beta releases: it makes
-the tarballs, the xdeltas, and prepares (in /tmp/) a proto
-announcement.  It is so neat, that that's what I use anyway for
-genuine releases, but adjusting things by hand (e.g., the urls in the
-announcement file, the ChangeLog which is not needed etc.).
-
-If it fails, you're on your own...
-
-It requires GNU Make.
+** make alpha, beta, or release
+See README-release.
 
 ** Upload
-The generic GNU upload procedure is at:
+There are two ways to upload the tarballs to the GNU servers: using
+gnupload (from gnulib), or by hand.  Obviously prefer the former.  But
+in either case, be sure to read the following paragraph.
 
-  http://www.gnu.org/prep/maintain/maintain.html#Automated-FTP-Uploads
+*** Setup
+You need "gnupg".
 
-Follow the instructions there to register your information so you're permitted
-to upload.  Make sure your public key has been uploaded at least to
+Make sure your public key has been uploaded at least to
 keys.gnupg.net.  You can upload it with:
 
   gpg --keyserver keys.gnupg.net --send-keys F125BDF3
 
 where F125BDF3 should be replaced with your key ID.
 
+*** Using gnupload
+You need "ncftp".
+
+At the end "make release" (or alpha/beta) will display the prodecure
+to run.  Just copy and paste it in your shell.
+
+*** By hand
+
+The generic GNU upload procedure is at:
+
+  http://www.gnu.org/prep/maintain/maintain.html#Automated-FTP-Uploads
+
+Follow the instructions there to register your information so you're permitted
+to upload.
+
 Here's a brief reminder of how to roll the tarballs and upload them:
 
 *** make distcheck
 *** gpg -b bison-2.3b.tar.gz
-*** In a file named `bison-2.3b.tar.gz.directive', type:
+*** In a file named "bison-2.3b.tar.gz.directive", type:
 
       version: 1.1
       directory: bison
@@ -372,10 +379,10 @@ replaced with your key ID.
 Complete/fix the announcement file.  The generated list of recipients
 (info-gnu@gnu.org, bug-bison@gnu.org, help-bison@gnu.org,
 bison-patches@gnu.org, and coordinator@translationproject.org) is
-appropriate for a stable release or a ``serious beta''.  For any other
-release, drop at least info-gnu@gnu.org.  For an example of how to fill
-out the rest of the template, search the mailing list archives for the
-most recent release announcement.
+appropriate for a stable release or a "serious beta".  For any other
+release, drop at least info-gnu@gnu.org.  For an example of how to
+fill out the rest of the template, search the mailing list archives
+for the most recent release announcement.
 
 For a stable release, send the same announcement on the comp.compilers
 newsgroup by sending email to compilers@iecc.com.  Do not make any Cc as
@@ -383,7 +390,7 @@ the moderator will throw away anything cross-posted or Cc'ed.  It really
 needs to be a separate message.
 
 ** Bump the version number
-In configure.ac.  Run `make'.  So that developers don't accidentally add new
+In configure.ac.  Run "make".  So that developers don't accidentally add new
 items to the old NEWS entry, create a new empty NEWS entry something like:
 
   Changes in version ?.? (????-??-??):

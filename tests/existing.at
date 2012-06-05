@@ -1478,7 +1478,7 @@ AT_TEST_EXISTING_GRAMMAR([[GNU pic (Groff 1.18.1) Grammar]],
 %token RAND
 %token SRAND
 %token COPY
-%token THRU
+%token THROUGH
 %token TOP
 %token BOTTOM
 %token UPPER
@@ -1604,12 +1604,12 @@ placeless_element:
                 {}
           DELIMITED
         | COPY TEXT
-        | COPY TEXT THRU
+        | COPY TEXT THROUGH
                 {}
           DELIMITED
                 {}
           until
-        | COPY THRU
+        | COPY THROUGH
                 {}
           DELIMITED
                 {}
