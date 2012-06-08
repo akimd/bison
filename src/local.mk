@@ -16,6 +16,8 @@
 LDADD = lib/libbison.a $(LIBINTL)
 
 bin_PROGRAMS = src/bison
+# Prettify Automake-computed names of compiled objects.
+src_bison_SHORTNAME = bison
 
 src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
 src_bison_SOURCES =                             \
