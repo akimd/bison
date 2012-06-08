@@ -272,7 +272,7 @@ where F125BDF3 should be replaced with your key ID.
 *** Using gnupload
 You need "ncftp".
 
-At the end "make stable" (or alpha/beta) will display the prodecure to
+At the end "make stable" (or alpha/beta) will display the procedure to
 run.  Just copy and paste it in your shell.
 
 *** By hand
