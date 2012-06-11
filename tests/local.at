@@ -450,8 +450,8 @@ AT_CHECK([[test -n "$CONF_JAVA" || exit 77
 AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
          [[0]], [ignore], [ignore])])
 
-# AT_FULL_COMPILE(OUTPUT, [OTHER])
-# --------------------------------
+# AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2])
+# -------------------------------------------
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
 # compile it to OUTPUT or OUTPUT.class.  If OTHER is specified, compile
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
@@ -459,16 +459,27 @@ AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
 # AT_SKEL_JAVA_IF.
 m4_define([AT_FULL_COMPILE], [
   AT_SKEL_JAVA_IF([
-    AT_BISON_CHECK([[-o ]$1[.java ]$1[.y]])
-    AT_JAVA_COMPILE([$1[.java]]m4_ifval($2,
-                                        [[$1[.java ]$1[-]$2[.java]]]))
+    AT_BISON_CHECK([-o $1.java $1.y])
+    AT_JAVA_COMPILE([$1.java],
+                    m4_join([ ],
+                            [$1.java],
+                            m4_ifval($2, [[$1-$2.java]]),
+                            m4_ifval($3, [[$1-$3.java]])))
   ], [
     AT_SKEL_CC_IF([
-      AT_BISON_CHECK([[-o ]$1[.cc ]$1[.y]])
-      AT_COMPILE_CXX([$1]m4_ifval($2, [, [$1[.cc ]$1[-]$2[.cc]]]))
+      AT_BISON_CHECK([-o $1.cc $1.y])
+      AT_COMPILE_CXX([$1],
+                     m4_join([ ],
+                             [$1.cc],
+                             m4_ifval($2, [[$1-$2.cc]]),
+                             m4_ifval($3, [[$1-$3.cc]])))
     ], [
-      AT_BISON_CHECK([[-o ]$1[.c ]$1[.y]])
-      AT_COMPILE([$1]m4_ifval($2, [, [$1[.c ]$1[-]$2[.c]]]))
+      AT_BISON_CHECK([-o $1.c $1.y])
+      AT_COMPILE([$1],
+                  m4_join([ ],
+		          [$1.c],
+                          m4_ifval($2, [[$1-$2.c]]),
+                          m4_ifval($3, [[$1-$3.c]])))
     ])
   ])
 ])
