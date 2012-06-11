@@ -250,7 +250,7 @@ int yylex (]AT_LEX_FORMALS[);
 %token <ival> NUM "number"
 %type  <ival> exp
 
-%nonassoc '=' /* comparison	       */
+%nonassoc '=' /* comparison            */
 %left '-' '+'
 %left '*' '/'
 %left NEG     /* negation--unary minus */
@@ -288,6 +288,16 @@ exp:
 | '-' error          { $$ = 0; YYERROR;     }
 ;
 %%
+
+static int
+power (int base, int exponent)
+{
+  int res = 1;
+  assert (0 <= exponent);
+  for (/* Niente */; exponent; --exponent)
+    res *= base;
+  return res;
+}
 
 ]AT_SKEL_CC_IF(
 [AT_LOCATION_TYPE_IF([[
@@ -334,26 +344,15 @@ AT_YYERROR_SEES_LOC_IF([
            AT_LOC_FIRST_LINE, AT_LOC_FIRST_COLUMN);
   if (AT_LOC_FIRST_LINE != AT_LOC_LAST_LINE)
     fprintf (stderr, "-%d.%d",
-	     AT_LOC_LAST_LINE,  AT_LOC_LAST_COLUMN - 1);
+             AT_LOC_LAST_LINE,  AT_LOC_LAST_COLUMN - 1);
   else if (AT_LOC_FIRST_COLUMN != AT_LOC_LAST_COLUMN - 1)
     fprintf (stderr, "-%d",
-	     AT_LOC_LAST_COLUMN - 1);
+             AT_LOC_LAST_COLUMN - 1);
   fprintf (stderr, ": ");])
   fprintf (stderr, "%s\n", s);
 }])[
 
 ]AT_DEFINES_IF(, [AT_CALC_LEX])[
-
-static int
-power (int base, int exponent)
-{
-  int res = 1;
-  assert (0 <= exponent);
-  for (/* Niente */; exponent; --exponent)
-    res *= base;
-  return res;
-}
-
 
 /* A C main function.  */
 int
