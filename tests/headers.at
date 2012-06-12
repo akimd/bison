@@ -46,17 +46,19 @@ AT_CLEANUP
 ## Invalid CPP headers.  ##
 ## --------------------- ##
 
-# AT_TEST_CPP_GUARD_H([INPUT-FILE-BASE)
-# -------------------------------------
+# AT_TEST_CPP_GUARD_H(BASE-NAME, [DIRECTIVES])
+# --------------------------------------------
+# FIXME: Much of this can be covered by calc.at.
 m4_define([AT_TEST_CPP_GUARD_H],
-[AT_SETUP([Invalid CPP guards: $1])
+[AT_SETUP([Invalid CPP guards: $2 --defines=$1.h])
 
 # Possibly create inner directories.
 dirname=`AS_DIRNAME([$1])`
 AS_MKDIR_P([$dirname])
 
 AT_DATA_GRAMMAR([$1.y],
-[%{
+[$2
+%{
 #include <$1.h>
 void yyerror (const char *);
 int yylex (void);
@@ -67,15 +69,17 @@ dummy:;
 #include <$1.h>
 ])
 
-AT_BISON_CHECK([--defines=$1.h --output=y.tab.c $1.y])
+AT_BISON_CHECK([--defines=$1.h --output=$1.c $1.y])
 
-AT_COMPILE([y.tab.o], [-I. -c y.tab.c])
+AT_COMPILE([$1.o], [-I. -c $1.c])
 
 AT_CLEANUP
 ])
 
 AT_TEST_CPP_GUARD_H([input/input])
 AT_TEST_CPP_GUARD_H([9foo])
+AT_TEST_CPP_GUARD_H([input/input], [%glr-parser])
+AT_TEST_CPP_GUARD_H([9foo],        [%glr-parser])
 
 
 
