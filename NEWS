@@ -2,6 +2,20 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Future changes:
+
+  The next major release will drop support for generating parsers in K&R C,
+  and remove the definition of yystype (removal announced since Bison
+  1.875).
+
+** Changes in regular C parsers (yacc.c):
+
+*** The generated header is included
+
+  Instead of duplicating the content of the generated header (definition of
+  YYSTYPE, yyltype etc.), the generated parser now includes it, as was
+  already the case for GLR or C++ parsers.
+
 * Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 
 ** Future changes:
