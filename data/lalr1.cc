@@ -850,7 +850,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
       // Destroy a variant which value may have been swapped with
       // yylhs.value (for instance if the action was "std::swap($$,
       // $1)").  The value of yylhs.value (hence possibly one of these
-      // rhs symbols) depends on the default contruction for this
+      // rhs symbols) depends on the default construction for this
       // type.  In the case of pointers for instance, no
       // initialization is done, so the value is junk.  Therefore do
       // not try to report the value of symbols about to be destroyed
