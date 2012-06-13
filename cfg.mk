@@ -1,5 +1,4 @@
 # Customize maint.mk                           -*- makefile -*-
-
 # Copyright (C) 2008-2012 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -15,19 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Used in maint.mk's web-manual rule
+manual_title = The Yacc-compatible Parser Generator
+
 # It's useful to run maintainer-*check* targets during development, but we
 # don't want to wait on a recompile because of an update to $(VERSION).  Thus,
 # override the _is-dist-target from GNUmakefile so that maintainer-*check*
 # targets are filtered out.
 _is-dist-target = $(filter-out %clean maintainer-check% maintainer-%-check, \
   $(filter maintainer-% dist% alpha beta major,$(MAKECMDGOALS)))
-
-# Use alpha.gnu.org for alpha and beta releases.
-# Use ftp.gnu.org for major releases.
-gnu_ftp_host-alpha = alpha.gnu.org
-gnu_ftp_host-beta = alpha.gnu.org
-gnu_ftp_host-major = ftp.gnu.org
-gnu_rel_host = $(gnu_ftp_host-$(RELEASE_TYPE))
 
 url_dir_list = \
   ftp://$(gnu_rel_host)/gnu/bison

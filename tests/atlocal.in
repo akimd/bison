@@ -29,9 +29,11 @@ CPPFLAGS="-I$abs_top_builddir/lib @CPPFLAGS@"
 # Is the compiler GCC?
 GCC='@GCC@'
 
-# We want no optimization.
-  O0CFLAGS=`echo '@CFLAGS@'   | sed 's/-O[0-9] *//'`
-O0CXXFLAGS=`echo '@CXXFLAGS@' | sed 's/-O[0-9] *//'`
+# We want no optimization, as they uncover warnings (therefore,
+# failures) about uninitialized variables in the test suite.  FIXME:
+# fix the warnings, not the flags.
+  O0CFLAGS=`echo '@CFLAGS@'   | sed 's/-O[0-9s] *//g'`
+O0CXXFLAGS=`echo '@CXXFLAGS@' | sed 's/-O[0-9s] *//g'`
 
 # Sometimes a test group needs to ignore gcc warnings, so it locally
 # sets CFLAGS to this.

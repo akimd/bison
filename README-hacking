@@ -258,25 +258,10 @@ copyright statement for each Bison file, check the copyright statements
 that the skeletons insert into generated parsers, and check all
 occurrences of PACKAGE_COPYRIGHT_YEAR in configure.ac.
 
-** Update NEWS
-The version number, *and* the date of the release (including for
-betas).
+** Update NEWS, commit and tag.
+See do-release-commit-and-tag in README-release.
 
-** Mention the release name in a commit message
-Should have an entry similar to "Version 2.3b.".
-
-** Tag the release
-Before Bison will build with the right version number, you must tag
-the release in git.  Do this after all other changes.  The command is
-similar to:
-
-  git tag -a v2.3b -m "Bison 2.3b."
-
-** Push
-Once "make distcheck" passes, push your changes and the tag.
-"git push" without arguments will not push the tag.
-
-** make alpha, beta, or release
+** make alpha, beta, or stable
 See README-release.
 
 ** Upload
@@ -297,8 +282,8 @@ where F125BDF3 should be replaced with your key ID.
 *** Using gnupload
 You need "ncftp".
 
-At the end "make release" (or alpha/beta) will display the prodecure
-to run.  Just copy and paste it in your shell.
+At the end "make stable" (or alpha/beta) will display the procedure to
+run.  Just copy and paste it in your shell.
 
 *** By hand
 
@@ -369,7 +354,8 @@ function 'index', once for the table of contents); you can ignore this
 issue.
 
 ** Announce
-To generate a template announcement file:
+The "make stable" (or alpha/beta) command just created a template,
+$HOME/announce-bison-X.Y.  Otherwise, to generate it, run:
 
   make RELEASE_TYPE=alpha gpg_key_ID=F125BDF3 announcement
 
@@ -389,11 +375,12 @@ newsgroup by sending email to compilers@iecc.com.  Do not make any Cc as
 the moderator will throw away anything cross-posted or Cc'ed.  It really
 needs to be a separate message.
 
-** Bump the version number
-In configure.ac.  Run "make".  So that developers don't accidentally add new
-items to the old NEWS entry, create a new empty NEWS entry something like:
+** Prepare NEWS
+So that developers don't accidentally add new items to the old NEWS
+entry, create a new empty entry in line 3 (without the two leading
+spaces):
 
-  Changes in version ?.? (????-??-??):
+  * Noteworthy changes in release ?.? (????-??-??) [?]
 
 Push these changes.
 
