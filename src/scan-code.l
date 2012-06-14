@@ -888,24 +888,20 @@ void
 code_props_plain_init (code_props *self, char const *code,
                        location code_loc)
 {
+  code_props_none_init (self);
   self->kind = CODE_PROPS_PLAIN;
   self->code = code;
   self->location = code_loc;
-  self->is_value_used = false;
-  self->rule = NULL;
-  self->named_ref = NULL;
 }
 
 void
 code_props_symbol_action_init (code_props *self, char const *code,
                                location code_loc)
 {
+  code_props_none_init (self);
   self->kind = CODE_PROPS_SYMBOL_ACTION;
   self->code = code;
   self->location = code_loc;
-  self->is_value_used = false;
-  self->rule = NULL;
-  self->named_ref = NULL;
 }
 
 void
@@ -913,10 +909,10 @@ code_props_rule_action_init (code_props *self, char const *code,
                              location code_loc, symbol_list *rule,
                              named_ref *name, bool is_predicate)
 {
+  code_props_none_init (self);
   self->kind = CODE_PROPS_RULE_ACTION;
   self->code = code;
   self->location = code_loc;
-  self->is_value_used = false;
   self->rule = rule;
   self->named_ref = name;
   self->is_predicate = is_predicate;

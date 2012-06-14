@@ -31,6 +31,20 @@ GNU Bison NEWS
 
   This is now only a warning.
 
+** Warnings about useless destructors or printers
+
+  Bison now warns about useless destructors or printers.  In the following
+  example, the printer for <type1>, and the destructor for <type2> are
+  useless: all symbols of <type1> (token1) already have a printer, and all
+  symbols of type <type2> (token2) already have a destructor.
+
+    %token <type1> token1
+           <type2> token2
+           <type3> token3
+           <type4> token4
+    %printer    {} token1 <type1> <type3>
+    %destructor {} token2 <type2> <type4>
+
 ** Additional yylex/yyparse arguments
 
   The new directive %param declares additional arguments to both yylex and

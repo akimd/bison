@@ -69,6 +69,10 @@ typedef struct code_props {
    */
   bool is_predicate;
 
+  /**
+   * Whether this is actually used (i.e., not completely masked by
+   * other code props).  */
+  bool is_used;
 
   /** \c NULL iff \c code_props::kind is not \c CODE_PROPS_RULE_ACTION.  */
   struct symbol_list *rule;
@@ -86,8 +90,17 @@ typedef struct code_props {
 void code_props_none_init (code_props *self);
 
 /** Equivalent to \c code_props_none_init.  */
-#define CODE_PROPS_NONE_INIT \
-  {CODE_PROPS_NONE, NULL, EMPTY_LOCATION_INIT, false, false, NULL, NULL}
+#define CODE_PROPS_NONE_INIT                    \
+  {                                             \
+    /* .kind = */ CODE_PROPS_NONE,              \
+    /* .code = */ NULL,                         \
+    /* .location = */ EMPTY_LOCATION_INIT,      \
+    /* .is_value_used = */ false,               \
+    /* .is_predicate = */ false,                \
+    /* .is_used = */ false,                     \
+    /* .rule = */ NULL,                         \
+    /* .named_ref = */ NULL                     \
+  }
 
 /** Initialized by \c CODE_PROPS_NONE_INIT with no further modification.  */
 extern code_props const code_props_none;
