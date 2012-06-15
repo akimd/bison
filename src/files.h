@@ -65,7 +65,8 @@ void compute_output_file_names (void);
 void output_file_names_free (void);
 void output_file_name_check (char **file_name);
 
-FILE *xfopen (const char *name, const char *mode);
+FILE *xfopen (const char *name, char const *mode);
 void xfclose (FILE *ptr);
+FILE *xfdopen (int fd, char const *mode);
 
 #endif /* !FILES_H_ */
