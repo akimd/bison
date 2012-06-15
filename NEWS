@@ -14,7 +14,9 @@ GNU Bison NEWS
   YYSTYPE, yyltype etc.), the generated parser now includes it, as was
   already the case for GLR or C++ parsers.
 
-** Header guards (yacc.c, glr.c, glr.cc)
+** Headers (yacc.c, glr.c, glr.cc)
+
+*** Guards
 
   The generated headers are now guarded, as is already the case for C++
   parsers (lalr1.cc).  For intance, with --defines=foo.h:
@@ -24,6 +26,20 @@ GNU Bison NEWS
   ...
   #endif /* !YY_FOO_H  */
 
+*** New declarations
+
+  The generated header now declares yydebug and yyparse.  Both honor
+  --name-prefix=bar_, and yield
+
+  int bar_parse (void);
+
+  rather than
+
+  #define yyparse bar_parse
+  int yyparse (void);
+
+  in order to facilitate the inclusion of several parser headers inside a
+  single compilation unit.
 
 * Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 
