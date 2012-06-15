@@ -8,13 +8,22 @@ GNU Bison NEWS
   and remove the definition of yystype (removal announced since Bison
   1.875).
 
-** Changes in regular C parsers (yacc.c):
-
-*** The generated header is included
+** The generated header is included (yacc.c)
 
   Instead of duplicating the content of the generated header (definition of
   YYSTYPE, yyltype etc.), the generated parser now includes it, as was
   already the case for GLR or C++ parsers.
+
+** Header guards (yacc.c, glr.c, glr.cc)
+
+  The generated headers are now guarded, as is already the case for C++
+  parsers (lalr1.cc).  For intance, with --defines=foo.h:
+
+  #ifndef YY_FOO_H
+  # define YY_FOO_H
+  ...
+  #endif /* !YY_FOO_H  */
+
 
 * Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 
