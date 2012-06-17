@@ -6011,7 +6011,7 @@ For instance:
 @end example
 
 @noindent
-results in the following signature:
+results in the following signatures:
 
 @example
 int yylex   (int *nastiness);

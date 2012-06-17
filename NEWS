@@ -5,8 +5,10 @@ GNU Bison NEWS
 ** Future changes:
 
   The next major release will drop support for generating parsers in K&R C,
-  and remove the definition of yystype (removal announced since Bison
-  1.875).
+  and remove the definitions of yystype and yyltype (removal announced since
+  Bison 1.875).  YYPARSE_PARAM and YYLEX_PARAM, which were deprecated in
+  favor of %parse-param and %lex-param (introduced in Bison 1.875 too), will
+  no longer be supported.
 
 ** The generated header is included (yacc.c)
 
@@ -1201,6 +1203,33 @@ GNU Bison NEWS
 
   - "parsing stack overflow..." -> "parser stack overflow"
     GLR parsers now report "parser stack overflow" as per the Bison manual.
+
+** %parse-param and %lex-param
+  The macros YYPARSE_PARAM and YYLEX_PARAM provide a means to pass
+  additional context to yyparse and yylex.  They suffer from several
+  shortcomings:
+
+  - a single argument only can be added,
+  - their types are weak (void *),
+  - this context is not passed to anciliary functions such as yyerror,
+  - only yacc.c parsers support them.
+
+  The new %parse-param/%lex-param directives provide a more precise control.
+  For instance:
+
+    %parse-param {int *nastiness}
+    %lex-param   {int *nastiness}
+    %parse-param {int *randomness}
+
+  results in the following signatures:
+
+    int yylex   (int *nastiness);
+    int yyparse (int *nastiness, int *randomness);
+
+  or, if both %pure-parser and %locations are used:
+
+    int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
+    int yyparse (int *nastiness, int *randomness);
 
 ** Bison now warns if it detects conflicting outputs to the same file,
   e.g., it generates a warning for "bison -d -o foo.h foo.y" since
