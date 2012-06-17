@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.5.1_rc2.  */
+/* A Bison parser, made by GNU Bison 2.5.1.19-ced26-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
    
@@ -30,6 +30,15 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+#ifndef GRAM__________SRC_PARSE_GRAM_H
+# define GRAM__________SRC_PARSE_GRAM_H
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 1
+#endif
+#if YYDEBUG
+extern int gram_debug;
+#endif
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -155,12 +164,11 @@
 
 
 
-
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
 
-/* Line 2072 of yacc.c  */
+/* Line 2063 of yacc.c  */
 #line 114 "parse-gram.y"
 
   symbol *symbol;
@@ -175,15 +183,13 @@ typedef union YYSTYPE
 
 
 
-/* Line 2072 of yacc.c  */
-#line 180 "parse-gram.h"
+/* Line 2063 of yacc.c  */
+#line 188 "parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
-
-
 
 #if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
 typedef struct YYLTYPE
@@ -198,5 +204,19 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
 
+#ifdef YYPARSE_PARAM
+#if defined __STDC__ || defined __cplusplus
+int gram_parse (void *YYPARSE_PARAM);
+#else
+int gram_parse ();
+#endif
+#else /* ! YYPARSE_PARAM */
+#if defined __STDC__ || defined __cplusplus
+int gram_parse (void);
+#else
+int gram_parse ();
+#endif
+#endif /* ! YYPARSE_PARAM */
 
 
+#endif /* !GRAM__________SRC_PARSE_GRAM_H  */
