@@ -19,28 +19,6 @@
 AT_BANNER([[Parser Headers.]])
 
 
-## ---------------------- ##
-## %union and --defines.  ##
-## ---------------------- ##
-
-
-AT_SETUP([%union and --defines])
-
-AT_DATA([input.y],
-[%union
-{
-  int   integer;
-  char *string ;
-}
-%%
-exp: {};
-])
-
-AT_BISON_CHECK([--defines input.y])
-
-AT_CLEANUP
-
-
 ## --------------------- ##
 ## Invalid CPP headers.  ##
 ## --------------------- ##
