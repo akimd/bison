@@ -24,6 +24,7 @@ AT_BANNER([[Regression tests.]])
 
 AT_SETUP([Trivial grammars])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
@@ -37,6 +38,7 @@ AT_DATA_GRAMMAR([input.y],
 
 program: 'x';
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -52,6 +54,7 @@ AT_CLEANUP
 
 AT_SETUP([YYSTYPE typedef])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
@@ -65,6 +68,7 @@ typedef union { char const *val; } YYSTYPE;
 
 program: { $$ = ""; };
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -83,6 +87,7 @@ AT_SETUP([Early token definitions with --yacc])
 # Found in GCJ: they expect the tokens to be defined before the user
 # prologue, so that they can use the token definitions in it.
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
@@ -103,6 +108,7 @@ AT_DATA_GRAMMAR([input.y],
 exp: MY_TOKEN;
 %%
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-y -o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -121,6 +127,7 @@ AT_SETUP([Early token definitions without --yacc])
 # Found in GCJ: they expect the tokens to be defined before the user
 # prologue, so that they can use the token definitions in it.
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
 #include <stdio.h>
@@ -146,6 +153,7 @@ print_my_token (void)
 exp: MY_TOKEN;
 %%
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -161,6 +169,7 @@ AT_CLEANUP
 
 AT_SETUP([Braces parsing])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
 [[/* Bison used to swallow the character after '}'. */
 
@@ -168,6 +177,7 @@ AT_DATA([input.y],
 exp: { tests = {{{{{{{{{{}}}}}}}}}}; };
 %%
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-v -o input.c input.y])
 
@@ -183,6 +193,7 @@ AT_CLEANUP
 
 AT_SETUP([Duplicate string])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
 [[/* 'Bison -v' used to dump core when two tokens are defined with the same
    string, as LE and GE below. */
@@ -195,6 +206,7 @@ AT_DATA([input.y],
 exp: '(' exp ')' | NUM ;
 %%
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-v -o input.c input.y], 0, [],
 [[input.y:6.8-14: warning: symbol "<=" used more than once as a literal string
@@ -211,6 +223,7 @@ AT_SETUP([Rule Line Numbers])
 
 AT_KEYWORDS([report])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
 [[%%
 expr:
@@ -240,6 +253,7 @@ expr:
 
 };
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c -v input.y])
 
@@ -428,6 +442,7 @@ AT_CLEANUP
 
 AT_SETUP([Token definitions])
 
+AT_BISON_OPTION_PUSHDEFS
 # Bison managed, when fed with '%token 'f' "f"' to #define 'f'!
 AT_DATA_GRAMMAR([input.y],
 [%{
@@ -468,6 +483,7 @@ main (void)
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 # Checking the warning message guarantees that the trigraph "??!" isn't
 # unnecessarily escaped here even though it would need to be if encoded in a
@@ -962,12 +978,12 @@ AT_CHECK_DANCER([%skeleton "lalr1.cc"])
 # --------------------------------
 m4_define([_AT_DATA_EXPECT2_Y],
 [AT_DATA_GRAMMAR([expect2.y],
-[%{
-static int yylex (AT_LALR1_CC_IF([int *], [void]));
+[[%{
+static int yylex (]AT_LALR1_CC_IF([int *], [void]));
 AT_LALR1_CC_IF([],
-[#include <stdio.h>
+[[#include <stdio.h>
 #include <stdlib.h>
-]AT_YYERROR_DECLARE[])
+]AT_YYERROR_DECLARE])[
 %}
 $1
 %defines
@@ -984,30 +1000,19 @@ e: e '+' t | t;
 t: A | B;
 
 %%
-AT_LALR1_CC_IF(
-[/* A C++ error reporting function. */
-void
-yy::parser::error (const location&, const std::string& m)
-{
-  std::cerr << m << std::endl;
-}
-
-int
+]AT_YYERROR_DEFINE[
+]AT_LALR1_CC_IF(
+[int
 yyparse ()
 {
   yy::parser parser;
   return parser.parse ();
 }
-],
-[static void
-yyerror (const char *s)
-{
-  fprintf (stderr, "%s\n", s);
-}])
+])[
 
 static int
-yylex (AT_LALR1_CC_IF([int *lval], [void]))
-[{
+yylex (]AT_LALR1_CC_IF([int *lval], [void])[)
+{
   static int const tokens[] =
     {
       1000, '+', '+', -1
@@ -1017,19 +1022,19 @@ yylex (AT_LALR1_CC_IF([int *lval], [void]))
   if (! (toknum < sizeof tokens / sizeof *tokens))
     abort ();
   return tokens[toknum++];
-}]
+}
 
 int
 main (void)
 {
   return yyparse ();
 }
-])
+]])
 ])# _AT_DATA_EXPECT2_Y
 
 
 # AT_CHECK_EXPECT2(BISON-OPTIONS)
-# ------------------------------
+# -------------------------------
 # Generate the grammar, compile it, run it.
 m4_define([AT_CHECK_EXPECT2],
 [AT_SETUP([Expecting two tokens $1])

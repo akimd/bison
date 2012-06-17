@@ -137,6 +137,10 @@ m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [%name-prefix ".*"],
            [m4_bregexp([$3], [name-prefix "\([^""]*\)"], [\1])],
            [yy])])
+m4_pushdef([AT_API_PREFIX],
+[m4_bmatch([$3], [%define api\.prefix ".*"],
+           [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],
+           [yy])])
 # yyerror receives the location if %location & %pure & (%glr or %parse-param).
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
@@ -202,6 +206,7 @@ m4_popdef([AT_LOC])
 m4_popdef([AT_PURE_LEX_IF])
 m4_popdef([AT_YYERROR_SEES_LOC_IF])
 m4_popdef([AT_YYERROR_ARG_LOC_IF])
+m4_popdef([AT_API_PREFIX])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_GLR_OR_PARAM_IF])
 m4_popdef([AT_PURE_AND_LOC_IF])
@@ -272,7 +277,7 @@ $2])
 # AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
 # ---------------------------------------
 m4_define([AT_YYLEX_DECLARE_EXTERN],
-[int yylex (void);dnl
+[int AT_API_PREFIX[]lex (void);dnl
 ])
 
 m4_define([AT_YYLEX_DECLARE],
@@ -282,7 +287,7 @@ m4_define([AT_YYLEX_DECLARE],
 m4_define([AT_YYLEX_DEFINE],
 [[#include <stdlib.h> /* abort */
 static int
-yylex (void)
+]AT_API_PREFIX[lex (void)
 {
   static char const input[] = "$1";
   static size_t toknum = 0;
@@ -291,8 +296,8 @@ yylex (void)
     abort ();
   res = input[toknum++];
   ]$2;[]AT_LOCATION_IF([[
-  yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = toknum;]])[
+  ]AT_API_PREFIX[lloc.first_line = ]AT_API_PREFIX[lloc.last_line = 1;
+  ]AT_API_PREFIX[lloc.first_column = ]AT_API_PREFIX[lloc.last_column = toknum;]])[
   return res;
 }]dnl
 ])
@@ -304,7 +309,7 @@ yylex (void)
 # Beware that must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS
 # pair.
 m4_define([AT_YYERROR_DECLARE_EXTERN],
-[void yyerror (const char *msg);dnl
+[void AT_API_PREFIX[]error (const char *msg);dnl
 ])
 
 m4_define([AT_YYERROR_DECLARE],
@@ -312,19 +317,16 @@ m4_define([AT_YYERROR_DECLARE],
 ])
 
 m4_define([AT_YYERROR_DEFINE],
-[AT_SKEL_JAVA_IF([[
-public void yyerror (String msg)
+[AT_SKEL_JAVA_IF([[public void yyerror (String msg)
 {
   System.err.println (msg);
-}]], [AT_SKEL_CC_IF([[
-void
+}]], [AT_SKEL_CC_IF([[void
 yy::parser::error (const yy::location &, std::string const &msg)
 {
   std::cerr << msg << std::endl;
-}]], [[
-#include <stdio.h>
+}]], [[#include <stdio.h>
 static void
-yyerror (char const *msg)
+]AT_API_PREFIX[error (char const *msg)
 {
   fprintf (stderr, "%s\n", msg);
 }]])])dnl

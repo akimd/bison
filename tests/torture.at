@@ -42,7 +42,8 @@ esac])
 # Create FILE-NAME, containing a self checking parser for a huge
 # triangular grammar.
 m4_define([AT_DATA_TRIANGULAR_GRAMMAR],
-[AT_DATA([[gengram.pl]],
+[AT_BISON_OPTION_PUSHDEFS
+AT_DATA([[gengram.pl]],
 [[#! /usr/bin/perl -w
 
 use strict;
@@ -127,6 +128,7 @@ main (void)
 }
 EOF
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_CHECK([perl -w ./gengram.pl $2 || exit 77], 0, [stdout])
 mv stdout $1
@@ -157,7 +159,8 @@ AT_CLEANUP
 # Create FILE-NAME, containing a self checking parser for a huge
 # horizontal grammar.
 m4_define([AT_DATA_HORIZONTAL_GRAMMAR],
-[AT_DATA([[gengram.pl]],
+[AT_BISON_OPTION_PUSHDEFS
+AT_DATA([[gengram.pl]],
 [[#! /usr/bin/perl -w
 
 use strict;
@@ -223,6 +226,7 @@ EOF
 
 AT_CHECK([perl -w ./gengram.pl $2 || exit 77], 0, [stdout])
 mv stdout $1
+AT_BISON_OPTION_POPDEFS
 ])
 
 
@@ -263,7 +267,8 @@ AT_CLEANUP
 # Create FILE-NAME, containing a self checking parser for a grammar
 # requiring SIZE lookahead tokens.
 m4_define([AT_DATA_LOOKAHEAD_TOKENS_GRAMMAR],
-[AT_DATA([[gengram.pl]],
+[AT_BISON_OPTION_PUSHDEFS
+AT_DATA([[gengram.pl]],
 [[#! /usr/bin/perl -w
 
 use strict;
@@ -363,6 +368,7 @@ EOF
 
 AT_CHECK([perl -w ./gengram.pl $2 || exit 77], 0, [stdout])
 mv stdout $1
+AT_BISON_OPTION_POPDEFS
 ])
 
 
