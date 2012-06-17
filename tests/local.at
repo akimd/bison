@@ -267,6 +267,73 @@ m4_define([AT_DATA_GRAMMAR],
 $2])
 ])
 
+# AT_YYLEX_DECLARE_EXTERN
+# AT_YYLEX_DECLARE
+# AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
+# ---------------------------------------
+m4_define([AT_YYLEX_DECLARE_EXTERN],
+[int yylex (void);dnl
+])
+
+m4_define([AT_YYLEX_DECLARE],
+[static AT_YYLEX_DECLARE_EXTERN[]dnl
+])
+
+m4_define([AT_YYLEX_DEFINE],
+[[#include <stdlib.h> /* abort */
+static int
+yylex (void)
+{
+  static char const input[] = "$1";
+  static size_t toknum = 0;
+  int res;
+  if (! (toknum < sizeof input))
+    abort ();
+  res = input[toknum++];
+  ]$2;[]AT_LOCATION_IF([[
+  yylloc.first_line = yylloc.last_line = 1;
+  yylloc.first_column = yylloc.last_column = toknum;]])[
+  return res;
+}]dnl
+])
+
+# AT_YYERROR_DECLARE_EXTERN
+# AT_YYERROR_DECLARE
+# AT_YYERROR_DEFINE
+# -------------------------
+# Beware that must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS
+# pair.
+m4_define([AT_YYERROR_DECLARE_EXTERN],
+[void yyerror (const char *msg);dnl
+])
+
+m4_define([AT_YYERROR_DECLARE],
+[static AT_YYERROR_DECLARE_EXTERN[]dnl
+])
+
+m4_define([AT_YYERROR_DEFINE],
+[AT_SKEL_JAVA_IF([[
+public void yyerror (String msg)
+{
+  System.err.println (msg);
+}]], [AT_SKEL_CC_IF([[
+void
+yy::parser::error (const yy::location &, std::string const &msg)
+{
+  std::cerr << msg << std::endl;
+}]], [[
+#include <stdio.h>
+static void
+yyerror (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}]])])dnl
+])
+
+## --------------- ##
+## Running Bison.  ##
+## --------------- ##
+
 # AT_BISON_CHECK(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # -------------------------------------------------
 # Check Bison by invoking `bison BISON_ARGS'.  BISON_ARGS should not contain
@@ -588,12 +655,12 @@ m4_define([AT_TEST_TABLES_AND_PARSE],
 [m4_pushdef([AT_COND_CASE], [m4_case([$2], $][@)])
 
 AT_SETUP([$1])
-
+AT_BISON_OPTION_PUSHDEFS([$4])
 AT_DATA_GRAMMAR([[input.y]],
 [[%code {
   #include <stdio.h>
-  static void yyerror (char const *msg);
-  static int yylex (void);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 }
 
 ]$4[
@@ -603,13 +670,7 @@ AT_DATA_GRAMMAR([[input.y]],
 ]$5[
 
 %%
-
-static void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 static int
 yylex (void)
 {
@@ -665,6 +726,7 @@ AT_PARSER_CHECK([[./input]],
                 m4_ifval([$11], [m4_dquote($11)]),
                 m4_ifval([$12], [m4_dquote($12)]))
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 m4_popdef([AT_COND_CASE])])

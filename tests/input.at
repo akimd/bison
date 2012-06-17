@@ -468,8 +468,8 @@ char quote[] = "@:>@@:>@,";
 %}
 
 %{
-static void yyerror (const char *s);
-static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 %}
 
 %type <ival> '@<:@'
@@ -621,14 +621,15 @@ AT_CLEANUP
 
 AT_SETUP([Symbols])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%token WITH-DASH
 %token WITHOUT_DASH "WITHOUT-DASH"
 %token WITH.PERIOD
 %token WITHOUT_PERIOD "WITHOUT.PERIOD"
 %code {
-  void yyerror (char const *);
-  int yylex (void);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 }
 %%
 start: with-dash without_dash with.period without_period;
@@ -637,7 +638,10 @@ without_dash: "WITHOUT-DASH";
 with.period: WITH.PERIOD;
 without_period: "WITHOUT.PERIOD";
 %%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
 ]])
+AT_BISON_OPTION_POPDEFS
 
 # POSIX Yacc accept periods, but not dashes.
 AT_BISON_CHECK([--yacc input.y], [1], [],

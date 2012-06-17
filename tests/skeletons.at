@@ -83,10 +83,11 @@ AT_CLEANUP
 
 AT_SETUP([[Installed skeleton file names]])
 
+AT_BISON_OPTION_PUSHDEFS
 m4_pushdef([AT_GRAM],
 [[%{
   #include <stdio.h>
-  void yyerror (char const *msg);
+  ]AT_YYERROR_DECLARE[
   int yylex (void);
 %}
 
@@ -99,12 +100,7 @@ start: ;
 
 %%
 
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 int
 yylex (void)
 {
@@ -139,6 +135,7 @@ AT_PARSER_CHECK([[./input-gram]], [[1]], [],
 
 m4_popdef([AT_GRAM])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 

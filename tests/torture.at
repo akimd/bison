@@ -56,8 +56,8 @@ print <<EOF;
 #include <stdio.h>
 #include <stdlib.h>
 
-static int yylex (void);
-static void yyerror (const char *msg);
+]AT_YYLEX_DECLARE[
+]AT_YYERROR_DECLARE[
 %}
 %union
 {
@@ -171,8 +171,8 @@ print <<EOF;
 #include <stdio.h>
 #include <stdlib.h>
 
-static int yylex (void);
-static void yyerror (const char *msg);
+]AT_YYLEX_DECLARE[
+]AT_YYERROR_DECLARE[
 %}
 
 %token
@@ -278,8 +278,8 @@ print <<EOF;
 # include <stdlib.h>
 # include <assert.h>
 
-static int yylex (void);
-static void yyerror (const char *msg);
+]AT_YYLEX_DECLARE[
+]AT_YYERROR_DECLARE[
 %}
 %union
 {
@@ -390,7 +390,8 @@ AT_CLEANUP
 # ------------------------------------------------
 # A parser specialized in torturing the stack size.
 m4_define([AT_DATA_STACK_TORTURE],
-[# A grammar of parens growing the stack thanks to right recursion.
+[AT_BISON_OPTION_PUSHDEFS([$2])
+# A grammar of parens growing the stack thanks to right recursion.
 # exp:
 AT_DATA([input.y],
 [[%{
@@ -399,8 +400,8 @@ AT_DATA([input.y],
 #include <stdio.h>
 #include <stdlib.h>
 ]$1[
-  static int yylex (void);
-  static void yyerror (const char *msg);
+  ]AT_YYLEX_DECLARE[
+  ]AT_YYERROR_DECLARE[
 %}
 ]$2[
 %error-verbose
@@ -409,12 +410,7 @@ AT_DATA([input.y],
 %%
 exp: WAIT_FOR_EOF exp | ;
 %%
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 static int
 yylex (void)
 {
@@ -462,6 +458,7 @@ main (int argc, const char **argv)
   }
 }
 ]])
+AT_BISON_OPTION_POPDEFS([$2])
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
 ])

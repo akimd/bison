@@ -28,14 +28,13 @@ AT_SETUP([Mid-rule actions])
 # instead of being attached to the empty rule dedicated to this
 # action.
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%error-verbose
 %debug
 %{
-# include <stdio.h>
-# include <stdlib.h>
-  static void yyerror (const char *msg);
-  static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 %}
 %%
 exp:     { putchar ('0'); }
@@ -51,28 +50,15 @@ exp:     { putchar ('0'); }
          { putchar ('\n'); }
    ;
 %%
-static int
-yylex (void)
-{
-  static char const input[] = "123456789";
-  static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
-  return input[toknum++];
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(123456789)[
 int
 main (void)
 {
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-d -v -o input.c input.y])
 AT_COMPILE([input])
@@ -92,14 +78,13 @@ AT_CLEANUP
 
 AT_SETUP([Exotic Dollars])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%error-verbose
 %debug
 %{
-# include <stdio.h>
-# include <stdlib.h>
-  static void yyerror (const char *msg);
-  static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 # define USE(Var)
 %}
 
@@ -130,21 +115,8 @@ sum_of_the_five_previous_values:
 ;
 
 %%
-static int
-yylex (void)
-{
-  static int called;
-  if (called++)
-    abort ();
-  return EOF;
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([])[
 int
 main (void)
 {
@@ -164,9 +136,9 @@ AT_PARSER_CHECK([./input], 0,
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %{
-# include <stdio.h>
-  static int yylex (void);
-  static void yyerror (char const *msg);
+#include <stdio.h>
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
   typedef struct { int val; } stype;
 # define YYSTYPE stype
 %}
@@ -185,12 +157,7 @@ yylex (void)
   return 0;
 }
 
-static void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 int
 main (void)
 {
@@ -204,6 +171,7 @@ AT_PARSER_CHECK([[./input]], [[0]],
 [[6
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -245,7 +213,7 @@ AT_LALR1_CC_IF([%define global_tokens_and_yystype])
 m4_ifval([$6], [[%code provides {]], [[%code {]])
 AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])
 [static int yylex (]AT_LEX_FORMALS[);
-]AT_LALR1_CC_IF([], [static void yyerror (const char *msg);])
+]AT_LALR1_CC_IF([], [AT_YYERROR_DECLARE])
 [}
 
 ]m4_ifval([$6], [%type <ival> '(' 'x' 'y' ')' ';' thing line input END])[
@@ -593,7 +561,8 @@ Parsing FAILED (status 2).
 ]])
 ])
 
-])
+AT_BISON_OPTION_POPDEFS
+])# _AT_CHECK_PRINTER_AND_DESTRUCTOR
 
 
 # AT_CHECK_PRINTER_AND_DESTRUCTOR([BISON-OPTIONS], [UNION-FLAG], [SKIP_FLAG])
@@ -632,7 +601,7 @@ AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [with union])
 # called for $end, and that $$ and @$ work correctly.
 
 AT_SETUP([Default tagless %printer and %destructor])
-
+AT_BISON_OPTION_PUSHDEFS([%locations])
 AT_DATA_GRAMMAR([[input.y]],
 [[%error-verbose
 %debug
@@ -645,8 +614,8 @@ AT_DATA_GRAMMAR([[input.y]],
 %{
 # include <stdio.h>
 # include <stdlib.h>
-  static void yyerror (const char *msg);
-  static int yylex (void);
+]AT_YYLEX_DECLARE[
+]AT_YYERROR_DECLARE[
 # define USE(SYM)
 %}
 
@@ -677,25 +646,8 @@ AT_DATA_GRAMMAR([[input.y]],
 start: 'a' 'b' 'c' 'd' 'e' { $$ = 'S'; USE(($1, $2, $3, $4, $5)); } ;
 
 %%
-
-static int
-yylex (void)
-{
-  static char const input[] = "abcd";
-  static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
-  yylval = input[toknum++];
-  yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = toknum;
-  return yylval;
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([abcd], [[yylval = res]])[
 
 int
 main (void)
@@ -741,6 +693,7 @@ Cleanup: discarding lookahead token $end (1.5-1.5: )
 Stack now 0
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -750,7 +703,7 @@ AT_CLEANUP
 ## ------------------------------------------------------ ##
 
 AT_SETUP([Default tagged and per-type %printer and %destructor])
-
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%error-verbose
 %debug
@@ -758,8 +711,8 @@ AT_DATA_GRAMMAR([[input.y]],
 %{
 # include <stdio.h>
 # include <stdlib.h>
-  static void yyerror (const char *msg);
-  static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 # define USE(SYM)
 %}
 
@@ -805,22 +758,8 @@ start:
   ;
 
 %%
-
-static int
-yylex (void)
-{
-  static char const input[] = "abcdef";
-  static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
-  return input[toknum++];
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([abcdef])[
 
 int
 main (void)
@@ -878,6 +817,7 @@ Cleanup: discarding lookahead token $end ()
 Stack now 0
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -895,6 +835,7 @@ m4_define([_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN],
   [m4_pushdef([kind], []) m4_pushdef([not_kind], [*])],
   [m4_pushdef([kind], [*]) m4_pushdef([not_kind], [])])
 
+AT_BISON_OPTION_PUSHDEFS([%locations])
 AT_DATA_GRAMMAR([[input]]$1[[.y]],
 [[%error-verbose
 %debug
@@ -907,8 +848,8 @@ AT_DATA_GRAMMAR([[input]]$1[[.y]],
 %{
 # include <stdio.h>
 # include <stdlib.h>
-  static void yyerror (const char *msg);
-  static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 # define USE(SYM)
 %}
 
@@ -950,12 +891,7 @@ yylex (void)
   yylloc.first_column = yylloc.last_column = 1;
   return 0;
 }
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
+]AT_YYERROR_DEFINE[
 
 int
 main (void)
@@ -964,6 +900,7 @@ main (void)
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input$1.c input$1.y])
 AT_COMPILE([input$1])
@@ -1010,15 +947,15 @@ AT_SETUP([Default %printer and %destructor are not for error or $undefined])
 #       semantic value, which would be initialized from the lookahead, which
 #       would be destroyed separately.
 #   - For $undefined, who knows what the semantic value would be.
-
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%debug
 
 %{
 # include <stdio.h>
 # include <stdlib.h>
-  static void yyerror (const char *msg);
-  static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 # define USE(SYM)
 %}
 
@@ -1039,24 +976,8 @@ start:
   ;
 
 %%
-
-static int
-yylex (void)
-{
-  static char const input[] = "abd";
-  static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
-  yylval = input[toknum++];
-  return yylval;
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([abd], [yylval = res])[
 int
 main (void)
 {
@@ -1064,6 +985,7 @@ main (void)
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
@@ -1125,14 +1047,15 @@ AT_SETUP([Default %printer and %destructor are not for $accept])
 #     true for $undefined and the error token, so there are three warnings for
 #     %printer and three for %destructor.)
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%debug /* So that %printer is actually compiled.  */
 
 %{
 # include <stdio.h>
 # include <stdlib.h>
-  static void yyerror (const char *msg);
-  static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 # define USE(SYM)
 %}
 
@@ -1153,28 +1076,15 @@ AT_DATA_GRAMMAR([[input.y]],
 start: { USE($$); } ;
 
 %%
-
-static int
-yylex (void)
-{
-  static int called;
-  if (called++)
-    abort ();
-  return 0;
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([])[
 int
 main (void)
 {
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
@@ -1189,14 +1099,15 @@ AT_CLEANUP
 
 AT_SETUP([Default %printer and %destructor for mid-rule values])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%debug /* So that %printer is actually compiled.  */
 
 %{
 # include <stdio.h>
 # include <stdlib.h>
-  static void yyerror (const char *msg);
-  static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 # define USE(SYM)
 # define YYLTYPE int
 # define YYLLOC_DEFAULT(Current, Rhs, N) (void)(Rhs)
@@ -1220,22 +1131,8 @@ start:
   ;
 
 %%
-
-static int
-yylex (void)
-{
-  static int called;
-  if (called++)
-    abort ();
-  return 0;
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([])[
 int
 main (void)
 {
@@ -1243,6 +1140,7 @@ main (void)
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y], 0,,
 [[input.y:33.3-23: warning: unset value: $$
@@ -1296,15 +1194,15 @@ AT_CLEANUP
 # Bison once forgot to check for @$ in actions other than semantic actions.
 
 # AT_CHECK_ACTION_LOCATIONS(ACTION-DIRECTIVE)
-# -------------------------------------------------------
+# -------------------------------------------
 m4_define([AT_CHECK_ACTION_LOCATIONS],
 [AT_SETUP([[@$ in ]$1[ implies %locations]])
-
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%code {
   #include <stdio.h>
-  static int yylex (void);
-  static void yyerror (char const *msg);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 }
 
 %debug
@@ -1325,12 +1223,7 @@ yylex (void)
   return 0;
 }
 
-static void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 int
 main (void)
 {
@@ -1340,7 +1233,7 @@ main (void)
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
-
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP])
 
 AT_CHECK_ACTION_LOCATIONS([[%initial-action]])
@@ -1357,7 +1250,7 @@ AT_SETUP([[Fix user actions without a trailing semicolon]])
 # This feature is undocumented, but we accidentally broke it in 2.3a,
 # and there was a complaint at:
 # <http://lists.gnu.org/archive/html/bug-bison/2008-11/msg00001.html>.
-
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
 [[%%
 start: test2 test1 test0 testc;
@@ -1407,6 +1300,7 @@ no_semi
 []"broken\" $ @ $$ @$ [];\
 string;"}
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]], [0], [],
 [[input.y:8.48: warning: a ';' might be needed at the end of action code
@@ -1462,13 +1356,14 @@ AT_CLEANUP
 
 AT_SETUP([[Destroying lookahead assigned by semantic action]])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[
 %code {
   #include <assert.h>
   #include <stdio.h>
-  static void yyerror (char const *);
-  static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
   #define USE(Var)
 }
 
@@ -1496,27 +1391,15 @@ accept: /*empty*/ {
 } ;
 
 %%
-
-static void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
-static int
-yylex (void)
-{
-  static char const *input = "a";
-  return *input++;
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([a])[
 int
 main (void)
 {
   return yyparse ();
 }
 ]])
-
+AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]], [[0]], [],
@@ -1532,6 +1415,8 @@ AT_CLEANUP
 
 AT_SETUP([[YYBACKUP]])
 
+AT_BISON_OPTION_PUSHDEFS([%pure-parser])
+
 AT_DATA_GRAMMAR([input.y],
 [[
 %error-verbose
@@ -1542,7 +1427,7 @@ AT_DATA_GRAMMAR([input.y],
 # include <stdlib.h>
 # include <assert.h>
 
-  static void yyerror (const char *msg);
+  ]AT_YYERROR_DECLARE[
   static int yylex (YYSTYPE *yylval);
 }
 %%
@@ -1557,6 +1442,7 @@ exp:
 ;
 
 %%
+]AT_YYERROR_DEFINE[
 static int
 yylex (YYSTYPE *yylval)
 {
@@ -1567,12 +1453,6 @@ yylex (YYSTYPE *yylval)
   return input[toknum++];
 }
 
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
 int
 main (void)
 {
@@ -1580,6 +1460,7 @@ main (void)
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])

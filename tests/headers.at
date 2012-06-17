@@ -41,7 +41,6 @@ AT_BISON_CHECK([--defines input.y])
 AT_CLEANUP
 
 
-
 ## --------------------- ##
 ## Invalid CPP headers.  ##
 ## --------------------- ##
@@ -51,7 +50,7 @@ AT_CLEANUP
 # FIXME: Much of this can be covered by calc.at.
 m4_define([AT_TEST_CPP_GUARD_H],
 [AT_SETUP([Invalid CPP guards: $2 --defines=$1.h])
-
+AT_BISON_OPTION_PUSHDEFS([$2])
 # Possibly create inner directories.
 dirname=`AS_DIRNAME([$1])`
 AS_MKDIR_P([$dirname])
@@ -60,8 +59,8 @@ AT_DATA_GRAMMAR([$1.y],
 [$2
 %{
 #include <$1.h>
-void yyerror (const char *);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
 dummy:;
@@ -73,6 +72,7 @@ AT_BISON_CHECK([--defines=$1.h --output=$1.c $1.y])
 
 AT_COMPILE([$1.o], [-I. -c $1.c])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 

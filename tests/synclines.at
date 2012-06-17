@@ -68,7 +68,7 @@ AT_CHECK([[sed -e '/^distcc\[[0-9]*\] /d'                            \
 # to issue ERROR-MSG.
 m4_define([AT_TEST_SYNCLINE],
 [AT_SETUP([$1])
-
+AT_BISON_OPTION_PUSHDEFS
 # It seems impossible to find a generic scheme to check the location
 # of an error.  Even requiring GCC is not sufficient, since for instance
 # the version modified by Apple:
@@ -98,6 +98,7 @@ AT_DATA([[input.y]], [$2])
 AT_BISON_CHECK([-o input.c input.y])
 AT_SYNCLINES_COMPILE([input.c])
 AT_CHECK([cat stdout], 0, [$3])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
@@ -110,11 +111,12 @@ AT_CLEANUP
 AT_TEST_SYNCLINE([Prologue synch line],
 [[%{
 #error "2"
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
 exp: '0';
+%%
 ]],
 [input.y:2: #error "2"
 ])
@@ -130,11 +132,12 @@ AT_TEST_SYNCLINE([%union synch line],
   char dummy;
 }
 %{
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
 exp: '0';
+%%
 ]],
 [input.y:2: #error "2"
 ])
@@ -146,8 +149,8 @@ exp: '0';
 
 AT_TEST_SYNCLINE([Postprologue synch line],
 [[%{
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 %}
 %union
 {
@@ -158,6 +161,7 @@ int yylex (void);
 %}
 %%
 exp: '0';
+%%
 ]],
 [input.y:10: #error "10"
 ])
@@ -169,8 +173,8 @@ exp: '0';
 
 AT_TEST_SYNCLINE([Action synch line],
 [[%{
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
 exp:
@@ -188,8 +192,8 @@ exp:
 
 AT_TEST_SYNCLINE([Epilogue synch line],
 [[%{
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
 exp: '0';
