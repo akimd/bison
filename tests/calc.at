@@ -45,7 +45,8 @@ m4_define([_AT_DATA_CALC_Y],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 
 m4_pushdef([AT_CALC_MAIN],
-[#if HAVE_UNISTD_H
+[#include <stdlib.h> /* abort */
+#if HAVE_UNISTD_H
 # include <unistd.h>
 #else
 # undef alarm
@@ -280,7 +281,6 @@ extern int global_count;]AT_SKEL_CC_IF([[
 %code
 {
 #include <assert.h>
-#include <stdlib.h>
 #include <string.h>
 #define USE(Var)
 
