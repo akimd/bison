@@ -537,8 +537,8 @@ b4_locations_if([, yylocationp])[]b4_user_args[);
 
 # b4_declare_yylstype
 # ------------------
-# Declaration that might either go into the header (if --defines)
-# or open coded in the parser body.  Declare YYSTYPE and YYLTYPE.
+# Declarations that might either go into the header (if --defines) or
+# in the parser body.  Declare YYSTYPE/YYLTYPE, and yylval/yylloc.
 m4_define([b4_declare_yylstype],
 [[#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 ]m4_ifdef([b4_stype],
@@ -566,6 +566,9 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_DECLARED 1
 # define YYLTYPE_IS_TRIVIAL 1
 #endif]])
+
+b4_pure_if([], [[extern YYSTYPE ]b4_prefix[lval;
+]b4_locations_if([[extern YYLTYPE ]b4_prefix[lloc;]])])[]dnl
 ])
 
 # b4_declare_yydebug
