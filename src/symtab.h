@@ -232,6 +232,13 @@ typedef struct {
   /** The key, name of the semantic type.  */
   uniqstr tag;
 
+  /** The location of its first occurence.  */
+  location location;
+
+  /** Its status : "undeclared", "used" or "declared".
+      It cannot be "needed".  */
+  status status;
+
   /** Any \c %destructor and %printer declared for this
       semantic type.  */
   code_props props[CODE_PROPS_SIZE];
@@ -239,10 +246,11 @@ typedef struct {
 } semantic_type;
 
 /** Fetch (or create) the semantic type associated to KEY.  */
-semantic_type *semantic_type_from_uniqstr (const uniqstr key);
+semantic_type *semantic_type_from_uniqstr (const uniqstr key,
+                                           const location *loc);
 
 /** Fetch (or create) the semantic type associated to KEY.  */
-semantic_type *semantic_type_get (const char *key);
+semantic_type *semantic_type_get (const char *key, const location *loc);
 
 /** Set the \c destructor or \c printer associated with \c type.  */
 void semantic_type_code_props_set (semantic_type *type,

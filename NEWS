@@ -2,6 +2,23 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Warnings about useless semantic types
+
+  Bison now warns about useless (uninhabited) semantic types.  Since
+  semantic types are not declared to Bison (they are defined in the opaque
+  %union structure), it is %printer/%destructor directives about useless
+  types that trigger the warning:
+
+    %token <type1> term
+    %type  <type2> nterm
+    %printer    {} <type1> <type3>
+    %destructor {} <type2> <type4>
+    %%
+    nterm: term { $$ = $1; };
+
+    3.28-34: warning: type <type3> is used, but is not associated to any symbol
+    4.28-34: warning: type <type4> is used, but is not associated to any symbol
+
 ** Warnings about undeclared symbols
 
   Bison used to raise an error for %printer and %destructor directives for

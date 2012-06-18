@@ -99,7 +99,7 @@ typedef std::list<std::string> strings_type;
 %type <::std::list<std::string>> list result;
 
 %printer { debug_stream() << $][$; }
-  <int> <::std::string> <::std::list<::std::string>>;
+  <int> <::std::string> <::std::list<std::string>>;
 %%
 
 result:

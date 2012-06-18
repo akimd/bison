@@ -46,7 +46,7 @@ typedef struct symbol_list
     /**
      * The semantic type iff <tt>symbol_list::content_type = SYMLIST_TYPE</tt>.
      */
-    uniqstr type_name;
+    semantic_type *sem_type;
   } content;
   location location;
 
