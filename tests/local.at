@@ -326,7 +326,7 @@ m4_define([AT_YYERROR_DEFINE],
 {
   System.err.println (msg);
 }]], [AT_SKEL_CC_IF([[void
-yy::parser::error (const yy::location &, std::string const &msg)
+yy::parser::error (]AT_LOCATION_IF([[const yy::location &, ]])[std::string const &msg)
 {
   std::cerr << msg << std::endl;
 }]], [[#include <stdio.h>
