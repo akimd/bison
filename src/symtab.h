@@ -51,6 +51,13 @@ typedef int symbol_number;
 
 typedef struct symbol symbol;
 
+typedef enum
+  {
+    needed,   /**< found but not "defined".  */
+    used,     /**< used by %printer but not declared.  */
+    declared, /**< defined with %type or %token.  */
+  } status;
+
 /* When extending this structure, be sure to complete
    symbol_check_alias_consistency.  */
 struct symbol
@@ -90,7 +97,7 @@ struct symbol
      symbol-string pair for an alias.  */
   symbol *alias;
   symbol_class class;
-  bool declared;
+  status status;
 };
 
 /** Undefined user number.  */

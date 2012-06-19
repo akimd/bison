@@ -2,6 +2,18 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Warnings about undeclared symbols
+
+  Bison used to raise an error for %printer and %destructor directives for
+  undefined symbols.
+
+    %printer    {} symbol1
+    %destructor {} symbol2
+    %%
+    exp: "a";
+
+  This is now only a warning.
+
 ** Additional yylex/yyparse arguments
 
   The new directive %param declare additional argument to both yylex
