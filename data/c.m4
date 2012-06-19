@@ -604,3 +604,15 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_TRIVIAL 1
 #endif]])
 ])
+
+# b4_declare_yydebug
+# ------------------
+m4_define([b4_declare_yydebug],
+[[/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG ]b4_parse_trace_if([1], [0])[
+#endif
+#if YYDEBUG
+extern int ]b4_prefix[debug;
+#endif][]dnl
+])

@@ -49,6 +49,7 @@ AT_CLEANUP
 
 AT_SETUP([%nonassoc and eof])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[
 %{
@@ -57,12 +58,7 @@ AT_DATA_GRAMMAR([input.y],
 #include <string.h>
 
 #define YYERROR_VERBOSE 1
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 /* The current argument. */
 static const char *input;
 
@@ -92,6 +88,7 @@ main (int argc, const char *argv[])
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 m4_pushdef([AT_NONASSOC_AND_EOF_CHECK],
 [AT_BISON_CHECK([$1[ -o input.c input.y]])
@@ -169,7 +166,7 @@ AT_SKEL_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
   #include <string>]], [[
   #include <assert.h>
   #include <stdio.h>
-  void yyerror (char const *msg);]])[
+  ]AT_YYERROR_DECLARE])[
   ]AT_YYLEX_PROTOTYPE[;
   #define USE(Var)
 }
@@ -210,31 +207,11 @@ public Object getLVal ()
   *lvalp = 1;
   return *input++;
 }]])[
-
-/*----------.
-| yyerror.  |
-`----------*/]AT_SKEL_JAVA_IF([[
-
-public void yyerror (String msg)
-{
-  System.err.println (msg);
-}
-
+]AT_YYERROR_DEFINE[
+]AT_SKEL_JAVA_IF([[
 };
 
-%%]], [AT_SKEL_CC_IF([[
-
-void
-yy::parser::error (std::string const &msg)
-{
-  std::cerr << msg << std::endl;
-}]], [[
-
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}]])])[
+%%]])[
 
 /*-------.
 | main.  |
@@ -465,12 +442,12 @@ AT_CLEANUP
 # with minimal LR parser tables.
 
 AT_SETUP([[LAC: %nonassoc requires splitting canonical LR states]])
-
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%code {
   #include <stdio.h>
-  void yyerror (char const *);
-  int yylex (void);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 }
 
 %error-verbose
@@ -507,19 +484,8 @@ look:
 reduce-nonassoc: %prec 'a';
 
 %%
-
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
-int
-yylex (void)
-{
-  char const *input = "aaa";
-  return *input++;
-}
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([aaa])[
 
 int
 main (void)
@@ -527,6 +493,7 @@ main (void)
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 # Show canonical LR's failure.
 AT_BISON_CHECK([[-Dlr.type=canonical-lr -o input.c input.y]],

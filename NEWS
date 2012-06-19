@@ -8,14 +8,14 @@ GNU Bison NEWS
   and yyparse.  The %lex-param, %parse-param, and %param directives
   support one or more arguments.  Instead of
 
-      %lex-param   {arg1_type *arg1}
-      %lex-param   {arg2_type *arg2}
-      %parse-param {arg1_type *arg1}
-      %parse-param {arg2_type *arg2}
+    %lex-param   {arg1_type *arg1}
+    %lex-param   {arg2_type *arg2}
+    %parse-param {arg1_type *arg1}
+    %parse-param {arg2_type *arg2}
 
   one may now declare
 
-      %param {arg1_type *arg1} {arg2_type *arg2}
+    %param {arg1_type *arg1} {arg2_type *arg2}
 
 ** Java skeleton improvements
 
@@ -38,10 +38,10 @@ GNU Bison NEWS
   the generated files.  This is especially useful to avoid collisions
   with identifiers in the target language.  For instance
 
-      %token FILE for ERROR
-      %define api.tokens.prefix "TOK_"
-      %%
-      start: FILE for ERROR;
+    %token FILE for ERROR
+    %define api.tokens.prefix "TOK_"
+    %%
+    start: FILE for ERROR;
 
   will generate the definition of the symbols TOK_FILE, TOK_for, and
   TOK_ERROR in the generated sources.  In particular, the scanner must
@@ -67,6 +67,47 @@ GNU Bison NEWS
   in GLR parsers, rather than being deferred.  The result is that they
   allow the programmer to prune possible parses based on the values of
   runtime expressions.
+
+* Noteworthy changes in release ?.? (????-??-??) [?]
+
+** Future changes:
+
+  The next major release will drop support for generating parsers in K&R C,
+  and remove the definition of yystype (removal announced since Bison
+  1.875).
+
+** The generated header is included (yacc.c)
+
+  Instead of duplicating the content of the generated header (definition of
+  YYSTYPE, yyltype etc.), the generated parser now includes it, as was
+  already the case for GLR or C++ parsers.
+
+** Headers (yacc.c, glr.c, glr.cc)
+
+*** Guards
+
+  The generated headers are now guarded, as is already the case for C++
+  parsers (lalr1.cc).  For intance, with --defines=foo.h:
+
+    #ifndef YY_FOO_H
+    # define YY_FOO_H
+    ...
+    #endif /* !YY_FOO_H  */
+
+*** New declarations
+
+  The generated header now declares yydebug and yyparse.  Both honor
+  --name-prefix=bar_, and yield
+
+    int bar_parse (void);
+
+  rather than
+
+    #define yyparse bar_parse
+    int yyparse (void);
+
+  in order to facilitate the inclusion of several parser headers inside a
+  single compilation unit.
 
 * Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 

@@ -226,8 +226,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 /* C++ GLR parser skeleton written by Akim Demaille.  */
 
-#ifndef PARSER_HEADER_H
-# define PARSER_HEADER_H
+]b4_cpp_guard_open([b4_spec_defines_file])[
 
 ]b4_percent_code_get([[requires]])[
 
@@ -333,8 +332,6 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 #endif
 
 ]b4_namespace_close[
-
-]b4_percent_code_get([[provides]])[]dnl
-
-[#endif /* ! defined PARSER_HEADER_H */]
-m4_divert_pop(0)
+]b4_percent_code_get([[provides]])[
+]b4_cpp_guard_close([b4_spec_defines_file])[
+]m4_divert_pop(0)

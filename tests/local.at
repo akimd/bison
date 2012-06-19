@@ -109,7 +109,7 @@ m4_pushdef([AT_SKEL_CC_IF],
 m4_pushdef([AT_SKEL_JAVA_IF],
 [m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
 m4_pushdef([AT_GLR_IF],
-[m4_bmatch([$3], [%glr-parser\|%skeleton "glr\.], [$1], [$2])])
+[m4_bmatch([$3], [%glr-parser\|%skeleton "glr\..*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
 [AT_SKEL_CC_IF([AT_GLR_IF([$2], [$1])], [$2])])
 m4_pushdef([AT_GLR_CC_IF],
@@ -135,7 +135,11 @@ m4_pushdef([AT_GLR_OR_PARAM_IF],
 [m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
 m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [%name-prefix ".*"],
-           [m4_bregexp([$3], [name-prefix "\([^"]*\)"], [\1])],
+           [m4_bregexp([$3], [name-prefix "\([^""]*\)"], [\1])],
+           [yy])])
+m4_pushdef([AT_API_PREFIX],
+[m4_bmatch([$3], [%define api\.prefix ".*"],
+           [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],
            [yy])])
 m4_pushdef([AT_TOKEN_PREFIX],
 [m4_bmatch([$3], [%define api.tokens.prefix ".*"],
@@ -207,6 +211,7 @@ m4_popdef([AT_LOC])
 m4_popdef([AT_PURE_LEX_IF])
 m4_popdef([AT_YYERROR_SEES_LOC_IF])
 m4_popdef([AT_YYERROR_ARG_LOC_IF])
+m4_popdef([AT_API_PREFIX])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_GLR_OR_PARAM_IF])
 m4_popdef([AT_PURE_AND_LOC_IF])
@@ -271,6 +276,70 @@ m4_define([AT_DATA_GRAMMAR],
 [AT_DATA_GRAMMAR_PROLOGUE
 $2])
 ])
+
+# AT_YYLEX_DECLARE_EXTERN
+# AT_YYLEX_DECLARE
+# AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
+# ---------------------------------------
+m4_define([AT_YYLEX_DECLARE_EXTERN],
+[int AT_API_PREFIX[]lex (void);dnl
+])
+
+m4_define([AT_YYLEX_DECLARE],
+[static AT_YYLEX_DECLARE_EXTERN[]dnl
+])
+
+m4_define([AT_YYLEX_DEFINE],
+[[#include <stdlib.h> /* abort */
+static int
+]AT_API_PREFIX[lex (void)
+{
+  static char const input[] = "$1";
+  static size_t toknum = 0;
+  int res;
+  if (! (toknum < sizeof input))
+    abort ();
+  res = input[toknum++];
+  ]$2;[]AT_LOCATION_IF([[
+  ]AT_API_PREFIX[lloc.first_line = ]AT_API_PREFIX[lloc.last_line = 1;
+  ]AT_API_PREFIX[lloc.first_column = ]AT_API_PREFIX[lloc.last_column = toknum;]])[
+  return res;
+}]dnl
+])
+
+# AT_YYERROR_DECLARE_EXTERN
+# AT_YYERROR_DECLARE
+# AT_YYERROR_DEFINE
+# -------------------------
+# Beware that must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS
+# pair.
+m4_define([AT_YYERROR_DECLARE_EXTERN],
+[void AT_API_PREFIX[]error (const char *msg);dnl
+])
+
+m4_define([AT_YYERROR_DECLARE],
+[static AT_YYERROR_DECLARE_EXTERN[]dnl
+])
+
+m4_define([AT_YYERROR_DEFINE],
+[AT_SKEL_JAVA_IF([[public void yyerror (String msg)
+{
+  System.err.println (msg);
+}]], [AT_SKEL_CC_IF([[void
+yy::parser::error (const yy::location &, std::string const &msg)
+{
+  std::cerr << msg << std::endl;
+}]], [[#include <stdio.h>
+static void
+]AT_API_PREFIX[error (char const *msg)
+{
+  fprintf (stderr, "%s\n", msg);
+}]])])dnl
+])
+
+## --------------- ##
+## Running Bison.  ##
+## --------------- ##
 
 # AT_BISON_CHECK(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # -------------------------------------------------
@@ -455,8 +524,8 @@ AT_CHECK([[test -n "$CONF_JAVA" || exit 77
 AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
          [[0]], [ignore], [ignore])])
 
-# AT_FULL_COMPILE(OUTPUT, [OTHER])
-# --------------------------------
+# AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2])
+# -------------------------------------------
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
 # compile it to OUTPUT or OUTPUT.class.  If OTHER is specified, compile
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
@@ -464,16 +533,27 @@ AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
 # AT_SKEL_JAVA_IF.
 m4_define([AT_FULL_COMPILE], [
   AT_SKEL_JAVA_IF([
-    AT_BISON_CHECK([[-o ]$1[.java ]$1[.y]])
-    AT_JAVA_COMPILE([$1[.java]]m4_ifval($2,
-                                        [[$1[.java ]$1[-]$2[.java]]]))
+    AT_BISON_CHECK([-o $1.java $1.y])
+    AT_JAVA_COMPILE([$1.java],
+                    m4_join([ ],
+                            [$1.java],
+                            m4_ifval($2, [[$1-$2.java]]),
+                            m4_ifval($3, [[$1-$3.java]])))
   ], [
     AT_SKEL_CC_IF([
-      AT_BISON_CHECK([[-o ]$1[.cc ]$1[.y]])
-      AT_COMPILE_CXX([$1]m4_ifval($2, [, [$1[.cc ]$1[-]$2[.cc]]]))
+      AT_BISON_CHECK([-o $1.cc $1.y])
+      AT_COMPILE_CXX([$1],
+                     m4_join([ ],
+                             [$1.cc],
+                             m4_ifval($2, [[$1-$2.cc]]),
+                             m4_ifval($3, [[$1-$3.cc]])))
     ], [
-      AT_BISON_CHECK([[-o ]$1[.c ]$1[.y]])
-      AT_COMPILE([$1]m4_ifval($2, [, [$1[.c ]$1[-]$2[.c]]]))
+      AT_BISON_CHECK([-o $1.c $1.y])
+      AT_COMPILE([$1],
+                  m4_join([ ],
+                          [$1.c],
+                          m4_ifval($2, [[$1-$2.c]]),
+                          m4_ifval($3, [[$1-$3.c]])))
     ])
   ])
 ])
@@ -582,12 +662,12 @@ m4_define([AT_TEST_TABLES_AND_PARSE],
 [m4_pushdef([AT_COND_CASE], [m4_case([$2], $][@)])
 
 AT_SETUP([$1])
-
+AT_BISON_OPTION_PUSHDEFS([$4])
 AT_DATA_GRAMMAR([[input.y]],
 [[%code {
   #include <stdio.h>
-  static void yyerror (char const *msg);
-  static int yylex (void);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 }
 
 ]$4[
@@ -597,13 +677,7 @@ AT_DATA_GRAMMAR([[input.y]],
 ]$5[
 
 %%
-
-static void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 static int
 yylex (void)
 {
@@ -659,6 +733,7 @@ AT_PARSER_CHECK([[./input]],
                 m4_ifval([$11], [m4_dquote($11)]),
                 m4_ifval([$12], [m4_dquote($12)]))
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 m4_popdef([AT_COND_CASE])])

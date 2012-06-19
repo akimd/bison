@@ -24,10 +24,11 @@ AT_BANNER([[Regression tests.]])
 
 AT_SETUP([Trivial grammars])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
-void yyerror (char const *);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 #define YYSTYPE int *
 %}
 
@@ -37,6 +38,7 @@ int yylex (void);
 
 program: 'x';
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -52,10 +54,11 @@ AT_CLEANUP
 
 AT_SETUP([YYSTYPE typedef])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
-void yyerror (char const *);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 typedef union { char const *val; } YYSTYPE;
 %}
 
@@ -65,6 +68,7 @@ typedef union { char const *val; } YYSTYPE;
 
 program: { $$ = ""; };
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -83,10 +87,11 @@ AT_SETUP([Early token definitions with --yacc])
 # Found in GCJ: they expect the tokens to be defined before the user
 # prologue, so that they can use the token definitions in it.
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 %}
 
 %union
@@ -103,6 +108,7 @@ int yylex (void);
 exp: MY_TOKEN;
 %%
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-y -o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -121,11 +127,12 @@ AT_SETUP([Early token definitions without --yacc])
 # Found in GCJ: they expect the tokens to be defined before the user
 # prologue, so that they can use the token definitions in it.
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
 #include <stdio.h>
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 void print_my_token (void);
 %}
 
@@ -146,6 +153,7 @@ print_my_token (void)
 exp: MY_TOKEN;
 %%
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -161,6 +169,7 @@ AT_CLEANUP
 
 AT_SETUP([Braces parsing])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
 [[/* Bison used to swallow the character after '}'. */
 
@@ -168,6 +177,7 @@ AT_DATA([input.y],
 exp: { tests = {{{{{{{{{{}}}}}}}}}}; };
 %%
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-v -o input.c input.y])
 
@@ -183,6 +193,7 @@ AT_CLEANUP
 
 AT_SETUP([Duplicate string])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
 [[/* 'Bison -v' used to dump core when two tokens are defined with the same
    string, as LE and GE below. */
@@ -195,6 +206,7 @@ AT_DATA([input.y],
 exp: '(' exp ')' | NUM ;
 %%
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-v -o input.c input.y], 0, [],
 [[input.y:6.8-14: warning: symbol "<=" used more than once as a literal string
@@ -211,6 +223,7 @@ AT_SETUP([Rule Line Numbers])
 
 AT_KEYWORDS([report])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
 [[%%
 expr:
@@ -240,6 +253,7 @@ expr:
 
 };
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c -v input.y])
 
@@ -428,13 +442,14 @@ AT_CLEANUP
 
 AT_SETUP([Token definitions])
 
+AT_BISON_OPTION_PUSHDEFS
 # Bison managed, when fed with '%token 'f' "f"' to #define 'f'!
 AT_DATA_GRAMMAR([input.y],
 [%{
 #include <stdlib.h>
 #include <stdio.h>
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 %}
 [%error-verbose
 %token MYEOF 0 "end of file"
@@ -468,6 +483,7 @@ main (void)
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 # Checking the warning message guarantees that the trigraph "??!" isn't
 # unnecessarily escaped here even though it would need to be if encoded in a
@@ -498,19 +514,21 @@ AT_CLEANUP
 
 AT_SETUP([Characters Escapes])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [%{
-void yyerror (const char *s);
-int yylex (void);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 %}
 [%%
 exp:
   '\'' "\'"
 | '\"' "\""
-| '"'  "'"
+| '"'  "'" /* Pacify font-lock-mode: ". */
 ;
 ]])
-# Pacify font-lock-mode: "
+
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input.o], [-c input.c])
@@ -828,7 +846,7 @@ static int yylex (AT_LALR1_CC_IF([int *], [void]));
 AT_LALR1_CC_IF([#include <cstdlib>],
 [#include <stdlib.h>
 #include <stdio.h>
-static void yyerror (const char *);])
+]AT_YYERROR_DECLARE[])
 %}
 $1
 %token ARROW INVALID NUMBER STRING DATA
@@ -953,10 +971,10 @@ m4_define([_AT_DATA_EXPECT2_Y],
 [AT_DATA_GRAMMAR([expect2.y],
 [%{
 static int yylex (AT_LALR1_CC_IF([int *], [void]));
-AT_LALR1_CC_IF([#include <cstdlib>],
-[#include <stdio.h>
-#include <stdlib.h>
-static void yyerror (const char *);])
+AT_LALR1_CC_IF([[#include <cstdlib>]],
+[[#include <stdlib.h>
+#include <stdio.h>
+]AT_YYERROR_DECLARE])[
 %}
 $1
 %defines
@@ -973,30 +991,19 @@ e: e '+' t | t;
 t: A | B;
 
 %%
-AT_LALR1_CC_IF(
-[/* A C++ error reporting function. */
-void
-yy::parser::error (const std::string& m)
-{
-  std::cerr << m << std::endl;
-}
-
-int
+]AT_YYERROR_DEFINE[
+]AT_LALR1_CC_IF(
+[int
 yyparse ()
 {
   yy::parser parser;
   return parser.parse ();
 }
-],
-[static void
-yyerror (const char *s)
-{
-  fprintf (stderr, "%s\n", s);
-}])
+])[
 
 static int
-yylex (AT_LALR1_CC_IF([int *lval], [void]))
-[{
+yylex (]AT_LALR1_CC_IF([int *lval], [void])[)
+{
   static int const tokens[] =
     {
       1000, '+', '+', -1
@@ -1006,19 +1013,19 @@ yylex (AT_LALR1_CC_IF([int *lval], [void]))
   if (! (toknum < sizeof tokens / sizeof *tokens))
     abort ();
   return tokens[toknum++];
-}]
+}
 
 int
 main (void)
 {
   return yyparse ();
 }
-])
+]])
 ])# _AT_DATA_EXPECT2_Y
 
 
 # AT_CHECK_EXPECT2(BISON-OPTIONS)
-# ------------------------------
+# -------------------------------
 # Generate the grammar, compile it, run it.
 m4_define([AT_CHECK_EXPECT2],
 [AT_SETUP([Expecting two tokens $1])
@@ -1047,12 +1054,12 @@ AT_SETUP([Braced code in declaration in rules section])
 
 # Bison once mistook braced code in a declaration in the rules section to be a
 # rule action.
-
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
 #include <stdio.h>
-static void yyerror (char const *msg);
-static int yylex (void);
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 %}
 
 %error-verbose
@@ -1071,12 +1078,7 @@ start:
 
 %%
 
-static void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 static int
 yylex (void)
 {
@@ -1090,6 +1092,7 @@ main (void)
   return !yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-t -o input.c input.y])
 AT_COMPILE([input])
@@ -1187,12 +1190,12 @@ AT_SETUP([[Token number in precedence declaration]])
 
 # POSIX says token numbers can be declared in %left, %right, and %nonassoc, but
 # we lost this in Bison 1.50.
-
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
   #include <stdio.h>
-  void yyerror (char const *);
-  int yylex (void);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 %}
 
 %error-verbose
@@ -1212,12 +1215,7 @@ sr_conflict:
 
 %%
 
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 int
 yylex (void)
 {
@@ -1232,6 +1230,7 @@ main (void)
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]], [[0]],,
 [[input.y:23.5-19: warning: rule useless in parser due to conflicts: start: start
@@ -1275,11 +1274,12 @@ AT_CLEANUP
 
 AT_SETUP([[parse.error=verbose and YYSTACK_USE_ALLOCA]])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%code {
   #include <stdio.h>
-  void yyerror (char const *);
-  int yylex (void);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
   #define YYSTACK_USE_ALLOCA 1
 }
 
@@ -1315,28 +1315,18 @@ syntax_error:
 
 %%
 
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
-int
-yylex (void)
-{
+]AT_YYERROR_DEFINE[
   /* Induce two syntax error messages (which requires full error
      recovery by shifting 3 tokens) in order to detect any loss of the
      reallocated buffer.  */
-  static char const *input = "abc";
-  return *input++;
-}
-
+]AT_YYLEX_DEFINE([abc])[
 int
 main (void)
 {
   return yyparse ();
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
@@ -1363,11 +1353,12 @@ AT_CLEANUP
 
 AT_SETUP([[parse.error=verbose overflow]])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%code {
   #include <stdio.h>
-  void yyerror (char const *);
-  int yylex (void);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 
   /* This prevents this test case from having to induce error messages
      large enough to overflow size_t.  */
@@ -1433,21 +1424,10 @@ syntax_error2:
 
 %%
 
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
-int
-yylex (void)
-{
+]AT_YYERROR_DEFINE[
   /* Induce two syntax error messages (which requires full error
      recovery by shifting 3 tokens).  */
-  static char const *input = "abc";
-  return *input++;
-}
-
+]AT_YYLEX_DEFINE([abc])[
 int
 main (void)
 {
@@ -1473,7 +1453,7 @@ AT_PARSER_CHECK([[./input]], [[2]], [],
 syntax error
 memory exhausted
 ]])
-
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1491,7 +1471,7 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_GRAMMAR([input.y],
 [[%code {
   #include <stdio.h>
-  void yyerror (char const *);
+  ]AT_YYERROR_DECLARE[
   int yylex (]AT_PURE_IF([[YYSTYPE *]], [[void]])[);
 }
 
@@ -1512,13 +1492,7 @@ B: 'b' ;
 C: /*empty*/ { printf ("consistent default reduction\n"); } ;
 
 %%
-
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
 int
 yylex (]AT_PURE_IF([[YYSTYPE *v]], [[void]])[)
 {
@@ -1584,13 +1558,13 @@ AT_CLEANUP
 
 AT_SETUP([[LAC: Memory exhaustion]])
 
-m4_pushdef([AT_LAC_CHECK], [
-
+m4_pushdef([AT_LAC_CHECK],
+[AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%code {
   #include <stdio.h>
-  void yyerror (char const *);
-  int yylex (void);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
   #define YYMAXDEPTH 8
 }
 
@@ -1602,20 +1576,8 @@ S: A A A A A A A A A ;
 A: /*empty*/ | 'a' ;
 
 %%
-
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
-int
-yylex (void)
-{
-  static char const *input = "]$1[";
-  return *input++;
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([$1])[
 int
 main (void)
 {
@@ -1629,12 +1591,12 @@ AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
 [[input.y: conflicts: 8 shift/reduce
 ]])
 AT_COMPILE([[input]])
-
+AT_BISON_OPTION_POPDEFS
 ])
 
 # Check for memory exhaustion during parsing.
-AT_LAC_CHECK([[]])
-AT_PARSER_CHECK([[./input]], [[2]], [[]],
+AT_LAC_CHECK([])
+AT_PARSER_CHECK([[./input]], [[2]], [],
 [[Starting parse
 Entering state 0
 Reading a token: Now at end of input.
@@ -1647,8 +1609,8 @@ Stack now 0
 
 # Induce an immediate syntax error with an undefined token, and check
 # for memory exhaustion while building syntax error message.
-AT_LAC_CHECK([[z]], [[0]])
-AT_PARSER_CHECK([[./input]], [[2]], [[]],
+AT_LAC_CHECK([z], [[0]])
+AT_PARSER_CHECK([[./input]], [[2]], [],
 [[Starting parse
 Entering state 0
 Reading a token: Next token is token $undefined ()
