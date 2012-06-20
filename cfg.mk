@@ -14,6 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Update version, then recompile so that tests/bison --version be
+# up-to-date, then compile our parser again with our up-to-date bison.
+.PHONY: regen
+regen: _version
+	$(MAKE) $(AM_MAKEFLAGS)
+	touch $(srcdir)/src/parse-gram.y
+	$(MAKE) $(AM_MAKEFLAGS)
+
 # Used in maint.mk's web-manual rule
 manual_title = The Yacc-compatible Parser Generator
 
