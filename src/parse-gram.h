@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.5.1_rc2.741-bfd9.  */
+/* A Bison parser, made by GNU Bison 2.5.1.779-71bff.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -29,8 +29,18 @@
 
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
+
+#ifndef GRAM_______SRC_PARSE_GRAM_H
+# define GRAM_______SRC_PARSE_GRAM_H
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 1
+#endif
+#if YYDEBUG
+extern int gram_debug;
+#endif
 /* "%code requires" blocks.  */
-/* Line 2005 of yacc.c  */
+/* Line 1996 of yacc.c  */
 #line 221 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
@@ -45,8 +55,8 @@
 # endif
 
 
-/* Line 2005 of yacc.c  */
-#line 50 "src/parse-gram.h"
+/* Line 1996 of yacc.c  */
+#line 60 "src/parse-gram.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -170,11 +180,10 @@
 
 
 
-
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 2005 of yacc.c  */
+/* Line 1996 of yacc.c  */
 #line 107 "src/parse-gram.y"
 
   assoc assoc;
@@ -187,21 +196,19 @@ typedef union YYSTYPE
   uniqstr uniqstr;
   unsigned char character;
 
-/* Line 2005 of yacc.c  */
+/* Line 1996 of yacc.c  */
 #line 245 "src/parse-gram.y"
 
   param_type param;
 
 
-/* Line 2005 of yacc.c  */
-#line 198 "src/parse-gram.h"
+/* Line 1996 of yacc.c  */
+#line 207 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
-
-
 
 #if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
 typedef struct YYLTYPE
@@ -216,5 +223,21 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
 
+#ifdef YYPARSE_PARAM
+#if (defined __STDC__ || defined __C99__FUNC__ \
+     || defined __cplusplus || defined _MSC_VER)
+int gram_parse (void *YYPARSE_PARAM);
+#else
+int gram_parse ();
+#endif
+#else /* ! YYPARSE_PARAM */
+#if (defined __STDC__ || defined __C99__FUNC__ \
+     || defined __cplusplus || defined _MSC_VER)
+int gram_parse (void);
+#else
+int gram_parse ();
+#endif
+#endif /* ! YYPARSE_PARAM */
 
 
+#endif /* !GRAM_______SRC_PARSE_GRAM_H  */
