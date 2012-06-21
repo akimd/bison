@@ -30,10 +30,10 @@ SUFFIXES += .yy .stamp
 $(calc_sources_generated): examples/calc++/calc++-parser.stamp
 	@test -f $@ || rm -f examples/calc++/calc++-parser.stamp
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) examples/calc++/calc++-parser.stamp
-CLEANFILES += 					\
-  $(calc_sources_generated)			\
-  examples/calc++/calc++-parser.output		\
-  examples/calc++/calc++-parser.stamp		\
+CLEANFILES +=                                   \
+  $(calc_sources_generated)                     \
+  examples/calc++/calc++-parser.output          \
+  examples/calc++/calc++-parser.stamp           \
   examples/calc++/calc++-scanner.cc
 
 
