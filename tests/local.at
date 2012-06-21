@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# We want a recent Autotest.
 m4_version_prereq([2.58])
 
 
@@ -110,7 +109,7 @@ m4_pushdef([AT_SKEL_JAVA_IF],
 [m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
 m4_pushdef([AT_LANG],
 [AT_SKEL_JAVA_IF([java],
-                 [AT_SKEL_CC_IF([cxx],
+                 [AT_SKEL_CC_IF([c++],
                                 [c])])])
 m4_pushdef([AT_GLR_IF],
 [m4_bmatch([$3], [%glr-parser\|%skeleton "glr\..*"], [$1], [$2])])
@@ -314,28 +313,33 @@ static int
 # Beware that must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS
 # pair.
 m4_define([AT_YYERROR_DECLARE_EXTERN],
-[void AT_API_PREFIX[]error (const char *msg);dnl
+[m4_case(AT_LANG,
+[c], [void AT_API_PREFIX[]error (const char *msg);])[]dnl
 ])
 
 m4_define([AT_YYERROR_DECLARE],
-[static AT_YYERROR_DECLARE_EXTERN[]dnl
+[m4_case(AT_LANG,
+[c], [static AT_YYERROR_DECLARE_EXTERN])[]dnl
 ])
 
 m4_define([AT_YYERROR_DEFINE],
-[AT_SKEL_JAVA_IF([[public void yyerror (String msg)
-{
-  System.err.println (msg);
-}]], [AT_SKEL_CC_IF([[void
-yy::parser::error (const yy::location &, std::string const &msg)
-{
-  std::cerr << msg << std::endl;
-}]], [[#include <stdio.h>
+[m4_case(AT_LANG,
+[c], [[#include <stdio.h>
 static void
 ]AT_API_PREFIX[error (char const *msg)
 {
   fprintf (stderr, "%s\n", msg);
-}]])])dnl
-])
+}]],
+[c++], [[void
+]AT_NAME_PREFIX[::parser::error (const yy::location &, std::string const &msg)
+{
+  std::cerr << msg << std::endl;
+}]],
+[java], [[public void yyerror (String msg)
+{
+  System.err.println (msg);
+}]])])
+
 
 ## --------------- ##
 ## Running Bison.  ##
@@ -519,8 +523,7 @@ AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 
 # is not installed.
 m4_define([AT_JAVA_COMPILE],
 [AT_KEYWORDS(java)
-AT_CHECK([[test -n "$CONF_JAVA" || exit 77
-           test -n "$CONF_JAVAC" || exit 77]])
+AT_SKIP_IF([[test -z "$CONF_JAVA$CONF_JAVAC"]])
 AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
          [[0]], [ignore], [ignore])])
 
@@ -529,7 +532,7 @@ AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
 m4_define([AT_LANG_COMPILE],
 [m4_case(AT_LANG,
 [c],    [AT_COMPILE([$1], [$2])],
-[cxx],  [AT_COMPILE_CXX([$1], [$2])],
+[c++],  [AT_COMPILE_CXX([$1], [$2])],
 [java], [AT_JAVA_COMPILE([$1.java], [$2])],
         [m4_fatal([unknown language: ]m4_defn([AT_LANG]))])[]dnl
 ])
@@ -550,7 +553,7 @@ m4_define([AT_FULL_COMPILE],
                            [$1.java],
                            m4_ifval($2, [[$1-$2.java]]),
                            m4_ifval($3, [[$1-$3.java]])))],
-[cxx],
+[c++],
   [AT_BISON_CHECK([-o $1.cc $1.y])
    AT_LANG_COMPILE([$1],
                    m4_join([ ],
