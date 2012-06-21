@@ -56,7 +56,7 @@ print <<EOF;
 %{
 #include <stdio.h>
 #include <stdlib.h>
-
+#define MAX $max
 ]AT_YYLEX_DECLARE[
 ]AT_YYERROR_DECLARE[
 %}
@@ -96,14 +96,15 @@ for my $size (1 .. $max)
   };
 print ";\n";
 
-print <<EOF;
+print <<\EOF;
 %%
+]AT_YYERROR_DEFINE[
 static int
 yylex (void)
 {
   static int inner = 1;
   static int outer = 0;
-  if (outer > $max)
+  if (outer > MAX)
     return 0;
   else if (inner > outer)
     {
@@ -113,13 +114,6 @@ yylex (void)
     }
   return inner++;
 }
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\\n", msg);
-}
-
 int
 main (void)
 {
@@ -173,7 +167,7 @@ print <<EOF;
 %{
 #include <stdio.h>
 #include <stdlib.h>
-
+#define MAX $max
 ]AT_YYLEX_DECLARE[
 ]AT_YYERROR_DECLARE[
 %}
@@ -196,23 +190,18 @@ print
 	(map { "\"$_\"" } (1 .. $max)), ";"),
   "\n";
 
-print <<EOF;
+print <<\EOF;
 %%
+]AT_YYERROR_DEFINE[
 static int
 yylex (void)
 {
   static int counter = 1;
-  if (counter <= $max)
+  if (counter <= MAX)
     return counter++;
-  if (counter++ != $max + 1)
+  if (counter++ != MAX + 1)
     abort ();
   return 0;
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\\n", msg);
 }
 
 int
@@ -282,7 +271,7 @@ print <<EOF;
 # include <stdio.h>
 # include <stdlib.h>
 # include <assert.h>
-
+# define MAX $max
 ]AT_YYLEX_DECLARE[
 ]AT_YYERROR_DECLARE[
 %}
@@ -329,16 +318,17 @@ for my $count (1 .. $max)
     print "n$count: token { \$\$ = $count; };\n";
   };
 
-print <<EOF;
+print <<\EOF;
 %%
+]AT_YYERROR_DEFINE[
 static int
 yylex (void)
 {
   static int return_token = 1;
   static int counter = 1;
-  if (counter > $max)
+  if (counter > MAX)
     {
-      if (counter++ != $max + 1)
+      if (counter++ != MAX + 1)
 	abort ();
       return 0;
     }
@@ -349,12 +339,6 @@ yylex (void)
     }
   return_token = 1;
   return counter++;
-}
-
-static void
-yyerror (const char *msg)
-{
-  fprintf (stderr, "%s\\n", msg);
 }
 
 int

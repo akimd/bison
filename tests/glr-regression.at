@@ -35,8 +35,8 @@ AT_DATA_GRAMMAR([glr-regr1.y],
 
 #define YYSTYPE int
 static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
-]AT_YYLEX_DECLARE[
 ]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 %}
 
 
@@ -128,8 +128,8 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
   #include <stdio.h>
   #include <stdlib.h>
   #include <string.h>
-  ]AT_YYLEX_DECLARE[
   ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 %}
 
 %glr-parser
@@ -519,18 +519,8 @@ AT_DATA_GRAMMAR([glr-regr6.y],
 start: 'a' | 'a' ;
 
 %%
-
-static int
-yylex (void)
-{
-  static char const input[] = "a";
-  static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
-  return input[toknum++];
-}
-
 ]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(a)[
 int
 main (void)
 {
@@ -657,7 +647,6 @@ AT_DATA_GRAMMAR([glr-regr8.y],
   #include <stdlib.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-  ]AT_YYERROR_DECLARE[
 %}
 
 %token T_CONSTANT
@@ -845,16 +834,8 @@ start:
   ;
 
 %%
-
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
-{
-  static int called;
-  if (called++)
-    abort ();
-  return 0;
-}
+]AT_YYLEX_DEFINE()[
 
 int
 main (void)
@@ -1468,16 +1449,8 @@ ambiguity1: ;
 ambiguity2: ;
 
 %%
-
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
-{
-  static int called;
-  if (called++)
-    abort ();
-  return 0;
-}
+]AT_YYLEX_DEFINE()[
 
 int
 main (void)
@@ -1675,7 +1648,7 @@ AT_DATA_GRAMMAR([glr-regr18.y],
 %{
   #include <stdlib.h>
   ]AT_YYERROR_DECLARE[
-  static int yylex ();
+  ]AT_YYLEX_DECLARE[
 %}
 
 %union {
@@ -1695,7 +1668,6 @@ sym3: %merge<merge> { $$ = 0; } ;
 %type <type3> sym3;
 
 %%
-
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE()[
 int

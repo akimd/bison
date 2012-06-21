@@ -150,14 +150,8 @@ two: { $$.val = 2; } ;
 sum: { printf ("%d\n", $0.val + $-1.val + $-2.val); } ;
 
 %%
-
-static int
-yylex (void)
-{
-  return 0;
-}
-
 ]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE()[
 int
 main (void)
 {

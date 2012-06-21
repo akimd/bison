@@ -176,10 +176,11 @@ AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
 
 
 # AT_CHECK_OUTPUT_FILE_NAME(FILE-NAME-PREFIX, [ADDITIONAL-TESTS])
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------
 m4_define([AT_CHECK_OUTPUT_FILE_NAME],
 [AT_SETUP([Output file name: $1])
 
+AT_BISON_OPTION_PUSHDEFS
 # Skip if platform doesn't support file name.  For example, Cygwin
 # doesn't support file names containing ":" or "\".
 AT_CHECK([[touch "]AS_ESCAPE([$1[.tmp]])[" || exit 77]])
@@ -187,8 +188,8 @@ AT_CHECK([[touch "]AS_ESCAPE([$1[.tmp]])[" || exit 77]])
 AT_DATA_GRAMMAR([glr.y],
 [[%glr-parser
 %code {
-  int yylex (void);
-  void yyerror (const char *);
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
 }
 %%
 start: {};
@@ -209,6 +210,7 @@ AT_CHECK([ls "AS_ESCAPE([$1.c])" "AS_ESCAPE([$1.h])"], [], [ignore])
 AT_COMPILE_CXX([cxx.o], [-c "AS_ESCAPE([$1.c])"])
 $2
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
