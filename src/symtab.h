@@ -154,7 +154,10 @@ void symbol_print (symbol *s, FILE *f);
 /** Is this a dummy nonterminal?  */
 bool symbol_is_dummy (const symbol *sym);
 
-/** Return the name of the symbol that can be used as an identifier.
+/** The name of the code_props type: "\%destructor" or "\%printer".  */
+char const *code_props_type_string (code_props_type kind);
+
+/** The name of the symbol that can be used as an identifier.
  ** Consider the alias if needed.
  ** Return 0 if there is none (e.g., the symbol is only defined as
  ** a string). */
