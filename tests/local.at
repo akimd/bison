@@ -314,7 +314,7 @@ static int
 # pair.
 m4_define([AT_YYERROR_DECLARE_EXTERN],
 [m4_case(AT_LANG,
-[c], [void AT_API_PREFIX[]error (const char *msg);])[]dnl
+[c], [void AT_API_PREFIX[]error (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg);])[]dnl
 ])
 
 m4_define([AT_YYERROR_DECLARE],
@@ -325,15 +325,28 @@ m4_define([AT_YYERROR_DECLARE],
 m4_define([AT_YYERROR_DEFINE],
 [m4_case(AT_LANG,
 [c], [[#include <stdio.h>
+/* A C error reporting function.  */
 static void
-]AT_API_PREFIX[error (char const *msg)
+yyerror (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg)
 {
+]AT_YYERROR_SEES_LOC_IF([[
+  fprintf (stderr, "%d.%d",
+           ]AT_LOC_FIRST_LINE[, ]AT_LOC_FIRST_COLUMN[);
+  if (]AT_LOC_FIRST_LINE[ != ]AT_LOC_LAST_LINE[)
+    fprintf (stderr, "-%d.%d",
+             ]AT_LOC_LAST_LINE[,  ]AT_LOC_LAST_COLUMN[ - 1);
+  else if (]AT_LOC_FIRST_COLUMN[ != ]AT_LOC_LAST_COLUMN[ - 1)
+    fprintf (stderr, "-%d",
+             ]AT_LOC_LAST_COLUMN[ - 1);
+  fprintf (stderr, ": ");]])[
   fprintf (stderr, "%s\n", msg);
 }]],
-[c++], [[void
-]AT_NAME_PREFIX[::parser::error (const yy::location &, std::string const &msg)
+[c++], [[/* A C++ error reporting function.  */
+void
+]AT_NAME_PREFIX[::parser::error (const location_type& l, const std::string& m)
 {
-  std::cerr << msg << std::endl;
+  (void) l;
+  std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << std::endl;
 }]],
 [java], [[public void yyerror (String msg)
 {

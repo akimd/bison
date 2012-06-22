@@ -376,15 +376,7 @@ power (int base, int exponent)
     return o;
   }
 ]])
-
-/* A C++ error reporting function.  */
-void
-AT_NAME_PREFIX::parser::error (const location_type& l, const std::string& m)
-{
-  (void) l;
-  std::cerr << AT_LOCATION_IF([l << ": " << ])m << std::endl;
-}
-],
+AT_YYERROR_DEFINE],
 [/* A C error reporting function.  */
 static void
 yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])

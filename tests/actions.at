@@ -674,7 +674,7 @@ Reading a token: Next token is token 'd' (1.4-1.4: <> printer for 'd' @ 4)
 Shifting token 'd' (1.4-1.4: <> printer for 'd' @ 4)
 Entering state 6
 Reading a token: Now at end of input.
-syntax error, unexpected $end, expecting 'e'
+1.5-4: syntax error, unexpected $end, expecting 'e'
 Error: popping token 'd' (1.4-1.4: <> printer for 'd' @ 4)
 Stack now 0 1 3 5
 Error: popping token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
