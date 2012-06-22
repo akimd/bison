@@ -518,16 +518,15 @@ AT_CHECK([cat stderr], 0, [expout])
 ])
 
 
-# AT_CHECK_CALC([BISON-OPTIONS, [EXPECTED-TO-FAIL]])
-# --------------------------------------------------
+# AT_CHECK_CALC([BISON-OPTIONS])
+# ------------------------------
 # Start a testing chunk which compiles `calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
-# However, if EXPECTED-TO-FAIL is nonempty, this test is expected to fail.
 m4_define([AT_CHECK_CALC],
-[# We use integers to avoid dependencies upon the precision of doubles.
-AT_SETUP([Calculator $1])
+[m4_ifval([$2], [m4_fatal([$0: expected a single argument])])
 
-m4_ifval([$2], [AT_CHECK([exit 77])])
+# We use integers to avoid dependencies upon the precision of doubles.
+AT_SETUP([Calculator $1])
 
 AT_BISON_OPTION_PUSHDEFS([$1])
 
