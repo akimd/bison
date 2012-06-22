@@ -138,11 +138,11 @@ m4_pushdef([AT_GLR_OR_PARAM_IF],
 [m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
 m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [%name-prefix ".*"],
-           [m4_bregexp([$3], [name-prefix "\([^""]*\)"], [\1])],
+           [m4_bregexp([$3], [%name-prefix "\([^""]*\)"], [\1])],
            [yy])])
 m4_pushdef([AT_API_PREFIX],
-[m4_bmatch([$3], [%define api\.prefix ".*"],
-           [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],
+[m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) ".*"],
+           [m4_bregexp([$3], [\(%define api\.prefix\|%name-prefix\) "\([^""]*\)"], [\2])],
            [yy])])
 # yyerror receives the location if %location & %pure & (%glr or %parse-param).
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
@@ -165,24 +165,24 @@ m4_pushdef([AT_PURE_LEX_IF],
 AT_PURE_LEX_IF(
 [m4_pushdef([AT_LOC], [(*llocp)])
  m4_pushdef([AT_VAL], [(*lvalp)])
- m4_pushdef([AT_LEX_FORMALS],
+ m4_pushdef([AT_YYLEX_FORMALS],
 	    [YYSTYPE *lvalp[]AT_LOCATION_IF([, YYLTYPE *llocp])])
- m4_pushdef([AT_LEX_ARGS],
+ m4_pushdef([AT_YYLEX_ARGS],
 	    [lvalp[]AT_LOCATION_IF([, llocp])])
  m4_pushdef([AT_USE_LEX_ARGS],
 	    [(void) lvalp;AT_LOCATION_IF([(void) llocp])])
- m4_pushdef([AT_LEX_PRE_FORMALS],
-	    [AT_LEX_FORMALS, ])
- m4_pushdef([AT_LEX_PRE_ARGS],
-	    [AT_LEX_ARGS, ])
+ m4_pushdef([AT_YYLEX_PRE_FORMALS],
+	    [AT_YYLEX_FORMALS, ])
+ m4_pushdef([AT_YYLEX_PRE_ARGS],
+	    [AT_YYLEX_ARGS, ])
 ],
 [m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
  m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
- m4_pushdef([AT_LEX_FORMALS],     [void])
- m4_pushdef([AT_LEX_ARGS],        [])
+ m4_pushdef([AT_YYLEX_FORMALS],     [void])
+ m4_pushdef([AT_YYLEX_ARGS],        [])
  m4_pushdef([AT_USE_LEX_ARGS],    [])
- m4_pushdef([AT_LEX_PRE_FORMALS], [])
- m4_pushdef([AT_LEX_PRE_ARGS],    [])
+ m4_pushdef([AT_YYLEX_PRE_FORMALS], [])
+ m4_pushdef([AT_YYLEX_PRE_ARGS],    [])
 ])
 
 # Handle the different types of location components.
@@ -199,11 +199,11 @@ AT_SKEL_CC_IF(
 # AT_BISON_OPTION_POPDEFS
 # -----------------------
 m4_define([AT_BISON_OPTION_POPDEFS],
-[m4_popdef([AT_LEX_PRE_ARGS])
-m4_popdef([AT_LEX_PRE_FORMALS])
+[m4_popdef([AT_YYLEX_PRE_ARGS])
+m4_popdef([AT_YYLEX_PRE_FORMALS])
 m4_popdef([AT_USE_LEX_ARGS])
-m4_popdef([AT_LEX_ARGS])
-m4_popdef([AT_LEX_FORMALS])
+m4_popdef([AT_YYLEX_ARGS])
+m4_popdef([AT_YYLEX_FORMALS])
 m4_popdef([AT_VAL])
 m4_popdef([AT_LOC])
 m4_popdef([AT_PURE_LEX_IF])
@@ -276,12 +276,17 @@ m4_define([AT_DATA_GRAMMAR],
 $2])
 ])
 
+# AT_YYLEX_PROTOTYPE
 # AT_YYLEX_DECLARE_EXTERN
 # AT_YYLEX_DECLARE
 # AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
 # ---------------------------------------
+m4_define([AT_YYLEX_PROTOTYPE],
+[int AT_API_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
+])
+
 m4_define([AT_YYLEX_DECLARE_EXTERN],
-[int AT_API_PREFIX[]lex (]AT_LEX_FORMALS[);dnl
+[AT_YYLEX_PROTOTYPE;dnl
 ])
 
 m4_define([AT_YYLEX_DECLARE],
@@ -290,8 +295,8 @@ m4_define([AT_YYLEX_DECLARE],
 
 m4_define([AT_YYLEX_DEFINE],
 [[#include <stdlib.h> /* abort */
-static int
-]AT_API_PREFIX[lex (]AT_LEX_FORMALS[)
+static
+]AT_YYLEX_PROTOTYPE[
 {
   static char const input[] = "$1";
   static size_t toknum = 0;
@@ -312,9 +317,14 @@ static int
 # AT_YYERROR_DEFINE
 # -------------------------
 # Must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS pair.
+m4_define([AT_YYERROR_FORMALS],
+[m4_case(AT_LANG,
+[c], [AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg]])[]dnl
+])
+
 m4_define([AT_YYERROR_PROTOTYPE],
 [m4_case(AT_LANG,
-[c], [[void ]AT_API_PREFIX[error (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg)]])[]dnl
+[c], [[void ]AT_API_PREFIX[error (]AT_YYERROR_FORMALS[)]])[]dnl
 ])
 
 m4_define([AT_YYERROR_DECLARE_EXTERN],

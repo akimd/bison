@@ -135,8 +135,7 @@ main (int argc, char **argv)
 
 ]AT_YYERROR_DEFINE[
 
-int
-yylex (]AT_LEX_FORMALS[)
+]AT_YYLEX_PROTOTYPE[
 {
   char buffer[256];
   int c;
