@@ -118,12 +118,9 @@ uniqstr symbol_list_n_type_name_get (symbol_list *l, location loc, int n);
 /* Check whether the node is a border element of a rule. */
 bool symbol_list_null (symbol_list *node);
 
-/** Set the \c \%destructor for \c node as \c code at \c loc.  */
-void symbol_list_destructor_set (symbol_list *node, char const *code,
-                                 location loc);
-
-/** Set the \c \%printer for \c node as \c code at \c loc.  */
-void symbol_list_printer_set (symbol_list *node, char const *code,
-                              location loc);
+/** Set the \c \%destructor or \c \%printer for \c node as \c code at
+    \c loc.  */
+void symbol_list_code_props_set (symbol_list *node, code_props_type kind,
+                                 location loc, char const *code);
 
 #endif /* !SYMLIST_H_ */

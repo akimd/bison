@@ -390,14 +390,14 @@ grammar_declaration:
     {
       symbol_list *list;
       for (list = $3; list; list = list->next)
-        symbol_list_destructor_set (list, $2, @2);
+        symbol_list_code_props_set (list, destructor, @2, $2);
       symbol_list_free ($3);
     }
 | "%printer" "{...}" generic_symlist
     {
       symbol_list *list;
       for (list = $3; list; list = list->next)
-        symbol_list_printer_set (list, $2, @2);
+        symbol_list_code_props_set (list, printer, @2, $2);
       symbol_list_free ($3);
     }
 | "%default-prec"

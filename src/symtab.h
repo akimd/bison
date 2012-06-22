@@ -74,6 +74,15 @@ typedef enum
     declared,
   } status;
 
+typedef enum code_props_type code_props_type;
+enum code_props_type
+  {
+    destructor = 0,
+    printer = 1,
+  };
+
+enum { CODE_PROPS_SIZE = 2 };
+
 /* When extending this structure, be sure to complete
    symbol_check_alias_consistency.  */
 struct symbol
@@ -88,19 +97,14 @@ struct symbol
   /** Its \c \%type's location.  */
   location type_location;
 
-  /** Any \c \%destructor declared specifically for this symbol.
+  /** Any \c \%destructor (resp. \%printer) declared specificially for this
+      symbol.
 
-     Access this field only through <tt>symbol</tt>'s interface functions.  For
-     example, if <tt>symbol::destructor = NULL</tt>, a default \c \%destructor
-     or a per-type \c \%destructor might be appropriate, and
-     \c symbol_destructor_get will compute the correct one.  */
-  code_props destructor;
-
-  /** Any \c \%printer declared specifically for this symbol.
-
-     Access this field only through <tt>symbol</tt>'s interface functions.
-     \sa symbol::destructor  */
-  code_props printer;
+      Access this field only through <tt>symbol</tt>'s interface functions. For
+      Example, if <tt>symbol::destructor = NULL</tt> (resp. <tt>symbol::printer
+      = NULL</tt>), a default \c \%destructor (resp. \%printer) or a per-type
+      \c symbol_destructor_printer_get will compute the corect one. */
+  code_props props[CODE_PROPS_SIZE];
 
   symbol_number number;
   location prec_location;
@@ -167,19 +171,15 @@ void symbol_make_alias (symbol *sym, symbol *str, location loc);
     Do nothing if passed 0 as \c type_name.  */
 void symbol_type_set (symbol *sym, uniqstr type_name, location loc);
 
-/** Set the \c destructor associated with \c sym.  */
-void symbol_destructor_set (symbol *sym, code_props const *destructor);
+/** Set the \c \%destructor or \c \%printer associated with \c sym.  */
+void symbol_code_props_set (symbol *sym, code_props_type kind,
+                            code_props const *destructor);
 
-/** Get the computed \c \%destructor for \c sym, which was initialized with
-    \c code_props_none_init if there's no \c \%destructor.  */
-code_props const *symbol_destructor_get (symbol const *sym);
-
-/** Set the \c printer associated with \c sym.  */
-void symbol_printer_set (symbol *sym, code_props const *printer);
-
-/** Get the computed \c \%printer for \c sym, which was initialized with
-    \c code_props_none_init if there's no \c \%printer.  */
-code_props const *symbol_printer_get (symbol const *sym);
+/** Get the computed \c \%destructor or \c %printer for \c sym, which was
+initialized with \c code_props_none_init if there's no \c \%destructor or
+\c %printer.  */
+code_props const *symbol_code_props_get (symbol const *sym,
+                                         code_props_type kind);
 
 /* Set the \c precedence associated with \c sym.
 
@@ -229,10 +229,10 @@ typedef struct {
   /** The key, name of the semantic type.  */
   uniqstr tag;
 
-  /** Any \c %destructor declared for this semantic type.  */
-  code_props destructor;
-  /** Any \c %printer declared for this semantic type.  */
-  code_props printer;
+  /** Any \c %destructor and %printer declared for this
+      semantic type.  */
+  code_props props[CODE_PROPS_SIZE];
+
 } semantic_type;
 
 /** Fetch (or create) the semantic type associated to KEY.  */
@@ -241,13 +241,10 @@ semantic_type *semantic_type_from_uniqstr (const uniqstr key);
 /** Fetch (or create) the semantic type associated to KEY.  */
 semantic_type *semantic_type_get (const char *key);
 
-/** Set the \c destructor associated with \c type.  */
-void semantic_type_destructor_set (semantic_type *type,
-                                   code_props const *destructor);
-
-/** Set the \c printer associated with \c type.  */
-void semantic_type_printer_set (semantic_type *type,
-                                code_props const *printer);
+/** Set the \c destructor or \c printer associated with \c type.  */
+void semantic_type_code_props_set (semantic_type *type,
+                                   code_props_type kind,
+                                   code_props const *code);
 
 /*----------------------------------.
 | Symbol and semantic type tables.  |
@@ -275,14 +272,11 @@ void symbols_pack (void);
 | Default %destructor's and %printer's.  |
 `---------------------------------------*/
 
-/** Set the default \c \%destructor for tagged values.  */
-void default_tagged_destructor_set (code_props const *destructor);
-/** Set the default \c \%destructor for tagless values.  */
-void default_tagless_destructor_set (code_props const *destructor);
-
-/** Set the default \c \%printer for tagged values.  */
-void default_tagged_printer_set (code_props const *printer);
-/** Set the default \c \%printer for tagless values.  */
-void default_tagless_printer_set (code_props const *printer);
+/** Set the default \c \%destructor or \c \%printer for tagged values.  */
+void default_tagged_code_props_set (code_props_type kind,
+                                    code_props const *code);
+/** Set the default \c \%destructor or \c \%printer for tagless values.  */
+void default_tagless_code_props_set (code_props_type kind,
+                                     code_props const *destructor);
 
 #endif /* !SYMTAB_H_ */
