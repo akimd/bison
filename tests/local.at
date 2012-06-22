@@ -281,7 +281,7 @@ $2])
 # AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
 # ---------------------------------------
 m4_define([AT_YYLEX_DECLARE_EXTERN],
-[int AT_API_PREFIX[]lex (void);dnl
+[int AT_API_PREFIX[]lex (]AT_LEX_FORMALS[);dnl
 ])
 
 m4_define([AT_YYLEX_DECLARE],
@@ -291,7 +291,7 @@ m4_define([AT_YYLEX_DECLARE],
 m4_define([AT_YYLEX_DEFINE],
 [[#include <stdlib.h> /* abort */
 static int
-]AT_API_PREFIX[lex (void)
+]AT_API_PREFIX[lex (]AT_LEX_FORMALS[)
 {
   static char const input[] = "$1";
   static size_t toknum = 0;
@@ -306,15 +306,20 @@ static int
 }]dnl
 ])
 
+# AT_YYERROR_PROTOTYPE
 # AT_YYERROR_DECLARE_EXTERN
 # AT_YYERROR_DECLARE
 # AT_YYERROR_DEFINE
 # -------------------------
-# Beware that must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS
-# pair.
+# Must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS pair.
+m4_define([AT_YYERROR_PROTOTYPE],
+[m4_case(AT_LANG,
+[c], [[void ]AT_API_PREFIX[error (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg)]])[]dnl
+])
+
 m4_define([AT_YYERROR_DECLARE_EXTERN],
 [m4_case(AT_LANG,
-[c], [void AT_API_PREFIX[]error (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg);])[]dnl
+[c], [AT_YYERROR_PROTOTYPE;])[]dnl
 ])
 
 m4_define([AT_YYERROR_DECLARE],
@@ -326,8 +331,8 @@ m4_define([AT_YYERROR_DEFINE],
 [m4_case(AT_LANG,
 [c], [[#include <stdio.h>
 /* A C error reporting function.  */
-static void
-yyerror (]AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg)
+static
+]AT_YYERROR_PROTOTYPE[
 {
 ]AT_YYERROR_SEES_LOC_IF([[
   fprintf (stderr, "%d.%d",
@@ -348,10 +353,19 @@ void
   (void) l;
   std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << std::endl;
 }]],
-[java], [[public void yyerror (String msg)
-{
-  System.err.println (msg);
-}]])])
+[java], [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String s)
+  {
+    if (l == null)
+      System.err.println (s);
+    else
+      System.err.println (l + ": " + s);
+  }
+]], [[
+  public void yyerror (String s)
+  {
+    System.err.println (s);
+  }]])])dnl
+])
 
 
 ## --------------- ##

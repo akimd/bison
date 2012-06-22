@@ -32,6 +32,7 @@ AT_BANNER([[Java Calculator.]])
 m4_define([_AT_DATA_JAVA_CALC_Y],
 [m4_if([$1$2$3], $[1]$[2]$[3], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
+AT_BISON_OPTION_PUSHDEFS([%language "Java" $4])
 AT_DATA([Calc.y],
 [[/* Infix notation calculator--calc */
 %language "Java"
@@ -122,20 +123,8 @@ AT_LOCATION_IF([[
   public Position getEndPos() {
     return yypos;
   }
-
-  public void yyerror (Calc.Location l, String s)
-  {
-    if (l == null)
-      System.err.println (s);
-    else
-      System.err.println (l + ": " + s);
-  }
-]], [[
-  public void yyerror (String s)
-  {
-    System.err.println (s);
-  }
 ]])[
+  ]AT_YYERROR_DEFINE[
 
   Integer yylval;
 
@@ -211,11 +200,12 @@ class Position {
 }
 
 ]])
+AT_BISON_OPTION_POPDEFS
 ])# _AT_DATA_JAVA_CALC_Y
 
 
 # AT_DATA_CALC_Y([BISON-OPTIONS])
-# -------------------------------------------------
+# -------------------------------
 # Produce `calc.y'.
 m4_define([AT_DATA_JAVA_CALC_Y],
 [_AT_DATA_JAVA_CALC_Y($[1], $[2], $[3], [$1])
@@ -224,7 +214,7 @@ m4_define([AT_DATA_JAVA_CALC_Y],
 
 # _AT_CHECK_JAVA_CALC_ERROR(BISON-OPTIONS, INPUT,
 #                           [VERBOSE-AND-LOCATED-ERROR-MESSAGE])
-# ---------------------------------------------------------
+# --------------------------------------------------------------
 # Run `calc' on INPUT, and expect a `syntax error' message.
 #
 # If INPUT starts with a slash, it is used as absolute input file name,
