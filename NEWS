@@ -2,19 +2,33 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Future changes:
+** Future changes
 
-  The next major release will drop support for generating parsers in K&R C,
-  and remove the definitions of yystype and yyltype (removal announced since
-  Bison 1.875).  YYPARSE_PARAM and YYLEX_PARAM, which were deprecated in
-  favor of %parse-param and %lex-param (introduced in Bison 1.875 too), will
-  no longer be supported.
+  The next major release of Bison will drop support for the following
+  deprecated features.  Please report disagreements to bug-bison@gnu.org.
 
-** The generated header is included (yacc.c)
+*** K&C parsers
+
+  Support for generating parsers in K&R C will be removed.  Parsers
+  generated for C supprt ISO C90, and are tested with ISO C99 and ISO C11
+  compilers.
+
+*** Deprecated features
+
+  The definitions of yystype and yyltype will be removed, as announced since
+  Bison 1.875.  Use YYSTYPE and YYLTYPE only.
+
+  YYPARSE_PARAM and YYLEX_PARAM, which were deprecated in favor of
+  %parse-param and %lex-param (introduced in Bison 1.875), will no longer be
+  supported.
+
+*** The generated header will be included (yacc.c)
 
   Instead of duplicating the content of the generated header (definition of
-  YYSTYPE, yyltype etc.), the generated parser now includes it, as was
-  already the case for GLR or C++ parsers.
+  YYSTYPE, yyparse declaration etc.), the generated parser will include it,
+  as is already the case for GLR or C++ parsers.  This change is deferred
+  because existing versions of ylwrap (e.g., Automake 1.12.1) do not support
+  it.
 
 ** Headers (yacc.c, glr.c, glr.cc)
 
